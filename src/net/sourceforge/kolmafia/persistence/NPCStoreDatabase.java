@@ -41,7 +41,6 @@ import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
-import net.sourceforge.kolmafia.KoLSettings;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
@@ -177,7 +176,7 @@ public class NPCStoreDatabase
 					return true;
 				}
 
-				if ( KoLSettings.getIntegerProperty( "lastFilthClearance" ) == KoLCharacter.getAscensions() )
+				if ( Preferences.getInteger( "lastFilthClearance" ) == KoLCharacter.getAscensions() )
 				{
 					return false;
 				}
@@ -189,14 +188,14 @@ public class NPCStoreDatabase
 			// completion of the filthworm infestation and which outfit
 			// was used to complete it.
 
-			if ( level < 12 || KoLSettings.getIntegerProperty( "lastFilthClearance" ) != KoLCharacter.getAscensions() )
+			if ( level < 12 || Preferences.getInteger( "lastFilthClearance" ) != KoLCharacter.getAscensions() )
 			{
 				return false;
 			}
 
 			if ( shopName.equals( "Hippy Store (Hippy)" ) )
 			{
-				if ( !KoLSettings.getUserProperty( "currentHippyStore" ).equals( "hippy" ) )
+				if ( !Preferences.getString( "currentHippyStore" ).equals( "hippy" ) )
 				{
 					return false;
 				}
@@ -204,7 +203,7 @@ public class NPCStoreDatabase
 
 			if ( shopName.equals( "Hippy Store (Fratboy)" ) )
 			{
-				if ( !KoLSettings.getUserProperty( "currentHippyStore" ).equals( "fratboy" ) )
+				if ( !Preferences.getString( "currentHippyStore" ).equals( "fratboy" ) )
 				{
 					return false;
 				}

@@ -45,6 +45,8 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.SendMailRequest;
 
+import net.sourceforge.kolmafia.persistence.Preferences;
+
 public class LocalRelayAgent
 	extends Thread
 {
@@ -306,7 +308,7 @@ public class LocalRelayAgent
 		}
 		else if ( this.path.startsWith( "/fight.php?hotkey=" ) )
 		{
-			LocalRelayAgent.CUSTOM_THREAD.wake( KoLSettings.getUserProperty( "combatHotkey" + this.request.getFormField( "hotkey" ) ) );
+			LocalRelayAgent.CUSTOM_THREAD.wake( Preferences.getString( "combatHotkey" + this.request.getFormField( "hotkey" ) ) );
 			this.request.pseudoResponse( "HTTP/1.1 302 Found", "/fight.php?action=script" );
 		}
 		else if ( this.path.equals( "/choice.php?action=auto" ) )
@@ -321,9 +323,9 @@ public class LocalRelayAgent
 			if ( initialCount != KoLCharacter.getAdventuresLeft() && !KoLmafia.isRunningBetweenBattleChecks() && FightRequest.getCurrentRound() == 0 )
 			{
 				StaticEntity.getClient().runBetweenBattleChecks(
-					false, KoLSettings.getBooleanProperty( "relayMaintainsEffects" ),
-					KoLSettings.getBooleanProperty( "relayMaintainsHealth" ),
-					KoLSettings.getBooleanProperty( "relayMaintainsMana" ) );
+					false, Preferences.getBoolean( "relayMaintainsEffects" ),
+					Preferences.getBoolean( "relayMaintainsHealth" ),
+					Preferences.getBoolean( "relayMaintainsMana" ) );
 
 				this.request.run();
 			}
@@ -358,7 +360,7 @@ public class LocalRelayAgent
 			}
 			else if ( this.path.endsWith( "noobmessage=true" ) )
 			{
-				if ( KoLCharacter.isHardcore() && KoLSettings.getBooleanProperty( "lucreCoreLeaderboard" ) )
+				if ( KoLCharacter.isHardcore() && Preferences.getBoolean( "lucreCoreLeaderboard" ) )
 				{
 					( new Thread( new SendMailRequest( "koldbot", "Started ascension." ) ) ).start();
 				}
@@ -457,7 +459,7 @@ public class LocalRelayAgent
 
 				if ( this.desiredAction == null )
 				{
-					if ( !KoLSettings.getUserProperty( "battleAction" ).startsWith( "custom" ) )
+					if ( !Preferences.getString( "battleAction" ).startsWith( "custom" ) )
 					{
 						KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", "battleAction=custom" );
 					}

@@ -39,11 +39,11 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLSettings;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class MoonPhaseRequest
 	extends GenericRequest
@@ -149,7 +149,7 @@ public class MoonPhaseRequest
 			gotoMenu.append( "</option>" );
 		}
 
-		String[] bookmarkData = KoLSettings.getUserProperty( "browserBookmarks" ).split( "\\|" );
+		String[] bookmarkData = Preferences.getString( "browserBookmarks" ).split( "\\|" );
 
 		if ( bookmarkData.length > 1 )
 		{
@@ -180,13 +180,13 @@ public class MoonPhaseRequest
 		StaticEntity.globalStringReplace(
 			buffer, "selectedIndex=0;", "selectedIndex=0; if ( parent && parent.mainpane ) parent.mainpane.focus();" );
 
-		if ( KoLSettings.getBooleanProperty( "relayAddsQuickScripts" ) )
+		if ( Preferences.getBoolean( "relayAddsQuickScripts" ) )
 		{
 			StringBuffer selectBuffer = new StringBuffer();
 			selectBuffer.append( "<td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><form name=\"gcli\">" );
 			selectBuffer.append( "<select id=\"scriptbar\">" );
 
-			String[] scriptList = KoLSettings.getUserProperty( "scriptList" ).split( " \\| " );
+			String[] scriptList = Preferences.getString( "scriptList" ).split( " \\| " );
 			for ( int i = 0; i < scriptList.length; ++i )
 			{
 				selectBuffer.append( "<option value=\"" );

@@ -56,6 +56,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.session.MushroomManager;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class MushroomFrame
 	extends KoLFrame
@@ -463,7 +464,7 @@ public class MushroomFrame
 			this.add( this.centerPanel, "" );
 
 			this.enableLayout();
-			this.currentLayout = KoLSettings.getUserProperty( "plantingScript" );
+			this.currentLayout = Preferences.getString( "plantingScript" );
 			this.initializeLayout();
 		}
 
@@ -519,14 +520,14 @@ public class MushroomFrame
 
 			if ( this.currentLayout.equals( "" ) )
 			{
-				KoLSettings.setUserProperty( "plantingDay", "-1" );
-				KoLSettings.setUserProperty( "plantingDate", "" );
-				KoLSettings.setUserProperty( "plantingLength", "0" );
+				Preferences.setString( "plantingDay", "-1" );
+				Preferences.setString( "plantingDate", "" );
+				Preferences.setString( "plantingLength", "0" );
 			}
 			else
 			{
 				plantingLength = MushroomManager.loadLayout( this.currentLayout, this.originalData, this.planningData );
-				indexToHighlight = KoLSettings.getIntegerProperty( "plantingDay" );
+				indexToHighlight = Preferences.getInteger( "plantingDay" );
 			}
 
 			if ( plantingLength > this.currentForecast )
@@ -554,7 +555,7 @@ public class MushroomFrame
 
 			String today = KoLConstants.DAILY_FORMAT.format( new Date() );
 
-			if ( !KoLSettings.getUserProperty( "plantingDate" ).equals( today ) )
+			if ( !Preferences.getString( "plantingDate" ).equals( today ) )
 			{
 				++indexToHighlight;
 			}

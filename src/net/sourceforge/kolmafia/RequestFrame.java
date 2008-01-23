@@ -62,6 +62,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class RequestFrame
 	extends KoLFrame
@@ -205,7 +206,7 @@ public class RequestFrame
 		topMenu.add( Box.createHorizontalStrut( 20 ) );
 
 		this.scriptSelect = new JComboBox();
-		String[] scriptList = KoLSettings.getUserProperty( "scriptList" ).split( " \\| " );
+		String[] scriptList = Preferences.getString( "scriptList" ).split( " \\| " );
 		for ( int i = 0; i < scriptList.length; ++i )
 		{
 			this.scriptSelect.addItem( i + 1 + ": " + scriptList[ i ] );
@@ -365,11 +366,11 @@ public class RequestFrame
 			// New prevention mechanism: tell the requests that there
 			// will be no synchronization.
 
-			String original = KoLSettings.getUserProperty( "showAllRequests" );
-			KoLSettings.setUserProperty( "showAllRequests", "false" );
+			String original = Preferences.getString( "showAllRequests" );
+			Preferences.setString( "showAllRequests", "false" );
 
 			RequestThread.postRequest( request );
-			KoLSettings.setUserProperty( "showAllRequests", original );
+			Preferences.setString( "showAllRequests", original );
 
 			// If this resulted in a redirect, then update the display
 			// to indicate that you were redirected and the display

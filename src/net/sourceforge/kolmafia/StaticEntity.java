@@ -60,6 +60,8 @@ import net.sourceforge.kolmafia.request.SellStuffRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 
+import net.sourceforge.kolmafia.persistence.Preferences;
+
 public abstract class StaticEntity
 {
 	private static final Pattern NONDIGIT_PATTERN = Pattern.compile( "[^\\-0-9]" );
@@ -287,14 +289,14 @@ public abstract class StaticEntity
 			counters.append( current.image );
 		}
 
-		KoLSettings.setUserProperty( "relayCounters", counters.toString() );
+		Preferences.setString( "relayCounters", counters.toString() );
 	}
 
 	public static final void loadCounters()
 	{
 		StaticEntity.relayCounters.clear();
 
-		String counters = KoLSettings.getUserProperty( "relayCounters" );
+		String counters = Preferences.getString( "relayCounters" );
 		if ( counters.length() == 0 )
 		{
 			return;
@@ -431,7 +433,7 @@ public abstract class StaticEntity
 		if ( StaticEntity.usesSystemTray == 0 )
 		{
 			StaticEntity.usesSystemTray =
-				System.getProperty( "os.name" ).startsWith( "Windows" ) && KoLSettings.getBooleanProperty( "useSystemTrayIcon" ) ? 1 : 2;
+				System.getProperty( "os.name" ).startsWith( "Windows" ) && Preferences.getBoolean( "useSystemTrayIcon" ) ? 1 : 2;
 		}
 
 		return StaticEntity.usesSystemTray == 1;
@@ -441,7 +443,7 @@ public abstract class StaticEntity
 	{
 		if ( StaticEntity.usesRelayWindows == 0 )
 		{
-			StaticEntity.usesRelayWindows = KoLSettings.getBooleanProperty( "useRelayWindows" ) ? 1 : 2;
+			StaticEntity.usesRelayWindows = Preferences.getBoolean( "useRelayWindows" ) ? 1 : 2;
 		}
 
 		return StaticEntity.usesRelayWindows == 1;
@@ -464,7 +466,7 @@ public abstract class StaticEntity
 
 		public void run()
 		{
-			String browser = KoLSettings.getUserProperty( "preferredWebBrowser" );
+			String browser = Preferences.getString( "preferredWebBrowser" );
 			if ( !browser.equals( "" ) )
 			{
 				System.setProperty( "os.browser", browser );
@@ -638,21 +640,21 @@ public abstract class StaticEntity
 		// If this is the hippy store, check to see if any of the
 		// items offered in the hippy store are special.
 
-		if ( location.startsWith( "store.php" ) && location.indexOf( "whichstore=h" ) != -1 && KoLSettings.getIntegerProperty( "lastFilthClearance" ) != KoLCharacter.getAscensions() )
+		if ( location.startsWith( "store.php" ) && location.indexOf( "whichstore=h" ) != -1 && Preferences.getInteger( "lastFilthClearance" ) != KoLCharacter.getAscensions() )
 		{
 			String side = "none";
 			if ( responseText.indexOf( "peach" ) != -1 && responseText.indexOf( "pear" ) != -1 && responseText.indexOf( "plum" ) != -1 )
 			{
-				KoLSettings.setUserProperty( "lastFilthClearance", String.valueOf( KoLCharacter.getAscensions() ) );
+				Preferences.setString( "lastFilthClearance", String.valueOf( KoLCharacter.getAscensions() ) );
 				side = "hippy";
 			}
 			else if ( responseText.indexOf( "bowl of rye sprouts" ) != -1 && responseText.indexOf( "cob of corn" ) != -1 && responseText.indexOf( "juniper berries" ) != -1 )
 			{
-				KoLSettings.setUserProperty( "lastFilthClearance", String.valueOf( KoLCharacter.getAscensions() ) );
+				Preferences.setString( "lastFilthClearance", String.valueOf( KoLCharacter.getAscensions() ) );
 				side = "fratboy";
 			}
-			KoLSettings.setUserProperty( "currentHippyStore", side );
-			KoLSettings.setUserProperty( "sidequestOrchardCompleted", side );
+			Preferences.setString( "currentHippyStore", side );
+			Preferences.setString( "sidequestOrchardCompleted", side );
 		}
 	}
 
@@ -857,7 +859,7 @@ public abstract class StaticEntity
 
 			if ( library.exists() )
 			{
-				if ( parent == KoLConstants.RELAY_LOCATION && !KoLSettings.getUserProperty( "lastRelayUpdate" ).equals(
+				if ( parent == KoLConstants.RELAY_LOCATION && !Preferences.getString( "lastRelayUpdate" ).equals(
 					StaticEntity.getVersion() ) )
 				{
 					library.delete();

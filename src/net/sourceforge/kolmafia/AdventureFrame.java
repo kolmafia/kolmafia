@@ -47,6 +47,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.swingui.panel.ChoiceOptionsPanel;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class AdventureFrame
 	extends AdventureOptionsFrame
@@ -90,7 +91,7 @@ public class AdventureFrame
 		this.framePanel.add( adventureDetails, BorderLayout.NORTH );
 		this.framePanel.add( this.getSouthernTabs(), BorderLayout.CENTER );
 
-		AdventureFrame.updateSelectedAdventure( AdventureDatabase.getAdventure( KoLSettings.getUserProperty( "lastAdventure" ) ) );
+		AdventureFrame.updateSelectedAdventure( AdventureDatabase.getAdventure( Preferences.getString( "lastAdventure" ) ) );
 		this.fillDefaultConditions();
 
 		JComponentUtilities.setComponentSize( this.framePanel, 640, 480 );
@@ -170,7 +171,7 @@ public class AdventureFrame
 				"defaultDropdown1", this.locationSelect ), this.getAdventureSummary(
 				"defaultDropdown2", this.locationSelect ) );
 
-		int location = KoLSettings.getIntegerProperty( "defaultDropdownSplit" );
+		int location = Preferences.getInteger( "defaultDropdownSplit" );
 
 		if ( location == 0 )
 		{
@@ -187,7 +188,7 @@ public class AdventureFrame
 
 	public void dispose()
 	{
-		KoLSettings.setUserProperty( "defaultDropdownSplit", String.valueOf( this.sessionGrid.getLastDividerLocation() ) );
+		Preferences.setString( "defaultDropdownSplit", String.valueOf( this.sessionGrid.getLastDividerLocation() ) );
 		super.dispose();
 	}
 }

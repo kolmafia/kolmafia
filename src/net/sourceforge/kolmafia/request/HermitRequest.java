@@ -39,7 +39,6 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLSettings;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -47,6 +46,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class HermitRequest
 	extends GenericRequest
@@ -109,7 +109,7 @@ public class HermitRequest
 			return false;
 		}
 
-		if ( !KoLSettings.getBooleanProperty( "cloverProtectActive" ) )
+		if ( !Preferences.getBoolean( "cloverProtectActive" ) )
 		{
 			return false;
 		}

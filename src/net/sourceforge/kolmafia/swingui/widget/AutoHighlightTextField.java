@@ -38,7 +38,7 @@ import java.awt.event.FocusListener;
 
 import javax.swing.JTextField;
 
-import net.sourceforge.kolmafia.KoLSettings;
+import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class AutoHighlightTextField
 	extends JTextField
@@ -73,7 +73,7 @@ public class AutoHighlightTextField
 
 	public void selectAll()
 	{
-		if ( KoLSettings.getBooleanProperty( "autoHighlightOnFocus" ) )
+		if ( Preferences.getBoolean( "autoHighlightOnFocus" ) )
 		{
 			super.selectAll();
 		}

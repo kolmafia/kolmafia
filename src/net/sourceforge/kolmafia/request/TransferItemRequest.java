@@ -40,7 +40,6 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLSettings;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
@@ -48,6 +47,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.DisplayCaseManager;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 
 public abstract class TransferItemRequest
 	extends GenericRequest
@@ -149,7 +149,7 @@ public abstract class TransferItemRequest
 		boolean allowNoGift = this.allowUngiftableTransfer();
 		boolean allowSingleton = this.allowSingletonTransfer();
 		boolean allowNoTrade = this.allowUntradeableTransfer();
-		boolean allowMemento = !KoLSettings.getBooleanProperty( "mementoListActive" ) || this.allowMementoTransfer();
+		boolean allowMemento = !Preferences.getBoolean( "mementoListActive" ) || this.allowMementoTransfer();
 
 		while ( index1 < this.attachments.length )
 		{

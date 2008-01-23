@@ -39,8 +39,9 @@ import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLSettings;
 import net.sourceforge.kolmafia.KoLmafia;
+
+import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class ClanWarRequest
 	extends GenericRequest
@@ -158,7 +159,7 @@ public class ClanWarRequest
 			return;
 		}
 
-		KoLSettings.setUserProperty( "clanAttacksEnabled", "true" );
+		Preferences.setString( "clanAttacksEnabled", "true" );
 
 		if ( ClanWarRequest.enemyClans.getSize() > 0 )
 		{
@@ -172,11 +173,11 @@ public class ClanWarRequest
 		if ( nextMatcher.find() )
 		{
 			ClanWarRequest.nextAttack = "You may attack again in " + nextMatcher.group( 1 );
-			KoLSettings.setUserProperty( "clanAttacksEnabled", "true" );
+			Preferences.setString( "clanAttacksEnabled", "true" );
 		}
 		else
 		{
-			KoLSettings.setUserProperty( "clanAttacksEnabled", "false" );
+			Preferences.setString( "clanAttacksEnabled", "false" );
 			ClanWarRequest.nextAttack = "You do not have the ability to attack.";
 		}
 

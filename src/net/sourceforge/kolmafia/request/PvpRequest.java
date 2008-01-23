@@ -47,7 +47,6 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLFrame;
 import net.sourceforge.kolmafia.KoLMailMessage;
-import net.sourceforge.kolmafia.KoLSettings;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.ProfileFrame;
@@ -55,6 +54,8 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.MailManager;
+
+import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class PvpRequest
 	extends GenericRequest
@@ -148,8 +149,8 @@ public class PvpRequest
 		this.addFormField( "winmessage", win );
 		this.addFormField( "losemessage", lose );
 
-		KoLSettings.setUserProperty( "defaultFlowerWinMessage", win );
-		KoLSettings.setUserProperty( "defaultFlowerLossMessage", lose );
+		Preferences.setString( "defaultFlowerWinMessage", win );
+		Preferences.setString( "defaultFlowerLossMessage", lose );
 	}
 
 	public PvpRequest( final String clanId )

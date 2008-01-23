@@ -38,6 +38,8 @@ import java.lang.reflect.Constructor;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
+import net.sourceforge.kolmafia.persistence.Preferences;
+
 public class CreateFrameRunnable
 	implements Runnable, KoLConstants
 {
@@ -239,7 +241,7 @@ public class CreateFrameRunnable
 
 	private void runConstruction( boolean appearsInTab )
 	{
-		if ( KoLSettings.getBooleanProperty( "guiUsesOneWindow" ) )
+		if ( Preferences.getBoolean( "guiUsesOneWindow" ) )
 		{
 			if ( this.creationType != LoginFrame.class && this.creationType != ChatFrame.class && this.creationType != TabbedChatFrame.class )
 			{

@@ -44,6 +44,8 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 
 import net.sourceforge.kolmafia.webui.CharacterEntityReference;
 
+import net.sourceforge.kolmafia.persistence.Preferences;
+
 public class LimitedSizeChatBuffer
 	extends ChatBuffer
 {
@@ -100,7 +102,7 @@ public class LimitedSizeChatBuffer
 	public static final void updateFontSize()
 	{
 		ChatBuffer.BUFFER_STYLE =
-			"body { font-family: sans-serif; font-size: " + KoLSettings.getUserProperty( "chatFontSize" ) + "; } a { color: black; text-decoration: none; }";
+			"body { font-family: sans-serif; font-size: " + Preferences.getString( "chatFontSize" ) + "; } a { color: black; text-decoration: none; }";
 	}
 
 	/**

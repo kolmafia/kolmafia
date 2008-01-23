@@ -44,6 +44,7 @@ import net.sourceforge.kolmafia.request.UseSkillRequest;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
@@ -121,7 +122,7 @@ public abstract class HPRestoreItemList
 
 	public static final JCheckBox[] getCheckboxes()
 	{
-		String hpRestoreSetting = KoLSettings.getUserProperty( "hpAutoRecoveryItems" );
+		String hpRestoreSetting = Preferences.getString( "hpAutoRecoveryItems" );
 		JCheckBox[] restoreCheckbox = new JCheckBox[ HPRestoreItemList.CONFIGURES.length ];
 
 		for ( int i = 0; i < HPRestoreItemList.CONFIGURES.length; ++i )

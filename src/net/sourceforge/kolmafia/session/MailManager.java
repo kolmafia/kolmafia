@@ -39,11 +39,12 @@ import java.util.TreeMap;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
 import net.sourceforge.kolmafia.KoLMailMessage;
-import net.sourceforge.kolmafia.KoLSettings;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.request.MailboxRequest;
+
+import net.sourceforge.kolmafia.persistence.Preferences;
 
 public abstract class MailManager
 	extends StaticEntity
@@ -67,7 +68,7 @@ public abstract class MailManager
 
 	public static final boolean hasNewMessages()
 	{
-		String oldMessageId = KoLSettings.getUserProperty( "lastMessageId" );
+		String oldMessageId = Preferences.getString( "lastMessageId" );
 
 		SortedListModel inbox = MailManager.getMessages( "Inbox" );
 		if ( inbox.isEmpty() )
@@ -78,7 +79,7 @@ public abstract class MailManager
 		KoLMailMessage latest = (KoLMailMessage) inbox.get( 0 );
 		String newMessageId = latest.getMessageId();
 
-		KoLSettings.setUserProperty( "lastMessageId", newMessageId );
+		Preferences.setString( "lastMessageId", newMessageId );
 		return !oldMessageId.equals( newMessageId );
 	}
 
@@ -125,7 +126,7 @@ public abstract class MailManager
 			mailbox.remove( messageIndex );
 		}
 
-		KoLSettings.setUserProperty( "lastMessageCount", String.valueOf( MailManager.getMessages( "Inbox" ).size() ) );
+		Preferences.setString( "lastMessageCount", String.valueOf( MailManager.getMessages( "Inbox" ).size() ) );
 	}
 
 	public static final void deleteMessages( final String boxname, final Object[] messages )
@@ -148,7 +149,7 @@ public abstract class MailManager
 			}
 		}
 
-		KoLSettings.setUserProperty( "lastMessageCount", String.valueOf( MailManager.getMessages( "Inbox" ).size() ) );
+		Preferences.setString( "lastMessageCount", String.valueOf( MailManager.getMessages( "Inbox" ).size() ) );
 	}
 
 	public static final void saveMessage( final KoLMailMessage message )
@@ -162,7 +163,7 @@ public abstract class MailManager
 			mailbox.remove( messageIndex );
 		}
 
-		KoLSettings.setUserProperty( "lastMessageCount", String.valueOf( MailManager.getMessages( "Inbox" ).size() ) );
+		Preferences.setString( "lastMessageCount", String.valueOf( MailManager.getMessages( "Inbox" ).size() ) );
 	}
 
 	public static final void saveMessages( final Object[] messages )
@@ -185,6 +186,6 @@ public abstract class MailManager
 			}
 		}
 
-		KoLSettings.setUserProperty( "lastMessageCount", String.valueOf( MailManager.getMessages( "Inbox" ).size() ) );
+		Preferences.setString( "lastMessageCount", String.valueOf( MailManager.getMessages( "Inbox" ).size() ) );
 	}
 }

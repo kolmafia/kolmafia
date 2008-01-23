@@ -31,7 +31,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.sourceforge.kolmafia;
+package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -52,15 +52,20 @@ import javax.swing.JCheckBox;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 
+import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLDatabase;
+import net.sourceforge.kolmafia.LogStream;
+import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
 import net.sourceforge.kolmafia.session.MoodManager;
 import net.sourceforge.kolmafia.webui.CharacterEntityReference;
 
-import net.sourceforge.kolmafia.persistence.AdventureDatabase;
-import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase.ChoiceAdventure;
 
-public class KoLSettings
+
+public class Preferences
 	extends Properties
 {
 	private boolean valuesChanged = false;
@@ -417,11 +422,11 @@ public class KoLSettings
 			deprecated.delete();
 		}
 
-		KoLSettings.initializeMaps();
+		Preferences.initializeMaps();
 	}
 
-	private static KoLSettings globalSettings = new KoLSettings( "" );
-	private static KoLSettings userSettings = KoLSettings.globalSettings;
+	private static Preferences globalSettings = new Preferences( "" );
+	private static Preferences userSettings = Preferences.globalSettings;
 
 	private final File userSettingsFile;
 	private static final File itemFlagsFile = new File( UtilityConstants.DATA_LOCATION, "itemflags.txt" );
@@ -448,11 +453,11 @@ public class KoLSettings
 
 	public static final void initializeLists()
 	{
-		if ( !KoLSettings.itemFlagsFile.exists() )
+		if ( !Preferences.itemFlagsFile.exists() )
 		{
-			KoLSettings.initializeList( KoLConstants.junkList, KoLSettings.COMMON_JUNK );
-			KoLSettings.initializeList( KoLConstants.singletonList, KoLSettings.SINGLETON_ITEMS );
-			KoLSettings.initializeList( KoLConstants.mementoList, KoLSettings.COMMON_MEMENTOS );
+			Preferences.initializeList( KoLConstants.junkList, Preferences.COMMON_JUNK );
+			Preferences.initializeList( KoLConstants.singletonList, Preferences.SINGLETON_ITEMS );
+			Preferences.initializeList( KoLConstants.mementoList, Preferences.COMMON_MEMENTOS );
 
 			KoLConstants.profitableList.clear();
 			return;
@@ -461,7 +466,7 @@ public class KoLSettings
 		try
 		{
 			AdventureResult item;
-			FileInputStream istream = new FileInputStream( KoLSettings.itemFlagsFile );
+			FileInputStream istream = new FileInputStream( Preferences.itemFlagsFile );
 			BufferedReader reader = new BufferedReader( new InputStreamReader( istream ) );
 
 			String line;
@@ -529,11 +534,11 @@ public class KoLSettings
 	{
 		if ( username.equals( "" ) )
 		{
-			KoLSettings.userSettings = KoLSettings.globalSettings;
+			Preferences.userSettings = Preferences.globalSettings;
 			return;
 		}
 
-		KoLSettings.userSettings = new KoLSettings( username );
+		Preferences.userSettings = new Preferences( username );
 
 		CustomCombatManager.loadSettings();
 		MoodManager.restoreDefaults();
@@ -548,10 +553,10 @@ public class KoLSettings
 	 * @param characterName The name of the character this userSettings file represents
 	 */
 
-	private KoLSettings( final String characterName )
+	private Preferences( final String characterName )
 	{
 		this.isGlobal = characterName.equals( "" );
-		String noExtensionName = KoLSettings.baseUserName( characterName );
+		String noExtensionName = Preferences.baseUserName( characterName );
 		this.userSettingsFile = new File( UtilityConstants.SETTINGS_LOCATION, noExtensionName + "_prefs.txt" );
 
 		this.loadFromFile();
@@ -561,13 +566,13 @@ public class KoLSettings
 	public static final String getCaseSensitiveName( final String name )
 	{
 		String lowercase = name.toLowerCase();
-		String actualName = (String) KoLSettings.propertyNames.get( lowercase );
+		String actualName = (String) Preferences.propertyNames.get( lowercase );
 		if ( actualName != null )
 		{
 			return actualName;
 		}
 
-		KoLSettings.propertyNames.put( lowercase, name );
+		Preferences.propertyNames.put( lowercase, name );
 		return name;
 	}
 
@@ -581,74 +586,29 @@ public class KoLSettings
 		return !property.startsWith( "saveState" );
 	}
 
-	private static final String getPropertyName( final String player, final String name )
+	public static final void setString( final String name, final String value )
 	{
-		return player == null || player.equals( "" ) ? name : name + "." + KoLSettings.baseUserName( player );
+		Preferences.userSettings.setProperty( name, value );
 	}
 
-	public static final void setUserProperty( final String name, final String value )
+	public static final void resetString( final String name, final String value )
 	{
-		KoLSettings.userSettings.setProperty( name, value );
-	}
-
-	public static final void resetUserProperty( final String name, final String value )
-	{
-		String old = KoLSettings.userSettings.getProperty( name );
+		String old = Preferences.userSettings.getProperty( name );
 		if ( !old.equals( value ) )
 		{
-			KoLSettings.userSettings.setProperty( name, value );
+			Preferences.userSettings.setProperty( name, value );
 		}
 	}
 
-	public static final String getUserProperty( final String name )
+	public static final int increment( final String name, final int increment )
 	{
-		return KoLSettings.userSettings.getProperty( name );
+		return Preferences.increment( name, increment, 0, false );
 	}
 
-	public static final void setGlobalProperty( final String name, final String value )
-	{
-		KoLSettings.setGlobalProperty( KoLCharacter.getUserName(), name, value );
-	}
-
-	public static final String getGlobalProperty( final String name )
-	{
-		return KoLSettings.getGlobalProperty( KoLCharacter.getUserName(), name );
-	}
-
-	public static final void setGlobalProperty( final String player, final String name, final String value )
-	{
-		KoLSettings.userSettings.setProperty( KoLSettings.getPropertyName( player, name ), value );
-	}
-
-	public static final String getGlobalProperty( final String player, final String name )
-	{
-		return KoLSettings.userSettings.getProperty( KoLSettings.getPropertyName( player, name ) );
-	}
-
-	public static final boolean getBooleanProperty( final String name )
-	{
-		return KoLSettings.getUserProperty( name ).equals( "true" );
-	}
-
-	public static final int getIntegerProperty( final String name )
-	{
-		return StaticEntity.parseInt( KoLSettings.getUserProperty( name ) );
-	}
-
-	public static final float getFloatProperty( final String name )
-	{
-		return StaticEntity.parseFloat( KoLSettings.getUserProperty( name ) );
-	}
-
-	public static final int incrementIntegerProperty( final String name, final int increment )
-	{
-		return KoLSettings.incrementIntegerProperty( name, increment, 0, false );
-	}
-
-	public static final int incrementIntegerProperty( final String name, final int increment, final int max,
+	public static final int increment( final String name, final int increment, final int max,
 		final boolean mod )
 	{
-		int current = StaticEntity.parseInt( KoLSettings.getUserProperty( name ) );
+		int current = StaticEntity.parseInt( Preferences.getString( name ) );
 		current += increment;
 		if ( max > 0 && current > max )
 		{
@@ -658,23 +618,43 @@ public class KoLSettings
 		{
 			current %= max;
 		}
-		KoLSettings.setUserProperty( name, String.valueOf( current ) );
+		Preferences.setString( name, String.valueOf( current ) );
 		return current;
 	}
 
-	public static final boolean isGlobalProperty( final String name )
+	public static final String getString( final String name )
 	{
-		return KoLSettings.GLOBAL_MAP.containsKey( name ) || name.startsWith( "saveState" ) || name.startsWith( "displayName" ) || name.startsWith( "getBreakfast" );
+		return Preferences.userSettings.getProperty( name );
+	}
+
+	public static final boolean getBoolean( final String name )
+	{
+		return Preferences.getString( name ).equals( "true" );
+	}
+
+	public static final int getInteger( final String name )
+	{
+		return StaticEntity.parseInt( Preferences.getString( name ) );
+	}
+
+	public static final float getFloat( final String name )
+	{
+		return StaticEntity.parseFloat( Preferences.getString( name ) );
+	}
+
+	private static final boolean isGlobalProperty( final String name )
+	{
+		return Preferences.GLOBAL_MAP.containsKey( name ) || name.startsWith( "saveState" ) || name.startsWith( "displayName" ) || name.startsWith( "getBreakfast" );
 	}
 
 	public String getProperty( String name )
 	{
-		name = KoLSettings.getCaseSensitiveName( name );
-		boolean isGlobalProperty = KoLSettings.isGlobalProperty( name );
+		name = Preferences.getCaseSensitiveName( name );
+		boolean isGlobalProperty = Preferences.isGlobalProperty( name );
 
 		if ( isGlobalProperty && !this.isGlobal )
 		{
-			String value = KoLSettings.globalSettings.getProperty( name );
+			String value = Preferences.globalSettings.getProperty( name );
 			return value == null ? "" : value;
 		}
 		else if ( !isGlobalProperty && this.isGlobal )
@@ -693,12 +673,12 @@ public class KoLSettings
 			return "";
 		}
 
-		name = KoLSettings.getCaseSensitiveName( name );
-		boolean isGlobalProperty = KoLSettings.isGlobalProperty( name );
+		name = Preferences.getCaseSensitiveName( name );
+		boolean isGlobalProperty = Preferences.isGlobalProperty( name );
 
 		if ( isGlobalProperty && !this.isGlobal )
 		{
-			return KoLSettings.globalSettings.setProperty( name, value );
+			return Preferences.globalSettings.setProperty( name, value );
 		}
 		else if ( !isGlobalProperty && this.isGlobal )
 		{
@@ -719,9 +699,9 @@ public class KoLSettings
 		this.valuesChanged = true;
 		super.setProperty( name, value );
 
-		if ( KoLSettings.checkboxMap.containsKey( name ) )
+		if ( Preferences.checkboxMap.containsKey( name ) )
 		{
-			ArrayList list = (ArrayList) KoLSettings.checkboxMap.get( name );
+			ArrayList list = (ArrayList) Preferences.checkboxMap.get( name );
 			for ( int i = 0; i < list.size(); ++i )
 			{
 				WeakReference reference = (WeakReference) list.get( i );
@@ -741,14 +721,14 @@ public class KoLSettings
 	{
 		ArrayList list = null;
 
-		if ( KoLSettings.checkboxMap.containsKey( name ) )
+		if ( Preferences.checkboxMap.containsKey( name ) )
 		{
-			list = (ArrayList) KoLSettings.checkboxMap.get( name );
+			list = (ArrayList) Preferences.checkboxMap.get( name );
 		}
 		else
 		{
 			list = new ArrayList();
-			KoLSettings.checkboxMap.put( name, list );
+			Preferences.checkboxMap.put( name, list );
 		}
 
 		list.add( new WeakReference( checkbox ) );
@@ -758,7 +738,7 @@ public class KoLSettings
 	{
 		AdventureResult item;
 
-		LogStream ostream = LogStream.openStream( KoLSettings.itemFlagsFile, true );
+		LogStream ostream = LogStream.openStream( Preferences.itemFlagsFile, true );
 
 		ostream.println( " > junk" );
 		ostream.println();
@@ -902,7 +882,7 @@ public class KoLSettings
 		while ( keyIterator.hasNext() )
 		{
 			currentKey = (String) keyIterator.next();
-			KoLSettings.propertyNames.put( currentKey.toLowerCase(), currentKey );
+			Preferences.propertyNames.put( currentKey.toLowerCase(), currentKey );
 		}
 	}
 
@@ -914,7 +894,7 @@ public class KoLSettings
 
 		while ( ( current = KoLDatabase.readData( istream ) ) != null )
 		{
-			desiredMap = current[ 0 ].equals( "global" ) ? KoLSettings.GLOBAL_MAP : KoLSettings.USER_MAP;
+			desiredMap = current[ 0 ].equals( "global" ) ? Preferences.GLOBAL_MAP : Preferences.USER_MAP;
 			desiredMap.put( current[ 1 ], current.length == 2 ? "" : current[ 2 ] );
 		}
 
@@ -940,14 +920,14 @@ public class KoLSettings
 		Arrays.sort( AdventureDatabase.CHOICE_ADVS );
 		Arrays.sort( AdventureDatabase.CHOICE_ADV_SPOILERS );
 
-		KoLSettings.printDefaults( AdventureDatabase.CHOICE_ADVS, ostream );
+		Preferences.printDefaults( AdventureDatabase.CHOICE_ADVS, ostream );
 
 		ostream.println();
 		ostream.println();
 		ostream.println( "[u]Not Configurable[/u]" );
 		ostream.println();
 
-		KoLSettings.printDefaults( AdventureDatabase.CHOICE_ADV_SPOILERS, ostream );
+		Preferences.printDefaults( AdventureDatabase.CHOICE_ADV_SPOILERS, ostream );
 
 		AdventureDatabase.setChoiceOrdering( true );
 		Arrays.sort( AdventureDatabase.CHOICE_ADVS );
@@ -961,7 +941,7 @@ public class KoLSettings
 		for ( int i = 0; i < choices.length; ++i )
 		{
 			String setting = choices[ i ].getSetting();
-			int defaultOption = StaticEntity.parseInt( (String) KoLSettings.USER_MAP.get( setting ) ) - 1;
+			int defaultOption = StaticEntity.parseInt( (String) Preferences.USER_MAP.get( setting ) ) - 1;
 
 			ostream.print( "[" + setting.substring( 15 ) + "] " );
 			ostream.print( choices[ i ].getName() + ": " );
@@ -998,7 +978,7 @@ public class KoLSettings
 
 	private void ensureDefaults()
 	{
-		TreeMap currentMap = this.isGlobal ? KoLSettings.GLOBAL_MAP : KoLSettings.USER_MAP;
+		TreeMap currentMap = this.isGlobal ? Preferences.GLOBAL_MAP : Preferences.USER_MAP;
 
 		Object[] keys = currentMap.keySet().toArray();
 

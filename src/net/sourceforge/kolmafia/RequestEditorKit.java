@@ -79,6 +79,7 @@ import net.sourceforge.kolmafia.request.ZapRequest;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class RequestEditorKit
 	extends HTMLEditorKit
@@ -781,7 +782,7 @@ public class RequestEditorKit
 
 			RequestEditorKit.changePotionImages( buffer );
 
-			if ( KoLSettings.getBooleanProperty( "relayAddsUseLinks" ) )
+			if ( Preferences.getBoolean( "relayAddsUseLinks" ) )
 			{
 				UseLinkDecorator.decorate( location, buffer );
 			}
@@ -794,7 +795,7 @@ public class RequestEditorKit
 			StaticEntity.globalStringReplace( buffer, "type=text ", "type=text onFocus='this.select();' " );
 		}
 
-		String defaultColor = KoLSettings.getUserProperty( "defaultBorderColor" );
+		String defaultColor = Preferences.getString( "defaultBorderColor" );
 		if ( !defaultColor.equals( "blue" ) )
 		{
 			StaticEntity.globalStringReplace( buffer, "bgcolor=blue", "bgcolor=\"" + defaultColor + "\"" );
@@ -932,7 +933,7 @@ public class RequestEditorKit
 			String name = ItemDatabase.getItemName( i );
 			if ( buffer.indexOf( name ) != -1 )
 			{
-				String effect = KoLSettings.getUserProperty( "lastBangPotion" + i );
+				String effect = Preferences.getString( "lastBangPotion" + i );
 				if ( !effect.equals( "" ) )
 				{
 					potionNames.add( name );
@@ -965,7 +966,7 @@ public class RequestEditorKit
 			String name = ItemDatabase.getItemName( i );
 			if ( buffer.indexOf( name ) != -1 )
 			{
-				String effect = KoLSettings.getUserProperty( "lastBangPotion" + i );
+				String effect = Preferences.getString( "lastBangPotion" + i );
 				if ( effect.equals( "" ) )
 				{
 					continue;
@@ -1010,7 +1011,7 @@ public class RequestEditorKit
 
 		for ( int i = 2271; i <= 2276; ++i )
 		{
-			int glyph = KoLSettings.getIntegerProperty( "lastDustyBottle" + i );
+			int glyph = Preferences.getInteger( "lastDustyBottle" + i );
 			for ( int j = 0; j < 3; ++j )
 			{
 				if ( glyph == glyphs[ j ] )
@@ -1053,7 +1054,7 @@ public class RequestEditorKit
 			return;
 		}
 
-		String effect = KoLSettings.getUserProperty( "lastStoneSphere" + itemId );
+		String effect = Preferences.getString( "lastStoneSphere" + itemId );
 		if ( effect.equals( "" ) )
 		{
 			return;
@@ -1088,7 +1089,7 @@ public class RequestEditorKit
 		for ( int i = 2174; i <= 2177; ++i )
 		{
 			String name = ItemDatabase.getItemName( i );
-			String effect = KoLSettings.getUserProperty( "lastStoneSphere" + i );
+			String effect = Preferences.getString( "lastStoneSphere" + i );
 
 			if ( buffer.indexOf( name ) != -1 && !effect.equals( "" ) )
 			{
@@ -1178,7 +1179,7 @@ public class RequestEditorKit
 		String text = buffer.toString();
 		buffer.setLength( 0 );
 
-		String layout = KoLSettings.getUserProperty( "tavernLayout" );
+		String layout = Preferences.getString( "tavernLayout" );
 
 		for ( int i = 1; i <= 25; ++i )
 		{
@@ -1239,7 +1240,7 @@ public class RequestEditorKit
 			return;
 		}
 
-		String war = KoLSettings.getUserProperty( "warProgress" );
+		String war = Preferences.getString( "warProgress" );
 		String test;
 		String url;
 

@@ -55,6 +55,8 @@ import tab.CloseTabbedPane;
 
 import com.sun.java.forums.CloseableTabbedPane;
 
+import net.sourceforge.kolmafia.persistence.Preferences;
+
 public class KoLDesktop
 	extends KoLFrame
 	implements ChangeListener, CloseListener
@@ -97,11 +99,11 @@ public class KoLDesktop
 		this.setJMenuBar( new KoLMenuBar() );
 		this.tabs.addChangeListener( this );
 
-		int scriptButtons = KoLSettings.getIntegerProperty( "scriptButtonPosition" );
+		int scriptButtons = Preferences.getInteger( "scriptButtonPosition" );
 
 		if ( scriptButtons != 0 )
 		{
-			String[] scriptList = KoLSettings.getUserProperty( "scriptList" ).split( " \\| " );
+			String[] scriptList = Preferences.getString( "scriptList" ).split( " \\| " );
 
 			JToolBar scriptBar = null;
 
@@ -133,11 +135,11 @@ public class KoLDesktop
 
 	public JTabbedPane getTabbedPane()
 	{
-		if ( KoLSettings.getBooleanProperty( "useDecoratedTabs" ) )
+		if ( Preferences.getBoolean( "useDecoratedTabs" ) )
 		{
 			JTabbedPane tabs = new CloseTabbedPane();
 
-			if ( KoLSettings.getBooleanProperty( "allowCloseableDesktopTabs" ) )
+			if ( Preferences.getBoolean( "allowCloseableDesktopTabs" ) )
 			{
 				( (CloseTabbedPane) tabs ).setCloseIconStyle( CloseTabPaneUI.RED_CLOSE_ICON );
 				( (CloseTabbedPane) tabs ).addCloseListener( this );
@@ -146,7 +148,7 @@ public class KoLDesktop
 			return tabs;
 		}
 
-		return KoLSettings.getBooleanProperty( "allowCloseableDesktopTabs" ) ? new CloseableTabbedPane() : new JTabbedPane();
+		return Preferences.getBoolean( "allowCloseableDesktopTabs" ) ? new CloseableTabbedPane() : new JTabbedPane();
 	}
 
 	public void stateChanged( final ChangeEvent e )
@@ -179,7 +181,7 @@ public class KoLDesktop
 		KoLDesktop.isInitializing = true;
 		KoLmafiaGUI.checkFrameSettings();
 
-		String interfaceSetting = KoLSettings.getUserProperty( "initialDesktop" );
+		String interfaceSetting = Preferences.getString( "initialDesktop" );
 		if ( !interfaceSetting.equals( "" ) )
 		{
 			String[] interfaceArray = interfaceSetting.split( "," );
@@ -424,7 +426,7 @@ public class KoLDesktop
 			return;
 		}
 
-		String setting = KoLSettings.getUserProperty( "initialDesktop" );
+		String setting = Preferences.getString( "initialDesktop" );
 		for ( int i = 0; i < KoLDesktop.INSTANCE.tabListing.size(); ++i )
 		{
 			KoLFrame frame = (KoLFrame) KoLDesktop.INSTANCE.tabListing.get( i );

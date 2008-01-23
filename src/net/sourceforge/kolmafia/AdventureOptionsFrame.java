@@ -78,6 +78,7 @@ import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 
 public abstract class AdventureOptionsFrame
 	extends KoLFrame
@@ -237,7 +238,7 @@ public abstract class AdventureOptionsFrame
 			writer = null;
 
 			KoLCharacter.battleSkillNames.setSelectedItem( "custom combat script" );
-			KoLSettings.setUserProperty( "battleAction", "custom combat script" );
+			Preferences.setString( "battleAction", "custom combat script" );
 
 			// After storing all the data on disk, go ahead
 			// and reload the data inside of the tree.
@@ -421,18 +422,18 @@ public abstract class AdventureOptionsFrame
 
 	public void saveRestoreSettings()
 	{
-		KoLSettings.setUserProperty(
+		Preferences.setString(
 			"autoAbortThreshold", AdventureOptionsFrame.getPercentage( this.hpHaltCombatSelect ) );
-		KoLSettings.setUserProperty( "hpAutoRecovery", AdventureOptionsFrame.getPercentage( this.hpAutoRecoverSelect ) );
-		KoLSettings.setUserProperty(
+		Preferences.setString( "hpAutoRecovery", AdventureOptionsFrame.getPercentage( this.hpAutoRecoverSelect ) );
+		Preferences.setString(
 			"hpAutoRecoveryTarget", AdventureOptionsFrame.getPercentage( this.hpAutoRecoverTargetSelect ) );
-		KoLSettings.setUserProperty( "hpAutoRecoveryItems", this.getSettingString( this.hpRestoreCheckbox ) );
+		Preferences.setString( "hpAutoRecoveryItems", this.getSettingString( this.hpRestoreCheckbox ) );
 
-		KoLSettings.setUserProperty( "manaBurningThreshold", AdventureOptionsFrame.getPercentage( this.mpBalanceSelect ) );
-		KoLSettings.setUserProperty( "mpAutoRecovery", AdventureOptionsFrame.getPercentage( this.mpAutoRecoverSelect ) );
-		KoLSettings.setUserProperty(
+		Preferences.setString( "manaBurningThreshold", AdventureOptionsFrame.getPercentage( this.mpBalanceSelect ) );
+		Preferences.setString( "mpAutoRecovery", AdventureOptionsFrame.getPercentage( this.mpAutoRecoverSelect ) );
+		Preferences.setString(
 			"mpAutoRecoveryTarget", AdventureOptionsFrame.getPercentage( this.mpAutoRecoverTargetSelect ) );
-		KoLSettings.setUserProperty( "mpAutoRecoveryItems", this.getSettingString( this.mpRestoreCheckbox ) );
+		Preferences.setString( "mpAutoRecoveryItems", this.getSettingString( this.mpRestoreCheckbox ) );
 	}
 
 	private static final String getPercentage( final JComboBox option )
@@ -442,7 +443,7 @@ public abstract class AdventureOptionsFrame
 
 	private static final void setSelectedIndex( final JComboBox option, final String property )
 	{
-		int desiredIndex = (int) ( KoLSettings.getFloatProperty( property ) * 20.0f + 1 );
+		int desiredIndex = (int) ( Preferences.getFloat( property ) * 20.0f + 1 );
 		option.setSelectedIndex( Math.min( Math.max( desiredIndex, 0 ), option.getItemCount() ) );
 	}
 
@@ -659,7 +660,7 @@ public abstract class AdventureOptionsFrame
 
 		public void actionConfirmed()
 		{
-			String currentMood = KoLSettings.getUserProperty( "currentMood" );
+			String currentMood = Preferences.getString( "currentMood" );
 			if ( currentMood.equals( "apathetic" ) )
 			{
 				KoLFrame.alert( "You cannot add triggers to an apathetic mood." );
@@ -802,7 +803,7 @@ public abstract class AdventureOptionsFrame
 			public MoodComboBox()
 			{
 				super( MoodManager.getAvailableMoods() );
-				String mood = KoLSettings.getUserProperty( "currentMood" );
+				String mood = Preferences.getString( "currentMood" );
 				this.setSelectedItem( mood );
 				this.addActionListener( new MoodComboBoxListener() );
 			}
@@ -904,7 +905,7 @@ public abstract class AdventureOptionsFrame
 
 			JPanel zonePanel = new JPanel( new BorderLayout( 5, 5 ) );
 
-			boolean useZoneComboBox = KoLSettings.getBooleanProperty( "useZoneComboBox" );
+			boolean useZoneComboBox = Preferences.getBoolean( "useZoneComboBox" );
 			if ( useZoneComboBox )
 			{
 				AdventureOptionsFrame.this.zoneSelect = new FilterAdventureComboBox();
@@ -1012,8 +1013,8 @@ public abstract class AdventureOptionsFrame
 			conditionPanel.add( AdventureOptionsFrame.this.conditionField, BorderLayout.CENTER );
 			conditionPanel.add( AdventureOptionsFrame.this.autoSetCheckBox, BorderLayout.EAST );
 
-			AdventureOptionsFrame.this.autoSetCheckBox.setSelected( KoLSettings.getBooleanProperty( "autoSetConditions" ) );
-			AdventureOptionsFrame.this.conditionField.setEnabled( KoLSettings.getBooleanProperty( "autoSetConditions" ) );
+			AdventureOptionsFrame.this.autoSetCheckBox.setSelected( Preferences.getBoolean( "autoSetConditions" ) );
+			AdventureOptionsFrame.this.conditionField.setEnabled( Preferences.getBoolean( "autoSetConditions" ) );
 
 			AdventureOptionsFrame.this.addActionListener(
 				AdventureOptionsFrame.this.autoSetCheckBox, new EnableObjectivesListener() );
@@ -1034,7 +1035,7 @@ public abstract class AdventureOptionsFrame
 
 		public void actionConfirmed()
 		{
-			KoLSettings.setUserProperty(
+			Preferences.setString(
 				"battleAction", (String) AdventureOptionsFrame.this.actionSelect.getSelectedItem() );
 		}
 
@@ -1056,7 +1057,7 @@ public abstract class AdventureOptionsFrame
 		{
 			public void run()
 			{
-				KoLSettings.setUserProperty(
+				Preferences.setString(
 					"autoSetConditions", String.valueOf( AdventureOptionsFrame.this.autoSetCheckBox.isSelected() ) );
 
 				AdventureOptionsFrame.this.conditionField.setEnabled( AdventureOptionsFrame.this.autoSetCheckBox.isSelected() && !KoLmafia.isAdventuring() );
@@ -1297,7 +1298,7 @@ public abstract class AdventureOptionsFrame
 
 	protected JPanel getAdventureSummary( final String property, final JList locationSelect )
 	{
-		int selectedIndex = KoLSettings.getIntegerProperty( property );
+		int selectedIndex = Preferences.getInteger( property );
 
 		CardLayout resultCards = new CardLayout();
 		JPanel resultPanel = new JPanel( resultCards );
@@ -1366,7 +1367,7 @@ public abstract class AdventureOptionsFrame
 		{
 			String index = String.valueOf( this.resultSelect.getSelectedIndex() );
 			this.resultCards.show( this.resultPanel, index );
-			KoLSettings.setUserProperty( this.property, index );
+			Preferences.setString( this.property, index );
 
 		}
 	}

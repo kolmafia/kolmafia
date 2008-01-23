@@ -52,7 +52,6 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLMailMessage;
-import net.sourceforge.kolmafia.KoLSettings;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.MPRestoreItemList;
@@ -65,6 +64,7 @@ import net.sourceforge.kolmafia.request.SendMailRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
@@ -310,14 +310,14 @@ public abstract class BuffBotManager
 		BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Buffbot started." );
 
 		BuffBotManager.messageDisposalSetting =
-			StaticEntity.parseInt( KoLSettings.getUserProperty( "buffBotMessageDisposal" ) );
+			StaticEntity.parseInt( Preferences.getString( "buffBotMessageDisposal" ) );
 		BuffBotManager.whiteList = ClanManager.getWhiteList();
 
-		BuffBotManager.refundMessage = KoLSettings.getUserProperty( "invalidBuffMessage" );
-		BuffBotManager.thanksMessage = KoLSettings.getUserProperty( "thanksMessage" );
+		BuffBotManager.refundMessage = Preferences.getString( "invalidBuffMessage" );
+		BuffBotManager.thanksMessage = Preferences.getString( "thanksMessage" );
 		BuffBotManager.initialRestores = Math.max( KoLmafia.getRestoreCount(), 100 );
 
-		String restoreItems = KoLSettings.getUserProperty( "mpAutoRecoveryItems" );
+		String restoreItems = Preferences.getString( "mpAutoRecoveryItems" );
 		boolean usingAdventures = restoreItems.indexOf( "rest" ) != -1 || restoreItems.indexOf( "relax" ) != -1;
 
 		// The outer loop goes until user cancels, or
@@ -748,7 +748,7 @@ public abstract class BuffBotManager
 		// If it's not a philanthropic buff request, then go ahead
 		// and check to see that it's okay to send it.
 
-		switch ( KoLSettings.getIntegerProperty( "buffBotPhilanthropyType" ) )
+		switch ( Preferences.getInteger( "buffBotPhilanthropyType" ) )
 		{
 
 		case 0:

@@ -8,7 +8,6 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLSettings;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.MoodManager;
 
@@ -18,6 +17,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.UneffectRequest;
 
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 public class CharPaneDecorator
@@ -28,12 +28,12 @@ public class CharPaneDecorator
 	{
 		StaticEntity.singleStringReplace( buffer, "<body", "<body onload=\"updateSafetyText();\"" );
 
-		if ( KoLSettings.getBooleanProperty( "relayAddsRestoreLinks" ) )
+		if ( Preferences.getBoolean( "relayAddsRestoreLinks" ) )
 		{
 			CharPaneDecorator.addRestoreLinks( buffer );
 		}
 
-		if ( KoLSettings.getBooleanProperty( "relayAddsUpArrowLinks" ) )
+		if ( Preferences.getBoolean( "relayAddsUpArrowLinks" ) )
 		{
 			CharPaneDecorator.addUpArrowLinks( buffer );
 		}
@@ -52,8 +52,8 @@ public class CharPaneDecorator
 		// First, locate your HP information inside of the response
 		// text and replace it with a restore HP link.
 
-		float threshold = KoLSettings.getFloatProperty( "hpAutoRecoveryTarget" ) * (float) KoLCharacter.getMaximumHP();
-		float dangerous = KoLSettings.getFloatProperty( "hpAutoRecovery" ) * (float) KoLCharacter.getMaximumHP();
+		float threshold = Preferences.getFloat( "hpAutoRecoveryTarget" ) * (float) KoLCharacter.getMaximumHP();
+		float dangerous = Preferences.getFloat( "hpAutoRecovery" ) * (float) KoLCharacter.getMaximumHP();
 
 		if ( KoLCharacter.getCurrentHP() < threshold )
 		{
@@ -122,8 +122,8 @@ public class CharPaneDecorator
 		// Next, locate your MP information inside of the response
 		// text and replace it with a restore MP link.
 
-		threshold = KoLSettings.getFloatProperty( "mpAutoRecoveryTarget" ) * (float) KoLCharacter.getMaximumMP();
-		dangerous = KoLSettings.getFloatProperty( "mpAutoRecovery" ) * (float) KoLCharacter.getMaximumMP();
+		threshold = Preferences.getFloat( "mpAutoRecoveryTarget" ) * (float) KoLCharacter.getMaximumMP();
+		dangerous = Preferences.getFloat( "mpAutoRecovery" ) * (float) KoLCharacter.getMaximumMP();
 
 		if ( KoLCharacter.getCurrentMP() < threshold )
 		{
@@ -178,14 +178,14 @@ public class CharPaneDecorator
 		if ( MoodManager.willExecute( 0 ) )
 		{
 			fontColor = FightRequest.getCurrentRound() == 0 ? "black" : "gray";
-			moodText = "mood " + KoLSettings.getUserProperty( "currentMood" );
+			moodText = "mood " + Preferences.getString( "currentMood" );
 		}
 		else if ( MoodManager.getNextBurnCast( false ) != null )
 		{
 			fontColor = FightRequest.getCurrentRound() == 0 ? "black" : "gray";
 			moodText = "burn extra mp";
 		}
-		else if ( !KoLSettings.getBooleanProperty( "relayAddsMoodRefreshLink" ) )
+		else if ( !Preferences.getBoolean( "relayAddsMoodRefreshLink" ) )
 		{
 			fontColor = "gray";
 			moodText = "burn extra mp";
@@ -193,7 +193,7 @@ public class CharPaneDecorator
 		else if ( !MoodManager.getTriggers().isEmpty() )
 		{
 			fontColor = "gray";
-			moodText = "mood " + KoLSettings.getUserProperty( "currentMood" );
+			moodText = "mood " + Preferences.getString( "currentMood" );
 		}
 		else
 		{
@@ -352,7 +352,7 @@ public class CharPaneDecorator
 
 				buffer.append( "<tr>" );
 
-				if ( !GenericRequest.isCompactMode || !KoLSettings.getBooleanProperty( "relayTextualizesEffects" ) )
+				if ( !GenericRequest.isCompactMode || !Preferences.getBoolean( "relayTextualizesEffects" ) )
 				{
 					buffer.append( "<td><img src=\"" );
 					buffer.append( EffectDatabase.getImage( effectId ) );
@@ -363,7 +363,7 @@ public class CharPaneDecorator
 					buffer.append( "\" onClick='eff(\"" + descriptionId + "\");'></td>" );
 				}
 
-				if ( !GenericRequest.isCompactMode || KoLSettings.getBooleanProperty( "relayTextualizesEffects" ) )
+				if ( !GenericRequest.isCompactMode || Preferences.getBoolean( "relayTextualizesEffects" ) )
 				{
 					buffer.append( "<td><font size=2>" );
 					buffer.append( currentEffect.getName() );
@@ -427,7 +427,7 @@ public class CharPaneDecorator
 
 			if ( GenericRequest.isCompactMode )
 			{
-				if ( KoLSettings.getBooleanProperty( "relayTextualizesEffects" ) )
+				if ( Preferences.getBoolean( "relayTextualizesEffects" ) )
 				{
 					nextAppendIndex = text.indexOf( "></td>", startingIndex );
 					buffer.append( text.substring( lastAppendIndex, nextAppendIndex ) );

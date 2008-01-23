@@ -62,6 +62,7 @@ import net.sourceforge.kolmafia.request.UseSkillRequest;
 
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase.Concoction;
 
@@ -474,9 +475,9 @@ public class ShowDescriptionList
 			Object[] skills = ShowDescriptionList.this.getSelectedValues();
 			ShowDescriptionList.this.clearSelection();
 
-			if ( KoLSettings.getUserProperty( "currentMood" ).equals( "apathetic" ) )
+			if ( Preferences.getString( "currentMood" ).equals( "apathetic" ) )
 			{
-				KoLSettings.setUserProperty( "currentMood", "default" );
+				Preferences.setString( "currentMood", "default" );
 			}
 
 			String name, action;
@@ -507,9 +508,9 @@ public class ShowDescriptionList
 			Object[] effects = ShowDescriptionList.this.getSelectedValues();
 			ShowDescriptionList.this.clearSelection();
 
-			if ( KoLSettings.getUserProperty( "currentMood" ).equals( "apathetic" ) )
+			if ( Preferences.getString( "currentMood" ).equals( "apathetic" ) )
 			{
-				KoLSettings.setUserProperty( "currentMood", "default" );
+				Preferences.setString( "currentMood", "default" );
 			}
 
 			String name, action;
@@ -696,7 +697,7 @@ public class ShowDescriptionList
 				}
 			}
 
-			KoLSettings.setUserProperty( "mementoListActive", "true" );
+			Preferences.setString( "mementoListActive", "true" );
 		}
 	}
 

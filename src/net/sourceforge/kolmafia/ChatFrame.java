@@ -59,6 +59,8 @@ import net.sourceforge.kolmafia.request.ChatRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.MallSearchRequest;
 
+import net.sourceforge.kolmafia.persistence.Preferences;
+
 public class ChatFrame
 	extends KoLFrame
 {
@@ -141,7 +143,7 @@ public class ChatFrame
 	public JToolBar getToolbar()
 	{
 
-		if ( !KoLSettings.getBooleanProperty( "useChatToolbar" ) )
+		if ( !Preferences.getBoolean( "useChatToolbar" ) )
 		{
 			return null;
 		}
@@ -518,7 +520,7 @@ public class ChatFrame
 				break;
 			}
 
-			if ( KoLSettings.getBooleanProperty( "chatLinksUseRelay" ) || !urlString.startsWith( "show" ) )
+			if ( Preferences.getBoolean( "chatLinksUseRelay" ) || !urlString.startsWith( "show" ) )
 			{
 				StaticEntity.getClient().openRelayBrowser( urlString, false );
 			}

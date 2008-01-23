@@ -51,7 +51,6 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
-import net.sourceforge.kolmafia.KoLSettings;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.Modifiers;
@@ -901,17 +900,17 @@ public class ItemDatabase
 		{
 			range =
 				(String) ItemDatabase.getAdventureMap(
-					KoLSettings.getBooleanProperty( "showGainsPerUnit" ),
+					Preferences.getBoolean( "showGainsPerUnit" ),
 					KoLCharacter.getSign().indexOf( "Opossum" ) != -1,
 					KoLConstants.activeEffects.contains( ItemDatabase.GOT_MILK ),
-					KoLSettings.getIntegerProperty( "munchiesPillsUsed" ) > 0 ).get(
+					Preferences.getInteger( "munchiesPillsUsed" ) > 0 ).get(
 					KoLDatabase.getCanonicalName( name ) );
 		}
 		else if ( inebriety > 0 )
 		{
 			range =
 				(String) ItemDatabase.getAdventureMap(
-					KoLSettings.getBooleanProperty( "showGainsPerUnit" ),
+					Preferences.getBoolean( "showGainsPerUnit" ),
 					KoLCharacter.getSign().indexOf( "Blender" ) != -1,
 					KoLConstants.activeEffects.contains( ItemDatabase.ODE ), false ).get(
 					KoLDatabase.getCanonicalName( name ) );
@@ -1271,7 +1270,7 @@ public class ItemDatabase
 
 	public static final void identifyDustyBottles()
 	{
-		int lastAscension = KoLSettings.getIntegerProperty( "lastDustyBottleReset" );
+		int lastAscension = Preferences.getInteger( "lastDustyBottleReset" );
 		if ( lastAscension == KoLCharacter.getAscensions() )
 		{
 			return;
@@ -1286,7 +1285,7 @@ public class ItemDatabase
 			ItemDatabase.identifyDustyBottle( i );
 		}
 
-		KoLSettings.setUserProperty( "lastDustyBottleReset", String.valueOf( KoLCharacter.getAscensions() ) );
+		Preferences.setString( "lastDustyBottleReset", String.valueOf( KoLCharacter.getAscensions() ) );
 
 		// Set the consumption data
 
@@ -1309,17 +1308,17 @@ public class ItemDatabase
 			}
 		}
 
-		KoLSettings.setUserProperty( "lastDustyBottle" + itemId, glyph );
+		Preferences.setString( "lastDustyBottle" + itemId, glyph );
 	}
 
 	public static final void getDustyBottles()
 	{
-		int lastAscension = KoLSettings.getIntegerProperty( "lastDustyBottleReset" );
+		int lastAscension = Preferences.getInteger( "lastDustyBottleReset" );
 		if ( lastAscension < KoLCharacter.getAscensions() )
 		{
 			for ( int i = 2271; i <= 2276; ++i )
 			{
-				KoLSettings.setUserProperty( "lastDustyBottle" + i, "" );
+				Preferences.setString( "lastDustyBottle" + i, "" );
 			}
 		}
 
@@ -1338,7 +1337,7 @@ public class ItemDatabase
 
 	private static final void setDustyBottle( final int itemId )
 	{
-		int glyph = KoLSettings.getIntegerProperty( "lastDustyBottle" + itemId );
+		int glyph = Preferences.getInteger( "lastDustyBottle" + itemId );
 		switch ( glyph )
 		{
 		case 0:
@@ -1397,7 +1396,7 @@ public class ItemDatabase
 
 	public static final String dustyBottleType( final int itemId )
 	{
-		int glyph = KoLSettings.getIntegerProperty( "lastDustyBottle" + itemId );
+		int glyph = Preferences.getInteger( "lastDustyBottle" + itemId );
 		switch ( glyph )
 		{
 		case 1:

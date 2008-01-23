@@ -44,7 +44,6 @@ import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
-import net.sourceforge.kolmafia.KoLSettings;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.SpecialOutfit;
@@ -53,6 +52,7 @@ import net.sourceforge.kolmafia.session.MoodManager;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 public class UseSkillRequest
@@ -235,7 +235,7 @@ public class UseSkillRequest
 		if ( SkillDatabase.isLibramSkill( this.skillId ) )
 		{
 			int mpRemaining = KoLCharacter.getCurrentMP();
-			int initialCount = KoLSettings.getIntegerProperty( "candyHeartSummons" );
+			int initialCount = Preferences.getInteger( "candyHeartSummons" );
 			int count = initialCount;
 
 			while ( mpCost <= mpRemaining )
@@ -296,12 +296,12 @@ public class UseSkillRequest
 
 		case SkillDatabase.SNOWCONE:
 
-			maximumCast = Math.max( 1 - KoLSettings.getIntegerProperty( "snowconeSummons" ), 0 );
+			maximumCast = Math.max( 1 - Preferences.getInteger( "snowconeSummons" ), 0 );
 			break;
 
 		case SkillDatabase.HILARIOUS:
 
-			maximumCast = Math.max( 1 - KoLSettings.getIntegerProperty( "grimoireSummons" ), 0 );
+			maximumCast = Math.max( 1 - Preferences.getInteger( "grimoireSummons" ), 0 );
 			break;
 
 		// Transcendental Noodlecraft affects # of summons for
@@ -315,7 +315,7 @@ public class UseSkillRequest
 				maximumCast = 5;
 			}
 
-			maximumCast = Math.max( maximumCast - KoLSettings.getIntegerProperty( "noodleSummons" ), 0 );
+			maximumCast = Math.max( maximumCast - Preferences.getInteger( "noodleSummons" ), 0 );
 			break;
 
 		// The Way of Sauce affects # of summons for
@@ -329,7 +329,7 @@ public class UseSkillRequest
 				maximumCast = 5;
 			}
 
-			maximumCast = Math.max( maximumCast - KoLSettings.getIntegerProperty( "reagentSummons" ), 0 );
+			maximumCast = Math.max( maximumCast - Preferences.getInteger( "reagentSummons" ), 0 );
 			break;
 
 		// Superhuman Cocktailcrafting affects # of summons for
@@ -343,7 +343,7 @@ public class UseSkillRequest
 				maximumCast = 5;
 			}
 
-			maximumCast = Math.max( maximumCast - KoLSettings.getIntegerProperty( "cocktailSummons" ), 0 );
+			maximumCast = Math.max( maximumCast - Preferences.getInteger( "cocktailSummons" ), 0 );
 			break;
 
 		}
@@ -391,7 +391,7 @@ public class UseSkillRequest
 			}
 		}
 
-		if ( KoLSettings.getBooleanProperty( "switchEquipmentForBuffs" ) )
+		if ( Preferences.getBoolean( "switchEquipmentForBuffs" ) )
 		{
 			UseSkillRequest.reduceManaConsumption( skillId, isBuff );
 		}
@@ -936,15 +936,15 @@ public class UseSkillRequest
 		switch ( skillId )
 		{
 		case 3006:
-			KoLSettings.incrementIntegerProperty( "noodleSummons", count );
+			Preferences.increment( "noodleSummons", count );
 			break;
 
 		case 4006:
-			KoLSettings.incrementIntegerProperty( "reagentSummons", count );
+			Preferences.increment( "reagentSummons", count );
 			break;
 
 		case 5014:
-			KoLSettings.incrementIntegerProperty( "cocktailSummons", count );
+			Preferences.increment( "cocktailSummons", count );
 			break;
 		}
 
@@ -965,12 +965,12 @@ public class UseSkillRequest
 		if ( action.equals( "snowcone" ) )
 		{
 			skillId = SkillDatabase.SNOWCONE;
-			KoLSettings.incrementIntegerProperty( "snowconeSummons", 1 );
+			Preferences.increment( "snowconeSummons", 1 );
 		}
 		else if ( action.equals( "hilariousitems" ) )
 		{
 			skillId = SkillDatabase.HILARIOUS;
-			KoLSettings.incrementIntegerProperty( "grimoireSummons", 1 );
+			Preferences.increment( "grimoireSummons", 1 );
 		}
 		else if ( action.equals( "candyheart" ) )
 		{
@@ -988,7 +988,7 @@ public class UseSkillRequest
 		if ( SkillDatabase.isLibramSkill( skillId ) &&
 		     SkillDatabase.libramSkillMPConsumption() <= KoLCharacter.getCurrentMP() )
 		{
-			KoLSettings.incrementIntegerProperty( "candyHeartSummons", 1 );
+			Preferences.increment( "candyHeartSummons", 1 );
 			KoLConstants.summoningSkills.sort();
 			KoLConstants.usableSkills.sort();
 		}

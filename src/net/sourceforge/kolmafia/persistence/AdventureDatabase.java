@@ -49,7 +49,6 @@ import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
-import net.sourceforge.kolmafia.KoLSettings;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
@@ -1374,7 +1373,7 @@ public class AdventureDatabase
 
 	public static final AdventureResult currentBounty()
 	{
-		int bountyItem = KoLSettings.getIntegerProperty( "currentBountyItem" );
+		int bountyItem = Preferences.getInteger( "currentBountyItem" );
 		return bountyItem == 0 ? null : AdventureDatabase.getBounty( bountyItem );
 	}
 
@@ -1504,7 +1503,7 @@ public class AdventureDatabase
 		}
 
 		int adventureId = StaticEntity.parseInt( adventure.getAdventureId() );
-		int bountyId = KoLSettings.getIntegerProperty( "currentBountyItem" );
+		int bountyId = Preferences.getInteger( "currentBountyItem" );
 
 		if ( bountyId != 0 )
 		{
@@ -1668,12 +1667,12 @@ public class AdventureDatabase
 			if ( decision == 2 )
 			{
 				KoLCharacter.ensureUpdatedGuyMadeOfBees();
-				boolean defeated = KoLSettings.getBooleanProperty( "guyMadeOfBeesDefeated" );
+				boolean defeated = Preferences.getBoolean( "guyMadeOfBeesDefeated" );
 				if ( defeated )
 				{
 					return "guy made of bees: defeated";
 				}
-				return "guy made of bees: called " + KoLSettings.getUserProperty( "guyMadeOfBeesCount" ) + " times";
+				return "guy made of bees: called " + Preferences.getString( "guyMadeOfBeesCount" ) + " times";
 			}
 			break;
 		}
@@ -1827,9 +1826,9 @@ public class AdventureDatabase
 
 		boolean shouldUseMall = shouldUseMall( item );
 
-		boolean shouldUseStash = KoLSettings.getBooleanProperty( "autoSatisfyWithStash" );
+		boolean shouldUseStash = Preferences.getBoolean( "autoSatisfyWithStash" );
 		boolean shouldUseNPCStore =
-			NPCStoreDatabase.contains( item.getName() ) && KoLSettings.getBooleanProperty( "autoSatisfyWithNPCs" );
+			NPCStoreDatabase.contains( item.getName() ) && Preferences.getBoolean( "autoSatisfyWithNPCs" );
 
 		int mixingMethod = ConcoctionDatabase.getMixingMethod( itemId );
 		CreateItemRequest creator = CreateItemRequest.getInstance( itemId );
@@ -2030,7 +2029,7 @@ public class AdventureDatabase
 		if ( !ItemDatabase.isTradeable( itemId ) )
 			return false;
 
-		if ( !KoLSettings.getBooleanProperty( "autoSatisfyWithMall" ) )
+		if ( !Preferences.getBoolean( "autoSatisfyWithMall" ) )
 			return false;
 
 		int price = ItemDatabase.getPriceById( itemId );

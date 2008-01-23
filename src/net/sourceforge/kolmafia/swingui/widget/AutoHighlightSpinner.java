@@ -40,8 +40,9 @@ import javax.swing.event.DocumentListener;
 import javax.swing.JComponent;
 import javax.swing.JSpinner;
 
-import net.sourceforge.kolmafia.KoLSettings;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
+
+import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class AutoHighlightSpinner
 	extends JSpinner

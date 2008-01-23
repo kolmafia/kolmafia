@@ -58,6 +58,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.LoginRequest;
 
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class LoginFrame
 	extends KoLFrame
@@ -142,7 +143,7 @@ public class LoginFrame
 		imagePanel.add( new JLabel( " " ), BorderLayout.NORTH );
 		imagePanel.add(
 			new JLabel(
-				JComponentUtilities.getImage( KoLSettings.getUserProperty( "loginWindowLogo" ) ), SwingConstants.CENTER ),
+				JComponentUtilities.getImage( Preferences.getString( "loginWindowLogo" ) ), SwingConstants.CENTER ),
 			BorderLayout.SOUTH );
 
 		JPanel containerPanel = new JPanel( new BorderLayout() );
@@ -204,10 +205,10 @@ public class LoginFrame
 			this.actionStatusPanel.add( new JLabel( " ", SwingConstants.CENTER ), BorderLayout.CENTER );
 			this.actionStatusPanel.add( checkBoxPanels, BorderLayout.NORTH );
 
-			String autoLoginSetting = KoLSettings.getUserProperty( "autoLogin" );
+			String autoLoginSetting = Preferences.getString( "autoLogin" );
 			if ( autoLoginSetting.equals( "" ) )
 			{
-				autoLoginSetting = KoLSettings.getUserProperty( "lastUsername" );
+				autoLoginSetting = Preferences.getString( "lastUsername" );
 			}
 			else
 			{
@@ -227,7 +228,7 @@ public class LoginFrame
 				this.savePasswordCheckBox.setSelected( true );
 			}
 
-			this.getBreakfastCheckBox.setSelected( KoLSettings.getBooleanProperty( "alwaysGetBreakfast" ) );
+			this.getBreakfastCheckBox.setSelected( Preferences.getBoolean( "alwaysGetBreakfast" ) );
 			this.getBreakfastCheckBox.addActionListener( new GetBreakfastListener() );
 			this.autoLoginCheckBox.addActionListener( new AutoLoginListener() );
 			this.savePasswordCheckBox.addActionListener( new RemovePasswordListener() );
@@ -268,8 +269,8 @@ public class LoginFrame
 
 		public void actionConfirmed()
 		{
-			KoLSettings.setUserProperty( "relayBrowserOnly", "false" );
-			KoLSettings.setUserProperty( "alwaysGetBreakfast", String.valueOf( this.getBreakfastCheckBox.isSelected() ) );
+			Preferences.setString( "relayBrowserOnly", "false" );
+			Preferences.setString( "alwaysGetBreakfast", String.valueOf( this.getBreakfastCheckBox.isSelected() ) );
 
 			LoginFrame.this.username = null;
 
@@ -297,15 +298,15 @@ public class LoginFrame
 
 			if ( this.autoLoginCheckBox.isSelected() )
 			{
-				KoLSettings.setUserProperty( "autoLogin", LoginFrame.this.username );
+				Preferences.setString( "autoLogin", LoginFrame.this.username );
 			}
 			else
 			{
-				KoLSettings.setUserProperty( "autoLogin", "" );
+				Preferences.setString( "autoLogin", "" );
 			}
 
-			KoLSettings.setGlobalProperty(
-				LoginFrame.this.username, "getBreakfast", String.valueOf( this.getBreakfastCheckBox.isSelected() ) );
+			Preferences.setString(
+				LoginFrame.this.username.toLowerCase() + ".getBreakfast", String.valueOf( this.getBreakfastCheckBox.isSelected() ) );
 
 			LoginFrame.this.honorProxySettings();
 			RequestThread.postRequest( new LoginRequest( LoginFrame.this.username, password ) );
@@ -315,7 +316,7 @@ public class LoginFrame
 		{
 			if ( !LoginRequest.isInstanceRunning() )
 			{
-				KoLSettings.setUserProperty( "relayBrowserOnly", "true" );
+				Preferences.setString( "relayBrowserOnly", "true" );
 				this.actionConfirmed();
 			}
 		}
@@ -331,7 +332,7 @@ public class LoginFrame
 				}
 				else
 				{
-					KoLSettings.setUserProperty( "autoLogin", "" );
+					Preferences.setString( "autoLogin", "" );
 				}
 			}
 		}
@@ -341,8 +342,8 @@ public class LoginFrame
 		{
 			public void actionPerformed( final ActionEvent e )
 			{
-				KoLSettings.setGlobalProperty(
-					LoginFrame.this.username, "getBreakfast",
+				Preferences.setString(
+					LoginFrame.this.username.toLowerCase() + ".getBreakfast",
 					String.valueOf( LoginPanel.this.getBreakfastCheckBox.isSelected() ) );
 			}
 		}
@@ -365,7 +366,7 @@ public class LoginFrame
 					LoginPanel.this.passwordField.setText( "" );
 				}
 
-				KoLSettings.setUserProperty(
+				Preferences.setString(
 					"saveStateActive", String.valueOf( LoginPanel.this.savePasswordCheckBox.isSelected() ) );
 			}
 		}
@@ -420,7 +421,9 @@ public class LoginFrame
 				LoginPanel.this.savePasswordCheckBox.setSelected( true );
 
 				boolean breakfastSetting =
-					KoLSettings.getGlobalProperty( (String) this.currentMatch, "getBreakfast" ).equals( "true" );
+					Preferences.getBoolean(
+						((String)this.currentMatch).toLowerCase() + ".getBreakfast" );
+
 				LoginPanel.this.getBreakfastCheckBox.setSelected( breakfastSetting );
 				LoginPanel.this.setEnabled( true );
 			}
@@ -488,11 +491,11 @@ public class LoginFrame
 
 		public void actionConfirmed()
 		{
-			KoLSettings.setUserProperty(
+			Preferences.setString(
 				"defaultLoginServer", String.valueOf( LoginFrame.this.servers.getSelectedIndex() ) );
 			for ( int i = 0; i < this.options.length; ++i )
 			{
-				KoLSettings.setUserProperty(
+				Preferences.setString(
 					this.options[ i ][ 0 ], String.valueOf( this.optionBoxes[ i ].isSelected() ) );
 			}
 
@@ -502,10 +505,10 @@ public class LoginFrame
 
 		public void actionCancelled()
 		{
-			LoginFrame.this.servers.setSelectedIndex( KoLSettings.getIntegerProperty( "defaultLoginServer" ) );
+			LoginFrame.this.servers.setSelectedIndex( Preferences.getInteger( "defaultLoginServer" ) );
 			for ( int i = 0; i < this.options.length; ++i )
 			{
-				this.optionBoxes[ i ].setSelected( KoLSettings.getBooleanProperty( this.options[ i ][ 0 ] ) );
+				this.optionBoxes[ i ].setSelected( Preferences.getBoolean( this.options[ i ][ 0 ] ) );
 			}
 
 			this.loadBalancer.setSelected( false );
@@ -522,10 +525,10 @@ public class LoginFrame
 
 	public void honorProxySettings()
 	{
-		KoLSettings.setUserProperty( "http.proxyHost", this.proxyHost.getText() );
-		KoLSettings.setUserProperty( "http.proxyPort", this.proxyPort.getText() );
-		KoLSettings.setUserProperty( "http.proxyUser", this.proxyLogin.getText() );
-		KoLSettings.setUserProperty( "http.proxyPassword", this.proxyPassword.getText() );
+		Preferences.setString( "http.proxyHost", this.proxyHost.getText() );
+		Preferences.setString( "http.proxyPort", this.proxyPort.getText() );
+		Preferences.setString( "http.proxyUser", this.proxyLogin.getText() );
+		Preferences.setString( "http.proxyPassword", this.proxyPassword.getText() );
 	}
 
 	/**
@@ -579,10 +582,10 @@ public class LoginFrame
 			}
 			else
 			{
-				LoginFrame.this.proxyHost.setText( KoLSettings.getUserProperty( "http.proxyHost" ) );
-				LoginFrame.this.proxyPort.setText( KoLSettings.getUserProperty( "http.proxyPort" ) );
-				LoginFrame.this.proxyLogin.setText( KoLSettings.getUserProperty( "http.proxyUser" ) );
-				LoginFrame.this.proxyPassword.setText( KoLSettings.getUserProperty( "http.proxyPassword" ) );
+				LoginFrame.this.proxyHost.setText( Preferences.getString( "http.proxyHost" ) );
+				LoginFrame.this.proxyPort.setText( Preferences.getString( "http.proxyPort" ) );
+				LoginFrame.this.proxyLogin.setText( Preferences.getString( "http.proxyUser" ) );
+				LoginFrame.this.proxyPassword.setText( Preferences.getString( "http.proxyPassword" ) );
 			}
 		}
 

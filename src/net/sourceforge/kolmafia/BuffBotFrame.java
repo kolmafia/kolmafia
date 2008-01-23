@@ -54,6 +54,7 @@ import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 public class BuffBotFrame
@@ -273,20 +274,20 @@ public class BuffBotFrame
 
 		public void actionConfirmed()
 		{
-			KoLSettings.setUserProperty(
+			Preferences.setString(
 				"buffBotPhilanthropyType", String.valueOf( this.philanthropyModeSelect.getSelectedIndex() ) );
-			KoLSettings.setUserProperty(
+			Preferences.setString(
 				"buffBotMessageDisposal", String.valueOf( this.messageDisposalSelect.getSelectedIndex() ) );
-			KoLSettings.setUserProperty( "invalidBuffMessage", this.invalidPriceMessage.getText() );
-			KoLSettings.setUserProperty( "thanksMessage", this.thanksMessage.getText() );
+			Preferences.setString( "invalidBuffMessage", this.invalidPriceMessage.getText() );
+			Preferences.setString( "thanksMessage", this.thanksMessage.getText() );
 		}
 
 		public void actionCancelled()
 		{
-			this.philanthropyModeSelect.setSelectedIndex( KoLSettings.getIntegerProperty( "buffBotPhilanthropyType" ) );
-			this.messageDisposalSelect.setSelectedIndex( KoLSettings.getIntegerProperty( "buffBotMessageDisposal" ) );
-			this.invalidPriceMessage.setText( KoLSettings.getUserProperty( "invalidBuffMessage" ) );
-			this.thanksMessage.setText( KoLSettings.getUserProperty( "thanksMessage" ) );
+			this.philanthropyModeSelect.setSelectedIndex( Preferences.getInteger( "buffBotPhilanthropyType" ) );
+			this.messageDisposalSelect.setSelectedIndex( Preferences.getInteger( "buffBotMessageDisposal" ) );
+			this.invalidPriceMessage.setText( Preferences.getString( "invalidBuffMessage" ) );
+			this.thanksMessage.setText( Preferences.getString( "thanksMessage" ) );
 		}
 	}
 }

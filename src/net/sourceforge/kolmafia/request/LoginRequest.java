@@ -39,12 +39,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLSettings;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.LocalRelayAgent;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
+
+import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class LoginRequest
 	extends GenericRequest
@@ -65,12 +66,12 @@ public class LoginRequest
 		super( "login.php" );
 
 		this.username = username == null ? "" : StaticEntity.globalStringReplace( username, "/q", "" );
-		KoLSettings.setGlobalProperty( this.username, "displayName", this.username );
+		Preferences.setString( this.username.toLowerCase() + ".displayName", this.username );
 
 		this.password = password;
 		if ( StaticEntity.getClient() instanceof KoLmafiaCLI )
 		{
-			KoLSettings.setUserProperty( "saveStateActive", "true" );
+			Preferences.setString( "saveStateActive", "true" );
 		}
 	}
 
@@ -216,7 +217,7 @@ public class LoginRequest
 		GenericRequest.serverCookie = null;
 		LocalRelayAgent.reset();
 
-		if ( KoLSettings.getBooleanProperty( "saveStateActive" ) )
+		if ( Preferences.getBoolean( "saveStateActive" ) )
 		{
 			KoLmafia.addSaveState( this.username, this.password );
 		}

@@ -46,7 +46,6 @@ import net.sourceforge.kolmafia.CouncilFrame;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
-import net.sourceforge.kolmafia.KoLSettings;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
@@ -527,7 +526,7 @@ public class ConcoctionDatabase
 		boolean includeCloset = !KoLConstants.closet.isEmpty();
 		boolean includeStorage = KoLCharacter.canInteract() && !KoLConstants.storage.isEmpty();
 		boolean includeStash =
-			KoLCharacter.canInteract() && KoLSettings.getBooleanProperty( "autoSatisfyWithStash" ) && !ClanManager.getStash().isEmpty();
+			KoLCharacter.canInteract() && Preferences.getBoolean( "autoSatisfyWithStash" ) && !ClanManager.getStash().isEmpty();
 		boolean includeQueue = !ConcoctionDatabase.queuedIngredients.isEmpty();
 
 		if ( !includeCloset && !includeStash && !includeQueue )
@@ -629,7 +628,7 @@ public class ConcoctionDatabase
 		// chefs and bartenders automatically so a second call
 		// is not needed.
 
-		boolean includeNPCs = KoLSettings.getBooleanProperty( "autoSatisfyWithNPCs" );
+		boolean includeNPCs = Preferences.getBoolean( "autoSatisfyWithNPCs" );
 
 		// Next, do calculations on all mixing methods which cannot
 		// be created at this time.
@@ -827,7 +826,7 @@ public class ConcoctionDatabase
 	private static final void cachePermitted( final List availableIngredients )
 	{
 		ConcoctionDatabase.tripleReagent = KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR );
-		boolean willBuyServant = KoLCharacter.canInteract() && KoLSettings.getBooleanProperty( "autoSatisfyWithMall" );
+		boolean willBuyServant = KoLCharacter.canInteract() && Preferences.getBoolean( "autoSatisfyWithMall" );
 
 		// Adventures are considered Item #0 in the event that the
 		// concoction will use ADVs.
@@ -968,15 +967,15 @@ public class ConcoctionDatabase
 				ConcoctionDatabase.CHEF, ConcoctionDatabase.CLOCKWORK_CHEF );
 		ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.COOK ] = 0;
 
-		boolean useMall = KoLSettings.getBooleanProperty( "autoSatisfyWithMall" );
-		boolean useStash = KoLSettings.getBooleanProperty( "autoSatisfyWithStash" );
+		boolean useMall = Preferences.getBoolean( "autoSatisfyWithMall" );
+		boolean useStash = Preferences.getBoolean( "autoSatisfyWithStash" );
 
 		if ( !ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.COOK ] )
 		{
 			ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.COOK ] =
 				KoLCharacter.canInteract() && ( useMall || useStash );
 
-			if ( !ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.COOK ] && !KoLSettings.getBooleanProperty( "requireBoxServants" ) )
+			if ( !ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.COOK ] && !Preferences.getBoolean( "requireBoxServants" ) )
 			{
 				ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.COOK ] =
 					KoLConstants.inventory.contains( ConcoctionDatabase.OVEN ) || KoLCharacter.getAvailableMeat() >= 1000;
@@ -1022,7 +1021,7 @@ public class ConcoctionDatabase
 			ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.MIX ] =
 				KoLCharacter.canInteract() && ( useMall || useStash );
 
-			if ( !ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.MIX ] && !KoLSettings.getBooleanProperty( "requireBoxServants" ) )
+			if ( !ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.MIX ] && !Preferences.getBoolean( "requireBoxServants" ) )
 			{
 				ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.MIX ] =
 					KoLConstants.inventory.contains( ConcoctionDatabase.KIT ) || KoLCharacter.getAvailableMeat() >= 1000;
@@ -1090,7 +1089,7 @@ public class ConcoctionDatabase
 		// the given box servants is non-zero.	This works because
 		// cooking tests are made after item creation tests.
 
-		return KoLSettings.getBooleanProperty( "autoRepairBoxServants" ) && ConcoctionDatabase.concoctions.get( servantId ).total > 0 || ConcoctionDatabase.concoctions.get( clockworkId ).total > 0;
+		return Preferences.getBoolean( "autoRepairBoxServants" ) && ConcoctionDatabase.concoctions.get( servantId ).total > 0 || ConcoctionDatabase.concoctions.get( clockworkId ).total > 0;
 	}
 
 	/**
@@ -1337,7 +1336,7 @@ public class ConcoctionDatabase
 				return this.name.compareToIgnoreCase( ( (Concoction) o ).name );
 			}
 
-			if ( !KoLSettings.getBooleanProperty( "showGainsPerUnit" ) )
+			if ( !Preferences.getBoolean( "showGainsPerUnit" ) )
 			{
 				int fullness1 = this.fullness;
 				int fullness2 = ( (Concoction) o ).fullness;

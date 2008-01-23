@@ -64,6 +64,7 @@ import net.sourceforge.kolmafia.request.PvpRequest;
 
 import net.sourceforge.kolmafia.persistence.BuffBotDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class KoLmafiaGUI
 	extends KoLmafia
@@ -80,22 +81,22 @@ public class KoLmafiaGUI
 
 		KoLmafiaGUI.constructFrame( LoginFrame.class );
 
-		if ( KoLSettings.getUserProperty( "useDecoratedTabs" ).equals( "" ) )
+		if ( Preferences.getString( "useDecoratedTabs" ).equals( "" ) )
 		{
-			KoLSettings.setUserProperty(
+			Preferences.setString(
 				"useDecoratedTabs", String.valueOf( !System.getProperty( "os.name" ).startsWith( "Mac" ) ) );
 		}
 
-		if ( !KoLSettings.getBooleanProperty( "customizedTabs" ) )
+		if ( !Preferences.getBoolean( "customizedTabs" ) )
 		{
 			KoLmafiaGUI.constructFrame( OptionsFrame.class );
-			KoLSettings.setUserProperty( "customizedTabs", "true" );
+			Preferences.setString( "customizedTabs", "true" );
 		}
 
 		// All that completed, check to see if there is an auto-login
 		// which should occur.
 
-		String autoLogin = KoLSettings.getUserProperty( "autoLogin" );
+		String autoLogin = Preferences.getString( "autoLogin" );
 		if ( !autoLogin.equals( "" ) )
 		{
 			// Make sure that a password was stored for this
@@ -111,15 +112,15 @@ public class KoLmafiaGUI
 
 	public static final void checkFrameSettings()
 	{
-		String frameSetting = KoLSettings.getUserProperty( "initialFrames" );
-		String desktopSetting = KoLSettings.getUserProperty( "initialDesktop" );
+		String frameSetting = Preferences.getString( "initialFrames" );
+		String desktopSetting = Preferences.getString( "initialDesktop" );
 
 		// If there is still no data (somehow the global data
 		// got emptied), default to relay-browser only).
 
 		if ( desktopSetting.equals( "" ) )
 		{
-			KoLSettings.setUserProperty( "initialDesktop", "AdventureFrame,CommandDisplayFrame,GearChangeFrame" );
+			Preferences.setString( "initialDesktop", "AdventureFrame,CommandDisplayFrame,GearChangeFrame" );
 		}
 	}
 
@@ -134,10 +135,10 @@ public class KoLmafiaGUI
 
 		if ( GenericRequest.passwordHash != null )
 		{
-			if ( KoLSettings.getBooleanProperty( "retrieveContacts" ) )
+			if ( Preferences.getBoolean( "retrieveContacts" ) )
 			{
 				RequestThread.postRequest( new ContactListRequest() );
-				KoLSettings.setUserProperty( "retrieveContacts", String.valueOf( !KoLConstants.contactList.isEmpty() ) );
+				Preferences.setString( "retrieveContacts", String.valueOf( !KoLConstants.contactList.isEmpty() ) );
 			}
 		}
 
@@ -150,8 +151,8 @@ public class KoLmafiaGUI
 		}
 
 		KoLmafiaGUI.checkFrameSettings();
-		String frameSetting = KoLSettings.getUserProperty( "initialFrames" );
-		String desktopSetting = KoLSettings.getUserProperty( "initialDesktop" );
+		String frameSetting = Preferences.getString( "initialFrames" );
+		String desktopSetting = Preferences.getString( "initialDesktop" );
 
 		// Reset all the titles on all existing frames.
 
@@ -164,7 +165,7 @@ public class KoLmafiaGUI
 		if ( !desktopSetting.equals( "" ) )
 		{
 			KoLDesktop.getInstance().initializeTabs();
-			if ( !KoLSettings.getBooleanProperty( "relayBrowserOnly" ) )
+			if ( !Preferences.getBoolean( "relayBrowserOnly" ) )
 			{
 				KoLDesktop.displayDesktop();
 			}
@@ -191,7 +192,7 @@ public class KoLmafiaGUI
 			initialFrameList.remove( desktopArray[ i ] );
 		}
 
-		if ( !initialFrameList.isEmpty() && !KoLSettings.getBooleanProperty( "relayBrowserOnly" ) )
+		if ( !initialFrameList.isEmpty() && !Preferences.getBoolean( "relayBrowserOnly" ) )
 		{
 			String[] initialFrames = new String[ initialFrameList.size() ];
 			initialFrameList.toArray( initialFrames );
@@ -340,12 +341,12 @@ public class KoLmafiaGUI
 			}
 			else if ( this.frameClass == ClanManageFrame.class )
 			{
-				if ( KoLSettings.getBooleanProperty( "clanAttacksEnabled" ) )
+				if ( Preferences.getBoolean( "clanAttacksEnabled" ) )
 				{
 					RequestThread.postRequest( new ClanWarRequest() );
 				}
 
-				if ( KoLSettings.getBooleanProperty( "autoSatisfyWithStash" ) && ClanManager.getStash().isEmpty() )
+				if ( Preferences.getBoolean( "autoSatisfyWithStash" ) && ClanManager.getStash().isEmpty() )
 				{
 					KoLmafia.updateDisplay( "Retrieving clan stash contents..." );
 					RequestThread.postRequest( new ClanStashRequest() );
@@ -422,7 +423,7 @@ public class KoLmafiaGUI
 					}
 				}
 
-				if ( KoLSettings.getBooleanProperty( "autoSatisfyWithStash" ) && KoLCharacter.canInteract() && KoLCharacter.hasClan() )
+				if ( Preferences.getBoolean( "autoSatisfyWithStash" ) && KoLCharacter.canInteract() && KoLCharacter.hasClan() )
 				{
 					if ( !ClanManager.isStashRetrieved() )
 					{

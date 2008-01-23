@@ -43,7 +43,6 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
-import net.sourceforge.kolmafia.KoLSettings;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -51,6 +50,7 @@ import net.sourceforge.kolmafia.KoLDatabase.BooleanArray;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class ZapRequest
 	extends GenericRequest
@@ -116,7 +116,7 @@ public class ZapRequest
 
 		SortedListModel matchingItems = new SortedListModel();
 		matchingItems.addAll( KoLConstants.inventory );
-		if ( KoLSettings.getBooleanProperty( "relayTrimsZapList" ) )
+		if ( Preferences.getBoolean( "relayTrimsZapList" ) )
 			matchingItems.retainAll( ZapRequest.zappableItems );
 		return matchingItems;
 	}
@@ -174,7 +174,7 @@ public class ZapRequest
 	public static final void decorate( final StringBuffer buffer )
 	{
 		// Don't trim the list if user wants to see all items
-		if ( !KoLSettings.getBooleanProperty( "relayTrimsZapList" ) )
+		if ( !Preferences.getBoolean( "relayTrimsZapList" ) )
 			return;
 
 		ZapRequest.initializeList();

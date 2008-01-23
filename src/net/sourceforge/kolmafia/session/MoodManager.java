@@ -47,7 +47,6 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
-import net.sourceforge.kolmafia.KoLSettings;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.LogStream;
@@ -59,6 +58,7 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 public abstract class MoodManager
@@ -102,7 +102,7 @@ public abstract class MoodManager
 		MoodManager.availableMoods.clear();
 		MoodManager.displayList.clear();
 
-		String currentMood = KoLSettings.getUserProperty( "currentMood" );
+		String currentMood = Preferences.getString( "currentMood" );
 		MoodManager.settingsFile = new File( UtilityConstants.SETTINGS_LOCATION, MoodManager.settingsFileName() );
 		MoodManager.loadSettings();
 
@@ -131,7 +131,7 @@ public abstract class MoodManager
 			return;
 		}
 
-		KoLSettings.setUserProperty( "currentMood", mood );
+		Preferences.setString( "currentMood", mood );
 
 		MoodManager.ensureProperty( mood );
 		MoodManager.availableMoods.setSelectedItem( mood );
@@ -353,7 +353,7 @@ public abstract class MoodManager
 
 	public static final void deleteCurrentMood()
 	{
-		String currentMood = KoLSettings.getUserProperty( "currentMood" );
+		String currentMood = Preferences.getString( "currentMood" );
 
 		if ( currentMood.equals( "default" ) )
 		{
@@ -377,7 +377,7 @@ public abstract class MoodManager
 
 	public static final void copyTriggers( final String newListName )
 	{
-		String currentMood = KoLSettings.getUserProperty( "currentMood" );
+		String currentMood = Preferences.getString( "currentMood" );
 
 		if ( newListName == "" )
 		{
@@ -434,7 +434,7 @@ public abstract class MoodManager
 		// make the mistake of burning below their auto-restore threshold.
 
 		int starting =
-			(int) ( KoLSettings.getFloatProperty( "manaBurningThreshold" ) * (float) KoLCharacter.getMaximumMP() );
+			(int) ( Preferences.getFloat( "manaBurningThreshold" ) * (float) KoLCharacter.getMaximumMP() );
 		if ( shouldExecute && ( starting < 0 || KoLCharacter.getCurrentMP() <= starting ) )
 		{
 			return null;
@@ -442,7 +442,7 @@ public abstract class MoodManager
 
 		int minimum =
 			Math.max(
-				0, (int) ( KoLSettings.getFloatProperty( "mpAutoRecovery" ) * (float) KoLCharacter.getMaximumMP() ) ) + 1;
+				0, (int) ( Preferences.getFloat( "mpAutoRecovery" ) * (float) KoLCharacter.getMaximumMP() ) ) + 1;
 		minimum = Math.max( minimum, starting );
 
 		if ( shouldExecute && KoLCharacter.getCurrentMP() <= minimum )
@@ -527,7 +527,7 @@ public abstract class MoodManager
 			// If the player only wishes to cast buffs related to their
 			// mood, then skip the buff if it's not in the player's moods.
 
-			if ( !KoLSettings.getBooleanProperty( "allowNonMoodBurning" ) )
+			if ( !Preferences.getBoolean( "allowNonMoodBurning" ) )
 			{
 				boolean shouldIgnore = true;
 
@@ -694,7 +694,7 @@ public abstract class MoodManager
 
 	public static final boolean willExecute( final int multiplicity )
 	{
-		if ( MoodManager.displayList.isEmpty() || KoLSettings.getUserProperty( "currentMood" ).equals( "apathetic" ) )
+		if ( MoodManager.displayList.isEmpty() || Preferences.getString( "currentMood" ).equals( "apathetic" ) )
 		{
 			return false;
 		}
@@ -906,7 +906,7 @@ public abstract class MoodManager
 			reader.close();
 			reader = null;
 
-			MoodManager.setMood( KoLSettings.getUserProperty( "currentMood" ) );
+			MoodManager.setMood( Preferences.getString( "currentMood" ) );
 		}
 		catch ( IOException e1 )
 		{

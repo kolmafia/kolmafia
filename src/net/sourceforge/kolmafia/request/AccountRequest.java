@@ -38,9 +38,9 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLSettings;
 
 import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
+import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class AccountRequest
 	extends PasswordHashRequest
@@ -125,24 +125,24 @@ public class AccountRequest
 			Matcher optionMatcher = AccountRequest.SELECTED1_PATTERN.matcher( selectMatcher.group() );
 			if ( optionMatcher.find() )
 			{
-				KoLSettings.setUserProperty( "defaultAutoAttack", optionMatcher.group( 1 ) );
+				Preferences.setString( "defaultAutoAttack", optionMatcher.group( 1 ) );
 			}
 			else
 			{
 				optionMatcher = AccountRequest.SELECTED2_PATTERN.matcher( selectMatcher.group() );
 				if ( optionMatcher.find() )
 				{
-					KoLSettings.setUserProperty( "defaultAutoAttack", optionMatcher.group( 1 ) );
+					Preferences.setString( "defaultAutoAttack", optionMatcher.group( 1 ) );
 				}
 				else
 				{
-					KoLSettings.setUserProperty( "defaultAutoAttack", "0" );
+					Preferences.setString( "defaultAutoAttack", "0" );
 				}
 			}
 		}
 		else
 		{
-			KoLSettings.setUserProperty( "defaultAutoAttack", "0" );
+			Preferences.setString( "defaultAutoAttack", "0" );
 		}
 	}
 }

@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase.Concoction;
 
 public class AdventureResult
@@ -366,7 +367,7 @@ public class AdventureResult
 		// Look up the effect name
 		for ( int i = 819; i <= 827; ++i )
 		{
-			if ( effect.equals( KoLSettings.getUserProperty( "lastBangPotion" + i ) ) )
+			if ( effect.equals( Preferences.getString( "lastBangPotion" + i ) ) )
 			{
 				return i;
 			}
@@ -392,7 +393,7 @@ public class AdventureResult
 		// Look up the effect name
 		for ( int i = 2174; i <= 2177; ++i )
 		{
-			if ( effect.equals( KoLSettings.getUserProperty( "lastStoneSphere" + i ) ) )
+			if ( effect.equals( Preferences.getString( "lastStoneSphere" + i ) ) )
 			{
 				return i;
 			}
@@ -833,7 +834,7 @@ public class AdventureResult
 				sourceList.remove( index );
 				return;
 			}
-			else if ( sumResult.getCount() < 0 && ( sourceList == KoLConstants.tally && !KoLSettings.getBooleanProperty( "allowNegativeTally" ) ) )
+			else if ( sumResult.getCount() < 0 && ( sourceList == KoLConstants.tally && !Preferences.getBoolean( "allowNegativeTally" ) ) )
 			{
 				sourceList.remove( index );
 				return;
@@ -957,7 +958,7 @@ public class AdventureResult
 
 			this.appendRange( stringForm, ItemDatabase.getAdventureRange( item.getName() ), "adv" );
 
-			if ( KoLSettings.getBooleanProperty( "showGainsPerUnit" ) )
+			if ( Preferences.getBoolean( "showGainsPerUnit" ) )
 			{
 				if ( inebriety > 0 )
 				{
@@ -1085,7 +1086,7 @@ public class AdventureResult
 			stringForm.append( KoLConstants.COMMA_FORMAT.format( ar.count[ 0 ] ) );
 			stringForm.append( ")" );
 
-			if ( KoLSettings.getBooleanProperty( "mementoListActive" ) && KoLConstants.mementoList.contains( ar ) )
+			if ( Preferences.getBoolean( "mementoListActive" ) && KoLConstants.mementoList.contains( ar ) )
 			{
 				stringForm.insert( 0, "<html><font color=olive>" );
 				stringForm.append( "</font></html>" );

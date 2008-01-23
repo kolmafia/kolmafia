@@ -39,12 +39,13 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDesktop;
 import net.sourceforge.kolmafia.KoLFrame;
-import net.sourceforge.kolmafia.KoLSettings;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.ChatManager;
+
+import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class LogoutRequest
 	extends GenericRequest
@@ -91,7 +92,7 @@ public class LogoutRequest
 		ChatManager.dispose();
 		BuffBotHome.setBuffBotActive( false );
 
-		String scriptSetting = KoLSettings.getUserProperty( "logoutScript" );
+		String scriptSetting = Preferences.getString( "logoutScript" );
 		if ( !scriptSetting.equals( "" ) )
 		{
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( scriptSetting );

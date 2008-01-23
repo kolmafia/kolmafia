@@ -57,6 +57,8 @@ import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
 import net.sourceforge.kolmafia.request.MallSearchRequest;
 
+import net.sourceforge.kolmafia.persistence.Preferences;
+
 public class MallSearchFrame
 	extends KoLPanelFrame
 {
@@ -107,7 +109,7 @@ public class MallSearchFrame
 			super( "search", "purchase", "cancel", new Dimension( 100, 20 ), new Dimension( 250, 20 ) );
 
 			this.searchField =
-				KoLSettings.getBooleanProperty( "cacheMallSearches" ) ? (JComponent) new MutableComboBox(
+				Preferences.getBoolean( "cacheMallSearches" ) ? (JComponent) new MutableComboBox(
 					MallSearchFrame.pastSearches, true ) : (JComponent) new AutoHighlightTextField();
 
 			this.countField = new AutoHighlightTextField();
@@ -131,7 +133,7 @@ public class MallSearchFrame
 			elements[ 1 ] = new VerifiableElement( "Search Limit: ", this.countField );
 			elements[ 2 ] = new VerifiableElement( " ", checkBoxPanels, false );
 
-			int searchCount = KoLSettings.getIntegerProperty( "defaultLimit" );
+			int searchCount = Preferences.getInteger( "defaultLimit" );
 			this.countField.setText( searchCount <= 0 ? "5" : String.valueOf( searchCount ) );
 
 			this.setContent( elements );
@@ -145,7 +147,7 @@ public class MallSearchFrame
 			int searchCount = KoLFrame.getValue( this.countField, 0 );
 			if ( searchCount > 0 )
 			{
-				KoLSettings.setUserProperty( "defaultLimit", String.valueOf( searchCount ) );
+				Preferences.setString( "defaultLimit", String.valueOf( searchCount ) );
 			}
 
 			MallPurchaseRequest.setUsePriceComparison( this.forceSortingCheckBox.isSelected() );

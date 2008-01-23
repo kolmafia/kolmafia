@@ -44,7 +44,6 @@ import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLFrame;
-import net.sourceforge.kolmafia.KoLSettings;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.MPRestoreItemList;
@@ -57,6 +56,7 @@ import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 public class UseItemRequest
@@ -388,10 +388,10 @@ public class UseItemRequest
 			return UseItemRequest.GILDED_CURSED_KEY.getCount( KoLConstants.inventory );
 
 		case MOJO_FILTER:
-			return Math.max( 0, 3 - KoLSettings.getIntegerProperty( "currentMojoFilters" ) );
+			return Math.max( 0, 3 - Preferences.getInteger( "currentMojoFilters" ) );
 
 		case EXPRESS_CARD:
-			return KoLSettings.getBooleanProperty( "expressCardUsed" ) ? 0 : 1;
+			return Preferences.getBoolean( "expressCardUsed" ) ? 0 : 1;
 		}
 
 		Integer key = new Integer( itemId );
@@ -1240,17 +1240,17 @@ public class UseItemRequest
 				AdventureResult.addResultToList( KoLConstants.inventory, item );
 			}
 
-			if ( !KoLSettings.getUserProperty( "preBlackbirdFamiliar" ).equals( "" ) )
+			if ( !Preferences.getString( "preBlackbirdFamiliar" ).equals( "" ) )
 			{
 				KoLmafiaCLI.DEFAULT_SHELL.executeCommand(
-					"familiar", KoLSettings.getUserProperty( "preBlackbirdFamiliar" ) );
+					"familiar", Preferences.getString( "preBlackbirdFamiliar" ) );
 				if ( item != null && !item.equals( EquipmentRequest.UNEQUIP ) && KoLCharacter.getFamiliar().canEquip(
 					item ) )
 				{
 					( new EquipmentRequest( item ) ).run();
 				}
 
-				KoLSettings.setUserProperty( "preBlackbirdFamiliar", "" );
+				Preferences.setString( "preBlackbirdFamiliar", "" );
 			}
 
 			QuestLogRequest.setBlackMarketAvailable();
@@ -1484,7 +1484,7 @@ public class UseItemRequest
 			KoLCharacter.setTelescope( true );
 
 			// Look through it to check number of upgrades
-			KoLSettings.setUserProperty( "lastTelescopeReset", "-1" );
+			Preferences.setString( "lastTelescopeReset", "-1" );
 			KoLCharacter.checkTelescope();
 			return;
 
@@ -1641,12 +1641,12 @@ public class UseItemRequest
 				return;
 			}
 
-			KoLSettings.setUserProperty(
+			Preferences.setString(
 				"currentMojoFilters",
-				String.valueOf( KoLSettings.getIntegerProperty( "currentMojoFilters" ) + UseItemRequest.lastItemUsed.getCount() ) );
+				String.valueOf( Preferences.getInteger( "currentMojoFilters" ) + UseItemRequest.lastItemUsed.getCount() ) );
 
-			KoLSettings.setUserProperty( "currentSpleenUse", String.valueOf( Math.max(
-				0, KoLSettings.getIntegerProperty( "currentSpleenUse" ) - UseItemRequest.lastItemUsed.getCount() ) ) );
+			Preferences.setString( "currentSpleenUse", String.valueOf( Math.max(
+				0, Preferences.getInteger( "currentSpleenUse" ) - UseItemRequest.lastItemUsed.getCount() ) ) );
 
 			return;
 
@@ -1703,7 +1703,7 @@ public class UseItemRequest
 
 			if ( effectData != null )
 			{
-				KoLSettings.setUserProperty( "lastBangPotion" + UseItemRequest.lastItemUsed.getItemId(), effectData );
+				Preferences.setString( "lastBangPotion" + UseItemRequest.lastItemUsed.getItemId(), effectData );
 			}
 
 			return;
@@ -1849,7 +1849,7 @@ public class UseItemRequest
 	public static final String bangPotionName( final int itemId, final String name )
 	{
 		KoLCharacter.ensureUpdatedPotionEffects();
-		String effect = KoLSettings.getUserProperty( "lastBangPotion" + itemId );
+		String effect = Preferences.getString( "lastBangPotion" + itemId );
 		if ( effect.equals( "" ) )
 		{
 			return name;
@@ -1975,30 +1975,30 @@ public class UseItemRequest
 			int fullness = ItemDatabase.getFullness( UseItemRequest.lastItemUsed.getName() );
 			if ( fullness > 0 && KoLCharacter.getFullness() + fullness <= KoLCharacter.getFullnessLimit() )
 			{
-				KoLSettings.setUserProperty( "currentFullness", String.valueOf( KoLCharacter.getFullness() + fullness ) );
-				KoLSettings.setUserProperty( "munchiesPillsUsed", String.valueOf( Math.max(
-					KoLSettings.getIntegerProperty( "munchiesPillsUsed" ) - 1, 0 ) ) );
+				Preferences.setString( "currentFullness", String.valueOf( KoLCharacter.getFullness() + fullness ) );
+				Preferences.setString( "munchiesPillsUsed", String.valueOf( Math.max(
+					Preferences.getInteger( "munchiesPillsUsed" ) - 1, 0 ) ) );
 			}
 		}
 		else
 		{
 			if ( UseItemRequest.lastItemUsed.getItemId() == UseItemRequest.EXPRESS_CARD )
 			{
-				KoLSettings.setUserProperty( "expressCardUsed", "true" );
+				Preferences.setString( "expressCardUsed", "true" );
 			}
 
 			if ( UseItemRequest.lastItemUsed.getItemId() == UseItemRequest.MUNCHIES_PILL )
 			{
-				KoLSettings.setUserProperty(
+				Preferences.setString(
 					"munchiesPillsUsed",
-					String.valueOf( KoLSettings.getIntegerProperty( "munchiesPillsUsed" ) + UseItemRequest.lastItemUsed.getCount() ) );
+					String.valueOf( Preferences.getInteger( "munchiesPillsUsed" ) + UseItemRequest.lastItemUsed.getCount() ) );
 			}
 
 			int spleenHit =
 				ItemDatabase.getSpleenHit( UseItemRequest.lastItemUsed.getName() ) * UseItemRequest.lastItemUsed.getCount();
 			if ( spleenHit > 0 && KoLCharacter.getSpleenUse() + spleenHit <= KoLCharacter.getSpleenLimit() )
 			{
-				KoLSettings.setUserProperty(
+				Preferences.setString(
 					"currentSpleenUse", String.valueOf( KoLCharacter.getSpleenUse() + spleenHit ) );
 			}
 		}
