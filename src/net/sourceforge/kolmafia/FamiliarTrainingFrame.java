@@ -622,37 +622,78 @@ public class FamiliarTrainingFrame
 			private class EquipAllListener
 				extends ThreadedListener
 			{
+				private final ArrayList closetItems = new ArrayList();
+				private final ArrayList storageItems = new ArrayList();
+				private final ArrayList requests = new ArrayList();
+
 				public void run()
 				{
 					KoLmafia.updateDisplay( "Equipping familiars..." );
+
 					FamiliarData current = KoLCharacter.getFamiliar();
 
 					FamiliarData[] familiars = new FamiliarData[ KoLCharacter.getFamiliarList().size() ];
 					KoLCharacter.getFamiliarList().toArray( familiars );
-
-					RequestThread.openRequestSequence();
 
 					for ( int i = 0; i < familiars.length; ++i )
 					{
 						this.equipFamiliar( familiars[ i ] );
 					}
 
+					// If nothing to do, do nothing!
+
+					if ( this.requests.size() == 0 )
+					{
+						return;
+					}
+
+					RequestThread.openRequestSequence();
+
+					if ( closetItems.size() > 0 )
+					{
+						AdventureResult[] array = new AdventureResult[ this.closetItems.size() ];
+						this.closetItems.toArray( array );
+						RequestThread.postRequest( new ClosetRequest( ClosetRequest.CLOSET_TO_INVENTORY, array ) );
+					}
+
+					if ( storageItems.size() > 0 )
+					{
+						AdventureResult[] array = new AdventureResult[ this.storageItems.size() ];
+						this.storageItems.toArray( array );
+						RequestThread.postRequest( new ClosetRequest( ClosetRequest.STORAGE_TO_INVENTORY, array ) );
+					}
+
+					FamiliarRequest[] array = new FamiliarRequest[ this.requests.size() ];
+					this.requests.toArray( array );
+
+					for ( int i = 0; i < array.length; ++i )
+					{
+						RequestThread.postRequest( array[i] );
+					}
+
 					RequestThread.postRequest( new FamiliarRequest( current ) );
 					RequestThread.closeRequestSequence();
+
+					// Leave list empty for next time and
+					// allow garbage collection.
+
+					this.closetItems.clear();
+					this.storageItems.clear();
+					this.requests.clear();
 				}
 
-				private boolean equipFamiliar( FamiliarData familiar )
+				private void equipFamiliar( FamiliarData familiar )
 				{
 					String itemName = FamiliarDatabase.getFamiliarItem( familiar.getId() );
 
 					if ( itemName == null || itemName.equals( "" ) )
 					{
-						return false;
+						return;
 					}
 
 					if ( familiar.getItem().equals( itemName ) )
 					{
-						return false;
+						return;
 					}
 
 					AdventureResult item = new AdventureResult( itemName, 1, false );
@@ -663,21 +704,21 @@ public class FamiliarTrainingFrame
 					else if ( item.getCount( KoLConstants.closet ) > 0 )
 					{
 						// Use one from the closet
-						RequestThread.postRequest( new ClosetRequest( ClosetRequest.CLOSET_TO_INVENTORY, new AdventureResult[] { item } ) );
+						this.closetItems.add( item );
 					}
 					else if ( item.getCount( KoLConstants.storage ) > 0 )
 					{
 						// Use one from storage
-						RequestThread.postRequest( new ClosetRequest( ClosetRequest.STORAGE_TO_INVENTORY, new AdventureResult[] { item } ) );
+						this.storageItems.add( item );
 					}
 					else
 					{
-						return false;
+						return;
 					}
 
-					RequestThread.postRequest( new FamiliarRequest( familiar, item ) );
+					this.requests.add( new FamiliarRequest( familiar, item ) );
 
-					return true;
+					return;
 				}
 			}
 
