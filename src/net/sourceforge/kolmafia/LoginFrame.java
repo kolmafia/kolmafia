@@ -306,7 +306,7 @@ public class LoginFrame
 			}
 
 			Preferences.setString(
-				LoginFrame.this.username.toLowerCase() + ".getBreakfast", String.valueOf( this.getBreakfastCheckBox.isSelected() ) );
+				LoginFrame.this.username, "getBreakfast", String.valueOf( this.getBreakfastCheckBox.isSelected() ) );
 
 			LoginFrame.this.honorProxySettings();
 			RequestThread.postRequest( new LoginRequest( LoginFrame.this.username, password ) );
@@ -343,7 +343,7 @@ public class LoginFrame
 			public void actionPerformed( final ActionEvent e )
 			{
 				Preferences.setString(
-					LoginFrame.this.username.toLowerCase() + ".getBreakfast",
+					LoginFrame.this.username, "getBreakfast",
 					String.valueOf( LoginPanel.this.getBreakfastCheckBox.isSelected() ) );
 			}
 		}
@@ -422,7 +422,7 @@ public class LoginFrame
 
 				boolean breakfastSetting =
 					Preferences.getBoolean(
-						((String)this.currentMatch).toLowerCase() + ".getBreakfast" );
+						((String)this.currentMatch), "getBreakfast" );
 
 				LoginPanel.this.getBreakfastCheckBox.setSelected( breakfastSetting );
 				LoginPanel.this.setEnabled( true );

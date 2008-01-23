@@ -600,28 +600,6 @@ public class Preferences
 		}
 	}
 
-	public static final int increment( final String name, final int increment )
-	{
-		return Preferences.increment( name, increment, 0, false );
-	}
-
-	public static final int increment( final String name, final int increment, final int max,
-		final boolean mod )
-	{
-		int current = StaticEntity.parseInt( Preferences.getString( name ) );
-		current += increment;
-		if ( max > 0 && current > max )
-		{
-			current = max;
-		}
-		if ( mod && current >= max )
-		{
-			current %= max;
-		}
-		Preferences.setString( name, String.valueOf( current ) );
-		return current;
-	}
-
 	public static final String getString( final String name )
 	{
 		return Preferences.userSettings.getProperty( name );
@@ -637,6 +615,28 @@ public class Preferences
 		return StaticEntity.parseInt( Preferences.getString( name ) );
 	}
 
+	public static final int increment( final String name, final int increment )
+	{
+		return Preferences.increment( name, increment, 0, false );
+	}
+
+	public static final int increment( final String name, final int increment, final int max,
+		final boolean mod )
+	{
+		int current = Preferences.getInteger( name );
+		current += increment;
+		if ( max > 0 && current > max )
+		{
+			current = max;
+		}
+		if ( mod && current >= max )
+		{
+			current %= max;
+		}
+		Preferences.setString( name, String.valueOf( current ) );
+		return current;
+	}
+
 	public static final float getFloat( final String name )
 	{
 		return StaticEntity.parseFloat( Preferences.getString( name ) );
@@ -644,7 +644,7 @@ public class Preferences
 
 	private static final boolean isGlobalProperty( final String name )
 	{
-		return Preferences.GLOBAL_MAP.containsKey( name ) || name.startsWith( "saveState" ) || name.startsWith( "displayName" ) || name.startsWith( "getBreakfast" );
+		return Preferences.GLOBAL_MAP.containsKey( name ) || name.equals( "saveState" ) || name.equals( "displayName" ) || name.equals( "getBreakfast" );
 	}
 
 	public String getProperty( String name )
@@ -697,6 +697,103 @@ public class Preferences
 		}
 
 		this.valuesChanged = true;
+		super.setProperty( name, value );
+
+		if ( Preferences.checkboxMap.containsKey( name ) )
+		{
+			ArrayList list = (ArrayList) Preferences.checkboxMap.get( name );
+			for ( int i = 0; i < list.size(); ++i )
+			{
+				WeakReference reference = (WeakReference) list.get( i );
+				JCheckBox item = (JCheckBox) reference.get();
+				if ( item != null )
+				{
+					item.setSelected( value.equals( "true" ) );
+				}
+			}
+		}
+
+		this.saveToFile();
+		return oldValue == null ? "" : oldValue;
+	}
+
+	// Per-user global properties are stored in the global settings with
+	// key "<name>.<user>"
+
+	public static final String getString( final String user, final String name )
+	{
+		return Preferences.globalSettings.getProperty( user, name );
+	}
+
+	public static final boolean getBoolean( final String user, final String name )
+	{
+		return Preferences.getString( user, name ).equals( "true" );
+	}
+
+	public static final void setString( final String user, final String name, final String value )
+	{
+		Preferences.globalSettings.setProperty( user, name, value );
+	}
+
+	public String getProperty( String user, String name )
+	{
+		if ( !this.isGlobal )
+		{
+			return Preferences.globalSettings.getProperty( user, name );
+		}
+
+		name = Preferences.getCaseSensitiveName( name );
+		boolean isGlobalProperty = Preferences.isGlobalProperty( name );
+
+		if ( !isGlobalProperty )
+		{
+			return "";
+		}
+
+		if ( user != null && !user.equals( "" ) )
+		{
+			name = name + "." + user.toLowerCase();
+		}
+
+		String value = super.getProperty( name );
+		return value == null ? "" : CharacterEntityReference.unescape( value );
+	}
+
+	public Object setProperty( String user, String name, String value )
+	{
+		if ( value == null )
+		{
+			return "";
+		}
+
+		if ( !this.isGlobal )
+		{
+			return Preferences.globalSettings.setProperty( user, name, value );
+		}
+
+		name = Preferences.getCaseSensitiveName( name );
+		boolean isGlobalProperty = Preferences.isGlobalProperty( name );
+
+		if ( !isGlobalProperty )
+		{
+			return "";
+		}
+
+		String oldValue = this.getProperty( user, name );
+		value = CharacterEntityReference.escape( value );
+
+		if ( oldValue != null && oldValue.equals( value ) )
+		{
+			return oldValue;
+		}
+
+		this.valuesChanged = true;
+
+		if ( user != null && !user.equals( "" ) )
+		{
+			name = name + "." + user.toLowerCase();
+		}
+
 		super.setProperty( name, value );
 
 		if ( Preferences.checkboxMap.containsKey( name ) )
