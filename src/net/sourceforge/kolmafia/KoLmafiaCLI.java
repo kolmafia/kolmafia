@@ -1940,7 +1940,8 @@ public class KoLmafiaCLI
 			String[] familiars = new String[ familiarList.size() ];
 			for ( int i = 0; i < familiarList.size(); ++i )
 			{
-				familiars[ i ] = familiarList.get( i ).toString().toLowerCase();
+				FamiliarData familiar = (FamiliarData)familiarList.get( i );
+				familiars[ i ] = familiar.getRace().toLowerCase();
 			}
 
 			FamiliarData newFamiliar = null;

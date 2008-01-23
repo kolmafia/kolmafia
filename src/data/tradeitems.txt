@@ -3124,3 +3124,8 @@
 3123	divine champagne flute	0	all	0
 3124	fruitfilm	4	all	35
 3125	piece of after eight	4	all	35
+3126
+3127
+3128
+3129
+3130	strange shiny disc	0	all	0
