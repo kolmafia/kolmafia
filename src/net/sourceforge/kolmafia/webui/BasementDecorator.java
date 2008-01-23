@@ -197,7 +197,14 @@ public class BasementDecorator
 
 			if ( KoLCharacter.getCurrentHP() < KoLCharacter.getMaximumHP() )
 			{
-				changes.append( "<option value=0>use 1 scroll of drastic healing (hp restore)</option>" );
+				if ( KoLCharacter.hasSkill( "Cannelloni Cocoon" ) )
+				{
+					changes.append( "<option value=0>cast Cannelloni Cocoon (hp restore)</option>" );
+				}
+				else
+				{
+					changes.append( "<option value=0>use 1 scroll of drastic healing (hp restore)</option>" );
+				}
 			}
 
 			if ( KoLCharacter.getCurrentMP() < KoLCharacter.getMaximumMP() )
