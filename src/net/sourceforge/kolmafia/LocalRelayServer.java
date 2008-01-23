@@ -39,6 +39,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import net.sourceforge.kolmafia.persistence.Preferences;
+
 public class LocalRelayServer
 	implements Runnable
 {
@@ -66,7 +68,7 @@ public class LocalRelayServer
 		StaticEntity.loadLibrary( KoLConstants.RELAY_LOCATION, KoLConstants.RELAY_DIRECTORY, "palinshelves.js" );
 		StaticEntity.loadLibrary( KoLConstants.RELAY_LOCATION, KoLConstants.RELAY_DIRECTORY, "sorttable.js" );
 
-		KoLSettings.setUserProperty( "lastRelayUpdate", StaticEntity.getVersion() );
+		Preferences.setString( "lastRelayUpdate", StaticEntity.getVersion() );
 	}
 
 	public static final void updateStatus()

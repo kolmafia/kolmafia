@@ -9,7 +9,6 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLSettings;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 
@@ -25,6 +24,7 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 
 public abstract class UseLinkDecorator
 {
@@ -277,7 +277,7 @@ public abstract class UseLinkDecorator
 						useType = "use";
 						useLocation = "inv_use.php?pwd=" + GenericRequest.passwordHash + "&which=" + page + "&whichitem=";
 					}
-					else if ( KoLSettings.getBooleanProperty( "relayUsesInlineLinks" ) )
+					else if ( Preferences.getBoolean( "relayUsesInlineLinks" ) )
 					{
 						useType = "use";
 						useLocation = "#";
@@ -403,7 +403,7 @@ public abstract class UseLinkDecorator
 					else if ( itemId == 363 || itemId == 364 || itemId == 365 )
 					{
 						AdventureResult ore =
-							new AdventureResult( KoLSettings.getUserProperty( "trapperOre" ), itemCount, false );
+							new AdventureResult( Preferences.getString( "trapperOre" ), itemCount, false );
 
 						if ( ore.getItemId() == itemId )
 						{
@@ -474,9 +474,9 @@ public abstract class UseLinkDecorator
 					// Bounty items get a count and a link
 					// to the Bounty Hunter Hunter.
 
-					else if ( itemId == KoLSettings.getIntegerProperty( "currentBountyItem" ) || ItemDatabase.isBountyItem( itemId ) )
+					else if ( itemId == Preferences.getInteger( "currentBountyItem" ) || ItemDatabase.isBountyItem( itemId ) )
 					{
-						KoLSettings.setUserProperty( "currentBountyItem", String.valueOf( itemId ) );
+						Preferences.setString( "currentBountyItem", String.valueOf( itemId ) );
 						AdventureResult item = new AdventureResult( itemId, 0 );
 						useType = String.valueOf( item.getCount( KoLConstants.inventory ) );
 						useLocation = "bhh.php";
@@ -521,7 +521,7 @@ public abstract class UseLinkDecorator
 					buffer.append( itemId );
 					buffer.append( "); void(0);\"></form></div>" );
 				}
-				else if ( !KoLSettings.getBooleanProperty( "relayUsesInlineLinks" ) || !useLocation.startsWith( "inv" ) )
+				else if ( !Preferences.getBoolean( "relayUsesInlineLinks" ) || !useLocation.startsWith( "inv" ) )
 				{
 					useLinkMatcher.appendReplacement(
 						buffer,

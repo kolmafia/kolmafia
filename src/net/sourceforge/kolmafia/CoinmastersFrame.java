@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class CoinmastersFrame
 	extends KoLFrame
@@ -106,11 +107,11 @@ public class CoinmastersFrame
 			return;
 
 		BigIsland.ensureUpdatedBigIsland();
-		atWar = KoLSettings.getUserProperty( "warProgress" ).equals( "started" );
-		dimes = KoLSettings.getIntegerProperty( "availableDimes" );
-		quarters = KoLSettings.getIntegerProperty( "availableQuarters" );
+		atWar = Preferences.getString( "warProgress" ).equals( "started" );
+		dimes = Preferences.getInteger( "availableDimes" );
+		quarters = Preferences.getInteger( "availableQuarters" );
 		lucre =	 LUCRE.getCount( KoLConstants.inventory );
-		KoLSettings.setUserProperty( "availableLucre", String.valueOf( lucre ) );
+		Preferences.setString( "availableLucre", String.valueOf( lucre ) );
 
 		INSTANCE.setTitle( "Coin Masters (" + dimes + " dimes/" + quarters + " quarters/" + lucre + " lucre)" );
 		INSTANCE.update();
@@ -231,7 +232,7 @@ public class CoinmastersFrame
 
 		public boolean showLighthouse()
 		{
-			return KoLSettings.getUserProperty( "sidequestLighthouseCompleted" ).equals( side );
+			return Preferences.getString( "sidequestLighthouseCompleted" ).equals( side );
 		}
 
 		public void update()
@@ -423,7 +424,7 @@ public class CoinmastersFrame
 				}
 
 				int neededSize = items.length;
-				int originalBalance = KoLSettings.getIntegerProperty( CoinmasterPanel.this.property );
+				int originalBalance = Preferences.getInteger( CoinmasterPanel.this.property );
 				int balance = originalBalance;
 
 				for ( int i = 0; i < items.length; ++i )
@@ -595,7 +596,7 @@ public class CoinmastersFrame
 			boolean show = true;
 			if ( property != null )
 			{
-				int balance = KoLSettings.getIntegerProperty( property );
+				int balance = Preferences.getInteger( property );
 				if ( price > balance )
 				{
 					show = false;

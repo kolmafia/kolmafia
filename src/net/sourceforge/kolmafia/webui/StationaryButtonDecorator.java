@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLSettings;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
 
@@ -13,6 +12,7 @@ import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 public class StationaryButtonDecorator
@@ -27,7 +27,7 @@ public class StationaryButtonDecorator
 		if ( beginDebug != -1 )
 		{
 			int endDebug = buffer.indexOf( "</font>", beginDebug ) + 7;
-			if ( endDebug - beginDebug > 20 && !KoLSettings.getBooleanProperty( "hideServerDebugText" ) )
+			if ( endDebug - beginDebug > 20 && !Preferences.getBoolean( "hideServerDebugText" ) )
 			{
 				debug = "<br/>" + buffer.substring( beginDebug + 13, endDebug - 7 ) + "<br/>";
 			}
@@ -35,7 +35,7 @@ public class StationaryButtonDecorator
 			buffer.delete( beginDebug, endDebug );
 		}
 
-		if ( !KoLSettings.getBooleanProperty( "relayAddsCustomCombat" ) )
+		if ( !Preferences.getBoolean( "relayAddsCustomCombat" ) )
 		{
 			return;
 		}
@@ -73,7 +73,7 @@ public class StationaryButtonDecorator
 
 			for ( int i = 1; i <= KoLConstants.STATIONARY_BUTTON_COUNT; ++i )
 			{
-				String action = KoLSettings.getUserProperty( "stationaryButton" + i );
+				String action = Preferences.getString( "stationaryButton" + i );
 				if ( action.equals( "" ) || action.equals( "none" ) )
 				{
 					continue;
@@ -85,11 +85,11 @@ public class StationaryButtonDecorator
 				{
 					for ( int j = i; j < 5; ++j )
 					{
-						KoLSettings.setUserProperty(
-							"stationaryButton" + j, KoLSettings.getUserProperty( "stationaryButton" + ( j + 1 ) ) );
+						Preferences.setString(
+							"stationaryButton" + j, Preferences.getString( "stationaryButton" + ( j + 1 ) ) );
 					}
 
-					KoLSettings.setUserProperty( "stationaryButton5", "" );
+					Preferences.setString( "stationaryButton5", "" );
 					continue;
 				}
 
@@ -349,7 +349,7 @@ public class StationaryButtonDecorator
 
 		for ( int i = 0; i <= 9; ++i )
 		{
-			StationaryButtonDecorator.combatHotkeys.add( KoLSettings.getUserProperty( "combatHotkey" + i ) );
+			StationaryButtonDecorator.combatHotkeys.add( Preferences.getString( "combatHotkey" + i ) );
 		}
 	}
 }

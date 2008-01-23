@@ -61,6 +61,7 @@ import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
@@ -368,7 +369,7 @@ public abstract class KoLCharacter
 		KoLCharacter.username = newUserName;
 
 		KoLCharacter.reset();
-		KoLSettings.reset( KoLCharacter.username );
+		Preferences.reset( KoLCharacter.username );
 	}
 
 	public static final void reset()
@@ -467,7 +468,7 @@ public abstract class KoLCharacter
 
 		KoLCharacter.resetInventory();
 
-		int battleIndex = KoLCharacter.battleSkillNames.indexOf( KoLSettings.getUserProperty( "battleAction" ) );
+		int battleIndex = KoLCharacter.battleSkillNames.indexOf( Preferences.getString( "battleAction" ) );
 		KoLCharacter.battleSkillNames.setSelectedIndex( battleIndex == -1 ? 0 : battleIndex );
 	}
 
@@ -479,7 +480,7 @@ public abstract class KoLCharacter
 
 	public static final int getFullness()
 	{
-		return KoLSettings.getIntegerProperty( "currentFullness" );
+		return Preferences.getInteger( "currentFullness" );
 	}
 
 	public static final int getFullnessLimit()
@@ -510,7 +511,7 @@ public abstract class KoLCharacter
 
 	public static final int getSpleenUse()
 	{
-		return KoLSettings.getIntegerProperty( "currentSpleenUse" );
+		return Preferences.getInteger( "currentSpleenUse" );
 	}
 
 	public static final int getSpleenLimit()
@@ -531,7 +532,7 @@ public abstract class KoLCharacter
 
 	public static final String baseUserName()
 	{
-		return KoLSettings.baseUserName( KoLCharacter.username );
+		return Preferences.baseUserName( KoLCharacter.username );
 	}
 
 	/**
@@ -1144,10 +1145,10 @@ public abstract class KoLCharacter
 	public static final void registerSemirare()
 	{
 		KoLCharacter.ensureUpdatedSemirareCounter();
-		KoLSettings.setUserProperty( "semirareCounter", String.valueOf( KoLCharacter.currentRun + 1 ) );
+		Preferences.setString( "semirareCounter", String.valueOf( KoLCharacter.currentRun + 1 ) );
 		KoLAdventure location = KoLAdventure.lastVisitedLocation();
 		String loc = ( location == null ) ? "" : location.getAdventureName();
-		KoLSettings.setUserProperty( "semirareLocation", loc );
+		Preferences.setString( "semirareLocation", loc );
 		StaticEntity.stopCounting( "Fortune Cookie" );
 	}
 
@@ -1159,7 +1160,7 @@ public abstract class KoLCharacter
 	public static final int turnsSinceLastSemirare()
 	{
                 KoLCharacter.ensureUpdatedSemirareCounter();
-                int last = KoLSettings.getIntegerProperty( "semirareCounter" );
+                int last = Preferences.getInteger( "semirareCounter" );
                 return KoLCharacter.currentRun - last;
 	}
 
@@ -2016,7 +2017,7 @@ public abstract class KoLCharacter
 
 	public static final void setTelescope( final boolean present )
 	{
-		KoLCharacter.telescopeUpgrades = KoLSettings.getIntegerProperty( "telescopeUpgrades" );
+		KoLCharacter.telescopeUpgrades = Preferences.getInteger( "telescopeUpgrades" );
 		// Assume newly detected telescope is basic. We'll look through
 		// it when checkTelescope is called.
 		if ( present && KoLCharacter.telescopeUpgrades == 0 )
@@ -2041,7 +2042,7 @@ public abstract class KoLCharacter
 			return;
 		}
 
-		int lastAscension = KoLSettings.getIntegerProperty( "lastTelescopeReset" );
+		int lastAscension = Preferences.getInteger( "lastTelescopeReset" );
 		if ( lastAscension < KoLCharacter.ascensions )
 		{
 			RequestThread.postRequest( new TelescopeRequest( TelescopeRequest.LOW ) );
@@ -2056,21 +2057,21 @@ public abstract class KoLCharacter
 
 	public static final boolean kingLiberated()
 	{
-		int lastAscension = KoLSettings.getIntegerProperty( "lastKingLiberation" );
+		int lastAscension = Preferences.getInteger( "lastKingLiberation" );
 		if ( lastAscension < KoLCharacter.ascensions )
 		{
-			KoLSettings.setUserProperty( "lastKingLiberation", String.valueOf( KoLCharacter.getAscensions() ) );
-			KoLSettings.setUserProperty( "kingLiberated", "false" );
+			Preferences.setString( "lastKingLiberation", String.valueOf( KoLCharacter.getAscensions() ) );
+			Preferences.setString( "kingLiberated", "false" );
 			return false;
 		}
-		return KoLSettings.getBooleanProperty( "kingLiberated" );
+		return Preferences.getBoolean( "kingLiberated" );
 	}
 
 	public static final void liberateKing()
 	{
 		if ( !KoLCharacter.kingLiberated() )
 		{
-			KoLSettings.setUserProperty( "kingLiberated", "true" );
+			Preferences.setString( "kingLiberated", "true" );
 			CharPaneRequest.setInteraction();
 
 			// Bad Moon characters can now access storage.
@@ -2427,7 +2428,7 @@ public abstract class KoLCharacter
 		KoLConstants.selfOnlySkills.sort();
 		KoLConstants.buffSkills.sort();
 
-		KoLCharacter.battleSkillNames.setSelectedItem( KoLSettings.getUserProperty( "battleAction" ) );
+		KoLCharacter.battleSkillNames.setSelectedItem( Preferences.getString( "battleAction" ) );
 	}
 
 	/**
@@ -3117,7 +3118,7 @@ public abstract class KoLCharacter
 		{
 			count += item.getCount( KoLConstants.storage );
 
-			if ( KoLCharacter.hasClan() && KoLSettings.getBooleanProperty( "autoSatisfyWithStash" ) )
+			if ( KoLCharacter.hasClan() && Preferences.getBoolean( "autoSatisfyWithStash" ) )
 			{
 				count += item.getCount( ClanManager.getStash() );
 			}
@@ -3311,9 +3312,9 @@ public abstract class KoLCharacter
 
 		// Add in strung-up quartet.
 
-		if ( KoLCharacter.getAscensions() == KoLSettings.getIntegerProperty( "lastQuartetAscension" ) )
+		if ( KoLCharacter.getAscensions() == Preferences.getInteger( "lastQuartetAscension" ) )
 		{
-			switch ( KoLSettings.getIntegerProperty( "lastQuartetRequest" ) )
+			switch ( Preferences.getInteger( "lastQuartetRequest" ) )
 			{
 			case 1:
 				newModifiers.add( Modifiers.MONSTER_LEVEL, 5 );
@@ -3350,47 +3351,47 @@ public abstract class KoLCharacter
 
 	public static final void ensureUpdatedGuyMadeOfBees()
 	{
-		int lastAscension = KoLSettings.getIntegerProperty( "lastGuyMadeOfBeesReset" );
+		int lastAscension = Preferences.getInteger( "lastGuyMadeOfBeesReset" );
 		if ( lastAscension < KoLCharacter.getAscensions() )
 		{
-			KoLSettings.setUserProperty( "lastGuyMadeOfBeesReset", String.valueOf( KoLCharacter.getAscensions() ) );
-                        KoLSettings.setUserProperty( "guyMadeOfBeesCount", "0" );
-                        KoLSettings.setUserProperty( "guyMadeOfBeesDefeated", "false" );
+			Preferences.setString( "lastGuyMadeOfBeesReset", String.valueOf( KoLCharacter.getAscensions() ) );
+                        Preferences.setString( "guyMadeOfBeesCount", "0" );
+                        Preferences.setString( "guyMadeOfBeesDefeated", "false" );
                 }
 	}
 
 	public static final void ensureUpdatedSemirareCounter()
 	{
-		int lastAscension = KoLSettings.getIntegerProperty( "lastSemirareReset" );
+		int lastAscension = Preferences.getInteger( "lastSemirareReset" );
 		if ( lastAscension < KoLCharacter.getAscensions() )
 		{
-			KoLSettings.setUserProperty( "lastSemirareReset", String.valueOf( KoLCharacter.getAscensions() ) );
-                        KoLSettings.setUserProperty( "semirareCounter", "0" );
+			Preferences.setString( "lastSemirareReset", String.valueOf( KoLCharacter.getAscensions() ) );
+                        Preferences.setString( "semirareCounter", "0" );
                 }
 	}
 
 	public static final void ensureUpdatedPotionEffects()
 	{
-		int lastAscension = KoLSettings.getIntegerProperty( "lastBangPotionReset" );
+		int lastAscension = Preferences.getInteger( "lastBangPotionReset" );
 		if ( lastAscension < KoLCharacter.getAscensions() )
 		{
-			KoLSettings.setUserProperty( "lastBangPotionReset", String.valueOf( KoLCharacter.getAscensions() ) );
+			Preferences.setString( "lastBangPotionReset", String.valueOf( KoLCharacter.getAscensions() ) );
 			for ( int i = 819; i <= 827; ++i )
 			{
-				KoLSettings.setUserProperty( "lastBangPotion" + i, "" );
+				Preferences.setString( "lastBangPotion" + i, "" );
 			}
 		}
 	}
 
 	public static final void ensureUpdatedSphereEffects()
 	{
-		int lastAscension = KoLSettings.getIntegerProperty( "lastStoneSphereReset" );
+		int lastAscension = Preferences.getInteger( "lastStoneSphereReset" );
 		if ( lastAscension < KoLCharacter.getAscensions() )
 		{
-			KoLSettings.setUserProperty( "lastStoneSphereReset", String.valueOf( KoLCharacter.getAscensions() ) );
+			Preferences.setString( "lastStoneSphereReset", String.valueOf( KoLCharacter.getAscensions() ) );
 			for ( int i = 2174; i <= 2177; ++i )
 			{
-				KoLSettings.setUserProperty( "lastStoneSphere" + i, "" );
+				Preferences.setString( "lastStoneSphere" + i, "" );
 			}
 		}
 	}

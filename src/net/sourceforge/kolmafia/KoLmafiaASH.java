@@ -94,6 +94,7 @@ import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
@@ -881,7 +882,7 @@ public class KoLmafiaASH
 
 		if ( this == KoLmafiaASH.NAMESPACE_INTERPRETER )
 		{
-			String importString = KoLSettings.getUserProperty( "commandLineNamespace" );
+			String importString = Preferences.getString( "commandLineNamespace" );
 			if ( importString.equals( "" ) )
 			{
 				KoLmafia.updateDisplay(
@@ -918,11 +919,11 @@ public class KoLmafiaASH
 		}
 
 		String currentScript = this.fileName == null ? "<>" : "<" + this.fileName + ">";
-		String notifyList = KoLSettings.getUserProperty( "previousNotifyList" );
+		String notifyList = Preferences.getString( "previousNotifyList" );
 
 		if ( this.notifyRecipient != null && notifyList.indexOf( currentScript ) == -1 )
 		{
-			KoLSettings.setUserProperty( "previousNotifyList", notifyList + currentScript );
+			Preferences.setString( "previousNotifyList", notifyList + currentScript );
 
 			SendMailRequest notifier = new SendMailRequest( this.notifyRecipient, this );
 			RequestThread.postRequest( notifier );
@@ -3619,7 +3620,7 @@ public class KoLmafiaASH
 
 		if ( !executeTopLevel )
 		{
-			String importString = KoLSettings.getUserProperty( "commandLineNamespace" );
+			String importString = Preferences.getString( "commandLineNamespace" );
 			executeTopLevel = !importString.equals( KoLmafiaASH.lastImportString );
 			KoLmafiaASH.lastImportString = importString;
 		}
@@ -3750,7 +3751,7 @@ public class KoLmafiaASH
 		case TYPE_LOCATION:
 			return (String) ( (KoLAdventure) KoLFrame.input(
 				message, AdventureDatabase.getAsLockableListModel().toArray(),
-				AdventureDatabase.getAdventure( KoLSettings.getUserProperty( "lastAdventure" ) ) ) ).getAdventureName();
+				AdventureDatabase.getAdventure( Preferences.getString( "lastAdventure" ) ) ) ).getAdventureName();
 
 		case TYPE_SKILL:
 			return (String) ( (UseSkillRequest) KoLFrame.input( message, SkillDatabase.getSkillsByType(
@@ -3804,7 +3805,7 @@ public class KoLmafiaASH
 	{
 		if ( this.fileName == null )
 		{
-			return "(" + KoLSettings.getUserProperty( "commandLineNamespace" ) + ")";
+			return "(" + Preferences.getString( "commandLineNamespace" ) + ")";
 		}
 
 		String partialName = this.fileName.substring( this.fileName.lastIndexOf( File.separator ) + 1 );
@@ -7136,8 +7137,8 @@ public class KoLmafiaASH
 		public ScriptValue get_property( final ScriptVariable name )
 		{
 			String property = name.toStringValue().toString();
-			return !KoLSettings.isUserEditable( property ) ? KoLmafiaASH.STRING_INIT : new ScriptValue(
-				KoLSettings.getUserProperty( property ) );
+			return !Preferences.isUserEditable( property ) ? KoLmafiaASH.STRING_INIT : new ScriptValue(
+				Preferences.getString( property ) );
 		}
 
 		public ScriptValue set_property( final ScriptVariable name, final ScriptVariable value )
@@ -7271,7 +7272,7 @@ public class KoLmafiaASH
 
 		public ScriptValue my_location()
 		{
-			String location = KoLSettings.getUserProperty( "lastAdventure" );
+			String location = Preferences.getString( "lastAdventure" );
 			return location.equals( "" ) ? KoLmafiaASH.parseLocationValue( "Rest" ) : KoLmafiaASH.parseLocationValue( location );
 		}
 

@@ -50,7 +50,6 @@ import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
-import net.sourceforge.kolmafia.KoLSettings;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -80,7 +79,7 @@ public class CustomItemDatabase
 		// the file hasn't been updated for a week.
 
 		String thisWeek = KoLConstants.WEEKLY_FORMAT.format( new Date() );
-		if ( CustomItemDatabase.KILT_FILE.exists() && KoLSettings.getUserProperty( "lastCustomItemUpdate" ).equals(
+		if ( CustomItemDatabase.KILT_FILE.exists() && Preferences.getString( "lastCustomItemUpdate" ).equals(
 			thisWeek ) )
 		{
 			try
@@ -96,7 +95,7 @@ public class CustomItemDatabase
 		}
 
 		CustomItemDatabase.updateParticipantList();
-		KoLSettings.setUserProperty( "lastCustomItemUpdate", thisWeek );
+		Preferences.setString( "lastCustomItemUpdate", thisWeek );
 	}
 
 	private static final void updateParticipantList()
@@ -172,7 +171,7 @@ public class CustomItemDatabase
 		// First, some preliminary checks to see if custom data
 		// should be added to this request.
 
-		if ( !KoLSettings.getBooleanProperty( "relayViewsCustomItems" ) )
+		if ( !Preferences.getBoolean( "relayViewsCustomItems" ) )
 			return;
 
 		String urlString = request.getURLString();

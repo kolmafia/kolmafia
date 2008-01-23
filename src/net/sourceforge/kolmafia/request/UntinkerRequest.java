@@ -40,7 +40,6 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLFrame;
-import net.sourceforge.kolmafia.KoLSettings;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -49,6 +48,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class UntinkerRequest
 	extends GenericRequest
@@ -219,7 +219,7 @@ public class UntinkerRequest
 		// Make sure that paco has been visited, or else
 		// the knoll won't be available.
 
-		String action = KoLSettings.getUserProperty( "battleAction" );
+		String action = Preferences.getString( "battleAction" );
 		if ( action.indexOf( "dictionary" ) != -1 )
 		{
 			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", "battleAction=attack" );

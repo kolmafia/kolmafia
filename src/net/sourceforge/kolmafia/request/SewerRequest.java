@@ -35,12 +35,12 @@ package net.sourceforge.kolmafia.request;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLSettings;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class SewerRequest
 	extends GenericRequest
@@ -78,7 +78,7 @@ public class SewerRequest
 
 		if ( this.isLuckySewer )
 		{
-			if ( KoLSettings.getBooleanProperty( "cloverProtectActive" ) )
+			if ( Preferences.getBoolean( "cloverProtectActive" ) )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Turn off clover protection if you want to go here." );
 			}
@@ -113,7 +113,7 @@ public class SewerRequest
 		// items, so if you have fewer than three items, report
 		// an error.
 
-		String thirdItemString = KoLSettings.getUserProperty( "luckySewerAdventure" );
+		String thirdItemString = Preferences.getString( "luckySewerAdventure" );
 		int thirdItem =
 			thirdItemString.indexOf( "random" ) != -1 ? KoLConstants.RNG.nextInt( 11 ) + 1 : Character.isDigit( thirdItemString.charAt( 0 ) ) ? StaticEntity.parseInt( thirdItemString ) : ItemDatabase.getItemId( thirdItemString );
 

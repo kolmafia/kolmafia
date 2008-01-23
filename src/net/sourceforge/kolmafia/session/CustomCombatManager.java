@@ -51,7 +51,6 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
-import net.sourceforge.kolmafia.KoLSettings;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -59,6 +58,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.request.FightRequest;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 public abstract class CustomCombatManager
@@ -114,12 +114,12 @@ public abstract class CustomCombatManager
 		name = name + ".ccs";
 
 		CustomCombatManager.loadSettings( name );
-		KoLSettings.setUserProperty( "customCombatScript", name );
+		Preferences.setString( "customCombatScript", name );
 	}
 
 	public static final String settingName()
 	{
-		String script = KoLSettings.getUserProperty( "customCombatScript" );
+		String script = Preferences.getString( "customCombatScript" );
 		return script.endsWith( ".ccs" ) ? script.substring( 0, script.length() - 4 ) : "default";
 	}
 
@@ -428,7 +428,7 @@ public abstract class CustomCombatManager
 
 	public static final String getSettingKey( final String encounter )
 	{
-		String location = KoLSettings.getUserProperty( "lastAdventure" ).toLowerCase();
+		String location = Preferences.getString( "lastAdventure" ).toLowerCase();
 
 		// Allow for longer matches (closer to exact matches)
 		// by tracking the length of the match.

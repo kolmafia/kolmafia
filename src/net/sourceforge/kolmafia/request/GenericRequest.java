@@ -67,7 +67,6 @@ import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
-import net.sourceforge.kolmafia.KoLSettings;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.LocalRelayServer;
 import net.sourceforge.kolmafia.LogStream;
@@ -84,6 +83,7 @@ import net.sourceforge.kolmafia.session.VioletFogManager;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class GenericRequest
 	extends Job
@@ -206,7 +206,7 @@ public class GenericRequest
 
 		GenericRequest.applyProxySettings();
 
-		int defaultLoginServer = KoLSettings.getIntegerProperty( "defaultLoginServer" );
+		int defaultLoginServer = Preferences.getInteger( "defaultLoginServer" );
 		if ( defaultLoginServer >= GenericRequest.SERVERS.length )
 		{
 			defaultLoginServer = 0;
@@ -223,9 +223,9 @@ public class GenericRequest
 
 		try
 		{
-			String proxySet = KoLSettings.getUserProperty( "proxySet" );
-			String proxyHost = KoLSettings.getUserProperty( "http.proxyHost" );
-			String proxyUser = KoLSettings.getUserProperty( "http.proxyUser" );
+			String proxySet = Preferences.getString( "proxySet" );
+			String proxyHost = Preferences.getString( "http.proxyHost" );
+			String proxyUser = Preferences.getString( "http.proxyUser" );
 
 			System.setProperty( "proxySet", proxySet );
 
@@ -252,7 +252,7 @@ public class GenericRequest
 					System.setProperty( "http.proxyHost", proxyHost );
 				}
 
-				System.setProperty( "http.proxyPort", KoLSettings.getUserProperty( "http.proxyPort" ) );
+				System.setProperty( "http.proxyPort", Preferences.getString( "http.proxyPort" ) );
 			}
 
 			// Remove the proxy user from the system properties
@@ -265,8 +265,8 @@ public class GenericRequest
 			}
 			else
 			{
-				System.setProperty( "http.proxyUser", KoLSettings.getUserProperty( "http.proxyUser" ) );
-				System.setProperty( "http.proxyPassword", KoLSettings.getUserProperty( "http.proxyPassword" ) );
+				System.setProperty( "http.proxyUser", Preferences.getString( "http.proxyUser" ) );
+				System.setProperty( "http.proxyPassword", Preferences.getString( "http.proxyPassword" ) );
 			}
 		}
 		catch ( Exception e )
@@ -320,7 +320,7 @@ public class GenericRequest
 			StaticEntity.printStackTrace( e );
 		}
 
-		KoLSettings.setUserProperty( "loginServerName", GenericRequest.KOL_HOST );
+		Preferences.setString( "loginServerName", GenericRequest.KOL_HOST );
 		System.setProperty( "http.referer", "http://" + GenericRequest.KOL_HOST + "/main.php" );
 	}
 
@@ -835,8 +835,8 @@ public class GenericRequest
 
 			if ( GenericRequest.lastDecision != 4 )
 			{
-				KoLSettings.setUserProperty( "lastQuartetAscension", String.valueOf( KoLCharacter.getAscensions() ) );
-				KoLSettings.setUserProperty( "lastQuartetRequest", String.valueOf( GenericRequest.lastDecision ) );
+				Preferences.setString( "lastQuartetAscension", String.valueOf( KoLCharacter.getAscensions() ) );
+				Preferences.setString( "lastQuartetRequest", String.valueOf( GenericRequest.lastDecision ) );
 
 				if ( KoLCharacter.recalculateAdjustments() )
 				{
@@ -848,28 +848,28 @@ public class GenericRequest
 
 		// Wheel In the Sky Keep on Turning: Muscle Position
 		case 9:
-			KoLSettings.setUserProperty(
+			Preferences.setString(
 				"currentWheelPosition",
 				String.valueOf( GenericRequest.lastDecision == 1 ? "mysticality" : GenericRequest.lastDecision == 2 ? "moxie" : "muscle" ) );
 			break;
 
 		// Wheel In the Sky Keep on Turning: Mysticality Position
 		case 10:
-			KoLSettings.setUserProperty(
+			Preferences.setString(
 				"currentWheelPosition",
 				String.valueOf( GenericRequest.lastDecision == 1 ? "map quest" : GenericRequest.lastDecision == 2 ? "muscle" : "mysticality" ) );
 			break;
 
 		// Wheel In the Sky Keep on Turning: Map Quest Position
 		case 11:
-			KoLSettings.setUserProperty(
+			Preferences.setString(
 				"currentWheelPosition",
 				String.valueOf( GenericRequest.lastDecision == 1 ? "moxie" : GenericRequest.lastDecision == 2 ? "mysticality" : "map quest" ) );
 			break;
 
 		// Wheel In the Sky Keep on Turning: Moxie Position
 		case 12:
-			KoLSettings.setUserProperty(
+			Preferences.setString(
 				"currentWheelPosition",
 				String.valueOf( GenericRequest.lastDecision == 1 ? "muscle" : GenericRequest.lastDecision == 2 ? "map quest" : "moxie" ) );
 			break;
@@ -929,7 +929,7 @@ public class GenericRequest
 			if ( text.indexOf( "guy made of bee pollen" ) != -1 )
 			{
 				// Record that we beat the guy made of bees.
-				KoLSettings.setUserProperty( "guyMadeOfBeesDefeated", "true" );
+				Preferences.setString( "guyMadeOfBeesDefeated", "true" );
 			}
 		}
 		else if ( urlString.startsWith( "choice.php" ) )
@@ -938,13 +938,13 @@ public class GenericRequest
 			{
 				// For some reason, we didn't notice when we
 				// beat the guy made of bees. Record it now.
-				KoLSettings.setUserProperty( "guyMadeOfBeesDefeated", "true" );
+				Preferences.setString( "guyMadeOfBeesDefeated", "true" );
 			}
 			else if ( text.indexOf( "Nothing happens." ) != -1 )
 			{
 				// Increment the number of times we've
 				// called the guy made of bees.
-				KoLSettings.incrementIntegerProperty( "guyMadeOfBeesCount", 1, 5, true );
+				Preferences.increment( "guyMadeOfBeesCount", 1, 5, true );
 			}
 
 		}
@@ -1362,7 +1362,7 @@ public class GenericRequest
 				break;
 
 			case UseItemRequest.BLACK_PUDDING:
-				KoLSettings.setUserProperty( "currentFullness", String.valueOf( KoLCharacter.getFullness() - 3 ) );
+				Preferences.setString( "currentFullness", String.valueOf( KoLCharacter.getFullness() - 3 ) );
 				name = "Black Pudding";
 				break;
 
@@ -1755,7 +1755,7 @@ public class GenericRequest
 
 	public static final void handleOcean( final GenericRequest request )
 	{
-		String dest = KoLSettings.getUserProperty( "oceanDestination" );
+		String dest = Preferences.getString( "oceanDestination" );
 		if ( dest.equals( "manual" ) )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Pick a course." );
@@ -1791,7 +1791,7 @@ public class GenericRequest
 			}
 		}
 
-		String action = KoLSettings.getUserProperty( "oceanAction" );
+		String action = Preferences.getString( "oceanAction" );
 		boolean stop = action.equals( "stop" ) || action.equals( "savestop" );
 		boolean show = action.equals( "show" ) || action.equals( "saveshow" );
 		boolean save = action.equals( "savecontinue" ) || action.equals( "saveshow" ) || action.equals( "savestop" );
@@ -1915,7 +1915,7 @@ public class GenericRequest
 
 			choice = choiceMatcher.group( 1 );
 			option = "choiceAdventure" + choice;
-			decision = KoLSettings.getUserProperty( option );
+			decision = Preferences.getString( option );
 
 			// Certain choices should always be taken.  These
 			// choices are handled here.
@@ -1947,7 +1947,7 @@ public class GenericRequest
 			{
 				if ( !KoLConstants.inventory.contains( GenericRequest.BALLROOM_KEY ) )
 				{
-					KoLSettings.setUserProperty( option, decision.equals( "1" ) ? "2" : "1" );
+					Preferences.setString( option, decision.equals( "1" ) ? "2" : "1" );
 				}
 				else
 				{
@@ -1974,7 +1974,7 @@ public class GenericRequest
 
 			if ( choice.equals( "91" ) )
 			{
-				decision = KoLSettings.getIntegerProperty( "louvreDesiredGoal" ) != 0 ? "1" : "2";
+				decision = Preferences.getInteger( "louvreDesiredGoal" ) != 0 ? "1" : "2";
 			}
 
 			// If there is no setting which determines the
@@ -2013,7 +2013,7 @@ public class GenericRequest
 			{
 				willIgnore = true;
 
-				if ( decision.equals( "99" ) && KoLSettings.getIntegerProperty( "lastSecondFloorUnlock" ) == KoLCharacter.getAscensions() )
+				if ( decision.equals( "99" ) && Preferences.getInteger( "lastSecondFloorUnlock" ) == KoLCharacter.getAscensions() )
 				{
 					decision = "4";
 				}
@@ -2024,14 +2024,14 @@ public class GenericRequest
 
 				// If we've already unlocked the gallery, try
 				// to unlock the second floor.
-				if ( decision.equals( "1" ) && KoLSettings.getIntegerProperty( "lastGalleryUnlock" ) == KoLCharacter.getAscensions() )
+				if ( decision.equals( "1" ) && Preferences.getInteger( "lastGalleryUnlock" ) == KoLCharacter.getAscensions() )
 				{
 					decision = "99";
 				}
 
 				// If we've already unlocked the second floor,
 				// ignore this choice adventure.
-				if ( decision.equals( "99" ) && KoLSettings.getIntegerProperty( "lastSecondFloorUnlock" ) == KoLCharacter.getAscensions() )
+				if ( decision.equals( "99" ) && Preferences.getInteger( "lastSecondFloorUnlock" ) == KoLCharacter.getAscensions() )
 				{
 					decision = "4";
 				}
@@ -2246,7 +2246,7 @@ public class GenericRequest
 			return;
 		}
 
-		if ( !exceptional && !KoLSettings.getBooleanProperty( "showAllRequests" ) )
+		if ( !exceptional && !Preferences.getBoolean( "showAllRequests" ) )
 		{
 			return;
 		}
@@ -2340,7 +2340,7 @@ public class GenericRequest
 			}
 		}
 
-		shouldLoadEventFrame &= KoLSettings.getGlobalProperty( "initialFrames" ).indexOf( "EventsFrame" ) != -1;
+		shouldLoadEventFrame &= Preferences.getString( "initialFrames" ).indexOf( "EventsFrame" ) != -1;
 
 		// If we're not a GUI and there are no GUI windows open
 		// (ie: the GUI loader command wasn't used), quit now.
@@ -2396,7 +2396,7 @@ public class GenericRequest
 
 	public static final String getUserAgent()
 	{
-		String userAgent = KoLSettings.getGlobalProperty( null, "userAgent" );
+		String userAgent = Preferences.getString( "userAgent" );
 		return userAgent.equals( "" ) ? KoLConstants.VERSION_NAME : userAgent;
 	}
 

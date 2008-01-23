@@ -43,6 +43,7 @@ import net.sourceforge.kolmafia.request.IslandArenaRequest;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 
 public class BigIsland
@@ -183,7 +184,7 @@ public class BigIsland
 		int delta = result.getCount();
 		BigIsland.lastNunneryMeat = BigIsland.currentNunneryMeat;
 		BigIsland.currentNunneryMeat =
-			KoLSettings.incrementIntegerProperty( "currentNunneryMeat", delta, 100000, false );
+			Preferences.increment( "currentNunneryMeat", delta, 100000, false );
 	}
 
 	public static final void decorateThemtharFight( final StringBuffer buffer )
@@ -217,11 +218,11 @@ public class BigIsland
 		// troops."
 		if ( buffer.indexOf( "could serve as a hospital" ) != -1 )
 		{
-			KoLSettings.resetUserProperty( "sidequestNunsCompleted", "hippy" );
+			Preferences.resetString( "sidequestNunsCompleted", "hippy" );
 		}
 		else if ( buffer.indexOf( "could serve as a massage parlor" ) != -1 )
 		{
-			KoLSettings.resetUserProperty( "sidequestNunsCompleted", "fratboy" );
+			Preferences.resetString( "sidequestNunsCompleted", "fratboy" );
 		}
 	}
 
@@ -262,7 +263,7 @@ public class BigIsland
 	{
 		BigIsland.missingGremlinTool = null;
 		BigIsland.currentJunkyardTool = "";
-		KoLSettings.setUserProperty( "currentJunkyardTool", "" );
+		Preferences.setString( "currentJunkyardTool", "" );
 	}
 
 	private static final int[] AREA_UNLOCK =
@@ -402,7 +403,7 @@ public class BigIsland
 
 	private static final void sidequestImage( final StringBuffer buffer, final String setting, final int quest )
 	{
-		String status = KoLSettings.getUserProperty( setting );
+		String status = Preferences.getString( setting );
 		String image;
 		if ( status.equals( "fratboy" ) )
 		{
@@ -461,7 +462,7 @@ public class BigIsland
 		if ( buffer.indexOf( "value=\"concert\"" ) == -1 )
 			return;
 
-		String quest = KoLSettings.getUserProperty( "sidequestArenaCompleted" );
+		String quest = Preferences.getString( "sidequestArenaCompleted" );
 		String [][] array = quest.equals( "hippy" ) ? IslandArenaRequest.HIPPY_CONCERTS : IslandArenaRequest.FRATBOY_CONCERTS;
 
 		String text = buffer.toString();
@@ -1019,11 +1020,11 @@ public class BigIsland
 
 		if ( BigIsland.fratboy )
 		{
-			BigIsland.fratboysDefeated = KoLSettings.incrementIntegerProperty( "fratboysDefeated", delta, 1000, false );
+			BigIsland.fratboysDefeated = Preferences.increment( "fratboysDefeated", delta, 1000, false );
 		}
 		else
 		{
-			BigIsland.hippiesDefeated = KoLSettings.incrementIntegerProperty( "hippiesDefeated", delta, 1000, false );
+			BigIsland.hippiesDefeated = Preferences.increment( "hippiesDefeated", delta, 1000, false );
 		}
 	}
 
@@ -1076,7 +1077,7 @@ public class BigIsland
 
 		// Set variables from user settings
 		BigIsland.ensureUpdatedBigIsland();
-		KoLSettings.resetUserProperty( "warProgress", "started" );
+		Preferences.resetString( "warProgress", "started" );
 
 		// Parse the map and deduce how many soldiers remain
 		BigIsland.parseBattlefield( responseText );
@@ -1191,23 +1192,23 @@ public class BigIsland
 		if ( BigIsland.fratboysDefeated < BigIsland.fratboyMin )
 		{
 			BigIsland.fratboysDefeated = BigIsland.fratboyMin;
-			KoLSettings.setUserProperty( "fratboysDefeated", String.valueOf( BigIsland.fratboysDefeated ) );
+			Preferences.setString( "fratboysDefeated", String.valueOf( BigIsland.fratboysDefeated ) );
 		}
 		else if ( BigIsland.fratboysDefeated > BigIsland.fratboyMax )
 		{
 			BigIsland.fratboysDefeated = BigIsland.fratboyMax;
-			KoLSettings.setUserProperty( "fratboysDefeated", String.valueOf( BigIsland.fratboysDefeated ) );
+			Preferences.setString( "fratboysDefeated", String.valueOf( BigIsland.fratboysDefeated ) );
 		}
 
 		if ( BigIsland.hippiesDefeated < BigIsland.hippyMin )
 		{
 			BigIsland.hippiesDefeated = BigIsland.hippyMin;
-			KoLSettings.setUserProperty( "hippiesDefeated", String.valueOf( BigIsland.hippiesDefeated ) );
+			Preferences.setString( "hippiesDefeated", String.valueOf( BigIsland.hippiesDefeated ) );
 		}
 		else if ( BigIsland.hippiesDefeated > BigIsland.hippyMax )
 		{
 			BigIsland.hippiesDefeated = BigIsland.hippyMax;
-			KoLSettings.setUserProperty( "hippiesDefeated", String.valueOf( BigIsland.hippiesDefeated ) );
+			Preferences.setString( "hippiesDefeated", String.valueOf( BigIsland.hippiesDefeated ) );
 		}
 	}
 
@@ -1218,7 +1219,7 @@ public class BigIsland
 		// one-song set.
 		if ( responseText.indexOf( "well into the first song" ) != -1 )
 		{
-			KoLSettings.resetUserProperty( "sidequestArenaCompleted", "hippy" );
+			Preferences.resetString( "sidequestArenaCompleted", "hippy" );
 			return;
 		}
 
@@ -1230,7 +1231,7 @@ public class BigIsland
 		// 'em out. It's a totally awesome show, man."
 		if ( responseText.indexOf( "I'll take 'em" ) != -1 )
 		{
-			KoLSettings.resetUserProperty( "sidequestArenaCompleted", "hippy" );
+			Preferences.resetString( "sidequestArenaCompleted", "hippy" );
 			if ( KoLCharacter.hasItem( BigIsland.JAM_FLYERS ) )
 			{
 				StaticEntity.getClient().processResult( BigIsland.JAM_FLYERS );
@@ -1242,7 +1243,7 @@ public class BigIsland
 		// Child has already taken the stage.
 		if ( responseText.indexOf( "has already taken the stage" ) != -1 )
 		{
-			KoLSettings.resetUserProperty( "sidequestArenaCompleted", "fratboy" );
+			Preferences.resetString( "sidequestArenaCompleted", "fratboy" );
 			return;
 		}
 
@@ -1251,7 +1252,7 @@ public class BigIsland
 		// use them at the next show."
 		if ( responseText.indexOf( "I'll take them" ) != -1 )
 		{
-			KoLSettings.resetUserProperty( "sidequestArenaCompleted", "fratboy" );
+			Preferences.resetString( "sidequestArenaCompleted", "fratboy" );
 			if ( KoLCharacter.hasItem( BigIsland.JAM_FLYERS ) )
 			{
 				StaticEntity.getClient().processResult( BigIsland.ROCK_FLYERS );
@@ -1265,7 +1266,7 @@ public class BigIsland
 		{
 			// Didn't complete quest or defeated the side you
 			// advertised for.
-			KoLSettings.resetUserProperty( "sidequestArenaCompleted", "none" );
+			Preferences.resetString( "sidequestArenaCompleted", "none" );
 		}
 	}
 
@@ -1306,9 +1307,9 @@ public class BigIsland
 		if ( location != BigIsland.currentJunkyardLocation )
 		{
 			BigIsland.currentJunkyardTool = tool;
-			KoLSettings.setUserProperty( "currentJunkyardTool", tool );
+			Preferences.setString( "currentJunkyardTool", tool );
 			BigIsland.currentJunkyardLocation = location;
-			KoLSettings.setUserProperty( "currentJunkyardLocation", location );
+			Preferences.setString( "currentJunkyardLocation", location );
 		}
 
 		if ( !done )
@@ -1325,11 +1326,11 @@ public class BigIsland
 
 		if ( responseText.indexOf( "spark plug earring" ) != -1 || responseText.indexOf( "woven baling wire bracelets" ) != -1 || responseText.indexOf( "gearbox necklace" ) != -1 )
 		{
-			KoLSettings.resetUserProperty( "sidequestJunkyardCompleted", "hippy" );
+			Preferences.resetString( "sidequestJunkyardCompleted", "hippy" );
 		}
 		else if ( responseText.indexOf( "rusty chain necklace" ) != -1 || responseText.indexOf( "sawblade shield" ) != -1 || responseText.indexOf( "wrench bracelet" ) != -1 )
 		{
-			KoLSettings.resetUserProperty( "sidequestJunkyardCompleted", "fratboy" );
+			Preferences.resetString( "sidequestJunkyardCompleted", "fratboy" );
 		}
 	}
 
@@ -1344,7 +1345,7 @@ public class BigIsland
 		}
 
 		String side = EquipmentDatabase.isWearingOutfit( 32 ) ? "hippy" : "fratboy";
-		KoLSettings.resetUserProperty( "sidequestOrchardCompleted", side );
+		Preferences.resetString( "sidequestOrchardCompleted", side );
 	}
 
 	private static final void parseFarm( final String responseText )
@@ -1353,11 +1354,11 @@ public class BigIsland
 		// growing soybeans, to help feed the hippy army?"
 		if ( responseText.indexOf( "growing soybeans" ) != -1 )
 		{
-			KoLSettings.resetUserProperty( "sidequestFarmCompleted", "hippy" );
+			Preferences.resetString( "sidequestFarmCompleted", "hippy" );
 		}
 		else if ( responseText.indexOf( "growing hops" ) != -1 )
 		{
-			KoLSettings.resetUserProperty( "sidequestFarmCompleted", "fratboy" );
+			Preferences.resetString( "sidequestFarmCompleted", "fratboy" );
 		}
 	}
 
@@ -1367,15 +1368,15 @@ public class BigIsland
 		// wounds."
 		if ( responseText.indexOf( "tend to your wounds" ) != -1 )
 		{
-			KoLSettings.resetUserProperty( "sidequestNunsCompleted", "hippy" );
+			Preferences.resetString( "sidequestNunsCompleted", "hippy" );
 		}
 		else if ( responseText.indexOf( "refreshing massage" ) != -1 )
 		{
-			KoLSettings.resetUserProperty( "sidequestNunsCompleted", "fratboy" );
+			Preferences.resetString( "sidequestNunsCompleted", "fratboy" );
 		}
 		else if ( responseText.indexOf( "world-weary traveler" ) != -1 )
 		{
-			KoLSettings.resetUserProperty( "sidequestNunsCompleted", "none" );
+			Preferences.resetString( "sidequestNunsCompleted", "none" );
 		}
 	}
 
@@ -1390,41 +1391,41 @@ public class BigIsland
 		}
 
 		String side = EquipmentDatabase.isWearingOutfit( 32 ) ? "hippy" : "fratboy";
-		KoLSettings.resetUserProperty( "sidequestLighthouseCompleted", side );
+		Preferences.resetString( "sidequestLighthouseCompleted", side );
 	}
 
 	public static final void ensureUpdatedBigIsland()
 	{
-		int lastAscension = KoLSettings.getIntegerProperty( "lastBattlefieldReset" );
+		int lastAscension = Preferences.getInteger( "lastBattlefieldReset" );
 		if ( lastAscension < KoLCharacter.getAscensions() )
 		{
-			KoLSettings.setUserProperty( "lastBattlefieldReset", String.valueOf( KoLCharacter.getAscensions() ) );
+			Preferences.setString( "lastBattlefieldReset", String.valueOf( KoLCharacter.getAscensions() ) );
 
-			KoLSettings.setUserProperty( "fratboysDefeated", "0" );
-			KoLSettings.setUserProperty( "hippiesDefeated", "0" );
-			KoLSettings.setUserProperty( "sidequestArenaCompleted", "none" );
-			KoLSettings.setUserProperty( "sidequestFarmCompleted", "none" );
-			KoLSettings.setUserProperty( "sidequestJunkyardCompleted", "none" );
-			KoLSettings.setUserProperty( "sidequestLighthouseCompleted", "none" );
-			KoLSettings.setUserProperty( "sidequestNunsCompleted", "none" );
-			KoLSettings.setUserProperty( "sidequestOrchardCompleted", "none" );
-			KoLSettings.setUserProperty( "sidequestOrchardCompleted", "none" );
-			KoLSettings.setUserProperty( "currentJunkyardTool", "" );
-			KoLSettings.setUserProperty( "currentJunkyardLocation", "" );
-			KoLSettings.setUserProperty( "currentNunneryMeat", "0" );
-			KoLSettings.setUserProperty( "availableDimes", "0" );
-			KoLSettings.setUserProperty( "availableQuarters", "0" );
-			KoLSettings.setUserProperty( "sideDefeated", "neither" );
-			KoLSettings.setUserProperty( "warProgress", "unstarted" );
+			Preferences.setString( "fratboysDefeated", "0" );
+			Preferences.setString( "hippiesDefeated", "0" );
+			Preferences.setString( "sidequestArenaCompleted", "none" );
+			Preferences.setString( "sidequestFarmCompleted", "none" );
+			Preferences.setString( "sidequestJunkyardCompleted", "none" );
+			Preferences.setString( "sidequestLighthouseCompleted", "none" );
+			Preferences.setString( "sidequestNunsCompleted", "none" );
+			Preferences.setString( "sidequestOrchardCompleted", "none" );
+			Preferences.setString( "sidequestOrchardCompleted", "none" );
+			Preferences.setString( "currentJunkyardTool", "" );
+			Preferences.setString( "currentJunkyardLocation", "" );
+			Preferences.setString( "currentNunneryMeat", "0" );
+			Preferences.setString( "availableDimes", "0" );
+			Preferences.setString( "availableQuarters", "0" );
+			Preferences.setString( "sideDefeated", "neither" );
+			Preferences.setString( "warProgress", "unstarted" );
 		}
 
 		// Set variables from user settings
 
-		BigIsland.fratboysDefeated = KoLSettings.getIntegerProperty( "fratboysDefeated" );
-		BigIsland.hippiesDefeated = KoLSettings.getIntegerProperty( "hippiesDefeated" );
-		BigIsland.currentJunkyardTool = KoLSettings.getUserProperty( "currentJunkyardTool" );
-		BigIsland.currentJunkyardLocation = KoLSettings.getUserProperty( "currentJunkyardLocation" );
-		BigIsland.currentNunneryMeat = KoLSettings.getIntegerProperty( "currentNunneryMeat" );
+		BigIsland.fratboysDefeated = Preferences.getInteger( "fratboysDefeated" );
+		BigIsland.hippiesDefeated = Preferences.getInteger( "hippiesDefeated" );
+		BigIsland.currentJunkyardTool = Preferences.getString( "currentJunkyardTool" );
+		BigIsland.currentJunkyardLocation = Preferences.getString( "currentJunkyardLocation" );
+		BigIsland.currentNunneryMeat = Preferences.getInteger( "currentNunneryMeat" );
 		BigIsland.lastNunneryMeat = BigIsland.currentNunneryMeat;
 	}
 
@@ -1457,14 +1458,14 @@ public class BigIsland
 
 	public static final void ensureUpdatedPostwarIsland()
 	{
-		int lastAscension = KoLSettings.getIntegerProperty( "lastBattlefieldReset" );
+		int lastAscension = Preferences.getInteger( "lastBattlefieldReset" );
 		if ( lastAscension < KoLCharacter.getAscensions() )
 		{
-			KoLSettings.setUserProperty( "lastBattlefieldReset", String.valueOf( KoLCharacter.getAscensions() ) );
+			Preferences.setString( "lastBattlefieldReset", String.valueOf( KoLCharacter.getAscensions() ) );
 
-			KoLSettings.setUserProperty( "sidequestArenaCompleted", "none" );
-			KoLSettings.setUserProperty( "sidequestOrchardCompleted", KoLSettings.getUserProperty( "currentHippyStore" ) );
-			KoLSettings.setUserProperty( "sidequestNunsCompleted", "none" );
+			Preferences.setString( "sidequestArenaCompleted", "none" );
+			Preferences.setString( "sidequestOrchardCompleted", Preferences.getString( "currentHippyStore" ) );
+			Preferences.setString( "sidequestNunsCompleted", "none" );
 		}
 	}
 
@@ -1473,8 +1474,8 @@ public class BigIsland
 		boolean hippiesLost = responseText.indexOf( "snarfblat=149" ) != -1;
 		boolean fratboysLost = responseText.indexOf( "snarfblat=150" ) != -1;
 		String loser = ( !hippiesLost ) ? "fratboys" : ( !fratboysLost ) ? "hippies" : "both";
-		KoLSettings.resetUserProperty( "sideDefeated", loser );
-		KoLSettings.resetUserProperty( "warProgress", "finished" );
+		Preferences.resetString( "sideDefeated", loser );
+		Preferences.resetString( "warProgress", "finished" );
 		CoinmastersFrame.externalUpdate();
 	}
 

@@ -38,10 +38,11 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.BigIsland;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLSettings;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestFrame;
 import net.sourceforge.kolmafia.RequestLogger;
+
+import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class IslandArenaRequest
 	extends GenericRequest
@@ -124,7 +125,7 @@ public class IslandArenaRequest
                 quest = questCompleter();
                 if ( quest.equals( "hippies" ) || quest.equals( "fratboys" ) )
                 {
-                        String winner = KoLSettings.getUserProperty( "sideDefeated" );
+                        String winner = Preferences.getString( "sideDefeated" );
                         if ( winner.equals( "neither" ) )
                                 return "bigisland.php";
                         if ( !winner.equals( quest ) )
@@ -135,7 +136,7 @@ public class IslandArenaRequest
 
 	private static String questCompleter()
 	{
-		String quest = KoLSettings.getUserProperty( "sidequestArenaCompleted" );
+		String quest = Preferences.getString( "sidequestArenaCompleted" );
 		if ( quest.equals( "hippy" ) )
 			return "hippies";
 		if ( quest.equals( "fratboy" ) )

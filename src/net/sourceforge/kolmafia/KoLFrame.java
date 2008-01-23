@@ -114,6 +114,7 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 
 public abstract class KoLFrame
 	extends JFrame
@@ -275,18 +276,18 @@ public abstract class KoLFrame
 
 	public static boolean appearsInTab( String frameName )
 	{
-		String tabSetting = KoLSettings.getUserProperty( "initialDesktop" );
+		String tabSetting = Preferences.getString( "initialDesktop" );
 		return tabSetting.indexOf( frameName ) != -1;
 	}
 
 	public boolean shouldAddStatusBar()
 	{
-		return KoLSettings.getBooleanProperty( "addStatusBarToFrames" ) && !this.appearsInTab();
+		return Preferences.getBoolean( "addStatusBarToFrames" ) && !this.appearsInTab();
 	}
 
 	public JTabbedPane getTabbedPane()
 	{
-		return KoLSettings.getBooleanProperty( "useDecoratedTabs" ) ? new CloseTabbedPane() : new JTabbedPane();
+		return Preferences.getBoolean( "useDecoratedTabs" ) ? new CloseTabbedPane() : new JTabbedPane();
 	}
 
 	public void addHotKeys()
@@ -411,7 +412,7 @@ public abstract class KoLFrame
 		}
 		else
 		{
-			switch ( KoLSettings.getIntegerProperty( "toolbarPosition" ) )
+			switch ( Preferences.getInteger( "toolbarPosition" ) )
 			{
 			case 1:
 				toolbarPanel = new JToolBar( "KoLmafia Toolbar" );
@@ -1359,11 +1360,11 @@ public abstract class KoLFrame
 
 		if ( this.tabs == null )
 		{
-			KoLSettings.setUserProperty( this.frameName, (int) p.getX() + "," + (int) p.getY() );
+			Preferences.setString( this.frameName, (int) p.getX() + "," + (int) p.getY() );
 		}
 		else
 		{
-			KoLSettings.setUserProperty(
+			Preferences.setString(
 				this.frameName, (int) p.getX() + "," + (int) p.getY() + "," + this.tabs.getSelectedIndex() );
 		}
 	}
@@ -1374,7 +1375,7 @@ public abstract class KoLFrame
 		int yLocation = 0;
 
 		Dimension screenSize = KoLConstants.TOOLKIT.getScreenSize();
-		String position = KoLSettings.getUserProperty( this.frameName );
+		String position = Preferences.getString( this.frameName );
 
 		if ( position == null || position.indexOf( "," ) == -1 )
 		{
@@ -1817,7 +1818,7 @@ public abstract class KoLFrame
 			bookmarkData.append( (String) KoLConstants.bookmarks.getElementAt( i ) );
 		}
 
-		KoLSettings.setUserProperty( "browserBookmarks", bookmarkData.toString() );
+		Preferences.setString( "browserBookmarks", bookmarkData.toString() );
 	}
 
 	/**
@@ -1827,7 +1828,7 @@ public abstract class KoLFrame
 	public static final void compileBookmarks()
 	{
 		KoLConstants.bookmarks.clear();
-		String[] bookmarkData = KoLSettings.getUserProperty( "browserBookmarks" ).split( "\\|" );
+		String[] bookmarkData = Preferences.getString( "browserBookmarks" ).split( "\\|" );
 
 		if ( bookmarkData.length > 1 )
 		{
@@ -1859,7 +1860,7 @@ public abstract class KoLFrame
 				return;
 			}
 
-			KoLSettings.setUserProperty( this.property, DataUtilities.toHexString( c ) );
+			Preferences.setString( this.property, DataUtilities.toHexString( c ) );
 			this.setBackground( c );
 			this.applyChanges();
 		}
@@ -1910,9 +1911,9 @@ public abstract class KoLFrame
 			Object[] effects = this.elementList.getSelectedValues();
 			this.elementList.clearSelection();
 
-			if ( KoLSettings.getUserProperty( "currentMood" ).equals( "apathetic" ) )
+			if ( Preferences.getString( "currentMood" ).equals( "apathetic" ) )
 			{
-				KoLSettings.setUserProperty( "currentMood", "default" );
+				Preferences.setString( "currentMood", "default" );
 			}
 
 			String name, action;

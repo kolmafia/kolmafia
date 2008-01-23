@@ -70,6 +70,7 @@ import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class OptionsFrame
 	extends KoLFrame
@@ -103,7 +104,7 @@ public class OptionsFrame
 		this.framePanel.setLayout( new CardLayout( 10, 10 ) );
 		this.framePanel.add( this.tabs, "" );
 
-		if ( !KoLSettings.getBooleanProperty( "customizedTabs" ) )
+		if ( !Preferences.getBoolean( "customizedTabs" ) )
 		{
 			this.tabs.setSelectedIndex( 2 );
 		}
@@ -175,7 +176,7 @@ public class OptionsFrame
 			{
 				if ( this.options[ i ].length != 0 )
 				{
-					KoLSettings.setUserProperty(
+					Preferences.setString(
 						this.options[ i ][ 0 ], String.valueOf( this.optionBoxes[ i ].isSelected() ) );
 				}
 			}
@@ -187,7 +188,7 @@ public class OptionsFrame
 			{
 				if ( this.options[ i ].length != 0 )
 				{
-					this.optionBoxes[ i ].setSelected( KoLSettings.getBooleanProperty( this.options[ i ][ 0 ] ) );
+					this.optionBoxes[ i ].setSelected( Preferences.getBoolean( this.options[ i ][ 0 ] ) );
 				}
 			}
 		}
@@ -279,7 +280,7 @@ public class OptionsFrame
 			{
 				if ( !this.options[ i ][ 0 ].equals( "" ) )
 				{
-					KoLSettings.setUserProperty(
+					Preferences.setString(
 						this.options[ i ][ 0 ], String.valueOf( this.optionBoxes[ i ].isSelected() ) );
 				}
 			}
@@ -287,7 +288,7 @@ public class OptionsFrame
 
 		public void actionCancelled()
 		{
-			String color = KoLSettings.getUserProperty( "defaultBorderColor" );
+			String color = Preferences.getString( "defaultBorderColor" );
 			if ( color.equals( "blue" ) )
 			{
 				this.colorChanger.setBackground( Color.blue );
@@ -299,7 +300,7 @@ public class OptionsFrame
 
 			for ( int i = 0; i < this.options.length; ++i )
 			{
-				this.optionBoxes[ i ].setSelected( KoLSettings.getBooleanProperty( this.options[ i ][ 0 ] ) );
+				this.optionBoxes[ i ].setSelected( Preferences.getBoolean( this.options[ i ][ 0 ] ) );
 			}
 		}
 	}
@@ -368,7 +369,7 @@ public class OptionsFrame
 			{
 				if ( !this.options[ i ][ 0 ].equals( "" ) )
 				{
-					KoLSettings.setUserProperty(
+					Preferences.setString(
 						this.options[ i ][ 0 ], String.valueOf( this.optionBoxes[ i ].isSelected() ) );
 				}
 			}
@@ -383,7 +384,7 @@ public class OptionsFrame
 			{
 				if ( !this.options[ i ][ 0 ].equals( "" ) )
 				{
-					this.optionBoxes[ i ].setSelected( KoLSettings.getBooleanProperty( this.options[ i ][ 0 ] ) );
+					this.optionBoxes[ i ].setSelected( Preferences.getBoolean( this.options[ i ][ 0 ] ) );
 				}
 			}
 		}
@@ -457,7 +458,7 @@ public class OptionsFrame
 		public ScriptButtonPanel()
 		{
 			super( "gCLI Toolbar Buttons", new LockableListModel() );
-			String[] scriptList = KoLSettings.getUserProperty( "scriptList" ).split( " \\| " );
+			String[] scriptList = Preferences.getString( "scriptList" ).split( " \\| " );
 
 			for ( int i = 0; i < scriptList.length; ++i )
 			{
@@ -560,7 +561,7 @@ public class OptionsFrame
 				settingString.append( (String) this.list.getElementAt( i ) );
 			}
 
-			KoLSettings.setUserProperty( "scriptList", settingString.toString() );
+			Preferences.setString( "scriptList", settingString.toString() );
 		}
 	}
 
@@ -671,26 +672,26 @@ public class OptionsFrame
 			{
 				if ( this.options[ i ].length > 0 )
 				{
-					KoLSettings.setUserProperty(
+					Preferences.setString(
 						this.options[ i ][ 0 ], String.valueOf( this.optionBoxes[ i ].isSelected() ) );
 				}
 			}
 
-			KoLSettings.setUserProperty(
+			Preferences.setString(
 				"eSoluScriptType",
 				this.eSoluActiveOption.isSelected() ? ( this.eSoluColorlessOption.isSelected() ? "2" : "1" ) : "0" );
 
 			if ( this.fontSizes[ 0 ].isSelected() )
 			{
-				KoLSettings.setUserProperty( "chatFontSize", "small" );
+				Preferences.setString( "chatFontSize", "small" );
 			}
 			else if ( this.fontSizes[ 1 ].isSelected() )
 			{
-				KoLSettings.setUserProperty( "chatFontSize", "medium" );
+				Preferences.setString( "chatFontSize", "medium" );
 			}
 			else if ( this.fontSizes[ 2 ].isSelected() )
 			{
-				KoLSettings.setUserProperty( "chatFontSize", "large" );
+				Preferences.setString( "chatFontSize", "large" );
 			}
 
 			LimitedSizeChatBuffer.updateFontSize();
@@ -705,17 +706,17 @@ public class OptionsFrame
 			{
 				if ( this.options[ i ].length > 0 )
 				{
-					this.optionBoxes[ i ].setSelected( KoLSettings.getBooleanProperty( this.options[ i ][ 0 ] ) );
+					this.optionBoxes[ i ].setSelected( Preferences.getBoolean( this.options[ i ][ 0 ] ) );
 				}
 			}
 
-			this.eSoluActiveOption.setSelected( KoLSettings.getIntegerProperty( "eSoluScriptType" ) > 0 );
-			this.eSoluColorlessOption.setSelected( KoLSettings.getIntegerProperty( "eSoluScriptType" ) > 1 );
+			this.eSoluActiveOption.setSelected( Preferences.getInteger( "eSoluScriptType" ) > 0 );
+			this.eSoluColorlessOption.setSelected( Preferences.getInteger( "eSoluScriptType" ) > 1 );
 
 			this.innerGradient.setBackground( tab.CloseTabPaneEnhancedUI.notifiedA );
 			this.outerGradient.setBackground( tab.CloseTabPaneEnhancedUI.notifiedB );
 
-			String fontSize = KoLSettings.getUserProperty( "chatFontSize" );
+			String fontSize = Preferences.getString( "chatFontSize" );
 			this.fontSizes[ fontSize.equals( "large" ) ? 2 : fontSize.equals( "medium" ) ? 1 : 0 ].setSelected( true );
 		}
 
@@ -943,8 +944,8 @@ public class OptionsFrame
 
 			KoLmafiaGUI.checkFrameSettings();
 
-			String frameString = KoLSettings.getUserProperty( "initialFrames" );
-			String desktopString = KoLSettings.getUserProperty( "initialDesktop" );
+			String frameString = Preferences.getString( "initialFrames" );
+			String desktopString = Preferences.getString( "initialDesktop" );
 
 			String[] pieces;
 
@@ -1049,8 +1050,8 @@ public class OptionsFrame
 				}
 			}
 
-			KoLSettings.setUserProperty( "initialFrames", frameString.toString() );
-			KoLSettings.setUserProperty( "initialDesktop", desktopString.toString() );
+			Preferences.setString( "initialFrames", frameString.toString() );
+			Preferences.setString( "initialDesktop", desktopString.toString() );
 		}
 	}
 
@@ -1149,19 +1150,19 @@ public class OptionsFrame
 			String lookAndFeel = (String) this.looks.getSelectedItem();
 			if ( lookAndFeel != null )
 			{
-				KoLSettings.setUserProperty( "swingLookAndFeel", lookAndFeel );
+				Preferences.setString( "swingLookAndFeel", lookAndFeel );
 			}
 
-			KoLSettings.setUserProperty( "useToolbars", String.valueOf( this.toolbars.getSelectedIndex() != 0 ) );
-			KoLSettings.setUserProperty( "scriptButtonPosition", String.valueOf( this.scripts.getSelectedIndex() ) );
-			KoLSettings.setUserProperty( "toolbarPosition", String.valueOf( this.toolbars.getSelectedIndex() ) );
+			Preferences.setString( "useToolbars", String.valueOf( this.toolbars.getSelectedIndex() != 0 ) );
+			Preferences.setString( "scriptButtonPosition", String.valueOf( this.scripts.getSelectedIndex() ) );
+			Preferences.setString( "toolbarPosition", String.valueOf( this.toolbars.getSelectedIndex() ) );
 		}
 
 		public void actionCancelled()
 		{
-			this.looks.setSelectedItem( KoLSettings.getUserProperty( "swingLookAndFeel" ) );
-			this.toolbars.setSelectedIndex( KoLSettings.getIntegerProperty( "toolbarPosition" ) );
-			this.scripts.setSelectedIndex( KoLSettings.getIntegerProperty( "scriptButtonPosition" ) );
+			this.looks.setSelectedItem( Preferences.getString( "swingLookAndFeel" ) );
+			this.toolbars.setSelectedIndex( Preferences.getInteger( "toolbarPosition" ) );
+			this.scripts.setSelectedIndex( Preferences.getInteger( "scriptButtonPosition" ) );
 		}
 
 		private class InterfaceCheckboxPanel
@@ -1217,7 +1218,7 @@ public class OptionsFrame
 				{
 					if ( UserInterfacePanel.this.options[ i ].length > 0 )
 					{
-						KoLSettings.setUserProperty(
+						Preferences.setString(
 							UserInterfacePanel.this.options[ i ][ 0 ],
 							String.valueOf( UserInterfacePanel.this.optionBoxes[ i ].isSelected() ) );
 					}
@@ -1230,7 +1231,7 @@ public class OptionsFrame
 				{
 					if ( UserInterfacePanel.this.options[ i ].length > 0 )
 					{
-						UserInterfacePanel.this.optionBoxes[ i ].setSelected( KoLSettings.getBooleanProperty( UserInterfacePanel.this.options[ i ][ 0 ] ) );
+						UserInterfacePanel.this.optionBoxes[ i ].setSelected( Preferences.getBoolean( UserInterfacePanel.this.options[ i ][ 0 ] ) );
 					}
 				}
 
@@ -1291,16 +1292,16 @@ public class OptionsFrame
 
 		public void actionConfirmed()
 		{
-			KoLSettings.setUserProperty( "loginScript", this.loginScript.getText() );
-			KoLSettings.setUserProperty( "logoutScript", this.logoutScript.getText() );
+			Preferences.setString( "loginScript", this.loginScript.getText() );
+			Preferences.setString( "logoutScript", this.logoutScript.getText() );
 		}
 
 		public void actionCancelled()
 		{
-			String loginScript = KoLSettings.getUserProperty( "loginScript" );
+			String loginScript = Preferences.getString( "loginScript" );
 			this.loginScript.setText( loginScript );
 
-			String logoutScript = KoLSettings.getUserProperty( "logoutScript" );
+			String logoutScript = Preferences.getString( "logoutScript" );
 			this.logoutScript.setText( logoutScript );
 		}
 
@@ -1400,38 +1401,38 @@ public class OptionsFrame
 				}
 			}
 
-			KoLSettings.setUserProperty( "breakfast" + this.breakfastType, skillString.toString() );
-			KoLSettings.setUserProperty(
+			Preferences.setString( "breakfast" + this.breakfastType, skillString.toString() );
+			Preferences.setString(
 				"loginRecovery" + this.breakfastType, String.valueOf( this.loginRecovery.isSelected() ) );
-			KoLSettings.setUserProperty(
+			Preferences.setString(
 				"pathedSummons" + this.breakfastType, String.valueOf( this.pathedSummons.isSelected() ) );
-			KoLSettings.setUserProperty(
+			Preferences.setString(
 				"visitRumpus" + this.breakfastType, String.valueOf( this.rumpusRoom.isSelected() ) );
-			KoLSettings.setUserProperty(
+			Preferences.setString(
 				"autoPlant" + this.breakfastType, String.valueOf( this.mushroomPlot.isSelected() ) );
-			KoLSettings.setUserProperty(
+			Preferences.setString(
 				"grabClovers" + this.breakfastType, String.valueOf( this.grabClovers.isSelected() ) );
-			KoLSettings.setUserProperty(
+			Preferences.setString(
 				"readManual" + this.breakfastType, String.valueOf( this.readManual.isSelected() ) );
-			KoLSettings.setUserProperty(
+			Preferences.setString(
 				"useCrimboToys" + this.breakfastType, String.valueOf( this.useCrimboToys.isSelected() ) );
 		}
 
 		public void actionCancelled()
 		{
-			String skillString = KoLSettings.getUserProperty( "breakfast" + this.breakfastType );
+			String skillString = Preferences.getString( "breakfast" + this.breakfastType );
 			for ( int i = 0; i < UseSkillRequest.BREAKFAST_SKILLS.length; ++i )
 			{
 				this.skillOptions[ i ].setSelected( skillString.indexOf( UseSkillRequest.BREAKFAST_SKILLS[ i ] ) != -1 );
 			}
 
-			this.loginRecovery.setSelected( KoLSettings.getBooleanProperty( "loginRecovery" + this.breakfastType ) );
-			this.pathedSummons.setSelected( KoLSettings.getBooleanProperty( "pathedSummons" + this.breakfastType ) );
-			this.rumpusRoom.setSelected( KoLSettings.getBooleanProperty( "visitRumpus" + this.breakfastType ) );
-			this.mushroomPlot.setSelected( KoLSettings.getBooleanProperty( "autoPlant" + this.breakfastType ) );
-			this.grabClovers.setSelected( KoLSettings.getBooleanProperty( "grabClovers" + this.breakfastType ) );
-			this.readManual.setSelected( KoLSettings.getBooleanProperty( "readManual" + this.breakfastType ) );
-			this.useCrimboToys.setSelected( KoLSettings.getBooleanProperty( "useCrimboToys" + this.breakfastType ) );
+			this.loginRecovery.setSelected( Preferences.getBoolean( "loginRecovery" + this.breakfastType ) );
+			this.pathedSummons.setSelected( Preferences.getBoolean( "pathedSummons" + this.breakfastType ) );
+			this.rumpusRoom.setSelected( Preferences.getBoolean( "visitRumpus" + this.breakfastType ) );
+			this.mushroomPlot.setSelected( Preferences.getBoolean( "autoPlant" + this.breakfastType ) );
+			this.grabClovers.setSelected( Preferences.getBoolean( "grabClovers" + this.breakfastType ) );
+			this.readManual.setSelected( Preferences.getBoolean( "readManual" + this.breakfastType ) );
+			this.useCrimboToys.setSelected( Preferences.getBoolean( "useCrimboToys" + this.breakfastType ) );
 		}
 
 		public void setEnabled( final boolean isEnabled )

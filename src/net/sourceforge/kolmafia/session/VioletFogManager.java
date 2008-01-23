@@ -37,11 +37,12 @@ import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.sourceforge.kolmafia.KoLSettings;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.request.GenericRequest;
+
+import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class VioletFogManager
 {
@@ -276,7 +277,7 @@ public class VioletFogManager
 		}
 
 		// Get the user specified goal
-		int goal = KoLSettings.getIntegerProperty( "violetFogGoal" );
+		int goal = Preferences.getInteger( "violetFogGoal" );
 
 		// If no goal, return "4".
 		// - If we are not at a "goal" location, this will exit the fog
@@ -469,7 +470,7 @@ public class VioletFogManager
 		if ( source == 71 )
 		{
 			// We got diverted from where we thought we were going
-			KoLSettings.setUserProperty( "lastAdventure", "A Journey to the Center of Your Mind" );
+			Preferences.setString( "lastAdventure", "A Journey to the Center of Your Mind" );
 			// Switch location to the trip of choice.
 			String name = "";
 			if ( decision.equals( "1" ) )
@@ -485,7 +486,7 @@ public class VioletFogManager
 				name = "An Incredibly Strange Place (Great Trip)";
 			}
 
-			KoLSettings.setUserProperty( "chosenTrip", name );
+			Preferences.setString( "chosenTrip", name );
 			return true;
 		}
 

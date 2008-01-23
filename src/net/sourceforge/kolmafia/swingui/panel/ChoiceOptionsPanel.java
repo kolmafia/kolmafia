@@ -51,13 +51,13 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLFrame;
 import net.sourceforge.kolmafia.KoLPanel;
-import net.sourceforge.kolmafia.KoLSettings;
 import net.sourceforge.kolmafia.MutableComboBox;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.LouvreManager;
 import net.sourceforge.kolmafia.session.VioletFogManager;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 
 /**
  * This panel allows the user to select which item they would like to do for each of the different choice
@@ -180,7 +180,7 @@ public class ChoiceOptionsPanel
 			}
 		}
 
-		String overrideSetting = KoLSettings.getUserProperty( "louvreOverride" );
+		String overrideSetting = Preferences.getString( "louvreOverride" );
 		if ( !overrideSetting.equals( "" ) && !overrideList.contains( overrideSetting ) )
 		{
 			overrideList.add( 1, overrideSetting );
@@ -363,7 +363,7 @@ public class ChoiceOptionsPanel
 
 		public void createMenu()
 		{
-			String dest = KoLSettings.getUserProperty( "oceanDestination" );
+			String dest = Preferences.getString( "oceanDestination" );
 			createMenu( dest );
 		}
 
@@ -386,7 +386,7 @@ public class ChoiceOptionsPanel
 
 		public void loadSettings()
 		{
-			String dest = KoLSettings.getUserProperty( "oceanDestination" );
+			String dest = Preferences.getString( "oceanDestination" );
 			loadSettings( dest );
 		}
 
@@ -431,12 +431,12 @@ public class ChoiceOptionsPanel
 		{
 			if ( dest.startsWith( "ignore" ) )
 			{
-				KoLSettings.setUserProperty( "choiceAdventure189", "2" );
-				KoLSettings.setUserProperty( "oceanDestination", "ignore" );
+				Preferences.setString( "choiceAdventure189", "2" );
+				Preferences.setString( "oceanDestination", "ignore" );
 				return;
 			}
 
-			KoLSettings.setUserProperty( "choiceAdventure189", "1" );
+			Preferences.setString( "choiceAdventure189", "1" );
 			String value = "";
 			if ( dest.startsWith( "manual" ) )
 			{
@@ -468,7 +468,7 @@ public class ChoiceOptionsPanel
 				value = "manual";
 			}
 
-			KoLSettings.setUserProperty( "oceanDestination", value );
+			Preferences.setString( "oceanDestination", value );
 		}
 
 		private class OceanDestinationListener
@@ -499,7 +499,7 @@ public class ChoiceOptionsPanel
 				}
 
 				// Save setting
-				KoLSettings.setUserProperty( "oceanDestination", coords );
+				Preferences.setString( "oceanDestination", coords );
 
 				// Rebuild combo box
 				OceanDestinationComboBox.this.createMenu( coords );
@@ -556,24 +556,24 @@ public class ChoiceOptionsPanel
 	{
 		Object override = this.manualLouvre.getSelectedItem();
 		int overrideIndex = this.manualLouvre.getSelectedIndex();
-		KoLSettings.setUserProperty(
+		Preferences.setString(
 			"louvreOverride", overrideIndex == 0 || override == null ? "" : (String) override );
 
-		KoLSettings.setUserProperty( "violetFogGoal", String.valueOf( this.violetFogSelect.getSelectedIndex() ) );
-		KoLSettings.setUserProperty( "luckySewerAdventure", (String) this.sewerSelect.getSelectedItem() );
-		KoLSettings.setUserProperty( "choiceAdventure89", String.valueOf( this.maidenSelect.getSelectedIndex() ) );
-		KoLSettings.setUserProperty( "choiceAdventure127", String.valueOf( this.palindomePapayaSelect.getSelectedIndex() + 1 ) );
+		Preferences.setString( "violetFogGoal", String.valueOf( this.violetFogSelect.getSelectedIndex() ) );
+		Preferences.setString( "luckySewerAdventure", (String) this.sewerSelect.getSelectedItem() );
+		Preferences.setString( "choiceAdventure89", String.valueOf( this.maidenSelect.getSelectedIndex() ) );
+		Preferences.setString( "choiceAdventure127", String.valueOf( this.palindomePapayaSelect.getSelectedIndex() + 1 ) );
 
 		int louvreGoal = this.louvreSelect.getSelectedIndex();
-		KoLSettings.setUserProperty(
+		Preferences.setString(
 			"choiceAdventure91", String.valueOf( overrideIndex > 0 || louvreGoal > 0 ? "1" : "2" ) );
-		KoLSettings.setUserProperty( "louvreDesiredGoal", String.valueOf( louvreGoal ) );
+		Preferences.setString( "louvreDesiredGoal", String.valueOf( louvreGoal ) );
 
 		for ( int i = 0; i < this.optionSelects.length; ++i )
 		{
 			int index = this.optionSelects[ i ].getSelectedIndex();
 			String choice = AdventureDatabase.CHOICE_ADVS[ i ].getSetting();
-			KoLSettings.setUserProperty( choice, String.valueOf( index + 1 ) );
+			Preferences.setString( choice, String.valueOf( index + 1 ) );
 		}
 
 		//              The Wheel:
@@ -590,172 +590,172 @@ public class ChoiceOptionsPanel
 		{
 		case 0: // Map quest position (choice adventure 11)
 			// Muscle goes through moxie
-			KoLSettings.setUserProperty( "choiceAdventure9", "2" ); // Turn the muscle position counterclockwise
-			KoLSettings.setUserProperty( "choiceAdventure10", "1" ); // Turn the mysticality position clockwise
-			KoLSettings.setUserProperty( "choiceAdventure11", "3" ); // Leave the map quest position alone
-			KoLSettings.setUserProperty( "choiceAdventure12", "2" ); // Turn the moxie position counterclockwise
+			Preferences.setString( "choiceAdventure9", "2" ); // Turn the muscle position counterclockwise
+			Preferences.setString( "choiceAdventure10", "1" ); // Turn the mysticality position clockwise
+			Preferences.setString( "choiceAdventure11", "3" ); // Leave the map quest position alone
+			Preferences.setString( "choiceAdventure12", "2" ); // Turn the moxie position counterclockwise
 			break;
 
 		case 1: // Map quest position (choice adventure 11)
 			// Muscle goes through mysticality
-			KoLSettings.setUserProperty( "choiceAdventure9", "1" ); // Turn the muscle position clockwise
-			KoLSettings.setUserProperty( "choiceAdventure10", "1" ); // Turn the mysticality position clockwise
-			KoLSettings.setUserProperty( "choiceAdventure11", "3" ); // Leave the map quest position alone
-			KoLSettings.setUserProperty( "choiceAdventure12", "2" ); // Turn the moxie position counterclockwise
+			Preferences.setString( "choiceAdventure9", "1" ); // Turn the muscle position clockwise
+			Preferences.setString( "choiceAdventure10", "1" ); // Turn the mysticality position clockwise
+			Preferences.setString( "choiceAdventure11", "3" ); // Leave the map quest position alone
+			Preferences.setString( "choiceAdventure12", "2" ); // Turn the moxie position counterclockwise
 			break;
 
 		case 2: // Muscle position (choice adventure 9)
-			KoLSettings.setUserProperty( "choiceAdventure9", "3" ); // Leave the muscle position alone
-			KoLSettings.setUserProperty( "choiceAdventure10", "2" ); // Turn the mysticality position counterclockwise
-			KoLSettings.setUserProperty( "choiceAdventure11", "1" ); // Turn the map quest position clockwise
-			KoLSettings.setUserProperty( "choiceAdventure12", "1" ); // Turn the moxie position clockwise
+			Preferences.setString( "choiceAdventure9", "3" ); // Leave the muscle position alone
+			Preferences.setString( "choiceAdventure10", "2" ); // Turn the mysticality position counterclockwise
+			Preferences.setString( "choiceAdventure11", "1" ); // Turn the map quest position clockwise
+			Preferences.setString( "choiceAdventure12", "1" ); // Turn the moxie position clockwise
 			break;
 
 		case 3: // Mysticality position (choice adventure 10)
-			KoLSettings.setUserProperty( "choiceAdventure9", "1" ); // Turn the muscle position clockwise
-			KoLSettings.setUserProperty( "choiceAdventure10", "3" ); // Leave the mysticality position alone
-			KoLSettings.setUserProperty( "choiceAdventure11", "2" ); // Turn the map quest position counterclockwise
-			KoLSettings.setUserProperty( "choiceAdventure12", "1" ); // Turn the moxie position clockwise
+			Preferences.setString( "choiceAdventure9", "1" ); // Turn the muscle position clockwise
+			Preferences.setString( "choiceAdventure10", "3" ); // Leave the mysticality position alone
+			Preferences.setString( "choiceAdventure11", "2" ); // Turn the map quest position counterclockwise
+			Preferences.setString( "choiceAdventure12", "1" ); // Turn the moxie position clockwise
 			break;
 
 		case 4: // Moxie position (choice adventure 12)
-			KoLSettings.setUserProperty( "choiceAdventure9", "2" ); // Turn the muscle position counterclockwise
-			KoLSettings.setUserProperty( "choiceAdventure10", "2" ); // Turn the mysticality position counterclockwise
-			KoLSettings.setUserProperty( "choiceAdventure11", "1" ); // Turn the map quest position clockwise
-			KoLSettings.setUserProperty( "choiceAdventure12", "3" ); // Leave the moxie position alone
+			Preferences.setString( "choiceAdventure9", "2" ); // Turn the muscle position counterclockwise
+			Preferences.setString( "choiceAdventure10", "2" ); // Turn the mysticality position counterclockwise
+			Preferences.setString( "choiceAdventure11", "1" ); // Turn the map quest position clockwise
+			Preferences.setString( "choiceAdventure12", "3" ); // Leave the moxie position alone
 			break;
 
 		case 5: // Turn the wheel clockwise
-			KoLSettings.setUserProperty( "choiceAdventure9", "1" ); // Turn the muscle position clockwise
-			KoLSettings.setUserProperty( "choiceAdventure10", "1" ); // Turn the mysticality position clockwise
-			KoLSettings.setUserProperty( "choiceAdventure11", "1" ); // Turn the map quest position clockwise
-			KoLSettings.setUserProperty( "choiceAdventure12", "1" ); // Turn the moxie position clockwise
+			Preferences.setString( "choiceAdventure9", "1" ); // Turn the muscle position clockwise
+			Preferences.setString( "choiceAdventure10", "1" ); // Turn the mysticality position clockwise
+			Preferences.setString( "choiceAdventure11", "1" ); // Turn the map quest position clockwise
+			Preferences.setString( "choiceAdventure12", "1" ); // Turn the moxie position clockwise
 			break;
 
 		case 6: // Turn the wheel counterclockwise
-			KoLSettings.setUserProperty( "choiceAdventure9", "2" ); // Turn the muscle position counterclockwise
-			KoLSettings.setUserProperty( "choiceAdventure10", "2" ); // Turn the mysticality position counterclockwise
-			KoLSettings.setUserProperty( "choiceAdventure11", "2" ); // Turn the map quest position counterclockwise
-			KoLSettings.setUserProperty( "choiceAdventure12", "2" ); // Turn the moxie position counterclockwise
+			Preferences.setString( "choiceAdventure9", "2" ); // Turn the muscle position counterclockwise
+			Preferences.setString( "choiceAdventure10", "2" ); // Turn the mysticality position counterclockwise
+			Preferences.setString( "choiceAdventure11", "2" ); // Turn the map quest position counterclockwise
+			Preferences.setString( "choiceAdventure12", "2" ); // Turn the moxie position counterclockwise
 			break;
 
 		case 7: // Ignore this adventure
-			KoLSettings.setUserProperty( "choiceAdventure9", "3" ); // Leave the muscle position alone
-			KoLSettings.setUserProperty( "choiceAdventure10", "3" ); // Leave the mysticality position alone
-			KoLSettings.setUserProperty( "choiceAdventure11", "3" ); // Leave the map quest position alone
-			KoLSettings.setUserProperty( "choiceAdventure12", "3" ); // Leave the moxie position alone
+			Preferences.setString( "choiceAdventure9", "3" ); // Leave the muscle position alone
+			Preferences.setString( "choiceAdventure10", "3" ); // Leave the mysticality position alone
+			Preferences.setString( "choiceAdventure11", "3" ); // Leave the map quest position alone
+			Preferences.setString( "choiceAdventure12", "3" ); // Leave the moxie position alone
 			break;
 		}
 
 		switch ( this.spookyForestSelect.getSelectedIndex() )
 		{
 		case 0: // Seal clubber corpse
-			KoLSettings.setUserProperty( "choiceAdventure26", "1" );
-			KoLSettings.setUserProperty( "choiceAdventure27", "1" );
+			Preferences.setString( "choiceAdventure26", "1" );
+			Preferences.setString( "choiceAdventure27", "1" );
 			break;
 
 		case 1: // Turtle tamer corpse
-			KoLSettings.setUserProperty( "choiceAdventure26", "1" );
-			KoLSettings.setUserProperty( "choiceAdventure27", "2" );
+			Preferences.setString( "choiceAdventure26", "1" );
+			Preferences.setString( "choiceAdventure27", "2" );
 			break;
 
 		case 2: // Pastamancer corpse
-			KoLSettings.setUserProperty( "choiceAdventure26", "2" );
-			KoLSettings.setUserProperty( "choiceAdventure28", "1" );
+			Preferences.setString( "choiceAdventure26", "2" );
+			Preferences.setString( "choiceAdventure28", "1" );
 			break;
 
 		case 3: // Sauceror corpse
-			KoLSettings.setUserProperty( "choiceAdventure26", "2" );
-			KoLSettings.setUserProperty( "choiceAdventure28", "2" );
+			Preferences.setString( "choiceAdventure26", "2" );
+			Preferences.setString( "choiceAdventure28", "2" );
 			break;
 
 		case 4: // Disco bandit corpse
-			KoLSettings.setUserProperty( "choiceAdventure26", "3" );
-			KoLSettings.setUserProperty( "choiceAdventure29", "1" );
+			Preferences.setString( "choiceAdventure26", "3" );
+			Preferences.setString( "choiceAdventure29", "1" );
 			break;
 
 		case 5: // Accordion thief corpse
-			KoLSettings.setUserProperty( "choiceAdventure26", "3" );
-			KoLSettings.setUserProperty( "choiceAdventure29", "2" );
+			Preferences.setString( "choiceAdventure26", "3" );
+			Preferences.setString( "choiceAdventure29", "2" );
 			break;
 		}
 
 		switch ( this.billiardRoomSelect.getSelectedIndex() )
 		{
 		case 0: // Ignore this adventure
-			KoLSettings.setUserProperty( "choiceAdventure77", "3" );
-			KoLSettings.setUserProperty( "choiceAdventure78", "3" );
-			KoLSettings.setUserProperty( "choiceAdventure79", "3" );
+			Preferences.setString( "choiceAdventure77", "3" );
+			Preferences.setString( "choiceAdventure78", "3" );
+			Preferences.setString( "choiceAdventure79", "3" );
 			break;
 
 		case 1: // Muscle
-			KoLSettings.setUserProperty( "choiceAdventure77", "2" );
-			KoLSettings.setUserProperty( "choiceAdventure78", "2" );
-			KoLSettings.setUserProperty( "choiceAdventure79", "3" );
+			Preferences.setString( "choiceAdventure77", "2" );
+			Preferences.setString( "choiceAdventure78", "2" );
+			Preferences.setString( "choiceAdventure79", "3" );
 			break;
 
 		case 2: // Mysticality
-			KoLSettings.setUserProperty( "choiceAdventure77", "2" );
-			KoLSettings.setUserProperty( "choiceAdventure78", "1" );
-			KoLSettings.setUserProperty( "choiceAdventure79", "2" );
+			Preferences.setString( "choiceAdventure77", "2" );
+			Preferences.setString( "choiceAdventure78", "1" );
+			Preferences.setString( "choiceAdventure79", "2" );
 			break;
 
 		case 3: // Moxie
-			KoLSettings.setUserProperty( "choiceAdventure77", "1" );
-			KoLSettings.setUserProperty( "choiceAdventure78", "3" );
-			KoLSettings.setUserProperty( "choiceAdventure79", "3" );
+			Preferences.setString( "choiceAdventure77", "1" );
+			Preferences.setString( "choiceAdventure78", "3" );
+			Preferences.setString( "choiceAdventure79", "3" );
 			break;
 
 		case 4: // Library Key
-			KoLSettings.setUserProperty( "choiceAdventure77", "2" );
-			KoLSettings.setUserProperty( "choiceAdventure78", "1" );
-			KoLSettings.setUserProperty( "choiceAdventure79", "1" );
+			Preferences.setString( "choiceAdventure77", "2" );
+			Preferences.setString( "choiceAdventure78", "1" );
+			Preferences.setString( "choiceAdventure79", "1" );
 			break;
 		}
 
 		switch ( this.riseSelect.getSelectedIndex() )
 		{
 		case 0: // Ignore this adventure
-			KoLSettings.setUserProperty( "choiceAdventure80", "4" );
+			Preferences.setString( "choiceAdventure80", "4" );
 			break;
 
 		case 1: // Mysticality
-			KoLSettings.setUserProperty( "choiceAdventure80", "3" );
-			KoLSettings.setUserProperty( "choiceAdventure88", "1" );
+			Preferences.setString( "choiceAdventure80", "3" );
+			Preferences.setString( "choiceAdventure88", "1" );
 			break;
 
 		case 2: // Moxie
-			KoLSettings.setUserProperty( "choiceAdventure80", "3" );
-			KoLSettings.setUserProperty( "choiceAdventure88", "2" );
+			Preferences.setString( "choiceAdventure80", "3" );
+			Preferences.setString( "choiceAdventure88", "2" );
 			break;
 
 		case 3: // Mysticality Class Skill
-			KoLSettings.setUserProperty( "choiceAdventure80", "3" );
-			KoLSettings.setUserProperty( "choiceAdventure88", "3" );
+			Preferences.setString( "choiceAdventure80", "3" );
+			Preferences.setString( "choiceAdventure88", "3" );
 			break;
 
 		case 4: // Second Floor
-			KoLSettings.setUserProperty( "choiceAdventure80", "99" );
+			Preferences.setString( "choiceAdventure80", "99" );
 			break;
 		}
 
 		switch ( this.fallSelect.getSelectedIndex() )
 		{
 		case 0: // Ignore this adventure
-			KoLSettings.setUserProperty( "choiceAdventure81", "4" );
+			Preferences.setString( "choiceAdventure81", "4" );
 			break;
 
 		case 1: // Muscle
-			KoLSettings.setUserProperty( "choiceAdventure81", "3" );
+			Preferences.setString( "choiceAdventure81", "3" );
 			break;
 
 		case 2: // Gallery Key
-			KoLSettings.setUserProperty( "choiceAdventure81", "1" );
-			KoLSettings.setUserProperty( "choiceAdventure87", "2" );
+			Preferences.setString( "choiceAdventure81", "1" );
+			Preferences.setString( "choiceAdventure87", "2" );
 			break;
 
 		case 3: // Second Floor
-			KoLSettings.setUserProperty( "choiceAdventure81", "99" );
+			Preferences.setString( "choiceAdventure81", "99" );
 			break;
 		}
 
@@ -764,35 +764,35 @@ public class ChoiceOptionsPanel
 		switch ( this.oceanActionSelect.getSelectedIndex() )
 		{
 		case 0:
-			KoLSettings.setUserProperty( "oceanAction", "continue" );
+			Preferences.setString( "oceanAction", "continue" );
 			break;
 		case 1:
-			KoLSettings.setUserProperty( "oceanAction", "show" );
+			Preferences.setString( "oceanAction", "show" );
 			break;
 		case 2:
-			KoLSettings.setUserProperty( "oceanAction", "stop" );
+			Preferences.setString( "oceanAction", "stop" );
 			break;
 		case 3:
-			KoLSettings.setUserProperty( "oceanAction", "savecontinue" );
+			Preferences.setString( "oceanAction", "savecontinue" );
 			break;
 		case 4:
-			KoLSettings.setUserProperty( "oceanAction", "saveshow" );
+			Preferences.setString( "oceanAction", "saveshow" );
 			break;
 		case 5:
-			KoLSettings.setUserProperty( "oceanAction", "savestop" );
+			Preferences.setString( "oceanAction", "savestop" );
 			break;
 		}
 	}
 
 	public void loadSettings()
 	{
-		int index = KoLSettings.getIntegerProperty( "violetFogGoal" );
+		int index = Preferences.getInteger( "violetFogGoal" );
 		if ( index >= 0 )
 		{
 			this.violetFogSelect.setSelectedIndex( index );
 		}
 
-		String setting = KoLSettings.getUserProperty( "louvreOverride" );
+		String setting = Preferences.getString( "louvreOverride" );
 		if ( setting.equals( "" ) )
 		{
 			this.manualLouvre.setSelectedIndex( 0 );
@@ -802,17 +802,17 @@ public class ChoiceOptionsPanel
 			this.manualLouvre.setSelectedItem( setting );
 		}
 
-		index = KoLSettings.getIntegerProperty( "louvreDesiredGoal" );
+		index = Preferences.getInteger( "louvreDesiredGoal" );
 		if ( index >= 0 )
 		{
 			this.louvreSelect.setSelectedIndex( index );
 		}
 
-		this.maidenSelect.setSelectedIndex( KoLSettings.getIntegerProperty( "choiceAdventure89" ) );
-		this.palindomePapayaSelect.setSelectedIndex( KoLSettings.getIntegerProperty( "choiceAdventure127" ) - 1 );
+		this.maidenSelect.setSelectedIndex( Preferences.getInteger( "choiceAdventure89" ) );
+		this.palindomePapayaSelect.setSelectedIndex( Preferences.getInteger( "choiceAdventure127" ) - 1 );
 
 		boolean foundItem = false;
-		String sewerItem = KoLSettings.getUserProperty( "luckySewerAdventure" );
+		String sewerItem = Preferences.getString( "luckySewerAdventure" );
 
 		String[] sewerOptions = AdventureDatabase.LUCKY_SEWER.getOptions();
 		for ( int i = 0; i < sewerOptions.length; ++i )
@@ -826,13 +826,13 @@ public class ChoiceOptionsPanel
 
 		if ( !foundItem )
 		{
-			KoLSettings.setUserProperty( "luckySewerAdventure", "stolen accordion" );
+			Preferences.setString( "luckySewerAdventure", "stolen accordion" );
 			this.sewerSelect.setSelectedItem( "stolen accordion" );
 		}
 
 		for ( int i = 0; i < this.optionSelects.length; ++i )
 		{
-			index = KoLSettings.getIntegerProperty( AdventureDatabase.CHOICE_ADVS[ i ].getSetting() );
+			index = Preferences.getInteger( AdventureDatabase.CHOICE_ADVS[ i ].getSetting() );
 			if ( index > 0 )
 			{
 				this.optionSelects[ i ].setSelectedIndex( index - 1 );
@@ -849,7 +849,7 @@ public class ChoiceOptionsPanel
 
 		for ( int i = 9; i < 13; ++i )
 		{
-			int choice = KoLSettings.getIntegerProperty( "choiceAdventure" + i );
+			int choice = Preferences.getInteger( "choiceAdventure" + i );
 			counts[ choice ]++ ;
 
 			if ( choice == 3 )
@@ -911,14 +911,14 @@ public class ChoiceOptionsPanel
 		// Now, determine what is located in choice adventure #26,
 		// which shows you which slot (in general) to use.
 
-		index = KoLSettings.getIntegerProperty( "choiceAdventure26" );
-		index = index * 2 + KoLSettings.getIntegerProperty( "choiceAdventure" + ( 26 + index ) ) - 3;
+		index = Preferences.getInteger( "choiceAdventure26" );
+		index = index * 2 + Preferences.getInteger( "choiceAdventure" + ( 26 + index ) ) - 3;
 
 		this.spookyForestSelect.setSelectedIndex( index < 0 ? 5 : index );
 
 		// Figure out what to do in the billiard room
 
-		switch ( KoLSettings.getIntegerProperty( "choiceAdventure77" ) )
+		switch ( Preferences.getInteger( "choiceAdventure77" ) )
 		{
 		case 1:
 
@@ -927,12 +927,12 @@ public class ChoiceOptionsPanel
 			break;
 
 		case 2:
-			index = KoLSettings.getIntegerProperty( "choiceAdventure78" );
+			index = Preferences.getInteger( "choiceAdventure78" );
 
 			switch ( index )
 			{
 			case 1:
-				index = KoLSettings.getIntegerProperty( "choiceAdventure79" );
+				index = Preferences.getInteger( "choiceAdventure79" );
 				index = index == 1 ? 4 : index == 2 ? 2 : 0;
 				break;
 			case 2:
@@ -961,7 +961,7 @@ public class ChoiceOptionsPanel
 
 		// Figure out what to do at the bookcases
 
-		index = KoLSettings.getIntegerProperty( "choiceAdventure80" );
+		index = Preferences.getInteger( "choiceAdventure80" );
 		if ( index == 4 )
 		{
 			this.riseSelect.setSelectedIndex( 0 );
@@ -972,10 +972,10 @@ public class ChoiceOptionsPanel
 		}
 		else
 		{
-			this.riseSelect.setSelectedIndex( KoLSettings.getIntegerProperty( "choiceAdventure88" ) );
+			this.riseSelect.setSelectedIndex( Preferences.getInteger( "choiceAdventure88" ) );
 		}
 
-		index = KoLSettings.getIntegerProperty( "choiceAdventure81" );
+		index = Preferences.getInteger( "choiceAdventure81" );
 		if ( index == 4 )
 		{
 			this.fallSelect.setSelectedIndex( 0 );
@@ -995,7 +995,7 @@ public class ChoiceOptionsPanel
 
 		// OceanDestinationComboBox handles its own settings.
 
-		String action = KoLSettings.getUserProperty( "oceanAction" );
+		String action = Preferences.getString( "oceanAction" );
 		if ( action.equals( "continue" ) )
 		{
 			this.oceanActionSelect.setSelectedIndex( 0 );

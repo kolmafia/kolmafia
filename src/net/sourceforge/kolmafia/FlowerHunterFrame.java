@@ -60,6 +60,7 @@ import net.sourceforge.kolmafia.request.ProfileRequest;
 import net.sourceforge.kolmafia.request.PvpRequest;
 
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class FlowerHunterFrame
 	extends KoLFrame
@@ -327,8 +328,8 @@ public class FlowerHunterFrame
 		{
 			super( "attack", "profile" );
 
-			this.winMessage = new AutoHighlightTextField( KoLSettings.getUserProperty( "defaultFlowerWinMessage" ) );
-			this.lossMessage = new AutoHighlightTextField( KoLSettings.getUserProperty( "defaultFlowerLossMessage" ) );
+			this.winMessage = new AutoHighlightTextField( Preferences.getString( "defaultFlowerWinMessage" ) );
+			this.lossMessage = new AutoHighlightTextField( Preferences.getString( "defaultFlowerLossMessage" ) );
 
 			this.stanceSelect = new JComboBox();
 			this.stanceSelect.addItem( "Bully your opponent" );
@@ -474,7 +475,7 @@ public class FlowerHunterFrame
 
 		public TableCellRenderer getCellRenderer( final int row, final int column )
 		{
-			if ( KoLSettings.getUserProperty( "currentPvpVictories" ).indexOf( (String) this.getValueAt( row, 0 ) ) != -1 )
+			if ( Preferences.getString( "currentPvpVictories" ).indexOf( (String) this.getValueAt( row, 0 ) ) != -1 )
 			{
 				return FlowerHunterFrame.DISABLED_ROW_RENDERER;
 			}

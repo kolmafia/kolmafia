@@ -61,6 +61,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.SendMailRequest;
 
 import net.sourceforge.kolmafia.persistence.BuffBotDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 public class BuffRequestFrame
@@ -117,7 +118,7 @@ public class BuffRequestFrame
 
 		this.nameContainer.add( new SimpleScrollPane( new JPanel() ), "" );
 
-		int lastSelectedIndex = KoLSettings.getIntegerProperty( "lastBuffRequestType" );
+		int lastSelectedIndex = Preferences.getInteger( "lastBuffRequestType" );
 		if ( lastSelectedIndex >= 0 && lastSelectedIndex < 4 )
 		{
 			this.types.setSelectedIndex( lastSelectedIndex );
@@ -133,7 +134,7 @@ public class BuffRequestFrame
 
 	public void dispose()
 	{
-		KoLSettings.setUserProperty( "lastBuffRequestType", String.valueOf( this.types.getSelectedIndex() ) );
+		Preferences.setString( "lastBuffRequestType", String.valueOf( this.types.getSelectedIndex() ) );
 
 		this.panelMap.clear();
 		this.mainPanel.dispose();

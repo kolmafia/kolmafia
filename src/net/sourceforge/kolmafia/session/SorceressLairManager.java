@@ -44,7 +44,6 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.FamiliarTrainingFrame;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLSettings;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestThread;
@@ -63,6 +62,7 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 
 public abstract class SorceressLairManager
@@ -1855,7 +1855,7 @@ public abstract class SorceressLairManager
 		// Make sure that auto-attack is deactivated for the
 		// shadow fight, otherwise it will fail.
 
-		String previousAutoAttack = KoLSettings.getUserProperty( "defaultAutoAttack" );
+		String previousAutoAttack = Preferences.getString( "defaultAutoAttack" );
 
 		if ( !previousAutoAttack.equals( "0" ) )
 		{
@@ -2292,7 +2292,7 @@ public abstract class SorceressLairManager
 
 	public static final void makeGuardianItems()
 	{
-		if ( KoLSettings.getIntegerProperty( "lastTowerClimb" ) == KoLCharacter.getAscensions() )
+		if ( Preferences.getInteger( "lastTowerClimb" ) == KoLCharacter.getAscensions() )
 		{
 			return;
 		}
@@ -2310,7 +2310,7 @@ public abstract class SorceressLairManager
 			}
 		}
 
-		KoLSettings.setUserProperty( "lastTowerClimb", String.valueOf( KoLCharacter.getAscensions() ) );
+		Preferences.setString( "lastTowerClimb", String.valueOf( KoLCharacter.getAscensions() ) );
 	}
 
 	private static final void familiarBattle( final int n )

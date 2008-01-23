@@ -56,7 +56,6 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLSettings;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.LocalRelayServer;
@@ -77,6 +76,7 @@ import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
@@ -105,7 +105,7 @@ public class RelayRequest
 	public RelayRequest( final boolean allowOverride )
 	{
 		super( "" );
-		this.allowOverride = allowOverride && KoLSettings.getBooleanProperty( "relayAllowsOverrides" );
+		this.allowOverride = allowOverride && Preferences.getBoolean( "relayAllowsOverrides" );
 	}
 
 	public GenericRequest constructURLString( final String newURLString )
@@ -149,7 +149,7 @@ public class RelayRequest
 
 	private static final boolean isJunkItem( final int itemId, final int price )
 	{
-		if ( !KoLSettings.getBooleanProperty( "relayHidesJunkMallItems" ) )
+		if ( !Preferences.getBoolean( "relayHidesJunkMallItems" ) )
 		{
 			return false;
 		}
@@ -207,7 +207,7 @@ public class RelayRequest
 		}
 		else if ( path.equals( "chatlaunch.php" ) )
 		{
-			if ( KoLSettings.getBooleanProperty( "relayAddsGraphicalCLI" ) )
+			if ( Preferences.getBoolean( "relayAddsGraphicalCLI" ) )
 			{
 				int linkIndex = responseBuffer.indexOf( "<a href" );
 				if ( linkIndex != -1 )
@@ -218,7 +218,7 @@ public class RelayRequest
 				}
 			}
 
-			if ( KoLSettings.getBooleanProperty( "relayAddsKoLSimulator" ) )
+			if ( Preferences.getBoolean( "relayAddsKoLSimulator" ) )
 			{
 				int linkIndex = responseBuffer.indexOf( "<a href" );
 				if ( linkIndex != -1 )
@@ -291,7 +291,7 @@ public class RelayRequest
 
 					for ( int i = 1; i <= KoLConstants.STATIONARY_BUTTON_COUNT && insertIndex == maximumIndex; ++i )
 					{
-						testAction = KoLSettings.getUserProperty( "stationaryButton" + i );
+						testAction = Preferences.getString( "stationaryButton" + i );
 						if ( testAction.equals( "" ) || testAction.equals( "none" ) || testAction.equals( skillId ) )
 						{
 							insertIndex = i;
@@ -303,12 +303,12 @@ public class RelayRequest
 						insertIndex = KoLConstants.STATIONARY_BUTTON_COUNT;
 						for ( int i = 2; i <= KoLConstants.STATIONARY_BUTTON_COUNT; ++i )
 						{
-							KoLSettings.setUserProperty(
-								"stationaryButton" + ( i - 1 ), KoLSettings.getUserProperty( "stationaryButton" + i ) );
+							Preferences.setString(
+								"stationaryButton" + ( i - 1 ), Preferences.getString( "stationaryButton" + i ) );
 						}
 					}
 
-					KoLSettings.setUserProperty( "stationaryButton" + insertIndex, skillId );
+					Preferences.setString( "stationaryButton" + insertIndex, skillId );
 				}
 			}
 		}
@@ -325,7 +325,7 @@ public class RelayRequest
 		// Load image files locally to reduce bandwidth
 		// and improve mini-browser performance.
 
-		if ( KoLSettings.getBooleanProperty( "relayUsesCachedImages" ) )
+		if ( Preferences.getBoolean( "relayUsesCachedImages" ) )
 		{
 			StaticEntity.globalStringReplace( responseBuffer, "http://images.kingdomofloathing.com", "/images" );
 		}
@@ -735,7 +735,7 @@ public class RelayRequest
 		// Adventure modifiers
 
 		scriptBuffer.append( "zone: \"" );
-		scriptBuffer.append( KoLSettings.getUserProperty( "lastAdventure" ) );
+		scriptBuffer.append( Preferences.getString( "lastAdventure" ) );
 		scriptBuffer.append( "\", monster: \"" );
 		scriptBuffer.append( FightRequest.getCurrentKey() );
 		scriptBuffer.append( "\", mcd: " );
@@ -997,7 +997,7 @@ public class RelayRequest
 			ChatManager.updateChat( this.responseText );
 		}
 
-		if ( KoLSettings.getBooleanProperty( "relayFormatsChatText" ) )
+		if ( Preferences.getBoolean( "relayFormatsChatText" ) )
 		{
 			this.responseText = ChatManager.getNormalizedContent( this.responseText, false );
 		}
@@ -1110,7 +1110,7 @@ public class RelayRequest
 
 		if ( this.getPath().equals( "lchat.php" ) )
 		{
-			if ( KoLSettings.getBooleanProperty( "relayUsesIntegratedChat" ) )
+			if ( Preferences.getBoolean( "relayUsesIntegratedChat" ) )
 			{
 				this.sendLocalFile( "chat.html" );
 				return;
@@ -1151,7 +1151,7 @@ public class RelayRequest
 		String path = this.getPath();
 		String urlString = this.getURLString();
 
-		if ( path.equals( "desc_effect.php" ) && KoLSettings.getBooleanProperty( "relayAddsWikiLinks" ) )
+		if ( path.equals( "desc_effect.php" ) && Preferences.getBoolean( "relayAddsWikiLinks" ) )
 		{
 			String effect = this.getFormField( "whicheffect" );
 			String location =
@@ -1248,7 +1248,7 @@ public class RelayRequest
 					return;
 				}
 
-				if ( place.equals( "6" ) && KoLCharacter.isHardcore() && KoLSettings.getBooleanProperty( "lucreCoreLeaderboard" ) )
+				if ( place.equals( "6" ) && KoLCharacter.isHardcore() && Preferences.getBoolean( "lucreCoreLeaderboard" ) )
 				{
 					if ( KoLConstants.inventory.contains( RelayRequest.LUCRE ) )
 					{
@@ -1293,7 +1293,7 @@ public class RelayRequest
 
 	private static boolean showWikiLink( final String item )
 	{
-		if ( !KoLSettings.getBooleanProperty( "relayAddsWikiLinks" ) )
+		if ( !Preferences.getBoolean( "relayAddsWikiLinks" ) )
 			return false;
 
 		switch ( ItemDatabase.getItemIdFromDescription( item ) )

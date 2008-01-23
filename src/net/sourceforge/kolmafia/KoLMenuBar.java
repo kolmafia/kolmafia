@@ -65,6 +65,8 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.LoginRequest;
 import net.sourceforge.kolmafia.request.LogoutRequest;
 
+import net.sourceforge.kolmafia.persistence.Preferences;
+
 public class KoLMenuBar
 	extends JMenuBar
 {
@@ -350,7 +352,7 @@ public class KoLMenuBar
 				if ( this.frameReference == null )
 				{
 					KoLFrame[] frames = StaticEntity.getExistingFrames();
-					String interfaceSetting = KoLSettings.getUserProperty( "initialDesktop" );
+					String interfaceSetting = Preferences.getString( "initialDesktop" );
 
 					for ( int i = 0; i < frames.length; ++i )
 					{
@@ -873,7 +875,7 @@ public class KoLMenuBar
 
 		public void run()
 		{
-			if ( KoLSettings.getUserProperty( "loginServerName" ).startsWith( "dev" ) )
+			if ( Preferences.getString( "loginServerName" ).startsWith( "dev" ) )
 			{
 				LoginRequest.executeTimeInRequest();
 			}

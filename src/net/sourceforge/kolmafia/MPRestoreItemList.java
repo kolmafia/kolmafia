@@ -47,6 +47,7 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 
 public abstract class MPRestoreItemList
@@ -125,7 +126,7 @@ public abstract class MPRestoreItemList
 
 	public static final JCheckBox[] getCheckboxes()
 	{
-		String mpRestoreSetting = KoLSettings.getUserProperty( "mpAutoRecoveryItems" );
+		String mpRestoreSetting = Preferences.getString( "mpAutoRecoveryItems" );
 		JCheckBox[] restoreCheckbox = new JCheckBox[ MPRestoreItemList.CONFIGURES.length ];
 
 		for ( int i = 0; i < MPRestoreItemList.CONFIGURES.length; ++i )
@@ -241,7 +242,7 @@ public abstract class MPRestoreItemList
 
 			if ( this == MPRestoreItemList.EXPRESS )
 			{
-				if ( KoLSettings.getBooleanProperty( "expressCardUsed" ) )
+				if ( Preferences.getBoolean( "expressCardUsed" ) )
 				{
 					return;
 				}

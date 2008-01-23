@@ -42,6 +42,7 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class CouncilFrame
 	extends RequestFrame
@@ -186,7 +187,7 @@ public class CouncilFrame
 		Matcher oreMatcher = CouncilFrame.ORE_PATTERN.matcher( responseText );
 		if ( oreMatcher.find() )
 		{
-			KoLSettings.setUserProperty( "trapperOre", oreMatcher.group( 1 ) + " ore" );
+			Preferences.setString( "trapperOre", oreMatcher.group( 1 ) + " ore" );
 		}
 
 		// If you receive items from the trapper, then you
@@ -237,7 +238,7 @@ public class CouncilFrame
 
 	private static final void handleCouncilChange( final String responseText )
 	{
-		KoLSettings.setUserProperty( "lastCouncilVisit", String.valueOf( KoLCharacter.getLevel() ) );
+		Preferences.setString( "lastCouncilVisit", String.valueOf( KoLCharacter.getLevel() ) );
 
 		if ( responseText.indexOf( "500" ) != -1 )
 		{

@@ -41,7 +41,6 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLSettings;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -49,6 +48,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class CreateItemRequest
 	extends GenericRequest
@@ -726,13 +726,13 @@ public class CreateItemRequest
 
 	private boolean retrieveNoServantItem( final AdventureResult noServantItem )
 	{
-		return !KoLSettings.getBooleanProperty( "requireBoxServants" ) && KoLCharacter.getAdventuresLeft() > 0 && AdventureDatabase.retrieveItem( noServantItem );
+		return !Preferences.getBoolean( "requireBoxServants" ) && KoLCharacter.getAdventuresLeft() > 0 && AdventureDatabase.retrieveItem( noServantItem );
 	}
 
 	private boolean useBoxServant( final AdventureResult servant, final AdventureResult clockworkServant,
 		final AdventureResult noServantItem )
 	{
-		if ( !KoLSettings.getBooleanProperty( "autoRepairBoxServants" ) )
+		if ( !Preferences.getBoolean( "autoRepairBoxServants" ) )
 		{
 			return this.retrieveNoServantItem( noServantItem );
 		}
@@ -754,7 +754,7 @@ public class CreateItemRequest
 
 		if ( usedServant == null )
 		{
-			if ( KoLCharacter.canInteract() && ( KoLSettings.getBooleanProperty( "autoSatisfyWithMall" ) || KoLSettings.getBooleanProperty( "autoSatisfyWithStash" ) ) )
+			if ( KoLCharacter.canInteract() && ( Preferences.getBoolean( "autoSatisfyWithMall" ) || Preferences.getBoolean( "autoSatisfyWithStash" ) ) )
 			{
 				usedServant = servant;
 			}

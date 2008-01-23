@@ -44,6 +44,7 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class SpecialOutfit
 	implements Comparable, KoLConstants
@@ -215,7 +216,7 @@ public class SpecialOutfit
 		for ( int i = 0; i <= KoLCharacter.FAMILIAR; ++i )
 		{
 			itemName = KoLCharacter.getEquipment( i ).getName();
-			isIdentical &= KoLSettings.getUserProperty( "implicitEquipmentSlot" + i ).equals( itemName );
+			isIdentical &= Preferences.getString( "implicitEquipmentSlot" + i ).equals( itemName );
 		}
 
 		SpecialOutfit.markedCheckpoint = SpecialOutfit.implicitPoints.size();

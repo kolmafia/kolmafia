@@ -69,6 +69,7 @@ import net.sourceforge.kolmafia.request.UseSkillRequest;
 
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 
 public class FamiliarTrainingFrame
@@ -738,7 +739,7 @@ public class FamiliarTrainingFrame
 	private static final boolean levelFamiliar( final int goal, final int type )
 	{
 		return FamiliarTrainingFrame.levelFamiliar(
-			goal, type, KoLSettings.getBooleanProperty( "debugFamiliarTraining" ) );
+			goal, type, Preferences.getBoolean( "debugFamiliarTraining" ) );
 	}
 
 	/**
@@ -2955,8 +2956,8 @@ public class FamiliarTrainingFrame
 
 		public void run()
 		{
-			boolean toggleValue = KoLSettings.getBooleanProperty( this.property );
-			KoLSettings.setUserProperty( this.property, String.valueOf( toggleValue ) );
+			boolean toggleValue = Preferences.getBoolean( this.property );
+			Preferences.setString( this.property, String.valueOf( toggleValue ) );
 
 			if ( toggleValue )
 			{

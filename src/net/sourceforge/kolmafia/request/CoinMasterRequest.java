@@ -41,7 +41,6 @@ import net.sourceforge.kolmafia.AdventureFrame;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmastersFrame;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLSettings;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -49,6 +48,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class CoinMasterRequest
 	extends GenericRequest
@@ -284,7 +284,7 @@ public class CoinMasterRequest
 			}
 		}
 
-		KoLSettings.setUserProperty( property, balance );
+		Preferences.setString( property, balance );
 	}
 
 	private static final void refundPurchase( final String urlString, final String master )
@@ -321,7 +321,7 @@ public class CoinMasterRequest
 		}
 
 		int cost = getPurchaseCost( matcher, prices );
-		KoLSettings.incrementIntegerProperty( property, cost );
+		Preferences.increment( property, cost );
 
 		if ( master == BHH )
 		{
@@ -384,7 +384,7 @@ public class CoinMasterRequest
 		int price = CoinmastersDatabase.getPrice( name, prices );
 		int cost = count * price;
 
-		KoLSettings.incrementIntegerProperty( property, -cost );
+		Preferences.increment( property, -cost );
 
 		String plural = ItemDatabase.getPluralName( itemId );
 		KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have that many " + plural );
@@ -425,7 +425,7 @@ public class CoinMasterRequest
 				return true;
 			}
 
-			KoLSettings.setUserProperty( "currentBountyItem", idMatcher.group( 1 ) );
+			Preferences.setString( "currentBountyItem", idMatcher.group( 1 ) );
 			int itemId = StaticEntity.parseInt( idMatcher.group( 1 ) );
 			AdventureFrame.updateSelectedAdventure( AdventureDatabase.getBountyLocation( itemId ) );
 			AdventureResult bounty = AdventureDatabase.getBounty( itemId );
@@ -450,7 +450,7 @@ public class CoinMasterRequest
 
 	private static final void abandonBounty()
 	{
-		int itemId = KoLSettings.getIntegerProperty( "currentBountyItem" );
+		int itemId = Preferences.getInteger( "currentBountyItem" );
 		if ( itemId == 0 )
 		{
 			return;
@@ -458,7 +458,7 @@ public class CoinMasterRequest
 
 		AdventureResult item = new AdventureResult( itemId, 1 );
 		StaticEntity.getClient().processResult( item.getInstance( 0 - item.getCount( KoLConstants.inventory ) ) );
-		KoLSettings.setUserProperty( "currentBountyItem", "0" );
+		Preferences.setString( "currentBountyItem", "0" );
 	}
 
 	private static final boolean registerIslandRequest( final String urlString )
@@ -544,7 +544,7 @@ public class CoinMasterRequest
 			StaticEntity.getClient().processResult( lucres );
 		}
 
-		KoLSettings.incrementIntegerProperty( property, -cost );
+		Preferences.increment( property, -cost );
 		CoinmastersFrame.externalUpdate();
 	}
 
@@ -591,7 +591,7 @@ public class CoinMasterRequest
 		AdventureResult item = new AdventureResult( itemId, -count );
 		StaticEntity.getClient().processResult( item );
 
-		KoLSettings.incrementIntegerProperty( property, cost );
+		Preferences.increment( property, cost );
 		CoinmastersFrame.externalUpdate();
 	}
 }

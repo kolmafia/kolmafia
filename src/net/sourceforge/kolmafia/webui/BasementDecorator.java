@@ -39,7 +39,6 @@ import java.util.ArrayList;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLSettings;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.SpecialOutfit;
@@ -47,6 +46,8 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.MoodManager;
 
 import net.sourceforge.kolmafia.request.BasementRequest;
+
+import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class BasementDecorator
 {
@@ -77,7 +78,7 @@ public class BasementDecorator
 
 	private static final void addBasementButtons( final StringBuffer buffer )
 	{
-		if ( !KoLSettings.getBooleanProperty( "relayAddsCustomCombat" ) )
+		if ( !Preferences.getBoolean( "relayAddsCustomCombat" ) )
 		{
 			return;
 		}

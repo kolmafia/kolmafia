@@ -38,10 +38,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLSettings;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.request.GenericRequest;
+
+import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class LouvreManager
 {
@@ -234,14 +235,14 @@ public class LouvreManager
 			}
 		}
 
-		int lastLouvreAscension = KoLSettings.getIntegerProperty( "lastLouvreMap" );
+		int lastLouvreAscension = Preferences.getInteger( "lastLouvreMap" );
 		if ( lastLouvreAscension != KoLCharacter.getAscensions() )
 		{
-			KoLSettings.setUserProperty( "lastLouvreMap", String.valueOf( KoLCharacter.getAscensions() ) );
-			KoLSettings.setUserProperty( "louvreLayout", "" );
+			Preferences.setString( "lastLouvreMap", String.valueOf( KoLCharacter.getAscensions() ) );
+			Preferences.setString( "louvreLayout", "" );
 		}
 
-		String layout = KoLSettings.getUserProperty( "louvreLayout" );
+		String layout = Preferences.getString( "louvreLayout" );
 		if ( layout.equals( "" ) )
 		{
 			return;
@@ -274,8 +275,8 @@ public class LouvreManager
 			}
 		}
 
-		KoLSettings.setUserProperty( "lastLouvreMap", String.valueOf( KoLCharacter.getAscensions() ) );
-		KoLSettings.setUserProperty( "louvreLayout", map.toString() );
+		Preferences.setString( "lastLouvreMap", String.valueOf( KoLCharacter.getAscensions() ) );
+		Preferences.setString( "louvreLayout", map.toString() );
 	}
 
 	public static final boolean louvreChoice( final int choice )
@@ -285,21 +286,21 @@ public class LouvreManager
 
 	private static final void resetDecisions()
 	{
-		int goal = KoLSettings.getIntegerProperty( "louvreDesiredGoal" );
+		int goal = Preferences.getInteger( "louvreDesiredGoal" );
 
 		if ( goal == LouvreManager.LouvreGoals.length + 1 )
 		{
 			if ( KoLCharacter.isMuscleClass() )
 			{
-				KoLSettings.setUserProperty( "louvreGoal", "4" );
+				Preferences.setString( "louvreGoal", "4" );
 			}
 			else if ( KoLCharacter.isMysticalityClass() )
 			{
-				KoLSettings.setUserProperty( "louvreGoal", "5" );
+				Preferences.setString( "louvreGoal", "5" );
 			}
 			else
 			{
-				KoLSettings.setUserProperty( "louvreGoal", "6" );
+				Preferences.setString( "louvreGoal", "6" );
 			}
 		}
 		else if ( goal == LouvreManager.LouvreGoals.length + 2 )
@@ -314,20 +315,20 @@ public class LouvreManager
 
 			if ( mus <= mys && mus <= mox )
 			{
-				KoLSettings.setUserProperty( "louvreGoal", "4" );
+				Preferences.setString( "louvreGoal", "4" );
 			}
 			else if ( mys <= mus && mys <= mox )
 			{
-				KoLSettings.setUserProperty( "louvreGoal", "5" );
+				Preferences.setString( "louvreGoal", "5" );
 			}
 			else
 			{
-				KoLSettings.setUserProperty( "louvreGoal", "6" );
+				Preferences.setString( "louvreGoal", "6" );
 			}
 		}
 		else
 		{
-			KoLSettings.setUserProperty( "louvreGoal", KoLSettings.getUserProperty( "louvreDesiredGoal" ) );
+			Preferences.setString( "louvreGoal", Preferences.getString( "louvreDesiredGoal" ) );
 		}
 	}
 
@@ -337,7 +338,7 @@ public class LouvreManager
 
 		// We only handle LouvreManager choices
 
-		String override = KoLSettings.getUserProperty( "louvreOverride" );
+		String override = Preferences.getString( "louvreOverride" );
 
 		if ( override.indexOf( "," ) != -1 )
 		{
@@ -366,7 +367,7 @@ public class LouvreManager
 		}
 
 		// Get the routing tuple for this choice/goal
-		int goal = KoLSettings.getIntegerProperty( "louvreGoal" );
+		int goal = Preferences.getInteger( "louvreGoal" );
 
 		// Pick the best choice
 		return KoLCharacter.getLevel() < 14 ? LouvreManager.pickNewExit( source, goal ) : LouvreManager.pickOldExit( source, goal );

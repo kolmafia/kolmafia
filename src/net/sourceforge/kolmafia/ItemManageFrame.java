@@ -67,6 +67,7 @@ import net.sourceforge.kolmafia.request.UseSkillRequest;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase.Concoction;
 
 public class ItemManageFrame
@@ -102,7 +103,7 @@ public class ItemManageFrame
 
 		JPanel foodPanel = new JPanel( new BorderLayout() );
 
-		if ( KoLSettings.getBooleanProperty( "addCreationQueue" ) )
+		if ( Preferences.getBoolean( "addCreationQueue" ) )
 		{
 			foodPanel.add( new ConsumePanel( true, false ), BorderLayout.NORTH );
 		}
@@ -112,7 +113,7 @@ public class ItemManageFrame
 
 		JPanel boozePanel = new JPanel( new BorderLayout() );
 
-		if ( KoLSettings.getBooleanProperty( "addCreationQueue" ) )
+		if ( Preferences.getBoolean( "addCreationQueue" ) )
 		{
 			boozePanel.add( new ConsumePanel( false, true ), BorderLayout.NORTH );
 		}
@@ -164,7 +165,7 @@ public class ItemManageFrame
 		mainPanel.add( listHolder, BorderLayout.WEST );
 		mainPanel.add( this.managePanel, BorderLayout.CENTER );
 
-		this.itemPanelList.setSelectedIndex( KoLSettings.getIntegerProperty( "itemManagerIndex" ) );
+		this.itemPanelList.setSelectedIndex( Preferences.getInteger( "itemManagerIndex" ) );
 		this.framePanel.add( mainPanel, BorderLayout.CENTER );
 	}
 
@@ -229,7 +230,7 @@ public class ItemManageFrame
 				return;
 			}
 
-			KoLSettings.setUserProperty( "itemManagerIndex", String.valueOf( cardIndex ) );
+			Preferences.setString( "itemManagerIndex", String.valueOf( cardIndex ) );
 			ItemManageFrame.this.itemPanelCards.show( ItemManageFrame.this.managePanel, String.valueOf( cardIndex + 1 ) );
 		}
 	}
@@ -457,7 +458,7 @@ public class ItemManageFrame
 			this.food = food;
 			this.booze = booze;
 
-			if ( KoLSettings.getBooleanProperty( "addCreationQueue" ) )
+			if ( Preferences.getBoolean( "addCreationQueue" ) )
 			{
 				this.setButtons(
 					false, new ActionListener[] { new EnqueueListener(), new ExecuteListener(), new BuffUpListener() } );
@@ -689,20 +690,20 @@ public class ItemManageFrame
 			super( food && booze ? "per full/drunk" : booze ? "per drunk" : "per full" );
 
 			this.setToolTipText( "Sort gains per adventure" );
-			this.setSelected( KoLSettings.getBooleanProperty( "showGainsPerUnit" ) );
+			this.setSelected( Preferences.getBoolean( "showGainsPerUnit" ) );
 
 			this.addActionListener( this );
-			KoLSettings.registerCheckbox( "showGainsPerUnit", this );
+			Preferences.registerCheckbox( "showGainsPerUnit", this );
 		}
 
 		public void actionPerformed( final ActionEvent e )
 		{
-			if ( KoLSettings.getBooleanProperty( "showGainsPerUnit" ) == this.isSelected() )
+			if ( Preferences.getBoolean( "showGainsPerUnit" ) == this.isSelected() )
 			{
 				return;
 			}
 
-			KoLSettings.setUserProperty( "showGainsPerUnit", String.valueOf( this.isSelected() ) );
+			Preferences.setString( "showGainsPerUnit", String.valueOf( this.isSelected() ) );
 			ConcoctionDatabase.getUsables().sort();
 		}
 	}
@@ -718,22 +719,22 @@ public class ItemManageFrame
 			super( label );
 
 			this.setToolTipText( tooltip );
-			this.setSelected( KoLSettings.getBooleanProperty( property ) );
+			this.setSelected( Preferences.getBoolean( property ) );
 
 			this.addActionListener( this );
 
 			this.property = property;
-			KoLSettings.registerCheckbox( property, this );
+			Preferences.registerCheckbox( property, this );
 		}
 
 		public void actionPerformed( final ActionEvent e )
 		{
-			if ( KoLSettings.getBooleanProperty( this.property ) == this.isSelected() )
+			if ( Preferences.getBoolean( this.property ) == this.isSelected() )
 			{
 				return;
 			}
 
-			KoLSettings.setUserProperty( this.property, String.valueOf( this.isSelected() ) );
+			Preferences.setString( this.property, String.valueOf( this.isSelected() ) );
 			ConcoctionDatabase.refreshConcoctions();
 		}
 	}

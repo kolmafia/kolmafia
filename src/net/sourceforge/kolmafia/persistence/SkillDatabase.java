@@ -45,7 +45,6 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
-import net.sourceforge.kolmafia.KoLSettings;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.request.UseSkillRequest;
@@ -330,7 +329,7 @@ public class SkillDatabase
 
 	public static final int libramSkillMPConsumption( final boolean justCast )
 	{
-		int count = KoLSettings.getIntegerProperty( "candyHeartSummons" ) - ( justCast ? 1 : 0 );
+		int count = Preferences.getInteger( "candyHeartSummons" ) - ( justCast ? 1 : 0 );
 		return libramSkillMPConsumption( count ) ;
 	}
 
@@ -356,9 +355,9 @@ public class SkillDatabase
 
 		int count =  ( 1 + (int)Math.sqrt( 8 * cost - 7 ) ) / 2;
 
-		if ( KoLSettings.getIntegerProperty( "candyHeartSummons" ) != count - 1)
+		if ( Preferences.getInteger( "candyHeartSummons" ) != count - 1)
 		{
-			KoLSettings.resetUserProperty( "candyHeartSummons", String.valueOf( count - 1) );
+			Preferences.resetString( "candyHeartSummons", String.valueOf( count - 1) );
 			KoLConstants.summoningSkills.sort();
 			KoLConstants.usableSkills.sort();
 		}

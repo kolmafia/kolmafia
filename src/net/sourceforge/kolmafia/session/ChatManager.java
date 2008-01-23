@@ -56,7 +56,6 @@ import net.sourceforge.kolmafia.CreateFrameRunnable;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLFrame;
-import net.sourceforge.kolmafia.KoLSettings;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
@@ -70,6 +69,8 @@ import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.ChatRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.SendMailRequest;
+
+import net.sourceforge.kolmafia.persistence.Preferences;
 
 public abstract class ChatManager
 	extends StaticEntity
@@ -172,7 +173,7 @@ public abstract class ChatManager
 		ChatManager.instantMessageBuffers.clear();
 
 		ChatManager.contactsFrame = new ContactListFrame( ChatManager.onlineContacts );
-		ChatManager.useTabbedChat = KoLSettings.getBooleanProperty( "useTabbedChatFrame" );
+		ChatManager.useTabbedChat = Preferences.getBoolean( "useTabbedChatFrame" );
 
 		if ( ChatManager.useTabbedChat )
 		{
@@ -187,9 +188,9 @@ public abstract class ChatManager
 
 	private static final void updateSettings()
 	{
-		ChatManager.enableMonitor = KoLSettings.getBooleanProperty( "useChatMonitor" );
-		ChatManager.channelsSeparate = KoLSettings.getBooleanProperty( "useSeparateChannels" );
-		ChatManager.eventsIgnored = KoLSettings.getBooleanProperty( "greenScreenProtection" );
+		ChatManager.enableMonitor = Preferences.getBoolean( "useChatMonitor" );
+		ChatManager.channelsSeparate = Preferences.getBoolean( "useSeparateChannels" );
+		ChatManager.eventsIgnored = Preferences.getBoolean( "greenScreenProtection" );
 	}
 
 	public static final String getChatLogName( String key )
@@ -253,7 +254,7 @@ public abstract class ChatManager
 
 		LimitedSizeChatBuffer.clearHighlights();
 
-		String[] highlights = KoLSettings.getUserProperty( "highlightList" ).trim().split( "\n+" );
+		String[] highlights = Preferences.getString( "highlightList" ).trim().split( "\n+" );
 
 		if ( highlights.length > 1 )
 		{
@@ -473,7 +474,7 @@ public abstract class ChatManager
 			ChatManager.onlineContacts.add( contactList[ i ] );
 		}
 
-		if ( KoLSettings.getBooleanProperty( "useContactsFrame" ) )
+		if ( Preferences.getBoolean( "useContactsFrame" ) )
 		{
 			ChatManager.contactsFrame.setTitle( contactList[ 0 ] );
 			ChatManager.contactsFrame.setVisible( true );
@@ -551,7 +552,7 @@ public abstract class ChatManager
 
 			ChatManager.updateContactList( contactList );
 
-			if ( !KoLSettings.getBooleanProperty( "useContactsFrame" ) )
+			if ( !Preferences.getBoolean( "useContactsFrame" ) )
 			{
 				LimitedSizeChatBuffer currentChatBuffer = ChatManager.getChatBuffer( ChatManager.updateChannel );
 				currentChatBuffer.append( StaticEntity.singleStringReplace( ChatManager.TABLECELL_PATTERN.matcher(
@@ -887,7 +888,7 @@ public abstract class ChatManager
 			return true;
 		}
 
-		String scriptName = KoLSettings.getUserProperty( "chatbotScript" );
+		String scriptName = Preferences.getString( "chatbotScript" );
 		if ( scriptName.equals( "" ) )
 		{
 			return false;
@@ -900,9 +901,9 @@ public abstract class ChatManager
 		}
 
 		ChatManager.lastBlueMessage = channel;
-		KoLSettings.setUserProperty( "chatbotScriptExecuted", "false" );
+		Preferences.setString( "chatbotScriptExecuted", "false" );
 		interpreter.execute( "main", new String[] { channel, message } );
-		return KoLSettings.getBooleanProperty( "chatbotScriptExecuted" );
+		return Preferences.getBoolean( "chatbotScriptExecuted" );
 	}
 
 	public static final String lastBlueMessage()
@@ -937,7 +938,7 @@ public abstract class ChatManager
 
 			LimitedSizeChatBuffer buffer = ChatManager.getChatBuffer( bufferKey );
 
-			if ( KoLSettings.getBooleanProperty( "logChatMessages" ) )
+			if ( Preferences.getBoolean( "logChatMessages" ) )
 			{
 				buffer.setActiveLogFile( new File(
 					KoLConstants.CHATLOG_LOCATION, ChatManager.getChatLogName( bufferKey ) ) );
@@ -1041,13 +1042,13 @@ public abstract class ChatManager
 		// Add the appropriate eSolu scriptlet additions to the
 		// processed chat message.
 
-		if ( !KoLSettings.getUserProperty( "eSoluScriptType" ).equals( "0" ) )
+		if ( !Preferences.getString( "eSoluScriptType" ).equals( "0" ) )
 		{
 			Matcher whoMatcher = Pattern.compile( "showplayer\\.php\\?who=[\\d]+" ).matcher( message );
 			if ( whoMatcher.find() )
 			{
 				String link = whoMatcher.group();
-				boolean useColors = KoLSettings.getUserProperty( "eSoluScriptType" ).equals( "1" );
+				boolean useColors = Preferences.getString( "eSoluScriptType" ).equals( "1" );
 
 				StringBuffer linkBuffer = new StringBuffer();
 
@@ -1172,7 +1173,7 @@ public abstract class ChatManager
 				new LimitedSizeChatBuffer(
 					KoLCharacter.getUserName() + ": " + channel + " - Started " + Calendar.getInstance().getTime().toString(),
 					true,
-					ChatManager.isRunning && ( !channel.equals( "[main]" ) || KoLSettings.getBooleanProperty( "useSeparateChannels" ) ) );
+					ChatManager.isRunning && ( !channel.equals( "[main]" ) || Preferences.getBoolean( "useSeparateChannels" ) ) );
 
 			ChatManager.instantMessageBuffers.put( channel, buffer );
 			if ( channel.startsWith( "/" ) )
@@ -1209,7 +1210,7 @@ public abstract class ChatManager
 				}
 			}
 
-			if ( KoLSettings.getBooleanProperty( "logChatMessages" ) )
+			if ( Preferences.getBoolean( "logChatMessages" ) )
 			{
 				buffer.setActiveLogFile( new File( KoLConstants.CHATLOG_LOCATION, ChatManager.getChatLogName( channel ) ) );
 			}
@@ -1281,11 +1282,11 @@ public abstract class ChatManager
 
 		StringBuffer newSetting = new StringBuffer();
 
-		newSetting.append( KoLSettings.getUserProperty( "highlightList" ) );
+		newSetting.append( Preferences.getString( "highlightList" ) );
 		newSetting.append( "\n" );
 		newSetting.append( LimitedSizeChatBuffer.addHighlight( highlight, color ) );
 
-		KoLSettings.setUserProperty( "highlightList", newSetting.toString().trim() );
+		Preferences.setString( "highlightList", newSetting.toString().trim() );
 
 		Object[] keys = ChatManager.instantMessageBuffers.keySet().toArray();
 		for ( int i = 0; i < keys.length; ++i )
@@ -1335,7 +1336,7 @@ public abstract class ChatManager
 				String settingString = LimitedSizeChatBuffer.removeHighlight( i );
 				LimitedSizeChatBuffer.highlightBuffer.clearBuffer();
 
-				String oldSetting = KoLSettings.getUserProperty( "highlightList" );
+				String oldSetting = Preferences.getString( "highlightList" );
 				int startIndex = oldSetting.indexOf( settingString );
 				int endIndex = startIndex + settingString.length();
 
@@ -1347,7 +1348,7 @@ public abstract class ChatManager
 					newSetting.append( oldSetting.substring( endIndex ) );
 				}
 
-				KoLSettings.setUserProperty( "highlightList", ChatManager.MULTILINE_PATTERN.matcher(
+				Preferences.setString( "highlightList", ChatManager.MULTILINE_PATTERN.matcher(
 					newSetting.toString() ).replaceAll( "\n" ).trim() );
 			}
 		}

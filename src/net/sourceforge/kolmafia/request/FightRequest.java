@@ -41,7 +41,6 @@ import net.sourceforge.kolmafia.BigIsland;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLSettings;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
@@ -54,6 +53,7 @@ import net.sourceforge.kolmafia.session.CustomCombatManager;
 
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Monster;
@@ -258,7 +258,7 @@ public class FightRequest
 	{
 		if ( desiredAction == null )
 		{
-			desiredAction = KoLSettings.getUserProperty( "battleAction" );
+			desiredAction = Preferences.getString( "battleAction" );
 		}
 
 		FightRequest.action1 = CustomCombatManager.getShortCombatOptionName( desiredAction );
@@ -801,7 +801,7 @@ public class FightRequest
 		{
 			this.createAddingScroll( FightRequest.SCROLL_668 );
 		}
-		else if ( KoLSettings.getBooleanProperty( "createHackerSummons" ) )
+		else if ( Preferences.getBoolean( "createHackerSummons" ) )
 		{
 			this.createAddingScroll( FightRequest.SCROLL_31337 );
 		}
@@ -936,7 +936,7 @@ public class FightRequest
 	{
 		if ( FightRequest.isAutomatingFight )
 		{
-			RequestLogger.printLine( "Strategy: " + KoLSettings.getUserProperty( "battleAction" ) );
+			RequestLogger.printLine( "Strategy: " + Preferences.getString( "battleAction" ) );
 		}
 
 		if ( FightRequest.lastUserId != KoLCharacter.getUserId() )
@@ -946,7 +946,7 @@ public class FightRequest
 			FightRequest.wonInitiative = "Round 0: " + KoLCharacter.getUserName() + " wins initiative!";
 		}
 
-		boolean shouldLogAction = KoLSettings.getBooleanProperty( "logBattleAction" );
+		boolean shouldLogAction = Preferences.getBoolean( "logBattleAction" );
 
 		// Whether or not you get initiative is easy -- look for the
 		// text saying "You get the jump".
@@ -974,7 +974,7 @@ public class FightRequest
 			RequestLogger.updateSessionLog( FightRequest.wonInitiative );
 		}
 
-		FightRequest.action1 = KoLSettings.getUserProperty( "defaultAutoAttack" );
+		FightRequest.action1 = Preferences.getString( "defaultAutoAttack" );
 
 		// If no default action is made by the player, then the round remains
 		// the same.  Simply report winning/losing initiative.
@@ -1074,7 +1074,7 @@ public class FightRequest
 		// Log familiar actions, if the player wishes to include this
 		// information in their session logs.
 
-		if ( KoLSettings.getBooleanProperty( "logFamiliarActions" ) )
+		if ( Preferences.getBoolean( "logFamiliarActions" ) )
 		{
 			Matcher familiarActMatcher = FightRequest.FAMILIAR_ACT_PATTERN.matcher( responseText );
 			while ( familiarActMatcher.find() )
@@ -1123,7 +1123,7 @@ public class FightRequest
 		while ( blindIndex != -1 )
 		{
 			RequestLogger.printLine( "You acquire... something." );
-			if ( KoLSettings.getBooleanProperty( "logAcquiredItems" ) )
+			if ( Preferences.getBoolean( "logAcquiredItems" ) )
 			{
 				RequestLogger.updateSessionLog( "You acquire... something." );
 			}
@@ -1140,7 +1140,7 @@ public class FightRequest
 		// Check for bounty item not dropping from a monster
 		// that is known to drop the item.
 
-		int bountyItemId = KoLSettings.getIntegerProperty( "currentBountyItem" );
+		int bountyItemId = Preferences.getInteger( "currentBountyItem" );
 		if ( monsterData != null && bountyItemId != 0 )
 		{
 			AdventureResult bountyItem = new AdventureResult( bountyItemId, 1 );
@@ -1209,7 +1209,7 @@ public class FightRequest
 
 			if ( effectData != null )
 			{
-				KoLSettings.setUserProperty( "lastBangPotion" + potionId, effectData );
+				Preferences.setString( "lastBangPotion" + potionId, effectData );
 			}
 		}
 	}
@@ -1256,7 +1256,7 @@ public class FightRequest
 
 			if ( effectData != null )
 			{
-				KoLSettings.setUserProperty( "lastStoneSphere" + sphereId, effectData );
+				Preferences.setString( "lastStoneSphere" + sphereId, effectData );
 			}
 		}
 	}
@@ -1269,7 +1269,7 @@ public class FightRequest
 	public static final String stoneSphereName( final int itemId, final String name )
 	{
 		KoLCharacter.ensureUpdatedSphereEffects();
-		String effect = KoLSettings.getUserProperty( "lastStoneSphere" + itemId );
+		String effect = Preferences.getString( "lastStoneSphere" + itemId );
 		if ( effect.equals( "" ) )
 		{
 			return name;
@@ -1285,7 +1285,7 @@ public class FightRequest
 		for ( int i = 2174; i <= 2177; ++i )
 		{
 			String itemId = String.valueOf( i );
-			String value = KoLSettings.getUserProperty( "lastStoneSphere" + itemId );
+			String value = Preferences.getString( "lastStoneSphere" + itemId );
 
 			if ( value.equals( "plants" ) )
 			{
@@ -1372,7 +1372,7 @@ public class FightRequest
 		// Done with all processing for monster damage, now handle responseText.
 
 		FightRequest.healthModifier += damageThisRound;
-		if ( !KoLSettings.getBooleanProperty( "logMonsterHealth" ) )
+		if ( !Preferences.getBoolean( "logMonsterHealth" ) )
 		{
 			return;
 		}
@@ -1710,7 +1710,7 @@ public class FightRequest
 			return true;
 		}
 
-		boolean shouldLogAction = KoLSettings.getBooleanProperty( "logBattleAction" );
+		boolean shouldLogAction = Preferences.getBoolean( "logBattleAction" );
 		StringBuffer action = new StringBuffer();
 
 		// Begin logging all the different combat actions and storing

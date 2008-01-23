@@ -38,9 +38,10 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLSettings;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+
+import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class TelescopeRequest
 	extends GenericRequest
@@ -148,7 +149,7 @@ public class TelescopeRequest
 		// We looked low. Deduce how many upgrades our telescope has
 		// and save what we spied in the tower.
 
-		KoLSettings.setUserProperty( "lastTelescopeReset", String.valueOf( KoLCharacter.getAscensions() ) );
+		Preferences.setString( "lastTelescopeReset", String.valueOf( KoLCharacter.getAscensions() ) );
 
 		int upgrades = 0;
 
@@ -161,11 +162,11 @@ public class TelescopeRequest
 			}
 
 			upgrades++ ;
-			KoLSettings.setUserProperty( "telescope" + upgrades, matcher.group( 1 ) );
+			Preferences.setString( "telescope" + upgrades, matcher.group( 1 ) );
 		}
 
 		KoLCharacter.setTelescopeUpgrades( upgrades );
-		KoLSettings.setUserProperty( "telescopeUpgrades", String.valueOf( upgrades ) );
+		Preferences.setString( "telescopeUpgrades", String.valueOf( upgrades ) );
 	}
 
 	public static final boolean registerRequest( final String urlString )

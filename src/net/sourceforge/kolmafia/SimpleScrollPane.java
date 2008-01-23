@@ -41,6 +41,8 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.UIManager;
 import javax.swing.text.JTextComponent;
 
+import net.sourceforge.kolmafia.persistence.Preferences;
+
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class SimpleScrollPane
@@ -75,7 +77,7 @@ public class SimpleScrollPane
 
 		if ( view instanceof JList )
 		{
-			if ( KoLSettings.getUserProperty( "swingLookAndFeel" ).equals(
+			if ( Preferences.getString( "swingLookAndFeel" ).equals(
 				UIManager.getCrossPlatformLookAndFeelClassName() ) )
 			{
 				( (JList) view ).setFont( KoLConstants.DEFAULT_FONT );

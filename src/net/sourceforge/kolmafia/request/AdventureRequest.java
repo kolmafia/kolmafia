@@ -40,7 +40,6 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FightFrame;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLSettings;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -48,6 +47,8 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
 import net.sourceforge.kolmafia.session.LouvreManager;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
+
+import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class AdventureRequest
 	extends GenericRequest
@@ -676,14 +677,14 @@ public class AdventureRequest
 			}
 
 			String settingName = "demonName" + index;
-			String previousName = KoLSettings.getUserProperty( settingName );
+			String previousName = Preferences.getString( settingName );
 
 			if ( previousName.equals( demon ) )
 				return;
 
 			RequestLogger.printLine( "Demon name: " + demon );
 			RequestLogger.updateSessionLog( "Demon name: " + demon );
-			KoLSettings.setUserProperty( settingName, demon );
+			Preferences.setString( settingName, demon );
 
 			if ( KoLConstants.conditions.isEmpty() )
 				KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, (String) demons[ index ][0] );
@@ -801,7 +802,7 @@ public class AdventureRequest
 	{
 		if ( location.startsWith( "barrel.php" ) || location.startsWith( "shore.php" ) )
 		{
-			if ( !KoLSettings.getBooleanProperty( "cloverProtectActive" ) )
+			if ( !Preferences.getBoolean( "cloverProtectActive" ) )
 			{
 				return false;
 			}
@@ -820,7 +821,7 @@ public class AdventureRequest
 			return false;
 		}
 
-		if ( !KoLSettings.getBooleanProperty( "cloverProtectActive" ) )
+		if ( !Preferences.getBoolean( "cloverProtectActive" ) )
 		{
 			return false;
 		}

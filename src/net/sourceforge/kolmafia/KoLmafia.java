@@ -112,6 +112,7 @@ import net.sourceforge.kolmafia.persistence.CustomItemDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
@@ -388,9 +389,9 @@ public abstract class KoLmafia
 		// Reload your settings and determine all the different users which
 		// are present in your save state list.
 
-		KoLSettings.setUserProperty(
+		Preferences.setString(
 			"defaultLoginServer", String.valueOf( 1 + KoLConstants.RNG.nextInt( GenericRequest.SERVER_COUNT ) ) );
-		KoLSettings.setUserProperty( "relayBrowserOnly", "false" );
+		Preferences.setString( "relayBrowserOnly", "false" );
 
 		String actualName;
 		String[] pastUsers = StaticEntity.getPastUserList();
@@ -402,7 +403,7 @@ public abstract class KoLmafia
 				continue;
 			}
 
-			actualName = KoLSettings.getGlobalProperty( pastUsers[ i ], "displayName" );
+			actualName = Preferences.getString( pastUsers[ i ].toLowerCase() + ".displayName" );
 			if ( actualName.equals( "" ) )
 			{
 				actualName = StaticEntity.globalStringReplace( pastUsers[ i ], "_", " " );
@@ -414,11 +415,11 @@ public abstract class KoLmafia
 		// Also clear out any outdated data files. Include the
 		// adventure table, in case this is causing problems.
 
-		String version = KoLSettings.getUserProperty( "previousUpdateVersion" );
+		String version = Preferences.getString( "previousUpdateVersion" );
 
 		if ( version == null || !version.equals( KoLConstants.VERSION_NAME ) )
 		{
-			KoLSettings.setUserProperty( "previousUpdateVersion", KoLConstants.VERSION_NAME );
+			Preferences.setString( "previousUpdateVersion", KoLConstants.VERSION_NAME );
 			for ( int i = 0; i < KoLConstants.OVERRIDE_DATA.length; ++i )
 			{
 				File outdated = new File( UtilityConstants.DATA_LOCATION, KoLConstants.OVERRIDE_DATA[ i ] );
@@ -436,7 +437,7 @@ public abstract class KoLmafia
 		// Change the default look and feel to match the player's
 		// preferences.  Always do this.
 
-		String lookAndFeel = KoLSettings.getUserProperty( "swingLookAndFeel" );
+		String lookAndFeel = Preferences.getString( "swingLookAndFeel" );
 		boolean foundLookAndFeel = false;
 
 		if ( lookAndFeel.equals( "" ) )
@@ -498,7 +499,7 @@ public abstract class KoLmafia
 			SystemTrayFrame.addTrayIcon();
 		}
 
-		KoLSettings.setUserProperty( "swingLookAndFeel", lookAndFeel );
+		Preferences.setString( "swingLookAndFeel", lookAndFeel );
 
 		if ( System.getProperty( "os.name" ).startsWith( "Win" ) || lookAndFeel.equals( UIManager.getCrossPlatformLookAndFeelClassName() ) )
 		{
@@ -509,18 +510,18 @@ public abstract class KoLmafia
 			UIManager.put( "ProgressBar.selectionBackground", Color.black );
 		}
 
-		tab.CloseTabPaneEnhancedUI.selectedA = DataUtilities.toColor( KoLSettings.getUserProperty( "innerTabColor" ) );
-		tab.CloseTabPaneEnhancedUI.selectedB = DataUtilities.toColor( KoLSettings.getUserProperty( "outerTabColor" ) );
+		tab.CloseTabPaneEnhancedUI.selectedA = DataUtilities.toColor( Preferences.getString( "innerTabColor" ) );
+		tab.CloseTabPaneEnhancedUI.selectedB = DataUtilities.toColor( Preferences.getString( "outerTabColor" ) );
 
-		tab.CloseTabPaneEnhancedUI.notifiedA = DataUtilities.toColor( KoLSettings.getUserProperty( "innerChatColor" ) );
-		tab.CloseTabPaneEnhancedUI.notifiedB = DataUtilities.toColor( KoLSettings.getUserProperty( "outerChatColor" ) );
+		tab.CloseTabPaneEnhancedUI.notifiedA = DataUtilities.toColor( Preferences.getString( "innerChatColor" ) );
+		tab.CloseTabPaneEnhancedUI.notifiedB = DataUtilities.toColor( Preferences.getString( "outerChatColor" ) );
 
 		if ( !KoLmafia.acquireFileLock( "1" ) && !KoLmafia.acquireFileLock( "2" ) )
 		{
 			System.exit( -1 );
 		}
 
-		KoLSettings.initializeLists();
+		Preferences.initializeLists();
 		Runtime.getRuntime().addShutdownHook( new ShutdownThread() );
 
 		// Now run the main routines for each, so that
@@ -703,7 +704,7 @@ public abstract class KoLmafia
 		KoLmafia.executedLogin = true;
 
 		KoLmafia.updateDisplay( "Initializing session for " + username + "..." );
-		KoLSettings.setUserProperty( "lastUsername", username );
+		Preferences.setString( "lastUsername", username );
 
 		// Reset all per-player information when refreshing
 		// your session via login.
@@ -721,7 +722,7 @@ public abstract class KoLmafia
 		RequestLogger.openSessionLog();
 		this.resetSession();
 
-		if ( KoLSettings.getBooleanProperty( "logStatusOnLogin" ) )
+		if ( Preferences.getBoolean( "logStatusOnLogin" ) )
 		{
 			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "log", "snapshot" );
 		}
@@ -737,32 +738,32 @@ public abstract class KoLmafia
 		}
 
 		int today = HolidayDatabase.getPhaseStep();
-		if ( KoLSettings.getIntegerProperty( "lastCounterDay" ) != today )
+		if ( Preferences.getInteger( "lastCounterDay" ) != today )
 		{
 			KoLmafia.resetCounters();
 		}
 
 		KoLmafia.registerPlayer( username, String.valueOf( KoLCharacter.getUserId() ) );
 
-		if ( KoLSettings.getGlobalProperty( username, "getBreakfast" ).equals( "true" ) )
+		if ( Preferences.getString( username.toLowerCase() + ".getBreakfast" ).equals( "true" ) )
 		{
-			this.getBreakfast( true, KoLSettings.getIntegerProperty( "lastBreakfast" ) != today );
-			KoLSettings.setUserProperty( "lastBreakfast", String.valueOf( today ) );
+			this.getBreakfast( true, Preferences.getInteger( "lastBreakfast" ) != today );
+			Preferences.setString( "lastBreakfast", String.valueOf( today ) );
 		}
 
 		// Also, do mushrooms, if a mushroom script has already
 		// been setup by the user.
 
-		if ( KoLSettings.getBooleanProperty( "autoPlant" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ) )
+		if ( Preferences.getBoolean( "autoPlant" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ) )
 		{
-			String currentLayout = KoLSettings.getUserProperty( "plantingScript" );
+			String currentLayout = Preferences.getString( "plantingScript" );
 			if ( !currentLayout.equals( "" ) && KoLCharacter.inMuscleSign() && MushroomManager.ownsPlot() )
 			{
 				KoLmafiaCLI.DEFAULT_SHELL.executeLine( "call " + KoLConstants.PLOTS_DIRECTORY + currentLayout + ".ash" );
 			}
 		}
 
-		String scriptSetting = KoLSettings.getUserProperty( "loginScript" );
+		String scriptSetting = Preferences.getString( "loginScript" );
 		if ( !scriptSetting.equals( "" ) )
 		{
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( scriptSetting );
@@ -771,22 +772,22 @@ public abstract class KoLmafia
 
 	public static final void resetCounters()
 	{
-		KoLSettings.setUserProperty( "lastCounterDay", String.valueOf( HolidayDatabase.getPhaseStep() ) );
-		KoLSettings.setUserProperty( "breakfastCompleted", "false" );
+		Preferences.setString( "lastCounterDay", String.valueOf( HolidayDatabase.getPhaseStep() ) );
+		Preferences.setString( "breakfastCompleted", "false" );
 
-		KoLSettings.setUserProperty( "expressCardUsed", "false" );
-		KoLSettings.setUserProperty( "currentFullness", "0" );
-		KoLSettings.setUserProperty( "currentMojoFilters", "0" );
-		KoLSettings.setUserProperty( "currentSpleenUse", "0" );
-		KoLSettings.setUserProperty( "currentPvpVictories", "" );
+		Preferences.setString( "expressCardUsed", "false" );
+		Preferences.setString( "currentFullness", "0" );
+		Preferences.setString( "currentMojoFilters", "0" );
+		Preferences.setString( "currentSpleenUse", "0" );
+		Preferences.setString( "currentPvpVictories", "" );
 
-		KoLSettings.setUserProperty( "snowconeSummons", "0" );
-		KoLSettings.setUserProperty( "grimoireSummons", "0" );
-		KoLSettings.setUserProperty( "candyHeartSummons", "0" );
+		Preferences.setString( "snowconeSummons", "0" );
+		Preferences.setString( "grimoireSummons", "0" );
+		Preferences.setString( "candyHeartSummons", "0" );
 
-		KoLSettings.setUserProperty( "noodleSummons", "0" );
-		KoLSettings.setUserProperty( "reagentSummons", "0" );
-		KoLSettings.setUserProperty( "cocktailSummons", "0" );
+		Preferences.setString( "noodleSummons", "0" );
+		Preferences.setString( "reagentSummons", "0" );
+		Preferences.setString( "cocktailSummons", "0" );
 
 		// Libram summoning skills now costs 1 MP again
 		KoLConstants.summoningSkills.sort();
@@ -795,14 +796,14 @@ public abstract class KoLmafia
 
 	public static final void resetPerAscensionCounters()
 	{
-		KoLSettings.setUserProperty( "currentBountyItem", "0" );
-		KoLSettings.setUserProperty( "currentHippyStore", "none" );
-		KoLSettings.setUserProperty( "currentWheelPosition", "muscle" );
-		KoLSettings.setUserProperty( "fratboysDefeated", "0" );
-		KoLSettings.setUserProperty( "guyMadeOfBeesCount", "0" );
-		KoLSettings.setUserProperty( "guyMadeOfBeesDefeated", "false" );
-		KoLSettings.setUserProperty( "hippiesDefeated", "0" );
-		KoLSettings.setUserProperty( "trapperOre", "chrome" );
+		Preferences.setString( "currentBountyItem", "0" );
+		Preferences.setString( "currentHippyStore", "none" );
+		Preferences.setString( "currentWheelPosition", "muscle" );
+		Preferences.setString( "fratboysDefeated", "0" );
+		Preferences.setString( "guyMadeOfBeesCount", "0" );
+		Preferences.setString( "guyMadeOfBeesDefeated", "false" );
+		Preferences.setString( "hippiesDefeated", "0" );
+		Preferences.setString( "trapperOre", "chrome" );
 	}
 
 	public void getBreakfast( final boolean checkSettings, final boolean checkCampground )
@@ -827,13 +828,13 @@ public abstract class KoLmafia
 				KoLmafia.forceContinue();
 			}
 
-			if ( KoLSettings.getBooleanProperty( "visitRumpus" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ) )
+			if ( Preferences.getBoolean( "visitRumpus" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ) )
 			{
 				RequestThread.postRequest( new ClanRumpusRequest( ClanRumpusRequest.SEARCH ) );
 				KoLmafia.forceContinue();
 			}
 
-			if ( KoLSettings.getBooleanProperty( "readManual" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ) )
+			if ( Preferences.getBoolean( "readManual" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ) )
 			{
 				AdventureResult manual =
 					KoLCharacter.isMuscleClass() ? KoLmafia.MANUAL_1 : KoLCharacter.isMysticalityClass() ? KoLmafia.MANUAL_2 : KoLmafia.MANUAL_3;
@@ -845,7 +846,7 @@ public abstract class KoLmafia
 				KoLmafia.forceContinue();
 			}
 
-			if ( KoLSettings.getBooleanProperty( "useCrimboToys" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ) )
+			if ( Preferences.getBoolean( "useCrimboToys" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ) )
 			{
 				for ( int i = 0; i < CRIMBO_TOYS.length; ++i )
 				{
@@ -858,7 +859,7 @@ public abstract class KoLmafia
 				}
 			}
 
-			if ( KoLSettings.getBooleanProperty( "grabClovers" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ) )
+			if ( Preferences.getBoolean( "grabClovers" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ) )
 			{
 				if ( HermitRequest.getWorthlessItemCount() > 0 )
 				{
@@ -878,14 +879,14 @@ public abstract class KoLmafia
 
 	private void bigIslandBreakfast()
 	{
-		if ( KoLSettings.getIntegerProperty( "lastFilthClearance" ) == KoLCharacter.getAscensions() )
+		if ( Preferences.getInteger( "lastFilthClearance" ) == KoLCharacter.getAscensions() )
 		{
 			KoLmafia.updateDisplay( "Collecting cut of hippy profits..." );
 			RequestThread.postRequest( new GenericRequest( "store.php?whichstore=h" ) );
 			KoLmafia.forceContinue();
 		}
 
-		if ( !KoLSettings.getUserProperty( "warProgress" ).equals( "started" ) )
+		if ( !Preferences.getString( "warProgress" ).equals( "started" ) )
 		{
 			return;
 		}
@@ -893,10 +894,10 @@ public abstract class KoLmafia
 		SpecialOutfit hippy = EquipmentDatabase.getAvailableOutfit( CoinmastersFrame.WAR_HIPPY_OUTFIT );
 		SpecialOutfit fratboy = EquipmentDatabase.getAvailableOutfit( CoinmastersFrame.WAR_FRAT_OUTFIT );
 
-		String lighthouse = KoLSettings.getUserProperty( "sidequestLighthouseCompleted" );
+		String lighthouse = Preferences.getString( "sidequestLighthouseCompleted" );
 		SpecialOutfit lighthouseOutfit = this.sidequestOutfit( lighthouse, hippy, fratboy );
 
-		String farm = KoLSettings.getUserProperty( "sidequestFarmCompleted" );
+		String farm = Preferences.getString( "sidequestFarmCompleted" );
 		SpecialOutfit farmOutfit = this.sidequestOutfit( farm, hippy, fratboy );
 
 		// If we can't get to (or don't need to get to) either
@@ -1007,13 +1008,13 @@ public abstract class KoLmafia
 	{
 		this.castBreakfastSkills(
 			checkSettings,
-			KoLSettings.getBooleanProperty( "loginRecovery" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ),
+			Preferences.getBoolean( "loginRecovery" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ),
 			manaRemaining );
 	}
 
 	public boolean castBreakfastSkills( boolean checkSettings, final boolean allowRestore, final int manaRemaining )
 	{
-		if ( KoLSettings.getBooleanProperty( "breakfastCompleted" ) )
+		if ( Preferences.getBoolean( "breakfastCompleted" ) )
 		{
 			return true;
 		}
@@ -1022,9 +1023,9 @@ public abstract class KoLmafia
 		boolean limitExceeded = true;
 
 		String skillSetting =
-			KoLSettings.getUserProperty( "breakfast" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) );
+			Preferences.getString( "breakfast" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) );
 		boolean pathedSummons =
-			KoLSettings.getBooleanProperty( "pathedSummons" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) );
+			Preferences.getBoolean( "pathedSummons" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) );
 
 		if ( skillSetting != null )
 		{
@@ -1053,7 +1054,7 @@ public abstract class KoLmafia
 			}
 		}
 
-		KoLSettings.setUserProperty( "breakfastCompleted", String.valueOf( limitExceeded ) );
+		Preferences.setString( "breakfastCompleted", String.valueOf( limitExceeded ) );
 		return limitExceeded;
 	}
 
@@ -1153,14 +1154,14 @@ public abstract class KoLmafia
 			KoLCharacter.checkTelescope();
 		}
 
-		if ( KoLSettings.getIntegerProperty( "lastEmptiedStorage" ) != KoLCharacter.getAscensions() )
+		if ( Preferences.getInteger( "lastEmptiedStorage" ) != KoLCharacter.getAscensions() )
 		{
 			if ( KoLCharacter.canInteract() || !KoLCharacter.inBadMoon() )
 			{
 				RequestThread.postRequest( new ClosetRequest() );
 				if ( KoLConstants.storage.isEmpty() )
 				{
-					KoLSettings.setUserProperty( "lastEmptiedStorage", String.valueOf( KoLCharacter.getAscensions() ) );
+					Preferences.setString( "lastEmptiedStorage", String.valueOf( KoLCharacter.getAscensions() ) );
 				}
 			}
 		}
@@ -1711,7 +1712,7 @@ public abstract class KoLmafia
 		// First, check for beaten up, if the person has tongue as an
 		// auto-heal option. This takes precedence over all other checks.
 
-		String restoreSetting = KoLSettings.getUserProperty( settingName + "Items" ).trim().toLowerCase();
+		String restoreSetting = Preferences.getString( settingName + "Items" ).trim().toLowerCase();
 
 		// Next, check against the restore needed to see if
 		// any restoration needs to take place.
@@ -1722,7 +1723,7 @@ public abstract class KoLmafia
 		currentMethod = KoLCharacter.class.getMethod( currentName, new Class[ 0 ] );
 		maximumMethod = KoLCharacter.class.getMethod( maximumName, new Class[ 0 ] );
 
-		float setting = KoLSettings.getFloatProperty( settingName );
+		float setting = Preferences.getFloat( settingName );
 
 		if ( setting < 0.0f && desired == 0 )
 		{
@@ -1750,7 +1751,7 @@ public abstract class KoLmafia
 		// Next, check against the restore target to see how
 		// far you need to go.
 
-		setting = KoLSettings.getFloatProperty( settingName + "Target" );
+		setting = Preferences.getFloat( settingName + "Target" );
 		desired = Math.min( maximum, Math.max( desired, setting * maximum ) );
 
 		if ( BuffBotHome.isBuffBotActive() || desired > maximum )
@@ -2007,7 +2008,7 @@ public abstract class KoLmafia
 	{
 		try
 		{
-			if ( KoLSettings.getBooleanProperty( "removeMalignantEffects" ) )
+			if ( Preferences.getBoolean( "removeMalignantEffects" ) )
 			{
 				MoodManager.removeMalignantEffects();
 			}
@@ -2055,7 +2056,7 @@ public abstract class KoLmafia
 	public static final int getRestoreCount()
 	{
 		int restoreCount = 0;
-		String mpRestoreSetting = KoLSettings.getUserProperty( "mpAutoRecoveryItems" );
+		String mpRestoreSetting = Preferences.getString( "mpAutoRecoveryItems" );
 
 		for ( int i = 0; i < MPRestoreItemList.CONFIGURES.length; ++i )
 		{
@@ -2145,7 +2146,7 @@ public abstract class KoLmafia
 
 				RequestLogger.printLine( message );
 
-				if ( KoLSettings.getBooleanProperty( "logGainMessages" ) )
+				if ( Preferences.getBoolean( "logGainMessages" ) )
 				{
 					RequestLogger.updateSessionLog( message );
 				}
@@ -2161,7 +2162,7 @@ public abstract class KoLmafia
 
 				RequestLogger.printLine( message );
 
-				if ( KoLSettings.getBooleanProperty( "logGainMessages" ) )
+				if ( Preferences.getBoolean( "logGainMessages" ) )
 				{
 					RequestLogger.updateSessionLog( message );
 				}
@@ -2180,7 +2181,7 @@ public abstract class KoLmafia
 
 				RequestLogger.printLine( message );
 
-				if ( KoLSettings.getBooleanProperty( "logGainMessages" ) )
+				if ( Preferences.getBoolean( "logGainMessages" ) )
 				{
 					RequestLogger.updateSessionLog( message );
 				}
@@ -2221,7 +2222,7 @@ public abstract class KoLmafia
 						if ( data == null )
 						{
 							RequestLogger.printLine( acquisition + " " + item );
-							if ( KoLSettings.getBooleanProperty( "logAcquiredItems" ) )
+							if ( Preferences.getBoolean( "logAcquiredItems" ) )
 							{
 								RequestLogger.updateSessionLog( acquisition + " " + item );
 							}
@@ -2264,7 +2265,7 @@ public abstract class KoLmafia
 
 						RequestLogger.printLine( acquisition + " " + item );
 
-						if ( KoLSettings.getBooleanProperty( "logAcquiredItems" ) )
+						if ( Preferences.getBoolean( "logAcquiredItems" ) )
 						{
 							RequestLogger.updateSessionLog( acquisition + " " + item );
 						}
@@ -2287,7 +2288,7 @@ public abstract class KoLmafia
 
 					RequestLogger.printLine( acquisition + " " + effectName + " " + lastToken );
 
-					if ( KoLSettings.getBooleanProperty( "logStatusEffects" ) )
+					if ( Preferences.getBoolean( "logStatusEffects" ) )
 					{
 						RequestLogger.updateSessionLog( acquisition + " " + effectName + " " + lastToken );
 					}
@@ -2356,12 +2357,12 @@ public abstract class KoLmafia
 						this.processResult( lastResult );
 						if ( lastResult.getName().equals( AdventureResult.SUBSTATS ) )
 						{
-							if ( KoLSettings.getBooleanProperty( "logStatGains" ) )
+							if ( Preferences.getBoolean( "logStatGains" ) )
 							{
 								RequestLogger.updateSessionLog( lastToken );
 							}
 						}
-						else if ( KoLSettings.getBooleanProperty( "logGainMessages" ) )
+						else if ( Preferences.getBoolean( "logGainMessages" ) )
 						{
 							RequestLogger.updateSessionLog( lastToken );
 						}
@@ -2370,7 +2371,7 @@ public abstract class KoLmafia
 					else if ( lastResult.getName().equals( AdventureResult.MEAT ) )
 					{
 						AdventureResult.addResultToList( data, lastResult );
-						if ( KoLSettings.getBooleanProperty( "logGainMessages" ) )
+						if ( Preferences.getBoolean( "logGainMessages" ) )
 						{
 							RequestLogger.updateSessionLog( lastToken );
 						}
@@ -2842,7 +2843,7 @@ public abstract class KoLmafia
 
 		if ( bounties.isEmpty() )
 		{
-			int bounty = KoLSettings.getIntegerProperty( "currentBountyItem" );
+			int bounty = Preferences.getInteger( "currentBountyItem" );
 			if ( bounty == 0 )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You're already on a bounty hunt." );
@@ -2991,12 +2992,12 @@ public abstract class KoLmafia
 
 	public static final void validateFaucetQuest()
 	{
-		int lastAscension = KoLSettings.getIntegerProperty( "lastTavernAscension" );
+		int lastAscension = Preferences.getInteger( "lastTavernAscension" );
 		if ( lastAscension < KoLCharacter.getAscensions() )
 		{
-			KoLSettings.setUserProperty( "lastTavernSquare", "0" );
-			KoLSettings.setUserProperty( "lastTavernAscension", String.valueOf( KoLCharacter.getAscensions() ) );
-			KoLSettings.setUserProperty( "tavernLayout", "0000000000000000000000000" );
+			Preferences.setString( "lastTavernSquare", "0" );
+			Preferences.setString( "lastTavernAscension", String.valueOf( KoLCharacter.getAscensions() ) );
+			Preferences.setString( "tavernLayout", "0000000000000000000000000" );
 		}
 	}
 
@@ -3008,11 +3009,11 @@ public abstract class KoLmafia
 			return;
 		}
 
-		StringBuffer layout = new StringBuffer( KoLSettings.getUserProperty( "tavernLayout" ) );
+		StringBuffer layout = new StringBuffer( Preferences.getString( "tavernLayout" ) );
 
 		if ( request.getURLString().indexOf( "fight" ) != -1 )
 		{
-			int square = KoLSettings.getIntegerProperty( "lastTavernSquare" );
+			int square = Preferences.getInteger( "lastTavernSquare" );
 			if ( request.responseText != null )
 			{
 				layout.setCharAt( square - 1, request.responseText.indexOf( "Baron" ) != -1 ? '4' : '1' );
@@ -3037,7 +3038,7 @@ public abstract class KoLmafia
 			// the response text will be null.
 
 			int square = StaticEntity.parseInt( squareMatcher.group( 1 ) );
-			KoLSettings.setUserProperty( "lastTavernSquare", String.valueOf( square ) );
+			Preferences.setString( "lastTavernSquare", String.valueOf( square ) );
 
 			char replacement = '1';
 			if ( request.responseText != null && request.responseText.indexOf( "faucetoff" ) != -1 )
@@ -3052,7 +3053,7 @@ public abstract class KoLmafia
 			layout.setCharAt( square - 1, replacement );
 		}
 
-		KoLSettings.setUserProperty( "tavernLayout", layout.toString() );
+		Preferences.setString( "tavernLayout", layout.toString() );
 	}
 
 	/**
@@ -3074,7 +3075,7 @@ public abstract class KoLmafia
 			searchList.add( new Integer( i ) );
 		}
 
-		String visited = KoLSettings.getUserProperty( "tavernLayout" );
+		String visited = Preferences.getString( "tavernLayout" );
 		for ( int i = visited.length() - 1; i >= 0; --i )
 		{
 			switch ( visited.charAt( i ) )
@@ -3383,13 +3384,13 @@ public abstract class KoLmafia
 					break;
 
 				default:
-					encodedString.append( Integer.toHexString( (int) currentCharacter ).toUpperCase() );
+					encodedString.append( Integer.toHexString( currentCharacter ).toUpperCase() );
 					break;
 				}
 			}
 
-			KoLSettings.setGlobalProperty(
-				username, "saveState", ( new BigInteger( encodedString.toString(), 36 ) ).toString( 10 ) );
+			Preferences.setString(
+				username.toLowerCase() + ".saveState", ( new BigInteger( encodedString.toString(), 36 ) ).toString( 10 ) );
 			if ( !KoLConstants.saveStateNames.contains( username ) )
 			{
 				KoLConstants.saveStateNames.add( username );
@@ -3412,7 +3413,7 @@ public abstract class KoLmafia
 		}
 
 		KoLConstants.saveStateNames.remove( loginname );
-		KoLSettings.setGlobalProperty( loginname, "saveState", "" );
+		Preferences.setString( loginname.toLowerCase() + ".saveState", "" );
 	}
 
 	/**
@@ -3424,7 +3425,7 @@ public abstract class KoLmafia
 	{
 		try
 		{
-			String password = KoLSettings.getGlobalProperty( loginname, "saveState" );
+			String password = Preferences.getString( loginname + ".saveState" );
 			if ( password == null || password.length() == 0 || password.indexOf( "/" ) != -1 )
 			{
 				return null;
@@ -3598,7 +3599,7 @@ public abstract class KoLmafia
 
 			if ( currentRequest.getQuantity() != MallPurchaseRequest.MAX_QUANTITY )
 			{
-				if ( !KoLCharacter.canInteract() || isAutomated && !KoLSettings.getBooleanProperty( "autoSatisfyWithMall" ) )
+				if ( !KoLCharacter.canInteract() || isAutomated && !Preferences.getBoolean( "autoSatisfyWithMall" ) )
 				{
 					continue;
 				}
@@ -3979,7 +3980,7 @@ public abstract class KoLmafia
 
 	public boolean runThresholdChecks()
 	{
-		float autoStopValue = KoLSettings.getFloatProperty( "autoAbortThreshold" );
+		float autoStopValue = Preferences.getFloat( "autoAbortThreshold" );
 		if ( autoStopValue >= 0.0f )
 		{
 			autoStopValue *= (float) KoLCharacter.getMaximumHP();
@@ -4019,7 +4020,7 @@ public abstract class KoLmafia
 
 		if ( isScriptCheck )
 		{
-			String scriptPath = KoLSettings.getUserProperty( "betweenBattleScript" );
+			String scriptPath = Preferences.getString( "betweenBattleScript" );
 			if ( !scriptPath.equals( "" ) )
 			{
 				KoLmafiaCLI.DEFAULT_SHELL.executeLine( scriptPath );
@@ -4503,7 +4504,7 @@ public abstract class KoLmafia
 	public void handleAscension()
 	{
 		RequestThread.openRequestSequence();
-		KoLSettings.setUserProperty( "lastBreakfast", "-1" );
+		Preferences.setString( "lastBreakfast", "-1" );
 
 		KoLmafia.resetCounters();
 		KoLmafia.resetPerAscensionCounters();
@@ -4614,7 +4615,7 @@ public abstract class KoLmafia
 				return;
 			}
 
-			long lastUpdate = Long.parseLong( KoLSettings.getUserProperty( "lastRssUpdate" ) );
+			long lastUpdate = Long.parseLong( Preferences.getString( "lastRssUpdate" ) );
 			if ( System.currentTimeMillis() - lastUpdate < 86400000L )
 			{
 				return;
@@ -4640,10 +4641,10 @@ public abstract class KoLmafia
 					return;
 				}
 
-				String lastVersion = KoLSettings.getUserProperty( "lastRssVersion" );
+				String lastVersion = Preferences.getString( "lastRssVersion" );
 				String currentVersion = updateMatcher.group( 1 );
 
-				KoLSettings.setUserProperty( "lastRssVersion", currentVersion );
+				Preferences.setString( "lastRssVersion", currentVersion );
 
 				if ( currentVersion.equals( KoLConstants.VERSION_NAME ) || currentVersion.equals( lastVersion ) )
 				{
@@ -4666,7 +4667,7 @@ public abstract class KoLmafia
 	{
 		public void run()
 		{
-			KoLSettings.saveFlaggedItemList();
+			Preferences.saveFlaggedItemList();
 			CustomItemDatabase.saveItemData();
 
 			RequestLogger.closeSessionLog();

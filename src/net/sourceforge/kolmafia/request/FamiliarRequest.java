@@ -40,10 +40,11 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLSettings;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
+
+import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class FamiliarRequest
 	extends GenericRequest
@@ -240,7 +241,7 @@ public class FamiliarRequest
 
 			if ( changeTo.getId() == 59 )
 			{
-				KoLSettings.setUserProperty( "preBlackbirdFamiliar", KoLCharacter.getFamiliar().getRace() );
+				Preferences.setString( "preBlackbirdFamiliar", KoLCharacter.getFamiliar().getRace() );
 			}
 
 			int index = KoLCharacter.getFamiliarList().indexOf( changeTo );

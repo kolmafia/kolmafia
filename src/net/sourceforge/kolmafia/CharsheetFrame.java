@@ -49,6 +49,7 @@ import javax.swing.SwingConstants;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class CharsheetFrame
 	extends AdventureOptionsFrame
@@ -97,7 +98,7 @@ public class CharsheetFrame
 		KoLCharacter.addCharacterListener( this.statusRefresher );
 
 		this.statusRefresher.updateStatus();
-		CharsheetFrame.updateSelectedAdventure( AdventureDatabase.getAdventure( KoLSettings.getUserProperty( "lastAdventure" ) ) );
+		CharsheetFrame.updateSelectedAdventure( AdventureDatabase.getAdventure( Preferences.getString( "lastAdventure" ) ) );
 	}
 
 	public boolean useSidePane()

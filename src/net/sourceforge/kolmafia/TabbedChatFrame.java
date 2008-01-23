@@ -50,6 +50,8 @@ import com.sun.java.forums.CloseableTabbedPaneListener;
 
 import net.sourceforge.kolmafia.session.ChatManager;
 
+import net.sourceforge.kolmafia.persistence.Preferences;
+
 public class TabbedChatFrame
 	extends ChatFrame
 	implements ChangeListener, CloseListener, CloseableTabbedPaneListener
@@ -61,7 +63,7 @@ public class TabbedChatFrame
 	public TabbedChatFrame()
 	{
 		this.commandLineDisplay = new ChatPanel( ChatFrame.GCLI_TAB );
-		TabbedChatFrame.addGCLI = KoLSettings.getBooleanProperty( "addChatCommandLine" );
+		TabbedChatFrame.addGCLI = Preferences.getBoolean( "addChatCommandLine" );
 		ChatManager.setTabbedFrame( this );
 
 		this.setTitle( "Loathing Chat" );
@@ -69,7 +71,7 @@ public class TabbedChatFrame
 
 	public JTabbedPane getTabbedPane()
 	{
-		return KoLSettings.getBooleanProperty( "useShinyTabbedChat" ) ? (JTabbedPane) new CloseTabbedPane() : (JTabbedPane) new CloseableTabbedPane();
+		return Preferences.getBoolean( "useShinyTabbedChat" ) ? (JTabbedPane) new CloseTabbedPane() : (JTabbedPane) new CloseableTabbedPane();
 	}
 
 	/**

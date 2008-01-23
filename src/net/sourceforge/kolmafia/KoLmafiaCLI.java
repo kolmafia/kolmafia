@@ -107,6 +107,7 @@ import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
@@ -280,7 +281,7 @@ public class KoLmafiaCLI
 			StaticEntity.printStackTrace( e );
 		}
 
-		if ( KoLSettings.getGlobalProperty( "initialFrames" ).indexOf( "LocalRelayServer" ) != -1 )
+		if ( Preferences.getString( "initialFrames" ).indexOf( "LocalRelayServer" ) != -1 )
 		{
 			KoLmafiaGUI.constructFrame( "LocalRelayServer" );
 		}
@@ -1068,16 +1069,16 @@ public class KoLmafiaCLI
 			int splitIndex = parameters.indexOf( "=" );
 			if ( splitIndex == -1 )
 			{
-				if ( KoLSettings.isUserEditable( parameters ) )
+				if ( Preferences.isUserEditable( parameters ) )
 				{
-					RequestLogger.printLine( KoLSettings.getUserProperty( parameters ) );
+					RequestLogger.printLine( Preferences.getString( parameters ) );
 				}
 
 				return;
 			}
 
 			String name = parameters.substring( 0, splitIndex ).trim();
-			if ( !KoLSettings.isUserEditable( name ) )
+			if ( !Preferences.isUserEditable( name ) )
 			{
 				return;
 			}
@@ -1132,7 +1133,7 @@ public class KoLmafiaCLI
 					value = String.valueOf( SkillDatabase.getSkillId( skillName ) );
 				}
 
-				if ( !KoLSettings.getUserProperty( "defaultAutoAttack" ).equals( value ) )
+				if ( !Preferences.getString( "defaultAutoAttack" ).equals( value ) )
 				{
 					KoLmafiaCLI.AUTO_ATTACKER.addFormField( "whichattack", value );
 					RequestThread.postRequest( KoLmafiaCLI.AUTO_ATTACKER );
@@ -1155,13 +1156,13 @@ public class KoLmafiaCLI
 				StationaryButtonDecorator.reloadCombatHotkeyMap();
 			}
 
-			if ( KoLSettings.getUserProperty( name ).equals( value ) )
+			if ( Preferences.getString( name ).equals( value ) )
 			{
 				return;
 			}
 
 			RequestLogger.printLine( name + " => " + value );
-			KoLSettings.setUserProperty( name, value );
+			Preferences.setString( name, value );
 			return;
 		}
 
@@ -1203,7 +1204,7 @@ public class KoLmafiaCLI
 		{
 			// Validate the script first.
 
-			String[] scripts = KoLSettings.getUserProperty( "commandLineNamespace" ).split( "," );
+			String[] scripts = Preferences.getString( "commandLineNamespace" ).split( "," );
 			for ( int i = 0; i < scripts.length; ++i )
 			{
 				RequestLogger.printLine( scripts[ i ] );
@@ -1241,7 +1242,7 @@ public class KoLmafiaCLI
 				return;
 			}
 
-			String namespace = KoLSettings.getUserProperty( "commandLineNamespace" );
+			String namespace = Preferences.getString( "commandLineNamespace" );
 			if ( namespace.startsWith( parameters + "," ) || namespace.endsWith( "," + parameters ) || namespace.indexOf( "," + parameters + "," ) != -1 )
 			{
 				return;
@@ -1256,7 +1257,7 @@ public class KoLmafiaCLI
 				namespace = namespace + "," + parameters;
 			}
 
-			KoLSettings.setUserProperty( "commandLineNamespace", namespace.toString() );
+			Preferences.setString( "commandLineNamespace", namespace.toString() );
 			return;
 		}
 
@@ -1654,7 +1655,7 @@ public class KoLmafiaCLI
 			{
 				String potion = ItemDatabase.getItemName( i );
 				potion = potion.substring( 0, potion.length() - 7 );
-				RequestLogger.printLine( potion + ": " + KoLSettings.getUserProperty( "lastBangPotion" + i ) );
+				RequestLogger.printLine( potion + ": " + Preferences.getString( "lastBangPotion" + i ) );
 			}
 
 			return;
@@ -1676,7 +1677,7 @@ public class KoLmafiaCLI
 		{
 			for ( int i = 0; i < KoLAdventure.DEMON_TYPES.length; ++i )
 			{
-				RequestLogger.printLine( i + 1 + ": " + KoLSettings.getUserProperty( "demonName" + ( i + 1 ) ) );
+				RequestLogger.printLine( i + 1 + ": " + Preferences.getString( "demonName" + ( i + 1 ) ) );
 				RequestLogger.printLine( " => Found in the " + KoLAdventure.DEMON_TYPES[ i ][ 0 ] );
 				RequestLogger.printLine( " => Gives " + KoLAdventure.DEMON_TYPES[ i ][ 1 ] );
 			}
@@ -1706,7 +1707,7 @@ public class KoLmafiaCLI
 			String demon = parameters;
 			if ( Character.isDigit( parameters.charAt( 0 ) ) )
 			{
-				demon = KoLSettings.getUserProperty( "demonName" + parameters );
+				demon = Preferences.getString( "demonName" + parameters );
 			}
 			else
 			{
@@ -1714,15 +1715,15 @@ public class KoLmafiaCLI
 				{
 					if ( parameters.equalsIgnoreCase( KoLAdventure.DEMON_TYPES[ i ][ 0 ] ) )
 					{
-						demon = KoLSettings.getUserProperty( "demonName" + ( i + 1 ) );
+						demon = Preferences.getString( "demonName" + ( i + 1 ) );
 					}
 					else if ( parameters.equalsIgnoreCase( KoLAdventure.DEMON_TYPES[ i ][ 1 ] ) )
 					{
-						demon = KoLSettings.getUserProperty( "demonName" + ( i + 1 ) );
+						demon = Preferences.getString( "demonName" + ( i + 1 ) );
 					}
-					else if ( parameters.equalsIgnoreCase( KoLSettings.getUserProperty( "demonName" + ( i + 1 ) ) ) )
+					else if ( parameters.equalsIgnoreCase( Preferences.getString( "demonName" + ( i + 1 ) ) ) )
 					{
-						demon = KoLSettings.getUserProperty( "demonName" + ( i + 1 ) );
+						demon = Preferences.getString( "demonName" + ( i + 1 ) );
 					}
 				}
 			}
@@ -2341,7 +2342,7 @@ public class KoLmafiaCLI
 					parameters = parameters.substring( 0, spaceIndex );
 				}
 
-				String previousMood = KoLSettings.getUserProperty( "currentMood" );
+				String previousMood = Preferences.getString( "currentMood" );
 				MoodManager.setMood( parameters );
 
 				this.executeCommand( "mood", "repeat " + multiplicity );
@@ -2762,7 +2763,7 @@ public class KoLmafiaCLI
 				continue;
 			}
 
-			if ( KoLSettings.getUserProperty( "currentPvpVictories" ).indexOf( targets[ i ].getPlayerName() ) != -1 )
+			if ( Preferences.getString( "currentPvpVictories" ).indexOf( targets[ i ].getPlayerName() ) != -1 )
 			{
 				continue;
 			}
@@ -2783,9 +2784,9 @@ public class KoLmafiaCLI
 
 			if ( request.responseText.indexOf( "Your PvP Ranking increased by" ) != -1 )
 			{
-				KoLSettings.setUserProperty(
+				Preferences.setString(
 					"currentPvpVictories",
-					KoLSettings.getUserProperty( "currentPvpVictories" ) + targets[ i ].getPlayerName() + "," );
+					Preferences.getString( "currentPvpVictories" ) + targets[ i ].getPlayerName() + "," );
 			}
 			else
 			{
@@ -3598,7 +3599,7 @@ public class KoLmafiaCLI
 
 			if ( conditionString.equals( "outfit" ) )
 			{
-				outfitLocation = KoLSettings.getUserProperty( "lastAdventure" );
+				outfitLocation = Preferences.getString( "lastAdventure" );
 			}
 			else
 			{
@@ -4136,9 +4137,9 @@ public class KoLmafiaCLI
 		}
 		else if ( desiredData.equals( "counters" ) )
 		{
-			int turns = KoLSettings.getIntegerProperty( "semirareCounter" );
+			int turns = Preferences.getInteger( "semirareCounter" );
 			int current = KoLCharacter.getCurrentRun();
-			String location = KoLSettings.getUserProperty( "semirareLocation" );
+			String location = Preferences.getString( "semirareLocation" );
 			String loc = location.equals( "" ) ? "" : ( " in " + location );
 			desiredStream.println( "Last semirare found " + ( current - turns ) + " turns ago (on turn " + turns + ")" + loc );
 
@@ -4588,7 +4589,7 @@ public class KoLmafiaCLI
 
 				for ( int i = 819; i <= 827 && itemId == -1; ++i )
 				{
-					testProperty = KoLSettings.getUserProperty( "lastBangPotion" + i );
+					testProperty = Preferences.getString( "lastBangPotion" + i );
 					if ( !testProperty.equals( "" ) )
 					{
 						testName = ItemDatabase.getItemName( i ) + " of " + testProperty;
@@ -4911,7 +4912,7 @@ public class KoLmafiaCLI
 		RequestLogger.printLine( "You have a telescope with " + ( upgrades - 1 ) + " additional upgrades" );
 
 		// Every telescope shows you the gates.
-		String gates = KoLSettings.getUserProperty( "telescope1" );
+		String gates = Preferences.getString( "telescope1" );
 		String[] desc = SorceressLairManager.findGateByDescription( gates );
 		if ( desc != null )
 		{
@@ -4928,7 +4929,7 @@ public class KoLmafiaCLI
 		// Upgraded telescopes can show you tower monsters
 		for ( int i = 1; i < upgrades; ++i )
 		{
-			String prop = KoLSettings.getUserProperty( "telescope" + ( i + 1 ) );
+			String prop = Preferences.getString( "telescope" + ( i + 1 ) );
 			desc = SorceressLairManager.findGuardianByDescription( prop );
 			if ( desc != null )
 			{
@@ -5432,7 +5433,7 @@ public class KoLmafiaCLI
 	{
 		int adventureCount;
 		KoLAdventure adventure =
-			AdventureDatabase.getAdventure( parameters.equalsIgnoreCase( "last" ) ? KoLSettings.getUserProperty( "lastAdventure" ) : parameters );
+			AdventureDatabase.getAdventure( parameters.equalsIgnoreCase( "last" ) ? Preferences.getString( "lastAdventure" ) : parameters );
 
 		if ( adventure != null )
 		{

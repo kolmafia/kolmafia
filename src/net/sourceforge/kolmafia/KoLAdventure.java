@@ -53,6 +53,7 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 public class KoLAdventure
@@ -292,15 +293,15 @@ public class KoLAdventure
 
 			if ( this.adventureId.equals( "96" ) )
 			{
-				KoLSettings.setUserProperty( "choiceAdventure71", "1" );
+				Preferences.setString( "choiceAdventure71", "1" );
 			}
 			else if ( this.adventureId.equals( "98" ) )
 			{
-				KoLSettings.setUserProperty( "choiceAdventure71", "2" );
+				Preferences.setString( "choiceAdventure71", "2" );
 			}
 			else
 			{
-				KoLSettings.setUserProperty( "choiceAdventure71", "3" );
+				Preferences.setString( "choiceAdventure71", "3" );
 			}
 
 			// If the player is not half-astral, then
@@ -471,10 +472,10 @@ public class KoLAdventure
 				}
 
 				// Choose the trip
-				KoLSettings.setUserProperty( "choiceAdventure71", choice );
+				Preferences.setString( "choiceAdventure71", choice );
 
 				String name = this.getAdventureName();
-				KoLSettings.setUserProperty( "chosenTrip", name );
+				Preferences.setString( "chosenTrip", name );
 
 				this.isValidAdventure = true;
 				return;
@@ -794,7 +795,7 @@ public class KoLAdventure
 			return;
 		}
 
-		String action = KoLSettings.getUserProperty( "battleAction" );
+		String action = Preferences.getString( "battleAction" );
 
 		if ( this.request instanceof AdventureRequest && !this.adventureId.equals( "80" ) )
 		{
@@ -888,7 +889,7 @@ public class KoLAdventure
 		// In the event that the user made some sort of change
 		// to their auto-attack settings, do nothing.
 
-		if ( !KoLSettings.getUserProperty( "defaultAutoAttack" ).equals( "3" ) )
+		if ( !Preferences.getString( "defaultAutoAttack" ).equals( "3" ) )
 		{
 			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=0" );
 		}
@@ -896,7 +897,7 @@ public class KoLAdventure
 
 	private void updateAutoAttack()
 	{
-		String autoAttack = KoLSettings.getUserProperty( "defaultAutoAttack" );
+		String autoAttack = Preferences.getString( "defaultAutoAttack" );
 
 		// If the player is pickpocketing, they probably do not want
 		// their auto-attack reset to an attack.
@@ -934,7 +935,7 @@ public class KoLAdventure
 			return;
 		}
 
-		String attack = KoLSettings.getUserProperty( "battleAction" );
+		String attack = Preferences.getString( "battleAction" );
 
 		if ( attack.startsWith( "custom" ) || attack.startsWith( "delevel" ) || attack.startsWith( "item" ) )
 		{
@@ -978,9 +979,9 @@ public class KoLAdventure
 		// Update selected adventure information in order to
 		// keep the GUI synchronized.
 
-		if ( !KoLSettings.getUserProperty( "lastAdventure" ).equals( this.adventureName ) )
+		if ( !Preferences.getString( "lastAdventure" ).equals( this.adventureName ) )
 		{
-			KoLSettings.setUserProperty( "lastAdventure", this.adventureName );
+			Preferences.setString( "lastAdventure", this.adventureName );
 
 			if ( !this.isNonCombatsOnly() )
 			{
@@ -1140,7 +1141,7 @@ public class KoLAdventure
 			// in disguise, if your last council visit was a long
 			// time ago.
 
-			if ( locationId.equals( "67" ) && KoLSettings.getIntegerProperty( "lastCouncilVisit" ) < 9 )
+			if ( locationId.equals( "67" ) && Preferences.getInteger( "lastCouncilVisit" ) < 9 )
 			{
 				RequestThread.postRequest( CouncilFrame.COUNCIL_VISIT );
 			}
@@ -1204,7 +1205,7 @@ public class KoLAdventure
 
 	public static final int getAdventureCount()
 	{
-		return KoLSettings.getBooleanProperty( "logReverseOrder" ) ? KoLCharacter.getAdventuresLeft() : KoLCharacter.getCurrentRun() + 1;
+		return Preferences.getBoolean( "logReverseOrder" ) ? KoLCharacter.getAdventuresLeft() : KoLCharacter.getCurrentRun() + 1;
 	}
 
 	public int compareTo( final Object o )

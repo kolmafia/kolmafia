@@ -53,7 +53,6 @@ import net.java.dev.spellcast.utilities.UtilityConstants;
 
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
-import net.sourceforge.kolmafia.KoLSettings;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.RequestThread;
@@ -66,6 +65,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.ProfileRequest;
 
 import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.ProfileSnapshot;
 
 public class ClanManager
@@ -305,12 +305,12 @@ public class ClanManager
 
 	public static final String getURLName( final String name )
 	{
-		return KoLSettings.baseUserName( name ) + "_(%23" + KoLmafia.getPlayerId( name ) + ")" + ".htm";
+		return Preferences.baseUserName( name ) + "_(%23" + KoLmafia.getPlayerId( name ) + ")" + ".htm";
 	}
 
 	public static final String getFileName( final String name )
 	{
-		return KoLSettings.baseUserName( name ) + "_(#" + KoLmafia.getPlayerId( name ) + ")" + ".htm";
+		return Preferences.baseUserName( name ) + "_(#" + KoLmafia.getPlayerId( name ) + ")" + ".htm";
 	}
 
 	private static final void initializeProfile( final String name )
