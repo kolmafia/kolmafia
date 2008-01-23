@@ -137,6 +137,7 @@ public abstract class KoLmafia
 	private static boolean hadPendingState = false;
 
 	protected static String currentIterationString = "";
+	protected static int adventureGains = 0;
 	protected static boolean recoveryActive = false;
 
 	public static boolean isMakingRequest = false;
@@ -1307,10 +1308,18 @@ public abstract class KoLmafia
 			shouldRefresh |= !KoLConstants.activeEffects.contains( result );
 			AdventureResult.addResultToList( KoLConstants.recentEffects, result );
 		}
-		else if ( resultName.equals( AdventureResult.ADV ) && result.getCount() < 0 )
+		else if ( resultName.equals( AdventureResult.ADV ) )
 		{
-			StaticEntity.saveCounters();
-			AdventureResult.addResultToList( KoLConstants.tally, result.getNegation() );
+			if ( result.getCount() < 0 )
+			{
+				StaticEntity.saveCounters();
+				AdventureResult.addResultToList( KoLConstants.tally, result.getNegation() );
+			}
+			else if ( KoLmafia.isAdventuring )
+			{
+				// Remember adventures gained while adventuring
+				KoLmafia.adventureGains += result.getCount();
+			}
 		}
 		else if ( result.isItem() )
 		{
@@ -1811,7 +1820,7 @@ public abstract class KoLmafia
 		// long as your health is above zero, you're okay.
 
 		boolean isNonCombatHealthRestore =
-			settingName.startsWith( "hp" ) && KoLmafia.isAdventuring() && KoLmafia.currentAdventure.isNonCombatsOnly();
+			settingName.startsWith( "hp" ) && KoLmafia.isAdventuring && KoLmafia.currentAdventure.isNonCombatsOnly();
 
 		if ( isNonCombatHealthRestore )
 		{
@@ -2557,9 +2566,11 @@ public abstract class KoLmafia
 		while ( KoLmafia.permitsContinue() && ++currentIteration <= totalIterations )
 		{
 			adventuresBeforeRequest = KoLCharacter.getAdventuresLeft();
+			KoLmafia.adventureGains = 0;
+
 			this.executeRequestOnce( request, wasAdventuring, currentIteration, totalIterations, items, creatables );
 
-			if ( isAdventure && adventuresBeforeRequest == KoLCharacter.getAdventuresLeft() )
+			if ( isAdventure && ( adventuresBeforeRequest + KoLmafia.adventureGains ) == KoLCharacter.getAdventuresLeft() )
 			{
 				--currentIteration;
 				GenericRequest.delay( 5000 );
