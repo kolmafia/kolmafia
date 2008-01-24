@@ -932,6 +932,9 @@ clingfilm slippers	27	bit of clingfilm (7)
 clingfilm cap	27	bit of clingfilm (9)
 clingfilm trousers	27	bit of clingfilm (11)
 
+brick of sand	27	handful of sand (5)
+sandcastle	27	brick of sand (20)
+
 # Recipes that involve single-using one of the ingredients
 
 booty chest charrrm bracelet	28	booty chest charrrm	charrrm bracelet
