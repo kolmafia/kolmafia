@@ -1,18 +1,18 @@
 1
 # Things you can sell to get dimes
 
-sd	3	Elmley shades
-sd	2	PADL Phone
 sd	3	beer bong
 sd	1	beer helmet
 sd	1	bejeweled pledge pin
 sd	3	blue class ring
 sd	1	bottle opener belt buckle
 sd	1	distressed denim pants
+sd	3	Elmley shades
 sd	3	energy drink IV
 sd	1	giant foam finger
 sd	1	keg shield
 sd	2	kick-ass kicks
+sd	2	PADL Phone
 sd	1	perforated battle paddle
 sd	1	red class ring
 sd	2	war tongs
@@ -41,17 +41,17 @@ bdl	2	exploding hacky-sack
 
 # Things you can sell to get quarters
 
-sq	2	Gaia beads
-sq	2	Lockenstock&trade; sandals
 sq	1	bullet-proof corduroys
 sq	2	communications windchimes
 sq	2	didgeridooka
 sq	3	fire poi
 sq	2	flowing hippy skirt
+sq	2	Gaia beads
 sq	5	green clay bead
 sq	3	hippy medical kit
 sq	1	hippy protest button
 sq	1	lead pipe
+sq	2	Lockenstock&trade; sandals
 sq	1	pink clay bead
 sq	3	purple clay bead
 sq	1	reinforced beaded headband
