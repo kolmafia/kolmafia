@@ -5114,6 +5114,11 @@ public class KoLmafiaASH
 
 		public ScriptValue execute()
 		{
+			// Delay one millisecond at the top of the scope to
+			// allow other tasks to run and keyboard input -
+			// especially the Escape key - to be accepted.
+			GenericRequest.delay(1);
+
 			ScriptValue result = KoLmafiaASH.VOID_VALUE;
 			KoLmafiaASH.traceIndent();
 
