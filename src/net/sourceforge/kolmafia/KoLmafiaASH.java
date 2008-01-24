@@ -7194,7 +7194,10 @@ public class KoLmafiaASH
 			{
 				while ( ( data = KoLDatabase.readData( reader ) ) != null )
 				{
-					result.read( data, 0, compact );
+					if ( data.length > 1 )
+					{
+						result.read( data, 0, compact );
+					}
 				}
 			}
 			catch ( Exception e )
