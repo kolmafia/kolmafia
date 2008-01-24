@@ -1321,6 +1321,11 @@ public abstract class KoLmafia
 				KoLmafia.adventureGains += result.getCount();
 			}
 		}
+		else if ( resultName.equals( AdventureResult.CHOICE ) )
+		{
+			// Don't let ignored choices delay iteration
+			KoLmafia.adventureGains += 1;
+		}
 		else if ( result.isItem() )
 		{
 			AdventureResult.addResultToList( KoLConstants.tally, result );
