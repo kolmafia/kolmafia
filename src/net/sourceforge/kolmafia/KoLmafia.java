@@ -138,6 +138,7 @@ public abstract class KoLmafia
 
 	protected static String currentIterationString = "";
 	protected static int adventureGains = 0;
+	protected static boolean tookChoice = false;
 	protected static boolean recoveryActive = false;
 
 	public static boolean isMakingRequest = false;
@@ -1324,7 +1325,7 @@ public abstract class KoLmafia
 		else if ( resultName.equals( AdventureResult.CHOICE ) )
 		{
 			// Don't let ignored choices delay iteration
-			KoLmafia.adventureGains += 1;
+			KoLmafia.tookChoice = true;
 		}
 		else if ( result.isItem() )
 		{
@@ -2572,13 +2573,17 @@ public abstract class KoLmafia
 		{
 			adventuresBeforeRequest = KoLCharacter.getAdventuresLeft();
 			KoLmafia.adventureGains = 0;
+			KoLmafia.tookChoice = false;
 
 			this.executeRequestOnce( request, wasAdventuring, currentIteration, totalIterations, items, creatables );
 
 			if ( isAdventure && ( adventuresBeforeRequest + KoLmafia.adventureGains ) == KoLCharacter.getAdventuresLeft() )
 			{
 				--currentIteration;
-				GenericRequest.delay( 5000 );
+				if ( !tookChoice )
+				{
+					GenericRequest.delay( 5000 );
+				}
 			}
 
 			if ( checkBounty && bounty.getCount( KoLConstants.inventory ) == bounty.getCount() )
