@@ -5500,7 +5500,7 @@ public class KoLmafiaASH
 			parameters = StaticEntity.globalStringDelete( StaticEntity.globalStringDelete( parameters, "\n" ), "\r" );
 			parameters = StaticEntity.globalStringReplace( parameters, "<", "&lt;" );
 
-			RequestLogger.getSessionStream().println( " > " + parameters );
+			RequestLogger.getSessionStream().println( "> " + parameters );
 			return KoLmafiaASH.VOID_VALUE;
 		}
 
@@ -5512,7 +5512,7 @@ public class KoLmafiaASH
 			parameters = StaticEntity.globalStringReplace( parameters, "<", "&lt;" );
 
 			RequestLogger.printLine( parameters );
-			RequestLogger.getSessionStream().println( " > " + parameters );
+			RequestLogger.getSessionStream().println( "> " + parameters );
 
 			return KoLmafiaASH.VOID_VALUE;
 		}

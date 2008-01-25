@@ -80,6 +80,7 @@ Market Demon	m	fermenting powder	70
 Market Demon	m	soda water	70
 Market Demon	m	casino pass	100
 Market Demon	m	hermit permit	100
+Market Demon	m	marshmallow	100
 Market Demon	m	magicalness-in-a-can	200
 Market Demon	m	strongness elixir	200
 Market Demon	m	moxie weed	200
