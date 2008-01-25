@@ -910,6 +910,9 @@ public class Modifiers
 	// Items that modify based on holiday
 	private static final int PARTY_HAT = 2945;
 
+	// Effects that modify based on remaining duration
+	private static final AdventureResult MALLOWED_OUT = new AdventureResult( "Mallowed Out", 0, true );
+
 	private boolean override( final String name )
 	{
 		if ( name.equalsIgnoreCase( "Temporary Lycanthropy" ) )
@@ -927,6 +930,15 @@ public class Modifiers
 		if ( name.equalsIgnoreCase( "Starry-Eyed" ) )
 		{
 			int mod = 5 * KoLCharacter.getTelescopeUpgrades();
+			this.set( Modifiers.MUS_PCT, mod );
+			this.set( Modifiers.MYS_PCT, mod );
+			this.set( Modifiers.MOX_PCT, mod );
+			return true;
+		}
+
+		if ( name.equalsIgnoreCase( "Mallowed Out" ) )
+		{
+			int mod = 5 * Modifiers.MALLOWED_OUT.getCount( KoLConstants.activeEffects );
 			this.set( Modifiers.MUS_PCT, mod );
 			this.set( Modifiers.MYS_PCT, mod );
 			this.set( Modifiers.MOX_PCT, mod );

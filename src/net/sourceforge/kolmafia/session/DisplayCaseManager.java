@@ -63,7 +63,7 @@ public class DisplayCaseManager
 
 	private static final Pattern SELECTED_PATTERN = Pattern.compile( "(\\d+) selected>" );
 	private static final Pattern OPTION_PATTERN =
-		Pattern.compile( "<td>([^<]*?)</td>.*?<select name=whichshelf(\\d+)>(.*?)</select>" );
+		Pattern.compile( "</tr><tr><td>([^<]*?) ?\\(?(\\d+)?\\)?</td>.*?<select name=whichshelf(\\d+)>(.*?)</select>" );
 	private static final Pattern SELECT_PATTERN = Pattern.compile( "<select.*?</select>" );
 	private static final Pattern SHELF_PATTERN = Pattern.compile( "<option value=(\\d+).*?>(.*?)</option>" );
 
@@ -225,25 +225,21 @@ public class DisplayCaseManager
 	public static final void update( final String data )
 	{
 		DisplayCaseManager.updateShelves( data );
-		Matcher selectedMatcher;
-
-		int itemId, itemCount;
-		String[] itemString;
 
 		Matcher optionMatcher = DisplayCaseManager.OPTION_PATTERN.matcher( data );
 		while ( optionMatcher.find() )
 		{
-			selectedMatcher = DisplayCaseManager.SELECTED_PATTERN.matcher( optionMatcher.group( 3 ) );
+			Matcher selectedMatcher = DisplayCaseManager.SELECTED_PATTERN.matcher( optionMatcher.group( 4 ) );
 
-			itemId = StaticEntity.parseInt( optionMatcher.group( 2 ) );
-
-			itemString = optionMatcher.group( 1 ).split( "[\\(\\)]" );
+			int itemId = StaticEntity.parseInt( optionMatcher.group( 3 ) );
 			if ( ItemDatabase.getItemName( itemId ) == null )
 			{
-				ItemDatabase.registerItem( itemId, itemString[ 0 ].trim() );
+				String itemName = optionMatcher.group( 1 );
+				ItemDatabase.registerItem( itemId, itemName );
 			}
 
-			itemCount = itemString.length == 1 ? 1 : StaticEntity.parseInt( itemString[ 1 ] );
+			String countString = optionMatcher.group( 2 );
+			int itemCount = countString == null ? 1 : StaticEntity.parseInt( countString );
 
 			DisplayCaseManager.registerItem(
 				new AdventureResult( itemId, itemCount ),

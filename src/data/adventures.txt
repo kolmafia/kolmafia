@@ -142,6 +142,7 @@ Wormwood	adventure=153	Rogue Windmill
 Holiday	trickortreat=Yep.	Trick-or-Treating
 Holiday	adventure=84	St. Sneaky Pete's Day Stupor
 Holiday	adventure=37	Spectral Pickle Factory
+Holiday	adventure=163	Yuletide Bonfire
 Crimbo07	adventure=161	Sinister Dodecahedron
 Crimbo07	adventure=162	Crimbo Town Toy Factory
 Crimbo06	adventure=115	Simple Tool-Making Cave
