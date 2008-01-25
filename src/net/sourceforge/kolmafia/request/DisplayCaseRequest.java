@@ -47,6 +47,7 @@ public class DisplayCaseRequest
 	public DisplayCaseRequest()
 	{
 		super( "managecollectionshelves.php" );
+		this.addFormField( "nojs", "1" );
 
 		this.isDeposit = false;
 		this.isWithdrawal = false;
@@ -56,6 +57,7 @@ public class DisplayCaseRequest
 	public DisplayCaseRequest( final Object[] attachments, boolean isDeposit )
 	{
 		super( "managecollection.php", attachments );
+		this.addFormField( "nojs", "1" );
 		this.addFormField( "action", isDeposit ? "put" : "take" );
 
 		this.isManagement = true;
