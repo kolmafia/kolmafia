@@ -853,11 +853,5 @@ public class ItemManagePanel
 		{
 			super( "refresh", new EquipmentRequest( EquipmentRequest.CLOSET ) );
 		}
-
-		public void run()
-		{
-			super.run();
-			ItemManagePanel.this.elementList.updateUI();
-		}
 	}
 }

@@ -381,8 +381,6 @@ public class StoreManageFrame
 			StoreManageFrame.searchLabel.setText( searchName );
 			StoreManager.searchMall( searchName, StoreManageFrame.priceSummary, 10, true );
 
-			StoreManageFrame.this.resultsDisplay.updateUI();
-
 			KoLmafia.updateDisplay( "Price analysis complete." );
 			RequestThread.enableDisplayIfSequenceComplete();
 		}

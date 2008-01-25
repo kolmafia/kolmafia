@@ -762,19 +762,14 @@ public abstract class KoLFrame
 			{
 				this.familiarLabel.setIcon( JComponentUtilities.getImage( "debug.gif" ) );
 				this.familiarLabel.setText( "0 lbs." );
-				this.familiarLabel.setVerticalTextPosition( JLabel.BOTTOM );
-				this.familiarLabel.setHorizontalTextPosition( JLabel.CENTER );
 			}
 			else
 			{
-				ImageIcon familiarIcon = FamiliarDatabase.getFamiliarImage( id );
-				this.familiarLabel.setIcon( familiarIcon );
+				this.familiarLabel.setIcon( FamiliarDatabase.getFamiliarImage( id ) );
 				this.familiarLabel.setText( familiar.getModifiedWeight() + ( familiar.getModifiedWeight() == 1 ? " lb." : " lbs." ) );
-				this.familiarLabel.setVerticalTextPosition( JLabel.BOTTOM );
-				this.familiarLabel.setHorizontalTextPosition( JLabel.CENTER );
-
-				this.familiarLabel.updateUI();
 			}
+			this.familiarLabel.setVerticalTextPosition( JLabel.BOTTOM );
+			this.familiarLabel.setHorizontalTextPosition( JLabel.CENTER );
 		}
 
 		public JPanel getCompactPane()

@@ -206,7 +206,6 @@ public class MallSearchFrame
 			SpecialOutfit.restoreImplicitCheckpoint();
 
 			MallSearchFrame.this.currentlyBuying = false;
-			MallSearchFrame.this.resultsList.updateUI();
 		}
 
 		public void requestFocus()

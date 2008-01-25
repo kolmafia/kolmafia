@@ -3675,6 +3675,8 @@ public abstract class KoLmafia
 			currentCount = itemToBuy.getCount( KoLConstants.inventory );
 		}
 
+		RequestThread.closeRequestSequence();
+
 		// With all that information parsed out, we should
 		// refresh the lists at the very end.
 
@@ -3686,8 +3688,6 @@ public abstract class KoLmafia
 		{
 			KoLmafia.updateDisplay( "Desired purchase quantity not reached (wanted " + maxPurchases + ", got " + ( currentCount - initialCount ) + ")" );
 		}
-
-		RequestThread.closeRequestSequence();
 	}
 
 	/**
