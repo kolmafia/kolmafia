@@ -42,7 +42,9 @@ global	defaultDropdown2	1
 global	defaultDropdownSplit	0
 global	defaultLimit	5
 global	defaultLoginServer	1
+global	displayName
 global	eSoluScriptType	0
+global	getBreakfast
 global	grabCloversHardcore	false
 global	grabCloversSoftcore	true
 global	greenScreenProtection	false
@@ -116,6 +118,7 @@ global	relayUsesInlineLinks	false
 global	relayUsesIntegratedChat	false
 global	relayViewsCustomItems	false
 global	removeMalignantEffects	true
+global	saveState
 global	saveStateActive
 global	scriptButtonPosition	0
 global	scriptList	restore hp | restore mp
@@ -252,7 +255,7 @@ user	relayCounters
 user	requireBoxServants	false
 user	retrieveContacts	true
 user	semirareCounter	0
-user	semirareLocation	
+user	semirareLocation
 user	showGainsPerUnit	false
 user	sideDefeated	neither
 user	sidequestArenaCompleted	none

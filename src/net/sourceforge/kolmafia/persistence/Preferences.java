@@ -39,534 +39,234 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Properties;
 import java.util.TreeMap;
+import java.util.Map.Entry;
 
 import javax.swing.JCheckBox;
 
-import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 
-import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
 import net.sourceforge.kolmafia.session.MoodManager;
-import net.sourceforge.kolmafia.webui.CharacterEntityReference;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase.ChoiceAdventure;
 
 
 public class Preferences
-	extends Properties
 {
-	private boolean valuesChanged = false;
+	private static final byte [] LINE_BREAK_AS_BYTES = KoLConstants.LINE_BREAK.getBytes();
+
+	private static final String [] characterMap = new String[ 65536 ];
 	private static final TreeMap checkboxMap = new TreeMap();
 	private static final TreeMap propertyNames = new TreeMap();
 
-	public static final String[] COMMON_JUNK =
-	{
-		// Items which usually get autosold by people, regardless of
-		// the situation.  This includes the various meat combinables,
-		// sewer items, and stat boosters.
+	private static final TreeMap userNames = new TreeMap();
+	private static final TreeMap userValues = new TreeMap();
+	private static final TreeMap userProperties = new TreeMap();
+	private static File userPropertiesFile = null;
 
-		"meat stack",
-		"dense meat stack",
-		"twinkly powder",
-		"seal-clubbing club",
-		"seal tooth",
-		"helmet turtle",
-		"pasta spoon",
-		"ravioli hat",
-		"disco mask",
-		"mariachi pants",
-		"moxie weed",
-		"strongness elixir",
-		"magicalness-in-a-can",
-		"enchanted barbell",
-		"concentrated magicalness pill",
-		"giant moxie weed",
-		"extra-strength strongness elixir",
-		"jug-o-magicalness",
-		"suntan lotion of moxiousness",
-
-		// Next, some common drops in low level areas that are farmed
-		// for other reasons other than those items.
-
-		"Mad Train wine",
-		"ice-cold fotie",
-		"ice-cold Willer",
-		"ice-cold Sir Schlitz",
-		"bowl of cottage cheese",
-		"Knob Goblin firecracker",
-		"Knob Goblin pants",
-		"Knob Goblin scimitar",
-		"viking helmet",
-		"bar skin",
-		"spooky shrunken head",
-		"dried face",
-		"barskin hat",
-		"spooky stick",
-		"batgut",
-		"bat guano",
-		"ratgut",
-		"briefcase",
-		"taco shell",
-		"uncooked chorizo",
-		"Gnollish plunger",
-		"gnoll teeth",
-		"gnoll lips",
-		"Gnollish toolbox",
-
-		// Next, some common drops in medium level areas that are also
-		// farmed for other reasons beyond these items.
-
-		"hill of beans",
-		"Knob Goblin love potion",
-		"Knob Goblin steroids",
-		"Imp Ale",
-		"hot wing",
-		"evil golden arch",
-		"leather mask",
-		"necklace chain",
-		"hemp string",
-		"piercing post",
-		"phat turquoise bead",
-		"carob chunks",
-		"Feng Shui for Big Dumb Idiots",
-		"crowbarrr",
-		"sunken chest",
-		"barrrnacle",
-		"safarrri hat",
-		"arrrgyle socks",
-		"charrrm",
-		"leotarrrd",
-		"pirate pelvis",
-		"grave robbing shovel",
-		"ghuol ears",
-		"ghuol egg",
-		"ghuol guolash",
-		"lihc eye",
-		"mind flayer corpse",
-		"royal jelly",
-		"goat beard",
-		"sabre teeth",
-		"t8r tots",
-		"pail",
-		"Trollhouse cookies",
-		"Spam Witch sammich",
-		"white satin pants",
-		"white chocolate chips",
-		"catgut",
-		"white snake skin",
-		"mullet wig",
-
-		// High level area item drops which tend to be autosold or
-		// auto-used.
-
-		"cocoa eggshell fragment",
-		"glowing red eye",
-		"amulet of extreme plot significance",
-		"Penultimate Fantasy chest",
-		"Warm Subject gift certificate",
-		"disturbing fanfic",
-		"probability potion",
-		"procrastination potion",
-		"Mick's IcyVapoHotness Rub"
-	};
-
-	// For now, only outfit pieces should be considered as
-	// part of the default singleton set.
-
-	public static final String[] SINGLETON_ITEMS =
-	{
-		"bugbear beanie",
-		"bugbear bungguard",
-		"filthy knitted dread sack",
-		"filthy corduroys",
-		"homoerotic frat-paddle",
-		"Orcish baseball cap",
-		"Orcish cargo shorts",
-		"Knob Goblin harem veil",
-		"Knob Goblin harem pants",
-		"Knob Goblin elite helm",
-		"Knob Goblin elite polearm",
-		"Knob Goblin elite pants",
-		"eyepatch",
-		"swashbuckling pants",
-		"stuffed shoulder parrot",
-		"Cloaca-Cola fatigues",
-		"Cloaca-Cola helmet",
-		"Cloaca-Cola shield",
-		"Dyspepsi-Cola fatigues",
-		"Dyspepsi-Cola helmet",
-		"Dyspepsi-Cola shield",
-		"bullet-proof corduroys",
-		"round purple sunglasses",
-		"reinforced beaded headband",
-		"beer helmet",
-		"distressed denim pants",
-		"bejeweled pledge pin"
-	};
-
-	public static final String[] COMMON_MEMENTOS =
-	{
-		// Crimbo 2005/2006 accessories, if they're still around,
-		// probably shouldn't be placed in the player's store.
-
-		"tiny plastic Crimbo wreath",
-		"tiny plastic Uncle Crimbo",
-		"tiny plastic Crimbo elf",
-		"tiny plastic sweet nutcracker",
-		"tiny plastic Crimbo reindeer",
-		"wreath-shaped Crimbo cookie",
-		"bell-shaped Crimbo cookie",
-		"tree-shaped Crimbo cookie",
-
-		"candy stake",
-		"spooky eggnog",
-		"ancient unspeakable fruitcake",
-		"gingerbread horror",
-		"bat-shaped Crimboween cookie",
-		"skull-shaped Crimboween cookie",
-		"tombstone-shaped Crimboween cookie",
-
-		"tiny plastic gift-wrapping vampire",
-		"tiny plastic ancient yuletide troll",
-		"tiny plastic skeletal reindeer",
-		"tiny plastic Crimboween pentagram",
-		"tiny plastic Scream Queen",
-		"orange and black Crimboween candy",
-
-		// Certain items tend to be used throughout an ascension, so
-		// they probably shouldn't get sold, either.
-
-		"sword behind inappropriate prepositions",
-		"toy mercenary",
-
-		// Collectible items should probably be sent to other players
-		// rather than be autosold for no good reason.
-
-		"stuffed cocoabo",
-		"stuffed baby gravy fairy",
-		"stuffed flaming gravy fairy",
-		"stuffed frozen gravy fairy",
-		"stuffed stinky gravy fairy",
-		"stuffed spooky gravy fairy",
-		"stuffed sleazy gravy fairy",
-		"stuffed astral badger",
-		"stuffed MagiMechTech MicroMechaMech",
-		"stuffed hand turkey",
-		"stuffed snowy owl",
-		"stuffed scary death orb",
-		"stuffed mind flayer",
-		"stuffed undead elbow macaroni",
-		"stuffed angry cow",
-		"stuffed Cheshire bitten",
-		"stuffed yo-yo",
-		"rubber WWJD? bracelet",
-		"rubber WWBD? bracelet",
-		"rubber WWSPD? bracelet",
-		"rubber WWtNSD? bracelet",
-		"heart necklace",
-		"spade necklace",
-		"diamond necklace",
-		"club necklace",
-	};
-
-	private static final TreeMap GLOBAL_MAP = new TreeMap();
-	private static final TreeMap USER_MAP = new TreeMap();
+	private static final TreeMap globalNames = new TreeMap();
+	private static final TreeMap globalValues = new TreeMap();
+	private static final TreeMap globalProperties = new TreeMap();
+	private static File globalPropertiesFile = null;
 
 	static
 	{
-		// Move all files to ~/Library/Application Support/KoLmafia
-		// if the user is on a Macintosh, just for consistency.
+		initializeMaps();
 
-		File source;
+		Preferences.globalPropertiesFile = new File( UtilityConstants.SETTINGS_LOCATION,
+			Preferences.baseUserName( "" ) + "_prefs.txt" );
 
-		if ( UtilityConstants.USE_OSX_STYLE_DIRECTORIES || UtilityConstants.USE_LINUX_STYLE_DIRECTORIES )
-		{
-			UtilityConstants.ROOT_LOCATION.mkdirs();
+		Preferences.globalValues.clear();
+		Preferences.globalProperties.clear();
 
-			source = new File( UtilityConstants.BASE_LOCATION, UtilityConstants.DATA_DIRECTORY );
-			if ( source.exists() )
-			{
-				source.renameTo( UtilityConstants.DATA_LOCATION );
-			}
-			source = new File( UtilityConstants.BASE_LOCATION, UtilityConstants.IMAGE_DIRECTORY );
-			if ( source.exists() )
-			{
-				source.renameTo( UtilityConstants.IMAGE_LOCATION );
-			}
-			source = new File( UtilityConstants.BASE_LOCATION, UtilityConstants.SETTINGS_DIRECTORY );
-			if ( source.exists() )
-			{
-				source.renameTo( UtilityConstants.SETTINGS_LOCATION );
-			}
+		Preferences.loadPreferences( globalValues, globalProperties, globalPropertiesFile );
+		Preferences.saveToFile( Preferences.globalPropertiesFile, Preferences.globalProperties );
 
-			source = new File( UtilityConstants.BASE_LOCATION, KoLConstants.ATTACKS_DIRECTORY );
-			if ( source.exists() )
-			{
-				source.renameTo( KoLConstants.ATTACKS_LOCATION );
-			}
-			source = new File( UtilityConstants.BASE_LOCATION, KoLConstants.BUFFBOT_DIRECTORY );
-			if ( source.exists() )
-			{
-				source.renameTo( KoLConstants.BUFFBOT_LOCATION );
-			}
-			source = new File( UtilityConstants.BASE_LOCATION, KoLConstants.CCS_DIRECTORY );
-			if ( source.exists() )
-			{
-				source.renameTo( KoLConstants.CCS_LOCATION );
-			}
-			source = new File( UtilityConstants.BASE_LOCATION, KoLConstants.CHATLOG_DIRECTORY );
-			if ( source.exists() )
-			{
-				source.renameTo( KoLConstants.CHATLOG_LOCATION );
-			}
-			source = new File( UtilityConstants.BASE_LOCATION, KoLConstants.PLOTS_DIRECTORY );
-			if ( source.exists() )
-			{
-				source.renameTo( KoLConstants.PLOTS_LOCATION );
-			}
-			source = new File( UtilityConstants.BASE_LOCATION, KoLConstants.SCRIPT_DIRECTORY );
-			if ( source.exists() )
-			{
-				source.renameTo( KoLConstants.SCRIPT_LOCATION );
-			}
-			source = new File( UtilityConstants.BASE_LOCATION, KoLConstants.SESSIONS_DIRECTORY );
-			if ( source.exists() )
-			{
-				source.renameTo( KoLConstants.SESSIONS_LOCATION );
-			}
-			source = new File( UtilityConstants.BASE_LOCATION, KoLConstants.RELAY_DIRECTORY );
-			if ( source.exists() )
-			{
-				source.renameTo( KoLConstants.RELAY_LOCATION );
-			}
-		}
-
-		if ( !UtilityConstants.DATA_LOCATION.exists() )
-		{
-			UtilityConstants.DATA_LOCATION.mkdirs();
-		}
-
-		if ( !KoLConstants.CCS_LOCATION.exists() )
-		{
-			KoLConstants.CCS_LOCATION.mkdirs();
-		}
-
-		// Move CCS files from data directory to ccs directory
-		File[] listing = UtilityConstants.DATA_LOCATION.listFiles();
-		for ( int i = 0; i < listing.length; ++i )
-		{
-			source = listing[ i ];
-			String name = source.getName();
-			if ( name.endsWith( ".ccs" ) )
-			{
-				source.renameTo( new File( KoLConstants.CCS_LOCATION, name ) );
-			}
-		}
-
-		if ( !UtilityConstants.SETTINGS_LOCATION.exists() )
-		{
-			UtilityConstants.SETTINGS_LOCATION.mkdirs();
-		}
-
-		listing = UtilityConstants.SETTINGS_LOCATION.listFiles();
-		for ( int i = 0; i < listing.length; ++i )
-		{
-			String path = listing[ i ].getPath();
-			if ( path.startsWith( "combat_" ) || path.endsWith( "_combat.txt" ) )
-			{
-				listing[ i ].delete();
-			}
-			else if ( path.startsWith( "moods_" ) )
-			{
-				path = path.substring( 6, path.indexOf( ".txt" ) );
-				listing[ i ].renameTo( new File( UtilityConstants.SETTINGS_LOCATION, path + "_moods.txt" ) );
-			}
-			else if ( path.startsWith( "prefs_" ) )
-			{
-				path = path.substring( 6, path.indexOf( ".txt" ) );
-				listing[ i ].renameTo( new File( UtilityConstants.SETTINGS_LOCATION, path + "_prefs.txt" ) );
-			}
-		}
-
-		File deprecated = new File( UtilityConstants.DATA_LOCATION, "autosell.txt" );
-		if ( deprecated.exists() )
-		{
-			deprecated.delete();
-		}
-		deprecated = new File( UtilityConstants.DATA_LOCATION, "singleton.txt" );
-		if ( deprecated.exists() )
-		{
-			deprecated.delete();
-		}
-		deprecated = new File( UtilityConstants.DATA_LOCATION, "mementos.txt" );
-		if ( deprecated.exists() )
-		{
-			deprecated.delete();
-		}
-		deprecated = new File( UtilityConstants.DATA_LOCATION, "mallsell.txt" );
-		if ( deprecated.exists() )
-		{
-			deprecated.delete();
-		}
-
-		Preferences.initializeMaps();
+		reset( "" );
 	}
 
-	private static Preferences globalSettings = new Preferences( "" );
-	private static Preferences userSettings = Preferences.globalSettings;
-
-	private final File userSettingsFile;
-	private static final File itemFlagsFile = new File( UtilityConstants.DATA_LOCATION, "itemflags.txt" );
-
-	private static final void initializeList( final LockableListModel model, final String[] defaults )
-	{
-		model.clear();
-		AdventureResult item;
-
-		for ( int i = 0; i < defaults.length; ++i )
-		{
-			item = new AdventureResult( defaults[ i ], 1, false );
-			if ( !model.contains( item ) )
-			{
-				model.add( item );
-			}
-
-			if ( model == KoLConstants.singletonList && !KoLConstants.junkList.contains( item ) )
-			{
-				KoLConstants.junkList.add( item );
-			}
-		}
-	}
-
-	public static final void initializeLists()
-	{
-		if ( !Preferences.itemFlagsFile.exists() )
-		{
-			Preferences.initializeList( KoLConstants.junkList, Preferences.COMMON_JUNK );
-			Preferences.initializeList( KoLConstants.singletonList, Preferences.SINGLETON_ITEMS );
-			Preferences.initializeList( KoLConstants.mementoList, Preferences.COMMON_MEMENTOS );
-
-			KoLConstants.profitableList.clear();
-			return;
-		}
-
-		try
-		{
-			AdventureResult item;
-			FileInputStream istream = new FileInputStream( Preferences.itemFlagsFile );
-			BufferedReader reader = new BufferedReader( new InputStreamReader( istream ) );
-
-			String line;
-			LockableListModel model = null;
-
-			while ( ( line = reader.readLine() ) != null )
-			{
-				if ( line.equals( "" ) )
-				{
-					continue;
-				}
-
-				if ( line.startsWith( " > " ) )
-				{
-					if ( line.endsWith( "junk" ) )
-					{
-						model = KoLConstants.junkList;
-					}
-					else if ( line.endsWith( "singleton" ) )
-					{
-						model = KoLConstants.singletonList;
-					}
-					else if ( line.endsWith( "mementos" ) )
-					{
-						model = KoLConstants.mementoList;
-					}
-					else if ( line.endsWith( "profitable" ) )
-					{
-						model = KoLConstants.profitableList;
-					}
-
-					if ( model != null )
-					{
-						model.clear();
-					}
-				}
-				else if ( model != null && ItemDatabase.contains( line ) )
-				{
-					item = new AdventureResult( line, 1, false );
-
-					if ( !model.contains( item ) )
-					{
-						model.add( item );
-					}
-
-					if ( model == KoLConstants.singletonList && !KoLConstants.junkList.contains( item ) )
-					{
-						KoLConstants.junkList.add( item );
-					}
-				}
-			}
-
-			reader.close();
-		}
-		catch ( IOException e )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-
-			StaticEntity.printStackTrace( e );
-		}
-	}
+	/**
+	 * Resets all settings so that the given user is represented whenever
+	 * settings are modified.
+	 */
 
 	public static final void reset( final String username )
 	{
-		if ( username.equals( "" ) )
+		if ( username == null || username.equals( "" ) )
 		{
-			Preferences.userSettings = Preferences.globalSettings;
+			Preferences.userPropertiesFile = null;
+			Preferences.userValues.clear();
+			Preferences.userProperties.clear();
 			return;
 		}
 
-		Preferences.userSettings = new Preferences( username );
+		Preferences.userPropertiesFile = new File( UtilityConstants.SETTINGS_LOCATION,
+			Preferences.baseUserName( username ) + "_prefs.txt" );
 
+		Preferences.userValues.clear();
+		Preferences.userProperties.clear();
+
+		Preferences.loadPreferences( userValues, userProperties, userPropertiesFile );
+		Preferences.saveToFile( Preferences.userPropertiesFile, Preferences.userProperties );
+
+		Preferences.ensureDefaults();
 		CustomCombatManager.loadSettings();
 		MoodManager.restoreDefaults();
 	}
 
-	private boolean isGlobal;
-
-	/**
-	 * Constructs a userSettings file for a character with the specified name. Note that in the data file created, all
-	 * spaces in the character name will be replaced with an underscore, and all other punctuation will be removed.
-	 *
-	 * @param characterName The name of the character this userSettings file represents
-	 */
-
-	private Preferences( final String characterName )
+	public static final String baseUserName( final String name )
 	{
-		this.isGlobal = characterName.equals( "" );
-		String noExtensionName = Preferences.baseUserName( characterName );
-		this.userSettingsFile = new File( UtilityConstants.SETTINGS_LOCATION, noExtensionName + "_prefs.txt" );
+		return name == null || name.equals( "" ) ? "GLOBAL" : StaticEntity.globalStringReplace( name, " ", "_" ).trim().toLowerCase();
+	}
 
-		this.loadFromFile();
-		this.ensureDefaults();
+	private static void loadPreferences( TreeMap values, TreeMap properties, File file )
+	{
+		Properties p = new Properties();
+
+		try
+		{
+			if ( !file.exists() )
+			{
+				return;
+			}
+
+			FileInputStream istream = new FileInputStream( file );
+			p.load( istream );
+
+			istream.close();
+			istream = null;
+		}
+		catch ( IOException e1 )
+		{
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+
+			StaticEntity.printStackTrace( e1 );
+		}
+		catch ( Exception e2 )
+		{
+			// Somehow, the userSettings were corrupted; this
+			// means that they will have to be created after
+			// the current file is deleted.
+
+			StaticEntity.printStackTrace( e2 );
+			file.delete();
+		}
+
+		Entry currentEntry;
+		Iterator it = p.entrySet().iterator();
+
+		String currentName, currentValue;
+
+		while ( it.hasNext() )
+		{
+			currentEntry = (Entry) it.next();
+			currentName = (String) currentEntry.getKey();
+			currentValue = (String) currentEntry.getValue();
+
+			Preferences.propertyNames.put( currentName.toLowerCase(), currentName );
+			values.put( currentName, currentValue );
+			properties.put( currentName, encodeProperty( currentName, currentValue ) );
+		}
+	}
+
+	private static final String encodeProperty( String name, String value )
+	{
+		StringBuffer valueBuffer = new StringBuffer();
+		valueBuffer.append( name );
+		valueBuffer.append( "=" );
+
+		if ( value == null || value.length() == 0 )
+		{
+			return valueBuffer.toString();
+		}
+
+		char ch;
+		char [] valueCharArray = value.toCharArray();
+		int length = valueCharArray.length;
+
+		for ( int i = 0; i < length; ++i )
+		{
+			ch = valueCharArray[i];
+			encodeCharacter( ch );
+			valueBuffer.append( characterMap[ ch ] );
+		}
+
+		return valueBuffer.toString();
+	}
+
+	private static final void encodeCharacter( char ch )
+	{
+		if ( characterMap[ ch ] != null )
+		{
+			return;
+		}
+
+		switch ( ch )
+		{
+		case '\t':
+			characterMap[ ch ] = "\\t";
+			return;
+		case '\n':
+			characterMap[ ch ] = "\\n";
+			return;
+		case '\f':
+			characterMap[ ch ] = "\\f";
+			return;
+		case '\r':
+			characterMap[ ch ] = "\\r";
+			return;
+		case '\\':
+		case '=':
+		case ':':
+		case '#':
+		case '!':
+			characterMap[ ch ] = "\\" + ch;
+			return;
+		}
+
+		if ( ch > 0x0019 || ch < 0x007f )
+		{
+			characterMap[ ch ] = String.valueOf( ch );
+			return;
+		}
+
+		if ( ch < 0x0010 )
+		{
+			characterMap[ ch ] = "\\u000" + Integer.toHexString( ch );
+			return;
+		}
+
+		if ( ch < 0x0100 )
+		{
+			characterMap[ ch ] = "\\u00" + Integer.toHexString( ch );
+			return;
+		}
+
+		if ( ch < 0x1000 )
+		{
+			characterMap[ ch ] = "\\u0" + Integer.toHexString( ch );
+			return;
+		}
+
+		characterMap[ ch ] = "\\u" + Integer.toHexString( ch );
 	}
 
 	public static final String getCaseSensitiveName( final String name )
 	{
 		String lowercase = name.toLowerCase();
 		String actualName = (String) Preferences.propertyNames.get( lowercase );
+
 		if ( actualName != null )
 		{
 			return actualName;
@@ -576,9 +276,9 @@ public class Preferences
 		return name;
 	}
 
-	public static final String baseUserName( final String name )
+	private static final boolean isGlobalProperty( final String name )
 	{
-		return name == null || name.equals( "" ) ? "GLOBAL" : StaticEntity.globalStringReplace( name, " ", "_" ).trim().toLowerCase();
+		return Preferences.globalNames.containsKey( name );
 	}
 
 	public static final boolean isUserEditable( final String property )
@@ -588,31 +288,27 @@ public class Preferences
 
 	public static final void setString( final String name, final String value )
 	{
-		Preferences.userSettings.setProperty( name, value );
-	}
-
-	public static final void resetString( final String name, final String value )
-	{
-		String old = Preferences.userSettings.getProperty( name );
-		if ( !old.equals( value ) )
-		{
-			Preferences.userSettings.setProperty( name, value );
-		}
+		setString( null, name, value );
 	}
 
 	public static final String getString( final String name )
 	{
-		return Preferences.userSettings.getProperty( name );
+		return getString( null, name );
 	}
 
 	public static final boolean getBoolean( final String name )
 	{
-		return Preferences.getString( name ).equals( "true" );
+		return getBoolean( null, name );
 	}
 
 	public static final int getInteger( final String name )
 	{
-		return StaticEntity.parseInt( Preferences.getString( name ) );
+		return getInteger( null, name );
+	}
+
+	public static final float getFloat( final String name )
+	{
+		return getFloat( null, name );
 	}
 
 	public static final int increment( final String name, final int increment )
@@ -625,96 +321,19 @@ public class Preferences
 	{
 		int current = Preferences.getInteger( name );
 		current += increment;
+
 		if ( max > 0 && current > max )
 		{
 			current = max;
 		}
+
 		if ( mod && current >= max )
 		{
 			current %= max;
 		}
+
 		Preferences.setString( name, String.valueOf( current ) );
 		return current;
-	}
-
-	public static final float getFloat( final String name )
-	{
-		return StaticEntity.parseFloat( Preferences.getString( name ) );
-	}
-
-	private static final boolean isGlobalProperty( final String name )
-	{
-		return Preferences.GLOBAL_MAP.containsKey( name ) || name.equals( "saveState" ) || name.equals( "displayName" ) || name.equals( "getBreakfast" );
-	}
-
-	public String getProperty( String name )
-	{
-		name = Preferences.getCaseSensitiveName( name );
-		boolean isGlobalProperty = Preferences.isGlobalProperty( name );
-
-		if ( isGlobalProperty && !this.isGlobal )
-		{
-			String value = Preferences.globalSettings.getProperty( name );
-			return value == null ? "" : value;
-		}
-		else if ( !isGlobalProperty && this.isGlobal )
-		{
-			return "";
-		}
-
-		String value = super.getProperty( name );
-		return value == null ? "" : CharacterEntityReference.unescape( value );
-	}
-
-	public Object setProperty( String name, String value )
-	{
-		if ( value == null )
-		{
-			return "";
-		}
-
-		name = Preferences.getCaseSensitiveName( name );
-		boolean isGlobalProperty = Preferences.isGlobalProperty( name );
-
-		if ( isGlobalProperty && !this.isGlobal )
-		{
-			return Preferences.globalSettings.setProperty( name, value );
-		}
-		else if ( !isGlobalProperty && this.isGlobal )
-		{
-			return "";
-		}
-
-		// All tests passed.  Now, go ahead and execute the
-		// set property and return the old value.
-
-		String oldValue = this.getProperty( name );
-		value = CharacterEntityReference.escape( value );
-
-		if ( oldValue != null && oldValue.equals( value ) )
-		{
-			return oldValue;
-		}
-
-		this.valuesChanged = true;
-		super.setProperty( name, value );
-
-		if ( Preferences.checkboxMap.containsKey( name ) )
-		{
-			ArrayList list = (ArrayList) Preferences.checkboxMap.get( name );
-			for ( int i = 0; i < list.size(); ++i )
-			{
-				WeakReference reference = (WeakReference) list.get( i );
-				JCheckBox item = (JCheckBox) reference.get();
-				if ( item != null )
-				{
-					item.setSelected( value.equals( "true" ) );
-				}
-			}
-		}
-
-		this.saveToFile();
-		return oldValue == null ? "" : oldValue;
 	}
 
 	// Per-user global properties are stored in the global settings with
@@ -722,82 +341,115 @@ public class Preferences
 
 	public static final String getString( final String user, final String name )
 	{
-		return Preferences.globalSettings.getProperty( user, name );
-	}
+		boolean isGlobal = Preferences.isGlobalProperty( name );
+		TreeMap map = isGlobal ? Preferences.globalValues : Preferences.userValues;
 
-	public static final boolean getBoolean( final String user, final String name )
-	{
-		return Preferences.getString( user, name ).equals( "true" );
-	}
+		String key = user == null ? name : name + "." + user.toLowerCase();
+		Object value = map.get( key );
 
-	public static final void setString( final String user, final String name, final String value )
-	{
-		Preferences.globalSettings.setProperty( user, name, value );
-	}
-
-	public String getProperty( String user, String name )
-	{
-		if ( !this.isGlobal )
-		{
-			return Preferences.globalSettings.getProperty( user, name );
-		}
-
-		name = Preferences.getCaseSensitiveName( name );
-		boolean isGlobalProperty = Preferences.isGlobalProperty( name );
-
-		if ( !isGlobalProperty )
-		{
-			return "";
-		}
-
-		if ( user != null && !user.equals( "" ) )
-		{
-			name = name + "." + user.toLowerCase();
-		}
-
-		String value = super.getProperty( name );
-		return value == null ? "" : CharacterEntityReference.unescape( value );
-	}
-
-	public Object setProperty( String user, String name, String value )
-	{
 		if ( value == null )
 		{
 			return "";
 		}
 
-		if ( !this.isGlobal )
+		return value.toString();
+	}
+
+	public static final boolean getBoolean( final String user, final String name )
+	{
+		boolean isGlobal = Preferences.isGlobalProperty( name );
+		TreeMap map = isGlobal ? Preferences.globalValues : Preferences.userValues;
+
+		String key = user == null ? name : name + "." + user.toLowerCase();
+		Object value = map.get( key );
+
+		if ( value == null )
 		{
-			return Preferences.globalSettings.setProperty( user, name, value );
+			return false;
 		}
 
-		name = Preferences.getCaseSensitiveName( name );
-		boolean isGlobalProperty = Preferences.isGlobalProperty( name );
-
-		if ( !isGlobalProperty )
+		if ( !(value instanceof Boolean) )
 		{
-			return "";
+			value = Boolean.valueOf( value.toString() );
+			map.put( name, value );
 		}
 
-		String oldValue = this.getProperty( user, name );
-		value = CharacterEntityReference.escape( value );
+		return ((Boolean) value).booleanValue();
+	}
 
-		if ( oldValue != null && oldValue.equals( value ) )
+	public static final int getInteger( final String user, final String name )
+	{
+		boolean isGlobal = Preferences.isGlobalProperty( name );
+		TreeMap map = isGlobal ? Preferences.globalValues : Preferences.userValues;
+
+		String key = user == null ? name : name + "." + user.toLowerCase();
+		Object value = map.get( key );
+
+		if ( value == null )
 		{
-			return oldValue;
+			return 0;
 		}
 
-		this.valuesChanged = true;
-
-		if ( user != null && !user.equals( "" ) )
+		if ( !(value instanceof Integer) )
 		{
-			name = name + "." + user.toLowerCase();
+			value = Integer.valueOf( StaticEntity.parseInt( value.toString() ) );
+			map.put( name, value );
 		}
 
-		super.setProperty( name, value );
+		return ((Integer) value).intValue();
+	}
+
+	public static final float getFloat( final String user, final String name )
+	{
+		boolean isGlobal = Preferences.isGlobalProperty( name );
+		TreeMap map = isGlobal ? Preferences.globalValues : Preferences.userValues;
+
+		String key = user == null ? name : name + "." + user.toLowerCase();
+		Object value = map.get( key );
+
+		if ( value == null )
+		{
+			return 0.0f;
+		}
+
+		if ( !(value instanceof Float) )
+		{
+			value = Float.valueOf( StaticEntity.parseFloat( value.toString() ) );
+			map.put( name, value );
+		}
+
+		return ((Float) value).floatValue();
+	}
+
+	public static final void setString( final String user, final String name, final String value )
+	{
+		String old = Preferences.getString( user, name );
+		if ( old.equals( value ) )
+		{
+			return;
+		}
+
+		if ( Preferences.isGlobalProperty( name ) )
+		{
+			String actualName = user == null ? name : name + "." + user.toLowerCase();
+
+			Preferences.globalValues.put( actualName, value );
+			Preferences.globalProperties.put( actualName, Preferences.encodeProperty( actualName, value ) );
+
+			Preferences.saveToFile( Preferences.globalPropertiesFile, Preferences.globalProperties );
+		}
+		else if ( Preferences.userPropertiesFile != null )
+		{
+			Preferences.userValues.put( name, value );
+			Preferences.userProperties.put( name, Preferences.encodeProperty( name, value ) );
+
+			Preferences.saveToFile( Preferences.userPropertiesFile, Preferences.userProperties );
+		}
 
 		if ( Preferences.checkboxMap.containsKey( name ) )
 		{
+			boolean isTrue = value.equals( "true" );
+
 			ArrayList list = (ArrayList) Preferences.checkboxMap.get( name );
 			for ( int i = 0; i < list.size(); ++i )
 			{
@@ -805,13 +457,10 @@ public class Preferences
 				JCheckBox item = (JCheckBox) reference.get();
 				if ( item != null )
 				{
-					item.setSelected( value.equals( "true" ) );
+					item.setSelected( isTrue );
 				}
 			}
 		}
-
-		this.saveToFile();
-		return oldValue == null ? "" : oldValue;
 	}
 
 	public static final void registerCheckbox( final String name, final JCheckBox checkbox )
@@ -831,64 +480,8 @@ public class Preferences
 		list.add( new WeakReference( checkbox ) );
 	}
 
-	public static final void saveFlaggedItemList()
+	public static void saveToFile( File file, TreeMap data )
 	{
-		AdventureResult item;
-
-		LogStream ostream = LogStream.openStream( Preferences.itemFlagsFile, true );
-
-		ostream.println( " > junk" );
-		ostream.println();
-
-		for ( int i = 0; i < KoLConstants.junkList.size(); ++i )
-		{
-			item = (AdventureResult) KoLConstants.junkList.get( i );
-			if ( !KoLConstants.singletonList.contains( item ) )
-			{
-				ostream.println( item.getName() );
-			}
-		}
-
-		ostream.println();
-		ostream.println( " > singleton" );
-		ostream.println();
-
-		for ( int i = 0; i < KoLConstants.singletonList.size(); ++i )
-		{
-			item = (AdventureResult) KoLConstants.singletonList.get( i );
-			ostream.println( item.getName() );
-		}
-
-		ostream.println();
-		ostream.println( " > mementos" );
-		ostream.println();
-
-		for ( int i = 0; i < KoLConstants.mementoList.size(); ++i )
-		{
-			item = (AdventureResult) KoLConstants.mementoList.get( i );
-			ostream.println( item.getName() );
-		}
-
-		ostream.println();
-		ostream.println( " > profitable" );
-		ostream.println();
-
-		for ( int i = 0; i < KoLConstants.profitableList.size(); ++i )
-		{
-			item = (AdventureResult) KoLConstants.profitableList.get( i );
-			ostream.println( item.getCount() + " " + item.getName() );
-		}
-
-		ostream.close();
-	}
-
-	public void saveToFile()
-	{
-		if ( !this.valuesChanged )
-		{
-			return;
-		}
-
 		UtilityConstants.SETTINGS_LOCATION.mkdirs();
 
 		try
@@ -897,31 +490,21 @@ public class Preferences
 			// actually printing them.
 
 			ByteArrayOutputStream ostream = new ByteArrayOutputStream();
-			this.store( ostream, KoLConstants.VERSION_NAME );
+			Iterator it = data.entrySet().iterator();
 
-			String[] lines = ostream.toString().split( KoLConstants.LINE_BREAK );
-			Arrays.sort( lines );
-
-			ostream.reset();
-
-			for ( int i = 0; i < lines.length; ++i )
+			while ( it.hasNext() )
 			{
-				if ( lines[ i ].startsWith( "#" ) )
-				{
-					continue;
-				}
-
-				ostream.write( lines[ i ].getBytes() );
-				ostream.write( KoLConstants.LINE_BREAK.getBytes() );
+				ostream.write( ((String) ((Entry) it.next()).getValue()).getBytes() );
+				ostream.write( LINE_BREAK_AS_BYTES );
 			}
 
-			if ( this.userSettingsFile.exists() )
+			if ( file.exists() )
 			{
-				this.userSettingsFile.delete();
+				file.delete();
 			}
 
-			this.userSettingsFile.createNewFile();
-			ostream.writeTo( new FileOutputStream( this.userSettingsFile ) );
+			file.createNewFile();
+			ostream.writeTo( new FileOutputStream( file ) );
 		}
 		catch ( IOException e )
 		{
@@ -929,69 +512,16 @@ public class Preferences
 		}
 	}
 
-	/**
-	 * Loads the userSettings located in the given file into this object. Note that all userSettings are overridden; if
-	 * the given file does not exist, the current global userSettings will also be rewritten into the appropriate file.
-	 *
-	 * @param source The file that contains (or will contain) the character data
-	 */
-
-	private void loadFromFile()
-	{
-		try
-		{
-			// First guarantee that a userSettings file exists with
-			// the appropriate Properties data.
-
-			if ( !this.userSettingsFile.exists() )
-			{
-				return;
-			}
-
-			// Now that it is guaranteed that an XML file exists
-			// with the appropriate properties, load the file.
-
-			FileInputStream istream = new FileInputStream( this.userSettingsFile );
-			this.load( istream );
-
-			istream.close();
-			istream = null;
-		}
-		catch ( IOException e1 )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-
-			StaticEntity.printStackTrace( e1 );
-		}
-		catch ( Exception e2 )
-		{
-			// Somehow, the userSettings were corrupted; this
-			// means that they will have to be created after
-			// the current file is deleted.
-
-			StaticEntity.printStackTrace( e2 );
-			this.userSettingsFile.delete();
-		}
-
-		String currentKey;
-		Iterator keyIterator = this.keySet().iterator();
-		while ( keyIterator.hasNext() )
-		{
-			currentKey = (String) keyIterator.next();
-			Preferences.propertyNames.put( currentKey.toLowerCase(), currentKey );
-		}
-	}
-
 	private static final void initializeMaps()
 	{
 		String[] current;
 		TreeMap desiredMap;
+
 		BufferedReader istream = KoLDatabase.getVersionedReader( "defaults.txt", KoLConstants.DEFAULTS_VERSION );
 
 		while ( ( current = KoLDatabase.readData( istream ) ) != null )
 		{
-			desiredMap = current[ 0 ].equals( "global" ) ? Preferences.GLOBAL_MAP : Preferences.USER_MAP;
+			desiredMap = current[ 0 ].equals( "global" ) ? Preferences.globalNames : Preferences.userNames;
 			desiredMap.put( current[ 1 ], current.length == 2 ? "" : current[ 2 ] );
 		}
 
@@ -1038,7 +568,7 @@ public class Preferences
 		for ( int i = 0; i < choices.length; ++i )
 		{
 			String setting = choices[ i ].getSetting();
-			int defaultOption = StaticEntity.parseInt( (String) Preferences.USER_MAP.get( setting ) ) - 1;
+			int defaultOption = StaticEntity.parseInt( (String) Preferences.userNames.get( setting ) ) - 1;
 
 			ostream.print( "[" + setting.substring( 15 ) + "] " );
 			ostream.print( choices[ i ].getName() + ": " );
@@ -1073,21 +603,36 @@ public class Preferences
 	 * key is loaded.
 	 */
 
-	private void ensureDefaults()
+	private static void ensureDefaults()
 	{
-		TreeMap currentMap = this.isGlobal ? Preferences.GLOBAL_MAP : Preferences.USER_MAP;
+		Entry[] entries = new Entry[ Preferences.globalValues.size() ];
+		Preferences.globalValues.entrySet().toArray( entries );
 
-		Object[] keys = currentMap.keySet().toArray();
-
-		for ( int i = 0; i < keys.length; ++i )
+		for ( int i = 0; i < entries.length; ++i )
 		{
-			if ( !this.containsKey( keys[ i ] ) )
+			if ( !Preferences.globalValues.containsKey( entries[ i ].getKey() ) )
 			{
-				this.valuesChanged = true;
-				super.setProperty( (String) keys[ i ], (String) currentMap.get( keys[ i ] ) );
+				String key = (String) entries[ i ].getKey();
+				String value = (String) entries[ i ].getValue();
+
+				Preferences.globalValues.put( key, value );
+				Preferences.globalProperties.put( key, Preferences.encodeProperty( key, value ) );
 			}
 		}
 
-		this.saveToFile();
+		entries = new Entry[ Preferences.userValues.size() ];
+		Preferences.userValues.entrySet().toArray( entries );
+
+		for ( int i = 0; i < entries.length; ++i )
+		{
+			if ( !Preferences.userValues.containsKey( entries[ i ].getKey() ) )
+			{
+				String key = (String) entries[ i ].getKey();
+				String value = (String) entries[ i ].getValue();
+
+				Preferences.userValues.put( key, value );
+				Preferences.userProperties.put( key, Preferences.encodeProperty( key, value ) );
+			}
+		}
 	}
 }

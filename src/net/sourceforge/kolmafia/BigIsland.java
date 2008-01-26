@@ -218,11 +218,11 @@ public class BigIsland
 		// troops."
 		if ( buffer.indexOf( "could serve as a hospital" ) != -1 )
 		{
-			Preferences.resetString( "sidequestNunsCompleted", "hippy" );
+			Preferences.setString( "sidequestNunsCompleted", "hippy" );
 		}
 		else if ( buffer.indexOf( "could serve as a massage parlor" ) != -1 )
 		{
-			Preferences.resetString( "sidequestNunsCompleted", "fratboy" );
+			Preferences.setString( "sidequestNunsCompleted", "fratboy" );
 		}
 	}
 
@@ -1077,7 +1077,7 @@ public class BigIsland
 
 		// Set variables from user settings
 		BigIsland.ensureUpdatedBigIsland();
-		Preferences.resetString( "warProgress", "started" );
+		Preferences.setString( "warProgress", "started" );
 
 		// Parse the map and deduce how many soldiers remain
 		BigIsland.parseBattlefield( responseText );
@@ -1219,7 +1219,7 @@ public class BigIsland
 		// one-song set.
 		if ( responseText.indexOf( "well into the first song" ) != -1 )
 		{
-			Preferences.resetString( "sidequestArenaCompleted", "hippy" );
+			Preferences.setString( "sidequestArenaCompleted", "hippy" );
 			return;
 		}
 
@@ -1231,7 +1231,7 @@ public class BigIsland
 		// 'em out. It's a totally awesome show, man."
 		if ( responseText.indexOf( "I'll take 'em" ) != -1 )
 		{
-			Preferences.resetString( "sidequestArenaCompleted", "hippy" );
+			Preferences.setString( "sidequestArenaCompleted", "hippy" );
 			if ( KoLCharacter.hasItem( BigIsland.JAM_FLYERS ) )
 			{
 				StaticEntity.getClient().processResult( BigIsland.JAM_FLYERS );
@@ -1243,7 +1243,7 @@ public class BigIsland
 		// Child has already taken the stage.
 		if ( responseText.indexOf( "has already taken the stage" ) != -1 )
 		{
-			Preferences.resetString( "sidequestArenaCompleted", "fratboy" );
+			Preferences.setString( "sidequestArenaCompleted", "fratboy" );
 			return;
 		}
 
@@ -1252,7 +1252,7 @@ public class BigIsland
 		// use them at the next show."
 		if ( responseText.indexOf( "I'll take them" ) != -1 )
 		{
-			Preferences.resetString( "sidequestArenaCompleted", "fratboy" );
+			Preferences.setString( "sidequestArenaCompleted", "fratboy" );
 			if ( KoLCharacter.hasItem( BigIsland.JAM_FLYERS ) )
 			{
 				StaticEntity.getClient().processResult( BigIsland.ROCK_FLYERS );
@@ -1266,7 +1266,7 @@ public class BigIsland
 		{
 			// Didn't complete quest or defeated the side you
 			// advertised for.
-			Preferences.resetString( "sidequestArenaCompleted", "none" );
+			Preferences.setString( "sidequestArenaCompleted", "none" );
 		}
 	}
 
@@ -1326,11 +1326,11 @@ public class BigIsland
 
 		if ( responseText.indexOf( "spark plug earring" ) != -1 || responseText.indexOf( "woven baling wire bracelets" ) != -1 || responseText.indexOf( "gearbox necklace" ) != -1 )
 		{
-			Preferences.resetString( "sidequestJunkyardCompleted", "hippy" );
+			Preferences.setString( "sidequestJunkyardCompleted", "hippy" );
 		}
 		else if ( responseText.indexOf( "rusty chain necklace" ) != -1 || responseText.indexOf( "sawblade shield" ) != -1 || responseText.indexOf( "wrench bracelet" ) != -1 )
 		{
-			Preferences.resetString( "sidequestJunkyardCompleted", "fratboy" );
+			Preferences.setString( "sidequestJunkyardCompleted", "fratboy" );
 		}
 	}
 
@@ -1345,7 +1345,7 @@ public class BigIsland
 		}
 
 		String side = EquipmentDatabase.isWearingOutfit( 32 ) ? "hippy" : "fratboy";
-		Preferences.resetString( "sidequestOrchardCompleted", side );
+		Preferences.setString( "sidequestOrchardCompleted", side );
 	}
 
 	private static final void parseFarm( final String responseText )
@@ -1354,11 +1354,11 @@ public class BigIsland
 		// growing soybeans, to help feed the hippy army?"
 		if ( responseText.indexOf( "growing soybeans" ) != -1 )
 		{
-			Preferences.resetString( "sidequestFarmCompleted", "hippy" );
+			Preferences.setString( "sidequestFarmCompleted", "hippy" );
 		}
 		else if ( responseText.indexOf( "growing hops" ) != -1 )
 		{
-			Preferences.resetString( "sidequestFarmCompleted", "fratboy" );
+			Preferences.setString( "sidequestFarmCompleted", "fratboy" );
 		}
 	}
 
@@ -1368,15 +1368,15 @@ public class BigIsland
 		// wounds."
 		if ( responseText.indexOf( "tend to your wounds" ) != -1 )
 		{
-			Preferences.resetString( "sidequestNunsCompleted", "hippy" );
+			Preferences.setString( "sidequestNunsCompleted", "hippy" );
 		}
 		else if ( responseText.indexOf( "refreshing massage" ) != -1 )
 		{
-			Preferences.resetString( "sidequestNunsCompleted", "fratboy" );
+			Preferences.setString( "sidequestNunsCompleted", "fratboy" );
 		}
 		else if ( responseText.indexOf( "world-weary traveler" ) != -1 )
 		{
-			Preferences.resetString( "sidequestNunsCompleted", "none" );
+			Preferences.setString( "sidequestNunsCompleted", "none" );
 		}
 	}
 
@@ -1391,7 +1391,7 @@ public class BigIsland
 		}
 
 		String side = EquipmentDatabase.isWearingOutfit( 32 ) ? "hippy" : "fratboy";
-		Preferences.resetString( "sidequestLighthouseCompleted", side );
+		Preferences.setString( "sidequestLighthouseCompleted", side );
 	}
 
 	public static final void ensureUpdatedBigIsland()
@@ -1474,8 +1474,8 @@ public class BigIsland
 		boolean hippiesLost = responseText.indexOf( "snarfblat=149" ) != -1;
 		boolean fratboysLost = responseText.indexOf( "snarfblat=150" ) != -1;
 		String loser = ( !hippiesLost ) ? "fratboys" : ( !fratboysLost ) ? "hippies" : "both";
-		Preferences.resetString( "sideDefeated", loser );
-		Preferences.resetString( "warProgress", "finished" );
+		Preferences.setString( "sideDefeated", loser );
+		Preferences.setString( "warProgress", "finished" );
 		CoinmastersFrame.externalUpdate();
 	}
 

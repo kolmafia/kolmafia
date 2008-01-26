@@ -110,10 +110,11 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.CustomItemDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.FlaggedItems;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
-import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 public abstract class KoLmafia
@@ -523,7 +524,7 @@ public abstract class KoLmafia
 			System.exit( -1 );
 		}
 
-		Preferences.initializeLists();
+		FlaggedItems.initializeLists();
 		Runtime.getRuntime().addShutdownHook( new ShutdownThread() );
 
 		// Now run the main routines for each, so that
@@ -4687,7 +4688,7 @@ public abstract class KoLmafia
 	{
 		public void run()
 		{
-			Preferences.saveFlaggedItemList();
+			FlaggedItems.saveFlaggedItemList();
 			CustomItemDatabase.saveItemData();
 
 			RequestLogger.closeSessionLog();
