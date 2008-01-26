@@ -425,8 +425,9 @@ public class CoinMasterRequest
 				return true;
 			}
 
-			Preferences.setString( "currentBountyItem", idMatcher.group( 1 ) );
 			int itemId = StaticEntity.parseInt( idMatcher.group( 1 ) );
+			Preferences.setInteger( "currentBountyItem", itemId );
+
 			AdventureFrame.updateSelectedAdventure( AdventureDatabase.getBountyLocation( itemId ) );
 			AdventureResult bounty = AdventureDatabase.getBounty( itemId );
 			String plural = ItemDatabase.getPluralName( itemId );
@@ -458,7 +459,7 @@ public class CoinMasterRequest
 
 		AdventureResult item = new AdventureResult( itemId, 1 );
 		StaticEntity.getClient().processResult( item.getInstance( 0 - item.getCount( KoLConstants.inventory ) ) );
-		Preferences.setString( "currentBountyItem", "0" );
+		Preferences.setInteger( "currentBountyItem", 0 );
 	}
 
 	private static final boolean registerIslandRequest( final String urlString )

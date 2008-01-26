@@ -269,8 +269,8 @@ public class LoginFrame
 
 		public void actionConfirmed()
 		{
-			Preferences.setString( "relayBrowserOnly", "false" );
-			Preferences.setString( "alwaysGetBreakfast", String.valueOf( this.getBreakfastCheckBox.isSelected() ) );
+			Preferences.setBoolean( "relayBrowserOnly", false );
+			Preferences.setBoolean( "alwaysGetBreakfast", this.getBreakfastCheckBox.isSelected() );
 
 			LoginFrame.this.username = null;
 
@@ -305,8 +305,8 @@ public class LoginFrame
 				Preferences.setString( "autoLogin", "" );
 			}
 
-			Preferences.setString(
-				LoginFrame.this.username, "getBreakfast", String.valueOf( this.getBreakfastCheckBox.isSelected() ) );
+			Preferences.setBoolean(
+				LoginFrame.this.username, "getBreakfast", this.getBreakfastCheckBox.isSelected() );
 
 			LoginFrame.this.honorProxySettings();
 			RequestThread.postRequest( new LoginRequest( LoginFrame.this.username, password ) );
@@ -316,7 +316,7 @@ public class LoginFrame
 		{
 			if ( !LoginRequest.isInstanceRunning() )
 			{
-				Preferences.setString( "relayBrowserOnly", "true" );
+				Preferences.setBoolean( "relayBrowserOnly", true );
 				this.actionConfirmed();
 			}
 		}
@@ -342,9 +342,9 @@ public class LoginFrame
 		{
 			public void actionPerformed( final ActionEvent e )
 			{
-				Preferences.setString(
+				Preferences.setBoolean(
 					LoginFrame.this.username, "getBreakfast",
-					String.valueOf( LoginPanel.this.getBreakfastCheckBox.isSelected() ) );
+					LoginPanel.this.getBreakfastCheckBox.isSelected() );
 			}
 		}
 
@@ -366,8 +366,8 @@ public class LoginFrame
 					LoginPanel.this.passwordField.setText( "" );
 				}
 
-				Preferences.setString(
-					"saveStateActive", String.valueOf( LoginPanel.this.savePasswordCheckBox.isSelected() ) );
+				Preferences.setBoolean(
+					"saveStateActive", LoginPanel.this.savePasswordCheckBox.isSelected() );
 			}
 		}
 
@@ -491,12 +491,12 @@ public class LoginFrame
 
 		public void actionConfirmed()
 		{
-			Preferences.setString(
-				"defaultLoginServer", String.valueOf( LoginFrame.this.servers.getSelectedIndex() ) );
+			Preferences.setInteger(
+				"defaultLoginServer", LoginFrame.this.servers.getSelectedIndex() );
 			for ( int i = 0; i < this.options.length; ++i )
 			{
-				Preferences.setString(
-					this.options[ i ][ 0 ], String.valueOf( this.optionBoxes[ i ].isSelected() ) );
+				Preferences.setBoolean(
+					this.options[ i ][ 0 ], this.optionBoxes[ i ].isSelected() );
 			}
 
 			LoginRequest.setIgnoreLoadBalancer( this.loadBalancer.isSelected() );

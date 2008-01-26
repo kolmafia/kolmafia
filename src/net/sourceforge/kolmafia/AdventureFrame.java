@@ -188,7 +188,7 @@ public class AdventureFrame
 
 	public void dispose()
 	{
-		Preferences.setString( "defaultDropdownSplit", String.valueOf( this.sessionGrid.getLastDividerLocation() ) );
+		Preferences.setInteger( "defaultDropdownSplit", this.sessionGrid.getLastDividerLocation() );
 		super.dispose();
 	}
 }

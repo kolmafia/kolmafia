@@ -2310,7 +2310,7 @@ public abstract class SorceressLairManager
 			}
 		}
 
-		Preferences.setString( "lastTowerClimb", String.valueOf( KoLCharacter.getAscensions() ) );
+		Preferences.setInteger( "lastTowerClimb", KoLCharacter.getAscensions() );
 	}
 
 	private static final void familiarBattle( final int n )

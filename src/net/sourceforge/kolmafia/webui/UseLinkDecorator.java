@@ -476,7 +476,7 @@ public abstract class UseLinkDecorator
 
 					else if ( itemId == Preferences.getInteger( "currentBountyItem" ) || ItemDatabase.isBountyItem( itemId ) )
 					{
-						Preferences.setString( "currentBountyItem", String.valueOf( itemId ) );
+						Preferences.setInteger( "currentBountyItem", itemId );
 						AdventureResult item = new AdventureResult( itemId, 0 );
 						useType = String.valueOf( item.getCount( KoLConstants.inventory ) );
 						useLocation = "bhh.php";

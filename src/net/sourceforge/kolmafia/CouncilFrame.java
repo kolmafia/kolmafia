@@ -238,7 +238,7 @@ public class CouncilFrame
 
 	private static final void handleCouncilChange( final String responseText )
 	{
-		Preferences.setString( "lastCouncilVisit", String.valueOf( KoLCharacter.getLevel() ) );
+		Preferences.setInteger( "lastCouncilVisit", KoLCharacter.getLevel() );
 
 		if ( responseText.indexOf( "500" ) != -1 )
 		{

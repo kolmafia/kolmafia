@@ -71,7 +71,7 @@ public class LoginRequest
 		this.password = password;
 		if ( StaticEntity.getClient() instanceof KoLmafiaCLI )
 		{
-			Preferences.setString( "saveStateActive", "true" );
+			Preferences.setBoolean( "saveStateActive", true );
 		}
 	}
 

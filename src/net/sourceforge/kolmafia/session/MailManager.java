@@ -126,7 +126,7 @@ public abstract class MailManager
 			mailbox.remove( messageIndex );
 		}
 
-		Preferences.setString( "lastMessageCount", String.valueOf( MailManager.getMessages( "Inbox" ).size() ) );
+		Preferences.setInteger( "lastMessageCount", MailManager.getMessages( "Inbox" ).size() );
 	}
 
 	public static final void deleteMessages( final String boxname, final Object[] messages )
@@ -149,7 +149,7 @@ public abstract class MailManager
 			}
 		}
 
-		Preferences.setString( "lastMessageCount", String.valueOf( MailManager.getMessages( "Inbox" ).size() ) );
+		Preferences.setInteger( "lastMessageCount", MailManager.getMessages( "Inbox" ).size() );
 	}
 
 	public static final void saveMessage( final KoLMailMessage message )
@@ -163,7 +163,7 @@ public abstract class MailManager
 			mailbox.remove( messageIndex );
 		}
 
-		Preferences.setString( "lastMessageCount", String.valueOf( MailManager.getMessages( "Inbox" ).size() ) );
+		Preferences.setInteger( "lastMessageCount", MailManager.getMessages( "Inbox" ).size() );
 	}
 
 	public static final void saveMessages( final Object[] messages )
@@ -186,6 +186,6 @@ public abstract class MailManager
 			}
 		}
 
-		Preferences.setString( "lastMessageCount", String.valueOf( MailManager.getMessages( "Inbox" ).size() ) );
+		Preferences.setInteger( "lastMessageCount", MailManager.getMessages( "Inbox" ).size() );
 	}
 }

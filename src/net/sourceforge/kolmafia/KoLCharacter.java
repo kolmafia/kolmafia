@@ -1145,7 +1145,7 @@ public abstract class KoLCharacter
 	public static final void registerSemirare()
 	{
 		KoLCharacter.ensureUpdatedSemirareCounter();
-		Preferences.setString( "semirareCounter", String.valueOf( KoLCharacter.currentRun + 1 ) );
+		Preferences.setInteger( "semirareCounter", KoLCharacter.currentRun + 1 );
 		KoLAdventure location = KoLAdventure.lastVisitedLocation();
 		String loc = ( location == null ) ? "" : location.getAdventureName();
 		Preferences.setString( "semirareLocation", loc );
@@ -2060,8 +2060,8 @@ public abstract class KoLCharacter
 		int lastAscension = Preferences.getInteger( "lastKingLiberation" );
 		if ( lastAscension < KoLCharacter.ascensions )
 		{
-			Preferences.setString( "lastKingLiberation", String.valueOf( KoLCharacter.getAscensions() ) );
-			Preferences.setString( "kingLiberated", "false" );
+			Preferences.setInteger( "lastKingLiberation", KoLCharacter.getAscensions() );
+			Preferences.setBoolean( "kingLiberated", false );
 			return false;
 		}
 		return Preferences.getBoolean( "kingLiberated" );
@@ -2071,7 +2071,7 @@ public abstract class KoLCharacter
 	{
 		if ( !KoLCharacter.kingLiberated() )
 		{
-			Preferences.setString( "kingLiberated", "true" );
+			Preferences.setBoolean( "kingLiberated", true );
 			CharPaneRequest.setInteraction();
 
 			// Bad Moon characters can now access storage.
@@ -3354,9 +3354,9 @@ public abstract class KoLCharacter
 		int lastAscension = Preferences.getInteger( "lastGuyMadeOfBeesReset" );
 		if ( lastAscension < KoLCharacter.getAscensions() )
 		{
-			Preferences.setString( "lastGuyMadeOfBeesReset", String.valueOf( KoLCharacter.getAscensions() ) );
-                        Preferences.setString( "guyMadeOfBeesCount", "0" );
-                        Preferences.setString( "guyMadeOfBeesDefeated", "false" );
+			Preferences.setInteger( "lastGuyMadeOfBeesReset", KoLCharacter.getAscensions() );
+                        Preferences.setInteger( "guyMadeOfBeesCount", 0 );
+                        Preferences.setBoolean( "guyMadeOfBeesDefeated", false );
                 }
 	}
 
@@ -3365,8 +3365,8 @@ public abstract class KoLCharacter
 		int lastAscension = Preferences.getInteger( "lastSemirareReset" );
 		if ( lastAscension < KoLCharacter.getAscensions() )
 		{
-			Preferences.setString( "lastSemirareReset", String.valueOf( KoLCharacter.getAscensions() ) );
-                        Preferences.setString( "semirareCounter", "0" );
+			Preferences.setInteger( "lastSemirareReset", KoLCharacter.getAscensions() );
+                        Preferences.setInteger( "semirareCounter", 0 );
                 }
 	}
 
@@ -3375,7 +3375,7 @@ public abstract class KoLCharacter
 		int lastAscension = Preferences.getInteger( "lastBangPotionReset" );
 		if ( lastAscension < KoLCharacter.getAscensions() )
 		{
-			Preferences.setString( "lastBangPotionReset", String.valueOf( KoLCharacter.getAscensions() ) );
+			Preferences.setInteger( "lastBangPotionReset", KoLCharacter.getAscensions() );
 			for ( int i = 819; i <= 827; ++i )
 			{
 				Preferences.setString( "lastBangPotion" + i, "" );
@@ -3388,7 +3388,7 @@ public abstract class KoLCharacter
 		int lastAscension = Preferences.getInteger( "lastStoneSphereReset" );
 		if ( lastAscension < KoLCharacter.getAscensions() )
 		{
-			Preferences.setString( "lastStoneSphereReset", String.valueOf( KoLCharacter.getAscensions() ) );
+			Preferences.setInteger( "lastStoneSphereReset", KoLCharacter.getAscensions() );
 			for ( int i = 2174; i <= 2177; ++i )
 			{
 				Preferences.setString( "lastStoneSphere" + i, "" );

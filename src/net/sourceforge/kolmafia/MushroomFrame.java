@@ -520,9 +520,9 @@ public class MushroomFrame
 
 			if ( this.currentLayout.equals( "" ) )
 			{
-				Preferences.setString( "plantingDay", "-1" );
+				Preferences.setInteger( "plantingDay", -1 );
 				Preferences.setString( "plantingDate", "" );
-				Preferences.setString( "plantingLength", "0" );
+				Preferences.setInteger( "plantingLength", 0 );
 			}
 			else
 			{

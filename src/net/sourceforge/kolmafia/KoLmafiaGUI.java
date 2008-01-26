@@ -83,14 +83,14 @@ public class KoLmafiaGUI
 
 		if ( Preferences.getString( "useDecoratedTabs" ).equals( "" ) )
 		{
-			Preferences.setString(
-				"useDecoratedTabs", String.valueOf( !System.getProperty( "os.name" ).startsWith( "Mac" ) ) );
+			Preferences.setBoolean(
+				"useDecoratedTabs", !System.getProperty( "os.name" ).startsWith( "Mac" ) );
 		}
 
 		if ( !Preferences.getBoolean( "customizedTabs" ) )
 		{
 			KoLmafiaGUI.constructFrame( OptionsFrame.class );
-			Preferences.setString( "customizedTabs", "true" );
+			Preferences.setBoolean( "customizedTabs", true );
 		}
 
 		// All that completed, check to see if there is an auto-login

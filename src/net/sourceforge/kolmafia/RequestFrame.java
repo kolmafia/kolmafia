@@ -366,11 +366,11 @@ public class RequestFrame
 			// New prevention mechanism: tell the requests that there
 			// will be no synchronization.
 
-			String original = Preferences.getString( "showAllRequests" );
-			Preferences.setString( "showAllRequests", "false" );
+			boolean original = Preferences.getBoolean( "showAllRequests" );
+			Preferences.setBoolean( "showAllRequests", false );
 
 			RequestThread.postRequest( request );
-			Preferences.setString( "showAllRequests", original );
+			Preferences.setBoolean( "showAllRequests", original );
 
 			// If this resulted in a redirect, then update the display
 			// to indicate that you were redirected and the display

@@ -645,12 +645,12 @@ public abstract class StaticEntity
 			String side = "none";
 			if ( responseText.indexOf( "peach" ) != -1 && responseText.indexOf( "pear" ) != -1 && responseText.indexOf( "plum" ) != -1 )
 			{
-				Preferences.setString( "lastFilthClearance", String.valueOf( KoLCharacter.getAscensions() ) );
+				Preferences.setInteger( "lastFilthClearance", KoLCharacter.getAscensions() );
 				side = "hippy";
 			}
 			else if ( responseText.indexOf( "bowl of rye sprouts" ) != -1 && responseText.indexOf( "cob of corn" ) != -1 && responseText.indexOf( "juniper berries" ) != -1 )
 			{
-				Preferences.setString( "lastFilthClearance", String.valueOf( KoLCharacter.getAscensions() ) );
+				Preferences.setInteger( "lastFilthClearance", KoLCharacter.getAscensions() );
 				side = "fratboy";
 			}
 			Preferences.setString( "currentHippyStore", side );

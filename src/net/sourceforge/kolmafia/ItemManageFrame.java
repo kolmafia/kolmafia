@@ -230,7 +230,7 @@ public class ItemManageFrame
 				return;
 			}
 
-			Preferences.setString( "itemManagerIndex", String.valueOf( cardIndex ) );
+			Preferences.setInteger( "itemManagerIndex", cardIndex );
 			ItemManageFrame.this.itemPanelCards.show( ItemManageFrame.this.managePanel, String.valueOf( cardIndex + 1 ) );
 		}
 	}
@@ -703,7 +703,7 @@ public class ItemManageFrame
 				return;
 			}
 
-			Preferences.setString( "showGainsPerUnit", String.valueOf( this.isSelected() ) );
+			Preferences.setBoolean( "showGainsPerUnit", this.isSelected() );
 			ConcoctionDatabase.getUsables().sort();
 		}
 	}
@@ -734,7 +734,7 @@ public class ItemManageFrame
 				return;
 			}
 
-			Preferences.setString( this.property, String.valueOf( this.isSelected() ) );
+			Preferences.setBoolean( this.property, this.isSelected() );
 			ConcoctionDatabase.refreshConcoctions();
 		}
 	}
