@@ -274,10 +274,10 @@ public class BuffBotFrame
 
 		public void actionConfirmed()
 		{
-			Preferences.setString(
-				"buffBotPhilanthropyType", String.valueOf( this.philanthropyModeSelect.getSelectedIndex() ) );
-			Preferences.setString(
-				"buffBotMessageDisposal", String.valueOf( this.messageDisposalSelect.getSelectedIndex() ) );
+			Preferences.setInteger(
+				"buffBotPhilanthropyType", this.philanthropyModeSelect.getSelectedIndex() );
+			Preferences.setInteger(
+				"buffBotMessageDisposal", this.messageDisposalSelect.getSelectedIndex() );
 			Preferences.setString( "invalidBuffMessage", this.invalidPriceMessage.getText() );
 			Preferences.setString( "thanksMessage", this.thanksMessage.getText() );
 		}

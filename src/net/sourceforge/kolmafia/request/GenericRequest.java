@@ -835,8 +835,8 @@ public class GenericRequest
 
 			if ( GenericRequest.lastDecision != 4 )
 			{
-				Preferences.setString( "lastQuartetAscension", String.valueOf( KoLCharacter.getAscensions() ) );
-				Preferences.setString( "lastQuartetRequest", String.valueOf( GenericRequest.lastDecision ) );
+				Preferences.setInteger( "lastQuartetAscension", KoLCharacter.getAscensions() );
+				Preferences.setInteger( "lastQuartetRequest", GenericRequest.lastDecision );
 
 				if ( KoLCharacter.recalculateAdjustments() )
 				{
@@ -850,28 +850,28 @@ public class GenericRequest
 		case 9:
 			Preferences.setString(
 				"currentWheelPosition",
-				String.valueOf( GenericRequest.lastDecision == 1 ? "mysticality" : GenericRequest.lastDecision == 2 ? "moxie" : "muscle" ) );
+				GenericRequest.lastDecision == 1 ? "mysticality" : GenericRequest.lastDecision == 2 ? "moxie" : "muscle" );
 			break;
 
 		// Wheel In the Sky Keep on Turning: Mysticality Position
 		case 10:
 			Preferences.setString(
 				"currentWheelPosition",
-				String.valueOf( GenericRequest.lastDecision == 1 ? "map quest" : GenericRequest.lastDecision == 2 ? "muscle" : "mysticality" ) );
+				GenericRequest.lastDecision == 1 ? "map quest" : GenericRequest.lastDecision == 2 ? "muscle" : "mysticality" );
 			break;
 
 		// Wheel In the Sky Keep on Turning: Map Quest Position
 		case 11:
 			Preferences.setString(
 				"currentWheelPosition",
-				String.valueOf( GenericRequest.lastDecision == 1 ? "moxie" : GenericRequest.lastDecision == 2 ? "mysticality" : "map quest" ) );
+				GenericRequest.lastDecision == 1 ? "moxie" : GenericRequest.lastDecision == 2 ? "mysticality" : "map quest" );
 			break;
 
 		// Wheel In the Sky Keep on Turning: Moxie Position
 		case 12:
 			Preferences.setString(
 				"currentWheelPosition",
-				String.valueOf( GenericRequest.lastDecision == 1 ? "muscle" : GenericRequest.lastDecision == 2 ? "map quest" : "moxie" ) );
+				GenericRequest.lastDecision == 1 ? "muscle" : GenericRequest.lastDecision == 2 ? "map quest" : "moxie" );
 			break;
 
 		// Start the Island War Quest
@@ -929,7 +929,7 @@ public class GenericRequest
 			if ( text.indexOf( "guy made of bee pollen" ) != -1 )
 			{
 				// Record that we beat the guy made of bees.
-				Preferences.setString( "guyMadeOfBeesDefeated", "true" );
+				Preferences.setBoolean( "guyMadeOfBeesDefeated", true );
 			}
 		}
 		else if ( urlString.startsWith( "choice.php" ) )
@@ -938,7 +938,7 @@ public class GenericRequest
 			{
 				// For some reason, we didn't notice when we
 				// beat the guy made of bees. Record it now.
-				Preferences.setString( "guyMadeOfBeesDefeated", "true" );
+				Preferences.setBoolean( "guyMadeOfBeesDefeated", true );
 			}
 			else if ( text.indexOf( "Nothing happens." ) != -1 )
 			{
@@ -1362,7 +1362,7 @@ public class GenericRequest
 				break;
 
 			case UseItemRequest.BLACK_PUDDING:
-				Preferences.setString( "currentFullness", String.valueOf( KoLCharacter.getFullness() - 3 ) );
+				Preferences.setInteger( "currentFullness", KoLCharacter.getFullness() - 3 );
 				name = "Black Pudding";
 				break;
 

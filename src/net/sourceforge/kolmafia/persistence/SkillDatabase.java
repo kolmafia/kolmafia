@@ -357,7 +357,7 @@ public class SkillDatabase
 
 		if ( Preferences.getInteger( "candyHeartSummons" ) != count - 1)
 		{
-			Preferences.setString( "candyHeartSummons", String.valueOf( count - 1) );
+			Preferences.setInteger( "candyHeartSummons", count - 1 );
 			KoLConstants.summoningSkills.sort();
 			KoLConstants.usableSkills.sort();
 		}

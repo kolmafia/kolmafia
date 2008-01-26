@@ -2998,7 +2998,7 @@ public class FamiliarTrainingFrame
 		public void run()
 		{
 			boolean toggleValue = Preferences.getBoolean( this.property );
-			Preferences.setString( this.property, String.valueOf( toggleValue ) );
+			Preferences.setBoolean( this.property, toggleValue );
 
 			if ( toggleValue )
 			{

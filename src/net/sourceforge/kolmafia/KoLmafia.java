@@ -392,9 +392,9 @@ public abstract class KoLmafia
 		// Reload your settings and determine all the different users which
 		// are present in your save state list.
 
-		Preferences.setString(
-			"defaultLoginServer", String.valueOf( 1 + KoLConstants.RNG.nextInt( GenericRequest.SERVER_COUNT ) ) );
-		Preferences.setString( "relayBrowserOnly", "false" );
+		Preferences.setInteger(
+			"defaultLoginServer", 1 + KoLConstants.RNG.nextInt( GenericRequest.SERVER_COUNT ) );
+		Preferences.setBoolean( "relayBrowserOnly", false );
 
 		String actualName;
 		String[] pastUsers = StaticEntity.getPastUserList();
@@ -751,7 +751,7 @@ public abstract class KoLmafia
 		if ( Preferences.getString( username, "getBreakfast" ).equals( "true" ) )
 		{
 			this.getBreakfast( true, Preferences.getInteger( "lastBreakfast" ) != today );
-			Preferences.setString( "lastBreakfast", String.valueOf( today ) );
+			Preferences.setInteger( "lastBreakfast", today );
 		}
 
 		// Also, do mushrooms, if a mushroom script has already
@@ -775,22 +775,22 @@ public abstract class KoLmafia
 
 	public static final void resetCounters()
 	{
-		Preferences.setString( "lastCounterDay", String.valueOf( HolidayDatabase.getPhaseStep() ) );
-		Preferences.setString( "breakfastCompleted", "false" );
+		Preferences.setInteger( "lastCounterDay", HolidayDatabase.getPhaseStep() );
+		Preferences.setBoolean( "breakfastCompleted", false );
 
-		Preferences.setString( "expressCardUsed", "false" );
-		Preferences.setString( "currentFullness", "0" );
-		Preferences.setString( "currentMojoFilters", "0" );
-		Preferences.setString( "currentSpleenUse", "0" );
+		Preferences.setBoolean( "expressCardUsed", false );
+		Preferences.setInteger( "currentFullness", 0 );
+		Preferences.setInteger( "currentMojoFilters", 0 );
+		Preferences.setInteger( "currentSpleenUse", 0 );
 		Preferences.setString( "currentPvpVictories", "" );
 
-		Preferences.setString( "snowconeSummons", "0" );
-		Preferences.setString( "grimoireSummons", "0" );
-		Preferences.setString( "candyHeartSummons", "0" );
+		Preferences.setInteger( "snowconeSummons", 0 );
+		Preferences.setInteger( "grimoireSummons", 0 );
+		Preferences.setInteger( "candyHeartSummons", 0 );
 
-		Preferences.setString( "noodleSummons", "0" );
-		Preferences.setString( "reagentSummons", "0" );
-		Preferences.setString( "cocktailSummons", "0" );
+		Preferences.setInteger( "noodleSummons", 0 );
+		Preferences.setInteger( "reagentSummons", 0 );
+		Preferences.setInteger( "cocktailSummons", 0 );
 
 		// Libram summoning skills now costs 1 MP again
 		KoLConstants.summoningSkills.sort();
@@ -799,13 +799,13 @@ public abstract class KoLmafia
 
 	public static final void resetPerAscensionCounters()
 	{
-		Preferences.setString( "currentBountyItem", "0" );
+		Preferences.setInteger( "currentBountyItem", 0 );
 		Preferences.setString( "currentHippyStore", "none" );
 		Preferences.setString( "currentWheelPosition", "muscle" );
-		Preferences.setString( "fratboysDefeated", "0" );
-		Preferences.setString( "guyMadeOfBeesCount", "0" );
-		Preferences.setString( "guyMadeOfBeesDefeated", "false" );
-		Preferences.setString( "hippiesDefeated", "0" );
+		Preferences.setInteger( "fratboysDefeated", 0 );
+		Preferences.setInteger( "guyMadeOfBeesCount", 0 );
+		Preferences.setBoolean( "guyMadeOfBeesDefeated", false );
+		Preferences.setInteger( "hippiesDefeated", 0 );
 		Preferences.setString( "trapperOre", "chrome" );
 	}
 
@@ -1057,7 +1057,7 @@ public abstract class KoLmafia
 			}
 		}
 
-		Preferences.setString( "breakfastCompleted", String.valueOf( limitExceeded ) );
+		Preferences.setBoolean( "breakfastCompleted", limitExceeded );
 		return limitExceeded;
 	}
 
@@ -1164,7 +1164,7 @@ public abstract class KoLmafia
 				RequestThread.postRequest( new ClosetRequest() );
 				if ( KoLConstants.storage.isEmpty() )
 				{
-					Preferences.setString( "lastEmptiedStorage", String.valueOf( KoLCharacter.getAscensions() ) );
+					Preferences.setInteger( "lastEmptiedStorage", KoLCharacter.getAscensions() );
 				}
 			}
 		}
@@ -3017,8 +3017,8 @@ public abstract class KoLmafia
 		int lastAscension = Preferences.getInteger( "lastTavernAscension" );
 		if ( lastAscension < KoLCharacter.getAscensions() )
 		{
-			Preferences.setString( "lastTavernSquare", "0" );
-			Preferences.setString( "lastTavernAscension", String.valueOf( KoLCharacter.getAscensions() ) );
+			Preferences.setInteger( "lastTavernSquare", 0 );
+			Preferences.setInteger( "lastTavernAscension", KoLCharacter.getAscensions() );
 			Preferences.setString( "tavernLayout", "0000000000000000000000000" );
 		}
 	}
@@ -3060,7 +3060,7 @@ public abstract class KoLmafia
 			// the response text will be null.
 
 			int square = StaticEntity.parseInt( squareMatcher.group( 1 ) );
-			Preferences.setString( "lastTavernSquare", String.valueOf( square ) );
+			Preferences.setInteger( "lastTavernSquare", square );
 
 			char replacement = '1';
 			if ( request.responseText != null && request.responseText.indexOf( "faucetoff" ) != -1 )
@@ -4525,7 +4525,7 @@ public abstract class KoLmafia
 	public void handleAscension()
 	{
 		RequestThread.openRequestSequence();
-		Preferences.setString( "lastBreakfast", "-1" );
+		Preferences.setInteger( "lastBreakfast", -1 );
 
 		KoLmafia.resetCounters();
 		KoLmafia.resetPerAscensionCounters();

@@ -238,7 +238,7 @@ public class LouvreManager
 		int lastLouvreAscension = Preferences.getInteger( "lastLouvreMap" );
 		if ( lastLouvreAscension != KoLCharacter.getAscensions() )
 		{
-			Preferences.setString( "lastLouvreMap", String.valueOf( KoLCharacter.getAscensions() ) );
+			Preferences.setInteger( "lastLouvreMap", KoLCharacter.getAscensions() );
 			Preferences.setString( "louvreLayout", "" );
 		}
 
@@ -275,7 +275,7 @@ public class LouvreManager
 			}
 		}
 
-		Preferences.setString( "lastLouvreMap", String.valueOf( KoLCharacter.getAscensions() ) );
+		Preferences.setInteger( "lastLouvreMap", KoLCharacter.getAscensions() );
 		Preferences.setString( "louvreLayout", map.toString() );
 	}
 
@@ -292,15 +292,15 @@ public class LouvreManager
 		{
 			if ( KoLCharacter.isMuscleClass() )
 			{
-				Preferences.setString( "louvreGoal", "4" );
+				Preferences.setInteger( "louvreGoal", 4 );
 			}
 			else if ( KoLCharacter.isMysticalityClass() )
 			{
-				Preferences.setString( "louvreGoal", "5" );
+				Preferences.setInteger( "louvreGoal", 5 );
 			}
 			else
 			{
-				Preferences.setString( "louvreGoal", "6" );
+				Preferences.setInteger( "louvreGoal", 6 );
 			}
 		}
 		else if ( goal == LouvreManager.LouvreGoals.length + 2 )
@@ -315,20 +315,20 @@ public class LouvreManager
 
 			if ( mus <= mys && mus <= mox )
 			{
-				Preferences.setString( "louvreGoal", "4" );
+				Preferences.setInteger( "louvreGoal", 4 );
 			}
 			else if ( mys <= mus && mys <= mox )
 			{
-				Preferences.setString( "louvreGoal", "5" );
+				Preferences.setInteger( "louvreGoal", 5 );
 			}
 			else
 			{
-				Preferences.setString( "louvreGoal", "6" );
+				Preferences.setInteger( "louvreGoal", 6 );
 			}
 		}
 		else
 		{
-			Preferences.setString( "louvreGoal", Preferences.getString( "louvreDesiredGoal" ) );
+			Preferences.setInteger( "louvreGoal", Preferences.getInteger( "louvreDesiredGoal" ) );
 		}
 	}
 

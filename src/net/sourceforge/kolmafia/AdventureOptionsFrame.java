@@ -422,23 +422,23 @@ public abstract class AdventureOptionsFrame
 
 	public void saveRestoreSettings()
 	{
-		Preferences.setString(
+		Preferences.setFloat(
 			"autoAbortThreshold", AdventureOptionsFrame.getPercentage( this.hpHaltCombatSelect ) );
-		Preferences.setString( "hpAutoRecovery", AdventureOptionsFrame.getPercentage( this.hpAutoRecoverSelect ) );
-		Preferences.setString(
+		Preferences.setFloat( "hpAutoRecovery", AdventureOptionsFrame.getPercentage( this.hpAutoRecoverSelect ) );
+		Preferences.setFloat(
 			"hpAutoRecoveryTarget", AdventureOptionsFrame.getPercentage( this.hpAutoRecoverTargetSelect ) );
 		Preferences.setString( "hpAutoRecoveryItems", this.getSettingString( this.hpRestoreCheckbox ) );
 
-		Preferences.setString( "manaBurningThreshold", AdventureOptionsFrame.getPercentage( this.mpBalanceSelect ) );
-		Preferences.setString( "mpAutoRecovery", AdventureOptionsFrame.getPercentage( this.mpAutoRecoverSelect ) );
-		Preferences.setString(
+		Preferences.setFloat( "manaBurningThreshold", AdventureOptionsFrame.getPercentage( this.mpBalanceSelect ) );
+		Preferences.setFloat( "mpAutoRecovery", AdventureOptionsFrame.getPercentage( this.mpAutoRecoverSelect ) );
+		Preferences.setFloat(
 			"mpAutoRecoveryTarget", AdventureOptionsFrame.getPercentage( this.mpAutoRecoverTargetSelect ) );
 		Preferences.setString( "mpAutoRecoveryItems", this.getSettingString( this.mpRestoreCheckbox ) );
 	}
 
-	private static final String getPercentage( final JComboBox option )
+	private static final float getPercentage( final JComboBox option )
 	{
-		return String.valueOf( ( option.getSelectedIndex() - 1 ) / 20.0f );
+		return ( option.getSelectedIndex() - 1 ) / 20.0f;
 	}
 
 	private static final void setSelectedIndex( final JComboBox option, final String property )
@@ -1057,8 +1057,8 @@ public abstract class AdventureOptionsFrame
 		{
 			public void run()
 			{
-				Preferences.setString(
-					"autoSetConditions", String.valueOf( AdventureOptionsFrame.this.autoSetCheckBox.isSelected() ) );
+				Preferences.setBoolean(
+					"autoSetConditions", AdventureOptionsFrame.this.autoSetCheckBox.isSelected() );
 
 				AdventureOptionsFrame.this.conditionField.setEnabled( AdventureOptionsFrame.this.autoSetCheckBox.isSelected() && !KoLmafia.isAdventuring() );
 			}

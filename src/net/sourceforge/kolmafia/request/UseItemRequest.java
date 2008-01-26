@@ -1484,7 +1484,7 @@ public class UseItemRequest
 			KoLCharacter.setTelescope( true );
 
 			// Look through it to check number of upgrades
-			Preferences.setString( "lastTelescopeReset", "-1" );
+			Preferences.setInteger( "lastTelescopeReset", -1 );
 			KoLCharacter.checkTelescope();
 			return;
 
@@ -1641,12 +1641,13 @@ public class UseItemRequest
 				return;
 			}
 
-			Preferences.setString(
+			Preferences.setInteger(
 				"currentMojoFilters",
-				String.valueOf( Preferences.getInteger( "currentMojoFilters" ) + UseItemRequest.lastItemUsed.getCount() ) );
+				Preferences.getInteger( "currentMojoFilters" ) + UseItemRequest.lastItemUsed.getCount() );
 
-			Preferences.setString( "currentSpleenUse", String.valueOf( Math.max(
-				0, Preferences.getInteger( "currentSpleenUse" ) - UseItemRequest.lastItemUsed.getCount() ) ) );
+			Preferences.setInteger(
+				"currentSpleenUse",
+				Math.max( 0, Preferences.getInteger( "currentSpleenUse" ) - UseItemRequest.lastItemUsed.getCount() ) );
 
 			return;
 
@@ -1975,31 +1976,32 @@ public class UseItemRequest
 			int fullness = ItemDatabase.getFullness( UseItemRequest.lastItemUsed.getName() );
 			if ( fullness > 0 && KoLCharacter.getFullness() + fullness <= KoLCharacter.getFullnessLimit() )
 			{
-				Preferences.setString( "currentFullness", String.valueOf( KoLCharacter.getFullness() + fullness ) );
-				Preferences.setString( "munchiesPillsUsed", String.valueOf( Math.max(
-					Preferences.getInteger( "munchiesPillsUsed" ) - 1, 0 ) ) );
+				Preferences.setInteger( "currentFullness", KoLCharacter.getFullness() + fullness );
+				Preferences.setInteger( "munchiesPillsUsed", Math.max(
+					Preferences.getInteger( "munchiesPillsUsed" ) - 1, 0 ) );
 			}
 		}
 		else
 		{
 			if ( UseItemRequest.lastItemUsed.getItemId() == UseItemRequest.EXPRESS_CARD )
 			{
-				Preferences.setString( "expressCardUsed", "true" );
+				Preferences.setBoolean( "expressCardUsed", true );
 			}
 
 			if ( UseItemRequest.lastItemUsed.getItemId() == UseItemRequest.MUNCHIES_PILL )
 			{
-				Preferences.setString(
+				Preferences.setInteger(
 					"munchiesPillsUsed",
-					String.valueOf( Preferences.getInteger( "munchiesPillsUsed" ) + UseItemRequest.lastItemUsed.getCount() ) );
+					Preferences.getInteger( "munchiesPillsUsed" ) + UseItemRequest.lastItemUsed.getCount() );
 			}
 
 			int spleenHit =
 				ItemDatabase.getSpleenHit( UseItemRequest.lastItemUsed.getName() ) * UseItemRequest.lastItemUsed.getCount();
 			if ( spleenHit > 0 && KoLCharacter.getSpleenUse() + spleenHit <= KoLCharacter.getSpleenLimit() )
 			{
-				Preferences.setString(
-					"currentSpleenUse", String.valueOf( KoLCharacter.getSpleenUse() + spleenHit ) );
+				Preferences.setInteger(
+					"currentSpleenUse",
+					KoLCharacter.getSpleenUse() + spleenHit );
 			}
 		}
 

@@ -697,7 +697,7 @@ public class ShowDescriptionList
 				}
 			}
 
-			Preferences.setString( "mementoListActive", "true" );
+			Preferences.setBoolean( "mementoListActive", true );
 		}
 	}
 

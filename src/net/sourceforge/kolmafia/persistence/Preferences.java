@@ -79,6 +79,9 @@ public class Preferences
 	private static final TreeMap globalProperties = new TreeMap();
 	private static File globalPropertiesFile = null;
 
+	private static Boolean TRUE = Boolean.valueOf( true );
+	private static Boolean FALSE = Boolean.valueOf( false );
+
 	static
 	{
 		initializeMaps();
@@ -296,14 +299,29 @@ public class Preferences
 		return getString( null, name );
 	}
 
+	public static final void setBoolean( final String name, final boolean value )
+	{
+		setBoolean( null, name, value );
+	}
+
 	public static final boolean getBoolean( final String name )
 	{
 		return getBoolean( null, name );
 	}
 
+	public static final void setInteger( final String name, final int value )
+	{
+		setInteger( null, name, value );
+	}
+
 	public static final int getInteger( final String name )
 	{
 		return getInteger( null, name );
+	}
+
+	public static final void setFloat( final String name, final float value )
+	{
+		setFloat( null, name, value );
 	}
 
 	public static final float getFloat( final String name )
@@ -332,7 +350,7 @@ public class Preferences
 			current %= max;
 		}
 
-		Preferences.setString( name, String.valueOf( current ) );
+		Preferences.setInteger( name, current );
 		return current;
 	}
 
@@ -341,11 +359,7 @@ public class Preferences
 
 	public static final String getString( final String user, final String name )
 	{
-		boolean isGlobal = Preferences.isGlobalProperty( name );
-		TreeMap map = isGlobal ? Preferences.globalValues : Preferences.userValues;
-
-		String key = user == null ? name : name + "." + user.toLowerCase();
-		Object value = map.get( key );
+		Object value = Preferences.getObject( user, name );
 
 		if ( value == null )
 		{
@@ -357,11 +371,8 @@ public class Preferences
 
 	public static final boolean getBoolean( final String user, final String name )
 	{
-		boolean isGlobal = Preferences.isGlobalProperty( name );
-		TreeMap map = isGlobal ? Preferences.globalValues : Preferences.userValues;
-
-		String key = user == null ? name : name + "." + user.toLowerCase();
-		Object value = map.get( key );
+		TreeMap map = Preferences.getMap( name );
+		Object value = Preferences.getObject( map, user, name );
 
 		if ( value == null )
 		{
@@ -379,11 +390,8 @@ public class Preferences
 
 	public static final int getInteger( final String user, final String name )
 	{
-		boolean isGlobal = Preferences.isGlobalProperty( name );
-		TreeMap map = isGlobal ? Preferences.globalValues : Preferences.userValues;
-
-		String key = user == null ? name : name + "." + user.toLowerCase();
-		Object value = map.get( key );
+		TreeMap map = Preferences.getMap( name );
+		Object value = Preferences.getObject( map, user, name );
 
 		if ( value == null )
 		{
@@ -401,11 +409,8 @@ public class Preferences
 
 	public static final float getFloat( final String user, final String name )
 	{
-		boolean isGlobal = Preferences.isGlobalProperty( name );
-		TreeMap map = isGlobal ? Preferences.globalValues : Preferences.userValues;
-
-		String key = user == null ? name : name + "." + user.toLowerCase();
-		Object value = map.get( key );
+		TreeMap map = Preferences.getMap( name );
+		Object value = Preferences.getObject( map, user, name );
 
 		if ( value == null )
 		{
@@ -421,7 +426,43 @@ public class Preferences
 		return ((Float) value).floatValue();
 	}
 
+	private static final TreeMap getMap( final String name )
+	{
+		return Preferences.isGlobalProperty( name ) ? Preferences.globalValues : Preferences.userValues;
+	}
+
+	private static final Object getObject( final String user, final String name )
+	{
+		return Preferences.getObject( Preferences.getMap( name ), user, name );
+	}
+
+	private static final Object getObject( final TreeMap map, final String user, final String name )
+	{
+		String key = user == null ? name : name + "." + user.toLowerCase();
+		return map.get( key );
+	}
+
 	public static final void setString( final String user, final String name, final String value )
+	{
+		Preferences.setObject( user, name, value, value );
+	}
+
+	public static final void setBoolean( final String user, final String name, final boolean value )
+	{
+		Preferences.setObject( user, name, value ? "true" : "false", value ? Preferences.TRUE : Preferences.FALSE );
+	}
+
+	public static final void setInteger( final String user, final String name, final int value )
+	{
+		Preferences.setObject( user, name, String.valueOf( value ), Integer.valueOf( value ) );
+	}
+
+	public static final void setFloat( final String user, final String name, final float value )
+	{
+		Preferences.setObject( user, name, String.valueOf( value ), Float.valueOf( value ) );
+	}
+
+	private static final void setObject( final String user, final String name, final String value, final Object object )
 	{
 		String old = Preferences.getString( user, name );
 		if ( old.equals( value ) )
@@ -433,22 +474,22 @@ public class Preferences
 		{
 			String actualName = user == null ? name : name + "." + user.toLowerCase();
 
-			Preferences.globalValues.put( actualName, value );
+			Preferences.globalValues.put( actualName, object );
 			Preferences.globalProperties.put( actualName, Preferences.encodeProperty( actualName, value ) );
 
 			Preferences.saveToFile( Preferences.globalPropertiesFile, Preferences.globalProperties );
 		}
 		else if ( Preferences.userPropertiesFile != null )
 		{
-			Preferences.userValues.put( name, value );
+			Preferences.userValues.put( name, object );
 			Preferences.userProperties.put( name, Preferences.encodeProperty( name, value ) );
 
 			Preferences.saveToFile( Preferences.userPropertiesFile, Preferences.userProperties );
 		}
 
-		if ( Preferences.checkboxMap.containsKey( name ) )
+		if ( object instanceof Boolean && Preferences.checkboxMap.containsKey( name ) )
 		{
-			boolean isTrue = value.equals( "true" );
+			boolean isTrue = ((Boolean) object).booleanValue();
 
 			ArrayList list = (ArrayList) Preferences.checkboxMap.get( name );
 			for ( int i = 0; i < list.size(); ++i )

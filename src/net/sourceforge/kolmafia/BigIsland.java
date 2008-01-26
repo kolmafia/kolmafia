@@ -1192,23 +1192,23 @@ public class BigIsland
 		if ( BigIsland.fratboysDefeated < BigIsland.fratboyMin )
 		{
 			BigIsland.fratboysDefeated = BigIsland.fratboyMin;
-			Preferences.setString( "fratboysDefeated", String.valueOf( BigIsland.fratboysDefeated ) );
+			Preferences.setInteger( "fratboysDefeated", BigIsland.fratboysDefeated );
 		}
 		else if ( BigIsland.fratboysDefeated > BigIsland.fratboyMax )
 		{
 			BigIsland.fratboysDefeated = BigIsland.fratboyMax;
-			Preferences.setString( "fratboysDefeated", String.valueOf( BigIsland.fratboysDefeated ) );
+			Preferences.setInteger( "fratboysDefeated", BigIsland.fratboysDefeated );
 		}
 
 		if ( BigIsland.hippiesDefeated < BigIsland.hippyMin )
 		{
 			BigIsland.hippiesDefeated = BigIsland.hippyMin;
-			Preferences.setString( "hippiesDefeated", String.valueOf( BigIsland.hippiesDefeated ) );
+			Preferences.setInteger( "hippiesDefeated", BigIsland.hippiesDefeated );
 		}
 		else if ( BigIsland.hippiesDefeated > BigIsland.hippyMax )
 		{
 			BigIsland.hippiesDefeated = BigIsland.hippyMax;
-			Preferences.setString( "hippiesDefeated", String.valueOf( BigIsland.hippiesDefeated ) );
+			Preferences.setInteger( "hippiesDefeated", BigIsland.hippiesDefeated );
 		}
 	}
 
@@ -1399,10 +1399,10 @@ public class BigIsland
 		int lastAscension = Preferences.getInteger( "lastBattlefieldReset" );
 		if ( lastAscension < KoLCharacter.getAscensions() )
 		{
-			Preferences.setString( "lastBattlefieldReset", String.valueOf( KoLCharacter.getAscensions() ) );
+			Preferences.setInteger( "lastBattlefieldReset", KoLCharacter.getAscensions() );
 
-			Preferences.setString( "fratboysDefeated", "0" );
-			Preferences.setString( "hippiesDefeated", "0" );
+			Preferences.setInteger( "fratboysDefeated", 0 );
+			Preferences.setInteger( "hippiesDefeated", 0 );
 			Preferences.setString( "sidequestArenaCompleted", "none" );
 			Preferences.setString( "sidequestFarmCompleted", "none" );
 			Preferences.setString( "sidequestJunkyardCompleted", "none" );
@@ -1412,9 +1412,9 @@ public class BigIsland
 			Preferences.setString( "sidequestOrchardCompleted", "none" );
 			Preferences.setString( "currentJunkyardTool", "" );
 			Preferences.setString( "currentJunkyardLocation", "" );
-			Preferences.setString( "currentNunneryMeat", "0" );
-			Preferences.setString( "availableDimes", "0" );
-			Preferences.setString( "availableQuarters", "0" );
+			Preferences.setInteger( "currentNunneryMeat", 0 );
+			Preferences.setInteger( "availableDimes", 0 );
+			Preferences.setInteger( "availableQuarters", 0 );
 			Preferences.setString( "sideDefeated", "neither" );
 			Preferences.setString( "warProgress", "unstarted" );
 		}
@@ -1461,7 +1461,7 @@ public class BigIsland
 		int lastAscension = Preferences.getInteger( "lastBattlefieldReset" );
 		if ( lastAscension < KoLCharacter.getAscensions() )
 		{
-			Preferences.setString( "lastBattlefieldReset", String.valueOf( KoLCharacter.getAscensions() ) );
+			Preferences.setInteger( "lastBattlefieldReset", KoLCharacter.getAscensions() );
 
 			Preferences.setString( "sidequestArenaCompleted", "none" );
 			Preferences.setString( "sidequestOrchardCompleted", Preferences.getString( "currentHippyStore" ) );

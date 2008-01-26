@@ -235,7 +235,7 @@ public class CafeRequest
 		{
 			if ( KoLCharacter.getFullness() + fullness <= KoLCharacter.getFullnessLimit() )
 			{
-				Preferences.setString( "currentFullness", String.valueOf( KoLCharacter.getFullness() + fullness ) );
+				Preferences.setInteger( "currentFullness", KoLCharacter.getFullness() + fullness );
 			}
 			return;
 		}

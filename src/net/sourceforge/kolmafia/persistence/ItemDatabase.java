@@ -1285,7 +1285,7 @@ public class ItemDatabase
 			ItemDatabase.identifyDustyBottle( i );
 		}
 
-		Preferences.setString( "lastDustyBottleReset", String.valueOf( KoLCharacter.getAscensions() ) );
+		Preferences.setInteger( "lastDustyBottleReset", KoLCharacter.getAscensions() );
 
 		// Set the consumption data
 

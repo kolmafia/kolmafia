@@ -901,7 +901,7 @@ public abstract class ChatManager
 		}
 
 		ChatManager.lastBlueMessage = channel;
-		Preferences.setString( "chatbotScriptExecuted", "false" );
+		Preferences.setBoolean( "chatbotScriptExecuted", false );
 		interpreter.execute( "main", new String[] { channel, message } );
 		return Preferences.getBoolean( "chatbotScriptExecuted" );
 	}

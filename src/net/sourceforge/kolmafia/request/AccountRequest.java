@@ -136,13 +136,13 @@ public class AccountRequest
 				}
 				else
 				{
-					Preferences.setString( "defaultAutoAttack", "0" );
+					Preferences.setInteger( "defaultAutoAttack", 0 );
 				}
 			}
 		}
 		else
 		{
-			Preferences.setString( "defaultAutoAttack", "0" );
+			Preferences.setInteger( "defaultAutoAttack", 0 );
 		}
 	}
 }

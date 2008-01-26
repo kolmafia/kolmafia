@@ -134,7 +134,7 @@ public class BuffRequestFrame
 
 	public void dispose()
 	{
-		Preferences.setString( "lastBuffRequestType", String.valueOf( this.types.getSelectedIndex() ) );
+		Preferences.setInteger( "lastBuffRequestType", this.types.getSelectedIndex() );
 
 		this.panelMap.clear();
 		this.mainPanel.dispose();

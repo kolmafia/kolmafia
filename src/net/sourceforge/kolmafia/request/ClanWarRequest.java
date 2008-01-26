@@ -159,7 +159,7 @@ public class ClanWarRequest
 			return;
 		}
 
-		Preferences.setString( "clanAttacksEnabled", "true" );
+		Preferences.setBoolean( "clanAttacksEnabled", true );
 
 		if ( ClanWarRequest.enemyClans.getSize() > 0 )
 		{
@@ -173,11 +173,11 @@ public class ClanWarRequest
 		if ( nextMatcher.find() )
 		{
 			ClanWarRequest.nextAttack = "You may attack again in " + nextMatcher.group( 1 );
-			Preferences.setString( "clanAttacksEnabled", "true" );
+			Preferences.setBoolean( "clanAttacksEnabled", true );
 		}
 		else
 		{
-			Preferences.setString( "clanAttacksEnabled", "false" );
+			Preferences.setBoolean( "clanAttacksEnabled", false );
 			ClanWarRequest.nextAttack = "You do not have the ability to attack.";
 		}
 

@@ -559,7 +559,7 @@ public class ChoiceOptionsPanel
 		Preferences.setString(
 			"louvreOverride", overrideIndex == 0 || override == null ? "" : (String) override );
 
-		Preferences.setString( "violetFogGoal", String.valueOf( this.violetFogSelect.getSelectedIndex() ) );
+		Preferences.setInteger( "violetFogGoal", this.violetFogSelect.getSelectedIndex() );
 		Preferences.setString( "luckySewerAdventure", (String) this.sewerSelect.getSelectedItem() );
 		Preferences.setString( "choiceAdventure89", String.valueOf( this.maidenSelect.getSelectedIndex() ) );
 		Preferences.setString( "choiceAdventure127", String.valueOf( this.palindomePapayaSelect.getSelectedIndex() + 1 ) );
@@ -567,7 +567,7 @@ public class ChoiceOptionsPanel
 		int louvreGoal = this.louvreSelect.getSelectedIndex();
 		Preferences.setString(
 			"choiceAdventure91", String.valueOf( overrideIndex > 0 || louvreGoal > 0 ? "1" : "2" ) );
-		Preferences.setString( "louvreDesiredGoal", String.valueOf( louvreGoal ) );
+		Preferences.setInteger( "louvreDesiredGoal", louvreGoal );
 
 		for ( int i = 0; i < this.optionSelects.length; ++i )
 		{

@@ -149,7 +149,7 @@ public class TelescopeRequest
 		// We looked low. Deduce how many upgrades our telescope has
 		// and save what we spied in the tower.
 
-		Preferences.setString( "lastTelescopeReset", String.valueOf( KoLCharacter.getAscensions() ) );
+		Preferences.setInteger( "lastTelescopeReset", KoLCharacter.getAscensions() );
 
 		int upgrades = 0;
 
@@ -166,7 +166,7 @@ public class TelescopeRequest
 		}
 
 		KoLCharacter.setTelescopeUpgrades( upgrades );
-		Preferences.setString( "telescopeUpgrades", String.valueOf( upgrades ) );
+		Preferences.setInteger( "telescopeUpgrades", upgrades );
 	}
 
 	public static final boolean registerRequest( final String urlString )

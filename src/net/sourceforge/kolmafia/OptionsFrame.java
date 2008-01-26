@@ -176,8 +176,8 @@ public class OptionsFrame
 			{
 				if ( this.options[ i ].length != 0 )
 				{
-					Preferences.setString(
-						this.options[ i ][ 0 ], String.valueOf( this.optionBoxes[ i ].isSelected() ) );
+					Preferences.setBoolean(
+						this.options[ i ][ 0 ], this.optionBoxes[ i ].isSelected() );
 				}
 			}
 		}
@@ -280,8 +280,8 @@ public class OptionsFrame
 			{
 				if ( !this.options[ i ][ 0 ].equals( "" ) )
 				{
-					Preferences.setString(
-						this.options[ i ][ 0 ], String.valueOf( this.optionBoxes[ i ].isSelected() ) );
+					Preferences.setBoolean(
+						this.options[ i ][ 0 ], this.optionBoxes[ i ].isSelected() );
 				}
 			}
 		}
@@ -369,8 +369,8 @@ public class OptionsFrame
 			{
 				if ( !this.options[ i ][ 0 ].equals( "" ) )
 				{
-					Preferences.setString(
-						this.options[ i ][ 0 ], String.valueOf( this.optionBoxes[ i ].isSelected() ) );
+					Preferences.setBoolean(
+						this.options[ i ][ 0 ], this.optionBoxes[ i ].isSelected() );
 				}
 			}
 
@@ -672,14 +672,14 @@ public class OptionsFrame
 			{
 				if ( this.options[ i ].length > 0 )
 				{
-					Preferences.setString(
-						this.options[ i ][ 0 ], String.valueOf( this.optionBoxes[ i ].isSelected() ) );
+					Preferences.setBoolean(
+						this.options[ i ][ 0 ], this.optionBoxes[ i ].isSelected() );
 				}
 			}
 
-			Preferences.setString(
+			Preferences.setInteger(
 				"eSoluScriptType",
-				this.eSoluActiveOption.isSelected() ? ( this.eSoluColorlessOption.isSelected() ? "2" : "1" ) : "0" );
+				this.eSoluActiveOption.isSelected() ? ( this.eSoluColorlessOption.isSelected() ? 2 : 1 ) : 0 );
 
 			if ( this.fontSizes[ 0 ].isSelected() )
 			{
@@ -1153,9 +1153,9 @@ public class OptionsFrame
 				Preferences.setString( "swingLookAndFeel", lookAndFeel );
 			}
 
-			Preferences.setString( "useToolbars", String.valueOf( this.toolbars.getSelectedIndex() != 0 ) );
-			Preferences.setString( "scriptButtonPosition", String.valueOf( this.scripts.getSelectedIndex() ) );
-			Preferences.setString( "toolbarPosition", String.valueOf( this.toolbars.getSelectedIndex() ) );
+			Preferences.setBoolean( "useToolbars", this.toolbars.getSelectedIndex() != 0 );
+			Preferences.setInteger( "scriptButtonPosition", this.scripts.getSelectedIndex() );
+			Preferences.setInteger( "toolbarPosition", this.toolbars.getSelectedIndex() );
 		}
 
 		public void actionCancelled()
@@ -1218,9 +1218,9 @@ public class OptionsFrame
 				{
 					if ( UserInterfacePanel.this.options[ i ].length > 0 )
 					{
-						Preferences.setString(
+						Preferences.setBoolean(
 							UserInterfacePanel.this.options[ i ][ 0 ],
-							String.valueOf( UserInterfacePanel.this.optionBoxes[ i ].isSelected() ) );
+							UserInterfacePanel.this.optionBoxes[ i ].isSelected() );
 					}
 				}
 			}
@@ -1402,20 +1402,20 @@ public class OptionsFrame
 			}
 
 			Preferences.setString( "breakfast" + this.breakfastType, skillString.toString() );
-			Preferences.setString(
-				"loginRecovery" + this.breakfastType, String.valueOf( this.loginRecovery.isSelected() ) );
-			Preferences.setString(
-				"pathedSummons" + this.breakfastType, String.valueOf( this.pathedSummons.isSelected() ) );
-			Preferences.setString(
-				"visitRumpus" + this.breakfastType, String.valueOf( this.rumpusRoom.isSelected() ) );
-			Preferences.setString(
-				"autoPlant" + this.breakfastType, String.valueOf( this.mushroomPlot.isSelected() ) );
-			Preferences.setString(
-				"grabClovers" + this.breakfastType, String.valueOf( this.grabClovers.isSelected() ) );
-			Preferences.setString(
-				"readManual" + this.breakfastType, String.valueOf( this.readManual.isSelected() ) );
-			Preferences.setString(
-				"useCrimboToys" + this.breakfastType, String.valueOf( this.useCrimboToys.isSelected() ) );
+			Preferences.setBoolean(
+				"loginRecovery" + this.breakfastType, this.loginRecovery.isSelected() );
+			Preferences.setBoolean(
+				"pathedSummons" + this.breakfastType, this.pathedSummons.isSelected() );
+			Preferences.setBoolean(
+				"visitRumpus" + this.breakfastType, this.rumpusRoom.isSelected() );
+			Preferences.setBoolean(
+				"autoPlant" + this.breakfastType, this.mushroomPlot.isSelected() );
+			Preferences.setBoolean(
+				"grabClovers" + this.breakfastType, this.grabClovers.isSelected() );
+			Preferences.setBoolean(
+				"readManual" + this.breakfastType, this.readManual.isSelected() );
+			Preferences.setBoolean(
+				"useCrimboToys" + this.breakfastType, this.useCrimboToys.isSelected() );
 		}
 
 		public void actionCancelled()

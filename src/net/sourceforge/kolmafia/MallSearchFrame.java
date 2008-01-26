@@ -147,7 +147,7 @@ public class MallSearchFrame
 			int searchCount = KoLFrame.getValue( this.countField, 0 );
 			if ( searchCount > 0 )
 			{
-				Preferences.setString( "defaultLimit", String.valueOf( searchCount ) );
+				Preferences.setInteger( "defaultLimit", searchCount );
 			}
 
 			MallPurchaseRequest.setUsePriceComparison( this.forceSortingCheckBox.isSelected() );

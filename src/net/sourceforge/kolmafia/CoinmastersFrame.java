@@ -111,7 +111,7 @@ public class CoinmastersFrame
 		dimes = Preferences.getInteger( "availableDimes" );
 		quarters = Preferences.getInteger( "availableQuarters" );
 		lucre =	 LUCRE.getCount( KoLConstants.inventory );
-		Preferences.setString( "availableLucre", String.valueOf( lucre ) );
+		Preferences.setInteger( "availableLucre", lucre );
 
 		INSTANCE.setTitle( "Coin Masters (" + dimes + " dimes/" + quarters + " quarters/" + lucre + " lucre)" );
 		INSTANCE.update();
