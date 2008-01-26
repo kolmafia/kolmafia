@@ -152,7 +152,6 @@ public class UseItemRequest
 	public static final int DRUM_MACHINE = 2328;
 	public static final int BLACK_PUDDING = 2338;
 	private static final int COBBS_KNOB_MAP = 2442;
-	private static final int SAND_BRICK = 2582;
 	private static final int TELESCOPE = 2599;
 	private static final int ABSINTHE = 2655;
 	private static final int MOJO_FILTER = 2614;
@@ -167,6 +166,8 @@ public class UseItemRequest
 	public static final int BALL_IN_CUP = 3093;
 	public static final int SET_OF_JACKS = 3094;
 
+	// Books
+
 	private static final int SNOWCONE_BOOK = 1411;
 	private static final int HILARIOUS_BOOK = 1498;
 	private static final int CANDY_BOOK = 2303;
@@ -174,10 +175,15 @@ public class UseItemRequest
 	private static final int JEWELRY_BOOK = 2502;
 	private static final int DIVINE_BOOK = 3117;
 
+	// Multi-use creation items
+
 	private static final int PALM_FROND = 2605;
 	private static final int MUMMY_WRAP = 2634;
 	private static final int DUCT_TAPE = 2697;
 	private static final int CLINGFILM = 2988;
+	private static final int SAND_BRICK = 2582;
+
+	// Gifts
 
 	private static final int GIFT1 = 1167;
 	private static final int GIFT2 = 1168;
@@ -193,6 +199,16 @@ public class UseItemRequest
 	private static final int GIFTV = 1460;
 	private static final int GIFTR = 1534;
 	private static final int GIFTW = 2683;
+
+	// Housing
+
+	private static final int NEWBIESPORT_TENT = 69;
+	private static final int BARSKIN_TENT = 73;
+	private static final int COTTAGE = 143;
+	private static final int HOUSE = 526;
+	private static final int SANDCASTLE = 3127;
+
+	// Bang potions
 
 	public static final int MILKY_POTION = 819;
 	public static final int SWIRLY_POTION = 820;
@@ -332,11 +348,15 @@ public class UseItemRequest
 	{
 		super( location );
 
-		this.addFormField( "pwd" );
-		this.addFormField( "whichitem", String.valueOf( item.getItemId() ) );
-
 		this.consumptionType = consumptionType;
 		this.itemUsed = item;
+
+		this.addFormField( "pwd" );
+		if ( UseItemRequest.isHousing( item.getItemId() ) )
+		{
+			this.addFormField( "confirm", "true" );
+		}
+		this.addFormField( "whichitem", String.valueOf( item.getItemId() ) );
 	}
 
 	public static final int currentItemId()
@@ -1632,8 +1652,8 @@ public class UseItemRequest
 
 		case MOJO_FILTER:
 
-			// You strain some of the toxins out of your mojo, and discard
-			// the now-grodulated filter.
+			// You strain some of the toxins out of your mojo, and
+			// discard the now-grodulated filter.
 
 			if ( responseText.indexOf( "now-grodulated" ) == -1 )
 			{
@@ -1649,6 +1669,18 @@ public class UseItemRequest
 				"currentSpleenUse",
 				Math.max( 0, Preferences.getInteger( "currentSpleenUse" ) - UseItemRequest.lastItemUsed.getCount() ) );
 
+			return;
+
+		case NEWBIESPORT_TENT:
+		case BARSKIN_TENT:
+		case COTTAGE:
+		case HOUSE:
+		case SANDCASTLE:
+
+			if ( responseText.indexOf( "You place the" ) == -1 && responseText.indexOf( "You build a" ) == -1 && responseText.indexOf( "You quickly burn down" ) == -1)
+			{
+				StaticEntity.getClient().processResult( UseItemRequest.lastItemUsed );
+			}
 			return;
 
 		case MILKY_POTION:
@@ -1857,6 +1889,15 @@ public class UseItemRequest
 		}
 
 		return name + " of " + effect;
+	}
+
+	public static final boolean isHousing( final int itemId )
+	{
+		return	itemId == UseItemRequest.NEWBIESPORT_TENT ||
+			itemId == UseItemRequest.BARSKIN_TENT ||
+			itemId == UseItemRequest.COTTAGE ||
+			itemId == UseItemRequest.HOUSE ||
+			itemId == UseItemRequest.SANDCASTLE;
 	}
 
 	private static final void showItemUsage( final boolean showHTML, final String text, boolean consumed )
