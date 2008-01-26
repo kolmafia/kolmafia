@@ -444,32 +444,42 @@ public class Preferences
 
 	public static final void setString( final String user, final String name, final String value )
 	{
-		Preferences.setObject( user, name, value, value );
+		String old = Preferences.getString( user, name );
+		if ( !old.equals( value ) )
+		{
+			Preferences.setObject( user, name, value, value );
+		}
 	}
 
 	public static final void setBoolean( final String user, final String name, final boolean value )
 	{
-		Preferences.setObject( user, name, value ? "true" : "false", value ? Preferences.TRUE : Preferences.FALSE );
+		boolean old = Preferences.getBoolean( user, name );
+		if ( old != value )
+		{
+			Preferences.setObject( user, name, value ? "true" : "false", value ? Preferences.TRUE : Preferences.FALSE );
+		}
 	}
 
 	public static final void setInteger( final String user, final String name, final int value )
 	{
-		Preferences.setObject( user, name, String.valueOf( value ), Integer.valueOf( value ) );
+		int old = Preferences.getInteger( user, name );
+		if ( old != value )
+		{
+			Preferences.setObject( user, name, String.valueOf( value ), Integer.valueOf( value ) );
+		}
 	}
 
 	public static final void setFloat( final String user, final String name, final float value )
 	{
-		Preferences.setObject( user, name, String.valueOf( value ), Float.valueOf( value ) );
+		float old = Preferences.getFloat( user, name );
+		if ( old != value )
+		{
+			Preferences.setObject( user, name, String.valueOf( value ), Float.valueOf( value ) );
+		}
 	}
 
 	private static final void setObject( final String user, final String name, final String value, final Object object )
 	{
-		String old = Preferences.getString( user, name );
-		if ( old.equals( value ) )
-		{
-			return;
-		}
-
 		if ( Preferences.isGlobalProperty( name ) )
 		{
 			String actualName = user == null ? name : name + "." + user.toLowerCase();
