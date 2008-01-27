@@ -464,7 +464,7 @@ public class AdventureRequest
 
 		if ( urlString.startsWith( "dungeon.php" ) )
 		{
-			return "";
+			return deduceEncounter( urlString, responseText );
 		}
 
 		if ( urlString.startsWith( "basement.php" ) )
@@ -575,6 +575,23 @@ public class AdventureRequest
 				}
 				break;
 			}
+
+			return "";
+		}
+
+		if ( urlString.startsWith( "dungeon.php" ) )
+		{
+			int boldIndex = responseText.indexOf( "<b>Room" ) + 3;
+			if ( boldIndex == 2 )
+			{
+				return "";
+			}
+			int endBoldIndex = responseText.indexOf( "</b>", boldIndex );
+			if ( endBoldIndex == -1 )
+			{
+				return "";
+			}
+			return responseText.substring( boldIndex, endBoldIndex );
 		}
 
 		return "";
@@ -702,6 +719,10 @@ public class AdventureRequest
 			return FightRequest.getCurrentRound() == 0;
 		}
 		else if ( formSource.startsWith( "adventure.php" ) )
+		{
+			return true;
+		}
+		else if ( formSource.startsWith( "dungeon.php" ) )
 		{
 			return true;
 		}
