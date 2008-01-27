@@ -5118,7 +5118,11 @@ public class KoLmafiaASH
 			// allow other tasks to run and keyboard input -
 			// especially the Escape key - to be accepted.
 
-			Thread.yield();
+			// Unfortunately, the following does not work
+			// Thread.yield();
+
+			// ...but the following does.
+			GenericRequest.delay(1);
 
 			ScriptValue result = KoLmafiaASH.VOID_VALUE;
 			KoLmafiaASH.traceIndent();
@@ -7891,6 +7895,10 @@ public class KoLmafiaASH
 
 				this.index = exp.execute();
 				KoLmafiaASH.captureValue( this.index );
+				if ( this.index == null )
+				{
+					this.index = KoLmafiaASH.VOID_VALUE;
+				}
 
 				KoLmafiaASH.trace( "[" + KoLmafiaASH.executionStateString( KoLmafiaASH.currentState ) + "] <- " + this.index.toQuotedString() );
 				KoLmafiaASH.traceUnindent();
@@ -8161,14 +8169,14 @@ public class KoLmafiaASH
 			KoLmafiaASH.trace( "Returning: " + result );
 			KoLmafiaASH.traceUnindent();
 
-			if ( KoLmafiaASH.currentState != KoLmafiaASH.STATE_EXIT )
-			{
-				KoLmafiaASH.currentState = KoLmafiaASH.STATE_RETURN;
-			}
-
 			if ( result == null )
 			{
 				return null;
+			}
+
+			if ( KoLmafiaASH.currentState != KoLmafiaASH.STATE_EXIT )
+			{
+				KoLmafiaASH.currentState = KoLmafiaASH.STATE_RETURN;
 			}
 
 			if ( this.expectedType.equals( KoLmafiaASH.TYPE_STRING ) )
@@ -8953,6 +8961,10 @@ public class KoLmafiaASH
 
 				ScriptValue value = paramValue.execute();
 				KoLmafiaASH.captureValue( value );
+				if ( value == null )
+				{
+					value = KoLmafiaASH.VOID_VALUE;
+				}
 
 				KoLmafiaASH.trace( "[" + KoLmafiaASH.executionStateString( KoLmafiaASH.currentState ) + "] <- " + value.toQuotedString() );
 
@@ -10530,10 +10542,16 @@ public class KoLmafiaASH
 
 			KoLmafiaASH.traceIndent();
 			KoLmafiaASH.trace( "Operand 1: " + lhs );
+
 			ScriptValue leftValue = lhs.execute();
 			KoLmafiaASH.captureValue( leftValue );
+			if ( leftValue == null )
+			{
+				leftValue = KoLmafiaASH.VOID_VALUE;
+			}
 			KoLmafiaASH.trace( "[" + KoLmafiaASH.executionStateString( KoLmafiaASH.currentState ) + "] <- " + leftValue.toQuotedString() );
 			KoLmafiaASH.traceUnindent();
+
 			if ( KoLmafiaASH.currentState == KoLmafiaASH.STATE_EXIT )
 			{
 				KoLmafiaASH.traceUnindent();
@@ -10588,6 +10606,10 @@ public class KoLmafiaASH
 				KoLmafiaASH.trace( "Operand 2: " + rhs );
 				ScriptValue rightValue = rhs.execute();
 				KoLmafiaASH.captureValue( rightValue );
+				if ( rightValue == null )
+				{
+					rightValue = KoLmafiaASH.VOID_VALUE;
+				}
 				KoLmafiaASH.trace( "[" + KoLmafiaASH.executionStateString( KoLmafiaASH.currentState ) + "] <- " + rightValue.toQuotedString() );
 				KoLmafiaASH.traceUnindent();
 				if ( KoLmafiaASH.currentState == KoLmafiaASH.STATE_EXIT )
@@ -10612,6 +10634,10 @@ public class KoLmafiaASH
 				KoLmafiaASH.trace( "Operand 2: " + rhs );
 				ScriptValue rightValue = rhs.execute();
 				KoLmafiaASH.captureValue( rightValue );
+				if ( rightValue == null )
+				{
+					rightValue = KoLmafiaASH.VOID_VALUE;
+				}
 				KoLmafiaASH.trace( "[" + KoLmafiaASH.executionStateString( KoLmafiaASH.currentState ) + "] <- " + rightValue.toQuotedString() );
 				KoLmafiaASH.traceUnindent();
 				if ( KoLmafiaASH.currentState == KoLmafiaASH.STATE_EXIT )
@@ -10637,6 +10663,10 @@ public class KoLmafiaASH
 				KoLmafiaASH.trace( "Operand 2: " + rhs );
 				ScriptValue rightValue = rhs.execute();
 				KoLmafiaASH.captureValue( rightValue );
+				if ( rightValue == null )
+				{
+					rightValue = KoLmafiaASH.VOID_VALUE;
+				}
 				KoLmafiaASH.trace( "[" + KoLmafiaASH.executionStateString( KoLmafiaASH.currentState ) + "] <- " + rightValue.toQuotedString() );
 				KoLmafiaASH.traceUnindent();
 				if ( KoLmafiaASH.currentState == KoLmafiaASH.STATE_EXIT )
@@ -10655,6 +10685,10 @@ public class KoLmafiaASH
 			KoLmafiaASH.trace( "Operand 2: " + rhs );
 			ScriptValue rightValue = rhs.execute();
 			KoLmafiaASH.captureValue( rightValue );
+			if ( rightValue == null )
+			{
+				rightValue = KoLmafiaASH.VOID_VALUE;
+			}
 			KoLmafiaASH.trace( "[" + KoLmafiaASH.executionStateString( KoLmafiaASH.currentState ) + "] <- " + rightValue.toQuotedString() );
 			KoLmafiaASH.traceUnindent();
 			if ( KoLmafiaASH.currentState == KoLmafiaASH.STATE_EXIT )
