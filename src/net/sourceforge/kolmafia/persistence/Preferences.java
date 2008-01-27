@@ -129,7 +129,7 @@ public class Preferences
 
 	public static final String baseUserName( final String name )
 	{
-		return name == null || name.equals( "" ) ? "GLOBAL" : StaticEntity.globalStringReplace( name, " ", "_" ).trim().toLowerCase();
+		return name == null || name.equals( "" ) ? "GLOBAL" : StaticEntity.globalStringReplace( name.trim(), " ", "_" ).toLowerCase();
 	}
 
 	private static void loadPreferences( TreeMap values, TreeMap properties, File file )
@@ -185,27 +185,30 @@ public class Preferences
 
 	private static final String encodeProperty( String name, String value )
 	{
-		StringBuffer valueBuffer = new StringBuffer();
-		valueBuffer.append( name );
-		valueBuffer.append( "=" );
+		StringBuffer buffer = new StringBuffer();
 
-		if ( value == null || value.length() == 0 )
+		Preferences.encodeString( buffer, name );
+
+		if ( value != null && value.length() > 0 )
 		{
-			return valueBuffer.toString();
+			buffer.append( "=" );
+			Preferences.encodeString( buffer, value );
 		}
 
-		char ch;
-		char [] valueCharArray = value.toCharArray();
-		int length = valueCharArray.length;
+		return buffer.toString();
+	}
+
+	private static final void encodeString( StringBuffer buffer, String string )
+	{
+		char [] array = string.toCharArray();
+		int length = array.length;
 
 		for ( int i = 0; i < length; ++i )
 		{
-			ch = valueCharArray[i];
+			char ch = array[i];
 			encodeCharacter( ch );
-			valueBuffer.append( characterMap[ ch ] );
+			buffer.append( characterMap[ ch ] );
 		}
-
-		return valueBuffer.toString();
 	}
 
 	private static final void encodeCharacter( char ch )
@@ -438,7 +441,7 @@ public class Preferences
 
 	private static final Object getObject( final TreeMap map, final String user, final String name )
 	{
-		String key = user == null ? name : name + "." + user.toLowerCase();
+		String key = Preferences.propertyName( user, name );
 		return map.get( key );
 	}
 
@@ -482,7 +485,7 @@ public class Preferences
 	{
 		if ( Preferences.isGlobalProperty( name ) )
 		{
-			String actualName = user == null ? name : name + "." + user.toLowerCase();
+			String actualName = Preferences.propertyName( user, name );
 
 			Preferences.globalValues.put( actualName, object );
 			Preferences.globalProperties.put( actualName, Preferences.encodeProperty( actualName, value ) );
@@ -512,6 +515,11 @@ public class Preferences
 				}
 			}
 		}
+	}
+
+	private static final String propertyName( final String user, final String name )
+	{
+		return user == null ? name : name + "." + Preferences.baseUserName( user );
 	}
 
 	public static final void registerCheckbox( final String name, final JCheckBox checkbox )
