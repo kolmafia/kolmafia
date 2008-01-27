@@ -64,13 +64,20 @@ function handleCombatHotkey( e, isDown )
 	var button = document.getElementById( "defaultButton" );
 	var viewer = document.getElementById( "hotkeyViewer" );
 
-	if ( button.value == "again" )
+	var isBlank = viewer.options[numericKey].innerHTML.length < 4;
+
+	if ( isBlank )
 	{
-		button.onclick();
+		if ( numericKey == 0 )
+		{
+			button.onclick();
+			return true;
+		}
+
 		return true;
 	}
 
-	if ( viewer.options[numericKey].innerHTML.length < 4 )
+	if ( button.value == "again" )
 	{
 		button.onclick();
 		return true;
