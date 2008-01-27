@@ -447,80 +447,48 @@ public class AdventureRequest
 			return "";
 		}
 
-		if ( urlString.indexOf( "fight.php" ) != -1 )
+		String encounter = null;
+		String type = null;
+
+		if ( urlString.startsWith( "fight.php" ) )
 		{
-			String encounter = parseMonster( responseText );
-			if ( encounter.equals( "" ) )
+			encounter = parseCombatEncounter( responseText );
+			type = "Combat";
+		}
+		else if ( urlString.startsWith( "choice.php" ) )
+		{
+			Matcher matcher = AdventureRequest.CHOICE_PATTERN.matcher( responseText );
+			int choice = 0;
+			if ( matcher.find() )
 			{
-				return "";
+				choice = StaticEntity.parseInt( matcher.group(1) );
 			}
-
-			RequestLogger.printLine( "Encounter: " + encounter );
-			RequestLogger.updateSessionLog( "Encounter: " + encounter );
-			StaticEntity.getClient().registerEncounter( encounter, "Combat" );
-
-			return encounter;
+			encounter = parseChoiceEncounter( choice, responseText );
+			type = choiceType( choice );
 		}
-
-		if ( urlString.startsWith( "dungeon.php" ) )
+		else
 		{
-			return deduceEncounter( urlString, responseText );
+			encounter = parseNoncombatEncounter( urlString, responseText );
+			type = "Noncombat";
 		}
 
-		if ( urlString.startsWith( "basement.php" ) )
-		{
-			return "";
-		}
-
-		if ( urlString.startsWith( "choice.php" ) && consumeChoice( responseText ) )
-		{
-			return "";
-		}
-
-		String encounter = parseEncounter( responseText );
-
-		if ( encounter.equals( "" ) )
-		{
-			encounter = deduceEncounter( urlString, responseText );
-		}
-
-		if ( encounter.equals( "" ) )
+		if ( encounter == null )
 		{
 			return "";
 		}
 
 		RequestLogger.printLine( "Encounter: " + encounter );
 		RequestLogger.updateSessionLog( "Encounter: " + encounter );
-
+		if ( type != null )
+		{
+			StaticEntity.getClient().registerEncounter( encounter, type );
+		}
 		AdventureRequest.registerDemonName( encounter, responseText );
-
-                StaticEntity.getClient().registerEncounter( encounter, "Noncombat" );
 
 		return encounter;
 	}
 
-	private static final boolean consumeChoice( final String responseText )
-	{
-		Matcher matcher = AdventureRequest.CHOICE_PATTERN.matcher( responseText );
-		if ( !matcher.find() )
-		{
-			return false;
-		}
-
-		int choice = StaticEntity.parseInt( matcher.group(1) );
-
-		if ( LouvreManager.louvreChoice( choice ) )
-		{
-			String name = LouvreManager.encounterName( choice );
-			RequestLogger.printLine( "Encounter: " + name );
-			RequestLogger.updateSessionLog( "Encounter: " + name );
-			return true;
-		}
-
-		return false;
-	}
-
-	private static final String parseMonster( final String responseText )
+	private static final String parseCombatEncounter( final String responseText )
 	{
 		int spanIndex = responseText.indexOf( "<span id='monname" ) + 1;
 		spanIndex = responseText.indexOf( ">", spanIndex ) + 1;
@@ -537,6 +505,76 @@ public class AdventureRequest
 		}
 
 		return CustomCombatManager.encounterKey( responseText.substring( spanIndex, endSpanIndex ), false );
+	}
+
+	private static final String parseChoiceEncounter( final int choice, final String responseText )
+	{
+		if ( LouvreManager.louvreChoice( choice ) )
+		{
+			return LouvreManager.encounterName( choice );
+		}
+
+		return parseEncounter( responseText );
+	}
+
+	private static final String choiceType( final int choice )
+	{
+		if ( LouvreManager.louvreChoice( choice ) )
+		{
+			return null;
+		}
+
+		return "Noncombat";
+	}
+
+	private static final String parseNoncombatEncounter( final String urlString, final String responseText )
+	{
+		// Fernswarthy's Basement
+		if ( urlString.startsWith( "basement.php" ) )
+		{
+			return null;
+		}
+
+		// Daily Dungeon
+		if ( urlString.startsWith( "dungeon.php" ) )
+		{
+			int boldIndex = responseText.indexOf( "<b>Room" ) + 3;
+			if ( boldIndex == 2 )
+			{
+				return null;
+			}
+			int endBoldIndex = responseText.indexOf( "</b>", boldIndex );
+			if ( endBoldIndex == -1 )
+			{
+				return null;
+			}
+			return responseText.substring( boldIndex, endBoldIndex );
+		}
+
+		String encounter = parseEncounter( responseText );
+
+		if ( encounter != null )
+		{
+			return encounter;
+		}
+
+		if ( urlString.startsWith( "adventure.php" ) )
+		{
+			int area = parseArea( urlString );
+			switch ( area )
+			{
+			case 19:
+				// Limerick Dungeon
+				if ( responseText.indexOf( "bleary-eyed cyclops" ) != -1 )
+				{
+					return "The Bleary-Eyed Cyclops";
+				}
+				break;
+			}
+
+		}
+
+		return null;
 	}
 
 	private static final String parseEncounter( final String responseText )
@@ -558,43 +596,6 @@ public class AdventureRequest
 		}
 
 		return responseText.substring( boldIndex, endBoldIndex );
-	}
-
-	private static final String deduceEncounter( final String urlString, final String responseText )
-	{
-		if ( urlString.startsWith( "adventure.php" ) )
-		{
-			int area = parseArea( urlString );
-			switch ( area )
-			{
-			case 19:
-				// Limerick Dungeon
-				if ( responseText.indexOf( "bleary-eyed cyclops" ) != -1 )
-				{
-					return "The Bleary-Eyed Cyclops";
-				}
-				break;
-			}
-
-			return "";
-		}
-
-		if ( urlString.startsWith( "dungeon.php" ) )
-		{
-			int boldIndex = responseText.indexOf( "<b>Room" ) + 3;
-			if ( boldIndex == 2 )
-			{
-				return "";
-			}
-			int endBoldIndex = responseText.indexOf( "</b>", boldIndex );
-			if ( endBoldIndex == -1 )
-			{
-				return "";
-			}
-			return responseText.substring( boldIndex, endBoldIndex );
-		}
-
-		return "";
 	}
 
 	private static final int parseArea( final String urlString )
