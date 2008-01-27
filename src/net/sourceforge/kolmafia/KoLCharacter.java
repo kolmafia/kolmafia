@@ -367,9 +367,8 @@ public abstract class KoLCharacter
 		}
 
 		KoLCharacter.username = newUserName;
-
-		KoLCharacter.reset();
 		Preferences.reset( KoLCharacter.username );
+		KoLCharacter.reset();
 	}
 
 	public static final void reset()
@@ -2428,7 +2427,8 @@ public abstract class KoLCharacter
 		KoLConstants.selfOnlySkills.sort();
 		KoLConstants.buffSkills.sort();
 
-		KoLCharacter.battleSkillNames.setSelectedItem( Preferences.getString( "battleAction" ) );
+		int battleIndex = KoLCharacter.battleSkillNames.indexOf( Preferences.getString( "battleAction" ) );
+		KoLCharacter.battleSkillNames.setSelectedIndex( battleIndex == -1 ? 0 : battleIndex );
 	}
 
 	/**

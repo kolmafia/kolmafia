@@ -79,8 +79,8 @@ public class Preferences
 	private static final TreeMap globalProperties = new TreeMap();
 	private static File globalPropertiesFile = null;
 
-	private static Boolean TRUE = Boolean.valueOf( true );
-	private static Boolean FALSE = Boolean.valueOf( false );
+	private static Boolean TRUE = new Boolean( true );
+	private static Boolean FALSE = new Boolean( false );
 
 	static
 	{
@@ -400,7 +400,7 @@ public class Preferences
 
 		if ( !(value instanceof Integer) )
 		{
-			value = Integer.valueOf( StaticEntity.parseInt( value.toString() ) );
+			value = new Integer( StaticEntity.parseInt( value.toString() ) );
 			map.put( name, value );
 		}
 
@@ -419,7 +419,7 @@ public class Preferences
 
 		if ( !(value instanceof Float) )
 		{
-			value = Float.valueOf( StaticEntity.parseFloat( value.toString() ) );
+			value = new Float( StaticEntity.parseFloat( value.toString() ) );
 			map.put( name, value );
 		}
 
@@ -465,7 +465,7 @@ public class Preferences
 		int old = Preferences.getInteger( user, name );
 		if ( old != value )
 		{
-			Preferences.setObject( user, name, String.valueOf( value ), Integer.valueOf( value ) );
+			Preferences.setObject( user, name, String.valueOf( value ), new Integer( value ) );
 		}
 	}
 
@@ -474,7 +474,7 @@ public class Preferences
 		float old = Preferences.getFloat( user, name );
 		if ( old != value )
 		{
-			Preferences.setObject( user, name, String.valueOf( value ), Float.valueOf( value ) );
+			Preferences.setObject( user, name, String.valueOf( value ), new Float( value ) );
 		}
 	}
 
