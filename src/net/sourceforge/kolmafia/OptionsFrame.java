@@ -300,7 +300,10 @@ public class OptionsFrame
 
 			for ( int i = 0; i < this.options.length; ++i )
 			{
-				this.optionBoxes[ i ].setSelected( Preferences.getBoolean( this.options[ i ][ 0 ] ) );
+				if ( !this.options[ i ][ 0 ].equals( "" ) )
+				{
+					this.optionBoxes[ i ].setSelected( Preferences.getBoolean( this.options[ i ][ 0 ] ) );
+				}
 			}
 		}
 	}

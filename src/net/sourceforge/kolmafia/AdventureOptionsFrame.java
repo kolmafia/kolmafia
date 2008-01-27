@@ -1035,8 +1035,11 @@ public abstract class AdventureOptionsFrame
 
 		public void actionConfirmed()
 		{
-			Preferences.setString(
-				"battleAction", (String) AdventureOptionsFrame.this.actionSelect.getSelectedItem() );
+			String value = (String) AdventureOptionsFrame.this.actionSelect.getSelectedItem();
+			if ( value != null )
+			{
+				Preferences.setString( "battleAction", value  );
+			}
 		}
 
 		public void actionCancelled()
