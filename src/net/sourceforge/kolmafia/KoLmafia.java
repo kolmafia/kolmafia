@@ -78,6 +78,7 @@ import net.sourceforge.kolmafia.session.VioletFogManager;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.webui.CharacterEntityReference;
+import net.sourceforge.kolmafia.webui.IslandDecorator;
 
 import net.sourceforge.kolmafia.request.AccountRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
@@ -1342,7 +1343,7 @@ public abstract class KoLmafia
 			KoLAdventure location = KoLAdventure.lastVisitedLocation();
 			if ( location != null && location.getAdventureId().equals( "126" ) && FightRequest.getCurrentRound() == 0 )
 			{
-				BigIsland.addNunneryMeat( result );
+				IslandDecorator.addNunneryMeat( result );
 				return false;
 			}
 
@@ -1486,7 +1487,7 @@ public abstract class KoLmafia
 			// When you get a molybdenum item, tell quest handler
 			if ( result.getCount() == 1 )
 			{
-				BigIsland.resetGremlinTool();
+				IslandDecorator.resetGremlinTool();
 			}
 			break;
 

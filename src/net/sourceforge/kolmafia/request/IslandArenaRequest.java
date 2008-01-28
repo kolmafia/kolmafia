@@ -36,11 +36,11 @@ package net.sourceforge.kolmafia.request;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.sourceforge.kolmafia.BigIsland;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestFrame;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.webui.IslandDecorator;
 
 import net.sourceforge.kolmafia.persistence.Preferences;
 
@@ -121,7 +121,7 @@ public class IslandArenaRequest
 
 	private static String chooseUrl()
 	{
-		BigIsland.ensureUpdatedBigIsland();
+		IslandDecorator.ensureUpdatedBigIsland();
                 quest = questCompleter();
                 if ( quest.equals( "hippies" ) || quest.equals( "fratboys" ) )
                 {

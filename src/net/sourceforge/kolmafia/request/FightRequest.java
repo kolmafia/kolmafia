@@ -37,7 +37,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.BigIsland;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -50,6 +49,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
+import net.sourceforge.kolmafia.webui.IslandDecorator;
 
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -1060,12 +1060,12 @@ public class FightRequest
 		{
 		case 139: // Wartime Junkyard
 			// Quest gremlins might have a tool.
-			BigIsland.handleGremlin( responseText );
+			IslandDecorator.handleGremlin( responseText );
 			break;
 
 		case 132: // Battlefield (Frat Uniform)
 		case 140: // Battlefield (Hippy Uniform)
-			BigIsland.handleBattlefield( responseText );
+			IslandDecorator.handleBattlefield( responseText );
 			break;
 		}
 
@@ -1424,7 +1424,7 @@ public class FightRequest
 
 	private static final void clearInstanceData()
 	{
-		BigIsland.startFight();
+		IslandDecorator.startFight();
 		FightRequest.castCleesh = false;
 		FightRequest.jiggledChefstaff = false;
 		FightRequest.desiredScroll = null;
