@@ -46,6 +46,7 @@ import javax.swing.JPanel;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
+import net.sourceforge.kolmafia.webui.IslandDecorator;
 
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -108,7 +109,7 @@ public class CoinmastersFrame
 		if ( INSTANCE == null )
 			return;
 
-		BigIsland.ensureUpdatedBigIsland();
+		IslandDecorator.ensureUpdatedBigIsland();
 		atWar = Preferences.getString( "warProgress" ).equals( "started" );
 		dimes = Preferences.getInteger( "availableDimes" );
 		quarters = Preferences.getInteger( "availableQuarters" );

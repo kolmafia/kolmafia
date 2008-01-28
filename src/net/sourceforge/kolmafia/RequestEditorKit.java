@@ -64,6 +64,7 @@ import net.java.dev.spellcast.utilities.UtilityConstants;
 
 import net.sourceforge.kolmafia.webui.BasementDecorator;
 import net.sourceforge.kolmafia.webui.CharPaneDecorator;
+import net.sourceforge.kolmafia.webui.IslandDecorator;
 import net.sourceforge.kolmafia.webui.StationaryButtonDecorator;
 import net.sourceforge.kolmafia.webui.UseLinkDecorator;
 import net.sourceforge.kolmafia.webui.ValhallaDecorator;
@@ -602,11 +603,11 @@ public class RequestEditorKit
 		}
 		else if ( location.startsWith( "bigisland.php" ) )
 		{
-			BigIsland.decorateBigIsland( location, buffer );
+			IslandDecorator.decorateBigIsland( location, buffer );
 		}
 		else if ( location.startsWith( "postwarisland.php" ) )
 		{
-			BigIsland.decoratePostwarIsland( location, buffer );
+			IslandDecorator.decoratePostwarIsland( location, buffer );
 		}
 		else if ( location.startsWith( "bathole.php" ) )
 		{
@@ -833,17 +834,17 @@ public class RequestEditorKit
 		switch ( KoLAdventure.lastAdventureId() )
 		{
 		case 126: // The Themthar Hills
-			BigIsland.decorateThemtharFight( buffer );
+			IslandDecorator.decorateThemtharFight( buffer );
 			break;
 
 		case 139: // Wartime Junkyard
 			// Quest gremlins might have a tool.
-			BigIsland.decorateGremlinFight( buffer );
+			IslandDecorator.decorateGremlinFight( buffer );
 			break;
 
 		case 132: // Battlefield (Frat Uniform)
 		case 140: // Battlefield (Hippy Uniform)
-			BigIsland.decorateBattlefieldFight( buffer );
+			IslandDecorator.decorateBattlefieldFight( buffer );
 			break;
 		}
 	}
@@ -899,7 +900,7 @@ public class RequestEditorKit
 			}
 		}
 
-		BigIsland.appendMissingGremlinTool( monsterData );
+		IslandDecorator.appendMissingGremlinTool( monsterData );
 		monsterData.append( "</font>" );
 		buffer.insert( combatIndex + 7, monsterData.toString() );
 	}

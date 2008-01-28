@@ -36,6 +36,8 @@ package net.sourceforge.kolmafia;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.webui.IslandDecorator;
+
 import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -81,11 +83,11 @@ public class CouncilFrame
 		}
 		else if ( location.startsWith( "bigisland" ) )
 		{
-			BigIsland.parseBigIsland( location, responseText );
+			IslandDecorator.parseBigIsland( location, responseText );
 		}
 		else if ( location.startsWith( "postwarisland" ) )
 		{
-			BigIsland.parsePostwarIsland( location, responseText );
+			IslandDecorator.parsePostwarIsland( location, responseText );
 		}
 		else if ( location.startsWith( "guild" ) )
 		{
