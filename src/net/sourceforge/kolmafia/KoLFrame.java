@@ -103,6 +103,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.session.ChatManager;
 import net.sourceforge.kolmafia.session.MoodManager;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
+import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
 
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
@@ -2032,7 +2033,7 @@ public abstract class KoLFrame
 
 			if ( this.isOverlap )
 			{
-				this.elementList.setCellRenderer( AdventureResult.getNameOnlyRenderer() );
+				this.elementList.setCellRenderer( ListCellRendererFactory.getNameOnlyRenderer() );
 			}
 
 			this.elementList.addKeyListener( new OverlapAdapter() );

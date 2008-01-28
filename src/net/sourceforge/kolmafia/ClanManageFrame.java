@@ -55,6 +55,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
+import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
 
 import net.sourceforge.kolmafia.request.ClanBuffRequest;
 import net.sourceforge.kolmafia.request.ClanMembersRequest;
@@ -353,7 +354,7 @@ public class ClanManageFrame
 
 			this.setButtons( new ActionListener[] { new WithdrawListener( ClanManageFrame.MOVE_ALL ), new WithdrawListener(
 				ClanManageFrame.MOVE_ALL_BUT ), new RequestButton( "refresh", new ClanStashRequest() ) } );
-			this.elementList.setCellRenderer( AdventureResult.getDefaultRenderer() );
+			this.elementList.setCellRenderer( ListCellRendererFactory.getDefaultRenderer() );
 		}
 
 		private class WithdrawListener

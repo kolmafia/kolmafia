@@ -52,6 +52,7 @@ import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 import net.sourceforge.kolmafia.session.MoodManager;
 import net.sourceforge.kolmafia.session.MoodManager.MoodTrigger;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
+import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
 
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.PulverizeRequest;
@@ -157,7 +158,7 @@ public class ShowDescriptionList
 		this.setModel( this.displayModel );
 
 		this.setVisibleRowCount( visibleRowCount );
-		this.setCellRenderer( AdventureResult.getDefaultRenderer() );
+		this.setCellRenderer( ListCellRendererFactory.getDefaultRenderer() );
 		this.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789" );
 	}
 

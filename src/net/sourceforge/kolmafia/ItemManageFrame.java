@@ -58,6 +58,8 @@ import javax.swing.event.ListSelectionListener;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 
+import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
+
 import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -327,7 +329,7 @@ public class ItemManageFrame
 
 			JLabel test = new JLabel( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
 
-			this.elementList.setCellRenderer( AdventureResult.getCreationQueueRenderer() );
+			this.elementList.setCellRenderer( ListCellRendererFactory.getCreationQueueRenderer() );
 			this.elementList.setFixedCellHeight( (int) ( test.getPreferredSize().getHeight() * 2.5f ) );
 
 			this.elementList.setVisibleRowCount( 3 );
@@ -976,7 +978,14 @@ public class ItemManageFrame
 
 			} );
 
-			this.elementList.setCellRenderer( AdventureResult.getDefaultRenderer( this.isEquipmentOnly ) );
+			if ( this.isEquipmentOnly )
+			{
+				this.elementList.setCellRenderer( ListCellRendererFactory.getEquipmentPowerRenderer() );
+			}
+			else
+			{
+				this.elementList.setCellRenderer( ListCellRendererFactory.getDefaultRenderer() );
+			}
 
 			if ( this.movers != null )
 			{
@@ -991,7 +1000,15 @@ public class ItemManageFrame
 			this.isEquipmentOnly = isEquipmentOnly;
 
 			this.addFilters();
-			this.elementList.setCellRenderer( AdventureResult.getDefaultRenderer( this.isEquipmentOnly ) );
+
+			if ( this.isEquipmentOnly )
+			{
+				this.elementList.setCellRenderer( ListCellRendererFactory.getEquipmentPowerRenderer() );
+			}
+			else
+			{
+				this.elementList.setCellRenderer( ListCellRendererFactory.getDefaultRenderer() );
+			}
 		}
 
 		public void addFilters()
