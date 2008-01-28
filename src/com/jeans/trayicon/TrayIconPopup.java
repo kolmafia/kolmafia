@@ -88,9 +88,9 @@ public class TrayIconPopup
 	public int getNbLevels()
 	{
 		int nb = 0;
-		for ( Enumeration elements = this.mVector.elements(); elements.hasMoreElements(); )
+		for ( Enumeration e = this.mVector.elements(); e.hasMoreElements(); )
 		{
-			TrayIconPopupItem item = (TrayIconPopupItem) elements.nextElement();
+			TrayIconPopupItem item = (TrayIconPopupItem) e.nextElement();
 			nb = Math.max( nb, item.getNbLevels() );
 		}
 		return nb + 1;
@@ -101,9 +101,9 @@ public class TrayIconPopup
 	 */
 	public boolean onSelected( final int menuId )
 	{
-		for ( Enumeration elements = this.mVector.elements(); elements.hasMoreElements(); )
+		for ( Enumeration e = this.mVector.elements(); e.hasMoreElements(); )
 		{
-			TrayIconPopupItem item = (TrayIconPopupItem) elements.nextElement();
+			TrayIconPopupItem item = (TrayIconPopupItem) e.nextElement();
 			if ( item.onSelected( menuId ) )
 			{
 				return true;
@@ -120,9 +120,9 @@ public class TrayIconPopup
 	{
 		int mLevel = level + 1;
 		WindowsTrayIcon.subPopup( id, mLevel, this.mItem, WindowsTrayIcon.POPUP_TYPE_INIT_LEVEL, 0 );
-		for ( Enumeration elements = this.mVector.elements(); elements.hasMoreElements(); )
+		for ( Enumeration e = this.mVector.elements(); e.hasMoreElements(); )
 		{
-			TrayIconPopupItem item = (TrayIconPopupItem) elements.nextElement();
+			TrayIconPopupItem item = (TrayIconPopupItem) e.nextElement();
 			item.setTrayIcon( trayicon, id, mLevel );
 		}
 		WindowsTrayIcon.subPopup( id, mLevel, this.mItem, WindowsTrayIcon.POPUP_TYPE_DONE_LEVEL, 0 );

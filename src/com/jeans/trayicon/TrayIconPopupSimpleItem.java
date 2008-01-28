@@ -138,9 +138,9 @@ public class TrayIconPopupSimpleItem
 		if ( selected && this.m_Listeners != null )
 		{
 			ActionEvent evt = new ActionEvent( this, 0, "" );
-			for ( Enumeration elements = this.m_Listeners.elements(); elements.hasMoreElements(); )
+			for ( Enumeration e = this.m_Listeners.elements(); e.hasMoreElements(); )
 			{
-				ActionListener listener = (ActionListener) elements.nextElement();
+				ActionListener listener = (ActionListener) e.nextElement();
 				listener.actionPerformed( evt );
 			}
 		}
