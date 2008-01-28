@@ -105,7 +105,15 @@ public class SortedListModel
 
 	public boolean addAll( final int index, final Collection c )
 	{
-		return super.addAll( index, c );
+		boolean result = super.addAll( index, c );
+		
+		if ( !result )
+		{
+			return false;
+		}
+		
+		this.sort();
+		return true;
 	}
 
 	/**
