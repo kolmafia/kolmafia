@@ -50,6 +50,7 @@ import javax.swing.JTabbedPane;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
+import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
 
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -115,7 +116,7 @@ public class GearChangeFrame
 	}
 
 	private class EquipPanel
-		extends KoLPanel
+		extends GenericPanel
 	{
 		public EquipPanel()
 		{

@@ -54,6 +54,7 @@ import javax.swing.table.TableCellRenderer;
 
 import com.sun.java.forums.TableSorter;
 
+import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 
 import net.sourceforge.kolmafia.request.ProfileRequest;
@@ -191,7 +192,7 @@ public class FlowerHunterFrame
 	}
 
 	private class SearchPanel
-		extends KoLPanel
+		extends GenericPanel
 	{
 		private final AutoHighlightTextField levelEntry;
 		private final AutoHighlightTextField limitEntry;
@@ -257,7 +258,7 @@ public class FlowerHunterFrame
 	}
 
 	private class ClanPanel
-		extends KoLPanel
+		extends GenericPanel
 	{
 		private final AutoHighlightTextField clanId;
 
@@ -316,7 +317,7 @@ public class FlowerHunterFrame
 	}
 
 	private class AttackPanel
-		extends KoLPanel
+		extends GenericPanel
 	{
 		private final AutoHighlightTextField winMessage;
 		private final AutoHighlightTextField lossMessage;

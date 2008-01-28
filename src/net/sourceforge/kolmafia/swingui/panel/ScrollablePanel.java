@@ -31,7 +31,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.sourceforge.kolmafia;
+package net.sourceforge.kolmafia.swingui.panel;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -44,7 +44,10 @@ import javax.swing.SwingConstants;
 import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
-public class LabeledScrollPanel
+import net.sourceforge.kolmafia.SimpleScrollPane;
+import net.sourceforge.kolmafia.StaticEntity;
+
+public class ScrollablePanel
 	extends ActionPanel
 {
 	public JPanel actualPanel;
@@ -54,18 +57,18 @@ public class LabeledScrollPanel
 	public VerifyButtonPanel buttonPanel;
 	public JComponent scrollComponent;
 
-	public LabeledScrollPanel( final String title, final JComponent scrollComponent )
+	public ScrollablePanel( final String title, final JComponent scrollComponent )
 	{
 		this( title, null, null, scrollComponent );
 	}
 
-	public LabeledScrollPanel( final String title, final String confirmedText, final String cancelledText,
+	public ScrollablePanel( final String title, final String confirmedText, final String cancelledText,
 		final JComponent scrollComponent )
 	{
 		this( title, confirmedText, cancelledText, scrollComponent, true );
 	}
 
-	public LabeledScrollPanel( final String title, final String confirmedText, final String cancelledText,
+	public ScrollablePanel( final String title, final String confirmedText, final String cancelledText,
 		final JComponent scrollComponent, final boolean isRootPane )
 	{
 		this.scrollComponent = scrollComponent;

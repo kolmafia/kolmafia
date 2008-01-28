@@ -45,6 +45,8 @@ import javax.swing.JPanel;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 
+import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
+
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -329,7 +331,7 @@ public class CoinmastersFrame
 			{
 			}
 
-			public FilterTextField getWordFilter()
+			public AutoFilterTextField getWordFilter()
 			{
 				return new SellableFilterField();
 			}

@@ -65,6 +65,8 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.session.ChatManager;
+import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
+import net.sourceforge.kolmafia.swingui.panel.ScrollablePanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 
 import net.sourceforge.kolmafia.request.UseSkillRequest;
@@ -394,7 +396,7 @@ public class OptionsFrame
 	}
 
 	private abstract class ShiftableOrderPanel
-		extends LabeledScrollPanel
+		extends ScrollablePanel
 		implements ListDataListener
 	{
 		public LockableListModel list;
@@ -850,7 +852,7 @@ public class OptionsFrame
 	}
 
 	protected class StartupFramesPanel
-		extends KoLPanel
+		extends GenericPanel
 		implements ListDataListener
 	{
 		private final String[][] FRAME_OPTIONS =
@@ -901,9 +903,9 @@ public class OptionsFrame
 			}
 
 			JPanel optionPanel = new JPanel( new GridLayout( 1, 3, 10, 10 ) );
-			optionPanel.add( new LabeledScrollPanel( "Complete List", new JDnDList( this.completeList, false ) ) );
-			optionPanel.add( new LabeledScrollPanel( "Startup as Window", new JDnDList( this.startupList ) ) );
-			optionPanel.add( new LabeledScrollPanel( "Startup in Tabs", new JDnDList( this.desktopList ) ) );
+			optionPanel.add( new ScrollablePanel( "Complete List", new JDnDList( this.completeList, false ) ) );
+			optionPanel.add( new ScrollablePanel( "Startup as Window", new JDnDList( this.startupList ) ) );
+			optionPanel.add( new ScrollablePanel( "Startup in Tabs", new JDnDList( this.desktopList ) ) );
 
 			JTextArea message =
 				new JTextArea(

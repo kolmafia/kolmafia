@@ -102,6 +102,9 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.session.ChatManager;
 import net.sourceforge.kolmafia.session.MoodManager;
+import net.sourceforge.kolmafia.swingui.panel.LabeledPanel;
+import net.sourceforge.kolmafia.swingui.panel.ScrollablePanel;
+import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
 
@@ -1026,7 +1029,7 @@ public abstract class KoLFrame
 		JList selector = new JList( inputs );
 
 		JPanel panel = new JPanel( new BorderLayout() );
-		panel.add( new FilterTextField( selector ), BorderLayout.NORTH );
+		panel.add( new AutoFilterTextField( selector ), BorderLayout.NORTH );
 		panel.add( new SimpleScrollPane( selector ), BorderLayout.CENTER );
 
 		int option =
@@ -1041,7 +1044,7 @@ public abstract class KoLFrame
 		selector.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
 
 		JPanel panel = new JPanel( new BorderLayout() );
-		panel.add( new FilterTextField( selector ), BorderLayout.NORTH );
+		panel.add( new AutoFilterTextField( selector ), BorderLayout.NORTH );
 		panel.add( new SimpleScrollPane( selector ), BorderLayout.CENTER );
 
 		int option =
@@ -1420,7 +1423,7 @@ public abstract class KoLFrame
 	 */
 
 	public abstract class OptionsPanel
-		extends LabeledKoLPanel
+		extends LabeledPanel
 	{
 		public OptionsPanel()
 		{
@@ -1883,7 +1886,7 @@ public abstract class KoLFrame
 	}
 
 	protected class StatusEffectPanel
-		extends LabeledScrollPanel
+		extends ScrollablePanel
 	{
 		private final ShowDescriptionList elementList;
 
@@ -1940,7 +1943,7 @@ public abstract class KoLFrame
 	 */
 
 	protected class MeatTransferPanel
-		extends LabeledKoLPanel
+		extends LabeledPanel
 	{
 		private final int transferType;
 		private final AutoHighlightTextField amountField;
@@ -2040,7 +2043,7 @@ public abstract class KoLFrame
 			this.addFilters();
 		}
 
-		public FilterTextField getWordFilter()
+		public AutoFilterTextField getWordFilter()
 		{
 			return new OverlapFilterField();
 		}
@@ -2096,7 +2099,7 @@ public abstract class KoLFrame
 			this.filterItems();
 		}
 
-		public FilterTextField getWordFilter()
+		public AutoFilterTextField getWordFilter()
 		{
 			return new RestorativeItemFilterField();
 		}

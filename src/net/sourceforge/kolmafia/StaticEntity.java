@@ -49,6 +49,8 @@ import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 
+import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
+
 import net.sourceforge.kolmafia.request.AccountRequest;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -79,7 +81,7 @@ public abstract class StaticEntity
 	public static final ArrayList existingPanels = new ArrayList();
 
 	private static KoLFrame[] frameArray = new KoLFrame[ 0 ];
-	private static ActionPanel[] panelArray = new KoLPanel[ 0 ];
+	private static ActionPanel[] panelArray = new GenericPanel[ 0 ];
 
 	public static class TurnCounter
 	{

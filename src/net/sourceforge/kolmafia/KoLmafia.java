@@ -76,6 +76,7 @@ import net.sourceforge.kolmafia.session.MushroomManager;
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.VioletFogManager;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
+import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.webui.CharacterEntityReference;
 
 import net.sourceforge.kolmafia.request.AccountRequest;
@@ -657,9 +658,9 @@ public abstract class KoLmafia
 
 		for ( int i = 0; i < panels.length; ++i )
 		{
-			if ( panels[ i ] instanceof KoLPanel )
+			if ( panels[ i ] instanceof GenericPanel )
 			{
-				( (KoLPanel) panels[ i ] ).setStatusMessage( message );
+				( (GenericPanel) panels[ i ] ).setStatusMessage( message );
 			}
 
 			panels[ i ].setEnabled( state != KoLConstants.CONTINUE_STATE );

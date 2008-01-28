@@ -59,6 +59,7 @@ import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
+import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 
 import net.sourceforge.kolmafia.request.ManageStoreRequest;
 import net.sourceforge.kolmafia.request.SellStuffRequest;
@@ -108,7 +109,7 @@ public class StoreManageFrame
 	}
 
 	private class StoreManagePanel
-		extends KoLPanel
+		extends GenericPanel
 	{
 		public StoreManagePanel()
 		{

@@ -50,11 +50,10 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLFrame;
-import net.sourceforge.kolmafia.KoLPanel;
-import net.sourceforge.kolmafia.MutableComboBox;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.LouvreManager;
 import net.sourceforge.kolmafia.session.VioletFogManager;
+import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
@@ -166,7 +165,7 @@ public class ChoiceOptionsPanel
 
 		LockableListModel overrideList = new LockableListModel();
 
-		this.manualLouvre = new MutableComboBox( overrideList, true );
+		this.manualLouvre = new AutoFilterComboBox( overrideList, true );
 		overrideList.add( "Use specified goal" );
 
 		for ( int i = 1; i <= 3; ++i )
@@ -297,7 +296,7 @@ public class ChoiceOptionsPanel
 	}
 
 	private class ChoicePanel
-		extends KoLPanel
+		extends GenericPanel
 	{
 		public ChoicePanel( final ArrayList options )
 		{

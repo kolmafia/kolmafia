@@ -52,6 +52,8 @@ import javax.swing.event.ListSelectionListener;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
+import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
+import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
@@ -96,7 +98,7 @@ public class MallSearchFrame
 	 */
 
 	private class MallSearchPanel
-		extends KoLPanel
+		extends GenericPanel
 	{
 		private final JComponent searchField;
 		private final AutoHighlightTextField countField;
@@ -109,7 +111,7 @@ public class MallSearchFrame
 			super( "search", "purchase", "cancel", new Dimension( 100, 20 ), new Dimension( 250, 20 ) );
 
 			this.searchField =
-				Preferences.getBoolean( "cacheMallSearches" ) ? (JComponent) new MutableComboBox(
+				Preferences.getBoolean( "cacheMallSearches" ) ? (JComponent) new AutoFilterComboBox(
 					MallSearchFrame.pastSearches, true ) : (JComponent) new AutoHighlightTextField();
 
 			this.countField = new AutoHighlightTextField();
@@ -160,8 +162,8 @@ public class MallSearchFrame
 			}
 			else
 			{
-				( (MutableComboBox) this.searchField ).forceAddition();
-				searchText = (String) ( (MutableComboBox) this.searchField ).getSelectedItem();
+				( (AutoFilterComboBox) this.searchField ).forceAddition();
+				searchText = (String) ( (AutoFilterComboBox) this.searchField ).getSelectedItem();
 			}
 
 			MallSearchFrame.searchMall( new MallSearchRequest(

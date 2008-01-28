@@ -31,7 +31,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.sourceforge.kolmafia;
+package net.sourceforge.kolmafia.swingui.widget;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -43,15 +43,16 @@ import javax.swing.JList;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 
+import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLDatabase.LowerCaseEntry;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
-import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase.Concoction;
 
-public class FilterTextField
+public class AutoFilterTextField
 	extends AutoHighlightTextField
 	implements ActionListener, ListElementFilter
 {
@@ -60,7 +61,7 @@ public class FilterTextField
 	protected LockableListModel model;
 	protected boolean strict;
 
-	public FilterTextField( final JList list )
+	public AutoFilterTextField( final JList list )
 	{
 		this.list = list;
 		this.model = (LockableListModel) list.getModel();
@@ -82,10 +83,10 @@ public class FilterTextField
 
 	public void update()
 	{
-		FilterTextField.this.text = FilterTextField.this.getText().toLowerCase();
+		AutoFilterTextField.this.text = AutoFilterTextField.this.getText().toLowerCase();
 
-		FilterTextField.this.strict = true;
-		FilterTextField.this.model.updateFilter( false );
+		AutoFilterTextField.this.strict = true;
+		AutoFilterTextField.this.model.updateFilter( false );
 
 		if ( this.model.getSize() == 1 )
 		{
@@ -96,13 +97,13 @@ public class FilterTextField
 			this.list.clearSelection();
 		}
 
-		if ( FilterTextField.this.model.getSize() > 0 )
+		if ( AutoFilterTextField.this.model.getSize() > 0 )
 		{
 			return;
 		}
 
-		FilterTextField.this.strict = false;
-		FilterTextField.this.model.updateFilter( false );
+		AutoFilterTextField.this.strict = false;
+		AutoFilterTextField.this.model.updateFilter( false );
 
 		if ( this.model.getSize() == 1 )
 		{
@@ -124,7 +125,7 @@ public class FilterTextField
 		// If it's not a result, then check to see if you need to
 		// filter based on its string form.
 
-		String elementName = FilterTextField.getResultName( element );
+		String elementName = AutoFilterTextField.getResultName( element );
 
 		if ( this.text == null || this.text.length() == 0 )
 		{
@@ -172,7 +173,7 @@ public class FilterTextField
 	{
 		public void keyReleased( final KeyEvent e )
 		{
-			FilterTextField.this.update();
+			AutoFilterTextField.this.update();
 		}
 	}
 }

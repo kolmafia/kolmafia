@@ -58,6 +58,7 @@ import javax.swing.event.ListSelectionListener;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 
+import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
 
 import net.sourceforge.kolmafia.request.ClosetRequest;
@@ -357,7 +358,7 @@ public class ItemManageFrame
 			this.filterItems();
 		}
 
-		public FilterTextField getWordFilter()
+		public AutoFilterTextField getWordFilter()
 		{
 			return new ConsumableFilterField();
 		}
@@ -506,7 +507,7 @@ public class ItemManageFrame
 			this.filterItems();
 		}
 
-		public FilterTextField getWordFilter()
+		public AutoFilterTextField getWordFilter()
 		{
 			return new ConsumableFilterField();
 		}
@@ -749,7 +750,7 @@ public class ItemManageFrame
 			super( KoLConstants.inventory, false );
 		}
 
-		public FilterTextField getWordFilter()
+		public AutoFilterTextField getWordFilter()
 		{
 			return new UsableItemFilterField();
 		}
@@ -1041,7 +1042,7 @@ public class ItemManageFrame
 			this.filterItems();
 		}
 
-		public FilterTextField getWordFilter()
+		public AutoFilterTextField getWordFilter()
 		{
 			return new EquipmentFilterField();
 		}

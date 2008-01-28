@@ -48,6 +48,7 @@ import net.java.dev.spellcast.utilities.PanelListCell;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
 import net.sourceforge.kolmafia.session.DisplayCaseManager;
+import net.sourceforge.kolmafia.swingui.panel.ScrollablePanel;
 
 import net.sourceforge.kolmafia.request.DisplayCaseRequest;
 
@@ -128,7 +129,7 @@ public class MuseumFrame
 	private class AddRemovePanel
 		extends JPanel
 	{
-		private final LabeledScrollPanel inventoryPanel, displayPanel;
+		private final ScrollablePanel inventoryPanel, displayPanel;
 
 		public AddRemovePanel()
 		{
@@ -170,7 +171,7 @@ public class MuseumFrame
 		}
 
 		private class OutsideDisplayPanel
-			extends LabeledScrollPanel
+			extends ScrollablePanel
 		{
 			private final ShowDescriptionList elementList;
 
@@ -201,7 +202,7 @@ public class MuseumFrame
 		}
 
 		private class InsideDisplayPanel
-			extends LabeledScrollPanel
+			extends ScrollablePanel
 		{
 			private final ShowDescriptionList elementList;
 
@@ -253,7 +254,7 @@ public class MuseumFrame
 	}
 
 	public class MuseumShelfPanel
-		extends LabeledScrollPanel
+		extends ScrollablePanel
 		implements PanelListCell
 	{
 		private final int index;

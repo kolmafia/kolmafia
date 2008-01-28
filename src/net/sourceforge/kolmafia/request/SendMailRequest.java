@@ -37,7 +37,6 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaASH;
-import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.webui.CharacterEntityReference;
 
 public class SendMailRequest

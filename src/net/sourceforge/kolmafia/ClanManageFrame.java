@@ -54,6 +54,9 @@ import com.sun.java.forums.TableSorter;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 import net.sourceforge.kolmafia.session.ClanManager;
+import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
+import net.sourceforge.kolmafia.swingui.panel.LabeledPanel;
+import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
 
@@ -163,7 +166,7 @@ public class ClanManageFrame
 	 */
 
 	private class ClanBuffPanel
-		extends LabeledKoLPanel
+		extends LabeledPanel
 	{
 		private final boolean isBuffing;
 		private final JComboBox buffField;
@@ -204,17 +207,17 @@ public class ClanManageFrame
 	 */
 
 	private class AttackPanel
-		extends LabeledKoLPanel
+		extends LabeledPanel
 	{
 		private final JLabel nextAttack;
-		private final MutableComboBox enemyList;
+		private final AutoFilterComboBox enemyList;
 
 		public AttackPanel()
 		{
 			super( "Loot Another Clan", "attack", "refresh", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
 
 			this.nextAttack = new JLabel( ClanWarRequest.getNextAttack() );
-			this.enemyList = new MutableComboBox( ClanWarRequest.getEnemyClans(), false );
+			this.enemyList = new AutoFilterComboBox( ClanWarRequest.getEnemyClans(), false );
 
 			VerifiableElement[] elements = new VerifiableElement[ 2 ];
 			elements[ 0 ] = new VerifiableElement( "Victim: ", this.enemyList );
@@ -235,7 +238,7 @@ public class ClanManageFrame
 	}
 
 	private class WarfarePanel
-		extends LabeledKoLPanel
+		extends LabeledPanel
 	{
 		private final AutoHighlightTextField goodies;
 		private final AutoHighlightTextField oatmeal, recliners;
@@ -285,7 +288,7 @@ public class ClanManageFrame
 	 */
 
 	private class DonationPanel
-		extends LabeledKoLPanel
+		extends LabeledPanel
 	{
 		private final AutoHighlightTextField amountField;
 
@@ -426,7 +429,7 @@ public class ClanManageFrame
 	}
 
 	private class MemberSearchPanel
-		extends KoLPanel
+		extends GenericPanel
 	{
 		private final JComboBox parameterSelect;
 		private final JComboBox matchSelect;
@@ -550,7 +553,7 @@ public class ClanManageFrame
 	}
 
 	private class SnapshotPanel
-		extends LabeledKoLPanel
+		extends LabeledPanel
 	{
 		private final AutoHighlightTextField mostAscensionsBoardSizeField;
 		private final AutoHighlightTextField mainBoardSizeField;

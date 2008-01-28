@@ -35,6 +35,8 @@ package net.sourceforge.kolmafia;
 
 import javax.swing.JTabbedPane;
 
+import net.sourceforge.kolmafia.swingui.panel.ScrollablePanel;
+
 import net.sourceforge.kolmafia.request.GenericRequest;
 
 public class EventsFrame
@@ -52,7 +54,7 @@ public class EventsFrame
 	}
 
 	private class EventsPanel
-		extends LabeledScrollPanel
+		extends ScrollablePanel
 	{
 		public EventsPanel()
 		{

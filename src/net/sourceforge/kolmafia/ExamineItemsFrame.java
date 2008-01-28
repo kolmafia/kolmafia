@@ -44,6 +44,8 @@ import javax.swing.WindowConstants;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 
+import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
+
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -91,9 +93,9 @@ public class ExamineItemsFrame
 			this.actionConfirmed();
 		}
 
-		public FilterTextField getWordFilter()
+		public AutoFilterTextField getWordFilter()
 		{
-			return new FilterTextField( this.elementList );
+			return new AutoFilterTextField( this.elementList );
 		}
 
 		public void actionConfirmed()

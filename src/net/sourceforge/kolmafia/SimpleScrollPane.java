@@ -41,9 +41,9 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.UIManager;
 import javax.swing.text.JTextComponent;
 
-import net.sourceforge.kolmafia.persistence.Preferences;
-
 import net.java.dev.spellcast.utilities.LockableListModel;
+
+import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class SimpleScrollPane
 	extends JScrollPane

@@ -31,7 +31,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.sourceforge.kolmafia;
+package net.sourceforge.kolmafia.swingui.panel;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -58,9 +58,12 @@ import javax.swing.text.JTextComponent;
 import net.java.dev.spellcast.utilities.ActionVerifyPanel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
+import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 
-public abstract class KoLPanel
+public abstract class GenericPanel
 	extends ActionVerifyPanel
 {
 	protected HashMap listenerMap;
@@ -69,76 +72,76 @@ public abstract class KoLPanel
 	public JPanel actionStatusPanel;
 	public StatusLabel actionStatusLabel;
 
-	public KoLPanel( final Dimension left, final Dimension right )
+	public GenericPanel( final Dimension left, final Dimension right )
 	{
 		super( left, right );
 		StaticEntity.registerPanel( this );
 	}
 
-	public KoLPanel( final Dimension left, final Dimension right, final boolean isCenterPanel )
+	public GenericPanel( final Dimension left, final Dimension right, final boolean isCenterPanel )
 	{
 		super( left, right, isCenterPanel );
 		StaticEntity.registerPanel( this );
 	}
 
-	public KoLPanel( final String confirmedText )
+	public GenericPanel( final String confirmedText )
 	{
 		super( confirmedText );
 		StaticEntity.registerPanel( this );
 	}
 
-	public KoLPanel( final String confirmedText, final boolean isCenterPanel )
+	public GenericPanel( final String confirmedText, final boolean isCenterPanel )
 	{
 		super( confirmedText, isCenterPanel );
 		StaticEntity.registerPanel( this );
 	}
 
-	public KoLPanel( final String confirmedText, final String cancelledText )
+	public GenericPanel( final String confirmedText, final String cancelledText )
 	{
 		super( confirmedText, cancelledText );
 		StaticEntity.registerPanel( this );
 	}
 
-	public KoLPanel( final String confirmedText, final String cancelledText, final boolean isCenterPanel )
+	public GenericPanel( final String confirmedText, final String cancelledText, final boolean isCenterPanel )
 	{
 		super( confirmedText, cancelledText, isCenterPanel );
 		StaticEntity.registerPanel( this );
 	}
 
-	public KoLPanel( final String confirmedText, final Dimension left, final Dimension right,
+	public GenericPanel( final String confirmedText, final Dimension left, final Dimension right,
 		final boolean isCenterPanel )
 	{
 		super( confirmedText, left, right, isCenterPanel );
 		StaticEntity.registerPanel( this );
 	}
 
-	public KoLPanel( final String confirmedText, final String cancelledText1, final String cancelledText2 )
+	public GenericPanel( final String confirmedText, final String cancelledText1, final String cancelledText2 )
 	{
 		super( confirmedText, cancelledText1, cancelledText2 );
 		StaticEntity.registerPanel( this );
 	}
 
-	public KoLPanel( final String confirmedText, final String cancelledText, final Dimension left, final Dimension right )
+	public GenericPanel( final String confirmedText, final String cancelledText, final Dimension left, final Dimension right )
 	{
 		super( confirmedText, cancelledText, left, right );
 		StaticEntity.registerPanel( this );
 	}
 
-	public KoLPanel( final String confirmedText, final String cancelledText1, final String cancelledText2,
+	public GenericPanel( final String confirmedText, final String cancelledText1, final String cancelledText2,
 		final Dimension left, final Dimension right )
 	{
 		super( confirmedText, cancelledText1, cancelledText2, left, right );
 		StaticEntity.registerPanel( this );
 	}
 
-	public KoLPanel( final String confirmedText, final String cancelledText, final Dimension left,
+	public GenericPanel( final String confirmedText, final String cancelledText, final Dimension left,
 		final Dimension right, final boolean isCenterPanel )
 	{
 		super( confirmedText, cancelledText, left, right, isCenterPanel );
 		StaticEntity.registerPanel( this );
 	}
 
-	public KoLPanel( final String confirmedText, final String cancelledText1, final String cancelledText2,
+	public GenericPanel( final String confirmedText, final String cancelledText1, final String cancelledText2,
 		final Dimension left, final Dimension right, final boolean isCenterPanel )
 	{
 		super( confirmedText, cancelledText1, cancelledText2, left, right, isCenterPanel );
@@ -185,9 +188,9 @@ public abstract class KoLPanel
 			this.listenerMap.put( component, new WeakReference( listener ) );
 		}
 
-		if ( component instanceof MutableComboBox )
+		if ( component instanceof AutoFilterComboBox )
 		{
-			JTextComponent editor = (JTextComponent) ( (MutableComboBox) component ).getEditor().getEditorComponent();
+			JTextComponent editor = (JTextComponent) ( (AutoFilterComboBox) component ).getEditor().getEditorComponent();
 
 			editor.addKeyListener( listener );
 			this.listenerMap.put( editor, new WeakReference( listener ) );
@@ -376,7 +379,7 @@ public abstract class KoLPanel
 
 		public void focusLost( final FocusEvent e )
 		{
-			KoLPanel.this.actionConfirmed();
+			GenericPanel.this.actionConfirmed();
 		}
 
 		public void focusGained( final FocusEvent e )
@@ -394,7 +397,7 @@ public abstract class KoLPanel
 			}
 
 			this.scriptField.setText( chooser.getSelectedFile().getAbsolutePath() );
-			KoLPanel.this.actionConfirmed();
+			GenericPanel.this.actionConfirmed();
 		}
 	}
 
@@ -413,7 +416,7 @@ public abstract class KoLPanel
 				return;
 			}
 
-			KoLPanel.this.actionConfirmed();
+			GenericPanel.this.actionConfirmed();
 			e.consume();
 		}
 	}
