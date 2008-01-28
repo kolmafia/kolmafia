@@ -59,13 +59,11 @@ public class DisplayCaseManager
 {
 	private static final GenericRequest SHELF_REORDER = new GenericRequest( "managecollection.php" );
 
-
-
 	private static final Pattern SELECTED_PATTERN = Pattern.compile( "(\\d+) selected>" );
 	private static final Pattern OPTION_PATTERN =
-		Pattern.compile( "</tr><tr><td>([^<]*?) ?\\(?(\\d+)?\\)?</td>.*?<select name=whichshelf(\\d+)>(.*?)</select>" );
-	private static final Pattern SELECT_PATTERN = Pattern.compile( "<select.*?</select>" );
-	private static final Pattern SHELF_PATTERN = Pattern.compile( "<option value=(\\d+).*?>(.*?)</option>" );
+		Pattern.compile( "</tr><tr[^>]*><td>([^<]*?) ?\\(?(\\d+)?\\)?</td>.*?javascript:addform\\((\\d+), (\\d+)\\)" );
+	private static final Pattern SHELVES_PATTERN = Pattern.compile( "<script>.*?var shelves = \\{(.*?)\\};.*?</script>", Pattern.DOTALL );
+	private static final Pattern SHELF_PATTERN = Pattern.compile( "\"(\\d+)\":\"([^\"]*)\"" );
 
 	private static final LockableListModel headers = new LockableListModel();
 	private static final LockableListModel shelves = new LockableListModel();
@@ -99,9 +97,12 @@ public class DisplayCaseManager
 		// a list first.
 
 		List movingList = new ArrayList();
+		AdventureResult []items = new AdventureResult[ moving.length ];
 		for ( int i = 0; i < moving.length; ++i )
 		{
-			movingList.add( moving[ i ] );
+			Object item = moving[ i ];
+			movingList.add( item );
+			items[i] = (AdventureResult)item;
 		}
 
 		// Use the removeAll() and addAll() methods inside of
@@ -110,12 +111,8 @@ public class DisplayCaseManager
 		( (SortedListModel) DisplayCaseManager.shelves.get( sourceShelf ) ).removeAll( movingList );
 		( (SortedListModel) DisplayCaseManager.shelves.get( destinationShelf ) ).addAll( movingList );
 
-		// Save the lists to the server and update the display
-		// on theto reflect the change.
-
 		RequestThread.openRequestSequence();
-		DisplayCaseManager.save( DisplayCaseManager.shelves );
-
+		RequestThread.postRequest( new DisplayCaseRequest( items, destinationShelf ) );
 		KoLmafia.updateDisplay( "Display case updated." );
 		RequestThread.closeRequestSequence();
 	}
@@ -229,8 +226,6 @@ public class DisplayCaseManager
 		Matcher optionMatcher = DisplayCaseManager.OPTION_PATTERN.matcher( data );
 		while ( optionMatcher.find() )
 		{
-			Matcher selectedMatcher = DisplayCaseManager.SELECTED_PATTERN.matcher( optionMatcher.group( 4 ) );
-
 			int itemId = StaticEntity.parseInt( optionMatcher.group( 3 ) );
 			if ( ItemDatabase.getItemName( itemId ) == null )
 			{
@@ -241,9 +236,11 @@ public class DisplayCaseManager
 			String countString = optionMatcher.group( 2 );
 			int itemCount = countString == null ? 1 : StaticEntity.parseInt( countString );
 
+			int shelf = StaticEntity.parseInt( optionMatcher.group( 4 ) );
+
 			DisplayCaseManager.registerItem(
 				new AdventureResult( itemId, itemCount ),
-				selectedMatcher.find() ? StaticEntity.parseInt( selectedMatcher.group( 1 ) ) : 0 );
+				shelf );
 		}
 	}
 
@@ -257,30 +254,28 @@ public class DisplayCaseManager
 	{
 		DisplayCaseManager.clearCache();
 
-		Matcher selectMatcher = DisplayCaseManager.SELECT_PATTERN.matcher( data );
-		if ( selectMatcher.find() )
+		Matcher caseMatcher = DisplayCaseManager.SHELVES_PATTERN.matcher( data );
+		if ( caseMatcher.find() )
 		{
-			int currentShelf;
-			Matcher shelfMatcher = DisplayCaseManager.SHELF_PATTERN.matcher( selectMatcher.group() );
+			Matcher shelfMatcher = DisplayCaseManager.SHELF_PATTERN.matcher( caseMatcher.group(1) );
 			while ( shelfMatcher.find() )
 			{
-				currentShelf = StaticEntity.parseInt( shelfMatcher.group( 1 ) );
+				int shelf = StaticEntity.parseInt( shelfMatcher.group( 1 ) );
+				String name = CharacterEntityReference.unescape( shelfMatcher.group( 2 ) );
 
-				for ( int i = DisplayCaseManager.headers.size(); i < currentShelf; ++i )
+				for ( int i = DisplayCaseManager.headers.size(); i < shelf; ++i )
 				{
 					DisplayCaseManager.headers.add( "(Deleted Shelf)" );
 				}
-
-				DisplayCaseManager.headers.add( CharacterEntityReference.unescape( shelfMatcher.group( 2 ) ) );
+				DisplayCaseManager.headers.add( name );
 			}
 		}
 
 		if ( DisplayCaseManager.headers.size() == 0 )
 		{
-			DisplayCaseManager.headers.add( "" );
+			DisplayCaseManager.headers.add( "-none-" );
 		}
 
-		DisplayCaseManager.headers.set( 0, "-none-" );
 		for ( int i = 0; i < DisplayCaseManager.headers.size(); ++i )
 		{
 			DisplayCaseManager.shelves.add( new SortedListModel() );

@@ -47,7 +47,6 @@ public class DisplayCaseRequest
 	public DisplayCaseRequest()
 	{
 		super( "managecollectionshelves.php" );
-		this.addFormField( "nojs", "1" );
 
 		this.isDeposit = false;
 		this.isWithdrawal = false;
@@ -57,7 +56,6 @@ public class DisplayCaseRequest
 	public DisplayCaseRequest( final Object[] attachments, boolean isDeposit )
 	{
 		super( "managecollection.php", attachments );
-		this.addFormField( "nojs", "1" );
 		this.addFormField( "action", isDeposit ? "put" : "take" );
 
 		this.isManagement = true;
@@ -76,6 +74,22 @@ public class DisplayCaseRequest
 		for ( int i = 0; i < items.length; ++i )
 		{
 			this.addFormField( "whichshelf" + items[ i ].getItemId(), String.valueOf( shelves[ i ] ) );
+		}
+
+		this.isDeposit = false;
+		this.isWithdrawal = false;
+		this.isManagement = true;
+	}
+
+	public DisplayCaseRequest( final AdventureResult[] items, final int shelf )
+	{
+		this();
+		this.addFormField( "action", "arrange" );
+
+		String shelfString = String.valueOf( shelf );
+		for ( int i = 0; i < items.length; ++i )
+		{
+			this.addFormField( "whichshelf" + items[ i ].getItemId(), shelfString );
 		}
 
 		this.isDeposit = false;

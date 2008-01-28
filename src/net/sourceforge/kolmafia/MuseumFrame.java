@@ -283,6 +283,7 @@ public class MuseumFrame
 				if ( selectedValue.equals( headerArray[ i ] ) )
 				{
 					DisplayCaseManager.move( this.elementList.getSelectedValues(), this.index, i );
+					break;
 				}
 			}
 		}
