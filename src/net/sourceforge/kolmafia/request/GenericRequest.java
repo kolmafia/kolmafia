@@ -97,7 +97,7 @@ public class GenericRequest
 
 	private static final int INITIAL_CACHE_COUNT = 3;
 	private static final int TIMEOUT_DELAY = 500;
-	private static final int currentDelay = 800;
+	private static final int INDUCED_DELAY = 800;
 
 	private static final Object WAIT_OBJECT = new Object();
 
@@ -211,7 +211,14 @@ public class GenericRequest
 		{
 			defaultLoginServer = 0;
 		}
+
 		GenericRequest.setLoginServer( GenericRequest.SERVERS[ defaultLoginServer ][ 0 ] );
+
+		if ( Preferences.getBoolean( "allowTimeout" ) )
+		{
+			System.setProperty( "sun.net.client.defaultConnectTimeout", "4000" );
+			System.setProperty( "sun.net.client.defaultReadTimeout", "30000" );
+		}
 	}
 
 	private static final void applyProxySettings()
@@ -977,14 +984,14 @@ public class GenericRequest
 		}
 
 		++GenericRequest.totalActualDelay;
-		return GenericRequest.delay( GenericRequest.currentDelay );
+		return GenericRequest.delay( GenericRequest.INDUCED_DELAY );
 	}
 
 	public static final void printTotalDelay()
 	{
 		int seconds, minutes;
 
-		seconds = GenericRequest.totalActualDelay * GenericRequest.currentDelay / 1000;
+		seconds = GenericRequest.totalActualDelay * GenericRequest.INDUCED_DELAY / 1000;
 		minutes = seconds / 60;
 		seconds = seconds % 60;
 
@@ -992,14 +999,14 @@ public class GenericRequest
 
 		if ( GenericRequest.delayActive )
 		{
-			RequestLogger.printLine( "Delay between requests: " + GenericRequest.currentDelay / 1000.0f + " seconds" );
+			RequestLogger.printLine( "Delay between requests: " + GenericRequest.INDUCED_DELAY / 1000.0f + " seconds" );
 			RequestLogger.printLine( "Delay added this session: " + minutes + " minutes, " + seconds + " seconds" );
 		}
 		else
 		{
 			RequestLogger.printLine( "Delay added this session: " + minutes + " minutes, " + seconds + " seconds" );
 
-			seconds = GenericRequest.totalConsideredDelay * GenericRequest.currentDelay / 1000;
+			seconds = GenericRequest.totalConsideredDelay * GenericRequest.INDUCED_DELAY / 1000;
 			minutes = seconds / 60;
 			seconds = seconds % 60;
 
