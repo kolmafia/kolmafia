@@ -44,17 +44,20 @@ import java.awt.Component;
 import java.awt.Frame;
 import java.awt.Image;
 import java.awt.Window;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
+import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.ImageObserver;
 import java.awt.image.PixelGrabber;
+import java.util.Enumeration;
 import java.util.Vector;
 
 /**
  * WindowsTrayIcon A Java Implementation for showing icons in the Windows System Tray Written by Jan Struyf
  * (jan.struyf@cs.kuleuven.ac.be) (http://ace.ulyssis.org/~jeans) Instantiate this class for each icon This file comes
- * with native code in TRAYICON.DLL The DLL should go in C:/WINDOWS/SYSTEM or in your current directory Modified by the
- * KoLmafia development team Library is no longer loaded here; it is loaded by KoLmafia.
+ * with native code in TRAYICON.DLL The DLL should go in C:/WINDOWS/SYSTEM or in your current directory
  */
 public class WindowsTrayIcon
 {
@@ -63,6 +66,7 @@ public class WindowsTrayIcon
 
 	private static TrayIconKeeper m_Keeper;
 	private static TrayDummyComponent m_Dummy;
+	private static MouseListener m_MouseHook;
 	private static Window m_CurrentWindow;
 
 	/*******************************************************************************************************************
@@ -70,11 +74,9 @@ public class WindowsTrayIcon
 	 ******************************************************************************************************************/
 
 	/**
-	 * Init native library - call this method in the main() method of your app. Each app has it's own hidden window that
-	 * receives the mouse/menu messages for its Tray Icons. The window title is used by sendWindowsMessage() and
-	 * isRunning() to identify an app.
-	 * 
-	 * @param appName the title for the hidden window
+	 * Init native library - call this method in the main() method of your app Param appName = the title for the hidden
+	 * window Each app has it's own hidden window that receives the mouse/menu messages for it's Tray Icons The window
+	 * title is used by sendWindowsMessage() and isRunning() to identify an app
 	 */
 	public static void initTrayIcon( final String appName )
 	{
@@ -99,14 +101,11 @@ public class WindowsTrayIcon
 	 ******************************************************************************************************************/
 
 	/**
-	 * Construct a new Tray Icon. Using a Java Image - This can be loaded from a 16x16 GIF or JPG file.
-	 * 
-	 * @param image 16x16 icon - make sure it's loaded in memory - use MediaTracker *
-	 * @param w the icon width - eg. 16 *
-	 * @param h the icon height - eg. 16
-	 * @exception TrayIconException - if something goes wrong :O( - Too many icons allocated - Error initializing native
-	 *                code DLL - Error setting up Windows notify procedure - Error loading icon image
-	 * @exception InterruptedException - if the thread loading the image is interrupted
+	 * Construct a new Tray Icon Using a Java Image - This can be loaded from a 16x16 GIF or JPG file Param image 16x16
+	 * icon - make sure it's loaded in memory - use MediaTracker Param w the icon width - eg. 16 Param h the icon height -
+	 * eg. 16 Exception TrayIconException - if something goes wrong :O( - Too many icons allocated - Error initializing
+	 * native code DLL - Error setting up Windows notify procedure - Error loading icon image Exception
+	 * InterruptedException - if the thread loading the image is interrupted
 	 */
 	public WindowsTrayIcon( final Image image, final int w, final int h )
 		throws TrayIconException, InterruptedException
@@ -134,13 +133,10 @@ public class WindowsTrayIcon
 	 ******************************************************************************************************************/
 
 	/**
-	 * Change this icon's Image Using a Java Image - This can be loaded from a 16x16 GIF or JPG file *
-	 * 
-	 * @param image 16x16 icon - make sure it's loaded in memory - use MediaTracker *
-	 * @param w the icon width *
-	 * @param h the icon height *
-	 * @exception TrayIconException - if something goes wrong :O( - Error loading icon image *
-	 * @exception InterruptedException - if the thread loading the image is interrupted
+	 * Change this icon's Image Using a Java Image - This can be loaded from a 16x16 GIF or JPG file Param image 16x16
+	 * icon - make sure it's loaded in memory - use MediaTracker Param w the icon width Param h the icon height
+	 * Exception TrayIconException - if something goes wrong :O( - Error loading icon image Exception
+	 * InterruptedException - if the thread loading the image is interrupted
 	 */
 	public void setImage( final Image image, final int w, final int h )
 		throws TrayIconException, InterruptedException
@@ -172,9 +168,7 @@ public class WindowsTrayIcon
 	}
 
 	/**
-	 * Show/Hide this icon in the Windows System Tray *
-	 * 
-	 * @param status true = show, false = hide
+	 * Show/Hide this icon in the Windows System Tray Param status true = show, false = hide
 	 */
 	public void setVisible( final boolean status )
 	{
@@ -190,9 +184,8 @@ public class WindowsTrayIcon
 	}
 
 	/**
-	 * Changes the text for the ToolTip of this icon The ToolTip is displayed when the user mouses over the icon *
-	 * 
-	 * @param tip = the new text for the ToolTip
+	 * Changes the text for the ToolTip of this icon The ToolTip is displayed when the user mouses over the icon Param
+	 * tip = the new text for the ToolTip
 	 */
 	public void setToolTipText( final String tip )
 	{
@@ -218,9 +211,8 @@ public class WindowsTrayIcon
 	}
 
 	/**
-	 * Add an ActionLister to this icon Just like with java.awt.Button or javax.swing.JButton *
-	 * 
-	 * @param listener = your listener
+	 * Add an ActionLister to this icon Just like with java.awt.Button or javax.swing.JButton Param listener = your
+	 * listener
 	 */
 	public void addActionListener( final ActionListener listener )
 	{
@@ -269,9 +261,7 @@ public class WindowsTrayIcon
 
 	/**
 	 * Set new popup menu The popup menu is displayed when the user right clicks the icon See class TrayIconPopup,
-	 * TrayIconPopupSimpleItem, .. *
-	 * 
-	 * @param popup = the popup menu
+	 * TrayIconPopupSimpleItem, .. Param popup = the popup menu
 	 */
 	public void setPopup( final TrayIconPopup popup )
 	{
@@ -365,31 +355,26 @@ public class WindowsTrayIcon
 	 ******************************************************************************************************************/
 
 	/**
-	 * Checks if there's an instance with hidden window title = appName running. Can be used to detect that another
-	 * instance of your app is already running (so exit..)
-	 * 
-	 * @param appName the title of the hidden window to search for
+	 * Checks if there's an instance with hidden window title = appName running Can be used to detect that another
+	 * instance of your app is already running (so exit..) Param appName = the title of the hidden window to search for
 	 */
 	public static native boolean isRunning( String appName );
 
 	/**
-	 * Send a message to another app (message can contain an integer). Can be used to detect that another instance of
-	 * your app is already running. That instance can for example restore it's window after it receives the windows
-	 * message - see demo app for more info
-	 * 
-	 * @param appName the title of the hidden window to search for
-	 * @param message the integer message to send (only native int size supported)
+	 * Send a message to another app (message can contain an integer) Can be used to detect that another instance of
+	 * your app is already running That instance can for example restore it's window after it receives the windows
+	 * message - see demo app for more info Param appName = the title of the hidden window to search for Param message =
+	 * the integer message to send (only native int size supported)
 	 */
 	public static native int sendWindowsMessage( String appName, int message );
 
 	/**
-	 * Set callback method for receiving windows messages. See sendWindowsMessage() for more information or take a look
-	 * at the demo app
-	 * 
-	 * @param callback the callback method for this app
+	 * Set callback method for receiving windows messages See sendWindowsMessage() for more information or take a look
+	 * at the demo app Param callback = the callback method for this app
 	 */
 	public static void setWindowsMessageCallback( final TrayIconCallback callback )
 	{
+		WindowsTrayIcon.m_WMessageCallback = callback;
 	}
 
 	/**
@@ -474,6 +459,11 @@ public class WindowsTrayIcon
 	private TrayIconPopup m_Popup;
 	// Each icon can have any number of ActionListeners - notified when user clicks (left/right) the icon
 	private Vector m_ActList, m_MouseList, m_BalloonList;
+	// Each application can have one WindowsMessageCallback - notified when another app uses sendWindowsMessage
+	private static TrayIconCallback m_WMessageCallback;
+
+	private final static int MOUSE_BTN_UP = 1;
+	private final static int MOUSE_BTN_DOUBLE = 2;
 
 	public static TrayDummyComponent getDummyComponent()
 	{
@@ -485,11 +475,123 @@ public class WindowsTrayIcon
 	}
 
 	/**
-	 * Modify property of menu item *
-	 * 
-	 * @param menuId = the id of the menu item *
-	 * @param what = which property to modify *
-	 * @param state = true property enabled
+	 * Private method called by native library when user clicks mouse button Param button = "Left" or "Right" or
+	 * "Middle"
+	 */
+	private void notifyMouseListeners( final int button, final int mask, final int xp, final int yp )
+	{
+		int clicks = ( mask & WindowsTrayIcon.MOUSE_BTN_DOUBLE ) != 0 ? 2 : 1;
+		boolean up = ( mask & WindowsTrayIcon.MOUSE_BTN_UP ) != 0;
+		if ( this.m_ActList != null && clicks == 1 && up == false )
+		{
+			ActionEvent evt = null;
+			if ( button == 0 )
+			{
+				evt = new ActionEvent( this, 0, "Left" );
+			}
+			else if ( button == 1 )
+			{
+				evt = new ActionEvent( this, 0, "Right" );
+			}
+			else
+			{
+				evt = new ActionEvent( this, 0, "Middle" );
+			}
+			for ( Enumeration e = this.m_ActList.elements(); e.hasMoreElements(); )
+			{
+				ActionListener listener = (ActionListener) e.nextElement();
+				listener.actionPerformed( evt );
+			}
+		}
+		if ( this.m_MouseList != null )
+		{
+			int modifiers = 0;
+			if ( button == 0 )
+			{
+				modifiers |= InputEvent.BUTTON1_MASK;
+			}
+			else if ( button == 1 )
+			{
+				modifiers |= InputEvent.BUTTON2_MASK;
+			}
+			else
+			{
+				modifiers |= InputEvent.BUTTON3_MASK;
+			}
+			// (Component source, int id, long when, int modifiers, int x, int y, int clickCount, boolean popupTrigger)
+			MouseEvent evt =
+				new MouseEvent( WindowsTrayIcon.getDummyComponent(), 0, 0, modifiers, xp, yp, clicks, button == 1 );
+			for ( Enumeration e = this.m_MouseList.elements(); e.hasMoreElements(); )
+			{
+				MouseListener listener = (MouseListener) e.nextElement();
+				if ( up )
+				{
+					listener.mouseReleased( evt );
+				}
+				else
+				{
+					listener.mousePressed( evt );
+				}
+			}
+		}
+	}
+
+	/**
+	 * Private method called by native library when something happens with the balloon message
+	 */
+	private void notifyBalloonListeners( final int mask )
+	{
+		if ( this.m_BalloonList != null )
+		{
+			TrayBalloonEvent evt = new TrayBalloonEvent( mask );
+			for ( Enumeration e = this.m_BalloonList.elements(); e.hasMoreElements(); )
+			{
+				TrayBalloonListener listener = (TrayBalloonListener) e.nextElement();
+				listener.balloonChanged( evt );
+			}
+		}
+	}
+
+	/**
+	 * Private method called by native library when user selects popup menu item Param id = id of menu item (each menu
+	 * item has unique id)
+	 */
+	private void notifyMenuListeners( final int id )
+	{
+		if ( this.m_Popup != null )
+		{
+			this.m_Popup.onSelected( id );
+		}
+	}
+
+	/**
+	 * Private method called by native library when it receives a sendWindowsMessage event See sendWindowsMessage() for
+	 * more information or take a look at the demo app Param lParam = parameter send along with windows message
+	 */
+	private static int callWindowsMessage( final int lParam )
+	{
+		if ( WindowsTrayIcon.m_WMessageCallback != null )
+		{
+			return WindowsTrayIcon.m_WMessageCallback.callback( lParam );
+		}
+		else
+		{
+			return 0;
+		}
+	}
+
+	private static void callMouseHook( final int xp, final int yp )
+	{
+		if ( WindowsTrayIcon.m_MouseHook != null )
+		{
+			MouseEvent evt = new MouseEvent( WindowsTrayIcon.getDummyComponent(), 0, 0, 0, xp, yp, 1, true );
+			WindowsTrayIcon.m_MouseHook.mousePressed( evt );
+		}
+	}
+
+	/**
+	 * Modify property of menu item Param menuId = the id of the menu item Param what = which property to modify Param
+	 * state = true property enabled
 	 */
 	void modifyPopup( final int menuId, final int what, final boolean state )
 	{
@@ -497,10 +599,8 @@ public class WindowsTrayIcon
 	}
 
 	/**
-	 * Init new popup menu - used by setPopup() *
-	 * 
-	 * @param id = the icon's id *
-	 * @param nblevels = the submenu depth of the new popup
+	 * Init new popup menu - used by setPopup() Param id = the icon's id Param nblevels = the submenu depth of the new
+	 * popup
 	 */
 	static native void initPopup( int id, int nblevels );
 
@@ -518,22 +618,15 @@ public class WindowsTrayIcon
 	final static int POPUP_MODE_DEFAULT = 4;
 
 	/**
-	 * Add popup menu item - used by setTrayIcon() in subclasses of TrayIconPopupItem *
-	 * 
-	 * @param id = the icon's id *
-	 * @param level = the submenu level *
-	 * @param name = the name of the menu item *
-	 * @param type = POPUP_TYPE_ITEM or POPUP_TYPE_SEPARATOR or..
+	 * Add popup menu item - used by setTrayIcon() in subclasses of TrayIconPopupItem Param id = the icon's id Param
+	 * level = the submenu level Param name = the name of the menu item Param type = POPUP_TYPE_ITEM or
+	 * POPUP_TYPE_SEPARATOR or..
 	 */
 	static native int subPopup( int id, int level, String name, int type, int extra );
 
 	/**
-	 * Modify menu item properties *
-	 * 
-	 * @param id = the icon's id *
-	 * @param menuId = the id of the menu item *
-	 * @param what = property to modify *
-	 * @param state = on/off
+	 * Modify menu item properties Param id = the icon's id Param menuId = the id of the menu item Param what = property
+	 * to modify Param state = on/off
 	 */
 	private static native void modifyPopup( int id, int menuId, int what, boolean state );
 
@@ -543,52 +636,38 @@ public class WindowsTrayIcon
 	private static native int getFreeId();
 
 	/**
-	 * Set bitmap data for icon - used in constructor and setImage() *
-	 * 
-	 * @param id = the icon's id *
-	 * @param w, h = the images size *
-	 * @param pixels = the pixel array
+	 * Set bitmap data for icon - used in constructor and setImage() Param id = the icon's id Param w, h = the images
+	 * size Param pixels = the pixel array
 	 */
 	private static native void setIconData( int id, int w, int h, int pixels[] );
 
 	/**
-	 * Make Tray Icon visible/invisible - used by setVisible() *
-	 * 
-	 * @param id = the icon's id *
-	 * @param hide = visible/invisible?
+	 * Make Tray Icon visible/invisible - used by setVisible() Param id = the icon's id Param hide = visible/invisible?
 	 */
 	private static native void showIcon( int id, boolean hide );
 
 	/**
-	 * Test if Tray Icon is in the system tray - used by isVisible() *
-	 * 
-	 * @param id = the icon's id
+	 * Test if Tray Icon is in the system tray - used by isVisible() Param id = the icon's id
 	 */
 	private static native int testVisible( int id );
 
 	/**
-	 * Enable mouse/menu messages for icon - used by addActionListener() and setPopup() *
-	 * 
-	 * @param ico = the icons class (this) *
-	 * @param id = the icon's id *
-	 * @param enable = enable/disable mouse events?
+	 * Enable mouse/menu messages for icon - used by addActionListener() and setPopup() Param ico = the icons class
+	 * (this) Param id = the icon's id Param enable = enable/disable mouse events?
 	 */
 	private static native void clickEnable( WindowsTrayIcon ico, int id, boolean enable );
 
 	/**
-	 * Set tooltip - used by setToolTip(String tip) *
-	 * 
-	 * @param id = the icon's id *
-	 * @param tip = the new tooltip
+	 * Set tooltip - used by setToolTip(String tip) Param id = the icon's id Param tip = the new tooltip
 	 */
 	private static native void setToolTip( int id, String tip );
 
 	/**
-	 * Free all native resources for this icon - used by freeIcon() *
-	 * 
-	 * @param id = the icon's id
+	 * Free all native resources for this icon - used by freeIcon() Param id = the icon's id
 	 */
 	private static native void freeIcon( int id );
+
+	private static native void detectAllClicks( int id );
 
 	public static native void initJAWT();
 
@@ -598,6 +677,7 @@ public class WindowsTrayIcon
 
 	public static void setMouseClickHook( final MouseListener listener )
 	{
+		WindowsTrayIcon.m_MouseHook = listener;
 		WindowsTrayIcon.setMouseHookEnabled( listener == null ? 0 : 1 );
 	}
 
