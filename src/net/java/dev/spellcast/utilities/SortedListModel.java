@@ -105,15 +105,7 @@ public class SortedListModel
 
 	public boolean addAll( final int index, final Collection c )
 	{
-		boolean wasEmpty = this.isEmpty();
-		boolean result = super.addAll( index, c );
-
-		if ( wasEmpty && result && !( c instanceof SortedListModel ) )
-		{
-			super.sort();
-		}
-
-		return result;
+		return super.addAll( index, c );
 	}
 
 	/**
