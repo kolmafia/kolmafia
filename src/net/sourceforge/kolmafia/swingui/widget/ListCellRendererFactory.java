@@ -355,10 +355,10 @@ public class ListCellRendererFactory
 
 	public static final DefaultListCellRenderer getNameOnlyRenderer()
 	{
-		return new ResultNameListCellRenderer();
+		return new NameOnlyRenderer();
 	}
 
-	private static class ResultNameListCellRenderer
+	private static class NameOnlyRenderer
 		extends DefaultListCellRenderer
 	{
 		public Component getListCellRendererComponent( final JList list, final Object value, final int index,
