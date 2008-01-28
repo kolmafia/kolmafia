@@ -49,18 +49,9 @@ import javax.swing.ListModel;
 import javax.swing.MutableComboBoxModel;
 
 /**
- * <p>
  * Lockable aspects of this class have been removed due to incompatibilities with Swing; synchronization between two
  * threads when one is the Swing thread turns out to have a lot of problems. It retains its original name for
- * convenience purposes only. The original methods only retain their lock properties if you synchronize upon the object
- * lock, which may be more trouble than they're worth.
- * </p>
- * <p>
- * In addition to this assertion, the <code>LockableListModel</code> also provides the ability to create a <i>mirror
- * image</i>: namely, another <code>LockableListModel</code> that changes whenever the data in
- * <tt>this</tt> <code>LockableListModel</code> changes but does not respond to object-selection changes. This makes
- * it so that multiple copies of data can be maintained - synchronization of data, in a sense.
- * </p>
+ * convenience purposes only.
  */
 
 public class LockableListModel
@@ -314,8 +305,8 @@ public class LockableListModel
 	{
 		Object currentItem;
 		int currentIndex = index;
+
 		Iterator myIterator = c.iterator();
-		int originalSize = this.actualElements.size();
 
 		while ( myIterator.hasNext() )
 		{
@@ -326,7 +317,7 @@ public class LockableListModel
 			}
 		}
 
-		return originalSize != this.actualElements.size();
+		return index != currentIndex;
 	}
 
 	/**
@@ -851,6 +842,11 @@ public class LockableListModel
 
 	private int computeVisibleIndex( final int actualIndex )
 	{
+		if ( currentFilter == NO_FILTER )
+		{
+			return actualIndex;
+		}
+
 		int visibleIndex = 0;
 
 		for ( int i = 0; i < actualIndex && visibleIndex < this.visibleElements.size(); ++i )
@@ -909,7 +905,7 @@ public class LockableListModel
 	 * Returns the index of the currently selected item in this <code>LockableListModel</code>. This is used
 	 * primarily in cloning, to ensure that the same indices are being selected; however it may also be used to report
 	 * the index of the currently selected item in testing a new object which uses a list model.
-	 * 
+	 *
 	 * @return the index of the currently selected item
 	 */
 
@@ -989,7 +985,7 @@ public class LockableListModel
 	 * it will add a reference to the object, in effect creating a shallow copy of it. Thus, retrieving an object using
 	 * get() and modifying a field will result in both <code>LockableListModel</code> objects changing, in the same
 	 * way retrieving an element from a cloned <code>ArrayList</code> will.
-	 * 
+	 *
 	 * @return a deep copy (exempting listeners) of this <code>LockableListModel</code>.
 	 */
 
@@ -1026,7 +1022,7 @@ public class LockableListModel
 	 * the individual elements are known to be of class <code>Object</code>, and objects only force the clone()
 	 * method to be protected. Thus, in order to invoke clone() on each individual element, it must be done
 	 * reflectively, which is the purpose of this private method.
-	 * 
+	 *
 	 * @return as deep a copy of the object as can be obtained
 	 */
 
@@ -1047,7 +1043,7 @@ public class LockableListModel
 	 * <code>Cloneable</code> interface. If the object provided does not implement the <code>Cloneable</code>
 	 * interface, or the clone() method is protected (as it is in class <code>Object</code>), then the original
 	 * object is returned.
-	 * 
+	 *
 	 * @param o the object to be cloned
 	 * @return a copy of the object, either shallow or deep, pending whether the original object was intended to be able
 	 *         to be deep-copied
@@ -1147,7 +1143,7 @@ public class LockableListModel
 	 * <em>underlying data</em> of this <code>LockableListModel</code>. Note that this means any changes in
 	 * selected indices will not be mirrored in the mirror image. Note that because this function modifies the listeners
 	 * for this class, an asynchronous version is not available.
-	 * 
+	 *
 	 * @return a mirror image of this <code>LockableListModel</code>
 	 */
 
@@ -1162,7 +1158,7 @@ public class LockableListModel
 	 * <em>underlying data</em> of this <code>LockableListModel</code>. Note that this means any changes in
 	 * selected indices will not be mirrored in the mirror image. Note that because this function modifies the listeners
 	 * for this class, an asynchronous version is not available.
-	 * 
+	 *
 	 * @return a mirror image of this <code>LockableListModel</code>
 	 */
 
