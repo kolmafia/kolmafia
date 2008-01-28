@@ -290,6 +290,7 @@ public abstract class StoreManager
 	public static final void parseLog( final String logText )
 	{
 		StoreManager.storeLog.clear();
+		ArrayList currentLog = new ArrayList();
 
 		Matcher logMatcher = StoreManager.LOGSPAN_PATTERN.matcher( logText );
 		if ( logMatcher.find() )
@@ -299,14 +300,18 @@ public abstract class StoreManager
 				return;
 			}
 
+			String entryString;
+			StoreLogEntry entry;
 			String[] entries = logMatcher.group().split( "<br>" );
 
 			for ( int i = 0; i < entries.length - 1; ++i )
 			{
-				StoreManager.storeLog.add( new StoreLogEntry( entries.length - i - 1, entries[ i ].replaceAll(
-					"<.*?>", "" ) ) );
+				entryString = KoLConstants.ANYTAG_PATTERN.matcher( entries[ i ] ).replaceAll( "" );
+				entry = new StoreLogEntry( entries.length - i - 1, entryString );
+				currentLog.add( entry );
 			}
 
+			StoreManager.storeLog.addAll( currentLog );
 			StoreManager.sortStoreLog( false );
 		}
 	}
