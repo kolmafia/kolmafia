@@ -50,6 +50,8 @@ import javax.swing.JTabbedPane;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
+import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
+
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
 
@@ -295,7 +297,7 @@ public class GearChangeFrame
 		public ChangeComboBox( final LockableListModel slot )
 		{
 			super( slot );
-			this.setRenderer( AdventureResult.getEquipmentRenderer() );
+			this.setRenderer( ListCellRendererFactory.getUsableEquipmentRenderer() );
 			this.addActionListener( new ChangeItemListener() );
 		}
 
