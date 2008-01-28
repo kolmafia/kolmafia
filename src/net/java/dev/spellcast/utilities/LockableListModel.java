@@ -628,17 +628,21 @@ public class LockableListModel
 
 	public boolean removeAll( final Collection c )
 	{
-		ArrayList old = new ArrayList( this.actualElements );
-		boolean result = old.removeAll( c );
-		
-		if ( !result )
+		int originalSize = this.actualElements.size();
+
+		Object current;
+		Iterator it = c.iterator();
+
+		while ( it.hasNext() )
 		{
-			return false;
+			current = it.next();
+			if ( current != null )
+			{
+				this.remove( current );
+			}
 		}
-		
-		this.clear();
-		this.addAll( old );
-		return true;
+
+		return originalSize != this.actualElements.size();
 	}
 
 	/**
@@ -647,17 +651,18 @@ public class LockableListModel
 
 	public boolean retainAll( final Collection c )
 	{
-		ArrayList old = new ArrayList( this.actualElements );
-		boolean result = old.retainAll( c );
-		
-		if ( !result )
+		int originalSize = this.actualElements.size();
+
+		Iterator it = this.iterator();
+		while ( it.hasNext() )
 		{
-			return false;
+			if ( !c.contains( it.next() ) )
+			{
+				it.remove();
+			}
 		}
-		
-		this.clear();
-		this.addAll( old );
-		return true;
+
+		return originalSize != this.actualElements.size();
 	}
 
 	/**
