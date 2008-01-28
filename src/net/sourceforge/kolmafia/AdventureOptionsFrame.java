@@ -40,8 +40,6 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.io.BufferedReader;
-import java.io.File;
 import java.util.TreeMap;
 
 import javax.swing.Box;
@@ -54,33 +52,26 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.JTree;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.tree.DefaultTreeModel;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 
-import net.sourceforge.kolmafia.session.CustomCombatManager;
-import net.sourceforge.kolmafia.session.MoodManager;
-import net.sourceforge.kolmafia.session.MoodManager.MoodTrigger;
+import net.sourceforge.kolmafia.swingui.panel.CustomCombatPanel;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
-import net.sourceforge.kolmafia.swingui.panel.ScrollablePanel;
+import net.sourceforge.kolmafia.swingui.panel.MoodOptionsPanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightSpinner;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
-import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 
@@ -96,18 +87,11 @@ public abstract class AdventureOptionsFrame
 	private AdventureCountSpinner countField;
 	private final LockableListModel matchingAdventures;
 
-	protected JTree combatTree;
-	protected JTextArea combatEditor;
-	protected DefaultTreeModel combatModel;
-	protected CardLayout combatCards;
-	protected JPanel combatPanel;
-
 	protected JComboBox hpAutoRecoverSelect, hpAutoRecoverTargetSelect, hpHaltCombatSelect;
 	protected JCheckBox[] hpRestoreCheckbox;
 	protected JComboBox mpAutoRecoverSelect, mpAutoRecoverTargetSelect, mpBalanceSelect;
 	protected JCheckBox[] mpRestoreCheckbox;
 
-	protected JList moodList;
 	protected JList locationSelect;
 	protected JComponent zoneSelect;
 
@@ -190,238 +174,15 @@ public abstract class AdventureOptionsFrame
 		// Components of custom combat and choice adventuring,
 		// combined into one friendly panel.
 
-		this.combatTree = new JTree();
-		this.combatModel = (DefaultTreeModel) this.combatTree.getModel();
-
-		this.combatCards = new CardLayout();
-		this.combatPanel = new JPanel( this.combatCards );
-		this.combatPanel.add( "tree", new CustomCombatTreePanel() );
-		this.combatPanel.add( "editor", new CustomCombatPanel() );
-
-		CustomCombatManager.loadSettings();
-		this.refreshCombatTree();
-
 		SimpleScrollPane restoreScroller = new SimpleScrollPane( restorePanel );
 		JComponentUtilities.setComponentSize( restoreScroller, 560, 400 );
 
 		this.tabs.addTab( "HP/MP Usage", restoreScroller );
 
-		JPanel moodPanel = new JPanel( new BorderLayout() );
-		moodPanel.add( new MoodTriggerListPanel(), BorderLayout.CENTER );
-
-		AddTriggerPanel triggers = new AddTriggerPanel();
-		this.moodList.addListSelectionListener( triggers );
-		moodPanel.add( triggers, BorderLayout.NORTH );
-
-		this.tabs.addTab( "Mood Setup", moodPanel );
-		this.tabs.addTab( "Custom Combat", this.combatPanel );
+		this.tabs.addTab( "Mood Setup", new MoodOptionsPanel() );
+		this.tabs.addTab( "Custom Combat", new CustomCombatPanel() );
 
 		return this.tabs;
-	}
-
-	public class CustomCombatPanel
-		extends ScrollablePanel
-	{
-		public CustomCombatPanel()
-		{
-			super( "Editor", "save", "help", new JTextArea() );
-			AdventureOptionsFrame.this.combatEditor = (JTextArea) this.scrollComponent;
-			AdventureOptionsFrame.this.combatEditor.setFont( KoLConstants.DEFAULT_FONT );
-			AdventureOptionsFrame.this.refreshCombatTree();
-		}
-
-		public void actionConfirmed()
-		{
-			String saveText = AdventureOptionsFrame.this.combatEditor.getText();
-
-			File location = new File( KoLConstants.CCS_LOCATION, CustomCombatManager.settingsFileName() );
-			LogStream writer = LogStream.openStream( location, true );
-
-			writer.print( saveText );
-			writer.close();
-			writer = null;
-
-			KoLCharacter.battleSkillNames.setSelectedItem( "custom combat script" );
-			Preferences.setString( "battleAction", "custom combat script" );
-
-			// After storing all the data on disk, go ahead
-			// and reload the data inside of the tree.
-
-			CustomCombatManager.loadSettings();
-			AdventureOptionsFrame.this.refreshCombatTree();
-			AdventureOptionsFrame.this.combatCards.show( AdventureOptionsFrame.this.combatPanel, "tree" );
-		}
-
-		public void actionCancelled()
-		{
-			StaticEntity.openSystemBrowser( "http://kolmafia.sourceforge.net/combat.html" );
-		}
-
-		public void setEnabled( final boolean isEnabled )
-		{
-		}
-	}
-
-	public class CustomCombatTreePanel
-		extends ScrollablePanel
-	{
-		public JComboBox availableScripts;
-
-		public CustomCombatTreePanel()
-		{
-			super( "", "edit", "help", AdventureOptionsFrame.this.combatTree );
-			AdventureOptionsFrame.this.combatTree.setVisibleRowCount( 8 );
-
-			this.availableScripts = new CombatComboBox();
-			this.centerPanel.add( this.availableScripts, BorderLayout.NORTH );
-
-			JPanel extraButtons = new JPanel( new GridLayout( 2, 1, 5, 5 ) );
-
-			extraButtons.add( new NewScriptButton() );
-			extraButtons.add( new CopyScriptButton() );
-
-			JPanel buttonHolder = new JPanel( new BorderLayout() );
-			buttonHolder.add( extraButtons, BorderLayout.NORTH );
-
-			this.eastPanel.add( buttonHolder, BorderLayout.SOUTH );
-		}
-
-		public void actionConfirmed()
-		{
-			CustomCombatManager.loadSettings();
-			AdventureOptionsFrame.this.refreshCustomCombatManager();
-			AdventureOptionsFrame.this.combatCards.show( AdventureOptionsFrame.this.combatPanel, "editor" );
-		}
-
-		public void actionCancelled()
-		{
-		}
-
-		public void setEnabled( final boolean isEnabled )
-		{
-		}
-
-		public class CombatComboBox
-			extends JComboBox
-		{
-			public CombatComboBox()
-			{
-				super( CustomCombatManager.getAvailableScripts() );
-				this.setSelectedItem( CustomCombatManager.settingName() );
-				this.addActionListener( new CombatComboBoxListener() );
-			}
-
-			public class CombatComboBoxListener
-				implements ActionListener
-			{
-				public void actionPerformed( final ActionEvent e )
-				{
-					String script = (String) CombatComboBox.this.getSelectedItem();
-					if ( script != null )
-					{
-						CustomCombatManager.setScript( script );
-						AdventureOptionsFrame.this.refreshCombatTree();
-					}
-				}
-			}
-		}
-
-		public class NewScriptButton
-			extends ThreadedButton
-		{
-			public NewScriptButton()
-			{
-				super( "new" );
-			}
-
-			public void run()
-			{
-				String name = KoLFrame.input( "Give your combat script a name!" );
-				if ( name == null || name.equals( "" ) || name.equals( "default" ) )
-				{
-					return;
-				}
-
-				CustomCombatManager.setScript( name );
-				CustomCombatTreePanel.this.availableScripts.setSelectedItem( CustomCombatManager.settingName() );
-				AdventureOptionsFrame.this.refreshCombatTree();
-			}
-		}
-
-		public class CopyScriptButton
-			extends ThreadedButton
-		{
-			public CopyScriptButton()
-			{
-				super( "copy" );
-			}
-
-			public void run()
-			{
-				String name = KoLFrame.input( "Make a copy of current script called:" );
-				if ( name == null || name.equals( "" ) || name.equals( "default" ) )
-				{
-					return;
-				}
-
-				CustomCombatManager.copySettings( name );
-				CustomCombatManager.setScript( name );
-				CustomCombatTreePanel.this.availableScripts.setSelectedItem( CustomCombatManager.settingName() );
-				AdventureOptionsFrame.this.refreshCombatTree();
-			}
-		}
-	}
-
-	public void refreshCustomCombatManager()
-	{
-		try
-		{
-			BufferedReader reader =
-				KoLDatabase.getReader( new File( KoLConstants.CCS_LOCATION, CustomCombatManager.settingsFileName() ) );
-
-			if ( reader == null )
-			{
-				return;
-			}
-
-			StringBuffer buffer = new StringBuffer();
-			String line;
-
-			while ( ( line = reader.readLine() ) != null )
-			{
-				buffer.append( line );
-				buffer.append( '\n' );
-			}
-
-			reader.close();
-			reader = null;
-
-			this.combatEditor.setText( buffer.toString() );
-		}
-		catch ( Exception e )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-
-			StaticEntity.printStackTrace( e );
-		}
-
-		this.refreshCombatTree();
-	}
-
-	/**
-	 * Internal class used to handle everything related to displaying custom combat.
-	 */
-
-	public void refreshCombatTree()
-	{
-		this.combatModel.setRoot( CustomCombatManager.getRoot() );
-		this.combatTree.setRootVisible( false );
-
-		for ( int i = 0; i < this.combatTree.getRowCount(); ++i )
-		{
-			this.combatTree.expandRow( i );
-		}
 	}
 
 	public void saveRestoreSettings()
@@ -590,303 +351,6 @@ public abstract class AdventureOptionsFrame
 		public void actionPerformed( final ActionEvent e )
 		{
 			AdventureOptionsFrame.this.saveRestoreSettings();
-		}
-	}
-
-	public class AddTriggerPanel
-		extends GenericPanel
-		implements ListSelectionListener
-	{
-		public LockableListModel EMPTY_MODEL = new LockableListModel();
-		public LockableListModel EFFECT_MODEL = new LockableListModel();
-
-		public TypeComboBox typeSelect;
-		public ValueComboBox valueSelect;
-		public JTextField commandField;
-
-		public AddTriggerPanel()
-		{
-			super( "add entry", "auto-fill" );
-
-			this.typeSelect = new TypeComboBox();
-
-			Object[] names = EffectDatabase.values().toArray();
-
-			for ( int i = 0; i < names.length; ++i )
-			{
-				this.EFFECT_MODEL.add( names[ i ].toString() );
-			}
-
-			this.EFFECT_MODEL.sort();
-
-			this.valueSelect = new ValueComboBox();
-			this.commandField = new JTextField();
-
-			VerifiableElement[] elements = new VerifiableElement[ 3 ];
-			elements[ 0 ] = new VerifiableElement( "Trigger On: ", this.typeSelect );
-			elements[ 1 ] = new VerifiableElement( "Check For: ", this.valueSelect );
-			elements[ 2 ] = new VerifiableElement( "Command: ", this.commandField );
-
-			this.setContent( elements );
-		}
-
-		public void valueChanged( final ListSelectionEvent e )
-		{
-			Object selected = AdventureOptionsFrame.this.moodList.getSelectedValue();
-			if ( selected == null )
-			{
-				return;
-			}
-
-			MoodTrigger node = (MoodTrigger) selected;
-			String type = node.getType();
-
-			// Update the selected type
-
-			if ( type.equals( "lose_effect" ) )
-			{
-				this.typeSelect.setSelectedIndex( 0 );
-			}
-			else if ( type.equals( "gain_effect" ) )
-			{
-				this.typeSelect.setSelectedIndex( 1 );
-			}
-			else if ( type.equals( "unconditional" ) )
-			{
-				this.typeSelect.setSelectedIndex( 2 );
-			}
-
-			// Update the selected effect
-
-			this.valueSelect.setSelectedItem( node.getName() );
-			this.commandField.setText( node.getAction() );
-		}
-
-		public void actionConfirmed()
-		{
-			String currentMood = Preferences.getString( "currentMood" );
-			if ( currentMood.equals( "apathetic" ) )
-			{
-				KoLFrame.alert( "You cannot add triggers to an apathetic mood." );
-				return;
-			}
-
-			MoodManager.addTrigger(
-				(String) this.typeSelect.getSelectedType(), (String) this.valueSelect.getSelectedItem(),
-				this.commandField.getText() );
-			MoodManager.saveSettings();
-		}
-
-		public void actionCancelled()
-		{
-			String[] autoFillTypes =
-				new String[] { "minimal set (current active buffs)", "maximal set (all castable buffs)" };
-			String desiredType =
-				(String) KoLFrame.input( "Which kind of buff set would you like to use?", autoFillTypes );
-
-			if ( desiredType == null )
-			{
-				return;
-			}
-
-			if ( desiredType == autoFillTypes[ 0 ] )
-			{
-				MoodManager.minimalSet();
-			}
-			else
-			{
-				MoodManager.maximalSet();
-			}
-
-			MoodManager.saveSettings();
-		}
-
-		public void setEnabled( final boolean isEnabled )
-		{
-		}
-
-		public void addStatusLabel()
-		{
-		}
-
-		public class ValueComboBox
-			extends AutoFilterComboBox
-		{
-			public ValueComboBox()
-			{
-				super( AddTriggerPanel.this.EFFECT_MODEL, false );
-			}
-
-			public void setSelectedItem( final Object anObject )
-			{
-				AddTriggerPanel.this.commandField.setText( MoodManager.getDefaultAction(
-					AddTriggerPanel.this.typeSelect.getSelectedType(), (String) anObject ) );
-				super.setSelectedItem( anObject );
-			}
-		}
-
-		public class TypeComboBox
-			extends JComboBox
-		{
-			public TypeComboBox()
-			{
-				this.addItem( "When an effect is lost" );
-				this.addItem( "When an effect is gained" );
-				this.addItem( "Unconditional trigger" );
-
-				this.addActionListener( new TypeComboBoxListener() );
-			}
-
-			public String getSelectedType()
-			{
-				switch ( this.getSelectedIndex() )
-				{
-				case 0:
-					return "lose_effect";
-				case 1:
-					return "gain_effect";
-				case 2:
-					return "unconditional";
-				default:
-					return null;
-				}
-			}
-
-			public class TypeComboBoxListener
-				implements ActionListener
-			{
-				public void actionPerformed( final ActionEvent e )
-				{
-					AddTriggerPanel.this.valueSelect.setModel( TypeComboBox.this.getSelectedIndex() == 2 ? AddTriggerPanel.this.EMPTY_MODEL : AddTriggerPanel.this.EFFECT_MODEL );
-				}
-			}
-		}
-	}
-
-	public class MoodTriggerListPanel
-		extends ScrollablePanel
-	{
-		public JComboBox availableMoods;
-
-		public MoodTriggerListPanel()
-		{
-			super( "", new ShowDescriptionList( MoodManager.getTriggers() ) );
-
-			this.availableMoods = new MoodComboBox();
-
-			this.centerPanel.add( this.availableMoods, BorderLayout.NORTH );
-			AdventureOptionsFrame.this.moodList = (JList) this.scrollComponent;
-
-			JPanel extraButtons = new JPanel( new GridLayout( 3, 1, 5, 5 ) );
-
-			extraButtons.add( new NewMoodButton() );
-			extraButtons.add( new DeleteMoodButton() );
-			extraButtons.add( new CopyMoodButton() );
-
-			JPanel buttonHolder = new JPanel( new BorderLayout() );
-			buttonHolder.add( extraButtons, BorderLayout.NORTH );
-
-			this.actualPanel.add( buttonHolder, BorderLayout.EAST );
-		}
-
-		public void actionConfirmed()
-		{
-		}
-
-		public void actionCancelled()
-		{
-		}
-
-		public void setEnabled( final boolean isEnabled )
-		{
-		}
-
-		public class MoodComboBox
-			extends JComboBox
-		{
-			public MoodComboBox()
-			{
-				super( MoodManager.getAvailableMoods() );
-				String mood = Preferences.getString( "currentMood" );
-				this.setSelectedItem( mood );
-				this.addActionListener( new MoodComboBoxListener() );
-			}
-
-			public class MoodComboBoxListener
-				implements ActionListener
-			{
-				public void actionPerformed( final ActionEvent e )
-				{
-					String mood = (String) MoodComboBox.this.getSelectedItem();
-					if ( mood != null )
-					{
-						MoodManager.setMood( mood );
-					}
-				}
-			}
-		}
-
-		public class NewMoodButton
-			extends ThreadedButton
-		{
-			public NewMoodButton()
-			{
-				super( "new list" );
-			}
-
-			public void run()
-			{
-				String name = KoLFrame.input( "Give your list a name!" );
-				if ( name == null )
-				{
-					return;
-				}
-
-				MoodManager.setMood( name );
-				MoodManager.saveSettings();
-			}
-		}
-
-		public class DeleteMoodButton
-			extends ThreadedButton
-		{
-			public DeleteMoodButton()
-			{
-				super( "delete list" );
-			}
-
-			public void run()
-			{
-				MoodManager.deleteCurrentMood();
-				MoodManager.saveSettings();
-			}
-		}
-
-		public class CopyMoodButton
-			extends ThreadedButton
-		{
-			public CopyMoodButton()
-			{
-				super( "copy list" );
-			}
-
-			public void run()
-			{
-				String moodName = KoLFrame.input( "Make a copy of current mood list called:" );
-				if ( moodName == null )
-				{
-					return;
-				}
-
-				if ( moodName.equals( "default" ) )
-				{
-					return;
-				}
-
-				MoodManager.copyTriggers( moodName );
-				MoodManager.setMood( moodName );
-				MoodManager.saveSettings();
-			}
 		}
 	}
 
@@ -1241,7 +705,7 @@ public abstract class AdventureOptionsFrame
 					// that to determine which components make up
 					// the outfit pulled from that area.
 
-					if ( !( request instanceof KoLAdventure ) || !EquipmentDatabase.addOutfitConditions( (KoLAdventure) request ) )
+					if ( !EquipmentDatabase.addOutfitConditions( request ) )
 					{
 						return true;
 					}
