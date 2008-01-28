@@ -59,7 +59,6 @@ import net.sourceforge.kolmafia.request.MushroomRequest;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 public abstract class MushroomManager
-	extends StaticEntity
 {
 	private static final Pattern PLOT_PATTERN =
 		Pattern.compile( "<b>Your Mushroom Plot:</b><p><table>(<tr>.*?</tr><tr>.*></tr><tr>.*?</tr><tr>.*</tr>)</table>" );

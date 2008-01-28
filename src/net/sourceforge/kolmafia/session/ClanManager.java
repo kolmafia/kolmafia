@@ -68,8 +68,7 @@ import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.ProfileSnapshot;
 
-public class ClanManager
-	extends StaticEntity
+public abstract class ClanManager
 {
 	private static final Pattern WHITELIST_PATTERN = Pattern.compile( "<b>([^<]+)</b> \\(#(\\d+)\\)" );
 

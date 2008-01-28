@@ -40,14 +40,12 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 
 import net.sourceforge.kolmafia.KoLMailMessage;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.request.MailboxRequest;
 
 import net.sourceforge.kolmafia.persistence.Preferences;
 
 public abstract class MailManager
-	extends StaticEntity
 {
 	public static final Map mailboxes = new TreeMap();
 	static

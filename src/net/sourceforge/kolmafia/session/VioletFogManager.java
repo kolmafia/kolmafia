@@ -44,7 +44,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 
 import net.sourceforge.kolmafia.persistence.Preferences;
 
-public class VioletFogManager
+public abstract class VioletFogManager
 {
 	private static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice value=(\\d+)" );
 
