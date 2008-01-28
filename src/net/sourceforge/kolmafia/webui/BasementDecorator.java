@@ -248,6 +248,10 @@ public class BasementDecorator
 		final String choice2 )
 	{
 		String text = buffer.toString();
+
+		// Update level string and such for the session log.
+		BasementRequest.checkBasement( false, text );
+
 		buffer.setLength( 0 );
 
 		int index1 = 0, index2;
