@@ -73,7 +73,6 @@ import net.sourceforge.kolmafia.request.SendMailRequest;
 import net.sourceforge.kolmafia.persistence.Preferences;
 
 public abstract class ChatManager
-	extends StaticEntity
 {
 	private static final Pattern CHANNEL_PATTERN = Pattern.compile( "&nbsp;&nbsp;(.*?)<br>" );
 	private static final Pattern COMMENT_PATTERN = Pattern.compile( "<!--.*?-->", Pattern.DOTALL );

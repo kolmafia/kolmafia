@@ -53,8 +53,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
-public class DisplayCaseManager
-	extends StaticEntity
+public abstract class DisplayCaseManager
 {
 	private static final GenericRequest SHELF_REORDER = new GenericRequest( "managecollection.php" );
 

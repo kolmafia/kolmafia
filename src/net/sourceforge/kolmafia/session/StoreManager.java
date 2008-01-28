@@ -55,7 +55,6 @@ import net.sourceforge.kolmafia.request.MallSearchRequest;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 public abstract class StoreManager
-	extends StaticEntity
 {
 	private static final Pattern LOGSPAN_PATTERN = Pattern.compile( "<span.*?</span>" );
 	private static final Pattern ADDER_PATTERN =

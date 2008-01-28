@@ -47,7 +47,6 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 
 public abstract class NemesisManager
-	extends StaticEntity
 {
 	private static final GenericRequest QUEST_HANDLER = new GenericRequest( "" );
 

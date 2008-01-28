@@ -66,7 +66,6 @@ import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 
 public abstract class SorceressLairManager
-	extends StaticEntity
 {
 	private static final GenericRequest QUEST_HANDLER = new GenericRequest( "" );
 

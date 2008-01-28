@@ -69,7 +69,6 @@ import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 public abstract class BuffBotManager
-	extends MailManager
 {
 	public static final int SAVEBOX = 0;
 	public static final int DISPOSE = 1;
