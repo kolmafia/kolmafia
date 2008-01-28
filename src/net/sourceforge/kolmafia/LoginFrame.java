@@ -440,7 +440,10 @@ public class LoginFrame
 		private final JCheckBox[] optionBoxes;
 
 		private final String[][] options =
-			{ { "proxySet", "Use a proxy to connect to the Kingdom of Loathing" } };
+		{
+			{ "proxySet", "Use a proxy to connect to the Kingdom of Loathing" },
+			{ "allowTimeout", "Graceful handling of unstable Internet connection" }
+		};
 
 		public ConnectionOptionsPanel()
 		{
