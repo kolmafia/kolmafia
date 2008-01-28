@@ -30,9 +30,7 @@ public class RestoreOptionsPanel
 
 	public RestoreOptionsPanel()
 	{
-		// Components of auto-restoration
-
-		JPanel restorePanel = new JPanel( new GridLayout( 1, 2, 10, 10 ) );
+		super( new GridLayout( 1, 2, 10, 10 ) );
 
 		JPanel healthPanel = new JPanel();
 		healthPanel.add( new HealthOptionsPanel() );
@@ -40,8 +38,8 @@ public class RestoreOptionsPanel
 		JPanel manaPanel = new JPanel();
 		manaPanel.add( new ManaOptionsPanel() );
 
-		restorePanel.add( healthPanel );
-		restorePanel.add( manaPanel );
+		this.add( healthPanel );
+		this.add( manaPanel );
 
 		CheckboxListener listener = new CheckboxListener();
 		for ( int i = 0; i < this.hpRestoreCheckbox.length; ++i )
@@ -52,7 +50,6 @@ public class RestoreOptionsPanel
 		{
 			this.mpRestoreCheckbox[ i ].addActionListener( listener );
 		}
-
 	}
 
 	private SimpleScrollPane constructScroller( final JCheckBox[] restoreCheckbox )
