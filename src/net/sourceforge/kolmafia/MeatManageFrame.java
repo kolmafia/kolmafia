@@ -43,6 +43,7 @@ import javax.swing.JTabbedPane;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 
+import net.sourceforge.kolmafia.swingui.panel.LabeledPanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 
 import net.sourceforge.kolmafia.request.ClosetRequest;
@@ -80,7 +81,7 @@ public class MeatManageFrame
 	 */
 
 	private class HeroDonationPanel
-		extends LabeledKoLPanel
+		extends LabeledPanel
 	{
 		private final JComboBox heroField;
 		private final AutoHighlightTextField amountField;

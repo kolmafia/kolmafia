@@ -19,10 +19,9 @@ import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.security.PrivilegedExceptionAction;
 
+import sun.awt.SunToolkit;
 import net.sourceforge.foxtrot.EventPump;
 import net.sourceforge.foxtrot.Task;
-
-import sun.awt.SunToolkit;
 
 /**
  * This implementation of EventPump calls the package protected method

@@ -33,16 +33,11 @@
 
 package net.sourceforge.kolmafia.swingui.widget;
 
+import javax.swing.JSpinner;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.JComponent;
-import javax.swing.JSpinner;
-
-import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
-
-import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class AutoHighlightSpinner
 	extends JSpinner

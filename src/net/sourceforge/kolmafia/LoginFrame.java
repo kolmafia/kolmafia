@@ -52,6 +52,9 @@ import javax.swing.SwingConstants;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
+import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
+import net.sourceforge.kolmafia.swingui.panel.LabeledPanel;
+import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -157,7 +160,7 @@ public class LoginFrame
 	 */
 
 	private class LoginPanel
-		extends KoLPanel
+		extends GenericPanel
 	{
 		private final JPasswordField passwordField;
 
@@ -377,7 +380,7 @@ public class LoginFrame
 		 */
 
 		private class LoginNameComboBox
-			extends MutableComboBox
+			extends AutoFilterComboBox
 		{
 			public LoginNameComboBox()
 			{
@@ -536,7 +539,7 @@ public class LoginFrame
 	 */
 
 	private class ProxyOptionsPanel
-		extends LabeledKoLPanel
+		extends LabeledPanel
 	{
 		/**
 		 * Constructs a new <code>ProxyOptionsPanel</code>, containing a place for the users to select their desired

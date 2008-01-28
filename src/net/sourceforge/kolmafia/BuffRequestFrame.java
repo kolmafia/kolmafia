@@ -56,6 +56,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
 import net.sourceforge.kolmafia.session.BuffBotManager.Offering;
+import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.SendMailRequest;
@@ -161,7 +162,7 @@ public class BuffRequestFrame
 	}
 
 	private class BuffRequestPanel
-		extends KoLPanel
+		extends GenericPanel
 	{
 		public BuffRequestPanel()
 		{

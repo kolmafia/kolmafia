@@ -50,6 +50,8 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.session.BuffBotManager;
+import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
+import net.sourceforge.kolmafia.swingui.panel.ScrollablePanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 
 import net.sourceforge.kolmafia.request.UseSkillRequest;
@@ -95,7 +97,7 @@ public class BuffBotFrame
 	 */
 
 	private class MainBuffPanel
-		extends LabeledScrollPanel
+		extends ScrollablePanel
 	{
 		public MainBuffPanel()
 		{
@@ -141,7 +143,7 @@ public class BuffBotFrame
 	 */
 
 	private class BuffOptionsPanel
-		extends KoLPanel
+		extends GenericPanel
 	{
 		private final JComboBox skillSelect;
 		private final AutoHighlightTextField priceField, countField;
@@ -209,7 +211,7 @@ public class BuffBotFrame
 	 */
 
 	private class MainSettingsPanel
-		extends KoLPanel
+		extends GenericPanel
 	{
 		private final JTextArea invalidPriceMessage, thanksMessage;
 		private final JComboBox philanthropyModeSelect;

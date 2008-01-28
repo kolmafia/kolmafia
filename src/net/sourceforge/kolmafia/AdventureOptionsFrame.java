@@ -72,6 +72,10 @@ import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
 import net.sourceforge.kolmafia.session.MoodManager;
 import net.sourceforge.kolmafia.session.MoodManager.MoodTrigger;
+import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
+import net.sourceforge.kolmafia.swingui.panel.ScrollablePanel;
+import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
+import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightSpinner;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 
@@ -216,7 +220,7 @@ public abstract class AdventureOptionsFrame
 	}
 
 	public class CustomCombatPanel
-		extends LabeledScrollPanel
+		extends ScrollablePanel
 	{
 		public CustomCombatPanel()
 		{
@@ -259,7 +263,7 @@ public abstract class AdventureOptionsFrame
 	}
 
 	public class CustomCombatTreePanel
-		extends LabeledScrollPanel
+		extends ScrollablePanel
 	{
 		public JComboBox availableScripts;
 
@@ -590,7 +594,7 @@ public abstract class AdventureOptionsFrame
 	}
 
 	public class AddTriggerPanel
-		extends KoLPanel
+		extends GenericPanel
 		implements ListSelectionListener
 	{
 		public LockableListModel EMPTY_MODEL = new LockableListModel();
@@ -706,7 +710,7 @@ public abstract class AdventureOptionsFrame
 		}
 
 		public class ValueComboBox
-			extends MutableComboBox
+			extends AutoFilterComboBox
 		{
 			public ValueComboBox()
 			{
@@ -760,7 +764,7 @@ public abstract class AdventureOptionsFrame
 	}
 
 	public class MoodTriggerListPanel
-		extends LabeledScrollPanel
+		extends ScrollablePanel
 	{
 		public JComboBox availableMoods;
 
@@ -966,7 +970,7 @@ public abstract class AdventureOptionsFrame
 	}
 
 	protected class FilterAdventureField
-		extends FilterTextField
+		extends AutoFilterTextField
 	{
 		public FilterAdventureField()
 		{
@@ -999,13 +1003,13 @@ public abstract class AdventureOptionsFrame
 	}
 
 	private class ObjectivesPanel
-		extends KoLPanel
+		extends GenericPanel
 	{
 		public ObjectivesPanel()
 		{
 			super( new Dimension( 70, 20 ), new Dimension( 200, 20 ) );
 
-			AdventureOptionsFrame.this.actionSelect = new MutableComboBox( KoLCharacter.getBattleSkillNames(), false );
+			AdventureOptionsFrame.this.actionSelect = new AutoFilterComboBox( KoLCharacter.getBattleSkillNames(), false );
 
 			AdventureOptionsFrame.this.locationSelect.addListSelectionListener( new ConditionchangeListener() );
 

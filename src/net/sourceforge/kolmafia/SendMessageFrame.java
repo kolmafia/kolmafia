@@ -51,6 +51,7 @@ import com.sun.java.forums.SpringUtilities;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
+import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 
 public class SendMessageFrame
@@ -60,7 +61,7 @@ public class SendMessageFrame
 
 	private final JComboBox sourceSelect;
 	private final LockableListModel contacts;
-	private final MutableComboBox recipientEntry;
+	private final AutoFilterComboBox recipientEntry;
 
 	private final LockableListModel attachments;
 	private final AutoHighlightTextField attachedMeat;
@@ -87,7 +88,7 @@ public class SendMessageFrame
 		// Who you want to send it to.
 
 		this.contacts = (LockableListModel) KoLConstants.contactList.clone();
-		this.recipientEntry = new MutableComboBox( this.contacts, true );
+		this.recipientEntry = new AutoFilterComboBox( this.contacts, true );
 
 		// How much you want to attach, in raw terms.
 

@@ -45,6 +45,8 @@ import javax.swing.event.ListSelectionListener;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 
+import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
+import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 
 import net.sourceforge.kolmafia.request.UneffectRequest;
@@ -56,9 +58,9 @@ public class SkillBuffFrame
 	private LockableListModel contacts;
 
 	private SkillTypeComboBox typeSelect;
-	private MutableComboBox skillSelect;
+	private AutoFilterComboBox skillSelect;
 	private AutoHighlightTextField amountField;
-	private MutableComboBox targetSelect;
+	private AutoFilterComboBox targetSelect;
 	private final ShowDescriptionList effectList;
 
 	public SkillBuffFrame()
@@ -111,18 +113,18 @@ public class SkillBuffFrame
 	}
 
 	private class SkillBuffPanel
-		extends KoLPanel
+		extends GenericPanel
 	{
 		public SkillBuffPanel()
 		{
 			super( "cast", "maxcast", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
 
 			SkillBuffFrame.this.typeSelect = new SkillTypeComboBox();
-			SkillBuffFrame.this.skillSelect = new MutableComboBox( KoLConstants.usableSkills, false );
+			SkillBuffFrame.this.skillSelect = new AutoFilterComboBox( KoLConstants.usableSkills, false );
 			SkillBuffFrame.this.amountField = new AutoHighlightTextField();
 
 			SkillBuffFrame.this.contacts = (LockableListModel) KoLConstants.contactList.clone();
-			SkillBuffFrame.this.targetSelect = new MutableComboBox( SkillBuffFrame.this.contacts, true );
+			SkillBuffFrame.this.targetSelect = new AutoFilterComboBox( SkillBuffFrame.this.contacts, true );
 
 			VerifiableElement[] elements = new VerifiableElement[ 4 ];
 			elements[ 0 ] = new VerifiableElement( "Skill Type: ", SkillBuffFrame.this.typeSelect );

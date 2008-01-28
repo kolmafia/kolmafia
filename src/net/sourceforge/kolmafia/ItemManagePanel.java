@@ -47,6 +47,8 @@ import javax.swing.ListSelectionModel;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.KoLFrame.RequestButton;
+import net.sourceforge.kolmafia.swingui.panel.ScrollablePanel;
+import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 
 import net.sourceforge.kolmafia.request.ClanStashRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
@@ -62,7 +64,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase.Concoction;
 
 public class ItemManagePanel
-	extends LabeledScrollPanel
+	extends ScrollablePanel
 {
 	public static final int USE_MULTIPLE = 0;
 
@@ -79,7 +81,7 @@ public class ItemManagePanel
 	public JCheckBox[] filters;
 	public JRadioButton[] movers;
 
-	private final FilterTextField filterfield;
+	private final AutoFilterTextField filterfield;
 
 	public ItemManagePanel( final String confirmedText, final String cancelledText, final LockableListModel elementModel )
 	{
@@ -118,7 +120,7 @@ public class ItemManagePanel
 		this.actualPanel.add( this.northPanel, BorderLayout.NORTH );
 	}
 
-	protected FilterTextField getWordFilter()
+	protected AutoFilterTextField getWordFilter()
 	{
 		return new FilterItemField();
 	}
@@ -721,7 +723,7 @@ public class ItemManagePanel
 	 */
 
 	public class FilterItemField
-		extends FilterTextField
+		extends AutoFilterTextField
 	{
 		public boolean food, booze, equip, restores, other, notrade;
 
@@ -760,7 +762,7 @@ public class ItemManagePanel
 				return false;
 			}
 
-			String name = FilterTextField.getResultName( element );
+			String name = AutoFilterTextField.getResultName( element );
 
 			int itemId = AdventureResult.itemId( name );
 			if ( itemId < 1 )

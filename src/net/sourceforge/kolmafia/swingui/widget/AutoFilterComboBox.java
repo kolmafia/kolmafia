@@ -31,7 +31,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.sourceforge.kolmafia;
+package net.sourceforge.kolmafia.swingui.widget;
 
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -46,7 +46,9 @@ import javax.swing.text.JTextComponent;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 
-public class MutableComboBox
+import net.sourceforge.kolmafia.KoLDatabase;
+
+public class AutoFilterComboBox
 	extends JComboBox
 	implements ListElementFilter
 {
@@ -62,7 +64,7 @@ public class MutableComboBox
 	private boolean active, strict;
 	private final JTextComponent editor;
 
-	public MutableComboBox( final LockableListModel model, final boolean allowAdditions )
+	public AutoFilterComboBox( final LockableListModel model, final boolean allowAdditions )
 	{
 		this.setModel( model );
 
@@ -192,23 +194,23 @@ public class MutableComboBox
 		{
 			if ( e.getKeyCode() == KeyEvent.VK_DOWN )
 			{
-				if ( !MutableComboBox.this.isRecentFocus && MutableComboBox.this.currentIndex + 1 < MutableComboBox.this.model.getSize() )
+				if ( !AutoFilterComboBox.this.isRecentFocus && AutoFilterComboBox.this.currentIndex + 1 < AutoFilterComboBox.this.model.getSize() )
 				{
-					MutableComboBox.this.currentMatch =
-						MutableComboBox.this.model.getElementAt( ++MutableComboBox.this.currentIndex );
+					AutoFilterComboBox.this.currentMatch =
+						AutoFilterComboBox.this.model.getElementAt( ++AutoFilterComboBox.this.currentIndex );
 				}
 
-				MutableComboBox.this.isRecentFocus = false;
+				AutoFilterComboBox.this.isRecentFocus = false;
 			}
 			else if ( e.getKeyCode() == KeyEvent.VK_UP )
 			{
-				if ( !MutableComboBox.this.isRecentFocus && MutableComboBox.this.model.getSize() > 0 && MutableComboBox.this.currentIndex > 0 )
+				if ( !AutoFilterComboBox.this.isRecentFocus && AutoFilterComboBox.this.model.getSize() > 0 && AutoFilterComboBox.this.currentIndex > 0 )
 				{
-					MutableComboBox.this.currentMatch =
-						MutableComboBox.this.model.getElementAt( --MutableComboBox.this.currentIndex );
+					AutoFilterComboBox.this.currentMatch =
+						AutoFilterComboBox.this.model.getElementAt( --AutoFilterComboBox.this.currentIndex );
 				}
 
-				MutableComboBox.this.isRecentFocus = false;
+				AutoFilterComboBox.this.isRecentFocus = false;
 			}
 			else if ( e.getKeyCode() == KeyEvent.VK_ENTER || e.getKeyCode() == KeyEvent.VK_TAB )
 			{
@@ -216,45 +218,45 @@ public class MutableComboBox
 			}
 			else if ( e.getKeyChar() != KeyEvent.CHAR_UNDEFINED )
 			{
-				MutableComboBox.this.findMatch( e.getKeyCode() );
+				AutoFilterComboBox.this.findMatch( e.getKeyCode() );
 			}
 		}
 
 		public final void itemStateChanged( final ItemEvent e )
 		{
-			MutableComboBox.this.currentMatch = MutableComboBox.this.getSelectedItem();
+			AutoFilterComboBox.this.currentMatch = AutoFilterComboBox.this.getSelectedItem();
 
-			if ( MutableComboBox.this.currentMatch == null )
+			if ( AutoFilterComboBox.this.currentMatch == null )
 			{
 				return;
 			}
 
-			MutableComboBox.this.currentName = MutableComboBox.this.currentMatch.toString();
+			AutoFilterComboBox.this.currentName = AutoFilterComboBox.this.currentMatch.toString();
 
-			if ( !MutableComboBox.this.isPopupVisible() )
+			if ( !AutoFilterComboBox.this.isPopupVisible() )
 			{
-				MutableComboBox.this.active = false;
-				MutableComboBox.this.model.updateFilter( false );
+				AutoFilterComboBox.this.active = false;
+				AutoFilterComboBox.this.model.updateFilter( false );
 			}
 		}
 
 		public final void focusGained( final FocusEvent e )
 		{
-			MutableComboBox.this.getEditor().selectAll();
+			AutoFilterComboBox.this.getEditor().selectAll();
 
-			MutableComboBox.this.isRecentFocus = true;
-			MutableComboBox.this.currentIndex = MutableComboBox.this.model.getSelectedIndex();
+			AutoFilterComboBox.this.isRecentFocus = true;
+			AutoFilterComboBox.this.currentIndex = AutoFilterComboBox.this.model.getSelectedIndex();
 		}
 
 		public final void focusLost( final FocusEvent e )
 		{
-			if ( MutableComboBox.this.currentMatch != null )
+			if ( AutoFilterComboBox.this.currentMatch != null )
 			{
-				MutableComboBox.this.setSelectedItem( MutableComboBox.this.currentMatch );
+				AutoFilterComboBox.this.setSelectedItem( AutoFilterComboBox.this.currentMatch );
 			}
-			else if ( MutableComboBox.this.currentName != null && MutableComboBox.this.currentName.trim().length() != 0 )
+			else if ( AutoFilterComboBox.this.currentName != null && AutoFilterComboBox.this.currentName.trim().length() != 0 )
 			{
-				MutableComboBox.this.forceAddition();
+				AutoFilterComboBox.this.forceAddition();
 			}
 		}
 	}

@@ -38,7 +38,6 @@ import java.util.ArrayList;
 import net.sourceforge.foxtrot.Job;
 
 import net.sourceforge.kolmafia.StaticEntity.TurnCounter;
-import net.sourceforge.kolmafia.session.CustomCombatManager;
 
 import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.BasementRequest;
