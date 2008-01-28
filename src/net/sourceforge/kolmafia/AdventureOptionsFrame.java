@@ -66,6 +66,7 @@ import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 import net.sourceforge.kolmafia.swingui.panel.CustomCombatPanel;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.panel.MoodOptionsPanel;
+import net.sourceforge.kolmafia.swingui.panel.RestoreOptionsPanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightSpinner;
@@ -87,11 +88,6 @@ public abstract class AdventureOptionsFrame
 	private AdventureCountSpinner countField;
 	private final LockableListModel matchingAdventures;
 
-	protected JComboBox hpAutoRecoverSelect, hpAutoRecoverTargetSelect, hpHaltCombatSelect;
-	protected JCheckBox[] hpRestoreCheckbox;
-	protected JComboBox mpAutoRecoverSelect, mpAutoRecoverTargetSelect, mpBalanceSelect;
-	protected JCheckBox[] mpRestoreCheckbox;
-
 	protected JList locationSelect;
 	protected JComponent zoneSelect;
 
@@ -106,75 +102,13 @@ public abstract class AdventureOptionsFrame
 		this.matchingAdventures = AdventureDatabase.getAsLockableListModel().getMirrorImage();
 	}
 
-	public JPanel constructLabelPair( final String label, final JComponent element1 )
-	{
-		return this.constructLabelPair( label, element1, null );
-	}
-
-	public JPanel constructLabelPair( final String label, final JComponent element1, final JComponent element2 )
-	{
-		JPanel container = new JPanel();
-		container.setLayout( new BoxLayout( container, BoxLayout.Y_AXIS ) );
-
-		if ( element1 != null && element1 instanceof JComboBox )
-		{
-			JComponentUtilities.setComponentSize( element1, 240, 20 );
-		}
-
-		if ( element2 != null && element2 instanceof JComboBox )
-		{
-			JComponentUtilities.setComponentSize( element2, 240, 20 );
-		}
-
-		JPanel labelPanel = new JPanel( new GridLayout( 1, 1 ) );
-		labelPanel.add( new JLabel( "<html><b>" + label + "</b></html>", JLabel.LEFT ) );
-
-		container.add( labelPanel );
-
-		if ( element1 != null )
-		{
-			container.add( Box.createVerticalStrut( 5 ) );
-			container.add( element1 );
-		}
-
-		if ( element2 != null )
-		{
-			container.add( Box.createVerticalStrut( 5 ) );
-			container.add( element2 );
-		}
-
-		return container;
-	}
-
 	public JTabbedPane getSouthernTabs()
 	{
-		// Components of auto-restoration
-
-		JPanel restorePanel = new JPanel( new GridLayout( 1, 2, 10, 10 ) );
-
-		JPanel healthPanel = new JPanel();
-		healthPanel.add( new HealthOptionsPanel() );
-
-		JPanel manaPanel = new JPanel();
-		manaPanel.add( new ManaOptionsPanel() );
-
-		restorePanel.add( healthPanel );
-		restorePanel.add( manaPanel );
-
-		CheckboxListener listener = new CheckboxListener();
-		for ( int i = 0; i < this.hpRestoreCheckbox.length; ++i )
-		{
-			this.hpRestoreCheckbox[ i ].addActionListener( listener );
-		}
-		for ( int i = 0; i < this.mpRestoreCheckbox.length; ++i )
-		{
-			this.mpRestoreCheckbox[ i ].addActionListener( listener );
-		}
 
 		// Components of custom combat and choice adventuring,
 		// combined into one friendly panel.
 
-		SimpleScrollPane restoreScroller = new SimpleScrollPane( restorePanel );
+		SimpleScrollPane restoreScroller = new SimpleScrollPane( new RestoreOptionsPanel() );
 		JComponentUtilities.setComponentSize( restoreScroller, 560, 400 );
 
 		this.tabs.addTab( "HP/MP Usage", restoreScroller );
@@ -183,175 +117,6 @@ public abstract class AdventureOptionsFrame
 		this.tabs.addTab( "Custom Combat", new CustomCombatPanel() );
 
 		return this.tabs;
-	}
-
-	public void saveRestoreSettings()
-	{
-		Preferences.setFloat(
-			"autoAbortThreshold", AdventureOptionsFrame.getPercentage( this.hpHaltCombatSelect ) );
-		Preferences.setFloat( "hpAutoRecovery", AdventureOptionsFrame.getPercentage( this.hpAutoRecoverSelect ) );
-		Preferences.setFloat(
-			"hpAutoRecoveryTarget", AdventureOptionsFrame.getPercentage( this.hpAutoRecoverTargetSelect ) );
-		Preferences.setString( "hpAutoRecoveryItems", this.getSettingString( this.hpRestoreCheckbox ) );
-
-		Preferences.setFloat( "manaBurningThreshold", AdventureOptionsFrame.getPercentage( this.mpBalanceSelect ) );
-		Preferences.setFloat( "mpAutoRecovery", AdventureOptionsFrame.getPercentage( this.mpAutoRecoverSelect ) );
-		Preferences.setFloat(
-			"mpAutoRecoveryTarget", AdventureOptionsFrame.getPercentage( this.mpAutoRecoverTargetSelect ) );
-		Preferences.setString( "mpAutoRecoveryItems", this.getSettingString( this.mpRestoreCheckbox ) );
-	}
-
-	private static final float getPercentage( final JComboBox option )
-	{
-		return ( option.getSelectedIndex() - 1 ) / 20.0f;
-	}
-
-	private static final void setSelectedIndex( final JComboBox option, final String property )
-	{
-		int desiredIndex = (int) ( Preferences.getFloat( property ) * 20.0f + 1 );
-		option.setSelectedIndex( Math.min( Math.max( desiredIndex, 0 ), option.getItemCount() ) );
-	}
-
-	public class CheckboxListener
-		implements ActionListener
-	{
-		public void actionPerformed( final ActionEvent e )
-		{
-			AdventureOptionsFrame.this.saveRestoreSettings();
-		}
-	}
-
-	public class HealthOptionsPanel
-		extends JPanel
-		implements ActionListener
-	{
-		public boolean refreshSoon = false;
-
-		public HealthOptionsPanel()
-		{
-			AdventureOptionsFrame.this.hpHaltCombatSelect = new JComboBox();
-			AdventureOptionsFrame.this.hpHaltCombatSelect.addItem( "Stop if auto-recovery fails" );
-			for ( int i = 0; i <= 19; ++i )
-			{
-				AdventureOptionsFrame.this.hpHaltCombatSelect.addItem( "Stop if health at " + i * 5 + "%" );
-			}
-
-			AdventureOptionsFrame.this.hpAutoRecoverSelect = new JComboBox();
-			AdventureOptionsFrame.this.hpAutoRecoverSelect.addItem( "Do not auto-recover health" );
-			for ( int i = 0; i <= 19; ++i )
-			{
-				AdventureOptionsFrame.this.hpAutoRecoverSelect.addItem( "Auto-recover health at " + i * 5 + "%" );
-			}
-
-			AdventureOptionsFrame.this.hpAutoRecoverTargetSelect = new JComboBox();
-			AdventureOptionsFrame.this.hpAutoRecoverTargetSelect.addItem( "Do not recover health" );
-			for ( int i = 0; i <= 20; ++i )
-			{
-				AdventureOptionsFrame.this.hpAutoRecoverTargetSelect.addItem( "Try to recover up to " + i * 5 + "% health" );
-			}
-
-			// Add the elements to the panel
-
-			this.setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
-			this.add( AdventureOptionsFrame.this.constructLabelPair(
-				"Stop automation: ", AdventureOptionsFrame.this.hpHaltCombatSelect ) );
-			this.add( Box.createVerticalStrut( 15 ) );
-
-			this.add( AdventureOptionsFrame.this.constructLabelPair(
-				"Restore your health: ", AdventureOptionsFrame.this.hpAutoRecoverSelect,
-				AdventureOptionsFrame.this.hpAutoRecoverTargetSelect ) );
-			this.add( Box.createVerticalStrut( 15 ) );
-
-			this.add( AdventureOptionsFrame.this.constructLabelPair(
-				"Use these restores: ",
-				AdventureOptionsFrame.this.constructScroller( AdventureOptionsFrame.this.hpRestoreCheckbox =
-					HPRestoreItemList.getCheckboxes() ) ) );
-
-			AdventureOptionsFrame.setSelectedIndex( AdventureOptionsFrame.this.hpHaltCombatSelect, "autoAbortThreshold" );
-			AdventureOptionsFrame.setSelectedIndex( AdventureOptionsFrame.this.hpAutoRecoverSelect, "hpAutoRecovery" );
-			AdventureOptionsFrame.setSelectedIndex(
-				AdventureOptionsFrame.this.hpAutoRecoverTargetSelect, "hpAutoRecoveryTarget" );
-
-			AdventureOptionsFrame.this.hpHaltCombatSelect.addActionListener( this );
-			AdventureOptionsFrame.this.hpAutoRecoverSelect.addActionListener( this );
-			AdventureOptionsFrame.this.hpAutoRecoverTargetSelect.addActionListener( this );
-
-			for ( int i = 0; i < AdventureOptionsFrame.this.hpRestoreCheckbox.length; ++i )
-			{
-				AdventureOptionsFrame.this.hpRestoreCheckbox[ i ].addActionListener( this );
-			}
-		}
-
-		public void actionPerformed( final ActionEvent e )
-		{
-			AdventureOptionsFrame.this.saveRestoreSettings();
-		}
-	}
-
-	public class ManaOptionsPanel
-		extends JPanel
-		implements ActionListener
-	{
-		public ManaOptionsPanel()
-		{
-			AdventureOptionsFrame.this.mpBalanceSelect = new JComboBox();
-			AdventureOptionsFrame.this.mpBalanceSelect.addItem( "Do not rebalance buffs" );
-			for ( int i = 0; i <= 19; ++i )
-			{
-				AdventureOptionsFrame.this.mpBalanceSelect.addItem( "Recast buffs until " + i * 5 + "%" );
-			}
-
-			AdventureOptionsFrame.this.mpAutoRecoverSelect = new JComboBox();
-			AdventureOptionsFrame.this.mpAutoRecoverSelect.addItem( "Do not auto-recover mana" );
-			for ( int i = 0; i <= 19; ++i )
-			{
-				AdventureOptionsFrame.this.mpAutoRecoverSelect.addItem( "Auto-recover mana at " + i * 5 + "%" );
-			}
-
-			AdventureOptionsFrame.this.mpAutoRecoverTargetSelect = new JComboBox();
-			AdventureOptionsFrame.this.mpAutoRecoverTargetSelect.addItem( "Do not auto-recover mana" );
-			for ( int i = 0; i <= 20; ++i )
-			{
-				AdventureOptionsFrame.this.mpAutoRecoverTargetSelect.addItem( "Try to recover up to " + i * 5 + "% mana" );
-			}
-
-			// Add the elements to the panel
-
-			this.setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
-
-			this.add( AdventureOptionsFrame.this.constructLabelPair(
-				"Mana burning: ", AdventureOptionsFrame.this.mpBalanceSelect ) );
-			this.add( Box.createVerticalStrut( 15 ) );
-
-			this.add( AdventureOptionsFrame.this.constructLabelPair(
-				"Restore your mana: ", AdventureOptionsFrame.this.mpAutoRecoverSelect,
-				AdventureOptionsFrame.this.mpAutoRecoverTargetSelect ) );
-			this.add( Box.createVerticalStrut( 15 ) );
-
-			this.add( AdventureOptionsFrame.this.constructLabelPair(
-				"Use these restores: ",
-				AdventureOptionsFrame.this.constructScroller( AdventureOptionsFrame.this.mpRestoreCheckbox =
-					MPRestoreItemList.getCheckboxes() ) ) );
-
-			AdventureOptionsFrame.setSelectedIndex( AdventureOptionsFrame.this.mpBalanceSelect, "manaBurningThreshold" );
-			AdventureOptionsFrame.setSelectedIndex( AdventureOptionsFrame.this.mpAutoRecoverSelect, "mpAutoRecovery" );
-			AdventureOptionsFrame.setSelectedIndex(
-				AdventureOptionsFrame.this.mpAutoRecoverTargetSelect, "mpAutoRecoveryTarget" );
-
-			AdventureOptionsFrame.this.mpBalanceSelect.addActionListener( this );
-			AdventureOptionsFrame.this.mpAutoRecoverSelect.addActionListener( this );
-			AdventureOptionsFrame.this.mpAutoRecoverTargetSelect.addActionListener( this );
-
-			for ( int i = 0; i < AdventureOptionsFrame.this.mpRestoreCheckbox.length; ++i )
-			{
-				AdventureOptionsFrame.this.mpRestoreCheckbox[ i ].addActionListener( this );
-			}
-		}
-
-		public void actionPerformed( final ActionEvent e )
-		{
-			AdventureOptionsFrame.this.saveRestoreSettings();
-		}
 	}
 
 	/**

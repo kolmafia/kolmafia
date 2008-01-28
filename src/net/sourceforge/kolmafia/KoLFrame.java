@@ -1308,38 +1308,6 @@ public abstract class KoLFrame
 		}
 	}
 
-	public String getSettingString( final JCheckBox[] restoreCheckbox )
-	{
-		StringBuffer restoreSetting = new StringBuffer();
-
-		for ( int i = 0; i < restoreCheckbox.length; ++i )
-		{
-			if ( restoreCheckbox[ i ].isSelected() )
-			{
-				if ( restoreSetting.length() != 0 )
-				{
-					restoreSetting.append( ';' );
-				}
-
-				restoreSetting.append( restoreCheckbox[ i ].getText().toLowerCase() );
-			}
-		}
-
-		return restoreSetting.toString();
-	}
-
-	public SimpleScrollPane constructScroller( final JCheckBox[] restoreCheckbox )
-	{
-		JPanel checkboxPanel = new JPanel( new GridLayout( restoreCheckbox.length, 1 ) );
-		for ( int i = 0; i < restoreCheckbox.length; ++i )
-		{
-			checkboxPanel.add( restoreCheckbox[ i ] );
-		}
-
-		return new SimpleScrollPane(
-			checkboxPanel, SimpleScrollPane.VERTICAL_SCROLLBAR_NEVER, SimpleScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-	}
-
 	public void pack()
 	{
 		if ( !( this instanceof ChatFrame ) )
