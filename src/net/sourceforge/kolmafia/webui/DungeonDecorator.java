@@ -40,7 +40,6 @@ import net.sourceforge.kolmafia.StaticEntity;
 
 public abstract class DungeonDecorator
 {
-	private static String lastResponseText = "";
 	private static int dungeonRoom = 0;
 	private static String dungeonEncounter = "";
 
@@ -52,12 +51,6 @@ public abstract class DungeonDecorator
 	}
 
 	public static final void checkDungeon( final String responseText )
-	{
-		DungeonDecorator.lastResponseText = responseText;
-		DungeonDecorator.newDungeonRoom( responseText );
-	}
-
-	private static final void newDungeonRoom( final String responseText )
 	{
 		Matcher roomMatcher = DungeonDecorator.ROOM_PATTERN.matcher( responseText );
 		if ( roomMatcher.find() )
