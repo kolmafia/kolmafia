@@ -55,6 +55,8 @@ import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
+import net.sourceforge.kolmafia.webui.DungeonDecorator;
+
 public class KoLAdventure
 	extends Job
 	implements Comparable
@@ -1034,7 +1036,7 @@ public class KoLAdventure
 		}
 		else if ( urlString.startsWith( "dungeon.php" ) )
 		{
-			return "Daily Dungeon";
+			return "Daily Dungeon (Room " + DungeonDecorator.getDungeonRoom() + ")";
 		}
 		else if ( urlString.startsWith( "rats.php" ) )
 		{
@@ -1173,7 +1175,12 @@ public class KoLAdventure
 		}
 
 		boolean shouldReset =
-			urlString.startsWith( "dungeon.php" ) || urlString.startsWith( "basement.php" ) || urlString.startsWith( "barrel.php" ) || urlString.startsWith( "rats.php" ) || urlString.startsWith( "hiddencity.php" ) || urlString.startsWith( "lair" );
+			urlString.startsWith( "barrel.php" ) ||
+			urlString.startsWith( "basement.php" ) ||
+			urlString.startsWith( "dungeon.php" ) ||
+			urlString.startsWith( "hiddencity.php" ) ||
+			urlString.startsWith( "lair" ) ||
+			urlString.startsWith( "rats.php" );
 
 		if ( shouldReset )
 		{
@@ -1189,14 +1196,21 @@ public class KoLAdventure
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( "[" + KoLAdventure.getAdventureCount() + "] " + location );
 
+		String encounter = "";
+
 		if ( urlString.startsWith( "basement.php" ) )
 		{
-			String summary = BasementRequest.getBasementLevelSummary();
-			if ( !summary.equals( "" ) )
-			{
-				RequestLogger.printLine( summary );
-				RequestLogger.updateSessionLog( summary );
-			}
+			encounter = BasementRequest.getBasementLevelSummary();
+		}
+		else if ( urlString.startsWith( "dungeon.php" ) )
+		{
+			encounter = DungeonDecorator.getDungeonEncounter();
+		}
+
+		if ( !encounter.equals( "" ) )
+		{
+			RequestLogger.printLine( encounter );
+			RequestLogger.updateSessionLog( encounter );
 		}
 
 		return true;

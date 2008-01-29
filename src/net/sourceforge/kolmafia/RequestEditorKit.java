@@ -64,6 +64,7 @@ import net.java.dev.spellcast.utilities.UtilityConstants;
 
 import net.sourceforge.kolmafia.webui.BasementDecorator;
 import net.sourceforge.kolmafia.webui.CharPaneDecorator;
+import net.sourceforge.kolmafia.webui.DungeonDecorator;
 import net.sourceforge.kolmafia.webui.IslandDecorator;
 import net.sourceforge.kolmafia.webui.StationaryButtonDecorator;
 import net.sourceforge.kolmafia.webui.UseLinkDecorator;
@@ -601,22 +602,22 @@ public class RequestEditorKit
 		{
 			BasementDecorator.decorate( buffer );
 		}
-		else if ( location.startsWith( "bigisland.php" ) )
-		{
-			IslandDecorator.decorateBigIsland( location, buffer );
-		}
-		else if ( location.startsWith( "postwarisland.php" ) )
-		{
-			IslandDecorator.decoratePostwarIsland( location, buffer );
-		}
 		else if ( location.startsWith( "bathole.php" ) )
 		{
 			StaticEntity.globalStringReplace( buffer, "action=bathole.php", "action=adventure.php" );
+		}
+		else if ( location.startsWith( "bigisland.php" ) )
+		{
+			IslandDecorator.decorateBigIsland( location, buffer );
 		}
 		else if ( location.startsWith( "choice.php" ) )
 		{
 			StationaryButtonDecorator.decorate( location, buffer );
 			RequestEditorKit.addChoiceSpoilers( buffer );
+		}
+		else if ( location.startsWith( "dungeon.php" ) )
+		{
+			DungeonDecorator.decorate( buffer );
 		}
 		else if ( location.startsWith( "fight.php" ) )
 		{
@@ -740,6 +741,10 @@ public class RequestEditorKit
 		{
 			StaticEntity.singleStringReplace(
 				buffer, "</html>", "<script language=\"Javascript\" src=\"/palinshelves.js\" /></html>" );
+		}
+		else if ( location.startsWith( "postwarisland.php" ) )
+		{
+			IslandDecorator.decoratePostwarIsland( location, buffer );
 		}
 		else if ( location.startsWith( "pvp.php" ) )
 		{
