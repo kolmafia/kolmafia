@@ -118,7 +118,7 @@ public class Preferences
 		Preferences.userProperties.clear();
 
 		Preferences.loadPreferences( userValues, userProperties, userPropertiesFile );
-		Preferences.ensureGlobalDefaults();
+		Preferences.ensureUserDefaults();
 
 		Preferences.saveToFile( Preferences.userPropertiesFile, Preferences.userProperties );
 
