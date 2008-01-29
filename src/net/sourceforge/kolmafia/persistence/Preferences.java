@@ -120,9 +120,9 @@ public class Preferences
 		Preferences.userProperties.clear();
 
 		Preferences.loadPreferences( userValues, userProperties, userPropertiesFile );
+		Preferences.ensureDefaults();
 		Preferences.saveToFile( Preferences.userPropertiesFile, Preferences.userProperties );
 
-		Preferences.ensureDefaults();
 		CustomCombatManager.loadSettings();
 		MoodManager.restoreDefaults();
 	}
@@ -664,8 +664,8 @@ public class Preferences
 
 	private static void ensureDefaults()
 	{
-		Entry[] entries = new Entry[ Preferences.globalValues.size() ];
-		Preferences.globalValues.entrySet().toArray( entries );
+		Entry[] entries = new Entry[ Preferences.globalNames.size() ];
+		Preferences.globalNames.entrySet().toArray( entries );
 
 		for ( int i = 0; i < entries.length; ++i )
 		{
@@ -679,8 +679,8 @@ public class Preferences
 			}
 		}
 
-		entries = new Entry[ Preferences.userValues.size() ];
-		Preferences.userValues.entrySet().toArray( entries );
+		entries = new Entry[ Preferences.userNames.size() ];
+		Preferences.userNames.entrySet().toArray( entries );
 
 		for ( int i = 0; i < entries.length; ++i )
 		{
