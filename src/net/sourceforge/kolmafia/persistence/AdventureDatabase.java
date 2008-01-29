@@ -1445,6 +1445,11 @@ public class AdventureDatabase
 			return null;
 		}
 
+		if ( adventureURL.startsWith( "dungeon.php" ) )
+		{
+			return null;
+		}
+
 		if ( adventureURL.startsWith( "sewer.php" ) )
 		{
 			return adventureURL.indexOf( "doodit" ) == -1 ? (KoLAdventure) AdventureDatabase.adventureLookup.get( "sewer.php" ) : (KoLAdventure) AdventureDatabase.adventureLookup.get( "sewer.php?doodit=1" );

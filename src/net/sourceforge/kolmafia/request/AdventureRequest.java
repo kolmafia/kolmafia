@@ -538,17 +538,7 @@ public class AdventureRequest
 		// Daily Dungeon
 		if ( urlString.startsWith( "dungeon.php" ) )
 		{
-			int boldIndex = responseText.indexOf( "<b>Room" ) + 3;
-			if ( boldIndex == 2 )
-			{
-				return null;
-			}
-			int endBoldIndex = responseText.indexOf( "</b>", boldIndex );
-			if ( endBoldIndex == -1 )
-			{
-				return null;
-			}
-			return responseText.substring( boldIndex, endBoldIndex );
+			return null;
 		}
 
 		String encounter = parseEncounter( responseText );
@@ -720,10 +710,6 @@ public class AdventureRequest
 			return FightRequest.getCurrentRound() == 0;
 		}
 		else if ( formSource.startsWith( "adventure.php" ) )
-		{
-			return true;
-		}
-		else if ( formSource.startsWith( "dungeon.php" ) )
 		{
 			return true;
 		}
