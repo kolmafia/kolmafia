@@ -93,9 +93,9 @@ public class Preferences
 		Preferences.globalProperties.clear();
 
 		Preferences.loadPreferences( globalValues, globalProperties, globalPropertiesFile );
-		Preferences.saveToFile( Preferences.globalPropertiesFile, Preferences.globalProperties );
+		Preferences.ensureGlobalDefaults();
 
-		reset( "" );
+		Preferences.saveToFile( Preferences.globalPropertiesFile, Preferences.globalProperties );
 	}
 
 	/**
@@ -108,8 +108,6 @@ public class Preferences
 		if ( username == null || username.equals( "" ) )
 		{
 			Preferences.userPropertiesFile = null;
-			Preferences.userValues.clear();
-			Preferences.userProperties.clear();
 			return;
 		}
 
@@ -120,7 +118,8 @@ public class Preferences
 		Preferences.userProperties.clear();
 
 		Preferences.loadPreferences( userValues, userProperties, userPropertiesFile );
-		Preferences.ensureDefaults();
+		Preferences.ensureGlobalDefaults();
+
 		Preferences.saveToFile( Preferences.userPropertiesFile, Preferences.userProperties );
 
 		CustomCombatManager.loadSettings();
@@ -662,7 +661,7 @@ public class Preferences
 	 * key is loaded.
 	 */
 
-	private static void ensureDefaults()
+	private static void ensureGlobalDefaults()
 	{
 		Entry[] entries = new Entry[ Preferences.globalNames.size() ];
 		Preferences.globalNames.entrySet().toArray( entries );
@@ -678,8 +677,11 @@ public class Preferences
 				Preferences.globalProperties.put( key, Preferences.encodeProperty( key, value ) );
 			}
 		}
+	}
 
-		entries = new Entry[ Preferences.userNames.size() ];
+	private static void ensureUserDefaults()
+	{
+		Entry[] entries = new Entry[ Preferences.userNames.size() ];
 		Preferences.userNames.entrySet().toArray( entries );
 
 		for ( int i = 0; i < entries.length; ++i )
