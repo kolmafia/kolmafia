@@ -37,8 +37,6 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.GridLayout;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -56,9 +54,11 @@ import javax.swing.JTabbedPane;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
-
 import net.sourceforge.kolmafia.CakeArenaManager.ArenaOpponent;
-
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
+import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.request.CakeArenaRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -66,11 +66,6 @@ import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
-
-import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
-import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
-import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
-import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class FamiliarTrainingFrame
 	extends KoLFrame
@@ -531,7 +526,7 @@ public class FamiliarTrainingFrame
 				public void run()
 				{
 					JFileChooser chooser = new JFileChooser( "data" );
-					int returnVal = chooser.showSaveDialog( FamiliarTrainingFrame.this );
+					chooser.showSaveDialog( FamiliarTrainingFrame.this );
 
 					File output = chooser.getSelectedFile();
 
@@ -542,9 +537,9 @@ public class FamiliarTrainingFrame
 
 					try
 					{
-						PrintWriter ostream = new PrintWriter( new FileOutputStream( output, true ), true );
+						LogStream ostream = LogStream.openStream( output, false );
 						ostream.println( FamiliarTrainingFrame.results.getBuffer().replaceAll(
-							"<br>", KoLConstants.LINE_BREAK ) );
+								"<br>", KoLConstants.LINE_BREAK ) );
 						ostream.close();
 					}
 					catch ( Exception ex )

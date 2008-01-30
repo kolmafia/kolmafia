@@ -591,7 +591,7 @@ public abstract class KoLmafia
 	{
 		if ( location.isDirectory() )
 		{
-			File[] files = location.listFiles();
+			File[] files = DataUtilities.listFiles( location );
 			for ( int i = 0; i < files.length; ++i )
 			{
 				KoLmafia.deleteSimulator( files[ i ] );

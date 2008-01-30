@@ -1324,9 +1324,6 @@ public class RelayRequest
 				contents.append( KoLConstants.LINE_BREAK );
 			}
 
-			File directory = new File( KoLConstants.RELAY_LOCATION, "simulator" );
-			directory.mkdirs();
-
 			StaticEntity.globalStringReplace( contents, "images/", "http://sol.kolmafia.us/images/" );
 
 			PrintStream writer = RequestLogger.openStream( "relay/simulator/" + filename, NullStream.INSTANCE, true );

@@ -57,7 +57,6 @@ import javax.swing.KeyStroke;
  */
 
 public class JComponentUtilities
-	implements UtilityConstants
 {
 	/**
 	 * Sets the minimum, maximum, and preferred size of the component to the given width and height, effectively forcing

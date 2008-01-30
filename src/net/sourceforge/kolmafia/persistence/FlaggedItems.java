@@ -35,13 +35,11 @@ package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 
+import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.UtilityConstants;
-
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.LogStream;
@@ -291,8 +289,7 @@ public class FlaggedItems
 		try
 		{
 			AdventureResult item;
-			FileInputStream istream = new FileInputStream( FlaggedItems.itemFlagsFile );
-			BufferedReader reader = new BufferedReader( new InputStreamReader( istream ) );
+			BufferedReader reader = DataUtilities.getReader( FlaggedItems.itemFlagsFile );
 
 			String line;
 			LockableListModel model = null;

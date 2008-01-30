@@ -52,20 +52,18 @@ import javax.swing.JSeparator;
 import javax.swing.SwingUtilities;
 
 import net.java.dev.spellcast.utilities.ActionPanel;
+import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LicenseDisplay;
-
+import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.LoginRequest;
+import net.sourceforge.kolmafia.request.LogoutRequest;
 import net.sourceforge.kolmafia.session.LeafletManager;
 import net.sourceforge.kolmafia.session.LouvreManager;
 import net.sourceforge.kolmafia.session.NemesisManager;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.VioletFogManager;
-
-import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.LoginRequest;
-import net.sourceforge.kolmafia.request.LogoutRequest;
-
-import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class KoLMenuBar
 	extends JMenuBar
@@ -764,7 +762,7 @@ public class KoLMenuBar
 			if ( file.isDirectory() )
 			{
 				// Get a list of all the files
-				File[] scriptList = file.listFiles( KoLConstants.BACKUP_FILTER );
+				File[] scriptList = DataUtilities.listFiles( file );
 
 				//  Convert the list into a menu
 				JMenu menu = new JMenu( name );
@@ -773,14 +771,11 @@ public class KoLMenuBar
 				// passes to make sure that directories start
 				// up top, followed by non-directories.
 
-				boolean hasDirectories = false;
-
 				for ( int i = 0; i < scriptList.length; ++i )
 				{
 					if ( scriptList[ i ].isDirectory() && KoLMenuBar.shouldAddScript( scriptList[ i ] ) )
 					{
 						menu.add( this.constructMenuItem( scriptList[ i ], path ) );
-						hasDirectories = true;
 					}
 				}
 
@@ -817,7 +812,8 @@ public class KoLMenuBar
 			return true;
 		}
 
-		File[] scriptList = script.listFiles( KoLConstants.BACKUP_FILTER );
+		File[] scriptList = DataUtilities.listFiles( script );
+
 		if ( scriptList == null || scriptList.length == 0 )
 		{
 			return false;

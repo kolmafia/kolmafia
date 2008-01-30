@@ -34,7 +34,6 @@
 package net.sourceforge.kolmafia;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
@@ -44,13 +43,10 @@ import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import edu.stanford.ejalbert.BrowserLauncher;
 import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
-
-import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
-
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.request.AccountRequest;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -61,8 +57,8 @@ import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.SellStuffRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
-
-import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
+import edu.stanford.ejalbert.BrowserLauncher;
 
 public abstract class StaticEntity
 {
@@ -856,7 +852,6 @@ public abstract class StaticEntity
 			// in the system tray.  For now, this will be the old
 			// icon used by KoLmelion.
 
-			parent.mkdirs();
 			File library = new File( parent, filename );
 
 			if ( library.exists() )
@@ -878,8 +873,7 @@ public abstract class StaticEntity
 				return false;
 			}
 
-			library.createNewFile();
-			OutputStream output = new FileOutputStream( library );
+			OutputStream output = DataUtilities.getOutputStream( library );
 
 			byte[] buffer = new byte[ 1024 ];
 			int bufferLength;
@@ -1002,16 +996,10 @@ public abstract class StaticEntity
 
 	public static final String[] getPastUserList()
 	{
-		Matcher pathMatcher = null;
 		ArrayList pastUserList = new ArrayList();
 
-		if ( !UtilityConstants.SETTINGS_LOCATION.exists() )
-		{
-			return new String[ 0 ];
-		}
-
 		String user;
-		File[] files = UtilityConstants.SETTINGS_LOCATION.listFiles();
+		File[] files = DataUtilities.listFiles( UtilityConstants.SETTINGS_LOCATION );
 
 		for ( int i = 0; i < files.length; ++i )
 		{

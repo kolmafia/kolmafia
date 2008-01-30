@@ -38,7 +38,7 @@ import java.awt.Component;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLDecoder;
@@ -59,17 +59,12 @@ import javax.swing.text.html.HTML;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.ImageView;
 
+import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
-
-import net.sourceforge.kolmafia.webui.BasementDecorator;
-import net.sourceforge.kolmafia.webui.CharPaneDecorator;
-import net.sourceforge.kolmafia.webui.DungeonDecorator;
-import net.sourceforge.kolmafia.webui.IslandDecorator;
-import net.sourceforge.kolmafia.webui.StationaryButtonDecorator;
-import net.sourceforge.kolmafia.webui.UseLinkDecorator;
-import net.sourceforge.kolmafia.webui.ValhallaDecorator;
-
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.ChatRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
@@ -78,10 +73,13 @@ import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.MoonPhaseRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
-
-import net.sourceforge.kolmafia.persistence.AdventureDatabase;
-import net.sourceforge.kolmafia.persistence.ItemDatabase;
-import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.webui.BasementDecorator;
+import net.sourceforge.kolmafia.webui.CharPaneDecorator;
+import net.sourceforge.kolmafia.webui.DungeonDecorator;
+import net.sourceforge.kolmafia.webui.IslandDecorator;
+import net.sourceforge.kolmafia.webui.StationaryButtonDecorator;
+import net.sourceforge.kolmafia.webui.UseLinkDecorator;
+import net.sourceforge.kolmafia.webui.ValhallaDecorator;
 
 public class RequestEditorKit
 	extends HTMLEditorKit
@@ -173,9 +171,9 @@ public class RequestEditorKit
 				outbytes.write( text.getBytes() );
 			}
 
-			FileOutputStream outfile = new FileOutputStream( local );
-			outbytes.writeTo( outfile );
-			outfile.close();
+			OutputStream ostream = DataUtilities.getOutputStream( local );
+			outbytes.writeTo( ostream );
+			ostream.close();
 		}
 		catch ( Exception e )
 		{
@@ -202,13 +200,6 @@ public class RequestEditorKit
 		}
 
 		File localfile = new File( UtilityConstants.IMAGE_LOCATION, localname );
-		File parentfile =
-			new File( UtilityConstants.IMAGE_LOCATION, localname.substring( 0, localname.lastIndexOf( "/" ) + 1 ) );
-
-		if ( !parentfile.exists() )
-		{
-			parentfile.mkdirs();
-		}
 
 		if ( !localfile.exists() || localfile.length() == 0 )
 		{

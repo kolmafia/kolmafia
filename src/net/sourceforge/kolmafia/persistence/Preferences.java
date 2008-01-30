@@ -36,9 +36,9 @@ package net.sourceforge.kolmafia.persistence;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -49,16 +49,15 @@ import java.util.Map.Entry;
 
 import javax.swing.JCheckBox;
 
+import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
-
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase.ChoiceAdventure;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
 import net.sourceforge.kolmafia.session.MoodManager;
-
-import net.sourceforge.kolmafia.persistence.AdventureDatabase.ChoiceAdventure;
 
 
 public class Preferences
@@ -137,12 +136,7 @@ public class Preferences
 
 		try
 		{
-			if ( !file.exists() )
-			{
-				return;
-			}
-
-			FileInputStream istream = new FileInputStream( file );
+			InputStream istream = DataUtilities.getInputStream( file );
 			p.load( istream );
 
 			istream.close();
@@ -540,8 +534,6 @@ public class Preferences
 
 	private static final void saveToFile( File file, TreeMap data )
 	{
-		UtilityConstants.SETTINGS_LOCATION.mkdirs();
-
 		try
 		{
 			// Determine the contents of the file by
@@ -555,14 +547,10 @@ public class Preferences
 				ostream.write( ((String) ((Entry) it.next()).getValue()).getBytes() );
 				ostream.write( LINE_BREAK_AS_BYTES );
 			}
-
-			if ( file.exists() )
-			{
-				file.delete();
-			}
-
-			file.createNewFile();
-			ostream.writeTo( new FileOutputStream( file ) );
+			
+			OutputStream fstream = DataUtilities.getOutputStream( file );
+			ostream.writeTo( fstream );
+			fstream.close();
 		}
 		catch ( IOException e )
 		{

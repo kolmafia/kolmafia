@@ -110,15 +110,6 @@ public interface KoLConstants
 	// Menus rendered in the relay browser and the KoLmafia mini-browser.
 	// Ensures that the two menus always contain the same information.
 
-	public static final FilenameFilter BACKUP_FILTER = new FilenameFilter()
-	{
-		public boolean accept( File dir, String name )
-		{
-			return !name.startsWith( "." ) && !name.endsWith( "~" ) && !name.endsWith( ".bak" ) && !name.endsWith( ".map" ) && name.indexOf( "datamaps" ) == -1 && dir.getPath().indexOf(
-				"datamaps" ) == -1;
-		}
-	};
-
 	public static final String[][] FUNCTION_MENU = new String[][]
 	{
 		{ "Inventory", "inventory.php?which=1" },

@@ -34,13 +34,12 @@
 package net.sourceforge.kolmafia;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.Date;
 
+import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 
 public class LogStream
@@ -57,22 +56,8 @@ public class LogStream
 
 		try
 		{
-			if ( file.getParentFile() != null && !file.getParentFile().exists() )
-			{
-				file.getParentFile().mkdirs();
-			}
-
-			if ( forceNewFile && file.exists() )
-			{
-				file.delete();
-			}
-
-			if ( !file.exists() )
-			{
-				file.createNewFile();
-			}
-
-			newStream = new LogStream( file );
+			OutputStream ostream = DataUtilities.getOutputStream( file, !forceNewFile );
+			newStream = new LogStream( ostream );
 
 			if ( file.getName().startsWith( "DEBUG" ) )
 			{
@@ -112,20 +97,6 @@ public class LogStream
 		}
 
 		return newStream;
-	}
-
-	/**
-	 * Constructs a new <code>LogStream</code> which will append all log data to the specified file. Note that the
-	 * file must exist prior to calling this method.
-	 *
-	 * @param file The file used as a log
-	 * @throws FileNotFoundException The file does not exist
-	 */
-
-	private LogStream( final File file )
-		throws IOException
-	{
-		this( new FileOutputStream( file, true ) );
 	}
 
 	private LogStream( final OutputStream ostream )

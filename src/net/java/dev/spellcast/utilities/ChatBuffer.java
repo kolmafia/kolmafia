@@ -68,7 +68,6 @@
 package net.java.dev.spellcast.utilities;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -219,18 +218,8 @@ public class ChatBuffer
 			}
 			else
 			{
-				if ( f.getParentFile() != null )
-				{
-					f.getParentFile().mkdirs();
-				}
-
 				boolean shouldAppend = f.exists();
-				if ( !shouldAppend )
-				{
-					f.createNewFile();
-				}
-
-				this.activeLogWriter = new PrintWriter( new FileOutputStream( f, shouldAppend ), true );
+				this.activeLogWriter = new PrintWriter( DataUtilities.getOutputStream( f, shouldAppend ), true );
 
 				this.filename = filename;
 				ChatBuffer.activeLogFiles.put( filename, this.activeLogWriter );

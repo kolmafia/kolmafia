@@ -36,22 +36,20 @@ package net.sourceforge.kolmafia.persistence;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
-
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.StaticEntity;
-
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 
@@ -79,23 +77,21 @@ public class CustomItemDatabase
 		// the file hasn't been updated for a week.
 
 		String thisWeek = KoLConstants.WEEKLY_FORMAT.format( new Date() );
-		if ( CustomItemDatabase.KILT_FILE.exists() && Preferences.getString( "lastCustomItemUpdate" ).equals(
-			thisWeek ) )
+		if ( !Preferences.getString( "lastCustomItemUpdate" ).equals( thisWeek ) )
 		{
-			try
-			{
-				CustomItemDatabase.INSTANCE.load( new FileInputStream( CustomItemDatabase.KILT_FILE ) );
-			}
-			catch ( Exception e )
-			{
-				StaticEntity.printStackTrace( e );
-			}
-
+			CustomItemDatabase.updateParticipantList();
+			Preferences.setString( "lastCustomItemUpdate", thisWeek );
 			return;
 		}
-
-		CustomItemDatabase.updateParticipantList();
-		Preferences.setString( "lastCustomItemUpdate", thisWeek );
+		
+		try
+		{
+			CustomItemDatabase.INSTANCE.load( DataUtilities.getInputStream( CustomItemDatabase.KILT_FILE ) );
+		}
+		catch ( Exception e )
+		{
+			StaticEntity.printStackTrace( e );
+		}
 	}
 
 	private static final void updateParticipantList()
@@ -530,15 +526,8 @@ public class CustomItemDatabase
 			return;
 		}
 
-		UtilityConstants.DATA_LOCATION.mkdirs();
-
 		try
 		{
-			if ( CustomItemDatabase.KILT_FILE.exists() )
-			{
-				CustomItemDatabase.KILT_FILE.delete();
-			}
-
 			// Determine the contents of the file by
 			// actually printing them.
 
@@ -561,8 +550,9 @@ public class CustomItemDatabase
 				ostream.write( KoLConstants.LINE_BREAK.getBytes() );
 			}
 
-			CustomItemDatabase.KILT_FILE.createNewFile();
-			ostream.writeTo( new FileOutputStream( CustomItemDatabase.KILT_FILE ) );
+			OutputStream fstream = DataUtilities.getOutputStream( CustomItemDatabase.KILT_FILE );
+			ostream.writeTo( fstream );
+			fstream.close();
 		}
 		catch ( IOException e )
 		{

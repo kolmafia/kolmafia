@@ -35,7 +35,6 @@ package net.sourceforge.kolmafia;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
@@ -48,20 +47,19 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
-
 import net.sourceforge.kolmafia.KoLConstants.ByteArrayStream;
-import net.sourceforge.kolmafia.session.BuffBotManager;
-import net.sourceforge.kolmafia.session.ClanManager;
-import net.sourceforge.kolmafia.session.CustomCombatManager;
-import net.sourceforge.kolmafia.session.LeafletManager;
-import net.sourceforge.kolmafia.session.MoodManager;
-import net.sourceforge.kolmafia.session.MushroomManager;
-import net.sourceforge.kolmafia.session.NemesisManager;
-import net.sourceforge.kolmafia.session.SorceressLairManager;
-import net.sourceforge.kolmafia.session.StoreManager;
-import net.sourceforge.kolmafia.webui.StationaryButtonDecorator;
-
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.BuffBotDatabase;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.EffectDatabase;
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.HolidayDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.request.BasementRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
@@ -99,17 +97,16 @@ import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
-
-import net.sourceforge.kolmafia.persistence.AdventureDatabase;
-import net.sourceforge.kolmafia.persistence.BuffBotDatabase;
-import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
-import net.sourceforge.kolmafia.persistence.EffectDatabase;
-import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
-import net.sourceforge.kolmafia.persistence.HolidayDatabase;
-import net.sourceforge.kolmafia.persistence.ItemDatabase;
-import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
-import net.sourceforge.kolmafia.persistence.Preferences;
-import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.session.BuffBotManager;
+import net.sourceforge.kolmafia.session.ClanManager;
+import net.sourceforge.kolmafia.session.CustomCombatManager;
+import net.sourceforge.kolmafia.session.LeafletManager;
+import net.sourceforge.kolmafia.session.MoodManager;
+import net.sourceforge.kolmafia.session.MushroomManager;
+import net.sourceforge.kolmafia.session.NemesisManager;
+import net.sourceforge.kolmafia.session.SorceressLairManager;
+import net.sourceforge.kolmafia.session.StoreManager;
+import net.sourceforge.kolmafia.webui.StationaryButtonDecorator;
 
 public class KoLmafiaCLI
 	extends KoLmafia
@@ -2520,12 +2517,7 @@ public class KoLmafiaCLI
 	{
 		PvpRequest.processDefenseContests();
 
-		if ( !KoLConstants.ATTACKS_LOCATION.exists() )
-		{
-			return;
-		}
-
-		File[] attackLogs = KoLConstants.ATTACKS_LOCATION.listFiles();
+		File[] attackLogs = DataUtilities.listFiles( KoLConstants.ATTACKS_LOCATION );
 
 		TreeMap minis = new TreeMap();
 		KoLmafia.updateDisplay( "Scanning attack logs..." );
@@ -2984,7 +2976,7 @@ public class KoLmafiaCLI
 			}
 		}
 
-		File[] contents = directory.listFiles();
+		File[] contents = DataUtilities.listFiles( directory );
 		for ( int i = 0; i < contents.length; ++i )
 		{
 			if ( contents[ i ].isDirectory() )
@@ -3120,7 +3112,7 @@ public class KoLmafiaCLI
 
 				for ( int i = 0; i < runCount && KoLmafia.permitsContinue(); ++i )
 				{
-					( new KoLmafiaCLI( new FileInputStream( scriptFile ) ) ).listenForCommands();
+					( new KoLmafiaCLI( DataUtilities.getInputStream( scriptFile ) ) ).listenForCommands();
 				}
 			}
 		}
