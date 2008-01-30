@@ -74,11 +74,13 @@ public abstract class CustomCombatManager
 	{
 		CustomCombatManager.availableScripts.clear();
 
-		String[] list = KoLConstants.CCS_LOCATION.list();
-		if ( list == null )
+		// Get the list of files in the current directory
+		if ( !KoLConstants.CCS_LOCATION.exists() )
 		{
-			return CustomCombatManager.availableScripts;
+			KoLConstants.CCS_LOCATION.mkdirs();
 		}
+
+		String[] list = KoLConstants.CCS_LOCATION.list();
 		
 		for ( int i = 0; i < list.length; ++i )
 		{
