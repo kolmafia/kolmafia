@@ -617,8 +617,8 @@ public class UseSkillRequest
 				{
 					if ( HPRestoreItemList.CONFIGURES[ i ].toString().equals( this.skillName ) )
 					{
-						int maxPossible =
-							(int) Math.ceil( ( (float) KoLCharacter.getMaximumHP() - (float) KoLCharacter.getCurrentHP() ) / HPRestoreItemList.CONFIGURES[ i ].getHealthRestored() );
+						int maxPossible = Math.max( 1,
+							(int) Math.ceil( ( (float) KoLCharacter.getMaximumHP() - (float) KoLCharacter.getCurrentHP() ) / HPRestoreItemList.CONFIGURES[ i ].getHealthRestored() ) );
 
 						castsRemaining = Math.min( castsRemaining, maxPossible );
 						currentCast = Math.min( currentCast, castsRemaining );
