@@ -51,12 +51,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
-
-import net.sourceforge.kolmafia.session.MushroomManager;
-
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.session.MushroomManager;
 
 public class MushroomFrame
 	extends KoLFrame
@@ -583,12 +582,7 @@ public class MushroomFrame
 
 		public void loadLayout()
 		{
-			if ( !KoLConstants.PLOTS_LOCATION.exists() )
-			{
-				return;
-			}
-
-			File[] layouts = KoLConstants.PLOTS_LOCATION.listFiles();
+			File[] layouts = DataUtilities.listFiles( KoLConstants.PLOTS_LOCATION );
 			ArrayList names = new ArrayList();
 
 			for ( int i = 0; i < layouts.length; ++i )

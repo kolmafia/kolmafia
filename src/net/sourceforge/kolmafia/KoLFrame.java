@@ -55,7 +55,6 @@ import java.awt.image.ImageObserver;
 import java.io.File;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Vector;
 import java.util.regex.Matcher;
@@ -94,20 +93,13 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
-import tab.CloseTabbedPane;
 import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
-
-import net.sourceforge.kolmafia.session.ChatManager;
-import net.sourceforge.kolmafia.session.MoodManager;
-import net.sourceforge.kolmafia.swingui.panel.LabeledPanel;
-import net.sourceforge.kolmafia.swingui.panel.ScrollablePanel;
-import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
-import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
-import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
-
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
@@ -115,10 +107,14 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.LogoutRequest;
 import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
-
-import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
-import net.sourceforge.kolmafia.persistence.ItemDatabase;
-import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.session.ChatManager;
+import net.sourceforge.kolmafia.session.MoodManager;
+import net.sourceforge.kolmafia.swingui.panel.LabeledPanel;
+import net.sourceforge.kolmafia.swingui.panel.ScrollablePanel;
+import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
+import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
+import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
+import tab.CloseTabbedPane;
 
 public abstract class KoLFrame
 	extends JFrame
@@ -1726,43 +1722,27 @@ public abstract class KoLFrame
 		KoLConstants.scripts.clear();
 
 		// Get the list of files in the current directory
-		if ( !KoLConstants.SCRIPT_LOCATION.exists() )
-		{
-			KoLConstants.SCRIPT_LOCATION.mkdirs();
-		}
 
-		File[] scriptList = KoLConstants.SCRIPT_LOCATION.listFiles( KoLConstants.BACKUP_FILTER );
-		Arrays.sort( scriptList );
+		File[] scriptList = DataUtilities.listFiles( KoLConstants.SCRIPT_LOCATION );
 
 		// Iterate through the files.  Do this in two
 		// passes to make sure that directories start
 		// up top, followed by non-directories.
 
-		boolean hasNormalFiles = false;
-
+		int directoryIndex = 0;
+		
 		for ( int i = 0; i < scriptList.length; ++i )
 		{
-			if ( KoLMenuBar.shouldAddScript( scriptList[ i ] ) )
+			if ( !KoLMenuBar.shouldAddScript( scriptList[ i ] ) )
 			{
-				if ( scriptList[ i ].isDirectory() )
-				{
-					KoLConstants.scripts.add( scriptList[ i ] );
-				}
-				else
-				{
-					hasNormalFiles = true;
-				}
 			}
-		}
-
-		if ( hasNormalFiles )
-		{
-			for ( int i = 0; i < scriptList.length; ++i )
+			else if ( scriptList[ i ].isDirectory() )
 			{
-				if ( !scriptList[ i ].isDirectory() )
-				{
-					KoLConstants.scripts.add( scriptList[ i ] );
-				}
+				KoLConstants.scripts.add( directoryIndex++, scriptList[ i ] );
+			}
+			else
+			{
+				KoLConstants.scripts.add( scriptList[ i ] );
 			}
 		}
 	}

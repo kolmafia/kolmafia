@@ -38,10 +38,13 @@ import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FilenameFilter;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Arrays;
 
 /**
  * Formed after the same idea as <code>SwingUtilities</code>, this contains common functions needed by many of the
@@ -51,8 +54,44 @@ import java.net.URL;
  */
 
 public class DataUtilities
-	implements UtilityConstants
 {
+	private static final String [] EMPTY_STRING_ARRAY = new String[0];
+	private static final File [] EMPTY_FILE_ARRAY = new File[0];
+
+	private static final FilenameFilter BACKUP_FILTER = new FilenameFilter()
+	{
+		public boolean accept( File dir, String name )
+		{
+			return !name.startsWith( "." ) && !name.endsWith( "~" ) && !name.endsWith( ".bak" ) && !name.endsWith( ".map" ) && name.indexOf( "datamaps" ) == -1 && dir.getPath().indexOf(
+				"datamaps" ) == -1;
+		}
+	};
+
+	public static String [] list( File directory )
+	{
+		if ( !directory.exists() || !directory.isDirectory() )
+		{
+			return EMPTY_STRING_ARRAY;
+		}
+				
+		String [] result = directory.list( BACKUP_FILTER );
+		Arrays.sort( result );
+		return result;
+	}
+	
+	public static File [] listFiles( File directory )
+	{
+		if ( !directory.exists() || !directory.isDirectory() )
+		{
+			return EMPTY_FILE_ARRAY;
+		}
+				
+		File [] result = directory.listFiles( BACKUP_FILTER );
+		Arrays.sort( result );
+		return result;
+	}
+	
+	
 	/**
 	 * A public function used to retrieve the reader for a file. Allows the referencing of files contained within a JAR,
 	 * inside of a class tree, and from the local directory from which the Java command line is called. The priority is
@@ -160,6 +199,31 @@ public class DataUtilities
 		return new BufferedReader( reader );
 	}
 
+	public static FileInputStream getInputStream( File file )
+	{
+		File parent = file.getParentFile();
+		
+		if ( parent != null && !parent.exists() )
+		{
+			parent.mkdirs();
+		}
+
+		try
+		{
+			if ( !file.exists() )
+			{
+				file.createNewFile();
+			}
+			
+			return new FileInputStream( file );
+		}
+		catch ( Exception e )
+		{
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 	/**
 	 * A public function used to retrieve the input stream, given a filename. Allows referencing images within a JAR,
 	 * inside of a class tree, and from the local directory from which the Java command line is called. The priority is
@@ -225,6 +289,42 @@ public class DataUtilities
 	private static InputStream getInputStream( final ClassLoader loader, final String filename )
 	{
 		return loader.getResourceAsStream( filename );
+	}
+	
+	public static FileOutputStream getOutputStream( String filename )
+	{
+		return getOutputStream( new File( filename ) );
+	}
+	
+	public static FileOutputStream getOutputStream( File file )
+	{
+		return getOutputStream( file, false );
+	}
+
+	public static FileOutputStream getOutputStream( File file, boolean shouldAppend )
+	{
+		File directory = file.getParentFile();
+		
+		if ( !directory.exists() )
+		{
+			directory.mkdirs();
+		}
+		
+		if ( !shouldAppend && file.exists() )
+		{
+			file.delete();
+		}
+		
+		try
+		{
+			file.createNewFile();
+			return new FileOutputStream( file );
+		}
+		catch ( Exception e )
+		{
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	/**

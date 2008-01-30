@@ -35,15 +35,13 @@ package net.sourceforge.kolmafia.session;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
-
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -53,10 +51,8 @@ import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.MushroomFrame;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
-
-import net.sourceforge.kolmafia.request.MushroomRequest;
-
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.request.MushroomRequest;
 
 public abstract class MushroomManager
 {
@@ -760,15 +756,10 @@ public abstract class MushroomManager
 		File source = new File( UtilityConstants.IMAGE_LOCATION, location );
 		File destination = new File( KoLConstants.PLOTS_LOCATION + "/" + location );
 
-		if ( !destination.getParentFile().exists() )
-		{
-			destination.getParentFile().mkdirs();
-		}
-
 		try
 		{
-			FileChannel sourceChannel = ( new FileInputStream( source ) ).getChannel();
-			FileChannel destinationChannel = ( new FileOutputStream( destination ) ).getChannel();
+			FileChannel sourceChannel = DataUtilities.getInputStream( source ).getChannel();
+			FileChannel destinationChannel = DataUtilities.getOutputStream( destination ).getChannel();
 
 			sourceChannel.transferTo( 0, sourceChannel.size(), destinationChannel );
 			sourceChannel.close();

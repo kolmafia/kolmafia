@@ -43,16 +43,15 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
-
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.session.ClanManager;
-
 import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
+import net.sourceforge.kolmafia.session.ClanManager;
 
 public class AscensionHistoryRequest
 	extends GenericRequest
@@ -129,7 +128,7 @@ public class AscensionHistoryRequest
 			return "";
 		}
 
-		File[] resultFolders = clan.listFiles();
+		File[] resultFolders = DataUtilities.listFiles( clan );
 
 		File backupFile = null;
 		int bestMonth = 0, bestWeek = 0;
@@ -142,7 +141,7 @@ public class AscensionHistoryRequest
 				continue;
 			}
 
-			File[] ascensionFolders = resultFolders[ i ].listFiles();
+			File[] ascensionFolders = DataUtilities.listFiles( resultFolders[ i ] );
 
 			for ( int j = 0; j < ascensionFolders.length; ++j )
 			{

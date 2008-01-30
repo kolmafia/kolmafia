@@ -35,8 +35,6 @@ package net.sourceforge.kolmafia.session;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.channels.FileChannel;
@@ -47,19 +45,17 @@ import java.util.TreeMap;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
 
+import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
-
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.StaticEntity;
-
-import net.sourceforge.kolmafia.request.FightRequest;
-
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.request.FightRequest;
 
 public abstract class CustomCombatManager
 {
@@ -74,14 +70,8 @@ public abstract class CustomCombatManager
 	{
 		CustomCombatManager.availableScripts.clear();
 
-		// Get the list of files in the current directory
-		if ( !KoLConstants.CCS_LOCATION.exists() )
-		{
-			KoLConstants.CCS_LOCATION.mkdirs();
-		}
-
-		String[] list = KoLConstants.CCS_LOCATION.list();
-		
+		String[] list = DataUtilities.list( KoLConstants.CCS_LOCATION );
+			
 		for ( int i = 0; i < list.length; ++i )
 		{
 			if ( list[ i ].endsWith( ".ccs" ) )
@@ -160,9 +150,9 @@ public abstract class CustomCombatManager
 			String targetName = CustomCombatManager.settingsFileName( name );
 
 			FileChannel source =
-				( new FileInputStream( new File( KoLConstants.CCS_LOCATION, sourceName ) ) ).getChannel();
+				DataUtilities.getInputStream( new File( KoLConstants.CCS_LOCATION, sourceName ) ).getChannel();
 			FileChannel target =
-				( new FileOutputStream( new File( KoLConstants.CCS_LOCATION, targetName ) ) ).getChannel();
+				DataUtilities.getOutputStream( new File( KoLConstants.CCS_LOCATION, targetName ) ).getChannel();
 
 			source.transferTo( 0, source.size(), target );
 			source.close();
