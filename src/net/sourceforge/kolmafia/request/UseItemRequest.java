@@ -431,31 +431,12 @@ public class UseItemRequest
 
 		int spleenHit = ItemDatabase.getSpleenHit( itemName );
 
-		boolean restoresHP = false;
-		float hpRestored = 0.0f;
+		float hpRestored = HPRestoreItemList.getHealthRestored( itemName );
+		boolean restoresHP = hpRestored != Integer.MIN_VALUE;
 
-		boolean restoresMP = false;
-		float mpRestored = 0.0f;
+		float mpRestored = MPRestoreItemList.getManaRestored( itemName );
+		boolean restoresMP = mpRestored != Integer.MIN_VALUE;
 
-		for ( int i = 0; i < HPRestoreItemList.CONFIGURES.length; ++i )
-		{
-			if ( HPRestoreItemList.CONFIGURES[ i ].getItem() != null && HPRestoreItemList.CONFIGURES[ i ].getItem().getItemId() == itemId )
-			{
-				restoresHP = true;
-				HPRestoreItemList.CONFIGURES[ i ].updateHealthPerUse();
-				hpRestored = (float) HPRestoreItemList.CONFIGURES[ i ].getHealthRestored();
-			}
-		}
-
-		for ( int i = 0; i < MPRestoreItemList.CONFIGURES.length; ++i )
-		{
-			if ( MPRestoreItemList.CONFIGURES[ i ].getItem() != null && MPRestoreItemList.CONFIGURES[ i ].getItem().getItemId() == itemId )
-			{
-				restoresMP = true;
-				MPRestoreItemList.CONFIGURES[ i ].updateManaPerUse();
-				mpRestored = (float) MPRestoreItemList.CONFIGURES[ i ].getManaRestored();
-			}
-		}
 
 		if ( restoresHP || restoresMP )
 		{
