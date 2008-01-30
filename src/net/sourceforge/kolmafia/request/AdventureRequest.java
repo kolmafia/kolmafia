@@ -50,6 +50,8 @@ import net.sourceforge.kolmafia.session.SorceressLairManager;
 
 import net.sourceforge.kolmafia.persistence.Preferences;
 
+import net.sourceforge.kolmafia.webui.DungeonDecorator;
+
 public class AdventureRequest
 	extends GenericRequest
 {
@@ -538,6 +540,7 @@ public class AdventureRequest
 		// Daily Dungeon
 		if ( urlString.startsWith( "dungeon.php" ) )
 		{
+			DungeonDecorator.checkDungeon( responseText );
 			return null;
 		}
 
