@@ -613,18 +613,11 @@ public class UseSkillRequest
 			case BANDAGES:
 			case COCOON:
 
-				for ( int i = 0; i < HPRestoreItemList.CONFIGURES.length; ++i )
-				{
-					if ( HPRestoreItemList.CONFIGURES[ i ].toString().equals( this.skillName ) )
-					{
-						int maxPossible = Math.max( 1,
-							(int) Math.ceil( ( (float) KoLCharacter.getMaximumHP() - (float) KoLCharacter.getCurrentHP() ) / HPRestoreItemList.CONFIGURES[ i ].getHealthRestored() ) );
-
-						castsRemaining = Math.min( castsRemaining, maxPossible );
-						currentCast = Math.min( currentCast, castsRemaining );
-						break;
-					}
-				}
+				int healthRestored = HPRestoreItemList.getHealthRestored( this.skillName );
+				int maxPossible = Math.max( 1, ( KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP() ) / healthRestored );
+				castsRemaining = Math.min( castsRemaining, maxPossible );
+				currentCast = Math.min( currentCast, castsRemaining );
+				break;
 			}
 
 			currentCast = Math.min( currentCast, maximumCast );

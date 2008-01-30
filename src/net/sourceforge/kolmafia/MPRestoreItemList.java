@@ -33,6 +33,8 @@
 
 package net.sourceforge.kolmafia;
 
+import java.util.TreeMap;
+
 import javax.swing.JCheckBox;
 
 import net.sourceforge.kolmafia.session.ClanManager;
@@ -53,8 +55,10 @@ import net.sourceforge.kolmafia.persistence.Preferences;
 public abstract class MPRestoreItemList
 	extends StaticEntity
 {
-	private static final AdventureResult EXPRESS_CARD = new AdventureResult( UseItemRequest.EXPRESS_CARD, 1 );
 	private static boolean purchaseBasedSort = false;
+	private static TreeMap manaRestoredByName = new TreeMap();
+
+	private static final AdventureResult EXPRESS_CARD = new AdventureResult( UseItemRequest.EXPRESS_CARD, 1 );
 
 	public static final MPRestoreItem EXPRESS =
 		new MPRestoreItem( "Platinum Yendorian Express Card", Integer.MAX_VALUE, false );
@@ -111,17 +115,15 @@ public abstract class MPRestoreItemList
 		MPRestoreItemList.purchaseBasedSort = purchaseBasedSort;
 	}
 
+	public static int getManaRestored( String restoreName )
+	{
+		Integer restoreAmount = (Integer) MPRestoreItemList.manaRestoredByName.get( restoreName );
+		return restoreAmount == null ? Integer.MIN_VALUE : restoreAmount.intValue();
+	}
+
 	public static final boolean contains( final AdventureResult item )
 	{
-		for ( int i = 0; i < MPRestoreItemList.CONFIGURES.length; ++i )
-		{
-			if ( MPRestoreItemList.CONFIGURES[ i ].itemUsed != null && MPRestoreItemList.CONFIGURES[ i ].itemUsed.equals( item ) )
-			{
-				return true;
-			}
-		}
-
-		return false;
+		return getManaRestored( item.getName() ) != Integer.MIN_VALUE;
 	}
 
 	public static final JCheckBox[] getCheckboxes()
@@ -159,6 +161,8 @@ public abstract class MPRestoreItemList
 			this.manaPerUse = manaPerUse;
 			this.purchaseCost = purchaseCost;
 			this.isCombatUsable = isCombatUsable;
+
+			MPRestoreItemList.manaRestoredByName.put( itemName, new Float( this.manaPerUse ) );
 
 			if ( ItemDatabase.contains( itemName ) )
 			{
@@ -212,10 +216,12 @@ public abstract class MPRestoreItemList
 			if ( this == MPRestoreItemList.SOFA )
 			{
 				this.manaPerUse = KoLCharacter.getLevel() * 5 + 1;
+				MPRestoreItemList.manaRestoredByName.put( itemName, new Integer( this.manaPerUse ) );
 			}
 			else if ( this == MPRestoreItemList.MYSTERY_JUICE )
 			{
 				this.manaPerUse = (int) ( KoLCharacter.getLevel() * 1.5 + 4.0 );
+				MPRestoreItemList.manaRestoredByName.put( itemName, new Integer( this.manaPerUse ) );
 			}
 			else if ( this == MPRestoreItemList.GALAKTIK )
 			{

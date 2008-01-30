@@ -33,6 +33,8 @@
 
 package net.sourceforge.kolmafia;
 
+import java.util.TreeMap;
+
 import javax.swing.JCheckBox;
 
 import net.sourceforge.kolmafia.request.CampgroundRequest;
@@ -52,6 +54,7 @@ public abstract class HPRestoreItemList
 	extends StaticEntity
 {
 	private static boolean purchaseBasedSort = false;
+	private static TreeMap healthRestoredByName = new TreeMap();
 
 	public static final HPRestoreItem WALRUS = new HPRestoreItem( "Tongue of the Walrus", 35 );
 
@@ -107,17 +110,15 @@ public abstract class HPRestoreItemList
 		HPRestoreItemList.purchaseBasedSort = purchaseBasedSort;
 	}
 
+	public static int getHealthRestored( String restoreName )
+	{
+		Integer restoreAmount = (Integer) HPRestoreItemList.healthRestoredByName.get( restoreName );
+		return restoreAmount == null ? Integer.MIN_VALUE : restoreAmount.intValue();
+	}
+
 	public static final boolean contains( final AdventureResult item )
 	{
-		for ( int i = 0; i < HPRestoreItemList.CONFIGURES.length; ++i )
-		{
-			if ( HPRestoreItemList.CONFIGURES[ i ].itemUsed != null && HPRestoreItemList.CONFIGURES[ i ].itemUsed.equals( item ) )
-			{
-				return true;
-			}
-		}
-
-		return false;
+		return getHealthRestored( item.getName() ) != Integer.MIN_VALUE;
 	}
 
 	public static final JCheckBox[] getCheckboxes()
@@ -155,6 +156,8 @@ public abstract class HPRestoreItemList
 			this.healthPerUse = healthPerUse;
 			this.purchaseCost = purchaseCost;
 
+			HPRestoreItemList.healthRestoredByName.put( restoreName, new Float( this.healthPerUse ) );
+
 			if ( ItemDatabase.contains( restoreName ) )
 			{
 				this.itemUsed = new AdventureResult( restoreName, 1, false );
@@ -187,6 +190,7 @@ public abstract class HPRestoreItemList
 			if ( this == HPRestoreItemList.SOFA )
 			{
 				this.healthPerUse = KoLCharacter.getLevel() * 5 + 1;
+				HPRestoreItemList.healthRestoredByName.put( restoreName, new Integer( this.healthPerUse ) );
 			}
 			else if ( this == HPRestoreItemList.GALAKTIK )
 			{
