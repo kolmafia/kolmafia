@@ -480,7 +480,7 @@ public class Preferences
 		}
 	}
 
-	private static final void setObject( final String user, final String name, final String value, final Object object )
+	private static synchronized final void setObject( final String user, final String name, final String value, final Object object )
 	{
 		if ( Preferences.isGlobalProperty( name ) )
 		{
@@ -538,7 +538,7 @@ public class Preferences
 		list.add( new WeakReference( checkbox ) );
 	}
 
-	public static void saveToFile( File file, TreeMap data )
+	private static final void saveToFile( File file, TreeMap data )
 	{
 		UtilityConstants.SETTINGS_LOCATION.mkdirs();
 
