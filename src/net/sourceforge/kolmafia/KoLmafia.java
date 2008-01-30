@@ -3923,6 +3923,8 @@ public abstract class KoLmafia
 
 	public final void downloadAdventureOverride()
 	{
+		UtilityConstants.DATA_LOCATION.mkdirs();
+
 		for ( int i = 0; i < KoLConstants.OVERRIDE_DATA.length; ++i )
 		{
 			if ( !downloadOverride( KoLConstants.OVERRIDE_DATA[ i ] ) )
