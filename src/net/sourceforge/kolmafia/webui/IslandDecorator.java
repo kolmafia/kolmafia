@@ -567,7 +567,7 @@ public class IslandDecorator
 			// many from a big plate of brownies, then curl up to
 			// take a nap. Looks like he's out of commission for a
 			// while.
-			"Baker Company",
+			"out of commission",
 
 			// You see a hippy a few paces away suddenly realize
 			// that he's violating his deeply held pacifist
@@ -588,7 +588,7 @@ public class IslandDecorator
 			// You glance out over the battlefield and see a hippy
 			// from the F.R.O.G. division get the hiccups and knock
 			// himself out on his own nasty breath.
-			"nasty breath",
+			"his own nasty breath",
 
 			// You see one of the War Hippy's "Jerry's Riggers"
 			// sneeze midway through making a bomb, inadvertently
@@ -603,7 +603,7 @@ public class IslandDecorator
 			// You see one of your frat brothers paddling a hippy
 			// who seems to be enjoying it. You say "uh, keep up
 			// the good work... bra... yeah."
-			"enjoying it",
+			"seems to be enjoying it",
 
 			// As the hippy falls, you see a hippy a few yards away
 			// clutch his chest and fall over, too. Apparently the
