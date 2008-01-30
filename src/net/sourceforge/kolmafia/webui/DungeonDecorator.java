@@ -58,6 +58,11 @@ public abstract class DungeonDecorator
 			DungeonDecorator.dungeonRoom = StaticEntity.parseInt( roomMatcher.group( 1 ) );
 			DungeonDecorator.dungeonEncounter = "Encounter: " + roomMatcher.group( 2 );
 		}
+		else
+		{
+			DungeonDecorator.dungeonRoom = 0;
+			DungeonDecorator.dungeonEncounter = "";
+		}
 	}
 
 	public static final int getDungeonRoom()
