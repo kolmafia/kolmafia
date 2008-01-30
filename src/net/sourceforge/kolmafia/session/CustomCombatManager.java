@@ -75,6 +75,11 @@ public abstract class CustomCombatManager
 		CustomCombatManager.availableScripts.clear();
 
 		String[] list = KoLConstants.CCS_LOCATION.list();
+		if ( list == null )
+		{
+			return CustomCombatManager.availableScripts;
+		}
+		
 		for ( int i = 0; i < list.length; ++i )
 		{
 			if ( list[ i ].endsWith( ".ccs" ) )
