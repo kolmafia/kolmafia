@@ -47,6 +47,7 @@ import net.sourceforge.kolmafia.session.MoodManager;
 
 import net.sourceforge.kolmafia.request.BasementRequest;
 
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class BasementDecorator
@@ -221,7 +222,8 @@ public class BasementDecorator
 
 			for ( int i = 0; i < listedEffects.size(); ++i )
 			{
-				BasementDecorator.appendBasementEffect( changes, (StatBooster) listedEffects.get( i ) );
+				StatBooster booster = (StatBooster) listedEffects.get( i );
+				BasementDecorator.appendBasementEffect( changes, booster );
 			}
 
 			changes.append( "</select></td><td>&nbsp;</td><td valign=top align=left>" );
@@ -277,7 +279,7 @@ public class BasementDecorator
 		changes.append( "<option value=" );
 		changes.append( effect.getEffectiveBoost() );
 
-		if ( effect.getAction().startsWith( "chew" ) && KoLCharacter.getSpleenUse() == KoLCharacter.getSpleenLimit() )
+		if ( effect.disabled() )
 		{
 			changes.append( " disabled" );
 		}
@@ -333,7 +335,10 @@ public class BasementDecorator
 		private final String name, action;
 		private final int computedBoost;
 		private final int effectiveBoost;
+		private AdventureResult item;
 		private boolean itemAvailable;
+		private int spleen;
+		private int inebriety;
 
 		private static boolean rigatoni = false;
 		private static boolean hardigness = false;
@@ -354,14 +359,20 @@ public class BasementDecorator
 			this.action =
 				this.computedBoost < 0 ? "uneffect " + name : MoodManager.getDefaultAction( "lose_effect", name );
 
-			this.itemAvailable = true;
+			this.item = null;
+			this.itemAvailable = false;
+			this.spleen = 0;
+			this.inebriety = 0;
 
-			if ( this.action.startsWith( "use" ) )
+			if ( this.action.startsWith( "use" ) || this.action.startsWith( "chew" ) || this.action.startsWith( "drink" ) )
 			{
-				AdventureResult item = KoLmafiaCLI.getFirstMatchingItem( this.action.substring( 4 ).trim(), false );
-				if ( item == null || !KoLCharacter.hasItem( item ) )
+				int index = this.action.indexOf( " " ) + 1;
+				this.item = KoLmafiaCLI.getFirstMatchingItem( this.action.substring( index ).trim(), false );
+				if ( this.item != null )
 				{
-					this.itemAvailable = false;
+					this.itemAvailable = KoLCharacter.hasItem( this.item );
+					this.spleen = ItemDatabase.getSpleenHit( item.getName() );
+					this.inebriety = ItemDatabase.getInebriety( item.getName() );
 				}
 			}
 		}
@@ -418,9 +429,44 @@ public class BasementDecorator
 			return name;
 		}
 
+		public AdventureResult getItem()
+		{
+			return item;
+		}
+
 		public boolean itemAvailable()
 		{
 			return itemAvailable;
+		}
+
+		public int getSpleen()
+		{
+			return spleen;
+		}
+
+		public int getInebriety()
+		{
+			return inebriety;
+		}
+
+		public boolean disabled()
+		{
+			if ( item == null )
+			{
+				return false;
+			}
+
+			if ( this.spleen > 0 && ( KoLCharacter.getSpleenUse() + this.spleen ) > KoLCharacter.getSpleenLimit() )
+			{
+				return true;
+			}
+
+			if ( this.inebriety > 0 && ( KoLCharacter.getInebriety() + this.inebriety ) > KoLCharacter.getInebrietyLimit() )
+			{
+				return true;
+			}
+
+			return false;
 		}
 
 		public int getComputedBoost()
