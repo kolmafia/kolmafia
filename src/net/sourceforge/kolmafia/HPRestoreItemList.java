@@ -156,7 +156,7 @@ public abstract class HPRestoreItemList
 			this.healthPerUse = healthPerUse;
 			this.purchaseCost = purchaseCost;
 
-			HPRestoreItemList.healthRestoredByName.put( restoreName, new Float( this.healthPerUse ) );
+			HPRestoreItemList.healthRestoredByName.put( restoreName, new Integer( this.healthPerUse ) );
 
 			if ( ItemDatabase.contains( restoreName ) )
 			{
