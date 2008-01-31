@@ -39,7 +39,6 @@ import java.awt.Toolkit;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FilenameFilter;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
@@ -63,8 +62,8 @@ public interface KoLConstants
 	// Rendered in various locations and therefore made public.
 
 	public static final String REVISION = null;
-	public static final String VERSION_NAME = "KoLmafia v12.0";
-	public static final String VERSION_DATE = "Released on January 13, 2007";
+	public static final String VERSION_NAME = "KoLmafia v12.1";
+	public static final String VERSION_DATE = "Released on January 31, 2008";
 
 	// General constants used for calculations and formatting of
 	// strings, as well as for string parsing.
