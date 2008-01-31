@@ -162,7 +162,7 @@ public abstract class MPRestoreItemList
 			this.purchaseCost = purchaseCost;
 			this.isCombatUsable = isCombatUsable;
 
-			MPRestoreItemList.manaRestoredByName.put( itemName, new Float( this.manaPerUse ) );
+			MPRestoreItemList.manaRestoredByName.put( itemName, new Integer( this.manaPerUse ) );
 
 			if ( ItemDatabase.contains( itemName ) )
 			{
