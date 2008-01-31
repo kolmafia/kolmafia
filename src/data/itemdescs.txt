@@ -87,8 +87,8 @@
 81	819157879	ice-cold Willer	ice-cold Willers
 82	970490171	rusty L-shaped piece of metal	rusty L-shaped pieces of metal
 83	228339790	crusty L-shaped piece of metal	crusty L-shaped pieces of metal
-84	221122907	locked Orcish meat locker	locked Orcish meat lockers
-85	343964219	empty Orcish meat locker	empty Orcish meat lockers
+84	221122907	Orcish meat locker	Orcish meat lockers
+85	343964219	empty meat locker	empty meat lockers
 86	518345878	T-bone key	T-bone keys
 87	653772183	meat from yesterday	meats from yesterday
 88	814092432	meat stack	meat stacks
