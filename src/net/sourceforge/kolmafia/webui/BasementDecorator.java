@@ -360,7 +360,7 @@ public class BasementDecorator
 				this.computedBoost < 0 ? "uneffect " + name : MoodManager.getDefaultAction( "lose_effect", name );
 
 			this.item = null;
-			this.itemAvailable = false;
+			this.itemAvailable = true;
 			this.spleen = 0;
 			this.inebriety = 0;
 
