@@ -82,7 +82,7 @@
 81	ice-cold Willer	2	all	30
 82	rusty L-shaped piece of metal	0	all	4
 83	crusty L-shaped piece of metal	0	all	5
-84	locked Orcish meat locker	0	all	5
+84	Orcish meat locker	0	all	5
 85	empty Orcish meat locker	3	all	6
 86	T-bone key	3	all	8
 87	meat from yesterday	0	all	5
@@ -2847,24 +2847,24 @@
 2846	plastic bib	7	all	75
 2847	Dallas Dynasty Falcon Crest shield	13	all	0
 2848	Gnomitronic Hyperspatial Demodulizer	0	all	999
-2849	
-2850	
-2851	
-2852	
-2853	
-2854	
-2855	
-2856	
+2849
+2850
+2851
+2852
+2853
+2854
+2855
+2856
 2857
-2858	
-2859	
-2860	
-2861	
-2862	
-2863	
-2864	
-2865	
-2866	
+2858
+2859
+2860
+2861
+2862
+2863
+2864
+2865
+2866
 2867
 2868	pirate pamphlet	4	all	250
 2869	pirate brochure	4	all	250
@@ -2942,7 +2942,7 @@
 2941	Steal This Candy	3	all	25
 2942	chocolate filthy lucre	3	all	35
 2943	Angry Farmer's Wife Candy	3	all	30
-2944	
+2944
 2945	party hat	9	all	50
 2946	V for Vivala mask	8	all	0
 2947	The Big Book of Pirate Insults	0	all	250
@@ -2990,7 +2990,7 @@
 2989	clingfilm trousers	10	display	155
 2990	clingfilm cap	9	display	155
 2991	clingfilm slippers	8	display	155
-2992	clingfilm tangle	0	display	150	
+2992	clingfilm tangle	0	display	150
 2993	vinegar-soaked lemon slice	1	all	61
 2994	true grit	4	all	70
 2995	buoybottoms	10	all	155
@@ -3051,10 +3051,10 @@
 3050	cursed eyepatch	8	display	0
 3051	cursed cutlass	12	display	0
 3052	cursed breeches	10	display	0
-3053	
-3054	
-3055	
-3056	
+3053
+3054
+3055
+3056
 3057	nanofiber cloth	0	all	16
 3058	iGoogly	0	all	14
 3059	theoretical string	0	all	13
