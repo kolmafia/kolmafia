@@ -304,21 +304,25 @@ public class DataUtilities
 	public static FileOutputStream getOutputStream( File file, boolean shouldAppend )
 	{
 		File directory = file.getParentFile();
-		
+
 		if ( !directory.exists() )
 		{
 			directory.mkdirs();
 		}
-		
+
 		if ( !shouldAppend && file.exists() )
 		{
 			file.delete();
 		}
-		
+
 		try
 		{
-			file.createNewFile();
-			return new FileOutputStream( file );
+			if ( !file.exists() )
+			{
+				file.createNewFile();
+			}
+
+			return new FileOutputStream( file, shouldAppend );
 		}
 		catch ( Exception e )
 		{
