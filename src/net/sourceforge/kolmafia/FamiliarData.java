@@ -302,6 +302,7 @@ public class FamiliarData
 		case 2846: // plastic bib
 		case 3087: // teddy borg sewing kit
 		case 3097: // oversized fish scaler
+		case 3194: // origami "gentlemen's" magazine
 			return 0;
 
 		case 865: // lead necklace
@@ -418,6 +419,7 @@ public class FamiliarData
 		case 2573: // ant sickle
 		case 2574: // ant pick
 		case 3097: // oversized fish scaler
+		case 3194: // origami "gentlemen's" magazine
 			return this.id != 54;
 
 		case 1526: // pet rock "Snooty" disguise
