@@ -92,36 +92,117 @@ public class FamiliarData
 
 		String itemData = dataMatcher.group( 7 );
 
-		this.item =
-			itemData.indexOf( "<img" ) == -1 ? EquipmentRequest.UNEQUIP : itemData.indexOf( "tamo.gif" ) != -1 ? new AdventureResult(
-				"lucky Tam O'Shanter", 1, false ) : itemData.indexOf( "omat.gif" ) != -1 ? new AdventureResult(
-				"lucky Tam O'Shatner", 1, false ) : itemData.indexOf( "maypole.gif" ) != -1 ? new AdventureResult(
-				"miniature gravy-covered maypole", 1, false ) : itemData.indexOf( "waxlips.gif" ) != -1 ? new AdventureResult(
-				"wax lips", 1, false ) : itemData.indexOf( "pitchfork.gif" ) != -1 ? new AdventureResult(
-				"annoying pitchfork", 1, false ) : itemData.indexOf( "lnecklace.gif" ) != -1 ? new AdventureResult(
-				"lead necklace", 1, false ) : itemData.indexOf( "ratbal.gif" ) != -1 ? new AdventureResult(
-				"rat head balloon", 1, false ) : itemData.indexOf( "punkin.gif" ) != -1 ? new AdventureResult(
-				"plastic pumpkin bucket", 1, false ) : itemData.indexOf( "ffdop.gif" ) != -1 ? new AdventureResult(
-				2225, 1 ) : itemData.indexOf( "maybouquet.gif" ) != -1 ? new AdventureResult(
-				"Mayflower bouquet", 1, false ) : itemData.indexOf( "anthoe.gif" ) != -1 ? new AdventureResult(
-				"ant hoe", 1, false ) : itemData.indexOf( "antrake.gif" ) != -1 ? new AdventureResult(
-				"ant rake", 1, false ) : itemData.indexOf( "antfork.gif" ) != -1 ? new AdventureResult(
-				"ant pitchfork", 1, false ) : itemData.indexOf( "antsickle.gif" ) != -1 ? new AdventureResult(
-				"ant sickle", 1, false ) : itemData.indexOf( "antpick.gif" ) != -1 ? new AdventureResult(
-				"ant pick", 1, false ) : itemData.indexOf( "fishscaler.gif" ) != -1 ? new AdventureResult(
-				"oversized fish scaler", 1, false ) :
+		this.item = parseFamiliarItem( this.id, itemData );
+	}
 
-			// Crimbo P. R. E. S. S. I. E. items
-			itemData.indexOf( "whitebow.gif" ) != -1 ? new AdventureResult( "metallic foil bow", 1, false ) : itemData.indexOf( "radar.gif" ) != -1 ? new AdventureResult(
-				"metallic foil radar dish", 1, false ) :
+	private static final Object[][] FAMILIAR_ITEM_DATA =
+	{
+		{
+			"tamo.gif",
+			new AdventureResult( "lucky Tam O'Shanter", 1, false ),
+		},
+		{
+			"omat.gif",
+			new AdventureResult( "lucky Tam O'Shatner", 1, false ),
+		},
+		{
+			"maypole.gif",
+			new AdventureResult( "miniature gravy-covered maypole", 1, false ),
+		},
+		{
+			"waxlips.gif",
+			new AdventureResult( "wax lips", 1, false ),
+		},
+		{
+			"pitchfork.gif",
+			new AdventureResult( "annoying pitchfork", 1, false ),
+		},
+		{
+			"lnecklace.gif",
+			new AdventureResult( "lead necklace", 1, false ),
+		},
+		{
+			"ratbal.gif",
+			new AdventureResult( "rat head balloon", 1, false ),
+		},
+		{
+			"punkin.gif",
+			new AdventureResult( "plastic pumpkin bucket", 1, false ),
+		},
+		{
+			"ffdop.gif",
+			new AdventureResult( "flaming familiar doppelg&auml;nger", 1, false ),
+		},
+		{
+			"maybouquet.gif",
+			new AdventureResult( "Mayflower bouquet", 1, false ),
+		},
+		{
+			"anthoe.gif",
+			new AdventureResult( "ant hoe", 1, false ),
+		},
+		{
+			"antrake.gif",
+			new AdventureResult( "ant rake", 1, false ),
+		},
+		{
+			"antfork.gif",
+			new AdventureResult( "ant pitchfork", 1, false ),
+		},
+		{
+			"antsickle.gif",
+			new AdventureResult( "ant sickle", 1, false ),
+		},
+		{
+			"antpick.gif",
+			new AdventureResult( "ant pick", 1, false ),
+		},
+		{
+			"fishscaler.gif",
+			new AdventureResult( "oversized fish scaler", 1, false ),
+		},
+		{
+			"origamimag.gif",
+			new AdventureResult( "origami &quot;gentlemen's&quot; magazine", 1, false ),
+		},
+		// Crimbo P. R. E. S. S. I. E. items
+		{
+			"whitebow.gif",
+			new AdventureResult( "metallic foil bow", 1, false ),
+		},
+		{
+			"radar.gif",
+			new AdventureResult( "metallic foil radar dish", 1, false ),
+		},
+		// Pet Rock items
+		{
+			"monocle.gif",
+			new AdventureResult( "pet rock &quot;Snooty&quot; disguise", 1, false ),
+		},
+		{
+			"groucho.gif",
+			new AdventureResult( "pet rock &quot;Groucho&quot; disguise", 1, false ),
+		},
+	};
 
-			// Pet Rock items
-			itemData.indexOf( "monocle.gif" ) != -1 ? new AdventureResult(
-				"pet rock &quot;Snooty&quot; disguise", 1, false ) : itemData.indexOf( "groucho.gif" ) != -1 ? new AdventureResult(
-				"pet rock &quot;Groucho&quot; disguise", 1, false ) :
+	private static final AdventureResult parseFamiliarItem( final int id, final String text )
+	{
+		if ( text.indexOf( "<img" ) == -1 )
+		{
+			return EquipmentRequest.UNEQUIP;
+		}
 
-			// Default familiar equipment
-			new AdventureResult( FamiliarDatabase.getFamiliarItem( this.id ), 1, false );
+		for ( int i = 0; i < FAMILIAR_ITEM_DATA.length; ++i )
+		{
+			String img = (String) FAMILIAR_ITEM_DATA[i][0];
+			if ( text.indexOf( img ) != -1 )
+			{
+				return (AdventureResult) FAMILIAR_ITEM_DATA[i][1];
+			}
+		}
+
+		// Default familiar equipment
+		return new AdventureResult( FamiliarDatabase.getFamiliarItem( id ), 1, false );
 	}
 
 	public static final void registerFamiliarData( final String searchText )

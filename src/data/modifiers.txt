@@ -346,6 +346,7 @@ grungy flannel shirt	Moxie: +11
 harem girl t-shirt	Moxie: +3
 hipposkin poncho	Monster Level: +10
 loathing eagle baby-doll shirt	Moxie: +3
+origami pasties	Meat Drop: +30, Softcore Only
 palm-frond cloak	Cold Resistance: +20, Hot Resistance: +20, Sleaze Resistance: +20, Spooky Resistance: +20, Stench Resistance: +20
 pirate shirt	Moxie: +3
 rhinestone cowboy shirt	Muscle: +5
@@ -559,6 +560,7 @@ meatspout staff	Mysticality: +7, Adventures: +3, Meat Drop: +15
 muculent machete	Muscle: +2, Meat Drop: +5
 ninja mop	Melee Damage: +5
 obsidian dagger	Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3
+origami riding crop	Intrinsic Effect: "Innuendo Shopping", Sleaze Damage: +10, Initiative: +15, Softcore Only
 oversized pizza cutter	Spell Damage: +13
 palm-frond whip	Melee Damage: +30
 # pasta spoon
@@ -736,6 +738,7 @@ marionette collective	Mysticality: +3
 # mini-zeppelin
 # miniature stuffed Goth Giant
 # moxie magnet
+naughty fortune teller	Softcore Only
 off-hand balloon	Muscle: +1, Mysticality: +1, Moxie: +1
 # oyster basket
 penguin skin buckler	Damage Reduction: 5, Moxie: +5
@@ -1231,6 +1234,7 @@ miniature gravy-covered maypole	Item Drop: +25, Softcore Only
 miniature Jacob's ladder	Familiar Weight: +5
 # mint-condition magic wand
 # moonglasses
+origami &quot;gentlemen's&quot; magazine	Softcore Only
 # oversized fish scaler
 palm-frond toupee	Familiar Weight: +5
 # penguin-smacking club
@@ -1299,6 +1303,7 @@ Draggin' Balls	Moxie: +6, Muscle: -3
 Free Bird	Mysticality: +20
 # Get Me Off This Crazy Thing!
 # Head on Fire, Ass Catching
+# Innuendo Shopping
 # Missing Kidney
 Radio Head	Moxie: +20
 Red Neck	Moxie: -5, Muscle: +15
@@ -1729,6 +1734,7 @@ eXtreme Cold-Weather Gear	Cold Resistance: +30
 # +10 Damage vs. Lions
 # +10 PvP fight(s) per day when equipped.
 # +10 Ranged Damage
+# +10 lbs. of Ghuol Whelp
 # +10 to Hot Spells
 # +10 to Sleaze Spells
 # +10% Food Drops from Monsters
@@ -1748,6 +1754,7 @@ eXtreme Cold-Weather Gear	Cold Resistance: +30
 # +5% Booze Drops from Monsters
 # +50% Weapon Drops from Monsters
 # +7 damage to Disco Bandit Combat Skills
+# + Some Stats Per Fight
 # 5-Finger Discount
 # 50% Discount on Gift Packages
 # 50% chance of poisoning opponent.
