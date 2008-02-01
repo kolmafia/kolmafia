@@ -857,12 +857,6 @@ public abstract class MoodManager
 			// First guarantee that a settings file exists with
 			// the appropriate Properties data.
 
-			if ( !MoodManager.settingsFile.exists() )
-			{
-				MoodManager.settingsFile.createNewFile();
-				return;
-			}
-
 			BufferedReader reader = KoLDatabase.getReader( MoodManager.settingsFile );
 
 			String line;
