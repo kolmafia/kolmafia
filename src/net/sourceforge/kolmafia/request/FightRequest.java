@@ -126,6 +126,7 @@ public class FightRequest
 	private static final AdventureResult STOMPER = new AdventureResult( 3109, 1 );
 	private static final AdventureResult LASER = new AdventureResult( 3111, 1 );
 	private static final AdventureResult DESTROYER = new AdventureResult( 3114, 1 );
+	private static final AdventureResult SHURIKEN = new AdventureResult( 3195, 1 );
 
 	private static final String TOOTH_ACTION = "item" + FightRequest.TOOTH.getItemId();
 	private static final String TURTLE_ACTION = "item" + FightRequest.TURTLE.getItemId();
@@ -134,6 +135,7 @@ public class FightRequest
 	private static final String STOMPER_ACTION = "item" + FightRequest.STOMPER.getItemId();
 	private static final String LASER_ACTION = "item" + FightRequest.LASER.getItemId();
 	private static final String DESTROYER_ACTION = "item" + FightRequest.DESTROYER.getItemId();
+	private static final String SHURIKEN_ACTION = "item" + FightRequest.SHURIKEN.getItemId();
 
 	private static final AdventureResult BROKEN_GREAVES = new AdventureResult( 1929, -1 );
 	private static final AdventureResult BROKEN_HELMET = new AdventureResult( 1930, -1 );
@@ -1471,6 +1473,8 @@ public class FightRequest
 		KoLCharacter.battleSkillNames.add( "item Miniborg stomper" );
 		KoLCharacter.battleSkillNames.add( "item Miniborg laser" );
 		KoLCharacter.battleSkillNames.add( "item Miniborg Destroy-O-Bot" );
+
+		KoLCharacter.battleSkillNames.add( "item naughty paper shuriken" );
 	}
 
 	private static final boolean isItemConsumed( final int itemId )
@@ -1500,6 +1504,7 @@ public class FightRequest
 		case 3112: // Miniborg beeper
 		case 3113: // Miniborg hiveminder
 		case 3114: // Miniborg Destroy-O-Bot
+		case 3195: // naughty paper shuriken
 			return false;
 
 		case 829: // Anti-Anti-Antidote

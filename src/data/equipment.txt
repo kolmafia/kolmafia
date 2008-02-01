@@ -275,6 +275,7 @@ grungy flannel shirt	150	Mox: 60
 harem girl t-shirt	25	none
 hipposkin poncho	120	Mus: 45
 loathing eagle baby-doll shirt	45	Mus: 7
+origami pasties	100	none
 palm-frond cloak	140	Mus: 55
 pirate shirt	50	Mus: 10
 rhinestone cowboy shirt	100	Mus: 35
@@ -489,6 +490,7 @@ meatspout staff	125	Mus: 45	2-handed staff
 muculent machete	60	Mus: 15	1-handed sword
 ninja mop	90	Mus: 30	2-handed polearm
 obsidian dagger	30	Mus: 10	1-handed knife
+origami riding crop	100	Mus: 0	1-handed crop
 oversized pizza cutter	100	Mys: 35	1-handed utensil
 palm-frond whip	25	Mus: 0	1-handed whip
 pasta spoon	10	Mys: 0	1-handed utensil
@@ -671,6 +673,7 @@ marionette collective	0	Mys: 40
 mini-zeppelin	0	none
 miniature stuffed Goth Giant	0	none
 moxie magnet	0	none
+naughty fortune teller	0	none
 off-hand balloon	0	none
 oyster basket	0	none
 penguin skin buckler	95	Mus: 30
