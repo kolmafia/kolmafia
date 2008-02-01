@@ -71,7 +71,7 @@ public abstract class CustomCombatManager
 		CustomCombatManager.availableScripts.clear();
 
 		String[] list = DataUtilities.list( KoLConstants.CCS_LOCATION );
-			
+
 		for ( int i = 0; i < list.length; ++i )
 		{
 			if ( list[ i ].endsWith( ".ccs" ) )
@@ -184,43 +184,18 @@ public abstract class CustomCombatManager
 
 		CustomCombatManager.settingsFile = new File( KoLConstants.CCS_LOCATION, filename );
 
-		try
+		// First guarantee that a settings file exists with
+		// the appropriate Properties data.
+
+		CustomCombatManager.readSettings();
+
+		if ( CustomCombatManager.reference.size() == 0 )
 		{
-			// First guarantee that a settings file exists with
-			// the appropriate Properties data.
-
-			if ( !CustomCombatManager.settingsFile.exists() )
-			{
-				CustomCombatManager.settingsFile.createNewFile();
-			}
-
+			LogStream ostream = LogStream.openStream( CustomCombatManager.settingsFile, true );
+			ostream.println( "[ default ]" );
+			ostream.println( "1: attack with weapon" );
+			ostream.close();
 			CustomCombatManager.readSettings();
-
-			if ( CustomCombatManager.reference.size() == 0 )
-			{
-				LogStream ostream = LogStream.openStream( CustomCombatManager.settingsFile, true );
-				ostream.println( "[ default ]" );
-				ostream.println( "1: attack with weapon" );
-				ostream.close();
-				CustomCombatManager.readSettings();
-			}
-		}
-		catch ( IOException e1 )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-
-			StaticEntity.printStackTrace( e1 );
-		}
-		catch ( Exception e2 )
-		{
-			// Somehow, the settings were corrupted; this
-			// means that they will have to be created after
-			// the current file is deleted.
-
-			StaticEntity.printStackTrace( e2 );
-			CustomCombatManager.settingsFile.delete();
-			CustomCombatManager.loadSettings( filename );
 		}
 	}
 
