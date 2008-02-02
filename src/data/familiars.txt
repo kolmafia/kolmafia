@@ -45,7 +45,7 @@
 42	Cymbal-Playing Monkey	stat0,meat0	1308	funky brass fez	1	2	3	1
 43	Temporal Riftlet	none	1349	1.21 jigawatts	1	3	1	2
 44	Sweet Nutcracker	combat	1373	metal mandible	2	3	0	2
-45	Pet Rock	none	1393	pet rock "Snooty" disguise	0	0	0	0
+45	Pet Rock	none	1393	pet rock &quot;Snooty&quot; disguise	0	0	0	0
 46	Snowy Owl	combat	1410	Pretty Predator Clawicure Kit	3	3	3	3
 47	Teddy Bear	none	1395	teddy bear sewing kit	3	2	0	1
 48	Ninja Pirate Zombie Robot	combat	1353	rhesus monkey	3	3	3	3
@@ -63,7 +63,7 @@
 60	Origami Towel Crane	none	2083	can of starch	3	1	0	2
 61	Ninja Snowflake	combat	2231	icicle katana	3	0	3	3
 62	Evil Teddy Bear	combat	2146	evil teddy bear sewing kit	3	2	0	1
-63	Toothsome Rock	none	2148	pet rock "Groucho" disguise	0	0	0	0
+63	Toothsome Rock	none	2148	pet rock &quot;Groucho&quot; disguise	0	0	0	0
 65	Ancient Yuletide Troll	stat0	2190	giant book of ancient carols	2	3	1	0
 66	Dandy Lion	item0	2380	woolen cravat	0	3	2	1
 67	O.A.F.	none	2445	hardware upgrade	0	0	0	0
