@@ -620,7 +620,7 @@ public abstract class KoLCharacter
 			return 1;
 		}
 
-		if ( totalPrime <= KoLCharacter.decrementPrime || totalPrime >= KoLCharacter.incrementPrime )
+		if ( totalPrime < KoLCharacter.decrementPrime || totalPrime >= KoLCharacter.incrementPrime )
 		{
 			KoLCharacter.currentLevel =
 				(int) Math.sqrt( KoLCharacter.calculateBasePoints( KoLCharacter.getTotalPrime() ) - 4 ) + 1;
