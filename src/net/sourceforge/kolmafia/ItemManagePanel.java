@@ -493,7 +493,7 @@ public class ItemManagePanel
 		public Object[] initialSetup()
 		{
 			Object[] items = ItemManagePanel.this.getDesiredItems( this.description );
-			if ( items == null )
+			if ( items == null || items.length == 0 )
 			{
 				return null;
 			}
@@ -513,24 +513,15 @@ public class ItemManagePanel
 		public void run()
 		{
 			Object[] items = ItemManagePanel.this.getDesiredItems( "Consume" );
-			if ( items.length == 0 )
+			if ( items == null || items.length == 0 )
 			{
 				return;
 			}
 
 			for ( int i = 0; i < items.length; ++i )
 			{
-                AdventureResult item = (AdventureResult) items[ i ];
+				AdventureResult item = (AdventureResult) items[ i ];
 				int usageType = UseItemRequest.getConsumptionType( item );
-                int itemId = item.getItemId();
-                switch ( itemId )
-                {
-                case UseItemRequest.HOBBY_HORSE:
-                case UseItemRequest.BALL_IN_CUP:
-                case UseItemRequest.SET_OF_JACKS:
-                        usageType = KoLConstants.CONSUME_USE;
-                        break;
-                }
 
 				switch ( usageType )
 				{
@@ -545,7 +536,7 @@ public class ItemManagePanel
 				case KoLConstants.EQUIP_WEAPON:
 				case KoLConstants.EQUIP_OFFHAND:
 					RequestThread.postRequest( new EquipmentRequest(
-						item, KoLCharacter.consumeFilterToEquipmentType( usageType ) ) );
+									   item, KoLCharacter.consumeFilterToEquipmentType( usageType ) ) );
 					break;
 
 				default:
