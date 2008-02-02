@@ -616,8 +616,12 @@ public abstract class KoLCharacter
 		{
 			KoLCharacter.currentLevel =
 				(int) Math.sqrt( KoLCharacter.calculateBasePoints( KoLCharacter.getTotalPrime() ) - 4 ) + 1;
+
 			KoLCharacter.decrementPrime = KoLCharacter.calculateLastLevel();
 			KoLCharacter.incrementPrime = KoLCharacter.calculateNextLevel();
+
+			HPRestoreItemList.updateHealthRestored();
+			MPRestoreItemList.updateManaRestored();
 		}
 
 		return KoLCharacter.currentLevel;

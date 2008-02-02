@@ -104,7 +104,6 @@ public abstract class BuffBotManager
 	{
 		BuffBotManager.isInitializing = true;
 
-		MPRestoreItemList.MYSTERY_JUICE.updateManaPerUse();
 		MailManager.clearMailboxes();
 
 		BuffBotManager.buffCostMap.clear();
@@ -839,8 +838,7 @@ public abstract class BuffBotManager
 					this.casts[ i ] * SkillDatabase.getMPConsumptionById( SkillDatabase.getSkillId( this.buffs[ i ] ) );
 			}
 
-			MPRestoreItemList.MYSTERY_JUICE.updateManaPerUse();
-			this.free = this.price <= totalCost * 95 / MPRestoreItemList.MYSTERY_JUICE.getManaPerUse();
+			this.free = this.price <= totalCost * 95 / MPRestoreItemList.getManaRestored( "magical mystery juice" );
 		}
 
 		public Offering( final String buffName, final String botName, final int price, final int turns,

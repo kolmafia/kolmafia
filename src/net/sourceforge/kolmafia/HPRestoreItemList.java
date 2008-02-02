@@ -54,7 +54,7 @@ public abstract class HPRestoreItemList
 	extends StaticEntity
 {
 	private static boolean purchaseBasedSort = false;
-	private static TreeMap healthRestoredByName = new TreeMap();
+	private static TreeMap restoreByName = new TreeMap();
 
 	public static final HPRestoreItem WALRUS = new HPRestoreItem( "Tongue of the Walrus", 35 );
 
@@ -112,8 +112,14 @@ public abstract class HPRestoreItemList
 
 	public static int getHealthRestored( String restoreName )
 	{
-		Integer restoreAmount = (Integer) HPRestoreItemList.healthRestoredByName.get( restoreName );
-		return restoreAmount == null ? Integer.MIN_VALUE : restoreAmount.intValue();
+		HPRestoreItem restoreItem = (HPRestoreItem) HPRestoreItemList.restoreByName.get( restoreName );
+		return restoreItem == null ? Integer.MIN_VALUE : restoreItem.healthPerUse;
+	}
+
+	public static void updateHealthRestored()
+	{
+		HPRestoreItemList.SOFA.healthPerUse = KoLCharacter.getLevel() * 5 + 1;
+		HPRestoreItemList.GALAKTIK.purchaseCost = QuestLogRequest.galaktikCuresAvailable() ? 6 : 10;
 	}
 
 	public static final boolean contains( final AdventureResult item )
@@ -156,7 +162,7 @@ public abstract class HPRestoreItemList
 			this.healthPerUse = healthPerUse;
 			this.purchaseCost = purchaseCost;
 
-			HPRestoreItemList.healthRestoredByName.put( restoreName, new Integer( this.healthPerUse ) );
+			HPRestoreItemList.restoreByName.put( restoreName, this );
 
 			if ( ItemDatabase.contains( restoreName ) )
 			{
@@ -183,24 +189,6 @@ public abstract class HPRestoreItemList
 		public AdventureResult getItem()
 		{
 			return this.itemUsed;
-		}
-
-		public void updateHealthPerUse()
-		{
-			if ( this == HPRestoreItemList.SOFA )
-			{
-				this.healthPerUse = KoLCharacter.getLevel() * 5 + 1;
-				HPRestoreItemList.healthRestoredByName.put( restoreName, new Integer( this.healthPerUse ) );
-			}
-			else if ( this == HPRestoreItemList.GALAKTIK )
-			{
-				this.purchaseCost = QuestLogRequest.galaktikCuresAvailable() ? 6 : 10;
-			}
-		}
-
-		public int getHealthPerUse()
-		{
-			return this.healthPerUse;
 		}
 
 		public int getHealthRestored()
