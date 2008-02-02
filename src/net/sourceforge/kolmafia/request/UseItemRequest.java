@@ -162,9 +162,29 @@ public class UseItemRequest
 	private static final int GILDED_CURSED_CHEST = 3018;
 	public static final int CURSED_PIECE_OF_THIRTEEN = 3034;
 	private static final int GENERAL_ASSEMBLY_MODULE = 3075;
+
+        // Crimbo toys
+
 	public static final int HOBBY_HORSE = 3092;
 	public static final int BALL_IN_CUP = 3093;
 	public static final int SET_OF_JACKS = 3094;
+
+	public static final int ICE_SICKLE = 1424;
+	public static final int ICE_BABY = 1425;
+	public static final int ICE_PICK = 1426;
+	public static final int ICE_SKATES = 1427;
+
+	public static final int LIARS_PANTS = 2222;
+	public static final int JUGGLERS_BALLS = 2223;
+	public static final int PINK_SHIRT = 2224;
+	public static final int FLAMING_FAMILIAR = 2225;
+	public static final int EYEBALL_PENDANT = 2226;
+
+	public static final int FORTUNE_TELLER = 3193;
+	public static final int GENTLEMENS_MAGAZINE = 3194;
+	public static final int PAPER_SHURIKEN = 3195;
+	public static final int ORIGAMI_PASTIES = 3196;
+	public static final int RIDING_CROP = 3197;
 
 	// Books
 
@@ -298,6 +318,7 @@ public class UseItemRequest
 		int itemId = item.getItemId();
 		switch ( itemId )
 		{
+			// Charrrm bracelets
 		case JOLLY_BRACELET:
 		case RUM_BRACELET:
 		case GRUMPY_BRACELET:
@@ -306,6 +327,27 @@ public class UseItemRequest
 		case CANNONBALL_BRACELET:
 		case COPPER_BRACELET:
 		case TONGUE_BRACELET:
+			// Crimbo toys
+		case HOBBY_HORSE:
+		case BALL_IN_CUP:
+		case SET_OF_JACKS:
+			// Iceberglet items
+		case ICE_SICKLE:
+		case ICE_BABY:
+		case ICE_PICK:
+		case ICE_SKATES:
+			// Great Ball of Frozen Fire items
+		case LIARS_PANTS:
+		case JUGGLERS_BALLS:
+		case PINK_SHIRT:
+		case FLAMING_FAMILIAR:
+		case EYEBALL_PENDANT:
+			// naughty origami kit items
+		case FORTUNE_TELLER:
+		case GENTLEMENS_MAGAZINE:
+		case PAPER_SHURIKEN:
+		case ORIGAMI_PASTIES:
+		case RIDING_CROP:
 			return KoLConstants.CONSUME_USE;
 		}
 		return ItemDatabase.getConsumptionType( itemId );
@@ -495,19 +537,8 @@ public class UseItemRequest
 		case KoLConstants.EQUIP_PANTS:
 		case KoLConstants.EQUIP_ACCESSORY:
 		case KoLConstants.EQUIP_FAMILIAR:
-
-			switch ( itemId )
-			{
-			case HOBBY_HORSE:
-			case BALL_IN_CUP:
-			case SET_OF_JACKS:
-				// All three of these can be equipped but can
-				// also be "used" once a day.
-				break;
-			default:
-				( new EquipmentRequest( this.itemUsed ) ).run();
-				return;
-			}
+			( new EquipmentRequest( this.itemUsed ) ).run();
+			return;
 		}
 
 		UseItemRequest.lastUpdate = "";
