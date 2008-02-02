@@ -612,6 +612,14 @@ public abstract class KoLCharacter
 	{
 		int totalPrime = KoLCharacter.getTotalPrime();
 
+		if ( totalPrime == 0 )
+		{
+			KoLCharacter.currentLevel = 1;
+			KoLCharacter.decrementPrime = 0;
+			KoLCharacter.incrementPrime = 0;
+			return 1;
+		}
+
 		if ( totalPrime <= KoLCharacter.decrementPrime || totalPrime >= KoLCharacter.incrementPrime )
 		{
 			KoLCharacter.currentLevel =
