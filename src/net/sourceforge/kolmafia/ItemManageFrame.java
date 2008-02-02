@@ -971,12 +971,23 @@ public class ItemManageFrame
 
 			boolean isCloset = elementModel == KoLConstants.closet;
 
+			// Unfortunately, Java doesn't doesn't like this:
+			// isEquipmentOnly ? new EquipListener() : new ConsumeListener();
+
+			ActionListener useListener;
+			if ( isEquipmentOnly )
+				useListener = new EquipListener();
+			else
+				useListener = new ConsumeListener();
+
 			this.setButtons( true, new ActionListener[] {
-
-			new ConsumeListener(), new AutoSellListener( isCloset, SellStuffRequest.AUTOSELL ), new AutoSellListener(
-				isCloset, SellStuffRequest.AUTOMALL ), new PulverizeListener( isCloset ), new PutInClosetListener(
-				isCloset ), new PutOnDisplayListener( isCloset ), new GiveToClanListener( isCloset ),
-
+					useListener,
+					new AutoSellListener( isCloset, SellStuffRequest.AUTOSELL ),
+					new AutoSellListener( isCloset, SellStuffRequest.AUTOMALL ),
+					new PulverizeListener( isCloset ),
+					new PutInClosetListener( isCloset ),
+					new PutOnDisplayListener( isCloset ),
+					new GiveToClanListener( isCloset ),
 			} );
 
 			if ( this.isEquipmentOnly )
@@ -1138,7 +1149,7 @@ public class ItemManageFrame
 
 		public HagnkStoragePanel( final boolean isEquipmentOnly )
 		{
-			super( "pull item", isEquipmentOnly ? "pull & use" : "closet item", KoLConstants.storage, isEquipmentOnly );
+			super( "pull item", isEquipmentOnly ? "pull & equip" : "closet item", KoLConstants.storage, isEquipmentOnly );
 
 			this.addFilters();
 			this.addMovers();

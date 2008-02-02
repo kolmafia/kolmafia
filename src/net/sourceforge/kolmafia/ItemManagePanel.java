@@ -552,6 +552,43 @@ public class ItemManagePanel
 		}
 	}
 
+	public class EquipListener
+		extends ThreadedListener
+	{
+		public void run()
+		{
+			Object[] items = ItemManagePanel.this.getDesiredItems( "Equip" );
+			if ( items == null || items.length == 0 )
+			{
+				return;
+			}
+
+			for ( int i = 0; i < items.length; ++i )
+			{
+				AdventureResult item = (AdventureResult) items[ i ];
+				int usageType = ItemDatabase.getConsumptionType( item.getItemId() );
+
+				switch ( usageType )
+				{
+				case KoLConstants.EQUIP_FAMILIAR:
+				case KoLConstants.EQUIP_ACCESSORY:
+				case KoLConstants.EQUIP_HAT:
+				case KoLConstants.EQUIP_PANTS:
+				case KoLConstants.EQUIP_SHIRT:
+				case KoLConstants.EQUIP_WEAPON:
+				case KoLConstants.EQUIP_OFFHAND:
+					RequestThread.postRequest( new EquipmentRequest(
+									   item, KoLCharacter.consumeFilterToEquipmentType( usageType ) ) );
+				}
+			}
+		}
+
+		public String toString()
+		{
+			return "equip item";
+		}
+	}
+
 	public class PutInClosetListener
 		extends TransferListener
 	{
