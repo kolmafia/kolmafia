@@ -33,6 +33,8 @@
 
 package net.sourceforge.kolmafia;
 
+import java.lang.ClassNotFoundException;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -256,9 +258,17 @@ public class KoLmafiaGUI
 			Class frameClass = Class.forName( "net.sourceforge.kolmafia." + frameName );
 			KoLmafiaGUI.constructFrame( frameClass );
 		}
+		catch ( ClassNotFoundException e )
+		{
+			// Can happen if preference file made by an earlier
+			// version of KoLmafia and the frame has been renamed.
+
+			// We don't need a full stack trace, but an informative
+			// message would be nice.
+		}
 		catch ( Exception e )
 		{
-			//should not happen.  Therefore, print
+			// Should not happen.  Therefore, print
 			// a stack trace for debug purposes.
 
 			StaticEntity.printStackTrace( e );
