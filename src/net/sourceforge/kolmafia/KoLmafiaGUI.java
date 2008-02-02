@@ -118,7 +118,7 @@ public class KoLmafiaGUI
 		// If there is still no data (somehow the global data
 		// got emptied), default to relay-browser only).
 
-		if ( desktopSetting.equals( "" ) )
+		if ( desktopSetting.equals( "" ) && frameSetting.equals( "" ) )
 		{
 			Preferences.setString( "initialDesktop", "AdventureFrame,CommandDisplayFrame,GearChangeFrame" );
 		}
