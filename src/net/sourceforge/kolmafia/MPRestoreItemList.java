@@ -56,7 +56,7 @@ public abstract class MPRestoreItemList
 	extends StaticEntity
 {
 	private static boolean purchaseBasedSort = false;
-	private static TreeMap manaRestoredByName = new TreeMap();
+	private static TreeMap restoreByName = new TreeMap();
 
 	private static final AdventureResult EXPRESS_CARD = new AdventureResult( UseItemRequest.EXPRESS_CARD, 1 );
 
@@ -117,13 +117,20 @@ public abstract class MPRestoreItemList
 
 	public static int getManaRestored( String restoreName )
 	{
-		Integer restoreAmount = (Integer) MPRestoreItemList.manaRestoredByName.get( restoreName );
-		return restoreAmount == null ? Integer.MIN_VALUE : restoreAmount.intValue();
+		MPRestoreItem restoreItem = (MPRestoreItem) MPRestoreItemList.restoreByName.get( restoreName );
+		return restoreItem == null ? Integer.MIN_VALUE : restoreItem.manaPerUse;
+	}
+
+	public static void updateManaRestored()
+	{
+		MPRestoreItemList.SOFA.manaPerUse = KoLCharacter.getLevel() * 5 + 1;
+		MPRestoreItemList.MYSTERY_JUICE.manaPerUse = (int) ( KoLCharacter.getLevel() * 1.5f + 4.0f );
+		MPRestoreItemList.GALAKTIK.purchaseCost = QuestLogRequest.galaktikCuresAvailable() ? 12 : 17;
 	}
 
 	public static final boolean contains( final AdventureResult item )
 	{
-		return getManaRestored( item.getName() ) != Integer.MIN_VALUE;
+		return restoreByName.containsKey( item.getName() );
 	}
 
 	public static final JCheckBox[] getCheckboxes()
@@ -162,7 +169,7 @@ public abstract class MPRestoreItemList
 			this.purchaseCost = purchaseCost;
 			this.isCombatUsable = isCombatUsable;
 
-			MPRestoreItemList.manaRestoredByName.put( itemName, new Integer( this.manaPerUse ) );
+			MPRestoreItemList.restoreByName.put( itemName, this );
 
 			if ( ItemDatabase.contains( itemName ) )
 			{
@@ -209,29 +216,6 @@ public abstract class MPRestoreItemList
 
 			float ratioDifference = leftRatio - rightRatio;
 			return ratioDifference > 0.0f ? 1 : ratioDifference < 0.0f ? -1 : 0;
-		}
-
-		public void updateManaPerUse()
-		{
-			if ( this == MPRestoreItemList.SOFA )
-			{
-				this.manaPerUse = KoLCharacter.getLevel() * 5 + 1;
-				MPRestoreItemList.manaRestoredByName.put( itemName, new Integer( this.manaPerUse ) );
-			}
-			else if ( this == MPRestoreItemList.MYSTERY_JUICE )
-			{
-				this.manaPerUse = (int) ( KoLCharacter.getLevel() * 1.5 + 4.0 );
-				MPRestoreItemList.manaRestoredByName.put( itemName, new Integer( this.manaPerUse ) );
-			}
-			else if ( this == MPRestoreItemList.GALAKTIK )
-			{
-				this.purchaseCost = QuestLogRequest.galaktikCuresAvailable() ? 12 : 17;
-			}
-		}
-
-		public int getManaPerUse()
-		{
-			return this.manaPerUse;
 		}
 
 		public int getManaRestored()
