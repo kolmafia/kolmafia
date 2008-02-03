@@ -895,7 +895,7 @@ public class AdventureDatabase
 
 		// Chieftain of the Flies
 		new ChoiceAdventure(
-			"Island", "choiceAdventure181", "Post-War Frat House",
+			"Island", "choiceAdventure181", "Frat House (Stone Age)",
 			new String[] { "around the world", "skip adventure" },
 			new String[] { "1634", "1633" } ),
 
