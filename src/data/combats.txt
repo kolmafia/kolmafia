@@ -74,6 +74,7 @@ Fantasy Airship	80	Burly Sidekick: 2	Irritating Series of Random Encounters: 3	M
 Feeding Chamber	100	Filthworm Drone
 Fernswarthy's Ruins	100	Brainsweeper	Bread Golem	Chowder Golem	Weretaco	Yeast Beast	Lesser Fruit Golem
 Frat House	100	Orcish Frat Boy (French Maid)	Orcish Frat Boy (Sorority Orcs)	Orcish Frat Boy (Paddling)
+Frat House (Stone Age)	100	Caveman Frat Boy	Caveman Frat Pledge	Caveman Sorority Girl
 Friar's Gate	95	Demoninja	Fallen Archfiend	G Imp	Hellion	L Imp	P Imp	W Imp	Hypnotist of Hey Deze: -1
 Fun House	100	Bugbear-In-The-Box	Disease-In-The-Box	Lemon-In-The-Box	Scary Clown	Shaky Clown	Creepy Clown	Clownlord Beelzebozo: 0
 Giant's Castle	75	Alphabet Giant	Goth Giant	Furry Giant	Possibility Giant	Procrastination Giant	Raver Giant
@@ -96,6 +97,7 @@ Haunted Pantry	80	Possessed Can of Tomatoes	Fiendish Can of Asparagus	Flame-Broi
 Haunted Wine Cellar	100	Possessed Wine Rack	Skeletal Sommelier
 Hidden City	100	Ancient Protector Spirit	Boaraffe	Protector Spectre	Pygmy Blowgunner	Pygmy Assault Squad	Pygmy Headhunter
 Hippy Camp	100	Crusty Hippy	Crusty Hippy Jewelry Maker	Crusty Hippy Vegan Chef	Dirty Hippy	Dirty Hippy Jewelry Maker	Dirty Hippy Vegan Chef	Filthy Hippy	Filthy Hippy Jewelry Maker	Filthy Hippy Vegan Chef
+Hippy Camp (Stone Age)	100	Caveman Hippy	Cavewomyn Hippy	Sabre-Toothed Ferret
 Hole in the Sky	100	The Astronomer: 6	One-Eyed Willie: 2	The Burrowing Bishop: 2	The Family Jewels: 2	The Hooded Warrior: 2	The Junk: 2	The Pork Sword: 2	The Skinflute: 2	The Trouser Snake: 2	The Twig and Berries: 2	The Axe Wound: 2	The Beaver: 2	The Box: 2	The Bush: 2	The Camel's Toe: 2	The Flange: 2	The Honey Pot: 2	The Little Man in the Canoe: 2	The Muff: 2
 Icy Peak	85	Knott Yeti: 2	Snow Queen: 1	Upgraded Ram: 2	Knott Slanding: -1
 Itznotyerzitz Mine	75	7-Foot Dwarf (Moil)	7-Foot Dwarf (Royale)	7-Foot Dwarf Foreman
