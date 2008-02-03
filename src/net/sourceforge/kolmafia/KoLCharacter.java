@@ -228,7 +228,7 @@ public abstract class KoLCharacter
 	private static String classtype = "";
 	private static int currentLevel = 1;
 	private static int decrementPrime = 0;
-	private static int incrementPrime = 0;
+	private static int incrementPrime = 25;
 
 	private static int currentHP, maximumHP, baseMaxHP;
 	private static int currentMP, maximumMP, baseMaxMP;
@@ -378,7 +378,7 @@ public abstract class KoLCharacter
 
 		KoLCharacter.currentLevel = 1;
 		KoLCharacter.decrementPrime = 0;
-		KoLCharacter.incrementPrime = 0;
+		KoLCharacter.incrementPrime = 25;
 
 		KoLCharacter.pvpRank = 0;
 		KoLCharacter.attacksLeft = 0;
@@ -612,19 +612,9 @@ public abstract class KoLCharacter
 	{
 		int totalPrime = KoLCharacter.getTotalPrime();
 
-		if ( totalPrime == 0 )
-		{
-			KoLCharacter.currentLevel = 1;
-			KoLCharacter.decrementPrime = 0;
-			KoLCharacter.incrementPrime = 0;
-			return 1;
-		}
-
 		if ( totalPrime < KoLCharacter.decrementPrime || totalPrime >= KoLCharacter.incrementPrime )
 		{
-			KoLCharacter.currentLevel =
-				(int) Math.sqrt( KoLCharacter.calculateBasePoints( KoLCharacter.getTotalPrime() ) - 4 ) + 1;
-
+			KoLCharacter.currentLevel = KoLCharacter.calculateSubpointLevels( totalPrime );
 			KoLCharacter.decrementPrime = KoLCharacter.calculateLastLevel();
 			KoLCharacter.incrementPrime = KoLCharacter.calculateNextLevel();
 
@@ -904,8 +894,88 @@ public abstract class KoLCharacter
 	}
 
 	/**
-	 * Utility method for calculating how many subpoints have been accumulated thus far, given the current base point
-	 * value of the statistic and how many have been accumulate since the last gain.
+	 * Utility method for calculating how many subpoints are need to reach
+	 * a specified full point
+	 *
+	 * @param basePoints The desired point
+	 * @return The calculated subpoints
+	 */
+
+	public static final int calculatePointSubpoints( final int basePoints )
+	{
+		return basePoints * basePoints;
+	}
+
+	/**
+	 * Utility method for calculating how many actual points are associated
+	 * with the given number of subpoints.
+	 *
+	 * @param subpoints The total number of subpoints accumulated
+	 * @return The base points associated with the subpoint value
+	 */
+
+	public static final int calculateBasePoints( final int subpoints )
+	{
+		return (int)Math.sqrt( subpoints );
+	}
+
+	/**
+	 * Utility method for calculating how many points are need to reach
+	 * a specified character level.
+	 *
+	 * @param level The character level
+	 * @return The calculated points
+	 */
+
+	public static final int calculateLevelPoints( final int level )
+	{
+		return ( level == 1 ) ? 0 : ( level - 1 ) * ( level - 1 ) + 4;
+	}
+
+
+	/**
+	 * Utility method for calculating how many subpoints are need to reach
+	 * a specified character level.
+	 *
+	 * @param level The character level
+	 * @return The calculated subpoints
+	 */
+
+	public static final int calculateLevelSubpoints( final int level )
+	{
+		return KoLCharacter.calculatePointSubpoints( KoLCharacter.calculateLevelPoints( level ) );
+	}
+
+	/**
+	 * Utility method for calculating what character level is associated
+	 * with the given number of points.
+	 *
+	 * @param points The total number of points accumulated
+	 * @return The calculated level
+	 */
+
+	public static final int calculatePointLevels( final int points )
+	{
+		return (int)Math.sqrt( Math.max( points - 4, 0 ) ) + 1;
+	}
+
+	/**
+	 * Utility method for calculating what character level is associated
+	 * with the given number of subpoints.
+	 *
+	 * @param subpoints The total number of subpoints accumulated
+	 * @return The calculated level
+	 */
+
+	public static final int calculateSubpointLevels( final int subpoints )
+	{
+		return KoLCharacter.calculatePointLevels( KoLCharacter.calculateBasePoints( subpoints ) );
+	}
+
+	/**
+	 * Utility method for calculating how many subpoints have been
+	 * accumulated thus far, given the current base point value of the
+	 * statistic and how many have been accumulate since the last gain.
 	 *
 	 * @param baseValue The current base point value
 	 * @param sinceLastBase Number of subpoints accumulate since the last base point gain
@@ -914,19 +984,7 @@ public abstract class KoLCharacter
 
 	public static final int calculateSubpoints( final int baseValue, final int sinceLastBase )
 	{
-		return baseValue * baseValue - 1 + sinceLastBase;
-	}
-
-	/**
-	 * Utility method for calculating how many actual points are associated with the given number of subpoints.
-	 *
-	 * @param totalSubpoints The total number of subpoints accumulated
-	 * @return The base points associated with the subpoint value
-	 */
-
-	public static final int calculateBasePoints( final int totalSubpoints )
-	{
-		return (int) Math.floor( Math.sqrt( totalSubpoints + 1 ) );
+		return KoLCharacter.calculatePointSubpoints( baseValue) + sinceLastBase;
 	}
 
 	/**
@@ -937,9 +995,7 @@ public abstract class KoLCharacter
 
 	public static final int calculateLastLevel()
 	{
-		int level = KoLCharacter.currentLevel - 1;
-		int basePointsNeeded = level * level + 4;
-		return basePointsNeeded * basePointsNeeded - 1;
+		return KoLCharacter.calculateLevelSubpoints( KoLCharacter.currentLevel );
 	}
 
 	/**
@@ -950,9 +1006,7 @@ public abstract class KoLCharacter
 
 	public static final int calculateNextLevel()
 	{
-		int level = KoLCharacter.currentLevel;
-		int basePointsNeeded = level * level + 4;
-		return basePointsNeeded * basePointsNeeded - 1;
+		return KoLCharacter.calculateLevelSubpoints( KoLCharacter.currentLevel + 1);
 	}
 
 	/**
@@ -970,10 +1024,9 @@ public abstract class KoLCharacter
 	 * Utility method to calculate the "till next point" value, given the total number of subpoints accumulated.
 	 */
 
-	private static final int calculateTillNextPoint( final int totalSubpoints )
+	private static final int calculateTillNextPoint( final int subpoints )
 	{
-		int basePoints = KoLCharacter.calculateBasePoints( totalSubpoints ) + 1;
-		return basePoints * basePoints - totalSubpoints - 1;
+		return KoLCharacter.calculatePointSubpoints( KoLCharacter.calculateBasePoints( subpoints ) + 1 ) - subpoints;
 	}
 
 	/**
