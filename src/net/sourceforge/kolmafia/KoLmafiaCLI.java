@@ -71,6 +71,7 @@ import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.DisplayCaseRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
+import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.FriarRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HellKitchenRequest;
@@ -1658,6 +1659,42 @@ public class KoLmafiaCLI
 			return;
 		}
 
+		if ( command.equals( "insults" ) )
+		{
+			KoLCharacter.ensureUpdatedPirateInsults();
+
+			RequestLogger.printLine();
+			RequestLogger.printLine( "Known insults:" );
+
+			int count = 0;
+			for ( int i = 1; i <= 8; ++i )
+			{
+				String retort = FightRequest.findPirateRetort( i );
+				if ( retort != null )
+				{
+					if ( count == 0 )
+					{
+						RequestLogger.printLine();
+					}
+					count += 1;
+
+					RequestLogger.printLine( retort );
+				}
+			}
+
+			float odds = FightRequest.pirateInsultOdds( count ) * 100.0f;
+
+			if ( count == 0 )
+			{
+				RequestLogger.printLine( "None." );
+			}
+
+			RequestLogger.printLine();
+			RequestLogger.printLine( "Since you know " + count + " insult" + ( count == 1 ? "" : "s" ) + ", you have a " + KoLConstants.FLOAT_FORMAT.format( odds ) + "% chance of winning at Insult Beer Pong." );
+
+			return;
+		}
+
 		if ( command.equals( "dusty" ) )
 		{
 			for ( int i = 2271; i <= 2276; ++i )
@@ -2429,7 +2466,18 @@ public class KoLmafiaCLI
 			command = "skills";
 		}
 
-		if ( command.startsWith( "inv" ) || command.equals( "closet" ) || command.equals( "storage" ) || command.equals( "session" ) || command.equals( "summary" ) || command.equals( "effects" ) || command.equals( "status" ) || command.equals( "skills" ) || command.equals( "locations" ) || command.equals( "encounters" ) || command.equals( "counters" ) || command.startsWith( "moon" ) )
+		if ( command.startsWith( "inv" ) ||
+		     command.equals( "closet" ) ||
+		     command.equals( "storage" ) ||
+		     command.equals( "session" ) ||
+		     command.equals( "summary" ) ||
+		     command.equals( "effects" ) ||
+		     command.equals( "status" ) ||
+		     command.equals( "skills" ) ||
+		     command.equals( "locations" ) ||
+		     command.equals( "encounters" ) ||
+		     command.equals( "counters" ) ||
+		     command.startsWith( "moon" ) )
 		{
 			this.showData( command + " " + parameters );
 			return;

@@ -1036,6 +1036,7 @@ public class FightRequest
 
 		FightRequest.parseBangPotion( responseText );
 		FightRequest.parseStoneSphere( responseText );
+		FightRequest.parsePirateInsult( responseText );
 
 		// Spend MP and consume items
 
@@ -1301,6 +1302,136 @@ public class FightRequest
 		}
 
 		return null;
+	}
+
+	// The pirate sneers at you and replies &quot;<insult>&quot;
+
+	private static final Pattern PIRATE_INSULT_PATTERN =
+		Pattern.compile( "The pirate sneers at you and replies &quot;(.*?)&quot;" );
+
+	// The first string is an insult you hear from Rickets.
+	// The second string is the insult you must use in reply.
+
+	private static final String [][] PIRATE_INSULTS =
+	{
+		{
+			"Arrr, the power of me serve'll flay the skin from yer bones!",
+			"Obviously neither your tongue nor your wit is sharp enough for the job."
+		},
+		{
+			"Do ye hear that, ye craven blackguard? It be the sound of yer doom!",
+			"It can't be any worse than the smell of your breath!"
+		},
+		{
+			"Suck on this, ye miserable, pestilent wretch!",
+			"That reminds me, tell your wife and sister I had a lovely time last night."
+		},
+		{
+			"The streets will run red with yer blood when I'm through with ye!",
+			"I'd've thought yellow would be more your color."
+		},
+		{
+			"Yer face is as foul as that of a drowned goat!",
+			"I'm not really comfortable being compared to your girlfriend that way."
+		},
+		{
+			"When I'm through with ye, ye'll be crying like a little girl!",
+			"It's an honor to learn from such an expert in the field."
+		},
+		{
+			"In all my years I've not seen a more loathsome worm than yerself!",
+			"Amazing!  How do you manage to shave without using a mirror?"
+		},
+		{
+			"Not a single man has faced me and lived to tell the tale!",
+			"It only seems that way because you haven't learned to count to one."
+		},
+	};
+
+	private static final void parsePirateInsult( final String responseText )
+	{
+		Matcher insultMatcher = FightRequest.PIRATE_INSULT_PATTERN.matcher( responseText );
+		if ( insultMatcher.find() )
+		{
+			int insult = FightRequest.findPirateInsult( insultMatcher.group( 1 ) );
+			if ( insult > 0 )
+			{
+				KoLCharacter.ensureUpdatedPirateInsults();
+				Preferences.setBoolean( "lastPirateInsult" + insult, true );
+			}
+		}
+	}
+
+	private static final int findPirateInsult( final String insult )
+	{
+		for ( int i = 0; i < PIRATE_INSULTS.length; ++i )
+		{
+			if ( insult.equals( PIRATE_INSULTS[i][1] ) )
+			{
+				return i + 1;
+			}
+		}
+		return 0;
+	}
+
+	public static final int findPirateRetort( final String insult )
+	{
+		for ( int i = 0; i < PIRATE_INSULTS.length; ++i )
+		{
+			if ( insult.equals( PIRATE_INSULTS[i][0] ) )
+			{
+				return i + 1;
+			}
+		}
+		return 0;
+	}
+
+	public static final String findPirateRetort( final int insult )
+	{
+		KoLCharacter.ensureUpdatedPirateInsults();
+		if ( Preferences.getBoolean( "lastPirateInsult" + insult ) )
+		{
+			return PIRATE_INSULTS[insult - 1][1];
+		}
+		return null;
+	}
+
+	public static final float pirateInsultOdds()
+	{
+		KoLCharacter.ensureUpdatedPirateInsults();
+
+		int count = 0;
+		for ( int i = 1; i <= 8; ++i )
+		{
+			if ( Preferences.getBoolean( "lastPirateInsult" + i ) )
+			{
+				count += 1;
+			}
+		}
+
+		return FightRequest.pirateInsultOdds( count );
+	}
+
+	public static final float pirateInsultOdds( int count )
+	{
+		// If you know less than three insults, you can't possibly win.
+		if ( count < 3 )
+		{
+			return 0.0f;
+		}
+
+		// Otherwise, your probability of winning is:
+		//   ( count ) / 8	the first contest
+		//   ( count - 1 ) / 8	the second contest
+		//   ( count - 2 ) / 6	the third contest
+
+		float odds = 1.0f;
+
+		odds *= ( count * 1.0f ) / 8;
+		odds *= ( count * 1.0f - 1 ) / 7;
+		odds *= ( count * 1.0f - 2 ) / 6;
+
+		return odds;
 	}
 
 	private static final void updateMonsterHealth( final String responseText )
