@@ -3460,4 +3460,21 @@ public abstract class KoLCharacter
 			}
 		}
 	}
+
+	public static final void ensureUpdatedPirateInsults()
+	{
+		int lastAscension = Preferences.getInteger( "lastPirateInsultReset" );
+		if ( lastAscension < KoLCharacter.getAscensions() )
+		{
+			Preferences.setInteger( "lastPirateInsultReset", KoLCharacter.getAscensions() );
+			Preferences.setBoolean( "lastPirateInsult1", false );
+			Preferences.setBoolean( "lastPirateInsult2", false );
+			Preferences.setBoolean( "lastPirateInsult3", false );
+			Preferences.setBoolean( "lastPirateInsult4", false );
+			Preferences.setBoolean( "lastPirateInsult5", false );
+			Preferences.setBoolean( "lastPirateInsult6", false );
+			Preferences.setBoolean( "lastPirateInsult7", false );
+			Preferences.setBoolean( "lastPirateInsult8", false );
+		}
+	}
 }
