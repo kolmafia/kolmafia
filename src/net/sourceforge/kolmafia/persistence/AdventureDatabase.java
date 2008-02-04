@@ -64,6 +64,7 @@ import net.sourceforge.kolmafia.request.ClanStashRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.SewerRequest;
@@ -1578,11 +1579,12 @@ public class AdventureDatabase
 
 	private static final String[][] dynamicChoiceSpoilers( final int choice )
 	{
+		String[][] result;
 		switch ( choice )
 		{
 		case 184:
 			// That Explains All The Eyepatches
-			String[][] result = new String[ 4 ][];
+			result = new String[ 4 ][];
 
 			// The choice option is the first element
 			result[ 0 ] = new String[ 1 ];
@@ -1607,17 +1609,35 @@ public class AdventureDatabase
 			}
 
 			return result;
+
+		case 187:
+			// Arrr You Man Enough?
+			result = new String[ 3 ][];
+
+			// The choice option is the first element
+			result[ 0 ] = new String[ 1 ];
+			result[ 0 ][ 0 ] = "choiceAdventure187";
+
+			// The name of the choice is second element
+			result[ 1 ] = new String[ 1 ];
+			result[ 1 ][ 0 ] = "Barrrney's Barrr";
+
+			// An array of choice spoilers is the third element
+			result[ 2 ] = AdventureDatabase.dynamicChoiceOptions( choice );
+
+			return result;
 		}
 		return null;
 	}
 
 	private static final String[] dynamicChoiceOptions( final int choice )
 	{
+		String[] result;
 		switch ( choice )
 		{
 		case 184:
 			// That Explains All The Eyepatches
-			String[] result = new String[ 3 ];
+			result = new String[ 3 ];
 
 			// The choices are all stat based.
 			//
@@ -1648,6 +1668,16 @@ public class AdventureDatabase
 			result[ 0 ] = stat == KoLConstants.MYSTICALITY ? "drunkenness and stats" : "enter combat";
 			result[ 1 ] = stat == KoLConstants.MOXIE ? "drunkenness and stats" : "shot of rotgut";
 			result[ 2 ] = stat == KoLConstants.MUSCLE ? "drunkenness and stats" : "shot of rotgut";
+			return result;
+
+		case 187:
+			// Arrr You Man Enough?
+
+			result = new String[ 2 ];
+			float odds = FightRequest.pirateInsultOdds() * 100.0f;
+			
+			result[ 0 ] = KoLConstants.FLOAT_FORMAT.format( odds ) + "% chance of winning";
+			result[ 1 ] = odds == 100.0f ? "Oh come on. Do it!" : "Try later";
 			return result;
 		}
 		return null;

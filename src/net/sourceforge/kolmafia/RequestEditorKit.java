@@ -74,6 +74,7 @@ import net.sourceforge.kolmafia.request.MoonPhaseRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
 import net.sourceforge.kolmafia.webui.BasementDecorator;
+import net.sourceforge.kolmafia.webui.BeerPongDecorator;
 import net.sourceforge.kolmafia.webui.CharPaneDecorator;
 import net.sourceforge.kolmafia.webui.DungeonDecorator;
 import net.sourceforge.kolmafia.webui.IslandDecorator;
@@ -596,6 +597,10 @@ public class RequestEditorKit
 		else if ( location.startsWith( "bathole.php" ) )
 		{
 			StaticEntity.globalStringReplace( buffer, "action=bathole.php", "action=adventure.php" );
+		}
+		else if ( location.startsWith( "beerpong.php" ) )
+		{
+			BeerPongDecorator.decorate( buffer );
 		}
 		else if ( location.startsWith( "bigisland.php" ) )
 		{
