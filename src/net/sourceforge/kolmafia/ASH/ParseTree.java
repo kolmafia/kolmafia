@@ -123,6 +123,36 @@ public abstract class ParseTree
 	private static final GenericRequest VISITOR = new GenericRequest( "" );
 	private static final RelayRequest RELAYER = new RelayRequest( false );
 
+	private static final void indentLine( final PrintStream stream, final int indent )
+	{
+		if ( stream == null )
+		{
+			return;
+		}
+
+		for ( int i = 0; i < indent; ++i )
+		{
+			stream.print( "   " );
+		}
+	}
+
+	private static void printIndices( final ScriptExpressionList indices, final PrintStream stream, final int indent )
+	{
+		if ( indices == null )
+		{
+			return;
+		}
+
+		Iterator it = indices.iterator();
+		while ( it.hasNext() )
+		{
+			ScriptExpression current = (ScriptExpression) it.next();
+			ParseTree.indentLine( stream, indent );
+			stream.println( "<KEY>" );
+			current.print( stream, indent + 1 );
+		}
+	}
+
 	public static class ScriptScope
 	{
 		ScriptFunctionList functions;
@@ -619,6 +649,54 @@ public abstract class ParseTree
 			Interpreter.traceUnindent();
 			return result;
 		}
+
+		public void print( final PrintStream stream, final int indent )
+		{
+			Iterator it;
+
+			ParseTree.indentLine( stream, indent );
+			stream.println( "<SCOPE>" );
+
+			ParseTree.indentLine( stream, indent + 1 );
+			stream.println( "<TYPES>" );
+
+			it = this.getTypes();
+			while ( it.hasNext() )
+			{
+				ScriptType currentType = (ScriptType) it.next();
+				currentType.print( stream, indent + 2 );
+			}
+
+			ParseTree.indentLine( stream, indent + 1 );
+			stream.println( "<VARIABLES>" );
+
+			it = this.getVariables();
+			while ( it.hasNext() )
+			{
+				ScriptVariable currentVar = (ScriptVariable) it.next();
+				currentVar.print( stream, indent + 2 );
+			}
+
+			ParseTree.indentLine( stream, indent + 1 );
+			stream.println( "<FUNCTIONS>" );
+
+			it = this.getFunctions();
+			while ( it.hasNext() )
+			{
+				ScriptFunction currentFunc = (ScriptFunction) it.next();
+				currentFunc.print( stream, indent + 2 );
+			}
+
+			ParseTree.indentLine( stream, indent + 1 );
+			stream.println( "<COMMANDS>" );
+
+			it = this.getCommands();
+			while ( it.hasNext() )
+			{
+				ScriptCommand currentCommand = (ScriptCommand) it.next();
+				currentCommand.print( stream, indent + 2 );
+			}
+		}
 	}
 
 	public static class ScriptSymbol
@@ -767,6 +845,19 @@ public abstract class ParseTree
 		}
 
 		public abstract ScriptValue execute();
+
+		public void print( final PrintStream stream, final int indent )
+		{
+			ParseTree.indentLine( stream, indent );
+			stream.println( "<FUNC " + this.type + " " + this.getName() + ">" );
+
+			Iterator it = this.getReferences();
+			while ( it.hasNext() )
+			{
+				ScriptVariableReference current = (ScriptVariableReference) it.next();
+				current.print( stream, indent + 1 );
+			}
+		}
 	}
 
 	public static class ScriptUserDefinedFunction
@@ -853,6 +944,12 @@ public abstract class ParseTree
 		public boolean assertReturn()
 		{
 			return this.scope.assertReturn();
+		}
+
+		public void print( final PrintStream stream, final int indent )
+		{
+			super.print( stream, indent );
+			this.scope.print( stream, indent + 1 );
 		}
 	}
 
@@ -3196,6 +3293,12 @@ public abstract class ParseTree
 					"Internal error: Cannot assign " + targetValue.getType() + " to " + this.getType() );
 			}
 		}
+
+		public void print( final PrintStream stream, final int indent )
+		{
+			ParseTree.indentLine( stream, indent );
+			stream.println( "<VAR " + this.getType() + " " + this.getName() + ">" );
+		}
 	}
 
 	public static class ScriptVariableList
@@ -3280,6 +3383,12 @@ public abstract class ParseTree
 		public String toString()
 		{
 			return this.target.getName();
+		}
+
+		public void print( final PrintStream stream, final int indent )
+		{
+			ParseTree.indentLine( stream, indent );
+			stream.println( "<VARREF> " + this.getName() );
 		}
 	}
 
@@ -3462,6 +3571,13 @@ public abstract class ParseTree
 		{
 			return this.target.getName() + "[]";
 		}
+
+		public void print( final PrintStream stream, final int indent )
+		{
+			ParseTree.indentLine( stream, indent );
+			stream.println( "<AGGREF " + this.getName() + ">" );
+			ParseTree.printIndices( this.getIndices(), stream, indent + 1 );
+		}
 	}
 
 	public static class ScriptVariableReferenceList
@@ -3478,6 +3594,12 @@ public abstract class ParseTree
 		public ScriptValue execute()
 		{
 			return null;
+		}
+
+		public void print( final PrintStream stream, final int indent )
+		{
+			ParseTree.indentLine( stream, indent );
+			stream.println( "<COMMAND " + this + ">" );
 		}
 	}
 
@@ -3658,6 +3780,16 @@ public abstract class ParseTree
 		{
 			return "return " + this.returnValue;
 		}
+
+		public void print( final PrintStream stream, final int indent )
+		{
+			ParseTree.indentLine( stream, indent );
+			stream.println( "<RETURN " + this.getType() + ">" );
+			if ( !this.getType().equals( Interpreter.TYPE_VOID ) )
+			{
+				this.returnValue.print( stream, indent + 1 );
+			}
+		}
 	}
 
 	public static class ScriptConditional
@@ -3781,6 +3913,22 @@ public abstract class ParseTree
 		{
 			return "if";
 		}
+
+		public void print( final PrintStream stream, final int indent )
+		{
+			ParseTree.indentLine( stream, indent );
+			stream.println( "<IF>" );
+
+			this.getCondition().print( stream, indent + 1 );
+			this.getScope().print( stream, indent + 1 );
+
+			Iterator it = this.getElseLoops();
+			while ( it.hasNext() )
+			{
+				ScriptConditional currentElse = (ScriptConditional) it.next();
+				currentElse.print( stream, indent );
+			}
+		}
 	}
 
 	public static class ScriptElseIf
@@ -3794,6 +3942,14 @@ public abstract class ParseTree
 		public String toString()
 		{
 			return "else if";
+		}
+
+		public void print( final PrintStream stream, final int indent )
+		{
+			ParseTree.indentLine( stream, indent );
+			stream.println( "<ELSE IF>" );
+			this.getCondition().print( stream, indent + 1 );
+			this.getScope().print( stream, indent + 1 );
 		}
 	}
 
@@ -3829,6 +3985,13 @@ public abstract class ParseTree
 		public String toString()
 		{
 			return "else";
+		}
+
+		public void print( final PrintStream stream, final int indent )
+		{
+			ParseTree.indentLine( stream, indent );
+			stream.println( "<ELSE>" );
+			this.getScope().print( stream, indent + 1 );
 		}
 	}
 
@@ -3992,6 +4155,22 @@ public abstract class ParseTree
 		{
 			return "foreach";
 		}
+
+		public void print( final PrintStream stream, final int indent )
+		{
+			ParseTree.indentLine( stream, indent );
+			stream.println( "<FOREACH>" );
+
+			Iterator it = this.getReferences();
+			while ( it.hasNext() )
+			{
+				ScriptVariableReference current = (ScriptVariableReference) it.next();
+				current.print( stream, indent + 1 );
+			}
+
+			this.getAggregate().print( stream, indent + 1 );
+			this.getScope().print( stream, indent + 1 );
+		}
 	}
 
 	public static class ScriptWhile
@@ -4070,6 +4249,15 @@ public abstract class ParseTree
 		{
 			return "while";
 		}
+
+		public void print( final PrintStream stream, final int indent )
+		{
+                        ParseTree.indentLine( stream, indent );
+                        stream.println( "<WHILE>" );
+                        this.getCondition().print( stream, indent + 1 );
+                        this.getScope().print( stream, indent + 1 );
+                }
+
 	}
 
 	public static class ScriptRepeat
@@ -4147,6 +4335,14 @@ public abstract class ParseTree
 		public String toString()
 		{
 			return "repeat";
+		}
+
+		public void print( final PrintStream stream, final int indent )
+		{
+			ParseTree.indentLine( stream, indent );
+			stream.println( "<REPEAT>" );
+			this.getScope().print( stream, indent + 1 );
+			this.getCondition().print( stream, indent + 1 );
 		}
 	}
 
@@ -4312,6 +4508,18 @@ public abstract class ParseTree
 		public String toString()
 		{
 			return "for";
+		}
+
+		public void print( final PrintStream stream, final int indent )
+		{
+			ParseTree.indentLine( stream, indent );
+			int direction = this.getDirection();
+			stream.println( "<FOR " + ( direction < 0 ? "downto" : direction > 0 ? "upto" : "to" ) + " >" );
+			this.getVariable().print( stream, indent + 1 );
+			this.getInitial().print( stream, indent + 1 );
+			this.getLast().print( stream, indent + 1 );
+			this.getIncrement().print( stream, indent + 1 );
+			this.getScope().print( stream, indent + 1 );
 		}
 	}
 
@@ -4479,6 +4687,19 @@ public abstract class ParseTree
 		{
 			return this.target.getName() + "()";
 		}
+
+		public void print( final PrintStream stream, final int indent )
+		{
+			ParseTree.indentLine( stream, indent );
+			stream.println( "<CALL " + this.getTarget().getName() + ">" );
+
+			Iterator it = this.getExpressions();
+			while ( it.hasNext() )
+			{
+				ScriptExpression current = (ScriptExpression) it.next();
+				current.print( stream, indent + 1 );
+			}
+		}
 	}
 
 	public static class ScriptAssignment
@@ -4568,6 +4789,15 @@ public abstract class ParseTree
 		public String toString()
 		{
 			return this.rhs == null ? this.lhs.getName() : this.lhs.getName() + " = " + this.rhs;
+		}
+
+		public void print( final PrintStream stream, final int indent )
+		{
+			ParseTree.indentLine( stream, indent );
+			stream.println( "<ASSIGN " + this.lhs.getName() + ">" );
+			ScriptVariableReference lhs = this.getLeftHandSide();
+			ParseTree.printIndices( lhs.getIndices(), stream, indent + 1 );
+			this.getRightHandSide().print( stream, indent + 1 );
 		}
 	}
 
@@ -4706,6 +4936,12 @@ public abstract class ParseTree
 		public boolean containsAggregate()
 		{
 			return false;
+		}
+
+		public void print( final PrintStream stream, final int indent )
+		{
+			ParseTree.indentLine( stream, indent );
+			stream.println( "<TYPE " + this.name + ">" );
 		}
 	}
 
@@ -5294,6 +5530,12 @@ public abstract class ParseTree
 		public void dump( final PrintStream writer, final String prefix, final boolean compact )
 		{
 			writer.println( prefix + this.toStringValue().toString() );
+		}
+
+		public void print( final PrintStream stream, final int indent )
+		{
+			ParseTree.indentLine( stream, indent );
+			stream.println( "<VALUE " + this.getType() + " [" + this.toString() + "]>" );
 		}
 	}
 
@@ -5894,6 +6136,16 @@ public abstract class ParseTree
 		{
 			return this.toString();
 		}
+
+		public void print( final PrintStream stream, final int indent )
+		{
+			this.getOperator().print( stream, indent );
+			this.lhs.print( stream, indent + 1 );
+			if ( this.rhs != null )
+			{
+				this.rhs.print( stream, indent + 1 );
+			}
+		}
 	}
 
 	public static class ScriptExpressionList
@@ -6314,6 +6566,12 @@ public abstract class ParseTree
 
 			// Unknown operator
 			throw new RuntimeException( "Internal error: illegal operator \"" + this.operator + "\"" );
+		}
+
+		public void print( final PrintStream stream, final int indent )
+		{
+			ParseTree.indentLine( stream, indent );
+			stream.println( "<OPER " + this.operator + ">" );
 		}
 	}
 
