@@ -130,6 +130,7 @@ public class AdventureFrame
 			return;
 		}
 
+		AdventureFrame.adventureSelector.updateSelectedAdventure( location );
 	}
 
 	public boolean useSidePane()
