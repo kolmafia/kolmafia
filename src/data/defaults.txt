@@ -220,6 +220,15 @@ user	lastGuyMadeOfBeesReset	-1
 user	lastKingLiberation	-1
 user	lastLouvreMap	0
 user	lastMessageId
+user	lastPirateInsult1	false
+user	lastPirateInsult2	false
+user	lastPirateInsult3	false
+user	lastPirateInsult4	false
+user	lastPirateInsult5	false
+user	lastPirateInsult6	false
+user	lastPirateInsult7	false
+user	lastPirateInsult8	false
+user	lastPirateInsultReset	-1
 user	lastQuartetAscension	-1
 user	lastQuartetRequest	0
 user	lastSecondFloorUnlock	-1
