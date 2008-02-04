@@ -31,27 +31,22 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.sourceforge.kolmafia;
+package net.sourceforge.kolmafia.swingui.panel;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.TreeMap;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
-import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ListDataEvent;
@@ -63,10 +58,23 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 
-import net.sourceforge.kolmafia.swingui.panel.CustomCombatPanel;
-import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
-import net.sourceforge.kolmafia.swingui.panel.MoodOptionsPanel;
-import net.sourceforge.kolmafia.swingui.panel.RestoreOptionsPanel;
+import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.AreaCombatData;
+import net.sourceforge.kolmafia.KoLAdventure;
+import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLCharacterAdapter;
+import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLFrame;
+import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.LimitedSizeChatBuffer;
+import net.sourceforge.kolmafia.RequestPane;
+import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.SimpleScrollPane;
+import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.ThreadedButton;
+import net.sourceforge.kolmafia.ThreadedListener;
+import net.sourceforge.kolmafia.KoLFrame.InvocationButton;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightSpinner;
@@ -76,8 +84,8 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 
-public abstract class AdventureOptionsFrame
-	extends KoLFrame
+public class AdventureSelectPanel
+	extends JPanel
 {
 	private ExecuteButton begin;
 	private boolean isHandlingConditions = false;
@@ -88,122 +96,117 @@ public abstract class AdventureOptionsFrame
 	private AdventureCountSpinner countField;
 	private final LockableListModel matchingAdventures;
 
-	protected JList locationSelect;
-	protected JComponent zoneSelect;
+	private JList locationSelect;
+	private JComponent zoneSelect;
 
-	protected KoLAdventure lastAdventure = null;
+	private KoLAdventure lastAdventure = null;
 
-	protected JCheckBox autoSetCheckBox = new JCheckBox();
-	protected AutoHighlightTextField conditionField = new AutoHighlightTextField();
+	private JCheckBox autoSetCheckBox = new JCheckBox();
+	private AutoHighlightTextField conditionField = new AutoHighlightTextField();
 
-	public AdventureOptionsFrame( final String title )
+	public AdventureSelectPanel( final boolean enableAdventures )
 	{
-		super( title );
+		super( new BorderLayout( 10, 10 ) );
 		this.matchingAdventures = AdventureDatabase.getAsLockableListModel().getMirrorImage();
-	}
 
-	public JTabbedPane getSouthernTabs()
-	{
+		// West pane is a scroll pane which lists all of the available
+		// locations -- to be included is a map on a separate tab.
 
-		// Components of custom combat and choice adventuring,
-		// combined into one friendly panel.
+		this.locationSelect = new JList( this.matchingAdventures );
+		this.locationSelect.setVisibleRowCount( 4 );
 
-		SimpleScrollPane restoreScroller = new SimpleScrollPane( new RestoreOptionsPanel() );
-		JComponentUtilities.setComponentSize( restoreScroller, 560, 400 );
+		JPanel zonePanel = new JPanel( new BorderLayout( 5, 5 ) );
 
-		this.tabs.addTab( "HP/MP Usage", restoreScroller );
-
-		this.tabs.addTab( "Mood Setup", new MoodOptionsPanel() );
-		this.tabs.addTab( "Custom Combat", new CustomCombatPanel() );
-
-		return this.tabs;
-	}
-
-	/**
-	 * An internal class which represents the panel used for adventure selection in the <code>AdventureFrame</code>.
-	 */
-
-	public class AdventureSelectPanel
-		extends JPanel
-	{
-		public AdventureSelectPanel( final boolean enableAdventures )
+		boolean useZoneComboBox = Preferences.getBoolean( "useZoneComboBox" );
+		if ( useZoneComboBox )
 		{
-			super( new BorderLayout( 10, 10 ) );
+			this.zoneSelect = new FilterAdventureComboBox();
+			this.matchingAdventures.setFilter( (FilterAdventureComboBox) this.zoneSelect );
+		}
+		else
+		{
+			this.zoneSelect = new FilterAdventureField();
+		}
 
-			// West pane is a scroll pane which lists all of the available
-			// locations -- to be included is a map on a separate tab.
+		this.zoneMap = new TreeMap();
+		Object[] zones = AdventureDatabase.PARENT_LIST.toArray();
 
-			AdventureOptionsFrame.this.locationSelect = new JList( AdventureOptionsFrame.this.matchingAdventures );
-			AdventureOptionsFrame.this.locationSelect.setVisibleRowCount( 4 );
+		Object currentZone;
 
-			JPanel zonePanel = new JPanel( new BorderLayout( 5, 5 ) );
+		for ( int i = 0; i < zones.length; ++i )
+		{
+			currentZone = AdventureDatabase.ZONE_DESCRIPTIONS.get( zones[ i ] );
+			this.zoneMap.put( currentZone, zones[ i ] );
 
-			boolean useZoneComboBox = Preferences.getBoolean( "useZoneComboBox" );
 			if ( useZoneComboBox )
 			{
-				AdventureOptionsFrame.this.zoneSelect = new FilterAdventureComboBox();
-				AdventureOptionsFrame.this.matchingAdventures.setFilter( (FilterAdventureComboBox) AdventureOptionsFrame.this.zoneSelect );
+				( (JComboBox) this.zoneSelect ).addItem( currentZone );
 			}
-			else
-			{
-				AdventureOptionsFrame.this.zoneSelect = new FilterAdventureField();
-			}
+		}
 
-			AdventureOptionsFrame.this.zoneMap = new TreeMap();
-			Object[] zones = AdventureDatabase.PARENT_LIST.toArray();
+		JComponentUtilities.setComponentSize( this.zoneSelect, 200, 24 );
+		zonePanel.add( this.zoneSelect, BorderLayout.CENTER );
 
-			Object currentZone;
+		if ( enableAdventures )
+		{
+			this.countField = new AdventureCountSpinner();
+			this.countField.setHorizontalAlignment( AutoHighlightTextField.RIGHT );
+			JComponentUtilities.setComponentSize( this.countField, 56, 24 );
+			zonePanel.add( this.countField, BorderLayout.EAST );
+		}
 
-			for ( int i = 0; i < zones.length; ++i )
-			{
-				currentZone = AdventureDatabase.ZONE_DESCRIPTIONS.get( zones[ i ] );
-				AdventureOptionsFrame.this.zoneMap.put( currentZone, zones[ i ] );
+		JPanel locationPanel = new JPanel( new BorderLayout( 5, 5 ) );
+		locationPanel.add( zonePanel, BorderLayout.NORTH );
+		locationPanel.add( new SimpleScrollPane( this.locationSelect ), BorderLayout.CENTER );
 
-				if ( useZoneComboBox )
-				{
-					( (JComboBox) AdventureOptionsFrame.this.zoneSelect ).addItem( currentZone );
-				}
-			}
+		if ( enableAdventures )
+		{
+			JPanel locationHolder = new JPanel( new CardLayout( 10, 10 ) );
+			locationHolder.add( locationPanel, "" );
 
-			JComponentUtilities.setComponentSize( AdventureOptionsFrame.this.zoneSelect, 200, 24 );
-			zonePanel.add( AdventureOptionsFrame.this.zoneSelect, BorderLayout.CENTER );
+			this.add( locationHolder, BorderLayout.WEST );
+			this.add( new ObjectivesPanel(), BorderLayout.CENTER );
 
-			if ( enableAdventures )
-			{
-				AdventureOptionsFrame.this.countField = new AdventureCountSpinner();
-				AdventureOptionsFrame.this.countField.setHorizontalAlignment( AutoHighlightTextField.RIGHT );
-				JComponentUtilities.setComponentSize( AdventureOptionsFrame.this.countField, 56, 24 );
-				zonePanel.add( AdventureOptionsFrame.this.countField, BorderLayout.EAST );
-			}
-
-			JPanel locationPanel = new JPanel( new BorderLayout( 5, 5 ) );
-			locationPanel.add( zonePanel, BorderLayout.NORTH );
-			locationPanel.add( new SimpleScrollPane( AdventureOptionsFrame.this.locationSelect ), BorderLayout.CENTER );
-
-			if ( enableAdventures )
-			{
-				JPanel locationHolder = new JPanel( new CardLayout( 10, 10 ) );
-				locationHolder.add( locationPanel, "" );
-
-				this.add( locationHolder, BorderLayout.WEST );
-				this.add( new ObjectivesPanel(), BorderLayout.CENTER );
-
-				AdventureOptionsFrame.this.zoneSelect.addKeyListener( AdventureOptionsFrame.this.begin );
-				AdventureOptionsFrame.this.countField.addKeyListener( AdventureOptionsFrame.this.begin );
-			}
-			else
-			{
-				this.add( locationPanel, BorderLayout.WEST );
-			}
+			this.zoneSelect.addKeyListener( this.begin );
+			this.countField.addKeyListener( this.begin );
+		}
+		else
+		{
+			this.add( locationPanel, BorderLayout.WEST );
 		}
 	}
 
-	protected class FilterAdventureField
+	public void updateSelectedAdventure( final KoLAdventure location )
+	{
+		if ( this.locationSelect.getSelectedValue() == location || !KoLConstants.conditions.isEmpty() )
+		{
+			return;
+		}
+
+		if ( this.zoneSelect instanceof FilterAdventureField )
+		{
+			( (FilterAdventureField) this.zoneSelect ).setText( location.getZone() );
+		}
+		else
+		{
+			( (JComboBox) this.zoneSelect ).setSelectedItem( location.getParentZoneDescription() );
+		}
+
+		this.locationSelect.setSelectedValue( location, true );
+		this.locationSelect.ensureIndexIsVisible( this.locationSelect.getSelectedIndex() );
+	}
+
+	public void addSelectedLocationListener( ListSelectionListener listener )
+	{
+		this.locationSelect.addListSelectionListener( listener );
+	}
+
+	private class FilterAdventureField
 		extends AutoFilterTextField
 	{
 		public FilterAdventureField()
 		{
-			super( AdventureOptionsFrame.this.locationSelect );
+			super( AdventureSelectPanel.this.locationSelect );
 		}
 
 		public boolean isVisible( final Object element )
@@ -212,7 +215,7 @@ public abstract class AdventureOptionsFrame
 		}
 	}
 
-	protected class FilterAdventureComboBox
+	private class FilterAdventureComboBox
 		extends JComboBox
 		implements ListElementFilter
 	{
@@ -222,7 +225,7 @@ public abstract class AdventureOptionsFrame
 		{
 			super.setSelectedItem( element );
 			this.selectedZone = element;
-			AdventureOptionsFrame.this.matchingAdventures.updateFilter( false );
+			AdventureSelectPanel.this.matchingAdventures.updateFilter( false );
 		}
 
 		public boolean isVisible( final Object element )
@@ -238,37 +241,36 @@ public abstract class AdventureOptionsFrame
 		{
 			super( new Dimension( 70, 20 ), new Dimension( 200, 20 ) );
 
-			AdventureOptionsFrame.this.actionSelect = new AutoFilterComboBox( KoLCharacter.getBattleSkillNames(), false );
+			AdventureSelectPanel.this.actionSelect = new AutoFilterComboBox( KoLCharacter.getBattleSkillNames(), false );
 
-			AdventureOptionsFrame.this.locationSelect.addListSelectionListener( new ConditionchangeListener() );
+			AdventureSelectPanel.this.locationSelect.addListSelectionListener( new ConditionchangeListener() );
 
 			JPanel conditionPanel = new JPanel( new BorderLayout( 5, 5 ) );
-			conditionPanel.add( AdventureOptionsFrame.this.conditionField, BorderLayout.CENTER );
-			conditionPanel.add( AdventureOptionsFrame.this.autoSetCheckBox, BorderLayout.EAST );
+			conditionPanel.add( AdventureSelectPanel.this.conditionField, BorderLayout.CENTER );
+			conditionPanel.add( AdventureSelectPanel.this.autoSetCheckBox, BorderLayout.EAST );
 
-			AdventureOptionsFrame.this.autoSetCheckBox.setSelected( Preferences.getBoolean( "autoSetConditions" ) );
-			AdventureOptionsFrame.this.conditionField.setEnabled( Preferences.getBoolean( "autoSetConditions" ) );
+			AdventureSelectPanel.this.autoSetCheckBox.setSelected( Preferences.getBoolean( "autoSetConditions" ) );
+			AdventureSelectPanel.this.conditionField.setEnabled( Preferences.getBoolean( "autoSetConditions" ) );
 
-			AdventureOptionsFrame.this.addActionListener(
-				AdventureOptionsFrame.this.autoSetCheckBox, new EnableObjectivesListener() );
+			AdventureSelectPanel.this.autoSetCheckBox.addActionListener( new EnableObjectivesListener() );
 
 			JPanel buttonWrapper = new JPanel();
-			buttonWrapper.add( AdventureOptionsFrame.this.begin = new ExecuteButton() );
+			buttonWrapper.add( AdventureSelectPanel.this.begin = new ExecuteButton() );
 			buttonWrapper.add( new InvocationButton( "stop", RequestThread.class, "declareWorldPeace" ) );
 
 			VerifiableElement[] elements = new VerifiableElement[ 2 ];
-			elements[ 0 ] = new VerifiableElement( "Action:  ", AdventureOptionsFrame.this.actionSelect );
+			elements[ 0 ] = new VerifiableElement( "Action:  ", AdventureSelectPanel.this.actionSelect );
 			elements[ 1 ] = new VerifiableElement( "Goals:  ", conditionPanel );
 
 			this.setContent( elements );
 			this.container.add( buttonWrapper, BorderLayout.SOUTH );
 
-			JComponentUtilities.addHotKey( this, KeyEvent.VK_ENTER, AdventureOptionsFrame.this.begin );
+			JComponentUtilities.addHotKey( this, KeyEvent.VK_ENTER, AdventureSelectPanel.this.begin );
 		}
 
 		public void actionConfirmed()
 		{
-			String value = (String) AdventureOptionsFrame.this.actionSelect.getSelectedItem();
+			String value = (String) AdventureSelectPanel.this.actionSelect.getSelectedItem();
 			if ( value != null )
 			{
 				Preferences.setString( "battleAction", value  );
@@ -285,7 +287,7 @@ public abstract class AdventureOptionsFrame
 
 		public void setEnabled( final boolean isEnabled )
 		{
-			AdventureOptionsFrame.this.begin.setEnabled( isEnabled );
+			AdventureSelectPanel.this.begin.setEnabled( isEnabled );
 		}
 
 		private class EnableObjectivesListener
@@ -294,9 +296,9 @@ public abstract class AdventureOptionsFrame
 			public void run()
 			{
 				Preferences.setBoolean(
-					"autoSetConditions", AdventureOptionsFrame.this.autoSetCheckBox.isSelected() );
+					"autoSetConditions", AdventureSelectPanel.this.autoSetCheckBox.isSelected() );
 
-				AdventureOptionsFrame.this.conditionField.setEnabled( AdventureOptionsFrame.this.autoSetCheckBox.isSelected() && !KoLmafia.isAdventuring() );
+				AdventureSelectPanel.this.conditionField.setEnabled( AdventureSelectPanel.this.autoSetCheckBox.isSelected() && !KoLmafia.isAdventuring() );
 			}
 		}
 	}
@@ -317,37 +319,37 @@ public abstract class AdventureOptionsFrame
 			}
 
 			KoLConstants.conditions.clear();
-			AdventureOptionsFrame.this.fillCurrentConditions();
+			AdventureSelectPanel.this.fillCurrentConditions();
 		}
 
 		public void intervalAdded( final ListDataEvent e )
 		{
-			if ( AdventureOptionsFrame.this.isHandlingConditions )
+			if ( AdventureSelectPanel.this.isHandlingConditions )
 			{
 				return;
 			}
 
-			AdventureOptionsFrame.this.fillCurrentConditions();
+			AdventureSelectPanel.this.fillCurrentConditions();
 		}
 
 		public void intervalRemoved( final ListDataEvent e )
 		{
-			if ( AdventureOptionsFrame.this.isHandlingConditions )
+			if ( AdventureSelectPanel.this.isHandlingConditions )
 			{
 				return;
 			}
 
-			AdventureOptionsFrame.this.fillCurrentConditions();
+			AdventureSelectPanel.this.fillCurrentConditions();
 		}
 
 		public void contentsChanged( final ListDataEvent e )
 		{
-			if ( AdventureOptionsFrame.this.isHandlingConditions )
+			if ( AdventureSelectPanel.this.isHandlingConditions )
 			{
 				return;
 			}
 
-			AdventureOptionsFrame.this.fillCurrentConditions();
+			AdventureSelectPanel.this.fillCurrentConditions();
 		}
 	}
 
@@ -371,7 +373,7 @@ public abstract class AdventureOptionsFrame
 
 			KoLmafia.updateDisplay( "Validating adventure sequence..." );
 
-			KoLAdventure request = (KoLAdventure) AdventureOptionsFrame.this.locationSelect.getSelectedValue();
+			KoLAdventure request = (KoLAdventure) AdventureSelectPanel.this.locationSelect.getSelectedValue();
 			if ( request == null )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "No location selected." );
@@ -383,7 +385,7 @@ public abstract class AdventureOptionsFrame
 			// If there are conditions in the condition field, be
 			// sure to process them.
 
-			if ( KoLConstants.conditions.isEmpty() || AdventureOptionsFrame.this.lastAdventure != null && AdventureOptionsFrame.this.lastAdventure != request )
+			if ( KoLConstants.conditions.isEmpty() || AdventureSelectPanel.this.lastAdventure != null && AdventureSelectPanel.this.lastAdventure != request )
 			{
 				Object stats = null;
 				int substatIndex = KoLConstants.conditions.indexOf( KoLConstants.tally.get( 2 ) );
@@ -400,12 +402,12 @@ public abstract class AdventureOptionsFrame
 					KoLConstants.conditions.add( stats );
 				}
 
-				AdventureOptionsFrame.this.lastAdventure = request;
+				AdventureSelectPanel.this.lastAdventure = request;
 
 				RequestThread.openRequestSequence();
-				AdventureOptionsFrame.this.isHandlingConditions = true;
+				AdventureSelectPanel.this.isHandlingConditions = true;
 				boolean shouldAdventure = this.handleConditions( request );
-				AdventureOptionsFrame.this.isHandlingConditions = false;
+				AdventureSelectPanel.this.isHandlingConditions = false;
 				RequestThread.closeRequestSequence();
 
 				if ( !shouldAdventure )
@@ -417,8 +419,8 @@ public abstract class AdventureOptionsFrame
 
 			int requestCount =
 				Math.min(
-					KoLFrame.getValue( AdventureOptionsFrame.this.countField, 1 ), KoLCharacter.getAdventuresLeft() );
-			AdventureOptionsFrame.this.countField.setValue( requestCount );
+					KoLFrame.getValue( AdventureSelectPanel.this.countField, 1 ), KoLCharacter.getAdventuresLeft() );
+			AdventureSelectPanel.this.countField.setValue( requestCount );
 
 			boolean resetCount = requestCount == KoLCharacter.getAdventuresLeft();
 
@@ -426,7 +428,7 @@ public abstract class AdventureOptionsFrame
 
 			if ( resetCount )
 			{
-				AdventureOptionsFrame.this.countField.setValue( KoLCharacter.getAdventuresLeft() );
+				AdventureSelectPanel.this.countField.setValue( KoLCharacter.getAdventuresLeft() );
 			}
 
 			this.isProcessing = false;
@@ -439,10 +441,10 @@ public abstract class AdventureOptionsFrame
 				return false;
 			}
 
-			String conditionList = AdventureOptionsFrame.this.conditionField.getText().trim().toLowerCase();
+			String conditionList = AdventureSelectPanel.this.conditionField.getText().trim().toLowerCase();
 			KoLConstants.conditions.clear();
 
-			if ( !AdventureOptionsFrame.this.autoSetCheckBox.isSelected() || conditionList.length() == 0 || conditionList.equalsIgnoreCase( "none" ) )
+			if ( !AdventureSelectPanel.this.autoSetCheckBox.isSelected() || conditionList.length() == 0 || conditionList.equalsIgnoreCase( "none" ) )
 			{
 				return true;
 			}
@@ -494,9 +496,9 @@ public abstract class AdventureOptionsFrame
 				return false;
 			}
 
-			if ( KoLFrame.getValue( AdventureOptionsFrame.this.countField ) == 0 )
+			if ( KoLFrame.getValue( AdventureSelectPanel.this.countField ) == 0 )
 			{
-				AdventureOptionsFrame.this.countField.setValue( KoLCharacter.getAdventuresLeft() );
+				AdventureSelectPanel.this.countField.setValue( KoLCharacter.getAdventuresLeft() );
 			}
 
 			return true;
@@ -505,7 +507,7 @@ public abstract class AdventureOptionsFrame
 
 	public void fillDefaultConditions()
 	{
-		AdventureOptionsFrame.this.conditionField.setText( AdventureDatabase.getDefaultConditions( (KoLAdventure) this.locationSelect.getSelectedValue() ) );
+		AdventureSelectPanel.this.conditionField.setText( AdventureDatabase.getDefaultConditions( (KoLAdventure) this.locationSelect.getSelectedValue() ) );
 	}
 
 	public void fillCurrentConditions()
@@ -532,7 +534,7 @@ public abstract class AdventureOptionsFrame
 		}
 	}
 
-	protected JPanel getAdventureSummary( final String property, final JList locationSelect )
+	public JPanel getAdventureSummary( final String property )
 	{
 		int selectedIndex = Preferences.getInteger( property );
 
@@ -548,7 +550,7 @@ public abstract class AdventureOptionsFrame
 		if ( property.startsWith( "default" ) )
 		{
 			resultSelect.addItem( "Location Details" );
-			resultPanel.add( new SafetyField( locationSelect ), String.valueOf( cardCount++ ) );
+			resultPanel.add( new SafetyField(), String.valueOf( cardCount++ ) );
 
 			resultSelect.addItem( "Conditions Left" );
 			resultPanel.add( new SimpleScrollPane( KoLConstants.conditions, 4 ), String.valueOf( cardCount++ ) );
@@ -608,20 +610,18 @@ public abstract class AdventureOptionsFrame
 		}
 	}
 
-	protected class SafetyField
+	private class SafetyField
 		extends JPanel
 		implements Runnable, ListSelectionListener
 	{
 		private final LimitedSizeChatBuffer safetyText;
 		private String savedText = " ";
-		private final JList locationSelect;
 
-		public SafetyField( final JList locationSelect )
+		public SafetyField()
 		{
 			super( new BorderLayout() );
 
 			this.safetyText = new LimitedSizeChatBuffer( false );
-			this.locationSelect = locationSelect;
 
 			JScrollPane textScroller = this.safetyText.setChatDisplay( new RequestPane() );
 			JComponentUtilities.setComponentSize( textScroller, 100, 100 );
@@ -645,7 +645,7 @@ public abstract class AdventureOptionsFrame
 
 		private void setSafetyString()
 		{
-			KoLAdventure request = (KoLAdventure) this.locationSelect.getSelectedValue();
+			KoLAdventure request = (KoLAdventure) AdventureSelectPanel.this.locationSelect.getSelectedValue();
 
 			if ( request == null )
 			{

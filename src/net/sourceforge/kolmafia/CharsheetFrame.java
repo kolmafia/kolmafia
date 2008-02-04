@@ -39,24 +39,16 @@ import java.awt.Color;
 import java.awt.GridLayout;
 
 import javax.swing.BoxLayout;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
-import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
-import net.sourceforge.kolmafia.persistence.AdventureDatabase;
-import net.sourceforge.kolmafia.persistence.Preferences;
-
 public class CharsheetFrame
-	extends AdventureOptionsFrame
+	extends KoLFrame
 {
-	private static CharsheetFrame INSTANCE = null;
-	private static boolean shouldAddExtraTabs = true;
-
 	private final JLabel avatar;
 	private JLabel[] statusLabel;
 	private JProgressBar[] tnpDisplay;
@@ -70,7 +62,6 @@ public class CharsheetFrame
 	{
 		super( "Player Status" );
 
-		CharsheetFrame.INSTANCE = this;
 		this.framePanel.setLayout( new BorderLayout( 20, 20 ) );
 
 		JPanel statusPanel = new JPanel( new BorderLayout( 20, 20 ) );
@@ -83,14 +74,8 @@ public class CharsheetFrame
 		JPanel statusContainer = new JPanel( new CardLayout( 10, 10 ) );
 		statusContainer.add( statusPanel, "" );
 
-		this.framePanel.add( this.getSouthernTabs(), BorderLayout.CENTER );
-
-		JPanel sessionContainer = new JPanel( new CardLayout( 10, 10 ) );
-		sessionContainer.add( this.getAdventureSummary( "charsheetDropdown", this.locationSelect ), "" );
-
 		JPanel northPanel = new JPanel( new BorderLayout() );
 		northPanel.add( statusContainer, BorderLayout.WEST );
-		northPanel.add( sessionContainer, BorderLayout.CENTER );
 
 		this.framePanel.add( northPanel, BorderLayout.NORTH );
 
@@ -98,7 +83,6 @@ public class CharsheetFrame
 		KoLCharacter.addCharacterListener( this.statusRefresher );
 
 		this.statusRefresher.updateStatus();
-		CharsheetFrame.updateSelectedAdventure( AdventureDatabase.getAdventure( Preferences.getString( "lastAdventure" ) ) );
 	}
 
 	public boolean useSidePane()
@@ -110,38 +94,6 @@ public class CharsheetFrame
 	{
 		KoLCharacter.removeCharacterListener( this.statusRefresher );
 		super.dispose();
-	}
-
-	public static final void removeExtraTabs()
-	{
-		CharsheetFrame.shouldAddExtraTabs = false;
-		if ( CharsheetFrame.INSTANCE == null || CharsheetFrame.INSTANCE.tabs == null )
-		{
-			return;
-		}
-
-		for ( int i = CharsheetFrame.INSTANCE.tabs.getTabCount() - 1; i > 0; --i )
-		{
-			CharsheetFrame.INSTANCE.tabs.remove( i );
-		}
-	}
-
-	public JTabbedPane getSouthernTabs()
-	{
-		if ( CharsheetFrame.shouldAddExtraTabs )
-		{
-			super.getSouthernTabs();
-		}
-
-		JPanel locationDetails = new JPanel( new BorderLayout( 10, 10 ) );
-		locationDetails.add( new AdventureSelectPanel( false ), BorderLayout.WEST );
-		locationDetails.add( new SafetyField( this.locationSelect ), BorderLayout.CENTER );
-
-		JPanel locationHolder = new JPanel( new CardLayout( 10, 10 ) );
-		locationHolder.add( locationDetails, "" );
-
-		this.tabs.insertTab( "Overview", null, locationHolder, null, 0 );
-		return this.tabs;
 	}
 
 	/**
@@ -243,30 +195,5 @@ public class CharsheetFrame
 			// Set the current avatar
 			CharsheetFrame.this.avatar.setIcon( JComponentUtilities.getImage( KoLCharacter.getAvatar() ) );
 		}
-	}
-
-	public static final void updateSelectedAdventure( final KoLAdventure location )
-	{
-		if ( CharsheetFrame.INSTANCE == null || location == null || CharsheetFrame.INSTANCE.zoneSelect == null || CharsheetFrame.INSTANCE.locationSelect == null )
-		{
-			return;
-		}
-
-		if ( CharsheetFrame.INSTANCE.locationSelect.getSelectedValue() == location || !KoLConstants.conditions.isEmpty() )
-		{
-			return;
-		}
-
-		if ( CharsheetFrame.INSTANCE.zoneSelect instanceof FilterAdventureField )
-		{
-			( (FilterAdventureField) CharsheetFrame.INSTANCE.zoneSelect ).setText( location.getZone() );
-		}
-		else
-		{
-			( (JComboBox) CharsheetFrame.INSTANCE.zoneSelect ).setSelectedItem( location.getParentZoneDescription() );
-		}
-
-		CharsheetFrame.INSTANCE.locationSelect.setSelectedValue( location, true );
-		CharsheetFrame.INSTANCE.locationSelect.ensureIndexIsVisible( CharsheetFrame.INSTANCE.locationSelect.getSelectedIndex() );
 	}
 }

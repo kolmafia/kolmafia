@@ -36,7 +36,6 @@ package net.sourceforge.kolmafia;
 import java.awt.BorderLayout;
 
 import javax.swing.Box;
-import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JSplitPane;
@@ -44,19 +43,21 @@ import javax.swing.JTabbedPane;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
+import net.sourceforge.kolmafia.swingui.panel.AdventureSelectPanel;
 import net.sourceforge.kolmafia.swingui.panel.ChoiceOptionsPanel;
+import net.sourceforge.kolmafia.swingui.panel.CustomCombatPanel;
+import net.sourceforge.kolmafia.swingui.panel.MoodOptionsPanel;
+import net.sourceforge.kolmafia.swingui.panel.RestoreOptionsPanel;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class AdventureFrame
-	extends AdventureOptionsFrame
+	extends KoLFrame
 {
-	private static AdventureFrame INSTANCE = null;
-	private JProgressBar requestMeter = null;
-
-	private JSplitPane sessionGrid;
-	private final AdventureSelectPanel adventureSelect;
+	private static AdventureSelectPanel adventureSelector = null;
+	private static JProgressBar requestMeter = null;
+	private static JSplitPane sessionGrid;
 
 	/**
 	 * Constructs a new <code>AdventureFrame</code>. All constructed panels are placed into their corresponding tabs,
@@ -70,19 +71,18 @@ public class AdventureFrame
 		// Construct the adventure select container
 		// to hold everything related to adventuring.
 
-		AdventureFrame.INSTANCE = this;
-		this.adventureSelect = new AdventureSelectPanel( true );
+		AdventureFrame.adventureSelector = new AdventureSelectPanel( true );
 
 		JPanel adventureDetails = new JPanel( new BorderLayout( 20, 20 ) );
-		adventureDetails.add( this.adventureSelect, BorderLayout.CENTER );
+		adventureDetails.add( AdventureFrame.adventureSelector, BorderLayout.CENTER );
 
-		this.requestMeter = new JProgressBar();
-		this.requestMeter.setOpaque( true );
-		this.requestMeter.setStringPainted( true );
+		AdventureFrame.requestMeter = new JProgressBar();
+		AdventureFrame.requestMeter.setOpaque( true );
+		AdventureFrame.requestMeter.setStringPainted( true );
 
 		JPanel meterPanel = new JPanel( new BorderLayout( 10, 10 ) );
 		meterPanel.add( Box.createHorizontalStrut( 20 ), BorderLayout.WEST );
-		meterPanel.add( this.requestMeter, BorderLayout.CENTER );
+		meterPanel.add( AdventureFrame.requestMeter, BorderLayout.CENTER );
 		meterPanel.add( Box.createHorizontalStrut( 20 ), BorderLayout.EAST );
 
 		adventureDetails.add( meterPanel, BorderLayout.SOUTH );
@@ -92,10 +92,9 @@ public class AdventureFrame
 		this.framePanel.add( this.getSouthernTabs(), BorderLayout.CENTER );
 
 		AdventureFrame.updateSelectedAdventure( AdventureDatabase.getAdventure( Preferences.getString( "lastAdventure" ) ) );
-		this.fillDefaultConditions();
+		AdventureFrame.adventureSelector.fillDefaultConditions();
 
 		JComponentUtilities.setComponentSize( this.framePanel, 640, 480 );
-		CharsheetFrame.removeExtraTabs();
 	}
 
 	public boolean shouldAddStatusBar()
@@ -105,48 +104,32 @@ public class AdventureFrame
 
 	public void setStatusMessage( final String message )
 	{
-		if ( this.requestMeter == null || message.length() == 0 )
+		if ( AdventureFrame.requestMeter == null || message.length() == 0 )
 		{
 			return;
 		}
 
-		this.requestMeter.setString( message );
+		AdventureFrame.requestMeter.setString( message );
 	}
 
 	public static final void updateRequestMeter( final int value, final int maximum )
 	{
-		if ( AdventureFrame.INSTANCE == null || AdventureFrame.INSTANCE.requestMeter == null )
+		if ( AdventureFrame.requestMeter == null )
 		{
 			return;
 		}
 
-		AdventureFrame.INSTANCE.requestMeter.setMaximum( maximum );
-		AdventureFrame.INSTANCE.requestMeter.setValue( value );
+		AdventureFrame.requestMeter.setMaximum( maximum );
+		AdventureFrame.requestMeter.setValue( value );
 	}
 
 	public static final void updateSelectedAdventure( final KoLAdventure location )
 	{
-		if ( AdventureFrame.INSTANCE == null || location == null || AdventureFrame.INSTANCE.zoneSelect == null || AdventureFrame.INSTANCE.locationSelect == null )
+		if ( AdventureFrame.adventureSelector == null )
 		{
 			return;
 		}
 
-		if ( AdventureFrame.INSTANCE.locationSelect.getSelectedValue() == location || !KoLConstants.conditions.isEmpty() )
-		{
-			return;
-		}
-
-		if ( AdventureFrame.INSTANCE.zoneSelect instanceof FilterAdventureField )
-		{
-			( (FilterAdventureField) AdventureFrame.INSTANCE.zoneSelect ).setText( location.getZone() );
-		}
-		else
-		{
-			( (JComboBox) AdventureFrame.INSTANCE.zoneSelect ).setSelectedItem( location.getParentZoneDescription() );
-		}
-
-		AdventureFrame.INSTANCE.locationSelect.setSelectedValue( location, true );
-		AdventureFrame.INSTANCE.locationSelect.ensureIndexIsVisible( AdventureFrame.INSTANCE.locationSelect.getSelectedIndex() );
 	}
 
 	public boolean useSidePane()
@@ -156,34 +139,45 @@ public class AdventureFrame
 
 	public JTabbedPane getSouthernTabs()
 	{
-		super.getSouthernTabs();
+		// Components of custom combat and choice adventuring,
+		// combined into one friendly panel.
+
+		SimpleScrollPane restoreScroller = new SimpleScrollPane( new RestoreOptionsPanel() );
+		JComponentUtilities.setComponentSize( restoreScroller, 560, 400 );
+
+		this.tabs.addTab( "HP/MP Usage", restoreScroller );
+
+		this.tabs.addTab( "Mood Setup", new MoodOptionsPanel() );
+		this.tabs.addTab( "Custom Combat", new CustomCombatPanel() );
+
 		this.tabs.insertTab( "Overview", null, this.getAdventureSummary(), null, 0 );
 		ChoiceOptionsPanel choicePanel = new ChoiceOptionsPanel();
 		this.tabs.insertTab( "Choice Advs", null, new SimpleScrollPane( choicePanel ), null, 1 );
-		AdventureFrame.this.locationSelect.addListSelectionListener( choicePanel.getUpdateListener() );
+
+		AdventureFrame.adventureSelector.addSelectedLocationListener( choicePanel.getUpdateListener() );
 		return this.tabs;
 	}
 
 	private JSplitPane getAdventureSummary()
 	{
-		this.sessionGrid =
-			new JSplitPane( JSplitPane.HORIZONTAL_SPLIT, true, this.getAdventureSummary(
-				"defaultDropdown1", this.locationSelect ), this.getAdventureSummary(
-				"defaultDropdown2", this.locationSelect ) );
+		AdventureFrame.sessionGrid =
+			new JSplitPane( JSplitPane.HORIZONTAL_SPLIT, true,
+				AdventureFrame.adventureSelector.getAdventureSummary( "defaultDropdown1" ),
+				AdventureFrame.adventureSelector.getAdventureSummary( "defaultDropdown2" ) );
 
 		int location = Preferences.getInteger( "defaultDropdownSplit" );
 
 		if ( location == 0 )
 		{
-			this.sessionGrid.setDividerLocation( 0.5 );
+			AdventureFrame.sessionGrid.setDividerLocation( 0.5 );
 		}
 		else
 		{
-			this.sessionGrid.setDividerLocation( location );
+			AdventureFrame.sessionGrid.setDividerLocation( location );
 		}
 
-		this.sessionGrid.setResizeWeight( 0.5 );
-		return this.sessionGrid;
+		AdventureFrame.sessionGrid.setResizeWeight( 0.5 );
+		return AdventureFrame.sessionGrid;
 	}
 
 	public void dispose()

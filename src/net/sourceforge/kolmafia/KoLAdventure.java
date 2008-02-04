@@ -987,7 +987,6 @@ public class KoLAdventure
 			if ( !this.isNonCombatsOnly() )
 			{
 				AdventureFrame.updateSelectedAdventure( this );
-				CharsheetFrame.updateSelectedAdventure( this );
 			}
 		}
 
