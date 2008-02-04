@@ -67,6 +67,9 @@ import net.sourceforge.kolmafia.ShowDescriptionList;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.StaticEntity.TurnCounter;
+
+import net.sourceforge.kolmafia.ASH.Interpreter;
+
 import net.sourceforge.kolmafia.session.ChatManager;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 
@@ -632,9 +635,9 @@ public class RelayRequest
 		// the underlying HTML.
 
 		int classIndex = -1;
-		for ( int i = 0; i < KoLmafiaASH.CLASSES.length; ++i )
+		for ( int i = 0; i < Interpreter.CLASSES.length; ++i )
 		{
-			if ( KoLmafiaASH.CLASSES[ i ].equalsIgnoreCase( KoLCharacter.getClassType() ) )
+			if ( Interpreter.CLASSES[ i ].equalsIgnoreCase( KoLCharacter.getClassType() ) )
 			{
 				classIndex = i;
 			}

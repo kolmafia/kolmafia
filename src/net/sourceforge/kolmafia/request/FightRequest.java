@@ -48,6 +48,7 @@ import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.ASH.Interpreter;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
 import net.sourceforge.kolmafia.webui.IslandDecorator;
 
@@ -299,7 +300,7 @@ public class FightRequest
 			FightRequest.isUsingConsultScript = true;
 			String scriptName = FightRequest.action1.substring( "consult".length() ).trim();
 
-			KoLmafiaASH interpreter = KoLmafiaASH.getInterpreter( KoLmafiaCLI.findScriptFile( scriptName ) );
+			Interpreter interpreter = KoLmafiaASH.getInterpreter( KoLmafiaCLI.findScriptFile( scriptName ) );
 			if ( interpreter != null )
 			{
 				interpreter.execute( "main", new String[]
