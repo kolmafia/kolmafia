@@ -36,7 +36,7 @@ package net.sourceforge.kolmafia.request;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.KoLmafiaASH;
+import net.sourceforge.kolmafia.ASH.Interpreter;
 import net.sourceforge.kolmafia.webui.CharacterEntityReference;
 
 public class SendMailRequest
@@ -59,7 +59,7 @@ public class SendMailRequest
 		this.isInternal = true;
 	}
 
-	public SendMailRequest( final String recipient, final KoLmafiaASH script )
+	public SendMailRequest( final String recipient, final Interpreter script )
 	{
 		super( "sendmessage.php" );
 

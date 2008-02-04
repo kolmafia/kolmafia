@@ -49,7 +49,9 @@ import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
+
 import net.sourceforge.kolmafia.KoLConstants.ByteArrayStream;
+import net.sourceforge.kolmafia.ASH.Interpreter;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.BuffBotDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
@@ -641,7 +643,7 @@ public class KoLmafiaCLI
 				return;
 			}
 
-			KoLmafiaASH interpreter = new KoLmafiaASH();
+			Interpreter interpreter = new Interpreter();
 			interpreter.validate( ostream.getByteArrayInputStream() );
 			interpreter.execute( "main", null );
 
@@ -1212,7 +1214,7 @@ public class KoLmafiaCLI
 					continue;
 				}
 
-				KoLmafiaASH interpreter = KoLmafiaASH.getInterpreter( f );
+				Interpreter interpreter = KoLmafiaASH.getInterpreter( f );
 				if ( interpreter != null )
 				{
 					interpreter.showUserFunctions( parameters );
@@ -3124,7 +3126,7 @@ public class KoLmafiaCLI
 
 				if ( command.equals( "validate" ) || command.equals( "verify" ) || command.equals( "check" ) )
 				{
-					KoLmafiaASH interpreter = KoLmafiaASH.getInterpreter( scriptFile );
+					Interpreter interpreter = KoLmafiaASH.getInterpreter( scriptFile );
 					if ( interpreter != null )
 					{
 						RequestLogger.printLine();
@@ -3140,7 +3142,7 @@ public class KoLmafiaCLI
 				// If there's an alternate namespace being
 				// used, then be sure to switch.
 
-				KoLmafiaASH interpreter = KoLmafiaASH.getInterpreter( scriptFile );
+				Interpreter interpreter = KoLmafiaASH.getInterpreter( scriptFile );
 				if ( interpreter != null )
 				{
 					for ( int i = 0; i < runCount && KoLmafia.permitsContinue(); ++i )

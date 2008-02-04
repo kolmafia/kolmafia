@@ -63,6 +63,7 @@ import net.sourceforge.kolmafia.LimitedSizeChatBuffer;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.TabbedChatFrame;
+import net.sourceforge.kolmafia.ASH.Interpreter;
 import net.sourceforge.kolmafia.webui.CharacterEntityReference;
 
 import net.sourceforge.kolmafia.request.CharPaneRequest;
@@ -893,7 +894,7 @@ public abstract class ChatManager
 			return false;
 		}
 
-		KoLmafiaASH interpreter = KoLmafiaASH.getInterpreter( KoLmafiaCLI.findScriptFile( scriptName ) );
+		Interpreter interpreter = KoLmafiaASH.getInterpreter( KoLmafiaCLI.findScriptFile( scriptName ) );
 		if ( interpreter == null )
 		{
 			return false;
