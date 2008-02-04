@@ -792,7 +792,7 @@ public class Interpreter
 			this.lineNumber = this.commandStream.getLineNumber();
 			this.nextLine = this.getNextLine();
 			this.global = this.parseScope( null, null, new ScriptVariableList(), this.getExistingFunctionScope(), false );
-			this.printScope( this.global, 0 );
+			this.printScope( this.global );
 
 			if ( this.currentLine != null )
 			{
@@ -3092,70 +3092,21 @@ public class Interpreter
 
 	// **************** Debug printing *****************
 
-	private void printScope( final ScriptScope scope, final int indent )
+	private void printScope( final ScriptScope scope )
 	{
 		if ( scope == null )
 		{
 			return;
 		}
 
-		Iterator it;
+		PrintStream stream = RequestLogger.getDebugStream();
+		scope.print( stream, 0 );
 
-		Interpreter.indentLine( indent );
-		RequestLogger.updateDebugLog( "<SCOPE>" );
-
-		Interpreter.indentLine( indent + 1 );
-		RequestLogger.updateDebugLog( "<TYPES>" );
-
-		it = scope.getTypes();
-		ScriptType currentType;
-
-		while ( it.hasNext() )
+		if ( this.mainMethod != null )
 		{
-			currentType = (ScriptType) it.next();
-			this.printType( currentType, indent + 2 );
-		}
-
-		Interpreter.indentLine( indent + 1 );
-		RequestLogger.updateDebugLog( "<VARIABLES>" );
-
-		it = scope.getVariables();
-		ScriptVariable currentVar;
-
-		while ( it.hasNext() )
-		{
-			currentVar = (ScriptVariable) it.next();
-			this.printVariable( currentVar, indent + 2 );
-		}
-
-		Interpreter.indentLine( indent + 1 );
-		RequestLogger.updateDebugLog( "<FUNCTIONS>" );
-
-		it = scope.getFunctions();
-		ScriptFunction currentFunc;
-
-		while ( it.hasNext() )
-		{
-			currentFunc = (ScriptFunction) it.next();
-			this.printFunction( currentFunc, indent + 2 );
-		}
-
-		Interpreter.indentLine( indent + 1 );
-		RequestLogger.updateDebugLog( "<COMMANDS>" );
-
-		it = scope.getCommands();
-		ScriptCommand currentCommand;
-		while ( it.hasNext() )
-		{
-			currentCommand = (ScriptCommand) it.next();
-			this.printCommand( currentCommand, indent + 2 );
-		}
-
-		if ( indent == 0 && this.mainMethod != null )
-		{
-			Interpreter.indentLine( indent + 1 );
-			RequestLogger.updateDebugLog( "<MAIN>" );
-			this.printFunction( this.mainMethod, indent + 2 );
+			Interpreter.indentLine( 1 );
+			stream.println( "<MAIN>" );
+			this.mainMethod.print( stream, 2 );
 		}
 	}
 
@@ -3243,272 +3194,6 @@ public class Interpreter
 			RequestLogger.printLine( description.toString() );
 
 		}
-	}
-
-	private void printType( final ScriptType type, final int indent )
-	{
-		Interpreter.indentLine( indent );
-		RequestLogger.updateDebugLog( "<TYPE " + type + ">" );
-	}
-
-	private void printVariable( final ScriptVariable var, final int indent )
-	{
-		Interpreter.indentLine( indent );
-		RequestLogger.updateDebugLog( "<VAR " + var.getType() + " " + var.getName() + ">" );
-	}
-
-	private void printFunction( final ScriptFunction func, final int indent )
-	{
-		Interpreter.indentLine( indent );
-		RequestLogger.updateDebugLog( "<FUNC " + func.getType() + " " + func.getName() + ">" );
-
-		Iterator it = func.getReferences();
-		ScriptVariableReference current;
-
-		while ( it.hasNext() )
-		{
-			current = (ScriptVariableReference) it.next();
-			this.printVariableReference( current, indent + 1 );
-		}
-
-		if ( func instanceof ScriptUserDefinedFunction )
-		{
-			this.printScope( ( (ScriptUserDefinedFunction) func ).getScope(), indent + 1 );
-		}
-	}
-
-	private void printCommand( final ScriptCommand command, final int indent )
-	{
-		if ( command instanceof ScriptReturn )
-		{
-			this.printReturn( (ScriptReturn) command, indent );
-		}
-		else if ( command instanceof ScriptConditional )
-		{
-			this.printConditional( (ScriptConditional) command, indent );
-		}
-		else if ( command instanceof ScriptWhile )
-		{
-			this.printWhile( (ScriptWhile) command, indent );
-		}
-		else if ( command instanceof ScriptRepeat )
-		{
-			this.printRepeat( (ScriptRepeat) command, indent );
-		}
-		else if ( command instanceof ScriptForeach )
-		{
-			this.printForeach( (ScriptForeach) command, indent );
-		}
-		else if ( command instanceof ScriptFor )
-		{
-			this.printFor( (ScriptFor) command, indent );
-		}
-		else if ( command instanceof ScriptCall )
-		{
-			this.printCall( (ScriptCall) command, indent );
-		}
-		else if ( command instanceof ScriptAssignment )
-		{
-			this.printAssignment( (ScriptAssignment) command, indent );
-		}
-		else
-		{
-			Interpreter.indentLine( indent );
-			RequestLogger.updateDebugLog( "<COMMAND " + command + ">" );
-		}
-	}
-
-	private void printReturn( final ScriptReturn ret, final int indent )
-	{
-		Interpreter.indentLine( indent );
-		RequestLogger.updateDebugLog( "<RETURN " + ret.getType() + ">" );
-		if ( !ret.getType().equals( Interpreter.TYPE_VOID ) )
-		{
-			this.printExpression( ret.getExpression(), indent + 1 );
-		}
-	}
-
-	private void printConditional( final ScriptConditional command, final int indent )
-	{
-		Interpreter.indentLine( indent );
-		if ( command instanceof ScriptIf )
-		{
-			ScriptIf loop = (ScriptIf) command;
-			RequestLogger.updateDebugLog( "<IF>" );
-
-			this.printExpression( loop.getCondition(), indent + 1 );
-			this.printScope( loop.getScope(), indent + 1 );
-
-			Iterator it = loop.getElseLoops();
-			ScriptConditional currentElse;
-
-			while ( it.hasNext() )
-			{
-				currentElse = (ScriptConditional) it.next();
-				this.printConditional( currentElse, indent );
-			}
-		}
-		else if ( command instanceof ScriptElseIf )
-		{
-			ScriptElseIf loop = (ScriptElseIf) command;
-			RequestLogger.updateDebugLog( "<ELSE IF>" );
-			this.printExpression( loop.getCondition(), indent + 1 );
-			this.printScope( loop.getScope(), indent + 1 );
-		}
-		else if ( command instanceof ScriptElse )
-		{
-			ScriptElse loop = (ScriptElse) command;
-			RequestLogger.updateDebugLog( "<ELSE>" );
-			this.printScope( loop.getScope(), indent + 1 );
-		}
-	}
-
-	private void printWhile( final ScriptWhile loop, final int indent )
-	{
-		Interpreter.indentLine( indent );
-		RequestLogger.updateDebugLog( "<WHILE>" );
-		this.printExpression( loop.getCondition(), indent + 1 );
-		this.printScope( loop.getScope(), indent + 1 );
-	}
-
-	private void printRepeat( final ScriptRepeat loop, final int indent )
-	{
-		Interpreter.indentLine( indent );
-		RequestLogger.updateDebugLog( "<REPEAT>" );
-		this.printScope( loop.getScope(), indent + 1 );
-		this.printExpression( loop.getCondition(), indent + 1 );
-	}
-
-	private void printForeach( final ScriptForeach loop, final int indent )
-	{
-		Interpreter.indentLine( indent );
-		RequestLogger.updateDebugLog( "<FOREACH>" );
-
-		Iterator it = loop.getReferences();
-		ScriptVariableReference current;
-
-		while ( it.hasNext() )
-		{
-			current = (ScriptVariableReference) it.next();
-			this.printVariableReference( current, indent + 1 );
-		}
-
-		this.printVariableReference( loop.getAggregate(), indent + 1 );
-		this.printScope( loop.getScope(), indent + 1 );
-	}
-
-	private void printFor( final ScriptFor loop, final int indent )
-	{
-		Interpreter.indentLine( indent );
-		int direction = loop.getDirection();
-		RequestLogger.updateDebugLog( "<FOR " + ( direction < 0 ? "downto" : direction > 0 ? "upto" : "to" ) + " >" );
-		this.printVariableReference( loop.getVariable(), indent + 1 );
-		this.printExpression( loop.getInitial(), indent + 1 );
-		this.printExpression( loop.getLast(), indent + 1 );
-		this.printExpression( loop.getIncrement(), indent + 1 );
-		this.printScope( loop.getScope(), indent + 1 );
-	}
-
-	private void printCall( final ScriptCall call, final int indent )
-	{
-		Interpreter.indentLine( indent );
-		RequestLogger.updateDebugLog( "<CALL " + call.getTarget().getName() + ">" );
-
-		Iterator it = call.getExpressions();
-		ScriptExpression current;
-
-		while ( it.hasNext() )
-		{
-			current = (ScriptExpression) it.next();
-			this.printExpression( current, indent + 1 );
-		}
-	}
-
-	private void printAssignment( final ScriptAssignment assignment, final int indent )
-	{
-		Interpreter.indentLine( indent );
-		ScriptVariableReference lhs = assignment.getLeftHandSide();
-		RequestLogger.updateDebugLog( "<ASSIGN " + lhs.getName() + ">" );
-		this.printIndices( lhs.getIndices(), indent + 1 );
-		this.printExpression( assignment.getRightHandSide(), indent + 1 );
-	}
-
-	private void printIndices( final ScriptExpressionList indices, final int indent )
-	{
-		if ( indices != null )
-		{
-			Iterator it = indices.iterator();
-			ScriptExpression current;
-
-			while ( it.hasNext() )
-			{
-				current = (ScriptExpression) it.next();
-
-				Interpreter.indentLine( indent );
-				RequestLogger.updateDebugLog( "<KEY>" );
-				this.printExpression( current, indent + 1 );
-			}
-		}
-	}
-
-	private void printExpression( final ScriptExpression expression, final int indent )
-	{
-		if ( expression instanceof ScriptValue )
-		{
-			this.printValue( (ScriptValue) expression, indent );
-		}
-		else
-		{
-			this.printOperator( expression.getOperator(), indent );
-			this.printExpression( expression.getLeftHandSide(), indent + 1 );
-			if ( expression.getRightHandSide() != null )
-			{
-				this.printExpression( expression.getRightHandSide(), indent + 1 );
-			}
-		}
-	}
-
-	public void printValue( final ScriptValue value, final int indent )
-	{
-		if ( value instanceof ScriptVariableReference )
-		{
-			this.printVariableReference( (ScriptVariableReference) value, indent );
-		}
-		else if ( value instanceof ScriptCall )
-		{
-			this.printCall( (ScriptCall) value, indent );
-		}
-		else
-		{
-			Interpreter.indentLine( indent );
-			RequestLogger.updateDebugLog( "<VALUE " + value.getType() + " [" + value + "]>" );
-		}
-	}
-
-	public void printOperator( final ScriptOperator oper, final int indent )
-	{
-		Interpreter.indentLine( indent );
-		RequestLogger.updateDebugLog( "<OPER " + oper + ">" );
-	}
-
-	public void printCompositeReference( final ScriptCompositeReference varRef, final int indent )
-	{
-		Interpreter.indentLine( indent );
-		RequestLogger.updateDebugLog( "<AGGREF " + varRef.getName() + ">" );
-
-		this.printIndices( varRef.getIndices(), indent + 1 );
-	}
-
-	public void printVariableReference( final ScriptVariableReference varRef, final int indent )
-	{
-		if ( varRef instanceof ScriptCompositeReference )
-		{
-			this.printCompositeReference( (ScriptCompositeReference) varRef, indent );
-			return;
-		}
-
-		Interpreter.indentLine( indent );
-		RequestLogger.updateDebugLog( "<VARREF> " + varRef.getName() );
 	}
 
 	private static final void indentLine( final int indent )
