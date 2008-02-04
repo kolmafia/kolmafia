@@ -4129,11 +4129,19 @@ public class KoLmafiaCLI
 		}
 		else if ( desiredData.equals( "counters" ) )
 		{
+			KoLCharacter.ensureUpdatedSemirareCounter();
 			int turns = Preferences.getInteger( "semirareCounter" );
-			int current = KoLCharacter.getCurrentRun();
-			String location = Preferences.getString( "semirareLocation" );
-			String loc = location.equals( "" ) ? "" : ( " in " + location );
-			desiredStream.println( "Last semirare found " + ( current - turns ) + " turns ago (on turn " + turns + ")" + loc );
+			if ( turns == 0 )
+			{
+				desiredStream.println( "No semirare found yet this run." );
+			}
+			else
+			{
+				int current = KoLCharacter.getCurrentRun();
+				String location = Preferences.getString( "semirareLocation" );
+				String loc = location.equals( "" ) ? "" : ( " in " + location );
+				desiredStream.println( "Last semirare found " + ( current - turns ) + " turns ago (on turn " + turns + ")" + loc );
+			}
 
 			String counters = StaticEntity.getUnexpiredCounters();
 			desiredStream.println();
@@ -4151,7 +4159,14 @@ public class KoLmafiaCLI
 		else
 		{
 			List mainList =
-				desiredData.equals( "closet" ) ? KoLConstants.closet : desiredData.equals( "summary" ) ? KoLConstants.tally : desiredData.equals( "storage" ) ? KoLConstants.storage : desiredData.equals( "display" ) ? KoLConstants.collection : desiredData.equals( "outfits" ) ? KoLCharacter.getOutfits() : desiredData.equals( "familiars" ) ? KoLCharacter.getFamiliarList() : desiredData.equals( "effects" ) ? KoLConstants.activeEffects : KoLConstants.inventory;
+				desiredData.equals( "closet" ) ? KoLConstants.closet :
+				desiredData.equals( "summary" ) ? KoLConstants.tally :
+				desiredData.equals( "storage" ) ? KoLConstants.storage :
+				desiredData.equals( "display" ) ? KoLConstants.collection :
+				desiredData.equals( "outfits" ) ? KoLCharacter.getOutfits() :
+				desiredData.equals( "familiars" ) ? KoLCharacter.getFamiliarList() :
+				desiredData.equals( "effects" ) ? KoLConstants.activeEffects :
+				KoLConstants.inventory;
 
 			if ( desiredData.startsWith( "skills" ) )
 			{
@@ -4898,6 +4913,11 @@ public class KoLmafiaCLI
 		{
 			RequestThread.postRequest( new TelescopeRequest( TelescopeRequest.LOW ) );
 			upgrades = KoLCharacter.getTelescopeUpgrades();
+		}
+		else
+		{
+			// Make sure we've looked through the telescope since we last ascended
+			KoLCharacter.checkTelescope();
 		}
 
 		// Display what you saw through the telescope
