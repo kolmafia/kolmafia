@@ -73,25 +73,25 @@ public class DataUtilities
 		{
 			return EMPTY_STRING_ARRAY;
 		}
-				
+
 		String [] result = directory.list( BACKUP_FILTER );
 		Arrays.sort( result );
 		return result;
 	}
-	
+
 	public static File [] listFiles( File directory )
 	{
 		if ( !directory.exists() || !directory.isDirectory() )
 		{
 			return EMPTY_FILE_ARRAY;
 		}
-				
+
 		File [] result = directory.listFiles( BACKUP_FILTER );
 		Arrays.sort( result );
 		return result;
 	}
-	
-	
+
+
 	/**
 	 * A public function used to retrieve the reader for a file. Allows the referencing of files contained within a JAR,
 	 * inside of a class tree, and from the local directory from which the Java command line is called. The priority is
@@ -111,7 +111,7 @@ public class DataUtilities
 	{
 		try
 		{
-			return file.exists() ? DataUtilities.getReader( new FileInputStream( file ) ) : null;
+			return DataUtilities.getReader( getInputStream( file ) );
 		}
 		catch ( Exception e )
 		{
@@ -202,7 +202,7 @@ public class DataUtilities
 	public static FileInputStream getInputStream( File file )
 	{
 		File parent = file.getParentFile();
-		
+
 		if ( parent != null && !parent.exists() )
 		{
 			parent.mkdirs();
@@ -214,7 +214,7 @@ public class DataUtilities
 			{
 				file.createNewFile();
 			}
-			
+
 			return new FileInputStream( file );
 		}
 		catch ( Exception e )
@@ -223,7 +223,7 @@ public class DataUtilities
 			return null;
 		}
 	}
-	
+
 	/**
 	 * A public function used to retrieve the input stream, given a filename. Allows referencing images within a JAR,
 	 * inside of a class tree, and from the local directory from which the Java command line is called. The priority is
@@ -290,12 +290,12 @@ public class DataUtilities
 	{
 		return loader.getResourceAsStream( filename );
 	}
-	
+
 	public static FileOutputStream getOutputStream( String filename )
 	{
 		return getOutputStream( new File( filename ) );
 	}
-	
+
 	public static FileOutputStream getOutputStream( File file )
 	{
 		return getOutputStream( file, false );
