@@ -1319,11 +1319,11 @@ public class FightRequest
 			"Obviously neither your tongue nor your wit is sharp enough for the job."
 		},
 		{
-			"Do ye hear that, ye craven blackguard? It be the sound of yer doom!",
+			"Do ye hear that, ye craven blackguard?  It be the sound of yer doom!",
 			"It can't be any worse than the smell of your breath!"
 		},
 		{
-			"Suck on this, ye miserable, pestilent wretch!",
+			"Suck on <i>this</i>, ye miserable, pestilent wretch!",
 			"That reminds me, tell your wife and sister I had a lovely time last night."
 		},
 		{
