@@ -43,6 +43,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
@@ -122,6 +123,11 @@ public abstract class RuntimeLibrary
 	private static final RelayRequest RELAYER = new RelayRequest( false );
 
 	public static final ScriptFunctionList functions = new ScriptFunctionList();
+
+	public static Iterator getFunctions()
+	{
+		return functions.iterator();
+	}
 
 	static
 	{

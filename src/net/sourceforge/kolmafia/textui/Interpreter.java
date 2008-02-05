@@ -107,6 +107,11 @@ public class Interpreter
 		return this.parser.getImports();
 	}
 
+	public Iterator getFunctions()
+	{
+		return this.scope.getFunctions();
+	}
+
 	// **************** Parsing and execution *****************
 
 	public boolean validate( final File scriptFile, final InputStream stream )
@@ -372,92 +377,6 @@ public class Interpreter
 			Interpreter.indentLine( 1 );
 			stream.println( "<MAIN>" );
 			mainMethod.print( stream, 2 );
-		}
-	}
-
-	public void showUserFunctions( final String filter )
-	{
-		this.showFunctions( this.scope.getFunctions(), filter.toLowerCase() );
-	}
-
-	public void showExistingFunctions( final String filter )
-	{
-		this.showFunctions( RuntimeLibrary.functions.iterator(), filter.toLowerCase() );
-	}
-
-	private void showFunctions( final Iterator it, final String filter )
-	{
-		ScriptFunction func;
-
-		if ( !it.hasNext() )
-		{
-			RequestLogger.printLine( "No functions in your current namespace." );
-			return;
-		}
-
-		boolean hasDescription = false;
-
-		while ( it.hasNext() )
-		{
-			func = (ScriptFunction) it.next();
-			hasDescription =
-				func instanceof ScriptExistingFunction && ( (ScriptExistingFunction) func ).getDescription() != null;
-
-			boolean matches = filter.equals( "" );
-			matches |= func.getName().toLowerCase().indexOf( filter ) != -1;
-
-			Iterator it2 = func.getReferences();
-			matches |=
-				it2.hasNext() && ( (ScriptVariableReference) it2.next() ).getType().toString().indexOf( filter ) != -1;
-
-			if ( !matches )
-			{
-				continue;
-			}
-
-			StringBuffer description = new StringBuffer();
-
-			if ( hasDescription )
-			{
-				description.append( "<b>" );
-			}
-
-			description.append( func.getType() );
-			description.append( " " );
-			description.append( func.getName() );
-			description.append( "( " );
-
-			it2 = func.getReferences();
-			ScriptVariableReference var;
-
-			while ( it2.hasNext() )
-			{
-				var = (ScriptVariableReference) it2.next();
-				description.append( var.getType() );
-
-				if ( var.getName() != null )
-				{
-					description.append( " " );
-					description.append( var.getName() );
-				}
-
-				if ( it2.hasNext() )
-				{
-					description.append( ", " );
-				}
-			}
-
-			description.append( " )" );
-
-			if ( hasDescription )
-			{
-				description.append( "</b><br>" );
-				description.append( ( (ScriptExistingFunction) func ).getDescription() );
-				description.append( "<br>" );
-			}
-
-			RequestLogger.printLine( description.toString() );
-
 		}
 	}
 
