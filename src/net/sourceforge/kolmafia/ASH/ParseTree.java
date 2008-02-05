@@ -567,14 +567,10 @@ public abstract class ParseTree
 					result = Interpreter.VOID_VALUE;
 				}
 
-				Interpreter.trace( "[" + Interpreter.executionStateString( Interpreter.currentState ) + "] <- " + result.toQuotedString() );
-				switch ( Interpreter.currentState )
-				{
-				case Interpreter.STATE_RETURN:
-				case Interpreter.STATE_BREAK:
-				case Interpreter.STATE_CONTINUE:
-				case Interpreter.STATE_EXIT:
+				Interpreter.trace( "[" + Interpreter.currentState + "] <- " + result.toQuotedString() );
 
+				if ( Interpreter.currentState != Interpreter.STATE_NORMAL )
+				{
 					Interpreter.traceUnindent();
 					return result;
 				}
@@ -1275,7 +1271,7 @@ public abstract class ParseTree
 					this.index = Interpreter.VOID_VALUE;
 				}
 
-				Interpreter.trace( "[" + Interpreter.executionStateString( Interpreter.currentState ) + "] <- " + this.index.toQuotedString() );
+				Interpreter.trace( "[" + Interpreter.currentState + "] <- " + this.index.toQuotedString() );
 				Interpreter.traceUnindent();
 
 				if ( Interpreter.currentState == Interpreter.STATE_EXIT )
@@ -1415,16 +1411,16 @@ public abstract class ParseTree
 	private static abstract class ScriptFlowControl
 		extends ScriptCommand
 	{
-		int state;
+		String state;
 
-		public ScriptFlowControl( final int state )
+		public ScriptFlowControl( final String state )
 		{
 			this.state = state;
 		}
 
 		public String toString()
 		{
-			return "unknown command";
+			return this.state;
 		}
 
 		public ScriptValue execute()
@@ -1432,7 +1428,7 @@ public abstract class ParseTree
 			Interpreter.traceIndent();
 			Interpreter.trace( this.toString() );
 			Interpreter.traceUnindent();
-			Interpreter.currentState = state;
+			Interpreter.currentState = this.state;
 			return Interpreter.VOID_VALUE;
 		}
 	}
@@ -1444,11 +1440,6 @@ public abstract class ParseTree
 		{
 			super( Interpreter.STATE_BREAK );
 		}
-
-		public String toString()
-		{
-			return "break";
-		}
 	}
 
 	public static class ScriptContinue
@@ -1457,11 +1448,6 @@ public abstract class ParseTree
 		public ScriptContinue()
 		{
 			super( Interpreter.STATE_CONTINUE );
-		}
-
-		public String toString()
-		{
-			return "continue";
 		}
 	}
 
@@ -1473,15 +1459,10 @@ public abstract class ParseTree
 			super( Interpreter.STATE_EXIT );
 		}
 
-		public String toString()
-		{
-			return "exit";
-		}
-
 		public ScriptValue execute()
 		{
 			super.execute();
-			return Interpreter.VOID_VALUE;
+			return null;
 		}
 	}
 
@@ -1649,7 +1630,7 @@ public abstract class ParseTree
 			ScriptValue conditionResult = this.condition.execute();
 			Interpreter.captureValue( conditionResult );
 
-			Interpreter.trace( "[" + Interpreter.executionStateString( Interpreter.currentState ) + "] <- " + conditionResult );
+			Interpreter.trace( "[" + Interpreter.currentState + "] <- " + conditionResult );
 
 			if ( conditionResult == null )
 			{
@@ -1834,25 +1815,26 @@ public abstract class ParseTree
 				Interpreter.currentState = Interpreter.STATE_EXIT;
 			}
 
-			switch ( Interpreter.currentState )
+			if ( Interpreter.currentState == Interpreter.STATE_EXIT )
 			{
-			case Interpreter.STATE_EXIT:
 				return null;
+			}
 
-			case Interpreter.STATE_BREAK:
+			if ( Interpreter.currentState == Interpreter.STATE_BREAK )
+			{
 				// Stay in state; subclass exits loop
 				return Interpreter.VOID_VALUE;
+			}
 
-			case Interpreter.STATE_RETURN:
-				// Stay in state; subclass exits loop
-				return result;
-
-			case Interpreter.STATE_CONTINUE:
+			if ( Interpreter.currentState == Interpreter.STATE_CONTINUE )
+			{
 				// Done with this iteration
 				Interpreter.currentState = Interpreter.STATE_NORMAL;
-				return result;
+			}
 
-			case Interpreter.STATE_NORMAL:
+			if ( Interpreter.currentState == Interpreter.STATE_RETURN )
+			{
+				// Stay in state; subclass exits loop
 				return result;
 			}
 
@@ -1949,17 +1931,19 @@ public abstract class ParseTree
 					// Otherwise, execute scope
 					result = super.execute();
 				}
-				switch ( Interpreter.currentState )
+
+				if ( Interpreter.currentState == Interpreter.STATE_NORMAL )
 				{
-				case Interpreter.STATE_NORMAL:
-					break;
-				case Interpreter.STATE_BREAK:
-					Interpreter.currentState = Interpreter.STATE_NORMAL;
-					// Fall through
-				default:
-					Interpreter.traceUnindent();
-					return result;
+					continue;
 				}
+
+				if ( Interpreter.currentState == Interpreter.STATE_BREAK )
+				{
+					Interpreter.currentState = Interpreter.STATE_NORMAL;
+				}
+
+				Interpreter.traceUnindent();
+				return result;
 			}
 
 			Interpreter.traceUnindent();
@@ -2027,7 +2011,7 @@ public abstract class ParseTree
 				ScriptValue conditionResult = this.condition.execute();
 				Interpreter.captureValue( conditionResult );
 
-				Interpreter.trace( "[" + Interpreter.executionStateString( Interpreter.currentState ) + "] <- " + conditionResult );
+				Interpreter.trace( "[" + Interpreter.currentState + "] <- " + conditionResult );
 
 				if ( conditionResult == null )
 				{
@@ -2129,7 +2113,7 @@ public abstract class ParseTree
 				ScriptValue conditionResult = this.condition.execute();
 				Interpreter.captureValue( conditionResult );
 
-				Interpreter.trace( "[" + Interpreter.executionStateString( Interpreter.currentState ) + "] <- " + conditionResult );
+				Interpreter.trace( "[" + Interpreter.currentState + "] <- " + conditionResult );
 
 				if ( conditionResult == null )
 				{
@@ -2224,7 +2208,7 @@ public abstract class ParseTree
 			ScriptValue initialValue = this.initial.execute();
 			Interpreter.captureValue( initialValue );
 
-			Interpreter.trace( "[" + Interpreter.executionStateString( Interpreter.currentState ) + "] <- " + initialValue );
+			Interpreter.trace( "[" + Interpreter.currentState + "] <- " + initialValue );
 
 			if ( initialValue == null )
 			{
@@ -2238,7 +2222,7 @@ public abstract class ParseTree
 			ScriptValue lastValue = this.last.execute();
 			Interpreter.captureValue( lastValue );
 
-			Interpreter.trace( "[" + Interpreter.executionStateString( Interpreter.currentState ) + "] <- " + lastValue );
+			Interpreter.trace( "[" + Interpreter.currentState + "] <- " + lastValue );
 
 			if ( lastValue == null )
 			{
@@ -2252,7 +2236,7 @@ public abstract class ParseTree
 			ScriptValue incrementValue = this.increment.execute();
 			Interpreter.captureValue( incrementValue );
 
-			Interpreter.trace( "[" + Interpreter.executionStateString( Interpreter.currentState ) + "] <- " + incrementValue );
+			Interpreter.trace( "[" + Interpreter.currentState + "] <- " + incrementValue );
 
 			if ( incrementValue == null )
 			{
@@ -2446,7 +2430,7 @@ public abstract class ParseTree
 					value = Interpreter.VOID_VALUE;
 				}
 
-				Interpreter.trace( "[" + Interpreter.executionStateString( Interpreter.currentState ) + "] <- " + value.toQuotedString() );
+				Interpreter.trace( "[" + Interpreter.currentState + "] <- " + value.toQuotedString() );
 
 				if ( Interpreter.currentState == Interpreter.STATE_EXIT )
 				{
@@ -4073,7 +4057,7 @@ public abstract class ParseTree
 			{
 				leftValue = Interpreter.VOID_VALUE;
 			}
-			Interpreter.trace( "[" + Interpreter.executionStateString( Interpreter.currentState ) + "] <- " + leftValue.toQuotedString() );
+			Interpreter.trace( "[" + Interpreter.currentState + "] <- " + leftValue.toQuotedString() );
 			Interpreter.traceUnindent();
 
 			if ( Interpreter.currentState == Interpreter.STATE_EXIT )
@@ -4134,7 +4118,7 @@ public abstract class ParseTree
 				{
 					rightValue = Interpreter.VOID_VALUE;
 				}
-				Interpreter.trace( "[" + Interpreter.executionStateString( Interpreter.currentState ) + "] <- " + rightValue.toQuotedString() );
+				Interpreter.trace( "[" + Interpreter.currentState + "] <- " + rightValue.toQuotedString() );
 				Interpreter.traceUnindent();
 				if ( Interpreter.currentState == Interpreter.STATE_EXIT )
 				{
@@ -4162,7 +4146,7 @@ public abstract class ParseTree
 				{
 					rightValue = Interpreter.VOID_VALUE;
 				}
-				Interpreter.trace( "[" + Interpreter.executionStateString( Interpreter.currentState ) + "] <- " + rightValue.toQuotedString() );
+				Interpreter.trace( "[" + Interpreter.currentState + "] <- " + rightValue.toQuotedString() );
 				Interpreter.traceUnindent();
 				if ( Interpreter.currentState == Interpreter.STATE_EXIT )
 				{
@@ -4191,7 +4175,7 @@ public abstract class ParseTree
 				{
 					rightValue = Interpreter.VOID_VALUE;
 				}
-				Interpreter.trace( "[" + Interpreter.executionStateString( Interpreter.currentState ) + "] <- " + rightValue.toQuotedString() );
+				Interpreter.trace( "[" + Interpreter.currentState + "] <- " + rightValue.toQuotedString() );
 				Interpreter.traceUnindent();
 				if ( Interpreter.currentState == Interpreter.STATE_EXIT )
 				{
@@ -4213,7 +4197,7 @@ public abstract class ParseTree
 			{
 				rightValue = Interpreter.VOID_VALUE;
 			}
-			Interpreter.trace( "[" + Interpreter.executionStateString( Interpreter.currentState ) + "] <- " + rightValue.toQuotedString() );
+			Interpreter.trace( "[" + Interpreter.currentState + "] <- " + rightValue.toQuotedString() );
 			Interpreter.traceUnindent();
 			if ( Interpreter.currentState == Interpreter.STATE_EXIT )
 			{

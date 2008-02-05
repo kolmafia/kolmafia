@@ -173,11 +173,11 @@ public class Interpreter
 	public static final String[] STATS = { "Muscle", "Mysticality", "Moxie" };
 	public static final String[] BOOLEANS = { "true", "false" };
 
-	public static final int STATE_NORMAL = 1;
-	public static final int STATE_RETURN = 2;
-	public static final int STATE_BREAK = 3;
-	public static final int STATE_CONTINUE = 4;
-	public static final int STATE_EXIT = 5;
+	public static final String STATE_NORMAL = "NORMAL";
+	public static final String STATE_RETURN = "RETURN";
+	public static final String STATE_BREAK = "BREAK";
+	public static final String STATE_CONTINUE = "CONTINUE";
+	public static final String STATE_EXIT = "EXIT";
 
 	public static final ScriptType ANY_TYPE = new ScriptType( "any", Interpreter.TYPE_ANY );
 	public static final ScriptType VOID_TYPE = new ScriptType( "void", Interpreter.TYPE_VOID );
@@ -254,7 +254,7 @@ public class Interpreter
 	// Variables used during execution
 
 	private ScriptScope global;
-	public static int currentState = Interpreter.STATE_NORMAL;
+	public static String currentState = Interpreter.STATE_NORMAL;
 	public static boolean isExecuting = false;
 	private static String lastImportString = "";
 	private String notifyRecipient = null;
@@ -698,25 +698,6 @@ public class Interpreter
 	{
 		Interpreter.indentLine( Interpreter.traceIndentation );
 		RequestLogger.updateDebugLog( string );
-	}
-
-	public static final String executionStateString( final int state )
-	{
-		switch ( state )
-		{
-		case STATE_NORMAL:
-			return "NORMAL";
-		case STATE_RETURN:
-			return "RETURN";
-		case STATE_BREAK:
-			return "BREAK";
-		case STATE_CONTINUE:
-			return "CONTINUE";
-		case STATE_EXIT:
-			return "EXIT";
-		}
-
-		return String.valueOf( state );
 	}
 
 	// **************** Parsing *****************
