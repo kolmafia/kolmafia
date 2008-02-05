@@ -36,6 +36,7 @@
 
 	<target name="setjikes" if="env.JIKES_HOME">
 		<property name="build.compiler" value="jikes" />
+		<echo message="Set compiler: ${env.JIKES_HOME}" />
 	</target>
 
 
