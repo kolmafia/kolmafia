@@ -99,7 +99,7 @@
 93	156350201	basic meat sword	basic meat swords
 94	606216746	basic meat pants	pairs of basic meat pants
 95	198198975	basic meat helmet	basic meat helmets
-96	389032855	bling-bling	units of bling
+96	389032855	dope gangsta bling-bling	units of bling
 97	790979082	pimpin' meat hat	pimpin' meat hats
 98	230683176	dried face	dried faces
 99	195455417	meat face	meat faces
