@@ -665,7 +665,7 @@ public abstract class RuntimeLibrary
 		functions.addElement( new ScriptExistingFunction( "reset", Interpreter.MATCHER_TYPE, params ) );
 
 		params = new ScriptType[] { Interpreter.BUFFER_TYPE, Interpreter.STRING_TYPE, Interpreter.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "replace_string", Interpreter.STRING_TYPE, params ) );
+		functions.addElement( new ScriptExistingFunction( "replace_string", Interpreter.BUFFER_TYPE, params ) );
 		params = new ScriptType[] { Interpreter.STRING_TYPE, Interpreter.STRING_TYPE, Interpreter.STRING_TYPE };
 		functions.addElement( new ScriptExistingFunction( "replace_string", Interpreter.BUFFER_TYPE, params ) );
 
