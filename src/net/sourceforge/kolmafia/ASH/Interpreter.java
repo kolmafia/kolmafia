@@ -109,14 +109,7 @@ import net.sourceforge.kolmafia.request.SendMailRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 
 public class Interpreter
-	extends StaticEntity
 {
-	/* Variables for Advanced Scripting */
-
-	public static final char[] tokenList =
-		{ ' ', '.', ',', '{', '}', '(', ')', '$', '!', '+', '-', '=', '"', '\'', '*', '^', '/', '%', '[', ']', '!', ';', '<', '>' };
-	public static final String[] multiCharTokenList = { "==", "!=", "<=", ">=", "||", "&&", "/*", "*/" };
-
 	public static final String STATE_NORMAL = "NORMAL";
 	public static final String STATE_RETURN = "RETURN";
 	public static final String STATE_BREAK = "BREAK";
@@ -131,40 +124,40 @@ public class Interpreter
 	private String fullLine;
 	private String currentLine;
 	private String nextLine;
-
 	private int lineNumber;
+
+	private InputStream istream;
 	private LineNumberReader commandStream;
 	private TreeMap imports = new TreeMap();
 	private ScriptFunction mainMethod = null;
 
 	// Variables used during execution
 
-	private ScriptScope global;
+	private ScriptScope scope;
 	public static String currentState = Interpreter.STATE_NORMAL;
 	public static boolean isExecuting = false;
 	private static String lastImportString = "";
 	private String notifyRecipient = null;
 
-	// Feature control;
-	// disabled until and if we choose to document the feature
-
-	private static final boolean arrays = false;
-
 	public Interpreter()
 	{
-		this.global = new ScriptScope( new ScriptVariableList(), this.getExistingFunctionScope() );
+		this.scope = new ScriptScope( new ScriptVariableList(), this.getExistingFunctionScope() );
 	}
 
 	private Interpreter( final Interpreter source, final File scriptFile )
 	{
-		this.fileName = scriptFile.getPath();
-		this.global = source.global;
+		this.scope = source.scope;
 		this.imports = source.imports;
+		this.fileName = scriptFile.getPath();
+		this.connect( DataUtilities.getInputStream( scriptFile ) );
+        }
 
+	private void connect( final InputStream stream )
+	{
 		try
 		{
-			this.commandStream = new LineNumberReader( new InputStreamReader( DataUtilities.getInputStream( scriptFile ) ) );
-
+			this.istream = stream;
+			this.commandStream = new LineNumberReader( new InputStreamReader( istream ) );
 			this.currentLine = this.getNextLine();
 			this.lineNumber = this.commandStream.getLineNumber();
 			this.nextLine = this.getNextLine();
@@ -178,50 +171,32 @@ public class Interpreter
 		}
 	}
 
-	public String getFileName()
+	private void disconnect()
 	{
-		return this.fileName;
+		try
+		{
+			this.commandStream = null;
+			this.istream.close();
+		}
+		catch ( IOException e )
+		{
+		}
 	}
 
-	public TreeMap getImports()
-	{
-		return this.imports;
-	}
-
-	// **************** Tracing *****************
-
-	private static int traceIndentation = 0;
-
-	public static final void resetTracing()
-	{
-		Interpreter.traceIndentation = 0;
-	}
-
-	public static final void traceIndent()
-	{
-		Interpreter.traceIndentation++ ;
-	}
-
-	public static final void traceUnindent()
-	{
-		Interpreter.traceIndentation-- ;
-	}
-
-	public static final void trace( final String string )
-	{
-		Interpreter.indentLine( Interpreter.traceIndentation );
-		RequestLogger.updateDebugLog( string );
-	}
-
-	// **************** Parsing *****************
+	// **************** Parsing and execution *****************
 
 	public boolean validate( final File scriptFile )
 	{
 		this.fileName = scriptFile.getPath();
+		return this.validate( DataUtilities.getInputStream( scriptFile ) );
+	}
 
+	public boolean validate( final InputStream stream )
+	{
 		try
 		{
-			return this.validate( DataUtilities.getInputStream( scriptFile ) );
+			this.connect( stream );
+			return this.validate();
 		}
 		catch ( AdvancedScriptException e )
 		{
@@ -235,27 +210,15 @@ public class Interpreter
 		}
 	}
 
-	public boolean validate( final InputStream istream )
+	private boolean validate()
 	{
 		Interpreter previousAnalysis = Interpreter.currentAnalysis;
 
 		try
 		{
-			try
-			{
-				this.commandStream = new LineNumberReader( new InputStreamReader( istream ) );
-			}
-			catch ( Exception e )
-			{
-				return false;
-			}
-
 			Interpreter.currentAnalysis = this;
-			this.currentLine = this.getNextLine();
-			this.lineNumber = this.commandStream.getLineNumber();
-			this.nextLine = this.getNextLine();
-			this.global = this.parseScope( null, null, new ScriptVariableList(), this.getExistingFunctionScope(), false );
-			this.printScope( this.global );
+			this.scope = this.parseScope( null, null, new ScriptVariableList(), this.getExistingFunctionScope(), false );
+			this.printScope( this.scope );
 
 			if ( this.currentLine != null )
 			{
@@ -265,16 +228,7 @@ public class Interpreter
 		finally
 		{
 			Interpreter.currentAnalysis = previousAnalysis;
-			this.commandStream = null;
-
-			try
-			{
-				istream.close();
-			}
-			catch ( IOException e )
-			{
-				return false;
-			}
+			this.disconnect();
 		}
 
 		return true;
@@ -283,7 +237,7 @@ public class Interpreter
 	public void execute( final String functionName, final String[] parameters )
 	{
 		// Before you do anything, validate the script, if one
-		// is provided.  One will not be provided in the event
+		// is provided.	 One will not be provided in the event
 		// that we are using a global namespace.
 
 		if ( this == KoLmafiaASH.NAMESPACE_INTERPRETER )
@@ -314,12 +268,12 @@ public class Interpreter
 				this.imports.clear();
 				Interpreter.lastImportString = "";
 
-				this.global = new ScriptScope( new ScriptVariableList(), this.getExistingFunctionScope() );
+				this.scope = new ScriptScope( new ScriptVariableList(), this.getExistingFunctionScope() );
 				String[] importList = importString.split( "," );
 
 				for ( int i = 0; i < importList.length; ++i )
 				{
-					this.parseFile( importList[ i ] );
+					this.importFile( importList[ i ] );
 				}
 			}
 		}
@@ -340,7 +294,7 @@ public class Interpreter
 			boolean wasExecuting = Interpreter.isExecuting;
 
 			Interpreter.isExecuting = true;
-			this.executeScope( this.global, functionName, parameters );
+			this.executeScope( this.scope, functionName, parameters );
 			Interpreter.isExecuting = wasExecuting;
 		}
 		catch ( AdvancedScriptException e )
@@ -358,43 +312,370 @@ public class Interpreter
 		}
 	}
 
-	private String getNextLine()
+	public ScriptScope getExistingFunctionScope()
 	{
-		try
+		return new ScriptScope( RuntimeLibrary.functions, null, DataTypes.simpleTypes );
+	}
+
+	private ScriptValue executeScope( final ScriptScope topScope, final String functionName, final String[] parameters )
+	{
+		ScriptFunction main;
+		ScriptValue result = null;
+
+		Interpreter.currentState = Interpreter.STATE_NORMAL;
+		Interpreter.resetTracing();
+
+		main =
+			functionName.equals( "main" ) ? this.mainMethod : topScope.findFunction( functionName, parameters != null );
+
+		if ( main == null && !topScope.getCommands().hasNext() )
 		{
-			do
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Unable to invoke " + functionName );
+			return DataTypes.VOID_VALUE;
+		}
+
+		// First execute top-level commands;
+
+		boolean executeTopLevel = this != KoLmafiaASH.NAMESPACE_INTERPRETER;
+
+		if ( !executeTopLevel )
+		{
+			String importString = Preferences.getString( "commandLineNamespace" );
+			executeTopLevel = !importString.equals( Interpreter.lastImportString );
+			Interpreter.lastImportString = importString;
+		}
+
+		if ( executeTopLevel )
+		{
+			Interpreter.trace( "Executing top-level commands" );
+			result = topScope.execute();
+		}
+
+		if ( Interpreter.currentState == Interpreter.STATE_EXIT )
+		{
+			return result;
+		}
+
+		// Now execute main function, if any
+		if ( main != null )
+		{
+			Interpreter.trace( "Executing main function" );
+
+			if ( !this.requestUserParams( main, parameters ) )
 			{
-				// Read a line from input, and break out of the
-				// do-while loop when you've read a valid line
+				return null;
+			}
 
-				this.fullLine = this.commandStream.readLine();
+			result = main.execute();
+		}
 
-				// Return null at end of file
-				if ( this.fullLine == null )
+		return result;
+	}
+
+	private boolean requestUserParams( final ScriptFunction targetFunction, final String[] parameters )
+	{
+		int args = parameters == null ? 0 : parameters.length;
+
+		ScriptType lastType = null;
+		ScriptVariableReference lastParam = null;
+
+		int index = 0;
+
+		Iterator it = targetFunction.getReferences();
+		ScriptVariableReference param;
+
+		while ( it.hasNext() )
+		{
+			param = (ScriptVariableReference) it.next();
+
+			ScriptType type = param.getType();
+			String name = param.getName();
+			ScriptValue value = null;
+
+			while ( value == null )
+			{
+				if ( type == DataTypes.VOID_TYPE )
 				{
-					return null;
+					value = DataTypes.VOID_VALUE;
+					break;
 				}
 
-				// Remove whitespace at front and end
-				this.fullLine = this.fullLine.trim();
+				String input = null;
+
+				if ( index >= args )
+				{
+					input = DataTypes.promptForValue( type, name );
+				}
+				else
+				{
+					input = parameters[ index ];
+				}
+
+				// User declined to supply a parameter
+				if ( input == null )
+				{
+					return false;
+				}
+
+				try
+				{
+					value = DataTypes.parseValue( type, input );
+				}
+				catch ( AdvancedScriptException e )
+				{
+					RequestLogger.printLine( e.getMessage() );
+
+					// Punt if parameter came from the CLI
+					if ( index < args )
+					{
+						return false;
+					}
+				}
 			}
-			while ( this.fullLine.length() == 0 );
 
-			// Found valid currentLine - return it
+			param.setValue( value );
 
-			return this.fullLine;
+			lastType = type;
+			lastParam = param;
+
+			index++ ;
 		}
-		catch ( IOException e )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
 
-			StaticEntity.printStackTrace( e );
-			return null;
+		if ( index < args )
+		{
+			StringBuffer inputs = new StringBuffer();
+			for ( int i = index - 1; i < args; ++i )
+			{
+				inputs.append( parameters[ i ] + " " );
+			}
+
+			ScriptValue value = DataTypes.parseValue( lastType, inputs.toString().trim() );
+			lastParam.setValue( value );
+		}
+
+		return true;
+	}
+
+	// **************** Debug printing *****************
+
+	private void printScope( final ScriptScope scope )
+	{
+		if ( scope == null )
+		{
+			return;
+		}
+
+		PrintStream stream = RequestLogger.getDebugStream();
+		scope.print( stream, 0 );
+
+		if ( this.mainMethod != null )
+		{
+			Interpreter.indentLine( 1 );
+			stream.println( "<MAIN>" );
+			this.mainMethod.print( stream, 2 );
 		}
 	}
 
-	private ScriptScope parseFile( final String fileName )
+	public void showUserFunctions( final String filter )
+	{
+		this.showFunctions( this.scope.getFunctions(), filter.toLowerCase() );
+	}
+
+	public void showExistingFunctions( final String filter )
+	{
+		this.showFunctions( RuntimeLibrary.functions.iterator(), filter.toLowerCase() );
+	}
+
+	private void showFunctions( final Iterator it, final String filter )
+	{
+		ScriptFunction func;
+
+		if ( !it.hasNext() )
+		{
+			RequestLogger.printLine( "No functions in your current namespace." );
+			return;
+		}
+
+		boolean hasDescription = false;
+
+		while ( it.hasNext() )
+		{
+			func = (ScriptFunction) it.next();
+			hasDescription =
+				func instanceof ScriptExistingFunction && ( (ScriptExistingFunction) func ).getDescription() != null;
+
+			boolean matches = filter.equals( "" );
+			matches |= func.getName().toLowerCase().indexOf( filter ) != -1;
+
+			Iterator it2 = func.getReferences();
+			matches |=
+				it2.hasNext() && ( (ScriptVariableReference) it2.next() ).getType().toString().indexOf( filter ) != -1;
+
+			if ( !matches )
+			{
+				continue;
+			}
+
+			StringBuffer description = new StringBuffer();
+
+			if ( hasDescription )
+			{
+				description.append( "<b>" );
+			}
+
+			description.append( func.getType() );
+			description.append( " " );
+			description.append( func.getName() );
+			description.append( "( " );
+
+			it2 = func.getReferences();
+			ScriptVariableReference var;
+
+			while ( it2.hasNext() )
+			{
+				var = (ScriptVariableReference) it2.next();
+				description.append( var.getType() );
+
+				if ( var.getName() != null )
+				{
+					description.append( " " );
+					description.append( var.getName() );
+				}
+
+				if ( it2.hasNext() )
+				{
+					description.append( ", " );
+				}
+			}
+
+			description.append( " )" );
+
+			if ( hasDescription )
+			{
+				description.append( "</b><br>" );
+				description.append( ( (ScriptExistingFunction) func ).getDescription() );
+				description.append( "<br>" );
+			}
+
+			RequestLogger.printLine( description.toString() );
+
+		}
+	}
+
+	public String getFileName()
+	{
+		return this.fileName;
+	}
+
+	public TreeMap getImports()
+	{
+		return this.imports;
+	}
+
+	// **************** Tracing *****************
+
+	private static final void indentLine( final int indent )
+	{
+		for ( int i = 0; i < indent; ++i )
+		{
+			RequestLogger.getDebugStream().print( "   " );
+		}
+	}
+
+	private static int traceIndentation = 0;
+
+	public static final void resetTracing()
+	{
+		Interpreter.traceIndentation = 0;
+	}
+
+	public static final void traceIndent()
+	{
+		Interpreter.traceIndentation++ ;
+	}
+
+	public static final void traceUnindent()
+	{
+		Interpreter.traceIndentation-- ;
+	}
+
+	public static final void trace( final String string )
+	{
+		Interpreter.indentLine( Interpreter.traceIndentation );
+		RequestLogger.updateDebugLog( string );
+	}
+
+	// **************** Parser *****************
+
+	public static final char[] tokenList =
+		{ ' ', '.', ',', '{', '}', '(', ')', '$', '!', '+', '-', '=', '"', '\'', '*', '^', '/', '%', '[', ']', '!', ';', '<', '>' };
+	public static final String[] multiCharTokenList = { "==", "!=", "<=", ">=", "||", "&&", "/*", "*/" };
+
+	// Feature control;
+	// disabled until and if we choose to document the feature
+
+	private static final boolean arrays = false;
+
+	private static final ScriptSymbolTable reservedWords = new ScriptSymbolTable();
+
+	static
+	{
+		// Constants
+		reservedWords.addElement( new ScriptSymbol( "true" ) );
+		reservedWords.addElement( new ScriptSymbol( "false" ) );
+
+		// Operators
+		reservedWords.addElement( new ScriptSymbol( "contains" ) );
+		reservedWords.addElement( new ScriptSymbol( "remove" ) );
+
+		// Control flow
+		reservedWords.addElement( new ScriptSymbol( "if" ) );
+		reservedWords.addElement( new ScriptSymbol( "else" ) );
+		reservedWords.addElement( new ScriptSymbol( "foreach" ) );
+		reservedWords.addElement( new ScriptSymbol( "in" ) );
+		reservedWords.addElement( new ScriptSymbol( "for" ) );
+		reservedWords.addElement( new ScriptSymbol( "from" ) );
+		reservedWords.addElement( new ScriptSymbol( "upto" ) );
+		reservedWords.addElement( new ScriptSymbol( "downto" ) );
+		reservedWords.addElement( new ScriptSymbol( "by" ) );
+		reservedWords.addElement( new ScriptSymbol( "while" ) );
+		reservedWords.addElement( new ScriptSymbol( "repeat" ) );
+		reservedWords.addElement( new ScriptSymbol( "until" ) );
+		reservedWords.addElement( new ScriptSymbol( "break" ) );
+		reservedWords.addElement( new ScriptSymbol( "continue" ) );
+		reservedWords.addElement( new ScriptSymbol( "return" ) );
+		reservedWords.addElement( new ScriptSymbol( "exit" ) );
+
+		// Data types
+		reservedWords.addElement( new ScriptSymbol( "void" ) );
+		reservedWords.addElement( new ScriptSymbol( "boolean" ) );
+		reservedWords.addElement( new ScriptSymbol( "int" ) );
+		reservedWords.addElement( new ScriptSymbol( "float" ) );
+		reservedWords.addElement( new ScriptSymbol( "string" ) );
+		reservedWords.addElement( new ScriptSymbol( "buffer" ) );
+		reservedWords.addElement( new ScriptSymbol( "matcher" ) );
+
+		reservedWords.addElement( new ScriptSymbol( "item" ) );
+		reservedWords.addElement( new ScriptSymbol( "location" ) );
+		reservedWords.addElement( new ScriptSymbol( "class" ) );
+		reservedWords.addElement( new ScriptSymbol( "stat" ) );
+		reservedWords.addElement( new ScriptSymbol( "skill" ) );
+		reservedWords.addElement( new ScriptSymbol( "effect" ) );
+		reservedWords.addElement( new ScriptSymbol( "familiar" ) );
+		reservedWords.addElement( new ScriptSymbol( "slot" ) );
+		reservedWords.addElement( new ScriptSymbol( "monster" ) );
+		reservedWords.addElement( new ScriptSymbol( "element" ) );
+
+		reservedWords.addElement( new ScriptSymbol( "record" ) );
+		reservedWords.addElement( new ScriptSymbol( "typedef" ) );
+	}
+
+	public static final boolean isReservedWord( final String name )
+	{
+		return Interpreter.reservedWords.findSymbol( name ) != null;
+	}
+
+	private ScriptScope importFile( final String fileName )
 	{
 		File scriptFile = KoLmafiaCLI.findScriptFile( fileName );
 		if ( scriptFile == null )
@@ -404,35 +685,28 @@ public class Interpreter
 
 		if ( this.imports.containsKey( scriptFile ) )
 		{
-			return this.global;
+			return this.scope;
 		}
 
 		AdvancedScriptException error = null;
 
-		ScriptScope result = this.global;
+		ScriptScope result = this.scope;
 
 		Interpreter previousAnalysis = Interpreter.currentAnalysis;
-		Interpreter.currentAnalysis = new Interpreter( this, scriptFile );
 
 		try
 		{
-			result =
-				Interpreter.currentAnalysis.parseScope(
-					this.global, null, new ScriptVariableList(), this.global.parentScope, false );
+			Interpreter.currentAnalysis = new Interpreter( this, scriptFile );
+			result = Interpreter.currentAnalysis.parseScope(
+				this.scope, null, new ScriptVariableList(), this.scope.parentScope, false );
 		}
 		catch ( Exception e )
 		{
 			error = new AdvancedScriptException( e );
 		}
-
-		try
+		finally
 		{
-			Interpreter.currentAnalysis.commandStream.close();
-		}
-		catch ( Exception e )
-		{
-			// Do nothing, because this means the stream somehow
-			// got closed anyway.
+			Interpreter.currentAnalysis.disconnect();
 		}
 
 		if ( error == null && Interpreter.currentAnalysis.currentLine != null )
@@ -464,7 +738,7 @@ public class Interpreter
 
 		while ( ( importString = this.parseImport() ) != null )
 		{
-			result = this.parseFile( importString );
+			result = this.importFile( importString );
 		}
 
 		while ( true )
@@ -2102,7 +2376,24 @@ public class Interpreter
 
 	private boolean isOperator( final String oper )
 	{
-		return oper.equals( "!" ) || oper.equals( "*" ) || oper.equals( "^" ) || oper.equals( "/" ) || oper.equals( "%" ) || oper.equals( "+" ) || oper.equals( "-" ) || oper.equals( "<" ) || oper.equals( ">" ) || oper.equals( "<=" ) || oper.equals( ">=" ) || oper.equals( "=" ) || oper.equals( "==" ) || oper.equals( "!=" ) || oper.equals( "||" ) || oper.equals( "&&" ) || oper.equals( "contains" ) || oper.equals( "remove" );
+		return  oper.equals( "!" ) ||
+                        oper.equals( "*" ) ||
+			oper.equals( "^" ) ||
+			oper.equals( "/" ) ||
+			oper.equals( "%" ) ||
+			oper.equals( "+" ) ||
+			oper.equals( "-" ) ||
+			oper.equals( "<" ) ||
+			oper.equals( ">" ) ||
+			oper.equals( "<=" ) ||
+			oper.equals( ">=" ) ||
+			oper.equals( "=" ) ||
+			oper.equals( "==" ) ||
+			oper.equals( "!=" ) ||
+			oper.equals( "||" ) ||
+			oper.equals( "&&" ) ||
+			oper.equals( "contains" ) ||
+			oper.equals( "remove" );
 	}
 
 	private ScriptExpression parseVariableReference( final ScriptScope scope )
@@ -2379,6 +2670,44 @@ public class Interpreter
 		return false;
 	}
 
+	// **************** Tokenizer *****************
+
+	private String getNextLine()
+	{
+		try
+		{
+			do
+			{
+				// Read a line from input, and break out of the
+				// do-while loop when you've read a valid line
+
+				this.fullLine = this.commandStream.readLine();
+
+				// Return null at end of file
+				if ( this.fullLine == null )
+				{
+					return null;
+				}
+
+				// Remove whitespace at front and end
+				this.fullLine = this.fullLine.trim();
+			}
+			while ( this.fullLine.length() == 0 );
+
+			// Found valid currentLine - return it
+
+			return this.fullLine;
+		}
+		catch ( IOException e )
+		{
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+
+			StaticEntity.printStackTrace( e );
+			return null;
+		}
+	}
+
 	private String currentToken()
 	{
 		this.fixLines();
@@ -2553,260 +2882,7 @@ public class Interpreter
 		}
 	}
 
-	// **************** Debug printing *****************
-
-	private void printScope( final ScriptScope scope )
-	{
-		if ( scope == null )
-		{
-			return;
-		}
-
-		PrintStream stream = RequestLogger.getDebugStream();
-		scope.print( stream, 0 );
-
-		if ( this.mainMethod != null )
-		{
-			Interpreter.indentLine( 1 );
-			stream.println( "<MAIN>" );
-			this.mainMethod.print( stream, 2 );
-		}
-	}
-
-	public void showUserFunctions( final String filter )
-	{
-		this.showFunctions( this.global.getFunctions(), filter.toLowerCase() );
-	}
-
-	public void showExistingFunctions( final String filter )
-	{
-		this.showFunctions( RuntimeLibrary.functions.iterator(), filter.toLowerCase() );
-	}
-
-	private void showFunctions( final Iterator it, final String filter )
-	{
-		ScriptFunction func;
-
-		if ( !it.hasNext() )
-		{
-			RequestLogger.printLine( "No functions in your current namespace." );
-			return;
-		}
-
-		boolean hasDescription = false;
-
-		while ( it.hasNext() )
-		{
-			func = (ScriptFunction) it.next();
-			hasDescription =
-				func instanceof ScriptExistingFunction && ( (ScriptExistingFunction) func ).getDescription() != null;
-
-			boolean matches = filter.equals( "" );
-			matches |= func.getName().toLowerCase().indexOf( filter ) != -1;
-
-			Iterator it2 = func.getReferences();
-			matches |=
-				it2.hasNext() && ( (ScriptVariableReference) it2.next() ).getType().toString().indexOf( filter ) != -1;
-
-			if ( !matches )
-			{
-				continue;
-			}
-
-			StringBuffer description = new StringBuffer();
-
-			if ( hasDescription )
-			{
-				description.append( "<b>" );
-			}
-
-			description.append( func.getType() );
-			description.append( " " );
-			description.append( func.getName() );
-			description.append( "( " );
-
-			it2 = func.getReferences();
-			ScriptVariableReference var;
-
-			while ( it2.hasNext() )
-			{
-				var = (ScriptVariableReference) it2.next();
-				description.append( var.getType() );
-
-				if ( var.getName() != null )
-				{
-					description.append( " " );
-					description.append( var.getName() );
-				}
-
-				if ( it2.hasNext() )
-				{
-					description.append( ", " );
-				}
-			}
-
-			description.append( " )" );
-
-			if ( hasDescription )
-			{
-				description.append( "</b><br>" );
-				description.append( ( (ScriptExistingFunction) func ).getDescription() );
-				description.append( "<br>" );
-			}
-
-			RequestLogger.printLine( description.toString() );
-
-		}
-	}
-
-	private static final void indentLine( final int indent )
-	{
-		for ( int i = 0; i < indent; ++i )
-		{
-			RequestLogger.getDebugStream().print( "   " );
-		}
-	}
-
-	// **************** Execution *****************
-
-	private ScriptValue executeScope( final ScriptScope topScope, final String functionName, final String[] parameters )
-	{
-		ScriptFunction main;
-		ScriptValue result = null;
-
-		Interpreter.currentState = Interpreter.STATE_NORMAL;
-		Interpreter.resetTracing();
-
-		main =
-			functionName.equals( "main" ) ? this.mainMethod : topScope.findFunction( functionName, parameters != null );
-
-		if ( main == null && !topScope.getCommands().hasNext() )
-		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Unable to invoke " + functionName );
-			return DataTypes.VOID_VALUE;
-		}
-
-		// First execute top-level commands;
-
-		boolean executeTopLevel = this != KoLmafiaASH.NAMESPACE_INTERPRETER;
-
-		if ( !executeTopLevel )
-		{
-			String importString = Preferences.getString( "commandLineNamespace" );
-			executeTopLevel = !importString.equals( Interpreter.lastImportString );
-			Interpreter.lastImportString = importString;
-		}
-
-		if ( executeTopLevel )
-		{
-			Interpreter.trace( "Executing top-level commands" );
-			result = topScope.execute();
-		}
-
-		if ( Interpreter.currentState == Interpreter.STATE_EXIT )
-		{
-			return result;
-		}
-
-		// Now execute main function, if any
-		if ( main != null )
-		{
-			Interpreter.trace( "Executing main function" );
-
-			if ( !this.requestUserParams( main, parameters ) )
-			{
-				return null;
-			}
-
-			result = main.execute();
-		}
-
-		return result;
-	}
-
-	private boolean requestUserParams( final ScriptFunction targetFunction, final String[] parameters )
-	{
-		int args = parameters == null ? 0 : parameters.length;
-
-		ScriptType lastType = null;
-		ScriptVariableReference lastParam = null;
-
-		int index = 0;
-
-		Iterator it = targetFunction.getReferences();
-		ScriptVariableReference param;
-
-		while ( it.hasNext() )
-		{
-			param = (ScriptVariableReference) it.next();
-
-			ScriptType type = param.getType();
-			String name = param.getName();
-			ScriptValue value = null;
-
-			while ( value == null )
-			{
-				if ( type == DataTypes.VOID_TYPE )
-				{
-					value = DataTypes.VOID_VALUE;
-					break;
-				}
-
-				String input = null;
-
-				if ( index >= args )
-				{
-					input = DataTypes.promptForValue( type, name );
-				}
-				else
-				{
-					input = parameters[ index ];
-				}
-
-				// User declined to supply a parameter
-				if ( input == null )
-				{
-					return false;
-				}
-
-				try
-				{
-					value = DataTypes.parseValue( type, input );
-				}
-				catch ( AdvancedScriptException e )
-				{
-					RequestLogger.printLine( e.getMessage() );
-
-					// Punt if parameter came from the CLI
-					if ( index < args )
-					{
-						return false;
-					}
-				}
-			}
-
-			param.setValue( value );
-
-			lastType = type;
-			lastParam = param;
-
-			index++ ;
-		}
-
-		if ( index < args )
-		{
-			StringBuffer inputs = new StringBuffer();
-			for ( int i = index - 1; i < args; ++i )
-			{
-				inputs.append( parameters[ i ] + " " );
-			}
-
-			ScriptValue value = DataTypes.parseValue( lastType, inputs.toString().trim() );
-			lastParam.setValue( value );
-		}
-
-		return true;
-	}
+	// **************** Parse errors *****************
 
 	public void parseError( final String expected, final String actual )
 	{
@@ -2832,70 +2908,6 @@ public class Interpreter
 
 		String partialName = this.fileName.substring( this.fileName.lastIndexOf( File.separator ) + 1 );
 		return "(" + partialName + ", line " + this.lineNumber + ")";
-	}
-
-	public ScriptScope getExistingFunctionScope()
-	{
-		return new ScriptScope( RuntimeLibrary.functions, null, DataTypes.simpleTypes );
-	}
-
-	private static final ScriptSymbolTable reservedWords = new ScriptSymbolTable();
-
-	static
-	{
-		// Constants
-		reservedWords.addElement( new ScriptSymbol( "true" ) );
-		reservedWords.addElement( new ScriptSymbol( "false" ) );
-
-		// Operators
-		reservedWords.addElement( new ScriptSymbol( "contains" ) );
-		reservedWords.addElement( new ScriptSymbol( "remove" ) );
-
-		// Control flow
-		reservedWords.addElement( new ScriptSymbol( "if" ) );
-		reservedWords.addElement( new ScriptSymbol( "else" ) );
-		reservedWords.addElement( new ScriptSymbol( "foreach" ) );
-		reservedWords.addElement( new ScriptSymbol( "in" ) );
-		reservedWords.addElement( new ScriptSymbol( "for" ) );
-		reservedWords.addElement( new ScriptSymbol( "from" ) );
-		reservedWords.addElement( new ScriptSymbol( "upto" ) );
-		reservedWords.addElement( new ScriptSymbol( "downto" ) );
-		reservedWords.addElement( new ScriptSymbol( "by" ) );
-		reservedWords.addElement( new ScriptSymbol( "while" ) );
-		reservedWords.addElement( new ScriptSymbol( "repeat" ) );
-		reservedWords.addElement( new ScriptSymbol( "until" ) );
-		reservedWords.addElement( new ScriptSymbol( "break" ) );
-		reservedWords.addElement( new ScriptSymbol( "continue" ) );
-		reservedWords.addElement( new ScriptSymbol( "return" ) );
-		reservedWords.addElement( new ScriptSymbol( "exit" ) );
-
-		// Data types
-		reservedWords.addElement( new ScriptSymbol( "void" ) );
-		reservedWords.addElement( new ScriptSymbol( "boolean" ) );
-		reservedWords.addElement( new ScriptSymbol( "int" ) );
-		reservedWords.addElement( new ScriptSymbol( "float" ) );
-		reservedWords.addElement( new ScriptSymbol( "string" ) );
-		reservedWords.addElement( new ScriptSymbol( "buffer" ) );
-		reservedWords.addElement( new ScriptSymbol( "matcher" ) );
-
-		reservedWords.addElement( new ScriptSymbol( "item" ) );
-		reservedWords.addElement( new ScriptSymbol( "location" ) );
-		reservedWords.addElement( new ScriptSymbol( "class" ) );
-		reservedWords.addElement( new ScriptSymbol( "stat" ) );
-		reservedWords.addElement( new ScriptSymbol( "skill" ) );
-		reservedWords.addElement( new ScriptSymbol( "effect" ) );
-		reservedWords.addElement( new ScriptSymbol( "familiar" ) );
-		reservedWords.addElement( new ScriptSymbol( "slot" ) );
-		reservedWords.addElement( new ScriptSymbol( "monster" ) );
-		reservedWords.addElement( new ScriptSymbol( "element" ) );
-
-		reservedWords.addElement( new ScriptSymbol( "record" ) );
-		reservedWords.addElement( new ScriptSymbol( "typedef" ) );
-	}
-
-	public static final boolean isReservedWord( final String name )
-	{
-		return Interpreter.reservedWords.findSymbol( name ) != null;
 	}
 
 	public static class AdvancedScriptException
