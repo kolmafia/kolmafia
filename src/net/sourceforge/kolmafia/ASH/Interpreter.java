@@ -76,16 +76,18 @@ import net.sourceforge.kolmafia.ASH.ParseTree;
 import net.sourceforge.kolmafia.ASH.ParseTree.ScriptAggregateType;
 import net.sourceforge.kolmafia.ASH.ParseTree.ScriptAssignment;
 import net.sourceforge.kolmafia.ASH.ParseTree.ScriptBasicScript;
+import net.sourceforge.kolmafia.ASH.ParseTree.ScriptBreak;
 import net.sourceforge.kolmafia.ASH.ParseTree.ScriptCall;
 import net.sourceforge.kolmafia.ASH.ParseTree.ScriptCommand;
 import net.sourceforge.kolmafia.ASH.ParseTree.ScriptCompositeReference;
 import net.sourceforge.kolmafia.ASH.ParseTree.ScriptConditional;
+import net.sourceforge.kolmafia.ASH.ParseTree.ScriptContinue;
 import net.sourceforge.kolmafia.ASH.ParseTree.ScriptElse;
 import net.sourceforge.kolmafia.ASH.ParseTree.ScriptElseIf;
 import net.sourceforge.kolmafia.ASH.ParseTree.ScriptExistingFunction;
+import net.sourceforge.kolmafia.ASH.ParseTree.ScriptExit;
 import net.sourceforge.kolmafia.ASH.ParseTree.ScriptExpression;
 import net.sourceforge.kolmafia.ASH.ParseTree.ScriptExpressionList;
-import net.sourceforge.kolmafia.ASH.ParseTree.ScriptFlowControl;
 import net.sourceforge.kolmafia.ASH.ParseTree.ScriptFor;
 import net.sourceforge.kolmafia.ASH.ParseTree.ScriptForeach;
 import net.sourceforge.kolmafia.ASH.ParseTree.ScriptFunction;
@@ -170,10 +172,6 @@ public class Interpreter
 	};
 	public static final String[] STATS = { "Muscle", "Mysticality", "Moxie" };
 	public static final String[] BOOLEANS = { "true", "false" };
-
-	public static final int COMMAND_BREAK = 1;
-	public static final int COMMAND_CONTINUE = 2;
-	public static final int COMMAND_EXIT = 3;
 
 	public static final int STATE_NORMAL = 1;
 	public static final int STATE_RETURN = 2;
@@ -1402,7 +1400,7 @@ public class Interpreter
 				throw new AdvancedScriptException( "Encountered 'break' outside of loop" );
 			}
 
-			result = new ScriptFlowControl( Interpreter.COMMAND_BREAK );
+			result = new ScriptBreak();
 			this.readToken(); //break
 		}
 
@@ -1413,13 +1411,13 @@ public class Interpreter
 				throw new AdvancedScriptException( "Encountered 'continue' outside of loop" );
 			}
 
-			result = new ScriptFlowControl( Interpreter.COMMAND_CONTINUE );
+			result = new ScriptContinue();
 			this.readToken(); //continue
 		}
 
 		else if ( this.currentToken().equalsIgnoreCase( "exit" ) )
 		{
-			result = new ScriptFlowControl( Interpreter.COMMAND_EXIT );
+			result = new ScriptExit();
 			this.readToken(); //exit
 		}
 

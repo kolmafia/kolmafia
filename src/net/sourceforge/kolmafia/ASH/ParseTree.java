@@ -1412,47 +1412,18 @@ public abstract class ParseTree
 		}
 	}
 
-	public static class ScriptFlowControl
+	private static abstract class ScriptFlowControl
 		extends ScriptCommand
 	{
-		int command;
+		int state;
 
-		public ScriptFlowControl( final String command )
+		public ScriptFlowControl( final int state )
 		{
-			if ( command.equalsIgnoreCase( "break" ) )
-			{
-				this.command = Interpreter.COMMAND_BREAK;
-			}
-			else if ( command.equalsIgnoreCase( "continue" ) )
-			{
-				this.command = Interpreter.COMMAND_CONTINUE;
-			}
-			else if ( command.equalsIgnoreCase( "exit" ) )
-			{
-				this.command = Interpreter.COMMAND_EXIT;
-			}
-			else
-			{
-				throw new AdvancedScriptException( "Invalid command '" + command + "'" );
-			}
-		}
-
-		public ScriptFlowControl( final int command )
-		{
-			this.command = command;
+			this.state = state;
 		}
 
 		public String toString()
 		{
-			switch ( this.command )
-			{
-			case Interpreter.COMMAND_BREAK:
-				return "break";
-			case Interpreter.COMMAND_CONTINUE:
-				return "continue";
-			case Interpreter.COMMAND_EXIT:
-				return "exit";
-			}
 			return "unknown command";
 		}
 
@@ -1461,21 +1432,56 @@ public abstract class ParseTree
 			Interpreter.traceIndent();
 			Interpreter.trace( this.toString() );
 			Interpreter.traceUnindent();
+			Interpreter.currentState = state;
+			return Interpreter.VOID_VALUE;
+		}
+	}
 
-			switch ( this.command )
-			{
-			case Interpreter.COMMAND_BREAK:
-				Interpreter.currentState = Interpreter.STATE_BREAK;
-				return Interpreter.VOID_VALUE;
-			case Interpreter.COMMAND_CONTINUE:
-				Interpreter.currentState = Interpreter.STATE_CONTINUE;
-				return Interpreter.VOID_VALUE;
-			case Interpreter.COMMAND_EXIT:
-				Interpreter.currentState = Interpreter.STATE_EXIT;
-				return null;
-			}
+	public static class ScriptBreak
+		extends ScriptFlowControl
+	{
+		public ScriptBreak()
+		{
+			super( Interpreter.STATE_BREAK );
+		}
 
-			throw new RuntimeException( "Internal error: unknown ScriptCommand type" );
+		public String toString()
+		{
+			return "break";
+		}
+	}
+
+	public static class ScriptContinue
+		extends ScriptFlowControl
+	{
+		public ScriptContinue()
+		{
+			super( Interpreter.STATE_CONTINUE );
+		}
+
+		public String toString()
+		{
+			return "continue";
+		}
+	}
+
+	public static class ScriptExit
+		extends ScriptFlowControl
+	{
+		public ScriptExit()
+		{
+			super( Interpreter.STATE_EXIT );
+		}
+
+		public String toString()
+		{
+			return "exit";
+		}
+
+		public ScriptValue execute()
+		{
+			super.execute();
+			return Interpreter.VOID_VALUE;
 		}
 	}
 
