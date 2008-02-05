@@ -1217,7 +1217,7 @@ public class KoLmafiaCLI
 				Interpreter interpreter = KoLmafiaASH.getInterpreter( f );
 				if ( interpreter != null )
 				{
-					interpreter.showUserFunctions( parameters );
+					KoLmafiaASH.showUserFunctions( interpreter, parameters );
 				}
 
 				RequestLogger.printLine();
@@ -1228,7 +1228,7 @@ public class KoLmafiaCLI
 
 		if ( command.equals( "ashref" ) )
 		{
-			KoLmafiaASH.NAMESPACE_INTERPRETER.showExistingFunctions( parameters );
+			KoLmafiaASH.showExistingFunctions( parameters );
 			return;
 		}
 
@@ -3130,7 +3130,7 @@ public class KoLmafiaCLI
 					if ( interpreter != null )
 					{
 						RequestLogger.printLine();
-						interpreter.showUserFunctions( "" );
+						KoLmafiaASH.showUserFunctions( interpreter, "" );
 
 						RequestLogger.printLine();
 						RequestLogger.printLine( "Script verification complete." );

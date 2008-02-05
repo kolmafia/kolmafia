@@ -38,6 +38,10 @@ import java.util.Iterator;
 import java.util.TreeMap;
 
 import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.ParseTree.ScriptExistingFunction;
+import net.sourceforge.kolmafia.textui.ParseTree.ScriptFunction;
+import net.sourceforge.kolmafia.textui.ParseTree.ScriptVariableReference;
+import net.sourceforge.kolmafia.textui.RuntimeLibrary;
 import net.sourceforge.kolmafia.request.RelayRequest;
 
 public abstract class KoLmafiaASH
@@ -155,5 +159,91 @@ public abstract class KoLmafiaASH
 		}
 
 		return (Interpreter) KoLmafiaASH.INTERPRETERS.get( toExecute );
+	}
+
+	public static void showUserFunctions( final Interpreter interpreter, final String filter )
+	{
+		KoLmafiaASH.showFunctions( interpreter.getFunctions(), filter.toLowerCase() );
+	}
+
+	public static void showExistingFunctions( final String filter )
+	{
+		KoLmafiaASH.showFunctions( RuntimeLibrary.getFunctions(), filter.toLowerCase() );
+	}
+
+	private static void showFunctions( final Iterator it, final String filter )
+	{
+		ScriptFunction func;
+
+		if ( !it.hasNext() )
+		{
+			RequestLogger.printLine( "No functions in your current namespace." );
+			return;
+		}
+
+		boolean hasDescription = false;
+
+		while ( it.hasNext() )
+		{
+			func = (ScriptFunction) it.next();
+			hasDescription =
+				func instanceof ScriptExistingFunction && ( (ScriptExistingFunction) func ).getDescription() != null;
+
+			boolean matches = filter.equals( "" );
+			matches |= func.getName().toLowerCase().indexOf( filter ) != -1;
+
+			Iterator it2 = func.getReferences();
+			matches |=
+				it2.hasNext() && ( (ScriptVariableReference) it2.next() ).getType().toString().indexOf( filter ) != -1;
+
+			if ( !matches )
+			{
+				continue;
+			}
+
+			StringBuffer description = new StringBuffer();
+
+			if ( hasDescription )
+			{
+				description.append( "<b>" );
+			}
+
+			description.append( func.getType() );
+			description.append( " " );
+			description.append( func.getName() );
+			description.append( "( " );
+
+			it2 = func.getReferences();
+			ScriptVariableReference var;
+
+			while ( it2.hasNext() )
+			{
+				var = (ScriptVariableReference) it2.next();
+				description.append( var.getType() );
+
+				if ( var.getName() != null )
+				{
+					description.append( " " );
+					description.append( var.getName() );
+				}
+
+				if ( it2.hasNext() )
+				{
+					description.append( ", " );
+				}
+			}
+
+			description.append( " )" );
+
+			if ( hasDescription )
+			{
+				description.append( "</b><br>" );
+				description.append( ( (ScriptExistingFunction) func ).getDescription() );
+				description.append( "<br>" );
+			}
+
+			RequestLogger.printLine( description.toString() );
+
+		}
 	}
 }
