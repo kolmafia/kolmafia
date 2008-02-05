@@ -34,9 +34,20 @@
 	<!--  sets the default compiler to Jikes if available  -->
 	<!-- ================================================= -->
 
-	<target name="setjikes" if="env.JIKES_HOME">
+	<target name="jikeshome" if="env.JIKES_HOME">
 		<property name="build.compiler" value="jikes" />
 		<echo message="Set compiler: ${env.JIKES_HOME}" />
+	</target>
+
+
+	<!-- ================================================= -->
+	<!--  sets the default compiler to Jikes if available  -->
+	<!-- ================================================= -->
+
+	<target name="javahome" if="env.JAVA_HOME">
+		<exec executable="java" failifexecutionfails="false">
+			<arg value="-version"/>
+		</exec>
 	</target>
 
 
@@ -113,7 +124,7 @@
 	<!--  generate class files  -->
 	<!-- ====================== -->
 
-	<target name="compile" depends="init,setjikes">
+	<target name="compile" depends="init,jikeshome,javahome">
 
 		<javac source="1.4" srcdir="${src}" destdir="${build}"
 			failonerror="false" debug="on" debuglevel="lines,vars,source" deprecation="off" nowarn="on"/>
@@ -196,7 +207,7 @@
 	<!--  generate a daily build JAR  -->
 	<!-- ============================ -->
 
-	<target name="daily" depends="start,update,version">
+	<target name="daily" depends="clean,init,update,version">
 
 		<replace file="${src}/net/sourceforge/kolmafia/KoLConstants.java"
 			token="REVISION = null" value='REVISION = "${revision}"'/>
