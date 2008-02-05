@@ -49,6 +49,7 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.KoLConstants.ByteArrayStream;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.ASH.DataTypes;
 import net.sourceforge.kolmafia.ASH.Interpreter;
 import net.sourceforge.kolmafia.ASH.Interpreter.AdvancedScriptException;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -56,6 +57,25 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 public abstract class ParseTree
 {
 	private static StringBuffer concatenateBuffer = new StringBuffer();
+
+	private static void captureValue( final ScriptValue value )
+	{
+		// We've just executed a command in a context that captures the
+		// return value.
+
+		if ( KoLmafia.refusesContinue() || value == null )
+		{
+			// User aborted
+			Interpreter.currentState = Interpreter.STATE_EXIT;
+			return;
+		}
+
+		// Even if an error occurred, since we captured the result,
+		// permit further execution.
+
+		Interpreter.currentState = Interpreter.STATE_NORMAL;
+		KoLmafia.forceContinue();
+	}
 
 	private static final void indentLine( final PrintStream stream, final int indent )
 	{
@@ -341,7 +361,7 @@ public abstract class ParseTree
 				while ( refIterator.hasNext() )
 				{
 					++paramCount;
-					if ( ( (ScriptVariableReference) refIterator.next() ).getType().equals( Interpreter.STRING_TYPE ) )
+					if ( ( (ScriptVariableReference) refIterator.next() ).getType().equals( DataTypes.STRING_TYPE ) )
 					{
 						++stringCount;
 					}
@@ -545,7 +565,7 @@ public abstract class ParseTree
 			// ...but the following does.
 			GenericRequest.delay(1);
 
-			ScriptValue result = Interpreter.VOID_VALUE;
+			ScriptValue result = DataTypes.VOID_VALUE;
 			Interpreter.traceIndent();
 
 			ScriptCommand current;
@@ -564,7 +584,7 @@ public abstract class ParseTree
 
 				if ( result == null )
 				{
-					result = Interpreter.VOID_VALUE;
+					result = DataTypes.VOID_VALUE;
 				}
 
 				Interpreter.trace( "[" + Interpreter.currentState + "] <- " + result.toQuotedString() );
@@ -1064,30 +1084,30 @@ public abstract class ParseTree
 				this.content = targetValue;
 				this.expression = null;
 			}
-			else if ( this.getType().equals( Interpreter.TYPE_STRING ) )
+			else if ( this.getType().equals( DataTypes.TYPE_STRING ) )
 			{
 				this.content = targetValue.toStringValue();
 				this.expression = null;
 			}
-			else if ( this.getType().equals( Interpreter.TYPE_INT ) && targetValue.getType().equals(
-				Interpreter.TYPE_FLOAT ) )
+			else if ( this.getType().equals( DataTypes.TYPE_INT ) && targetValue.getType().equals(
+				DataTypes.TYPE_FLOAT ) )
 			{
 				this.content = targetValue.toIntValue();
 				this.expression = null;
 			}
-			else if ( this.getType().equals( Interpreter.TYPE_FLOAT ) && targetValue.getType().equals(
-				Interpreter.TYPE_INT ) )
+			else if ( this.getType().equals( DataTypes.TYPE_FLOAT ) && targetValue.getType().equals(
+				DataTypes.TYPE_INT ) )
 			{
 				this.content = targetValue.toFloatValue();
 				this.expression = null;
 			}
-			else if ( this.getType().equals( Interpreter.TYPE_ANY ) )
+			else if ( this.getType().equals( DataTypes.TYPE_ANY ) )
 			{
 				this.content = targetValue;
 				this.expression = null;
 			}
-			else if ( this.getType().getBaseType().equals( Interpreter.TYPE_AGGREGATE ) && targetValue.getType().getBaseType().equals(
-				Interpreter.TYPE_AGGREGATE ) )
+			else if ( this.getType().getBaseType().equals( DataTypes.TYPE_AGGREGATE ) && targetValue.getType().getBaseType().equals(
+				DataTypes.TYPE_AGGREGATE ) )
 			{
 				this.content = targetValue;
 				this.expression = null;
@@ -1265,10 +1285,10 @@ public abstract class ParseTree
 				Interpreter.trace( "Key #" + ( i + 1 ) + ": " + exp.toQuotedString() );
 
 				this.index = exp.execute();
-				Interpreter.captureValue( this.index );
+				ParseTree.captureValue( this.index );
 				if ( this.index == null )
 				{
-					this.index = Interpreter.VOID_VALUE;
+					this.index = DataTypes.VOID_VALUE;
 				}
 
 				Interpreter.trace( "[" + Interpreter.currentState + "] <- " + this.index.toQuotedString() );
@@ -1429,7 +1449,7 @@ public abstract class ParseTree
 			Interpreter.trace( this.toString() );
 			Interpreter.traceUnindent();
 			Interpreter.currentState = this.state;
-			return Interpreter.VOID_VALUE;
+			return DataTypes.VOID_VALUE;
 		}
 	}
 
@@ -1505,7 +1525,7 @@ public abstract class ParseTree
 
 			if ( this.returnValue == null )
 			{
-				return Interpreter.VOID_TYPE;
+				return DataTypes.VOID_TYPE;
 			}
 
 			return this.returnValue.getType();
@@ -1539,7 +1559,7 @@ public abstract class ParseTree
 			Interpreter.trace( "Eval: " + this.returnValue );
 
 			ScriptValue result = this.returnValue.execute();
-			Interpreter.captureValue( result );
+			ParseTree.captureValue( result );
 
 			Interpreter.trace( "Returning: " + result );
 			Interpreter.traceUnindent();
@@ -1554,17 +1574,17 @@ public abstract class ParseTree
 				Interpreter.currentState = Interpreter.STATE_RETURN;
 			}
 
-			if ( this.expectedType.equals( Interpreter.TYPE_STRING ) )
+			if ( this.expectedType.equals( DataTypes.TYPE_STRING ) )
 			{
 				return result.toStringValue();
 			}
 
-			if ( this.expectedType.equals( Interpreter.TYPE_FLOAT ) )
+			if ( this.expectedType.equals( DataTypes.TYPE_FLOAT ) )
 			{
 				return result.toFloatValue();
 			}
 
-			if ( this.expectedType.equals( Interpreter.TYPE_INT ) )
+			if ( this.expectedType.equals( DataTypes.TYPE_INT ) )
 			{
 				return result.toIntValue();
 			}
@@ -1581,7 +1601,7 @@ public abstract class ParseTree
 		{
 			ParseTree.indentLine( stream, indent );
 			stream.println( "<RETURN " + this.getType() + ">" );
-			if ( !this.getType().equals( Interpreter.TYPE_VOID ) )
+			if ( !this.getType().equals( DataTypes.TYPE_VOID ) )
 			{
 				this.returnValue.print( stream, indent + 1 );
 			}
@@ -1598,7 +1618,7 @@ public abstract class ParseTree
 		{
 			this.scope = scope;
 			this.condition = condition;
-			if ( !condition.getType().equals( Interpreter.TYPE_BOOLEAN ) )
+			if ( !condition.getType().equals( DataTypes.TYPE_BOOLEAN ) )
 			{
 				throw new AdvancedScriptException( "Cannot apply " + condition.getType() + " to boolean" );
 			}
@@ -1628,7 +1648,7 @@ public abstract class ParseTree
 			Interpreter.trace( "Test: " + this.condition );
 
 			ScriptValue conditionResult = this.condition.execute();
-			Interpreter.captureValue( conditionResult );
+			ParseTree.captureValue( conditionResult );
 
 			Interpreter.trace( "[" + Interpreter.currentState + "] <- " + conditionResult );
 
@@ -1649,11 +1669,11 @@ public abstract class ParseTree
 					return result;
 				}
 
-				return Interpreter.TRUE_VALUE;
+				return DataTypes.TRUE_VALUE;
 			}
 
 			Interpreter.traceUnindent();
-			return Interpreter.FALSE_VALUE;
+			return DataTypes.FALSE_VALUE;
 		}
 	}
 
@@ -1681,7 +1701,7 @@ public abstract class ParseTree
 		public ScriptValue execute()
 		{
 			ScriptValue result = super.execute();
-			if ( Interpreter.currentState != Interpreter.STATE_NORMAL || result == Interpreter.TRUE_VALUE )
+			if ( Interpreter.currentState != Interpreter.STATE_NORMAL || result == DataTypes.TRUE_VALUE )
 			{
 				return result;
 			}
@@ -1696,13 +1716,13 @@ public abstract class ParseTree
 				elseLoop = (ScriptConditional) it.next();
 				result = elseLoop.execute();
 
-				if ( Interpreter.currentState != Interpreter.STATE_NORMAL || result == Interpreter.TRUE_VALUE )
+				if ( Interpreter.currentState != Interpreter.STATE_NORMAL || result == DataTypes.TRUE_VALUE )
 				{
 					return result;
 				}
 			}
 
-			return Interpreter.FALSE_VALUE;
+			return DataTypes.FALSE_VALUE;
 		}
 
 		public String toString()
@@ -1775,7 +1795,7 @@ public abstract class ParseTree
 				return result;
 			}
 
-			return Interpreter.TRUE_VALUE;
+			return DataTypes.TRUE_VALUE;
 		}
 
 		public String toString()
@@ -1823,7 +1843,7 @@ public abstract class ParseTree
 			if ( Interpreter.currentState == Interpreter.STATE_BREAK )
 			{
 				// Stay in state; subclass exits loop
-				return Interpreter.VOID_VALUE;
+				return DataTypes.VOID_VALUE;
 			}
 
 			if ( Interpreter.currentState == Interpreter.STATE_CONTINUE )
@@ -1884,7 +1904,7 @@ public abstract class ParseTree
 
 			// Evaluate the aggref to get the slice
 			ScriptAggregateValue slice = (ScriptAggregateValue) this.aggregate.execute();
-			Interpreter.captureValue( slice );
+			ParseTree.captureValue( slice );
 			if ( Interpreter.currentState == Interpreter.STATE_EXIT )
 			{
 				Interpreter.traceUnindent();
@@ -1947,7 +1967,7 @@ public abstract class ParseTree
 			}
 
 			Interpreter.traceUnindent();
-			return Interpreter.VOID_VALUE;
+			return DataTypes.VOID_VALUE;
 		}
 
 		public String toString()
@@ -1981,7 +2001,7 @@ public abstract class ParseTree
 		{
 			super( scope );
 			this.condition = condition;
-			if ( !condition.getType().equals( Interpreter.TYPE_BOOLEAN ) )
+			if ( !condition.getType().equals( DataTypes.TYPE_BOOLEAN ) )
 			{
 				throw new AdvancedScriptException( "Cannot apply " + condition.getType() + " to boolean" );
 			}
@@ -2009,7 +2029,7 @@ public abstract class ParseTree
 				Interpreter.trace( "Test: " + this.condition );
 
 				ScriptValue conditionResult = this.condition.execute();
-				Interpreter.captureValue( conditionResult );
+				ParseTree.captureValue( conditionResult );
 
 				Interpreter.trace( "[" + Interpreter.currentState + "] <- " + conditionResult );
 
@@ -2030,7 +2050,7 @@ public abstract class ParseTree
 				{
 					Interpreter.currentState = Interpreter.STATE_NORMAL;
 					Interpreter.traceUnindent();
-					return Interpreter.VOID_VALUE;
+					return DataTypes.VOID_VALUE;
 				}
 
 				if ( Interpreter.currentState != Interpreter.STATE_NORMAL )
@@ -2041,7 +2061,7 @@ public abstract class ParseTree
 			}
 
 			Interpreter.traceUnindent();
-			return Interpreter.VOID_VALUE;
+			return DataTypes.VOID_VALUE;
 		}
 
 		public String toString()
@@ -2068,7 +2088,7 @@ public abstract class ParseTree
 		{
 			super( scope );
 			this.condition = condition;
-			if ( !condition.getType().equals( Interpreter.TYPE_BOOLEAN ) )
+			if ( !condition.getType().equals( DataTypes.TYPE_BOOLEAN ) )
 			{
 				throw new AdvancedScriptException( "Cannot apply " + condition.getType() + " to boolean" );
 			}
@@ -2099,7 +2119,7 @@ public abstract class ParseTree
 				{
 					Interpreter.currentState = Interpreter.STATE_NORMAL;
 					Interpreter.traceUnindent();
-					return Interpreter.VOID_VALUE;
+					return DataTypes.VOID_VALUE;
 				}
 
 				if ( Interpreter.currentState != Interpreter.STATE_NORMAL )
@@ -2111,7 +2131,7 @@ public abstract class ParseTree
 				Interpreter.trace( "Test: " + this.condition );
 
 				ScriptValue conditionResult = this.condition.execute();
-				Interpreter.captureValue( conditionResult );
+				ParseTree.captureValue( conditionResult );
 
 				Interpreter.trace( "[" + Interpreter.currentState + "] <- " + conditionResult );
 
@@ -2128,7 +2148,7 @@ public abstract class ParseTree
 			}
 
 			Interpreter.traceUnindent();
-			return Interpreter.VOID_VALUE;
+			return DataTypes.VOID_VALUE;
 		}
 
 		public String toString()
@@ -2206,7 +2226,7 @@ public abstract class ParseTree
 			Interpreter.trace( "Initial: " + this.initial );
 
 			ScriptValue initialValue = this.initial.execute();
-			Interpreter.captureValue( initialValue );
+			ParseTree.captureValue( initialValue );
 
 			Interpreter.trace( "[" + Interpreter.currentState + "] <- " + initialValue );
 
@@ -2220,7 +2240,7 @@ public abstract class ParseTree
 			Interpreter.trace( "Last: " + this.last );
 
 			ScriptValue lastValue = this.last.execute();
-			Interpreter.captureValue( lastValue );
+			ParseTree.captureValue( lastValue );
 
 			Interpreter.trace( "[" + Interpreter.currentState + "] <- " + lastValue );
 
@@ -2234,7 +2254,7 @@ public abstract class ParseTree
 			Interpreter.trace( "Increment: " + this.increment );
 
 			ScriptValue incrementValue = this.increment.execute();
-			Interpreter.captureValue( incrementValue );
+			ParseTree.captureValue( incrementValue );
 
 			Interpreter.trace( "[" + Interpreter.currentState + "] <- " + incrementValue );
 
@@ -2287,7 +2307,7 @@ public abstract class ParseTree
 				{
 					Interpreter.currentState = Interpreter.STATE_NORMAL;
 					Interpreter.traceUnindent();
-					return Interpreter.VOID_VALUE;
+					return DataTypes.VOID_VALUE;
 				}
 
 				if ( Interpreter.currentState != Interpreter.STATE_NORMAL )
@@ -2301,7 +2321,7 @@ public abstract class ParseTree
 			}
 
 			Interpreter.traceUnindent();
-			return Interpreter.VOID_VALUE;
+			return DataTypes.VOID_VALUE;
 		}
 
 		public String toString()
@@ -2334,14 +2354,14 @@ public abstract class ParseTree
 
 		public ScriptType getType()
 		{
-			return Interpreter.VOID_TYPE;
+			return DataTypes.VOID_TYPE;
 		}
 
 		public ScriptValue execute()
 		{
 			KoLmafiaCLI script = new KoLmafiaCLI( this.data.getByteArrayInputStream() );
 			script.listenForCommands();
-			return Interpreter.VOID_VALUE;
+			return DataTypes.VOID_VALUE;
 		}
 	}
 
@@ -2424,10 +2444,10 @@ public abstract class ParseTree
 				Interpreter.trace( "Param #" + paramCount + ": " + paramValue.toQuotedString() );
 
 				ScriptValue value = paramValue.execute();
-				Interpreter.captureValue( value );
+				ParseTree.captureValue( value );
 				if ( value == null )
 				{
-					value = Interpreter.VOID_VALUE;
+					value = DataTypes.VOID_VALUE;
 				}
 
 				Interpreter.trace( "[" + Interpreter.currentState + "] <- " + value.toQuotedString() );
@@ -2440,17 +2460,17 @@ public abstract class ParseTree
 				}
 
 				// Bind parameter to new value
-				if ( paramVarRef.getType().equals( Interpreter.TYPE_STRING ) )
+				if ( paramVarRef.getType().equals( DataTypes.TYPE_STRING ) )
 				{
 					paramVarRef.setValue( value.toStringValue() );
 				}
-				else if ( paramVarRef.getType().equals( Interpreter.TYPE_INT ) && paramValue.getType().equals(
-					Interpreter.TYPE_FLOAT ) )
+				else if ( paramVarRef.getType().equals( DataTypes.TYPE_INT ) && paramValue.getType().equals(
+					DataTypes.TYPE_FLOAT ) )
 				{
 					paramVarRef.setValue( value.toIntValue() );
 				}
-				else if ( paramVarRef.getType().equals( Interpreter.TYPE_FLOAT ) && paramValue.getType().equals(
-					Interpreter.TYPE_INT ) )
+				else if ( paramVarRef.getType().equals( DataTypes.TYPE_FLOAT ) && paramValue.getType().equals(
+					DataTypes.TYPE_INT ) )
 				{
 					paramVarRef.setValue( value.toFloatValue() );
 				}
@@ -2554,7 +2574,7 @@ public abstract class ParseTree
 				Interpreter.trace( "Eval: " + this.rhs );
 
 				value = this.rhs.execute();
-				Interpreter.captureValue( value );
+				ParseTree.captureValue( value );
 
 				Interpreter.trace( "Set: " + value );
 				Interpreter.traceUnindent();
@@ -2565,15 +2585,15 @@ public abstract class ParseTree
 				return null;
 			}
 
-			if ( this.lhs.getType().equals( Interpreter.TYPE_STRING ) )
+			if ( this.lhs.getType().equals( DataTypes.TYPE_STRING ) )
 			{
 				this.lhs.setValue( value.toStringValue() );
 			}
-			else if ( this.lhs.getType().equals( Interpreter.TYPE_INT ) )
+			else if ( this.lhs.getType().equals( DataTypes.TYPE_INT ) )
 			{
 				this.lhs.setValue( value.toIntValue() );
 			}
-			else if ( this.lhs.getType().equals( Interpreter.TYPE_FLOAT ) )
+			else if ( this.lhs.getType().equals( DataTypes.TYPE_FLOAT ) )
 			{
 				this.lhs.setValue( value.toFloatValue() );
 			}
@@ -2582,7 +2602,7 @@ public abstract class ParseTree
 				this.lhs.setValue( value );
 			}
 
-			return Interpreter.VOID_VALUE;
+			return DataTypes.VOID_VALUE;
 		}
 
 		public String toString()
@@ -2652,41 +2672,41 @@ public abstract class ParseTree
 		{
 			switch ( this.type )
 			{
-			case Interpreter.TYPE_VOID:
-				return Interpreter.VOID_VALUE;
-			case Interpreter.TYPE_BOOLEAN:
-				return Interpreter.BOOLEAN_INIT;
-			case Interpreter.TYPE_INT:
-				return Interpreter.INT_INIT;
-			case Interpreter.TYPE_FLOAT:
-				return Interpreter.FLOAT_INIT;
-			case Interpreter.TYPE_STRING:
-				return Interpreter.STRING_INIT;
-			case Interpreter.TYPE_BUFFER:
-				return new ScriptValue( Interpreter.BUFFER_TYPE, "", new StringBuffer() );
-			case Interpreter.TYPE_MATCHER:
-				return new ScriptValue( Interpreter.MATCHER_TYPE, "", Pattern.compile( "" ).matcher( "" ) );
+			case DataTypes.TYPE_VOID:
+				return DataTypes.VOID_VALUE;
+			case DataTypes.TYPE_BOOLEAN:
+				return DataTypes.BOOLEAN_INIT;
+			case DataTypes.TYPE_INT:
+				return DataTypes.INT_INIT;
+			case DataTypes.TYPE_FLOAT:
+				return DataTypes.FLOAT_INIT;
+			case DataTypes.TYPE_STRING:
+				return DataTypes.STRING_INIT;
+			case DataTypes.TYPE_BUFFER:
+				return new ScriptValue( DataTypes.BUFFER_TYPE, "", new StringBuffer() );
+			case DataTypes.TYPE_MATCHER:
+				return new ScriptValue( DataTypes.MATCHER_TYPE, "", Pattern.compile( "" ).matcher( "" ) );
 
-			case Interpreter.TYPE_ITEM:
-				return Interpreter.ITEM_INIT;
-			case Interpreter.TYPE_LOCATION:
-				return Interpreter.LOCATION_INIT;
-			case Interpreter.TYPE_CLASS:
-				return Interpreter.CLASS_INIT;
-			case Interpreter.TYPE_STAT:
-				return Interpreter.STAT_INIT;
-			case Interpreter.TYPE_SKILL:
-				return Interpreter.SKILL_INIT;
-			case Interpreter.TYPE_EFFECT:
-				return Interpreter.EFFECT_INIT;
-			case Interpreter.TYPE_FAMILIAR:
-				return Interpreter.FAMILIAR_INIT;
-			case Interpreter.TYPE_SLOT:
-				return Interpreter.SLOT_INIT;
-			case Interpreter.TYPE_MONSTER:
-				return Interpreter.MONSTER_INIT;
-			case Interpreter.TYPE_ELEMENT:
-				return Interpreter.ELEMENT_INIT;
+			case DataTypes.TYPE_ITEM:
+				return DataTypes.ITEM_INIT;
+			case DataTypes.TYPE_LOCATION:
+				return DataTypes.LOCATION_INIT;
+			case DataTypes.TYPE_CLASS:
+				return DataTypes.CLASS_INIT;
+			case DataTypes.TYPE_STAT:
+				return DataTypes.STAT_INIT;
+			case DataTypes.TYPE_SKILL:
+				return DataTypes.SKILL_INIT;
+			case DataTypes.TYPE_EFFECT:
+				return DataTypes.EFFECT_INIT;
+			case DataTypes.TYPE_FAMILIAR:
+				return DataTypes.FAMILIAR_INIT;
+			case DataTypes.TYPE_SLOT:
+				return DataTypes.SLOT_INIT;
+			case DataTypes.TYPE_MONSTER:
+				return DataTypes.MONSTER_INIT;
+			case DataTypes.TYPE_ELEMENT:
+				return DataTypes.ELEMENT_INIT;
 			}
 			return null;
 		}
@@ -2695,34 +2715,34 @@ public abstract class ParseTree
 		{
 			switch ( this.type )
 			{
-			case Interpreter.TYPE_BOOLEAN:
-				return Interpreter.parseBooleanValue( name );
-			case Interpreter.TYPE_INT:
-				return Interpreter.parseIntValue( name );
-			case Interpreter.TYPE_FLOAT:
-				return Interpreter.parseFloatValue( name );
-			case Interpreter.TYPE_STRING:
-				return Interpreter.parseStringValue( name );
-			case Interpreter.TYPE_ITEM:
-				return Interpreter.parseItemValue( name );
-			case Interpreter.TYPE_LOCATION:
-				return Interpreter.parseLocationValue( name );
-			case Interpreter.TYPE_CLASS:
-				return Interpreter.parseClassValue( name );
-			case Interpreter.TYPE_STAT:
-				return Interpreter.parseStatValue( name );
-			case Interpreter.TYPE_SKILL:
-				return Interpreter.parseSkillValue( name );
-			case Interpreter.TYPE_EFFECT:
-				return Interpreter.parseEffectValue( name );
-			case Interpreter.TYPE_FAMILIAR:
-				return Interpreter.parseFamiliarValue( name );
-			case Interpreter.TYPE_SLOT:
-				return Interpreter.parseSlotValue( name );
-			case Interpreter.TYPE_MONSTER:
-				return Interpreter.parseMonsterValue( name );
-			case Interpreter.TYPE_ELEMENT:
-				return Interpreter.parseElementValue( name );
+			case DataTypes.TYPE_BOOLEAN:
+				return DataTypes.parseBooleanValue( name );
+			case DataTypes.TYPE_INT:
+				return DataTypes.parseIntValue( name );
+			case DataTypes.TYPE_FLOAT:
+				return DataTypes.parseFloatValue( name );
+			case DataTypes.TYPE_STRING:
+				return DataTypes.parseStringValue( name );
+			case DataTypes.TYPE_ITEM:
+				return DataTypes.parseItemValue( name );
+			case DataTypes.TYPE_LOCATION:
+				return DataTypes.parseLocationValue( name );
+			case DataTypes.TYPE_CLASS:
+				return DataTypes.parseClassValue( name );
+			case DataTypes.TYPE_STAT:
+				return DataTypes.parseStatValue( name );
+			case DataTypes.TYPE_SKILL:
+				return DataTypes.parseSkillValue( name );
+			case DataTypes.TYPE_EFFECT:
+				return DataTypes.parseEffectValue( name );
+			case DataTypes.TYPE_FAMILIAR:
+				return DataTypes.parseFamiliarValue( name );
+			case DataTypes.TYPE_SLOT:
+				return DataTypes.parseSlotValue( name );
+			case DataTypes.TYPE_MONSTER:
+				return DataTypes.parseMonsterValue( name );
+			case DataTypes.TYPE_ELEMENT:
+				return DataTypes.parseElementValue( name );
 			}
 			return null;
 		}
@@ -2751,7 +2771,7 @@ public abstract class ParseTree
 
 		public ScriptNamedType( final String name, final ScriptType base )
 		{
-			super( name, Interpreter.TYPE_TYPEDEF );
+			super( name, DataTypes.TYPE_TYPEDEF );
 			this.base = base;
 		}
 
@@ -2811,7 +2831,7 @@ public abstract class ParseTree
 		// Map
 		public ScriptAggregateType( final ScriptType dataType, final ScriptType indexType )
 		{
-			super( "aggregate", Interpreter.TYPE_AGGREGATE );
+			super( "aggregate", DataTypes.TYPE_AGGREGATE );
 			this.dataType = dataType;
 			this.indexType = indexType;
 			this.size = 0;
@@ -2820,10 +2840,10 @@ public abstract class ParseTree
 		// Array
 		public ScriptAggregateType( final ScriptType dataType, final int size )
 		{
-			super( "aggregate", Interpreter.TYPE_AGGREGATE );
+			super( "aggregate", DataTypes.TYPE_AGGREGATE );
 			this.primitive = false;
 			this.dataType = dataType;
-			this.indexType = Interpreter.INT_TYPE;
+			this.indexType = DataTypes.INT_TYPE;
 			this.size = size;
 		}
 
@@ -2909,7 +2929,7 @@ public abstract class ParseTree
 
 		public ScriptRecordType( final String name, final String[] fieldNames, final ScriptType[] fieldTypes )
 		{
-			super( name, Interpreter.TYPE_RECORD );
+			super( name, DataTypes.TYPE_RECORD );
 			if ( fieldNames.length != fieldTypes.length )
 			{
 				throw new AdvancedScriptException( "Internal error: wrong number of field types" );
@@ -2952,7 +2972,7 @@ public abstract class ParseTree
 
 		public ScriptType getIndexType()
 		{
-			return Interpreter.STRING_TYPE;
+			return DataTypes.STRING_TYPE;
 		}
 
 		public ScriptType getDataType( final Object key )
@@ -2986,7 +3006,7 @@ public abstract class ParseTree
 		{
 			ScriptType type = key.getType();
 
-			if ( type.equals( Interpreter.TYPE_INT ) )
+			if ( type.equals( DataTypes.TYPE_INT ) )
 			{
 				int index = key.intValue();
 				if ( index < 0 || index >= this.fieldNames.length )
@@ -2996,7 +3016,7 @@ public abstract class ParseTree
 				return this.fieldIndices[ index ];
 			}
 
-			if ( type.equals( Interpreter.TYPE_STRING ) )
+			if ( type.equals( DataTypes.TYPE_STRING ) )
 			{
 				String str = key.toString();
 				for ( int index = 0; index < this.fieldNames.length; ++index )
@@ -3016,7 +3036,7 @@ public abstract class ParseTree
 		{
 			ScriptType type = key.getType();
 
-			if ( type.equals( Interpreter.TYPE_INT ) )
+			if ( type.equals( DataTypes.TYPE_INT ) )
 			{
 				int index = key.intValue();
 				if ( index < 0 || index >= this.fieldNames.length )
@@ -3026,7 +3046,7 @@ public abstract class ParseTree
 				return index;
 			}
 
-			if ( type.equals( Interpreter.TYPE_STRING ) )
+			if ( type.equals( DataTypes.TYPE_STRING ) )
 			{
 				for ( int index = 0; index < this.fieldNames.length; ++index )
 				{
@@ -3127,30 +3147,30 @@ public abstract class ParseTree
 
 		public ScriptValue()
 		{
-			this.type = Interpreter.VOID_TYPE;
+			this.type = DataTypes.VOID_TYPE;
 		}
 
 		public ScriptValue( final int value )
 		{
-			this.type = Interpreter.INT_TYPE;
+			this.type = DataTypes.INT_TYPE;
 			this.contentInt = value;
 		}
 
 		public ScriptValue( final boolean value )
 		{
-			this.type = Interpreter.BOOLEAN_TYPE;
+			this.type = DataTypes.BOOLEAN_TYPE;
 			this.contentInt = value ? 1 : 0;
 		}
 
 		public ScriptValue( final String value )
 		{
-			this.type = Interpreter.STRING_TYPE;
+			this.type = DataTypes.STRING_TYPE;
 			this.contentString = value;
 		}
 
 		public ScriptValue( final float value )
 		{
-			this.type = Interpreter.FLOAT_TYPE;
+			this.type = DataTypes.FLOAT_TYPE;
 			this.contentInt = (int) value;
 			this.contentFloat = value;
 		}
@@ -3184,7 +3204,7 @@ public abstract class ParseTree
 
 		public ScriptValue toFloatValue()
 		{
-			if ( this.type.equals( Interpreter.TYPE_FLOAT ) )
+			if ( this.type.equals( DataTypes.TYPE_FLOAT ) )
 			{
 				return this;
 			}
@@ -3196,7 +3216,7 @@ public abstract class ParseTree
 
 		public ScriptValue toIntValue()
 		{
-			if ( this.type.equals( Interpreter.TYPE_INT ) )
+			if ( this.type.equals( DataTypes.TYPE_INT ) )
 			{
 				return this;
 			}
@@ -3218,7 +3238,7 @@ public abstract class ParseTree
 				return ( (StringBuffer) this.content ).toString();
 			}
 
-			if ( this.type.equals( Interpreter.TYPE_VOID ) )
+			if ( this.type.equals( DataTypes.TYPE_VOID ) )
 			{
 				return "void";
 			}
@@ -3228,12 +3248,12 @@ public abstract class ParseTree
 				return this.contentString;
 			}
 
-			if ( this.type.equals( Interpreter.TYPE_BOOLEAN ) )
+			if ( this.type.equals( DataTypes.TYPE_BOOLEAN ) )
 			{
 				return String.valueOf( this.contentInt != 0 );
 			}
 
-			if ( this.type.equals( Interpreter.TYPE_FLOAT ) )
+			if ( this.type.equals( DataTypes.TYPE_FLOAT ) )
 			{
 				return String.valueOf( this.contentFloat );
 			}
@@ -3284,12 +3304,12 @@ public abstract class ParseTree
 
 			ScriptValue it = (ScriptValue) o;
 
-			if ( this.type == Interpreter.BOOLEAN_TYPE || this.type == Interpreter.INT_TYPE )
+			if ( this.type == DataTypes.BOOLEAN_TYPE || this.type == DataTypes.INT_TYPE )
 			{
 				return this.contentInt < it.contentInt ? -1 : this.contentInt == it.contentInt ? 0 : 1;
 			}
 
-			if ( this.type == Interpreter.FLOAT_TYPE )
+			if ( this.type == DataTypes.FLOAT_TYPE )
 			{
 				return this.contentFloat < it.contentFloat ? -1 : this.contentFloat == it.contentFloat ? 0 : 1;
 			}
@@ -3408,11 +3428,11 @@ public abstract class ParseTree
 
 			if ( index < data.length )
 			{
-				key = type.getKey( Interpreter.parseValue( type.getIndexType(), data[ index ] ) );
+				key = type.getKey( DataTypes.parseValue( type.getIndexType(), data[ index ] ) );
 			}
 			else
 			{
-				key = type.getKey( Interpreter.parseValue( type.getIndexType(), "none" ) );
+				key = type.getKey( DataTypes.parseValue( type.getIndexType(), "none" ) );
 			}
 
 			// If there's only a key and a value, parse the value
@@ -3420,7 +3440,7 @@ public abstract class ParseTree
 
 			if ( !( type.getDataType( key ) instanceof ScriptCompositeType ) )
 			{
-				this.aset( key, Interpreter.parseValue( type.getDataType( key ), data[ index + 1 ] ) );
+				this.aset( key, DataTypes.parseValue( type.getDataType( key ), data[ index + 1 ] ) );
 				return 2;
 			}
 
@@ -3513,17 +3533,17 @@ public abstract class ParseTree
 			{
 				array[ index ] = val;
 			}
-			else if ( array[ index ].getType().equals( Interpreter.TYPE_STRING ) )
+			else if ( array[ index ].getType().equals( DataTypes.TYPE_STRING ) )
 			{
 				array[ index ] = val.toStringValue();
 			}
-			else if ( array[ index ].getType().equals( Interpreter.TYPE_INT ) && val.getType().equals(
-				Interpreter.TYPE_FLOAT ) )
+			else if ( array[ index ].getType().equals( DataTypes.TYPE_INT ) && val.getType().equals(
+				DataTypes.TYPE_FLOAT ) )
 			{
 				array[ index ] = val.toIntValue();
 			}
-			else if ( array[ index ].getType().equals( Interpreter.TYPE_FLOAT ) && val.getType().equals(
-				Interpreter.TYPE_INT ) )
+			else if ( array[ index ].getType().equals( DataTypes.TYPE_FLOAT ) && val.getType().equals(
+				DataTypes.TYPE_INT ) )
 			{
 				array[ index ] = val.toFloatValue();
 			}
@@ -3602,17 +3622,17 @@ public abstract class ParseTree
 
 			if ( !this.getDataType().equals( val.getType() ) )
 			{
-				if ( this.getDataType().equals( Interpreter.TYPE_STRING ) )
+				if ( this.getDataType().equals( DataTypes.TYPE_STRING ) )
 				{
 					val = val.toStringValue();
 				}
-				else if ( this.getDataType().equals( Interpreter.TYPE_INT ) && val.getType().equals(
-					Interpreter.TYPE_FLOAT ) )
+				else if ( this.getDataType().equals( DataTypes.TYPE_INT ) && val.getType().equals(
+					DataTypes.TYPE_FLOAT ) )
 				{
 					val = val.toIntValue();
 				}
-				else if ( this.getDataType().equals( Interpreter.TYPE_FLOAT ) && val.getType().equals(
-					Interpreter.TYPE_INT ) )
+				else if ( this.getDataType().equals( DataTypes.TYPE_FLOAT ) && val.getType().equals(
+					DataTypes.TYPE_INT ) )
 				{
 					val = val.toFloatValue();
 				}
@@ -3730,17 +3750,17 @@ public abstract class ParseTree
 			{
 				array[ index ] = val;
 			}
-			else if ( array[ index ].getType().equals( Interpreter.TYPE_STRING ) )
+			else if ( array[ index ].getType().equals( DataTypes.TYPE_STRING ) )
 			{
 				array[ index ] = val.toStringValue();
 			}
-			else if ( array[ index ].getType().equals( Interpreter.TYPE_INT ) && val.getType().equals(
-				Interpreter.TYPE_FLOAT ) )
+			else if ( array[ index ].getType().equals( DataTypes.TYPE_INT ) && val.getType().equals(
+				DataTypes.TYPE_FLOAT ) )
 			{
 				array[ index ] = val.toIntValue();
 			}
-			else if ( array[ index ].getType().equals( Interpreter.TYPE_FLOAT ) && val.getType().equals(
-				Interpreter.TYPE_INT ) )
+			else if ( array[ index ].getType().equals( DataTypes.TYPE_FLOAT ) && val.getType().equals(
+				DataTypes.TYPE_INT ) )
 			{
 				array[ index ] = val.toFloatValue();
 			}
@@ -3830,14 +3850,14 @@ public abstract class ParseTree
 				}
 				else
 				{
-					array[ offset ] = Interpreter.parseValue( valType, data[ index ] );
+					array[ offset ] = DataTypes.parseValue( valType, data[ index ] );
 					index += 1;
 				}
 			}
 
 			for ( int offset = size; offset < dataTypes.length; ++offset )
 			{
-				array[ offset ] = Interpreter.parseValue( dataTypes[ offset ], "none" );
+				array[ offset ] = DataTypes.parseValue( dataTypes[ offset ], "none" );
 			}
 
 			// assert index == data.length
@@ -3881,21 +3901,21 @@ public abstract class ParseTree
 			ScriptType rightType = this.rhs.getType();
 
 			// String concatenation always yields a string
-			if ( this.oper.equals( "+" ) && ( leftType.equals( Interpreter.TYPE_STRING ) || rightType.equals( Interpreter.TYPE_STRING ) ) )
+			if ( this.oper.equals( "+" ) && ( leftType.equals( DataTypes.TYPE_STRING ) || rightType.equals( DataTypes.TYPE_STRING ) ) )
 			{
-				return Interpreter.STRING_TYPE;
+				return DataTypes.STRING_TYPE;
 			}
 
 			// If it's not arithmetic, it's boolean
 			if ( !this.oper.isArithmetic() )
 			{
-				return Interpreter.BOOLEAN_TYPE;
+				return DataTypes.BOOLEAN_TYPE;
 			}
 
 			// Coerce int to float
-			if ( leftType.equals( Interpreter.TYPE_FLOAT ) )
+			if ( leftType.equals( DataTypes.TYPE_FLOAT ) )
 			{
-				return Interpreter.FLOAT_TYPE;
+				return DataTypes.FLOAT_TYPE;
 			}
 
 			// Otherwise result is whatever is on right
@@ -4052,10 +4072,10 @@ public abstract class ParseTree
 			Interpreter.trace( "Operand 1: " + lhs );
 
 			ScriptValue leftValue = lhs.execute();
-			Interpreter.captureValue( leftValue );
+			ParseTree.captureValue( leftValue );
 			if ( leftValue == null )
 			{
-				leftValue = Interpreter.VOID_VALUE;
+				leftValue = DataTypes.VOID_VALUE;
 			}
 			Interpreter.trace( "[" + Interpreter.currentState + "] <- " + leftValue.toQuotedString() );
 			Interpreter.traceUnindent();
@@ -4078,11 +4098,11 @@ public abstract class ParseTree
 			if ( this.operator.equals( "-" ) && rhs == null )
 			{
 				ScriptValue result = null;
-				if ( lhs.getType().equals( Interpreter.TYPE_INT ) )
+				if ( lhs.getType().equals( DataTypes.TYPE_INT ) )
 				{
 					result = new ScriptValue( 0 - leftValue.intValue() );
 				}
-				else if ( lhs.getType().equals( Interpreter.TYPE_FLOAT ) )
+				else if ( lhs.getType().equals( DataTypes.TYPE_FLOAT ) )
 				{
 					result = new ScriptValue( 0.0f - leftValue.floatValue() );
 				}
@@ -4106,17 +4126,17 @@ public abstract class ParseTree
 			{
 				if ( leftValue.intValue() == 1 )
 				{
-					Interpreter.trace( "<- " + Interpreter.TRUE_VALUE );
+					Interpreter.trace( "<- " + DataTypes.TRUE_VALUE );
 					Interpreter.traceUnindent();
-					return Interpreter.TRUE_VALUE;
+					return DataTypes.TRUE_VALUE;
 				}
 				Interpreter.traceIndent();
 				Interpreter.trace( "Operand 2: " + rhs );
 				ScriptValue rightValue = rhs.execute();
-				Interpreter.captureValue( rightValue );
+				ParseTree.captureValue( rightValue );
 				if ( rightValue == null )
 				{
-					rightValue = Interpreter.VOID_VALUE;
+					rightValue = DataTypes.VOID_VALUE;
 				}
 				Interpreter.trace( "[" + Interpreter.currentState + "] <- " + rightValue.toQuotedString() );
 				Interpreter.traceUnindent();
@@ -4135,16 +4155,16 @@ public abstract class ParseTree
 				if ( leftValue.intValue() == 0 )
 				{
 					Interpreter.traceUnindent();
-					Interpreter.trace( "<- " + Interpreter.FALSE_VALUE );
-					return Interpreter.FALSE_VALUE;
+					Interpreter.trace( "<- " + DataTypes.FALSE_VALUE );
+					return DataTypes.FALSE_VALUE;
 				}
 				Interpreter.traceIndent();
 				Interpreter.trace( "Operand 2: " + rhs );
 				ScriptValue rightValue = rhs.execute();
-				Interpreter.captureValue( rightValue );
+				ParseTree.captureValue( rightValue );
 				if ( rightValue == null )
 				{
-					rightValue = Interpreter.VOID_VALUE;
+					rightValue = DataTypes.VOID_VALUE;
 				}
 				Interpreter.trace( "[" + Interpreter.currentState + "] <- " + rightValue.toQuotedString() );
 				Interpreter.traceUnindent();
@@ -4170,10 +4190,10 @@ public abstract class ParseTree
 				Interpreter.traceIndent();
 				Interpreter.trace( "Operand 2: " + rhs );
 				ScriptValue rightValue = rhs.execute();
-				Interpreter.captureValue( rightValue );
+				ParseTree.captureValue( rightValue );
 				if ( rightValue == null )
 				{
-					rightValue = Interpreter.VOID_VALUE;
+					rightValue = DataTypes.VOID_VALUE;
 				}
 				Interpreter.trace( "[" + Interpreter.currentState + "] <- " + rightValue.toQuotedString() );
 				Interpreter.traceUnindent();
@@ -4192,10 +4212,10 @@ public abstract class ParseTree
 			Interpreter.traceIndent();
 			Interpreter.trace( "Operand 2: " + rhs );
 			ScriptValue rightValue = rhs.execute();
-			Interpreter.captureValue( rightValue );
+			ParseTree.captureValue( rightValue );
 			if ( rightValue == null )
 			{
-				rightValue = Interpreter.VOID_VALUE;
+				rightValue = DataTypes.VOID_VALUE;
 			}
 			Interpreter.trace( "[" + Interpreter.currentState + "] <- " + rightValue.toQuotedString() );
 			Interpreter.traceUnindent();
@@ -4208,7 +4228,7 @@ public abstract class ParseTree
 			// String operators
 			if ( this.operator.equals( "+" ) )
 			{
-				if ( lhs.getType().equals( Interpreter.TYPE_STRING ) || rhs.getType().equals( Interpreter.TYPE_STRING ) )
+				if ( lhs.getType().equals( DataTypes.TYPE_STRING ) || rhs.getType().equals( DataTypes.TYPE_STRING ) )
 				{
 					ParseTree.concatenateBuffer.setLength( 0 );
 					ParseTree.concatenateBuffer.append( leftValue.toStringValue().toString() );
@@ -4222,8 +4242,8 @@ public abstract class ParseTree
 
 			if ( this.operator.equals( "=" ) || this.operator.equals( "==" ) )
 			{
-				if ( lhs.getType().equals( Interpreter.TYPE_STRING ) || lhs.getType().equals( Interpreter.TYPE_LOCATION ) || lhs.getType().equals(
-					Interpreter.TYPE_MONSTER ) )
+				if ( lhs.getType().equals( DataTypes.TYPE_STRING ) || lhs.getType().equals( DataTypes.TYPE_LOCATION ) || lhs.getType().equals(
+					DataTypes.TYPE_MONSTER ) )
 				{
 					ScriptValue result =
 						new ScriptValue( leftValue.toString().equalsIgnoreCase( rightValue.toString() ) );
@@ -4235,8 +4255,8 @@ public abstract class ParseTree
 
 			if ( this.operator.equals( "!=" ) )
 			{
-				if ( lhs.getType().equals( Interpreter.TYPE_STRING ) || lhs.getType().equals( Interpreter.TYPE_LOCATION ) || lhs.getType().equals(
-					Interpreter.TYPE_MONSTER ) )
+				if ( lhs.getType().equals( DataTypes.TYPE_STRING ) || lhs.getType().equals( DataTypes.TYPE_LOCATION ) || lhs.getType().equals(
+					DataTypes.TYPE_MONSTER ) )
 				{
 					ScriptValue result =
 						new ScriptValue( !leftValue.toString().equalsIgnoreCase( rightValue.toString() ) );
@@ -4251,7 +4271,7 @@ public abstract class ParseTree
 			float lfloat = 0.0f, rfloat = 0.0f;
 			int lint = 0, rint = 0;
 
-			if ( lhs.getType().equals( Interpreter.TYPE_FLOAT ) || rhs.getType().equals( Interpreter.TYPE_FLOAT ) )
+			if ( lhs.getType().equals( DataTypes.TYPE_FLOAT ) || rhs.getType().equals( DataTypes.TYPE_FLOAT ) )
 			{
 				isInt = false;
 				lfloat = leftValue.toFloatValue().floatValue();

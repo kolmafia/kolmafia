@@ -40,8 +40,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.LineNumberReader;
 import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Method;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -52,26 +50,17 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
-import net.java.dev.spellcast.utilities.LockableListModel;
-import net.java.dev.spellcast.utilities.UtilityConstants;
 
-import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.AreaCombatData;
-import net.sourceforge.kolmafia.FamiliarData;
-import net.sourceforge.kolmafia.ItemManageFrame;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
-import net.sourceforge.kolmafia.KoLAdventure;
-import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.ByteArrayStream;
-import net.sourceforge.kolmafia.KoLDatabase;
-import net.sourceforge.kolmafia.KoLFrame;
 import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.ASH.DataTypes;
 import net.sourceforge.kolmafia.ASH.ParseTree;
 import net.sourceforge.kolmafia.ASH.ParseTree.ScriptAggregateType;
 import net.sourceforge.kolmafia.ASH.ParseTree.ScriptAssignment;
@@ -114,16 +103,7 @@ import net.sourceforge.kolmafia.ASH.ParseTree.ScriptVariableReference;
 import net.sourceforge.kolmafia.ASH.ParseTree.ScriptVariableReferenceList;
 import net.sourceforge.kolmafia.ASH.ParseTree.ScriptWhile;
 import net.sourceforge.kolmafia.ASH.RuntimeLibrary;
-import net.sourceforge.kolmafia.persistence.AdventureDatabase;
-import net.sourceforge.kolmafia.persistence.EffectDatabase;
-import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
-import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
-import net.sourceforge.kolmafia.persistence.ItemDatabase;
-import net.sourceforge.kolmafia.persistence.MonsterDatabase;
-import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
-import net.sourceforge.kolmafia.persistence.SkillDatabase;
-import net.sourceforge.kolmafia.persistence.MonsterDatabase.Monster;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.SendMailRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
@@ -137,107 +117,13 @@ public class Interpreter
 		{ ' ', '.', ',', '{', '}', '(', ')', '$', '!', '+', '-', '=', '"', '\'', '*', '^', '/', '%', '[', ']', '!', ';', '<', '>' };
 	public static final String[] multiCharTokenList = { "==", "!=", "<=", ">=", "||", "&&", "/*", "*/" };
 
-	public static final int TYPE_ANY = 0;
-	public static final int TYPE_VOID = 1;
-	public static final int TYPE_BOOLEAN = 2;
-	public static final int TYPE_INT = 3;
-	public static final int TYPE_FLOAT = 4;
-	public static final int TYPE_STRING = 5;
-	public static final int TYPE_BUFFER = 6;
-	public static final int TYPE_MATCHER = 7;
-
-	public static final int TYPE_ITEM = 100;
-	public static final int TYPE_LOCATION = 101;
-	public static final int TYPE_CLASS = 102;
-	public static final int TYPE_STAT = 103;
-	public static final int TYPE_SKILL = 104;
-	public static final int TYPE_EFFECT = 105;
-	public static final int TYPE_FAMILIAR = 106;
-	public static final int TYPE_SLOT = 107;
-	public static final int TYPE_MONSTER = 108;
-	public static final int TYPE_ELEMENT = 109;
-
-	public static final int TYPE_AGGREGATE = 1000;
-	public static final int TYPE_RECORD = 1001;
-	public static final int TYPE_TYPEDEF = 1002;
-
-	public static final String[] CLASSES =
-	{
-		KoLCharacter.SEAL_CLUBBER,
-		KoLCharacter.TURTLE_TAMER,
-		KoLCharacter.PASTAMANCER,
-		KoLCharacter.SAUCEROR,
-		KoLCharacter.DISCO_BANDIT,
-		KoLCharacter.ACCORDION_THIEF
-	};
-	public static final String[] STATS = { "Muscle", "Mysticality", "Moxie" };
-	public static final String[] BOOLEANS = { "true", "false" };
-
 	public static final String STATE_NORMAL = "NORMAL";
 	public static final String STATE_RETURN = "RETURN";
 	public static final String STATE_BREAK = "BREAK";
 	public static final String STATE_CONTINUE = "CONTINUE";
 	public static final String STATE_EXIT = "EXIT";
 
-	public static final ScriptType ANY_TYPE = new ScriptType( "any", Interpreter.TYPE_ANY );
-	public static final ScriptType VOID_TYPE = new ScriptType( "void", Interpreter.TYPE_VOID );
-	public static final ScriptType BOOLEAN_TYPE = new ScriptType( "boolean", Interpreter.TYPE_BOOLEAN );
-	public static final ScriptType INT_TYPE = new ScriptType( "int", Interpreter.TYPE_INT );
-	public static final ScriptType FLOAT_TYPE = new ScriptType( "float", Interpreter.TYPE_FLOAT );
-	public static final ScriptType STRING_TYPE = new ScriptType( "string", Interpreter.TYPE_STRING );
-	public static final ScriptType BUFFER_TYPE = new ScriptType( "buffer", Interpreter.TYPE_BUFFER );
-	public static final ScriptType MATCHER_TYPE = new ScriptType( "matcher", Interpreter.TYPE_MATCHER );
-
-	public static final ScriptType ITEM_TYPE = new ScriptType( "item", Interpreter.TYPE_ITEM );
-	public static final ScriptType LOCATION_TYPE = new ScriptType( "location", Interpreter.TYPE_LOCATION );
-	public static final ScriptType CLASS_TYPE = new ScriptType( "class", Interpreter.TYPE_CLASS );
-	public static final ScriptType STAT_TYPE = new ScriptType( "stat", Interpreter.TYPE_STAT );
-	public static final ScriptType SKILL_TYPE = new ScriptType( "skill", Interpreter.TYPE_SKILL );
-	public static final ScriptType EFFECT_TYPE = new ScriptType( "effect", Interpreter.TYPE_EFFECT );
-	public static final ScriptType FAMILIAR_TYPE = new ScriptType( "familiar", Interpreter.TYPE_FAMILIAR );
-	public static final ScriptType SLOT_TYPE = new ScriptType( "slot", Interpreter.TYPE_SLOT );
-	public static final ScriptType MONSTER_TYPE = new ScriptType( "monster", Interpreter.TYPE_MONSTER );
-	public static final ScriptType ELEMENT_TYPE = new ScriptType( "element", Interpreter.TYPE_ELEMENT );
-
-	public static final ScriptType AGGREGATE_TYPE = new ScriptType( "aggregate", Interpreter.TYPE_AGGREGATE );
-	public static final ScriptAggregateType RESULT_TYPE =
-		new ScriptAggregateType( Interpreter.INT_TYPE, Interpreter.ITEM_TYPE );
-	public static final ScriptAggregateType REGEX_GROUP_TYPE =
-		new ScriptAggregateType(
-			new ScriptAggregateType( Interpreter.STRING_TYPE, Interpreter.INT_TYPE ), Interpreter.INT_TYPE );
-
-	// Common values
-
-	public static final ScriptValue VOID_VALUE = new ScriptValue();
-	public static final ScriptValue TRUE_VALUE = new ScriptValue( true );
-	public static final ScriptValue FALSE_VALUE = new ScriptValue( false );
-	public static final ScriptValue ZERO_VALUE = new ScriptValue( 0 );
-	public static final ScriptValue ONE_VALUE = new ScriptValue( 1 );
-	public static final ScriptValue ZERO_FLOAT_VALUE = new ScriptValue( 0.0f );
-
-	// Initial values for uninitialized variables
-
-	// VOID_TYPE omitted since no variable can have that type
-	public static final ScriptValue BOOLEAN_INIT = Interpreter.FALSE_VALUE;
-	public static final ScriptValue INT_INIT = Interpreter.ZERO_VALUE;
-	public static final ScriptValue FLOAT_INIT = Interpreter.ZERO_FLOAT_VALUE;
-	public static final ScriptValue STRING_INIT = new ScriptValue( "" );
-
-	public static final ScriptValue ITEM_INIT = new ScriptValue( Interpreter.ITEM_TYPE, -1, "none" );
-	public static final ScriptValue LOCATION_INIT = new ScriptValue( Interpreter.LOCATION_TYPE, "none", (Object) null );
-	public static final ScriptValue CLASS_INIT = new ScriptValue( Interpreter.CLASS_TYPE, -1, "none" );
-	public static final ScriptValue STAT_INIT = new ScriptValue( Interpreter.STAT_TYPE, -1, "none" );
-	public static final ScriptValue SKILL_INIT = new ScriptValue( Interpreter.SKILL_TYPE, -1, "none" );
-	public static final ScriptValue EFFECT_INIT = new ScriptValue( Interpreter.EFFECT_TYPE, -1, "none" );
-	public static final ScriptValue FAMILIAR_INIT = new ScriptValue( Interpreter.FAMILIAR_TYPE, -1, "none" );
-	public static final ScriptValue SLOT_INIT = new ScriptValue( Interpreter.SLOT_TYPE, -1, "none" );
-	public static final ScriptValue MONSTER_INIT = new ScriptValue( Interpreter.MONSTER_TYPE, "none", (Object) null );
-	public static final ScriptValue ELEMENT_INIT = new ScriptValue( Interpreter.ELEMENT_TYPE, "none", (Object) null );
-
 	// Variables used during parsing
-
-	private static final ScriptTypeList simpleTypes = Interpreter.getSimpleTypes();
-	private static final ScriptSymbolTable reservedWords = Interpreter.getReservedWords();
 
 	private static Interpreter currentAnalysis = null;
 
@@ -300,379 +186,6 @@ public class Interpreter
 	public TreeMap getImports()
 	{
 		return this.imports;
-	}
-
-	// **************** Data Types *****************
-
-	// For each simple data type X, we supply:
-	// public static final ScriptValue parseXValue( String name );
-
-	public static final ScriptValue parseBooleanValue( final String name )
-	{
-		if ( name.equalsIgnoreCase( "true" ) )
-		{
-			return Interpreter.TRUE_VALUE;
-		}
-		if ( name.equalsIgnoreCase( "false" ) )
-		{
-			return Interpreter.FALSE_VALUE;
-		}
-
-		if ( Interpreter.isExecuting )
-		{
-			return StaticEntity.parseInt( name ) == 0 ? Interpreter.FALSE_VALUE : Interpreter.TRUE_VALUE;
-		}
-
-		throw new AdvancedScriptException( "Can't interpret '" + name + "' as a boolean" );
-	}
-
-	public static final ScriptValue parseIntValue( final String name )
-		throws NumberFormatException
-	{
-		return new ScriptValue( StaticEntity.parseInt( name ) );
-	}
-
-	public static final ScriptValue parseFloatValue( final String name )
-		throws NumberFormatException
-	{
-		return new ScriptValue( StaticEntity.parseFloat( name ) );
-	}
-
-	public static final ScriptValue parseStringValue( final String name )
-	{
-		return new ScriptValue( name );
-	}
-
-	public static final ScriptValue parseItemValue( String name )
-	{
-		if ( name == null || name.equalsIgnoreCase( "none" ) )
-		{
-			return Interpreter.ITEM_INIT;
-		}
-
-		// Allow for an item number to be specified
-		// inside of the "item" construct.
-
-		int itemId;
-		for ( int i = 0; i < name.length(); ++i )
-		{
-			if ( !Character.isDigit( name.charAt( i ) ) )
-			{
-				AdventureResult item = KoLmafiaCLI.getFirstMatchingItem( name, false );
-
-				if ( item == null )
-				{
-					if ( Interpreter.isExecuting )
-					{
-						return Interpreter.ITEM_INIT;
-					}
-
-					throw new AdvancedScriptException( "Item " + name + " not found in database" );
-				}
-
-				itemId = item.getItemId();
-				name = ItemDatabase.getItemName( itemId );
-				return new ScriptValue( Interpreter.ITEM_TYPE, itemId, name );
-			}
-		}
-
-		// Since it is numeric, parse the integer value
-		// and store it inside of the contentInt.
-
-		itemId = StaticEntity.parseInt( name );
-		name = ItemDatabase.getItemName( itemId );
-		return new ScriptValue( Interpreter.ITEM_TYPE, itemId, name );
-	}
-
-	public static final ScriptValue parseLocationValue( final String name )
-	{
-		if ( name.equalsIgnoreCase( "none" ) )
-		{
-			return Interpreter.LOCATION_INIT;
-		}
-
-		KoLAdventure content = AdventureDatabase.getAdventure( name );
-		if ( content == null )
-		{
-			if ( Interpreter.isExecuting )
-			{
-				return Interpreter.LOCATION_INIT;
-			}
-
-			throw new AdvancedScriptException( "Location " + name + " not found in database" );
-		}
-
-		return new ScriptValue( Interpreter.LOCATION_TYPE, name, (Object) content );
-	}
-
-	public static final int classToInt( final String name )
-	{
-		for ( int i = 0; i < Interpreter.CLASSES.length; ++i )
-		{
-			if ( name.equalsIgnoreCase( Interpreter.CLASSES[ i ] ) )
-			{
-				return i;
-			}
-		}
-		return -1;
-	}
-
-	public static final ScriptValue parseClassValue( final String name )
-	{
-		if ( name.equalsIgnoreCase( "none" ) || name.equals( "" ) )
-		{
-			return Interpreter.CLASS_INIT;
-		}
-
-		int num = Interpreter.classToInt( name );
-		if ( num < 0 )
-		{
-			if ( Interpreter.isExecuting )
-			{
-				return Interpreter.CLASS_INIT;
-			}
-
-			throw new AdvancedScriptException( "Unknown class " + name );
-		}
-
-		return new ScriptValue( Interpreter.CLASS_TYPE, num, Interpreter.CLASSES[ num ] );
-	}
-
-	public static final int statToInt( final String name )
-	{
-		for ( int i = 0; i < Interpreter.STATS.length; ++i )
-		{
-			if ( name.equalsIgnoreCase( Interpreter.STATS[ i ] ) )
-			{
-				return i;
-			}
-		}
-		return -1;
-	}
-
-	public static final ScriptValue parseStatValue( final String name )
-	{
-		if ( name.equalsIgnoreCase( "none" ) )
-		{
-			return Interpreter.STAT_INIT;
-		}
-
-		int num = Interpreter.statToInt( name );
-		if ( num < 0 )
-		{
-			if ( Interpreter.isExecuting )
-			{
-				return Interpreter.STAT_INIT;
-			}
-
-			throw new AdvancedScriptException( "Unknown stat " + name );
-		}
-
-		return new ScriptValue( Interpreter.STAT_TYPE, num, Interpreter.STATS[ num ] );
-	}
-
-	public static final ScriptValue parseSkillValue( String name )
-	{
-		if ( name.equalsIgnoreCase( "none" ) )
-		{
-			return Interpreter.SKILL_INIT;
-		}
-
-		List skills = SkillDatabase.getMatchingNames( name );
-
-		if ( skills.isEmpty() )
-		{
-			if ( Interpreter.isExecuting )
-			{
-				return Interpreter.SKILL_INIT;
-			}
-
-			throw new AdvancedScriptException( "Skill " + name + " not found in database" );
-		}
-
-		int num = SkillDatabase.getSkillId( (String) skills.get( 0 ) );
-		name = SkillDatabase.getSkillName( num );
-		return new ScriptValue( Interpreter.SKILL_TYPE, num, name );
-	}
-
-	public static final ScriptValue parseEffectValue( String name )
-	{
-		if ( name.equalsIgnoreCase( "none" ) || name.equals( "" ) )
-		{
-			return Interpreter.EFFECT_INIT;
-		}
-
-		AdventureResult effect = KoLmafiaCLI.getFirstMatchingEffect( name );
-		if ( effect == null )
-		{
-			if ( Interpreter.isExecuting )
-			{
-				return Interpreter.EFFECT_INIT;
-			}
-
-			throw new AdvancedScriptException( "Effect " + name + " not found in database" );
-		}
-
-		int num = EffectDatabase.getEffectId( effect.getName() );
-		name = EffectDatabase.getEffectName( num );
-		return new ScriptValue( Interpreter.EFFECT_TYPE, num, name );
-	}
-
-	public static final ScriptValue parseFamiliarValue( String name )
-	{
-		if ( name.equalsIgnoreCase( "none" ) )
-		{
-			return Interpreter.FAMILIAR_INIT;
-		}
-
-		int num = FamiliarDatabase.getFamiliarId( name );
-		if ( num == -1 )
-		{
-			if ( Interpreter.isExecuting )
-			{
-				return Interpreter.FAMILIAR_INIT;
-			}
-
-			throw new AdvancedScriptException( "Familiar " + name + " not found in database" );
-		}
-
-		name = FamiliarDatabase.getFamiliarName( num );
-		return new ScriptValue( Interpreter.FAMILIAR_TYPE, num, name );
-	}
-
-	public static final ScriptValue parseSlotValue( String name )
-	{
-		if ( name.equalsIgnoreCase( "none" ) )
-		{
-			return Interpreter.SLOT_INIT;
-		}
-
-		int num = EquipmentRequest.slotNumber( name );
-		if ( num == -1 )
-		{
-			if ( Interpreter.isExecuting )
-			{
-				return Interpreter.SLOT_INIT;
-			}
-
-			throw new AdvancedScriptException( "Bad slot name " + name );
-		}
-
-		name = EquipmentRequest.slotNames[ num ];
-		return new ScriptValue( Interpreter.SLOT_TYPE, num, name );
-	}
-
-	public static final ScriptValue parseMonsterValue( final String name )
-	{
-		if ( name.equalsIgnoreCase( "none" ) )
-		{
-			return Interpreter.MONSTER_INIT;
-		}
-
-		Monster monster = MonsterDatabase.findMonster( name );
-		if ( monster == null )
-		{
-			if ( Interpreter.isExecuting )
-			{
-				return Interpreter.MONSTER_INIT;
-			}
-
-			throw new AdvancedScriptException( "Bad monster name " + name );
-		}
-
-		return new ScriptValue( Interpreter.MONSTER_TYPE, monster.getName(), (Object) monster );
-	}
-
-	public static final ScriptValue parseElementValue( String name )
-	{
-		if ( name.equalsIgnoreCase( "none" ) )
-		{
-			return Interpreter.ELEMENT_INIT;
-		}
-
-		int num = MonsterDatabase.elementNumber( name );
-		if ( num == -1 )
-		{
-			if ( Interpreter.isExecuting )
-			{
-				return Interpreter.ELEMENT_INIT;
-			}
-
-			throw new AdvancedScriptException( "Bad element name " + name );
-		}
-
-		name = MonsterDatabase.elementNames[ num ];
-		return new ScriptValue( Interpreter.ELEMENT_TYPE, num, name );
-	}
-
-	public static final ScriptValue parseValue( final ScriptType type, final String name )
-	{
-		return type.parseValue( name );
-	}
-
-	// For data types which map to integers, also supply:
-	//
-	// public static final ScriptValue makeXValue( int num )
-	//     throws nothing.
-
-	public static final ScriptValue makeItemValue( final int num )
-	{
-		String name = ItemDatabase.getItemName( num );
-
-		if ( name == null )
-		{
-			return Interpreter.ITEM_INIT;
-		}
-
-		return new ScriptValue( Interpreter.ITEM_TYPE, num, name );
-	}
-
-	public static final ScriptValue makeItemValue( final String name )
-	{
-		int num = ItemDatabase.getItemId( name );
-
-		if ( num == -1 )
-		{
-			return Interpreter.ITEM_INIT;
-		}
-
-		return new ScriptValue( Interpreter.ITEM_TYPE, num, name );
-	}
-
-	public static final ScriptValue makeClassValue( final String name )
-	{
-		return new ScriptValue( Interpreter.CLASS_TYPE, Interpreter.classToInt( name ), name );
-	}
-
-	public static final ScriptValue makeSkillValue( final int num )
-	{
-		String name = SkillDatabase.getSkillName( num );
-		if ( name == null )
-		{
-			return Interpreter.SKILL_INIT;
-		}
-
-		return new ScriptValue( Interpreter.SKILL_TYPE, num, name );
-	}
-
-	public static final ScriptValue makeEffectValue( final int num )
-	{
-		String name = EffectDatabase.getEffectName( num );
-		if ( name == null )
-		{
-			return Interpreter.EFFECT_INIT;
-		}
-		return new ScriptValue( Interpreter.EFFECT_TYPE, num, name );
-	}
-
-	public static final ScriptValue makeFamiliarValue( final int num )
-	{
-		String name = FamiliarDatabase.getFamiliarName( num );
-		if ( name == null )
-		{
-			return Interpreter.FAMILIAR_INIT;
-		}
-		return new ScriptValue( Interpreter.FAMILIAR_TYPE, num, name );
 	}
 
 	// **************** Tracing *****************
@@ -986,7 +499,7 @@ public class Interpreter
 			}
 
 			// If this is a new record definition, enter it
-			if ( t.getType() == Interpreter.TYPE_RECORD && this.currentToken() != null && this.currentToken().equals(
+			if ( t.getType() == DataTypes.TYPE_RECORD && this.currentToken() != null && this.currentToken().equals(
 				";" ) )
 			{
 				this.readToken(); // read ;
@@ -1242,12 +755,12 @@ public class Interpreter
 		}
 
 		result.setScope( scope );
-		if ( !result.assertReturn() && !functionType.equals( Interpreter.TYPE_VOID )
+		if ( !result.assertReturn() && !functionType.equals( DataTypes.TYPE_VOID )
 		// The following clause can't be correct. I think it
 		// depends on the various conditional & loop constructs
 		// returning a boolean. Or something. But without it,
 		// existing scripts break. Aargh!
-		&& !functionType.equals( Interpreter.TYPE_BOOLEAN ) )
+		&& !functionType.equals( DataTypes.TYPE_BOOLEAN ) )
 		{
 			throw new AdvancedScriptException( "Missing return value" );
 		}
@@ -1612,9 +1125,9 @@ public class Interpreter
 
 		if ( this.currentToken() != null && this.currentToken().equals( ";" ) )
 		{
-			if ( expectedType != null && expectedType.equals( Interpreter.TYPE_VOID ) )
+			if ( expectedType != null && expectedType.equals( DataTypes.TYPE_VOID ) )
 			{
-				return new ScriptReturn( null, Interpreter.VOID_TYPE );
+				return new ScriptReturn( null, DataTypes.VOID_TYPE );
 			}
 
 			throw new AdvancedScriptException( "Return needs value" );
@@ -1652,7 +1165,7 @@ public class Interpreter
 			this.parseError( ")", this.currentToken() );
 		}
 
-		if ( expression.getType() != Interpreter.BOOLEAN_TYPE )
+		if ( expression.getType() != DataTypes.BOOLEAN_TYPE )
 		{
 			throw new AdvancedScriptException( "\"if\" requires a boolean conditional expression" );
 		}
@@ -1729,7 +1242,7 @@ public class Interpreter
 				//else without condition
 				{
 					this.readToken(); //else
-					expression = Interpreter.TRUE_VALUE;
+					expression = DataTypes.TRUE_VALUE;
 					finalElse = true;
 				}
 
@@ -1821,7 +1334,7 @@ public class Interpreter
 			this.parseError( ")", this.currentToken() );
 		}
 
-		if ( expression.getType() != Interpreter.BOOLEAN_TYPE )
+		if ( expression.getType() != DataTypes.BOOLEAN_TYPE )
 		{
 			throw new AdvancedScriptException( "\"while\" requires a boolean conditional expression" );
 		}
@@ -1867,7 +1380,7 @@ public class Interpreter
 			this.parseError( ")", this.currentToken() );
 		}
 
-		if ( expression.getType() != Interpreter.BOOLEAN_TYPE )
+		if ( expression.getType() != DataTypes.BOOLEAN_TYPE )
 		{
 			throw new AdvancedScriptException( "\"repeat\" requires a boolean conditional expression" );
 		}
@@ -2025,7 +1538,7 @@ public class Interpreter
 
 		ScriptExpression last = this.parseExpression( parentScope );
 
-		ScriptExpression increment = Interpreter.ONE_VALUE;
+		ScriptExpression increment = DataTypes.ONE_VALUE;
 		if ( this.currentToken().equalsIgnoreCase( "by" ) )
 		{
 			this.readToken(); // by
@@ -2033,7 +1546,7 @@ public class Interpreter
 		}
 
 		// Create integer index variable
-		ScriptVariable indexvar = new ScriptVariable( name, Interpreter.INT_TYPE );
+		ScriptVariable indexvar = new ScriptVariable( name, DataTypes.INT_TYPE );
 
 		// Put index variable onto a list
 		ScriptVariableList varList = new ScriptVariableList();
@@ -2235,7 +1748,7 @@ public class Interpreter
 			}
 
 			lhs = new ScriptExpression( lhs, null, new ScriptOperator( operator ) );
-			if ( lhs.getType() != Interpreter.BOOLEAN_TYPE )
+			if ( lhs.getType() != DataTypes.BOOLEAN_TYPE )
 			{
 				throw new AdvancedScriptException( "\"!\" operator requires a boolean value" );
 			}
@@ -2337,13 +1850,13 @@ public class Interpreter
 		else if ( this.currentToken().equalsIgnoreCase( "true" ) )
 		{
 			this.readToken();
-			result = Interpreter.TRUE_VALUE;
+			result = DataTypes.TRUE_VALUE;
 		}
 
 		else if ( this.currentToken().equalsIgnoreCase( "false" ) )
 		{
 			this.readToken();
-			result = Interpreter.FALSE_VALUE;
+			result = DataTypes.FALSE_VALUE;
 		}
 
 		// numbers
@@ -2568,7 +2081,7 @@ public class Interpreter
 			else if ( this.currentLine.charAt( i ) == ']' )
 			{
 				this.currentLine = this.currentLine.substring( i + 1 ); //+1 to get rid of ']' token
-				return Interpreter.parseValue( type, resultString.toString().trim() );
+				return DataTypes.parseValue( type, resultString.toString().trim() );
 			}
 			else
 			{
@@ -2825,7 +2338,7 @@ public class Interpreter
 
 		if ( oper.equals( "contains" ) )
 		{
-			return lhs.getType() == Interpreter.TYPE_AGGREGATE && ( (ScriptAggregateType) lhs ).getIndexType().equals(
+			return lhs.getType() == DataTypes.TYPE_AGGREGATE && ( (ScriptAggregateType) lhs ).getIndexType().equals(
 				rhs );
 		}
 
@@ -2835,30 +2348,30 @@ public class Interpreter
 			return true;
 		}
 
-		if ( lhs.equals( Interpreter.TYPE_ANY ) && rhs.getType() != Interpreter.TYPE_AGGREGATE )
+		if ( lhs.equals( DataTypes.TYPE_ANY ) && rhs.getType() != DataTypes.TYPE_AGGREGATE )
 		{
 			return true;
 		}
 
 		// Anything coerces to a string
-		if ( lhs.equals( Interpreter.TYPE_STRING ) )
+		if ( lhs.equals( DataTypes.TYPE_STRING ) )
 		{
 			return true;
 		}
 
 		// Anything coerces to a string for concatenation
-		if ( oper.equals( "+" ) && rhs.equals( Interpreter.TYPE_STRING ) )
+		if ( oper.equals( "+" ) && rhs.equals( DataTypes.TYPE_STRING ) )
 		{
 			return true;
 		}
 
 		// Int coerces to float
-		if ( lhs.equals( Interpreter.TYPE_INT ) && rhs.equals( Interpreter.TYPE_FLOAT ) )
+		if ( lhs.equals( DataTypes.TYPE_INT ) && rhs.equals( DataTypes.TYPE_FLOAT ) )
 		{
 			return true;
 		}
 
-		if ( lhs.equals( Interpreter.TYPE_FLOAT ) && rhs.equals( Interpreter.TYPE_INT ) )
+		if ( lhs.equals( DataTypes.TYPE_FLOAT ) && rhs.equals( DataTypes.TYPE_INT ) )
 		{
 			return true;
 		}
@@ -3156,25 +2669,6 @@ public class Interpreter
 
 	// **************** Execution *****************
 
-	public static void captureValue( final ScriptValue value )
-	{
-		// We've just executed a command in a context that captures the
-		// return value.
-
-		if ( KoLmafia.refusesContinue() || value == null )
-		{
-			// User aborted
-			Interpreter.currentState = Interpreter.STATE_EXIT;
-			return;
-		}
-
-		// Even if an error occurred, since we captured the result,
-		// permit further execution.
-
-		Interpreter.currentState = Interpreter.STATE_NORMAL;
-		KoLmafia.forceContinue();
-	}
-
 	private ScriptValue executeScope( final ScriptScope topScope, final String functionName, final String[] parameters )
 	{
 		ScriptFunction main;
@@ -3189,7 +2683,7 @@ public class Interpreter
 		if ( main == null && !topScope.getCommands().hasNext() )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Unable to invoke " + functionName );
-			return Interpreter.VOID_VALUE;
+			return DataTypes.VOID_VALUE;
 		}
 
 		// First execute top-level commands;
@@ -3252,9 +2746,9 @@ public class Interpreter
 
 			while ( value == null )
 			{
-				if ( type == Interpreter.VOID_TYPE )
+				if ( type == DataTypes.VOID_TYPE )
 				{
-					value = Interpreter.VOID_VALUE;
+					value = DataTypes.VOID_VALUE;
 					break;
 				}
 
@@ -3262,7 +2756,7 @@ public class Interpreter
 
 				if ( index >= args )
 				{
-					input = this.promptForValue( type, name );
+					input = DataTypes.promptForValue( type, name );
 				}
 				else
 				{
@@ -3277,7 +2771,7 @@ public class Interpreter
 
 				try
 				{
-					value = Interpreter.parseValue( type, input );
+					value = DataTypes.parseValue( type, input );
 				}
 				catch ( AdvancedScriptException e )
 				{
@@ -3307,61 +2801,11 @@ public class Interpreter
 				inputs.append( parameters[ i ] + " " );
 			}
 
-			ScriptValue value = Interpreter.parseValue( lastType, inputs.toString().trim() );
+			ScriptValue value = DataTypes.parseValue( lastType, inputs.toString().trim() );
 			lastParam.setValue( value );
 		}
 
 		return true;
-	}
-
-	private String promptForValue( final ScriptType type, final String name )
-	{
-		return this.promptForValue( type, "Please input a value for " + type + " " + name, name );
-	}
-
-	private String promptForValue( final ScriptType type, final String message, final String name )
-	{
-		switch ( type.getType() )
-		{
-		case TYPE_BOOLEAN:
-			return (String) KoLFrame.input( message, Interpreter.BOOLEANS );
-
-		case TYPE_LOCATION:
-			return (String) ( (KoLAdventure) KoLFrame.input(
-				message, AdventureDatabase.getAsLockableListModel().toArray(),
-				AdventureDatabase.getAdventure( Preferences.getString( "lastAdventure" ) ) ) ).getAdventureName();
-
-		case TYPE_SKILL:
-			return (String) ( (UseSkillRequest) KoLFrame.input( message, SkillDatabase.getSkillsByType(
-				SkillDatabase.CASTABLE ).toArray() ) ).getSkillName();
-
-		case TYPE_FAMILIAR:
-			return ( (FamiliarData) KoLFrame.input(
-				message, KoLCharacter.getFamiliarList().toArray(), KoLCharacter.getFamiliar() ) ).getRace();
-
-		case TYPE_SLOT:
-			return (String) KoLFrame.input( message, EquipmentRequest.slotNames );
-
-		case TYPE_ELEMENT:
-			return (String) KoLFrame.input( message, MonsterDatabase.elementNames );
-
-		case TYPE_CLASS:
-			return (String) KoLFrame.input( message, Interpreter.CLASSES );
-
-		case TYPE_STAT:
-			return (String) KoLFrame.input( message, Interpreter.STATS );
-
-		case TYPE_INT:
-		case TYPE_FLOAT:
-		case TYPE_STRING:
-		case TYPE_ITEM:
-		case TYPE_EFFECT:
-		case TYPE_MONSTER:
-			return KoLFrame.input( message );
-
-		default:
-			throw new RuntimeException( "Internal error: Illegal type for main() parameter" );
-		}
 	}
 
 	public void parseError( final String expected, final String actual )
@@ -3392,87 +2836,61 @@ public class Interpreter
 
 	public ScriptScope getExistingFunctionScope()
 	{
-		return new ScriptScope( RuntimeLibrary.functions, null, Interpreter.simpleTypes );
+		return new ScriptScope( RuntimeLibrary.functions, null, DataTypes.simpleTypes );
 	}
 
-	public static final ScriptTypeList getSimpleTypes()
+	private static final ScriptSymbolTable reservedWords = new ScriptSymbolTable();
+
+	static
 	{
-		ScriptTypeList result = new ScriptTypeList();
-		result.addElement( Interpreter.VOID_TYPE );
-		result.addElement( Interpreter.BOOLEAN_TYPE );
-		result.addElement( Interpreter.INT_TYPE );
-		result.addElement( Interpreter.FLOAT_TYPE );
-		result.addElement( Interpreter.STRING_TYPE );
-		result.addElement( Interpreter.BUFFER_TYPE );
-		result.addElement( Interpreter.MATCHER_TYPE );
-
-		result.addElement( Interpreter.ITEM_TYPE );
-		result.addElement( Interpreter.LOCATION_TYPE );
-		result.addElement( Interpreter.CLASS_TYPE );
-		result.addElement( Interpreter.STAT_TYPE );
-		result.addElement( Interpreter.SKILL_TYPE );
-		result.addElement( Interpreter.EFFECT_TYPE );
-		result.addElement( Interpreter.FAMILIAR_TYPE );
-		result.addElement( Interpreter.SLOT_TYPE );
-		result.addElement( Interpreter.MONSTER_TYPE );
-		result.addElement( Interpreter.ELEMENT_TYPE );
-		return result;
-	}
-
-	public static final ScriptSymbolTable getReservedWords()
-	{
-		ScriptSymbolTable result = new ScriptSymbolTable();
-
 		// Constants
-		result.addElement( new ScriptSymbol( "true" ) );
-		result.addElement( new ScriptSymbol( "false" ) );
+		reservedWords.addElement( new ScriptSymbol( "true" ) );
+		reservedWords.addElement( new ScriptSymbol( "false" ) );
 
 		// Operators
-		result.addElement( new ScriptSymbol( "contains" ) );
-		result.addElement( new ScriptSymbol( "remove" ) );
+		reservedWords.addElement( new ScriptSymbol( "contains" ) );
+		reservedWords.addElement( new ScriptSymbol( "remove" ) );
 
 		// Control flow
-		result.addElement( new ScriptSymbol( "if" ) );
-		result.addElement( new ScriptSymbol( "else" ) );
-		result.addElement( new ScriptSymbol( "foreach" ) );
-		result.addElement( new ScriptSymbol( "in" ) );
-		result.addElement( new ScriptSymbol( "for" ) );
-		result.addElement( new ScriptSymbol( "from" ) );
-		result.addElement( new ScriptSymbol( "upto" ) );
-		result.addElement( new ScriptSymbol( "downto" ) );
-		result.addElement( new ScriptSymbol( "by" ) );
-		result.addElement( new ScriptSymbol( "while" ) );
-		result.addElement( new ScriptSymbol( "repeat" ) );
-		result.addElement( new ScriptSymbol( "until" ) );
-		result.addElement( new ScriptSymbol( "break" ) );
-		result.addElement( new ScriptSymbol( "continue" ) );
-		result.addElement( new ScriptSymbol( "return" ) );
-		result.addElement( new ScriptSymbol( "exit" ) );
+		reservedWords.addElement( new ScriptSymbol( "if" ) );
+		reservedWords.addElement( new ScriptSymbol( "else" ) );
+		reservedWords.addElement( new ScriptSymbol( "foreach" ) );
+		reservedWords.addElement( new ScriptSymbol( "in" ) );
+		reservedWords.addElement( new ScriptSymbol( "for" ) );
+		reservedWords.addElement( new ScriptSymbol( "from" ) );
+		reservedWords.addElement( new ScriptSymbol( "upto" ) );
+		reservedWords.addElement( new ScriptSymbol( "downto" ) );
+		reservedWords.addElement( new ScriptSymbol( "by" ) );
+		reservedWords.addElement( new ScriptSymbol( "while" ) );
+		reservedWords.addElement( new ScriptSymbol( "repeat" ) );
+		reservedWords.addElement( new ScriptSymbol( "until" ) );
+		reservedWords.addElement( new ScriptSymbol( "break" ) );
+		reservedWords.addElement( new ScriptSymbol( "continue" ) );
+		reservedWords.addElement( new ScriptSymbol( "return" ) );
+		reservedWords.addElement( new ScriptSymbol( "exit" ) );
 
 		// Data types
-		result.addElement( new ScriptSymbol( "void" ) );
-		result.addElement( new ScriptSymbol( "boolean" ) );
-		result.addElement( new ScriptSymbol( "int" ) );
-		result.addElement( new ScriptSymbol( "float" ) );
-		result.addElement( new ScriptSymbol( "string" ) );
-		result.addElement( new ScriptSymbol( "buffer" ) );
-		result.addElement( new ScriptSymbol( "matcher" ) );
+		reservedWords.addElement( new ScriptSymbol( "void" ) );
+		reservedWords.addElement( new ScriptSymbol( "boolean" ) );
+		reservedWords.addElement( new ScriptSymbol( "int" ) );
+		reservedWords.addElement( new ScriptSymbol( "float" ) );
+		reservedWords.addElement( new ScriptSymbol( "string" ) );
+		reservedWords.addElement( new ScriptSymbol( "buffer" ) );
+		reservedWords.addElement( new ScriptSymbol( "matcher" ) );
 
-		result.addElement( new ScriptSymbol( "item" ) );
-		result.addElement( new ScriptSymbol( "location" ) );
-		result.addElement( new ScriptSymbol( "class" ) );
-		result.addElement( new ScriptSymbol( "stat" ) );
-		result.addElement( new ScriptSymbol( "skill" ) );
-		result.addElement( new ScriptSymbol( "effect" ) );
-		result.addElement( new ScriptSymbol( "familiar" ) );
-		result.addElement( new ScriptSymbol( "slot" ) );
-		result.addElement( new ScriptSymbol( "monster" ) );
-		result.addElement( new ScriptSymbol( "element" ) );
+		reservedWords.addElement( new ScriptSymbol( "item" ) );
+		reservedWords.addElement( new ScriptSymbol( "location" ) );
+		reservedWords.addElement( new ScriptSymbol( "class" ) );
+		reservedWords.addElement( new ScriptSymbol( "stat" ) );
+		reservedWords.addElement( new ScriptSymbol( "skill" ) );
+		reservedWords.addElement( new ScriptSymbol( "effect" ) );
+		reservedWords.addElement( new ScriptSymbol( "familiar" ) );
+		reservedWords.addElement( new ScriptSymbol( "slot" ) );
+		reservedWords.addElement( new ScriptSymbol( "monster" ) );
+		reservedWords.addElement( new ScriptSymbol( "element" ) );
 
-		result.addElement( new ScriptSymbol( "record" ) );
-		result.addElement( new ScriptSymbol( "typedef" ) );
-
-		return result;
+		reservedWords.addElement( new ScriptSymbol( "record" ) );
+		reservedWords.addElement( new ScriptSymbol( "typedef" ) );
 	}
 
 	public static final boolean isReservedWord( final String name )
