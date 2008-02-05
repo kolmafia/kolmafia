@@ -94,7 +94,7 @@
 93	basic meat sword	12	all	25
 94	basic meat pants	10	all	140
 95	basic meat helmet	9	all	140
-96	bling-bling	8	all	60
+96	dope gangsta bling-bling	8	all	60
 97	pimpin' meat hat	9	all	155
 98	dried face	0	all	7
 99	meat face	0	all	11
