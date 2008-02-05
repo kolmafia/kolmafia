@@ -644,7 +644,7 @@ public class KoLmafiaCLI
 			}
 
 			Interpreter interpreter = new Interpreter();
-			interpreter.validate( ostream.getByteArrayInputStream() );
+			interpreter.validate( null, ostream.getByteArrayInputStream() );
 			interpreter.execute( "main", null );
 
 			return;

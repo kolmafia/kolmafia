@@ -145,7 +145,7 @@ public abstract class KoLmafiaASH
 			KoLmafiaASH.TIMESTAMPS.clear();
 			interpreter = new Interpreter();
 
-			if ( !interpreter.validate( toExecute ) )
+			if ( !interpreter.validate( toExecute, null ) )
 			{
 				return null;
 			}

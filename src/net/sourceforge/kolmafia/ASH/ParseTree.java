@@ -51,7 +51,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.ASH.DataTypes;
 import net.sourceforge.kolmafia.ASH.Interpreter;
-import net.sourceforge.kolmafia.ASH.Interpreter.AdvancedScriptException;
+import net.sourceforge.kolmafia.ASH.Parser.AdvancedScriptException;
 import net.sourceforge.kolmafia.request.GenericRequest;
 
 public abstract class ParseTree
@@ -430,7 +430,7 @@ public abstract class ParseTree
 								"Illegal parameter #" + paramIndex + " for function " + name + ", got " + currentValue.getType() + ", need " + currentParam.getType();
 						}
 					}
-					else if ( !Interpreter.validCoercion( currentParam.getType(), currentValue.getType(), "parameter" ) )
+					else if ( !Parser.validCoercion( currentParam.getType(), currentValue.getType(), "parameter" ) )
 					{
 						errorMessage =
 							"Illegal parameter #" + paramIndex + " for function " + name + ", got " + currentValue.getType() + ", need " + currentParam.getType();
@@ -1507,7 +1507,7 @@ public abstract class ParseTree
 
 			if ( expectedType != null && returnValue != null )
 			{
-				if ( !Interpreter.validCoercion( expectedType, returnValue.getType(), "return" ) )
+				if ( !Parser.validCoercion( expectedType, returnValue.getType(), "return" ) )
 				{
 					throw new AdvancedScriptException( "Cannot apply " + returnValue.getType() + " to " + expectedType );
 				}
@@ -2532,7 +2532,7 @@ public abstract class ParseTree
 			this.lhs = lhs;
 			this.rhs = rhs;
 
-			if ( rhs != null && !Interpreter.validCoercion( lhs.getType(), rhs.getType(), "assign" ) )
+			if ( rhs != null && !Parser.validCoercion( lhs.getType(), rhs.getType(), "assign" ) )
 			{
 				throw new AdvancedScriptException(
 					"Cannot store " + rhs.getType() + " in " + lhs + " of type " + lhs.getType() );
@@ -4179,7 +4179,7 @@ public abstract class ParseTree
 			}
 
 			// Ensure type compatibility of operands
-			if ( !Interpreter.validCoercion( lhs.getType(), rhs.getType(), this.operator ) )
+			if ( !Parser.validCoercion( lhs.getType(), rhs.getType(), this.operator ) )
 			{
 				throw new RuntimeException( "Internal error: left hand side and right hand side do not correspond" );
 			}
