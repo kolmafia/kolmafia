@@ -68,7 +68,7 @@ import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.StaticEntity.TurnCounter;
 
-import net.sourceforge.kolmafia.ASH.DataTypes;
+import net.sourceforge.kolmafia.textui.DataTypes;
 
 import net.sourceforge.kolmafia.session.ChatManager;
 import net.sourceforge.kolmafia.session.SorceressLairManager;

@@ -31,7 +31,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.sourceforge.kolmafia.ASH;
+package net.sourceforge.kolmafia.textui;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -70,17 +70,17 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.ASH.DataTypes;
-import net.sourceforge.kolmafia.ASH.Interpreter;
-import net.sourceforge.kolmafia.ASH.ParseTree.ScriptAggregateType;
-import net.sourceforge.kolmafia.ASH.ParseTree.ScriptArray;
-import net.sourceforge.kolmafia.ASH.ParseTree.ScriptCompositeValue;
-import net.sourceforge.kolmafia.ASH.ParseTree.ScriptExistingFunction;
-import net.sourceforge.kolmafia.ASH.ParseTree.ScriptFunctionList;
-import net.sourceforge.kolmafia.ASH.ParseTree.ScriptMap;
-import net.sourceforge.kolmafia.ASH.ParseTree.ScriptType;
-import net.sourceforge.kolmafia.ASH.ParseTree.ScriptValue;
-import net.sourceforge.kolmafia.ASH.ParseTree.ScriptVariable;
+import net.sourceforge.kolmafia.textui.DataTypes;
+import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.ParseTree.ScriptAggregateType;
+import net.sourceforge.kolmafia.textui.ParseTree.ScriptArray;
+import net.sourceforge.kolmafia.textui.ParseTree.ScriptCompositeValue;
+import net.sourceforge.kolmafia.textui.ParseTree.ScriptExistingFunction;
+import net.sourceforge.kolmafia.textui.ParseTree.ScriptFunctionList;
+import net.sourceforge.kolmafia.textui.ParseTree.ScriptMap;
+import net.sourceforge.kolmafia.textui.ParseTree.ScriptType;
+import net.sourceforge.kolmafia.textui.ParseTree.ScriptValue;
+import net.sourceforge.kolmafia.textui.ParseTree.ScriptVariable;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;

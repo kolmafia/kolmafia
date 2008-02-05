@@ -31,7 +31,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.sourceforge.kolmafia.ASH;
+package net.sourceforge.kolmafia.textui;
 
 import java.io.File;
 import java.io.IOException;
@@ -47,18 +47,18 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.ASH.DataTypes;
-import net.sourceforge.kolmafia.ASH.Parser;
-import net.sourceforge.kolmafia.ASH.Parser.AdvancedScriptException;
-import net.sourceforge.kolmafia.ASH.ParseTree;
-import net.sourceforge.kolmafia.ASH.ParseTree.ScriptExistingFunction;
-import net.sourceforge.kolmafia.ASH.ParseTree.ScriptFunction;
-import net.sourceforge.kolmafia.ASH.ParseTree.ScriptScope;
-import net.sourceforge.kolmafia.ASH.ParseTree.ScriptType;
-import net.sourceforge.kolmafia.ASH.ParseTree.ScriptValue;
-import net.sourceforge.kolmafia.ASH.ParseTree.ScriptVariableList;
-import net.sourceforge.kolmafia.ASH.ParseTree.ScriptVariableReference;
-import net.sourceforge.kolmafia.ASH.RuntimeLibrary;
+import net.sourceforge.kolmafia.textui.DataTypes;
+import net.sourceforge.kolmafia.textui.Parser;
+import net.sourceforge.kolmafia.textui.Parser.AdvancedScriptException;
+import net.sourceforge.kolmafia.textui.ParseTree;
+import net.sourceforge.kolmafia.textui.ParseTree.ScriptExistingFunction;
+import net.sourceforge.kolmafia.textui.ParseTree.ScriptFunction;
+import net.sourceforge.kolmafia.textui.ParseTree.ScriptScope;
+import net.sourceforge.kolmafia.textui.ParseTree.ScriptType;
+import net.sourceforge.kolmafia.textui.ParseTree.ScriptValue;
+import net.sourceforge.kolmafia.textui.ParseTree.ScriptVariableList;
+import net.sourceforge.kolmafia.textui.ParseTree.ScriptVariableReference;
+import net.sourceforge.kolmafia.textui.RuntimeLibrary;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.SendMailRequest;
