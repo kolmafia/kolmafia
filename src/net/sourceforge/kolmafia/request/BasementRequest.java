@@ -51,7 +51,6 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.ASH.Interpreter;
 import net.sourceforge.kolmafia.session.MoodManager;
 import net.sourceforge.kolmafia.webui.BasementDecorator.StatBooster;
 
@@ -979,14 +978,6 @@ public class BasementRequest
 
 	public static final void checkBasement()
 	{
-		Interpreter interpreter = KoLmafiaASH.getInterpreter( KoLmafiaCLI.findScriptFile( "basement.ash" ) );
-		if ( interpreter != null )
-		{
-			interpreter.execute(
-				"main",
-				new String[] { String.valueOf( BasementRequest.basementLevel ), BasementRequest.lastResponseText, String.valueOf( BasementRequest.basementTestCurrent >= BasementRequest.basementTestValue ) } );
-		}
-
 		BasementRequest.checkBasement( true, BasementRequest.lastResponseText );
 	}
 

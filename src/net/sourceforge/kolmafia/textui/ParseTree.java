@@ -31,7 +31,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.sourceforge.kolmafia.ASH;
+package net.sourceforge.kolmafia.textui;
 
 import java.io.PrintStream;
 import java.lang.reflect.Method;
@@ -49,9 +49,9 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.KoLConstants.ByteArrayStream;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.ASH.DataTypes;
-import net.sourceforge.kolmafia.ASH.Interpreter;
-import net.sourceforge.kolmafia.ASH.Parser.AdvancedScriptException;
+import net.sourceforge.kolmafia.textui.DataTypes;
+import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.Parser.AdvancedScriptException;
 import net.sourceforge.kolmafia.request.GenericRequest;
 
 public abstract class ParseTree

@@ -37,7 +37,7 @@ import java.io.File;
 import java.util.Iterator;
 import java.util.TreeMap;
 
-import net.sourceforge.kolmafia.ASH.Interpreter;
+import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.request.RelayRequest;
 
 public abstract class KoLmafiaASH

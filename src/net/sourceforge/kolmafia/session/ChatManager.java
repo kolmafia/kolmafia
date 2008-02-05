@@ -63,7 +63,7 @@ import net.sourceforge.kolmafia.LimitedSizeChatBuffer;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.TabbedChatFrame;
-import net.sourceforge.kolmafia.ASH.Interpreter;
+import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.webui.CharacterEntityReference;
 
 import net.sourceforge.kolmafia.request.CharPaneRequest;
