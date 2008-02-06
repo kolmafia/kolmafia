@@ -529,6 +529,29 @@ public class AdventureRequest
 		return "Noncombat";
 	}
 
+	private static String[][] LIMERICKS =
+	{
+		{ "The Apathetic Lizardman", "lizardman quite apathetic" },
+		{ "The Bleary-Eyed Cyclops", "bleary-eyed cyclops" },
+		{ "The Crass Goblin", "goblin is crass" },
+		{ "The Crotchety Wizard", "crotchety wizard" },
+		{ "The Dumb Minotaur", "dumb minotaur" },
+		{ "The Fierce-Looking Giant", "fierce-looking giant" },
+		{ "The Gelatinous Cube", "gelatinous cube" },
+		{ "The Gnome with a Truncheon", "gnome with a truncheon" },
+		{ "The Goblin King's Vassal", "Goblin King's vassal" },
+		{ "The Insatiable Maiden", "insatiable maiden" },
+		{ "The One-Legged Trouser", "one-pantlegged schnauzer" },
+		{ "The Orc With a Spork", "waving a spork" },
+		{ "The Slime Puddle", "slime puddle" },
+		{ "The Sozzled Old Dragon", "sozzled old dragon" },
+		{ "The Unguarded Chest", "chest full of meat" },
+		{ "The Unpleasant Satyr", "unpleasant satyr" },
+		{ "The Vampire Buffer", "vampire buffer" },
+		{ "The Weathered Old Chap", "weathered old chap" },
+		{ "The Witch", "A witch" },
+	};
+
 	private static final String parseNoncombatEncounter( final String urlString, final String responseText )
 	{
 		// Fernswarthy's Basement
@@ -551,13 +574,15 @@ public class AdventureRequest
 			{
 			case 19:
 				// Limerick Dungeon
-				if ( responseText.indexOf( "bleary-eyed cyclops" ) != -1 )
+				for ( int i = 0; i < LIMERICKS.length; ++i )
 				{
-					return "The Bleary-Eyed Cyclops";
+					if ( responseText.indexOf( LIMERICKS[i][1] ) != -1 )
+					{
+						return LIMERICKS[i][0];
+					}
 				}
-                                return "Limerick Dungeon";
+				return "Unrecognized Limerick";
 			}
-
 		}
 
 		String encounter = parseEncounter( responseText );
