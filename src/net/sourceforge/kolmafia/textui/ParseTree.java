@@ -56,8 +56,6 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 
 public abstract class ParseTree
 {
-	private static StringBuffer concatenateBuffer = new StringBuffer();
-
 	private static void captureValue( final ScriptValue value )
 	{
 		// We've just executed a command in a context that captures the
@@ -79,14 +77,12 @@ public abstract class ParseTree
 
 	private static final void indentLine( final PrintStream stream, final int indent )
 	{
-		if ( stream == null )
+		if ( stream != null )
 		{
-			return;
-		}
-
-		for ( int i = 0; i < indent; ++i )
-		{
-			stream.print( "   " );
+			for ( int i = 0; i < indent; ++i )
+			{
+				stream.print( "	  " );
+			}
 		}
 	}
 
@@ -4230,10 +4226,8 @@ public abstract class ParseTree
 			{
 				if ( lhs.getType().equals( DataTypes.TYPE_STRING ) || rhs.getType().equals( DataTypes.TYPE_STRING ) )
 				{
-					ParseTree.concatenateBuffer.setLength( 0 );
-					ParseTree.concatenateBuffer.append( leftValue.toStringValue().toString() );
-					ParseTree.concatenateBuffer.append( rightValue.toStringValue().toString() );
-					ScriptValue result = new ScriptValue( ParseTree.concatenateBuffer.toString() );
+					String string = leftValue.toStringValue().toString() + rightValue.toStringValue().toString();
+					ScriptValue result = new ScriptValue( string );
 					Interpreter.trace( "<- " + result );
 					Interpreter.traceUnindent();
 					return result;
