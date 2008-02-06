@@ -102,8 +102,6 @@ public class DataTypes
 		KoLCharacter.DISCO_BANDIT,
 		KoLCharacter.ACCORDION_THIEF
 	};
-	public static final String[] STATS = { "Muscle", "Mysticality", "Moxie" };
-	public static final String[] BOOLEANS = { "true", "false" };
 
 	public static final ScriptType ANY_TYPE = new ScriptType( "any", DataTypes.TYPE_ANY );
 	public static final ScriptType VOID_TYPE = new ScriptType( "void", DataTypes.TYPE_VOID );
@@ -134,12 +132,25 @@ public class DataTypes
 
 	// Common values
 
+	public static final String[] BOOLEANS = { "true", "false" };
+	public static final String[] STATS = { "Muscle", "Mysticality", "Moxie" };
+
+        public static final ScriptValue[] STAT_VALUES =
+        {
+                new ScriptValue( DataTypes.STAT_TYPE, 0, DataTypes.STATS[ 0 ] ),
+                new ScriptValue( DataTypes.STAT_TYPE, 1, DataTypes.STATS[ 1 ] ),
+                new ScriptValue( DataTypes.STAT_TYPE, 2, DataTypes.STATS[ 2 ] ),
+        };
+
 	public static final ScriptValue VOID_VALUE = new ScriptValue();
 	public static final ScriptValue TRUE_VALUE = new ScriptValue( true );
 	public static final ScriptValue FALSE_VALUE = new ScriptValue( false );
 	public static final ScriptValue ZERO_VALUE = new ScriptValue( 0 );
 	public static final ScriptValue ONE_VALUE = new ScriptValue( 1 );
 	public static final ScriptValue ZERO_FLOAT_VALUE = new ScriptValue( 0.0f );
+	public static final ScriptValue MUSCLE_VALUE = DataTypes.STAT_VALUES[0];
+	public static final ScriptValue MYSTICALITY_VALUE = DataTypes.STAT_VALUES[1];
+	public static final ScriptValue MOXIE_VALUE = DataTypes.STAT_VALUES[2];
 
 	// Initial values for uninitialized variables
 
@@ -348,7 +359,7 @@ public class DataTypes
 			throw new AdvancedScriptException( "Unknown stat " + name );
 		}
 
-		return new ScriptValue( DataTypes.STAT_TYPE, num, DataTypes.STATS[ num ] );
+		return DataTypes.STAT_VALUES[ num ];
 	}
 
 	public static final ScriptValue parseSkillValue( String name )
