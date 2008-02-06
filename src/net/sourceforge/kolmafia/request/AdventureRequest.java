@@ -544,13 +544,6 @@ public class AdventureRequest
 			return null;
 		}
 
-		String encounter = parseEncounter( responseText );
-
-		if ( encounter != null )
-		{
-			return encounter;
-		}
-
 		if ( urlString.startsWith( "adventure.php" ) )
 		{
 			int area = parseArea( urlString );
@@ -562,9 +555,16 @@ public class AdventureRequest
 				{
 					return "The Bleary-Eyed Cyclops";
 				}
-				break;
+                                return "Limerick Dungeon";
 			}
 
+		}
+
+		String encounter = parseEncounter( responseText );
+
+		if ( encounter != null )
+		{
+			return encounter;
 		}
 
 		return null;
