@@ -124,7 +124,7 @@ public class Parser
 
 	private String fullLine;
 
-	private TreeMap imports;
+	private TreeMap imports = new TreeMap();
 	private ScriptFunction mainMethod = null;
 	private String notifyRecipient = null;
 
@@ -147,6 +147,11 @@ public class Parser
 			return;
 		}
 
+		if ( imports != null )
+		{
+			this.imports = imports;
+		}
+
 		try
 		{
 			this.commandStream = new LineNumberReader( new InputStreamReader( istream ) );
@@ -161,8 +166,6 @@ public class Parser
 
 			throw new AdvancedScriptException( this.fileName + " could not be accessed" );
 		}
-
-		this.imports = imports != null ? imports : new TreeMap();
 	}
 
 	private void disconnect()

@@ -119,7 +119,9 @@ public class Interpreter
 		try
 		{
 			this.parser = new Parser( scriptFile, stream, null );
-			return this.validate();
+			this.scope = parser.parse();
+			this.printScope( this.scope );
+			return true;
 		}
 		catch ( AdvancedScriptException e )
 		{
@@ -131,13 +133,6 @@ public class Interpreter
 			StaticEntity.printStackTrace( e );
 			return false;
 		}
-	}
-
-	private boolean validate()
-	{
-                this.scope = parser.parse();
-                this.printScope( this.scope );
-		return true;
 	}
 
 	public void execute( final String functionName, final String[] parameters )
