@@ -56,7 +56,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 
 public abstract class ParseTree
 {
-	private static void captureValue( final ScriptValue value )
+	private static void captureValue( final Interpreter interpreter, final ScriptValue value )
 	{
 		// We've just executed a command in a context that captures the
 		// return value.
@@ -549,7 +549,7 @@ public abstract class ParseTree
 			return this.commands.iterator();
 		}
 
-		public ScriptValue execute()
+		public ScriptValue execute( final Interpreter interpreter )
 		{
 			// Yield control at the top of the scope to
 			// allow other tasks to run and keyboard input -
@@ -570,7 +570,7 @@ public abstract class ParseTree
 			while ( it.hasNext() )
 			{
 				current = (ScriptCommand) it.next();
-				result = current.execute();
+				result = current.execute( interpreter );
 
 				// Abort processing now if command failed
 				if ( !KoLmafia.permitsContinue() )
@@ -747,15 +747,15 @@ public abstract class ParseTree
 			return this.variableReferences.iterator();
 		}
 
-		public void saveBindings()
+		public void saveBindings( Interpreter interpreter )
 		{
 		}
 
-		public void restoreBindings()
+		public void restoreBindings( Interpreter interpreter )
 		{
 		}
 
-		public void printDisabledMessage()
+		public void printDisabledMessage( Interpreter interpreter )
 		{
 			try
 			{
@@ -777,7 +777,7 @@ public abstract class ParseTree
 					}
 
 					message.append( ' ' );
-					message.append( current.getValue().toStringValue().toString() );
+					message.append( current.getValue( interpreter ).toStringValue().toString() );
 				}
 
 				message.append( " )" );
@@ -790,7 +790,7 @@ public abstract class ParseTree
 			}
 		}
 
-		public abstract ScriptValue execute();
+		public abstract ScriptValue execute( final Interpreter interpreter );
 
 		public void print( final PrintStream stream, final int indent )
 		{
@@ -831,7 +831,7 @@ public abstract class ParseTree
 			return this.scope;
 		}
 
-		public void saveBindings()
+		public void saveBindings( Interpreter interpreter )
 		{
 			if ( this.scope == null )
 			{
@@ -841,13 +841,13 @@ public abstract class ParseTree
 			ArrayList values = new ArrayList();
 			for ( int i = 0; i < this.scope.variables.size(); ++i )
 			{
-				values.add( ( (ScriptVariable) this.scope.variables.get( i ) ).getValue() );
+				values.add( ( (ScriptVariable) this.scope.variables.get( i ) ).getValue( interpreter ) );
 			}
 
 			this.callStack.push( values );
 		}
 
-		public void restoreBindings()
+		public void restoreBindings( Interpreter interpreter )
 		{
 			if ( this.scope == null )
 			{
@@ -864,11 +864,11 @@ public abstract class ParseTree
 			}
 		}
 
-		public ScriptValue execute()
+		public ScriptValue execute( final Interpreter interpreter )
 		{
 			if ( StaticEntity.isDisabled( this.getName() ) )
 			{
-				this.printDisabledMessage();
+				this.printDisabledMessage( interpreter );
 				return this.getType().initialValue();
 			}
 
@@ -877,7 +877,7 @@ public abstract class ParseTree
 				throw new RuntimeException( "Calling undefined user function: " + this.getName() );
 			}
 
-			ScriptValue result = this.scope.execute();
+			ScriptValue result = this.scope.execute( interpreter );
 
 			if ( result.getType().equals( this.type ) )
 			{
@@ -904,7 +904,7 @@ public abstract class ParseTree
 	{
 		private Method method;
 		private final String description;
-		private final ScriptVariable[] variables;
+		private final Object[] variables;
 
 		public ScriptExistingFunction( final String name, final ScriptType type, final ScriptType[] params )
 		{
@@ -917,14 +917,16 @@ public abstract class ParseTree
 			super( name.toLowerCase(), type );
 			this.description = description;
 
-			this.variables = new ScriptVariable[ params.length ];
-			Class[] args = new Class[ params.length ];
+			this.variables = new Object[ params.length + 1 ];
+			Class[] args = new Class[ params.length + 1 ];
 
+			args[0] = Interpreter.class;
 			for ( int i = 0; i < params.length; ++i )
 			{
-				this.variables[ i ] = new ScriptVariable( params[ i ] );
-				this.variableReferences.addElement( new ScriptVariableReference( this.variables[ i ] ) );
-				args[ i ] = ScriptVariable.class;
+				ScriptVariable variable = new ScriptVariable( params[ i ] );
+				this.variableReferences.addElement( new ScriptVariableReference( variable ) );
+				this.variables[ i + 1 ] = variable;
+				args[ i + 1 ] = ScriptVariable.class;
 			}
 
 			try
@@ -945,11 +947,11 @@ public abstract class ParseTree
 			return this.description;
 		}
 
-		public ScriptValue execute()
+		public ScriptValue execute( final Interpreter interpreter )
 		{
 			if ( StaticEntity.isDisabled( this.getName() ) )
 			{
-				this.printDisabledMessage();
+				this.printDisabledMessage( interpreter );
 				return this.getType().initialValue();
 			}
 
@@ -961,7 +963,7 @@ public abstract class ParseTree
 			try
 			{
 				// Invoke the method
-
+				this.variables[0] = interpreter;
 				return (ScriptValue) this.method.invoke( this, this.variables );
 			}
 			catch ( Exception e )
@@ -1027,39 +1029,39 @@ public abstract class ParseTree
 			return this.type;
 		}
 
-		public ScriptValue getValue()
+		public ScriptValue getValue( final Interpreter interpreter )
 		{
 			if ( this.expression != null )
 			{
-				this.content = this.expression.execute();
+				this.content = this.expression.execute( interpreter );
 			}
 
 			return this.content;
 		}
 
-		public ScriptType getValueType()
+		public ScriptType getValueType( final Interpreter interpreter )
 		{
-			return this.getValue().getType();
+			return this.getValue( interpreter ).getType();
 		}
 
-		public Object rawValue()
+		public Object rawValue( final Interpreter interpreter )
 		{
-			return this.getValue().rawValue();
+			return this.getValue( interpreter ).rawValue();
 		}
 
-		public int intValue()
+		public int intValue( final Interpreter interpreter )
 		{
-			return this.getValue().intValue();
+			return this.getValue( interpreter ).intValue();
 		}
 
-		public ScriptValue toStringValue()
+		public ScriptValue toStringValue( final Interpreter interpreter )
 		{
-			return this.getValue().toStringValue();
+			return this.getValue( interpreter ).toStringValue();
 		}
 
-		public float floatValue()
+		public float floatValue( final Interpreter interpreter )
 		{
-			return this.getValue().floatValue();
+			return this.getValue( interpreter ).floatValue();
 		}
 
 		public void setExpression( final ScriptExpression targetExpression )
@@ -1073,7 +1075,7 @@ public abstract class ParseTree
 			this.expression = null;
 		}
 
-		public void setValue( final ScriptValue targetValue )
+		public void setValue( Interpreter interpreter, final ScriptValue targetValue )
 		{
 			if ( this.getType().equals( targetValue.getType() ) )
 			{
@@ -1181,14 +1183,14 @@ public abstract class ParseTree
 			return this.target.getName().compareTo( ( (ScriptVariableReference) o ).target.getName() );
 		}
 
-		public ScriptValue execute()
+		public ScriptValue execute( final Interpreter interpreter )
 		{
-			return this.target.getValue();
+			return this.target.getValue( interpreter );
 		}
 
-		public ScriptValue getValue()
+		public ScriptValue getValue( Interpreter interpreter )
 		{
-			return this.target.getValue();
+			return this.target.getValue( interpreter );
 		}
 
 		public void forceValue( final ScriptValue targetValue )
@@ -1196,9 +1198,9 @@ public abstract class ParseTree
 			this.target.forceValue( targetValue );
 		}
 
-		public void setValue( final ScriptValue targetValue )
+		public void setValue( Interpreter interpreter, final ScriptValue targetValue )
 		{
-			this.target.setValue( targetValue );
+			this.target.setValue( interpreter, targetValue );
 		}
 
 		public String toString()
@@ -1248,9 +1250,9 @@ public abstract class ParseTree
 			return this.indices;
 		}
 
-		public ScriptValue execute()
+		public ScriptValue execute( final Interpreter interpreter )
 		{
-			return this.getValue();
+			return this.getValue( interpreter );
 		}
 
 		// Evaluate all the indices and step through the slices.
@@ -1258,7 +1260,7 @@ public abstract class ParseTree
 		// When done, this.slice has the final slice and this.index has
 		// the final evaluated index.
 
-		private boolean getSlice()
+		private boolean getSlice( final Interpreter interpreter )
 		{
 			if ( !KoLmafia.permitsContinue() )
 			{
@@ -1266,7 +1268,7 @@ public abstract class ParseTree
 				return false;
 			}
 
-			this.slice = (ScriptCompositeValue) this.target.getValue();
+			this.slice = (ScriptCompositeValue) this.target.getValue( interpreter );
 			this.index = null;
 
 			Interpreter.traceIndent();
@@ -1280,8 +1282,8 @@ public abstract class ParseTree
 				Interpreter.traceIndent();
 				Interpreter.trace( "Key #" + ( i + 1 ) + ": " + exp.toQuotedString() );
 
-				this.index = exp.execute();
-				ParseTree.captureValue( this.index );
+				this.index = exp.execute( interpreter );
+				ParseTree.captureValue( interpreter, this.index );
 				if ( this.index == null )
 				{
 					this.index = DataTypes.VOID_VALUE;
@@ -1321,10 +1323,10 @@ public abstract class ParseTree
 			return true;
 		}
 
-		public ScriptValue getValue()
+		public ScriptValue getValue( final Interpreter interpreter )
 		{
 			// Iterate through indices to final slice
-			if ( this.getSlice() )
+			if ( this.getSlice( interpreter ) )
 			{
 				ScriptValue result = this.slice.aref( this.index );
 
@@ -1344,10 +1346,10 @@ public abstract class ParseTree
 			return null;
 		}
 
-		public void setValue( final ScriptValue targetValue )
+		public void setValue( final Interpreter interpreter, final ScriptValue targetValue )
 		{
 			// Iterate through indices to final slice
-			if ( this.getSlice() )
+			if ( this.getSlice( interpreter ) )
 			{
 				this.slice.aset( this.index, targetValue );
 				Interpreter.traceIndent();
@@ -1356,10 +1358,10 @@ public abstract class ParseTree
 			}
 		}
 
-		public ScriptValue removeKey()
+		public ScriptValue removeKey( final Interpreter interpreter )
 		{
 			// Iterate through indices to final slice
-			if ( this.getSlice() )
+			if ( this.getSlice( interpreter ) )
 			{
 				ScriptValue result = this.slice.remove( this.index );
 				if ( result == null )
@@ -1374,11 +1376,11 @@ public abstract class ParseTree
 			return null;
 		}
 
-		public boolean contains( final ScriptValue index )
+		public boolean contains( final Interpreter interpreter, final ScriptValue index )
 		{
 			boolean result = false;
 			// Iterate through indices to final slice
-			if ( this.getSlice() )
+			if ( this.getSlice( interpreter ) )
 			{
 				result = this.slice.aref( index ) != null;
 			}
@@ -1412,7 +1414,7 @@ public abstract class ParseTree
 
 	public static abstract class ScriptCommand
 	{
-		public ScriptValue execute()
+		public ScriptValue execute( final Interpreter interpreter )
 		{
 			return null;
 		}
@@ -1439,7 +1441,7 @@ public abstract class ParseTree
 			return this.state;
 		}
 
-		public ScriptValue execute()
+		public ScriptValue execute( final Interpreter interpreter )
 		{
 			Interpreter.traceIndent();
 			Interpreter.trace( this.toString() );
@@ -1475,9 +1477,9 @@ public abstract class ParseTree
 			super( Interpreter.STATE_EXIT );
 		}
 
-		public ScriptValue execute()
+		public ScriptValue execute( final Interpreter interpreter )
 		{
-			super.execute();
+			super.execute( interpreter );
 			return null;
 		}
 	}
@@ -1532,7 +1534,7 @@ public abstract class ParseTree
 			return this.returnValue;
 		}
 
-		public ScriptValue execute()
+		public ScriptValue execute( final Interpreter interpreter )
 		{
 			if ( !KoLmafia.permitsContinue() )
 			{
@@ -1554,8 +1556,8 @@ public abstract class ParseTree
 			Interpreter.traceIndent();
 			Interpreter.trace( "Eval: " + this.returnValue );
 
-			ScriptValue result = this.returnValue.execute();
-			ParseTree.captureValue( result );
+			ScriptValue result = this.returnValue.execute( interpreter );
+			ParseTree.captureValue( interpreter, result );
 
 			Interpreter.trace( "Returning: " + result );
 			Interpreter.traceUnindent();
@@ -1630,7 +1632,7 @@ public abstract class ParseTree
 			return this.condition;
 		}
 
-		public ScriptValue execute()
+		public ScriptValue execute( final Interpreter interpreter )
 		{
 			if ( !KoLmafia.permitsContinue() )
 			{
@@ -1643,8 +1645,8 @@ public abstract class ParseTree
 
 			Interpreter.trace( "Test: " + this.condition );
 
-			ScriptValue conditionResult = this.condition.execute();
-			ParseTree.captureValue( conditionResult );
+			ScriptValue conditionResult = this.condition.execute( interpreter );
+			ParseTree.captureValue( interpreter, conditionResult );
 
 			Interpreter.trace( "[" + Interpreter.currentState + "] <- " + conditionResult );
 
@@ -1656,7 +1658,7 @@ public abstract class ParseTree
 
 			if ( conditionResult.intValue() == 1 )
 			{
-				ScriptValue result = this.scope.execute();
+				ScriptValue result = this.scope.execute( interpreter );
 
 				Interpreter.traceUnindent();
 
@@ -1694,9 +1696,9 @@ public abstract class ParseTree
 			this.elseLoops.add( elseLoop );
 		}
 
-		public ScriptValue execute()
+		public ScriptValue execute( final Interpreter interpreter )
 		{
-			ScriptValue result = super.execute();
+			ScriptValue result = super.execute( interpreter );
 			if ( Interpreter.currentState != Interpreter.STATE_NORMAL || result == DataTypes.TRUE_VALUE )
 			{
 				return result;
@@ -1710,7 +1712,7 @@ public abstract class ParseTree
 			while ( it.hasNext() )
 			{
 				elseLoop = (ScriptConditional) it.next();
-				result = elseLoop.execute();
+				result = elseLoop.execute( interpreter );
 
 				if ( Interpreter.currentState != Interpreter.STATE_NORMAL || result == DataTypes.TRUE_VALUE )
 				{
@@ -1773,7 +1775,7 @@ public abstract class ParseTree
 			super( scope, condition );
 		}
 
-		public ScriptValue execute()
+		public ScriptValue execute( final Interpreter interpreter )
 		{
 			if ( !KoLmafia.permitsContinue() )
 			{
@@ -1783,7 +1785,7 @@ public abstract class ParseTree
 
 			Interpreter.traceIndent();
 			Interpreter.trace( "else" );
-			ScriptValue result = this.scope.execute();
+			ScriptValue result = this.scope.execute( interpreter );
 			Interpreter.traceUnindent();
 
 			if ( Interpreter.currentState != Interpreter.STATE_NORMAL )
@@ -1822,9 +1824,9 @@ public abstract class ParseTree
 			return this.scope;
 		}
 
-		public ScriptValue execute()
+		public ScriptValue execute( final Interpreter interpreter )
 		{
-			ScriptValue result = this.scope.execute();
+			ScriptValue result = this.scope.execute( interpreter );
 
 			if ( !KoLmafia.permitsContinue() )
 			{
@@ -1887,7 +1889,7 @@ public abstract class ParseTree
 			return this.aggregate;
 		}
 
-		public ScriptValue execute()
+		public ScriptValue execute( final Interpreter interpreter )
 		{
 			if ( !KoLmafia.permitsContinue() )
 			{
@@ -1899,8 +1901,8 @@ public abstract class ParseTree
 			Interpreter.trace( this.toString() );
 
 			// Evaluate the aggref to get the slice
-			ScriptAggregateValue slice = (ScriptAggregateValue) this.aggregate.execute();
-			ParseTree.captureValue( slice );
+			ScriptAggregateValue slice = (ScriptAggregateValue) this.aggregate.execute( interpreter );
+			ParseTree.captureValue( interpreter, slice );
 			if ( Interpreter.currentState == Interpreter.STATE_EXIT )
 			{
 				Interpreter.traceUnindent();
@@ -1910,11 +1912,10 @@ public abstract class ParseTree
 			// Iterate over the slice with bound keyvar
 
 			Iterator it = this.getReferences();
-			return this.executeSlice( slice, it, (ScriptVariableReference) it.next() );
-
+			return this.executeSlice( interpreter, slice, it, (ScriptVariableReference) it.next() );
 		}
 
-		private ScriptValue executeSlice( final ScriptAggregateValue slice, final Iterator it,
+		private ScriptValue executeSlice( final Interpreter interpreter, final ScriptAggregateValue slice, final Iterator it,
 			final ScriptVariableReference variable )
 		{
 			// Get an array of keys for the slice
@@ -1930,7 +1931,7 @@ public abstract class ParseTree
 				ScriptValue key = keys[ i ];
 
 				// Bind variable to key
-				variable.setValue( key );
+				variable.setValue( interpreter, key );
 
 				Interpreter.trace( "Key #" + i + ": " + key );
 
@@ -1940,12 +1941,12 @@ public abstract class ParseTree
 				{
 					ScriptAggregateValue nextSlice = (ScriptAggregateValue) slice.aref( key );
 					Interpreter.traceIndent();
-					result = this.executeSlice( nextSlice, it, nextVariable );
+					result = this.executeSlice( interpreter, nextSlice, it, nextVariable );
 				}
 				else
 				{
 					// Otherwise, execute scope
-					result = super.execute();
+					result = super.execute( interpreter );
 				}
 
 				if ( Interpreter.currentState == Interpreter.STATE_NORMAL )
@@ -2009,7 +2010,7 @@ public abstract class ParseTree
 			return this.condition;
 		}
 
-		public ScriptValue execute()
+		public ScriptValue execute( final Interpreter interpreter )
 		{
 			if ( !KoLmafia.permitsContinue() )
 			{
@@ -2024,8 +2025,8 @@ public abstract class ParseTree
 			{
 				Interpreter.trace( "Test: " + this.condition );
 
-				ScriptValue conditionResult = this.condition.execute();
-				ParseTree.captureValue( conditionResult );
+				ScriptValue conditionResult = this.condition.execute( interpreter );
+				ParseTree.captureValue( interpreter, conditionResult );
 
 				Interpreter.trace( "[" + Interpreter.currentState + "] <- " + conditionResult );
 
@@ -2040,7 +2041,7 @@ public abstract class ParseTree
 					break;
 				}
 
-				ScriptValue result = super.execute();
+				ScriptValue result = super.execute( interpreter );
 
 				if ( Interpreter.currentState == Interpreter.STATE_BREAK )
 				{
@@ -2096,7 +2097,7 @@ public abstract class ParseTree
 			return this.condition;
 		}
 
-		public ScriptValue execute()
+		public ScriptValue execute( final Interpreter interpreter )
 		{
 			if ( !KoLmafia.permitsContinue() )
 			{
@@ -2109,7 +2110,7 @@ public abstract class ParseTree
 
 			while ( true )
 			{
-				ScriptValue result = super.execute();
+				ScriptValue result = super.execute( interpreter );
 
 				if ( Interpreter.currentState == Interpreter.STATE_BREAK )
 				{
@@ -2126,8 +2127,8 @@ public abstract class ParseTree
 
 				Interpreter.trace( "Test: " + this.condition );
 
-				ScriptValue conditionResult = this.condition.execute();
-				ParseTree.captureValue( conditionResult );
+				ScriptValue conditionResult = this.condition.execute( interpreter );
+				ParseTree.captureValue( interpreter, conditionResult );
 
 				Interpreter.trace( "[" + Interpreter.currentState + "] <- " + conditionResult );
 
@@ -2207,7 +2208,7 @@ public abstract class ParseTree
 			return this.direction;
 		}
 
-		public ScriptValue execute()
+		public ScriptValue execute( final Interpreter interpreter )
 		{
 			if ( !KoLmafia.permitsContinue() )
 			{
@@ -2221,8 +2222,8 @@ public abstract class ParseTree
 			// Get the initial value
 			Interpreter.trace( "Initial: " + this.initial );
 
-			ScriptValue initialValue = this.initial.execute();
-			ParseTree.captureValue( initialValue );
+			ScriptValue initialValue = this.initial.execute( interpreter );
+			ParseTree.captureValue( interpreter, initialValue );
 
 			Interpreter.trace( "[" + Interpreter.currentState + "] <- " + initialValue );
 
@@ -2235,8 +2236,8 @@ public abstract class ParseTree
 			// Get the final value
 			Interpreter.trace( "Last: " + this.last );
 
-			ScriptValue lastValue = this.last.execute();
-			ParseTree.captureValue( lastValue );
+			ScriptValue lastValue = this.last.execute( interpreter );
+			ParseTree.captureValue( interpreter, lastValue );
 
 			Interpreter.trace( "[" + Interpreter.currentState + "] <- " + lastValue );
 
@@ -2249,8 +2250,8 @@ public abstract class ParseTree
 			// Get the increment
 			Interpreter.trace( "Increment: " + this.increment );
 
-			ScriptValue incrementValue = this.increment.execute();
-			ParseTree.captureValue( incrementValue );
+			ScriptValue incrementValue = this.increment.execute( interpreter );
+			ParseTree.captureValue( interpreter, incrementValue );
 
 			Interpreter.trace( "[" + Interpreter.currentState + "] <- " + incrementValue );
 
@@ -2294,10 +2295,10 @@ public abstract class ParseTree
 			while ( up && current <= end || !up && current >= end )
 			{
 				// Bind variable to current value
-				this.variable.setValue( new ScriptValue( current ) );
+				this.variable.setValue( interpreter, new ScriptValue( current ) );
 
 				// Execute the scope
-				ScriptValue result = super.execute();
+				ScriptValue result = super.execute( interpreter );
 
 				if ( Interpreter.currentState == Interpreter.STATE_BREAK )
 				{
@@ -2353,7 +2354,7 @@ public abstract class ParseTree
 			return DataTypes.VOID_TYPE;
 		}
 
-		public ScriptValue execute()
+		public ScriptValue execute( final Interpreter interpreter )
 		{
 			KoLmafiaCLI script = new KoLmafiaCLI( this.data.getByteArrayInputStream() );
 			script.listenForCommands();
@@ -2403,7 +2404,7 @@ public abstract class ParseTree
 			return this.target.getType();
 		}
 
-		public ScriptValue execute()
+		public ScriptValue execute( final Interpreter interpreter )
 		{
 			if ( !KoLmafia.permitsContinue() )
 			{
@@ -2412,7 +2413,7 @@ public abstract class ParseTree
 			}
 
 			// Save current variable bindings
-			this.target.saveBindings();
+			this.target.saveBindings( interpreter );
 			Interpreter.traceIndent();
 
 			Iterator refIterator = this.target.getReferences();
@@ -2431,7 +2432,7 @@ public abstract class ParseTree
 
 				if ( !valIterator.hasNext() )
 				{
-					this.target.restoreBindings();
+					this.target.restoreBindings( interpreter );
 					throw new RuntimeException( "Internal error: illegal arguments" );
 				}
 
@@ -2439,8 +2440,8 @@ public abstract class ParseTree
 
 				Interpreter.trace( "Param #" + paramCount + ": " + paramValue.toQuotedString() );
 
-				ScriptValue value = paramValue.execute();
-				ParseTree.captureValue( value );
+				ScriptValue value = paramValue.execute( interpreter );
+				ParseTree.captureValue( interpreter, value );
 				if ( value == null )
 				{
 					value = DataTypes.VOID_VALUE;
@@ -2450,7 +2451,7 @@ public abstract class ParseTree
 
 				if ( Interpreter.currentState == Interpreter.STATE_EXIT )
 				{
-					this.target.restoreBindings();
+					this.target.restoreBindings( interpreter );
 					Interpreter.traceUnindent();
 					return null;
 				}
@@ -2458,32 +2459,32 @@ public abstract class ParseTree
 				// Bind parameter to new value
 				if ( paramVarRef.getType().equals( DataTypes.TYPE_STRING ) )
 				{
-					paramVarRef.setValue( value.toStringValue() );
+					paramVarRef.setValue( interpreter, value.toStringValue() );
 				}
 				else if ( paramVarRef.getType().equals( DataTypes.TYPE_INT ) && paramValue.getType().equals(
 					DataTypes.TYPE_FLOAT ) )
 				{
-					paramVarRef.setValue( value.toIntValue() );
+					paramVarRef.setValue( interpreter, value.toIntValue() );
 				}
 				else if ( paramVarRef.getType().equals( DataTypes.TYPE_FLOAT ) && paramValue.getType().equals(
 					DataTypes.TYPE_INT ) )
 				{
-					paramVarRef.setValue( value.toFloatValue() );
+					paramVarRef.setValue( interpreter, value.toFloatValue() );
 				}
 				else
 				{
-					paramVarRef.setValue( value );
+					paramVarRef.setValue( interpreter, value );
 				}
 			}
 
 			if ( valIterator.hasNext() )
 			{
-				this.target.restoreBindings();
+				this.target.restoreBindings( interpreter );
 				throw new RuntimeException( "Internal error: illegal arguments" );
 			}
 
 			Interpreter.trace( "Entering function " + this.target.getName() );
-			ScriptValue result = this.target.execute();
+			ScriptValue result = this.target.execute( interpreter );
 			Interpreter.trace( "Function " + this.target.getName() + " returned: " + result );
 
 			if ( Interpreter.currentState != Interpreter.STATE_EXIT )
@@ -2492,7 +2493,7 @@ public abstract class ParseTree
 			}
 
 			// Restore initial variable bindings
-			this.target.restoreBindings();
+			this.target.restoreBindings( interpreter );
 			Interpreter.traceUnindent();
 
 			return result;
@@ -2550,7 +2551,7 @@ public abstract class ParseTree
 			return this.lhs.getType();
 		}
 
-		public ScriptValue execute()
+		public ScriptValue execute( final Interpreter interpreter )
 		{
 			if ( !KoLmafia.permitsContinue() )
 			{
@@ -2569,8 +2570,8 @@ public abstract class ParseTree
 				Interpreter.traceIndent();
 				Interpreter.trace( "Eval: " + this.rhs );
 
-				value = this.rhs.execute();
-				ParseTree.captureValue( value );
+				value = this.rhs.execute( interpreter );
+				ParseTree.captureValue( interpreter, value );
 
 				Interpreter.trace( "Set: " + value );
 				Interpreter.traceUnindent();
@@ -2583,19 +2584,19 @@ public abstract class ParseTree
 
 			if ( this.lhs.getType().equals( DataTypes.TYPE_STRING ) )
 			{
-				this.lhs.setValue( value.toStringValue() );
+				this.lhs.setValue( interpreter, value.toStringValue() );
 			}
 			else if ( this.lhs.getType().equals( DataTypes.TYPE_INT ) )
 			{
-				this.lhs.setValue( value.toIntValue() );
+				this.lhs.setValue( interpreter, value.toIntValue() );
 			}
 			else if ( this.lhs.getType().equals( DataTypes.TYPE_FLOAT ) )
 			{
-				this.lhs.setValue( value.toFloatValue() );
+				this.lhs.setValue( interpreter, value.toFloatValue() );
 			}
 			else
 			{
-				this.lhs.setValue( value );
+				this.lhs.setValue( interpreter, value );
 			}
 
 			return DataTypes.VOID_VALUE;
@@ -3105,7 +3106,7 @@ public abstract class ParseTree
 			return this.type;
 		}
 
-		public ScriptValue execute()
+		public ScriptValue execute( final Interpreter interpreter )
 		{
 			return this.type.initialValue();
 		}
@@ -3286,7 +3287,7 @@ public abstract class ParseTree
 			return this.contentFloat;
 		}
 
-		public ScriptValue execute()
+		public ScriptValue execute( final Interpreter interpreter )
 		{
 			return this;
 		}
@@ -3933,9 +3934,9 @@ public abstract class ParseTree
 			return this.oper;
 		}
 
-		public ScriptValue execute()
+		public ScriptValue execute( final Interpreter interpreter )
 		{
-			return this.oper.applyTo( this.lhs, this.rhs );
+			return this.oper.applyTo( interpreter, this.lhs, this.rhs );
 		}
 
 		public String toString()
@@ -4046,7 +4047,7 @@ public abstract class ParseTree
 			return this.operator;
 		}
 
-		public ScriptValue applyTo( final ScriptExpression lhs, final ScriptExpression rhs )
+		public ScriptValue applyTo( final Interpreter interpreter, final ScriptExpression lhs, final ScriptExpression rhs )
 		{
 			Interpreter.traceIndent();
 			Interpreter.trace( "Operator: " + this.operator );
@@ -4058,7 +4059,7 @@ public abstract class ParseTree
 				Interpreter.traceIndent();
 				Interpreter.trace( "Operand: " + operand );
 				Interpreter.traceUnindent();
-				ScriptValue result = operand.removeKey();
+				ScriptValue result = operand.removeKey( interpreter );
 				Interpreter.trace( "<- " + result );
 				Interpreter.traceUnindent();
 				return result;
@@ -4067,8 +4068,8 @@ public abstract class ParseTree
 			Interpreter.traceIndent();
 			Interpreter.trace( "Operand 1: " + lhs );
 
-			ScriptValue leftValue = lhs.execute();
-			ParseTree.captureValue( leftValue );
+			ScriptValue leftValue = lhs.execute( interpreter );
+			ParseTree.captureValue( interpreter, leftValue );
 			if ( leftValue == null )
 			{
 				leftValue = DataTypes.VOID_VALUE;
@@ -4128,8 +4129,8 @@ public abstract class ParseTree
 				}
 				Interpreter.traceIndent();
 				Interpreter.trace( "Operand 2: " + rhs );
-				ScriptValue rightValue = rhs.execute();
-				ParseTree.captureValue( rightValue );
+				ScriptValue rightValue = rhs.execute( interpreter );
+				ParseTree.captureValue( interpreter, rightValue );
 				if ( rightValue == null )
 				{
 					rightValue = DataTypes.VOID_VALUE;
@@ -4156,8 +4157,8 @@ public abstract class ParseTree
 				}
 				Interpreter.traceIndent();
 				Interpreter.trace( "Operand 2: " + rhs );
-				ScriptValue rightValue = rhs.execute();
-				ParseTree.captureValue( rightValue );
+				ScriptValue rightValue = rhs.execute( interpreter );
+				ParseTree.captureValue( interpreter, rightValue );
 				if ( rightValue == null )
 				{
 					rightValue = DataTypes.VOID_VALUE;
@@ -4185,8 +4186,8 @@ public abstract class ParseTree
 			{
 				Interpreter.traceIndent();
 				Interpreter.trace( "Operand 2: " + rhs );
-				ScriptValue rightValue = rhs.execute();
-				ParseTree.captureValue( rightValue );
+				ScriptValue rightValue = rhs.execute( interpreter );
+				ParseTree.captureValue( interpreter, rightValue );
 				if ( rightValue == null )
 				{
 					rightValue = DataTypes.VOID_VALUE;
@@ -4207,8 +4208,8 @@ public abstract class ParseTree
 			// Binary operators
 			Interpreter.traceIndent();
 			Interpreter.trace( "Operand 2: " + rhs );
-			ScriptValue rightValue = rhs.execute();
-			ParseTree.captureValue( rightValue );
+			ScriptValue rightValue = rhs.execute( interpreter );
+			ParseTree.captureValue( interpreter, rightValue );
 			if ( rightValue == null )
 			{
 				rightValue = DataTypes.VOID_VALUE;

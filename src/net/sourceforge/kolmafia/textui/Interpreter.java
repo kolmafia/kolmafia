@@ -135,6 +135,7 @@ public class Interpreter
 		}
 	}
 
+
 	public void execute( final String functionName, final String[] parameters )
 	{
 		// Before you do anything, validate the script, if one
@@ -246,7 +247,7 @@ public class Interpreter
 		if ( executeTopLevel )
 		{
 			Interpreter.trace( "Executing top-level commands" );
-			result = topScope.execute();
+			result = topScope.execute( this );
 		}
 
 		if ( Interpreter.currentState == Interpreter.STATE_EXIT )
@@ -264,7 +265,7 @@ public class Interpreter
 				return null;
 			}
 
-			result = main.execute();
+			result = main.execute( this );
 		}
 
 		return result;
@@ -331,7 +332,7 @@ public class Interpreter
 				}
 			}
 
-			param.setValue( value );
+			param.setValue( this, value );
 
 			lastType = type;
 			lastParam = param;
@@ -348,7 +349,7 @@ public class Interpreter
 			}
 
 			ScriptValue value = DataTypes.parseValue( lastType, inputs.toString().trim() );
-			lastParam.setValue( value );
+			lastParam.setValue( this, value );
 		}
 
 		return true;
