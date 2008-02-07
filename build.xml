@@ -30,24 +30,28 @@
 	</target>
 
 
-	<!-- ================================================= -->
-	<!--  sets the default compiler to Jikes if available  -->
-	<!-- ================================================= -->
+	<!-- ==================================== -->
+	<!--  sets the default compiler to Jikes  -->
+	<!-- ==================================== -->
 
 	<target name="jikeshome" if="env.JIKES_HOME">
+
 		<property name="build.compiler" value="jikes" />
 		<echo message="Set compiler: ${env.JIKES_HOME}" />
+
 	</target>
 
 
-	<!-- ================================================= -->
-	<!--  sets the default compiler to Jikes if available  -->
-	<!-- ================================================= -->
+	<!-- ================================== -->
+	<!--  reports the current Java version  -->
+	<!-- ================================== -->
 
 	<target name="javahome" if="env.JAVA_HOME">
+
 		<exec executable="java" failifexecutionfails="false">
 			<arg value="-version"/>
 		</exec>
+
 	</target>
 
 
@@ -258,6 +262,7 @@
 		<mkdir dir="${docs}/api"/>
 
 		<javadoc sourcepath="${src}" destdir="${docs}" packagenames="*">
+
 			<link href="http://java.sun.com/j2se/1.4.2/docs/api/"/>
 
 			<classpath>
