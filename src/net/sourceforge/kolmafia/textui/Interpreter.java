@@ -44,6 +44,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.NullStream;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -77,9 +78,12 @@ public class Interpreter
 	public static final String STATE_CONTINUE = "CONTINUE";
 	public static final String STATE_EXIT = "EXIT";
 
-	public static String currentState = Interpreter.STATE_NORMAL;
-	public static boolean isExecuting = false;
 	private static String lastImportString = "";
+	public static boolean isExecuting = false;
+
+	private String currentState = Interpreter.STATE_NORMAL;
+	private PrintStream traceStream = NullStream.INSTANCE;
+	private int traceIndentation = 0;
 
 	public Interpreter()
 	{
@@ -112,6 +116,28 @@ public class Interpreter
 		return this.scope.getFunctions();
 	}
 
+	public String getState()
+	{
+		return this.currentState;
+	}
+
+	public void setState( final String state )
+	{
+		this.currentState = state;
+	}
+
+	private static final String indentation = " " + " " + " ";
+	public static final void indentLine( final PrintStream stream, final int indent )
+	{
+		if ( stream != null )
+		{
+			for ( int i = 0; i < indent; ++i )
+			{
+				stream.print( indentation );
+			}
+		}
+	}
+
 	// **************** Parsing and execution *****************
 
 	public boolean validate( final File scriptFile, final InputStream stream )
@@ -120,6 +146,7 @@ public class Interpreter
 		{
 			this.parser = new Parser( scriptFile, stream, null );
 			this.scope = parser.parse();
+			this.resetTracing();
 			this.printScope( this.scope );
 			return true;
 		}
@@ -221,8 +248,8 @@ public class Interpreter
 		ScriptFunction main;
 		ScriptValue result = null;
 
-		Interpreter.currentState = Interpreter.STATE_NORMAL;
-		Interpreter.resetTracing();
+		this.currentState = Interpreter.STATE_NORMAL;
+		this.resetTracing();
 
 		main =
 			functionName.equals( "main" ) ? this.parser.getMainMethod() : topScope.findFunction( functionName, parameters != null );
@@ -246,11 +273,11 @@ public class Interpreter
 
 		if ( executeTopLevel )
 		{
-			Interpreter.trace( "Executing top-level commands" );
+			this.trace( "Executing top-level commands" );
 			result = topScope.execute( this );
 		}
 
-		if ( Interpreter.currentState == Interpreter.STATE_EXIT )
+		if ( this.currentState == Interpreter.STATE_EXIT )
 		{
 			return result;
 		}
@@ -258,7 +285,7 @@ public class Interpreter
 		// Now execute main function, if any
 		if ( main != null )
 		{
-			Interpreter.trace( "Executing main function" );
+			this.trace( "Executing main function" );
 
 			if ( !this.requestUserParams( main, parameters ) )
 			{
@@ -364,13 +391,13 @@ public class Interpreter
 			return;
 		}
 
-		PrintStream stream = RequestLogger.getDebugStream();
+		PrintStream stream = this.traceStream;
 		scope.print( stream, 0 );
 
 		ScriptFunction mainMethod = this.parser.getMainMethod();
 		if ( mainMethod != null )
 		{
-			Interpreter.indentLine( 1 );
+			this.indentLine( 1 );
 			stream.println( "<MAIN>" );
 			mainMethod.print( stream, 2 );
 		}
@@ -378,34 +405,30 @@ public class Interpreter
 
 	// **************** Tracing *****************
 
-	private static final void indentLine( final int indent )
+	private final void indentLine( final int indent )
 	{
-		for ( int i = 0; i < indent; ++i )
-		{
-			RequestLogger.getDebugStream().print( "   " );
-		}
+		Interpreter.indentLine( this.traceStream, indent );
 	}
 
-	private static int traceIndentation = 0;
-
-	public static final void resetTracing()
+	public final void resetTracing()
 	{
-		Interpreter.traceIndentation = 0;
+		this.traceIndentation = 0;
+		this.traceStream = RequestLogger.getDebugStream();
 	}
 
-	public static final void traceIndent()
+	public final void traceIndent()
 	{
-		Interpreter.traceIndentation++ ;
+		this.traceIndentation++ ;
 	}
 
-	public static final void traceUnindent()
+	public final void traceUnindent()
 	{
-		Interpreter.traceIndentation-- ;
+		this.traceIndentation-- ;
 	}
 
-	public static final void trace( final String string )
+	public final void trace( final String string )
 	{
-		Interpreter.indentLine( Interpreter.traceIndentation );
-		RequestLogger.updateDebugLog( string );
+		this.indentLine( this.traceIndentation );
+		this.traceStream.println( string );
 	}
 }
