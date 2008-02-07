@@ -33,9 +33,13 @@
 
 package net.sourceforge.kolmafia.textui;
 
+import java.io.PrintStream;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.Vector;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
@@ -48,12 +52,6 @@ import net.sourceforge.kolmafia.KoLFrame;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.textui.Parser.AdvancedScriptException;
-import net.sourceforge.kolmafia.textui.ParseTree;
-import net.sourceforge.kolmafia.textui.ParseTree.ScriptAggregateType;
-import net.sourceforge.kolmafia.textui.ParseTree.ScriptType;
-import net.sourceforge.kolmafia.textui.ParseTree.ScriptTypeInitializer;
-import net.sourceforge.kolmafia.textui.ParseTree.ScriptTypeList;
-import net.sourceforge.kolmafia.textui.ParseTree.ScriptValue;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
@@ -613,6 +611,1337 @@ public class DataTypes
 
 		default:
 			throw new RuntimeException( "Internal error: Illegal type for main() parameter" );
+		}
+	}
+
+	// **************** ScriptSymbol *****************
+
+	public static class ScriptSymbol
+		implements Comparable
+	{
+		public String name;
+
+		public ScriptSymbol()
+		{
+		}
+
+		public ScriptSymbol( final String name )
+		{
+			this.name = name;
+		}
+
+		public String getName()
+		{
+			return this.name;
+		}
+
+		public int compareTo( final Object o )
+		{
+			if ( !( o instanceof ScriptSymbol ) )
+			{
+				throw new ClassCastException();
+			}
+			if ( this.name == null )
+			{
+				return 1;
+			}
+			return this.name.compareToIgnoreCase( ( (ScriptSymbol) o ).name );
+		}
+	}
+
+	public static class ScriptSymbolTable
+		extends Vector
+	{
+		public boolean addElement( final ScriptSymbol n )
+		{
+			if ( this.findSymbol( n.getName() ) != null )
+			{
+				return false;
+			}
+
+			super.addElement( n );
+			return true;
+		}
+
+		public ScriptSymbol findSymbol( final String name )
+		{
+			ScriptSymbol currentSymbol = null;
+			for ( int i = 0; i < this.size(); ++i )
+			{
+				currentSymbol = (ScriptSymbol) this.get( i );
+				if ( currentSymbol.getName().equalsIgnoreCase( name ) )
+				{
+					return currentSymbol;
+				}
+			}
+
+			return null;
+		}
+	}
+
+	// **************** ScriptType *****************
+
+	public static class ScriptType
+		extends ScriptSymbol
+	{
+		public boolean primitive;
+		private final int type;
+
+		public ScriptType( final String name, final int type )
+		{
+			super( name );
+			this.primitive = true;
+			this.type = type;
+		}
+
+		public int getType()
+		{
+			return this.type;
+		}
+
+		public ScriptType getBaseType()
+		{
+			return this;
+		}
+
+		public boolean isPrimitive()
+		{
+			return this.primitive;
+		}
+
+		public boolean equals( final ScriptType type )
+		{
+			return this.type == type.type;
+		}
+
+		public boolean equals( final int type )
+		{
+			return this.type == type;
+		}
+
+		public String toString()
+		{
+			return this.name;
+		}
+
+		public ScriptType simpleType()
+		{
+			return this;
+		}
+
+		public ScriptValue initialValue()
+		{
+			switch ( this.type )
+			{
+			case DataTypes.TYPE_VOID:
+				return DataTypes.VOID_VALUE;
+			case DataTypes.TYPE_BOOLEAN:
+				return DataTypes.BOOLEAN_INIT;
+			case DataTypes.TYPE_INT:
+				return DataTypes.INT_INIT;
+			case DataTypes.TYPE_FLOAT:
+				return DataTypes.FLOAT_INIT;
+			case DataTypes.TYPE_STRING:
+				return DataTypes.STRING_INIT;
+			case DataTypes.TYPE_BUFFER:
+				return new ScriptValue( DataTypes.BUFFER_TYPE, "", new StringBuffer() );
+			case DataTypes.TYPE_MATCHER:
+				return new ScriptValue( DataTypes.MATCHER_TYPE, "", Pattern.compile( "" ).matcher( "" ) );
+
+			case DataTypes.TYPE_ITEM:
+				return DataTypes.ITEM_INIT;
+			case DataTypes.TYPE_LOCATION:
+				return DataTypes.LOCATION_INIT;
+			case DataTypes.TYPE_CLASS:
+				return DataTypes.CLASS_INIT;
+			case DataTypes.TYPE_STAT:
+				return DataTypes.STAT_INIT;
+			case DataTypes.TYPE_SKILL:
+				return DataTypes.SKILL_INIT;
+			case DataTypes.TYPE_EFFECT:
+				return DataTypes.EFFECT_INIT;
+			case DataTypes.TYPE_FAMILIAR:
+				return DataTypes.FAMILIAR_INIT;
+			case DataTypes.TYPE_SLOT:
+				return DataTypes.SLOT_INIT;
+			case DataTypes.TYPE_MONSTER:
+				return DataTypes.MONSTER_INIT;
+			case DataTypes.TYPE_ELEMENT:
+				return DataTypes.ELEMENT_INIT;
+			}
+			return null;
+		}
+
+		public ScriptValue parseValue( final String name )
+		{
+			switch ( this.type )
+			{
+			case DataTypes.TYPE_BOOLEAN:
+				return DataTypes.parseBooleanValue( name );
+			case DataTypes.TYPE_INT:
+				return DataTypes.parseIntValue( name );
+			case DataTypes.TYPE_FLOAT:
+				return DataTypes.parseFloatValue( name );
+			case DataTypes.TYPE_STRING:
+				return DataTypes.parseStringValue( name );
+			case DataTypes.TYPE_ITEM:
+				return DataTypes.parseItemValue( name );
+			case DataTypes.TYPE_LOCATION:
+				return DataTypes.parseLocationValue( name );
+			case DataTypes.TYPE_CLASS:
+				return DataTypes.parseClassValue( name );
+			case DataTypes.TYPE_STAT:
+				return DataTypes.parseStatValue( name );
+			case DataTypes.TYPE_SKILL:
+				return DataTypes.parseSkillValue( name );
+			case DataTypes.TYPE_EFFECT:
+				return DataTypes.parseEffectValue( name );
+			case DataTypes.TYPE_FAMILIAR:
+				return DataTypes.parseFamiliarValue( name );
+			case DataTypes.TYPE_SLOT:
+				return DataTypes.parseSlotValue( name );
+			case DataTypes.TYPE_MONSTER:
+				return DataTypes.parseMonsterValue( name );
+			case DataTypes.TYPE_ELEMENT:
+				return DataTypes.parseElementValue( name );
+			}
+			return null;
+		}
+
+		public ScriptValue initialValueExpression()
+		{
+			return new ScriptTypeInitializer( this );
+		}
+
+		public boolean containsAggregate()
+		{
+			return false;
+		}
+
+		public void print( final PrintStream stream, final int indent )
+		{
+			Interpreter.indentLine( stream, indent );
+			stream.println( "<TYPE " + this.name + ">" );
+		}
+	}
+
+	public static class ScriptNamedType
+		extends ScriptType
+	{
+		ScriptType base;
+
+		public ScriptNamedType( final String name, final ScriptType base )
+		{
+			super( name, DataTypes.TYPE_TYPEDEF );
+			this.base = base;
+		}
+
+		public ScriptType getBaseType()
+		{
+			return this.base.getBaseType();
+		}
+
+		public ScriptValue initialValueExpression()
+		{
+			return new ScriptTypeInitializer( this.base.getBaseType() );
+		}
+	}
+
+	public static class ScriptCompositeType
+		extends ScriptType
+	{
+		public ScriptCompositeType( final String name, final int type )
+		{
+			super( name, type );
+			this.primitive = false;
+		}
+
+		public ScriptType getIndexType()
+		{
+			return null;
+		}
+
+		public ScriptType getDataType()
+		{
+			return null;
+		}
+
+		public ScriptType getDataType( final Object key )
+		{
+			return null;
+		}
+
+		public ScriptValue getKey( final ScriptValue key )
+		{
+			return key;
+		}
+
+		public ScriptValue initialValueExpression()
+		{
+			return new ScriptTypeInitializer( this );
+		}
+	}
+
+	public static class ScriptAggregateType
+		extends ScriptCompositeType
+	{
+		private final ScriptType dataType;
+		private final ScriptType indexType;
+		private final int size;
+
+		// Map
+		public ScriptAggregateType( final ScriptType dataType, final ScriptType indexType )
+		{
+			super( "aggregate", DataTypes.TYPE_AGGREGATE );
+			this.dataType = dataType;
+			this.indexType = indexType;
+			this.size = 0;
+		}
+
+		// Array
+		public ScriptAggregateType( final ScriptType dataType, final int size )
+		{
+			super( "aggregate", DataTypes.TYPE_AGGREGATE );
+			this.primitive = false;
+			this.dataType = dataType;
+			this.indexType = DataTypes.INT_TYPE;
+			this.size = size;
+		}
+
+		public ScriptType getDataType()
+		{
+			return this.dataType;
+		}
+
+		public ScriptType getDataType( final Object key )
+		{
+			return this.dataType;
+		}
+
+		public ScriptType getIndexType()
+		{
+			return this.indexType;
+		}
+
+		public int getSize()
+		{
+			return this.size;
+		}
+
+		public boolean equals( final ScriptType o )
+		{
+			return o instanceof ScriptAggregateType && this.dataType.equals( ( (ScriptAggregateType) o ).dataType ) && this.indexType.equals( ( (ScriptAggregateType) o ).indexType );
+		}
+
+		public ScriptType simpleType()
+		{
+			if ( this.dataType instanceof ScriptAggregateType )
+			{
+				return this.dataType.simpleType();
+			}
+			return this.dataType;
+		}
+
+		public String toString()
+		{
+			return this.simpleType().toString() + " [" + this.indexString() + "]";
+		}
+
+		public String indexString()
+		{
+			if ( this.dataType instanceof ScriptAggregateType )
+			{
+				String suffix = ", " + ( (ScriptAggregateType) this.dataType ).indexString();
+				if ( this.size != 0 )
+				{
+					return this.size + suffix;
+				}
+				return this.indexType.toString() + suffix;
+			}
+
+			if ( this.size != 0 )
+			{
+				return String.valueOf( this.size );
+			}
+			return this.indexType.toString();
+		}
+
+		public ScriptValue initialValue()
+		{
+			if ( this.size != 0 )
+			{
+				return new ScriptArray( this );
+			}
+			return new ScriptMap( this );
+		}
+
+		public boolean containsAggregate()
+		{
+			return true;
+		}
+	}
+
+	public static class ScriptRecordType
+		extends ScriptCompositeType
+	{
+		private final String[] fieldNames;
+		private final ScriptType[] fieldTypes;
+		private final ScriptValue[] fieldIndices;
+
+		public ScriptRecordType( final String name, final String[] fieldNames, final ScriptType[] fieldTypes )
+		{
+			super( name, DataTypes.TYPE_RECORD );
+			if ( fieldNames.length != fieldTypes.length )
+			{
+				throw new AdvancedScriptException( "Internal error: wrong number of field types" );
+			}
+
+			this.fieldNames = fieldNames;
+			this.fieldTypes = fieldTypes;
+
+			// Build field index values.
+			// These can be either integers or strings.
+			//   Integers don't require a lookup
+			//   Strings make debugging easier.
+
+			this.fieldIndices = new ScriptValue[ fieldNames.length ];
+			for ( int i = 0; i < fieldNames.length; ++i )
+			{
+				this.fieldIndices[ i ] = new ScriptValue( fieldNames[ i ] );
+			}
+		}
+
+		public String[] getFieldNames()
+		{
+			return this.fieldNames;
+		}
+
+		public ScriptType[] getFieldTypes()
+		{
+			return this.fieldTypes;
+		}
+
+		public ScriptValue[] getFieldIndices()
+		{
+			return this.fieldIndices;
+		}
+
+		public int fieldCount()
+		{
+			return this.fieldTypes.length;
+		}
+
+		public ScriptType getIndexType()
+		{
+			return DataTypes.STRING_TYPE;
+		}
+
+		public ScriptType getDataType( final Object key )
+		{
+			if ( !( key instanceof ScriptValue ) )
+			{
+				throw new RuntimeException( "Internal error: key is not a ScriptValue" );
+			}
+			int index = this.indexOf( (ScriptValue) key );
+			if ( index < 0 || index >= this.fieldTypes.length )
+			{
+				return null;
+			}
+			return this.fieldTypes[ index ];
+		}
+
+		public ScriptValue getFieldIndex( final String field )
+		{
+			String val = field.toLowerCase();
+			for ( int index = 0; index < this.fieldNames.length; ++index )
+			{
+				if ( val.equals( this.fieldNames[ index ] ) )
+				{
+					return this.fieldIndices[ index ];
+				}
+			}
+			return null;
+		}
+
+		public ScriptValue getKey( final ScriptValue key )
+		{
+			ScriptType type = key.getType();
+
+			if ( type.equals( DataTypes.TYPE_INT ) )
+			{
+				int index = key.intValue();
+				if ( index < 0 || index >= this.fieldNames.length )
+				{
+					return null;
+				}
+				return this.fieldIndices[ index ];
+			}
+
+			if ( type.equals( DataTypes.TYPE_STRING ) )
+			{
+				String str = key.toString();
+				for ( int index = 0; index < this.fieldNames.length; ++index )
+				{
+					if ( this.fieldNames[ index ].equals( str ) )
+					{
+						return this.fieldIndices[ index ];
+					}
+				}
+				return null;
+			}
+
+			return null;
+		}
+
+		public int indexOf( final ScriptValue key )
+		{
+			ScriptType type = key.getType();
+
+			if ( type.equals( DataTypes.TYPE_INT ) )
+			{
+				int index = key.intValue();
+				if ( index < 0 || index >= this.fieldNames.length )
+				{
+					return -1;
+				}
+				return index;
+			}
+
+			if ( type.equals( DataTypes.TYPE_STRING ) )
+			{
+				for ( int index = 0; index < this.fieldNames.length; ++index )
+				{
+					if ( key == this.fieldIndices[ index ] )
+					{
+						return index;
+					}
+				}
+				return -1;
+			}
+
+			return -1;
+		}
+
+		public boolean equals( final ScriptType o )
+		{
+			return o instanceof ScriptRecordType && this.name == ( (ScriptRecordType) o ).name;
+		}
+
+		public ScriptType simpleType()
+		{
+			return this;
+		}
+
+		public String toString()
+		{
+			return this.name;
+		}
+
+		public ScriptValue initialValue()
+		{
+			return new ScriptRecord( this );
+		}
+
+		public boolean containsAggregate()
+		{
+			for ( int i = 0; i < this.fieldTypes.length; ++i )
+			{
+				if ( this.fieldTypes[ i ].containsAggregate() )
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+	}
+
+	public static class ScriptTypeInitializer
+		extends ScriptValue
+	{
+		public ScriptType type;
+
+		public ScriptTypeInitializer( final ScriptType type )
+		{
+			this.type = type;
+		}
+
+		public ScriptType getType()
+		{
+			return this.type;
+		}
+
+		public ScriptValue execute( final Interpreter interpreter )
+		{
+			return this.type.initialValue();
+		}
+
+		public String toString()
+		{
+			return "<initial value>";
+		}
+	}
+
+	public static class ScriptTypeList
+		extends ScriptSymbolTable
+	{
+		public boolean addElement( final ScriptType n )
+		{
+			return super.addElement( n );
+		}
+
+		public ScriptType findType( final String name )
+		{
+			return (ScriptType) super.findSymbol( name );
+		}
+	}
+
+	// **************** ScriptValue *****************
+
+	public static abstract class ScriptCommand
+	{
+		public ScriptValue execute( final Interpreter interpreter )
+		{
+			return null;
+		}
+
+		public void print( final PrintStream stream, final int indent )
+		{
+		}
+	}
+
+	public static class ScriptValue
+		extends ScriptCommand
+		implements Comparable
+	{
+		public ScriptType type;
+
+		public int contentInt = 0;
+		public float contentFloat = 0.0f;
+		public String contentString = null;
+		public Object content = null;
+
+		public ScriptValue()
+		{
+			this.type = DataTypes.VOID_TYPE;
+		}
+
+		public ScriptValue( final int value )
+		{
+			this.type = DataTypes.INT_TYPE;
+			this.contentInt = value;
+		}
+
+		public ScriptValue( final boolean value )
+		{
+			this.type = DataTypes.BOOLEAN_TYPE;
+			this.contentInt = value ? 1 : 0;
+		}
+
+		public ScriptValue( final String value )
+		{
+			this.type = DataTypes.STRING_TYPE;
+			this.contentString = value;
+		}
+
+		public ScriptValue( final float value )
+		{
+			this.type = DataTypes.FLOAT_TYPE;
+			this.contentInt = (int) value;
+			this.contentFloat = value;
+		}
+
+		public ScriptValue( final ScriptType type )
+		{
+			this.type = type;
+		}
+
+		public ScriptValue( final ScriptType type, final int contentInt, final String contentString )
+		{
+			this.type = type;
+			this.contentInt = contentInt;
+			this.contentString = contentString;
+		}
+
+		public ScriptValue( final ScriptType type, final String contentString, final Object content )
+		{
+			this.type = type;
+			this.contentString = contentString;
+			this.content = content;
+		}
+
+		public ScriptValue( final ScriptValue original )
+		{
+			this.type = original.type;
+			this.contentInt = original.contentInt;
+			this.contentString = original.contentString;
+			this.content = original.content;
+		}
+
+		public ScriptValue toFloatValue()
+		{
+			if ( this.type.equals( DataTypes.TYPE_FLOAT ) )
+			{
+				return this;
+			}
+			else
+			{
+				return new ScriptValue( (float) this.contentInt );
+			}
+		}
+
+		public ScriptValue toIntValue()
+		{
+			if ( this.type.equals( DataTypes.TYPE_INT ) )
+			{
+				return this;
+			}
+			else
+			{
+				return new ScriptValue( (int) this.contentFloat );
+			}
+		}
+
+		public ScriptType getType()
+		{
+			return this.type.getBaseType();
+		}
+
+		public String toString()
+		{
+			if ( this.content instanceof StringBuffer )
+			{
+				return ( (StringBuffer) this.content ).toString();
+			}
+
+			if ( this.type.equals( DataTypes.TYPE_VOID ) )
+			{
+				return "void";
+			}
+
+			if ( this.contentString != null )
+			{
+				return this.contentString;
+			}
+
+			if ( this.type.equals( DataTypes.TYPE_BOOLEAN ) )
+			{
+				return String.valueOf( this.contentInt != 0 );
+			}
+
+			if ( this.type.equals( DataTypes.TYPE_FLOAT ) )
+			{
+				return String.valueOf( this.contentFloat );
+			}
+
+			return String.valueOf( this.contentInt );
+		}
+
+		public String toQuotedString()
+		{
+			if ( this.contentString != null )
+			{
+				return "\"" + this.contentString + "\"";
+			}
+			return this.toString();
+		}
+
+		public ScriptValue toStringValue()
+		{
+			return new ScriptValue( this.toString() );
+		}
+
+		public Object rawValue()
+		{
+			return this.content;
+		}
+
+		public int intValue()
+		{
+			return this.contentInt;
+		}
+
+		public float floatValue()
+		{
+			return this.contentFloat;
+		}
+
+		public ScriptValue execute( final Interpreter interpreter )
+		{
+			return this;
+		}
+
+		public int compareTo( final Object o )
+		{
+			if ( !( o instanceof ScriptValue ) )
+			{
+				throw new ClassCastException();
+			}
+
+			ScriptValue it = (ScriptValue) o;
+
+			if ( this.type == DataTypes.BOOLEAN_TYPE || this.type == DataTypes.INT_TYPE )
+			{
+				return this.contentInt < it.contentInt ? -1 : this.contentInt == it.contentInt ? 0 : 1;
+			}
+
+			if ( this.type == DataTypes.FLOAT_TYPE )
+			{
+				return this.contentFloat < it.contentFloat ? -1 : this.contentFloat == it.contentFloat ? 0 : 1;
+			}
+
+			if ( this.contentString != null )
+			{
+				return this.contentString.compareTo( it.contentString );
+			}
+
+			return -1;
+		}
+
+		public int count()
+		{
+			return 1;
+		}
+
+		public void clear()
+		{
+		}
+
+		public boolean contains( final ScriptValue index )
+		{
+			return false;
+		}
+
+		public boolean equals( final Object o )
+		{
+			return o == null || !( o instanceof ScriptValue ) ? false : this.compareTo( (Comparable) o ) == 0;
+		}
+
+		public void dumpValue( final PrintStream writer )
+		{
+			writer.print( this.toStringValue().toString() );
+		}
+
+		public void dump( final PrintStream writer, final String prefix, final boolean compact )
+		{
+			writer.println( prefix + this.toStringValue().toString() );
+		}
+
+		public void print( final PrintStream stream, final int indent )
+		{
+			Interpreter.indentLine( stream, indent );
+			stream.println( "<VALUE " + this.getType() + " [" + this.toString() + "]>" );
+		}
+	}
+
+	public static class ScriptCompositeValue
+		extends ScriptValue
+	{
+		public ScriptCompositeValue( final ScriptCompositeType type )
+		{
+			super( type );
+		}
+
+		public ScriptCompositeType getCompositeType()
+		{
+			return (ScriptCompositeType) this.type;
+		}
+
+		public ScriptValue aref( final ScriptValue key )
+		{
+			return null;
+		}
+
+		public void aset( final ScriptValue key, final ScriptValue val )
+		{
+		}
+
+		public ScriptValue remove( final ScriptValue key )
+		{
+			return null;
+		}
+
+		public void clear()
+		{
+		}
+
+		public ScriptValue[] keys()
+		{
+			return new ScriptValue[ 0 ];
+		}
+
+		public ScriptValue initialValue( final Object key )
+		{
+			return ( (ScriptCompositeType) this.type ).getDataType( key ).initialValue();
+		}
+
+		public void dump( final PrintStream writer, final String prefix, final boolean compact )
+		{
+			ScriptValue[] keys = this.keys();
+			if ( keys.length == 0 )
+			{
+				return;
+			}
+
+			for ( int i = 0; i < keys.length; ++i )
+			{
+				ScriptValue key = keys[ i ];
+				ScriptValue value = this.aref( key );
+				String first = prefix + key + "\t";
+				value.dump( writer, first, compact );
+			}
+		}
+
+		public void dumpValue( final PrintStream writer )
+		{
+		}
+
+		// Returns number of fields consumed
+		public int read( final String[] data, final int index, final boolean compact )
+		{
+			ScriptCompositeType type = (ScriptCompositeType) this.type;
+			ScriptValue key = null;
+
+			if ( index < data.length )
+			{
+				key = type.getKey( DataTypes.parseValue( type.getIndexType(), data[ index ] ) );
+			}
+			else
+			{
+				key = type.getKey( DataTypes.parseValue( type.getIndexType(), "none" ) );
+			}
+
+			// If there's only a key and a value, parse the value
+			// and store it in the composite
+
+			if ( !( type.getDataType( key ) instanceof ScriptCompositeType ) )
+			{
+				this.aset( key, DataTypes.parseValue( type.getDataType( key ), data[ index + 1 ] ) );
+				return 2;
+			}
+
+			// Otherwise, recurse until we get the final slice
+			ScriptCompositeValue slice = (ScriptCompositeValue) this.aref( key );
+
+			// Create missing intermediate slice
+			if ( slice == null )
+			{
+				slice = (ScriptCompositeValue) this.initialValue( key );
+				this.aset( key, slice );
+			}
+
+			return slice.read( data, index + 1, compact ) + 1;
+		}
+
+		public String toString()
+		{
+			return "composite " + this.type.toString();
+		}
+	}
+
+	public static class ScriptAggregateValue
+		extends ScriptCompositeValue
+	{
+		public ScriptAggregateValue( final ScriptAggregateType type )
+		{
+			super( type );
+		}
+
+		public ScriptType getDataType()
+		{
+			return ( (ScriptAggregateType) this.type ).getDataType();
+		}
+
+		public int count()
+		{
+			return 0;
+		}
+
+		public boolean contains( final ScriptValue index )
+		{
+			return false;
+		}
+
+		public String toString()
+		{
+			return "aggregate " + this.type.toString();
+		}
+	}
+
+	public static class ScriptArray
+		extends ScriptAggregateValue
+	{
+		public ScriptArray( final ScriptAggregateType type )
+		{
+			super( type );
+
+			int size = type.getSize();
+			ScriptType dataType = type.getDataType();
+			ScriptValue[] content = new ScriptValue[ size ];
+			for ( int i = 0; i < size; ++i )
+			{
+				content[ i ] = dataType.initialValue();
+			}
+			this.content = content;
+		}
+
+		public ScriptValue aref( final ScriptValue index )
+		{
+			ScriptValue[] array = (ScriptValue[]) this.content;
+			int i = index.intValue();
+			if ( i < 0 || i > array.length )
+			{
+				throw new AdvancedScriptException( "Array index out of bounds" );
+			}
+			return array[ i ];
+		}
+
+		public void aset( final ScriptValue key, final ScriptValue val )
+		{
+			ScriptValue[] array = (ScriptValue[]) this.content;
+			int index = key.intValue();
+			if ( index < 0 || index > array.length )
+			{
+				throw new AdvancedScriptException( "Array index out of bounds" );
+			}
+
+			if ( array[ index ].getType().equals( val.getType() ) )
+			{
+				array[ index ] = val;
+			}
+			else if ( array[ index ].getType().equals( DataTypes.TYPE_STRING ) )
+			{
+				array[ index ] = val.toStringValue();
+			}
+			else if ( array[ index ].getType().equals( DataTypes.TYPE_INT ) && val.getType().equals(
+				DataTypes.TYPE_FLOAT ) )
+			{
+				array[ index ] = val.toIntValue();
+			}
+			else if ( array[ index ].getType().equals( DataTypes.TYPE_FLOAT ) && val.getType().equals(
+				DataTypes.TYPE_INT ) )
+			{
+				array[ index ] = val.toFloatValue();
+			}
+			else
+			{
+				throw new RuntimeException(
+					"Internal error: Cannot assign " + val.getType() + " to " + array[ index ].getType() );
+			}
+		}
+
+		public ScriptValue remove( final ScriptValue key )
+		{
+			ScriptValue[] array = (ScriptValue[]) this.content;
+			int index = key.intValue();
+			if ( index < 0 || index > array.length )
+			{
+				throw new AdvancedScriptException( "Array index out of bounds" );
+			}
+			ScriptValue result = array[ index ];
+			array[ index ] = this.getDataType().initialValue();
+			return result;
+		}
+
+		public void clear()
+		{
+			ScriptValue[] array = (ScriptValue[]) this.content;
+			for ( int index = 0; index < array.length; ++index )
+			{
+				array[ index ] = this.getDataType().initialValue();
+			}
+		}
+
+		public int count()
+		{
+			ScriptValue[] array = (ScriptValue[]) this.content;
+			return array.length;
+		}
+
+		public boolean contains( final ScriptValue key )
+		{
+			ScriptValue[] array = (ScriptValue[]) this.content;
+			int index = key.intValue();
+			return index >= 0 && index < array.length;
+		}
+
+		public ScriptValue[] keys()
+		{
+			int size = ( (ScriptValue[]) this.content ).length;
+			ScriptValue[] result = new ScriptValue[ size ];
+			for ( int i = 0; i < size; ++i )
+			{
+				result[ i ] = new ScriptValue( i );
+			}
+			return result;
+		}
+	}
+
+	public static class ScriptMap
+		extends ScriptAggregateValue
+	{
+		public ScriptMap( final ScriptAggregateType type )
+		{
+			super( type );
+			this.content = new TreeMap();
+		}
+
+		public ScriptValue aref( final ScriptValue key )
+		{
+			TreeMap map = (TreeMap) this.content;
+			return (ScriptValue) map.get( key );
+		}
+
+		public void aset( final ScriptValue key, ScriptValue val )
+		{
+			TreeMap map = (TreeMap) this.content;
+
+			if ( !this.getDataType().equals( val.getType() ) )
+			{
+				if ( this.getDataType().equals( DataTypes.TYPE_STRING ) )
+				{
+					val = val.toStringValue();
+				}
+				else if ( this.getDataType().equals( DataTypes.TYPE_INT ) && val.getType().equals(
+					DataTypes.TYPE_FLOAT ) )
+				{
+					val = val.toIntValue();
+				}
+				else if ( this.getDataType().equals( DataTypes.TYPE_FLOAT ) && val.getType().equals(
+					DataTypes.TYPE_INT ) )
+				{
+					val = val.toFloatValue();
+				}
+			}
+
+			map.put( key, val );
+		}
+
+		public ScriptValue remove( final ScriptValue key )
+		{
+			TreeMap map = (TreeMap) this.content;
+			return (ScriptValue) map.remove( key );
+		}
+
+		public void clear()
+		{
+			TreeMap map = (TreeMap) this.content;
+			map.clear();
+		}
+
+		public int count()
+		{
+			TreeMap map = (TreeMap) this.content;
+			return map.size();
+		}
+
+		public boolean contains( final ScriptValue key )
+		{
+			TreeMap map = (TreeMap) this.content;
+			return map.containsKey( key );
+		}
+
+		public ScriptValue[] keys()
+		{
+			Set set = ( (TreeMap) this.content ).keySet();
+			ScriptValue[] keys = new ScriptValue[ set.size() ];
+			set.toArray( keys );
+			return keys;
+		}
+	}
+
+	public static class ScriptRecord
+		extends ScriptCompositeValue
+	{
+		public ScriptRecord( final ScriptRecordType type )
+		{
+			super( type );
+
+			ScriptType[] dataTypes = type.getFieldTypes();
+			int size = dataTypes.length;
+			ScriptValue[] content = new ScriptValue[ size ];
+			for ( int i = 0; i < size; ++i )
+			{
+				content[ i ] = dataTypes[ i ].initialValue();
+			}
+			this.content = content;
+		}
+
+		public ScriptRecordType getRecordType()
+		{
+			return (ScriptRecordType) this.type;
+		}
+
+		public ScriptType getDataType( final ScriptValue key )
+		{
+			return ( (ScriptRecordType) this.type ).getDataType( key );
+		}
+
+		public ScriptValue aref( final ScriptValue key )
+		{
+			int index = ( (ScriptRecordType) this.type ).indexOf( key );
+			if ( index < 0 )
+			{
+				throw new RuntimeException( "Internal error: field index out of bounds" );
+			}
+			ScriptValue[] array = (ScriptValue[]) this.content;
+			return array[ index ];
+		}
+
+		public ScriptValue aref( final int index )
+		{
+			ScriptRecordType type = (ScriptRecordType) this.type;
+			int size = type.fieldCount();
+			if ( index < 0 || index >= size )
+			{
+				throw new RuntimeException( "Internal error: field index out of bounds" );
+			}
+			ScriptValue[] array = (ScriptValue[]) this.content;
+			return array[ index ];
+		}
+
+		public void aset( final ScriptValue key, final ScriptValue val )
+		{
+			int index = ( (ScriptRecordType) this.type ).indexOf( key );
+			if ( index < 0 )
+			{
+				throw new RuntimeException( "Internal error: field index out of bounds" );
+			}
+
+			this.aset( index, val );
+		}
+
+		public void aset( final int index, final ScriptValue val )
+		{
+			ScriptRecordType type = (ScriptRecordType) this.type;
+			int size = type.fieldCount();
+			if ( index < 0 || index >= size )
+			{
+				throw new RuntimeException( "Internal error: field index out of bounds" );
+			}
+
+			ScriptValue[] array = (ScriptValue[]) this.content;
+
+			if ( array[ index ].getType().equals( val.getType() ) )
+			{
+				array[ index ] = val;
+			}
+			else if ( array[ index ].getType().equals( DataTypes.TYPE_STRING ) )
+			{
+				array[ index ] = val.toStringValue();
+			}
+			else if ( array[ index ].getType().equals( DataTypes.TYPE_INT ) && val.getType().equals(
+				DataTypes.TYPE_FLOAT ) )
+			{
+				array[ index ] = val.toIntValue();
+			}
+			else if ( array[ index ].getType().equals( DataTypes.TYPE_FLOAT ) && val.getType().equals(
+				DataTypes.TYPE_INT ) )
+			{
+				array[ index ] = val.toFloatValue();
+			}
+			else
+			{
+				throw new RuntimeException(
+					"Internal error: Cannot assign " + val.getType() + " to " + array[ index ].getType() );
+			}
+		}
+
+		public ScriptValue remove( final ScriptValue key )
+		{
+			int index = ( (ScriptRecordType) this.type ).indexOf( key );
+			if ( index < 0 )
+			{
+				throw new RuntimeException( "Internal error: field index out of bounds" );
+			}
+			ScriptValue[] array = (ScriptValue[]) this.content;
+			ScriptValue result = array[ index ];
+			array[ index ] = this.getDataType( key ).initialValue();
+			return result;
+		}
+
+		public void clear()
+		{
+			ScriptType[] dataTypes = ( (ScriptRecordType) this.type ).getFieldTypes();
+			ScriptValue[] array = (ScriptValue[]) this.content;
+			for ( int index = 0; index < array.length; ++index )
+			{
+				array[ index ] = dataTypes[ index ].initialValue();
+			}
+		}
+
+		public ScriptValue[] keys()
+		{
+			return ( (ScriptRecordType) this.type ).getFieldIndices();
+		}
+
+		public void dump( final PrintStream writer, final String prefix, boolean compact )
+		{
+			if ( !compact || this.type.containsAggregate() )
+			{
+				super.dump( writer, prefix, compact );
+				return;
+			}
+
+			writer.print( prefix );
+			this.dumpValue( writer );
+			writer.println();
+		}
+
+		public void dumpValue( final PrintStream writer )
+		{
+			int size = ( (ScriptRecordType) this.type ).getFieldTypes().length;
+			for ( int i = 0; i < size; ++i )
+			{
+				ScriptValue value = this.aref( i );
+				if ( i > 0 )
+				{
+					writer.print( "\t" );
+				}
+				value.dumpValue( writer );
+			}
+		}
+
+		public int read( final String[] data, int index, boolean compact )
+		{
+			if ( !compact || this.type.containsAggregate() )
+			{
+				return super.read( data, index, compact );
+			}
+
+			ScriptType[] dataTypes = ( (ScriptRecordType) this.type ).getFieldTypes();
+			ScriptValue[] array = (ScriptValue[]) this.content;
+
+			int size = Math.min( dataTypes.length, data.length - index );
+			int first = index;
+
+			// Consume remaining data values and store them
+			for ( int offset = 0; offset < size; ++offset )
+			{
+				ScriptType valType = dataTypes[ offset ];
+				if ( valType instanceof ScriptRecordType )
+				{
+					ScriptRecord rec = (ScriptRecord) array[ offset ];
+					index += rec.read( data, index, true );
+				}
+				else
+				{
+					array[ offset ] = DataTypes.parseValue( valType, data[ index ] );
+					index += 1;
+				}
+			}
+
+			for ( int offset = size; offset < dataTypes.length; ++offset )
+			{
+				array[ offset ] = DataTypes.parseValue( dataTypes[ offset ], "none" );
+			}
+
+			// assert index == data.length
+			return index - first;
+		}
+
+		public String toString()
+		{
+			return "record " + this.type.toString();
 		}
 	}
 }
