@@ -79,7 +79,6 @@ public class Interpreter
 	public static final String STATE_EXIT = "EXIT";
 
 	private static String lastImportString = "";
-	public static boolean isExecuting = false;
 
 	private String currentState = Interpreter.STATE_NORMAL;
 	private PrintStream traceStream = NullStream.INSTANCE;
@@ -222,11 +221,7 @@ public class Interpreter
 
 		try
 		{
-			boolean wasExecuting = Interpreter.isExecuting;
-
-			Interpreter.isExecuting = true;
 			this.executeScope( this.scope, functionName, parameters );
-			Interpreter.isExecuting = wasExecuting;
 		}
 		catch ( AdvancedScriptException e )
 		{
@@ -343,13 +338,10 @@ public class Interpreter
 					return false;
 				}
 
-				try
+				value = DataTypes.parseValue( type, input, false );
+				if ( value == null )
 				{
-					value = DataTypes.parseValue( type, input );
-				}
-				catch ( AdvancedScriptException e )
-				{
-					RequestLogger.printLine( e.getMessage() );
+					RequestLogger.printLine( "Bad " + type.toString() + " value: \"" + input + "\"" );
 
 					// Punt if parameter came from the CLI
 					if ( index < args )
@@ -375,7 +367,7 @@ public class Interpreter
 				inputs.append( parameters[ i ] + " " );
 			}
 
-			ScriptValue value = DataTypes.parseValue( lastType, inputs.toString().trim() );
+			ScriptValue value = DataTypes.parseValue( lastType, inputs.toString().trim(), true );
 			lastParam.setValue( this, value );
 		}
 
