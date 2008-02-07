@@ -51,7 +51,6 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLFrame;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.textui.Interpreter;
-import net.sourceforge.kolmafia.textui.Parser.AdvancedScriptException;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
@@ -196,7 +195,7 @@ public class DataTypes
 	// For each simple data type X, we supply:
 	// public static final ScriptValue parseXValue( String name );
 
-	public static final ScriptValue parseBooleanValue( final String name )
+	public static final ScriptValue parseBooleanValue( final String name, final boolean returnDefault )
 	{
 		if ( name.equalsIgnoreCase( "true" ) )
 		{
@@ -207,12 +206,12 @@ public class DataTypes
 			return DataTypes.FALSE_VALUE;
 		}
 
-		if ( Interpreter.isExecuting )
+		if ( returnDefault )
 		{
 			return StaticEntity.parseInt( name ) == 0 ? DataTypes.FALSE_VALUE : DataTypes.TRUE_VALUE;
 		}
 
-		throw new AdvancedScriptException( "Can't interpret '" + name + "' as a boolean" );
+		return null;
 	}
 
 	public static final ScriptValue parseIntValue( final String name )
@@ -232,7 +231,7 @@ public class DataTypes
 		return new ScriptValue( name );
 	}
 
-	public static final ScriptValue parseItemValue( String name )
+	public static final ScriptValue parseItemValue( String name, final boolean returnDefault )
 	{
 		if ( name == null || name.equalsIgnoreCase( "none" ) )
 		{
@@ -251,12 +250,7 @@ public class DataTypes
 
 				if ( item == null )
 				{
-					if ( Interpreter.isExecuting )
-					{
-						return DataTypes.ITEM_INIT;
-					}
-
-					throw new AdvancedScriptException( "Item " + name + " not found in database" );
+					return returnDefault ? DataTypes.ITEM_INIT : null;
 				}
 
 				itemId = item.getItemId();
@@ -273,7 +267,7 @@ public class DataTypes
 		return new ScriptValue( DataTypes.ITEM_TYPE, itemId, name );
 	}
 
-	public static final ScriptValue parseLocationValue( final String name )
+	public static final ScriptValue parseLocationValue( final String name, final boolean returnDefault )
 	{
 		if ( name.equalsIgnoreCase( "none" ) )
 		{
@@ -283,12 +277,7 @@ public class DataTypes
 		KoLAdventure content = AdventureDatabase.getAdventure( name );
 		if ( content == null )
 		{
-			if ( Interpreter.isExecuting )
-			{
-				return DataTypes.LOCATION_INIT;
-			}
-
-			throw new AdvancedScriptException( "Location " + name + " not found in database" );
+			return returnDefault ? DataTypes.LOCATION_INIT : null;
 		}
 
 		return new ScriptValue( DataTypes.LOCATION_TYPE, name, (Object) content );
@@ -306,7 +295,7 @@ public class DataTypes
 		return -1;
 	}
 
-	public static final ScriptValue parseClassValue( final String name )
+	public static final ScriptValue parseClassValue( final String name, final boolean returnDefault )
 	{
 		if ( name.equalsIgnoreCase( "none" ) || name.equals( "" ) )
 		{
@@ -316,12 +305,7 @@ public class DataTypes
 		int num = DataTypes.classToInt( name );
 		if ( num < 0 )
 		{
-			if ( Interpreter.isExecuting )
-			{
-				return DataTypes.CLASS_INIT;
-			}
-
-			throw new AdvancedScriptException( "Unknown class " + name );
+			return returnDefault ? DataTypes.CLASS_INIT: null;
 		}
 
 		return new ScriptValue( DataTypes.CLASS_TYPE, num, DataTypes.CLASSES[ num ] );
@@ -339,7 +323,7 @@ public class DataTypes
 		return -1;
 	}
 
-	public static final ScriptValue parseStatValue( final String name )
+	public static final ScriptValue parseStatValue( final String name, final boolean returnDefault )
 	{
 		if ( name.equalsIgnoreCase( "none" ) )
 		{
@@ -349,18 +333,13 @@ public class DataTypes
 		int num = DataTypes.statToInt( name );
 		if ( num < 0 )
 		{
-			if ( Interpreter.isExecuting )
-			{
-				return DataTypes.STAT_INIT;
-			}
-
-			throw new AdvancedScriptException( "Unknown stat " + name );
+			return returnDefault ? DataTypes.STAT_INIT : null;
 		}
 
 		return DataTypes.STAT_VALUES[ num ];
 	}
 
-	public static final ScriptValue parseSkillValue( String name )
+	public static final ScriptValue parseSkillValue( String name, final boolean returnDefault )
 	{
 		if ( name.equalsIgnoreCase( "none" ) )
 		{
@@ -371,12 +350,7 @@ public class DataTypes
 
 		if ( skills.isEmpty() )
 		{
-			if ( Interpreter.isExecuting )
-			{
-				return DataTypes.SKILL_INIT;
-			}
-
-			throw new AdvancedScriptException( "Skill " + name + " not found in database" );
+			return returnDefault ? DataTypes.SKILL_INIT : null;
 		}
 
 		int num = SkillDatabase.getSkillId( (String) skills.get( 0 ) );
@@ -384,7 +358,7 @@ public class DataTypes
 		return new ScriptValue( DataTypes.SKILL_TYPE, num, name );
 	}
 
-	public static final ScriptValue parseEffectValue( String name )
+	public static final ScriptValue parseEffectValue( String name, final boolean returnDefault )
 	{
 		if ( name.equalsIgnoreCase( "none" ) || name.equals( "" ) )
 		{
@@ -394,12 +368,7 @@ public class DataTypes
 		AdventureResult effect = KoLmafiaCLI.getFirstMatchingEffect( name );
 		if ( effect == null )
 		{
-			if ( Interpreter.isExecuting )
-			{
-				return DataTypes.EFFECT_INIT;
-			}
-
-			throw new AdvancedScriptException( "Effect " + name + " not found in database" );
+			return returnDefault ? DataTypes.EFFECT_INIT : null;
 		}
 
 		int num = EffectDatabase.getEffectId( effect.getName() );
@@ -407,7 +376,7 @@ public class DataTypes
 		return new ScriptValue( DataTypes.EFFECT_TYPE, num, name );
 	}
 
-	public static final ScriptValue parseFamiliarValue( String name )
+	public static final ScriptValue parseFamiliarValue( String name, final boolean returnDefault )
 	{
 		if ( name.equalsIgnoreCase( "none" ) )
 		{
@@ -417,19 +386,14 @@ public class DataTypes
 		int num = FamiliarDatabase.getFamiliarId( name );
 		if ( num == -1 )
 		{
-			if ( Interpreter.isExecuting )
-			{
-				return DataTypes.FAMILIAR_INIT;
-			}
-
-			throw new AdvancedScriptException( "Familiar " + name + " not found in database" );
+			return returnDefault ? DataTypes.FAMILIAR_INIT : null;
 		}
 
 		name = FamiliarDatabase.getFamiliarName( num );
 		return new ScriptValue( DataTypes.FAMILIAR_TYPE, num, name );
 	}
 
-	public static final ScriptValue parseSlotValue( String name )
+	public static final ScriptValue parseSlotValue( String name, final boolean returnDefault )
 	{
 		if ( name.equalsIgnoreCase( "none" ) )
 		{
@@ -439,19 +403,14 @@ public class DataTypes
 		int num = EquipmentRequest.slotNumber( name );
 		if ( num == -1 )
 		{
-			if ( Interpreter.isExecuting )
-			{
-				return DataTypes.SLOT_INIT;
-			}
-
-			throw new AdvancedScriptException( "Bad slot name " + name );
+			return returnDefault ? DataTypes.SLOT_INIT : null;
 		}
 
 		name = EquipmentRequest.slotNames[ num ];
 		return new ScriptValue( DataTypes.SLOT_TYPE, num, name );
 	}
 
-	public static final ScriptValue parseMonsterValue( final String name )
+	public static final ScriptValue parseMonsterValue( final String name, final boolean returnDefault )
 	{
 		if ( name.equalsIgnoreCase( "none" ) )
 		{
@@ -461,18 +420,13 @@ public class DataTypes
 		Monster monster = MonsterDatabase.findMonster( name );
 		if ( monster == null )
 		{
-			if ( Interpreter.isExecuting )
-			{
-				return DataTypes.MONSTER_INIT;
-			}
-
-			throw new AdvancedScriptException( "Bad monster name " + name );
+			return returnDefault ? DataTypes.MONSTER_INIT : null;
 		}
 
 		return new ScriptValue( DataTypes.MONSTER_TYPE, monster.getName(), (Object) monster );
 	}
 
-	public static final ScriptValue parseElementValue( String name )
+	public static final ScriptValue parseElementValue( String name, final boolean returnDefault )
 	{
 		if ( name.equalsIgnoreCase( "none" ) )
 		{
@@ -482,21 +436,16 @@ public class DataTypes
 		int num = MonsterDatabase.elementNumber( name );
 		if ( num == -1 )
 		{
-			if ( Interpreter.isExecuting )
-			{
-				return DataTypes.ELEMENT_INIT;
-			}
-
-			throw new AdvancedScriptException( "Bad element name " + name );
+			return returnDefault ? DataTypes.ELEMENT_INIT : null;
 		}
 
 		name = MonsterDatabase.elementNames[ num ];
 		return new ScriptValue( DataTypes.ELEMENT_TYPE, num, name );
 	}
 
-	public static final ScriptValue parseValue( final ScriptType type, final String name )
+	public static final ScriptValue parseValue( final ScriptType type, final String name, final boolean returnDefault )
 	{
-		return type.parseValue( name );
+		return type.parseValue( name, returnDefault );
 	}
 
 	// For data types which map to integers, also supply:
@@ -772,12 +721,12 @@ public class DataTypes
 			return null;
 		}
 
-		public ScriptValue parseValue( final String name )
+		public ScriptValue parseValue( final String name, final boolean returnDefault )
 		{
 			switch ( this.type )
 			{
 			case DataTypes.TYPE_BOOLEAN:
-				return DataTypes.parseBooleanValue( name );
+				return DataTypes.parseBooleanValue( name, returnDefault );
 			case DataTypes.TYPE_INT:
 				return DataTypes.parseIntValue( name );
 			case DataTypes.TYPE_FLOAT:
@@ -785,25 +734,25 @@ public class DataTypes
 			case DataTypes.TYPE_STRING:
 				return DataTypes.parseStringValue( name );
 			case DataTypes.TYPE_ITEM:
-				return DataTypes.parseItemValue( name );
+				return DataTypes.parseItemValue( name, returnDefault );
 			case DataTypes.TYPE_LOCATION:
-				return DataTypes.parseLocationValue( name );
+				return DataTypes.parseLocationValue( name, returnDefault );
 			case DataTypes.TYPE_CLASS:
-				return DataTypes.parseClassValue( name );
+				return DataTypes.parseClassValue( name, returnDefault );
 			case DataTypes.TYPE_STAT:
-				return DataTypes.parseStatValue( name );
+				return DataTypes.parseStatValue( name, returnDefault );
 			case DataTypes.TYPE_SKILL:
-				return DataTypes.parseSkillValue( name );
+				return DataTypes.parseSkillValue( name, returnDefault );
 			case DataTypes.TYPE_EFFECT:
-				return DataTypes.parseEffectValue( name );
+				return DataTypes.parseEffectValue( name, returnDefault );
 			case DataTypes.TYPE_FAMILIAR:
-				return DataTypes.parseFamiliarValue( name );
+				return DataTypes.parseFamiliarValue( name, returnDefault );
 			case DataTypes.TYPE_SLOT:
-				return DataTypes.parseSlotValue( name );
+				return DataTypes.parseSlotValue( name, returnDefault );
 			case DataTypes.TYPE_MONSTER:
-				return DataTypes.parseMonsterValue( name );
+				return DataTypes.parseMonsterValue( name, returnDefault );
 			case DataTypes.TYPE_ELEMENT:
-				return DataTypes.parseElementValue( name );
+				return DataTypes.parseElementValue( name, returnDefault );
 			}
 			return null;
 		}
@@ -991,10 +940,6 @@ public class DataTypes
 		public ScriptRecordType( final String name, final String[] fieldNames, final ScriptType[] fieldTypes )
 		{
 			super( name, DataTypes.TYPE_RECORD );
-			if ( fieldNames.length != fieldTypes.length )
-			{
-				throw new AdvancedScriptException( "Internal error: wrong number of field types" );
-			}
 
 			this.fieldNames = fieldNames;
 			this.fieldTypes = fieldTypes;
@@ -1503,11 +1448,11 @@ public class DataTypes
 
 			if ( index < data.length )
 			{
-				key = type.getKey( DataTypes.parseValue( type.getIndexType(), data[ index ] ) );
+				key = type.getKey( DataTypes.parseValue( type.getIndexType(), data[ index ], true ) );
 			}
 			else
 			{
-				key = type.getKey( DataTypes.parseValue( type.getIndexType(), "none" ) );
+				key = type.getKey( DataTypes.parseValue( type.getIndexType(), "none", true ) );
 			}
 
 			// If there's only a key and a value, parse the value
@@ -1515,7 +1460,7 @@ public class DataTypes
 
 			if ( !( type.getDataType( key ) instanceof ScriptCompositeType ) )
 			{
-				this.aset( key, DataTypes.parseValue( type.getDataType( key ), data[ index + 1 ] ) );
+				this.aset( key, DataTypes.parseValue( type.getDataType( key ), data[ index + 1 ], true ) );
 				return 2;
 			}
 
@@ -1590,7 +1535,7 @@ public class DataTypes
 			int i = index.intValue();
 			if ( i < 0 || i > array.length )
 			{
-				throw new AdvancedScriptException( "Array index out of bounds" );
+				throw new RuntimeException( "ASH array index out of bounds" );
 			}
 			return array[ i ];
 		}
@@ -1601,7 +1546,7 @@ public class DataTypes
 			int index = key.intValue();
 			if ( index < 0 || index > array.length )
 			{
-				throw new AdvancedScriptException( "Array index out of bounds" );
+				throw new RuntimeException( "ASH array index out of bounds" );
 			}
 
 			if ( array[ index ].getType().equals( val.getType() ) )
@@ -1635,7 +1580,7 @@ public class DataTypes
 			int index = key.intValue();
 			if ( index < 0 || index > array.length )
 			{
-				throw new AdvancedScriptException( "Array index out of bounds" );
+				throw new RuntimeException( "ASH array index out of bounds" );
 			}
 			ScriptValue result = array[ index ];
 			array[ index ] = this.getDataType().initialValue();
@@ -1925,14 +1870,14 @@ public class DataTypes
 				}
 				else
 				{
-					array[ offset ] = DataTypes.parseValue( valType, data[ index ] );
+					array[ offset ] = DataTypes.parseValue( valType, data[ index ], true );
 					index += 1;
 				}
 			}
 
 			for ( int offset = size; offset < dataTypes.length; ++offset )
 			{
-				array[ offset ] = DataTypes.parseValue( dataTypes[ offset ], "none" );
+				array[ offset ] = DataTypes.parseValue( dataTypes[ offset ], "none", true );
 			}
 
 			// assert index == data.length

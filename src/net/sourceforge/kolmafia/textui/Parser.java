@@ -1979,7 +1979,13 @@ public class Parser
 			else if ( this.currentLine.charAt( i ) == ']' )
 			{
 				this.currentLine = this.currentLine.substring( i + 1 ); //+1 to get rid of ']' token
-				return DataTypes.parseValue( type, resultString.toString().trim() );
+				String input = resultString.toString().trim();
+				ScriptValue value = DataTypes.parseValue( type, input, false );
+				if ( value == null )
+				{
+					throw new AdvancedScriptException( "Bad " + type.toString() + " value: \"" + input + "\"" );
+				}
+				return value;
 			}
 			else
 			{

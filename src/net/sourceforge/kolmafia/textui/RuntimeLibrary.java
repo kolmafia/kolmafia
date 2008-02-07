@@ -1205,17 +1205,17 @@ public abstract class RuntimeLibrary
 			return DataTypes.makeItemValue( value.intValue() );
 		}
 
-		return DataTypes.parseItemValue( value.toString() );
+		return DataTypes.parseItemValue( value.toString(), true );
 	}
 
 	public static ScriptValue to_class( final ScriptValue value )
 	{
-		return DataTypes.parseClassValue( value.toString() );
+		return DataTypes.parseClassValue( value.toString(), true );
 	}
 
 	public static ScriptValue to_stat( final ScriptValue value )
 	{
-		return DataTypes.parseStatValue( value.toString() );
+		return DataTypes.parseStatValue( value.toString(), true );
 	}
 
 	public static ScriptValue to_skill( final ScriptValue value )
@@ -1227,10 +1227,10 @@ public abstract class RuntimeLibrary
 
 		if ( value.getType().equals( DataTypes.TYPE_EFFECT ) )
 		{
-			return DataTypes.parseSkillValue( UneffectRequest.effectToSkill( value.toString() ) );
+			return DataTypes.parseSkillValue( UneffectRequest.effectToSkill( value.toString() ), true );
 		}
 
-		return DataTypes.parseSkillValue( value.toString() );
+		return DataTypes.parseSkillValue( value.toString(), true );
 	}
 
 	public static ScriptValue to_effect( final ScriptValue value )
@@ -1242,15 +1242,15 @@ public abstract class RuntimeLibrary
 
 		if ( value.getType().equals( DataTypes.TYPE_SKILL ) )
 		{
-			return DataTypes.parseEffectValue( UneffectRequest.skillToEffect( value.toString() ) );
+			return DataTypes.parseEffectValue( UneffectRequest.skillToEffect( value.toString() ), true );
 		}
 
-		return DataTypes.parseEffectValue( value.toString() );
+		return DataTypes.parseEffectValue( value.toString(), true );
 	}
 
 	public static ScriptValue to_location( final ScriptValue value )
 	{
-		return DataTypes.parseLocationValue( value.toString() );
+		return DataTypes.parseLocationValue( value.toString(), true );
 	}
 
 	public static ScriptValue to_familiar( final ScriptValue value )
@@ -1260,12 +1260,12 @@ public abstract class RuntimeLibrary
 			return DataTypes.makeFamiliarValue( value.intValue() );
 		}
 
-		return DataTypes.parseFamiliarValue( value.toString() );
+		return DataTypes.parseFamiliarValue( value.toString(), true );
 	}
 
 	public static ScriptValue to_monster( final ScriptValue value )
 	{
-		return DataTypes.parseMonsterValue( value.toString() );
+		return DataTypes.parseMonsterValue( value.toString(), true );
 	}
 
 	public static ScriptValue to_slot( final ScriptValue item )
@@ -1273,21 +1273,21 @@ public abstract class RuntimeLibrary
 		switch ( ItemDatabase.getConsumptionType( item.intValue() ) )
 		{
 		case KoLConstants.EQUIP_HAT:
-			return DataTypes.parseSlotValue( "hat" );
+			return DataTypes.parseSlotValue( "hat", true );
 		case KoLConstants.EQUIP_WEAPON:
-			return DataTypes.parseSlotValue( "weapon" );
+			return DataTypes.parseSlotValue( "weapon", true );
 		case KoLConstants.EQUIP_OFFHAND:
-			return DataTypes.parseSlotValue( "off-hand" );
+			return DataTypes.parseSlotValue( "off-hand", true );
 		case KoLConstants.EQUIP_SHIRT:
-			return DataTypes.parseSlotValue( "shirt" );
+			return DataTypes.parseSlotValue( "shirt", true );
 		case KoLConstants.EQUIP_PANTS:
-			return DataTypes.parseSlotValue( "pants" );
+			return DataTypes.parseSlotValue( "pants", true );
 		case KoLConstants.EQUIP_FAMILIAR:
-			return DataTypes.parseSlotValue( "familiar" );
+			return DataTypes.parseSlotValue( "familiar", true );
 		case KoLConstants.EQUIP_ACCESSORY:
-			return DataTypes.parseSlotValue( "acc1" );
+			return DataTypes.parseSlotValue( "acc1", true );
 		default:
-			return DataTypes.parseSlotValue( "none" );
+			return DataTypes.parseSlotValue( "none", true );
 		}
 	}
 
@@ -1302,7 +1302,7 @@ public abstract class RuntimeLibrary
 
 	public static ScriptValue today_to_string()
 	{
-		return DataTypes.parseStringValue( KoLConstants.DAILY_FORMAT.format( new Date() ) );
+		return new ScriptValue( KoLConstants.DAILY_FORMAT.format( new Date() ) );
 	}
 
 	public static ScriptValue moon_phase()
@@ -1407,7 +1407,7 @@ public abstract class RuntimeLibrary
 				StaticEntity.printStackTrace( e );
 			}
 
-			value.aset( new ScriptValue( i ), DataTypes.parseStringValue( contents.toString() ) );
+			value.aset( new ScriptValue( i ), new ScriptValue( contents.toString() ) );
 		}
 
 		return value;
@@ -1644,7 +1644,7 @@ public abstract class RuntimeLibrary
 		AdventureResult special =
 			KoLCharacter.inMoxieSign() ? MicroBreweryRequest.getDailySpecial() : KoLCharacter.inMysticalitySign() ? ChezSnooteeRequest.getDailySpecial() : null;
 
-		return special == null ? DataTypes.ITEM_INIT : DataTypes.parseItemValue( special.getName() );
+		return special == null ? DataTypes.ITEM_INIT : DataTypes.parseItemValue( special.getName(), true );
 	}
 
 	public static ScriptValue refresh_stash()
@@ -1701,7 +1701,7 @@ public abstract class RuntimeLibrary
 		for ( int i = 0; i < data.length; ++i )
 		{
 			value.aset(
-				DataTypes.parseItemValue( data[ i ].getName() ),
+				DataTypes.parseItemValue( data[ i ].getName(), true ),
 				DataTypes.parseIntValue( String.valueOf( data[ i ].getCount() ) ) );
 		}
 
@@ -2201,7 +2201,7 @@ public abstract class RuntimeLibrary
 
 	public static ScriptValue familiar_equipment( final ScriptValue familiar )
 	{
-		return DataTypes.parseItemValue( FamiliarDatabase.getFamiliarItem( familiar.intValue() ) );
+		return DataTypes.parseItemValue( FamiliarDatabase.getFamiliarItem( familiar.intValue() ), true );
 	}
 
 	public static ScriptValue familiar_weight( final ScriptValue familiar )
@@ -2280,7 +2280,7 @@ public abstract class RuntimeLibrary
 			if ( result.isItem() )
 			{
 				value.aset(
-					DataTypes.parseItemValue( result.getName() ),
+					DataTypes.parseItemValue( result.getName(), true ),
 					DataTypes.parseIntValue( String.valueOf( result.getCount() ) ) );
 			}
 		}
@@ -2506,7 +2506,7 @@ public abstract class RuntimeLibrary
 
 		for ( int i = 0; i < pieces.length; ++i )
 		{
-			value.aset( new ScriptValue( i ), DataTypes.parseStringValue( pieces[ i ] ) );
+			value.aset( new ScriptValue( i ), new ScriptValue( pieces[ i ] ) );
 		}
 
 		return value;
@@ -2521,7 +2521,7 @@ public abstract class RuntimeLibrary
 
 		for ( int i = 0; i < pieces.length; ++i )
 		{
-			value.aset( new ScriptValue( i ), DataTypes.parseStringValue( pieces[ i ] ) );
+			value.aset( new ScriptValue( i ), new ScriptValue( pieces[ i ] ) );
 		}
 
 		return value;
@@ -2810,7 +2810,7 @@ public abstract class RuntimeLibrary
 	public static ScriptValue my_location()
 	{
 		String location = Preferences.getString( "lastAdventure" );
-		return location.equals( "" ) ? DataTypes.parseLocationValue( "Rest" ) : DataTypes.parseLocationValue( location );
+		return location.equals( "" ) ? DataTypes.parseLocationValue( "Rest", true ) : DataTypes.parseLocationValue( location, true );
 	}
 
 	public static ScriptValue get_monsters( final ScriptValue location )
@@ -2825,7 +2825,7 @@ public abstract class RuntimeLibrary
 
 		for ( int i = 0; i < monsterCount; ++i )
 		{
-			value.aset( new ScriptValue( i ), DataTypes.parseMonsterValue( data.getMonster( i ).getName() ) );
+			value.aset( new ScriptValue( i ), DataTypes.parseMonsterValue( data.getMonster( i ).getName(), true ) );
 		}
 
 		return value;
@@ -3039,7 +3039,7 @@ public abstract class RuntimeLibrary
 		{
 			result = (AdventureResult) data.get( i );
 			value.aset(
-				DataTypes.parseItemValue( result.getName() ),
+				DataTypes.parseItemValue( result.getName(), true ),
 				DataTypes.parseIntValue( String.valueOf( result.getCount() ) ) );
 		}
 
@@ -3058,7 +3058,7 @@ public abstract class RuntimeLibrary
 		{
 			result = (AdventureResult) data.get( i );
 			value.aset(
-				DataTypes.parseItemValue( result.getName() ),
+				DataTypes.parseItemValue( result.getName(), true ),
 				DataTypes.parseIntValue( String.valueOf( result.getCount() ) ) );
 		}
 
@@ -3091,7 +3091,7 @@ public abstract class RuntimeLibrary
 	public static ScriptValue boolean_modifier( final ScriptValue modifier )
 	{
 		String mod = modifier.toString();
-		return new ScriptValue( KoLCharacter.currentBooleanModifier( mod ) );
+		return KoLCharacter.currentBooleanModifier( mod ) ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
 	}
 
 	public static ScriptValue boolean_modifier( final ScriptValue arg, final ScriptValue modifier )
@@ -3105,20 +3105,20 @@ public abstract class RuntimeLibrary
 	{
 		String name = arg.toString();
 		String mod = modifier.toString();
-		return new ScriptValue( DataTypes.parseEffectValue( Modifiers.getStringModifier( name, mod ) ) );
+		return new ScriptValue( DataTypes.parseEffectValue( Modifiers.getStringModifier( name, mod ), true ) );
 	}
 
 	public static ScriptValue class_modifier( final ScriptValue arg, final ScriptValue modifier )
 	{
 		String name = arg.toString();
 		String mod = modifier.toString();
-		return new ScriptValue( DataTypes.parseClassValue( Modifiers.getStringModifier( name, mod ) ) );
+		return new ScriptValue( DataTypes.parseClassValue( Modifiers.getStringModifier( name, mod ), true ) );
 	}
 
 	public static ScriptValue stat_modifier( final ScriptValue arg, final ScriptValue modifier )
 	{
 		String name = arg.toString();
 		String mod = modifier.toString();
-		return new ScriptValue( DataTypes.parseStatValue( Modifiers.getStringModifier( name, mod ) ) );
+		return new ScriptValue( DataTypes.parseStatValue( Modifiers.getStringModifier( name, mod ), true ) );
 	}
 }
