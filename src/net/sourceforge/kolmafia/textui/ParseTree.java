@@ -891,7 +891,7 @@ public abstract class ParseTree
 	{
 		private Method method;
 		private final String description;
-		private final Object[] variables;
+		private final ScriptValue[] values;
 
 		public ScriptExistingFunction( final String name, final ScriptType type, final ScriptType[] params )
 		{
@@ -904,7 +904,7 @@ public abstract class ParseTree
 			super( name.toLowerCase(), type );
 			this.description = description;
 
-			this.variables = new Object[ params.length ];
+			this.values = new ScriptValue[ params.length ];
 			Class[] args = new Class[ params.length ];
 
 			for ( int i = 0; i < params.length; ++i )
@@ -951,13 +951,13 @@ public abstract class ParseTree
 			for ( int i = 0; it.hasNext(); ++i )
 			{
 				ScriptVariableReference current = (ScriptVariableReference) it.next();
-				this.variables[i] = current.getValue( interpreter );
+				this.values[i] = current.getValue( interpreter );
 			}
 
 			try
 			{
 				// Invoke the method
-				return (ScriptValue) this.method.invoke( this, this.variables );
+				return (ScriptValue) this.method.invoke( this, this.values );
 			}
 			catch ( Exception e )
 			{
