@@ -725,6 +725,17 @@ public class Parser
 		{
 			this.readToken(); // Eat the equals sign
 			rhs = this.parseExpression( scope );
+
+			if ( rhs == null )
+			{
+				throw new AdvancedScriptException( "Expression expected" );
+			}
+
+			if ( !Parser.validCoercion( lhs.getType(), rhs.getType(), "assign" ) )
+			{
+				throw new AdvancedScriptException(
+					"Cannot store " + rhs.getType() + " in " + lhs + " of type " + lhs.getType() );
+			}
 		}
 		else
 		{
@@ -1012,8 +1023,6 @@ public class Parser
 
 	private ScriptReturn parseReturn( final ScriptType expectedType, final ScriptScope parentScope )
 	{
-		ScriptValue expression = null;
-
 		if ( this.currentToken() == null || !this.currentToken().equalsIgnoreCase( "return" ) )
 		{
 			return null;
@@ -1028,16 +1037,28 @@ public class Parser
 				return new ScriptReturn( null, DataTypes.VOID_TYPE );
 			}
 
-			throw new AdvancedScriptException( "Return needs value" );
+			throw new AdvancedScriptException( "Return needs " + expectedType + " value" );
 		}
 		else
 		{
-			if ( ( expression = this.parseExpression( parentScope ) ) == null )
+			if ( expectedType != null && expectedType.equals( DataTypes.TYPE_VOID ) )
+			{
+				throw new AdvancedScriptException( "Cannot return a value from a void function" );
+			}
+
+			ScriptValue value = this.parseExpression( parentScope );
+		
+			if ( value == null )
 			{
 				throw new AdvancedScriptException( "Expression expected" );
 			}
 
-			return new ScriptReturn( expression, expectedType );
+			if ( !Parser.validCoercion( expectedType, value.getType(), "return" ) )
+			{
+				throw new AdvancedScriptException( "Cannot return " + value.getType() + " value from " + expectedType + " function");
+			}
+
+			return new ScriptReturn( value, expectedType );
 		}
 	}
 
@@ -1057,13 +1078,13 @@ public class Parser
 		this.readToken(); // if
 		this.readToken(); // (
 
-		ScriptValue expression = this.parseExpression( parentScope );
+		ScriptValue condition = this.parseExpression( parentScope );
 		if ( this.currentToken() == null || !this.currentToken().equals( ")" ) )
 		{
 			this.parseError( ")", this.currentToken() );
 		}
 
-		if ( expression.getType() != DataTypes.BOOLEAN_TYPE )
+		if ( condition.getType() != DataTypes.BOOLEAN_TYPE )
 		{
 			throw new AdvancedScriptException( "\"if\" requires a boolean conditional expression" );
 		}
@@ -1098,15 +1119,15 @@ public class Parser
 
 			if ( result == null )
 			{
-				result = new ScriptIf( scope, expression );
+				result = new ScriptIf( scope, condition );
 			}
 			else if ( finalElse )
 			{
-				result.addElseLoop( new ScriptElse( scope, expression ) );
+				result.addElseLoop( new ScriptElse( scope, condition ) );
 			}
 			else
 			{
-				result.addElseLoop( new ScriptElseIf( scope, expression ) );
+				result.addElseLoop( new ScriptElseIf( scope, condition ) );
 			}
 
 			if ( !noElse && this.currentToken() != null && this.currentToken().equalsIgnoreCase( "else" ) )
@@ -1127,11 +1148,16 @@ public class Parser
 					}
 
 					this.readToken(); //(
-					expression = this.parseExpression( parentScope );
+					condition = this.parseExpression( parentScope );
 
 					if ( this.currentToken() == null || !this.currentToken().equals( ")" ) )
 					{
 						this.parseError( ")", this.currentToken() );
+					}
+
+					if ( condition.getType() != DataTypes.BOOLEAN_TYPE )
+					{
+						throw new AdvancedScriptException( "\"if\" requires a boolean conditional expression" );
 					}
 
 					this.readToken(); // )
@@ -1140,7 +1166,7 @@ public class Parser
 				//else without condition
 				{
 					this.readToken(); //else
-					expression = DataTypes.TRUE_VALUE;
+					condition = DataTypes.TRUE_VALUE;
 					finalElse = true;
 				}
 
@@ -1544,12 +1570,16 @@ public class Parser
 
 		this.readToken(); // )
 
-		ScriptValue result = new ScriptCall( name, scope, params );
+		ScriptCall call = new ScriptCall( name, scope, params );
+		if ( call.getTarget() == null )
+		{
+			throw new AdvancedScriptException( "Undefined reference '" + name + "'" );
+		}
 
-		ScriptVariable current;
+		ScriptValue result = call;
 		while ( result != null && this.currentToken() != null && this.currentToken().equals( "." ) )
 		{
-			current = new ScriptVariable( result.getType() );
+			ScriptVariable current = new ScriptVariable( result.getType() );
 			current.setExpression( result );
 
 			result = this.parseVariableReference( scope, current );
@@ -1598,6 +1628,12 @@ public class Parser
 		if ( rhs == null )
 		{
 			throw new AdvancedScriptException( "Internal error" );
+		}
+
+		if ( !Parser.validCoercion( lhs.getType(), rhs.getType(), "assign" ) )
+		{
+			throw new AdvancedScriptException(
+				"Cannot store " + rhs.getType() + " in " + lhs + " of type " + lhs.getType() );
 		}
 
 		return new ScriptAssignment( (ScriptVariableReference) lhs, rhs );
