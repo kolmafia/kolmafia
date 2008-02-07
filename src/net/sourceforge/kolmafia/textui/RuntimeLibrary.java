@@ -105,14 +105,14 @@ import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
 import net.sourceforge.kolmafia.textui.DataTypes;
-import net.sourceforge.kolmafia.textui.ParseTree.ScriptAggregateType;
-import net.sourceforge.kolmafia.textui.ParseTree.ScriptArray;
-import net.sourceforge.kolmafia.textui.ParseTree.ScriptCompositeValue;
+import net.sourceforge.kolmafia.textui.DataTypes.ScriptAggregateType;
+import net.sourceforge.kolmafia.textui.DataTypes.ScriptArray;
+import net.sourceforge.kolmafia.textui.DataTypes.ScriptCompositeValue;
+import net.sourceforge.kolmafia.textui.DataTypes.ScriptMap;
+import net.sourceforge.kolmafia.textui.DataTypes.ScriptType;
+import net.sourceforge.kolmafia.textui.DataTypes.ScriptValue;
 import net.sourceforge.kolmafia.textui.ParseTree.ScriptExistingFunction;
 import net.sourceforge.kolmafia.textui.ParseTree.ScriptFunctionList;
-import net.sourceforge.kolmafia.textui.ParseTree.ScriptMap;
-import net.sourceforge.kolmafia.textui.ParseTree.ScriptType;
-import net.sourceforge.kolmafia.textui.ParseTree.ScriptValue;
 
 public abstract class RuntimeLibrary
 {
