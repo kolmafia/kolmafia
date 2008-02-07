@@ -1431,15 +1431,6 @@ public abstract class ParseTree
 		public ScriptReturn( final ScriptValue returnValue, final ScriptType expectedType )
 		{
 			this.returnValue = returnValue;
-
-			if ( expectedType != null && returnValue != null )
-			{
-				if ( !Parser.validCoercion( expectedType, returnValue.getType(), "return" ) )
-				{
-					throw new AdvancedScriptException( "Cannot apply " + returnValue.getType() + " to " + expectedType );
-				}
-			}
-
 			this.expectedType = expectedType;
 		}
 
@@ -1545,10 +1536,6 @@ public abstract class ParseTree
 		{
 			this.scope = scope;
 			this.condition = condition;
-			if ( !condition.getType().equals( DataTypes.TYPE_BOOLEAN ) )
-			{
-				throw new AdvancedScriptException( "Cannot apply " + condition.getType() + " to boolean" );
-			}
 		}
 
 		public ScriptScope getScope()
@@ -1927,11 +1914,6 @@ public abstract class ParseTree
 		{
 			super( scope );
 			this.condition = condition;
-			if ( !condition.getType().equals( DataTypes.TYPE_BOOLEAN ) )
-			{
-				throw new AdvancedScriptException( "Cannot apply " + condition.getType() + " to boolean" );
-			}
-
 		}
 
 		public ScriptValue getCondition()
@@ -2014,11 +1996,6 @@ public abstract class ParseTree
 		{
 			super( scope );
 			this.condition = condition;
-			if ( !condition.getType().equals( DataTypes.TYPE_BOOLEAN ) )
-			{
-				throw new AdvancedScriptException( "Cannot apply " + condition.getType() + " to boolean" );
-			}
-
 		}
 
 		public ScriptValue getCondition()
@@ -2218,7 +2195,7 @@ public abstract class ParseTree
 
 			if ( current != end && increment == 0 )
 			{
-				throw new AdvancedScriptException( "Start not equal to end and increment equals 0" );
+				throw new RuntimeException( "Start not equal to end and increment equals 0" );
 			}
 
 			while ( up && current <= end || !up && current >= end )
@@ -2300,10 +2277,6 @@ public abstract class ParseTree
 		public ScriptCall( final String functionName, final ScriptScope scope, final ScriptValueList params )
 		{
 			this.target = this.findFunction( functionName, scope, params );
-			if ( this.target == null )
-			{
-				throw new AdvancedScriptException( "Undefined reference '" + functionName + "'" );
-			}
 			this.params = params;
 		}
 
@@ -2457,12 +2430,6 @@ public abstract class ParseTree
 		{
 			this.lhs = lhs;
 			this.rhs = rhs;
-
-			if ( rhs != null && !Parser.validCoercion( lhs.getType(), rhs.getType(), "assign" ) )
-			{
-				throw new AdvancedScriptException(
-					"Cannot store " + rhs.getType() + " in " + lhs + " of type " + lhs.getType() );
-			}
 		}
 
 		public ScriptVariableReference getLeftHandSide()
