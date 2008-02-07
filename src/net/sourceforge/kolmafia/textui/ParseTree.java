@@ -754,11 +754,9 @@ public abstract class ParseTree
 				message.append( "(" );
 
 				Iterator it = this.variableReferences.iterator();
-				ScriptVariableReference current;
-
 				for ( int i = 0; it.hasNext(); ++i )
 				{
-					current = (ScriptVariableReference) it.next();
+					ScriptVariableReference current = (ScriptVariableReference) it.next();
 
 					if ( i != 0 )
 					{
@@ -906,16 +904,14 @@ public abstract class ParseTree
 			super( name.toLowerCase(), type );
 			this.description = description;
 
-			this.variables = new Object[ params.length + 1 ];
-			Class[] args = new Class[ params.length + 1 ];
+			this.variables = new Object[ params.length ];
+			Class[] args = new Class[ params.length ];
 
-			args[0] = Interpreter.class;
 			for ( int i = 0; i < params.length; ++i )
 			{
 				ScriptVariable variable = new ScriptVariable( params[ i ] );
 				this.variableReferences.addElement( new ScriptVariableReference( variable ) );
-				this.variables[ i + 1 ] = variable;
-				args[ i + 1 ] = ScriptVariable.class;
+				args[ i ] = ScriptValue.class;
 			}
 
 			try
@@ -949,10 +945,18 @@ public abstract class ParseTree
 				throw new RuntimeException( "Internal error: no method for " + this.getName() );
 			}
 
+			// Dereference variables and pass ScriptValues to function
+
+			Iterator it = this.variableReferences.iterator();
+			for ( int i = 0; it.hasNext(); ++i )
+			{
+				ScriptVariableReference current = (ScriptVariableReference) it.next();
+				this.variables[i] = current.getValue( interpreter );
+			}
+
 			try
 			{
 				// Invoke the method
-				this.variables[0] = interpreter;
 				return (ScriptValue) this.method.invoke( this, this.variables );
 			}
 			catch ( Exception e )

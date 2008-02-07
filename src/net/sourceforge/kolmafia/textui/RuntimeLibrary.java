@@ -105,7 +105,6 @@ import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
 import net.sourceforge.kolmafia.textui.DataTypes;
-import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.textui.ParseTree.ScriptAggregateType;
 import net.sourceforge.kolmafia.textui.ParseTree.ScriptArray;
 import net.sourceforge.kolmafia.textui.ParseTree.ScriptCompositeValue;
@@ -114,7 +113,6 @@ import net.sourceforge.kolmafia.textui.ParseTree.ScriptFunctionList;
 import net.sourceforge.kolmafia.textui.ParseTree.ScriptMap;
 import net.sourceforge.kolmafia.textui.ParseTree.ScriptType;
 import net.sourceforge.kolmafia.textui.ParseTree.ScriptValue;
-import net.sourceforge.kolmafia.textui.ParseTree.ScriptVariable;
 
 public abstract class RuntimeLibrary
 {
@@ -904,26 +902,26 @@ public abstract class RuntimeLibrary
         // Basic utility functions which print information
         // or allow for easy testing.
 
-        public static ScriptValue enable( final Interpreter interpreter, final ScriptVariable name )
+        public static ScriptValue enable( final ScriptValue name )
  	{
-                StaticEntity.enable( name.toStringValue( interpreter ).toString().toLowerCase() );
+                StaticEntity.enable( name.toString().toLowerCase() );
                 return DataTypes.VOID_VALUE;
         }
 
-	public static ScriptValue disable( final Interpreter interpreter, final ScriptVariable name )
+	public static ScriptValue disable( final ScriptValue name )
 	{
-		StaticEntity.disable( name.toStringValue( interpreter ).toString().toLowerCase() );
+		StaticEntity.disable( name.toString().toLowerCase() );
 		return DataTypes.VOID_VALUE;
 	}
 
-	public static ScriptValue user_confirm( final Interpreter interpreter, final ScriptVariable message )
+	public static ScriptValue user_confirm( final ScriptValue message )
 	{
-		return KoLFrame.confirm( message.toStringValue( interpreter ).toString() ) ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
+		return KoLFrame.confirm( message.toString() ) ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
 	}
 
-	public static ScriptValue logprint( final Interpreter interpreter, final ScriptVariable string )
+	public static ScriptValue logprint( final ScriptValue string )
 	{
-		String parameters = string.toStringValue( interpreter ).toString();
+		String parameters = string.toString();
 
 		parameters = StaticEntity.globalStringDelete( StaticEntity.globalStringDelete( parameters, "\n" ), "\r" );
 		parameters = StaticEntity.globalStringReplace( parameters, "<", "&lt;" );
@@ -932,9 +930,9 @@ public abstract class RuntimeLibrary
 		return DataTypes.VOID_VALUE;
 	}
 
-	public static ScriptValue print( final Interpreter interpreter, final ScriptVariable string )
+	public static ScriptValue print( final ScriptValue string )
 	{
-		String parameters = string.toStringValue( interpreter ).toString();
+		String parameters = string.toString();
 
 		parameters = StaticEntity.globalStringDelete( StaticEntity.globalStringDelete( parameters, "\n" ), "\r" );
 		parameters = StaticEntity.globalStringReplace( parameters, "<", "&lt;" );
@@ -945,14 +943,14 @@ public abstract class RuntimeLibrary
 		return DataTypes.VOID_VALUE;
 	}
 
-	public static ScriptValue print( final Interpreter interpreter, final ScriptVariable string, final ScriptVariable color )
+	public static ScriptValue print( final ScriptValue string, final ScriptValue color )
 	{
-		String parameters = string.toStringValue( interpreter ).toString();
+		String parameters = string.toString();
 
 		parameters = StaticEntity.globalStringDelete( StaticEntity.globalStringDelete( parameters, "\n" ), "\r" );
 		parameters = StaticEntity.globalStringReplace( parameters, "<", "&lt;" );
 
-		String colorString = color.toStringValue( interpreter ).toString();
+		String colorString = color.toString();
 		colorString = StaticEntity.globalStringDelete( StaticEntity.globalStringDelete( colorString, "\"" ), "<" );
 
 		RequestLogger.printLine( "<font color=\"" + colorString + "\">" + parameters + "</font>" );
@@ -961,27 +959,27 @@ public abstract class RuntimeLibrary
 		return DataTypes.VOID_VALUE;
 	}
 
-	public static ScriptValue print_html( final Interpreter interpreter, final ScriptVariable string )
+	public static ScriptValue print_html( final ScriptValue string )
 	{
-		RequestLogger.printLine( string.toStringValue( interpreter ).toString() );
+		RequestLogger.printLine( string.toString() );
 		return DataTypes.VOID_VALUE;
 	}
 
-	public static ScriptValue abort( final Interpreter interpreter )
+	public static ScriptValue abort()
 	{
 		RequestThread.declareWorldPeace();
 		return DataTypes.VOID_VALUE;
 	}
 
-	public static ScriptValue abort( final Interpreter interpreter, final ScriptVariable string )
+	public static ScriptValue abort( final ScriptValue string )
 	{
-		KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, string.toStringValue( interpreter ).toString() );
+		KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, string.toString() );
 		return DataTypes.VOID_VALUE;
 	}
 
-	public static ScriptValue cli_execute( final Interpreter interpreter, final ScriptVariable string )
+	public static ScriptValue cli_execute( final ScriptValue string )
 	{
-		KoLmafiaCLI.DEFAULT_SHELL.executeLine( string.toStringValue( interpreter ).toString() );
+		KoLmafiaCLI.DEFAULT_SHELL.executeLine( string.toString() );
 		return RuntimeLibrary.continueValue();
 	}
 
@@ -1037,12 +1035,12 @@ public abstract class RuntimeLibrary
 		return reader != null ? reader : DataUtilities.getReader( filename );
 	}
 
-	public static ScriptValue load_html( final Interpreter interpreter, final ScriptVariable string )
+	public static ScriptValue load_html( final ScriptValue string )
 	{
 		StringBuffer buffer = new StringBuffer();
 		ScriptValue returnValue = new ScriptValue( DataTypes.BUFFER_TYPE, "", buffer );
 
-		String location = string.toStringValue( interpreter ).toString();
+		String location = string.toString();
 		if ( !location.endsWith( ".htm" ) && !location.endsWith( ".html" ) )
 		{
 			return returnValue;
@@ -1063,41 +1061,41 @@ public abstract class RuntimeLibrary
 		return returnValue;
 	}
 
-	public static ScriptValue write( final Interpreter interpreter, final ScriptVariable string )
+	public static ScriptValue write( final ScriptValue string )
 	{
 		if ( KoLmafiaASH.relayScript == null )
 		{
 			return DataTypes.VOID_VALUE;
 		}
 
-		KoLmafiaASH.serverReplyBuffer.append( string.toStringValue( interpreter ).toString() );
+		KoLmafiaASH.serverReplyBuffer.append( string.toString() );
 		return DataTypes.VOID_VALUE;
 	}
 
-	public static ScriptValue writeln( final Interpreter interpreter, final ScriptVariable string )
+	public static ScriptValue writeln( final ScriptValue string )
 	{
 		if ( KoLmafiaASH.relayScript == null )
 		{
 			return DataTypes.VOID_VALUE;
 		}
 
-		RuntimeLibrary.write( interpreter, string );
+		RuntimeLibrary.write( string );
 		KoLmafiaASH.serverReplyBuffer.append( KoLConstants.LINE_BREAK );
 		return DataTypes.VOID_VALUE;
 	}
 
-	public static ScriptValue form_field( final Interpreter interpreter, final ScriptVariable key )
+	public static ScriptValue form_field( final ScriptValue key )
 	{
 		if ( KoLmafiaASH.relayRequest == null )
 		{
 			return DataTypes.STRING_INIT;
 		}
 
-		String value = KoLmafiaASH.relayRequest.getFormField( key.toStringValue( interpreter ).toString() );
+		String value = KoLmafiaASH.relayRequest.getFormField( key.toString() );
 		return value == null ? DataTypes.STRING_INIT : new ScriptValue( value );
 	}
 
-	public static ScriptValue visit_url( final Interpreter interpreter )
+	public static ScriptValue visit_url()
 	{
 		StringBuffer buffer = new StringBuffer();
 		ScriptValue returnValue = new ScriptValue( DataTypes.BUFFER_TYPE, "", buffer );
@@ -1111,9 +1109,9 @@ public abstract class RuntimeLibrary
 		return returnValue;
 	}
 
-	public static ScriptValue visit_url( final Interpreter interpreter, final ScriptVariable string )
+	public static ScriptValue visit_url( final ScriptValue string )
 	{
-		return RuntimeLibrary.visit_url( string.toStringValue( interpreter ).toString() );
+		return RuntimeLibrary.visit_url( string.toString() );
 	}
 
 	private static ScriptValue visit_url( final String location )
@@ -1156,30 +1154,27 @@ public abstract class RuntimeLibrary
 		return returnValue;
 	}
 
-	public static ScriptValue wait( final Interpreter interpreter, final ScriptVariable delay )
+	public static ScriptValue wait( final ScriptValue delay )
 	{
-		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "wait " + delay.intValue( interpreter ) );
+		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "wait " + delay.intValue() );
 		return DataTypes.VOID_VALUE;
 	}
 
 	// Type conversion functions which allow conversion
 	// of one data format to another.
 
-	public static ScriptValue to_string( final Interpreter interpreter, final ScriptVariable val )
+	public static ScriptValue to_string( final ScriptValue val )
 	{
-		return val.toStringValue( interpreter );
+		return val;
 	}
 
-	public static ScriptValue to_boolean( final Interpreter interpreter, final ScriptVariable val )
+	public static ScriptValue to_boolean( final ScriptValue value )
 	{
-		ScriptValue value = val.getValue( interpreter );
 		return ( value.intValue() != 0 || value.toString().equals( "true" ) ) ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
 	}
 
-	public static ScriptValue to_int( final Interpreter interpreter, final ScriptVariable val )
+	public static ScriptValue to_int( final ScriptValue value )
 	{
-		ScriptValue value = val.getValue( interpreter );
-
 		if ( value.getType().equals( DataTypes.TYPE_STRING ) )
 		{
 			return DataTypes.parseIntValue( value.toString() );
@@ -1188,10 +1183,8 @@ public abstract class RuntimeLibrary
 		return new ScriptValue( value.intValue() );
 	}
 
-	public static ScriptValue to_float( final Interpreter interpreter, final ScriptVariable val )
+	public static ScriptValue to_float( final ScriptValue value )
 	{
-		ScriptValue value = val.getValue( interpreter );
-
 		if ( value.getType().equals( DataTypes.TYPE_STRING ) )
 		{
 			return DataTypes.parseFloatValue( value.toString() );
@@ -1205,10 +1198,8 @@ public abstract class RuntimeLibrary
 		return new ScriptValue( value.floatValue() );
 	}
 
-	public static ScriptValue to_item( final Interpreter interpreter, final ScriptVariable val )
+	public static ScriptValue to_item( final ScriptValue value )
 	{
-		ScriptValue value = val.getValue( interpreter );
-
 		if ( value.getType().equals( DataTypes.TYPE_INT ) )
 		{
 			return DataTypes.makeItemValue( value.intValue() );
@@ -1217,22 +1208,18 @@ public abstract class RuntimeLibrary
 		return DataTypes.parseItemValue( value.toString() );
 	}
 
-	public static ScriptValue to_class( final Interpreter interpreter, final ScriptVariable val )
+	public static ScriptValue to_class( final ScriptValue value )
 	{
-		ScriptValue value = val.getValue( interpreter );
 		return DataTypes.parseClassValue( value.toString() );
 	}
 
-	public static ScriptValue to_stat( final Interpreter interpreter, final ScriptVariable val )
+	public static ScriptValue to_stat( final ScriptValue value )
 	{
-		ScriptValue value = val.getValue( interpreter );
 		return DataTypes.parseStatValue( value.toString() );
 	}
 
-	public static ScriptValue to_skill( final Interpreter interpreter, final ScriptVariable val )
+	public static ScriptValue to_skill( final ScriptValue value )
 	{
-		ScriptValue value = val.getValue( interpreter );
-
 		if ( value.getType().equals( DataTypes.TYPE_INT ) )
 		{
 			return DataTypes.makeSkillValue( value.intValue() );
@@ -1246,13 +1233,11 @@ public abstract class RuntimeLibrary
 		return DataTypes.parseSkillValue( value.toString() );
 	}
 
-	public static ScriptValue to_effect( final Interpreter interpreter, final ScriptVariable val )
+	public static ScriptValue to_effect( final ScriptValue value )
 	{
-		ScriptValue value = val.getValue( interpreter );
-
 		if ( value.getType().equals( DataTypes.TYPE_INT ) )
 		{
-			return DataTypes.makeEffectValue( val.intValue( interpreter ) );
+			return DataTypes.makeEffectValue( value.intValue() );
 		}
 
 		if ( value.getType().equals( DataTypes.TYPE_SKILL ) )
@@ -1263,16 +1248,13 @@ public abstract class RuntimeLibrary
 		return DataTypes.parseEffectValue( value.toString() );
 	}
 
-	public static ScriptValue to_location( final Interpreter interpreter, final ScriptVariable val )
+	public static ScriptValue to_location( final ScriptValue value )
 	{
-		ScriptValue value = val.getValue( interpreter );
 		return DataTypes.parseLocationValue( value.toString() );
 	}
 
-	public static ScriptValue to_familiar( final Interpreter interpreter, final ScriptVariable val )
+	public static ScriptValue to_familiar( final ScriptValue value )
 	{
-		ScriptValue value = val.getValue( interpreter );
-
 		if ( value.getType().equals( DataTypes.TYPE_INT ) )
 		{
 			return DataTypes.makeFamiliarValue( value.intValue() );
@@ -1281,15 +1263,14 @@ public abstract class RuntimeLibrary
 		return DataTypes.parseFamiliarValue( value.toString() );
 	}
 
-	public static ScriptValue to_monster( final Interpreter interpreter, final ScriptVariable val )
+	public static ScriptValue to_monster( final ScriptValue value )
 	{
-		ScriptValue value = val.getValue( interpreter );
 		return DataTypes.parseMonsterValue( value.toString() );
 	}
 
-	public static ScriptValue to_slot( final Interpreter interpreter, final ScriptVariable item )
+	public static ScriptValue to_slot( final ScriptValue item )
 	{
-		switch ( ItemDatabase.getConsumptionType( item.intValue( interpreter ) ) )
+		switch ( ItemDatabase.getConsumptionType( item.intValue() ) )
 		{
 		case KoLConstants.EQUIP_HAT:
 			return DataTypes.parseSlotValue( "hat" );
@@ -1310,31 +1291,31 @@ public abstract class RuntimeLibrary
 		}
 	}
 
-	public static ScriptValue to_url( final Interpreter interpreter, final ScriptVariable val )
+	public static ScriptValue to_url( final ScriptValue value )
 	{
-		KoLAdventure adventure = (KoLAdventure) val.rawValue( interpreter );
+		KoLAdventure adventure = (KoLAdventure) value.rawValue();
 		return new ScriptValue( adventure.getRequest().getURLString() );
 	}
 
 	// Functions related to daily information which get
 	// updated usually once per day.
 
-	public static ScriptValue today_to_string( final Interpreter interpreter )
+	public static ScriptValue today_to_string()
 	{
 		return DataTypes.parseStringValue( KoLConstants.DAILY_FORMAT.format( new Date() ) );
 	}
 
-	public static ScriptValue moon_phase( final Interpreter interpreter )
+	public static ScriptValue moon_phase()
 	{
 		return new ScriptValue( HolidayDatabase.getPhaseStep() );
 	}
 
-	public static ScriptValue moon_light( final Interpreter interpreter )
+	public static ScriptValue moon_light()
 	{
 		return new ScriptValue( HolidayDatabase.getMoonlight() );
 	}
 
-	public static ScriptValue stat_bonus_today( final Interpreter interpreter )
+	public static ScriptValue stat_bonus_today()
 	{
 		if ( KoLmafiaCLI.testConditional( "today is muscle day" ) )
 		{
@@ -1354,7 +1335,7 @@ public abstract class RuntimeLibrary
 		return DataTypes.STAT_INIT;
 	}
 
-	public static ScriptValue stat_bonus_tomorrow( final Interpreter interpreter )
+	public static ScriptValue stat_bonus_tomorrow()
 	{
 		if ( KoLmafiaCLI.testConditional( "tomorrow is muscle day" ) )
 		{
@@ -1374,14 +1355,14 @@ public abstract class RuntimeLibrary
 		return DataTypes.STAT_INIT;
 	}
 
-	public static ScriptValue session_logs( final Interpreter interpreter, final ScriptVariable dayCount )
+	public static ScriptValue session_logs( final ScriptValue dayCount )
 	{
-		return RuntimeLibrary.getSessionLogs( KoLCharacter.getUserName(), dayCount.intValue( interpreter ) );
+		return RuntimeLibrary.getSessionLogs( KoLCharacter.getUserName(), dayCount.intValue() );
 	}
 
-	public static ScriptValue session_logs( final Interpreter interpreter, final ScriptVariable player, final ScriptVariable dayCount )
+	public static ScriptValue session_logs( final ScriptValue player, final ScriptValue dayCount )
 	{
-		return RuntimeLibrary.getSessionLogs( player.toStringValue( interpreter ).toString(), dayCount.intValue( interpreter ) );
+		return RuntimeLibrary.getSessionLogs( player.toString(), dayCount.intValue() );
 	}
 
 	private static ScriptValue getSessionLogs( final String name, final int dayCount )
@@ -1435,230 +1416,230 @@ public abstract class RuntimeLibrary
 	// Major functions related to adventuring and
 	// item management.
 
-	public static ScriptValue adventure( final Interpreter interpreter, final ScriptVariable countVariable, final ScriptVariable loc )
+	public static ScriptValue adventure( final ScriptValue countValue, final ScriptValue loc )
 	{
-		int count = countVariable.intValue( interpreter );
+		int count = countValue.intValue();
 		if ( count <= 0 )
 		{
 			return RuntimeLibrary.continueValue();
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "adventure " + count + " " + loc.toStringValue( interpreter ) );
+		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "adventure " + count + " " + loc );
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static ScriptValue add_item_condition( final Interpreter interpreter, final ScriptVariable countVariable, final ScriptVariable item )
+	public static ScriptValue add_item_condition( final ScriptValue countValue, final ScriptValue item )
 	{
-		int count = countVariable.intValue( interpreter );
+		int count = countValue.intValue();
 		if ( count <= 0 )
 		{
 			return DataTypes.VOID_VALUE;
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "conditions add " + count + " " + item.toStringValue( interpreter ) );
+		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "conditions add " + count + " " + item );
 		return DataTypes.VOID_VALUE;
 	}
 
-	public static ScriptValue buy( final Interpreter interpreter, final ScriptVariable countVariable, final ScriptVariable item )
+	public static ScriptValue buy( final ScriptValue countValue, final ScriptValue item )
 	{
-		int count = countVariable.intValue( interpreter );
+		int count = countValue.intValue();
 		if ( count <= 0 )
 		{
 			return RuntimeLibrary.continueValue();
 		}
 
-		AdventureResult itemToBuy = new AdventureResult( item.intValue( interpreter ), 1 );
+		AdventureResult itemToBuy = new AdventureResult( item.intValue(), 1 );
 		int initialAmount = itemToBuy.getCount( KoLConstants.inventory );
 		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "buy " + count + " " + itemToBuy.getName() );
 		return initialAmount + count == itemToBuy.getCount( KoLConstants.inventory ) ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
 	}
 
-	public static ScriptValue create( final Interpreter interpreter, final ScriptVariable countVariable, final ScriptVariable item )
+	public static ScriptValue create( final ScriptValue countValue, final ScriptValue item )
 	{
-		int count = countVariable.intValue( interpreter );
+		int count = countValue.intValue();
 		if ( count <= 0 )
 		{
 			return RuntimeLibrary.continueValue();
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "create " + count + " " + item.toStringValue( interpreter ) );
+		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "create " + count + " " + item );
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static ScriptValue use( final Interpreter interpreter, final ScriptVariable countVariable, final ScriptVariable item )
+	public static ScriptValue use( final ScriptValue countValue, final ScriptValue item )
 	{
-		int count = countVariable.intValue( interpreter );
+		int count = countValue.intValue();
 		if ( count <= 0 )
 		{
 			return RuntimeLibrary.continueValue();
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "use " + count + " " + item.toStringValue( interpreter ) );
+		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "use " + count + " " + item );
 		return UseItemRequest.lastUpdate.equals( "" ) ? RuntimeLibrary.continueValue() : DataTypes.FALSE_VALUE;
 	}
 
-	public static ScriptValue eat( final Interpreter interpreter, final ScriptVariable countVariable, final ScriptVariable item )
+	public static ScriptValue eat( final ScriptValue countValue, final ScriptValue item )
 	{
-		int count = countVariable.intValue( interpreter );
+		int count = countValue.intValue();
 		if ( count <= 0 )
 		{
 			return RuntimeLibrary.continueValue();
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "eat " + count + " " + item.toStringValue( interpreter ) );
+		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "eat " + count + " " + item );
 		return UseItemRequest.lastUpdate.equals( "" ) ? RuntimeLibrary.continueValue() : DataTypes.FALSE_VALUE;
 	}
 
-	public static ScriptValue drink( final Interpreter interpreter, final ScriptVariable countVariable, final ScriptVariable item )
+	public static ScriptValue drink( final ScriptValue countValue, final ScriptValue item )
 	{
-		int count = countVariable.intValue( interpreter );
+		int count = countValue.intValue();
 		if ( count <= 0 )
 		{
 			return RuntimeLibrary.continueValue();
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "drink " + count + " " + item.toStringValue( interpreter ) );
+		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "drink " + count + " " + item );
 		return UseItemRequest.lastUpdate.equals( "" ) ? RuntimeLibrary.continueValue() : DataTypes.FALSE_VALUE;
 	}
 
-	public static ScriptValue put_closet( final Interpreter interpreter, final ScriptVariable countVariable, final ScriptVariable item )
+	public static ScriptValue put_closet( final ScriptValue countValue, final ScriptValue item )
 	{
-		int count = countVariable.intValue( interpreter );
+		int count = countValue.intValue();
 		if ( count <= 0 )
 		{
 			return RuntimeLibrary.continueValue();
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "closet put " + count + " " + item.toStringValue( interpreter ) );
+		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "closet put " + count + " " + item );
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static ScriptValue put_shop( final Interpreter interpreter, final ScriptVariable priceVariable, final ScriptVariable limitVariable, final ScriptVariable itemVariable )
+	public static ScriptValue put_shop( final ScriptValue priceValue, final ScriptValue limitValue, final ScriptValue itemValue )
 	{
-		int price = priceVariable.intValue( interpreter );
-		int limit = limitVariable.intValue( interpreter );
-		String item = itemVariable.toStringValue( interpreter ).toString();
+		int price = priceValue.intValue();
+		int limit = limitValue.intValue();
+		String item = itemValue.toString();
 		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "mallsell " + item + " @ " + price + " limit " + limit );
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static ScriptValue put_stash( final Interpreter interpreter, final ScriptVariable countVariable, final ScriptVariable item )
+	public static ScriptValue put_stash( final ScriptValue countValue, final ScriptValue item )
 	{
-		int count = countVariable.intValue( interpreter );
+		int count = countValue.intValue();
 		if ( count <= 0 )
 		{
 			return RuntimeLibrary.continueValue();
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "stash put " + count + " " + item.toStringValue( interpreter ) );
+		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "stash put " + count + " " + item );
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static ScriptValue put_display( final Interpreter interpreter, final ScriptVariable countVariable, final ScriptVariable item )
+	public static ScriptValue put_display( final ScriptValue countValue, final ScriptValue item )
 	{
-		int count = countVariable.intValue( interpreter );
+		int count = countValue.intValue();
 		if ( count <= 0 )
 		{
 			return RuntimeLibrary.continueValue();
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "display put " + count + " " + item.toStringValue( interpreter ) );
+		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "display put " + count + " " + item );
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static ScriptValue take_closet( final Interpreter interpreter, final ScriptVariable countVariable, final ScriptVariable item )
+	public static ScriptValue take_closet( final ScriptValue countValue, final ScriptValue item )
 	{
-		int count = countVariable.intValue( interpreter );
+		int count = countValue.intValue();
 		if ( count <= 0 )
 		{
 			return RuntimeLibrary.continueValue();
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "closet take " + count + " " + item.toStringValue( interpreter ) );
+		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "closet take " + count + " " + item );
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static ScriptValue take_storage( final Interpreter interpreter, final ScriptVariable countVariable, final ScriptVariable item )
+	public static ScriptValue take_storage( final ScriptValue countValue, final ScriptValue item )
 	{
-		int count = countVariable.intValue( interpreter );
+		int count = countValue.intValue();
 		if ( count <= 0 )
 		{
 			return RuntimeLibrary.continueValue();
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "hagnk " + count + " " + item.toStringValue( interpreter ) );
+		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "hagnk " + count + " " + item );
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static ScriptValue take_display( final Interpreter interpreter, final ScriptVariable countVariable, final ScriptVariable item )
+	public static ScriptValue take_display( final ScriptValue countValue, final ScriptValue item )
 	{
-		int count = countVariable.intValue( interpreter );
+		int count = countValue.intValue();
 		if ( count <= 0 )
 		{
 			return RuntimeLibrary.continueValue();
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "display take " + count + " " + item.toStringValue( interpreter ) );
+		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "display take " + count + " " + item );
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static ScriptValue take_stash( final Interpreter interpreter, final ScriptVariable countVariable, final ScriptVariable item )
+	public static ScriptValue take_stash( final ScriptValue countValue, final ScriptValue item )
 	{
-		int count = countVariable.intValue( interpreter );
+		int count = countValue.intValue();
 		if ( count <= 0 )
 		{
 			return RuntimeLibrary.continueValue();
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "stash take " + count + " " + item.toStringValue( interpreter ) );
+		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "stash take " + count + " " + item );
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static ScriptValue autosell( final Interpreter interpreter, final ScriptVariable countVariable, final ScriptVariable item )
+	public static ScriptValue autosell( final ScriptValue countValue, final ScriptValue item )
 	{
-		int count = countVariable.intValue( interpreter );
+		int count = countValue.intValue();
 		if ( count <= 0 )
 		{
 			return RuntimeLibrary.continueValue();
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "sell " + count + " " + item.toStringValue( interpreter ) );
+		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "sell " + count + " " + item );
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static ScriptValue hermit( final Interpreter interpreter, final ScriptVariable countVariable, final ScriptVariable item )
+	public static ScriptValue hermit( final ScriptValue countValue, final ScriptValue item )
 	{
-		int count = countVariable.intValue( interpreter );
+		int count = countValue.intValue();
 		if ( count <= 0 )
 		{
 			return RuntimeLibrary.continueValue();
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "hermit " + count + " " + item.toStringValue( interpreter ) );
+		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "hermit " + count + " " + item );
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static ScriptValue retrieve_item( final Interpreter interpreter, final ScriptVariable countVariable, final ScriptVariable item )
+	public static ScriptValue retrieve_item( final ScriptValue countValue, final ScriptValue item )
 	{
-		int count = countVariable.intValue( interpreter );
+		int count = countValue.intValue();
 		if ( count <= 0 )
 		{
 			return RuntimeLibrary.continueValue();
 		}
 
-		AdventureDatabase.retrieveItem( new AdventureResult( item.intValue( interpreter ), count ) );
+		AdventureDatabase.retrieveItem( new AdventureResult( item.intValue(), count ) );
 		return RuntimeLibrary.continueValue();
 	}
 
 	// Major functions which provide item-related
 	// information.
 
-	public static ScriptValue is_npc_item( final Interpreter interpreter, final ScriptVariable item )
+	public static ScriptValue is_npc_item( final ScriptValue item )
 	{
-		return NPCStoreDatabase.contains( ItemDatabase.getItemName( item.intValue( interpreter ) ), false ) ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
+		return NPCStoreDatabase.contains( ItemDatabase.getItemName( item.intValue() ), false ) ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
 	}
 
-	public static ScriptValue daily_special( final Interpreter interpreter )
+	public static ScriptValue daily_special()
 	{
 		AdventureResult special =
 			KoLCharacter.inMoxieSign() ? MicroBreweryRequest.getDailySpecial() : KoLCharacter.inMysticalitySign() ? ChezSnooteeRequest.getDailySpecial() : null;
@@ -1666,15 +1647,15 @@ public abstract class RuntimeLibrary
 		return special == null ? DataTypes.ITEM_INIT : DataTypes.parseItemValue( special.getName() );
 	}
 
-	public static ScriptValue refresh_stash( final Interpreter interpreter )
+	public static ScriptValue refresh_stash()
 	{
 		RequestThread.postRequest( new ClanStashRequest() );
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static ScriptValue available_amount( final Interpreter interpreter, final ScriptVariable arg )
+	public static ScriptValue available_amount( final ScriptValue arg )
 	{
-		AdventureResult item = new AdventureResult( arg.intValue( interpreter ), 0 );
+		AdventureResult item = new AdventureResult( arg.intValue(), 0 );
 
 		int runningTotal = item.getCount( KoLConstants.inventory ) + item.getCount( KoLConstants.closet );
 
@@ -1694,27 +1675,27 @@ public abstract class RuntimeLibrary
 		return new ScriptValue( runningTotal );
 	}
 
-	public static ScriptValue item_amount( final Interpreter interpreter, final ScriptVariable arg )
+	public static ScriptValue item_amount( final ScriptValue arg )
 	{
-		AdventureResult item = new AdventureResult( arg.intValue( interpreter ), 0 );
+		AdventureResult item = new AdventureResult( arg.intValue(), 0 );
 		return new ScriptValue( item.getCount( KoLConstants.inventory ) );
 	}
 
-	public static ScriptValue closet_amount( final Interpreter interpreter, final ScriptVariable arg )
+	public static ScriptValue closet_amount( final ScriptValue arg )
 	{
-		AdventureResult item = new AdventureResult( arg.intValue( interpreter ), 0 );
+		AdventureResult item = new AdventureResult( arg.intValue(), 0 );
 		return new ScriptValue( item.getCount( KoLConstants.closet ) );
 	}
 
-	public static ScriptValue creatable_amount( final Interpreter interpreter, final ScriptVariable arg )
+	public static ScriptValue creatable_amount( final ScriptValue arg )
 	{
-		CreateItemRequest item = CreateItemRequest.getInstance( arg.intValue( interpreter ) );
+		CreateItemRequest item = CreateItemRequest.getInstance( arg.intValue() );
 		return new ScriptValue( item == null ? 0 : item.getQuantityPossible() );
 	}
 
-	public static ScriptValue get_ingredients( final Interpreter interpreter, final ScriptVariable item )
+	public static ScriptValue get_ingredients( final ScriptValue item )
 	{
-		AdventureResult[] data = ConcoctionDatabase.getIngredients( item.intValue( interpreter ) );
+		AdventureResult[] data = ConcoctionDatabase.getIngredients( item.intValue() );
 		ScriptMap value = new ScriptMap( DataTypes.RESULT_TYPE );
 
 		for ( int i = 0; i < data.length; ++i )
@@ -1727,24 +1708,24 @@ public abstract class RuntimeLibrary
 		return value;
 	}
 
-	public static ScriptValue storage_amount( final Interpreter interpreter, final ScriptVariable arg )
+	public static ScriptValue storage_amount( final ScriptValue arg )
 	{
-		AdventureResult item = new AdventureResult( arg.intValue( interpreter ), 0 );
+		AdventureResult item = new AdventureResult( arg.intValue(), 0 );
 		return new ScriptValue( item.getCount( KoLConstants.storage ) );
 	}
 
-	public static ScriptValue display_amount( final Interpreter interpreter, final ScriptVariable arg )
+	public static ScriptValue display_amount( final ScriptValue arg )
 	{
 		if ( KoLConstants.collection.isEmpty() )
 		{
 			RequestThread.postRequest( new DisplayCaseRequest() );
 		}
 
-		AdventureResult item = new AdventureResult( arg.intValue( interpreter ), 0 );
+		AdventureResult item = new AdventureResult( arg.intValue(), 0 );
 		return new ScriptValue( item.getCount( KoLConstants.collection ) );
 	}
 
-	public static ScriptValue shop_amount( final Interpreter interpreter, final ScriptVariable arg )
+	public static ScriptValue shop_amount( final ScriptValue arg )
 	{
 		LockableListModel list = StoreManager.getSoldItemList();
 		if ( list.isEmpty() )
@@ -1752,7 +1733,7 @@ public abstract class RuntimeLibrary
 			RequestThread.postRequest( new ManageStoreRequest() );
 		}
 
-		SoldItem item = new SoldItem( arg.intValue( interpreter ), 0, 0, 0, 0 );
+		SoldItem item = new SoldItem( arg.intValue(), 0, 0, 0, 0 );
 		int index = list.indexOf( item );
 
 		if ( index < 0 )
@@ -1764,7 +1745,7 @@ public abstract class RuntimeLibrary
 		return new ScriptValue( item.getQuantity() );
 	}
 
-	public static ScriptValue stash_amount( final Interpreter interpreter, final ScriptVariable arg )
+	public static ScriptValue stash_amount( final ScriptValue arg )
 	{
 		List stash = ClanManager.getStash();
 		if ( stash.isEmpty() )
@@ -1772,21 +1753,21 @@ public abstract class RuntimeLibrary
 			RequestThread.postRequest( new ClanStashRequest() );
 		}
 
-		AdventureResult item = new AdventureResult( arg.intValue( interpreter ), 0 );
+		AdventureResult item = new AdventureResult( arg.intValue(), 0 );
 		return new ScriptValue( item.getCount( stash ) );
 	}
 
-	public static ScriptValue pulls_remaining( final Interpreter interpreter )
+	public static ScriptValue pulls_remaining()
 	{
 		return new ScriptValue( ItemManageFrame.getPullsRemaining() );
 	}
 
-	public static ScriptValue stills_available( final Interpreter interpreter )
+	public static ScriptValue stills_available()
 	{
 		return new ScriptValue( KoLCharacter.getStillsAvailable() );
 	}
 
-	public static ScriptValue have_mushroom_plot( final Interpreter interpreter )
+	public static ScriptValue have_mushroom_plot()
 	{
 		return MushroomManager.ownsPlot() ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
 	}
@@ -1794,20 +1775,20 @@ public abstract class RuntimeLibrary
 	// The following functions pertain to providing updated
 	// information relating to the player.
 
-	public static ScriptValue refresh_status( final Interpreter interpreter )
+	public static ScriptValue refresh_status()
 	{
 		RequestThread.postRequest( CharPaneRequest.getInstance() );
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static ScriptValue restore_hp( final Interpreter interpreter, final ScriptVariable amount )
+	public static ScriptValue restore_hp( final ScriptValue amount )
 	{
-		return new ScriptValue( StaticEntity.getClient().recoverHP( amount.intValue( interpreter ) ) );
+		return new ScriptValue( StaticEntity.getClient().recoverHP( amount.intValue() ) );
 	}
 
-	public static ScriptValue restore_mp( final Interpreter interpreter, final ScriptVariable amount )
+	public static ScriptValue restore_mp( final ScriptValue amount )
 	{
-		int desiredMP = amount.intValue( interpreter );
+		int desiredMP = amount.intValue();
 		while ( !KoLmafia.refusesContinue() && desiredMP > KoLCharacter.getCurrentMP() )
 		{
 			StaticEntity.getClient().recoverMP( desiredMP );
@@ -1815,80 +1796,80 @@ public abstract class RuntimeLibrary
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static ScriptValue my_name( final Interpreter interpreter )
+	public static ScriptValue my_name()
 	{
 		return new ScriptValue( KoLCharacter.getUserName() );
 	}
 
-	public static ScriptValue my_id( final Interpreter interpreter )
+	public static ScriptValue my_id()
 	{
 		return new ScriptValue( KoLCharacter.getPlayerId() );
 	}
 
-	public static ScriptValue my_hash( final Interpreter interpreter )
+	public static ScriptValue my_hash()
 	{
 		return new ScriptValue( GenericRequest.passwordHash );
 	}
 
-	public static ScriptValue in_muscle_sign( final Interpreter interpreter )
+	public static ScriptValue in_muscle_sign()
 	{
 		return KoLCharacter.inMuscleSign() ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
 	}
 
-	public static ScriptValue in_mysticality_sign( final Interpreter interpreter )
+	public static ScriptValue in_mysticality_sign()
 	{
 		return KoLCharacter.inMysticalitySign() ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
 	}
 
-	public static ScriptValue in_moxie_sign( final Interpreter interpreter )
+	public static ScriptValue in_moxie_sign()
 	{
 		return KoLCharacter.inMoxieSign() ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
 	}
 
-	public static ScriptValue in_bad_moon( final Interpreter interpreter )
+	public static ScriptValue in_bad_moon()
 	{
 		return KoLCharacter.inBadMoon() ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
 	}
 
-	public static ScriptValue my_class( final Interpreter interpreter )
+	public static ScriptValue my_class()
 	{
 		return DataTypes.makeClassValue( KoLCharacter.getClassType() );
 	}
 
-	public static ScriptValue my_level( final Interpreter interpreter )
+	public static ScriptValue my_level()
 	{
 		return new ScriptValue( KoLCharacter.getLevel() );
 	}
 
-	public static ScriptValue my_hp( final Interpreter interpreter )
+	public static ScriptValue my_hp()
 	{
 		return new ScriptValue( KoLCharacter.getCurrentHP() );
 	}
 
-	public static ScriptValue my_maxhp( final Interpreter interpreter )
+	public static ScriptValue my_maxhp()
 	{
 		return new ScriptValue( KoLCharacter.getMaximumHP() );
 	}
 
-	public static ScriptValue my_mp( final Interpreter interpreter )
+	public static ScriptValue my_mp()
 	{
 		return new ScriptValue( KoLCharacter.getCurrentMP() );
 	}
 
-	public static ScriptValue my_maxmp( final Interpreter interpreter )
+	public static ScriptValue my_maxmp()
 	{
 		return new ScriptValue( KoLCharacter.getMaximumMP() );
 	}
 
-	public static ScriptValue my_primestat( final Interpreter interpreter )
+	public static ScriptValue my_primestat()
 	{
 		int primeIndex = KoLCharacter.getPrimeIndex();
 		return primeIndex == 0 ? DataTypes.MUSCLE_VALUE : primeIndex == 1 ? DataTypes.MYSTICALITY_VALUE : DataTypes.MOXIE_VALUE;
 	}
 
-	public static ScriptValue my_basestat( final Interpreter interpreter, final ScriptVariable arg )
+	public static ScriptValue my_basestat( final ScriptValue arg )
 	{
-		int stat = arg.intValue( interpreter );
+		int stat = arg.intValue();
 
 		if ( stat == KoLConstants.MUSCLE )
 		{
@@ -1906,9 +1887,9 @@ public abstract class RuntimeLibrary
 		throw new RuntimeException( "Internal error: unknown stat" );
 	}
 
-	public static ScriptValue my_buffedstat( final Interpreter interpreter, final ScriptVariable arg )
+	public static ScriptValue my_buffedstat( final ScriptValue arg )
 	{
-		int stat = arg.intValue( interpreter );
+		int stat = arg.intValue();
 
 		if ( stat == KoLConstants.MUSCLE )
 		{
@@ -1926,72 +1907,72 @@ public abstract class RuntimeLibrary
 		throw new RuntimeException( "Internal error: unknown stat" );
 	}
 
-	public static ScriptValue my_meat( final Interpreter interpreter )
+	public static ScriptValue my_meat()
 	{
 		return new ScriptValue( KoLCharacter.getAvailableMeat() );
 	}
 
-	public static ScriptValue my_adventures( final Interpreter interpreter )
+	public static ScriptValue my_adventures()
 	{
 		return new ScriptValue( KoLCharacter.getAdventuresLeft() );
 	}
 
-	public static ScriptValue my_turncount( final Interpreter interpreter )
+	public static ScriptValue my_turncount()
 	{
 		return new ScriptValue( KoLCharacter.getCurrentRun() );
 	}
 
-	public static ScriptValue my_fullness( final Interpreter interpreter )
+	public static ScriptValue my_fullness()
 	{
 		return new ScriptValue( KoLCharacter.getFullness() );
 	}
 
-	public static ScriptValue fullness_limit( final Interpreter interpreter )
+	public static ScriptValue fullness_limit()
 	{
 		return new ScriptValue( KoLCharacter.getFullnessLimit() );
 	}
 
-	public static ScriptValue my_inebriety( final Interpreter interpreter )
+	public static ScriptValue my_inebriety()
 	{
 		return new ScriptValue( KoLCharacter.getInebriety() );
 	}
 
-	public static ScriptValue inebriety_limit( final Interpreter interpreter )
+	public static ScriptValue inebriety_limit()
 	{
 		return new ScriptValue( KoLCharacter.getInebrietyLimit() );
 	}
 
-	public static ScriptValue my_spleen_use( final Interpreter interpreter )
+	public static ScriptValue my_spleen_use()
 	{
 		return new ScriptValue( KoLCharacter.getSpleenUse() );
 	}
 
-	public static ScriptValue spleen_limit( final Interpreter interpreter )
+	public static ScriptValue spleen_limit()
 	{
 		return new ScriptValue( KoLCharacter.getSpleenLimit() );
 	}
 
-	public static ScriptValue can_eat( final Interpreter interpreter )
+	public static ScriptValue can_eat()
 	{
 		return new ScriptValue( KoLCharacter.canEat() );
 	}
 
-	public static ScriptValue can_drink( final Interpreter interpreter )
+	public static ScriptValue can_drink()
 	{
 		return new ScriptValue( KoLCharacter.canDrink() );
 	}
 
-	public static ScriptValue turns_played( final Interpreter interpreter )
+	public static ScriptValue turns_played()
 	{
 		return new ScriptValue( KoLCharacter.getCurrentRun() );
 	}
 
-	public static ScriptValue can_interact( final Interpreter interpreter )
+	public static ScriptValue can_interact()
 	{
 		return KoLCharacter.canInteract() ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
 	}
 
-	public static ScriptValue in_hardcore( final Interpreter interpreter )
+	public static ScriptValue in_hardcore()
 	{
 		return KoLCharacter.isHardcore() ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
 	}
@@ -1999,32 +1980,32 @@ public abstract class RuntimeLibrary
 	// Basic skill and effect functions, including those used
 	// in custom combat consult scripts.
 
-	public static ScriptValue have_skill( final Interpreter interpreter, final ScriptVariable arg )
+	public static ScriptValue have_skill( final ScriptValue arg )
 	{
-		return KoLCharacter.hasSkill( arg.intValue( interpreter ) ) ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
+		return KoLCharacter.hasSkill( arg.intValue() ) ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
 	}
 
-	public static ScriptValue mp_cost( final Interpreter interpreter, final ScriptVariable skill )
+	public static ScriptValue mp_cost( final ScriptValue skill )
 	{
-		return new ScriptValue( SkillDatabase.getMPConsumptionById( skill.intValue( interpreter ) ) );
+		return new ScriptValue( SkillDatabase.getMPConsumptionById( skill.intValue() ) );
 	}
 
-	public static ScriptValue turns_per_cast( final Interpreter interpreter, final ScriptVariable skill )
+	public static ScriptValue turns_per_cast( final ScriptValue skill )
 	{
-		return new ScriptValue( SkillDatabase.getEffectDuration( skill.intValue( interpreter ) ) );
+		return new ScriptValue( SkillDatabase.getEffectDuration( skill.intValue() ) );
 	}
 
-	public static ScriptValue have_effect( final Interpreter interpreter, final ScriptVariable arg )
+	public static ScriptValue have_effect( final ScriptValue arg )
 	{
-		List potentialEffects = EffectDatabase.getMatchingNames( arg.toStringValue( interpreter ).toString() );
+		List potentialEffects = EffectDatabase.getMatchingNames( arg.toString() );
 		AdventureResult effect =
 			potentialEffects.isEmpty() ? null : new AdventureResult( (String) potentialEffects.get( 0 ), 0, true );
 		return effect == null ? DataTypes.ZERO_VALUE : new ScriptValue( effect.getCount( KoLConstants.activeEffects ) );
 	}
 
-	public static ScriptValue use_skill( final Interpreter interpreter, final ScriptVariable countVariable, final ScriptVariable skillVariable )
+	public static ScriptValue use_skill( final ScriptValue countValue, final ScriptValue skill )
 	{
-		int count = countVariable.intValue( interpreter );
+		int count = countValue.intValue();
 		if ( count <= 0 )
 		{
 			return RuntimeLibrary.continueValue();
@@ -2033,12 +2014,11 @@ public abstract class RuntimeLibrary
 		// Just in case someone assumed that use_skill would also work
 		// in combat, go ahead and allow it here.
 
-		ScriptValue skill = skillVariable.getValue( interpreter );
 		if ( SkillDatabase.isCombat( skill.intValue() ) )
 		{
 			for ( int i = 0; i < count && FightRequest.INSTANCE.getAdventuresUsed() == 0; ++i )
 			{
-				RuntimeLibrary.use_skill( interpreter, skillVariable );
+				RuntimeLibrary.use_skill( skill );
 			}
 
 			return DataTypes.TRUE_VALUE;
@@ -2048,12 +2028,11 @@ public abstract class RuntimeLibrary
 		return new ScriptValue( UseSkillRequest.lastUpdate.equals( "" ) );
 	}
 
-	public static ScriptValue use_skill( final Interpreter interpreter, final ScriptVariable skillVariable )
+	public static ScriptValue use_skill( final ScriptValue skill )
 	{
 		// Just in case someone assumed that use_skill would also work
 		// in combat, go ahead and allow it here.
 
-		ScriptValue skill = skillVariable.getValue( interpreter );
 		if ( SkillDatabase.isCombat( skill.intValue() ) )
 		{
 			return RuntimeLibrary.visit_url( "fight.php?action=skill&whichskill=" + skill.intValue() );
@@ -2063,9 +2042,9 @@ public abstract class RuntimeLibrary
 		return new ScriptValue( UseSkillRequest.lastUpdate );
 	}
 
-	public static ScriptValue use_skill( final Interpreter interpreter, final ScriptVariable countVariable, final ScriptVariable skillVariable, final ScriptVariable target )
+	public static ScriptValue use_skill( final ScriptValue countValue, final ScriptValue skill, final ScriptValue target )
 	{
-		int count = countVariable.intValue( interpreter );
+		int count = countValue.intValue();
 		if ( count <= 0 )
 		{
 			return RuntimeLibrary.continueValue();
@@ -2074,52 +2053,51 @@ public abstract class RuntimeLibrary
 		// Just in case someone assumed that use_skill would also work
 		// in combat, go ahead and allow it here.
 
-		ScriptValue skill = skillVariable.getValue( interpreter );
 		if ( SkillDatabase.isCombat( skill.intValue() ) )
 		{
 			for ( int i = 0; i < count && FightRequest.INSTANCE.getAdventuresUsed() == 0; ++i )
 			{
-				RuntimeLibrary.use_skill( interpreter, skillVariable );
+				RuntimeLibrary.use_skill( skill );
 			}
 
 			return DataTypes.TRUE_VALUE;
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "cast " + count + " " + skill.toString() + " on " + target.toStringValue( interpreter ) );
+		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "cast " + count + " " + skill.toString() + " on " + target );
 		return new ScriptValue( UseSkillRequest.lastUpdate.equals( "" ) );
 	}
 
-	public static ScriptValue attack( final Interpreter interpreter )
+	public static ScriptValue attack()
 	{
 		return RuntimeLibrary.visit_url( "fight.php?action=attack" );
 	}
 
-	public static ScriptValue steal( final Interpreter interpreter )
+	public static ScriptValue steal()
 	{
 		if ( !FightRequest.wonInitiative() )
 		{
-			return RuntimeLibrary.attack( interpreter );
+			return RuntimeLibrary.attack();
 		}
 
 		return RuntimeLibrary.visit_url( "fight.php?action=steal" );
 	}
 
-	public static ScriptValue runaway( final Interpreter interpreter )
+	public static ScriptValue runaway()
 	{
 		return RuntimeLibrary.visit_url( "fight.php?action=runaway" );
 	}
 
-	public static ScriptValue throw_item( final Interpreter interpreter, final ScriptVariable item )
+	public static ScriptValue throw_item( final ScriptValue item )
 	{
-		return RuntimeLibrary.visit_url( "fight.php?action=useitem&whichitem=" + item.intValue( interpreter ) );
+		return RuntimeLibrary.visit_url( "fight.php?action=useitem&whichitem=" + item.intValue() );
 	}
 
-	public static ScriptValue throw_items( final Interpreter interpreter, final ScriptVariable item1, final ScriptVariable item2 )
+	public static ScriptValue throw_items( final ScriptValue item1, final ScriptValue item2 )
 	{
-		return RuntimeLibrary.visit_url( "fight.php?action=useitem&whichitem=" + item1.intValue( interpreter ) + "&whichitem2=" + item2.intValue( interpreter ) );
+		return RuntimeLibrary.visit_url( "fight.php?action=useitem&whichitem=" + item1.intValue() + "&whichitem2=" + item2.intValue() );
 	}
 
-	public static ScriptValue run_combat( final Interpreter interpreter )
+	public static ScriptValue run_combat()
 	{
 		RequestThread.postRequest( FightRequest.INSTANCE );
 		String response =
@@ -2130,21 +2108,20 @@ public abstract class RuntimeLibrary
 
 	// Equipment functions.
 
-	public static ScriptValue can_equip( final Interpreter interpreter, final ScriptVariable item )
+	public static ScriptValue can_equip( final ScriptValue item )
 	{
-		return EquipmentDatabase.canEquip( ItemDatabase.getItemName( item.intValue( interpreter ) ) ) ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
+		return EquipmentDatabase.canEquip( ItemDatabase.getItemName( item.intValue() ) ) ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
 	}
 
-	public static ScriptValue equip( final Interpreter interpreter, final ScriptVariable item )
+	public static ScriptValue equip( final ScriptValue item )
 	{
-		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "equip " + item.toStringValue( interpreter ) );
+		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "equip " + item );
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static ScriptValue equip( final Interpreter interpreter, final ScriptVariable slotVariable, final ScriptVariable itemVariable )
+	public static ScriptValue equip( final ScriptValue slotValue, final ScriptValue item )
 	{
-		String slot = slotVariable.toStringValue( interpreter ).toString();
-		ScriptValue item = itemVariable.getValue( interpreter );
+		String slot = slotValue.toString();
 		if ( item.equals( DataTypes.ITEM_INIT ) )
 		{
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "unequip " + slot );
@@ -2157,25 +2134,25 @@ public abstract class RuntimeLibrary
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static ScriptValue equipped_item( final Interpreter interpreter, final ScriptVariable slot )
+	public static ScriptValue equipped_item( final ScriptValue slot )
 	{
-		return DataTypes.makeItemValue( KoLCharacter.getEquipment( slot.intValue( interpreter ) ).getName() );
+		return DataTypes.makeItemValue( KoLCharacter.getEquipment( slot.intValue() ).getName() );
 	}
 
-	public static ScriptValue have_equipped( final Interpreter interpreter, final ScriptVariable item )
+	public static ScriptValue have_equipped( final ScriptValue item )
 	{
-		return KoLCharacter.hasEquipped( new AdventureResult( item.intValue( interpreter ), 1 ) ) ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
+		return KoLCharacter.hasEquipped( new AdventureResult( item.intValue(), 1 ) ) ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
 	}
 
-	public static ScriptValue outfit( final Interpreter interpreter, final ScriptVariable outfit )
+	public static ScriptValue outfit( final ScriptValue outfit )
 	{
-		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "outfit " + outfit.toStringValue( interpreter ).toString() );
+		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "outfit " + outfit.toString() );
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static ScriptValue have_outfit( final Interpreter interpreter, final ScriptVariable outfit )
+	public static ScriptValue have_outfit( final ScriptValue outfit )
 	{
-		SpecialOutfit so = KoLmafiaCLI.getMatchingOutfit( outfit.toStringValue( interpreter ).toString() );
+		SpecialOutfit so = KoLmafiaCLI.getMatchingOutfit( outfit.toString() );
 
 		if ( so == null )
 		{
@@ -2185,95 +2162,95 @@ public abstract class RuntimeLibrary
 		return EquipmentDatabase.hasOutfit( so.getOutfitId() ) ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
 	}
 
-	public static ScriptValue weapon_hands( final Interpreter interpreter, final ScriptVariable item )
+	public static ScriptValue weapon_hands( final ScriptValue item )
 	{
-		return new ScriptValue( EquipmentDatabase.getHands( item.intValue( interpreter ) ) );
+		return new ScriptValue( EquipmentDatabase.getHands( item.intValue() ) );
 	}
 
-	public static ScriptValue weapon_type( final Interpreter interpreter, final ScriptVariable item )
+	public static ScriptValue weapon_type( final ScriptValue item )
 	{
-		String type = EquipmentDatabase.getType( item.intValue( interpreter ) );
+		String type = EquipmentDatabase.getType( item.intValue() );
 		return new ScriptValue( type == null ? "unknown" : type );
 	}
 
-	public static ScriptValue ranged_weapon( final Interpreter interpreter, final ScriptVariable item )
+	public static ScriptValue ranged_weapon( final ScriptValue item )
 	{
-		return EquipmentDatabase.isRanged( item.intValue( interpreter ) ) ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
+		return EquipmentDatabase.isRanged( item.intValue() ) ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
 	}
 
-	public static ScriptValue get_power( final Interpreter interpreter, final ScriptVariable item )
+	public static ScriptValue get_power( final ScriptValue item )
 	{
-		return new ScriptValue( EquipmentDatabase.getPower( item.intValue( interpreter ) ) );
+		return new ScriptValue( EquipmentDatabase.getPower( item.intValue() ) );
 	}
 
-	public static ScriptValue my_familiar( final Interpreter interpreter )
+	public static ScriptValue my_familiar()
 	{
 		return DataTypes.makeFamiliarValue( KoLCharacter.getFamiliar().getId() );
 	}
 
-	public static ScriptValue have_familiar( final Interpreter interpreter, final ScriptVariable familiar )
+	public static ScriptValue have_familiar( final ScriptValue familiar )
 	{
-		return KoLCharacter.findFamiliar( familiar.toStringValue( interpreter ).toString() ) != null ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
+		return KoLCharacter.findFamiliar( familiar.toString() ) != null ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
 	}
 
-	public static ScriptValue use_familiar( final Interpreter interpreter, final ScriptVariable familiar )
+	public static ScriptValue use_familiar( final ScriptValue familiar )
 	{
-		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "familiar " + familiar.toStringValue( interpreter ) );
+		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "familiar " + familiar );
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static ScriptValue familiar_equipment( final Interpreter interpreter, final ScriptVariable familiar )
+	public static ScriptValue familiar_equipment( final ScriptValue familiar )
 	{
-		return DataTypes.parseItemValue( FamiliarDatabase.getFamiliarItem( familiar.intValue( interpreter ) ) );
+		return DataTypes.parseItemValue( FamiliarDatabase.getFamiliarItem( familiar.intValue() ) );
 	}
 
-	public static ScriptValue familiar_weight( final Interpreter interpreter, final ScriptVariable familiar )
+	public static ScriptValue familiar_weight( final ScriptValue familiar )
 	{
-		FamiliarData fam = KoLCharacter.findFamiliar( familiar.toStringValue( interpreter ).toString() );
+		FamiliarData fam = KoLCharacter.findFamiliar( familiar.toString() );
 		return fam == null ? DataTypes.ZERO_VALUE : new ScriptValue( fam.getWeight() );
 	}
 
 	// Random other functions related to current in-game
 	// state, not directly tied to the character.
 
-	public static ScriptValue council( final Interpreter interpreter )
+	public static ScriptValue council()
 	{
 		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "council" );
 		return DataTypes.VOID_VALUE;
 	}
 
-	public static ScriptValue current_mcd( final Interpreter interpreter )
+	public static ScriptValue current_mcd()
 	{
 		return new ScriptValue( KoLCharacter.getSignedMLAdjustment() );
 	}
 
-	public static ScriptValue change_mcd( final Interpreter interpreter, final ScriptVariable level )
+	public static ScriptValue change_mcd( final ScriptValue level )
 	{
-		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "mind-control " + level.intValue( interpreter ) );
+		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "mind-control " + level.intValue() );
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static ScriptValue have_chef( final Interpreter interpreter )
+	public static ScriptValue have_chef()
 	{
 		return KoLCharacter.hasChef() ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
 	}
 
-	public static ScriptValue have_bartender( final Interpreter interpreter )
+	public static ScriptValue have_bartender()
 	{
 		return KoLCharacter.hasBartender() ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
 	}
 
 	// String parsing functions.
 
-	public static ScriptValue contains_text( final Interpreter interpreter, final ScriptVariable source, final ScriptVariable search )
+	public static ScriptValue contains_text( final ScriptValue source, final ScriptValue search )
 	{
-		return source.toStringValue( interpreter ).toString().indexOf( search.toStringValue( interpreter ).toString() ) != -1 ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
+		return source.toString().indexOf( search.toString() ) != -1 ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
 	}
 
-	public static ScriptValue extract_meat( final Interpreter interpreter, final ScriptVariable string )
+	public static ScriptValue extract_meat( final ScriptValue string )
 	{
 		ArrayList data = new ArrayList();
-		StaticEntity.getClient().processResults( string.toStringValue( interpreter ).toString(), data );
+		StaticEntity.getClient().processResults( string.toString(), data );
 
 		AdventureResult result;
 
@@ -2289,10 +2266,10 @@ public abstract class RuntimeLibrary
 		return DataTypes.ZERO_VALUE;
 	}
 
-	public static ScriptValue extract_items( final Interpreter interpreter, final ScriptVariable string )
+	public static ScriptValue extract_items( final ScriptValue string )
 	{
 		ArrayList data = new ArrayList();
-		StaticEntity.getClient().processResults( string.toStringValue( interpreter ).toString(), data );
+		StaticEntity.getClient().processResults( string.toString(), data );
 		ScriptMap value = new ScriptMap( DataTypes.RESULT_TYPE );
 
 		AdventureResult result;
@@ -2311,218 +2288,218 @@ public abstract class RuntimeLibrary
 		return value;
 	}
 
-	public static ScriptValue length( final Interpreter interpreter, final ScriptVariable string )
+	public static ScriptValue length( final ScriptValue string )
 	{
-		return new ScriptValue( string.toStringValue( interpreter ).toString().length() );
+		return new ScriptValue( string.toString().length() );
 	}
 
-	public static ScriptValue index_of( final Interpreter interpreter, final ScriptVariable source, final ScriptVariable search )
+	public static ScriptValue index_of( final ScriptValue source, final ScriptValue search )
 	{
-		String string = source.toStringValue( interpreter ).toString();
-		String substring = search.toStringValue( interpreter ).toString();
+		String string = source.toString();
+		String substring = search.toString();
 		return new ScriptValue( string.indexOf( substring ) );
 	}
 
-	public static ScriptValue index_of( final Interpreter interpreter, final ScriptVariable source, final ScriptVariable search,
-		final ScriptVariable start )
+	public static ScriptValue index_of( final ScriptValue source, final ScriptValue search,
+		final ScriptValue start )
 	{
-		String string = source.toStringValue( interpreter ).toString();
-		String substring = search.toStringValue( interpreter ).toString();
-		int begin = start.intValue( interpreter );
+		String string = source.toString();
+		String substring = search.toString();
+		int begin = start.intValue();
 		return new ScriptValue( string.indexOf( substring, begin ) );
 	}
 
-	public static ScriptValue last_index_of( final Interpreter interpreter, final ScriptVariable source, final ScriptVariable search )
+	public static ScriptValue last_index_of( final ScriptValue source, final ScriptValue search )
 	{
-		String string = source.toStringValue( interpreter ).toString();
-		String substring = search.toStringValue( interpreter ).toString();
+		String string = source.toString();
+		String substring = search.toString();
 		return new ScriptValue( string.lastIndexOf( substring ) );
 	}
 
-	public static ScriptValue last_index_of( final Interpreter interpreter, final ScriptVariable source, final ScriptVariable search,
-		final ScriptVariable start )
+	public static ScriptValue last_index_of( final ScriptValue source, final ScriptValue search,
+		final ScriptValue start )
 	{
-		String string = source.toStringValue( interpreter ).toString();
-		String substring = search.toStringValue( interpreter ).toString();
-		int begin = start.intValue( interpreter );
+		String string = source.toString();
+		String substring = search.toString();
+		int begin = start.intValue();
 		return new ScriptValue( string.lastIndexOf( substring, begin ) );
 	}
 
-	public static ScriptValue substring( final Interpreter interpreter, final ScriptVariable source, final ScriptVariable start )
+	public static ScriptValue substring( final ScriptValue source, final ScriptValue start )
 	{
-		String string = source.toStringValue( interpreter ).toString();
-		int begin = start.intValue( interpreter );
+		String string = source.toString();
+		int begin = start.intValue();
 		return new ScriptValue( string.substring( begin ) );
 	}
 
-	public static ScriptValue substring( final Interpreter interpreter, final ScriptVariable source, final ScriptVariable start,
-		final ScriptVariable finish )
+	public static ScriptValue substring( final ScriptValue source, final ScriptValue start,
+		final ScriptValue finish )
 	{
-		String string = source.toStringValue( interpreter ).toString();
-		int begin = start.intValue( interpreter );
-		int end = finish.intValue( interpreter );
+		String string = source.toString();
+		int begin = start.intValue();
+		int end = finish.intValue();
 		return new ScriptValue( string.substring( begin, end ) );
 	}
 
-	public static ScriptValue to_upper_case( final Interpreter interpreter, final ScriptVariable string )
+	public static ScriptValue to_upper_case( final ScriptValue string )
 	{
-		return new ScriptValue( string.toStringValue( interpreter ).toString().toUpperCase() );
+		return new ScriptValue( string.toString().toUpperCase() );
 	}
 
-	public static ScriptValue to_lower_case( final Interpreter interpreter, final ScriptVariable string )
+	public static ScriptValue to_lower_case( final ScriptValue string )
 	{
-		return new ScriptValue( string.toStringValue( interpreter ).toString().toLowerCase() );
+		return new ScriptValue( string.toString().toLowerCase() );
 	}
 
-	public static ScriptValue append( final Interpreter interpreter, final ScriptVariable buffer, final ScriptVariable s )
+	public static ScriptValue append( final ScriptValue buffer, final ScriptValue s )
 	{
-		ScriptValue retval = buffer.getValue( interpreter );
+		ScriptValue retval = buffer;
 		StringBuffer current = (StringBuffer) retval.rawValue();
-		current.append( s.toStringValue( interpreter ).toString() );
+		current.append( s.toString() );
 		return retval;
 	}
 
-	public static ScriptValue insert( final Interpreter interpreter, final ScriptVariable buffer, final ScriptVariable index, final ScriptVariable s )
+	public static ScriptValue insert( final ScriptValue buffer, final ScriptValue index, final ScriptValue s )
 	{
-		ScriptValue retval = buffer.getValue( interpreter );
+		ScriptValue retval = buffer;
 		StringBuffer current = (StringBuffer) retval.rawValue();
-		current.insert( index.intValue( interpreter ), s.toStringValue( interpreter ).toString() );
+		current.insert( index.intValue(), s.toString() );
 		return retval;
 	}
 
-	public static ScriptValue replace( final Interpreter interpreter, final ScriptVariable buffer, final ScriptVariable start, final ScriptVariable end,
-		final ScriptVariable s )
+	public static ScriptValue replace( final ScriptValue buffer, final ScriptValue start, final ScriptValue end,
+		final ScriptValue s )
 	{
-		ScriptValue retval = buffer.getValue( interpreter );
+		ScriptValue retval = buffer;
 		StringBuffer current = (StringBuffer) retval.rawValue();
-		current.replace( start.intValue( interpreter ), end.intValue( interpreter ), s.toStringValue( interpreter ).toString() );
+		current.replace( start.intValue(), end.intValue(), s.toString() );
 		return retval;
 	}
 
-	public static ScriptValue delete( final Interpreter interpreter, final ScriptVariable buffer, final ScriptVariable start, final ScriptVariable end )
+	public static ScriptValue delete( final ScriptValue buffer, final ScriptValue start, final ScriptValue end )
 	{
-		ScriptValue retval = buffer.getValue( interpreter );
+		ScriptValue retval = buffer;
 		StringBuffer current = (StringBuffer) retval.rawValue();
-		current.delete( start.intValue( interpreter ), end.intValue( interpreter ) );
+		current.delete( start.intValue(), end.intValue() );
 		return retval;
 	}
 
-	public static ScriptValue append_tail( final Interpreter interpreter, final ScriptVariable matcher, final ScriptVariable current )
+	public static ScriptValue append_tail( final ScriptValue matcher, final ScriptValue current )
 	{
-		Matcher m = (Matcher) matcher.getValue( interpreter ).rawValue();
-		ScriptValue retval = current.getValue( interpreter );
+		Matcher m = (Matcher) matcher.rawValue();
+		ScriptValue retval = current;
 		StringBuffer buffer = (StringBuffer) retval.rawValue();
 		m.appendTail( buffer );
 		return retval;
 	}
 
-	public static ScriptValue append_replacement( final Interpreter interpreter, final ScriptVariable matcher, final ScriptVariable current,
-		final ScriptVariable replacement )
+	public static ScriptValue append_replacement( final ScriptValue matcher, final ScriptValue current,
+		final ScriptValue replacement )
 	{
-		Matcher m = (Matcher) matcher.getValue( interpreter ).rawValue();
-		ScriptValue retval = current.getValue( interpreter );
+		Matcher m = (Matcher) matcher.rawValue();
+		ScriptValue retval = current;
 		StringBuffer buffer = (StringBuffer) retval.rawValue();
-		m.appendReplacement( buffer, replacement.toStringValue( interpreter ).toString() );
+		m.appendReplacement( buffer, replacement.toString() );
 		return retval;
 	}
 
-	public static ScriptValue create_matcher( final Interpreter interpreter, final ScriptVariable patternVariable, final ScriptVariable stringVariable )
+	public static ScriptValue create_matcher( final ScriptValue patternValue, final ScriptValue stringValue )
 	{
-		String pattern = patternVariable.toStringValue( interpreter ).toString();
-		String string = stringVariable.toStringValue( interpreter ).toString();
+		String pattern = patternValue.toString();
+		String string = stringValue.toString();
 		return new ScriptValue( DataTypes.MATCHER_TYPE, pattern,
 					Pattern.compile( pattern, Pattern.DOTALL ).matcher( string ) );
 	}
 
-	public static ScriptValue find( final Interpreter interpreter, final ScriptVariable matcher )
+	public static ScriptValue find( final ScriptValue matcher )
 	{
-		Matcher m = (Matcher) matcher.getValue( interpreter ).rawValue();
+		Matcher m = (Matcher) matcher.rawValue();
 		return m.find() ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
 	}
 
-	public static ScriptValue start( final Interpreter interpreter, final ScriptVariable matcher )
+	public static ScriptValue start( final ScriptValue matcher )
 	{
-		Matcher m = (Matcher) matcher.getValue( interpreter ).rawValue();
+		Matcher m = (Matcher) matcher.rawValue();
 		return new ScriptValue( m.start() );
 	}
 
-	public static ScriptValue end( final Interpreter interpreter, final ScriptVariable matcher )
+	public static ScriptValue end( final ScriptValue matcher )
 	{
-		Matcher m = (Matcher) matcher.getValue( interpreter ).rawValue();
+		Matcher m = (Matcher) matcher.rawValue();
 		return new ScriptValue( m.end() );
 	}
 
-	public static ScriptValue group( final Interpreter interpreter, final ScriptVariable matcher )
+	public static ScriptValue group( final ScriptValue matcher )
 	{
-		Matcher m = (Matcher) matcher.getValue( interpreter ).rawValue();
+		Matcher m = (Matcher) matcher.rawValue();
 		return new ScriptValue( m.group() );
 	}
 
-	public static ScriptValue group( final Interpreter interpreter, final ScriptVariable matcher, final ScriptVariable group )
+	public static ScriptValue group( final ScriptValue matcher, final ScriptValue group )
 	{
-		Matcher m = (Matcher) matcher.getValue( interpreter ).rawValue();
-		return new ScriptValue( m.group( group.intValue( interpreter ) ) );
+		Matcher m = (Matcher) matcher.rawValue();
+		return new ScriptValue( m.group( group.intValue() ) );
 	}
 
-	public static ScriptValue group_count( final Interpreter interpreter, final ScriptVariable matcher )
+	public static ScriptValue group_count( final ScriptValue matcher )
 	{
-		Matcher m = (Matcher) matcher.getValue( interpreter ).rawValue();
+		Matcher m = (Matcher) matcher.rawValue();
 		return new ScriptValue( m.groupCount() );
 	}
 
-	public static ScriptValue replace_first( final Interpreter interpreter, final ScriptVariable matcher, final ScriptVariable replacement )
+	public static ScriptValue replace_first( final ScriptValue matcher, final ScriptValue replacement )
 	{
-		Matcher m = (Matcher) matcher.getValue( interpreter ).rawValue();
-		return new ScriptValue( m.replaceFirst( replacement.toStringValue( interpreter ).toString() ) );
+		Matcher m = (Matcher) matcher.rawValue();
+		return new ScriptValue( m.replaceFirst( replacement.toString() ) );
 	}
 
-	public static ScriptValue replace_all( final Interpreter interpreter, final ScriptVariable matcher, final ScriptVariable replacement )
+	public static ScriptValue replace_all( final ScriptValue matcher, final ScriptValue replacement )
 	{
-		Matcher m = (Matcher) matcher.getValue( interpreter ).rawValue();
-		return new ScriptValue( m.replaceAll( replacement.toStringValue( interpreter ).toString() ) );
+		Matcher m = (Matcher) matcher.rawValue();
+		return new ScriptValue( m.replaceAll( replacement.toString() ) );
 	}
 
-	public static ScriptValue reset( final Interpreter interpreter, final ScriptVariable matcher )
+	public static ScriptValue reset( final ScriptValue matcher )
 	{
-		Matcher m = (Matcher) matcher.getValue( interpreter ).rawValue();
+		Matcher m = (Matcher) matcher.rawValue();
 		m.reset();
-		return matcher.getValue( interpreter );
+		return matcher;
 	}
 
-	public static ScriptValue reset( final Interpreter interpreter, final ScriptVariable matcher, final ScriptVariable input )
+	public static ScriptValue reset( final ScriptValue matcher, final ScriptValue input )
 	{
-		Matcher m = (Matcher) matcher.getValue( interpreter ).rawValue();
-		m.reset( input.toStringValue( interpreter ).toString() );
-		return matcher.getValue( interpreter );
+		Matcher m = (Matcher) matcher.rawValue();
+		m.reset( input.toString() );
+		return matcher;
 	}
 
-	public static ScriptValue replace_string( final Interpreter interpreter, final ScriptVariable source,
-						  final ScriptVariable searchVariable, final ScriptVariable replaceVariable )
+	public static ScriptValue replace_string( final ScriptValue source,
+						  final ScriptValue searchValue, final ScriptValue replaceValue )
 	{
 		StringBuffer buffer;
 		ScriptValue returnValue;
 
-		if ( source.getValue( interpreter ).rawValue() instanceof StringBuffer )
+		if ( source.rawValue() instanceof StringBuffer )
 		{
-			buffer = (StringBuffer) source.getValue( interpreter ).rawValue();
-			returnValue = source.getValue( interpreter );
+			buffer = (StringBuffer) source.rawValue();
+			returnValue = source;
 		}
 		else
 		{
-			buffer = new StringBuffer( source.toStringValue( interpreter ).toString() );
+			buffer = new StringBuffer( source.toString() );
 			returnValue = new ScriptValue( DataTypes.BUFFER_TYPE, "", buffer );
 		}
 
-		String search = searchVariable.toStringValue( interpreter ).toString();
-		String replace = replaceVariable.toStringValue( interpreter ).toString();
+		String search = searchValue.toString();
+		String replace = replaceValue.toString();
 
 		StaticEntity.globalStringReplace( buffer, search, replace );
 		return returnValue;
 	}
 
-	public static ScriptValue split_string( final Interpreter interpreter, final ScriptVariable string )
+	public static ScriptValue split_string( final ScriptValue string )
 	{
-		String[] pieces = string.toStringValue( interpreter ).toString().split( KoLConstants.LINE_BREAK );
+		String[] pieces = string.toString().split( KoLConstants.LINE_BREAK );
 
 		ScriptAggregateType type = new ScriptAggregateType( DataTypes.STRING_TYPE, pieces.length );
 		ScriptArray value = new ScriptArray( type );
@@ -2535,9 +2512,9 @@ public abstract class RuntimeLibrary
 		return value;
 	}
 
-	public static ScriptValue split_string( final Interpreter interpreter, final ScriptVariable string, final ScriptVariable regex )
+	public static ScriptValue split_string( final ScriptValue string, final ScriptValue regex )
 	{
-		String[] pieces = string.toStringValue( interpreter ).toString().split( regex.toStringValue( interpreter ).toString() );
+		String[] pieces = string.toString().split( regex.toString() );
 
 		ScriptAggregateType type = new ScriptAggregateType( DataTypes.STRING_TYPE, pieces.length );
 		ScriptArray value = new ScriptArray( type );
@@ -2550,10 +2527,10 @@ public abstract class RuntimeLibrary
 		return value;
 	}
 
-	public static ScriptValue group_string( final Interpreter interpreter, final ScriptVariable string, final ScriptVariable regex )
+	public static ScriptValue group_string( final ScriptValue string, final ScriptValue regex )
 	{
 		Matcher userPatternMatcher =
-			Pattern.compile( regex.toStringValue( interpreter ).toString() ).matcher( string.toStringValue( interpreter ).toString() );
+			Pattern.compile( regex.toString() ).matcher( string.toString() );
 		ScriptMap value = new ScriptMap( DataTypes.REGEX_GROUP_TYPE );
 
 		int matchCount = 0;
@@ -2578,7 +2555,7 @@ public abstract class RuntimeLibrary
 				value.aset( matchIndex, slice );
 				for ( int i = 0; i <= groupCount; ++i )
 				{
-					slice.aset( groupIndexes[ i ], DataTypes.parseStringValue( userPatternMatcher.group( i ) ) );
+					slice.aset( groupIndexes[ i ], new ScriptValue( userPatternMatcher.group( i ) ) );
 				}
 
 				++matchCount;
@@ -2596,12 +2573,12 @@ public abstract class RuntimeLibrary
 		return value;
 	}
 
-	public static ScriptValue chat_reply( final Interpreter interpreter, final ScriptVariable stringVariable )
+	public static ScriptValue chat_reply( final ScriptValue stringValue )
 	{
 		String recipient = ChatManager.lastBlueMessage();
 		if ( !recipient.equals( "" ) )
 		{
-			String string = stringVariable.toStringValue( interpreter ).toString();
+			String string = stringValue.toString();
 			RequestThread.postRequest( new ChatRequest( recipient, string, false ) );
 		}
 
@@ -2610,31 +2587,31 @@ public abstract class RuntimeLibrary
 
 	// Quest completion functions.
 
-	public static ScriptValue entryway( final Interpreter interpreter )
+	public static ScriptValue entryway()
 	{
 		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "entryway" );
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static ScriptValue hedgemaze( final Interpreter interpreter )
+	public static ScriptValue hedgemaze()
 	{
 		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "hedgemaze" );
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static ScriptValue guardians( final Interpreter interpreter )
+	public static ScriptValue guardians()
 	{
 		int itemId = SorceressLairManager.fightTowerGuardians( true );
 		return DataTypes.makeItemValue( itemId );
 	}
 
-	public static ScriptValue chamber( final Interpreter interpreter )
+	public static ScriptValue chamber()
 	{
 		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "chamber" );
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static ScriptValue tavern( final Interpreter interpreter )
+	public static ScriptValue tavern()
 	{
 		int result = StaticEntity.getClient().locateTavernFaucet();
 		return new ScriptValue( KoLmafia.permitsContinue() ? result : -1 );
@@ -2642,9 +2619,9 @@ public abstract class RuntimeLibrary
 
 	// Arithmetic utility functions.
 
-	public static ScriptValue random( final Interpreter interpreter, final ScriptVariable arg )
+	public static ScriptValue random( final ScriptValue arg )
 	{
-		int range = arg.intValue( interpreter );
+		int range = arg.intValue();
 		if ( range < 2 )
 		{
 			throw new RuntimeException( "Random range must be at least 2" );
@@ -2652,87 +2629,87 @@ public abstract class RuntimeLibrary
 		return new ScriptValue( KoLConstants.RNG.nextInt( range ) );
 	}
 
-	public static ScriptValue round( final Interpreter interpreter, final ScriptVariable arg )
+	public static ScriptValue round( final ScriptValue arg )
 	{
-		return new ScriptValue( (int) Math.round( arg.floatValue( interpreter ) ) );
+		return new ScriptValue( (int) Math.round( arg.floatValue() ) );
 	}
 
-	public static ScriptValue truncate( final Interpreter interpreter, final ScriptVariable arg )
+	public static ScriptValue truncate( final ScriptValue arg )
 	{
-		return new ScriptValue( (int) arg.floatValue( interpreter ) );
+		return new ScriptValue( (int) arg.floatValue() );
 	}
 
-	public static ScriptValue floor( final Interpreter interpreter, final ScriptVariable arg )
+	public static ScriptValue floor( final ScriptValue arg )
 	{
-		return new ScriptValue( (int) Math.floor( arg.floatValue( interpreter ) ) );
+		return new ScriptValue( (int) Math.floor( arg.floatValue() ) );
 	}
 
-	public static ScriptValue ceil( final Interpreter interpreter, final ScriptVariable arg )
+	public static ScriptValue ceil( final ScriptValue arg )
 	{
-		return new ScriptValue( (int) Math.ceil( arg.floatValue( interpreter ) ) );
+		return new ScriptValue( (int) Math.ceil( arg.floatValue() ) );
 	}
 
-	public static ScriptValue square_root( final Interpreter interpreter, final ScriptVariable val )
+	public static ScriptValue square_root( final ScriptValue val )
 	{
-		return new ScriptValue( (float) Math.sqrt( val.floatValue( interpreter ) ) );
+		return new ScriptValue( (float) Math.sqrt( val.floatValue() ) );
 	}
 
 	// Settings-type functions.
 
-	public static ScriptValue url_encode( final Interpreter interpreter, final ScriptVariable arg )
+	public static ScriptValue url_encode( final ScriptValue arg )
 		throws UnsupportedEncodingException
 	{
-		return new ScriptValue( URLEncoder.encode( arg.toStringValue( interpreter ).toString(), "UTF-8" ) );
+		return new ScriptValue( URLEncoder.encode( arg.toString(), "UTF-8" ) );
 	}
 
-	public static ScriptValue url_decode( final Interpreter interpreter, final ScriptVariable arg )
+	public static ScriptValue url_decode( final ScriptValue arg )
 		throws UnsupportedEncodingException
 	{
-		return new ScriptValue( URLDecoder.decode( arg.toStringValue( interpreter ).toString(), "UTF-8" ) );
+		return new ScriptValue( URLDecoder.decode( arg.toString(), "UTF-8" ) );
 	}
 
-	public static ScriptValue get_property( final Interpreter interpreter, final ScriptVariable name )
+	public static ScriptValue get_property( final ScriptValue name )
 	{
-		String property = name.toStringValue( interpreter ).toString();
+		String property = name.toString();
 		return !Preferences.isUserEditable( property ) ? DataTypes.STRING_INIT :
 			new ScriptValue( Preferences.getString( property ) );
 	}
 
-	public static ScriptValue set_property( final Interpreter interpreter, final ScriptVariable name, final ScriptVariable value )
+	public static ScriptValue set_property( final ScriptValue name, final ScriptValue value )
 	{
 		// In order to avoid code duplication for combat
 		// related settings, use the shell.
 
 		KoLmafiaCLI.DEFAULT_SHELL.executeCommand(
-			"set", name.toStringValue( interpreter ).toString() + "=" + value.toStringValue( interpreter ).toString() );
+			"set", name.toString() + "=" + value.toString() );
 		return DataTypes.VOID_VALUE;
 	}
 
 	// Functions for aggregates.
 
-	public static ScriptValue count( final Interpreter interpreter, final ScriptVariable arg )
+	public static ScriptValue count( final ScriptValue arg )
 	{
-		return new ScriptValue( arg.getValue( interpreter ).count() );
+		return new ScriptValue( arg.count() );
 	}
 
-	public static ScriptValue clear( final Interpreter interpreter, final ScriptVariable arg )
+	public static ScriptValue clear( final ScriptValue arg )
 	{
-		arg.getValue( interpreter ).clear();
+		arg.clear();
 		return DataTypes.VOID_VALUE;
 	}
 
-	public static ScriptValue file_to_map( final Interpreter interpreter, final ScriptVariable var1, final ScriptVariable var2 )
+	public static ScriptValue file_to_map( final ScriptValue var1, final ScriptValue var2 )
 	{
-		String filename = var1.toStringValue( interpreter ).toString();
-		ScriptCompositeValue map_variable = (ScriptCompositeValue) var2.getValue( interpreter );
+		String filename = var1.toString();
+		ScriptCompositeValue map_variable = (ScriptCompositeValue) var2;
 		return RuntimeLibrary.readMap( filename, map_variable, true );
 	}
 
-	public static ScriptValue file_to_map( final Interpreter interpreter, final ScriptVariable var1, final ScriptVariable var2, final ScriptVariable var3 )
+	public static ScriptValue file_to_map( final ScriptValue var1, final ScriptValue var2, final ScriptValue var3 )
 	{
-		String filename = var1.toStringValue( interpreter ).toString();
-		ScriptCompositeValue map_variable = (ScriptCompositeValue) var2.getValue( interpreter );
-		boolean compact = var3.intValue( interpreter ) == 1;
+		String filename = var1.toString();
+		ScriptCompositeValue map_variable = (ScriptCompositeValue) var2;
+		boolean compact = var3.intValue() == 1;
 		return RuntimeLibrary.readMap( filename, map_variable, compact );
 	}
 
@@ -2790,18 +2767,18 @@ public abstract class RuntimeLibrary
 		return DataTypes.TRUE_VALUE;
 	}
 
-	public static ScriptValue map_to_file( final Interpreter interpreter, final ScriptVariable var1, final ScriptVariable var2 )
+	public static ScriptValue map_to_file( final ScriptValue var1, final ScriptValue var2 )
 	{
-		ScriptCompositeValue map_variable = (ScriptCompositeValue) var1.getValue( interpreter );
-		String filename = var2.toStringValue( interpreter ).toString();
+		ScriptCompositeValue map_variable = (ScriptCompositeValue) var1;
+		String filename = var2.toString();
 		return RuntimeLibrary.printMap( map_variable, filename, true );
 	}
 
-	public static ScriptValue map_to_file( final Interpreter interpreter, final ScriptVariable var1, final ScriptVariable var2, final ScriptVariable var3 )
+	public static ScriptValue map_to_file( final ScriptValue var1, final ScriptValue var2, final ScriptValue var3 )
 	{
-		ScriptCompositeValue map_variable = (ScriptCompositeValue) var1.getValue( interpreter );
-		String filename = var2.toStringValue( interpreter ).toString();
-		boolean compact = var3.intValue( interpreter ) == 1;
+		ScriptCompositeValue map_variable = (ScriptCompositeValue) var1;
+		String filename = var2.toString();
+		boolean compact = var3.intValue() == 1;
 		return RuntimeLibrary.printMap( map_variable, filename, compact );
 	}
 
@@ -2830,15 +2807,15 @@ public abstract class RuntimeLibrary
 
 	// Custom combat helper functions.
 
-	public static ScriptValue my_location( final Interpreter interpreter )
+	public static ScriptValue my_location()
 	{
 		String location = Preferences.getString( "lastAdventure" );
 		return location.equals( "" ) ? DataTypes.parseLocationValue( "Rest" ) : DataTypes.parseLocationValue( location );
 	}
 
-	public static ScriptValue get_monsters( final Interpreter interpreter, final ScriptVariable location )
+	public static ScriptValue get_monsters( final ScriptValue location )
 	{
-		KoLAdventure adventure = (KoLAdventure) location.rawValue( interpreter );
+		KoLAdventure adventure = (KoLAdventure) location.rawValue();
 		AreaCombatData data = adventure.getAreaSummary();
 
 		int monsterCount = data == null ? 0 : data.getMonsterCount();
@@ -2855,7 +2832,7 @@ public abstract class RuntimeLibrary
 
 	}
 
-	public static ScriptValue expected_damage( final Interpreter interpreter )
+	public static ScriptValue expected_damage()
 	{
 		// http://kol.coldfront.net/thekolwiki/index.php/Damage
 
@@ -2868,9 +2845,9 @@ public abstract class RuntimeLibrary
 		return new ScriptValue( (int) Math.ceil( baseValue * damageAbsorb * elementAbsorb ) );
 	}
 
-	public static ScriptValue expected_damage( final Interpreter interpreter, final ScriptVariable arg )
+	public static ScriptValue expected_damage( final ScriptValue arg )
 	{
-		Monster monster = (Monster) arg.rawValue( interpreter );
+		Monster monster = (Monster) arg.rawValue();
 		if ( monster == null )
 		{
 			return DataTypes.ZERO_VALUE;
@@ -2887,27 +2864,27 @@ public abstract class RuntimeLibrary
 		return new ScriptValue( (int) Math.ceil( baseValue * damageAbsorb * elementAbsorb ) );
 	}
 
-	public static ScriptValue monster_level_adjustment( final Interpreter interpreter )
+	public static ScriptValue monster_level_adjustment()
 	{
 		return new ScriptValue( KoLCharacter.getMonsterLevelAdjustment() );
 	}
 
-	public static ScriptValue weight_adjustment( final Interpreter interpreter )
+	public static ScriptValue weight_adjustment()
 	{
 		return new ScriptValue( KoLCharacter.getFamiliarWeightAdjustment() );
 	}
 
-	public static ScriptValue mana_cost_modifier( final Interpreter interpreter )
+	public static ScriptValue mana_cost_modifier()
 	{
 		return new ScriptValue( KoLCharacter.getManaCostAdjustment() );
 	}
 
-	public static ScriptValue raw_damage_absorption( final Interpreter interpreter )
+	public static ScriptValue raw_damage_absorption()
 	{
 		return new ScriptValue( KoLCharacter.getDamageAbsorption() );
 	}
 
-	public static ScriptValue damage_absorption_percent( final Interpreter interpreter )
+	public static ScriptValue damage_absorption_percent()
 	{
 		int raw = Math.min( 1000, KoLCharacter.getDamageAbsorption() );
 		if ( raw == 0 )
@@ -2922,24 +2899,24 @@ public abstract class RuntimeLibrary
 		return new ScriptValue( (float) percent );
 	}
 
-	public static ScriptValue damage_reduction( final Interpreter interpreter )
+	public static ScriptValue damage_reduction()
 	{
 		return new ScriptValue( KoLCharacter.getDamageReduction() );
 	}
 
-	public static ScriptValue elemental_resistance( final Interpreter interpreter )
+	public static ScriptValue elemental_resistance()
 	{
 		return new ScriptValue( KoLCharacter.getElementalResistance( FightRequest.getMonsterAttackElement() ) );
 	}
 
-	public static ScriptValue elemental_resistance( final Interpreter interpreter, final ScriptVariable arg )
+	public static ScriptValue elemental_resistance( final ScriptValue arg )
 	{
 		if ( arg.getType().equals( DataTypes.TYPE_ELEMENT ) )
 		{
-			return new ScriptValue( KoLCharacter.getElementalResistance( arg.intValue( interpreter ) ) );
+			return new ScriptValue( KoLCharacter.getElementalResistance( arg.intValue() ) );
 		}
 
-		Monster monster = (Monster) arg.rawValue( interpreter );
+		Monster monster = (Monster) arg.rawValue();
 		if ( monster == null )
 		{
 			return DataTypes.ZERO_VALUE;
@@ -2948,51 +2925,51 @@ public abstract class RuntimeLibrary
 		return new ScriptValue( KoLCharacter.getElementalResistance( monster.getAttackElement() ) );
 	}
 
-	public static ScriptValue combat_rate_modifier( final Interpreter interpreter )
+	public static ScriptValue combat_rate_modifier()
 	{
 		return new ScriptValue( KoLCharacter.getCombatRateAdjustment() );
 	}
 
-	public static ScriptValue initiative_modifier( final Interpreter interpreter )
+	public static ScriptValue initiative_modifier()
 	{
 		return new ScriptValue( KoLCharacter.getInitiativeAdjustment() );
 	}
 
-	public static ScriptValue experience_bonus( final Interpreter interpreter )
+	public static ScriptValue experience_bonus()
 	{
 		return new ScriptValue( KoLCharacter.getExperienceAdjustment() );
 	}
 
-	public static ScriptValue meat_drop_modifier( final Interpreter interpreter )
+	public static ScriptValue meat_drop_modifier()
 	{
 		return new ScriptValue( KoLCharacter.getMeatDropPercentAdjustment() );
 	}
 
-	public static ScriptValue item_drop_modifier( final Interpreter interpreter )
+	public static ScriptValue item_drop_modifier()
 	{
 		return new ScriptValue( KoLCharacter.getItemDropPercentAdjustment() );
 	}
 
-	public static ScriptValue buffed_hit_stat( final Interpreter interpreter )
+	public static ScriptValue buffed_hit_stat()
 	{
 		int hitStat = KoLCharacter.getAdjustedHitStat();
 		return new ScriptValue( hitStat );
 	}
 
-	public static ScriptValue current_hit_stat( final Interpreter interpreter )
+	public static ScriptValue current_hit_stat()
 	{
 		return KoLCharacter.hitStat() == KoLConstants.MOXIE ? DataTypes.MOXIE_VALUE : DataTypes.MUSCLE_VALUE;
 	}
 
-	public static ScriptValue monster_element( final Interpreter interpreter )
+	public static ScriptValue monster_element()
 	{
 		int element = FightRequest.getMonsterDefenseElement();
 		return new ScriptValue( DataTypes.ELEMENT_TYPE, element, MonsterDatabase.elementNames[ element ] );
 	}
 
-	public static ScriptValue monster_element( final Interpreter interpreter, final ScriptVariable arg )
+	public static ScriptValue monster_element( final ScriptValue arg )
 	{
-		Monster monster = (Monster) arg.rawValue( interpreter );
+		Monster monster = (Monster) arg.rawValue();
 		if ( monster == null )
 		{
 			return DataTypes.ELEMENT_INIT;
@@ -3002,14 +2979,14 @@ public abstract class RuntimeLibrary
 		return new ScriptValue( DataTypes.ELEMENT_TYPE, element, MonsterDatabase.elementNames[ element ] );
 	}
 
-	public static ScriptValue monster_attack( final Interpreter interpreter )
+	public static ScriptValue monster_attack()
 	{
 		return new ScriptValue( FightRequest.getMonsterAttack() );
 	}
 
-	public static ScriptValue monster_attack( final Interpreter interpreter, final ScriptVariable arg )
+	public static ScriptValue monster_attack( final ScriptValue arg )
 	{
-		Monster monster = (Monster) arg.rawValue( interpreter );
+		Monster monster = (Monster) arg.rawValue();
 		if ( monster == null )
 		{
 			return DataTypes.ZERO_VALUE;
@@ -3018,14 +2995,14 @@ public abstract class RuntimeLibrary
 		return new ScriptValue( monster.getAttack() + KoLCharacter.getMonsterLevelAdjustment() );
 	}
 
-	public static ScriptValue monster_defense( final Interpreter interpreter )
+	public static ScriptValue monster_defense()
 	{
 		return new ScriptValue( FightRequest.getMonsterDefense() );
 	}
 
-	public static ScriptValue monster_defense( final Interpreter interpreter, final ScriptVariable arg )
+	public static ScriptValue monster_defense( final ScriptValue arg )
 	{
-		Monster monster = (Monster) arg.rawValue( interpreter );
+		Monster monster = (Monster) arg.rawValue();
 		if ( monster == null )
 		{
 			return DataTypes.ZERO_VALUE;
@@ -3034,14 +3011,14 @@ public abstract class RuntimeLibrary
 		return new ScriptValue( monster.getDefense() + KoLCharacter.getMonsterLevelAdjustment() );
 	}
 
-	public static ScriptValue monster_hp( final Interpreter interpreter )
+	public static ScriptValue monster_hp()
 	{
 		return new ScriptValue( FightRequest.getMonsterHealth() );
 	}
 
-	public static ScriptValue monster_hp( final Interpreter interpreter, final ScriptVariable arg )
+	public static ScriptValue monster_hp( final ScriptValue arg )
 	{
-		Monster monster = (Monster) arg.rawValue( interpreter );
+		Monster monster = (Monster) arg.rawValue();
 		if ( monster == null )
 		{
 			return DataTypes.ZERO_VALUE;
@@ -3050,7 +3027,7 @@ public abstract class RuntimeLibrary
 		return new ScriptValue( monster.getAdjustedHP( KoLCharacter.getMonsterLevelAdjustment() ) );
 	}
 
-	public static ScriptValue item_drops( final Interpreter interpreter )
+	public static ScriptValue item_drops()
 	{
 		Monster monster = FightRequest.getLastMonster();
 		List data = monster == null ? new ArrayList() : monster.getItems();
@@ -3069,9 +3046,9 @@ public abstract class RuntimeLibrary
 		return value;
 	}
 
-	public static ScriptValue item_drops( final Interpreter interpreter, final ScriptVariable arg )
+	public static ScriptValue item_drops( final ScriptValue arg )
 	{
-		Monster monster = (Monster) arg.rawValue( interpreter );
+		Monster monster = (Monster) arg.rawValue();
 		List data = monster == null ? new ArrayList() : monster.getItems();
 
 		ScriptMap value = new ScriptMap( DataTypes.RESULT_TYPE );
@@ -3088,60 +3065,60 @@ public abstract class RuntimeLibrary
 		return value;
 	}
 
-	public static ScriptValue will_usually_dodge( final Interpreter interpreter )
+	public static ScriptValue will_usually_dodge()
 	{
 		return FightRequest.willUsuallyDodge() ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
 	}
 
-	public static ScriptValue will_usually_miss( final Interpreter interpreter )
+	public static ScriptValue will_usually_miss()
 	{
 		return FightRequest.willUsuallyMiss() ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
 	}
 
-	public static ScriptValue numeric_modifier( final Interpreter interpreter, final ScriptVariable modifier )
+	public static ScriptValue numeric_modifier( final ScriptValue modifier )
 	{
-		String mod = modifier.toStringValue( interpreter ).toString();
+		String mod = modifier.toString();
 		return new ScriptValue( KoLCharacter.currentNumericModifier( mod ) );
 	}
 
-	public static ScriptValue numeric_modifier( final Interpreter interpreter, final ScriptVariable arg, final ScriptVariable modifier )
+	public static ScriptValue numeric_modifier( final ScriptValue arg, final ScriptValue modifier )
 	{
-		String name = arg.toStringValue( interpreter ).toString();
-		String mod = modifier.toStringValue( interpreter ).toString();
+		String name = arg.toString();
+		String mod = modifier.toString();
 		return new ScriptValue( Modifiers.getNumericModifier( name, mod ) );
 	}
 
-	public static ScriptValue boolean_modifier( final Interpreter interpreter, final ScriptVariable modifier )
+	public static ScriptValue boolean_modifier( final ScriptValue modifier )
 	{
-		String mod = modifier.toStringValue( interpreter ).toString();
+		String mod = modifier.toString();
 		return new ScriptValue( KoLCharacter.currentBooleanModifier( mod ) );
 	}
 
-	public static ScriptValue boolean_modifier( final Interpreter interpreter, final ScriptVariable arg, final ScriptVariable modifier )
+	public static ScriptValue boolean_modifier( final ScriptValue arg, final ScriptValue modifier )
 	{
-		String name = arg.toStringValue( interpreter ).toString();
-		String mod = modifier.toStringValue( interpreter ).toString();
+		String name = arg.toString();
+		String mod = modifier.toString();
 		return Modifiers.getBooleanModifier( name, mod ) ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
 	}
 
-	public static ScriptValue effect_modifier( final Interpreter interpreter, final ScriptVariable arg, final ScriptVariable modifier )
+	public static ScriptValue effect_modifier( final ScriptValue arg, final ScriptValue modifier )
 	{
-		String name = arg.toStringValue( interpreter ).toString();
-		String mod = modifier.toStringValue( interpreter ).toString();
+		String name = arg.toString();
+		String mod = modifier.toString();
 		return new ScriptValue( DataTypes.parseEffectValue( Modifiers.getStringModifier( name, mod ) ) );
 	}
 
-	public static ScriptValue class_modifier( final Interpreter interpreter, final ScriptVariable arg, final ScriptVariable modifier )
+	public static ScriptValue class_modifier( final ScriptValue arg, final ScriptValue modifier )
 	{
-		String name = arg.toStringValue( interpreter ).toString();
-		String mod = modifier.toStringValue( interpreter ).toString();
+		String name = arg.toString();
+		String mod = modifier.toString();
 		return new ScriptValue( DataTypes.parseClassValue( Modifiers.getStringModifier( name, mod ) ) );
 	}
 
-	public static ScriptValue stat_modifier( final Interpreter interpreter, final ScriptVariable arg, final ScriptVariable modifier )
+	public static ScriptValue stat_modifier( final ScriptValue arg, final ScriptValue modifier )
 	{
-		String name = arg.toStringValue( interpreter ).toString();
-		String mod = modifier.toStringValue( interpreter ).toString();
+		String name = arg.toString();
+		String mod = modifier.toString();
 		return new ScriptValue( DataTypes.parseStatValue( Modifiers.getStringModifier( name, mod ) ) );
 	}
 }
