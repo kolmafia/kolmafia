@@ -90,9 +90,9 @@ public class EquipmentRequest
 	private static final int FAKE_HAND = 1511;
 
 	public static final int CLOSET = 1;
-	public static final int MISCELLANEOUS = 2;
+	public static final int CONSUMABLES = 2;
 	public static final int EQUIPMENT = 3;
-	public static final int CONSUMABLES = 4;
+	public static final int MISCELLANEOUS = 4;
 
 	public static final int SAVE_OUTFIT = 5;
 	public static final int CHANGE_OUTFIT = 6;
@@ -602,16 +602,20 @@ public class EquipmentRequest
 
 		switch ( this.requestType )
 		{
+		case EquipmentRequest.CONSUMABLES:
+			KoLmafia.updateDisplay( "Updating consumable items..." );
+			break;
+
+		case EquipmentRequest.EQUIPMENT:
+			KoLmafia.updateDisplay( "Retrieving equipment..." );
+			break;
+
 		case EquipmentRequest.MISCELLANEOUS:
 			KoLmafia.updateDisplay( "Updating miscellaneous items..." );
 			break;
 
 		case EquipmentRequest.CLOSET:
 			KoLmafia.updateDisplay( "Refreshing closet..." );
-			break;
-
-		case EquipmentRequest.EQUIPMENT:
-			KoLmafia.updateDisplay( "Retrieving equipment..." );
 			break;
 
 		case EquipmentRequest.SAVE_OUTFIT:
@@ -706,6 +710,7 @@ public class EquipmentRequest
 		// Fetch updated equipment
 		if ( this.requestType == EquipmentRequest.CLOSET )
 		{
+			KoLCharacter.resetInventory();
 			this.parseCloset();
 			EquipmentRequest.REFRESH1.run();
 			EquipmentRequest.REFRESH2.run();
