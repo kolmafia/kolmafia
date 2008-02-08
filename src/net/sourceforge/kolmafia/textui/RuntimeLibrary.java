@@ -1884,7 +1884,7 @@ public abstract class RuntimeLibrary
 			return new ScriptValue( KoLCharacter.getBaseMoxie() );
 		}
 
-		throw new RuntimeException( "Internal error: unknown stat" );
+		return DataTypes.ZERO_VALUE;
 	}
 
 	public static ScriptValue my_buffedstat( final ScriptValue arg )
@@ -1904,7 +1904,7 @@ public abstract class RuntimeLibrary
 			return new ScriptValue( KoLCharacter.getAdjustedMoxie() );
 		}
 
-		throw new RuntimeException( "Internal error: unknown stat" );
+		return DataTypes.ZERO_VALUE;
 	}
 
 	public static ScriptValue my_meat()

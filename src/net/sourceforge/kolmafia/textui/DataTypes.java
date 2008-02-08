@@ -45,6 +45,7 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLFrame;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.textui.Interpreter;
@@ -131,9 +132,9 @@ public class DataTypes
 
         public static final ScriptValue[] STAT_VALUES =
         {
-                new ScriptValue( DataTypes.STAT_TYPE, 0, DataTypes.STATS[ 0 ] ),
-                new ScriptValue( DataTypes.STAT_TYPE, 1, DataTypes.STATS[ 1 ] ),
-                new ScriptValue( DataTypes.STAT_TYPE, 2, DataTypes.STATS[ 2 ] ),
+                new ScriptValue( DataTypes.STAT_TYPE, KoLConstants.MUSCLE, DataTypes.STATS[ 0 ] ),
+                new ScriptValue( DataTypes.STAT_TYPE, KoLConstants.MYSTICALITY, DataTypes.STATS[ 1 ] ),
+                new ScriptValue( DataTypes.STAT_TYPE, KoLConstants.MOXIE, DataTypes.STATS[ 2 ] ),
         };
 
 	public static final ScriptValue VOID_VALUE = new ScriptValue();
@@ -319,7 +320,7 @@ public class DataTypes
 		{
 			if ( name.equalsIgnoreCase( DataTypes.STATS[ i ] ) )
 			{
-				return i;
+				return STAT_VALUES[ i ].intValue();
 			}
 		}
 		return -1;
@@ -332,13 +333,15 @@ public class DataTypes
 			return DataTypes.STAT_INIT;
 		}
 
-		int num = DataTypes.statToInt( name );
-		if ( num < 0 )
+		for ( int i = 0; i < DataTypes.STATS.length; ++i )
 		{
-			return returnDefault ? DataTypes.STAT_INIT : null;
+			if ( name.equalsIgnoreCase( DataTypes.STATS[ i ] ) )
+			{
+				return STAT_VALUES[ i ];
+			}
 		}
 
-		return DataTypes.STAT_VALUES[ num ];
+		return returnDefault ? DataTypes.STAT_INIT : null;
 	}
 
 	public static final ScriptValue parseSkillValue( String name, final boolean returnDefault )
