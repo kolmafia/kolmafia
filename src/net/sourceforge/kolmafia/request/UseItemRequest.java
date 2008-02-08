@@ -114,7 +114,6 @@ public class UseItemRequest
 	private static final int BARTENDER = 440;
 	private static final int KETCHUP_HOUND = 493;
 	private static final int RAFFLE_TICKET = 500;
-	private static final int ARCHES = 504;
 	private static final int HEY_DEZE_MAP = 516;
 	private static final int GATES_SCROLL = 552;
 	public static final int HACK_SCROLL = 553;
@@ -436,7 +435,6 @@ public class UseItemRequest
 		case CLOCKWORK_BARTENDER:
 		case MAID:
 		case CLOCKWORK_MAID:
-		case ARCHES:
 		case TOASTER:
 			return 1;
 
@@ -486,13 +484,13 @@ public class UseItemRequest
 
 			if ( hpRestored != 0.0f )
 			{
-				float belowMax = (float) ( KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP() );
+				float belowMax = KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP();
 				maximumSuggested = Math.max( maximumSuggested, (int) Math.ceil( belowMax / hpRestored ) );
 			}
 
 			if ( mpRestored != 0.0f )
 			{
-				float belowMax = (float) ( KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP() );
+				float belowMax = KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP();
 				maximumSuggested = Math.max( maximumSuggested, (int) Math.ceil( belowMax / mpRestored ) );
 			}
 
@@ -1439,10 +1437,6 @@ public class UseItemRequest
 
 		case TOASTER:
 			KoLCharacter.setToaster( true );
-			return;
-
-		case ARCHES:
-			KoLCharacter.setArches( true );
 			return;
 
 		case SNOWCONE_BOOK:

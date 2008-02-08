@@ -115,7 +115,6 @@ public class CampgroundRequest
 		KoLCharacter.setChef( this.responseText.indexOf( "cook.php" ) != -1 );
 		KoLCharacter.setBartender( this.responseText.indexOf( "cocktail.php" ) != -1 );
 		KoLCharacter.setToaster( this.responseText.indexOf( "action=toast" ) != -1 );
-		KoLCharacter.setArches( this.responseText.indexOf( "action=arches" ) != -1 );
 		KoLCharacter.setTelescope( this.responseText.indexOf( "action=telescope" ) != -1 );
 		KoLCharacter.setBookshelf( this.responseText.indexOf( "action=bookshelf" ) != -1 );
 
