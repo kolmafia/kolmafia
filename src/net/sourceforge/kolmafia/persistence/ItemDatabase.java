@@ -1793,7 +1793,7 @@ public class ItemDatabase
 		case KoLConstants.EQUIP_OFFHAND:
 			return descType.indexOf( "off-hand item" ) != -1;
 		case KoLConstants.CONSUME_HOBO:
-			// What is this, anyway?
+		case KoLConstants.CONSUME_GHOST:
 			return false;
 		}
 		return false;

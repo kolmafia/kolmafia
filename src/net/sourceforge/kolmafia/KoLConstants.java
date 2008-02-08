@@ -277,7 +277,8 @@ public interface KoLConstants
 	public static final int EQUIP_CONTAINER = 19;
 	public static final int CONSUME_SPECIAL = 20;
 
-	public static final int CONSUME_HOBO = 99;
+	public static final int CONSUME_HOBO = 98;
+	public static final int CONSUME_GHOST = 99;
 
 	// Item creation types
 
