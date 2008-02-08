@@ -39,7 +39,7 @@ import java.util.regex.Pattern;
 public class PasswordHashRequest
 	extends GenericRequest
 {
-	private static final Pattern HASH_PATTERN_1 = Pattern.compile( "name=[\"\']?pwd[\"\']? value=[\"\'](.*?)[\"\']" );
+	private static final Pattern HASH_PATTERN_1 = Pattern.compile( "name=[\"\']?pwd[\"\']? value=[\"\']([^\"\']+)[\"\']" );
 	private static final Pattern HASH_PATTERN_2 = Pattern.compile( "pwd=[^&]+" );
 
 	public PasswordHashRequest( final String location )
@@ -55,14 +55,14 @@ public class PasswordHashRequest
 		}
 
 		Matcher pwdmatch = PasswordHashRequest.HASH_PATTERN_1.matcher( this.responseText );
-		if ( pwdmatch.find() && pwdmatch.group( 1 ).length() > 0 )
+		if ( pwdmatch.find() )
 		{
 			GenericRequest.passwordHash = pwdmatch.group( 1 );
 			return;
 		}
 
 		pwdmatch = PasswordHashRequest.HASH_PATTERN_2.matcher( this.responseText );
-		if ( pwdmatch.find() && pwdmatch.group( 1 ).length() > 0 )
+		if ( pwdmatch.find() )
 		{
 			GenericRequest.passwordHash = pwdmatch.group( 1 );
 			return;
