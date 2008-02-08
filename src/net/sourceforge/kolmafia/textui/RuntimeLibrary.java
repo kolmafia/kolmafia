@@ -896,7 +896,7 @@ public abstract class RuntimeLibrary
 
 	private static ScriptValue continueValue()
 	{
-		return KoLmafia.permitsContinue() && !KoLmafia.hadPendingState() ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
+		return DataTypes.booleanValue( KoLmafia.permitsContinue() && !KoLmafia.hadPendingState() );
 	}
 
         // Basic utility functions which print information
@@ -916,7 +916,7 @@ public abstract class RuntimeLibrary
 
 	public static ScriptValue user_confirm( final ScriptValue message )
 	{
-		return KoLFrame.confirm( message.toString() ) ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
+		return DataTypes.booleanValue( KoLFrame.confirm( message.toString() ) );
 	}
 
 	public static ScriptValue logprint( final ScriptValue string )
@@ -1170,7 +1170,7 @@ public abstract class RuntimeLibrary
 
 	public static ScriptValue to_boolean( final ScriptValue value )
 	{
-		return ( value.intValue() != 0 || value.toString().equals( "true" ) ) ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
+		return DataTypes.booleanValue( ( value.intValue() != 0 || value.toString().equals( "true" ) ) );
 	}
 
 	public static ScriptValue to_int( final ScriptValue value )
@@ -1451,7 +1451,7 @@ public abstract class RuntimeLibrary
 		AdventureResult itemToBuy = new AdventureResult( item.intValue(), 1 );
 		int initialAmount = itemToBuy.getCount( KoLConstants.inventory );
 		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "buy " + count + " " + itemToBuy.getName() );
-		return initialAmount + count == itemToBuy.getCount( KoLConstants.inventory ) ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
+		return DataTypes.booleanValue( initialAmount + count == itemToBuy.getCount( KoLConstants.inventory ) );
 	}
 
 	public static ScriptValue create( final ScriptValue countValue, final ScriptValue item )
@@ -1636,7 +1636,7 @@ public abstract class RuntimeLibrary
 
 	public static ScriptValue is_npc_item( final ScriptValue item )
 	{
-		return NPCStoreDatabase.contains( ItemDatabase.getItemName( item.intValue() ), false ) ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
+		return DataTypes.booleanValue( NPCStoreDatabase.contains( ItemDatabase.getItemName( item.intValue() ), false ) );
 	}
 
 	public static ScriptValue daily_special()
@@ -1769,7 +1769,7 @@ public abstract class RuntimeLibrary
 
 	public static ScriptValue have_mushroom_plot()
 	{
-		return MushroomManager.ownsPlot() ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
+		return DataTypes.booleanValue( MushroomManager.ownsPlot() );
 	}
 
 	// The following functions pertain to providing updated
@@ -1813,22 +1813,22 @@ public abstract class RuntimeLibrary
 
 	public static ScriptValue in_muscle_sign()
 	{
-		return KoLCharacter.inMuscleSign() ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
+		return DataTypes.booleanValue( KoLCharacter.inMuscleSign() );
 	}
 
 	public static ScriptValue in_mysticality_sign()
 	{
-		return KoLCharacter.inMysticalitySign() ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
+		return DataTypes.booleanValue( KoLCharacter.inMysticalitySign() );
 	}
 
 	public static ScriptValue in_moxie_sign()
 	{
-		return KoLCharacter.inMoxieSign() ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
+		return DataTypes.booleanValue( KoLCharacter.inMoxieSign() );
 	}
 
 	public static ScriptValue in_bad_moon()
 	{
-		return KoLCharacter.inBadMoon() ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
+		return DataTypes.booleanValue( KoLCharacter.inBadMoon() );
 	}
 
 	public static ScriptValue my_class()
@@ -1969,12 +1969,12 @@ public abstract class RuntimeLibrary
 
 	public static ScriptValue can_interact()
 	{
-		return KoLCharacter.canInteract() ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
+		return DataTypes.booleanValue( KoLCharacter.canInteract() );
 	}
 
 	public static ScriptValue in_hardcore()
 	{
-		return KoLCharacter.isHardcore() ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
+		return DataTypes.booleanValue( KoLCharacter.isHardcore() );
 	}
 
 	// Basic skill and effect functions, including those used
@@ -1982,7 +1982,7 @@ public abstract class RuntimeLibrary
 
 	public static ScriptValue have_skill( final ScriptValue arg )
 	{
-		return KoLCharacter.hasSkill( arg.intValue() ) ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
+		return DataTypes.booleanValue( KoLCharacter.hasSkill( arg.intValue() ) );
 	}
 
 	public static ScriptValue mp_cost( final ScriptValue skill )
@@ -2110,7 +2110,7 @@ public abstract class RuntimeLibrary
 
 	public static ScriptValue can_equip( final ScriptValue item )
 	{
-		return EquipmentDatabase.canEquip( ItemDatabase.getItemName( item.intValue() ) ) ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
+		return DataTypes.booleanValue( EquipmentDatabase.canEquip( ItemDatabase.getItemName( item.intValue() ) ) );
 	}
 
 	public static ScriptValue equip( final ScriptValue item )
@@ -2141,7 +2141,7 @@ public abstract class RuntimeLibrary
 
 	public static ScriptValue have_equipped( final ScriptValue item )
 	{
-		return KoLCharacter.hasEquipped( new AdventureResult( item.intValue(), 1 ) ) ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
+		return DataTypes.booleanValue( KoLCharacter.hasEquipped( new AdventureResult( item.intValue(), 1 ) ) );
 	}
 
 	public static ScriptValue outfit( final ScriptValue outfit )
@@ -2159,7 +2159,7 @@ public abstract class RuntimeLibrary
 			return DataTypes.FALSE_VALUE;
 		}
 
-		return EquipmentDatabase.hasOutfit( so.getOutfitId() ) ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
+		return DataTypes.booleanValue( EquipmentDatabase.hasOutfit( so.getOutfitId() ) );
 	}
 
 	public static ScriptValue weapon_hands( final ScriptValue item )
@@ -2175,7 +2175,7 @@ public abstract class RuntimeLibrary
 
 	public static ScriptValue ranged_weapon( final ScriptValue item )
 	{
-		return EquipmentDatabase.isRanged( item.intValue() ) ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
+		return DataTypes.booleanValue( EquipmentDatabase.isRanged( item.intValue() ) );
 	}
 
 	public static ScriptValue get_power( final ScriptValue item )
@@ -2190,7 +2190,7 @@ public abstract class RuntimeLibrary
 
 	public static ScriptValue have_familiar( final ScriptValue familiar )
 	{
-		return KoLCharacter.findFamiliar( familiar.toString() ) != null ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
+		return DataTypes.booleanValue( KoLCharacter.findFamiliar( familiar.toString() ) != null );
 	}
 
 	public static ScriptValue use_familiar( final ScriptValue familiar )
@@ -2232,19 +2232,19 @@ public abstract class RuntimeLibrary
 
 	public static ScriptValue have_chef()
 	{
-		return KoLCharacter.hasChef() ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
+		return DataTypes.booleanValue( KoLCharacter.hasChef() );
 	}
 
 	public static ScriptValue have_bartender()
 	{
-		return KoLCharacter.hasBartender() ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
+		return DataTypes.booleanValue( KoLCharacter.hasBartender() );
 	}
 
 	// String parsing functions.
 
 	public static ScriptValue contains_text( final ScriptValue source, final ScriptValue search )
 	{
-		return source.toString().indexOf( search.toString() ) != -1 ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
+		return DataTypes.booleanValue( source.toString().indexOf( search.toString() ) != -1 );
 	}
 
 	public static ScriptValue extract_meat( final ScriptValue string )
@@ -2414,7 +2414,7 @@ public abstract class RuntimeLibrary
 	public static ScriptValue find( final ScriptValue matcher )
 	{
 		Matcher m = (Matcher) matcher.rawValue();
-		return m.find() ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
+		return DataTypes.booleanValue( m.find() );
 	}
 
 	public static ScriptValue start( final ScriptValue matcher )
@@ -3067,12 +3067,12 @@ public abstract class RuntimeLibrary
 
 	public static ScriptValue will_usually_dodge()
 	{
-		return FightRequest.willUsuallyDodge() ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
+		return DataTypes.booleanValue( FightRequest.willUsuallyDodge() );
 	}
 
 	public static ScriptValue will_usually_miss()
 	{
-		return FightRequest.willUsuallyMiss() ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
+		return DataTypes.booleanValue( FightRequest.willUsuallyMiss() );
 	}
 
 	public static ScriptValue numeric_modifier( final ScriptValue modifier )
@@ -3091,14 +3091,14 @@ public abstract class RuntimeLibrary
 	public static ScriptValue boolean_modifier( final ScriptValue modifier )
 	{
 		String mod = modifier.toString();
-		return KoLCharacter.currentBooleanModifier( mod ) ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
+		return DataTypes.booleanValue( KoLCharacter.currentBooleanModifier( mod ) );
 	}
 
 	public static ScriptValue boolean_modifier( final ScriptValue arg, final ScriptValue modifier )
 	{
 		String name = arg.toString();
 		String mod = modifier.toString();
-		return Modifiers.getBooleanModifier( name, mod ) ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
+		return DataTypes.booleanValue( Modifiers.getBooleanModifier( name, mod ) );
 	}
 
 	public static ScriptValue effect_modifier( final ScriptValue arg, final ScriptValue modifier )

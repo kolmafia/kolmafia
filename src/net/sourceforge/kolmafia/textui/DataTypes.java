@@ -189,6 +189,11 @@ public class DataTypes
 		simpleTypes.addElement( DataTypes.ELEMENT_TYPE );
 	}
 
+	public static final ScriptValue booleanValue( final boolean value )
+	{
+		return value ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
+	}
+
 	// For each simple data type X, we supply:
 	// public static final ScriptValue parseXValue( String name );
 
@@ -205,7 +210,7 @@ public class DataTypes
 
 		if ( returnDefault )
 		{
-			return StaticEntity.parseInt( name ) == 0 ? DataTypes.FALSE_VALUE : DataTypes.TRUE_VALUE;
+			return booleanValue( StaticEntity.parseInt( name ) == 0 );
 		}
 
 		return null;
