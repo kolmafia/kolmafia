@@ -183,7 +183,7 @@ public class Parser
 	public ScriptScope parse()
 	{
 		Parser previousAnalysis = Parser.currentAnalysis;
-                ScriptScope scope = null;
+		ScriptScope scope = null;
 
 		try
 		{
@@ -312,37 +312,25 @@ public class Parser
 			return scope;
 		}
 
-		AdvancedScriptException error = null;
-
-		ScriptScope result = scope;
-
 		Parser previousAnalysis = Parser.currentAnalysis;
+		ScriptScope result = scope;
 
 		try
 		{
-			Parser parser = new Parser( scriptFile, null, this.imports );
-			Parser.currentAnalysis = parser;
-			result = parser.parseScope( scope, null, new ScriptVariableList(), scope.getParentScope(), false );
-		}
-		catch ( Exception e )
-		{
-			error = new AdvancedScriptException( e );
+			Parser.currentAnalysis = new Parser( scriptFile, null, this.imports );
+			result = Parser.currentAnalysis.parseScope( scope, null, new ScriptVariableList(), scope.getParentScope(), false );
+			if ( Parser.currentAnalysis.currentLine != null )
+			{
+				throw new AdvancedScriptException( "Script parsing error" );
+			}
 		}
 		finally
 		{
-			Parser.currentAnalysis.disconnect();
-		}
-
-		if ( error == null && Parser.currentAnalysis.currentLine != null )
-		{
-			error = new AdvancedScriptException( "Script parsing error" );
-		}
-
-		Parser.currentAnalysis = previousAnalysis;
-
-		if ( error != null )
-		{
-			throw error;
+			if ( Parser.currentAnalysis != previousAnalysis )
+			{
+				Parser.currentAnalysis.disconnect();
+			}
+			Parser.currentAnalysis = previousAnalysis;
 		}
 
 		this.imports.put( scriptFile, new Long( scriptFile.lastModified() ) );
