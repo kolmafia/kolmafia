@@ -1057,7 +1057,7 @@ public class Parser
 			this.parseError( ")", this.currentToken() );
 		}
 
-		if ( condition.getType() != DataTypes.BOOLEAN_TYPE )
+		if ( condition == null || condition.getType() != DataTypes.BOOLEAN_TYPE )
 		{
 			throw new AdvancedScriptException( "\"if\" requires a boolean conditional expression" );
 		}
@@ -1128,7 +1128,7 @@ public class Parser
 						this.parseError( ")", this.currentToken() );
 					}
 
-					if ( condition.getType() != DataTypes.BOOLEAN_TYPE )
+					if ( condition == null || condition.getType() != DataTypes.BOOLEAN_TYPE )
 					{
 						throw new AdvancedScriptException( "\"if\" requires a boolean conditional expression" );
 					}
@@ -1225,13 +1225,13 @@ public class Parser
 		this.readToken(); // while
 		this.readToken(); // (
 
-		ScriptValue expression = this.parseExpression( parentScope );
+		ScriptValue condition = this.parseExpression( parentScope );
 		if ( this.currentToken() == null || !this.currentToken().equals( ")" ) )
 		{
 			this.parseError( ")", this.currentToken() );
 		}
 
-		if ( expression.getType() != DataTypes.BOOLEAN_TYPE )
+		if ( condition == null || condition.getType() != DataTypes.BOOLEAN_TYPE )
 		{
 			throw new AdvancedScriptException( "\"while\" requires a boolean conditional expression" );
 		}
@@ -1240,7 +1240,7 @@ public class Parser
 
 		ScriptScope scope = this.parseLoopScope( functionType, null, parentScope );
 
-		return new ScriptWhile( scope, expression );
+		return new ScriptWhile( scope, condition );
 	}
 
 	private ScriptRepeat parseRepeat( final ScriptType functionType, final ScriptScope parentScope )
@@ -1271,20 +1271,20 @@ public class Parser
 		this.readToken(); // until
 		this.readToken(); // (
 
-		ScriptValue expression = this.parseExpression( parentScope );
+		ScriptValue condition = this.parseExpression( parentScope );
 		if ( this.currentToken() == null || !this.currentToken().equals( ")" ) )
 		{
 			this.parseError( ")", this.currentToken() );
 		}
 
-		if ( expression.getType() != DataTypes.BOOLEAN_TYPE )
+		if ( condition == null || condition.getType() != DataTypes.BOOLEAN_TYPE )
 		{
 			throw new AdvancedScriptException( "\"repeat\" requires a boolean conditional expression" );
 		}
 
 		this.readToken(); // )
 
-		return new ScriptRepeat( scope, expression );
+		return new ScriptRepeat( scope, condition );
 	}
 
 	private ScriptForeach parseForeach( final ScriptType functionType, final ScriptScope parentScope )
