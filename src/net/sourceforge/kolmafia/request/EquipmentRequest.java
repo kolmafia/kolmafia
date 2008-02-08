@@ -55,7 +55,6 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 public class EquipmentRequest
 	extends PasswordHashRequest
 {
-	private static final GenericRequest COMBINE_PAGE = new GenericRequest( "" );
 	private static final EquipmentRequest REFRESH1 = new EquipmentRequest( EquipmentRequest.CONSUMABLES );
 	private static final EquipmentRequest REFRESH2 = new EquipmentRequest( EquipmentRequest.EQUIPMENT );
 	private static final EquipmentRequest REFRESH3 = new EquipmentRequest( EquipmentRequest.MISCELLANEOUS );
@@ -86,7 +85,6 @@ public class EquipmentRequest
 	private static final Pattern ITEMID_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
 
 	public static final AdventureResult UNEQUIP = new AdventureResult( "(none)", 1, false );
-	private static final AdventureResult PASTE = new AdventureResult( KoLConstants.MEAT_PASTE, 1 );
 	private static final AdventureResult SPECTACLES = new AdventureResult( 1916, 1 );
 
 	private static final int FAKE_HAND = 1511;
@@ -709,37 +707,9 @@ public class EquipmentRequest
 		if ( this.requestType == EquipmentRequest.CLOSET )
 		{
 			this.parseCloset();
-
-			if ( !KoLConstants.inventory.contains( EquipmentRequest.PASTE ) && KoLCharacter.getAvailableMeat() >= 10 )
-			{
-				AdventureDatabase.retrieveItem( EquipmentRequest.PASTE );
-			}
-
-			// If the person has meat paste, or is able to create
-			// meat paste, then do so and then parse the combines
-			// page.  Otherwise, go to the equipment pages.
-
-			if ( KoLCharacter.inMuscleSign() || KoLConstants.inventory.contains( EquipmentRequest.PASTE ) )
-			{
-				KoLCharacter.resetInventory();
-				EquipmentRequest.COMBINE_PAGE.constructURLString(
-					KoLCharacter.inMuscleSign() ? "knoll.php?place=paster" : "combine.php" ).run();
-
-				Matcher selectMatcher =
-					EquipmentRequest.SELECT_PATTERN.matcher( EquipmentRequest.COMBINE_PAGE.responseText );
-				if ( selectMatcher.find() )
-				{
-					this.parseCloset( selectMatcher.group(), KoLConstants.inventory );
-				}
-			}
-			else
-			{
-				KoLCharacter.resetInventory();
-				EquipmentRequest.REFRESH1.run();
-				EquipmentRequest.REFRESH3.run();
-			}
-
+			EquipmentRequest.REFRESH1.run();
 			EquipmentRequest.REFRESH2.run();
+			EquipmentRequest.REFRESH3.run();
 			return;
 		}
 
