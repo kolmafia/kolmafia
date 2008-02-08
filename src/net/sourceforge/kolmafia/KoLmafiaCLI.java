@@ -1779,7 +1779,7 @@ public class KoLmafiaCLI
 		// requests are complicated, so delegate to the
 		// appropriate utility method.
 
-		if ( command.equals( "eat" ) || command.equals( "drink" ) || command.equals( "use" ) || command.equals( "chew" ) || command.equals( "hobo" ) )
+		if ( command.equals( "eat" ) || command.equals( "drink" ) || command.equals( "use" ) || command.equals( "chew" ) || command.equals( "hobo" ) || command.equals( "ghost" ) )
 		{
 			SpecialOutfit.createImplicitCheckpoint();
 			this.executeUseItemRequest( parameters );
@@ -5392,7 +5392,7 @@ public class KoLmafiaCLI
 
 		AdventureResult currentMatch;
 
-		KoLmafiaCLI.isFoodMatch = this.currentLine.startsWith( "eat" );
+		KoLmafiaCLI.isFoodMatch = this.currentLine.startsWith( "eat" ) || this.currentLine.startsWith( "ghost" );
 		KoLmafiaCLI.isBoozeMatch = this.currentLine.startsWith( "drink" ) || this.currentLine.startsWith( "hobo" );
 		KoLmafiaCLI.isUsageMatch = !KoLmafiaCLI.isFoodMatch && !KoLmafiaCLI.isBoozeMatch;
 
@@ -5406,7 +5406,7 @@ public class KoLmafiaCLI
 		{
 			currentMatch = (AdventureResult) itemList[ i ];
 
-			if ( this.currentLine.startsWith( "eat" ) )
+			if ( this.currentLine.startsWith( "eat" ) || this.currentLine.startsWith( "ghost" ) )
 			{
 				if ( ItemDatabase.getConsumptionType( currentMatch.getItemId() ) != KoLConstants.CONSUME_EAT )
 				{
@@ -5440,8 +5440,9 @@ public class KoLmafiaCLI
 			}
 
 			UseItemRequest request =
-				!this.currentLine.startsWith( "hobo" ) ? new UseItemRequest( currentMatch ) : new UseItemRequest(
-					KoLConstants.CONSUME_HOBO, currentMatch );
+				this.currentLine.startsWith( "hobo" ) ? new UseItemRequest( KoLConstants.CONSUME_HOBO, currentMatch ) :
+				this.currentLine.startsWith( "ghost" ) ? new UseItemRequest( KoLConstants.CONSUME_GHOST, currentMatch ) :
+				new UseItemRequest( currentMatch );
 
 			RequestThread.postRequest( request );
 		}

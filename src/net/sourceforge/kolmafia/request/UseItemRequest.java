@@ -371,6 +371,7 @@ public class UseItemRequest
 		case KoLConstants.MP_RESTORE:
 			return "skills.php";
 		case KoLConstants.CONSUME_HOBO:
+		case KoLConstants.CONSUME_GHOST:
 			return "inventory.php";
 		case KoLConstants.CONSUME_MULTIPLE:
 			return "multiuse.php";
@@ -417,11 +418,26 @@ public class UseItemRequest
 
 	public static final int maximumUses( final int itemId )
 	{
-		return UseItemRequest.maximumUses( itemId, true );
+		return UseItemRequest.maximumUses( itemId, KoLConstants.NO_CONSUME, true );
+	}
+
+	public static final int maximumUses( final int itemId, final int consumptionType )
+	{
+		return UseItemRequest.maximumUses( itemId, consumptionType, true );
 	}
 
 	public static final int maximumUses( final int itemId, final boolean allowOverDrink )
 	{
+		return UseItemRequest.maximumUses( itemId, KoLConstants.NO_CONSUME, allowOverDrink );
+	}
+
+	public static final int maximumUses( final int itemId, final int consumptionType, final boolean allowOverDrink )
+	{
+		if ( consumptionType == KoLConstants.CONSUME_HOBO || consumptionType == KoLConstants.CONSUME_GHOST )
+		{
+			return Integer.MAX_VALUE;
+		}
+
 		if ( itemId <= 0 )
 		{
 			return Integer.MAX_VALUE;
@@ -547,7 +563,7 @@ public class UseItemRequest
 			return;
 		}
 
-		int maximumUses = UseItemRequest.maximumUses( itemId );
+		int maximumUses = UseItemRequest.maximumUses( itemId, this.consumptionType );
 		if ( maximumUses < this.itemUsed.getCount() )
 		{
 			this.itemUsed = this.itemUsed.getInstance( maximumUses );
@@ -723,7 +739,7 @@ public class UseItemRequest
 		return true;
 	}
 
-	public void useOnce( final int currentIteration, final int totalIterations, final String useTypeAsString )
+	public void useOnce( final int currentIteration, final int totalIterations, String useTypeAsString )
 	{
 		UseItemRequest.lastUpdate = "";
 
@@ -770,6 +786,13 @@ public class UseItemRequest
 		case KoLConstants.CONSUME_HOBO:
 			this.addFormField( "action", "hobo" );
 			this.addFormField( "which", "1" );
+			useTypeAsString = "Boozing hobo with";
+			break;
+
+		case KoLConstants.CONSUME_GHOST:
+			this.addFormField( "action", "ghost" );
+			this.addFormField( "which", "1" );
+			useTypeAsString = "Feeding ghost with";
 			break;
 
 		case KoLConstants.CONSUME_EAT:
