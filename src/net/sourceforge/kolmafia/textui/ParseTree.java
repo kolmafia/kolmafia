@@ -38,10 +38,8 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Stack;
-import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.KoLConstants.ByteArrayStream;
 import net.sourceforge.kolmafia.RequestLogger;

@@ -34,7 +34,6 @@
 package net.sourceforge.kolmafia.textui;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.Iterator;
@@ -42,7 +41,6 @@ import java.util.TreeMap;
 
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaASH;
-import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.NullStream;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -54,16 +52,12 @@ import net.sourceforge.kolmafia.textui.DataTypes.ScriptValue;
 import net.sourceforge.kolmafia.textui.Parser;
 import net.sourceforge.kolmafia.textui.Parser.AdvancedScriptException;
 import net.sourceforge.kolmafia.textui.ParseTree;
-import net.sourceforge.kolmafia.textui.ParseTree.ScriptExistingFunction;
 import net.sourceforge.kolmafia.textui.ParseTree.ScriptFunction;
 import net.sourceforge.kolmafia.textui.ParseTree.ScriptScope;
 import net.sourceforge.kolmafia.textui.ParseTree.ScriptVariableList;
 import net.sourceforge.kolmafia.textui.ParseTree.ScriptVariableReference;
-import net.sourceforge.kolmafia.textui.RuntimeLibrary;
 import net.sourceforge.kolmafia.persistence.Preferences;
-import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.SendMailRequest;
-import net.sourceforge.kolmafia.request.UseSkillRequest;
 
 public class Interpreter
 {
