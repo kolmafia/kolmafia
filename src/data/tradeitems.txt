@@ -83,7 +83,7 @@
 82	rusty L-shaped piece of metal	0	all	4
 83	crusty L-shaped piece of metal	0	all	5
 84	Orcish meat locker	0	all	5
-85	empty meat locker	3	all	6
+85	unlocked meat locker	3	all	6
 86	T-bone key	3	all	8
 87	meat from yesterday	0	all	5
 88	meat stack	0	all	100
@@ -2636,7 +2636,7 @@
 2635	really thick bandage	3	all	90
 2636	mummy mask	9	all	165
 2637	gauze shorts	10	all	165
-2638
+2638	gauze hammock	3	all	200
 2639	black cherry soda	4	all	40
 2640	black greaves	10	all	145
 2641	black cowboy hat	9	all	145
@@ -3144,16 +3144,16 @@
 3143
 3144
 3145
-3146
-3147
-3148
-3149
-3150
-3151
-3152
-3153
-3154
-3155
+3146	El Vibrato punchcard (115 holes)	0	all	115
+3147	El Vibrato punchcard (97 holes)	0	all	97
+3148	El Vibrato punchcard (129 holes)	0	all	129
+3149	El Vibrato punchcard (213 holes)	0	all	213
+3150	El Vibrato punchcard (165 holes)	0	all	165
+3151	El Vibrato punchcard (142 holes)	0	all	142
+3152	El Vibrato punchcard (216 holes)	0	all	216
+3153	El Vibrato punchcard (88 holes)	0	all	88
+3154	El Vibrato punchcard (182 holes)	0	all	182
+3155	El Vibrato punchcard (176 holes)	0	all	176
 3156
 3157
 3158
@@ -3196,6 +3196,6 @@
 3195	naughty paper shuriken	0	all	0
 3196	origami pasties	11	all	0
 3197	origami riding crop	12	all	0
-3198
+3198	El Vibrato trapezoid	3	display	0
 3199
 3200

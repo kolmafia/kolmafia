@@ -919,6 +919,7 @@ palm-frond cloak	27	palm frond (7)
 really thick bandage	27	mummy wrapping (2)
 mummy mask	27	mummy wrapping (4)
 gauze shorts	27	mummy wrapping (6)
+gauze hammock	27	mummy wrapping (10)
 
 duct tape wallet	27	duct tape (4)
 duct tape buckler	27	duct tape (10)

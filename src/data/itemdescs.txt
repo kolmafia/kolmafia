@@ -88,7 +88,7 @@
 82	970490171	rusty L-shaped piece of metal	rusty L-shaped pieces of metal
 83	228339790	crusty L-shaped piece of metal	crusty L-shaped pieces of metal
 84	221122907	Orcish meat locker	Orcish meat lockers
-85	343964219	empty meat locker	empty meat lockers
+85	343964219	unlocked meat locker	unlocked meat lockers
 86	518345878	T-bone key	T-bone keys
 87	653772183	meat from yesterday	meats from yesterday
 88	814092432	meat stack	meat stacks
@@ -2641,7 +2641,7 @@
 2635	599174480	really thick bandage	really thick bandages
 2636	324153918	mummy mask	mummy masks
 2637	343733433	gauze shorts
-2638
+2638	702494427	gauze hammock
 2639	273117128	black cherry soda	black cherry sodas
 2640	207650845	black greaves
 2641	931395512	black cowboy hat	black cowboy hats
@@ -3149,16 +3149,16 @@
 3143
 3144
 3145
-3146
-3147
-3148
-3149
-3150
-3151
-3152
-3153
-3154
-3155
+3146	190950432	El Vibrato punchcard (115 holes)
+3147	819422442	El Vibrato punchcard (97 holes)
+3148	425524497	El Vibrato punchcard (129 holes)
+3149	214908812	El Vibrato punchcard (213 holes)
+3150	492236630	El Vibrato punchcard (165 holes)
+3151	146100460	El Vibrato punchcard (142 holes)
+3152	146473377	El Vibrato punchcard (216 holes)
+3153	405841752	El Vibrato punchcard (88 holes)
+3154	782895675	El Vibrato punchcard (182 holes)
+3155	691201629	El Vibrato punchcard (176 holes)
 3156
 3157
 3158
@@ -3201,6 +3201,6 @@
 3195	697068629	naughty paper shuriken
 3196	353333224	origami pasties
 3197	232940208	origami riding crop
-3198
+3198	361752510	El Vibrato trapezoid
 3199
 3200
