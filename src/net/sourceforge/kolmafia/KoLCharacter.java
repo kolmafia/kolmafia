@@ -1955,28 +1955,6 @@ public abstract class KoLCharacter
 	}
 
 	/**
-	 * Accessor method which indicates whether or not the character has golden arches
-	 *
-	 * @return <code>true</code> if the character has golden arches
-	 */
-
-	public static final boolean hasArches()
-	{
-		return KoLCharacter.hasArches;
-	}
-
-	/**
-	 * Accessor method to indicate a change in state of the golden arches.
-	 *
-	 * @param hasArches Whether or not the character currently has golden arches
-	 */
-
-	public static final void setArches( final boolean hasArches )
-	{
-		KoLCharacter.hasArches = hasArches;
-	}
-
-	/**
 	 * Accessor method which indicates whether or not the character has a bartender-in-the-box.
 	 *
 	 * @return <code>true</code> if the character has a bartender-in-the-box

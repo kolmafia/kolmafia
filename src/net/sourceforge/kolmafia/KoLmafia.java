@@ -827,12 +827,6 @@ public abstract class KoLmafia
 				KoLmafia.forceContinue();
 			}
 
-			if ( KoLCharacter.hasArches() )
-			{
-				RequestThread.postRequest( new CampgroundRequest( "arches" ) );
-				KoLmafia.forceContinue();
-			}
-
 			if ( Preferences.getBoolean( "visitRumpus" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ) )
 			{
 				RequestThread.postRequest( new ClanRumpusRequest( ClanRumpusRequest.SEARCH ) );
