@@ -111,6 +111,7 @@ import net.sourceforge.kolmafia.textui.DataTypes.ScriptCompositeValue;
 import net.sourceforge.kolmafia.textui.DataTypes.ScriptMap;
 import net.sourceforge.kolmafia.textui.DataTypes.ScriptType;
 import net.sourceforge.kolmafia.textui.DataTypes.ScriptValue;
+import net.sourceforge.kolmafia.textui.Parser.AdvancedScriptException;
 import net.sourceforge.kolmafia.textui.ParseTree.ScriptExistingFunction;
 import net.sourceforge.kolmafia.textui.ParseTree.ScriptFunctionList;
 
@@ -2624,7 +2625,7 @@ public abstract class RuntimeLibrary
 		int range = arg.intValue();
 		if ( range < 2 )
 		{
-			throw new RuntimeException( "Random range must be at least 2" );
+			throw new AdvancedScriptException( "Random range must be at least 2" );
 		}
 		return new ScriptValue( KoLConstants.RNG.nextInt( range ) );
 	}
