@@ -47,11 +47,11 @@ import net.sourceforge.kolmafia.KoLConstants.ByteArrayStream;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.textui.DataTypes;
+import net.sourceforge.kolmafia.textui.DataTypes.ParseNode;
 import net.sourceforge.kolmafia.textui.DataTypes.ScriptAggregateType;
 import net.sourceforge.kolmafia.textui.DataTypes.ScriptAggregateValue;
 import net.sourceforge.kolmafia.textui.DataTypes.ScriptCompositeType;
 import net.sourceforge.kolmafia.textui.DataTypes.ScriptCompositeValue;
-import net.sourceforge.kolmafia.textui.DataTypes.ScriptCommand;
 import net.sourceforge.kolmafia.textui.DataTypes.ScriptSymbol;
 import net.sourceforge.kolmafia.textui.DataTypes.ScriptSymbolTable;
 import net.sourceforge.kolmafia.textui.DataTypes.ScriptType;
@@ -100,11 +100,12 @@ public abstract class ParseTree
 	}
 
 	public static class ScriptScope
+		implements ParseNode
 	{
 		ScriptFunctionList functions;
 		ScriptVariableList variables;
 		ScriptTypeList types;
-		ScriptCommandList commands;
+		ParseNodeList commands;
 		ScriptScope parentScope;
 
 		public ScriptScope( final ScriptScope parentScope )
@@ -112,16 +113,16 @@ public abstract class ParseTree
 			this.functions = new ScriptFunctionList();
 			this.variables = new ScriptVariableList();
 			this.types = new ScriptTypeList();
-			this.commands = new ScriptCommandList();
+			this.commands = new ParseNodeList();
 			this.parentScope = parentScope;
 		}
 
-		public ScriptScope( final ScriptCommand command, final ScriptScope parentScope )
+		public ScriptScope( final ParseNode command, final ScriptScope parentScope )
 		{
 			this.functions = new ScriptFunctionList();
 			this.variables = new ScriptVariableList();
 			this.types = new ScriptTypeList();
-			this.commands = new ScriptCommandList();
+			this.commands = new ParseNodeList();
 			this.commands.addElement( command );
 			this.parentScope = parentScope;
 		}
@@ -135,7 +136,7 @@ public abstract class ParseTree
 			}
 			this.variables = variables;
 			this.types = new ScriptTypeList();
-			this.commands = new ScriptCommandList();
+			this.commands = new ParseNodeList();
 			this.parentScope = parentScope;
 		}
 
@@ -156,7 +157,7 @@ public abstract class ParseTree
 				types = new ScriptTypeList();
 			}
 			this.types = types;
-			this.commands = new ScriptCommandList();
+			this.commands = new ParseNodeList();
 			this.parentScope = null;
 		}
 
@@ -238,7 +239,7 @@ public abstract class ParseTree
 			return null;
 		}
 
-		public void addCommand( final ScriptCommand c )
+		public void addCommand( final ParseNode c )
 		{
 			this.commands.addElement( c );
 		}
@@ -397,12 +398,12 @@ public abstract class ParseTree
 			ScriptValue result = DataTypes.VOID_VALUE;
 			interpreter.traceIndent();
 
-			ScriptCommand current;
+			ParseNode current;
 			Iterator it = this.commands.iterator();
 
 			while ( it.hasNext() )
 			{
-				current = (ScriptCommand) it.next();
+				current = (ParseNode) it.next();
 				result = current.execute( interpreter );
 
 				// Abort processing now if command failed
@@ -472,7 +473,7 @@ public abstract class ParseTree
 			it = this.getCommands();
 			while ( it.hasNext() )
 			{
-				ScriptCommand currentCommand = (ScriptCommand) it.next();
+				ParseNode currentCommand = (ParseNode) it.next();
 				currentCommand.print( stream, indent + 2 );
 			}
 		}
@@ -480,6 +481,7 @@ public abstract class ParseTree
 
 	public static abstract class ScriptFunction
 		extends ScriptSymbol
+		implements ParseNode
 	{
 		public ScriptType type;
 		public ScriptVariableReferenceList variableReferences;
@@ -790,6 +792,7 @@ public abstract class ParseTree
 
 	public static class ScriptVariable
 		extends ScriptSymbol
+		implements ParseNode
 	{
 		ScriptType type;
 		ScriptValue content;
@@ -900,6 +903,11 @@ public abstract class ParseTree
 				throw new AdvancedScriptException(
 					"Internal error: Cannot assign " + targetValue.getType() + " to " + this.getType() );
 			}
+		}
+
+		public ScriptValue execute( final Interpreter interpreter )
+		{
+			return getValue( interpreter );
 		}
 
 		public void print( final PrintStream stream, final int indent )
@@ -1188,17 +1196,8 @@ public abstract class ParseTree
 		}
 	}
 
-	public static class ScriptVariableReferenceList
-		extends ScriptList
-	{
-		public boolean addElement( final ScriptVariableReference n )
-		{
-			return super.addElement( n );
-		}
-	}
-
 	private static abstract class ScriptFlowControl
-		extends ScriptCommand
+		implements ParseNode
 	{
 		String state;
 
@@ -1261,17 +1260,8 @@ public abstract class ParseTree
 		}
 	}
 
-	public static class ScriptCommandList
-		extends ScriptList
-	{
-		public boolean addElement( final ScriptCommand n )
-		{
-			return super.addElement( n );
-		}
-	}
-
 	public static class ScriptReturn
-		extends ScriptCommand
+		implements ParseNode
 	{
 		private final ScriptValue returnValue;
 		private final ScriptType expectedType;
@@ -1374,8 +1364,8 @@ public abstract class ParseTree
 		}
 	}
 
-	public static class ScriptConditional
-		extends ScriptCommand
+	public abstract static class ScriptConditional
+		implements ParseNode
 	{
 		public ScriptScope scope;
 		private final ScriptValue condition;
@@ -1573,8 +1563,8 @@ public abstract class ParseTree
 		}
 	}
 
-	public static class ScriptLoop
-		extends ScriptCommand
+	public abstract static class ScriptLoop
+		implements ParseNode
 	{
 		public ScriptScope scope;
 
@@ -2094,7 +2084,7 @@ public abstract class ParseTree
 	}
 
 	public static class ScriptBasicScript
-		extends ScriptCommand
+		implements ParseNode
 	{
 		private final ByteArrayStream data;
 
@@ -2113,6 +2103,10 @@ public abstract class ParseTree
 			KoLmafiaCLI script = new KoLmafiaCLI( this.data.getByteArrayInputStream() );
 			script.listenForCommands();
 			return DataTypes.VOID_VALUE;
+		}
+
+		public void print( final PrintStream stream, final int indent )
+		{
 		}
 	}
 
@@ -2258,7 +2252,7 @@ public abstract class ParseTree
 	}
 
 	public static class ScriptAssignment
-		extends ScriptCommand
+		implements ParseNode
 	{
 		private final ScriptVariableReference lhs;
 		private final ScriptValue rhs;
@@ -2447,16 +2441,8 @@ public abstract class ParseTree
 		}
 	}
 
-	public static class ScriptValueList
-		extends ScriptList
-	{
-		public Iterator getValues()
-		{
-			return this.iterator();
-		}
-	}
-
 	public static class ScriptOperator
+		implements ParseNode
 	{
 		String operator;
 
@@ -2860,6 +2846,11 @@ public abstract class ParseTree
 			throw new AdvancedScriptException( "Internal error: illegal operator \"" + this.operator + "\"" );
 		}
 
+		public ScriptValue execute( final Interpreter interpreter )
+		{
+			return null;
+		}
+
 		public void print( final PrintStream stream, final int indent )
 		{
 			Interpreter.indentLine( stream, indent );
@@ -2867,13 +2858,45 @@ public abstract class ParseTree
 		}
 	}
 
-	public static class ScriptList
+	private static class ScriptList
 		extends ArrayList
 	{
 		public boolean addElement( final Object n )
 		{
 			this.add( n );
 			return true;
+		}
+	}
+
+	private static class ParseNodeList
+		extends ScriptList
+	{
+		public boolean addElement( final ParseNode n )
+		{
+			return super.addElement( n );
+		}
+	}
+
+	public static class ScriptValueList
+		extends ScriptList
+	{
+		public boolean addElement( final ScriptValue n )
+		{
+			return super.addElement( n );
+		}
+
+		public Iterator getValues()
+		{
+			return this.iterator();
+		}
+	}
+
+	public static class ScriptVariableReferenceList
+		extends ScriptList
+	{
+		public boolean addElement( final ScriptVariableReference n )
+		{
+			return super.addElement( n );
 		}
 	}
 }

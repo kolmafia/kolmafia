@@ -50,8 +50,8 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.ByteArrayStream;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.textui.DataTypes;
+import net.sourceforge.kolmafia.textui.DataTypes.ParseNode;
 import net.sourceforge.kolmafia.textui.DataTypes.ScriptAggregateType;
-import net.sourceforge.kolmafia.textui.DataTypes.ScriptCommand;
 import net.sourceforge.kolmafia.textui.DataTypes.ScriptNamedType;
 import net.sourceforge.kolmafia.textui.DataTypes.ScriptRecord;
 import net.sourceforge.kolmafia.textui.DataTypes.ScriptRecordType;
@@ -79,7 +79,6 @@ import net.sourceforge.kolmafia.textui.ParseTree.ScriptForeach;
 import net.sourceforge.kolmafia.textui.ParseTree.ScriptFunction;
 import net.sourceforge.kolmafia.textui.ParseTree.ScriptFunctionList;
 import net.sourceforge.kolmafia.textui.ParseTree.ScriptIf;
-import net.sourceforge.kolmafia.textui.ParseTree.ScriptList;
 import net.sourceforge.kolmafia.textui.ParseTree.ScriptOperator;
 import net.sourceforge.kolmafia.textui.ParseTree.ScriptRepeat;
 import net.sourceforge.kolmafia.textui.ParseTree.ScriptReturn;
@@ -352,7 +351,7 @@ public class Parser
 			if ( t == null )
 			{
 				// See if it's a regular command
-				ScriptCommand c = this.parseCommand( expectedType, result, false, whileLoop );
+				ParseNode c = this.parseCommand( expectedType, result, false, whileLoop );
 				if ( c != null )
 				{
 					result.addCommand( c );
@@ -763,10 +762,10 @@ public class Parser
 		return true;
 	}
 
-	private ScriptCommand parseCommand( final ScriptType functionType, final ScriptScope scope, final boolean noElse,
+	private ParseNode parseCommand( final ScriptType functionType, final ScriptScope scope, final boolean noElse,
 		boolean whileLoop )
 	{
-		ScriptCommand result;
+		ParseNode result;
 
 		if ( this.currentToken() == null )
 		{
@@ -1079,7 +1078,7 @@ public class Parser
 
 			if ( this.currentToken() == null || !this.currentToken().equals( "{" ) ) //Scope is a single call
 			{
-				ScriptCommand command = this.parseCommand( functionType, parentScope, !elseFound, loop );
+				ParseNode command = this.parseCommand( functionType, parentScope, !elseFound, loop );
 				scope = new ScriptScope( command, parentScope );
 			}
 			else
@@ -1724,7 +1723,7 @@ public class Parser
 		return null;
 	}
 
-	private ScriptCommand parseAssignment( final ScriptScope scope )
+	private ParseNode parseAssignment( final ScriptScope scope )
 	{
 		if ( this.nextToken() == null )
 		{

@@ -1148,21 +1148,14 @@ public class DataTypes
 
 	// **************** ScriptValue *****************
 
-	public static abstract class ScriptCommand
+	public interface ParseNode
 	{
-		public ScriptValue execute( final Interpreter interpreter )
-		{
-			return null;
-		}
-
-		public void print( final PrintStream stream, final int indent )
-		{
-		}
+		public ScriptValue execute( final Interpreter interpreter );
+		public void print( final PrintStream stream, final int indent );
 	}
 
 	public static class ScriptValue
-		extends ScriptCommand
-		implements Comparable
+		implements ParseNode, Comparable
 	{
 		public ScriptType type;
 
