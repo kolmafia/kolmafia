@@ -178,6 +178,11 @@ public abstract class ParseTree
 			return this.functions.iterator();
 		}
 
+		public ScriptFunctionList getFunctionList()
+		{
+			return this.functions;
+		}
+
 		public boolean addVariable( final ScriptVariable v )
 		{
 			return this.variables.addElement( v );
@@ -250,62 +255,37 @@ public abstract class ParseTree
 			return false;
 		}
 
-		private boolean isMatchingFunction( final ScriptUserDefinedFunction current, final ScriptUserDefinedFunction f )
+		private boolean isMatchingFunction( final ScriptUserDefinedFunction existing, final ScriptUserDefinedFunction f )
 		{
-			// The existing function must be a forward
-			// reference.  Thus, already-defined functions
-			// need to be skipped.
-
-			boolean avoidExactMatch = current.getScope() != null;
-
 			// The types of the new function's parameters
 			// must exactly match the types of the existing
 			// function's parameters
 
-			Iterator it1 = current.getReferences();
+			Iterator it1 = existing.getReferences();
 			Iterator it2 = f.getReferences();
-			ScriptVariableReference p1, p2;
-
-			int paramCount = 1;
 
 			while ( it1.hasNext() && it2.hasNext() )
 			{
-				p1 = (ScriptVariableReference) it1.next();
-				p2 = (ScriptVariableReference) it2.next();
+				ScriptVariableReference p1 = (ScriptVariableReference) it1.next();
+				ScriptVariableReference p2 = (ScriptVariableReference) it2.next();
 
 				if ( !p1.getType().equals( p2.getType() ) )
 				{
 					return false;
 				}
-
-				++paramCount;
 			}
 
 			// There must be the same number of parameters
 
-			if ( it1.hasNext() )
+			if ( it1.hasNext() || it2.hasNext() )
 			{
 				return false;
-			}
-
-			if ( it2.hasNext() )
-			{
-				return false;
-			}
-
-			// Unfortunately, if it's an exact match and you're
-			// avoiding exact matches, you need to throw an
-			// exception.
-
-			if ( avoidExactMatch )
-			{
-				throw new AdvancedScriptException( "Function '" + f.getName() + "' defined multiple times" );
 			}
 
 			return true;
 		}
 
-		public ScriptUserDefinedFunction replaceFunction( final ScriptUserDefinedFunction f )
+		public ScriptUserDefinedFunction findFunction( final ScriptUserDefinedFunction f )
 		{
 			if ( f.getName().equals( "main" ) )
 			{
@@ -319,15 +299,29 @@ public abstract class ParseTree
 				if ( options[ i ] instanceof ScriptUserDefinedFunction )
 				{
 					ScriptUserDefinedFunction existing = (ScriptUserDefinedFunction) options[ i ];
-					if ( !this.isMatchingFunction( existing, f ) )
+					if ( this.isMatchingFunction( existing, f ) )
 					{
-						continue;
+						return existing;
 					}
-
-					// Must use new definition's variables
-					existing.setVariableReferences( f.getVariableReferences() );
-					return existing;
 				}
+			}
+
+			return null;
+		}
+
+		public ScriptUserDefinedFunction replaceFunction( final ScriptUserDefinedFunction existing, final ScriptUserDefinedFunction f )
+		{
+			if ( f.getName().equals( "main" ) )
+			{
+				return f;
+			}
+
+			if ( existing != null )
+			{
+				// Must use new definition's variables
+
+				existing.setVariableReferences( f.getVariableReferences() );
+				return existing;
 			}
 
 			this.addFunction( f );
@@ -379,163 +373,6 @@ public abstract class ParseTree
 			}
 
 			return bestMatch;
-		}
-
-		private ScriptFunction findFunction( final ScriptFunctionList source, final String name,
-			final ScriptValueList params, boolean isExactMatch )
-		{
-			String errorMessage = null;
-
-			ScriptFunction[] functions = source.findFunctions( name );
-
-			// First, try to find an exact match on parameter types.
-			// This allows strict matches to take precedence.
-
-			for ( int i = 0; i < functions.length; ++i )
-			{
-				errorMessage = null;
-
-				if ( params == null )
-				{
-					return functions[ i ];
-				}
-
-				Iterator refIterator = functions[ i ].getReferences();
-				Iterator valIterator = params.getValues();
-
-				ScriptVariableReference currentParam;
-				ScriptValue currentValue;
-				int paramIndex = 1;
-
-				while ( errorMessage == null && refIterator.hasNext() && valIterator.hasNext() )
-				{
-					currentParam = (ScriptVariableReference) refIterator.next();
-					currentValue = (ScriptValue) valIterator.next();
-
-					if ( isExactMatch )
-					{
-						if ( currentParam.getType() != currentValue.getType() )
-						{
-							errorMessage =
-								"Illegal parameter #" + paramIndex + " for function " + name + ", got " + currentValue.getType() + ", need " + currentParam.getType();
-						}
-					}
-					else if ( !Parser.validCoercion( currentParam.getType(), currentValue.getType(), "parameter" ) )
-					{
-						errorMessage =
-							"Illegal parameter #" + paramIndex + " for function " + name + ", got " + currentValue.getType() + ", need " + currentParam.getType();
-					}
-
-					++paramIndex;
-				}
-
-				if ( errorMessage == null && ( refIterator.hasNext() || valIterator.hasNext() ) )
-				{
-					errorMessage =
-						"Illegal amount of parameters for function " + name + ", got " + params.size() + ", expected " + functions[ i ].getVariableReferences().size();
-				}
-
-				if ( errorMessage == null )
-				{
-					return functions[ i ];
-				}
-			}
-
-			if ( !isExactMatch && this.parentScope != null )
-			{
-				return this.parentScope.findFunction( name, params );
-			}
-
-			if ( !isExactMatch && source == RuntimeLibrary.functions && errorMessage != null )
-			{
-				throw new AdvancedScriptException( errorMessage );
-			}
-
-			return null;
-		}
-
-		public ScriptFunction findFunction( final String name, final ScriptValueList params )
-		{
-			ScriptFunction result = this.findFunction( this.functions, name, params, true );
-
-			if ( result == null )
-			{
-				result = this.findFunction( RuntimeLibrary.functions, name, params, true );
-			}
-			if ( result == null )
-			{
-				result = this.findFunction( this.functions, name, params, false );
-			}
-			if ( result == null )
-			{
-				result = this.findFunction( RuntimeLibrary.functions, name, params, false );
-			}
-
-			// Just in case there's some people who don't want to edit
-			// their scripts to use the new function format, check for
-			// the old versions as well.
-
-			if ( result == null )
-			{
-				if ( name.endsWith( "to_string" ) )
-				{
-					return this.findFunction( "to_string", params );
-				}
-				if ( name.endsWith( "to_boolean" ) )
-				{
-					return this.findFunction( "to_boolean", params );
-				}
-				if ( name.endsWith( "to_int" ) )
-				{
-					return this.findFunction( "to_int", params );
-				}
-				if ( name.endsWith( "to_float" ) )
-				{
-					return this.findFunction( "to_float", params );
-				}
-				if ( name.endsWith( "to_item" ) )
-				{
-					return this.findFunction( "to_item", params );
-				}
-				if ( name.endsWith( "to_class" ) )
-				{
-					return this.findFunction( "to_class", params );
-				}
-				if ( name.endsWith( "to_stat" ) )
-				{
-					return this.findFunction( "to_stat", params );
-				}
-				if ( name.endsWith( "to_skill" ) )
-				{
-					return this.findFunction( "to_skill", params );
-				}
-				if ( name.endsWith( "to_effect" ) )
-				{
-					return this.findFunction( "to_effect", params );
-				}
-				if ( name.endsWith( "to_location" ) )
-				{
-					return this.findFunction( "to_location", params );
-				}
-				if ( name.endsWith( "to_familiar" ) )
-				{
-					return this.findFunction( "to_familiar", params );
-				}
-				if ( name.endsWith( "to_monster" ) )
-				{
-					return this.findFunction( "to_monster", params );
-				}
-				if ( name.endsWith( "to_slot" ) )
-				{
-					return this.findFunction( "to_slot", params );
-				}
-				if ( name.endsWith( "to_url" ) )
-				{
-					return this.findFunction( "to_url", params );
-				}
-			}
-
-			return result;
 		}
 
 		public Iterator getCommands()
@@ -803,7 +640,7 @@ public abstract class ParseTree
 
 			if ( this.scope == null )
 			{
-				throw new RuntimeException( "Calling undefined user function: " + this.getName() );
+				throw new AdvancedScriptException( "Calling undefined user function: " + this.getName() );
 			}
 
 			ScriptValue result = this.scope.execute( interpreter );
@@ -884,7 +721,7 @@ public abstract class ParseTree
 
 			if ( this.method == null )
 			{
-				throw new RuntimeException( "Internal error: no method for " + this.getName() );
+				throw new AdvancedScriptException( "Internal error: no method for " + this.getName() );
 			}
 
 			// Dereference variables and pass ScriptValues to function
@@ -1047,7 +884,7 @@ public abstract class ParseTree
 			}
 			else
 			{
-				throw new RuntimeException(
+				throw new AdvancedScriptException(
 					"Internal error: Cannot assign " + targetValue.getType() + " to " + this.getType() );
 			}
 		}
@@ -2193,7 +2030,7 @@ public abstract class ParseTree
 
 			if ( current != end && increment == 0 )
 			{
-				throw new RuntimeException( "Start not equal to end and increment equals 0" );
+				throw new AdvancedScriptException( "Start not equal to end and increment equals 0" );
 			}
 
 			while ( up && current <= end || !up && current >= end )
@@ -2272,21 +2109,10 @@ public abstract class ParseTree
 		private final ScriptFunction target;
 		private final ScriptValueList params;
 
-		public ScriptCall( final String functionName, final ScriptScope scope, final ScriptValueList params )
+		public ScriptCall( final ScriptFunction target, final ScriptValueList params )
 		{
-			this.target = this.findFunction( functionName, scope, params );
+			this.target = target;
 			this.params = params;
-		}
-
-		private ScriptFunction findFunction( final String name, final ScriptScope scope,
-			final ScriptValueList params )
-		{
-			if ( scope == null )
-			{
-				return null;
-			}
-
-			return scope.findFunction( name, params );
 		}
 
 		public ScriptFunction getTarget()
@@ -2333,7 +2159,7 @@ public abstract class ParseTree
 				if ( !valIterator.hasNext() )
 				{
 					this.target.restoreBindings( interpreter );
-					throw new RuntimeException( "Internal error: illegal arguments" );
+					throw new AdvancedScriptException( "Internal error: illegal arguments" );
 				}
 
 				paramValue = (ScriptValue) valIterator.next();
@@ -2380,7 +2206,7 @@ public abstract class ParseTree
 			if ( valIterator.hasNext() )
 			{
 				this.target.restoreBindings( interpreter );
-				throw new RuntimeException( "Internal error: illegal arguments" );
+				throw new AdvancedScriptException( "Internal error: illegal arguments" );
 			}
 
 			interpreter.trace( "Entering function " + this.target.getName() );
@@ -2623,11 +2449,6 @@ public abstract class ParseTree
 
 		public ScriptOperator( final String operator )
 		{
-			if ( operator == null )
-			{
-				throw new RuntimeException( "Internal error in ScriptOperator()" );
-			}
-
 			this.operator = operator;
 		}
 
@@ -2749,7 +2570,7 @@ public abstract class ParseTree
 				}
 				else
 				{
-					throw new RuntimeException( "Unary minus can only be applied to numbers" );
+					throw new AdvancedScriptException( "Internal error: Unary minus can only be applied to numbers" );
 				}
 				interpreter.trace( "<- " + result );
 				interpreter.traceUnindent();
@@ -2759,7 +2580,7 @@ public abstract class ParseTree
 			// Unknown operator
 			if ( rhs == null )
 			{
-				throw new RuntimeException( "Internal error: missing right operand." );
+				throw new AdvancedScriptException( "Internal error: missing right operand." );
 			}
 
 			// Binary operators with optional right values
@@ -2822,7 +2643,7 @@ public abstract class ParseTree
 			// Ensure type compatibility of operands
 			if ( !Parser.validCoercion( lhs.getType(), rhs.getType(), this.operator ) )
 			{
-				throw new RuntimeException( "Internal error: left hand side and right hand side do not correspond" );
+				throw new AdvancedScriptException( "Internal error: left hand side and right hand side do not correspond" );
 			}
 
 			// Special binary operator: <aggref> contains <any>
@@ -3023,7 +2844,7 @@ public abstract class ParseTree
 			}
 
 			// Unknown operator
-			throw new RuntimeException( "Internal error: illegal operator \"" + this.operator + "\"" );
+			throw new AdvancedScriptException( "Internal error: illegal operator \"" + this.operator + "\"" );
 		}
 
 		public void print( final PrintStream stream, final int indent )
