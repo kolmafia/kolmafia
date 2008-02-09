@@ -34,6 +34,8 @@
 package net.sourceforge.kolmafia.textui;
 
 import java.io.PrintStream;
+import java.lang.IllegalAccessException;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -738,12 +740,17 @@ public abstract class ParseTree
 				// Invoke the method
 				return (ScriptValue) this.method.invoke( this, this.values );
 			}
-			catch ( Exception e )
+			catch ( InvocationTargetException e )
 			{
-				// This should not happen.  Therefore, print
-				// a stack trace for debug purposes.
+				// This is an error in the called method. Pass
+				// it on up so that we'll print a stack trace.
 
-				throw new AdvancedScriptException( e.getCause() == null ? e : e.getCause() );
+				throw new RuntimeException( e.getCause() );
+			}
+			catch ( IllegalAccessException e )
+			{
+				// Anything else is an internal error.
+				throw new AdvancedScriptException( e );
 			}
 		}
 	}
