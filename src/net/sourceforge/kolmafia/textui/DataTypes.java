@@ -49,6 +49,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLFrame;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.Parser.AdvancedScriptException;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
@@ -564,7 +565,7 @@ public class DataTypes
 			return KoLFrame.input( message );
 
 		default:
-			throw new RuntimeException( "Internal error: Illegal type for main() parameter" );
+			throw new AdvancedScriptException( "Internal error: Illegal type for main() parameter" );
 		}
 	}
 
@@ -990,7 +991,7 @@ public class DataTypes
 		{
 			if ( !( key instanceof ScriptValue ) )
 			{
-				throw new RuntimeException( "Internal error: key is not a ScriptValue" );
+				throw new AdvancedScriptException( "Internal error: key is not a ScriptValue" );
 			}
 			int index = this.indexOf( (ScriptValue) key );
 			if ( index < 0 || index >= this.fieldTypes.length )
@@ -1540,7 +1541,7 @@ public class DataTypes
 			int i = index.intValue();
 			if ( i < 0 || i > array.length )
 			{
-				throw new RuntimeException( "ASH array index out of bounds" );
+				throw new AdvancedScriptException( "Array index out of bounds" );
 			}
 			return array[ i ];
 		}
@@ -1551,7 +1552,7 @@ public class DataTypes
 			int index = key.intValue();
 			if ( index < 0 || index > array.length )
 			{
-				throw new RuntimeException( "ASH array index out of bounds" );
+				throw new AdvancedScriptException( "Array index out of bounds" );
 			}
 
 			if ( array[ index ].getType().equals( val.getType() ) )
@@ -1574,7 +1575,7 @@ public class DataTypes
 			}
 			else
 			{
-				throw new RuntimeException(
+				throw new AdvancedScriptException(
 					"Internal error: Cannot assign " + val.getType() + " to " + array[ index ].getType() );
 			}
 		}
@@ -1585,7 +1586,7 @@ public class DataTypes
 			int index = key.intValue();
 			if ( index < 0 || index > array.length )
 			{
-				throw new RuntimeException( "ASH array index out of bounds" );
+				throw new AdvancedScriptException( "Array index out of bounds" );
 			}
 			ScriptValue result = array[ index ];
 			array[ index ] = this.getDataType().initialValue();
@@ -1731,7 +1732,7 @@ public class DataTypes
 			int index = ( (ScriptRecordType) this.type ).indexOf( key );
 			if ( index < 0 )
 			{
-				throw new RuntimeException( "Internal error: field index out of bounds" );
+				throw new AdvancedScriptException( "Internal error: field index out of bounds" );
 			}
 			ScriptValue[] array = (ScriptValue[]) this.content;
 			return array[ index ];
@@ -1743,7 +1744,7 @@ public class DataTypes
 			int size = type.fieldCount();
 			if ( index < 0 || index >= size )
 			{
-				throw new RuntimeException( "Internal error: field index out of bounds" );
+				throw new AdvancedScriptException( "Internal error: field index out of bounds" );
 			}
 			ScriptValue[] array = (ScriptValue[]) this.content;
 			return array[ index ];
@@ -1754,7 +1755,7 @@ public class DataTypes
 			int index = ( (ScriptRecordType) this.type ).indexOf( key );
 			if ( index < 0 )
 			{
-				throw new RuntimeException( "Internal error: field index out of bounds" );
+				throw new AdvancedScriptException( "Internal error: field index out of bounds" );
 			}
 
 			this.aset( index, val );
@@ -1766,7 +1767,7 @@ public class DataTypes
 			int size = type.fieldCount();
 			if ( index < 0 || index >= size )
 			{
-				throw new RuntimeException( "Internal error: field index out of bounds" );
+				throw new AdvancedScriptException( "Internal error: field index out of bounds" );
 			}
 
 			ScriptValue[] array = (ScriptValue[]) this.content;
@@ -1791,7 +1792,7 @@ public class DataTypes
 			}
 			else
 			{
-				throw new RuntimeException(
+				throw new AdvancedScriptException(
 					"Internal error: Cannot assign " + val.getType() + " to " + array[ index ].getType() );
 			}
 		}
@@ -1801,7 +1802,7 @@ public class DataTypes
 			int index = ( (ScriptRecordType) this.type ).indexOf( key );
 			if ( index < 0 )
 			{
-				throw new RuntimeException( "Internal error: field index out of bounds" );
+				throw new AdvancedScriptException( "Internal error: field index out of bounds" );
 			}
 			ScriptValue[] array = (ScriptValue[]) this.content;
 			ScriptValue result = array[ index ];
