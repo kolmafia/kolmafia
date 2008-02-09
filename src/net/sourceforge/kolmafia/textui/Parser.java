@@ -37,6 +37,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Iterator;
 import java.io.LineNumberReader;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -97,8 +98,6 @@ public class Parser
 {
 	// Variables used during parsing
 
-	private static Parser currentAnalysis = null;
-
 	private String fileName;
 	private InputStream istream;
 
@@ -149,7 +148,7 @@ public class Parser
 			// If any part of the initialization fails,
 			// then throw an exception.
 
-			throw new AdvancedScriptException( this.fileName + " could not be accessed" );
+			parseError( this.fileName + " could not be accessed" );
 		}
 	}
 
@@ -167,22 +166,19 @@ public class Parser
 
 	public ScriptScope parse()
 	{
-		Parser previousAnalysis = Parser.currentAnalysis;
 		ScriptScope scope = null;
 
 		try
 		{
-			Parser.currentAnalysis = this;
 			scope = this.parseScope( null, null, new ScriptVariableList(), Parser.getExistingFunctionScope(), false );
 
 			if ( this.currentLine != null )
 			{
-				throw new AdvancedScriptException( "Script parsing error" );
+				parseError( "Script parsing error" );
 			}
 		}
 		finally
 		{
-			Parser.currentAnalysis = previousAnalysis;
 			this.disconnect();
 		}
 
@@ -289,7 +285,7 @@ public class Parser
 		File scriptFile = KoLmafiaCLI.findScriptFile( fileName );
 		if ( scriptFile == null )
 		{
-			throw new AdvancedScriptException( fileName + " could not be found" );
+			parseError( fileName + " could not be found" );
 		}
 
 		if ( this.imports.containsKey( scriptFile ) )
@@ -297,25 +293,24 @@ public class Parser
 			return scope;
 		}
 
-		Parser previousAnalysis = Parser.currentAnalysis;
 		ScriptScope result = scope;
+		Parser parser = null;
 
 		try
 		{
-			Parser.currentAnalysis = new Parser( scriptFile, null, this.imports );
-			result = Parser.currentAnalysis.parseScope( scope, null, new ScriptVariableList(), scope.getParentScope(), false );
-			if ( Parser.currentAnalysis.currentLine != null )
+			parser = new Parser( scriptFile, null, this.imports );
+			result = parser.parseScope( scope, null, new ScriptVariableList(), scope.getParentScope(), false );
+			if ( parser.currentLine != null )
 			{
-				throw new AdvancedScriptException( "Script parsing error" );
+				parseError( "Script parsing error" );
 			}
 		}
 		finally
 		{
-			if ( Parser.currentAnalysis != previousAnalysis )
+			if ( parser != null )
 			{
-				Parser.currentAnalysis.disconnect();
+				parser.disconnect();
 			}
-			Parser.currentAnalysis = previousAnalysis;
 		}
 
 		this.imports.put( scriptFile, new Long( scriptFile.lastModified() ) );
@@ -400,7 +395,7 @@ public class Parser
 			}
 
 			//Found a type but no function or variable to tie it to
-			throw new AdvancedScriptException( "Script parse error" );
+			parseError( "Script parse error" );
 		}
 
 		return result;
@@ -417,7 +412,7 @@ public class Parser
 
 		if ( this.currentToken() == null )
 		{
-			throw new AdvancedScriptException( "Record name expected" );
+			parseError( "Record name expected" );
 		}
 
 		// Allow anonymous records
@@ -430,17 +425,17 @@ public class Parser
 
 			if ( !this.parseIdentifier( recordName ) )
 			{
-				throw new AdvancedScriptException( "Invalid record name '" + recordName + "'" );
+				parseError( "Invalid record name '" + recordName + "'" );
 			}
 
 			if ( Parser.isReservedWord( recordName ) )
 			{
-				throw new AdvancedScriptException( "Reserved word '" + recordName + "' cannot be a record name" );
+				parseError( "Reserved word '" + recordName + "' cannot be a record name" );
 			}
 
 			if ( parentScope.findType( recordName ) != null )
 			{
-				throw new AdvancedScriptException( "Record name '" + recordName + "' is already defined" );
+				parseError( "Record name '" + recordName + "' is already defined" );
 			}
 
 			this.readToken(); // read name
@@ -463,29 +458,29 @@ public class Parser
 			ScriptType fieldType = this.parseType( parentScope, true, true );
 			if ( fieldType == null )
 			{
-				throw new AdvancedScriptException( "Type name expected" );
+				parseError( "Type name expected" );
 			}
 
 			// Get the field name
 			String fieldName = this.currentToken();
 			if ( fieldName == null )
 			{
-				throw new AdvancedScriptException( "Field name expected" );
+				parseError( "Field name expected" );
 			}
 
 			if ( !this.parseIdentifier( fieldName ) )
 			{
-				throw new AdvancedScriptException( "Invalid field name '" + fieldName + "'" );
+				parseError( "Invalid field name '" + fieldName + "'" );
 			}
 
 			if ( Parser.isReservedWord( fieldName ) )
 			{
-				throw new AdvancedScriptException( "Reserved word '" + fieldName + "' cannot be used as a field name" );
+				parseError( "Reserved word '" + fieldName + "' cannot be used as a field name" );
 			}
 
 			if ( fieldNames.contains( fieldName ) )
 			{
-				throw new AdvancedScriptException( "Field name '" + fieldName + "' is already defined" );
+				parseError( "Field name '" + fieldName + "' is already defined" );
 			}
 
 			this.readToken(); // read name
@@ -547,7 +542,7 @@ public class Parser
 
 		if ( Parser.isReservedWord( functionName ) )
 		{
-			throw new AdvancedScriptException( "Reserved word '" + functionName + "' cannot be used as a function name" );
+			parseError( "Reserved word '" + functionName + "' cannot be used as a function name" );
 		}
 
 		this.readToken(); //read Function name
@@ -572,7 +567,7 @@ public class Parser
 
 			if ( !paramList.addElement( param ) )
 			{
-				throw new AdvancedScriptException( "Variable " + param.getName() + " is already defined" );
+				parseError( "Variable " + param.getName() + " is already defined" );
 			}
 
 			if ( !this.currentToken().equals( ")" ) )
@@ -591,14 +586,23 @@ public class Parser
 		this.readToken(); //read )
 
 		// Add the function to the parent scope before we parse the
-		// function scope to allow recursion. Replace an existing
-		// forward reference.
+		// function scope to allow recursion.
 
-		ScriptUserDefinedFunction result =
-			parentScope.replaceFunction( new ScriptUserDefinedFunction( functionName, functionType, variableReferences ) );
+		ScriptUserDefinedFunction f = new ScriptUserDefinedFunction( functionName, functionType, variableReferences );
+		ScriptUserDefinedFunction existing = parentScope.findFunction( f );
+					
+		if ( existing != null && existing.getScope() != null )
+		{
+			parseError( "Function '" + functionName + "' defined multiple times" );
+		}
+
+		// Add new function or replace existing forward reference
+
+		ScriptUserDefinedFunction result = parentScope.replaceFunction( existing, f );
+
 		if ( this.currentToken() != null && this.currentToken().equals( ";" ) )
 		{
-			// Yes. Return forward reference
+			// Return forward reference
 			this.readToken(); // ;
 			return result;
 		}
@@ -633,7 +637,7 @@ public class Parser
 		// existing scripts break. Aargh!
 		&& !functionType.equals( DataTypes.TYPE_BOOLEAN ) )
 		{
-			throw new AdvancedScriptException( "Missing return value" );
+			parseError( "Missing return value" );
 		}
 
 		return result;
@@ -669,13 +673,13 @@ public class Parser
 		String variableName = this.currentToken();
 		if ( Parser.isReservedWord( variableName ) )
 		{
-			throw new AdvancedScriptException( "Reserved word '" + variableName + "' cannot be a variable name" );
+			parseError( "Reserved word '" + variableName + "' cannot be a variable name" );
 		}
 
 		ScriptVariable result = new ScriptVariable( variableName, t );
 		if ( scope != null && !scope.addVariable( result ) )
 		{
-			throw new AdvancedScriptException( "Variable " + result.getName() + " is already defined" );
+			parseError( "Variable " + result.getName() + " is already defined" );
 		}
 
 		this.readToken(); // If parsing of Identifier succeeded, go to next token.
@@ -684,7 +688,7 @@ public class Parser
 		{
 			if ( this.currentToken().equals( "=" ) )
 			{
-				throw new AdvancedScriptException( "Cannot initialize parameter " + result.getName() );
+				parseError( "Cannot initialize parameter " + result.getName() );
 			}
 			return result;
 		}
@@ -701,12 +705,12 @@ public class Parser
 
 			if ( rhs == null )
 			{
-				throw new AdvancedScriptException( "Expression expected" );
+				parseError( "Expression expected" );
 			}
 
 			if ( !Parser.validCoercion( lhs.getType(), rhs.getType(), "assign" ) )
 			{
-				throw new AdvancedScriptException(
+				parseError(
 					"Cannot store " + rhs.getType() + " in " + lhs + " of type " + lhs.getType() );
 			}
 		}
@@ -730,24 +734,24 @@ public class Parser
 		ScriptType t = this.parseType( parentScope, true, true );
 		if ( t == null )
 		{
-			throw new AdvancedScriptException( "Missing data type for typedef" );
+			parseError( "Missing data type for typedef" );
 		}
 
 		String typeName = this.currentToken();
 
 		if ( !this.parseIdentifier( typeName ) )
 		{
-			throw new AdvancedScriptException( "Invalid type name '" + typeName + "'" );
+			parseError( "Invalid type name '" + typeName + "'" );
 		}
 
 		if ( Parser.isReservedWord( typeName ) )
 		{
-			throw new AdvancedScriptException( "Reserved word '" + typeName + "' cannot be a type name" );
+			parseError( "Reserved word '" + typeName + "' cannot be a type name" );
 		}
 
 		if ( parentScope.findType( typeName ) != null )
 		{
-			throw new AdvancedScriptException( "Type name '" + typeName + "' is already defined" );
+			parseError( "Type name '" + typeName + "' is already defined" );
 		}
 
 		this.readToken(); // read name
@@ -773,7 +777,7 @@ public class Parser
 		{
 			if ( !whileLoop )
 			{
-				throw new AdvancedScriptException( "Encountered 'break' outside of loop" );
+				parseError( "Encountered 'break' outside of loop" );
 			}
 
 			result = new ScriptBreak();
@@ -784,7 +788,7 @@ public class Parser
 		{
 			if ( !whileLoop )
 			{
-				throw new AdvancedScriptException( "Encountered 'continue' outside of loop" );
+				parseError( "Encountered 'continue' outside of loop" );
 			}
 
 			result = new ScriptContinue();
@@ -905,7 +909,7 @@ public class Parser
 		this.readToken(); // [ or ,
 		if ( this.currentToken() == null )
 		{
-			throw new AdvancedScriptException( "Missing index token" );
+			parseError( "Missing index token" );
 		}
 
 		if ( Parser.arrays && this.readIntegerToken( this.currentToken() ) )
@@ -941,12 +945,12 @@ public class Parser
 		ScriptType indexType = scope.findType( this.currentToken() );
 		if ( indexType == null )
 		{
-			throw new AdvancedScriptException( "Invalid type name '" + this.currentToken() + "'" );
+			parseError( "Invalid type name '" + this.currentToken() + "'" );
 		}
 
 		if ( !indexType.isPrimitive() )
 		{
-			throw new AdvancedScriptException( "Index type '" + this.currentToken() + "' is not a primitive type" );
+			parseError( "Index type '" + this.currentToken() + "' is not a primitive type" );
 		}
 
 		this.readToken(); // type name
@@ -1010,25 +1014,26 @@ public class Parser
 				return new ScriptReturn( null, DataTypes.VOID_TYPE );
 			}
 
-			throw new AdvancedScriptException( "Return needs " + expectedType + " value" );
+			parseError( "Return needs " + expectedType + " value" );
+			return null;
 		}
 		else
 		{
 			if ( expectedType != null && expectedType.equals( DataTypes.TYPE_VOID ) )
 			{
-				throw new AdvancedScriptException( "Cannot return a value from a void function" );
+				parseError( "Cannot return a value from a void function" );
 			}
 
 			ScriptValue value = this.parseExpression( parentScope );
 		
 			if ( value == null )
 			{
-				throw new AdvancedScriptException( "Expression expected" );
+				parseError( "Expression expected" );
 			}
 
 			if ( !Parser.validCoercion( expectedType, value.getType(), "return" ) )
 			{
-				throw new AdvancedScriptException( "Cannot return " + value.getType() + " value from " + expectedType + " function");
+				parseError( "Cannot return " + value.getType() + " value from " + expectedType + " function");
 			}
 
 			return new ScriptReturn( value, expectedType );
@@ -1059,7 +1064,7 @@ public class Parser
 
 		if ( condition == null || condition.getType() != DataTypes.BOOLEAN_TYPE )
 		{
-			throw new AdvancedScriptException( "\"if\" requires a boolean conditional expression" );
+			parseError( "\"if\" requires a boolean conditional expression" );
 		}
 
 		this.readToken(); // )
@@ -1107,7 +1112,7 @@ public class Parser
 			{
 				if ( finalElse )
 				{
-					throw new AdvancedScriptException( "Else without if" );
+					parseError( "Else without if" );
 				}
 
 				if ( this.nextToken() != null && this.nextToken().equalsIgnoreCase( "if" ) )
@@ -1130,7 +1135,7 @@ public class Parser
 
 					if ( condition == null || condition.getType() != DataTypes.BOOLEAN_TYPE )
 					{
-						throw new AdvancedScriptException( "\"if\" requires a boolean conditional expression" );
+						parseError( "\"if\" requires a boolean conditional expression" );
 					}
 
 					this.readToken(); // )
@@ -1233,7 +1238,7 @@ public class Parser
 
 		if ( condition == null || condition.getType() != DataTypes.BOOLEAN_TYPE )
 		{
-			throw new AdvancedScriptException( "\"while\" requires a boolean conditional expression" );
+			parseError( "\"while\" requires a boolean conditional expression" );
 		}
 
 		this.readToken(); // )
@@ -1279,7 +1284,7 @@ public class Parser
 
 		if ( condition == null || condition.getType() != DataTypes.BOOLEAN_TYPE )
 		{
-			throw new AdvancedScriptException( "\"repeat\" requires a boolean conditional expression" );
+			parseError( "\"repeat\" requires a boolean conditional expression" );
 		}
 
 		this.readToken(); // )
@@ -1311,12 +1316,12 @@ public class Parser
 
 			if ( !this.parseIdentifier( name ) )
 			{
-				throw new AdvancedScriptException( "Key variable name expected" );
+				parseError( "Key variable name expected" );
 			}
 
 			if ( parentScope.findVariable( name ) != null )
 			{
-				throw new AdvancedScriptException( "Key variable '" + name + "' is already defined" );
+				parseError( "Key variable '" + name + "' is already defined" );
 			}
 
 			names.add( name );
@@ -1345,7 +1350,7 @@ public class Parser
 
 		if ( aggregate == null || !( aggregate instanceof ScriptVariableReference ) || !( aggregate.getType().getBaseType() instanceof ScriptAggregateType ) )
 		{
-			throw new AdvancedScriptException( "Aggregate reference expected" );
+			parseError( "Aggregate reference expected" );
 		}
 
 		// Define key variables of appropriate type
@@ -1357,7 +1362,7 @@ public class Parser
 		{
 			if ( !( type instanceof ScriptAggregateType ) )
 			{
-				throw new AdvancedScriptException( "Too many key variables specified" );
+				parseError( "Too many key variables specified" );
 			}
 
 			ScriptType itype = ( (ScriptAggregateType) type ).getIndexType();
@@ -1397,7 +1402,7 @@ public class Parser
 
 		if ( parentScope.findVariable( name ) != null )
 		{
-			throw new AdvancedScriptException( "Index variable '" + name + "' is already defined" );
+			parseError( "Index variable '" + name + "' is already defined" );
 		}
 
 		this.readToken(); // for
@@ -1543,12 +1548,12 @@ public class Parser
 
 		this.readToken(); // )
 
-		ScriptCall call = new ScriptCall( name, scope, params );
-		if ( call.getTarget() == null )
+		ScriptFunction target = this.findFunction( scope, name, params );
+		if ( target == null )
 		{
-			throw new AdvancedScriptException( "Undefined reference '" + name + "'" );
+			parseError( "Undefined reference to function '" + name + "'" );
 		}
-
+		ScriptCall call = new ScriptCall( target, params );
 		ScriptValue result = call;
 		while ( result != null && this.currentToken() != null && this.currentToken().equals( "." ) )
 		{
@@ -1559,6 +1564,164 @@ public class Parser
 		}
 
 		return result;
+	}
+
+        private final ScriptFunction findFunction( final ScriptScope scope, final String name, final ScriptValueList params )
+	{
+                ScriptFunction result = this.findFunction( scope, scope.getFunctionList(), name, params, true );
+
+                if ( result == null )
+                {
+                        result = this.findFunction( scope, RuntimeLibrary.functions, name, params, true );
+                }
+                if ( result == null )
+                {
+                        result = this.findFunction( scope, scope.getFunctionList(), name, params, false );
+                }
+                if ( result == null )
+                {
+                        result = this.findFunction( scope, RuntimeLibrary.functions, name, params, false );
+                }
+
+                // Just in case there's some people who don't want to edit
+                // their scripts to use the new function format, check for
+                // the old versions as well.
+
+                if ( result == null )
+                {
+                        if ( name.endsWith( "to_string" ) )
+                        {
+                                return this.findFunction( scope, "to_string", params );
+                        }
+                        if ( name.endsWith( "to_boolean" ) )
+                        {
+                                return this.findFunction( scope, "to_boolean", params );
+                        }
+                        if ( name.endsWith( "to_int" ) )
+                        {
+                                return this.findFunction( scope, "to_int", params );
+                        }
+                        if ( name.endsWith( "to_float" ) )
+                        {
+                                return this.findFunction( scope, "to_float", params );
+                        }
+                        if ( name.endsWith( "to_item" ) )
+                        {
+                                return this.findFunction( scope, "to_item", params );
+                        }
+                        if ( name.endsWith( "to_class" ) )
+                        {
+                                return this.findFunction( scope, "to_class", params );
+                        }
+                        if ( name.endsWith( "to_stat" ) )
+                        {
+                                return this.findFunction( scope, "to_stat", params );
+                        }
+                        if ( name.endsWith( "to_skill" ) )
+                        {
+                                return this.findFunction( scope, "to_skill", params );
+                        }
+                        if ( name.endsWith( "to_effect" ) )
+                        {
+                                return this.findFunction( scope, "to_effect", params );
+                        }
+                        if ( name.endsWith( "to_location" ) )
+                        {
+                                return this.findFunction( scope, "to_location", params );
+                        }
+                        if ( name.endsWith( "to_familiar" ) )
+                        {
+                                return this.findFunction( scope, "to_familiar", params );
+                        }
+                        if ( name.endsWith( "to_monster" ) )
+                        {
+                                return this.findFunction( scope, "to_monster", params );
+                        }
+                        if ( name.endsWith( "to_slot" ) )
+                        {
+                                return this.findFunction( scope, "to_slot", params );
+                        }
+                        if ( name.endsWith( "to_url" ) )
+                        {
+                                return this.findFunction( scope, "to_url", params );
+                        }
+                }
+
+		return result;
+        }
+
+	private final ScriptFunction findFunction( final ScriptScope scope, final ScriptFunctionList source,
+						   final String name, final ScriptValueList params,
+						   boolean isExactMatch )
+	{
+		String errorMessage = null;
+
+		ScriptFunction[] functions = source.findFunctions( name );
+
+		// First, try to find an exact match on parameter types.
+		// This allows strict matches to take precedence.
+
+		for ( int i = 0; i < functions.length; ++i )
+		{
+			errorMessage = null;
+
+			if ( params == null )
+			{
+				return functions[ i ];
+			}
+
+			Iterator refIterator = functions[ i ].getReferences();
+			Iterator valIterator = params.getValues();
+
+			ScriptVariableReference currentParam;
+			ScriptValue currentValue;
+			int paramIndex = 1;
+
+			while ( errorMessage == null && refIterator.hasNext() && valIterator.hasNext() )
+			{
+				currentParam = (ScriptVariableReference) refIterator.next();
+				currentValue = (ScriptValue) valIterator.next();
+
+				if ( isExactMatch )
+				{
+					if ( currentParam.getType() != currentValue.getType() )
+					{
+						errorMessage =
+							"Illegal parameter #" + paramIndex + " for function " + name + ". Got " + currentValue.getType() + ", need " + currentParam.getType();
+					}
+				}
+				else if ( !Parser.validCoercion( currentParam.getType(), currentValue.getType(), "parameter" ) )
+				{
+					errorMessage =
+						"Illegal parameter #" + paramIndex + " for function " + name + ". Got " + currentValue.getType() + ", need " + currentParam.getType();
+				}
+
+				++paramIndex;
+			}
+
+			if ( errorMessage == null && ( refIterator.hasNext() || valIterator.hasNext() ) )
+			{
+				errorMessage =
+					"Illegal amount of parameters for function " + name + ". Got " + params.size() + ", expected " + functions[ i ].getVariableReferences().size();
+			}
+
+			if ( errorMessage == null )
+			{
+				return functions[ i ];
+			}
+		}
+
+		if ( !isExactMatch && scope.parentScope != null )
+		{
+			return findFunction( scope.parentScope, name, params );
+		}
+
+		if ( !isExactMatch && source == RuntimeLibrary.functions && errorMessage != null )
+		{
+			parseError( errorMessage );
+		}
+
+		return null;
 	}
 
 	private ScriptCommand parseAssignment( final ScriptScope scope )
@@ -1586,7 +1749,7 @@ public class Parser
 
 		if ( lhs == null || !( lhs instanceof ScriptVariableReference ) )
 		{
-			throw new AdvancedScriptException( "Variable reference expected" );
+			parseError( "Variable reference expected" );
 		}
 
 		if ( !this.currentToken().equals( "=" ) )
@@ -1600,12 +1763,12 @@ public class Parser
 
 		if ( rhs == null )
 		{
-			throw new AdvancedScriptException( "Internal error" );
+			parseError( "Internal error" );
 		}
 
 		if ( !Parser.validCoercion( lhs.getType(), rhs.getType(), "assign" ) )
 		{
-			throw new AdvancedScriptException(
+			parseError(
 				"Cannot store " + rhs.getType() + " in " + lhs + " of type " + lhs.getType() );
 		}
 
@@ -1623,7 +1786,7 @@ public class Parser
 
 		if ( lhs == null )
 		{
-			throw new AdvancedScriptException( "Bad 'remove' statement" );
+			parseError( "Bad 'remove' statement" );
 		}
 
 		return lhs;
@@ -1651,13 +1814,13 @@ public class Parser
 			this.readToken(); // !
 			if ( ( lhs = this.parseValue( scope ) ) == null )
 			{
-				throw new AdvancedScriptException( "Value expected" );
+				parseError( "Value expected" );
 			}
 
 			lhs = new ScriptExpression( lhs, null, new ScriptOperator( operator ) );
 			if ( lhs.getType() != DataTypes.BOOLEAN_TYPE )
 			{
-				throw new AdvancedScriptException( "\"!\" operator requires a boolean value" );
+				parseError( "\"!\" operator requires a boolean value" );
 			}
 		}
 		else if ( this.currentToken().equals( "-" ) )
@@ -1673,7 +1836,7 @@ public class Parser
 			this.readToken(); // !
 			if ( ( lhs = this.parseValue( scope ) ) == null )
 			{
-				throw new AdvancedScriptException( "Value expected" );
+				parseError( "Value expected" );
 			}
 
 			lhs = new ScriptExpression( lhs, null, new ScriptOperator( operator ) );
@@ -1686,7 +1849,7 @@ public class Parser
 			lhs = this.parseVariableReference( scope );
 			if ( lhs == null || !( lhs instanceof ScriptCompositeReference ) )
 			{
-				throw new AdvancedScriptException( "Aggregate reference expected" );
+				parseError( "Aggregate reference expected" );
 			}
 
 			lhs = new ScriptExpression( lhs, null, new ScriptOperator( operator ) );
@@ -1714,12 +1877,12 @@ public class Parser
 
 			if ( ( rhs = this.parseExpression( scope, oper ) ) == null )
 			{
-				throw new AdvancedScriptException( "Value expected" );
+				parseError( "Value expected" );
 			}
 
 			if ( !Parser.validCoercion( lhs.getType(), rhs.getType(), oper.toString() ) )
 			{
-				throw new AdvancedScriptException(
+				parseError(
 					"Cannot apply operator " + oper + " to " + lhs + " (" + lhs.getType() + ") and " + rhs + " (" + rhs.getType() + ")" );
 			}
 
@@ -1897,7 +2060,7 @@ public class Parser
 		{
 			if ( i == this.currentLine.length() )
 			{
-				throw new AdvancedScriptException( "No closing \" found" );
+				parseError( "No closing \" found" );
 			}
 
 			if ( this.currentLine.charAt( i ) == '\\' )
@@ -1965,7 +2128,7 @@ public class Parser
 		ScriptType type = this.parseType( scope, false, false );
 		if ( type == null || !type.isPrimitive() )
 		{
-			throw new AdvancedScriptException( "Unknown type " + name );
+			parseError( "Unknown type " + name );
 		}
 
 		if ( !this.currentToken().equals( "[" ) )
@@ -1979,7 +2142,7 @@ public class Parser
 		{
 			if ( i == this.currentLine.length() )
 			{
-				throw new AdvancedScriptException( "No closing ] found" );
+				parseError( "No closing ] found" );
 			}
 			else if ( this.currentLine.charAt( i ) == '\\' )
 			{
@@ -1992,7 +2155,7 @@ public class Parser
 				ScriptValue value = DataTypes.parseValue( type, input, false );
 				if ( value == null )
 				{
-					throw new AdvancedScriptException( "Bad " + type.toString() + " value: \"" + input + "\"" );
+					parseError( "Bad " + type.toString() + " value: \"" + input + "\"" );
 				}
 				return value;
 			}
@@ -2047,7 +2210,7 @@ public class Parser
 
 		if ( var == null )
 		{
-			throw new AdvancedScriptException( "Unknown variable '" + name + "'" );
+			parseError( "Unknown variable '" + name + "'" );
 		}
 
 		this.readToken(); // read name
@@ -2083,11 +2246,11 @@ public class Parser
 				{
 					if ( indices.isEmpty() )
 					{
-						throw new AdvancedScriptException( "Variable '" + var.getName() + "' cannot be indexed" );
+						parseError( "Variable '" + var.getName() + "' cannot be indexed" );
 					}
 					else
 					{
-						throw new AdvancedScriptException( "Too many keys for '" + var.getName() + "'" );
+						parseError( "Too many keys for '" + var.getName() + "'" );
 					}
 				}
 
@@ -2095,12 +2258,12 @@ public class Parser
 				index = this.parseExpression( scope );
 				if ( index == null )
 				{
-					throw new AdvancedScriptException( "Index for '" + var.getName() + "' expected" );
+					parseError( "Index for '" + var.getName() + "' expected" );
 				}
 
 				if ( !index.getType().equals( atype.getIndexType() ) )
 				{
-					throw new AdvancedScriptException(
+					parseError(
 						"Index for '" + var.getName() + "' has wrong data type " + "(expected " + atype.getIndexType() + ", got " + index.getType() + ")" );
 				}
 
@@ -2121,7 +2284,7 @@ public class Parser
 
 				if ( !( type instanceof ScriptRecordType ) )
 				{
-					throw new AdvancedScriptException( "Record expected" );
+					parseError( "Record expected" );
 				}
 
 				ScriptRecordType rtype = (ScriptRecordType) type;
@@ -2129,13 +2292,13 @@ public class Parser
 				String field = this.currentToken();
 				if ( field == null || !this.parseIdentifier( field ) )
 				{
-					throw new AdvancedScriptException( "Field name expected" );
+					parseError( "Field name expected" );
 				}
 
 				index = rtype.getFieldIndex( field );
 				if ( index == null )
 				{
-					throw new AdvancedScriptException( "Invalid field name '" + field + "'" );
+					parseError( "Invalid field name '" + field + "'" );
 				}
 				this.readToken(); // read name
 				type = rtype.getDataType( index );
@@ -2180,7 +2343,7 @@ public class Parser
 
 		if ( startIndex != -1 && endIndex == -1 )
 		{
-			throw new AdvancedScriptException( "No closing > found" );
+			parseError( "No closing > found" );
 		}
 
 		if ( startIndex == -1 )
@@ -2190,7 +2353,7 @@ public class Parser
 
 			if ( startIndex != -1 && endIndex == -1 )
 			{
-				throw new AdvancedScriptException( "No closing \" found" );
+				parseError( "No closing \" found" );
 			}
 		}
 
@@ -2201,7 +2364,7 @@ public class Parser
 
 			if ( startIndex != -1 && endIndex == -1 )
 			{
-				throw new AdvancedScriptException( "No closing \' found" );
+				parseError( "No closing \' found" );
 			}
 		}
 
@@ -2523,22 +2686,22 @@ public class Parser
 
 	// **************** Parse errors *****************
 
-	private void parseError( final String expected, final String actual )
+	private final void parseError( final String expected, final String actual )
 	{
-		throw new AdvancedScriptException( "Expected " + expected + ", found " + actual );
+		throw this.parseException( "Expected " + expected + ", found " + actual );
 	}
 
-	private static String getCurrentLineAndFile()
+	private final void parseError( final String message )
 	{
-		if ( Parser.currentAnalysis == null )
-		{
-			return "";
-		}
-
-		return Parser.currentAnalysis.getLineAndFile();
+		throw this.parseException( message );
 	}
 
-	private String getLineAndFile()
+        private final AdvancedScriptException parseException( final String message )
+	{
+                return new AdvancedScriptException( message + " " + this.getLineAndFile() );
+	}
+
+	private final String getLineAndFile()
 	{
 		if ( this.fileName == null )
 		{
@@ -2554,12 +2717,12 @@ public class Parser
 	{
 		AdvancedScriptException( final Throwable t )
 		{
-			this( t.getMessage() == null ? "" : t.getMessage() + " " + Parser.getCurrentLineAndFile() );
+			this( t.getMessage() == null ? "" : t.getMessage() );
 		}
 
 		AdvancedScriptException( final String s )
 		{
-			super( s == null ? "" : s + " " + Parser.getCurrentLineAndFile() );
+			super( s == null ? "" : s);
 		}
 	}
 }
