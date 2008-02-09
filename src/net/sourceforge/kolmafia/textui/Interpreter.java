@@ -155,7 +155,6 @@ public class Interpreter
 		}
 	}
 
-
 	public void execute( final String functionName, final String[] parameters )
 	{
 		// Before you do anything, validate the script, if one
@@ -220,15 +219,10 @@ public class Interpreter
 		catch ( AdvancedScriptException e )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, e.getMessage() );
-			return;
 		}
-		catch ( RuntimeException e )
+		catch ( Exception e )
 		{
-			// If it's an exception resulting from
-			// a premature abort, which causes void
-			// values to be returned, ignore.
-
-			StaticEntity.printStackTrace( e );
+			StaticEntity.printStackTrace( e, "", true );
 		}
 	}
 

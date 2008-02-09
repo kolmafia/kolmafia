@@ -759,6 +759,11 @@ public abstract class StaticEntity
 
 	public static final void printStackTrace( final Throwable t, final String message )
 	{
+		printStackTrace( t, message, false );
+	}
+
+	public static final void printStackTrace( final Throwable t, final String message, boolean printOnlyCause )
+	{
 		// Next, print all the information to the debug log so that
 		// it can be sent.
 
@@ -770,12 +775,18 @@ public abstract class StaticEntity
 
 		KoLmafia.updateDisplay( "Unexpected error, debug log printed." );
 
-		StaticEntity.printStackTrace( t, message, System.err );
-		StaticEntity.printStackTrace( t, message, RequestLogger.getDebugStream() );
+		Throwable cause = t.getCause(); 
 
-		if ( t.getCause() != null )
+		if ( cause == null || !printOnlyCause )
 		{
-			StaticEntity.printStackTrace( t.getCause(), message );
+			StaticEntity.printStackTrace( t, message, System.err );
+			StaticEntity.printStackTrace( t, message, RequestLogger.getDebugStream() );
+		}
+
+		if ( cause != null )
+		{
+			StaticEntity.printStackTrace( cause, message, System.err );
+			StaticEntity.printStackTrace( cause, message, RequestLogger.getDebugStream() );
 		}
 
 		try
