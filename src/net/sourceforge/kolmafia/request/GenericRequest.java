@@ -1788,6 +1788,16 @@ public class GenericRequest
 			lon = 13;
 			lat = 91;
 		}
+		else if ( dest.equals( "sphere" ) )
+		{
+			lon = 59;
+			lat = 10;
+		}
+		else if ( dest.equals( "plinth" ) )
+		{
+			lon = 63;
+			lat = 29;
+		}
 		else if ( dest.indexOf( "," ) != -1 )
 		{
 			Matcher matcher = GenericRequest.OCEAN_PATTERN.matcher( dest );

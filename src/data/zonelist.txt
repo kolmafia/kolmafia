@@ -44,6 +44,7 @@ BadMoon	Signed Zones	Bad Moon
 
 Item-Driven	Item-Driven	Item-Driven Zones
 Astral	Item-Driven	Astral Plane
+Portal	Item-Driven	El Vibrato Island
 Wormwood	Item-Driven	Worm Wood
 
 Unsorted	Unsorted	No Category

@@ -3052,7 +3052,7 @@
 3046	190558951	nanite-infested candy cane	
 3047	203826503	nanite-infested fruitcake	
 3048	820385035	nanite-infested eggnog
-3049	517851076	strange stone sphere
+3049	517851076	El Vibrato power sphere
 3050	331604248	cursed eyepatch
 3051	321086673	cursed cutlass
 3052	797230378	cursed breeches
@@ -3148,7 +3148,7 @@
 3142
 3143
 3144
-3145
+3145	778803106	El Vibrato translator
 3146	190950432	El Vibrato punchcard (115 holes)
 3147	819422442	El Vibrato punchcard (97 holes)
 3148	425524497	El Vibrato punchcard (129 holes)
@@ -3159,18 +3159,18 @@
 3153	405841752	El Vibrato punchcard (88 holes)
 3154	782895675	El Vibrato punchcard (182 holes)
 3155	691201629	El Vibrato punchcard (176 holes)
-3156
-3157
-3158
-3159
-3160
-3161
+3156	831927049	El Vibrato punchcard (104 holes)
+3157	118658618	El Vibrato drone
+3158	628758189	sparking El Vibrato drone
+3159	808191546	warm El Vibrato drone
+3160	629633136	humming El Vibrato drone
+3161	585181402	glowing El Vibrato drone
 3162
 3163
 3164
-3165
-3166
-3167
+3165	260907255	broken El Vibrato drone
+3166	379323932	repaired El Vibrato drone
+3167	390534062	augmented El Vibrato drone
 3168
 3169
 3170
@@ -3204,3 +3204,20 @@
 3198	361752510	El Vibrato trapezoid
 3199
 3200
+3201	
+3202	
+3203	
+3204	
+3205	
+3206	
+3207	
+3208	
+3209	
+3210	
+3211	
+3212	
+3213	
+3214	
+3215	
+3216	
+3217	193025375	El Vibrato Megadrone
