@@ -47,6 +47,7 @@ import net.sourceforge.kolmafia.KoLFrame;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.MPRestoreItemList;
+import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
@@ -238,6 +239,20 @@ public class UseItemRequest
 	public static final int FIZZY_POTION = 825;
 	public static final int DARK_POTION = 826;
 	public static final int MURKY_POTION = 827;
+
+
+	// Punchcards
+	public static final int PUNCHCARD_ATTACK = 3146;
+	public static final int PUNCHCARD_REPAIR = 3147;
+	public static final int PUNCHCARD_BUFF = 3148;
+	public static final int PUNCHCARD_MODIFY = 3149;
+	public static final int PUNCHCARD_BUILD = 3150;
+	public static final int PUNCHCARD_TARGET = 3151;
+	public static final int PUNCHCARD_SELF = 3152;
+	public static final int PUNCHCARD_FLOOR = 3153;
+	public static final int PUNCHCARD_DRONE = 3154;
+	public static final int PUNCHCARD_WALL = 3155;
+	public static final int PUNCHCARD_SPHERE = 3156;
 
 	private static final int SPARKLER = 2679;
 	private static final int SNAKE = 2680;
@@ -1918,6 +1933,20 @@ public class UseItemRequest
 		}
 
 		return name + " of " + effect;
+	}
+
+	public static final String punchcardName( final int itemId )
+	{
+		for ( int i = 0; i < RequestEditorKit.PUNCHCARDS.length; ++i )
+		{
+			Object [] punchcard = RequestEditorKit.PUNCHCARDS[i];
+			if ( ( (Integer) punchcard[0]).intValue() == itemId )
+			{
+				return (String) punchcard[2];
+			}
+		}
+
+		return ItemDatabase.getItemName( itemId );
 	}
 
 	public static final boolean isHousing( final int itemId )

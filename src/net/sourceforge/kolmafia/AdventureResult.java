@@ -316,6 +316,12 @@ public class AdventureResult
 			return id;
 		}
 
+		id = AdventureResult.punchcardId( name );
+		if ( id != -1 )
+		{
+			return id;
+		}
+
 		return ItemDatabase.getItemId( name, 1 );
 	}
 
@@ -387,6 +393,25 @@ public class AdventureResult
 			if ( effect.equals( Preferences.getString( "lastStoneSphere" + i ) ) )
 			{
 				return i;
+			}
+		}
+
+		return -1;
+	}
+
+	private static int punchcardId( final String name )
+	{
+		if ( !name.startsWith( "El Vibrato punchcard" ) )
+		{
+			return -1;
+		}
+
+		for ( int i = 0; i < RequestEditorKit.PUNCHCARDS.length; ++i )
+		{
+			Object [] punchcard = RequestEditorKit.PUNCHCARDS[i];
+			if ( name.equals( (String) punchcard[1] ) || name.equals( (String) punchcard[2] ) )
+			{
+				return ((Integer) punchcard[0]).intValue();
 			}
 		}
 
@@ -477,6 +502,20 @@ public class AdventureResult
 		case FightRequest.ROUGH_STONE_SPHERE:
 
 			return FightRequest.stoneSphereName( this.itemId, this.name );
+
+		case UseItemRequest.PUNCHCARD_ATTACK:
+		case UseItemRequest.PUNCHCARD_REPAIR:
+		case UseItemRequest.PUNCHCARD_BUFF:
+		case UseItemRequest.PUNCHCARD_MODIFY:
+		case UseItemRequest.PUNCHCARD_BUILD:
+		case UseItemRequest.PUNCHCARD_TARGET:
+		case UseItemRequest.PUNCHCARD_SELF:
+		case UseItemRequest.PUNCHCARD_FLOOR:
+		case UseItemRequest.PUNCHCARD_DRONE:
+		case UseItemRequest.PUNCHCARD_WALL:
+		case UseItemRequest.PUNCHCARD_SPHERE:
+
+			return UseItemRequest.punchcardName( this.itemId );
 
 		default:
 			return this.name;
