@@ -545,6 +545,9 @@ public class RequestEditorKit
 			return;
 		}
 
+		// Change El Vibrato punchcard names wherever they are found
+		RequestEditorKit.changePunchcardNames( buffer );
+
 		// Now handle the changes which only impact a single
 		// page one at a time.
 
@@ -977,6 +980,74 @@ public class RequestEditorKit
 				StaticEntity.globalStringReplace( buffer, name, name + " of " + effect );
 				// Pluralize correctly
 				StaticEntity.globalStringReplace( buffer, name + " of " + effect + "s", name + "s of " + effect );
+			}
+		}
+	}
+
+	public static Object[][] PUNCHCARDS =
+	{
+		// Verbs
+		{ new Integer( 3146 ),
+		  "El Vibrato punchcard (115 holes)",
+		  "El Vibrato punchcard (ATTACK)"
+		},
+		{ new Integer( 3147 ),
+		  "El Vibrato punchcard (97 holes)",
+		  "El Vibrato punchcard (REPAIR)"
+		},
+		{ new Integer( 3148 ),
+		  "El Vibrato punchcard (129 holes)",
+		  "El Vibrato punchcard (BUFF)"
+		},
+		{ new Integer( 3149 ),
+		  "El Vibrato punchcard (213 holes)",
+		  "El Vibrato punchcard (MODIFY)"
+		},
+		{ new Integer( 3150 ),
+		  "El Vibrato punchcard (165 holes)",
+		  "El Vibrato punchcard (BUILD)"
+		},
+
+		// Objects
+		{ new Integer( 3151 ),
+		  "El Vibrato punchcard (142 holes)",
+		  "El Vibrato punchcard (TARGET)"
+		},
+		{ new Integer( 3152 ),
+		  "El Vibrato punchcard (216 holes)",
+		  "El Vibrato punchcard (SELF)"
+		},
+		{ new Integer( 3153 ),
+		  "El Vibrato punchcard (88 holes)",
+		  "El Vibrato punchcard (FLOOR)"
+		},
+		{ new Integer( 3154 ),
+		  "El Vibrato punchcard (182 holes)",
+		  "El Vibrato punchcard (DRONE)"
+		},
+		{ new Integer( 3155 ),
+		  "El Vibrato punchcard (176 holes)",
+		  "El Vibrato punchcard (WALL)"
+		},
+		{ new Integer( 3156 ),
+		  "El Vibrato punchcard (104 holes)",
+		  "El Vibrato punchcard (SPHERE)"
+		},
+	};
+
+	private static final void changePunchcardNames( final StringBuffer buffer )
+	{
+		if ( buffer.indexOf( "El Vibrato punchcard" ) == -1 )
+		{
+			return;
+		}
+
+		for ( int i = 0; i < PUNCHCARDS.length; ++i )
+		{
+			Object [] punchcard = PUNCHCARDS[i];
+			if ( buffer.indexOf( (String) punchcard[1] ) != -1 )
+			{
+				StaticEntity.globalStringReplace( buffer, (String) punchcard[1], (String) punchcard[2] );
 			}
 		}
 	}
