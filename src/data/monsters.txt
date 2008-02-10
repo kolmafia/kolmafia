@@ -129,6 +129,7 @@ Beanbat	HP: 18 Def: 21 Atk: 21 Meat: 28-43	enchanted bean (50)
 Beefy Bodyguard Bat	HP: 36
 Beer Bongadier	HP: 210
 Big Creepy Spider	HP: 1 Def: 1 Atk: 1 Meat: 4-7	spider web (30)	spider web (20)
+Bizarre Construct	HP: 0
 Black Adder	HP: 124	adder bladder (30)	black snake skin (15)
 Black Knight	HP: 134	black greaves (15)	black helmet (15)	black shield (15)	black sword (15)
 Black Panther	HP: 127	Black No. 2 ( 20)
@@ -284,10 +285,12 @@ Heavy Kegtank	HP: 300
 Hellion	HP: 52 Def: 52 Atk: 52 E: heat	Hellion cube (30)
 Hockey Elemental	HP: 40 Def: 65 Atk: 65	hockey stick of furious angry rage (100)
 Huge Ghuol	HP: 129 Def: 71 Atk: 79 E: spooky
+Hulking Construct	HP: 0
 Hung-over Half-Orc Hobo	HP: 1 Def: 1 Atk: 1 E: stench	dirty hobo gloves (30)	Mad Train wine (60)	moxie weed (15)	hobo gristle (0)
 Hunter-Gatherer Cave Elf		tooth (15)	tooth (5)
 Hypnotist of Hey Deze	HP: 80 Def: 50 Atk: 50	hypnodisk (100)
 Iiti Kitty	HP: 150	leathery cat skin (30)	unidentified jerky (10)	ancient Magi-Wipes (50)	ancient vinyl coin purse (20)	mummy wrapping (20)	Iiti Kitty phone charm (10)
+Industrious Construct	HP: 0
 Infinite Meat Bug	HP: 50 Def: 45 Atk: 45	incredibly dense meat gem (100)
 Irate Mariachi	HP: 17 Def: 20 Atk: 20 Meat: 4-7	bottle of tequila (35)	irate sombrero (20)	mariachi G-string (30)
 Irritating Series of Random Encounters	HP: 110 Def: 105 Atk: 105 Meat: 81-179	cocoa eggshell fragment (20)	soft green echo eyedrop antidote (20)	tiny house (20)
@@ -320,6 +323,7 @@ Lemon-In-The-Box	HP: 12 Def: 17 Atk: 17	box (20)	lemon (50)
 Lesser Fruit Golem	HP: 9 Def: 17 Atk: 23	grapefruit (15)	grapes (15)	lemon (15)	orange (15)	strawberry (15)
 Lihc	HP: 11 Def: 20 Atk: 30 ED: spooky EA: spooky EA: sleaze Meat: 29-43	lihc eye (30)
 Lobsterfrogman	HP: 212
+Lonely Construct	HP: 0
 Lord Spookyraven	HP: 200
 Lumberjack Supervisor	HP: 40 Def: 40 Atk: 40 Meat: 25-38	balaclava (5)	balaclava baklava (25)
 Lumberjill	HP: 36 Def: 36 Atk: 36 Meat: 17-26	Blatantly Canadian (30)	maple syrup (30)
@@ -332,6 +336,7 @@ Mariachi Calavera	HP: 30 Def: 22 Atk: 22	bottle of tequila (30)	marzipan skull (
 Mayonnaise Wasp	HP: 11 Def: 17 Atk: 17
 Me4t BegZ0r	HP: 77 Def: 87 Atk: 87	meat vortex (100)
 Mean Drunk Duck	HP: 195	bottle of vodka (0)	bottle of tequila (0)	bottle of whiskey (0)
+Menacing Construct	HP: 0
 Mimic	HP: 50 Def: 45 Atk: 45	dead mimic (100)
 Mimic (Bottom 2 Rows)	HP: 25 Def: 15 Atk: 15
 Mimic (Middle 2 Rows)	HP: 35 Def: 25 Atk: 25
@@ -491,6 +496,7 @@ Tonic Water Elemental	HP: 14 Def: 18 Atk: 18
 Toothy Pirate	HP: 75	bottle of rum (0)
 Toothy Sklelton	HP: 50 Def: 58 Atk: 58 E: spooky	loose teeth (20)	loose teeth (20)	skeleton bone (20)
 Topiary Golem	HP: 150 Def: 180 Atk: 180	hedge maze puzzle (65)
+Towering Construct	HP: 0
 Toy-making creature from the Gray Lagoon		evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
 Triffid	HP: 6 Def: 5 Atk: 1	moxie weed (30)	spooky stick (30)	triffid bark (0)
 Undead Elbow Macaroni	HP: 1 Def: 1 Atk: 1 E: spooky Meat: 4-7	magicalness-in-a-can (25)
