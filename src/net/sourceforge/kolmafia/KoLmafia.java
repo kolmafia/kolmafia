@@ -194,7 +194,7 @@ public abstract class KoLmafia
 	private static final int RED_PAPER_CLIP = 2289;
 	private static final int REALLY_BIG_TINY_HOUSE = 2290;
 	private static final int NONESSENTIAL_AMULET = 2291;
-	private static final int WHITE_WINE_VINIGARETTE = 2292;
+	private static final int WHITE_WINE_VINAIGRETTE = 2292;
 	private static final int CUP_OF_STRONG_TEA = 2293;
 	private static final int CURIOUSLY_SHINY_AX = 2294;
 	private static final int MARINATED_STAKES = 2295;
@@ -205,6 +205,8 @@ public abstract class KoLmafia
 	private static final int FINGERLESS_HOBO_GLOVES = 2300;
 	private static final int CHOMSKYS_COMICS = 2301;
 	private static final int GNOME_DEMODULIZER = 2848;
+
+	private static final int TRAPEZOID = 3198;
 
 	// Semi-rares
 	private static final int ASCII_SHIRT = 2121;
@@ -1485,6 +1487,13 @@ public abstract class KoLmafia
 			}
 			break;
 
+		case KoLmafia.TRAPEZOID:
+			if ( result.getCount() == 1 && KoLConstants.inventory.contains( KoLAdventure.POWER_SPHERE ) )
+			{
+				this.processResult( KoLAdventure.POWER_SPHERE );
+			}
+			break;
+
 		 // These update the session results for the item swapping in
 		 // the Gnome's Going Postal quest.
 
@@ -1501,7 +1510,7 @@ public abstract class KoLmafia
 			}
 			break;
 
-		case KoLmafia.WHITE_WINE_VINIGARETTE:
+		case KoLmafia.WHITE_WINE_VINAIGRETTE:
 			if ( result.getCount() == 1 )
 			{
 				this.processResult( KoLAdventure.NONESSENTIAL_AMULET );
@@ -1510,7 +1519,7 @@ public abstract class KoLmafia
 		case KoLmafia.CURIOUSLY_SHINY_AX:
 			if ( result.getCount() == 1 )
 			{
-				this.processResult( KoLAdventure.WHITE_WINE_VINIGARETTE );
+				this.processResult( KoLAdventure.WHITE_WINE_VINAIGRETTE );
 			}
 			break;
 		case KoLmafia.CUP_OF_STRONG_TEA:

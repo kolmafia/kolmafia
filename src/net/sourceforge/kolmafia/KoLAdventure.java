@@ -110,6 +110,8 @@ public class KoLAdventure
 		new AdventureResult( 608, -1 )
 	};
 
+	public static final AdventureResult POWER_SPHERE = new AdventureResult( 3049, -1 );
+
 	public static final AdventureResult[] AZAZEL =
 	{
 		new AdventureResult( 2566, -1 ),
@@ -121,7 +123,7 @@ public class KoLAdventure
 	public static final AdventureResult RED_PAPER_CLIP = new AdventureResult( 2289, -1 );
 	public static final AdventureResult REALLY_BIG_TINY_HOUSE = new AdventureResult( 2290, -1 );
 	public static final AdventureResult NONESSENTIAL_AMULET = new AdventureResult( 2291, -1 );
-	public static final AdventureResult WHITE_WINE_VINIGARETTE = new AdventureResult( 2292, -1 );
+	public static final AdventureResult WHITE_WINE_VINAIGRETTE = new AdventureResult( 2292, -1 );
 	public static final AdventureResult CUP_OF_STRONG_TEA = new AdventureResult( 2293, -1 );
 	public static final AdventureResult CURIOUSLY_SHINY_AX = new AdventureResult( 2294, -1 );
 	public static final AdventureResult MARINATED_STAKES = new AdventureResult( 2295, -1 );

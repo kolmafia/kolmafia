@@ -374,6 +374,8 @@ public class ChoiceOptionsPanel
 			addItem( "muscle" );
 			addItem( "mysticality" );
 			addItem( "moxie" );
+			addItem( "El Vibrato power sphere" );
+			addItem( "the plinth" );
 			addItem( "random choice" );
 			if ( dest.indexOf( "," ) != -1 )
 			{
@@ -411,13 +413,21 @@ public class ChoiceOptionsPanel
 			{
 				setSelectedIndex( 4 );
 			}
-			else if ( dest.equals( "random" ) )
+			else if ( dest.equals( "sphere" ) )
 			{
 				setSelectedIndex( 5 );
 			}
-			else if ( dest.indexOf( "," ) != -1 )
+			else if ( dest.equals( "plinth" ) )
 			{
 				setSelectedIndex( 6 );
+			}
+			else if ( dest.equals( "random" ) )
+			{
+				setSelectedIndex( 7 );
+			}
+			else if ( dest.indexOf( "," ) != -1 )
+			{
+				setSelectedIndex( 8 );
 			}
 			else
 			{
@@ -452,6 +462,14 @@ public class ChoiceOptionsPanel
 			else if ( dest.startsWith( "moxie" ) )
 			{
 				value = "moxie";
+			}
+			else if ( dest.startsWith( "El Vibrato power sphere" ) )
+			{
+				value = "sphere";
+			}
+			else if ( dest.startsWith( "the plinth" ) )
+			{
+				value = "plinth";
 			}
 			else if ( dest.startsWith( "random" ) )
 			{

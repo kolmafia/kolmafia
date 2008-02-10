@@ -752,6 +752,7 @@ Copper Alpha of Sincerity	0	Mys: 85
 Counterclockwise Watch	0	none
 Dyspepsi-Cola-issue canteen	0	none
 Earring of Fire	0	Mys: 60
+El Vibrato translator	Mys: 200
 Elmley shades	0	Mys: 75
 Gaia beads	0	Mys: 72
 Golden Mr. Accessory	0	none
