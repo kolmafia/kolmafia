@@ -347,7 +347,7 @@ public class Interpreter
 			index++ ;
 		}
 
-		if ( index < args )
+		if ( index < args && lastParam != null )
 		{
 			StringBuffer inputs = new StringBuffer();
 			for ( int i = index - 1; i < args; ++i )
