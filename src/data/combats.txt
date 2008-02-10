@@ -67,6 +67,7 @@ Degrassi Knoll	80	Gnollish Crossdresser: 2	Gnollish Flyslayer: 2	Gnollish Gearhe
 Desert (Ultrahydrated)	100	Cactuary	Giant Giant Giant Centipede	Plaque of Locusts	Rock Scorpion	Swarm of Fire Ants
 Dire Warren	100	Fluffy Bunny
 Dungeons of Doom	70	Swarm of Killer Bees	Acid Blob	Mind Flayer	Large Kobold	Quantum Mechanic	Mimic: 0	The Master of Thieves: -1
+El Vibrato Island	-1	Bizarre Construct	Hulking Construct	Industrious Construct	Lonely Construct	Menacing Construct	Towering Construct
 eXtreme Slope	60	Sk8 Gnome	eXtreme Cross-Country Hippy	eXtreme Orcish Snowboarder
 F'c'le	100	Chatty Pirate	Cleanly Pirate	Clingy Pirate	Creamy Pirate	Crusty Pirate	Curmudgeonly Pirate
 Family Plot	100	Vampire Duck	Zombie Duck
