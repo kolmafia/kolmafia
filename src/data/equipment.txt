@@ -13,6 +13,7 @@ Disco 'Fro Pick	50	Mox: 10
 Dolphin King's crown	35	Mox: 2
 Dyspepsi-Cola helmet	30	none
 El Sombrero De Lopez	50	Mox: 10
+El Vibrato helmet	200	Mox: 200
 Elder Turtle Shell	50	Mus: 10
 Grimacite gasmask	150	Mox: 40
 Grimacite goggles	125	Mox: 47
@@ -152,6 +153,7 @@ Cloaca-Cola fatigues	30	none
 Crimbo pants	100	Mox: 35
 Danglin' Chad's loincloth	200	Mox: 75
 Dyspepsi-Cola fatigues	30	none
+El Vibrato leg guards	200	Mox: 200
 Grimacite gaiters	150	Mox: 40
 Grimacite greaves	125	Mox: 47
 Knob Goblin Uberpants	45	Mox: 7
@@ -309,6 +311,7 @@ Crimbo ukelele	80	Mox: 20	2-handed guitar
 Disco Banjo	50	Mox: 10	2-handed banjo
 Dr. Hobo's scalpel	35	Mus: 2	1-handed knife
 Drowsy Sword	171	Mus: 66	2-handed sword
+El Vibrato energy spear	200	Mus: 200	2-handed spear
 Frost&trade; brand sword	70	Mus: 20	1-handed sword
 Gnollish autoplunger	60	Mus: 15	3-handed spear
 Gnollish flyswatter	35	Mus: 2	1-handed club
