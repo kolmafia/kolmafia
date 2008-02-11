@@ -39,7 +39,7 @@
 38	Roy Orbison Disguise	clingfilm cap, clingfilm slippers, clingfilm trousers
 39	Cursed Zombie Pirate Costume	cursed eyepatch, cursed breeches, cursed cutlass
 40	Crimborg Assault Armor	biomechanical crimborg helmet, C.B.F.G., biomechanical crimborg leg armor
-0	El Vibrato Relics	El Vibrato helmet, El Vibrato energy spear, El Vibrato leg guards
+41	El Vibrato Relics	El Vibrato helmet, El Vibrato energy spear, El Vibrato leg guards
 
 # Outfits for which KoL does not provide an outfit id,
 # and thus are given id #0 to tell KoLmafia to treat
