@@ -80,11 +80,11 @@
 79	bugbear bungguard	10	all	35
 80	fairy gravy	0	all	5
 81	ice-cold Willer	2	all	30
-82	rusty L-shaped piece of metal	0	all	4
-83	crusty L-shaped piece of metal	0	all	5
+82	rusty metal ring	0	all	4
+83	rusty metal shaft	0	all	5
 84	Orcish meat locker	0	all	5
 85	unlocked meat locker	3	all	6
-86	T-bone key	3	all	8
+86	rusty metal key	3	all	8
 87	meat from yesterday	0	all	5
 88	meat stack	0	all	100
 89	sword hilt	0	all	50

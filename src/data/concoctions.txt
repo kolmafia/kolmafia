@@ -35,7 +35,7 @@ really really sticky spider web	1	really sticky spider web	really sticky spider 
 really sticky spider web	1	spider web	spider web
 skeleton key	1	skeleton bone	loose teeth
 Staff of Ed	1	headpiece of the Staff of Ed	Staff of Fats
-T-bone key	1	rusty L-shaped piece of metal	crusty L-shaped piece of metal
+rusty metal key	1	rusty metal ring	rusty metal shaft
 tambourine	1	Gnollish pie tin	tambourine bells
 
 
