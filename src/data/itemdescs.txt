@@ -85,11 +85,11 @@
 79	426478400	bugbear bungguard	bugbear bungguards
 80	903885205	fairy gravy	fairy gravies
 81	819157879	ice-cold Willer	ice-cold Willers
-82	970490171	rusty L-shaped piece of metal	rusty L-shaped pieces of metal
-83	228339790	crusty L-shaped piece of metal	crusty L-shaped pieces of metal
+82	970490171	rusty metal ring	rusty metal rings
+83	228339790	rusty metal shaft	rusty metal shafts
 84	221122907	Orcish meat locker	Orcish meat lockers
 85	343964219	unlocked meat locker	unlocked meat lockers
-86	518345878	T-bone key	T-bone keys
+86	518345878	rusty metal key	rusty metal keys
 87	653772183	meat from yesterday	meats from yesterday
 88	814092432	meat stack	meat stacks
 89	579389111	sword hilt	sword hilts
