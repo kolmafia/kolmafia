@@ -111,6 +111,9 @@ public class KoLAdventure
 	};
 
 	public static final AdventureResult POWER_SPHERE = new AdventureResult( 3049, -1 );
+	public static final AdventureResult DRONE = new AdventureResult( 3157, -1 );
+	public static final AdventureResult BROKEN_DRONE = new AdventureResult( 3165, -1 );
+	public static final AdventureResult REPAIRED_DRONE = new AdventureResult( 3166, -1 );
 
 	public static final AdventureResult[] AZAZEL =
 	{

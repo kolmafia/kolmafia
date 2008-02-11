@@ -303,6 +303,7 @@ public class UseItemRequest
 	private static final AdventureResult SIMPLE_CURSED_KEY = new AdventureResult( 3013, -1 );
 	private static final AdventureResult ORNATE_CURSED_KEY = new AdventureResult( 3014, -1 );
 	private static final AdventureResult GILDED_CURSED_KEY = new AdventureResult( 3015, -1 );
+	private static final AdventureResult OVERCHARGED_SPHERE = new AdventureResult( 3215, -1 );
 
 	// Cyborg weapon parts
 	private static final AdventureResult LASER_CANON = new AdventureResult( 3069, -1 );
@@ -1903,6 +1904,15 @@ public class UseItemRequest
 				StaticEntity.getClient().processResult( UseItemRequest.KEVLATEFLOCITE_HELMET );
 
 				return;
+			}
+
+			return;
+
+		case KoLmafia.AUGMENTED_DRONE:
+
+			if ( responseText.indexOf( "You put an overcharged sphere in the cavity" ) != -1 )
+			{
+				StaticEntity.getClient().processResult( UseItemRequest.OVERCHARGED_SPHERE );
 			}
 
 			return;

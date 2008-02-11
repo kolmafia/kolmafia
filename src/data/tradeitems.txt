@@ -3160,12 +3160,12 @@
 3159	warm El Vibrato drone	3	display	500
 3160	humming El Vibrato drone	3	display	500
 3161	glowing El Vibrato drone	3	display	500
-3162
-3163
-3164
+3162	El Vibrato helmet	9	display	500
+3163	El Vibrato energy spear	12	display	500
+3164	El Vibrato leg guards	10	display	500
 3165	broken El Vibrato drone	0	display	500
 3166	repaired El Vibrato drone	0	display	500
-3167	augmented El Vibrato drone	0	display	500
+3167	augmented El Vibrato drone	3	display	500
 3168
 3169
 3170
@@ -3213,6 +3213,6 @@
 3212	
 3213	
 3214	
-3215	
+3215	overcharged El Vibrato power sphere	0	display	0
 3216	
 3217	El Vibrato Megadrone	5	display	500

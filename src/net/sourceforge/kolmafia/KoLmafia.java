@@ -206,6 +206,9 @@ public abstract class KoLmafia
 	private static final int CHOMSKYS_COMICS = 2301;
 	private static final int GNOME_DEMODULIZER = 2848;
 
+	private static final int BROKEN_DRONE = 3165;
+	private static final int REPAIRED_DRONE = 3166;
+	public static final int AUGMENTED_DRONE = 3167;
 	private static final int TRAPEZOID = 3198;
 
 	// Semi-rares
@@ -1484,6 +1487,27 @@ public abstract class KoLmafia
 			if ( result.getCount() == 1 )
 			{
 				IslandDecorator.resetGremlinTool();
+			}
+			break;
+
+		case KoLmafia.BROKEN_DRONE:
+			if ( result.getCount() == 1 && KoLConstants.inventory.contains( KoLAdventure.DRONE ) )
+			{
+				this.processResult( KoLAdventure.DRONE );
+			}
+			break;
+
+		case KoLmafia.REPAIRED_DRONE:
+			if ( result.getCount() == 1 && KoLConstants.inventory.contains( KoLAdventure.BROKEN_DRONE ) )
+			{
+				this.processResult( KoLAdventure.BROKEN_DRONE );
+			}
+			break;
+
+		case KoLmafia.AUGMENTED_DRONE:
+			if ( result.getCount() == 1 && KoLConstants.inventory.contains( KoLAdventure.REPAIRED_DRONE ) )
+			{
+				this.processResult( KoLAdventure.REPAIRED_DRONE );
 			}
 			break;
 

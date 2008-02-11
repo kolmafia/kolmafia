@@ -3165,9 +3165,9 @@
 3159	808191546	warm El Vibrato drone
 3160	629633136	humming El Vibrato drone
 3161	585181402	glowing El Vibrato drone
-3162
-3163
-3164
+3162	290864430	El Vibrato helmet
+3163	628467983	El Vibrato energy spear
+3164	579036744	El Vibrato leg guards
 3165	260907255	broken El Vibrato drone
 3166	379323932	repaired El Vibrato drone
 3167	390534062	augmented El Vibrato drone
@@ -3218,6 +3218,6 @@
 3212	
 3213	
 3214	
-3215	
+3215	480795503	overcharged El Vibrato power sphere
 3216	
 3217	193025375	El Vibrato Megadrone
