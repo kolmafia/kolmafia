@@ -2086,18 +2086,37 @@ public class AdventureDatabase
 		return false;
 	}
 
-	private static boolean isRestorePurchase( final int itemId )
+	private static boolean shouldBulkPurchase( final int itemId )
 	{
+		// We always bulk purchase certain specific items.
+
 		switch ( itemId )
 		{
 		case 588: // soft green echo eyedrop antidote
 		case 592: // tiny house
 		case 595: // scroll of drastic healing
 			return true;
+		}
 
-		default:
+		if ( !KoLmafia.isAdventuring() )
+		{
 			return false;
 		}
+
+		// We bulk purchase consumable items if we are
+		// auto-adventuring.
+
+		switch ( ItemDatabase.getConsumptionType( itemId ) )
+		{
+		case KoLConstants.CONSUME_USE:
+		case KoLConstants.CONSUME_MULTIPLE:
+		case KoLConstants.HP_RESTORE:
+		case KoLConstants.MP_RESTORE:
+		case KoLConstants.HPMP_RESTORE:
+			return true;
+		}
+
+		return false;
 	}
 
 	private static int getPurchaseCount( final int itemId, final int missingCount )
@@ -2107,11 +2126,10 @@ public class AdventureDatabase
 			return missingCount;
 		}
 
-		if ( AdventureDatabase.isRestorePurchase( itemId ) )
+		if ( AdventureDatabase.shouldBulkPurchase( itemId ) )
+		{
 			return AdventureDatabase.BULK_PURCHASE_AMOUNT;
-
-		if ( KoLmafia.isAdventuring() )
-			return AdventureDatabase.BULK_PURCHASE_AMOUNT;
+		}
 
 		return missingCount;
 	}
