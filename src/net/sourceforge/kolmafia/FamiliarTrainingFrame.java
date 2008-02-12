@@ -1022,7 +1022,7 @@ public class FamiliarTrainingFrame
 		boolean[] suckage = new boolean[ 4 ];
 
 		// Iterate for the specified number of trials
-		for ( int trial = 0; trial < trials; ++trial )
+		for ( int trial = 1; trial <= trials && KoLmafia.permitsContinue(); ++trial )
 		{
 			skills = FamiliarTrainingFrame.learnFamiliarParameters( trial, status, tool, xp, test, suckage );
 		}
