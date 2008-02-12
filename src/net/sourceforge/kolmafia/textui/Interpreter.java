@@ -80,14 +80,15 @@ public class Interpreter
 
 	public Interpreter()
 	{
+		this.parser = new Parser();
 		this.scope = new ScriptScope( new ScriptVariableList(), Parser.getExistingFunctionScope() );
 	}
 
 	private Interpreter( final Interpreter source, final File scriptFile )
 	{
-		this.scope = source.scope;
 		this.parser = new Parser( scriptFile, null, source.getImports() );
-        }
+		this.scope = source.scope;
+	}
 
 	public Parser getParser()
 	{

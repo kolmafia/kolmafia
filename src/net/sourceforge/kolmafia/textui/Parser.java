@@ -107,12 +107,19 @@ public class Parser
 
 	private String fullLine;
 
-	private TreeMap imports = new TreeMap();
+	private TreeMap imports;
 	private ScriptFunction mainMethod = null;
 	private String notifyRecipient = null;
 
+	public Parser()
+	{
+		this( null, null, null );
+	}
+
 	public Parser( final File scriptFile, final InputStream stream, final TreeMap imports )
 	{
+		this.imports = ( imports != null ) ? imports : new TreeMap();
+
 		if ( scriptFile != null )
 		{
 			this.fileName = scriptFile.getPath();
@@ -128,11 +135,6 @@ public class Parser
 			this.fileName = null;
 			this.istream = null;
 			return;
-		}
-
-		if ( imports != null )
-		{
-			this.imports = imports;
 		}
 
 		try
