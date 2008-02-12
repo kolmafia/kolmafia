@@ -36,33 +36,30 @@ package net.sourceforge.kolmafia.textui;
 import java.io.File;
 import java.io.InputStream;
 import java.io.PrintStream;
+
 import java.util.Iterator;
 import java.util.TreeMap;
 
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaASH;
-import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.NullStream;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.textui.DataTypes;
-import net.sourceforge.kolmafia.textui.DataTypes.ScriptType;
-import net.sourceforge.kolmafia.textui.DataTypes.ScriptValue;
-import net.sourceforge.kolmafia.textui.Parser;
-import net.sourceforge.kolmafia.textui.Parser.AdvancedScriptException;
-import net.sourceforge.kolmafia.textui.ParseTree;
-import net.sourceforge.kolmafia.textui.ParseTree.ScriptFunction;
-import net.sourceforge.kolmafia.textui.ParseTree.ScriptScope;
-import net.sourceforge.kolmafia.textui.ParseTree.ScriptVariableList;
-import net.sourceforge.kolmafia.textui.ParseTree.ScriptVariableReference;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.request.SendMailRequest;
+import net.sourceforge.kolmafia.textui.parsetree.Function;
+import net.sourceforge.kolmafia.textui.parsetree.Scope;
+import net.sourceforge.kolmafia.textui.parsetree.Type;
+import net.sourceforge.kolmafia.textui.parsetree.Value;
+import net.sourceforge.kolmafia.textui.parsetree.VariableList;
+import net.sourceforge.kolmafia.textui.parsetree.VariableReference;
 
 public class Interpreter
 {
 	private Parser parser;
-	private ScriptScope scope;
+	private Scope scope;
 
 	// Variables used during execution
 
@@ -81,7 +78,7 @@ public class Interpreter
 	public Interpreter()
 	{
 		this.parser = new Parser();
-		this.scope = new ScriptScope( new ScriptVariableList(), Parser.getExistingFunctionScope() );
+		this.scope = new Scope( new VariableList(), Parser.getExistingFunctionScope() );
 	}
 
 	private Interpreter( final Interpreter source, final File scriptFile )
@@ -144,7 +141,7 @@ public class Interpreter
 			this.printScope( this.scope );
 			return true;
 		}
-		catch ( AdvancedScriptException e )
+		catch ( ScriptException e )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, e.getMessage() );
 			return false;
@@ -191,7 +188,7 @@ public class Interpreter
 				imports.clear();
 				Interpreter.lastImportString = "";
 
-				this.scope = new ScriptScope( new ScriptVariableList(), Parser.getExistingFunctionScope() );
+				this.scope = new Scope( new VariableList(), Parser.getExistingFunctionScope() );
 				String[] importList = importString.split( "," );
 
 				for ( int i = 0; i < importList.length; ++i )
@@ -217,7 +214,7 @@ public class Interpreter
 		{
 			this.executeScope( this.scope, functionName, parameters );
 		}
-		catch ( AdvancedScriptException e )
+		catch ( ScriptException e )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, e.getMessage() );
 		}
@@ -227,10 +224,10 @@ public class Interpreter
 		}
 	}
 
-	private ScriptValue executeScope( final ScriptScope topScope, final String functionName, final String[] parameters )
+	private Value executeScope( final Scope topScope, final String functionName, final String[] parameters )
 	{
-		ScriptFunction main;
-		ScriptValue result = null;
+		Function main;
+		Value result = null;
 
 		this.currentState = Interpreter.STATE_NORMAL;
 		this.resetTracing();
@@ -282,25 +279,25 @@ public class Interpreter
 		return result;
 	}
 
-	private boolean requestUserParams( final ScriptFunction targetFunction, final String[] parameters )
+	private boolean requestUserParams( final Function targetFunction, final String[] parameters )
 	{
 		int args = parameters == null ? 0 : parameters.length;
 
-		ScriptType lastType = null;
-		ScriptVariableReference lastParam = null;
+		Type lastType = null;
+		VariableReference lastParam = null;
 
 		int index = 0;
 
 		Iterator it = targetFunction.getReferences();
-		ScriptVariableReference param;
+		VariableReference param;
 
 		while ( it.hasNext() )
 		{
-			param = (ScriptVariableReference) it.next();
+			param = (VariableReference) it.next();
 
-			ScriptType type = param.getType();
+			Type type = param.getType();
 			String name = param.getName();
-			ScriptValue value = null;
+			Value value = null;
 
 			while ( value == null )
 			{
@@ -356,7 +353,7 @@ public class Interpreter
 				inputs.append( parameters[ i ] + " " );
 			}
 
-			ScriptValue value = DataTypes.parseValue( lastType, inputs.toString().trim(), true );
+			Value value = DataTypes.parseValue( lastType, inputs.toString().trim(), true );
 			lastParam.setValue( this, value );
 		}
 
@@ -365,7 +362,7 @@ public class Interpreter
 
 	// **************** Debug printing *****************
 
-	private void printScope( final ScriptScope scope )
+	private void printScope( final Scope scope )
 	{
 		if ( scope == null )
 		{
@@ -375,7 +372,7 @@ public class Interpreter
 		PrintStream stream = this.traceStream;
 		scope.print( stream, 0 );
 
-		ScriptFunction mainMethod = this.parser.getMainMethod();
+		Function mainMethod = this.parser.getMainMethod();
 		if ( mainMethod != null )
 		{
 			this.indentLine( 1 );
@@ -411,5 +408,24 @@ public class Interpreter
 	{
 		this.indentLine( this.traceIndentation );
 		this.traceStream.println( string );
+	}
+
+	public final void captureValue( final Value value )
+	{
+		// We've just executed a command in a context that captures the
+		// return value.
+
+		if ( KoLmafia.refusesContinue() || value == null )
+		{
+			// User aborted
+			this.setState( STATE_EXIT );
+			return;
+		}
+
+		// Even if an error occurred, since we captured the result,
+		// permit further execution.
+
+		this.setState( STATE_NORMAL );
+		KoLmafia.forceContinue();
 	}
 }

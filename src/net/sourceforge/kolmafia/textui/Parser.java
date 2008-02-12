@@ -37,61 +37,55 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Iterator;
 import java.io.LineNumberReader;
+import java.io.PrintStream;
+
 import java.math.BigInteger;
+
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.TreeMap;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
-
-import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLConstants.ByteArrayStream;
+import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.textui.DataTypes;
-import net.sourceforge.kolmafia.textui.DataTypes.ParseNode;
-import net.sourceforge.kolmafia.textui.DataTypes.ScriptAggregateType;
-import net.sourceforge.kolmafia.textui.DataTypes.ScriptNamedType;
-import net.sourceforge.kolmafia.textui.DataTypes.ScriptRecord;
-import net.sourceforge.kolmafia.textui.DataTypes.ScriptRecordType;
-import net.sourceforge.kolmafia.textui.DataTypes.ScriptSymbol;
-import net.sourceforge.kolmafia.textui.DataTypes.ScriptSymbolTable;
-import net.sourceforge.kolmafia.textui.DataTypes.ScriptType;
-import net.sourceforge.kolmafia.textui.DataTypes.ScriptTypeInitializer;
-import net.sourceforge.kolmafia.textui.DataTypes.ScriptTypeList;
-import net.sourceforge.kolmafia.textui.DataTypes.ScriptValue;
-import net.sourceforge.kolmafia.textui.ParseTree;
-import net.sourceforge.kolmafia.textui.ParseTree.ScriptAssignment;
-import net.sourceforge.kolmafia.textui.ParseTree.ScriptBasicScript;
-import net.sourceforge.kolmafia.textui.ParseTree.ScriptBreak;
-import net.sourceforge.kolmafia.textui.ParseTree.ScriptCall;
-import net.sourceforge.kolmafia.textui.ParseTree.ScriptCompositeReference;
-import net.sourceforge.kolmafia.textui.ParseTree.ScriptConditional;
-import net.sourceforge.kolmafia.textui.ParseTree.ScriptContinue;
-import net.sourceforge.kolmafia.textui.ParseTree.ScriptElse;
-import net.sourceforge.kolmafia.textui.ParseTree.ScriptElseIf;
-import net.sourceforge.kolmafia.textui.ParseTree.ScriptExistingFunction;
-import net.sourceforge.kolmafia.textui.ParseTree.ScriptExit;
-import net.sourceforge.kolmafia.textui.ParseTree.ScriptExpression;
-import net.sourceforge.kolmafia.textui.ParseTree.ScriptFor;
-import net.sourceforge.kolmafia.textui.ParseTree.ScriptForeach;
-import net.sourceforge.kolmafia.textui.ParseTree.ScriptFunction;
-import net.sourceforge.kolmafia.textui.ParseTree.ScriptFunctionList;
-import net.sourceforge.kolmafia.textui.ParseTree.ScriptIf;
-import net.sourceforge.kolmafia.textui.ParseTree.ScriptOperator;
-import net.sourceforge.kolmafia.textui.ParseTree.ScriptRepeat;
-import net.sourceforge.kolmafia.textui.ParseTree.ScriptReturn;
-import net.sourceforge.kolmafia.textui.ParseTree.ScriptScope;
-import net.sourceforge.kolmafia.textui.ParseTree.ScriptUserDefinedFunction;
-import net.sourceforge.kolmafia.textui.ParseTree.ScriptValueList;
-import net.sourceforge.kolmafia.textui.ParseTree.ScriptVariable;
-import net.sourceforge.kolmafia.textui.ParseTree.ScriptVariableList;
-import net.sourceforge.kolmafia.textui.ParseTree.ScriptVariableReference;
-import net.sourceforge.kolmafia.textui.ParseTree.ScriptVariableReferenceList;
-import net.sourceforge.kolmafia.textui.ParseTree.ScriptWhile;
-import net.sourceforge.kolmafia.textui.RuntimeLibrary;
+import net.sourceforge.kolmafia.KoLConstants.ByteArrayStream;
 import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.textui.parsetree.AggregateType;
+import net.sourceforge.kolmafia.textui.parsetree.Assignment;
+import net.sourceforge.kolmafia.textui.parsetree.BasicScript;
+import net.sourceforge.kolmafia.textui.parsetree.CompositeReference;
+import net.sourceforge.kolmafia.textui.parsetree.Conditional;
+import net.sourceforge.kolmafia.textui.parsetree.Else;
+import net.sourceforge.kolmafia.textui.parsetree.ElseIf;
+import net.sourceforge.kolmafia.textui.parsetree.Expression;
+import net.sourceforge.kolmafia.textui.parsetree.ForEachLoop;
+import net.sourceforge.kolmafia.textui.parsetree.ForLoop;
+import net.sourceforge.kolmafia.textui.parsetree.Function;
+import net.sourceforge.kolmafia.textui.parsetree.FunctionCall;
+import net.sourceforge.kolmafia.textui.parsetree.FunctionList;
+import net.sourceforge.kolmafia.textui.parsetree.If;
+import net.sourceforge.kolmafia.textui.parsetree.LoopBreak;
+import net.sourceforge.kolmafia.textui.parsetree.LoopContinue;
+import net.sourceforge.kolmafia.textui.parsetree.Operator;
+import net.sourceforge.kolmafia.textui.parsetree.ParseTreeNode;
+import net.sourceforge.kolmafia.textui.parsetree.RecordType;
+import net.sourceforge.kolmafia.textui.parsetree.RepeatUntilLoop;
+import net.sourceforge.kolmafia.textui.parsetree.FunctionReturn;
+import net.sourceforge.kolmafia.textui.parsetree.Scope;
+import net.sourceforge.kolmafia.textui.parsetree.ScriptExit;
+import net.sourceforge.kolmafia.textui.parsetree.Symbol;
+import net.sourceforge.kolmafia.textui.parsetree.Type;
+import net.sourceforge.kolmafia.textui.parsetree.TypeDef;
+import net.sourceforge.kolmafia.textui.parsetree.UserDefinedFunction;
+import net.sourceforge.kolmafia.textui.parsetree.Value;
+import net.sourceforge.kolmafia.textui.parsetree.ValueList;
+import net.sourceforge.kolmafia.textui.parsetree.Variable;
+import net.sourceforge.kolmafia.textui.parsetree.VariableList;
+import net.sourceforge.kolmafia.textui.parsetree.VariableReference;
+import net.sourceforge.kolmafia.textui.parsetree.VariableReferenceList;
+import net.sourceforge.kolmafia.textui.parsetree.WhileLoop;
 
 public class Parser
 {
@@ -108,7 +102,7 @@ public class Parser
 	private String fullLine;
 
 	private TreeMap imports;
-	private ScriptFunction mainMethod = null;
+	private Function mainMethod = null;
 	private String notifyRecipient = null;
 
 	public Parser()
@@ -165,13 +159,13 @@ public class Parser
 		}
 	}
 
-	public ScriptScope parse()
+	public Scope parse()
 	{
-		ScriptScope scope = null;
+		Scope scope = null;
 
 		try
 		{
-			scope = this.parseScope( null, null, new ScriptVariableList(), Parser.getExistingFunctionScope(), false );
+			scope = this.parseScope( null, null, new VariableList(), Parser.getExistingFunctionScope(), false );
 
 			if ( this.currentLine != null )
 			{
@@ -196,7 +190,7 @@ public class Parser
 		return this.imports;
 	}
 
-	public ScriptFunction getMainMethod()
+	public Function getMainMethod()
 	{
 		return this.mainMethod;
 	}
@@ -206,9 +200,9 @@ public class Parser
 		return this.notifyRecipient;
 	}
 
-	public static ScriptScope getExistingFunctionScope()
+	public static Scope getExistingFunctionScope()
 	{
-		return new ScriptScope( RuntimeLibrary.functions, null, DataTypes.simpleTypes );
+		return new Scope( RuntimeLibrary.functions, null, DataTypes.simpleTypes );
 	}
 
 	// **************** Parser *****************
@@ -222,66 +216,66 @@ public class Parser
 
 	private static final boolean arrays = false;
 
-	private static final ScriptSymbolTable reservedWords = new ScriptSymbolTable();
+	private static final ArrayList reservedWords = new ArrayList();
 
 	static
 	{
 		// Constants
-		reservedWords.addElement( new ScriptSymbol( "true" ) );
-		reservedWords.addElement( new ScriptSymbol( "false" ) );
+		reservedWords.add( "true" );
+		reservedWords.add( "false" );
 
 		// Operators
-		reservedWords.addElement( new ScriptSymbol( "contains" ) );
-		reservedWords.addElement( new ScriptSymbol( "remove" ) );
+		reservedWords.add( "contains" );
+		reservedWords.add( "remove" );
 
 		// Control flow
-		reservedWords.addElement( new ScriptSymbol( "if" ) );
-		reservedWords.addElement( new ScriptSymbol( "else" ) );
-		reservedWords.addElement( new ScriptSymbol( "foreach" ) );
-		reservedWords.addElement( new ScriptSymbol( "in" ) );
-		reservedWords.addElement( new ScriptSymbol( "for" ) );
-		reservedWords.addElement( new ScriptSymbol( "from" ) );
-		reservedWords.addElement( new ScriptSymbol( "upto" ) );
-		reservedWords.addElement( new ScriptSymbol( "downto" ) );
-		reservedWords.addElement( new ScriptSymbol( "by" ) );
-		reservedWords.addElement( new ScriptSymbol( "while" ) );
-		reservedWords.addElement( new ScriptSymbol( "repeat" ) );
-		reservedWords.addElement( new ScriptSymbol( "until" ) );
-		reservedWords.addElement( new ScriptSymbol( "break" ) );
-		reservedWords.addElement( new ScriptSymbol( "continue" ) );
-		reservedWords.addElement( new ScriptSymbol( "return" ) );
-		reservedWords.addElement( new ScriptSymbol( "exit" ) );
+		reservedWords.add( "if" );
+		reservedWords.add( "else" );
+		reservedWords.add( "foreach" );
+		reservedWords.add( "in" );
+		reservedWords.add( "for" );
+		reservedWords.add( "from" );
+		reservedWords.add( "upto" );
+		reservedWords.add( "downto" );
+		reservedWords.add( "by" );
+		reservedWords.add( "while" );
+		reservedWords.add( "repeat" );
+		reservedWords.add( "until" );
+		reservedWords.add( "break" );
+		reservedWords.add( "continue" );
+		reservedWords.add( "return" );
+		reservedWords.add( "exit" );
 
 		// Data types
-		reservedWords.addElement( new ScriptSymbol( "void" ) );
-		reservedWords.addElement( new ScriptSymbol( "boolean" ) );
-		reservedWords.addElement( new ScriptSymbol( "int" ) );
-		reservedWords.addElement( new ScriptSymbol( "float" ) );
-		reservedWords.addElement( new ScriptSymbol( "string" ) );
-		reservedWords.addElement( new ScriptSymbol( "buffer" ) );
-		reservedWords.addElement( new ScriptSymbol( "matcher" ) );
+		reservedWords.add( "void" );
+		reservedWords.add( "boolean" );
+		reservedWords.add( "int" );
+		reservedWords.add( "float" );
+		reservedWords.add( "string" );
+		reservedWords.add( "buffer" );
+		reservedWords.add( "matcher" );
 
-		reservedWords.addElement( new ScriptSymbol( "item" ) );
-		reservedWords.addElement( new ScriptSymbol( "location" ) );
-		reservedWords.addElement( new ScriptSymbol( "class" ) );
-		reservedWords.addElement( new ScriptSymbol( "stat" ) );
-		reservedWords.addElement( new ScriptSymbol( "skill" ) );
-		reservedWords.addElement( new ScriptSymbol( "effect" ) );
-		reservedWords.addElement( new ScriptSymbol( "familiar" ) );
-		reservedWords.addElement( new ScriptSymbol( "slot" ) );
-		reservedWords.addElement( new ScriptSymbol( "monster" ) );
-		reservedWords.addElement( new ScriptSymbol( "element" ) );
+		reservedWords.add( "item" );
+		reservedWords.add( "location" );
+		reservedWords.add( "class" );
+		reservedWords.add( "stat" );
+		reservedWords.add( "skill" );
+		reservedWords.add( "effect" );
+		reservedWords.add( "familiar" );
+		reservedWords.add( "slot" );
+		reservedWords.add( "monster" );
+		reservedWords.add( "element" );
 
-		reservedWords.addElement( new ScriptSymbol( "record" ) );
-		reservedWords.addElement( new ScriptSymbol( "typedef" ) );
+		reservedWords.add( "record" );
+		reservedWords.add( "typedef" );
 	}
 
 	private static final boolean isReservedWord( final String name )
 	{
-		return Parser.reservedWords.findSymbol( name ) != null;
+		return Parser.reservedWords.contains( name.toLowerCase() );
 	}
 
-	public ScriptScope importFile( final String fileName, final ScriptScope scope )
+	public Scope importFile( final String fileName, final Scope scope )
 	{
 		File scriptFile = KoLmafiaCLI.findScriptFile( fileName );
 		if ( scriptFile == null )
@@ -294,13 +288,13 @@ public class Parser
 			return scope;
 		}
 
-		ScriptScope result = scope;
+		Scope result = scope;
 		Parser parser = null;
 
 		try
 		{
 			parser = new Parser( scriptFile, null, this.imports );
-			result = parser.parseScope( scope, null, new ScriptVariableList(), scope.getParentScope(), false );
+			result = parser.parseScope( scope, null, new VariableList(), scope.getParentScope(), false );
 			if ( parser.currentLine != null )
 			{
 				parseError( "Script parsing error" );
@@ -320,13 +314,13 @@ public class Parser
 		return result;
 	}
 
-	private ScriptScope parseScope( final ScriptScope startScope, final ScriptType expectedType,
-		final ScriptVariableList variables, final ScriptScope parentScope, final boolean whileLoop )
+	private Scope parseScope( final Scope startScope, final Type expectedType,
+		final VariableList variables, final Scope parentScope, final boolean whileLoop )
 	{
-		ScriptScope result;
+		Scope result;
 		String importString;
 
-		result = startScope == null ? new ScriptScope( variables, parentScope ) : startScope;
+		result = startScope == null ? new Scope( variables, parentScope ) : startScope;
 		this.parseNotify();
 
 		while ( ( importString = this.parseImport() ) != null )
@@ -347,13 +341,13 @@ public class Parser
 				continue;
 			}
 
-			ScriptType t = this.parseType( result, true, true );
+			Type t = this.parseType( result, true, true );
 
 			// If there is no data type, it's a command of some sort
 			if ( t == null )
 			{
 				// See if it's a regular command
-				ParseNode c = this.parseCommand( expectedType, result, false, whileLoop );
+				ParseTreeNode c = this.parseCommand( expectedType, result, false, whileLoop );
 				if ( c != null )
 				{
 					result.addCommand( c );
@@ -373,7 +367,7 @@ public class Parser
 				continue;
 			}
 
-			ScriptFunction f = this.parseFunction( t, result );
+			Function f = this.parseFunction( t, result );
 			if ( f != null )
 			{
 				if ( f.getName().equalsIgnoreCase( "main" ) )
@@ -402,7 +396,7 @@ public class Parser
 		return result;
 	}
 
-	private ScriptType parseRecord( final ScriptScope parentScope )
+	private Type parseRecord( final Scope parentScope )
 	{
 		if ( this.currentToken() == null || !this.currentToken().equalsIgnoreCase( "record" ) )
 		{
@@ -456,7 +450,7 @@ public class Parser
 		while ( true )
 		{
 			// Get the field type
-			ScriptType fieldType = this.parseType( parentScope, true, true );
+			Type fieldType = this.parseType( parentScope, true, true );
 			if ( fieldType == null )
 			{
 				parseError( "Type name expected" );
@@ -510,12 +504,12 @@ public class Parser
 		this.readToken(); // read }
 
 		String[] fieldNameArray = new String[ fieldNames.size() ];
-		ScriptType[] fieldTypeArray = new ScriptType[ fieldTypes.size() ];
+		Type[] fieldTypeArray = new Type[ fieldTypes.size() ];
 		fieldNames.toArray( fieldNameArray );
 		fieldTypes.toArray( fieldTypeArray );
 
-		ScriptRecordType rec =
-			new ScriptRecordType(
+		RecordType rec =
+			new RecordType(
 				recordName == null ? "(anonymous record)" : recordName, fieldNameArray, fieldTypeArray );
 
 		if ( recordName != null )
@@ -527,7 +521,7 @@ public class Parser
 		return rec;
 	}
 
-	private ScriptFunction parseFunction( final ScriptType functionType, final ScriptScope parentScope )
+	private Function parseFunction( final Type functionType, final Scope parentScope )
 	{
 		if ( !this.parseIdentifier( this.currentToken() ) )
 		{
@@ -549,24 +543,24 @@ public class Parser
 		this.readToken(); //read Function name
 		this.readToken(); //read (
 
-		ScriptVariableList paramList = new ScriptVariableList();
-		ScriptVariableReferenceList variableReferences = new ScriptVariableReferenceList();
+		VariableList paramList = new VariableList();
+		VariableReferenceList variableReferences = new VariableReferenceList();
 
 		while ( !this.currentToken().equals( ")" ) )
 		{
-			ScriptType paramType = this.parseType( parentScope, true, false );
+			Type paramType = this.parseType( parentScope, true, false );
 			if ( paramType == null )
 			{
 				this.parseError( ")", this.currentToken() );
 			}
 
-			ScriptVariable param = this.parseVariable( paramType, null );
+			Variable param = this.parseVariable( paramType, null );
 			if ( param == null )
 			{
 				this.parseError( "identifier", this.currentToken() );
 			}
 
-			if ( !paramList.addElement( param ) )
+			if ( !paramList.add( param ) )
 			{
 				parseError( "Variable " + param.getName() + " is already defined" );
 			}
@@ -581,7 +575,7 @@ public class Parser
 				this.readToken(); //read comma
 			}
 
-			variableReferences.addElement( new ScriptVariableReference( param ) );
+			variableReferences.add( new VariableReference( param ) );
 		}
 
 		this.readToken(); //read )
@@ -589,9 +583,9 @@ public class Parser
 		// Add the function to the parent scope before we parse the
 		// function scope to allow recursion.
 
-		ScriptUserDefinedFunction f = new ScriptUserDefinedFunction( functionName, functionType, variableReferences );
-		ScriptUserDefinedFunction existing = parentScope.findFunction( f );
-					
+		UserDefinedFunction f = new UserDefinedFunction( functionName, functionType, variableReferences );
+		UserDefinedFunction existing = parentScope.findFunction( f );
+
 		if ( existing != null && existing.getScope() != null )
 		{
 			parseError( "Function '" + functionName + "' defined multiple times" );
@@ -599,7 +593,7 @@ public class Parser
 
 		// Add new function or replace existing forward reference
 
-		ScriptUserDefinedFunction result = parentScope.replaceFunction( existing, f );
+		UserDefinedFunction result = parentScope.replaceFunction( existing, f );
 
 		if ( this.currentToken() != null && this.currentToken().equals( ";" ) )
 		{
@@ -608,7 +602,7 @@ public class Parser
 			return result;
 		}
 
-		ScriptScope scope;
+		Scope scope;
 		if ( this.currentToken() != null && this.currentToken().equals( "{" ) )
 		{
 			// Scope is a block
@@ -626,7 +620,7 @@ public class Parser
 		else
 		{
 			// Scope is a single command
-			scope = new ScriptScope( paramList, parentScope );
+			scope = new Scope( paramList, parentScope );
 			scope.addCommand( this.parseCommand( functionType, parentScope, false, false ) );
 		}
 
@@ -644,11 +638,11 @@ public class Parser
 		return result;
 	}
 
-	private boolean parseVariables( final ScriptType t, final ScriptScope parentScope )
+	private boolean parseVariables( final Type t, final Scope parentScope )
 	{
 		while ( true )
 		{
-			ScriptVariable v = this.parseVariable( t, parentScope );
+			Variable v = this.parseVariable( t, parentScope );
 			if ( v == null )
 			{
 				return false;
@@ -664,7 +658,7 @@ public class Parser
 		}
 	}
 
-	private ScriptVariable parseVariable( final ScriptType t, final ScriptScope scope )
+	private Variable parseVariable( final Type t, final Scope scope )
 	{
 		if ( !this.parseIdentifier( this.currentToken() ) )
 		{
@@ -677,7 +671,7 @@ public class Parser
 			parseError( "Reserved word '" + variableName + "' cannot be a variable name" );
 		}
 
-		ScriptVariable result = new ScriptVariable( variableName, t );
+		Variable result = new Variable( variableName, t );
 		if ( scope != null && !scope.addVariable( result ) )
 		{
 			parseError( "Variable " + result.getName() + " is already defined" );
@@ -696,8 +690,8 @@ public class Parser
 
 		// Otherwise, we must initialize the variable.
 
-		ScriptVariableReference lhs = new ScriptVariableReference( result.getName(), scope );
-		ScriptValue rhs;
+		VariableReference lhs = new VariableReference( result.getName(), scope );
+		Value rhs;
 
 		if ( this.currentToken().equals( "=" ) )
 		{
@@ -720,11 +714,11 @@ public class Parser
 			rhs = null;
 		}
 
-		scope.addCommand( new ScriptAssignment( lhs, rhs ) );
+		scope.addCommand( new Assignment( lhs, rhs ) );
 		return result;
 	}
 
-	private boolean parseTypedef( final ScriptScope parentScope )
+	private boolean parseTypedef( final Scope parentScope )
 	{
 		if ( this.currentToken() == null || !this.currentToken().equalsIgnoreCase( "typedef" ) )
 		{
@@ -732,7 +726,7 @@ public class Parser
 		}
 		this.readToken(); // read typedef
 
-		ScriptType t = this.parseType( parentScope, true, true );
+		Type t = this.parseType( parentScope, true, true );
 		if ( t == null )
 		{
 			parseError( "Missing data type for typedef" );
@@ -758,16 +752,16 @@ public class Parser
 		this.readToken(); // read name
 
 		// Add the type to the type table
-		ScriptNamedType type = new ScriptNamedType( typeName, t );
+		TypeDef type = new TypeDef( typeName, t );
 		parentScope.addType( type );
 
 		return true;
 	}
 
-	private ParseNode parseCommand( final ScriptType functionType, final ScriptScope scope, final boolean noElse,
+	private ParseTreeNode parseCommand( final Type functionType, final Scope scope, final boolean noElse,
 		boolean whileLoop )
 	{
-		ParseNode result;
+		ParseTreeNode result;
 
 		if ( this.currentToken() == null )
 		{
@@ -781,7 +775,7 @@ public class Parser
 				parseError( "Encountered 'break' outside of loop" );
 			}
 
-			result = new ScriptBreak();
+			result = new LoopBreak();
 			this.readToken(); //break
 		}
 
@@ -792,7 +786,7 @@ public class Parser
 				parseError( "Encountered 'continue' outside of loop" );
 			}
 
-			result = new ScriptContinue();
+			result = new LoopContinue();
 			this.readToken(); //continue
 		}
 
@@ -865,14 +859,14 @@ public class Parser
 		return result;
 	}
 
-	private ScriptType parseType( final ScriptScope scope, final boolean aggregates, final boolean records )
+	private Type parseType( final Scope scope, final boolean aggregates, final boolean records )
 	{
 		if ( this.currentToken() == null )
 		{
 			return null;
 		}
 
-		ScriptType valType = scope.findType( this.currentToken() );
+		Type valType = scope.findType( this.currentToken() );
 		if ( valType == null )
 		{
 			if ( records && this.currentToken().equalsIgnoreCase( "record" ) )
@@ -905,7 +899,7 @@ public class Parser
 		return valType;
 	}
 
-	private ScriptType parseAggregateType( final ScriptType dataType, final ScriptScope scope )
+	private Type parseAggregateType( final Type dataType, final Scope scope )
 	{
 		this.readToken(); // [ or ,
 		if ( this.currentToken() == null )
@@ -929,21 +923,21 @@ public class Parser
 
 				if ( this.currentToken().equals( "[" ) )
 				{
-					return new ScriptAggregateType( this.parseAggregateType( dataType, scope ), size );
+					return new AggregateType( this.parseAggregateType( dataType, scope ), size );
 				}
 
-				return new ScriptAggregateType( dataType, size );
+				return new AggregateType( dataType, size );
 			}
 
 			if ( this.currentToken().equals( "," ) )
 			{
-				return new ScriptAggregateType( this.parseAggregateType( dataType, scope ), size );
+				return new AggregateType( this.parseAggregateType( dataType, scope ), size );
 			}
 
 			this.parseError( "]", this.currentToken() );
 		}
 
-		ScriptType indexType = scope.findType( this.currentToken() );
+		Type indexType = scope.findType( this.currentToken() );
 		if ( indexType == null )
 		{
 			parseError( "Invalid type name '" + this.currentToken() + "'" );
@@ -966,15 +960,15 @@ public class Parser
 
 			if ( this.currentToken().equals( "[" ) )
 			{
-				return new ScriptAggregateType( this.parseAggregateType( dataType, scope ), indexType );
+				return new AggregateType( this.parseAggregateType( dataType, scope ), indexType );
 			}
 
-			return new ScriptAggregateType( dataType, indexType );
+			return new AggregateType( dataType, indexType );
 		}
 
 		if ( this.currentToken().equals( "," ) )
 		{
-			return new ScriptAggregateType( this.parseAggregateType( dataType, scope ), indexType );
+			return new AggregateType( this.parseAggregateType( dataType, scope ), indexType );
 		}
 
 		this.parseError( ", or ]", this.currentToken() );
@@ -999,7 +993,7 @@ public class Parser
 		return true;
 	}
 
-	private ScriptReturn parseReturn( final ScriptType expectedType, final ScriptScope parentScope )
+	private FunctionReturn parseReturn( final Type expectedType, final Scope parentScope )
 	{
 		if ( this.currentToken() == null || !this.currentToken().equalsIgnoreCase( "return" ) )
 		{
@@ -1012,7 +1006,7 @@ public class Parser
 		{
 			if ( expectedType != null && expectedType.equals( DataTypes.TYPE_VOID ) )
 			{
-				return new ScriptReturn( null, DataTypes.VOID_TYPE );
+				return new FunctionReturn( null, DataTypes.VOID_TYPE );
 			}
 
 			parseError( "Return needs " + expectedType + " value" );
@@ -1025,8 +1019,8 @@ public class Parser
 				parseError( "Cannot return a value from a void function" );
 			}
 
-			ScriptValue value = this.parseExpression( parentScope );
-		
+			Value value = this.parseExpression( parentScope );
+
 			if ( value == null )
 			{
 				parseError( "Expression expected" );
@@ -1037,11 +1031,11 @@ public class Parser
 				parseError( "Cannot return " + value.getType() + " value from " + expectedType + " function");
 			}
 
-			return new ScriptReturn( value, expectedType );
+			return new FunctionReturn( value, expectedType );
 		}
 	}
 
-	private ScriptConditional parseConditional( final ScriptType functionType, final ScriptScope parentScope,
+	private Conditional parseConditional( final Type functionType, final Scope parentScope,
 		boolean noElse, final boolean loop )
 	{
 		if ( this.currentToken() == null || !this.currentToken().equalsIgnoreCase( "if" ) )
@@ -1057,7 +1051,7 @@ public class Parser
 		this.readToken(); // if
 		this.readToken(); // (
 
-		ScriptValue condition = this.parseExpression( parentScope );
+		Value condition = this.parseExpression( parentScope );
 		if ( this.currentToken() == null || !this.currentToken().equals( ")" ) )
 		{
 			this.parseError( ")", this.currentToken() );
@@ -1070,18 +1064,18 @@ public class Parser
 
 		this.readToken(); // )
 
-		ScriptIf result = null;
+		If result = null;
 		boolean elseFound = false;
 		boolean finalElse = false;
 
 		do
 		{
-			ScriptScope scope;
+			Scope scope;
 
 			if ( this.currentToken() == null || !this.currentToken().equals( "{" ) ) //Scope is a single call
 			{
-				ParseNode command = this.parseCommand( functionType, parentScope, !elseFound, loop );
-				scope = new ScriptScope( command, parentScope );
+				ParseTreeNode command = this.parseCommand( functionType, parentScope, !elseFound, loop );
+				scope = new Scope( command, parentScope );
 			}
 			else
 			{
@@ -1098,15 +1092,15 @@ public class Parser
 
 			if ( result == null )
 			{
-				result = new ScriptIf( scope, condition );
+				result = new If( scope, condition );
 			}
 			else if ( finalElse )
 			{
-				result.addElseLoop( new ScriptElse( scope, condition ) );
+				result.addElseLoop( new Else( scope, condition ) );
 			}
 			else
 			{
-				result.addElseLoop( new ScriptElseIf( scope, condition ) );
+				result.addElseLoop( new ElseIf( scope, condition ) );
 			}
 
 			if ( !noElse && this.currentToken() != null && this.currentToken().equalsIgnoreCase( "else" ) )
@@ -1160,7 +1154,7 @@ public class Parser
 		return result;
 	}
 
-	private ScriptBasicScript parseBasicScript()
+	private BasicScript parseBasicScript()
 	{
 		if ( this.currentToken() == null )
 		{
@@ -1208,10 +1202,10 @@ public class Parser
 
 		this.readToken(); // }
 
-		return new ScriptBasicScript( ostream );
+		return new BasicScript( ostream );
 	}
 
-	private ScriptWhile parseWhile( final ScriptType functionType, final ScriptScope parentScope )
+	private WhileLoop parseWhile( final Type functionType, final Scope parentScope )
 	{
 		if ( this.currentToken() == null )
 		{
@@ -1231,7 +1225,7 @@ public class Parser
 		this.readToken(); // while
 		this.readToken(); // (
 
-		ScriptValue condition = this.parseExpression( parentScope );
+		Value condition = this.parseExpression( parentScope );
 		if ( this.currentToken() == null || !this.currentToken().equals( ")" ) )
 		{
 			this.parseError( ")", this.currentToken() );
@@ -1244,12 +1238,12 @@ public class Parser
 
 		this.readToken(); // )
 
-		ScriptScope scope = this.parseLoopScope( functionType, null, parentScope );
+		Scope scope = this.parseLoopScope( functionType, null, parentScope );
 
-		return new ScriptWhile( scope, condition );
+		return new WhileLoop( scope, condition );
 	}
 
-	private ScriptRepeat parseRepeat( final ScriptType functionType, final ScriptScope parentScope )
+	private RepeatUntilLoop parseRepeat( final Type functionType, final Scope parentScope )
 	{
 		if ( this.currentToken() == null )
 		{
@@ -1263,7 +1257,7 @@ public class Parser
 
 		this.readToken(); // repeat
 
-		ScriptScope scope = this.parseLoopScope( functionType, null, parentScope );
+		Scope scope = this.parseLoopScope( functionType, null, parentScope );
 		if ( this.currentToken() == null || !this.currentToken().equals( "until" ) )
 		{
 			this.parseError( "until", this.currentToken() );
@@ -1277,7 +1271,7 @@ public class Parser
 		this.readToken(); // until
 		this.readToken(); // (
 
-		ScriptValue condition = this.parseExpression( parentScope );
+		Value condition = this.parseExpression( parentScope );
 		if ( this.currentToken() == null || !this.currentToken().equals( ")" ) )
 		{
 			this.parseError( ")", this.currentToken() );
@@ -1290,10 +1284,10 @@ public class Parser
 
 		this.readToken(); // )
 
-		return new ScriptRepeat( scope, condition );
+		return new RepeatUntilLoop( scope, condition );
 	}
 
-	private ScriptForeach parseForeach( final ScriptType functionType, final ScriptScope parentScope )
+	private ForEachLoop parseForeach( final Type functionType, final Scope parentScope )
 	{
 		// foreach key [, key ... ] in aggregate { scope }
 
@@ -1347,40 +1341,40 @@ public class Parser
 		}
 
 		// Get an aggregate reference
-		ScriptValue aggregate = this.parseVariableReference( parentScope );
+		Value aggregate = this.parseVariableReference( parentScope );
 
-		if ( aggregate == null || !( aggregate instanceof ScriptVariableReference ) || !( aggregate.getType().getBaseType() instanceof ScriptAggregateType ) )
+		if ( aggregate == null || !( aggregate instanceof VariableReference ) || !( aggregate.getType().getBaseType() instanceof AggregateType ) )
 		{
 			parseError( "Aggregate reference expected" );
 		}
 
 		// Define key variables of appropriate type
-		ScriptVariableList varList = new ScriptVariableList();
-		ScriptVariableReferenceList variableReferences = new ScriptVariableReferenceList();
-		ScriptType type = aggregate.getType().getBaseType();
+		VariableList varList = new VariableList();
+		VariableReferenceList variableReferences = new VariableReferenceList();
+		Type type = aggregate.getType().getBaseType();
 
 		for ( int i = 0; i < names.size(); ++i )
 		{
-			if ( !( type instanceof ScriptAggregateType ) )
+			if ( !( type instanceof AggregateType ) )
 			{
 				parseError( "Too many key variables specified" );
 			}
 
-			ScriptType itype = ( (ScriptAggregateType) type ).getIndexType();
-			ScriptVariable keyvar = new ScriptVariable( (String) names.get( i ), itype );
-			varList.addElement( keyvar );
-			variableReferences.addElement( new ScriptVariableReference( keyvar ) );
-			type = ( (ScriptAggregateType) type ).getDataType();
+			Type itype = ( (AggregateType) type ).getIndexType();
+			Variable keyvar = new Variable( (String) names.get( i ), itype );
+			varList.add( keyvar );
+			variableReferences.add( new VariableReference( keyvar ) );
+			type = ( (AggregateType) type ).getDataType();
 		}
 
 		// Parse the scope with the list of keyVars
-		ScriptScope scope = this.parseLoopScope( functionType, varList, parentScope );
+		Scope scope = this.parseLoopScope( functionType, varList, parentScope );
 
 		// Add the foreach node with the list of varRefs
-		return new ScriptForeach( scope, variableReferences, (ScriptVariableReference) aggregate );
+		return new ForEachLoop( scope, variableReferences, (VariableReference) aggregate );
 	}
 
-	private ScriptFor parseFor( final ScriptType functionType, final ScriptScope parentScope )
+	private ForLoop parseFor( final Type functionType, final Scope parentScope )
 	{
 		// foreach key in aggregate {scope }
 
@@ -1416,7 +1410,7 @@ public class Parser
 
 		this.readToken(); // from
 
-		ScriptValue initial = this.parseExpression( parentScope );
+		Value initial = this.parseExpression( parentScope );
 
 		int direction = 0;
 
@@ -1439,9 +1433,9 @@ public class Parser
 
 		this.readToken(); // upto/downto
 
-		ScriptValue last = this.parseExpression( parentScope );
+		Value last = this.parseExpression( parentScope );
 
-		ScriptValue increment = DataTypes.ONE_VALUE;
+		Value increment = DataTypes.ONE_VALUE;
 		if ( this.currentToken().equalsIgnoreCase( "by" ) )
 		{
 			this.readToken(); // by
@@ -1449,21 +1443,21 @@ public class Parser
 		}
 
 		// Create integer index variable
-		ScriptVariable indexvar = new ScriptVariable( name, DataTypes.INT_TYPE );
+		Variable indexvar = new Variable( name, DataTypes.INT_TYPE );
 
 		// Put index variable onto a list
-		ScriptVariableList varList = new ScriptVariableList();
-		varList.addElement( indexvar );
+		VariableList varList = new VariableList();
+		varList.add( indexvar );
 
-		ScriptScope scope = this.parseLoopScope( functionType, varList, parentScope );
+		Scope scope = this.parseLoopScope( functionType, varList, parentScope );
 
-		return new ScriptFor( scope, new ScriptVariableReference( indexvar ), initial, last, increment, direction );
+		return new ForLoop( scope, new VariableReference( indexvar ), initial, last, increment, direction );
 	}
 
-	private ScriptScope parseLoopScope( final ScriptType functionType, final ScriptVariableList varList,
-		final ScriptScope parentScope )
+	private Scope parseLoopScope( final Type functionType, final VariableList varList,
+		final Scope parentScope )
 	{
-		ScriptScope scope;
+		Scope scope;
 
 		if ( this.currentToken() != null && this.currentToken().equals( "{" ) )
 		{
@@ -1482,19 +1476,19 @@ public class Parser
 		else
 		{
 			// Scope is a single command
-			scope = new ScriptScope( varList, parentScope );
+			scope = new Scope( varList, parentScope );
 			scope.addCommand( this.parseCommand( functionType, scope, false, true ) );
 		}
 
 		return scope;
 	}
 
-	private ScriptValue parseCall( final ScriptScope scope )
+	private Value parseCall( final Scope scope )
 	{
 		return this.parseCall( scope, null );
 	}
 
-	private ScriptValue parseCall( final ScriptScope scope, final ScriptValue firstParam )
+	private Value parseCall( final Scope scope, final Value firstParam )
 	{
 		if ( this.nextToken() == null || !this.nextToken().equals( "(" ) )
 		{
@@ -1511,18 +1505,18 @@ public class Parser
 		this.readToken(); //name
 		this.readToken(); //(
 
-		ScriptValueList params = new ScriptValueList();
+		ValueList params = new ValueList();
 		if ( firstParam != null )
 		{
-			params.addElement( firstParam );
+			params.add( firstParam );
 		}
 
 		while ( this.currentToken() != null && !this.currentToken().equals( ")" ) )
 		{
-			ScriptValue val = this.parseExpression( scope );
+			Value val = this.parseExpression( scope );
 			if ( val != null )
 			{
-				params.addElement( val );
+				params.add( val );
 			}
 
 			if ( !this.currentToken().equals( "," ) )
@@ -1549,16 +1543,16 @@ public class Parser
 
 		this.readToken(); // )
 
-		ScriptFunction target = this.findFunction( scope, name, params );
+		Function target = this.findFunction( scope, name, params );
 		if ( target == null )
 		{
 			parseError( "Undefined reference to function '" + name + "'" );
 		}
-		ScriptCall call = new ScriptCall( target, params );
-		ScriptValue result = call;
+		FunctionCall call = new FunctionCall( target, params );
+		Value result = call;
 		while ( result != null && this.currentToken() != null && this.currentToken().equals( "." ) )
 		{
-			ScriptVariable current = new ScriptVariable( result.getType() );
+			Variable current = new Variable( result.getType() );
 			current.setExpression( result );
 
 			result = this.parseVariableReference( scope, current );
@@ -1567,9 +1561,9 @@ public class Parser
 		return result;
 	}
 
-        private final ScriptFunction findFunction( final ScriptScope scope, final String name, final ScriptValueList params )
+        private final Function findFunction( final Scope scope, final String name, final ValueList params )
 	{
-                ScriptFunction result = this.findFunction( scope, scope.getFunctionList(), name, params, true );
+                Function result = this.findFunction( scope, scope.getFunctionList(), name, params, true );
 
                 if ( result == null )
                 {
@@ -1651,13 +1645,13 @@ public class Parser
 		return result;
         }
 
-	private final ScriptFunction findFunction( final ScriptScope scope, final ScriptFunctionList source,
-						   final String name, final ScriptValueList params,
+	private final Function findFunction( final Scope scope, final FunctionList source,
+						   final String name, final ValueList params,
 						   boolean isExactMatch )
 	{
 		String errorMessage = null;
 
-		ScriptFunction[] functions = source.findFunctions( name );
+		Function[] functions = source.findFunctions( name );
 
 		// First, try to find an exact match on parameter types.
 		// This allows strict matches to take precedence.
@@ -1672,16 +1666,16 @@ public class Parser
 			}
 
 			Iterator refIterator = functions[ i ].getReferences();
-			Iterator valIterator = params.getValues();
+			Iterator valIterator = params.iterator();
 
-			ScriptVariableReference currentParam;
-			ScriptValue currentValue;
+			VariableReference currentParam;
+			Value currentValue;
 			int paramIndex = 1;
 
 			while ( errorMessage == null && refIterator.hasNext() && valIterator.hasNext() )
 			{
-				currentParam = (ScriptVariableReference) refIterator.next();
-				currentValue = (ScriptValue) valIterator.next();
+				currentParam = (VariableReference) refIterator.next();
+				currentValue = (Value) valIterator.next();
 
 				if ( isExactMatch )
 				{
@@ -1712,9 +1706,9 @@ public class Parser
 			}
 		}
 
-		if ( !isExactMatch && scope.parentScope != null )
+		if ( !isExactMatch && scope.getParentScope() != null )
 		{
-			return findFunction( scope.parentScope, name, params );
+			return findFunction( scope.getParentScope(), name, params );
 		}
 
 		if ( !isExactMatch && source == RuntimeLibrary.functions && errorMessage != null )
@@ -1725,7 +1719,7 @@ public class Parser
 		return null;
 	}
 
-	private ParseNode parseAssignment( final ScriptScope scope )
+	private ParseTreeNode parseAssignment( final Scope scope )
 	{
 		if ( this.nextToken() == null )
 		{
@@ -1742,13 +1736,13 @@ public class Parser
 			return null;
 		}
 
-		ScriptValue lhs = this.parseVariableReference( scope );
-		if ( lhs instanceof ScriptCall )
+		Value lhs = this.parseVariableReference( scope );
+		if ( lhs instanceof FunctionCall )
 		{
 			return lhs;
 		}
 
-		if ( lhs == null || !( lhs instanceof ScriptVariableReference ) )
+		if ( lhs == null || !( lhs instanceof VariableReference ) )
 		{
 			parseError( "Variable reference expected" );
 		}
@@ -1760,7 +1754,7 @@ public class Parser
 
 		this.readToken(); //=
 
-		ScriptValue rhs = this.parseExpression( scope );
+		Value rhs = this.parseExpression( scope );
 
 		if ( rhs == null )
 		{
@@ -1773,17 +1767,17 @@ public class Parser
 				"Cannot store " + rhs.getType() + " in " + lhs + " of type " + lhs.getType() );
 		}
 
-		return new ScriptAssignment( (ScriptVariableReference) lhs, rhs );
+		return new Assignment( (VariableReference) lhs, rhs );
 	}
 
-	private ScriptValue parseRemove( final ScriptScope scope )
+	private Value parseRemove( final Scope scope )
 	{
 		if ( this.currentToken() == null || !this.currentToken().equals( "remove" ) )
 		{
 			return null;
 		}
 
-		ScriptValue lhs = this.parseExpression( scope );
+		Value lhs = this.parseExpression( scope );
 
 		if ( lhs == null )
 		{
@@ -1793,21 +1787,21 @@ public class Parser
 		return lhs;
 	}
 
-	private ScriptValue parseExpression( final ScriptScope scope )
+	private Value parseExpression( final Scope scope )
 	{
 		return this.parseExpression( scope, null );
 	}
 
-	private ScriptValue parseExpression( final ScriptScope scope, final ScriptOperator previousOper )
+	private Value parseExpression( final Scope scope, final Operator previousOper )
 	{
 		if ( this.currentToken() == null )
 		{
 			return null;
 		}
 
-		ScriptValue lhs = null;
-		ScriptValue rhs = null;
-		ScriptOperator oper = null;
+		Value lhs = null;
+		Value rhs = null;
+		Operator oper = null;
 
 		if ( this.currentToken().equals( "!" ) )
 		{
@@ -1818,7 +1812,7 @@ public class Parser
 				parseError( "Value expected" );
 			}
 
-			lhs = new ScriptExpression( lhs, null, new ScriptOperator( operator ) );
+			lhs = new Expression( lhs, null, new Operator( operator ) );
 			if ( lhs.getType() != DataTypes.BOOLEAN_TYPE )
 			{
 				parseError( "\"!\" operator requires a boolean value" );
@@ -1840,7 +1834,7 @@ public class Parser
 				parseError( "Value expected" );
 			}
 
-			lhs = new ScriptExpression( lhs, null, new ScriptOperator( operator ) );
+			lhs = new Expression( lhs, null, new Operator( operator ) );
 		}
 		else if ( this.currentToken().equals( "remove" ) )
 		{
@@ -1848,12 +1842,12 @@ public class Parser
 			this.readToken(); // remove
 
 			lhs = this.parseVariableReference( scope );
-			if ( lhs == null || !( lhs instanceof ScriptCompositeReference ) )
+			if ( lhs == null || !( lhs instanceof CompositeReference ) )
 			{
 				parseError( "Aggregate reference expected" );
 			}
 
-			lhs = new ScriptExpression( lhs, null, new ScriptOperator( operator ) );
+			lhs = new Expression( lhs, null, new Operator( operator ) );
 		}
 		else if ( ( lhs = this.parseValue( scope ) ) == null )
 		{
@@ -1887,19 +1881,19 @@ public class Parser
 					"Cannot apply operator " + oper + " to " + lhs + " (" + lhs.getType() + ") and " + rhs + " (" + rhs.getType() + ")" );
 			}
 
-			lhs = new ScriptExpression( lhs, rhs, oper );
+			lhs = new Expression( lhs, rhs, oper );
 		}
 		while ( true );
 	}
 
-	private ScriptValue parseValue( final ScriptScope scope )
+	private Value parseValue( final Scope scope )
 	{
 		if ( this.currentToken() == null )
 		{
 			return null;
 		}
 
-		ScriptValue result = null;
+		Value result = null;
 
 		// Parse parenthesized expressions
 		if ( this.currentToken().equals( "(" ) )
@@ -1952,10 +1946,10 @@ public class Parser
 			;
 		}
 
-		ScriptVariable current;
+		Variable current;
 		while ( result != null && this.currentToken() != null && this.currentToken().equals( "." ) )
 		{
-			current = new ScriptVariable( result.getType() );
+			current = new Variable( result.getType() );
 			current.setExpression( result );
 
 			result = this.parseVariableReference( scope, current );
@@ -1964,7 +1958,7 @@ public class Parser
 		return result;
 	}
 
-	private ScriptValue parseNumber()
+	private Value parseNumber()
 	{
 		if ( this.currentToken() == null )
 		{
@@ -2003,7 +1997,7 @@ public class Parser
 			}
 
 			this.readToken(); // integer
-			return new ScriptValue( sign * StaticEntity.parseFloat( "0." + fraction ) );
+			return new Value( sign * StaticEntity.parseFloat( "0." + fraction ) );
 		}
 
 		String integer = this.currentToken();
@@ -2019,16 +2013,16 @@ public class Parser
 			String fraction = this.nextToken();
 			if ( !this.readIntegerToken( fraction ) )
 			{
-				return new ScriptValue( sign * StaticEntity.parseInt( integer ) );
+				return new Value( sign * StaticEntity.parseInt( integer ) );
 			}
 
 			this.readToken(); // .
 			this.readToken(); // fraction
 
-			return new ScriptValue( sign * StaticEntity.parseFloat( integer + "." + fraction ) );
+			return new Value( sign * StaticEntity.parseFloat( integer + "." + fraction ) );
 		}
 
-		return new ScriptValue( sign * StaticEntity.parseInt( integer ) );
+		return new Value( sign * StaticEntity.parseInt( integer ) );
 	}
 
 	private boolean readIntegerToken( final String token )
@@ -2049,7 +2043,7 @@ public class Parser
 		return true;
 	}
 
-	private ScriptValue parseString()
+	private Value parseString()
 	{
 		// Directly work with currentLine - ignore any "tokens" you meet until
 		// the string is closed
@@ -2112,7 +2106,7 @@ public class Parser
 			else if ( this.currentLine.charAt( i ) == startCharacter )
 			{
 				this.currentLine = this.currentLine.substring( i + 1 ); //+ 1 to get rid of '"' token
-				return new ScriptValue( resultString.toString() );
+				return new Value( resultString.toString() );
 			}
 			else
 			{
@@ -2121,12 +2115,12 @@ public class Parser
 		}
 	}
 
-	private ScriptValue parseTypedConstant( final ScriptScope scope )
+	private Value parseTypedConstant( final Scope scope )
 	{
 		this.readToken(); // read $
 
 		String name = this.currentToken();
-		ScriptType type = this.parseType( scope, false, false );
+		Type type = this.parseType( scope, false, false );
 		if ( type == null || !type.isPrimitive() )
 		{
 			parseError( "Unknown type " + name );
@@ -2153,7 +2147,7 @@ public class Parser
 			{
 				this.currentLine = this.currentLine.substring( i + 1 ); //+1 to get rid of ']' token
 				String input = resultString.toString().trim();
-				ScriptValue value = DataTypes.parseValue( type, input, false );
+				Value value = DataTypes.parseValue( type, input, false );
 				if ( value == null )
 				{
 					parseError( "Bad " + type.toString() + " value: \"" + input + "\"" );
@@ -2167,20 +2161,20 @@ public class Parser
 		}
 	}
 
-	private ScriptOperator parseOperator( final String oper )
+	private Operator parseOperator( final String oper )
 	{
 		if ( oper == null || !this.isOperator( oper ) )
 		{
 			return null;
 		}
 
-		return new ScriptOperator( oper );
+		return new Operator( oper );
 	}
 
 	private boolean isOperator( final String oper )
 	{
-		return  oper.equals( "!" ) ||
-                        oper.equals( "*" ) ||
+		return oper.equals( "!" ) ||
+			oper.equals( "*" ) ||
 			oper.equals( "^" ) ||
 			oper.equals( "/" ) ||
 			oper.equals( "%" ) ||
@@ -2199,7 +2193,7 @@ public class Parser
 			oper.equals( "remove" );
 	}
 
-	private ScriptValue parseVariableReference( final ScriptScope scope )
+	private Value parseVariableReference( final Scope scope )
 	{
 		if ( this.currentToken() == null || !this.parseIdentifier( this.currentToken() ) )
 		{
@@ -2207,7 +2201,7 @@ public class Parser
 		}
 
 		String name = this.currentToken();
-		ScriptVariable var = scope.findVariable( name, true );
+		Variable var = scope.findVariable( name, true );
 
 		if ( var == null )
 		{
@@ -2218,23 +2212,23 @@ public class Parser
 
 		if ( this.currentToken() == null || !this.currentToken().equals( "[" ) && !this.currentToken().equals( "." ) )
 		{
-			return new ScriptVariableReference( var );
+			return new VariableReference( var );
 		}
 
 		return this.parseVariableReference( scope, var );
 	}
 
-	private ScriptValue parseVariableReference( final ScriptScope scope, final ScriptVariable var )
+	private Value parseVariableReference( final Scope scope, final Variable var )
 	{
-		ScriptType type = var.getType();
-		ScriptValueList indices = new ScriptValueList();
+		Type type = var.getType();
+		ValueList indices = new ValueList();
 
 		boolean parseAggregate = this.currentToken().equals( "[" );
 
 		while ( this.currentToken() != null && ( this.currentToken().equals( "[" ) || this.currentToken().equals( "." ) || parseAggregate && this.currentToken().equals(
 			"," ) ) )
 		{
-			ScriptValue index;
+			Value index;
 
 			type = type.getBaseType();
 
@@ -2243,7 +2237,7 @@ public class Parser
 				this.readToken(); // read [ or . or ,
 				parseAggregate = true;
 
-				if ( !( type instanceof ScriptAggregateType ) )
+				if ( !( type instanceof AggregateType ) )
 				{
 					if ( indices.isEmpty() )
 					{
@@ -2255,7 +2249,7 @@ public class Parser
 					}
 				}
 
-				ScriptAggregateType atype = (ScriptAggregateType) type;
+				AggregateType atype = (AggregateType) type;
 				index = this.parseExpression( scope );
 				if ( index == null )
 				{
@@ -2279,16 +2273,16 @@ public class Parser
 				if ( this.nextToken().equals( "(" ) )
 				{
 					return this.parseCall(
-						scope, indices.isEmpty() ? new ScriptVariableReference( var ) : new ScriptCompositeReference(
+						scope, indices.isEmpty() ? new VariableReference( var ) : new CompositeReference(
 							var, indices ) );
 				}
 
-				if ( !( type instanceof ScriptRecordType ) )
+				if ( !( type instanceof RecordType ) )
 				{
 					parseError( "Record expected" );
 				}
 
-				ScriptRecordType rtype = (ScriptRecordType) type;
+				RecordType rtype = (RecordType) type;
 
 				String field = this.currentToken();
 				if ( field == null || !this.parseIdentifier( field ) )
@@ -2305,7 +2299,7 @@ public class Parser
 				type = rtype.getDataType( index );
 			}
 
-			indices.addElement( index );
+			indices.add( index );
 
 			if ( parseAggregate && this.currentToken() != null )
 			{
@@ -2322,7 +2316,7 @@ public class Parser
 			this.parseError( this.currentToken(), "]" );
 		}
 
-		return new ScriptCompositeReference( var, indices );
+		return new CompositeReference( var, indices );
 	}
 
 	private String parseDirective( final String directive )
@@ -2409,7 +2403,7 @@ public class Parser
 		return this.parseDirective( "import" );
 	}
 
-	public static final boolean validCoercion( ScriptType lhs, ScriptType rhs, final String oper )
+	public static final boolean validCoercion( Type lhs, Type rhs, final String oper )
 	{
 		// Resolve aliases
 
@@ -2432,7 +2426,7 @@ public class Parser
 
 		if ( oper.equals( "contains" ) )
 		{
-			return lhs.getType() == DataTypes.TYPE_AGGREGATE && ( (ScriptAggregateType) lhs ).getIndexType().equals(
+			return lhs.getType() == DataTypes.TYPE_AGGREGATE && ( (AggregateType) lhs ).getIndexType().equals(
 				rhs );
 		}
 
@@ -2697,9 +2691,9 @@ public class Parser
 		throw this.parseException( message );
 	}
 
-        private final AdvancedScriptException parseException( final String message )
+    private final ScriptException parseException( final String message )
 	{
-                return new AdvancedScriptException( message + " " + this.getLineAndFile() );
+                return new ScriptException( message + " " + this.getLineAndFile() );
 	}
 
 	private final String getLineAndFile()
@@ -2713,17 +2707,20 @@ public class Parser
 		return "(" + partialName + ", line " + this.lineNumber + ")";
 	}
 
-	public static class AdvancedScriptException
-		extends RuntimeException
+	public static void printIndices( final ValueList indices, final PrintStream stream, final int indent )
 	{
-		AdvancedScriptException( final Throwable t )
+		if ( indices == null )
 		{
-			this( t.getMessage() == null ? "" : t.getMessage() );
+			return;
 		}
 
-		AdvancedScriptException( final String s )
+		Iterator it = indices.iterator();
+		while ( it.hasNext() )
 		{
-			super( s == null ? "" : s);
+			Value current = (Value) it.next();
+			Interpreter.indentLine( stream, indent );
+			stream.println( "<KEY>" );
+			current.print( stream, indent + 1 );
 		}
 	}
 }
