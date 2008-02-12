@@ -185,6 +185,7 @@ public abstract class KoLmafia
 	private static final int AIR_FRESHENER = 2744;
 
 	// Molybdenum items
+	private static final int MAGNET = 2497;
 	private static final int HAMMER = 2498;
 	private static final int SCREWDRIVER = 2499;
 	private static final int PLIERS = 2500;
@@ -1476,6 +1477,14 @@ public abstract class KoLmafia
 				{
 					this.processResult( KoLAdventure.AZAZEL[ i ] );
 				}
+			}
+			break;
+
+		case KoLmafia.MAGNET:
+			// When you get the molybdenum magnet, tell quest handler
+			if ( result.getCount() == 1 )
+			{
+				IslandDecorator.startJunkyardQuest();
 			}
 			break;
 

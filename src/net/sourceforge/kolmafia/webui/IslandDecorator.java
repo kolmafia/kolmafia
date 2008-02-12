@@ -268,6 +268,12 @@ public class IslandDecorator
 		}
 	}
 
+	public static final void startJunkyardQuest()
+	{
+		IslandDecorator.currentJunkyardLocation = "Yossarian";
+		Preferences.setString( "currentJunkyardLocation", "Yossarian" );
+	}
+
 	public static final void resetGremlinTool()
 	{
 		IslandDecorator.missingGremlinTool = null;
