@@ -48,6 +48,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
 
 public class MonsterDatabase
@@ -123,7 +124,22 @@ public class MonsterDatabase
 				boolean bad = false;
 				for ( int i = 2; i < data.length; ++i )
 				{
-					AdventureResult item = AdventureResult.parseResult( data[ i ] );
+					String name = data[ i ];
+					int left = name.indexOf( " (" );
+					AdventureResult item = null;
+
+					if ( left == -1 || ItemDatabase.getItemId( name, 1 ) != -1 )
+					{
+						item = new AdventureResult( name, 0 );
+					}
+					else
+					{
+						int right = name.indexOf( ")", left );
+						int count = StaticEntity.parseInt( name.substring( left +2, right ) );
+						name = name.substring( 0, left );
+						item = new AdventureResult( name, count );
+					}
+
 					if ( item != null )
 					{
 						monster.addItem( item );
