@@ -34,15 +34,16 @@
 package net.sourceforge.kolmafia;
 
 import java.io.File;
+
 import java.util.Iterator;
 import java.util.TreeMap;
 
-import net.sourceforge.kolmafia.textui.Interpreter;
-import net.sourceforge.kolmafia.textui.ParseTree.ScriptExistingFunction;
-import net.sourceforge.kolmafia.textui.ParseTree.ScriptFunction;
-import net.sourceforge.kolmafia.textui.ParseTree.ScriptVariableReference;
-import net.sourceforge.kolmafia.textui.RuntimeLibrary;
 import net.sourceforge.kolmafia.request.RelayRequest;
+import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.RuntimeLibrary;
+import net.sourceforge.kolmafia.textui.parsetree.Function;
+import net.sourceforge.kolmafia.textui.parsetree.LibraryFunction;
+import net.sourceforge.kolmafia.textui.parsetree.VariableReference;
 
 public abstract class KoLmafiaASH
 {
@@ -173,7 +174,7 @@ public abstract class KoLmafiaASH
 
 	private static void showFunctions( final Iterator it, final String filter )
 	{
-		ScriptFunction func;
+		Function func;
 
 		if ( !it.hasNext() )
 		{
@@ -185,16 +186,16 @@ public abstract class KoLmafiaASH
 
 		while ( it.hasNext() )
 		{
-			func = (ScriptFunction) it.next();
+			func = (Function) it.next();
 			hasDescription =
-				func instanceof ScriptExistingFunction && ( (ScriptExistingFunction) func ).getDescription() != null;
+				func instanceof LibraryFunction && ( (LibraryFunction) func ).getDescription() != null;
 
 			boolean matches = filter.equals( "" );
 			matches |= func.getName().toLowerCase().indexOf( filter ) != -1;
 
 			Iterator it2 = func.getReferences();
 			matches |=
-				it2.hasNext() && ( (ScriptVariableReference) it2.next() ).getType().toString().indexOf( filter ) != -1;
+				it2.hasNext() && ( (VariableReference) it2.next() ).getType().toString().indexOf( filter ) != -1;
 
 			if ( !matches )
 			{
@@ -214,11 +215,11 @@ public abstract class KoLmafiaASH
 			description.append( "( " );
 
 			it2 = func.getReferences();
-			ScriptVariableReference var;
+			VariableReference var;
 
 			while ( it2.hasNext() )
 			{
-				var = (ScriptVariableReference) it2.next();
+				var = (VariableReference) it2.next();
 				description.append( var.getType() );
 
 				if ( var.getName() != null )
@@ -238,7 +239,7 @@ public abstract class KoLmafiaASH
 			if ( hasDescription )
 			{
 				description.append( "</b><br>" );
-				description.append( ( (ScriptExistingFunction) func ).getDescription() );
+				description.append( ( (LibraryFunction) func ).getDescription() );
 				description.append( "<br>" );
 			}
 

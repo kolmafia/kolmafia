@@ -37,34 +37,35 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
+
 import java.lang.reflect.Method;
+
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.UtilityConstants;
-
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AreaCombatData;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.ItemManageFrame;
-import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.KoLmafiaASH;
-import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLFrame;
+import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.KoLmafiaASH;
+import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -89,7 +90,6 @@ import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.DisplayCaseRequest;
-import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.ManageStoreRequest;
@@ -104,16 +104,14 @@ import net.sourceforge.kolmafia.session.MushroomManager;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
-import net.sourceforge.kolmafia.textui.DataTypes;
-import net.sourceforge.kolmafia.textui.DataTypes.ScriptAggregateType;
-import net.sourceforge.kolmafia.textui.DataTypes.ScriptArray;
-import net.sourceforge.kolmafia.textui.DataTypes.ScriptCompositeValue;
-import net.sourceforge.kolmafia.textui.DataTypes.ScriptMap;
-import net.sourceforge.kolmafia.textui.DataTypes.ScriptType;
-import net.sourceforge.kolmafia.textui.DataTypes.ScriptValue;
-import net.sourceforge.kolmafia.textui.Parser.AdvancedScriptException;
-import net.sourceforge.kolmafia.textui.ParseTree.ScriptExistingFunction;
-import net.sourceforge.kolmafia.textui.ParseTree.ScriptFunctionList;
+import net.sourceforge.kolmafia.textui.parsetree.AggregateType;
+import net.sourceforge.kolmafia.textui.parsetree.ArrayValue;
+import net.sourceforge.kolmafia.textui.parsetree.CompositeValue;
+import net.sourceforge.kolmafia.textui.parsetree.FunctionList;
+import net.sourceforge.kolmafia.textui.parsetree.LibraryFunction;
+import net.sourceforge.kolmafia.textui.parsetree.MapValue;
+import net.sourceforge.kolmafia.textui.parsetree.Type;
+import net.sourceforge.kolmafia.textui.parsetree.Value;
 
 public abstract class RuntimeLibrary
 {
@@ -121,7 +119,7 @@ public abstract class RuntimeLibrary
 	private static final GenericRequest VISITOR = new GenericRequest( "" );
 	private static final RelayRequest RELAYER = new RelayRequest( false );
 
-	public static final ScriptFunctionList functions = new ScriptFunctionList();
+	public static final FunctionList functions = new FunctionList();
 
 	public static Iterator getFunctions()
 	{
@@ -130,763 +128,763 @@ public abstract class RuntimeLibrary
 
 	static
 	{
-		ScriptType[] params;
+		Type[] params;
 
 		// Basic utility functions which print information
 		// or allow for easy testing.
 
-		params = new ScriptType[] { DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "enable", DataTypes.VOID_TYPE, params ) );
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "enable", DataTypes.VOID_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "disable", DataTypes.VOID_TYPE, params ) );
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "disable", DataTypes.VOID_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "user_confirm", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "user_confirm", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "logprint", DataTypes.VOID_TYPE, params ) );
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "logprint", DataTypes.VOID_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "print", DataTypes.VOID_TYPE, params ) );
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "print", DataTypes.VOID_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "print", DataTypes.VOID_TYPE, params ) );
+		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "print", DataTypes.VOID_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "print_html", DataTypes.VOID_TYPE, params ) );
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "print_html", DataTypes.VOID_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "abort", DataTypes.VOID_TYPE, params ) );
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "abort", DataTypes.VOID_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "abort", DataTypes.VOID_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "abort", DataTypes.VOID_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "cli_execute", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "cli_execute", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "load_html", DataTypes.BUFFER_TYPE, params ) );
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "load_html", DataTypes.BUFFER_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "write", DataTypes.VOID_TYPE, params ) );
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "write", DataTypes.VOID_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "writeln", DataTypes.VOID_TYPE, params ) );
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "writeln", DataTypes.VOID_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "form_field", DataTypes.STRING_TYPE, params ) );
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "form_field", DataTypes.STRING_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "visit_url", DataTypes.BUFFER_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "visit_url", DataTypes.BUFFER_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "visit_url", DataTypes.BUFFER_TYPE, params ) );
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "visit_url", DataTypes.BUFFER_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.INT_TYPE };
-		functions.addElement( new ScriptExistingFunction( "wait", DataTypes.VOID_TYPE, params ) );
+		params = new Type[] { DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "wait", DataTypes.VOID_TYPE, params ) );
 
 		// Type conversion functions which allow conversion
 		// of one data format to another.
 
-		params = new ScriptType[] { DataTypes.ANY_TYPE };
-		functions.addElement( new ScriptExistingFunction( "to_string", DataTypes.STRING_TYPE, params ) );
+		params = new Type[] { DataTypes.ANY_TYPE };
+		functions.add( new LibraryFunction( "to_string", DataTypes.STRING_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.ANY_TYPE };
-		functions.addElement( new ScriptExistingFunction( "to_boolean", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] { DataTypes.ANY_TYPE };
+		functions.add( new LibraryFunction( "to_boolean", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.ANY_TYPE };
-		functions.addElement( new ScriptExistingFunction( "to_int", DataTypes.INT_TYPE, params ) );
+		params = new Type[] { DataTypes.ANY_TYPE };
+		functions.add( new LibraryFunction( "to_int", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.ANY_TYPE };
-		functions.addElement( new ScriptExistingFunction( "to_float", DataTypes.FLOAT_TYPE, params ) );
+		params = new Type[] { DataTypes.ANY_TYPE };
+		functions.add( new LibraryFunction( "to_float", DataTypes.FLOAT_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "to_item", DataTypes.ITEM_TYPE, params ) );
-		params = new ScriptType[] { DataTypes.INT_TYPE };
-		functions.addElement( new ScriptExistingFunction( "to_item", DataTypes.ITEM_TYPE, params ) );
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "to_item", DataTypes.ITEM_TYPE, params ) );
+		params = new Type[] { DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "to_item", DataTypes.ITEM_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "to_class", DataTypes.CLASS_TYPE, params ) );
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "to_class", DataTypes.CLASS_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "to_stat", DataTypes.STAT_TYPE, params ) );
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "to_stat", DataTypes.STAT_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.INT_TYPE };
-		functions.addElement( new ScriptExistingFunction( "to_skill", DataTypes.SKILL_TYPE, params ) );
-		params = new ScriptType[] { DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "to_skill", DataTypes.SKILL_TYPE, params ) );
-		params = new ScriptType[] { DataTypes.EFFECT_TYPE };
-		functions.addElement( new ScriptExistingFunction( "to_skill", DataTypes.SKILL_TYPE, params ) );
+		params = new Type[] { DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "to_skill", DataTypes.SKILL_TYPE, params ) );
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "to_skill", DataTypes.SKILL_TYPE, params ) );
+		params = new Type[] { DataTypes.EFFECT_TYPE };
+		functions.add( new LibraryFunction( "to_skill", DataTypes.SKILL_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.INT_TYPE };
-		functions.addElement( new ScriptExistingFunction( "to_effect", DataTypes.EFFECT_TYPE, params ) );
-		params = new ScriptType[] { DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "to_effect", DataTypes.EFFECT_TYPE, params ) );
-		params = new ScriptType[] { DataTypes.SKILL_TYPE };
-		functions.addElement( new ScriptExistingFunction( "to_effect", DataTypes.EFFECT_TYPE, params ) );
+		params = new Type[] { DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "to_effect", DataTypes.EFFECT_TYPE, params ) );
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "to_effect", DataTypes.EFFECT_TYPE, params ) );
+		params = new Type[] { DataTypes.SKILL_TYPE };
+		functions.add( new LibraryFunction( "to_effect", DataTypes.EFFECT_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "to_location", DataTypes.LOCATION_TYPE, params ) );
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "to_location", DataTypes.LOCATION_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.INT_TYPE };
-		functions.addElement( new ScriptExistingFunction( "to_familiar", DataTypes.FAMILIAR_TYPE, params ) );
-		params = new ScriptType[] { DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "to_familiar", DataTypes.FAMILIAR_TYPE, params ) );
+		params = new Type[] { DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "to_familiar", DataTypes.FAMILIAR_TYPE, params ) );
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "to_familiar", DataTypes.FAMILIAR_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "to_monster", DataTypes.MONSTER_TYPE, params ) );
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "to_monster", DataTypes.MONSTER_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.ITEM_TYPE };
-		functions.addElement( new ScriptExistingFunction( "to_slot", DataTypes.SLOT_TYPE, params ) );
+		params = new Type[] { DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "to_slot", DataTypes.SLOT_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.LOCATION_TYPE };
-		functions.addElement( new ScriptExistingFunction( "to_url", DataTypes.STRING_TYPE, params ) );
+		params = new Type[] { DataTypes.LOCATION_TYPE };
+		functions.add( new LibraryFunction( "to_url", DataTypes.STRING_TYPE, params ) );
 
 		// Functions related to daily information which get
 		// updated usually once per day.
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "today_to_string", DataTypes.STRING_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "today_to_string", DataTypes.STRING_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "moon_phase", DataTypes.INT_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "moon_phase", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "moon_light", DataTypes.INT_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "moon_light", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "stat_bonus_today", DataTypes.STAT_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "stat_bonus_today", DataTypes.STAT_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "stat_bonus_tomorrow", DataTypes.STAT_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "stat_bonus_tomorrow", DataTypes.STAT_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.INT_TYPE };
-		functions.addElement( new ScriptExistingFunction( "session_logs", new ScriptAggregateType(
+		params = new Type[] { DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "session_logs", new AggregateType(
 			DataTypes.STRING_TYPE, 0 ), params ) );
 
-		params = new ScriptType[] { DataTypes.STRING_TYPE, DataTypes.INT_TYPE };
-		functions.addElement( new ScriptExistingFunction( "session_logs", new ScriptAggregateType(
+		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "session_logs", new AggregateType(
 			DataTypes.STRING_TYPE, 0 ), params ) );
 
 		// Major functions related to adventuring and
 		// item management.
 
-		params = new ScriptType[] { DataTypes.INT_TYPE, DataTypes.LOCATION_TYPE };
-		functions.addElement( new ScriptExistingFunction( "adventure", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.LOCATION_TYPE };
+		functions.add( new LibraryFunction( "adventure", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
-		functions.addElement( new ScriptExistingFunction( "add_item_condition", DataTypes.VOID_TYPE, params ) );
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "add_item_condition", DataTypes.VOID_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
-		functions.addElement( new ScriptExistingFunction( "buy", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "buy", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
-		functions.addElement( new ScriptExistingFunction( "create", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "create", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
-		functions.addElement( new ScriptExistingFunction( "use", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "use", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
-		functions.addElement( new ScriptExistingFunction( "eat", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "eat", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
-		functions.addElement( new ScriptExistingFunction( "drink", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "drink", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
-		functions.addElement( new ScriptExistingFunction( "put_closet", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "put_closet", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.INT_TYPE, DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
-		functions.addElement( new ScriptExistingFunction( "put_shop", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "put_shop", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
-		functions.addElement( new ScriptExistingFunction( "put_stash", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "put_stash", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
-		functions.addElement( new ScriptExistingFunction( "put_display", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "put_display", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
-		functions.addElement( new ScriptExistingFunction( "take_closet", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "take_closet", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
-		functions.addElement( new ScriptExistingFunction( "take_storage", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "take_storage", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
-		functions.addElement( new ScriptExistingFunction( "take_display", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "take_display", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
-		functions.addElement( new ScriptExistingFunction( "take_stash", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "take_stash", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
-		functions.addElement( new ScriptExistingFunction( "autosell", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "autosell", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
-		functions.addElement( new ScriptExistingFunction( "hermit", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "hermit", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
-		functions.addElement( new ScriptExistingFunction( "retrieve_item", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "retrieve_item", DataTypes.BOOLEAN_TYPE, params ) );
 
 		// Major functions which provide item-related
 		// information.
 
-		params = new ScriptType[] { DataTypes.ITEM_TYPE };
-		functions.addElement( new ScriptExistingFunction( "is_npc_item", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] { DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "is_npc_item", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "daily_special", DataTypes.ITEM_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "daily_special", DataTypes.ITEM_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "refresh_stash", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "refresh_stash", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.ITEM_TYPE };
-		functions.addElement( new ScriptExistingFunction( "available_amount", DataTypes.INT_TYPE, params ) );
+		params = new Type[] { DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "available_amount", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.ITEM_TYPE };
-		functions.addElement( new ScriptExistingFunction( "item_amount", DataTypes.INT_TYPE, params ) );
+		params = new Type[] { DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "item_amount", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.ITEM_TYPE };
-		functions.addElement( new ScriptExistingFunction( "closet_amount", DataTypes.INT_TYPE, params ) );
+		params = new Type[] { DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "closet_amount", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.ITEM_TYPE };
-		functions.addElement( new ScriptExistingFunction( "creatable_amount", DataTypes.INT_TYPE, params ) );
+		params = new Type[] { DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "creatable_amount", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.ITEM_TYPE };
-		functions.addElement( new ScriptExistingFunction( "get_ingredients", DataTypes.RESULT_TYPE, params ) );
+		params = new Type[] { DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "get_ingredients", DataTypes.RESULT_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.ITEM_TYPE };
-		functions.addElement( new ScriptExistingFunction( "storage_amount", DataTypes.INT_TYPE, params ) );
+		params = new Type[] { DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "storage_amount", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.ITEM_TYPE };
-		functions.addElement( new ScriptExistingFunction( "display_amount", DataTypes.INT_TYPE, params ) );
+		params = new Type[] { DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "display_amount", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.ITEM_TYPE };
-		functions.addElement( new ScriptExistingFunction( "shop_amount", DataTypes.INT_TYPE, params ) );
+		params = new Type[] { DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "shop_amount", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.ITEM_TYPE };
-		functions.addElement( new ScriptExistingFunction( "stash_amount", DataTypes.INT_TYPE, params ) );
+		params = new Type[] { DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "stash_amount", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "pulls_remaining", DataTypes.INT_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "pulls_remaining", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "stills_available", DataTypes.INT_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "stills_available", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "have_mushroom_plot", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "have_mushroom_plot", DataTypes.BOOLEAN_TYPE, params ) );
 
 		// The following functions pertain to providing updated
 		// information relating to the player.
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "refresh_status", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "refresh_status", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.INT_TYPE };
-		functions.addElement( new ScriptExistingFunction( "restore_hp", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] { DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "restore_hp", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.INT_TYPE };
-		functions.addElement( new ScriptExistingFunction( "restore_mp", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] { DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "restore_mp", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "my_name", DataTypes.STRING_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "my_name", DataTypes.STRING_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "my_id", DataTypes.STRING_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "my_id", DataTypes.STRING_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "my_hash", DataTypes.STRING_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "my_hash", DataTypes.STRING_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "in_muscle_sign", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "in_muscle_sign", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "in_mysticality_sign", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "in_mysticality_sign", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "in_moxie_sign", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "in_moxie_sign", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "in_bad_moon", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "in_bad_moon", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "my_class", DataTypes.CLASS_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "my_class", DataTypes.CLASS_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "my_level", DataTypes.INT_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "my_level", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "my_hp", DataTypes.INT_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "my_hp", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "my_maxhp", DataTypes.INT_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "my_maxhp", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "my_mp", DataTypes.INT_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "my_mp", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "my_maxmp", DataTypes.INT_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "my_maxmp", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "my_primestat", DataTypes.STAT_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "my_primestat", DataTypes.STAT_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.STAT_TYPE };
-		functions.addElement( new ScriptExistingFunction( "my_basestat", DataTypes.INT_TYPE, params ) );
+		params = new Type[] { DataTypes.STAT_TYPE };
+		functions.add( new LibraryFunction( "my_basestat", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.STAT_TYPE };
-		functions.addElement( new ScriptExistingFunction( "my_buffedstat", DataTypes.INT_TYPE, params ) );
+		params = new Type[] { DataTypes.STAT_TYPE };
+		functions.add( new LibraryFunction( "my_buffedstat", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "my_meat", DataTypes.INT_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "my_meat", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "my_adventures", DataTypes.INT_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "my_adventures", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "my_turncount", DataTypes.INT_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "my_turncount", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "my_fullness", DataTypes.INT_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "my_fullness", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "fullness_limit", DataTypes.INT_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "fullness_limit", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "my_inebriety", DataTypes.INT_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "my_inebriety", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "inebriety_limit", DataTypes.INT_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "inebriety_limit", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "my_spleen_use", DataTypes.INT_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "my_spleen_use", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "spleen_limit", DataTypes.INT_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "spleen_limit", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "can_eat", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "can_eat", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "can_drink", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "can_drink", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "turns_played", DataTypes.INT_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "turns_played", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "can_interact", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "can_interact", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "in_hardcore", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "in_hardcore", DataTypes.BOOLEAN_TYPE, params ) );
 
 		// Basic skill and effect functions, including those used
 		// in custom combat consult scripts.
 
-		params = new ScriptType[] { DataTypes.SKILL_TYPE };
-		functions.addElement( new ScriptExistingFunction( "have_skill", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] { DataTypes.SKILL_TYPE };
+		functions.add( new LibraryFunction( "have_skill", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.SKILL_TYPE };
-		functions.addElement( new ScriptExistingFunction( "mp_cost", DataTypes.INT_TYPE, params ) );
+		params = new Type[] { DataTypes.SKILL_TYPE };
+		functions.add( new LibraryFunction( "mp_cost", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.SKILL_TYPE };
-		functions.addElement( new ScriptExistingFunction( "turns_per_cast", DataTypes.INT_TYPE, params ) );
+		params = new Type[] { DataTypes.SKILL_TYPE };
+		functions.add( new LibraryFunction( "turns_per_cast", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.EFFECT_TYPE };
-		functions.addElement( new ScriptExistingFunction( "have_effect", DataTypes.INT_TYPE, params ) );
+		params = new Type[] { DataTypes.EFFECT_TYPE };
+		functions.add( new LibraryFunction( "have_effect", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.INT_TYPE, DataTypes.SKILL_TYPE };
-		functions.addElement( new ScriptExistingFunction( "use_skill", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.SKILL_TYPE };
+		functions.add( new LibraryFunction( "use_skill", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.INT_TYPE, DataTypes.SKILL_TYPE, DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "use_skill", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.SKILL_TYPE, DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "use_skill", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "attack", DataTypes.BUFFER_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "attack", DataTypes.BUFFER_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "steal", DataTypes.BUFFER_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "steal", DataTypes.BUFFER_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "runaway", DataTypes.BUFFER_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "runaway", DataTypes.BUFFER_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.SKILL_TYPE };
-		functions.addElement( new ScriptExistingFunction( "use_skill", DataTypes.BUFFER_TYPE, params ) );
+		params = new Type[] { DataTypes.SKILL_TYPE };
+		functions.add( new LibraryFunction( "use_skill", DataTypes.BUFFER_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.ITEM_TYPE };
-		functions.addElement( new ScriptExistingFunction( "throw_item", DataTypes.BUFFER_TYPE, params ) );
+		params = new Type[] { DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "throw_item", DataTypes.BUFFER_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.ITEM_TYPE, DataTypes.ITEM_TYPE };
-		functions.addElement( new ScriptExistingFunction( "throw_items", DataTypes.BUFFER_TYPE, params ) );
+		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "throw_items", DataTypes.BUFFER_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "run_combat", DataTypes.BUFFER_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "run_combat", DataTypes.BUFFER_TYPE, params ) );
 
 		// Equipment functions.
 
-		params = new ScriptType[] { DataTypes.ITEM_TYPE };
-		functions.addElement( new ScriptExistingFunction( "can_equip", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] { DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "can_equip", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.ITEM_TYPE };
-		functions.addElement( new ScriptExistingFunction( "equip", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] { DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "equip", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.SLOT_TYPE, DataTypes.ITEM_TYPE };
-		functions.addElement( new ScriptExistingFunction( "equip", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] { DataTypes.SLOT_TYPE, DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "equip", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.SLOT_TYPE };
-		functions.addElement( new ScriptExistingFunction( "equipped_item", DataTypes.ITEM_TYPE, params ) );
+		params = new Type[] { DataTypes.SLOT_TYPE };
+		functions.add( new LibraryFunction( "equipped_item", DataTypes.ITEM_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.ITEM_TYPE };
-		functions.addElement( new ScriptExistingFunction( "have_equipped", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] { DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "have_equipped", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "outfit", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "outfit", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "have_outfit", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "have_outfit", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "my_familiar", DataTypes.FAMILIAR_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "my_familiar", DataTypes.FAMILIAR_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.FAMILIAR_TYPE };
-		functions.addElement( new ScriptExistingFunction( "have_familiar", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] { DataTypes.FAMILIAR_TYPE };
+		functions.add( new LibraryFunction( "have_familiar", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.FAMILIAR_TYPE };
-		functions.addElement( new ScriptExistingFunction( "use_familiar", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] { DataTypes.FAMILIAR_TYPE };
+		functions.add( new LibraryFunction( "use_familiar", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.FAMILIAR_TYPE };
-		functions.addElement( new ScriptExistingFunction( "familiar_equipment", DataTypes.ITEM_TYPE, params ) );
+		params = new Type[] { DataTypes.FAMILIAR_TYPE };
+		functions.add( new LibraryFunction( "familiar_equipment", DataTypes.ITEM_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.FAMILIAR_TYPE };
-		functions.addElement( new ScriptExistingFunction( "familiar_weight", DataTypes.INT_TYPE, params ) );
+		params = new Type[] { DataTypes.FAMILIAR_TYPE };
+		functions.add( new LibraryFunction( "familiar_weight", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.ITEM_TYPE };
-		functions.addElement( new ScriptExistingFunction( "weapon_hands", DataTypes.INT_TYPE, params ) );
+		params = new Type[] { DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "weapon_hands", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.ITEM_TYPE };
-		functions.addElement( new ScriptExistingFunction( "weapon_type", DataTypes.STRING_TYPE, params ) );
+		params = new Type[] { DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "weapon_type", DataTypes.STRING_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.ITEM_TYPE };
-		functions.addElement( new ScriptExistingFunction( "ranged_weapon", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] { DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "ranged_weapon", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.ITEM_TYPE };
-		functions.addElement( new ScriptExistingFunction( "get_power", DataTypes.INT_TYPE, params ) );
+		params = new Type[] { DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "get_power", DataTypes.INT_TYPE, params ) );
 
 		// Random other functions related to current in-game
 		// state, not directly tied to the character.
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "council", DataTypes.VOID_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "council", DataTypes.VOID_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "current_mcd", DataTypes.INT_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "current_mcd", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.INT_TYPE };
-		functions.addElement( new ScriptExistingFunction( "change_mcd", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] { DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "change_mcd", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "have_chef", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "have_chef", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "have_bartender", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "have_bartender", DataTypes.BOOLEAN_TYPE, params ) );
 
 		// String parsing functions.
 
-		params = new ScriptType[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "contains_text", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "contains_text", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "extract_meat", DataTypes.INT_TYPE, params ) );
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "extract_meat", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "extract_items", DataTypes.RESULT_TYPE, params ) );
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "extract_items", DataTypes.RESULT_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "length", DataTypes.INT_TYPE, params ) );
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "length", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "index_of", DataTypes.INT_TYPE, params ) );
+		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "index_of", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE, DataTypes.INT_TYPE };
-		functions.addElement( new ScriptExistingFunction( "index_of", DataTypes.INT_TYPE, params ) );
+		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE, DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "index_of", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "last_index_of", DataTypes.INT_TYPE, params ) );
+		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "last_index_of", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE, DataTypes.INT_TYPE };
-		functions.addElement( new ScriptExistingFunction( "last_index_of", DataTypes.INT_TYPE, params ) );
+		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE, DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "last_index_of", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.STRING_TYPE, DataTypes.INT_TYPE };
-		functions.addElement( new ScriptExistingFunction( "substring", DataTypes.STRING_TYPE, params ) );
+		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "substring", DataTypes.STRING_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.STRING_TYPE, DataTypes.INT_TYPE, DataTypes.INT_TYPE };
-		functions.addElement( new ScriptExistingFunction( "substring", DataTypes.STRING_TYPE, params ) );
+		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.INT_TYPE, DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "substring", DataTypes.STRING_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "to_lower_case", DataTypes.STRING_TYPE, params ) );
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "to_lower_case", DataTypes.STRING_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "to_upper_case", DataTypes.STRING_TYPE, params ) );
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "to_upper_case", DataTypes.STRING_TYPE, params ) );
 
 		// String buffer functions
 
-		params = new ScriptType[] { DataTypes.BUFFER_TYPE, DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "append", DataTypes.BUFFER_TYPE, params ) );
-		params = new ScriptType[] { DataTypes.BUFFER_TYPE, DataTypes.INT_TYPE, DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "insert", DataTypes.BUFFER_TYPE, params ) );
+		params = new Type[] { DataTypes.BUFFER_TYPE, DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "append", DataTypes.BUFFER_TYPE, params ) );
+		params = new Type[] { DataTypes.BUFFER_TYPE, DataTypes.INT_TYPE, DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "insert", DataTypes.BUFFER_TYPE, params ) );
 		params =
-			new ScriptType[] { DataTypes.BUFFER_TYPE, DataTypes.INT_TYPE, DataTypes.INT_TYPE, DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "replace", DataTypes.BOOLEAN_TYPE, params ) );
-		params = new ScriptType[] { DataTypes.BUFFER_TYPE, DataTypes.INT_TYPE, DataTypes.INT_TYPE };
-		functions.addElement( new ScriptExistingFunction( "delete", DataTypes.BUFFER_TYPE, params ) );
+			new Type[] { DataTypes.BUFFER_TYPE, DataTypes.INT_TYPE, DataTypes.INT_TYPE, DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "replace", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] { DataTypes.BUFFER_TYPE, DataTypes.INT_TYPE, DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "delete", DataTypes.BUFFER_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.MATCHER_TYPE, DataTypes.BUFFER_TYPE };
-		functions.addElement( new ScriptExistingFunction( "append_tail", DataTypes.BUFFER_TYPE, params ) );
-		params = new ScriptType[] { DataTypes.MATCHER_TYPE, DataTypes.BUFFER_TYPE, DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "append_replacement", DataTypes.BUFFER_TYPE, params ) );
+		params = new Type[] { DataTypes.MATCHER_TYPE, DataTypes.BUFFER_TYPE };
+		functions.add( new LibraryFunction( "append_tail", DataTypes.BUFFER_TYPE, params ) );
+		params = new Type[] { DataTypes.MATCHER_TYPE, DataTypes.BUFFER_TYPE, DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "append_replacement", DataTypes.BUFFER_TYPE, params ) );
 
 		// Regular expression functions
 
-		params = new ScriptType[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "create_matcher", DataTypes.MATCHER_TYPE, params ) );
+		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "create_matcher", DataTypes.MATCHER_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.MATCHER_TYPE };
-		functions.addElement( new ScriptExistingFunction( "find", DataTypes.BOOLEAN_TYPE, params ) );
-		params = new ScriptType[] { DataTypes.MATCHER_TYPE };
-		functions.addElement( new ScriptExistingFunction( "start", DataTypes.BOOLEAN_TYPE, params ) );
-		params = new ScriptType[] { DataTypes.MATCHER_TYPE };
-		functions.addElement( new ScriptExistingFunction( "end", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] { DataTypes.MATCHER_TYPE };
+		functions.add( new LibraryFunction( "find", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] { DataTypes.MATCHER_TYPE };
+		functions.add( new LibraryFunction( "start", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] { DataTypes.MATCHER_TYPE };
+		functions.add( new LibraryFunction( "end", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.MATCHER_TYPE };
-		functions.addElement( new ScriptExistingFunction( "group", DataTypes.BOOLEAN_TYPE, params ) );
-		params = new ScriptType[] { DataTypes.MATCHER_TYPE, DataTypes.INT_TYPE };
-		functions.addElement( new ScriptExistingFunction( "group", DataTypes.BOOLEAN_TYPE, params ) );
-		params = new ScriptType[] { DataTypes.MATCHER_TYPE };
-		functions.addElement( new ScriptExistingFunction( "group_count", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] { DataTypes.MATCHER_TYPE };
+		functions.add( new LibraryFunction( "group", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] { DataTypes.MATCHER_TYPE, DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "group", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] { DataTypes.MATCHER_TYPE };
+		functions.add( new LibraryFunction( "group_count", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.MATCHER_TYPE, DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "replace_first", DataTypes.STRING_TYPE, params ) );
-		params = new ScriptType[] { DataTypes.MATCHER_TYPE, DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "replace_all", DataTypes.STRING_TYPE, params ) );
+		params = new Type[] { DataTypes.MATCHER_TYPE, DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "replace_first", DataTypes.STRING_TYPE, params ) );
+		params = new Type[] { DataTypes.MATCHER_TYPE, DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "replace_all", DataTypes.STRING_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.MATCHER_TYPE };
-		functions.addElement( new ScriptExistingFunction( "reset", DataTypes.MATCHER_TYPE, params ) );
-		params = new ScriptType[] { DataTypes.MATCHER_TYPE, DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "reset", DataTypes.MATCHER_TYPE, params ) );
+		params = new Type[] { DataTypes.MATCHER_TYPE };
+		functions.add( new LibraryFunction( "reset", DataTypes.MATCHER_TYPE, params ) );
+		params = new Type[] { DataTypes.MATCHER_TYPE, DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "reset", DataTypes.MATCHER_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.BUFFER_TYPE, DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "replace_string", DataTypes.BUFFER_TYPE, params ) );
-		params = new ScriptType[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "replace_string", DataTypes.BUFFER_TYPE, params ) );
+		params = new Type[] { DataTypes.BUFFER_TYPE, DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "replace_string", DataTypes.BUFFER_TYPE, params ) );
+		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "replace_string", DataTypes.BUFFER_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "split_string", new ScriptAggregateType(
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "split_string", new AggregateType(
 			DataTypes.STRING_TYPE, 0 ), params ) );
-		params = new ScriptType[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "split_string", new ScriptAggregateType(
+		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "split_string", new AggregateType(
 			DataTypes.STRING_TYPE, 0 ), params ) );
-		params = new ScriptType[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "group_string", DataTypes.REGEX_GROUP_TYPE, params ) );
+		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "group_string", DataTypes.REGEX_GROUP_TYPE, params ) );
 
 		// Assorted functions
 
-		params = new ScriptType[] { DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "chat_reply", DataTypes.VOID_TYPE, params ) );
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "chat_reply", DataTypes.VOID_TYPE, params ) );
 
 		// Quest handling functions.
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "entryway", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "entryway", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "hedgemaze", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "hedgemaze", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "guardians", DataTypes.ITEM_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "guardians", DataTypes.ITEM_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "chamber", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "chamber", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "tavern", DataTypes.INT_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "tavern", DataTypes.INT_TYPE, params ) );
 
 		// Arithmetic utility functions.
 
-		params = new ScriptType[] { DataTypes.INT_TYPE };
-		functions.addElement( new ScriptExistingFunction( "random", DataTypes.INT_TYPE, params ) );
+		params = new Type[] { DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "random", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.FLOAT_TYPE };
-		functions.addElement( new ScriptExistingFunction( "round", DataTypes.INT_TYPE, params ) );
+		params = new Type[] { DataTypes.FLOAT_TYPE };
+		functions.add( new LibraryFunction( "round", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.FLOAT_TYPE };
-		functions.addElement( new ScriptExistingFunction( "truncate", DataTypes.INT_TYPE, params ) );
+		params = new Type[] { DataTypes.FLOAT_TYPE };
+		functions.add( new LibraryFunction( "truncate", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.FLOAT_TYPE };
-		functions.addElement( new ScriptExistingFunction( "floor", DataTypes.INT_TYPE, params ) );
+		params = new Type[] { DataTypes.FLOAT_TYPE };
+		functions.add( new LibraryFunction( "floor", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.FLOAT_TYPE };
-		functions.addElement( new ScriptExistingFunction( "ceil", DataTypes.INT_TYPE, params ) );
+		params = new Type[] { DataTypes.FLOAT_TYPE };
+		functions.add( new LibraryFunction( "ceil", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.FLOAT_TYPE };
-		functions.addElement( new ScriptExistingFunction( "square_root", DataTypes.FLOAT_TYPE, params ) );
+		params = new Type[] { DataTypes.FLOAT_TYPE };
+		functions.add( new LibraryFunction( "square_root", DataTypes.FLOAT_TYPE, params ) );
 
 		// Settings-type functions.
 
-		params = new ScriptType[] { DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "url_encode", DataTypes.STRING_TYPE, params ) );
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "url_encode", DataTypes.STRING_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "url_decode", DataTypes.STRING_TYPE, params ) );
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "url_decode", DataTypes.STRING_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "get_property", DataTypes.STRING_TYPE, params ) );
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "get_property", DataTypes.STRING_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "set_property", DataTypes.VOID_TYPE, params ) );
+		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "set_property", DataTypes.VOID_TYPE, params ) );
 
 		// Functions for aggregates.
 
-		params = new ScriptType[] { DataTypes.AGGREGATE_TYPE };
-		functions.addElement( new ScriptExistingFunction( "count", DataTypes.INT_TYPE, params ) );
+		params = new Type[] { DataTypes.AGGREGATE_TYPE };
+		functions.add( new LibraryFunction( "count", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.AGGREGATE_TYPE };
-		functions.addElement( new ScriptExistingFunction( "clear", DataTypes.VOID_TYPE, params ) );
+		params = new Type[] { DataTypes.AGGREGATE_TYPE };
+		functions.add( new LibraryFunction( "clear", DataTypes.VOID_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.STRING_TYPE, DataTypes.AGGREGATE_TYPE };
-		functions.addElement( new ScriptExistingFunction( "file_to_map", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.AGGREGATE_TYPE };
+		functions.add( new LibraryFunction( "file_to_map", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.STRING_TYPE, DataTypes.AGGREGATE_TYPE, DataTypes.BOOLEAN_TYPE };
-		functions.addElement( new ScriptExistingFunction( "file_to_map", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.AGGREGATE_TYPE, DataTypes.BOOLEAN_TYPE };
+		functions.add( new LibraryFunction( "file_to_map", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.AGGREGATE_TYPE, DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "map_to_file", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] { DataTypes.AGGREGATE_TYPE, DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "map_to_file", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.AGGREGATE_TYPE, DataTypes.STRING_TYPE, DataTypes.BOOLEAN_TYPE };
-		functions.addElement( new ScriptExistingFunction( "map_to_file", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] { DataTypes.AGGREGATE_TYPE, DataTypes.STRING_TYPE, DataTypes.BOOLEAN_TYPE };
+		functions.add( new LibraryFunction( "map_to_file", DataTypes.BOOLEAN_TYPE, params ) );
 
 		// Custom combat helper functions.
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "my_location", DataTypes.LOCATION_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "my_location", DataTypes.LOCATION_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.LOCATION_TYPE };
-		functions.addElement( new ScriptExistingFunction( "get_monsters", new ScriptAggregateType(
+		params = new Type[] { DataTypes.LOCATION_TYPE };
+		functions.add( new LibraryFunction( "get_monsters", new AggregateType(
 			DataTypes.MONSTER_TYPE, 0 ), params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "expected_damage", DataTypes.INT_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "expected_damage", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.MONSTER_TYPE };
-		functions.addElement( new ScriptExistingFunction( "expected_damage", DataTypes.INT_TYPE, params ) );
+		params = new Type[] { DataTypes.MONSTER_TYPE };
+		functions.add( new LibraryFunction( "expected_damage", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "monster_level_adjustment", DataTypes.INT_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "monster_level_adjustment", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "weight_adjustment", DataTypes.INT_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "weight_adjustment", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "mana_cost_modifier", DataTypes.INT_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "mana_cost_modifier", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "raw_damage_absorption", DataTypes.INT_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "raw_damage_absorption", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "damage_absorption_percent", DataTypes.FLOAT_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "damage_absorption_percent", DataTypes.FLOAT_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "damage_reduction", DataTypes.INT_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "damage_reduction", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.ELEMENT_TYPE };
-		functions.addElement( new ScriptExistingFunction( "elemental_resistance", DataTypes.FLOAT_TYPE, params ) );
+		params = new Type[] { DataTypes.ELEMENT_TYPE };
+		functions.add( new LibraryFunction( "elemental_resistance", DataTypes.FLOAT_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "elemental_resistance", DataTypes.FLOAT_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "elemental_resistance", DataTypes.FLOAT_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.MONSTER_TYPE };
-		functions.addElement( new ScriptExistingFunction( "elemental_resistance", DataTypes.FLOAT_TYPE, params ) );
+		params = new Type[] { DataTypes.MONSTER_TYPE };
+		functions.add( new LibraryFunction( "elemental_resistance", DataTypes.FLOAT_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "combat_rate_modifier", DataTypes.FLOAT_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "combat_rate_modifier", DataTypes.FLOAT_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "initiative_modifier", DataTypes.FLOAT_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "initiative_modifier", DataTypes.FLOAT_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "experience_bonus", DataTypes.FLOAT_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "experience_bonus", DataTypes.FLOAT_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "meat_drop_modifier", DataTypes.FLOAT_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "meat_drop_modifier", DataTypes.FLOAT_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "item_drop_modifier", DataTypes.FLOAT_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "item_drop_modifier", DataTypes.FLOAT_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "buffed_hit_stat", DataTypes.INT_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "buffed_hit_stat", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "current_hit_stat", DataTypes.STAT_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "current_hit_stat", DataTypes.STAT_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "monster_element", DataTypes.ELEMENT_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "monster_element", DataTypes.ELEMENT_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.MONSTER_TYPE };
-		functions.addElement( new ScriptExistingFunction( "monster_element", DataTypes.ELEMENT_TYPE, params ) );
+		params = new Type[] { DataTypes.MONSTER_TYPE };
+		functions.add( new LibraryFunction( "monster_element", DataTypes.ELEMENT_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "monster_attack", DataTypes.INT_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "monster_attack", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.MONSTER_TYPE };
-		functions.addElement( new ScriptExistingFunction( "monster_attack", DataTypes.INT_TYPE, params ) );
+		params = new Type[] { DataTypes.MONSTER_TYPE };
+		functions.add( new LibraryFunction( "monster_attack", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "monster_defense", DataTypes.INT_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "monster_defense", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.MONSTER_TYPE };
-		functions.addElement( new ScriptExistingFunction( "monster_defense", DataTypes.INT_TYPE, params ) );
+		params = new Type[] { DataTypes.MONSTER_TYPE };
+		functions.add( new LibraryFunction( "monster_defense", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "monster_hp", DataTypes.INT_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "monster_hp", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.MONSTER_TYPE };
-		functions.addElement( new ScriptExistingFunction( "monster_hp", DataTypes.INT_TYPE, params ) );
+		params = new Type[] { DataTypes.MONSTER_TYPE };
+		functions.add( new LibraryFunction( "monster_hp", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "item_drops", DataTypes.INT_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "item_drops", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.MONSTER_TYPE };
-		functions.addElement( new ScriptExistingFunction( "item_drops", DataTypes.INT_TYPE, params ) );
+		params = new Type[] { DataTypes.MONSTER_TYPE };
+		functions.add( new LibraryFunction( "item_drops", DataTypes.INT_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "will_usually_miss", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "will_usually_miss", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		functions.addElement( new ScriptExistingFunction( "will_usually_dodge", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "will_usually_dodge", DataTypes.BOOLEAN_TYPE, params ) );
 
 		// Modifier introspection
 
-		params = new ScriptType[] { DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "numeric_modifier", DataTypes.FLOAT_TYPE, params ) );
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "numeric_modifier", DataTypes.FLOAT_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.ITEM_TYPE, DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "numeric_modifier", DataTypes.FLOAT_TYPE, params ) );
+		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "numeric_modifier", DataTypes.FLOAT_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.EFFECT_TYPE, DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "numeric_modifier", DataTypes.FLOAT_TYPE, params ) );
+		params = new Type[] { DataTypes.EFFECT_TYPE, DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "numeric_modifier", DataTypes.FLOAT_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.SKILL_TYPE, DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "numeric_modifier", DataTypes.FLOAT_TYPE, params ) );
+		params = new Type[] { DataTypes.SKILL_TYPE, DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "numeric_modifier", DataTypes.FLOAT_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "boolean_modifier", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "boolean_modifier", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.ITEM_TYPE, DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "boolean_modifier", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "boolean_modifier", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.ITEM_TYPE, DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "effect_modifier", DataTypes.EFFECT_TYPE, params ) );
+		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "effect_modifier", DataTypes.EFFECT_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.ITEM_TYPE, DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "class_modifier", DataTypes.CLASS_TYPE, params ) );
+		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "class_modifier", DataTypes.CLASS_TYPE, params ) );
 
-		params = new ScriptType[] { DataTypes.EFFECT_TYPE, DataTypes.STRING_TYPE };
-		functions.addElement( new ScriptExistingFunction( "stat_modifier", DataTypes.STAT_TYPE, params ) );
+		params = new Type[] { DataTypes.EFFECT_TYPE, DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "stat_modifier", DataTypes.STAT_TYPE, params ) );
 	}
 
         public static Method findMethod( final String name, final Class[] args )
@@ -895,32 +893,32 @@ public abstract class RuntimeLibrary
                 return RuntimeLibrary.class.getMethod( name, args );
         }
 
-	private static ScriptValue continueValue()
+	private static Value continueValue()
 	{
-		return DataTypes.booleanValue( KoLmafia.permitsContinue() && !KoLmafia.hadPendingState() );
+		return DataTypes.makeBooleanValue( KoLmafia.permitsContinue() && !KoLmafia.hadPendingState() );
 	}
 
         // Basic utility functions which print information
         // or allow for easy testing.
 
-        public static ScriptValue enable( final ScriptValue name )
+        public static Value enable( final Value name )
  	{
                 StaticEntity.enable( name.toString().toLowerCase() );
                 return DataTypes.VOID_VALUE;
         }
 
-	public static ScriptValue disable( final ScriptValue name )
+	public static Value disable( final Value name )
 	{
 		StaticEntity.disable( name.toString().toLowerCase() );
 		return DataTypes.VOID_VALUE;
 	}
 
-	public static ScriptValue user_confirm( final ScriptValue message )
+	public static Value user_confirm( final Value message )
 	{
-		return DataTypes.booleanValue( KoLFrame.confirm( message.toString() ) );
+		return DataTypes.makeBooleanValue( KoLFrame.confirm( message.toString() ) );
 	}
 
-	public static ScriptValue logprint( final ScriptValue string )
+	public static Value logprint( final Value string )
 	{
 		String parameters = string.toString();
 
@@ -931,7 +929,7 @@ public abstract class RuntimeLibrary
 		return DataTypes.VOID_VALUE;
 	}
 
-	public static ScriptValue print( final ScriptValue string )
+	public static Value print( final Value string )
 	{
 		String parameters = string.toString();
 
@@ -944,7 +942,7 @@ public abstract class RuntimeLibrary
 		return DataTypes.VOID_VALUE;
 	}
 
-	public static ScriptValue print( final ScriptValue string, final ScriptValue color )
+	public static Value print( final Value string, final Value color )
 	{
 		String parameters = string.toString();
 
@@ -960,25 +958,25 @@ public abstract class RuntimeLibrary
 		return DataTypes.VOID_VALUE;
 	}
 
-	public static ScriptValue print_html( final ScriptValue string )
+	public static Value print_html( final Value string )
 	{
 		RequestLogger.printLine( string.toString() );
 		return DataTypes.VOID_VALUE;
 	}
 
-	public static ScriptValue abort()
+	public static Value abort()
 	{
 		RequestThread.declareWorldPeace();
 		return DataTypes.VOID_VALUE;
 	}
 
-	public static ScriptValue abort( final ScriptValue string )
+	public static Value abort( final Value string )
 	{
 		KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, string.toString() );
 		return DataTypes.VOID_VALUE;
 	}
 
-	public static ScriptValue cli_execute( final ScriptValue string )
+	public static Value cli_execute( final Value string )
 	{
 		KoLmafiaCLI.DEFAULT_SHELL.executeLine( string.toString() );
 		return RuntimeLibrary.continueValue();
@@ -1036,10 +1034,10 @@ public abstract class RuntimeLibrary
 		return reader != null ? reader : DataUtilities.getReader( filename );
 	}
 
-	public static ScriptValue load_html( final ScriptValue string )
+	public static Value load_html( final Value string )
 	{
 		StringBuffer buffer = new StringBuffer();
-		ScriptValue returnValue = new ScriptValue( DataTypes.BUFFER_TYPE, "", buffer );
+		Value returnValue = new Value( DataTypes.BUFFER_TYPE, "", buffer );
 
 		String location = string.toString();
 		if ( !location.endsWith( ".htm" ) && !location.endsWith( ".html" ) )
@@ -1062,7 +1060,7 @@ public abstract class RuntimeLibrary
 		return returnValue;
 	}
 
-	public static ScriptValue write( final ScriptValue string )
+	public static Value write( final Value string )
 	{
 		if ( KoLmafiaASH.relayScript == null )
 		{
@@ -1073,7 +1071,7 @@ public abstract class RuntimeLibrary
 		return DataTypes.VOID_VALUE;
 	}
 
-	public static ScriptValue writeln( final ScriptValue string )
+	public static Value writeln( final Value string )
 	{
 		if ( KoLmafiaASH.relayScript == null )
 		{
@@ -1085,7 +1083,7 @@ public abstract class RuntimeLibrary
 		return DataTypes.VOID_VALUE;
 	}
 
-	public static ScriptValue form_field( final ScriptValue key )
+	public static Value form_field( final Value key )
 	{
 		if ( KoLmafiaASH.relayRequest == null )
 		{
@@ -1093,13 +1091,13 @@ public abstract class RuntimeLibrary
 		}
 
 		String value = KoLmafiaASH.relayRequest.getFormField( key.toString() );
-		return value == null ? DataTypes.STRING_INIT : new ScriptValue( value );
+		return value == null ? DataTypes.STRING_INIT : new Value( value );
 	}
 
-	public static ScriptValue visit_url()
+	public static Value visit_url()
 	{
 		StringBuffer buffer = new StringBuffer();
-		ScriptValue returnValue = new ScriptValue( DataTypes.BUFFER_TYPE, "", buffer );
+		Value returnValue = new Value( DataTypes.BUFFER_TYPE, "", buffer );
 
 		RequestThread.postRequest( KoLmafiaASH.relayRequest );
 		if ( KoLmafiaASH.relayRequest.responseText != null )
@@ -1110,15 +1108,15 @@ public abstract class RuntimeLibrary
 		return returnValue;
 	}
 
-	public static ScriptValue visit_url( final ScriptValue string )
+	public static Value visit_url( final Value string )
 	{
 		return RuntimeLibrary.visit_url( string.toString() );
 	}
 
-	private static ScriptValue visit_url( final String location )
+	private static Value visit_url( final String location )
 	{
 		StringBuffer buffer = new StringBuffer();
-		ScriptValue returnValue = new ScriptValue( DataTypes.BUFFER_TYPE, "", buffer );
+		Value returnValue = new Value( DataTypes.BUFFER_TYPE, "", buffer );
 
 		RuntimeLibrary.VISITOR.constructURLString( location );
 		if ( GenericRequest.shouldIgnore( RuntimeLibrary.VISITOR ) )
@@ -1155,7 +1153,7 @@ public abstract class RuntimeLibrary
 		return returnValue;
 	}
 
-	public static ScriptValue wait( final ScriptValue delay )
+	public static Value wait( final Value delay )
 	{
 		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "wait " + delay.intValue() );
 		return DataTypes.VOID_VALUE;
@@ -1164,27 +1162,27 @@ public abstract class RuntimeLibrary
 	// Type conversion functions which allow conversion
 	// of one data format to another.
 
-	public static ScriptValue to_string( final ScriptValue val )
+	public static Value to_string( final Value val )
 	{
 		return val;
 	}
 
-	public static ScriptValue to_boolean( final ScriptValue value )
+	public static Value to_boolean( final Value value )
 	{
-		return DataTypes.booleanValue( ( value.intValue() != 0 || value.toString().equals( "true" ) ) );
+		return DataTypes.makeBooleanValue( ( value.intValue() != 0 || value.toString().equals( "true" ) ) );
 	}
 
-	public static ScriptValue to_int( final ScriptValue value )
+	public static Value to_int( final Value value )
 	{
 		if ( value.getType().equals( DataTypes.TYPE_STRING ) )
 		{
 			return DataTypes.parseIntValue( value.toString() );
 		}
 
-		return new ScriptValue( value.intValue() );
+		return new Value( value.intValue() );
 	}
 
-	public static ScriptValue to_float( final ScriptValue value )
+	public static Value to_float( final Value value )
 	{
 		if ( value.getType().equals( DataTypes.TYPE_STRING ) )
 		{
@@ -1193,13 +1191,13 @@ public abstract class RuntimeLibrary
 
 		if ( value.intValue() != 0 )
 		{
-			return new ScriptValue( (float) value.intValue() );
+			return new Value( (float) value.intValue() );
 		}
 
-		return new ScriptValue( value.floatValue() );
+		return new Value( value.floatValue() );
 	}
 
-	public static ScriptValue to_item( final ScriptValue value )
+	public static Value to_item( final Value value )
 	{
 		if ( value.getType().equals( DataTypes.TYPE_INT ) )
 		{
@@ -1209,17 +1207,17 @@ public abstract class RuntimeLibrary
 		return DataTypes.parseItemValue( value.toString(), true );
 	}
 
-	public static ScriptValue to_class( final ScriptValue value )
+	public static Value to_class( final Value value )
 	{
 		return DataTypes.parseClassValue( value.toString(), true );
 	}
 
-	public static ScriptValue to_stat( final ScriptValue value )
+	public static Value to_stat( final Value value )
 	{
 		return DataTypes.parseStatValue( value.toString(), true );
 	}
 
-	public static ScriptValue to_skill( final ScriptValue value )
+	public static Value to_skill( final Value value )
 	{
 		if ( value.getType().equals( DataTypes.TYPE_INT ) )
 		{
@@ -1234,7 +1232,7 @@ public abstract class RuntimeLibrary
 		return DataTypes.parseSkillValue( value.toString(), true );
 	}
 
-	public static ScriptValue to_effect( final ScriptValue value )
+	public static Value to_effect( final Value value )
 	{
 		if ( value.getType().equals( DataTypes.TYPE_INT ) )
 		{
@@ -1249,12 +1247,12 @@ public abstract class RuntimeLibrary
 		return DataTypes.parseEffectValue( value.toString(), true );
 	}
 
-	public static ScriptValue to_location( final ScriptValue value )
+	public static Value to_location( final Value value )
 	{
 		return DataTypes.parseLocationValue( value.toString(), true );
 	}
 
-	public static ScriptValue to_familiar( final ScriptValue value )
+	public static Value to_familiar( final Value value )
 	{
 		if ( value.getType().equals( DataTypes.TYPE_INT ) )
 		{
@@ -1264,12 +1262,12 @@ public abstract class RuntimeLibrary
 		return DataTypes.parseFamiliarValue( value.toString(), true );
 	}
 
-	public static ScriptValue to_monster( final ScriptValue value )
+	public static Value to_monster( final Value value )
 	{
 		return DataTypes.parseMonsterValue( value.toString(), true );
 	}
 
-	public static ScriptValue to_slot( final ScriptValue item )
+	public static Value to_slot( final Value item )
 	{
 		switch ( ItemDatabase.getConsumptionType( item.intValue() ) )
 		{
@@ -1292,31 +1290,31 @@ public abstract class RuntimeLibrary
 		}
 	}
 
-	public static ScriptValue to_url( final ScriptValue value )
+	public static Value to_url( final Value value )
 	{
 		KoLAdventure adventure = (KoLAdventure) value.rawValue();
-		return new ScriptValue( adventure.getRequest().getURLString() );
+		return new Value( adventure.getRequest().getURLString() );
 	}
 
 	// Functions related to daily information which get
 	// updated usually once per day.
 
-	public static ScriptValue today_to_string()
+	public static Value today_to_string()
 	{
-		return new ScriptValue( KoLConstants.DAILY_FORMAT.format( new Date() ) );
+		return new Value( KoLConstants.DAILY_FORMAT.format( new Date() ) );
 	}
 
-	public static ScriptValue moon_phase()
+	public static Value moon_phase()
 	{
-		return new ScriptValue( HolidayDatabase.getPhaseStep() );
+		return new Value( HolidayDatabase.getPhaseStep() );
 	}
 
-	public static ScriptValue moon_light()
+	public static Value moon_light()
 	{
-		return new ScriptValue( HolidayDatabase.getMoonlight() );
+		return new Value( HolidayDatabase.getMoonlight() );
 	}
 
-	public static ScriptValue stat_bonus_today()
+	public static Value stat_bonus_today()
 	{
 		if ( KoLmafiaCLI.testConditional( "today is muscle day" ) )
 		{
@@ -1336,7 +1334,7 @@ public abstract class RuntimeLibrary
 		return DataTypes.STAT_INIT;
 	}
 
-	public static ScriptValue stat_bonus_tomorrow()
+	public static Value stat_bonus_tomorrow()
 	{
 		if ( KoLmafiaCLI.testConditional( "tomorrow is muscle day" ) )
 		{
@@ -1356,24 +1354,24 @@ public abstract class RuntimeLibrary
 		return DataTypes.STAT_INIT;
 	}
 
-	public static ScriptValue session_logs( final ScriptValue dayCount )
+	public static Value session_logs( final Value dayCount )
 	{
 		return RuntimeLibrary.getSessionLogs( KoLCharacter.getUserName(), dayCount.intValue() );
 	}
 
-	public static ScriptValue session_logs( final ScriptValue player, final ScriptValue dayCount )
+	public static Value session_logs( final Value player, final Value dayCount )
 	{
 		return RuntimeLibrary.getSessionLogs( player.toString(), dayCount.intValue() );
 	}
 
-	private static ScriptValue getSessionLogs( final String name, final int dayCount )
+	private static Value getSessionLogs( final String name, final int dayCount )
 	{
 		String[] files = new String[ dayCount ];
 
 		Calendar timestamp = Calendar.getInstance();
 
-		ScriptAggregateType type = new ScriptAggregateType( DataTypes.STRING_TYPE, files.length );
-		ScriptArray value = new ScriptArray( type );
+		AggregateType type = new AggregateType( DataTypes.STRING_TYPE, files.length );
+		ArrayValue value = new ArrayValue( type );
 
 		String filename;
 		BufferedReader reader;
@@ -1408,7 +1406,7 @@ public abstract class RuntimeLibrary
 				StaticEntity.printStackTrace( e );
 			}
 
-			value.aset( new ScriptValue( i ), new ScriptValue( contents.toString() ) );
+			value.aset( new Value( i ), new Value( contents.toString() ) );
 		}
 
 		return value;
@@ -1417,7 +1415,7 @@ public abstract class RuntimeLibrary
 	// Major functions related to adventuring and
 	// item management.
 
-	public static ScriptValue adventure( final ScriptValue countValue, final ScriptValue loc )
+	public static Value adventure( final Value countValue, final Value loc )
 	{
 		int count = countValue.intValue();
 		if ( count <= 0 )
@@ -1429,7 +1427,7 @@ public abstract class RuntimeLibrary
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static ScriptValue add_item_condition( final ScriptValue countValue, final ScriptValue item )
+	public static Value add_item_condition( final Value countValue, final Value item )
 	{
 		int count = countValue.intValue();
 		if ( count <= 0 )
@@ -1441,7 +1439,7 @@ public abstract class RuntimeLibrary
 		return DataTypes.VOID_VALUE;
 	}
 
-	public static ScriptValue buy( final ScriptValue countValue, final ScriptValue item )
+	public static Value buy( final Value countValue, final Value item )
 	{
 		int count = countValue.intValue();
 		if ( count <= 0 )
@@ -1452,10 +1450,10 @@ public abstract class RuntimeLibrary
 		AdventureResult itemToBuy = new AdventureResult( item.intValue(), 1 );
 		int initialAmount = itemToBuy.getCount( KoLConstants.inventory );
 		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "buy " + count + " " + itemToBuy.getName() );
-		return DataTypes.booleanValue( initialAmount + count == itemToBuy.getCount( KoLConstants.inventory ) );
+		return DataTypes.makeBooleanValue( initialAmount + count == itemToBuy.getCount( KoLConstants.inventory ) );
 	}
 
-	public static ScriptValue create( final ScriptValue countValue, final ScriptValue item )
+	public static Value create( final Value countValue, final Value item )
 	{
 		int count = countValue.intValue();
 		if ( count <= 0 )
@@ -1467,7 +1465,7 @@ public abstract class RuntimeLibrary
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static ScriptValue use( final ScriptValue countValue, final ScriptValue item )
+	public static Value use( final Value countValue, final Value item )
 	{
 		int count = countValue.intValue();
 		if ( count <= 0 )
@@ -1479,7 +1477,7 @@ public abstract class RuntimeLibrary
 		return UseItemRequest.lastUpdate.equals( "" ) ? RuntimeLibrary.continueValue() : DataTypes.FALSE_VALUE;
 	}
 
-	public static ScriptValue eat( final ScriptValue countValue, final ScriptValue item )
+	public static Value eat( final Value countValue, final Value item )
 	{
 		int count = countValue.intValue();
 		if ( count <= 0 )
@@ -1491,7 +1489,7 @@ public abstract class RuntimeLibrary
 		return UseItemRequest.lastUpdate.equals( "" ) ? RuntimeLibrary.continueValue() : DataTypes.FALSE_VALUE;
 	}
 
-	public static ScriptValue drink( final ScriptValue countValue, final ScriptValue item )
+	public static Value drink( final Value countValue, final Value item )
 	{
 		int count = countValue.intValue();
 		if ( count <= 0 )
@@ -1503,7 +1501,7 @@ public abstract class RuntimeLibrary
 		return UseItemRequest.lastUpdate.equals( "" ) ? RuntimeLibrary.continueValue() : DataTypes.FALSE_VALUE;
 	}
 
-	public static ScriptValue put_closet( final ScriptValue countValue, final ScriptValue item )
+	public static Value put_closet( final Value countValue, final Value item )
 	{
 		int count = countValue.intValue();
 		if ( count <= 0 )
@@ -1515,7 +1513,7 @@ public abstract class RuntimeLibrary
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static ScriptValue put_shop( final ScriptValue priceValue, final ScriptValue limitValue, final ScriptValue itemValue )
+	public static Value put_shop( final Value priceValue, final Value limitValue, final Value itemValue )
 	{
 		int price = priceValue.intValue();
 		int limit = limitValue.intValue();
@@ -1524,7 +1522,7 @@ public abstract class RuntimeLibrary
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static ScriptValue put_stash( final ScriptValue countValue, final ScriptValue item )
+	public static Value put_stash( final Value countValue, final Value item )
 	{
 		int count = countValue.intValue();
 		if ( count <= 0 )
@@ -1536,7 +1534,7 @@ public abstract class RuntimeLibrary
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static ScriptValue put_display( final ScriptValue countValue, final ScriptValue item )
+	public static Value put_display( final Value countValue, final Value item )
 	{
 		int count = countValue.intValue();
 		if ( count <= 0 )
@@ -1548,7 +1546,7 @@ public abstract class RuntimeLibrary
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static ScriptValue take_closet( final ScriptValue countValue, final ScriptValue item )
+	public static Value take_closet( final Value countValue, final Value item )
 	{
 		int count = countValue.intValue();
 		if ( count <= 0 )
@@ -1560,7 +1558,7 @@ public abstract class RuntimeLibrary
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static ScriptValue take_storage( final ScriptValue countValue, final ScriptValue item )
+	public static Value take_storage( final Value countValue, final Value item )
 	{
 		int count = countValue.intValue();
 		if ( count <= 0 )
@@ -1572,7 +1570,7 @@ public abstract class RuntimeLibrary
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static ScriptValue take_display( final ScriptValue countValue, final ScriptValue item )
+	public static Value take_display( final Value countValue, final Value item )
 	{
 		int count = countValue.intValue();
 		if ( count <= 0 )
@@ -1584,7 +1582,7 @@ public abstract class RuntimeLibrary
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static ScriptValue take_stash( final ScriptValue countValue, final ScriptValue item )
+	public static Value take_stash( final Value countValue, final Value item )
 	{
 		int count = countValue.intValue();
 		if ( count <= 0 )
@@ -1596,7 +1594,7 @@ public abstract class RuntimeLibrary
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static ScriptValue autosell( final ScriptValue countValue, final ScriptValue item )
+	public static Value autosell( final Value countValue, final Value item )
 	{
 		int count = countValue.intValue();
 		if ( count <= 0 )
@@ -1608,7 +1606,7 @@ public abstract class RuntimeLibrary
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static ScriptValue hermit( final ScriptValue countValue, final ScriptValue item )
+	public static Value hermit( final Value countValue, final Value item )
 	{
 		int count = countValue.intValue();
 		if ( count <= 0 )
@@ -1620,7 +1618,7 @@ public abstract class RuntimeLibrary
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static ScriptValue retrieve_item( final ScriptValue countValue, final ScriptValue item )
+	public static Value retrieve_item( final Value countValue, final Value item )
 	{
 		int count = countValue.intValue();
 		if ( count <= 0 )
@@ -1635,12 +1633,12 @@ public abstract class RuntimeLibrary
 	// Major functions which provide item-related
 	// information.
 
-	public static ScriptValue is_npc_item( final ScriptValue item )
+	public static Value is_npc_item( final Value item )
 	{
-		return DataTypes.booleanValue( NPCStoreDatabase.contains( ItemDatabase.getItemName( item.intValue() ), false ) );
+		return DataTypes.makeBooleanValue( NPCStoreDatabase.contains( ItemDatabase.getItemName( item.intValue() ), false ) );
 	}
 
-	public static ScriptValue daily_special()
+	public static Value daily_special()
 	{
 		AdventureResult special =
 			KoLCharacter.inMoxieSign() ? MicroBreweryRequest.getDailySpecial() : KoLCharacter.inMysticalitySign() ? ChezSnooteeRequest.getDailySpecial() : null;
@@ -1648,13 +1646,13 @@ public abstract class RuntimeLibrary
 		return special == null ? DataTypes.ITEM_INIT : DataTypes.parseItemValue( special.getName(), true );
 	}
 
-	public static ScriptValue refresh_stash()
+	public static Value refresh_stash()
 	{
 		RequestThread.postRequest( new ClanStashRequest() );
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static ScriptValue available_amount( final ScriptValue arg )
+	public static Value available_amount( final Value arg )
 	{
 		AdventureResult item = new AdventureResult( arg.intValue(), 0 );
 
@@ -1673,31 +1671,31 @@ public abstract class RuntimeLibrary
 			runningTotal += item.getCount( KoLConstants.storage );
 		}
 
-		return new ScriptValue( runningTotal );
+		return new Value( runningTotal );
 	}
 
-	public static ScriptValue item_amount( final ScriptValue arg )
+	public static Value item_amount( final Value arg )
 	{
 		AdventureResult item = new AdventureResult( arg.intValue(), 0 );
-		return new ScriptValue( item.getCount( KoLConstants.inventory ) );
+		return new Value( item.getCount( KoLConstants.inventory ) );
 	}
 
-	public static ScriptValue closet_amount( final ScriptValue arg )
+	public static Value closet_amount( final Value arg )
 	{
 		AdventureResult item = new AdventureResult( arg.intValue(), 0 );
-		return new ScriptValue( item.getCount( KoLConstants.closet ) );
+		return new Value( item.getCount( KoLConstants.closet ) );
 	}
 
-	public static ScriptValue creatable_amount( final ScriptValue arg )
+	public static Value creatable_amount( final Value arg )
 	{
 		CreateItemRequest item = CreateItemRequest.getInstance( arg.intValue() );
-		return new ScriptValue( item == null ? 0 : item.getQuantityPossible() );
+		return new Value( item == null ? 0 : item.getQuantityPossible() );
 	}
 
-	public static ScriptValue get_ingredients( final ScriptValue item )
+	public static Value get_ingredients( final Value item )
 	{
 		AdventureResult[] data = ConcoctionDatabase.getIngredients( item.intValue() );
-		ScriptMap value = new ScriptMap( DataTypes.RESULT_TYPE );
+		MapValue value = new MapValue( DataTypes.RESULT_TYPE );
 
 		for ( int i = 0; i < data.length; ++i )
 		{
@@ -1709,13 +1707,13 @@ public abstract class RuntimeLibrary
 		return value;
 	}
 
-	public static ScriptValue storage_amount( final ScriptValue arg )
+	public static Value storage_amount( final Value arg )
 	{
 		AdventureResult item = new AdventureResult( arg.intValue(), 0 );
-		return new ScriptValue( item.getCount( KoLConstants.storage ) );
+		return new Value( item.getCount( KoLConstants.storage ) );
 	}
 
-	public static ScriptValue display_amount( final ScriptValue arg )
+	public static Value display_amount( final Value arg )
 	{
 		if ( KoLConstants.collection.isEmpty() )
 		{
@@ -1723,10 +1721,10 @@ public abstract class RuntimeLibrary
 		}
 
 		AdventureResult item = new AdventureResult( arg.intValue(), 0 );
-		return new ScriptValue( item.getCount( KoLConstants.collection ) );
+		return new Value( item.getCount( KoLConstants.collection ) );
 	}
 
-	public static ScriptValue shop_amount( final ScriptValue arg )
+	public static Value shop_amount( final Value arg )
 	{
 		LockableListModel list = StoreManager.getSoldItemList();
 		if ( list.isEmpty() )
@@ -1739,14 +1737,14 @@ public abstract class RuntimeLibrary
 
 		if ( index < 0 )
 		{
-			return new ScriptValue( 0 );
+			return new Value( 0 );
 		}
 
 		item = (SoldItem) list.get( index );
-		return new ScriptValue( item.getQuantity() );
+		return new Value( item.getQuantity() );
 	}
 
-	public static ScriptValue stash_amount( final ScriptValue arg )
+	public static Value stash_amount( final Value arg )
 	{
 		List stash = ClanManager.getStash();
 		if ( stash.isEmpty() )
@@ -1755,39 +1753,39 @@ public abstract class RuntimeLibrary
 		}
 
 		AdventureResult item = new AdventureResult( arg.intValue(), 0 );
-		return new ScriptValue( item.getCount( stash ) );
+		return new Value( item.getCount( stash ) );
 	}
 
-	public static ScriptValue pulls_remaining()
+	public static Value pulls_remaining()
 	{
-		return new ScriptValue( ItemManageFrame.getPullsRemaining() );
+		return new Value( ItemManageFrame.getPullsRemaining() );
 	}
 
-	public static ScriptValue stills_available()
+	public static Value stills_available()
 	{
-		return new ScriptValue( KoLCharacter.getStillsAvailable() );
+		return new Value( KoLCharacter.getStillsAvailable() );
 	}
 
-	public static ScriptValue have_mushroom_plot()
+	public static Value have_mushroom_plot()
 	{
-		return DataTypes.booleanValue( MushroomManager.ownsPlot() );
+		return DataTypes.makeBooleanValue( MushroomManager.ownsPlot() );
 	}
 
 	// The following functions pertain to providing updated
 	// information relating to the player.
 
-	public static ScriptValue refresh_status()
+	public static Value refresh_status()
 	{
 		RequestThread.postRequest( CharPaneRequest.getInstance() );
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static ScriptValue restore_hp( final ScriptValue amount )
+	public static Value restore_hp( final Value amount )
 	{
-		return new ScriptValue( StaticEntity.getClient().recoverHP( amount.intValue() ) );
+		return new Value( StaticEntity.getClient().recoverHP( amount.intValue() ) );
 	}
 
-	public static ScriptValue restore_mp( final ScriptValue amount )
+	public static Value restore_mp( final Value amount )
 	{
 		int desiredMP = amount.intValue();
 		while ( !KoLmafia.refusesContinue() && desiredMP > KoLCharacter.getCurrentMP() )
@@ -1797,214 +1795,214 @@ public abstract class RuntimeLibrary
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static ScriptValue my_name()
+	public static Value my_name()
 	{
-		return new ScriptValue( KoLCharacter.getUserName() );
+		return new Value( KoLCharacter.getUserName() );
 	}
 
-	public static ScriptValue my_id()
+	public static Value my_id()
 	{
-		return new ScriptValue( KoLCharacter.getPlayerId() );
+		return new Value( KoLCharacter.getPlayerId() );
 	}
 
-	public static ScriptValue my_hash()
+	public static Value my_hash()
 	{
-		return new ScriptValue( GenericRequest.passwordHash );
+		return new Value( GenericRequest.passwordHash );
 	}
 
-	public static ScriptValue in_muscle_sign()
+	public static Value in_muscle_sign()
 	{
-		return DataTypes.booleanValue( KoLCharacter.inMuscleSign() );
+		return DataTypes.makeBooleanValue( KoLCharacter.inMuscleSign() );
 	}
 
-	public static ScriptValue in_mysticality_sign()
+	public static Value in_mysticality_sign()
 	{
-		return DataTypes.booleanValue( KoLCharacter.inMysticalitySign() );
+		return DataTypes.makeBooleanValue( KoLCharacter.inMysticalitySign() );
 	}
 
-	public static ScriptValue in_moxie_sign()
+	public static Value in_moxie_sign()
 	{
-		return DataTypes.booleanValue( KoLCharacter.inMoxieSign() );
+		return DataTypes.makeBooleanValue( KoLCharacter.inMoxieSign() );
 	}
 
-	public static ScriptValue in_bad_moon()
+	public static Value in_bad_moon()
 	{
-		return DataTypes.booleanValue( KoLCharacter.inBadMoon() );
+		return DataTypes.makeBooleanValue( KoLCharacter.inBadMoon() );
 	}
 
-	public static ScriptValue my_class()
+	public static Value my_class()
 	{
 		return DataTypes.makeClassValue( KoLCharacter.getClassType() );
 	}
 
-	public static ScriptValue my_level()
+	public static Value my_level()
 	{
-		return new ScriptValue( KoLCharacter.getLevel() );
+		return new Value( KoLCharacter.getLevel() );
 	}
 
-	public static ScriptValue my_hp()
+	public static Value my_hp()
 	{
-		return new ScriptValue( KoLCharacter.getCurrentHP() );
+		return new Value( KoLCharacter.getCurrentHP() );
 	}
 
-	public static ScriptValue my_maxhp()
+	public static Value my_maxhp()
 	{
-		return new ScriptValue( KoLCharacter.getMaximumHP() );
+		return new Value( KoLCharacter.getMaximumHP() );
 	}
 
-	public static ScriptValue my_mp()
+	public static Value my_mp()
 	{
-		return new ScriptValue( KoLCharacter.getCurrentMP() );
+		return new Value( KoLCharacter.getCurrentMP() );
 	}
 
-	public static ScriptValue my_maxmp()
+	public static Value my_maxmp()
 	{
-		return new ScriptValue( KoLCharacter.getMaximumMP() );
+		return new Value( KoLCharacter.getMaximumMP() );
 	}
 
-	public static ScriptValue my_primestat()
+	public static Value my_primestat()
 	{
 		int primeIndex = KoLCharacter.getPrimeIndex();
 		return primeIndex == 0 ? DataTypes.MUSCLE_VALUE : primeIndex == 1 ? DataTypes.MYSTICALITY_VALUE : DataTypes.MOXIE_VALUE;
 	}
 
-	public static ScriptValue my_basestat( final ScriptValue arg )
+	public static Value my_basestat( final Value arg )
 	{
 		int stat = arg.intValue();
 
 		if ( stat == KoLConstants.MUSCLE )
 		{
-			return new ScriptValue( KoLCharacter.getBaseMuscle() );
+			return new Value( KoLCharacter.getBaseMuscle() );
 		}
 		if ( stat == KoLConstants.MYSTICALITY )
 		{
-			return new ScriptValue( KoLCharacter.getBaseMysticality() );
+			return new Value( KoLCharacter.getBaseMysticality() );
 		}
 		if ( stat == KoLConstants.MOXIE )
 		{
-			return new ScriptValue( KoLCharacter.getBaseMoxie() );
+			return new Value( KoLCharacter.getBaseMoxie() );
 		}
 
 		return DataTypes.ZERO_VALUE;
 	}
 
-	public static ScriptValue my_buffedstat( final ScriptValue arg )
+	public static Value my_buffedstat( final Value arg )
 	{
 		int stat = arg.intValue();
 
 		if ( stat == KoLConstants.MUSCLE )
 		{
-			return new ScriptValue( KoLCharacter.getAdjustedMuscle() );
+			return new Value( KoLCharacter.getAdjustedMuscle() );
 		}
 		if ( stat == KoLConstants.MYSTICALITY )
 		{
-			return new ScriptValue( KoLCharacter.getAdjustedMysticality() );
+			return new Value( KoLCharacter.getAdjustedMysticality() );
 		}
 		if ( stat == KoLConstants.MOXIE )
 		{
-			return new ScriptValue( KoLCharacter.getAdjustedMoxie() );
+			return new Value( KoLCharacter.getAdjustedMoxie() );
 		}
 
 		return DataTypes.ZERO_VALUE;
 	}
 
-	public static ScriptValue my_meat()
+	public static Value my_meat()
 	{
-		return new ScriptValue( KoLCharacter.getAvailableMeat() );
+		return new Value( KoLCharacter.getAvailableMeat() );
 	}
 
-	public static ScriptValue my_adventures()
+	public static Value my_adventures()
 	{
-		return new ScriptValue( KoLCharacter.getAdventuresLeft() );
+		return new Value( KoLCharacter.getAdventuresLeft() );
 	}
 
-	public static ScriptValue my_turncount()
+	public static Value my_turncount()
 	{
-		return new ScriptValue( KoLCharacter.getCurrentRun() );
+		return new Value( KoLCharacter.getCurrentRun() );
 	}
 
-	public static ScriptValue my_fullness()
+	public static Value my_fullness()
 	{
-		return new ScriptValue( KoLCharacter.getFullness() );
+		return new Value( KoLCharacter.getFullness() );
 	}
 
-	public static ScriptValue fullness_limit()
+	public static Value fullness_limit()
 	{
-		return new ScriptValue( KoLCharacter.getFullnessLimit() );
+		return new Value( KoLCharacter.getFullnessLimit() );
 	}
 
-	public static ScriptValue my_inebriety()
+	public static Value my_inebriety()
 	{
-		return new ScriptValue( KoLCharacter.getInebriety() );
+		return new Value( KoLCharacter.getInebriety() );
 	}
 
-	public static ScriptValue inebriety_limit()
+	public static Value inebriety_limit()
 	{
-		return new ScriptValue( KoLCharacter.getInebrietyLimit() );
+		return new Value( KoLCharacter.getInebrietyLimit() );
 	}
 
-	public static ScriptValue my_spleen_use()
+	public static Value my_spleen_use()
 	{
-		return new ScriptValue( KoLCharacter.getSpleenUse() );
+		return new Value( KoLCharacter.getSpleenUse() );
 	}
 
-	public static ScriptValue spleen_limit()
+	public static Value spleen_limit()
 	{
-		return new ScriptValue( KoLCharacter.getSpleenLimit() );
+		return new Value( KoLCharacter.getSpleenLimit() );
 	}
 
-	public static ScriptValue can_eat()
+	public static Value can_eat()
 	{
-		return new ScriptValue( KoLCharacter.canEat() );
+		return new Value( KoLCharacter.canEat() );
 	}
 
-	public static ScriptValue can_drink()
+	public static Value can_drink()
 	{
-		return new ScriptValue( KoLCharacter.canDrink() );
+		return new Value( KoLCharacter.canDrink() );
 	}
 
-	public static ScriptValue turns_played()
+	public static Value turns_played()
 	{
-		return new ScriptValue( KoLCharacter.getCurrentRun() );
+		return new Value( KoLCharacter.getCurrentRun() );
 	}
 
-	public static ScriptValue can_interact()
+	public static Value can_interact()
 	{
-		return DataTypes.booleanValue( KoLCharacter.canInteract() );
+		return DataTypes.makeBooleanValue( KoLCharacter.canInteract() );
 	}
 
-	public static ScriptValue in_hardcore()
+	public static Value in_hardcore()
 	{
-		return DataTypes.booleanValue( KoLCharacter.isHardcore() );
+		return DataTypes.makeBooleanValue( KoLCharacter.isHardcore() );
 	}
 
 	// Basic skill and effect functions, including those used
 	// in custom combat consult scripts.
 
-	public static ScriptValue have_skill( final ScriptValue arg )
+	public static Value have_skill( final Value arg )
 	{
-		return DataTypes.booleanValue( KoLCharacter.hasSkill( arg.intValue() ) );
+		return DataTypes.makeBooleanValue( KoLCharacter.hasSkill( arg.intValue() ) );
 	}
 
-	public static ScriptValue mp_cost( final ScriptValue skill )
+	public static Value mp_cost( final Value skill )
 	{
-		return new ScriptValue( SkillDatabase.getMPConsumptionById( skill.intValue() ) );
+		return new Value( SkillDatabase.getMPConsumptionById( skill.intValue() ) );
 	}
 
-	public static ScriptValue turns_per_cast( final ScriptValue skill )
+	public static Value turns_per_cast( final Value skill )
 	{
-		return new ScriptValue( SkillDatabase.getEffectDuration( skill.intValue() ) );
+		return new Value( SkillDatabase.getEffectDuration( skill.intValue() ) );
 	}
 
-	public static ScriptValue have_effect( final ScriptValue arg )
+	public static Value have_effect( final Value arg )
 	{
 		List potentialEffects = EffectDatabase.getMatchingNames( arg.toString() );
 		AdventureResult effect =
 			potentialEffects.isEmpty() ? null : new AdventureResult( (String) potentialEffects.get( 0 ), 0, true );
-		return effect == null ? DataTypes.ZERO_VALUE : new ScriptValue( effect.getCount( KoLConstants.activeEffects ) );
+		return effect == null ? DataTypes.ZERO_VALUE : new Value( effect.getCount( KoLConstants.activeEffects ) );
 	}
 
-	public static ScriptValue use_skill( final ScriptValue countValue, final ScriptValue skill )
+	public static Value use_skill( final Value countValue, final Value skill )
 	{
 		int count = countValue.intValue();
 		if ( count <= 0 )
@@ -2026,10 +2024,10 @@ public abstract class RuntimeLibrary
 		}
 
 		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "cast " + count + " " + skill.toString() );
-		return new ScriptValue( UseSkillRequest.lastUpdate.equals( "" ) );
+		return new Value( UseSkillRequest.lastUpdate.equals( "" ) );
 	}
 
-	public static ScriptValue use_skill( final ScriptValue skill )
+	public static Value use_skill( final Value skill )
 	{
 		// Just in case someone assumed that use_skill would also work
 		// in combat, go ahead and allow it here.
@@ -2040,10 +2038,10 @@ public abstract class RuntimeLibrary
 		}
 
 		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "cast 1 " + skill.toString() );
-		return new ScriptValue( UseSkillRequest.lastUpdate );
+		return new Value( UseSkillRequest.lastUpdate );
 	}
 
-	public static ScriptValue use_skill( final ScriptValue countValue, final ScriptValue skill, final ScriptValue target )
+	public static Value use_skill( final Value countValue, final Value skill, final Value target )
 	{
 		int count = countValue.intValue();
 		if ( count <= 0 )
@@ -2065,15 +2063,15 @@ public abstract class RuntimeLibrary
 		}
 
 		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "cast " + count + " " + skill.toString() + " on " + target );
-		return new ScriptValue( UseSkillRequest.lastUpdate.equals( "" ) );
+		return new Value( UseSkillRequest.lastUpdate.equals( "" ) );
 	}
 
-	public static ScriptValue attack()
+	public static Value attack()
 	{
 		return RuntimeLibrary.visit_url( "fight.php?action=attack" );
 	}
 
-	public static ScriptValue steal()
+	public static Value steal()
 	{
 		if ( !FightRequest.wonInitiative() )
 		{
@@ -2083,44 +2081,44 @@ public abstract class RuntimeLibrary
 		return RuntimeLibrary.visit_url( "fight.php?action=steal" );
 	}
 
-	public static ScriptValue runaway()
+	public static Value runaway()
 	{
 		return RuntimeLibrary.visit_url( "fight.php?action=runaway" );
 	}
 
-	public static ScriptValue throw_item( final ScriptValue item )
+	public static Value throw_item( final Value item )
 	{
 		return RuntimeLibrary.visit_url( "fight.php?action=useitem&whichitem=" + item.intValue() );
 	}
 
-	public static ScriptValue throw_items( final ScriptValue item1, final ScriptValue item2 )
+	public static Value throw_items( final Value item1, final Value item2 )
 	{
 		return RuntimeLibrary.visit_url( "fight.php?action=useitem&whichitem=" + item1.intValue() + "&whichitem2=" + item2.intValue() );
 	}
 
-	public static ScriptValue run_combat()
+	public static Value run_combat()
 	{
 		RequestThread.postRequest( FightRequest.INSTANCE );
 		String response =
 			KoLmafiaASH.relayScript == null ? FightRequest.lastResponseText : FightRequest.getNextTrackedRound();
 
-		return new ScriptValue( DataTypes.BUFFER_TYPE, "", new StringBuffer( response == null ? "" : response ) );
+		return new Value( DataTypes.BUFFER_TYPE, "", new StringBuffer( response == null ? "" : response ) );
 	}
 
 	// Equipment functions.
 
-	public static ScriptValue can_equip( final ScriptValue item )
+	public static Value can_equip( final Value item )
 	{
-		return DataTypes.booleanValue( EquipmentDatabase.canEquip( ItemDatabase.getItemName( item.intValue() ) ) );
+		return DataTypes.makeBooleanValue( EquipmentDatabase.canEquip( ItemDatabase.getItemName( item.intValue() ) ) );
 	}
 
-	public static ScriptValue equip( final ScriptValue item )
+	public static Value equip( final Value item )
 	{
 		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "equip " + item );
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static ScriptValue equip( final ScriptValue slotValue, final ScriptValue item )
+	public static Value equip( final Value slotValue, final Value item )
 	{
 		String slot = slotValue.toString();
 		if ( item.equals( DataTypes.ITEM_INIT ) )
@@ -2135,23 +2133,23 @@ public abstract class RuntimeLibrary
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static ScriptValue equipped_item( final ScriptValue slot )
+	public static Value equipped_item( final Value slot )
 	{
 		return DataTypes.makeItemValue( KoLCharacter.getEquipment( slot.intValue() ).getName() );
 	}
 
-	public static ScriptValue have_equipped( final ScriptValue item )
+	public static Value have_equipped( final Value item )
 	{
-		return DataTypes.booleanValue( KoLCharacter.hasEquipped( new AdventureResult( item.intValue(), 1 ) ) );
+		return DataTypes.makeBooleanValue( KoLCharacter.hasEquipped( new AdventureResult( item.intValue(), 1 ) ) );
 	}
 
-	public static ScriptValue outfit( final ScriptValue outfit )
+	public static Value outfit( final Value outfit )
 	{
 		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "outfit " + outfit.toString() );
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static ScriptValue have_outfit( final ScriptValue outfit )
+	public static Value have_outfit( final Value outfit )
 	{
 		SpecialOutfit so = KoLmafiaCLI.getMatchingOutfit( outfit.toString() );
 
@@ -2160,95 +2158,95 @@ public abstract class RuntimeLibrary
 			return DataTypes.FALSE_VALUE;
 		}
 
-		return DataTypes.booleanValue( EquipmentDatabase.hasOutfit( so.getOutfitId() ) );
+		return DataTypes.makeBooleanValue( EquipmentDatabase.hasOutfit( so.getOutfitId() ) );
 	}
 
-	public static ScriptValue weapon_hands( final ScriptValue item )
+	public static Value weapon_hands( final Value item )
 	{
-		return new ScriptValue( EquipmentDatabase.getHands( item.intValue() ) );
+		return new Value( EquipmentDatabase.getHands( item.intValue() ) );
 	}
 
-	public static ScriptValue weapon_type( final ScriptValue item )
+	public static Value weapon_type( final Value item )
 	{
 		String type = EquipmentDatabase.getType( item.intValue() );
-		return new ScriptValue( type == null ? "unknown" : type );
+		return new Value( type == null ? "unknown" : type );
 	}
 
-	public static ScriptValue ranged_weapon( final ScriptValue item )
+	public static Value ranged_weapon( final Value item )
 	{
-		return DataTypes.booleanValue( EquipmentDatabase.isRanged( item.intValue() ) );
+		return DataTypes.makeBooleanValue( EquipmentDatabase.isRanged( item.intValue() ) );
 	}
 
-	public static ScriptValue get_power( final ScriptValue item )
+	public static Value get_power( final Value item )
 	{
-		return new ScriptValue( EquipmentDatabase.getPower( item.intValue() ) );
+		return new Value( EquipmentDatabase.getPower( item.intValue() ) );
 	}
 
-	public static ScriptValue my_familiar()
+	public static Value my_familiar()
 	{
 		return DataTypes.makeFamiliarValue( KoLCharacter.getFamiliar().getId() );
 	}
 
-	public static ScriptValue have_familiar( final ScriptValue familiar )
+	public static Value have_familiar( final Value familiar )
 	{
-		return DataTypes.booleanValue( KoLCharacter.findFamiliar( familiar.toString() ) != null );
+		return DataTypes.makeBooleanValue( KoLCharacter.findFamiliar( familiar.toString() ) != null );
 	}
 
-	public static ScriptValue use_familiar( final ScriptValue familiar )
+	public static Value use_familiar( final Value familiar )
 	{
 		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "familiar " + familiar );
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static ScriptValue familiar_equipment( final ScriptValue familiar )
+	public static Value familiar_equipment( final Value familiar )
 	{
 		return DataTypes.parseItemValue( FamiliarDatabase.getFamiliarItem( familiar.intValue() ), true );
 	}
 
-	public static ScriptValue familiar_weight( final ScriptValue familiar )
+	public static Value familiar_weight( final Value familiar )
 	{
 		FamiliarData fam = KoLCharacter.findFamiliar( familiar.toString() );
-		return fam == null ? DataTypes.ZERO_VALUE : new ScriptValue( fam.getWeight() );
+		return fam == null ? DataTypes.ZERO_VALUE : new Value( fam.getWeight() );
 	}
 
 	// Random other functions related to current in-game
 	// state, not directly tied to the character.
 
-	public static ScriptValue council()
+	public static Value council()
 	{
 		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "council" );
 		return DataTypes.VOID_VALUE;
 	}
 
-	public static ScriptValue current_mcd()
+	public static Value current_mcd()
 	{
-		return new ScriptValue( KoLCharacter.getSignedMLAdjustment() );
+		return new Value( KoLCharacter.getSignedMLAdjustment() );
 	}
 
-	public static ScriptValue change_mcd( final ScriptValue level )
+	public static Value change_mcd( final Value level )
 	{
 		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "mind-control " + level.intValue() );
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static ScriptValue have_chef()
+	public static Value have_chef()
 	{
-		return DataTypes.booleanValue( KoLCharacter.hasChef() );
+		return DataTypes.makeBooleanValue( KoLCharacter.hasChef() );
 	}
 
-	public static ScriptValue have_bartender()
+	public static Value have_bartender()
 	{
-		return DataTypes.booleanValue( KoLCharacter.hasBartender() );
+		return DataTypes.makeBooleanValue( KoLCharacter.hasBartender() );
 	}
 
 	// String parsing functions.
 
-	public static ScriptValue contains_text( final ScriptValue source, final ScriptValue search )
+	public static Value contains_text( final Value source, final Value search )
 	{
-		return DataTypes.booleanValue( source.toString().indexOf( search.toString() ) != -1 );
+		return DataTypes.makeBooleanValue( source.toString().indexOf( search.toString() ) != -1 );
 	}
 
-	public static ScriptValue extract_meat( final ScriptValue string )
+	public static Value extract_meat( final Value string )
 	{
 		ArrayList data = new ArrayList();
 		StaticEntity.getClient().processResults( string.toString(), data );
@@ -2260,18 +2258,18 @@ public abstract class RuntimeLibrary
 			result = (AdventureResult) data.get( i );
 			if ( result.getName().equals( AdventureResult.MEAT ) )
 			{
-				return new ScriptValue( result.getCount() );
+				return new Value( result.getCount() );
 			}
 		}
 
 		return DataTypes.ZERO_VALUE;
 	}
 
-	public static ScriptValue extract_items( final ScriptValue string )
+	public static Value extract_items( final Value string )
 	{
 		ArrayList data = new ArrayList();
 		StaticEntity.getClient().processResults( string.toString(), data );
-		ScriptMap value = new ScriptMap( DataTypes.RESULT_TYPE );
+		MapValue value = new MapValue( DataTypes.RESULT_TYPE );
 
 		AdventureResult result;
 
@@ -2289,196 +2287,196 @@ public abstract class RuntimeLibrary
 		return value;
 	}
 
-	public static ScriptValue length( final ScriptValue string )
+	public static Value length( final Value string )
 	{
-		return new ScriptValue( string.toString().length() );
+		return new Value( string.toString().length() );
 	}
 
-	public static ScriptValue index_of( final ScriptValue source, final ScriptValue search )
-	{
-		String string = source.toString();
-		String substring = search.toString();
-		return new ScriptValue( string.indexOf( substring ) );
-	}
-
-	public static ScriptValue index_of( final ScriptValue source, final ScriptValue search,
-		final ScriptValue start )
+	public static Value index_of( final Value source, final Value search )
 	{
 		String string = source.toString();
 		String substring = search.toString();
-		int begin = start.intValue();
-		return new ScriptValue( string.indexOf( substring, begin ) );
+		return new Value( string.indexOf( substring ) );
 	}
 
-	public static ScriptValue last_index_of( final ScriptValue source, final ScriptValue search )
-	{
-		String string = source.toString();
-		String substring = search.toString();
-		return new ScriptValue( string.lastIndexOf( substring ) );
-	}
-
-	public static ScriptValue last_index_of( final ScriptValue source, final ScriptValue search,
-		final ScriptValue start )
+	public static Value index_of( final Value source, final Value search,
+		final Value start )
 	{
 		String string = source.toString();
 		String substring = search.toString();
 		int begin = start.intValue();
-		return new ScriptValue( string.lastIndexOf( substring, begin ) );
+		return new Value( string.indexOf( substring, begin ) );
 	}
 
-	public static ScriptValue substring( final ScriptValue source, final ScriptValue start )
+	public static Value last_index_of( final Value source, final Value search )
+	{
+		String string = source.toString();
+		String substring = search.toString();
+		return new Value( string.lastIndexOf( substring ) );
+	}
+
+	public static Value last_index_of( final Value source, final Value search,
+		final Value start )
+	{
+		String string = source.toString();
+		String substring = search.toString();
+		int begin = start.intValue();
+		return new Value( string.lastIndexOf( substring, begin ) );
+	}
+
+	public static Value substring( final Value source, final Value start )
 	{
 		String string = source.toString();
 		int begin = start.intValue();
-		return new ScriptValue( string.substring( begin ) );
+		return new Value( string.substring( begin ) );
 	}
 
-	public static ScriptValue substring( final ScriptValue source, final ScriptValue start,
-		final ScriptValue finish )
+	public static Value substring( final Value source, final Value start,
+		final Value finish )
 	{
 		String string = source.toString();
 		int begin = start.intValue();
 		int end = finish.intValue();
-		return new ScriptValue( string.substring( begin, end ) );
+		return new Value( string.substring( begin, end ) );
 	}
 
-	public static ScriptValue to_upper_case( final ScriptValue string )
+	public static Value to_upper_case( final Value string )
 	{
-		return new ScriptValue( string.toString().toUpperCase() );
+		return new Value( string.toString().toUpperCase() );
 	}
 
-	public static ScriptValue to_lower_case( final ScriptValue string )
+	public static Value to_lower_case( final Value string )
 	{
-		return new ScriptValue( string.toString().toLowerCase() );
+		return new Value( string.toString().toLowerCase() );
 	}
 
-	public static ScriptValue append( final ScriptValue buffer, final ScriptValue s )
+	public static Value append( final Value buffer, final Value s )
 	{
-		ScriptValue retval = buffer;
+		Value retval = buffer;
 		StringBuffer current = (StringBuffer) retval.rawValue();
 		current.append( s.toString() );
 		return retval;
 	}
 
-	public static ScriptValue insert( final ScriptValue buffer, final ScriptValue index, final ScriptValue s )
+	public static Value insert( final Value buffer, final Value index, final Value s )
 	{
-		ScriptValue retval = buffer;
+		Value retval = buffer;
 		StringBuffer current = (StringBuffer) retval.rawValue();
 		current.insert( index.intValue(), s.toString() );
 		return retval;
 	}
 
-	public static ScriptValue replace( final ScriptValue buffer, final ScriptValue start, final ScriptValue end,
-		final ScriptValue s )
+	public static Value replace( final Value buffer, final Value start, final Value end,
+		final Value s )
 	{
-		ScriptValue retval = buffer;
+		Value retval = buffer;
 		StringBuffer current = (StringBuffer) retval.rawValue();
 		current.replace( start.intValue(), end.intValue(), s.toString() );
 		return retval;
 	}
 
-	public static ScriptValue delete( final ScriptValue buffer, final ScriptValue start, final ScriptValue end )
+	public static Value delete( final Value buffer, final Value start, final Value end )
 	{
-		ScriptValue retval = buffer;
+		Value retval = buffer;
 		StringBuffer current = (StringBuffer) retval.rawValue();
 		current.delete( start.intValue(), end.intValue() );
 		return retval;
 	}
 
-	public static ScriptValue append_tail( final ScriptValue matcher, final ScriptValue current )
+	public static Value append_tail( final Value matcher, final Value current )
 	{
 		Matcher m = (Matcher) matcher.rawValue();
-		ScriptValue retval = current;
+		Value retval = current;
 		StringBuffer buffer = (StringBuffer) retval.rawValue();
 		m.appendTail( buffer );
 		return retval;
 	}
 
-	public static ScriptValue append_replacement( final ScriptValue matcher, final ScriptValue current,
-		final ScriptValue replacement )
+	public static Value append_replacement( final Value matcher, final Value current,
+		final Value replacement )
 	{
 		Matcher m = (Matcher) matcher.rawValue();
-		ScriptValue retval = current;
+		Value retval = current;
 		StringBuffer buffer = (StringBuffer) retval.rawValue();
 		m.appendReplacement( buffer, replacement.toString() );
 		return retval;
 	}
 
-	public static ScriptValue create_matcher( final ScriptValue patternValue, final ScriptValue stringValue )
+	public static Value create_matcher( final Value patternValue, final Value stringValue )
 	{
 		String pattern = patternValue.toString();
 		String string = stringValue.toString();
-		return new ScriptValue( DataTypes.MATCHER_TYPE, pattern,
+		return new Value( DataTypes.MATCHER_TYPE, pattern,
 					Pattern.compile( pattern, Pattern.DOTALL ).matcher( string ) );
 	}
 
-	public static ScriptValue find( final ScriptValue matcher )
+	public static Value find( final Value matcher )
 	{
 		Matcher m = (Matcher) matcher.rawValue();
-		return DataTypes.booleanValue( m.find() );
+		return DataTypes.makeBooleanValue( m.find() );
 	}
 
-	public static ScriptValue start( final ScriptValue matcher )
+	public static Value start( final Value matcher )
 	{
 		Matcher m = (Matcher) matcher.rawValue();
-		return new ScriptValue( m.start() );
+		return new Value( m.start() );
 	}
 
-	public static ScriptValue end( final ScriptValue matcher )
+	public static Value end( final Value matcher )
 	{
 		Matcher m = (Matcher) matcher.rawValue();
-		return new ScriptValue( m.end() );
+		return new Value( m.end() );
 	}
 
-	public static ScriptValue group( final ScriptValue matcher )
+	public static Value group( final Value matcher )
 	{
 		Matcher m = (Matcher) matcher.rawValue();
-		return new ScriptValue( m.group() );
+		return new Value( m.group() );
 	}
 
-	public static ScriptValue group( final ScriptValue matcher, final ScriptValue group )
+	public static Value group( final Value matcher, final Value group )
 	{
 		Matcher m = (Matcher) matcher.rawValue();
-		return new ScriptValue( m.group( group.intValue() ) );
+		return new Value( m.group( group.intValue() ) );
 	}
 
-	public static ScriptValue group_count( final ScriptValue matcher )
+	public static Value group_count( final Value matcher )
 	{
 		Matcher m = (Matcher) matcher.rawValue();
-		return new ScriptValue( m.groupCount() );
+		return new Value( m.groupCount() );
 	}
 
-	public static ScriptValue replace_first( final ScriptValue matcher, final ScriptValue replacement )
+	public static Value replace_first( final Value matcher, final Value replacement )
 	{
 		Matcher m = (Matcher) matcher.rawValue();
-		return new ScriptValue( m.replaceFirst( replacement.toString() ) );
+		return new Value( m.replaceFirst( replacement.toString() ) );
 	}
 
-	public static ScriptValue replace_all( final ScriptValue matcher, final ScriptValue replacement )
+	public static Value replace_all( final Value matcher, final Value replacement )
 	{
 		Matcher m = (Matcher) matcher.rawValue();
-		return new ScriptValue( m.replaceAll( replacement.toString() ) );
+		return new Value( m.replaceAll( replacement.toString() ) );
 	}
 
-	public static ScriptValue reset( final ScriptValue matcher )
+	public static Value reset( final Value matcher )
 	{
 		Matcher m = (Matcher) matcher.rawValue();
 		m.reset();
 		return matcher;
 	}
 
-	public static ScriptValue reset( final ScriptValue matcher, final ScriptValue input )
+	public static Value reset( final Value matcher, final Value input )
 	{
 		Matcher m = (Matcher) matcher.rawValue();
 		m.reset( input.toString() );
 		return matcher;
 	}
 
-	public static ScriptValue replace_string( final ScriptValue source,
-						  final ScriptValue searchValue, final ScriptValue replaceValue )
+	public static Value replace_string( final Value source,
+						  final Value searchValue, final Value replaceValue )
 	{
 		StringBuffer buffer;
-		ScriptValue returnValue;
+		Value returnValue;
 
 		if ( source.rawValue() instanceof StringBuffer )
 		{
@@ -2488,7 +2486,7 @@ public abstract class RuntimeLibrary
 		else
 		{
 			buffer = new StringBuffer( source.toString() );
-			returnValue = new ScriptValue( DataTypes.BUFFER_TYPE, "", buffer );
+			returnValue = new Value( DataTypes.BUFFER_TYPE, "", buffer );
 		}
 
 		String search = searchValue.toString();
@@ -2498,65 +2496,65 @@ public abstract class RuntimeLibrary
 		return returnValue;
 	}
 
-	public static ScriptValue split_string( final ScriptValue string )
+	public static Value split_string( final Value string )
 	{
 		String[] pieces = string.toString().split( KoLConstants.LINE_BREAK );
 
-		ScriptAggregateType type = new ScriptAggregateType( DataTypes.STRING_TYPE, pieces.length );
-		ScriptArray value = new ScriptArray( type );
+		AggregateType type = new AggregateType( DataTypes.STRING_TYPE, pieces.length );
+		ArrayValue value = new ArrayValue( type );
 
 		for ( int i = 0; i < pieces.length; ++i )
 		{
-			value.aset( new ScriptValue( i ), new ScriptValue( pieces[ i ] ) );
+			value.aset( new Value( i ), new Value( pieces[ i ] ) );
 		}
 
 		return value;
 	}
 
-	public static ScriptValue split_string( final ScriptValue string, final ScriptValue regex )
+	public static Value split_string( final Value string, final Value regex )
 	{
 		String[] pieces = string.toString().split( regex.toString() );
 
-		ScriptAggregateType type = new ScriptAggregateType( DataTypes.STRING_TYPE, pieces.length );
-		ScriptArray value = new ScriptArray( type );
+		AggregateType type = new AggregateType( DataTypes.STRING_TYPE, pieces.length );
+		ArrayValue value = new ArrayValue( type );
 
 		for ( int i = 0; i < pieces.length; ++i )
 		{
-			value.aset( new ScriptValue( i ), new ScriptValue( pieces[ i ] ) );
+			value.aset( new Value( i ), new Value( pieces[ i ] ) );
 		}
 
 		return value;
 	}
 
-	public static ScriptValue group_string( final ScriptValue string, final ScriptValue regex )
+	public static Value group_string( final Value string, final Value regex )
 	{
 		Matcher userPatternMatcher =
 			Pattern.compile( regex.toString() ).matcher( string.toString() );
-		ScriptMap value = new ScriptMap( DataTypes.REGEX_GROUP_TYPE );
+		MapValue value = new MapValue( DataTypes.REGEX_GROUP_TYPE );
 
 		int matchCount = 0;
 		int groupCount = userPatternMatcher.groupCount();
 
-		ScriptValue[] groupIndexes = new ScriptValue[ groupCount + 1 ];
+		Value[] groupIndexes = new Value[ groupCount + 1 ];
 		for ( int i = 0; i <= groupCount; ++i )
 		{
-			groupIndexes[ i ] = new ScriptValue( i );
+			groupIndexes[ i ] = new Value( i );
 		}
 
-		ScriptValue matchIndex;
-		ScriptCompositeValue slice;
+		Value matchIndex;
+		CompositeValue slice;
 
 		try
 		{
 			while ( userPatternMatcher.find() )
 			{
-				matchIndex = new ScriptValue( matchCount );
-				slice = (ScriptCompositeValue) value.initialValue( matchIndex );
+				matchIndex = new Value( matchCount );
+				slice = (CompositeValue) value.initialValue( matchIndex );
 
 				value.aset( matchIndex, slice );
 				for ( int i = 0; i <= groupCount; ++i )
 				{
-					slice.aset( groupIndexes[ i ], new ScriptValue( userPatternMatcher.group( i ) ) );
+					slice.aset( groupIndexes[ i ], new Value( userPatternMatcher.group( i ) ) );
 				}
 
 				++matchCount;
@@ -2574,7 +2572,7 @@ public abstract class RuntimeLibrary
 		return value;
 	}
 
-	public static ScriptValue chat_reply( final ScriptValue stringValue )
+	public static Value chat_reply( final Value stringValue )
 	{
 		String recipient = ChatManager.lastBlueMessage();
 		if ( !recipient.equals( "" ) )
@@ -2588,95 +2586,95 @@ public abstract class RuntimeLibrary
 
 	// Quest completion functions.
 
-	public static ScriptValue entryway()
+	public static Value entryway()
 	{
 		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "entryway" );
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static ScriptValue hedgemaze()
+	public static Value hedgemaze()
 	{
 		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "hedgemaze" );
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static ScriptValue guardians()
+	public static Value guardians()
 	{
 		int itemId = SorceressLairManager.fightTowerGuardians( true );
 		return DataTypes.makeItemValue( itemId );
 	}
 
-	public static ScriptValue chamber()
+	public static Value chamber()
 	{
 		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "chamber" );
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static ScriptValue tavern()
+	public static Value tavern()
 	{
 		int result = StaticEntity.getClient().locateTavernFaucet();
-		return new ScriptValue( KoLmafia.permitsContinue() ? result : -1 );
+		return new Value( KoLmafia.permitsContinue() ? result : -1 );
 	}
 
 	// Arithmetic utility functions.
 
-	public static ScriptValue random( final ScriptValue arg )
+	public static Value random( final Value arg )
 	{
 		int range = arg.intValue();
 		if ( range < 2 )
 		{
-			throw new AdvancedScriptException( "Random range must be at least 2" );
+			throw new ScriptException( "Random range must be at least 2" );
 		}
-		return new ScriptValue( KoLConstants.RNG.nextInt( range ) );
+		return new Value( KoLConstants.RNG.nextInt( range ) );
 	}
 
-	public static ScriptValue round( final ScriptValue arg )
+	public static Value round( final Value arg )
 	{
-		return new ScriptValue( (int) Math.round( arg.floatValue() ) );
+		return new Value( (int) Math.round( arg.floatValue() ) );
 	}
 
-	public static ScriptValue truncate( final ScriptValue arg )
+	public static Value truncate( final Value arg )
 	{
-		return new ScriptValue( (int) arg.floatValue() );
+		return new Value( (int) arg.floatValue() );
 	}
 
-	public static ScriptValue floor( final ScriptValue arg )
+	public static Value floor( final Value arg )
 	{
-		return new ScriptValue( (int) Math.floor( arg.floatValue() ) );
+		return new Value( (int) Math.floor( arg.floatValue() ) );
 	}
 
-	public static ScriptValue ceil( final ScriptValue arg )
+	public static Value ceil( final Value arg )
 	{
-		return new ScriptValue( (int) Math.ceil( arg.floatValue() ) );
+		return new Value( (int) Math.ceil( arg.floatValue() ) );
 	}
 
-	public static ScriptValue square_root( final ScriptValue val )
+	public static Value square_root( final Value val )
 	{
-		return new ScriptValue( (float) Math.sqrt( val.floatValue() ) );
+		return new Value( (float) Math.sqrt( val.floatValue() ) );
 	}
 
 	// Settings-type functions.
 
-	public static ScriptValue url_encode( final ScriptValue arg )
+	public static Value url_encode( final Value arg )
 		throws UnsupportedEncodingException
 	{
-		return new ScriptValue( URLEncoder.encode( arg.toString(), "UTF-8" ) );
+		return new Value( URLEncoder.encode( arg.toString(), "UTF-8" ) );
 	}
 
-	public static ScriptValue url_decode( final ScriptValue arg )
+	public static Value url_decode( final Value arg )
 		throws UnsupportedEncodingException
 	{
-		return new ScriptValue( URLDecoder.decode( arg.toString(), "UTF-8" ) );
+		return new Value( URLDecoder.decode( arg.toString(), "UTF-8" ) );
 	}
 
-	public static ScriptValue get_property( final ScriptValue name )
+	public static Value get_property( final Value name )
 	{
 		String property = name.toString();
 		return !Preferences.isUserEditable( property ) ? DataTypes.STRING_INIT :
-			new ScriptValue( Preferences.getString( property ) );
+			new Value( Preferences.getString( property ) );
 	}
 
-	public static ScriptValue set_property( final ScriptValue name, final ScriptValue value )
+	public static Value set_property( final Value name, final Value value )
 	{
 		// In order to avoid code duplication for combat
 		// related settings, use the shell.
@@ -2688,33 +2686,33 @@ public abstract class RuntimeLibrary
 
 	// Functions for aggregates.
 
-	public static ScriptValue count( final ScriptValue arg )
+	public static Value count( final Value arg )
 	{
-		return new ScriptValue( arg.count() );
+		return new Value( arg.count() );
 	}
 
-	public static ScriptValue clear( final ScriptValue arg )
+	public static Value clear( final Value arg )
 	{
 		arg.clear();
 		return DataTypes.VOID_VALUE;
 	}
 
-	public static ScriptValue file_to_map( final ScriptValue var1, final ScriptValue var2 )
+	public static Value file_to_map( final Value var1, final Value var2 )
 	{
 		String filename = var1.toString();
-		ScriptCompositeValue map_variable = (ScriptCompositeValue) var2;
+		CompositeValue map_variable = (CompositeValue) var2;
 		return RuntimeLibrary.readMap( filename, map_variable, true );
 	}
 
-	public static ScriptValue file_to_map( final ScriptValue var1, final ScriptValue var2, final ScriptValue var3 )
+	public static Value file_to_map( final Value var1, final Value var2, final Value var3 )
 	{
 		String filename = var1.toString();
-		ScriptCompositeValue map_variable = (ScriptCompositeValue) var2;
+		CompositeValue map_variable = (CompositeValue) var2;
 		boolean compact = var3.intValue() == 1;
 		return RuntimeLibrary.readMap( filename, map_variable, compact );
 	}
 
-	private static ScriptValue readMap( final String filename, final ScriptCompositeValue result, final boolean compact )
+	private static Value readMap( final String filename, final CompositeValue result, final boolean compact )
 	{
 		BufferedReader reader = RuntimeLibrary.getReader( filename );
 		if ( reader == null )
@@ -2768,22 +2766,22 @@ public abstract class RuntimeLibrary
 		return DataTypes.TRUE_VALUE;
 	}
 
-	public static ScriptValue map_to_file( final ScriptValue var1, final ScriptValue var2 )
+	public static Value map_to_file( final Value var1, final Value var2 )
 	{
-		ScriptCompositeValue map_variable = (ScriptCompositeValue) var1;
+		CompositeValue map_variable = (CompositeValue) var1;
 		String filename = var2.toString();
 		return RuntimeLibrary.printMap( map_variable, filename, true );
 	}
 
-	public static ScriptValue map_to_file( final ScriptValue var1, final ScriptValue var2, final ScriptValue var3 )
+	public static Value map_to_file( final Value var1, final Value var2, final Value var3 )
 	{
-		ScriptCompositeValue map_variable = (ScriptCompositeValue) var1;
+		CompositeValue map_variable = (CompositeValue) var1;
 		String filename = var2.toString();
 		boolean compact = var3.intValue() == 1;
 		return RuntimeLibrary.printMap( map_variable, filename, compact );
 	}
 
-	private static ScriptValue printMap( final ScriptCompositeValue map_variable, final String filename,
+	private static Value printMap( final CompositeValue map_variable, final String filename,
 		final boolean compact )
 	{
 		if ( filename.startsWith( "http" ) )
@@ -2808,32 +2806,32 @@ public abstract class RuntimeLibrary
 
 	// Custom combat helper functions.
 
-	public static ScriptValue my_location()
+	public static Value my_location()
 	{
 		String location = Preferences.getString( "lastAdventure" );
 		return location.equals( "" ) ? DataTypes.parseLocationValue( "Rest", true ) : DataTypes.parseLocationValue( location, true );
 	}
 
-	public static ScriptValue get_monsters( final ScriptValue location )
+	public static Value get_monsters( final Value location )
 	{
 		KoLAdventure adventure = (KoLAdventure) location.rawValue();
 		AreaCombatData data = adventure.getAreaSummary();
 
 		int monsterCount = data == null ? 0 : data.getMonsterCount();
 
-		ScriptAggregateType type = new ScriptAggregateType( DataTypes.MONSTER_TYPE, monsterCount );
-		ScriptArray value = new ScriptArray( type );
+		AggregateType type = new AggregateType( DataTypes.MONSTER_TYPE, monsterCount );
+		ArrayValue value = new ArrayValue( type );
 
 		for ( int i = 0; i < monsterCount; ++i )
 		{
-			value.aset( new ScriptValue( i ), DataTypes.parseMonsterValue( data.getMonster( i ).getName(), true ) );
+			value.aset( new Value( i ), DataTypes.parseMonsterValue( data.getMonster( i ).getName(), true ) );
 		}
 
 		return value;
 
 	}
 
-	public static ScriptValue expected_damage()
+	public static Value expected_damage()
 	{
 		// http://kol.coldfront.net/thekolwiki/index.php/Damage
 
@@ -2843,10 +2841,10 @@ public abstract class RuntimeLibrary
 		float damageAbsorb =
 			1.0f - ( (float) Math.sqrt( Math.min( 1000, KoLCharacter.getDamageAbsorption() ) / 10.0f ) - 1.0f ) / 10.0f;
 		float elementAbsorb = 1.0f - KoLCharacter.getElementalResistance( FightRequest.getMonsterAttackElement() );
-		return new ScriptValue( (int) Math.ceil( baseValue * damageAbsorb * elementAbsorb ) );
+		return new Value( (int) Math.ceil( baseValue * damageAbsorb * elementAbsorb ) );
 	}
 
-	public static ScriptValue expected_damage( final ScriptValue arg )
+	public static Value expected_damage( final Value arg )
 	{
 		Monster monster = (Monster) arg.rawValue();
 		if ( monster == null )
@@ -2862,30 +2860,30 @@ public abstract class RuntimeLibrary
 		float damageAbsorb =
 			1.0f - ( (float) Math.sqrt( Math.min( 1000, KoLCharacter.getDamageAbsorption() ) / 10.0f ) - 1.0f ) / 10.0f;
 		float elementAbsorb = 1.0f - KoLCharacter.getElementalResistance( monster.getAttackElement() );
-		return new ScriptValue( (int) Math.ceil( baseValue * damageAbsorb * elementAbsorb ) );
+		return new Value( (int) Math.ceil( baseValue * damageAbsorb * elementAbsorb ) );
 	}
 
-	public static ScriptValue monster_level_adjustment()
+	public static Value monster_level_adjustment()
 	{
-		return new ScriptValue( KoLCharacter.getMonsterLevelAdjustment() );
+		return new Value( KoLCharacter.getMonsterLevelAdjustment() );
 	}
 
-	public static ScriptValue weight_adjustment()
+	public static Value weight_adjustment()
 	{
-		return new ScriptValue( KoLCharacter.getFamiliarWeightAdjustment() );
+		return new Value( KoLCharacter.getFamiliarWeightAdjustment() );
 	}
 
-	public static ScriptValue mana_cost_modifier()
+	public static Value mana_cost_modifier()
 	{
-		return new ScriptValue( KoLCharacter.getManaCostAdjustment() );
+		return new Value( KoLCharacter.getManaCostAdjustment() );
 	}
 
-	public static ScriptValue raw_damage_absorption()
+	public static Value raw_damage_absorption()
 	{
-		return new ScriptValue( KoLCharacter.getDamageAbsorption() );
+		return new Value( KoLCharacter.getDamageAbsorption() );
 	}
 
-	public static ScriptValue damage_absorption_percent()
+	public static Value damage_absorption_percent()
 	{
 		int raw = Math.min( 1000, KoLCharacter.getDamageAbsorption() );
 		if ( raw == 0 )
@@ -2897,24 +2895,24 @@ public abstract class RuntimeLibrary
 		// ( sqrt( raw / 10 ) - 1 ) / 10
 
 		double percent = ( Math.sqrt( raw / 10.0 ) - 1.0 ) * 10.0;
-		return new ScriptValue( (float) percent );
+		return new Value( (float) percent );
 	}
 
-	public static ScriptValue damage_reduction()
+	public static Value damage_reduction()
 	{
-		return new ScriptValue( KoLCharacter.getDamageReduction() );
+		return new Value( KoLCharacter.getDamageReduction() );
 	}
 
-	public static ScriptValue elemental_resistance()
+	public static Value elemental_resistance()
 	{
-		return new ScriptValue( KoLCharacter.getElementalResistance( FightRequest.getMonsterAttackElement() ) );
+		return new Value( KoLCharacter.getElementalResistance( FightRequest.getMonsterAttackElement() ) );
 	}
 
-	public static ScriptValue elemental_resistance( final ScriptValue arg )
+	public static Value elemental_resistance( final Value arg )
 	{
 		if ( arg.getType().equals( DataTypes.TYPE_ELEMENT ) )
 		{
-			return new ScriptValue( KoLCharacter.getElementalResistance( arg.intValue() ) );
+			return new Value( KoLCharacter.getElementalResistance( arg.intValue() ) );
 		}
 
 		Monster monster = (Monster) arg.rawValue();
@@ -2923,52 +2921,52 @@ public abstract class RuntimeLibrary
 			return DataTypes.ZERO_VALUE;
 		}
 
-		return new ScriptValue( KoLCharacter.getElementalResistance( monster.getAttackElement() ) );
+		return new Value( KoLCharacter.getElementalResistance( monster.getAttackElement() ) );
 	}
 
-	public static ScriptValue combat_rate_modifier()
+	public static Value combat_rate_modifier()
 	{
-		return new ScriptValue( KoLCharacter.getCombatRateAdjustment() );
+		return new Value( KoLCharacter.getCombatRateAdjustment() );
 	}
 
-	public static ScriptValue initiative_modifier()
+	public static Value initiative_modifier()
 	{
-		return new ScriptValue( KoLCharacter.getInitiativeAdjustment() );
+		return new Value( KoLCharacter.getInitiativeAdjustment() );
 	}
 
-	public static ScriptValue experience_bonus()
+	public static Value experience_bonus()
 	{
-		return new ScriptValue( KoLCharacter.getExperienceAdjustment() );
+		return new Value( KoLCharacter.getExperienceAdjustment() );
 	}
 
-	public static ScriptValue meat_drop_modifier()
+	public static Value meat_drop_modifier()
 	{
-		return new ScriptValue( KoLCharacter.getMeatDropPercentAdjustment() );
+		return new Value( KoLCharacter.getMeatDropPercentAdjustment() );
 	}
 
-	public static ScriptValue item_drop_modifier()
+	public static Value item_drop_modifier()
 	{
-		return new ScriptValue( KoLCharacter.getItemDropPercentAdjustment() );
+		return new Value( KoLCharacter.getItemDropPercentAdjustment() );
 	}
 
-	public static ScriptValue buffed_hit_stat()
+	public static Value buffed_hit_stat()
 	{
 		int hitStat = KoLCharacter.getAdjustedHitStat();
-		return new ScriptValue( hitStat );
+		return new Value( hitStat );
 	}
 
-	public static ScriptValue current_hit_stat()
+	public static Value current_hit_stat()
 	{
 		return KoLCharacter.hitStat() == KoLConstants.MOXIE ? DataTypes.MOXIE_VALUE : DataTypes.MUSCLE_VALUE;
 	}
 
-	public static ScriptValue monster_element()
+	public static Value monster_element()
 	{
 		int element = FightRequest.getMonsterDefenseElement();
-		return new ScriptValue( DataTypes.ELEMENT_TYPE, element, MonsterDatabase.elementNames[ element ] );
+		return new Value( DataTypes.ELEMENT_TYPE, element, MonsterDatabase.elementNames[ element ] );
 	}
 
-	public static ScriptValue monster_element( final ScriptValue arg )
+	public static Value monster_element( final Value arg )
 	{
 		Monster monster = (Monster) arg.rawValue();
 		if ( monster == null )
@@ -2977,31 +2975,15 @@ public abstract class RuntimeLibrary
 		}
 
 		int element = monster.getDefenseElement();
-		return new ScriptValue( DataTypes.ELEMENT_TYPE, element, MonsterDatabase.elementNames[ element ] );
+		return new Value( DataTypes.ELEMENT_TYPE, element, MonsterDatabase.elementNames[ element ] );
 	}
 
-	public static ScriptValue monster_attack()
+	public static Value monster_attack()
 	{
-		return new ScriptValue( FightRequest.getMonsterAttack() );
+		return new Value( FightRequest.getMonsterAttack() );
 	}
 
-	public static ScriptValue monster_attack( final ScriptValue arg )
-	{
-		Monster monster = (Monster) arg.rawValue();
-		if ( monster == null )
-		{
-			return DataTypes.ZERO_VALUE;
-		}
-
-		return new ScriptValue( monster.getAttack() + KoLCharacter.getMonsterLevelAdjustment() );
-	}
-
-	public static ScriptValue monster_defense()
-	{
-		return new ScriptValue( FightRequest.getMonsterDefense() );
-	}
-
-	public static ScriptValue monster_defense( final ScriptValue arg )
+	public static Value monster_attack( final Value arg )
 	{
 		Monster monster = (Monster) arg.rawValue();
 		if ( monster == null )
@@ -3009,15 +2991,15 @@ public abstract class RuntimeLibrary
 			return DataTypes.ZERO_VALUE;
 		}
 
-		return new ScriptValue( monster.getDefense() + KoLCharacter.getMonsterLevelAdjustment() );
+		return new Value( monster.getAttack() + KoLCharacter.getMonsterLevelAdjustment() );
 	}
 
-	public static ScriptValue monster_hp()
+	public static Value monster_defense()
 	{
-		return new ScriptValue( FightRequest.getMonsterHealth() );
+		return new Value( FightRequest.getMonsterDefense() );
 	}
 
-	public static ScriptValue monster_hp( final ScriptValue arg )
+	public static Value monster_defense( final Value arg )
 	{
 		Monster monster = (Monster) arg.rawValue();
 		if ( monster == null )
@@ -3025,15 +3007,31 @@ public abstract class RuntimeLibrary
 			return DataTypes.ZERO_VALUE;
 		}
 
-		return new ScriptValue( monster.getAdjustedHP( KoLCharacter.getMonsterLevelAdjustment() ) );
+		return new Value( monster.getDefense() + KoLCharacter.getMonsterLevelAdjustment() );
 	}
 
-	public static ScriptValue item_drops()
+	public static Value monster_hp()
+	{
+		return new Value( FightRequest.getMonsterHealth() );
+	}
+
+	public static Value monster_hp( final Value arg )
+	{
+		Monster monster = (Monster) arg.rawValue();
+		if ( monster == null )
+		{
+			return DataTypes.ZERO_VALUE;
+		}
+
+		return new Value( monster.getAdjustedHP( KoLCharacter.getMonsterLevelAdjustment() ) );
+	}
+
+	public static Value item_drops()
 	{
 		Monster monster = FightRequest.getLastMonster();
 		List data = monster == null ? new ArrayList() : monster.getItems();
 
-		ScriptMap value = new ScriptMap( DataTypes.RESULT_TYPE );
+		MapValue value = new MapValue( DataTypes.RESULT_TYPE );
 		AdventureResult result;
 
 		for ( int i = 0; i < data.size(); ++i )
@@ -3047,12 +3045,12 @@ public abstract class RuntimeLibrary
 		return value;
 	}
 
-	public static ScriptValue item_drops( final ScriptValue arg )
+	public static Value item_drops( final Value arg )
 	{
 		Monster monster = (Monster) arg.rawValue();
 		List data = monster == null ? new ArrayList() : monster.getItems();
 
-		ScriptMap value = new ScriptMap( DataTypes.RESULT_TYPE );
+		MapValue value = new MapValue( DataTypes.RESULT_TYPE );
 		AdventureResult result;
 
 		for ( int i = 0; i < data.size(); ++i )
@@ -3066,60 +3064,60 @@ public abstract class RuntimeLibrary
 		return value;
 	}
 
-	public static ScriptValue will_usually_dodge()
+	public static Value will_usually_dodge()
 	{
-		return DataTypes.booleanValue( FightRequest.willUsuallyDodge() );
+		return DataTypes.makeBooleanValue( FightRequest.willUsuallyDodge() );
 	}
 
-	public static ScriptValue will_usually_miss()
+	public static Value will_usually_miss()
 	{
-		return DataTypes.booleanValue( FightRequest.willUsuallyMiss() );
+		return DataTypes.makeBooleanValue( FightRequest.willUsuallyMiss() );
 	}
 
-	public static ScriptValue numeric_modifier( final ScriptValue modifier )
+	public static Value numeric_modifier( final Value modifier )
 	{
 		String mod = modifier.toString();
-		return new ScriptValue( KoLCharacter.currentNumericModifier( mod ) );
+		return new Value( KoLCharacter.currentNumericModifier( mod ) );
 	}
 
-	public static ScriptValue numeric_modifier( final ScriptValue arg, final ScriptValue modifier )
+	public static Value numeric_modifier( final Value arg, final Value modifier )
 	{
 		String name = arg.toString();
 		String mod = modifier.toString();
-		return new ScriptValue( Modifiers.getNumericModifier( name, mod ) );
+		return new Value( Modifiers.getNumericModifier( name, mod ) );
 	}
 
-	public static ScriptValue boolean_modifier( final ScriptValue modifier )
+	public static Value boolean_modifier( final Value modifier )
 	{
 		String mod = modifier.toString();
-		return DataTypes.booleanValue( KoLCharacter.currentBooleanModifier( mod ) );
+		return DataTypes.makeBooleanValue( KoLCharacter.currentBooleanModifier( mod ) );
 	}
 
-	public static ScriptValue boolean_modifier( final ScriptValue arg, final ScriptValue modifier )
-	{
-		String name = arg.toString();
-		String mod = modifier.toString();
-		return DataTypes.booleanValue( Modifiers.getBooleanModifier( name, mod ) );
-	}
-
-	public static ScriptValue effect_modifier( final ScriptValue arg, final ScriptValue modifier )
+	public static Value boolean_modifier( final Value arg, final Value modifier )
 	{
 		String name = arg.toString();
 		String mod = modifier.toString();
-		return new ScriptValue( DataTypes.parseEffectValue( Modifiers.getStringModifier( name, mod ), true ) );
+		return DataTypes.makeBooleanValue( Modifiers.getBooleanModifier( name, mod ) );
 	}
 
-	public static ScriptValue class_modifier( final ScriptValue arg, final ScriptValue modifier )
+	public static Value effect_modifier( final Value arg, final Value modifier )
 	{
 		String name = arg.toString();
 		String mod = modifier.toString();
-		return new ScriptValue( DataTypes.parseClassValue( Modifiers.getStringModifier( name, mod ), true ) );
+		return new Value( DataTypes.parseEffectValue( Modifiers.getStringModifier( name, mod ), true ) );
 	}
 
-	public static ScriptValue stat_modifier( final ScriptValue arg, final ScriptValue modifier )
+	public static Value class_modifier( final Value arg, final Value modifier )
 	{
 		String name = arg.toString();
 		String mod = modifier.toString();
-		return new ScriptValue( DataTypes.parseStatValue( Modifiers.getStringModifier( name, mod ), true ) );
+		return new Value( DataTypes.parseClassValue( Modifiers.getStringModifier( name, mod ), true ) );
+	}
+
+	public static Value stat_modifier( final Value arg, final Value modifier )
+	{
+		String name = arg.toString();
+		String mod = modifier.toString();
+		return new Value( DataTypes.parseStatValue( Modifiers.getStringModifier( name, mod ), true ) );
 	}
 }
