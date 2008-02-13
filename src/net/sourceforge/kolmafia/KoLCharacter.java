@@ -40,14 +40,17 @@ import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
-
-import net.sourceforge.kolmafia.session.ClanManager;
-
+import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
-import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -56,14 +59,8 @@ import net.sourceforge.kolmafia.request.MicroBreweryRequest;
 import net.sourceforge.kolmafia.request.TelescopeRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
-
-import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
-import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
-import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
-import net.sourceforge.kolmafia.persistence.ItemDatabase;
-import net.sourceforge.kolmafia.persistence.MonsterDatabase;
-import net.sourceforge.kolmafia.persistence.Preferences;
-import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 
 /**
  * A container class representing the <code>KoLCharacter</code>. This class also allows for data listeners that are
@@ -204,21 +201,9 @@ public abstract class KoLCharacter
 		KoLCharacter.ACCORDION_THIEF_RANKS.add( "Accordion Thief" );
 	}
 
-	private static final int BAKULA = 1519;
-	private static final int BOTTLE_ROCKET = 2834;
-	private static final int WIZARD_HAT = 1653;
-	public static final int HAT = 0;
-	public static final int WEAPON = 1;
-	public static final int OFFHAND = 2;
-	public static final int SHIRT = 3;
-	public static final int PANTS = 4;
-	public static final int ACCESSORY1 = 5;
-	public static final int ACCESSORY2 = 6;
-	public static final int ACCESSORY3 = 7;
-	public static final int FAMILIAR = 8;
-	public static final int FAKEHAND = 9;
-
-	// General static final variables
+	public static final int BAKULA = 1519;
+	public static final int BOTTLE_ROCKET = 2834;
+	public static final int WIZARD_HAT = 1653;
 
 	private static String username = "";
 	private static String avatar = "otherimages/discobandit_f.gif";
@@ -236,42 +221,7 @@ public abstract class KoLCharacter
 	private static int[] adjustedStats = new int[ 3 ];
 	private static int[] totalSubpoints = new int[ 3 ];
 
-	private static LockableListModel equipment = new LockableListModel();
-	private static int fakeHands = 0;
-	private static LockableListModel customOutfits = new LockableListModel();
-	private static LockableListModel outfits = new LockableListModel();
-
-	static
-	{
-		for ( int i = 0; i < 9; ++i )
-		{
-			KoLCharacter.equipment.add( EquipmentRequest.UNEQUIP );
-		}
-	}
-
 	public static final SortedListModel battleSkillNames = new SortedListModel();
-
-	private static final LockableListModel accessories = new SortedListModel();
-	private static final LockableListModel[] equipmentLists = new LockableListModel[ 9 ];
-
-	static
-	{
-		for ( int i = 0; i < 9; ++i )
-		{
-			switch ( i )
-			{
-			case ACCESSORY1:
-			case ACCESSORY2:
-			case ACCESSORY3:
-				KoLCharacter.equipmentLists[ i ] = KoLCharacter.accessories.getMirrorImage();
-				break;
-
-			default:
-				KoLCharacter.equipmentLists[ i ] = new SortedListModel();
-				break;
-			}
-		}
-	}
 
 	// Status pane data which is rendered whenever
 	// the user issues a "status" type command.
@@ -309,9 +259,9 @@ public abstract class KoLCharacter
 
 	// Familiar data for reference
 
-	private static final SortedListModel familiars = new SortedListModel();
+	public static final SortedListModel familiars = new SortedListModel();
 	private static boolean isUsingStabBat = false;
-	private static FamiliarData currentFamiliar = FamiliarData.NO_FAMILIAR;
+	public static FamiliarData currentFamiliar = FamiliarData.NO_FAMILIAR;
 
 	private static int arenaWins = 0;
 	private static int stillsAvailable = 0;
@@ -335,22 +285,6 @@ public abstract class KoLCharacter
 	private static int annoyotronLevel = 0;
 
 	private static String autosellMode = "";
-
-	public static final void resetInventory()
-	{
-		KoLConstants.inventory.clear();
-
-		// Initialize the equipment lists inside
-		// of the character data
-
-		for ( int i = 0; i < KoLCharacter.equipmentLists.length; ++i )
-		{
-			KoLCharacter.equipmentLists[ i ].clear();
-		}
-
-		KoLCharacter.accessories.clear();
-		GearChangeFrame.clearWeaponLists();
-	}
 
 	/**
 	 * Constructs a new <code>KoLCharacter</code> with the given name. All fields are initialized to their default
@@ -386,16 +320,6 @@ public abstract class KoLCharacter
 		KoLCharacter.totalSubpoints = new int[ 3 ];
 
 		KoLCharacter.currentModifiers.reset();
-
-		KoLCharacter.equipment.clear();
-		for ( int i = 0; i < 9; ++i )
-		{
-			KoLCharacter.equipment.add( EquipmentRequest.UNEQUIP );
-		}
-
-		KoLCharacter.fakeHands = 0;
-		KoLCharacter.customOutfits.clear();
-		KoLCharacter.outfits.clear();
 
 		KoLConstants.closet.clear();
 		KoLConstants.storage.clear();
@@ -465,7 +389,8 @@ public abstract class KoLCharacter
 		MicroBreweryRequest.reset();
 		HellKitchenRequest.reset();
 
-		KoLCharacter.resetInventory();
+		InventoryManager.resetInventory();
+		EquipmentManager.resetEquipment();
 
 		int battleIndex = KoLCharacter.battleSkillNames.indexOf( Preferences.getString( "battleAction" ) );
 		KoLCharacter.battleSkillNames.setSelectedIndex( battleIndex == -1 ? 0 : battleIndex );
@@ -1223,9 +1148,9 @@ public abstract class KoLCharacter
 
 	public static final int turnsSinceLastSemirare()
 	{
-                KoLCharacter.ensureUpdatedSemirareCounter();
-                int last = Preferences.getInteger( "semirareCounter" );
-                return KoLCharacter.currentRun - last;
+        KoLCharacter.ensureUpdatedSemirareCounter();
+        int last = Preferences.getInteger( "semirareCounter" );
+        return KoLCharacter.currentRun - last;
 	}
 
 	/**
@@ -1329,223 +1254,6 @@ public abstract class KoLCharacter
 		return KoLCharacter.currentModifiers.get( Modifiers.ITEMDROP );
 	}
 
-	public static final void setEquipment( final int slot, AdventureResult item )
-	{
-		// Accessories are special in terms of testing for existence
-		// in equipment lists -- they are all mirrors of accessories.
-
-		switch ( slot )
-		{
-		case ACCESSORY1:
-		case ACCESSORY2:
-		case ACCESSORY3:
-			int index = KoLCharacter.accessories.indexOf( item );
-			if ( index == -1 )
-			{
-				KoLCharacter.accessories.add( item );
-			}
-			else
-			{
-				item = (AdventureResult) KoLCharacter.accessories.get( index );
-			}
-			break;
-
-		default:
-			if ( !KoLCharacter.equipmentLists[ slot ].contains( item ) )
-			{
-				KoLCharacter.equipmentLists[ slot ].add( item );
-			}
-			break;
-		}
-
-		KoLCharacter.equipment.set( slot, item );
-		KoLCharacter.equipmentLists[ slot ].setSelectedItem( item );
-
-		// Certain equipment slots require special update handling
-		// in addition to the above code.
-
-		switch ( slot )
-		{
-		case WEAPON:
-		case OFFHAND:
-			GearChangeFrame.updateWeapons();
-			break;
-		case FAMILIAR:
-			if ( KoLCharacter.currentFamiliar.getId() > 0 )
-			{
-				KoLCharacter.currentFamiliar.setItem( item );
-			}
-			break;
-		}
-
-		// Certain items provide additional skills when equipped.
-		// Handle the addition of those skills here.
-
-		switch ( item.getItemId() )
-		{
-		case BOTTLE_ROCKET:
-			KoLCharacter.addAvailableSkill( "Fire red bottle-rocket" );
-			KoLCharacter.addAvailableSkill( "Fire blue bottle-rocket" );
-			KoLCharacter.addAvailableSkill( "Fire orange bottle-rocket" );
-			KoLCharacter.addAvailableSkill( "Fire purple bottle-rocket" );
-			KoLCharacter.addAvailableSkill( "Fire black bottle-rocket" );
-			break;
-		case WIZARD_HAT:
-			KoLCharacter.addAvailableSkill( "Magic Missile" );
-			break;
-		case BAKULA:
-			KoLCharacter.addAvailableSkill( "Give In To Your Vampiric Urges" );
-			break;
-		}
-	}
-
-	/**
-	 * Accessor method to set the equipment the character is currently using. This does not take into account the power
-	 * of the item or anything of that nature; only the item's name is stored. Note that if no item is equipped, the
-	 * value should be <code>none</code>, not <code>null</code> or the empty string.
-	 *
-	 * @param equipment All of the available equipment, stored in an array index by the constants
-	 */
-
-	public static final void setEquipment( final AdventureResult[] equipment )
-	{
-		for ( int i = KoLCharacter.HAT; i <= KoLCharacter.FAMILIAR; ++i )
-		{
-			if ( equipment[ i ] == null || equipment[ i ].equals( EquipmentRequest.UNEQUIP ) )
-			{
-				KoLCharacter.setEquipment( i, EquipmentRequest.UNEQUIP );
-			}
-			else
-			{
-				KoLCharacter.setEquipment( i, equipment[ i ] );
-			}
-		}
-	}
-
-	public static final void setOutfits( final List newOutfits )
-	{
-		// Rebuild outfits if given a new list
-		if ( newOutfits != null )
-		{
-			KoLCharacter.customOutfits.clear();
-			KoLCharacter.customOutfits.addAll( newOutfits );
-		}
-
-		EquipmentDatabase.updateOutfits();
-	}
-
-	/**
-	 * Accessor method to retrieve the name of the item equipped on the character's familiar.
-	 *
-	 * @return The name of the item equipped on the character's familiar, <code>none</code> if no such item exists
-	 */
-
-	public static final AdventureResult getFamiliarItem()
-	{
-		return KoLCharacter.currentFamiliar == null ? EquipmentRequest.UNEQUIP : KoLCharacter.currentFamiliar.getItem();
-	}
-
-	/**
-	 * Accessor method to retrieve the name of a piece of equipment
-	 *
-	 * @param type the type of equipment
-	 * @return The name of the equipment, <code>none</code> if no such item exists
-	 */
-
-	public static final AdventureResult getEquipment( final int type )
-	{
-		if ( type >= 0 && type < KoLCharacter.equipment.size() )
-		{
-			return (AdventureResult) KoLCharacter.equipment.get( type );
-		}
-
-		if ( type == KoLCharacter.FAMILIAR )
-		{
-			return KoLCharacter.getFamiliarItem();
-		}
-
-		return EquipmentRequest.UNEQUIP;
-	}
-
-	public static final int getFakeHands()
-	{
-		return KoLCharacter.fakeHands;
-	}
-
-	public static final void setFakeHands( final int hands )
-	{
-		KoLCharacter.fakeHands = hands;
-	}
-
-	/**
-	 * Accessor method to retrieve # of hands character's weapon uses
-	 *
-	 * @return int number of hands needed
-	 */
-
-	public static final int weaponHandedness()
-	{
-		return EquipmentDatabase.getHands( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getName() );
-	}
-
-	/**
-	 * Accessor method to determine character's hit stat
-	 *
-	 * @return int MUSCLE, MYSTICALITY, MOXIE
-	 */
-
-	public static final int equipStat()
-	{
-		return EquipmentDatabase.equipStat( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getName() );
-	}
-
-	public static final int hitStat()
-	{
-		return KoLCharacter.rangedWeapon() ? KoLConstants.MOXIE : KoLConstants.MUSCLE;
-	}
-
-	/**
-	 * Accessor method to determine character's adjusted hit stat
-	 *
-	 * @return int adjusted muscle, mysticality, or moxie
-	 */
-
-	public static final int getAdjustedHitStat()
-	{
-		switch ( KoLCharacter.hitStat() )
-		{
-		case KoLConstants.MOXIE:
-			return KoLCharacter.getAdjustedMoxie();
-		case KoLConstants.MYSTICALITY:
-			return KoLCharacter.getAdjustedMysticality();
-		default:
-			return KoLCharacter.getAdjustedMuscle();
-		}
-	}
-
-	/**
-	 * Accessor method to determine if character's weapon is ranged
-	 *
-	 * @return boolean true if weapon is ranged
-	 */
-
-	public static final boolean rangedWeapon()
-	{
-		return EquipmentDatabase.isRanged( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getName() );
-	}
-
-	/**
-	 * Accessor method to determine if character's weapon is a chefstaff
-	 *
-	 * @return boolean true if weapon is a chefstaff
-	 */
-
-	public static final boolean wieldingChefstaff()
-	{
-		return EquipmentDatabase.getType( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getName() ).equals(
-			"chefstaff" );
-	}
-
 	/**
 	 * Accessor method to retrieve the total current damage absorption
 	 *
@@ -1591,259 +1299,6 @@ public abstract class KoLCharacter
 		}
 
 		return 0.0f;
-	}
-
-	/**
-	 * Accessor method to determine if character is currently dual-wielding
-	 *
-	 * @return boolean true if character has two weapons equipped
-	 */
-
-	public static final boolean dualWielding()
-	{
-		return EquipmentDatabase.getHands( KoLCharacter.getEquipment( KoLCharacter.OFFHAND ).getName() ) == 1;
-	}
-
-	/**
-	 * Accessor method to retrieve a list of all available items which can be equipped by familiars. Note this lists
-	 * items which the current familiar cannot equip.
-	 */
-
-	public static final LockableListModel[] getEquipmentLists()
-	{
-		return KoLCharacter.equipmentLists;
-	}
-
-	public static final int consumeFilterToEquipmentType( final int consumeFilter )
-	{
-		switch ( consumeFilter )
-		{
-		case KoLConstants.EQUIP_HAT:
-			return KoLCharacter.HAT;
-		case KoLConstants.EQUIP_WEAPON:
-			return KoLCharacter.WEAPON;
-		case KoLConstants.EQUIP_OFFHAND:
-			return KoLCharacter.OFFHAND;
-		case KoLConstants.EQUIP_SHIRT:
-			return KoLCharacter.SHIRT;
-		case KoLConstants.EQUIP_PANTS:
-			return KoLCharacter.PANTS;
-		case KoLConstants.EQUIP_ACCESSORY:
-			return KoLCharacter.ACCESSORY1;
-		case KoLConstants.EQUIP_FAMILIAR:
-			return KoLCharacter.FAMILIAR;
-		default:
-			return -1;
-		}
-	}
-
-	public static final int equipmentTypeToConsumeFilter( final int equipmentType )
-	{
-		switch ( equipmentType )
-		{
-		case HAT:
-			return KoLConstants.EQUIP_HAT;
-		case WEAPON:
-			return KoLConstants.EQUIP_WEAPON;
-		case OFFHAND:
-			return KoLConstants.EQUIP_OFFHAND;
-		case SHIRT:
-			return KoLConstants.EQUIP_SHIRT;
-		case PANTS:
-			return KoLConstants.EQUIP_PANTS;
-		case ACCESSORY1:
-		case ACCESSORY2:
-		case ACCESSORY3:
-			return KoLConstants.EQUIP_ACCESSORY;
-		case FAMILIAR:
-			return KoLConstants.EQUIP_FAMILIAR;
-		default:
-			return -1;
-		}
-	}
-
-	public static final void updateEquipmentLists()
-	{
-		EquipmentDatabase.updateOutfits();
-		for ( int i = 0; i <= KoLCharacter.FAMILIAR; ++i )
-		{
-			KoLCharacter.updateEquipmentList( i );
-		}
-	}
-
-	public static final void updateEquipmentList( final int listIndex )
-	{
-		int consumeFilter = KoLCharacter.equipmentTypeToConsumeFilter( listIndex );
-		if ( consumeFilter == -1 )
-		{
-			return;
-		}
-
-		AdventureResult equippedItem = KoLCharacter.getEquipment( listIndex );
-
-		switch ( listIndex )
-		{
-		case ACCESSORY1:
-		case ACCESSORY2:
-		case ACCESSORY3:
-
-			KoLCharacter.updateEquipmentList( consumeFilter, KoLCharacter.accessories );
-			break;
-
-		case FAMILIAR:
-
-			// If we are looking at familiar items, include those which can
-			// be universally equipped, but are currently on another
-			// familiar.
-
-			KoLCharacter.updateEquipmentList( consumeFilter, KoLCharacter.equipmentLists[ listIndex ] );
-
-			FamiliarData[] familiarList = new FamiliarData[ KoLCharacter.familiars.size() ];
-			KoLCharacter.familiars.toArray( familiarList );
-
-			for ( int i = 0; i < familiarList.length; ++i )
-			{
-				if ( !familiarList[ i ].getItem().equals( EquipmentRequest.UNEQUIP ) )
-				{
-					AdventureResult.addResultToList(
-						KoLCharacter.equipmentLists[ KoLCharacter.FAMILIAR ], familiarList[ i ].getItem() );
-				}
-			}
-
-			break;
-
-		default:
-
-			KoLCharacter.updateEquipmentList( consumeFilter, KoLCharacter.equipmentLists[ listIndex ] );
-			if ( !KoLCharacter.equipmentLists[ listIndex ].contains( equippedItem ) )
-			{
-				KoLCharacter.equipmentLists[ listIndex ].add( equippedItem );
-			}
-
-			break;
-		}
-
-		KoLCharacter.equipmentLists[ listIndex ].setSelectedItem( equippedItem );
-	}
-
-	private static final void updateEquipmentList( final int filterId, final List currentList )
-	{
-		ArrayList temporary = new ArrayList();
-		temporary.add( EquipmentRequest.UNEQUIP );
-
-		// If the character is currently equipped with a one-handed
-		// weapon and the character has the ability to dual-wield
-		// weapons, then also allow one-handed weapons in the off-hand.
-
-		boolean dual = KoLCharacter.weaponHandedness() == 1 && KoLCharacter.hasSkill( "Double-Fisted Skull Smashing" );
-		int equipStat = KoLCharacter.equipStat();
-
-		for ( int i = 0; i < KoLConstants.inventory.size(); ++i )
-		{
-			AdventureResult currentItem = (AdventureResult) KoLConstants.inventory.get( i );
-			String currentItemName = currentItem.getName();
-
-			int type = ItemDatabase.getConsumptionType( currentItem.getItemId() );
-
-			// If we are equipping familiar items, make sure
-			// current familiar can use this one
-
-			if ( filterId == KoLConstants.EQUIP_FAMILIAR && type == KoLConstants.EQUIP_FAMILIAR )
-			{
-				temporary.add( currentItem );
-				continue;
-			}
-
-			// If we want off-hand items and we can dual wield,
-			// allow one-handed weapons of same type
-
-			if ( filterId == KoLConstants.EQUIP_OFFHAND && type == KoLConstants.EQUIP_WEAPON && dual )
-			{
-				if ( EquipmentDatabase.getHands( currentItemName ) != 1 || EquipmentDatabase.equipStat( currentItemName ) != equipStat )
-				{
-					continue;
-				}
-			}
-
-			// Otherwise, slot and item type must match
-
-			else if ( filterId != type )
-			{
-				continue;
-			}
-			else if ( filterId == KoLConstants.EQUIP_WEAPON && dual )
-			{
-				if ( EquipmentDatabase.getHands( currentItemName ) == 1 && EquipmentDatabase.equipStat( currentItemName ) != equipStat )
-				{
-					continue;
-				}
-			}
-
-			temporary.add( currentItem );
-		}
-
-		if ( currentList == KoLCharacter.accessories )
-		{
-			if ( !currentList.contains( KoLCharacter.getEquipment( KoLCharacter.ACCESSORY1 ) ) )
-			{
-				currentList.add( KoLCharacter.getEquipment( KoLCharacter.ACCESSORY1 ) );
-			}
-			if ( !currentList.contains( KoLCharacter.getEquipment( KoLCharacter.ACCESSORY2 ) ) )
-			{
-				currentList.add( KoLCharacter.getEquipment( KoLCharacter.ACCESSORY2 ) );
-			}
-			if ( !currentList.contains( KoLCharacter.getEquipment( KoLCharacter.ACCESSORY3 ) ) )
-			{
-				currentList.add( KoLCharacter.getEquipment( KoLCharacter.ACCESSORY3 ) );
-			}
-		}
-
-		currentList.retainAll( temporary );
-		temporary.removeAll( currentList );
-		currentList.addAll( temporary );
-	}
-
-	private static final int getCount( final AdventureResult accessory )
-	{
-		int available = accessory.getCount( KoLConstants.inventory );
-		if ( KoLCharacter.getEquipment( KoLCharacter.ACCESSORY1 ).equals( accessory ) )
-		{
-			++available;
-		}
-		if ( KoLCharacter.getEquipment( KoLCharacter.ACCESSORY2 ).equals( accessory ) )
-		{
-			++available;
-		}
-		if ( KoLCharacter.getEquipment( KoLCharacter.ACCESSORY3 ).equals( accessory ) )
-		{
-			++available;
-		}
-
-		return available;
-	}
-
-	/**
-	 * Accessor method to retrieve a list of the custom outfits available to this character, based on the last time the
-	 * equipment screen was requested.
-	 *
-	 * @return A <code>LockableListModel</code> of the available outfits
-	 */
-
-	public static final LockableListModel getCustomOutfits()
-	{
-		return KoLCharacter.customOutfits;
-	}
-
-	/**
-	 * Accessor method to retrieve a list of the all the outfits available to this character, based on the last time the
-	 * equipment screen was requested.
-	 *
-	 * @return A <code>LockableListModel</code> of the available outfits
-	 */
-
-	public static final LockableListModel getOutfits()
-	{
-		return KoLCharacter.outfits;
 	}
 
 	/**
@@ -2846,7 +2301,7 @@ public abstract class KoLCharacter
 		KoLCharacter.currentFamiliar = KoLCharacter.addFamiliar( familiar );
 
 		KoLCharacter.familiars.setSelectedItem( KoLCharacter.currentFamiliar );
-		KoLCharacter.equipmentLists[ KoLCharacter.FAMILIAR ].setSelectedItem( KoLCharacter.currentFamiliar.getItem() );
+		EquipmentManager.setEquipment( EquipmentManager.FAMILIAR, KoLCharacter.currentFamiliar.getItem() );
 
 		KoLCharacter.isUsingStabBat =
 			KoLCharacter.currentFamiliar.getRace().equals( "Stab Bat" ) || KoLCharacter.currentFamiliar.getRace().equals(
@@ -2890,7 +2345,7 @@ public abstract class KoLCharacter
 		KoLCharacter.familiars.add( familiar );
 		if ( !familiar.getItem().equals( EquipmentRequest.UNEQUIP ) )
 		{
-			AdventureResult.addResultToList( KoLCharacter.equipmentLists[ KoLCharacter.FAMILIAR ], familiar.getItem() );
+			EquipmentManager.processResult( familiar.getItem() );
 		}
 
 		return familiar;
@@ -2918,7 +2373,7 @@ public abstract class KoLCharacter
 		if ( KoLCharacter.currentFamiliar == familiar )
 		{
 			KoLCharacter.currentFamiliar = FamiliarData.NO_FAMILIAR;
-			KoLCharacter.setEquipment( KoLCharacter.FAMILIAR, EquipmentRequest.UNEQUIP );
+			EquipmentManager.setEquipment( EquipmentManager.FAMILIAR, EquipmentRequest.UNEQUIP );
 		}
 
 		KoLCharacter.familiars.remove( familiar );
@@ -3006,30 +2461,7 @@ public abstract class KoLCharacter
 
 			if ( updateCalculatedLists )
 			{
-				int consumeType = ItemDatabase.getConsumptionType( result.getItemId() );
-
-				if ( consumeType == KoLConstants.EQUIP_ACCESSORY )
-				{
-					AdventureResult.addResultToList( KoLCharacter.accessories, result );
-				}
-				else
-				{
-					int equipmentType = KoLCharacter.consumeFilterToEquipmentType( consumeType );
-					if ( equipmentType != -1 )
-					{
-						AdventureResult.addResultToList( KoLCharacter.equipmentLists[ equipmentType ], result );
-					}
-
-					if ( equipmentType == KoLCharacter.WEAPON || equipmentType == KoLCharacter.OFFHAND )
-					{
-						GearChangeFrame.updateWeapons();
-					}
-				}
-
-				if ( EquipmentDatabase.getOutfitWithItem( result.getItemId() ) != -1 )
-				{
-					EquipmentDatabase.updateOutfits();
-				}
+				EquipmentManager.processResult( result );
 
 				boolean shouldRefresh = false;
 				List uses = ConcoctionDatabase.getKnownUses( result );
@@ -3044,9 +2476,13 @@ public abstract class KoLCharacter
 				{
 					ConcoctionDatabase.refreshConcoctions();
 				}
-				else if ( consumeType == KoLConstants.CONSUME_EAT || consumeType == KoLConstants.CONSUME_DRINK )
+				else
 				{
-					ConcoctionDatabase.refreshConcoctions();
+					int consumeType = ItemDatabase.getConsumptionType( result.getItemId() );
+					if ( consumeType == KoLConstants.CONSUME_EAT || consumeType == KoLConstants.CONSUME_DRINK )
+					{
+						ConcoctionDatabase.refreshConcoctions();
+					}
 				}
 			}
 		}
@@ -3143,84 +2579,9 @@ public abstract class KoLCharacter
 		return null;
 	}
 
-	public static final boolean hasItem( final AdventureResult item )
-	{
-		return KoLCharacter.hasItem( item, false );
-	}
-
-	public static final boolean hasItem( final AdventureResult item, final boolean shouldCreate )
-	{
-		if ( item == null )
-		{
-			return false;
-		}
-
-		int count = item.getCount( KoLConstants.inventory ) + item.getCount( KoLConstants.closet );
-
-		if ( KoLCharacter.canInteract() )
-		{
-			count += item.getCount( KoLConstants.storage );
-
-			if ( KoLCharacter.hasClan() && Preferences.getBoolean( "autoSatisfyWithStash" ) )
-			{
-				count += item.getCount( ClanManager.getStash() );
-			}
-		}
-
-		switch ( ItemDatabase.getConsumptionType( item.getItemId() ) )
-		{
-		case KoLConstants.EQUIP_HAT:
-		case KoLConstants.EQUIP_PANTS:
-		case KoLConstants.EQUIP_FAMILIAR:
-		case KoLConstants.EQUIP_OFFHAND:
-			if ( KoLCharacter.hasEquipped( item ) )
-			{
-				++count;
-			}
-			break;
-
-		case KoLConstants.EQUIP_WEAPON:
-			if ( KoLCharacter.hasEquipped( item, KoLCharacter.WEAPON ) )
-			{
-				++count;
-			}
-			if ( KoLCharacter.hasEquipped( item, KoLCharacter.OFFHAND ) )
-			{
-				++count;
-			}
-			break;
-
-		case KoLConstants.EQUIP_ACCESSORY:
-			if ( KoLCharacter.hasEquipped( item, KoLCharacter.ACCESSORY1 ) )
-			{
-				++count;
-			}
-			if ( KoLCharacter.hasEquipped( item, KoLCharacter.ACCESSORY2 ) )
-			{
-				++count;
-			}
-			if ( KoLCharacter.hasEquipped( item, KoLCharacter.ACCESSORY3 ) )
-			{
-				++count;
-			}
-			break;
-		}
-
-		if ( shouldCreate )
-		{
-			CreateItemRequest creation = CreateItemRequest.getInstance( item.getItemId() );
-			if ( creation != null )
-			{
-				count += creation.getQuantityPossible();
-			}
-		}
-
-		return count > 0 && count >= item.getCount();
-	}
-
 	public static final boolean hasEquipped( final AdventureResult item, final int equipmentSlot )
 	{
-		return KoLCharacter.getEquipment( equipmentSlot ).getItemId() == item.getItemId();
+		return EquipmentManager.getEquipment( equipmentSlot ).getItemId() == item.getItemId();
 	}
 
 	public static final boolean hasEquipped( final AdventureResult item )
@@ -3228,27 +2589,27 @@ public abstract class KoLCharacter
 		switch ( ItemDatabase.getConsumptionType( item.getItemId() ) )
 		{
 		case KoLConstants.EQUIP_WEAPON:
-			return KoLCharacter.hasEquipped( item, KoLCharacter.WEAPON ) || KoLCharacter.hasEquipped(
-				item, KoLCharacter.OFFHAND );
+			return KoLCharacter.hasEquipped( item, EquipmentManager.WEAPON ) || KoLCharacter.hasEquipped(
+				item, EquipmentManager.OFFHAND );
 
 		case KoLConstants.EQUIP_OFFHAND:
-			return KoLCharacter.hasEquipped( item, KoLCharacter.OFFHAND );
+			return KoLCharacter.hasEquipped( item, EquipmentManager.OFFHAND );
 
 		case KoLConstants.EQUIP_HAT:
-			return KoLCharacter.hasEquipped( item, KoLCharacter.HAT );
+			return KoLCharacter.hasEquipped( item, EquipmentManager.HAT );
 
 		case KoLConstants.EQUIP_SHIRT:
-			return KoLCharacter.hasEquipped( item, KoLCharacter.SHIRT );
+			return KoLCharacter.hasEquipped( item, EquipmentManager.SHIRT );
 
 		case KoLConstants.EQUIP_PANTS:
-			return KoLCharacter.hasEquipped( item, KoLCharacter.PANTS );
+			return KoLCharacter.hasEquipped( item, EquipmentManager.PANTS );
 
 		case KoLConstants.EQUIP_ACCESSORY:
-			return KoLCharacter.hasEquipped( item, KoLCharacter.ACCESSORY1 ) || KoLCharacter.hasEquipped(
-				item, KoLCharacter.ACCESSORY2 ) || KoLCharacter.hasEquipped( item, KoLCharacter.ACCESSORY3 );
+			return KoLCharacter.hasEquipped( item, EquipmentManager.ACCESSORY1 ) || KoLCharacter.hasEquipped(
+				item, EquipmentManager.ACCESSORY2 ) || KoLCharacter.hasEquipped( item, EquipmentManager.ACCESSORY3 );
 
 		case KoLConstants.EQUIP_FAMILIAR:
-			return KoLCharacter.hasEquipped( item, KoLCharacter.FAMILIAR );
+			return KoLCharacter.hasEquipped( item, EquipmentManager.FAMILIAR );
 		}
 
 		return false;
@@ -3276,9 +2637,9 @@ public abstract class KoLCharacter
 		newModifiers.add( Modifiers.MONSTER_LEVEL, KoLCharacter.getSignedMLAdjustment() );
 
 		// Look at items
-		for ( int slot = KoLCharacter.HAT; slot <= KoLCharacter.FAMILIAR; ++slot )
+		for ( int slot = EquipmentManager.HAT; slot <= EquipmentManager.FAMILIAR; ++slot )
 		{
-			AdventureResult item = KoLCharacter.getEquipment( slot );
+			AdventureResult item = EquipmentManager.getEquipment( slot );
 			if ( item == null )
 			{
 				continue;
@@ -3296,18 +2657,18 @@ public abstract class KoLCharacter
 
 			switch ( slot )
 			{
-			case WEAPON:
-			case FAMILIAR:
-			case OFFHAND:
+			case EquipmentManager.WEAPON:
+			case EquipmentManager.FAMILIAR:
+			case EquipmentManager.OFFHAND:
 				break;
 
-			case HAT:
-			case PANTS:
+			case EquipmentManager.HAT:
+			case EquipmentManager.PANTS:
 				newModifiers.add(
 					Modifiers.DAMAGE_ABSORPTION, taoFactor * EquipmentDatabase.getPower( item.getItemId() ) );
 				break;
 
-			case SHIRT:
+			case EquipmentManager.SHIRT:
 				newModifiers.add( Modifiers.DAMAGE_ABSORPTION, EquipmentDatabase.getPower( item.getItemId() ) );
 				break;
 			}
@@ -3320,7 +2681,7 @@ public abstract class KoLCharacter
 		}
 
 		// Certain outfits give benefits to the character
-		SpecialOutfit outfit = EquipmentDatabase.currentOutfit();
+		SpecialOutfit outfit = EquipmentManager.currentOutfit();
 		if ( outfit != null )
 		{
 			newModifiers.add( Modifiers.getModifiers( outfit.getName() ) );
@@ -3329,8 +2690,8 @@ public abstract class KoLCharacter
 		// Wearing a serpentine sword and a serpentine shield doubles
 		// the effect of the sword.
 
-		if ( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getName().equals( "serpentine sword" ) && KoLCharacter.getEquipment(
-			KoLCharacter.OFFHAND ).getName().equals( "snake shield" ) )
+		if ( EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getName().equals( "serpentine sword" ) && EquipmentManager.getEquipment(
+			EquipmentManager.OFFHAND ).getName().equals( "snake shield" ) )
 		{
 			newModifiers.add( Modifiers.MONSTER_LEVEL, 10 );
 		}

@@ -50,6 +50,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
+import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.webui.IslandDecorator;
 
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
@@ -410,7 +411,7 @@ public class FightRequest
 
 		if ( FightRequest.action1.startsWith( "jiggle" ) )
 		{
-			if ( !FightRequest.jiggledChefstaff && KoLCharacter.wieldingChefstaff() )
+			if ( !FightRequest.jiggledChefstaff && EquipmentManager.usingChefstaff() )
 			{
 				this.addFormField( "action", "chefstaff" );
 				return;
@@ -614,7 +615,7 @@ public class FightRequest
 			return false;
 		}
 
-		if ( EquipmentDatabase.isRanged( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getItemId() ) )
+		if ( EquipmentDatabase.isRanged( EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getItemId() ) )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Thrust smacks are useless with ranged weapons." );
 			return true;
@@ -1094,30 +1095,30 @@ public class FightRequest
 		// Check for antique breakage; only run the string search if
 		// the player is equipped with the applicable item.
 
-		if ( KoLCharacter.getEquipment( KoLCharacter.HAT ).equals( FightRequest.BROKEN_HELMET ) && responseText.indexOf( "Your antique helmet, weakened" ) != -1 )
+		if ( EquipmentManager.getEquipment( EquipmentManager.HAT ).equals( FightRequest.BROKEN_HELMET ) && responseText.indexOf( "Your antique helmet, weakened" ) != -1 )
 		{
-			KoLCharacter.setEquipment( KoLCharacter.HAT, EquipmentRequest.UNEQUIP );
+			EquipmentManager.setEquipment( EquipmentManager.HAT, EquipmentRequest.UNEQUIP );
 			KoLCharacter.processResult( FightRequest.BROKEN_HELMET );
 			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Your antique helmet broke." );
 		}
 
-		if ( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).equals( FightRequest.BROKEN_SPEAR ) && responseText.indexOf( "sunders your antique spear" ) != -1 )
+		if ( EquipmentManager.getEquipment( EquipmentManager.WEAPON ).equals( FightRequest.BROKEN_SPEAR ) && responseText.indexOf( "sunders your antique spear" ) != -1 )
 		{
-			KoLCharacter.setEquipment( KoLCharacter.WEAPON, EquipmentRequest.UNEQUIP );
+			EquipmentManager.setEquipment( EquipmentManager.WEAPON, EquipmentRequest.UNEQUIP );
 			KoLCharacter.processResult( FightRequest.BROKEN_SPEAR );
 			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Your antique spear broke." );
 		}
 
-		if ( KoLCharacter.getEquipment( KoLCharacter.OFFHAND ).equals( FightRequest.BROKEN_SHIELD ) && responseText.indexOf( "Your antique shield, weakened" ) != -1 )
+		if ( EquipmentManager.getEquipment( EquipmentManager.OFFHAND ).equals( FightRequest.BROKEN_SHIELD ) && responseText.indexOf( "Your antique shield, weakened" ) != -1 )
 		{
-			KoLCharacter.setEquipment( KoLCharacter.OFFHAND, EquipmentRequest.UNEQUIP );
+			EquipmentManager.setEquipment( EquipmentManager.OFFHAND, EquipmentRequest.UNEQUIP );
 			KoLCharacter.processResult( FightRequest.BROKEN_SHIELD );
 			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Your antique shield broke." );
 		}
 
-		if ( KoLCharacter.getEquipment( KoLCharacter.PANTS ).equals( FightRequest.BROKEN_GREAVES ) && responseText.indexOf( "Your antique greaves, weakened" ) != -1 )
+		if ( EquipmentManager.getEquipment( EquipmentManager.PANTS ).equals( FightRequest.BROKEN_GREAVES ) && responseText.indexOf( "Your antique greaves, weakened" ) != -1 )
 		{
-			KoLCharacter.setEquipment( KoLCharacter.PANTS, EquipmentRequest.UNEQUIP );
+			EquipmentManager.setEquipment( EquipmentManager.PANTS, EquipmentRequest.UNEQUIP );
 			KoLCharacter.processResult( FightRequest.BROKEN_GREAVES );
 			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Your antique greaves broke." );
 		}
@@ -1888,7 +1889,7 @@ public class FightRequest
 			if ( shouldLogAction )
 			{
 				action.append( "jiggles the " );
-				action.append( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getName() );
+				action.append( EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getName() );
 			}
 		}
 		else

@@ -44,9 +44,9 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestFrame;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MoodManager;
 
-import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
@@ -216,7 +216,7 @@ public class UneffectRequest
 		{
 			if ( KoLCharacter.canInteract() )
 			{
-				AdventureDatabase.retrieveItem( UneffectRequest.REMEDY.getName() );
+				InventoryManager.retrieveItem( UneffectRequest.REMEDY.getName() );
 			}
 
 			if ( !KoLConstants.inventory.contains( UneffectRequest.REMEDY ) )

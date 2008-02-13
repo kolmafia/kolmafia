@@ -46,12 +46,12 @@ import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
-import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
+import net.sourceforge.kolmafia.session.EquipmentManager;
 
 public class CustomItemDatabase
 	extends Properties
@@ -69,7 +69,7 @@ public class CustomItemDatabase
 	// but KoLmafia doesn't have to support viewing them.
 
 	private static final int[] CUSTOM_TYPES =
-		new int[] { -1, KoLCharacter.HAT, -1, KoLCharacter.SHIRT, KoLCharacter.WEAPON, KoLCharacter.OFFHAND, KoLCharacter.PANTS, KoLCharacter.ACCESSORY1, KoLCharacter.ACCESSORY2, KoLCharacter.ACCESSORY3, -1 };
+		new int[] { -1, EquipmentManager.HAT, -1, EquipmentManager.SHIRT, EquipmentManager.WEAPON, EquipmentManager.OFFHAND, EquipmentManager.PANTS, EquipmentManager.ACCESSORY1, EquipmentManager.ACCESSORY2, EquipmentManager.ACCESSORY3, -1 };
 
 	private static final void initialize()
 	{
@@ -300,18 +300,18 @@ public class CustomItemDatabase
 
 		switch ( customType )
 		{
-		case KoLCharacter.HAT:
+		case EquipmentManager.HAT:
 			content.append( "hat" );
 			break;
-		case KoLCharacter.OFFHAND:
+		case EquipmentManager.OFFHAND:
 			content.append( "off-hand item" );
 			break;
-		case KoLCharacter.PANTS:
+		case EquipmentManager.PANTS:
 			content.append( "pants" );
 			break;
-		case KoLCharacter.ACCESSORY1:
-		case KoLCharacter.ACCESSORY2:
-		case KoLCharacter.ACCESSORY3:
+		case EquipmentManager.ACCESSORY1:
+		case EquipmentManager.ACCESSORY2:
+		case EquipmentManager.ACCESSORY3:
 			content.append( "accessory" );
 			break;
 		}
@@ -321,13 +321,13 @@ public class CustomItemDatabase
 		// [06]  ranged weapon flag
 		// [08]  number of hands required
 
-		if ( customType == KoLCharacter.OFFHAND && !CustomItemDatabase.INSTANCE.getProperty( playerId + ".5" ).equals(
+		if ( customType == EquipmentManager.OFFHAND && !CustomItemDatabase.INSTANCE.getProperty( playerId + ".5" ).equals(
 			"" ) )
 		{
 			content.append( " (shield)" );
 		}
 
-		if ( customType == KoLCharacter.WEAPON )
+		if ( customType == EquipmentManager.WEAPON )
 		{
 			if ( !CustomItemDatabase.INSTANCE.getProperty( playerId + ".5" ).equals( "" ) )
 			{

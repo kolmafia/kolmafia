@@ -38,6 +38,7 @@ import java.util.List;
 
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Monster;
+import net.sourceforge.kolmafia.session.EquipmentManager;
 
 public class AreaCombatData
 {
@@ -178,7 +179,7 @@ public class AreaCombatData
 	public boolean willHitSomething()
 	{
 		int ml = KoLCharacter.getMonsterLevelAdjustment();
-		int hitStat = KoLCharacter.getAdjustedHitStat();
+		int hitStat = EquipmentManager.getAdjustedHitStat();
 
 		return AreaCombatData.hitPercent( hitStat - ml, this.minHit() ) > 0.0f;
 	}
@@ -193,8 +194,8 @@ public class AreaCombatData
 		int ml = KoLCharacter.getMonsterLevelAdjustment();
 		int moxie = KoLCharacter.getAdjustedMoxie() - ml;
 
-		String statName = KoLCharacter.hitStat() == KoLConstants.MOXIE ? "Mox" : "Mus";
-		int hitstat = KoLCharacter.getAdjustedHitStat() - ml;
+		String statName = EquipmentManager.getHitStatType() == KoLConstants.MOXIE ? "Mox" : "Mus";
+		int hitstat = EquipmentManager.getAdjustedHitStat() - ml;
 
 		float minHitPercent = AreaCombatData.hitPercent( hitstat, this.minHit() );
 		float maxHitPercent = AreaCombatData.hitPercent( hitstat, this.maxHit );

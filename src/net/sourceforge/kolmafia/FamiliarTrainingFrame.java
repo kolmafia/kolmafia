@@ -55,7 +55,6 @@ import javax.swing.JTabbedPane;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.CakeArenaManager.ArenaOpponent;
-import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
@@ -66,6 +65,8 @@ import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class FamiliarTrainingFrame
 	extends KoLFrame
@@ -913,24 +914,24 @@ public class FamiliarTrainingFrame
 
 		if ( familiar.getId() != FamiliarTrainingFrame.CHAMELEON )
 		{
-			if ( KoLCharacter.hasItem( FamiliarTrainingFrame.PUMPKIN_BUCKET ) )
+			if ( InventoryManager.hasItem( FamiliarTrainingFrame.PUMPKIN_BUCKET ) )
 			{
 				RequestThread.postRequest( new EquipmentRequest(
-					FamiliarTrainingFrame.PUMPKIN_BUCKET, KoLCharacter.FAMILIAR ) );
+					FamiliarTrainingFrame.PUMPKIN_BUCKET, EquipmentManager.FAMILIAR ) );
 			}
-			else if ( KoLCharacter.hasItem( FamiliarTrainingFrame.FLOWER_BOUQUET ) )
+			else if ( InventoryManager.hasItem( FamiliarTrainingFrame.FLOWER_BOUQUET ) )
 			{
 				RequestThread.postRequest( new EquipmentRequest(
-					FamiliarTrainingFrame.FLOWER_BOUQUET, KoLCharacter.FAMILIAR ) );
+					FamiliarTrainingFrame.FLOWER_BOUQUET, EquipmentManager.FAMILIAR ) );
 			}
-			else if ( status.familiarItemWeight != 0 && KoLCharacter.hasItem( status.familiarItem ) )
+			else if ( status.familiarItemWeight != 0 && InventoryManager.hasItem( status.familiarItem ) )
 			{
-				RequestThread.postRequest( new EquipmentRequest( status.familiarItem, KoLCharacter.FAMILIAR ) );
+				RequestThread.postRequest( new EquipmentRequest( status.familiarItem, EquipmentManager.FAMILIAR ) );
 			}
-			else if ( KoLCharacter.hasItem( FamiliarTrainingFrame.LEAD_NECKLACE ) )
+			else if ( InventoryManager.hasItem( FamiliarTrainingFrame.LEAD_NECKLACE ) )
 			{
 				RequestThread.postRequest( new EquipmentRequest(
-					FamiliarTrainingFrame.LEAD_NECKLACE, KoLCharacter.FAMILIAR ) );
+					FamiliarTrainingFrame.LEAD_NECKLACE, EquipmentManager.FAMILIAR ) );
 			}
 		}
 
@@ -1198,7 +1199,7 @@ public class FamiliarTrainingFrame
 			return true;
 		}
 
-		if ( !KoLCharacter.hasItem( FamiliarTrainingFrame.PUMPKIN_BUCKET ) && !KoLCharacter.hasItem( FamiliarTrainingFrame.FLOWER_BOUQUET ) && status.familiarItemWeight != 0 && !KoLCharacter.hasItem( status.familiarItem ) && KoLCharacter.canInteract() )
+		if ( !InventoryManager.hasItem( FamiliarTrainingFrame.PUMPKIN_BUCKET ) && !InventoryManager.hasItem( FamiliarTrainingFrame.FLOWER_BOUQUET ) && status.familiarItemWeight != 0 && !InventoryManager.hasItem( status.familiarItem ) && KoLCharacter.canInteract() )
 		{
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "buy 1 " + status.familiarItem.getName() );
 			RequestThread.postRequest( new EquipmentRequest( status.familiarItem ) );
@@ -1585,15 +1586,15 @@ public class FamiliarTrainingFrame
 			FamiliarTrainingFrame.leashAvailable = KoLCharacter.hasSkill( "Leash of Linguini" );
 
 			FamiliarTrainingFrame.bestialAvailable =
-				KoLCharacter.canInteract() || KoLCharacter.hasItem( FamiliarTrainingFrame.HALF_ORCHID );
+				KoLCharacter.canInteract() || InventoryManager.hasItem( FamiliarTrainingFrame.HALF_ORCHID );
 			FamiliarTrainingFrame.blackConeAvailable =
-				KoLCharacter.canInteract() || KoLCharacter.hasItem( FamiliarTrainingFrame.BLACK_SNOWCONE );
+				KoLCharacter.canInteract() || InventoryManager.hasItem( FamiliarTrainingFrame.BLACK_SNOWCONE );
 			FamiliarTrainingFrame.greenConeAvailable =
-				KoLCharacter.canInteract() || KoLCharacter.hasItem( FamiliarTrainingFrame.GREEN_SNOWCONE );
+				KoLCharacter.canInteract() || InventoryManager.hasItem( FamiliarTrainingFrame.GREEN_SNOWCONE );
 			FamiliarTrainingFrame.greenHeartAvailable =
-				KoLCharacter.canInteract() || KoLCharacter.hasItem( FamiliarTrainingFrame.GREEN_CANDY );
+				KoLCharacter.canInteract() || InventoryManager.hasItem( FamiliarTrainingFrame.GREEN_CANDY );
 			FamiliarTrainingFrame.heavyPettingAvailable =
-				KoLCharacter.canInteract() || KoLCharacter.hasItem( FamiliarTrainingFrame.BUFFING_SPRAY ) || NPCStoreDatabase.contains( "Knob Goblin pet-buffing spray" );
+				KoLCharacter.canInteract() || InventoryManager.hasItem( FamiliarTrainingFrame.BUFFING_SPRAY ) || NPCStoreDatabase.contains( "Knob Goblin pet-buffing spray" );
 
 			// Look at effects to decide which ones are active;
 			FamiliarTrainingFrame.empathyActive = FamiliarTrainingFrame.EMPATHY.getCount( KoLConstants.activeEffects );
@@ -1615,11 +1616,11 @@ public class FamiliarTrainingFrame
 		private void checkCurrentEquipment()
 		{
 			this.checkCurrentEquipment(
-				KoLCharacter.getEquipment( KoLCharacter.WEAPON ), KoLCharacter.getEquipment( KoLCharacter.OFFHAND ),
-				KoLCharacter.getEquipment( KoLCharacter.HAT ), KoLCharacter.getEquipment( KoLCharacter.FAMILIAR ),
-				KoLCharacter.getEquipment( KoLCharacter.ACCESSORY1 ),
-				KoLCharacter.getEquipment( KoLCharacter.ACCESSORY2 ),
-				KoLCharacter.getEquipment( KoLCharacter.ACCESSORY3 ) );
+				EquipmentManager.getEquipment( EquipmentManager.WEAPON ), EquipmentManager.getEquipment( EquipmentManager.OFFHAND ),
+				EquipmentManager.getEquipment( EquipmentManager.HAT ), EquipmentManager.getEquipment( EquipmentManager.FAMILIAR ),
+				EquipmentManager.getEquipment( EquipmentManager.ACCESSORY1 ),
+				EquipmentManager.getEquipment( EquipmentManager.ACCESSORY2 ),
+				EquipmentManager.getEquipment( EquipmentManager.ACCESSORY3 ) );
 		}
 
 		private void checkCurrentEquipment( final AdventureResult weapon, final AdventureResult offhand,
@@ -1753,7 +1754,7 @@ public class FamiliarTrainingFrame
 		{
 			// If not wearing a pith helmet, search inventory
 			this.pithHelmet |=
-				FamiliarTrainingFrame.PITH_HELMET.getCount( inventory ) > 0 && EquipmentDatabase.canEquip( "plexiglass pith helmet" );
+				FamiliarTrainingFrame.PITH_HELMET.getCount( inventory ) > 0 && EquipmentManager.canEquip( "plexiglass pith helmet" );
 
 			// If current familiar item is not the special item and
 			// such an item affects weight, search inventory
@@ -2006,7 +2007,7 @@ public class FamiliarTrainingFrame
 			if ( this.doppelganger )
 			{
 				RequestThread.postRequest( new EquipmentRequest(
-					FamiliarTrainingFrame.DOPPELGANGER, KoLCharacter.FAMILIAR ) );
+					FamiliarTrainingFrame.DOPPELGANGER, EquipmentManager.FAMILIAR ) );
 			}
 
 			// If we are already suitably equipped, stop now
@@ -2073,13 +2074,13 @@ public class FamiliarTrainingFrame
 
 		public void changeGear( final GearSet current, final GearSet next )
 		{
-			this.swapItem( current.weapon, next.weapon, KoLCharacter.WEAPON );
-			this.swapItem( current.offhand, next.offhand, KoLCharacter.OFFHAND );
-			this.swapItem( current.hat, next.hat, KoLCharacter.HAT );
-			this.swapItem( current.item, next.item, KoLCharacter.FAMILIAR );
-			this.swapItem( current.acc1, next.acc1, KoLCharacter.ACCESSORY1 );
-			this.swapItem( current.acc2, next.acc2, KoLCharacter.ACCESSORY2 );
-			this.swapItem( current.acc3, next.acc3, KoLCharacter.ACCESSORY3 );
+			this.swapItem( current.weapon, next.weapon, EquipmentManager.WEAPON );
+			this.swapItem( current.offhand, next.offhand, EquipmentManager.OFFHAND );
+			this.swapItem( current.hat, next.hat, EquipmentManager.HAT );
+			this.swapItem( current.item, next.item, EquipmentManager.FAMILIAR );
+			this.swapItem( current.acc1, next.acc1, EquipmentManager.ACCESSORY1 );
+			this.swapItem( current.acc2, next.acc2, EquipmentManager.ACCESSORY2 );
+			this.swapItem( current.acc3, next.acc3, EquipmentManager.ACCESSORY3 );
 		}
 
 		private void swapItem( final AdventureResult current, final AdventureResult next, final int slot )
@@ -2113,25 +2114,25 @@ public class FamiliarTrainingFrame
 		{
 			switch ( slot )
 			{
-			case KoLCharacter.WEAPON:
+			case EquipmentManager.WEAPON:
 				this.weapon = item;
 				break;
-			case KoLCharacter.OFFHAND:
+			case EquipmentManager.OFFHAND:
 				this.offhand = item;
 				break;
-			case KoLCharacter.HAT:
+			case EquipmentManager.HAT:
 				this.hat = item;
 				break;
-			case KoLCharacter.FAMILIAR:
+			case EquipmentManager.FAMILIAR:
 				this.item = item;
 				break;
-			case KoLCharacter.ACCESSORY1:
+			case EquipmentManager.ACCESSORY1:
 				this.acc[ 0 ] = item;
 				break;
-			case KoLCharacter.ACCESSORY2:
+			case EquipmentManager.ACCESSORY2:
 				this.acc[ 1 ] = item;
 				break;
-			case KoLCharacter.ACCESSORY3:
+			case EquipmentManager.ACCESSORY3:
 				this.acc[ 2 ] = item;
 				break;
 			}

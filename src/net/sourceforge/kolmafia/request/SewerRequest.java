@@ -38,9 +38,9 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.StaticEntity;
 
-import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class SewerRequest
 	extends GenericRequest
@@ -104,7 +104,7 @@ public class SewerRequest
 
 	private void runLuckySewer()
 	{
-		if ( !AdventureDatabase.retrieveItem( SewerRequest.CLOVER.getInstance( 1 ) ) )
+		if ( !InventoryManager.retrieveItem( SewerRequest.CLOVER.getInstance( 1 ) ) )
 		{
 			return;
 		}

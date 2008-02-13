@@ -7,6 +7,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
+import net.sourceforge.kolmafia.session.EquipmentManager;
 
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -56,7 +57,7 @@ public class StationaryButtonDecorator
 					urlString, buffer, actionBuffer, "steal", FightRequest.getCurrentRound() == 1 );
 			}
 
-			if ( KoLCharacter.wieldingChefstaff() )
+			if ( EquipmentManager.usingChefstaff() )
 			{
 				StationaryButtonDecorator.addFightButton(
 					urlString, buffer, actionBuffer, "jiggle", FightRequest.getCurrentRound() > 0 );

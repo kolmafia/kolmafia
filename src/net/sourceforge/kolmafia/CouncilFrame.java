@@ -42,6 +42,8 @@ import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
@@ -119,17 +121,17 @@ public class CouncilFrame
 	{
 		if ( KoLCharacter.hasEquipped( KoLmafia.NOVELTY_BUTTON ) && responseText.indexOf( "You hand him your button and take his glowstick" ) != -1 )
 		{
-			if ( KoLCharacter.hasEquipped( KoLmafia.NOVELTY_BUTTON, KoLCharacter.ACCESSORY1 ) )
+			if ( KoLCharacter.hasEquipped( KoLmafia.NOVELTY_BUTTON, EquipmentManager.ACCESSORY1 ) )
 			{
-				KoLCharacter.setEquipment( KoLCharacter.ACCESSORY1, EquipmentRequest.UNEQUIP );
+				EquipmentManager.setEquipment( EquipmentManager.ACCESSORY1, EquipmentRequest.UNEQUIP );
 			}
-			else if ( KoLCharacter.hasEquipped( KoLmafia.NOVELTY_BUTTON, KoLCharacter.ACCESSORY2 ) )
+			else if ( KoLCharacter.hasEquipped( KoLmafia.NOVELTY_BUTTON, EquipmentManager.ACCESSORY2 ) )
 			{
-				KoLCharacter.setEquipment( KoLCharacter.ACCESSORY2, EquipmentRequest.UNEQUIP );
+				EquipmentManager.setEquipment( EquipmentManager.ACCESSORY2, EquipmentRequest.UNEQUIP );
 			}
 			else
 			{
-				KoLCharacter.setEquipment( KoLCharacter.ACCESSORY3, EquipmentRequest.UNEQUIP );
+				EquipmentManager.setEquipment( EquipmentManager.ACCESSORY3, EquipmentRequest.UNEQUIP );
 			}
 
 			// Maintain session tally: "unequip" the button and
@@ -142,7 +144,7 @@ public class CouncilFrame
 
 	private static final void handleGuildChange( final String location, final String responseText )
 	{
-		if ( location.indexOf( "paco" ) != -1 && KoLCharacter.hasItem( KoLmafia.SATCHEL ) )
+		if ( location.indexOf( "paco" ) != -1 && InventoryManager.hasItem( KoLmafia.SATCHEL ) )
 		{
 			StaticEntity.getClient().processResult( KoLmafia.SATCHEL.getNegation() );
 		}
@@ -220,13 +222,13 @@ public class CouncilFrame
 
 	public static final void unlockGoatlet()
 	{
-		if ( !EquipmentDatabase.hasOutfit( 8 ) )
+		if ( !EquipmentManager.hasOutfit( 8 ) )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "You need a mining outfit to continue." );
 			return;
 		}
 
-		if ( EquipmentDatabase.isWearingOutfit( 8 ) )
+		if ( EquipmentManager.isWearingOutfit( 8 ) )
 		{
 			( new AdventureRequest( "Goatlet", "adventure.php", "60" ) ).run();
 			return;

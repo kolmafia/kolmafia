@@ -50,6 +50,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
+import net.sourceforge.kolmafia.session.EquipmentManager;
 
 public class MonsterDatabase
 {
@@ -657,7 +658,7 @@ public class MonsterDatabase
 		public boolean willUsuallyMiss( final int defenseModifier )
 		{
 			int ml = KoLCharacter.getMonsterLevelAdjustment() + defenseModifier;
-			int hitStat = KoLCharacter.getAdjustedHitStat();
+			int hitStat = EquipmentManager.getAdjustedHitStat();
 
 			return AreaCombatData.hitPercent( hitStat - ml, this.defense ) <= 50.0f;
 		}

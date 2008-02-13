@@ -48,6 +48,7 @@ import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class SkillDatabase
 	extends KoLDatabase
@@ -444,7 +445,7 @@ public class SkillDatabase
 			}
 		}
 
-		if ( KoLCharacter.hasItem( UseSkillRequest.WIZARD_HAT ) )
+		if ( InventoryManager.hasItem( UseSkillRequest.WIZARD_HAT ) )
 		{
 			actualDuration += 5;
 		}

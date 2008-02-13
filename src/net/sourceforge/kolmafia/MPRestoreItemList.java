@@ -38,6 +38,7 @@ import java.util.TreeMap;
 import javax.swing.JCheckBox;
 
 import net.sourceforge.kolmafia.session.ClanManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MoodManager;
 
 import net.sourceforge.kolmafia.request.CampgroundRequest;
@@ -47,7 +48,6 @@ import net.sourceforge.kolmafia.request.GalaktikRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
-import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
@@ -330,7 +330,7 @@ public abstract class MPRestoreItemList
 
 				numberToBuy = Math.min( KoLCharacter.getAvailableMeat() / unitPrice, numberToBuy );
 
-				if ( !AdventureDatabase.retrieveItem( this.itemUsed.getInstance( numberToBuy ) ) )
+				if ( !InventoryManager.retrieveItem( this.itemUsed.getInstance( numberToBuy ) ) )
 				{
 					return;
 				}

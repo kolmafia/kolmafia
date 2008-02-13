@@ -43,10 +43,10 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
-import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class PulverizeRequest
 	extends GenericRequest
@@ -153,7 +153,7 @@ public class PulverizeRequest
 			return;
 		}
 
-		if ( !AdventureDatabase.retrieveItem( ConcoctionDatabase.HAMMER ) )
+		if ( !InventoryManager.retrieveItem( ConcoctionDatabase.HAMMER ) )
 		{
 			return;
 		}

@@ -45,6 +45,7 @@ import javax.swing.JPanel;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 
+import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.webui.IslandDecorator;
 
@@ -240,7 +241,7 @@ public class CoinmastersFrame
 
 		public void update()
 		{
-			this.hasOutfit = this.outfit == 0 || EquipmentDatabase.hasOutfit( this.outfit );
+			this.hasOutfit = this.outfit == 0 || EquipmentManager.hasOutfit( this.outfit );
 		}
 
 		private GenericRequest outfitRequest()
@@ -268,9 +269,9 @@ public class CoinmastersFrame
 			}
 
 			RequestThread.openRequestSequence();
-			if ( !EquipmentDatabase.isWearingOutfit( this.outfit ) )
+			if ( !EquipmentManager.isWearingOutfit( this.outfit ) )
 			{
-				EquipmentDatabase.retrieveOutfit( this.outfit );
+				EquipmentManager.retrieveOutfit( this.outfit );
 				RequestThread.postRequest( outfitRequest() );
 			}
 			RequestThread.postRequest( new CoinMasterRequest( this.token ) );
@@ -292,7 +293,7 @@ public class CoinmastersFrame
 
 			RequestThread.openRequestSequence();
 
-			if ( this.outfit != 0 && !EquipmentDatabase.isWearingOutfit( this.outfit ) )
+			if ( this.outfit != 0 && !EquipmentManager.isWearingOutfit( this.outfit ) )
 			{
 				RequestThread.postRequest( outfitRequest() );
 			}

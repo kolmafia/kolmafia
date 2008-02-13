@@ -42,7 +42,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
-import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class MindControlRequest
 	extends GenericRequest
@@ -91,7 +91,7 @@ public class MindControlRequest
 			return;
 		}
 
-		if ( KoLCharacter.inMuscleSign() && !AdventureDatabase.retrieveItem( MindControlRequest.RADIO ) )
+		if ( KoLCharacter.inMuscleSign() && !InventoryManager.retrieveItem( MindControlRequest.RADIO ) )
 		{
 			return;
 		}

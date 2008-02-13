@@ -50,6 +50,7 @@ import javax.swing.JTabbedPane;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
+import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
 
@@ -80,16 +81,16 @@ public class GearChangeFrame
 
 		this.equipment = new ChangeComboBox[ 9 ];
 
-		LockableListModel[] lists = KoLCharacter.getEquipmentLists();
+		LockableListModel[] lists = EquipmentManager.getEquipmentLists();
 		// We maintain our own lists of valid weapons and offhand items
 		for ( int i = 0; i < this.equipment.length; ++i )
 		{
 			LockableListModel list;
-			if ( i == KoLCharacter.WEAPON )
+			if ( i == EquipmentManager.WEAPON )
 			{
 				list = this.weapons;
 			}
-			else if ( i == KoLCharacter.OFFHAND )
+			else if ( i == EquipmentManager.OFFHAND )
 			{
 				list = this.offhands;
 			}
@@ -102,8 +103,8 @@ public class GearChangeFrame
 		}
 
 		this.familiarSelect = new ChangeComboBox( KoLCharacter.getFamiliarList() );
-		this.outfitSelect = new ChangeComboBox( KoLCharacter.getOutfits() );
-		this.customSelect = new ChangeComboBox( KoLCharacter.getCustomOutfits() );
+		this.outfitSelect = new ChangeComboBox( EquipmentManager.getOutfits() );
+		this.customSelect = new ChangeComboBox( EquipmentManager.getCustomOutfits() );
 
 		this.framePanel.setLayout( new CardLayout( 10, 10 ) );
 		this.framePanel.add( new EquipPanel(), "" );
@@ -226,17 +227,17 @@ public class GearChangeFrame
 		for ( int i = 0; i < pieces.length; ++i )
 		{
 			pieces[ i ] = (AdventureResult) this.equipment[ i ].getSelectedItem();
-			if ( KoLCharacter.getEquipment( i ).equals( pieces[ i ] ) )
+			if ( EquipmentManager.getEquipment( i ).equals( pieces[ i ] ) )
 			{
 				pieces[ i ] = null;
 			}
 		}
 
-		AdventureResult famitem = (AdventureResult) this.equipment[ KoLCharacter.FAMILIAR ].getSelectedItem();
+		AdventureResult famitem = (AdventureResult) this.equipment[ EquipmentManager.FAMILIAR ].getSelectedItem();
 
 		// Start with accessories
 
-		for ( int i = KoLCharacter.ACCESSORY1; i <= KoLCharacter.ACCESSORY3; ++i )
+		for ( int i = EquipmentManager.ACCESSORY1; i <= EquipmentManager.ACCESSORY3; ++i )
 		{
 			if ( pieces[ i ] != null )
 			{
@@ -247,7 +248,7 @@ public class GearChangeFrame
 
 		// Move on to other equipment
 
-		for ( int i = 0; i < KoLCharacter.ACCESSORY1; ++i )
+		for ( int i = 0; i < EquipmentManager.ACCESSORY1; ++i )
 		{
 			if ( pieces[ i ] != null )
 			{
@@ -258,7 +259,7 @@ public class GearChangeFrame
 
 		if ( KoLCharacter.getFamiliar().canEquip( famitem ) )
 		{
-			RequestThread.postRequest( new EquipmentRequest( famitem, KoLCharacter.FAMILIAR ) );
+			RequestThread.postRequest( new EquipmentRequest( famitem, EquipmentManager.FAMILIAR ) );
 		}
 	}
 
@@ -269,8 +270,8 @@ public class GearChangeFrame
 			return;
 		}
 
-		GearChangeFrame.INSTANCE.weapons.setSelectedItem( KoLCharacter.getEquipment( KoLCharacter.WEAPON ) );
-		GearChangeFrame.INSTANCE.offhands.setSelectedItem( KoLCharacter.getEquipment( KoLCharacter.OFFHAND ) );
+		GearChangeFrame.INSTANCE.weapons.setSelectedItem( EquipmentManager.getEquipment( EquipmentManager.WEAPON ) );
+		GearChangeFrame.INSTANCE.offhands.setSelectedItem( EquipmentManager.getEquipment( EquipmentManager.OFFHAND ) );
 
 		GearChangeFrame.INSTANCE.ensureValidSelections();
 	}
@@ -376,10 +377,10 @@ public class GearChangeFrame
 
 	private void ensureValidSelections()
 	{
-		this.equipment[ KoLCharacter.SHIRT ].setEnabled( this.isEnabled && KoLCharacter.hasSkill( "Torso Awaregness" ) );
+		this.equipment[ EquipmentManager.SHIRT ].setEnabled( this.isEnabled && KoLCharacter.hasSkill( "Torso Awaregness" ) );
 
-		AdventureResult weaponItem = (AdventureResult) this.equipment[ KoLCharacter.WEAPON ].getSelectedItem();
-		AdventureResult currentWeapon = KoLCharacter.getEquipment( KoLCharacter.WEAPON );
+		AdventureResult weaponItem = (AdventureResult) this.equipment[ EquipmentManager.WEAPON ].getSelectedItem();
+		AdventureResult currentWeapon = EquipmentManager.getEquipment( EquipmentManager.WEAPON );
 		if ( weaponItem == null )
 		{
 			weaponItem = currentWeapon;
@@ -392,13 +393,13 @@ public class GearChangeFrame
 		if ( weaponHands > 1 )
 		{
 			// Equipping 2 or more handed weapon: nothing in off-hand
-			this.equipment[ KoLCharacter.OFFHAND ].setSelectedItem( EquipmentRequest.UNEQUIP );
-			this.equipment[ KoLCharacter.OFFHAND ].setEnabled( false );
+			this.equipment[ EquipmentManager.OFFHAND ].setSelectedItem( EquipmentRequest.UNEQUIP );
+			this.equipment[ EquipmentManager.OFFHAND ].setEnabled( false );
 		}
 		else
 		{
-			AdventureResult offhandItem = (AdventureResult) this.equipment[ KoLCharacter.OFFHAND ].getSelectedItem();
-			AdventureResult currentOffhand = KoLCharacter.getEquipment( KoLCharacter.OFFHAND );
+			AdventureResult offhandItem = (AdventureResult) this.equipment[ EquipmentManager.OFFHAND ].getSelectedItem();
+			AdventureResult currentOffhand = EquipmentManager.getEquipment( EquipmentManager.OFFHAND );
 			if ( offhandItem == null )
 			{
 				offhandItem = currentOffhand;
@@ -416,7 +417,7 @@ public class GearChangeFrame
 
 			List offhandItems = this.validOffhandItems( weaponItem, offhandItem );
 			this.updateEquipmentList( this.offhands, offhandItems, offhandItem );
-			this.equipment[ KoLCharacter.OFFHAND ].setEnabled( this.isEnabled );
+			this.equipment[ EquipmentManager.OFFHAND ].setEnabled( this.isEnabled );
 		}
 	}
 
@@ -446,7 +447,7 @@ public class GearChangeFrame
 			}
 
 			// Make sure we meet requirements
-			if ( !EquipmentDatabase.canEquip( currentItem.getName() ) )
+			if ( !EquipmentManager.canEquip( currentItem.getName() ) )
 			{
 				continue;
 			}
@@ -510,7 +511,7 @@ public class GearChangeFrame
 		}
 
 		// Possibly add the current off-hand item
-		AdventureResult currentOffhand = KoLCharacter.getEquipment( KoLCharacter.OFFHAND );
+		AdventureResult currentOffhand = EquipmentManager.getEquipment( EquipmentManager.OFFHAND );
 		if ( !items.contains( currentOffhand ) && this.validOffhandItem( currentOffhand, weapons, equipStat ) )
 		{
 			items.add( currentOffhand );
@@ -545,7 +546,7 @@ public class GearChangeFrame
 			// Fall through
 		case KoLConstants.EQUIP_OFFHAND:
 			// Make sure we meet requirements
-			if ( EquipmentDatabase.canEquip( currentItem.getName() ) )
+			if ( EquipmentManager.canEquip( currentItem.getName() ) )
 			{
 				return true;
 			}

@@ -45,6 +45,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.session.EquipmentManager;
 
 public class MallPurchaseRequest
 	extends GenericRequest
@@ -225,7 +226,7 @@ public class MallPurchaseRequest
 
 	public int getPrice()
 	{
-		return !this.isNPCStore || !KoLCharacter.getEquipment( KoLCharacter.PANTS ).equals(
+		return !this.isNPCStore || !EquipmentManager.getEquipment( EquipmentManager.PANTS ).equals(
 			MallPurchaseRequest.TROUSERS ) ? this.price : (int) ( this.price * 0.95f );
 	}
 
@@ -469,7 +470,7 @@ public class MallPurchaseRequest
 
 			if ( !KoLCharacter.canInteract() && !KoLCharacter.isHardcore() && KoLConstants.inventory.contains( MallPurchaseRequest.TROUSERS ) )
 			{
-				( new EquipmentRequest( MallPurchaseRequest.TROUSERS, KoLCharacter.PANTS ) ).run();
+				( new EquipmentRequest( MallPurchaseRequest.TROUSERS, EquipmentManager.PANTS ) ).run();
 			}
 
 			return true;
@@ -478,12 +479,12 @@ public class MallPurchaseRequest
 		// Only switch outfits if the person is not
 		// currently wearing the outfit.
 
-		if ( EquipmentDatabase.isWearingOutfit( neededOutfit ) )
+		if ( EquipmentManager.isWearingOutfit( neededOutfit ) )
 		{
 			return true;
 		}
 
-		if ( !EquipmentDatabase.hasOutfit( neededOutfit ) )
+		if ( !EquipmentManager.hasOutfit( neededOutfit ) )
 		{
 			return false;
 		}

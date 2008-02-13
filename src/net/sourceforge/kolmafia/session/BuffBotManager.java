@@ -63,7 +63,6 @@ import net.sourceforge.kolmafia.request.MailboxRequest;
 import net.sourceforge.kolmafia.request.SendMailRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 
-import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
@@ -334,12 +333,12 @@ public abstract class BuffBotManager
 					{
 						AdventureResult restores =
 							new AdventureResult( "magical mystery juice", BuffBotManager.initialRestores );
-						BuffBotHome.setBuffBotActive( AdventureDatabase.retrieveItem( restores ) );
+						BuffBotHome.setBuffBotActive( InventoryManager.retrieveItem( restores ) );
 					}
 					else
 					{
 						AdventureResult restores = new AdventureResult( "phonics down", BuffBotManager.initialRestores );
-						BuffBotHome.setBuffBotActive( AdventureDatabase.retrieveItem( restores ) );
+						BuffBotHome.setBuffBotActive( InventoryManager.retrieveItem( restores ) );
 					}
 				}
 			}

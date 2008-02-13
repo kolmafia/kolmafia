@@ -72,7 +72,6 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
@@ -100,6 +99,8 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.session.ChatManager;
 import net.sourceforge.kolmafia.session.ClanManager;
+import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MushroomManager;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.StoreManager;
@@ -1626,7 +1627,7 @@ public abstract class RuntimeLibrary
 			return RuntimeLibrary.continueValue();
 		}
 
-		AdventureDatabase.retrieveItem( new AdventureResult( item.intValue(), count ) );
+		InventoryManager.retrieveItem( new AdventureResult( item.intValue(), count ) );
 		return RuntimeLibrary.continueValue();
 	}
 
@@ -1658,9 +1659,9 @@ public abstract class RuntimeLibrary
 
 		int runningTotal = item.getCount( KoLConstants.inventory ) + item.getCount( KoLConstants.closet );
 
-		for ( int i = 0; i <= KoLCharacter.FAMILIAR; ++i )
+		for ( int i = 0; i <= EquipmentManager.FAMILIAR; ++i )
 		{
-			if ( KoLCharacter.getEquipment( i ).equals( item ) )
+			if ( EquipmentManager.getEquipment( i ).equals( item ) )
 			{
 				++runningTotal;
 			}
@@ -2109,7 +2110,7 @@ public abstract class RuntimeLibrary
 
 	public static Value can_equip( final Value item )
 	{
-		return DataTypes.makeBooleanValue( EquipmentDatabase.canEquip( ItemDatabase.getItemName( item.intValue() ) ) );
+		return DataTypes.makeBooleanValue( EquipmentManager.canEquip( ItemDatabase.getItemName( item.intValue() ) ) );
 	}
 
 	public static Value equip( final Value item )
@@ -2135,7 +2136,7 @@ public abstract class RuntimeLibrary
 
 	public static Value equipped_item( final Value slot )
 	{
-		return DataTypes.makeItemValue( KoLCharacter.getEquipment( slot.intValue() ).getName() );
+		return DataTypes.makeItemValue( EquipmentManager.getEquipment( slot.intValue() ).getName() );
 	}
 
 	public static Value have_equipped( final Value item )
@@ -2158,7 +2159,7 @@ public abstract class RuntimeLibrary
 			return DataTypes.FALSE_VALUE;
 		}
 
-		return DataTypes.makeBooleanValue( EquipmentDatabase.hasOutfit( so.getOutfitId() ) );
+		return DataTypes.makeBooleanValue( EquipmentManager.hasOutfit( so.getOutfitId() ) );
 	}
 
 	public static Value weapon_hands( final Value item )
@@ -2951,13 +2952,13 @@ public abstract class RuntimeLibrary
 
 	public static Value buffed_hit_stat()
 	{
-		int hitStat = KoLCharacter.getAdjustedHitStat();
+		int hitStat = EquipmentManager.getAdjustedHitStat();
 		return new Value( hitStat );
 	}
 
 	public static Value current_hit_stat()
 	{
-		return KoLCharacter.hitStat() == KoLConstants.MOXIE ? DataTypes.MOXIE_VALUE : DataTypes.MUSCLE_VALUE;
+		return EquipmentManager.getHitStatType() == KoLConstants.MOXIE ? DataTypes.MOXIE_VALUE : DataTypes.MUSCLE_VALUE;
 	}
 
 	public static Value monster_element()

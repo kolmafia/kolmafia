@@ -76,13 +76,14 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.SystemTrayFrame;
 import net.sourceforge.kolmafia.session.ChatManager;
 import net.sourceforge.kolmafia.session.ClanManager;
+import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LouvreManager;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.VioletFogManager;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
-import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class GenericRequest
@@ -713,15 +714,15 @@ public class GenericRequest
 
 		if ( location.startsWith( "sewer.php" ) )
 		{
-			AdventureDatabase.retrieveItem( SewerRequest.GUM.getInstance( 1 ) );
+			InventoryManager.retrieveItem( SewerRequest.GUM.getInstance( 1 ) );
 		}
 		else if ( location.startsWith( "hermit.php?autopermit=on" ) )
 		{
-			AdventureDatabase.retrieveItem( HermitRequest.PERMIT.getInstance( 1 ) );
+			InventoryManager.retrieveItem( HermitRequest.PERMIT.getInstance( 1 ) );
 		}
 		else if ( location.startsWith( "casino.php" ) )
 		{
-			AdventureDatabase.retrieveItem( KoLAdventure.CASINO_PASS );
+			InventoryManager.retrieveItem( KoLAdventure.CASINO_PASS );
 		}
 
 		// To avoid wasting turns, buy a can of hair spray before
@@ -802,7 +803,7 @@ public class GenericRequest
 
 		if ( urlString.startsWith( "ascend.php" ) )
 		{
-			if ( KoLCharacter.hasItem( KoLAdventure.MEATCAR ) )
+			if ( InventoryManager.hasItem( KoLAdventure.MEATCAR ) )
 			{
 				( new UntinkerRequest( KoLAdventure.MEATCAR.getItemId() ) ).run();
 			}
@@ -1981,7 +1982,7 @@ public class GenericRequest
 			// Auto-skip the goatlet adventure if you're not wearing
 			// the mining outfit so it can be tried again later.
 
-			if ( choice.equals( "162" ) && !EquipmentDatabase.isWearingOutfit( 8 ) )
+			if ( choice.equals( "162" ) && !EquipmentManager.isWearingOutfit( 8 ) )
 			{
 				decision = "2";
 			}
@@ -2136,10 +2137,10 @@ public class GenericRequest
 		{
 			if ( choice.equals( "112" ) && decision.equals( "1" ) )
 			{
-				AdventureDatabase.retrieveItem( new AdventureResult( 2184, 1 ) );
+				InventoryManager.retrieveItem( new AdventureResult( 2184, 1 ) );
 			}
 
-			if ( choice.equals( "162" ) && !EquipmentDatabase.isWearingOutfit( 8 ) )
+			if ( choice.equals( "162" ) && !EquipmentManager.isWearingOutfit( 8 ) )
 			{
 				CouncilFrame.unlockGoatlet();
 			}
@@ -2201,7 +2202,7 @@ public class GenericRequest
 					return String.valueOf( i + 1 );
 				}
 
-				if ( possibleDecisions.length < StaticEntity.parseInt( decision ) && !KoLCharacter.hasItem( item ) )
+				if ( possibleDecisions.length < StaticEntity.parseInt( decision ) && !InventoryManager.hasItem( item ) )
 				{
 					return String.valueOf( i + 1 );
 				}

@@ -49,9 +49,10 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.IslandArenaRequest;
+import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
-import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 
@@ -1247,7 +1248,7 @@ public class IslandDecorator
 		if ( responseText.indexOf( "I'll take 'em" ) != -1 )
 		{
 			Preferences.setString( "sidequestArenaCompleted", "hippy" );
-			if ( KoLCharacter.hasItem( IslandDecorator.JAM_FLYERS ) )
+			if ( InventoryManager.hasItem( IslandDecorator.JAM_FLYERS ) )
 			{
 				StaticEntity.getClient().processResult( IslandDecorator.JAM_FLYERS );
 			}
@@ -1268,7 +1269,7 @@ public class IslandDecorator
 		if ( responseText.indexOf( "I'll take them" ) != -1 )
 		{
 			Preferences.setString( "sidequestArenaCompleted", "fratboy" );
-			if ( KoLCharacter.hasItem( IslandDecorator.JAM_FLYERS ) )
+			if ( InventoryManager.hasItem( IslandDecorator.JAM_FLYERS ) )
 			{
 				StaticEntity.getClient().processResult( IslandDecorator.ROCK_FLYERS );
 			}
@@ -1359,7 +1360,7 @@ public class IslandDecorator
 			return;
 		}
 
-		String side = EquipmentDatabase.isWearingOutfit( 32 ) ? "hippy" : "fratboy";
+		String side = EquipmentManager.isWearingOutfit( 32 ) ? "hippy" : "fratboy";
 		Preferences.setString( "sidequestOrchardCompleted", side );
 	}
 
@@ -1405,7 +1406,7 @@ public class IslandDecorator
 			return;
 		}
 
-		String side = EquipmentDatabase.isWearingOutfit( 32 ) ? "hippy" : "fratboy";
+		String side = EquipmentManager.isWearingOutfit( 32 ) ? "hippy" : "fratboy";
 		Preferences.setString( "sidequestLighthouseCompleted", side );
 	}
 

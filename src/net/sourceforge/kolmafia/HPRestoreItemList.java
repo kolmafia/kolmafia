@@ -43,8 +43,8 @@ import net.sourceforge.kolmafia.request.GalaktikRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.session.InventoryManager;
 
-import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
@@ -309,7 +309,7 @@ public abstract class HPRestoreItemList
 						numberToBuy = Math.min( KoLCharacter.getAvailableMeat() / unitPrice, numberToUse );
 					}
 
-					if ( !AdventureDatabase.retrieveItem( this.itemUsed.getInstance( numberToBuy ) ) )
+					if ( !InventoryManager.retrieveItem( this.itemUsed.getInstance( numberToBuy ) ) )
 					{
 						return;
 					}

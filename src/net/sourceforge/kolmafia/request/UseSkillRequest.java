@@ -48,10 +48,10 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MoodManager;
 
-import net.sourceforge.kolmafia.persistence.AdventureDatabase;
-import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
@@ -365,7 +365,7 @@ public class UseSkillRequest
 
 	private static final boolean canSwitchToItem( final AdventureResult item )
 	{
-		return !KoLCharacter.hasEquipped( item ) && EquipmentDatabase.canEquip( item.getName() ) && KoLCharacter.hasItem(
+		return !KoLCharacter.hasEquipped( item ) && EquipmentManager.canEquip( item.getName() ) && InventoryManager.hasItem(
 			item, false );
 	}
 
@@ -399,7 +399,7 @@ public class UseSkillRequest
 
 	private static final boolean isValidSwitch( final int slotId )
 	{
-		AdventureResult item = KoLCharacter.getEquipment( slotId );
+		AdventureResult item = EquipmentManager.getEquipment( slotId );
 		for ( int i = 0; i < UseSkillRequest.AVOID_REMOVAL.length; ++i )
 		{
 			if ( item.equals( UseSkillRequest.AVOID_REMOVAL[ i ] ) )
@@ -416,20 +416,20 @@ public class UseSkillRequest
 	{
 		if ( slot3Allowed )
 		{
-			( new EquipmentRequest( item, KoLCharacter.ACCESSORY3 ) ).run();
-			return KoLCharacter.ACCESSORY3;
+			( new EquipmentRequest( item, EquipmentManager.ACCESSORY3 ) ).run();
+			return EquipmentManager.ACCESSORY3;
 		}
 
 		if ( slot2Allowed )
 		{
-			( new EquipmentRequest( item, KoLCharacter.ACCESSORY2 ) ).run();
-			return KoLCharacter.ACCESSORY2;
+			( new EquipmentRequest( item, EquipmentManager.ACCESSORY2 ) ).run();
+			return EquipmentManager.ACCESSORY2;
 		}
 
 		if ( slot1Allowed )
 		{
-			( new EquipmentRequest( item, KoLCharacter.ACCESSORY1 ) ).run();
-			return KoLCharacter.ACCESSORY1;
+			( new EquipmentRequest( item, EquipmentManager.ACCESSORY1 ) ).run();
+			return EquipmentManager.ACCESSORY1;
 		}
 
 		return -1;
@@ -453,9 +453,9 @@ public class UseSkillRequest
 		// First determine which slots are available for switching in
 		// MP reduction items.
 
-		boolean slot1Allowed = UseSkillRequest.isValidSwitch( KoLCharacter.ACCESSORY1 );
-		boolean slot2Allowed = UseSkillRequest.isValidSwitch( KoLCharacter.ACCESSORY2 );
-		boolean slot3Allowed = UseSkillRequest.isValidSwitch( KoLCharacter.ACCESSORY3 );
+		boolean slot1Allowed = UseSkillRequest.isValidSwitch( EquipmentManager.ACCESSORY1 );
+		boolean slot2Allowed = UseSkillRequest.isValidSwitch( EquipmentManager.ACCESSORY2 );
+		boolean slot3Allowed = UseSkillRequest.isValidSwitch( EquipmentManager.ACCESSORY3 );
 
 		// Best switch is a PLEXI_WATCH, since it's a guaranteed -3 to
 		// spell cost.
@@ -475,13 +475,13 @@ public class UseSkillRequest
 			switch ( UseSkillRequest.attemptSwitch(
 				skillId, UseSkillRequest.AVOID_REMOVAL[ i ], slot1Allowed, slot2Allowed, slot3Allowed ) )
 			{
-			case KoLCharacter.ACCESSORY1:
+			case EquipmentManager.ACCESSORY1:
 				slot1Allowed = false;
 				break;
-			case KoLCharacter.ACCESSORY2:
+			case EquipmentManager.ACCESSORY2:
 				slot2Allowed = false;
 				break;
-			case KoLCharacter.ACCESSORY3:
+			case EquipmentManager.ACCESSORY3:
 				slot3Allowed = false;
 				break;
 			}
@@ -673,7 +673,7 @@ public class UseSkillRequest
 
 		for ( int i = 0; i < UseSkillRequest.THIEF_WEAPONS.length; ++i )
 		{
-			if ( KoLCharacter.hasItem( UseSkillRequest.THIEF_WEAPONS[ i ], true ) )
+			if ( InventoryManager.hasItem( UseSkillRequest.THIEF_WEAPONS[ i ], true ) )
 			{
 				return true;
 			}
@@ -686,18 +686,18 @@ public class UseSkillRequest
 	{
 		if ( KoLCharacter.canInteract() )
 		{
-			if ( KoLCharacter.hasItem( options[ 0 ], false ) || KoLCharacter.hasItem( options[ 1 ], false ) )
+			if ( InventoryManager.hasItem( options[ 0 ], false ) || InventoryManager.hasItem( options[ 1 ], false ) )
 			{
 				return;
 			}
 
-			AdventureDatabase.retrieveItem( options[ 1 ] );
+			InventoryManager.retrieveItem( options[ 1 ] );
 			return;
 		}
 
 		for ( int i = 0; i < options.length; ++i )
 		{
-			if ( !KoLCharacter.hasItem( options[ i ], false ) )
+			if ( !InventoryManager.hasItem( options[ i ], false ) )
 			{
 				continue;
 			}
@@ -707,11 +707,11 @@ public class UseSkillRequest
 				return;
 			}
 
-			AdventureDatabase.retrieveItem( options[ i ] );
+			InventoryManager.retrieveItem( options[ i ] );
 			return;
 		}
 
-		AdventureDatabase.retrieveItem( options[ options.length - 1 ] );
+		InventoryManager.retrieveItem( options[ options.length - 1 ] );
 	}
 
 	protected boolean retryOnTimeout()

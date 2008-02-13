@@ -45,6 +45,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.session.EquipmentManager;
 
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -450,15 +451,15 @@ public class ListCellRendererFactory
 				if ( equipmentType == KoLConstants.EQUIP_ACCESSORY )
 				{
 					int count = ar.getCount( KoLConstants.inventory );
-					if ( ar.equals( KoLCharacter.getEquipment( KoLCharacter.ACCESSORY1 ) ) )
+					if ( ar.equals( EquipmentManager.getEquipment( EquipmentManager.ACCESSORY1 ) ) )
 					{
 						++count;
 					}
-					if ( ar.equals( KoLCharacter.getEquipment( KoLCharacter.ACCESSORY2 ) ) )
+					if ( ar.equals( EquipmentManager.getEquipment( EquipmentManager.ACCESSORY2 ) ) )
 					{
 						++count;
 					}
-					if ( ar.equals( KoLCharacter.getEquipment( KoLCharacter.ACCESSORY3 ) ) )
+					if ( ar.equals( EquipmentManager.getEquipment( EquipmentManager.ACCESSORY3 ) ) )
 					{
 						++count;
 					}
@@ -476,7 +477,7 @@ public class ListCellRendererFactory
 				// Gray out any equipment that the player cannot currently equip
 				// inside of an equipment filter.
 
-				if ( !EquipmentDatabase.canEquip( ar.getName() ) )
+				if ( !EquipmentManager.canEquip( ar.getName() ) )
 				{
 					stringForm = "<html><font color=gray>" + stringForm + "</font></html>";
 				}
