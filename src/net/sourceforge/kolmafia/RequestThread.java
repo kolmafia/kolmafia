@@ -39,6 +39,7 @@ import net.sourceforge.foxtrot.Job;
 import net.sourceforge.foxtrot.Worker;
 
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
 
 public abstract class RequestThread
 {

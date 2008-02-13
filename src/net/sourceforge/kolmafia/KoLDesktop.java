@@ -33,10 +33,13 @@
 
 package net.sourceforge.kolmafia;
 
+import com.sun.java.forums.CloseableTabbedPane;
+
 import java.awt.BorderLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+
 import java.util.ArrayList;
 
 import javax.swing.Box;
@@ -49,16 +52,23 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.swingui.AdventureFrame;
+import net.sourceforge.kolmafia.swingui.ChatFrame;
+import net.sourceforge.kolmafia.swingui.FlowerHunterFrame;
+import net.sourceforge.kolmafia.swingui.GenericFrame;
+import net.sourceforge.kolmafia.swingui.MailboxFrame;
+import net.sourceforge.kolmafia.swingui.SendMessageFrame;
+import net.sourceforge.kolmafia.swingui.button.DisplayFrameButton;
+import net.sourceforge.kolmafia.swingui.button.LoadScriptButton;
+import net.sourceforge.kolmafia.swingui.button.InvocationButton;
+import net.sourceforge.kolmafia.swingui.menu.GlobalMenuBar;
 import tab.CloseListener;
 import tab.CloseTabPaneUI;
 import tab.CloseTabbedPane;
 
-import com.sun.java.forums.CloseableTabbedPane;
-
-import net.sourceforge.kolmafia.persistence.Preferences;
-
 public class KoLDesktop
-	extends KoLFrame
+	extends GenericFrame
 	implements ChangeListener, CloseListener
 {
 	private static final DisplayDesktopRunnable DISPLAYER = new DisplayDesktopRunnable();
@@ -96,7 +106,7 @@ public class KoLDesktop
 		this.addCompactPane();
 
 		JToolBar toolbarPanel = this.getToolbar();
-		this.setJMenuBar( new KoLMenuBar() );
+		this.setJMenuBar( new GlobalMenuBar() );
 		this.tabs.addChangeListener( this );
 
 		int scriptButtons = Preferences.getInteger( "scriptButtonPosition" );
@@ -156,7 +166,7 @@ public class KoLDesktop
 		int selectedIndex = KoLDesktop.this.tabs.getSelectedIndex();
 		if ( selectedIndex != -1 && selectedIndex < KoLDesktop.this.tabListing.size() )
 		{
-			( (KoLFrame) KoLDesktop.this.tabListing.get( selectedIndex ) ).requestFocus();
+			( (GenericFrame) KoLDesktop.this.tabListing.get( selectedIndex ) ).requestFocus();
 		}
 	}
 
@@ -221,7 +231,7 @@ public class KoLDesktop
 		while ( !this.tabListing.isEmpty() )
 		{
 			this.tabs.removeTabAt( 0 );
-			( (KoLFrame) this.tabListing.remove( 0 ) ).dispose();
+			( (GenericFrame) this.tabListing.remove( 0 ) ).dispose();
 		}
 
 		super.dispose();
@@ -243,7 +253,7 @@ public class KoLDesktop
 		return KoLDesktop.INSTANCE;
 	}
 
-	public static final void addTab( final KoLFrame content )
+	public static final void addTab( final GenericFrame content )
 	{
 		if ( KoLDesktop.INSTANCE == null )
 		{
@@ -269,7 +279,7 @@ public class KoLDesktop
 		}
 	}
 
-	public static final boolean isInversionExempt( final KoLFrame content )
+	public static final boolean isInversionExempt( final GenericFrame content )
 	{
 		return content instanceof AdventureFrame || content instanceof FlowerHunterFrame || content instanceof MailboxFrame || content instanceof SendMessageFrame;
 	}
@@ -313,7 +323,7 @@ public class KoLDesktop
 		}
 	}
 
-	public static final void removeTab( final KoLFrame content )
+	public static final void removeTab( final GenericFrame content )
 	{
 		if ( KoLDesktop.INSTANCE == null )
 		{
@@ -328,7 +338,7 @@ public class KoLDesktop
 		}
 	}
 
-	public static final boolean showComponent( final KoLFrame content )
+	public static final boolean showComponent( final GenericFrame content )
 	{
 		if ( KoLDesktop.INSTANCE == null )
 		{
@@ -345,7 +355,7 @@ public class KoLDesktop
 		return true;
 	}
 
-	public static final void setTitle( final KoLFrame content, final String newTitle )
+	public static final void setTitle( final GenericFrame content, final String newTitle )
 	{
 		if ( KoLDesktop.INSTANCE == null )
 		{
@@ -366,7 +376,7 @@ public class KoLDesktop
 			KoLDesktop.INSTANCE.setTitle( KoLDesktop.INSTANCE.lastTitle );
 		}
 
-		KoLFrame[] frames = StaticEntity.getExistingFrames();
+		GenericFrame[] frames = StaticEntity.getExistingFrames();
 		for ( int i = 0; i < frames.length; ++i )
 		{
 			frames[ i ].setTitle( frames[ i ].lastTitle );
@@ -429,7 +439,7 @@ public class KoLDesktop
 		String setting = Preferences.getString( "initialDesktop" );
 		for ( int i = 0; i < KoLDesktop.INSTANCE.tabListing.size(); ++i )
 		{
-			KoLFrame frame = (KoLFrame) KoLDesktop.INSTANCE.tabListing.get( i );
+			GenericFrame frame = (GenericFrame) KoLDesktop.INSTANCE.tabListing.get( i );
 			if ( !( frame instanceof ChatFrame ) && setting.indexOf( frame.getFrameName() ) == -1 )
 			{
 				frame.dispose();

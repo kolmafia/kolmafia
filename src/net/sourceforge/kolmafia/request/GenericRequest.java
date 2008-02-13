@@ -59,10 +59,7 @@ import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.sourceforge.foxtrot.Job;
 
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.CouncilFrame;
 import net.sourceforge.kolmafia.CreateFrameRunnable;
-import net.sourceforge.kolmafia.EventsFrame;
-import net.sourceforge.kolmafia.FightFrame;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -70,10 +67,8 @@ import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.LocalRelayServer;
 import net.sourceforge.kolmafia.LogStream;
-import net.sourceforge.kolmafia.RequestFrame;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.SystemTrayFrame;
 import net.sourceforge.kolmafia.session.ChatManager;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -81,6 +76,11 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LouvreManager;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.VioletFogManager;
+import net.sourceforge.kolmafia.swingui.CouncilFrame;
+import net.sourceforge.kolmafia.swingui.RecentEventsFrame;
+import net.sourceforge.kolmafia.swingui.RequestSynchFrame;
+import net.sourceforge.kolmafia.swingui.RequestFrame;
+import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
@@ -2272,7 +2272,7 @@ public class GenericRequest
 		// Only show the request if the response code is
 		// 200 (not a redirect or error).
 
-		FightFrame.showRequest( this );
+		RequestSynchFrame.showRequest( this );
 	}
 
 	private void checkForNewEvents()
@@ -2374,7 +2374,7 @@ public class GenericRequest
 
 		if ( !isChatRunning && shouldLoadEventFrame )
 		{
-			SwingUtilities.invokeLater( new CreateFrameRunnable( EventsFrame.class ) );
+			SwingUtilities.invokeLater( new CreateFrameRunnable( RecentEventsFrame.class ) );
 		}
 	}
 

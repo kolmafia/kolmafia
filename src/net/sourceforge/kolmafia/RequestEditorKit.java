@@ -35,13 +35,16 @@ package net.sourceforge.kolmafia;
 
 import java.awt.Color;
 import java.awt.Component;
+
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.OutputStream;
+
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLDecoder;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -73,6 +76,8 @@ import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.MoonPhaseRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
+import net.sourceforge.kolmafia.swingui.GenericFrame;
+import net.sourceforge.kolmafia.swingui.RequestFrame;
 import net.sourceforge.kolmafia.webui.BasementDecorator;
 import net.sourceforge.kolmafia.webui.BeerPongDecorator;
 import net.sourceforge.kolmafia.webui.CharPaneDecorator;
@@ -1521,7 +1526,7 @@ public class RequestEditorKit
 
 		private RequestFrame findFrame( final String value )
 		{
-			KoLFrame[] frames = StaticEntity.getExistingFrames();
+			GenericFrame[] frames = StaticEntity.getExistingFrames();
 			String search = "value=\"" + value + "\"";
 
 			for ( int i = 0; i < frames.length; ++i )

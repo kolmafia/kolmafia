@@ -44,8 +44,8 @@ import javax.swing.SwingConstants;
 import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
-import net.sourceforge.kolmafia.SimpleScrollPane;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 
 public class ScrollablePanel
 	extends ActionPanel
@@ -81,7 +81,7 @@ public class ScrollablePanel
 				title, SwingConstants.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
 		}
 
-		this.centerPanel.add( new SimpleScrollPane( scrollComponent ), BorderLayout.CENTER );
+		this.centerPanel.add( new GenericScrollPane( scrollComponent ), BorderLayout.CENTER );
 		this.actualPanel = new JPanel( new BorderLayout( 20, 10 ) );
 		this.actualPanel.add( this.centerPanel, BorderLayout.CENTER );
 

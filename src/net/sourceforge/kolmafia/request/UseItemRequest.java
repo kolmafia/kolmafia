@@ -43,7 +43,6 @@ import net.sourceforge.kolmafia.HPRestoreItemList;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLFrame;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.MPRestoreItemList;
@@ -52,14 +51,14 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.SorceressLairManager;
-
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.SorceressLairManager;
+import net.sourceforge.kolmafia.swingui.GenericFrame;
 
 public class UseItemRequest
 	extends GenericRequest
@@ -729,7 +728,7 @@ public class UseItemRequest
 			}
 			else if ( knowsOde && UseItemRequest.askedAboutOde != KoLCharacter.getUserId() )
 			{
-				if ( !KoLFrame.confirm( "Are you sure you want to drink without ode?" ) )
+				if ( !GenericFrame.confirm( "Are you sure you want to drink without ode?" ) )
 				{
 					return false;
 				}
@@ -743,11 +742,11 @@ public class UseItemRequest
 
 		if ( KoLCharacter.getInebriety() + inebrietyBonus > KoLCharacter.getInebrietyLimit() )
 		{
-			if ( KoLCharacter.getAttacksLeft() > 0 && !KoLFrame.confirm( "Are you sure you want to overdrink without PvPing?" ) )
+			if ( KoLCharacter.getAttacksLeft() > 0 && !GenericFrame.confirm( "Are you sure you want to overdrink without PvPing?" ) )
 			{
 				return false;
 			}
-			else if ( KoLCharacter.getAdventuresLeft() > 40 && !KoLFrame.confirm( "Are you sure you want to overdrink?" ) )
+			else if ( KoLCharacter.getAdventuresLeft() > 40 && !GenericFrame.confirm( "Are you sure you want to overdrink?" ) )
 			{
 				return false;
 			}

@@ -45,15 +45,15 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLFrame;
 import net.sourceforge.kolmafia.KoLMailMessage;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.LogStream;
-import net.sourceforge.kolmafia.ProfileFrame;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.MailManager;
+import net.sourceforge.kolmafia.swingui.GenericFrame;
+import net.sourceforge.kolmafia.swingui.ProfileFrame;
 
 import net.sourceforge.kolmafia.persistence.Preferences;
 
@@ -300,7 +300,7 @@ public class PvpRequest
 		Matcher rankMatcher = PvpRequest.RANKING_PATTERN.matcher( this.responseText );
 		if ( !rankMatcher.find() )
 		{
-			if ( !KoLFrame.confirm( "Would you like to break your hippy stone?" ) )
+			if ( !GenericFrame.confirm( "Would you like to break your hippy stone?" ) )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "This feature is not available to hippies." );
 				return;

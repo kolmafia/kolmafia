@@ -33,10 +33,13 @@
 
 package net.sourceforge.kolmafia;
 
+import edu.stanford.ejalbert.BrowserLauncher;
+
 import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.StringTokenizer;
@@ -57,8 +60,11 @@ import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.SellStuffRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.swingui.DescriptionFrame;
+import net.sourceforge.kolmafia.swingui.GenericFrame;
+import net.sourceforge.kolmafia.swingui.RequestFrame;
+import net.sourceforge.kolmafia.swingui.RequestSynchFrame;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
-import edu.stanford.ejalbert.BrowserLauncher;
 
 public abstract class StaticEntity
 {
@@ -76,7 +82,7 @@ public abstract class StaticEntity
 
 	public static final ArrayList existingPanels = new ArrayList();
 
-	private static KoLFrame[] frameArray = new KoLFrame[ 0 ];
+	private static GenericFrame[] frameArray = new GenericFrame[ 0 ];
 	private static ActionPanel[] panelArray = new GenericPanel[ 0 ];
 
 	public static class TurnCounter
@@ -341,7 +347,7 @@ public abstract class StaticEntity
 		return StaticEntity.client;
 	}
 
-	public static final void registerFrame( final KoLFrame frame )
+	public static final void registerFrame( final GenericFrame frame )
 	{
 		synchronized ( KoLConstants.existingFrames )
 		{
@@ -350,7 +356,7 @@ public abstract class StaticEntity
 		}
 	}
 
-	public static final void unregisterFrame( final KoLFrame frame )
+	public static final void unregisterFrame( final GenericFrame frame )
 	{
 		synchronized ( KoLConstants.existingFrames )
 		{
@@ -378,7 +384,7 @@ public abstract class StaticEntity
 		}
 	}
 
-	public static final KoLFrame[] getExistingFrames()
+	public static final GenericFrame[] getExistingFrames()
 	{
 		synchronized ( KoLConstants.existingFrames )
 		{
@@ -394,7 +400,7 @@ public abstract class StaticEntity
 
 			if ( needsRefresh )
 			{
-				StaticEntity.frameArray = new KoLFrame[ KoLConstants.existingFrames.size() ];
+				StaticEntity.frameArray = new GenericFrame[ KoLConstants.existingFrames.size() ];
 				KoLConstants.existingFrames.toArray( StaticEntity.frameArray );
 			}
 
@@ -490,7 +496,7 @@ public abstract class StaticEntity
 			return;
 		}
 
-		KoLFrame[] frames = StaticEntity.getExistingFrames();
+		GenericFrame[] frames = StaticEntity.getExistingFrames();
 		RequestFrame requestHolder = null;
 
 		for ( int i = frames.length - 1; i >= 0; --i )
@@ -503,7 +509,7 @@ public abstract class StaticEntity
 
 		if ( requestHolder == null )
 		{
-			FightFrame.showRequest( request );
+			RequestSynchFrame.showRequest( request );
 			return;
 		}
 
@@ -775,7 +781,7 @@ public abstract class StaticEntity
 
 		KoLmafia.updateDisplay( "Unexpected error, debug log printed." );
 
-		Throwable cause = t.getCause(); 
+		Throwable cause = t.getCause();
 
 		if ( cause == null || !printOnlyCause )
 		{

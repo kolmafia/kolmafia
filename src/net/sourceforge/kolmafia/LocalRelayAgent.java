@@ -36,16 +36,17 @@ package net.sourceforge.kolmafia;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
+
 import java.net.Socket;
+
 import java.util.TreeMap;
 
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.SendMailRequest;
-
-import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class LocalRelayAgent
 	extends Thread

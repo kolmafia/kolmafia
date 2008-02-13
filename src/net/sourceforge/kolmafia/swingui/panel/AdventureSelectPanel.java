@@ -39,6 +39,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+
 import java.util.TreeMap;
 
 import javax.swing.JCheckBox;
@@ -57,32 +58,30 @@ import javax.swing.event.ListSelectionListener;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
-
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AreaCombatData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLCharacterAdapter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLFrame;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.LimitedSizeChatBuffer;
-import net.sourceforge.kolmafia.RequestPane;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.SimpleScrollPane;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.ThreadedButton;
-import net.sourceforge.kolmafia.ThreadedListener;
-import net.sourceforge.kolmafia.KoLFrame.InvocationButton;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.swingui.GenericFrame;
+import net.sourceforge.kolmafia.swingui.button.InvocationButton;
+import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
+import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightSpinner;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
-
-import net.sourceforge.kolmafia.persistence.AdventureDatabase;
-import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
+import net.sourceforge.kolmafia.swingui.widget.RequestPane;
 
 public class AdventureSelectPanel
 	extends JPanel
@@ -157,7 +156,7 @@ public class AdventureSelectPanel
 
 		JPanel locationPanel = new JPanel( new BorderLayout( 5, 5 ) );
 		locationPanel.add( zonePanel, BorderLayout.NORTH );
-		locationPanel.add( new SimpleScrollPane( this.locationSelect ), BorderLayout.CENTER );
+		locationPanel.add( new GenericScrollPane( this.locationSelect ), BorderLayout.CENTER );
 
 		if ( enableAdventures )
 		{
@@ -419,7 +418,7 @@ public class AdventureSelectPanel
 
 			int requestCount =
 				Math.min(
-					KoLFrame.getValue( AdventureSelectPanel.this.countField, 1 ), KoLCharacter.getAdventuresLeft() );
+					GenericFrame.getValue( AdventureSelectPanel.this.countField, 1 ), KoLCharacter.getAdventuresLeft() );
 			AdventureSelectPanel.this.countField.setValue( requestCount );
 
 			boolean resetCount = requestCount == KoLCharacter.getAdventuresLeft();
@@ -496,7 +495,7 @@ public class AdventureSelectPanel
 				return false;
 			}
 
-			if ( KoLFrame.getValue( AdventureSelectPanel.this.countField ) == 0 )
+			if ( GenericFrame.getValue( AdventureSelectPanel.this.countField ) == 0 )
 			{
 				AdventureSelectPanel.this.countField.setValue( KoLCharacter.getAdventuresLeft() );
 			}
@@ -545,7 +544,7 @@ public class AdventureSelectPanel
 		int cardCount = 0;
 
 		resultSelect.addItem( "Session Results" );
-		resultPanel.add( new SimpleScrollPane( KoLConstants.tally, 4 ), String.valueOf( cardCount++ ) );
+		resultPanel.add( new GenericScrollPane( KoLConstants.tally, 4 ), String.valueOf( cardCount++ ) );
 
 		if ( property.startsWith( "default" ) )
 		{
@@ -553,20 +552,20 @@ public class AdventureSelectPanel
 			resultPanel.add( new SafetyField(), String.valueOf( cardCount++ ) );
 
 			resultSelect.addItem( "Conditions Left" );
-			resultPanel.add( new SimpleScrollPane( KoLConstants.conditions, 4 ), String.valueOf( cardCount++ ) );
+			resultPanel.add( new GenericScrollPane( KoLConstants.conditions, 4 ), String.valueOf( cardCount++ ) );
 		}
 
 		resultSelect.addItem( "Available Skills" );
-		resultPanel.add( new SimpleScrollPane( KoLConstants.availableSkills, 4 ), String.valueOf( cardCount++ ) );
+		resultPanel.add( new GenericScrollPane( KoLConstants.availableSkills, 4 ), String.valueOf( cardCount++ ) );
 
 		resultSelect.addItem( "Active Effects" );
-		resultPanel.add( new SimpleScrollPane( KoLConstants.activeEffects, 4 ), String.valueOf( cardCount++ ) );
+		resultPanel.add( new GenericScrollPane( KoLConstants.activeEffects, 4 ), String.valueOf( cardCount++ ) );
 
 		resultSelect.addItem( "Encounter Listing" );
-		resultPanel.add( new SimpleScrollPane( KoLConstants.encounterList, 4 ), String.valueOf( cardCount++ ) );
+		resultPanel.add( new GenericScrollPane( KoLConstants.encounterList, 4 ), String.valueOf( cardCount++ ) );
 
 		resultSelect.addItem( "Visited Locations" );
-		resultPanel.add( new SimpleScrollPane( KoLConstants.adventureList, 4 ), String.valueOf( cardCount++ ) );
+		resultPanel.add( new GenericScrollPane( KoLConstants.adventureList, 4 ), String.valueOf( cardCount++ ) );
 
 		resultSelect.addActionListener( new ResultSelectListener( resultCards, resultPanel, resultSelect, property ) );
 
@@ -683,7 +682,7 @@ public class AdventureSelectPanel
 		public void stateChanged( ChangeEvent e )
 		{
 			int maximum = KoLCharacter.getAdventuresLeft();
-			int desired = KoLFrame.getValue( this, maximum );
+			int desired = GenericFrame.getValue( this, maximum );
 			if ( desired == maximum + 1 )
 				this.setValue( new Integer( 1 ) );
 			else if ( desired <= 0 || desired > maximum )

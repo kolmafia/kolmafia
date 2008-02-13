@@ -40,7 +40,6 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLFrame;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -53,6 +52,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Monster;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.textui.parsetree.AggregateType;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.TypeList;
@@ -530,32 +530,32 @@ public class DataTypes
 		switch ( type.getType() )
 		{
 		case TYPE_BOOLEAN:
-			return (String) KoLFrame.input( message, DataTypes.BOOLEANS );
+			return (String) GenericFrame.input( message, DataTypes.BOOLEANS );
 
 		case TYPE_LOCATION:
-			return (String) ( (KoLAdventure) KoLFrame.input(
+			return (String) ( (KoLAdventure) GenericFrame.input(
 				message, AdventureDatabase.getAsLockableListModel().toArray(),
 				AdventureDatabase.getAdventure( Preferences.getString( "lastAdventure" ) ) ) ).getAdventureName();
 
 		case TYPE_SKILL:
-			return (String) ( (UseSkillRequest) KoLFrame.input( message, SkillDatabase.getSkillsByType(
+			return (String) ( (UseSkillRequest) GenericFrame.input( message, SkillDatabase.getSkillsByType(
 				SkillDatabase.CASTABLE ).toArray() ) ).getSkillName();
 
 		case TYPE_FAMILIAR:
-			return ( (FamiliarData) KoLFrame.input(
+			return ( (FamiliarData) GenericFrame.input(
 				message, KoLCharacter.getFamiliarList().toArray(), KoLCharacter.getFamiliar() ) ).getRace();
 
 		case TYPE_SLOT:
-			return (String) KoLFrame.input( message, EquipmentRequest.slotNames );
+			return (String) GenericFrame.input( message, EquipmentRequest.slotNames );
 
 		case TYPE_ELEMENT:
-			return (String) KoLFrame.input( message, MonsterDatabase.elementNames );
+			return (String) GenericFrame.input( message, MonsterDatabase.elementNames );
 
 		case TYPE_CLASS:
-			return (String) KoLFrame.input( message, DataTypes.CLASSES );
+			return (String) GenericFrame.input( message, DataTypes.CLASSES );
 
 		case TYPE_STAT:
-			return (String) KoLFrame.input( message, DataTypes.STATS );
+			return (String) GenericFrame.input( message, DataTypes.STATS );
 
 		case TYPE_INT:
 		case TYPE_FLOAT:
@@ -563,7 +563,7 @@ public class DataTypes
 		case TYPE_ITEM:
 		case TYPE_EFFECT:
 		case TYPE_MONSTER:
-			return KoLFrame.input( message );
+			return GenericFrame.input( message );
 
 		default:
 			throw new ScriptException( "Internal error: Illegal type for main() parameter" );

@@ -50,19 +50,19 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
 import net.sourceforge.kolmafia.BuffBotHome;
-import net.sourceforge.kolmafia.ChatFrame;
-import net.sourceforge.kolmafia.ContactListFrame;
 import net.sourceforge.kolmafia.CreateFrameRunnable;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLFrame;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.LimitedSizeChatBuffer;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.TabbedChatFrame;
+import net.sourceforge.kolmafia.swingui.ChatFrame;
+import net.sourceforge.kolmafia.swingui.ContactListFrame;
+import net.sourceforge.kolmafia.swingui.GenericFrame;
+import net.sourceforge.kolmafia.swingui.TabbedChatFrame;
 import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.webui.CharacterEntityReference;
 
@@ -1268,7 +1268,7 @@ public abstract class ChatManager
 
 	public static final void addHighlighting()
 	{
-		String highlight = KoLFrame.input( "What word/phrase would you like to highlight?", KoLCharacter.getUserName() );
+		String highlight = GenericFrame.input( "What word/phrase would you like to highlight?", KoLCharacter.getUserName() );
 		if ( highlight == null )
 		{
 			return;
@@ -1309,7 +1309,7 @@ public abstract class ChatManager
 		Object[] patterns = LimitedSizeChatBuffer.highlights.toArray();
 		if ( patterns.length == 0 )
 		{
-			KoLFrame.alert( "No active highlights." );
+			GenericFrame.alert( "No active highlights." );
 			ChatManager.highlighting = false;
 			return;
 		}
@@ -1319,7 +1319,7 @@ public abstract class ChatManager
 			patterns[ i ] = ( (Pattern) patterns[ i ] ).pattern();
 		}
 
-		String selectedValue = (String) KoLFrame.input( "Currently highlighting the following terms:", patterns );
+		String selectedValue = (String) GenericFrame.input( "Currently highlighting the following terms:", patterns );
 
 		if ( selectedValue == null )
 		{

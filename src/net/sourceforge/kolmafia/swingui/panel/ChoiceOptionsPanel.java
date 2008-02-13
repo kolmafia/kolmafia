@@ -49,10 +49,10 @@ import javax.swing.event.ListSelectionListener;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.KoLAdventure;
-import net.sourceforge.kolmafia.KoLFrame;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.LouvreManager;
 import net.sourceforge.kolmafia.session.VioletFogManager;
+import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -524,7 +524,7 @@ public class ChoiceOptionsPanel
 
 			private String getCoordinates()
 			{
-				String coords = KoLFrame.input( "Longitude, Latitude" );
+				String coords = GenericFrame.input( "Longitude, Latitude" );
 				if ( coords == null )
 					return null;
 

@@ -39,6 +39,14 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.swingui.ChatFrame;
+import net.sourceforge.kolmafia.swingui.GenericFrame;
+import net.sourceforge.kolmafia.swingui.GenericPanelFrame;
+import net.sourceforge.kolmafia.swingui.LoginFrame;
+import net.sourceforge.kolmafia.swingui.SendMessageFrame;
+import net.sourceforge.kolmafia.swingui.SkillBuffFrame;
+import net.sourceforge.kolmafia.swingui.TabbedChatFrame;
+import net.sourceforge.kolmafia.swingui.menu.GlobalMenuBar;
 
 public class CreateFrameRunnable
 	implements Runnable, KoLConstants
@@ -140,7 +148,7 @@ public class CreateFrameRunnable
 		String searchString = this.creationType.toString();
 		searchString = searchString.substring( searchString.lastIndexOf( "." ) + 1 );
 
-		boolean appearsInTab = KoLFrame.appearsInTab( 
+		boolean appearsInTab = GenericFrame.appearsInTab(
 			searchString.endsWith( "ChatFrame" ) ? "ChatManager" : searchString );
 
 		if ( !this.loadPreviousFrame() )
@@ -175,7 +183,7 @@ public class CreateFrameRunnable
 		}
 
 		this.creation.pack();
-		if ( !( this.creation instanceof KoLFrame ) )
+		if ( !( this.creation instanceof GenericFrame ) )
 		{
 			this.creation.setLocationRelativeTo( null );
 		}
@@ -188,8 +196,8 @@ public class CreateFrameRunnable
 
 		if ( appearsInTab )
 		{
-			KoLDesktop.addTab( (KoLFrame) this.creation );
-			KoLDesktop.showComponent( (KoLFrame) this.creation );
+			KoLDesktop.addTab( (GenericFrame) this.creation );
+			KoLDesktop.showComponent( (GenericFrame) this.creation );
 		}
 		else
 		{
@@ -205,16 +213,16 @@ public class CreateFrameRunnable
 		// Check to see if this is a frame that should
 		// only be loaded once, based on the static final list.
 
-		KoLFrame currentFrame;
+		GenericFrame currentFrame;
 		Class currentType;
 
 		String creationTypeName =
-			( this.creationType == KoLPanelFrame.class ? this.parameters[ 1 ].getClass() : this.creationType ).getName();
+			( this.creationType == GenericPanelFrame.class ? this.parameters[ 1 ].getClass() : this.creationType ).getName();
 		creationTypeName = creationTypeName.substring( creationTypeName.lastIndexOf( "." ) + 1 );
 
 		for ( int i = 0; i < KoLConstants.existingFrames.size() && this.creation == null; ++i )
 		{
-			currentFrame = (KoLFrame) KoLConstants.existingFrames.get( i );
+			currentFrame = (GenericFrame) KoLConstants.existingFrames.get( i );
 			currentType = currentFrame.getClass();
 
 			if ( currentType == this.creationType && currentType != ChatFrame.class )
@@ -226,7 +234,7 @@ public class CreateFrameRunnable
 
 		for ( int i = 0; i < KoLConstants.removedFrames.size() && this.creation == null; ++i )
 		{
-			currentFrame = (KoLFrame) KoLConstants.removedFrames.get( i );
+			currentFrame = (GenericFrame) KoLConstants.removedFrames.get( i );
 			currentType = currentFrame.getClass();
 
 			if ( currentType == this.creationType && currentType != ChatFrame.class )
@@ -274,15 +282,15 @@ public class CreateFrameRunnable
 
 		try
 		{
-			if ( this.creation instanceof KoLFrame )
+			if ( this.creation instanceof GenericFrame )
 			{
-				if ( ( (KoLFrame) this.creation ).useSidePane() )
+				if ( ( (GenericFrame) this.creation ).useSidePane() )
 				{
-					( (KoLFrame) this.creation ).addCompactPane();
+					( (GenericFrame) this.creation ).addCompactPane();
 				}
 			}
 
-			this.creation.setJMenuBar( new KoLMenuBar() );
+			this.creation.setJMenuBar( new GlobalMenuBar() );
 		}
 		catch ( Exception e )
 		{

@@ -34,11 +34,15 @@
 package net.sourceforge.kolmafia;
 
 import java.net.URLEncoder;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
+
+import net.sourceforge.kolmafia.swingui.GenericFrame;
+import net.sourceforge.kolmafia.swingui.widget.RequestPane;
 
 public abstract class HyperlinkAdapter
 	implements HyperlinkListener
@@ -78,7 +82,7 @@ public abstract class HyperlinkAdapter
 			}
 			else if ( location.startsWith( "javascript:" ) && ( location.indexOf( "submit()" ) == -1 || location.indexOf( "messageform" ) != -1 ) )
 			{
-				KoLFrame.alert( "Ironically, Java does not support Javascript." );
+				GenericFrame.alert( "Ironically, Java does not support Javascript." );
 			}
 			else if ( location.indexOf( "submit()" ) == -1 )
 			{
