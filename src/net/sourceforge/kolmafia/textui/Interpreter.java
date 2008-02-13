@@ -58,8 +58,8 @@ import net.sourceforge.kolmafia.textui.parsetree.VariableReference;
 
 public class Interpreter
 {
-	private Parser parser;
-	private Scope scope;
+	protected Parser parser;
+	protected Scope scope;
 
 	// Variables used during execution
 
@@ -68,8 +68,6 @@ public class Interpreter
 	public static final String STATE_BREAK = "BREAK";
 	public static final String STATE_CONTINUE = "CONTINUE";
 	public static final String STATE_EXIT = "EXIT";
-
-	private static String lastImportString = "";
 
 	private String currentState = Interpreter.STATE_NORMAL;
 	private PrintStream traceStream = NullStream.INSTANCE;
@@ -155,49 +153,6 @@ public class Interpreter
 
 	public void execute( final String functionName, final String[] parameters )
 	{
-		// Before you do anything, validate the script, if one
-		// is provided.	 One will not be provided in the event
-		// that we are using a global namespace.
-
-		if ( this == KoLmafiaASH.NAMESPACE_INTERPRETER )
-		{
-			String importString = Preferences.getString( "commandLineNamespace" );
-			if ( importString.equals( "" ) )
-			{
-				KoLmafia.updateDisplay(
-					KoLConstants.ERROR_STATE, "No available namespace with function: " + functionName );
-				return;
-			}
-
-			TreeMap imports = this.parser.getImports();
-			boolean shouldRefresh = !Interpreter.lastImportString.equals( importString );
-
-			if ( !shouldRefresh )
-			{
-				Iterator it = imports.keySet().iterator();
-
-				while ( it.hasNext() && !shouldRefresh )
-				{
-					File file = (File) it.next();
-					shouldRefresh = ( (Long) imports.get( file ) ).longValue() != file.lastModified();
-				}
-			}
-
-			if ( shouldRefresh )
-			{
-				imports.clear();
-				Interpreter.lastImportString = "";
-
-				this.scope = new Scope( new VariableList(), Parser.getExistingFunctionScope() );
-				String[] importList = importString.split( "," );
-
-				for ( int i = 0; i < importList.length; ++i )
-				{
-					this.parser.importFile( importList[ i ], this.scope );
-				}
-			}
-		}
-
 		String currentScript = this.getFileName() == null ? "<>" : "<" + this.getFileName() + ">";
 		String notifyList = Preferences.getString( "previousNotifyList" );
 		String notifyRecipient = this.parser.getNotifyRecipient();
@@ -210,9 +165,14 @@ public class Interpreter
 			RequestThread.postRequest( notifier );
 		}
 
+                this.execute( functionName, parameters, true );
+	}
+
+	public void execute( final String functionName, final String[] parameters, final boolean executeTopLevel )
+	{
 		try
 		{
-			this.executeScope( this.scope, functionName, parameters );
+			this.executeScope( this.scope, functionName, parameters, executeTopLevel );
 		}
 		catch ( ScriptException e )
 		{
@@ -224,7 +184,8 @@ public class Interpreter
 		}
 	}
 
-	private Value executeScope( final Scope topScope, final String functionName, final String[] parameters )
+	private Value executeScope( final Scope topScope, final String functionName, final String[] parameters,
+				    final boolean executeTopLevel )
 	{
 		Function main;
 		Value result = null;
@@ -242,15 +203,6 @@ public class Interpreter
 		}
 
 		// First execute top-level commands;
-
-		boolean executeTopLevel = this != KoLmafiaASH.NAMESPACE_INTERPRETER;
-
-		if ( !executeTopLevel )
-		{
-			String importString = Preferences.getString( "commandLineNamespace" );
-			executeTopLevel = !importString.equals( Interpreter.lastImportString );
-			Interpreter.lastImportString = importString;
-		}
 
 		if ( executeTopLevel )
 		{

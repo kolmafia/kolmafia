@@ -761,7 +761,7 @@ public class IslandDecorator
 			// You look over and see a fellow hippy warrior using
 			// his dreadlocks to garotte a frat warrior. "Way to
 			// enforce karmic retribution!" you shout.
-			"garotte",
+			"karmic retribution",
 
 			// You see a Green Gourmet give a frat boy a plate of
 			// herbal brownies. The frat boy scarfs them all, then
