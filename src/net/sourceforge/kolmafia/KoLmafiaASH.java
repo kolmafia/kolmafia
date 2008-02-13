@@ -57,7 +57,7 @@ public abstract class KoLmafiaASH
 	private static final TreeMap TIMESTAMPS = new TreeMap();
 	private static final TreeMap INTERPRETERS = new TreeMap();
 
-	public static final Interpreter NAMESPACE_INTERPRETER = new NamespaceInterpreter();
+	public static final Interpreter NAMESPACE_INTERPRETER = new NamespaceInterpreter( "commandLineNamespace" );
 
 	public static final boolean getClientHTML( final RelayRequest request )
 	{
