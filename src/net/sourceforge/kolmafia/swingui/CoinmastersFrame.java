@@ -186,6 +186,11 @@ public class CoinmastersFrame
 			       null);
 			buyAction = "buy";
 		}
+
+		public int buyDefault( final int max )
+		{
+			return 1;
+		}
 	}
 
 	private class CoinmasterPanel
@@ -249,6 +254,11 @@ public class CoinmastersFrame
 		public void update()
 		{
 			this.hasOutfit = this.outfit == 0 || EquipmentManager.hasOutfit( this.outfit );
+		}
+
+		public int buyDefault( final int max )
+		{
+			return max;
 		}
 
 		private GenericRequest outfitRequest()
@@ -405,7 +415,7 @@ public class CoinmastersFrame
 						new BuyListener(),
 					} );
 
-				this.eastPanel.add( new InvocationButton( "visit", CoinmasterPanel.this, "visit" ), BorderLayout.SOUTH );
+				this.eastPanel.add( new InvocationButton( "check", CoinmasterPanel.this, "visit" ), BorderLayout.SOUTH );
 
 				this.elementList.setCellRenderer( getCoinmasterRenderer( buyPrices, token, property, showLighthouse() ) );
 				this.elementList.setVisibleRowCount( 6 );
@@ -453,8 +463,9 @@ public class CoinmastersFrame
 					}
 
 					int max = balance / price;
+					int def = CoinmasterPanel.this.buyDefault( max );
 
-					String value = GenericFrame.input( "Buying " + itemName + "...", KoLConstants.COMMA_FORMAT.format( max ) );
+					String value = GenericFrame.input( "Buying " + itemName + "...", KoLConstants.COMMA_FORMAT.format( def ) );
 					if ( value == null )
 					{
 						// He hit cancel
