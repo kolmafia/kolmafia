@@ -2691,9 +2691,9 @@ public class Parser
 		throw this.parseException( message );
 	}
 
-    private final ScriptException parseException( final String message )
+	private final ScriptException parseException( final String message )
 	{
-                return new ScriptException( message + " " + this.getLineAndFile() );
+		return new ScriptException( message + " " + this.getLineAndFile() );
 	}
 
 	private final String getLineAndFile()

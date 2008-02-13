@@ -40,6 +40,7 @@ import java.util.TreeMap;
 
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.NamespaceInterpreter;
 import net.sourceforge.kolmafia.textui.RuntimeLibrary;
 import net.sourceforge.kolmafia.textui.parsetree.Function;
 import net.sourceforge.kolmafia.textui.parsetree.LibraryFunction;
@@ -56,7 +57,7 @@ public abstract class KoLmafiaASH
 	private static final TreeMap TIMESTAMPS = new TreeMap();
 	private static final TreeMap INTERPRETERS = new TreeMap();
 
-	public static final Interpreter NAMESPACE_INTERPRETER = new Interpreter();
+	public static final Interpreter NAMESPACE_INTERPRETER = new NamespaceInterpreter();
 
 	public static final boolean getClientHTML( final RelayRequest request )
 	{
