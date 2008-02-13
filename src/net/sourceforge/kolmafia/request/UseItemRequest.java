@@ -52,9 +52,10 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 
-import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
@@ -625,7 +626,7 @@ public class UseItemRequest
 			SpecialOutfit.createImplicitCheckpoint();
 		}
 
-		if ( price != 0 && this.consumptionType != KoLConstants.INFINITE_USES && !AdventureDatabase.retrieveItem( this.itemUsed ) )
+		if ( price != 0 && this.consumptionType != KoLConstants.INFINITE_USES && !InventoryManager.retrieveItem( this.itemUsed ) )
 		{
 			if ( itemId == UseItemRequest.SELTZER || itemId == UseItemRequest.MAFIA_ARIA )
 			{
@@ -769,7 +770,7 @@ public class UseItemRequest
 		// inventory first - if not, report the error message and
 		// return from the method.
 
-		if ( !AdventureDatabase.retrieveItem( this.itemUsed ) )
+		if ( !InventoryManager.retrieveItem( this.itemUsed ) )
 		{
 			UseItemRequest.lastUpdate = "Insufficient items to use.";
 			return;
@@ -1168,7 +1169,7 @@ public class UseItemRequest
 
 		case TBONE_KEY:
 
-			if ( KoLCharacter.hasItem( UseItemRequest.LOCKED_LOCKER ) )
+			if ( InventoryManager.hasItem( UseItemRequest.LOCKED_LOCKER ) )
 			{
 				StaticEntity.getClient().processResult( UseItemRequest.LOCKED_LOCKER.getNegation() );
 			}
@@ -1327,7 +1328,7 @@ public class UseItemRequest
 
 		case SPOOKY_TEMPLE_MAP:
 
-			if ( KoLCharacter.hasItem( UseItemRequest.SAPLING ) && KoLCharacter.hasItem( UseItemRequest.FERTILIZER ) )
+			if ( InventoryManager.hasItem( UseItemRequest.SAPLING ) && InventoryManager.hasItem( UseItemRequest.FERTILIZER ) )
 			{
 				StaticEntity.getClient().processResult( UseItemRequest.SAPLING.getNegation() );
 				StaticEntity.getClient().processResult( UseItemRequest.FERTILIZER.getNegation() );
@@ -1345,7 +1346,7 @@ public class UseItemRequest
 
 			// "You need some planks to build the dinghy."
 
-			if ( KoLCharacter.hasItem( UseItemRequest.PLANKS ) )
+			if ( InventoryManager.hasItem( UseItemRequest.PLANKS ) )
 			{
 				StaticEntity.getClient().processResult( UseItemRequest.PLANKS );
 			}
@@ -1377,7 +1378,7 @@ public class UseItemRequest
 
 		case FENG_SHUI:
 
-			if ( KoLCharacter.hasItem( UseItemRequest.FOUNTAIN ) && KoLCharacter.hasItem( UseItemRequest.WINDCHIMES ) )
+			if ( InventoryManager.hasItem( UseItemRequest.FOUNTAIN ) && InventoryManager.hasItem( UseItemRequest.WINDCHIMES ) )
 			{
 				StaticEntity.getClient().processResult( UseItemRequest.FOUNTAIN.getNegation() );
 				StaticEntity.getClient().processResult( UseItemRequest.WINDCHIMES.getNegation() );
@@ -1657,7 +1658,7 @@ public class UseItemRequest
 			if ( responseText.indexOf( "hooks were still on" ) != -1 )
 			{
 				// You lose your weapon
-				KoLCharacter.setEquipment( KoLCharacter.WEAPON, EquipmentRequest.UNEQUIP );
+				EquipmentManager.setEquipment( EquipmentManager.WEAPON, EquipmentRequest.UNEQUIP );
 				AdventureResult.addResultToList(
 					KoLConstants.inventory, UseItemRequest.WORM_RIDING_HOOKS.getInstance( 1 ) );
 				StaticEntity.getClient().processResult( UseItemRequest.WORM_RIDING_HOOKS );
@@ -1805,7 +1806,7 @@ public class UseItemRequest
 			return;
 
 		case ANCIENT_CURSED_FOOTLOCKER:
-			if ( KoLCharacter.hasItem( UseItemRequest.SIMPLE_CURSED_KEY ) )
+			if ( InventoryManager.hasItem( UseItemRequest.SIMPLE_CURSED_KEY ) )
 			{
 				StaticEntity.getClient().processResult( UseItemRequest.SIMPLE_CURSED_KEY );
 			}
@@ -1816,7 +1817,7 @@ public class UseItemRequest
 			return;
 
 		case ORNATE_CURSED_CHEST:
-			if ( KoLCharacter.hasItem( UseItemRequest.ORNATE_CURSED_KEY ) )
+			if ( InventoryManager.hasItem( UseItemRequest.ORNATE_CURSED_KEY ) )
 			{
 				StaticEntity.getClient().processResult( UseItemRequest.ORNATE_CURSED_KEY );
 			}
@@ -1827,7 +1828,7 @@ public class UseItemRequest
 			return;
 
 		case GILDED_CURSED_CHEST:
-			if ( KoLCharacter.hasItem( UseItemRequest.GILDED_CURSED_KEY ) )
+			if ( InventoryManager.hasItem( UseItemRequest.GILDED_CURSED_KEY ) )
 			{
 				StaticEntity.getClient().processResult( UseItemRequest.GILDED_CURSED_KEY );
 			}

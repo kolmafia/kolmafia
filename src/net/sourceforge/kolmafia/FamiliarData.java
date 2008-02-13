@@ -45,6 +45,7 @@ import javax.swing.SwingConstants;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.session.EquipmentManager;
 
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 
@@ -229,7 +230,7 @@ public class FamiliarData
 		}
 
 		KoLCharacter.setFamiliar( firstFamiliar );
-		KoLCharacter.setEquipment( KoLCharacter.FAMILIAR, firstFamiliar.getItem() );
+		EquipmentManager.setEquipment( EquipmentManager.FAMILIAR, firstFamiliar.getItem() );
 	}
 
 	public int getId()
@@ -444,8 +445,8 @@ public class FamiliarData
 
 		if ( this.id == 66 )
 		{
-			return KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getName().endsWith( "whip" ) || KoLCharacter.getEquipment(
-				KoLCharacter.OFFHAND ).getName().endsWith( "whip" );
+			return EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getName().endsWith( "whip" ) || EquipmentManager.getEquipment(
+				EquipmentManager.OFFHAND ).getName().endsWith( "whip" );
 		}
 
 		return false;

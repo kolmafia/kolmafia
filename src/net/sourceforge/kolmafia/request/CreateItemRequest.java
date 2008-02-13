@@ -45,10 +45,10 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
-import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class CreateItemRequest
 	extends GenericRequest
@@ -452,7 +452,7 @@ public class CreateItemRequest
 			return;
 		}
 
-		if ( !AdventureDatabase.retrieveItem( input.getInstance( this.quantityNeeded ) ) )
+		if ( !InventoryManager.retrieveItem( input.getInstance( this.quantityNeeded ) ) )
 		{
 			return;
 		}
@@ -462,7 +462,7 @@ public class CreateItemRequest
 		// then notify the person that they should
 		// purchase a tool before continuing.
 
-		if ( ( this.quantityNeeded >= 10 || KoLCharacter.hasItem( tool ) ) && !AdventureDatabase.retrieveItem( tool ) )
+		if ( ( this.quantityNeeded >= 10 || InventoryManager.hasItem( tool ) ) && !InventoryManager.retrieveItem( tool ) )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Please purchase a " + tool.getName() + " first." );
 			return;
@@ -680,12 +680,12 @@ public class CreateItemRequest
 
 		case KoLConstants.SMITH:
 
-			return KoLCharacter.inMuscleSign() || AdventureDatabase.retrieveItem( ConcoctionDatabase.HAMMER );
+			return KoLCharacter.inMuscleSign() || InventoryManager.retrieveItem( ConcoctionDatabase.HAMMER );
 
 		case KoLConstants.SMITH_WEAPON:
 		case KoLConstants.SMITH_ARMOR:
 
-			return AdventureDatabase.retrieveItem( ConcoctionDatabase.HAMMER );
+			return InventoryManager.retrieveItem( ConcoctionDatabase.HAMMER );
 
 		default:
 			return true;
@@ -726,7 +726,7 @@ public class CreateItemRequest
 
 	private boolean retrieveNoServantItem( final AdventureResult noServantItem )
 	{
-		return !Preferences.getBoolean( "requireBoxServants" ) && KoLCharacter.getAdventuresLeft() > 0 && AdventureDatabase.retrieveItem( noServantItem );
+		return !Preferences.getBoolean( "requireBoxServants" ) && KoLCharacter.getAdventuresLeft() > 0 && InventoryManager.retrieveItem( noServantItem );
 	}
 
 	private boolean useBoxServant( final AdventureResult servant, final AdventureResult clockworkServant,
@@ -743,11 +743,11 @@ public class CreateItemRequest
 
 		AdventureResult usedServant = null;
 
-		if ( KoLCharacter.hasItem( clockworkServant, false ) )
+		if ( InventoryManager.hasItem( clockworkServant, false ) )
 		{
 			usedServant = clockworkServant;
 		}
-		else if ( KoLCharacter.hasItem( servant, true ) )
+		else if ( InventoryManager.hasItem( servant, true ) )
 		{
 			usedServant = servant;
 		}
@@ -785,7 +785,7 @@ public class CreateItemRequest
 		{
 			int pasteNeeded = ConcoctionDatabase.getMeatPasteRequired( this.itemId, this.quantityNeeded );
 			AdventureResult paste = new AdventureResult( KoLConstants.MEAT_PASTE, pasteNeeded );
-			foundAllIngredients &= AdventureDatabase.retrieveItem( paste );
+			foundAllIngredients &= InventoryManager.retrieveItem( paste );
 		}
 
 		AdventureResult[] ingredients = ConcoctionDatabase.getIngredients( this.itemId );
@@ -814,7 +814,7 @@ public class CreateItemRequest
 			{
 				quantity = ( quantity + yield - 1 ) / yield;
 			}
-			foundAllIngredients &= AdventureDatabase.retrieveItem( ingredients[ i ].getInstance( quantity ) );
+			foundAllIngredients &= InventoryManager.retrieveItem( ingredients[ i ].getInstance( quantity ) );
 		}
 
 		return foundAllIngredients;

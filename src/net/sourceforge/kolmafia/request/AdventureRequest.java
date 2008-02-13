@@ -45,6 +45,7 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LouvreManager;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 
@@ -241,7 +242,7 @@ public class AdventureRequest
 
 		if ( this.formSource.equals( "lair3.php" ) )
 		{
-			if ( KoLCharacter.hasItem( SorceressLairManager.HEDGE_KEY ) && KoLCharacter.hasItem( SorceressLairManager.PUZZLE_PIECE ) )
+			if ( InventoryManager.hasItem( SorceressLairManager.HEDGE_KEY ) && InventoryManager.hasItem( SorceressLairManager.PUZZLE_PIECE ) )
 			{
 				KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Unexpected hedge maze puzzle state." );
 			}

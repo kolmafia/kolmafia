@@ -71,6 +71,8 @@ import net.sourceforge.kolmafia.StaticEntity.TurnCounter;
 import net.sourceforge.kolmafia.textui.DataTypes;
 
 import net.sourceforge.kolmafia.session.ChatManager;
+import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -604,9 +606,9 @@ public class RelayRequest
 
 	private static final String getSimulatorEquipName( final int equipmentSlot )
 	{
-		AdventureResult item = KoLCharacter.getEquipment( equipmentSlot );
+		AdventureResult item = EquipmentManager.getEquipment( equipmentSlot );
 
-		if ( equipmentSlot == KoLCharacter.FAMILIAR && item.getName().equals(
+		if ( equipmentSlot == EquipmentManager.FAMILIAR && item.getName().equals(
 			FamiliarDatabase.getFamiliarItem( KoLCharacter.getFamiliar().getId() ) ) )
 		{
 			return "familiar-specific +5 lbs.";
@@ -658,21 +660,21 @@ public class RelayRequest
 		// Current equipment
 
 		scriptBuffer.append( "hat: \"" );
-		scriptBuffer.append( RelayRequest.getSimulatorEquipName( KoLCharacter.HAT ) );
+		scriptBuffer.append( RelayRequest.getSimulatorEquipName( EquipmentManager.HAT ) );
 		scriptBuffer.append( "\", weapon: \"" );
-		scriptBuffer.append( RelayRequest.getSimulatorEquipName( KoLCharacter.WEAPON ) );
+		scriptBuffer.append( RelayRequest.getSimulatorEquipName( EquipmentManager.WEAPON ) );
 		scriptBuffer.append( "\", offhand: \"" );
-		scriptBuffer.append( RelayRequest.getSimulatorEquipName( KoLCharacter.OFFHAND ) );
+		scriptBuffer.append( RelayRequest.getSimulatorEquipName( EquipmentManager.OFFHAND ) );
 		scriptBuffer.append( "\", shirt: \"" );
-		scriptBuffer.append( RelayRequest.getSimulatorEquipName( KoLCharacter.SHIRT ) );
+		scriptBuffer.append( RelayRequest.getSimulatorEquipName( EquipmentManager.SHIRT ) );
 		scriptBuffer.append( "\", pants: \"" );
-		scriptBuffer.append( RelayRequest.getSimulatorEquipName( KoLCharacter.PANTS ) );
+		scriptBuffer.append( RelayRequest.getSimulatorEquipName( EquipmentManager.PANTS ) );
 		scriptBuffer.append( "\", acc1: \"" );
-		scriptBuffer.append( RelayRequest.getSimulatorEquipName( KoLCharacter.ACCESSORY1 ) );
+		scriptBuffer.append( RelayRequest.getSimulatorEquipName( EquipmentManager.ACCESSORY1 ) );
 		scriptBuffer.append( "\", acc2: \"" );
-		scriptBuffer.append( RelayRequest.getSimulatorEquipName( KoLCharacter.ACCESSORY2 ) );
+		scriptBuffer.append( RelayRequest.getSimulatorEquipName( EquipmentManager.ACCESSORY2 ) );
 		scriptBuffer.append( "\", acc3: \"" );
-		scriptBuffer.append( RelayRequest.getSimulatorEquipName( KoLCharacter.ACCESSORY3 ) );
+		scriptBuffer.append( RelayRequest.getSimulatorEquipName( EquipmentManager.ACCESSORY3 ) );
 		scriptBuffer.append( "\", " );
 
 		// Current familiar
@@ -683,7 +685,7 @@ public class RelayRequest
 		scriptBuffer.append( KoLCharacter.getFamiliar().getWeight() );
 		scriptBuffer.append( ", fameq: \"" );
 
-		String familiarEquipment = RelayRequest.getSimulatorEquipName( KoLCharacter.FAMILIAR );
+		String familiarEquipment = RelayRequest.getSimulatorEquipName( EquipmentManager.FAMILIAR );
 		if ( FamiliarData.itemWeightModifier( ItemDatabase.getItemId( familiarEquipment ) ) == 5 )
 		{
 			scriptBuffer.append( "familiar-specific +5 lbs." );
@@ -1244,7 +1246,7 @@ public class RelayRequest
 			String place = this.getFormField( "place" );
 			if ( place != null )
 			{
-				if ( place.equals( "5" ) && !KoLCharacter.hasEquipped( SorceressLairManager.NAGAMAR ) && !AdventureDatabase.retrieveItem( SorceressLairManager.NAGAMAR ) )
+				if ( place.equals( "5" ) && !KoLCharacter.hasEquipped( SorceressLairManager.NAGAMAR ) && !InventoryManager.retrieveItem( SorceressLairManager.NAGAMAR ) )
 				{
 					this.sendGeneralWarning(
 						"wand.gif", "It's possible there is something very important you're forgetting to do." );

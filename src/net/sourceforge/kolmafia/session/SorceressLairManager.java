@@ -60,8 +60,6 @@ import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
-import net.sourceforge.kolmafia.persistence.AdventureDatabase;
-import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 
@@ -700,7 +698,7 @@ public abstract class SorceressLairManager
 
 	private static final boolean isItemAvailable( final AdventureResult item )
 	{
-		return KoLCharacter.hasItem( item, true );
+		return InventoryManager.hasItem( item, true );
 	}
 
 	public static final void completeCloveredEntryway()
@@ -747,7 +745,7 @@ public abstract class SorceressLairManager
 
 		if ( SorceressLairManager.isItemAvailable( SorceressLairManager.BALLOON ) )
 		{
-			AdventureDatabase.retrieveItem( SorceressLairManager.BALLOON );
+			InventoryManager.retrieveItem( SorceressLairManager.BALLOON );
 			RequestThread.postRequest( SorceressLairManager.QUEST_HANDLER.constructURLString( "lair2.php?preaction=key&whichkey=" + SorceressLairManager.BALLOON.getItemId() ) );
 		}
 
@@ -767,12 +765,12 @@ public abstract class SorceressLairManager
 			return;
 		}
 
-		if ( KoLCharacter.hasItem( SorceressLairManager.HOSE_BOWL ) && KoLCharacter.hasItem( SorceressLairManager.TANK ) )
+		if ( InventoryManager.hasItem( SorceressLairManager.HOSE_BOWL ) && InventoryManager.hasItem( SorceressLairManager.TANK ) )
 		{
 			( new UntinkerRequest( SorceressLairManager.HOSE_BOWL.getItemId() ) ).run();
 		}
 
-		RequestThread.postRequest( new EquipmentRequest( SorceressLairManager.SCUBA, KoLCharacter.ACCESSORY1 ) );
+		RequestThread.postRequest( new EquipmentRequest( SorceressLairManager.SCUBA, EquipmentManager.ACCESSORY1 ) );
 
 		KoLmafia.updateDisplay( "Pressing switch beyond odor..." );
 		RequestThread.postRequest( SorceressLairManager.QUEST_HANDLER.constructURLString( "lair2.php?action=odor" ) );
@@ -841,7 +839,7 @@ public abstract class SorceressLairManager
 
 			if ( KoLConstants.activeEffects.contains( SorceressLairManager.WUSSINESS ) || KoLConstants.activeEffects.contains( SorceressLairManager.HARDLY_POISONED ) )
 			{
-				if ( KoLCharacter.hasItem( UneffectRequest.TINY_HOUSE ) )
+				if ( InventoryManager.hasItem( UneffectRequest.TINY_HOUSE ) )
 				{
 					RequestThread.postRequest( new UseItemRequest( UneffectRequest.TINY_HOUSE ) );
 				}
@@ -849,7 +847,7 @@ public abstract class SorceressLairManager
 
 			if ( KoLConstants.activeEffects.contains( SorceressLairManager.TELEPORTITIS ) )
 			{
-				if ( KoLCharacter.hasItem( UneffectRequest.REMEDY ) )
+				if ( InventoryManager.hasItem( UneffectRequest.REMEDY ) )
 				{
 					RequestThread.postRequest( new UneffectRequest( SorceressLairManager.TELEPORTITIS ) );
 				}
@@ -918,7 +916,7 @@ public abstract class SorceressLairManager
 			}
 
 			// Otherwise, move the item into inventory
-			if ( !AdventureDatabase.retrieveItem( item ) )
+			if ( !InventoryManager.retrieveItem( item ) )
 			{
 				missing.add( item );
 			}
@@ -1032,7 +1030,7 @@ public abstract class SorceressLairManager
 			RequestThread.postRequest( new UseItemRequest( SorceressLairManager.KEY_RING ) );
 		}
 
-		if ( !AdventureDatabase.retrieveItem( SorceressLairManager.SKELETON ) )
+		if ( !InventoryManager.retrieveItem( SorceressLairManager.SKELETON ) )
 		{
 			requirements.add( SorceressLairManager.SKELETON );
 			return requirements;
@@ -1059,7 +1057,7 @@ public abstract class SorceressLairManager
 
 			if ( useCloverForSkeleton && SorceressLairManager.isItemAvailable( SorceressLairManager.CLOVER ) )
 			{
-				AdventureDatabase.retrieveItem( SorceressLairManager.CLOVER );
+				InventoryManager.retrieveItem( SorceressLairManager.CLOVER );
 			}
 
 			// Next, handle the form for the skeleton key to
@@ -1104,15 +1102,15 @@ public abstract class SorceressLairManager
 
 		// See which ones are available
 
-		boolean hasSword = KoLCharacter.hasItem( SorceressLairManager.STAR_SWORD );
-		boolean hasStaff = KoLCharacter.hasItem( SorceressLairManager.STAR_STAFF );
-		boolean hasCrossbow = KoLCharacter.hasItem( SorceressLairManager.STAR_CROSSBOW );
+		boolean hasSword = InventoryManager.hasItem( SorceressLairManager.STAR_SWORD );
+		boolean hasStaff = InventoryManager.hasItem( SorceressLairManager.STAR_STAFF );
+		boolean hasCrossbow = InventoryManager.hasItem( SorceressLairManager.STAR_CROSSBOW );
 
 		// See which ones he can use
 
-		boolean canUseSword = EquipmentDatabase.canEquip( SorceressLairManager.STAR_SWORD.getName() );
-		boolean canUseStaff = EquipmentDatabase.canEquip( SorceressLairManager.STAR_STAFF.getName() );
-		boolean canUseCrossbow = EquipmentDatabase.canEquip( SorceressLairManager.STAR_CROSSBOW.getName() );
+		boolean canUseSword = EquipmentManager.canEquip( SorceressLairManager.STAR_SWORD.getName() );
+		boolean canUseStaff = EquipmentManager.canEquip( SorceressLairManager.STAR_STAFF.getName() );
+		boolean canUseCrossbow = EquipmentManager.canEquip( SorceressLairManager.STAR_CROSSBOW.getName() );
 
 		// Pick one that he has and can use
 
@@ -1171,17 +1169,17 @@ public abstract class SorceressLairManager
 
 		// Star equipment check.
 
-		if ( !AdventureDatabase.retrieveItem( starWeapon ) )
+		if ( !InventoryManager.retrieveItem( starWeapon ) )
 		{
 			requirements.add( starWeapon );
 		}
 
-		if ( !AdventureDatabase.retrieveItem( SorceressLairManager.STAR_HAT ) )
+		if ( !InventoryManager.retrieveItem( SorceressLairManager.STAR_HAT ) )
 		{
 			requirements.add( SorceressLairManager.STAR_HAT );
 		}
 
-		if ( !AdventureDatabase.retrieveItem( SorceressLairManager.RICHARD ) )
+		if ( !InventoryManager.retrieveItem( SorceressLairManager.RICHARD ) )
 		{
 			requirements.add( SorceressLairManager.RICHARD );
 		}
@@ -1194,13 +1192,13 @@ public abstract class SorceressLairManager
 		// If you can't equip the appropriate weapon and buckler,
 		// then tell the player they lack the required stats.
 
-		if ( !EquipmentDatabase.canEquip( starWeapon.getName() ) )
+		if ( !EquipmentManager.canEquip( starWeapon.getName() ) )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Stats too low to equip a star weapon." );
 			return requirements;
 		}
 
-		if ( !EquipmentDatabase.canEquip( SorceressLairManager.STAR_HAT.getName() ) )
+		if ( !EquipmentManager.canEquip( SorceressLairManager.STAR_HAT.getName() ) )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Stats too low to equip a star hat." );
 			return requirements;
@@ -1219,9 +1217,9 @@ public abstract class SorceressLairManager
 		// require you to re-equip your star weapon and
 		// a star buckler and switch to a starfish first.
 
-		RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, KoLCharacter.OFFHAND ) );
-		RequestThread.postRequest( new EquipmentRequest( starWeapon, KoLCharacter.WEAPON ) );
-		RequestThread.postRequest( new EquipmentRequest( SorceressLairManager.STAR_HAT, KoLCharacter.HAT ) );
+		RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, EquipmentManager.OFFHAND ) );
+		RequestThread.postRequest( new EquipmentRequest( starWeapon, EquipmentManager.WEAPON ) );
+		RequestThread.postRequest( new EquipmentRequest( SorceressLairManager.STAR_HAT, EquipmentManager.HAT ) );
 		RequestThread.postRequest( new FamiliarRequest( starfish ) );
 
 		KoLmafia.updateDisplay( "Inserting Richard's star key..." );
@@ -1276,7 +1274,7 @@ public abstract class SorceressLairManager
 			return requirements;
 		}
 
-		if ( !AdventureDatabase.retrieveItem( SorceressLairManager.DIGITAL ) )
+		if ( !InventoryManager.retrieveItem( SorceressLairManager.DIGITAL ) )
 		{
 			requirements.add( SorceressLairManager.DIGITAL );
 			return requirements;
@@ -1312,7 +1310,7 @@ public abstract class SorceressLairManager
 
 		if ( !SorceressLairManager.isItemAvailable( SorceressLairManager.BOWL ) && !SorceressLairManager.isItemAvailable( SorceressLairManager.HOSE_BOWL ) )
 		{
-			if ( !AdventureDatabase.retrieveItem( SorceressLairManager.BORIS ) )
+			if ( !InventoryManager.retrieveItem( SorceressLairManager.BORIS ) )
 			{
 				requirements.add( SorceressLairManager.BORIS );
 			}
@@ -1330,7 +1328,7 @@ public abstract class SorceressLairManager
 
 		if ( !SorceressLairManager.isItemAvailable( SorceressLairManager.TANK ) && !SorceressLairManager.isItemAvailable( SorceressLairManager.HOSE_TANK ) )
 		{
-			if ( !AdventureDatabase.retrieveItem( SorceressLairManager.JARLSBERG ) )
+			if ( !InventoryManager.retrieveItem( SorceressLairManager.JARLSBERG ) )
 			{
 				requirements.add( SorceressLairManager.JARLSBERG );
 			}
@@ -1348,7 +1346,7 @@ public abstract class SorceressLairManager
 
 		if ( !SorceressLairManager.isItemAvailable( SorceressLairManager.HOSE ) && !SorceressLairManager.isItemAvailable( SorceressLairManager.HOSE_TANK ) && !SorceressLairManager.isItemAvailable( SorceressLairManager.HOSE_BOWL ) )
 		{
-			if ( !AdventureDatabase.retrieveItem( SorceressLairManager.SNEAKY_PETE ) )
+			if ( !InventoryManager.retrieveItem( SorceressLairManager.SNEAKY_PETE ) )
 			{
 				requirements.add( SorceressLairManager.SNEAKY_PETE );
 			}
@@ -1367,7 +1365,7 @@ public abstract class SorceressLairManager
 		// Equip the SCUBA gear.  Attempting to retrieve it
 		// will automatically create it.
 
-		if ( !AdventureDatabase.retrieveItem( SorceressLairManager.SCUBA ) )
+		if ( !InventoryManager.retrieveItem( SorceressLairManager.SCUBA ) )
 		{
 			requirements.add( SorceressLairManager.SCUBA );
 			return requirements;
@@ -2062,7 +2060,7 @@ public abstract class SorceressLairManager
 		SorceressLairManager.QUEST_HANDLER.addFormField( "action", "runaway" );
 		RequestThread.postRequest( SorceressLairManager.QUEST_HANDLER );
 
-		if ( AdventureDatabase.retrieveItem( guardianItem ) )
+		if ( InventoryManager.retrieveItem( guardianItem ) )
 		{
 			return SorceressLairManager.fightGuardian( towerLevel );
 		}
@@ -2196,7 +2194,7 @@ public abstract class SorceressLairManager
 		SpecialOutfit.createImplicitCheckpoint();
 
 		// Equip the huge mirror shard
-		RequestThread.postRequest( new EquipmentRequest( SorceressLairManager.MIRROR_SHARD, KoLCharacter.WEAPON ) );
+		RequestThread.postRequest( new EquipmentRequest( SorceressLairManager.MIRROR_SHARD, EquipmentManager.WEAPON ) );
 
 		// Reflect the energy bolt
 		KoLmafia.updateDisplay( "Reflecting energy bolt..." );
@@ -2304,7 +2302,7 @@ public abstract class SorceressLairManager
 			{
 				if ( SorceressLairManager.isItemAvailable( item ) || NPCStoreDatabase.contains( name ) )
 				{
-					AdventureDatabase.retrieveItem( item );
+					InventoryManager.retrieveItem( item );
 				}
 			}
 		}

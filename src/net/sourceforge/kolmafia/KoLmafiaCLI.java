@@ -103,6 +103,8 @@ import net.sourceforge.kolmafia.request.ZapRequest;
 import net.sourceforge.kolmafia.session.BuffBotManager;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
+import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LeafletManager;
 import net.sourceforge.kolmafia.session.MoodManager;
 import net.sourceforge.kolmafia.session.MushroomManager;
@@ -1325,21 +1327,24 @@ public class KoLmafiaCLI
 			return;
 		}
 
-		if ( command.equals( "wiki" ) )
+		if ( command.equals( "wiki" ) || command.equals( "lookup" ) )
 		{
-			List names = EffectDatabase.getMatchingNames( parameters );
-			if ( names.size() == 1 )
+			if ( command.equals( "lookup" ) )
 			{
-				AdventureResult result = new AdventureResult( (String) names.get( 0 ), 1, true );
-				ShowDescriptionList.showWikiDescription( result );
-				return;
-			}
+				List names = EffectDatabase.getMatchingNames( parameters );
+				if ( names.size() == 1 )
+				{
+					AdventureResult result = new AdventureResult( (String) names.get( 0 ), 1, true );
+					ShowDescriptionList.showWikiDescription( result );
+					return;
+				}
 
-			AdventureResult result = KoLmafiaCLI.getFirstMatchingItem( parameters );
-			if ( result != null )
-			{
-				ShowDescriptionList.showWikiDescription( result );
-				return;
+				AdventureResult result = KoLmafiaCLI.getFirstMatchingItem( parameters );
+				if ( result != null )
+				{
+					ShowDescriptionList.showWikiDescription( result );
+					return;
+				}
 			}
 
 			try
@@ -1351,36 +1356,6 @@ public class KoLmafiaCLI
 			{
 				StaticEntity.openSystemBrowser( "http://kol.coldfront.net/thekolwiki/index.php/Special:Search?search=" + StaticEntity.globalStringReplace(
 					parameters, " ", "+" ) + "&go=Go" );
-			}
-
-			return;
-		}
-
-		// Then, the description lookup command so that
-		// people can see what the description is for a
-		// particular item.
-
-		if ( command.equals( "lookup" ) )
-		{
-			AdventureResult result = KoLmafiaCLI.getFirstMatchingItem( parameters );
-			if ( result == null )
-			{
-				return;
-			}
-
-			GenericRequest visitor =
-				new GenericRequest(
-					"desc_item.php?whichitem=" + ItemDatabase.getDescriptionId( result.getItemId() ) );
-
-			RequestThread.postRequest( visitor );
-
-			if ( StaticEntity.getClient() instanceof KoLmafiaGUI )
-			{
-				DescriptionFrame.showRequest( visitor );
-			}
-			else
-			{
-				this.showHTML( visitor.getURLString(), visitor.responseText );
 			}
 
 			return;
@@ -1444,7 +1419,7 @@ public class KoLmafiaCLI
 
 		if ( command.equals( "entryway" ) )
 		{
-			if ( KoLCharacter.hasItem( SewerRequest.CLOVER.getInstance( 1 ) ) || KoLCharacter.canInteract() )
+			if ( InventoryManager.hasItem( SewerRequest.CLOVER.getInstance( 1 ) ) || KoLCharacter.canInteract() )
 			{
 				SorceressLairManager.completeCloveredEntryway();
 			}
@@ -1626,7 +1601,7 @@ public class KoLmafiaCLI
 			AdventureResult item = KoLmafiaCLI.getFirstMatchingItem( parameters );
 			if ( item != null )
 			{
-				AdventureDatabase.retrieveItem( item, false );
+				InventoryManager.retrieveItem( item, false );
 			}
 
 			return;
@@ -1728,13 +1703,13 @@ public class KoLmafiaCLI
 				return;
 			}
 
-			AdventureDatabase.retrieveItem( KoLAdventure.BLACK_CANDLE );
+			InventoryManager.retrieveItem( KoLAdventure.BLACK_CANDLE );
 			if ( !KoLmafia.permitsContinue() )
 			{
 				return;
 			}
 
-			AdventureDatabase.retrieveItem( KoLAdventure.EVIL_SCROLL );
+			InventoryManager.retrieveItem( KoLAdventure.EVIL_SCROLL );
 			if ( !KoLmafia.permitsContinue() )
 			{
 				return;
@@ -3507,9 +3482,9 @@ public class KoLmafiaCLI
 			int currentAmount =
 				condition.getItemId() == HermitRequest.WORTHLESS_ITEM.getItemId() ? HermitRequest.getWorthlessItemCount() : condition.getCount( KoLConstants.inventory ) + condition.getCount( KoLConstants.closet );
 
-			for ( int j = 0; j < KoLCharacter.FAMILIAR; ++j )
+			for ( int j = 0; j < EquipmentManager.FAMILIAR; ++j )
 			{
-				if ( KoLCharacter.getEquipment( j ).equals( condition ) )
+				if ( EquipmentManager.getEquipment( j ).equals( condition ) )
 				{
 					++currentAmount;
 				}
@@ -3675,7 +3650,7 @@ public class KoLmafiaCLI
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Unrecognized location: " + outfitLocation );
 			}
-			else if ( !EquipmentDatabase.addOutfitConditions( lastAdventure ) )
+			else if ( !EquipmentManager.addOutfitConditions( lastAdventure ) )
 			{
 				KoLmafia.updateDisplay(
 					KoLConstants.ERROR_STATE, "No outfit corresponds to " + lastAdventure.getAdventureName() + "." );
@@ -3923,9 +3898,9 @@ public class KoLmafiaCLI
 		if ( slot == -1 )
 		{
 			// If it's already equipped anywhere, give up
-			for ( int i = 0; i <= KoLCharacter.FAMILIAR; ++i )
+			for ( int i = 0; i <= EquipmentManager.FAMILIAR; ++i )
 			{
-				AdventureResult item = KoLCharacter.getEquipment( i );
+				AdventureResult item = EquipmentManager.getEquipment( i );
 				if ( item != null && item.getName().toLowerCase().indexOf( parameters ) != -1 )
 				{
 					return;
@@ -3943,7 +3918,7 @@ public class KoLmafiaCLI
 			}
 		}
 		else // See if desired item is already in selected slot
-		if ( KoLCharacter.getEquipment( slot ).equals( match ) )
+		if ( EquipmentManager.getEquipment( slot ).equals( match ) )
 		{
 			return;
 		}
@@ -3975,13 +3950,13 @@ public class KoLmafiaCLI
 		// Allow player to remove all of his fake hands
 		if ( parameters.equals( "fake hand" ) )
 		{
-			if ( KoLCharacter.getFakeHands() == 0 )
+			if ( EquipmentManager.getFakeHands() == 0 )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You're not wearing any fake hands" );
 			}
 			else
 			{
-				RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, KoLCharacter.FAKEHAND ) );
+				RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, EquipmentManager.FAKEHAND ) );
 			}
 
 			return;
@@ -3990,9 +3965,9 @@ public class KoLmafiaCLI
 		// The following loop removes all items with the
 		// specified name.
 
-		for ( int i = 0; i <= KoLCharacter.FAMILIAR; ++i )
+		for ( int i = 0; i <= EquipmentManager.FAMILIAR; ++i )
 		{
-			AdventureResult item = KoLCharacter.getEquipment( i );
+			AdventureResult item = EquipmentManager.getEquipment( i );
 			if ( item != null && item.getName().toLowerCase().indexOf( parameters ) != -1 )
 			{
 				RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, i ) );
@@ -4140,28 +4115,28 @@ public class KoLmafiaCLI
 		}
 		else if ( desiredData.startsWith( "equip" ) )
 		{
-			desiredStream.println( "Hat: " + KoLCharacter.getEquipment( KoLCharacter.HAT ) );
-			desiredStream.println( "Weapon: " + KoLCharacter.getEquipment( KoLCharacter.WEAPON ) );
+			desiredStream.println( "Hat: " + EquipmentManager.getEquipment( EquipmentManager.HAT ) );
+			desiredStream.println( "Weapon: " + EquipmentManager.getEquipment( EquipmentManager.WEAPON ) );
 
-			if ( KoLCharacter.getFakeHands() > 0 )
+			if ( EquipmentManager.getFakeHands() > 0 )
 			{
-				desiredStream.println( "Fake Hands: " + KoLCharacter.getFakeHands() );
+				desiredStream.println( "Fake Hands: " + EquipmentManager.getFakeHands() );
 			}
 
-			desiredStream.println( "Off-hand: " + KoLCharacter.getEquipment( KoLCharacter.OFFHAND ) );
-			desiredStream.println( "Shirt: " + KoLCharacter.getEquipment( KoLCharacter.SHIRT ) );
-			desiredStream.println( "Pants: " + KoLCharacter.getEquipment( KoLCharacter.PANTS ) );
+			desiredStream.println( "Off-hand: " + EquipmentManager.getEquipment( EquipmentManager.OFFHAND ) );
+			desiredStream.println( "Shirt: " + EquipmentManager.getEquipment( EquipmentManager.SHIRT ) );
+			desiredStream.println( "Pants: " + EquipmentManager.getEquipment( EquipmentManager.PANTS ) );
 
 			desiredStream.println();
 
-			desiredStream.println( "Acc. 1: " + KoLCharacter.getEquipment( KoLCharacter.ACCESSORY1 ) );
-			desiredStream.println( "Acc. 2: " + KoLCharacter.getEquipment( KoLCharacter.ACCESSORY2 ) );
-			desiredStream.println( "Acc. 3: " + KoLCharacter.getEquipment( KoLCharacter.ACCESSORY3 ) );
+			desiredStream.println( "Acc. 1: " + EquipmentManager.getEquipment( EquipmentManager.ACCESSORY1 ) );
+			desiredStream.println( "Acc. 2: " + EquipmentManager.getEquipment( EquipmentManager.ACCESSORY2 ) );
+			desiredStream.println( "Acc. 3: " + EquipmentManager.getEquipment( EquipmentManager.ACCESSORY3 ) );
 
 			desiredStream.println();
 
 			desiredStream.println( "Pet: " + KoLCharacter.getFamiliar() );
-			desiredStream.println( "Item: " + KoLCharacter.getFamiliarItem() );
+			desiredStream.println( "Item: " + EquipmentManager.getFamiliarItem() );
 		}
 		else if ( desiredData.equals( "encounters" ) )
 		{
@@ -4213,7 +4188,7 @@ public class KoLmafiaCLI
 				desiredData.equals( "summary" ) ? KoLConstants.tally :
 				desiredData.equals( "storage" ) ? KoLConstants.storage :
 				desiredData.equals( "display" ) ? KoLConstants.collection :
-				desiredData.equals( "outfits" ) ? KoLCharacter.getOutfits() :
+				desiredData.equals( "outfits" ) ? EquipmentManager.getOutfits() :
 				desiredData.equals( "familiars" ) ? KoLCharacter.getFamiliarList() :
 				desiredData.equals( "effects" ) ? KoLConstants.activeEffects :
 				KoLConstants.inventory;
@@ -5557,7 +5532,7 @@ public class KoLmafiaCLI
 			return;
 		}
 
-		EquipmentDatabase.retrieveOutfit( intendedOutfit.getOutfitId() );
+		EquipmentManager.retrieveOutfit( intendedOutfit.getOutfitId() );
 		RequestThread.postRequest( new EquipmentRequest( intendedOutfit ) );
 	}
 
@@ -5571,9 +5546,9 @@ public class KoLmafiaCLI
 
 		Object currentTest;
 
-		for ( int i = 0; i < KoLCharacter.getCustomOutfits().size(); ++i )
+		for ( int i = 0; i < EquipmentManager.getCustomOutfits().size(); ++i )
 		{
-			currentTest = KoLCharacter.getCustomOutfits().get( i );
+			currentTest = EquipmentManager.getCustomOutfits().get( i );
 			if ( currentTest instanceof SpecialOutfit && currentTest.toString().toLowerCase().indexOf(
 				lowercaseOutfitName ) != -1 )
 			{

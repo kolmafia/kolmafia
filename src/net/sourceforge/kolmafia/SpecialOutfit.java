@@ -42,8 +42,9 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 
-import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class SpecialOutfit
@@ -83,7 +84,7 @@ public class SpecialOutfit
 		for ( int i = 0; i < this.pieces.size(); ++i )
 		{
 			boolean itemAvailable =
-				KoLCharacter.hasItem( (AdventureResult) this.pieces.get( i ) ) && EquipmentDatabase.canEquip( ( (AdventureResult) this.pieces.get( i ) ).getName() );
+				InventoryManager.hasItem( (AdventureResult) this.pieces.get( i ) ) && EquipmentManager.canEquip( ( (AdventureResult) this.pieces.get( i ) ).getName() );
 
 			if ( !itemAvailable )
 			{
@@ -175,7 +176,7 @@ public class SpecialOutfit
 				continue;
 			}
 
-			equippedItem = KoLCharacter.getEquipment( i );
+			equippedItem = EquipmentManager.getEquipment( i );
 			if ( checkpoint[ i ].equals( EquipmentRequest.UNEQUIP ) || equippedItem.equals( checkpoint[ i ] ) )
 			{
 				continue;
@@ -193,11 +194,11 @@ public class SpecialOutfit
 
 	public static final void createExplicitCheckpoint()
 	{
-		AdventureResult[] explicit = new AdventureResult[ KoLCharacter.FAMILIAR + 1 ];
+		AdventureResult[] explicit = new AdventureResult[ EquipmentManager.FAMILIAR + 1 ];
 
 		for ( int i = 0; i < explicit.length; ++i )
 		{
-			explicit[ i ] = KoLCharacter.getEquipment( i );
+			explicit[ i ] = EquipmentManager.getEquipment( i );
 		}
 
 		SpecialOutfit.explicitPoints.push( explicit );
@@ -213,9 +214,9 @@ public class SpecialOutfit
 		boolean isIdentical = true;
 		String itemName;
 
-		for ( int i = 0; i <= KoLCharacter.FAMILIAR; ++i )
+		for ( int i = 0; i <= EquipmentManager.FAMILIAR; ++i )
 		{
-			itemName = KoLCharacter.getEquipment( i ).getName();
+			itemName = EquipmentManager.getEquipment( i ).getName();
 			isIdentical &= Preferences.getString( "implicitEquipmentSlot" + i ).equals( itemName );
 		}
 
@@ -250,11 +251,11 @@ public class SpecialOutfit
 
 		synchronized ( SpecialOutfit.class )
 		{
-			AdventureResult[] implicit = new AdventureResult[ KoLCharacter.FAMILIAR + 1 ];
+			AdventureResult[] implicit = new AdventureResult[ EquipmentManager.FAMILIAR + 1 ];
 
 			for ( int i = 0; i < implicit.length; ++i )
 			{
-				implicit[ i ] = KoLCharacter.getEquipment( i );
+				implicit[ i ] = EquipmentManager.getEquipment( i );
 			}
 
 			SpecialOutfit.implicitPoints.push( implicit );

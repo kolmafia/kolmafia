@@ -45,6 +45,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.session.EquipmentManager;
 
 public class FamiliarRequest
 	extends GenericRequest
@@ -164,7 +165,7 @@ public class FamiliarRequest
 		// and make the item switch.
 
 		KoLmafia.updateDisplay( familiar.getItem().getName() + " is better than " + this.changeTo.getItem().getName() + ".  Switching items..." );
-		( new EquipmentRequest( item, KoLCharacter.FAMILIAR ) ).run();
+		( new EquipmentRequest( item, EquipmentManager.FAMILIAR ) ).run();
 	}
 
 	public void processResults()
@@ -182,7 +183,7 @@ public class FamiliarRequest
 
 		if ( KoLCharacter.getFamiliar() == null || KoLCharacter.getFamiliar() == FamiliarData.NO_FAMILIAR )
 		{
-			KoLCharacter.setEquipment( KoLCharacter.FAMILIAR, EquipmentRequest.UNEQUIP );
+			EquipmentManager.setEquipment( EquipmentManager.FAMILIAR, EquipmentRequest.UNEQUIP );
 		}
 	}
 

@@ -45,6 +45,8 @@ import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
+import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class NPCStoreDatabase
 	extends KoLDatabase
@@ -142,11 +144,11 @@ public class NPCStoreDatabase
 		}
 		else if ( storeId.equals( "b" ) )
 		{
-			return EquipmentDatabase.hasOutfit( 1 );
+			return EquipmentManager.hasOutfit( 1 );
 		}
 		else if ( storeId.equals( "r" ) )
 		{
-			return EquipmentDatabase.hasOutfit( 9 );
+			return EquipmentManager.hasOutfit( 9 );
 		}
 		else if ( storeId.equals( "4" ) || storeId.equals( "5" ) )
 		{
@@ -158,7 +160,7 @@ public class NPCStoreDatabase
 		}
 		else if ( storeId.equals( "g" ) )
 		{
-			return KoLCharacter.hasItem( NPCStoreDatabase.LAB_KEY ) && EquipmentDatabase.hasOutfit( 5 );
+			return InventoryManager.hasItem( NPCStoreDatabase.LAB_KEY ) && EquipmentManager.hasOutfit( 5 );
 		}
 		else if ( storeId.equals( "h" ) )
 		{
@@ -166,7 +168,7 @@ public class NPCStoreDatabase
 
 			if ( shopName.equals( "Hippy Store (Pre-War)" ) )
 			{
-				if ( !KoLConstants.inventory.contains( KoLAdventure.DINGHY ) || !EquipmentDatabase.hasOutfit( 2 ) )
+				if ( !KoLConstants.inventory.contains( KoLAdventure.DINGHY ) || !EquipmentManager.hasOutfit( 2 ) )
 				{
 					return false;
 				}
@@ -209,7 +211,7 @@ public class NPCStoreDatabase
 				}
 			}
 
-			return QuestLogRequest.isHippyStoreAvailable() || EquipmentDatabase.hasOutfit( 32 );
+			return QuestLogRequest.isHippyStoreAvailable() || EquipmentManager.hasOutfit( 32 );
 		}
 
 		// Check the quest log when determining if you've used the

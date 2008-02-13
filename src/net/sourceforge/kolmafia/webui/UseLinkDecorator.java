@@ -10,6 +10,8 @@ import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 
 import net.sourceforge.kolmafia.request.AdventureRequest;
@@ -102,7 +104,7 @@ public abstract class UseLinkDecorator
 
 			// Enchanted beans are primarily used for the beanstalk quest.
 			addCreateLink &=
-				itemId != KoLAdventure.BEAN.getItemId() || KoLCharacter.getLevel() < 10 || KoLCharacter.hasItem( KoLAdventure.SOCK ) || KoLCharacter.hasItem( KoLAdventure.ROWBOAT );
+				itemId != KoLAdventure.BEAN.getItemId() || KoLCharacter.getLevel() < 10 || InventoryManager.hasItem( KoLAdventure.SOCK ) || InventoryManager.hasItem( KoLAdventure.ROWBOAT );
 
 			// Skip items which are multi-use or are mp restores.
 			addCreateLink &= consumeMethod != KoLConstants.CONSUME_MULTIPLE && consumeMethod != KoLConstants.MP_RESTORE;
@@ -306,7 +308,7 @@ public abstract class UseLinkDecorator
 					case 76: // Spooky-Gro fertilizer
 
 						AdventureResult map = new AdventureResult( 74, 1 );
-						if ( KoLCharacter.hasItem( map ) )
+						if ( InventoryManager.hasItem( map ) )
 						{
 							useType = "map";
 							useLocation = "inv_use.php?pwd=" + GenericRequest.passwordHash + "&which=3&whichitem=";
@@ -317,7 +319,7 @@ public abstract class UseLinkDecorator
 					case 146: // dinghy plans
 
 						AdventureResult planks = new AdventureResult( 140, 1 );
-						if ( !KoLCharacter.hasItem( planks ) && HermitRequest.getWorthlessItemCount() > 0 )
+						if ( !InventoryManager.hasItem( planks ) && HermitRequest.getWorthlessItemCount() > 0 )
 						{
 							useType = "planks";
 							useLocation = "hermit.php?autopermit=on&action=trade&pwd=" + GenericRequest.passwordHash +"&quantity=1&whichitem=140";
@@ -350,7 +352,7 @@ public abstract class UseLinkDecorator
 					useType = null;
 					int outfit = EquipmentDatabase.getOutfitWithItem( itemId );
 
-					if ( outfit != -1 && EquipmentDatabase.hasOutfit( outfit ) )
+					if ( outfit != -1 && EquipmentManager.hasOutfit( outfit ) )
 					{
 						useType = "outfit";
 						useLocation = "inv_equip.php?action=outfit&which=2&whichoutfit=" + outfit;
@@ -439,7 +441,7 @@ public abstract class UseLinkDecorator
 					else if ( itemId == 140 )
 					{
 						AdventureResult plans = new AdventureResult( 146, 1 );
-						if ( KoLCharacter.hasItem( plans ) )
+						if ( InventoryManager.hasItem( plans ) )
 						{
 							useType = "plans";
 							useLocation = "inv_use.php?pwd=" + GenericRequest.passwordHash + "&which=3&whichitem=";

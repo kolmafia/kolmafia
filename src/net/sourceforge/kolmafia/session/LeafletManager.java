@@ -155,7 +155,7 @@ public abstract class LeafletManager
 	public static final void robLeafletManager( final boolean invokeMagic )
 	{
 		// Make sure the player has the Strange Leaflet.
-		if ( !KoLCharacter.hasItem( LeafletManager.LEAFLET ) )
+		if ( !InventoryManager.hasItem( LeafletManager.LEAFLET ) )
 		{
 			if ( KoLCharacter.getLevel() >= 9 )
 			{

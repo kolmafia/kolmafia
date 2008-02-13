@@ -36,47 +36,31 @@ package net.sourceforge.kolmafia.persistence;
 import java.io.BufferedReader;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.TreeMap;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AreaCombatData;
-import net.sourceforge.kolmafia.CouncilFrame;
-import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
 import net.sourceforge.kolmafia.session.LouvreManager;
-import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.VioletFogManager;
 
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
-import net.sourceforge.kolmafia.request.ClanStashRequest;
-import net.sourceforge.kolmafia.request.ClosetRequest;
-import net.sourceforge.kolmafia.request.CreateItemRequest;
-import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
-import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.HermitRequest;
-import net.sourceforge.kolmafia.request.SewerRequest;
 
 public class AdventureDatabase
 	extends KoLDatabase
 {
-	private static final int BULK_PURCHASE_AMOUNT = 30;
-	private static final GenericRequest FAMEQUIP_CHANGER = new GenericRequest( "familiar.php?pwd&action=unequip" );
-
 	private static final LockableListModel adventures = new LockableListModel();
-	private static final AdventureArray allAdventures = new AdventureArray();
+	private static final AdventureDatabase.AdventureArray allAdventures = new AdventureDatabase.AdventureArray();
 
 	public static final ArrayList PARENT_LIST = new ArrayList();
 	public static final TreeMap PARENT_ZONES = new TreeMap();
@@ -1675,7 +1659,7 @@ public class AdventureDatabase
 
 			result = new String[ 2 ];
 			float odds = FightRequest.pirateInsultOdds() * 100.0f;
-			
+
 			result[ 0 ] = KoLConstants.FLOAT_FORMAT.format( odds ) + "% chance of winning";
 			result[ 1 ] = odds == 100.0f ? "Oh come on. Do it!" : "Try later";
 			return result;
@@ -1764,415 +1748,7 @@ public class AdventureDatabase
 		return (AreaCombatData) AdventureDatabase.areaCombatData.get( area );
 	}
 
-	public static final boolean retrieveItem( final String itemName )
-	{
-		return AdventureDatabase.retrieveItem( new AdventureResult( itemName, 1, false ), true );
-	}
-
-	public static final boolean retrieveItem( final AdventureResult item )
-	{
-		return AdventureDatabase.retrieveItem( item, true );
-	}
-
-	public static final boolean retrieveItem( final AdventureResult item, final boolean isAutomated )
-	{
-		int itemId = item.getItemId();
-		int availableCount = 0;
-		if ( itemId == HermitRequest.WORTHLESS_ITEM.getItemId() )
-		{
-			availableCount = HermitRequest.getWorthlessItemCount();
-		}
-		else
-		{
-			availableCount = item.getCount( KoLConstants.inventory );
-		}
-
-		int missingCount = item.getCount() - availableCount;
-
-		// If you already have enough of the given item, then return
-		// from this method.
-
-		if ( missingCount <= 0 )
-		{
-			return true;
-		}
-
-		for ( int i = KoLCharacter.HAT; i <= KoLCharacter.FAMILIAR; ++i )
-		{
-			if ( KoLCharacter.getEquipment( i ).equals( item ) )
-			{
-				RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, i ) );
-				--missingCount;
-			}
-		}
-
-		if ( missingCount <= 0 )
-		{
-			return true;
-		}
-
-		for ( int i = 0; i < KoLCharacter.getFamiliarList().size(); ++i )
-		{
-			FamiliarData current = (FamiliarData) KoLCharacter.getFamiliarList().get( i );
-
-			if ( current.getItem() != null && current.getItem().equals( item ) )
-			{
-				KoLmafia.updateDisplay( "Stealing " + item.getName() + " from " + current.getName() + " the " + current.getRace() + "..." );
-				AdventureDatabase.FAMEQUIP_CHANGER.addFormField( "famid", String.valueOf( current.getId() ) );
-				RequestThread.postRequest( AdventureDatabase.FAMEQUIP_CHANGER );
-
-				--missingCount;
-
-				if ( missingCount <= 0 )
-				{
-					return true;
-				}
-			}
-		}
-
-		// First, handle worthless items by traveling to the sewer for
-		// as many adventures as needed.
-
-		if ( itemId == HermitRequest.WORTHLESS_ITEM.getItemId() )
-		{
-			ArrayList temporary = new ArrayList();
-			temporary.addAll( KoLConstants.conditions );
-			KoLConstants.conditions.clear();
-
-			KoLConstants.conditions.add( item.getInstance( missingCount ) );
-			StaticEntity.getClient().makeRequest(
-				AdventureDatabase.getAdventureByURL( "sewer.php" ), KoLCharacter.getAdventuresLeft() );
-
-			if ( !KoLConstants.conditions.isEmpty() )
-			{
-				KoLmafia.updateDisplay(
-					KoLConstants.ABORT_STATE, "Unable to acquire " + item.getCount() + " worthless items." );
-			}
-
-			KoLConstants.conditions.clear();
-			KoLConstants.conditions.addAll( temporary );
-
-			return HermitRequest.getWorthlessItemCount() >= item.getCount();
-		}
-
-		// Try to purchase the item from the mall, if the user wishes
-		// to autosatisfy through purchases, and the item is not
-		// creatable through combines.
-
-		boolean shouldUseMall = shouldUseMall( item );
-
-		boolean shouldUseStash = Preferences.getBoolean( "autoSatisfyWithStash" );
-		boolean shouldUseNPCStore =
-			NPCStoreDatabase.contains( item.getName() ) && Preferences.getBoolean( "autoSatisfyWithNPCs" );
-
-		int mixingMethod = ConcoctionDatabase.getMixingMethod( itemId );
-		CreateItemRequest creator = CreateItemRequest.getInstance( itemId );
-
-		// First, attempt to pull the item from the closet.
-		// If this is successful, return from the method.
-
-		int itemCount = item.getCount( KoLConstants.closet );
-
-		if ( itemCount > 0 )
-		{
-			RequestThread.postRequest( new ClosetRequest(
-				ClosetRequest.CLOSET_TO_INVENTORY, new AdventureResult[] { item.getInstance( Math.min(
-					itemCount, missingCount ) ) } ) );
-			missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
-
-			if ( missingCount <= 0 )
-			{
-				return true;
-			}
-		}
-
-		// Next, attempt to pull the items out of storage, if you are
-		// out of ronin.
-
-		if ( KoLCharacter.canInteract() )
-		{
-			itemCount = item.getCount( KoLConstants.storage );
-
-			if ( itemCount > 0 )
-			{
-				RequestThread.postRequest( new ClosetRequest(
-					ClosetRequest.STORAGE_TO_INVENTORY, new AdventureResult[] { item.getInstance( itemCount ) } ) );
-
-				missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
-				if ( missingCount <= 0 )
-				{
-					return true;
-				}
-			}
-		}
-
-		// See if the item can be retrieved from the clan stash.  If it
-		// can, go ahead and pull as many items as possible from there.
-
-		if ( shouldUseStash && KoLCharacter.canInteract() && KoLCharacter.hasClan() )
-		{
-			if ( !ClanManager.isStashRetrieved() )
-			{
-				RequestThread.postRequest( new ClanStashRequest() );
-			}
-
-			itemCount = item.getCount( ClanManager.getStash() );
-			if ( itemCount > 0 )
-			{
-				RequestThread.postRequest( new ClanStashRequest(
-					new AdventureResult[] { item.getInstance( Math.min( itemCount, AdventureDatabase.getPurchaseCount(
-						itemId, missingCount ) ) ) }, ClanStashRequest.STASH_TO_ITEMS ) );
-
-				missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
-
-				if ( missingCount <= 0 )
-				{
-					return true;
-				}
-			}
-		}
-
-		// Next, attempt to create the item from existing ingredients
-		// (if possible).
-
-		if ( creator != null && creator.getQuantityPossible() > 0 )
-		{
-			creator.setQuantityNeeded( Math.min( missingCount, creator.getQuantityPossible() ) );
-			RequestThread.postRequest( creator );
-			missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
-
-			if ( missingCount <= 0 )
-			{
-				return true;
-			}
-		}
-
-		// Next, hermit item retrieval is possible when
-		// you have worthless items.  Use this method next.
-
-		if ( KoLConstants.hermitItems.contains( item ) )
-		{
-			int worthlessItemCount = HermitRequest.getWorthlessItemCount();
-			if ( worthlessItemCount > 0 )
-			{
-				RequestThread.postRequest( new HermitRequest( itemId, Math.min( worthlessItemCount, missingCount ) ) );
-				missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
-
-				if ( missingCount <= 0 )
-				{
-					return true;
-				}
-			}
-		}
-
-		if ( KoLConstants.trapperItems.contains( item ) )
-		{
-			int furCount = CouncilFrame.YETI_FUR.getCount( KoLConstants.inventory );
-			if ( furCount > 0 )
-			{
-				KoLmafia.updateDisplay( "Visiting the trapper..." );
-				RequestThread.postRequest( new GenericRequest(
-					"trapper.php?pwd&action=Yep.&whichitem=" + itemId + "&qty=" + Math.min( missingCount, furCount ) ) );
-
-				missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
-				if ( missingCount <= 0 )
-				{
-					return true;
-				}
-			}
-		}
-
-		// If the item should be bought early, go ahead and purchase it
-		// now, after having checked the clan stash.
-
-		if ( shouldUseNPCStore || shouldUseMall && !AdventureDatabase.hasAnyIngredient( itemId ) )
-		{
-			List results = StoreManager.searchMall( item.getName() );
-			StaticEntity.getClient().makePurchases(
-				results, results.toArray(), AdventureDatabase.getPurchaseCount( itemId, missingCount ), isAutomated );
-			missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
-
-			if ( missingCount <= 0 )
-			{
-				return true;
-			}
-		}
-
-		switch ( mixingMethod )
-		{
-		// Subingredients for star charts, pixels and malus ingredients
-		// can get very expensive. Therefore, skip over them in this
-		// step.
-
-		case KoLConstants.NOCREATE:
-		case KoLConstants.STARCHART:
-		case KoLConstants.PIXEL:
-		case KoLConstants.MALUS:
-		case KoLConstants.STAFF:
-		case KoLConstants.MULTI_USE:
-
-			break;
-
-		// If it's creatable, and you have at least one ingredient, see
-		// if you can make it via recursion.
-
-		default:
-
-			if ( creator != null && itemId != ConcoctionDatabase.WAD_DOUGH && itemId != SewerRequest.DISASSEMBLED_CLOVER )
-			{
-				creator.setQuantityNeeded( missingCount );
-				RequestThread.postRequest( creator );
-
-				missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
-
-				if ( missingCount <= 0 )
-				{
-					return true;
-				}
-			}
-		}
-
-		if ( shouldUseMall )
-		{
-			List results = StoreManager.searchMall( item.getName() );
-			StaticEntity.getClient().makePurchases(
-				results, results.toArray(), AdventureDatabase.getPurchaseCount( itemId, missingCount ), isAutomated );
-			missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
-
-			if ( missingCount <= 0 )
-			{
-				return true;
-			}
-		}
-
-		// If the item does not exist in sufficient quantities,
-		// then notify the user that there aren't enough items
-		// available to continue and cancel the request.
-
-		KoLmafia.updateDisplay(
-			KoLConstants.ERROR_STATE, "You need " + missingCount + " more " + item.getName() + " to continue." );
-		return false;
-	}
-
-	private static boolean shouldUseMall( final AdventureResult item )
-	{
-		if ( !KoLCharacter.canInteract() )
-			return false;
-
-		int itemId = item.getItemId();
-
-		if ( !ItemDatabase.isTradeable( itemId ) )
-			return false;
-
-		if ( !Preferences.getBoolean( "autoSatisfyWithMall" ) )
-			return false;
-
-		int price = ItemDatabase.getPriceById( itemId );
-
-		if ( price > 0 )
-			return true;
-
-		switch ( itemId )
-		{
-		case 24:	// ten-leaf clover
-		case 196:	// disassembled clover
-		case 1637:	// phial of hotness
-		case 1638:	// phial of coldness
-		case 1639:	// phial of spookiness
-		case 1640:	// phial of stench
-		case 1641:	// phial of sleaziness
-			return true;
-		}
-		return false;
-	}
-
-	private static boolean shouldBulkPurchase( final int itemId )
-	{
-		// We always bulk purchase certain specific items.
-
-		switch ( itemId )
-		{
-		case 588: // soft green echo eyedrop antidote
-		case 592: // tiny house
-		case 595: // scroll of drastic healing
-			return true;
-		}
-
-		if ( !KoLmafia.isAdventuring() )
-		{
-			return false;
-		}
-
-		// We bulk purchase consumable items if we are
-		// auto-adventuring.
-
-		switch ( ItemDatabase.getConsumptionType( itemId ) )
-		{
-		case KoLConstants.CONSUME_USE:
-		case KoLConstants.CONSUME_MULTIPLE:
-		case KoLConstants.HP_RESTORE:
-		case KoLConstants.MP_RESTORE:
-		case KoLConstants.HPMP_RESTORE:
-			return true;
-		}
-
-		return false;
-	}
-
-	private static int getPurchaseCount( final int itemId, final int missingCount )
-	{
-		if ( missingCount >= AdventureDatabase.BULK_PURCHASE_AMOUNT || !KoLCharacter.canInteract() )
-		{
-			return missingCount;
-		}
-
-		if ( AdventureDatabase.shouldBulkPurchase( itemId ) )
-		{
-			return AdventureDatabase.BULK_PURCHASE_AMOUNT;
-		}
-
-		return missingCount;
-	}
-
-	private static final boolean hasAnyIngredient( final int itemId )
-	{
-		if ( itemId < 0 )
-		{
-			return false;
-		}
-
-		switch ( itemId )
-		{
-		case KoLConstants.MEAT_PASTE:
-			return KoLCharacter.getAvailableMeat() >= 10;
-		case KoLConstants.MEAT_STACK:
-			return KoLCharacter.getAvailableMeat() >= 100;
-		case KoLConstants.DENSE_STACK:
-			return KoLCharacter.getAvailableMeat() >= 1000;
-		}
-
-		AdventureResult[] ingredients = ConcoctionDatabase.getStandardIngredients( itemId );
-
-		for ( int i = 0; i < ingredients.length; ++i )
-		{
-			// An item is immediately available if it is in your inventory,
-			// in your closet, or you have the ingredients for a substep.
-
-			if ( KoLConstants.inventory.contains( ingredients[ i ] ) || KoLConstants.closet.contains( ingredients[ i ] ) )
-			{
-				return true;
-			}
-
-			if ( AdventureDatabase.hasAnyIngredient( ingredients[ i ].getItemId() ) )
-			{
-				return true;
-			}
-		}
-
-		return false;
-	}
-
-	private static class AdventureArray
+	public static class AdventureArray
 	{
 		private final ArrayList nameList = new ArrayList();
 		private final ArrayList internalList = new ArrayList();

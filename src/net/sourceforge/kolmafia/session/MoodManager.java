@@ -984,7 +984,7 @@ public abstract class MoodManager
 			{
 				return "cast Tongue of the Otter";
 			}
-			if ( KoLCharacter.hasItem( UneffectRequest.FOREST_TEARS ) )
+			if ( InventoryManager.hasItem( UneffectRequest.FOREST_TEARS ) )
 			{
 				return "use 1 forest tears";
 			}
@@ -1019,7 +1019,7 @@ public abstract class MoodManager
 			return "cast Disco Nap";
 		}
 
-		if ( KoLCharacter.hasItem( UneffectRequest.REMEDY ) )
+		if ( InventoryManager.hasItem( UneffectRequest.REMEDY ) )
 		{
 			return "uneffect " + name;
 		}
@@ -1030,7 +1030,7 @@ public abstract class MoodManager
 			name.equals( "Sunburned" ) ||
 			name.equals( "Wussiness" );
 
-		if ( tinyHouseClearable && ( KoLCharacter.canInteract() || KoLCharacter.hasItem( UneffectRequest.TINY_HOUSE ) ) )
+		if ( tinyHouseClearable && ( KoLCharacter.canInteract() || InventoryManager.hasItem( UneffectRequest.TINY_HOUSE ) ) )
 		{
 			return "use 1 tiny house";
 		}

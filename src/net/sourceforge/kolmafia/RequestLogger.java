@@ -68,6 +68,7 @@ import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
+import net.sourceforge.kolmafia.session.InventoryManager;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 
@@ -408,7 +409,7 @@ public class RequestLogger
 		if ( urlString.startsWith( "manor3.php" ) )
 		{
 			String demon = request.getFormField( "demonname" );
-			if ( demon != null && !demon.equals( "" ) && AdventureDatabase.retrieveItem( KoLAdventure.BLACK_CANDLE ) && AdventureDatabase.retrieveItem( KoLAdventure.EVIL_SCROLL ) )
+			if ( demon != null && !demon.equals( "" ) && InventoryManager.retrieveItem( KoLAdventure.BLACK_CANDLE ) && InventoryManager.retrieveItem( KoLAdventure.EVIL_SCROLL ) )
 			{
 				RequestLogger.updateSessionLog( "summon " + demon );
 

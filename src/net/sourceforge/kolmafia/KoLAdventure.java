@@ -49,6 +49,8 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.SewerRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
+import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
@@ -315,7 +317,7 @@ public class KoLAdventure
 
 			if ( !KoLConstants.activeEffects.contains( KoLAdventure.ASTRAL ) )
 			{
-				this.isValidAdventure = AdventureDatabase.retrieveItem( KoLAdventure.MUSHROOM );
+				this.isValidAdventure = InventoryManager.retrieveItem( KoLAdventure.MUSHROOM );
 				if ( this.isValidAdventure )
 				{
 					RequestThread.postRequest( new UseItemRequest( KoLAdventure.MUSHROOM ) );
@@ -334,15 +336,15 @@ public class KoLAdventure
 
 			if ( !KoLConstants.activeEffects.contains( KoLAdventure.PERFUME_EFFECT ) )
 			{
-				if ( !AdventureDatabase.retrieveItem( KoLAdventure.PERFUME_ITEM ) )
+				if ( !InventoryManager.retrieveItem( KoLAdventure.PERFUME_ITEM ) )
 				{
 					return;
 				}
 			}
 
-			if ( !EquipmentDatabase.isWearingOutfit( outfitId ) )
+			if ( !EquipmentManager.isWearingOutfit( outfitId ) )
 			{
-				if ( !EquipmentDatabase.retrieveOutfit( outfitId ) )
+				if ( !EquipmentManager.retrieveOutfit( outfitId ) )
 				{
 					return;
 				}
@@ -380,10 +382,10 @@ public class KoLAdventure
 		{
 			int outfitId = EquipmentDatabase.getOutfitId( this );
 
-			if ( outfitId > 0 && !EquipmentDatabase.isWearingOutfit( outfitId ) )
+			if ( outfitId > 0 && !EquipmentManager.isWearingOutfit( outfitId ) )
 			{
 				this.isValidAdventure = false;
-				if ( !EquipmentDatabase.retrieveOutfit( outfitId ) )
+				if ( !EquipmentManager.retrieveOutfit( outfitId ) )
 				{
 					return;
 				}
@@ -400,7 +402,7 @@ public class KoLAdventure
 
 		if ( this.adventureId.equals( "73" ) )
 		{
-			if ( !KoLCharacter.hasItem( KoLAdventure.TRANSFUNCTIONER ) )
+			if ( !InventoryManager.hasItem( KoLAdventure.TRANSFUNCTIONER ) )
 			{
 				RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString( "mystic.php" ) );
 				RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString( "mystic.php?action=crackyes1" ) );
@@ -408,7 +410,7 @@ public class KoLAdventure
 				RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString( "mystic.php?action=crackyes3" ) );
 			}
 
-			if ( EquipmentDatabase.getHands( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getName() ) > 1 )
+			if ( EquipmentDatabase.getHands( EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getName() ) > 1 )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You need to free up a hand." );
 				return;
@@ -423,7 +425,7 @@ public class KoLAdventure
 		{
 			if ( !KoLCharacter.hasEquipped( KoLAdventure.TALISMAN ) )
 			{
-				if ( !AdventureDatabase.retrieveItem( KoLAdventure.TALISMAN ) )
+				if ( !InventoryManager.retrieveItem( KoLAdventure.TALISMAN ) )
 				{
 					return;
 				}
@@ -496,7 +498,7 @@ public class KoLAdventure
 
 		if ( this.zone.equals( "Casino" ) )
 		{
-			this.isValidAdventure = AdventureDatabase.retrieveItem( KoLAdventure.CASINO_PASS );
+			this.isValidAdventure = InventoryManager.retrieveItem( KoLAdventure.CASINO_PASS );
 			return;
 		}
 
@@ -505,16 +507,16 @@ public class KoLAdventure
 
 		else if ( this.zone.equals( "Island" ) )
 		{
-			this.isValidAdventure = KoLCharacter.hasItem( KoLAdventure.DINGHY );
+			this.isValidAdventure = InventoryManager.hasItem( KoLAdventure.DINGHY );
 			if ( !this.isValidAdventure )
 			{
-				this.isValidAdventure = KoLCharacter.hasItem( KoLAdventure.PLANS );
+				this.isValidAdventure = InventoryManager.hasItem( KoLAdventure.PLANS );
 				if ( !this.isValidAdventure )
 				{
 					return;
 				}
 
-				this.isValidAdventure = AdventureDatabase.retrieveItem( KoLAdventure.PLANKS );
+				this.isValidAdventure = InventoryManager.retrieveItem( KoLAdventure.PLANKS );
 				if ( this.isValidAdventure )
 				{
 					RequestThread.postRequest( new UseItemRequest( KoLAdventure.PLANKS ) );
@@ -530,7 +532,7 @@ public class KoLAdventure
 		else if ( this.adventureId.equals( "82" ) )
 		{
 			this.isValidAdventure =
-				KoLCharacter.hasItem( KoLAdventure.SOCK ) || KoLCharacter.hasItem( KoLAdventure.ROWBOAT );
+				InventoryManager.hasItem( KoLAdventure.SOCK ) || InventoryManager.hasItem( KoLAdventure.ROWBOAT );
 			return;
 		}
 
@@ -539,12 +541,12 @@ public class KoLAdventure
 
 		else if ( this.adventureId.equals( "83" ) )
 		{
-			if ( !KoLCharacter.hasItem( KoLAdventure.ROWBOAT ) && KoLCharacter.hasItem( KoLAdventure.MAP ) )
+			if ( !InventoryManager.hasItem( KoLAdventure.ROWBOAT ) && InventoryManager.hasItem( KoLAdventure.MAP ) )
 			{
 				RequestThread.postRequest( new UseItemRequest( KoLAdventure.MAP ) );
 			}
 
-			this.isValidAdventure = AdventureDatabase.retrieveItem( KoLAdventure.ROWBOAT );
+			this.isValidAdventure = InventoryManager.retrieveItem( KoLAdventure.ROWBOAT );
 			return;
 		}
 
@@ -557,7 +559,7 @@ public class KoLAdventure
 			// If the character has a S.O.C.K. or an intragalactic
 			// rowboat, they can get to the airship
 
-			if ( KoLCharacter.hasItem( KoLAdventure.SOCK ) || KoLCharacter.hasItem( KoLAdventure.ROWBOAT ) )
+			if ( InventoryManager.hasItem( KoLAdventure.SOCK ) || InventoryManager.hasItem( KoLAdventure.ROWBOAT ) )
 			{
 				this.isValidAdventure = true;
 				return;
@@ -576,7 +578,7 @@ public class KoLAdventure
 				// bean which can be used.  If they don't, then try to
 				// find one through adventuring.
 
-				if ( !KoLCharacter.hasItem( KoLAdventure.BEAN ) )
+				if ( !InventoryManager.hasItem( KoLAdventure.BEAN ) )
 				{
 					ArrayList temporary = new ArrayList();
 					temporary.addAll( KoLConstants.conditions );
@@ -623,14 +625,14 @@ public class KoLAdventure
 			if ( this.adventureId.equals( "104" ) )
 			{
 				// Haunted Library
-				this.isValidAdventure = AdventureDatabase.retrieveItem( KoLAdventure.LIBRARY_KEY );
+				this.isValidAdventure = InventoryManager.retrieveItem( KoLAdventure.LIBRARY_KEY );
 				return;
 			}
 
 			if ( this.adventureId.equals( "106" ) )
 			{
 				// Haunted Gallery
-				this.isValidAdventure = AdventureDatabase.retrieveItem( KoLAdventure.GALLERY_KEY );
+				this.isValidAdventure = InventoryManager.retrieveItem( KoLAdventure.GALLERY_KEY );
 				return;
 			}
 
@@ -640,14 +642,14 @@ public class KoLAdventure
 			if ( this.adventureId.equals( "107" ) || this.adventureId.equals( "108" ) )
 			{
 				// Haunted Bathroom & Bedroom
-				this.isValidAdventure = AdventureDatabase.retrieveItem( KoLAdventure.LIBRARY_KEY );
+				this.isValidAdventure = InventoryManager.retrieveItem( KoLAdventure.LIBRARY_KEY );
 				return;
 			}
 
 			if ( this.adventureId.equals( "109" ) )
 			{
 				// Haunted Ballroom
-				this.isValidAdventure = AdventureDatabase.retrieveItem( KoLAdventure.BALLROOM_KEY );
+				this.isValidAdventure = InventoryManager.retrieveItem( KoLAdventure.BALLROOM_KEY );
 				return;
 			}
 		}
@@ -852,8 +854,8 @@ public class KoLAdventure
 				}
 			}
 
-			if ( ( action.equals( "skill thrust-smack" ) || action.equals( "skill lunging thrust-smack" ) ) && EquipmentDatabase.isRanged( KoLCharacter.getEquipment(
-				KoLCharacter.WEAPON ).getItemId() ) )
+			if ( ( action.equals( "skill thrust-smack" ) || action.equals( "skill lunging thrust-smack" ) ) && EquipmentDatabase.isRanged( EquipmentManager.getEquipment(
+				EquipmentManager.WEAPON ).getItemId() ) )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Thrust smacks are useless with ranged weapons." );
 				return;

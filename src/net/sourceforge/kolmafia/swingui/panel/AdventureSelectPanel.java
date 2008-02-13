@@ -75,13 +75,13 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.ThreadedButton;
 import net.sourceforge.kolmafia.ThreadedListener;
 import net.sourceforge.kolmafia.KoLFrame.InvocationButton;
+import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightSpinner;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
-import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class AdventureSelectPanel
@@ -472,7 +472,7 @@ public class AdventureSelectPanel
 					// that to determine which components make up
 					// the outfit pulled from that area.
 
-					if ( !EquipmentDatabase.addOutfitConditions( request ) )
+					if ( !EquipmentManager.addOutfitConditions( request ) )
 					{
 						return true;
 					}

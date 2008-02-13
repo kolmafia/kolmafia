@@ -69,6 +69,8 @@ import net.sourceforge.kolmafia.HPRestoreItemList.HPRestoreItem;
 import net.sourceforge.kolmafia.MPRestoreItemList.MPRestoreItem;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.DisplayCaseManager;
+import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LouvreManager;
 import net.sourceforge.kolmafia.session.MailManager;
 import net.sourceforge.kolmafia.session.MoodManager;
@@ -843,7 +845,7 @@ public abstract class KoLmafia
 			{
 				AdventureResult manual =
 					KoLCharacter.isMuscleClass() ? KoLmafia.MANUAL_1 : KoLCharacter.isMysticalityClass() ? KoLmafia.MANUAL_2 : KoLmafia.MANUAL_3;
-				if ( KoLCharacter.hasItem( manual ) )
+				if ( InventoryManager.hasItem( manual ) )
 				{
 					RequestThread.postRequest( new UseItemRequest( manual ) );
 				}
@@ -856,7 +858,7 @@ public abstract class KoLmafia
 				for ( int i = 0; i < CRIMBO_TOYS.length; ++i )
 				{
 					AdventureResult toy = CRIMBO_TOYS[i];
-					if ( KoLCharacter.hasItem( toy ) )
+					if ( InventoryManager.hasItem( toy ) )
 					{
 						RequestThread.postRequest( new UseItemRequest( toy ) );
 						KoLmafia.forceContinue();
@@ -915,7 +917,7 @@ public abstract class KoLmafia
 
 		// Visit locations accessible in current outfit
 
-		SpecialOutfit current = EquipmentDatabase.currentOutfit();
+		SpecialOutfit current = EquipmentManager.currentOutfit();
 
 		if ( farmOutfit != null && current == farmOutfit )
 		{
@@ -2676,7 +2678,7 @@ public abstract class KoLmafia
 				}
 
 				int gumAmount = stopCount == 0 ? totalIterations : Math.min( stopCount, totalIterations );
-				if ( !AdventureDatabase.retrieveItem( SewerRequest.GUM.getInstance( gumAmount ) ) )
+				if ( !InventoryManager.retrieveItem( SewerRequest.GUM.getInstance( gumAmount ) ) )
 				{
 					return;
 				}
@@ -3512,7 +3514,7 @@ public abstract class KoLmafia
 
 			if ( requirementsArray[ i ].isItem() && retrieveItem )
 			{
-				AdventureDatabase.retrieveItem( requirementsArray[ i ] );
+				InventoryManager.retrieveItem( requirementsArray[ i ] );
 			}
 
 			if ( requirementsArray[ i ].isItem() )
@@ -3806,11 +3808,11 @@ public abstract class KoLmafia
 			}
 		}
 
-		if ( encounterName.equalsIgnoreCase( "Cheetahs Never Lose" ) && KoLCharacter.hasItem( KoLmafia.CATNIP ) )
+		if ( encounterName.equalsIgnoreCase( "Cheetahs Never Lose" ) && InventoryManager.hasItem( KoLmafia.CATNIP ) )
 		{
 			this.processResult( KoLmafia.CATNIP.getNegation() );
 		}
-		if ( encounterName.equalsIgnoreCase( "Summer Holiday" ) && KoLCharacter.hasItem( KoLmafia.GLIDER ) )
+		if ( encounterName.equalsIgnoreCase( "Summer Holiday" ) && InventoryManager.hasItem( KoLmafia.GLIDER ) )
 		{
 			this.processResult( KoLmafia.GLIDER.getNegation() );
 		}
@@ -4444,7 +4446,7 @@ public abstract class KoLmafia
 					case KoLConstants.EQUIP_WEAPON:
 					case KoLConstants.EQUIP_OFFHAND:
 
-						if ( KoLCharacter.hasItem( ConcoctionDatabase.HAMMER ) && itemPower >= 100 || hasMalusAccess && itemPower > 10 )
+						if ( InventoryManager.hasItem( ConcoctionDatabase.HAMMER ) && itemPower >= 100 || hasMalusAccess && itemPower > 10 )
 						{
 							RequestThread.postRequest( new PulverizeRequest( currentItem.getInstance( itemCount ) ) );
 						}
@@ -4454,7 +4456,7 @@ public abstract class KoLmafia
 					case KoLConstants.EQUIP_FAMILIAR:
 					case KoLConstants.EQUIP_ACCESSORY:
 
-						if ( KoLCharacter.hasItem( ConcoctionDatabase.HAMMER ) )
+						if ( InventoryManager.hasItem( ConcoctionDatabase.HAMMER ) )
 						{
 							RequestThread.postRequest( new PulverizeRequest( currentItem.getInstance( itemCount ) ) );
 						}

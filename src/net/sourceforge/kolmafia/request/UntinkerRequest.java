@@ -49,6 +49,7 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class UntinkerRequest
 	extends GenericRequest
@@ -122,7 +123,7 @@ public class UntinkerRequest
 			StaticEntity.getClient().processResult( UntinkerRequest.SCREWDRIVER );
 		}
 
-		if ( !AdventureDatabase.retrieveItem( this.item ) )
+		if ( !InventoryManager.retrieveItem( this.item ) )
 		{
 			return;
 		}

@@ -35,18 +35,15 @@ package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.TreeMap;
 
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.CoinmastersFrame;
 import net.sourceforge.kolmafia.KoLAdventure;
-import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
-import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.session.EquipmentManager;
 
 public class EquipmentDatabase
 	extends KoLDatabase
@@ -57,8 +54,8 @@ public class EquipmentDatabase
 	private static final StringArray requirement = new StringArray();
 
 	private static final TreeMap outfitPieces = new TreeMap();
-	private static final SpecialOutfitArray normalOutfits = new SpecialOutfitArray();
-	private static final SpecialOutfitArray weirdOutfits = new SpecialOutfitArray();
+	public static final SpecialOutfitArray normalOutfits = new SpecialOutfitArray();
+	public static final SpecialOutfitArray weirdOutfits = new SpecialOutfitArray();
 
 	static
 	{
@@ -166,36 +163,6 @@ public class EquipmentDatabase
 	{
 		int itemId = ItemDatabase.getItemId( itemName );
 		return itemId > 0 && EquipmentDatabase.requirement.get( itemId ) != null;
-	}
-
-	public static final boolean canEquip( final String itemName )
-	{
-		int itemId = ItemDatabase.getItemId( itemName );
-
-		if ( itemId == -1 || EquipmentDatabase.requirement.get( itemId ) == null )
-		{
-			return false;
-		}
-
-		if ( EquipmentDatabase.requirement.get( itemId ).startsWith( "Mus:" ) )
-		{
-			return KoLCharacter.getBaseMuscle() >= StaticEntity.parseInt( EquipmentDatabase.requirement.get( itemId ).substring(
-				5 ) );
-		}
-
-		if ( EquipmentDatabase.requirement.get( itemId ).startsWith( "Mys:" ) )
-		{
-			return KoLCharacter.getBaseMysticality() >= StaticEntity.parseInt( EquipmentDatabase.requirement.get(
-				itemId ).substring( 5 ) );
-		}
-
-		if ( EquipmentDatabase.requirement.get( itemId ).startsWith( "Mox:" ) )
-		{
-			return KoLCharacter.getBaseMoxie() >= StaticEntity.parseInt( EquipmentDatabase.requirement.get( itemId ).substring(
-				5 ) );
-		}
-
-		return true;
 	}
 
 	public static final int getPower( final int itemId )
@@ -337,11 +304,6 @@ public class EquipmentDatabase
 		return EquipmentDatabase.equipStat( itemName ) == KoLConstants.MOXIE;
 	}
 
-	public static final boolean hasOutfit( final int id )
-	{
-		return KoLCharacter.getOutfits().contains( EquipmentDatabase.normalOutfits.get( id ) );
-	}
-
 	public static final SpecialOutfit getOutfit( final int id )
 	{
 		return EquipmentDatabase.normalOutfits.get( id );
@@ -350,93 +312,7 @@ public class EquipmentDatabase
 	public static final SpecialOutfit getAvailableOutfit( final int id )
 	{
 		SpecialOutfit outfit = EquipmentDatabase.normalOutfits.get( id );
-		return KoLCharacter.getOutfits().contains( outfit ) ? outfit : null;
-	}
-
-	public static final void updateOutfits()
-	{
-		ArrayList available = new ArrayList();
-
-		for ( int i = 0; i < EquipmentDatabase.normalOutfits.size(); ++i )
-		{
-			if ( EquipmentDatabase.normalOutfits.get( i ) != null && EquipmentDatabase.normalOutfits.get( i ).hasAllPieces() )
-			{
-				available.add( EquipmentDatabase.normalOutfits.get( i ) );
-			}
-		}
-
-		for ( int i = 0; i < EquipmentDatabase.weirdOutfits.size(); ++i )
-		{
-			if ( EquipmentDatabase.weirdOutfits.get( i ) != null && EquipmentDatabase.weirdOutfits.get( i ).hasAllPieces() )
-			{
-				available.add( EquipmentDatabase.weirdOutfits.get( i ) );
-			}
-		}
-
-		Collections.sort( available );
-		KoLCharacter.getOutfits().clear();
-
-		// Start with the two constant outfits
-		KoLCharacter.getOutfits().add( SpecialOutfit.NO_CHANGE );
-		KoLCharacter.getOutfits().add( SpecialOutfit.BIRTHDAY_SUIT );
-
-		// Finally any standard outfits
-		KoLCharacter.getOutfits().addAll( available );
-
-		// We may have gotten the war hippy or frat outfits
-		CoinmastersFrame.externalUpdate();
-	}
-
-	/**
-	 * Utility method which determines whether or not the equipment corresponding to the given outfit is already
-	 * equipped.
-	 */
-
-	public static final boolean isWearingOutfit( final int outfitId )
-	{
-		if ( outfitId < 0 )
-		{
-			return true;
-		}
-
-		if ( outfitId == 0 )
-		{
-			return false;
-		}
-
-		return EquipmentDatabase.isWearingOutfit( EquipmentDatabase.normalOutfits.get( outfitId ) );
-	}
-
-	/**
-	 * Utility method which determines whether or not the equipment corresponding to the given outfit is already
-	 * equipped.
-	 */
-
-	public static final boolean isWearingOutfit( final SpecialOutfit outfit )
-	{
-		return outfit != null && outfit.isWearing();
-	}
-
-	/**
-	 * Utility method which determines the outfit ID the character is currently wearing
-	 */
-
-	public static final SpecialOutfit currentOutfit()
-	{
-		for ( int id = 1; id <= EquipmentDatabase.normalOutfits.size(); ++id )
-		{
-			SpecialOutfit outfit = EquipmentDatabase.normalOutfits.get( id );
-			if ( outfit == null )
-			{
-				continue;
-			}
-			if ( outfit.isWearing() )
-			{
-				return outfit;
-			}
-		}
-
-		return null;
+		return EquipmentManager.getOutfits().contains( outfit ) ? outfit : null;
 	}
 
 	public static final int getOutfitId( final KoLAdventure adventure )
@@ -507,64 +383,12 @@ public class EquipmentDatabase
 		return -1;
 	}
 
-	public static final boolean addOutfitConditions( final KoLAdventure adventure )
-	{
-		int outfitId = EquipmentDatabase.getOutfitId( adventure );
-		if ( outfitId <= 0 )
-		{
-			return false;
-		}
-
-		EquipmentDatabase.addOutfitConditions( outfitId );
-		return true;
-	}
-
-	public static final boolean retrieveOutfit( final int outfitId )
-	{
-		if ( outfitId < 0 || outfitId == Integer.MAX_VALUE )
-		{
-			return true;
-		}
-
-		AdventureResult[] pieces = EquipmentDatabase.normalOutfits.get( outfitId ).getPieces();
-
-		for ( int i = 0; i < pieces.length; ++i )
-		{
-			if ( !KoLCharacter.hasEquipped( pieces[ i ] ) && !AdventureDatabase.retrieveItem( pieces[ i ] ) )
-			{
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	public static final void addOutfitConditions( final int outfitId )
-	{
-		// Ignore custom outfits, since there's
-		// no way to know what they are (yet).
-
-		if ( outfitId < 0 )
-		{
-			return;
-		}
-
-		AdventureResult[] pieces = EquipmentDatabase.normalOutfits.get( outfitId ).getPieces();
-		for ( int i = 0; i < pieces.length; ++i )
-		{
-			if ( !KoLCharacter.hasEquipped( pieces[ i ] ) )
-			{
-				KoLmafiaCLI.DEFAULT_SHELL.executeConditionsCommand( "set " + pieces[ i ].getName() );
-			}
-		}
-	}
-
 	/**
 	 * Internal class which functions exactly an array of concoctions, except it uses "sets" and "gets" like a list.
 	 * This could be done with generics (Java 1.5) but is done like this so that we get backwards compatibility.
 	 */
 
-	private static class SpecialOutfitArray
+	public static class SpecialOutfitArray
 	{
 		private final ArrayList internalList = new ArrayList();
 

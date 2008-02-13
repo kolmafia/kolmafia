@@ -48,9 +48,9 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.KoLDatabase.BooleanArray;
 
-import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class ZapRequest
 	extends GenericRequest
@@ -134,9 +134,9 @@ public class ZapRequest
 			return;
 		}
 
-		if ( KoLCharacter.hasItem( this.item, true ) )
+		if ( InventoryManager.hasItem( this.item, true ) )
 		{
-			AdventureDatabase.retrieveItem( this.item );
+			InventoryManager.retrieveItem( this.item );
 		}
 
 		if ( !KoLConstants.inventory.contains( this.item ) )

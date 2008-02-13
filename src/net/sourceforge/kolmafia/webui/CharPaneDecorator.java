@@ -9,6 +9,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MoodManager;
 
 import net.sourceforge.kolmafia.request.CharPaneRequest;
@@ -475,7 +476,7 @@ public class CharPaneDecorator
 			// be removed.  This is either when the buff can be shrugged
 			// or the buff has a default removal method.
 
-			if ( skillType == SkillDatabase.BUFF || KoLCharacter.hasItem( UneffectRequest.REMEDY ) )
+			if ( skillType == SkillDatabase.BUFF || InventoryManager.hasItem( UneffectRequest.REMEDY ) )
 			{
 				removeAction = "uneffect " + effectName;
 			}

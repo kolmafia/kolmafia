@@ -47,6 +47,7 @@ import javax.swing.ListSelectionModel;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.KoLFrame.RequestButton;
+import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.swingui.panel.ScrollablePanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 
@@ -536,7 +537,7 @@ public class ItemManagePanel
 				case KoLConstants.EQUIP_WEAPON:
 				case KoLConstants.EQUIP_OFFHAND:
 					RequestThread.postRequest( new EquipmentRequest(
-									   item, KoLCharacter.consumeFilterToEquipmentType( usageType ) ) );
+									   item, EquipmentManager.consumeFilterToEquipmentType( usageType ) ) );
 					break;
 
 				default:
@@ -578,7 +579,7 @@ public class ItemManagePanel
 				case KoLConstants.EQUIP_WEAPON:
 				case KoLConstants.EQUIP_OFFHAND:
 					RequestThread.postRequest( new EquipmentRequest(
-									   item, KoLCharacter.consumeFilterToEquipmentType( usageType ) ) );
+									   item, EquipmentManager.consumeFilterToEquipmentType( usageType ) ) );
 				}
 			}
 		}

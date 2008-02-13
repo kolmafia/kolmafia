@@ -47,10 +47,11 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
 
-import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class EquipmentRequest
 	extends PasswordHashRequest
@@ -281,21 +282,21 @@ public class EquipmentRequest
 	{
 		switch ( this.equipmentSlot )
 		{
-		case KoLCharacter.HAT:
+		case EquipmentManager.HAT:
 			if ( this.equipmentType == KoLConstants.EQUIP_HAT )
 			{
 				return "equip";
 			}
 			break;
 
-		case KoLCharacter.WEAPON:
+		case EquipmentManager.WEAPON:
 			if ( this.equipmentType == KoLConstants.EQUIP_WEAPON )
 			{
 				return "equip";
 			}
 			break;
 
-		case KoLCharacter.OFFHAND:
+		case EquipmentManager.OFFHAND:
 			if ( this.equipmentType == KoLConstants.EQUIP_OFFHAND )
 			{
 				return "equip";
@@ -307,21 +308,21 @@ public class EquipmentRequest
 			}
 			break;
 
-		case KoLCharacter.SHIRT:
+		case EquipmentManager.SHIRT:
 			if ( this.equipmentType == KoLConstants.EQUIP_SHIRT )
 			{
 				return "equip";
 			}
 			break;
 
-		case KoLCharacter.PANTS:
+		case EquipmentManager.PANTS:
 			if ( this.equipmentType == KoLConstants.EQUIP_PANTS )
 			{
 				return "equip";
 			}
 			break;
 
-		case KoLCharacter.ACCESSORY1:
+		case EquipmentManager.ACCESSORY1:
 			if ( this.equipmentType == KoLConstants.EQUIP_ACCESSORY )
 			{
 				this.addFormField( "slot", "1" );
@@ -329,7 +330,7 @@ public class EquipmentRequest
 			}
 			break;
 
-		case KoLCharacter.ACCESSORY2:
+		case EquipmentManager.ACCESSORY2:
 			if ( this.equipmentType == KoLConstants.EQUIP_ACCESSORY )
 			{
 				this.addFormField( "slot", "2" );
@@ -337,7 +338,7 @@ public class EquipmentRequest
 			}
 			break;
 
-		case KoLCharacter.ACCESSORY3:
+		case EquipmentManager.ACCESSORY3:
 			if ( this.equipmentType == KoLConstants.EQUIP_ACCESSORY )
 			{
 				this.addFormField( "slot", "3" );
@@ -345,7 +346,7 @@ public class EquipmentRequest
 			}
 			break;
 
-		case KoLCharacter.FAMILIAR:
+		case EquipmentManager.FAMILIAR:
 			if ( this.equipmentType == KoLConstants.EQUIP_FAMILIAR )
 			{
 				return "equip";
@@ -367,45 +368,45 @@ public class EquipmentRequest
 		switch ( equipmentType )
 		{
 		case KoLConstants.EQUIP_HAT:
-			return KoLCharacter.HAT;
+			return EquipmentManager.HAT;
 
 		case KoLConstants.EQUIP_WEAPON:
-			return KoLCharacter.WEAPON;
+			return EquipmentManager.WEAPON;
 
 		case KoLConstants.EQUIP_OFFHAND:
-			return KoLCharacter.OFFHAND;
+			return EquipmentManager.OFFHAND;
 
 		case KoLConstants.EQUIP_SHIRT:
-			return KoLCharacter.SHIRT;
+			return EquipmentManager.SHIRT;
 
 		case KoLConstants.EQUIP_PANTS:
-			return KoLCharacter.PANTS;
+			return EquipmentManager.PANTS;
 
 		case KoLConstants.EQUIP_FAMILIAR:
-			return KoLCharacter.FAMILIAR;
+			return EquipmentManager.FAMILIAR;
 
 		case KoLConstants.EQUIP_ACCESSORY:
 		{
-			AdventureResult test = KoLCharacter.getEquipment( KoLCharacter.ACCESSORY1 );
+			AdventureResult test = EquipmentManager.getEquipment( EquipmentManager.ACCESSORY1 );
 			if ( test == null || test.equals( EquipmentRequest.UNEQUIP ) )
 			{
-				return KoLCharacter.ACCESSORY1;
+				return EquipmentManager.ACCESSORY1;
 			}
 
-			test = KoLCharacter.getEquipment( KoLCharacter.ACCESSORY2 );
+			test = EquipmentManager.getEquipment( EquipmentManager.ACCESSORY2 );
 			if ( test == null || test.equals( EquipmentRequest.UNEQUIP ) )
 			{
-				return KoLCharacter.ACCESSORY2;
+				return EquipmentManager.ACCESSORY2;
 			}
 
-			test = KoLCharacter.getEquipment( KoLCharacter.ACCESSORY3 );
+			test = EquipmentManager.getEquipment( EquipmentManager.ACCESSORY3 );
 			if ( test == null || test.equals( EquipmentRequest.UNEQUIP ) )
 			{
-				return KoLCharacter.ACCESSORY3;
+				return EquipmentManager.ACCESSORY3;
 			}
 
 			// All accessory slots are in use. Pick #1
-			return KoLCharacter.ACCESSORY1;
+			return EquipmentManager.ACCESSORY1;
 		}
 
 		default:
@@ -452,9 +453,9 @@ public class EquipmentRequest
 
 				boolean unequipAllNeeded = false;
 
-				for ( int i = 0; i < KoLCharacter.FAMILIAR; ++i )
+				for ( int i = 0; i < EquipmentManager.FAMILIAR; ++i )
 				{
-					unequipAllNeeded |= !KoLCharacter.getEquipment( i ).equals( EquipmentRequest.UNEQUIP );
+					unequipAllNeeded |= !EquipmentManager.getEquipment( i ).equals( EquipmentRequest.UNEQUIP );
 				}
 
 				if ( unequipAllNeeded )
@@ -462,7 +463,7 @@ public class EquipmentRequest
 					( new EquipmentRequest( EquipmentRequest.UNEQUIP_ALL ) ).run();
 				}
 
-				( new EquipmentRequest( EquipmentRequest.UNEQUIP, KoLCharacter.FAMILIAR ) ).run();
+				( new EquipmentRequest( EquipmentRequest.UNEQUIP, EquipmentManager.FAMILIAR ) ).run();
 				return;
 			}
 
@@ -472,7 +473,7 @@ public class EquipmentRequest
 			if ( id > 0 )
 			{
 				// Return immediately if the character is already wearing the outfit
-				if ( EquipmentDatabase.isWearingOutfit( id ) )
+				if ( EquipmentManager.isWearingOutfit( id ) )
 				{
 					return;
 				}
@@ -480,7 +481,7 @@ public class EquipmentRequest
 				// Next, ensure that you have all the pieces for the
 				// given outfit.
 
-				EquipmentDatabase.retrieveOutfit( id );
+				EquipmentManager.retrieveOutfit( id );
 
 				// Bail now if the conditions were not met
 				if ( !KoLmafia.permitsContinue() )
@@ -501,7 +502,7 @@ public class EquipmentRequest
 			else if ( id == 0 )
 			{
 				// Return immediately if the character is already wearing the outfit
-				if ( EquipmentDatabase.isWearingOutfit( this.outfit ) )
+				if ( EquipmentManager.isWearingOutfit( this.outfit ) )
 				{
 					return;
 				}
@@ -524,7 +525,7 @@ public class EquipmentRequest
 					{
 						if ( !usesAccessories )
 						{
-							for ( int j = KoLCharacter.ACCESSORY1; j <= KoLCharacter.ACCESSORY3; ++j )
+							for ( int j = EquipmentManager.ACCESSORY1; j <= EquipmentManager.ACCESSORY3; ++j )
 							{
 								( new EquipmentRequest( EquipmentRequest.UNEQUIP, j ) ).run();
 							}
@@ -542,7 +543,7 @@ public class EquipmentRequest
 					{
 						if ( usesWeapon )
 						{
-							desiredSlot = KoLCharacter.OFFHAND;
+							desiredSlot = EquipmentManager.OFFHAND;
 						}
 
 						usesWeapon = true;
@@ -563,7 +564,7 @@ public class EquipmentRequest
 			// Do not submit a request if the item matches what you
 			// want to equip on the character.
 
-			if ( KoLCharacter.getEquipment( this.equipmentSlot ).equals( this.changeItem ) )
+			if ( EquipmentManager.getEquipment( this.equipmentSlot ).equals( this.changeItem ) )
 			{
 				return;
 			}
@@ -572,9 +573,9 @@ public class EquipmentRequest
 			// weapons. But a one-handed weapon much match the type of the off-hand weapon. If it
 			// doesn't, unequip the off-hand weapon first
 
-			if ( this.equipmentSlot == KoLCharacter.WEAPON )
+			if ( this.equipmentSlot == EquipmentManager.WEAPON )
 			{
-				AdventureResult offhand = KoLCharacter.getEquipment( KoLCharacter.OFFHAND );
+				AdventureResult offhand = EquipmentManager.getEquipment( EquipmentManager.OFFHAND );
 
 				if ( ItemDatabase.getConsumptionType( offhand.getItemId() ) == KoLConstants.EQUIP_WEAPON )
 				{
@@ -583,18 +584,18 @@ public class EquipmentRequest
 
 					if ( EquipmentDatabase.getHands( this.changeItem.getItemId() ) == 1 && desiredType != currentType )
 					{
-						( new EquipmentRequest( EquipmentRequest.UNEQUIP, KoLCharacter.OFFHAND ) ).run();
+						( new EquipmentRequest( EquipmentRequest.UNEQUIP, EquipmentManager.OFFHAND ) ).run();
 					}
 				}
 			}
 
-			if ( !AdventureDatabase.retrieveItem( this.changeItem ) )
+			if ( !InventoryManager.retrieveItem( this.changeItem ) )
 			{
 				return;
 			}
 		}
 
-		if ( this.requestType == EquipmentRequest.REMOVE_ITEM && KoLCharacter.getEquipment( this.equipmentSlot ).equals(
+		if ( this.requestType == EquipmentRequest.REMOVE_ITEM && EquipmentManager.getEquipment( this.equipmentSlot ).equals(
 			EquipmentRequest.UNEQUIP ) )
 		{
 			return;
@@ -627,11 +628,11 @@ public class EquipmentRequest
 			break;
 
 		case EquipmentRequest.CHANGE_ITEM:
-			KoLmafia.updateDisplay( ( this.equipmentSlot == KoLCharacter.WEAPON ? "Wielding " : this.equipmentSlot == KoLCharacter.OFFHAND ? "Holding " : "Putting on " ) + ItemDatabase.getItemName( this.itemId ) + "..." );
+			KoLmafia.updateDisplay( ( this.equipmentSlot == EquipmentManager.WEAPON ? "Wielding " : this.equipmentSlot == EquipmentManager.OFFHAND ? "Holding " : "Putting on " ) + ItemDatabase.getItemName( this.itemId ) + "..." );
 			break;
 
 		case EquipmentRequest.REMOVE_ITEM:
-			KoLmafia.updateDisplay( "Taking off " + KoLCharacter.getEquipment( this.equipmentSlot ).getName() + "..." );
+			KoLmafia.updateDisplay( "Taking off " + EquipmentManager.getEquipment( this.equipmentSlot ).getName() + "..." );
 			break;
 
 		case EquipmentRequest.UNEQUIP_ALL:
@@ -710,8 +711,11 @@ public class EquipmentRequest
 		// Fetch updated equipment
 		if ( this.requestType == EquipmentRequest.CLOSET )
 		{
-			KoLCharacter.resetInventory();
+			InventoryManager.resetInventory();
+			EquipmentManager.resetEquipment();
+
 			this.parseCloset();
+
 			EquipmentRequest.REFRESH1.run();
 			EquipmentRequest.REFRESH2.run();
 			EquipmentRequest.REFRESH3.run();
@@ -825,7 +829,7 @@ public class EquipmentRequest
 
 		if ( resultList == KoLConstants.inventory )
 		{
-			KoLCharacter.updateEquipmentLists();
+			EquipmentManager.updateEquipmentLists();
 			ConcoctionDatabase.refreshConcoctions();
 		}
 	}
@@ -868,14 +872,14 @@ public class EquipmentRequest
 	public static final void parseEquipment( final String responseText )
 	{
 		AdventureResult[] oldEquipment = new AdventureResult[ 9 ];
-		int oldFakeHands = KoLCharacter.getFakeHands();
+		int oldFakeHands = EquipmentManager.getFakeHands();
 
 		// Ensure that the inventory stays up-to-date by switching
 		// items around, as needed.
 
 		for ( int i = 0; i < 9; ++i )
 		{
-			oldEquipment[ i ] = KoLCharacter.getEquipment( i );
+			oldEquipment[ i ] = EquipmentManager.getEquipment( i );
 		}
 
 		AdventureResult[] equipment = new AdventureResult[ 9 ];
@@ -896,10 +900,10 @@ public class EquipmentRequest
 				name = equipmentMatcher.group( 1 ).trim();
 				if ( EquipmentDatabase.contains( name ) )
 				{
-					equipment[ KoLCharacter.HAT ] = new AdventureResult( name, 1, false );
+					equipment[ EquipmentManager.HAT ] = new AdventureResult( name, 1, false );
 				}
 
-				RequestLogger.updateDebugLog( "Hat: " + equipment[ KoLCharacter.HAT ] );
+				RequestLogger.updateDebugLog( "Hat: " + equipment[ EquipmentManager.HAT ] );
 			}
 		}
 
@@ -911,11 +915,11 @@ public class EquipmentRequest
 				name = equipmentMatcher.group( 1 ).trim();
 				if ( EquipmentDatabase.contains( name ) )
 				{
-					equipment[ KoLCharacter.WEAPON ] =
+					equipment[ EquipmentManager.WEAPON ] =
 						new AdventureResult( equipmentMatcher.group( 1 ).trim(), 1, false );
 				}
 
-				RequestLogger.updateDebugLog( "Weapon: " + equipment[ KoLCharacter.WEAPON ] );
+				RequestLogger.updateDebugLog( "Weapon: " + equipment[ EquipmentManager.WEAPON ] );
 			}
 		}
 
@@ -927,11 +931,11 @@ public class EquipmentRequest
 				name = equipmentMatcher.group( 1 ).trim();
 				if ( EquipmentDatabase.contains( name ) )
 				{
-					equipment[ KoLCharacter.OFFHAND ] =
+					equipment[ EquipmentManager.OFFHAND ] =
 						new AdventureResult( equipmentMatcher.group( 1 ).trim(), 1, false );
 				}
 
-				RequestLogger.updateDebugLog( "Off-hand: " + equipment[ KoLCharacter.OFFHAND ] );
+				RequestLogger.updateDebugLog( "Off-hand: " + equipment[ EquipmentManager.OFFHAND ] );
 			}
 		}
 
@@ -943,11 +947,11 @@ public class EquipmentRequest
 				name = equipmentMatcher.group( 1 ).trim();
 				if ( EquipmentDatabase.contains( name ) )
 				{
-					equipment[ KoLCharacter.SHIRT ] =
+					equipment[ EquipmentManager.SHIRT ] =
 						new AdventureResult( equipmentMatcher.group( 1 ).trim(), 1, false );
 				}
 
-				RequestLogger.updateDebugLog( "Shirt: " + equipment[ KoLCharacter.SHIRT ] );
+				RequestLogger.updateDebugLog( "Shirt: " + equipment[ EquipmentManager.SHIRT ] );
 			}
 		}
 
@@ -959,11 +963,11 @@ public class EquipmentRequest
 				name = equipmentMatcher.group( 1 ).trim();
 				if ( EquipmentDatabase.contains( name ) )
 				{
-					equipment[ KoLCharacter.PANTS ] =
+					equipment[ EquipmentManager.PANTS ] =
 						new AdventureResult( equipmentMatcher.group( 1 ).trim(), 1, false );
 				}
 
-				RequestLogger.updateDebugLog( "Pants: " + equipment[ KoLCharacter.PANTS ] );
+				RequestLogger.updateDebugLog( "Pants: " + equipment[ EquipmentManager.PANTS ] );
 			}
 		}
 
@@ -975,11 +979,11 @@ public class EquipmentRequest
 				name = equipmentMatcher.group( 1 ).trim();
 				if ( EquipmentDatabase.contains( name ) )
 				{
-					equipment[ KoLCharacter.ACCESSORY1 ] =
+					equipment[ EquipmentManager.ACCESSORY1 ] =
 						new AdventureResult( equipmentMatcher.group( 1 ).trim(), 1, false );
 				}
 
-				RequestLogger.updateDebugLog( "Accessory 1: " + equipment[ KoLCharacter.ACCESSORY1 ] );
+				RequestLogger.updateDebugLog( "Accessory 1: " + equipment[ EquipmentManager.ACCESSORY1 ] );
 			}
 		}
 
@@ -991,11 +995,11 @@ public class EquipmentRequest
 				name = equipmentMatcher.group( 1 ).trim();
 				if ( EquipmentDatabase.contains( name ) )
 				{
-					equipment[ KoLCharacter.ACCESSORY2 ] =
+					equipment[ EquipmentManager.ACCESSORY2 ] =
 						new AdventureResult( equipmentMatcher.group( 1 ).trim(), 1, false );
 				}
 
-				RequestLogger.updateDebugLog( "Accessory 2: " + equipment[ KoLCharacter.ACCESSORY2 ] );
+				RequestLogger.updateDebugLog( "Accessory 2: " + equipment[ EquipmentManager.ACCESSORY2 ] );
 			}
 		}
 
@@ -1007,11 +1011,11 @@ public class EquipmentRequest
 				name = equipmentMatcher.group( 1 ).trim();
 				if ( EquipmentDatabase.contains( name ) )
 				{
-					equipment[ KoLCharacter.ACCESSORY3 ] =
+					equipment[ EquipmentManager.ACCESSORY3 ] =
 						new AdventureResult( equipmentMatcher.group( 1 ).trim(), 1, false );
 				}
 
-				RequestLogger.updateDebugLog( "Accessory 3: " + equipment[ KoLCharacter.ACCESSORY3 ] );
+				RequestLogger.updateDebugLog( "Accessory 3: " + equipment[ EquipmentManager.ACCESSORY3 ] );
 			}
 
 		}
@@ -1024,11 +1028,11 @@ public class EquipmentRequest
 				name = equipmentMatcher.group( 1 ).trim();
 				if ( ItemDatabase.contains( name ) )
 				{
-					equipment[ KoLCharacter.FAMILIAR ] =
+					equipment[ EquipmentManager.FAMILIAR ] =
 						new AdventureResult( equipmentMatcher.group( 1 ).trim(), 1, false );
 				}
 
-				RequestLogger.updateDebugLog( "Familiar: " + equipment[ KoLCharacter.FAMILIAR ] );
+				RequestLogger.updateDebugLog( "Familiar: " + equipment[ EquipmentManager.FAMILIAR ] );
 			}
 		}
 
@@ -1046,7 +1050,7 @@ public class EquipmentRequest
 
 		if ( !KoLmafia.isRefreshing() )
 		{
-			for ( int i = 0; i <= KoLCharacter.FAMILIAR; ++i )
+			for ( int i = 0; i <= EquipmentManager.FAMILIAR; ++i )
 			{
 				refreshCreations |= EquipmentRequest.switchItem( oldEquipment[ i ], equipment[ i ] );
 			}
@@ -1054,12 +1058,12 @@ public class EquipmentRequest
 
 		// Adjust inventory of fake hands
 
-		int newFakeHands = KoLCharacter.getFakeHands();
+		int newFakeHands = EquipmentManager.getFakeHands();
 		if ( oldFakeHands != newFakeHands )
 		{
 			AdventureResult.addResultToList( KoLConstants.inventory, new AdventureResult(
 				EquipmentRequest.FAKE_HAND, newFakeHands - oldFakeHands ) );
-			KoLCharacter.setFakeHands( fakeHands );
+			EquipmentManager.setFakeHands( fakeHands );
 		}
 
 		// Now update your equipment to make sure that selected
@@ -1069,10 +1073,10 @@ public class EquipmentRequest
 
 		LockableListModel outfits = outfitsMatcher.find() ? SpecialOutfit.parseOutfits( outfitsMatcher.group() ) : null;
 
-		KoLCharacter.setEquipment( equipment );
-		KoLCharacter.setOutfits( outfits );
+		EquipmentManager.setEquipment( equipment );
+		EquipmentManager.setOutfits( outfits );
 
-		EquipmentDatabase.updateOutfits();
+		EquipmentManager.updateOutfits();
 
 		// If you need to update your creatables list, do so at
 		// the end of the processing.

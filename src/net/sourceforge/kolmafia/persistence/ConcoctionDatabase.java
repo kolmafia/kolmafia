@@ -52,6 +52,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.ClanManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
@@ -463,7 +464,7 @@ public class ConcoctionDatabase
 
 			if ( !consume && c.getItem() != null )
 			{
-				AdventureDatabase.retrieveItem( c.getItem().getInstance( c.getQueued() ) );
+				InventoryManager.retrieveItem( c.getItem().getInstance( c.getQueued() ) );
 			}
 			else if ( c.getPrice() > 0 )
 			{

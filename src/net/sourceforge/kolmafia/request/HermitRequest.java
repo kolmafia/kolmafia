@@ -44,9 +44,9 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
-import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class HermitRequest
 	extends GenericRequest
@@ -137,17 +137,17 @@ public class HermitRequest
 			return;
 		}
 
-		if ( KoLCharacter.hasItem( HermitRequest.HACK_SCROLL ) )
+		if ( InventoryManager.hasItem( HermitRequest.HACK_SCROLL ) )
 		{
 			( new UseItemRequest( HermitRequest.HACK_SCROLL ) ).run();
 		}
 
-		if ( KoLCharacter.getLevel() >= 9 && KoLCharacter.hasItem( HermitRequest.SUMMON_SCROLL ) )
+		if ( KoLCharacter.getLevel() >= 9 && InventoryManager.hasItem( HermitRequest.SUMMON_SCROLL ) )
 		{
 			int itemCount = HermitRequest.SUMMON_SCROLL.getCount( KoLConstants.inventory );
 			( new UseItemRequest( HermitRequest.SUMMON_SCROLL.getInstance( itemCount ) ) ).run();
 
-			if ( KoLCharacter.hasItem( HermitRequest.HACK_SCROLL ) )
+			if ( InventoryManager.hasItem( HermitRequest.HACK_SCROLL ) )
 			{
 				( new UseItemRequest( HermitRequest.HACK_SCROLL ) ).run();
 				( new UseItemRequest( HermitRequest.SUMMON_SCROLL.getInstance( itemCount - 1 ) ) ).run();
@@ -156,11 +156,11 @@ public class HermitRequest
 
 		if ( HermitRequest.getWorthlessItemCount() < this.quantity )
 		{
-			AdventureDatabase.retrieveItem( HermitRequest.WORTHLESS_ITEM.getInstance( this.quantity ) );
+			InventoryManager.retrieveItem( HermitRequest.WORTHLESS_ITEM.getInstance( this.quantity ) );
 		}
 		else if ( HermitRequest.getWorthlessItemCount() == 0 )
 		{
-			AdventureDatabase.retrieveItem( HermitRequest.WORTHLESS_ITEM );
+			InventoryManager.retrieveItem( HermitRequest.WORTHLESS_ITEM );
 		}
 
 		if ( HermitRequest.getWorthlessItemCount() == 0 )
@@ -179,9 +179,9 @@ public class HermitRequest
 	{
 		if ( !HermitRequest.parseHermitTrade( this.getURLString(), this.responseText ) )
 		{
-			if ( !KoLCharacter.hasItem( HermitRequest.PERMIT ) )
+			if ( !InventoryManager.hasItem( HermitRequest.PERMIT ) )
 			{
-				if ( AdventureDatabase.retrieveItem( HermitRequest.PERMIT ) )
+				if ( InventoryManager.retrieveItem( HermitRequest.PERMIT ) )
 				{
 					this.run();
 				}
@@ -203,7 +203,7 @@ public class HermitRequest
 
 		if ( this.responseText.indexOf( "You don't have enough Hermit Permits" ) != -1 )
 		{
-			if ( AdventureDatabase.retrieveItem( HermitRequest.PERMIT.getInstance( this.quantity ) ) )
+			if ( InventoryManager.retrieveItem( HermitRequest.PERMIT.getInstance( this.quantity ) ) )
 			{
 				this.run();
 			}

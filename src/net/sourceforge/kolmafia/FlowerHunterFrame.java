@@ -54,6 +54,7 @@ import javax.swing.table.TableCellRenderer;
 
 import com.sun.java.forums.TableSorter;
 
+import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 
@@ -175,9 +176,9 @@ public class FlowerHunterFrame
 	private void updateRank()
 	{
 		int equipmentPower =
-			EquipmentDatabase.getPower( KoLCharacter.getEquipment( KoLCharacter.HAT ).getItemId() ) + EquipmentDatabase.getPower( KoLCharacter.getEquipment(
-				KoLCharacter.PANTS ).getItemId() ) + EquipmentDatabase.getPower( KoLCharacter.getEquipment(
-				KoLCharacter.SHIRT ).getItemId() );
+			EquipmentDatabase.getPower( EquipmentManager.getEquipment( EquipmentManager.HAT ).getItemId() ) + EquipmentDatabase.getPower( EquipmentManager.getEquipment(
+				EquipmentManager.PANTS ).getItemId() ) + EquipmentDatabase.getPower( EquipmentManager.getEquipment(
+				EquipmentManager.SHIRT ).getItemId() );
 
 		JLabel[] rankLabels = new JLabel[ this.rankLabels.size() ];
 		this.rankLabels.toArray( rankLabels );

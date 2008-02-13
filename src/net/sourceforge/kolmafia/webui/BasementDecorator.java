@@ -43,6 +43,8 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MoodManager;
 
 import net.sourceforge.kolmafia.request.BasementRequest;
@@ -143,9 +145,9 @@ public class BasementDecorator
 		// Add outfits
 
 		SpecialOutfit outfit;
-		for ( int i = 0; i < KoLCharacter.getCustomOutfits().size(); ++i )
+		for ( int i = 0; i < EquipmentManager.getCustomOutfits().size(); ++i )
 		{
-			outfit = (SpecialOutfit) KoLCharacter.getCustomOutfits().get( i );
+			outfit = (SpecialOutfit) EquipmentManager.getCustomOutfits().get( i );
 
 			changes.append( "<option value=\"outfit+" );
 
@@ -370,7 +372,7 @@ public class BasementDecorator
 				this.item = KoLmafiaCLI.getFirstMatchingItem( this.action.substring( index ).trim(), false );
 				if ( this.item != null )
 				{
-					this.itemAvailable = KoLCharacter.hasItem( this.item );
+					this.itemAvailable = InventoryManager.hasItem( this.item );
 					this.spleen = ItemDatabase.getSpleenHit( item.getName() );
 					this.inebriety = ItemDatabase.getInebriety( item.getName() );
 				}

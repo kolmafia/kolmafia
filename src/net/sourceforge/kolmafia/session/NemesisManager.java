@@ -144,7 +144,7 @@ public abstract class NemesisManager
 
 		if ( region <= 4 )
 		{
-			if ( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getItemId() != NemesisManager.FLY_SWATTER.getItemId() )
+			if ( EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getItemId() != NemesisManager.FLY_SWATTER.getItemId() )
 			{
 				requirements.add( NemesisManager.FLY_SWATTER );
 			}
@@ -169,7 +169,7 @@ public abstract class NemesisManager
 
 		if ( region <= 7 )
 		{
-			if ( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getItemId() != NemesisManager.TONGS.getItemId() )
+			if ( EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getItemId() != NemesisManager.TONGS.getItemId() )
 			{
 				requirements.add( NemesisManager.TONGS );
 			}
@@ -191,8 +191,8 @@ public abstract class NemesisManager
 		}
 
 		// Get current equipment
-		AdventureResult initialWeapon = KoLCharacter.getEquipment( KoLCharacter.WEAPON );
-		AdventureResult initialOffhand = KoLCharacter.getEquipment( KoLCharacter.OFFHAND );
+		AdventureResult initialWeapon = EquipmentManager.getEquipment( EquipmentManager.WEAPON );
+		AdventureResult initialOffhand = EquipmentManager.getEquipment( EquipmentManager.OFFHAND );
 
 		if ( initialWeapon == null )
 		{
@@ -217,7 +217,7 @@ public abstract class NemesisManager
 				// Equip fly swatter, but only if it's
 				// not currently equipped
 
-				RequestThread.postRequest( new EquipmentRequest( NemesisManager.FLY_SWATTER, KoLCharacter.WEAPON ) );
+				RequestThread.postRequest( new EquipmentRequest( NemesisManager.FLY_SWATTER, EquipmentManager.WEAPON ) );
 				action = "flies";
 				KoLmafia.updateDisplay( "Swatting flies..." );
 				break;
@@ -236,7 +236,7 @@ public abstract class NemesisManager
 
 			case 7: // Salad-Covered Door
 
-				RequestThread.postRequest( new EquipmentRequest( NemesisManager.TONGS, KoLCharacter.WEAPON ) );
+				RequestThread.postRequest( new EquipmentRequest( NemesisManager.TONGS, EquipmentManager.WEAPON ) );
 				action = "door2";
 				KoLmafia.updateDisplay( "Plucking the salad door..." );
 				break;
@@ -251,12 +251,12 @@ public abstract class NemesisManager
 
 				if ( initialWeapon != null )
 				{
-					RequestThread.postRequest( new EquipmentRequest( initialWeapon, KoLCharacter.WEAPON ) );
+					RequestThread.postRequest( new EquipmentRequest( initialWeapon, EquipmentManager.WEAPON ) );
 				}
 
 				if ( initialOffhand != null )
 				{
-					RequestThread.postRequest( new EquipmentRequest( initialOffhand, KoLCharacter.OFFHAND ) );
+					RequestThread.postRequest( new EquipmentRequest( initialOffhand, EquipmentManager.OFFHAND ) );
 				}
 
 				action = "end";

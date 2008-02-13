@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.MoodManager;
 import net.sourceforge.kolmafia.webui.BasementDecorator.StatBooster;
 
@@ -294,7 +295,7 @@ public class BasementRequest
 		Object currentTest;
 		String currentTestString;
 
-		List available = KoLCharacter.getCustomOutfits();
+		List available = EquipmentManager.getCustomOutfits();
 		for ( int i = 0; i < available.size(); ++i )
 		{
 			currentTest = available.get( i );
