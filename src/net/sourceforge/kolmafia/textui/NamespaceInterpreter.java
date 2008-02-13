@@ -53,17 +53,19 @@ import net.sourceforge.kolmafia.textui.parsetree.VariableReference;
 public class NamespaceInterpreter
 	extends Interpreter
 {
+	private final String setting;
 	private String lastImportString;
 
-	public NamespaceInterpreter()
+	public NamespaceInterpreter( final String setting )
 	{
 		super();
+		this.setting = setting;
 		this.lastImportString = "";
 	}
 
 	public void execute( final String functionName, final String[] parameters )
 	{
-		String importString = Preferences.getString( "commandLineNamespace" );
+		String importString = Preferences.getString( setting );
 		if ( importString.equals( "" ) )
 		{
 			KoLmafia.updateDisplay(
@@ -90,9 +92,8 @@ public class NamespaceInterpreter
 			this.scope = new Scope( new VariableList(), Parser.getExistingFunctionScope() );
 
 			imports.clear();
-			this.lastImportString = importString;
-			String[] importList = importString.split( "," );
 
+			String[] importList = importString.split( "," );
 			for ( int i = 0; i < importList.length; ++i )
 			{
 				try
@@ -111,6 +112,8 @@ public class NamespaceInterpreter
 					return;
 				}
 			}
+
+			this.lastImportString = importString;
 		}
 
 		super.execute( functionName, parameters, shouldRefresh );
