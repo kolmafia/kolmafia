@@ -49,6 +49,7 @@ import javax.swing.JList;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
+import net.sourceforge.kolmafia.swingui.BuffBotFrame;
 
 public class BuffBotHome
 	extends StaticEntity

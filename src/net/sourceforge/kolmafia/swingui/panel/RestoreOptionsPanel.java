@@ -16,9 +16,9 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 import net.sourceforge.kolmafia.HPRestoreItemList;
 import net.sourceforge.kolmafia.MPRestoreItemList;
-import net.sourceforge.kolmafia.SimpleScrollPane;
 
 import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 
 public class RestoreOptionsPanel
 	extends JPanel
@@ -52,7 +52,7 @@ public class RestoreOptionsPanel
 		}
 	}
 
-	private SimpleScrollPane constructScroller( final JCheckBox[] restoreCheckbox )
+	private GenericScrollPane constructScroller( final JCheckBox[] restoreCheckbox )
 	{
 		JPanel checkboxPanel = new JPanel( new GridLayout( restoreCheckbox.length, 1 ) );
 		for ( int i = 0; i < restoreCheckbox.length; ++i )
@@ -60,8 +60,8 @@ public class RestoreOptionsPanel
 			checkboxPanel.add( restoreCheckbox[ i ] );
 		}
 
-		return new SimpleScrollPane(
-			checkboxPanel, SimpleScrollPane.VERTICAL_SCROLLBAR_NEVER, SimpleScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+		return new GenericScrollPane(
+			checkboxPanel, GenericScrollPane.VERTICAL_SCROLLBAR_NEVER, GenericScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 	}
 
 	private JPanel constructLabelPair( final String label, final JComponent element1 )

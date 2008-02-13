@@ -37,7 +37,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.FightFrame;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -48,6 +47,7 @@ import net.sourceforge.kolmafia.session.CustomCombatManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LouvreManager;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
+import net.sourceforge.kolmafia.swingui.RequestSynchFrame;
 
 import net.sourceforge.kolmafia.persistence.Preferences;
 
@@ -815,7 +815,7 @@ public class AdventureRequest
 			return;
 		}
 
-		FightFrame.showRequest( AdventureRequest.ZONE_UNLOCK );
+		RequestSynchFrame.showRequest( AdventureRequest.ZONE_UNLOCK );
 		KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Unknown adventure type encountered." );
 	}
 

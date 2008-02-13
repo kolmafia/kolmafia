@@ -51,6 +51,9 @@ import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.swingui.AdventureFrame;
+import net.sourceforge.kolmafia.swingui.CouncilFrame;
+import net.sourceforge.kolmafia.swingui.GenericFrame;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
@@ -362,7 +365,7 @@ public class KoLAdventure
 		{
 			if ( KoLmafia.isAdventuring() && KoLCharacter.getLevel() < 9 )
 			{
-				if ( !KoLFrame.confirm( "The dictionary won't drop right now.  Are you sure you wish to continue?" ) )
+				if ( !GenericFrame.confirm( "The dictionary won't drop right now.  Are you sure you wish to continue?" ) )
 				{
 					return;
 				}

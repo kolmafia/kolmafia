@@ -38,7 +38,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
+
 import java.net.URLEncoder;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -49,9 +51,7 @@ import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
-
 import net.sourceforge.kolmafia.KoLConstants.ByteArrayStream;
-import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.BuffBotDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
@@ -111,6 +111,12 @@ import net.sourceforge.kolmafia.session.MushroomManager;
 import net.sourceforge.kolmafia.session.NemesisManager;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.StoreManager;
+import net.sourceforge.kolmafia.swingui.BuffRequestFrame;
+import net.sourceforge.kolmafia.swingui.CalendarFrame;
+import net.sourceforge.kolmafia.swingui.CouncilFrame;
+import net.sourceforge.kolmafia.swingui.FamiliarTrainingFrame;
+import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
+import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.webui.StationaryButtonDecorator;
 
 public class KoLmafiaCLI

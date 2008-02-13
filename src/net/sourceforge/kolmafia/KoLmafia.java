@@ -34,17 +34,22 @@
 package net.sourceforge.kolmafia;
 
 import java.awt.Color;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.RandomAccessFile;
+
 import java.lang.reflect.Method;
 import java.math.BigInteger;
+
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -64,24 +69,18 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.UtilityConstants;
-
 import net.sourceforge.kolmafia.HPRestoreItemList.HPRestoreItem;
 import net.sourceforge.kolmafia.MPRestoreItemList.MPRestoreItem;
-import net.sourceforge.kolmafia.session.ClanManager;
-import net.sourceforge.kolmafia.session.DisplayCaseManager;
-import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.LouvreManager;
-import net.sourceforge.kolmafia.session.MailManager;
-import net.sourceforge.kolmafia.session.MoodManager;
-import net.sourceforge.kolmafia.session.MushroomManager;
-import net.sourceforge.kolmafia.session.StoreManager;
-import net.sourceforge.kolmafia.session.VioletFogManager;
-import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
-import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
-import net.sourceforge.kolmafia.webui.CharacterEntityReference;
-import net.sourceforge.kolmafia.webui.IslandDecorator;
-
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.CustomItemDatabase;
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.FlaggedItems;
+import net.sourceforge.kolmafia.persistence.HolidayDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.request.AccountRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
@@ -109,17 +108,25 @@ import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
-
-import net.sourceforge.kolmafia.persistence.AdventureDatabase;
-import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
-import net.sourceforge.kolmafia.persistence.CustomItemDatabase;
-import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
-import net.sourceforge.kolmafia.persistence.FlaggedItems;
-import net.sourceforge.kolmafia.persistence.HolidayDatabase;
-import net.sourceforge.kolmafia.persistence.ItemDatabase;
-import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
-import net.sourceforge.kolmafia.persistence.Preferences;
-import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.session.ClanManager;
+import net.sourceforge.kolmafia.session.DisplayCaseManager;
+import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.LouvreManager;
+import net.sourceforge.kolmafia.session.MailManager;
+import net.sourceforge.kolmafia.session.MoodManager;
+import net.sourceforge.kolmafia.session.MushroomManager;
+import net.sourceforge.kolmafia.session.StoreManager;
+import net.sourceforge.kolmafia.session.VioletFogManager;
+import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
+import net.sourceforge.kolmafia.swingui.AdventureFrame;
+import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
+import net.sourceforge.kolmafia.swingui.CouncilFrame;
+import net.sourceforge.kolmafia.swingui.GenericFrame;
+import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
+import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
+import net.sourceforge.kolmafia.webui.CharacterEntityReference;
+import net.sourceforge.kolmafia.webui.IslandDecorator;
 
 public abstract class KoLmafia
 {
@@ -675,7 +682,7 @@ public abstract class KoLmafia
 			panels[ i ].setEnabled( state != KoLConstants.CONTINUE_STATE );
 		}
 
-		KoLFrame[] frames = StaticEntity.getExistingFrames();
+		GenericFrame[] frames = StaticEntity.getExistingFrames();
 		for ( int i = 0; i < frames.length; ++i )
 		{
 			frames[ i ].setStatusMessage( message );
@@ -2762,7 +2769,7 @@ public abstract class KoLmafia
 
 	private static final Object getSelectedValue( final String message, final LockableListModel list )
 	{
-		return KoLFrame.input( message, list );
+		return GenericFrame.input( message, list );
 	}
 
 	/**
@@ -2806,7 +2813,7 @@ public abstract class KoLmafia
 		}
 
 		int tradeCount =
-			KoLFrame.getQuantity(
+			GenericFrame.getQuantity(
 				"How many " + ( (AdventureResult) selectedValue ).getName() + " to get?\n" + message, maximumValue, 1 );
 		if ( tradeCount == 0 )
 		{
@@ -2835,7 +2842,7 @@ public abstract class KoLmafia
 
 		String message = "(You have " + maximumValue + " furs available)";
 		int tradeCount =
-			KoLFrame.getQuantity(
+			GenericFrame.getQuantity(
 				"How many " + ( (AdventureResult) selectedValue ).getName() + " to get?\n" + message, maximumValue,
 				maximumValue );
 		if ( tradeCount == 0 )
@@ -2983,7 +2990,7 @@ public abstract class KoLmafia
 		int currentLevel = KoLCharacter.getSignedMLAdjustment();
 
 		String selectedLevel =
-			(String) KoLFrame.input( "Change monster annoyance from " + currentLevel + "?", levelArray );
+			(String) GenericFrame.input( "Change monster annoyance from " + currentLevel + "?", levelArray );
 		if ( selectedLevel == null )
 		{
 			return;
@@ -2995,7 +3002,7 @@ public abstract class KoLmafia
 
 	public void makeCampgroundRestRequest()
 	{
-		String turnCount = (String) KoLFrame.input( "Rest for how many turns?", "1" );
+		String turnCount = (String) GenericFrame.input( "Rest for how many turns?", "1" );
 		if ( turnCount == null )
 		{
 			return;
@@ -3006,7 +3013,7 @@ public abstract class KoLmafia
 
 	public void makeCampgroundRelaxRequest()
 	{
-		String turnCount = (String) KoLFrame.input( "Relax for how many turns?", "1" );
+		String turnCount = (String) GenericFrame.input( "Relax for how many turns?", "1" );
 		if ( turnCount == null )
 		{
 			return;
@@ -3017,7 +3024,7 @@ public abstract class KoLmafia
 
 	public void makeClanSofaRequest()
 	{
-		String turnCount = (String) KoLFrame.input( "Sleep for how many turns?", "1" );
+		String turnCount = (String) GenericFrame.input( "Sleep for how many turns?", "1" );
 		if ( turnCount == null )
 		{
 			return;
@@ -4214,7 +4221,7 @@ public abstract class KoLmafia
 			return;
 		}
 
-		if ( !KoLFrame.confirm( "Are you sure you'd like to host an end-of-run sale?" ) )
+		if ( !GenericFrame.confirm( "Are you sure you'd like to host an end-of-run sale?" ) )
 		{
 			return;
 		}
@@ -4690,7 +4697,7 @@ public abstract class KoLmafia
 					return;
 				}
 
-				if ( KoLFrame.confirm( "A new version of KoLmafia is now available.  Would you like to download it now?" ) )
+				if ( GenericFrame.confirm( "A new version of KoLmafia is now available.  Would you like to download it now?" ) )
 				{
 					StaticEntity.openSystemBrowser( "https://sourceforge.net/project/showfiles.php?group_id=126572" );
 				}

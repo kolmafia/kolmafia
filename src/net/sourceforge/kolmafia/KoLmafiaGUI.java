@@ -33,8 +33,6 @@
 
 package net.sourceforge.kolmafia;
 
-import java.lang.ClassNotFoundException;
-
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -42,15 +40,9 @@ import javax.swing.SwingUtilities;
 
 import net.sourceforge.foxtrot.ConcurrentWorker;
 import net.sourceforge.foxtrot.Job;
-
-import net.sourceforge.kolmafia.session.BuffBotManager;
-import net.sourceforge.kolmafia.session.ChatManager;
-import net.sourceforge.kolmafia.session.ClanManager;
-import net.sourceforge.kolmafia.session.DisplayCaseManager;
-import net.sourceforge.kolmafia.session.MailManager;
-import net.sourceforge.kolmafia.session.MushroomManager;
-import net.sourceforge.kolmafia.session.StoreManager;
-
+import net.sourceforge.kolmafia.persistence.BuffBotDatabase;
+import net.sourceforge.kolmafia.persistence.HolidayDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
 import net.sourceforge.kolmafia.request.ClanWarRequest;
@@ -63,10 +55,31 @@ import net.sourceforge.kolmafia.request.MailboxRequest;
 import net.sourceforge.kolmafia.request.ManageStoreRequest;
 import net.sourceforge.kolmafia.request.MicroBreweryRequest;
 import net.sourceforge.kolmafia.request.PvpRequest;
-
-import net.sourceforge.kolmafia.persistence.BuffBotDatabase;
-import net.sourceforge.kolmafia.persistence.HolidayDatabase;
-import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.session.BuffBotManager;
+import net.sourceforge.kolmafia.session.ChatManager;
+import net.sourceforge.kolmafia.session.ClanManager;
+import net.sourceforge.kolmafia.session.DisplayCaseManager;
+import net.sourceforge.kolmafia.session.MailManager;
+import net.sourceforge.kolmafia.session.MushroomManager;
+import net.sourceforge.kolmafia.session.StoreManager;
+import net.sourceforge.kolmafia.swingui.BuffBotFrame;
+import net.sourceforge.kolmafia.swingui.BuffRequestFrame;
+import net.sourceforge.kolmafia.swingui.CakeArenaFrame;
+import net.sourceforge.kolmafia.swingui.CalendarFrame;
+import net.sourceforge.kolmafia.swingui.ClanManageFrame;
+import net.sourceforge.kolmafia.swingui.ContactListFrame;
+import net.sourceforge.kolmafia.swingui.DescriptionFrame;
+import net.sourceforge.kolmafia.swingui.FamiliarTrainingFrame;
+import net.sourceforge.kolmafia.swingui.FlowerHunterFrame;
+import net.sourceforge.kolmafia.swingui.GenericFrame;
+import net.sourceforge.kolmafia.swingui.ItemManageFrame;
+import net.sourceforge.kolmafia.swingui.LoginFrame;
+import net.sourceforge.kolmafia.swingui.MailboxFrame;
+import net.sourceforge.kolmafia.swingui.MuseumFrame;
+import net.sourceforge.kolmafia.swingui.MushroomFrame;
+import net.sourceforge.kolmafia.swingui.OptionsFrame;
+import net.sourceforge.kolmafia.swingui.StoreManageFrame;
+import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
 
 public class KoLmafiaGUI
 	extends KoLmafia
@@ -255,7 +268,7 @@ public class KoLmafiaGUI
 
 		try
 		{
-			Class frameClass = Class.forName( "net.sourceforge.kolmafia." + frameName );
+			Class frameClass = Class.forName( "net.sourceforge.kolmafia.swingui." + frameName );
 			KoLmafiaGUI.constructFrame( frameClass );
 		}
 		catch ( ClassNotFoundException e )
@@ -369,7 +382,7 @@ public class KoLmafiaGUI
 					RequestThread.postRequest( new ContactListRequest() );
 				}
 
-				if ( KoLFrame.appearsInTab( "ContactListFrame" ) )
+				if ( GenericFrame.appearsInTab( "ContactListFrame" ) )
 				{
 					return;
 				}

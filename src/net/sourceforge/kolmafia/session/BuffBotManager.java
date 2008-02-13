@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.session;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.PrintStream;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -45,7 +46,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.SortedListModel;
-
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.BuffBotHome;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -58,14 +58,12 @@ import net.sourceforge.kolmafia.MPRestoreItemList;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
-
-import net.sourceforge.kolmafia.request.MailboxRequest;
-import net.sourceforge.kolmafia.request.SendMailRequest;
-import net.sourceforge.kolmafia.request.UseSkillRequest;
-
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.request.MailboxRequest;
+import net.sourceforge.kolmafia.request.SendMailRequest;
+import net.sourceforge.kolmafia.request.UseSkillRequest;
 
 public abstract class BuffBotManager
 {

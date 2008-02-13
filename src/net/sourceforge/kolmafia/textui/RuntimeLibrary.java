@@ -57,12 +57,10 @@ import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AreaCombatData;
 import net.sourceforge.kolmafia.FamiliarData;
-import net.sourceforge.kolmafia.ItemManageFrame;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
-import net.sourceforge.kolmafia.KoLFrame;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
@@ -105,6 +103,8 @@ import net.sourceforge.kolmafia.session.MushroomManager;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
+import net.sourceforge.kolmafia.swingui.GenericFrame;
+import net.sourceforge.kolmafia.swingui.ItemManageFrame;
 import net.sourceforge.kolmafia.textui.parsetree.AggregateType;
 import net.sourceforge.kolmafia.textui.parsetree.ArrayValue;
 import net.sourceforge.kolmafia.textui.parsetree.CompositeValue;
@@ -916,7 +916,7 @@ public abstract class RuntimeLibrary
 
 	public static Value user_confirm( final Value message )
 	{
-		return DataTypes.makeBooleanValue( KoLFrame.confirm( message.toString() ) );
+		return DataTypes.makeBooleanValue( GenericFrame.confirm( message.toString() ) );
 	}
 
 	public static Value logprint( final Value string )

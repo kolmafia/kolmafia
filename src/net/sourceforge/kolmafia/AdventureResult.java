@@ -34,16 +34,16 @@
 package net.sourceforge.kolmafia;
 
 import java.text.ParseException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import net.sourceforge.kolmafia.request.FightRequest;
-import net.sourceforge.kolmafia.request.UseItemRequest;
-
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.request.FightRequest;
+import net.sourceforge.kolmafia.request.UseItemRequest;
 
 public class AdventureResult
 	implements Comparable, KoLConstants

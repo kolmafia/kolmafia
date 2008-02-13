@@ -47,10 +47,10 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.StoreManageFrame;
 
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
 import net.sourceforge.kolmafia.request.MallSearchRequest;
+import net.sourceforge.kolmafia.swingui.StoreManageFrame;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
