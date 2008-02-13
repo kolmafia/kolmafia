@@ -266,6 +266,12 @@ public class KoLmafiaGUI
 			return;
 		}
 
+		if ( frameName.equals( "LocalRelayServer" ) )
+		{
+			StaticEntity.getClient().openRelayBrowser();
+			return;
+		}
+
 		try
 		{
 			Class frameClass = Class.forName( "net.sourceforge.kolmafia.swingui." + frameName );
