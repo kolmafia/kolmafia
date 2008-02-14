@@ -43,6 +43,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -65,6 +66,11 @@ public abstract class InventoryManager
 	public static void resetInventory()
 	{
 		KoLConstants.inventory.clear();
+	}
+
+	public static final boolean hasItem( final int itemId )
+	{
+		return InventoryManager.hasItem( ItemPool.get( itemId, 1 ) );
 	}
 
 	public static final boolean hasItem( final AdventureResult item )
@@ -140,6 +146,21 @@ public abstract class InventoryManager
 		}
 
 		return count > 0 && count >= item.getCount();
+	}
+
+	public static final boolean retrieveItem( final int itemId )
+	{
+		return retrieveItem( ItemPool.get( itemId, 1 ) );
+	}
+
+	public static final boolean retrieveItem( final String itemName )
+	{
+		return retrieveItem( ItemPool.get( itemName, 1 ), true );
+	}
+
+	public static final boolean retrieveItem( final AdventureResult item )
+	{
+		return retrieveItem( item, true );
 	}
 
 	public static final boolean retrieveItem( final AdventureResult item, final boolean isAutomated )
@@ -420,16 +441,6 @@ public abstract class InventoryManager
 		KoLmafia.updateDisplay(
 			KoLConstants.ERROR_STATE, "You need " + missingCount + " more " + item.getName() + " to continue." );
 		return false;
-	}
-
-	public static final boolean retrieveItem( final AdventureResult item )
-	{
-		return retrieveItem( item, true );
-	}
-
-	public static final boolean retrieveItem( final String itemName )
-	{
-		return retrieveItem( new AdventureResult( itemName, 1, false ), true );
 	}
 
 	private static int getPurchaseCount( final int itemId, final int missingCount )
