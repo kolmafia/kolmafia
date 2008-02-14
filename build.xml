@@ -168,7 +168,7 @@
 
 	<target name="jar" depends="init,compile">
 
-		<jar destfile="${jarfile}" basedir="${build}" update="true" index="yes">
+		<jar destfile="${jarfile}" basedir="${build}" update="true" index="true" compress="true" level="9">
 			<manifest>
 				<attribute name="Main-Class" value="${main}"/>
 			</manifest>
@@ -181,11 +181,16 @@
 	<!--  generate the standard EXE  -->
 	<!-- =========================== -->
 
-	<target name="jsmooth" depends="init,update,jar">
+	<target name="jsmooth" depends="init,update,jar" if="env.JSMOOTH_HOME">
 
-		<exec executable="jsmoothcmd" failifexecutionfails="false" os="Windows XP">
-			<arg value="${lib}/build.jsmooth"/>
-		</exec>
+		<taskdef name="jsmooth" classname="net.charabia.jsmoothgen.ant.JSmoothGen">
+			<classpath>
+				<fileset dir="${env.JSMOOTH_HOME}/lib"/>
+				<fileset dir="${env.JSMOOTH_HOME}/jni"/>
+			</classpath>
+		</taskdef>
+
+		<jsmooth project="${lib}/build.jsmooth" skeletonroot="${env.JSMOOTH_HOME}/skeletons"/>
 
 	</target>
 
@@ -218,7 +223,7 @@
 
 		<antcall target="compile"/>
 
-		<jar destfile="${dist}/${ant.project.name}-${revision}.jar" basedir="${build}" update="true" index="yes">
+		<jar destfile="${dist}/${ant.project.name}-${revision}.jar" basedir="${build}" update="true" index="true" compress="true" level="9">
 			<manifest>
 				<attribute name="Main-Class" value="${main}"/>
 			</manifest>
