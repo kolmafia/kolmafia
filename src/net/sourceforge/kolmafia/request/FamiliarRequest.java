@@ -305,7 +305,6 @@ public class FamiliarRequest
 				{
 					familiar.setItem( EquipmentRequest.UNEQUIP );
 					AdventureResult.addResultToList( KoLConstants.inventory, item );
-					AdventureResult.addResultToList( KoLConstants.tally, item );
 				}
 
 				RequestLogger.updateSessionLog();
