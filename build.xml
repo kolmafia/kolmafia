@@ -171,7 +171,7 @@
 
 	<target name="jar" depends="init,compile">
 
-		<jar destfile="${jarfile}" basedir="${build}" update="true" index="true" compress="true" level="9">
+		<jar destfile="${jarfile}" basedir="${build}" update="true" index="true" compress="true">
 			<manifest>
 				<attribute name="Main-Class" value="${main}"/>
 			</manifest>
@@ -226,7 +226,7 @@
 
 		<antcall target="compile"/>
 
-		<jar destfile="${dist}/${ant.project.name}-${revision}.jar" basedir="${build}" update="true" index="true" compress="true" level="9">
+		<jar destfile="${dist}/${ant.project.name}-${revision}.jar" basedir="${build}" update="true" index="true" compress="true">
 			<manifest>
 				<attribute name="Main-Class" value="${main}"/>
 			</manifest>
