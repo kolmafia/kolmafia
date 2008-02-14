@@ -36,12 +36,21 @@ package net.sourceforge.kolmafia.objectpool;
 import java.util.ArrayList;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 public class ItemPool
 {
 	private static final ItemArray itemCache = new ItemArray();
 
 	public static final int PERFUME = 307;
+	public static final int CATNIP = 1486;
+	public static final int GLIDER = 1487;
+	public static final int SATCHEL = 1656;
+
+	public static final AdventureResult get( String itemName, int count )
+	{
+		return ItemPool.get( ItemDatabase.getItemId( itemName ), 1 );
+	}
 
 	public static final AdventureResult get( int itemId, int count )
 	{

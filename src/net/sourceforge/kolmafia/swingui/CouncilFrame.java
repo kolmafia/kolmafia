@@ -42,17 +42,16 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.webui.IslandDecorator;
-
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
-
-import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
-import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.webui.IslandDecorator;
 
 public class CouncilFrame
 	extends RequestFrame
@@ -150,9 +149,9 @@ public class CouncilFrame
 
 	private static final void handleGuildChange( final String location, final String responseText )
 	{
-		if ( location.indexOf( "paco" ) != -1 && InventoryManager.hasItem( KoLmafia.SATCHEL ) )
+		if ( location.indexOf( "paco" ) != -1 && InventoryManager.hasItem( ItemPool.SATCHEL ) )
 		{
-			StaticEntity.getClient().processResult( KoLmafia.SATCHEL.getNegation() );
+			StaticEntity.getClient().processResult( ItemPool.SATCHEL, -1 );
 		}
 	}
 

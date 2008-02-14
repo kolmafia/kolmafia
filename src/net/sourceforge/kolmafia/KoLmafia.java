@@ -71,6 +71,7 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.sourceforge.kolmafia.HPRestoreItemList.HPRestoreItem;
 import net.sourceforge.kolmafia.MPRestoreItemList.MPRestoreItem;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.CustomItemDatabase;
@@ -169,9 +170,6 @@ public abstract class KoLmafia
 	private static final Pattern GOURD_PATTERN = Pattern.compile( "Bring back (\\d+)" );
 	private static final Pattern DISCARD_PATTERN = Pattern.compile( "You discard your (.*?)\\." );
 
-	private static final AdventureResult CATNIP = new AdventureResult( 1486, 1 );
-	private static final AdventureResult GLIDER = new AdventureResult( 1487, 1 );
-	public static final AdventureResult SATCHEL = new AdventureResult( 1656, 1 );
 	public static final AdventureResult NOVELTY_BUTTON = new AdventureResult( 2072, 1 );
 
 	private static final AdventureResult MANUAL_1 = new AdventureResult( 2280, 1 );
@@ -1287,6 +1285,11 @@ public abstract class KoLmafia
 		String parsedDuration = parsedEffect.hasMoreTokens() ? parsedEffect.nextToken() : "1";
 
 		return this.processResult( new AdventureResult( parsedEffectName, StaticEntity.parseInt( parsedDuration ), true ) );
+	}
+
+	public boolean processResult( int itemId, int count )
+	{
+		return processResult( ItemPool.get( itemId, count ) );
 	}
 
 	/**
@@ -3815,13 +3818,19 @@ public abstract class KoLmafia
 			}
 		}
 
-		if ( encounterName.equalsIgnoreCase( "Cheetahs Never Lose" ) && InventoryManager.hasItem( KoLmafia.CATNIP ) )
+		if ( encounterName.equalsIgnoreCase( "Cheetahs Never Lose" ) )
 		{
-			this.processResult( KoLmafia.CATNIP.getNegation() );
+			if ( InventoryManager.hasItem( ItemPool.CATNIP ) )
+			{
+				this.processResult( ItemPool.CATNIP, -1 );
+			}
 		}
-		if ( encounterName.equalsIgnoreCase( "Summer Holiday" ) && InventoryManager.hasItem( KoLmafia.GLIDER ) )
+		if ( encounterName.equalsIgnoreCase( "Summer Holiday" ) )
 		{
-			this.processResult( KoLmafia.GLIDER.getNegation() );
+			if ( InventoryManager.hasItem( ItemPool.GLIDER ) )
+			{
+				this.processResult( ItemPool.GLIDER, -1 );
+			}
 		}
 
 		KoLConstants.encounterList.add( new RegisteredEncounter( encounterType, encounterName ) );

@@ -330,12 +330,11 @@ public class KoLAdventure
 		if ( this.formSource.equals( "knob.php" ) )
 		{
 			int outfitId = EquipmentDatabase.getOutfitId( this );
-			AdventureResult perfumeItem = ItemPool.get( ItemPool.PERFUME, 1 );
 			AdventureResult perfumeEffect = EffectPool.get( EffectPool.PERFUME );
 
 			if ( !KoLConstants.activeEffects.contains( perfumeEffect ) )
 			{
-				if ( !InventoryManager.retrieveItem( perfumeItem ) )
+				if ( !InventoryManager.retrieveItem( ItemPool.PERFUME ) )
 				{
 					return;
 				}
@@ -352,7 +351,7 @@ public class KoLAdventure
 			RequestThread.postRequest( new EquipmentRequest( EquipmentDatabase.getOutfit( outfitId ) ) );
 			if ( !KoLConstants.activeEffects.contains( perfumeEffect ) )
 			{
-				RequestThread.postRequest( new UseItemRequest( perfumeItem ) );
+				RequestThread.postRequest( new UseItemRequest( ItemPool.get( ItemPool.PERFUME, 1 ) ) );
 			}
 		}
 
