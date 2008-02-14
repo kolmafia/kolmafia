@@ -36,9 +36,13 @@ package net.sourceforge.kolmafia;
 import java.util.ArrayList;
 
 import net.sourceforge.foxtrot.Job;
-
 import net.sourceforge.kolmafia.StaticEntity.TurnCounter;
-
+import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.BasementRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
@@ -54,12 +58,6 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.CouncilFrame;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
-
-import net.sourceforge.kolmafia.persistence.AdventureDatabase;
-import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
-import net.sourceforge.kolmafia.persistence.Preferences;
-import net.sourceforge.kolmafia.persistence.SkillDatabase;
-
 import net.sourceforge.kolmafia.webui.DungeonDecorator;
 
 public class KoLAdventure
@@ -76,10 +74,6 @@ public class KoLAdventure
 	};
 
 	private static final GenericRequest ZONE_UNLOCK = new GenericRequest( "" );
-	private static final AdventureResult HYDRATED = new AdventureResult( "Ultrahydrated", 1, true );
-
-	private static final AdventureResult PERFUME_ITEM = new AdventureResult( 307, 1 );
-	private static final AdventureResult PERFUME_EFFECT = new AdventureResult( "Knob Goblin Perfume", 1, true );
 
 	public static final AdventureResult BLACK_CANDLE = new AdventureResult( 620, 3 );
 	public static final AdventureResult EVIL_SCROLL = new AdventureResult( 1960, 1 );
@@ -336,10 +330,12 @@ public class KoLAdventure
 		if ( this.formSource.equals( "knob.php" ) )
 		{
 			int outfitId = EquipmentDatabase.getOutfitId( this );
+			AdventureResult perfumeItem = ItemPool.get( ItemPool.PERFUME, 1 );
+			AdventureResult perfumeEffect = EffectPool.get( EffectPool.PERFUME );
 
-			if ( !KoLConstants.activeEffects.contains( KoLAdventure.PERFUME_EFFECT ) )
+			if ( !KoLConstants.activeEffects.contains( perfumeEffect ) )
 			{
-				if ( !InventoryManager.retrieveItem( KoLAdventure.PERFUME_ITEM ) )
+				if ( !InventoryManager.retrieveItem( perfumeItem ) )
 				{
 					return;
 				}
@@ -354,9 +350,9 @@ public class KoLAdventure
 			}
 
 			RequestThread.postRequest( new EquipmentRequest( EquipmentDatabase.getOutfit( outfitId ) ) );
-			if ( !KoLConstants.activeEffects.contains( KoLAdventure.PERFUME_EFFECT ) )
+			if ( !KoLConstants.activeEffects.contains( perfumeEffect ) )
 			{
-				RequestThread.postRequest( new UseItemRequest( KoLAdventure.PERFUME_ITEM ) );
+				RequestThread.postRequest( new UseItemRequest( perfumeItem ) );
 			}
 		}
 
@@ -982,9 +978,13 @@ public class KoLAdventure
 		// Run between-combat scripts here to avoid potential
 		// sidepane conflict issues.
 
-		if ( this.adventureId.equals( "123" ) && !KoLConstants.activeEffects.contains( KoLAdventure.HYDRATED ) )
+		if ( this.adventureId.equals( "123" ) )
 		{
-			( new AdventureRequest( "Oasis in the Desert", "adventure.php", "122" ) ).run();
+			AdventureResult hydrated = EffectPool.get( EffectPool.HYDRATED );
+			if ( KoLConstants.activeEffects.contains( hydrated ) )
+			{
+				( new AdventureRequest( "Oasis in the Desert", "adventure.php", "122" ) ).run();
+			}
 		}
 
 		// Update selected adventure information in order to
