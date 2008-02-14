@@ -141,7 +141,10 @@
 
 		<copy todir="${build}" preservelastmodified="true">
 			<fileset dir="${lib}">
-				<exclude name="**/*.java"/>
+				<exclude name="build.jsmooth"/>
+				<exclude name="limeglass.icns"/>
+				<exclude name="format.xml"/>
+				<exclude name="cleanup.xml"/>
 			</fileset>
 		</copy>
 
