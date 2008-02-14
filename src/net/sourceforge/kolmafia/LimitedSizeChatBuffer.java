@@ -114,10 +114,8 @@ public class LimitedSizeChatBuffer
 	public void append( String message )
 	{
 		// Download all the images outside of the Swing thread
-		// by downloading them here.  Also convert everything
-		// into unicode, rather than character entities.
+		// by downloading them here.
 
-		message = CharacterEntityReference.unescape( message );
 		String highlightMessage = message;
 
 		if ( this != LimitedSizeChatBuffer.highlightBuffer )
