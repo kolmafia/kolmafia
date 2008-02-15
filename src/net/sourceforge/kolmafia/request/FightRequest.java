@@ -102,6 +102,8 @@ public class FightRequest
 		Pattern.compile( "You drop your .*? on your .*?, doing [\\d,]+ damage" );
 	private static final Pattern ELEMENTAL_PATTERN =
 		Pattern.compile( "<font color=[\"]?\\w+[\"]?><b>\\+?([\\d,]+)</b></font> (?:damage|points|HP worth)" );
+	private static final Pattern CLEESH_PATTERN =
+		Pattern.compile( "You cast CLEESH at your opponent.*?turns into a (\\w*)", Pattern.DOTALL );
 
 	// NOTE: All of the non-empty patterns that can match in the first group
 	// imply that the entire expression should be ignored.	If you add one
@@ -1071,6 +1073,17 @@ public class FightRequest
 
 			FightRequest.isTrackingFights = false;
 			FightRequest.checkForInitiative( responseText );
+		}
+		else
+		{
+			// Otherwise, the player can change the monster
+			Matcher matcher = CLEESH_PATTERN.matcher( responseText );
+			if ( matcher.find() )
+			{
+				FightRequest.encounterLookup = CustomCombatManager.encounterKey( matcher.group(1) );
+				FightRequest.monsterData = MonsterDatabase.findMonster( FightRequest.encounterLookup );
+				FightRequest.healthModifier = 0;
+			}
 		}
 
 		switch ( KoLAdventure.lastAdventureId() )
