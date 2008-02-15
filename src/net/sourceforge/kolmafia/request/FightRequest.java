@@ -48,6 +48,7 @@ import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
@@ -583,6 +584,18 @@ public class FightRequest
 
 			FightRequest.action1 = "abort";
 			return;
+		}
+
+		if ( skillName.equals( "Transcendent Olfaction" ) )
+		{
+			// You can only sniff if you are not on the trail
+
+			if ( KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.ONTHETRAIL ) ) )
+			{
+				--FightRequest.preparatoryRounds;
+				this.nextRound();
+				return;
+			}
 		}
 
 		if ( skillName.equals( "CLEESH" ) )
