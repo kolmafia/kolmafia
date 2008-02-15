@@ -11,10 +11,10 @@
 	<JVMSearchPath>exepath</JVMSearchPath>
 
 	<embeddedJar>true</embeddedJar>
-	<executableName>..\dist\KoLmafia.exe</executableName>
-	<iconLocation>..\src\images\limeglass.jpg</iconLocation>
+	<executableName>../dist/KoLmafia.exe</executableName>
+	<iconLocation>../src/images/limeglass.jpg</iconLocation>
 
-	<jarLocation>..\dist\KoLmafia.jar</jarLocation>
+	<jarLocation>../dist/KoLmafia.jar</jarLocation>
 	<mainClassName>net.sourceforge.kolmafia.KoLmafia</mainClassName>
 
 </jsmoothproject>
