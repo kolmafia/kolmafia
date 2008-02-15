@@ -78,7 +78,7 @@
 77	spooky stick	12	all	35
 78	pretty bouquet	3	all	2
 79	bugbear bungguard	10	all	35
-80	fairy gravy	0	all	5
+80	fairy gravy boat	0	all	5
 81	ice-cold Willer	2	all	30
 82	rusty metal ring	0	all	4
 83	rusty metal shaft	0	all	5

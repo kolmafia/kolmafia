@@ -49,7 +49,7 @@ evil golden arches	1	evil golden arch	evil golden arch
 lifeless meat doll	1	meat face	wooden figurine
 maid head	1	brainy skull	maiden wig
 meat engine	1	full meat tank	cog and sprocket assembly
-meat face	1	fairy gravy	dried face
+meat face	1	fairy gravy boat	dried face
 meat golem	1	lifeless meat doll	magicalness-in-a-can
 Meat maid	1	maid head	Meat maid body
 Meat maid body	1	frilly skirt	meat engine
@@ -121,10 +121,10 @@ one-winged stab bat	1	batblade	bat wing
 pirate skull	1	eyepatch	brainy skull
 pregnant gloomy black mushroom	2	gloomy black mushroom	spooky fairy gravy
 pregnant oily golden mushroom	2	oily golden mushroom	sleazy fairy gravy
-pregnant mushroom	2	Knob mushroom	fairy gravy
+pregnant mushroom	2	Knob mushroom	fairy gravy boat
 rewinged stab bat	1	bat wing	one-winged stab bat
 sabre-toothed lime cub	1	lime	sabre teeth
-sleazy fairy gravy	2	pr0n legs	fairy gravy
+sleazy fairy gravy	2	pr0n legs	fairy gravy boat
 ghost pickle on a stick	2	spectral pickle	skewer
 
 clockwork pirate skull	1	clockwork sphere	enchanted eyepatch

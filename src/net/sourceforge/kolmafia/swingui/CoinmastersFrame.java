@@ -193,7 +193,7 @@ public class CoinmastersFrame
 		}
 	}
 
-	private class CoinmasterPanel
+	public class CoinmasterPanel
 		extends JPanel
 	{
 		private final LockableListModel purchases;
@@ -266,7 +266,7 @@ public class CoinmastersFrame
 			return new EquipmentRequest( EquipmentDatabase.getOutfit( this.outfit ) );
 		}
 
-		public void visit()
+		public void check()
 		{
 			if ( this.outfit == 0 )
 			{
@@ -415,7 +415,7 @@ public class CoinmastersFrame
 						new BuyListener(),
 					} );
 
-				this.eastPanel.add( new InvocationButton( "check", CoinmasterPanel.this, "visit" ), BorderLayout.SOUTH );
+				this.eastPanel.add( new InvocationButton( "check", CoinmasterPanel.this, "check" ), BorderLayout.SOUTH );
 
 				this.elementList.setCellRenderer( getCoinmasterRenderer( buyPrices, token, property, showLighthouse() ) );
 				this.elementList.setVisibleRowCount( 6 );
