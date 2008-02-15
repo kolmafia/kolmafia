@@ -982,7 +982,7 @@ public class RelayRequest
 		// via chat, check to see if it's a CLI command.  Otherwise,
 		// run it as normal.
 
-		String chatResponse = ChatRequest.executeChatCommand( this.getFormField( "graf" ) );
+		String chatResponse = ChatRequest.executeChatCommand( this.getFormField( "graf" ), false );
 		if ( chatResponse != null )
 		{
 			this.pseudoResponse(

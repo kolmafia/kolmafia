@@ -382,8 +382,11 @@ public abstract class ChatManager
 
 		if ( contact.equals( ChatManager.currentChannel ) )
 		{
+			ChatManager.currentlyActive.clear();
+			ChatManager.broadcastMessage( "<font color=\"green\">You have exited chat.  Please close all chat windows and restart chat if you wish to continue.</font>" );
+
 			// When you exit chat, you go ahead and remove all
-			// of the chat pannels from the listener lists.
+			// of the chat panels from the listener lists.
 
 			String[] channels = new String[ ChatManager.instantMessageBuffers.size() ];
 			ChatManager.instantMessageBuffers.keySet().toArray( channels );
@@ -682,6 +685,30 @@ public abstract class ChatManager
 		ChatManager.handleChatData( content );
 	}
 
+	public static final void broadcastMessage( String displayHTML )
+	{
+		String[] broadcast = new String[ ChatManager.currentlyActive.size() ];
+		ChatManager.currentlyActive.toArray( broadcast );
+
+		String currentKey;
+		LimitedSizeChatBuffer currentBuffer;
+		ArrayList keysUsed = new ArrayList();
+
+		for ( int i = 0; i < broadcast.length; ++i )
+		{
+			currentKey = ChatManager.getBufferKey( broadcast[i] );
+
+			if ( keysUsed.contains( currentKey ) )
+			{
+				continue;
+			}
+
+			keysUsed.add( currentKey );
+			currentBuffer = ChatManager.getChatBuffer( currentKey );
+			currentBuffer.append( displayHTML );
+		}
+	}
+
 	/**
 	 * Notifies the chat that the user has stopped talking and listening to the current channel - this only happens
 	 * after the /channel command is used to switch to a different channel.
@@ -933,7 +960,8 @@ public abstract class ChatManager
 
 				KoLConstants.eventHistory.add( ChatManager.EVENT_TIMESTAMP.format( new Date() ) + " - " + KoLConstants.ANYTAG_PATTERN.matcher(
 					displayHTML ).replaceAll( "" ) );
-				bufferKey = ChatManager.updateChannel;
+
+				ChatManager.broadcastMessage( displayHTML );
 			}
 
 			LimitedSizeChatBuffer buffer = ChatManager.getChatBuffer( bufferKey );
