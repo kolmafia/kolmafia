@@ -83,7 +83,7 @@
 77	943176401	spooky stick	spooky sticks
 78	547934955	pretty bouquet	pretty bouquets
 79	426478400	bugbear bungguard	bugbear bungguards
-80	903885205	fairy gravy	fairy gravies
+80	903885205	fairy gravy boat	fairy gravy boats
 81	819157879	ice-cold Willer	ice-cold Willers
 82	970490171	rusty metal ring	rusty metal rings
 83	228339790	rusty metal shaft	rusty metal shafts
