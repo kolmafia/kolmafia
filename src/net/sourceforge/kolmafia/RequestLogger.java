@@ -54,6 +54,7 @@ import net.sourceforge.kolmafia.request.IslandArenaRequest;
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
 import net.sourceforge.kolmafia.request.MicroBreweryRequest;
 import net.sourceforge.kolmafia.request.MindControlRequest;
+import net.sourceforge.kolmafia.request.PortalRequest;
 import net.sourceforge.kolmafia.request.PulverizeRequest;
 import net.sourceforge.kolmafia.request.PvpRequest;
 import net.sourceforge.kolmafia.request.RaffleRequest;
@@ -422,6 +423,13 @@ public class RequestLogger
 
 		if ( urlString.startsWith( "login" ) || urlString.startsWith( "logout" ) || urlString.startsWith( "charpane" ) )
 		{
+			return;
+		}
+
+		// This is a campground request and so must go here.
+		if ( ( request instanceof PortalRequest || isExternal ) && PortalRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
 			return;
 		}
 

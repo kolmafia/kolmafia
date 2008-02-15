@@ -3047,7 +3047,7 @@
 3046	nanite-infested candy cane	1	all	0
 3047	nanite-infested fruitcake	1	all	37
 3048	nanite-infested eggnog	2	all	49
-3049	El Vibrato power sphere	0	all	0
+3049	El Vibrato power sphere	21	all	0
 3050	cursed eyepatch	8	display	0
 3051	cursed cutlass	12	display	0
 3052	cursed breeches	10	display	0
@@ -3213,6 +3213,6 @@
 3212	
 3213	
 3214	
-3215	overcharged El Vibrato power sphere	0	display	0
+3215	overcharged El Vibrato power sphere	21	display	0
 3216	
 3217	El Vibrato Megadrone	5	display	500

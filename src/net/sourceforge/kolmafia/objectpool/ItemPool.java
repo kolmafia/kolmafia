@@ -46,6 +46,8 @@ public class ItemPool
 	public static final int CATNIP = 1486;
 	public static final int GLIDER = 1487;
 	public static final int SATCHEL = 1656;
+	public static final int POWER_SPHERE = 3049;
+	public static final int OVERCHARGED_POWER_SPHERE = 3215;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

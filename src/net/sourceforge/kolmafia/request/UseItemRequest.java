@@ -391,6 +391,8 @@ public class UseItemRequest
 			return "inventory.php";
 		case KoLConstants.CONSUME_MULTIPLE:
 			return "multiuse.php";
+		case KoLConstants.CONSUME_SPHERE:
+			return "campground.php";
 		case KoLConstants.HP_RESTORE:
 			if ( item.getCount() > 1 )
 			{
@@ -568,6 +570,9 @@ public class UseItemRequest
 		case KoLConstants.EQUIP_ACCESSORY:
 		case KoLConstants.EQUIP_FAMILIAR:
 			( new EquipmentRequest( this.itemUsed ) ).run();
+			return;
+		case KoLConstants.CONSUME_SPHERE:
+			( new PortalRequest( this.itemUsed ) ).run();
 			return;
 		}
 
@@ -787,6 +792,7 @@ public class UseItemRequest
 			{
 				this.addFormField( "which", "3" );
 			}
+                        break;
 
 		case KoLConstants.CONSUME_MULTIPLE:
 			this.addFormField( "action", "useitem" );
