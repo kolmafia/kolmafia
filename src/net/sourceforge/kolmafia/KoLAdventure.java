@@ -980,7 +980,7 @@ public class KoLAdventure
 		if ( this.adventureId.equals( "123" ) )
 		{
 			AdventureResult hydrated = EffectPool.get( EffectPool.HYDRATED );
-			if ( KoLConstants.activeEffects.contains( hydrated ) )
+			if ( !KoLConstants.activeEffects.contains( hydrated ) )
 			{
 				( new AdventureRequest( "Oasis in the Desert", "adventure.php", "122" ) ).run();
 			}
