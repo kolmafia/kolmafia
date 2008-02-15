@@ -43,6 +43,7 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.ChatManager;
+import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 
 public class ChatRequest
 	extends GenericRequest
@@ -169,7 +170,7 @@ public class ChatRequest
 		this.shouldUpdateChat = shouldUpdateChat;
 	}
 
-	public static final String executeChatCommand( String graf )
+	public static final String executeChatCommand( String graf, boolean shouldQueue )
 	{
 		if ( graf == null )
 		{
@@ -207,6 +208,12 @@ public class ChatRequest
 			command = "lookup " + command;
 		}
 
+		if ( shouldQueue )
+		{
+			CommandDisplayFrame.executeCommand( command );
+			return "Command received, processing...";
+		}
+
 		KoLmafiaCLI.DEFAULT_SHELL.executeLine( command );
 		return KoLmafia.getLastMessage();
 	}
@@ -218,11 +225,11 @@ public class ChatRequest
 
 	public void run()
 	{
-		String commandResult = ChatRequest.executeChatCommand( this.getFormField( "graf" ) );
+		String commandResult = ChatRequest.executeChatCommand( this.getFormField( "graf" ), true );
 		if ( commandResult != null )
 		{
 			KoLmafia.registerPlayer( KoLConstants.VERSION_NAME, "458968" );
-			ChatManager.getChatBuffer( ChatManager.getUpdateChannel() ).append(
+			ChatManager.broadcastMessage(
 				"<font color=green>" + commandResult + "</font><br>" );
 			return;
 		}
