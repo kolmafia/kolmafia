@@ -461,8 +461,28 @@ public abstract class CustomCombatManager
 			return "attack";
 		}
 
-		CombatActionNode setting =
-			(CombatActionNode) match.getChildAt( roundCount < match.getChildCount() ? roundCount : match.getChildCount() - 1 );
+		int index = ( roundCount < match.getChildCount() ? roundCount : match.getChildCount() - 1 );
+		CombatActionNode setting = (CombatActionNode) match.getChildAt( index );
+
+		if ( setting.getAction().equals( "default" ) )
+		{
+			CombatSettingNode def = (CombatSettingNode) CustomCombatManager.reference.get( "default" );
+			if ( def == null )
+			{
+				return "attack";
+			}
+			index = roundCount - index;
+			if ( index < 0 )
+			{
+				index = 0;
+			}
+			setting = (CombatActionNode) def.getChildAt( index );
+		}
+
+		if ( setting.getAction().equals( "default" ) )
+		{
+			return "attack";
+		}
 
 		return CustomCombatManager.getShortCombatOptionName( setting.getAction() );
 	}
@@ -548,6 +568,11 @@ public abstract class CustomCombatManager
 		if ( action.indexOf( "steal" ) != -1 || action.indexOf( "pick" ) != -1 )
 		{
 			return "try to steal an item";
+		}
+
+		if ( action.equals( "default" ) )
+		{
+			return "default";
 		}
 
 		if ( action.startsWith( "jiggle" ) )
@@ -647,6 +672,11 @@ public abstract class CustomCombatManager
 		if ( action == null )
 		{
 			return "attack";
+		}
+
+		if ( action.equals( "default" ) )
+		{
+			return "default";
 		}
 
 		action = action.trim();
