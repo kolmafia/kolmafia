@@ -58,7 +58,7 @@ public abstract class StoreManager
 {
 	private static final Pattern LOGSPAN_PATTERN = Pattern.compile( "<span.*?</span>" );
 	private static final Pattern ADDER_PATTERN =
-		Pattern.compile( "<tr><td><img src.*?></td><td>(.*?)</td><td>([\\d,]+)</td><td>(.*?)</td><td.*?(\\d+)" );
+		Pattern.compile( "<tr><td><img src.*?></td><td>(.*?)( *\\((\\d*)\\))?</td><td>([\\d,]+)</td><td>(.*?)</td><td.*?(\\d+)" );
 	private static final Pattern PRICER_PATTERN =
 		Pattern.compile( "<tr><td><b>([^<]*?)\\&nbsp;.*?<td>([\\d,]+)</td>.*?\"(\\d+)\" name=price(\\d+).*?value=\"(\\d+)\".*?<td>([\\d,]+)</td>" );
 
@@ -235,38 +235,25 @@ public abstract class StoreManager
 
 			while ( itemMatcher.find() )
 			{
-				itemId = StaticEntity.parseInt( itemMatcher.group( 4 ) );
+				String name = itemMatcher.group( 1 );
+				itemId = StaticEntity.parseInt( itemMatcher.group( 6 ) );
 				if ( ItemDatabase.getItemName( itemId ) == null )
 				{
-					String itemName = itemMatcher.group( 1 );
-					if ( itemName.indexOf( "(" ) != -1 )
-					{
-						itemName = itemName.substring( 0, itemName.indexOf( "(" ) ).trim();
-					}
-
-					ItemDatabase.registerItem( itemId, itemName );
+					ItemDatabase.registerItem( itemId, name );
 				}
 
-				// Remove parenthesized number and match again.
-				StringTokenizer parsedItem = new StringTokenizer( itemMatcher.group( 1 ), "()" );
-				String name = parsedItem.nextToken().trim();
-				int count = 1;
-
-				if ( parsedItem.hasMoreTokens() )
-				{
-					count = StaticEntity.parseInt( parsedItem.nextToken() );
-				}
+				int count = itemMatcher.group(2) == null ? 1 : StaticEntity.parseInt( itemMatcher.group(3) );
 
 				item = new AdventureResult( name, count, false );
-				price = StaticEntity.parseInt( itemMatcher.group( 2 ) );
+				price = StaticEntity.parseInt( itemMatcher.group( 4 ) );
 
-				// In this case, the limit could appear as "unlimited",
-				// which equates to a limit of 0.
+				// In this case, the limit could appear as
+				// "unlimited", which equates to a limit of 0.
 
-				limit = itemMatcher.group( 3 ).startsWith( "<" ) ? 0 : StaticEntity.parseInt( itemMatcher.group( 3 ) );
+				limit = itemMatcher.group( 5 ).startsWith( "<" ) ? 0 : StaticEntity.parseInt( itemMatcher.group( 5 ) );
 
-				// Now that all the data has been retrieved, register
-				// the item that was discovered.
+				// Now that all the data has been retrieved,
+				// register the item that was discovered.
 
 				newItems.add( StoreManager.registerItem( item.getItemId(), item.getCount(), price, limit, 0 ) );
 			}
