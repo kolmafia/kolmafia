@@ -962,15 +962,10 @@ public abstract class ChatManager
 					displayHTML ).replaceAll( "" ) );
 
 				ChatManager.broadcastMessage( displayHTML );
+				return;
 			}
 
 			LimitedSizeChatBuffer buffer = ChatManager.getChatBuffer( bufferKey );
-
-			if ( Preferences.getBoolean( "logChatMessages" ) )
-			{
-				buffer.setActiveLogFile( new File(
-					KoLConstants.CHATLOG_LOCATION, ChatManager.getChatLogName( bufferKey ) ) );
-			}
 
 			buffer.append( displayHTML );
 
