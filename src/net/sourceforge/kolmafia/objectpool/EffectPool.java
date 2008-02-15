@@ -42,6 +42,7 @@ public class EffectPool
 	private static final TreeMap effectCache = new TreeMap();
 
 	public static final String PERFUME = "Knob Goblin Perfume";
+	public static final String ONTHETRAIL = "On the Trail";
 	public static final String HYDRATED = "Ultrahydrated";
 
 	public static final AdventureResult get( String effectName )
