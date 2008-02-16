@@ -153,9 +153,19 @@ public abstract class InventoryManager
 		return retrieveItem( ItemPool.get( itemId, 1 ) );
 	}
 
+	public static final boolean retrieveItem( final int itemId, int count )
+	{
+		return retrieveItem( ItemPool.get( itemId, count ) );
+	}
+
 	public static final boolean retrieveItem( final String itemName )
 	{
 		return retrieveItem( ItemPool.get( itemName, 1 ), true );
+	}
+
+	public static final boolean retrieveItem( final String itemName, int count )
+	{
+		return retrieveItem( ItemPool.get( itemName, count ), true );
 	}
 
 	public static final boolean retrieveItem( final AdventureResult item )
@@ -407,7 +417,7 @@ public abstract class InventoryManager
 
 		default:
 
-			if ( creator != null && itemId != ConcoctionDatabase.WAD_DOUGH && itemId != SewerRequest.DISASSEMBLED_CLOVER )
+			if ( creator != null && itemId != ConcoctionDatabase.WAD_DOUGH && itemId != ItemPool.DISASSEMBLED_CLOVER )
 			{
 				creator.setQuantityNeeded( missingCount );
 				RequestThread.postRequest( creator );

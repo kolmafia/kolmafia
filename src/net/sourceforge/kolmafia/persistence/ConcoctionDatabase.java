@@ -50,6 +50,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.swingui.CouncilFrame;
@@ -61,7 +62,6 @@ import net.sourceforge.kolmafia.request.HellKitchenRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
 import net.sourceforge.kolmafia.request.MicroBreweryRequest;
-import net.sourceforge.kolmafia.request.SewerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
 public class ConcoctionDatabase
@@ -791,7 +791,7 @@ public class ConcoctionDatabase
 		for ( int i = 0; i < KoLConstants.hermitItems.size(); ++i )
 		{
 			item = (AdventureResult) KoLConstants.hermitItems.get( i );
-			if ( item.getItemId() != SewerRequest.TEN_LEAF_CLOVER )
+			if ( item.getItemId() != ItemPool.TEN_LEAF_CLOVER )
 			{
 				ConcoctionDatabase.setBasicItem( availableIngredients, item, worthlessItems );
 			}
@@ -1299,13 +1299,13 @@ public class ConcoctionDatabase
 			return this.yield;
 		}
 
-		public boolean isReagentPotion()	 
-		{	 
-			if ( this.mixingMethod != KoLConstants.COOK_REAGENT && this.mixingMethod != KoLConstants.SUPER_REAGENT )	 
-			{	 
-				return false;	 
-			}	 
-	 
+		public boolean isReagentPotion()
+		{
+			if ( this.mixingMethod != KoLConstants.COOK_REAGENT && this.mixingMethod != KoLConstants.SUPER_REAGENT )
+			{
+				return false;
+			}
+
 			int type = ItemDatabase.getConsumptionType( this.getItemId() );
 			return type == KoLConstants.CONSUME_USE || type == KoLConstants.CONSUME_MULTIPLE;
 		}

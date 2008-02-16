@@ -218,10 +218,6 @@ public class AdventureRequest
 
 			super.run();
 		}
-		else if ( !this.formSource.equals( "basement.php" ) )
-		{
-			AdventureRequest.useMarmotClover( this.formSource, this.responseText );
-		}
 	}
 
 	public void processResults()
@@ -833,42 +829,5 @@ public class AdventureRequest
 		request.constructURLString( "tiles.php?action=jump&whichtile=7" ).run();
 		request.constructURLString( "tiles.php?action=jump&whichtile=6" ).run();
 		request.constructURLString( "tiles.php?action=jump&whichtile=3" ).run();
-	}
-
-	public static final boolean useMarmotClover( final String location, final String responseText )
-	{
-		if ( location.startsWith( "barrel.php" ) || location.startsWith( "shore.php" ) )
-		{
-			if ( !Preferences.getBoolean( "cloverProtectActive" ) )
-			{
-				return false;
-			}
-
-			if ( responseText.indexOf( "ten-leaf clover" ) == -1 )
-			{
-				return false;
-			}
-
-			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "use * ten-leaf clover" );
-			return true;
-		}
-
-		if ( !location.startsWith( "adventure.php" ) )
-		{
-			return false;
-		}
-
-		if ( !Preferences.getBoolean( "cloverProtectActive" ) )
-		{
-			return false;
-		}
-
-		if ( responseText.indexOf( "notice a ten-leaf clover" ) == -1 || responseText.indexOf( "puff of smoke" ) != -1 )
-		{
-			return false;
-		}
-
-		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "use * ten-leaf clover" );
-		return true;
 	}
 }

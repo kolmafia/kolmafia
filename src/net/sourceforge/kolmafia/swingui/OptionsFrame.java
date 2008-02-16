@@ -73,7 +73,6 @@ import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.panel.OptionsPanel;
 import net.sourceforge.kolmafia.swingui.panel.ScrollablePanel;
-import net.sourceforge.kolmafia.swingui.panel.GenericPanel.ScriptSelectPanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import tab.CloseTabPaneEnhancedUI;
 
@@ -332,7 +331,7 @@ public class OptionsFrame
 
 			{ "", "" },
 
-			{ "cloverProtectActive", "Auto-disassemble hermit, marmot and barrel clovers" },
+			{ "cloverProtectActive", "Protect against accidental ten-leaf clover usage" },
 			{ "createHackerSummons", "Auto-create 31337 scrolls if no scroll conditions are set" },
 			{ "mementoListActive", "Prevent accidental destruction of 'memento' items" },
 

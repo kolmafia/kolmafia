@@ -69,6 +69,7 @@ import net.sourceforge.kolmafia.LocalRelayServer;
 import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.ChatManager;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -78,8 +79,8 @@ import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.VioletFogManager;
 import net.sourceforge.kolmafia.swingui.CouncilFrame;
 import net.sourceforge.kolmafia.swingui.RecentEventsFrame;
-import net.sourceforge.kolmafia.swingui.RequestSynchFrame;
 import net.sourceforge.kolmafia.swingui.RequestFrame;
+import net.sourceforge.kolmafia.swingui.RequestSynchFrame;
 import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -714,7 +715,7 @@ public class GenericRequest
 
 		if ( location.startsWith( "sewer.php" ) )
 		{
-			InventoryManager.retrieveItem( SewerRequest.GUM.getInstance( 1 ) );
+			InventoryManager.retrieveItem( ItemPool.CHEWING_GUM );
 		}
 		else if ( location.startsWith( "hermit.php?autopermit=on" ) )
 		{
@@ -1746,12 +1747,12 @@ public class GenericRequest
 
 		if ( this.responseText.indexOf( "our ten-leaf clover" ) != -1 && this.responseText.indexOf( "puff of smoke" ) != -1 )
 		{
-			StaticEntity.getClient().processResult( SewerRequest.CLOVER );
+			StaticEntity.getClient().processResult( ItemPool.TEN_LEAF_CLOVER, -1 );
 		}
 
 		if ( this.formURLString.startsWith( "sewer.php" ) && this.responseText.indexOf( "You acquire" ) != -1 )
 		{
-			StaticEntity.getClient().processResult( SewerRequest.GUM );
+			StaticEntity.getClient().processResult( ItemPool.CHEWING_GUM, -1 );
 		}
 
 		this.containsUpdate = StaticEntity.getClient().processResults( this.responseText );

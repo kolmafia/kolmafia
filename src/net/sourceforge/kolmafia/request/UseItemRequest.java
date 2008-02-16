@@ -51,14 +51,16 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
-import net.sourceforge.kolmafia.persistence.ItemDatabase;
-import net.sourceforge.kolmafia.persistence.Preferences;
-import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
+
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 public class UseItemRequest
 	extends GenericRequest
@@ -1194,7 +1196,7 @@ public class UseItemRequest
 
 			if ( responseText.indexOf( "puff of smoke" ) != -1 )
 			{
-				StaticEntity.getClient().processResult( SewerRequest.CLOVER );
+				StaticEntity.getClient().processResult( ItemPool.TEN_LEAF_CLOVER, -1 );
 			}
 
 			return;

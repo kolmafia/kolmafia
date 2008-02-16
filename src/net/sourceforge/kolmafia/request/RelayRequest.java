@@ -39,7 +39,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -48,6 +47,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
+
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AreaCombatData;
 import net.sourceforge.kolmafia.FamiliarData;
@@ -64,6 +64,16 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.StaticEntity.TurnCounter;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.session.ChatManager;
+import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.SorceressLairManager;
+import net.sourceforge.kolmafia.swingui.AdventureFrame;
+import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
+import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
+import net.sourceforge.kolmafia.textui.DataTypes;
+
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.CustomItemDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
@@ -73,14 +83,6 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
-import net.sourceforge.kolmafia.session.ChatManager;
-import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.SorceressLairManager;
-import net.sourceforge.kolmafia.swingui.AdventureFrame;
-import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
-import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
-import net.sourceforge.kolmafia.textui.DataTypes;
 
 public class RelayRequest
 	extends PasswordHashRequest
@@ -861,7 +863,7 @@ public class RelayRequest
 	{
 		StringBuffer warning = new StringBuffer();
 
-		warning.append( "<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"http://images.kingdomofloathing.com/styles.css\"></head><body><center><table width=95%  cellspacing=0 cellpadding=0><tr><td style=\"color: white;\" align=center bgcolor=blue><b>Results:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid blue;\"><center><table><tr><td>" );
+		warning.append( "<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"http://images.kingdomofloathing.com/styles.css\"><script language=\"Javascript\" src=\"/basics.js\"></script></head><body><center><table width=95%  cellspacing=0 cellpadding=0><tr><td style=\"color: white;\" align=center bgcolor=blue><b>Results:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid blue;\"><center><table><tr><td>" );
 
 		if ( image != null && !image.equals( "" ) )
 		{
@@ -870,7 +872,7 @@ public class RelayRequest
 			warning.append( "<center><a href=\"" );
 			warning.append( url );
 			warning.append( url.indexOf( "?" ) == -1 ? "?" : "&" );
-			warning.append( "override=on\"><img src=\"http://images.kingdomofloathing.com/itemimages/" );
+			warning.append( "override=on\"><img id=\"warningImage\" src=\"http://images.kingdomofloathing.com/itemimages/" );
 			warning.append( image );
 			warning.append( "\" width=30 height=30></a><br></center>" );
 		}
@@ -1176,9 +1178,16 @@ public class RelayRequest
 			{
 				this.sendGeneralWarning(
 					expired.getImage(),
-					"The indicated counter has expired, so may wish to adventure somewhere else at this time.  " + "If you are certain that this is where you'd like to adventure, click on the image to proceed." );
+					"The indicated counter has expired, so may wish to adventure somewhere else at this time.  If you are certain that this is where you'd like to adventure, click on the image to proceed." );
 
 				return;
+			}
+
+			if ( !KoLCharacter.kingLiberated() && Preferences.getBoolean( "cloverProtectActive" ) && InventoryManager.hasItem( ItemPool.TEN_LEAF_CLOVER ) )
+			{
+				this.sendGeneralWarning(
+					"clover.gif",
+					"If you are certain you wish to use your ten-leaf clover, click on the image above to proceed.  Otherwise, click <a href=\"javascript: useAllClovers(); void(0);\">here</a> and wait for the image to turn into a disassembled clover to proceed." );
 			}
 
 			// Special handling of adventuring locations before it's

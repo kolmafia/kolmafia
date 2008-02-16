@@ -560,13 +560,6 @@ public class RequestEditorKit
 		{
 			RequestEditorKit.fixDucks( buffer );
 			StationaryButtonDecorator.decorate( location, buffer );
-
-			if ( AdventureRequest.useMarmotClover( location, buffer.toString() ) )
-			{
-				StaticEntity.globalStringReplace( buffer, "ten-leaf", "disassembled" );
-				StaticEntity.globalStringReplace( buffer, "clover.gif", "disclover.gif" );
-				StaticEntity.globalStringReplace( buffer, "370834526", "328909735" );
-			}
 		}
 		else if ( location.startsWith( "ascend.php" ) )
 		{
@@ -587,15 +580,6 @@ public class RequestEditorKit
 					buffer,
 					"<td></td>",
 					"<td><img src=\"http://images.kingdomofloathing.com/itemimages/confused.gif\" title=\"No Data\" alt=\"No Data\" height=30 width=30></td>" );
-			}
-		}
-		else if ( location.startsWith( "barrels.php" ) )
-		{
-			if ( AdventureRequest.useMarmotClover( location, buffer.toString() ) )
-			{
-				StaticEntity.globalStringReplace( buffer, "ten-leaf", "disassembled" );
-				StaticEntity.globalStringReplace( buffer, "clover.gif", "disclover.gif" );
-				StaticEntity.globalStringReplace( buffer, "370834526", "328909735" );
 			}
 		}
 		else if ( location.startsWith( "basement.php" ) )
@@ -630,13 +614,6 @@ public class RequestEditorKit
 		}
 		else if ( location.startsWith( "hermit.php" ) )
 		{
-			if ( HermitRequest.useHermitClover( location ) )
-			{
-				StaticEntity.globalStringReplace( buffer, "ten-leaf", "disassembled" );
-				StaticEntity.globalStringReplace( buffer, "clover.gif", "disclover.gif" );
-				StaticEntity.globalStringReplace( buffer, "370834526", "328909735" );
-			}
-
 			StaticEntity.singleStringReplace( buffer, RequestEditorKit.NO_PERMIT_TEXT, RequestEditorKit.BUY_PERMIT_TEXT );
 		}
 		else if ( location.startsWith( "hiddencity.php" ) )
@@ -645,13 +622,6 @@ public class RequestEditorKit
 		}
 		else if ( location.startsWith( "inventory.php" ) )
 		{
-			if ( UseItemRequest.currentItemId() == UseItemRequest.HACK_SCROLL )
-			{
-				StaticEntity.globalStringReplace( buffer, "ten-leaf", "disassembled" );
-				StaticEntity.globalStringReplace( buffer, "clover.gif", "disclover.gif" );
-				StaticEntity.globalStringReplace( buffer, "370834526", "328909735" );
-			}
-
 			if ( KoLCharacter.inMuscleSign() )
 			{
 				StaticEntity.globalStringReplace( buffer, "combine.php", "knoll.php?place=paster" );

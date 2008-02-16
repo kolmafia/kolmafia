@@ -713,8 +713,6 @@ public abstract class KoLmafia
 
 	public void initialize( final String username )
 	{
-		String originalName = KoLCharacter.getUserName();
-
 		// Initialize the variables to their initial
 		// states to avoid null pointers getting thrown
 		// all over the place
@@ -1763,7 +1761,8 @@ public abstract class KoLmafia
 
 	public boolean isLuckyCharacter()
 	{
-		return KoLConstants.inventory.contains( SewerRequest.CLOVER );
+		AdventureResult clover = ItemPool.get( ItemPool.TEN_LEAF_CLOVER, 1 );
+		return KoLConstants.inventory.contains( clover );
 	}
 
 	/**
@@ -2674,24 +2673,21 @@ public abstract class KoLmafia
 
 		if ( adventure.getRequest() instanceof SewerRequest )
 		{
-			if ( SewerRequest.GUM.getCount( KoLConstants.inventory ) == 0 )
+			int stopCount = 0;
+			AdventureResult currentCondition;
+			for ( int i = 0; i < KoLConstants.conditions.size(); ++i )
 			{
-				int stopCount = 0;
-				AdventureResult currentCondition;
-				for ( int i = 0; i < KoLConstants.conditions.size(); ++i )
+				currentCondition = (AdventureResult) KoLConstants.conditions.get( i );
+				if ( currentCondition.isItem() )
 				{
-					currentCondition = (AdventureResult) KoLConstants.conditions.get( i );
-					if ( currentCondition.isItem() )
-					{
-						stopCount += currentCondition.getCount();
-					}
+					stopCount += currentCondition.getCount();
 				}
+			}
 
-				int gumAmount = stopCount == 0 ? totalIterations : Math.min( stopCount, totalIterations );
-				if ( !InventoryManager.retrieveItem( SewerRequest.GUM.getInstance( gumAmount ) ) )
-				{
-					return;
-				}
+			int gumAmount = stopCount == 0 ? totalIterations : Math.min( stopCount, totalIterations );
+			if ( !InventoryManager.retrieveItem( ItemPool.CHEWING_GUM, gumAmount ) )
+			{
+				return;
 			}
 		}
 
@@ -2782,7 +2778,8 @@ public abstract class KoLmafia
 
 	public void makeHermitRequest()
 	{
-		if ( !KoLConstants.hermitItems.contains( SewerRequest.CLOVER ) )
+		AdventureResult clover = ItemPool.get( ItemPool.TEN_LEAF_CLOVER, 1 );
+		if ( !KoLConstants.hermitItems.contains( clover ) )
 		{
 			RequestThread.postRequest( new HermitRequest() );
 		}
@@ -2794,6 +2791,7 @@ public abstract class KoLmafia
 
 		AdventureResult selectedValue =
 			(AdventureResult) KoLmafia.getSelectedValue( "I have worthless items!", KoLConstants.hermitItems );
+
 		if ( selectedValue == null )
 		{
 			return;
@@ -2804,9 +2802,9 @@ public abstract class KoLmafia
 		String message = "(You have " + HermitRequest.getWorthlessItemCount() + " worthless items)";
 		int maximumValue = HermitRequest.getWorthlessItemCount();
 
-		if ( selected == SewerRequest.CLOVER.getItemId() )
+		if ( selected == ItemPool.TEN_LEAF_CLOVER )
 		{
-			int cloverCount = ( (AdventureResult) selectedValue ).getCount();
+			int cloverCount = selectedValue.getCount();
 
 			if ( cloverCount <= maximumValue )
 			{
@@ -2817,7 +2815,7 @@ public abstract class KoLmafia
 
 		int tradeCount =
 			GenericFrame.getQuantity(
-				"How many " + ( (AdventureResult) selectedValue ).getName() + " to get?\n" + message, maximumValue, 1 );
+				"How many " + selectedValue.getName() + " to get?\n" + message, maximumValue, 1 );
 		if ( tradeCount == 0 )
 		{
 			return;
@@ -2846,8 +2844,9 @@ public abstract class KoLmafia
 		String message = "(You have " + maximumValue + " furs available)";
 		int tradeCount =
 			GenericFrame.getQuantity(
-				"How many " + ( (AdventureResult) selectedValue ).getName() + " to get?\n" + message, maximumValue,
+				"How many " + selectedValue.getName() + " to get?\n" + message, maximumValue,
 				maximumValue );
+
 		if ( tradeCount == 0 )
 		{
 			return;
@@ -2994,6 +2993,7 @@ public abstract class KoLmafia
 
 		String selectedLevel =
 			(String) GenericFrame.input( "Change monster annoyance from " + currentLevel + "?", levelArray );
+
 		if ( selectedLevel == null )
 		{
 			return;
@@ -3005,7 +3005,7 @@ public abstract class KoLmafia
 
 	public void makeCampgroundRestRequest()
 	{
-		String turnCount = (String) GenericFrame.input( "Rest for how many turns?", "1" );
+		String turnCount = GenericFrame.input( "Rest for how many turns?", "1" );
 		if ( turnCount == null )
 		{
 			return;
@@ -3016,7 +3016,7 @@ public abstract class KoLmafia
 
 	public void makeCampgroundRelaxRequest()
 	{
-		String turnCount = (String) GenericFrame.input( "Relax for how many turns?", "1" );
+		String turnCount = GenericFrame.input( "Relax for how many turns?", "1" );
 		if ( turnCount == null )
 		{
 			return;
@@ -3027,7 +3027,7 @@ public abstract class KoLmafia
 
 	public void makeClanSofaRequest()
 	{
-		String turnCount = (String) GenericFrame.input( "Sleep for how many turns?", "1" );
+		String turnCount = GenericFrame.input( "Sleep for how many turns?", "1" );
 		if ( turnCount == null )
 		{
 			return;
@@ -3137,7 +3137,7 @@ public abstract class KoLmafia
 
 			case '3':
 			{
-				int faucetRow = (int) ( i / 5 ) + 1;
+				int faucetRow = i / 5 + 1;
 				int faucetColumn = i % 5 + 1;
 
 				KoLmafia.updateDisplay( "Faucet found in row " + faucetRow + ", column " + faucetColumn );
@@ -3146,7 +3146,7 @@ public abstract class KoLmafia
 
 			case '4':
 			{
-				int baronRow = (int) ( i / 5 ) + 1;
+				int baronRow = i / 5 + 1;
 				int baronColumn = i % 5 + 1;
 
 				KoLmafia.updateDisplay( "Baron found in row " + baronRow + ", column " + baronColumn );
@@ -3200,7 +3200,7 @@ public abstract class KoLmafia
 		// Otherwise, you've found it! So notify the user
 		// that the faucet has been found.
 
-		int faucetRow = (int) ( ( searchIndex.intValue() - 1 ) / 5 ) + 1;
+		int faucetRow = ( searchIndex.intValue() - 1 ) / 5 + 1;
 		int faucetColumn = ( searchIndex.intValue() - 1 ) % 5 + 1;
 
 		KoLmafia.updateDisplay( "Faucet found in row " + faucetRow + ", column " + faucetColumn );
@@ -3820,16 +3820,16 @@ public abstract class KoLmafia
 
 		if ( encounterName.equalsIgnoreCase( "Cheetahs Never Lose" ) )
 		{
-			if ( InventoryManager.hasItem( ItemPool.CATNIP ) )
+			if ( InventoryManager.hasItem( ItemPool.BAG_OF_CATNIP ) )
 			{
-				this.processResult( ItemPool.CATNIP, -1 );
+				this.processResult( ItemPool.BAG_OF_CATNIP, -1 );
 			}
 		}
 		if ( encounterName.equalsIgnoreCase( "Summer Holiday" ) )
 		{
-			if ( InventoryManager.hasItem( ItemPool.GLIDER ) )
+			if ( InventoryManager.hasItem( ItemPool.HANG_GLIDER ) )
 			{
-				this.processResult( ItemPool.GLIDER, -1 );
+				this.processResult( ItemPool.HANG_GLIDER, -1 );
 			}
 		}
 
@@ -4038,7 +4038,7 @@ public abstract class KoLmafia
 		float autoStopValue = Preferences.getFloat( "autoAbortThreshold" );
 		if ( autoStopValue >= 0.0f )
 		{
-			autoStopValue *= (float) KoLCharacter.getMaximumHP();
+			autoStopValue *= KoLCharacter.getMaximumHP();
 			if ( KoLCharacter.getCurrentHP() <= autoStopValue )
 			{
 				KoLmafia.updateDisplay(
