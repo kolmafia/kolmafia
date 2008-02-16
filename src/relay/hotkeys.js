@@ -33,12 +33,11 @@ function handleCombatHotkey( e, isDown )
 		shiftKey = (keyCode == 16);
 		ctrlKey = (keyCode == 17);
 		altKey = (keyCode == 18);
-
 		return false;
 	}
 
-	// Otherwise, if the person has pressed the shift
-	// key, update your current state.
+	// Otherwise, if the person has pressed the shift,
+	// control, or alt key, update your current state.
 
 	if ( keyCode == 16 )
 		shiftKey = true;
@@ -46,13 +45,6 @@ function handleCombatHotkey( e, isDown )
 		ctrlKey = true;
 	if ( keyCode == 18 )
 		altKey = true;
-
-	// Safari processes the key event twice; in order
-	// to make sure this doesn't cause problems, you
-	// will need to stop the propogation for each event.
-
-	if ( e.stopPropagation )
-		e.stopPropagation();
 
 	// Finally, make sure this is a valid hotkey before
 	// attempting to process it as one.
@@ -64,15 +56,12 @@ function handleCombatHotkey( e, isDown )
 	var button = document.getElementById( "defaultButton" );
 	var viewer = document.getElementById( "hotkeyViewer" );
 
-	var isBlank = viewer.options[numericKey].innerHTML.length < 4;
+	var isBlank = viewer.options[numericKey + 1].innerHTML.length < 4;
 
 	if ( isBlank )
 	{
 		if ( numericKey == 0 )
-		{
 			button.onclick();
-			return true;
-		}
 
 		return true;
 	}
