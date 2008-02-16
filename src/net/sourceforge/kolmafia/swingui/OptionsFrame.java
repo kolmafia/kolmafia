@@ -865,7 +865,7 @@ public class OptionsFrame
 			{ "Relay Server", "LocalRelayServer" },
 			{ "Purchases", "MallSearchFrame" },
 			{ "Graphical CLI", "CommandDisplayFrame" },
-			{ "Player Status", "CharsheetFrame" },
+			{ "Player Status", "CharSheetFrame" },
 			{ "Item Manager", "ItemManageFrame" },
 			{ "Gear Changer", "GearChangeFrame" },
 			{ "Store Manager", "StoreManageFrame" },

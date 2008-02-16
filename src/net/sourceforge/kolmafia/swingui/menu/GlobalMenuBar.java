@@ -133,7 +133,7 @@ public class GlobalMenuBar
 
 		statusMenu.add( new JSeparator() );
 
-		statusMenu.add( new DisplayFrameMenuItem( "Player Status", "CharsheetFrame" ) );
+		statusMenu.add( new DisplayFrameMenuItem( "Player Status", "CharSheetFrame" ) );
 		statusMenu.add( new DisplayFrameMenuItem( "Item Manager", "ItemManageFrame" ) );
 		statusMenu.add( new DisplayFrameMenuItem( "Gear Changer", "GearChangeFrame" ) );
 		statusMenu.add( new DisplayFrameMenuItem( "Skill Casting", "SkillBuffFrame" ) );
@@ -173,7 +173,7 @@ public class GlobalMenuBar
 
 		peopleMenu.add( new DisplayFrameMenuItem( "Read KoLmail", "MailboxFrame" ) );
 		peopleMenu.add( new DisplayFrameMenuItem( "KoLmafia Chat", "ChatManager" ) );
-		peopleMenu.add( new DisplayFrameMenuItem( "Recent Events", "EventsFrame" ) );
+		peopleMenu.add( new DisplayFrameMenuItem( "Recent Events", "RecentEventsFrame" ) );
 
 		peopleMenu.add( new JSeparator() );
 

@@ -57,7 +57,7 @@ global	http.proxyPassword
 global	http.proxyPort
 global	http.proxyUser
 global	initialDesktop	AdventureFrame,CommandDisplayFrame,GearChangeFrame
-global	initialFrames	EventsFrame
+global	initialFrames	RecentEventsFrame
 global	innerChatColor	#ffa98c
 global	innerTabColor	#8ca9ff
 global	itemManagerIndex	0
