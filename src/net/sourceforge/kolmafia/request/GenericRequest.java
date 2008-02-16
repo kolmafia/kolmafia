@@ -2358,7 +2358,7 @@ public class GenericRequest
 			}
 		}
 
-		shouldLoadEventFrame &= Preferences.getString( "initialFrames" ).indexOf( "EventsFrame" ) != -1;
+		shouldLoadEventFrame &= Preferences.getString( "initialFrames" ).indexOf( "RecentEventsFrame" ) != -1;
 
 		// If we're not a GUI and there are no GUI windows open
 		// (ie: the GUI loader command wasn't used), quit now.
@@ -2368,9 +2368,10 @@ public class GenericRequest
 			return;
 		}
 
-		// If we are not running chat, pop up an EventsFrame to show
-		// the events.  Use the standard run method so that you wait
-		// for it to finish before calling it again on another event.
+		// If we are not running chat, pop up a RecentEventsFrame to
+		// show the events.  Use the standard run method so that you
+		// wait for it to finish before calling it again on another
+		// event.
 
 		if ( !isChatRunning && shouldLoadEventFrame )
 		{

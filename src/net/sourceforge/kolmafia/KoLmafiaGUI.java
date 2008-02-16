@@ -214,7 +214,7 @@ public class KoLmafiaGUI
 
 			for ( int i = 0; i < initialFrames.length; ++i )
 			{
-				if ( !initialFrames[ i ].equals( "EventsFrame" ) || !KoLConstants.eventHistory.isEmpty() )
+				if ( !initialFrames[ i ].equals( "RecentEventsFrame" ) || !KoLConstants.eventHistory.isEmpty() )
 				{
 					KoLmafiaGUI.constructFrame( initialFrames[ i ] );
 				}
