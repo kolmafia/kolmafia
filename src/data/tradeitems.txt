@@ -3093,7 +3093,7 @@
 3092	handmade hobby horse	13	all	0
 3093	ball-in-a-cup	13	all	0
 3094	set of jacks	13	all	0
-3095	laser-broiled pear	155	all	0
+3095	laser-broiled pear	1	all	155
 3096	polyalloy shield	13	all	155
 3097	oversized fish scaler	7	all	70
 3098	killing feather	0	all	0
