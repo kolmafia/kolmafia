@@ -47,18 +47,24 @@ import javax.swing.tree.TreeNode;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
+
+import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.LogStream;
+import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.request.FightRequest;
+import net.sourceforge.kolmafia.request.GenericRequest;
 
 public abstract class CustomCombatManager
 {
+	private static final GenericRequest AUTO_ATTACKER = new GenericRequest( "account.php?action=autoattack" );
+
 	private static String[] keys = new String[ 0 ];
 	private static File settingsFile = null;
 
@@ -313,6 +319,56 @@ public abstract class CustomCombatManager
 		return changeCase ? key : line;
 	}
 
+	public static final void setAutoAttack( String attackName )
+	{
+		int skillId;
+
+		if ( attackName.indexOf( "disabled" ) != -1 )
+		{
+			skillId = 0;
+		}
+		else if ( attackName.indexOf( "attack" ) != -1 || attackName.indexOf( "default" ) != -1 )
+		{
+			skillId = 1;
+		}
+		else if ( !Character.isDigit( attackName.charAt( 0 ) ) )
+		{
+			List combatSkills = SkillDatabase.getSkillsByType( SkillDatabase.COMBAT );
+			String skillName = KoLmafiaCLI.getSkillName( attackName, combatSkills );
+
+			if ( skillName == null )
+			{
+				return;
+			}
+
+			skillId = SkillDatabase.getSkillId( skillName );
+		}
+		else
+		{
+			skillId = StaticEntity.parseInt( attackName );
+		}
+
+		CustomCombatManager.setAutoAttack( skillId );
+	}
+
+	public static final void setAutoAttack( int skillId )
+	{
+		if ( skillId != 1 && (skillId < 1000 || skillId > 7000) )
+		{
+			skillId = 0;
+		}
+
+		if ( Preferences.getInteger( "defaultAutoAttack" ) != skillId )
+		{
+			Preferences.setInteger( "defaultAutoAttack", skillId );
+
+			CustomCombatManager.AUTO_ATTACKER.addFormField( "whichattack", String.valueOf( skillId ) );
+			RequestThread.postRequest( CustomCombatManager.AUTO_ATTACKER );
+
+			Preferences.setBoolean( "setAutoAttack", skillId == 0 );
+		}
+	}
+
 	public static final void setDefaultAction( final String actionList )
 	{
 		CombatSettingNode currentList = (CombatSettingNode) CustomCombatManager.reference.get( "default" );
@@ -400,8 +456,6 @@ public abstract class CustomCombatManager
 
 	public static final String getSettingKey( final String encounter )
 	{
-		String location = Preferences.getString( "lastAdventure" ).toLowerCase();
-
 		// Allow for longer matches (closer to exact matches)
 		// by tracking the length of the match.
 
@@ -423,40 +477,37 @@ public abstract class CustomCombatManager
 			}
 		}
 
+		if ( longestMatch != -1 )
+		{
+			return CustomCombatManager.keys[ longestMatch ];
+		}
+
+		String location = Preferences.getString( "lastAdventure" ).toLowerCase();
+
 		// If no matches were found, then see if there is a match
 		// against the adventure location.
 
-		if ( longestMatch == -1 && location != null )
+		for ( int i = 0; i < CustomCombatManager.keys.length; ++i )
 		{
-			for ( int i = 0; i < CustomCombatManager.keys.length; ++i )
+			if ( location.indexOf( CustomCombatManager.keys[ i ] ) != -1 )
 			{
-				if ( location.indexOf( CustomCombatManager.keys[ i ] ) != -1 )
+				if ( CustomCombatManager.keys[ i ].length() > longestMatchLength )
 				{
-					if ( CustomCombatManager.keys[ i ].length() > longestMatchLength )
-					{
-						longestMatch = i;
-						longestMatchLength = CustomCombatManager.keys[ i ].length();
-					}
+					longestMatch = i;
+					longestMatchLength = CustomCombatManager.keys[ i ].length();
 				}
 			}
 		}
 
-		if ( longestMatch == -1 )
-		{
-			return "default";
-		}
-
-		return CustomCombatManager.keys[ longestMatch ];
+		return longestMatch == -1 ? "default" : CustomCombatManager.keys[ longestMatch ];
 	}
 
 	public static final String getSetting( final String encounter, final int roundCount )
 	{
-		// Otherwise, you have a tactic for this round against
-		// the given monster.  Return that tactic.
+		String settingKey = CustomCombatManager.getSettingKey( encounter );
+		CombatSettingNode match = (CombatSettingNode) CustomCombatManager.reference.get( settingKey );
 
-		CombatSettingNode match =
-			(CombatSettingNode) CustomCombatManager.reference.get( CustomCombatManager.getSettingKey( encounter ) );
-		if ( match.getChildCount() == 0 )
+		if ( match == null || match.getChildCount() == 0 )
 		{
 			return "attack";
 		}
@@ -464,10 +515,10 @@ public abstract class CustomCombatManager
 		int index = ( roundCount < match.getChildCount() ? roundCount : match.getChildCount() - 1 );
 		CombatActionNode setting = (CombatActionNode) match.getChildAt( index );
 
-		if ( setting.getAction().equals( "default" ) )
+		if ( setting == null || setting.getAction().equals( "default" ) )
 		{
-			CombatSettingNode def = (CombatSettingNode) CustomCombatManager.reference.get( "default" );
-			if ( def == null )
+			CombatSettingNode defaultAction = (CombatSettingNode) CustomCombatManager.reference.get( "default" );
+			if ( defaultAction == null )
 			{
 				return "attack";
 			}
@@ -476,10 +527,10 @@ public abstract class CustomCombatManager
 			{
 				index = 0;
 			}
-			setting = (CombatActionNode) def.getChildAt( index );
+			setting = (CombatActionNode) defaultAction.getChildAt( index );
 		}
 
-		if ( setting.getAction().equals( "default" ) )
+		if ( setting == null || setting.getAction().equals( "default" ) )
 		{
 			return "attack";
 		}
