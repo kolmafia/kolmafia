@@ -334,7 +334,7 @@ public class KoLAdventure
 
 			if ( !KoLConstants.activeEffects.contains( perfumeEffect ) )
 			{
-				if ( !InventoryManager.retrieveItem( ItemPool.PERFUME ) )
+				if ( !InventoryManager.retrieveItem( ItemPool.KNOB_GOBLIN_PERFUME ) )
 				{
 					return;
 				}
@@ -351,7 +351,7 @@ public class KoLAdventure
 			RequestThread.postRequest( new EquipmentRequest( EquipmentDatabase.getOutfit( outfitId ) ) );
 			if ( !KoLConstants.activeEffects.contains( perfumeEffect ) )
 			{
-				RequestThread.postRequest( new UseItemRequest( ItemPool.get( ItemPool.PERFUME, 1 ) ) );
+				RequestThread.postRequest( new UseItemRequest( ItemPool.get( ItemPool.KNOB_GOBLIN_PERFUME, 1 ) ) );
 			}
 		}
 
@@ -789,6 +789,7 @@ public class KoLAdventure
 		}
 
 		this.validate( false );
+
 		if ( !this.isValidAdventure )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "That area is not available." );
@@ -858,6 +859,13 @@ public class KoLAdventure
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Thrust smacks are useless with ranged weapons." );
 				return;
 			}
+		}
+
+		if ( Preferences.getBoolean( "cloverProtectActive" ) )
+		{
+			AdventureResult clover = ItemPool.get( ItemPool.TEN_LEAF_CLOVER, 1 );
+			int count = clover.getCount( KoLConstants.inventory );
+			new UseItemRequest( ItemPool.get( ItemPool.TEN_LEAF_CLOVER, count ) ).run();
 		}
 
 		TurnCounter expired =

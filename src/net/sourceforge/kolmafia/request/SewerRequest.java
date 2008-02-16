@@ -37,19 +37,15 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.session.InventoryManager;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
-import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class SewerRequest
 	extends GenericRequest
 {
-	public static final int TEN_LEAF_CLOVER = 24;
-	public static final int DISASSEMBLED_CLOVER = 196;
-	public static final AdventureResult CLOVER = new AdventureResult( SewerRequest.TEN_LEAF_CLOVER, -1 );
-	public static final AdventureResult GUM = new AdventureResult( "chewing gum on a string", -1 );
-
 	private final boolean isLuckySewer;
 
 	public SewerRequest( final boolean isLuckySewer )
@@ -104,7 +100,7 @@ public class SewerRequest
 
 	private void runLuckySewer()
 	{
-		if ( !InventoryManager.retrieveItem( SewerRequest.CLOVER.getInstance( 1 ) ) )
+		if ( !InventoryManager.retrieveItem( ItemPool.CHEWING_GUM  ) )
 		{
 			return;
 		}
@@ -144,8 +140,9 @@ public class SewerRequest
 	{
 		if ( StaticEntity.getClient().isLuckyCharacter() )
 		{
-			( new UseItemRequest(
-				SewerRequest.CLOVER.getInstance( SewerRequest.CLOVER.getCount( KoLConstants.inventory ) ) ) ).run();
+			AdventureResult clover = ItemPool.get( ItemPool.TEN_LEAF_CLOVER, 1 );
+			int count = clover.getCount( KoLConstants.inventory );
+			new UseItemRequest( ItemPool.get( ItemPool.TEN_LEAF_CLOVER, count ) ).run();
 		}
 
 		super.run();
@@ -166,7 +163,7 @@ public class SewerRequest
 		{
 			if ( StaticEntity.getClient().isLuckyCharacter() )
 			{
-				StaticEntity.getClient().processResult( SewerRequest.CLOVER );
+				StaticEntity.getClient().processResult( ItemPool.TEN_LEAF_CLOVER, -1 );
 			}
 		}
 	}

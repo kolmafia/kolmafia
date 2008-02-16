@@ -42,10 +42,13 @@ public class ItemPool
 {
 	private static final ItemArray itemCache = new ItemArray();
 
-	public static final int PERFUME = 307;
-	public static final int CATNIP = 1486;
-	public static final int GLIDER = 1487;
-	public static final int SATCHEL = 1656;
+	public static final int CHEWING_GUM = 23;
+	public static final int TEN_LEAF_CLOVER = 24;
+	public static final int DISASSEMBLED_CLOVER = 196;
+	public static final int KNOB_GOBLIN_PERFUME = 307;
+	public static final int BAG_OF_CATNIP = 1486;
+	public static final int HANG_GLIDER = 1487;
+	public static final int CITADEL_SATCHEL = 1656;
 	public static final int POWER_SPHERE = 3049;
 	public static final int OVERCHARGED_POWER_SPHERE = 3215;
 

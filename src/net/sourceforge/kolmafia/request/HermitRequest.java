@@ -40,13 +40,12 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.session.InventoryManager;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
-import net.sourceforge.kolmafia.persistence.Preferences;
-import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class HermitRequest
 	extends GenericRequest
@@ -100,22 +99,6 @@ public class HermitRequest
 		this.addFormField( "quantity", String.valueOf( quantity ) );
 		this.addFormField( "whichitem", String.valueOf( itemId ) );
 		this.addFormField( "pwd" );
-	}
-
-	public static final boolean useHermitClover( final String location )
-	{
-		if ( !location.startsWith( "hermit.php" ) || location.indexOf( "whichitem=24" ) == -1 )
-		{
-			return false;
-		}
-
-		if ( !Preferences.getBoolean( "cloverProtectActive" ) )
-		{
-			return false;
-		}
-
-		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "use * ten-leaf clover" );
-		return true;
 	}
 
 	public static final void resetClovers()
@@ -172,7 +155,6 @@ public class HermitRequest
 		KoLmafia.updateDisplay( "Robbing the hermit..." );
 
 		super.run();
-		HermitRequest.useHermitClover( this.getURLString() );
 	}
 
 	public void processResults()
@@ -243,12 +225,14 @@ public class HermitRequest
 		// Only check for clovers.  All other items at the hermit
 		// are assumed to be static final.
 
-		KoLConstants.hermitItems.remove( SewerRequest.CLOVER );
+		AdventureResult clover = ItemPool.get( ItemPool.TEN_LEAF_CLOVER, 1 );
+		KoLConstants.hermitItems.remove( clover );
 
 		Matcher cloverMatcher = Pattern.compile( "(\\d+) left in stock for today" ).matcher( responseText );
 		if ( cloverMatcher.find() )
 		{
-			KoLConstants.hermitItems.add( SewerRequest.CLOVER.getInstance( Integer.parseInt( cloverMatcher.group( 1 ) ) ) );
+			int count = Integer.parseInt( cloverMatcher.group( 1 ) );
+			KoLConstants.hermitItems.add( ItemPool.get( ItemPool.TEN_LEAF_CLOVER, count ) );
 		}
 
 		HermitRequest.checkedForClovers = true;
@@ -336,9 +320,10 @@ public class HermitRequest
 	{
 		if ( !HermitRequest.checkedForClovers )
 		{
-			( new HermitRequest() ).run();
+			new HermitRequest().run();
 		}
 
-		return KoLConstants.hermitItems.contains( SewerRequest.CLOVER );
+		AdventureResult clover = ItemPool.get( ItemPool.TEN_LEAF_CLOVER, 1 );
+		return KoLConstants.hermitItems.contains( clover );
 	}
 }

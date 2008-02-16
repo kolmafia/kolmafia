@@ -149,9 +149,9 @@ public class CouncilFrame
 
 	private static final void handleGuildChange( final String location, final String responseText )
 	{
-		if ( location.indexOf( "paco" ) != -1 && InventoryManager.hasItem( ItemPool.SATCHEL ) )
+		if ( location.indexOf( "paco" ) != -1 && InventoryManager.hasItem( ItemPool.CITADEL_SATCHEL ) )
 		{
-			StaticEntity.getClient().processResult( ItemPool.SATCHEL, -1 );
+			StaticEntity.getClient().processResult( ItemPool.CITADEL_SATCHEL, -1 );
 		}
 	}
 
