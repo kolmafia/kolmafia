@@ -128,13 +128,13 @@ public class BuffBotDatabase
 			return 0;
 		}
 
-		( new DynamicBotFetcher( data ) ).run();
+		new DynamicBotFetcher( data ).run();
 
 		// If this is clearly not a philanthropic buff, then
 		// no alternative amount needs to be sent.
 
 		LockableListModel possibles = BuffBotDatabase.getPhilanthropicOfferings( data[ 0 ] );
-		if ( possibles.isEmpty() )
+		if ( possibles == null || possibles.isEmpty() )
 		{
 			return amount;
 		}
@@ -151,7 +151,7 @@ public class BuffBotDatabase
 			}
 		}
 
-		if ( !foundMatch || current == null )
+		if ( !foundMatch )
 		{
 			return amount;
 		}
@@ -169,7 +169,7 @@ public class BuffBotDatabase
 		// original amount.
 
 		LockableListModel alternatives = BuffBotDatabase.getStandardOfferings( data[ 0 ] );
-		if ( alternatives.isEmpty() )
+		if ( alternatives == null || alternatives.isEmpty() )
 		{
 			return amount;
 		}

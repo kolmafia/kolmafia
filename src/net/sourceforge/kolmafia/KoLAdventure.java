@@ -36,13 +36,18 @@ package net.sourceforge.kolmafia;
 import java.util.ArrayList;
 
 import net.sourceforge.foxtrot.Job;
+
 import net.sourceforge.kolmafia.StaticEntity.TurnCounter;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.persistence.AdventureDatabase;
-import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
-import net.sourceforge.kolmafia.persistence.Preferences;
-import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.session.CustomCombatManager;
+import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.swingui.AdventureFrame;
+import net.sourceforge.kolmafia.swingui.CouncilFrame;
+import net.sourceforge.kolmafia.swingui.GenericFrame;
+import net.sourceforge.kolmafia.webui.DungeonDecorator;
+
 import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.BasementRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
@@ -53,12 +58,11 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.SewerRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
-import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.swingui.AdventureFrame;
-import net.sourceforge.kolmafia.swingui.CouncilFrame;
-import net.sourceforge.kolmafia.swingui.GenericFrame;
-import net.sourceforge.kolmafia.webui.DungeonDecorator;
+
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 public class KoLAdventure
 	extends Job
@@ -903,20 +907,18 @@ public class KoLAdventure
 		// In the event that the user made some sort of change
 		// to their auto-attack settings, do nothing.
 
-		if ( !Preferences.getString( "defaultAutoAttack" ).equals( "3" ) )
+		if ( Preferences.getBoolean( "setAutoAttack" ) )
 		{
-			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=0" );
+			CustomCombatManager.setAutoAttack( 0 );
 		}
 	}
 
 	private void updateAutoAttack()
 	{
-		String autoAttack = Preferences.getString( "defaultAutoAttack" );
-
 		// If the player is pickpocketing, they probably do not want
 		// their auto-attack reset to an attack.
 
-		if ( autoAttack.equals( "3" ) || KoLCharacter.isMoxieClass() )
+		if ( KoLCharacter.isMoxieClass() )
 		{
 			return;
 		}
@@ -934,7 +936,7 @@ public class KoLAdventure
 
 		if ( this.adventureId.equals( "80" ) )
 		{
-			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=0" );
+			CustomCombatManager.setAutoAttack( 0 );
 			return;
 		}
 
@@ -957,24 +959,21 @@ public class KoLAdventure
 			return;
 		}
 
-		if ( attack.startsWith( "attack" ) )
+		if ( attack.startsWith( "attack" ) || attack.startsWith( "default" ) )
 		{
-			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=" + attack );
+			CustomCombatManager.setAutoAttack( 1 );
 			return;
 		}
 
 		// If it's not a generic class skill (its id is something
 		// non-standard), then don't update auto-attack.
 
-		int skillId = SkillDatabase.getSkillId( attack.substring( 6 ).trim() );
-
-		if ( skillId < 1000 || skillId > 7000 )
+		if ( attack.startsWith( "skill " ) )
 		{
-			KoLAdventure.resetAutoAttack();
-			return;
+			attack = attack.substring( 6 );
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=" + skillId );
+		CustomCombatManager.setAutoAttack( attack );
 	}
 
 	public void recordToSession()

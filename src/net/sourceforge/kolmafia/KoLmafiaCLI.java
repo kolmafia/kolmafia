@@ -99,7 +99,6 @@ import net.sourceforge.kolmafia.request.RaffleRequest;
 import net.sourceforge.kolmafia.request.SellStuffRequest;
 import net.sourceforge.kolmafia.request.SendGiftRequest;
 import net.sourceforge.kolmafia.request.SendMailRequest;
-import net.sourceforge.kolmafia.request.SewerRequest;
 import net.sourceforge.kolmafia.request.ShrineRequest;
 import net.sourceforge.kolmafia.request.StyxPixieRequest;
 import net.sourceforge.kolmafia.request.TelescopeRequest;
@@ -125,7 +124,6 @@ public class KoLmafiaCLI
 	extends KoLmafia
 {
 	public static final KoLmafiaCLI DEFAULT_SHELL = new KoLmafiaCLI( System.in );
-	private static final GenericRequest AUTO_ATTACKER = new GenericRequest( "account.php?action=autoattack" );
 
 	private static final Pattern HTMLTAG_PATTERN = Pattern.compile( "<.*?>", Pattern.DOTALL );
 	private static final Pattern ASHNAME_PATTERN = Pattern.compile( "\\.ash", Pattern.CASE_INSENSITIVE );
@@ -1122,32 +1120,8 @@ public class KoLmafiaCLI
 
 			if ( name.equals( "defaultAutoAttack" ) )
 			{
-				if ( value.indexOf( "disabled" ) != -1 )
-				{
-					value = "0";
-				}
-				else if ( value.indexOf( "attack" ) != -1 )
-				{
-					value = "1";
-				}
-				else if ( !Character.isDigit( value.charAt( 0 ) ) )
-				{
-					String skillName =
-						KoLmafiaCLI.getSkillName(
-							value, SkillDatabase.getSkillsByType( SkillDatabase.COMBAT ) );
-					if ( skillName == null )
-					{
-						return;
-					}
-
-					value = String.valueOf( SkillDatabase.getSkillId( skillName ) );
-				}
-
-				if ( !Preferences.getString( "defaultAutoAttack" ).equals( value ) )
-				{
-					KoLmafiaCLI.AUTO_ATTACKER.addFormField( "whichattack", value );
-					RequestThread.postRequest( KoLmafiaCLI.AUTO_ATTACKER );
-				}
+				CustomCombatManager.setAutoAttack( value );
+				return;
 			}
 
 			if ( name.equals( "customCombatScript" ) )
