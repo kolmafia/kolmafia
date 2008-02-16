@@ -77,7 +77,7 @@ function handleCombatHotkey( e, isDown )
 		return true;
 	}
 
-	if ( button.value == "again" )
+	if ( button.value == "again" || button.value == "auto" )
 	{
 		button.onclick();
 		return true;
