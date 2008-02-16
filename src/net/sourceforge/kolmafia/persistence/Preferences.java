@@ -547,7 +547,7 @@ public class Preferences
 				ostream.write( ((String) ((Entry) it.next()).getValue()).getBytes() );
 				ostream.write( LINE_BREAK_AS_BYTES );
 			}
-			
+
 			OutputStream fstream = DataUtilities.getOutputStream( file );
 			ostream.writeTo( fstream );
 			fstream.close();

@@ -923,6 +923,14 @@ public class KoLAdventure
 			return;
 		}
 
+		// If the user has already configured their own auto-attacks,
+		// then KoLmafia should not interfere.
+
+		if ( !Preferences.getBoolean( "setAutoAttack" ) && Preferences.getInteger( "defaultAutoAttack" ) != 0 )
+		{
+			return;
+		}
+
 		// If you're in the middle of a fight, you can't reset your
 		// auto-attack.
 
