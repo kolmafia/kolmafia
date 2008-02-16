@@ -118,44 +118,21 @@ public class CampgroundRequest
 		KoLCharacter.setTelescope( this.responseText.indexOf( "action=telescope" ) != -1 );
 		KoLCharacter.setBookshelf( this.responseText.indexOf( "action=bookshelf" ) != -1 );
 
-		// Update adventure tally for resting and relaxing
-		// at the campground.
+		// Make sure that the character received something if
+		// they were looking for toast
 
-		if ( this.action.equals( "rest" ) )
+		if ( this.action.equals( "toast" ) )
 		{
-			if ( this.responseText.indexOf( "You sleep" ) == -1 )
-			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Could not rest." );
-			}
-			else
-			{
-				StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
-			}
-		}
-		else if ( this.action.equals( "relax" ) )
-		{
-			if ( this.responseText.indexOf( "You relax" ) == -1 )
-			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Could not relax." );
-			}
-			else
-			{
-				StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
-			}
-		}
-		else if ( this.action.equals( "toast" ) )
-		{
-			// Make sure that the character received something if
-			// they were looking for toast
-
 			if ( this.responseText.indexOf( "acquire" ) == -1 )
 			{
 				KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "No more toast left." );
 			}
 		}
+
+		// Parse skills from names of books
+
 		else if ( this.action.equals( "bookshelf" ) )
 		{
-			// Parse skills from names of books
 			parseBookTitles();
 		}
 	}
