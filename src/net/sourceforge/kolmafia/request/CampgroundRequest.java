@@ -83,6 +83,7 @@ public class CampgroundRequest
 		{
 			if ( KoLCharacter.getCurrentHP() == KoLCharacter.getMaximumHP() && KoLCharacter.getCurrentMP() == KoLCharacter.getMaximumMP() )
 			{
+				KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "You don't need to rest." );
 				return;
 			}
 		}
@@ -91,6 +92,7 @@ public class CampgroundRequest
 		{
 			if ( !CampgroundRequest.relaxAllowed || KoLCharacter.getCurrentMP() == KoLCharacter.getMaximumMP() )
 			{
+				KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "You don't need to relax." );
 				return;
 			}
 		}
