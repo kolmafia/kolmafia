@@ -2215,6 +2215,7 @@ public abstract class SorceressLairManager
 		int itemCount = 0;
 		AdventureResult[] options =
 			new AdventureResult[] { SorceressLairManager.RED_POTION, SorceressLairManager.HIPPY_HEAL, SorceressLairManager.FRATBOY_HEAL };
+
 		for ( int i = 0; i < options.length; ++i )
 		{
 			itemCount += options[ i ].getCount( KoLConstants.inventory );
@@ -2238,10 +2239,11 @@ public abstract class SorceressLairManager
 		}
 
 		int itemIndex = 0;
-		SorceressLairManager.QUEST_HANDLER.constructURLString( "fight.php" );
 
-		for ( int i = 0; i < 6; ++i )
+		do
 		{
+			SorceressLairManager.QUEST_HANDLER.constructURLString( "fight.php" );
+
 			while ( !KoLConstants.inventory.contains( options[ itemIndex ] ) )
 			{
 				++itemIndex;
@@ -2252,8 +2254,6 @@ public abstract class SorceressLairManager
 
 			if ( KoLCharacter.hasSkill( "Ambidextrous Funkslinging" ) )
 			{
-				++i; // Increment the rounds elapsed
-
 				boolean needsIncrement =
 					!KoLConstants.inventory.contains( options[ itemIndex ] ) || options[ itemIndex ].getCount( KoLConstants.inventory ) < 2;
 
@@ -2268,14 +2268,11 @@ public abstract class SorceressLairManager
 
 				SorceressLairManager.QUEST_HANDLER.addFormField(
 					"whichitem2", String.valueOf( options[ itemIndex ].getItemId() ) );
-				RequestThread.postRequest( SorceressLairManager.QUEST_HANDLER );
-
-				if ( SorceressLairManager.QUEST_HANDLER.responseText.indexOf( "fight.php" ) == -1 )
-				{
-					break;
-				}
 			}
+
+			RequestThread.postRequest( SorceressLairManager.QUEST_HANDLER );
 		}
+		while ( SorceressLairManager.QUEST_HANDLER.responseText.indexOf( "fight.php" ) == -1 );
 
 		if ( KoLCharacter.getCurrentHP() > 0 )
 		{
