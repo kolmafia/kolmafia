@@ -3093,7 +3093,7 @@
 3092	handmade hobby horse	13	all	0
 3093	ball-in-a-cup	13	all	0
 3094	set of jacks	13	all	0
-3095	laser-broiled pear	1	all	0
+3095	laser-broiled pear	155	all	0
 3096	polyalloy shield	13	all	155
 3097	oversized fish scaler	7	all	70
 3098	killing feather	0	all	0
@@ -3199,20 +3199,20 @@
 3198	El Vibrato trapezoid	3	display	0
 3199
 3200
-3201	
-3202	
-3203	
-3204	
-3205	
-3206	
-3207	
-3208	
-3209	
-3210	
-3211	
-3212	
-3213	
-3214	
+3201
+3202
+3203
+3204
+3205
+3206
+3207
+3208
+3209
+3210
+3211
+3212
+3213
+3214
 3215	overcharged El Vibrato power sphere	21	display	0
-3216	
+3216
 3217	El Vibrato Megadrone	5	display	500
