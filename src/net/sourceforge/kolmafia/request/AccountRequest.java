@@ -38,6 +38,7 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
 import net.sourceforge.kolmafia.persistence.Preferences;
@@ -119,30 +120,26 @@ public class AccountRequest
 			KoLCharacter.setHardcore( responseText.indexOf( "<input class=button type=submit value=\"Drop Hardcore\">" ) != -1 );
 		}
 
+		int skillId = 0;
 		Matcher selectMatcher = AccountRequest.AUTOATTACK_PATTERN.matcher( responseText );
 		if ( selectMatcher.find() )
 		{
 			Matcher optionMatcher = AccountRequest.SELECTED1_PATTERN.matcher( selectMatcher.group() );
 			if ( optionMatcher.find() )
 			{
-				Preferences.setString( "defaultAutoAttack", optionMatcher.group( 1 ) );
+				skillId = StaticEntity.parseInt( optionMatcher.group( 1 ) );
 			}
 			else
 			{
 				optionMatcher = AccountRequest.SELECTED2_PATTERN.matcher( selectMatcher.group() );
+
 				if ( optionMatcher.find() )
 				{
-					Preferences.setString( "defaultAutoAttack", optionMatcher.group( 1 ) );
-				}
-				else
-				{
-					Preferences.setInteger( "defaultAutoAttack", 0 );
+					skillId = StaticEntity.parseInt( optionMatcher.group( 1 ) );
 				}
 			}
 		}
-		else
-		{
-			Preferences.setInteger( "defaultAutoAttack", 0 );
-		}
+
+		Preferences.setInteger( "defaultAutoAttack", skillId );
 	}
 }
