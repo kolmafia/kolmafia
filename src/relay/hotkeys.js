@@ -82,16 +82,17 @@ function updateCombatHotkey()
 	var hotkey = (viewer.selectedIndex - 1);
 	var hotkeyAction = prompt( "New value for " + hotkey, "" );
 
-	if ( hotkeyAction )
-	{
-		var httpObject = getHttpObject();
-		if ( !httpObject )
-			return true;
+	if ( hotkeyAction === false )
+		return true;
 
-		httpObject.open( "GET", "/KoLmafia/submitCommand?cmd=set+combatHotkey" + hotkey + "%3D" +
-			URLEncode( hotkeyAction ) + "&MAFIAHIT", true );
+	var httpObject = getHttpObject();
+	if ( !httpObject )
+		return true;
 
-		httpObject.send( "" );
-		viewer[ hotkey + 1 ].innerHTML = hotkey + ": " + hotkeyAction;
-	}
+	httpObject.open( "GET", "/KoLmafia/submitCommand?cmd=set+combatHotkey" + hotkey + "%3D" +
+		URLEncode( hotkeyAction ) + "&MAFIAHIT", true );
+
+	httpObject.send( "" );
+	viewer[ hotkey + 1 ].innerHTML = hotkey + ": " + hotkeyAction;
+	return true;
 }
