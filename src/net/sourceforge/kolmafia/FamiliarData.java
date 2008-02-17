@@ -44,8 +44,10 @@ import javax.swing.SwingConstants;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
-import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+
+import net.sourceforge.kolmafia.request.EquipmentRequest;
 
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 
@@ -98,92 +100,33 @@ public class FamiliarData
 
 	private static final Object[][] FAMILIAR_ITEM_DATA =
 	{
-		{
-			"tamo.gif",
-			new AdventureResult( "lucky Tam O'Shanter", 1, false ),
-		},
-		{
-			"omat.gif",
-			new AdventureResult( "lucky Tam O'Shatner", 1, false ),
-		},
-		{
-			"maypole.gif",
-			new AdventureResult( "miniature gravy-covered maypole", 1, false ),
-		},
-		{
-			"waxlips.gif",
-			new AdventureResult( "wax lips", 1, false ),
-		},
-		{
-			"pitchfork.gif",
-			new AdventureResult( "annoying pitchfork", 1, false ),
-		},
-		{
-			"lnecklace.gif",
-			new AdventureResult( "lead necklace", 1, false ),
-		},
-		{
-			"ratbal.gif",
-			new AdventureResult( "rat head balloon", 1, false ),
-		},
-		{
-			"punkin.gif",
-			new AdventureResult( "plastic pumpkin bucket", 1, false ),
-		},
-		{
-			"ffdop.gif",
-			new AdventureResult( "flaming familiar doppelg&auml;nger", 1, false ),
-		},
-		{
-			"maybouquet.gif",
-			new AdventureResult( "Mayflower bouquet", 1, false ),
-		},
-		{
-			"anthoe.gif",
-			new AdventureResult( "ant hoe", 1, false ),
-		},
-		{
-			"antrake.gif",
-			new AdventureResult( "ant rake", 1, false ),
-		},
-		{
-			"antfork.gif",
-			new AdventureResult( "ant pitchfork", 1, false ),
-		},
-		{
-			"antsickle.gif",
-			new AdventureResult( "ant sickle", 1, false ),
-		},
-		{
-			"antpick.gif",
-			new AdventureResult( "ant pick", 1, false ),
-		},
-		{
-			"fishscaler.gif",
-			new AdventureResult( "oversized fish scaler", 1, false ),
-		},
-		{
-			"origamimag.gif",
-			new AdventureResult( "origami &quot;gentlemen's&quot; magazine", 1, false ),
-		},
+		{ "tamo.gif", ItemPool.get( ItemPool.TAM_O_SHANTER, 1 ) },
+		{ "omat.gif", ItemPool.get( ItemPool.TAM_O_SHATNER, 1 ) },
+		{ "maypole.gif", ItemPool.get( ItemPool.GRAVY_MAYPOLE, 1 ) },
+		{ "waxlips.gif", ItemPool.get( ItemPool.WAX_LIPS, 1 ) },
+		{ "pitchfork.gif", ItemPool.get( ItemPool.ANNOYING_PITCHFORK, 1 ) },
+		{ "lnecklace.gif", ItemPool.get( ItemPool.LEAD_NECKLACE, 1 ) },
+		{ "ratbal.gif", ItemPool.get( ItemPool.RAT_BALLOON, 1 ) },
+		{ "punkin.gif", ItemPool.get( ItemPool.PUMPKIN_BUCKET, 1 ) },
+		{ "ffdop.gif", ItemPool.get( ItemPool.FAMILIAR_DOPPELGANGER, 1 ) },
+		{ "maybouquet.gif", ItemPool.get( ItemPool.MAYFLOWER_BOUQUET, 1 ) },
+		{ "anthoe.gif", ItemPool.get( ItemPool.ANT_HOE, 1 ) },
+		{ "antrake.gif", ItemPool.get( ItemPool.ANT_RAKE, 1 ) },
+		{ "antfork.gif", ItemPool.get( ItemPool.ANT_PITCHFORK, 1 ) },
+		{ "antsickle.gif", ItemPool.get( ItemPool.ANT_SICKLE, 1 ) },
+		{ "antpick.gif", ItemPool.get( ItemPool.ANT_PICK, 1 ) },
+		{ "fishscaler.gif", ItemPool.get( ItemPool.FISH_SCALER, 1 ) },
+		{ "origamimag.gif", ItemPool.get( ItemPool.ORIGAMI_MAGAZINE, 1 ) },
+
 		// Crimbo P. R. E. S. S. I. E. items
-		{
-			"whitebow.gif",
-			new AdventureResult( "metallic foil bow", 1, false ),
-		},
-		{
-			"radar.gif",
-			new AdventureResult( "metallic foil radar dish", 1, false ),
-		},
+
+		{ "whitebow.gif", ItemPool.get( ItemPool.FOIL_BOW, 1 ) },
+		{ "radar.gif", ItemPool.get( ItemPool.FOIL_RADAR, 1 ) },
+
 		// Pet Rock items
-		{
-			"monocle.gif",
-			new AdventureResult( "pet rock &quot;Snooty&quot; disguise", 1, false ),
-		},
-		{
-			"groucho.gif",
-			new AdventureResult( "pet rock &quot;Groucho&quot; disguise", 1, false ),
-		},
+
+		{ "monocle.gif", ItemPool.get( ItemPool.SNOOTY_DISGUISE, 1 ) },
+		{ "groucho.gif", ItemPool.get( ItemPool.GROUCHO_DISGUISE, 1 ) },
 	};
 
 	private static final AdventureResult parseFamiliarItem( final int id, final String text )
@@ -203,7 +146,9 @@ public class FamiliarData
 		}
 
 		// Default familiar equipment
-		return new AdventureResult( FamiliarDatabase.getFamiliarItem( id ), 1, false );
+
+		String itemName = FamiliarDatabase.getFamiliarItem( id );
+		return ItemPool.get( itemName, 1 );
 	}
 
 	public static final void registerFamiliarData( final String searchText )
@@ -277,54 +222,55 @@ public class FamiliarData
 		{
 		case -1: // bogus item id
 		case 0: // another bogus item id
-		case 856: // shock collar
-		case 857: // moonglasses
-		case 1040: // lucky Tam O'Shanter
-		case 1102: // targeting chip
-		case 1116: // annoying pitchfork
-		case 1152: // miniature gravy-covered maypole
-		case 1260: // wax lips
-		case 1264: // tiny nose-bone fetish
-		case 1419: // teddy bear sewing kit
-		case 1489: // miniature dormouse
-		case 1537: // weegee sqouija
-		case 1539: // lucky Tam O'Shatner
-		case 1623: // badger badge
-		case 1928: // tuning fork
-		case 2084: // can of starch
-		case 2147: // evil teddy bear sewing kit
-		case 2191: // giant book of ancient carols
-		case 2225: // flaming familiar doppelg&auml;nger
-		case 2570: // ant hoe
-		case 2571: // ant rake
-		case 2572: // ant pitchfork
-		case 2573: // ant sickle
-		case 2574: // ant pick
-		case 2846: // plastic bib
-		case 3087: // teddy borg sewing kit
-		case 3097: // oversized fish scaler
-		case 3194: // origami "gentlemen's" magazine
+
+		case ItemPool.SHOCK_COLLAR:
+		case ItemPool.MOONGLASSES:
+		case ItemPool.TAM_O_SHANTER:
+		case ItemPool.TARGETING_CHIP:
+		case ItemPool.ANNOYING_PITCHFORK:
+		case ItemPool.GRAVY_MAYPOLE:
+		case ItemPool.WAX_LIPS:
+		case ItemPool.NOSE_BONE_FETISH:
+		case ItemPool.TEDDY_SEWING_KIT:
+		case ItemPool.MINIATURE_DORMOUSE:
+		case ItemPool.WEEGEE_SQOUIJA:
+		case ItemPool.TAM_O_SHATNER:
+		case ItemPool.BADGER_BADGE:
+		case ItemPool.TUNING_FORK:
+		case ItemPool.CAN_OF_STARCH:
+		case ItemPool.EVIL_TEDDY_SEWING_KIT:
+		case ItemPool.ANCIENT_CAROLS:
+		case ItemPool.FAMILIAR_DOPPELGANGER:
+		case ItemPool.ANT_HOE:
+		case ItemPool.ANT_RAKE:
+		case ItemPool.ANT_PITCHFORK:
+		case ItemPool.ANT_SICKLE:
+		case ItemPool.ANT_PICK:
+		case ItemPool.PLASTIC_BIB:
+		case ItemPool.TEDDY_BORG_SEWING_KIT:
+		case ItemPool.FISH_SCALER:
+		case ItemPool.ORIGAMI_MAGAZINE:
 			return 0;
 
-		case 865: // lead necklace
+		case ItemPool.LEAD_NECKLACE:
 			return 3;
 
-		case 1971: // plastic pumpkin bucket
-		case 2541: // Mayflower bouquet
+		case ItemPool.PUMPKIN_BUCKET:
+		case ItemPool.MAYFLOWER_BOUQUET:
 			return 5;
 
-		case 1218: // rat head balloon
+		case ItemPool.RAT_BALLOON:
 			return -3;
 
-		case 1243: // toy six-seater hovercraft
+		case ItemPool.TOY_HOVERCRAFT:
 			return -5;
 
-		case 1305: // tiny makeup kit
-		case 2710: // cracker
+		case ItemPool.MAKEUP_KIT:
+		case ItemPool.PARROT_CRACKER:
 			return 15;
 
-		case 1526: // pet rock "Snooty" disguise
-		case 1678: // pet rock "Groucho" disguise
+		case ItemPool.SNOOTY_DISGUISE:
+		case ItemPool.GROUCHO_DISGUISE:
 			return 11;
 
 		default:
@@ -402,33 +348,34 @@ public class FamiliarData
 		switch ( item.getItemId() )
 		{
 		case -1:
+		case 0:
 			return false;
 
-		case 865: // lead necklace
-		case 1040: // lucky Tam O'Shanter
-		case 1116: // annoying pitchfork
-		case 1152: // miniature gravy-covered maypole
-		case 1218: // rat head balloon
-		case 1260: // wax lips
-		case 1539: // lucky Tam O'Shatner
-		case 1971: // plastic pumpkin bucket
-		case 2225: // flaming familiar doppelg&auml;nger
-		case 2541: // Mayflower bouquet
-		case 2570: // ant hoe
-		case 2571: // ant rake
-		case 2572: // ant pitchfork
-		case 2573: // ant sickle
-		case 2574: // ant pick
-		case 3097: // oversized fish scaler
-		case 3194: // origami "gentlemen's" magazine
+		case ItemPool.LEAD_NECKLACE:
+		case ItemPool.TAM_O_SHANTER:
+		case ItemPool.ANNOYING_PITCHFORK:
+		case ItemPool.GRAVY_MAYPOLE:
+		case ItemPool.RAT_BALLOON:
+		case ItemPool.WAX_LIPS:
+		case ItemPool.TAM_O_SHATNER:
+		case ItemPool.PUMPKIN_BUCKET:
+		case ItemPool.FAMILIAR_DOPPELGANGER:
+		case ItemPool.MAYFLOWER_BOUQUET:
+		case ItemPool.ANT_HOE:
+		case ItemPool.ANT_RAKE:
+		case ItemPool.ANT_PITCHFORK:
+		case ItemPool.ANT_SICKLE:
+		case ItemPool.ANT_PICK:
+		case ItemPool.FISH_SCALER:
+		case ItemPool.ORIGAMI_MAGAZINE:
 			return this.id != 54;
 
-		case 1526: // pet rock "Snooty" disguise
-		case 1678: // pet rock "Groucho" disguise
+		case ItemPool.SNOOTY_DISGUISE:
+		case ItemPool.GROUCHO_DISGUISE:
 			return this.id == 45 || this.id == 63 || this.id == 78;
 
-		case 3043: // metallic foil bow
-		case 3044: // metallic foil radar dish
+		case ItemPool.FOIL_BOW:
+		case ItemPool.FOIL_RADAR:
 			return this.id == 77;
 
 		default:
