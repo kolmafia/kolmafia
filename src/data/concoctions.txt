@@ -71,7 +71,7 @@ Gnollish autoplunger	1	Gnollish plunger	meat engine
 meat cowboy hat	1	basic meat helmet	white snake skin
 peace-sign necklace	1	clay peace-sign bead	hemp string
 phat turquoise bracelet	1	phat turquoise bead	hemp string
-pimpin' meat hat	1	basic meat helmet	bling-bling
+pimpin' meat hat	1	basic meat helmet	dope gangsta bling-bling
 spooky staff	1	spooky shrunken head	spooky stick
 Talisman o' Nam	1	snakehead charrrm	snakehead charrrm
 
@@ -498,7 +498,7 @@ foon of fleshiness	4	basic meat foon	sleaze powder
 basic meat spork	4	meat stack	spork
 
 bubblewrap crossbow	4	basic meat crossbow	bubblewrap ore
-bubble bauble bow	4	bubblewrap crossbow	bling-bling
+bubble bauble bow	4	bubblewrap crossbow	dope gangsta bling-bling
 bubblewrap staff	4	basic meat staff	bubblewrap ore
 wiffle-flail	4	bubblewrap staff	baseball
 bubblewrap sword	4	basic meat sword	bubblewrap ore
