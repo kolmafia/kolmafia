@@ -82,7 +82,7 @@
 81	ice-cold Willer	2	all	30
 82	rusty metal ring	0	all	4
 83	rusty metal shaft	0	all	5
-84	Orcish meat locker	0	all	5
+84	Orcish meat locker	3	all	5
 85	unlocked meat locker	3	all	6
 86	rusty metal key	3	all	8
 87	meat from yesterday	0	all	5
@@ -904,8 +904,8 @@
 903	Spasmi Dolorosi Del Rene Champagne	2	all	0
 904	old school Mafia knickerbockers	10	all	0
 905	Yummy Tummy bean	3	all	20
-906	Rock Pops	4	all	0
-907	Mr. Mediocrebar	4	all	0
+906	Rock Pops	4	all	25
+907	Mr. Mediocrebar	4	all	50
 908	Cold Hots candy	4	all	0
 909	Wint-O-Fresh mint	4	all	0
 910	dwarf bread	1	all	0
@@ -1960,7 +1960,7 @@
 1959	tattered scrap of paper	0	all	35
 1960	scroll of ancient forbidden unspeakable evil	0	all	65
 1961	can of Binarrrca	4	all	0
-1962	Bit O' Ectoplasm	4	all	0
+1962	Bit O' Ectoplasm	4	all	25
 1963	dance card	3	all	55
 1964	opera mask	9	all	37
 1965	bottle of Monsieur Bubble	14	all	50
@@ -2879,8 +2879,8 @@
 2878	tiny plastic Boss Bat	8	all	30
 2879	tiny plastic Knob Goblin King	8	all	30
 2880	tiny plastic Bonerdagon	8	all	30
-2881	tiny plastic the Man	8	all	30
-2882	tiny plastic the Big Wisniewski	8	all	30
+2881	tiny plastic The Man	8	all	30
+2882	tiny plastic The Big Wisniewski	8	all	30
 2883	tiny plastic Felonia	8	all	30
 2884	tiny plastic Beelzebozo	8	all	30
 2885	tiny plastic conservationist hippy	8	all	30
@@ -2947,7 +2947,7 @@
 2946	V for Vivala mask	8	all	0
 2947	The Big Book of Pirate Insults	0	all	250
 2948	shot of rotgut	2	all	50
-2949	jar of "Creole Lady" marrrmalade	4	all	45
+2949	jar of &quot;Creole Lady&quot; marrrmalade	4	all	45
 2950	Cap'm Caronch's Map	3	none	0
 2951	Orcish Frat House blueprints	0	none	0
 2952	blue glowstick	8	display	0
@@ -2997,8 +2997,8 @@
 2996	grungy flannel shirt	11	all	155
 2997	grungy bandana	9	all	155
 2998	grassy cutlass	12	all	155
-2999	Cap'm Caronch's nasty booty	0	none	none
-3000	Cap'm Caronch's dentures	0	none	none
+2999	Cap'm Caronch's nasty booty	0	none	0
+3000	Cap'm Caronch's dentures	0	none	0
 3001	solid gold pegleg	8	all	500
 3002	gold lam&eacute; pants	10	all	110
 3003	enormous hoop earring	8	all	130
@@ -3019,8 +3019,8 @@
 3018	gilded ancient cursed chest	3	all	0
 3019	all-purpose cleaner	3	all	55
 3020	handful of sawdust	0	all	55
-3021	large stone triangle	0	all	0
-3022	medium stone triangle	0	all	0
+3021	large stone triangle	3	all	0
+3022	medium stone triangle	3	all	0
 3023	small stone triangle	3	all	0
 3024	strange stone pyramid	0	all	0
 3025	corpse on the beach	2	all	50
@@ -3031,7 +3031,7 @@
 3030	kamicorpse-ee	2	all	50
 3031	purple corpsel	2	all	50
 3032	corpsebite	2	all	50
-3033	pirate fledges	8	display	0
+3033	pirate fledges	8	none	0
 3034	cursed piece of thirteen	3	all	0
 3035	cursed black pearl onion	1	all	0
 3036	cursed sea biscuit	1	all	0
@@ -3041,14 +3041,14 @@
 3040	cursed voodoo skull	0	all	0
 3041	cursed dirty joke scroll	0	all	0
 3042	Crimbo P. R. E. S. S. I. E.	5	all	0
-3043	metallic foil bow	7	all	75
-3044	metallic foil radar dish	7	all	75
+3043	metallic foil bow	7	all	70
+3044	metallic foil radar dish	7	all	70
 3045	nanite-infested gingerbread bugbear	1	all	0
 3046	nanite-infested candy cane	1	all	0
 3047	nanite-infested fruitcake	1	all	37
 3048	nanite-infested eggnog	2	all	49
 3049	El Vibrato power sphere	21	all	0
-3050	cursed eyepatch	8	display	0
+3050	cursed eyepatch	9	display	0
 3051	cursed cutlass	12	display	0
 3052	cursed breeches	10	display	0
 3053

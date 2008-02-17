@@ -242,8 +242,8 @@ yakskin skirt	140	Mox: 55
 # Shirts section of equipment.txt
 
 &quot;Humorous&quot; T-shirt	100	Mus: 35
-Ascension Souvenir T-Shirt	15	none
 ASCII shirt	90	Mus: 30
+Ascension Souvenir T-Shirt	15	none
 Colonel Mustard's Lonely Spades Club Jacket	130	Mus: 50
 Corporal Fennel's Lonely Clubs Club Jacket	130	Mus: 50
 General Sage's Lonely Diamonds Club Jacket	130	Mus: 50
@@ -336,7 +336,7 @@ Mafia violin case	100	Mus: 35	1-handed club
 Maxwell's Silver Hammer	165	Mus: 67	1-handed club
 Mjolnir Jr.	200	Mys: 85	1-handed utensil
 Pasta of Peril	50	Mys: 10	1-handed utensil
-Periodical Paintbrush	100	Mus: 0	1-handed
+Periodical Paintbrush	100	Mus: 0	1-handed artsything
 Radio Free Foil	150	Mus: 60	2-handed sword
 Rock and Roll Legend	50	Mox: 10	2-handed accordion
 Shagadelic Disco Banjo	90	Mox: 15	2-handed banjo
@@ -418,7 +418,7 @@ costume sword	10	Mus: 0	1-handed sword
 crazy bastard sword	125	Mus: 25	1-handed sword
 crowbarrr	80	Mus: 25	2-handed staff
 curdflinger	45	Mox: 7	1-handed crossbow
-curmudgel	125	Mus: 47	1-handed lub
+curmudgel	125	Mus: 47	1-handed club
 cursed cutlass	200	Mus: 85	1-handed sword
 demon whip	10	Mus: 0	1-handed whip
 denim axe	170	Mus: 70	2-handed axe
@@ -752,7 +752,7 @@ Copper Alpha of Sincerity	0	Mys: 85
 Counterclockwise Watch	0	none
 Dyspepsi-Cola-issue canteen	0	none
 Earring of Fire	0	Mys: 60
-El Vibrato translator	Mys: 200
+El Vibrato translator	0	Mys: 200
 Elmley shades	0	Mys: 75
 Gaia beads	0	Mys: 72
 Golden Mr. Accessory	0	none
@@ -841,7 +841,6 @@ black belt	0	Mys: 60
 blackberry combat boots	0	Mus: 75
 blackberry moccasins	0	Mys: 75
 blackberry slippers	0	Mys: 75
-bling-bling	0	Mys: 7
 blue glowstick	0	none
 blue ribbon	0	none
 booty chest charrrm bracelet	0	Mys: 80
@@ -849,8 +848,6 @@ bottle opener belt buckle	0	Mys: 65
 bottlecap turtle	0	Mys: 12
 cannonball charrrm bracelet	0	Mys: 80
 cement shoes	0	Mys: 35
-copper ha'penny charrrm bracelet	0	Mys: 80
-cyborg stompin' boot	0	Mus: 60
 chintzy accordion pin	0	none
 chintzy disco ball pendant	0	none
 chintzy noodle ring	0	none
@@ -863,11 +860,14 @@ clownskin belt	0	Mys: 10
 club necklace	0	none
 colored-light &quot;necklace&quot;	0	Mys: 35
 consolation ribbon	0	none
+copper ha'penny charrrm bracelet	0	Mys: 80
+cyborg stompin' boot	0	Mus: 60
 dead guy's watch	0	Mys: 10
 diamond necklace	0	none
 dirty hobo gloves	0	none
 disbelief suspenders	0	Mys: 10
 disembodied smile	0	none
+dope gangsta bling-bling	0	Mys: 7
 eXtreme mittens	0	Mys: 40
 eXtreme nose ring	0	Mys: 10
 enchanted toothpick	0	Mys: 25
@@ -1021,6 +1021,8 @@ tiny plastic Sneaky Pete	0	none
 tiny plastic Spam Witch	0	none
 tiny plastic Spunky Princess	0	none
 tiny plastic Susie	0	none
+tiny plastic The Big Wisniewski	0	none
+tiny plastic The Man	0	none
 tiny plastic Trouser Snake	0	none
 tiny plastic Uncle Crimbo	0	none
 tiny plastic XXX pr0n	0	none
@@ -1083,8 +1085,6 @@ tiny plastic stab bat	0	none
 tiny plastic star starfish	0	none
 tiny plastic sweet nutcracker	0	none
 tiny plastic taco cat	0	none
-tiny plastic the Big Wisniewski	0	none
-tiny plastic the Man	0	none
 tiny plastic topiary golem	0	none
 tiny plastic turtle tamer	0	none
 tiny plastic undead elbow macaroni	0	none
