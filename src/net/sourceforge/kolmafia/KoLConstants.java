@@ -111,7 +111,7 @@ public interface KoLConstants
 
 	public static final String[][] FUNCTION_MENU = new String[][]
 	{
-		{ "Inventory", "inventory.php?which=1" },
+		{ "Consumables", "inventory.php?which=1" },
 		{ "Equipment", "inventory.php?which=2" },
 		{ "Misc Items", "inventory.php?which=3" },
 		{ "Auto Sell", "sellstuff.php" },
