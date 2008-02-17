@@ -1956,23 +1956,11 @@ public abstract class KoLCharacter
 
 			if ( skill.getSkillName().equals( "Flavour of Magic" ) )
 			{
-				UseSkillRequest use = UseSkillRequest.getInstance( "Spirit of Cayenne" );
-				KoLConstants.usableSkills.add( use );
-				KoLConstants.selfOnlySkills.add( use );
-				use = UseSkillRequest.getInstance( "Spirit of Peppermint" );
-				KoLConstants.usableSkills.add( use );
-				KoLConstants.selfOnlySkills.add( use );
-				use = UseSkillRequest.getInstance( "Spirit of Garlic" );
-				KoLConstants.usableSkills.add( use );
-				KoLConstants.selfOnlySkills.add( use );
-				use = UseSkillRequest.getInstance( "Spirit of Wormwood" );
-				KoLConstants.usableSkills.add( use );
-				KoLConstants.selfOnlySkills.add( use );
-				use = UseSkillRequest.getInstance( "Spirit of Bacon Grease" );
-				KoLConstants.usableSkills.add( use );
-				KoLConstants.selfOnlySkills.add( use );
-				KoLConstants.usableSkills.sort();
-				KoLConstants.selfOnlySkills.sort();
+				KoLCharacter.addAvailableSkill( "Spirit of Cayenne" );
+				KoLCharacter.addAvailableSkill( "Spirit of Peppermint" );
+				KoLCharacter.addAvailableSkill( "Spirit of Garlic" );
+				KoLCharacter.addAvailableSkill( "Spirit of Wormwood" );
+				KoLCharacter.addAvailableSkill( "Spirit of Bacon Grease" );
 			}
 
 			break;
@@ -2032,19 +2020,19 @@ public abstract class KoLCharacter
 
 			if ( head && knee )
 			{
-				KoLCharacter.addCombatSkill( "Head + Knee Combo" );
+				KoLCharacter.addAvailableSkill( "Head + Knee Combo" );
 			}
 			if ( head && shield )
 			{
-				KoLCharacter.addCombatSkill( "Head + Shield Combo" );
+				KoLCharacter.addAvailableSkill( "Head + Shield Combo" );
 			}
 			if ( knee && shield )
 			{
-				KoLCharacter.addCombatSkill( "Knee + Shield Combo" );
+				KoLCharacter.addAvailableSkill( "Knee + Shield Combo" );
 			}
 			if ( head && knee && shield )
 			{
-				KoLCharacter.addCombatSkill( "Head + Knee + Shield Combo" );
+				KoLCharacter.addAvailableSkill( "Head + Knee + Shield Combo" );
 			}
 		}
 	}
@@ -2167,8 +2155,7 @@ public abstract class KoLCharacter
 
 	public static final boolean hasSkill( final String skillName )
 	{
-		return KoLCharacter.hasSkill( skillName, KoLConstants.availableSkills ) || KoLCharacter.hasSkill(
-			skillName, KoLConstants.usableSkills );
+		return KoLCharacter.hasSkill( skillName, KoLConstants.availableSkills );
 	}
 
 	public static final boolean hasSkill( final String skillName, final LockableListModel list )
