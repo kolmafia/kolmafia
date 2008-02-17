@@ -72,16 +72,20 @@ public class SewerRequest
 			return;
 		}
 
+		if ( !InventoryManager.retrieveItem( ItemPool.CHEWING_GUM  ) )
+		{
+			return;
+		}
+
 		if ( this.isLuckySewer )
 		{
 			if ( Preferences.getBoolean( "cloverProtectActive" ) )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Turn off clover protection if you want to go here." );
+				return;
 			}
-			else
-			{
-				this.runLuckySewer();
-			}
+
+                        this.runLuckySewer();
 		}
 		else
 		{
@@ -100,11 +104,6 @@ public class SewerRequest
 
 	private void runLuckySewer()
 	{
-		if ( !InventoryManager.retrieveItem( ItemPool.CHEWING_GUM  ) )
-		{
-			return;
-		}
-
 		// The Sewage Gnomes insist on giving precisely three
 		// items, so if you have fewer than three items, report
 		// an error.
