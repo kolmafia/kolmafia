@@ -517,8 +517,8 @@ public abstract class CustomCombatManager
 
 		if ( setting == null || setting.getAction().equals( "default" ) )
 		{
-			CombatSettingNode defaultAction = (CombatSettingNode) CustomCombatManager.reference.get( "default" );
-			if ( defaultAction == null )
+			match = (CombatSettingNode) CustomCombatManager.reference.get( "default" );
+			if ( match == null )
 			{
 				return "attack";
 			}
@@ -527,7 +527,12 @@ public abstract class CustomCombatManager
 			{
 				index = 0;
 			}
-			setting = (CombatActionNode) defaultAction.getChildAt( index );
+			else if ( index >= match.getChildCount() )
+			{
+				index = match.getChildCount() - 1;
+			}
+
+			setting = (CombatActionNode) match.getChildAt( index );
 		}
 
 		if ( setting == null || setting.getAction().equals( "default" ) )

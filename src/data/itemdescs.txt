@@ -3221,3 +3221,4 @@
 3215	480795503	overcharged El Vibrato power sphere
 3216	
 3217	193025375	El Vibrato Megadrone
+3218		purple glowstick	purple glowstyx

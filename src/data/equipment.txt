@@ -933,6 +933,7 @@ porquoise ring	0	Mys: 10
 pulled porquoise earring	0	Mys: 40
 pulled porquoise pendant	0	Mys: 40
 pulled porquoise ring	0	Mys: 40
+purple glowstick	0	none
 pygmy nose-bone	0	Mys: 62
 rainbow pearl earring	0	Mys: 200
 rainbow pearl necklace	0	Mys: 200
