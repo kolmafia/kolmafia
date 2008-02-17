@@ -222,30 +222,40 @@ public class HermitRequest
 			return false;
 		}
 
+		// If you don't have enough Hermit Permits, then failure,
+		// so don't subtract anything.
+
+		if ( responseText.indexOf( "You don't have enough Hermit Permits" ) != -1 )
+		{
+			HermitRequest.checkedForClovers = false;
+			return true;
+		}
+
 		// Only check for clovers.  All other items at the hermit
 		// are assumed to be static final.
 
 		AdventureResult clover = ItemPool.get( ItemPool.TEN_LEAF_CLOVER, 1 );
 		KoLConstants.hermitItems.remove( clover );
 
-		Matcher cloverMatcher = Pattern.compile( "(\\d+) left in stock for today" ).matcher( responseText );
-		if ( cloverMatcher.find() )
+		if ( responseText.indexOf( "he sends you packing" ) != -1 )
 		{
-			int count = Integer.parseInt( cloverMatcher.group( 1 ) );
-			KoLConstants.hermitItems.add( ItemPool.get( ItemPool.TEN_LEAF_CLOVER, count ) );
+			// No worthless items in inventory, so we can't tell if
+			// clovers remain in stock
+			HermitRequest.checkedForClovers = false;
 		}
+		else
+		{
+			Matcher cloverMatcher = Pattern.compile( "(\\d+) left in stock for today" ).matcher( responseText );
+			if ( cloverMatcher.find() )
+			{
+				int count = Integer.parseInt( cloverMatcher.group( 1 ) );
+				KoLConstants.hermitItems.add( ItemPool.get( ItemPool.TEN_LEAF_CLOVER, count ) );
+			}
 
-		HermitRequest.checkedForClovers = true;
+			HermitRequest.checkedForClovers = true;
+		}
 
 		if ( !urlString.startsWith( "hermit.php?" ) )
-		{
-			return true;
-		}
-
-		// If you don't have enough Hermit Permits, then failure,
-		// so don't subtract anything.
-
-		if ( responseText.indexOf( "You don't have enough Hermit Permits" ) != -1 )
 		{
 			return true;
 		}
