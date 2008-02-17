@@ -2684,7 +2684,8 @@ public abstract class KoLmafia
 				}
 			}
 
-			int gumAmount = stopCount == 0 ? totalIterations : Math.min( stopCount, totalIterations );
+			int remainingIterations = totalIterations - currentIteration + 1;
+			int gumAmount = stopCount == 0 ? remainingIterations : Math.min( stopCount, remainingIterations );
 			if ( !InventoryManager.retrieveItem( ItemPool.CHEWING_GUM, gumAmount ) )
 			{
 				return;
