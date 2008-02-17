@@ -2113,6 +2113,23 @@ public class ItemDatabase
 			known += single;
 		}
 
+		known = parseStandardEnchantments( text, known, unknown );
+
+		String softcore = Modifiers.parseSoftcoreOnly( text );
+		if ( softcore != null )
+		{
+			if ( !known.equals( "" ) )
+			{
+				known += ", ";
+			}
+			known += softcore;
+		}
+
+		return known;
+	}
+
+	private static final String parseStandardEnchantments( final String text, String known, final ArrayList unknown )
+	{
 		Matcher matcher = ItemDatabase.ENCHANTMENT_PATTERN.matcher( text );
 		if ( !matcher.find() )
 		{

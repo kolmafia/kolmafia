@@ -464,7 +464,7 @@
 463	Well-Oiled	balm.gif	60036c9c3bbf193e3f3fc7051ec66aa7	use 1 Oil of Parrrlay
 464	Truly Gritty	disease.gif	8247e2389bb1ad99d1c5d12db1ed8f8f	use 1 true grit
 465	Soul-Crushing Headache	realbrain.gif	c0b5d125cc3e5d611e76146ee18b802a	use 1 all-purpose cleaner
-466	Savage Beast Inside	lycan.gif	79e27820ccb7f957271ccae45dabfec3	use 1 jar of "Creole Lady" marrrmalade
+466	Savage Beast Inside	lycan.gif	79e27820ccb7f957271ccae45dabfec3	use 1 jar of &quot;Creole Lady&quot; marrrmalade
 467	Curse of the Black Pearl Onion	pearlonion.gif	05bd2e9a51c82b6aae3b5d9fa3cd89cb
 468	Fishy Fortification	fish.gif	c5e882290f065b068304245b7d79ceee	use 1 fish-liver oil
 469	Cybernetic Muscles	strboost.gif	4bff7d1f60535beb8220383e6d0d7381
@@ -480,3 +480,12 @@
 479	Chock Full o' Nanites	disease.gif	01d86c4d48b69892609d2465725401c3
 480
 481	Mallowed Out	roastmallow.gif	1f7d77ed2bed543ff97b5e539aa490e9
+482	Fitter, Happier	drone1.gif	cbb07636ac67293a88827364a955d84d
+483
+484
+485
+486
+487	Well-preserved	drone3.gif	ba7b40665f789b6ffa055e2ad316263c	use 1 warm El Vibrato drone
+488
+489	Inscrutable exoskeleton	drone5.gif	c281cb24d6830c8c01ecf4b8d28adff6	use 1 glowing El Vibrato drone
+

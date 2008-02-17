@@ -1267,6 +1267,20 @@ public class Modifiers
 		return null;
 	}
 
+	private static final Pattern SOFTCORE_PATTERN =
+		Pattern.compile( "This item cannot be equipped while in Hardcore" );
+
+	public static final String parseSoftcoreOnly( final String text )
+	{
+		Matcher matcher = Modifiers.SOFTCORE_PATTERN.matcher( text );
+		if ( matcher.find() )
+		{
+			return Modifiers.modifierName( Modifiers.booleanModifiers, Modifiers.SOFTCORE );
+		}
+
+		return null;
+	}
+
 	private static final Pattern ALL_ATTR_PATTERN = Pattern.compile( "^All Attributes ([+-]\\d+)$" );
 	private static final Pattern ALL_ATTR_PCT_PATTERN = Pattern.compile( "^All Attributes ([+-]\\d+)%$" );
 	private static final Pattern CLASS_PATTERN = Pattern.compile( "Bonus for (.*) only" );
