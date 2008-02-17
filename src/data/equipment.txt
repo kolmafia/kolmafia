@@ -597,8 +597,7 @@ yohohoyo	160	Mox: 65	1-handed yoyo
 6-ball	0	none
 7-ball	0	none
 9-ball	0	none
-# *** Brimstone Bunker is a shield of unknown power.
-Brimstone Bunker	0	Mus: 30
+Brimstone Bunker	240	Mus: 30
 Cloaca-Cola shield	75	none
 Codex of Capsaicin Conjuration	0	none
 Cookbook of the Damned	0	none
@@ -664,8 +663,7 @@ hypnodisk	0	none
 ice baby	0	none
 incredibly creepy marionette	0	Mys: 40
 joybuzzer	0	none
-# *** keg shield is a shield of unknown power.
-keg shield	0	Mus: 70
+keg shield	175	Mus: 70
 kickback cookbook	0	none
 killer rag doll	0	Mys: 40
 mad scientist's sock monkey	0	Mys: 40
@@ -729,8 +727,7 @@ voodoo doll	0	none
 wad of Crovacite	0	none
 white balloon	0	none
 white satin shield	80	Mus: 25
-# *** wicker shield is a shield of unknown power.
-wicker shield	0	Mus: 70
+wicker shield	175	Mus: 70
 wonderwall shield	190	Mus: 70
 yakskin buckler	95	Mus: 30
 
