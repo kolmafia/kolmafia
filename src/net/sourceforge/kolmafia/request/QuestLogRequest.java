@@ -108,6 +108,12 @@ public class QuestLogRequest
 
 		this.addFormField( "which", "2" );
 		super.run();
+
+		if ( this.responseText == null )
+		{
+			return;
+		}
+
 		QuestLogRequest.registerQuests( false, this.getURLString(), this.responseText );
 
 		QuestLogRequest.blackMarketAvailable =
