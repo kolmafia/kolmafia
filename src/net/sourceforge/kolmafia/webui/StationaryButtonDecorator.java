@@ -2,10 +2,11 @@ package net.sourceforge.kolmafia.webui;
 
 import java.util.ArrayList;
 
-import net.sourceforge.kolmafia.KoLAdventure;
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 
@@ -166,7 +167,8 @@ public class StationaryButtonDecorator
 
 			if ( monster.equals( "giant sandworm" ) )
 			{
-				if ( KoLConstants.inventory.contains( KoLAdventure.DRUM_MACHINE ) )
+				AdventureResult drumMachine = ItemPool.get( UseItemRequest.DRUM_MACHINE, 1 );
+				if ( KoLConstants.inventory.contains( drumMachine ) )
 				{
 					location = "inv_use.php?pwd=" + GenericRequest.passwordHash + "&which=3&whichitem=" + UseItemRequest.DRUM_MACHINE;
 				}

@@ -62,7 +62,6 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
-import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 public class KoLAdventure
 	extends Job
@@ -78,25 +77,6 @@ public class KoLAdventure
 	};
 
 	private static final GenericRequest ZONE_UNLOCK = new GenericRequest( "" );
-
-	public static final AdventureResult BLACK_CANDLE = new AdventureResult( 620, 3 );
-	public static final AdventureResult EVIL_SCROLL = new AdventureResult( 1960, 1 );
-
-	public static final AdventureResult DRUM_MACHINE = new AdventureResult( UseItemRequest.DRUM_MACHINE, -1 );
-	public static final AdventureResult CURSED_PIECE_OF_THIRTEEN =
-		new AdventureResult( UseItemRequest.CURSED_PIECE_OF_THIRTEEN, 1 );
-	public static final AdventureResult CASINO_PASS = new AdventureResult( 40, 1 );
-
-	public static final AdventureResult DINGHY = new AdventureResult( 141, 1 );
-	private static final AdventureResult PLANS = new AdventureResult( 146, 1 );
-	private static final AdventureResult PLANKS = new AdventureResult( 140, 1 );
-
-	private static final AdventureResult TRANSFUNCTIONER = new AdventureResult( 458, 1 );
-	private static final AdventureResult TALISMAN = new AdventureResult( 486, 1 );
-	private static final AdventureResult SONAR = new AdventureResult( 563, 1 );
-	private static final AdventureResult LIBRARY_KEY = new AdventureResult( 1764, 1 );
-	private static final AdventureResult GALLERY_KEY = new AdventureResult( 1765, 1 );
-	private static final AdventureResult BALLROOM_KEY = new AdventureResult( 1766, 1 );
 
 	public static final AdventureResult MEATCAR = new AdventureResult( 134, 1 );
 	public static final AdventureResult BEAN = new AdventureResult( 186, 1 );
@@ -140,8 +120,6 @@ public class KoLAdventure
 	public static final AdventureResult FINGERLESS_HOBO_GLOVES = new AdventureResult( 2300, -1 );
 	public static final AdventureResult CHOMSKYS_COMICS = new AdventureResult( 2301, -1 );
 
-	private static final AdventureResult MUSHROOM = new AdventureResult( 1622, 1 );
-	private static final AdventureResult ASTRAL = new AdventureResult( "Half-Astral", 0 );
 	public static final AdventureResult BEATEN_UP = new AdventureResult( "Beaten Up", 4, true );
 
 	private static KoLAdventure lastVisitedLocation = null;
@@ -316,16 +294,18 @@ public class KoLAdventure
 			// If the player is not half-astral, then
 			// make sure they are before continuing.
 
-			if ( !KoLConstants.activeEffects.contains( KoLAdventure.ASTRAL ) )
+			AdventureResult effect = EffectPool.get( EffectPool.ASTRAL );
+			if ( !KoLConstants.activeEffects.contains( effect ) )
 			{
-				this.isValidAdventure = InventoryManager.retrieveItem( KoLAdventure.MUSHROOM );
+				AdventureResult mushroom = ItemPool.get( ItemPool.ASTRAL_MUSHROOM, 1 );
+				this.isValidAdventure = InventoryManager.retrieveItem( mushroom );
 				if ( this.isValidAdventure )
 				{
-					RequestThread.postRequest( new UseItemRequest( KoLAdventure.MUSHROOM ) );
+					RequestThread.postRequest( new UseItemRequest( mushroom ) );
 				}
 			}
 
-			this.isValidAdventure = KoLConstants.activeEffects.contains( KoLAdventure.ASTRAL );
+			this.isValidAdventure = KoLConstants.activeEffects.contains( effect );
 			return;
 		}
 
@@ -404,7 +384,8 @@ public class KoLAdventure
 
 		if ( this.adventureId.equals( "73" ) )
 		{
-			if ( !InventoryManager.hasItem( KoLAdventure.TRANSFUNCTIONER ) )
+			AdventureResult transfuctioner = ItemPool.get( ItemPool.TRANSFUNCTIONER, 1 );
+			if ( !InventoryManager.hasItem( transfuctioner ) )
 			{
 				RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString( "mystic.php" ) );
 				RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString( "mystic.php?action=crackyes1" ) );
@@ -418,21 +399,22 @@ public class KoLAdventure
 				return;
 			}
 
-			RequestThread.postRequest( new EquipmentRequest( KoLAdventure.TRANSFUNCTIONER ) );
+			RequestThread.postRequest( new EquipmentRequest( transfuctioner ) );
 			this.isValidAdventure = true;
 			return;
 		}
 
 		if ( this.adventureId.equals( "119" ) )
 		{
-			if ( !KoLCharacter.hasEquipped( KoLAdventure.TALISMAN ) )
+			AdventureResult talisman = ItemPool.get( ItemPool.TALISMAN, 1 );
+			if ( !KoLCharacter.hasEquipped( talisman ) )
 			{
-				if ( !InventoryManager.retrieveItem( KoLAdventure.TALISMAN ) )
+				if ( !InventoryManager.hasItem( talisman ) )
 				{
 					return;
 				}
 
-				RequestThread.postRequest( new EquipmentRequest( KoLAdventure.TALISMAN ) );
+				RequestThread.postRequest( new EquipmentRequest( talisman ) );
 			}
 
 			this.isValidAdventure = true;
@@ -453,10 +435,13 @@ public class KoLAdventure
 		if ( this.adventureId.equals( "96" ) || this.adventureId.equals( "97" ) || this.adventureId.equals( "98" ) )
 		{
 			// You must be Half-Astral to go on a trip
-			int astral = KoLAdventure.ASTRAL.getCount( KoLConstants.activeEffects );
+
+			AdventureResult effect = EffectPool.get( EffectPool.ASTRAL );
+			int astral = effect.getCount( KoLConstants.activeEffects );
 			if ( astral == 0 )
 			{
-				RequestThread.postRequest( new UseItemRequest( KoLAdventure.MUSHROOM ) );
+				AdventureResult mushroom = ItemPool.get( ItemPool.ASTRAL_MUSHROOM, 1 );
+				RequestThread.postRequest( new UseItemRequest( mushroom ) );
 				if ( !KoLmafia.permitsContinue() )
 				{
 					this.isValidAdventure = false;
@@ -500,7 +485,7 @@ public class KoLAdventure
 
 		if ( this.zone.equals( "Casino" ) )
 		{
-			this.isValidAdventure = InventoryManager.retrieveItem( KoLAdventure.CASINO_PASS );
+			this.isValidAdventure = InventoryManager.retrieveItem( ItemPool.CASINO_PASS );
 			return;
 		}
 
@@ -509,20 +494,23 @@ public class KoLAdventure
 
 		else if ( this.zone.equals( "Island" ) )
 		{
-			this.isValidAdventure = InventoryManager.hasItem( KoLAdventure.DINGHY );
+			this.isValidAdventure = InventoryManager.hasItem( ItemPool.DINGHY_DINGY );
+			if ( this.isValidAdventure )
+			{
+				return;
+			}
+
+			this.isValidAdventure = InventoryManager.hasItem( ItemPool.DINGHY_PLANS );
 			if ( !this.isValidAdventure )
 			{
-				this.isValidAdventure = InventoryManager.hasItem( KoLAdventure.PLANS );
-				if ( !this.isValidAdventure )
-				{
-					return;
-				}
+				return;
+			}
 
-				this.isValidAdventure = InventoryManager.retrieveItem( KoLAdventure.PLANKS );
-				if ( this.isValidAdventure )
-				{
-					RequestThread.postRequest( new UseItemRequest( KoLAdventure.PLANKS ) );
-				}
+			AdventureResult planks = ItemPool.get( ItemPool.DINGY_PLANKS, 1 );
+			this.isValidAdventure = InventoryManager.hasItem( planks );
+			if ( this.isValidAdventure )
+			{
+				RequestThread.postRequest( new UseItemRequest( planks ) );
 			}
 
 			return;
@@ -627,14 +615,14 @@ public class KoLAdventure
 			if ( this.adventureId.equals( "104" ) )
 			{
 				// Haunted Library
-				this.isValidAdventure = InventoryManager.retrieveItem( KoLAdventure.LIBRARY_KEY );
+				this.isValidAdventure = InventoryManager.hasItem( ItemPool.LIBRARY_KEY );
 				return;
 			}
 
 			if ( this.adventureId.equals( "106" ) )
 			{
 				// Haunted Gallery
-				this.isValidAdventure = InventoryManager.retrieveItem( KoLAdventure.GALLERY_KEY );
+				this.isValidAdventure = InventoryManager.hasItem( ItemPool.GALLERY_KEY );
 				return;
 			}
 
@@ -644,14 +632,14 @@ public class KoLAdventure
 			if ( this.adventureId.equals( "107" ) || this.adventureId.equals( "108" ) )
 			{
 				// Haunted Bathroom & Bedroom
-				this.isValidAdventure = InventoryManager.retrieveItem( KoLAdventure.LIBRARY_KEY );
+				this.isValidAdventure = InventoryManager.hasItem( ItemPool.LIBRARY_KEY );
 				return;
 			}
 
 			if ( this.adventureId.equals( "109" ) )
 			{
 				// Haunted Ballroom
-				this.isValidAdventure = InventoryManager.retrieveItem( KoLAdventure.BALLROOM_KEY );
+				this.isValidAdventure = InventoryManager.hasItem( ItemPool.BALLROOM_KEY );
 				return;
 			}
 		}
@@ -682,7 +670,6 @@ public class KoLAdventure
 				return;
 			}
 
-			int sonarCount = KoLAdventure.SONAR.getCount( KoLConstants.inventory );
 			int sonarToUse = 0;
 
 			if ( KoLAdventure.ZONE_UNLOCK.responseText.indexOf( "batrockleft.gif" ) != -1 )
@@ -698,8 +685,10 @@ public class KoLAdventure
 				sonarToUse = 1;
 			}
 
-			RequestThread.postRequest( new UseItemRequest( KoLAdventure.SONAR.getInstance( Math.min(
-				sonarToUse, sonarCount ) ) ) );
+			AdventureResult sonar = ItemPool.get( ItemPool.SONAR, 1 );
+			sonarToUse = Math.min( sonarToUse, sonar.getCount( KoLConstants.inventory ) );
+
+			RequestThread.postRequest( new UseItemRequest( ItemPool.get( ItemPool.SONAR, sonarToUse ) ) );
 			RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK );
 
 			if ( this.adventureId.equals( "32" ) )

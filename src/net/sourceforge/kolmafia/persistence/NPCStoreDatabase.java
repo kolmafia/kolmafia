@@ -37,16 +37,16 @@ import java.io.BufferedReader;
 import java.util.ArrayList;
 
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
-import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class NPCStoreDatabase
 	extends KoLDatabase
@@ -168,7 +168,7 @@ public class NPCStoreDatabase
 
 			if ( shopName.equals( "Hippy Store (Pre-War)" ) )
 			{
-				if ( !KoLConstants.inventory.contains( KoLAdventure.DINGHY ) || !EquipmentManager.hasOutfit( 2 ) )
+				if ( !InventoryManager.hasItem( ItemPool.DINGHY_DINGY ) || !EquipmentManager.hasOutfit( 2 ) )
 				{
 					return false;
 				}

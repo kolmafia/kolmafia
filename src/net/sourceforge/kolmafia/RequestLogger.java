@@ -36,6 +36,9 @@ package net.sourceforge.kolmafia;
 import java.io.PrintStream;
 import java.util.Date;
 
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.session.InventoryManager;
+
 import net.sourceforge.kolmafia.request.CafeRequest;
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
@@ -69,7 +72,6 @@ import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
-import net.sourceforge.kolmafia.session.InventoryManager;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 
@@ -410,12 +412,12 @@ public class RequestLogger
 		if ( urlString.startsWith( "manor3.php" ) )
 		{
 			String demon = request.getFormField( "demonname" );
-			if ( demon != null && !demon.equals( "" ) && InventoryManager.retrieveItem( KoLAdventure.BLACK_CANDLE ) && InventoryManager.retrieveItem( KoLAdventure.EVIL_SCROLL ) )
+			if ( demon != null && !demon.equals( "" ) && InventoryManager.retrieveItem( ItemPool.BLACK_CANDLE, 3 ) && InventoryManager.retrieveItem( ItemPool.EVIL_SCROLL ) )
 			{
 				RequestLogger.updateSessionLog( "summon " + demon );
 
-				StaticEntity.getClient().processResult( KoLAdventure.BLACK_CANDLE.getNegation() );
-				StaticEntity.getClient().processResult( KoLAdventure.EVIL_SCROLL.getNegation() );
+				StaticEntity.getClient().processResult( ItemPool.BLACK_CANDLE, -3 );
+				StaticEntity.getClient().processResult( ItemPool.EVIL_SCROLL, -1 );
 			}
 
 			return;

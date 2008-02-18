@@ -37,13 +37,15 @@ import java.util.TreeMap;
 
 import javax.swing.JCheckBox;
 
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.session.InventoryManager;
+
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.GalaktikRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
-import net.sourceforge.kolmafia.session.InventoryManager;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
@@ -166,7 +168,7 @@ public abstract class HPRestoreItemList
 
 			if ( ItemDatabase.contains( restoreName ) )
 			{
-				this.itemUsed = new AdventureResult( restoreName, 1, false );
+				this.itemUsed = ItemPool.get( restoreName, 1 );
 				this.skillId = -1;
 			}
 			else if ( SkillDatabase.contains( restoreName ) )

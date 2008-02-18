@@ -723,7 +723,7 @@ public class GenericRequest
 		}
 		else if ( location.startsWith( "casino.php" ) )
 		{
-			InventoryManager.retrieveItem( KoLAdventure.CASINO_PASS );
+			InventoryManager.retrieveItem( ItemPool.CASINO_PASS );
 		}
 
 		// To avoid wasting turns, buy a can of hair spray before
