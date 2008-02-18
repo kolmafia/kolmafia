@@ -44,6 +44,7 @@ public class EffectPool
 	public static final String PERFUME = "Knob Goblin Perfume";
 	public static final String ONTHETRAIL = "On the Trail";
 	public static final String HYDRATED = "Ultrahydrated";
+	public static final String ASTRAL = "Half-Astral";
 
 	public static final AdventureResult get( String effectName )
 	{

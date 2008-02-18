@@ -40,13 +40,11 @@ import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
-import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
-import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
-import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
-import net.sourceforge.kolmafia.persistence.ItemDatabase;
-import net.sourceforge.kolmafia.persistence.MonsterDatabase;
-import net.sourceforge.kolmafia.persistence.Preferences;
-import net.sourceforge.kolmafia.persistence.SkillDatabase;
+
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
+
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
@@ -59,8 +57,14 @@ import net.sourceforge.kolmafia.request.MicroBreweryRequest;
 import net.sourceforge.kolmafia.request.TelescopeRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
-import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.session.InventoryManager;
+
+import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 /**
  * A container class representing the <code>KoLCharacter</code>. This class also allows for data listeners that are
@@ -201,6 +205,15 @@ public abstract class KoLCharacter
 		KoLCharacter.ACCORDION_THIEF_RANKS.add( "Accordion Thief" );
 	}
 
+	private static final AdventureResult[] WANDS = new AdventureResult[]
+   	{
+		ItemPool.get( ItemPool.PINE_WAND, 1 ),
+		ItemPool.get( ItemPool.EBONY_WAND, 1 ),
+		ItemPool.get( ItemPool.HEXAGONAL_WAND, 1 ),
+		ItemPool.get( ItemPool.ALUMINUM_WAND, 1 ),
+		ItemPool.get( ItemPool.MARBLE_WAND, 1 )
+	};
+
 	public static final int BAKULA = 1519;
 	public static final int BOTTLE_ROCKET = 2834;
 	public static final int WIZARD_HAT = 1653;
@@ -251,7 +264,6 @@ public abstract class KoLCharacter
 	// Campground information
 
 	private static boolean hasToaster = false;
-	private static boolean hasArches = false;
 	private static boolean hasChef = false;
 	private static boolean hasBartender = false;
 	private static boolean hasBookshelf = false;
@@ -351,7 +363,6 @@ public abstract class KoLCharacter
 		KoLCharacter.hasClan = false;
 
 		KoLCharacter.hasToaster = false;
-		KoLCharacter.hasArches = false;
 		KoLCharacter.hasChef = false;
 		KoLCharacter.hasBartender = false;
 		KoLCharacter.hasBookshelf = false;
@@ -2534,25 +2545,16 @@ public abstract class KoLCharacter
 		}
 	}
 
-	private static final AdventureResult DEAD_MIMIC = new AdventureResult( 1267, 1 );
-	private static final AdventureResult[] WANDS = new AdventureResult[]
-	{
-		new AdventureResult( 1268, 1 ),	// pine wand
-		new AdventureResult( 1269, 1 ),	// ebony wand
-		new AdventureResult( 1270, 1 ),	// hexagonal wand
-		new AdventureResult( 1271, 1 ),	// aluminum wand
-		new AdventureResult( 1272, 1 )	// marble wand
-	};
-
 	/**
 	 * Returns the character's zapping wand, if any
 	 */
 
 	public static final AdventureResult getZapper()
 	{
-		if ( KoLConstants.inventory.contains( KoLCharacter.DEAD_MIMIC ) )
+		AdventureResult mimic = ItemPool.get( ItemPool.DEAD_MIMIC, 1 );
+		if ( InventoryManager.hasItem( mimic ) )
 		{
-			RequestThread.postRequest( new UseItemRequest( KoLCharacter.DEAD_MIMIC ) );
+			RequestThread.postRequest( new UseItemRequest( mimic ) );
 		}
 
 		for ( int i = 0; i < KoLCharacter.WANDS.length; ++i )

@@ -60,7 +60,6 @@ public class CouncilFrame
 	public static final AdventureResult YETI_FUR = new AdventureResult( 388, 1 );
 
 	private static final Pattern QTY_PATTERN = Pattern.compile( "qty=(\\d+)" );
-	private static final Pattern ITEMID_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
 	private static final Pattern ORE_PATTERN = Pattern.compile( "3 chunks of (\\w+) ore" );
 
 	public CouncilFrame()
@@ -124,13 +123,14 @@ public class CouncilFrame
 
 	private static final void handleSneakyPeteChange( final String responseText )
 	{
-		if ( KoLCharacter.hasEquipped( KoLmafia.NOVELTY_BUTTON ) && responseText.indexOf( "You hand him your button and take his glowstick" ) != -1 )
+		AdventureResult button = ItemPool.get( ItemPool.NOVELTY_BUTTON, 1 );
+		if ( KoLCharacter.hasEquipped( button ) && responseText.indexOf( "You hand him your button and take his glowstick" ) != -1 )
 		{
-			if ( KoLCharacter.hasEquipped( KoLmafia.NOVELTY_BUTTON, EquipmentManager.ACCESSORY1 ) )
+			if ( KoLCharacter.hasEquipped( button, EquipmentManager.ACCESSORY1 ) )
 			{
 				EquipmentManager.setEquipment( EquipmentManager.ACCESSORY1, EquipmentRequest.UNEQUIP );
 			}
-			else if ( KoLCharacter.hasEquipped( KoLmafia.NOVELTY_BUTTON, EquipmentManager.ACCESSORY2 ) )
+			else if ( KoLCharacter.hasEquipped( button, EquipmentManager.ACCESSORY2 ) )
 			{
 				EquipmentManager.setEquipment( EquipmentManager.ACCESSORY2, EquipmentRequest.UNEQUIP );
 			}
@@ -142,8 +142,8 @@ public class CouncilFrame
 			// Maintain session tally: "unequip" the button and
 			// discard it.
 
-			AdventureResult.addResultToList( KoLConstants.inventory, KoLmafia.NOVELTY_BUTTON );
-			StaticEntity.getClient().processResult( KoLmafia.NOVELTY_BUTTON.getNegation() );
+			AdventureResult.addResultToList( KoLConstants.inventory, button );
+			StaticEntity.getClient().processResult( ItemPool.NOVELTY_BUTTON, -1 );
 		}
 	}
 

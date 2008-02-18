@@ -170,19 +170,6 @@ public abstract class KoLmafia
 	private static final Pattern GOURD_PATTERN = Pattern.compile( "Bring back (\\d+)" );
 	private static final Pattern DISCARD_PATTERN = Pattern.compile( "You discard your (.*?)\\." );
 
-	public static final AdventureResult NOVELTY_BUTTON = new AdventureResult( 2072, 1 );
-
-	private static final AdventureResult MANUAL_1 = new AdventureResult( 2280, 1 );
-	private static final AdventureResult MANUAL_2 = new AdventureResult( 2281, 1 );
-	private static final AdventureResult MANUAL_3 = new AdventureResult( 2282, 1 );
-
-	private static final AdventureResult [] CRIMBO_TOYS =
-	{
-		new AdventureResult( 3092, 1 ),		// handmade hobby horse
-		new AdventureResult( 3093, 1 ),		// ball-in-a-cup
-		new AdventureResult( 3094, 1 ),		// set of jacks
-	};
-
 	private static final int SOCK = 609;
 	private static final int LUCRE = 2098;
 
@@ -846,8 +833,11 @@ public abstract class KoLmafia
 
 			if ( Preferences.getBoolean( "readManual" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ) )
 			{
-				AdventureResult manual =
-					KoLCharacter.isMuscleClass() ? KoLmafia.MANUAL_1 : KoLCharacter.isMysticalityClass() ? KoLmafia.MANUAL_2 : KoLmafia.MANUAL_3;
+				int manualId = KoLCharacter.isMuscleClass() ? ItemPool.MUS_MANUAL :
+					KoLCharacter.isMysticalityClass() ? ItemPool.MYS_MANUAL : ItemPool.MOX_MANUAL;
+
+				AdventureResult manual = ItemPool.get( manualId, 1 );
+
 				if ( InventoryManager.hasItem( manual ) )
 				{
 					RequestThread.postRequest( new UseItemRequest( manual ) );
@@ -858,12 +848,18 @@ public abstract class KoLmafia
 
 			if ( Preferences.getBoolean( "useCrimboToys" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ) )
 			{
-				for ( int i = 0; i < CRIMBO_TOYS.length; ++i )
+				AdventureResult [] toys = new AdventureResult []
 				{
-					AdventureResult toy = CRIMBO_TOYS[i];
-					if ( InventoryManager.hasItem( toy ) )
+					ItemPool.get( ItemPool.HOBBY_HORSE, 1 ),
+					ItemPool.get( ItemPool.BALL_IN_A_CUP, 1 ),
+					ItemPool.get( ItemPool.SET_OF_JACKS, 1 )
+				};
+
+				for ( int i = 0; i < toys.length; ++i )
+				{
+					if ( InventoryManager.hasItem( toys[ i ] ) )
 					{
-						RequestThread.postRequest( new UseItemRequest( toy ) );
+						RequestThread.postRequest( new UseItemRequest( toys[ i ] ) );
 						KoLmafia.forceContinue();
 					}
 				}

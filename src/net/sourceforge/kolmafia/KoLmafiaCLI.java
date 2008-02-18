@@ -1677,14 +1677,12 @@ public class KoLmafiaCLI
 				return;
 			}
 
-			InventoryManager.retrieveItem( KoLAdventure.BLACK_CANDLE );
-			if ( !KoLmafia.permitsContinue() )
+			if ( !InventoryManager.retrieveItem( ItemPool.BLACK_CANDLE, 3 ) )
 			{
 				return;
 			}
 
-			InventoryManager.retrieveItem( KoLAdventure.EVIL_SCROLL );
-			if ( !KoLmafia.permitsContinue() )
+			if ( !InventoryManager.retrieveItem( ItemPool.EVIL_SCROLL ) )
 			{
 				return;
 			}
