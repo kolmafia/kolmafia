@@ -52,11 +52,6 @@ public class SewerRequest
 	{
 		super( "sewer.php" );
 		this.isLuckySewer = isLuckySewer;
-
-		if ( isLuckySewer )
-		{
-			this.addFormField( "doodit", "1" );
-		}
 	}
 
 	/**
@@ -109,10 +104,32 @@ public class SewerRequest
 		// an error.
 
 		String thirdItemString = Preferences.getString( "luckySewerAdventure" );
-		int thirdItem =
-			thirdItemString.indexOf( "random" ) != -1 ? KoLConstants.RNG.nextInt( 11 ) + 1 : Character.isDigit( thirdItemString.charAt( 0 ) ) ? StaticEntity.parseInt( thirdItemString ) : ItemDatabase.getItemId( thirdItemString );
+		int thirdItem;
 
-		if ( thirdItem < 1 || thirdItem > 12 )
+		if ( thirdItemString.equals( "random" ) )
+		{
+			thirdItem = KoLConstants.RNG.nextInt( 11 ) + 1;
+		}
+		else if ( Character.isDigit( thirdItemString.charAt( 0 ) ) )
+		{
+			thirdItem = StaticEntity.parseInt( thirdItemString );
+		}
+		else
+		{
+			thirdItem = ItemDatabase.getItemId( thirdItemString );
+		}
+
+		if ( thirdItem == 2 )
+		{
+			// Seal tooth replaced by seal-skull helmet
+			thirdItem = 2283;
+		}
+		else if ( thirdItem == 8 )
+		{
+			// We always get spices. Give 'em an accordion
+			thirdItem = 11;
+		}
+		else if ( thirdItem != 2283 && ( thirdItem < 1 || thirdItem > 12 ) )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You must select a third item from the gnomes." );
 			return;
@@ -122,6 +139,8 @@ public class SewerRequest
 		// a better idea to assume everyone wants trinkets and
 		// spices and let them specify the third item.
 
+		this.clearDataFields();
+		this.addFormField( "doodit", "1" );
 		this.addFormField( "i43", "on" );
 		this.addFormField( "i8", "on" );
 		this.addFormField( "i" + thirdItem, "on" );
