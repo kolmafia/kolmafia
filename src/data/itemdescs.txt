@@ -1569,7 +1569,7 @@
 1563	672455481	whiskey bittersweet	whiskeys bittersweet
 1564	782817773	mimosette	marmosets
 1565	255615817	tequila sunset	tequila sunsets
-1566	416364014	zmobie	zmobies
+1566	416364014	zmobie	zombeis
 1567	846304712	gin and tonic	jynnan tonnix
 1568	131549816	vodka and tonic	vodkas and tonics
 1569	948329555	vodka gibson	vodka carlisles
