@@ -6,7 +6,6 @@ import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -14,9 +13,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
-import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
-import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
@@ -154,12 +151,10 @@ public abstract class UseLinkDecorator
 		case ItemPool.DICTIONARY:
 		case ItemPool.BRIDGE:
 			return false;
-		}
 
 		// Enchanted beans are primarily used for the beanstalk quest.
-		if ( itemId == KoLAdventure.BEAN.getItemId() && KoLCharacter.getLevel() >= 10 && !InventoryManager.hasItem( KoLAdventure.SOCK ) && !InventoryManager.hasItem( KoLAdventure.ROWBOAT ) )
-		{
-			return false;
+		case ItemPool.ENCHANTED_BEAN:
+			return KoLCharacter.getLevel() < 10 || InventoryManager.hasItem( ItemPool.SOCK ) || InventoryManager.hasItem( ItemPool.ROWBOAT );
 		}
 
 		AdventureResult creation = null;
@@ -192,6 +187,7 @@ public abstract class UseLinkDecorator
 			}
 
 			irequest = CreateItemRequest.getInstance( creation.getItemId() );
+
 			if ( ConcoctionDatabase.isPermittedMethod( mixingMethod ) && irequest != null && irequest.getQuantityPossible() > 0 )
 			{
 				return true;
@@ -313,6 +309,7 @@ public abstract class UseLinkDecorator
 		switch ( consumeMethod )
 		{
 		case KoLConstants.GROW_FAMILIAR:
+
 			return itemId == ItemPool.MOSQUITO_LARVA ? new UseLink( itemId, "council", "council.php" ) : null;
 
 		case KoLConstants.CONSUME_EAT:
@@ -343,25 +340,25 @@ public abstract class UseLinkDecorator
 		case KoLConstants.MP_RESTORE:
 		case KoLConstants.HPMP_RESTORE:
 
-			itemCount = Math.min( UseItemRequest.maximumUses( itemId ), InventoryManager.getCount( itemId ) );
+			int useCount = Math.min( UseItemRequest.maximumUses( itemId ), InventoryManager.getCount( itemId ) );
 
-			if ( itemCount == 0 )
+			if ( useCount == 0 )
 			{
 				return null;
 			}
 
-			if ( itemCount == 1 )
+			if ( useCount == 1 )
 			{
 				String page = ( consumeMethod == KoLConstants.CONSUME_MULTIPLE ) ? "3" : "1";
-				return new UseLink( itemId, itemCount, "use", "inv_use.php?which=" + page + "&whichitem=" );
+				return new UseLink( itemId, useCount, "use", "inv_use.php?which=" + page + "&whichitem=" );
 			}
 
 			if ( Preferences.getBoolean( "relayUsesInlineLinks" ) )
 			{
-				return new UseLink( itemId, itemCount, "use", "#" );
+				return new UseLink( itemId, useCount, "use", "#" );
 			}
 
-			return new UseLink( itemId, itemCount, "use", "multiuse.php?passitem=" );
+			return new UseLink( itemId, useCount, "use", "multiuse.php?passitem=" );
 
 		case KoLConstants.CONSUME_USE:
 		case KoLConstants.MESSAGE_DISPLAY:
