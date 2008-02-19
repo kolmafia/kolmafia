@@ -804,16 +804,31 @@ public class GenericRequest
 
 		if ( urlString.startsWith( "ascend.php" ) )
 		{
-			if ( InventoryManager.hasItem( KoLAdventure.MEATCAR ) )
+			// Don't waste quest items.
+
+			// Untinker the Bitchin' meatcar
+
+			if ( InventoryManager.hasItem( ItemPool.BITCHIN_MEATCAR ) )
 			{
-				( new UntinkerRequest( KoLAdventure.MEATCAR.getItemId() ) ).run();
+				( new UntinkerRequest( ItemPool.BITCHIN_MEATCAR ) ).run();
 			}
 
-			CreateItemRequest belt = CreateItemRequest.getInstance( 677 );
+			// Create a badass belt
+
+			CreateItemRequest belt = CreateItemRequest.getInstance( ItemPool.BADASS_BELT );
 			if ( belt != null && belt.getQuantityPossible() > 0 )
 			{
 				belt.setQuantityNeeded( belt.getQuantityPossible() );
 				belt.run();
+			}
+
+			// Use any 31337 scrolls.
+
+			AdventureResult scroll = ItemPool.get( ItemPool.ELITE_SCROLL, 1 );
+			int count = scroll.getCount( KoLConstants.inventory );
+			if ( count > 0 )
+			{
+				( new UseItemRequest( scroll.getInstance( count ) ) ).run();
 			}
 		}
 
