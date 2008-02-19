@@ -306,13 +306,7 @@ public class BasementDecorator
 			}
 			else
 			{
-				boolean isImmunity = false;
-				for ( int j = 0; j < BasementRequest.ELEMENT_FORMS.length; ++j )
-				{
-					isImmunity |= effectName.equals( BasementRequest.ELEMENT_FORMS[ j ].getName() );
-				}
-
-				if ( isImmunity )
+				if ( effect.isElementalImmunity() )
 				{
 					changes.append( "element immunity" );
 				}
@@ -341,6 +335,7 @@ public class BasementDecorator
 		private boolean itemAvailable;
 		private int spleen;
 		private int inebriety;
+		private boolean isElementalImmunity;
 
 		private static boolean rigatoni = false;
 		private static boolean hardigness = false;
@@ -365,6 +360,7 @@ public class BasementDecorator
 			this.itemAvailable = true;
 			this.spleen = 0;
 			this.inebriety = 0;
+			this.isElementalImmunity = BasementRequest.isElementalImmunity( this.name );
 
 			if ( this.action.startsWith( "use" ) || this.action.startsWith( "chew" ) || this.action.startsWith( "drink" ) )
 			{
@@ -392,6 +388,11 @@ public class BasementDecorator
 			return false;
 		}
 
+		public final boolean isElementalImmunity()
+		{
+			return this.isElementalImmunity;
+		}
+
 		public static void checkSkills()
 		{
 			StatBooster.rigatoni = KoLCharacter.hasSkill( "Spirit of Rigatoni" );
@@ -410,7 +411,19 @@ public class BasementDecorator
 		{
 			if ( this.effectiveBoost == 0.0f )
 			{
-				return ( (StatBooster) o ).effectiveBoost != 0.0f ? -1 : this.name.compareToIgnoreCase( ( (StatBooster) o ).name );
+				if ( ( (StatBooster) o ).effectiveBoost != 0.0f )
+				{
+					return -1;
+				}
+				if ( this.isElementalImmunity )
+				{
+					return -1;
+				}
+				if ( ( (StatBooster) o ).isElementalImmunity )
+				{
+					return 1;
+				}
+				return this.name.compareToIgnoreCase( ( (StatBooster) o ).name );
 			}
 
 			if ( ( (StatBooster) o ).effectiveBoost == 0.0f )

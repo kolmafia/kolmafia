@@ -127,6 +127,21 @@ public class BasementRequest
 		BasementRequest.STENCH_FORM,
 		BasementRequest.SLEAZE_FORM
 	};
+
+
+	public static final boolean isElementalImmunity( final String name )
+	{
+		for ( int j = 0; j < BasementRequest.ELEMENT_FORMS.length; ++j )
+		{
+			if ( name.equals( BasementRequest.ELEMENT_FORMS[ j ].getName() ) )
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	public static final AdventureResult[] ELEMENT_PHIALS =
 		new AdventureResult[]
 	{
