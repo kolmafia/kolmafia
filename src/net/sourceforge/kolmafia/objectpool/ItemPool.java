@@ -52,6 +52,7 @@ public class ItemPool
 	public static final int DINGY_PLANKS = 140;
 	public static final int DINGHY_DINGY = 141;
 	public static final int DINGHY_PLANS = 146;
+	public static final int ENCHANTED_BEAN = 186;
 	public static final int DISASSEMBLED_CLOVER = 196;
 	public static final int MOSQUITO_LARVA = 275;
 	public static final int KNOB_GOBLIN_PERFUME = 307;
@@ -72,7 +73,9 @@ public class ItemPool
 	public static final int ELITE_SCROLL = 553;
 	public static final int SONAR = 563;
 	public static final int REMEDY = 588;
+	public static final int SOCK = 609;
 	public static final int BLACK_CANDLE = 620;
+	public static final int ROWBOAT = 653;
 	public static final int STAR = 654;
 	public static final int LINE = 655;
 	public static final int STAR_CHART = 656;
