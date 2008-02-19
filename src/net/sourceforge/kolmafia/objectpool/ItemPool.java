@@ -45,6 +45,7 @@ public class ItemPool
 	public static final int CHEWING_GUM = 23;
 	public static final int TEN_LEAF_CLOVER = 24;
 	public static final int CASINO_PASS = 40;
+	public static final int BITCHIN_MEATCAR = 134;
 	public static final int DINGY_PLANKS = 140;
 	public static final int DINGHY_DINGY = 141;
 	public static final int DINGHY_PLANS = 146;
@@ -52,8 +53,10 @@ public class ItemPool
 	public static final int KNOB_GOBLIN_PERFUME = 307;
 	public static final int TRANSFUNCTIONER = 458;
 	public static final int TALISMAN = 486;
+	public static final int ELITE_SCROLL = 553;
 	public static final int SONAR = 563;
 	public static final int BLACK_CANDLE = 620;
+	public static final int BADASS_BELT = 677;
 	public static final int SHOCK_COLLAR = 856;
 	public static final int MOONGLASSES = 857;
 	public static final int LEAD_NECKLACE = 865;

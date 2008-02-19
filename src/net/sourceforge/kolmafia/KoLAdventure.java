@@ -78,7 +78,6 @@ public class KoLAdventure
 
 	private static final GenericRequest ZONE_UNLOCK = new GenericRequest( "" );
 
-	public static final AdventureResult MEATCAR = new AdventureResult( 134, 1 );
 	public static final AdventureResult BEAN = new AdventureResult( 186, 1 );
 
 	public static final AdventureResult MAP = new AdventureResult( 667, 1 );
