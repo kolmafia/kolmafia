@@ -71,6 +71,11 @@ public abstract class UseLinkDecorator
 			}
 
 			int itemId = ItemDatabase.getItemId( itemName, itemCount, false );
+			if ( itemId == -1 )
+			{
+				// It's an effect or an unknown item
+				continue;
+			}
 
 			// Certain items get use special links to minimize the amount
 			// of scrolling to find the item again.
@@ -540,7 +545,7 @@ public abstract class UseLinkDecorator
 
 			// Bounty items get a count and a link to the Bounty Hunter Hunter.
 
-			if ( itemId != Preferences.getInteger( "currentBountyItem" ) && !ItemDatabase.isBountyItem( itemId ) )
+			if ( itemId != Preferences.getInteger( "currentBountyItem" ) && ItemDatabase.isBountyItem( itemId ) )
 			{
 				Preferences.setInteger( "currentBountyItem", itemId );
 				useType = String.valueOf( InventoryManager.getCount( itemId ) );
