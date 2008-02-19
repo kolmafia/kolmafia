@@ -43,6 +43,9 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
+
+import net.sourceforge.kolmafia.objectpool.EffectPool;
+
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MoodManager;
@@ -300,20 +303,25 @@ public class BasementDecorator
 
 		if ( effect.getComputedBoost() == 0.0f )
 		{
-			if ( effectName.equals( BasementRequest.MUS_EQUAL.getName() ) || effectName.equals( BasementRequest.MYS_EQUAL.getName() ) || effectName.equals( BasementRequest.MOX_EQUAL.getName() ) )
+			if ( effectName.equals( EffectPool.ASTRAL_SHELL ) )
+			{
+				changes.append( "damage absorption/element resist" );
+			}
+			else if ( effect.isStatEqualizer() )
 			{
 				changes.append( "stat equalizer" );
 			}
+			else if ( effect.isDamageAbsorption() )
+			{
+				changes.append( "damage absorption" );
+			}
+			else if ( effect.isElementalImmunity() )
+			{
+				changes.append( "element immunity" );
+			}
 			else
 			{
-				if ( effect.isElementalImmunity() )
-				{
-					changes.append( "element immunity" );
-				}
-				else
-				{
-					changes.append( "element resist" );
-				}
+				changes.append( "element resist" );
 			}
 		}
 		else
@@ -335,7 +343,9 @@ public class BasementDecorator
 		private boolean itemAvailable;
 		private int spleen;
 		private int inebriety;
+		private boolean isDamageAbsorption;
 		private boolean isElementalImmunity;
+		private boolean isStatEqualizer;
 
 		private static boolean rigatoni = false;
 		private static boolean hardigness = false;
@@ -360,7 +370,9 @@ public class BasementDecorator
 			this.itemAvailable = true;
 			this.spleen = 0;
 			this.inebriety = 0;
+			this.isDamageAbsorption = this.name.equals( EffectPool.ASTRAL_SHELL) || this.name.equals( EffectPool.GHOSTLY_SHELL);
 			this.isElementalImmunity = BasementRequest.isElementalImmunity( this.name );
+			this.isStatEqualizer = this.name.equals( EffectPool.EXPERT_OILINESS) || this.name.equals( EffectPool.SLIPPERY_OILINESS) || this.name.equals( EffectPool.STABILIZING_OILINESS);
 
 			if ( this.action.startsWith( "use" ) || this.action.startsWith( "chew" ) || this.action.startsWith( "drink" ) )
 			{
@@ -388,9 +400,19 @@ public class BasementDecorator
 			return false;
 		}
 
+		public final boolean isDamageAbsorption()
+		{
+			return this.isDamageAbsorption;
+		}
+
 		public final boolean isElementalImmunity()
 		{
 			return this.isElementalImmunity;
+		}
+
+		public final boolean isStatEqualizer()
+		{
+			return this.isStatEqualizer;
 		}
 
 		public static void checkSkills()

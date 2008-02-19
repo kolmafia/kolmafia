@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.MoodManager;
 import net.sourceforge.kolmafia.webui.BasementDecorator.StatBooster;
@@ -90,12 +91,10 @@ public class BasementRequest
 	private static String lastResponseText = "";
 	private static String basementErrorMessage = null;
 
-	public static final AdventureResult MUS_EQUAL = new AdventureResult( "Stabilizing Oiliness", 1, true );
-	public static final AdventureResult MYS_EQUAL = new AdventureResult( "Expert Oiliness", 1, true );
-	public static final AdventureResult MOX_EQUAL = new AdventureResult( "Slippery Oiliness", 1, true );
+	public static final AdventureResult MUS_EQUAL = EffectPool.get( EffectPool.STABILIZING_OILINESS );
+	public static final AdventureResult MYS_EQUAL = EffectPool.get( EffectPool.EXPERT_OILINESS );
+	public static final AdventureResult MOX_EQUAL = EffectPool.get( EffectPool.SLIPPERY_OILINESS );
 
-	private static final AdventureResult ASTRAL_SHELL = new AdventureResult( "Astral Shell", 1, true );
-	private static final AdventureResult ELEMENTAL_SPHERE = new AdventureResult( "Elemental Saucesphere", 1, true );
 	private static final AdventureResult BLACK_PAINT = new AdventureResult( "Red Door Syndrome", 1, true );
 
 	private static final AdventureResult HOT_PHIAL = new AdventureResult( 1637, 1 );
@@ -443,7 +442,9 @@ public class BasementRequest
 
 		// Add the only beneficial elemental form for this test
 
-		if ( !KoLConstants.activeEffects.contains( BasementRequest.goodeffect ) )
+		boolean hasGoodEffect = KoLConstants.activeEffects.contains( BasementRequest.goodeffect );
+
+		if ( !hasGoodEffect )
 		{
 			BasementRequest.desirableEffects.add( BasementRequest.goodeffect );
 		}
@@ -451,18 +452,27 @@ public class BasementRequest
 		BasementRequest.addDesiredEqualizer();
 
 		// Add effects that resist the specific elements being tested
-		BasementRequest.addDesirableEffects( Modifiers.getPotentialChanges( Modifiers.elementalResistance( BasementRequest.element1 ) ) );
-		BasementRequest.addDesirableEffects( Modifiers.getPotentialChanges( Modifiers.elementalResistance( BasementRequest.element2 ) ) );
+		// unless we have elemental immunity to that element.
 
-		// Add some effects that resist all elements
-		if ( !KoLConstants.activeEffects.contains( BasementRequest.ASTRAL_SHELL ) )
+		if ( BasementRequest.element1 != BasementRequest.goodelement || !hasGoodEffect )
 		{
-			BasementRequest.desirableEffects.add( BasementRequest.ASTRAL_SHELL );
+			BasementRequest.addDesirableEffects( Modifiers.getPotentialChanges( Modifiers.elementalResistance( BasementRequest.element1 ) ) );
 		}
 
-		if ( !KoLConstants.activeEffects.contains( BasementRequest.ELEMENTAL_SPHERE ) )
+		if ( BasementRequest.element2 != BasementRequest.goodelement || !hasGoodEffect )
 		{
-			BasementRequest.desirableEffects.add( BasementRequest.ELEMENTAL_SPHERE );
+			BasementRequest.addDesirableEffects( Modifiers.getPotentialChanges( Modifiers.elementalResistance( BasementRequest.element2 ) ) );
+		}
+
+		// Add some effects that resist all elements
+		if ( !KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.ASTRAL_SHELL ) ) )
+		{
+			BasementRequest.desirableEffects.add( EffectPool.get( EffectPool.ASTRAL_SHELL ) );
+		}
+
+		if ( !KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.ELEMENTAL_SPHERE ) ) )
+		{
+			BasementRequest.desirableEffects.add( EffectPool.get( EffectPool.ELEMENTAL_SPHERE ) );
 		}
 
 		if ( !KoLConstants.activeEffects.contains( BasementRequest.BLACK_PAINT ) )
@@ -809,6 +819,17 @@ public class BasementRequest
 			BasementRequest.secondaryBoost = Modifiers.MUS;
 
 			BasementRequest.addDesiredEqualizer();
+
+			// Add some effects that improve Damage Absorption
+			if ( !KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.ASTRAL_SHELL ) ) )
+			{
+				BasementRequest.desirableEffects.add( EffectPool.get( EffectPool.ASTRAL_SHELL ) );
+			}
+
+			if ( !KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.GHOSTLY_SHELL ) ) )
+			{
+				BasementRequest.desirableEffects.add( EffectPool.get( EffectPool.GHOSTLY_SHELL ) );
+			}
 
 			float damageAbsorb =
 				1.0f - ( (float) Math.sqrt( Math.min( 1000, KoLCharacter.getDamageAbsorption() ) / 10.0f ) - 1.0f ) / 10.0f;

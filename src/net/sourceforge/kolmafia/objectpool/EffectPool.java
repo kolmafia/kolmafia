@@ -41,10 +41,16 @@ public class EffectPool
 {
 	private static final TreeMap effectCache = new TreeMap();
 
+	public static final String ASTRAL_SHELL = "Astral Shell";
+	public static final String ELEMENTAL_SPHERE = "Elemental Saucesphere";
+	public static final String EXPERT_OILINESS = "Expert Oiliness";
+	public static final String GHOSTLY_SHELL = "Ghostly Shell";
+	public static final String ASTRAL = "Half-Astral";
 	public static final String PERFUME = "Knob Goblin Perfume";
 	public static final String ONTHETRAIL = "On the Trail";
+	public static final String SLIPPERY_OILINESS = "Slippery Oiliness";
+	public static final String STABILIZING_OILINESS = "Stabilizing Oiliness";
 	public static final String HYDRATED = "Ultrahydrated";
-	public static final String ASTRAL = "Half-Astral";
 
 	public static final AdventureResult get( String effectName )
 	{
