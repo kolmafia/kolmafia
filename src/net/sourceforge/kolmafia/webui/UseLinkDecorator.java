@@ -10,6 +10,7 @@ import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
@@ -19,7 +20,6 @@ import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
-import net.sourceforge.kolmafia.request.StarChartRequest;
 import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
@@ -50,7 +50,7 @@ public abstract class UseLinkDecorator
 		String text = buffer.toString();
 		buffer.setLength( 0 );
 
-		Matcher useLinkMatcher = UseLinkDecorator.ACQUIRE_PATTERN.matcher( text );
+		Matcher useLinkMatcher = ACQUIRE_PATTERN.matcher( text );
 
 		int specialLinkId = 0;
 		String specialLinkText = null;
@@ -77,72 +77,6 @@ public abstract class UseLinkDecorator
 
 			int itemId = ItemDatabase.getItemId( itemName, itemCount, false );
 
-			String useType = null;
-			String useLocation = null;
-
-			boolean addCreateLink =
-				location != null && location.indexOf( "combine.php" ) == -1 && location.indexOf( "cocktail.php" ) == -1 && location.indexOf( "cook.php" ) == -1 && location.indexOf( "paster" ) == -1 && location.indexOf( "smith" ) == -1;
-
-			AdventureResult creation = null;
-			CreateItemRequest irequest = null;
-
-			int mixingMethod = KoLConstants.NOCREATE;
-			int consumeMethod = ItemDatabase.getConsumptionType( itemId );
-
-			// Retrieve the known ingredient uses for the item.
-			SortedListModel creations = ConcoctionDatabase.getKnownUses( itemId );
-
-			// If you find goat cheese, let the trapper link handle it.
-			addCreateLink &= !creations.isEmpty() && itemId != 322;
-
-			// If you find ore, let the trapper link handle it.
-			addCreateLink &= itemId != 363 || itemId != 364 || itemId != 365;
-
-			// Dictionaries and bridges should link to the chasm quest.
-			addCreateLink &=
-				itemId != FightRequest.DICTIONARY1.getItemId() && itemId != AdventureRequest.BRIDGE.getItemId();
-
-			// Enchanted beans are primarily used for the beanstalk quest.
-			addCreateLink &=
-				itemId != KoLAdventure.BEAN.getItemId() || KoLCharacter.getLevel() < 10 || InventoryManager.hasItem( KoLAdventure.SOCK ) || InventoryManager.hasItem( KoLAdventure.ROWBOAT );
-
-			// Skip items which are multi-use or are mp restores.
-			addCreateLink &= consumeMethod != KoLConstants.CONSUME_MULTIPLE && consumeMethod != KoLConstants.MP_RESTORE;
-
-			if ( addCreateLink )
-			{
-				addCreateLink = false;
-
-				for ( int i = 0; !addCreateLink && i < creations.size(); ++i )
-				{
-					creation = (AdventureResult) creations.get( i );
-					mixingMethod = ConcoctionDatabase.getMixingMethod( creation.getItemId() );
-
-					// Only accept if it's a creation method that the editor kit
-					// currently understands and links.
-
-					switch ( mixingMethod )
-					{
-					case KoLConstants.NOCREATE:
-					case KoLConstants.PIXEL:
-					case KoLConstants.ROLLING_PIN:
-					case KoLConstants.CRIMBO05:
-					case KoLConstants.CLOVER:
-					case KoLConstants.STILL_BOOZE:
-					case KoLConstants.STILL_MIXER:
-					case KoLConstants.SMITH:
-					case KoLConstants.SMITH_WEAPON:
-					case KoLConstants.SMITH_ARMOR:
-					case KoLConstants.CATALYST:
-						continue;
-					}
-
-					irequest = CreateItemRequest.getInstance( creation.getItemId() );
-					addCreateLink =
-						ConcoctionDatabase.isPermittedMethod( mixingMethod ) && irequest != null && irequest.getQuantityPossible() > 0;
-				}
-			}
-
 			// Certain items get use special links to minimize the amount
 			// of scrolling to find the item again.
 
@@ -150,400 +84,27 @@ public abstract class UseLinkDecorator
 			{
 				switch ( itemId )
 				{
-				case 1423:
-				case 1424:
-				case 1425:
-				case 1426:
-				case 1427:
-
+				case ItemPool.ICEBERGLET:
+				case ItemPool.ICE_SICKLE:
+				case ItemPool.ICE_BABY:
+				case ItemPool.ICE_PICK:
+				case ItemPool.ICE_SKATES:
 					specialLinkId = itemId;
 					specialLinkText = "squeeze";
 					break;
 
-				case 2079:
-				case 2080:
-				case 2081:
-				case 2083:
-				case 2095:
-
+				case ItemPool.MAKESHIFT_TURBAN:
+				case ItemPool.MAKESHIFT_CAPE:
+				case ItemPool.MAKESHIFT_SKIRT:
+				case ItemPool.MAKESHIFT_CRANE:
+				case ItemPool.TOWEL:
 					specialLinkId = itemId;
 					specialLinkText = "fold";
 					break;
-
-				case 2221:
-				case 2222:
-				case 2223:
-				case 2224:
-				case 2225:
-				case 2226:
-
-					// specialLinkId = itemId;
-					// specialLinkText = "melt";
-					break;
 				}
 			}
 
-			// If you can add a creation link, then add one instead.
-			// That way, the player can click and KoLmafia will save
-			// the player a click or two (well, if they trust it).
-
-			if ( addCreateLink )
-			{
-				switch ( mixingMethod )
-				{
-				case KoLConstants.STARCHART:
-					useType =
-						StarChartRequest.CHART.getCount( KoLConstants.inventory ) + "," + StarChartRequest.STARS.getCount( KoLConstants.inventory ) + "," + StarChartRequest.LINES.getCount( KoLConstants.inventory );
-					useLocation = "starchart.php";
-					break;
-
-				case KoLConstants.COMBINE:
-					useType = "combine";
-					useLocation = KoLCharacter.inMuscleSign() ? "knoll.php?place=paster" : "combine.php";
-					break;
-
-				case KoLConstants.MIX:
-				case KoLConstants.MIX_SPECIAL:
-				case KoLConstants.MIX_SUPER:
-					useType = "mix";
-					useLocation = "cocktail.php";
-					break;
-
-				case KoLConstants.COOK:
-				case KoLConstants.COOK_REAGENT:
-				case KoLConstants.SUPER_REAGENT:
-				case KoLConstants.COOK_PASTA:
-					useType = "cook";
-					useLocation = "cook.php";
-					break;
-
-				case KoLConstants.JEWELRY:
-				case KoLConstants.EXPENSIVE_JEWELRY:
-					useType = "jewelry";
-					useLocation = "jewelry.php";
-					break;
-				}
-			}
-			else
-			{
-				switch ( consumeMethod )
-				{
-				case KoLConstants.GROW_FAMILIAR:
-
-					if ( itemId == 275 )
-					{
-						useType = "council";
-						useLocation = "council.php";
-					}
-
-					break;
-
-				case KoLConstants.CONSUME_EAT:
-
-					if ( itemId == 322 )
-					{
-						AdventureResult cheese = new AdventureResult( itemId, 1 );
-						useType = String.valueOf( cheese.getCount( KoLConstants.inventory ) );
-						useLocation = "trapper.php";
-					}
-					else
-					{
-						useType = KoLCharacter.canEat() ? "eat" : null;
-						useLocation = "inv_eat.php?pwd=" + GenericRequest.passwordHash + "&which=1&whichitem=";
-					}
-
-					break;
-
-				case KoLConstants.CONSUME_DRINK:
-					useType = KoLCharacter.canDrink() ? "drink" : null;
-					useLocation = "inv_booze.php?pwd=" + GenericRequest.passwordHash + "&which=1&whichitem=";
-					break;
-
-				case KoLConstants.CONSUME_MULTIPLE:
-				case KoLConstants.HP_RESTORE:
-				case KoLConstants.MP_RESTORE:
-				case KoLConstants.HPMP_RESTORE:
-
-					AdventureResult result = new AdventureResult( itemId, 1 );
-					itemCount =
-						Math.min( UseItemRequest.maximumUses( itemId ), result.getCount( KoLConstants.inventory ) );
-
-					if ( itemCount == 0 )
-					{
-						useType = null;
-						useLocation = null;
-					}
-					else if ( itemCount == 1 )
-					{
-						String page = ( consumeMethod == KoLConstants.CONSUME_MULTIPLE ) ? "3" : "1";
-						useType = "use";
-						useLocation = "inv_use.php?pwd=" + GenericRequest.passwordHash + "&which=" + page + "&whichitem=";
-					}
-					else if ( Preferences.getBoolean( "relayUsesInlineLinks" ) )
-					{
-						useType = "use";
-						useLocation = "#";
-					}
-					else
-					{
-						useType = "use";
-						useLocation = "multiuse.php?passitem=";
-					}
-
-					break;
-
-				case KoLConstants.CONSUME_USE:
-				case KoLConstants.MESSAGE_DISPLAY:
-				case KoLConstants.INFINITE_USES:
-
-					switch ( itemId )
-					{
-					case UseItemRequest.MACGUFFIN_DIARY:
-
-						useType = "read";
-						useLocation = "diary.php?textversion=1";
-						break;
-
-					case 75: // spooky sapling
-					case 76: // Spooky-Gro fertilizer
-
-						AdventureResult map = new AdventureResult( 74, 1 );
-						if ( InventoryManager.hasItem( map ) )
-						{
-							useType = "map";
-							useLocation = "inv_use.php?pwd=" + GenericRequest.passwordHash + "&which=3&whichitem=";
-							itemId = 74;
-						}
-						break;
-
-					case 146: // dinghy plans
-
-						AdventureResult planks = new AdventureResult( 140, 1 );
-						if ( !InventoryManager.hasItem( planks ) && HermitRequest.getWorthlessItemCount() > 0 )
-						{
-							useType = "planks";
-							useLocation = "hermit.php?autopermit=on&action=trade&pwd=" + GenericRequest.passwordHash +"&quantity=1&whichitem=140";
-						}
-						break;
-
-					case 2095: // towel
-
-						useType = "fold";
-						useLocation = "inv_use.php?pwd=" + GenericRequest.passwordHash + "&which=3&whichitem=";
-						break;
-
-					default:
-
-						useType = "use";
-						useLocation = "inv_use.php?pwd=" + GenericRequest.passwordHash + "&which=3&whichitem=";
-						break;
-					}
-
-					break;
-
-				case KoLConstants.EQUIP_HAT:
-				case KoLConstants.EQUIP_WEAPON:
-				case KoLConstants.EQUIP_OFFHAND:
-				case KoLConstants.EQUIP_SHIRT:
-				case KoLConstants.EQUIP_PANTS:
-				case KoLConstants.EQUIP_ACCESSORY:
-				case KoLConstants.EQUIP_FAMILIAR:
-
-					useType = null;
-					int outfit = EquipmentDatabase.getOutfitWithItem( itemId );
-
-					if ( outfit != -1 && EquipmentManager.hasOutfit( outfit ) )
-					{
-						useType = "outfit";
-						useLocation = "inv_equip.php?action=outfit&which=2&whichoutfit=" + outfit;
-					}
-					else
-					{
-						useType = "equip";
-						useLocation = "inv_equip.php?pwd=" + GenericRequest.passwordHash + "&which=2&action=equip&whichitem=";
-					}
-
-					break;
-
-				case KoLConstants.CONSUME_ZAP:
-					useType = "zap";
-					useLocation = "wand.php?whichwand=";
-					break;
-
-				default:
-
-					// Soft green echo eyedrop antidote gets an uneffect link
-
-					if ( itemId == UneffectRequest.REMEDY.getItemId() )
-					{
-						useType = "use";
-						useLocation = "uneffect.php";
-					}
-
-					// Special handling for star charts, lines, and stars, where
-					// KoLmafia shows you how many of each you have.
-
-					else if ( itemId == StarChartRequest.CHART.getItemId() || itemId == StarChartRequest.STARS.getItemId() || itemId == StarChartRequest.LINES.getItemId() )
-					{
-						useType =
-							StarChartRequest.CHART.getCount( KoLConstants.inventory ) + "," + StarChartRequest.STARS.getCount( KoLConstants.inventory ) + "," + StarChartRequest.LINES.getCount( KoLConstants.inventory );
-						useLocation = "starchart.php";
-					}
-
-					// Hedge maze puzzle and hedge maze key have a link to the maze
-					// for easy access.
-
-					else if ( itemId == SorceressLairManager.HEDGE_KEY.getItemId() || itemId == SorceressLairManager.PUZZLE_PIECE.getItemId() )
-					{
-						useType = "maze";
-						useLocation = "hedgepuzzle.php";
-					}
-
-					// The different kinds of ores will only have a link if they're
-					// the ones applicable to the trapper quest.
-
-					else if ( itemId == 363 || itemId == 364 || itemId == 365 )
-					{
-						AdventureResult ore =
-							new AdventureResult( Preferences.getString( "trapperOre" ), itemCount, false );
-
-						if ( ore.getItemId() == itemId )
-						{
-							useType = String.valueOf( ore.getCount( KoLConstants.inventory ) );
-							useLocation = "trapper.php";
-						}
-					}
-
-					// Pixels have handy links indicating how many white pixels are
-					// present in the player's inventory.
-
-					else if ( itemId == 459 || itemId == 461 || itemId == 462 || itemId == 463 )
-					{
-						AdventureResult white = new AdventureResult( 459, 1 );
-						useType =
-							String.valueOf( white.getCount( KoLConstants.inventory ) + CreateItemRequest.getInstance(
-								459 ).getQuantityPossible() ) + " white";
-						useLocation = "mystic.php";
-					}
-
-					// Disintegrating sheet music gets a link which lets you sing it
-					// to yourself.  We'll call it "hum" for now.
-
-					else if ( itemId == 2192 )
-					{
-						useType = "sing";
-						useLocation =
-							"curse.php?action=use&pwd=" + GenericRequest.passwordHash + "&whichitem=2192&targetplayer=" + KoLCharacter.getUserName();
-					}
-
-					// Link which uses the plans when you acquire the planks.
-
-					else if ( itemId == 140 )
-					{
-						AdventureResult plans = new AdventureResult( 146, 1 );
-						if ( InventoryManager.hasItem( plans ) )
-						{
-							useType = "plans";
-							useLocation = "inv_use.php?pwd=" + GenericRequest.passwordHash + "&which=3&whichitem=";
-							itemId = 146;
-						}
-					}
-
-					// Link to the guild upon completion of the Citadel quest.
-
-					else if ( itemId == 1656 )
-					{
-						useType = "guild";
-						useLocation = "guild.php?place=paco";
-					}
-
-					// Link to the untinkerer if you find an abridged dictionary.
-
-					else if ( itemId == AdventureRequest.ABRIDGED.getItemId() )
-					{
-						useType = "untinker";
-						useLocation = "town_right.php?action=untinker&pwd=" + GenericRequest.passwordHash + "&whichitem=";
-					}
-
-					// Link to the chasm if you just untinkered a dictionary.
-
-					else if ( itemId == FightRequest.DICTIONARY1.getItemId() || itemId == AdventureRequest.BRIDGE.getItemId() )
-					{
-						useType = "chasm";
-						useLocation = "mountains.php?pwd=" + GenericRequest.passwordHash + "&orcs=1";
-					}
-
-					// Bounty items get a count and a link
-					// to the Bounty Hunter Hunter.
-
-					else if ( itemId == Preferences.getInteger( "currentBountyItem" ) || ItemDatabase.isBountyItem( itemId ) )
-					{
-						Preferences.setInteger( "currentBountyItem", itemId );
-						AdventureResult item = new AdventureResult( itemId, 0 );
-						useType = String.valueOf( item.getCount( KoLConstants.inventory ) );
-						useLocation = "bhh.php";
-					}
-				}
-			}
-
-			if ( useType != null && useLocation != null )
-			{
-				if ( useLocation.endsWith( "=" ) )
-				{
-					useLocation += itemId;
-				}
-
-				if ( useLocation.equals( "#" ) )
-				{
-					useLinkMatcher.appendReplacement( buffer, "$1$2" );
-
-					// Append a multi-use field rather than forcing
-					// an additional page load.
-
-					buffer.append( "</td></tr><tr><td colspan=2 align=center><div id=\"multiuse" );
-					buffer.append( itemId );
-					buffer.append( "\">" );
-
-					buffer.append( "<form><input type=text size=3 id=\"quantity" );
-					buffer.append( itemId );
-					buffer.append( "\" value=" );
-					buffer.append( Math.min( itemCount, UseItemRequest.maximumUses( itemId ) ) );
-					buffer.append( ">&nbsp;<input type=button class=button value=\"Use\" onClick=\"multiUse('" );
-
-					if ( consumeMethod == KoLConstants.MP_RESTORE )
-					{
-						buffer.append( "skills.php" );
-					}
-					else
-					{
-						buffer.append( "multiuse.php" );
-					}
-
-					buffer.append( "', " );
-					buffer.append( itemId );
-					buffer.append( "); void(0);\"></form></div>" );
-				}
-				else if ( !Preferences.getBoolean( "relayUsesInlineLinks" ) || !useLocation.startsWith( "inv" ) )
-				{
-					useLinkMatcher.appendReplacement(
-						buffer,
-						"$1$2 <font size=1>[<a href=\"" + useLocation.trim() + "\">" + useType + "</a>]</font>" );
-				}
-				else
-				{
-					String[] pieces = useLocation.toString().split( "\\?" );
-
-					useLinkMatcher.appendReplacement(
-						buffer,
-						"$1$2 <font size=1>[<a href=\"javascript: " + "singleUse('" + pieces[ 0 ] + "', '" + pieces[ 1 ] + "'); void(0);\">" + useType + "</a>]</font>" );
-				}
-
-				buffer.append( "</td>" );
-			}
-			else
-			{
-				useLinkMatcher.appendReplacement( buffer, "$0" );
-			}
+			UseLinkDecorator.addUseLink( itemId, itemCount, location, useLinkMatcher, buffer );
 		}
 
 		useLinkMatcher.appendTail( buffer );
@@ -554,6 +115,508 @@ public abstract class UseLinkDecorator
 				buffer,
 				"</center></blockquote>",
 				"<p><center><a href=\"inv_use.php?pwd=" + GenericRequest.passwordHash + "&which=2&whichitem=" + specialLinkId + "\">[" + specialLinkText + " it again]</a></center></blockquote>" );
+		}
+	}
+
+	private static final boolean shouldAddCreateLink( int itemId, String location )
+	{
+		if ( location == null || location.indexOf( "combine.php" ) != -1 || location.indexOf( "cocktail.php" ) != -1 || location.indexOf( "cook.php" ) != -1 ||
+			location.indexOf( "paster" ) != -1 || location.indexOf( "smith" ) != -1 )
+		{
+			return false;
+		}
+
+		// Retrieve the known ingredient uses for the item.
+		SortedListModel creations = ConcoctionDatabase.getKnownUses( itemId );
+		if ( creations.isEmpty() )
+		{
+			return false;
+		}
+
+		// Skip items which are multi-use or are mp restores.
+		int consumeMethod = ItemDatabase.getConsumptionType( itemId );
+		if ( consumeMethod == KoLConstants.CONSUME_MULTIPLE || consumeMethod == KoLConstants.MP_RESTORE )
+		{
+			return false;
+		}
+
+		switch ( itemId )
+		{
+		// If you find goat cheese, let the trapper link handle it.
+		case ItemPool.GOAT_CHEESE:
+			return false;
+
+		// If you find ore, let the trapper link handle it.
+		case ItemPool.LINOLEUM_ORE:
+		case ItemPool.ASBESTOS_ORE:
+		case ItemPool.CHROME_ORE:
+			return false;
+		}
+
+		// Dictionaries and bridges should link to the chasm quest.
+		if ( itemId == FightRequest.DICTIONARY1.getItemId() || itemId == AdventureRequest.BRIDGE.getItemId() )
+		{
+			return false;
+		}
+
+		// Enchanted beans are primarily used for the beanstalk quest.
+		if ( itemId == KoLAdventure.BEAN.getItemId() && KoLCharacter.getLevel() >= 10 && !InventoryManager.hasItem( KoLAdventure.SOCK ) && !InventoryManager.hasItem( KoLAdventure.ROWBOAT ) )
+		{
+			return false;
+		}
+
+		AdventureResult creation = null;
+		CreateItemRequest irequest = null;
+		int mixingMethod = KoLConstants.NOCREATE;
+
+		for ( int i = 0; i < creations.size(); ++i )
+		{
+			creation = (AdventureResult) creations.get( i );
+			mixingMethod = ConcoctionDatabase.getMixingMethod( creation.getItemId() );
+
+			// Only accept if it's a creation method that the editor kit
+			// currently understands and links.
+
+			switch ( mixingMethod )
+			{
+			case KoLConstants.NOCREATE:
+			case KoLConstants.PIXEL:
+			case KoLConstants.ROLLING_PIN:
+			case KoLConstants.CRIMBO05:
+			case KoLConstants.CLOVER:
+			case KoLConstants.STILL_BOOZE:
+			case KoLConstants.STILL_MIXER:
+			case KoLConstants.SMITH:
+			case KoLConstants.SMITH_WEAPON:
+			case KoLConstants.SMITH_ARMOR:
+			case KoLConstants.CATALYST:
+			case KoLConstants.STARCHART:
+				continue;
+			}
+
+			irequest = CreateItemRequest.getInstance( creation.getItemId() );
+			if ( ConcoctionDatabase.isPermittedMethod( mixingMethod ) && irequest != null && irequest.getQuantityPossible() > 0 )
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	private static final void addUseLink( int itemId, int itemCount, String location, Matcher useLinkMatcher, StringBuffer buffer )
+	{
+		UseLink link;
+		int consumeMethod = ItemDatabase.getConsumptionType( itemId );
+
+		if ( shouldAddCreateLink( itemId, location ) )
+		{
+			link = getCreateLink( itemId, itemCount );
+		}
+		else if ( consumeMethod == KoLConstants.NO_CONSUME )
+		{
+			link = getNavigationLink( itemId );
+		}
+		else
+		{
+			link = getUseLink( itemId, itemCount, consumeMethod );
+		}
+
+		if ( link == null )
+		{
+			useLinkMatcher.appendReplacement( buffer, "$0" );
+			return;
+		}
+
+		itemId = link.getItemId();
+		itemCount = link.getItemCount();
+		String useType = link.getUseType();
+		String useLocation = link.getUseLocation();
+
+		// If you can add a creation link, then add one instead.
+		// That way, the player can click and KoLmafia will save
+		// the player a click or two (well, if they trust it).
+
+		if ( useLocation.equals( "#" ) )
+		{
+			useLinkMatcher.appendReplacement( buffer, "$1$2" );
+
+			// Append a multi-use field rather than forcing
+			// an additional page load.
+
+			buffer.append( "</td></tr><tr><td colspan=2 align=center><div id=\"multiuse" );
+			buffer.append( itemId );
+			buffer.append( "\">" );
+
+			buffer.append( "<form><input type=text size=3 id=\"quantity" );
+			buffer.append( itemId );
+			buffer.append( "\" value=" );
+			buffer.append( Math.min( itemCount, UseItemRequest.maximumUses( itemId ) ) );
+			buffer.append( ">&nbsp;<input type=button class=button value=\"Use\" onClick=\"multiUse('" );
+
+			if ( ItemDatabase.getConsumptionType( itemId ) == KoLConstants.MP_RESTORE )
+			{
+				buffer.append( "skills.php" );
+			}
+			else
+			{
+				buffer.append( "multiuse.php" );
+			}
+
+			buffer.append( "', " );
+			buffer.append( itemId );
+			buffer.append( "); void(0);\"></form></div>" );
+		}
+		else if ( !Preferences.getBoolean( "relayUsesInlineLinks" ) || !useLocation.startsWith( "inv" ) )
+		{
+			useLinkMatcher.appendReplacement(
+				buffer,
+				"$1$2 <font size=1>[<a href=\"" + useLocation.trim() + "\">" + useType + "</a>]</font>" );
+		}
+		else
+		{
+			String[] pieces = useLocation.toString().split( "\\?" );
+
+			useLinkMatcher.appendReplacement(
+				buffer,
+				"$1$2 <font size=1>[<a href=\"javascript: " + "singleUse('" + pieces[ 0 ] + "', '" + pieces[ 1 ] + "'); void(0);\">" + useType + "</a>]</font>" );
+		}
+
+		buffer.append( "</td>" );
+	}
+
+	private static final UseLink getCreateLink( int itemId, int itemCount )
+	{
+		switch ( ConcoctionDatabase.getMixingMethod( itemId ) )
+		{
+		case KoLConstants.COMBINE:
+			return new UseLink( itemId, itemCount, "combine", KoLCharacter.inMuscleSign() ? "knoll.php?place=paster" : "combine.php" );
+
+		case KoLConstants.MIX:
+		case KoLConstants.MIX_SPECIAL:
+		case KoLConstants.MIX_SUPER:
+			return new UseLink( itemId, itemCount, "mix", "cocktail.php" );
+
+		case KoLConstants.COOK:
+		case KoLConstants.COOK_REAGENT:
+		case KoLConstants.SUPER_REAGENT:
+		case KoLConstants.COOK_PASTA:
+			return new UseLink( itemId, itemCount, "cook", "cook.php" );
+
+		case KoLConstants.JEWELRY:
+		case KoLConstants.EXPENSIVE_JEWELRY:
+			return new UseLink( itemId, itemCount, "jewelry", "jewelry.php" );
+		}
+
+		return null;
+	}
+
+	private static final UseLink getUseLink( int itemId, int itemCount, int consumeMethod )
+	{
+		switch ( consumeMethod )
+		{
+		case KoLConstants.GROW_FAMILIAR:
+			return itemId == ItemPool.MOSQUITO_LARVA ? new UseLink( itemId, "council", "council.php" ) : null;
+
+		case KoLConstants.CONSUME_EAT:
+
+			if ( itemId == ItemPool.GOAT_CHEESE )
+			{
+				return new UseLink( itemId, itemCount, "trapper.php" );
+			}
+
+			if ( !KoLCharacter.canEat() )
+			{
+				return null;
+			}
+
+			return new UseLink( itemId, itemCount, "eat", "inv_eat.php?&which=1&whichitem=" );
+
+		case KoLConstants.CONSUME_DRINK:
+
+			if ( !KoLCharacter.canDrink() )
+			{
+				return null;
+			}
+
+			return new UseLink( itemId, itemCount, "drink", "inv_booze.php?which=1&whichitem=" );
+
+		case KoLConstants.CONSUME_MULTIPLE:
+		case KoLConstants.HP_RESTORE:
+		case KoLConstants.MP_RESTORE:
+		case KoLConstants.HPMP_RESTORE:
+
+			itemCount = Math.min( UseItemRequest.maximumUses( itemId ), InventoryManager.getCount( itemId ) );
+
+			if ( itemCount == 0 )
+			{
+				return null;
+			}
+
+			if ( itemCount == 1 )
+			{
+				String page = ( consumeMethod == KoLConstants.CONSUME_MULTIPLE ) ? "3" : "1";
+				return new UseLink( itemId, itemCount, "use", "inv_use.php?which=" + page + "&whichitem=" );
+			}
+
+			if ( Preferences.getBoolean( "relayUsesInlineLinks" ) )
+			{
+				return new UseLink( itemId, itemCount, "use", "#" );
+			}
+
+			return new UseLink( itemId, itemCount, "use", "multiuse.php?passitem=" );
+
+		case KoLConstants.CONSUME_USE:
+		case KoLConstants.MESSAGE_DISPLAY:
+		case KoLConstants.INFINITE_USES:
+
+			switch ( itemId )
+			{
+			case UseItemRequest.MACGUFFIN_DIARY:
+
+				return new UseLink( itemId, itemCount, "read", "diary.php?textversion=1" );
+
+			case ItemPool.SPOOKY_SAPLING:
+			case ItemPool.SPOOKY_FERTILIZER:
+
+				if ( !InventoryManager.hasItem( ItemPool.SPOOKY_MAP ) )
+				{
+					return null;
+				}
+
+				return new UseLink( ItemPool.SPOOKY_MAP, 1, "map", "inv_use.php?which=3&whichitem=" );
+
+			case ItemPool.DINGHY_PLANS:
+
+				if ( InventoryManager.hasItem( ItemPool.DINGY_PLANKS ) || HermitRequest.getWorthlessItemCount() == 0 )
+				{
+					return null;
+				}
+
+				return new UseLink( ItemPool.DINGY_PLANKS, 1, "planks", "hermit.php?autopermit=on&action=trade&quantity=1&whichitem=" );
+
+			case ItemPool.TOWEL:
+
+				return new UseLink( itemId, itemCount, "fold", "inv_use.php?which=3&whichitem=" );
+
+			default:
+
+				return new UseLink( itemId, itemCount, "use", "inv_use.php?which=3&whichitem=" );
+			}
+
+		case KoLConstants.EQUIP_HAT:
+		case KoLConstants.EQUIP_WEAPON:
+		case KoLConstants.EQUIP_OFFHAND:
+		case KoLConstants.EQUIP_SHIRT:
+		case KoLConstants.EQUIP_PANTS:
+		case KoLConstants.EQUIP_ACCESSORY:
+		case KoLConstants.EQUIP_FAMILIAR:
+
+			int outfit = EquipmentDatabase.getOutfitWithItem( itemId );
+
+			if ( outfit != -1 && EquipmentManager.hasOutfit( outfit ) )
+			{
+				return new UseLink( itemId, itemCount, "outfit", "inv_equip.php?action=outfit&which=2&whichoutfit=" + outfit );
+			}
+
+			return new UseLink( itemId, itemCount, "equip", "inv_equip.php?which=2&action=equip&whichitem=" );
+
+		case KoLConstants.CONSUME_ZAP:
+
+			return new UseLink( itemId, itemCount, "zap", "wand.php?whichwand=" );
+		}
+
+		return null;
+	}
+
+	private static final UseLink getNavigationLink( int itemId )
+	{
+		String useType = null;
+		String useLocation = null;
+
+		switch ( itemId )
+		{
+		// Soft green echo eyedrop antidote gets an uneffect link
+
+		case ItemPool.REMEDY:
+
+			useType = "use";
+			useLocation = "uneffect.php";
+			break;
+
+		// Hedge maze puzzle and hedge maze key have a link to the maze
+		// for easy access.
+
+		case ItemPool.HEDGE_KEY:
+		case ItemPool.PUZZLE_PIECE:
+
+			useType = "maze";
+			useLocation = "hedgepuzzle.php";
+			break;
+
+		// Pixels have handy links indicating how many white pixels are
+		// present in the player's inventory.
+
+		case ItemPool.WHITE_PIXEL:
+		case ItemPool.RED_PIXEL:
+		case ItemPool.GREEN_PIXEL:
+		case ItemPool.BLUE_PIXEL:
+
+			int whiteCount = InventoryManager.getCount( ItemPool.WHITE_PIXEL ) + CreateItemRequest.getInstance( ItemPool.WHITE_PIXEL ).getQuantityPossible();
+			useType = whiteCount + " white";
+			useLocation = "mystic.php";
+			break;
+
+		// Special handling for star charts, lines, and stars, where
+		// KoLmafia shows you how many of each you have.
+
+		case ItemPool.STAR_CHART:
+		case ItemPool.STAR:
+		case ItemPool.LINE:
+
+			useType = InventoryManager.getCount( ItemPool.STAR_CHART ) + "," + InventoryManager.getCount( ItemPool.STAR ) + "," + InventoryManager.getCount( ItemPool.LINE );
+			useLocation = "starchart.php";
+			break;
+
+		// The different kinds of ores will only have a link if they're
+		// the ones applicable to the trapper quest.
+
+		case ItemPool.LINOLEUM_ORE:
+		case ItemPool.ASBESTOS_ORE:
+		case ItemPool.CHROME_ORE:
+
+			if ( itemId != ItemDatabase.getItemId( Preferences.getString( "trapperOre" ) ) )
+			{
+				return null;
+			}
+
+			useType = String.valueOf( InventoryManager.getCount( itemId ) );
+			useLocation = "trapper.php";
+			break;
+
+		// Disintegrating sheet music gets a link which lets you sing it
+		// to yourself.  We'll call it "sing" for now.
+
+		case ItemPool.SHEET_MUSIC:
+
+			useType = "sing";
+			useLocation = "curse.php?action=use&targetplayer=" + KoLCharacter.getPlayerId() + "&whichitem=";
+			break;
+
+		// Link which uses the plans when you acquire the planks.
+
+		case ItemPool.DINGY_PLANKS:
+
+			if ( !InventoryManager.hasItem( ItemPool.DINGHY_PLANS ) )
+			{
+				return null;
+			}
+
+			useType = "plans";
+			useLocation = "inv_use.php?pwd=" + GenericRequest.passwordHash + "&which=3&whichitem=";
+			itemId = ItemPool.DINGHY_PLANS;
+			break;
+
+		// Link to the guild upon completion of the Citadel quest.
+
+		case ItemPool.CITADEL_SATCHEL:
+
+			useType = "guild";
+			useLocation = "guild.php?place=paco";
+			break;
+
+		// Link to the untinkerer if you find an abridged dictionary.
+
+		case ItemPool.ABRIDGED:
+
+			useType = "untinker";
+			useLocation = "town_right.php?action=untinker&whichitem=";
+			break;
+
+		// Link to the chasm if you just untinkered a dictionary.
+
+		case ItemPool.BRIDGE:
+		case ItemPool.DICTIONARY:
+
+			useType = "chasm";
+			useLocation = "mountains.php?orcs=1";
+			break;
+
+		default:
+
+			// Bounty items get a count and a link to the Bounty Hunter Hunter.
+
+			if ( itemId != Preferences.getInteger( "currentBountyItem" ) && !ItemDatabase.isBountyItem( itemId ) )
+			{
+				Preferences.setInteger( "currentBountyItem", itemId );
+				useType = String.valueOf( InventoryManager.getCount( itemId ) );
+				useLocation = "bhh.php";
+			}
+		}
+
+		if ( useType == null || useLocation == null )
+		{
+			return null;
+		}
+
+		return new UseLink( itemId, useType, useLocation );
+	}
+
+	private static class UseLink
+	{
+		private int itemId;
+		private int itemCount;
+		private String useType;
+		private String useLocation;
+
+		public UseLink( int itemId, String useType, String useLocation )
+		{
+			this( itemId, 1, useType, useLocation );
+		}
+
+		public UseLink( int itemId, int itemCount, String useLocation )
+		{
+			this( itemId, itemCount, String.valueOf( itemCount ), useLocation );
+		}
+
+		public UseLink( int itemId, int itemCount, String useType, String useLocation )
+		{
+			this.itemId = itemId;
+			this.itemCount = itemCount;
+			this.useType = useType;
+			this.useLocation = useLocation;
+
+			if ( this.useLocation.endsWith( "=" ) )
+			{
+				this.useLocation += this.itemId;
+			}
+
+			int formIndex = this.useLocation.indexOf( "?" );
+			if ( formIndex != -1 )
+			{
+				this.useLocation = this.useLocation.substring( 0, formIndex ) + "?pwd=" + GenericRequest.passwordHash + "&" +
+					this.useLocation.substring( formIndex + 1 );
+			}
+		}
+
+		public int getItemId()
+		{
+			return this.itemId;
+		}
+
+		public int getItemCount()
+		{
+			return this.itemCount;
+		}
+
+		public String getUseType()
+		{
+			return this.useType;
+		}
+
+		public String getUseLocation()
+		{
+			return this.useLocation;
 		}
 	}
 }

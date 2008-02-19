@@ -41,19 +41,13 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 
 public class StarChartRequest
 	extends CreateItemRequest
 {
-	public static final int STAR = 654;
-	public static final int LINE = 655;
-
-	public static final AdventureResult CHART = new AdventureResult( "star chart", -1 );
-	public static final AdventureResult STARS = new AdventureResult( "star", -1 );
-	public static final AdventureResult LINES = new AdventureResult( "line", -1 );
-
 	private static final Pattern STAR_PATTERN = Pattern.compile( "numstars=(\\d+)" );
 	private static final Pattern LINE_PATTERN = Pattern.compile( "numlines=(\\d+)" );
 
@@ -68,11 +62,11 @@ public class StarChartRequest
 		{
 			for ( int i = 0; i < ingredients.length; ++i )
 			{
-				if ( ingredients[ i ].getItemId() == StarChartRequest.STAR )
+				if ( ingredients[ i ].getItemId() == ItemPool.STAR )
 				{
 					this.stars = ingredients[ i ].getCount();
 				}
-				else if ( ingredients[ i ].getItemId() == StarChartRequest.LINE )
+				else if ( ingredients[ i ].getItemId() == ItemPool.LINE )
 				{
 					this.lines = ingredients[ i ].getCount();
 				}
@@ -136,9 +130,9 @@ public class StarChartRequest
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( "Draw " + stars + " stars with " + lines + " lines" );
 
-		StaticEntity.getClient().processResult( new AdventureResult( StarChartRequest.STAR, 0 - stars ) );
-		StaticEntity.getClient().processResult( new AdventureResult( StarChartRequest.LINE, 0 - lines ) );
-		StaticEntity.getClient().processResult( StarChartRequest.CHART );
+		StaticEntity.getClient().processResult( ItemPool.STAR, 0 - stars );
+		StaticEntity.getClient().processResult( ItemPool.LINE, 0 - lines );
+		StaticEntity.getClient().processResult( ItemPool.STAR_CHART, -1 );
 
 		return true;
 	}
