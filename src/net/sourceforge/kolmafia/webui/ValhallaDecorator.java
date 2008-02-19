@@ -10,6 +10,8 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.session.InventoryManager;
 
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
@@ -124,14 +126,12 @@ public class ValhallaDecorator
 			reminders.append( "<nobr>blow up your bartender</nobr><br>" );
 		}
 
-		AdventureResult roe = new AdventureResult( "rubber emo roe", 1, false );
-		if ( KoLConstants.inventory.contains( roe ) )
+		if ( InventoryManager.hasItem( ItemPool.RUBBER_EMO_ROE ) )
 		{
 			reminders.append( "<nobr>send your rubber emo roes to Veracity</nobr><br>" );
 		}
 
-		AdventureResult cocoabo = new AdventureResult( "stuffed cocoabo", 1, false );
-		if ( KoLConstants.inventory.contains( cocoabo ) )
+		if ( InventoryManager.hasItem( ItemPool.STUFFED_COCOABO ) )
 		{
 			reminders.append( "<nobr>send your stuffed cocoabos to holatuwol</nobr><br>" );
 		}
