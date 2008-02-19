@@ -13,14 +13,12 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.SorceressLairManager;
 
 import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
-import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
@@ -151,11 +149,10 @@ public abstract class UseLinkDecorator
 		case ItemPool.ASBESTOS_ORE:
 		case ItemPool.CHROME_ORE:
 			return false;
-		}
 
 		// Dictionaries and bridges should link to the chasm quest.
-		if ( itemId == FightRequest.DICTIONARY1.getItemId() || itemId == AdventureRequest.BRIDGE.getItemId() )
-		{
+		case ItemPool.DICTIONARY:
+		case ItemPool.BRIDGE:
 			return false;
 		}
 
@@ -271,7 +268,7 @@ public abstract class UseLinkDecorator
 		{
 			useLinkMatcher.appendReplacement(
 				buffer,
-				"$1$2 <font size=1>[<a href=\"" + useLocation.trim() + "\">" + useType + "</a>]</font>" );
+				"$1$2 <font size=1>[<a href=\"" + useLocation + "\">" + useType + "</a>]</font>" );
 		}
 		else
 		{
@@ -330,7 +327,7 @@ public abstract class UseLinkDecorator
 				return null;
 			}
 
-			return new UseLink( itemId, itemCount, "eat", "inv_eat.php?&which=1&whichitem=" );
+			return new UseLink( itemId, itemCount, "eat", "inv_eat.php?which=1&whichitem=" );
 
 		case KoLConstants.CONSUME_DRINK:
 
