@@ -328,6 +328,9 @@ public abstract class RuntimeLibrary
 		// Major functions which provide item-related
 		// information.
 
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "get_inventory", DataTypes.RESULT_TYPE, params ) );
+
 		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "is_npc_item", DataTypes.BOOLEAN_TYPE, params ) );
 
@@ -1633,6 +1636,24 @@ public abstract class RuntimeLibrary
 
 	// Major functions which provide item-related
 	// information.
+
+	public static Value get_inventory()
+	{
+		MapValue value = new MapValue( DataTypes.RESULT_TYPE );
+		AdventureResult result;
+
+		AdventureResult [] items = new AdventureResult[ KoLConstants.inventory.size() ];
+		KoLConstants.inventory.toArray( items );
+
+		for ( int i = 0; i < items.length; ++i )
+		{
+			value.aset(
+				DataTypes.parseItemValue( items[i].getName(), true ),
+				DataTypes.parseIntValue( String.valueOf( items[i].getCount() ) ) );
+		}
+
+		return value;
+	}
 
 	public static Value is_npc_item( final Value item )
 	{
