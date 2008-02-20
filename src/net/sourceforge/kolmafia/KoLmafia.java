@@ -3631,10 +3631,7 @@ public abstract class KoLmafia
 		int desiredCount = maxPurchases == Integer.MAX_VALUE ? Integer.MAX_VALUE : initialCount + maxPurchases;
 
 		int previousLimit = 0;
-
 		int currentPrice = currentRequest.getPrice();
-		int priceLimit =
-			purchases.length < 3 ? Integer.MAX_VALUE : ( (MallPurchaseRequest) purchases[ 2 ] ).getPrice() * 2;
 
 		for ( int i = 0; i < purchases.length && currentCount < desiredCount && KoLmafia.permitsContinue(); ++i )
 		{
@@ -3651,9 +3648,10 @@ public abstract class KoLmafia
 
 			if ( isAutomated )
 			{
-				if ( currentPrice >= priceLimit )
+				if ( currentPrice >= 20000 )
 				{
-					KoLmafia.updateDisplay( "Stopped purchasing " + currentRequest.getItemName() + " @ " + KoLConstants.COMMA_FORMAT.format( currentPrice ) + "." );
+					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+						"Stopped purchasing " + currentRequest.getItemName() + " @ " + KoLConstants.COMMA_FORMAT.format( currentPrice ) + "." );
 				}
 			}
 
