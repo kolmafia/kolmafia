@@ -365,7 +365,7 @@ public abstract class CustomCombatManager
 			CustomCombatManager.AUTO_ATTACKER.addFormField( "whichattack", String.valueOf( skillId ) );
 			RequestThread.postRequest( CustomCombatManager.AUTO_ATTACKER );
 
-			Preferences.setBoolean( "setAutoAttack", skillId == 0 );
+			Preferences.setBoolean( "setAutoAttack", skillId != 0 );
 		}
 	}
 
