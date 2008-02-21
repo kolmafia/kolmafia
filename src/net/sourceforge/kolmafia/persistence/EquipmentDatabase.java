@@ -66,23 +66,32 @@ public class EquipmentDatabase
 
 		while ( ( data = KoLDatabase.readData( reader ) ) != null )
 		{
-			if ( data.length >= 3 )
+			if ( data.length < 3 )
 			{
-				itemId = ItemDatabase.getItemId( data[ 0 ] );
-
-				if ( itemId > 0 )
-				{
-					EquipmentDatabase.power.set( itemId, StaticEntity.parseInt( data[ 1 ] ) );
-					EquipmentDatabase.statRequirements.set( itemId, data[ 2 ] );
-
-					int hval = data.length < 4 ? 0 : StaticEntity.parseInt( data[ 3 ].substring( 0, 1 ) );
-					int spaceIndex = data[ 3 ].indexOf( " " );
-					String tval = spaceIndex == -1 ? "" : data[3].substring( spaceIndex + 1 );
-
-					EquipmentDatabase.hands.set( itemId, hval );
-					EquipmentDatabase.itemTypes.set( itemId, data[ 3 ] );
-				}
+				continue;
 			}
+
+			itemId = ItemDatabase.getItemId( data[ 0 ] );
+			if ( itemId < 0)
+			{
+				continue;
+			}
+
+			EquipmentDatabase.power.set( itemId, StaticEntity.parseInt( data[ 1 ] ) );
+			EquipmentDatabase.statRequirements.set( itemId, data[ 2 ] );
+
+			int hval = 0;
+			String tval = null;
+
+			if ( data.length >= 4 )
+			{
+				String str = data[ 3 ];
+				hval = StaticEntity.parseInt( str.substring( 0, 1 ) );
+				tval = str.substring( str.indexOf( " " ) + 1 );
+			}
+
+			EquipmentDatabase.hands.set( itemId, hval );
+			EquipmentDatabase.itemTypes.set( itemId, tval );
 		}
 
 		try
