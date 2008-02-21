@@ -68,7 +68,7 @@ public class UseItemRequest
 	private static final GenericRequest REDIRECT_REQUEST = new GenericRequest( "inventory.php?action=message" );
 
 	private static final Pattern ROW_PATTERN = Pattern.compile( "<tr>.*?</tr>" );
-	private static final Pattern INVENTORY_PATTERN = Pattern.compile( "</table><table.*?</body>" );
+	private static final Pattern INVENTORY_PATTERN = Pattern.compile( "</blockquote></td></tr></table>.*?</body>" );
 	private static final Pattern ITEMID_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
 	private static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity=(\\d+)" );
 	private static final Pattern FORTUNE_PATTERN =
@@ -164,12 +164,6 @@ public class UseItemRequest
 	private static final int GILDED_CURSED_CHEST = 3018;
 	public static final int CURSED_PIECE_OF_THIRTEEN = 3034;
 	private static final int GENERAL_ASSEMBLY_MODULE = 3075;
-
-        // Crimbo toys
-
-	public static final int HOBBY_HORSE = 3092;
-	public static final int BALL_IN_CUP = 3093;
-	public static final int SET_OF_JACKS = 3094;
 
 	public static final int ICE_SICKLE = 1424;
 	public static final int ICE_BABY = 1425;
@@ -345,9 +339,9 @@ public class UseItemRequest
 		case COPPER_BRACELET:
 		case TONGUE_BRACELET:
 			// Crimbo toys
-		case HOBBY_HORSE:
-		case BALL_IN_CUP:
-		case SET_OF_JACKS:
+		case ItemPool.HOBBY_HORSE:
+		case ItemPool.BALL_IN_A_CUP:
+		case ItemPool.SET_OF_JACKS:
 			// Iceberglet items
 		case ICE_SICKLE:
 		case ICE_BABY:
@@ -1925,11 +1919,13 @@ public class UseItemRequest
 
 			return;
 
-		case HOBBY_HORSE:
-		case BALL_IN_CUP:
-		case SET_OF_JACKS:
+		case ItemPool.HOBBY_HORSE:
+		case ItemPool.BALL_IN_A_CUP:
+		case ItemPool.SET_OF_JACKS:
+		case ItemPool.EL_VIBRATO_HELMET:
 
-			// Crimbo toys are not consumed when used.
+			// Certain pieces of equipment can also be "used" and
+			// are not consumed.
 
 			StaticEntity.getClient().processResult( UseItemRequest.lastItemUsed );
 			return;

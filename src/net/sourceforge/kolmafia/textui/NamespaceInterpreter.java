@@ -53,7 +53,7 @@ import net.sourceforge.kolmafia.textui.parsetree.VariableReference;
 public class NamespaceInterpreter
 	extends Interpreter
 {
-	private final String setting;
+	private String setting;
 	private String lastImportString;
 
 	public NamespaceInterpreter( final String setting )
