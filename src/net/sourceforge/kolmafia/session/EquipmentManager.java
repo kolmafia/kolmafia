@@ -398,7 +398,7 @@ public class EquipmentManager {
 
 			if ( filterId == KoLConstants.EQUIP_OFFHAND && type == KoLConstants.EQUIP_WEAPON && dual )
 			{
-				if ( EquipmentDatabase.getHands( currentItemName ) != 1 || EquipmentDatabase.getWeaponStat( currentItemName ) != equipStat )
+				if ( EquipmentDatabase.getHands( currentItemName ) != 1 || EquipmentDatabase.getWeaponType( currentItemName ) != equipStat )
 				{
 					continue;
 				}
@@ -412,7 +412,7 @@ public class EquipmentManager {
 			}
 			else if ( filterId == KoLConstants.EQUIP_WEAPON && dual )
 			{
-				if ( EquipmentDatabase.getHands( currentItemName ) == 1 && EquipmentDatabase.getWeaponStat( currentItemName ) != equipStat )
+				if ( EquipmentDatabase.getHands( currentItemName ) == 1 && EquipmentDatabase.getWeaponType( currentItemName ) != equipStat )
 				{
 					continue;
 				}
@@ -572,8 +572,7 @@ public class EquipmentManager {
 
 	public static final boolean usingChefstaff()
 	{
-		return EquipmentDatabase.getWeaponType( getEquipment( WEAPON ).getName() ).equals(
-			"chefstaff" );
+		return getEquipment( WEAPON ).getName().startsWith( "Staff of" );
 	}
 
 	/**
@@ -584,7 +583,7 @@ public class EquipmentManager {
 
 	public static final int getHitStatType()
 	{
-		return EquipmentDatabase.getWeaponStat( getEquipment( WEAPON ).getName() );
+		return EquipmentDatabase.getWeaponType( getEquipment( WEAPON ).getName() );
 	}
 
 	/**

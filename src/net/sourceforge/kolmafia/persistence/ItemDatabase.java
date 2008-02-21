@@ -1988,11 +1988,13 @@ public class ItemDatabase
 
 		if ( isWeapon )
 		{
-			String oldWeaponType =
-				String.valueOf( EquipmentDatabase.getHands( name ) ) + "-handed " + EquipmentDatabase.getWeaponType( name );
-			if ( !weaponType.equals( oldWeaponType ) )
+			int spaceIndex = weaponType.indexOf( " " );
+			String oldHanded = EquipmentDatabase.getHands( name ) + "-handed";
+
+			if ( spaceIndex != -1 && !weaponType.startsWith( oldHanded ) )
 			{
-				report.println( "# *** " + name + " has weapon type " + oldWeaponType + " but should be " + weaponType + "." );
+				String handed = weaponType.substring( 0, spaceIndex );
+				report.println( "# *** " + name + " is marked as " + oldHanded + " but should be " + handed + "." );
 			}
 		}
 		else if ( isShield && power == 0 )

@@ -50,7 +50,6 @@ public class EquipmentDatabase
 {
 	private static final IntegerArray power = new IntegerArray();
 	private static final IntegerArray hands = new IntegerArray();
-	private static final StringArray type = new StringArray();
 	private static final StringArray requirement = new StringArray();
 
 	private static final TreeMap outfitPieces = new TreeMap();
@@ -76,16 +75,13 @@ public class EquipmentDatabase
 					EquipmentDatabase.requirement.set( itemId, data[ 2 ] );
 
 					int hval = 0;
-					String tval = null;
 					if ( data.length >= 4 )
 					{
 						String str = data[ 3 ];
 						hval = StaticEntity.parseInt( str.substring( 0, 1 ) );
-						tval = str.substring( str.indexOf( " " ) + 1 );
 					}
 
 					EquipmentDatabase.hands.set( itemId, hval );
-					EquipmentDatabase.type.set( itemId, tval );
 				}
 			}
 		}
@@ -209,29 +205,6 @@ public class EquipmentDatabase
 		return EquipmentDatabase.getHands( itemId );
 	}
 
-	public static final String getWeaponType( final int itemId )
-	{
-		String res = EquipmentDatabase.type.get( itemId );
-		return res == null ? "" : res;
-	}
-
-	public static final String getWeaponType( final String itemName )
-	{
-		if ( itemName == null )
-		{
-			return "";
-		}
-
-		int itemId = ItemDatabase.getItemId( itemName );
-
-		if ( itemId == -1 )
-		{
-			return "";
-		}
-
-		return EquipmentDatabase.getWeaponType( itemId );
-	}
-
 	public static final String getEquipRequirement( final int itemId )
 	{
 		String req = EquipmentDatabase.requirement.get( itemId );
@@ -261,7 +234,7 @@ public class EquipmentDatabase
 		return EquipmentDatabase.getEquipRequirement( itemId );
 	}
 
-	public static final int getWeaponStat( final int itemId )
+	public static final int getWeaponType( final int itemId )
 	{
 		int consumptionType = ItemDatabase.getConsumptionType( itemId );
 
@@ -285,21 +258,21 @@ public class EquipmentDatabase
 		return KoLConstants.MUSCLE;
 	}
 
-	public static final int getWeaponStat( final String itemName )
+	public static final int getWeaponType( final String itemName )
 	{
 		if ( itemName == null )
 		{
-			return KoLConstants.MUSCLE;
+			return KoLConstants.NONE;
 		}
 
 		int itemId = ItemDatabase.getItemId( itemName );
 
 		if ( itemId == -1 )
 		{
-			return KoLConstants.MUSCLE;
+			return KoLConstants.NONE;
 		}
 
-		return EquipmentDatabase.getWeaponStat( itemId );
+		return EquipmentDatabase.getWeaponType( itemId );
 	}
 
 	public static final SpecialOutfit getOutfit( final int id )

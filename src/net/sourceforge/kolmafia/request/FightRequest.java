@@ -634,7 +634,7 @@ public class FightRequest
 
 		int weaponId = EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getItemId();
 
-		if ( EquipmentDatabase.getWeaponStat( weaponId ) == KoLConstants.MOXIE )
+		if ( EquipmentDatabase.getWeaponType( weaponId ) == KoLConstants.MOXIE )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Thrust smacks are useless with ranged weapons." );
 			return true;
