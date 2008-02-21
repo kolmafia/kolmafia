@@ -572,7 +572,7 @@ public class EquipmentManager {
 
 	public static final boolean usingChefstaff()
 	{
-		return getEquipment( WEAPON ).getName().startsWith( "Staff of" );
+		return EquipmentDatabase.getItemType( EquipmentManager.getEquipment( WEAPON ).getItemId() ).equals( "chefstaff" );
 	}
 
 	/**
