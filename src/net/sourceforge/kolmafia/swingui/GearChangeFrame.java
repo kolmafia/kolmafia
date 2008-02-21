@@ -416,7 +416,7 @@ public class GearChangeFrame
 			{
 				// Weapon in offhand. Must have compatible
 				// weapon in weapon hand
-				if ( weaponHands == 0 || EquipmentDatabase.equipStat( weaponItem.getName() ) != EquipmentDatabase.equipStat( offhandItem.getName() ) )
+				if ( weaponHands == 0 || EquipmentDatabase.getWeaponStat( weaponItem.getName() ) != EquipmentDatabase.getWeaponStat( offhandItem.getName() ) )
 				{
 					offhandItem = EquipmentRequest.UNEQUIP;
 				}
@@ -459,7 +459,7 @@ public class GearChangeFrame
 				continue;
 			}
 
-			equipStat = EquipmentDatabase.equipStat( currentItem.getName() );
+			equipStat = EquipmentDatabase.getWeaponStat( currentItem.getName() );
 
 			if ( this.weaponTypes[ 0 ].isSelected() || this.weaponTypes[ 1 ].isSelected() && equipStat == KoLConstants.MUSCLE || this.weaponTypes[ 2 ].isSelected() && equipStat == KoLConstants.MYSTICALITY || this.weaponTypes[ 3 ].isSelected() && equipStat == KoLConstants.MOXIE )
 			{
@@ -469,7 +469,7 @@ public class GearChangeFrame
 
 		// Add the current weapon
 
-		equipStat = EquipmentDatabase.equipStat( currentWeapon.getName() );
+		equipStat = EquipmentDatabase.getWeaponStat( currentWeapon.getName() );
 		if ( !items.contains( currentWeapon ) && ( this.weaponTypes[ 0 ].isSelected() || this.weaponTypes[ 1 ].isSelected() && equipStat == KoLConstants.MUSCLE || this.weaponTypes[ 2 ].isSelected() && equipStat == KoLConstants.MYSTICALITY || this.weaponTypes[ 3 ].isSelected() && equipStat == KoLConstants.MOXIE ) )
 		{
 			items.add( currentWeapon );
@@ -498,7 +498,7 @@ public class GearChangeFrame
 
 		// The type of weapon in the off hand must
 		// agree with the weapon in the main hand
-		int equipStat = EquipmentDatabase.equipStat( weapon.getName() );
+		int equipStat = EquipmentDatabase.getWeaponStat( weapon.getName() );
 
 		// Search inventory for suitable items
 
@@ -546,7 +546,7 @@ public class GearChangeFrame
 			{
 				return false;
 			}
-			if ( equipStat != EquipmentDatabase.equipStat( currentItem.getName() ) )
+			if ( equipStat != EquipmentDatabase.getWeaponStat( currentItem.getName() ) )
 			{
 				return false;
 			}

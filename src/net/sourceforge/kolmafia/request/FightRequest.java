@@ -622,14 +622,19 @@ public class FightRequest
 		this.addFormField( "whichskill", FightRequest.action1.substring( 5 ) );
 	}
 
-	private static final boolean isInvalidThrustSmack( final String action1 )
+	public static final boolean isInvalidThrustSmack( final String action )
 	{
-		if ( !action1.equals( "1003" ) && !action1.equals( "1005" ) )
+		boolean isThrustSmack = action.equals( "skill thrust-smack" ) || action.equals( "skill lunging thrust-smack" ) ||
+			action.equals( "1003" ) && action.equals( "1005" );
+
+		if ( !isThrustSmack )
 		{
 			return false;
 		}
 
-		if ( EquipmentDatabase.isRanged( EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getItemId() ) )
+		int weaponId = EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getItemId();
+
+		if ( EquipmentDatabase.getWeaponStat( weaponId ) == KoLConstants.MOXIE )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Thrust smacks are useless with ranged weapons." );
 			return true;

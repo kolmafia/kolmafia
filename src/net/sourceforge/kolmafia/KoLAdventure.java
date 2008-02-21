@@ -845,8 +845,7 @@ public class KoLAdventure
 				}
 			}
 
-			if ( ( action.equals( "skill thrust-smack" ) || action.equals( "skill lunging thrust-smack" ) ) && EquipmentDatabase.isRanged( EquipmentManager.getEquipment(
-				EquipmentManager.WEAPON ).getItemId() ) )
+			if ( FightRequest.isInvalidThrustSmack( action ) )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Thrust smacks are useless with ranged weapons." );
 				return;

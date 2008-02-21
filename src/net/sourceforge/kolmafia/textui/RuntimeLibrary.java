@@ -565,7 +565,7 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "weapon_type", DataTypes.STRING_TYPE, params ) );
 
 		params = new Type[] { DataTypes.ITEM_TYPE };
-		functions.add( new LibraryFunction( "ranged_weapon", DataTypes.BOOLEAN_TYPE, params ) );
+		functions.add( new LibraryFunction( "weapon_stat", DataTypes.STAT_TYPE, params ) );
 
 		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "get_power", DataTypes.INT_TYPE, params ) );
@@ -2190,13 +2190,15 @@ public abstract class RuntimeLibrary
 
 	public static Value weapon_type( final Value item )
 	{
-		String type = EquipmentDatabase.getType( item.intValue() );
+		String type = EquipmentDatabase.getWeaponType( item.intValue() );
 		return new Value( type == null ? "unknown" : type );
 	}
 
-	public static Value ranged_weapon( final Value item )
+	public static Value weapon_stat( final Value item )
 	{
-		return DataTypes.makeBooleanValue( EquipmentDatabase.isRanged( item.intValue() ) );
+		int stat = EquipmentDatabase.getWeaponStat( item.intValue() );
+		return stat == KoLConstants.MUSCLE ? DataTypes.MUSCLE_VALUE : stat == KoLConstants.MYSTICALITY ? DataTypes.MYSTICALITY_VALUE :
+			stat == KoLConstants.MOXIE ? DataTypes.MOXIE_VALUE : DataTypes.STAT_INIT;
 	}
 
 	public static Value get_power( final Value item )

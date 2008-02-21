@@ -398,7 +398,7 @@ public class EquipmentManager {
 
 			if ( filterId == KoLConstants.EQUIP_OFFHAND && type == KoLConstants.EQUIP_WEAPON && dual )
 			{
-				if ( EquipmentDatabase.getHands( currentItemName ) != 1 || EquipmentDatabase.equipStat( currentItemName ) != equipStat )
+				if ( EquipmentDatabase.getHands( currentItemName ) != 1 || EquipmentDatabase.getWeaponStat( currentItemName ) != equipStat )
 				{
 					continue;
 				}
@@ -412,7 +412,7 @@ public class EquipmentManager {
 			}
 			else if ( filterId == KoLConstants.EQUIP_WEAPON && dual )
 			{
-				if ( EquipmentDatabase.getHands( currentItemName ) == 1 && EquipmentDatabase.equipStat( currentItemName ) != equipStat )
+				if ( EquipmentDatabase.getHands( currentItemName ) == 1 && EquipmentDatabase.getWeaponStat( currentItemName ) != equipStat )
 				{
 					continue;
 				}
@@ -572,7 +572,7 @@ public class EquipmentManager {
 
 	public static final boolean usingChefstaff()
 	{
-		return EquipmentDatabase.getType( getEquipment( WEAPON ).getName() ).equals(
+		return EquipmentDatabase.getWeaponType( getEquipment( WEAPON ).getName() ).equals(
 			"chefstaff" );
 	}
 
@@ -584,7 +584,7 @@ public class EquipmentManager {
 
 	public static final int getHitStatType()
 	{
-		return EquipmentDatabase.equipStat( getEquipment( WEAPON ).getName() );
+		return EquipmentDatabase.getWeaponStat( getEquipment( WEAPON ).getName() );
 	}
 
 	/**
@@ -761,7 +761,7 @@ public class EquipmentManager {
 			return false;
 		}
 
-		String requirement = EquipmentDatabase.getReq( itemId );
+		String requirement = EquipmentDatabase.getEquipRequirement( itemId );
 
 		if ( requirement.startsWith( "Mus:" ) )
 		{
@@ -773,7 +773,7 @@ public class EquipmentManager {
 			return KoLCharacter.getBaseMysticality() >= StaticEntity.parseInt( requirement.substring( 5 ) );
 		}
 
-		if ( EquipmentDatabase.getReq( itemId ).startsWith( "Mox:" ) )
+		if ( requirement.startsWith( "Mox:" ) )
 		{
 			return KoLCharacter.getBaseMoxie() >= StaticEntity.parseInt( requirement.substring( 5 ) );
 		}

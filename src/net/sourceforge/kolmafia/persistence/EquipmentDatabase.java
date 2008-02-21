@@ -209,13 +209,13 @@ public class EquipmentDatabase
 		return EquipmentDatabase.getHands( itemId );
 	}
 
-	public static final String getType( final int itemId )
+	public static final String getWeaponType( final int itemId )
 	{
 		String res = EquipmentDatabase.type.get( itemId );
 		return res == null ? "" : res;
 	}
 
-	public static final String getType( final String itemName )
+	public static final String getWeaponType( final String itemName )
 	{
 		if ( itemName == null )
 		{
@@ -229,20 +229,22 @@ public class EquipmentDatabase
 			return "";
 		}
 
-		return EquipmentDatabase.getType( itemId );
+		return EquipmentDatabase.getWeaponType( itemId );
 	}
 
-	public static final String getReq( final int itemId )
+	public static final String getEquipRequirement( final int itemId )
 	{
 		String req = EquipmentDatabase.requirement.get( itemId );
+
 		if ( req != null )
 		{
 			return req;
 		}
+
 		return "none";
 	}
 
-	public static final String getReq( final String itemName )
+	public static final String getEquipRequirement( final String itemName )
 	{
 		if ( itemName == null )
 		{
@@ -256,28 +258,34 @@ public class EquipmentDatabase
 			return "none";
 		}
 
-		return EquipmentDatabase.getReq( itemId );
+		return EquipmentDatabase.getEquipRequirement( itemId );
 	}
 
-	public static final int equipStat( final int itemId )
+	public static final int getWeaponStat( final int itemId )
 	{
-		String req = EquipmentDatabase.requirement.get( itemId );
+		int consumptionType = ItemDatabase.getConsumptionType( itemId );
 
-		if ( req != null )
+		if ( consumptionType != KoLConstants.EQUIP_WEAPON )
 		{
-			if ( req.startsWith( "Mox:" ) )
-			{
-				return KoLConstants.MOXIE;
-			}
-			if ( req.startsWith( "Mys:" ) )
-			{
-				return KoLConstants.MYSTICALITY;
-			}
+			return KoLConstants.NONE;
 		}
+
+		String req = EquipmentDatabase.getEquipRequirement( itemId );
+
+		if ( req.startsWith( "Mox:" ) )
+		{
+			return KoLConstants.MOXIE;
+		}
+
+		if ( req.startsWith( "Mys:" ) )
+		{
+			return KoLConstants.MYSTICALITY;
+		}
+
 		return KoLConstants.MUSCLE;
 	}
 
-	public static final int equipStat( final String itemName )
+	public static final int getWeaponStat( final String itemName )
 	{
 		if ( itemName == null )
 		{
@@ -291,17 +299,7 @@ public class EquipmentDatabase
 			return KoLConstants.MUSCLE;
 		}
 
-		return EquipmentDatabase.equipStat( itemId );
-	}
-
-	public static final boolean isRanged( final int itemId )
-	{
-		return EquipmentDatabase.equipStat( itemId ) == KoLConstants.MOXIE;
-	}
-
-	public static final boolean isRanged( final String itemName )
-	{
-		return EquipmentDatabase.equipStat( itemName ) == KoLConstants.MOXIE;
+		return EquipmentDatabase.getWeaponStat( itemId );
 	}
 
 	public static final SpecialOutfit getOutfit( final int id )
