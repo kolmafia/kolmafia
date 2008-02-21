@@ -562,6 +562,9 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "weapon_hands", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] { DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "item_type", DataTypes.STRING_TYPE, params ) );
+
+		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "weapon_type", DataTypes.STAT_TYPE, params ) );
 
 		params = new Type[] { DataTypes.ITEM_TYPE };
@@ -2183,6 +2186,12 @@ public abstract class RuntimeLibrary
 	public static Value weapon_hands( final Value item )
 	{
 		return new Value( EquipmentDatabase.getHands( item.intValue() ) );
+	}
+
+	public static Value item_type( final Value item )
+	{
+		String type = EquipmentDatabase.getItemType( item.intValue() );
+		return new Value( type );
 	}
 
 	public static Value weapon_type( final Value item )

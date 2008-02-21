@@ -50,7 +50,8 @@ public class EquipmentDatabase
 {
 	private static final IntegerArray power = new IntegerArray();
 	private static final IntegerArray hands = new IntegerArray();
-	private static final StringArray requirement = new StringArray();
+	private static final StringArray itemTypes = new StringArray();
+	private static final StringArray statRequirements = new StringArray();
 
 	private static final TreeMap outfitPieces = new TreeMap();
 	public static final SpecialOutfitArray normalOutfits = new SpecialOutfitArray();
@@ -72,16 +73,14 @@ public class EquipmentDatabase
 				if ( itemId > 0 )
 				{
 					EquipmentDatabase.power.set( itemId, StaticEntity.parseInt( data[ 1 ] ) );
-					EquipmentDatabase.requirement.set( itemId, data[ 2 ] );
+					EquipmentDatabase.statRequirements.set( itemId, data[ 2 ] );
 
-					int hval = 0;
-					if ( data.length >= 4 )
-					{
-						String str = data[ 3 ];
-						hval = StaticEntity.parseInt( str.substring( 0, 1 ) );
-					}
+					int hval = data.length < 4 ? 0 : StaticEntity.parseInt( data[ 3 ].substring( 0, 1 ) );
+					int spaceIndex = data[ 3 ].indexOf( " " );
+					String tval = spaceIndex == -1 ? "" : data[3].substring( spaceIndex + 1 );
 
 					EquipmentDatabase.hands.set( itemId, hval );
+					EquipmentDatabase.itemTypes.set( itemId, data[ 3 ] );
 				}
 			}
 		}
@@ -158,7 +157,7 @@ public class EquipmentDatabase
 	public static final boolean contains( final String itemName )
 	{
 		int itemId = ItemDatabase.getItemId( itemName );
-		return itemId > 0 && EquipmentDatabase.requirement.get( itemId ) != null;
+		return itemId > 0 && EquipmentDatabase.statRequirements.get( itemId ) != null;
 	}
 
 	public static final int getPower( final int itemId )
@@ -207,7 +206,7 @@ public class EquipmentDatabase
 
 	public static final String getEquipRequirement( final int itemId )
 	{
-		String req = EquipmentDatabase.requirement.get( itemId );
+		String req = EquipmentDatabase.statRequirements.get( itemId );
 
 		if ( req != null )
 		{
@@ -232,6 +231,45 @@ public class EquipmentDatabase
 		}
 
 		return EquipmentDatabase.getEquipRequirement( itemId );
+	}
+
+	public static final String getItemType( final int itemId )
+	{
+		switch ( ItemDatabase.getConsumptionType( itemId ) )
+		{
+		case KoLConstants.CONSUME_EAT:
+			return "food";
+		case KoLConstants.CONSUME_DRINK:
+			return "booze";
+		case KoLConstants.GROW_FAMILIAR:
+			return "familiar larva";
+		case KoLConstants.CONSUME_ZAP:
+			return "zap wand";
+		case KoLConstants.EQUIP_FAMILIAR:
+			return "familiar equipment";
+		case KoLConstants.EQUIP_ACCESSORY:
+			return "accessory";
+		case KoLConstants.EQUIP_HAT:
+			return "hat";
+		case KoLConstants.EQUIP_PANTS:
+			return "pants";
+		case KoLConstants.EQUIP_SHIRT:
+			return "shirt";
+		case KoLConstants.EQUIP_WEAPON:
+			return EquipmentDatabase.itemTypes.get( itemId );
+		case KoLConstants.EQUIP_OFFHAND:
+			return EquipmentDatabase.getPower( itemId ) > 0 ? "shield" : "offhand";
+		case KoLConstants.MP_RESTORE:
+			return "mp restore";
+		case KoLConstants.HP_RESTORE:
+			return "hp restore";
+		case KoLConstants.HPMP_RESTORE:
+			return "hp+mp restore";
+		case KoLConstants.EQUIP_CONTAINER:
+			return "container";
+		default:
+			return "";
+		}
 	}
 
 	public static final int getWeaponType( final int itemId )
