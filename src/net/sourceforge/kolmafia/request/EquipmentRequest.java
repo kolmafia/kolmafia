@@ -579,8 +579,8 @@ public class EquipmentRequest
 
 				if ( ItemDatabase.getConsumptionType( offhand.getItemId() ) == KoLConstants.EQUIP_WEAPON )
 				{
-					int desiredType = EquipmentDatabase.getWeaponStat( this.changeItem.getItemId() );
-					int currentType = EquipmentDatabase.getWeaponStat( offhand.getName() );
+					int desiredType = EquipmentDatabase.getWeaponType( this.changeItem.getItemId() );
+					int currentType = EquipmentDatabase.getWeaponType( offhand.getName() );
 
 					if ( EquipmentDatabase.getHands( this.changeItem.getItemId() ) == 1 && desiredType != currentType )
 					{
