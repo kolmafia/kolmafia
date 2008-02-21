@@ -1980,7 +1980,7 @@ public class ItemDatabase
 			report.println( "# *** " + name + " has power " + oldPower + " but should be " + power + "." );
 		}
 
-		String oldReq = EquipmentDatabase.getReq( name );
+		String oldReq = EquipmentDatabase.getEquipRequirement( name );
 		if ( !req.equals( oldReq ) )
 		{
 			report.println( "# *** " + name + " has requirement " + oldReq + " but should be " + req + "." );
@@ -1989,7 +1989,7 @@ public class ItemDatabase
 		if ( isWeapon )
 		{
 			String oldWeaponType =
-				String.valueOf( EquipmentDatabase.getHands( name ) ) + "-handed " + EquipmentDatabase.getType( name );
+				String.valueOf( EquipmentDatabase.getHands( name ) ) + "-handed " + EquipmentDatabase.getWeaponType( name );
 			if ( !weaponType.equals( oldWeaponType ) )
 			{
 				report.println( "# *** " + name + " has weapon type " + oldWeaponType + " but should be " + weaponType + "." );
