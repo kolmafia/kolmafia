@@ -166,8 +166,7 @@ public class KoLmafiaCLI
 		{
 			while ( ( data = KoLDatabase.readData( reader ) ) != null )
 			{
-				KoLmafiaCLI.aliasMap.put( data[ 0 ],
-					StaticEntity.singleStringDelete( data[ 1 ], "%%" ) );
+				KoLmafiaCLI.aliasMap.put( " " + data[ 0 ] + " ", " " + data[ 1 ] + " " );
 			}
 
 			try
@@ -392,14 +391,17 @@ public class KoLmafiaCLI
 		// First, handle all the aliasing that may be
 		// defined by the user.
 
-		this.currentLine = line;
+		this.currentLine = " " + line + " ";
 
 		Iterator it = KoLmafiaCLI.aliasSet.iterator();
 		while ( it.hasNext() )
 		{
 			Entry current = (Entry) it.next();
-			StaticEntity.singleStringReplace( this.currentLine, (String) current.getKey(), (String) current.getValue() );
+			this.currentLine = StaticEntity.singleStringReplace(
+				this.currentLine, (String) current.getKey(), (String) current.getValue() );
 		}
+
+		this.currentLine = this.currentLine.trim();
 
 		// Handle if-statements in a special way right
 		// here.  Nesting is handled explicitly by
@@ -674,8 +676,8 @@ public class KoLmafiaCLI
 		// Not a special full-line command.  Go ahead and
 		// split the command into extra pieces.
 
-		String command = line.trim().split( " " )[ 0 ].toLowerCase().trim();
-		String parameters = line.substring( command.length() ).trim();
+		String command = line.trim().split( " " )[ 0 ].toLowerCase();
+		String parameters = line.trim().substring( command.length() ).trim();
 
 		if ( command.endsWith( "?" ) )
 		{
