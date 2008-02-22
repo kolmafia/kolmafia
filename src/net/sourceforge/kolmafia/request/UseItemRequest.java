@@ -1048,10 +1048,6 @@ public class UseItemRequest
 				StaticEntity.getClient().processResult(
 					UseItemRequest.lastItemUsed.getInstance( UseItemRequest.lastItemUsed.getCount() - 1 ) );
 			}
-			else
-			{
-				KoLmafiaCLI.DEFAULT_SHELL.executeLine( "use * ten-leaf clover" );
-			}
 
 			return;
 
