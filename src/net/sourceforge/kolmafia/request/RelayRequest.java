@@ -1183,11 +1183,13 @@ public class RelayRequest
 				return;
 			}
 
-			if ( !KoLCharacter.kingLiberated() && Preferences.getBoolean( "cloverProtectActive" ) && InventoryManager.hasItem( ItemPool.TEN_LEAF_CLOVER ) )
+			if ( StaticEntity.getClient().isLuckyCharacter() )
 			{
 				this.sendGeneralWarning(
 					"clover.gif",
 					"If you are certain you wish to use your ten-leaf clover, click on the image above to proceed.  Otherwise, click <a href=\"javascript: useAllClovers(); void(0);\">here</a> and wait for the image to turn into a disassembled clover to proceed." );
+
+				return;
 			}
 
 			// Special handling of adventuring locations before it's
