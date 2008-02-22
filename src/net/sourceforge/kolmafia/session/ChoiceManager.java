@@ -271,7 +271,8 @@ public abstract class ChoiceManager
 
 		// Under the Knife
 		new ChoiceAdventure(
-			"Town", "choiceAdventure21", "Sleazy Back Alley", new String[] { "switch genders", "skip adventure" } ),
+			"Town", "choiceAdventure21", "Sleazy Back Alley",
+			new String[] { "switch genders", "skip adventure" } ),
 
 		// The Arrrbitrator
 		new ChoiceAdventure(
@@ -325,7 +326,8 @@ public abstract class ChoiceManager
 		// An Interesting Choice
 		new ChoiceAdventure(
 			"Woods", "choiceAdventure46", "Spooky Forest",
-			new String[] { "moxie substats", "muscle substats", "vampire heart" }, new String[] { null, null, "1518" } ),
+			new String[] { "moxie substats", "muscle substats", "vampire heart" },
+			new String[] { null, null, "1518" } ),
 
 		// Have a Heart
 		new ChoiceAdventure(
@@ -349,7 +351,8 @@ public abstract class ChoiceManager
 		// The Only Thing About Him is the Way That He Walks
 		new ChoiceAdventure(
 			"Woods", "choiceAdventure74", "Whitey's Grove",
-			new String[] { "moxie substats", "boxed wine", "mullet wig" }, new String[] { null, "1005", "267" } ),
+			new String[] { "moxie substats", "boxed wine", "mullet wig" },
+			new String[] { null, "1005", "267" } ),
 
 		// Rapido!
 		new ChoiceAdventure(
@@ -378,7 +381,8 @@ public abstract class ChoiceManager
 		// One NightStand (mahogany)
 		new ChoiceAdventure(
 			"Manor2", "choiceAdventure83", "Haunted Bedroom",
-			new String[] { "old coin purse", "enter combat", "quest item" }, new String[] { "1918", null, null } ),
+			new String[] { "old coin purse", "enter combat", "quest item" },
+			new String[] { "1918", null, null } ),
 
 		// One NightStand (ornate)
 		new ChoiceAdventure(
@@ -411,16 +415,12 @@ public abstract class ChoiceManager
 
 		// Strung-Up Quartet
 		new ChoiceAdventure(
-			"Manor2",
-			"choiceAdventure106",
-			"Haunted Ballroom",
+			"Manor2", "choiceAdventure106", "Haunted Ballroom",
 			new String[] { "increase monster level", "decrease combat frequency", "increase item drops", "skip adventure" } ),
 
 		// Bad Medicine is What You Need
 		new ChoiceAdventure(
-			"Manor2",
-			"choiceAdventure107",
-			"Haunted Bathroom",
+			"Manor2", "choiceAdventure107", "Haunted Bathroom",
 			new String[] { "antique bottle of cough syrup", "tube of hair oil", "bottle of ultravitamins", "skip adventure" },
 			new String[] { "2086", "2087", "2085", null } ),
 
@@ -432,13 +432,13 @@ public abstract class ChoiceManager
 		// Dumpster Diving
 		new ChoiceAdventure(
 			"Town", "choiceAdventure109", "Sleazy Back Alley",
-			new String[] { "enter combat", "meat and moxie", "Mad Train wine" }, new String[] { null, null, "564" } ),
+			new String[] { "enter combat", "meat and moxie", "Mad Train wine" },
+			new String[] { null, null, "564" } ),
 
 		// The Entertainer
 		new ChoiceAdventure(
 			"Town", "choiceAdventure110", "Sleazy Back Alley",
-			new String[] { "moxie substats", "moxie and muscle", "small meat boost", "skip adventure" },
-			new String[] { null, null, null, null } ),
+			new String[] { "moxie substats", "moxie and muscle", "small meat boost", "skip adventure" } ),
 
 		// Malice in Chains
 		new ChoiceAdventure(
@@ -477,7 +477,8 @@ public abstract class ChoiceManager
 
 		// When Rocks Attack
 		new ChoiceAdventure(
-			"Knob", "choiceAdventure118", "Knob Outskirts", new String[] { "accept unguent quest", "skip adventure" } ),
+			"Knob", "choiceAdventure118", "Knob Outskirts",
+			new String[] { "accept unguent quest", "skip adventure" } ),
 
 		// Choice 118 is When Rocks Attack
 		// Choice 119 is unknown
@@ -496,7 +497,8 @@ public abstract class ChoiceManager
 
 		// Sun at Noon, Tan Us
 		new ChoiceAdventure(
-			"Plains", "choiceAdventure126", "Palindome", new String[] { "moxie", "chance of more moxie", "sunburned" } ),
+			"Plains", "choiceAdventure126", "Palindome",
+			new String[] { "moxie", "chance of more moxie", "sunburned" } ),
 
 		// Choice 127 is No sir, away!	A papaya war is on!
 		// Choice 128 is unknown
@@ -515,14 +517,12 @@ public abstract class ChoiceManager
 		// Wheel In the Pyramid, Keep on Turning
 		new ChoiceAdventure(
 			"Pyramid", "choiceAdventure134", "The Middle Chamber",
-			new String[] { "Turn the wheel", "skip adventure" },
-			new String[] { null, null } ),
+			new String[] { "Turn the wheel", "skip adventure" } ),
 
 		// Wheel In the Pyramid, Keep on Turning
 		new ChoiceAdventure(
 			"Pyramid", "choiceAdventure135", "The Middle Chamber",
-			new String[] { "Turn the wheel", "skip adventure" },
-			new String[] { null, null } ),
+			new String[] { "Turn the wheel", "skip adventure" } ),
 
 		// Peace Wants Love
 		new ChoiceAdventure(
@@ -557,14 +557,12 @@ public abstract class ChoiceManager
 		// Blockin' Out the Scenery
 		new ChoiceAdventure(
 			"IsleWar", "choiceAdventure141", "War Hippies",
-			new String[] { "mysticality substats", "get some hippy food", "waste a turn" },
-			new String[] { null, null, null } ),
+			new String[] { "mysticality substats", "get some hippy food", "waste a turn" } ),
 
 		// Blockin' Out the Scenery
 		new ChoiceAdventure(
 			"IsleWar", "choiceAdventure142", "War Hippies",
-			new String[] { "mysticality substats", "get some hippy food", "start the war" },
-			new String[] { null, null, null } ),
+			new String[] { "mysticality substats", "get some hippy food", "start the war" } ),
 
 		// Catching Some Zetas
 		new ChoiceAdventure(
@@ -587,33 +585,29 @@ public abstract class ChoiceManager
 		// Fratacombs
 		new ChoiceAdventure(
 			"IsleWar", "choiceAdventure146", "War Fraternity",
-			new String[] { "muscle substats", "get some frat food", "start the war" },
-			new String[] { null, null, null } ),
+			new String[] { "muscle substats", "get some frat food", "start the war" } ),
 
 		// Cornered!
 		new ChoiceAdventure(
 			"IsleWar", "choiceAdventure147", "Isle War Barn",
-			new String[] { "Open The Granary (meat)", "Open The Bog (stench)", "Open The Pond (cold)" },
-			new String[] { null, null, null } ),
+			new String[] { "Open The Granary (meat)", "Open The Bog (stench)", "Open The Pond (cold)" } ),
 
 		// Cornered Again!
 		new ChoiceAdventure(
 			"IsleWar", "choiceAdventure148", "Isle War Barn",
-			new String[] { "Open The Back 40 (hot)", "Open The Family Plot (spooky)" }, new String[] { null, null } ),
+			new String[] { "Open The Back 40 (hot)", "Open The Family Plot (spooky)" } ),
 
 		// ow Many Corners Does this Stupid Barn Have!?
 		new ChoiceAdventure(
 			"IsleWar", "choiceAdventure149", "Isle War Barn",
-			new String[] { "Open The Shady Thicket (booze)", "Open The Other Back 40 (sleaze)" },
-			new String[] { null, null } ),
+			new String[] { "Open The Shady Thicket (booze)", "Open The Other Back 40 (sleaze)" } ),
 
 		// Choice 150 is Another Adventure About BorderTown
 
 		// Adventurer, $1.99
 		new ChoiceAdventure(
 			"Plains", "choiceAdventure151", "Fun House",
-			new String[] { "fight the clownlord", "skip adventure" },
-			new String[] { null, null } ),
+			new String[] { "fight the clownlord", "skip adventure" } ),
 
 		// Choice 152 is Lurking at the Threshold
 
@@ -710,14 +704,12 @@ public abstract class ChoiceManager
 		// Down by the Riverside
 		new ChoiceAdventure(
 			"Wormwood", "choiceAdventure164", "Pleasure Dome",
-			new String[] { "muscle substats", "MP & Spirit of Alph", "enter combat" },
-			new String[] { null, null, null } ),
+			new String[] { "muscle substats", "MP & Spirit of Alph", "enter combat" } ),
 
 		// Beyond Any Measure
 		new ChoiceAdventure(
 			"Wormwood", "choiceAdventure165", "Pleasure Dome",
-			new String[] { "Rat-Faced -> Night Vision", "Bats in the Belfry -> Good with the Ladies", "mysticality substats", "skip adventure" },
-			new String[] { null, null, null, null } ),
+			new String[] { "Rat-Faced -> Night Vision", "Bats in the Belfry -> Good with the Ladies", "mysticality substats", "skip adventure" } ),
 
 		// Death is a Boat
 		new ChoiceAdventure(
@@ -728,14 +720,12 @@ public abstract class ChoiceManager
 		// It's a Fixer-Upper
 		new ChoiceAdventure(
 			"Wormwood", "choiceAdventure167", "Moulder Mansion",
-			new String[] { "enter combat", "mysticality substats", "HP & MP & Bats in the Belfry" },
-			new String[] { null, null, null } ),
+			new String[] { "enter combat", "mysticality substats", "HP & MP & Bats in the Belfry" } ),
 
 		// Midst the Pallor of the Parlor
 		new ChoiceAdventure(
 			"Wormwood", "choiceAdventure168", "Moulder Mansion",
-			new String[] { "moxie substats", "Spirit of Alph -> Feelin' Philosophical", "Rat-Faced -> Unusual Fashion Sense" },
-			new String[] { null, null, null } ),
+			new String[] { "moxie substats", "Spirit of Alph -> Feelin' Philosophical", "Rat-Faced -> Unusual Fashion Sense" } ),
 
 		// A Few Chintz Curtains, Some Throw Pillows, It
 		new ChoiceAdventure(
@@ -746,14 +736,12 @@ public abstract class ChoiceManager
 		// La Vie Boheme
 		new ChoiceAdventure(
 			"Wormwood", "choiceAdventure170", "Rogue Windmill",
-			new String[] { "HP & Rat-Faced", "enter combat", "moxie substats" },
-			new String[] { null, null, null } ),
+			new String[] { "HP & Rat-Faced", "enter combat", "moxie substats" } ),
 
 		// Backstage at the Rogue Windmill
 		new ChoiceAdventure(
 			"Wormwood", "choiceAdventure171", "Rogue Windmill",
-			new String[] { "Bats in the Belfry -> No Vertigo", "muscle substats", "Spirit of Alph -> Dancing Prowess" },
-			new String[] { null, null, null } ),
+			new String[] { "Bats in the Belfry -> No Vertigo", "muscle substats", "Spirit of Alph -> Dancing Prowess" } ),
 
 		// Up in the Hippo Room
 		new ChoiceAdventure(
@@ -802,14 +790,12 @@ public abstract class ChoiceManager
 		// Yes, You're a Rock Starrr
 		new ChoiceAdventure(
 			"Island", "choiceAdventure185", "Barrrney's Barrr",
-			new String[] { "base booze", "mixed drinks", "stats" },
-			new String[] { null, null, null } ),
+			new String[] { "base booze", "mixed drinks", "stats" } ),
 
 		// A Test of Testarrrsterone
 		new ChoiceAdventure(
 			"Island", "choiceAdventure186", "Barrrney's Barrr",
-			new String[] { "stats", "drunkenness and stats", "moxie" },
-			new String[] { null, null, null } ),
+			new String[] { "stats", "drunkenness and stats", "moxie" } ),
 
 		// Choice 187 is Arrr You Man Enough?
 		// Choice 188 is The Infiltrationist
@@ -820,8 +806,7 @@ public abstract class ChoiceManager
 		// Chatterboxing
 		new ChoiceAdventure(
 			"Island", "choiceAdventure191", "F'c'le",
-			new String[] { "moxie substats", "lose hp", "muscle substats", "mysticality substats" },
-			new String[] { null, null, null, null } ),
+			new String[] { "moxie substats", "lose hp", "muscle substats", "mysticality substats" } ),
 	};
 
 	static
@@ -882,7 +867,8 @@ public abstract class ChoiceManager
 
 		// Ouch! You bump into a door!
 		new ChoiceAdventure(
-			"choiceAdventure25", "Dungeon of Doom", new String[] { "magic lamp", "dead mimic", "skip adventure" },
+			"choiceAdventure25", "Dungeon of Doom",
+			new String[] { "magic lamp", "dead mimic", "skip adventure" },
 			new String[] { "1273", "1267", null } ),
 
 		// A Three-Tined Fork
@@ -892,11 +878,13 @@ public abstract class ChoiceManager
 
 		// Footprints
 		new ChoiceAdventure(
-			"choiceAdventure27", "Spooky Forest", new String[] { KoLCharacter.SEAL_CLUBBER, KoLCharacter.TURTLE_TAMER } ),
+			"choiceAdventure27", "Spooky Forest",
+			new String[] { KoLCharacter.SEAL_CLUBBER, KoLCharacter.TURTLE_TAMER } ),
 
 		// A Pair of Craters
 		new ChoiceAdventure(
-			"choiceAdventure28", "Spooky Forest", new String[] { KoLCharacter.PASTAMANCER, KoLCharacter.SAUCEROR } ),
+			"choiceAdventure28", "Spooky Forest",
+			new String[] { KoLCharacter.PASTAMANCER, KoLCharacter.SAUCEROR } ),
 
 		// The Road Less Visible
 		new ChoiceAdventure(
@@ -906,7 +894,8 @@ public abstract class ChoiceManager
 		// Maps and Legends
 		new ChoiceAdventure(
 			"choiceAdventure45", "Spooky Forest",
-			new String[] { "Spooky Temple map", "skip adventure", "skip adventure" }, new String[] { "74", null, null } ),
+			new String[] { "Spooky Temple map", "skip adventure", "skip adventure" },
+			new String[] { "74", null, null } ),
 
 		// A Journey to the Center of Your Mind -> Self Explanatory
 
@@ -1007,15 +996,15 @@ public abstract class ChoiceManager
 		{ "2", "1", new AdventureResult( "rubber axe", -1 ) },
 
 		// Finger-Lickin'... Death.
-		{ "4", "1", new AdventureResult( AdventureResult.MEAT, -500 ) }, { "4", "2", new AdventureResult(
-			AdventureResult.MEAT, -500 ) },
+		{ "4", "1", new AdventureResult( AdventureResult.MEAT, -500 ) },
+		{ "4", "2", new AdventureResult( AdventureResult.MEAT, -500 ) },
 
 		// Under the Knife
 		{ "21", "1", new AdventureResult( AdventureResult.MEAT, -500 ) },
 
 		// Ouch! You bump into a door!
-		{ "25", "1", new AdventureResult( AdventureResult.MEAT, -50 ) }, { "25", "2", new AdventureResult(
-			AdventureResult.MEAT, -5000 ) },
+		{ "25", "1", new AdventureResult( AdventureResult.MEAT, -50 ) },
+		{ "25", "2", new AdventureResult( AdventureResult.MEAT, -5000 ) },
 
 		// Have a Heart
 		// This trades all vampire hearts for an equal number of
@@ -1040,8 +1029,9 @@ public abstract class ChoiceManager
 		{ "132", "1", new AdventureResult( AdventureResult.MEAT, -5000 ) },
 
 		// The Blackberry Cobbler
-		{ "177", "1", new AdventureResult( "blackberry", -10 ) }, { "177", "2", new AdventureResult( "blackberry", -10 ) }, { "177", "3", new AdventureResult(
-			"blackberry", -10 ) },
+		{ "177", "1", new AdventureResult( "blackberry", -10 ) },
+		{ "177", "2", new AdventureResult( "blackberry", -10 ) },
+		{ "177", "3", new AdventureResult( "blackberry", -10 ) },
 
 		// Chieftain of the Flies
 		// This trades all Spanish flies for around the worlds,
