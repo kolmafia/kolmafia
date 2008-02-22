@@ -7,7 +7,7 @@ global	allowNegativeTally	true
 global	allowNonMoodBurning	true
 global	alwaysGetBreakfast	false
 global	autoLogin
-global	allowTimeout	false
+global	allowSocketTimeout	true
 global	autoHighlightOnFocus	true
 global	autoPlantHardcore	false
 global	autoPlantSoftcore	false
