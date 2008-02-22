@@ -2156,7 +2156,7 @@ public class KoLmafiaCLI
 			RequestThread.postRequest( new PvpRequest() );
 
 			KoLmafiaCLI.executeFlowerHuntRequest( targets, new PvpRequest(
-				parameters, stance, KoLCharacter.canInteract() ? "dignity" : "flowers", "", "" ) );
+				parameters, stance, KoLCharacter.canInteract() ? "dignity" : "flowers" ) );
 
 			RequestThread.closeRequestSequence();
 			return;
@@ -2704,7 +2704,7 @@ public class KoLmafiaCLI
 		int lastSearch = 0, desiredRank;
 
 		ProfileRequest[] results = null;
-		PvpRequest request = new PvpRequest( "", stance, "flowers", "", "" );
+		PvpRequest request = new PvpRequest( "", stance, "flowers" );
 
 		while ( !KoLmafia.refusesContinue() && fightsLeft != KoLCharacter.getAttacksLeft() && KoLCharacter.getAttacksLeft() > 0 )
 		{

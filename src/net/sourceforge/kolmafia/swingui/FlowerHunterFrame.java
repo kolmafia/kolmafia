@@ -37,6 +37,8 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.util.Arrays;
 import java.util.Vector;
 
@@ -337,7 +339,9 @@ public class FlowerHunterFrame
 			super( "attack", "profile" );
 
 			this.winMessage = new AutoHighlightTextField( Preferences.getString( "defaultFlowerWinMessage" ) );
+			this.winMessage.addFocusListener( new SaveMessageListener() );
 			this.lossMessage = new AutoHighlightTextField( Preferences.getString( "defaultFlowerLossMessage" ) );
+			this.winMessage.addFocusListener( new SaveMessageListener() );
 
 			this.stanceSelect = new JComboBox();
 			this.stanceSelect.addItem( "Bully your opponent" );
@@ -408,10 +412,7 @@ public class FlowerHunterFrame
 			PvpRequest request = new PvpRequest();
 			RequestThread.postRequest( request );
 
-			request =
-				new PvpRequest(
-					"", this.stanceSelect.getSelectedIndex() + 1, mission, this.winMessage.getText(),
-					this.lossMessage.getText() );
+			request = new PvpRequest( "", this.stanceSelect.getSelectedIndex() + 1, mission );
 
 			KoLmafiaCLI.executeFlowerHuntRequest( selection, request );
 			FlowerHunterFrame.this.updateRank();
@@ -470,6 +471,19 @@ public class FlowerHunterFrame
 			ProfileRequest[] selection = new ProfileRequest[ selectionVector.size() ];
 			selectionVector.toArray( selection );
 			return selection;
+		}
+
+		private class SaveMessageListener implements FocusListener
+		{
+			public void focusGained( FocusEvent e )
+			{
+			}
+
+			public void focusLost( FocusEvent e )
+			{
+				Preferences.setString( "defaultFlowerWinMessage", AttackPanel.this.winMessage.getText() );
+				Preferences.setString( "defaultFlowerLossMessage", AttackPanel.this.lossMessage.getText() );
+			}
 		}
 	}
 
