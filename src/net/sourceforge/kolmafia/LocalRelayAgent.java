@@ -47,6 +47,7 @@ import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.SendMailRequest;
+import net.sourceforge.kolmafia.session.ChoiceManager;
 
 public class LocalRelayAgent
 	extends Thread
@@ -314,7 +315,7 @@ public class LocalRelayAgent
 		}
 		else if ( this.path.equals( "/choice.php?action=auto" ) )
 		{
-			GenericRequest.processChoiceAdventure( this.request );
+			ChoiceManager.processChoiceAdventure( this.request );
 		}
 		else if ( this.path.startsWith( "/charpane.php" ) )
 		{

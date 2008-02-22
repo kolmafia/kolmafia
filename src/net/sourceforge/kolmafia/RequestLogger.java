@@ -34,11 +34,10 @@
 package net.sourceforge.kolmafia;
 
 import java.io.PrintStream;
+
 import java.util.Date;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.session.InventoryManager;
-
 import net.sourceforge.kolmafia.request.CafeRequest;
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
@@ -72,8 +71,8 @@ import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
-
-import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.session.ChoiceManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class RequestLogger
 	extends NullStream
@@ -385,7 +384,7 @@ public class RequestLogger
 				return;
 			}
 
-			AdventureResult cost = AdventureDatabase.getCost( choice, decision );
+			AdventureResult cost = ChoiceManager.getCost( choice, decision );
 			int costCount = cost == null ? 0 : cost.getCount();
 
 			if ( costCount == 0 )

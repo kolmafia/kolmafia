@@ -39,7 +39,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+
 import java.lang.ref.WeakReference;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -55,9 +57,10 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.persistence.AdventureDatabase.ChoiceAdventure;
+import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
 import net.sourceforge.kolmafia.session.MoodManager;
+import net.sourceforge.kolmafia.session.ChoiceManager.ChoiceAdventure;
 
 
 public class Preferences
@@ -589,22 +592,22 @@ public class Preferences
 		ostream.println( "[u]Configurable[/u]" );
 		ostream.println();
 
-		AdventureDatabase.setChoiceOrdering( false );
-		Arrays.sort( AdventureDatabase.CHOICE_ADVS );
-		Arrays.sort( AdventureDatabase.CHOICE_ADV_SPOILERS );
+		ChoiceManager.setChoiceOrdering( false );
+		Arrays.sort( ChoiceManager.CHOICE_ADVS );
+		Arrays.sort( ChoiceManager.CHOICE_ADV_SPOILERS );
 
-		Preferences.printDefaults( AdventureDatabase.CHOICE_ADVS, ostream );
+		Preferences.printDefaults( ChoiceManager.CHOICE_ADVS, ostream );
 
 		ostream.println();
 		ostream.println();
 		ostream.println( "[u]Not Configurable[/u]" );
 		ostream.println();
 
-		Preferences.printDefaults( AdventureDatabase.CHOICE_ADV_SPOILERS, ostream );
+		Preferences.printDefaults( ChoiceManager.CHOICE_ADV_SPOILERS, ostream );
 
-		AdventureDatabase.setChoiceOrdering( true );
-		Arrays.sort( AdventureDatabase.CHOICE_ADVS );
-		Arrays.sort( AdventureDatabase.CHOICE_ADV_SPOILERS );
+		ChoiceManager.setChoiceOrdering( true );
+		Arrays.sort( ChoiceManager.CHOICE_ADVS );
+		Arrays.sort( ChoiceManager.CHOICE_ADV_SPOILERS );
 
 		ostream.close();
 	}

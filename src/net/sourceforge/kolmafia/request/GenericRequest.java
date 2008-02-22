@@ -33,17 +33,21 @@
 
 package net.sourceforge.kolmafia.request;
 
+import com.velocityreviews.forums.HttpTimeoutHandler;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
+
 import java.net.HttpURLConnection;
 import java.net.InetAddress;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.net.UnknownHostException;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -55,11 +59,7 @@ import java.util.regex.Pattern;
 
 import javax.swing.SwingUtilities;
 
-import com.velocityreviews.forums.HttpTimeoutHandler;
-
-import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.sourceforge.foxtrot.Job;
-
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CreateFrameRunnable;
 import net.sourceforge.kolmafia.KoLAdventure;
@@ -68,15 +68,17 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.LocalRelayServer;
-import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.session.ChatManager;
+import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ClanManager;
-import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LouvreManager;
+import net.sourceforge.kolmafia.session.OceanManager;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.VioletFogManager;
 import net.sourceforge.kolmafia.swingui.CouncilFrame;
@@ -84,10 +86,6 @@ import net.sourceforge.kolmafia.swingui.RecentEventsFrame;
 import net.sourceforge.kolmafia.swingui.RequestFrame;
 import net.sourceforge.kolmafia.swingui.RequestSynchFrame;
 import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
-
-import net.sourceforge.kolmafia.persistence.AdventureDatabase;
-import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
-import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class GenericRequest
 	extends Job
@@ -117,23 +115,6 @@ public class GenericRequest
 		}
 	}
 
-	private static final AdventureResult MAIDEN_EFFECT = new AdventureResult( "Dreams and Lights", 1, true );
-	private static final AdventureResult BALLROOM_KEY = new AdventureResult( 1766, 1 );
-	private static final AdventureResult PAPAYA = new AdventureResult( 498, 1 );
-
-	private static final AdventureResult[] MISTRESS_ITEMS = new AdventureResult[]
-	{
-		new AdventureResult( 1941, 1 ),
-		new AdventureResult( 1942, 1 ),
-		new AdventureResult( 1943, 1 ),
-		new AdventureResult( 1944, 1 ),
-		new AdventureResult( 1945, 1 ),
-		new AdventureResult( 1946, 1 ),
-		new AdventureResult( 2092, 1 )
-	};
-
-	private static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice value=(\\d+)" );
-	private static final Pattern OCEAN_PATTERN = Pattern.compile( "(\\d+),(\\d+)" );
 	private static final Pattern EVENT_PATTERN =
 		Pattern.compile( "bgcolor=orange><b>New Events:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid orange;\"><center><table><tr><td>(.*?)</td></tr></table>.*?<td height=4></td></tr></table>" );
 
@@ -187,9 +168,6 @@ public class GenericRequest
 	public String responseText;
 	public HttpURLConnection formConnection;
 	public String redirectLocation;
-
-	private static final GenericRequest CHOICE_HANDLER = new GenericRequest( "choice.php" );
-	private static final GenericRequest OCEAN_HANDLER = new GenericRequest( "ocean.php" );
 
 	public static final void setDelayActive( final boolean delayActive )
 	{
@@ -1446,7 +1424,7 @@ public class GenericRequest
 			// You have been redirected to a fight!  Here, you need
 			// to complete the fight before you can continue.
 
-			if ( LoginRequest.isInstanceRunning() || this == GenericRequest.CHOICE_HANDLER || this instanceof AdventureRequest || this instanceof BasementRequest )
+			if ( LoginRequest.isInstanceRunning() || this == ChoiceManager.CHOICE_HANDLER || this instanceof AdventureRequest || this instanceof BasementRequest )
 			{
 				FightRequest.INSTANCE.run();
 				CharPaneRequest.getInstance().run();
@@ -1480,7 +1458,7 @@ public class GenericRequest
 		if ( this.redirectLocation.startsWith( "choice.php" ) )
 		{
 			GenericRequest.handlingChoices = true;
-			GenericRequest.processChoiceAdventure();
+			ChoiceManager.processChoiceAdventure();
 			GenericRequest.handlingChoices = false;
 
 			CharPaneRequest.getInstance().run();
@@ -1489,7 +1467,7 @@ public class GenericRequest
 
 		if ( this.redirectLocation.startsWith( "ocean.php" ) )
 		{
-			GenericRequest.handleOcean( GenericRequest.OCEAN_HANDLER );
+			OceanManager.processOceanAdventure();
 			return true;
 		}
 
@@ -1510,7 +1488,7 @@ public class GenericRequest
 
 	protected boolean shouldFollowRedirect()
 	{
-		return this != GenericRequest.CHOICE_HANDLER && this.getClass() == GenericRequest.class;
+		return this != ChoiceManager.CHOICE_HANDLER && this.getClass() == GenericRequest.class;
 	}
 
 	private static final void addAdditionalCache()
@@ -1782,493 +1760,6 @@ public class GenericRequest
 
 	public void processResults()
 	{
-	}
-
-	public static final void handleOcean( final GenericRequest request )
-	{
-		String dest = Preferences.getString( "oceanDestination" );
-		if ( dest.equals( "manual" ) )
-		{
-			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Pick a course." );
-			request.showInBrowser( true );
-			return;
-		}
-
-		int lon = 0;
-		int lat = 0;
-
-		if ( dest.equals( "muscle" ) )
-		{
-			lon = 12;
-			lat = 84;
-		}
-		else if ( dest.equals( "mysticality" ) )
-		{
-			lon = 3;
-			lat = 35;
-		}
-		else if ( dest.equals( "moxie" ) )
-		{
-			lon = 13;
-			lat = 91;
-		}
-		else if ( dest.equals( "sphere" ) )
-		{
-			lon = 59;
-			lat = 10;
-		}
-		else if ( dest.equals( "plinth" ) )
-		{
-			lon = 63;
-			lat = 29;
-		}
-		else if ( dest.indexOf( "," ) != -1 )
-		{
-			Matcher matcher = GenericRequest.OCEAN_PATTERN.matcher( dest );
-			if ( matcher.find() )
-			{
-				lon = StaticEntity.parseInt( matcher.group( 1 ) );
-				lat = StaticEntity.parseInt( matcher.group( 2 ) );
-			}
-		}
-
-		String action = Preferences.getString( "oceanAction" );
-		boolean stop = action.equals( "stop" ) || action.equals( "savestop" );
-		boolean show = action.equals( "show" ) || action.equals( "saveshow" );
-		boolean save = action.equals( "savecontinue" ) || action.equals( "saveshow" ) || action.equals( "savestop" );
-
-		while ( true )
-		{
-			if ( lon < 1 || lon > 242 || lat < 1 || lat > 100 )
-			{
-				// Pick a random destination
-				lon = KoLConstants.RNG.nextInt( 242 ) + 1;
-				lat = KoLConstants.RNG.nextInt( 100 ) + 1;
-			}
-
-			String coords = "Coordinates: " + lon + ", " + lat;
-			RequestLogger.printLine( coords );
-			RequestLogger.updateSessionLog( coords );
-
-			// ocean.php?lon=10&lat=10
-			request.constructURLString( "ocean.php" );
-			request.clearDataFields();
-			request.addFormField( "lon", String.valueOf( lon ) );
-			request.addFormField( "lat", String.valueOf( lat ) );
-
-			request.run();
-
-			if ( save )
-			{
-				// Save the response Text
-				File output = new File( UtilityConstants.DATA_LOCATION, "ocean.html" );
-				LogStream writer = LogStream.openStream( output, false );
-				// Trim to contain only HTML body
-				int start = request.responseText.indexOf( "<body>" );
-				int end = request.responseText.indexOf( "</body>" );
-				String text = request.responseText.substring( start + 6, end );
-				writer.println( text );
-				writer.close();
-			}
-
-			if ( stop )
-			{
-				// Show result in browser and stop automation
-				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Stop" );
-				request.showInBrowser( true );
-				return;
-			}
-
-			if ( show )
-			{
-				// Show the response in the browser
-				request.showInBrowser( true );
-			}
-
-			// And continue
-
-			// The navigator says "Sorry, Cap'm, but we can't sail
-			// to those coordinates, because that's where the
-			// mainland is, and we've pretty much plundered the
-			// mainland dry. Perhaps a more exotic locale is in
-			// order?"
-
-			if ( request.responseText.indexOf( "that's where the mainland is" ) == -1 )
-			{
-				return;
-			}
-
-			// Pick a different random destination
-			lon = lat = 0;
-		}
-	}
-
-	private static final void processChoiceAdventure()
-	{
-		GenericRequest.processChoiceAdventure( GenericRequest.CHOICE_HANDLER );
-	}
-
-	/**
-	 * Utility method which notifies thethat it needs to process the given choice adventure.
-	 */
-
-	public static final void processChoiceAdventure( final GenericRequest request )
-	{
-		if ( GenericRequest.passwordHash.equals( "" ) )
-		{
-			return;
-		}
-
-		// You can no longer simply ignore a choice adventure.	One of
-		// the options may have that effect, but we must at least run
-		// choice.php to find out which choice it is.
-
-		StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.CHOICE, 1 ) );
-		request.constructURLString( "choice.php" );
-		request.run();
-
-		if ( request.responseCode == 302 )
-		{
-			return;
-		}
-
-		String choice = null;
-		String option = null;
-		String decision = null;
-
-		for ( int stepCount = 0; request.responseText.indexOf( "choice.php" ) != -1; ++stepCount )
-		{
-			// Slight delay before each choice is made
-
-			GenericRequest.delay();
-			Matcher choiceMatcher = GenericRequest.CHOICE_PATTERN.matcher( request.responseText );
-
-			if ( !choiceMatcher.find() )
-			{
-				// choice.php did not offer us any choices. This would
-				// be a bug in KoL itself. Bail now and let the user
-				// finish by hand.
-
-				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Encountered choice adventure with no choices." );
-				request.showInBrowser( true );
-				return;
-			}
-
-			choice = choiceMatcher.group( 1 );
-			option = "choiceAdventure" + choice;
-			decision = Preferences.getString( option );
-
-			// Certain choices should always be taken.  These
-			// choices are handled here.
-
-			if ( choice.equals( "7" ) )
-			{
-				decision = "1";
-			}
-
-			// If this happens to be adventure 26 or 27,
-			// check against the player's conditions.
-
-			if ( ( choice.equals( "26" ) || choice.equals( "27" ) ) && !KoLConstants.conditions.isEmpty() )
-			{
-				for ( int i = 0; i < 12; ++i )
-				{
-					if ( AdventureDatabase.WOODS_ITEMS[ i ].getCount( KoLConstants.conditions ) > 0 )
-					{
-						decision = choice.equals( "26" ) ? String.valueOf( i / 4 + 1 ) : String.valueOf( i % 4 / 2 + 1 );
-					}
-				}
-			}
-
-			// If the player is looking for the ballroom key,
-			// then update their preferences so that KoLmafia
-			// automatically switches things for them.
-
-			if ( choice.equals( "85" ) )
-			{
-				if ( !KoLConstants.inventory.contains( GenericRequest.BALLROOM_KEY ) )
-				{
-					Preferences.setString( option, decision.equals( "1" ) ? "2" : "1" );
-				}
-				else
-				{
-					for ( int i = 0; i < GenericRequest.MISTRESS_ITEMS.length; ++i )
-					{
-						if ( KoLConstants.conditions.contains( GenericRequest.MISTRESS_ITEMS[ i ] ) )
-						{
-							decision = "3";
-						}
-					}
-				}
-			}
-
-			// Auto-skip the goatlet adventure if you're not wearing
-			// the mining outfit so it can be tried again later.
-
-			if ( choice.equals( "162" ) && !EquipmentManager.isWearingOutfit( 8 ) )
-			{
-				decision = "2";
-			}
-
-			// Sometimes, the choice adventure for the louvre
-			// loses track of whether to ignore the louvre or not.
-
-			if ( choice.equals( "91" ) )
-			{
-				decision = Preferences.getInteger( "louvreDesiredGoal" ) != 0 ? "1" : "2";
-			}
-
-			// If there is no setting which determines the
-			// decision, see if it's in the violet fog
-
-			if ( decision.equals( "" ) )
-			{
-				decision = VioletFogManager.handleChoice( choice );
-			}
-
-			// If there is no setting which determines the
-			// decision, see if it's in the Louvre
-
-			if ( decision.equals( "" ) )
-			{
-				decision = LouvreManager.handleChoice( choice, stepCount );
-			}
-
-			// If there is currently no setting which determines the
-			// decision, give an error and bail.
-
-			if ( decision.equals( "" ) )
-			{
-				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Unsupported choice adventure #" + choice );
-				request.showInBrowser( true );
-				StaticEntity.printRequestData( request );
-				return;
-			}
-
-			boolean willIgnore = false;
-
-			// If the user wants to ignore this specific choice or all
-			// choices, see if this choice is ignorable.
-
-			if ( choice.equals( "80" ) )
-			{
-				willIgnore = true;
-
-				if ( decision.equals( "99" ) && Preferences.getInteger( "lastSecondFloorUnlock" ) == KoLCharacter.getAscensions() )
-				{
-					decision = "4";
-				}
-			}
-			else if ( choice.equals( "81" ) )
-			{
-				willIgnore = true;
-
-				// If we've already unlocked the gallery, try
-				// to unlock the second floor.
-				if ( decision.equals( "1" ) && Preferences.getInteger( "lastGalleryUnlock" ) == KoLCharacter.getAscensions() )
-				{
-					decision = "99";
-				}
-
-				// If we've already unlocked the second floor,
-				// ignore this choice adventure.
-				if ( decision.equals( "99" ) && Preferences.getInteger( "lastSecondFloorUnlock" ) == KoLCharacter.getAscensions() )
-				{
-					decision = "4";
-				}
-			}
-
-			// But first, handle the maidens adventure in a less random
-			// fashion that's actually useful.
-
-			else if ( choice.equals( "89" ) )
-			{
-				willIgnore = true;
-
-				switch ( StaticEntity.parseInt( decision ) )
-				{
-				case 0:
-					decision = String.valueOf( KoLConstants.RNG.nextInt( 2 ) + 1 );
-					break;
-				case 1:
-				case 2:
-					break;
-				case 3:
-					decision =
-						KoLConstants.activeEffects.contains( GenericRequest.MAIDEN_EFFECT ) ? String.valueOf( KoLConstants.RNG.nextInt( 2 ) + 1 ) : "3";
-					break;
-				case 4:
-					decision = KoLConstants.activeEffects.contains( GenericRequest.MAIDEN_EFFECT ) ? "1" : "3";
-					break;
-				case 5:
-					decision = KoLConstants.activeEffects.contains( GenericRequest.MAIDEN_EFFECT ) ? "2" : "3";
-					break;
-				}
-			}
-
-			else if ( choice.equals( "127" ) )
-			{
-				willIgnore = true;
-
-				switch ( StaticEntity.parseInt( decision ) )
-				{
-				case 1:
-				case 2:
-				case 3:
-					break;
-				case 4:
-					decision = PAPAYA.getCount( KoLConstants.inventory ) >= 3 ? "2" : "1";
-					break;
-				case 5:
-					decision = PAPAYA.getCount( KoLConstants.inventory ) >= 3 ? "2" : "3";
-					break;
-				}
-			}
-
-			else if ( choice.equals( "161" ) )
-			{
-				decision = "1";
-
-				for ( int i = 2566; i <= 2568; ++i )
-				{
-					AdventureResult item = new AdventureResult( i, 1 );
-					if ( !KoLConstants.inventory.contains( item ) )
-					{
-						decision = "4";
-					}
-				}
-			}
-
-			// Always change the option whenever it's not an ignore option
-			// and remember to store the result.
-
-			if ( !willIgnore )
-			{
-				decision = GenericRequest.pickOutfitChoice( option, decision );
-			}
-
-			request.clearDataFields();
-
-			request.addFormField( "pwd" );
-			request.addFormField( "whichchoice", choice );
-			request.addFormField( "option", decision );
-
-			request.run();
-		}
-
-		if ( choice != null && KoLmafia.isAdventuring() )
-		{
-			if ( choice.equals( "112" ) && decision.equals( "1" ) )
-			{
-				InventoryManager.retrieveItem( new AdventureResult( 2184, 1 ) );
-			}
-
-			if ( choice.equals( "162" ) && !EquipmentManager.isWearingOutfit( 8 ) )
-			{
-				CouncilFrame.unlockGoatlet();
-			}
-		}
-	}
-
-	private static final String pickOutfitChoice( final String option, final String decision )
-	{
-		// Find the options for the choice we've encountered
-
-		boolean matchFound = false;
-		String[] possibleDecisions = null;
-		String[] possibleDecisionSpoilers = null;
-
-		for ( int i = 0; i < AdventureDatabase.CHOICE_ADVS.length && !matchFound; ++i )
-		{
-			if ( AdventureDatabase.CHOICE_ADVS[ i ].getSetting().equals( option ) )
-			{
-				matchFound = true;
-				possibleDecisions = AdventureDatabase.CHOICE_ADVS[ i ].getItems();
-				possibleDecisionSpoilers = AdventureDatabase.CHOICE_ADVS[ i ].getOptions();
-			}
-		}
-
-		for ( int i = 0; i < AdventureDatabase.CHOICE_ADV_SPOILERS.length && !matchFound; ++i )
-		{
-			if ( AdventureDatabase.CHOICE_ADV_SPOILERS[ i ].getSetting().equals( option ) )
-			{
-				matchFound = true;
-				possibleDecisions = AdventureDatabase.CHOICE_ADV_SPOILERS[ i ].getItems();
-				possibleDecisionSpoilers = AdventureDatabase.CHOICE_ADV_SPOILERS[ i ].getOptions();
-			}
-		}
-
-		// If it's not in the table (the castle wheel, for example) or
-		// isn't an outfit completion choice, return the player's
-		// chosen decision.
-
-		if ( possibleDecisionSpoilers == null )
-		{
-			return decision.equals( "0" ) ? "1" : decision;
-		}
-
-		// Choose an item in the conditions first, if it's available.
-		// This allows conditions to override existing choices.
-
-		if ( possibleDecisions != null )
-		{
-			for ( int i = 0; i < possibleDecisions.length; ++i )
-			{
-				if ( possibleDecisions[ i ] == null )
-				{
-					continue;
-				}
-
-				AdventureResult item = new AdventureResult( StaticEntity.parseInt( possibleDecisions[ i ] ), 1 );
-				if ( KoLConstants.conditions.contains( item ) )
-				{
-					return String.valueOf( i + 1 );
-				}
-
-				if ( possibleDecisions.length < StaticEntity.parseInt( decision ) && !InventoryManager.hasItem( item ) )
-				{
-					return String.valueOf( i + 1 );
-				}
-			}
-		}
-
-		if ( possibleDecisions == null )
-		{
-			return decision.equals( "0" ) ? "1" : decision;
-		}
-
-		// If this is an ignore decision, then go ahead and ignore
-		// the choice adventure
-
-		int decisionIndex = StaticEntity.parseInt( decision ) - 1;
-		if ( possibleDecisions.length < possibleDecisionSpoilers.length && possibleDecisionSpoilers[ decisionIndex ].equals( "skip adventure" ) )
-		{
-			return decision;
-		}
-
-		// If no item is found in the conditions list, and the player
-		// has a non-ignore decision, go ahead and use it.
-
-		if ( !decision.equals( "0" ) && decisionIndex < possibleDecisions.length )
-		{
-			return decision;
-		}
-
-		// Choose a null choice if no conditions match what you're
-		// trying to look for.
-
-		for ( int i = 0; i < possibleDecisions.length; ++i )
-		{
-			if ( possibleDecisions[ i ] == null )
-			{
-				return String.valueOf( i + 1 );
-			}
-		}
-
-		// If they have everything and it's an ignore choice, then use
-		// the first choice no matter what.
-
-		return "1";
 	}
 
 	/*

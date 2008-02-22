@@ -65,17 +65,14 @@ import javax.swing.text.html.ImageView;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
-import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
-import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.ChatRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.MoonPhaseRequest;
-import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
+import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.RequestFrame;
 import net.sourceforge.kolmafia.webui.BasementDecorator;
@@ -1164,7 +1161,7 @@ public class RequestEditorKit
 
 		// Find the options for the choice we've encountered
 		int choice = StaticEntity.parseInt( choiceMatcher.group( 1 ) );
-		String[][] possibleDecisions = AdventureDatabase.choiceSpoilers( choice );
+		String[][] possibleDecisions = ChoiceManager.choiceSpoilers( choice );
 
 		if ( possibleDecisions == null )
 		{
@@ -1191,7 +1188,7 @@ public class RequestEditorKit
 			buffer.append( "<br><font size=-1>(" );
 
 			// Say what the choice will give you
-			String item = AdventureDatabase.choiceSpoiler( choice, i, possibleDecisions[ 2 ] );
+			String item = ChoiceManager.choiceSpoiler( choice, i, possibleDecisions[ 2 ] );
 			buffer.append( item );
 
 			// If this choice helps complete an outfit...
