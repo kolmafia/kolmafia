@@ -246,38 +246,7 @@ public class KoLDatabase
 			}
 		}
 
-		KoLDatabase.getMatchingAbbreviations( substringList, names, searchString );
-		if ( !substringList.isEmpty() || spaceIndex == -1 )
-		{
-			return substringList;
-		}
-
-		KoLDatabase.getMatchingAbbreviations( substringList, names, StaticEntity.globalStringDelete( searchString, " " ) );
 		return substringList;
-	}
-
-	/**
-	 * Returns a list of all elements which contain the given abbreviation in their name.
-	 *
-	 * @param nameMap The map in which to search for the string
-	 * @param substring The substring for which to search
-	 */
-
-	private static final void getMatchingAbbreviations( final List substringList, final String[] names,
-		final String searchString )
-	{
-		if ( searchString.length() == 0 )
-		{
-			return;
-		}
-
-		for ( int i = 0; i < names.length; ++i )
-		{
-			if ( KoLDatabase.fuzzyMatches( names[ i ], searchString ) )
-			{
-				substringList.add( names[ i ] );
-			}
-		}
 	}
 
 	public static final boolean substringMatches( final String source, final String substring )

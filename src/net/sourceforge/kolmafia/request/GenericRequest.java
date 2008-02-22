@@ -55,6 +55,8 @@ import java.util.regex.Pattern;
 
 import javax.swing.SwingUtilities;
 
+import com.velocityreviews.forums.HttpTimeoutHandler;
+
 import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.sourceforge.foxtrot.Job;
 
@@ -215,12 +217,6 @@ public class GenericRequest
 		}
 
 		GenericRequest.setLoginServer( GenericRequest.SERVERS[ defaultLoginServer ][ 0 ] );
-
-		if ( Preferences.getBoolean( "allowTimeout" ) )
-		{
-			System.setProperty( "sun.net.client.defaultConnectTimeout", "4000" );
-			System.setProperty( "sun.net.client.defaultReadTimeout", "30000" );
-		}
 	}
 
 	private static final void applyProxySettings()
@@ -1093,14 +1089,25 @@ public class GenericRequest
 
 			if ( this.formURL == null || !this.currentHost.equals( GenericRequest.KOL_HOST ) )
 			{
-				if ( this.formURLString.startsWith( "http:" ) )
+				if ( Preferences.getBoolean( "allowSocketTimeout" ) )
 				{
-					this.formURL = new URL( this.formURLString );
+					if ( this.formURLString.startsWith( "http:" ) )
+						this.formURL = new URL( null, this.formURLString, HttpTimeoutHandler.getInstance() );
+					else
+						this.formURL = new URL( GenericRequest.KOL_ROOT, this.formURLString, HttpTimeoutHandler.getInstance() );
 				}
 				else
 				{
-					this.formURL = new URL( GenericRequest.KOL_ROOT, this.formURLString );
+					if ( this.formURLString.startsWith( "http:" ) )
+					{
+						this.formURL = new URL( this.formURLString );
+					}
+					else
+					{
+						this.formURL = new URL( GenericRequest.KOL_ROOT, this.formURLString );
+					}
 				}
+
 			}
 
 			this.formConnection = (HttpURLConnection) this.formURL.openConnection();

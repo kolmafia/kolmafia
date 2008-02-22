@@ -447,7 +447,7 @@ public class LoginFrame
 		private final String[][] options =
 		{
 			{ "proxySet", "Use a proxy to connect to the Kingdom of Loathing" },
-			{ "allowTimeout", "Graceful handling of unstable Internet connection" }
+			{ "allowSocketTimeout", "Improve handling of semi-random lag spikes" }
 		};
 
 		public ConnectionOptionsPanel()
