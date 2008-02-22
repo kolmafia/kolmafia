@@ -334,6 +334,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "is_npc_item", DataTypes.BOOLEAN_TYPE, params ) );
 
+		params = new Type[] { DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "is_tradeable", DataTypes.BOOLEAN_TYPE, params ) );
+
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "daily_special", DataTypes.ITEM_TYPE, params ) );
 
@@ -1653,6 +1656,11 @@ public abstract class RuntimeLibrary
 		}
 
 		return value;
+	}
+
+	public static Value is_tradeable( final Value item )
+	{
+		return DataTypes.makeBooleanValue( ItemDatabase.isTradeable( item.intValue() ) );
 	}
 
 	public static Value is_npc_item( final Value item )
