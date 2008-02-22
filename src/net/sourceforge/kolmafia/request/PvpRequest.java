@@ -124,7 +124,7 @@ public class PvpRequest
 		this.addFormField( "hardcoreonly", KoLCharacter.isHardcore() ? "1" : "2" );
 	}
 
-	public PvpRequest( final String opponent, final int stance, final String mission, String win, String lose )
+	public PvpRequest( final String opponent, final int stance, final String mission )
 	{
 		super( "pvp.php" );
 		this.hunterType = PvpRequest.ATTACK;
@@ -134,6 +134,9 @@ public class PvpRequest
 		this.addFormField( "who", opponent );
 		this.addFormField( "stance", String.valueOf( stance ) );
 		this.addFormField( "attacktype", mission );
+
+		String win = Preferences.getString( "defaultFlowerWinMessage" );
+		String lose = Preferences.getString( "defaultFlowerLossMessage" );
 
 		if ( win.equals( "" ) )
 		{
@@ -148,9 +151,6 @@ public class PvpRequest
 
 		this.addFormField( "winmessage", win );
 		this.addFormField( "losemessage", lose );
-
-		Preferences.setString( "defaultFlowerWinMessage", win );
-		Preferences.setString( "defaultFlowerLossMessage", lose );
 	}
 
 	public PvpRequest( final String clanId )
