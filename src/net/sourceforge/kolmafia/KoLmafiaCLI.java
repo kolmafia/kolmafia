@@ -166,7 +166,7 @@ public class KoLmafiaCLI
 		{
 			while ( ( data = KoLDatabase.readData( reader ) ) != null )
 			{
-				KoLmafiaCLI.aliasMap.put( data[ 0 ].toLowerCase(),
+				KoLmafiaCLI.aliasMap.put( data[ 0 ],
 					StaticEntity.singleStringDelete( data[ 1 ], "%%" ) );
 			}
 
@@ -802,7 +802,7 @@ public class KoLmafiaCLI
 			{
 				LogStream aliasStream = LogStream.openStream( ALIAS_FILE, false );
 
-				String aliasString = parameters.substring( 0, spaceIndex ).toLowerCase().trim();
+				String aliasString = parameters.substring( 0, spaceIndex ).trim();
 				String aliasCommand = parameters.substring( spaceIndex ).trim();
 
 				aliasStream.println( aliasString + "\t" + aliasCommand );
