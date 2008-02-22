@@ -38,39 +38,33 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
+
 import java.net.URLEncoder;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
-
 import net.sourceforge.kolmafia.KoLConstants.ByteArrayStream;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.session.BuffBotManager;
-import net.sourceforge.kolmafia.session.ClanManager;
-import net.sourceforge.kolmafia.session.CustomCombatManager;
-import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.LeafletManager;
-import net.sourceforge.kolmafia.session.MoodManager;
-import net.sourceforge.kolmafia.session.MushroomManager;
-import net.sourceforge.kolmafia.session.NemesisManager;
-import net.sourceforge.kolmafia.session.SorceressLairManager;
-import net.sourceforge.kolmafia.session.StoreManager;
-import net.sourceforge.kolmafia.swingui.BuffRequestFrame;
-import net.sourceforge.kolmafia.swingui.CalendarFrame;
-import net.sourceforge.kolmafia.swingui.CouncilFrame;
-import net.sourceforge.kolmafia.swingui.FamiliarTrainingFrame;
-import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
-import net.sourceforge.kolmafia.textui.Interpreter;
-import net.sourceforge.kolmafia.webui.StationaryButtonDecorator;
-
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.BuffBotDatabase;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.EffectDatabase;
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.HolidayDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.request.BasementRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
@@ -108,17 +102,24 @@ import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
-
-import net.sourceforge.kolmafia.persistence.AdventureDatabase;
-import net.sourceforge.kolmafia.persistence.BuffBotDatabase;
-import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
-import net.sourceforge.kolmafia.persistence.EffectDatabase;
-import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
-import net.sourceforge.kolmafia.persistence.HolidayDatabase;
-import net.sourceforge.kolmafia.persistence.ItemDatabase;
-import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
-import net.sourceforge.kolmafia.persistence.Preferences;
-import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.session.BuffBotManager;
+import net.sourceforge.kolmafia.session.ClanManager;
+import net.sourceforge.kolmafia.session.CustomCombatManager;
+import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.LeafletManager;
+import net.sourceforge.kolmafia.session.MoodManager;
+import net.sourceforge.kolmafia.session.MushroomManager;
+import net.sourceforge.kolmafia.session.NemesisManager;
+import net.sourceforge.kolmafia.session.SorceressLairManager;
+import net.sourceforge.kolmafia.session.StoreManager;
+import net.sourceforge.kolmafia.swingui.BuffRequestFrame;
+import net.sourceforge.kolmafia.swingui.CalendarFrame;
+import net.sourceforge.kolmafia.swingui.CouncilFrame;
+import net.sourceforge.kolmafia.swingui.FamiliarTrainingFrame;
+import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
+import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.webui.StationaryButtonDecorator;
 
 public class KoLmafiaCLI
 	extends KoLmafia
@@ -152,21 +153,21 @@ public class KoLmafiaCLI
 	private String currentLine = null;
 	private BufferedReader commandStream;
 
-	private static final TreeMap ALIASES = new TreeMap();
+	private static final File ALIAS_FILE = new File( UtilityConstants.SETTINGS_LOCATION, "aliases_GLOBAL.txt" );
+	private static TreeMap aliasMap = new TreeMap();
+	private static Set aliasSet = null;
+
 	static
 	{
 		String[] data;
-		BufferedReader reader =
-			KoLDatabase.getReader( new File( UtilityConstants.SETTINGS_LOCATION, "aliases_GLOBAL.txt" ) );
+		BufferedReader reader = KoLDatabase.getReader( ALIAS_FILE );
 
 		if ( reader != null )
 		{
 			while ( ( data = KoLDatabase.readData( reader ) ) != null )
 			{
-				if ( data.length >= 2 )
-				{
-					KoLmafiaCLI.ALIASES.put( data[ 0 ].toLowerCase(), data[ 1 ] );
-				}
+				KoLmafiaCLI.aliasMap.put( data[ 0 ].toLowerCase(),
+					StaticEntity.singleStringDelete( data[ 1 ], "%%" ) );
 			}
 
 			try
@@ -178,6 +179,8 @@ public class KoLmafiaCLI
 				StaticEntity.printStackTrace( e );
 			}
 		}
+
+		KoLmafiaCLI.aliasSet = KoLmafiaCLI.aliasMap.entrySet();
 	}
 
 	public static final void initialize()
@@ -386,7 +389,17 @@ public class KoLmafiaCLI
 			return;
 		}
 
+		// First, handle all the aliasing that may be
+		// defined by the user.
+
 		this.currentLine = line;
+
+		Iterator it = KoLmafiaCLI.aliasSet.iterator();
+		while ( it.hasNext() )
+		{
+			Entry current = (Entry) it.next();
+			StaticEntity.singleStringReplace( this.currentLine, (String) current.getKey(), (String) current.getValue() );
+		}
 
 		// Handle if-statements in a special way right
 		// here.  Nesting is handled explicitly by
@@ -784,11 +797,10 @@ public class KoLmafiaCLI
 
 		if ( command.equals( "alias" ) )
 		{
-			int spaceIndex = parameters.indexOf( " " );
+			int spaceIndex = parameters.indexOf( " => " );
 			if ( spaceIndex != -1 )
 			{
-				LogStream aliasStream =
-					LogStream.openStream( new File( UtilityConstants.SETTINGS_LOCATION, "aliases_GLOBAL.txt" ), false );
+				LogStream aliasStream = LogStream.openStream( ALIAS_FILE, false );
 
 				String aliasString = parameters.substring( 0, spaceIndex ).toLowerCase().trim();
 				String aliasCommand = parameters.substring( spaceIndex ).trim();
@@ -796,8 +808,10 @@ public class KoLmafiaCLI
 				aliasStream.println( aliasString + "\t" + aliasCommand );
 				aliasStream.close();
 
-				KoLmafiaCLI.ALIASES.put( aliasString, aliasCommand );
-				RequestLogger.printLine( "Command successfully aliased." );
+				KoLmafiaCLI.aliasMap.put( aliasString, aliasCommand );
+				KoLmafiaCLI.aliasSet = KoLmafiaCLI.aliasMap.entrySet();
+
+				RequestLogger.printLine( "String successfully aliased." );
 				RequestLogger.printLine( aliasString + " => " + aliasCommand );
 			}
 			else
@@ -2450,26 +2464,6 @@ public class KoLmafiaCLI
 					parameters.substring( spaceIndex ).trim() );
 
 			AdventureDatabase.addAdventure( adventure );
-			return;
-		}
-
-		if ( KoLmafiaCLI.ALIASES.containsKey( command ) )
-		{
-			String aliasLine = (String) KoLmafiaCLI.ALIASES.get( command );
-			if ( aliasLine.indexOf( "%%" ) != -1 )
-			{
-				aliasLine = StaticEntity.singleStringReplace( aliasLine, "%%", parameters );
-			}
-			else if ( aliasLine.endsWith( "=" ) )
-			{
-				aliasLine += parameters;
-			}
-			else
-			{
-				aliasLine += " " + parameters;
-			}
-
-			this.executeLine( aliasLine );
 			return;
 		}
 

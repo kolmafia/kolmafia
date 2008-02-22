@@ -37,6 +37,7 @@ import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import java.util.ArrayList;
 import java.util.TreeMap;
 
@@ -47,16 +48,14 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
-
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.LouvreManager;
 import net.sourceforge.kolmafia.session.VioletFogManager;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
-
-import net.sourceforge.kolmafia.persistence.AdventureDatabase;
-import net.sourceforge.kolmafia.persistence.Preferences;
 
 /**
  * This panel allows the user to select which item they would like to do for each of the different choice
@@ -100,11 +99,11 @@ public class ChoiceOptionsPanel
 
 		String[] options;
 
-		this.optionSelects = new JComboBox[ AdventureDatabase.CHOICE_ADVS.length ];
-		for ( int i = 0; i < AdventureDatabase.CHOICE_ADVS.length; ++i )
+		this.optionSelects = new JComboBox[ ChoiceManager.CHOICE_ADVS.length ];
+		for ( int i = 0; i < ChoiceManager.CHOICE_ADVS.length; ++i )
 		{
 			this.optionSelects[ i ] = new JComboBox();
-			options = AdventureDatabase.CHOICE_ADVS[ i ].getOptions();
+			options = ChoiceManager.CHOICE_ADVS[ i ].getOptions();
 			for ( int j = 0; j < options.length; ++j )
 			{
 				this.optionSelects[ i ].addItem( options[ j ] );
@@ -112,7 +111,7 @@ public class ChoiceOptionsPanel
 		}
 
 		this.sewerSelect = new JComboBox();
-		options = AdventureDatabase.LUCKY_SEWER.getOptions();
+		options = ChoiceManager.LUCKY_SEWER.getOptions();
 		for ( int i = 0; i < options.length; ++i )
 		{
 			this.sewerSelect.addItem( options[ i ] );
@@ -237,12 +236,12 @@ public class ChoiceOptionsPanel
 		this.addChoiceSelect( "Island", "Ocean Action", this.oceanActionSelect );
 
 		this.addChoiceSelect(
-			AdventureDatabase.LUCKY_SEWER.getZone(), AdventureDatabase.LUCKY_SEWER.getName(), this.sewerSelect );
+			ChoiceManager.LUCKY_SEWER.getZone(), ChoiceManager.LUCKY_SEWER.getName(), this.sewerSelect );
 
 		for ( int i = 0; i < this.optionSelects.length; ++i )
 		{
 			this.addChoiceSelect(
-				AdventureDatabase.CHOICE_ADVS[ i ].getZone(), AdventureDatabase.CHOICE_ADVS[ i ].getName(),
+				ChoiceManager.CHOICE_ADVS[ i ].getZone(), ChoiceManager.CHOICE_ADVS[ i ].getName(),
 				this.optionSelects[ i ] );
 		}
 
@@ -589,7 +588,7 @@ public class ChoiceOptionsPanel
 		for ( int i = 0; i < this.optionSelects.length; ++i )
 		{
 			int index = this.optionSelects[ i ].getSelectedIndex();
-			String choice = AdventureDatabase.CHOICE_ADVS[ i ].getSetting();
+			String choice = ChoiceManager.CHOICE_ADVS[ i ].getSetting();
 			Preferences.setString( choice, String.valueOf( index + 1 ) );
 		}
 
@@ -831,7 +830,7 @@ public class ChoiceOptionsPanel
 		boolean foundItem = false;
 		String sewerItem = Preferences.getString( "luckySewerAdventure" );
 
-		String[] sewerOptions = AdventureDatabase.LUCKY_SEWER.getOptions();
+		String[] sewerOptions = ChoiceManager.LUCKY_SEWER.getOptions();
 		for ( int i = 0; i < sewerOptions.length; ++i )
 		{
 			if ( sewerOptions[ i ].equals( sewerItem ) )
@@ -849,7 +848,7 @@ public class ChoiceOptionsPanel
 
 		for ( int i = 0; i < this.optionSelects.length; ++i )
 		{
-			index = Preferences.getInteger( AdventureDatabase.CHOICE_ADVS[ i ].getSetting() );
+			index = Preferences.getInteger( ChoiceManager.CHOICE_ADVS[ i ].getSetting() );
 			if ( index > 0 )
 			{
 				this.optionSelects[ i ].setSelectedIndex( index - 1 );
