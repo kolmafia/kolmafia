@@ -1494,6 +1494,9 @@ public class AdventureDatabase
 			return "none";
 		}
 
+		// If it's not a standard adventure, return whatever
+		// is known for that area.
+
 		if ( !adventure.getFormSource().startsWith( "adventure" ) )
 		{
 			if ( adventure.getFormSource().startsWith( "sewer" ) )
@@ -1503,6 +1506,9 @@ public class AdventureDatabase
 
 			return "none";
 		}
+
+		// If you're currently doing a bounty, return
+		// the item you need to hunt for.
 
 		int adventureId = StaticEntity.parseInt( adventure.getAdventureId() );
 		int bountyId = Preferences.getInteger( "currentBountyItem" );
@@ -1515,6 +1521,27 @@ public class AdventureDatabase
 				return bounty;
 			}
 		}
+
+		// If you're at the Friar's gate, return the steel
+		// reward people are most likely looking for.
+
+		if ( adventureId == 79 )
+		{
+			if ( KoLCharacter.canDrink() )
+			{
+				return KoLCharacter.getInebrietyLimit() > 15 ? "none" : "1 steel margarita";
+			}
+
+			if ( KoLCharacter.canEat() )
+			{
+				return KoLCharacter.getFullnessLimit() > 15 ? "none" : "1 steel lasagna";
+			}
+
+			return KoLCharacter.getSpleenLimit() > 15 ? "none" : "1 steel-scented air freshener";
+		}
+
+		// Otherwise, pull the condition out of the existing
+		// table and return it.
 
 		String conditions = AdventureDatabase.conditionsById.get( adventureId );
 		if ( conditions != null && !conditions.equals( "" ) )
