@@ -321,7 +321,7 @@ public abstract class UseLinkDecorator
 
 			if ( itemId == ItemPool.GOAT_CHEESE )
 			{
-				return new UseLink( itemId, itemCount, "trapper.php" );
+				return new UseLink( itemId, InventoryManager.getCount( itemId ), "trapper.php" );
 			}
 
 			if ( !KoLCharacter.canEat() )
