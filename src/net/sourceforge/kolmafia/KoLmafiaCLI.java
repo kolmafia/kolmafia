@@ -391,17 +391,17 @@ public class KoLmafiaCLI
 		// First, handle all the aliasing that may be
 		// defined by the user.
 
-		this.currentLine = " " + line + " ";
+		line = " " + line + " ";
 
 		Iterator it = KoLmafiaCLI.aliasSet.iterator();
 		while ( it.hasNext() )
 		{
 			Entry current = (Entry) it.next();
-			this.currentLine = StaticEntity.singleStringReplace(
-				this.currentLine, (String) current.getKey(), (String) current.getValue() );
+			line = StaticEntity.singleStringReplace(
+				line, (String) current.getKey(), (String) current.getValue() );
 		}
 
-		this.currentLine = this.currentLine.trim();
+		this.currentLine = line = line.trim();
 
 		// Handle if-statements in a special way right
 		// here.  Nesting is handled explicitly by
@@ -805,12 +805,12 @@ public class KoLmafiaCLI
 				LogStream aliasStream = LogStream.openStream( ALIAS_FILE, false );
 
 				String aliasString = parameters.substring( 0, spaceIndex ).trim();
-				String aliasCommand = parameters.substring( spaceIndex ).trim();
+				String aliasCommand = parameters.substring( spaceIndex + 4 ).trim();
 
 				aliasStream.println( aliasString + "\t" + aliasCommand );
 				aliasStream.close();
 
-				KoLmafiaCLI.aliasMap.put( aliasString, aliasCommand );
+				KoLmafiaCLI.aliasMap.put( " " + aliasCommand + " ", " " + aliasString + " " );
 				KoLmafiaCLI.aliasSet = KoLmafiaCLI.aliasMap.entrySet();
 
 				RequestLogger.printLine( "String successfully aliased." );

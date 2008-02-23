@@ -2326,7 +2326,7 @@
 2325	Staff of Ed	0	none	0
 2326	stone rose	0	none	0
 2327	can of black paint	4	all	150
-2328	drum machine	3	display	160
+2328	drum machine	3	all	160
 2329	handful of confetti	3	display	1000
 2330	chocolate-covered diamond-studded roses	0	gift	1000
 2331	bouquet of circular saw blades	0	gift	250
