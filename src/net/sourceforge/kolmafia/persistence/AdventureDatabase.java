@@ -438,7 +438,9 @@ public class AdventureDatabase
 
 		if ( adventureURL.startsWith( "sewer.php" ) )
 		{
-			return adventureURL.indexOf( "doodit" ) == -1 ? (KoLAdventure) AdventureDatabase.adventureLookup.get( "sewer.php" ) : (KoLAdventure) AdventureDatabase.adventureLookup.get( "sewer.php?doodit=1" );
+			return adventureURL.indexOf( "doodit" ) == -1 ?
+				(KoLAdventure) AdventureDatabase.adventureLookup.get( "sewer.php" ) :
+				(KoLAdventure) AdventureDatabase.adventureLookup.get( "sewer.php?doodit=1" );
 		}
 
 		int subAdventureIndex = adventureURL.indexOf( "&subsnarfblat" );
