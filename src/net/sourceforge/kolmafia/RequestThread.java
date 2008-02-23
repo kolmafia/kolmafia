@@ -38,8 +38,10 @@ import javax.swing.SwingUtilities;
 import net.sourceforge.foxtrot.Job;
 import net.sourceforge.foxtrot.Worker;
 
-import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.session.ChatManager;
 import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
+
+import net.sourceforge.kolmafia.request.GenericRequest;
 
 public abstract class RequestThread
 {
@@ -94,11 +96,7 @@ public abstract class RequestThread
 		}
 
 		--RequestThread.sequenceCount;
-
-		if ( RequestThread.enableDisplayIfSequenceComplete() )
-		{
-			SystemTrayFrame.showBalloon( "Requests complete." );
-		}
+		RequestThread.enableDisplayIfSequenceComplete();
 	}
 
 	/**
@@ -206,6 +204,9 @@ public abstract class RequestThread
 		if ( KoLmafia.getLastMessage().endsWith( "..." ) )
 		{
 			KoLmafia.updateDisplay( "Requests complete." );
+			ChatManager.broadcastMessage( "<font color=green>Requests complete.</font><br>" );
+			SystemTrayFrame.showBalloon( "Requests complete." );
+
 			RequestLogger.printLine();
 		}
 
@@ -225,6 +226,7 @@ public abstract class RequestThread
 	public static final void declareWorldPeace()
 	{
 		KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "KoLmafia declares world peace." );
+		ChatManager.broadcastMessage( "<font color=red>KoLmafia declares world peace.</font><br>" );
 	}
 
 	public static final void waitOneSecond()
