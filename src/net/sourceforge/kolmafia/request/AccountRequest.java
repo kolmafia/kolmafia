@@ -72,6 +72,8 @@ public class AccountRequest
 
 	public static final void parseAccountData( final String responseText )
 	{
+		KoLCharacter.determineClassType( responseText );
+
 		// Parse response text -- make sure you
 		// aren't accidentally parsing profiles.
 

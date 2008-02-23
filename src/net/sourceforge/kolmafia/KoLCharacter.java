@@ -79,6 +79,8 @@ public abstract class KoLCharacter
 {
 	private static final Pattern STILLS_PATTERN = Pattern.compile( "with (\\d+) bright" );
 
+	public static final String ASTRAL_SPIRIT = "Astral Spirit";
+
 	public static final String SEAL_CLUBBER = "Seal Clubber";
 	private static final List SEAL_CLUBBER_RANKS = new ArrayList();
 	static
@@ -590,8 +592,7 @@ public abstract class KoLCharacter
 	public static final void setClassName( final String classname )
 	{
 		KoLCharacter.classname = classname;
-		KoLCharacter.classtype = null;
-		KoLCharacter.classtype = KoLCharacter.getClassType();
+		KoLCharacter.classtype = KoLCharacter.getClassType( classname );
 	}
 
 	/**
@@ -615,8 +616,7 @@ public abstract class KoLCharacter
 	{
 		if ( KoLCharacter.classtype == null )
 		{
-			KoLCharacter.classtype =
-				KoLCharacter.SEAL_CLUBBER_RANKS.contains( KoLCharacter.classname ) ? KoLCharacter.SEAL_CLUBBER : KoLCharacter.TURTLE_TAMER_RANKS.contains( KoLCharacter.classname ) ? KoLCharacter.TURTLE_TAMER : KoLCharacter.PASTAMANCER_RANKS.contains( KoLCharacter.classname ) ? KoLCharacter.PASTAMANCER : KoLCharacter.SAUCEROR_RANKS.contains( KoLCharacter.classname ) ? KoLCharacter.SAUCEROR : KoLCharacter.DISCO_BANDIT_RANKS.contains( KoLCharacter.classname ) ? KoLCharacter.DISCO_BANDIT : KoLCharacter.ACCORDION_THIEF_RANKS.contains( KoLCharacter.classname ) ? KoLCharacter.ACCORDION_THIEF : KoLCharacter.SAUCEROR;
+			KoLCharacter.classtype = KoLCharacter.getClassType( KoLCharacter.classname );
 		}
 
 		return KoLCharacter.classtype;
@@ -630,7 +630,62 @@ public abstract class KoLCharacter
 
 	public static final String getClassType( final String classname )
 	{
-		return KoLCharacter.SEAL_CLUBBER_RANKS.contains( classname ) ? KoLCharacter.SEAL_CLUBBER : KoLCharacter.TURTLE_TAMER_RANKS.contains( classname ) ? KoLCharacter.TURTLE_TAMER : KoLCharacter.PASTAMANCER_RANKS.contains( classname ) ? KoLCharacter.PASTAMANCER : KoLCharacter.SAUCEROR_RANKS.contains( classname ) ? KoLCharacter.SAUCEROR : KoLCharacter.DISCO_BANDIT_RANKS.contains( classname ) ? KoLCharacter.DISCO_BANDIT : KoLCharacter.ACCORDION_THIEF_RANKS.contains( classname ) ? KoLCharacter.ACCORDION_THIEF : KoLCharacter.SAUCEROR;
+		return KoLCharacter.SEAL_CLUBBER_RANKS.contains( classname ) ? KoLCharacter.SEAL_CLUBBER :
+			KoLCharacter.TURTLE_TAMER_RANKS.contains( classname ) ? KoLCharacter.TURTLE_TAMER :
+			KoLCharacter.PASTAMANCER_RANKS.contains( classname ) ? KoLCharacter.PASTAMANCER :
+			KoLCharacter.SAUCEROR_RANKS.contains( classname ) ? KoLCharacter.SAUCEROR :
+			KoLCharacter.DISCO_BANDIT_RANKS.contains( classname ) ? KoLCharacter.DISCO_BANDIT :
+			KoLCharacter.ACCORDION_THIEF_RANKS.contains( classname ) ? KoLCharacter.ACCORDION_THIEF :
+			KoLCharacter.ASTRAL_SPIRIT;
+	}
+
+	public static final void determineClassType( final String accountText )
+	{
+		String rankName;
+		int rank = Math.min( 14, KoLCharacter.getLevel() - 1 );
+		String rankPrefix = "the Level " + KoLCharacter.getLevel() + " ";
+
+		rankName = (String) KoLCharacter.SEAL_CLUBBER_RANKS.get( rank );
+		if ( accountText.indexOf( rankPrefix + rankName + " (default)" ) != -1 )
+		{
+			KoLCharacter.setClassName( rankName );
+			return;
+		}
+
+		rankName = (String) KoLCharacter.TURTLE_TAMER_RANKS.get( rank );
+		if ( accountText.indexOf( rankPrefix + rankName + " (default)" ) != -1 )
+		{
+			KoLCharacter.setClassName( rankName );
+			return;
+		}
+
+		rankName = (String) KoLCharacter.PASTAMANCER_RANKS.get( rank );
+		if ( accountText.indexOf( rankPrefix + rankName + " (default)" ) != -1 )
+		{
+			KoLCharacter.setClassName( rankName );
+			return;
+		}
+
+		rankName = (String) KoLCharacter.SAUCEROR_RANKS.get( rank );
+		if ( accountText.indexOf( rankPrefix + rankName + " (default)" ) != -1 )
+		{
+			KoLCharacter.setClassName( rankName );
+			return;
+		}
+
+		rankName = (String) KoLCharacter.DISCO_BANDIT_RANKS.get( rank );
+		if ( accountText.indexOf( rankPrefix + rankName + " (default)" ) != -1 )
+		{
+			KoLCharacter.setClassName( rankName );
+			return;
+		}
+
+		rankName = (String) KoLCharacter.ACCORDION_THIEF_RANKS.get( rank );
+		if ( accountText.indexOf( rankPrefix + rankName + " (default)" ) != -1 )
+		{
+			KoLCharacter.setClassName( rankName );
+			return;
+		}
 	}
 
 	public static final boolean isMuscleClass()
