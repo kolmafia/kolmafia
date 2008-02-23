@@ -52,6 +52,10 @@ public class SewerRequest
 	{
 		super( "sewer.php" );
 		this.isLuckySewer = isLuckySewer;
+		if ( isLuckySewer )
+		{
+			this.addFormField( "doodit", "1" );
+		}
 	}
 
 	/**
