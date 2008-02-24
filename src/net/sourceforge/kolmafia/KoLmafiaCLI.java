@@ -120,6 +120,7 @@ import net.sourceforge.kolmafia.swingui.CouncilFrame;
 import net.sourceforge.kolmafia.swingui.FamiliarTrainingFrame;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
 import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.webui.CharacterEntityReference;
 import net.sourceforge.kolmafia.webui.StationaryButtonDecorator;
 
 public class KoLmafiaCLI
@@ -343,14 +344,18 @@ public class KoLmafiaCLI
 			do
 			{
 				line = this.commandStream.readLine();
+				if ( line == null )
+				{
+					return null;
+				}
+				line = line.trim();
 			}
-			while ( line != null && ( line.trim().length() == 0 || line.trim().startsWith( "#" ) || line.trim().startsWith(
-				"//" ) || line.trim().startsWith( "\'" ) ) );
+			while ( line.length() == 0 || line.startsWith( "#" ) || line.startsWith( "//" ) || line.startsWith( "\'" ) );
 
-			// You will either have reached the end of file, or you will
-			// have a valid line -- return it.
+			// You will either have reached the end of file, or you
+			// will have a valid line -- return it.
 
-			return line == null ? null : line.trim();
+			return line;
 		}
 		catch ( IOException e )
 		{
@@ -368,6 +373,8 @@ public class KoLmafiaCLI
 		{
 			return;
 		}
+
+		line = CharacterEntityReference.unescape( line );
 
 		line = line.replaceAll( "[ \t]+", " " ).trim();
 		if ( line.length() == 0 )
