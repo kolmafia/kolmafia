@@ -46,6 +46,7 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
@@ -240,7 +241,7 @@ public class DataTypes
 		{
 			if ( !Character.isDigit( name.charAt( i ) ) )
 			{
-				AdventureResult item = KoLmafiaCLI.getFirstMatchingItem( name, false );
+				AdventureResult item = ItemFinder.getFirstMatchingItem( name, false );
 
 				if ( item == null )
 				{

@@ -270,30 +270,73 @@ public class KoLDatabase
 		return !Character.isLetterOrDigit( source.charAt( index - 1 ) );
 	}
 
-	public static final boolean fuzzyMatches( final String source, final String substring )
+	public static final boolean fuzzyMatches( final String sourceString, final String searchString )
 	{
-		if ( substring == null || substring.length() == 0 )
+		if ( searchString == null || searchString.length() == 0 )
 		{
 			return true;
 		}
 
-		int searchIndex = 0;
-		int lowerIndex, upperIndex;
+		int sourceIndex = 0;
 
-		for ( int j = 0; j < substring.length(); ++j )
+		int maxSearchIndex = searchString.length() - 1;
+		int maxSourceIndex = sourceString.length() - 1;
+
+		char sourceChar, searchChar;
+
+		for ( int searchIndex = 0; searchIndex <= maxSearchIndex; ++searchIndex )
 		{
-			lowerIndex = source.indexOf( Character.toLowerCase( substring.charAt( j ) ), searchIndex );
-			upperIndex = source.indexOf( Character.toUpperCase( substring.charAt( j ) ), searchIndex );
-			searchIndex =
-				lowerIndex != -1 && upperIndex != -1 ? Math.min( lowerIndex, upperIndex ) : Math.max(
-					lowerIndex, upperIndex );
-
-			if ( searchIndex == -1 )
+			if ( sourceIndex > maxSourceIndex )
 			{
 				return false;
 			}
 
-			++searchIndex;
+			searchChar = Character.toLowerCase( searchString.charAt( searchIndex ) );
+			sourceChar = Character.toLowerCase( sourceString.charAt( sourceIndex ) );
+
+			if ( searchChar == sourceChar )
+			{
+				++sourceIndex;
+				continue;
+			}
+
+			if ( searchChar != ' ' )
+			{
+				return false;
+			}
+
+			do
+			{
+				++searchIndex;
+
+				if ( searchIndex > maxSearchIndex )
+				{
+					return false;
+				}
+
+				searchChar = searchString.charAt( searchIndex );
+			}
+			while ( searchChar == ' ' );
+
+			do
+			{
+				if ( sourceIndex >= maxSourceIndex )
+				{
+					return false;
+				}
+
+				sourceIndex = sourceString.indexOf( ' ', sourceIndex + 1 ) + 1;
+
+				if ( sourceIndex == 0 )
+				{
+					return false;
+				}
+
+				sourceChar = Character.toLowerCase( sourceString.charAt( sourceIndex ) );
+			}
+			while ( searchChar != sourceChar );
+
+			++sourceIndex;
 		}
 
 		return true;

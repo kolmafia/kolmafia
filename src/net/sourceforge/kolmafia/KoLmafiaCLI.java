@@ -62,6 +62,7 @@ import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
@@ -133,25 +134,11 @@ public class KoLmafiaCLI
 	private static final Pattern SCRIPT_PATTERN = Pattern.compile( "<script.*?</script>", Pattern.DOTALL );
 	private static final Pattern COMMENT_PATTERN = Pattern.compile( "<!--.*?-->", Pattern.DOTALL );
 
-	public static final int NOWHERE = 1;
-	public static final int CREATION = 2;
-
-	public static final int USE = 3;
-	public static final int FOOD = 4;
-	public static final int BOOZE = 5;
-
-	private static List matchList = KoLConstants.inventory;
-
-	private static boolean isFoodMatch = false;
-	private static boolean isBoozeMatch = false;
-	private static boolean isUsageMatch = false;
-	private static boolean isCreationMatch = false;
-	private static boolean isUntinkerMatch = false;
-	private static boolean isExecutingCheckOnlyCommand = false;
-
 	private String previousLine = null;
 	private String currentLine = null;
 	private BufferedReader commandStream;
+
+	public static boolean isExecutingCheckOnlyCommand = false;
 
 	private static final File ALIAS_FILE = new File( UtilityConstants.SETTINGS_LOCATION, "aliases_GLOBAL.txt" );
 	private static TreeMap aliasMap = new TreeMap();
@@ -1337,7 +1324,7 @@ public class KoLmafiaCLI
 					return;
 				}
 
-				AdventureResult result = KoLmafiaCLI.getFirstMatchingItem( parameters );
+				AdventureResult result = ItemFinder.getFirstMatchingItem( parameters, ItemFinder.ANY_MATCH );
 				if ( result != null )
 				{
 					ShowDescriptionList.showWikiDescription( result );
@@ -1588,7 +1575,7 @@ public class KoLmafiaCLI
 
 		if ( command.equals( "find" ) || command.equals( "acquire" ) || command.equals( "retrieve" ) )
 		{
-			AdventureResult item = KoLmafiaCLI.getFirstMatchingItem( parameters );
+			AdventureResult item = ItemFinder.getFirstMatchingItem( parameters, ItemFinder.ANY_MATCH );
 			if ( item != null )
 			{
 				InventoryManager.retrieveItem( item, false );
@@ -2802,7 +2789,7 @@ public class KoLmafiaCLI
 		splitParameters[ 0 ] = splitParameters[ 0 ].trim();
 		splitParameters[ 1 ] = splitParameters[ 1 ].trim();
 
-		Object[] attachments = this.getMatchingItemList( splitParameters[ 0 ] );
+		Object[] attachments = ItemFinder.getMatchingItemList( splitParameters[ 0 ] );
 		if ( attachments.length == 0 )
 		{
 			return;
@@ -3626,7 +3613,7 @@ public class KoLmafiaCLI
 		}
 		else
 		{
-			condition = KoLmafiaCLI.getFirstMatchingItem( conditionString );
+			condition = ItemFinder.getFirstMatchingItem( conditionString );
 		}
 
 		return condition;
@@ -3856,7 +3843,7 @@ public class KoLmafiaCLI
 			parameters = parameters.substring( command.length() ).trim();
 		}
 
-		AdventureResult match = KoLmafiaCLI.getFirstMatchingItem( parameters );
+		AdventureResult match = ItemFinder.getFirstMatchingItem( parameters );
 		if ( match == null )
 		{
 			return;
@@ -4308,364 +4295,6 @@ public class KoLmafiaCLI
 		return new AdventureResult( effectName, duration, true );
 	}
 
-	public static final int getFirstMatchingItemId( final List nameList )
-	{
-		return KoLmafiaCLI.getFirstMatchingItemId( nameList, null );
-	}
-
-	public static final int getFirstMatchingItemId( final List nameList, final String searchString )
-	{
-		if ( nameList == null )
-		{
-			return -1;
-		}
-
-		if ( nameList.isEmpty() )
-		{
-			return -1;
-		}
-
-		if ( nameList.size() == 1 )
-		{
-			return ItemDatabase.getItemId( (String) nameList.get( 0 ) );
-		}
-
-		String itemName;
-		int itemId, useType;
-
-		// First, if it's a usage match, then iterate through the
-		// different names and remove any item which is not usable.
-		// Also, prefer HP/MP restoratives over all items -- if any
-		// wind up matching, remove non-restorative items.
-
-		ArrayList restoreList = new ArrayList();
-
-		for ( int i = 0; i < nameList.size(); ++i )
-		{
-			itemName = (String) nameList.get( i );
-			itemId = ItemDatabase.getItemId( itemName );
-			useType = ItemDatabase.getConsumptionType( itemId );
-
-			switch ( useType )
-			{
-			case KoLConstants.CONSUME_EAT:
-			case KoLConstants.CONSUME_DRINK:
-
-				if ( KoLmafiaCLI.isUsageMatch )
-				{
-					nameList.remove( i-- );
-					continue;
-				}
-
-				break;
-
-			case KoLConstants.CONSUME_USE:
-			case KoLConstants.MESSAGE_DISPLAY:
-			case KoLConstants.INFINITE_USES:
-			case KoLConstants.CONSUME_MULTIPLE:
-
-				break;
-
-			case KoLConstants.HP_RESTORE:
-			case KoLConstants.MP_RESTORE:
-			case KoLConstants.HPMP_RESTORE:
-
-				restoreList.add( itemName );
-				break;
-
-			default:
-
-				if ( KoLmafiaCLI.isUsageMatch )
-				{
-					nameList.remove( i-- );
-					continue;
-				}
-			}
-		}
-
-		if ( !restoreList.isEmpty() )
-		{
-			nameList.clear();
-			nameList.addAll( restoreList );
-		}
-
-		for ( int i = 0; i < nameList.size(); ++i )
-		{
-			itemName = (String) nameList.get( i );
-			itemId = ItemDatabase.getItemId( itemName );
-			useType = ItemDatabase.getConsumptionType( itemId );
-
-			// If this is a food match, and the item you're looking at is
-			// not a food item, then skip it.
-
-			if ( KoLmafiaCLI.isFoodMatch && useType != KoLConstants.CONSUME_EAT )
-			{
-				nameList.remove( i-- );
-				continue;
-			}
-
-			// If this is a booze match, and the item you're looking at is
-			// not a booze item, then skip it.
-
-			if ( KoLmafiaCLI.isBoozeMatch && useType != KoLConstants.CONSUME_DRINK )
-			{
-				nameList.remove( i-- );
-				continue;
-			}
-
-			// If this is a creatable match, and the item you're looking at is
-			// not a creatable item, then skip it.
-
-			if ( ( KoLmafiaCLI.isCreationMatch || KoLmafiaCLI.isUntinkerMatch ) && ConcoctionDatabase.getMixingMethod( itemId ) == KoLConstants.NOCREATE )
-			{
-				if ( itemId != KoLConstants.MEAT_PASTE && itemId != KoLConstants.MEAT_STACK && itemId != KoLConstants.DENSE_STACK )
-				{
-					nameList.remove( i-- );
-					continue;
-				}
-			}
-		}
-
-		// If there were no matches, or there was an exact match,
-		// then return from this method.
-
-		if ( nameList.size() == 1 )
-		{
-			return ItemDatabase.getItemId( (String) nameList.get( 0 ) );
-		}
-
-		// Always prefer items which start with the search string
-		// over items where the name appears in the middle.
-
-		if ( searchString != null )
-		{
-			int matchCount = 0;
-			String bestMatch = null;
-
-			for ( int i = 0; i < nameList.size(); ++i )
-			{
-				itemName = (String) nameList.get( i );
-				if ( itemName.toLowerCase().startsWith( searchString ) )
-				{
-					++matchCount;
-					bestMatch = itemName;
-				}
-			}
-
-			if ( matchCount == 1 )
-			{
-				return ItemDatabase.getItemId( bestMatch );
-			}
-		}
-
-		// If you have a usage match, the message display items are
-		// not likely to be what you're looking for.
-
-		if ( KoLmafiaCLI.isUsageMatch )
-		{
-			for ( int i = 0; i < nameList.size(); ++i )
-			{
-				itemName = (String) nameList.get( i );
-				itemId = ItemDatabase.getItemId( itemName );
-				useType = ItemDatabase.getConsumptionType( itemId );
-
-				if ( useType == KoLConstants.MESSAGE_DISPLAY )
-				{
-					nameList.remove( i-- );
-				}
-			}
-
-			if ( nameList.size() == 1 )
-			{
-				return ItemDatabase.getItemId( (String) nameList.get( 0 ) );
-			}
-		}
-
-		if ( !KoLmafiaCLI.isUsageMatch && !KoLmafiaCLI.isFoodMatch && !KoLmafiaCLI.isBoozeMatch )
-		{
-			return 0;
-		}
-
-		// Candy hearts, snowcones and cupcakes take precedence over
-		// all the other items in the game.
-
-		for ( int i = 0; i < nameList.size(); ++i )
-		{
-			itemName = (String) nameList.get( i );
-			if ( !itemName.startsWith( "pix" ) && itemName.endsWith( "candy heart" ) )
-			{
-				return ItemDatabase.getItemId( itemName );
-			}
-		}
-
-		for ( int i = 0; i < nameList.size(); ++i )
-		{
-			itemName = (String) nameList.get( i );
-			if ( !itemName.startsWith( "abo" ) && !itemName.startsWith( "yel" ) && itemName.endsWith( "snowcone" ) )
-			{
-				return ItemDatabase.getItemId( itemName );
-			}
-		}
-
-		for ( int i = 0; i < nameList.size(); ++i )
-		{
-			itemName = (String) nameList.get( i );
-			if ( itemName.endsWith( "cupcake" ) )
-			{
-				return ItemDatabase.getItemId( itemName );
-			}
-		}
-
-		return 0;
-	}
-
-	private static final List getMatchingItemNames( final String itemName )
-	{
-		return ItemDatabase.getMatchingNames( itemName );
-	}
-
-	/**
-	 * Utility method which determines the first item which matches the given parameter string. Note that the string may
-	 * also specify an item quantity before the string.
-	 */
-
-	public static final AdventureResult getFirstMatchingItem( final String parameters )
-	{
-		return KoLmafiaCLI.getFirstMatchingItem( parameters, true );
-	}
-
-	public static final AdventureResult getFirstMatchingItem( String parameters, final boolean errorOnFailure )
-	{
-		int itemId = -1;
-		int itemCount = 1;
-
-		// First, allow for the person to type without specifying
-		// the amount, if the amount is 1.
-
-		if ( parameters.indexOf( " " ) != -1 )
-		{
-			if ( parameters.charAt( 0 ) == '*' )
-			{
-				itemCount = 0;
-				parameters = parameters.substring( 1 ).trim();
-			}
-			else if ( AdventureResult.itemId( parameters ) != -1 )
-			{
-				itemCount = 1;
-			}
-			else
-			{
-				boolean isNumeric = parameters.charAt( 0 ) == '-' || Character.isDigit( parameters.charAt( 0 ) );
-				for ( int i = 1; i < parameters.length() && parameters.charAt( i ) != ' '; ++i )
-				{
-					isNumeric &= Character.isDigit( parameters.charAt( i ) );
-				}
-
-				if ( isNumeric )
-				{
-					itemCount = StaticEntity.parseInt( parameters.substring( 0, parameters.indexOf( " " ) ) );
-					parameters = parameters.substring( parameters.indexOf( " " ) + 1 ).trim();
-				}
-			}
-		}
-
-		itemId = AdventureResult.itemId( parameters );
-
-		if ( itemId == -1 )
-		{
-			List matchingNames = KoLmafiaCLI.getMatchingItemNames( parameters );
-
-			// Next, check to see if any of the items matching appear
-			// in an NPC store.  If so, automatically default to it.
-
-			if ( !matchingNames.isEmpty() )
-			{
-				itemId = KoLmafiaCLI.getFirstMatchingItemId( matchingNames, parameters );
-			}
-			else
-			{
-				String testName, testProperty;
-				KoLCharacter.ensureUpdatedPotionEffects();
-
-				for ( int i = 819; i <= 827 && itemId == -1; ++i )
-				{
-					testProperty = Preferences.getString( "lastBangPotion" + i );
-					if ( !testProperty.equals( "" ) )
-					{
-						testName = ItemDatabase.getItemName( i ) + " of " + testProperty;
-						if ( testName.equalsIgnoreCase( parameters ) )
-						{
-							itemId = i;
-						}
-					}
-				}
-			}
-
-			if ( itemId == 0 )
-			{
-				if ( errorOnFailure )
-				{
-					KoLmafia.printList( matchingNames );
-					RequestLogger.printLine();
-
-					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "[" + parameters + "] has too many matches." );
-				}
-
-				return null;
-			}
-
-			if ( itemId == -1 )
-			{
-				if ( errorOnFailure )
-				{
-					KoLmafia.updateDisplay(
-						KoLConstants.ERROR_STATE, "[" + parameters + "] does not match anything in the item database." );
-				}
-
-				return null;
-			}
-		}
-
-		AdventureResult firstMatch = new AdventureResult( itemId, itemCount );
-
-		// The result also depends on the number of items which
-		// are available in the given match area.
-
-		int matchCount;
-
-		if ( KoLmafiaCLI.isCreationMatch )
-		{
-			CreateItemRequest instance = CreateItemRequest.getInstance( firstMatch.getItemId() );
-			matchCount = instance == null ? 0 : instance.getQuantityPossible();
-		}
-		else
-		{
-			matchCount = firstMatch.getCount( KoLmafiaCLI.matchList );
-		}
-
-		// In the event that the person wanted all except a certain
-		// quantity, be sure to update the item count.
-
-		if ( KoLmafiaCLI.matchList == KoLConstants.storage && KoLCharacter.canInteract() )
-		{
-			itemCount = matchCount;
-			firstMatch = firstMatch.getInstance( itemCount );
-		}
-		else if ( itemCount <= 0 )
-		{
-			itemCount = matchCount + itemCount;
-			firstMatch = firstMatch.getInstance( itemCount );
-		}
-
-		if ( KoLmafiaCLI.isExecutingCheckOnlyCommand )
-		{
-			RequestLogger.printLine( firstMatch == null ? "No match" : firstMatch.toString() );
-			return null;
-		}
-
-		return itemCount <= 0 ? null : firstMatch;
-	}
-
 	/**
 	 * A special module used specifically for properly instantiating ClanStorageRequests which send things to the clan
 	 * stash.
@@ -4690,7 +4319,7 @@ public class KoLmafiaCLI
 			}
 		}
 
-		Object[] itemList = this.getMatchingItemList( parameters );
+		Object[] itemList = ItemFinder.getMatchingItemList( parameters );
 		if ( itemList.length == 0 )
 		{
 			return;
@@ -4718,9 +4347,9 @@ public class KoLmafiaCLI
 			return;
 		}
 
-		KoLmafiaCLI.isUntinkerMatch = true;
-		Object[] itemList = this.getMatchingItemList( parameters );
-		KoLmafiaCLI.isUntinkerMatch = false;
+		ItemFinder.setMatchType( ItemFinder.UNTINKER_MATCH );
+		Object[] itemList = ItemFinder.getMatchingItemList( parameters );
+		ItemFinder.setMatchType( ItemFinder.ANY_MATCH );
 
 		RequestThread.openRequestSequence();
 
@@ -4815,7 +4444,7 @@ public class KoLmafiaCLI
 				parameters = parameters.trim() + " mushroom";
 			}
 
-			int spore = KoLmafiaCLI.getFirstMatchingItem( parameters ).getItemId();
+			int spore = ItemFinder.getFirstMatchingItem( parameters ).getItemId();
 
 			if ( spore == -1 )
 			{
@@ -4949,52 +4578,6 @@ public class KoLmafiaCLI
 		}
 	}
 
-	public Object[] getMatchingItemList( final String itemList )
-	{
-		String[] itemNames = itemList.split( "\\s*,\\s*" );
-
-		boolean isMeatMatch = false;
-		AdventureResult firstMatch = null;
-		ArrayList items = new ArrayList();
-
-		for ( int i = 0; i < itemNames.length; ++i )
-		{
-			isMeatMatch = false;
-
-			if ( itemNames[ i ].endsWith( "meat" ) )
-			{
-				String amountString = itemNames[ i ].split( " " )[ 0 ];
-
-				isMeatMatch =
-					amountString.charAt( 0 ) == '*' || amountString.charAt( 0 ) == '-' || Character.isDigit( amountString.charAt( 0 ) );
-				for ( int j = 1; j < amountString.length() && isMeatMatch; ++j )
-				{
-					isMeatMatch &= Character.isDigit( amountString.charAt( j ) );
-				}
-
-				if ( isMeatMatch )
-				{
-					int amount = amountString.equals( "*" ) ? 0 : StaticEntity.parseInt( amountString );
-					firstMatch =
-						new AdventureResult(
-							AdventureResult.MEAT, amount > 0 ? amount : KoLCharacter.getAvailableMeat() + amount );
-				}
-			}
-
-			if ( !isMeatMatch )
-			{
-				firstMatch = KoLmafiaCLI.getFirstMatchingItem( itemNames[ i ] );
-			}
-
-			if ( firstMatch != null )
-			{
-				AdventureResult.addResultToList( items, firstMatch );
-			}
-		}
-
-		return items.toArray();
-	}
-
 	/**
 	 * A special module used specifically for properly instantiating ClosetRequests which pulls things from
 	 * Hagnk's.
@@ -5008,9 +4591,7 @@ public class KoLmafiaCLI
 			return;
 		}
 
-		KoLmafiaCLI.matchList = KoLConstants.storage;
-		Object[] items = this.getMatchingItemList( parameters );
-		KoLmafiaCLI.matchList = KoLConstants.inventory;
+		Object[] items = ItemFinder.getMatchingItemList( parameters );
 
 		if ( items.length == 0 )
 		{
@@ -5076,13 +4657,7 @@ public class KoLmafiaCLI
 			return;
 		}
 
-		if ( parameters.startsWith( "take" ) )
-		{
-			KoLmafiaCLI.matchList = KoLConstants.closet;
-		}
-
-		Object[] itemList = this.getMatchingItemList( parameters.substring( 4 ).trim() );
-		KoLmafiaCLI.matchList = KoLConstants.inventory;
+		Object[] itemList = ItemFinder.getMatchingItemList( parameters.substring( 4 ).trim() );
 
 		if ( itemList.length == 0 )
 		{
@@ -5149,7 +4724,7 @@ public class KoLmafiaCLI
 				prices[ i ] = StaticEntity.parseInt( description );
 			}
 
-			items[ i ] = KoLmafiaCLI.getFirstMatchingItem( itemNames[ i ], false );
+			items[ i ] = ItemFinder.getFirstMatchingItem( itemNames[ i ], false );
 
 			if ( items[ i ] == null )
 			{
@@ -5161,7 +4736,7 @@ public class KoLmafiaCLI
 
 				prices[ i ] = StaticEntity.parseInt( parameters.substring( spaceIndex + 1 ) );
 				itemNames[ i ] = itemNames[ i ].substring( 0, spaceIndex ).trim();
-				items[ i ] = KoLmafiaCLI.getFirstMatchingItem( itemNames[ i ], false );
+				items[ i ] = ItemFinder.getFirstMatchingItem( itemNames[ i ], false );
 			}
 
 			if ( itemNames[ i ] == null )
@@ -5176,7 +4751,7 @@ public class KoLmafiaCLI
 				prices[ i ] = StaticEntity.parseInt( itemNames[ i ].substring( spaceIndex + 1 ) );
 				itemNames[ i ] = itemNames[ i ].substring( 0, spaceIndex ).trim();
 
-				items[ i ] = KoLmafiaCLI.getFirstMatchingItem( itemNames[ i ], false );
+				items[ i ] = ItemFinder.getFirstMatchingItem( itemNames[ i ], false );
 			}
 
 			if ( items[ i ] == null )
@@ -5205,7 +4780,7 @@ public class KoLmafiaCLI
 
 	private void executeSellStuffRequest( final String parameters )
 	{
-		Object[] items = this.getMatchingItemList( parameters );
+		Object[] items = ItemFinder.getMatchingItemList( parameters );
 		if ( items.length == 0 )
 		{
 			return;
@@ -5221,7 +4796,7 @@ public class KoLmafiaCLI
 
 	private void executeBuyCommand( final String parameters )
 	{
-		Object[] itemList = this.getMatchingItemList( parameters );
+		Object[] itemList = ItemFinder.getMatchingItemList( parameters );
 
 		for ( int i = 0; i < itemList.length; ++i )
 		{
@@ -5252,9 +4827,9 @@ public class KoLmafiaCLI
 			return;
 		}
 
-		KoLmafiaCLI.isCreationMatch = true;
-		Object[] itemList = this.getMatchingItemList( parameters );
-		KoLmafiaCLI.isCreationMatch = false;
+		ItemFinder.setMatchType( ItemFinder.CREATE_MATCH );
+		Object[] itemList = ItemFinder.getMatchingItemList( parameters );
+		ItemFinder.setMatchType( ItemFinder.ANY_MATCH );
 
 		AdventureResult currentMatch;
 		CreateItemRequest irequest;
@@ -5335,15 +4910,22 @@ public class KoLmafiaCLI
 
 		AdventureResult currentMatch;
 
-		KoLmafiaCLI.isFoodMatch = this.currentLine.startsWith( "eat" ) || this.currentLine.startsWith( "ghost" );
-		KoLmafiaCLI.isBoozeMatch = this.currentLine.startsWith( "drink" ) || this.currentLine.startsWith( "hobo" );
-		KoLmafiaCLI.isUsageMatch = !KoLmafiaCLI.isFoodMatch && !KoLmafiaCLI.isBoozeMatch;
+		if ( this.currentLine.startsWith( "eat" ) || this.currentLine.startsWith( "ghost" ) )
+		{
+			ItemFinder.setMatchType( ItemFinder.FOOD_MATCH );
+		}
+		else if ( this.currentLine.startsWith( "drink" ) || this.currentLine.startsWith( "hobo" ) )
+		{
+			ItemFinder.setMatchType( ItemFinder.BOOZE_MATCH );
+		}
+		else
+		{
+			ItemFinder.setMatchType( ItemFinder.USE_MATCH );
+		}
 
-		Object[] itemList = this.getMatchingItemList( parameters );
+		Object[] itemList = ItemFinder.getMatchingItemList( parameters );
 
-		KoLmafiaCLI.isUsageMatch = false;
-		KoLmafiaCLI.isBoozeMatch = false;
-		KoLmafiaCLI.isFoodMatch = false;
+		ItemFinder.setMatchType( ItemFinder.ANY_MATCH );
 
 		for ( int i = 0; i < itemList.length; ++i )
 		{
@@ -5414,13 +4996,7 @@ public class KoLmafiaCLI
 			return;
 		}
 
-		if ( parameters.startsWith( "take" ) )
-		{
-			KoLmafiaCLI.matchList = KoLConstants.collection;
-		}
-
-		Object[] items = this.getMatchingItemList( parameters.substring( 4 ).trim() );
-		KoLmafiaCLI.matchList = KoLConstants.inventory;
+		Object[] items = ItemFinder.getMatchingItemList( parameters.substring( 4 ).trim() );
 
 		if ( items.length == 0 )
 		{
@@ -5641,7 +5217,7 @@ public class KoLmafiaCLI
 			return;
 		}
 
-		Object[] itemList = this.getMatchingItemList( parameters );
+		Object[] itemList = ItemFinder.getMatchingItemList( parameters );
 
 		for ( int i = 0; i < itemList.length; ++i )
 		{
@@ -5655,7 +5231,7 @@ public class KoLmafiaCLI
 
 	public void makePulverizeRequest( final String parameters )
 	{
-		Object[] itemList = this.getMatchingItemList( parameters );
+		Object[] itemList = ItemFinder.getMatchingItemList( parameters );
 
 		for ( int i = 0; i < itemList.length; ++i )
 		{

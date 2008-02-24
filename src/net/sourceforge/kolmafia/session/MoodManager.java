@@ -58,6 +58,7 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
+import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
@@ -1096,7 +1097,7 @@ public abstract class MoodManager
 
 				if ( action.startsWith( "use" ) )
 				{
-					this.item = KoLmafiaCLI.getFirstMatchingItem( parameters );
+					this.item = ItemFinder.getFirstMatchingItem( parameters );
 
 					if ( this.item == null )
 					{
