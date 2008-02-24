@@ -770,7 +770,7 @@ public class ConcoctionDatabase
 
 		List availableIngredients = ConcoctionDatabase.getAvailableIngredients();
 		item.calculate( availableIngredients );
-		return item.getMeatPasteNeeded( creationCount + item.initial ) - item.initial + 1;
+		return item.getMeatPasteNeeded( creationCount + item.initial );
 	}
 
 	private static final void calculateBasicItems( final List availableIngredients )
@@ -1838,7 +1838,7 @@ public class ConcoctionDatabase
 		{
 			// Avoid mutual recursion.
 
-			if ( this.mixingMethod != KoLConstants.COMBINE || KoLCharacter.inMuscleSign() )
+			if ( this.mixingMethod != KoLConstants.COMBINE || KoLCharacter.inMuscleSign() || quantityNeeded <= this.initial )
 			{
 				return 0;
 			}
@@ -1849,9 +1849,9 @@ public class ConcoctionDatabase
 			int runningTotal = 0;
 			for ( int i = 0; i < this.ingredientArray.length; ++i )
 			{
-				runningTotal +=
-					ConcoctionDatabase.concoctions.get( this.ingredientArray[ i ].getItemId() ).getMeatPasteNeeded(
-						quantityNeeded );
+				Concoction ingredient = ConcoctionDatabase.concoctions.get( this.ingredientArray[ i ].getItemId() );
+
+				runningTotal += ingredient.getMeatPasteNeeded( quantityNeeded - ingredient.initial );
 			}
 
 			return runningTotal + quantityNeeded;

@@ -778,8 +778,7 @@ public class CreateItemRequest
 
 		boolean foundAllIngredients = true;
 
-		// If this is a combining request, you will need to make
-		// paste as well.  Make an even multiple, if none is left.
+		// If this is a combining request, you need meat paste as well.
 
 		if ( this.mixingMethod == KoLConstants.COMBINE && !KoLCharacter.inMuscleSign() )
 		{
