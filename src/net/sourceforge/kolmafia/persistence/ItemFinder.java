@@ -172,6 +172,7 @@ public class ItemFinder
 		for ( int i = 0; i < nameList.size(); ++i )
 		{
 			itemName = (String) nameList.get( i );
+			System.out.println( itemName );
 			if ( !itemName.startsWith( "abo" ) && !itemName.startsWith( "yel" ) && itemName.endsWith( "snowcone" ) )
 			{
 				return ItemDatabase.getItemId( itemName );
@@ -231,9 +232,6 @@ public class ItemFinder
 
 			switch ( filterType )
 			{
-			case ItemFinder.USE_MATCH:
-				i = ItemFinder.conditionalRemove( nameList, i, useType != KoLConstants.NO_CONSUME && useType != KoLConstants.MESSAGE_DISPLAY );
-				break;
 			case ItemFinder.FOOD_MATCH:
 				i = ItemFinder.conditionalRemove( nameList, i, useType != KoLConstants.CONSUME_EAT );
 				break;
@@ -245,6 +243,24 @@ public class ItemFinder
 				break;
 			case ItemFinder.UNTINKER_MATCH:
 				i = ItemFinder.conditionalRemove( nameList, i, ConcoctionDatabase.getMixingMethod( itemId ) != KoLConstants.COMBINE );
+				break;
+
+			case ItemFinder.USE_MATCH:
+
+				switch ( useType )
+				{
+				case KoLConstants.CONSUME_USE:
+				case KoLConstants.CONSUME_MULTIPLE:
+				case KoLConstants.HP_RESTORE:
+				case KoLConstants.MP_RESTORE:
+				case KoLConstants.HPMP_RESTORE:
+				case KoLConstants.CONSUME_SPECIAL:
+				case KoLConstants.CONSUME_SPHERE:
+					break;
+				default:
+					i = ItemFinder.conditionalRemove( nameList, i, true );
+				}
+
 				break;
 			}
 		}

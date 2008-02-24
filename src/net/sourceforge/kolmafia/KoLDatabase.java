@@ -283,6 +283,7 @@ public class KoLDatabase
 		int maxSourceIndex = sourceString.length() - 1;
 
 		char sourceChar, searchChar;
+		boolean matchedSpace = false;
 
 		for ( int searchIndex = 0; searchIndex <= maxSearchIndex; ++searchIndex )
 		{
@@ -297,37 +298,44 @@ public class KoLDatabase
 			if ( searchChar == sourceChar )
 			{
 				++sourceIndex;
+				matchedSpace = Character.isWhitespace( searchChar );
 				continue;
 			}
 
-			if ( searchChar != ' ' )
+			if ( !matchedSpace )
 			{
-				return false;
-			}
-
-			do
-			{
-				++searchIndex;
-
-				if ( searchIndex > maxSearchIndex )
+				if ( !Character.isWhitespace( searchChar ) )
 				{
 					return false;
 				}
 
-				searchChar = searchString.charAt( searchIndex );
+				do
+				{
+					++searchIndex;
+
+					if ( searchIndex > maxSearchIndex )
+					{
+						return false;
+					}
+
+					searchChar = Character.toLowerCase( searchString.charAt( searchIndex ) );
+				}
+				while ( Character.isWhitespace( searchChar ) );
+
+				if ( sourceChar != ' ' )
+				{
+					sourceIndex = sourceString.indexOf( ' ', sourceIndex );
+
+					if ( sourceIndex == -1 )
+					{
+						return false;
+					}
+				}
 			}
-			while ( searchChar == ' ' );
 
 			do
 			{
-				if ( sourceIndex >= maxSourceIndex )
-				{
-					return false;
-				}
-
-				sourceIndex = sourceString.indexOf( ' ', sourceIndex + 1 ) + 1;
-
-				if ( sourceIndex == 0 )
+				if ( ++sourceIndex > maxSourceIndex )
 				{
 					return false;
 				}
