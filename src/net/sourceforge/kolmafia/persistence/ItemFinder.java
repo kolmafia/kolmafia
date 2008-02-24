@@ -73,6 +73,11 @@ public class ItemFinder
 			return result;
 		}
 
+		if ( searchString.indexOf( " " ) == -1 )
+		{
+			return result;
+		}
+
 		String [] allNames = ItemDatabase.getAllNames();
 
 		for ( int i = 0; i < allNames.length; ++i )

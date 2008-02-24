@@ -277,15 +277,40 @@ public class KoLDatabase
 			return true;
 		}
 
-		int sourceIndex = 0;
-
-		int maxSearchIndex = searchString.length() - 1;
+		char sourceChar = '\0';
+		int sourceIndex = -1;
 		int maxSourceIndex = sourceString.length() - 1;
 
-		char sourceChar, searchChar;
+		char searchChar = Character.toLowerCase( searchString.charAt( 0 ) );
+
+		// First, find the index of the first character
+		// to begin the search (this allows searches to
+		// start in the middle of the string.
+
+		for ( int i = 0; i <= maxSourceIndex && sourceIndex == -1; ++i )
+		{
+			sourceChar = Character.toLowerCase( sourceString.charAt(i) );
+			if ( searchChar == sourceChar )
+			{
+				sourceIndex = i;
+			}
+		}
+
+		if ( sourceIndex == -1 )
+		{
+			return false;
+		}
+
+		++sourceIndex;
+		int maxSearchIndex = searchString.length() - 1;
+
 		boolean matchedSpace = false;
 
-		for ( int searchIndex = 0; searchIndex <= maxSearchIndex; ++searchIndex )
+		// Next, search the rest of the string.  Make sure
+		// that all characters are accounted for in the fuzzy
+		// matching sequence.
+
+		for ( int searchIndex = 1; searchIndex <= maxSearchIndex; ++searchIndex )
 		{
 			if ( sourceIndex > maxSourceIndex )
 			{
@@ -302,12 +327,23 @@ public class KoLDatabase
 				continue;
 			}
 
+			// If the last character matched was not whitespace,
+			// we need to search for the next whitespace character
+			// in the source string.
+
 			if ( !matchedSpace )
 			{
+				// If the search character isn't a whitespace, we
+				// shouldn't bother fuzzy matching.
+
 				if ( !Character.isWhitespace( searchChar ) )
 				{
 					return false;
 				}
+
+				// Begin searching for the next non-whitespace
+				// character in the source string -- this is
+				// what we will match against next.
 
 				do
 				{
@@ -322,6 +358,9 @@ public class KoLDatabase
 				}
 				while ( Character.isWhitespace( searchChar ) );
 
+				// If the current character is not a space,
+				// find the next space to begin searching.
+
 				if ( sourceChar != ' ' )
 				{
 					sourceIndex = sourceString.indexOf( ' ', sourceIndex );
@@ -333,6 +372,9 @@ public class KoLDatabase
 				}
 			}
 
+			// Search for the next matching character after
+			// the whitespace in the source string.
+
 			do
 			{
 				if ( ++sourceIndex > maxSourceIndex )
@@ -343,6 +385,9 @@ public class KoLDatabase
 				sourceChar = Character.toLowerCase( sourceString.charAt( sourceIndex ) );
 			}
 			while ( searchChar != sourceChar );
+
+			// Now that we know we've found the character,
+			// increment the counter and continue.
 
 			++sourceIndex;
 		}
