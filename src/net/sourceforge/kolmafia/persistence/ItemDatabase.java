@@ -633,197 +633,8 @@ public class ItemDatabase
 			return ItemDatabase.getItemId( (String) possibilities.get( 0 ), count );
 		}
 
-		// Abort if it's clearly not going to be a plural,
-		// since this might kill off multi-item detection.
-
-		if ( count < 2 )
-		{
-			return -1;
-		}
-
-		// Or maybe it's a standard plural where they just add a letter
-		// to the end.
-
-		itemId = ItemDatabase.itemIdByName.get( canonicalName.substring( 0, canonicalName.length() - 1 ) );
-		if ( itemId != null )
-		{
-			return ( (Integer) itemId ).intValue();
-		}
-
-		// If it's a snowcone, then reverse the word order
-		if ( canonicalName.startsWith( "snowcones" ) )
-		{
-			return ItemDatabase.getItemId( canonicalName.split( " " )[ 1 ] + " snowcone", count );
-		}
-
-		// Lo mein has this odd pluralization where there's a dash
-		// introduced into the name when no such dash exists in the
-		// singular form.
-
-		itemId = ItemDatabase.itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "-", " " ) );
-		if ( itemId != null )
-		{
-			return ( (Integer) itemId ).intValue();
-		}
-
-		// The word right before the dash may also be pluralized,
-		// so make sure the dashed words are recognized.
-
-		itemId = ItemDatabase.itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "es-", "-" ) );
-		if ( itemId != null )
-		{
-			return ( (Integer) itemId ).intValue();
-		}
-
-		itemId = ItemDatabase.itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "s-", "-" ) );
-		if ( itemId != null )
-		{
-			return ( (Integer) itemId ).intValue();
-		}
-
-		// If it's a plural form of "tooth", then make
-		// sure that it's handled.  Other things which
-		// also have "ee" plural forms should be clumped
-		// in as well.
-
-		itemId = ItemDatabase.itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "ee", "oo" ) );
-		if ( itemId != null )
-		{
-			return ( (Integer) itemId ).intValue();
-		}
-
-		// Also handle the plural of vortex, which is
-		// "vortices" -- this should only appear in the
-		// meat vortex, but better safe than sorry.
-
-		itemId =
-			ItemDatabase.itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "ices", "ex" ) );
-		if ( itemId != null )
-		{
-			return ( (Integer) itemId ).intValue();
-		}
-
-		// Handling of appendices (which is the plural
-		// of appendix, not appendex, so it is not caught
-		// by the previous test).
-
-		itemId =
-			ItemDatabase.itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "ices", "ix" ) );
-		if ( itemId != null )
-		{
-			return ( (Integer) itemId ).intValue();
-		}
-
-		// Also add in a special handling for knives
-		// and other things ending in "ife".
-
-		itemId =
-			ItemDatabase.itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "ives", "ife" ) );
-		if ( itemId != null )
-		{
-			return ( (Integer) itemId ).intValue();
-		}
-
-		// Also add in a special handling for elves
-		// and other things ending in "f".
-
-		itemId = ItemDatabase.itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "ves", "f" ) );
-		if ( itemId != null )
-		{
-			return ( (Integer) itemId ).intValue();
-		}
-
-		// Also add in a special handling for staves
-		// and other things ending in "aff".
-
-		itemId =
-			ItemDatabase.itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "aves", "aff" ) );
-		if ( itemId != null )
-		{
-			return ( (Integer) itemId ).intValue();
-		}
-
-		// If it's a pluralized form of something that
-		// ends with "y", then return the appropriate
-		// item Id for the "y" version.
-
-		if ( canonicalName.endsWith( "ies" ) )
-		{
-			itemId =
-				ItemDatabase.itemIdByName.get( canonicalName.substring( 0, canonicalName.length() - 3 ) + "y" );
-			if ( itemId != null )
-			{
-				return ( (Integer) itemId ).intValue();
-			}
-		}
-
-		itemId =
-			ItemDatabase.itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "ies ", "y " ) );
-		if ( itemId != null )
-		{
-			return ( (Integer) itemId ).intValue();
-		}
-
-		// If it's a pluralized form of something that
-		// ends with "o", then return the appropriate
-		// item Id for the "o" version.
-
-		if ( canonicalName.endsWith( "es" ) )
-		{
-			itemId = ItemDatabase.itemIdByName.get( canonicalName.substring( 0, canonicalName.length() - 2 ) );
-			if ( itemId != null )
-			{
-				return ( (Integer) itemId ).intValue();
-			}
-		}
-
-		itemId = ItemDatabase.itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "es ", " " ) );
-		if ( itemId != null )
-		{
-			return ( (Integer) itemId ).intValue();
-		}
-
-		// If it's a pluralized form of something that
-		// ends with "an", then return the appropriate
-		// item Id for the "en" version.
-
-		itemId =
-			ItemDatabase.itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "en ", "an " ) );
-		if ( itemId != null )
-		{
-			return ( (Integer) itemId ).intValue();
-		}
-
-		// If it's a standard pluralized forms, then
-		// return the appropriate item Id.
-
-		itemId = ItemDatabase.itemIdByName.get( canonicalName.replaceFirst( "([A-Za-z])s ", "$1 " ) );
-		if ( itemId != null )
-		{
-			return ( (Integer) itemId ).intValue();
-		}
-
-		// If it's something that ends with 'i', then
-		// it might be a singular ending with 'us'.
-
-		if ( canonicalName.endsWith( "i" ) )
-		{
-			itemId =
-				ItemDatabase.itemIdByName.get( canonicalName.substring( 0, canonicalName.length() - 1 ) + "us" );
-			if ( itemId != null )
-			{
-				return ( (Integer) itemId ).intValue();
-			}
-		}
-
-		// Attempt to find the item name by brute force
-		// by checking every single space location.  Do
-		// this recursively for best results.
-
-		// int lastSpaceIndex = canonicalName.indexOf( " " );
-		// return lastSpaceIndex != -1 ? getItemId( canonicalName.substring( lastSpaceIndex ).trim(), count ) : -1;
-
 		// Unknown item
+
 		return -1;
 	}
 
@@ -1048,6 +859,13 @@ public class ItemDatabase
 	{
 		Integer itemId = (Integer) ItemDatabase.itemIdByDescription.get( descriptionId );
 		return itemId == null ? -1 : itemId.intValue();
+	}
+
+	public static final String [] getAllNames()
+	{
+		String [] allNames = new String[ itemIdByName.size() ];
+		itemIdByName.keySet().toArray( allNames );
+		return allNames;
 	}
 
 	/**

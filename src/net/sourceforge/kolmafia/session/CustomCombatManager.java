@@ -56,6 +56,7 @@ import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.request.FightRequest;
@@ -714,7 +715,9 @@ public abstract class CustomCombatManager
 			return CustomCombatManager.getLongItemAction( action.substring( 4 ).trim() );
 		}
 
-		int itemId = KoLmafiaCLI.getFirstMatchingItemId( ItemDatabase.getMatchingNames( action ) );
+		List matchingNames = ItemDatabase.getMatchingNames( action );
+		int itemId = matchingNames.isEmpty() ? -1 : ItemDatabase.getItemId( (String) matchingNames.get(0) );
+
 		if ( itemId <= 0 )
 		{
 			return "attack with weapon";

@@ -39,7 +39,6 @@ import java.util.ArrayList;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -53,6 +52,7 @@ import net.sourceforge.kolmafia.session.MoodManager;
 import net.sourceforge.kolmafia.request.BasementRequest;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class BasementDecorator
@@ -377,7 +377,7 @@ public class BasementDecorator
 			if ( this.action.startsWith( "use" ) || this.action.startsWith( "chew" ) || this.action.startsWith( "drink" ) )
 			{
 				int index = this.action.indexOf( " " ) + 1;
-				this.item = KoLmafiaCLI.getFirstMatchingItem( this.action.substring( index ).trim(), false );
+				this.item = ItemFinder.getFirstMatchingItem( this.action.substring( index ).trim(), false );
 				if ( this.item != null )
 				{
 					this.itemAvailable = InventoryManager.hasItem( this.item );
