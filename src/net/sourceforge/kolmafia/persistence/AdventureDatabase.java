@@ -101,6 +101,7 @@ public class AdventureDatabase
 		AdventureDatabase.conditionsById.set( 75, "1 wussiness potion, 1 ruby W, 1 dodecagram" ); // Friar's Quest 1
 		AdventureDatabase.conditionsById.set( 76, "1 box of birthday candles" ); // Friar's Quest 2
 		AdventureDatabase.conditionsById.set( 77, "1 eldritch butterknife" ); // Friar's Quest 3
+		AdventureDatabase.conditionsById.set( 79, "1 Azazel's unicorn, 1 Azazel's lollipop, 1 Azazel's tutu" ); 	// Friar's gate
 		AdventureDatabase.conditionsById.set( 80, "1 64735 scroll, 1 lowercase N" ); // Valley Beyond Orc Chasm
 		AdventureDatabase.conditionsById.set( 81, "1 metallic A, 1 S.O.C.K." ); // Fantasy Airship
 		AdventureDatabase.conditionsById.set( 82, "2 choiceadv, castle map items, 1 heavy D" ); // Giant's Castle
@@ -117,12 +118,15 @@ public class AdventureDatabase
 		AdventureDatabase.conditionsById.set( 113, "1 razor-sharp can lid" ); // Haunted Pantry
 		AdventureDatabase.conditionsById.set( 114, "1 chef's hat" ); // Knob Outskirts
 		AdventureDatabase.conditionsById.set( 119, "1 stunt nuts, 1 I Love Me Vol I" ); // Palindome
+		AdventureDatabase.conditionsById.set( 124, "1 carved wooden wheel" );	// The Upper Chamber
 		AdventureDatabase.conditionsById.set( 127, "1 filthworm hatchling scent gland" ); // The Hatching Chamber
 		AdventureDatabase.conditionsById.set( 128, "1 filthworm drone scent gland" ); // The Feeding Chamber
 		AdventureDatabase.conditionsById.set( 129, "1 filthworm royal guard scent gland" ); // The Guards Chamber
+		AdventureDatabase.conditionsById.set( 136, "5 barrel of gunpowder" );		// Sonofa Beach
 		AdventureDatabase.conditionsById.set( 151, "1 choiceadv" ); // Stately Pleasure Dome
 		AdventureDatabase.conditionsById.set( 152, "1 choiceadv" ); // Mouldering Mansion
 		AdventureDatabase.conditionsById.set( 153, "1 choiceadv" ); // Rogue Windmill
+		AdventureDatabase.conditionsById.set( 158, "1 Mizzenmast mop, 1 ball polish, 1 rigging shampoo" );	// F'c'le
 	}
 
 	private static final StringArray bountiesById = new StringArray();
