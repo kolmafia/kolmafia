@@ -44,7 +44,7 @@
 38	645141763	Knob Goblin pants	pairs of Knob Goblin pants
 39	436457816	pretty flower	pretty flowers
 40	733986618	casino pass	casino passes
-41	305316771	ice-cold Sir Schlitz	ice-cold Sir Schlitzes
+41	305316771	ice-cold Sir Schlitz	ice-cold Sir Schlitzs
 42	467488422	hermit permit	hermit permits
 43	134561658	worthless trinket	worthless trinkets
 44	727798834	worthless gewgaw	worthless gewgaws
