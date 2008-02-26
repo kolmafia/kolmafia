@@ -100,7 +100,7 @@ public class AdventureSelectPanel
 
 	private KoLAdventure lastAdventure = null;
 
-	private JCheckBox autoSetCheckBox = new JCheckBox();
+	private JCheckBox conditionsFieldActive = new JCheckBox();
 	private AutoHighlightTextField conditionField = new AutoHighlightTextField();
 
 	public AdventureSelectPanel( final boolean enableAdventures )
@@ -246,12 +246,12 @@ public class AdventureSelectPanel
 
 			JPanel conditionPanel = new JPanel( new BorderLayout( 5, 5 ) );
 			conditionPanel.add( AdventureSelectPanel.this.conditionField, BorderLayout.CENTER );
-			conditionPanel.add( AdventureSelectPanel.this.autoSetCheckBox, BorderLayout.EAST );
+			conditionPanel.add( AdventureSelectPanel.this.conditionsFieldActive, BorderLayout.EAST );
 
-			AdventureSelectPanel.this.autoSetCheckBox.setSelected( Preferences.getBoolean( "autoSetConditions" ) );
+			AdventureSelectPanel.this.conditionsFieldActive.setSelected( Preferences.getBoolean( "autoSetConditions" ) );
 			AdventureSelectPanel.this.conditionField.setEnabled( Preferences.getBoolean( "autoSetConditions" ) );
 
-			AdventureSelectPanel.this.autoSetCheckBox.addActionListener( new EnableObjectivesListener() );
+			AdventureSelectPanel.this.conditionsFieldActive.addActionListener( new EnableObjectivesListener() );
 
 			JPanel buttonWrapper = new JPanel();
 			buttonWrapper.add( AdventureSelectPanel.this.begin = new ExecuteButton() );
@@ -295,9 +295,9 @@ public class AdventureSelectPanel
 			public void run()
 			{
 				Preferences.setBoolean(
-					"autoSetConditions", AdventureSelectPanel.this.autoSetCheckBox.isSelected() );
+					"autoSetConditions", AdventureSelectPanel.this.conditionsFieldActive.isSelected() );
 
-				AdventureSelectPanel.this.conditionField.setEnabled( AdventureSelectPanel.this.autoSetCheckBox.isSelected() && !KoLmafia.isAdventuring() );
+				AdventureSelectPanel.this.conditionField.setEnabled( AdventureSelectPanel.this.conditionsFieldActive.isSelected() && !KoLmafia.isAdventuring() );
 			}
 		}
 	}
@@ -384,43 +384,50 @@ public class AdventureSelectPanel
 			// If there are conditions in the condition field, be
 			// sure to process them.
 
-			if ( KoLConstants.conditions.isEmpty() || AdventureSelectPanel.this.lastAdventure != null && AdventureSelectPanel.this.lastAdventure != request )
+			boolean conditionsActive = AdventureSelectPanel.this.conditionsFieldActive.isSelected();
+			String conditionList = AdventureSelectPanel.this.conditionField.getText().trim().toLowerCase();
+
+			Object stats = null;
+			int substatIndex = KoLConstants.conditions.indexOf( KoLConstants.tally.get( 2 ) );
+
+			if ( substatIndex != 0 )
 			{
-				Object stats = null;
-				int substatIndex = KoLConstants.conditions.indexOf( KoLConstants.tally.get( 2 ) );
+				stats = KoLConstants.conditions.get( substatIndex );
+			}
 
-				if ( substatIndex != 0 )
-				{
-					stats = KoLConstants.conditions.get( substatIndex );
-				}
-
+			if ( conditionsActive )
+			{
 				KoLConstants.conditions.clear();
+			}
 
-				if ( stats != null )
-				{
-					KoLConstants.conditions.add( stats );
-				}
+			if ( stats != null )
+			{
+				KoLConstants.conditions.add( stats );
+			}
 
-				AdventureSelectPanel.this.lastAdventure = request;
+			boolean shouldAdventure = true;
+			RequestThread.openRequestSequence();
 
-				RequestThread.openRequestSequence();
+			if ( conditionsActive && conditionList.length() > 0 && !conditionList.equals( "none" ) )
+			{
 				AdventureSelectPanel.this.isHandlingConditions = true;
-				boolean shouldAdventure = this.handleConditions( request );
+				shouldAdventure = this.handleConditions( conditionList, request );
 				AdventureSelectPanel.this.isHandlingConditions = false;
-				RequestThread.closeRequestSequence();
+			}
 
-				if ( !shouldAdventure )
-				{
-					this.isProcessing = false;
-					return;
-				}
+			RequestThread.closeRequestSequence();
+
+			if ( !shouldAdventure )
+			{
+				this.isProcessing = false;
+				return;
 			}
 
 			int requestCount =
 				Math.min(
 					GenericFrame.getValue( AdventureSelectPanel.this.countField, 1 ), KoLCharacter.getAdventuresLeft() );
-			AdventureSelectPanel.this.countField.setValue( requestCount );
 
+			AdventureSelectPanel.this.countField.setValue( requestCount );
 			boolean resetCount = requestCount == KoLCharacter.getAdventuresLeft();
 
 			StaticEntity.getClient().makeRequest( request, requestCount );
@@ -433,20 +440,14 @@ public class AdventureSelectPanel
 			this.isProcessing = false;
 		}
 
-		private boolean handleConditions( final KoLAdventure request )
+		private boolean handleConditions( final String conditionList, final KoLAdventure request )
 		{
 			if ( KoLmafia.isAdventuring() )
 			{
 				return false;
 			}
 
-			String conditionList = AdventureSelectPanel.this.conditionField.getText().trim().toLowerCase();
 			KoLConstants.conditions.clear();
-
-			if ( !AdventureSelectPanel.this.autoSetCheckBox.isSelected() || conditionList.length() == 0 || conditionList.equalsIgnoreCase( "none" ) )
-			{
-				return true;
-			}
 
 			String[] splitConditions = conditionList.split( "\\s*,\\s*" );
 
