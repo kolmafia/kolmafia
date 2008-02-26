@@ -2341,7 +2341,7 @@
 2335	540134689	rubber WWBBDD? bracelet
 2336	209797948	lead pipe	lead pipes
 2337	213151374	reinforced beaded headband	reinforced beaded headbands
-2338	716388011	black pudding
+2338	716388011	black pudding	black puddings
 2339	459189919	Blackfly Chardonnay	bottles of Blackfly Chardonnay
 2340	851939683	black & tan	blacks & tans
 2341	386692175	black pepper	shakers of black pepper
