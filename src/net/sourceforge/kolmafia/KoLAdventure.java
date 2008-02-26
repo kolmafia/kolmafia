@@ -856,11 +856,14 @@ public class KoLAdventure
 		{
 			AdventureResult clover = ItemPool.get( ItemPool.TEN_LEAF_CLOVER, 1 );
 			int count = clover.getCount( KoLConstants.inventory );
-			new UseItemRequest( ItemPool.get( ItemPool.TEN_LEAF_CLOVER, count ) ).run();
+
+			if ( count > 0 )
+			{
+				new UseItemRequest( ItemPool.get( ItemPool.TEN_LEAF_CLOVER, count ) ).run();
+			}
 		}
 
-		TurnCounter expired =
-			StaticEntity.getExpiredCounter( this.formSource.equals( "adventure.php" ) ? this.request.getFormField( "snarfblat" ) : "" );
+		TurnCounter expired = StaticEntity.getExpiredCounter( this.getAdventureId() );
 
 		if ( expired != null )
 		{
@@ -1018,96 +1021,6 @@ public class KoLAdventure
 		}
 	}
 
-	public static final String getUnknownName( final String urlString )
-	{
-		if ( urlString.startsWith( "adventure.php" ) && urlString.indexOf( "snarfblat=122" ) != -1 )
-		{
-			return "Oasis in the Desert";
-		}
-		else if ( urlString.startsWith( "shore.php" ) && urlString.indexOf( "whichtrip=1" ) != -1 )
-		{
-			return "Muscle Vacation";
-		}
-		else if ( urlString.startsWith( "shore.php" ) && urlString.indexOf( "whichtrip=2" ) != -1 )
-		{
-			return "Mysticality Vacation";
-		}
-		else if ( urlString.startsWith( "shore.php" ) && urlString.indexOf( "whichtrip=3" ) != -1 )
-		{
-			return "Moxie Vacation";
-		}
-		else if ( urlString.startsWith( "guild.php?action=chal" ) )
-		{
-			return "Guild Challenge";
-		}
-		else if ( urlString.startsWith( "basement.php" ) )
-		{
-			return "Fernswarthy's Basement (Level " + BasementRequest.getBasementLevel() + ")";
-		}
-		else if ( urlString.startsWith( "dungeon.php" ) )
-		{
-			return "Daily Dungeon (Room " + DungeonDecorator.getDungeonRoom() + ")";
-		}
-		else if ( urlString.startsWith( "rats.php" ) )
-		{
-			return "Typical Tavern Quest";
-		}
-		else if ( urlString.startsWith( "barrel.php" ) )
-		{
-			return "Barrel Full of Barrels";
-		}
-		else if ( urlString.startsWith( "mining.php" ) )
-		{
-			return "Mining (In Disguise)";
-		}
-		else if ( urlString.startsWith( "arena.php" ) && urlString.indexOf( "action" ) != -1 )
-		{
-			return "Cake-Shaped Arena";
-		}
-		else if ( urlString.startsWith( "lair4.php?action=level1" ) )
-		{
-			return "Sorceress Tower: Level 1";
-		}
-		else if ( urlString.startsWith( "lair4.php?action=level2" ) )
-		{
-			return "Sorceress Tower: Level 2";
-		}
-		else if ( urlString.startsWith( "lair4.php?action=level3" ) )
-		{
-			return "Sorceress Tower: Level 3";
-		}
-		else if ( urlString.startsWith( "lair5.php?action=level1" ) )
-		{
-			return "Sorceress Tower: Level 4";
-		}
-		else if ( urlString.startsWith( "lair5.php?action=level2" ) )
-		{
-			return "Sorceress Tower: Level 5";
-		}
-		else if ( urlString.startsWith( "lair5.php?action=level3" ) )
-		{
-			return "Sorceress Tower: Level 6";
-		}
-		else if ( urlString.startsWith( "lair6.php?place=0" ) )
-		{
-			return "Sorceress Tower: Door Puzzles";
-		}
-		else if ( urlString.startsWith( "lair6.php?place=2" ) )
-		{
-			return "Sorceress Tower: Shadow Fight";
-		}
-		else if ( urlString.startsWith( "lair6.php?place=5" ) )
-		{
-			return "Sorceress Tower: Naughty Sorceress";
-		}
-		else if ( urlString.startsWith( "hiddencity.php" ) )
-		{
-			return "Hidden City: Unexplored Ruins";
-		}
-
-		return null;
-	}
-
 	public static final boolean recordToSession( final String urlString )
 	{
 		// In the event that this is an adventure, assume "snarfblat"
@@ -1173,7 +1086,7 @@ public class KoLAdventure
 		// Not an internal location.  Perhaps it's something related
 		// to another common request?
 
-		String location = KoLAdventure.getUnknownName( urlString );
+		String location = AdventureDatabase.getUnknownName( urlString );
 		if ( location == null )
 		{
 			return false;

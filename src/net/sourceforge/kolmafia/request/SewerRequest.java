@@ -40,6 +40,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 
@@ -71,7 +72,7 @@ public class SewerRequest
 			return;
 		}
 
-		if ( !InventoryManager.retrieveItem( ItemPool.CHEWING_GUM  ) )
+		if ( !InventoryManager.retrieveItem( ItemPool.CHEWING_GUM ) )
 		{
 			return;
 		}
@@ -84,7 +85,7 @@ public class SewerRequest
 				return;
 			}
 
-                        this.runLuckySewer();
+            this.runLuckySewer();
 		}
 		else
 		{
@@ -152,6 +153,7 @@ public class SewerRequest
 		// Enter the sewer
 
 		super.run();
+		StaticEntity.getClient().processResult( ItemPool.TEN_LEAF_CLOVER, -1 );
 	}
 
 	/**
@@ -160,7 +162,7 @@ public class SewerRequest
 
 	private void runUnluckySewer()
 	{
-		if ( StaticEntity.getClient().isLuckyCharacter() )
+		if ( AdventureDatabase.isPotentialCloverAdventure( "sewer.php" ) )
 		{
 			AdventureResult clover = ItemPool.get( ItemPool.TEN_LEAF_CLOVER, 1 );
 			int count = clover.getCount( KoLConstants.inventory );
@@ -176,17 +178,6 @@ public class SewerRequest
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You have an unaccounted for ten-leaf clover." );
 			return;
-		}
-	}
-
-	public void processResults()
-	{
-		if ( this.responseText.indexOf( "You acquire" ) != -1 )
-		{
-			if ( StaticEntity.getClient().isLuckyCharacter() )
-			{
-				StaticEntity.getClient().processResult( ItemPool.TEN_LEAF_CLOVER, -1 );
-			}
 		}
 	}
 

@@ -1169,10 +1169,14 @@ public class RelayRequest
 			}
 		}
 
-		if ( AdventureDatabase.getAdventureByURL( urlString ) != null || KoLAdventure.getUnknownName( urlString ) != null )
+		KoLAdventure adventure = AdventureDatabase.getAdventureByURL( urlString );
+		String adventureName = adventure != null ? adventure.getAdventureName() :
+			AdventureDatabase.getUnknownName( urlString );
+
+		if ( adventureName != null )
 		{
-			TurnCounter expired =
-				StaticEntity.getExpiredCounter( path.equals( "adventure.php" ) ? this.getFormField( "snarfblat" ) : "" );
+			TurnCounter expired = StaticEntity.getExpiredCounter(
+				adventure != null ? adventure.getAdventureId() : "" );
 
 			if ( expired != null )
 			{
@@ -1183,7 +1187,7 @@ public class RelayRequest
 				return;
 			}
 
-			if ( StaticEntity.getClient().isLuckyCharacter() )
+			if ( AdventureDatabase.isPotentialCloverAdventure( adventureName ) )
 			{
 				this.sendGeneralWarning(
 					"clover.gif",
@@ -1200,11 +1204,7 @@ public class RelayRequest
 
 			if ( path.equals( "adventure.php" ) )
 			{
-				String location = this.getFormField( "snarfblat" );
-				if ( location == null )
-				{
-					location = this.getFormField( "adv" );
-				}
+				String location = adventure == null ? null : adventure.getAdventureId();
 
 				// This one's for the Boss Bat, who has special
 				// items at 4 and 8.
