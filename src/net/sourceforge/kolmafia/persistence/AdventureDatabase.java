@@ -35,7 +35,6 @@ package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.TreeMap;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -49,12 +48,12 @@ import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
-import net.sourceforge.kolmafia.session.LouvreManager;
-import net.sourceforge.kolmafia.session.VioletFogManager;
+import net.sourceforge.kolmafia.webui.DungeonDecorator;
 
+import net.sourceforge.kolmafia.request.BasementRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
-import net.sourceforge.kolmafia.request.FightRequest;
 
 public class AdventureDatabase
 	extends KoLDatabase
@@ -69,6 +68,7 @@ public class AdventureDatabase
 	private static final StringArray[] adventureTable = new StringArray[ 4 ];
 	private static final TreeMap areaCombatData = new TreeMap();
 	private static final TreeMap adventureLookup = new TreeMap();
+	private static final TreeMap cloverLookup = new TreeMap();
 
 	private static final StringArray conditionsById = new StringArray();
 	static
@@ -254,16 +254,12 @@ public class AdventureDatabase
 
 		while ( ( data = KoLDatabase.readData( reader ) ) != null )
 		{
-			if ( data.length > 2 )
+			if ( data.length > 3 )
 			{
-				if ( data[ 1 ].indexOf( "send" ) != -1 )
-				{
-					continue;
-				}
-
-				String zone = data[0];
+				String zone = data[ 0 ];
 				String[] location = data[ 1 ].split( "=" );
-				String name = data[2];
+				boolean hasCloverAdventure = data[ 2 ].equals( "true" );
+				String name = data[ 3 ];
 
 				if ( AdventureDatabase.PARENT_ZONES.get( zone ) == null )
 				{
@@ -272,11 +268,11 @@ public class AdventureDatabase
 				}
 
 				AdventureDatabase.adventureTable[ 0 ].add( zone );
-
 				AdventureDatabase.adventureTable[ 1 ].add( location[ 0 ] + ".php" );
 				AdventureDatabase.adventureTable[ 2 ].add( location[ 1 ] );
-
 				AdventureDatabase.adventureTable[ 3 ].add( name );
+
+				AdventureDatabase.cloverLookup.put( name, hasCloverAdventure ? Boolean.TRUE : Boolean.FALSE );
 			}
 		}
 
@@ -579,7 +575,7 @@ public class AdventureDatabase
 		return "none";
 	}
 
-	public static final boolean freeAdventure( final String text )
+	public static final boolean isFreeAdventure( final String text )
 	{
 		for ( int i = 0; i < AdventureDatabase.FREE_ADVENTURES.length; ++i )
 		{
@@ -614,6 +610,109 @@ public class AdventureDatabase
 
 		// Get the combat data
 		return (AreaCombatData) AdventureDatabase.areaCombatData.get( area );
+	}
+
+	public static final String getUnknownName( final String urlString )
+	{
+		if ( urlString.startsWith( "adventure.php" ) && urlString.indexOf( "snarfblat=122" ) != -1 )
+		{
+			return "Oasis in the Desert";
+		}
+		else if ( urlString.startsWith( "shore.php" ) && urlString.indexOf( "whichtrip=1" ) != -1 )
+		{
+			return "Muscle Vacation";
+		}
+		else if ( urlString.startsWith( "shore.php" ) && urlString.indexOf( "whichtrip=2" ) != -1 )
+		{
+			return "Mysticality Vacation";
+		}
+		else if ( urlString.startsWith( "shore.php" ) && urlString.indexOf( "whichtrip=3" ) != -1 )
+		{
+			return "Moxie Vacation";
+		}
+		else if ( urlString.startsWith( "guild.php?action=chal" ) )
+		{
+			return "Guild Challenge";
+		}
+		else if ( urlString.startsWith( "basement.php" ) )
+		{
+			return "Fernswarthy's Basement (Level " + BasementRequest.getBasementLevel() + ")";
+		}
+		else if ( urlString.startsWith( "dungeon.php" ) )
+		{
+			return "Daily Dungeon (Room " + DungeonDecorator.getDungeonRoom() + ")";
+		}
+		else if ( urlString.startsWith( "rats.php" ) )
+		{
+			return "Typical Tavern Quest";
+		}
+		else if ( urlString.startsWith( "barrel.php" ) )
+		{
+			return "Barrel Full of Barrels";
+		}
+		else if ( urlString.startsWith( "mining.php" ) )
+		{
+			return "Mining (In Disguise)";
+		}
+		else if ( urlString.startsWith( "arena.php" ) && urlString.indexOf( "action" ) != -1 )
+		{
+			return "Cake-Shaped Arena";
+		}
+		else if ( urlString.startsWith( "lair4.php?action=level1" ) )
+		{
+			return "Sorceress Tower: Level 1";
+		}
+		else if ( urlString.startsWith( "lair4.php?action=level2" ) )
+		{
+			return "Sorceress Tower: Level 2";
+		}
+		else if ( urlString.startsWith( "lair4.php?action=level3" ) )
+		{
+			return "Sorceress Tower: Level 3";
+		}
+		else if ( urlString.startsWith( "lair5.php?action=level1" ) )
+		{
+			return "Sorceress Tower: Level 4";
+		}
+		else if ( urlString.startsWith( "lair5.php?action=level2" ) )
+		{
+			return "Sorceress Tower: Level 5";
+		}
+		else if ( urlString.startsWith( "lair5.php?action=level3" ) )
+		{
+			return "Sorceress Tower: Level 6";
+		}
+		else if ( urlString.startsWith( "lair6.php?place=0" ) )
+		{
+			return "Sorceress Tower: Door Puzzles";
+		}
+		else if ( urlString.startsWith( "lair6.php?place=2" ) )
+		{
+			return "Sorceress Tower: Shadow Fight";
+		}
+		else if ( urlString.startsWith( "lair6.php?place=5" ) )
+		{
+			return "Sorceress Tower: Naughty Sorceress";
+		}
+		else if ( urlString.startsWith( "hiddencity.php" ) )
+		{
+			return "Hidden City: Unexplored Ruins";
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns whether or not the current user has a ten-leaf clover.
+	 *
+	 * @return <code>true</code>
+	 */
+
+	public static boolean isPotentialCloverAdventure( String adventureName )
+	{
+		AdventureResult clover = ItemPool.get( ItemPool.TEN_LEAF_CLOVER, 1 );
+		return KoLConstants.inventory.contains( clover ) &&
+			cloverLookup.get( adventureName ) == Boolean.TRUE;
 	}
 
 	public static class AdventureArray

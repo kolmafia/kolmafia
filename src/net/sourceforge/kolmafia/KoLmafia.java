@@ -1750,18 +1750,6 @@ public abstract class KoLmafia
 	}
 
 	/**
-	 * Returns whether or not the current user has a ten-leaf clover.
-	 *
-	 * @return <code>true</code>
-	 */
-
-	public boolean isLuckyCharacter()
-	{
-		AdventureResult clover = ItemPool.get( ItemPool.TEN_LEAF_CLOVER, 1 );
-		return KoLConstants.inventory.contains( clover );
-	}
-
-	/**
 	 * Utility. The method which ensures that the amount needed exists, and if not, calls the appropriate scripts to do
 	 * so.
 	 */
