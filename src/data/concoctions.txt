@@ -766,27 +766,31 @@ spaghetti with Skullheads	6	sauce of the ages	dry noodles
 secret blend of herbs and spices	2	herbs	spices
 
 asparagus stir-fry	2	stalk of asparagus	secret blend of herbs and spices
-bat wing stir-fry	2	bat wing	Knob stir-fry
-Knob sausage stir-fry	2	Knob sausage	Knoll stir-fry
 Knob stir-fry	2	Knob mushroom	secret blend of herbs and spices
 Knoll stir-fry	2	Knoll mushroom	secret blend of herbs and spices
 olive stir-fry	2	secret blend of herbs and spices	olive
+spooky stir-fry	2	spooky mushroom	secret blend of herbs and spices
+
+bat wing stir-fry	2	bat wing	Knob stir-fry
+Knob sausage stir-fry	2	Knob sausage	Knoll stir-fry
 pr0n stir-fry	2	pr0n legs	olive stir-fry
 rat appendix stir-fry	2	rat appendix	spooky stir-fry
-spooky stir-fry	2	spooky mushroom	secret blend of herbs and spices
 tofu stir-fry	2	wad of tofu	asparagus stir-fry
+
+# Middle-end foods made by cooking stir-fries with dry noodles
+
+asparagus lo mein	6	asparagus stir-fry	dry noodles
+Knob lo mein	6	Knob stir-fry	dry noodles
+Knoll lo mein	6	Knoll stir-fry	dry noodles
+olive lo mein	6	olive stir-fry	dry noodles
+spooky lo mein	6	spooky stir-fry	dry noodles
 
 # High-end foods made by upgrading stir-fries at the Wok of Ages
 
-asparagus lo mein	22	asparagus stir-fry	dry noodles	MSG
 bat wing chow mein	22	bat wing stir-fry	dry noodles	MSG
-Knob lo mein	22	Knob stir-fry	dry noodles	MSG
 Knob sausage chow mein	22	Knob sausage stir-fry	dry noodles	MSG
-Knoll lo mein	22	Knoll stir-fry	dry noodles	MSG
-olive lo mein	22	olive stir-fry	dry noodles	MSG
 pr0n chow mein	22	pr0n stir-fry	dry noodles	MSG
 rat appendix chow mein	22	rat appendix stir-fry	dry noodles	MSG
-spooky lo mein	22	spooky stir-fry	dry noodles	MSG
 tofu chow mein	22	tofu stir-fry	dry noodles	MSG
 
 cold and sour sauce	21	scrumdiddlyumptious solution	cold nuggets
