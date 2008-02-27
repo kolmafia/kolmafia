@@ -185,7 +185,26 @@ public class FamiliarData
 
 	public void setItem( final AdventureResult item )
 	{
-		this.item = item;
+		if ( this.id < 1 )
+		{
+			return;
+		}
+
+		if ( !KoLmafia.isRefreshing() && this.item != null )
+		{
+			AdventureResult.addResultToList( KoLConstants.inventory, this.item );
+			AdventureResult.addResultToList( KoLConstants.tally, this.item );
+		}
+
+		this.item = ItemPool.get( item.getItemId(), 1 );
+
+		if ( !KoLmafia.isRefreshing() && item != null )
+		{
+			AdventureResult.addResultToList( KoLConstants.inventory, ItemPool.get( item.getItemId(), -1 ) );
+			AdventureResult.addResultToList( KoLConstants.tally, ItemPool.get( item.getItemId(), -1 ) );
+		}
+
+		EquipmentManager.updateEquipmentList( EquipmentManager.FAMILIAR );
 	}
 
 	public AdventureResult getItem()

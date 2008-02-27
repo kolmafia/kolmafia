@@ -43,7 +43,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
-
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 
@@ -268,19 +268,9 @@ public class FamiliarRequest
 			if ( familiars[ i ].getId() == familiarId )
 			{
 				FamiliarData familiar = familiars[ i ];
-				AdventureResult item = familiar.getItem();
-				if ( item != EquipmentRequest.UNEQUIP )
-				{
-					familiar.setItem( EquipmentRequest.UNEQUIP );
-					AdventureResult.addResultToList( KoLConstants.inventory, item );
-					AdventureResult.addResultToList( KoLConstants.tally, item );
-				}
+				AdventureResult item = ItemPool.get( itemId, 1 );
 
-				item = new AdventureResult( itemId, 1 );
 				familiar.setItem( item );
-				item = item.getInstance( -1 );
-				AdventureResult.addResultToList( KoLConstants.inventory, item );
-				AdventureResult.addResultToList( KoLConstants.tally, item );
 
 				RequestLogger.updateSessionLog();
 				RequestLogger.updateSessionLog( "Equip " + familiar.getRace() + " with " + item.getName() );
