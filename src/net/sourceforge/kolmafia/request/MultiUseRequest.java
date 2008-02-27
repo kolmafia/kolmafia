@@ -48,6 +48,7 @@ public class MultiUseRequest
 	extends CreateItemRequest
 {
 	private static final Pattern USE_PATTERN = Pattern.compile( "multiuse.php.*whichitem=(\\d+).*quantity=(\\d+)" );
+	private AdventureResult ingredient;
 
 	public MultiUseRequest( final int itemId )
 	{
@@ -61,9 +62,9 @@ public class MultiUseRequest
 			return;
 		}
 
-		AdventureResult ingredient = ingredients[ 0 ];
-		int use = ingredient.getItemId();
-		int count = ingredient.getCount();
+		this.ingredient = ingredients[ 0 ];
+		int use = this.ingredient.getItemId();
+		int count = this.ingredient.getCount();
 
 		this.addFormField( "action", "useitem" );
 		this.addFormField( "whichitem", String.valueOf( use ) );
@@ -84,16 +85,32 @@ public class MultiUseRequest
 			return;
 		}
 
-		for ( int i = 1; i <= this.getQuantityNeeded(); ++i )
+		for ( int i = 1; i <= this.getQuantityNeeded() && KoLmafia.permitsContinue(); ++i )
 		{
 			KoLmafia.updateDisplay( "Creating " + this.getName() + " (" + i + " of " + this.getQuantityNeeded() + ")..." );
 			super.run();
 		}
 	}
 
+	static final String[] ERRORS =
+	{
+		"You can't weave anything out of that quantity of palm fronds.",
+	};
+
 	public void processResults()
 	{
 		// Is there a general way to detect a failure?
+
+		String text = this.responseText;
+		for ( int i = 0; i < ERRORS.length; ++i )
+		{
+			String error = ERRORS[i];
+			if ( text.indexOf( error ) != -1 )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, error );
+				return;
+			}
+		}
 	}
 
 	public static final boolean registerRequest( final String urlString )
