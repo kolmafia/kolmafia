@@ -421,6 +421,24 @@ public class CreateItemRequest
 			// short and continuation is possible.
 
 			createdQuantity = this.createdItem.getCount( KoLConstants.inventory ) - this.beforeQuantity;
+
+			// If we failed to make any at all, it's pointless to
+			// try again.
+
+			if ( createdQuantity == 0 )
+			{
+				// If the subclass didn't detect the failure,
+				// do so here.
+
+				if ( KoLmafia.permitsContinue() )
+				{
+					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Creation failed" );
+				}
+
+				// Stop iteration, regardless
+				break;
+			}
+
 			this.quantityNeeded -= createdQuantity;
 		}
 		while ( this.quantityNeeded > 0 && KoLmafia.permitsContinue() );
