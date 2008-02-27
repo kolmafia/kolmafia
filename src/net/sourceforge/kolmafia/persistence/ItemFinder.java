@@ -288,15 +288,20 @@ public class ItemFinder
 
 	public static final AdventureResult getFirstMatchingItem( String parameters, int filterType )
 	{
-		return ItemFinder.getFirstMatchingItem( parameters, filterType, true );
+		return ItemFinder.getFirstMatchingItem( KoLConstants.inventory, parameters, filterType, true );
 	}
 
 	public static final AdventureResult getFirstMatchingItem( String parameters, boolean errorOnFailure )
 	{
-		return ItemFinder.getFirstMatchingItem( parameters, ItemFinder.matchType, errorOnFailure );
+		return ItemFinder.getFirstMatchingItem( KoLConstants.inventory, parameters, ItemFinder.matchType, errorOnFailure );
 	}
 
 	public static final AdventureResult getFirstMatchingItem( String parameters, int filterType, boolean errorOnFailure )
+	{
+		return getFirstMatchingItem( KoLConstants.inventory, parameters, filterType, errorOnFailure );
+	}
+
+	public static final AdventureResult getFirstMatchingItem( List sourceList, String parameters, int filterType, boolean errorOnFailure )
 	{
 		int itemId = -1;
 		int itemCount = 1;
@@ -371,13 +376,13 @@ public class ItemFinder
 		}
 		else
 		{
-			matchCount = InventoryManager.getCount( firstMatch.getItemId() );
+			matchCount = firstMatch.getCount( sourceList );
 		}
 
 		// In the event that the person wanted all except a certain
 		// quantity, be sure to update the item count.
 
-		if ( matchList == KoLConstants.storage && KoLCharacter.canInteract() )
+		if ( sourceList == KoLConstants.storage && KoLCharacter.canInteract() )
 		{
 			itemCount = matchCount;
 			firstMatch = firstMatch.getInstance( itemCount );
@@ -397,7 +402,7 @@ public class ItemFinder
 		return itemCount <= 0 ? null : firstMatch;
 	}
 
-	public static Object[] getMatchingItemList( String itemList )
+	public static Object[] getMatchingItemList( List sourceList, String itemList )
 	{
 		String[] itemNames = itemList.split( "\\s*,\\s*" );
 
@@ -428,7 +433,7 @@ public class ItemFinder
 
 			if ( !isMeatMatch )
 			{
-				firstMatch = ItemFinder.getFirstMatchingItem( itemNames[ i ] );
+				firstMatch = ItemFinder.getFirstMatchingItem( sourceList, itemNames[ i ], ItemFinder.matchType, true );
 			}
 
 			if ( firstMatch != null )
