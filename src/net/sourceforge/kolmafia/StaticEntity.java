@@ -252,7 +252,7 @@ public abstract class StaticEntity
 			}
 
 			it.remove();
-			if ( current.value == currentTurns && !current.isExempt( adventureId ) )
+			if ( current.value <= currentTurns && !current.isExempt( adventureId ) )
 			{
 				expired = current;
 			}
