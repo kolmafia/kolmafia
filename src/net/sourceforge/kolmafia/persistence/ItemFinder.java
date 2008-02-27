@@ -45,8 +45,8 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-
 import net.sourceforge.kolmafia.request.CreateItemRequest;
+import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class ItemFinder
 {
@@ -377,7 +377,7 @@ public class ItemFinder
 		}
 		else
 		{
-			matchCount = firstMatch.getCount( matchList );
+			matchCount = InventoryManager.getCount( firstMatch.getItemId() );
 		}
 
 		// In the event that the person wanted all except a certain
