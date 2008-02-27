@@ -144,38 +144,12 @@ public class KoLmafiaCLI
 	public static boolean isExecutingCheckOnlyCommand = false;
 
 	private static final File ALIAS_FILE = new File( UtilityConstants.SETTINGS_LOCATION, "GLOBAL_aliases.txt" );
-	private static TreeMap aliasMap = new TreeMap();
+	private static final TreeMap aliasMap = new TreeMap();
 	private static Set aliasSet = null;
 
 	static
 	{
-		File oldAliaseFile = new File( UtilityConstants.SETTINGS_LOCATION, "aliases_GLOBAL.txt" );
-		if ( oldAliaseFile.exists() )
-		{
-			oldAliaseFile.renameTo( ALIAS_FILE );
-		}
-
-		String[] data;
-		BufferedReader reader = FileUtilities.getReader( ALIAS_FILE );
-
-		if ( reader != null )
-		{
-			while ( ( data = FileUtilities.readData( reader ) ) != null )
-			{
-				KoLmafiaCLI.aliasMap.put( " " + data[ 0 ] + " ", " " + data[ 1 ] + " " );
-			}
-
-			try
-			{
-				reader.close();
-			}
-			catch ( Exception e )
-			{
-				StaticEntity.printStackTrace( e );
-			}
-		}
-
-		KoLmafiaCLI.aliasSet = KoLmafiaCLI.aliasMap.entrySet();
+		readAliases();
 	}
 
 	public static final void initialize()
@@ -393,17 +367,7 @@ public class KoLmafiaCLI
 		// First, handle all the aliasing that may be
 		// defined by the user.
 
-		line = " " + line + " ";
-
-		Iterator it = KoLmafiaCLI.aliasSet.iterator();
-		while ( it.hasNext() )
-		{
-			Entry current = (Entry) it.next();
-			line = StringUtilities.singleStringReplace(
-				line, (String) current.getKey(), (String) current.getValue() );
-		}
-
-		this.currentLine = line = line.trim();
+		this.currentLine = line = applyAliases( line );
 
 		// Handle if-statements in a special way right
 		// here.  Nesting is handled explicitly by
@@ -804,16 +768,9 @@ public class KoLmafiaCLI
 			int spaceIndex = parameters.indexOf( " => " );
 			if ( spaceIndex != -1 )
 			{
-				LogStream aliasStream = LogStream.openStream( ALIAS_FILE, false );
-
 				String aliasString = parameters.substring( 0, spaceIndex ).trim();
 				String aliasCommand = parameters.substring( spaceIndex + 4 ).trim();
-
-				aliasStream.println( aliasString + "\t" + aliasCommand );
-				aliasStream.close();
-
-				KoLmafiaCLI.aliasMap.put( " " + aliasCommand + " ", " " + aliasString + " " );
-				KoLmafiaCLI.aliasSet = KoLmafiaCLI.aliasMap.entrySet();
+				addAlias( aliasString, aliasCommand );
 
 				RequestLogger.printLine( "String successfully aliased." );
 				RequestLogger.printLine( aliasString + " => " + aliasCommand );
@@ -5666,5 +5623,89 @@ public class KoLmafiaCLI
 		}
 
 		return false;
+	}
+
+	// Alias file support
+
+	private static void readAliases()
+	{
+		File oldAliasFile = new File( UtilityConstants.SETTINGS_LOCATION, "aliases_GLOBAL.txt" );
+		if ( oldAliasFile.exists() )
+		{
+			oldAliasFile.renameTo( ALIAS_FILE );
+		}
+
+		KoLmafiaCLI.aliasMap.clear();
+
+		BufferedReader reader = FileUtilities.getReader( ALIAS_FILE );
+		if ( reader != null )
+		{
+			String[] data;
+
+			while ( ( data = FileUtilities.readData( reader ) ) != null )
+			{
+				KoLmafiaCLI.aliasMap.put( " " + data[ 0 ] + " ", " " + data[ 1 ] + " " );
+			}
+
+			try
+			{
+				reader.close();
+			}
+			catch ( Exception e )
+			{
+				StaticEntity.printStackTrace( e );
+			}
+		}
+
+		KoLmafiaCLI.aliasSet = KoLmafiaCLI.aliasMap.entrySet();
+	}
+
+	private static void addAlias( final String aliasString, final String aliasCommand )
+	{
+		KoLmafiaCLI.aliasMap.put( " " + aliasString + " ", " " + aliasCommand + " " );
+		KoLmafiaCLI.aliasSet = KoLmafiaCLI.aliasMap.entrySet();
+		saveAliases();
+	}
+
+	private static String applyAliases( String line )
+	{
+		if ( KoLmafiaCLI.aliasSet.size() == 0 )
+		{
+			return line;
+		}
+
+		if ( line.startsWith( "alias " ) )
+		{
+			return line;
+		}
+
+		line = " " + line + " ";
+
+		Iterator it = KoLmafiaCLI.aliasSet.iterator();
+		while ( it.hasNext() )
+		{
+			Entry current = (Entry) it.next();
+			String aliasString = (String) current.getKey();
+			String aliasCommand = (String) current.getValue();
+			line = StringUtilities.singleStringReplace( line, aliasString, aliasCommand );
+		}
+
+		return line.trim();
+	}
+
+	private static void saveAliases()
+	{
+		LogStream aliasStream = LogStream.openStream( ALIAS_FILE, true );
+
+		Iterator it = KoLmafiaCLI.aliasSet.iterator();
+		while ( it.hasNext() )
+		{
+			Entry current = (Entry) it.next();
+			String aliasString = (String) current.getKey();
+			String aliasCommand = (String) current.getValue();
+			aliasStream.println( aliasString.trim() + "\t" + aliasCommand.trim() );
+		}
+
+		aliasStream.close();
 	}
 }
