@@ -86,6 +86,7 @@ import net.sourceforge.kolmafia.textui.parsetree.VariableList;
 import net.sourceforge.kolmafia.textui.parsetree.VariableReference;
 import net.sourceforge.kolmafia.textui.parsetree.VariableReferenceList;
 import net.sourceforge.kolmafia.textui.parsetree.WhileLoop;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class Parser
 {
@@ -909,7 +910,7 @@ public class Parser
 
 		if ( Parser.arrays && this.readIntegerToken( this.currentToken() ) )
 		{
-			int size = StaticEntity.parseInt( this.currentToken() );
+			int size = StringUtilities.parseInt( this.currentToken() );
 			this.readToken(); // integer
 
 			if ( this.currentToken() == null )
@@ -1995,7 +1996,7 @@ public class Parser
 			}
 
 			this.readToken(); // integer
-			return new Value( sign * StaticEntity.parseFloat( "0." + fraction ) );
+			return new Value( sign * StringUtilities.parseFloat( "0." + fraction ) );
 		}
 
 		String integer = this.currentToken();
@@ -2011,16 +2012,16 @@ public class Parser
 			String fraction = this.nextToken();
 			if ( !this.readIntegerToken( fraction ) )
 			{
-				return new Value( sign * StaticEntity.parseInt( integer ) );
+				return new Value( sign * StringUtilities.parseInt( integer ) );
 			}
 
 			this.readToken(); // .
 			this.readToken(); // fraction
 
-			return new Value( sign * StaticEntity.parseFloat( integer + "." + fraction ) );
+			return new Value( sign * StringUtilities.parseFloat( integer + "." + fraction ) );
 		}
 
-		return new Value( sign * StaticEntity.parseInt( integer ) );
+		return new Value( sign * StringUtilities.parseInt( integer ) );
 	}
 
 	private boolean readIntegerToken( final String token )

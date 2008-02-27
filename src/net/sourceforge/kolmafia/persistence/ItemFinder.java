@@ -39,14 +39,13 @@ import java.util.List;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ItemFinder
 {
@@ -82,7 +81,7 @@ public class ItemFinder
 
 		for ( int i = 0; i < allNames.length; ++i )
 		{
-			if ( KoLDatabase.fuzzyMatches( allNames[i], searchString ) )
+			if ( StringUtilities.fuzzyMatches( allNames[i], searchString ) )
 			{
 				result.add( allNames[i] );
 			}
@@ -331,7 +330,7 @@ public class ItemFinder
 
 				if ( isNumeric )
 				{
-					itemCount = StaticEntity.parseInt( parameters.substring( 0, parameters.indexOf( " " ) ) );
+					itemCount = StringUtilities.parseInt( parameters.substring( 0, parameters.indexOf( " " ) ) );
 					parameters = parameters.substring( parameters.indexOf( " " ) + 1 ).trim();
 				}
 			}
@@ -427,7 +426,7 @@ public class ItemFinder
 
 				if ( isMeatMatch )
 				{
-					int amount = StaticEntity.parseInt( amountString );
+					int amount = StringUtilities.parseInt( amountString );
 					firstMatch = new AdventureResult( AdventureResult.MEAT, amount );
 				}
 			}

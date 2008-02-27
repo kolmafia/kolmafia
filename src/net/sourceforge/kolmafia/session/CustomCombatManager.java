@@ -50,7 +50,6 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.RequestThread;
@@ -61,6 +60,8 @@ import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class CustomCombatManager
 {
@@ -103,7 +104,7 @@ public abstract class CustomCombatManager
 			name = "default";
 		}
 
-		name = StaticEntity.globalStringDelete( name.toLowerCase().trim(), " " );
+		name = StringUtilities.globalStringDelete( name.toLowerCase().trim(), " " );
 
 		if ( name.endsWith( ".ccs" ) )
 		{
@@ -210,7 +211,7 @@ public abstract class CustomCombatManager
 	{
 		try
 		{
-			BufferedReader reader = KoLDatabase.getReader( CustomCombatManager.settingsFile );
+			BufferedReader reader = FileUtilities.getReader( CustomCombatManager.settingsFile );
 			String line;
 			CombatSettingNode currentList = CustomCombatManager.root;
 
@@ -247,7 +248,7 @@ public abstract class CustomCombatManager
 					int colonIndex = line.indexOf( ":" );
 					if ( colonIndex != -1 )
 					{
-						desiredIndex = StaticEntity.parseInt( line.substring( 0, colonIndex ) );
+						desiredIndex = StringUtilities.parseInt( line.substring( 0, colonIndex ) );
 						line = line.substring( colonIndex + 1 );
 					}
 				}
@@ -293,7 +294,7 @@ public abstract class CustomCombatManager
 
 	public static final String encounterKey( String line, final boolean changeCase )
 	{
-		line = StaticEntity.globalStringReplace( line.trim(), "  ", " " );
+		line = StringUtilities.globalStringReplace( line.trim(), "  ", " " );
 		String key = line.toLowerCase();
 
 		if ( key.startsWith( "a " ) )
@@ -346,7 +347,7 @@ public abstract class CustomCombatManager
 		}
 		else
 		{
-			skillId = StaticEntity.parseInt( attackName );
+			skillId = StringUtilities.parseInt( attackName );
 		}
 
 		CustomCombatManager.setAutoAttack( skillId );

@@ -43,6 +43,8 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CoinmastersDatabase
 	extends KoLDatabase
@@ -62,18 +64,18 @@ public class CoinmastersDatabase
 
 	static
 	{
-		BufferedReader reader = KoLDatabase.getVersionedReader( "coinmasters.txt", KoLConstants.COINMASTERS_VERSION );
+		BufferedReader reader = FileUtilities.getVersionedReader( "coinmasters.txt", KoLConstants.COINMASTERS_VERSION );
 
 		String[] data;
 
-		while ( ( data = KoLDatabase.readData( reader ) ) != null )
+		while ( ( data = FileUtilities.readData( reader ) ) != null )
 		{
 			if ( data.length == 3 )
 			{
 				String code = data[0];
-				int price = StaticEntity.parseInt( data[ 1 ] );
+				int price = StringUtilities.parseInt( data[ 1 ] );
 				Integer iprice = new Integer( price );
-				String name = KoLDatabase.getCanonicalName( data[2] );
+				String name = StringUtilities.getCanonicalName( data[2] );
 				if ( code.equals( "sd" ) )
 				{
 					// Something we sell for dimes
@@ -145,7 +147,7 @@ public class CoinmastersDatabase
 		{
 			return 0;
 		}
-		Integer price = (Integer) prices.get( KoLDatabase.getCanonicalName( name ) );
+		Integer price = (Integer) prices.get( StringUtilities.getCanonicalName( name ) );
 		return ( price == null ) ? 0 : price.intValue();
 	}
 

@@ -45,7 +45,6 @@ import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.RequestThread;
@@ -53,6 +52,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.request.MushroomRequest;
 import net.sourceforge.kolmafia.swingui.MushroomFrame;
+import net.sourceforge.kolmafia.utilities.FileUtilities;
 
 public abstract class MushroomManager
 {
@@ -657,7 +657,7 @@ public abstract class MushroomManager
 		// the text file which was generated automatically.
 
 		int dayIndex = 0;
-		BufferedReader reader = KoLDatabase.getReader( new File( KoLConstants.PLOTS_LOCATION, filename + ".txt" ) );
+		BufferedReader reader = FileUtilities.getReader( new File( KoLConstants.PLOTS_LOCATION, filename + ".txt" ) );
 
 		try
 		{

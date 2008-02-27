@@ -49,6 +49,7 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CreateItemRequest
 	extends GenericRequest
@@ -1051,7 +1052,7 @@ public class CreateItemRequest
 			Matcher quantityMatcher = CreateItemRequest.QUANTITY_PATTERN.matcher( urlString );
 			if ( quantityMatcher.find() )
 			{
-				quantity = StaticEntity.parseInt( quantityMatcher.group( 1 ) );
+				quantity = StringUtilities.parseInt( quantityMatcher.group( 1 ) );
 			}
 			StringBuffer command = new StringBuffer();
 
@@ -1147,7 +1148,7 @@ public class CreateItemRequest
 		Matcher quantityMatcher = CreateItemRequest.QUANTITY_PATTERN.matcher( urlString );
 
 		boolean needsPlus = false;
-		int quantity = quantityMatcher.find() ? StaticEntity.parseInt( quantityMatcher.group( 1 ) ) : 1;
+		int quantity = quantityMatcher.find() ? StringUtilities.parseInt( quantityMatcher.group( 1 ) ) : 1;
 
 		if ( urlString.indexOf( "makemax=on" ) != -1 )
 		{
@@ -1155,7 +1156,7 @@ public class CreateItemRequest
 
 			while ( itemMatcher.find() )
 			{
-				int itemId = StaticEntity.parseInt( itemMatcher.group( 1 ) );
+				int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
 				AdventureResult item = new AdventureResult( itemId, 1 );
 				quantity = Math.min( item.getCount( KoLConstants.inventory ), quantity );
 			}
@@ -1177,7 +1178,7 @@ public class CreateItemRequest
 				command.append( " + " );
 			}
 
-			int itemId = StaticEntity.parseInt( itemMatcher.group( 1 ) );
+			int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
 			String name = ItemDatabase.getItemName( itemId );
 
 			if ( name == null )

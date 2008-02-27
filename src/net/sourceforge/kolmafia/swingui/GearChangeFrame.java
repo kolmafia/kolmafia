@@ -60,6 +60,7 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
@@ -216,7 +217,7 @@ public class GearChangeFrame
 				RequestThread.closeRequestSequence();
 			}
 
-			String currentValue = GenericFrame.input( "Name your outfit!", "Backup" );
+			String currentValue = InputFieldUtilities.input( "Name your outfit!", "Backup" );
 			if ( currentValue != null )
 			{
 				RequestThread.postRequest( new EquipmentRequest( currentValue ) );

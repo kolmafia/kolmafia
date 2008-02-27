@@ -42,8 +42,8 @@ import java.util.regex.Pattern;
 import javax.swing.JEditorPane;
 
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.webui.CharacterEntityReference;
+import net.sourceforge.kolmafia.utilities.CharacterEntities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class RequestPane
 	extends JEditorPane
@@ -101,9 +101,9 @@ public class RequestPane
 
 		selectedText = RequestPane.WHITESPACE.matcher( selectedText ).replaceAll( "\n" );
 
-		selectedText = StaticEntity.globalStringDelete( selectedText, "\r" );
-		selectedText = StaticEntity.globalStringDelete( selectedText, "\n" );
-		selectedText = StaticEntity.globalStringDelete( selectedText, "\t" );
+		selectedText = StringUtilities.globalStringDelete( selectedText, "\r" );
+		selectedText = StringUtilities.globalStringDelete( selectedText, "\n" );
+		selectedText = StringUtilities.globalStringDelete( selectedText, "\t" );
 
 		// Finally, we start replacing the various HTML tags
 		// with emptiness, except for the <br> tag which is
@@ -111,7 +111,7 @@ public class RequestPane
 
 		selectedText = RequestPane.LINE_BREAK.matcher( selectedText ).replaceAll( "\n" ).trim();
 		selectedText = KoLConstants.ANYTAG_PATTERN.matcher( selectedText ).replaceAll( "" );
-		selectedText = CharacterEntityReference.unescape( selectedText );
+		selectedText = CharacterEntities.unescape( selectedText );
 
 		return selectedText;
 	}

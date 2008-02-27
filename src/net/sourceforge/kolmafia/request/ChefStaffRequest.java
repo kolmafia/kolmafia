@@ -43,6 +43,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ChefStaffRequest
 	extends CreateItemRequest
@@ -92,7 +93,7 @@ public class ChefStaffRequest
 		}
 
 		// Item ID of the base staff
-		int baseId = StaticEntity.parseInt( itemMatcher.group( 1 ) );
+		int baseId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
 
 		// Find chefstaff item ID
 		int itemId = ConcoctionDatabase.findConcoction( KoLConstants.STAFF, baseId );

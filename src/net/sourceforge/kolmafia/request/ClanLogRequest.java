@@ -50,11 +50,12 @@ import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.ClanManager;
+import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
@@ -145,7 +146,7 @@ public class ClanLogRequest
 			try
 			{
 				String currentMember = "";
-				BufferedReader istream = KoLDatabase.getReader( file );
+				BufferedReader istream = FileUtilities.getReader( file );
 				String line;
 
 				boolean startReading = false;
@@ -277,7 +278,7 @@ public class ClanLogRequest
 				}
 
 				entryList = (List) this.stashMap.get( currentMember );
-				entryCount = StaticEntity.parseInt( entryMatcher.group( 3 ) );
+				entryCount = StringUtilities.parseInt( entryMatcher.group( 3 ) );
 
 				lastItemId = ItemDatabase.getItemId( entryMatcher.group( 4 ), entryCount );
 				entryBuffer.append( ( new AdventureResult( lastItemId, entryCount ) ).toString() );

@@ -41,10 +41,11 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.webui.CharacterEntityReference;
+import net.sourceforge.kolmafia.utilities.CharacterEntities;
+import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 /**
  * An extension of a <code>GenericRequest</code> which specifically handles donating to the Hall of the Legends of the
@@ -61,14 +62,14 @@ public class SendGiftRequest
 	private static final LockableListModel PACKAGES = new LockableListModel();
 	static
 	{
-		BufferedReader reader = KoLDatabase.getVersionedReader( "packages.txt", KoLConstants.PACKAGES_VERSION );
+		BufferedReader reader = FileUtilities.getVersionedReader( "packages.txt", KoLConstants.PACKAGES_VERSION );
 		String[] data;
 
-		while ( ( data = KoLDatabase.readData( reader ) ) != null )
+		while ( ( data = FileUtilities.readData( reader ) ) != null )
 		{
 			SendGiftRequest.PACKAGES.add( new GiftWrapper(
-				data[ 0 ], StaticEntity.parseInt( data[ 1 ] ), StaticEntity.parseInt( data[ 2 ] ),
-				StaticEntity.parseInt( data[ 3 ] ) ) );
+				data[ 0 ], StringUtilities.parseInt( data[ 1 ] ), StringUtilities.parseInt( data[ 2 ] ),
+				StringUtilities.parseInt( data[ 3 ] ) ) );
 		}
 	}
 
@@ -109,7 +110,7 @@ public class SendGiftRequest
 		super( "town_sendgift.php", attachments );
 
 		this.recipient = recipient;
-		this.message = CharacterEntityReference.unescape( message );
+		this.message = CharacterEntities.unescape( message );
 		this.desiredCapacity = desiredCapacity;
 
 		this.wrappingType = (GiftWrapper) SendGiftRequest.PACKAGES.get( desiredCapacity );

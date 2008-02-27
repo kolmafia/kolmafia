@@ -56,10 +56,10 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.session.MushroomManager;
-import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.MushroomFrame;
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
 import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class MushroomScriptPanel
 	extends JPanel
@@ -282,7 +282,7 @@ public class MushroomScriptPanel
 			return;
 		}
 
-		String layout = (String) GenericFrame.input( "Which mushroom plot?", names.toArray() );
+		String layout = (String) InputFieldUtilities.input( "Which mushroom plot?", names.toArray() );
 		if ( layout != null )
 		{
 			this.loadLayout( layout );
@@ -302,7 +302,7 @@ public class MushroomScriptPanel
 
 	public void saveLayout()
 	{
-		String location = GenericFrame.input( "Name your mushroom plot!" );
+		String location = InputFieldUtilities.input( "Name your mushroom plot!" );
 		if ( location == null )
 		{
 			return;

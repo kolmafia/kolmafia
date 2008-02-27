@@ -41,6 +41,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.StoreManager;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
@@ -150,7 +151,7 @@ public class ManageStoreRequest
 		if ( takenItemMatcher.find() )
 		{
 			StaticEntity.getClient().processResult(
-				takenItem.getInstance( StaticEntity.parseInt( takenItemMatcher.group( 1 ) ) - takenItem.getCount( KoLConstants.inventory ) ) );
+				takenItem.getInstance( StringUtilities.parseInt( takenItemMatcher.group( 1 ) ) - takenItem.getCount( KoLConstants.inventory ) ) );
 		}
 
 		StoreManager.update( this.responseText, false );

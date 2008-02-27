@@ -73,6 +73,7 @@ import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class RequestLogger
 	extends NullStream
@@ -173,7 +174,7 @@ public class RequestLogger
 				colorBuffer.append( " <font color=olive>" );
 			}
 
-			colorBuffer.append( StaticEntity.globalStringReplace( message, "\n", "<br>" ) );
+			colorBuffer.append( StringUtilities.globalStringReplace( message, "\n", "<br>" ) );
 
 			if ( message.startsWith( "> QUEUED" ) )
 			{
@@ -194,8 +195,8 @@ public class RequestLogger
 				colorBuffer.append( "</pre>" );
 			}
 
-			StaticEntity.globalStringDelete( colorBuffer, "<html>" );
-			StaticEntity.globalStringDelete( colorBuffer, "</html>" );
+			StringUtilities.globalStringDelete( colorBuffer, "<html>" );
+			StringUtilities.globalStringDelete( colorBuffer, "</html>" );
 		}
 
 		colorBuffer.append( KoLConstants.LINE_BREAK );
@@ -252,7 +253,7 @@ public class RequestLogger
 	{
 		RequestLogger.sessionStream =
 			RequestLogger.openStream(
-				KoLConstants.SESSIONS_DIRECTORY + StaticEntity.globalStringReplace(
+				KoLConstants.SESSIONS_DIRECTORY + StringUtilities.globalStringReplace(
 					KoLCharacter.getUserName(), " ", "_" ) + "_" + KoLConstants.DAILY_FORMAT.format( new Date() ) + ".txt",
 				RequestLogger.sessionStream, false );
 	}

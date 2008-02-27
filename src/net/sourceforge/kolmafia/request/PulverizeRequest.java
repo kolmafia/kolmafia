@@ -47,6 +47,7 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class PulverizeRequest
 	extends GenericRequest
@@ -136,12 +137,12 @@ public class PulverizeRequest
 			}
 			if ( this.item.getName().endsWith( "powder" ) )
 			{
-				this.useMalus( StaticEntity.singleStringReplace( this.item.getName(), "powder", "nugget" ) );
-				this.useMalus( StaticEntity.singleStringReplace( this.item.getName(), "powder", "wad" ) );
+				this.useMalus( StringUtilities.singleStringReplace( this.item.getName(), "powder", "nugget" ) );
+				this.useMalus( StringUtilities.singleStringReplace( this.item.getName(), "powder", "wad" ) );
 			}
 			else if ( this.item.getName().endsWith( "nugget" ) )
 			{
-				this.useMalus( StaticEntity.singleStringReplace( this.item.getName(), "nugget", "wad" ) );
+				this.useMalus( StringUtilities.singleStringReplace( this.item.getName(), "nugget", "wad" ) );
 			}
 
 			return;
@@ -196,7 +197,7 @@ public class PulverizeRequest
 
 		if ( itemMatcher.find() && quantityMatcher.find() )
 		{
-			int itemId = StaticEntity.parseInt( itemMatcher.group( 1 ) );
+			int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
 			String name = ItemDatabase.getItemName( itemId );
 
 			if ( name == null )
@@ -204,7 +205,7 @@ public class PulverizeRequest
 				return true;
 			}
 
-			int quantity = StaticEntity.parseInt( quantityMatcher.group( 1 ) );
+			int quantity = StringUtilities.parseInt( quantityMatcher.group( 1 ) );
 
 			StaticEntity.getClient().processResult( new AdventureResult( itemId, 0 - quantity ) );
 			RequestLogger.updateSessionLog( "pulverize " + quantity + " " + name );

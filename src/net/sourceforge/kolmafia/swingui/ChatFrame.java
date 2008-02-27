@@ -55,7 +55,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 
-import net.sourceforge.kolmafia.HyperlinkAdapter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.LimitedSizeChatBuffer;
@@ -67,7 +66,9 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.MallSearchRequest;
 import net.sourceforge.kolmafia.session.ChatManager;
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
+import net.sourceforge.kolmafia.swingui.listener.HyperlinkAdapter;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ChatFrame
 	extends GenericFrame
@@ -479,7 +480,7 @@ public class ChatFrame
 			// Next, determine the option which had been
 			// selected in the link-click.
 
-			int linkOption = locationSplit.length == 2 ? 0 : StaticEntity.parseInt( locationSplit[ 2 ] );
+			int linkOption = locationSplit.length == 2 ? 0 : StringUtilities.parseInt( locationSplit[ 2 ] );
 
 			if ( linkOption == 0 )
 			{
@@ -512,7 +513,7 @@ public class ChatFrame
 
 			case 6:
 				MallSearchFrame.searchMall( new MallSearchRequest(
-					StaticEntity.parseInt( KoLmafia.getPlayerId( (String) parameters[ 0 ] ) ) ) );
+					StringUtilities.parseInt( KoLmafia.getPlayerId( (String) parameters[ 0 ] ) ) ) );
 				return;
 
 			case 7:

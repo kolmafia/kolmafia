@@ -41,13 +41,13 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.SpecialOutfit;
-import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MoodManager;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.request.BasementRequest;
 
@@ -160,7 +160,7 @@ public class BasementDecorator
 			}
 			catch ( Exception e )
 			{
-				changes.append( StaticEntity.globalStringReplace( outfit.getName(), " ", "+" ) );
+				changes.append( StringUtilities.globalStringReplace( outfit.getName(), " ", "+" ) );
 			}
 
 			changes.append( "\">outfit " );
@@ -176,7 +176,7 @@ public class BasementDecorator
 			}
 
 			changes.append( "<option value=\"familiar+" );
-			changes.append( StaticEntity.globalStringReplace(
+			changes.append( StringUtilities.globalStringReplace(
 				BasementRequest.POSSIBLE_FAMILIARS[ i ].getRace(), " ", "+" ) );
 			changes.append( "\">familiar " );
 			changes.append( BasementRequest.POSSIBLE_FAMILIARS[ i ].getRace() );
@@ -195,7 +195,7 @@ public class BasementDecorator
 				"computeNetBoost(" + BasementRequest.getBasementTestCurrent() + "," + BasementRequest.getBasementTestValue() + ");";
 
 			String modifierName = Modifiers.getModifierName( BasementRequest.getActualStatNeeded() );
-			modifierName = StaticEntity.globalStringDelete( modifierName, "Maximum " ).toLowerCase();
+			modifierName = StringUtilities.globalStringDelete( modifierName, "Maximum " ).toLowerCase();
 
 			changes.append( "<tr><td><select onchange=\"" );
 			changes.append( computeFunction );

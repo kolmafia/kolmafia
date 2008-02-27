@@ -65,6 +65,7 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 import net.sourceforge.kolmafia.request.ProfileRequest;
 import net.sourceforge.kolmafia.request.PvpRequest;
@@ -226,7 +227,7 @@ public class FlowerHunterFrame
 		public void actionConfirmed()
 		{
 			int index = 0;
-			int resultLimit = GenericFrame.getValue( this.limitEntry, 100 );
+			int resultLimit = InputFieldUtilities.getValue( this.limitEntry, 100 );
 
 			FlowerHunterFrame.this.resultCards.show( FlowerHunterFrame.this.resultCardPanel, String.valueOf( index ) );
 			KoLmafia.updateDisplay( "Conducting search..." );

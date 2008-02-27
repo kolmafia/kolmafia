@@ -44,6 +44,10 @@ import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.IntegerArray;
+import net.sourceforge.kolmafia.utilities.StringArray;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class EquipmentDatabase
 	extends KoLDatabase
@@ -59,12 +63,12 @@ public class EquipmentDatabase
 
 	static
 	{
-		BufferedReader reader = KoLDatabase.getVersionedReader( "equipment.txt", KoLConstants.EQUIPMENT_VERSION );
+		BufferedReader reader = FileUtilities.getVersionedReader( "equipment.txt", KoLConstants.EQUIPMENT_VERSION );
 
 		String[] data;
 		int itemId;
 
-		while ( ( data = KoLDatabase.readData( reader ) ) != null )
+		while ( ( data = FileUtilities.readData( reader ) ) != null )
 		{
 			if ( data.length < 3 )
 			{
@@ -77,7 +81,7 @@ public class EquipmentDatabase
 				continue;
 			}
 
-			EquipmentDatabase.power.set( itemId, StaticEntity.parseInt( data[ 1 ] ) );
+			EquipmentDatabase.power.set( itemId, StringUtilities.parseInt( data[ 1 ] ) );
 			EquipmentDatabase.statRequirements.set( itemId, data[ 2 ] );
 
 			int hval = 0;
@@ -86,7 +90,7 @@ public class EquipmentDatabase
 			if ( data.length >= 4 )
 			{
 				String str = data[ 3 ];
-				hval = StaticEntity.parseInt( str.substring( 0, 1 ) );
+				hval = StringUtilities.parseInt( str.substring( 0, 1 ) );
 				tval = str.substring( str.indexOf( " " ) + 1 );
 			}
 
@@ -106,16 +110,16 @@ public class EquipmentDatabase
 			StaticEntity.printStackTrace( e );
 		}
 
-		reader = KoLDatabase.getVersionedReader( "outfits.txt", KoLConstants.OUTFITS_VERSION );
+		reader = FileUtilities.getVersionedReader( "outfits.txt", KoLConstants.OUTFITS_VERSION );
 
 		int outfitId, arrayIndex;
 		SpecialOutfitArray outfitList;
 
-		while ( ( data = KoLDatabase.readData( reader ) ) != null )
+		while ( ( data = FileUtilities.readData( reader ) ) != null )
 		{
 			if ( data.length == 3 )
 			{
-				outfitId = StaticEntity.parseInt( data[ 0 ] );
+				outfitId = StringUtilities.parseInt( data[ 0 ] );
 
 				if ( outfitId == 0 )
 				{
@@ -133,7 +137,7 @@ public class EquipmentDatabase
 				String[] pieces = data[ 2 ].split( "\\s*,\\s*" );
 				for ( int i = 0; i < pieces.length; ++i )
 				{
-					EquipmentDatabase.outfitPieces.put( KoLDatabase.getCanonicalName( pieces[ i ] ), new Integer(
+					EquipmentDatabase.outfitPieces.put( StringUtilities.getCanonicalName( pieces[ i ] ), new Integer(
 						outfitId ) );
 					outfitList.get( arrayIndex ).addPiece( new AdventureResult( pieces[ i ], 1, false ) );
 				}
@@ -154,7 +158,7 @@ public class EquipmentDatabase
 			return -1;
 		}
 
-		Integer result = (Integer) EquipmentDatabase.outfitPieces.get( KoLDatabase.getCanonicalName( itemName ) );
+		Integer result = (Integer) EquipmentDatabase.outfitPieces.get( StringUtilities.getCanonicalName( itemName ) );
 		return result == null ? -1 : result.intValue();
 	}
 

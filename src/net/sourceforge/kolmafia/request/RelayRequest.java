@@ -73,6 +73,7 @@ import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
 import net.sourceforge.kolmafia.textui.DataTypes;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.CustomItemDatabase;
@@ -253,8 +254,8 @@ public class RelayRequest
 			int searchItemId = -1;
 			int searchPrice = -1;
 
-			searchItemId = StaticEntity.parseInt( this.getFormField( "searchitem" ) );
-			searchPrice = StaticEntity.parseInt( this.getFormField( "searchprice" ) );
+			searchItemId = StringUtilities.parseInt( this.getFormField( "searchitem" ) );
+			searchPrice = StringUtilities.parseInt( this.getFormField( "searchprice" ) );
 
 			Matcher itemMatcher = RelayRequest.STORE_PATTERN.matcher( this.responseText );
 
@@ -262,12 +263,12 @@ public class RelayRequest
 			{
 				String itemData = itemMatcher.group( 1 );
 
-				int itemId = StaticEntity.parseInt( itemData.substring( 0, itemData.length() - 9 ) );
-				int price = StaticEntity.parseInt( itemData.substring( itemData.length() - 9 ) );
+				int itemId = StringUtilities.parseInt( itemData.substring( 0, itemData.length() - 9 ) );
+				int price = StringUtilities.parseInt( itemData.substring( itemData.length() - 9 ) );
 
 				if ( itemId != searchItemId && RelayRequest.isJunkItem( itemId, price ) )
 				{
-					StaticEntity.singleStringDelete( responseBuffer, itemMatcher.group() );
+					StringUtilities.singleStringDelete( responseBuffer, itemMatcher.group() );
 				}
 			}
 
@@ -277,7 +278,7 @@ public class RelayRequest
 			if ( searchItemId != -1 )
 			{
 				String searchString = MallPurchaseRequest.getStoreString( searchItemId, searchPrice );
-				StaticEntity.singleStringReplace(
+				StringUtilities.singleStringReplace(
 					responseBuffer, "value=" + searchString, "checked value=" + searchString );
 			}
 		}
@@ -331,23 +332,23 @@ public class RelayRequest
 
 		if ( Preferences.getBoolean( "relayUsesCachedImages" ) )
 		{
-			StaticEntity.globalStringReplace( responseBuffer, "http://images.kingdomofloathing.com", "/images" );
+			StringUtilities.globalStringReplace( responseBuffer, "http://images.kingdomofloathing.com", "/images" );
 		}
 		else
 		{
-			StaticEntity.globalStringReplace(
+			StringUtilities.globalStringReplace(
 				responseBuffer, "http://images.kingdomofloathing.com/scripts", "/images/scripts" );
 		}
 
 		// Download and link to any Players of Loathing
 		// picture pages locally.
 
-		StaticEntity.globalStringReplace( responseBuffer, "http://pics.communityofloathing.com/albums", "/images" );
+		StringUtilities.globalStringReplace( responseBuffer, "http://pics.communityofloathing.com/albums", "/images" );
 
 		// Remove the default frame busting script so that
 		// we can detach user interface elements.
 
-		StaticEntity.singleStringReplace( responseBuffer, "frames.length == 0", "frames.length == -1" );
+		StringUtilities.singleStringReplace( responseBuffer, "frames.length == 0", "frames.length == -1" );
 		this.responseText = responseBuffer.toString();
 		CustomItemDatabase.linkCustomItem( this );
 	}
@@ -570,18 +571,18 @@ public class RelayRequest
 
 		if ( filename.equals( "chat.html" ) )
 		{
-			StaticEntity.singleStringReplace(
+			StringUtilities.singleStringReplace(
 				replyBuffer, "CHATAUTH", "playerid=" + KoLCharacter.getPlayerId() + "&pwd=" + GenericRequest.passwordHash );
 		}
 
-		StaticEntity.globalStringReplace( replyBuffer, "MAFIAHIT", "pwd=" + GenericRequest.passwordHash );
+		StringUtilities.globalStringReplace( replyBuffer, "MAFIAHIT", "pwd=" + GenericRequest.passwordHash );
 
 		// Make sure to print the reply buffer to the
 		// response buffer for the local relay server.
 
 		if ( this.isChatRequest )
 		{
-			StaticEntity.globalStringReplace( replyBuffer, "<br>", "</font><br>" );
+			StringUtilities.globalStringReplace( replyBuffer, "<br>", "</font><br>" );
 		}
 
 		if ( filename.endsWith( "chat.html" ) )
@@ -1122,9 +1123,9 @@ public class RelayRequest
 
 			super.run();
 
-			this.responseText = StaticEntity.globalStringReplace( this.responseText, "<p>", "<br><br>" );
-			this.responseText = StaticEntity.globalStringReplace( this.responseText, "<P>", "<br><br>" );
-			this.responseText = StaticEntity.singleStringDelete( this.responseText, "</span>" );
+			this.responseText = StringUtilities.globalStringReplace( this.responseText, "<p>", "<br><br>" );
+			this.responseText = StringUtilities.globalStringReplace( this.responseText, "<P>", "<br><br>" );
+			this.responseText = StringUtilities.singleStringDelete( this.responseText, "</span>" );
 
 			return;
 		}
@@ -1337,7 +1338,7 @@ public class RelayRequest
 				contents.append( KoLConstants.LINE_BREAK );
 			}
 
-			StaticEntity.globalStringReplace( contents, "images/", "http://sol.kolmafia.us/images/" );
+			StringUtilities.globalStringReplace( contents, "images/", "http://sol.kolmafia.us/images/" );
 
 			PrintStream writer = RequestLogger.openStream( "relay/simulator/" + filename, NullStream.INSTANCE, true );
 			writer.println( contents.toString() );

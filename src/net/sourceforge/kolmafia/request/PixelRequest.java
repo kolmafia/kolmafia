@@ -42,6 +42,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class PixelRequest
 	extends CreateItemRequest
@@ -85,7 +86,7 @@ public class PixelRequest
 			return true;
 		}
 
-		int itemId = StaticEntity.parseInt( itemMatcher.group( 1 ) );
+		int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
 		int quantity = 1;
 
 		if ( urlString.indexOf( "makemax=on" ) != -1 )
@@ -97,7 +98,7 @@ public class PixelRequest
 			Matcher quantityMatcher = CreateItemRequest.QUANTITY_PATTERN.matcher( urlString );
 			if ( quantityMatcher.find() )
 			{
-				quantity = StaticEntity.parseInt( quantityMatcher.group( 1 ) );
+				quantity = StringUtilities.parseInt( quantityMatcher.group( 1 ) );
 			}
 		}
 

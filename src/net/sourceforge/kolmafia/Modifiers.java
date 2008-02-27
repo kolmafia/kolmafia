@@ -48,6 +48,8 @@ import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class Modifiers
 	extends KoLDatabase
@@ -57,17 +59,17 @@ public class Modifiers
 
 	static
 	{
-		BufferedReader reader = KoLDatabase.getVersionedReader( "modifiers.txt", KoLConstants.MODIFIERS_VERSION );
+		BufferedReader reader = FileUtilities.getVersionedReader( "modifiers.txt", KoLConstants.MODIFIERS_VERSION );
 		String[] data;
 
-		while ( ( data = KoLDatabase.readData( reader ) ) != null )
+		while ( ( data = FileUtilities.readData( reader ) ) != null )
 		{
 			if ( data.length != 2 )
 			{
 				continue;
 			}
 
-			String name = KoLDatabase.getCanonicalName( data[ 0 ] );
+			String name = StringUtilities.getCanonicalName( data[ 0 ] );
 			Modifiers.modifiersByName.put( name, data[ 1 ] );
 		}
 
@@ -803,7 +805,7 @@ public class Modifiers
 			return null;
 		}
 
-		name = KoLDatabase.getCanonicalName( name );
+		name = StringUtilities.getCanonicalName( name );
 		Object modifier = Modifiers.modifiersByName.get( name );
 
 		if ( modifier == null )

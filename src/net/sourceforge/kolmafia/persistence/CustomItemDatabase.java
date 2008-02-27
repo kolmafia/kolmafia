@@ -47,11 +47,12 @@ import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CustomItemDatabase
 	extends Properties
@@ -102,7 +103,7 @@ public class CustomItemDatabase
 		try
 		{
 			CustomItemDatabase.INSTANCE.clear();
-			BufferedReader reader = KoLDatabase.getReader( "http://kol.upup.us/scripts/cust/fetch.php?who" );
+			BufferedReader reader = FileUtilities.getReader( "http://kol.upup.us/scripts/cust/fetch.php?who" );
 
 			String line;
 			while ( ( line = reader.readLine() ) != null )
@@ -130,7 +131,7 @@ public class CustomItemDatabase
 
 		try
 		{
-			BufferedReader reader = KoLDatabase.getReader( "http://kol.upup.us/scripts/cust/fetch.php?pid=" + playerId );
+			BufferedReader reader = FileUtilities.getReader( "http://kol.upup.us/scripts/cust/fetch.php?pid=" + playerId );
 
 			String line;
 			StringBuffer data = new StringBuffer();
@@ -189,7 +190,7 @@ public class CustomItemDatabase
 
 		CustomItemDatabase.updateItem( playerId );
 
-		int customType = StaticEntity.parseInt( CustomItemDatabase.INSTANCE.getProperty( playerId + ".3" ) );
+		int customType = StringUtilities.parseInt( CustomItemDatabase.INSTANCE.getProperty( playerId + ".3" ) );
 		if ( customType < 0 || customType >= CustomItemDatabase.CUSTOM_TYPES.length )
 		{
 			return;
@@ -223,12 +224,12 @@ public class CustomItemDatabase
 			if ( itemType == customType )
 			{
 				request.responseText =
-					StaticEntity.singleStringReplace( request.responseText, lastDataString, customItemString );
+					StringUtilities.singleStringReplace( request.responseText, lastDataString, customItemString );
 			}
 			else if ( itemType > customType )
 			{
 				request.responseText =
-					StaticEntity.singleStringReplace(
+					StringUtilities.singleStringReplace(
 						request.responseText, lastDataString, lastDataString + customItemString );
 			}
 
@@ -238,7 +239,7 @@ public class CustomItemDatabase
 		if ( !addedItem && lastDataString != null )
 		{
 			request.responseText =
-				StaticEntity.singleStringReplace(
+				StringUtilities.singleStringReplace(
 					request.responseText, lastDataString, lastDataString + customItemString );
 		}
 	}
@@ -286,7 +287,7 @@ public class CustomItemDatabase
 
 		content.append( "Type: <b>" );
 
-		int customType = StaticEntity.parseInt( CustomItemDatabase.INSTANCE.getProperty( playerId + ".3" ) );
+		int customType = StringUtilities.parseInt( CustomItemDatabase.INSTANCE.getProperty( playerId + ".3" ) );
 		if ( customType < 0 || customType >= CustomItemDatabase.CUSTOM_TYPES.length )
 		{
 			return null;
@@ -354,7 +355,7 @@ public class CustomItemDatabase
 		// [12]  elemental attack type
 		// [13]  stat requirement
 
-		int statType = StaticEntity.parseInt( CustomItemDatabase.INSTANCE.getProperty( playerId + ".12" ) ) - 2;
+		int statType = StringUtilities.parseInt( CustomItemDatabase.INSTANCE.getProperty( playerId + ".12" ) ) - 2;
 
 		switch ( statType )
 		{
@@ -466,7 +467,7 @@ public class CustomItemDatabase
 	private static final void appendItemFlag( final StringBuffer content, final String playerId, final String name,
 		final String id, final boolean isBold, final boolean isBlue )
 	{
-		if ( StaticEntity.parseInt( CustomItemDatabase.INSTANCE.getProperty( playerId + "." + id ) ) == 0 )
+		if ( StringUtilities.parseInt( CustomItemDatabase.INSTANCE.getProperty( playerId + "." + id ) ) == 0 )
 		{
 			return;
 		}
@@ -505,7 +506,7 @@ public class CustomItemDatabase
 	private static final void appendItemData( final StringBuffer content, final String playerId, final String prefix,
 		final String suffix, final String id )
 	{
-		if ( StaticEntity.parseInt( CustomItemDatabase.INSTANCE.getProperty( playerId + "." + id ) ) == 0 )
+		if ( StringUtilities.parseInt( CustomItemDatabase.INSTANCE.getProperty( playerId + "." + id ) ) == 0 )
 		{
 			return;
 		}

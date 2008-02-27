@@ -52,7 +52,6 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.RequestThread;
@@ -63,6 +62,7 @@ import net.sourceforge.kolmafia.request.ClanLogRequest;
 import net.sourceforge.kolmafia.request.ClanMembersRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.ProfileRequest;
+import net.sourceforge.kolmafia.utilities.FileUtilities;
 
 import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
 import net.sourceforge.kolmafia.persistence.Preferences;
@@ -323,7 +323,7 @@ public abstract class ClanManager
 		{
 			try
 			{
-				BufferedReader istream = KoLDatabase.getReader( profile );
+				BufferedReader istream = FileUtilities.getReader( profile );
 				StringBuffer profileString = new StringBuffer();
 				String currentLine;
 
@@ -384,7 +384,7 @@ public abstract class ClanManager
 		{
 			try
 			{
-				BufferedReader istream = KoLDatabase.getReader( ascension );
+				BufferedReader istream = FileUtilities.getReader( ascension );
 				StringBuffer ascensionString = new StringBuffer();
 				String currentLine;
 

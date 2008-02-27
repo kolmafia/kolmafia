@@ -46,13 +46,13 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.SpecialOutfit;
-import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 import net.sourceforge.kolmafia.swingui.GearChangeFrame;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class EquipmentManager {
 
@@ -763,17 +763,17 @@ public class EquipmentManager {
 
 		if ( requirement.startsWith( "Mus:" ) )
 		{
-			return KoLCharacter.getBaseMuscle() >= StaticEntity.parseInt( requirement.substring( 5 ) );
+			return KoLCharacter.getBaseMuscle() >= StringUtilities.parseInt( requirement.substring( 5 ) );
 		}
 
 		if ( requirement.startsWith( "Mys:" ) )
 		{
-			return KoLCharacter.getBaseMysticality() >= StaticEntity.parseInt( requirement.substring( 5 ) );
+			return KoLCharacter.getBaseMysticality() >= StringUtilities.parseInt( requirement.substring( 5 ) );
 		}
 
 		if ( requirement.startsWith( "Mox:" ) )
 		{
-			return KoLCharacter.getBaseMoxie() >= StaticEntity.parseInt( requirement.substring( 5 ) );
+			return KoLCharacter.getBaseMoxie() >= StringUtilities.parseInt( requirement.substring( 5 ) );
 		}
 
 		return true;

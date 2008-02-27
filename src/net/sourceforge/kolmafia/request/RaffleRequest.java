@@ -42,6 +42,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class RaffleRequest
 	extends GenericRequest
@@ -120,9 +121,9 @@ public class RaffleRequest
 			return true;
 		}
 
-		int where = StaticEntity.parseInt( matcher.group(1) );
+		int where = StringUtilities.parseInt( matcher.group(1) );
 		String loc = where == RaffleRequest.INVENTORY ? "inventory" : where == RaffleRequest.STORAGE ? "storage" : "nowhere";
-		int quantity = StaticEntity.parseInt( matcher.group(2) );
+		int quantity = StringUtilities.parseInt( matcher.group(2) );
 
 		RequestLogger.updateSessionLog( "raffle " + quantity + " " + loc );
 

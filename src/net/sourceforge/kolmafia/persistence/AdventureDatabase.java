@@ -50,6 +50,9 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
+import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.StringArray;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.DungeonDecorator;
 
 import net.sourceforge.kolmafia.request.BasementRequest;
@@ -201,7 +204,7 @@ public class AdventureDatabase
 			return;
 		}
 
-		BufferedReader reader = KoLDatabase.getVersionedReader( "zonelist.txt", KoLConstants.ZONELIST_VERSION );
+		BufferedReader reader = FileUtilities.getVersionedReader( "zonelist.txt", KoLConstants.ZONELIST_VERSION );
 		if ( reader == null )
 		{
 			return;
@@ -209,7 +212,7 @@ public class AdventureDatabase
 
 		String[] data;
 
-		while ( ( data = KoLDatabase.readData( reader ) ) != null )
+		while ( ( data = FileUtilities.readData( reader ) ) != null )
 		{
 			if ( data.length >= 3 )
 			{
@@ -239,7 +242,7 @@ public class AdventureDatabase
 
 	public static final void refreshAdventureTable()
 	{
-		BufferedReader reader = KoLDatabase.getVersionedReader( "adventures.txt", KoLConstants.ADVENTURES_VERSION );
+		BufferedReader reader = FileUtilities.getVersionedReader( "adventures.txt", KoLConstants.ADVENTURES_VERSION );
 		if ( reader == null )
 		{
 			return;
@@ -252,7 +255,7 @@ public class AdventureDatabase
 
 		String[] data;
 
-		while ( ( data = KoLDatabase.readData( reader ) ) != null )
+		while ( ( data = FileUtilities.readData( reader ) ) != null )
 		{
 			if ( data.length > 3 )
 			{
@@ -293,7 +296,7 @@ public class AdventureDatabase
 	{
 		AdventureDatabase.areaCombatData.clear();
 
-		BufferedReader reader = KoLDatabase.getVersionedReader( "combats.txt", KoLConstants.COMBATS_VERSION );
+		BufferedReader reader = FileUtilities.getVersionedReader( "combats.txt", KoLConstants.COMBATS_VERSION );
 		if ( reader == null )
 		{
 			return;
@@ -303,7 +306,7 @@ public class AdventureDatabase
 
 		String[] adventures = AdventureDatabase.adventureTable[ 3 ].toArray();
 
-		while ( ( data = KoLDatabase.readData( reader ) ) != null )
+		while ( ( data = FileUtilities.readData( reader ) ) != null )
 		{
 			if ( data.length > 1 )
 			{
@@ -313,7 +316,7 @@ public class AdventureDatabase
 					continue;
 				}
 
-				int combats = StaticEntity.parseInt( data[ 1 ] );
+				int combats = StringUtilities.parseInt( data[ 1 ] );
 				// There can be an ultra-rare monster even if
 				// there are no other combats
 				AreaCombatData combat = new AreaCombatData( combats );
@@ -357,7 +360,7 @@ public class AdventureDatabase
 				continue;
 			}
 
-			bounty = KoLDatabase.getCanonicalName( bounty.substring( bounty.indexOf( " " ) + 1 ) );
+			bounty = StringUtilities.getCanonicalName( bounty.substring( bounty.indexOf( " " ) + 1 ) );
 			AdventureDatabase.locationByBounty.put(
 				bounty, AdventureDatabase.getAdventureByURL( "adventure.php?snarfblat=" + i ) );
 		}
@@ -387,7 +390,7 @@ public class AdventureDatabase
 
 		AdventureDatabase.adventureLookup.put( url, location );
 		AdventureDatabase.adventureLookup.put( url + "&override=on", location );
-		url = StaticEntity.singleStringReplace( url, "snarfblat=", "adv=" );
+		url = StringUtilities.singleStringReplace( url, "snarfblat=", "adv=" );
 		AdventureDatabase.adventureLookup.put( url, location );
 		AdventureDatabase.adventureLookup.put( url + "&override=on", location );
 	}
@@ -485,7 +488,7 @@ public class AdventureDatabase
 
 	public static final KoLAdventure getBountyLocation( final String item )
 	{
-		return item == null ? null : (KoLAdventure) AdventureDatabase.locationByBounty.get( KoLDatabase.getCanonicalName( item ) );
+		return item == null ? null : (KoLAdventure) AdventureDatabase.locationByBounty.get( StringUtilities.getCanonicalName( item ) );
 	}
 
 	public static final AdventureResult getBounty( final int itemId )
@@ -493,15 +496,15 @@ public class AdventureDatabase
                 String name = ItemDatabase.getItemName( itemId );
 		if ( name == null )
 			return null;
-		KoLAdventure adventure = (KoLAdventure) AdventureDatabase.locationByBounty.get( KoLDatabase.getCanonicalName( name ) );
+		KoLAdventure adventure = (KoLAdventure) AdventureDatabase.locationByBounty.get( StringUtilities.getCanonicalName( name ) );
 		if ( adventure == null )
 			return null;
-		int adventureId = StaticEntity.parseInt( adventure.getAdventureId() );
+		int adventureId = StringUtilities.parseInt( adventure.getAdventureId() );
 		String bounty = AdventureDatabase.bountiesById.get( adventureId );
 		if ( bounty == null )
 			return null;
 
-		int count = StaticEntity.parseInt( bounty.substring( 0, bounty.indexOf( " " ) ) );
+		int count = StringUtilities.parseInt( bounty.substring( 0, bounty.indexOf( " " ) ) );
 		return new AdventureResult( name, count, false );
 	}
 
@@ -534,7 +537,7 @@ public class AdventureDatabase
 		// If you're currently doing a bounty, return
 		// the item you need to hunt for.
 
-		int adventureId = StaticEntity.parseInt( adventure.getAdventureId() );
+		int adventureId = StringUtilities.parseInt( adventure.getAdventureId() );
 		int bountyId = Preferences.getInteger( "currentBountyItem" );
 
 		if ( bountyId != 0 )
@@ -732,7 +735,7 @@ public class AdventureDatabase
 
 		public void add( final KoLAdventure value )
 		{
-			this.nameList.add( KoLDatabase.getCanonicalName( value.getAdventureName() ) );
+			this.nameList.add( StringUtilities.getCanonicalName( value.getAdventureName() ) );
 			this.internalList.add( value );
 		}
 
@@ -741,7 +744,7 @@ public class AdventureDatabase
 			int matchCount = 0;
 			int adventureIndex = -1;
 
-			adventureName = KoLDatabase.getCanonicalName( CustomCombatManager.encounterKey( adventureName ) );
+			adventureName = StringUtilities.getCanonicalName( CustomCombatManager.encounterKey( adventureName ) );
 
 			// First, prefer adventures which start with the
 			// provided substring. That failing, report all
@@ -820,7 +823,7 @@ public class AdventureDatabase
 
 			for ( int i = 0; i < this.size(); ++i )
 			{
-				if ( KoLDatabase.fuzzyMatches( (String) this.nameList.get( i ), adventureName ) )
+				if ( StringUtilities.fuzzyMatches( (String) this.nameList.get( i ), adventureName ) )
 				{
 					++matchCount;
 					adventureIndex = i;
@@ -831,7 +834,7 @@ public class AdventureDatabase
 			{
 				for ( int i = 0; i < this.size(); ++i )
 				{
-					if ( KoLDatabase.fuzzyMatches( (String) this.nameList.get( i ), adventureName ) )
+					if ( StringUtilities.fuzzyMatches( (String) this.nameList.get( i ), adventureName ) )
 					{
 						RequestLogger.printLine( (String) this.nameList.get( i ) );
 					}

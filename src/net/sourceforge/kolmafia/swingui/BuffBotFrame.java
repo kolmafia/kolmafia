@@ -51,12 +51,12 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.BuffBotHome;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.BuffBotManager;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.panel.ScrollablePanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 
@@ -183,7 +183,7 @@ public class BuffBotFrame
 		{
 			BuffBotManager.addBuff(
 				( (UseSkillRequest) this.skillSelect.getSelectedItem() ).getSkillName(),
-				StaticEntity.parseInt( this.priceField.getText() ), StaticEntity.parseInt( this.countField.getText() ) );
+				StringUtilities.parseInt( this.priceField.getText() ), StringUtilities.parseInt( this.countField.getText() ) );
 		}
 
 		public void actionCancelled()

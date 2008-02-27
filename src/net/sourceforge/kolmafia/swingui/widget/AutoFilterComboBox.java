@@ -46,7 +46,7 @@ import javax.swing.text.JTextComponent;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 
-import net.sourceforge.kolmafia.KoLDatabase;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class AutoFilterComboBox
 	extends JComboBox
@@ -182,7 +182,7 @@ public class AutoFilterComboBox
 		}
 
 		String elementName = element.toString().toLowerCase();
-		return this.allowAdditions ? elementName.startsWith( this.matchString ) : this.strict ? elementName.indexOf( this.matchString ) != -1 : KoLDatabase.fuzzyMatches(
+		return this.allowAdditions ? elementName.startsWith( this.matchString ) : this.strict ? elementName.indexOf( this.matchString ) != -1 : StringUtilities.fuzzyMatches(
 			elementName, this.matchString );
 	}
 

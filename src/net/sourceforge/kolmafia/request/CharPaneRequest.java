@@ -45,6 +45,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CharPaneRequest
 	extends GenericRequest
@@ -265,12 +266,12 @@ public class CharPaneRequest
 
 				if ( modifiedMatcher.find() )
 				{
-					modified[ i ] = StaticEntity.parseInt( modifiedMatcher.group( 1 ) );
+					modified[ i ] = StringUtilities.parseInt( modifiedMatcher.group( 1 ) );
 				}
 				else
 				{
 					modified[ i ] =
-						StaticEntity.parseInt( statMatcher.group( i + 1 ).replaceAll( "<[^>]*>", "" ).replaceAll(
+						StringUtilities.parseInt( statMatcher.group( i + 1 ).replaceAll( "<[^>]*>", "" ).replaceAll(
 							"[^\\d]+", "" ) );
 				}
 			}
@@ -304,18 +305,18 @@ public class CharPaneRequest
 			String maximumMP = miscMatcher.group( 4 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
 
 			KoLCharacter.setHP(
-				StaticEntity.parseInt( currentHP ), StaticEntity.parseInt( maximumHP ),
-				StaticEntity.parseInt( maximumHP ) );
+				StringUtilities.parseInt( currentHP ), StringUtilities.parseInt( maximumHP ),
+				StringUtilities.parseInt( maximumHP ) );
 			KoLCharacter.setMP(
-				StaticEntity.parseInt( currentMP ), StaticEntity.parseInt( maximumMP ),
-				StaticEntity.parseInt( maximumMP ) );
+				StringUtilities.parseInt( currentMP ), StringUtilities.parseInt( maximumMP ),
+				StringUtilities.parseInt( maximumMP ) );
 
 			String availableMeat = miscMatcher.group( 5 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
-			KoLCharacter.setAvailableMeat( StaticEntity.parseInt( availableMeat ) );
+			KoLCharacter.setAvailableMeat( StringUtilities.parseInt( availableMeat ) );
 
 			String adventuresLeft = miscMatcher.group( 6 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
 			int oldAdventures = KoLCharacter.getAdventuresLeft();
-			int newAdventures = StaticEntity.parseInt( adventuresLeft );
+			int newAdventures = StringUtilities.parseInt( adventuresLeft );
 
 			if ( oldAdventures != newAdventures )
 			{
@@ -332,7 +333,7 @@ public class CharPaneRequest
 
 		if ( matcher.find() )
 		{
-			KoLCharacter.setMindControlLevel( StaticEntity.parseInt( matcher.group( 2 ) ) );
+			KoLCharacter.setMindControlLevel( StringUtilities.parseInt( matcher.group( 2 ) ) );
 		}
 		else
 		{
@@ -347,7 +348,7 @@ public class CharPaneRequest
 
 		if ( matcher.find() )
 		{
-			KoLCharacter.setDetunedRadioVolume( StaticEntity.parseInt( matcher.group( 2 ) ) );
+			KoLCharacter.setDetunedRadioVolume( StringUtilities.parseInt( matcher.group( 2 ) ) );
 		}
 		else
 		{
@@ -362,7 +363,7 @@ public class CharPaneRequest
 
 		if ( matcher.find() )
 		{
-			KoLCharacter.setAnnoyotronLevel( StaticEntity.parseInt( matcher.group( 2 ) ) );
+			KoLCharacter.setAnnoyotronLevel( StringUtilities.parseInt( matcher.group( 2 ) ) );
 		}
 		else
 		{
@@ -412,7 +413,7 @@ public class CharPaneRequest
 			return null;
 		}
 
-		return new AdventureResult( effectName, StaticEntity.parseInt( duration ), true );
+		return new AdventureResult( effectName, StringUtilities.parseInt( duration ), true );
 	}
 
 	private static final void refreshEffects( final String responseText )

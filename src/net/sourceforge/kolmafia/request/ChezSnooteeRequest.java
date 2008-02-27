@@ -41,10 +41,10 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ChezSnooteeRequest
 	extends CafeRequest
@@ -124,7 +124,7 @@ public class ChezSnooteeRequest
 		Matcher specialMatcher = ChezSnooteeRequest.SPECIAL_PATTERN.matcher( this.responseText );
 		if ( specialMatcher.find() )
 		{
-			int itemId = StaticEntity.parseInt( specialMatcher.group( 1 ) );
+			int itemId = StringUtilities.parseInt( specialMatcher.group( 1 ) );
 			ChezSnooteeRequest.dailySpecial = new AdventureResult( itemId, 1 );
 
 		}
@@ -178,7 +178,7 @@ public class ChezSnooteeRequest
 			return true;
 		}
 
-		int itemId = StaticEntity.parseInt( matcher.group( 1 ) );
+		int itemId = StringUtilities.parseInt( matcher.group( 1 ) );
 		String itemName;
 		int price;
 

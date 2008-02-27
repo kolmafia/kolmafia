@@ -59,6 +59,7 @@ import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.swingui.CouncilFrame;
 import net.sourceforge.kolmafia.swingui.FamiliarTrainingFrame;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
@@ -1935,7 +1936,7 @@ public abstract class SorceressLairManager
 		Matcher placeMatcher = SorceressLairManager.LAIR6_PATTERN.matcher( SorceressLairManager.QUEST_HANDLER.responseText );
 		if ( placeMatcher.find() )
 		{
-			n = StaticEntity.parseInt( placeMatcher.group( 1 ) );
+			n = StringUtilities.parseInt( placeMatcher.group( 1 ) );
 		}
 
 		if ( n < 0 )

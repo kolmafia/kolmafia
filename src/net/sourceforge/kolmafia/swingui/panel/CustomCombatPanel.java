@@ -49,12 +49,12 @@ import javax.swing.tree.DefaultTreeModel;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
-import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+import net.sourceforge.kolmafia.utilities.FileUtilities;
 
 import net.sourceforge.kolmafia.persistence.Preferences;
 
@@ -86,7 +86,7 @@ public class CustomCombatPanel
 		try
 		{
 			BufferedReader reader =
-				KoLDatabase.getReader( new File( KoLConstants.CCS_LOCATION, CustomCombatManager.settingsFileName() ) );
+				FileUtilities.getReader( new File( KoLConstants.CCS_LOCATION, CustomCombatManager.settingsFileName() ) );
 
 			if ( reader == null )
 			{
@@ -250,7 +250,7 @@ public class CustomCombatPanel
 
 			public void run()
 			{
-				String name = GenericFrame.input( "Give your combat script a name!" );
+				String name = InputFieldUtilities.input( "Give your combat script a name!" );
 				if ( name == null || name.equals( "" ) || name.equals( "default" ) )
 				{
 					return;
@@ -272,7 +272,7 @@ public class CustomCombatPanel
 
 			public void run()
 			{
-				String name = GenericFrame.input( "Make a copy of current script called:" );
+				String name = InputFieldUtilities.input( "Make a copy of current script called:" );
 				if ( name == null || name.equals( "" ) || name.equals( "default" ) )
 				{
 					return;

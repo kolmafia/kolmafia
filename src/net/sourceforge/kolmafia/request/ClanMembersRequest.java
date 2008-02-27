@@ -42,8 +42,8 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.ClanManager;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.persistence.ProfileSnapshot;
 
@@ -232,7 +232,7 @@ public class ClanMembersRequest
 
 				dataMatcher.find();
 				currentName =
-					StaticEntity.globalStringReplace(
+					StringUtilities.globalStringReplace(
 						KoLConstants.ANYTAG_PATTERN.matcher( dataMatcher.group( 1 ) ).replaceAll( "" ).trim(),
 						"&nbsp;", "" ).toLowerCase();
 				ProfileSnapshot.addToRoster( currentName, currentRow );

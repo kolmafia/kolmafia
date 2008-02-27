@@ -49,7 +49,8 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.swingui.GenericFrame;
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class UntinkerRequest
 	extends GenericRequest
@@ -202,7 +203,7 @@ public class UntinkerRequest
 
 		if ( !KoLConstants.existingFrames.isEmpty() )
 		{
-			if ( !GenericFrame.confirm( "KoLmafia thinks you haven't completed the screwdriver quest.  Would you like to have KoLmafia automatically complete it now?" ) )
+			if ( !InputFieldUtilities.confirm( "KoLmafia thinks you haven't completed the screwdriver quest.  Would you like to have KoLmafia automatically complete it now?" ) )
 			{
 				return false;
 			}
@@ -264,7 +265,7 @@ public class UntinkerRequest
 			return true;
 		}
 
-		int itemId = StaticEntity.parseInt( itemMatcher.group( 1 ) );
+		int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
 		AdventureResult result = new AdventureResult( itemId, -1 );
 
 		RequestLogger.updateSessionLog();

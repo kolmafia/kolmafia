@@ -46,6 +46,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.swingui.ItemManageFrame;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ClosetRequest
 	extends TransferItemRequest
@@ -270,7 +271,7 @@ public class ClosetRequest
 
 			if ( meatInStorageMatcher.find() )
 			{
-				KoLCharacter.setStorageMeat( StaticEntity.parseInt( meatInStorageMatcher.group( 1 ) ) );
+				KoLCharacter.setStorageMeat( StringUtilities.parseInt( meatInStorageMatcher.group( 1 ) ) );
 			}
 			else
 			{
@@ -291,7 +292,7 @@ public class ClosetRequest
 
 		if ( meatInClosetMatcher.find() )
 		{
-			afterMeatInCloset = StaticEntity.parseInt( meatInClosetMatcher.group( 1 ) );
+			afterMeatInCloset = StringUtilities.parseInt( meatInClosetMatcher.group( 1 ) );
 		}
 
 		KoLCharacter.setClosetMeat( afterMeatInCloset );
@@ -309,7 +310,7 @@ public class ClosetRequest
 		Matcher storageMatcher = ClosetRequest.PULLS_PATTERN.matcher( this.responseText );
 		if ( storageMatcher.find() )
 		{
-			ItemManageFrame.setPullsRemaining( StaticEntity.parseInt( storageMatcher.group( 1 ) ) );
+			ItemManageFrame.setPullsRemaining( StringUtilities.parseInt( storageMatcher.group( 1 ) ) );
 		}
 		else if ( KoLCharacter.isHardcore() || !KoLCharacter.canInteract() )
 		{
@@ -339,14 +340,14 @@ public class ClosetRequest
 		Matcher optionMatcher = ClosetRequest.OPTION_PATTERN.matcher( storageMatcher.group() );
 		while ( optionMatcher.find() )
 		{
-			int itemId = StaticEntity.parseInt( optionMatcher.group( 1 ) );
+			int itemId = StringUtilities.parseInt( optionMatcher.group( 1 ) );
 
 			if ( ItemDatabase.getItemName( itemId ) == null )
 			{
 				ItemDatabase.registerItem( itemId, optionMatcher.group( 2 ).trim() );
 			}
 
-			AdventureResult result = new AdventureResult( itemId, StaticEntity.parseInt( optionMatcher.group( 3 ) ) );
+			AdventureResult result = new AdventureResult( itemId, StringUtilities.parseInt( optionMatcher.group( 3 ) ) );
 			AdventureResult.addResultToList( storageContents, result );
 		}
 	}

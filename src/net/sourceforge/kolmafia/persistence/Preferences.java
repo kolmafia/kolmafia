@@ -54,13 +54,14 @@ import javax.swing.JCheckBox;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
 import net.sourceforge.kolmafia.session.MoodManager;
 import net.sourceforge.kolmafia.session.ChoiceManager.ChoiceAdventure;
+import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 
 public class Preferences
@@ -130,7 +131,7 @@ public class Preferences
 
 	public static final String baseUserName( final String name )
 	{
-		return name == null || name.equals( "" ) ? "GLOBAL" : StaticEntity.globalStringReplace( name.trim(), " ", "_" ).toLowerCase();
+		return name == null || name.equals( "" ) ? "GLOBAL" : StringUtilities.globalStringReplace( name.trim(), " ", "_" ).toLowerCase();
 	}
 
 	private static void loadPreferences( TreeMap values, TreeMap properties, File file )
@@ -399,7 +400,7 @@ public class Preferences
 
 		if ( !(value instanceof Integer) )
 		{
-			value = new Integer( StaticEntity.parseInt( value.toString() ) );
+			value = new Integer( StringUtilities.parseInt( value.toString() ) );
 			map.put( name, value );
 		}
 
@@ -418,7 +419,7 @@ public class Preferences
 
 		if ( !(value instanceof Float) )
 		{
-			value = new Float( StaticEntity.parseFloat( value.toString() ) );
+			value = new Float( StringUtilities.parseFloat( value.toString() ) );
 			map.put( name, value );
 		}
 
@@ -566,9 +567,9 @@ public class Preferences
 		String[] current;
 		TreeMap desiredMap;
 
-		BufferedReader istream = KoLDatabase.getVersionedReader( "defaults.txt", KoLConstants.DEFAULTS_VERSION );
+		BufferedReader istream = FileUtilities.getVersionedReader( "defaults.txt", KoLConstants.DEFAULTS_VERSION );
 
-		while ( ( current = KoLDatabase.readData( istream ) ) != null )
+		while ( ( current = FileUtilities.readData( istream ) ) != null )
 		{
 			desiredMap = current[ 0 ].equals( "global" ) ? Preferences.globalNames : Preferences.userNames;
 			desiredMap.put( current[ 1 ], current.length == 2 ? "" : current[ 2 ] );
@@ -617,7 +618,7 @@ public class Preferences
 		for ( int i = 0; i < choices.length; ++i )
 		{
 			String setting = choices[ i ].getSetting();
-			int defaultOption = StaticEntity.parseInt( (String) Preferences.userNames.get( setting ) ) - 1;
+			int defaultOption = StringUtilities.parseInt( (String) Preferences.userNames.get( setting ) ) - 1;
 
 			ostream.print( "[" + setting.substring( 15 ) + "] " );
 			ostream.print( choices[ i ].getName() + ": " );

@@ -46,7 +46,6 @@ import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.LogStream;
@@ -56,6 +55,8 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
@@ -124,7 +125,7 @@ public abstract class MoodManager
 	public static final void setMood( String mood )
 	{
 		mood =
-			mood == null || mood.trim().equals( "" ) ? "default" : StaticEntity.globalStringDelete(
+			mood == null || mood.trim().equals( "" ) ? "default" : StringUtilities.globalStringDelete(
 				mood.toLowerCase().trim(), " " );
 
 		if ( mood.equals( "clear" ) || mood.equals( "autofill" ) || mood.startsWith( "exec" ) || mood.startsWith( "repeat" ) )
@@ -797,7 +798,7 @@ public abstract class MoodManager
 			if ( Character.isDigit( action.charAt( 0 ) ) )
 			{
 				spaceIndex = action.indexOf( " " );
-				multiplier = StaticEntity.parseInt( action.substring( 0, spaceIndex ) );
+				multiplier = StringUtilities.parseInt( action.substring( 0, spaceIndex ) );
 				action = action.substring( spaceIndex + 1 );
 			}
 
@@ -858,7 +859,7 @@ public abstract class MoodManager
 			// First guarantee that a settings file exists with
 			// the appropriate Properties data.
 
-			BufferedReader reader = KoLDatabase.getReader( MoodManager.settingsFile );
+			BufferedReader reader = FileUtilities.getReader( MoodManager.settingsFile );
 
 			String line;
 			String currentKey = "";
@@ -869,7 +870,7 @@ public abstract class MoodManager
 				if ( line.startsWith( "[" ) )
 				{
 					currentKey =
-						StaticEntity.globalStringDelete(
+						StringUtilities.globalStringDelete(
 							line.substring( 1, line.length() - 1 ).trim().toLowerCase(), " " );
 
 					if ( currentKey.equals( "clear" ) || currentKey.equals( "autofill" ) || currentKey.startsWith( "exec" ) || currentKey.startsWith( "repeat" ) )
@@ -1093,7 +1094,7 @@ public abstract class MoodManager
 				// and the parameter's unambiguous form.
 
 				int spaceIndex = action.indexOf( " " );
-				String parameters = KoLDatabase.getDisplayName( action.substring( spaceIndex + 1 ).trim() );
+				String parameters = StringUtilities.getDisplayName( action.substring( spaceIndex + 1 ).trim() );
 
 				if ( action.startsWith( "use" ) )
 				{
@@ -1117,7 +1118,7 @@ public abstract class MoodManager
 					if ( Character.isDigit( parameters.charAt( 0 ) ) )
 					{
 						spaceIndex = parameters.indexOf( " " );
-						this.count = StaticEntity.parseInt( parameters.substring( 0, spaceIndex ) );
+						this.count = StringUtilities.parseInt( parameters.substring( 0, spaceIndex ) );
 						parameters = parameters.substring( spaceIndex ).trim();
 					}
 
@@ -1178,15 +1179,15 @@ public abstract class MoodManager
 
 			if ( this.item != null )
 			{
-				return this.type + " " + KoLDatabase.getCanonicalName( this.name ) + " => use " + this.count + " " + KoLDatabase.getCanonicalName( this.item.getName() );
+				return this.type + " " + StringUtilities.getCanonicalName( this.name ) + " => use " + this.count + " " + StringUtilities.getCanonicalName( this.item.getName() );
 			}
 
 			if ( this.skill != null )
 			{
-				return this.type + " " + KoLDatabase.getCanonicalName( this.name ) + " => cast " + this.count + " " + KoLDatabase.getCanonicalName( this.skill.getSkillName() );
+				return this.type + " " + StringUtilities.getCanonicalName( this.name ) + " => cast " + this.count + " " + StringUtilities.getCanonicalName( this.skill.getSkillName() );
 			}
 
-			return this.type + " " + KoLDatabase.getCanonicalName( this.name ) + " => " + this.action;
+			return this.type + " " + StringUtilities.getCanonicalName( this.name ) + " => " + this.action;
 		}
 
 		public boolean equals( final Object o )

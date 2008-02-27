@@ -43,8 +43,8 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.request.ClosetRequest;
-import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class MeatTransferPanel
 	extends LabeledPanel
@@ -98,7 +98,7 @@ public class MeatTransferPanel
 
 	public void actionConfirmed()
 	{
-		int amountToTransfer = GenericFrame.getValue( this.amountField );
+		int amountToTransfer = InputFieldUtilities.getValue( this.amountField );
 
 		RequestThread.openRequestSequence();
 		RequestThread.postRequest( new ClosetRequest( this.transferType, amountToTransfer ) );

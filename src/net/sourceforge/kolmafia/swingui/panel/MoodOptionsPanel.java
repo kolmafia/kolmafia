@@ -50,10 +50,10 @@ import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.session.MoodManager;
 import net.sourceforge.kolmafia.session.MoodManager.MoodTrigger;
-import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class MoodOptionsPanel
 	extends JPanel
@@ -144,7 +144,7 @@ public class MoodOptionsPanel
 
 			public void run()
 			{
-				String name = GenericFrame.input( "Give your list a name!" );
+				String name = InputFieldUtilities.input( "Give your list a name!" );
 				if ( name == null )
 				{
 					return;
@@ -180,7 +180,7 @@ public class MoodOptionsPanel
 
 			public void run()
 			{
-				String moodName = GenericFrame.input( "Make a copy of current mood list called:" );
+				String moodName = InputFieldUtilities.input( "Make a copy of current mood list called:" );
 				if ( moodName == null )
 				{
 					return;
@@ -272,7 +272,7 @@ public class MoodOptionsPanel
 			String currentMood = Preferences.getString( "currentMood" );
 			if ( currentMood.equals( "apathetic" ) )
 			{
-				GenericFrame.alert( "You cannot add triggers to an apathetic mood." );
+				InputFieldUtilities.alert( "You cannot add triggers to an apathetic mood." );
 				return;
 			}
 
@@ -287,7 +287,7 @@ public class MoodOptionsPanel
 			String[] autoFillTypes =
 				new String[] { "minimal set (current active buffs)", "maximal set (all castable buffs)" };
 			String desiredType =
-				(String) GenericFrame.input( "Which kind of buff set would you like to use?", autoFillTypes );
+				(String) InputFieldUtilities.input( "Which kind of buff set would you like to use?", autoFillTypes );
 
 			if ( desiredType == null )
 			{

@@ -42,6 +42,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CakeArenaRequest
 	extends GenericRequest
@@ -121,7 +122,7 @@ public class CakeArenaRequest
 
 		if ( winMatcher.find() )
 		{
-			KoLCharacter.setArenaWins( StaticEntity.parseInt( winMatcher.group( 1 ) ) );
+			KoLCharacter.setArenaWins( StringUtilities.parseInt( winMatcher.group( 1 ) ) );
 		}
 
 		// Retrieve list of opponents
@@ -131,10 +132,10 @@ public class CakeArenaRequest
 		while ( opponentMatcher.find( lastMatchIndex ) )
 		{
 			lastMatchIndex = opponentMatcher.end() + 1;
-			int id = StaticEntity.parseInt( opponentMatcher.group( 1 ) );
+			int id = StringUtilities.parseInt( opponentMatcher.group( 1 ) );
 			String name = opponentMatcher.group( 2 );
 			String race = opponentMatcher.group( 3 );
-			int weight = StaticEntity.parseInt( opponentMatcher.group( 4 ) );
+			int weight = StringUtilities.parseInt( opponentMatcher.group( 4 ) );
 			CakeArenaManager.registerOpponent( id, name, race, weight );
 		}
 

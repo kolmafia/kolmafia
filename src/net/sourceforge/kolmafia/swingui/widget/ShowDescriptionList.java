@@ -69,9 +69,10 @@ import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.session.MoodManager;
 import net.sourceforge.kolmafia.session.MoodManager.MoodTrigger;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
-import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.ProfileFrame;
 import net.sourceforge.kolmafia.swingui.menu.ThreadedMenuItem;
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ShowDescriptionList
 	extends JList
@@ -299,7 +300,7 @@ public class ShowDescriptionList
 			name = name + " (skill)";
 		}
 
-		name = StaticEntity.globalStringReplace( name, " ", "_" );
+		name = StringUtilities.globalStringReplace( name, " ", "_" );
 		name = Character.toUpperCase( name.charAt( 0 ) ) + name.substring( 1 );
 		return "http://kol.coldfront.net/thekolwiki/index.php/" + name;
 	}
@@ -736,7 +737,7 @@ public class ShowDescriptionList
 
 		public void executeAction()
 		{
-			if ( !GenericFrame.confirm( "Are you sure you would like to sell the selected items?" ) )
+			if ( !InputFieldUtilities.confirm( "Are you sure you would like to sell the selected items?" ) )
 			{
 				return;
 			}
@@ -756,7 +757,7 @@ public class ShowDescriptionList
 
 		public void executeAction()
 		{
-			if ( !GenericFrame.confirm( "Are you sure you want to use the selected items?" ) )
+			if ( !InputFieldUtilities.confirm( "Are you sure you want to use the selected items?" ) )
 			{
 				return;
 			}
@@ -782,7 +783,7 @@ public class ShowDescriptionList
 
 		public void executeAction()
 		{
-			if ( !GenericFrame.confirm( "The items you've selected will be smashed to pieces.  Are you sure?" ) )
+			if ( !InputFieldUtilities.confirm( "The items you've selected will be smashed to pieces.  Are you sure?" ) )
 			{
 				return;
 			}

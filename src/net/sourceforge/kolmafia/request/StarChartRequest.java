@@ -44,6 +44,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class StarChartRequest
 	extends CreateItemRequest
@@ -124,8 +125,8 @@ public class StarChartRequest
 			return true;
 		}
 
-		int stars = StaticEntity.parseInt( starMatcher.group( 1 ) );
-		int lines = StaticEntity.parseInt( lineMatcher.group( 1 ) );
+		int stars = StringUtilities.parseInt( starMatcher.group( 1 ) );
+		int lines = StringUtilities.parseInt( lineMatcher.group( 1 ) );
 
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( "Draw " + stars + " stars with " + lines + " lines" );

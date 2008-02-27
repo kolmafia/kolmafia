@@ -42,15 +42,16 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.KoLDatabase.BooleanArray;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.utilities.BooleanArray;
+import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ZapRequest
 	extends GenericRequest
@@ -91,9 +92,9 @@ public class ZapRequest
 		try
 		{
 			String line;
-			BufferedReader reader = KoLDatabase.getVersionedReader( "zapgroups.txt", KoLConstants.ZAPGROUPS_VERSION );
+			BufferedReader reader = FileUtilities.getVersionedReader( "zapgroups.txt", KoLConstants.ZAPGROUPS_VERSION );
 
-			while ( ( line = KoLDatabase.readLine( reader ) ) != null )
+			while ( ( line = FileUtilities.readLine( reader ) ) != null )
 			{
 				String[] list = line.split( "\\s*,\\s*" );
 				for ( int i = 0; i < list.length; ++i )
@@ -214,7 +215,7 @@ public class ZapRequest
 			return true;
 		}
 
-		int itemId = StaticEntity.parseInt( itemMatcher.group( 1 ) );
+		int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
 		AdventureResult item = new AdventureResult( itemId, -1 );
 
 		RequestLogger.updateSessionLog();

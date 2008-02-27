@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -135,8 +135,8 @@ public class StationaryButtonDecorator
 			actionBuffer.append( "</font></td></tr>" );
 			buffer.insert( insertionPoint, actionBuffer.toString() );
 
-			StaticEntity.singleStringReplace( buffer, "</head>", "<script src=\"/hotkeys.js\"></script></head>" );
-			StaticEntity.singleStringReplace(
+			StringUtilities.singleStringReplace( buffer, "</head>", "<script src=\"/hotkeys.js\"></script></head>" );
+			StringUtilities.singleStringReplace(
 				buffer,
 				"<body",
 				"<body onkeyup=\"handleCombatHotkey(event,false);\" onkeydown=\"handleCombatHotkey(event,true);\" " );
@@ -226,7 +226,7 @@ public class StationaryButtonDecorator
 				buffer.append( "action=skill&whichskill=" );
 				buffer.append( action );
 				isEnabled &=
-					SkillDatabase.getMPConsumptionById( StaticEntity.parseInt( action ) ) <= KoLCharacter.getCurrentMP();
+					SkillDatabase.getMPConsumptionById( StringUtilities.parseInt( action ) ) <= KoLCharacter.getCurrentMP();
 			}
 		}
 
@@ -262,7 +262,7 @@ public class StationaryButtonDecorator
 			return action;
 		}
 
-		int skillId = StaticEntity.parseInt( action );
+		int skillId = StringUtilities.parseInt( action );
 		String name = SkillDatabase.getSkillName( skillId ).toLowerCase();
 
 		switch ( skillId )
@@ -274,7 +274,7 @@ public class StationaryButtonDecorator
 		case 7005: // Spooky Breath
 		case 7006: // Stinky Breath
 		case 7007: // Sleazy Breath
-			name = StaticEntity.globalStringDelete( name, " " );
+			name = StringUtilities.globalStringDelete( name, " " );
 			break;
 
 		case 7001: // Give In To Your Vampiric Urges
@@ -290,7 +290,7 @@ public class StationaryButtonDecorator
 		case 7012: // orange bottle-rocket
 		case 7013: // purple bottle-rocket
 		case 7014: // black bottle-rocket
-			name = StaticEntity.globalStringDelete( StaticEntity.globalStringDelete( name, "fire " ), "bottle-" );
+			name = StringUtilities.globalStringDelete( StringUtilities.globalStringDelete( name, "fire " ), "bottle-" );
 			break;
 
 		case 2103: // Head + Knee Combo
@@ -331,7 +331,7 @@ public class StationaryButtonDecorator
 
 		case 5003: // Disco Eye-Poke
 		case 5012: // Disco Face Stab
-			name = StaticEntity.globalStringDelete( StaticEntity.globalStringDelete( name.substring( 6 ), "-" ), " " );
+			name = StringUtilities.globalStringDelete( StringUtilities.globalStringDelete( name.substring( 6 ), "-" ), " " );
 			break;
 
 		case 5005: // Disco Dance of Doom

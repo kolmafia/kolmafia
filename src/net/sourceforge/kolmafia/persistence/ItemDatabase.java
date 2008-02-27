@@ -60,6 +60,11 @@ import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.utilities.BooleanArray;
+import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.IntegerArray;
+import net.sourceforge.kolmafia.utilities.StringArray;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ItemDatabase
 	extends KoLDatabase
@@ -133,24 +138,24 @@ public class ItemDatabase
 		// examined and float-referenced: once in the name-lookup,
 		// and again in the Id lookup.
 
-		BufferedReader reader = KoLDatabase.getVersionedReader( "tradeitems.txt", KoLConstants.TRADEITEMS_VERSION );
+		BufferedReader reader = FileUtilities.getVersionedReader( "tradeitems.txt", KoLConstants.TRADEITEMS_VERSION );
 
 		String[] data;
 		Integer id;
 
-		while ( ( data = KoLDatabase.readData( reader ) ) != null )
+		while ( ( data = FileUtilities.readData( reader ) ) != null )
 		{
 			if ( data.length == 5 )
 			{
-				int itemId = StaticEntity.parseInt( data[ 0 ] );
+				int itemId = StringUtilities.parseInt( data[ 0 ] );
 				id = new Integer( itemId );
 
-				ItemDatabase.useTypeById.set( itemId, StaticEntity.parseInt( data[ 2 ] ) );
-				ItemDatabase.priceById.set( itemId, StaticEntity.parseInt( data[ 4 ] ) );
+				ItemDatabase.useTypeById.set( itemId, StringUtilities.parseInt( data[ 2 ] ) );
+				ItemDatabase.priceById.set( itemId, StringUtilities.parseInt( data[ 4 ] ) );
 
-				ItemDatabase.itemIdByName.put( KoLDatabase.getCanonicalName( data[ 1 ] ), id );
+				ItemDatabase.itemIdByName.put( StringUtilities.getCanonicalName( data[ 1 ] ), id );
 				ItemDatabase.dataNameById.put( id, data[ 1 ] );
-				ItemDatabase.nameById.put( id, KoLDatabase.getDisplayName( data[ 1 ] ) );
+				ItemDatabase.nameById.put( id, StringUtilities.getDisplayName( data[ 1 ] ) );
 
 				ItemDatabase.accessById.put( id, data[ 3 ] );
 				ItemDatabase.tradeableById.set( itemId, data[ 3 ].equals( "all" ) );
@@ -187,9 +192,9 @@ public class ItemDatabase
 
 		// Next, retrieve the description Ids.
 
-		reader = KoLDatabase.getVersionedReader( "itemdescs.txt", KoLConstants.ITEMDESCS_VERSION );
+		reader = FileUtilities.getVersionedReader( "itemdescs.txt", KoLConstants.ITEMDESCS_VERSION );
 
-		while ( ( data = KoLDatabase.readData( reader ) ) != null )
+		while ( ( data = FileUtilities.readData( reader ) ) != null )
 		{
 			boolean isDescriptionId = true;
 			if ( data.length >= 2 && data[ 1 ].length() > 0 )
@@ -205,7 +210,7 @@ public class ItemDatabase
 
 				if ( isDescriptionId )
 				{
-					int itemId = StaticEntity.parseInt( data[ 0 ].trim() );
+					int itemId = StringUtilities.parseInt( data[ 0 ].trim() );
 					id = new Integer( itemId );
 					ItemDatabase.descriptionById.put( id, data[ 1 ] );
 					ItemDatabase.itemIdByDescription.put( data[ 1 ], new Integer( itemId ) );
@@ -213,7 +218,7 @@ public class ItemDatabase
 					if ( data.length == 4 )
 					{
 						ItemDatabase.pluralById.set( itemId, data[ 3 ] );
-						ItemDatabase.itemIdByPlural.put( KoLDatabase.getCanonicalName( data[ 3 ] ), id );
+						ItemDatabase.itemIdByPlural.put( StringUtilities.getCanonicalName( data[ 3 ] ), id );
 					}
 				}
 			}
@@ -233,9 +238,9 @@ public class ItemDatabase
 
 		// Next, retrieve the table of fullness
 
-		reader = KoLDatabase.getVersionedReader( "fullness.txt", KoLConstants.FULLNESS_VERSION );
+		reader = FileUtilities.getVersionedReader( "fullness.txt", KoLConstants.FULLNESS_VERSION );
 
-		while ( ( data = KoLDatabase.readData( reader ) ) != null )
+		while ( ( data = FileUtilities.readData( reader ) ) != null )
 		{
 			ItemDatabase.saveItemValues( data, ItemDatabase.fullnessByName );
 		}
@@ -254,9 +259,9 @@ public class ItemDatabase
 
 		// Next, retrieve the table of inebriety
 
-		reader = KoLDatabase.getVersionedReader( "inebriety.txt", KoLConstants.INEBRIETY_VERSION );
+		reader = FileUtilities.getVersionedReader( "inebriety.txt", KoLConstants.INEBRIETY_VERSION );
 
-		while ( ( data = KoLDatabase.readData( reader ) ) != null )
+		while ( ( data = FileUtilities.readData( reader ) ) != null )
 		{
 			ItemDatabase.saveItemValues( data, ItemDatabase.inebrietyByName );
 		}
@@ -275,9 +280,9 @@ public class ItemDatabase
 
 		// Next, retrieve the table of spleen hits
 
-		reader = KoLDatabase.getVersionedReader( "spleenhit.txt", KoLConstants.SPLEENHIT_VERSION );
+		reader = FileUtilities.getVersionedReader( "spleenhit.txt", KoLConstants.SPLEENHIT_VERSION );
 
-		while ( ( data = KoLDatabase.readData( reader ) ) != null )
+		while ( ( data = FileUtilities.readData( reader ) ) != null )
 		{
 			ItemDatabase.saveItemValues( data, ItemDatabase.spleenHitByName );
 		}
@@ -300,14 +305,14 @@ public class ItemDatabase
 		if ( data.length < 2 )
 			return;
 
-		String name = KoLDatabase.getCanonicalName( data[ 0 ] );
+		String name = StringUtilities.getCanonicalName( data[ 0 ] );
 		map.put( name, Integer.valueOf( data[ 1 ] ) );
 
 		if ( data.length < 7 )
 			return;
 
 		ItemDatabase.levelReqByName.put( name, Integer.valueOf( data[ 2 ] ) );
-		ItemDatabase.addAdventureRange( name, StaticEntity.parseInt( data[ 1 ] ), data[ 3 ] );
+		ItemDatabase.addAdventureRange( name, StringUtilities.parseInt( data[ 1 ] ), data[ 3 ] );
 		ItemDatabase.muscleByName.put( name, ItemDatabase.extractRange( data[ 4 ] ) );
 		ItemDatabase.mysticalityByName.put( name, ItemDatabase.extractRange( data[ 5 ] ) );
 		ItemDatabase.moxieByName.put( name, ItemDatabase.extractRange( data[ 6 ] ) );
@@ -376,8 +381,8 @@ public class ItemDatabase
 		range = range.trim();
 
 		int dashIndex = range.indexOf( "-" );
-		int start = StaticEntity.parseInt( dashIndex == -1 ? range : range.substring( 0, dashIndex ) );
-		int end = dashIndex == -1 ? start : StaticEntity.parseInt( range.substring( dashIndex + 1 ) );
+		int start = StringUtilities.parseInt( dashIndex == -1 ? range : range.substring( 0, dashIndex ) );
+		int end = dashIndex == -1 ? start : StringUtilities.parseInt( range.substring( dashIndex + 1 ) );
 
 		int gainSum1 = 0;
 		int gainSum2 = 0;
@@ -435,14 +440,14 @@ public class ItemDatabase
 		}
 
 		int dashIndex = range.indexOf( "-" );
-		int start = StaticEntity.parseInt( dashIndex == -1 ? range : range.substring( 0, dashIndex ) );
+		int start = StringUtilities.parseInt( dashIndex == -1 ? range : range.substring( 0, dashIndex ) );
 
 		if ( dashIndex == -1 )
 		{
 			return KoLConstants.SINGLE_PRECISION_FORMAT.format( isNegative ? 0 - start : start );
 		}
 
-		int end = StaticEntity.parseInt( range.substring( dashIndex + 1 ) );
+		int end = StringUtilities.parseInt( range.substring( dashIndex + 1 ) );
 		return KoLConstants.SINGLE_PRECISION_FORMAT.format( ( start + end ) / ( isNegative ? -2.0f : 2.0f ) );
 	}
 
@@ -452,7 +457,7 @@ public class ItemDatabase
 
 	private static final String constructWikiName( String name )
 	{
-		name = StaticEntity.globalStringReplace( KoLDatabase.getDisplayName( name ), " ", "_" );
+		name = StringUtilities.globalStringReplace( StringUtilities.getDisplayName( name ), " ", "_" );
 		return Character.toUpperCase( name.charAt( 0 ) ) + name.substring( 1 );
 	}
 
@@ -464,7 +469,7 @@ public class ItemDatabase
 		try
 		{
 			BufferedReader reader =
-				KoLDatabase.getReader( "http://kol.coldfront.net/thekolwiki/index.php/" + ItemDatabase.constructWikiName( name ) );
+				FileUtilities.getReader( "http://kol.coldfront.net/thekolwiki/index.php/" + ItemDatabase.constructWikiName( name ) );
 			while ( ( line = reader.readLine() ) != null )
 			{
 				wikiRecord.append( line );
@@ -542,9 +547,9 @@ public class ItemDatabase
 		Integer id = new Integer( itemId );
 
 		ItemDatabase.descriptionById.put( id, descriptionId );
-		ItemDatabase.itemIdByName.put( KoLDatabase.getCanonicalName( itemName ), id );
+		ItemDatabase.itemIdByName.put( StringUtilities.getCanonicalName( itemName ), id );
 		ItemDatabase.dataNameById.put( id, itemName );
-		ItemDatabase.nameById.put( id, KoLDatabase.getDisplayName( itemName ) );
+		ItemDatabase.nameById.put( id, StringUtilities.getDisplayName( itemName ) );
 	}
 
 	/**
@@ -591,7 +596,7 @@ public class ItemDatabase
 		// Get the canonical name of the item, and attempt
 		// to parse based on that.
 
-		String canonicalName = KoLDatabase.getCanonicalName( itemName );
+		String canonicalName = StringUtilities.getCanonicalName( itemName );
 		Object itemId = ItemDatabase.itemIdByName.get( canonicalName );
 
 		// If the name, as-is, exists in the item database,
@@ -627,7 +632,7 @@ public class ItemDatabase
 		// that case, prefer complete versions containing the substring
 		// over truncated versions which are plurals.
 
-		List possibilities = KoLDatabase.getMatchingNames( ItemDatabase.itemIdByName, canonicalName );
+		List possibilities = StringUtilities.getMatchingNames( ItemDatabase.itemIdByName, canonicalName );
 		if ( possibilities.size() == 1 )
 		{
 			return ItemDatabase.getItemId( (String) possibilities.get( 0 ), count );
@@ -660,7 +665,7 @@ public class ItemDatabase
 		// introduced into the name when no such dash exists in the
 		// singular form.
 
-		itemId = ItemDatabase.itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "-", " " ) );
+		itemId = ItemDatabase.itemIdByName.get( StringUtilities.singleStringReplace( canonicalName, "-", " " ) );
 		if ( itemId != null )
 		{
 			return ( (Integer) itemId ).intValue();
@@ -669,13 +674,13 @@ public class ItemDatabase
 		// The word right before the dash may also be pluralized,
 		// so make sure the dashed words are recognized.
 
-		itemId = ItemDatabase.itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "es-", "-" ) );
+		itemId = ItemDatabase.itemIdByName.get( StringUtilities.singleStringReplace( canonicalName, "es-", "-" ) );
 		if ( itemId != null )
 		{
 			return ( (Integer) itemId ).intValue();
 		}
 
-		itemId = ItemDatabase.itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "s-", "-" ) );
+		itemId = ItemDatabase.itemIdByName.get( StringUtilities.singleStringReplace( canonicalName, "s-", "-" ) );
 		if ( itemId != null )
 		{
 			return ( (Integer) itemId ).intValue();
@@ -686,7 +691,7 @@ public class ItemDatabase
 		// also have "ee" plural forms should be clumped
 		// in as well.
 
-		itemId = ItemDatabase.itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "ee", "oo" ) );
+		itemId = ItemDatabase.itemIdByName.get( StringUtilities.singleStringReplace( canonicalName, "ee", "oo" ) );
 		if ( itemId != null )
 		{
 			return ( (Integer) itemId ).intValue();
@@ -697,7 +702,7 @@ public class ItemDatabase
 		// meat vortex, but better safe than sorry.
 
 		itemId =
-			ItemDatabase.itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "ices", "ex" ) );
+			ItemDatabase.itemIdByName.get( StringUtilities.singleStringReplace( canonicalName, "ices", "ex" ) );
 		if ( itemId != null )
 		{
 			return ( (Integer) itemId ).intValue();
@@ -708,7 +713,7 @@ public class ItemDatabase
 		// by the previous test).
 
 		itemId =
-			ItemDatabase.itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "ices", "ix" ) );
+			ItemDatabase.itemIdByName.get( StringUtilities.singleStringReplace( canonicalName, "ices", "ix" ) );
 		if ( itemId != null )
 		{
 			return ( (Integer) itemId ).intValue();
@@ -718,7 +723,7 @@ public class ItemDatabase
 		// and other things ending in "ife".
 
 		itemId =
-			ItemDatabase.itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "ives", "ife" ) );
+			ItemDatabase.itemIdByName.get( StringUtilities.singleStringReplace( canonicalName, "ives", "ife" ) );
 		if ( itemId != null )
 		{
 			return ( (Integer) itemId ).intValue();
@@ -727,7 +732,7 @@ public class ItemDatabase
 		// Also add in a special handling for elves
 		// and other things ending in "f".
 
-		itemId = ItemDatabase.itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "ves", "f" ) );
+		itemId = ItemDatabase.itemIdByName.get( StringUtilities.singleStringReplace( canonicalName, "ves", "f" ) );
 		if ( itemId != null )
 		{
 			return ( (Integer) itemId ).intValue();
@@ -737,7 +742,7 @@ public class ItemDatabase
 		// and other things ending in "aff".
 
 		itemId =
-			ItemDatabase.itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "aves", "aff" ) );
+			ItemDatabase.itemIdByName.get( StringUtilities.singleStringReplace( canonicalName, "aves", "aff" ) );
 		if ( itemId != null )
 		{
 			return ( (Integer) itemId ).intValue();
@@ -758,7 +763,7 @@ public class ItemDatabase
 		}
 
 		itemId =
-			ItemDatabase.itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "ies ", "y " ) );
+			ItemDatabase.itemIdByName.get( StringUtilities.singleStringReplace( canonicalName, "ies ", "y " ) );
 		if ( itemId != null )
 		{
 			return ( (Integer) itemId ).intValue();
@@ -777,7 +782,7 @@ public class ItemDatabase
 			}
 		}
 
-		itemId = ItemDatabase.itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "es ", " " ) );
+		itemId = ItemDatabase.itemIdByName.get( StringUtilities.singleStringReplace( canonicalName, "es ", " " ) );
 		if ( itemId != null )
 		{
 			return ( (Integer) itemId ).intValue();
@@ -788,7 +793,7 @@ public class ItemDatabase
 		// item Id for the "en" version.
 
 		itemId =
-			ItemDatabase.itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "en ", "an " ) );
+			ItemDatabase.itemIdByName.get( StringUtilities.singleStringReplace( canonicalName, "en ", "an " ) );
 		if ( itemId != null )
 		{
 			return ( (Integer) itemId ).intValue();
@@ -841,7 +846,7 @@ public class ItemDatabase
 			return false;
 		}
 
-		Integer requirement = (Integer) ItemDatabase.levelReqByName.get( KoLDatabase.getCanonicalName( name ) );
+		Integer requirement = (Integer) ItemDatabase.levelReqByName.get( StringUtilities.getCanonicalName( name ) );
 		return requirement == null ? false : KoLCharacter.getLevel() >= requirement.intValue();
 	}
 
@@ -852,7 +857,7 @@ public class ItemDatabase
 			return 0;
 		}
 
-		Integer fullness = (Integer) ItemDatabase.fullnessByName.get( KoLDatabase.getCanonicalName( name ) );
+		Integer fullness = (Integer) ItemDatabase.fullnessByName.get( StringUtilities.getCanonicalName( name ) );
 		return fullness == null ? 0 : fullness.intValue();
 	}
 
@@ -863,7 +868,7 @@ public class ItemDatabase
 			return 0;
 		}
 
-		Integer inebriety = (Integer) ItemDatabase.inebrietyByName.get( KoLDatabase.getCanonicalName( name ) );
+		Integer inebriety = (Integer) ItemDatabase.inebrietyByName.get( StringUtilities.getCanonicalName( name ) );
 		return inebriety == null ? 0 : inebriety.intValue();
 	}
 
@@ -874,7 +879,7 @@ public class ItemDatabase
 			return 0;
 		}
 
-		Integer spleenhit = (Integer) ItemDatabase.spleenHitByName.get( KoLDatabase.getCanonicalName( name ) );
+		Integer spleenhit = (Integer) ItemDatabase.spleenHitByName.get( StringUtilities.getCanonicalName( name ) );
 		return spleenhit == null ? 0 : spleenhit.intValue();
 	}
 
@@ -898,7 +903,7 @@ public class ItemDatabase
 					KoLCharacter.getSign().indexOf( "Opossum" ) != -1,
 					KoLConstants.activeEffects.contains( ItemDatabase.GOT_MILK ),
 					Preferences.getInteger( "munchiesPillsUsed" ) > 0 ).get(
-					KoLDatabase.getCanonicalName( name ) );
+					StringUtilities.getCanonicalName( name ) );
 		}
 		else if ( inebriety > 0 )
 		{
@@ -907,7 +912,7 @@ public class ItemDatabase
 					Preferences.getBoolean( "showGainsPerUnit" ),
 					KoLCharacter.getSign().indexOf( "Blender" ) != -1,
 					KoLConstants.activeEffects.contains( ItemDatabase.ODE ), false ).get(
-					KoLDatabase.getCanonicalName( name ) );
+					StringUtilities.getCanonicalName( name ) );
 		}
 
 		if ( range == null )
@@ -925,7 +930,7 @@ public class ItemDatabase
 			return "+0.0";
 		}
 
-		String range = (String) ItemDatabase.muscleByName.get( KoLDatabase.getCanonicalName( name ) );
+		String range = (String) ItemDatabase.muscleByName.get( StringUtilities.getCanonicalName( name ) );
 		return range == null ? "+0.0" : range;
 	}
 
@@ -936,7 +941,7 @@ public class ItemDatabase
 			return "+0.0";
 		}
 
-		String range = (String) ItemDatabase.mysticalityByName.get( KoLDatabase.getCanonicalName( name ) );
+		String range = (String) ItemDatabase.mysticalityByName.get( StringUtilities.getCanonicalName( name ) );
 		return range == null ? "+0.0" : range;
 	}
 
@@ -947,7 +952,7 @@ public class ItemDatabase
 			return "+0.0";
 		}
 
-		String range = (String) ItemDatabase.moxieByName.get( KoLDatabase.getCanonicalName( name ) );
+		String range = (String) ItemDatabase.moxieByName.get( StringUtilities.getCanonicalName( name ) );
 		return range == null ? "+0.0" : range;
 	}
 
@@ -1058,7 +1063,7 @@ public class ItemDatabase
 
 	public static final List getMatchingNames( final String substring )
 	{
-		return KoLDatabase.getMatchingNames( ItemDatabase.itemIdByName, substring );
+		return StringUtilities.getMatchingNames( ItemDatabase.itemIdByName, substring );
 	}
 
 	/**
@@ -1170,7 +1175,7 @@ public class ItemDatabase
 
 		while ( itemMatcher.find() )
 		{
-			int itemId = StaticEntity.parseInt( itemMatcher.group( 1 ) );
+			int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
 			if ( !ItemDatabase.descriptionById.get( new Integer( itemId ) ).equals( "" ) )
 			{
 				continue;
@@ -1386,7 +1391,7 @@ public class ItemDatabase
 		final String muscle, final String mysticality, final String moxie )
 	{
 		String name =
-			KoLDatabase.getCanonicalName( (String) ItemDatabase.dataNameById.get( new Integer( itemId ) ) );
+			StringUtilities.getCanonicalName( (String) ItemDatabase.dataNameById.get( new Integer( itemId ) ) );
 
 		ItemDatabase.inebrietyByName.put( name, new Integer( inebriety ) );
 		ItemDatabase.addAdventureRange( name, inebriety, adventures );
@@ -1646,12 +1651,12 @@ public class ItemDatabase
 
 			String currentLine;
 			StringBuffer currentHTML = new StringBuffer();
-			BufferedReader reader = KoLDatabase.getReader( saveData );
+			BufferedReader reader = FileUtilities.getReader( saveData );
 
 			while ( !( currentLine = reader.readLine() ).equals( "" ) )
 			{
 				currentHTML.setLength( 0 );
-				int currentId = StaticEntity.parseInt( currentLine );
+				int currentId = StringUtilities.parseInt( currentLine );
 
 				do
 				{
@@ -1698,7 +1703,7 @@ public class ItemDatabase
 		}
 
 		// One item is known to have an extra internal space
-		return StaticEntity.globalStringReplace( matcher.group( 1 ), "  ", " " );
+		return StringUtilities.globalStringReplace( matcher.group( 1 ), "  ", " " );
 	}
 
 	private static final Pattern PRICE_PATTERN = Pattern.compile( "Selling Price: <b>(\\d+) Meat.</b>" );
@@ -1711,7 +1716,7 @@ public class ItemDatabase
 			return 0;
 		}
 
-		return StaticEntity.parseInt( matcher.group( 1 ) );
+		return StringUtilities.parseInt( matcher.group( 1 ) );
 	}
 
 	private static final String parseAccess( final String text )
@@ -1831,7 +1836,7 @@ public class ItemDatabase
 
 	private static final void checkLevelDatum( final String name, final String text, final LogStream report )
 	{
-		Integer requirement = (Integer) ItemDatabase.levelReqByName.get( KoLDatabase.getCanonicalName( name ) );
+		Integer requirement = (Integer) ItemDatabase.levelReqByName.get( StringUtilities.getCanonicalName( name ) );
 		int level = requirement == null ? 0 : requirement.intValue();
 		int descLevel = ItemDatabase.parseLevel( text );
 		if ( level != descLevel )
@@ -1850,7 +1855,7 @@ public class ItemDatabase
 			return 1;
 		}
 
-		return StaticEntity.parseInt( matcher.group( 1 ) );
+		return StringUtilities.parseInt( matcher.group( 1 ) );
 	}
 
 	private static final void checkEquipment( final LogStream report )
@@ -1919,7 +1924,7 @@ public class ItemDatabase
 			matcher = ItemDatabase.POWER_PATTERN.matcher( text );
 			if ( matcher.find() )
 			{
-				power = StaticEntity.parseInt( matcher.group( 1 ) );
+				power = StringUtilities.parseInt( matcher.group( 1 ) );
 			}
 		}
 		else if ( isShield )
@@ -2141,13 +2146,13 @@ public class ItemDatabase
 
 		StringBuffer enchantments = new StringBuffer( matcher.group( 1 ) );
 
-		StaticEntity.globalStringDelete(
+		StringUtilities.globalStringDelete(
 			enchantments,
 			"<b>NOTE:</b> Items that reduce the MP cost of skills will not do so by more than 3 points, in total." );
-		StaticEntity.globalStringDelete(
+		StringUtilities.globalStringDelete(
 			enchantments,
 			"<b>NOTE:</b> If you wear multiple items that increase Critical Hit chances, only the highest multiplier applies." );
-		StaticEntity.globalStringReplace( enchantments, "<br>", "\n" );
+		StringUtilities.globalStringReplace( enchantments, "<br>", "\n" );
 
 		String[] mods = enchantments.toString().split( "\n+" );
 		for ( int i = 0; i < mods.length; ++i )

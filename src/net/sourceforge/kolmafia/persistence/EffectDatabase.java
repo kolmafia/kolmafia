@@ -56,6 +56,8 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.UneffectRequest;
+import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class EffectDatabase
 	extends KoLDatabase
@@ -72,10 +74,10 @@ public class EffectDatabase
 	static
 	{
 		BufferedReader reader =
-			KoLDatabase.getVersionedReader( "statuseffects.txt", KoLConstants.STATUSEFFECTS_VERSION );
+			FileUtilities.getVersionedReader( "statuseffects.txt", KoLConstants.STATUSEFFECTS_VERSION );
 		String[] data;
 
-		while ( ( data = KoLDatabase.readData( reader ) ) != null )
+		while ( ( data = FileUtilities.readData( reader ) ) != null )
 		{
 			if ( data.length >= 3 )
 			{
@@ -101,9 +103,9 @@ public class EffectDatabase
 	private static final void addToDatabase( final Integer effectId, final String name, final String image,
 		final String descriptionId, final String defaultAction )
 	{
-		EffectDatabase.nameById.put( effectId, KoLDatabase.getDisplayName( name ) );
+		EffectDatabase.nameById.put( effectId, StringUtilities.getDisplayName( name ) );
 		EffectDatabase.dataNameById.put( effectId, name );
-		EffectDatabase.effectByName.put( KoLDatabase.getCanonicalName( name ), effectId );
+		EffectDatabase.effectByName.put( StringUtilities.getCanonicalName( name ), effectId );
 		EffectDatabase.imageById.put( effectId, image );
 
 		if ( descriptionId == null )
@@ -116,13 +118,13 @@ public class EffectDatabase
 
 		if ( defaultAction != null )
 		{
-			EffectDatabase.defaultActions.put( KoLDatabase.getDisplayName( name ), defaultAction );
+			EffectDatabase.defaultActions.put( StringUtilities.getDisplayName( name ), defaultAction );
 		}
 	}
 
 	public static final String getDefaultAction( final String effectName )
 	{
-		return KoLDatabase.getDisplayName( (String) EffectDatabase.defaultActions.get( effectName ) );
+		return StringUtilities.getDisplayName( (String) EffectDatabase.defaultActions.get( effectName ) );
 	}
 
 	/**
@@ -134,7 +136,7 @@ public class EffectDatabase
 
 	public static final String getEffectName( final int effectId )
 	{
-		return effectId == -1 ? "Unknown effect" : KoLDatabase.getDisplayName( (String) EffectDatabase.nameById.get( new Integer(
+		return effectId == -1 ? "Unknown effect" : StringUtilities.getDisplayName( (String) EffectDatabase.nameById.get( new Integer(
 			effectId ) ) );
 	}
 
@@ -164,7 +166,7 @@ public class EffectDatabase
 
 	public static final int getEffectId( final String effectName )
 	{
-		Object effectId = EffectDatabase.effectByName.get( KoLDatabase.getCanonicalName( effectName ) );
+		Object effectId = EffectDatabase.effectByName.get( StringUtilities.getCanonicalName( effectName ) );
 		if ( effectId != null )
 		{
 			return ( (Integer) effectId ).intValue();
@@ -218,7 +220,7 @@ public class EffectDatabase
 
 	public static final boolean contains( final String effectName )
 	{
-		return EffectDatabase.effectByName.containsKey( KoLDatabase.getCanonicalName( effectName ) );
+		return EffectDatabase.effectByName.containsKey( StringUtilities.getCanonicalName( effectName ) );
 	}
 
 	/**
@@ -228,7 +230,7 @@ public class EffectDatabase
 
 	public static final List getMatchingNames( final String substring )
 	{
-		return KoLDatabase.getMatchingNames( EffectDatabase.effectByName, substring );
+		return StringUtilities.getMatchingNames( EffectDatabase.effectByName, substring );
 	}
 
 	public static final void addDescriptionId( final int effectId, final String descriptionId )

@@ -50,7 +50,6 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.BuffBotHome;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLMailMessage;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.LogStream;
@@ -64,6 +63,8 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.request.MailboxRequest;
 import net.sourceforge.kolmafia.request.SendMailRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class BuffBotManager
 {
@@ -112,7 +113,7 @@ public abstract class BuffBotManager
 
 		String[] currentBuff;
 		BufferedReader reader =
-			KoLDatabase.getReader( new File( KoLConstants.BUFFBOT_LOCATION, KoLCharacter.baseUserName() + ".txt" ) );
+			FileUtilities.getReader( new File( KoLConstants.BUFFBOT_LOCATION, KoLCharacter.baseUserName() + ".txt" ) );
 
 		if ( reader == null )
 		{
@@ -125,7 +126,7 @@ public abstract class BuffBotManager
 		// of KoLmafia.  If that's the case, reload the data from the
 		// properties file, clear it out, and continue.
 
-		while ( ( currentBuff = KoLDatabase.readData( reader ) ) != null )
+		while ( ( currentBuff = FileUtilities.readData( reader ) ) != null )
 		{
 			if ( currentBuff.length < 3 )
 			{
@@ -133,8 +134,8 @@ public abstract class BuffBotManager
 			}
 
 			BuffBotManager.addBuff(
-				SkillDatabase.getSkillName( StaticEntity.parseInt( currentBuff[ 0 ] ) ),
-				StaticEntity.parseInt( currentBuff[ 1 ] ), StaticEntity.parseInt( currentBuff[ 2 ] ) );
+				SkillDatabase.getSkillName( StringUtilities.parseInt( currentBuff[ 0 ] ) ),
+				StringUtilities.parseInt( currentBuff[ 1 ] ), StringUtilities.parseInt( currentBuff[ 2 ] ) );
 		}
 
 		try
@@ -305,7 +306,7 @@ public abstract class BuffBotManager
 		BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Buffbot started." );
 
 		BuffBotManager.messageDisposalSetting =
-			StaticEntity.parseInt( Preferences.getString( "buffBotMessageDisposal" ) );
+			StringUtilities.parseInt( Preferences.getString( "buffBotMessageDisposal" ) );
 		BuffBotManager.whiteList = ClanManager.getWhiteList();
 
 		BuffBotManager.refundMessage = Preferences.getString( "invalidBuffMessage" );
@@ -642,7 +643,7 @@ public abstract class BuffBotManager
 		}
 
 		Matcher meatMatcher = BuffBotManager.MEAT_PATTERN.matcher( message.getMessageHTML() );
-		int meatSent = meatMatcher.find() ? StaticEntity.parseInt( meatMatcher.group( 1 ) ) : 0;
+		int meatSent = meatMatcher.find() ? StringUtilities.parseInt( meatMatcher.group( 1 ) ) : 0;
 		Offering castList = BuffBotManager.extractRequest( message, meatSent );
 
 		if ( castList == null )

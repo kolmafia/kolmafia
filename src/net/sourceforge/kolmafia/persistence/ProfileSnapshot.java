@@ -48,6 +48,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.ClanManager;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.request.AscensionHistoryRequest;
 import net.sourceforge.kolmafia.request.ClanMembersRequest;
@@ -198,11 +199,11 @@ public class ProfileSnapshot
 				break;
 
 			case LEVEL_FILTER:
-				compareValue = request.getPlayerLevel().intValue() - StaticEntity.parseInt( filter );
+				compareValue = request.getPlayerLevel().intValue() - StringUtilities.parseInt( filter );
 				break;
 
 			case PVP_FILTER:
-				compareValue = request.getPvpRank().intValue() - StaticEntity.parseInt( filter );
+				compareValue = request.getPvpRank().intValue() - StringUtilities.parseInt( filter );
 				break;
 
 			case CLASS_FILTER:
@@ -210,12 +211,12 @@ public class ProfileSnapshot
 				break;
 
 			case KARMA_FILTER:
-				compareValue = request.getKarma().intValue() - StaticEntity.parseInt( filter );
+				compareValue = request.getKarma().intValue() - StringUtilities.parseInt( filter );
 				break;
 
 			case LOGIN_FILTER:
 
-				int daysIdle = StaticEntity.parseInt( filter );
+				int daysIdle = StringUtilities.parseInt( filter );
 				long millisecondsIdle = 86400000L * daysIdle;
 				Date cutoffDate = new Date( System.currentTimeMillis() - millisecondsIdle );
 

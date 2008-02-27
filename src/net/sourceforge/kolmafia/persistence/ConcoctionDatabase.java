@@ -44,7 +44,6 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
@@ -54,6 +53,8 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.swingui.CouncilFrame;
+import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
@@ -123,10 +124,10 @@ public class ConcoctionDatabase
 		// examined and float-referenced: once in the name-lookup,
 		// and again in the Id lookup.
 
-		BufferedReader reader = KoLDatabase.getVersionedReader( "concoctions.txt", KoLConstants.CONCOCTIONS_VERSION );
+		BufferedReader reader = FileUtilities.getVersionedReader( "concoctions.txt", KoLConstants.CONCOCTIONS_VERSION );
 		String[] data;
 
-		while ( ( data = KoLDatabase.readData( reader ) ) != null )
+		while ( ( data = FileUtilities.readData( reader ) ) != null )
 		{
 			ConcoctionDatabase.addConcoction( data );
 		}
@@ -174,7 +175,7 @@ public class ConcoctionDatabase
 			bogus = true;
 		}
 
-		int mixingMethod = StaticEntity.parseInt( data[ 1 ] );
+		int mixingMethod = StringUtilities.parseInt( data[ 1 ] );
 		if ( mixingMethod <= 0 || mixingMethod >= KoLConstants.METHOD_COUNT )
 		{
 			RequestLogger.printLine( "Unknown mixing method (" + mixingMethod + ") for concoction: " + name );
@@ -349,8 +350,8 @@ public class ConcoctionDatabase
 			String quantityString = data.substring( closeBracketIndex + 1 ).trim();
 
 			return new AdventureResult(
-				StaticEntity.parseInt( itemIdString ),
-				quantityString.length() == 0 ? 1 : StaticEntity.parseInt( quantityString.replaceAll( "[\\(\\)]", "" ) ) );
+				StringUtilities.parseInt( itemIdString ),
+				quantityString.length() == 0 ? 1 : StringUtilities.parseInt( quantityString.replaceAll( "[\\(\\)]", "" ) ) );
 		}
 
 		// Otherwise, it's a standard ingredient - use
@@ -1356,9 +1357,9 @@ public class ConcoctionDatabase
 				}
 			}
 
-			float adventures1 = StaticEntity.parseFloat( ItemDatabase.getAdventureRange( this.name ) );
+			float adventures1 = StringUtilities.parseFloat( ItemDatabase.getAdventureRange( this.name ) );
 			float adventures2 =
-				StaticEntity.parseFloat( ItemDatabase.getAdventureRange( ( (Concoction) o ).name ) );
+				StringUtilities.parseFloat( ItemDatabase.getAdventureRange( ( (Concoction) o ).name ) );
 
 			if ( adventures1 != adventures2 )
 			{

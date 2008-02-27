@@ -40,9 +40,9 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CampgroundRequest
 	extends GenericRequest
@@ -195,7 +195,7 @@ public class CampgroundRequest
 			Matcher matcher = CampgroundRequest.LIBRAM_PATTERN.matcher( this.responseText );
 			if ( matcher.find() )
 			{
-				int cost = StaticEntity.parseInt( matcher.group(2) );
+				int cost = StringUtilities.parseInt( matcher.group(2) );
 				SkillDatabase.setLibramSkillCasts( cost );
 			}
 		}

@@ -41,6 +41,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.persistence.Preferences;
 
@@ -254,7 +255,7 @@ public abstract class LouvreManager
 		{
 			for ( int j = 0; j < LouvreManager.LouvreChoiceTable[ i ].length; ++j )
 			{
-				LouvreManager.LouvreChoiceTable[ i ][ j ] = StaticEntity.parseInt( layoutSplit[ currentIndex++ ] );
+				LouvreManager.LouvreChoiceTable[ i ][ j ] = StringUtilities.parseInt( layoutSplit[ currentIndex++ ] );
 			}
 		}
 	}
@@ -360,7 +361,7 @@ public abstract class LouvreManager
 			}
 		}
 
-		int source = StaticEntity.parseInt( choice );
+		int source = StringUtilities.parseInt( choice );
 		if ( !LouvreManager.louvreChoice( source ) )
 		{
 			return "";
@@ -515,7 +516,7 @@ public abstract class LouvreManager
 		Matcher choiceMatcher = LouvreManager.CHOICE_PATTERN.matcher( text );
 		if ( choiceMatcher.find() )
 		{
-			int source = StaticEntity.parseInt( choiceMatcher.group( 1 ) );
+			int source = StringUtilities.parseInt( choiceMatcher.group( 1 ) );
 
 			// Sanity check: we must stay within the LouvreManager
 			if ( !LouvreManager.louvreChoice( source ) )
@@ -662,7 +663,7 @@ public abstract class LouvreManager
 	public static final boolean freeAdventure( final String choice, final String decision )
 	{
 		// "choiceAdventureX"
-		int source = StaticEntity.parseInt( choice.substring( 15 ) );
+		int source = StringUtilities.parseInt( choice.substring( 15 ) );
 
 		// Make sure it's a LouvreManager adventure
 		if ( !LouvreManager.louvreChoice( source ) )
@@ -671,7 +672,7 @@ public abstract class LouvreManager
 		}
 
 		// It is. If it stays within the LouvreManager, it's free
-		int option = StaticEntity.parseInt( decision ) - 1;
+		int option = StringUtilities.parseInt( decision ) - 1;
 		int destination = LouvreManager.LouvreChoiceTable[ source - LouvreManager.FIRST_CHOICE ][ option ];
 		return LouvreManager.louvreChoice( destination );
 	}

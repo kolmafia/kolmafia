@@ -48,6 +48,7 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LouvreManager;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.swingui.RequestSynchFrame;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.persistence.Preferences;
 
@@ -460,7 +461,7 @@ public class AdventureRequest
 			int choice = 0;
 			if ( matcher.find() )
 			{
-				choice = StaticEntity.parseInt( matcher.group(1) );
+				choice = StringUtilities.parseInt( matcher.group(1) );
 			}
 			encounter = parseChoiceEncounter( choice, responseText );
 			type = choiceType( choice );
@@ -618,7 +619,7 @@ public class AdventureRequest
 		Matcher matcher = AREA_PATTERN.matcher( urlString );
 		if ( matcher.find() )
 		{
-			return StaticEntity.parseInt( matcher.group(2) );
+			return StringUtilities.parseInt( matcher.group(2) );
 		}
 
 		return -1;

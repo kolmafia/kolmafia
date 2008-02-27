@@ -46,12 +46,13 @@ import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
 import net.sourceforge.kolmafia.session.ClanManager;
+import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class AscensionHistoryRequest
 	extends GenericRequest
@@ -150,8 +151,8 @@ public class AscensionHistoryRequest
 					continue;
 				}
 
-				currentMonth = StaticEntity.parseInt( ascensionFolders[ j ].getName().substring( 4, 6 ) );
-				currentWeek = StaticEntity.parseInt( ascensionFolders[ j ].getName().substring( 8, 9 ) );
+				currentMonth = StringUtilities.parseInt( ascensionFolders[ j ].getName().substring( 4, 6 ) );
+				currentWeek = StringUtilities.parseInt( ascensionFolders[ j ].getName().substring( 8, 9 ) );
 
 				boolean shouldReplace = false;
 
@@ -179,7 +180,7 @@ public class AscensionHistoryRequest
 
 		try
 		{
-			BufferedReader istream = KoLDatabase.getReader( backupFile );
+			BufferedReader istream = FileUtilities.getReader( backupFile );
 			StringBuffer ascensionBuffer = new StringBuffer();
 			String currentLine;
 
@@ -300,7 +301,7 @@ public class AscensionHistoryRequest
 
 						inconsistency = true;
 						columnsNew[ 5 ] =
-							String.valueOf( StaticEntity.parseInt( columnsNew[ 5 ] ) - StaticEntity.parseInt( columnsOld[ 5 ] ) );
+							String.valueOf( StringUtilities.parseInt( columnsNew[ 5 ] ) - StringUtilities.parseInt( columnsOld[ 5 ] ) );
 
 						// Subtract columns[days] from columnsNew[days];
 						// currently, this is [6].  Ascensions count
@@ -443,15 +444,15 @@ public class AscensionHistoryRequest
 			try
 			{
 				this.timestamp = AscensionHistoryRequest.ASCEND_DATE_FORMAT.parse( columns[ 1 ] );
-				this.level = StaticEntity.parseInt( columns[ 2 ] );
+				this.level = StringUtilities.parseInt( columns[ 2 ] );
 			}
 			catch ( Exception e )
 			{
 				StaticEntity.printStackTrace( e );
 			}
 
-			this.turnCount = StaticEntity.parseInt( columns[ 5 ] );
-			this.dayCount = StaticEntity.parseInt( columns[ 6 ] );
+			this.turnCount = StringUtilities.parseInt( columns[ 5 ] );
+			this.dayCount = StringUtilities.parseInt( columns[ 6 ] );
 
 			if ( columns.length == 9 )
 			{

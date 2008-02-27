@@ -42,6 +42,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.StoreManager;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class SellStuffRequest
 	extends TransferItemRequest
@@ -346,7 +347,7 @@ public class SellStuffRequest
 			Matcher quantityMatcher = TransferItemRequest.HOWMANY_PATTERN.matcher( urlString );
 			if ( quantityMatcher.find() )
 			{
-				quantity = StaticEntity.parseInt( quantityMatcher.group( 1 ) );
+				quantity = StringUtilities.parseInt( quantityMatcher.group( 1 ) );
 			}
 
 			if ( urlString.indexOf( "type=allbutone" ) != -1 )
@@ -366,7 +367,7 @@ public class SellStuffRequest
 			Matcher quantityMatcher = TransferItemRequest.HOWMANY_PATTERN.matcher( urlString );
 			if ( quantityMatcher.find() )
 			{
-				quantity = StaticEntity.parseInt( quantityMatcher.group( 1 ) );
+				quantity = StringUtilities.parseInt( quantityMatcher.group( 1 ) );
 			}
 
 			if ( urlString.indexOf( "mode=1" ) != -1 )

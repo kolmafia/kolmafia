@@ -40,10 +40,10 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MoonPhaseRequest
 	extends GenericRequest
@@ -91,8 +91,8 @@ public class MoonPhaseRequest
 		if ( moonMatcher.find() )
 		{
 			HolidayDatabase.setMoonPhases(
-				StaticEntity.parseInt( moonMatcher.group( 1 ) ) - 1,
-				StaticEntity.parseInt( moonMatcher.group( 2 ) ) - 1 );
+				StringUtilities.parseInt( moonMatcher.group( 1 ) ) - 1,
+				StringUtilities.parseInt( moonMatcher.group( 2 ) ) - 1 );
 		}
 
 		KoLCharacter.setClan( this.responseText.indexOf( "clan_hall.php" ) != -1 );
@@ -131,7 +131,7 @@ public class MoonPhaseRequest
 		Matcher menuMatcher = MoonPhaseRequest.MENU1_PATTERN.matcher( buffer.toString() );
 		if ( menuMatcher.find() )
 		{
-			StaticEntity.singleStringReplace( buffer, menuMatcher.group(), functionMenu.toString() );
+			StringUtilities.singleStringReplace( buffer, menuMatcher.group(), functionMenu.toString() );
 		}
 
 		// Mafiatize the goto menu
@@ -171,13 +171,13 @@ public class MoonPhaseRequest
 		menuMatcher = MoonPhaseRequest.MENU2_PATTERN.matcher( buffer.toString() );
 		if ( menuMatcher.find() )
 		{
-			StaticEntity.singleStringReplace( buffer, menuMatcher.group(), gotoMenu.toString() );
+			StringUtilities.singleStringReplace( buffer, menuMatcher.group(), gotoMenu.toString() );
 		}
 
 		// Now kill off the weird focusing problems inherent in
 		// the Javascript.
 
-		StaticEntity.globalStringReplace(
+		StringUtilities.globalStringReplace(
 			buffer, "selectedIndex=0;", "selectedIndex=0; if ( parent && parent.mainpane ) parent.mainpane.focus();" );
 
 		if ( Preferences.getBoolean( "relayAddsQuickScripts" ) )

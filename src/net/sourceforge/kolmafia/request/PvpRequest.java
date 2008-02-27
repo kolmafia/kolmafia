@@ -50,10 +50,10 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.MailManager;
-import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.ProfileFrame;
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.persistence.Preferences;
 
@@ -191,7 +191,7 @@ public class PvpRequest
 			Matcher miniMatcher = PvpRequest.TATTOO_PATTERN.matcher( miniChecker.responseText );
 			if ( miniMatcher.find() )
 			{
-				PvpRequest.tattooCount = StaticEntity.parseInt( miniMatcher.group( 1 ) );
+				PvpRequest.tattooCount = StringUtilities.parseInt( miniMatcher.group( 1 ) );
 			}
 			else
 			{
@@ -201,7 +201,7 @@ public class PvpRequest
 			miniMatcher = PvpRequest.TROPHY_PATTERN.matcher( miniChecker.responseText );
 			if ( miniMatcher.find() )
 			{
-				PvpRequest.trophyCount = StaticEntity.parseInt( miniMatcher.group( 1 ) );
+				PvpRequest.trophyCount = StringUtilities.parseInt( miniMatcher.group( 1 ) );
 			}
 			else
 			{
@@ -211,7 +211,7 @@ public class PvpRequest
 			miniMatcher = PvpRequest.FLOWER_PATTERN.matcher( miniChecker.responseText );
 			if ( miniMatcher.find() )
 			{
-				PvpRequest.flowerCount = StaticEntity.parseInt( miniMatcher.group( 1 ) );
+				PvpRequest.flowerCount = StringUtilities.parseInt( miniMatcher.group( 1 ) );
 			}
 			else
 			{
@@ -224,7 +224,7 @@ public class PvpRequest
 			miniMatcher = PvpRequest.CANADA_PATTERN.matcher( miniChecker.responseText );
 			if ( miniMatcher.find() )
 			{
-				PvpRequest.canadaCount = StaticEntity.parseInt( miniMatcher.group( 1 ) );
+				PvpRequest.canadaCount = StringUtilities.parseInt( miniMatcher.group( 1 ) );
 			}
 			else
 			{
@@ -290,7 +290,7 @@ public class PvpRequest
 		Matcher attacksMatcher = PvpRequest.ATTACKS_PATTERN.matcher( this.responseText );
 		if ( attacksMatcher.find() )
 		{
-			KoLCharacter.setAttacksLeft( StaticEntity.parseInt( attacksMatcher.group( 1 ) ) );
+			KoLCharacter.setAttacksLeft( StringUtilities.parseInt( attacksMatcher.group( 1 ) ) );
 		}
 		else
 		{
@@ -300,7 +300,7 @@ public class PvpRequest
 		Matcher rankMatcher = PvpRequest.RANKING_PATTERN.matcher( this.responseText );
 		if ( !rankMatcher.find() )
 		{
-			if ( !GenericFrame.confirm( "Would you like to break your hippy stone?" ) )
+			if ( !InputFieldUtilities.confirm( "Would you like to break your hippy stone?" ) )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "This feature is not available to hippies." );
 				return;
@@ -312,7 +312,7 @@ public class PvpRequest
 			return;
 		}
 
-		KoLCharacter.setPvpRank( StaticEntity.parseInt( rankMatcher.group( 1 ) ) );
+		KoLCharacter.setPvpRank( StringUtilities.parseInt( rankMatcher.group( 1 ) ) );
 
 		// Trim down the response text so it only includes
 		// the information related to the fight.
@@ -355,10 +355,10 @@ public class PvpRequest
 			}
 
 			attackText = attackText.substring( 0, stopIndex );
-			attackText = StaticEntity.globalStringReplace( attackText, "<p>", "\n\n" );
-			attackText = StaticEntity.globalStringReplace( attackText, "<br>", "\n" );
+			attackText = StringUtilities.globalStringReplace( attackText, "<p>", "\n\n" );
+			attackText = StringUtilities.globalStringReplace( attackText, "<br>", "\n" );
 			attackText =
-				StaticEntity.singleStringReplace(
+				StringUtilities.singleStringReplace(
 					attackText,
 					"  Here's a play-by-play report on how it went down:",
 					"\n(" + PvpRequest.tattooCount + " tattoos, " + PvpRequest.trophyCount + " trophies, " + PvpRequest.flowerCount + " flowers, " + PvpRequest.canadaCount + " white canadians)" );
@@ -375,7 +375,7 @@ public class PvpRequest
 	public static final void processOffenseContests( final String responseText )
 	{
 		String resultText =
-			StaticEntity.globalStringReplace(
+			StringUtilities.globalStringReplace(
 				responseText.substring( responseText.indexOf( "<td>" ) + 4, responseText.indexOf( "Your PvP Ranking" ) ),
 				"<p>", KoLConstants.LINE_BREAK );
 

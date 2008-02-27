@@ -87,6 +87,7 @@ import net.sourceforge.kolmafia.swingui.button.DisplayFrameButton;
 import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class FamiliarTrainingFrame
 	extends GenericFrame
@@ -472,7 +473,7 @@ public class FamiliarTrainingFrame
 				public void run()
 				{
 					// Prompt for goal
-					int goal = GenericFrame.getQuantity( "Train up to what base weight?", 20, 20 );
+					int goal = InputFieldUtilities.getQuantity( "Train up to what base weight?", 20, 20 );
 
 					// Quit if canceled
 					if ( goal == 0 )
@@ -494,7 +495,7 @@ public class FamiliarTrainingFrame
 				public void run()
 				{
 					// Prompt for goal
-					int goal = GenericFrame.getQuantity( "Train up to what buffed weight?", 48, 20 );
+					int goal = InputFieldUtilities.getQuantity( "Train up to what buffed weight?", 48, 20 );
 
 					// Quit if canceled
 					if ( goal == 0 )
@@ -516,7 +517,7 @@ public class FamiliarTrainingFrame
 				public void run()
 				{
 					// Prompt for goal
-					int goal = GenericFrame.getQuantity( "Train for how many turns?", Integer.MAX_VALUE, 1 );
+					int goal = InputFieldUtilities.getQuantity( "Train for how many turns?", Integer.MAX_VALUE, 1 );
 
 					// Quit if canceled
 					if ( goal == 0 )
@@ -584,7 +585,7 @@ public class FamiliarTrainingFrame
 					}
 
 					// Prompt for trials
-					int trials = GenericFrame.getQuantity( "How many trials per event per rank?", 20, 3 );
+					int trials = InputFieldUtilities.getQuantity( "How many trials per event per rank?", 20, 3 );
 
 					// Quit if canceled
 					if ( trials == 0 )
@@ -594,7 +595,7 @@ public class FamiliarTrainingFrame
 
 					// Nag dialog
 					int turns = trials * 12;
-					if ( !GenericFrame.confirm( "This will take up to " + turns + " adventures and cost up to " + KoLConstants.COMMA_FORMAT.format( turns * 100 ) + " meat. Are you sure?" ) )
+					if ( !InputFieldUtilities.confirm( "This will take up to " + turns + " adventures and cost up to " + KoLConstants.COMMA_FORMAT.format( turns * 100 ) + " meat. Are you sure?" ) )
 					{
 						return;
 					}
@@ -621,7 +622,7 @@ public class FamiliarTrainingFrame
 							}
 						}
 
-						if ( changed && GenericFrame.confirm( "Save arena parameters for the " + FamiliarTrainingPanel.this.familiar.getRace() + "?" ) )
+						if ( changed && InputFieldUtilities.confirm( "Save arena parameters for the " + FamiliarTrainingPanel.this.familiar.getRace() + "?" ) )
 						{
 							FamiliarDatabase.setFamiliarSkills( FamiliarTrainingPanel.this.familiar.getRace(), skills );
 						}

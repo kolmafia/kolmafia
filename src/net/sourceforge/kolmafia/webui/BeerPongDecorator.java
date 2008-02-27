@@ -36,9 +36,9 @@ package net.sourceforge.kolmafia.webui;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.request.FightRequest;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class BeerPongDecorator
 {
@@ -66,7 +66,7 @@ public abstract class BeerPongDecorator
 			return;
 		}
 
-		StaticEntity.singleStringReplace( buffer, ">" + retort, " selected>" + retort );
+		StringUtilities.singleStringReplace( buffer, ">" + retort, " selected>" + retort );
 	}
 
 	public static final String findInsult( final String text )

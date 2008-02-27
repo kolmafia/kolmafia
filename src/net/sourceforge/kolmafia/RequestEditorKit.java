@@ -75,6 +75,8 @@ import net.sourceforge.kolmafia.request.ZapRequest;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.RequestFrame;
+import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.BasementDecorator;
 import net.sourceforge.kolmafia.webui.BeerPongDecorator;
 import net.sourceforge.kolmafia.webui.CharPaneDecorator;
@@ -170,7 +172,7 @@ public class RequestEditorKit
 				String text = outbytes.toString();
 				outbytes.reset();
 
-				text = StaticEntity.globalStringReplace( text, "location.hostname", "location.host" );
+				text = StringUtilities.globalStringReplace( text, "location.hostname", "location.host" );
 				outbytes.write( text.getBytes() );
 			}
 
@@ -208,7 +210,7 @@ public class RequestEditorKit
 		{
 			if ( JComponentUtilities.getImage( localname ) != null )
 			{
-				StaticEntity.loadLibrary( UtilityConstants.IMAGE_LOCATION, UtilityConstants.IMAGE_DIRECTORY, localname );
+				FileUtilities.loadLibrary( UtilityConstants.IMAGE_LOCATION, UtilityConstants.IMAGE_DIRECTORY, localname );
 			}
 			else
 			{
@@ -429,9 +431,9 @@ public class RequestEditorKit
 		if ( displayHTML.indexOf( "action=galaktik.php" ) != -1 )
 		{
 			displayHTML =
-				StaticEntity.globalStringReplace( displayHTML, "</tr><td valign=center>", "</tr><tr><td valign=center>" );
-			displayHTML = StaticEntity.globalStringReplace( displayHTML, "<td>", "</td><td>" );
-			displayHTML = StaticEntity.globalStringReplace( displayHTML, "</td></td>", "</td>" );
+				StringUtilities.globalStringReplace( displayHTML, "</tr><td valign=center>", "</tr><tr><td valign=center>" );
+			displayHTML = StringUtilities.globalStringReplace( displayHTML, "<td>", "</td><td>" );
+			displayHTML = StringUtilities.globalStringReplace( displayHTML, "</td></td>", "</td>" );
 
 			displayHTML =
 				displayHTML.replaceAll(
@@ -517,7 +519,7 @@ public class RequestEditorKit
 
 		if ( addComplexFeatures )
 		{
-			StaticEntity.singleStringReplace(
+			StringUtilities.singleStringReplace(
 				buffer, "</head>", "<script language=\"Javascript\" src=\"/basics.js\"></script></head>" );
 			if ( location.indexOf( "?" ) == -1 && RequestEditorKit.maps.contains( location ) )
 			{
@@ -566,14 +568,14 @@ public class RequestEditorKit
 		{
 			if ( addComplexFeatures )
 			{
-				StaticEntity.singleStringReplace(
+				StringUtilities.singleStringReplace(
 					buffer, "</head>", "<script language=\"Javascript\" src=\"/sorttable.js\"></script></head>" );
-				StaticEntity.singleStringReplace(
+				StringUtilities.singleStringReplace(
 					buffer, "<table><tr><td class=small>",
 					"<table class=\"sortable\" id=\"history\"><tr><td class=small>" );
-				StaticEntity.globalStringReplace(
+				StringUtilities.globalStringReplace(
 					buffer, "<tr><td colspan=9", "<tr class=\"sortbottom\" style=\"display:none\"><td colspan=9" );
-				StaticEntity.globalStringReplace(
+				StringUtilities.globalStringReplace(
 					buffer,
 					"<td></td>",
 					"<td><img src=\"http://images.kingdomofloathing.com/itemimages/confused.gif\" title=\"No Data\" alt=\"No Data\" height=30 width=30></td>" );
@@ -585,7 +587,7 @@ public class RequestEditorKit
 		}
 		else if ( location.startsWith( "bathole.php" ) )
 		{
-			StaticEntity.globalStringReplace( buffer, "action=bathole.php", "action=adventure.php" );
+			StringUtilities.globalStringReplace( buffer, "action=bathole.php", "action=adventure.php" );
 		}
 		else if ( location.startsWith( "beerpong.php" ) )
 		{
@@ -611,7 +613,7 @@ public class RequestEditorKit
 		}
 		else if ( location.startsWith( "hermit.php" ) )
 		{
-			StaticEntity.singleStringReplace( buffer, RequestEditorKit.NO_PERMIT_TEXT, RequestEditorKit.BUY_PERMIT_TEXT );
+			StringUtilities.singleStringReplace( buffer, RequestEditorKit.NO_PERMIT_TEXT, RequestEditorKit.BUY_PERMIT_TEXT );
 		}
 		else if ( location.startsWith( "hiddencity.php" ) )
 		{
@@ -621,13 +623,13 @@ public class RequestEditorKit
 		{
 			if ( KoLCharacter.inMuscleSign() )
 			{
-				StaticEntity.globalStringReplace( buffer, "combine.php", "knoll.php?place=paster" );
+				StringUtilities.globalStringReplace( buffer, "combine.php", "knoll.php?place=paster" );
 			}
 
 			AdventureResult wand = KoLCharacter.getZapper();
 			if ( wand != null )
 			{
-				StaticEntity.singleStringReplace(
+				StringUtilities.singleStringReplace(
 					buffer,
 					"]</a></font></td></tr></table></center>",
 					"]</a>&nbsp;&nbsp;<a href=\"wand.php?whichwand=" + wand.getItemId() + "\">[zap items]</a></font></td></tr></table></center>" );
@@ -638,7 +640,7 @@ public class RequestEditorKit
 			// Automatically name the outfit "backup" for simple save
 			// purposes while adventuring in browser.
 
-			StaticEntity.singleStringReplace(
+			StringUtilities.singleStringReplace(
 				buffer, "<input type=text name=outfitname", "<input type=text name=outfitname value=\"Backup\"" );
 
 			// Split the custom outfits from the normal outfits for
@@ -657,17 +659,17 @@ public class RequestEditorKit
 				customString.append( "<tr><td align=right><form name=outfit2 action=inv_equip.php><input type=hidden name=action value=\"outfit\"><input type=hidden name=which value=2><b>Custom:</b></td><td><select name=whichoutfit><option value=0>(select a custom outfit)</option>" );
 				customString.append( outfitString );
 				customString.append( "</select></td><td> <input class=button type=submit value=\"Dress Up!\"></form></td></tr></table>" );
-				StaticEntity.globalStringDelete( customString, "Custom: " );
+				StringUtilities.globalStringDelete( customString, "Custom: " );
 
 				buffer.insert( formEndIndex, customString.toString() );
 
-				StaticEntity.singleStringReplace(
+				StringUtilities.singleStringReplace(
 					buffer, "<form name=outfit", "<table><tr><td align=right><form name=outfit" );
-				StaticEntity.singleStringReplace( buffer, "<select", "</td><td><select" );
-				StaticEntity.singleStringReplace( buffer, "</select>", "</select></td><td>" );
-				StaticEntity.singleStringReplace( buffer, "</form>", "</form></td></tr>" );
+				StringUtilities.singleStringReplace( buffer, "<select", "</td><td><select" );
+				StringUtilities.singleStringReplace( buffer, "</select>", "</select></td><td>" );
+				StringUtilities.singleStringReplace( buffer, "</form>", "</form></td></tr>" );
 
-				StaticEntity.globalStringReplace( buffer, "<select", "<select style=\"width: 250px\"" );
+				StringUtilities.globalStringReplace( buffer, "<select", "<select style=\"width: 250px\"" );
 			}
 		}
 		else if ( location.startsWith( "lair6.php" ) )
@@ -679,20 +681,20 @@ public class RequestEditorKit
 		}
 		else if ( location.indexOf( "lchat.php" ) != -1 )
 		{
-			StaticEntity.globalStringDelete( buffer, "spacing: 0px;" );
-			StaticEntity.globalStringReplace( buffer, "cycles++", "cycles = 0" );
-			StaticEntity.globalStringReplace( buffer, "location.hostname", "location.host" );
+			StringUtilities.globalStringDelete( buffer, "spacing: 0px;" );
+			StringUtilities.globalStringReplace( buffer, "cycles++", "cycles = 0" );
+			StringUtilities.globalStringReplace( buffer, "location.hostname", "location.host" );
 
-			StaticEntity.singleStringReplace(
+			StringUtilities.singleStringReplace(
 				buffer, "if (postedgraf",
 				"if (postedgraf == \"/exit\") { document.location.href = \"chatlaunch.php\"; return true; } if (postedgraf" );
 
 			// This is a hack to fix KoL chat as handled in earlier
 			// versions of Opera (doubled chat).
 
-			StaticEntity.singleStringReplace(
+			StringUtilities.singleStringReplace(
 				buffer, "http.onreadystatechange", "executed = false; http.onreadystatechange" );
-			StaticEntity.singleStringReplace(
+			StringUtilities.singleStringReplace(
 				buffer, "readyState==4) {", "readyState==4 && !executed) { executed = true;" );
 		}
 		else if ( location.startsWith( "manor3.php" ) )
@@ -701,7 +703,7 @@ public class RequestEditorKit
 		}
 		else if ( location.startsWith( "mountains.php" ) )
 		{
-			StaticEntity.singleStringReplace(
+			StringUtilities.singleStringReplace(
 				buffer, RequestEditorKit.NO_HERMIT_TEXT, RequestEditorKit.AUTO_HERMIT_TEXT );
 		}
 		else if ( location.startsWith( "multiuse.php" ) )
@@ -710,7 +712,7 @@ public class RequestEditorKit
 		}
 		else if ( location.startsWith( "palinshelves.php" ) )
 		{
-			StaticEntity.singleStringReplace(
+			StringUtilities.singleStringReplace(
 				buffer, "</html>", "<script language=\"Javascript\" src=\"/palinshelves.js\" /></html>" );
 		}
 		else if ( location.startsWith( "postwarisland.php" ) )
@@ -719,8 +721,8 @@ public class RequestEditorKit
 		}
 		else if ( location.startsWith( "pvp.php" ) )
 		{
-			StaticEntity.singleStringReplace( buffer, "value=rank checked", "value=rank" );
-			StaticEntity.singleStringReplace( buffer, "value=flowers", "value=flowers checked" );
+			StringUtilities.singleStringReplace( buffer, "value=rank checked", "value=rank" );
+			StringUtilities.singleStringReplace( buffer, "value=flowers", "value=flowers checked" );
 		}
 		else if ( location.startsWith( "rats.php" ) )
 		{
@@ -728,16 +730,16 @@ public class RequestEditorKit
 		}
 		else if ( location.startsWith( "searchplayer.php" ) )
 		{
-			StaticEntity.singleStringReplace( buffer, "name=pvponly", "name=pvponly checked" );
-			StaticEntity.singleStringReplace( buffer, "value=0 checked", "value=0" );
+			StringUtilities.singleStringReplace( buffer, "name=pvponly", "name=pvponly checked" );
+			StringUtilities.singleStringReplace( buffer, "value=0 checked", "value=0" );
 
 			if ( KoLCharacter.isHardcore() )
 			{
-				StaticEntity.singleStringReplace( buffer, "value=1", "value=1 checked" );
+				StringUtilities.singleStringReplace( buffer, "value=1", "value=1 checked" );
 			}
 			else
 			{
-				StaticEntity.singleStringReplace( buffer, "value=2", "value=2 checked" );
+				StringUtilities.singleStringReplace( buffer, "value=2", "value=2 checked" );
 			}
 		}
 		else if ( location.startsWith( "valhalla.php" ) )
@@ -769,25 +771,25 @@ public class RequestEditorKit
 				RequestEditorKit.addChatFeatures( buffer );
 			}
 
-			StaticEntity.globalStringReplace( buffer, "type=text ", "type=text onFocus='this.select();' " );
+			StringUtilities.globalStringReplace( buffer, "type=text ", "type=text onFocus='this.select();' " );
 		}
 
 		String defaultColor = Preferences.getString( "defaultBorderColor" );
 		if ( !defaultColor.equals( "blue" ) )
 		{
-			StaticEntity.globalStringReplace( buffer, "bgcolor=blue", "bgcolor=\"" + defaultColor + "\"" );
-			StaticEntity.globalStringReplace( buffer, "border: 1px solid blue", "border: 1px solid " + defaultColor );
+			StringUtilities.globalStringReplace( buffer, "bgcolor=blue", "bgcolor=\"" + defaultColor + "\"" );
+			StringUtilities.globalStringReplace( buffer, "border: 1px solid blue", "border: 1px solid " + defaultColor );
 		}
 	}
 
 	public static final void addChatFeatures( final StringBuffer buffer )
 	{
-		StaticEntity.singleStringReplace(
+		StringUtilities.singleStringReplace(
 			buffer,
 			"</head>",
 			"<script language=\"Javascript\"> var " + ChatRequest.getRightClickMenu() + " </script>" + "<script language=\"Javascript\" src=\"/images/scripts/rcm.2.js\"></script></head>" );
 
-		StaticEntity.singleStringReplace( buffer, "</body>", "<div id='menu' class='rcm'></div></body>" );
+		StringUtilities.singleStringReplace( buffer, "</body>", "<div id='menu' class='rcm'></div></body>" );
 	}
 
 	private static final void addFightModifiers( final String location, final StringBuffer buffer )
@@ -929,8 +931,8 @@ public class RequestEditorKit
 			String name = (String) potionNames.get( i );
 			String effect = (String) potionEffects.get( i );
 
-			StaticEntity.singleStringReplace( buffer, name + "</b>", name + " of " + effect + "</b>" );
-			StaticEntity.singleStringReplace( buffer, name + "s</b>", name + "s of " + effect + "</b>" );
+			StringUtilities.singleStringReplace( buffer, name + "</b>", name + " of " + effect + "</b>" );
+			StringUtilities.singleStringReplace( buffer, name + "s</b>", name + "s of " + effect + "</b>" );
 		}
 	}
 
@@ -949,9 +951,9 @@ public class RequestEditorKit
 					continue;
 				}
 
-				StaticEntity.globalStringReplace( buffer, name, name + " of " + effect );
+				StringUtilities.globalStringReplace( buffer, name, name + " of " + effect );
 				// Pluralize correctly
-				StaticEntity.globalStringReplace( buffer, name + " of " + effect + "s", name + "s of " + effect );
+				StringUtilities.globalStringReplace( buffer, name + " of " + effect + "s", name + "s of " + effect );
 			}
 		}
 	}
@@ -1019,7 +1021,7 @@ public class RequestEditorKit
 			Object [] punchcard = PUNCHCARDS[i];
 			if ( buffer.indexOf( (String) punchcard[1] ) != -1 )
 			{
-				StaticEntity.globalStringReplace( buffer, (String) punchcard[1], (String) punchcard[2] );
+				StringUtilities.globalStringReplace( buffer, (String) punchcard[1], (String) punchcard[2] );
 			}
 		}
 	}
@@ -1038,19 +1040,19 @@ public class RequestEditorKit
 		{
 			return;
 		}
-		glyphs[ 0 ] = StaticEntity.parseInt( matcher.group( 1 ) );
+		glyphs[ 0 ] = StringUtilities.parseInt( matcher.group( 1 ) );
 
 		if ( !matcher.find() )
 		{
 			return;
 		}
-		glyphs[ 1 ] = StaticEntity.parseInt( matcher.group( 1 ) );
+		glyphs[ 1 ] = StringUtilities.parseInt( matcher.group( 1 ) );
 
 		if ( !matcher.find() )
 		{
 			return;
 		}
-		glyphs[ 2 ] = StaticEntity.parseInt( matcher.group( 1 ) );
+		glyphs[ 2 ] = StringUtilities.parseInt( matcher.group( 1 ) );
 
 		int wines[] = new int[ 3 ];
 
@@ -1072,7 +1074,7 @@ public class RequestEditorKit
 			if ( wines[i] == 0 )
 				continue;
 			String name = ItemDatabase.getItemName( wines[ i ] );
-			StaticEntity.globalStringReplace( buffer, name, i + 1 + " " + name );
+			StringUtilities.globalStringReplace( buffer, name, i + 1 + " " + name );
 		}
 	}
 
@@ -1105,7 +1107,7 @@ public class RequestEditorKit
 			return;
 		}
 
-		StaticEntity.globalStringReplace( buffer, name, name + " of " + effect );
+		StringUtilities.globalStringReplace( buffer, name, name + " of " + effect );
 	}
 
 	private static final void addHiddenCityModifiers( final StringBuffer buffer )
@@ -1122,7 +1124,7 @@ public class RequestEditorKit
 			if ( itemId != null )
 			{
 				String find = "<option value='" + itemId + "'";
-				StaticEntity.singleStringReplace( buffer, find, find + " selected" );
+				StringUtilities.singleStringReplace( buffer, find, find + " selected" );
 			}
 		}
 
@@ -1138,7 +1140,7 @@ public class RequestEditorKit
 
 			if ( buffer.indexOf( name ) != -1 && !effect.equals( "" ) )
 			{
-				StaticEntity.globalStringReplace( buffer, name, name + " of " + effect );
+				StringUtilities.globalStringReplace( buffer, name, name + " of " + effect );
 			}
 		}
 	}
@@ -1148,7 +1150,7 @@ public class RequestEditorKit
 		// For the plus sign teleportitis adventure, replace the book
 		// message with a link to the plus sign.
 
-		StaticEntity.singleStringReplace(
+		StringUtilities.singleStringReplace(
 			buffer, "It's actually a book.  Read it.",
 			"It's actually a book. <font size=1>[<a href=\"inv_use.php?pwd=" + GenericRequest.passwordHash + "&which=3&whichitem=818\">read it</a>]</font>" );
 
@@ -1160,7 +1162,7 @@ public class RequestEditorKit
 		}
 
 		// Find the options for the choice we've encountered
-		int choice = StaticEntity.parseInt( choiceMatcher.group( 1 ) );
+		int choice = StringUtilities.parseInt( choiceMatcher.group( 1 ) );
 		String[][] possibleDecisions = ChoiceManager.choiceSpoilers( choice );
 
 		if ( possibleDecisions == null )
@@ -1201,7 +1203,7 @@ public class RequestEditorKit
 				{
 					// List # in inventory
 					buffer.append( " - " );
-					AdventureResult result = new AdventureResult( StaticEntity.parseInt( itemId ), 1 );
+					AdventureResult result = new AdventureResult( StringUtilities.parseInt( itemId ), 1 );
 
 					int available = KoLCharacter.hasEquipped( result ) ? 1 : 0;
 					available += result.getCount( KoLConstants.inventory );

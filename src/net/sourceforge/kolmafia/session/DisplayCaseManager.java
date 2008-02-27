@@ -45,8 +45,8 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.webui.CharacterEntityReference;
+import net.sourceforge.kolmafia.utilities.CharacterEntities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.request.DisplayCaseRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -224,7 +224,7 @@ public abstract class DisplayCaseManager
 		Matcher optionMatcher = DisplayCaseManager.OPTION_PATTERN.matcher( data );
 		while ( optionMatcher.find() )
 		{
-			int itemId = StaticEntity.parseInt( optionMatcher.group( 3 ) );
+			int itemId = StringUtilities.parseInt( optionMatcher.group( 3 ) );
 			if ( ItemDatabase.getItemName( itemId ) == null )
 			{
 				String itemName = optionMatcher.group( 1 );
@@ -232,9 +232,9 @@ public abstract class DisplayCaseManager
 			}
 
 			String countString = optionMatcher.group( 2 );
-			int itemCount = countString == null ? 1 : StaticEntity.parseInt( countString );
+			int itemCount = countString == null ? 1 : StringUtilities.parseInt( countString );
 
-			int shelf = StaticEntity.parseInt( optionMatcher.group( 4 ) );
+			int shelf = StringUtilities.parseInt( optionMatcher.group( 4 ) );
 
 			DisplayCaseManager.registerItem(
 				new AdventureResult( itemId, itemCount ),
@@ -258,8 +258,8 @@ public abstract class DisplayCaseManager
 			Matcher shelfMatcher = DisplayCaseManager.SHELF_PATTERN.matcher( caseMatcher.group(1) );
 			while ( shelfMatcher.find() )
 			{
-				int shelf = StaticEntity.parseInt( shelfMatcher.group( 1 ) );
-				String name = CharacterEntityReference.unescape( shelfMatcher.group( 2 ) );
+				int shelf = StringUtilities.parseInt( shelfMatcher.group( 1 ) );
+				String name = CharacterEntities.unescape( shelfMatcher.group( 2 ) );
 
 				for ( int i = DisplayCaseManager.headers.size(); i < shelf; ++i )
 				{

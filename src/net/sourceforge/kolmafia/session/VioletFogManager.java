@@ -41,6 +41,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.persistence.Preferences;
 
@@ -268,7 +269,7 @@ public abstract class VioletFogManager
 
 	public static final String handleChoice( final String choice )
 	{
-		int source = StaticEntity.parseInt( choice );
+		int source = StringUtilities.parseInt( choice );
 
 		// We only handle Violet Fog choices
 		if ( !VioletFogManager.fogChoice( source ) )
@@ -354,7 +355,7 @@ public abstract class VioletFogManager
 			return false;
 		}
 
-		int source = StaticEntity.parseInt( choiceMatcher.group( 1 ) );
+		int source = StringUtilities.parseInt( choiceMatcher.group( 1 ) );
 
 		// We only handle Violet Fog choices
 		if ( !VioletFogManager.fogChoice( source ) )
@@ -464,7 +465,7 @@ public abstract class VioletFogManager
 	public static final boolean freeAdventure( final String choice, final String decision )
 	{
 		// "choiceAdventureX"
-		int source = StaticEntity.parseInt( choice.substring( 15 ) );
+		int source = StringUtilities.parseInt( choice.substring( 15 ) );
 
 		// Journey to the Center of your Mind
 		if ( source == 71 )

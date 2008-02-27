@@ -39,6 +39,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -117,7 +118,7 @@ public class SewerRequest
 		}
 		else if ( Character.isDigit( thirdItemString.charAt( 0 ) ) )
 		{
-			thirdItem = StaticEntity.parseInt( thirdItemString );
+			thirdItem = StringUtilities.parseInt( thirdItemString );
 		}
 		else
 		{

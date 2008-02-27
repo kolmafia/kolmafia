@@ -37,7 +37,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.textui.Interpreter;
-import net.sourceforge.kolmafia.webui.CharacterEntityReference;
+import net.sourceforge.kolmafia.utilities.CharacterEntities;
 
 public class SendMailRequest
 	extends TransferItemRequest
@@ -79,7 +79,7 @@ public class SendMailRequest
 		super( "sendmessage.php", attachment );
 
 		this.recipient = recipient;
-		this.message = CharacterEntityReference.unescape( message );
+		this.message = CharacterEntities.unescape( message );
 
 		this.addFormField( "action", "send" );
 		this.addFormField( "towho", KoLmafia.getPlayerId( this.recipient ) );
@@ -94,7 +94,7 @@ public class SendMailRequest
 		super( "sendmessage.php", attachments );
 
 		this.recipient = recipient;
-		this.message = CharacterEntityReference.unescape( message );
+		this.message = CharacterEntities.unescape( message );
 
 		this.addFormField( "action", "send" );
 		this.addFormField( "towho", KoLmafia.getPlayerId( this.recipient ) );

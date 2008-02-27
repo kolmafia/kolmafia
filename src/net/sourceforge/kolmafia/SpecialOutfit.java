@@ -44,6 +44,7 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.persistence.Preferences;
 
@@ -307,7 +308,7 @@ public class SpecialOutfit
 
 		while ( singleOutfitMatcher.find() )
 		{
-			outfitId = StaticEntity.parseInt( singleOutfitMatcher.group( 1 ) );
+			outfitId = StringUtilities.parseInt( singleOutfitMatcher.group( 1 ) );
 			if ( outfitId < 0 )
 			{
 				outfitName = singleOutfitMatcher.group( 2 );

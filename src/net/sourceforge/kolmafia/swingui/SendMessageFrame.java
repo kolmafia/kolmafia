@@ -60,6 +60,7 @@ import net.sourceforge.kolmafia.swingui.button.InvocationButton;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class SendMessageFrame
 	extends GenericFrame
@@ -201,7 +202,7 @@ public class SendMessageFrame
 		this.attachments.toArray( attachmentsArray );
 
 		attachmentsArray[ this.attachments.size() ] =
-			new AdventureResult( AdventureResult.MEAT, GenericFrame.getValue( this.attachedMeat, 0 ) );
+			new AdventureResult( AdventureResult.MEAT, InputFieldUtilities.getValue( this.attachedMeat, 0 ) );
 
 		String[] recipients = StaticEntity.getClient().extractTargets( (String) this.recipientEntry.getSelectedItem() );
 
@@ -224,14 +225,14 @@ public class SendMessageFrame
 		}
 
 		AdventureResult current;
-		Object[] values = GenericFrame.multiple( "What would you like to send?", source );
+		Object[] values = InputFieldUtilities.multiple( "What would you like to send?", source );
 
 		if ( values.length < source.size() )
 		{
 			for ( int i = 0; i < values.length; ++i )
 			{
 				current = (AdventureResult) values[ i ];
-				int amount = GenericFrame.getQuantity( "How many " + current.getName() + " to send?", current.getCount() );
+				int amount = InputFieldUtilities.getQuantity( "How many " + current.getName() + " to send?", current.getCount() );
 
 				if ( amount <= 0 )
 				{

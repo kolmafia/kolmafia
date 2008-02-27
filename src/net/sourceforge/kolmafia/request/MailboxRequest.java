@@ -42,6 +42,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.BuffBotManager;
 import net.sourceforge.kolmafia.session.MailManager;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MailboxRequest
 	extends GenericRequest
@@ -140,15 +141,15 @@ public class MailboxRequest
 
 			if ( matcher.find() )
 			{
-				lastMessageId = StaticEntity.parseInt( matcher.group( 1 ) );
-				totalMessages = StaticEntity.parseInt( matcher.group( 2 ) );
+				lastMessageId = StringUtilities.parseInt( matcher.group( 1 ) );
+				totalMessages = StringUtilities.parseInt( matcher.group( 2 ) );
 			}
 			else
 			{
 				matcher = MailboxRequest.SINGLEPAGE_PATTERN.matcher( this.responseText );
 				if ( matcher.find() )
 				{
-					lastMessageId = StaticEntity.parseInt( matcher.group( 1 ) );
+					lastMessageId = StringUtilities.parseInt( matcher.group( 1 ) );
 					totalMessages = lastMessageId;
 				}
 			}

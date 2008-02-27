@@ -45,13 +45,13 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.KoLDatabase.StringArray;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.swingui.CouncilFrame;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class ChoiceManager
 {
@@ -168,8 +168,8 @@ public abstract class ChoiceManager
 				}
 			}
 
-			int a = StaticEntity.parseInt( this.setting.substring( 15 ) );
-			int b = StaticEntity.parseInt( ( (ChoiceAdventure) o ).setting.substring( 15 ) );
+			int a = StringUtilities.parseInt( this.setting.substring( 15 ) );
+			int b = StringUtilities.parseInt( ( (ChoiceAdventure) o ).setting.substring( 15 ) );
 
 			return a - b;
 		}
@@ -1216,7 +1216,7 @@ public abstract class ChoiceManager
 		{
 			return null;
 		}
-		int choice = StaticEntity.parseInt( option.substring( 15 ) );
+		int choice = StringUtilities.parseInt( option.substring( 15 ) );
 		return ChoiceManager.dynamicChoiceOptions( choice );
 	}
 
@@ -1423,7 +1423,7 @@ public abstract class ChoiceManager
 			{
 				willIgnore = true;
 
-				switch ( StaticEntity.parseInt( decision ) )
+				switch ( StringUtilities.parseInt( decision ) )
 				{
 				case 0:
 					decision = String.valueOf( KoLConstants.RNG.nextInt( 2 ) + 1 );
@@ -1448,7 +1448,7 @@ public abstract class ChoiceManager
 			{
 				willIgnore = true;
 
-				switch ( StaticEntity.parseInt( decision ) )
+				switch ( StringUtilities.parseInt( decision ) )
 				{
 				case 1:
 				case 2:
@@ -1557,13 +1557,13 @@ public abstract class ChoiceManager
 					continue;
 				}
 
-				AdventureResult item = new AdventureResult( StaticEntity.parseInt( possibleDecisions[ i ] ), 1 );
+				AdventureResult item = new AdventureResult( StringUtilities.parseInt( possibleDecisions[ i ] ), 1 );
 				if ( KoLConstants.conditions.contains( item ) )
 				{
 					return String.valueOf( i + 1 );
 				}
 
-				if ( possibleDecisions.length < StaticEntity.parseInt( decision ) && !InventoryManager.hasItem( item ) )
+				if ( possibleDecisions.length < StringUtilities.parseInt( decision ) && !InventoryManager.hasItem( item ) )
 				{
 					return String.valueOf( i + 1 );
 				}
@@ -1578,7 +1578,7 @@ public abstract class ChoiceManager
 		// If this is an ignore decision, then go ahead and ignore
 		// the choice adventure
 
-		int decisionIndex = StaticEntity.parseInt( decision ) - 1;
+		int decisionIndex = StringUtilities.parseInt( decision ) - 1;
 		if ( possibleDecisions.length < possibleDecisionSpoilers.length && possibleDecisionSpoilers[ decisionIndex ].equals( "skip adventure" ) )
 		{
 			return decision;

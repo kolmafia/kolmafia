@@ -42,10 +42,10 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class FamiliarRequest
 	extends GenericRequest
@@ -209,8 +209,8 @@ public class FamiliarRequest
 				return true;
 			}
 
-                        int familiarId = StaticEntity.parseInt( familiarMatcher.group(1) );
-                        int itemId = StaticEntity.parseInt( familiarMatcher.group(2) );
+                        int familiarId = StringUtilities.parseInt( familiarMatcher.group(1) );
+                        int itemId = StringUtilities.parseInt( familiarMatcher.group(2) );
                         FamiliarRequest.equipFamiliar( familiarId, itemId );
 
 			return true;
@@ -224,7 +224,7 @@ public class FamiliarRequest
 				return true;
 			}
 
-                        int familiarId = StaticEntity.parseInt( familiarMatcher.group(1) );
+                        int familiarId = StringUtilities.parseInt( familiarMatcher.group(1) );
                         FamiliarRequest.unequipFamiliar( familiarId );
 
 			return true;
@@ -233,7 +233,7 @@ public class FamiliarRequest
 		Matcher familiarMatcher = FamiliarRequest.EQUIP_PATTERN.matcher( urlString );
 		if ( familiarMatcher.find() )
 		{
-			FamiliarData changeTo = new FamiliarData( StaticEntity.parseInt( familiarMatcher.group( 1 ) ) );
+			FamiliarData changeTo = new FamiliarData( StringUtilities.parseInt( familiarMatcher.group( 1 ) ) );
 
 			// Special handling for the blackbird.  If
 			// the blackbird is equipped, then cache your

@@ -46,6 +46,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class LoginRequest
 	extends GenericRequest
@@ -65,7 +66,7 @@ public class LoginRequest
 	{
 		super( "login.php" );
 
-		this.username = username == null ? "" : StaticEntity.globalStringReplace( username, "/q", "" );
+		this.username = username == null ? "" : StringUtilities.globalStringReplace( username, "/q", "" );
 		Preferences.setString( this.username, "displayName", this.username );
 
 		this.password = password;

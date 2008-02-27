@@ -48,6 +48,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.SendMailRequest;
 import net.sourceforge.kolmafia.session.ChoiceManager;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class LocalRelayAgent
 	extends Thread
@@ -192,7 +193,7 @@ public class LocalRelayAgent
 
 			if ( currentLine.startsWith( "Content-Length" ) )
 			{
-				contentLength = StaticEntity.parseInt( currentLine.substring( 16 ) );
+				contentLength = StringUtilities.parseInt( currentLine.substring( 16 ) );
 			}
 
 			if ( currentLine.startsWith( "Cookie" ) && this.path.startsWith( "/inventory" ) )

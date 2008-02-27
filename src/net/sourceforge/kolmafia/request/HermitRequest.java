@@ -44,6 +44,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
@@ -279,7 +280,7 @@ public class HermitRequest
 
 		if ( quantityMatcher.find() )
 		{
-			quantity = StaticEntity.parseInt( quantityMatcher.group( 1 ) );
+			quantity = StringUtilities.parseInt( quantityMatcher.group( 1 ) );
 		}
 
 		if ( quantity <= HermitRequest.getWorthlessItemCount() )
@@ -291,7 +292,7 @@ public class HermitRequest
 			}
 
 			RequestLogger.updateSessionLog();
-			RequestLogger.updateSessionLog( "hermit " + quantity + " " + ItemDatabase.getItemName( StaticEntity.parseInt( itemMatcher.group( 1 ) ) ) );
+			RequestLogger.updateSessionLog( "hermit " + quantity + " " + ItemDatabase.getItemName( StringUtilities.parseInt( itemMatcher.group( 1 ) ) ) );
 
 			// Subtract the worthless items in order of their priority;
 			// as far as we know, the priority is the item Id.

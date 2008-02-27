@@ -48,6 +48,8 @@ import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.BuffBotManager.Offering;
+import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.UneffectRequest;
@@ -87,9 +89,9 @@ public class BuffBotDatabase
 		if ( !BuffBotDatabase.hasNameList )
 		{
 			String[] data;
-			BufferedReader reader = KoLDatabase.getVersionedReader( "buffbots.txt", KoLConstants.BUFFBOTS_VERSION );
+			BufferedReader reader = FileUtilities.getVersionedReader( "buffbots.txt", KoLConstants.BUFFBOTS_VERSION );
 
-			while ( ( data = KoLDatabase.readData( reader ) ) != null )
+			while ( ( data = FileUtilities.readData( reader ) ) != null )
 			{
 				KoLmafia.registerPlayer( data[ 0 ], data[ 1 ] );
 
@@ -264,9 +266,9 @@ public class BuffBotDatabase
 		KoLmafia.updateDisplay( "Configuring dynamic buff prices..." );
 
 		String[] data = null;
-		BufferedReader reader = KoLDatabase.getVersionedReader( "buffbots.txt", KoLConstants.BUFFBOTS_VERSION );
+		BufferedReader reader = FileUtilities.getVersionedReader( "buffbots.txt", KoLConstants.BUFFBOTS_VERSION );
 
-		while ( ( data = KoLDatabase.readData( reader ) ) != null )
+		while ( ( data = FileUtilities.readData( reader ) ) != null )
 		{
 			if ( data.length == 3 )
 			{
@@ -323,7 +325,7 @@ public class BuffBotDatabase
 			}
 
 			StringBuffer responseText = new StringBuffer();
-			BufferedReader reader = KoLDatabase.getReader( this.location );
+			BufferedReader reader = FileUtilities.getReader( this.location );
 
 			if ( reader == null )
 			{
@@ -378,8 +380,8 @@ public class BuffBotDatabase
 						name = SkillDatabase.getSkillName( 4008 );
 					}
 
-					int price = StaticEntity.parseInt( priceMatcher.group( 1 ).trim() );
-					int turns = StaticEntity.parseInt( turnMatcher.group( 1 ).trim() );
+					int price = StringUtilities.parseInt( priceMatcher.group( 1 ).trim() );
+					int turns = StringUtilities.parseInt( turnMatcher.group( 1 ).trim() );
 					boolean philanthropic = freeMatcher.find() ? freeMatcher.group( 1 ).trim().equals( "true" ) : false;
 
 					LockableListModel tester = philanthropic ? freeBuffs : normalBuffs;

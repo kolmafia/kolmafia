@@ -38,10 +38,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.webui.CharacterEntityReference;
+import net.sourceforge.kolmafia.utilities.CharacterEntities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
@@ -141,7 +140,7 @@ public class MallSearchRequest
 
 		boolean isItemName = ItemDatabase.contains( searchString );
 
-		String canonical = KoLDatabase.getCanonicalName( searchString );
+		String canonical = StringUtilities.getCanonicalName( searchString );
 		int entityIndex = canonical.indexOf( "&" );
 
 		return entityIndex == -1 && isItemName ? "\"" + canonical + "\"" : entityIndex == -1 ? canonical : canonical.substring(
@@ -220,13 +219,13 @@ public class MallSearchRequest
 			Matcher shopMatcher = MallSearchRequest.STOREID_PATTERN.matcher( this.responseText );
 			shopMatcher.find();
 
-			int shopId = StaticEntity.parseInt( shopMatcher.group( 2 ) );
+			int shopId = StringUtilities.parseInt( shopMatcher.group( 2 ) );
 
 			// Translate the shop name to its unicode form so
 			// it can be properly rendered.  In the process,
 			// also handle character entities mangled by KoL.
 
-			String shopName = CharacterEntityReference.unescape( shopMatcher.group( 1 ).replaceAll( "[ ]+;", ";" ) );
+			String shopName = CharacterEntities.unescape( shopMatcher.group( 1 ).replaceAll( "[ ]+;", ";" ) );
 
 			int lastFindIndex = 0;
 			Matcher priceMatcher = MallSearchRequest.STOREPRICE_PATTERN.matcher( this.responseText );
@@ -238,17 +237,17 @@ public class MallSearchRequest
 
 				String itemName = priceMatcher.group( 2 );
 
-				int itemId = StaticEntity.parseInt( priceId.substring( 0, priceId.length() - 9 ) );
-				int quantity = StaticEntity.parseInt( priceMatcher.group( 3 ) );
+				int itemId = StringUtilities.parseInt( priceId.substring( 0, priceId.length() - 9 ) );
+				int quantity = StringUtilities.parseInt( priceMatcher.group( 3 ) );
 				int limit = quantity;
 
 				Matcher limitMatcher = MallSearchRequest.STORELIMIT_PATTERN.matcher( priceMatcher.group( 4 ) );
 				if ( limitMatcher.find() )
 				{
-					limit = StaticEntity.parseInt( limitMatcher.group( 1 ) );
+					limit = StringUtilities.parseInt( limitMatcher.group( 1 ) );
 				}
 
-				int price = StaticEntity.parseInt( priceId.substring( priceId.length() - 9 ) );
+				int price = StringUtilities.parseInt( priceId.substring( priceId.length() - 9 ) );
 				this.results.add( new MallPurchaseRequest(
 					itemName, itemId, quantity, shopId, shopName, price, limit, true ) );
 			}
@@ -262,7 +261,7 @@ public class MallSearchRequest
 			while ( storeMatcher.find( lastFindIndex ) )
 			{
 				lastFindIndex = storeMatcher.end();
-				individualStore = new MallSearchRequest( StaticEntity.parseInt( storeMatcher.group( 1 ) ) );
+				individualStore = new MallSearchRequest( StringUtilities.parseInt( storeMatcher.group( 1 ) ) );
 				individualStore.run();
 
 				this.results.addAll( individualStore.results );
@@ -297,7 +296,7 @@ public class MallSearchRequest
 
 			if ( quantityMatcher.find() )
 			{
-				quantity = StaticEntity.parseInt( quantityMatcher.group() );
+				quantity = StringUtilities.parseInt( quantityMatcher.group() );
 			}
 
 			int limit = quantity;
@@ -305,7 +304,7 @@ public class MallSearchRequest
 			Matcher limitMatcher = MallSearchRequest.LISTLIMIT_PATTERN.matcher( linkText );
 			if ( limitMatcher.find() )
 			{
-				limit = StaticEntity.parseInt( limitMatcher.group( 1 ) );
+				limit = StringUtilities.parseInt( limitMatcher.group( 1 ) );
 			}
 
 			// The next token contains data which identifies the shop
@@ -318,9 +317,9 @@ public class MallSearchRequest
 				continue;
 			}
 
-			int shopId = StaticEntity.parseInt( detailsMatcher.group( 1 ) );
-			int itemId = StaticEntity.parseInt( detailsMatcher.group( 2 ) );
-			int price = StaticEntity.parseInt( detailsMatcher.group( 3 ) );
+			int shopId = StringUtilities.parseInt( detailsMatcher.group( 1 ) );
+			int itemId = StringUtilities.parseInt( detailsMatcher.group( 2 ) );
+			int price = StringUtilities.parseInt( detailsMatcher.group( 3 ) );
 
 			String shopName = detailsMatcher.group( 4 ).replaceAll( "<br>", " " );
 			String itemName = ItemDatabase.getItemName( itemId );

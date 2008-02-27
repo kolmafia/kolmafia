@@ -36,8 +36,6 @@ package net.sourceforge.kolmafia;
 import edu.stanford.ejalbert.BrowserLauncher;
 
 import java.io.File;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.PrintStream;
 
 import java.util.ArrayList;
@@ -65,11 +63,10 @@ import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.RequestFrame;
 import net.sourceforge.kolmafia.swingui.RequestSynchFrame;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class StaticEntity
 {
-	private static final Pattern NONDIGIT_PATTERN = Pattern.compile( "[^\\-0-9]" );
-	private static final Pattern NONFLOAT_PATTERN = Pattern.compile( "[^\\-\\.0-9]" );
 	private static final Pattern NEWSKILL1_PATTERN = Pattern.compile( "<td>You learn a new skill: <b>(.*?)</b>" );
 	private static final Pattern NEWSKILL2_PATTERN = Pattern.compile( "whichskill=(\\d+)" );
 	private static final Pattern NEWSKILL3_PATTERN = Pattern.compile( "<td>You acquire a skill: <[bB]>(.*?)</[bB]>" );
@@ -309,7 +306,7 @@ public abstract class StaticEntity
 		StringTokenizer tokens = new StringTokenizer( counters, ":" );
 		while ( tokens.hasMoreTokens() )
 		{
-			int turns = StaticEntity.parseInt( tokens.nextToken() ) - KoLCharacter.getCurrentRun();
+			int turns = StringUtilities.parseInt( tokens.nextToken() ) - KoLCharacter.getCurrentRun();
 			String name = tokens.nextToken();
 			String image = tokens.nextToken();
 			StaticEntity.startCounting( turns, name, image, false );
@@ -577,7 +574,7 @@ public abstract class StaticEntity
 			if ( matcher.find() )
 			{
 				StaticEntity.client.processResult( new AdventureResult(
-					AdventureResult.MEAT, StaticEntity.parseInt( matcher.group( 1 ) ) ) );
+					AdventureResult.MEAT, StringUtilities.parseInt( matcher.group( 1 ) ) ) );
 			}
 		}
 
@@ -629,7 +626,7 @@ public abstract class StaticEntity
 			learnedMatcher = StaticEntity.NEWSKILL2_PATTERN.matcher( location );
 			if ( learnedMatcher.find() )
 			{
-				KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( StaticEntity.parseInt( learnedMatcher.group( 1 ) ) ) );
+				KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( StringUtilities.parseInt( learnedMatcher.group( 1 ) ) ) );
 			}
 		}
 
@@ -836,178 +833,6 @@ public abstract class StaticEntity
 		if ( shouldOpenStream )
 		{
 			RequestLogger.closeDebugLog();
-		}
-	}
-
-	public static final int parseInt( final String string )
-	{
-		if ( string == null )
-		{
-			return 0;
-		}
-
-		String clean = StaticEntity.NONDIGIT_PATTERN.matcher( string ).replaceAll( "" );
-		return clean.equals( "" ) || clean.equals( "-" ) ? 0 : Integer.parseInt( clean );
-	}
-
-	public static final float parseFloat( final String string )
-	{
-		if ( string == null )
-		{
-			return 0.0f;
-		}
-
-		String clean = StaticEntity.NONFLOAT_PATTERN.matcher( string ).replaceAll( "" );
-		return clean.equals( "" ) ? 0.0f : Float.parseFloat( clean );
-	}
-
-	public static final boolean loadLibrary( final File parent, final String directory, final String filename )
-	{
-		try
-		{
-			// Next, load the icon which will be used by KoLmafia
-			// in the system tray.  For now, this will be the old
-			// icon used by KoLmelion.
-
-			File library = new File( parent, filename );
-
-			if ( library.exists() )
-			{
-				if ( parent == KoLConstants.RELAY_LOCATION && !Preferences.getString( "lastRelayUpdate" ).equals(
-					StaticEntity.getVersion() ) )
-				{
-					library.delete();
-				}
-				else
-				{
-					return true;
-				}
-			}
-
-			InputStream input = DataUtilities.getInputStream( directory, filename );
-			if ( input == null )
-			{
-				return false;
-			}
-
-			OutputStream output = DataUtilities.getOutputStream( library );
-
-			byte[] buffer = new byte[ 1024 ];
-			int bufferLength;
-			while ( ( bufferLength = input.read( buffer ) ) != -1 )
-			{
-				output.write( buffer, 0, bufferLength );
-			}
-
-			input.close();
-			output.close();
-			return true;
-
-		}
-		catch ( Exception e )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-
-			StaticEntity.printStackTrace( e );
-			return false;
-		}
-	}
-
-	public static final String singleStringDelete( final String originalString, final String searchString )
-	{
-		return StaticEntity.singleStringReplace( originalString, searchString, "" );
-	}
-
-	public static final String singleStringReplace( final String originalString, final String searchString,
-		final String replaceString )
-	{
-		// Using a regular expression, while faster, results
-		// in a lot of String allocation overhead.  So, use
-		// a static finalally-allocated StringBuffers.
-
-		int lastIndex = originalString.indexOf( searchString );
-		if ( lastIndex == -1 )
-		{
-			return originalString;
-		}
-
-		StringBuffer buffer = new StringBuffer();
-		buffer.append( originalString.substring( 0, lastIndex ) );
-		buffer.append( replaceString );
-		buffer.append( originalString.substring( lastIndex + searchString.length() ) );
-		return buffer.toString();
-	}
-
-	public static final void singleStringDelete( final StringBuffer buffer, final String searchString )
-	{
-		StaticEntity.singleStringReplace( buffer, searchString, "" );
-	}
-
-	public static final void singleStringReplace( final StringBuffer buffer, final String searchString,
-		final String replaceString )
-	{
-		int index = buffer.indexOf( searchString );
-		if ( index != -1 )
-		{
-			buffer.replace( index, index + searchString.length(), replaceString );
-		}
-	}
-
-	public static final String globalStringDelete( final String originalString, final String searchString )
-	{
-		return StaticEntity.globalStringReplace( originalString, searchString, "" );
-	}
-
-	public static final String globalStringReplace( final String originalString, final String searchString,
-		final String replaceString )
-	{
-		// Using a regular expression, while faster, results
-		// in a lot of String allocation overhead.  So, use
-		// a static finalally-allocated StringBuffers.
-
-		int lastIndex = originalString.indexOf( searchString );
-		if ( lastIndex == -1 )
-		{
-			return originalString;
-		}
-
-		StringBuffer buffer = new StringBuffer( originalString );
-		while ( lastIndex != -1 )
-		{
-			buffer.replace( lastIndex, lastIndex + searchString.length(), replaceString );
-			lastIndex = buffer.indexOf( searchString, lastIndex + replaceString.length() );
-		}
-
-		return buffer.toString();
-	}
-
-	public static final void globalStringReplace( final StringBuffer buffer, final String tag, final int replaceWith )
-	{
-		StaticEntity.globalStringReplace( buffer, tag, String.valueOf( replaceWith ) );
-	}
-
-	public static final void globalStringDelete( final StringBuffer buffer, final String tag )
-	{
-		StaticEntity.globalStringReplace( buffer, tag, "" );
-	}
-
-	public static final void globalStringReplace( final StringBuffer buffer, final String tag, String replaceWith )
-	{
-		if ( replaceWith == null )
-		{
-			replaceWith = "";
-		}
-
-		// Using a regular expression, while faster, results
-		// in a lot of String allocation overhead.  So, use
-		// a static finalally-allocated StringBuffers.
-
-		int lastIndex = buffer.indexOf( tag );
-		while ( lastIndex != -1 )
-		{
-			buffer.replace( lastIndex, lastIndex + tag.length(), replaceWith );
-			lastIndex = buffer.indexOf( tag, lastIndex + replaceWith.length() );
 		}
 	}
 

@@ -46,11 +46,11 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
 import net.sourceforge.kolmafia.request.MallSearchRequest;
 import net.sourceforge.kolmafia.swingui.StoreManageFrame;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
@@ -205,17 +205,17 @@ public abstract class StoreManager
 
 			while ( priceMatcher.find() )
 			{
-				itemId = StaticEntity.parseInt( priceMatcher.group( 4 ) );
+				itemId = StringUtilities.parseInt( priceMatcher.group( 4 ) );
 				if ( ItemDatabase.getItemName( itemId ) == null )
 				{
 					ItemDatabase.registerItem( itemId, priceMatcher.group( 1 ) );
 				}
 
-				quantity = StaticEntity.parseInt( priceMatcher.group( 2 ) );
+				quantity = StringUtilities.parseInt( priceMatcher.group( 2 ) );
 
-				price = StaticEntity.parseInt( priceMatcher.group( 3 ) );
-				limit = StaticEntity.parseInt( priceMatcher.group( 5 ) );
-				lowest = StaticEntity.parseInt( priceMatcher.group( 6 ) );
+				price = StringUtilities.parseInt( priceMatcher.group( 3 ) );
+				limit = StringUtilities.parseInt( priceMatcher.group( 5 ) );
+				lowest = StringUtilities.parseInt( priceMatcher.group( 6 ) );
 
 				// Now that all the data has been retrieved, register
 				// the item that was discovered.
@@ -236,21 +236,21 @@ public abstract class StoreManager
 			while ( itemMatcher.find() )
 			{
 				String name = itemMatcher.group( 1 );
-				itemId = StaticEntity.parseInt( itemMatcher.group( 6 ) );
+				itemId = StringUtilities.parseInt( itemMatcher.group( 6 ) );
 				if ( ItemDatabase.getItemName( itemId ) == null )
 				{
 					ItemDatabase.registerItem( itemId, name );
 				}
 
-				int count = itemMatcher.group(2) == null ? 1 : StaticEntity.parseInt( itemMatcher.group(3) );
+				int count = itemMatcher.group(2) == null ? 1 : StringUtilities.parseInt( itemMatcher.group(3) );
 
 				item = new AdventureResult( name, count, false );
-				price = StaticEntity.parseInt( itemMatcher.group( 4 ) );
+				price = StringUtilities.parseInt( itemMatcher.group( 4 ) );
 
 				// In this case, the limit could appear as
 				// "unlimited", which equates to a limit of 0.
 
-				limit = itemMatcher.group( 5 ).startsWith( "<" ) ? 0 : StaticEntity.parseInt( itemMatcher.group( 5 ) );
+				limit = itemMatcher.group( 5 ).startsWith( "<" ) ? 0 : StringUtilities.parseInt( itemMatcher.group( 5 ) );
 
 				// Now that all the data has been retrieved,
 				// register the item that was discovered.
