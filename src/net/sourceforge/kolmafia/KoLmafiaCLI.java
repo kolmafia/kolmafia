@@ -143,12 +143,18 @@ public class KoLmafiaCLI
 
 	public static boolean isExecutingCheckOnlyCommand = false;
 
-	private static final File ALIAS_FILE = new File( UtilityConstants.SETTINGS_LOCATION, "aliases_GLOBAL.txt" );
+	private static final File ALIAS_FILE = new File( UtilityConstants.SETTINGS_LOCATION, "GLOBAL_aliases.txt" );
 	private static TreeMap aliasMap = new TreeMap();
 	private static Set aliasSet = null;
 
 	static
 	{
+		File oldAliaseFile = new File( UtilityConstants.SETTINGS_LOCATION, "aliases_GLOBAL.txt" );
+		if ( oldAliaseFile.exists() )
+		{
+			oldAliaseFile.renameTo( ALIAS_FILE );
+		}
+
 		String[] data;
 		BufferedReader reader = FileUtilities.getReader( ALIAS_FILE );
 
