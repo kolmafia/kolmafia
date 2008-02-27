@@ -45,9 +45,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -2761,7 +2761,7 @@ public class KoLmafiaCLI
 		splitParameters[ 0 ] = splitParameters[ 0 ].trim();
 		splitParameters[ 1 ] = splitParameters[ 1 ].trim();
 
-		Object[] attachments = ItemFinder.getMatchingItemList( splitParameters[ 0 ] );
+		Object[] attachments = ItemFinder.getMatchingItemList( KoLConstants.inventory, splitParameters[ 0 ] );
 		if ( attachments.length == 0 )
 		{
 			return;
@@ -4291,7 +4291,7 @@ public class KoLmafiaCLI
 			}
 		}
 
-		Object[] itemList = ItemFinder.getMatchingItemList( parameters );
+		Object[] itemList = ItemFinder.getMatchingItemList( ClanManager.getStash(), parameters );
 		if ( itemList.length == 0 )
 		{
 			return;
@@ -4320,7 +4320,7 @@ public class KoLmafiaCLI
 		}
 
 		ItemFinder.setMatchType( ItemFinder.UNTINKER_MATCH );
-		Object[] itemList = ItemFinder.getMatchingItemList( parameters );
+		Object[] itemList = ItemFinder.getMatchingItemList( KoLConstants.inventory, parameters );
 		ItemFinder.setMatchType( ItemFinder.ANY_MATCH );
 
 		RequestThread.openRequestSequence();
@@ -4563,7 +4563,7 @@ public class KoLmafiaCLI
 			return;
 		}
 
-		Object[] items = ItemFinder.getMatchingItemList( parameters );
+		Object[] items = ItemFinder.getMatchingItemList( KoLConstants.storage, parameters );
 
 		if ( items.length == 0 )
 		{
@@ -4629,7 +4629,9 @@ public class KoLmafiaCLI
 			return;
 		}
 
-		Object[] itemList = ItemFinder.getMatchingItemList( parameters.substring( 4 ).trim() );
+		boolean isTake = parameters.startsWith( "take" );
+		Object[] itemList = ItemFinder.getMatchingItemList(
+			isTake ? KoLConstants.closet : KoLConstants.inventory, parameters.substring( 4 ).trim() );
 
 		if ( itemList.length == 0 )
 		{
@@ -4643,7 +4645,7 @@ public class KoLmafiaCLI
 			if ( ( (AdventureResult) itemList[ i ] ).getName().equals( AdventureResult.MEAT ) )
 			{
 				RequestThread.postRequest( new ClosetRequest(
-					parameters.startsWith( "take" ) ? ClosetRequest.MEAT_TO_INVENTORY : ClosetRequest.MEAT_TO_CLOSET,
+					isTake ? ClosetRequest.MEAT_TO_INVENTORY : ClosetRequest.MEAT_TO_CLOSET,
 					( (AdventureResult) itemList[ i ] ).getCount() ) );
 
 				itemList[ i ] = null;
@@ -4752,7 +4754,7 @@ public class KoLmafiaCLI
 
 	private void executeSellStuffRequest( final String parameters )
 	{
-		Object[] items = ItemFinder.getMatchingItemList( parameters );
+		Object[] items = ItemFinder.getMatchingItemList( KoLConstants.inventory, parameters );
 		if ( items.length == 0 )
 		{
 			return;
@@ -4768,7 +4770,7 @@ public class KoLmafiaCLI
 
 	private void executeBuyCommand( final String parameters )
 	{
-		Object[] itemList = ItemFinder.getMatchingItemList( parameters );
+		Object[] itemList = ItemFinder.getMatchingItemList( KoLConstants.inventory, parameters );
 
 		for ( int i = 0; i < itemList.length; ++i )
 		{
@@ -4800,7 +4802,7 @@ public class KoLmafiaCLI
 		}
 
 		ItemFinder.setMatchType( ItemFinder.CREATE_MATCH );
-		Object[] itemList = ItemFinder.getMatchingItemList( parameters );
+		Object[] itemList = ItemFinder.getMatchingItemList( KoLConstants.inventory, parameters );
 		ItemFinder.setMatchType( ItemFinder.ANY_MATCH );
 
 		AdventureResult currentMatch;
@@ -4895,7 +4897,7 @@ public class KoLmafiaCLI
 			ItemFinder.setMatchType( ItemFinder.USE_MATCH );
 		}
 
-		Object[] itemList = ItemFinder.getMatchingItemList( parameters );
+		Object[] itemList = ItemFinder.getMatchingItemList( KoLConstants.inventory, parameters );
 
 		ItemFinder.setMatchType( ItemFinder.ANY_MATCH );
 
@@ -4968,14 +4970,17 @@ public class KoLmafiaCLI
 			return;
 		}
 
-		Object[] items = ItemFinder.getMatchingItemList( parameters.substring( 4 ).trim() );
+		boolean isTake = parameters.startsWith( "take" );
+
+		Object[] items = ItemFinder.getMatchingItemList(
+			isTake ? KoLConstants.collection : KoLConstants.inventory, parameters.substring( 4 ).trim() );
 
 		if ( items.length == 0 )
 		{
 			return;
 		}
 
-		RequestThread.postRequest( new DisplayCaseRequest( items, !parameters.startsWith( "take" ) ) );
+		RequestThread.postRequest( new DisplayCaseRequest( items, !isTake ) );
 	}
 
 	/**
@@ -5189,7 +5194,7 @@ public class KoLmafiaCLI
 			return;
 		}
 
-		Object[] itemList = ItemFinder.getMatchingItemList( parameters );
+		Object[] itemList = ItemFinder.getMatchingItemList( KoLConstants.inventory, parameters );
 
 		for ( int i = 0; i < itemList.length; ++i )
 		{
@@ -5203,7 +5208,7 @@ public class KoLmafiaCLI
 
 	public void makePulverizeRequest( final String parameters )
 	{
-		Object[] itemList = ItemFinder.getMatchingItemList( parameters );
+		Object[] itemList = ItemFinder.getMatchingItemList( KoLConstants.inventory, parameters );
 
 		for ( int i = 0; i < itemList.length; ++i )
 		{
