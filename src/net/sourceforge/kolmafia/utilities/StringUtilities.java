@@ -171,7 +171,7 @@ public class StringUtilities
 			return true;
 		}
 
-		char sourceChar = '\0';
+		char sourceChar;
 		int sourceIndex = -1;
 		int maxSourceIndex = sourceString.length() - 1;
 
@@ -235,7 +235,24 @@ public class StringUtilities
 
 				if ( !matchedSpace && Character.isWhitespace( sourceChar ) )
 				{
-					return false;
+					// It's possible to allow for abbreviations like
+					// mmj which match the first letter of each word.
+
+					do
+					{
+						if ( ++sourceIndex > maxSourceIndex )
+						{
+							return false;
+						}
+
+						sourceChar = Character.toLowerCase( sourceString.charAt( sourceIndex ) );
+					}
+					while ( Character.isWhitespace( sourceChar ) );
+
+					if ( searchChar != sourceChar )
+					{
+						return false;
+					}
 				}
 			}
 
@@ -368,13 +385,13 @@ public class StringUtilities
 	}
 
 	public static final String basicTextWrap(String text) {
-	
+
 		if (text.length() < 80 || text.startsWith("<html>")) {
 			return text;
 		}
-	
+
 		StringBuffer result = new StringBuffer();
-	
+
 		while (text.length() > 0) {
 			if (text.length() < 80) {
 				result.append(text);
@@ -383,7 +400,7 @@ public class StringUtilities
 			else {
 				int spaceIndex = text.lastIndexOf(" ", 80);
 				int breakIndex = text.lastIndexOf("\n", spaceIndex);
-	
+
 				if (breakIndex != -1) {
 					result.append(text.substring(0, breakIndex));
 					result.append("\n");
@@ -396,7 +413,7 @@ public class StringUtilities
 				}
 			}
 		}
-	
+
 		return result.toString();
 	}
 }
