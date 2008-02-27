@@ -234,10 +234,10 @@ public abstract class StaticEntity
 		return counters.toString();
 	}
 
-	public static final TurnCounter getExpiredCounter( final String adventureId )
+	public static final TurnCounter getExpiredCounter( final String adventureId, int turnsUsed )
 	{
 		TurnCounter current;
-		int currentTurns = KoLCharacter.getCurrentRun();
+		int currentTurns = KoLCharacter.getCurrentRun() + turnsUsed - 1;
 
 		TurnCounter expired = null;
 		Iterator it = StaticEntity.relayCounters.iterator();
