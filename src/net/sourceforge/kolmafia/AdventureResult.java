@@ -737,7 +737,7 @@ public class AdventureResult
 			return stats.toString();
 		}
 
-		return this.count[ 0 ] + " " + this.name;
+		return "+" + this.count[ 0 ] + " " + this.name;
 	}
 
 	/**
