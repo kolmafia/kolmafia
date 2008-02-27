@@ -1176,8 +1176,10 @@ public class RelayRequest
 
 		if ( adventureName != null )
 		{
+			int turnsUsed = adventure == null ? 1 : adventure.getFormSource().equals( "shore.php" ) ? 3 : 1;
+
 			TurnCounter expired = StaticEntity.getExpiredCounter(
-				adventure != null ? adventure.getAdventureId() : "" );
+				adventure != null ? adventure.getAdventureId() : "", turnsUsed );
 
 			if ( expired != null )
 			{

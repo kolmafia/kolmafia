@@ -864,7 +864,8 @@ public class KoLAdventure
 			}
 		}
 
-		TurnCounter expired = StaticEntity.getExpiredCounter( this.getAdventureId() );
+		TurnCounter expired = StaticEntity.getExpiredCounter(
+			this.adventureId, this.formSource.equals( "shore.php" ) ? 3 : 1 );
 
 		if ( expired != null )
 		{
