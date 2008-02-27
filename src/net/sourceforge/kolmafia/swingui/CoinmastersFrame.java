@@ -47,10 +47,8 @@ import javax.swing.JPanel;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
@@ -62,6 +60,8 @@ import net.sourceforge.kolmafia.swingui.button.InvocationButton;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.panel.ItemManagePanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.IslandDecorator;
 
 public class CoinmastersFrame
@@ -368,7 +368,7 @@ public class CoinmastersFrame
 			{
 				public void run()
 				{
-					if ( !GenericFrame.confirm( "Are you sure you would like to trade in the selected items?" ) )
+					if ( !InputFieldUtilities.confirm( "Are you sure you would like to trade in the selected items?" ) )
 					{
 						return;
 					}
@@ -465,14 +465,14 @@ public class CoinmastersFrame
 					int max = balance / price;
 					int def = CoinmasterPanel.this.buyDefault( max );
 
-					String value = GenericFrame.input( "Buying " + itemName + "...", KoLConstants.COMMA_FORMAT.format( def ) );
+					String value = InputFieldUtilities.input( "Buying " + itemName + "...", KoLConstants.COMMA_FORMAT.format( def ) );
 					if ( value == null )
 					{
 						// He hit cancel
 						return null;
 					}
 
-					int quantity = StaticEntity.parseInt( value );
+					int quantity = StringUtilities.parseInt( value );
 					if ( quantity > max )
 					{
 						quantity = max;
@@ -600,7 +600,7 @@ public class CoinmastersFrame
 			}
 
 			String name = ar.getName();
-			String canonicalName = KoLDatabase.getCanonicalName( name );
+			String canonicalName = StringUtilities.getCanonicalName( name );
 
 			if ( !lighthouse && CoinmastersDatabase.lighthouseItems().get( canonicalName ) != null )
 			{

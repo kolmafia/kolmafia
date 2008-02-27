@@ -71,6 +71,8 @@ import net.sourceforge.kolmafia.swingui.button.TableButton;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.panel.ItemManagePanel;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class StoreManageFrame
 	extends GenericPanelFrame
@@ -194,7 +196,7 @@ public class StoreManageFrame
 		{
 			int selected =
 				JOptionPane.showConfirmDialog(
-					StoreManageFrame.this, GenericFrame.basicTextWrap( StoreManageFrame.UNDERCUT_MESSAGE ), "",
+					StoreManageFrame.this, StringUtilities.basicTextWrap( StoreManageFrame.UNDERCUT_MESSAGE ), "",
 					JOptionPane.YES_NO_CANCEL_OPTION );
 
 			if ( selected != JOptionPane.YES_OPTION && selected != JOptionPane.NO_OPTION )
@@ -464,7 +466,7 @@ public class StoreManageFrame
 
 		public void actionCancelled()
 		{
-			if ( !GenericFrame.confirm( "Are you sure you'd like to autosell the selected items?" ) )
+			if ( !InputFieldUtilities.confirm( "Are you sure you'd like to autosell the selected items?" ) )
 			{
 				return;
 			}

@@ -45,13 +45,13 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.SpecialOutfit;
-import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class EquipmentRequest
 	extends PasswordHashRequest
@@ -781,7 +781,7 @@ public class EquipmentRequest
 		if ( meatInClosetMatcher.find() )
 		{
 			String meatInCloset = meatInClosetMatcher.group();
-			KoLCharacter.setClosetMeat( StaticEntity.parseInt( meatInCloset ) );
+			KoLCharacter.setClosetMeat( StringUtilities.parseInt( meatInCloset ) );
 		}
 
 		Matcher inventoryMatcher = EquipmentRequest.OUTSIDECLOSET_PATTERN.matcher( this.responseText );
@@ -807,16 +807,16 @@ public class EquipmentRequest
 		while ( optionMatcher.find( lastFindIndex ) )
 		{
 			lastFindIndex = optionMatcher.end();
-			int itemId = StaticEntity.parseInt( optionMatcher.group( 1 ) );
-			String itemName = ItemDatabase.getCanonicalName( ItemDatabase.getItemName( itemId ) );
-			String realName = ItemDatabase.getCanonicalName( optionMatcher.group( 2 ).toLowerCase() );
+			int itemId = StringUtilities.parseInt( optionMatcher.group( 1 ) );
+			String itemName = StringUtilities.getCanonicalName( ItemDatabase.getItemName( itemId ) );
+			String realName = StringUtilities.getCanonicalName( optionMatcher.group( 2 ).toLowerCase() );
 
 			if ( itemName == null || !realName.equals( itemName ) )
 			{
 				ItemDatabase.registerItem( itemId, realName );
 			}
 
-			AdventureResult result = new AdventureResult( itemId, StaticEntity.parseInt( optionMatcher.group( 3 ) ) );
+			AdventureResult result = new AdventureResult( itemId, StringUtilities.parseInt( optionMatcher.group( 3 ) ) );
 			if ( resultList == KoLConstants.inventory )
 			{
 				KoLCharacter.processResult( result, false );
@@ -852,7 +852,7 @@ public class EquipmentRequest
 			}
 
 			int quantityValue =
-				quantity.length() == 0 ? 1 : StaticEntity.parseInt( quantity.substring( 1, quantity.length() - 1 ) );
+				quantity.length() == 0 ? 1 : StringUtilities.parseInt( quantity.substring( 1, quantity.length() - 1 ) );
 			int itemId = ItemDatabase.getItemId( realName );
 
 			AdventureResult item = new AdventureResult( itemId, quantityValue );
@@ -1118,7 +1118,7 @@ public class EquipmentRequest
 		Matcher outfitMatcher = EquipmentRequest.OUTFIT_PATTERN.matcher( urlString );
 		if ( outfitMatcher.find() )
 		{
-			int outfitId = StaticEntity.parseInt( outfitMatcher.group( 1 ) );
+			int outfitId = StringUtilities.parseInt( outfitMatcher.group( 1 ) );
 			if ( outfitId > 0 )
 			{
 				RequestLogger.updateSessionLog( "outfit " + EquipmentDatabase.getOutfit( outfitId ) );
@@ -1149,7 +1149,7 @@ public class EquipmentRequest
 			return true;
 		}
 
-		String itemName = ItemDatabase.getItemName( StaticEntity.parseInt( itemMatcher.group( 1 ) ) );
+		String itemName = ItemDatabase.getItemName( StringUtilities.parseInt( itemMatcher.group( 1 ) ) );
 		if ( itemName == null )
 		{
 			return true;

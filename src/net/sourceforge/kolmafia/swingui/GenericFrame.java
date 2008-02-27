@@ -62,17 +62,13 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSpinner;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
-import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 import javax.swing.event.ListDataEvent;
@@ -103,14 +99,13 @@ import net.sourceforge.kolmafia.swingui.listener.RefreshSessionListener;
 import net.sourceforge.kolmafia.swingui.listener.WorldPeaceListener;
 import net.sourceforge.kolmafia.swingui.menu.GlobalMenuBar;
 import net.sourceforge.kolmafia.swingui.panel.CompactSidePane;
-import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 import tab.CloseTabbedPane;
 
 public abstract class GenericFrame extends JFrame {
-
-	private static GenericFrame activeWindow = null;
 
 	protected HashMap listenerMap;
 	private GlobalMenuBar menuBar;
@@ -554,206 +549,6 @@ public abstract class GenericFrame extends JFrame {
 
 	}
 
-	public static final void alert(final String message) {
-
-		JOptionPane.showMessageDialog(
-			GenericFrame.activeWindow, GenericFrame.basicTextWrap(message));
-	}
-
-	public static final boolean confirm(final String message) {
-
-		return JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(
-			GenericFrame.activeWindow, GenericFrame.basicTextWrap(message), "",
-			JOptionPane.YES_NO_OPTION);
-	}
-
-	public static final String input(final String message) {
-
-		return JOptionPane.showInputDialog(
-			GenericFrame.activeWindow, GenericFrame.basicTextWrap(message));
-	}
-
-	public static final String input(final String message, final String initial) {
-
-		return JOptionPane.showInputDialog(
-			GenericFrame.activeWindow, GenericFrame.basicTextWrap(message),
-			initial);
-	}
-
-	public static final Object input(
-		final String message, final LockableListModel inputs) {
-
-		JList selector = new JList(inputs);
-
-		JPanel panel = new JPanel(new BorderLayout());
-		panel.add(new AutoFilterTextField(selector), BorderLayout.NORTH);
-		panel.add(new GenericScrollPane(selector), BorderLayout.CENTER);
-
-		int option =
-			JOptionPane.showConfirmDialog(
-				GenericFrame.activeWindow, panel,
-				GenericFrame.basicTextWrap(message),
-				JOptionPane.OK_CANCEL_OPTION);
-		return option == JOptionPane.CANCEL_OPTION
-			? null : selector.getSelectedValue();
-	}
-
-	public static final Object[] multiple(
-		final String message, final LockableListModel inputs) {
-
-		JList selector = new JList(inputs);
-		selector.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-
-		JPanel panel = new JPanel(new BorderLayout());
-		panel.add(new AutoFilterTextField(selector), BorderLayout.NORTH);
-		panel.add(new GenericScrollPane(selector), BorderLayout.CENTER);
-
-		int option =
-			JOptionPane.showConfirmDialog(
-				GenericFrame.activeWindow, panel,
-				GenericFrame.basicTextWrap(message),
-				JOptionPane.OK_CANCEL_OPTION);
-		return option == JOptionPane.CANCEL_OPTION
-			? new Object[0] : selector.getSelectedValues();
-	}
-
-	public static final Object input(final String message, final Object[] inputs) {
-
-		if (inputs == null || inputs.length == 0) {
-			return null;
-		}
-
-		return GenericFrame.input(message, inputs, inputs[0]);
-	}
-
-	public static final Object input(
-		final String message, final Object[] inputs, final Object initial) {
-
-		if (inputs == null || inputs.length == 0) {
-			return null;
-		}
-
-		return JOptionPane.showInputDialog(
-			GenericFrame.activeWindow, GenericFrame.basicTextWrap(message), "",
-			JOptionPane.INFORMATION_MESSAGE, null, inputs, initial);
-	}
-
-	public static final String basicTextWrap(String text) {
-
-		if (text.length() < 80 || text.startsWith("<html>")) {
-			return text;
-		}
-
-		StringBuffer result = new StringBuffer();
-
-		while (text.length() > 0) {
-			if (text.length() < 80) {
-				result.append(text);
-				text = "";
-			}
-			else {
-				int spaceIndex = text.lastIndexOf(" ", 80);
-				int breakIndex = text.lastIndexOf("\n", spaceIndex);
-
-				if (breakIndex != -1) {
-					result.append(text.substring(0, breakIndex));
-					result.append("\n");
-					text = text.substring(breakIndex).trim();
-				}
-				else {
-					result.append(text.substring(0, spaceIndex).trim());
-					result.append("\n");
-					text = text.substring(spaceIndex).trim();
-				}
-			}
-		}
-
-		return result.toString();
-	}
-
-	/**
-	 * Utility method which retrieves an integer value from the given field. In
-	 * the event that the field does not contain an integer value, the number
-	 * "0" is returned instead.
-	 */
-
-	public static final int getValue(final JTextField field) {
-
-		return GenericFrame.getValue(field, 0);
-	}
-
-	public static final int getValue(final JSpinner field) {
-
-		return GenericFrame.getValue(field, 0);
-	}
-
-	/**
-	 * Utility method which retrieves an integer value from the given field. In
-	 * the event that the field does not contain an integer value, the default
-	 * value provided will be returned instead.
-	 */
-
-	public static final int getValue(
-		final JTextField field, final int defaultValue) {
-
-		String currentValue = field.getText();
-
-		if (currentValue == null || currentValue.length() == 0) {
-			return defaultValue;
-		}
-
-		if (currentValue.equals("*")) {
-			return defaultValue;
-		}
-
-		int result = StaticEntity.parseInt(currentValue);
-		return result == 0 ? defaultValue : result;
-	}
-
-	public static final int getValue(
-		final JSpinner field, final int defaultValue) {
-
-		if (!(field.getValue() instanceof Integer)) {
-			return defaultValue;
-		}
-
-		return ((Integer) field.getValue()).intValue();
-	}
-
-	public static final int getQuantity(
-		final String message, final int maximumValue, int defaultValue) {
-
-		// Check parameters; avoid programmer error.
-		if (defaultValue > maximumValue) {
-			defaultValue = maximumValue;
-		}
-
-		if (maximumValue == 1 && maximumValue == defaultValue) {
-			return 1;
-		}
-
-		String currentValue =
-			GenericFrame.input(
-				message, KoLConstants.COMMA_FORMAT.format(defaultValue));
-		if (currentValue == null) {
-			return 0;
-		}
-
-		if (currentValue.equals("*")) {
-			return maximumValue;
-		}
-
-		int desiredValue = StaticEntity.parseInt(currentValue);
-		return desiredValue < 0 ? maximumValue - desiredValue : Math.min(
-			desiredValue, maximumValue);
-	}
-
-	public static final int getQuantity(
-		final String title, final int maximumValue) {
-
-		return GenericFrame.getQuantity(title, maximumValue, maximumValue);
-	}
-
 	public void processWindowEvent(final WindowEvent e) {
 
 		if (this.isVisible()) {
@@ -775,7 +570,7 @@ public abstract class GenericFrame extends JFrame {
 				KoLConstants.existingFrames.add(this);
 			}
 
-			GenericFrame.activeWindow = this;
+			InputFieldUtilities.setActiveWindow( this );
 		}
 	}
 
@@ -842,8 +637,8 @@ public abstract class GenericFrame extends JFrame {
 		}
 
 		String[] location = position.split(",");
-		xLocation = StaticEntity.parseInt(location[0]);
-		yLocation = StaticEntity.parseInt(location[1]);
+		xLocation = StringUtilities.parseInt(location[0]);
+		yLocation = StringUtilities.parseInt(location[1]);
 
 		if (xLocation > 0 && yLocation > 0 &&
 			xLocation < screenSize.getWidth() &&
@@ -855,7 +650,7 @@ public abstract class GenericFrame extends JFrame {
 		}
 
 		if (location.length > 2 && this.tabs != null) {
-			int tabIndex = StaticEntity.parseInt(location[2]);
+			int tabIndex = StringUtilities.parseInt(location[2]);
 
 			if (tabIndex >= 0 && tabIndex < this.tabs.getTabCount()) {
 				this.tabs.setSelectedIndex(tabIndex);
@@ -1101,7 +896,7 @@ public abstract class GenericFrame extends JFrame {
 			table.getCellEditor(row, col).stopCellEditing();
 
 			if (table.isEditing()) {
-				GenericFrame.alert("One or more fields contain invalid values. (Note: they are currently outlined in red)");
+				InputFieldUtilities.alert("One or more fields contain invalid values. (Note: they are currently outlined in red)");
 				return false;
 			}
 		}

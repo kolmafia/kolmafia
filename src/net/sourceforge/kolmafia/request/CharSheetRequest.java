@@ -46,6 +46,7 @@ import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CharSheetRequest
 	extends GenericRequest
@@ -111,7 +112,7 @@ public class CharSheetRequest
 			token = cleanContent.nextToken();
 		}
 
-		KoLCharacter.setUserId( StaticEntity.parseInt( token.substring( 3, token.length() - 1 ) ) );
+		KoLCharacter.setUserId( StringUtilities.parseInt( token.substring( 3, token.length() - 1 ) ) );
 		GenericRequest.skipTokens( cleanContent, 1 );
 		KoLCharacter.setClassName( cleanContent.nextToken().trim() );
 
@@ -387,6 +388,6 @@ public class CharSheetRequest
 	private static final int retrieveBase( final String token, final int defaultBase )
 	{
 		Matcher baseMatcher = CharSheetRequest.BASE_PATTERN.matcher( token );
-		return baseMatcher.find() ? StaticEntity.parseInt( baseMatcher.group( 1 ) ) : defaultBase;
+		return baseMatcher.find() ? StringUtilities.parseInt( baseMatcher.group( 1 ) ) : defaultBase;
 	}
 }

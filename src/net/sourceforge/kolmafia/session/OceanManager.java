@@ -43,9 +43,9 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 
 public class OceanManager
@@ -101,8 +101,8 @@ public class OceanManager
 			Matcher matcher = OceanManager.OCEAN_PATTERN.matcher( dest );
 			if ( matcher.find() )
 			{
-				lon = StaticEntity.parseInt( matcher.group( 1 ) );
-				lat = StaticEntity.parseInt( matcher.group( 2 ) );
+				lon = StringUtilities.parseInt( matcher.group( 1 ) );
+				lat = StringUtilities.parseInt( matcher.group( 2 ) );
 			}
 		}
 

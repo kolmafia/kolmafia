@@ -43,6 +43,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MultiUseRequest
 	extends CreateItemRequest
@@ -122,7 +123,7 @@ public class MultiUseRequest
 		}
 
 		// Item ID of the base item
-		int baseId = StaticEntity.parseInt( useMatcher.group( 1 ) );
+		int baseId = StringUtilities.parseInt( useMatcher.group( 1 ) );
 
 		// Find result item ID
 		int result = ConcoctionDatabase.findConcoction( KoLConstants.MULTI_USE, baseId );
@@ -133,7 +134,7 @@ public class MultiUseRequest
 			return false;
 		}
 
-		int count = StaticEntity.parseInt( useMatcher.group( 2 ) );
+		int count = StringUtilities.parseInt( useMatcher.group( 2 ) );
 		AdventureResult base = new AdventureResult( baseId, 0 - count );
 
 		RequestLogger.updateSessionLog();

@@ -9,9 +9,9 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
@@ -25,7 +25,7 @@ public class ValhallaDecorator
 	public static final void decorateGashJump( final StringBuffer buffer )
 	{
 		buffer.delete( buffer.indexOf( "<p>Are you" ), buffer.indexOf( "<p><center>" ) );
-		StaticEntity.singleStringReplace( buffer, "<p>Please", " Please" );
+		StringUtilities.singleStringReplace( buffer, "<p>Please", " Please" );
 
 		StringBuffer predictions = new StringBuffer();
 
@@ -36,7 +36,7 @@ public class ValhallaDecorator
 		predictions.append( KoLConstants.LINE_BREAK );
 		predictions.append( KoLConstants.LINE_BREAK );
 
-		StaticEntity.singleStringReplace( buffer, "</center><p>", predictions.toString() );
+		StringUtilities.singleStringReplace( buffer, "</center><p>", predictions.toString() );
 
 		int startPoint = 0;
 
@@ -84,7 +84,7 @@ public class ValhallaDecorator
 			reminders.append( "<option id=\"" );
 			reminders.append( FamiliarDatabase.getFamiliarImageLocation( ( (FamiliarData) familiars[ i ] ).getId() ) );
 			reminders.append( "\" value=\"" );
-			reminders.append( StaticEntity.globalStringReplace( ( (FamiliarData) familiars[ i ] ).getRace(), " ", "+" ) );
+			reminders.append( StringUtilities.globalStringReplace( ( (FamiliarData) familiars[ i ] ).getRace(), " ", "+" ) );
 			reminders.append( "\"" );
 
 			if ( familiars[ i ].equals( KoLCharacter.getFamiliar() ) )
@@ -139,7 +139,7 @@ public class ValhallaDecorator
 		reminders.append( "</font></td></tr></table></td></tr></table>" );
 
 		reminders.append( "<br><br>" );
-		StaticEntity.singleStringReplace(
+		StringUtilities.singleStringReplace(
 			buffer,
 			"<input type=submit class=button value=\"Ascend\"> <input type=checkbox name=confirm> (confirm) <input type=checkbox name=confirm2> (seriously)",
 			reminders.toString() );

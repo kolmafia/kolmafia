@@ -50,7 +50,6 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
-import net.sourceforge.kolmafia.HyperlinkAdapter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLMailMessage;
 import net.sourceforge.kolmafia.LimitedSizeChatBuffer;
@@ -59,7 +58,9 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.request.MailboxRequest;
 import net.sourceforge.kolmafia.session.MailManager;
 import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
+import net.sourceforge.kolmafia.swingui.listener.HyperlinkAdapter;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class MailboxFrame
 	extends GenericFrame
@@ -296,7 +297,7 @@ public class MailboxFrame
 					return;
 				}
 
-				if ( !GenericFrame.confirm( "Would you like to delete the selected messages?" ) )
+				if ( !InputFieldUtilities.confirm( "Would you like to delete the selected messages?" ) )
 				{
 					return;
 				}
@@ -337,7 +338,7 @@ public class MailboxFrame
 				return;
 			}
 
-			if ( !GenericFrame.confirm( "Would you like to save the selected messages?" ) )
+			if ( !InputFieldUtilities.confirm( "Would you like to save the selected messages?" ) )
 			{
 				return;
 			}
@@ -384,7 +385,7 @@ public class MailboxFrame
 				return;
 			}
 
-			if ( !GenericFrame.confirm( "Would you like to delete the selected messages?" ) )
+			if ( !InputFieldUtilities.confirm( "Would you like to delete the selected messages?" ) )
 			{
 				return;
 			}

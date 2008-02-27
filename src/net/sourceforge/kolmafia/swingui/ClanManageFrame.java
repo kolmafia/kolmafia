@@ -77,6 +77,7 @@ import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 /**
  * An extension of <code>KoLFrame</code> which handles all the clan management functionality of Kingdom of Loathing.
@@ -199,7 +200,7 @@ public class ClanManageFrame
 		public void actionConfirmed()
 		{
 			StaticEntity.getClient().makeRequest(
-				(Runnable) this.buffField.getSelectedItem(), GenericFrame.getValue( this.countField ) );
+				(Runnable) this.buffField.getSelectedItem(), InputFieldUtilities.getValue( this.countField ) );
 		}
 
 		public void actionCancelled()
@@ -278,17 +279,17 @@ public class ClanManageFrame
 		public void actionConfirmed()
 		{
 			RequestThread.postRequest( new ClanWarRequest(
-				GenericFrame.getValue( this.goodies ), GenericFrame.getValue( this.oatmeal ),
-				GenericFrame.getValue( this.recliners ), GenericFrame.getValue( this.grunts ),
-				GenericFrame.getValue( this.flyers ), GenericFrame.getValue( this.archers ) ) );
+				InputFieldUtilities.getValue( this.goodies ), InputFieldUtilities.getValue( this.oatmeal ),
+				InputFieldUtilities.getValue( this.recliners ), InputFieldUtilities.getValue( this.grunts ),
+				InputFieldUtilities.getValue( this.flyers ), InputFieldUtilities.getValue( this.archers ) ) );
 		}
 
 		public void actionCancelled()
 		{
 			int totalValue =
-				GenericFrame.getValue( this.goodies ) * 1000 + GenericFrame.getValue( this.oatmeal ) * 3 + GenericFrame.getValue( this.recliners ) * 1500 + GenericFrame.getValue( this.grunts ) * 300 + GenericFrame.getValue( this.flyers ) * 500 + GenericFrame.getValue( this.archers ) * 500;
+				InputFieldUtilities.getValue( this.goodies ) * 1000 + InputFieldUtilities.getValue( this.oatmeal ) * 3 + InputFieldUtilities.getValue( this.recliners ) * 1500 + InputFieldUtilities.getValue( this.grunts ) * 300 + InputFieldUtilities.getValue( this.flyers ) * 500 + InputFieldUtilities.getValue( this.archers ) * 500;
 
-			GenericFrame.alert( "This purchase will cost " + totalValue + " meat" );
+			InputFieldUtilities.alert( "This purchase will cost " + totalValue + " meat" );
 		}
 	}
 
@@ -313,12 +314,12 @@ public class ClanManageFrame
 
 		public void actionConfirmed()
 		{
-			RequestThread.postRequest( new ClanStashRequest( GenericFrame.getValue( this.amountField ) ) );
+			RequestThread.postRequest( new ClanStashRequest( InputFieldUtilities.getValue( this.amountField ) ) );
 		}
 
 		public void actionCancelled()
 		{
-			GenericFrame.alert( "The Hermit beat you to it.  ARGH!" );
+			InputFieldUtilities.alert( "The Hermit beat you to it.  ARGH!" );
 		}
 	}
 
@@ -403,7 +404,7 @@ public class ClanManageFrame
 
 					AdventureResult currentItem;
 					int quantity =
-						GenericFrame.getQuantity(
+						InputFieldUtilities.getQuantity(
 							"Maximum number of each item allowed in the stash?", Integer.MAX_VALUE, 100 );
 
 					if ( quantity == 0 )
@@ -602,10 +603,10 @@ public class ClanManageFrame
 			// Now that you've got everything, go ahead and
 			// generate the snapshot.
 
-			int mostAscensionsBoardSize = GenericFrame.getValue( this.mostAscensionsBoardSizeField, Integer.MAX_VALUE );
-			int mainBoardSize = GenericFrame.getValue( this.mainBoardSizeField, Integer.MAX_VALUE );
-			int classBoardSize = GenericFrame.getValue( this.classBoardSizeField, Integer.MAX_VALUE );
-			int maxAge = GenericFrame.getValue( this.maxAgeField, Integer.MAX_VALUE );
+			int mostAscensionsBoardSize = InputFieldUtilities.getValue( this.mostAscensionsBoardSizeField, Integer.MAX_VALUE );
+			int mainBoardSize = InputFieldUtilities.getValue( this.mainBoardSizeField, Integer.MAX_VALUE );
+			int classBoardSize = InputFieldUtilities.getValue( this.classBoardSizeField, Integer.MAX_VALUE );
+			int maxAge = InputFieldUtilities.getValue( this.maxAgeField, Integer.MAX_VALUE );
 
 			boolean playerMoreThanOnce = this.playerMoreThanOnceOption.isSelected();
 			boolean localProfileLink = this.localProfileOption.isSelected();

@@ -62,11 +62,11 @@ import net.sourceforge.kolmafia.request.PulverizeRequest;
 import net.sourceforge.kolmafia.request.SellStuffRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.button.RequestButton;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class ItemManagePanel
 	extends ScrollablePanel
@@ -424,7 +424,7 @@ public class ItemManagePanel
 			break;
 
 		case TAKE_MULTIPLE:
-			quantity = GenericFrame.getQuantity( message + " " + itemName + "...", itemCount );
+			quantity = InputFieldUtilities.getQuantity( message + " " + itemName + "...", itemCount );
 			if ( itemCount > 0 && quantity == 0 )
 			{
 				return Integer.MIN_VALUE;
@@ -465,7 +465,7 @@ public class ItemManagePanel
 			}
 
 			quantity =
-				standard < 2 ? standard : GenericFrame.getQuantity( message + " " + itemName + "...", itemCount, Math.min(
+				standard < 2 ? standard : InputFieldUtilities.getQuantity( message + " " + itemName + "...", itemCount, Math.min(
 					standard, itemCount ) );
 
 			if ( itemCount > 0 && quantity == 0 )
@@ -641,12 +641,12 @@ public class ItemManagePanel
 				return;
 			}
 
-			if ( this.sellType == SellStuffRequest.AUTOSELL && !GenericFrame.confirm( "Are you sure you would like to sell the selected items?" ) )
+			if ( this.sellType == SellStuffRequest.AUTOSELL && !InputFieldUtilities.confirm( "Are you sure you would like to sell the selected items?" ) )
 			{
 				return;
 			}
 
-			if ( this.sellType == SellStuffRequest.AUTOMALL && !GenericFrame.confirm( "Are you sure you would like to place the selected items in your store?" ) )
+			if ( this.sellType == SellStuffRequest.AUTOMALL && !InputFieldUtilities.confirm( "Are you sure you would like to place the selected items in your store?" ) )
 			{
 				return;
 			}

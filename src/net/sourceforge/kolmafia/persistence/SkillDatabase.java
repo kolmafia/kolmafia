@@ -49,6 +49,8 @@ import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class SkillDatabase
 	extends KoLDatabase
@@ -107,16 +109,16 @@ public class SkillDatabase
 			SkillDatabase.skillsByCategory.put( SkillDatabase.CATEGORIES[ i ], new ArrayList() );
 		}
 
-		BufferedReader reader = KoLDatabase.getVersionedReader( "classskills.txt", KoLConstants.CLASSSKILLS_VERSION );
+		BufferedReader reader = FileUtilities.getVersionedReader( "classskills.txt", KoLConstants.CLASSSKILLS_VERSION );
 
 		String[] data;
 
-		while ( ( data = KoLDatabase.readData( reader ) ) != null )
+		while ( ( data = FileUtilities.readData( reader ) ) != null )
 		{
 			if ( data.length == 5 )
 			{
 				SkillDatabase.addSkill(
-					Integer.valueOf( data[ 0 ] ), KoLDatabase.getDisplayName( data[ 1 ] ),
+					Integer.valueOf( data[ 0 ] ), StringUtilities.getDisplayName( data[ 1 ] ),
 					Integer.valueOf( data[ 2 ] ), Integer.valueOf( data[ 3 ] ), Integer.valueOf( data[ 4 ] ) );
 			}
 		}
@@ -138,7 +140,7 @@ public class SkillDatabase
 		final Integer mpConsumption, final Integer duration )
 	{
 		SkillDatabase.skillById.put( skillId, skillName );
-		SkillDatabase.skillByName.put( KoLDatabase.getCanonicalName( skillName ), skillId );
+		SkillDatabase.skillByName.put( StringUtilities.getCanonicalName( skillName ), skillId );
 
 		SkillDatabase.skillTypeById.put( skillId, skillType );
 
@@ -208,7 +210,7 @@ public class SkillDatabase
 		category = category.trim().toLowerCase();
 		for ( int i = 0; i < SkillDatabase.CATEGORIES.length; ++i )
 		{
-			if ( KoLDatabase.substringMatches( SkillDatabase.CATEGORIES[ i ], category ) )
+			if ( StringUtilities.substringMatches( SkillDatabase.CATEGORIES[ i ], category ) )
 			{
 				category = SkillDatabase.CATEGORIES[ i ];
 			}
@@ -225,7 +227,7 @@ public class SkillDatabase
 
 	public static final List getMatchingNames( final String substring )
 	{
-		return KoLDatabase.getMatchingNames( SkillDatabase.skillByName, substring );
+		return StringUtilities.getMatchingNames( SkillDatabase.skillByName, substring );
 	}
 
 	/**
@@ -262,7 +264,7 @@ public class SkillDatabase
 
 	public static final int getSkillId( final String skillName )
 	{
-		Object skillId = SkillDatabase.skillByName.get( KoLDatabase.getCanonicalName( skillName ) );
+		Object skillId = SkillDatabase.skillByName.get( StringUtilities.getCanonicalName( skillName ) );
 		return skillId == null ? -1 : ( (Integer) skillId ).intValue();
 	}
 
@@ -585,7 +587,7 @@ public class SkillDatabase
 
 	public static final boolean contains( final String skillName )
 	{
-		return SkillDatabase.skillByName.containsKey( KoLDatabase.getCanonicalName( skillName ) );
+		return SkillDatabase.skillByName.containsKey( StringUtilities.getCanonicalName( skillName ) );
 	}
 
 	/**

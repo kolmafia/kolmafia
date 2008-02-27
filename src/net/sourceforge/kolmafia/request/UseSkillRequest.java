@@ -43,7 +43,6 @@ import net.sourceforge.kolmafia.HPRestoreItemList;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.SpecialOutfit;
@@ -51,6 +50,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MoodManager;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
@@ -869,7 +869,7 @@ public class UseSkillRequest
 			return null;
 		}
 
-		skillName = KoLDatabase.getCanonicalName( skillName );
+		skillName = StringUtilities.getCanonicalName( skillName );
 		if ( !UseSkillRequest.ALL_SKILLS.containsKey( skillName ) )
 		{
 			UseSkillRequest.ALL_SKILLS.put( skillName, new UseSkillRequest( skillName ) );
@@ -904,7 +904,7 @@ public class UseSkillRequest
 			return false;
 		}
 
-		int skillId = StaticEntity.parseInt( skillMatcher.group( 1 ) );
+		int skillId = StringUtilities.parseInt( skillMatcher.group( 1 ) );
 		String skillName = SkillDatabase.getSkillName( skillId );
 
 		int count = 1;
@@ -912,14 +912,14 @@ public class UseSkillRequest
 
 		if ( countMatcher.find() )
 		{
-			count = StaticEntity.parseInt( countMatcher.group( 1 ) );
+			count = StringUtilities.parseInt( countMatcher.group( 1 ) );
 		}
 		else
 		{
 			countMatcher = UseSkillRequest.COUNT2_PATTERN.matcher( urlString );
 			if ( countMatcher.find() )
 			{
-				count = StaticEntity.parseInt( countMatcher.group( 1 ) );
+				count = StringUtilities.parseInt( countMatcher.group( 1 ) );
 			}
 		}
 

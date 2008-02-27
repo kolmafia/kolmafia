@@ -49,6 +49,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CoinMasterRequest
 	extends GenericRequest
@@ -339,9 +340,9 @@ public class CoinMasterRequest
 			return 0;
 		}
 
-		int itemId = StaticEntity.parseInt( matcher.group(1) );
+		int itemId = StringUtilities.parseInt( matcher.group(1) );
 		String name = ItemDatabase.getItemName( itemId );
-		int count = StaticEntity.parseInt( matcher.group(2) );
+		int count = StringUtilities.parseInt( matcher.group(2) );
 		int price = CoinmastersDatabase.getPrice( name, prices );
 		return count * price;
 	}
@@ -372,8 +373,8 @@ public class CoinMasterRequest
 			return;
 		}
 
-		int itemId = StaticEntity.parseInt( matcher.group(1) );
-		int count = StaticEntity.parseInt( matcher.group(2) );
+		int itemId = StringUtilities.parseInt( matcher.group(1) );
+		int count = StringUtilities.parseInt( matcher.group(2) );
 
 		// Get back the items we failed to turn in
 		AdventureResult item = new AdventureResult( itemId, count );
@@ -425,7 +426,7 @@ public class CoinMasterRequest
 				return true;
 			}
 
-			int itemId = StaticEntity.parseInt( idMatcher.group( 1 ) );
+			int itemId = StringUtilities.parseInt( idMatcher.group( 1 ) );
 			Preferences.setInteger( "currentBountyItem", itemId );
 
 			AdventureFrame.updateSelectedAdventure( AdventureDatabase.getBountyLocation( itemId ) );
@@ -528,9 +529,9 @@ public class CoinMasterRequest
 			return;
 		}
 
-		int itemId = StaticEntity.parseInt( tradeMatcher.group(1) );
+		int itemId = StringUtilities.parseInt( tradeMatcher.group(1) );
 		String name = ItemDatabase.getItemName( itemId );
-		int count = StaticEntity.parseInt( tradeMatcher.group(2) );
+		int count = StringUtilities.parseInt( tradeMatcher.group(2) );
 		int price = CoinmastersDatabase.getPrice( name, prices );
 		int cost = count * price;
 		String tokenName = ( cost > 1 ) ? ( token + "s" ) : "token";
@@ -578,9 +579,9 @@ public class CoinMasterRequest
 			return;
 		}
 
-		int itemId = StaticEntity.parseInt( tradeMatcher.group(1) );
+		int itemId = StringUtilities.parseInt( tradeMatcher.group(1) );
 		String name = ItemDatabase.getItemName( itemId );
-		int count = StaticEntity.parseInt( tradeMatcher.group(2) );
+		int count = StringUtilities.parseInt( tradeMatcher.group(2) );
 		int price = CoinmastersDatabase.getPrice( name, prices );
 		int cost = count * price;
 		String tokenName = ( cost > 1 ) ? ( token + "s" ) : "token";

@@ -45,7 +45,8 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.CouncilFrame;
-import net.sourceforge.kolmafia.swingui.GenericFrame;
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.DungeonDecorator;
 
 import net.sourceforge.kolmafia.request.AdventureRequest;
@@ -169,7 +170,7 @@ public class KoLAdventure
 		}
 		else if ( formSource.equals( "clan_gym.php" ) )
 		{
-			this.request = new ClanRumpusRequest( StaticEntity.parseInt( adventureId ) );
+			this.request = new ClanRumpusRequest( StringUtilities.parseInt( adventureId ) );
 		}
 		else if ( formSource.equals( "basement.php" ) )
 		{
@@ -343,7 +344,7 @@ public class KoLAdventure
 		{
 			if ( KoLmafia.isAdventuring() && KoLCharacter.getLevel() < 9 )
 			{
-				if ( !GenericFrame.confirm( "The dictionary won't drop right now.  Are you sure you wish to continue?" ) )
+				if ( !InputFieldUtilities.confirm( "The dictionary won't drop right now.  Are you sure you wish to continue?" ) )
 				{
 					return;
 				}
@@ -889,7 +890,7 @@ public class KoLAdventure
 		{
 			return 0;
 		}
-		return StaticEntity.parseInt( location.adventureId );
+		return StringUtilities.parseInt( location.adventureId );
 	}
 
 	public static final void resetAutoAttack()

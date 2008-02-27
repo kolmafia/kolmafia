@@ -49,6 +49,7 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase.Concoction;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CafeRequest
 	extends GenericRequest
@@ -208,7 +209,7 @@ public class CafeRequest
 			return true;
 		}
 
-		int itemId = StaticEntity.parseInt( matcher.group( 1 ) );
+		int itemId = StringUtilities.parseInt( matcher.group( 1 ) );
 		String itemName = ItemDatabase.getItemName( itemId );
 		int price = Math.max( 1, ItemDatabase.getPriceById( itemId ) ) * 3;
 		CafeRequest.registerItemUsage( itemName, price );

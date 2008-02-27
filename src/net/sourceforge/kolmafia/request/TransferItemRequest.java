@@ -45,6 +45,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.DisplayCaseManager;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
@@ -336,7 +337,7 @@ public abstract class TransferItemRequest
 			}
 		}
 
-		int totalMeat = StaticEntity.parseInt( this.getFormField( this.getMeatField() ) );
+		int totalMeat = StringUtilities.parseInt( this.getFormField( this.getMeatField() ) );
 		if ( totalMeat != 0 )
 		{
 			if ( shouldUpdateDisplay )
@@ -411,7 +412,7 @@ public abstract class TransferItemRequest
 
 		while ( itemMatcher.find() && ( quantityMatcher == null || quantityMatcher.find() ) )
 		{
-			int itemId = StaticEntity.parseInt( itemMatcher.group( 1 ) );
+			int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
 			String name = ItemDatabase.getItemName( itemId );
 
 			// One of the "select" options is a zero value for the item id field.
@@ -423,7 +424,7 @@ public abstract class TransferItemRequest
 			}
 
 			int quantity =
-				quantityPattern == null ? defaultQuantity : StaticEntity.parseInt( quantityMatcher.group( 1 ) );
+				quantityPattern == null ? defaultQuantity : StringUtilities.parseInt( quantityMatcher.group( 1 ) );
 			AdventureResult item = new AdventureResult( itemId, quantity );
 
 			if ( quantity < 1 )

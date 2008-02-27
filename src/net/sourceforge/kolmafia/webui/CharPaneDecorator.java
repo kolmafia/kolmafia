@@ -11,6 +11,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MoodManager;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
@@ -27,7 +28,7 @@ public class CharPaneDecorator
 
 	public static final void decorate( final StringBuffer buffer )
 	{
-		StaticEntity.singleStringReplace( buffer, "<body", "<body onload=\"updateSafetyText();\"" );
+		StringUtilities.singleStringReplace( buffer, "<body", "<body onload=\"updateSafetyText();\"" );
 
 		if ( Preferences.getBoolean( "relayAddsRestoreLinks" ) )
 		{
@@ -526,7 +527,7 @@ public class CharPaneDecorator
 			}
 
 			nextAppendIndex = text.indexOf( ")", lastAppendIndex ) + 1;
-			int duration = StaticEntity.parseInt( text.substring( lastAppendIndex, nextAppendIndex - 1 ) );
+			int duration = StringUtilities.parseInt( text.substring( lastAppendIndex, nextAppendIndex - 1 ) );
 
 			buffer.append( text.substring( lastAppendIndex, nextAppendIndex - 1 ) );
 			lastAppendIndex = nextAppendIndex;

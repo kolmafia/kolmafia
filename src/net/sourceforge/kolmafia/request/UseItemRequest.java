@@ -55,7 +55,8 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
-import net.sourceforge.kolmafia.swingui.GenericFrame;
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -729,7 +730,7 @@ public class UseItemRequest
 			}
 			else if ( knowsOde && UseItemRequest.askedAboutOde != KoLCharacter.getUserId() )
 			{
-				if ( !GenericFrame.confirm( "Are you sure you want to drink without ode?" ) )
+				if ( !InputFieldUtilities.confirm( "Are you sure you want to drink without ode?" ) )
 				{
 					return false;
 				}
@@ -743,11 +744,11 @@ public class UseItemRequest
 
 		if ( KoLCharacter.getInebriety() + inebrietyBonus > KoLCharacter.getInebrietyLimit() )
 		{
-			if ( KoLCharacter.getAttacksLeft() > 0 && !GenericFrame.confirm( "Are you sure you want to overdrink without PvPing?" ) )
+			if ( KoLCharacter.getAttacksLeft() > 0 && !InputFieldUtilities.confirm( "Are you sure you want to overdrink without PvPing?" ) )
 			{
 				return false;
 			}
-			else if ( KoLCharacter.getAdventuresLeft() > 40 && !GenericFrame.confirm( "Are you sure you want to overdrink?" ) )
+			else if ( KoLCharacter.getAdventuresLeft() > 40 && !InputFieldUtilities.confirm( "Are you sure you want to overdrink?" ) )
 			{
 				return false;
 			}
@@ -997,7 +998,7 @@ public class UseItemRequest
 				int desiredCount = 0;
 				for ( int i = 2; i <= 4; ++i )
 				{
-					int number = StaticEntity.parseInt( fortuneMatcher.group( i ) );
+					int number = StringUtilities.parseInt( fortuneMatcher.group( i ) );
 					if ( StaticEntity.isCounting( "Fortune Cookie", number ) )
 					{
 						desiredCount = number;
@@ -1014,7 +1015,7 @@ public class UseItemRequest
 
 			for ( int i = 2; i <= 4; ++i )
 			{
-				int number = StaticEntity.parseInt( fortuneMatcher.group( i ) );
+				int number = StringUtilities.parseInt( fortuneMatcher.group( i ) );
 				StaticEntity.startCounting( number, "Fortune Cookie", "fortune.gif" );
 			}
 
@@ -2038,7 +2039,7 @@ public class UseItemRequest
 			return null;
 		}
 
-		int itemId = StaticEntity.parseInt( itemMatcher.group( 1 ) );
+		int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
 		if ( ItemDatabase.getItemName( itemId ) == null )
 		{
 			return null;
@@ -2051,7 +2052,7 @@ public class UseItemRequest
 			Matcher quantityMatcher = UseItemRequest.QUANTITY_PATTERN.matcher( urlString );
 			if ( quantityMatcher.find() )
 			{
-				itemCount = StaticEntity.parseInt( quantityMatcher.group( 1 ) );
+				itemCount = StringUtilities.parseInt( quantityMatcher.group( 1 ) );
 			}
 		}
 

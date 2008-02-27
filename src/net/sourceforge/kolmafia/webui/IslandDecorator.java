@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.request.IslandArenaRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
@@ -249,7 +250,7 @@ public class IslandDecorator
 		// Color the tool in the monster spoiler text
 		if ( IslandDecorator.missingGremlinTool == null && !IslandDecorator.currentJunkyardTool.equals( "" ) )
 		{
-			StaticEntity.singleStringReplace(
+			StringUtilities.singleStringReplace(
 				buffer, IslandDecorator.currentJunkyardTool,
 				"<font color=#DD00FF>" + IslandDecorator.currentJunkyardTool + "</font>" );
 		}
@@ -257,7 +258,7 @@ public class IslandDecorator
 		for ( int i = 0; i < IslandDecorator.GREMLIN_TOOLS.length; ++i )
 		{
 			String tool = IslandDecorator.GREMLIN_TOOLS[ i ];
-			StaticEntity.singleStringReplace( buffer, tool, "<font color=#DD00FF>" + tool + "</font>" );
+			StringUtilities.singleStringReplace( buffer, tool, "<font color=#DD00FF>" + tool + "</font>" );
 		}
 	}
 
@@ -435,7 +436,7 @@ public class IslandDecorator
 		}
 
 		String old = IslandDecorator.SIDEQUEST_IMAGES[ quest ];
-		StaticEntity.singleStringReplace( buffer, old, image );
+		StringUtilities.singleStringReplace( buffer, old, image );
 	}
 
 	public static final void decorateJunkyard( final StringBuffer buffer )
@@ -1175,8 +1176,8 @@ public class IslandDecorator
 			return;
 		}
 
-		IslandDecorator.fratboyImage = StaticEntity.parseInt( matcher.group( 1 ) );
-		IslandDecorator.hippyImage = StaticEntity.parseInt( matcher.group( 2 ) );
+		IslandDecorator.fratboyImage = StringUtilities.parseInt( matcher.group( 1 ) );
+		IslandDecorator.hippyImage = StringUtilities.parseInt( matcher.group( 2 ) );
 
 		if ( IslandDecorator.fratboyImage >= 0 && IslandDecorator.fratboyImage <= 32 )
 		{

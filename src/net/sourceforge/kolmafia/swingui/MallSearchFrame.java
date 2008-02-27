@@ -62,6 +62,7 @@ import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
 import net.sourceforge.kolmafia.request.MallSearchRequest;
@@ -153,7 +154,7 @@ public class MallSearchFrame
 
 		public void actionConfirmed()
 		{
-			int searchCount = GenericFrame.getValue( this.countField, 0 );
+			int searchCount = InputFieldUtilities.getValue( this.countField, 0 );
 			if ( searchCount > 0 )
 			{
 				Preferences.setInteger( "defaultLimit", searchCount );
@@ -200,7 +201,7 @@ public class MallSearchFrame
 			}
 
 			int count =
-				this.limitPurchasesCheckBox.isSelected() || defaultPurchases >= 1000 ? GenericFrame.getQuantity(
+				this.limitPurchasesCheckBox.isSelected() || defaultPurchases >= 1000 ? InputFieldUtilities.getQuantity(
 					"Maximum number of items to purchase?", defaultPurchases, 1 ) : defaultPurchases;
 
 			if ( count == 0 )

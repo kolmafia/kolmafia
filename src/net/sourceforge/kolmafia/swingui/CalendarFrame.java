@@ -59,6 +59,7 @@ import net.sourceforge.kolmafia.LimitedSizeChatBuffer;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CalendarFrame
 	extends GenericFrame
@@ -171,7 +172,7 @@ public class CalendarFrame
 				CalendarFrame.selectedDate.set(
 					CalendarFrame.calendar.getModel().getCurrentYear(),
 					CalendarFrame.calendar.getModel().getCurrentMonth(),
-					StaticEntity.parseInt( (String) CalendarFrame.calendar.getModel().getValueAt(
+					StringUtilities.parseInt( (String) CalendarFrame.calendar.getModel().getValueAt(
 						CalendarFrame.selectedRow, CalendarFrame.selectedColumn ) ) );
 
 				CalendarFrame.calculatePhases( CalendarFrame.selectedDate.getTime() );
@@ -475,7 +476,7 @@ public class CalendarFrame
 				}
 
 				this.dateCalculator.set(
-					this.model.getCurrentYear(), this.model.getCurrentMonth(), StaticEntity.parseInt( dayString ) );
+					this.model.getCurrentYear(), this.model.getCurrentMonth(), StringUtilities.parseInt( dayString ) );
 				Date selectedTime = this.dateCalculator.getTime();
 
 				if ( CalendarFrame.SHORT_FORMAT.format( new Date() ).equals(

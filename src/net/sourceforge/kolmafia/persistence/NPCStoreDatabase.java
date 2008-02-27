@@ -44,6 +44,8 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
@@ -56,17 +58,17 @@ public class NPCStoreDatabase
 
 	static
 	{
-		BufferedReader reader = KoLDatabase.getVersionedReader( "npcstores.txt", KoLConstants.NPCSTORES_VERSION );
+		BufferedReader reader = FileUtilities.getVersionedReader( "npcstores.txt", KoLConstants.NPCSTORES_VERSION );
 
 		String[] data;
 
-		while ( ( data = KoLDatabase.readData( reader ) ) != null )
+		while ( ( data = FileUtilities.readData( reader ) ) != null )
 		{
 			if ( data.length == 4 )
 			{
 				NPCStoreDatabase.NPC_ITEMS.add( new MallPurchaseRequest(
 					data[ 0 ], data[ 1 ], ItemDatabase.getItemId( data[ 2 ] ),
-					StaticEntity.parseInt( data[ 3 ] ) ) );
+					StringUtilities.parseInt( data[ 3 ] ) ) );
 			}
 		}
 

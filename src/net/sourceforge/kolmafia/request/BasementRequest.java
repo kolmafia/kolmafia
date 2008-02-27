@@ -54,6 +54,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.MoodManager;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.BasementDecorator.StatBooster;
 
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
@@ -225,7 +226,7 @@ public class BasementRequest
 		// See what basement level we are on now and fail if we've not advanced.
 
 		Matcher levelMatcher = BasementRequest.BASEMENT_PATTERN.matcher( this.responseText );
-		if ( !levelMatcher.find() || BasementRequest.basementLevel == StaticEntity.parseInt( levelMatcher.group( 1 ) ) )
+		if ( !levelMatcher.find() || BasementRequest.basementLevel == StringUtilities.parseInt( levelMatcher.group( 1 ) ) )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Failed to pass basement test." );
 		}
@@ -1010,7 +1011,7 @@ public class BasementRequest
 			return;
 		}
 
-		BasementRequest.basementLevel = StaticEntity.parseInt( levelMatcher.group( 1 ) );
+		BasementRequest.basementLevel = StringUtilities.parseInt( levelMatcher.group( 1 ) );
 	}
 
 	public static final void checkBasement()

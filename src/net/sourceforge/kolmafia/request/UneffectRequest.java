@@ -46,6 +46,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MoodManager;
 import net.sourceforge.kolmafia.swingui.RequestFrame;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
@@ -276,7 +277,7 @@ public class UneffectRequest
 			return true;
 		}
 
-		RequestLogger.updateSessionLog( "uneffect " + EffectDatabase.getEffectName( StaticEntity.parseInt( idMatcher.group( 1 ) ) ) );
+		RequestLogger.updateSessionLog( "uneffect " + EffectDatabase.getEffectName( StringUtilities.parseInt( idMatcher.group( 1 ) ) ) );
 		return true;
 	}
 }

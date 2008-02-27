@@ -38,10 +38,10 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
 import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class AccountRequest
 	extends PasswordHashRequest
@@ -127,7 +127,7 @@ public class AccountRequest
 			Matcher optionMatcher = AccountRequest.SELECTED1_PATTERN.matcher( selectMatcher.group() );
 			if ( optionMatcher.find() )
 			{
-				skillId = StaticEntity.parseInt( optionMatcher.group( 1 ) );
+				skillId = StringUtilities.parseInt( optionMatcher.group( 1 ) );
 			}
 			else
 			{
@@ -135,7 +135,7 @@ public class AccountRequest
 
 				if ( optionMatcher.find() )
 				{
-					skillId = StaticEntity.parseInt( optionMatcher.group( 1 ) );
+					skillId = StringUtilities.parseInt( optionMatcher.group( 1 ) );
 				}
 			}
 		}

@@ -51,6 +51,9 @@ import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.utilities.BooleanArray;
+import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class FamiliarDatabase
 	extends KoLDatabase
@@ -88,13 +91,13 @@ public class FamiliarDatabase
 		// examined and float-referenced: once in the name-lookup,
 		// and again in the Id lookup.
 
-		BufferedReader reader = KoLDatabase.getVersionedReader( "familiars.txt", KoLConstants.FAMILIARS_VERSION );
+		BufferedReader reader = FileUtilities.getVersionedReader( "familiars.txt", KoLConstants.FAMILIARS_VERSION );
 
 		String[] data;
 		Integer familiarId, familiarLarva;
 		String familiarName, familiarType, familiarItemName;
 
-		while ( ( data = KoLDatabase.readData( reader ) ) != null )
+		while ( ( data = FileUtilities.readData( reader ) ) != null )
 		{
 			if ( data.length != 9 )
 			{
@@ -104,15 +107,15 @@ public class FamiliarDatabase
 			try
 			{
 				familiarId = Integer.valueOf( data[ 0 ] );
-				familiarName = KoLDatabase.getDisplayName( data[ 1 ] );
+				familiarName = StringUtilities.getDisplayName( data[ 1 ] );
 				familiarType = data[ 2 ];
 				familiarLarva = Integer.valueOf( data[ 3 ] );
-				familiarItemName = KoLDatabase.getDisplayName( data[ 4 ] );
+				familiarItemName = StringUtilities.getDisplayName( data[ 4 ] );
 
 				FamiliarDatabase.familiarById.put( familiarId, familiarName );
-				FamiliarDatabase.familiarByName.put( KoLDatabase.getCanonicalName( data[ 1 ] ), familiarId );
+				FamiliarDatabase.familiarByName.put( StringUtilities.getCanonicalName( data[ 1 ] ), familiarId );
 				FamiliarDatabase.familiarByLarva.put( familiarLarva, familiarId );
-				FamiliarDatabase.familiarByItem.put( KoLDatabase.getCanonicalName( data[ 4 ] ), familiarId );
+				FamiliarDatabase.familiarByItem.put( StringUtilities.getCanonicalName( data[ 4 ] ), familiarId );
 
 				FamiliarDatabase.familiarItemById.put( familiarId, familiarItemName );
 				FamiliarDatabase.familiarLarvaById.put( familiarId, familiarLarva );
@@ -126,7 +129,7 @@ public class FamiliarDatabase
 				for ( int i = 0; i < 4; ++i )
 				{
 					FamiliarDatabase.eventSkillByName[ i ].put(
-						KoLDatabase.getCanonicalName( data[ 1 ] ), Integer.valueOf( data[ i + 5 ] ) );
+						StringUtilities.getCanonicalName( data[ 1 ] ), Integer.valueOf( data[ i + 5 ] ) );
 				}
 			}
 			catch ( Exception e )
@@ -158,7 +161,7 @@ public class FamiliarDatabase
 
 	public static final void registerFamiliar( final int familiarId, final String familiarName )
 	{
-		if ( FamiliarDatabase.familiarByName.containsKey( KoLDatabase.getCanonicalName( familiarName ) ) )
+		if ( FamiliarDatabase.familiarByName.containsKey( StringUtilities.getCanonicalName( familiarName ) ) )
 		{
 			return;
 		}
@@ -171,10 +174,10 @@ public class FamiliarDatabase
 		Integer dummyId = new Integer( familiarId );
 
 		FamiliarDatabase.familiarById.put( dummyId, familiarName );
-		FamiliarDatabase.familiarByName.put( KoLDatabase.getCanonicalName( familiarName ), dummyId );
+		FamiliarDatabase.familiarByName.put( StringUtilities.getCanonicalName( familiarName ), dummyId );
 		FamiliarDatabase.familiarByLarva.put( FamiliarDatabase.DEFAULT_LARVA, dummyId );
 		FamiliarDatabase.familiarItemById.put( dummyId, FamiliarDatabase.DEFAULT_ITEM );
-		FamiliarDatabase.familiarByItem.put( KoLDatabase.getCanonicalName( FamiliarDatabase.DEFAULT_ITEM ), dummyId );
+		FamiliarDatabase.familiarByItem.put( StringUtilities.getCanonicalName( FamiliarDatabase.DEFAULT_ITEM ), dummyId );
 	}
 
 	/**
@@ -260,7 +263,7 @@ public class FamiliarDatabase
 
 	public static final int getFamiliarByItem( final String item )
 	{
-		Object familiarId = FamiliarDatabase.familiarByItem.get( KoLDatabase.getCanonicalName( item ) );
+		Object familiarId = FamiliarDatabase.familiarByItem.get( StringUtilities.getCanonicalName( item ) );
 		return familiarId == null ? -1 : ( (Integer) familiarId ).intValue();
 	}
 
@@ -309,17 +312,17 @@ public class FamiliarDatabase
 
 	public static final boolean contains( final String familiarName )
 	{
-		return FamiliarDatabase.familiarByName.containsKey( KoLDatabase.getCanonicalName( familiarName ) );
+		return FamiliarDatabase.familiarByName.containsKey( StringUtilities.getCanonicalName( familiarName ) );
 	}
 
 	public static final Integer getFamiliarSkill( final String name, final int event )
 	{
-		return (Integer) FamiliarDatabase.eventSkillByName[ event - 1 ].get( KoLDatabase.getCanonicalName( name ) );
+		return (Integer) FamiliarDatabase.eventSkillByName[ event - 1 ].get( StringUtilities.getCanonicalName( name ) );
 	}
 
 	public static final int[] getFamiliarSkills( final int id )
 	{
-		String name = KoLDatabase.getCanonicalName( FamiliarDatabase.getFamiliarName( id ) );
+		String name = StringUtilities.getCanonicalName( FamiliarDatabase.getFamiliarName( id ) );
 		int skills[] = new int[ 4 ];
 		for ( int i = 0; i < 4; ++i )
 		{
@@ -333,7 +336,7 @@ public class FamiliarDatabase
 		for ( int i = 0; i < 4; ++i )
 		{
 			FamiliarDatabase.eventSkillByName[ i ].put(
-				KoLDatabase.getCanonicalName( name ), new Integer( skills[ i ] ) );
+				StringUtilities.getCanonicalName( name ), new Integer( skills[ i ] ) );
 		}
 
 		// After familiar skills are reset, rewrite the data

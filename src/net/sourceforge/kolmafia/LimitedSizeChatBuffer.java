@@ -42,7 +42,7 @@ import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.ChatBuffer;
 import net.java.dev.spellcast.utilities.DataUtilities;
 
-import net.sourceforge.kolmafia.webui.CharacterEntityReference;
+import net.sourceforge.kolmafia.utilities.CharacterEntities;
 
 import net.sourceforge.kolmafia.persistence.Preferences;
 

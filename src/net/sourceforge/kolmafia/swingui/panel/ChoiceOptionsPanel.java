@@ -49,13 +49,13 @@ import javax.swing.event.ListSelectionListener;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.KoLAdventure;
-import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.LouvreManager;
 import net.sourceforge.kolmafia.session.VioletFogManager;
-import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 /**
  * This panel allows the user to select which item they would like to do for each of the different choice
@@ -523,7 +523,7 @@ public class ChoiceOptionsPanel
 
 			private String getCoordinates()
 			{
-				String coords = GenericFrame.input( "Longitude, Latitude" );
+				String coords = InputFieldUtilities.input( "Longitude, Latitude" );
 				if ( coords == null )
 					return null;
 
@@ -533,13 +533,13 @@ public class ChoiceOptionsPanel
 					return null;
 				}
 
-				int longitude = StaticEntity.parseInt( coords.substring( 0, index ) );
+				int longitude = StringUtilities.parseInt( coords.substring( 0, index ) );
 				if ( longitude < 1 || longitude > 242 )
 				{
 					return null;
 				}
 
-				int latitude = StaticEntity.parseInt( coords.substring( index + 1 ) );
+				int latitude = StringUtilities.parseInt( coords.substring( index + 1 ) );
 				if ( latitude < 1 || latitude > 100 )
 				{
 					return null;

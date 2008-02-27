@@ -59,6 +59,7 @@ import net.sourceforge.kolmafia.swingui.panel.StatusEffectPanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class SkillBuffFrame
 	extends GenericFrame
@@ -183,7 +184,7 @@ public class SkillBuffFrame
 			String[] targets =
 				StaticEntity.getClient().extractTargets( (String) SkillBuffFrame.this.targetSelect.getSelectedItem() );
 
-			int buffCount = !maxBuff ? GenericFrame.getValue( SkillBuffFrame.this.amountField, 1 ) : Integer.MAX_VALUE;
+			int buffCount = !maxBuff ? InputFieldUtilities.getValue( SkillBuffFrame.this.amountField, 1 ) : Integer.MAX_VALUE;
 			if ( buffCount == 0 )
 			{
 				return;

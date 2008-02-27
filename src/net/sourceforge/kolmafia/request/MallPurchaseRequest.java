@@ -46,6 +46,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MallPurchaseRequest
 	extends GenericRequest
@@ -541,8 +542,8 @@ public class MallPurchaseRequest
 
 			if ( itemChangedMatcher.find() )
 			{
-				int limit = StaticEntity.parseInt( itemChangedMatcher.group( 1 ) );
-				int newPrice = StaticEntity.parseInt( itemChangedMatcher.group( 2 ) );
+				int limit = StringUtilities.parseInt( itemChangedMatcher.group( 1 ) );
+				int newPrice = StringUtilities.parseInt( itemChangedMatcher.group( 2 ) );
 
 				// If the item exists at a lower or equivalent
 				// price, then you should re-attempt the purchase
@@ -578,8 +579,8 @@ public class MallPurchaseRequest
 
 		if ( quantityMatcher.find() )
 		{
-			int limit = StaticEntity.parseInt( quantityMatcher.group( 1 ) );
-			int alreadyPurchased = StaticEntity.parseInt( quantityMatcher.group( 2 ) );
+			int limit = StringUtilities.parseInt( quantityMatcher.group( 1 ) );
+			int alreadyPurchased = StringUtilities.parseInt( quantityMatcher.group( 2 ) );
 
 			if ( limit != alreadyPurchased )
 			{
@@ -629,7 +630,7 @@ public class MallPurchaseRequest
 
 		if ( quantityString.length() < 8 )
 		{
-			quantity = Math.min( MallPurchaseRequest.MAX_QUANTITY, StaticEntity.parseInt( quantityString ) );
+			quantity = Math.min( MallPurchaseRequest.MAX_QUANTITY, StringUtilities.parseInt( quantityString ) );
 		}
 
 		if ( quantity == 0 )
@@ -649,7 +650,7 @@ public class MallPurchaseRequest
 			idString = idString.substring( 0, idString.length() - 9 );
 		}
 
-		int itemId = StaticEntity.parseInt( idString );
+		int itemId = StringUtilities.parseInt( idString );
 		itemName = ItemDatabase.getItemName( itemId );
 
 		RequestLogger.updateSessionLog();

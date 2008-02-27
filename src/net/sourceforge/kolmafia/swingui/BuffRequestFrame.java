@@ -59,11 +59,12 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.BuffBotManager.Offering;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.SendMailRequest;
@@ -160,11 +161,11 @@ public class BuffRequestFrame
 
 		if ( BuffRequestFrame.ONLINE_VALIDATOR.responseText != null && BuffRequestFrame.ONLINE_VALIDATOR.responseText.indexOf( "online" ) != -1 )
 		{
-			GenericFrame.alert( botName + " is online." );
+			InputFieldUtilities.alert( botName + " is online." );
 		}
 		else
 		{
-			GenericFrame.alert( botName + " is probably not online." );
+			InputFieldUtilities.alert( botName + " is probably not online." );
 		}
 	}
 
@@ -353,7 +354,7 @@ public class BuffRequestFrame
 			for ( int i = 0; i < 4; ++i )
 			{
 				JTextArea message =
-					new JTextArea( StaticEntity.globalStringReplace(
+					new JTextArea( StringUtilities.globalStringReplace(
 						BuffRequestFrame.NO_REQUEST_TEXT, "BOT_NAME", botName ) );
 
 				message.setColumns( 40 );

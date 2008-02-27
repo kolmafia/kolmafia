@@ -60,6 +60,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CommandDisplayFrame
 	extends GenericFrame
@@ -241,11 +242,11 @@ public class CommandDisplayFrame
 
 			if ( !CommandDisplayFrame.handler.command.equals( "" ) )
 			{
-				RequestLogger.printLine( " > <b>CURRENT</b>: " + StaticEntity.globalStringReplace(
+				RequestLogger.printLine( " > <b>CURRENT</b>: " + StringUtilities.globalStringReplace(
 					CommandDisplayFrame.handler.command, "<", "&lt;" ) );
 			}
 
-			RequestLogger.printLine( " > <b>QUEUED</b>: " + StaticEntity.globalStringReplace( command, "<", "&lt;" ) );
+			RequestLogger.printLine( " > <b>QUEUED</b>: " + StringUtilities.globalStringReplace( command, "<", "&lt;" ) );
 			RequestLogger.printLine();
 		}
 
@@ -279,7 +280,7 @@ public class CommandDisplayFrame
 				this.command = (String) CommandDisplayFrame.commandQueue.get( 0 );
 
 				RequestLogger.printLine();
-				RequestLogger.printLine( " > " + StaticEntity.globalStringReplace( this.command, "<", "&lt;" ) );
+				RequestLogger.printLine( " > " + StringUtilities.globalStringReplace( this.command, "<", "&lt;" ) );
 				RequestLogger.printLine();
 
 				try

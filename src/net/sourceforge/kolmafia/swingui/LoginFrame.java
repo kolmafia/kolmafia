@@ -53,7 +53,6 @@ import javax.swing.SwingConstants;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLDesktop;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
@@ -67,6 +66,7 @@ import net.sourceforge.kolmafia.swingui.panel.LabeledPanel;
 import net.sourceforge.kolmafia.swingui.panel.OptionsPanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class LoginFrame
 	extends GenericFrame
@@ -246,7 +246,7 @@ public class LoginFrame
 				String holiday =
 					HolidayDatabase.getHoliday(
 						KoLConstants.DAILY_FORMAT.parse( KoLConstants.DAILY_FORMAT.format( new Date() ) ), true );
-				this.setStatusMessage( KoLDatabase.getDisplayName( holiday + ", " + HolidayDatabase.getMoonEffect() ) );
+				this.setStatusMessage( StringUtilities.getDisplayName( holiday + ", " + HolidayDatabase.getMoonEffect() ) );
 			}
 			catch ( Exception e )
 			{

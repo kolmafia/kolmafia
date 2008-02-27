@@ -48,6 +48,7 @@ import net.sourceforge.kolmafia.request.ShrineRequest;
 import net.sourceforge.kolmafia.swingui.panel.LabeledPanel;
 import net.sourceforge.kolmafia.swingui.panel.MeatTransferPanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class MeatManageFrame
 	extends GenericFrame
@@ -111,7 +112,7 @@ public class MeatManageFrame
 			if ( this.heroField.getSelectedIndex() != -1 )
 			{
 				RequestThread.postRequest( new ShrineRequest(
-					this.heroField.getSelectedIndex() + 1, GenericFrame.getValue( this.amountField ) ) );
+					this.heroField.getSelectedIndex() + 1, InputFieldUtilities.getValue( this.amountField ) ) );
 			}
 		}
 

@@ -57,6 +57,7 @@ import net.sourceforge.kolmafia.swingui.panel.ItemManagePanel;
 import net.sourceforge.kolmafia.swingui.panel.OverlapPanel;
 import net.sourceforge.kolmafia.swingui.panel.ScrollablePanel;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class MuseumFrame
 	extends GenericFrame
@@ -123,7 +124,7 @@ public class MuseumFrame
 
 		public void actionCancelled()
 		{
-			GenericFrame.alert( "This feature scans your inventory and if it finds any items which are in your display case, it puts those items on display." );
+			InputFieldUtilities.alert( "This feature scans your inventory and if it finds any items which are in your display case, it puts those items on display." );
 		}
 	}
 
@@ -167,7 +168,7 @@ public class MuseumFrame
 				for ( int i = 0; i < selection.length; ++i )
 				{
 					selection[ i ] =
-						( (AdventureResult) selection[ i ] ).getInstance( GenericFrame.getQuantity(
+						( (AdventureResult) selection[ i ] ).getInstance( InputFieldUtilities.getQuantity(
 							"Moving " + ( (AdventureResult) selection[ i ] ).getName() + "...",
 							( (AdventureResult) selection[ i ] ).getCount(), 1 ) );
 				}
@@ -278,7 +279,7 @@ public class MuseumFrame
 		{
 			Object[] headerArray = DisplayCaseManager.getHeaders().toArray();
 
-			String selectedValue = (String) GenericFrame.input( "Moving to this shelf...", headerArray );
+			String selectedValue = (String) InputFieldUtilities.input( "Moving to this shelf...", headerArray );
 
 			if ( selectedValue == null )
 			{

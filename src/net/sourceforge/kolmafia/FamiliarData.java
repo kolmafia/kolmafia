@@ -46,6 +46,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 
@@ -82,13 +83,13 @@ public class FamiliarData
 
 	private FamiliarData( final Matcher dataMatcher )
 	{
-		this.id = StaticEntity.parseInt( dataMatcher.group( 2 ) );
+		this.id = StringUtilities.parseInt( dataMatcher.group( 2 ) );
 		this.race = dataMatcher.group( 4 );
 
 		FamiliarDatabase.registerFamiliar( this.id, this.race );
 		FamiliarDatabase.setFamiliarImageLocation( this.id, dataMatcher.group( 1 ) );
 
-		int kills = StaticEntity.parseInt( dataMatcher.group( 5 ) );
+		int kills = StringUtilities.parseInt( dataMatcher.group( 5 ) );
 		this.weight = Math.max( Math.min( 20, (int) Math.sqrt( kills ) ), 1 );
 
 		this.name = dataMatcher.group( 3 );

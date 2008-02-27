@@ -42,6 +42,7 @@ import java.util.TimeZone;
 
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class HolidayDatabase
 	extends StaticEntity
@@ -895,7 +896,7 @@ public class HolidayDatabase
 			// ecclesiastical full moon after the Spring Equinox
 			// (http://aa.usno.navy.mil/faq/docs/easter.html)
 
-			int y = StaticEntity.parseInt( currentYear );
+			int y = StringUtilities.parseInt( currentYear );
 			int c = y / 100;
 			int n = y - 19 * y / 19;
 			int k = ( c - 17 ) / 25;

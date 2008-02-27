@@ -51,10 +51,11 @@ import net.sourceforge.kolmafia.CakeArenaManager;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLCharacterAdapter;
-import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.CakeArenaManager.ArenaOpponent;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.swingui.button.TableButton;
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CakeArenaFrame
 	extends GenericFrame
@@ -179,7 +180,7 @@ public class CakeArenaFrame
 			String yourSkill = yourSkillValue == 1 ? "1 star (yours)" : yourSkillValue + " stars (yours)";
 
 			int battleCount =
-				StaticEntity.parseInt( GenericFrame.input( "<html>" + CakeArenaFrame.this.opponents.get( this.row ).toString() + ", " + CakeArenaManager.getEvent( this.column ) + "<br>" + yourSkill + " vs. " + this.opponentSkill + "</html>" ) );
+				StringUtilities.parseInt( InputFieldUtilities.input( "<html>" + CakeArenaFrame.this.opponents.get( this.row ).toString() + ", " + CakeArenaManager.getEvent( this.column ) + "<br>" + yourSkill + " vs. " + this.opponentSkill + "</html>" ) );
 
 			if ( battleCount > 0 )
 			{

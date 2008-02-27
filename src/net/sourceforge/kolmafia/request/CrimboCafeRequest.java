@@ -37,9 +37,9 @@ import java.util.regex.Matcher;
 
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CrimboCafeRequest
 	extends CafeRequest
@@ -125,7 +125,7 @@ public class CrimboCafeRequest
 			return true;
 		}
 
-		int itemId = StaticEntity.parseInt( matcher.group( 1 ) );
+		int itemId = StringUtilities.parseInt( matcher.group( 1 ) );
 		String itemName;
 		int price;
 

@@ -46,6 +46,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.ClanManager;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -171,7 +172,7 @@ public class ProfileRequest
 		{
 			;
 		}
-		this.currentMeat = new Integer( StaticEntity.parseInt( st.nextToken().trim() ) );
+		this.currentMeat = new Integer( StringUtilities.parseInt( st.nextToken().trim() ) );
 
 		if ( cleanHTML.indexOf( "\nAscensions" ) != -1 )
 		{
@@ -180,7 +181,7 @@ public class ProfileRequest
 				;
 			}
 			st.nextToken();
-			this.ascensionCount = new Integer( StaticEntity.parseInt( st.nextToken().trim() ) );
+			this.ascensionCount = new Integer( StringUtilities.parseInt( st.nextToken().trim() ) );
 		}
 		else
 		{
@@ -191,7 +192,7 @@ public class ProfileRequest
 		{
 			;
 		}
-		this.turnsPlayed = new Integer( StaticEntity.parseInt( st.nextToken().trim() ) );
+		this.turnsPlayed = new Integer( StringUtilities.parseInt( st.nextToken().trim() ) );
 
 		if ( cleanHTML.indexOf( "\nAscensions" ) != -1 )
 		{
@@ -199,7 +200,7 @@ public class ProfileRequest
 			{
 				;
 			}
-			this.currentRun = new Integer( StaticEntity.parseInt( st.nextToken().trim() ) );
+			this.currentRun = new Integer( StringUtilities.parseInt( st.nextToken().trim() ) );
 		}
 		else
 		{
@@ -270,7 +271,7 @@ public class ProfileRequest
 			{
 				;
 			}
-			this.pvpRank = new Integer( StaticEntity.parseInt( st.nextToken().trim() ) );
+			this.pvpRank = new Integer( StringUtilities.parseInt( st.nextToken().trim() ) );
 		}
 		else
 		{
@@ -359,13 +360,13 @@ public class ProfileRequest
 		// the next three fields of the table.
 
 		dataMatcher.find();
-		instance.muscle = new Integer( StaticEntity.parseInt( dataMatcher.group( 1 ) ) );
+		instance.muscle = new Integer( StringUtilities.parseInt( dataMatcher.group( 1 ) ) );
 
 		dataMatcher.find();
-		instance.mysticism = new Integer( StaticEntity.parseInt( dataMatcher.group( 1 ) ) );
+		instance.mysticism = new Integer( StringUtilities.parseInt( dataMatcher.group( 1 ) ) );
 
 		dataMatcher.find();
-		instance.moxie = new Integer( StaticEntity.parseInt( dataMatcher.group( 1 ) ) );
+		instance.moxie = new Integer( StringUtilities.parseInt( dataMatcher.group( 1 ) ) );
 
 		// The next field contains the total power,
 		// and since this is calculated, it can be
@@ -391,7 +392,7 @@ public class ProfileRequest
 		// accumulated by this player.
 
 		dataMatcher.find();
-		instance.karma = new Integer( StaticEntity.parseInt( dataMatcher.group( 1 ) ) );
+		instance.karma = new Integer( StringUtilities.parseInt( dataMatcher.group( 1 ) ) );
 
 		return instance;
 	}

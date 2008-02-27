@@ -42,6 +42,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class Crimbo07Request
 	extends CreateItemRequest
@@ -87,8 +88,8 @@ public class Crimbo07Request
 		}
 
 		// Item ID of the base item
-		int itemId = StaticEntity.parseInt( createMatcher.group( 1 ) );
-		int quantity = StaticEntity.parseInt( createMatcher.group( 2 ) );
+		int itemId = StringUtilities.parseInt( createMatcher.group( 1 ) );
+		int quantity = StringUtilities.parseInt( createMatcher.group( 2 ) );
 
 		AdventureResult[] ingredients = ConcoctionDatabase.getIngredients( itemId );
 		StringBuffer text = new StringBuffer();

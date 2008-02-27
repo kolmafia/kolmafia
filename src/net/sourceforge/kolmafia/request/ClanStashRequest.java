@@ -43,8 +43,8 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.ClanManager;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
@@ -230,9 +230,9 @@ public class ClanStashRequest
 		while ( matcher.find( lastFindIndex ) )
 		{
 			lastFindIndex = matcher.end();
-			int itemId = StaticEntity.parseInt( matcher.group( 1 ) );
+			int itemId = StringUtilities.parseInt( matcher.group( 1 ) );
 			String itemString = matcher.group( 2 );
-			int quantity = matcher.group( 3 ) == null ? 1 : StaticEntity.parseInt( matcher.group( 3 ) );
+			int quantity = matcher.group( 3 ) == null ? 1 : StringUtilities.parseInt( matcher.group( 3 ) );
 
 			// If this is a previously unknown item, register it.
 			if ( ItemDatabase.getItemName( itemId ) == null )

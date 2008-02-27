@@ -44,7 +44,6 @@ import javax.swing.ListSelectionModel;
 import javax.swing.WindowConstants;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
-import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
@@ -53,14 +52,15 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.swingui.menu.ThreadedMenuItem;
 import net.sourceforge.kolmafia.swingui.panel.ItemManagePanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
+import net.sourceforge.kolmafia.utilities.LowerCaseEntry;
 
 public class DatabaseFrame
 	extends GenericFrame
 {
-	private static final LockableListModel allItems = KoLDatabase.createListModel( ItemDatabase.entrySet() );
-	private static final LockableListModel allEffects = KoLDatabase.createListModel( EffectDatabase.entrySet() );
-	private static final LockableListModel allSkills = KoLDatabase.createListModel( SkillDatabase.entrySet() );
-	private static final LockableListModel allFamiliars = KoLDatabase.createListModel( FamiliarDatabase.entrySet() );
+	private static final LockableListModel allItems = LowerCaseEntry.createListModel( ItemDatabase.entrySet() );
+	private static final LockableListModel allEffects = LowerCaseEntry.createListModel( EffectDatabase.entrySet() );
+	private static final LockableListModel allSkills = LowerCaseEntry.createListModel( SkillDatabase.entrySet() );
+	private static final LockableListModel allFamiliars = LowerCaseEntry.createListModel( FamiliarDatabase.entrySet() );
 
 	public DatabaseFrame()
 	{

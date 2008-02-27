@@ -74,6 +74,7 @@ import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.panel.OptionsPanel;
 import net.sourceforge.kolmafia.swingui.panel.ScrollablePanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import tab.CloseTabPaneEnhancedUI;
 
 public class OptionsFrame
@@ -523,7 +524,7 @@ public class OptionsFrame
 
 			public void run()
 			{
-				String currentValue = GenericFrame.input( "Enter the desired CLI Command" );
+				String currentValue = InputFieldUtilities.input( "Enter the desired CLI Command" );
 				if ( currentValue != null && currentValue.length() != 0 )
 				{
 					ScriptButtonPanel.this.list.add( currentValue );
@@ -782,7 +783,7 @@ public class OptionsFrame
 
 			public void run()
 			{
-				String newName = GenericFrame.input( "Add a bookmark!", "http://www.google.com/" );
+				String newName = InputFieldUtilities.input( "Add a bookmark!", "http://www.google.com/" );
 				if ( newName == null )
 				{
 					return;
@@ -820,7 +821,7 @@ public class OptionsFrame
 				String location = bookmarkData[ 1 ];
 				String pwdhash = bookmarkData[ 2 ];
 
-				String newName = GenericFrame.input( "Rename your bookmark?", name );
+				String newName = InputFieldUtilities.input( "Rename your bookmark?", name );
 
 				if ( newName == null )
 				{

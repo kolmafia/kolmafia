@@ -39,6 +39,7 @@ import java.util.List;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Monster;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class AreaCombatData
 {
@@ -76,7 +77,7 @@ public class AreaCombatData
 		int colon = name.indexOf( ":" );
 		if ( colon > 0 )
 		{
-			weighting = StaticEntity.parseInt( name.substring( colon + 1 ).trim() );
+			weighting = StringUtilities.parseInt( name.substring( colon + 1 ).trim() );
 			name = name.substring( 0, colon );
 		}
 

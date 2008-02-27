@@ -38,6 +38,8 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.StringTokenizer;
 
+import net.sourceforge.kolmafia.utilities.StringUtilities;
+
 public class KoLMailMessage
 	implements Comparable
 {
@@ -56,7 +58,7 @@ public class KoLMailMessage
 	public KoLMailMessage( final String message )
 	{
 		// Blank lines are not displayed correctly
-		this.completeHTML = StaticEntity.globalStringReplace( message, "<br><br>", "<br>&nbsp;<br>" );
+		this.completeHTML = StringUtilities.globalStringReplace( message, "<br><br>", "<br>&nbsp;<br>" );
 
 		this.completeHTML =
 			this.completeHTML.substring(

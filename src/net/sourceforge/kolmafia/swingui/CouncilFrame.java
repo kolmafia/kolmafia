@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.IslandDecorator;
 
 public class CouncilFrame
@@ -186,7 +187,7 @@ public class CouncilFrame
 				int furCount =
 					Math.min(
 						CouncilFrame.YETI_FUR.getCount( KoLConstants.inventory ),
-						StaticEntity.parseInt( qtyMatcher.group( 1 ) ) );
+						StringUtilities.parseInt( qtyMatcher.group( 1 ) ) );
 				StaticEntity.getClient().processResult( CouncilFrame.YETI_FUR.getInstance( 0 - furCount ) );
 			}
 

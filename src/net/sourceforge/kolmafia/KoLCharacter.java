@@ -44,6 +44,7 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
@@ -2260,7 +2261,7 @@ public abstract class KoLCharacter
 			Matcher stillMatcher = KoLCharacter.STILLS_PATTERN.matcher( stillChecker.responseText );
 			if ( stillMatcher.find() )
 			{
-				KoLCharacter.stillsAvailable = StaticEntity.parseInt( stillMatcher.group( 1 ) );
+				KoLCharacter.stillsAvailable = StringUtilities.parseInt( stillMatcher.group( 1 ) );
 			}
 			else
 			{

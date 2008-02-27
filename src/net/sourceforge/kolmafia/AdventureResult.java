@@ -44,6 +44,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class AdventureResult
 	implements Comparable, KoLConstants
@@ -584,7 +585,7 @@ public class AdventureResult
 			parsedGain.nextToken();
 
 			int modifier =
-				StaticEntity.parseInt( ( parsedGain.nextToken().startsWith( "gain" ) ? "" : "-" ) + parsedGain.nextToken() );
+				StringUtilities.parseInt( ( parsedGain.nextToken().startsWith( "gain" ) ? "" : "-" ) + parsedGain.nextToken() );
 			String statname = parsedGain.nextToken();
 
 			// Stats actually fall into one of four categories - simply pick the
@@ -627,7 +628,7 @@ public class AdventureResult
 		String parsedItemName = parsedItem.nextToken().trim();
 		String parsedItemCount = parsedItem.hasMoreTokens() ? parsedItem.nextToken() : "1";
 
-		return new AdventureResult( parsedItemName, StaticEntity.parseInt( parsedItemCount ) );
+		return new AdventureResult( parsedItemName, StringUtilities.parseInt( parsedItemCount ) );
 	}
 
 	/**

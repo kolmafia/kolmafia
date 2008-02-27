@@ -72,7 +72,6 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
 import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
@@ -82,6 +81,7 @@ import net.sourceforge.kolmafia.swingui.widget.AutoHighlightSpinner;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class AdventureSelectPanel
 	extends JPanel
@@ -425,7 +425,7 @@ public class AdventureSelectPanel
 
 			int requestCount =
 				Math.min(
-					GenericFrame.getValue( AdventureSelectPanel.this.countField, 1 ), KoLCharacter.getAdventuresLeft() );
+					InputFieldUtilities.getValue( AdventureSelectPanel.this.countField, 1 ), KoLCharacter.getAdventuresLeft() );
 
 			AdventureSelectPanel.this.countField.setValue( requestCount );
 			boolean resetCount = requestCount == KoLCharacter.getAdventuresLeft();
@@ -496,7 +496,7 @@ public class AdventureSelectPanel
 				return false;
 			}
 
-			if ( GenericFrame.getValue( AdventureSelectPanel.this.countField ) == 0 )
+			if ( InputFieldUtilities.getValue( AdventureSelectPanel.this.countField ) == 0 )
 			{
 				AdventureSelectPanel.this.countField.setValue( KoLCharacter.getAdventuresLeft() );
 			}
@@ -683,7 +683,7 @@ public class AdventureSelectPanel
 		public void stateChanged( ChangeEvent e )
 		{
 			int maximum = KoLCharacter.getAdventuresLeft();
-			int desired = GenericFrame.getValue( this, maximum );
+			int desired = InputFieldUtilities.getValue( this, maximum );
 			if ( desired == maximum + 1 )
 				this.setValue( new Integer( 1 ) );
 			else if ( desired <= 0 || desired > maximum )

@@ -43,6 +43,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CombineMeatRequest
 	extends CreateItemRequest
@@ -107,9 +108,9 @@ public class CombineMeatRequest
 		}
 
 		Matcher quantityMatcher = CreateItemRequest.QUANTITY_PATTERN.matcher( urlString );
-		int quantity = quantityMatcher.find() ? StaticEntity.parseInt( quantityMatcher.group( 1 ) ) : 1;
+		int quantity = quantityMatcher.find() ? StringUtilities.parseInt( quantityMatcher.group( 1 ) ) : 1;
 
-		RequestLogger.updateSessionLog( "Create " + quantity + " " + ItemDatabase.getItemName( StaticEntity.parseInt( itemMatcher.group( 1 ) ) ) );
+		RequestLogger.updateSessionLog( "Create " + quantity + " " + ItemDatabase.getItemName( StringUtilities.parseInt( itemMatcher.group( 1 ) ) ) );
 
 		return true;
 	}

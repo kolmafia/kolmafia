@@ -31,7 +31,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.sourceforge.kolmafia;
+package net.sourceforge.kolmafia.swingui.listener;
 
 import java.net.URLEncoder;
 
@@ -41,8 +41,9 @@ import java.util.regex.Pattern;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
-import net.sourceforge.kolmafia.swingui.GenericFrame;
+import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public abstract class HyperlinkAdapter
 	implements HyperlinkListener
@@ -82,7 +83,7 @@ public abstract class HyperlinkAdapter
 			}
 			else if ( location.startsWith( "javascript:" ) && ( location.indexOf( "submit()" ) == -1 || location.indexOf( "messageform" ) != -1 ) )
 			{
-				GenericFrame.alert( "Ironically, Java does not support Javascript." );
+				InputFieldUtilities.alert( "Ironically, Java does not support Javascript." );
 			}
 			else if ( location.indexOf( "submit()" ) == -1 )
 			{

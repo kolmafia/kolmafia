@@ -60,7 +60,6 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
@@ -103,7 +102,6 @@ import net.sourceforge.kolmafia.session.MushroomManager;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
-import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.ItemManageFrame;
 import net.sourceforge.kolmafia.textui.parsetree.AggregateType;
 import net.sourceforge.kolmafia.textui.parsetree.ArrayValue;
@@ -113,6 +111,9 @@ import net.sourceforge.kolmafia.textui.parsetree.LibraryFunction;
 import net.sourceforge.kolmafia.textui.parsetree.MapValue;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class RuntimeLibrary
 {
@@ -922,15 +923,15 @@ public abstract class RuntimeLibrary
 
 	public static Value user_confirm( final Value message )
 	{
-		return DataTypes.makeBooleanValue( GenericFrame.confirm( message.toString() ) );
+		return DataTypes.makeBooleanValue( InputFieldUtilities.confirm( message.toString() ) );
 	}
 
 	public static Value logprint( final Value string )
 	{
 		String parameters = string.toString();
 
-		parameters = StaticEntity.globalStringDelete( StaticEntity.globalStringDelete( parameters, "\n" ), "\r" );
-		parameters = StaticEntity.globalStringReplace( parameters, "<", "&lt;" );
+		parameters = StringUtilities.globalStringDelete( StringUtilities.globalStringDelete( parameters, "\n" ), "\r" );
+		parameters = StringUtilities.globalStringReplace( parameters, "<", "&lt;" );
 
 		RequestLogger.getSessionStream().println( "> " + parameters );
 		return DataTypes.VOID_VALUE;
@@ -940,8 +941,8 @@ public abstract class RuntimeLibrary
 	{
 		String parameters = string.toString();
 
-		parameters = StaticEntity.globalStringDelete( StaticEntity.globalStringDelete( parameters, "\n" ), "\r" );
-		parameters = StaticEntity.globalStringReplace( parameters, "<", "&lt;" );
+		parameters = StringUtilities.globalStringDelete( StringUtilities.globalStringDelete( parameters, "\n" ), "\r" );
+		parameters = StringUtilities.globalStringReplace( parameters, "<", "&lt;" );
 
 		RequestLogger.printLine( parameters );
 		RequestLogger.getSessionStream().println( "> " + parameters );
@@ -953,11 +954,11 @@ public abstract class RuntimeLibrary
 	{
 		String parameters = string.toString();
 
-		parameters = StaticEntity.globalStringDelete( StaticEntity.globalStringDelete( parameters, "\n" ), "\r" );
-		parameters = StaticEntity.globalStringReplace( parameters, "<", "&lt;" );
+		parameters = StringUtilities.globalStringDelete( StringUtilities.globalStringDelete( parameters, "\n" ), "\r" );
+		parameters = StringUtilities.globalStringReplace( parameters, "<", "&lt;" );
 
 		String colorString = color.toString();
-		colorString = StaticEntity.globalStringDelete( StaticEntity.globalStringDelete( colorString, "\"" ), "<" );
+		colorString = StringUtilities.globalStringDelete( StringUtilities.globalStringDelete( colorString, "\"" ), "<" );
 
 		RequestLogger.printLine( "<font color=\"" + colorString + "\">" + parameters + "</font>" );
 		RequestLogger.getSessionStream().println( " > " + parameters );
@@ -1388,9 +1389,9 @@ public abstract class RuntimeLibrary
 		{
 			contents.setLength( 0 );
 			filename =
-				StaticEntity.globalStringReplace( name, " ", "_" ) + "_" + KoLConstants.DAILY_FORMAT.format( timestamp.getTime() ) + ".txt";
+				StringUtilities.globalStringReplace( name, " ", "_" ) + "_" + KoLConstants.DAILY_FORMAT.format( timestamp.getTime() ) + ".txt";
 
-			reader = KoLDatabase.getReader( new File( KoLConstants.SESSIONS_DIRECTORY, filename ) );
+			reader = FileUtilities.getReader( new File( KoLConstants.SESSIONS_DIRECTORY, filename ) );
 			timestamp.add( Calendar.DATE, -1 );
 
 			if ( reader == null )
@@ -2524,7 +2525,7 @@ public abstract class RuntimeLibrary
 		String search = searchValue.toString();
 		String replace = replaceValue.toString();
 
-		StaticEntity.globalStringReplace( buffer, search, replace );
+		StringUtilities.globalStringReplace( buffer, search, replace );
 		return returnValue;
 	}
 
@@ -2757,7 +2758,7 @@ public abstract class RuntimeLibrary
 
 		try
 		{
-			while ( ( data = KoLDatabase.readData( reader ) ) != null )
+			while ( ( data = FileUtilities.readData( reader ) ) != null )
 			{
 				if ( data.length > 1 )
 				{

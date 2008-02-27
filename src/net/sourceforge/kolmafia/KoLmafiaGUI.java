@@ -80,6 +80,7 @@ import net.sourceforge.kolmafia.swingui.MushroomFrame;
 import net.sourceforge.kolmafia.swingui.OptionsFrame;
 import net.sourceforge.kolmafia.swingui.StoreManageFrame;
 import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class KoLmafiaGUI
 	extends KoLmafia
@@ -237,7 +238,7 @@ public class KoLmafiaGUI
 				String holiday =
 					HolidayDatabase.getHoliday(
 						KoLConstants.DAILY_FORMAT.parse( KoLConstants.DAILY_FORMAT.format( new Date() ) ), true );
-				KoLmafia.updateDisplay( KoLDatabase.getDisplayName( holiday + ", " + HolidayDatabase.getMoonEffect() ) );
+				KoLmafia.updateDisplay( StringUtilities.getDisplayName( holiday + ", " + HolidayDatabase.getMoonEffect() ) );
 			}
 			catch ( Exception e )
 			{

@@ -120,7 +120,9 @@ import net.sourceforge.kolmafia.swingui.CouncilFrame;
 import net.sourceforge.kolmafia.swingui.FamiliarTrainingFrame;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
 import net.sourceforge.kolmafia.textui.Interpreter;
-import net.sourceforge.kolmafia.webui.CharacterEntityReference;
+import net.sourceforge.kolmafia.utilities.CharacterEntities;
+import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.StationaryButtonDecorator;
 
 public class KoLmafiaCLI
@@ -148,11 +150,11 @@ public class KoLmafiaCLI
 	static
 	{
 		String[] data;
-		BufferedReader reader = KoLDatabase.getReader( ALIAS_FILE );
+		BufferedReader reader = FileUtilities.getReader( ALIAS_FILE );
 
 		if ( reader != null )
 		{
-			while ( ( data = KoLDatabase.readData( reader ) ) != null )
+			while ( ( data = FileUtilities.readData( reader ) ) != null )
 			{
 				KoLmafiaCLI.aliasMap.put( " " + data[ 0 ] + " ", " " + data[ 1 ] + " " );
 			}
@@ -191,7 +193,7 @@ public class KoLmafiaCLI
 	{
 		try
 		{
-			this.commandStream = KoLDatabase.getReader( inputStream );
+			this.commandStream = FileUtilities.getReader( inputStream );
 		}
 		catch ( Exception e )
 		{
@@ -374,7 +376,7 @@ public class KoLmafiaCLI
 			return;
 		}
 
-		line = CharacterEntityReference.unescape( line );
+		line = CharacterEntities.unescape( line );
 
 		line = line.replaceAll( "[ \t]+", " " ).trim();
 		if ( line.length() == 0 )
@@ -391,7 +393,7 @@ public class KoLmafiaCLI
 		while ( it.hasNext() )
 		{
 			Entry current = (Entry) it.next();
-			line = StaticEntity.singleStringReplace(
+			line = StringUtilities.singleStringReplace(
 				line, (String) current.getKey(), (String) current.getValue() );
 		}
 
@@ -732,8 +734,8 @@ public class KoLmafiaCLI
 				parameters = HolidayDatabase.getCalendarDayAsString( new Date() );
 			}
 
-			parameters = StaticEntity.globalStringDelete( StaticEntity.globalStringDelete( parameters, "\n" ), "\r" );
-			parameters = StaticEntity.globalStringReplace( parameters, "<", "&lt;" );
+			parameters = StringUtilities.globalStringDelete( StringUtilities.globalStringDelete( parameters, "\n" ), "\r" );
+			parameters = StringUtilities.globalStringReplace( parameters, "<", "&lt;" );
 
 			RequestLogger.getSessionStream().println( " > " + parameters );
 		}
@@ -954,7 +956,7 @@ public class KoLmafiaCLI
 
 		if ( command.equals( "wait" ) || command.equals( "pause" ) )
 		{
-			int seconds = parameters.equals( "" ) ? 1 : StaticEntity.parseInt( parameters );
+			int seconds = parameters.equals( "" ) ? 1 : StringUtilities.parseInt( parameters );
 			StaticEntity.executeCountdown( "Countdown: ", seconds );
 
 			KoLmafia.updateDisplay( "Waiting completed." );
@@ -996,7 +998,7 @@ public class KoLmafiaCLI
 
 		if ( command.equals( "checkdata" ) )
 		{
-			int itemId = StaticEntity.parseInt( parameters );
+			int itemId = StringUtilities.parseInt( parameters );
 			ItemDatabase.checkInternalData( itemId );
 			RequestLogger.printLine( "Internal data checked." );
 			return;
@@ -1004,7 +1006,7 @@ public class KoLmafiaCLI
 
 		if ( command.equals( "checkplurals" ) )
 		{
-			int itemId = StaticEntity.parseInt( parameters );
+			int itemId = StringUtilities.parseInt( parameters );
 			ItemDatabase.checkPlurals( itemId );
 			RequestLogger.printLine( "Plurals checked." );
 			return;
@@ -1043,7 +1045,7 @@ public class KoLmafiaCLI
 			}
 
 			parameters = parameters.substring( spaceIndex + 1 );
-			RequestLogger.printLine( "<font color=\"" + color + "\">" + StaticEntity.globalStringReplace(
+			RequestLogger.printLine( "<font color=\"" + color + "\">" + StringUtilities.globalStringReplace(
 				parameters, "<", "&lt;" ) + "</font>" );
 
 			return;
@@ -1070,8 +1072,8 @@ public class KoLmafiaCLI
 				parameters = HolidayDatabase.getCalendarDayAsString( new Date() );
 			}
 
-			parameters = StaticEntity.globalStringDelete( StaticEntity.globalStringDelete( parameters, "\n" ), "\r" );
-			parameters = StaticEntity.globalStringReplace( parameters, "<", "&lt;" );
+			parameters = StringUtilities.globalStringDelete( StringUtilities.globalStringDelete( parameters, "\n" ), "\r" );
+			parameters = StringUtilities.globalStringReplace( parameters, "<", "&lt;" );
 
 			RequestLogger.printLine( parameters );
 			RequestLogger.getSessionStream().println( " > " + parameters );
@@ -1268,7 +1270,7 @@ public class KoLmafiaCLI
 		{
 			if ( this.previousLine != null )
 			{
-				int repeatCount = parameters.length() == 0 ? 1 : StaticEntity.parseInt( parameters );
+				int repeatCount = parameters.length() == 0 ? 1 : StringUtilities.parseInt( parameters );
 				for ( int i = 0; i < repeatCount && KoLmafia.permitsContinue(); ++i )
 				{
 					RequestLogger.printLine( "Repetition " + ( i + 1 ) + " of " + repeatCount + "..." );
@@ -1346,7 +1348,7 @@ public class KoLmafiaCLI
 			}
 			catch ( Exception e )
 			{
-				StaticEntity.openSystemBrowser( "http://kol.coldfront.net/thekolwiki/index.php/Special:Search?search=" + StaticEntity.globalStringReplace(
+				StaticEntity.openSystemBrowser( "http://kol.coldfront.net/thekolwiki/index.php/Special:Search?search=" + StringUtilities.globalStringReplace(
 					parameters, " ", "+" ) + "&go=Go" );
 			}
 
@@ -1488,7 +1490,7 @@ public class KoLmafiaCLI
 		{
 			RequestThread.postRequest( CouncilFrame.COUNCIL_VISIT );
 
-			this.showHTML( "council.php", StaticEntity.singleStringReplace(
+			this.showHTML( "council.php", StringUtilities.singleStringReplace(
 				CouncilFrame.COUNCIL_VISIT.responseText, "<a href=\"town.php\">Back to Seaside Town</a>", "" ) );
 
 			return;
@@ -1953,7 +1955,7 @@ public class KoLmafiaCLI
 
 			for ( int i = 0; i < familiars.length && newFamiliar == null; ++i )
 			{
-				if ( KoLDatabase.substringMatches( familiars[ i ], lowerCaseName, true ) )
+				if ( StringUtilities.substringMatches( familiars[ i ], lowerCaseName, true ) )
 				{
 					newFamiliar = (FamiliarData) familiarList.get( i );
 				}
@@ -1961,7 +1963,7 @@ public class KoLmafiaCLI
 
 			for ( int i = 0; i < familiars.length && newFamiliar == null; ++i )
 			{
-				if ( KoLDatabase.substringMatches( familiars[ i ], lowerCaseName, false ) )
+				if ( StringUtilities.substringMatches( familiars[ i ], lowerCaseName, false ) )
 				{
 					newFamiliar = (FamiliarData) familiarList.get( i );
 				}
@@ -1972,7 +1974,7 @@ public class KoLmafiaCLI
 
 			for ( int i = 0; i < familiars.length && newFamiliar == null; ++i )
 			{
-				if ( KoLDatabase.fuzzyMatches( familiars[ i ], lowerCaseName ) )
+				if ( StringUtilities.fuzzyMatches( familiars[ i ], lowerCaseName ) )
 				{
 					newFamiliar = (FamiliarData) familiarList.get( i );
 				}
@@ -2095,7 +2097,7 @@ public class KoLmafiaCLI
 			{
 				String[] splitup = parameters.split( "with limit" );
 				parameters = splitup[ 0 ];
-				desiredLimit = StaticEntity.parseInt( splitup[ 1 ] );
+				desiredLimit = StringUtilities.parseInt( splitup[ 1 ] );
 			}
 
 			StoreManager.searchMall( parameters, results, desiredLimit, true );
@@ -2317,7 +2319,7 @@ public class KoLmafiaCLI
 				int spaceIndex = parameters.lastIndexOf( " " );
 				if ( spaceIndex != -1 )
 				{
-					multiplicity = StaticEntity.parseInt( parameters.substring( spaceIndex + 1 ) );
+					multiplicity = StringUtilities.parseInt( parameters.substring( spaceIndex + 1 ) );
 				}
 
 				SpecialOutfit.createImplicitCheckpoint();
@@ -2331,7 +2333,7 @@ public class KoLmafiaCLI
 				int spaceIndex = parameters.lastIndexOf( " " );
 				if ( spaceIndex != -1 )
 				{
-					multiplicity = StaticEntity.parseInt( parameters.substring( spaceIndex + 1 ) );
+					multiplicity = StringUtilities.parseInt( parameters.substring( spaceIndex + 1 ) );
 					parameters = parameters.substring( 0, spaceIndex );
 				}
 
@@ -2378,7 +2380,7 @@ public class KoLmafiaCLI
 
 		if ( command.equals( "sofa" ) || command.equals( "sleep" ) )
 		{
-			RequestThread.postRequest( ( new ClanRumpusRequest( ClanRumpusRequest.SOFA ) ).setTurnCount( StaticEntity.parseInt( parameters ) ) );
+			RequestThread.postRequest( ( new ClanRumpusRequest( ClanRumpusRequest.SOFA ) ).setTurnCount( StringUtilities.parseInt( parameters ) ) );
 			return;
 		}
 
@@ -2513,7 +2515,7 @@ public class KoLmafiaCLI
 		{
 			if ( !attackLogs[ i ].getName().endsWith( "__spreadsheet.txt" ) )
 			{
-				this.registerFlowerHunterData( minis, KoLDatabase.getReader( attackLogs[ i ] ) );
+				this.registerFlowerHunterData( minis, FileUtilities.getReader( attackLogs[ i ] ) );
 			}
 		}
 
@@ -2561,7 +2563,7 @@ public class KoLmafiaCLI
 	private void registerFlowerHunterData( final TreeMap minis, final BufferedReader attackLog )
 	{
 		String line;
-		while ( ( line = KoLDatabase.readLine( attackLog ) ) != null )
+		while ( ( line = FileUtilities.readLine( attackLog ) ) != null )
 		{
 			// First, try to figure out whose data is being registered in
 			// this giant spreadsheet.
@@ -2569,7 +2571,7 @@ public class KoLmafiaCLI
 			Matcher versusMatcher = PvpRequest.VERSUS_PATTERN.matcher( line );
 			if ( !versusMatcher.find() )
 			{
-				line = KoLDatabase.readLine( attackLog );
+				line = FileUtilities.readLine( attackLog );
 				versusMatcher = PvpRequest.VERSUS_PATTERN.matcher( line );
 
 				if ( !versusMatcher.find() )
@@ -2581,7 +2583,7 @@ public class KoLmafiaCLI
 			String opponent =
 				versusMatcher.group( 2 ).equals( "you" ) ? versusMatcher.group( 1 ) : versusMatcher.group( 2 );
 
-			line = KoLDatabase.readLine( attackLog );
+			line = FileUtilities.readLine( attackLog );
 			Matcher minisMatcher = PvpRequest.MINIS_PATTERN.matcher( line );
 
 			if ( !minisMatcher.find() )
@@ -2606,16 +2608,16 @@ public class KoLmafiaCLI
 			// There are seven minis to handle.  You can discard the first
 			// three because they're attack minis.
 
-			KoLDatabase.readLine( attackLog );
-			KoLDatabase.readLine( attackLog );
-			KoLDatabase.readLine( attackLog );
+			FileUtilities.readLine( attackLog );
+			FileUtilities.readLine( attackLog );
+			FileUtilities.readLine( attackLog );
 
 			Object[] theirData = (Object[]) minis.get( opponent );
 
-			this.registerFlowerContestData( yourData, theirData, KoLDatabase.readLine( attackLog ) );
-			this.registerFlowerContestData( yourData, theirData, KoLDatabase.readLine( attackLog ) );
-			this.registerFlowerContestData( yourData, theirData, KoLDatabase.readLine( attackLog ) );
-			this.registerFlowerContestData( yourData, theirData, KoLDatabase.readLine( attackLog ) );
+			this.registerFlowerContestData( yourData, theirData, FileUtilities.readLine( attackLog ) );
+			this.registerFlowerContestData( yourData, theirData, FileUtilities.readLine( attackLog ) );
+			this.registerFlowerContestData( yourData, theirData, FileUtilities.readLine( attackLog ) );
+			this.registerFlowerContestData( yourData, theirData, FileUtilities.readLine( attackLog ) );
 
 			// With all that information registered, go ahead and store the
 			// attack information back into the tree map.
@@ -3015,7 +3017,7 @@ public class KoLmafiaCLI
 
 				if ( hasMultipleRuns )
 				{
-					runCount = StaticEntity.parseInt( runCountString );
+					runCount = StringUtilities.parseInt( runCountString );
 					parameters = parameters.substring( parameters.indexOf( " " ) ).trim();
 					scriptFile = KoLmafiaCLI.findScriptFile( parameters );
 				}
@@ -3309,7 +3311,7 @@ public class KoLmafiaCLI
 		if ( right.endsWith( "%" ) )
 		{
 			right = right.substring( 0, right.length() - 1 );
-			int value = StaticEntity.parseInt( right );
+			int value = StringUtilities.parseInt( right );
 
 			if ( left.equals( "health" ) )
 			{
@@ -3361,7 +3363,7 @@ public class KoLmafiaCLI
 		// If it gets this far, then it must be numeric,
 		// so parse the number and return it.
 
-		return StaticEntity.parseInt( right );
+		return StringUtilities.parseInt( right );
 	}
 
 	private static final AdventureResult effectParameter( final String parameter )
@@ -3494,7 +3496,7 @@ public class KoLmafiaCLI
 		if ( isMeatCondition )
 		{
 			String[] splitCondition = conditionString.split( "\\s+" );
-			int amount = StaticEntity.parseInt( splitCondition[ 0 ] );
+			int amount = StringUtilities.parseInt( splitCondition[ 0 ] );
 			condition = new AdventureResult( AdventureResult.MEAT, amount );
 		}
 		else if ( conditionString.endsWith( "choiceadv" ) || conditionString.endsWith( "choices" ) || conditionString.endsWith( "choice" ) )
@@ -3506,7 +3508,7 @@ public class KoLmafiaCLI
 			condition =
 				new AdventureResult(
 					AdventureResult.CHOICE,
-					splitCondition.length > 1 ? StaticEntity.parseInt( splitCondition[ 0 ] ) : 1 );
+					splitCondition.length > 1 ? StringUtilities.parseInt( splitCondition[ 0 ] ) : 1 );
 		}
 		else if ( conditionString.startsWith( "level" ) )
 		{
@@ -3515,7 +3517,7 @@ public class KoLmafiaCLI
 			// add the substat points as a condition.
 
 			String[] splitCondition = conditionString.split( "\\s+" );
-			int level = StaticEntity.parseInt( splitCondition[ 1 ] );
+			int level = StringUtilities.parseInt( splitCondition[ 1 ] );
 
 			int primeIndex = KoLCharacter.getPrimeIndex();
 
@@ -3528,7 +3530,7 @@ public class KoLmafiaCLI
 		{
 			String[] splitCondition = conditionString.split( "\\s+" );
 
-			int points = StaticEntity.parseInt( splitCondition[ 0 ] );
+			int points = StringUtilities.parseInt( splitCondition[ 0 ] );
 			int statIndex = conditionString.indexOf( "mus" ) != -1 ? 0 : conditionString.indexOf( "mys" ) != -1 ? 1 : 2;
 
 			AdventureResult.CONDITION_SUBSTATS[ statIndex ] = KoLCharacter.calculateSubpoints( points, 0 );
@@ -3543,7 +3545,7 @@ public class KoLmafiaCLI
 		{
 			String numberString = conditionString.split( "\\s+" )[ 0 ];
 			int points =
-				StaticEntity.parseInt( numberString.endsWith( "%" ) ? numberString.substring(
+				StringUtilities.parseInt( numberString.endsWith( "%" ) ? numberString.substring(
 					0, numberString.length() - 1 ) : numberString );
 
 			if ( numberString.endsWith( "%" ) )
@@ -3635,7 +3637,7 @@ public class KoLmafiaCLI
 		String[] parameterList = parameters.split( " " );
 		StaticEntity.getClient().makeRequest(
 			new CampgroundRequest( parameterList[ 0 ] ),
-			parameterList.length == 1 ? 1 : StaticEntity.parseInt( parameterList[ 1 ] ) );
+			parameterList.length == 1 ? 1 : StringUtilities.parseInt( parameterList[ 1 ] ) );
 	}
 
 	/**
@@ -3677,7 +3679,7 @@ public class KoLmafiaCLI
 			}
 			else if ( buffCountString != null )
 			{
-				buffCount = StaticEntity.parseInt( buffCountString );
+				buffCount = StringUtilities.parseInt( buffCountString );
 			}
 
 			if ( KoLmafiaCLI.isExecutingCheckOnlyCommand )
@@ -3811,7 +3813,7 @@ public class KoLmafiaCLI
 			return;
 		}
 
-		amount = StaticEntity.parseInt( parameterList[ 1 ] );
+		amount = StringUtilities.parseInt( parameterList[ 1 ] );
 		KoLmafia.updateDisplay( "Donating " + amount + " to the shrine..." );
 		RequestThread.postRequest( new ShrineRequest( heroId, amount ) );
 	}
@@ -3959,7 +3961,7 @@ public class KoLmafiaCLI
 
 		String list = spaceIndex == -1 ? parameters : parameters.substring( 0, spaceIndex ).trim();
 		String filter =
-			spaceIndex == -1 ? "" : KoLDatabase.getCanonicalName( parameters.substring( spaceIndex ).trim() );
+			spaceIndex == -1 ? "" : StringUtilities.getCanonicalName( parameters.substring( spaceIndex ).trim() );
 
 		PrintStream desiredOutputStream = sessionPrint ? RequestLogger.getSessionStream() : RequestLogger.INSTANCE;
 
@@ -4225,7 +4227,7 @@ public class KoLmafiaCLI
 
 				for ( int i = 0; i < items.length; ++i )
 				{
-					currentItem = KoLDatabase.getCanonicalName( items[ i ].toString() );
+					currentItem = StringUtilities.getCanonicalName( items[ i ].toString() );
 					if ( currentItem.indexOf( filter ) != -1 )
 					{
 						resultList.add( items[ i ] );
@@ -4289,7 +4291,7 @@ public class KoLmafiaCLI
 			}
 
 			effectName = (String) matchingNames.get( 0 );
-			duration = durationString.equals( "*" ) ? 0 : StaticEntity.parseInt( durationString );
+			duration = durationString.equals( "*" ) ? 0 : StringUtilities.parseInt( durationString );
 		}
 
 		if ( effectName == null )
@@ -4378,7 +4380,7 @@ public class KoLmafiaCLI
 
 	public void executeMindControlRequest( final String parameters )
 	{
-		int setting = StaticEntity.parseInt( parameters );
+		int setting = StringUtilities.parseInt( parameters );
 		RequestThread.postRequest( new MindControlRequest( setting ) );
 	}
 
@@ -4419,7 +4421,7 @@ public class KoLmafiaCLI
 			return;
 		}
 
-		FamiliarTrainingFrame.levelFamiliar( StaticEntity.parseInt( split[ 1 ] ), type, false );
+		FamiliarTrainingFrame.levelFamiliar( StringUtilities.parseInt( split[ 1 ] ), type, false );
 	}
 
 	/**
@@ -4440,7 +4442,7 @@ public class KoLmafiaCLI
 			}
 
 			String squareString = split[ 1 ];
-			int square = StaticEntity.parseInt( squareString );
+			int square = StringUtilities.parseInt( squareString );
 
 			// Skip past command and square
 			parameters = parameters.substring( command.length() ).trim();
@@ -4471,7 +4473,7 @@ public class KoLmafiaCLI
 
 			String squareString = split[ 1 ];
 
-			int square = StaticEntity.parseInt( squareString );
+			int square = StringUtilities.parseInt( squareString );
 			MushroomManager.pickMushroom( square, true );
 		}
 		else if ( command.equals( "harvest" ) )
@@ -4724,11 +4726,11 @@ public class KoLmafiaCLI
 
 				if ( separatorIndex != -1 )
 				{
-					limits[ i ] = StaticEntity.parseInt( description.substring( separatorIndex + 5 ) );
+					limits[ i ] = StringUtilities.parseInt( description.substring( separatorIndex + 5 ) );
 					description = description.substring( 0, separatorIndex ).trim();
 				}
 
-				prices[ i ] = StaticEntity.parseInt( description );
+				prices[ i ] = StringUtilities.parseInt( description );
 			}
 
 			items[ i ] = ItemFinder.getFirstMatchingItem( itemNames[ i ], false );
@@ -4741,7 +4743,7 @@ public class KoLmafiaCLI
 					continue;
 				}
 
-				prices[ i ] = StaticEntity.parseInt( parameters.substring( spaceIndex + 1 ) );
+				prices[ i ] = StringUtilities.parseInt( parameters.substring( spaceIndex + 1 ) );
 				itemNames[ i ] = itemNames[ i ].substring( 0, spaceIndex ).trim();
 				items[ i ] = ItemFinder.getFirstMatchingItem( itemNames[ i ], false );
 			}
@@ -4755,7 +4757,7 @@ public class KoLmafiaCLI
 				}
 
 				limits[ i ] = prices[ i ];
-				prices[ i ] = StaticEntity.parseInt( itemNames[ i ].substring( spaceIndex + 1 ) );
+				prices[ i ] = StringUtilities.parseInt( itemNames[ i ].substring( spaceIndex + 1 ) );
 				itemNames[ i ] = itemNames[ i ].substring( 0, spaceIndex ).trim();
 
 				items[ i ] = ItemFinder.getFirstMatchingItem( itemNames[ i ], false );
@@ -5031,7 +5033,7 @@ public class KoLmafiaCLI
 		else
 		{
 			String adventureCountString = parameters.split( " " )[ 0 ];
-			adventureCount = adventureCountString.equals( "*" ) ? 0 : StaticEntity.parseInt( adventureCountString );
+			adventureCount = adventureCountString.equals( "*" ) ? 0 : StringUtilities.parseInt( adventureCountString );
 
 			if ( adventureCount == 0 && !adventureCountString.equals( "0" ) && !adventureCountString.equals( "*" ) )
 			{
@@ -5126,7 +5128,7 @@ public class KoLmafiaCLI
 	private void executeBuffBotCommand( final String parameters )
 	{
 		BuffBotManager.loadSettings();
-		BuffBotManager.runBuffBot( StaticEntity.parseInt( parameters ) );
+		BuffBotManager.runBuffBot( StringUtilities.parseInt( parameters ) );
 		KoLmafia.updateDisplay( "Buffbot execution complete." );
 	}
 
@@ -5288,7 +5290,7 @@ public class KoLmafiaCLI
 	public void executeRaffleRequest( final String parameters )
 	{
 		String[] split = parameters.split( " " );
-		int count = StaticEntity.parseInt( split[ 0 ] );
+		int count = StringUtilities.parseInt( split[ 0 ] );
 
 		if ( split.length == 1 )
 		{
@@ -5325,7 +5327,7 @@ public class KoLmafiaCLI
 
 		if ( Character.isDigit( parameters.charAt( 0 ) ) )
 		{
-			request = new IslandArenaRequest( StaticEntity.parseInt( parameters ) );
+			request = new IslandArenaRequest( StringUtilities.parseInt( parameters ) );
 		}
 		else
 		{
@@ -5359,7 +5361,7 @@ public class KoLmafiaCLI
 
 		if ( Character.isDigit( command.charAt( 0 ) ) )
 		{
-			action = StaticEntity.parseInt( command );
+			action = StringUtilities.parseInt( command );
 		}
 		else
 		{
@@ -5407,7 +5409,7 @@ public class KoLmafiaCLI
 		if ( Character.isDigit( parameters.charAt( 0 ) ) )
 		{
 			int spaceIndex = parameters.indexOf( " " );
-			count = StaticEntity.parseInt( parameters.substring( 0, spaceIndex ) );
+			count = StringUtilities.parseInt( parameters.substring( 0, spaceIndex ) );
 			parameters = parameters.substring( spaceIndex ).trim();
 		}
 		else if ( parameters.charAt( 0 ) == '*' )
@@ -5478,7 +5480,7 @@ public class KoLmafiaCLI
 		{
 			String name = (String) KoLConstants.kitchenItems.get( i );
 
-			if ( !KoLDatabase.substringMatches( name.toLowerCase(), nameString ) )
+			if ( !StringUtilities.substringMatches( name.toLowerCase(), nameString ) )
 			{
 				continue;
 			}
@@ -5489,7 +5491,7 @@ public class KoLmafiaCLI
 				return true;
 			}
 
-			int count = countString == null || countString.length() == 0 ? 1 : StaticEntity.parseInt( countString );
+			int count = countString == null || countString.length() == 0 ? 1 : StringUtilities.parseInt( countString );
 
 			if ( count == 0 )
 			{
@@ -5558,7 +5560,7 @@ public class KoLmafiaCLI
 		{
 			String name = (String) KoLConstants.restaurantItems.get( i );
 
-			if ( !KoLDatabase.substringMatches( name.toLowerCase(), nameString ) )
+			if ( !StringUtilities.substringMatches( name.toLowerCase(), nameString ) )
 			{
 				continue;
 			}
@@ -5569,7 +5571,7 @@ public class KoLmafiaCLI
 				return true;
 			}
 
-			int count = countString == null || countString.length() == 0 ? 1 : StaticEntity.parseInt( countString );
+			int count = countString == null || countString.length() == 0 ? 1 : StringUtilities.parseInt( countString );
 
 			if ( count == 0 )
 			{
@@ -5627,7 +5629,7 @@ public class KoLmafiaCLI
 		{
 			String name = (String) KoLConstants.microbreweryItems.get( i );
 
-			if ( !KoLDatabase.substringMatches( name.toLowerCase(), nameString ) )
+			if ( !StringUtilities.substringMatches( name.toLowerCase(), nameString ) )
 			{
 				continue;
 			}
@@ -5638,7 +5640,7 @@ public class KoLmafiaCLI
 				return true;
 			}
 
-			int count = countString == null || countString.length() == 0 ? 1 : StaticEntity.parseInt( countString );
+			int count = countString == null || countString.length() == 0 ? 1 : StringUtilities.parseInt( countString );
 
 			if ( count == 0 )
 			{

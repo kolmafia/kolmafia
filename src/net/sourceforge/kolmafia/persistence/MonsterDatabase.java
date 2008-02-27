@@ -45,12 +45,13 @@ import net.sourceforge.kolmafia.AreaCombatData;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MonsterDatabase
 {
@@ -109,10 +110,10 @@ public class MonsterDatabase
 		MonsterDatabase.MONSTER_DATA.clear();
 		MonsterDatabase.MONSTER_NAMES.clear();
 
-		BufferedReader reader = KoLDatabase.getVersionedReader( "monsters.txt", KoLConstants.MONSTERS_VERSION );
+		BufferedReader reader = FileUtilities.getVersionedReader( "monsters.txt", KoLConstants.MONSTERS_VERSION );
 		String[] data;
 
-		while ( ( data = KoLDatabase.readData( reader ) ) != null )
+		while ( ( data = FileUtilities.readData( reader ) ) != null )
 		{
 			if ( data.length >= 2 )
 			{
@@ -136,7 +137,7 @@ public class MonsterDatabase
 					else
 					{
 						int right = name.indexOf( ")", left );
-						int count = StaticEntity.parseInt( name.substring( left +2, right ) );
+						int count = StringUtilities.parseInt( name.substring( left +2, right ) );
 						name = name.substring( 0, left );
 						item = new AdventureResult( name, count );
 					}
@@ -217,7 +218,7 @@ public class MonsterDatabase
 
 		for ( int i = 0; i < MonsterDatabase.MONSTER_STRINGS.length; ++i )
 		{
-			if ( KoLDatabase.substringMatches( MonsterDatabase.MONSTER_STRINGS[ i ], keyName ) )
+			if ( StringUtilities.substringMatches( MonsterDatabase.MONSTER_STRINGS[ i ], keyName ) )
 			{
 				return (Monster) MonsterDatabase.MONSTER_DATA.get( MonsterDatabase.MONSTER_NAMES.get( MonsterDatabase.MONSTER_STRINGS[ i ] ) );
 			}
@@ -256,7 +257,7 @@ public class MonsterDatabase
 					if ( tokens.hasMoreTokens() )
 					{
 						value = tokens.nextToken();
-						health = StaticEntity.parseInt( value );
+						health = StringUtilities.parseInt( value );
 						continue;
 					}
 				}
@@ -266,7 +267,7 @@ public class MonsterDatabase
 					if ( tokens.hasMoreTokens() )
 					{
 						value = tokens.nextToken();
-						attack = StaticEntity.parseInt( value );
+						attack = StringUtilities.parseInt( value );
 						continue;
 					}
 				}
@@ -276,7 +277,7 @@ public class MonsterDatabase
 					if ( tokens.hasMoreTokens() )
 					{
 						value = tokens.nextToken();
-						defense = StaticEntity.parseInt( value );
+						defense = StringUtilities.parseInt( value );
 						continue;
 					}
 				}
@@ -286,7 +287,7 @@ public class MonsterDatabase
 					if ( tokens.hasMoreTokens() )
 					{
 						value = tokens.nextToken();
-						initiative = StaticEntity.parseInt( value );
+						initiative = StringUtilities.parseInt( value );
 						continue;
 					}
 				}
@@ -342,12 +343,12 @@ public class MonsterDatabase
 						int dash = value.indexOf( "-" );
 						if ( dash >= 0 )
 						{
-							minMeat = StaticEntity.parseInt( value.substring( 0, dash ) );
-							maxMeat = StaticEntity.parseInt( value.substring( dash + 1 ) );
+							minMeat = StringUtilities.parseInt( value.substring( 0, dash ) );
+							maxMeat = StringUtilities.parseInt( value.substring( dash + 1 ) );
 						}
 						else
 						{
-							minMeat = StaticEntity.parseInt( value );
+							minMeat = StringUtilities.parseInt( value );
 							maxMeat = minMeat;
 						}
 						continue;

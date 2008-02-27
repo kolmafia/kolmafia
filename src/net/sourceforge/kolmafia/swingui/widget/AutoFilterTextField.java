@@ -44,9 +44,9 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.KoLDatabase;
-import net.sourceforge.kolmafia.KoLDatabase.LowerCaseEntry;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
+import net.sourceforge.kolmafia.utilities.LowerCaseEntry;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 
@@ -132,7 +132,7 @@ public class AutoFilterTextField
 			return true;
 		}
 
-		return this.strict ? elementName.toLowerCase().indexOf( this.text ) != -1 : KoLDatabase.fuzzyMatches(
+		return this.strict ? elementName.toLowerCase().indexOf( this.text ) != -1 : StringUtilities.fuzzyMatches(
 			elementName, this.text );
 	}
 

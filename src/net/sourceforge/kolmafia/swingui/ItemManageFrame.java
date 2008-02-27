@@ -82,6 +82,8 @@ import net.sourceforge.kolmafia.swingui.panel.RestorativeItemPanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ItemManageFrame
 	extends GenericFrame
@@ -263,7 +265,7 @@ public class ItemManageFrame
 
 		public void actionCancelled()
 		{
-			GenericFrame.alert( "These items have been flagged as \"junk\" because at some point in the past, you've opted to autosell all of the item.  If you use the \"cleanup\" command, KoLmafia will dispose of these items either by pulverizing them (equipment) or autoselling them (non-equipment)." );
+			InputFieldUtilities.alert( "These items have been flagged as \"junk\" because at some point in the past, you've opted to autosell all of the item.  If you use the \"cleanup\" command, KoLmafia will dispose of these items either by pulverizing them (equipment) or autoselling them (non-equipment)." );
 		}
 	}
 
@@ -293,7 +295,7 @@ public class ItemManageFrame
 
 		public void actionCancelled()
 		{
-			GenericFrame.alert( "These items are flagged as \"singletons\".  Using the \"closet\" button, KoLmafia will try to ensure that at least one of the item exists in your closet.\n\nIF THE PLAYER IS STILL IN HARDCORE OR RONIN, these items are treated as a special class of junk items where during the \"cleanup\" routine mentioned in the junk tab, KoLmafia will attempt to leave one of the item in the players inventory.\n\nPlease take note that once the player breaks Ronin, KoLmafia will treat these items as normal junk and ignore the general preservation rule." );
+			InputFieldUtilities.alert( "These items are flagged as \"singletons\".  Using the \"closet\" button, KoLmafia will try to ensure that at least one of the item exists in your closet.\n\nIF THE PLAYER IS STILL IN HARDCORE OR RONIN, these items are treated as a special class of junk items where during the \"cleanup\" routine mentioned in the junk tab, KoLmafia will attempt to leave one of the item in the players inventory.\n\nPlease take note that once the player breaks Ronin, KoLmafia will treat these items as normal junk and ignore the general preservation rule." );
 		}
 	}
 
@@ -320,7 +322,7 @@ public class ItemManageFrame
 
 		public void actionCancelled()
 		{
-			GenericFrame.alert( "These items are flagged as \"mementos\".  IF YOU SET A PREFERENCE, KoLmafia will never sell or pulverize these items." );
+			InputFieldUtilities.alert( "These items are flagged as \"mementos\".  IF YOU SET A PREFERENCE, KoLmafia will never sell or pulverize these items." );
 		}
 	}
 
@@ -896,7 +898,7 @@ public class ItemManageFrame
 
 			CreateItemRequest selection = (CreateItemRequest) selected;
 			int quantityDesired =
-				GenericFrame.getQuantity(
+				InputFieldUtilities.getQuantity(
 					"Creating multiple " + selection.getName() + "...", selection.getQuantityPossible() );
 			if ( quantityDesired < 1 )
 			{
@@ -928,7 +930,7 @@ public class ItemManageFrame
 
 			int maximum = UseItemRequest.maximumUses( selection.getItemId() );
 			int quantityDesired =
-				maximum < 2 ? maximum : GenericFrame.getQuantity(
+				maximum < 2 ? maximum : InputFieldUtilities.getQuantity(
 					"Creating multiple " + selection.getName() + "...", Math.min(
 						maximum, selection.getQuantityPossible() ) );
 
@@ -1276,7 +1278,7 @@ public class ItemManageFrame
 
 		public void actionConfirmed()
 		{
-			if ( !GenericFrame.confirm( "ALL OF THE ITEMS IN THIS LIST, not just the ones you've selected, will be placed into your store.  Are you sure you wish to continue?" ) )
+			if ( !InputFieldUtilities.confirm( "ALL OF THE ITEMS IN THIS LIST, not just the ones you've selected, will be placed into your store.  Are you sure you wish to continue?" ) )
 			{
 				return;
 			}
@@ -1289,7 +1291,7 @@ public class ItemManageFrame
 			int selected =
 				JOptionPane.showConfirmDialog(
 					ItemManageFrame.this,
-					GenericFrame.basicTextWrap( "KoLmafia will place all tradeable, autosellable items into your store at 999,999,999 meat. " + StoreManageFrame.UNDERCUT_MESSAGE ),
+					StringUtilities.basicTextWrap( "KoLmafia will place all tradeable, autosellable items into your store at 999,999,999 meat. " + StoreManageFrame.UNDERCUT_MESSAGE ),
 					"", JOptionPane.YES_NO_CANCEL_OPTION );
 
 			if ( selected != JOptionPane.YES_OPTION && selected != JOptionPane.NO_OPTION )

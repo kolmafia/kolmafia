@@ -61,10 +61,11 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.swingui.ChatFrame;
 import net.sourceforge.kolmafia.swingui.ContactListFrame;
-import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.TabbedChatFrame;
 import net.sourceforge.kolmafia.textui.Interpreter;
-import net.sourceforge.kolmafia.webui.CharacterEntityReference;
+import net.sourceforge.kolmafia.utilities.CharacterEntities;
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.ChatRequest;
@@ -495,14 +496,14 @@ public abstract class ChatManager
 		String normalBreaksContent = ChatManager.LINEBREAK_PATTERN.matcher( noImageContent ).replaceAll( "<br>" );
 		String condensedContent = ChatManager.EXPAND_PATTERN.matcher( normalBreaksContent ).replaceAll( "<br>" );
 
-		String normalBoldsContent = StaticEntity.globalStringReplace( condensedContent, "<br></b>", "</b><br>" );
-		String colonOrderedContent = StaticEntity.globalStringReplace( normalBoldsContent, ":</b></a>", "</a></b>:" );
-		colonOrderedContent = StaticEntity.globalStringReplace( colonOrderedContent, "</a>:</b>", "</a></b>:" );
-		colonOrderedContent = StaticEntity.globalStringReplace( colonOrderedContent, "</b></a>:", "</a></b>:" );
+		String normalBoldsContent = StringUtilities.globalStringReplace( condensedContent, "<br></b>", "</b><br>" );
+		String colonOrderedContent = StringUtilities.globalStringReplace( normalBoldsContent, ":</b></a>", "</a></b>:" );
+		colonOrderedContent = StringUtilities.globalStringReplace( colonOrderedContent, "</a>:</b>", "</a></b>:" );
+		colonOrderedContent = StringUtilities.globalStringReplace( colonOrderedContent, "</b></a>:", "</a></b>:" );
 
-		String italicOrderedContent = StaticEntity.globalStringReplace( colonOrderedContent, "<b><i>", "<i><b>" );
+		String italicOrderedContent = StringUtilities.globalStringReplace( colonOrderedContent, "<b><i>", "<i><b>" );
 		italicOrderedContent =
-			StaticEntity.globalStringReplace( italicOrderedContent, "</b></font></a>", "</font></a></b>" );
+			StringUtilities.globalStringReplace( italicOrderedContent, "</b></font></a>", "</font></a></b>" );
 
 		String fixedGreenContent =
 			ChatManager.GREEN_PATTERN.matcher( italicOrderedContent ).replaceAll(
@@ -514,16 +515,16 @@ public abstract class ChatManager
 			ChatManager.WHOIS_PATTERN.matcher( fixedGreenContent ).replaceAll(
 				"$1<b><font color=green>$2</font></b></a><font color=green>$3</font><br>" );
 
-		String leftAlignContent = StaticEntity.globalStringDelete( fixedGreenContent, "<center>" );
-		leftAlignContent = StaticEntity.globalStringReplace( leftAlignContent, "</center>", "<br>" );
+		String leftAlignContent = StringUtilities.globalStringDelete( fixedGreenContent, "<center>" );
+		leftAlignContent = StringUtilities.globalStringReplace( leftAlignContent, "</center>", "<br>" );
 
 		if ( !isInternal )
 		{
 			String normalPrivateContent =
-				StaticEntity.globalStringReplace(
+				StringUtilities.globalStringReplace(
 					leftAlignContent, "<font color=blue>private to ", "<font color=blue>private to</font></b> <b>" );
 			normalPrivateContent =
-				StaticEntity.globalStringReplace(
+				StringUtilities.globalStringReplace(
 					normalPrivateContent, "(private)</a></b>", "(private)</b></font></a><font color=blue>" );
 			return normalPrivateContent;
 		}
@@ -558,7 +559,7 @@ public abstract class ChatManager
 			if ( !Preferences.getBoolean( "useContactsFrame" ) )
 			{
 				LimitedSizeChatBuffer currentChatBuffer = ChatManager.getChatBuffer( ChatManager.updateChannel );
-				currentChatBuffer.append( StaticEntity.singleStringReplace( ChatManager.TABLECELL_PATTERN.matcher(
+				currentChatBuffer.append( StringUtilities.singleStringReplace( ChatManager.TABLECELL_PATTERN.matcher(
 					content ).replaceAll( "" ), "</b>", "</b>&nbsp;" ) );
 			}
 		}
@@ -738,7 +739,7 @@ public abstract class ChatManager
 
 		if ( message.startsWith( "Invalid password submitted." ) )
 		{
-			message = StaticEntity.globalStringDelete( message, "Invalid password submitted." ).trim();
+			message = StringUtilities.globalStringDelete( message, "Invalid password submitted." ).trim();
 			if ( message.length() == 0 )
 			{
 				return;
@@ -910,7 +911,7 @@ public abstract class ChatManager
 				data.append( "\n" );
 			}
 
-			String toSend = CharacterEntityReference.unescape( data.toString().trim() );
+			String toSend = CharacterEntities.unescape( data.toString().trim() );
 			RequestThread.postRequest( new SendMailRequest( channel, toSend ) );
 			return true;
 		}
@@ -997,7 +998,7 @@ public abstract class ChatManager
 		final boolean isGreenMessage )
 	{
 		StringBuffer displayHTML = new StringBuffer( message );
-		StaticEntity.singleStringDelete( displayHTML, "target=mainpane " );
+		StringUtilities.singleStringDelete( displayHTML, "target=mainpane " );
 
 		// There are a bunch of messages that are supposed to be
 		// formatted in green.  These are all handled first.
@@ -1047,7 +1048,7 @@ public abstract class ChatManager
 
 			if ( contactName.indexOf( "*" ) == -1 )
 			{
-				StaticEntity.singleStringReplace(
+				StringUtilities.singleStringReplace(
 					displayHTML, contactName,
 					"<font color=\"" + ChatManager.getColor( contactName ) + "\">" + contactName + "</font>" );
 			}
@@ -1291,7 +1292,7 @@ public abstract class ChatManager
 
 	public static final void addHighlighting()
 	{
-		String highlight = GenericFrame.input( "What word/phrase would you like to highlight?", KoLCharacter.getUserName() );
+		String highlight = InputFieldUtilities.input( "What word/phrase would you like to highlight?", KoLCharacter.getUserName() );
 		if ( highlight == null )
 		{
 			return;
@@ -1332,7 +1333,7 @@ public abstract class ChatManager
 		Object[] patterns = LimitedSizeChatBuffer.highlights.toArray();
 		if ( patterns.length == 0 )
 		{
-			GenericFrame.alert( "No active highlights." );
+			InputFieldUtilities.alert( "No active highlights." );
 			ChatManager.highlighting = false;
 			return;
 		}
@@ -1342,7 +1343,7 @@ public abstract class ChatManager
 			patterns[ i ] = ( (Pattern) patterns[ i ] ).pattern();
 		}
 
-		String selectedValue = (String) GenericFrame.input( "Currently highlighting the following terms:", patterns );
+		String selectedValue = (String) InputFieldUtilities.input( "Currently highlighting the following terms:", patterns );
 
 		if ( selectedValue == null )
 		{
@@ -1415,7 +1416,7 @@ public abstract class ChatManager
 			while ( colorMatcher.find() )
 			{
 				ChatManager.setColor(
-					"/" + colorMatcher.group( 1 ).toLowerCase(), StaticEntity.parseInt( colorMatcher.group( 2 ) ) );
+					"/" + colorMatcher.group( 1 ).toLowerCase(), StringUtilities.parseInt( colorMatcher.group( 2 ) ) );
 			}
 
 			// Add in other custom colors which are available
@@ -1424,19 +1425,19 @@ public abstract class ChatManager
 			colorMatcher = ChatManager.SELF_PATTERN.matcher( this.responseText );
 			if ( colorMatcher.find() )
 			{
-				ChatManager.setColor( "chatcolorself", StaticEntity.parseInt( colorMatcher.group( 1 ) ) );
+				ChatManager.setColor( "chatcolorself", StringUtilities.parseInt( colorMatcher.group( 1 ) ) );
 			}
 
 			colorMatcher = ChatManager.CONTACTS_PATTERN.matcher( this.responseText );
 			if ( colorMatcher.find() )
 			{
-				ChatManager.setColor( "chatcolorcontacts", StaticEntity.parseInt( colorMatcher.group( 1 ) ) );
+				ChatManager.setColor( "chatcolorcontacts", StringUtilities.parseInt( colorMatcher.group( 1 ) ) );
 			}
 
 			colorMatcher = ChatManager.OTHER_PATTERN.matcher( this.responseText );
 			if ( colorMatcher.find() )
 			{
-				ChatManager.setColor( "chatcolorothers", StaticEntity.parseInt( colorMatcher.group( 1 ) ) );
+				ChatManager.setColor( "chatcolorothers", StringUtilities.parseInt( colorMatcher.group( 1 ) ) );
 			}
 		}
 	}

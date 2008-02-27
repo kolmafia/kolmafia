@@ -58,6 +58,7 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase.Monster;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.IslandDecorator;
 
 public class FightRequest
@@ -433,12 +434,12 @@ public class FightRequest
 			int commaIndex = FightRequest.action1.indexOf( "," );
 			if ( commaIndex != -1 )
 			{
-				item1 = StaticEntity.parseInt( FightRequest.action1.substring( 0, commaIndex ) );
-				item2 = StaticEntity.parseInt( FightRequest.action1.substring( commaIndex + 1 ) );
+				item1 = StringUtilities.parseInt( FightRequest.action1.substring( 0, commaIndex ) );
+				item2 = StringUtilities.parseInt( FightRequest.action1.substring( commaIndex + 1 ) );
 			}
 			else
 			{
-				item1 = StaticEntity.parseInt( FightRequest.action1 );
+				item1 = StringUtilities.parseInt( FightRequest.action1 );
 				item2 = -1;
 			}
 
@@ -573,7 +574,7 @@ public class FightRequest
 
 		// If the player wants to use a skill, make sure he knows it
 		String skillName =
-			SkillDatabase.getSkillName( StaticEntity.parseInt( FightRequest.action1.substring( 5 ) ) );
+			SkillDatabase.getSkillName( StringUtilities.parseInt( FightRequest.action1.substring( 5 ) ) );
 
 		if ( KoLmafiaCLI.getCombatSkillName( skillName ) == null )
 		{
@@ -1480,7 +1481,7 @@ public class FightRequest
 		Matcher damageMatcher = FightRequest.ELEMENTAL_PATTERN.matcher( responseText );
 		while ( damageMatcher.find() )
 		{
-			damageThisRound += StaticEntity.parseInt( damageMatcher.group( 1 ) );
+			damageThisRound += StringUtilities.parseInt( damageMatcher.group( 1 ) );
 		}
 
 		damageMatcher = FightRequest.PHYSICAL_PATTERN.matcher( responseText );
@@ -1504,7 +1505,7 @@ public class FightRequest
 				continue;
 			}
 
-			damageThisRound += StaticEntity.parseInt( damageMatcher.group( 2 ) );
+			damageThisRound += StringUtilities.parseInt( damageMatcher.group( 2 ) );
 
 			// The last string contains all of the extra damage
 			// from dual-wielding or elemental damage, e.g. "(+3) (+10)".
@@ -1512,7 +1513,7 @@ public class FightRequest
 			Matcher secondaryMatcher = FightRequest.SECONDARY_PATTERN.matcher( damageMatcher.group( 3 ) );
 			while ( secondaryMatcher.find() )
 			{
-				damageThisRound += StaticEntity.parseInt( secondaryMatcher.group( 1 ) );
+				damageThisRound += StringUtilities.parseInt( secondaryMatcher.group( 1 ) );
 			}
 		}
 
@@ -1524,14 +1525,14 @@ public class FightRequest
 			damageMatcher = FightRequest.MOSQUITO_PATTERN.matcher( responseText );
 			if ( damageMatcher.find() )
 			{
-				damageThisRound += StaticEntity.parseInt( damageMatcher.group( 1 ) );
+				damageThisRound += StringUtilities.parseInt( damageMatcher.group( 1 ) );
 			}
 		}
 
 		damageMatcher = FightRequest.BOSSBAT_PATTERN.matcher( responseText );
 		if ( damageMatcher.find() )
 		{
-			damageThisRound += StaticEntity.parseInt( damageMatcher.group( 1 ) );
+			damageThisRound += StringUtilities.parseInt( damageMatcher.group( 1 ) );
 		}
 
 		// Done with all processing for monster damage, now handle responseText.
@@ -1617,7 +1618,7 @@ public class FightRequest
 			return 0;
 		}
 
-		return SkillDatabase.getMPConsumptionById( StaticEntity.parseInt( FightRequest.action1 ) );
+		return SkillDatabase.getMPConsumptionById( StringUtilities.parseInt( FightRequest.action1 ) );
 	}
 
 	public static void addItemActionsWithNoCost()
@@ -1713,19 +1714,19 @@ public class FightRequest
 				return;
 			}
 
-			FightRequest.payItemCost( StaticEntity.parseInt( FightRequest.action1 ) );
+			FightRequest.payItemCost( StringUtilities.parseInt( FightRequest.action1 ) );
 
 			if ( FightRequest.action2 == null || FightRequest.action2.equals( "" ) )
 			{
 				return;
 			}
 
-			FightRequest.payItemCost( StaticEntity.parseInt( FightRequest.action2 ) );
+			FightRequest.payItemCost( StringUtilities.parseInt( FightRequest.action2 ) );
 
 			return;
 		}
 
-		int skillId = StaticEntity.parseInt( FightRequest.action1.substring( 5 ) );
+		int skillId = StringUtilities.parseInt( FightRequest.action1.substring( 5 ) );
 		int mpCost = SkillDatabase.getMPConsumptionById( skillId );
 
 		switch ( skillId )
@@ -1932,7 +1933,7 @@ public class FightRequest
 					return true;
 				}
 
-				String skill = SkillDatabase.getSkillName( StaticEntity.parseInt( skillMatcher.group( 1 ) ) );
+				String skill = SkillDatabase.getSkillName( StringUtilities.parseInt( skillMatcher.group( 1 ) ) );
 				if ( skill == null )
 				{
 					if ( shouldLogAction )
@@ -1954,7 +1955,7 @@ public class FightRequest
 				Matcher itemMatcher = FightRequest.ITEM1_PATTERN.matcher( urlString );
 				if ( itemMatcher.find() )
 				{
-					String item = ItemDatabase.getItemName( StaticEntity.parseInt( itemMatcher.group( 1 ) ) );
+					String item = ItemDatabase.getItemName( StringUtilities.parseInt( itemMatcher.group( 1 ) ) );
 					if ( item == null )
 					{
 						if ( shouldLogAction )
@@ -1974,7 +1975,7 @@ public class FightRequest
 					itemMatcher = FightRequest.ITEM2_PATTERN.matcher( urlString );
 					if ( itemMatcher.find() )
 					{
-						item = ItemDatabase.getItemName( StaticEntity.parseInt( itemMatcher.group( 1 ) ) );
+						item = ItemDatabase.getItemName( StringUtilities.parseInt( itemMatcher.group( 1 ) ) );
 						if ( item != null )
 						{
 							FightRequest.action2 = CustomCombatManager.getShortCombatOptionName( item );

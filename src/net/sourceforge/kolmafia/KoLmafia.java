@@ -126,7 +126,10 @@ import net.sourceforge.kolmafia.swingui.CouncilFrame;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
-import net.sourceforge.kolmafia.webui.CharacterEntityReference;
+import net.sourceforge.kolmafia.utilities.CharacterEntities;
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.IslandDecorator;
 
 public abstract class KoLmafia
@@ -411,7 +414,7 @@ public abstract class KoLmafia
 			actualName = Preferences.getString( pastUsers[ i ], "displayName" );
 			if ( actualName.equals( "" ) )
 			{
-				actualName = StaticEntity.globalStringReplace( pastUsers[ i ], "_", " " );
+				actualName = StringUtilities.globalStringReplace( pastUsers[ i ], "_", " " );
 			}
 
 			KoLConstants.saveStateNames.add( actualName );
@@ -646,7 +649,7 @@ public abstract class KoLmafia
 
 		if ( message.indexOf( KoLConstants.LINE_BREAK ) == -1 )
 		{
-			KoLmafia.updateDisplayState( state, CharacterEntityReference.unescape( message ) );
+			KoLmafia.updateDisplayState( state, CharacterEntities.unescape( message ) );
 		}
 	}
 
@@ -1264,7 +1267,7 @@ public abstract class KoLmafia
 		if ( index != -1 )
 		{
 			name = result.substring( 0, index );
-			count = StaticEntity.parseInt( result.substring( index ) );
+			count = StringUtilities.parseInt( result.substring( index ) );
 		}
 
 		return new AdventureResult( name, count, false );
@@ -1278,7 +1281,7 @@ public abstract class KoLmafia
 		String parsedEffectName = parsedEffect.nextToken().trim();
 		String parsedDuration = parsedEffect.hasMoreTokens() ? parsedEffect.nextToken() : "1";
 
-		return this.processResult( new AdventureResult( parsedEffectName, StaticEntity.parseInt( parsedDuration ), true ) );
+		return this.processResult( new AdventureResult( parsedEffectName, StringUtilities.parseInt( parsedDuration ), true ) );
 	}
 
 	public boolean processResult( int itemId, int count )
@@ -2753,7 +2756,7 @@ public abstract class KoLmafia
 
 	private static final Object getSelectedValue( final String message, final LockableListModel list )
 	{
-		return GenericFrame.input( message, list );
+		return InputFieldUtilities.input( message, list );
 	}
 
 	/**
@@ -2799,7 +2802,7 @@ public abstract class KoLmafia
 		}
 
 		int tradeCount =
-			GenericFrame.getQuantity(
+			InputFieldUtilities.getQuantity(
 				"How many " + selectedValue.getName() + " to get?\n" + message, maximumValue, 1 );
 		if ( tradeCount == 0 )
 		{
@@ -2828,7 +2831,7 @@ public abstract class KoLmafia
 
 		String message = "(You have " + maximumValue + " furs available)";
 		int tradeCount =
-			GenericFrame.getQuantity(
+			InputFieldUtilities.getQuantity(
 				"How many " + selectedValue.getName() + " to get?\n" + message, maximumValue,
 				maximumValue );
 
@@ -2858,7 +2861,7 @@ public abstract class KoLmafia
 		LockableListModel bounties = new LockableListModel();
 		while ( bountyMatcher.find() )
 		{
-			String item = ItemDatabase.getItemName( StaticEntity.parseInt( bountyMatcher.group( 1 ) ) );
+			String item = ItemDatabase.getItemName( StringUtilities.parseInt( bountyMatcher.group( 1 ) ) );
 			if ( item == null )
 			{
 				continue;
@@ -2977,49 +2980,49 @@ public abstract class KoLmafia
 		int currentLevel = KoLCharacter.getSignedMLAdjustment();
 
 		String selectedLevel =
-			(String) GenericFrame.input( "Change monster annoyance from " + currentLevel + "?", levelArray );
+			(String) InputFieldUtilities.input( "Change monster annoyance from " + currentLevel + "?", levelArray );
 
 		if ( selectedLevel == null )
 		{
 			return;
 		}
 
-		int setting = StaticEntity.parseInt( selectedLevel.split( " " )[ 1 ] );
+		int setting = StringUtilities.parseInt( selectedLevel.split( " " )[ 1 ] );
 		RequestThread.postRequest( new MindControlRequest( setting ) );
 	}
 
 	public void makeCampgroundRestRequest()
 	{
-		String turnCount = GenericFrame.input( "Rest for how many turns?", "1" );
+		String turnCount = InputFieldUtilities.input( "Rest for how many turns?", "1" );
 		if ( turnCount == null )
 		{
 			return;
 		}
 
-		this.makeRequest( new CampgroundRequest( "rest" ), StaticEntity.parseInt( turnCount ) );
+		this.makeRequest( new CampgroundRequest( "rest" ), StringUtilities.parseInt( turnCount ) );
 	}
 
 	public void makeCampgroundRelaxRequest()
 	{
-		String turnCount = GenericFrame.input( "Relax for how many turns?", "1" );
+		String turnCount = InputFieldUtilities.input( "Relax for how many turns?", "1" );
 		if ( turnCount == null )
 		{
 			return;
 		}
 
-		this.makeRequest( new CampgroundRequest( "relax" ), StaticEntity.parseInt( turnCount ) );
+		this.makeRequest( new CampgroundRequest( "relax" ), StringUtilities.parseInt( turnCount ) );
 	}
 
 	public void makeClanSofaRequest()
 	{
-		String turnCount = GenericFrame.input( "Sleep for how many turns?", "1" );
+		String turnCount = InputFieldUtilities.input( "Sleep for how many turns?", "1" );
 		if ( turnCount == null )
 		{
 			return;
 		}
 
 		ClanRumpusRequest request = new ClanRumpusRequest( ClanRumpusRequest.SOFA );
-		request.setTurnCount( StaticEntity.parseInt( turnCount ) );
+		request.setTurnCount( StringUtilities.parseInt( turnCount ) );
 		RequestThread.postRequest( request );
 	}
 
@@ -3070,7 +3073,7 @@ public abstract class KoLmafia
 			// the mini-browser, you'll have response text; else,
 			// the response text will be null.
 
-			int square = StaticEntity.parseInt( squareMatcher.group( 1 ) );
+			int square = StringUtilities.parseInt( squareMatcher.group( 1 ) );
 			Preferences.setInteger( "lastTavernSquare", square );
 
 			char replacement = '1';
@@ -3222,7 +3225,7 @@ public abstract class KoLmafia
 			item = new AdventureResult( 27, 5 );
 		}
 
-		int neededCount = neededMatcher.find() ? StaticEntity.parseInt( neededMatcher.group( 1 ) ) : 26;
+		int neededCount = neededMatcher.find() ? StringUtilities.parseInt( neededMatcher.group( 1 ) ) : 26;
 		gourdVisit.addFormField( "action=gourd" );
 
 		while ( neededCount <= 25 && neededCount <= item.getCount( KoLConstants.inventory ) )
@@ -3956,7 +3959,7 @@ public abstract class KoLmafia
 		KoLmafia.updateDisplay( "Downloading " + name + "..." );
 
 		BufferedReader reader =
-			KoLDatabase.getReader( "http://kolmafia.svn.sourceforge.net/viewvc/*checkout*/kolmafia/src/data/" + name );
+			FileUtilities.getReader( "http://kolmafia.svn.sourceforge.net/viewvc/*checkout*/kolmafia/src/data/" + name );
 
 		File output = new File( UtilityConstants.DATA_LOCATION, "temp.txt" );
 		LogStream writer = LogStream.openStream( output, true );
@@ -4213,7 +4216,7 @@ public abstract class KoLmafia
 			return;
 		}
 
-		if ( !GenericFrame.confirm( "Are you sure you'd like to host an end-of-run sale?" ) )
+		if ( !InputFieldUtilities.confirm( "Are you sure you'd like to host an end-of-run sale?" ) )
 		{
 			return;
 		}
@@ -4664,7 +4667,7 @@ public abstract class KoLmafia
 				String line;
 				StringBuffer contents = new StringBuffer();
 				BufferedReader reader =
-					KoLDatabase.getReader( "http://sourceforge.net/export/rss2_projfiles.php?group_id=126572" );
+					FileUtilities.getReader( "http://sourceforge.net/export/rss2_projfiles.php?group_id=126572" );
 
 				while ( ( line = reader.readLine() ) != null )
 				{
@@ -4689,7 +4692,7 @@ public abstract class KoLmafia
 					return;
 				}
 
-				if ( GenericFrame.confirm( "A new version of KoLmafia is now available.  Would you like to download it now?" ) )
+				if ( InputFieldUtilities.confirm( "A new version of KoLmafia is now available.  Would you like to download it now?" ) )
 				{
 					StaticEntity.openSystemBrowser( "https://sourceforge.net/project/showfiles.php?group_id=126572" );
 				}

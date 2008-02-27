@@ -65,7 +65,6 @@ import net.sourceforge.kolmafia.CreateFrameRunnable;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.LocalRelayServer;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -86,6 +85,8 @@ import net.sourceforge.kolmafia.swingui.RecentEventsFrame;
 import net.sourceforge.kolmafia.swingui.RequestFrame;
 import net.sourceforge.kolmafia.swingui.RequestSynchFrame;
 import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
+import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class GenericRequest
 	extends Job
@@ -823,8 +824,8 @@ public class GenericRequest
 			return;
 		}
 
-		GenericRequest.lastChoice = StaticEntity.parseInt( this.getFormField( "whichchoice" ) );
-		GenericRequest.lastDecision = StaticEntity.parseInt( this.getFormField( "option" ) );
+		GenericRequest.lastChoice = StringUtilities.parseInt( this.getFormField( "whichchoice" ) );
+		GenericRequest.lastDecision = StringUtilities.parseInt( this.getFormField( "option" ) );
 
 		switch ( GenericRequest.lastChoice )
 		{
@@ -1702,7 +1703,7 @@ public class GenericRequest
 	public static final int intToken( final StringTokenizer st, final int fromStart )
 	{
 		String token = st.nextToken().substring( fromStart );
-		return StaticEntity.parseInt( token );
+		return StringUtilities.parseInt( token );
 	}
 
 	/**
@@ -1721,7 +1722,7 @@ public class GenericRequest
 	{
 		String token = st.nextToken();
 		token = token.substring( fromStart, token.length() - fromEnd );
-		return StaticEntity.parseInt( token );
+		return StringUtilities.parseInt( token );
 	}
 
 	/**
@@ -1902,7 +1903,7 @@ public class GenericRequest
 	{
 		try
 		{
-			BufferedReader buf = KoLDatabase.getReader( f );
+			BufferedReader buf = FileUtilities.getReader( f );
 			String line;
 			StringBuffer response = new StringBuffer();
 

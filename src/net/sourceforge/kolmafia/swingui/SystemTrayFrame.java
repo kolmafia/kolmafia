@@ -56,6 +56,7 @@ import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.request.LogoutRequest;
+import net.sourceforge.kolmafia.utilities.FileUtilities;
 
 public abstract class SystemTrayFrame
 {
@@ -71,8 +72,8 @@ public abstract class SystemTrayFrame
 		// Now, make calls to SystemTrayIconManager in order
 		// to make use of the system tray.
 
-		StaticEntity.loadLibrary( UtilityConstants.IMAGE_LOCATION, "", "TrayIcon12.gif" );
-		StaticEntity.loadLibrary( UtilityConstants.IMAGE_LOCATION, "", "TrayIcon12.dll" );
+		FileUtilities.loadLibrary( UtilityConstants.IMAGE_LOCATION, "", "TrayIcon12.gif" );
+		FileUtilities.loadLibrary( UtilityConstants.IMAGE_LOCATION, "", "TrayIcon12.dll" );
 
 		File iconfile = new File( UtilityConstants.IMAGE_LOCATION, "TrayIcon12.dll" );
 		System.load( iconfile.getAbsolutePath() );
