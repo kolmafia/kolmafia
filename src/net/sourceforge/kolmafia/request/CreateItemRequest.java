@@ -58,7 +58,7 @@ public class CreateItemRequest
 	private static final GenericRequest REDIRECT_REQUEST = new GenericRequest( "inventory.php?action=message" );
 	private static final CreationRequestArray ALL_CREATIONS = new CreationRequestArray();
 	protected static final Pattern ITEMID_PATTERN = Pattern.compile( "item\\d?=(\\d+)" );
-	protected static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity=(\\d+)" );
+	protected static final Pattern QUANTITY_PATTERN = Pattern.compile( "(quantity|qty)=(\\d+)" );
 
 	public static final AdventureResult OVEN = new AdventureResult( 157, 1 );
 	public static final AdventureResult KIT = new AdventureResult( 236, 1 );
@@ -1052,7 +1052,7 @@ public class CreateItemRequest
 			Matcher quantityMatcher = CreateItemRequest.QUANTITY_PATTERN.matcher( urlString );
 			if ( quantityMatcher.find() )
 			{
-				quantity = StringUtilities.parseInt( quantityMatcher.group( 1 ) );
+				quantity = StringUtilities.parseInt( quantityMatcher.group( 2 ) );
 			}
 			StringBuffer command = new StringBuffer();
 
@@ -1148,7 +1148,7 @@ public class CreateItemRequest
 		Matcher quantityMatcher = CreateItemRequest.QUANTITY_PATTERN.matcher( urlString );
 
 		boolean needsPlus = false;
-		int quantity = quantityMatcher.find() ? StringUtilities.parseInt( quantityMatcher.group( 1 ) ) : 1;
+		int quantity = quantityMatcher.find() ? StringUtilities.parseInt( quantityMatcher.group( 2 ) ) : 1;
 
 		if ( urlString.indexOf( "makemax=on" ) != -1 )
 		{
