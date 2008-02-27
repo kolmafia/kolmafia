@@ -47,6 +47,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -193,11 +194,9 @@ public class EquipmentManager {
 		case OFFHAND:
 			GearChangeFrame.updateWeapons();
 			break;
+
 		case FAMILIAR:
-			if ( KoLCharacter.currentFamiliar.getId() > 0 )
-			{
-				KoLCharacter.currentFamiliar.setItem( item );
-			}
+			KoLCharacter.currentFamiliar.setItem( item );
 			break;
 		}
 
