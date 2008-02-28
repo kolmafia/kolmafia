@@ -34,8 +34,8 @@
 package net.sourceforge.kolmafia.utilities;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Pattern;
 
 
@@ -77,48 +77,51 @@ public class StringUtilities
 	 * @param substring The substring for which to search
 	 */
 
-	public static final List getMatchingNames( final Map nameMap, final String substring )
+	public static final List getMatchingNames( String [] names, String searchString )
 	{
-		List substringList = new ArrayList();
-		String searchString =
-			StringUtilities.getCanonicalName(
-				substring.startsWith( "\"" ) ? substring.substring( 1, substring.length() - 1 ) : substring ).trim();
+		boolean isExactMatch = searchString.startsWith( "\"" );
+		List matchList = new ArrayList();
 
-		if ( substring.length() == 0 )
+		if ( isExactMatch )
 		{
-			return substringList;
+			searchString = searchString.substring( 1,
+				searchString.endsWith( "\"" ) ? searchString.length() - 1 : searchString.length() );
 		}
 
-		if ( substring.startsWith( "\"" ) )
+		searchString = StringUtilities.getCanonicalName( searchString.trim() );
+
+		if ( searchString.length() == 0 )
 		{
-			if ( nameMap.containsKey( searchString ) )
+			return matchList;
+		}
+
+		if ( isExactMatch )
+		{
+			if ( Arrays.binarySearch( names, searchString ) >= 0 )
 			{
-				substringList.add( searchString );
+				matchList.add( searchString );
 			}
 
-			return substringList;
+			return matchList;
 		}
 
-		if ( nameMap.containsKey( searchString ) )
+		if ( Arrays.binarySearch( names, searchString ) >= 0 )
 		{
-			substringList.add( searchString );
-			return substringList;
+			matchList.add( searchString );
+			return matchList;
 		}
-
-		String[] names = new String[ nameMap.size() ];
-		nameMap.keySet().toArray( names );
 
 		for ( int i = 0; i < names.length; ++i )
 		{
 			if ( StringUtilities.substringMatches( names[ i ], searchString ) )
 			{
-				substringList.add( names[ i ] );
+				matchList.add( names[ i ] );
 			}
 		}
 
-		if ( !substringList.isEmpty() )
+		if ( !matchList.isEmpty() )
 		{
-			return substringList;
+			return matchList;
 		}
 
 		int spaceIndex = searchString.indexOf( " " );
@@ -130,17 +133,25 @@ public class StringUtilities
 			{
 				if ( StringUtilities.substringMatches( names[ i ], tempSearchString ) )
 				{
-					substringList.add( names[ i ] );
+					matchList.add( names[ i ] );
 				}
 			}
 
-			if ( !substringList.isEmpty() )
+			if ( !matchList.isEmpty() )
 			{
-				return substringList;
+				return matchList;
 			}
 		}
 
-		return substringList;
+		for ( int i = 0; i < names.length; ++i )
+		{
+			if ( StringUtilities.fuzzyMatches( names[i], searchString ) )
+			{
+				matchList.add( names[i] );
+			}
+		}
+
+		return matchList;
 	}
 
 	public static final boolean substringMatches( final String source, final String substring )

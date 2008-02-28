@@ -35,6 +35,8 @@ package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
 import java.io.File;
+
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -45,14 +47,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.UtilityConstants;
-
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
-
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.UneffectRequest;
@@ -60,8 +59,8 @@ import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class EffectDatabase
-	extends KoLDatabase
 {
+	private static String [] canonicalNames = new String[0];
 	private static final Map nameById = new TreeMap();
 	private static final Map dataNameById = new TreeMap();
 	private static final Map effectByName = new TreeMap();
@@ -98,6 +97,9 @@ public class EffectDatabase
 
 			StaticEntity.printStackTrace( e );
 		}
+
+		EffectDatabase.canonicalNames = new String[ EffectDatabase.effectByName.size() ];
+		EffectDatabase.effectByName.keySet().toArray( EffectDatabase.canonicalNames );
 	}
 
 	private static final void addToDatabase( final Integer effectId, final String name, final String image,
@@ -220,7 +222,7 @@ public class EffectDatabase
 
 	public static final boolean contains( final String effectName )
 	{
-		return EffectDatabase.effectByName.containsKey( StringUtilities.getCanonicalName( effectName ) );
+		return Arrays.binarySearch( EffectDatabase.canonicalNames, StringUtilities.getCanonicalName( effectName ) ) >= 0;
 	}
 
 	/**
@@ -230,7 +232,7 @@ public class EffectDatabase
 
 	public static final List getMatchingNames( final String substring )
 	{
-		return StringUtilities.getMatchingNames( EffectDatabase.effectByName, substring );
+		return StringUtilities.getMatchingNames( EffectDatabase.canonicalNames, substring );
 	}
 
 	public static final void addDescriptionId( final int effectId, final String descriptionId )
@@ -282,6 +284,9 @@ public class EffectDatabase
 
 		if ( foundChanges )
 		{
+			EffectDatabase.canonicalNames = new String[ EffectDatabase.effectByName.size() ];
+			EffectDatabase.effectByName.keySet().toArray( EffectDatabase.canonicalNames );
+
 			EffectDatabase.saveDataOverride();
 		}
 	}

@@ -80,6 +80,7 @@ public class ItemDatabase
 
 	private static int maxItemId = 0;
 
+	private static String [] canonicalNames = new String[0];
 	private static final IntegerArray useTypeById = new IntegerArray();
 	private static final IntegerArray priceById = new IntegerArray();
 	private static final StringArray pluralById = new StringArray();
@@ -298,6 +299,9 @@ public class ItemDatabase
 
 			StaticEntity.printStackTrace( e );
 		}
+
+		ItemDatabase.canonicalNames	= new String[ ItemDatabase.itemIdByName.size() ];
+		ItemDatabase.itemIdByName.keySet().toArray( ItemDatabase.canonicalNames );
 	}
 
         private static final void saveItemValues( String[] data, Map map )
@@ -550,6 +554,9 @@ public class ItemDatabase
 		ItemDatabase.itemIdByName.put( StringUtilities.getCanonicalName( itemName ), id );
 		ItemDatabase.dataNameById.put( id, itemName );
 		ItemDatabase.nameById.put( id, StringUtilities.getDisplayName( itemName ) );
+
+		ItemDatabase.canonicalNames	= new String[ ItemDatabase.itemIdByName.size() ];
+		ItemDatabase.itemIdByName.keySet().toArray( ItemDatabase.canonicalNames );
 	}
 
 	/**
@@ -632,7 +639,7 @@ public class ItemDatabase
 		// that case, prefer complete versions containing the substring
 		// over truncated versions which are plurals.
 
-		List possibilities = StringUtilities.getMatchingNames( ItemDatabase.itemIdByName, canonicalName );
+		List possibilities = StringUtilities.getMatchingNames( ItemDatabase.canonicalNames, canonicalName );
 		if ( possibilities.size() == 1 )
 		{
 			return ItemDatabase.getItemId( (String) possibilities.get( 0 ), count );
@@ -1049,13 +1056,6 @@ public class ItemDatabase
 		return itemId == null ? -1 : itemId.intValue();
 	}
 
-	public static final String [] getAllNames()
-	{
-		String [] allNames = new String[ itemIdByName.size() ];
-		itemIdByName.keySet().toArray( allNames );
-		return allNames;
-	}
-
 	/**
 	 * Returns a list of all items which contain the given substring. This is useful for people who are doing lookups on
 	 * items.
@@ -1063,7 +1063,7 @@ public class ItemDatabase
 
 	public static final List getMatchingNames( final String substring )
 	{
-		return StringUtilities.getMatchingNames( ItemDatabase.itemIdByName, substring );
+		return StringUtilities.getMatchingNames( ItemDatabase.canonicalNames, substring );
 	}
 
 	/**
