@@ -197,10 +197,9 @@ public class FamiliarData
 			AdventureResult.addResultToList( KoLConstants.tally, this.item );
 		}
 
-		this.item = ItemPool.get( item.getItemId(), 1 );
-
 		if ( !KoLmafia.isRefreshing() && item != null && item != EquipmentRequest.UNEQUIP )
 		{
+			this.item = ItemPool.get( item.getItemId(), 1 );
 			AdventureResult.addResultToList( KoLConstants.inventory, ItemPool.get( item.getItemId(), -1 ) );
 			AdventureResult.addResultToList( KoLConstants.tally, ItemPool.get( item.getItemId(), -1 ) );
 		}
