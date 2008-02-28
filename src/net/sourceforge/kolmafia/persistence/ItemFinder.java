@@ -65,24 +65,7 @@ public class ItemFinder
 
 	public static final List getMatchingNames( String searchString )
 	{
-		List result = ItemDatabase.getMatchingNames( searchString );
-
-		if ( !result.isEmpty() )
-		{
-			return result;
-		}
-
-		String [] allNames = ItemDatabase.getAllNames();
-
-		for ( int i = 0; i < allNames.length; ++i )
-		{
-			if ( StringUtilities.fuzzyMatches( allNames[i], searchString ) )
-			{
-				result.add( allNames[i] );
-			}
-		}
-
-		return result;
+		return ItemDatabase.getMatchingNames( searchString );
 	}
 
 	public static final int getFirstMatchingItemId( List nameList, String searchString )

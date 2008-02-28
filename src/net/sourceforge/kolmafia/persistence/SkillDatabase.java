@@ -34,7 +34,9 @@
 package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -46,7 +48,6 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.StaticEntity;
-
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
@@ -55,6 +56,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class SkillDatabase
 	extends KoLDatabase
 {
+	private static String [] canonicalNames = new String[0];
 	private static final Map skillById = new TreeMap();
 	private static final Map skillByName = new TreeMap();
 	private static final Map mpConsumptionById = new TreeMap();
@@ -134,6 +136,9 @@ public class SkillDatabase
 
 			StaticEntity.printStackTrace( e );
 		}
+
+		SkillDatabase.canonicalNames = new String[ SkillDatabase.skillByName.size() ];
+		SkillDatabase.skillByName.keySet().toArray( SkillDatabase.canonicalNames );
 	}
 
 	private static final void addSkill( final Integer skillId, final String skillName, final Integer skillType,
@@ -227,7 +232,7 @@ public class SkillDatabase
 
 	public static final List getMatchingNames( final String substring )
 	{
-		return StringUtilities.getMatchingNames( SkillDatabase.skillByName, substring );
+		return StringUtilities.getMatchingNames( SkillDatabase.canonicalNames, substring );
 	}
 
 	/**
@@ -587,7 +592,7 @@ public class SkillDatabase
 
 	public static final boolean contains( final String skillName )
 	{
-		return SkillDatabase.skillByName.containsKey( StringUtilities.getCanonicalName( skillName ) );
+		return Arrays.binarySearch( SkillDatabase.canonicalNames, StringUtilities.getCanonicalName( skillName ) ) >= 0;
 	}
 
 	/**
