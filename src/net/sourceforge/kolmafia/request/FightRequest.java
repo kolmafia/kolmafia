@@ -472,9 +472,7 @@ public class FightRequest
 
 				if ( FightRequest.encounterLookup.equals( "rampaging adding machine" ) )
 				{
-					KoLmafia.updateDisplay(
-						KoLConstants.ABORT_STATE, "Dictionaries do not work against adding machines." );
-					FightRequest.action1 = "abort";
+					FightRequest.action1 = "attack";
 					return;
 				}
 			}
