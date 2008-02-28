@@ -191,15 +191,28 @@ public class FamiliarData
 			return;
 		}
 
+		if ( this.item != null && item != null && this.item.getItemId() == item.getItemId() )
+		{
+			return;
+		}
+
 		if ( !KoLmafia.isRefreshing() && this.item != null && this.item != EquipmentRequest.UNEQUIP )
 		{
 			AdventureResult.addResultToList( KoLConstants.inventory, this.item );
 			AdventureResult.addResultToList( KoLConstants.tally, this.item );
 		}
 
-		if ( !KoLmafia.isRefreshing() && item != null && item != EquipmentRequest.UNEQUIP )
+		if ( item != null && item != EquipmentRequest.UNEQUIP )
 		{
 			this.item = ItemPool.get( item.getItemId(), 1 );
+		}
+		else
+		{
+			this.item = item;
+		}
+
+		if ( !KoLmafia.isRefreshing() && item != null && item != EquipmentRequest.UNEQUIP )
+		{
 			AdventureResult.addResultToList( KoLConstants.inventory, ItemPool.get( item.getItemId(), -1 ) );
 			AdventureResult.addResultToList( KoLConstants.tally, ItemPool.get( item.getItemId(), -1 ) );
 		}
