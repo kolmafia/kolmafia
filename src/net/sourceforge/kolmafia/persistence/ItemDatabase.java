@@ -304,7 +304,7 @@ public class ItemDatabase
 		ItemDatabase.itemIdByName.keySet().toArray( ItemDatabase.canonicalNames );
 	}
 
-        private static final void saveItemValues( String[] data, Map map )
+    private static final void saveItemValues( String[] data, Map map )
 	{
 		if ( data.length < 2 )
 			return;
@@ -642,7 +642,7 @@ public class ItemDatabase
 		List possibilities = StringUtilities.getMatchingNames( ItemDatabase.canonicalNames, canonicalName );
 		if ( possibilities.size() == 1 )
 		{
-			return ItemDatabase.getItemId( (String) possibilities.get( 0 ), count );
+			return ((Integer)ItemDatabase.itemIdByName.get( possibilities.get( 0 ) )).intValue();
 		}
 
 		// Abort if it's clearly not going to be a plural,

@@ -389,6 +389,7 @@ public class CharacterEntities
 		{
 			String entity = CharacterEntities.UNICODE_TABLE[ i ][ 0 ];
 			Character unicode = new Character( CharacterEntities.UNICODE_TABLE[ i ][ 1 ].charAt( 0 ) );
+
 			CharacterEntities.entities.put( unicode, entity );
 			CharacterEntities.unicodes.put( entity, unicode );
 		}
@@ -408,7 +409,7 @@ public class CharacterEntities
 		{
 			ch = unicodeVersion.charAt( i );
 
-			if ( Character.isJavaIdentifierPart( ch ) || Character.isWhitespace( ch ) )
+			if ( Character.isWhitespace( ch ) )
 			{
 				continue;
 			}
