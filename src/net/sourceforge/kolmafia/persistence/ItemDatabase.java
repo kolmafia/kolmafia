@@ -899,6 +899,7 @@ public class ItemDatabase
 
 		int fullness = ItemDatabase.getFullness( name );
 		int inebriety = ItemDatabase.getInebriety( name );
+		int spleenhit = ItemDatabase.getSpleenHit( name );
 
 		String range = null;
 
@@ -918,7 +919,18 @@ public class ItemDatabase
 				(String) ItemDatabase.getAdventureMap(
 					Preferences.getBoolean( "showGainsPerUnit" ),
 					KoLCharacter.getSign().indexOf( "Blender" ) != -1,
-					KoLConstants.activeEffects.contains( ItemDatabase.ODE ), false ).get(
+					KoLConstants.activeEffects.contains( ItemDatabase.ODE ),
+					false ).get(
+					StringUtilities.getCanonicalName( name ) );
+		}
+		else if ( spleenhit > 0 )
+		{
+			range =
+				(String) ItemDatabase.getAdventureMap(
+					Preferences.getBoolean( "showGainsPerUnit" ),
+					false,
+					false,
+					false ).get(
 					StringUtilities.getCanonicalName( name ) );
 		}
 

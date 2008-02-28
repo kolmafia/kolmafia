@@ -198,29 +198,39 @@ public class ListCellRendererFactory
 
 			int fullness = ItemDatabase.getFullness( item.getName() );
 			int inebriety = ItemDatabase.getInebriety( item.getName() );
+			int spleenhit = ItemDatabase.getSpleenHit( item.getName() );
 
-			if ( inebriety > 0 )
+			if ( fullness > 0 )
+			{
+				stringForm.append( fullness );
+				stringForm.append( " full" );
+			}
+			else if ( inebriety > 0 )
 			{
 				stringForm.append( inebriety );
 				stringForm.append( " drunk" );
 			}
-			else
+			else if ( spleenhit > 0 )
 			{
-				stringForm.append( fullness );
-				stringForm.append( " full" );
+				stringForm.append( spleenhit );
+				stringForm.append( " spleen" );
 			}
 
 			this.appendRange( stringForm, ItemDatabase.getAdventureRange( item.getName() ), "adv" );
 
 			if ( Preferences.getBoolean( "showGainsPerUnit" ) )
 			{
-				if ( inebriety > 0 )
+				if ( fullness > 0 )
+				{
+					stringForm.append( " / full" );
+				}
+				else if ( inebriety > 0 )
 				{
 					stringForm.append( " / drunk" );
 				}
-				else
+				else if ( spleenhit > 0 )
 				{
-					stringForm.append( " / full" );
+					stringForm.append( " / spleen" );
 				}
 			}
 

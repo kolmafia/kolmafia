@@ -115,6 +115,7 @@ public class ItemPool
 	public static final int TAM_O_SHATNER = 1539;
 	public static final int ASTRAL_MUSHROOM = 1622;
 	public static final int BADGER_BADGE = 1623;
+	public static final int MILK_OF_MAGNESIUM = 1650;
 	public static final int CITADEL_SATCHEL = 1656;
 	public static final int GROUCHO_DISGUISE = 1678;
 	public static final int LIBRARY_KEY = 1764;
@@ -145,6 +146,7 @@ public class ItemPool
 	public static final int ANT_PITCHFORK = 2572;
 	public static final int ANT_SICKLE = 2573;
 	public static final int ANT_PICK = 2574;
+	public static final int MOJO_FILTER = 2614;
 	public static final int PARROT_CRACKER = 2710;
 	public static final int FOIL_BOW = 3043;
 	public static final int FOIL_RADAR = 3044;

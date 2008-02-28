@@ -64,6 +64,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
@@ -91,6 +92,7 @@ public class ItemManageFrame
 	private static int pullsRemaining = 0;
 	private static JTabbedPane fullnessTabs;
 	private static JTabbedPane inebrietyTabs;
+	private static JTabbedPane spleenhitTabs;
 
 	private static final JLabel pullsRemainingLabel1 = new JLabel( " " );
 	private static final JLabel pullsRemainingLabel2 = new JLabel( " " );
@@ -120,9 +122,9 @@ public class ItemManageFrame
 
 		if ( Preferences.getBoolean( "addCreationQueue" ) )
 		{
-			foodPanel.add( new ConsumePanel( true, false ), BorderLayout.NORTH );
+			foodPanel.add( new ConsumePanel( true, false, false ), BorderLayout.NORTH );
 		}
-		foodPanel.add( new QueuePanel( true, false ), BorderLayout.CENTER );
+		foodPanel.add( new QueuePanel( true, false, false ), BorderLayout.CENTER );
 
 		this.addPanel( " - Food", foodPanel );
 
@@ -130,11 +132,22 @@ public class ItemManageFrame
 
 		if ( Preferences.getBoolean( "addCreationQueue" ) )
 		{
-			boozePanel.add( new ConsumePanel( false, true ), BorderLayout.NORTH );
+			boozePanel.add( new ConsumePanel( false, true, false ), BorderLayout.NORTH );
 		}
-		boozePanel.add( new QueuePanel( false, true ), BorderLayout.CENTER );
+		boozePanel.add( new QueuePanel( false, true, false ), BorderLayout.CENTER );
 
 		this.addPanel( " - Booze", boozePanel );
+
+		JPanel spleenPanel = new JPanel( new BorderLayout() );
+
+		if ( Preferences.getBoolean( "addCreationQueue" ) )
+		{
+			spleenPanel.add( new ConsumePanel( false, false, true ), BorderLayout.NORTH );
+		}
+		spleenPanel.add( new QueuePanel( false, false, true ), BorderLayout.CENTER );
+
+		this.addPanel( " - Spleen", spleenPanel );
+
 		this.addPanel( " - Restores", new RestorativeItemPanel() );
 
 		this.addSeparator();
@@ -326,19 +339,18 @@ public class ItemManageFrame
 		}
 	}
 
-	private static final AdventureResult MAGNESIUM = new AdventureResult( "milk of magnesium", 1, false );
-
 	private class ConsumePanel
 		extends ItemManagePanel
 	{
-		private final boolean food, booze;
+		private final boolean food, booze, spleen;
 
-		public ConsumePanel( final boolean food, final boolean booze )
+		public ConsumePanel( final boolean food, final boolean booze, final boolean spleen )
 		{
 			super( "consume", "create", ConcoctionDatabase.getUsables(), false, false );
 
 			this.food = food;
 			this.booze = booze;
+			this.spleen = spleen;
 
 			JLabel test = new JLabel( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
 
@@ -355,10 +367,15 @@ public class ItemManageFrame
 				ItemManageFrame.fullnessTabs = queueTabs;
 				queueTabs.addTab( "0 Full Queued", this.centerPanel );
 			}
-			else
+			else if ( this.booze )
 			{
 				ItemManageFrame.inebrietyTabs = queueTabs;
 				queueTabs.addTab( "0 Drunk Queued", this.centerPanel );
+			}
+			else if ( this.spleen )
+			{
+				ItemManageFrame.spleenhitTabs = queueTabs;
+				queueTabs.addTab( "0 Spleen Queued", this.centerPanel );
 			}
 
 			queueTabs.addTab( "Ingredients Used", new GenericScrollPane( ConcoctionDatabase.getQueue(), 7 ) );
@@ -387,6 +404,10 @@ public class ItemManageFrame
 			{
 				ItemManageFrame.inebrietyTabs.setTitleAt( 0, ConcoctionDatabase.getQueuedInebriety() + " Drunk Queued" );
 			}
+			if ( ItemManageFrame.spleenhitTabs != null )
+			{
+				ItemManageFrame.spleenhitTabs.setTitleAt( 0, ConcoctionDatabase.getQueuedSpleenHit() + " Spleen Queued" );
+			}
 		}
 
 		public void actionCancelled()
@@ -400,6 +421,10 @@ public class ItemManageFrame
 			if ( ItemManageFrame.inebrietyTabs != null )
 			{
 				ItemManageFrame.inebrietyTabs.setTitleAt( 0, ConcoctionDatabase.getQueuedInebriety() + " Drunk Queued" );
+			}
+			if ( ItemManageFrame.spleenhitTabs != null )
+			{
+				ItemManageFrame.spleenhitTabs.setTitleAt( 0, ConcoctionDatabase.getQueuedSpleenHit() + " Spleen Queued" );
 			}
 		}
 
@@ -426,6 +451,11 @@ public class ItemManageFrame
 					ItemManageFrame.inebrietyTabs.setTitleAt(
 						0, ConcoctionDatabase.getQueuedInebriety() + " Drunk Queued" );
 				}
+				if ( ItemManageFrame.spleenhitTabs != null )
+				{
+					ItemManageFrame.spleenhitTabs.setTitleAt(
+						0, ConcoctionDatabase.getQueuedSpleenHit() + " Spleen Queued" );
+				}
 			}
 		}
 
@@ -441,21 +471,22 @@ public class ItemManageFrame
 					return false;
 				}
 
-				int fullness = ItemDatabase.getFullness( creation.getName() );
-				int inebriety = ItemDatabase.getInebriety( creation.getName() );
-
-				if ( fullness > 0 )
+				if ( ItemDatabase.getFullness( creation.getName() ) > 0 )
 				{
 					return ConsumePanel.this.food && super.isVisible( element );
 				}
-				else if ( inebriety > 0 )
+
+				if ( ItemDatabase.getInebriety( creation.getName() ) > 0 )
 				{
 					return ConsumePanel.this.booze && super.isVisible( element );
 				}
-				else
+
+				if ( ItemDatabase.getSpleenHit( creation.getName() ) > 0 )
 				{
-					return false;
+					return ConsumePanel.this.spleen && super.isVisible( element );
 				}
+
+				return false;
 			}
 		}
 	}
@@ -463,15 +494,16 @@ public class ItemManageFrame
 	private class QueuePanel
 		extends ItemManagePanel
 	{
-		private boolean food, booze;
+		private boolean food, booze, spleen;
 		private final JCheckBox[] filters;
 
-		public QueuePanel( final boolean food, final boolean booze )
+		public QueuePanel( final boolean food, final boolean booze, final boolean spleen )
 		{
 			super( ConcoctionDatabase.getUsables(), true, true );
 
 			this.food = food;
 			this.booze = booze;
+			this.spleen = spleen;
 
 			if ( Preferences.getBoolean( "addCreationQueue" ) )
 			{
@@ -490,7 +522,7 @@ public class ItemManageFrame
 			this.elementList.setVisibleRowCount( 6 );
 			this.elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 
-			this.filters = new JCheckBox[ food || booze ? 5 : 4 ];
+			this.filters = new JCheckBox[ food || booze || spleen ? 5 : 4 ];
 
 			this.filters[ 0 ] = new JCheckBox( "no create" );
 			this.filters[ 1 ] = new JCheckBox( "+mus only" );
@@ -502,7 +534,7 @@ public class ItemManageFrame
 				this.listenToCheckBox( this.filters[ i ] );
 			}
 
-			if ( food || booze )
+			if ( food || booze || spleen )
 			{
 				this.filters[ 4 ] = new ExperimentalCheckbox( food, booze );
 			}
@@ -565,6 +597,11 @@ public class ItemManageFrame
 					ItemManageFrame.inebrietyTabs.setTitleAt(
 						0, ConcoctionDatabase.getQueuedInebriety() + " Drunk Queued" );
 				}
+				if ( ItemManageFrame.spleenhitTabs != null )
+				{
+					ItemManageFrame.spleenhitTabs.setTitleAt(
+						0, ConcoctionDatabase.getQueuedSpleenHit() + " Spleen Queued" );
+				}
 			}
 
 			public String toString()
@@ -592,6 +629,11 @@ public class ItemManageFrame
 					ItemManageFrame.inebrietyTabs.setTitleAt(
 						0, ConcoctionDatabase.getQueuedInebriety() + " Drunk Queued" );
 				}
+				if ( ItemManageFrame.spleenhitTabs != null )
+				{
+					ItemManageFrame.spleenhitTabs.setTitleAt(
+						0, ConcoctionDatabase.getQueuedSpleenHit() + " Spleen Queued" );
+				}
 			}
 
 			public String toString()
@@ -607,17 +649,24 @@ public class ItemManageFrame
 			{
 				if ( QueuePanel.this.food )
 				{
-					RequestThread.postRequest( new UseItemRequest( ItemManageFrame.MAGNESIUM ) );
+					RequestThread.postRequest( new UseItemRequest( ItemPool.get( ItemPool.MILK_OF_MAGNESIUM, 1 ) ) );
 				}
-				else if ( !KoLConstants.activeEffects.contains( new AdventureResult( "Ode to Booze", 1, true ) ) )
+				else if ( QueuePanel.this.booze )
 				{
-					RequestThread.postRequest( UseSkillRequest.getInstance( "The Ode to Booze", 1 ) );
+					if ( !KoLConstants.activeEffects.contains( new AdventureResult( "Ode to Booze", 1, true ) ) )
+					{
+						RequestThread.postRequest( UseSkillRequest.getInstance( "The Ode to Booze", 1 ) );
+					}
+				}
+				else if ( QueuePanel.this.spleen )
+				{
+					RequestThread.postRequest( new UseItemRequest( ItemPool.get( ItemPool.MOJO_FILTER, 1 ) ) );
 				}
 			}
 
 			public String toString()
 			{
-				return QueuePanel.this.food ? "use milk" : "cast ode";
+				return QueuePanel.this.food ? "use milk" : QueuePanel.this.booze ? "cast ode" : "flush mojo";
 			}
 		}
 
@@ -628,19 +677,23 @@ public class ItemManageFrame
 			{
 				Concoction creation = (Concoction) element;
 
-				int fullness = ItemDatabase.getFullness( creation.getName() );
-				int inebriety = ItemDatabase.getInebriety( creation.getName() );
-
-				if ( fullness > 0 )
+				if ( ItemDatabase.getFullness( creation.getName() ) > 0 )
 				{
 					if ( !QueuePanel.this.food )
 					{
 						return false;
 					}
 				}
-				else if ( inebriety > 0 )
+				else if ( ItemDatabase.getInebriety( creation.getName() ) > 0 )
 				{
 					if ( !QueuePanel.this.booze )
+					{
+						return false;
+					}
+				}
+				else if ( ItemDatabase.getSpleenHit( creation.getName() ) > 0 )
+				{
+					if ( !QueuePanel.this.spleen )
 					{
 						return false;
 					}
@@ -702,7 +755,7 @@ public class ItemManageFrame
 	{
 		public ExperimentalCheckbox( final boolean food, final boolean booze )
 		{
-			super( food && booze ? "per full/drunk" : booze ? "per drunk" : "per full" );
+			super( food && booze ? "per full/drunk" : booze ? "per drunk" : food ? "per full" : "per spleen" );
 
 			this.setToolTipText( "Sort gains per adventure" );
 			this.setSelected( Preferences.getBoolean( "showGainsPerUnit" ) );
