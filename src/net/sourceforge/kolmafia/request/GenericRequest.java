@@ -1267,9 +1267,13 @@ public class GenericRequest
 			{
 				return KoLmafia.refusesContinue();
 			}
+		}
 
+		if ( istream == null )
+		{
 			this.responseCode = 302;
 			this.redirectLocation = "main.php";
+			return true;
 		}
 
 		if ( this.shouldUpdateDebugLog() )
