@@ -458,6 +458,14 @@ public class ItemManagePanel
 						previous > capacity ? itemCount : Math.max( 1, Math.min(
 							( capacity - previous ) / unit, itemCount ) );
 				}
+				else if ( ( (Concoction) item ).getSpleenHit() > 0 )
+				{
+					previous = KoLCharacter.getSpleenUse() + ConcoctionDatabase.getQueuedSpleenHit();
+					capacity = KoLCharacter.getSpleenLimit();
+					unit = ( (Concoction) item ).getSpleenHit();
+
+					standard = previous >= capacity ? itemCount : Math.min( ( capacity - previous ) / unit, itemCount );
+				}
 			}
 			else
 			{

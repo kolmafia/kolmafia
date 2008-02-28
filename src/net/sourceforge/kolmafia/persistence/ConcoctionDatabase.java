@@ -76,6 +76,7 @@ public class ConcoctionDatabase
 
 	private static int queuedFullness = 0;
 	private static int queuedInebriety = 0;
+	private static int queuedSpleenHit = 0;
 	private static int queuedAdventuresUsed = 0;
 	private static int queuedStillsUsed = 0;
 
@@ -372,6 +373,7 @@ public class ConcoctionDatabase
 
 		ConcoctionDatabase.queuedFullness += c.getFullness() * quantity;
 		ConcoctionDatabase.queuedInebriety += c.getInebriety() * quantity;
+		ConcoctionDatabase.queuedSpleenHit += c.getSpleenHit() * quantity;
 
 		ArrayList ingredientChange = new ArrayList();
 		c.queue( ingredientChange, quantity );
@@ -420,6 +422,7 @@ public class ConcoctionDatabase
 
 		ConcoctionDatabase.queuedFullness -= c.getFullness() * quantity.intValue();
 		ConcoctionDatabase.queuedInebriety -= c.getInebriety() * quantity.intValue();
+		ConcoctionDatabase.queuedSpleenHit -= c.getSpleenHit() * quantity.intValue();
 	}
 
 	public static final LockableListModel getUsables()
@@ -443,6 +446,7 @@ public class ConcoctionDatabase
 		ConcoctionDatabase.queuedAdventuresUsed = 0;
 		ConcoctionDatabase.queuedFullness = 0;
 		ConcoctionDatabase.queuedInebriety = 0;
+		ConcoctionDatabase.queuedSpleenHit = 0;
 
 		ConcoctionDatabase.ignoreRefresh = true;
 
@@ -521,6 +525,11 @@ public class ConcoctionDatabase
 	public static final int getQueuedInebriety()
 	{
 		return ConcoctionDatabase.queuedInebriety;
+	}
+
+	public static final int getQueuedSpleenHit()
+	{
+		return ConcoctionDatabase.queuedSpleenHit;
 	}
 
 	private static final List getAvailableIngredients()
@@ -1210,7 +1219,7 @@ public class ConcoctionDatabase
 
 		private int modifier, multiplier;
 		private int initial, creatable, total, queued;
-		private final int fullness, inebriety;
+		private final int fullness, inebriety, spleenhit;
 		private int visibleTotal;
 
 		public Concoction( final String name, final int price )
@@ -1227,19 +1236,23 @@ public class ConcoctionDatabase
 
 			this.fullness = ItemDatabase.getFullness( name );
 			this.inebriety = ItemDatabase.getInebriety( name );
+			this.spleenhit = ItemDatabase.getSpleenHit( name );
 
-			int consumeType = this.fullness == 0 ? KoLConstants.CONSUME_DRINK : KoLConstants.CONSUME_EAT;
+			int consumeType = this.fullness > 0 ? KoLConstants.CONSUME_EAT : this.inebriety > 0 ? KoLConstants.CONSUME_DRINK : KoLConstants.CONSUME_USE;
 
 			switch ( consumeType )
 			{
 			case KoLConstants.CONSUME_EAT:
-				this.sortOrder = this.fullness > 0 ? 1 : 3;
+				this.sortOrder = this.fullness > 0 ? 1 : 4;
 				break;
 			case KoLConstants.CONSUME_DRINK:
-				this.sortOrder = this.inebriety > 0 ? 2 : 3;
+				this.sortOrder = this.inebriety > 0 ? 2 : 4;
+				break;
+			case KoLConstants.CONSUME_USE:
+				this.sortOrder = this.spleenhit > 0 ? 3 : 4;
 				break;
 			default:
-				this.sortOrder = 3;
+				this.sortOrder = 4;
 				break;
 			}
 
@@ -1267,6 +1280,7 @@ public class ConcoctionDatabase
 
 			this.fullness = ItemDatabase.getFullness( this.name );
 			this.inebriety = ItemDatabase.getInebriety( this.name );
+			this.spleenhit = ItemDatabase.getSpleenHit( this.name );
 
 			this.ingredients = new ArrayList();
 			this.ingredientArray = new AdventureResult[ 0 ];
@@ -1277,13 +1291,17 @@ public class ConcoctionDatabase
 			switch ( consumeType )
 			{
 			case KoLConstants.CONSUME_EAT:
-				this.sortOrder = this.fullness > 0 ? 1 : 3;
+				this.sortOrder = this.fullness > 0 ? 1 : 4;
 				break;
 			case KoLConstants.CONSUME_DRINK:
-				this.sortOrder = this.inebriety > 0 ? 2 : 3;
+				this.sortOrder = this.inebriety > 0 ? 2 : 4;
+				break;
+			case KoLConstants.CONSUME_USE:
+			case KoLConstants.CONSUME_MULTIPLE:
+				this.sortOrder = this.spleenhit > 0 ? 3 : 4;
 				break;
 			default:
-				this.sortOrder = 3;
+				this.sortOrder = 4;
 				break;
 			}
 
@@ -1354,6 +1372,14 @@ public class ConcoctionDatabase
 				if ( inebriety1 != inebriety2 )
 				{
 					return inebriety2 - inebriety1;
+				}
+
+				int spleenhit1 = this.spleenhit;
+				int spleenhit2 = ( (Concoction) o ).spleenhit;
+
+				if ( spleenhit1 != spleenhit2 )
+				{
+					return spleenhit2 - spleenhit1;
 				}
 			}
 
@@ -1432,6 +1458,11 @@ public class ConcoctionDatabase
 		public int getInebriety()
 		{
 			return this.inebriety;
+		}
+
+		public int getSpleenHit()
+		{
+			return this.spleenhit;
 		}
 
 		public void queue( final ArrayList ingredientChange, final int amount )
@@ -1518,15 +1549,7 @@ public class ConcoctionDatabase
 
 			if ( this.concoction == null && this.name != null )
 			{
-				if ( ItemDatabase.getFullness( this.name ) > 0 )
-				{
-					this.initial = KoLCharacter.getAvailableMeat() / this.price;
-				}
-				else
-				{
-					this.initial = KoLCharacter.getAvailableMeat() / this.price;
-				}
-
+				this.initial = KoLCharacter.getAvailableMeat() / this.price;
 				this.creatable = -1;
 				this.total = this.initial;
 			}
