@@ -64,10 +64,17 @@ public class StringUtilities
 	 * @return The canonicalized name
 	 */
 
-	public static final String getCanonicalName( final String name )
+	public static final String getCanonicalName( String name )
 	{
-		return name == null ? null : StringUtilities.globalStringReplace( CharacterEntities.escape(
-			CharacterEntities.unescape( name ) ).toLowerCase(), "  ", " " );
+		if ( name == null )
+		{
+			return null;
+		}
+
+		name = CharacterEntities.escape( CharacterEntities.unescape( name ) );
+		name = StringUtilities.globalStringReplace( name, "  ", " " ).toLowerCase();
+
+		return name;
 	}
 
 	/**
@@ -186,6 +193,7 @@ public class StringUtilities
 		int sourceIndex = -1;
 		int maxSourceIndex = sourceString.length() - 1;
 
+		boolean matchedSpace = true;
 		char searchChar = Character.toLowerCase( searchString.charAt( 0 ) );
 
 		// First, find the index of the first character
@@ -195,10 +203,12 @@ public class StringUtilities
 		for ( int i = 0; i <= maxSourceIndex && sourceIndex == -1; ++i )
 		{
 			sourceChar = Character.toLowerCase( sourceString.charAt(i) );
-			if ( searchChar == sourceChar )
+			if ( matchedSpace && searchChar == sourceChar )
 			{
 				sourceIndex = i;
 			}
+
+			matchedSpace = Character.isWhitespace( sourceChar );
 		}
 
 		if ( sourceIndex == -1 )
@@ -209,13 +219,15 @@ public class StringUtilities
 		++sourceIndex;
 		int maxSearchIndex = searchString.length() - 1;
 
-		boolean matchedSpace = false;
-
 		// Next, search the rest of the string.  Make sure
 		// that all characters are accounted for in the fuzzy
 		// matching sequence.
 
-		for ( int searchIndex = 1; searchIndex <= maxSearchIndex; ++searchIndex )
+		boolean debug = false;
+//		boolean debug = sourceString.startsWith( "jaba" );
+		if (debug) System.out.println(sourceString);
+
+		for ( int searchIndex = 1; searchIndex <= maxSearchIndex; ++searchIndex, ++sourceIndex )
 		{
 			if ( sourceIndex > maxSourceIndex )
 			{
@@ -226,30 +238,38 @@ public class StringUtilities
 			sourceChar = Character.toLowerCase( sourceString.charAt( sourceIndex ) );
 			matchedSpace = Character.isWhitespace( searchChar );
 
-			if ( searchChar == sourceChar )
-			{
-				++sourceIndex;
-				continue;
-			}
+		if (debug) System.out.println("0: " + sourceChar);
 
-			// Search for the next matching character after
-			// the whitespace in the source string.
+			// Search for the next matching character in the
+			// source string.
 
 			while ( searchChar != sourceChar )
 			{
+				// If the search string is currently at a space, or you have not
+				// yet reached a word boundary, continue the loop.
+
 				if ( ++sourceIndex > maxSourceIndex )
 				{
 					return false;
 				}
 
 				sourceChar = Character.toLowerCase( sourceString.charAt( sourceIndex ) );
+		if (debug) System.out.println("1: " + sourceChar);
 
-				if ( !matchedSpace && Character.isWhitespace( sourceChar ) )
+				// If the search string is currently at a space, or you have not
+				// yet reached a word boundary, continue the loop.
+
+				if ( matchedSpace || !Character.isWhitespace( sourceChar ) )
 				{
-					// It's possible to allow for abbreviations like
-					// mmj which match the first letter of each word.
+					continue;
+				}
 
-					do
+				// Skip the word and continue searching.  Once all words are exhausted,
+				// fail the fuzzy match.
+
+				while ( searchChar != sourceChar )
+				{
+					while ( !Character.isWhitespace( sourceChar ) )
 					{
 						if ( ++sourceIndex > maxSourceIndex )
 						{
@@ -257,20 +277,21 @@ public class StringUtilities
 						}
 
 						sourceChar = Character.toLowerCase( sourceString.charAt( sourceIndex ) );
+		if (debug) System.out.println("2: " + sourceChar);
 					}
-					while ( Character.isWhitespace( sourceChar ) );
 
-					if ( searchChar != sourceChar )
+					while ( Character.isWhitespace( sourceChar ) )
 					{
-						return false;
+						if ( ++sourceIndex > maxSourceIndex )
+						{
+							return false;
+						}
+
+						sourceChar = Character.toLowerCase( sourceString.charAt( sourceIndex ) );
+		if (debug) System.out.println("3: " + sourceChar);
 					}
 				}
 			}
-
-			// Now that we know we've found the character,
-			// increment the counter and continue.
-
-			++sourceIndex;
 		}
 
 		return true;
