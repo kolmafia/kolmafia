@@ -34,22 +34,17 @@
 package net.sourceforge.kolmafia;
 
 import java.awt.Color;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.RandomAccessFile;
-
 import java.lang.reflect.Method;
 import java.math.BigInteger;
-
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -69,19 +64,33 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.UtilityConstants;
+
 import net.sourceforge.kolmafia.HPRestoreItemList.HPRestoreItem;
 import net.sourceforge.kolmafia.MPRestoreItemList.MPRestoreItem;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.persistence.AdventureDatabase;
-import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
-import net.sourceforge.kolmafia.persistence.CustomItemDatabase;
-import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
-import net.sourceforge.kolmafia.persistence.FlaggedItems;
-import net.sourceforge.kolmafia.persistence.HolidayDatabase;
-import net.sourceforge.kolmafia.persistence.ItemDatabase;
-import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
-import net.sourceforge.kolmafia.persistence.Preferences;
-import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.session.ClanManager;
+import net.sourceforge.kolmafia.session.DisplayCaseManager;
+import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.LouvreManager;
+import net.sourceforge.kolmafia.session.MailManager;
+import net.sourceforge.kolmafia.session.MoodManager;
+import net.sourceforge.kolmafia.session.MushroomManager;
+import net.sourceforge.kolmafia.session.StoreManager;
+import net.sourceforge.kolmafia.session.VioletFogManager;
+import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
+import net.sourceforge.kolmafia.swingui.AdventureFrame;
+import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
+import net.sourceforge.kolmafia.swingui.CouncilFrame;
+import net.sourceforge.kolmafia.swingui.GenericFrame;
+import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
+import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
+import net.sourceforge.kolmafia.utilities.CharacterEntities;
+import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
+import net.sourceforge.kolmafia.webui.IslandDecorator;
+
 import net.sourceforge.kolmafia.request.AccountRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
@@ -109,28 +118,17 @@ import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
-import net.sourceforge.kolmafia.session.ClanManager;
-import net.sourceforge.kolmafia.session.DisplayCaseManager;
-import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.LouvreManager;
-import net.sourceforge.kolmafia.session.MailManager;
-import net.sourceforge.kolmafia.session.MoodManager;
-import net.sourceforge.kolmafia.session.MushroomManager;
-import net.sourceforge.kolmafia.session.StoreManager;
-import net.sourceforge.kolmafia.session.VioletFogManager;
-import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
-import net.sourceforge.kolmafia.swingui.AdventureFrame;
-import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
-import net.sourceforge.kolmafia.swingui.CouncilFrame;
-import net.sourceforge.kolmafia.swingui.GenericFrame;
-import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
-import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
-import net.sourceforge.kolmafia.utilities.CharacterEntities;
-import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
-import net.sourceforge.kolmafia.utilities.FileUtilities;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
-import net.sourceforge.kolmafia.webui.IslandDecorator;
+
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.CustomItemDatabase;
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.FlaggedItems;
+import net.sourceforge.kolmafia.persistence.HolidayDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 public abstract class KoLmafia
 {
@@ -2917,7 +2915,7 @@ public abstract class KoLmafia
 			int itemId = currentItem.getItemId();
 
 			// Ignore silly fairy gravy + meat from yesterday recipe
-			if ( itemId == KoLConstants.MEAT_STACK )
+			if ( itemId == ItemPool.MEAT_STACK )
 			{
 				continue;
 			}
@@ -4237,7 +4235,7 @@ public abstract class KoLmafia
 
 		for ( int i = 0; i < items.length; ++i )
 		{
-			if ( items[ i ].getItemId() == KoLConstants.MEAT_PASTE || items[ i ].getItemId() == KoLConstants.MEAT_STACK || items[ i ].getItemId() == KoLConstants.DENSE_STACK )
+			if ( items[ i ].getItemId() == ItemPool.MEAT_PASTE || items[ i ].getItemId() == ItemPool.MEAT_STACK || items[ i ].getItemId() == ItemPool.DENSE_STACK )
 			{
 				continue;
 			}
@@ -4309,7 +4307,7 @@ public abstract class KoLmafia
 				continue;
 			}
 
-			if ( currentItem.getItemId() == KoLConstants.MEAT_PASTE || currentItem.getItemId() == KoLConstants.MEAT_STACK || currentItem.getItemId() == KoLConstants.DENSE_STACK )
+			if ( currentItem.getItemId() == ItemPool.MEAT_PASTE || currentItem.getItemId() == ItemPool.MEAT_STACK || currentItem.getItemId() == ItemPool.DENSE_STACK )
 			{
 				continue;
 			}
@@ -4448,7 +4446,7 @@ public abstract class KoLmafia
 					case KoLConstants.EQUIP_WEAPON:
 					case KoLConstants.EQUIP_OFFHAND:
 
-						if ( InventoryManager.hasItem( ConcoctionDatabase.HAMMER ) && itemPower >= 100 || hasMalusAccess && itemPower > 10 )
+						if ( InventoryManager.hasItem( ItemPool.TENDER_HAMMER ) && itemPower >= 100 || hasMalusAccess && itemPower > 10 )
 						{
 							RequestThread.postRequest( new PulverizeRequest( currentItem.getInstance( itemCount ) ) );
 						}
@@ -4458,7 +4456,7 @@ public abstract class KoLmafia
 					case KoLConstants.EQUIP_FAMILIAR:
 					case KoLConstants.EQUIP_ACCESSORY:
 
-						if ( InventoryManager.hasItem( ConcoctionDatabase.HAMMER ) )
+						if ( InventoryManager.hasItem( ItemPool.TENDER_HAMMER ) )
 						{
 							RequestThread.postRequest( new PulverizeRequest( currentItem.getInstance( itemCount ) ) );
 						}
@@ -4492,7 +4490,7 @@ public abstract class KoLmafia
 				continue;
 			}
 
-			if ( currentItem.getItemId() == KoLConstants.MEAT_PASTE )
+			if ( currentItem.getItemId() == ItemPool.MEAT_PASTE )
 			{
 				continue;
 			}
@@ -4521,7 +4519,7 @@ public abstract class KoLmafia
 					continue;
 				}
 
-				if ( currentItem.getItemId() == KoLConstants.MEAT_PASTE )
+				if ( currentItem.getItemId() == ItemPool.MEAT_PASTE )
 				{
 					continue;
 				}

@@ -41,9 +41,10 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CombineMeatRequest
 	extends CreateItemRequest
@@ -60,16 +61,16 @@ public class CombineMeatRequest
 
 		this.meatType = meatType;
 		this.costToMake =
-			meatType == KoLConstants.MEAT_PASTE ? -10 : meatType == KoLConstants.MEAT_STACK ? -100 : -1000;
+			meatType == ItemPool.MEAT_PASTE ? -10 : meatType == ItemPool.MEAT_STACK ? -100 : -1000;
 	}
 
 	public int getQuantityPossible()
 	{
 		switch ( this.meatType )
 		{
-		case KoLConstants.MEAT_PASTE:
+		case ItemPool.MEAT_PASTE:
 			return KoLCharacter.getAvailableMeat() / 10;
-		case KoLConstants.MEAT_STACK:
+		case ItemPool.MEAT_STACK:
 			return KoLCharacter.getAvailableMeat() / 100;
 		default:
 			return KoLCharacter.getAvailableMeat() / 1000;

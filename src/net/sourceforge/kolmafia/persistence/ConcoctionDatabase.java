@@ -93,31 +93,6 @@ public class ConcoctionDatabase
 	private static final int[] ADVENTURE_USAGE = new int[ KoLConstants.METHOD_COUNT ];
 	private static final AdventureResult[] NO_INGREDIENTS = new AdventureResult[ 0 ];
 
-	private static final int CHEF = 438;
-	private static final int CLOCKWORK_CHEF = 1112;
-	private static final int BARTENDER = 440;
-	private static final int CLOCKWORK_BARTENDER = 1111;
-
-	public static final AdventureResult OVEN = new AdventureResult( 157, 1 );
-	public static final AdventureResult KIT = new AdventureResult( 236, 1 );
-	public static final AdventureResult HAMMER = new AdventureResult( 338, 1 );
-	public static final AdventureResult PLIERS = new AdventureResult( 709, 1 );
-
-	private static final AdventureResult PASTE = new AdventureResult( KoLConstants.MEAT_PASTE, 1 );
-	private static final AdventureResult STACK = new AdventureResult( KoLConstants.MEAT_STACK, 1 );
-	private static final AdventureResult DENSE = new AdventureResult( KoLConstants.DENSE_STACK, 1 );
-
-	private static final int TOMATO = 246;
-	public static final int WAD_DOUGH = 159;
-	public static final int FLAT_DOUGH = 301;
-
-	private static final AdventureResult DYSPEPSI = new AdventureResult( 347, 1 );
-	private static final AdventureResult CLOACA = new AdventureResult( 1334, 1 );
-	private static final AdventureResult SCHLITZ = new AdventureResult( 41, 1 );
-	private static final AdventureResult WILLER = new AdventureResult( 81, 1 );
-	private static final AdventureResult KETCHUP = new AdventureResult( 106, 1 );
-	private static final AdventureResult CATSUP = new AdventureResult( 107, 1 );
-
 	static
 	{
 		// This begins by opening up the data file and preparing
@@ -219,11 +194,11 @@ public class ConcoctionDatabase
 			// Handle meat stacks, which are created from fairy
 			// gravy and meat from yesterday.
 
-			if ( ingredients[ 0 ].getItemId() == 80 && ingredients[ 1 ].getItemId() == 87 )
+			if ( ingredients[ 0 ].getItemId() == ItemPool.GRAVY_BOAT && ingredients[ 1 ].getItemId() == ItemPool.MEAT_FROM_YESTERDAY )
 			{
 				return true;
 			}
-			if ( ingredients[ 1 ].getItemId() == 80 && ingredients[ 0 ].getItemId() == 87 )
+			if ( ingredients[ 1 ].getItemId() == ItemPool.GRAVY_BOAT && ingredients[ 0 ].getItemId() == ItemPool.MEAT_FROM_YESTERDAY )
 			{
 				return true;
 			}
@@ -231,11 +206,11 @@ public class ConcoctionDatabase
 			// Handle plain pizza, which also allows flat dough
 			// to be used instead of wads of dough.
 
-			if ( ingredients[ 0 ].getItemId() == ConcoctionDatabase.TOMATO && ingredients[ 1 ].getItemId() == ConcoctionDatabase.FLAT_DOUGH )
+			if ( ingredients[ 0 ].getItemId() == ItemPool.TOMATO && ingredients[ 1 ].getItemId() == ItemPool.DOUGH )
 			{
 				return true;
 			}
-			if ( ingredients[ 1 ].getItemId() == ConcoctionDatabase.TOMATO && ingredients[ 0 ].getItemId() == ConcoctionDatabase.FLAT_DOUGH )
+			if ( ingredients[ 1 ].getItemId() == ItemPool.TOMATO && ingredients[ 0 ].getItemId() == ItemPool.FLAT_DOUGH )
 			{
 				return true;
 			}
@@ -243,42 +218,42 @@ public class ConcoctionDatabase
 			// Handle catsup recipes, which only exist in the
 			// item table as ketchup recipes.
 
-			if ( ingredients[ 0 ].getItemId() == ConcoctionDatabase.CATSUP.getItemId() )
+			if ( ingredients[ 0 ].getItemId() == ItemPool.CATSUP )
 			{
-				ingredients[ 0 ] = ConcoctionDatabase.KETCHUP;
+				ingredients[ 0 ] = ItemPool.get( ItemPool.KETCHUP, 1 );
 				return ConcoctionDatabase.isKnownCombination( ingredients );
 			}
-			if ( ingredients[ 1 ].getItemId() == ConcoctionDatabase.CATSUP.getItemId() )
+			if ( ingredients[ 1 ].getItemId() == ItemPool.CATSUP )
 			{
-				ingredients[ 1 ] = ConcoctionDatabase.KETCHUP;
+				ingredients[ 1 ] = ItemPool.get( ItemPool.KETCHUP, 1 );
 				return ConcoctionDatabase.isKnownCombination( ingredients );
 			}
 
 			// Handle ice-cold beer recipes, which only uses the
 			// recipe for item #41 at this time.
 
-			if ( ingredients[ 0 ].getItemId() == ConcoctionDatabase.WILLER.getItemId() )
+			if ( ingredients[ 0 ].getItemId() == ItemPool.WILLER )
 			{
-				ingredients[ 0 ] = ConcoctionDatabase.SCHLITZ;
+				ingredients[ 0 ] = ItemPool.get( ItemPool.SCHLITZ, 1 );
 				return ConcoctionDatabase.isKnownCombination( ingredients );
 			}
-			if ( ingredients[ 1 ].getItemId() == ConcoctionDatabase.WILLER.getItemId() )
+			if ( ingredients[ 1 ].getItemId() == ItemPool.WILLER )
 			{
-				ingredients[ 1 ] = ConcoctionDatabase.SCHLITZ;
+				ingredients[ 1 ] = ItemPool.get( ItemPool.SCHLITZ, 1 );
 				return ConcoctionDatabase.isKnownCombination( ingredients );
 			}
 
 			// Handle cloaca recipes, which only exist in the
 			// item table as dyspepsi cola.
 
-			if ( ingredients[ 0 ].getItemId() == ConcoctionDatabase.CLOACA.getItemId() )
+			if ( ingredients[ 0 ].getItemId() == ItemPool.CLOACA_COLA )
 			{
-				ingredients[ 0 ] = ConcoctionDatabase.DYSPEPSI;
+				ingredients[ 0 ] = ItemPool.get( ItemPool.DYSPEPSI_COLA, 1 );
 				return ConcoctionDatabase.isKnownCombination( ingredients );
 			}
-			if ( ingredients[ 1 ].getItemId() == ConcoctionDatabase.CLOACA.getItemId() )
+			if ( ingredients[ 1 ].getItemId() == ItemPool.CLOACA_COLA )
 			{
-				ingredients[ 1 ] = ConcoctionDatabase.DYSPEPSI;
+				ingredients[ 1 ] = ItemPool.get( ItemPool.DYSPEPSI_COLA, 1 );
 				return ConcoctionDatabase.isKnownCombination( ingredients );
 			}
 		}
@@ -350,7 +325,7 @@ public class ConcoctionDatabase
 			String itemIdString = data.substring( 0, closeBracketIndex ).replaceAll( "[\\[\\]]", "" ).trim();
 			String quantityString = data.substring( closeBracketIndex + 1 ).trim();
 
-			return new AdventureResult(
+			return ItemPool.get(
 				StringUtilities.parseInt( itemIdString ),
 				quantityString.length() == 0 ? 1 : StringUtilities.parseInt( quantityString.replaceAll( "[\\(\\)]", "" ) ) );
 		}
@@ -590,21 +565,21 @@ public class ConcoctionDatabase
 		return availableIngredients;
 	}
 
-	private static final void setBetterIngredient( final AdventureResult item1, final AdventureResult item2,
+	private static final void setBetterIngredient( final int itemId1, final int itemId2,
 		final List availableIngredients )
 	{
 		Concoction item;
 		int available =
-			ConcoctionDatabase.getBetterIngredient( item1, item2, availableIngredients ).getCount(
+			ConcoctionDatabase.getBetterIngredient( itemId1, itemId2, availableIngredients ).getCount(
 				availableIngredients );
 
-		item = ConcoctionDatabase.concoctions.get( item1.getItemId() );
+		item = ConcoctionDatabase.concoctions.get( itemId1 );
 		item.initial = available;
 		item.creatable = 0;
 		item.total = available;
 		item.visibleTotal = available;
 
-		item = ConcoctionDatabase.concoctions.get( item2.getItemId() );
+		item = ConcoctionDatabase.concoctions.get( itemId2 );
 		item.initial = available;
 		item.creatable = 0;
 		item.total = available;
@@ -700,11 +675,11 @@ public class ConcoctionDatabase
 		// ingredient which is present in the greatest quantity.
 
 		ConcoctionDatabase.setBetterIngredient(
-			ConcoctionDatabase.DYSPEPSI, ConcoctionDatabase.CLOACA, availableIngredients );
+			ItemPool.DYSPEPSI_COLA, ItemPool.CLOACA_COLA, availableIngredients );
 		ConcoctionDatabase.setBetterIngredient(
-			ConcoctionDatabase.SCHLITZ, ConcoctionDatabase.WILLER, availableIngredients );
+			ItemPool.SCHLITZ, ItemPool.WILLER, availableIngredients );
 		ConcoctionDatabase.setBetterIngredient(
-			ConcoctionDatabase.KETCHUP, ConcoctionDatabase.CATSUP, availableIngredients );
+			ItemPool.KETCHUP, ItemPool.CATSUP, availableIngredients );
 
 		// Finally, increment through all of the things which are
 		// created any other way, making sure that it's a permitted
@@ -789,11 +764,11 @@ public class ConcoctionDatabase
 		// and are dependent upon the amount of meat available.
 
 		ConcoctionDatabase.setBasicItem(
-			availableIngredients, ConcoctionDatabase.PASTE, KoLCharacter.getAvailableMeat() / 10 );
+			availableIngredients, ItemPool.MEAT_PASTE, KoLCharacter.getAvailableMeat() / 10 );
 		ConcoctionDatabase.setBasicItem(
-			availableIngredients, ConcoctionDatabase.STACK, KoLCharacter.getAvailableMeat() / 100 );
+			availableIngredients, ItemPool.MEAT_STACK, KoLCharacter.getAvailableMeat() / 100 );
 		ConcoctionDatabase.setBasicItem(
-			availableIngredients, ConcoctionDatabase.DENSE, KoLCharacter.getAvailableMeat() / 1000 );
+			availableIngredients, ItemPool.DENSE_STACK, KoLCharacter.getAvailableMeat() / 1000 );
 
 		AdventureResult item;
 		int worthlessItems = Math.min( HermitRequest.getWorthlessItemCount(), KoLCharacter.getAvailableMeat() / 100 );
@@ -803,7 +778,7 @@ public class ConcoctionDatabase
 			item = (AdventureResult) KoLConstants.hermitItems.get( i );
 			if ( item.getItemId() != ItemPool.TEN_LEAF_CLOVER )
 			{
-				ConcoctionDatabase.setBasicItem( availableIngredients, item, worthlessItems );
+				ConcoctionDatabase.setBasicItem( availableIngredients, item.getItemId(), worthlessItems );
 			}
 		}
 
@@ -811,20 +786,19 @@ public class ConcoctionDatabase
 		for ( int i = 0; i < KoLConstants.trapperItems.size(); ++i )
 		{
 			ConcoctionDatabase.setBasicItem(
-				availableIngredients, (AdventureResult) KoLConstants.trapperItems.get( i ), furCount );
+				availableIngredients, ( (AdventureResult) KoLConstants.trapperItems.get( i ) ).getItemId(), furCount );
 		}
 	}
 
-	private static final void setBasicItem( final List availableIngredients, final AdventureResult item,
-		final int creatable )
+	private static final void setBasicItem( final List availableIngredients, final int itemId, final int creatable )
 	{
-		Concoction creation = ConcoctionDatabase.concoctions.get( item.getItemId() );
+		Concoction creation = ConcoctionDatabase.concoctions.get( itemId );
 		if ( creation == null )
 		{
 			return;
 		}
 
-		creation.initial = item.getCount( availableIngredients );
+		creation.initial = ItemPool.get( itemId, 1 ).getCount( availableIngredients );
 		creation.creatable = creatable;
 		creation.total = creation.initial + creatable;
 		creation.visibleTotal = creation.total;
@@ -885,7 +859,7 @@ public class ConcoctionDatabase
 		// has a hammer.
 
 		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.SMITH ] =
-			KoLConstants.inventory.contains( ConcoctionDatabase.HAMMER ) || KoLCharacter.getAvailableMeat() >= 1000;
+			InventoryManager.hasItem( ItemPool.TENDER_HAMMER ) || KoLCharacter.getAvailableMeat() >= 1000;
 		ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.SMITH ] = 1;
 
 		// Advanced smithing is available whenever the person can
@@ -912,7 +886,7 @@ public class ConcoctionDatabase
 		// appropriate pliers.
 
 		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.JEWELRY ] =
-			KoLConstants.inventory.contains( ConcoctionDatabase.PLIERS );
+			InventoryManager.hasItem( ItemPool.JEWELRY_PLIERS );
 		ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.JEWELRY ] = 3;
 
 		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.EXPENSIVE_JEWELRY ] =
@@ -965,17 +939,17 @@ public class ConcoctionDatabase
 		// Next, increment through all the box servant creation methods.
 		// This allows future appropriate calculation for cooking/drinking.
 
-		ConcoctionDatabase.concoctions.get( ConcoctionDatabase.CHEF ).calculate( availableIngredients );
-		ConcoctionDatabase.concoctions.get( ConcoctionDatabase.CLOCKWORK_CHEF ).calculate( availableIngredients );
-		ConcoctionDatabase.concoctions.get( ConcoctionDatabase.BARTENDER ).calculate( availableIngredients );
-		ConcoctionDatabase.concoctions.get( ConcoctionDatabase.CLOCKWORK_BARTENDER ).calculate( availableIngredients );
+		ConcoctionDatabase.concoctions.get( ItemPool.CHEF ).calculate( availableIngredients );
+		ConcoctionDatabase.concoctions.get( ItemPool.CLOCKWORK_CHEF ).calculate( availableIngredients );
+		ConcoctionDatabase.concoctions.get( ItemPool.BARTENDER ).calculate( availableIngredients );
+		ConcoctionDatabase.concoctions.get( ItemPool.CLOCKWORK_BARTENDER ).calculate( availableIngredients );
 
 		// Cooking is permitted, so long as the person has a chef
 		// or they don't need a box servant and have an oven.
 
 		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.COOK ] =
 			willBuyServant || KoLCharacter.hasChef() || ConcoctionDatabase.isAvailable(
-				ConcoctionDatabase.CHEF, ConcoctionDatabase.CLOCKWORK_CHEF );
+				ItemPool.CHEF, ItemPool.CLOCKWORK_CHEF );
 		ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.COOK ] = 0;
 
 		boolean useMall = Preferences.getBoolean( "autoSatisfyWithMall" );
@@ -989,7 +963,7 @@ public class ConcoctionDatabase
 			if ( !ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.COOK ] && !Preferences.getBoolean( "requireBoxServants" ) )
 			{
 				ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.COOK ] =
-					KoLConstants.inventory.contains( ConcoctionDatabase.OVEN ) || KoLCharacter.getAvailableMeat() >= 1000;
+					InventoryManager.hasItem( ItemPool.BAKE_OVEN ) || KoLCharacter.getAvailableMeat() >= 1000;
 				ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.COOK ] = 1;
 			}
 		}
@@ -1024,7 +998,7 @@ public class ConcoctionDatabase
 
 		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.MIX ] =
 			KoLCharacter.hasBartender() || ConcoctionDatabase.isAvailable(
-				ConcoctionDatabase.BARTENDER, ConcoctionDatabase.CLOCKWORK_BARTENDER );
+				ItemPool.BARTENDER, ItemPool.CLOCKWORK_BARTENDER );
 		ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.MIX ] = 0;
 
 		if ( !ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.MIX ] )
@@ -1035,7 +1009,7 @@ public class ConcoctionDatabase
 			if ( !ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.MIX ] && !Preferences.getBoolean( "requireBoxServants" ) )
 			{
 				ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.MIX ] =
-					KoLConstants.inventory.contains( ConcoctionDatabase.KIT ) || KoLCharacter.getAvailableMeat() >= 1000;
+					InventoryManager.hasItem( ItemPool.COCKTAIL_KIT ) || KoLCharacter.getAvailableMeat() >= 1000;
 				ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.MIX ] = 1;
 			}
 		}
@@ -1130,17 +1104,17 @@ public class ConcoctionDatabase
 
 		for ( int i = 0; i < ingredients.length; ++i )
 		{
-			if ( ingredients[ i ].getItemId() == ConcoctionDatabase.SCHLITZ.getItemId() || ingredients[ i ].getItemId() == ConcoctionDatabase.WILLER.getItemId() )
+			if ( ingredients[ i ].getItemId() == ItemPool.SCHLITZ || ingredients[ i ].getItemId() == ItemPool.WILLER )
 			{
 				ingredients[ i ] =
 					ConcoctionDatabase.getBetterIngredient(
-						ConcoctionDatabase.SCHLITZ, ConcoctionDatabase.WILLER, availableIngredients );
+						ItemPool.SCHLITZ, ItemPool.WILLER, availableIngredients );
 			}
-			else if ( ingredients[ i ].getItemId() == ConcoctionDatabase.KETCHUP.getItemId() || ingredients[ i ].getItemId() == ConcoctionDatabase.CATSUP.getItemId() )
+			else if ( ingredients[ i ].getItemId() == ItemPool.KETCHUP || ingredients[ i ].getItemId() == ItemPool.CATSUP )
 			{
 				ingredients[ i ] =
 					ConcoctionDatabase.getBetterIngredient(
-						ConcoctionDatabase.KETCHUP, ConcoctionDatabase.CATSUP, availableIngredients );
+						ItemPool.KETCHUP, ItemPool.CATSUP, availableIngredients );
 			}
 		}
 
@@ -1165,7 +1139,7 @@ public class ConcoctionDatabase
 
 	public static final int findConcoction( final int mixingMethod, final int itemId )
 	{
-		AdventureResult ingredient = new AdventureResult( itemId, 1 );
+		AdventureResult ingredient = ItemPool.get( itemId, 1 );
 		for ( int i = 0; i < ConcoctionDatabase.concoctions.size(); ++i )
 		{
 			Concoction concoction = ConcoctionDatabase.concoctions.get( i );
@@ -1191,9 +1165,11 @@ public class ConcoctionDatabase
 		return -1;
 	}
 
-	private static final AdventureResult getBetterIngredient( final AdventureResult ingredient1,
-		final AdventureResult ingredient2, final List availableIngredients )
+	private static final AdventureResult getBetterIngredient( final int itemId1,
+		final int itemId2, final List availableIngredients )
 	{
+		AdventureResult ingredient1 = ItemPool.get( itemId1, 1 );
+		AdventureResult ingredient2 = ItemPool.get( itemId2, 1 );
 		return ingredient1.getCount( availableIngredients ) > ingredient2.getCount( availableIngredients ) ? ingredient1 : ingredient2;
 	}
 
@@ -1941,7 +1917,7 @@ public class ConcoctionDatabase
 			for ( int i = 0; i <= maxItemId; ++i )
 			{
 				this.internalList.add( new Concoction(
-					ItemDatabase.getItemName( i ) == null ? null : new AdventureResult( i, 1 ),
+					ItemDatabase.getItemName( i ) == null ? null : ItemPool.get( i, 1 ),
 					KoLConstants.NOCREATE ) );
 			}
 		}

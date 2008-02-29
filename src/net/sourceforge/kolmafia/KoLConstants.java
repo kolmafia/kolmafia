@@ -286,10 +286,6 @@ public interface KoLConstants
 	public static final int METHOD_COUNT = 30;
 	public static final int SUBCLASS = Integer.MAX_VALUE;
 
-	public static final int MEAT_PASTE = 25;
-	public static final int MEAT_STACK = 88;
-	public static final int DENSE_STACK = 258;
-
 	public static final int NOCREATE = 0;
 	public static final int COMBINE = 1;
 	public static final int COOK = 2;

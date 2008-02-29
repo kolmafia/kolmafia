@@ -77,7 +77,12 @@ public abstract class InventoryManager
 
 	public static final boolean hasItem( final int itemId )
 	{
-		return InventoryManager.hasItem( ItemPool.get( itemId, 1 ) );
+		return InventoryManager.hasItem( ItemPool.get( itemId, 1 ), false );
+	}
+
+	public static final boolean hasItem( final int itemId, final boolean shouldCreate )
+	{
+		return InventoryManager.hasItem( ItemPool.get( itemId, 1 ), shouldCreate );
 	}
 
 	public static final boolean hasItem( final AdventureResult item )
@@ -424,7 +429,7 @@ public abstract class InventoryManager
 
 		default:
 
-			if ( creator != null && itemId != ConcoctionDatabase.WAD_DOUGH && itemId != ItemPool.DISASSEMBLED_CLOVER )
+			if ( creator != null && itemId != ItemPool.DOUGH && itemId != ItemPool.DISASSEMBLED_CLOVER )
 			{
 				creator.setQuantityNeeded( missingCount );
 				RequestThread.postRequest( creator );
@@ -484,11 +489,11 @@ public abstract class InventoryManager
 
 		switch ( itemId )
 		{
-		case KoLConstants.MEAT_PASTE:
+		case ItemPool.MEAT_PASTE:
 			return KoLCharacter.getAvailableMeat() >= 10;
-		case KoLConstants.MEAT_STACK:
+		case ItemPool.MEAT_STACK:
 			return KoLCharacter.getAvailableMeat() >= 100;
-		case KoLConstants.DENSE_STACK:
+		case ItemPool.DENSE_STACK:
 			return KoLCharacter.getAvailableMeat() >= 1000;
 		}
 
