@@ -44,12 +44,13 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
-import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CreateItemRequest
 	extends GenericRequest
@@ -57,19 +58,9 @@ public class CreateItemRequest
 {
 	private static final GenericRequest REDIRECT_REQUEST = new GenericRequest( "inventory.php?action=message" );
 	private static final CreationRequestArray ALL_CREATIONS = new CreationRequestArray();
-	protected static final Pattern ITEMID_PATTERN = Pattern.compile( "item\\d?=(\\d+)" );
+
+	public static final Pattern ITEMID_PATTERN = Pattern.compile( "item\\d?=(\\d+)" );
 	public static final Pattern QUANTITY_PATTERN = Pattern.compile( "(quantity|qty)=(\\d+)" );
-
-	public static final AdventureResult OVEN = new AdventureResult( 157, 1 );
-	public static final AdventureResult KIT = new AdventureResult( 236, 1 );
-
-	private static final AdventureResult CHEF = new AdventureResult( 438, 1 );
-	private static final AdventureResult CLOCKWORK_CHEF = new AdventureResult( 1112, 1 );
-	private static final AdventureResult BARTENDER = new AdventureResult( 440, 1 );
-	private static final AdventureResult CLOCKWORK_BARTENDER = new AdventureResult( 1111, 1 );
-
-	private static final int DRY_NOODLES = 304;
-	private static final int MSG = 1549;
 
 	public String name;
 	public AdventureResult createdItem;
@@ -78,24 +69,11 @@ public class CreateItemRequest
 
 	private int quantityNeeded, quantityPossible;
 
-	private static final AdventureResult DOUGH = new AdventureResult( 159, 1 );
-	private static final AdventureResult FLAT_DOUGH = new AdventureResult( 301, 1 );
-	private static final AdventureResult ROLLING = new AdventureResult( 873, 1 );
-	private static final AdventureResult UNROLLING = new AdventureResult( 874, 1 );
-
-	private static final AdventureResult[][] DOUGH_DATA =
+	private static final int[][] DOUGH_DATA =
 	{
 		// input, tool, output
-		{
-			CreateItemRequest.DOUGH,
-			CreateItemRequest.ROLLING,
-			CreateItemRequest.FLAT_DOUGH
-		},
-		{
-			CreateItemRequest.FLAT_DOUGH,
-			CreateItemRequest.UNROLLING,
-			CreateItemRequest.DOUGH
-		}
+		{ ItemPool.DOUGH, ItemPool.ROLLING, ItemPool.FLAT_DOUGH },
+		{ ItemPool.FLAT_DOUGH, ItemPool.UNROLLING, ItemPool.DOUGH }
 	};
 
 	/**
@@ -271,7 +249,7 @@ public class CreateItemRequest
 
 	public static final CreateItemRequest constructInstance( final int itemId )
 	{
-		if ( itemId == KoLConstants.MEAT_PASTE || itemId == KoLConstants.MEAT_STACK || itemId == KoLConstants.DENSE_STACK )
+		if ( itemId == ItemPool.MEAT_PASTE || itemId == ItemPool.MEAT_STACK || itemId == ItemPool.DENSE_STACK )
 		{
 			return new CombineMeatRequest( itemId );
 		}
@@ -447,9 +425,9 @@ public class CreateItemRequest
 
 	public void makeDough()
 	{
-		AdventureResult input = null;
-		AdventureResult tool = null;
-		AdventureResult output = null;
+		int input = -1;
+		int tool = -1;
+		int output = -1;
 
 		// Find the array row and load the
 		// correct tool/input/output data.
@@ -457,7 +435,7 @@ public class CreateItemRequest
 		for ( int i = 0; i < CreateItemRequest.DOUGH_DATA.length; ++i )
 		{
 			output = CreateItemRequest.DOUGH_DATA[ i ][ 2 ];
-			if ( this.itemId == output.getItemId() )
+			if ( this.itemId == output )
 			{
 				tool = CreateItemRequest.DOUGH_DATA[ i ][ 1 ];
 				input = CreateItemRequest.DOUGH_DATA[ i ][ 0 ];
@@ -465,13 +443,13 @@ public class CreateItemRequest
 			}
 		}
 
-		if ( tool == null )
+		if ( tool == -1 )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Can't deduce correct tool to use." );
 			return;
 		}
 
-		if ( !InventoryManager.retrieveItem( input.getInstance( this.quantityNeeded ) ) )
+		if ( !InventoryManager.retrieveItem( input, this.quantityNeeded ) )
 		{
 			return;
 		}
@@ -483,25 +461,25 @@ public class CreateItemRequest
 
 		if ( ( this.quantityNeeded >= 10 || InventoryManager.hasItem( tool ) ) && !InventoryManager.retrieveItem( tool ) )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Please purchase a " + tool.getName() + " first." );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Please purchase a " + ItemDatabase.getItemName( tool ) + " first." );
 			return;
 		}
 
 		// If we have the correct tool, use it to
 		// create the needed dough type.
 
-		if ( tool.getCount( KoLConstants.inventory ) > 0 )
+		if ( InventoryManager.getCount( tool ) > 0 )
 		{
-			KoLmafia.updateDisplay( "Using " + tool.getName() + "..." );
-			( new UseItemRequest( tool ) ).run();
+			KoLmafia.updateDisplay( "Using " + ItemDatabase.getItemName( tool ) + "..." );
+			new UseItemRequest( ItemPool.get( tool, 1 ) ).run();
 			return;
 		}
 
 		// Without the right tool, we must manipulate
 		// the dough by hand.
 
-		String name = output.getName();
-		UseItemRequest request = new UseItemRequest( input );
+		String name = ItemDatabase.getItemName( output );
+		UseItemRequest request = new UseItemRequest( ItemPool.get( input, 1 ) );
 
 		for ( int i = 1; KoLmafia.permitsContinue() && i <= this.quantityNeeded; ++i )
 		{
@@ -604,7 +582,7 @@ public class CreateItemRequest
 		for ( int i = 0; i < ingredients.length; ++i )
 		{
 			StaticEntity.getClient().processResult(
-				new AdventureResult( ingredients[ i ].getItemId(), undoAmount * ingredients[ i ].getCount() ) );
+				ingredients[ i ].getItemId(), undoAmount * ingredients[ i ].getCount() );
 		}
 
 		switch ( this.mixingMethod )
@@ -612,7 +590,7 @@ public class CreateItemRequest
 		case KoLConstants.COMBINE:
 			if ( !KoLCharacter.inMuscleSign() )
 			{
-				StaticEntity.getClient().processResult( new AdventureResult( KoLConstants.MEAT_PASTE, undoAmount ) );
+				StaticEntity.getClient().processResult( ItemPool.MEAT_PASTE, undoAmount );
 			}
 			break;
 
@@ -699,12 +677,12 @@ public class CreateItemRequest
 
 		case KoLConstants.SMITH:
 
-			return KoLCharacter.inMuscleSign() || InventoryManager.retrieveItem( ConcoctionDatabase.HAMMER );
+			return KoLCharacter.inMuscleSign() || InventoryManager.retrieveItem( ItemPool.TENDER_HAMMER );
 
 		case KoLConstants.SMITH_WEAPON:
 		case KoLConstants.SMITH_ARMOR:
 
-			return InventoryManager.retrieveItem( ConcoctionDatabase.HAMMER );
+			return InventoryManager.retrieveItem( ItemPool.TENDER_HAMMER );
 
 		default:
 			return true;
@@ -722,16 +700,14 @@ public class CreateItemRequest
 		case KoLConstants.SUPER_REAGENT:
 		case KoLConstants.COOK_PASTA:
 			autoRepairSuccessful =
-				this.useBoxServant(
-					CreateItemRequest.CHEF, CreateItemRequest.CLOCKWORK_CHEF, CreateItemRequest.OVEN );
+				this.useBoxServant( ItemPool.CHEF, ItemPool.CLOCKWORK_CHEF,ItemPool.BAKE_OVEN );
 			break;
 
 		case KoLConstants.MIX:
 		case KoLConstants.MIX_SPECIAL:
 		case KoLConstants.MIX_SUPER:
 			autoRepairSuccessful =
-				this.useBoxServant(
-					CreateItemRequest.BARTENDER, CreateItemRequest.CLOCKWORK_BARTENDER, CreateItemRequest.KIT );
+				this.useBoxServant( ItemPool.BARTENDER, ItemPool.CLOCKWORK_BARTENDER, ItemPool.COCKTAIL_KIT );
 			break;
 		}
 
@@ -743,13 +719,12 @@ public class CreateItemRequest
 		return autoRepairSuccessful && KoLmafia.permitsContinue();
 	}
 
-	private boolean retrieveNoServantItem( final AdventureResult noServantItem )
+	private boolean retrieveNoServantItem( final int noServantItem )
 	{
 		return !Preferences.getBoolean( "requireBoxServants" ) && KoLCharacter.getAdventuresLeft() > 0 && InventoryManager.retrieveItem( noServantItem );
 	}
 
-	private boolean useBoxServant( final AdventureResult servant, final AdventureResult clockworkServant,
-		final AdventureResult noServantItem )
+	private boolean useBoxServant( final int servant, final int clockworkServant, final int noServantItem )
 	{
 		if ( !Preferences.getBoolean( "autoRepairBoxServants" ) )
 		{
@@ -760,7 +735,7 @@ public class CreateItemRequest
 		// for usage, either normally, or through some form
 		// of creation.
 
-		AdventureResult usedServant = null;
+		int usedServant = -1;
 
 		if ( InventoryManager.hasItem( clockworkServant, false ) )
 		{
@@ -771,7 +746,7 @@ public class CreateItemRequest
 			usedServant = servant;
 		}
 
-		if ( usedServant == null )
+		if ( usedServant == -1 )
 		{
 			if ( KoLCharacter.canInteract() && ( Preferences.getBoolean( "autoSatisfyWithMall" ) || Preferences.getBoolean( "autoSatisfyWithStash" ) ) )
 			{
@@ -787,8 +762,8 @@ public class CreateItemRequest
 		// have the servant in your inventory, so attempt
 		// to repair the box servant.
 
-		( new UseItemRequest( usedServant ) ).run();
-		return servant == CreateItemRequest.CHEF ? KoLCharacter.hasChef() : KoLCharacter.hasBartender();
+		new UseItemRequest( ItemPool.get( usedServant, 1 ) ).run();
+		return servant == ItemPool.CHEF ? KoLCharacter.hasChef() : KoLCharacter.hasBartender();
 	}
 
 	public boolean makeIngredients()
@@ -802,7 +777,7 @@ public class CreateItemRequest
 		if ( this.mixingMethod == KoLConstants.COMBINE && !KoLCharacter.inMuscleSign() )
 		{
 			int pasteNeeded = ConcoctionDatabase.getMeatPasteRequired( this.itemId, this.quantityNeeded );
-			AdventureResult paste = new AdventureResult( KoLConstants.MEAT_PASTE, pasteNeeded );
+			AdventureResult paste = ItemPool.get( ItemPool.MEAT_PASTE, pasteNeeded );
 			foundAllIngredients &= InventoryManager.retrieveItem( paste );
 		}
 
@@ -1008,7 +983,7 @@ public class CreateItemRequest
 
 			AdventureResult item = new AdventureResult( ingredient, 1 );
 			int quantity = item.getCount( KoLConstants.inventory );
-			StaticEntity.getClient().processResult( item.getInstance( 0 - quantity ) );
+			StaticEntity.getClient().processResult( item.getItemId(), 0 - quantity );
 
 			RequestLogger.updateSessionLog();
 			RequestLogger.updateSessionLog( "Use " + tool );
@@ -1025,24 +1000,25 @@ public class CreateItemRequest
 
 			int quantity = 1;
 			String method = "Use ";
-			String item1 = "", item2 = "";
+			int item1 = -1;
+			int item2 = -1;
 
 			if ( urlString.indexOf( "whichitem=24" ) != -1 )
 			{
 				// Ten-leaf clover
-				item1 = "ten-leaf clover";
+				item1 = ItemPool.TEN_LEAF_CLOVER;
 			}
 			else if ( urlString.indexOf( "whichitem=196" ) != -1 )
 			{
 				// Disassembled clover
-				item1 = "disassembled clover";
+				item1 = ItemPool.DISASSEMBLED_CLOVER;
 			}
 			else if ( urlString.indexOf( "whichitem=1605" ) != -1 )
 			{
 				// Delectable Catalyst
 				method = "Mix ";
-				item1 = "delectable catalyst";
-				item2 = "scrumptious reagent";
+				item1 = ItemPool.CATALYST;
+				item2 = ItemPool.REAGENT;
 			}
 			else
 			{
@@ -1054,18 +1030,20 @@ public class CreateItemRequest
 			{
 				quantity = StringUtilities.parseInt( quantityMatcher.group( 2 ) );
 			}
+
 			StringBuffer command = new StringBuffer();
 
 			command.append( method );
 			command.append( quantity );
 			command.append( " " );
-			command.append( item1 );
-			StaticEntity.getClient().processResult( new AdventureResult( item1, 0 - quantity, false ) );
-			if ( item2 != null )
+			command.append( ItemDatabase.getItemName( item1 ) );
+			StaticEntity.getClient().processResult( item1, 0 - quantity );
+
+			if ( item2 != -1 )
 			{
 				command.append( " + " );
-				command.append( item2 );
-				StaticEntity.getClient().processResult( new AdventureResult( item2, 0 - quantity, false ) );
+				command.append( ItemDatabase.getItemName( item2 ) );
+				StaticEntity.getClient().processResult( item2, 0 - quantity );
 			}
 
 			RequestLogger.updateSessionLog();
@@ -1190,25 +1168,25 @@ public class CreateItemRequest
 			command.append( ' ' );
 			command.append( name );
 
-			StaticEntity.getClient().processResult( new AdventureResult( itemId, 0 - quantity ) );
+			StaticEntity.getClient().processResult( itemId, 0 - quantity );
 			needsPlus = true;
 		}
 
 		if ( urlString.startsWith( "combine.php" ) )
 		{
-			StaticEntity.getClient().processResult( new AdventureResult( KoLConstants.MEAT_PASTE, 0 - quantity ) );
+			StaticEntity.getClient().processResult( ItemPool.MEAT_PASTE, 0 - quantity );
 		}
 		else if ( urlString.indexOf( "action=wokcook" ) != -1 )
 		{
 			command.append( " + " );
 			command.append( quantity );
 			command.append( " dry noodles" );
-			StaticEntity.getClient().processResult( new AdventureResult( CreateItemRequest.DRY_NOODLES, 0 - quantity ) );
+			StaticEntity.getClient().processResult( ItemPool.DRY_NOODLES, 0 - quantity );
 
 			command.append( " + " );
 			command.append( quantity );
 			command.append( " MSG" );
-			StaticEntity.getClient().processResult( new AdventureResult( CreateItemRequest.MSG, 0 - quantity ) );
+			StaticEntity.getClient().processResult( ItemPool.MSG, 0 - quantity );
 		}
 
 		if ( usesTurns )
