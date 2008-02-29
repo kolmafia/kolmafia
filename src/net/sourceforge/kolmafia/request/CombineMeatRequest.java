@@ -108,7 +108,7 @@ public class CombineMeatRequest
 		}
 
 		Matcher quantityMatcher = CreateItemRequest.QUANTITY_PATTERN.matcher( urlString );
-		int quantity = quantityMatcher.find() ? StringUtilities.parseInt( quantityMatcher.group( 1 ) ) : 1;
+		int quantity = quantityMatcher.find() ? StringUtilities.parseInt( quantityMatcher.group( 2 ) ) : 1;
 
 		RequestLogger.updateSessionLog( "Create " + quantity + " " + ItemDatabase.getItemName( StringUtilities.parseInt( itemMatcher.group( 1 ) ) ) );
 
