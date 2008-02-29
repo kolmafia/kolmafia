@@ -42,17 +42,16 @@ import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 
-import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.session.BuffBotManager.Offering;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.UneffectRequest;
 
 public class BuffBotDatabase
 	extends KoLDatabase
@@ -162,7 +161,7 @@ public class BuffBotDatabase
 		// a philanthropic buff.  Buff packs are also not protected
 		// because the logic is complicated.
 
-		if ( current.buffs.length > 1 )
+		if ( current.buffs == null || current.buffs.length > 1 )
 		{
 			return amount;
 		}
@@ -212,8 +211,17 @@ public class BuffBotDatabase
 			}
 		}
 
-		return KoLConstants.activeEffects.contains( new AdventureResult(
-			UneffectRequest.skillToEffect( bestMatch.buffs[ 0 ] ), 1, true ) ) ? 0 : bestMatch.getPrice();
+		if ( bestMatch == null )
+		{
+			return amount;
+		}
+
+		if ( KoLConstants.activeEffects.contains( EffectPool.get( bestMatch.buffs[ 0 ] ) ) )
+		{
+			return 0;
+		}
+
+		return bestMatch.getPrice();
 	}
 
 	public static final boolean hasOfferings()
