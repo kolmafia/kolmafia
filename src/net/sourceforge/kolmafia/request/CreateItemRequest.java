@@ -58,7 +58,7 @@ public class CreateItemRequest
 	private static final GenericRequest REDIRECT_REQUEST = new GenericRequest( "inventory.php?action=message" );
 	private static final CreationRequestArray ALL_CREATIONS = new CreationRequestArray();
 	protected static final Pattern ITEMID_PATTERN = Pattern.compile( "item\\d?=(\\d+)" );
-	protected static final Pattern QUANTITY_PATTERN = Pattern.compile( "(quantity|qty)=(\\d+)" );
+	public static final Pattern QUANTITY_PATTERN = Pattern.compile( "(quantity|qty)=(\\d+)" );
 
 	public static final AdventureResult OVEN = new AdventureResult( 157, 1 );
 	public static final AdventureResult KIT = new AdventureResult( 236, 1 );
