@@ -81,3 +81,4 @@
 79	Teddy Borg	none	3080	teddy borg sewing kit	3	2	0	1
 80	RoboGoose	none	3107	overclocked avian microprocessor	2	3	1	0
 81	El Vibrato Megadrone	none	3217		3	3	3	3
+82	Mad Hatrack	none	3219		0	0	0	0
