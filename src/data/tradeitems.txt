@@ -3217,3 +3217,4 @@
 3216	Fly-By-Knight Heraldry form	0	all	0
 3217	El Vibrato Megadrone	5	display	500
 3218	purple glowstick	8	display	0
+3219	sane hatrack	5	all	0
