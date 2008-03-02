@@ -64,7 +64,6 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.StaticEntity.TurnCounter;
-import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.ChatManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -1174,7 +1173,7 @@ public class RelayRequest
 		String adventureName = adventure != null ? adventure.getAdventureName() :
 			AdventureDatabase.getUnknownName( urlString );
 
-		if ( adventureName != null )
+		if ( adventureName != null && this.getFormField( "override" ) == null )
 		{
 			int turnsUsed = adventure == null ? 1 : adventure.getFormSource().equals( "shore.php" ) ? 3 : 1;
 
@@ -1212,7 +1211,7 @@ public class RelayRequest
 				// This one's for the Boss Bat, who has special
 				// items at 4 and 8.
 
-				if ( location != null && location.equals( "34" ) && this.getFormField( "override" ) == null && !KoLCharacter.inBadMoon() )
+				if ( location != null && location.equals( "34" ) && !KoLCharacter.inBadMoon() )
 				{
 					this.sendBossWarning( "Boss Bat", "bossbat.gif", 4, "batpants.gif", 8, "batbling.gif" );
 					return;
@@ -1224,7 +1223,7 @@ public class RelayRequest
 
 			else if ( path.equals( "knob.php" ) )
 			{
-				if ( this.getFormField( "king" ) != null && this.getFormField( "override" ) == null && !KoLCharacter.inBadMoon() )
+				if ( this.getFormField( "king" ) != null && !KoLCharacter.inBadMoon() )
 				{
 					this.sendBossWarning( "Knob Goblin King", "goblinking.gif", 3, "glassballs.gif", 7, "batcape.gif" );
 					return;
@@ -1236,7 +1235,7 @@ public class RelayRequest
 
 			else if ( path.equals( "cyrpt.php" ) )
 			{
-				if ( this.getFormField( "action" ) != null && this.getFormField( "override" ) == null && !KoLCharacter.inBadMoon() )
+				if ( this.getFormField( "action" ) != null && !KoLCharacter.inBadMoon() )
 				{
 					this.sendBossWarning( "Bonerdagon", "bonedragon.gif", 5, "rib.gif", 10, "vertebra.gif" );
 					return;
