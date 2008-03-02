@@ -139,6 +139,7 @@ public abstract class KoLmafia
 
 	static
 	{
+		System.setProperty( "sun.java2d.noddraw", "true" );
 		System.setProperty( "com.apple.mrj.application.apple.menu.about.name", "KoLmafia" );
 		System.setProperty( "com.apple.mrj.application.live-resize", "true" );
 		System.setProperty( "com.apple.mrj.application.growbox.intrudes", "false" );
