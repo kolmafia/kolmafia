@@ -2273,7 +2273,7 @@ public abstract class SorceressLairManager
 
 			RequestThread.postRequest( SorceressLairManager.QUEST_HANDLER );
 		}
-		while ( SorceressLairManager.QUEST_HANDLER.responseText.indexOf( "fight.php" ) == -1 );
+		while ( SorceressLairManager.QUEST_HANDLER.responseText.indexOf( "fight.php" ) != -1 );
 
 		if ( KoLCharacter.getCurrentHP() > 0 )
 		{
