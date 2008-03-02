@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2007, KoLmafia development team
+ * Copyright (c) 2005-2008, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -291,7 +291,7 @@ public class SpecialOutfit
 	/**
 	 * static final method used to determine all of the custom outfits, based on the given HTML enclosed in
 	 * <code><select></code> tags.
-	 * 
+	 *
 	 * @return A list of available outfits
 	 */
 

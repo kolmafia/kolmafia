@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2007, KoLmafia development team
+ * Copyright (c) 2005-2008, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -118,24 +118,24 @@ public class FileUtilities
 	public static final BufferedReader getVersionedReader( final String filename, final int version )
 	{
 		BufferedReader reader = DataUtilities.getReader( UtilityConstants.DATA_DIRECTORY, filename, true );
-	
+
 		// If no file, no reader
 		if ( reader == null )
 		{
 			return null;
 		}
-	
+
 		// Read the version number
 		String line = FileUtilities.readLine( reader );
-	
+
 		// Parse the version number and validate
 		int fileVersion = StringUtilities.parseInt( line );
-	
+
 		if ( version == fileVersion )
 		{
 			return reader;
 		}
-	
+
 		// We don't understand this file format
 		try
 		{
@@ -145,9 +145,9 @@ public class FileUtilities
 		{
 			StaticEntity.printStackTrace( e );
 		}
-	
+
 		// Override file is wrong version. Get built-in file
-	
+
 		return DataUtilities.getReader( UtilityConstants.DATA_DIRECTORY, filename, false );
 	}
 
@@ -157,30 +157,30 @@ public class FileUtilities
 		{
 			return null;
 		}
-	
+
 		try
 		{
 			String line;
-	
+
 			// Read in all of the comment lines, or until
 			// the end of file, whichever comes first.
-	
+
 			while ( ( line = reader.readLine() ) != null && ( line.startsWith( "#" ) || line.length() == 0 ) )
 			{
 				;
 			}
-	
+
 			// If you've reached the end of file, then
 			// return null.  Otherwise, return the line
 			// that's been split on tabs.
-	
+
 			return line;
 		}
 		catch ( Exception e )
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-	
+
 			StaticEntity.printStackTrace( e );
 			return null;
 		}
@@ -192,7 +192,7 @@ public class FileUtilities
 		{
 			return null;
 		}
-	
+
 		String line = readLine( reader );
 		return line == null ? null : line.split( "\t" );
 	}
