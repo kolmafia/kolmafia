@@ -1237,7 +1237,7 @@ public abstract class KoLmafia
 		}
 	}
 
-	private AdventureResult parseItem( final String result )
+	public static final AdventureResult parseItem( final String result )
 	{
 		RequestLogger.updateDebugLog( "Parsing item: " + result );
 
@@ -1254,7 +1254,7 @@ public abstract class KoLmafia
 		int itemId = ItemDatabase.getItemId( result.trim() );
 		if ( itemId > 0 )
 		{
-			return new AdventureResult( itemId, 1 );
+			return ItemPool.get( itemId, 1 );
 		}
 
 		// Remove parenthesized number and match again.
