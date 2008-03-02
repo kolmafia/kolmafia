@@ -43,6 +43,8 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+
+import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ChefStaffRequest
@@ -96,7 +98,7 @@ public class ChefStaffRequest
 		int baseId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
 
 		// Find chefstaff item ID
-		int itemId = ConcoctionDatabase.findConcoction( KoLConstants.STAFF, baseId );
+		int itemId = ConcoctionPool.findConcoction( KoLConstants.STAFF, baseId );
 
 		StringBuffer chefstaffString = new StringBuffer();
 		chefstaffString.append( "Chefstaff " );

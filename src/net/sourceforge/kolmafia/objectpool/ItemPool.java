@@ -108,6 +108,7 @@ public class ItemPool
 	public static final int LEAD_NECKLACE = 865;
 	public static final int ROLLING = 873;
 	public static final int UNROLLING = 874;
+	public static final int PLASTIC_SWORD = 938;
 	public static final int TAM_O_SHANTER = 1040;
 	public static final int TARGETING_CHIP = 1102;
 	public static final int CLOCKWORK_BARTENDER = 1111;

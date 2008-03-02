@@ -48,7 +48,8 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
-import net.sourceforge.kolmafia.persistence.ConcoctionDatabase.Concoction;
+
+import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CafeRequest
