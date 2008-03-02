@@ -91,8 +91,7 @@ public class FriarRequest
 		// No, seriously, you can only get one of those per day.
 		if ( this.responseText.indexOf( "one of those per day." ) != -1 )
 		{
-			KoLmafia.updateDisplay(
-				KoLConstants.ERROR_STATE, "You can only get one blessing a day from the Deep Fat Friars." );
+			KoLmafia.updateDisplay( "You can only get one blessing a day from the Deep Fat Friars." );
 			return;
 		}
 

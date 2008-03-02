@@ -185,8 +185,7 @@ public class IslandArenaRequest
 
 		if ( this.responseText.indexOf( "You're all rocked out." ) != -1 )
 		{
-			KoLmafia.updateDisplay(
-				KoLConstants.ERROR_STATE, "You can only visit the Mysterious Island Arena once a day." );
+			KoLmafia.updateDisplay( "You can only visit the Mysterious Island Arena once a day." );
 			return;
 		}
 
