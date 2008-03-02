@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2007, KoLmafia development team
+ * Copyright (c) 2005-2008, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -84,7 +84,7 @@ public class CustomItemDatabase
 			Preferences.setString( "lastCustomItemUpdate", thisWeek );
 			return;
 		}
-		
+
 		try
 		{
 			CustomItemDatabase.INSTANCE.load( DataUtilities.getInputStream( CustomItemDatabase.KILT_FILE ) );

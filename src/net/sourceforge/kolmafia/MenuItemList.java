@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2007, KoLmafia development team
+ * Copyright (c) 2005-2008, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -119,7 +119,7 @@ public abstract class MenuItemList
 	/**
 	 * Called whenever contents have been added to the original list; a function required by every
 	 * <code>ListDataListener</code>.
-	 * 
+	 *
 	 * @param e the <code>ListDataEvent</code> that triggered this function call
 	 */
 
@@ -143,7 +143,7 @@ public abstract class MenuItemList
 	/**
 	 * Called whenever contents have been removed from the original list; a function required by every
 	 * <code>ListDataListener</code>.
-	 * 
+	 *
 	 * @param e the <code>ListDataEvent</code> that triggered this function call
 	 */
 
@@ -164,7 +164,7 @@ public abstract class MenuItemList
 	/**
 	 * Called whenever contents in the original list have changed; a function required by every
 	 * <code>ListDataListener</code>.
-	 * 
+	 *
 	 * @param e the <code>ListDataEvent</code> that triggered this function call
 	 */
 
