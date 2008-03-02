@@ -26,7 +26,7 @@ import net.sourceforge.kolmafia.persistence.Preferences;
 public abstract class UseLinkDecorator
 {
 	private static final Pattern ACQUIRE_PATTERN =
-		Pattern.compile( "(You acquire|O hai, I made dis)([^<]*?<b>.*?</b>.*?)</td>", Pattern.DOTALL );
+		Pattern.compile( "(You acquire|O hai, I made dis)([^<]*?)<b>(.*?)</b>(.*?)</td>", Pattern.DOTALL );
 
 	public static final void decorate( final String location, final StringBuffer buffer )
 	{
@@ -52,22 +52,14 @@ public abstract class UseLinkDecorator
 
 		while ( useLinkMatcher.find() )
 		{
-			String itemName = useLinkMatcher.group( 2 );
-			if ( itemName.indexOf( "<br>" ) != -1 )
-			{
-				itemName = itemName.substring( 0, itemName.indexOf( "<br>" ) );
-			}
+			int itemCount = 1;
+			String itemName = useLinkMatcher.group( 3 );
 
-			int itemCount = itemName.indexOf( ":" ) != -1 ? 1 : 2;
-
-			if ( itemCount == 1 )
+			int spaceIndex = itemName.indexOf( " " );
+			if ( spaceIndex != -1 && useLinkMatcher.group( 2 ).indexOf( ":" ) == -1 )
 			{
-				itemName = itemName.substring( itemName.indexOf( ":" ) + 1 ).replaceAll( "<.*?>", "" ).trim();
-			}
-			else
-			{
-				itemName = itemName.replaceAll( "<.*?>", "" );
-				itemName = itemName.substring( itemName.indexOf( " " ) + 1 ).trim();
+				itemCount = StringUtilities.parseInt( itemName.substring( 0, spaceIndex ) );
+				itemName = itemName.substring( spaceIndex + 1 );
 			}
 
 			int itemId = ItemDatabase.getItemId( itemName, itemCount, false );
@@ -237,7 +229,7 @@ public abstract class UseLinkDecorator
 
 		if ( useLocation.equals( "#" ) )
 		{
-			useLinkMatcher.appendReplacement( buffer, "$1$2" );
+			useLinkMatcher.appendReplacement( buffer, "$1$2<b>$3</b>$4" );
 
 			// Append a multi-use field rather than forcing
 			// an additional page load.
@@ -269,7 +261,7 @@ public abstract class UseLinkDecorator
 		{
 			useLinkMatcher.appendReplacement(
 				buffer,
-				"$1$2 <font size=1>[<a href=\"" + useLocation + "\">" + useType + "</a>]</font>" );
+				"$1$2<b>$3</b> <font size=1>[<a href=\"" + useLocation + "\">" + useType + "</a>]</font>" );
 		}
 		else
 		{
@@ -277,7 +269,7 @@ public abstract class UseLinkDecorator
 
 			useLinkMatcher.appendReplacement(
 				buffer,
-				"$1$2 <font size=1>[<a href=\"javascript: " + "singleUse('" + pieces[ 0 ] + "', '" + pieces[ 1 ] + "'); void(0);\">" + useType + "</a>]</font>" );
+				"$1$2<b>$3</b> <font size=1>[<a href=\"javascript: " + "singleUse('" + pieces[ 0 ] + "', '" + pieces[ 1 ] + "'); void(0);\">" + useType + "</a>]</font>" );
 		}
 
 		buffer.append( "</td>" );
