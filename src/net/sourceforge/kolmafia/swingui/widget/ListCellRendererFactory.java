@@ -45,12 +45,13 @@ import net.sourceforge.kolmafia.KoLConstants;
 
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+
+import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
-import net.sourceforge.kolmafia.persistence.ConcoctionDatabase.Concoction;
 
 public class ListCellRendererFactory
 {

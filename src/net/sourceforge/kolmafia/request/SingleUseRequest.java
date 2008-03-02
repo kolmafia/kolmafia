@@ -43,6 +43,8 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+
+import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class SingleUseRequest
@@ -104,7 +106,7 @@ public class SingleUseRequest
 		int baseId = StringUtilities.parseInt( useMatcher.group( 1 ) );
 
 		// Find result item ID
-		int result = ConcoctionDatabase.findConcoction( KoLConstants.SINGLE_USE, baseId );
+		int result = ConcoctionPool.findConcoction( KoLConstants.SINGLE_USE, baseId );
 
 		// If this is not a concoction, let somebody else log this.
 		if ( result == -1 )

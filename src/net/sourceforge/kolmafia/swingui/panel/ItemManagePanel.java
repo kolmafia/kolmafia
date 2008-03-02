@@ -50,9 +50,9 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
+
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
-import net.sourceforge.kolmafia.persistence.ConcoctionDatabase.Concoction;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
@@ -61,6 +61,8 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.PulverizeRequest;
 import net.sourceforge.kolmafia.request.SellStuffRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
+
+import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.swingui.button.RequestButton;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;

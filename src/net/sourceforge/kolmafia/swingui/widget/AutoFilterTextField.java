@@ -44,13 +44,13 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
 import net.sourceforge.kolmafia.utilities.LowerCaseEntry;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 
-import net.sourceforge.kolmafia.persistence.ConcoctionDatabase.Concoction;
 
 public class AutoFilterTextField
 	extends AutoHighlightTextField
