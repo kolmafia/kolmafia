@@ -299,7 +299,7 @@ public class ItemFinder
 				itemCount = 0;
 				parameters = parameters.substring( 1 ).trim();
 			}
-			else if ( AdventureResult.itemId( parameters ) != -1 )
+			else if ( ItemDatabase.getItemId( parameters, 1 ) != -1 )
 			{
 				itemCount = 1;
 			}

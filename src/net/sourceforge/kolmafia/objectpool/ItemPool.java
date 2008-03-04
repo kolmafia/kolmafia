@@ -36,7 +36,11 @@ package net.sourceforge.kolmafia.objectpool;
 import java.util.ArrayList;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.RequestEditorKit;
+
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class ItemPool
 {
@@ -191,7 +195,7 @@ public class ItemPool
 
 	public static final AdventureResult get( String itemName, int count )
 	{
-		return ItemPool.get( ItemDatabase.getItemId( itemName ), 1 );
+		return ItemPool.get( ItemDatabase.getItemId( itemName, count, false ), 1 );
 	}
 
 	public static final AdventureResult get( int itemId, int count )

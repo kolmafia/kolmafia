@@ -800,24 +800,8 @@ public class ItemManagePanel
 
 		public boolean isVisible( final Object element )
 		{
-			String name;
-			int itemId;
-
-			if ( element instanceof AdventureResult )
-			{
-				AdventureResult ar = (AdventureResult) element;
-				if ( ar.getCount() < 0 )
-				{
-					return false;
-				}
-				name = ar.getName();
-				itemId = ar.getItemId();
-			}
-			else
-			{
-				name = AutoFilterTextField.getResultName( element );
-				itemId = AdventureResult.itemId( name );
-			}
+			String name = AutoFilterTextField.getResultName( element );
+			int itemId = ItemDatabase.getItemId( name, 1, false );
 
 			if ( itemId < 1 )
 			{

@@ -54,6 +54,7 @@ import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -624,15 +625,35 @@ public class ItemDatabase
 		// See if it's a weird pluralization with a pattern we can't
 		// guess.
 
-		itemId = ItemDatabase.itemIdByPlural.get( canonicalName );
-		if ( itemId != null )
+		if ( count > 1 )
 		{
-			return ( (Integer) itemId ).intValue();
+			itemId = ItemDatabase.itemIdByPlural.get( canonicalName );
+			if ( itemId != null )
+			{
+				return ( (Integer) itemId ).intValue();
+			}
 		}
 
 		if ( !substringMatch )
 		{
-			return -1;
+			int possibleItemId = -1;
+
+			if ( possibleItemId == -1 )
+			{
+				possibleItemId = bangPotionId( itemName );
+			}
+
+			if ( possibleItemId == -1 )
+			{
+				possibleItemId = stoneSphereId( itemName );
+			}
+
+			if ( possibleItemId == -1 )
+			{
+				possibleItemId = punchCardId( itemName );
+			}
+
+			return possibleItemId;
 		}
 
 		// It's possible that you're looking for a substring.  In
@@ -648,7 +669,7 @@ public class ItemDatabase
 		// Abort if it's clearly not going to be a plural,
 		// since this might kill off multi-item detection.
 
-		if ( count < 2 )
+		if ( count == 1 )
 		{
 			return -1;
 		}
@@ -1282,6 +1303,77 @@ public class ItemDatabase
 		}
 
 		writer.close();
+	}
+
+	private static int bangPotionId( final String name )
+	{
+		int index = name.indexOf( "potion of " );
+		if ( index == -1 )
+		{
+			return -1;
+		}
+
+		// Get the effect name;
+		String effect = name.substring( index + 10 );
+
+		// Make sure we have potion properties
+		KoLCharacter.ensureUpdatedPotionEffects();
+
+		// Look up the effect name
+		for ( int i = 819; i <= 827; ++i )
+		{
+			if ( effect.equals( Preferences.getString( "lastBangPotion" + i ) ) )
+			{
+				return i;
+			}
+		}
+
+		return -1;
+	}
+
+	private static int stoneSphereId( final String name )
+	{
+		int index = name.indexOf( "sphere of " );
+		if ( index == -1 )
+		{
+			return -1;
+		}
+
+		// Get the effect name;
+		String effect = name.substring( index + 10 );
+
+		// Make sure we have sphere properties
+		KoLCharacter.ensureUpdatedSphereEffects();
+
+		// Look up the effect name
+		for ( int i = 2174; i <= 2177; ++i )
+		{
+			if ( effect.equals( Preferences.getString( "lastStoneSphere" + i ) ) )
+			{
+				return i;
+			}
+		}
+
+		return -1;
+	}
+
+	private static int punchCardId( final String name )
+	{
+		if ( !name.startsWith( "El Vibrato punchcard" ) )
+		{
+			return -1;
+		}
+
+		for ( int i = 0; i < RequestEditorKit.PUNCHCARDS.length; ++i )
+		{
+			Object [] punchcard = RequestEditorKit.PUNCHCARDS[i];
+			if ( name.equals( punchcard[1] ) || name.equals( punchcard[2] ) )
+			{
+				return ((Integer) punchcard[0]).intValue();
+			}
+		}
+
+		return -1;
 	}
 
 	// Support for dusty bottles of wine
