@@ -2809,16 +2809,15 @@ public abstract class KoLCharacter
 			}
 		}
 
-		String testName;
-		String testProperty;
-
 		for ( int i = 819; i <= 827; ++i )
 		{
-			testProperty = Preferences.getString( "lastBangPotion" + i );
+			String testProperty = Preferences.getString( "lastBangPotion" + i );
 			if ( !testProperty.equals( "" ) )
 			{
-				testName = ItemDatabase.getItemName( i ) + " of " + testProperty;
-				ItemDatabase.registerItemAlias( i, testName );
+				String name = ItemDatabase.getItemName( i );
+				String testName = name + " of " + testProperty;
+				String testPlural = name + "s of " + testProperty;
+				ItemDatabase.registerItemAlias( i, testName, testPlural );
 			}
 		}
 	}
@@ -2835,16 +2834,13 @@ public abstract class KoLCharacter
 			}
 		}
 
-		String testName;
-		String testProperty;
-
 		for ( int i = 2174; i <= 2177; ++i )
 		{
-			testProperty = Preferences.getString( "lastStoneSphere" + i );
+			String testProperty = Preferences.getString( "lastStoneSphere" + i );
 			if ( !testProperty.equals( "" ) )
 			{
-				testName = ItemDatabase.getItemName( i ) + " of " + testProperty;
-				ItemDatabase.registerItemAlias( i, testName );
+				String testName = ItemDatabase.getItemName( i ) + " of " + testProperty;
+				ItemDatabase.registerItemAlias( i, testName, null );
 			}
 		}
 	}

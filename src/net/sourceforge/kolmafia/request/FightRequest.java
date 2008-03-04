@@ -1241,13 +1241,13 @@ public class FightRequest
 				effectData = "teleportitis";
 			}
 
-			KoLCharacter.ensureUpdatedPotionEffects();
-
 			if ( effectData != null )
 			{
 				Preferences.setString( "lastBangPotion" + potionId, effectData );
-				ItemDatabase.registerItemAlias( potionId,
-					ItemDatabase.getItemName( potionId ) + " of " + effectData );
+				String name = ItemDatabase.getItemName( potionId );
+				String testName = name + " of " + effectData;
+				String testPlural = name + "s of " + effectData;
+				ItemDatabase.registerItemAlias( potionId, testName, testPlural );
 			}
 		}
 	}
@@ -1290,13 +1290,11 @@ public class FightRequest
 				effectData = "nature";
 			}
 
-			KoLCharacter.ensureUpdatedSphereEffects();
-
 			if ( effectData != null )
 			{
 				Preferences.setString( "lastStoneSphere" + sphereId, effectData );
-				ItemDatabase.registerItemAlias( sphereId,
-					ItemDatabase.getItemName( sphereId ) + " of " + effectData );
+				String testName = ItemDatabase.getItemName( sphereId ) + " of " + effectData;
+				ItemDatabase.registerItemAlias( sphereId, testName, null );
 			}
 		}
 	}
@@ -1308,7 +1306,6 @@ public class FightRequest
 
 	public static final String stoneSphereName( final int itemId, final String name )
 	{
-		KoLCharacter.ensureUpdatedSphereEffects();
 		String effect = Preferences.getString( "lastStoneSphere" + itemId );
 		if ( effect.equals( "" ) )
 		{
@@ -1320,8 +1317,6 @@ public class FightRequest
 
 	public static final String stoneSphereEffectToId( final String effect )
 	{
-		KoLCharacter.ensureUpdatedSphereEffects();
-
 		for ( int i = 2174; i <= 2177; ++i )
 		{
 			String itemId = String.valueOf( i );
