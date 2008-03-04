@@ -121,24 +121,6 @@ public class ItemFinder
 			}
 		}
 
-		String testName;
-		String testProperty;
-
-		KoLCharacter.ensureUpdatedPotionEffects();
-
-		for ( int i = 819; i <= 827; ++i )
-		{
-			testProperty = Preferences.getString( "lastBangPotion" + i );
-			if ( !testProperty.equals( "" ) )
-			{
-				testName = ItemDatabase.getItemName( i ) + " of " + testProperty;
-				if ( testName.equalsIgnoreCase( searchString ) )
-				{
-					return i;
-				}
-			}
-		}
-
 		// Candy hearts, snowcones and cupcakes take precedence over
 		// all the other items in the game.
 
