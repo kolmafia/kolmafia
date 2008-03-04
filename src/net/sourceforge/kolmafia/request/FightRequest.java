@@ -307,13 +307,15 @@ public class FightRequest
 			Interpreter interpreter = KoLmafiaASH.getInterpreter( KoLmafiaCLI.findScriptFile( scriptName ) );
 			if ( interpreter != null )
 			{
+				int initialRound = FightRequest.currentRound;
 				interpreter.execute( "main", new String[]
 				{
 					String.valueOf( FightRequest.currentRound ),
 					FightRequest.encounterLookup,
 					this.responseText
 				} );
-				if ( KoLmafia.refusesContinue() )
+
+				if ( KoLmafia.refusesContinue() || initialRound == FightRequest.currentRound )
 				{
 					FightRequest.action1 = "abort";
 				}
