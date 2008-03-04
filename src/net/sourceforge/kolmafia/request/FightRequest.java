@@ -1246,6 +1246,8 @@ public class FightRequest
 			if ( effectData != null )
 			{
 				Preferences.setString( "lastBangPotion" + potionId, effectData );
+				ItemDatabase.registerItemAlias( potionId,
+					ItemDatabase.getItemName( potionId ) + " of " + effectData );
 			}
 		}
 	}
@@ -1293,6 +1295,8 @@ public class FightRequest
 			if ( effectData != null )
 			{
 				Preferences.setString( "lastStoneSphere" + sphereId, effectData );
+				ItemDatabase.registerItemAlias( sphereId,
+					ItemDatabase.getItemName( sphereId ) + " of " + effectData );
 			}
 		}
 	}

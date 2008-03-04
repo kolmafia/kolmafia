@@ -2782,9 +2782,9 @@ public abstract class KoLCharacter
 		if ( lastAscension < KoLCharacter.getAscensions() )
 		{
 			Preferences.setInteger( "lastGuyMadeOfBeesReset", KoLCharacter.getAscensions() );
-                        Preferences.setInteger( "guyMadeOfBeesCount", 0 );
-                        Preferences.setBoolean( "guyMadeOfBeesDefeated", false );
-                }
+				Preferences.setInteger( "guyMadeOfBeesCount", 0 );
+				Preferences.setBoolean( "guyMadeOfBeesDefeated", false );
+		}
 	}
 
 	public static final void ensureUpdatedSemirareCounter()
@@ -2793,8 +2793,8 @@ public abstract class KoLCharacter
 		if ( lastAscension < KoLCharacter.getAscensions() )
 		{
 			Preferences.setInteger( "lastSemirareReset", KoLCharacter.getAscensions() );
-                        Preferences.setInteger( "semirareCounter", 0 );
-                }
+			Preferences.setInteger( "semirareCounter", 0 );
+		}
 	}
 
 	public static final void ensureUpdatedPotionEffects()
@@ -2808,6 +2808,19 @@ public abstract class KoLCharacter
 				Preferences.setString( "lastBangPotion" + i, "" );
 			}
 		}
+
+		String testName;
+		String testProperty;
+
+		for ( int i = 819; i <= 827; ++i )
+		{
+			testProperty = Preferences.getString( "lastBangPotion" + i );
+			if ( !testProperty.equals( "" ) )
+			{
+				testName = ItemDatabase.getItemName( i ) + " of " + testProperty;
+				ItemDatabase.registerItemAlias( i, testName );
+			}
+		}
 	}
 
 	public static final void ensureUpdatedSphereEffects()
@@ -2819,6 +2832,19 @@ public abstract class KoLCharacter
 			for ( int i = 2174; i <= 2177; ++i )
 			{
 				Preferences.setString( "lastStoneSphere" + i, "" );
+			}
+		}
+
+		String testName;
+		String testProperty;
+
+		for ( int i = 2174; i <= 2177; ++i )
+		{
+			testProperty = Preferences.getString( "lastStoneSphere" + i );
+			if ( !testProperty.equals( "" ) )
+			{
+				testName = ItemDatabase.getItemName( i ) + " of " + testProperty;
+				ItemDatabase.registerItemAlias( i, testName );
 			}
 		}
 	}

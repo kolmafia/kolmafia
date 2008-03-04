@@ -135,6 +135,14 @@ public class ItemDatabase
 
 	static
 	{
+		ItemDatabase.reset();
+	}
+
+	public static void reset()
+	{
+		boolean isFullReset = ItemDatabase.itemIdByName.isEmpty();
+		ItemDatabase.itemIdByName.clear();
+
 		// This begins by opening up the data file and preparing
 		// a buffered reader; once this is done, every line is
 		// examined and float-referenced: once in the name-lookup,
@@ -152,23 +160,27 @@ public class ItemDatabase
 				int itemId = StringUtilities.parseInt( data[ 0 ] );
 				id = new Integer( itemId );
 
-				ItemDatabase.useTypeById.set( itemId, StringUtilities.parseInt( data[ 2 ] ) );
-				ItemDatabase.priceById.set( itemId, StringUtilities.parseInt( data[ 4 ] ) );
+				if ( isFullReset )
+				{
+					ItemDatabase.useTypeById.set( itemId, StringUtilities.parseInt( data[ 2 ] ) );
+					ItemDatabase.priceById.set( itemId, StringUtilities.parseInt( data[ 4 ] ) );
+
+					ItemDatabase.dataNameById.put( id, data[ 1 ] );
+					ItemDatabase.nameById.put( id, StringUtilities.getDisplayName( data[ 1 ] ) );
+
+					ItemDatabase.accessById.put( id, data[ 3 ] );
+					ItemDatabase.tradeableById.set( itemId, data[ 3 ].equals( "all" ) );
+					ItemDatabase.giftableById.set( itemId, data[ 3 ].equals( "all" ) || data[ 3 ].equals( "gift" ) );
+					ItemDatabase.displayableById.set(
+						itemId, data[ 3 ].equals( "all" ) || data[ 3 ].equals( "gift" ) || data[ 3 ].equals( "display" ) );
+
+					if ( itemId > ItemDatabase.maxItemId )
+					{
+						ItemDatabase.maxItemId = itemId;
+					}
+				}
 
 				ItemDatabase.itemIdByName.put( StringUtilities.getCanonicalName( data[ 1 ] ), id );
-				ItemDatabase.dataNameById.put( id, data[ 1 ] );
-				ItemDatabase.nameById.put( id, StringUtilities.getDisplayName( data[ 1 ] ) );
-
-				ItemDatabase.accessById.put( id, data[ 3 ] );
-				ItemDatabase.tradeableById.set( itemId, data[ 3 ].equals( "all" ) );
-				ItemDatabase.giftableById.set( itemId, data[ 3 ].equals( "all" ) || data[ 3 ].equals( "gift" ) );
-				ItemDatabase.displayableById.set(
-					itemId, data[ 3 ].equals( "all" ) || data[ 3 ].equals( "gift" ) || data[ 3 ].equals( "display" ) );
-
-				if ( itemId > ItemDatabase.maxItemId )
-				{
-					ItemDatabase.maxItemId = itemId;
-				}
 			}
 		}
 
@@ -176,9 +188,14 @@ public class ItemDatabase
 		// items so they can be added as conditions.
 
 		id = new Integer( 13 );
-		ItemDatabase.dataNameById.put( id, "worthless item" );
+
+		if ( isFullReset )
+		{
+			ItemDatabase.dataNameById.put( id, "worthless item" );
+			ItemDatabase.nameById.put( id, "worthless item" );
+		}
+
 		ItemDatabase.itemIdByName.put( "worthless item", id );
-		ItemDatabase.nameById.put( id, "worthless item" );
 
 		try
 		{
@@ -192,114 +209,129 @@ public class ItemDatabase
 			StaticEntity.printStackTrace( e );
 		}
 
-		// Next, retrieve the description Ids.
-
-		reader = FileUtilities.getVersionedReader( "itemdescs.txt", KoLConstants.ITEMDESCS_VERSION );
-
-		while ( ( data = FileUtilities.readData( reader ) ) != null )
+		if ( isFullReset )
 		{
-			boolean isDescriptionId = true;
-			if ( data.length >= 2 && data[ 1 ].length() > 0 )
+			// Next, retrieve the description ids.
+
+			reader = FileUtilities.getVersionedReader( "itemdescs.txt", KoLConstants.ITEMDESCS_VERSION );
+
+			while ( ( data = FileUtilities.readData( reader ) ) != null )
 			{
-				isDescriptionId = true;
-				for ( int i = 0; i < data[ 1 ].length() && isDescriptionId; ++i )
+				boolean isDescriptionId = true;
+				if ( data.length >= 2 && data[ 1 ].length() > 0 )
 				{
-					if ( !Character.isDigit( data[ 1 ].charAt( i ) ) )
+					isDescriptionId = true;
+					for ( int i = 0; i < data[ 1 ].length() && isDescriptionId; ++i )
 					{
-						isDescriptionId = false;
+						if ( !Character.isDigit( data[ 1 ].charAt( i ) ) )
+						{
+							isDescriptionId = false;
+						}
 					}
-				}
 
-				if ( isDescriptionId )
-				{
-					int itemId = StringUtilities.parseInt( data[ 0 ].trim() );
-					id = new Integer( itemId );
-					ItemDatabase.descriptionById.put( id, data[ 1 ] );
-					ItemDatabase.itemIdByDescription.put( data[ 1 ], new Integer( itemId ) );
-
-					if ( data.length == 4 )
+					if ( isDescriptionId )
 					{
-						ItemDatabase.pluralById.set( itemId, data[ 3 ] );
-						ItemDatabase.itemIdByPlural.put( StringUtilities.getCanonicalName( data[ 3 ] ), id );
+						int itemId = StringUtilities.parseInt( data[ 0 ].trim() );
+						id = new Integer( itemId );
+						ItemDatabase.descriptionById.put( id, data[ 1 ] );
+						ItemDatabase.itemIdByDescription.put( data[ 1 ], new Integer( itemId ) );
+
+						if ( data.length == 4 )
+						{
+							ItemDatabase.pluralById.set( itemId, data[ 3 ] );
+							ItemDatabase.itemIdByPlural.put( StringUtilities.getCanonicalName( data[ 3 ] ), id );
+						}
 					}
 				}
 			}
+
+			try
+			{
+				reader.close();
+			}
+			catch ( Exception e )
+			{
+				// This should not happen.  Therefore, print
+				// a stack trace for debug purposes.
+
+				StaticEntity.printStackTrace( e );
+			}
+
+			// Next, retrieve the table of fullness
+
+			reader = FileUtilities.getVersionedReader( "fullness.txt", KoLConstants.FULLNESS_VERSION );
+
+			while ( ( data = FileUtilities.readData( reader ) ) != null )
+			{
+				ItemDatabase.saveItemValues( data, ItemDatabase.fullnessByName );
+			}
+
+			try
+			{
+				reader.close();
+			}
+			catch ( Exception e )
+			{
+				// This should not happen.  Therefore, print
+				// a stack trace for debug purposes.
+
+				StaticEntity.printStackTrace( e );
+			}
+
+			// Next, retrieve the table of inebriety
+
+			reader = FileUtilities.getVersionedReader( "inebriety.txt", KoLConstants.INEBRIETY_VERSION );
+
+			while ( ( data = FileUtilities.readData( reader ) ) != null )
+			{
+				ItemDatabase.saveItemValues( data, ItemDatabase.inebrietyByName );
+			}
+
+			try
+			{
+				reader.close();
+			}
+			catch ( Exception e )
+			{
+				// This should not happen.  Therefore, print
+				// a stack trace for debug purposes.
+
+				StaticEntity.printStackTrace( e );
+			}
+
+			// Next, retrieve the table of spleen hits
+
+			reader = FileUtilities.getVersionedReader( "spleenhit.txt", KoLConstants.SPLEENHIT_VERSION );
+
+			while ( ( data = FileUtilities.readData( reader ) ) != null )
+			{
+				ItemDatabase.saveItemValues( data, ItemDatabase.spleenHitByName );
+			}
+
+			try
+			{
+				reader.close();
+			}
+			catch ( Exception e )
+			{
+				// This should not happen.  Therefore, print
+				// a stack trace for debug purposes.
+
+				StaticEntity.printStackTrace( e );
+			}
 		}
 
-		try
+		// Set aliases for the El Vibrato punch cards
+
+		for ( int i = 0; i < RequestEditorKit.PUNCHCARDS.length; ++i )
 		{
-			reader.close();
-		}
-		catch ( Exception e )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
+			Object [] punchcard = RequestEditorKit.PUNCHCARDS[i];
+			Integer itemId = (Integer) punchcard[0];
 
-			StaticEntity.printStackTrace( e );
+			itemIdByName.put( itemId, punchcard[1] );
+			itemIdByName.put( itemId, punchcard[2] );
 		}
 
-		// Next, retrieve the table of fullness
-
-		reader = FileUtilities.getVersionedReader( "fullness.txt", KoLConstants.FULLNESS_VERSION );
-
-		while ( ( data = FileUtilities.readData( reader ) ) != null )
-		{
-			ItemDatabase.saveItemValues( data, ItemDatabase.fullnessByName );
-		}
-
-		try
-		{
-			reader.close();
-		}
-		catch ( Exception e )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-
-			StaticEntity.printStackTrace( e );
-		}
-
-		// Next, retrieve the table of inebriety
-
-		reader = FileUtilities.getVersionedReader( "inebriety.txt", KoLConstants.INEBRIETY_VERSION );
-
-		while ( ( data = FileUtilities.readData( reader ) ) != null )
-		{
-			ItemDatabase.saveItemValues( data, ItemDatabase.inebrietyByName );
-		}
-
-		try
-		{
-			reader.close();
-		}
-		catch ( Exception e )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-
-			StaticEntity.printStackTrace( e );
-		}
-
-		// Next, retrieve the table of spleen hits
-
-		reader = FileUtilities.getVersionedReader( "spleenhit.txt", KoLConstants.SPLEENHIT_VERSION );
-
-		while ( ( data = FileUtilities.readData( reader ) ) != null )
-		{
-			ItemDatabase.saveItemValues( data, ItemDatabase.spleenHitByName );
-		}
-
-		try
-		{
-			reader.close();
-		}
-		catch ( Exception e )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-
-			StaticEntity.printStackTrace( e );
-		}
 
 		ItemDatabase.canonicalNames	= new String[ ItemDatabase.itemIdByName.size() ];
 		ItemDatabase.itemIdByName.keySet().toArray( ItemDatabase.canonicalNames );
@@ -552,9 +584,15 @@ public class ItemDatabase
 		Integer id = new Integer( itemId );
 
 		ItemDatabase.descriptionById.put( id, descriptionId );
-		ItemDatabase.itemIdByName.put( StringUtilities.getCanonicalName( itemName ), id );
 		ItemDatabase.dataNameById.put( id, itemName );
 		ItemDatabase.nameById.put( id, StringUtilities.getDisplayName( itemName ) );
+
+		ItemDatabase.registerItemAlias( itemId, itemName );
+	}
+
+	public static void registerItemAlias( final int itemId, final String itemName )
+	{
+		ItemDatabase.itemIdByName.put( StringUtilities.getCanonicalName( itemName ), new Integer( itemId ) );
 
 		ItemDatabase.canonicalNames	= new String[ ItemDatabase.itemIdByName.size() ];
 		ItemDatabase.itemIdByName.keySet().toArray( ItemDatabase.canonicalNames );
@@ -636,24 +674,7 @@ public class ItemDatabase
 
 		if ( !substringMatch )
 		{
-			int possibleItemId = -1;
-
-			if ( possibleItemId == -1 )
-			{
-				possibleItemId = bangPotionId( itemName );
-			}
-
-			if ( possibleItemId == -1 )
-			{
-				possibleItemId = stoneSphereId( itemName );
-			}
-
-			if ( possibleItemId == -1 )
-			{
-				possibleItemId = punchCardId( itemName );
-			}
-
-			return possibleItemId;
+			return -1;
 		}
 
 		// It's possible that you're looking for a substring.  In
@@ -1303,77 +1324,6 @@ public class ItemDatabase
 		}
 
 		writer.close();
-	}
-
-	private static int bangPotionId( final String name )
-	{
-		int index = name.indexOf( "potion of " );
-		if ( index == -1 )
-		{
-			return -1;
-		}
-
-		// Get the effect name;
-		String effect = name.substring( index + 10 );
-
-		// Make sure we have potion properties
-		KoLCharacter.ensureUpdatedPotionEffects();
-
-		// Look up the effect name
-		for ( int i = 819; i <= 827; ++i )
-		{
-			if ( effect.equals( Preferences.getString( "lastBangPotion" + i ) ) )
-			{
-				return i;
-			}
-		}
-
-		return -1;
-	}
-
-	private static int stoneSphereId( final String name )
-	{
-		int index = name.indexOf( "sphere of " );
-		if ( index == -1 )
-		{
-			return -1;
-		}
-
-		// Get the effect name;
-		String effect = name.substring( index + 10 );
-
-		// Make sure we have sphere properties
-		KoLCharacter.ensureUpdatedSphereEffects();
-
-		// Look up the effect name
-		for ( int i = 2174; i <= 2177; ++i )
-		{
-			if ( effect.equals( Preferences.getString( "lastStoneSphere" + i ) ) )
-			{
-				return i;
-			}
-		}
-
-		return -1;
-	}
-
-	private static int punchCardId( final String name )
-	{
-		if ( !name.startsWith( "El Vibrato punchcard" ) )
-		{
-			return -1;
-		}
-
-		for ( int i = 0; i < RequestEditorKit.PUNCHCARDS.length; ++i )
-		{
-			Object [] punchcard = RequestEditorKit.PUNCHCARDS[i];
-			if ( name.equals( punchcard[1] ) || name.equals( punchcard[2] ) )
-			{
-				return ((Integer) punchcard[0]).intValue();
-			}
-		}
-
-		return -1;
 	}
 
 	// Support for dusty bottles of wine

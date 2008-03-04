@@ -721,6 +721,8 @@ public abstract class KoLmafia
 		DisplayCaseManager.clearCache();
 		ClanManager.clearCache();
 
+		ItemDatabase.reset();
+
 		// Now actually reset the session.
 
 		this.refreshSession();
@@ -1129,7 +1131,13 @@ public abstract class KoLmafia
 		LouvreManager.reset();
 		MushroomManager.reset();
 		HermitRequest.resetClovers();
+
 		ItemDatabase.getDustyBottles();
+		KoLCharacter.ensureUpdatedGuyMadeOfBees();
+		KoLCharacter.ensureUpdatedPirateInsults();
+		KoLCharacter.ensureUpdatedPotionEffects();
+		KoLCharacter.ensureUpdatedSemirareCounter();
+		KoLCharacter.ensureUpdatedSphereEffects();
 
 		// Retrieve the items which are available for consumption
 		// and item creation.

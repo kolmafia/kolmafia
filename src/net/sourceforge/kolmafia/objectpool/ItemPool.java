@@ -36,11 +36,8 @@ package net.sourceforge.kolmafia.objectpool;
 import java.util.ArrayList;
 
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.RequestEditorKit;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
-import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class ItemPool
 {
