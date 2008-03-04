@@ -1776,8 +1776,6 @@ public class UseItemRequest
 				effectData = "teleportitis";
 			}
 
-			KoLCharacter.ensureUpdatedPotionEffects();
-
 			if ( effectData != null )
 			{
 				Preferences.setString( "lastBangPotion" + UseItemRequest.lastItemUsed.getItemId(), effectData );
@@ -1936,7 +1934,6 @@ public class UseItemRequest
 
 	public static final String bangPotionName( final int itemId, final String name )
 	{
-		KoLCharacter.ensureUpdatedPotionEffects();
 		String effect = Preferences.getString( "lastBangPotion" + itemId );
 		if ( effect.equals( "" ) )
 		{

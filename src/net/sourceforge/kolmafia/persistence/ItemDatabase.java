@@ -328,16 +328,19 @@ public class ItemDatabase
 			Object [] punchcard = RequestEditorKit.PUNCHCARDS[i];
 			Integer itemId = (Integer) punchcard[0];
 
-			itemIdByName.put( itemId, punchcard[1] );
-			itemIdByName.put( itemId, punchcard[2] );
+			String name = StringUtilities.getCanonicalName( (String) punchcard[1] );
+			itemIdByName.put( name, itemId );
+			String alias = StringUtilities.getCanonicalName( (String) punchcard[2] );
+			itemIdByName.put( alias, itemId );
+			String plural = StringUtilities.singleStringReplace( alias, "punchcard", "punchcards" );
+			itemIdByPlural.put( plural, id );
 		}
 
-
-		ItemDatabase.canonicalNames	= new String[ ItemDatabase.itemIdByName.size() ];
+		ItemDatabase.canonicalNames = new String[ ItemDatabase.itemIdByName.size() ];
 		ItemDatabase.itemIdByName.keySet().toArray( ItemDatabase.canonicalNames );
 	}
 
-    private static final void saveItemValues( String[] data, Map map )
+	private static final void saveItemValues( String[] data, Map map )
 	{
 		if ( data.length < 2 )
 			return;
@@ -587,15 +590,20 @@ public class ItemDatabase
 		ItemDatabase.dataNameById.put( id, itemName );
 		ItemDatabase.nameById.put( id, StringUtilities.getDisplayName( itemName ) );
 
-		ItemDatabase.registerItemAlias( itemId, itemName );
+		ItemDatabase.registerItemAlias( itemId, itemName, null );
 	}
 
-	public static void registerItemAlias( final int itemId, final String itemName )
+	public static void registerItemAlias( final int itemId, final String itemName, final String plural )
 	{
-		ItemDatabase.itemIdByName.put( StringUtilities.getCanonicalName( itemName ), new Integer( itemId ) );
+		Integer id = new Integer( itemId );
+		ItemDatabase.itemIdByName.put( StringUtilities.getCanonicalName( itemName ), id );
 
-		ItemDatabase.canonicalNames	= new String[ ItemDatabase.itemIdByName.size() ];
+		ItemDatabase.canonicalNames = new String[ ItemDatabase.itemIdByName.size() ];
 		ItemDatabase.itemIdByName.keySet().toArray( ItemDatabase.canonicalNames );
+		if ( plural != null )
+		{
+			ItemDatabase.itemIdByPlural.put( StringUtilities.getCanonicalName( plural ), id );
+		}
 	}
 
 	/**

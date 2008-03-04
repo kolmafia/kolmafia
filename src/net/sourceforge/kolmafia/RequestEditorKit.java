@@ -897,8 +897,6 @@ public class RequestEditorKit
 
 	private static final void changePotionImages( final StringBuffer buffer )
 	{
-		KoLCharacter.ensureUpdatedPotionEffects();
-
 		if ( buffer.indexOf( "exclam.gif" ) == -1 )
 		{
 			return;
@@ -938,8 +936,6 @@ public class RequestEditorKit
 
 	private static final void changePotionNames( final StringBuffer buffer )
 	{
-		KoLCharacter.ensureUpdatedPotionEffects();
-
 		for ( int i = 819; i <= 827; ++i )
 		{
 			String name = ItemDatabase.getItemName( i );
@@ -1080,8 +1076,6 @@ public class RequestEditorKit
 
 	private static final void changeSphereImages( final StringBuffer buffer )
 	{
-		KoLCharacter.ensureUpdatedSphereEffects();
-
 		RequestEditorKit.changeSphereImage( buffer, "spheremoss.gif", 2174 );
 		RequestEditorKit.changeSphereImage( buffer, "spheresmooth.gif", 2175 );
 		RequestEditorKit.changeSphereImage( buffer, "spherecrack.gif", 2176 );
@@ -1132,7 +1126,6 @@ public class RequestEditorKit
 
 	private static final void changeSphereNames( final StringBuffer buffer )
 	{
-		KoLCharacter.ensureUpdatedSphereEffects();
 		for ( int i = 2174; i <= 2177; ++i )
 		{
 			String name = ItemDatabase.getItemName( i );
