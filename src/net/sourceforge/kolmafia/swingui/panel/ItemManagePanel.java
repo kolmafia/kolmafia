@@ -800,14 +800,25 @@ public class ItemManagePanel
 
 		public boolean isVisible( final Object element )
 		{
-			if ( element instanceof AdventureResult && ( (AdventureResult) element ).getCount() < 0 )
+			String name;
+			int itemId;
+
+			if ( element instanceof AdventureResult )
 			{
-				return false;
+				AdventureResult ar = (AdventureResult) element;
+				if ( ar.getCount() < 0 )
+				{
+					return false;
+				}
+				name = ar.getName();
+				itemId = ar.getItemId();
+			}
+			else
+			{
+				name = AutoFilterTextField.getResultName( element );
+				itemId = AdventureResult.itemId( name );
 			}
 
-			String name = AutoFilterTextField.getResultName( element );
-
-			int itemId = AdventureResult.itemId( name );
 			if ( itemId < 1 )
 			{
 				return ItemManagePanel.this.filters == null && super.isVisible( element );
