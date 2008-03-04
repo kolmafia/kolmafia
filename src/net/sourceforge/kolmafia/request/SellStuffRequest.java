@@ -364,7 +364,7 @@ public class SellStuffRequest
 		}
 		else if ( urlString.startsWith( "sellstuff_ugly.php" ) )
 		{
-			Matcher quantityMatcher = TransferItemRequest.HOWMANY_PATTERN.matcher( urlString );
+			Matcher quantityMatcher = TransferItemRequest.QUANTITY_PATTERN.matcher( urlString );
 			if ( quantityMatcher.find() )
 			{
 				quantity = StringUtilities.parseInt( quantityMatcher.group( 1 ) );
