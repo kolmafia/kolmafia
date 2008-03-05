@@ -42,14 +42,13 @@ import javax.swing.JList;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
-
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.objectpool.Concoction;
+import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
 import net.sourceforge.kolmafia.utilities.LowerCaseEntry;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-
-import net.sourceforge.kolmafia.request.CreateItemRequest;
 
 
 public class AutoFilterTextField
@@ -88,22 +87,11 @@ public class AutoFilterTextField
 		AutoFilterTextField.this.strict = true;
 		AutoFilterTextField.this.model.updateFilter( false );
 
-		if ( this.model.getSize() == 1 )
+		if ( AutoFilterTextField.this.model.getSize() == 0 )
 		{
-			this.list.setSelectedIndex( 0 );
+			AutoFilterTextField.this.strict = false;
+			AutoFilterTextField.this.model.updateFilter( false );
 		}
-		else
-		{
-			this.list.clearSelection();
-		}
-
-		if ( AutoFilterTextField.this.model.getSize() > 0 )
-		{
-			return;
-		}
-
-		AutoFilterTextField.this.strict = false;
-		AutoFilterTextField.this.model.updateFilter( false );
 
 		if ( this.model.getSize() == 1 )
 		{
@@ -132,8 +120,8 @@ public class AutoFilterTextField
 			return true;
 		}
 
-		return this.strict ? elementName.toLowerCase().indexOf( this.text ) != -1 : StringUtilities.fuzzyMatches(
-			elementName, this.text );
+		return this.strict ? elementName.indexOf( this.text ) != -1 :
+			StringUtilities.fuzzyMatches( elementName, this.text );
 	}
 
 	public static final String getResultName( final Object element )
@@ -145,24 +133,27 @@ public class AutoFilterTextField
 
 		if ( element instanceof AdventureResult )
 		{
-			return ( (AdventureResult) element ).getName();
+			return ( (AdventureResult) element ).getName().toLowerCase();
 		}
 		if ( element instanceof CreateItemRequest )
 		{
-			return ( (CreateItemRequest) element ).getName();
+			return ( (CreateItemRequest) element ).getName().toLowerCase();
 		}
 		if ( element instanceof Concoction )
 		{
-			return ( (Concoction) element ).getName();
+			return ( (Concoction) element ).getName().toLowerCase();
 		}
 		if ( element instanceof SoldItem )
 		{
-			return ( (SoldItem) element ).getItemName();
+			return ( (SoldItem) element ).getItemName().toLowerCase();
 		}
-
 		if ( element instanceof LowerCaseEntry )
 		{
 			return ( (LowerCaseEntry) element ).getLowerCase();
+		}
+		if ( element instanceof KoLAdventure )
+		{
+			return ( (KoLAdventure) element ).toLowerCaseString();
 		}
 
 		return element.toString();

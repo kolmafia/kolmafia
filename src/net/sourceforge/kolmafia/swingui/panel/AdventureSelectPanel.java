@@ -124,7 +124,7 @@ public class AdventureSelectPanel
 		}
 		else
 		{
-			this.zoneSelect = new FilterAdventureField();
+			this.zoneSelect = new AutoFilterTextField( AdventureSelectPanel.this.locationSelect );
 		}
 
 		this.zoneMap = new TreeMap();
@@ -182,9 +182,9 @@ public class AdventureSelectPanel
 			return;
 		}
 
-		if ( this.zoneSelect instanceof FilterAdventureField )
+		if ( this.zoneSelect instanceof AutoFilterTextField )
 		{
-			( (FilterAdventureField) this.zoneSelect ).setText( location.getZone() );
+			( (AutoFilterTextField) this.zoneSelect ).setText( location.getZone() );
 		}
 		else
 		{
@@ -198,20 +198,6 @@ public class AdventureSelectPanel
 	public void addSelectedLocationListener( ListSelectionListener listener )
 	{
 		this.locationSelect.addListSelectionListener( listener );
-	}
-
-	private class FilterAdventureField
-		extends AutoFilterTextField
-	{
-		public FilterAdventureField()
-		{
-			super( AdventureSelectPanel.this.locationSelect );
-		}
-
-		public boolean isVisible( final Object element )
-		{
-			return ( (KoLAdventure) element ).toLowerCaseString().indexOf( this.text ) != -1;
-		}
 	}
 
 	private class FilterAdventureComboBox
