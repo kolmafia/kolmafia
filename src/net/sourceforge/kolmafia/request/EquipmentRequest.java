@@ -68,15 +68,22 @@ public class EquipmentRequest
 	private static final Pattern INVENTORYITEM_PATTERN =
 		Pattern.compile( "<option value='?([\\d]+)'?[^>]*>([^>]*?) \\(([\\d,]+)\\)</option>" );
 	private static final Pattern QUESTITEM_PATTERN = Pattern.compile( "<b>(<a[^>]*?>)?([^<]+)(</a>)?</b>([^<]*?)<font size=1>" );
-	private static final Pattern HAT_PATTERN = Pattern.compile( "Hat:</td>.*?<b>(.*?)</b>.*unequip&type=hat" );
-	private static final Pattern WEAPON_PATTERN = Pattern.compile( "Weapon:</td>.*?<b>(.*?)</b>.*unequip&type=weapon" );
+	private static final Pattern HAT_PATTERN =
+		Pattern.compile( "Hat</a>:</td>.*?<b>(.*?)</b>.*unequip&type=hat" );
+	private static final Pattern WEAPON_PATTERN =
+		Pattern.compile( "Weapon</a>:</td>.*?<b>(.*?)</b>.*unequip&type=weapon" );
 	private static final Pattern OFFHAND_PATTERN =
-		Pattern.compile( "Off-Hand:</td>.*?<b>([^<]*)</b> *(<font.*?/font>)?[^>]*unequip&type=offhand" );
-	private static final Pattern SHIRT_PATTERN = Pattern.compile( "Shirt:</td>.*?<b>(.*?)</b>.*unequip&type=shirt" );
-	private static final Pattern PANTS_PATTERN = Pattern.compile( "Pants:</td>.*?<b>(.*?)</b>.*unequip&type=pants" );
-	private static final Pattern ACC1_PATTERN = Pattern.compile( "<b>([^<]*?)</b>\\s*<[^<]+unequip&type=acc1\">" );
-	private static final Pattern ACC2_PATTERN = Pattern.compile( "<b>([^<]*?)</b>\\s*<[^<]+unequip&type=acc2\">" );
-	private static final Pattern ACC3_PATTERN = Pattern.compile( "<b>([^<]*?)</b>\\s*<[^<]+unequip&type=acc3\">" );
+		Pattern.compile( "Off-Hand</a>:</td>.*?<b>([^<]*)</b> *(<font.*?/font>)?[^>]*unequip&type=offhand" );
+	private static final Pattern SHIRT_PATTERN =
+		Pattern.compile( "Shirt</a>:</td>.*?<b>(.*?)</b>.*unequip&type=shirt" );
+	private static final Pattern PANTS_PATTERN =
+		Pattern.compile( "Pants</a>:</td>.*?<b>(.*?)</b>.*unequip&type=pants" );
+	private static final Pattern ACC1_PATTERN =
+		Pattern.compile( "<b>([^<]*?)</b>\\s*<[^<]+unequip&type=acc1\">" );
+	private static final Pattern ACC2_PATTERN =
+		Pattern.compile( "<b>([^<]*?)</b>\\s*<[^<]+unequip&type=acc2\">" );
+	private static final Pattern ACC3_PATTERN =
+		Pattern.compile( "<b>([^<]*?)</b>\\s*<[^<]+unequip&type=acc3\">" );
 	private static final Pattern FAMILIARITEM_PATTERN =
 		Pattern.compile( "<b>([^<]*?)</b>\\s*<[^<]+unequip&type=familiarequip\">" );
 	private static final Pattern OUTFITLIST_PATTERN = Pattern.compile( "<select name=whichoutfit>.*?</select>" );
