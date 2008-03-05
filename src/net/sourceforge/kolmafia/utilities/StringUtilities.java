@@ -200,23 +200,31 @@ public class StringUtilities
 		// to begin the search (this allows searches to
 		// start in the middle of the string.
 
-		for ( int i = 0; i <= maxSourceIndex && sourceIndex == -1; ++i )
+		for ( int i = 0; i <= maxSourceIndex; ++i )
 		{
 			sourceChar = Character.toLowerCase( sourceString.charAt(i) );
 			if ( matchedWordDivision && searchChar == sourceChar )
 			{
-				sourceIndex = i;
+				if ( StringUtilities.fuzzyMatches( sourceString, i, maxSourceIndex, searchString ) )
+				{
+					return true;
+				}
 			}
 
 			matchedWordDivision = !Character.isLetterOrDigit( sourceChar );
 		}
 
-		if ( sourceIndex == -1 )
-		{
-			return false;
-		}
+		return false;
+	}
 
-		++sourceIndex;
+	private static final boolean fuzzyMatches( final String sourceString, final int initialSourceIndex, final int maxSourceIndex, final String searchString )
+	{
+		char sourceChar;
+		char searchChar;
+
+		boolean matchedWordDivision = false;
+
+		int sourceIndex = initialSourceIndex + 1;
 		int maxSearchIndex = searchString.length() - 1;
 
 		// Next, search the rest of the string.  Make sure
