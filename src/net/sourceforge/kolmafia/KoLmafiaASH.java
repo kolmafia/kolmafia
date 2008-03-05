@@ -94,7 +94,9 @@ public abstract class KoLmafiaASH
 				return false;
 			}
 
+			RequestThread.enableDisplayIfSequenceComplete();
 			KoLmafiaASH.serverReplyBuffer.setLength( 0 );
+
 			KoLmafiaASH.relayRequest.constructURLString( request.getURLString() );
 
 			KoLmafiaASH.relayScript.execute( "main", null );
@@ -113,6 +115,8 @@ public abstract class KoLmafiaASH
 			}
 
 			KoLmafiaASH.relayScript = null;
+			RequestThread.enableDisplayIfSequenceComplete();
+
 			return KoLmafiaASH.serverReplyBuffer.length() != 0;
 		}
 	}
