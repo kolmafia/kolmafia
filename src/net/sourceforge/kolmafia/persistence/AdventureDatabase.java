@@ -34,11 +34,13 @@
 package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
+
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.TreeMap;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
-
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AreaCombatData;
 import net.sourceforge.kolmafia.KoLAdventure;
@@ -49,14 +51,12 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.session.CustomCombatManager;
+import net.sourceforge.kolmafia.request.BasementRequest;
+import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.DungeonDecorator;
-
-import net.sourceforge.kolmafia.request.BasementRequest;
-import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 
 public class AdventureDatabase
 	extends KoLDatabase
@@ -720,6 +720,7 @@ public class AdventureDatabase
 
 	public static class AdventureArray
 	{
+		private String[] nameArray = new String[0];
 		private final ArrayList nameList = new ArrayList();
 		private final ArrayList internalList = new ArrayList();
 
@@ -735,118 +736,35 @@ public class AdventureDatabase
 
 		public void add( final KoLAdventure value )
 		{
-			this.nameList.add( StringUtilities.getCanonicalName( value.getAdventureName() ) );
+			this.nameList.add( value.toLowerCaseString() );
 			this.internalList.add( value );
 		}
 
 		public KoLAdventure find( String adventureName )
 		{
-			int matchCount = 0;
-			int adventureIndex = -1;
-
-			adventureName = StringUtilities.getCanonicalName( CustomCombatManager.encounterKey( adventureName ) );
-
-			// First, prefer adventures which start with the
-			// provided substring. That failing, report all
-			// matches.
-
-			for ( int i = 0; i < this.size(); ++i )
+			if ( nameArray.length != nameList.size() )
 			{
-				if ( ( (String) this.nameList.get( i ) ).equals( adventureName ) )
-				{
-					return this.get( i );
-				}
-
-				if ( ( (String) this.nameList.get( i ) ).startsWith( adventureName ) )
-				{
-					++matchCount;
-					adventureIndex = i;
-				}
+				nameArray = new String[ nameList.size() ];
+				nameList.toArray( nameArray );
 			}
 
-			if ( matchCount > 1 )
+			List matchingNames = StringUtilities.getMatchingNames( nameArray, adventureName );
+
+			if ( matchingNames.size() > 1 )
 			{
-				for ( int i = 0; i < this.size(); ++i )
+				for ( int i = 0; i < matchingNames.size(); ++i )
 				{
-					if ( ( (String) this.nameList.get( i ) ).startsWith( adventureName ) )
-					{
-						RequestLogger.printLine( (String) this.nameList.get( i ) );
-					}
+					RequestLogger.printLine( (String) matchingNames.get( i ) );
 				}
 
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Multiple matches against " + adventureName + "." );
 				return null;
 			}
 
-			if ( matchCount == 1 )
+			if ( matchingNames.size() == 1 )
 			{
-				return this.get( adventureIndex );
-			}
-
-			// Next, try substring matches when attempting to
-			// find the adventure location. That failing,
-			// report all matches.
-
-			matchCount = 0;
-
-			for ( int i = 0; i < this.size(); ++i )
-			{
-				if ( ( (String) this.nameList.get( i ) ).indexOf( adventureName ) != -1 )
-				{
-					++matchCount;
-					adventureIndex = i;
-				}
-			}
-
-			if ( matchCount > 1 )
-			{
-				for ( int i = 0; i < this.size(); ++i )
-				{
-					if ( ( (String) this.nameList.get( i ) ).indexOf( adventureName ) != -1 )
-					{
-						RequestLogger.printLine( (String) this.nameList.get( i ) );
-					}
-				}
-
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Multiple matches against " + adventureName + "." );
-				return null;
-			}
-
-			if ( matchCount == 1 )
-			{
-				return this.get( adventureIndex );
-			}
-
-			// Next, try to do fuzzy matching.  If it matches
-			// exactly one area, use it.  Otherwise, if it
-			// matches more than once, do nothing.
-
-			for ( int i = 0; i < this.size(); ++i )
-			{
-				if ( StringUtilities.fuzzyMatches( (String) this.nameList.get( i ), adventureName ) )
-				{
-					++matchCount;
-					adventureIndex = i;
-				}
-			}
-
-			if ( matchCount > 1 )
-			{
-				for ( int i = 0; i < this.size(); ++i )
-				{
-					if ( StringUtilities.fuzzyMatches( (String) this.nameList.get( i ), adventureName ) )
-					{
-						RequestLogger.printLine( (String) this.nameList.get( i ) );
-					}
-				}
-
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Multiple matches against " + adventureName + "." );
-				return null;
-			}
-
-			if ( matchCount == 1 )
-			{
-				return this.get( adventureIndex );
+				String match = (String) matchingNames.get( 0 );
+				return this.get( nameList.indexOf( match ) );
 			}
 
 			return null;

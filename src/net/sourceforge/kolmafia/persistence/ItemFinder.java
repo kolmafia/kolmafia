@@ -136,7 +136,6 @@ public class ItemFinder
 		for ( int i = 0; i < nameList.size(); ++i )
 		{
 			itemName = (String) nameList.get( i );
-			System.out.println( itemName );
 			if ( !itemName.startsWith( "abo" ) && !itemName.startsWith( "yel" ) && itemName.endsWith( "snowcone" ) )
 			{
 				return ItemDatabase.getItemId( itemName );
