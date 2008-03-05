@@ -193,7 +193,7 @@ public class StringUtilities
 		int sourceIndex = -1;
 		int maxSourceIndex = sourceString.length() - 1;
 
-		boolean matchedSpace = true;
+		boolean matchedWordDivision = true;
 		char searchChar = Character.toLowerCase( searchString.charAt( 0 ) );
 
 		// First, find the index of the first character
@@ -203,12 +203,12 @@ public class StringUtilities
 		for ( int i = 0; i <= maxSourceIndex && sourceIndex == -1; ++i )
 		{
 			sourceChar = Character.toLowerCase( sourceString.charAt(i) );
-			if ( matchedSpace && searchChar == sourceChar )
+			if ( matchedWordDivision && searchChar == sourceChar )
 			{
 				sourceIndex = i;
 			}
 
-			matchedSpace = Character.isWhitespace( sourceChar );
+			matchedWordDivision = !Character.isLetterOrDigit( sourceChar );
 		}
 
 		if ( sourceIndex == -1 )
@@ -223,10 +223,6 @@ public class StringUtilities
 		// that all characters are accounted for in the fuzzy
 		// matching sequence.
 
-		boolean debug = false;
-//		boolean debug = sourceString.startsWith( "jaba" );
-		if (debug) System.out.println(sourceString);
-
 		for ( int searchIndex = 1; searchIndex <= maxSearchIndex; ++searchIndex, ++sourceIndex )
 		{
 			if ( sourceIndex > maxSourceIndex )
@@ -236,9 +232,7 @@ public class StringUtilities
 
 			searchChar = Character.toLowerCase( searchString.charAt( searchIndex ) );
 			sourceChar = Character.toLowerCase( sourceString.charAt( sourceIndex ) );
-			matchedSpace = Character.isWhitespace( searchChar );
-
-		if (debug) System.out.println("0: " + sourceChar);
+			matchedWordDivision = !Character.isLetterOrDigit( searchChar );
 
 			// Search for the next matching character in the
 			// source string.
@@ -254,12 +248,11 @@ public class StringUtilities
 				}
 
 				sourceChar = Character.toLowerCase( sourceString.charAt( sourceIndex ) );
-		if (debug) System.out.println("1: " + sourceChar);
 
 				// If the search string is currently at a space, or you have not
 				// yet reached a word boundary, continue the loop.
 
-				if ( matchedSpace || !Character.isWhitespace( sourceChar ) )
+				if ( matchedWordDivision || Character.isLetterOrDigit( sourceChar ) )
 				{
 					continue;
 				}
@@ -269,7 +262,7 @@ public class StringUtilities
 
 				while ( searchChar != sourceChar )
 				{
-					while ( !Character.isWhitespace( sourceChar ) )
+					while ( Character.isLetterOrDigit( sourceChar ) )
 					{
 						if ( ++sourceIndex > maxSourceIndex )
 						{
@@ -277,10 +270,9 @@ public class StringUtilities
 						}
 
 						sourceChar = Character.toLowerCase( sourceString.charAt( sourceIndex ) );
-		if (debug) System.out.println("2: " + sourceChar);
 					}
 
-					while ( Character.isWhitespace( sourceChar ) )
+					while ( !Character.isLetterOrDigit( sourceChar ) )
 					{
 						if ( ++sourceIndex > maxSourceIndex )
 						{
@@ -288,7 +280,6 @@ public class StringUtilities
 						}
 
 						sourceChar = Character.toLowerCase( sourceString.charAt( sourceIndex ) );
-		if (debug) System.out.println("3: " + sourceChar);
 					}
 				}
 			}
