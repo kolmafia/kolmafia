@@ -41,6 +41,7 @@ import java.util.StringTokenizer;
 
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
@@ -299,6 +300,21 @@ public class AdventureResult
 		{
 			RequestLogger.printLine( "Unknown item found: " + this.name );
 		}
+	}
+
+	public static final AdventureResult pseudoItem( final String name )
+	{
+		AdventureResult item = ItemFinder.getFirstMatchingItem( name );
+		if ( item != null )
+		{
+			return item;
+		}
+
+		// Make a pseudo-item with the required name
+
+		item = new AdventureResult( "(none)", 1, false );
+		item.name = name;
+		return item;
 	}
 
 	/**

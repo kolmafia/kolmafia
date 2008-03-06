@@ -62,7 +62,6 @@ import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
-import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 
@@ -1004,7 +1003,7 @@ public abstract class SorceressLairManager
 		for ( int i = 3; i < gateData.length; ++i )
 		{
 			String name = gateData[ i ];
-			AdventureResult item = ItemFinder.getFirstMatchingItem( name );
+			AdventureResult item = AdventureResult.pseudoItem( name );
 			items[ i - 3 ] = item;
 		}
 
