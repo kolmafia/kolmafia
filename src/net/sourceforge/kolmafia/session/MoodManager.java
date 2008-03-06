@@ -1107,7 +1107,7 @@ public abstract class MoodManager
 					else
 					{
 						this.count = this.item.getCount();
-						this.action = "use " + this.count + " " + ItemDatabase.getItemName( this.item.getItemId() );
+						this.action = "use " + this.count + " " + this.item.bangPotionAlias();
 					}
 				}
 				else
@@ -1179,7 +1179,7 @@ public abstract class MoodManager
 			if ( this.item != null )
 			{
 				return this.type + " " + StringUtilities.getCanonicalName( this.name ) + " => use " + this.count + " " +
-					StringUtilities.getCanonicalName( ItemDatabase.getItemName( this.item.getItemId() ) );
+					StringUtilities.getCanonicalName( this.item.bangPotionAlias() );
 			}
 
 			if ( this.skill != null )
