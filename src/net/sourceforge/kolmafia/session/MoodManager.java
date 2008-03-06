@@ -37,12 +37,12 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+
 import java.util.ArrayList;
 import java.util.TreeMap;
 
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.UtilityConstants;
-
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -51,17 +51,16 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
-
+import net.sourceforge.kolmafia.persistence.EffectDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ItemFinder;
+import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-
-import net.sourceforge.kolmafia.persistence.EffectDatabase;
-import net.sourceforge.kolmafia.persistence.ItemFinder;
-import net.sourceforge.kolmafia.persistence.Preferences;
-import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 public abstract class MoodManager
 {
@@ -1108,7 +1107,7 @@ public abstract class MoodManager
 					else
 					{
 						this.count = this.item.getCount();
-						this.action = "use " + this.count + " " + UseItemRequest.bangPotionShortName( this.item );
+						this.action = "use " + this.count + " " + ItemDatabase.getItemName( this.item.getItemId() );
 					}
 				}
 				else
@@ -1179,7 +1178,8 @@ public abstract class MoodManager
 
 			if ( this.item != null )
 			{
-				return this.type + " " + StringUtilities.getCanonicalName( this.name ) + " => use " + this.count + " " + StringUtilities.getCanonicalName( UseItemRequest.bangPotionShortName( this.item ) );
+				return this.type + " " + StringUtilities.getCanonicalName( this.name ) + " => use " + this.count + " " +
+					StringUtilities.getCanonicalName( ItemDatabase.getItemName( this.item.getItemId() ) );
 			}
 
 			if ( this.skill != null )

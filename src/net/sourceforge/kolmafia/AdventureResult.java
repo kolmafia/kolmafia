@@ -393,14 +393,14 @@ public class AdventureResult
 		case UseItemRequest.DARK_POTION:
 		case UseItemRequest.MURKY_POTION:
 
-			return UseItemRequest.bangPotionName( this.itemId, this.name );
+			return AdventureResult.bangPotionName( this.itemId );
 
 		case FightRequest.MOSSY_STONE_SPHERE:
 		case FightRequest.SMOOTH_STONE_SPHERE:
 		case FightRequest.CRACKED_STONE_SPHERE:
 		case FightRequest.ROUGH_STONE_SPHERE:
 
-			return FightRequest.stoneSphereName( this.itemId, this.name );
+			return AdventureResult.stoneSphereName( this.itemId );
 
 		case UseItemRequest.PUNCHCARD_ATTACK:
 		case UseItemRequest.PUNCHCARD_REPAIR:
@@ -414,7 +414,7 @@ public class AdventureResult
 		case UseItemRequest.PUNCHCARD_WALL:
 		case UseItemRequest.PUNCHCARD_SPHERE:
 
-			return UseItemRequest.punchcardName( this.itemId );
+			return AdventureResult.punchCardName( this.itemId );
 
 		default:
 			return this.name;
@@ -845,5 +845,45 @@ public class AdventureResult
 	{
 		int index = list.indexOf( this );
 		return index == -1 ? 0 : ( (AdventureResult) list.get( index ) ).getCount();
+	}
+
+	public static final String bangPotionName( final int itemId )
+	{
+		String itemName = ItemDatabase.getItemName( itemId );
+
+		String effect = Preferences.getString( "lastBangPotion" + itemId );
+		if ( effect.equals( "" ) )
+		{
+			return itemName;
+		}
+
+		return itemName + " of " + effect;
+	}
+
+	public static final String stoneSphereName( final int itemId )
+	{
+		String itemName = ItemDatabase.getItemName( itemId );
+
+		String effect = Preferences.getString( "lastStoneSphere" + itemId );
+		if ( effect.equals( "" ) )
+		{
+			return itemName;
+		}
+
+		return itemName + " of " + effect;
+	}
+
+	public static final String punchCardName( final int itemId )
+	{
+		for ( int i = 0; i < RequestEditorKit.PUNCHCARDS.length; ++i )
+		{
+			Object [] punchcard = RequestEditorKit.PUNCHCARDS[i];
+			if ( ( (Integer) punchcard[0]).intValue() == itemId )
+			{
+				return (String) punchcard[2];
+			}
+		}
+
+		return ItemDatabase.getItemName( itemId );
 	}
 }
