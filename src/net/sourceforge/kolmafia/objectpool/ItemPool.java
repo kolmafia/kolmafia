@@ -186,6 +186,8 @@ public class ItemPool
 	public static final int BALL_IN_A_CUP = 3093;
 	public static final int SET_OF_JACKS = 3094;
 	public static final int FISH_SCALER = 3097;
+	public static final int CARD_ATTACK = 3146;
+	public static final int CARD_WALL = 3155;
 	public static final int EL_VIBRATO_HELMET = 3162;
 	public static final int ORIGAMI_MAGAZINE = 3194;
 	public static final int OVERCHARGED_POWER_SPHERE = 3215;
