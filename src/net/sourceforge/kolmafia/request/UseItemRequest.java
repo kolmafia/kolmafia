@@ -1932,6 +1932,17 @@ public class UseItemRequest
 		return UseItemRequest.bangPotionName( itemId, ItemDatabase.getItemName( itemId ) );
 	}
 
+	public static final String bangPotionShortName( final AdventureResult item )
+	{
+		String effect = Preferences.getString( "lastBangPotion" + item.getItemId() );
+		if ( effect.equals( "" ) )
+		{
+			return item.getName();
+		}
+
+		return "potion of " + effect;
+	}
+
 	public static final String bangPotionName( final int itemId, final String name )
 	{
 		String effect = Preferences.getString( "lastBangPotion" + itemId );
