@@ -46,7 +46,6 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.MPRestoreItemList;
-import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
@@ -1925,47 +1924,6 @@ public class UseItemRequest
 			StaticEntity.getClient().processResult( UseItemRequest.lastItemUsed );
 			return;
 		}
-	}
-
-	public static final String bangPotionName( final int itemId )
-	{
-		return UseItemRequest.bangPotionName( itemId, ItemDatabase.getItemName( itemId ) );
-	}
-
-	public static final String bangPotionShortName( final AdventureResult item )
-	{
-		String effect = Preferences.getString( "lastBangPotion" + item.getItemId() );
-		if ( effect.equals( "" ) )
-		{
-			return item.getName();
-		}
-
-		return "potion of " + effect;
-	}
-
-	public static final String bangPotionName( final int itemId, final String name )
-	{
-		String effect = Preferences.getString( "lastBangPotion" + itemId );
-		if ( effect.equals( "" ) )
-		{
-			return name;
-		}
-
-		return name + " of " + effect;
-	}
-
-	public static final String punchcardName( final int itemId )
-	{
-		for ( int i = 0; i < RequestEditorKit.PUNCHCARDS.length; ++i )
-		{
-			Object [] punchcard = RequestEditorKit.PUNCHCARDS[i];
-			if ( ( (Integer) punchcard[0]).intValue() == itemId )
-			{
-				return (String) punchcard[2];
-			}
-		}
-
-		return ItemDatabase.getItemName( itemId );
 	}
 
 	public static final boolean isHousing( final int itemId )

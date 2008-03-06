@@ -1299,22 +1299,6 @@ public class FightRequest
 		}
 	}
 
-	public static final String stoneSphereName( final int itemId )
-	{
-		return FightRequest.stoneSphereName( itemId, ItemDatabase.getItemName( itemId ) );
-	}
-
-	public static final String stoneSphereName( final int itemId, final String name )
-	{
-		String effect = Preferences.getString( "lastStoneSphere" + itemId );
-		if ( effect.equals( "" ) )
-		{
-			return name;
-		}
-
-		return name + " of " + effect;
-	}
-
 	public static final String stoneSphereEffectToId( final String effect )
 	{
 		for ( int i = 2174; i <= 2177; ++i )
