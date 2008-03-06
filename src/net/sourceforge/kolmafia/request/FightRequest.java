@@ -49,6 +49,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
@@ -277,6 +278,13 @@ public class FightRequest
 		if ( FightRequest.encounterLookup.equals( "rampaging adding machine" ) )
 		{
 			this.handleAddingMachine();
+		}
+
+		// Hulking Constructs also require special handling
+
+		else if ( FightRequest.encounterLookup.equals( "hulking construct" ) )
+		{
+			this.handleHulkingConstruct();
 		}
 
 		// If the user wants a custom combat script, parse the desired
@@ -906,6 +914,36 @@ public class FightRequest
 		++FightRequest.preparatoryRounds;
 		FightRequest.action1 = part1.getItemId() + "," + part2.getItemId();
 		return true;
+	}
+
+	private void handleHulkingConstruct()
+	{
+		if ( FightRequest.currentRound > 1 )
+		{
+			++FightRequest.preparatoryRounds;
+			FightRequest.action1 = "3155";
+			return;
+		}
+
+		AdventureResult card1 = ItemPool.get( ItemPool.CARD_ATTACK, 1 );
+		AdventureResult card2 = ItemPool.get( ItemPool.CARD_WALL, 1 );
+
+		if ( !KoLConstants.inventory.contains( card1 ) ||
+		     !KoLConstants.inventory.contains( card2 ) )
+		{
+			FightRequest.action1 = "runaway";
+			return;
+		}
+
+		++FightRequest.preparatoryRounds;
+		if ( !KoLCharacter.hasSkill( "Ambidextrous Funkslinging" ) )
+		{
+			FightRequest.action1 = "3146";
+		}
+		else
+		{
+			FightRequest.action1 = "3146,3155";
+		}
 	}
 
 	private String getMonsterWeakenAction()
