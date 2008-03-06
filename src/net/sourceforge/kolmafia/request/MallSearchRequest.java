@@ -122,29 +122,24 @@ public class MallSearchRequest
 		return true;
 	}
 
-	public static final String getItemName( String searchString )
+	public static final String getSearchString( String itemName )
 	{
-		if ( searchString.startsWith( "\"" ) || searchString.startsWith( "\'" ) )
+		int itemId = ItemDatabase.getItemId( itemName );
+
+		if ( itemId == -1 )
 		{
-			return searchString;
+			return itemName;
 		}
 
-		if ( !searchString.startsWith( "potion" ) )
+		itemName = StringUtilities.getCanonicalName( ItemDatabase.getItemName( itemId ) );
+		int entityIndex = itemName.indexOf( "&" );
+
+		if ( entityIndex == -1 )
 		{
-			int spoilerIndex = searchString.indexOf( "potion of" );
-			if ( spoilerIndex != -1 )
-			{
-				searchString = searchString.substring( 0, spoilerIndex + 6 );
-			}
+			return "\"" + itemName + "\"";
 		}
 
-		boolean isItemName = ItemDatabase.contains( searchString );
-
-		String canonical = StringUtilities.getCanonicalName( searchString );
-		int entityIndex = canonical.indexOf( "&" );
-
-		return entityIndex == -1 && isItemName ? "\"" + canonical + "\"" : entityIndex == -1 ? canonical : canonical.substring(
-			0, entityIndex );
+		return itemName.substring( 0, entityIndex );
 	}
 
 	public List getResults()
@@ -168,6 +163,10 @@ public class MallSearchRequest
 		if ( this.searchString == null || this.searchString.trim().length() == 0 )
 		{
 			KoLmafia.updateDisplay( this.retainAll ? "Scanning store inventories..." : "Looking up favorite stores list..." );
+		}
+		else if ( this.searchString.startsWith( "\"" ) || this.searchString.startsWith( "\'" ) )
+		{
+			KoLmafia.updateDisplay( "Searching for " + this.searchString + "..." );
 		}
 		else
 		{
@@ -209,11 +208,11 @@ public class MallSearchRequest
 
 			if ( itemNames.size() == 1 )
 			{
-				this.searchString = MallSearchRequest.getItemName( (String) itemNames.get( 0 ) );
+				this.searchString = MallSearchRequest.getSearchString( (String) itemNames.get( 0 ) );
 				this.addFormField( "whichitem", this.searchString );
 			}
 
-			KoLmafia.updateDisplay( "Searching for items..." );
+			KoLmafia.updateDisplay( "Searching for " + this.searchString + "..." );
 		}
 
 		super.run();
