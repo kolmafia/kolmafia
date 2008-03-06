@@ -34,16 +34,16 @@
 package net.sourceforge.kolmafia.request;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.utilities.CharacterEntities;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
-
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
+import net.sourceforge.kolmafia.utilities.CharacterEntities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MallSearchRequest
 	extends GenericRequest
@@ -165,10 +165,6 @@ public class MallSearchRequest
 
 	public void run()
 	{
-		// Check to see if theis able to actually
-		// use the mall -- some people are hardcore or are
-		// somewhere in ronin.
-
 		if ( this.searchString == null || this.searchString.trim().length() == 0 )
 		{
 			KoLmafia.updateDisplay( this.retainAll ? "Scanning store inventories..." : "Looking up favorite stores list..." );
@@ -178,24 +174,38 @@ public class MallSearchRequest
 			this.results.clear();
 			List itemNames = ItemDatabase.getMatchingNames( this.searchString );
 
-			// In the event that it's all NPC stores, and the person
-			// cannot use the mall, then only display the items which
-			// are available from NPC stores, since that's all that
-			// can be used in this circumstance.
+			// Check for any items which are not available in NPC stores and
+			// known not to be tradeable to see if there's an exact match.
 
-			boolean canAvoidSearch = true;
-			for ( int i = 0; canAvoidSearch && i < itemNames.size(); ++i )
+			Iterator itemIterator = itemNames.iterator();
+			int npcItemCount = 0;
+
+			while ( itemIterator.hasNext() )
 			{
-				int itemId = ItemDatabase.getItemId( (String) itemNames.get( i ) );
-				canAvoidSearch &=
-					!ItemDatabase.isTradeable( itemId ) || NPCStoreDatabase.contains( (String) itemNames.get( i ) );
+				String itemName = (String) itemIterator.next();
+				int itemId = ItemDatabase.getItemId( itemName );
+
+				if ( NPCStoreDatabase.contains( itemName ) )
+				{
+					++npcItemCount;
+				}
+				else if ( !ItemDatabase.isTradeable( itemId ) )
+				{
+					itemIterator.remove();
+				}
 			}
 
-			if ( canAvoidSearch )
+			// If the results contain only NPC items, then you don't need
+			// to run a mall search.
+
+			if ( npcItemCount > 0 && itemNames.size() == npcItemCount )
 			{
 				this.finalizeList( itemNames );
 				return;
 			}
+
+			// If there is only one applicable match, then make sure you
+			// search for the exact item (may be a fuzzy matched item).
 
 			if ( itemNames.size() == 1 )
 			{
@@ -205,9 +215,6 @@ public class MallSearchRequest
 
 			KoLmafia.updateDisplay( "Searching for items..." );
 		}
-
-		// Otherwise, conduct the normal mall search, processing
-		// the NPC results as needed.
 
 		super.run();
 	}
