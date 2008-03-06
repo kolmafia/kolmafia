@@ -736,7 +736,7 @@ public class AdventureDatabase
 
 		public void add( final KoLAdventure value )
 		{
-			this.nameList.add( value.toLowerCaseString() );
+			this.nameList.add( value.getAdventureName().toLowerCase() );
 			this.internalList.add( value );
 		}
 
