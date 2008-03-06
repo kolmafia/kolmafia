@@ -304,7 +304,7 @@ public class AdventureResult
 
 	public static final AdventureResult pseudoItem( final String name )
 	{
-		AdventureResult item = ItemFinder.getFirstMatchingItem( name );
+		AdventureResult item = ItemFinder.getFirstMatchingItem( name, false );
 		if ( item != null )
 		{
 			return item;
