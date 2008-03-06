@@ -860,6 +860,22 @@ public class AdventureResult
 		return itemName + " of " + effect;
 	}
 
+	public final String bangPotionAlias()
+	{
+		if ( this.itemId < 819 || this.itemId > 827 )
+		{
+			return this.name;
+		}
+
+		String effect = Preferences.getString( "lastBangPotion" + this.itemId );
+		if ( effect.equals( "" ) )
+		{
+			return this.name;
+		}
+
+		return "potion of " + effect;
+	}
+
 	public static final String stoneSphereName( final int itemId )
 	{
 		String itemName = ItemDatabase.getItemName( itemId );
