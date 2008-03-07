@@ -1009,14 +1009,14 @@ rainbow pearl ring	Single Equip, Moxie: +15, Muscle: +15, Mysticality: +15, Spoo
 ratskin belt	Single Equip, Moxie: +8, Meat Drop: +10
 reinforced furry underpants	Mysticality: +2, Sleaze Damage: +2
 # right half of a heart necklace
-ring of adornment	Moxie: +5
+ring of adornment	Moxie: +10
 ring of aggravate monster	Monster Level: +5
 ring of cold resistance	Cold Resistance: +20
 ring of conflict	Single Equip, Combat Rate: -5
 ring of fire resistance	Hot Resistance: +20
-ring of gain strength	Muscle: +5
+ring of gain strength	Muscle: +10
 ring of half-assed regeneration	Single Equip
-ring of increase damage	Melee Damage: +5, Spell Damage: +5
+ring of increase damage	Melee Damage: +10, Spell Damage: +10
 rose-colored glasses	Maximum HP: +5, Maximum MP: +5
 round green sunglasses	Single Equip, Moxie: +9, Sleaze Resistance: +20
 round purple sunglasses	Single Equip, Sleaze Resistance: +10
