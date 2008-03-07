@@ -204,8 +204,12 @@ public abstract class RequestThread
 		if ( KoLmafia.getLastMessage().endsWith( "..." ) )
 		{
 			KoLmafia.updateDisplay( "Requests complete." );
-			ChatManager.broadcastMessage( "<font color=green>Requests complete.</font><br>" );
 			SystemTrayFrame.showBalloon( "Requests complete." );
+
+			if ( KoLmafia.isAdventuring() )
+			{
+				ChatManager.broadcastMessage( "<font color=green>Adventuring complete.</font><br>" );
+			}
 
 			RequestLogger.printLine();
 		}
