@@ -44,6 +44,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.ChatManager;
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ChatRequest
 	extends GenericRequest
@@ -107,66 +108,37 @@ public class ChatRequest
 		this.addFormField( "playerid", String.valueOf( KoLCharacter.getUserId() ) );
 		this.addFormField( "pwd" );
 
-		String contactId = KoLmafia.getPlayerId( contact );
-		String actualMessage = null;
+		String contactId = contact == null ? "[none]" :
+			StringUtilities.globalStringReplace( KoLmafia.getPlayerId( contact ), " ", "_" ).trim();
 
-		if ( contact == null || message != null && message.equals( "/exit" ) )
-		{
-			actualMessage = message;
-		}
-		else if ( message.equals( "/friend" ) || message.equals( "/ignore" ) || message.equals( "/baleet" ) )
-		{
-			actualMessage = message + " " + contactId;
-		}
-		else if ( message.startsWith( "/w " ) || message.startsWith( "/whisper" ) || message.startsWith( "/r" ) || message.startsWith( "/v" ) || message.startsWith( "/conv" ) )
-		{
-			actualMessage = message;
-		}
-		else
-		{
-			boolean foundMacro = false;
-			for ( int i = 1; i <= 20; ++i )
-			{
-				if ( message.startsWith( "/" + i ) )
-				{
-					foundMacro = true;
-				}
-			}
+		String actualMessage = message == null ? "" : message.trim();
 
-			if ( foundMacro || contact.startsWith( "[" ) )
-			{
-				actualMessage = message;
-			}
-			else if ( contact.startsWith( "/" ) && ( !message.startsWith( "/" ) || message.startsWith( "/me" ) || message.startsWith( "/em" ) || message.startsWith( "/warn" ) || message.startsWith( "/ann" ) ) )
-			{
-				actualMessage = contact + " " + message;
-			}
-			else if ( ( message.equals( "/who" ) || message.equals( "/w" ) ) && contact.startsWith( "/" ) )
-			{
-				actualMessage = "/who " + contact.substring( 1 );
-			}
-			else if ( contact.startsWith( "/" ) && message.startsWith( "/" ) )
-			{
-				actualMessage = message;
-			}
-			else
-			{
-				actualMessage = "/msg " + contactId.replaceAll( " ", "_" ) + " " + message;
-			}
-		}
-
-		this.addFormField( "graf", actualMessage );
-
-		if ( ( actualMessage.equals( "/c" ) || actualMessage.equals( "/channel" ) ) && actualMessage.indexOf( " " ) != -1 )
+		if ( actualMessage.startsWith( "/c" ) )
 		{
 			ChatManager.stopConversation();
 		}
-
-		if ( actualMessage.equals( "/exit" ) )
+		else if ( actualMessage.startsWith( "/ex" ) )
 		{
 			ChatManager.dispose();
+			actualMessage = "/exit";
+		}
+		else if ( contactId.startsWith( "[" ) || actualMessage.startsWith( "/r" ) || actualMessage.startsWith( "/v" ) || actualMessage.startsWith( "/conv" ) || actualMessage.startsWith( "/msg" ) )
+		{
+		}
+		else if ( !contact.startsWith( "/" ) )
+		{
+			actualMessage = "/msg " + contactId + " " + actualMessage;
+		}
+		else if ( actualMessage.startsWith( "/w" ) )
+		{
+			actualMessage = "/who " + contact;
+		}
+		else
+		{
+			actualMessage = contact + " " + actualMessage;
 		}
 
+		this.addFormField( "graf", actualMessage );
 		this.shouldUpdateChat = shouldUpdateChat;
 	}
 
