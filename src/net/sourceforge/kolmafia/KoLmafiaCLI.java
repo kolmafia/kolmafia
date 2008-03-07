@@ -1960,7 +1960,7 @@ public class KoLmafiaCLI
 				return;
 			}
 
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have that familiar." );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have a " + parameters + " for a familiar." );
 			return;
 		}
 
