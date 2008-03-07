@@ -205,12 +205,6 @@ public abstract class RequestThread
 		{
 			KoLmafia.updateDisplay( "Requests complete." );
 			SystemTrayFrame.showBalloon( "Requests complete." );
-
-			if ( KoLmafia.isAdventuring() )
-			{
-				ChatManager.broadcastMessage( "<font color=green>Adventuring complete.</font><br>" );
-			}
-
 			RequestLogger.printLine();
 		}
 
