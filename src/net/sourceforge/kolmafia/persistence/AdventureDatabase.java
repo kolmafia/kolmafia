@@ -746,6 +746,7 @@ public class AdventureDatabase
 			{
 				nameArray = new String[ nameList.size() ];
 				nameList.toArray( nameArray );
+				Arrays.sort( nameArray );
 			}
 
 			List matchingNames = StringUtilities.getMatchingNames( nameArray, adventureName );
