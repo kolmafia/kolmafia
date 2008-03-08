@@ -3028,7 +3028,7 @@
 3022		medium stone triangle
 3023	460043851	small stone triangle
 3024	211072893	strange stone pyramid
-3025	619225682	corpse on the beach	corpse on the beach
+3025	619225682	corpse on the beach	corpses on the beach
 3026	915696450	corpsetini	corpsetinis
 3027	410047686	corpsedriver	corpsedrivers
 3028	924952398	Corpse Island iced tea	Corpse Island iced teas
