@@ -1408,6 +1408,7 @@ Dirge of Dreadfulness	Spooky Damage: +12, Spooky Spell Damage: +12
 Disco Concentration	Item Drop: +20
 Disco Inferno	Moxie: +5, Hot Damage: +3
 Disco State of Mind	Moxie: +2
+Disco Nirvana	Meat Drop: +30
 Dreadlocked	Mysticality Percent: +50, Moxie Percent: -50
 Dreams and Lights	Mysticality: +10, Mana Cost: -3
 Drummed Out	Mysticality Percent: +50, Muscle Percent: -50
