@@ -115,26 +115,55 @@ public class ChatRequest
 
 		if ( actualMessage.startsWith( "/c" ) )
 		{
+			// The player is switching channels.  Notify the chat client
+			// that you're no longer in the original channel.
+
 			ChatManager.stopConversation();
 		}
 		else if ( actualMessage.startsWith( "/ex" ) )
 		{
+			// Exiting chat should dispose.  KoLmafia should send the
+			// message to be server-friendly.
+
 			ChatManager.dispose();
 			actualMessage = "/exit";
 		}
-		else if ( contactId.startsWith( "[" ) || actualMessage.startsWith( "/r" ) || actualMessage.startsWith( "/v" ) || actualMessage.startsWith( "/conv" ) || actualMessage.startsWith( "/msg" ) )
+		else if ( contactId.startsWith( "[" ) )
 		{
+			// This is a message coming from an aggregated window, so
+			// leave it as is.
+		}
+		else if ( actualMessage.startsWith( "/" ) && actualMessage.length() > 1 && Character.isDigit( actualMessage.charAt( 1 ) ) )
+		{
+			// This is a chat macro, and in order to work properly,
+			// chat macros can't be disturbed.
+		}
+		else if ( actualMessage.startsWith( "/msg" ) || actualMessage.startsWith( "/r" ) || actualMessage.startsWith( "/v" ) )
+		{
+			// Explicit requests for private messages should be left
+			// alone, since they'd otherwise they'd be accidentally
+			// put into a chat channel.
 		}
 		else if ( !contact.startsWith( "/" ) )
 		{
+			// Implied requests for a private message should be wrapped
+			// in a /msg block.
+
 			actualMessage = "/msg " + contactId + " " + actualMessage;
 		}
 		else if ( actualMessage.startsWith( "/w" ) )
 		{
-			actualMessage = "/who " + contact;
+			// Attempts to view the /who list use the name of the channel
+			// without the / in front of the channel name.
+
+			actualMessage = "/who " + contact.substring(1);
 		}
 		else
 		{
+			// All other messages are directed to a channel.  Append the
+			// name of the channel to the beginning of the message so you
+			// ensure the message gets there.
+
 			actualMessage = contact + " " + actualMessage;
 		}
 
