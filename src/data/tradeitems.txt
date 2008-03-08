@@ -1786,7 +1786,7 @@
 1785	ga-ga radio	12	all	130
 1786	six pack of Mountain Stream	4	all	300
 1787	bag of Cheat-Os	4	all	50
-1788	unrefined Mountain Stream syrup	4	all	200
+1788	unrefined Mountain Stream syrup	14	all	200
 1789	frozen Mob Penguin	4	all	300
 1790	Ram's Face Lager	2	all	55
 1791	ram horns	0	all	55
