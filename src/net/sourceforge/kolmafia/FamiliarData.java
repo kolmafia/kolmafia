@@ -374,7 +374,7 @@ public class FamiliarData
 		case ItemPool.ANT_PICK:
 		case ItemPool.FISH_SCALER:
 		case ItemPool.ORIGAMI_MAGAZINE:
-			return this.id != 54;
+			return this.id != 54 && this.id != 82;
 
 		case ItemPool.SNOOTY_DISGUISE:
 		case ItemPool.GROUCHO_DISGUISE:
@@ -385,7 +385,8 @@ public class FamiliarData
 			return this.id == 77;
 
 		default:
-			return item.getName().equals( FamiliarDatabase.getFamiliarItem( this.id ) );
+			return this.id == 82 ? ItemDatabase.getConsumptionType( item.getItemId() ) == KoLConstants.EQUIP_HAT :
+				item.getName().equals( FamiliarDatabase.getFamiliarItem( this.id ) );
 		}
 	}
 

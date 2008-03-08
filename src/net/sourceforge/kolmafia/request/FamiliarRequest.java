@@ -140,6 +140,8 @@ public class FamiliarRequest
 
 		super.run();
 
+		EquipmentManager.updateEquipmentList( EquipmentManager.FAMILIAR );
+
 		// If you're not equipping a familiar, or your old familiar
 		// wasn't wearing something, or your new familiar can't equip
 		// the old item, then do nothing further.

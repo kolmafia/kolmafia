@@ -375,6 +375,7 @@ public class EquipmentManager {
 
 		boolean dual = getWeaponHandedness() == 1 && KoLCharacter.hasSkill( "Double-Fisted Skull Smashing" );
 		int equipStat = EquipmentManager.getHitStatType();
+		int familiarId = KoLCharacter.getFamiliar().getId();
 
 		for ( int i = 0; i < KoLConstants.inventory.size(); ++i )
 		{
@@ -386,9 +387,16 @@ public class EquipmentManager {
 			// If we are equipping familiar items, make sure
 			// current familiar can use this one
 
-			if ( filterId == KoLConstants.EQUIP_FAMILIAR && type == KoLConstants.EQUIP_FAMILIAR )
+			if ( filterId == KoLConstants.EQUIP_FAMILIAR )
 			{
-				temporary.add( currentItem );
+				boolean shouldAdd = familiarId == 82 ? type == KoLConstants.EQUIP_HAT :
+					type == KoLConstants.EQUIP_FAMILIAR;
+
+				if ( shouldAdd )
+				{
+					temporary.add( currentItem );
+				}
+
 				continue;
 			}
 
@@ -439,25 +447,6 @@ public class EquipmentManager {
 		currentList.retainAll( temporary );
 		temporary.removeAll( currentList );
 		currentList.addAll( temporary );
-	}
-
-	private static final int getCount( final AdventureResult accessory )
-	{
-		int available = accessory.getCount( KoLConstants.inventory );
-		if ( getEquipment( ACCESSORY1 ).equals( accessory ) )
-		{
-			++available;
-		}
-		if ( getEquipment( ACCESSORY2 ).equals( accessory ) )
-		{
-			++available;
-		}
-		if ( getEquipment( ACCESSORY3 ).equals( accessory ) )
-		{
-			++available;
-		}
-
-		return available;
 	}
 
 	/**

@@ -61,7 +61,6 @@ public class EquipmentRequest
 	private static final EquipmentRequest REFRESH3 = new EquipmentRequest( EquipmentRequest.MISCELLANEOUS );
 
 	private static final Pattern CELL_PATTERN = Pattern.compile( "<td>(.*?)</td>" );
-	private static final Pattern SELECT_PATTERN = Pattern.compile( "<select.*?</select>", Pattern.DOTALL );
 	private static final Pattern MEAT_PATTERN = Pattern.compile( "[\\d,]+ meat\\.</b>" );
 	private static final Pattern OUTSIDECLOSET_PATTERN = Pattern.compile( "<b>Put:.*?</select>", Pattern.DOTALL );
 	private static final Pattern INSIDECLOSET_PATTERN = Pattern.compile( "<b>Take:.*?</select>", Pattern.DOTALL );
@@ -358,6 +357,11 @@ public class EquipmentRequest
 			{
 				return "equip";
 			}
+			if ( this.equipmentType == KoLConstants.EQUIP_HAT )
+			{
+				return "hatrack";
+			}
+
 			break;
 
 		default:
