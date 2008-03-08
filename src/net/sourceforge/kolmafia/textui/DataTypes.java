@@ -414,13 +414,13 @@ public class DataTypes
 			return DataTypes.MONSTER_INIT;
 		}
 
-		Monster monster = MonsterDatabase.findMonster( name );
+		Monster monster = MonsterDatabase.findMonster( name, true );
 		if ( monster == null )
 		{
 			return returnDefault ? DataTypes.MONSTER_INIT : null;
 		}
 
-		return new Value( DataTypes.MONSTER_TYPE, monster.getName(), (Object) monster );
+		return new Value( DataTypes.MONSTER_TYPE, monster.getName(), monster );
 	}
 
 	public static final Value parseElementValue( String name, final boolean returnDefault )
@@ -534,12 +534,12 @@ public class DataTypes
 			return (String) InputFieldUtilities.input( message, DataTypes.BOOLEANS );
 
 		case TYPE_LOCATION:
-			return (String) ( (KoLAdventure) InputFieldUtilities.input(
+			return ( (KoLAdventure) InputFieldUtilities.input(
 				message, AdventureDatabase.getAsLockableListModel().toArray(),
 				AdventureDatabase.getAdventure( Preferences.getString( "lastAdventure" ) ) ) ).getAdventureName();
 
 		case TYPE_SKILL:
-			return (String) ( (UseSkillRequest) InputFieldUtilities.input( message, SkillDatabase.getSkillsByType(
+			return ( (UseSkillRequest) InputFieldUtilities.input( message, SkillDatabase.getSkillsByType(
 				SkillDatabase.CASTABLE ).toArray() ) ).getSkillName();
 
 		case TYPE_FAMILIAR:

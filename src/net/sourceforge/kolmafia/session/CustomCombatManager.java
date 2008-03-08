@@ -295,7 +295,7 @@ public abstract class CustomCombatManager
 	public static final String encounterKey( String line, final boolean changeCase )
 	{
 		line = StringUtilities.globalStringReplace( line.trim(), "  ", " " );
-		String key = line.toLowerCase();
+		String key = StringUtilities.getCanonicalName( line );
 
 		if ( key.startsWith( "a " ) )
 		{

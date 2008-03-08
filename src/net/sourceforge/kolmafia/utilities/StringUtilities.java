@@ -118,9 +118,11 @@ public class StringUtilities
 			return matchList;
 		}
 
-		for ( int i = 0; i < names.length; ++i )
+		int nameCount = names.length;
+
+		for ( int i = 0; i < nameCount; ++i )
 		{
-			if ( StringUtilities.substringMatches( names[ i ], searchString ) )
+			if ( StringUtilities.substringMatches( names[ i ], searchString, true ) )
 			{
 				matchList.add( names[ i ] );
 			}
@@ -131,7 +133,21 @@ public class StringUtilities
 			return matchList;
 		}
 
-		for ( int i = 0; i < names.length; ++i )
+
+		for ( int i = 0; i < nameCount; ++i )
+		{
+			if ( StringUtilities.substringMatches( names[ i ], searchString, false ) )
+			{
+				matchList.add( names[ i ] );
+			}
+		}
+
+		if ( !matchList.isEmpty() )
+		{
+			return matchList;
+		}
+
+		for ( int i = 0; i < nameCount; ++i )
 		{
 			if ( StringUtilities.fuzzyMatches( names[i], searchString ) )
 			{
@@ -140,11 +156,6 @@ public class StringUtilities
 		}
 
 		return matchList;
-	}
-
-	public static final boolean substringMatches( final String source, final String substring )
-	{
-		return StringUtilities.substringMatches( source, substring, false );
 	}
 
 	public static final boolean substringMatches( final String source, final String substring, boolean checkBoundaries )
@@ -211,17 +222,10 @@ public class StringUtilities
 		int searchIndex = initialSearchIndex;
 		int maxSearchIndex = searchString.length() - 1;
 
-		// If you're only matching against one character,
-		// then you've gotten a perfect match.
-
-		// Next, search the rest of the string.  Make sure
-		// that all characters are accounted for in the fuzzy
-		// matching sequence.
-
 		while ( ++searchIndex < maxSearchIndex )
 		{
-			// Ignore any non alphanumeric characters which appear in the search
-			// string, since they have no longer have meaning in fuzzy matching.
+			// Ignore any non alphanumeric characters which
+			// appear in the search string.
 
 			searchChar = Character.toLowerCase( searchString.charAt( searchIndex ) );
 

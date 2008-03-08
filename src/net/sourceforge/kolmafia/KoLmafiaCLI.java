@@ -1893,74 +1893,42 @@ public class KoLmafiaCLI
 				return;
 			}
 
-			String lowerCaseName = parameters.toLowerCase();
 			List familiarList = KoLCharacter.getFamiliarList();
 
 			String[] familiars = new String[ familiarList.size() ];
 			for ( int i = 0; i < familiarList.size(); ++i )
 			{
 				FamiliarData familiar = (FamiliarData)familiarList.get( i );
-				familiars[ i ] = familiar.getRace().toLowerCase();
+				familiars[ i ] = StringUtilities.getCanonicalName( familiar.getRace() );
 			}
 
-			FamiliarData newFamiliar = null;
+			List matchList = StringUtilities.getMatchingNames( familiars, parameters );
 
-			// First, try substring matching against the list of
-			// familiars.
-
-			for ( int i = 0; i < familiars.length && newFamiliar == null; ++i )
+			if ( matchList.size() > 1 )
 			{
-				if ( familiars[ i ].equals( lowerCaseName ) )
-				{
-					newFamiliar = (FamiliarData) familiarList.get( i );
-				}
+				KoLmafia.printList( matchList );
+				RequestLogger.printLine();
+
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "[" + parameters + "] has too many matches." );
 			}
-
-			for ( int i = 0; i < familiars.length && newFamiliar == null; ++i )
+			else if ( matchList.size() == 1 )
 			{
-				if ( StringUtilities.substringMatches( familiars[ i ], lowerCaseName, true ) )
-				{
-					newFamiliar = (FamiliarData) familiarList.get( i );
-				}
-			}
+				FamiliarData change = (FamiliarData) matchList.get( 0 );
 
-			for ( int i = 0; i < familiars.length && newFamiliar == null; ++i )
-			{
-				if ( StringUtilities.substringMatches( familiars[ i ], lowerCaseName, false ) )
-				{
-					newFamiliar = (FamiliarData) familiarList.get( i );
-				}
-			}
-
-			// Boo, no matches.  Now try fuzzy matching, because the
-			// end-user might be abbreviating.
-
-			for ( int i = 0; i < familiars.length && newFamiliar == null; ++i )
-			{
-				if ( StringUtilities.fuzzyMatches( familiars[ i ], lowerCaseName ) )
-				{
-					newFamiliar = (FamiliarData) familiarList.get( i );
-				}
-			}
-
-			if ( newFamiliar != null )
-			{
 				if ( KoLmafiaCLI.isExecutingCheckOnlyCommand )
 				{
-					RequestLogger.printLine( newFamiliar.toString() );
-					return;
+					RequestLogger.printLine( change.toString() );
 				}
-
-				if ( KoLCharacter.getFamiliar() != null && KoLCharacter.getFamiliar().equals( newFamiliar ) )
+				else if ( KoLCharacter.getFamiliar() != null && !KoLCharacter.getFamiliar().equals( change ) )
 				{
-					return;
+					RequestThread.postRequest( new FamiliarRequest( change ) );
 				}
-
-				RequestThread.postRequest( new FamiliarRequest( newFamiliar ) );
-				return;
+			}
+			else
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have a " + parameters + " for a familiar." );
 			}
 
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have a " + parameters + " for a familiar." );
 			return;
 		}
 
@@ -5448,7 +5416,7 @@ public class KoLmafiaCLI
 		{
 			String name = (String) KoLConstants.kitchenItems.get( i );
 
-			if ( !StringUtilities.substringMatches( name.toLowerCase(), nameString ) )
+			if ( !StringUtilities.substringMatches( name.toLowerCase(), nameString, false ) )
 			{
 				continue;
 			}
@@ -5528,7 +5496,7 @@ public class KoLmafiaCLI
 		{
 			String name = (String) KoLConstants.restaurantItems.get( i );
 
-			if ( !StringUtilities.substringMatches( name.toLowerCase(), nameString ) )
+			if ( !StringUtilities.substringMatches( name.toLowerCase(), nameString, false ) )
 			{
 				continue;
 			}
@@ -5597,7 +5565,7 @@ public class KoLmafiaCLI
 		{
 			String name = (String) KoLConstants.microbreweryItems.get( i );
 
-			if ( !StringUtilities.substringMatches( name.toLowerCase(), nameString ) )
+			if ( !StringUtilities.substringMatches( name.toLowerCase(), nameString, false ) )
 			{
 				continue;
 			}

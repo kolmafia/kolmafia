@@ -81,7 +81,7 @@ public class AreaCombatData
 			name = name.substring( 0, colon );
 		}
 
-		Monster monster = MonsterDatabase.findMonster( name );
+		Monster monster = MonsterDatabase.findMonster( name, false );
 		if ( monster == null )
 		{
 			return false;

@@ -55,9 +55,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MonsterDatabase
 {
-	private static final Map MONSTER_NAMES = new TreeMap();
 	private static final Map MONSTER_DATA = new TreeMap();
-
 	private static String[] MONSTER_STRINGS = null;
 
 	// Elements
@@ -108,7 +106,6 @@ public class MonsterDatabase
 	public static final void refreshMonsterTable()
 	{
 		MonsterDatabase.MONSTER_DATA.clear();
-		MonsterDatabase.MONSTER_NAMES.clear();
 
 		BufferedReader reader = FileUtilities.getVersionedReader( "monsters.txt", KoLConstants.MONSTERS_VERSION );
 		String[] data;
@@ -155,8 +152,8 @@ public class MonsterDatabase
 				if ( !bad )
 				{
 					monster.doneWithItems();
-					MonsterDatabase.MONSTER_DATA.put( data[ 0 ], monster );
-					MonsterDatabase.MONSTER_NAMES.put( CustomCombatManager.encounterKey( data[ 0 ], true ), data[ 0 ] );
+					String keyName = CustomCombatManager.encounterKey( data[ 0 ], true );
+					MonsterDatabase.MONSTER_DATA.put( keyName, monster );
 				}
 			}
 		}
@@ -174,22 +171,17 @@ public class MonsterDatabase
 		}
 	}
 
-	public static final Monster findMonster( final String name )
-	{
-		return MonsterDatabase.findMonster( name, true );
-	}
-
 	public static final Monster findMonster( final String name, boolean trySubstrings )
 	{
 		String keyName = CustomCombatManager.encounterKey( name, true );
-		String realName = (String) MonsterDatabase.MONSTER_NAMES.get( keyName );
+		Monster match = (Monster) MonsterDatabase.MONSTER_DATA.get( keyName );
 
 		// If no monster with that name exists, maybe it's
 		// one of those monsters with an alternate name.
 
-		if ( realName != null )
+		if ( match != null )
 		{
-			return (Monster) MonsterDatabase.MONSTER_DATA.get( realName );
+			return match;
 		}
 
 		if ( !trySubstrings )
@@ -199,32 +191,18 @@ public class MonsterDatabase
 
 		if ( MonsterDatabase.MONSTER_STRINGS == null )
 		{
-			MonsterDatabase.MONSTER_STRINGS = new String[ MonsterDatabase.MONSTER_NAMES.size() ];
-			MonsterDatabase.MONSTER_NAMES.keySet().toArray( MonsterDatabase.MONSTER_STRINGS );
-
-			for ( int i = 0; i < MonsterDatabase.MONSTER_STRINGS.length; ++i )
-			{
-				MonsterDatabase.MONSTER_STRINGS[ i ] = MonsterDatabase.MONSTER_STRINGS[ i ].toLowerCase();
-			}
+			MonsterDatabase.MONSTER_STRINGS = new String[ MonsterDatabase.MONSTER_DATA.size() ];
+			MonsterDatabase.MONSTER_DATA.keySet().toArray( MonsterDatabase.MONSTER_STRINGS );
 		}
 
-		for ( int i = 0; i < MonsterDatabase.MONSTER_STRINGS.length; ++i )
+		List matchingNames = StringUtilities.getMatchingNames( MonsterDatabase.MONSTER_STRINGS, keyName );
+
+		if ( matchingNames.size() != 1 )
 		{
-			if ( MonsterDatabase.MONSTER_STRINGS[ i ].startsWith( keyName ) )
-			{
-				return (Monster) MonsterDatabase.MONSTER_DATA.get( MonsterDatabase.MONSTER_NAMES.get( MonsterDatabase.MONSTER_STRINGS[ i ] ) );
-			}
+			return null;
 		}
 
-		for ( int i = 0; i < MonsterDatabase.MONSTER_STRINGS.length; ++i )
-		{
-			if ( StringUtilities.substringMatches( MonsterDatabase.MONSTER_STRINGS[ i ], keyName ) )
-			{
-				return (Monster) MonsterDatabase.MONSTER_DATA.get( MonsterDatabase.MONSTER_NAMES.get( MonsterDatabase.MONSTER_STRINGS[ i ] ) );
-			}
-		}
-
-		return null;
+		return (Monster) MonsterDatabase.MONSTER_DATA.get( matchingNames.get( 0 ) );
 	}
 
 	public static final Monster registerMonster( final String name, final String s )
