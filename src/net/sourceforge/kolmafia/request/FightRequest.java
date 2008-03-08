@@ -1113,7 +1113,7 @@ public class FightRequest
 			// opponent you are fighting against.
 
 			FightRequest.encounterLookup = CustomCombatManager.encounterKey( encounter );
-			FightRequest.monsterData = MonsterDatabase.findMonster( FightRequest.encounterLookup );
+			FightRequest.monsterData = MonsterDatabase.findMonster( FightRequest.encounterLookup, false );
 
 			FightRequest.isTrackingFights = false;
 			FightRequest.checkForInitiative( responseText );
@@ -1125,7 +1125,7 @@ public class FightRequest
 			if ( matcher.find() )
 			{
 				FightRequest.encounterLookup = CustomCombatManager.encounterKey( matcher.group(1) );
-				FightRequest.monsterData = MonsterDatabase.findMonster( FightRequest.encounterLookup );
+				FightRequest.monsterData = MonsterDatabase.findMonster( FightRequest.encounterLookup, false );
 				FightRequest.healthModifier = 0;
 			}
 		}

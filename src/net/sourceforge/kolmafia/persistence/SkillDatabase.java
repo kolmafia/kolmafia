@@ -212,17 +212,23 @@ public class SkillDatabase
 			return new ArrayList();
 		}
 
-		category = category.trim().toLowerCase();
-		for ( int i = 0; i < SkillDatabase.CATEGORIES.length; ++i )
+		List categoryMatches = StringUtilities.getMatchingNames( SkillDatabase.CATEGORIES, category );
+
+		if ( categoryMatches.size() != 1 )
 		{
-			if ( StringUtilities.substringMatches( SkillDatabase.CATEGORIES[ i ], category ) )
-			{
-				category = SkillDatabase.CATEGORIES[ i ];
-			}
+			return new ArrayList();
 		}
 
+		category = (String) categoryMatches.get( 0 );
+
 		List skills = (List) SkillDatabase.skillsByCategory.get( category );
-		return skills == null ? new ArrayList() : skills;
+
+		if ( skills == null )
+		{
+			return new ArrayList();
+		}
+
+		return skills;
 	}
 
 	/**
