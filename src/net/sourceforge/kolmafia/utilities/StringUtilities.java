@@ -131,25 +131,6 @@ public class StringUtilities
 			return matchList;
 		}
 
-		int spaceIndex = searchString.indexOf( " " );
-		if ( spaceIndex != -1 )
-		{
-			String tempSearchString = StringUtilities.globalStringDelete( searchString, " " );
-
-			for ( int i = 0; i < names.length; ++i )
-			{
-				if ( StringUtilities.substringMatches( names[ i ], tempSearchString ) )
-				{
-					matchList.add( names[ i ] );
-				}
-			}
-
-			if ( !matchList.isEmpty() )
-			{
-				return matchList;
-			}
-		}
-
 		for ( int i = 0; i < names.length; ++i )
 		{
 			if ( StringUtilities.fuzzyMatches( names[i], searchString ) )
@@ -201,13 +182,13 @@ public class StringUtilities
 		// to begin the search (this allows searches to
 		// start in the middle of the string.
 
-		for ( int i = 0; i <= maxSourceIndex; ++i )
+		while( ++sourceIndex <= maxSourceIndex )
 		{
-			sourceChar = Character.toLowerCase( sourceString.charAt(i) );
+			sourceChar = Character.toLowerCase( sourceString.charAt( sourceIndex ) );
 
 			if ( matchedWordDivision && searchChar == sourceChar )
 			{
-				if ( StringUtilities.fuzzyMatches( sourceString, searchString, i, 1 ) )
+				if ( StringUtilities.fuzzyMatches( sourceString, searchString, sourceIndex, 0 ) )
 				{
 					return true;
 				}
@@ -230,18 +211,30 @@ public class StringUtilities
 		int searchIndex = initialSearchIndex;
 		int maxSearchIndex = searchString.length() - 1;
 
+		// If you're only matching against one character,
+		// then you've gotten a perfect match.
+
 		// Next, search the rest of the string.  Make sure
 		// that all characters are accounted for in the fuzzy
 		// matching sequence.
 
-		while ( ++searchIndex <= maxSearchIndex )
+		while ( ++searchIndex < maxSearchIndex )
 		{
+			// Ignore any non alphanumeric characters which appear in the search
+			// string, since they have no longer have meaning in fuzzy matching.
+
+			searchChar = Character.toLowerCase( searchString.charAt( searchIndex ) );
+
+			if ( !Character.isLetterOrDigit( searchChar ) )
+			{
+				continue;
+			}
+
 			if ( ++sourceIndex > maxSourceIndex )
 			{
 				return false;
 			}
 
-			searchChar = Character.toLowerCase( searchString.charAt( searchIndex ) );
 			sourceChar = Character.toLowerCase( sourceString.charAt( sourceIndex ) );
 
 			// Skip the word and continue searching.  Once all words are exhausted,

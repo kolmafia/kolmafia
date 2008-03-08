@@ -69,7 +69,7 @@ public abstract class HPRestoreItemList
 	private static final HPRestoreItem OINTMENT = new HPRestoreItem( "Doc Galaktik's Ailment Ointment", 9, 60 );
 
 	public static final HPRestoreItem SCROLL = new HPRestoreItem( "scroll of drastic healing", Integer.MAX_VALUE );
-	private static final HPRestoreItem MASSAGE_OIL = new HPRestoreItem( "scented, massage oil", Integer.MAX_VALUE );
+	private static final HPRestoreItem MASSAGE_OIL = new HPRestoreItem( "scented massage oil", Integer.MAX_VALUE );
 	private static final HPRestoreItem COCOON = new HPRestoreItem( "Cannelloni Cocoon", Integer.MAX_VALUE );
 
 	public static final HPRestoreItem[] CONFIGURES = new HPRestoreItem[]
