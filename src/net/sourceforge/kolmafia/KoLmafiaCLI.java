@@ -1913,7 +1913,16 @@ public class KoLmafiaCLI
 			}
 			else if ( matchList.size() == 1 )
 			{
-				FamiliarData change = (FamiliarData) matchList.get( 0 );
+				String race = (String) matchList.get( 0 );
+				FamiliarData change = null;
+				for ( int i = 0; i < familiars.length; ++i )
+				{
+					if ( race.equals( familiars[ i] ) )
+					{
+						change = (FamiliarData)familiarList.get( i );
+						break;
+					}
+				}
 
 				if ( KoLmafiaCLI.isExecutingCheckOnlyCommand )
 				{
