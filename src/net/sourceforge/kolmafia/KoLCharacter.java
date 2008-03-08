@@ -2339,6 +2339,7 @@ public abstract class KoLCharacter
 			KoLCharacter.currentFamiliar.getRace().equals( "Stab Bat" ) || KoLCharacter.currentFamiliar.getRace().equals(
 				"Scary Death Orb" );
 
+		EquipmentManager.updateEquipmentList( EquipmentManager.FAMILIAR );
 		KoLCharacter.recalculateAdjustments();
 		KoLCharacter.updateStatus();
 	}
