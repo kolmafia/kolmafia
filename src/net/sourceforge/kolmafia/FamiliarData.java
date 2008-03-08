@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 public class FamiliarData
 	implements Comparable
@@ -59,6 +60,8 @@ public class FamiliarData
 
 	private static final Pattern REGISTER_PATTERN =
 		Pattern.compile( "<img src=\"http://images\\.kingdomofloathing\\.com/([^\"]*?)\" class=hand onClick='fam\\((\\d+)\\)'>.*?<b>(.*?)</b>.*?\\d+-pound (.*?) \\(([\\d,]+) (exp|experience)?, .*? kills?\\)(.*?)<(/tr|form)" );
+
+	private static final Pattern DESCID_PATTERN = Pattern.compile( "descitem\\((.*?)\\)" );
 
 	private final int id;
 
@@ -95,40 +98,8 @@ public class FamiliarData
 		this.name = dataMatcher.group( 3 );
 
 		String itemData = dataMatcher.group( 7 );
-
 		this.item = parseFamiliarItem( this.id, itemData );
 	}
-
-	private static final Object[][] FAMILIAR_ITEM_DATA =
-	{
-		{ "tamo.gif", ItemPool.get( ItemPool.TAM_O_SHANTER, 1 ) },
-		{ "omat.gif", ItemPool.get( ItemPool.TAM_O_SHATNER, 1 ) },
-		{ "maypole.gif", ItemPool.get( ItemPool.GRAVY_MAYPOLE, 1 ) },
-		{ "waxlips.gif", ItemPool.get( ItemPool.WAX_LIPS, 1 ) },
-		{ "pitchfork.gif", ItemPool.get( ItemPool.ANNOYING_PITCHFORK, 1 ) },
-		{ "lnecklace.gif", ItemPool.get( ItemPool.LEAD_NECKLACE, 1 ) },
-		{ "ratbal.gif", ItemPool.get( ItemPool.RAT_BALLOON, 1 ) },
-		{ "punkin.gif", ItemPool.get( ItemPool.PUMPKIN_BUCKET, 1 ) },
-		{ "ffdop.gif", ItemPool.get( ItemPool.FAMILIAR_DOPPELGANGER, 1 ) },
-		{ "maybouquet.gif", ItemPool.get( ItemPool.MAYFLOWER_BOUQUET, 1 ) },
-		{ "anthoe.gif", ItemPool.get( ItemPool.ANT_HOE, 1 ) },
-		{ "antrake.gif", ItemPool.get( ItemPool.ANT_RAKE, 1 ) },
-		{ "antfork.gif", ItemPool.get( ItemPool.ANT_PITCHFORK, 1 ) },
-		{ "antsickle.gif", ItemPool.get( ItemPool.ANT_SICKLE, 1 ) },
-		{ "antpick.gif", ItemPool.get( ItemPool.ANT_PICK, 1 ) },
-		{ "fishscaler.gif", ItemPool.get( ItemPool.FISH_SCALER, 1 ) },
-		{ "origamimag.gif", ItemPool.get( ItemPool.ORIGAMI_MAGAZINE, 1 ) },
-
-		// Crimbo P. R. E. S. S. I. E. items
-
-		{ "whitebow.gif", ItemPool.get( ItemPool.FOIL_BOW, 1 ) },
-		{ "radar.gif", ItemPool.get( ItemPool.FOIL_RADAR, 1 ) },
-
-		// Pet Rock items
-
-		{ "monocle.gif", ItemPool.get( ItemPool.SNOOTY_DISGUISE, 1 ) },
-		{ "groucho.gif", ItemPool.get( ItemPool.GROUCHO_DISGUISE, 1 ) },
-	};
 
 	private static final AdventureResult parseFamiliarItem( final int id, final String text )
 	{
@@ -137,18 +108,18 @@ public class FamiliarData
 			return EquipmentRequest.UNEQUIP;
 		}
 
-		for ( int i = 0; i < FAMILIAR_ITEM_DATA.length; ++i )
+		Matcher itemMatcher = DESCID_PATTERN.matcher( text );
+		if ( !itemMatcher.find() )
 		{
-			String img = (String) FAMILIAR_ITEM_DATA[i][0];
-			if ( text.indexOf( img ) != -1 )
-			{
-				return (AdventureResult) FAMILIAR_ITEM_DATA[i][1];
-			}
+			return EquipmentRequest.UNEQUIP;
 		}
 
-		// Default familiar equipment
+		String itemName = ItemDatabase.getItemName( itemMatcher.group( 1 ) );
+		if ( itemName == null )
+		{
+			return EquipmentRequest.UNEQUIP;
+		}
 
-		String itemName = FamiliarDatabase.getFamiliarItem( id );
 		return ItemPool.get( itemName, 1 );
 	}
 
