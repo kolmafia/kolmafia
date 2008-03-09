@@ -417,7 +417,6 @@ public abstract class LeafletManager
 		if ( !LeafletManager.chest )
 		{
 			LeafletManager.executeCommand( "open chest" );
-			RequestThread.postRequest( new UseItemRequest( LeafletManager.FROBOZZ ) );
 		}
 	}
 
