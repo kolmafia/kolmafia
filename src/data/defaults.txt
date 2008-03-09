@@ -19,7 +19,7 @@ global	breakfastSoftcore	Summon Snowcone,Summon Hilarious Objects,Advanced Sauce
 global	browserBookmarks
 global	cacheMallSearches	false
 global	charsheetDropdown	1
-global	chatFontSize	medium
+global	chatFontSize
 global	chatLinksUseRelay	false
 global	chatStyle	0
 global	cloverProtectActive	true
@@ -56,7 +56,7 @@ global	http.proxyHost
 global	http.proxyPassword
 global	http.proxyPort
 global	http.proxyUser
-global	initialDesktop	AdventureFrame,CommandDisplayFrame,GearChangeFrame
+global	initialDesktop	AdventureFrame,CommandDisplayFrame,MallSearchFrame,GearChangeFrame,SkillBuffFrame
 global	initialFrames	RecentEventsFrame
 global	innerChatColor	#ffa98c
 global	innerTabColor	#8ca9ff

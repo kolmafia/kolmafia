@@ -669,6 +669,11 @@ public class Preferences
 				Preferences.globalProperties.put( key, Preferences.encodeProperty( key, value ) );
 			}
 		}
+
+		boolean isUsingMac = System.getProperty( "os.name" ).startsWith( "Mac" );
+
+		Preferences.globalValues.put( "useDecoratedTabs", String.valueOf( !isUsingMac ) );
+		Preferences.globalValues.put( "chatFontSize", isUsingMac ? "medium" : "small" );
 	}
 
 	private static void ensureUserDefaults()
