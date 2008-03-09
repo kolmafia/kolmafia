@@ -50,6 +50,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MoodManager;
+import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.persistence.Preferences;
@@ -817,7 +818,7 @@ public class UseSkillRequest
 			// Tongue of the Walrus (1010) automatically
 			// removes any beaten up.
 
-			StaticEntity.getClient().processResult(
+			ResultProcessor.processResult(
 				new AdventureResult( AdventureResult.MP, 0 - SkillDatabase.getMPConsumptionById(
 					this.skillId, true ) * this.buffCount ) );
 

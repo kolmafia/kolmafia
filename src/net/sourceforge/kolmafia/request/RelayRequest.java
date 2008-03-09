@@ -72,6 +72,7 @@ import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
 import net.sourceforge.kolmafia.textui.DataTypes;
+import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -478,7 +479,7 @@ public class RelayRequest
 		try
 		{
 			BufferedInputStream in =
-				new BufferedInputStream( RequestEditorKit.downloadImage(
+				new BufferedInputStream( FileUtilities.downloadImage(
 					"http://images.kingdomofloathing.com" + filename.substring( 6 ) ).openConnection().getInputStream() );
 
 			ByteArrayOutputStream outbytes = new ByteArrayOutputStream( 4096 );
@@ -1035,7 +1036,7 @@ public class RelayRequest
 
 		if ( this.getPath().startsWith( "images/playerpics/" ) )
 		{
-			RequestEditorKit.downloadImage( "http://pics.communityofloathing.com/albums/" + this.getPath().substring(
+			FileUtilities.downloadImage( "http://pics.communityofloathing.com/albums/" + this.getPath().substring(
 				this.getPath().indexOf( "playerpics" ) ) );
 
 			this.sendLocalImage( this.getPath() );
@@ -1175,6 +1176,17 @@ public class RelayRequest
 
 		if ( adventureName != null && this.getFormField( "override" ) == null )
 		{
+			// Wait until any restoration scripts finish running before
+			// allowing an adventuring request to continue.
+
+			while ( KoLmafia.isRunningBetweenBattleChecks() )
+			{
+				GenericRequest.delay( 100 );
+			}
+
+			// Check for any expired counters.  If there is one, alert the
+			// user instead of running the request.
+
 			int turnsUsed = adventure == null ? 1 : adventure.getFormSource().equals( "shore.php" ) ? 3 : 1;
 
 			TurnCounter expired = StaticEntity.getExpiredCounter(
@@ -1189,7 +1201,10 @@ public class RelayRequest
 				return;
 			}
 
-			if ( AdventureDatabase.isPotentialCloverAdventure( adventureName ) )
+			// Check for clovers as well so that people don't accidentally
+			// use up a clover in the middle of a bad moon run.
+
+			if ( KoLCharacter.isHardcore() && AdventureDatabase.isPotentialCloverAdventure( adventureName ) )
 			{
 				this.sendGeneralWarning(
 					"clover.gif",

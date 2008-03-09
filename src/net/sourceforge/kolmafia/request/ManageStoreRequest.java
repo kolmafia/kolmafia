@@ -39,7 +39,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -150,7 +150,7 @@ public class ManageStoreRequest
 				this.responseText );
 		if ( takenItemMatcher.find() )
 		{
-			StaticEntity.getClient().processResult(
+			ResultProcessor.processResult(
 				takenItem.getInstance( StringUtilities.parseInt( takenItemMatcher.group( 1 ) ) - takenItem.getCount( KoLConstants.inventory ) ) );
 		}
 

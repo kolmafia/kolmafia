@@ -77,6 +77,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class RequestLogger
@@ -457,7 +458,7 @@ public class RequestLogger
 				cost = cost.getInstance( multiplier * costCount * -1 );
 			}
 
-			StaticEntity.getClient().processResult( cost );
+			ResultProcessor.processResult( cost );
 			return;
 		}
 
@@ -468,8 +469,8 @@ public class RequestLogger
 			{
 				RequestLogger.updateSessionLog( "summon " + demon );
 
-				StaticEntity.getClient().processResult( ItemPool.BLACK_CANDLE, -3 );
-				StaticEntity.getClient().processResult( ItemPool.EVIL_SCROLL, -1 );
+				ResultProcessor.processItem( ItemPool.BLACK_CANDLE, -3 );
+				ResultProcessor.processItem( ItemPool.EVIL_SCROLL, -1 );
 			}
 
 			return;

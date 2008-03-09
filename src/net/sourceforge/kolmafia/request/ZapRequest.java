@@ -44,11 +44,11 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.BooleanArray;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -157,7 +157,7 @@ public class ZapRequest
 
 		if ( this.responseText.indexOf( "nothing happens" ) != -1 )
 		{
-			StaticEntity.getClient().processResult( this.item );
+			ResultProcessor.processResult( this.item );
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "The " + this.item.getName() + " is not zappable." );
 			return;
 		}
@@ -165,7 +165,7 @@ public class ZapRequest
 		// If it blew up, remove wand
 		if ( this.responseText.indexOf( "abruptly explodes" ) != -1 )
 		{
-			StaticEntity.getClient().processResult( KoLCharacter.getZapper().getNegation() );
+			ResultProcessor.processResult( KoLCharacter.getZapper().getNegation() );
 		}
 
 		// Remove old item and notify the user of success.
@@ -220,7 +220,7 @@ public class ZapRequest
 
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( "zap " + item.getName() );
-		StaticEntity.getClient().processResult( item );
+		ResultProcessor.processResult( item );
 
 		return true;
 	}

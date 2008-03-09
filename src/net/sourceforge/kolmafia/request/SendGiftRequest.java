@@ -42,7 +42,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -187,7 +187,7 @@ public class SendGiftRequest
 		super.processResults();
 		if ( this.responseText.indexOf( this.getSuccessMessage() ) != -1 && this.materialCost > 0 )
 		{
-			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, 0 - this.materialCost ) );
+			ResultProcessor.processResult( new AdventureResult( AdventureResult.MEAT, 0 - this.materialCost ) );
 		}
 	}
 

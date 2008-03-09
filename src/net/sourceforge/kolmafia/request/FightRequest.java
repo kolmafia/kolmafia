@@ -58,6 +58,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Monster;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.IslandDecorator;
@@ -1787,7 +1788,7 @@ public class FightRequest
 
 		if ( mpCost > 0 )
 		{
-			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MP, 0 - mpCost ) );
+			ResultProcessor.processResult( new AdventureResult( AdventureResult.MP, 0 - mpCost ) );
 		}
 	}
 
@@ -1795,7 +1796,7 @@ public class FightRequest
 	{
 		if ( FightRequest.isItemConsumed( itemId ) )
 		{
-			StaticEntity.getClient().processResult( new AdventureResult( itemId, -1 ) );
+			ResultProcessor.processResult( new AdventureResult( itemId, -1 ) );
 			return;
 		}
 
@@ -1806,7 +1807,7 @@ public class FightRequest
 
 			if ( KoLConstants.inventory.contains( FightRequest.TEQUILA ) )
 			{
-				StaticEntity.getClient().processResult( FightRequest.TEQUILA );
+				ResultProcessor.processResult( FightRequest.TEQUILA );
 			}
 			break;
 

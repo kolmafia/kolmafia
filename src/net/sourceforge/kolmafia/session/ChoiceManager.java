@@ -1261,7 +1261,7 @@ public abstract class ChoiceManager
 		// the options may have that effect, but we must at least run
 		// choice.php to find out which choice it is.
 
-		StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.CHOICE, 1 ) );
+		ResultProcessor.processResult( new AdventureResult( AdventureResult.CHOICE, 1 ) );
 		request.constructURLString( "choice.php" );
 		request.run();
 

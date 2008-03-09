@@ -41,7 +41,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class RaffleRequest
@@ -133,7 +133,7 @@ public class RaffleRequest
 		case RaffleRequest.INVENTORY:
 			if ( cost <= KoLCharacter.getAvailableMeat() )
 			{
-				StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, -cost ) );
+				ResultProcessor.processResult( new AdventureResult( AdventureResult.MEAT, -cost ) );
 			}
 			break;
 

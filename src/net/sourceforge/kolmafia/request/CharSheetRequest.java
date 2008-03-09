@@ -42,10 +42,11 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.RequestEditorKit;
-import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+
+import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CharSheetRequest
@@ -96,7 +97,7 @@ public class CharSheetRequest
 
 		if ( avatarMatcher.find() )
 		{
-			RequestEditorKit.downloadImage( avatarMatcher.group( 1 ) );
+			FileUtilities.downloadImage( avatarMatcher.group( 1 ) );
 			KoLCharacter.setAvatar( avatarMatcher.group( 1 ) );
 		}
 
@@ -193,7 +194,7 @@ public class CharSheetRequest
 
 		int oldAdventures = KoLCharacter.getAdventuresLeft();
 		int newAdventures = GenericRequest.intToken( cleanContent );
-		StaticEntity.getClient().processResult(
+		ResultProcessor.processResult(
 			new AdventureResult( AdventureResult.ADV, newAdventures - oldAdventures ) );
 
 		while ( !token.startsWith( "Meat" ) )

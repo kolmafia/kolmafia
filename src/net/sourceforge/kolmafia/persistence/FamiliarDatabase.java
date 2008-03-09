@@ -48,7 +48,6 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.LogStream;
-import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.utilities.BooleanArray;
@@ -289,7 +288,7 @@ public class FamiliarDatabase
 
 	private static final void downloadFamiliarImage( final int familiarId )
 	{
-		RequestEditorKit.downloadImage( "http://images.kingdomofloathing.com/" + FamiliarDatabase.getFamiliarImageLocation( familiarId ) );
+		FileUtilities.downloadImage( "http://images.kingdomofloathing.com/" + FamiliarDatabase.getFamiliarImageLocation( familiarId ) );
 	}
 
 	public static final ImageIcon getFamiliarImage( final int familiarId )

@@ -43,8 +43,8 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.DisplayCaseManager;
+import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -314,7 +314,7 @@ public abstract class TransferItemRequest
 
 			if ( this.source == KoLConstants.inventory )
 			{
-				StaticEntity.getClient().processResult( item );
+				ResultProcessor.processResult( item );
 			}
 			else
 			{
@@ -323,7 +323,7 @@ public abstract class TransferItemRequest
 
 			if ( this.destination == KoLConstants.inventory )
 			{
-				StaticEntity.getClient().processResult( item.getNegation() );
+				ResultProcessor.processResult( item.getNegation() );
 			}
 			else
 			{
@@ -340,7 +340,7 @@ public abstract class TransferItemRequest
 			}
 			if ( this.source == KoLConstants.inventory )
 			{
-				StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, totalMeat ) );
+				ResultProcessor.processResult( new AdventureResult( AdventureResult.MEAT, totalMeat ) );
 			}
 		}
 	}
@@ -457,7 +457,7 @@ public abstract class TransferItemRequest
 
 				if ( source == KoLConstants.inventory )
 				{
-					StaticEntity.getClient().processResult( item );
+					ResultProcessor.processResult( item );
 				}
 				else
 				{
@@ -493,7 +493,7 @@ public abstract class TransferItemRequest
 
 				if ( destination == KoLConstants.inventory )
 				{
-					StaticEntity.getClient().processResult( item );
+					ResultProcessor.processResult( item );
 				}
 				else
 				{

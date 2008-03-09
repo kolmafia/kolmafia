@@ -43,9 +43,9 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
@@ -581,7 +581,7 @@ public class CreateItemRequest
 
 		for ( int i = 0; i < ingredients.length; ++i )
 		{
-			StaticEntity.getClient().processResult(
+			ResultProcessor.processItem(
 				ingredients[ i ].getItemId(), undoAmount * ingredients[ i ].getCount() );
 		}
 
@@ -590,26 +590,26 @@ public class CreateItemRequest
 		case KoLConstants.COMBINE:
 			if ( !KoLCharacter.inMuscleSign() )
 			{
-				StaticEntity.getClient().processResult( ItemPool.MEAT_PASTE, undoAmount );
+				ResultProcessor.processItem( ItemPool.MEAT_PASTE, undoAmount );
 			}
 			break;
 
 		case KoLConstants.SMITH:
 			if ( !KoLCharacter.inMuscleSign() )
 			{
-				StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.ADV, 0 - undoAmount ) );
+				ResultProcessor.processResult( new AdventureResult( AdventureResult.ADV, 0 - undoAmount ) );
 			}
 			break;
 
 		case KoLConstants.SMITH_WEAPON:
 		case KoLConstants.SMITH_ARMOR:
 		case KoLConstants.WOK:
-			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.ADV, 0 - undoAmount ) );
+			ResultProcessor.processResult( new AdventureResult( AdventureResult.ADV, 0 - undoAmount ) );
 			break;
 
 		case KoLConstants.JEWELRY:
 		case KoLConstants.EXPENSIVE_JEWELRY:
-			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.ADV, 0 - 3 * undoAmount ) );
+			ResultProcessor.processResult( new AdventureResult( AdventureResult.ADV, 0 - 3 * undoAmount ) );
 			break;
 
 		case KoLConstants.COOK:
@@ -618,7 +618,7 @@ public class CreateItemRequest
 		case KoLConstants.COOK_PASTA:
 			if ( !KoLCharacter.hasChef() )
 			{
-				StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.ADV, 0 - undoAmount ) );
+				ResultProcessor.processResult( new AdventureResult( AdventureResult.ADV, 0 - undoAmount ) );
 			}
 			break;
 
@@ -627,7 +627,7 @@ public class CreateItemRequest
 		case KoLConstants.MIX_SUPER:
 			if ( !KoLCharacter.hasBartender() )
 			{
-				StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.ADV, 0 - undoAmount ) );
+				ResultProcessor.processResult( new AdventureResult( AdventureResult.ADV, 0 - undoAmount ) );
 			}
 			break;
 
@@ -983,7 +983,7 @@ public class CreateItemRequest
 
 			AdventureResult item = new AdventureResult( ingredient, 1 );
 			int quantity = item.getCount( KoLConstants.inventory );
-			StaticEntity.getClient().processResult( item.getItemId(), 0 - quantity );
+			ResultProcessor.processItem( item.getItemId(), 0 - quantity );
 
 			RequestLogger.updateSessionLog();
 			RequestLogger.updateSessionLog( "Use " + tool );
@@ -1037,13 +1037,13 @@ public class CreateItemRequest
 			command.append( quantity );
 			command.append( " " );
 			command.append( ItemDatabase.getItemName( item1 ) );
-			StaticEntity.getClient().processResult( item1, 0 - quantity );
+			ResultProcessor.processItem( item1, 0 - quantity );
 
 			if ( item2 != -1 )
 			{
 				command.append( " + " );
 				command.append( ItemDatabase.getItemName( item2 ) );
-				StaticEntity.getClient().processResult( item2, 0 - quantity );
+				ResultProcessor.processItem( item2, 0 - quantity );
 			}
 
 			RequestLogger.updateSessionLog();
@@ -1168,25 +1168,25 @@ public class CreateItemRequest
 			command.append( ' ' );
 			command.append( name );
 
-			StaticEntity.getClient().processResult( itemId, 0 - quantity );
+			ResultProcessor.processItem( itemId, 0 - quantity );
 			needsPlus = true;
 		}
 
 		if ( urlString.startsWith( "combine.php" ) )
 		{
-			StaticEntity.getClient().processResult( ItemPool.MEAT_PASTE, 0 - quantity );
+			ResultProcessor.processItem( ItemPool.MEAT_PASTE, 0 - quantity );
 		}
 		else if ( urlString.indexOf( "action=wokcook" ) != -1 )
 		{
 			command.append( " + " );
 			command.append( quantity );
 			command.append( " dry noodles" );
-			StaticEntity.getClient().processResult( ItemPool.DRY_NOODLES, 0 - quantity );
+			ResultProcessor.processItem( ItemPool.DRY_NOODLES, 0 - quantity );
 
 			command.append( " + " );
 			command.append( quantity );
 			command.append( " MSG" );
-			StaticEntity.getClient().processResult( ItemPool.MSG, 0 - quantity );
+			ResultProcessor.processItem( ItemPool.MSG, 0 - quantity );
 		}
 
 		if ( usesTurns )

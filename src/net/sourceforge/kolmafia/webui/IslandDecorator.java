@@ -43,13 +43,13 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.IslandArenaRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -1251,7 +1251,7 @@ public class IslandDecorator
 			Preferences.setString( "sidequestArenaCompleted", "hippy" );
 			if ( InventoryManager.hasItem( IslandDecorator.JAM_FLYERS ) )
 			{
-				StaticEntity.getClient().processResult( IslandDecorator.JAM_FLYERS );
+				ResultProcessor.processResult( IslandDecorator.JAM_FLYERS );
 			}
 			return;
 		}
@@ -1272,7 +1272,7 @@ public class IslandDecorator
 			Preferences.setString( "sidequestArenaCompleted", "fratboy" );
 			if ( InventoryManager.hasItem( IslandDecorator.JAM_FLYERS ) )
 			{
-				StaticEntity.getClient().processResult( IslandDecorator.ROCK_FLYERS );
+				ResultProcessor.processResult( IslandDecorator.ROCK_FLYERS );
 			}
 			return;
 		}
@@ -1335,11 +1335,11 @@ public class IslandDecorator
 		}
 
 		// Give the magnet and the tools to Yossarian
-		StaticEntity.getClient().processResult( IslandDecorator.MAGNET );
-		StaticEntity.getClient().processResult( IslandDecorator.HAMMER );
-		StaticEntity.getClient().processResult( IslandDecorator.PLIERS );
-		StaticEntity.getClient().processResult( IslandDecorator.WRENCH );
-		StaticEntity.getClient().processResult( IslandDecorator.SCREWDRIVER );
+		ResultProcessor.processResult( IslandDecorator.MAGNET );
+		ResultProcessor.processResult( IslandDecorator.HAMMER );
+		ResultProcessor.processResult( IslandDecorator.PLIERS );
+		ResultProcessor.processResult( IslandDecorator.WRENCH );
+		ResultProcessor.processResult( IslandDecorator.SCREWDRIVER );
 
 		if ( responseText.indexOf( "spark plug earring" ) != -1 || responseText.indexOf( "woven baling wire bracelets" ) != -1 || responseText.indexOf( "gearbox necklace" ) != -1 )
 		{

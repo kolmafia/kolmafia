@@ -40,11 +40,11 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
+import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ChefStaffRequest
@@ -115,7 +115,7 @@ public class ChefStaffRequest
 			chefstaffString.append( " " );
 			chefstaffString.append( ingredients[ i ].getName() );
 
-			StaticEntity.getClient().processResult( ingredients[ i ].getInstance( -1 * ingredients[ i ].getCount() ) );
+			ResultProcessor.processResult( ingredients[ i ].getInstance( -1 * ingredients[ i ].getCount() ) );
 		}
 
 		RequestLogger.updateSessionLog();

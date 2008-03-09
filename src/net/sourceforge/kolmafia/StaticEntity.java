@@ -58,6 +58,8 @@ import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.SellStuffRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+
+import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.swingui.DescriptionFrame;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.RequestFrame;
@@ -573,7 +575,7 @@ public abstract class StaticEntity
 			Matcher matcher = SellStuffRequest.AUTOSELL_PATTERN.matcher( responseText );
 			if ( matcher.find() )
 			{
-				StaticEntity.client.processResult( new AdventureResult(
+				ResultProcessor.processResult( new AdventureResult(
 					AdventureResult.MEAT, StringUtilities.parseInt( matcher.group( 1 ) ) ) );
 			}
 		}

@@ -42,9 +42,10 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+
+import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.swingui.ItemManageFrame;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -235,7 +236,7 @@ public class ClosetRequest
 		case EMPTY_STORAGE:
 			while ( !KoLConstants.storage.isEmpty() )
 			{
-				StaticEntity.getClient().processResult( (AdventureResult) KoLConstants.storage.remove( 0 ) );
+				ResultProcessor.processResult( (AdventureResult) KoLConstants.storage.remove( 0 ) );
 			}
 
 			if ( !this.containsUpdate )
@@ -296,7 +297,7 @@ public class ClosetRequest
 		}
 
 		KoLCharacter.setClosetMeat( afterMeatInCloset );
-		StaticEntity.getClient().processResult(
+		ResultProcessor.processResult(
 			new AdventureResult( AdventureResult.MEAT, beforeMeatInCloset - afterMeatInCloset ) );
 	}
 

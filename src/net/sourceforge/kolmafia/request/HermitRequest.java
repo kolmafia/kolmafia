@@ -41,9 +41,9 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -299,7 +299,7 @@ public class HermitRequest
 
 			if ( responseText.indexOf( "looks confused for a moment" ) == -1 )
 			{
-				StaticEntity.getClient().processResult( HermitRequest.PERMIT.getInstance( 0 - quantity ) );
+				ResultProcessor.processResult( HermitRequest.PERMIT.getInstance( 0 - quantity ) );
 			}
 
 			quantity -= HermitRequest.subtractWorthlessItems( HermitRequest.TRINKET, quantity );
@@ -318,7 +318,7 @@ public class HermitRequest
 	private static final int subtractWorthlessItems( final AdventureResult item, final int total )
 	{
 		int count = 0 - Math.min( total, item.getCount( KoLConstants.inventory ) );
-		StaticEntity.getClient().processResult( item.getInstance( count ) );
+		ResultProcessor.processResult( item.getInstance( count ) );
 		return 0 - count;
 	}
 
