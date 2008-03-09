@@ -38,8 +38,6 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import tab.CloseListener;
 import tab.CloseTabPaneUI;
@@ -54,7 +52,7 @@ import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class TabbedChatFrame
 	extends ChatFrame
-	implements ChangeListener, CloseListener, CloseableTabbedPaneListener
+	implements CloseListener, CloseableTabbedPaneListener
 {
 	private final ChatPanel commandLineDisplay;
 	private static boolean addGCLI = false;
@@ -93,17 +91,7 @@ public class TabbedChatFrame
 			( (CloseableTabbedPane) this.tabs ).addCloseableTabbedPaneListener( this );
 		}
 
-		this.tabs.addChangeListener( this );
 		this.framePanel.add( this.tabs, BorderLayout.CENTER );
-	}
-
-	public void stateChanged( final ChangeEvent e )
-	{
-		int selectedIndex = this.tabs.getSelectedIndex();
-		if ( selectedIndex != -1 && selectedIndex != this.tabs.getTabCount() - 1 )
-		{
-			ChatManager.setUpdateChannel( this.tabs.getTitleAt( selectedIndex ).trim() );
-		}
 	}
 
 	public boolean closeTab( final int tabIndexToClose )
