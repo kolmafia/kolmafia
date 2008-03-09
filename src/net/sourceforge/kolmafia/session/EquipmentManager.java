@@ -339,12 +339,15 @@ public class EquipmentManager {
 			FamiliarData[] familiarList = new FamiliarData[ KoLCharacter.familiars.size() ];
 			KoLCharacter.familiars.toArray( familiarList );
 
+			AdventureResult currentItem;
+			FamiliarData currentFamiliar = KoLCharacter.getFamiliar();
+
 			for ( int i = 0; i < familiarList.length; ++i )
 			{
-				if ( !familiarList[ i ].getItem().equals( EquipmentRequest.UNEQUIP ) )
+				currentItem = familiarList[ i ].getItem();
+				if ( currentItem != EquipmentRequest.UNEQUIP && currentFamiliar.canEquip( currentItem ) )
 				{
-					AdventureResult.addResultToList(
-						EquipmentManager.equipmentLists[ FAMILIAR ], familiarList[ i ].getItem() );
+					AdventureResult.addResultToList( EquipmentManager.equipmentLists[ FAMILIAR ], currentItem );
 				}
 			}
 
@@ -375,7 +378,7 @@ public class EquipmentManager {
 
 		boolean dual = getWeaponHandedness() == 1 && KoLCharacter.hasSkill( "Double-Fisted Skull Smashing" );
 		int equipStat = EquipmentManager.getHitStatType();
-		int familiarId = KoLCharacter.getFamiliar().getId();
+		FamiliarData currentFamiliar = KoLCharacter.getFamiliar();
 
 		for ( int i = 0; i < KoLConstants.inventory.size(); ++i )
 		{
@@ -389,10 +392,7 @@ public class EquipmentManager {
 
 			if ( filterId == KoLConstants.EQUIP_FAMILIAR )
 			{
-				boolean shouldAdd = familiarId == 82 ? type == KoLConstants.EQUIP_HAT :
-					type == KoLConstants.EQUIP_FAMILIAR;
-
-				if ( shouldAdd )
+				if ( currentFamiliar.canEquip( currentItem ) )
 				{
 					temporary.add( currentItem );
 				}
