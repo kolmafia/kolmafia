@@ -88,7 +88,7 @@ public abstract class KoLmafiaASH
 	{
 		synchronized ( KoLmafiaASH.serverReplyBuffer )
 		{
-			KoLmafiaASH.relayScript = KoLmafiaASH.getInterpreter( (File) toExecute );
+			KoLmafiaASH.relayScript = KoLmafiaASH.getInterpreter( toExecute );
 			if ( KoLmafiaASH.relayScript == null )
 			{
 				return false;
