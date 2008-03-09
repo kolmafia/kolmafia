@@ -43,13 +43,13 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 
 import net.sourceforge.kolmafia.objectpool.Concoction;
+import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CafeRequest
@@ -225,7 +225,7 @@ public class CafeRequest
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( "Buy and " + consume + " 1 " + itemName + " for " + price + " Meat" );
 
-		StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, 0 - price ) );
+		ResultProcessor.processResult( new AdventureResult( AdventureResult.MEAT, 0 - price ) );
 
 		if ( inebriety > 0 )
 		{

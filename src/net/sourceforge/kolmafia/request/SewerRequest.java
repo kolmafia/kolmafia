@@ -36,9 +36,9 @@ package net.sourceforge.kolmafia.request;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -95,7 +95,7 @@ public class SewerRequest
 
 		if ( KoLmafia.permitsContinue() )
 		{
-			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
+			ResultProcessor.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
 		}
 	}
 
@@ -154,7 +154,7 @@ public class SewerRequest
 		// Enter the sewer
 
 		super.run();
-		StaticEntity.getClient().processResult( ItemPool.TEN_LEAF_CLOVER, -1 );
+		ResultProcessor.processItem( ItemPool.TEN_LEAF_CLOVER, -1 );
 	}
 
 	/**

@@ -39,9 +39,10 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+
+import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class Crimbo07Request
@@ -105,7 +106,7 @@ public class Crimbo07Request
 			text.append( ingredients[ i ].getCount() * quantity );
 			text.append( " " );
 			text.append( ingredients[ i ].getName() );
-			StaticEntity.getClient().processResult(
+			ResultProcessor.processResult(
 				ingredients[ i ].getInstance( -1 * ingredients[ i ].getCount() * quantity ) );
 		}
 

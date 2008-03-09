@@ -41,9 +41,9 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
@@ -178,7 +178,7 @@ public class PulverizeRequest
 		if ( this.responseText.indexOf( "too important to pulverize" ) != -1 || this.responseText.indexOf( "not something you can pulverize" ) != -1 )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "The " + this.item.getName() + " could not be smashed." );
-			StaticEntity.getClient().processResult( this.item );
+			ResultProcessor.processResult( this.item );
 			return;
 		}
 
@@ -208,7 +208,7 @@ public class PulverizeRequest
 
 			int quantity = StringUtilities.parseInt( quantityMatcher.group( 1 ) );
 
-			StaticEntity.getClient().processResult( new AdventureResult( itemId, 0 - quantity ) );
+			ResultProcessor.processResult( new AdventureResult( itemId, 0 - quantity ) );
 			RequestLogger.updateSessionLog( "pulverize " + quantity + " " + name );
 		}
 

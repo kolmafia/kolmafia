@@ -44,6 +44,7 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.request.CampgroundRequest;
@@ -526,7 +527,7 @@ public abstract class KoLCharacter
 
 	public static final String getAvatar()
 	{
-		RequestEditorKit.downloadImage( "http://images.kingdomofloathing.com/" + KoLCharacter.avatar );
+		FileUtilities.downloadImage( "http://images.kingdomofloathing.com/" + KoLCharacter.avatar );
 		return KoLCharacter.avatar;
 	}
 

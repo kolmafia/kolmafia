@@ -41,7 +41,6 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -282,20 +281,20 @@ public abstract class NemesisManager
 			case 5: // A Stone Door
 
 				// Use up cog & sprocket
-				StaticEntity.getClient().processResult( NemesisManager.COG.getNegation() );
-				StaticEntity.getClient().processResult( NemesisManager.SPROCKET.getNegation() );
+				ResultProcessor.processResult( NemesisManager.COG.getNegation() );
+				ResultProcessor.processResult( NemesisManager.SPROCKET.getNegation() );
 				break;
 
 			case 6: // Lavatory Troll 1
 
 				// Use up fairy gravy
-				StaticEntity.getClient().processResult( NemesisManager.GRAVY.getNegation() );
+				ResultProcessor.processResult( NemesisManager.GRAVY.getNegation() );
 				break;
 
 			case 8: // Lavatory Troll 2
 
 				// Use up ketchup
-				StaticEntity.getClient().processResult( ketchup.getNegation() );
+				ResultProcessor.processResult( ketchup.getNegation() );
 				break;
 			}
 		}

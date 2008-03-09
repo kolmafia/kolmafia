@@ -35,16 +35,8 @@ package net.sourceforge.kolmafia;
 
 import java.awt.Color;
 import java.awt.Component;
-
-import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.OutputStream;
-
 import java.net.URL;
-import java.net.URLConnection;
 import java.net.URLDecoder;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -62,17 +54,9 @@ import javax.swing.text.html.HTML;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.ImageView;
 
-import net.java.dev.spellcast.utilities.DataUtilities;
-import net.java.dev.spellcast.utilities.JComponentUtilities;
-import net.java.dev.spellcast.utilities.UtilityConstants;
-import net.sourceforge.kolmafia.persistence.ItemDatabase;
-import net.sourceforge.kolmafia.persistence.Preferences;
-import net.sourceforge.kolmafia.request.ChatRequest;
-import net.sourceforge.kolmafia.request.FightRequest;
-import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.MoonPhaseRequest;
-import net.sourceforge.kolmafia.request.ZapRequest;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.ChoiceManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.RequestFrame;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
@@ -86,9 +70,24 @@ import net.sourceforge.kolmafia.webui.StationaryButtonDecorator;
 import net.sourceforge.kolmafia.webui.UseLinkDecorator;
 import net.sourceforge.kolmafia.webui.ValhallaDecorator;
 
+import net.sourceforge.kolmafia.request.ChatRequest;
+import net.sourceforge.kolmafia.request.FightRequest;
+import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.MoonPhaseRequest;
+import net.sourceforge.kolmafia.request.UseItemRequest;
+import net.sourceforge.kolmafia.request.ZapRequest;
+
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
+
 public class RequestEditorKit
 	extends HTMLEditorKit
 {
+	private static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice value=(\\d+)" );
+	private static final Pattern BOOKSHELF_PATTERN =
+		Pattern.compile( "onClick=\"location.href='(.*?)';\"", Pattern.DOTALL );
+	private static final Pattern ALTAR_PATTERN = Pattern.compile( "'An altar with a carving of a god of ([^']*)'" );
+
 	private static final RequestViewFactory DEFAULT_FACTORY = new RequestViewFactory();
 
 	/**
@@ -125,112 +124,6 @@ public class RequestEditorKit
 		}
 	}
 
-	private static final Pattern FILEID_PATTERN = Pattern.compile( "(\\d+)\\." );
-	private static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice value=(\\d+)" );
-	private static final Pattern BOOKSHELF_PATTERN =
-		Pattern.compile( "onClick=\"location.href='(.*?)';\"", Pattern.DOTALL );
-	private static final Pattern ALTAR_PATTERN = Pattern.compile( "'An altar with a carving of a god of ([^']*)'" );
-
-	public static final void downloadFile( final String remote, final File local )
-	{
-		if ( local.exists() )
-		{
-			return;
-		}
-
-		try
-		{
-			URLConnection connection = ( new URL( null, remote ) ).openConnection();
-			if ( remote.startsWith( "http://pics.communityofloathing.com" ) )
-			{
-				Matcher idMatcher = RequestEditorKit.FILEID_PATTERN.matcher( local.getPath() );
-				if ( idMatcher.find() )
-				{
-					connection.setRequestProperty(
-						"Referer", "http://www.kingdomofloathing.com/showplayer.php?who=" + idMatcher.group( 1 ) );
-				}
-			}
-
-			BufferedInputStream in = new BufferedInputStream( connection.getInputStream() );
-			ByteArrayOutputStream outbytes = new ByteArrayOutputStream();
-
-			byte[] buffer = new byte[ 4096 ];
-
-			int offset;
-			while ( ( offset = in.read( buffer ) ) > 0 )
-			{
-				outbytes.write( buffer, 0, offset );
-			}
-
-			in.close();
-
-			// If it's textual data, then go ahead and modify it so
-			// that all the variables point to KoLmafia.
-
-			if ( remote.endsWith( ".js" ) )
-			{
-				String text = outbytes.toString();
-				outbytes.reset();
-
-				text = StringUtilities.globalStringReplace( text, "location.hostname", "location.host" );
-				outbytes.write( text.getBytes() );
-			}
-
-			OutputStream ostream = DataUtilities.getOutputStream( local );
-			outbytes.writeTo( ostream );
-			ostream.close();
-		}
-		catch ( Exception e )
-		{
-			// This can happen whenever there is bad internet
-			// or whenever the familiar is brand-new.
-		}
-	}
-
-	/**
-	 * Downloads the given file from the KoL images server and stores it locally.
-	 */
-
-	public static final URL downloadImage( final String filename )
-	{
-		if ( filename == null || filename.equals( "" ) )
-		{
-			return null;
-		}
-
-		String localname = filename.substring( filename.indexOf( "/", "http://".length() ) + 1 );
-		if ( localname.startsWith( "albums/" ) )
-		{
-			localname = localname.substring( "albums/".length() );
-		}
-
-		File localfile = new File( UtilityConstants.IMAGE_LOCATION, localname );
-
-		if ( !localfile.exists() || localfile.length() == 0 )
-		{
-			if ( JComponentUtilities.getImage( localname ) != null )
-			{
-				FileUtilities.loadLibrary( UtilityConstants.IMAGE_LOCATION, UtilityConstants.IMAGE_DIRECTORY, localname );
-			}
-			else
-			{
-				RequestEditorKit.downloadFile( filename, localfile );
-			}
-		}
-
-		try
-		{
-			return localfile.toURI().toURL();
-		}
-		catch ( Exception e )
-		{
-			// This can happen whenever there is bad internet
-			// or whenever the familiar is brand-new.
-
-			return null;
-		}
-	}
-
 	private static class KoLImageView
 		extends ImageView
 	{
@@ -248,7 +141,7 @@ public class RequestEditorKit
 				return null;
 			}
 
-			return RequestEditorKit.downloadImage( src );
+			return FileUtilities.downloadImage( src );
 		}
 	}
 
@@ -521,6 +414,7 @@ public class RequestEditorKit
 		{
 			StringUtilities.singleStringReplace(
 				buffer, "</head>", "<script language=\"Javascript\" src=\"/basics.js\"></script></head>" );
+
 			if ( location.indexOf( "?" ) == -1 && RequestEditorKit.maps.contains( location ) )
 			{
 				buffer.insert(
@@ -1511,7 +1405,7 @@ public class RequestEditorKit
 	{
 		if ( location.indexOf( "pics.communityofloathing.com" ) != -1 )
 		{
-			RequestEditorKit.downloadImage( location );
+			FileUtilities.downloadImage( location );
 			location = location.substring( location.indexOf( "/" ) );
 
 			GenericRequest extractedRequest = new GenericRequest( location );

@@ -50,7 +50,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.StringTokenizer;
 import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -68,6 +67,7 @@ import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.sourceforge.kolmafia.HPRestoreItemList.HPRestoreItem;
 import net.sourceforge.kolmafia.MPRestoreItemList.MPRestoreItem;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.DisplayCaseManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -89,7 +89,6 @@ import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-import net.sourceforge.kolmafia.webui.IslandDecorator;
 
 import net.sourceforge.kolmafia.request.AccountRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
@@ -101,7 +100,6 @@ import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
-import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
@@ -152,8 +150,8 @@ public abstract class KoLmafia
 	private static boolean hadPendingState = false;
 
 	protected static String currentIterationString = "";
-	protected static int adventureGains = 0;
-	protected static boolean tookChoice = false;
+	public static int adventureGains = 0;
+	public static boolean tookChoice = false;
 	protected static boolean recoveryActive = false;
 
 	public static boolean isMakingRequest = false;
@@ -163,50 +161,44 @@ public abstract class KoLmafia
 
 	public static boolean executedLogin = false;
 
-	private static final Pattern FUMBLE_PATTERN =
-		Pattern.compile( "You drop your .*? on your .*?, doing ([\\d,]+) damage" );
-	private static final Pattern STABBAT_PATTERN = Pattern.compile( " stabs you for ([\\d,]+) damage" );
-	private static final Pattern CARBS_PATTERN =
-		Pattern.compile( "some of your blood, to the tune of ([\\d,]+) damage" );
 	private static final Pattern TAVERN_PATTERN = Pattern.compile( "where=(\\d+)" );
 	private static final Pattern GOURD_PATTERN = Pattern.compile( "Bring back (\\d+)" );
-	private static final Pattern DISCARD_PATTERN = Pattern.compile( "You discard your (.*?)\\." );
 
-	private static final int SOCK = 609;
-	private static final int LUCRE = 2098;
+	public static final int SOCK = 609;
+	public static final int LUCRE = 2098;
 
 	// Steel items
-	private static final int LASAGNA = 2742;
-	private static final int MARGARITA = 2743;
-	private static final int AIR_FRESHENER = 2744;
+	public static final int LASAGNA = 2742;
+	public static final int MARGARITA = 2743;
+	public static final int AIR_FRESHENER = 2744;
 
 	// Molybdenum items
-	private static final int MAGNET = 2497;
-	private static final int HAMMER = 2498;
-	private static final int SCREWDRIVER = 2499;
-	private static final int PLIERS = 2500;
-	private static final int WRENCH = 2501;
+	public static final int MAGNET = 2497;
+	public static final int HAMMER = 2498;
+	public static final int SCREWDRIVER = 2499;
+	public static final int PLIERS = 2500;
+	public static final int WRENCH = 2501;
 
 	// Gnome postal items
 	private static final int RED_PAPER_CLIP = 2289;
-	private static final int REALLY_BIG_TINY_HOUSE = 2290;
-	private static final int NONESSENTIAL_AMULET = 2291;
-	private static final int WHITE_WINE_VINAIGRETTE = 2292;
-	private static final int CUP_OF_STRONG_TEA = 2293;
-	private static final int CURIOUSLY_SHINY_AX = 2294;
-	private static final int MARINATED_STAKES = 2295;
-	private static final int KNOB_BUTTER = 2296;
-	private static final int VIAL_OF_ECTOPLASM = 2297;
-	private static final int BOOCK_OF_MAGIKS = 2298;
-	private static final int EZ_PLAY_HARMONICA_BOOK = 2299;
-	private static final int FINGERLESS_HOBO_GLOVES = 2300;
-	private static final int CHOMSKYS_COMICS = 2301;
-	private static final int GNOME_DEMODULIZER = 2848;
+	public static final int REALLY_BIG_TINY_HOUSE = 2290;
+	public static final int NONESSENTIAL_AMULET = 2291;
+	public static final int WHITE_WINE_VINAIGRETTE = 2292;
+	public static final int CUP_OF_STRONG_TEA = 2293;
+	public static final int CURIOUSLY_SHINY_AX = 2294;
+	public static final int MARINATED_STAKES = 2295;
+	public static final int KNOB_BUTTER = 2296;
+	public static final int VIAL_OF_ECTOPLASM = 2297;
+	public static final int BOOCK_OF_MAGIKS = 2298;
+	public static final int EZ_PLAY_HARMONICA_BOOK = 2299;
+	public static final int FINGERLESS_HOBO_GLOVES = 2300;
+	public static final int CHOMSKYS_COMICS = 2301;
+	public static final int GNOME_DEMODULIZER = 2848;
 
-	private static final int BROKEN_DRONE = 3165;
-	private static final int REPAIRED_DRONE = 3166;
+	public static final int BROKEN_DRONE = 3165;
+	public static final int REPAIRED_DRONE = 3166;
 	public static final int AUGMENTED_DRONE = 3167;
-	private static final int TRAPEZOID = 3198;
+	public static final int TRAPEZOID = 3198;
 
 	// Semi-rares
 	private static final int ASCII_SHIRT = 2121;
@@ -1196,415 +1188,6 @@ public abstract class KoLmafia
 		KoLConstants.tally.add( AdventureResult.SESSION_FULLSTATS_RESULT );
 	}
 
-	/**
-	 * Utility. The method to parse an individual adventuring result. This method determines what the result actually
-	 * was and adds it to the tally.
-	 *
-	 * @param result String to parse for the result
-	 */
-
-	public AdventureResult parseResult( final String result )
-	{
-		String trimResult = result.trim();
-		RequestLogger.updateDebugLog( "Parsing result: " + trimResult );
-
-		try
-		{
-			return AdventureResult.parseResult( trimResult );
-		}
-		catch ( Exception e )
-		{
-			// This should not happen. Therefore, print
-			// a stack trace for debug purposes.
-
-			StaticEntity.printStackTrace( e );
-			return null;
-		}
-	}
-
-	public static final AdventureResult parseItem( final String result )
-	{
-		RequestLogger.updateDebugLog( "Parsing item: " + result );
-
-		// We do the following in order to not get confused by:
-		//
-		// Frobozz Real-Estate Company Instant House (TM)
-		// stone tablet (Sinister Strumming)
-		// stone tablet (Squeezings of Woe)
-		// stone tablet (Really Evil Rhythm)
-		//
-		// which otherwise cause an exception and a stack trace
-
-		// Look for a verbatim match
-		int itemId = ItemDatabase.getItemId( result.trim() );
-		if ( itemId > 0 )
-		{
-			return ItemPool.get( itemId, 1 );
-		}
-
-		// Remove parenthesized number and match again.
-		String name = result;
-		int count = 1;
-
-		int index = result.lastIndexOf( " (" );
-		if ( index != -1 )
-		{
-			name = result.substring( 0, index );
-			count = StringUtilities.parseInt( result.substring( index ) );
-		}
-
-		return new AdventureResult( name, count, false );
-	}
-
-	private boolean parseEffect( final String result )
-	{
-		RequestLogger.updateDebugLog( "Parsing effect: " + result );
-
-		StringTokenizer parsedEffect = new StringTokenizer( result, "()" );
-		String parsedEffectName = parsedEffect.nextToken().trim();
-		String parsedDuration = parsedEffect.hasMoreTokens() ? parsedEffect.nextToken() : "1";
-
-		return this.processResult( new AdventureResult( parsedEffectName, StringUtilities.parseInt( parsedDuration ), true ) );
-	}
-
-	public boolean processResult( int itemId, int count )
-	{
-		return processResult( ItemPool.get( itemId, count ) );
-	}
-
-	/**
-	 * Utility. The method used to process a result. By default, this method will also add an adventure result to the
-	 * tally directly. This is used whenever the nature of the result is already known and no additional parsing is
-	 * needed.
-	 *
-	 * @param result Result to add to the running tally of adventure results
-	 */
-
-	public boolean processResult( AdventureResult result )
-	{
-		// This should not happen, but check just in case and
-		// return if the result was null.
-
-		if ( result == null )
-		{
-			return false;
-		}
-
-		RequestLogger.updateDebugLog( "Processing result: " + result );
-
-		String resultName = result.getName();
-		boolean shouldRefresh = false;
-
-		// Process the adventure result in this section; if
-		// it's a status effect, then add it to the recent
-		// effect list. Otherwise, add it to the tally.
-
-		if ( result.isStatusEffect() )
-		{
-			shouldRefresh |= !KoLConstants.activeEffects.contains( result );
-			AdventureResult.addResultToList( KoLConstants.recentEffects, result );
-		}
-		else if ( resultName.equals( AdventureResult.ADV ) )
-		{
-			if ( result.getCount() < 0 )
-			{
-				StaticEntity.saveCounters();
-				AdventureResult.addResultToList( KoLConstants.tally, result.getNegation() );
-			}
-			else if ( KoLmafia.isAdventuring )
-			{
-				// Remember adventures gained while adventuring
-				KoLmafia.adventureGains += result.getCount();
-			}
-		}
-		else if ( resultName.equals( AdventureResult.CHOICE ) )
-		{
-			// Don't let ignored choices delay iteration
-			KoLmafia.tookChoice = true;
-		}
-		else if ( result.isItem() )
-		{
-			AdventureResult.addResultToList( KoLConstants.tally, result );
-		}
-		else if ( resultName.equals( AdventureResult.SUBSTATS ) )
-		{
-			AdventureResult.addResultToList( KoLConstants.tally, result );
-		}
-		else if ( resultName.equals( AdventureResult.MEAT ) )
-		{
-			KoLAdventure location = KoLAdventure.lastVisitedLocation();
-			if ( location != null && location.getAdventureId().equals( "126" ) && FightRequest.getCurrentRound() == 0 )
-			{
-				IslandDecorator.addNunneryMeat( result );
-				return false;
-			}
-
-			AdventureResult.addResultToList( KoLConstants.tally, result );
-		}
-
-		KoLCharacter.processResult( result );
-
-		if ( result.isItem() )
-		{
-			// Do special processing when you get certain items
-			this.gainItem( result );
-		}
-
-		shouldRefresh |= result.getName().equals( AdventureResult.MEAT );
-
-		// Process the adventure result through the conditions
-		// list, removing it if the condition is satisfied.
-
-		if ( result.isItem() && HermitRequest.isWorthlessItem( result.getItemId() ) )
-		{
-			result = HermitRequest.WORTHLESS_ITEM.getInstance( result.getCount() );
-		}
-
-		// Now, if it's an actual stat gain, be sure to update the
-		// list to reflect the current value of stats so far.
-
-		if ( resultName.equals( AdventureResult.SUBSTATS ) && KoLConstants.tally.size() >= 3 )
-		{
-			int currentTest =
-				KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMuscle() ) - KoLmafia.initialStats[ 0 ];
-			shouldRefresh |= AdventureResult.SESSION_FULLSTATS[ 0 ] != currentTest;
-			AdventureResult.SESSION_FULLSTATS[ 0 ] = currentTest;
-
-			currentTest =
-				KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMysticality() ) - KoLmafia.initialStats[ 1 ];
-			shouldRefresh |= AdventureResult.SESSION_FULLSTATS[ 1 ] != currentTest;
-			AdventureResult.SESSION_FULLSTATS[ 1 ] = currentTest;
-
-			currentTest = KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMoxie() ) - KoLmafia.initialStats[ 2 ];
-			shouldRefresh |= AdventureResult.SESSION_FULLSTATS[ 2 ] != currentTest;
-			AdventureResult.SESSION_FULLSTATS[ 2 ] = currentTest;
-
-			if ( KoLConstants.tally.size() > 3 )
-			{
-				KoLConstants.tally.fireContentsChanged( KoLConstants.tally, 3, 3 );
-			}
-		}
-
-		int conditionIndex = KoLConstants.conditions.indexOf( result );
-
-		if ( conditionIndex != -1 )
-		{
-			if ( resultName.equals( AdventureResult.SUBSTATS ) )
-			{
-				// If the condition is a substat condition,
-				// then zero out the appropriate count, if
-				// applicable, and remove the substat condition
-				// if the overall count dropped to zero.
-
-				for ( int i = 0; i < 3; ++i )
-				{
-					if ( AdventureResult.CONDITION_SUBSTATS[ i ] == 0 )
-					{
-						continue;
-					}
-
-					AdventureResult.CONDITION_SUBSTATS[ i ] =
-						Math.max( 0, AdventureResult.CONDITION_SUBSTATS[ i ] - result.getCount( i ) );
-				}
-
-				if ( AdventureResult.CONDITION_SUBSTATS_RESULT.getCount() == 0 )
-				{
-					KoLConstants.conditions.remove( conditionIndex );
-				}
-				else
-				{
-					KoLConstants.conditions.fireContentsChanged(
-						KoLConstants.conditions, conditionIndex, conditionIndex );
-				}
-			}
-			else
-			{
-				// Otherwise, this was a partial satisfaction
-				// of a condition. Decrement the count by the
-				// negation of this result.
-
-				AdventureResult condition = (AdventureResult) KoLConstants.conditions.get( conditionIndex );
-				condition = condition.getInstance( condition.getCount() - result.getCount() );
-
-				if ( condition.getCount() <= 0 )
-				{
-					KoLConstants.conditions.remove( conditionIndex );
-				}
-				else
-				{
-					KoLConstants.conditions.set( conditionIndex, condition );
-				}
-			}
-		}
-
-		return shouldRefresh;
-	}
-
-	private void gainItem( AdventureResult result )
-	{
-		switch ( result.getItemId() )
-		{
-		case KoLmafia.LUCRE:
-			CoinmastersFrame.externalUpdate();
-			break;
-
-		case KoLmafia.SOCK:
-			// If you get a S.O.C.K., you lose all the Immateria
-			if ( result.getCount() == 1 )
-			{
-				for ( int i = 0; i < KoLAdventure.IMMATERIA.length; ++i )
-				{
-					this.processResult( KoLAdventure.IMMATERIA[ i ] );
-				}
-			}
-			break;
-
-		case KoLmafia.LASAGNA:
-		case KoLmafia.MARGARITA:
-		case KoLmafia.AIR_FRESHENER:
-			// When you get a steel item, you lose Azazel's items
-			if ( result.getCount() == 1 )
-			{
-				for ( int i = 0; i < KoLAdventure.AZAZEL.length; ++i )
-				{
-					this.processResult( KoLAdventure.AZAZEL[ i ] );
-				}
-			}
-			break;
-
-		case KoLmafia.MAGNET:
-			// When you get the molybdenum magnet, tell quest handler
-			if ( result.getCount() == 1 )
-			{
-				IslandDecorator.startJunkyardQuest();
-			}
-			break;
-
-		case KoLmafia.HAMMER:
-		case KoLmafia.SCREWDRIVER:
-		case KoLmafia.PLIERS:
-		case KoLmafia.WRENCH:
-			// When you get a molybdenum item, tell quest handler
-			if ( result.getCount() == 1 )
-			{
-				IslandDecorator.resetGremlinTool();
-			}
-			break;
-
-		case KoLmafia.BROKEN_DRONE:
-			if ( result.getCount() == 1 && KoLConstants.inventory.contains( KoLAdventure.DRONE ) )
-			{
-				this.processResult( KoLAdventure.DRONE );
-			}
-			break;
-
-		case KoLmafia.REPAIRED_DRONE:
-			if ( result.getCount() == 1 && KoLConstants.inventory.contains( KoLAdventure.BROKEN_DRONE ) )
-			{
-				this.processResult( KoLAdventure.BROKEN_DRONE );
-			}
-			break;
-
-		case KoLmafia.AUGMENTED_DRONE:
-			if ( result.getCount() == 1 && KoLConstants.inventory.contains( KoLAdventure.REPAIRED_DRONE ) )
-			{
-				this.processResult( KoLAdventure.REPAIRED_DRONE );
-			}
-			break;
-
-		case KoLmafia.TRAPEZOID:
-			if ( result.getCount() == 1 && KoLConstants.inventory.contains( KoLAdventure.POWER_SPHERE ) )
-			{
-				this.processResult( KoLAdventure.POWER_SPHERE );
-			}
-			break;
-
-		 // These update the session results for the item swapping in
-		 // the Gnome's Going Postal quest.
-
-		case KoLmafia.REALLY_BIG_TINY_HOUSE:
-			if ( result.getCount() == 1 )
-			{
-				this.processResult( KoLAdventure.RED_PAPER_CLIP );
-			}
-			break;
-		case KoLmafia.NONESSENTIAL_AMULET:
-			if ( result.getCount() == 1 )
-			{
-				this.processResult( KoLAdventure.REALLY_BIG_TINY_HOUSE );
-			}
-			break;
-
-		case KoLmafia.WHITE_WINE_VINAIGRETTE:
-			if ( result.getCount() == 1 )
-			{
-				this.processResult( KoLAdventure.NONESSENTIAL_AMULET );
-			}
-			break;
-		case KoLmafia.CURIOUSLY_SHINY_AX:
-			if ( result.getCount() == 1 )
-			{
-				this.processResult( KoLAdventure.WHITE_WINE_VINAIGRETTE );
-			}
-			break;
-		case KoLmafia.CUP_OF_STRONG_TEA:
-			if ( result.getCount() == 1 )
-			{
-				this.processResult( KoLAdventure.CURIOUSLY_SHINY_AX );
-			}
-			break;
-		case KoLmafia.MARINATED_STAKES:
-			if ( result.getCount() == 1 )
-			{
-				this.processResult( KoLAdventure.CUP_OF_STRONG_TEA );
-			}
-			break;
-		case KoLmafia.KNOB_BUTTER:
-			if ( result.getCount() == 1 )
-			{
-				this.processResult( KoLAdventure.MARINATED_STAKES );
-			}
-			break;
-		case KoLmafia.VIAL_OF_ECTOPLASM:
-			if ( result.getCount() == 1 )
-			{
-				this.processResult( KoLAdventure.KNOB_BUTTER );
-			}
-			break;
-		case KoLmafia.BOOCK_OF_MAGIKS:
-			if ( result.getCount() == 1 )
-			{
-				this.processResult( KoLAdventure.VIAL_OF_ECTOPLASM );
-			}
-			break;
-		case KoLmafia.EZ_PLAY_HARMONICA_BOOK:
-			if ( result.getCount() == 1 )
-			{
-				this.processResult( KoLAdventure.BOOCK_OF_MAGIKS );
-			}
-			break;
-		case KoLmafia.FINGERLESS_HOBO_GLOVES:
-			if ( result.getCount() == 1 )
-			{
-				this.processResult( KoLAdventure.EZ_PLAY_HARMONICA_BOOK );
-			}
-			break;
-		case KoLmafia.CHOMSKYS_COMICS:
-			if ( result.getCount() == 1 )
-			{
-				this.processResult( KoLAdventure.FINGERLESS_HOBO_GLOVES );
-			}
-			break;
-
-		case KoLmafia.GNOME_DEMODULIZER:
-			if ( result.getCount() == 1 && KoLConstants.inventory.contains( KoLAdventure.CHOMSKYS_COMICS ) )
-			{
-				this.processResult( KoLAdventure.CHOMSKYS_COMICS );
-			}
-			break;
-		}
-	}
-
 	public boolean isSemirare( AdventureResult result )
 	{
 		switch ( result.getItemId() )
@@ -2109,302 +1692,6 @@ public abstract class KoLmafia
 			StaticEntity.printStackTrace( e );
 			return false;
 		}
-	}
-
-	/**
-	 * Utility. The method used to process the results of any adventure in the Kingdom of Loathing This method searches
-	 * for items, stat gains, and losses within the provided string.
-	 *
-	 * @param results The string containing the results of the adventure
-	 * @return <code>true</code> if any results existed
-	 */
-
-	public final boolean processResults( final String results )
-	{
-		return this.processResults( results, null );
-	}
-
-	public final boolean processResults( final String results, final ArrayList data )
-	{
-		if ( data == null )
-		{
-			RequestLogger.updateDebugLog( "Processing results..." );
-		}
-
-		if ( data == null && results.indexOf( "gains a pound" ) != -1 )
-		{
-			KoLCharacter.incrementFamilarWeight();
-
-			RequestLogger.updateSessionLog();
-			RequestLogger.updateSessionLog( "familiar " + KoLCharacter.getFamiliar() );
-			RequestLogger.updateSessionLog();
-		}
-
-		String plainTextResult = results.replaceAll( "<.*?>", KoLConstants.LINE_BREAK );
-		StringTokenizer parsedResults = new StringTokenizer( plainTextResult, KoLConstants.LINE_BREAK );
-		String lastToken = null;
-
-		Matcher damageMatcher = null;
-		AdventureResult lastResult;
-
-		if ( data == null && KoLCharacter.isUsingStabBat() )
-		{
-			damageMatcher = KoLmafia.STABBAT_PATTERN.matcher( plainTextResult );
-
-			if ( damageMatcher.find() )
-			{
-				String message = "You lose " + damageMatcher.group( 1 ) + " hit points";
-
-				RequestLogger.printLine( message );
-
-				if ( Preferences.getBoolean( "logGainMessages" ) )
-				{
-					RequestLogger.updateSessionLog( message );
-				}
-
-				this.parseResult( message );
-			}
-
-			damageMatcher = KoLmafia.CARBS_PATTERN.matcher( plainTextResult );
-
-			if ( damageMatcher.find() )
-			{
-				String message = "You lose " + damageMatcher.group( 1 ) + " hit points";
-
-				RequestLogger.printLine( message );
-
-				if ( Preferences.getBoolean( "logGainMessages" ) )
-				{
-					RequestLogger.updateSessionLog( message );
-				}
-
-				this.parseResult( message );
-			}
-		}
-
-		if ( data == null )
-		{
-			damageMatcher = KoLmafia.FUMBLE_PATTERN.matcher( plainTextResult );
-
-			while ( damageMatcher.find() )
-			{
-				String message = "You lose " + damageMatcher.group( 1 ) + " hit points";
-
-				RequestLogger.printLine( message );
-
-				if ( Preferences.getBoolean( "logGainMessages" ) )
-				{
-					RequestLogger.updateSessionLog( message );
-				}
-
-				this.parseResult( message );
-			}
-		}
-
-		boolean requiresRefresh = false;
-
-		while ( parsedResults.hasMoreTokens() )
-		{
-			lastToken = parsedResults.nextToken();
-
-			// Skip effect acquisition - it's followed by a boldface
-			// which makes the parser think it's found an item.
-
-			if ( lastToken.indexOf( "You acquire a skill" ) != -1 || lastToken.indexOf( "You gain a skill" ) != -1 )
-			{
-				continue;
-			}
-
-			String acquisition = lastToken.trim();
-			// The following only under Can Has Cyborger. Sigh.
-			if ( acquisition.startsWith( "O hai, I made dis" ) )
-			{
-				acquisition = "You acquire an item:";
-			}
-
-			if ( acquisition.startsWith( "You acquire" ) )
-			{
-				if ( acquisition.indexOf( "effect" ) == -1 )
-				{
-					String item = parsedResults.nextToken();
-
-					if ( acquisition.indexOf( "an item" ) != -1 )
-					{
-						if ( data == null )
-						{
-							RequestLogger.printLine( acquisition + " " + item );
-							if ( Preferences.getBoolean( "logAcquiredItems" ) )
-							{
-								RequestLogger.updateSessionLog( acquisition + " " + item );
-							}
-						}
-
-						lastResult = this.parseItem( item );
-						if ( data == null )
-						{
-							this.processResult( lastResult );
-						}
-						else
-						{
-							AdventureResult.addResultToList( data, lastResult );
-						}
-					}
-					else
-					{
-						// The name of the item follows the number
-						// that appears after the first index.
-
-						String countString = item.split( " " )[ 0 ];
-						int spaceIndex = item.indexOf( " " );
-
-						String itemName = spaceIndex == -1 ? item : item.substring( spaceIndex ).trim();
-						boolean isNumeric = spaceIndex != -1;
-
-						for ( int i = 0; isNumeric && i < countString.length(); ++i )
-						{
-							isNumeric &= Character.isDigit( countString.charAt( i ) ) || countString.charAt( i ) == ',';
-						}
-
-						if ( !isNumeric )
-						{
-							countString = "1";
-						}
-						else if ( itemName.equals( "evil golden arches" ) )
-						{
-							itemName = "evil golden arch";
-						}
-
-						RequestLogger.printLine( acquisition + " " + item );
-
-						if ( Preferences.getBoolean( "logAcquiredItems" ) )
-						{
-							RequestLogger.updateSessionLog( acquisition + " " + item );
-						}
-
-						lastResult = this.parseItem( itemName + " (" + countString + ")" );
-						if ( data == null )
-						{
-							this.processResult( lastResult );
-						}
-						else
-						{
-							AdventureResult.addResultToList( data, lastResult );
-						}
-					}
-				}
-				else if ( data == null )
-				{
-					String effectName = parsedResults.nextToken();
-					lastToken = parsedResults.nextToken();
-
-					RequestLogger.printLine( acquisition + " " + effectName + " " + lastToken );
-
-					if ( Preferences.getBoolean( "logStatusEffects" ) )
-					{
-						RequestLogger.updateSessionLog( acquisition + " " + effectName + " " + lastToken );
-					}
-
-					if ( lastToken.indexOf( "duration" ) == -1 )
-					{
-						this.parseEffect( effectName );
-					}
-					else
-					{
-						String duration = lastToken.substring( 11, lastToken.length() - 11 ).trim();
-						requiresRefresh |= this.parseEffect( effectName + " (" + duration + ")" );
-					}
-				}
-				continue;
-			}
-
-			// The following only under Can Has Cyborger
-			if ( lastToken.startsWith( "You gets" ) )
-			{
-				lastToken = "You gain" + lastToken.substring( 8 );
-			}
-			else if ( lastToken.startsWith( "You can has" ) )
-			{
-				lastToken = "You gain" + lastToken.substring( 11 );
-			}
-
-			if ( lastToken.startsWith( "You gain" ) || lastToken.startsWith( "You lose " ) )
-			{
-				int periodIndex = lastToken.indexOf( "." );
-				if ( periodIndex != -1 )
-				{
-					lastToken = lastToken.substring( 0, periodIndex );
-				}
-
-				int parenIndex = lastToken.indexOf( "(" );
-				if ( parenIndex != -1 )
-				{
-					lastToken = lastToken.substring( 0, parenIndex );
-				}
-
-				lastToken = lastToken.trim();
-
-				if ( data == null && lastToken.indexOf( "level" ) == -1 )
-				{
-					RequestLogger.printLine( lastToken );
-				}
-
-				// Because of the simplified parsing, there's a
-				// chance that the "gain" acquired wasn't a
-				// subpoint (in other words, it includes the
-				// word "a" or "some"), which causes a NFE or
-				// possibly a ParseException to be
-				// thrown. catch them and do nothing
-				// (eventhough it's technically bad style).
-
-				if ( lastToken.startsWith( "You gain a" ) || lastToken.startsWith( "You gain some" ) )
-				{
-					requiresRefresh = true;
-				}
-				else
-				{
-					lastResult = this.parseResult( lastToken );
-					if ( data == null )
-					{
-						this.processResult( lastResult );
-						if ( lastResult.getName().equals( AdventureResult.SUBSTATS ) )
-						{
-							if ( Preferences.getBoolean( "logStatGains" ) )
-							{
-								RequestLogger.updateSessionLog( lastToken );
-							}
-						}
-						else if ( Preferences.getBoolean( "logGainMessages" ) )
-						{
-							RequestLogger.updateSessionLog( lastToken );
-						}
-
-					}
-					else if ( lastResult.getName().equals( AdventureResult.MEAT ) )
-					{
-						AdventureResult.addResultToList( data, lastResult );
-						if ( Preferences.getBoolean( "logGainMessages" ) )
-						{
-							RequestLogger.updateSessionLog( lastToken );
-						}
-					}
-				}
-				continue;
-			}
-
-			if ( lastToken.startsWith( "You discard" ) )
-			{
-				Matcher matcher = KoLmafia.DISCARD_PATTERN.matcher( lastToken );
-				if ( matcher.find() )
-				{
-					AdventureResult item = new AdventureResult( matcher.group( 1 ), -1, false );
-					AdventureResult.addResultToList( KoLConstants.inventory, item );
-					AdventureResult.addResultToList( KoLConstants.tally, item );
-				}
-			}
-		}
-
-		KoLmafia.applyEffects();
-		return requiresRefresh;
 	}
 
 	public void makeRequest( final Runnable request )
@@ -3215,7 +2502,7 @@ public abstract class KoLmafia
 		{
 			KoLmafia.updateDisplay( "Giving up " + neededCount + " " + item.getName() + "s..." );
 			RequestThread.postRequest( gourdVisit );
-			this.processResult( item.getInstance( 0 - neededCount++ ) );
+			ResultProcessor.processResult( item.getInstance( 0 - neededCount++ ) );
 		}
 
 		int totalProvided = 0;
@@ -3743,14 +3030,14 @@ public abstract class KoLmafia
 		{
 			if ( InventoryManager.hasItem( ItemPool.BAG_OF_CATNIP ) )
 			{
-				this.processResult( ItemPool.BAG_OF_CATNIP, -1 );
+				ResultProcessor.processItem( ItemPool.BAG_OF_CATNIP, -1 );
 			}
 		}
 		if ( encounterName.equalsIgnoreCase( "Summer Holiday" ) )
 		{
 			if ( InventoryManager.hasItem( ItemPool.HANG_GLIDER ) )
 			{
-				this.processResult( ItemPool.HANG_GLIDER, -1 );
+				ResultProcessor.processItem( ItemPool.HANG_GLIDER, -1 );
 			}
 		}
 

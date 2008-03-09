@@ -39,9 +39,10 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.session.ResultProcessor;
+
 import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class PortalRequest
@@ -119,7 +120,7 @@ public class PortalRequest
 			return true;
 		}
 
-		StaticEntity.getClient().processResult( item );
+		ResultProcessor.processResult( item );
 
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( "use 1 " + item.getName() );

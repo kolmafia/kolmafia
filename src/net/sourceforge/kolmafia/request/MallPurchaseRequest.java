@@ -41,11 +41,11 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MallPurchaseRequest
@@ -499,7 +499,7 @@ public class MallPurchaseRequest
 		int quantityAcquired = this.item.getCount( KoLConstants.inventory ) - this.initialCount;
 		if ( quantityAcquired > 0 )
 		{
-			StaticEntity.getClient().processResult(
+			ResultProcessor.processResult(
 				new AdventureResult( AdventureResult.MEAT, -1 * this.getPrice() * quantityAcquired ) );
 			KoLCharacter.updateStatus();
 

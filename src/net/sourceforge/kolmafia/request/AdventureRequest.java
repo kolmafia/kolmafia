@@ -46,6 +46,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LouvreManager;
+import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.swingui.RequestSynchFrame;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -205,7 +206,7 @@ public class AdventureRequest
 
 			if ( this.responseText.indexOf( "Locked Door" ) != -1 && AdventureRequest.SKELETON_KEY.getCount( KoLConstants.inventory ) + AdventureRequest.SKELETON_KEY.getCount( KoLConstants.closet ) > 1 )
 			{
-				StaticEntity.getClient().processResult( AdventureRequest.SKELETON_KEY.getInstance( -1 ) );
+				ResultProcessor.processResult( AdventureRequest.SKELETON_KEY.getInstance( -1 ) );
 				this.addFormField( "option", "2" );
 			}
 			else if ( this.responseText.indexOf( "\"Move on\"" ) != -1 )
@@ -387,7 +388,7 @@ public class AdventureRequest
 		if ( this.formSource.equals( "mountains.php" ) )
 		{
 			KoLmafia.updateDisplay( "You have bridged the Orc Chasm." );
-			StaticEntity.getClient().processResult( AdventureRequest.BRIDGE );
+			ResultProcessor.processResult( AdventureRequest.BRIDGE );
 			return;
 		}
 
@@ -398,25 +399,25 @@ public class AdventureRequest
 		{
 			if ( this.adventureId.equals( "1" ) )
 			{
-				StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, -5 ) );
+				ResultProcessor.processResult( new AdventureResult( AdventureResult.MEAT, -5 ) );
 			}
 			else if ( this.adventureId.equals( "2" ) )
 			{
-				StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, -10 ) );
+				ResultProcessor.processResult( new AdventureResult( AdventureResult.MEAT, -10 ) );
 			}
 			else if ( this.adventureId.equals( "11" ) )
 			{
-				StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, -10 ) );
+				ResultProcessor.processResult( new AdventureResult( AdventureResult.MEAT, -10 ) );
 			}
 		}
 
 		if ( this.adventureId.equals( "70" ) )
 		{
-			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, -10 ) );
+			ResultProcessor.processResult( new AdventureResult( AdventureResult.MEAT, -10 ) );
 		}
 		else if ( this.adventureId.equals( "71" ) )
 		{
-			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, -30 ) );
+			ResultProcessor.processResult( new AdventureResult( AdventureResult.MEAT, -30 ) );
 		}
 
 		// Shore Trips cost 500 meat each; handle
@@ -424,7 +425,7 @@ public class AdventureRequest
 
 		if ( this.formSource.equals( "shore.php" ) )
 		{
-			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, -500 ) );
+			ResultProcessor.processResult( new AdventureResult( AdventureResult.MEAT, -500 ) );
 		}
 
 		// Trick-or-treating requires a costume;

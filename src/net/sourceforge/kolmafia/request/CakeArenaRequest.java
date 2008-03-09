@@ -41,7 +41,7 @@ import net.sourceforge.kolmafia.CakeArenaManager;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CakeArenaRequest
@@ -93,8 +93,8 @@ public class CakeArenaRequest
 
 		if ( this.isCompetition )
 		{
-			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
-			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, -100 ) );
+			ResultProcessor.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
+			ResultProcessor.processResult( new AdventureResult( AdventureResult.MEAT, -100 ) );
 
 			// If the familiar won, increment win count
 

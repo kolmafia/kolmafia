@@ -33,19 +33,30 @@
 
 package net.sourceforge.kolmafia.utilities;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
+import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
+
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
+
 import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class FileUtilities
 {
+	private static final Pattern FILEID_PATTERN = Pattern.compile( "(\\d+)\\." );
+
 	public static final BufferedReader getReader( final String filename )
 	{
 		return DataUtilities.getReader( filename );
@@ -193,6 +204,106 @@ public class FileUtilities
 
 			StaticEntity.printStackTrace( e );
 			return false;
+		}
+	}
+
+	public static final void downloadFile( final String remote, final File local )
+	{
+		if ( local.exists() )
+		{
+			return;
+		}
+
+		try
+		{
+			URLConnection connection = ( new URL( null, remote ) ).openConnection();
+			if ( remote.startsWith( "http://pics.communityofloathing.com" ) )
+			{
+				Matcher idMatcher = FileUtilities.FILEID_PATTERN.matcher( local.getPath() );
+				if ( idMatcher.find() )
+				{
+					connection.setRequestProperty(
+						"Referer", "http://www.kingdomofloathing.com/showplayer.php?who=" + idMatcher.group( 1 ) );
+				}
+			}
+
+			BufferedInputStream in = new BufferedInputStream( connection.getInputStream() );
+			ByteArrayOutputStream outbytes = new ByteArrayOutputStream();
+
+			byte[] buffer = new byte[ 4096 ];
+
+			int offset;
+			while ( ( offset = in.read( buffer ) ) > 0 )
+			{
+				outbytes.write( buffer, 0, offset );
+			}
+
+			in.close();
+
+			// If it's textual data, then go ahead and modify it so
+			// that all the variables point to KoLmafia.
+
+			if ( remote.endsWith( ".js" ) )
+			{
+				String text = outbytes.toString();
+				outbytes.reset();
+
+				text = StringUtilities.globalStringReplace( text, "location.hostname", "location.host" );
+				outbytes.write( text.getBytes() );
+			}
+
+			OutputStream ostream = DataUtilities.getOutputStream( local );
+			outbytes.writeTo( ostream );
+			ostream.close();
+		}
+		catch ( Exception e )
+		{
+			// This can happen whenever there is bad internet
+			// or whenever the familiar is brand-new.
+		}
+	}
+
+	/**
+	 * Downloads the given file from the KoL images server and stores it locally.
+	 */
+	
+	public static final URL downloadImage( final String filename )
+	{
+		if ( filename == null || filename.equals( "" ) )
+		{
+			return null;
+		}
+	
+		String localname = filename.substring( filename.indexOf( "/", "http://".length() ) + 1 );
+		if ( localname.startsWith( "albums/" ) )
+		{
+			localname = localname.substring( "albums/".length() );
+		}
+	
+		File localfile = new File( UtilityConstants.IMAGE_LOCATION, localname );
+	
+		if ( !localfile.exists() || localfile.length() == 0 )
+		{
+			if ( JComponentUtilities.getImage( localname ) != null )
+			{
+				loadLibrary( UtilityConstants.IMAGE_LOCATION, UtilityConstants.IMAGE_DIRECTORY, localname );
+			}
+			else
+			{
+				downloadFile( filename, localfile );
+			}
+		}
+	
+		try
+		{
+			return localfile.toURI().toURL();
+		}
+		catch ( Exception e )
+		{
+			// This can happen whenever there is bad internet
+			// or whenever the familiar is brand-new.
+	
+			return null;
 		}
 	}
 }

@@ -40,10 +40,11 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+
+import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class StarChartRequest
@@ -131,9 +132,9 @@ public class StarChartRequest
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( "Draw " + stars + " stars with " + lines + " lines" );
 
-		StaticEntity.getClient().processResult( ItemPool.STAR, 0 - stars );
-		StaticEntity.getClient().processResult( ItemPool.LINE, 0 - lines );
-		StaticEntity.getClient().processResult( ItemPool.STAR_CHART, -1 );
+		ResultProcessor.processItem( ItemPool.STAR, 0 - stars );
+		ResultProcessor.processItem( ItemPool.LINE, 0 - lines );
+		ResultProcessor.processItem( ItemPool.STAR_CHART, -1 );
 
 		return true;
 	}

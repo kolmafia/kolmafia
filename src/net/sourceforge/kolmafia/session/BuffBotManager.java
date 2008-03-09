@@ -54,7 +54,6 @@ import net.sourceforge.kolmafia.KoLMailMessage;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.MPRestoreItemList;
-import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
@@ -241,7 +240,7 @@ public abstract class BuffBotManager
 			return;
 		}
 
-		RequestEditorKit.downloadFile( "http://kolmafia.sourceforge.net/buffbot.xsl", new File(
+		FileUtilities.downloadFile( "http://kolmafia.sourceforge.net/buffbot.xsl", new File(
 			KoLConstants.BUFFBOT_LOCATION, "buffbot.xsl" ) );
 
 		File datafile = new File( KoLConstants.BUFFBOT_LOCATION, KoLCharacter.baseUserName() + ".txt" );

@@ -99,6 +99,7 @@ import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MushroomManager;
+import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
@@ -2283,7 +2284,7 @@ public abstract class RuntimeLibrary
 	public static Value extract_meat( final Value string )
 	{
 		ArrayList data = new ArrayList();
-		StaticEntity.getClient().processResults( string.toString(), data );
+		ResultProcessor.processResults( string.toString(), data );
 
 		AdventureResult result;
 
@@ -2302,7 +2303,7 @@ public abstract class RuntimeLibrary
 	public static Value extract_items( final Value string )
 	{
 		ArrayList data = new ArrayList();
-		StaticEntity.getClient().processResults( string.toString(), data );
+		ResultProcessor.processResults( string.toString(), data );
 		MapValue value = new MapValue( DataTypes.RESULT_TYPE );
 
 		AdventureResult result;

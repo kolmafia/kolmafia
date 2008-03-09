@@ -42,9 +42,9 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MoodManager;
+import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.swingui.RequestFrame;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -245,7 +245,7 @@ public class UneffectRequest
 			}
 			else
 			{
-				StaticEntity.getClient().processResult( UneffectRequest.REMEDY.getNegation() );
+				ResultProcessor.processResult( UneffectRequest.REMEDY.getNegation() );
 			}
 
 			KoLmafia.updateDisplay( this.effect.getName() + " removed." );

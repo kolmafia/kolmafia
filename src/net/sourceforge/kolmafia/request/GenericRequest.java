@@ -76,6 +76,7 @@ import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LouvreManager;
 import net.sourceforge.kolmafia.session.OceanManager;
+import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.VioletFogManager;
 import net.sourceforge.kolmafia.swingui.CouncilFrame;
@@ -1372,7 +1373,7 @@ public class GenericRequest
 			{
 				if ( consumed )
 				{
-					StaticEntity.getClient().processResult( new AdventureResult( itemId, -1 ) );
+					ResultProcessor.processResult( ItemPool.get( itemId, -1 ) );
 				}
 
 				RequestLogger.printLine();
@@ -1730,15 +1731,15 @@ public class GenericRequest
 
 		if ( this.responseText.indexOf( "our ten-leaf clover" ) != -1 && this.responseText.indexOf( "puff of smoke" ) != -1 )
 		{
-			StaticEntity.getClient().processResult( ItemPool.TEN_LEAF_CLOVER, -1 );
+			ResultProcessor.processItem( ItemPool.TEN_LEAF_CLOVER, -1 );
 		}
 
 		if ( this.formURLString.startsWith( "sewer.php" ) && this.responseText.indexOf( "You acquire" ) != -1 )
 		{
-			StaticEntity.getClient().processResult( ItemPool.CHEWING_GUM, -1 );
+			ResultProcessor.processItem( ItemPool.CHEWING_GUM, -1 );
 		}
 
-		this.containsUpdate = StaticEntity.getClient().processResults( this.responseText );
+		this.containsUpdate = ResultProcessor.processResults( this.responseText );
 	}
 
 	public void processResults()

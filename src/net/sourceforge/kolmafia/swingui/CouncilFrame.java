@@ -41,7 +41,6 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.SpecialOutfit;
-import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
@@ -51,6 +50,7 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.IslandDecorator;
 
@@ -144,7 +144,7 @@ public class CouncilFrame
 			// discard it.
 
 			AdventureResult.addResultToList( KoLConstants.inventory, button );
-			StaticEntity.getClient().processResult( ItemPool.NOVELTY_BUTTON, -1 );
+			ResultProcessor.processItem( ItemPool.NOVELTY_BUTTON, -1 );
 		}
 	}
 
@@ -152,7 +152,7 @@ public class CouncilFrame
 	{
 		if ( location.indexOf( "paco" ) != -1 && InventoryManager.hasItem( ItemPool.CITADEL_SATCHEL ) )
 		{
-			StaticEntity.getClient().processResult( ItemPool.CITADEL_SATCHEL, -1 );
+			ResultProcessor.processItem( ItemPool.CITADEL_SATCHEL, -1 );
 		}
 	}
 
@@ -162,9 +162,9 @@ public class CouncilFrame
 
 		if ( responseText.indexOf( "Thank you" ) != -1 )
 		{
-			StaticEntity.getClient().processResult( AdventureRequest.DODECAGRAM );
-			StaticEntity.getClient().processResult( AdventureRequest.CANDLES );
-			StaticEntity.getClient().processResult( AdventureRequest.BUTTERKNIFE );
+			ResultProcessor.processResult( AdventureRequest.DODECAGRAM );
+			ResultProcessor.processResult( AdventureRequest.CANDLES );
+			ResultProcessor.processResult( AdventureRequest.BUTTERKNIFE );
 
 			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Taint cleansed." );
 		}
@@ -175,7 +175,7 @@ public class CouncilFrame
 		if ( location.indexOf( "max=on" ) != -1 )
 		{
 			int furCount = CouncilFrame.YETI_FUR.getCount( KoLConstants.inventory );
-			StaticEntity.getClient().processResult( CouncilFrame.YETI_FUR.getInstance( 0 - furCount ) );
+			ResultProcessor.processResult( CouncilFrame.YETI_FUR.getInstance( 0 - furCount ) );
 			return;
 		}
 
@@ -188,7 +188,7 @@ public class CouncilFrame
 					Math.min(
 						CouncilFrame.YETI_FUR.getCount( KoLConstants.inventory ),
 						StringUtilities.parseInt( qtyMatcher.group( 1 ) ) );
-				StaticEntity.getClient().processResult( CouncilFrame.YETI_FUR.getInstance( 0 - furCount ) );
+				ResultProcessor.processResult( CouncilFrame.YETI_FUR.getInstance( 0 - furCount ) );
 			}
 
 			return;
@@ -210,19 +210,19 @@ public class CouncilFrame
 
 		if ( responseText.indexOf( "asbestos" ) != -1 )
 		{
-			StaticEntity.getClient().processResult( new AdventureResult( "asbestos ore", -3, false ) );
+			ResultProcessor.processResult( new AdventureResult( "asbestos ore", -3, false ) );
 		}
 		else if ( responseText.indexOf( "linoleum" ) != -1 )
 		{
-			StaticEntity.getClient().processResult( new AdventureResult( "linoleum ore", -3, false ) );
+			ResultProcessor.processResult( new AdventureResult( "linoleum ore", -3, false ) );
 		}
 		else if ( responseText.indexOf( "chrome" ) != -1 )
 		{
-			StaticEntity.getClient().processResult( new AdventureResult( "chrome ore", -3, false ) );
+			ResultProcessor.processResult( new AdventureResult( "chrome ore", -3, false ) );
 		}
 		else if ( responseText.indexOf( "goat cheese pizza" ) != -1 )
 		{
-			StaticEntity.getClient().processResult( new AdventureResult( "goat cheese", -6, false ) );
+			ResultProcessor.processResult( new AdventureResult( "goat cheese", -6, false ) );
 		}
 	}
 
@@ -252,15 +252,15 @@ public class CouncilFrame
 
 		if ( responseText.indexOf( "500" ) != -1 )
 		{
-			StaticEntity.getClient().processResult( new AdventureResult( "mosquito larva", -1, false ) );
+			ResultProcessor.processResult( new AdventureResult( "mosquito larva", -1, false ) );
 		}
 		if ( responseText.indexOf( "batskin belt" ) != -1 )
 		{
-			StaticEntity.getClient().processResult( new AdventureResult( "Boss Bat bandana", -1, false ) );
+			ResultProcessor.processResult( new AdventureResult( "Boss Bat bandana", -1, false ) );
 		}
 		if ( responseText.indexOf( "dragonbone belt buckle" ) != -1 )
 		{
-			StaticEntity.getClient().processResult( new AdventureResult( "skull of the bonerdagon", -1, false ) );
+			ResultProcessor.processResult( new AdventureResult( "skull of the bonerdagon", -1, false ) );
 		}
 	}
 }

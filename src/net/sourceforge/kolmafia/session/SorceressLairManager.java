@@ -807,9 +807,9 @@ public abstract class SorceressLairManager
 
 		// This consumes the tablets
 
-		StaticEntity.getClient().processResult( SorceressLairManager.RHYTHM.getNegation() );
-		StaticEntity.getClient().processResult( SorceressLairManager.STRUMMING.getNegation() );
-		StaticEntity.getClient().processResult( SorceressLairManager.SQUEEZINGS.getNegation() );
+		ResultProcessor.processResult( SorceressLairManager.RHYTHM.getNegation() );
+		ResultProcessor.processResult( SorceressLairManager.STRUMMING.getNegation() );
+		ResultProcessor.processResult( SorceressLairManager.SQUEEZINGS.getNegation() );
 
 		KoLmafia.updateDisplay( "Sorceress entryway complete." );
 	}
@@ -1072,7 +1072,7 @@ public abstract class SorceressLairManager
 				RequestThread.postRequest( SorceressLairManager.QUEST_HANDLER.constructURLString( "lair2.php?prepreaction=skel" ) );
 				if ( useCloverForSkeleton && SorceressLairManager.isItemAvailable( SorceressLairManager.CLOVER ) )
 				{
-					StaticEntity.getClient().processResult( SorceressLairManager.CLOVER.getNegation() );
+					ResultProcessor.processResult( SorceressLairManager.CLOVER.getNegation() );
 				}
 			}
 		}
@@ -1479,7 +1479,7 @@ public abstract class SorceressLairManager
 
 			if ( SorceressLairManager.QUEST_HANDLER.responseText.indexOf( "Topiary Golem" ) != -1 )
 			{
-				StaticEntity.getClient().processResult( SorceressLairManager.PUZZLE_PIECE.getNegation() );
+				ResultProcessor.processResult( SorceressLairManager.PUZZLE_PIECE.getNegation() );
 			}
 		}
 

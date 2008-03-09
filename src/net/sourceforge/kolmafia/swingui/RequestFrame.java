@@ -72,6 +72,7 @@ import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
 import net.sourceforge.kolmafia.swingui.listener.HyperlinkAdapter;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
+import net.sourceforge.kolmafia.utilities.FileUtilities;
 
 public class RequestFrame
 	extends GenericFrame
@@ -204,8 +205,8 @@ public class RequestFrame
 		topMenu.add( this.gotoSelect );
 		topMenu.add( Box.createHorizontalStrut( 20 ) );
 
-		RequestEditorKit.downloadImage( "http://images.kingdomofloathing.com/itemimages/smoon" + HolidayDatabase.getRonaldPhase() + ".gif" );
-		RequestEditorKit.downloadImage( "http://images.kingdomofloathing.com/itemimages/smoon" + HolidayDatabase.getGrimacePhase() + ".gif" );
+		FileUtilities.downloadImage( "http://images.kingdomofloathing.com/itemimages/smoon" + HolidayDatabase.getRonaldPhase() + ".gif" );
+		FileUtilities.downloadImage( "http://images.kingdomofloathing.com/itemimages/smoon" + HolidayDatabase.getGrimacePhase() + ".gif" );
 
 		topMenu.add( new JLabel(
 			JComponentUtilities.getImage( "itemimages/smoon" + HolidayDatabase.getRonaldPhase() + ".gif" ) ) );
@@ -423,7 +424,7 @@ public class RequestFrame
 		Matcher imageMatcher = RequestFrame.IMAGE_PATTERN.matcher( renderText );
 		while ( imageMatcher.find() )
 		{
-			RequestEditorKit.downloadImage( imageMatcher.group() );
+			FileUtilities.downloadImage( imageMatcher.group() );
 		}
 
 		this.mainBuffer.append( renderText );

@@ -49,6 +49,7 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -121,7 +122,7 @@ public class UntinkerRequest
 		if ( KoLConstants.inventory.contains( UntinkerRequest.SCREWDRIVER ) )
 		{
 			UntinkerRequest.canUntinker = true;
-			StaticEntity.getClient().processResult( UntinkerRequest.SCREWDRIVER );
+			ResultProcessor.processResult( UntinkerRequest.SCREWDRIVER );
 		}
 
 		if ( !InventoryManager.retrieveItem( this.item ) )
@@ -135,7 +136,7 @@ public class UntinkerRequest
 
 		if ( this.responseText.indexOf( "You acquire" ) == -1 )
 		{
-			StaticEntity.getClient().processResult( new AdventureResult( this.itemId, 1 ) );
+			ResultProcessor.processResult( new AdventureResult( this.itemId, 1 ) );
 
 			UntinkerRequest.AVAILABLE_CHECKER.run();
 
@@ -280,7 +281,7 @@ public class UntinkerRequest
 			RequestLogger.updateSessionLog( "untinker 1 " + result.getName() );
 		}
 
-		StaticEntity.getClient().processResult( result );
+		ResultProcessor.processResult( result );
 		return true;
 	}
 }

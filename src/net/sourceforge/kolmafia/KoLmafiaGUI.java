@@ -80,6 +80,7 @@ import net.sourceforge.kolmafia.swingui.MushroomFrame;
 import net.sourceforge.kolmafia.swingui.OptionsFrame;
 import net.sourceforge.kolmafia.swingui.StoreManageFrame;
 import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
+import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class KoLmafiaGUI
@@ -361,12 +362,12 @@ public class KoLmafiaGUI
 				String base = "http://images.kingdomofloathing.com/otherimages/bikini/";
 				for ( int i = 1; i < CalendarFrame.CALENDARS.length; ++i )
 				{
-					RequestEditorKit.downloadImage( base + CalendarFrame.CALENDARS[ i ] + ".gif" );
+					FileUtilities.downloadImage( base + CalendarFrame.CALENDARS[ i ] + ".gif" );
 				}
 				base = "http://images.kingdomofloathing.com/otherimages/beefcake/";
 				for ( int i = 1; i < CalendarFrame.CALENDARS.length; ++i )
 				{
-					RequestEditorKit.downloadImage( base + CalendarFrame.CALENDARS[ i ] + ".gif" );
+					FileUtilities.downloadImage( base + CalendarFrame.CALENDARS[ i ] + ".gif" );
 				}
 			}
 			else if ( this.frameClass == ClanManageFrame.class )
@@ -492,7 +493,7 @@ public class KoLmafiaGUI
 			{
 				for ( int i = 0; i < MushroomManager.MUSHROOMS.length; ++i )
 				{
-					RequestEditorKit.downloadImage( "http://images.kingdomofloathing.com/itemimages/" + MushroomManager.MUSHROOMS[ i ][ 1 ] );
+					FileUtilities.downloadImage( "http://images.kingdomofloathing.com/itemimages/" + MushroomManager.MUSHROOMS[ i ][ 1 ] );
 				}
 			}
 			else if ( this.frameClass == StoreManageFrame.class )

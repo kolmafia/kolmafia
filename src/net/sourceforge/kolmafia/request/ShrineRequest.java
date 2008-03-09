@@ -36,7 +36,7 @@ package net.sourceforge.kolmafia.request;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.session.ResultProcessor;
 
 public class ShrineRequest
 	extends GenericRequest
@@ -108,7 +108,7 @@ public class ShrineRequest
 			return;
 		}
 
-		StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, 0 - this.amount ) );
+		ResultProcessor.processResult( new AdventureResult( AdventureResult.MEAT, 0 - this.amount ) );
 		KoLmafia.updateDisplay( "Donation complete." );
 	}
 }

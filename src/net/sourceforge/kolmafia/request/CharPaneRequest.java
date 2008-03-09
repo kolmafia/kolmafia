@@ -45,6 +45,8 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
+
+import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CharPaneRequest
@@ -320,7 +322,7 @@ public class CharPaneRequest
 
 			if ( oldAdventures != newAdventures )
 			{
-				StaticEntity.getClient().processResult(
+				ResultProcessor.processResult(
 					new AdventureResult( AdventureResult.ADV, newAdventures - oldAdventures ) );
 			}
 		}
@@ -445,7 +447,7 @@ public class CharPaneRequest
 
 			if ( effect.getCount() != activeCount )
 			{
-				StaticEntity.getClient().processResult( effect.getInstance( effect.getCount() - activeCount ) );
+				ResultProcessor.processResult( effect.getInstance( effect.getCount() - activeCount ) );
 			}
 
 			visibleEffects.add( effect );

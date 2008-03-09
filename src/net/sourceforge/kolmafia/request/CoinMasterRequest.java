@@ -41,12 +41,13 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
+
+import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -327,7 +328,7 @@ public class CoinMasterRequest
 		if ( master == BHH )
 		{
 			AdventureResult lucres = CoinmastersFrame.LUCRE.getInstance( cost );
-			StaticEntity.getClient().processResult( lucres );
+			ResultProcessor.processResult( lucres );
 		}
 
 		KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have enough " + token + " to buy that." );
@@ -378,7 +379,7 @@ public class CoinMasterRequest
 
 		// Get back the items we failed to turn in
 		AdventureResult item = new AdventureResult( itemId, count );
-		StaticEntity.getClient().processResult( item );
+		ResultProcessor.processResult( item );
 
 		// Remove the tokens we failed to receive
 		String name = ItemDatabase.getItemName( itemId );
@@ -459,7 +460,7 @@ public class CoinMasterRequest
 		}
 
 		AdventureResult item = new AdventureResult( itemId, 1 );
-		StaticEntity.getClient().processResult( item.getInstance( 0 - item.getCount( KoLConstants.inventory ) ) );
+		ResultProcessor.processResult( item.getInstance( 0 - item.getCount( KoLConstants.inventory ) ) );
 		Preferences.setInteger( "currentBountyItem", 0 );
 	}
 
@@ -543,7 +544,7 @@ public class CoinMasterRequest
 		if ( master == BHH )
 		{
 			AdventureResult lucres = CoinmastersFrame.LUCRE.getInstance( -cost );
-			StaticEntity.getClient().processResult( lucres );
+			ResultProcessor.processResult( lucres );
 		}
 
 		Preferences.increment( property, -cost );
@@ -591,7 +592,7 @@ public class CoinMasterRequest
 		RequestLogger.updateSessionLog( "trading " + count + " " + itemName + " for " + cost + " " + tokenName );
 
 		AdventureResult item = new AdventureResult( itemId, -count );
-		StaticEntity.getClient().processResult( item );
+		ResultProcessor.processResult( item );
 
 		Preferences.increment( property, cost );
 		CoinmastersFrame.externalUpdate();
