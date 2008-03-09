@@ -91,11 +91,17 @@ public class RequestLogger
 	private static PrintStream sessionStream = NullStream.INSTANCE;
 	private static PrintStream debugStream = NullStream.INSTANCE;
 
+	private static String lastURLString = "";
 	private static String previousUpdateString = "";
 	private static boolean wasLastRequestSimple = false;
 
 	private RequestLogger()
 	{
+	}
+
+	public static String getLastURLString()
+	{
+		return lastURLString;
 	}
 
 	public void println()
@@ -114,9 +120,9 @@ public class RequestLogger
 		{
 			return;
 		}
-	
+
 		StringBuffer buffer = new StringBuffer();
-	
+
 		if ( printing != KoLConstants.availableSkills )
 		{
 			Object current;
@@ -127,25 +133,25 @@ public class RequestLogger
 				{
 					continue;
 				}
-	
+
 				buffer.append( current.toString() );
 				buffer.append( KoLConstants.LINE_BREAK );
 			}
-	
+
 			ostream.println( buffer.toString() );
 			return;
 		}
-	
+
 		SkillDatabase.generateSkillList( buffer, false );
-	
+
 		if ( ostream != INSTANCE )
 		{
 			ostream.println( buffer.toString() );
 			return;
 		}
-	
+
 		printLine( buffer.toString(), false );
-	
+
 		buffer.setLength( 0 );
 		SkillDatabase.generateSkillList( buffer, true );
 		KoLConstants.commandBuffer.append( buffer.toString() );
@@ -389,6 +395,7 @@ public class RequestLogger
 
 	private static final void doRegister( final GenericRequest request, final String urlString )
 	{
+		RequestLogger.lastURLString = urlString;
 		boolean isExternal = request.getClass() == GenericRequest.class || request instanceof RelayRequest;
 
 		// There are some adventures which do not post any
