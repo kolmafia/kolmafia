@@ -33,21 +33,18 @@
 
 package net.sourceforge.kolmafia.request;
 
-import com.velocityreviews.forums.HttpTimeoutHandler;
-
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
 import java.net.HttpURLConnection;
 import java.net.InetAddress;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.net.UnknownHostException;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -59,7 +56,10 @@ import java.util.regex.Pattern;
 
 import javax.swing.SwingUtilities;
 
+import com.velocityreviews.forums.HttpTimeoutHandler;
+
 import net.sourceforge.foxtrot.Job;
+
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CreateFrameRunnable;
 import net.sourceforge.kolmafia.KoLAdventure;
@@ -70,8 +70,6 @@ import net.sourceforge.kolmafia.LocalRelayServer;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
-import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.session.ChatManager;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ClanManager;
@@ -87,6 +85,9 @@ import net.sourceforge.kolmafia.swingui.RequestSynchFrame;
 import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+
+import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
+import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class GenericRequest
 	extends Job
@@ -205,60 +206,50 @@ public class GenericRequest
 			return;
 		}
 
-		try
+		String proxySet = Preferences.getString( "proxySet" );
+		String proxyHost = Preferences.getString( "http.proxyHost" );
+		String proxyUser = Preferences.getString( "http.proxyUser" );
+
+		System.setProperty( "proxySet", proxySet );
+
+		// Remove the proxy host from the system properties
+		// if one isn't specified, or proxy setting is off.
+
+		if ( proxySet.equals( "false" ) || proxyHost.equals( "" ) )
 		{
-			String proxySet = Preferences.getString( "proxySet" );
-			String proxyHost = Preferences.getString( "http.proxyHost" );
-			String proxyUser = Preferences.getString( "http.proxyUser" );
-
-			System.setProperty( "proxySet", proxySet );
-
-			// Remove the proxy host from the system properties
-			// if one isn't specified, or proxy setting is off.
-
-			if ( proxySet.equals( "false" ) || proxyHost.equals( "" ) )
-			{
-				System.getProperties().remove( "http.proxyHost" );
-				System.getProperties().remove( "http.proxyPort" );
-			}
-			else
-			{
-				try
-				{
-					System.setProperty( "http.proxyHost", InetAddress.getByName( proxyHost ).getHostAddress() );
-				}
-				catch ( UnknownHostException e )
-				{
-					// This should not happen.  Therefore, print
-					// a stack trace for debug purposes.
-
-					StaticEntity.printStackTrace( e, "Error in proxy setup" );
-					System.setProperty( "http.proxyHost", proxyHost );
-				}
-
-				System.setProperty( "http.proxyPort", Preferences.getString( "http.proxyPort" ) );
-			}
-
-			// Remove the proxy user from the system properties
-			// if one isn't specified, or proxy setting is off.
-
-			if ( proxySet.equals( "false" ) || proxyHost.equals( "" ) || proxyUser.equals( "" ) )
-			{
-				System.getProperties().remove( "http.proxyUser" );
-				System.getProperties().remove( "http.proxyPassword" );
-			}
-			else
-			{
-				System.setProperty( "http.proxyUser", Preferences.getString( "http.proxyUser" ) );
-				System.setProperty( "http.proxyPassword", Preferences.getString( "http.proxyPassword" ) );
-			}
+			System.getProperties().remove( "http.proxyHost" );
+			System.getProperties().remove( "http.proxyPort" );
 		}
-		catch ( Exception e )
+		else
 		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
+			try
+			{
+				System.setProperty( "http.proxyHost", InetAddress.getByName( proxyHost ).getHostAddress() );
+			}
+			catch ( UnknownHostException e )
+			{
+				// This should not happen.  Therefore, print
+				// a stack trace for debug purposes.
 
-			e.printStackTrace();
+				StaticEntity.printStackTrace( e, "Error in proxy setup" );
+				System.setProperty( "http.proxyHost", proxyHost );
+			}
+
+			System.setProperty( "http.proxyPort", Preferences.getString( "http.proxyPort" ) );
+		}
+
+		// Remove the proxy user from the system properties
+		// if one isn't specified, or proxy setting is off.
+
+		if ( proxySet.equals( "false" ) || proxyHost.equals( "" ) || proxyUser.equals( "" ) )
+		{
+			System.getProperties().remove( "http.proxyUser" );
+			System.getProperties().remove( "http.proxyPassword" );
+		}
+		else
+		{
+			System.setProperty( "http.proxyUser", Preferences.getString( "http.proxyUser" ) );
+			System.setProperty( "http.proxyPassword", Preferences.getString( "http.proxyPassword" ) );
 		}
 	}
 
@@ -299,7 +290,7 @@ public class GenericRequest
 		{
 			GenericRequest.KOL_ROOT = new URL( "http", GenericRequest.SERVERS[ serverIndex ][ 1 ], 80, "/" );
 		}
-		catch ( Exception e )
+		catch ( IOException e )
 		{
 			StaticEntity.printStackTrace( e );
 		}
@@ -436,13 +427,8 @@ public class GenericRequest
 			encodedName = URLEncoder.encode( encodedName, this.isChatRequest ? "ISO-8859-1" : "UTF-8" ) + "=";
 			encodedValue = URLEncoder.encode( encodedValue, this.isChatRequest ? "ISO-8859-1" : "UTF-8" );
 		}
-		catch ( Exception e )
+		catch ( IOException e )
 		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-
-			StaticEntity.printStackTrace( e );
-			return;
 		}
 
 		// Make sure that when you're adding data fields, you don't
@@ -563,7 +549,7 @@ public class GenericRequest
 
 				return URLDecoder.decode( value, this.isChatRequest ? "ISO-8859-1" : "UTF-8" );
 			}
-			catch ( Exception e )
+			catch ( IOException e )
 			{
 				// This shouldn't happen, but since you did
 				// manage to find the key, return the value.
@@ -590,12 +576,8 @@ public class GenericRequest
 		{
 			encodedName = URLEncoder.encode( encodedName, this.isChatRequest ? "ISO-8859-1" : "UTF-8" ) + "=";
 		}
-		catch ( Exception e )
+		catch ( IOException e )
 		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-
-			StaticEntity.printStackTrace( e );
 			return;
 		}
 
@@ -1091,7 +1073,7 @@ public class GenericRequest
 
 			this.formConnection = (HttpURLConnection) this.formURL.openConnection();
 		}
-		catch ( Exception e )
+		catch ( IOException e )
 		{
 			if ( this.shouldUpdateDebugLog() )
 			{
@@ -1177,7 +1159,7 @@ public class GenericRequest
 			ostream = null;
 			return false;
 		}
-		catch ( Exception e )
+		catch ( IOException e )
 		{
 			++this.timeoutCount;
 
@@ -1228,7 +1210,7 @@ public class GenericRequest
 			this.responseCode = this.formConnection.getResponseCode();
 			this.redirectLocation = this.responseCode != 302 ? null : this.formConnection.getHeaderField( "Location" );
 		}
-		catch ( Exception e1 )
+		catch ( IOException e1 )
 		{
 			++this.timeoutCount;
 			boolean shouldRetry = this.retryOnTimeout();
@@ -1250,7 +1232,7 @@ public class GenericRequest
 					istream.close();
 				}
 			}
-			catch ( Exception e2 )
+			catch ( IOException e2 )
 			{
 				// The input stream was already closed.  Ignore this
 				// error and continue.
@@ -1299,12 +1281,8 @@ public class GenericRequest
 				shouldStop = this.responseCode == 302 ? this.handleServerRedirect() : true;
 			}
 		}
-		catch ( Exception e )
+		catch ( IOException e )
 		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-
-			StaticEntity.printStackTrace( e );
 			return true;
 		}
 
@@ -1507,7 +1485,7 @@ public class GenericRequest
 	}
 
 	private boolean retrieveServerReply( final InputStream istream )
-		throws Exception
+		throws IOException
 	{
 		// Find an available byte array in order to buffer the data.  Allow
 		// this to scale based on the number of incoming requests in order
@@ -1919,7 +1897,7 @@ public class GenericRequest
 			this.responseCode = 200;
 			this.responseText = response.toString();
 		}
-		catch ( Exception e )
+		catch ( IOException e )
 		{
 			// This means simply that there was no file from which
 			// to load the data.  Given that this is run during debug
