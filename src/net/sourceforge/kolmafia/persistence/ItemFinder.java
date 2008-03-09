@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.persistence;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.kolmafia.AdventureResult;
@@ -43,9 +44,8 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
-
 import net.sourceforge.kolmafia.request.CreateItemRequest;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ItemFinder
 {
@@ -159,6 +159,10 @@ public class ItemFinder
 		String itemName;
 		int itemId, useType;
 
+		// First, check to see if there are an HP/MP restores
+		// in the list of matches.  If there are, only return
+		// the restorative items (the others are irrelevant).
+
 		ArrayList restoreList = new ArrayList();
 
 		for ( int i = 0; i < nameList.size(); ++i )
@@ -184,28 +188,35 @@ public class ItemFinder
 			nameList.addAll( restoreList );
 		}
 
-		for ( int i = 0; i < nameList.size(); ++i )
+		if ( nameList.size() == 1 )
 		{
-			itemName = (String) nameList.get( i );
+			return;
+		}
+
+		// Check for consumption filters when matching against the
+		// item name.
+
+		Iterator nameIterator = nameList.iterator();
+
+		while ( nameIterator.hasNext() )
+		{
+			itemName = (String) nameIterator.next();
 			itemId = ItemDatabase.getItemId( itemName );
 			useType = ItemDatabase.getConsumptionType( itemId );
-
-			// If this is a food match, and the item you're looking at is
-			// not a food item, then skip it.
 
 			switch ( filterType )
 			{
 			case ItemFinder.FOOD_MATCH:
-				i = ItemFinder.conditionalRemove( nameList, i, useType != KoLConstants.CONSUME_EAT );
+				ItemFinder.conditionalRemove( nameIterator, useType != KoLConstants.CONSUME_EAT );
 				break;
 			case ItemFinder.BOOZE_MATCH:
-				i = ItemFinder.conditionalRemove( nameList, i, useType != KoLConstants.CONSUME_DRINK );
+				ItemFinder.conditionalRemove( nameIterator, useType != KoLConstants.CONSUME_DRINK );
 				break;
 			case ItemFinder.CREATE_MATCH:
-				i = ItemFinder.conditionalRemove( nameList, i, ConcoctionDatabase.getMixingMethod( itemId ) == KoLConstants.NOCREATE );
+				ItemFinder.conditionalRemove( nameIterator, ConcoctionDatabase.getMixingMethod( itemId ) == KoLConstants.NOCREATE );
 				break;
 			case ItemFinder.UNTINKER_MATCH:
-				i = ItemFinder.conditionalRemove( nameList, i, ConcoctionDatabase.getMixingMethod( itemId ) != KoLConstants.COMBINE );
+				ItemFinder.conditionalRemove( nameIterator, ConcoctionDatabase.getMixingMethod( itemId ) != KoLConstants.COMBINE );
 				break;
 
 			case ItemFinder.USE_MATCH:
@@ -220,24 +231,41 @@ public class ItemFinder
 				case KoLConstants.CONSUME_SPECIAL:
 				case KoLConstants.CONSUME_SPHERE:
 					break;
+
 				default:
-					i = ItemFinder.conditionalRemove( nameList, i, true );
+					nameIterator.remove();
 				}
 
 				break;
 			}
 		}
+
+		if ( nameList.size() == 1 )
+		{
+			return;
+		}
+
+		// Never match against untradeable items not available
+		// in NPC stores when other items are possible.
+
+		nameIterator = nameList.iterator();
+
+		while ( nameIterator.hasNext() )
+		{
+			itemName = (String) nameIterator.next();
+			itemId = ItemDatabase.getItemId( itemName );
+
+			conditionalRemove( nameIterator,
+				!ItemDatabase.isTradeable( itemId ) && !NPCStoreDatabase.contains( itemName ) );
+		}
 	}
 
-	private static final int conditionalRemove( List list, int index, boolean condition )
+	private static final void conditionalRemove( Iterator iterator, boolean condition )
 	{
 		if ( condition )
 		{
-			list.remove( index );
-			return index - 1;
+			iterator.remove();
 		}
-
-		return index;
 	}
 
 	public static final AdventureResult getFirstMatchingItem( String parameters )
