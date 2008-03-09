@@ -238,7 +238,15 @@ public abstract class TransferItemRequest
 
 		for ( int i = 0; i < requests.length; ++i )
 		{
-			KoLmafia.updateDisplay( this.getStatusMessage() + " (request " + ( i + 1 ) + " of " + requests.length + ")..." );
+			if ( requests.length == 1 )
+			{
+				KoLmafia.updateDisplay( this.getStatusMessage() + "..." );
+			}
+			else
+			{
+				KoLmafia.updateDisplay( this.getStatusMessage() + " (request " + ( i + 1 ) + " of " + requests.length + ")..." );
+			}
+
 			requests[ i ].run();
 		}
 
