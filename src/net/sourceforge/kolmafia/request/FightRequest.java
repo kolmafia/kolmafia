@@ -321,7 +321,7 @@ public class FightRequest
 				{
 					String.valueOf( FightRequest.currentRound ),
 					FightRequest.encounterLookup,
-					this.responseText
+					FightRequest.lastResponseText
 				} );
 
 				if ( KoLmafia.refusesContinue() || initialRound == FightRequest.currentRound )

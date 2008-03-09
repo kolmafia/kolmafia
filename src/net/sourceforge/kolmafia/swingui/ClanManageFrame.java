@@ -69,10 +69,14 @@ import net.sourceforge.kolmafia.request.ProfileRequest;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.swingui.button.TableButton;
 import net.sourceforge.kolmafia.swingui.button.RequestButton;
+import net.sourceforge.kolmafia.swingui.listener.TableButtonListener;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.panel.ItemManagePanel;
 import net.sourceforge.kolmafia.swingui.panel.LabeledPanel;
+import net.sourceforge.kolmafia.swingui.table.ButtonRenderer;
+import net.sourceforge.kolmafia.swingui.table.ListWrapperTableModel;
+import net.sourceforge.kolmafia.swingui.table.TransparentTable;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
@@ -135,7 +139,7 @@ public class ClanManageFrame
 		this.members.setRowSelectionAllowed( false );
 		this.members.setAutoResizeMode( JTable.AUTO_RESIZE_NEXT_COLUMN );
 
-		this.members.addMouseListener( new ButtonEventListener( this.members ) );
+		this.members.addMouseListener( new TableButtonListener( this.members ) );
 		this.members.setDefaultRenderer( JButton.class, new ButtonRenderer() );
 
 		this.members.setShowGrid( false );
@@ -482,7 +486,7 @@ public class ClanManageFrame
 
 		public void actionCancelled()
 		{
-			if ( !ClanManageFrame.this.finalizeTable( ClanManageFrame.this.members ) )
+			if ( !InputFieldUtilities.finalizeTable( ClanManageFrame.this.members ) )
 			{
 				return;
 			}

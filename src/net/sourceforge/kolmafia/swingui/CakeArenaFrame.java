@@ -54,6 +54,7 @@ import net.sourceforge.kolmafia.KoLCharacterAdapter;
 import net.sourceforge.kolmafia.CakeArenaManager.ArenaOpponent;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.swingui.button.TableButton;
+import net.sourceforge.kolmafia.swingui.listener.TableButtonListener;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -139,7 +140,7 @@ public class CakeArenaFrame
 			}
 
 			JTable opponentTable = new JTable( opponentData, columnNames );
-			opponentTable.addMouseListener( new ButtonEventListener( opponentTable ) );
+			opponentTable.addMouseListener( new TableButtonListener( opponentTable ) );
 			opponentTable.setRowHeight( 40 );
 
 			for ( int i = 0; i < 5; ++i )
