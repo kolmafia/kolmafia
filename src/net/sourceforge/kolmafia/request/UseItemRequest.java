@@ -1149,7 +1149,6 @@ public class UseItemRequest
 			if ( responseText.indexOf( "crumble" ) == -1 )
 			{
 				ResultProcessor.processResult( UseItemRequest.lastItemUsed );
-				KoLCharacter.updateStatus();
 			}
 
 			return;
@@ -1214,6 +1213,7 @@ public class UseItemRequest
 
 			ResultProcessor.processResult(
 				new AdventureResult( AdventureResult.HP, 1 - KoLCharacter.getCurrentHP() ) );
+
 			return;
 
 		case DOLPHIN_KING_MAP:
