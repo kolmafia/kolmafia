@@ -269,10 +269,6 @@ public class ResultProcessor
 		{
 			countString = "1";
 		}
-		else if ( itemName.equals( "evil golden arches" ) )
-		{
-			itemName = "evil golden arch";
-		}
 
 		RequestLogger.printLine( acquisition + " " + item );
 
@@ -281,7 +277,9 @@ public class ResultProcessor
 			RequestLogger.updateSessionLog( acquisition + " " + item );
 		}
 
-		lastResult = ItemPool.get( itemName, StringUtilities.parseInt( countString ) );
+		int itemCount = StringUtilities.parseInt( countString );
+		lastResult = ItemPool.get( ItemDatabase.getItemId( itemName, itemCount ), itemCount );
+
 		if ( data == null )
 		{
 			processResult( lastResult );
