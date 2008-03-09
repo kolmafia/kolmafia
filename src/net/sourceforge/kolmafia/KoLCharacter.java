@@ -697,6 +697,8 @@ public abstract class KoLCharacter
 		KoLCharacter.currentHP = currentHP < 0 ? 0 : currentHP > maximumHP ? maximumHP : currentHP;
 		KoLCharacter.maximumHP = maximumHP;
 		KoLCharacter.baseMaxHP = baseMaxHP;
+
+		KoLCharacter.updateStatus();
 	}
 
 	/**
@@ -745,6 +747,8 @@ public abstract class KoLCharacter
 		KoLCharacter.currentMP = currentMP < 0 ? 0 : currentMP > maximumMP ? maximumMP : currentMP;
 		KoLCharacter.maximumMP = maximumMP;
 		KoLCharacter.baseMaxMP = baseMaxMP;
+
+		KoLCharacter.updateStatus();
 	}
 
 	/**

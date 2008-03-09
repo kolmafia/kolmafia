@@ -128,6 +128,11 @@ public class ChatRequest
 			ChatManager.dispose();
 			actualMessage = "/exit";
 		}
+		else if ( actualMessage.startsWith( "/whois" ) )
+		{
+			// Leave /whois requests alone, since they always include
+			// the name of the player.
+		}
 		else if ( contactId.startsWith( "[" ) )
 		{
 			// This is a message coming from an aggregated window, so
