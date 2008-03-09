@@ -62,10 +62,11 @@ public class Concoction
 	private static final int SPLEEN_PRIORITY = 3;
 	private static final int NO_PRIORITY = 100;
 
-
 	public final AdventureResult concoction;
+
 	private final int yield;
 	private final int mixingMethod;
+	private boolean isTorsoItem;
 	private int sortOrder;
 	private boolean wasPossible;
 
@@ -91,6 +92,7 @@ public class Concoction
 		this.yield = 1;
 
 		this.mixingMethod = KoLConstants.NOCREATE;
+		this.isTorsoItem = false;
 		this.wasPossible = true;
 
 		this.ingredients = new ArrayList();
@@ -127,6 +129,7 @@ public class Concoction
 		{
 			this.yield = Math.max( concoction.getCount(), 1 );
 			this.name = concoction.getName();
+			this.isTorsoItem = ItemDatabase.getConsumptionType( concoction.getItemId() ) == KoLConstants.EQUIP_SHIRT;
 		}
 		else
 		{
@@ -476,6 +479,12 @@ public class Concoction
 		this.total = this.initial;
 
 		if ( !ConcoctionDatabase.isPermittedMethod( this.mixingMethod ) )
+		{
+			this.visibleTotal = this.total;
+			return;
+		}
+
+		if ( this.isTorsoItem && !KoLCharacter.hasSkill( "Torso Awaregness" ) )
 		{
 			this.visibleTotal = this.total;
 			return;
