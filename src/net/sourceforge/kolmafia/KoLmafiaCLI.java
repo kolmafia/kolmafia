@@ -45,9 +45,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import java.util.TreeMap;
-import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -56,6 +54,7 @@ import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.sourceforge.kolmafia.KoLConstants.ByteArrayStream;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.Aliases;
 import net.sourceforge.kolmafia.persistence.BuffBotDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
@@ -142,15 +141,6 @@ public class KoLmafiaCLI
 	private BufferedReader commandStream;
 
 	public static boolean isExecutingCheckOnlyCommand = false;
-
-	private static final File ALIAS_FILE = new File( UtilityConstants.SETTINGS_LOCATION, "GLOBAL_aliases.txt" );
-	private static final TreeMap aliasMap = new TreeMap();
-	private static Set aliasSet = null;
-
-	static
-	{
-		readAliases();
-	}
 
 	public static final void initialize()
 	{
@@ -367,7 +357,7 @@ public class KoLmafiaCLI
 		// First, handle all the aliasing that may be
 		// defined by the user.
 
-		this.currentLine = line = applyAliases( line );
+		this.currentLine = line = Aliases.apply( line );
 
 		// Handle if-statements in a special way right
 		// here.  Nesting is handled explicitly by
@@ -770,7 +760,7 @@ public class KoLmafiaCLI
 			{
 				String aliasString = parameters.substring( 0, spaceIndex ).trim();
 				String aliasCommand = parameters.substring( spaceIndex + 4 ).trim();
-				addAlias( aliasString, aliasCommand );
+				Aliases.add( aliasString, aliasCommand );
 
 				RequestLogger.printLine( "String successfully aliased." );
 				RequestLogger.printLine( aliasString + " => " + aliasCommand );
@@ -780,6 +770,12 @@ public class KoLmafiaCLI
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "That was not a valid aliasing." );
 			}
 
+			return;
+		}
+
+		if ( command.equals( "unalias" ) )
+		{
+			Aliases.remove( parameters );
 			return;
 		}
 
@@ -5605,89 +5601,5 @@ public class KoLmafiaCLI
 		}
 
 		return false;
-	}
-
-	// Alias file support
-
-	private static void readAliases()
-	{
-		File oldAliasFile = new File( UtilityConstants.SETTINGS_LOCATION, "aliases_GLOBAL.txt" );
-		if ( oldAliasFile.exists() )
-		{
-			oldAliasFile.renameTo( ALIAS_FILE );
-		}
-
-		KoLmafiaCLI.aliasMap.clear();
-
-		BufferedReader reader = FileUtilities.getReader( ALIAS_FILE );
-		if ( reader != null )
-		{
-			String[] data;
-
-			while ( ( data = FileUtilities.readData( reader ) ) != null )
-			{
-				KoLmafiaCLI.aliasMap.put( " " + data[ 0 ] + " ", " " + data[ 1 ] + " " );
-			}
-
-			try
-			{
-				reader.close();
-			}
-			catch ( Exception e )
-			{
-				StaticEntity.printStackTrace( e );
-			}
-		}
-
-		KoLmafiaCLI.aliasSet = KoLmafiaCLI.aliasMap.entrySet();
-	}
-
-	private static void addAlias( final String aliasString, final String aliasCommand )
-	{
-		KoLmafiaCLI.aliasMap.put( " " + aliasString + " ", " " + aliasCommand + " " );
-		KoLmafiaCLI.aliasSet = KoLmafiaCLI.aliasMap.entrySet();
-		saveAliases();
-	}
-
-	private static String applyAliases( String line )
-	{
-		if ( KoLmafiaCLI.aliasSet.size() == 0 )
-		{
-			return line;
-		}
-
-		if ( line.startsWith( "alias " ) )
-		{
-			return line;
-		}
-
-		line = " " + line + " ";
-
-		Iterator it = KoLmafiaCLI.aliasSet.iterator();
-		while ( it.hasNext() )
-		{
-			Entry current = (Entry) it.next();
-			String aliasString = (String) current.getKey();
-			String aliasCommand = (String) current.getValue();
-			line = StringUtilities.singleStringReplace( line, aliasString, aliasCommand );
-		}
-
-		return line.trim();
-	}
-
-	private static void saveAliases()
-	{
-		LogStream aliasStream = LogStream.openStream( ALIAS_FILE, true );
-
-		Iterator it = KoLmafiaCLI.aliasSet.iterator();
-		while ( it.hasNext() )
-		{
-			Entry current = (Entry) it.next();
-			String aliasString = (String) current.getKey();
-			String aliasCommand = (String) current.getValue();
-			aliasStream.println( aliasString.trim() + "\t" + aliasCommand.trim() );
-		}
-
-		aliasStream.close();
 	}
 }
