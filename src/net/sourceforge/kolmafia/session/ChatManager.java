@@ -645,14 +645,12 @@ public abstract class ChatManager
 				++nextLine;
 				continue;
 			}
-			else
+
+			while ( ++nextLine < lines.length && lines[ nextLine ].indexOf( "<a" ) == -1 )
 			{
-				while ( ++nextLine < lines.length && lines[ nextLine ].indexOf( "<a" ) == -1 )
+				if ( lines[ nextLine ] != null && lines[ nextLine ].length() > 0 )
 				{
-					if ( lines[ nextLine ] != null && lines[ nextLine ].length() > 0 )
-					{
-						lines[ i ] += "<br>" + lines[ nextLine ];
-					}
+					lines[ i ] += "<br>" + lines[ nextLine ];
 				}
 			}
 
@@ -942,45 +940,36 @@ public abstract class ChatManager
 	private static final void processChatMessage( final String channel, final String message, String bufferKey,
 		final boolean ignoreEvents )
 	{
-		try
+		boolean isGreenMessage = ChatManager.isGreenMessage( message );
+		String displayHTML = ChatManager.formatChatMessage( channel, message, bufferKey, isGreenMessage );
+
+		if ( isGreenMessage )
 		{
-			boolean isGreenMessage = ChatManager.isGreenMessage( message );
-			String displayHTML = ChatManager.formatChatMessage( channel, message, bufferKey, isGreenMessage );
-
-			if ( isGreenMessage )
+			if ( ignoreEvents || BuffBotHome.isBuffBotActive() )
 			{
-				if ( ignoreEvents || BuffBotHome.isBuffBotActive() )
-				{
-					return;
-				}
-
-				if ( displayHTML.indexOf( " has " ) != -1 )
-				{
-					RequestThread.postRequest( CharPaneRequest.getInstance() );
-				}
-
-				KoLConstants.eventHistory.add( ChatManager.EVENT_TIMESTAMP.format( new Date() ) + " - " + KoLConstants.ANYTAG_PATTERN.matcher(
-					displayHTML ).replaceAll( "" ) );
-
-				ChatManager.broadcastMessage( displayHTML );
 				return;
 			}
 
-			LimitedSizeChatBuffer buffer = ChatManager.getChatBuffer( bufferKey );
-
-			buffer.append( displayHTML );
-
-			if ( ChatManager.isRunning && ChatManager.useTabbedChat )
+			if ( displayHTML.indexOf( " has " ) != -1 )
 			{
-				ChatManager.tabbedFrame.highlightTab( bufferKey );
+				RequestThread.postRequest( CharPaneRequest.getInstance() );
 			}
-		}
-		catch ( Exception e )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
 
-			StaticEntity.printStackTrace( e, message );
+			String plainTextEvent = KoLConstants.ANYTAG_PATTERN.matcher( displayHTML ).replaceAll( "" );
+
+			KoLConstants.eventHistory.add( ChatManager.EVENT_TIMESTAMP.format( new Date() ) + " - " + plainTextEvent );
+			ChatManager.broadcastMessage( displayHTML );
+
+			return;
+		}
+
+		LimitedSizeChatBuffer buffer = ChatManager.getChatBuffer( bufferKey );
+
+		buffer.append( displayHTML );
+
+		if ( ChatManager.isRunning && ChatManager.useTabbedChat )
+		{
+			ChatManager.tabbedFrame.highlightTab( bufferKey );
 		}
 	}
 
@@ -1191,65 +1180,55 @@ public abstract class ChatManager
 			return;
 		}
 
-		try
+		LimitedSizeChatBuffer buffer =
+			new LimitedSizeChatBuffer(
+				KoLCharacter.getUserName() + ": " + channel + " - Started " + Calendar.getInstance().getTime().toString(),
+				true,
+				ChatManager.isRunning && ( !channel.equals( "[main]" ) || Preferences.getBoolean( "useSeparateChannels" ) ) );
+
+		ChatManager.instantMessageBuffers.put( channel, buffer );
+		if ( channel.startsWith( "/" ) )
 		{
-			LimitedSizeChatBuffer buffer =
-				new LimitedSizeChatBuffer(
-					KoLCharacter.getUserName() + ": " + channel + " - Started " + Calendar.getInstance().getTime().toString(),
-					true,
-					ChatManager.isRunning && ( !channel.equals( "[main]" ) || Preferences.getBoolean( "useSeparateChannels" ) ) );
+			ChatManager.currentlyActive.add( channel );
+		}
 
-			ChatManager.instantMessageBuffers.put( channel, buffer );
-			if ( channel.startsWith( "/" ) )
+		if ( shouldOpenWindow )
+		{
+			if ( ChatManager.useTabbedChat )
 			{
-				ChatManager.currentlyActive.add( channel );
+				ChatManager.tabbedFrame.addTab( channel );
 			}
-
-			if ( shouldOpenWindow )
+			else
 			{
-				try
+				CreateFrameRunnable creator =
+					new CreateFrameRunnable( ChatFrame.class, new String[] { channel } );
+				if ( SwingUtilities.isEventDispatchThread() )
 				{
-					if ( ChatManager.useTabbedChat )
+					creator.run();
+				}
+				else
+				{
+					try
 					{
-						ChatManager.tabbedFrame.addTab( channel );
+						SwingUtilities.invokeAndWait( creator );
 					}
-					else
+					catch ( Exception e )
 					{
-						CreateFrameRunnable creator =
-							new CreateFrameRunnable( ChatFrame.class, new String[] { channel } );
-						if ( SwingUtilities.isEventDispatchThread() )
-						{
-							creator.run();
-						}
-						else
-						{
-							SwingUtilities.invokeAndWait( creator );
-						}
+						// Whoo, exception occurred.  Pretend nothing
+						// happened and skip the exception.
 					}
 				}
-				catch ( Exception e )
-				{
-					// Whoo, exception occurred.  Pretend nothing
-					// happened and skip the exception.
-				}
-			}
-
-			if ( Preferences.getBoolean( "logChatMessages" ) )
-			{
-				buffer.setActiveLogFile( new File( KoLConstants.CHATLOG_LOCATION, ChatManager.getChatLogName( channel ) ) );
-			}
-
-			if ( ChatManager.highlighting && !channel.equals( "[high]" ) )
-			{
-				buffer.applyHighlights();
 			}
 		}
-		catch ( Exception e )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
 
-			StaticEntity.printStackTrace( e );
+		if ( Preferences.getBoolean( "logChatMessages" ) )
+		{
+			buffer.setActiveLogFile( new File( KoLConstants.CHATLOG_LOCATION, ChatManager.getChatLogName( channel ) ) );
+		}
+
+		if ( ChatManager.highlighting && !channel.equals( "[high]" ) )
+		{
+			buffer.applyHighlights();
 		}
 	}
 
