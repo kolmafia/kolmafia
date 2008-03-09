@@ -41,7 +41,6 @@ import java.util.regex.Pattern;
 
 public class StringUtilities
 {
-	private static final Pattern NONDIGIT_PATTERN = Pattern.compile( "[^\\-0-9]" );
 	private static final Pattern NONFLOAT_PATTERN = Pattern.compile( "[^\\-\\.0-9]" );
 
 	/**
@@ -375,8 +374,21 @@ public class StringUtilities
 			return 0;
 		}
 
-		String clean = StringUtilities.NONDIGIT_PATTERN.matcher( string ).replaceAll( "" );
-		return clean.equals( "" ) || clean.equals( "-" ) ? 0 : Integer.parseInt( clean );
+		float multiplier = 1.0f;
+
+		if ( string.endsWith( "k" ) || string.endsWith( "K" ) )
+		{
+			multiplier = 1000.0f;
+		}
+
+		if ( string.endsWith( "m" ) || string.endsWith( "M" ) )
+		{
+			multiplier = 1000000.0f;
+		}
+
+		String clean = StringUtilities.NONFLOAT_PATTERN.matcher( string ).replaceAll( "" );
+		float result = clean.equals( "" ) || clean.equals( "-" ) ? 0 : Float.parseFloat( clean );
+		return (int) (result * multiplier);
 	}
 
 	public static final float parseFloat( final String string )

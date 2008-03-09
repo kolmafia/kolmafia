@@ -68,8 +68,11 @@ import net.sourceforge.kolmafia.request.SellStuffRequest;
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
 import net.sourceforge.kolmafia.swingui.button.TableButton;
+import net.sourceforge.kolmafia.swingui.listener.TableButtonListener;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.panel.ItemManagePanel;
+import net.sourceforge.kolmafia.swingui.table.ListWrapperTableModel;
+import net.sourceforge.kolmafia.swingui.table.TransparentTable;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -152,7 +155,7 @@ public class StoreManageFrame
 
 		public void actionConfirmed()
 		{
-			if ( !StoreManageFrame.this.finalizeTable( StoreManageFrame.this.manageTable ) )
+			if ( !InputFieldUtilities.finalizeTable( StoreManageFrame.this.manageTable ) )
 			{
 				return;
 			}
@@ -171,6 +174,7 @@ public class StoreManageFrame
 			{
 				itemId[ i ] =
 					ItemDatabase.getItemId( (String) StoreManageFrame.this.manageTable.getValueAt( i, 0 ) );
+
 				prices[ i ] = ( (Integer) StoreManageFrame.this.manageTable.getValueAt( i, 1 ) ).intValue();
 
 				int oldLimit = 0;
@@ -233,9 +237,7 @@ public class StoreManageFrame
 
 			this.setRowSelectionAllowed( false );
 
-			this.addMouseListener( new ButtonEventListener( this ) );
-			this.setDefaultRenderer( Integer.class, new IntegerRenderer() );
-			this.setDefaultRenderer( JButton.class, new ButtonRenderer() );
+			this.addMouseListener( new TableButtonListener( this ) );
 
 			this.setOpaque( false );
 			this.setShowGrid( false );
@@ -326,7 +328,7 @@ public class StoreManageFrame
 
 		public void mouseReleased( final MouseEvent e )
 		{
-			if ( !StoreManageFrame.this.finalizeTable( StoreManageFrame.this.addTable ) )
+			if ( !InputFieldUtilities.finalizeTable( StoreManageFrame.this.addTable ) )
 			{
 				return;
 			}

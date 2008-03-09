@@ -74,6 +74,7 @@ import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.panel.OptionsPanel;
 import net.sourceforge.kolmafia.swingui.panel.ScrollablePanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
+import net.sourceforge.kolmafia.swingui.widget.ColorChooser;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import tab.CloseTabPaneEnhancedUI;
 
@@ -270,7 +271,7 @@ public class OptionsFrame
 						this.options[ i ][ 1 ], JLabel.LEFT, this.optionBoxes[ i ] );
 			}
 
-			this.colorChanger = new LabelColorChanger( "defaultBorderColor" );
+			this.colorChanger = new ColorChooser( "defaultBorderColor" );
 			elements[ this.options.length ] =
 				new VerifiableElement(
 					"Change the color for tables in the browser interface", JLabel.LEFT, this.colorChanger );
@@ -729,7 +730,7 @@ public class OptionsFrame
 		}
 
 		private class TabColorChanger
-			extends LabelColorChanger
+			extends ColorChooser
 		{
 			public TabColorChanger( final String property )
 			{
@@ -1252,7 +1253,7 @@ public class OptionsFrame
 			}
 
 			private class TabColorChanger
-				extends LabelColorChanger
+				extends ColorChooser
 			{
 				public TabColorChanger( final String property )
 				{

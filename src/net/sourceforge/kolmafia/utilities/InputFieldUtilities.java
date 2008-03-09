@@ -39,6 +39,7 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
@@ -223,6 +224,24 @@ public class InputFieldUtilities {
 		int desiredValue = StringUtilities.parseInt(currentValue);
 		return desiredValue < 0 ? maximumValue - desiredValue : Math.min(
 			desiredValue, maximumValue);
+	}
+
+	public static boolean finalizeTable( final JTable table )
+	{
+		if ( table.isEditing() )
+		{
+			int row = table.getEditingRow();
+			int col = table.getEditingColumn();
+			table.getCellEditor( row, col ).stopCellEditing();
+	
+			if ( table.isEditing() )
+			{
+				alert( "One or more fields contain invalid values. (Note: they are currently outlined in red)" );
+				return false;
+			}
+		}
+	
+		return true;
 	}
 
 }
