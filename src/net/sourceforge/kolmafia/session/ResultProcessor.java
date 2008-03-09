@@ -473,7 +473,8 @@ public class ResultProcessor
 		else if ( resultName.equals( AdventureResult.MEAT ) )
 		{
 			KoLAdventure location = KoLAdventure.lastVisitedLocation();
-			if ( location != null && location.getAdventureId().equals( "126" ) && FightRequest.getCurrentRound() == 0 )
+
+			if ( RequestLogger.getLastURLString().startsWith( "fight.php" ) && location != null && location.getAdventureId().equals( "126" ) && FightRequest.getCurrentRound() == 0 )
 			{
 				IslandDecorator.addNunneryMeat( result );
 				return false;

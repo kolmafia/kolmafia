@@ -193,6 +193,7 @@ public class IslandDecorator
 	public static final void addNunneryMeat( final AdventureResult result )
 	{
 		int delta = result.getCount();
+
 		IslandDecorator.lastNunneryMeat = IslandDecorator.currentNunneryMeat;
 		IslandDecorator.currentNunneryMeat =
 			Preferences.increment( "currentNunneryMeat", delta, 100000, false );
@@ -209,17 +210,22 @@ public class IslandDecorator
 		int current = IslandDecorator.currentNunneryMeat;
 		if ( current < 100000 )
 		{
-			double left = 100000.0 - current;
-			double mod = ( KoLCharacter.currentNumericModifier( Modifiers.MEATDROP ) + 100.0 ) / 100.0;
-			double min = BRIGAND_MIN * mod;
-			double max = BRIGAND_MAX * mod;
+			float left = 100000 - current;
+			float mod = ( KoLCharacter.currentNumericModifier( Modifiers.MEATDROP ) + 100.0f ) / 100.0f;
+			float min = BRIGAND_MIN * mod;
+			float max = BRIGAND_MAX * mod;
+
 			int minTurns = (int) Math.ceil( left / max );
 			int maxTurns = (int) Math.ceil( left / min );
+
 			String turns = String.valueOf( minTurns );
 			if ( minTurns != maxTurns )
+			{
 				turns += "-" + String.valueOf( maxTurns );
+			}
+
 			String message =
-				"<p><center>" + KoLConstants.COMMA_FORMAT.format( current ) + " Meat recovered, " + KoLConstants.COMMA_FORMAT.format( left ) + " left (" + turns + " turns).<br>";
+				"<p><center>" + KoLConstants.COMMA_FORMAT.format( current ) + " meat recovered, " + KoLConstants.COMMA_FORMAT.format( left ) + " left (" + turns + " turns).<br>";
 
 			buffer.insert( index, message );
 		}
