@@ -62,6 +62,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.PvpManager;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
@@ -415,7 +416,7 @@ public class FlowerHunterFrame
 
 			request = new PvpRequest( "", this.stanceSelect.getSelectedIndex() + 1, mission );
 
-			KoLmafiaCLI.executeFlowerHuntRequest( selection, request );
+			PvpManager.executeFlowerHuntRequest( selection, request );
 			FlowerHunterFrame.this.updateRank();
 
 			if ( KoLmafia.permitsContinue() )
