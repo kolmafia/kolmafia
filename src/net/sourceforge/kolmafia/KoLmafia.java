@@ -3552,54 +3552,6 @@ public abstract class KoLmafia
 		return requirements.isEmpty();
 	}
 
-	public static final void printList( final List printing )
-	{
-		KoLmafia.printList( printing, RequestLogger.INSTANCE );
-	}
-
-	public static final void printList( final List printing, final PrintStream ostream )
-	{
-		if ( printing == null || ostream == null )
-		{
-			return;
-		}
-
-		StringBuffer buffer = new StringBuffer();
-
-		if ( printing != KoLConstants.availableSkills )
-		{
-			Object current;
-			for ( int i = 0; i < printing.size(); ++i )
-			{
-				current = printing.get( i );
-				if ( current == null )
-				{
-					continue;
-				}
-
-				buffer.append( current.toString() );
-				buffer.append( KoLConstants.LINE_BREAK );
-			}
-
-			ostream.println( buffer.toString() );
-			return;
-		}
-
-		SkillDatabase.generateSkillList( buffer, false );
-
-		if ( ostream != RequestLogger.INSTANCE )
-		{
-			ostream.println( buffer.toString() );
-			return;
-		}
-
-		RequestLogger.printLine( buffer.toString(), false );
-
-		buffer.setLength( 0 );
-		SkillDatabase.generateSkillList( buffer, true );
-		KoLConstants.commandBuffer.append( buffer.toString() );
-	}
-
 	/**
 	 * Utility method used to purchase the given number of items from the mall using the given purchase requests.
 	 */
@@ -4642,7 +4594,7 @@ public abstract class KoLmafia
 		sessionStream.println();
 		sessionStream.println();
 
-		KoLmafia.printList( KoLConstants.availableSkills, sessionStream );
+		RequestLogger.printList( KoLConstants.availableSkills, sessionStream );
 		sessionStream.println();
 
 		sessionStream.println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );

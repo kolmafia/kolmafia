@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeMap;
@@ -10,6 +11,7 @@ import java.util.Map.Entry;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 
 import net.sourceforge.kolmafia.LogStream;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -99,10 +101,37 @@ public class Aliases
 			Entry current = (Entry) it.next();
 			String aliasString = (String) current.getKey();
 			String aliasCommand = (String) current.getValue();
-			line = StringUtilities.singleStringReplace( line, aliasString, aliasCommand );
+
+			// If the alias has a "%%" that means the person is using the old
+			// aliasing scheme where only the first word can be considered a
+			// part of the alias.
+
+			if ( aliasCommand.indexOf( "%%" ) != -1 )
+			{
+				if ( line.startsWith( aliasString ) )
+				{
+					String parameters = line.substring( aliasString.length() );
+					line = StringUtilities.globalStringReplace( line, "%%", parameters );
+				}
+			}
+
+			// Otherwise, it's likely that this is a newer style alias where
+			// we just expand a word or phrase.
+
+			else
+			{
+				line = StringUtilities.singleStringReplace( line, aliasString, aliasCommand );
+			}
 		}
 
 		return line.trim();
+	}
+
+	public static void add( final String aliasString, final String aliasCommand )
+	{
+		Aliases.aliasMap.put( " " + aliasString + " ", " " + aliasCommand + " " );
+		Aliases.aliasSet = Aliases.aliasMap.entrySet();
+		save();
 	}
 
 	public static void remove( final String aliasString )
@@ -112,10 +141,19 @@ public class Aliases
 		save();
 	}
 
-	public static void add( final String aliasString, final String aliasCommand )
+	public static void print()
 	{
-		Aliases.aliasMap.put( " " + aliasString + " ", " " + aliasCommand + " " );
-		Aliases.aliasSet = Aliases.aliasMap.entrySet();
-		save();
+		ArrayList aliasList = new ArrayList();
+		Iterator it = Aliases.aliasSet.iterator();
+		while ( it.hasNext() )
+		{
+			Entry current = (Entry) it.next();
+			String aliasString = (String) current.getKey();
+			String aliasCommand = (String) current.getValue();
+
+			aliasList.add( aliasString + " => " + aliasCommand );
+		}
+
+		RequestLogger.printList( aliasList );
 	}
 }

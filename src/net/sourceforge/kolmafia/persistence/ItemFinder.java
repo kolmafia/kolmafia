@@ -307,7 +307,7 @@ public class ItemFinder
 		{
 			if ( errorOnFailure )
 			{
-				KoLmafia.printList( matchList );
+				RequestLogger.printList( matchList );
 				RequestLogger.printLine();
 
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "[" + parameters + "] has too many matches." );
