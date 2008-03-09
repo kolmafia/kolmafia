@@ -58,7 +58,6 @@ import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.LimitedSizeChatBuffer;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.swingui.ChatFrame;
 import net.sourceforge.kolmafia.swingui.ContactListFrame;
 import net.sourceforge.kolmafia.swingui.TabbedChatFrame;
@@ -143,7 +142,6 @@ public abstract class ChatManager
 
 	private static boolean isRunning = false;
 	private static String currentChannel = "/clan";
-	private static String updateChannel = "/clan";
 	private static ContactListFrame contactsFrame = null;
 	private static TabbedChatFrame tabbedFrame = null;
 
@@ -222,19 +220,6 @@ public abstract class ChatManager
 		}
 	}
 
-	public static final void setUpdateChannel( final String channel )
-	{
-		if ( channel != null && channel.startsWith( "/" ) )
-		{
-			ChatManager.updateChannel = channel;
-		}
-	}
-
-	public static final String getUpdateChannel()
-	{
-		return ChatManager.updateChannel;
-	}
-
 	/**
 	 * Initializes the chat buffer with the provided chat pane. Note that the chat refresher will also be initialized by
 	 * calling this method; to stop the chat refresher, call the <code>dispose()</code> method.
@@ -290,11 +275,6 @@ public abstract class ChatManager
 	public static final void checkFriends()
 	{
 		RequestThread.postRequest( new ChatRequest( ChatManager.currentChannel, "/friends" ) );
-	}
-
-	public static final void checkChannel()
-	{
-		RequestThread.postRequest( new ChatRequest( ChatManager.updateChannel, "/who" ) );
 	}
 
 	/**
@@ -436,7 +416,6 @@ public abstract class ChatManager
 		RequestThread.postRequest( new ChatRequest( ChatManager.currentChannel, "/exit" ) );
 
 		ChatManager.currentChannel = "/clan";
-		ChatManager.updateChannel = "/clan";
 
 		if ( ChatManager.contactsFrame != null )
 		{
@@ -558,8 +537,7 @@ public abstract class ChatManager
 
 			if ( !Preferences.getBoolean( "useContactsFrame" ) )
 			{
-				LimitedSizeChatBuffer currentChatBuffer = ChatManager.getChatBuffer( ChatManager.updateChannel );
-				currentChatBuffer.append( StringUtilities.singleStringReplace( ChatManager.TABLECELL_PATTERN.matcher(
+				ChatManager.broadcastMessage( StringUtilities.singleStringReplace( ChatManager.TABLECELL_PATTERN.matcher(
 					content ).replaceAll( "" ), "</b>", "</b>&nbsp;" ) );
 			}
 		}

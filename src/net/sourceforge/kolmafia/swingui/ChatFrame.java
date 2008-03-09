@@ -159,7 +159,7 @@ public class ChatFrame
 
 		JToolBar toolbarPanel = super.getToolbar( true );
 
-		toolbarPanel.add( new MessengerButton( "/who", "who2.gif", "checkChannel" ) );
+		toolbarPanel.add( new MessengerButton( "/friends", "who2.gif", "checkFriends" ) );
 		toolbarPanel.add( Box.createHorizontalStrut( 10 ) );
 
 		toolbarPanel.add( new MessengerButton( "Add Highlighting", "highlight1.gif", "addHighlighting" ) );
@@ -268,7 +268,6 @@ public class ChatFrame
 
 		public void requestFocus()
 		{
-			ChatManager.setUpdateChannel( this.getAssociatedContact() );
 		}
 
 		/**
@@ -359,8 +358,6 @@ public class ChatFrame
 					StaticEntity.openSystemBrowser( "http://www.kingdomofloathing.com/doc.php?topic=chat_commands" );
 					return;
 				}
-
-				ChatManager.setUpdateChannel( ChatPanel.this.associatedContact );
 
 				if ( message.length() <= 256 )
 				{
@@ -550,7 +547,6 @@ public class ChatFrame
 
 		public void run()
 		{
-			ChatManager.setUpdateChannel( ChatFrame.this.getAssociatedContact() );
 			super.run();
 		}
 	}
