@@ -751,30 +751,6 @@ public abstract class KoLmafia
 		}
 
 		KoLmafia.registerPlayer( username, String.valueOf( KoLCharacter.getUserId() ) );
-
-		if ( Preferences.getString( username, "getBreakfast" ).equals( "true" ) )
-		{
-			this.getBreakfast( true, Preferences.getInteger( "lastBreakfast" ) != today );
-			Preferences.setInteger( "lastBreakfast", today );
-		}
-
-		// Also, do mushrooms, if a mushroom script has already
-		// been setup by the user.
-
-		if ( Preferences.getBoolean( "autoPlant" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ) )
-		{
-			String currentLayout = Preferences.getString( "plantingScript" );
-			if ( !currentLayout.equals( "" ) && KoLCharacter.inMuscleSign() && MushroomManager.ownsPlot() )
-			{
-				KoLmafiaCLI.DEFAULT_SHELL.executeLine( "call " + KoLConstants.PLOTS_DIRECTORY + currentLayout + ".ash" );
-			}
-		}
-
-		String scriptSetting = Preferences.getString( "loginScript" );
-		if ( !scriptSetting.equals( "" ) )
-		{
-			KoLmafiaCLI.DEFAULT_SHELL.executeLine( scriptSetting );
-		}
 	}
 
 	public static final void resetCounters()

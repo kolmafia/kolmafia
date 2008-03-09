@@ -38,14 +38,17 @@ import java.security.MessageDigest;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.LocalRelayAgent;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.session.MushroomManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
+import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class LoginRequest
@@ -350,6 +353,32 @@ public class LoginRequest
 		StaticEntity.getClient().initialize( name );
 
 		LoginRequest.isLoggingIn = false;
+
+		if ( Preferences.getString( name, "getBreakfast" ).equals( "true" ) )
+		{
+			int today = HolidayDatabase.getPhaseStep();
+			StaticEntity.getClient().getBreakfast( true, Preferences.getInteger( "lastBreakfast" ) != today );
+			Preferences.setInteger( "lastBreakfast", today );
+		}
+
+		// Also, do mushrooms, if a mushroom script has already
+		// been setup by the user.
+
+		if ( Preferences.getBoolean( "autoPlant" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ) )
+		{
+			String currentLayout = Preferences.getString( "plantingScript" );
+			if ( !currentLayout.equals( "" ) && KoLCharacter.inMuscleSign() && MushroomManager.ownsPlot() )
+			{
+				KoLmafiaCLI.DEFAULT_SHELL.executeLine( "call " + KoLConstants.PLOTS_DIRECTORY + currentLayout + ".ash" );
+			}
+		}
+
+		String scriptSetting = Preferences.getString( "loginScript" );
+		if ( !scriptSetting.equals( "" ) )
+		{
+			KoLmafiaCLI.DEFAULT_SHELL.executeLine( scriptSetting );
+		}
+
 		RequestThread.closeRequestSequence();
 	}
 }
