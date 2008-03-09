@@ -43,9 +43,7 @@ import java.net.URLEncoder;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -111,6 +109,7 @@ import net.sourceforge.kolmafia.session.LeafletManager;
 import net.sourceforge.kolmafia.session.MoodManager;
 import net.sourceforge.kolmafia.session.MushroomManager;
 import net.sourceforge.kolmafia.session.NemesisManager;
+import net.sourceforge.kolmafia.session.PvpManager;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.swingui.BuffRequestFrame;
@@ -2107,7 +2106,7 @@ public class KoLmafiaCLI
 			KoLmafia.updateDisplay( "Determining current rank..." );
 			RequestThread.postRequest( new PvpRequest() );
 
-			KoLmafiaCLI.executeFlowerHuntRequest( targets, new PvpRequest(
+			PvpManager.executeFlowerHuntRequest( targets, new PvpRequest(
 				parameters, stance, KoLCharacter.canInteract() ? "dignity" : "flowers" ) );
 
 			RequestThread.closeRequestSequence();
@@ -2116,13 +2115,13 @@ public class KoLmafiaCLI
 
 		if ( command.equals( "flowers" ) )
 		{
-			this.executeFlowerHuntRequest();
+			PvpManager.executeFlowerHuntRequest();
 			return;
 		}
 
 		if ( command.startsWith( "pvplog" ) )
 		{
-			this.summarizeFlowerHunterData();
+			PvpManager.summarizeFlowerHunterData();
 			return;
 		}
 
@@ -2440,280 +2439,6 @@ public class KoLmafiaCLI
 		displayText = KoLmafiaCLI.COMMENT_PATTERN.matcher( displayText ).replaceAll( "" );
 
 		RequestLogger.printLine( displayText.trim() );
-	}
-
-	private void summarizeFlowerHunterData()
-	{
-		PvpRequest.processDefenseContests();
-
-		File[] attackLogs = DataUtilities.listFiles( KoLConstants.ATTACKS_LOCATION );
-
-		TreeMap minis = new TreeMap();
-		KoLmafia.updateDisplay( "Scanning attack logs..." );
-
-		for ( int i = 0; i < attackLogs.length; ++i )
-		{
-			if ( !attackLogs[ i ].getName().endsWith( "__spreadsheet.txt" ) )
-			{
-				this.registerFlowerHunterData( minis, FileUtilities.getReader( attackLogs[ i ] ) );
-			}
-		}
-
-		LogStream spreadsheet =
-			LogStream.openStream( new File( KoLConstants.ATTACKS_LOCATION, "__spreadsheet.txt" ), true );
-
-		spreadsheet.println( "Name\tTattoos\t\tTrophies\t\tFlowers\t\tCanadians" );
-		spreadsheet.println( "\tLow\tHigh\tLow\tHigh\tLow\tHigh\tLow\tHigh" );
-
-		Iterator keys = minis.keySet().iterator();
-
-		while ( keys.hasNext() )
-		{
-			Object key = keys.next();
-			Object[] value = (Object[]) minis.get( key );
-
-			boolean shouldPrint = false;
-			for ( int i = 0; i < value.length; i += 2 )
-			{
-				shouldPrint |= value[ i ] != null;
-			}
-
-			if ( !shouldPrint )
-			{
-				continue;
-			}
-
-			spreadsheet.print( key );
-
-			for ( int i = 0; i < value.length; i += 2 )
-			{
-				spreadsheet.print( "\t" );
-				spreadsheet.print( value[ i ] == null ? "" : value[ i ] );
-			}
-
-			spreadsheet.println();
-		}
-
-		spreadsheet.close();
-		KoLmafia.updateDisplay( "Spreadsheet generated." );
-
-		RequestThread.enableDisplayIfSequenceComplete();
-	}
-
-	private void registerFlowerHunterData( final TreeMap minis, final BufferedReader attackLog )
-	{
-		String line;
-		while ( ( line = FileUtilities.readLine( attackLog ) ) != null )
-		{
-			// First, try to figure out whose data is being registered in
-			// this giant spreadsheet.
-
-			Matcher versusMatcher = PvpRequest.VERSUS_PATTERN.matcher( line );
-			if ( !versusMatcher.find() )
-			{
-				line = FileUtilities.readLine( attackLog );
-				versusMatcher = PvpRequest.VERSUS_PATTERN.matcher( line );
-
-				if ( !versusMatcher.find() )
-				{
-					return;
-				}
-			}
-
-			String opponent =
-				versusMatcher.group( 2 ).equals( "you" ) ? versusMatcher.group( 1 ) : versusMatcher.group( 2 );
-
-			line = FileUtilities.readLine( attackLog );
-			Matcher minisMatcher = PvpRequest.MINIS_PATTERN.matcher( line );
-
-			if ( !minisMatcher.find() )
-			{
-				return;
-			}
-
-			// Next, make sure that you have all the information needed to
-			// generate a row in the spreadsheet.
-
-			Integer[] yourData = new Integer[ 4 ];
-			for ( int i = 0; i < yourData.length; ++i )
-			{
-				yourData[ i ] = Integer.valueOf( minisMatcher.group( i + 1 ) );
-			}
-
-			if ( !minis.containsKey( opponent ) )
-			{
-				minis.put( opponent, new Object[ 16 ] );
-			}
-
-			// There are seven minis to handle.  You can discard the first
-			// three because they're attack minis.
-
-			FileUtilities.readLine( attackLog );
-			FileUtilities.readLine( attackLog );
-			FileUtilities.readLine( attackLog );
-
-			Object[] theirData = (Object[]) minis.get( opponent );
-
-			this.registerFlowerContestData( yourData, theirData, FileUtilities.readLine( attackLog ) );
-			this.registerFlowerContestData( yourData, theirData, FileUtilities.readLine( attackLog ) );
-			this.registerFlowerContestData( yourData, theirData, FileUtilities.readLine( attackLog ) );
-			this.registerFlowerContestData( yourData, theirData, FileUtilities.readLine( attackLog ) );
-
-			// With all that information registered, go ahead and store the
-			// attack information back into the tree map.
-
-			minis.put( opponent, theirData );
-		}
-	}
-
-	private void registerFlowerContestData( final Integer[] yourData, final Object[] theirData,
-		final String currentAttack )
-	{
-		int baseIndex = -1;
-		boolean wonContest = currentAttack.endsWith( "You won." );
-
-		if ( currentAttack.startsWith( "Tattoo Contest" ) )
-		{
-			baseIndex = 0;
-		}
-
-		if ( currentAttack.startsWith( "Trophy Contest" ) )
-		{
-			baseIndex = 1;
-		}
-
-		if ( currentAttack.startsWith( "Flower Picking Contest" ) )
-		{
-			baseIndex = 2;
-		}
-
-		if ( currentAttack.startsWith( "Canadianity Contest" ) )
-		{
-			baseIndex = 3;
-		}
-
-		if ( baseIndex < 0 )
-		{
-			return;
-		}
-
-		if ( wonContest )
-		{
-			if ( theirData[ 4 * baseIndex ] == null || yourData[ baseIndex ].intValue() < ( (Integer) theirData[ 4 * baseIndex ] ).intValue() )
-			{
-				theirData[ 4 * baseIndex ] = yourData[ baseIndex ];
-			}
-		}
-		else if ( theirData[ 4 * baseIndex + 2 ] == null || yourData[ baseIndex ].intValue() > ( (Integer) theirData[ 4 * baseIndex + 2 ] ).intValue() )
-		{
-			theirData[ 4 * baseIndex + 2 ] = yourData[ baseIndex ];
-		}
-	}
-
-	private void executeFlowerHuntRequest()
-	{
-		RequestThread.openRequestSequence();
-
-		KoLmafia.updateDisplay( "Determining current rank..." );
-		RequestThread.postRequest( new PvpRequest() );
-
-		int fightsLeft = 0;
-		int stance = 0;
-
-		if ( KoLCharacter.getBaseMuscle() >= KoLCharacter.getBaseMysticality() && KoLCharacter.getBaseMuscle() >= KoLCharacter.getBaseMoxie() )
-		{
-			stance = 1;
-		}
-		else if ( KoLCharacter.getBaseMysticality() >= KoLCharacter.getBaseMuscle() && KoLCharacter.getBaseMysticality() >= KoLCharacter.getBaseMoxie() )
-		{
-			stance = 2;
-		}
-		else
-		{
-			stance = 3;
-		}
-
-		int lastSearch = 0, desiredRank;
-
-		ProfileRequest[] results = null;
-		PvpRequest request = new PvpRequest( "", stance, "flowers" );
-
-		while ( !KoLmafia.refusesContinue() && fightsLeft != KoLCharacter.getAttacksLeft() && KoLCharacter.getAttacksLeft() > 0 )
-		{
-			fightsLeft = KoLCharacter.getAttacksLeft();
-			desiredRank = Math.max( 10, KoLCharacter.getPvpRank() - 50 + Math.min( 11, fightsLeft ) );
-
-			if ( lastSearch != desiredRank )
-			{
-				KoLmafia.updateDisplay( "Determining targets at rank " + desiredRank + "..." );
-				PvpRequest search = new PvpRequest( "", String.valueOf( desiredRank ) );
-				RequestThread.postRequest( search );
-
-				lastSearch = desiredRank;
-				results = new ProfileRequest[ PvpRequest.getSearchResults().size() ];
-				PvpRequest.getSearchResults().toArray( results );
-			}
-
-			KoLmafiaCLI.executeFlowerHuntRequest( results, request );
-
-			if ( !KoLmafia.refusesContinue() )
-			{
-				KoLmafia.forceContinue();
-			}
-		}
-
-		if ( KoLmafia.permitsContinue() )
-		{
-			KoLmafia.updateDisplay( "You have " + KoLCharacter.getAttacksLeft() + " attacks remaining." );
-		}
-
-		RequestThread.closeRequestSequence();
-	}
-
-	public static final void executeFlowerHuntRequest( final ProfileRequest[] targets, final PvpRequest request )
-	{
-		for ( int i = 0; i < targets.length && KoLmafia.permitsContinue() && KoLCharacter.getAttacksLeft() > 0; ++i )
-		{
-			if ( targets[ i ] == null )
-			{
-				continue;
-			}
-
-			if ( KoLCharacter.getPvpRank() - 50 > targets[ i ].getPvpRank().intValue() )
-			{
-				continue;
-			}
-
-			if ( Preferences.getString( "currentPvpVictories" ).indexOf( targets[ i ].getPlayerName() ) != -1 )
-			{
-				continue;
-			}
-
-			if ( targets[ i ].getPlayerName().toLowerCase().startsWith( "devster" ) )
-			{
-				continue;
-			}
-
-			if ( ClanManager.getClanName().equals( targets[ i ].getClanName() ) )
-			{
-				continue;
-			}
-
-			KoLmafia.updateDisplay( "Attacking " + targets[ i ].getPlayerName() + "..." );
-			request.setTarget( targets[ i ].getPlayerName() );
-			RequestThread.postRequest( request );
-
-			if ( request.responseText.indexOf( "Your PvP Ranking increased by" ) != -1 )
-			{
-				Preferences.setString(
-					"currentPvpVictories",
-					Preferences.getString( "currentPvpVictories" ) + targets[ i ].getPlayerName() + "," );
-			}
-			else
-			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You lost to " + targets[ i ].getPlayerName() + "." );
-			}
-		}
 	}
 
 	private void executeSendRequest( final String parameters, boolean isConvertible )

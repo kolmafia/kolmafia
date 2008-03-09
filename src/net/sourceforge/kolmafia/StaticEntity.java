@@ -53,12 +53,12 @@ import net.sourceforge.kolmafia.request.CharSheetRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
-import net.sourceforge.kolmafia.request.PvpRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.SellStuffRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 
+import net.sourceforge.kolmafia.session.PvpManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.swingui.DescriptionFrame;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
@@ -637,7 +637,7 @@ public abstract class StaticEntity
 
 		if ( location.startsWith( "pvp.php" ) && location.indexOf( "who=" ) != -1 )
 		{
-			PvpRequest.processOffenseContests( responseText );
+			PvpManager.processOffenseContests( responseText );
 		}
 
 		// If this is the hippy store, check to see if any of the
