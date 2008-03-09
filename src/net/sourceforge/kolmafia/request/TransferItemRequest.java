@@ -216,29 +216,7 @@ public abstract class TransferItemRequest
 		TransferItemRequest[] requests = new TransferItemRequest[ subinstances.size() ];
 		subinstances.toArray( requests );
 
-		if ( requests.length > 1 )
-		{
-			RequestThread.openRequestSequence();
-
-			if ( meatAttachment > 0 )
-			{
-				requests[ 0 ].addFormField( this.getMeatField(), String.valueOf( meatAttachment ) );
-			}
-
-			for ( int i = 0; i < requests.length; ++i )
-			{
-				KoLmafia.updateDisplay( this.getStatusMessage() + " (request " + ( i + 1 ) + " of " + requests.length + ")..." );
-				requests[ i ].run();
-			}
-
-			RequestThread.closeRequestSequence();
-		}
-		else if ( requests.length == 1 )
-		{
-			KoLmafia.updateDisplay( this.getStatusMessage() + "..." );
-			requests[ 0 ].run();
-		}
-		else if ( meatAttachment > 0 || this.attachments.length == 0 )
+		if ( requests.length == 0 )
 		{
 			KoLmafia.updateDisplay( this.getStatusMessage() + "..." );
 
@@ -248,7 +226,23 @@ public abstract class TransferItemRequest
 			}
 
 			super.run();
+			return;
 		}
+
+		RequestThread.openRequestSequence();
+
+		if ( meatAttachment > 0 )
+		{
+			requests[ 0 ].addFormField( this.getMeatField(), String.valueOf( meatAttachment ) );
+		}
+
+		for ( int i = 0; i < requests.length; ++i )
+		{
+			KoLmafia.updateDisplay( this.getStatusMessage() + " (request " + ( i + 1 ) + " of " + requests.length + ")..." );
+			requests[ i ].run();
+		}
+
+		RequestThread.closeRequestSequence();
 	}
 
 	/**
