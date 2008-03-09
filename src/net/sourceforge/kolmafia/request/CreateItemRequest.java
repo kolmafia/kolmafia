@@ -239,9 +239,17 @@ public class CreateItemRequest
 		// then return null to indicate that it is not
 		// possible to create the item.
 
-		if ( returnNullIfNotPermitted && !ConcoctionDatabase.isPermittedMethod( instance.mixingMethod ) )
+		if ( returnNullIfNotPermitted )
 		{
-			return null;
+			if ( !ConcoctionDatabase.isPermittedMethod( instance.mixingMethod ) )
+			{
+				return null;
+			}
+
+			if ( ItemDatabase.getConsumptionType( itemId ) == KoLConstants.EQUIP_SHIRT && !KoLCharacter.hasSkill( "Torso Awaregness" ) )
+			{
+				return null;
+			}
 		}
 
 		return instance;
