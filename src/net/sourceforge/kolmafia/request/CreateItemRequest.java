@@ -245,11 +245,6 @@ public class CreateItemRequest
 			{
 				return null;
 			}
-
-			if ( ItemDatabase.getConsumptionType( itemId ) == KoLConstants.EQUIP_SHIRT && !KoLCharacter.hasSkill( "Torso Awaregness" ) )
-			{
-				return null;
-			}
 		}
 
 		return instance;
