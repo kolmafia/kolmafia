@@ -53,6 +53,8 @@ import net.sourceforge.kolmafia.webui.IslandDecorator;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class ResultProcessor
@@ -741,6 +743,115 @@ public class ResultProcessor
 				processResult( KoLAdventure.CHOMSKYS_COMICS );
 			}
 			break;
+		}
+	}
+
+	/**
+	 * Processes a result received through adventuring. This places items inside of inventories and lots of other good
+	 * stuff.
+	 */
+
+	public static final void processResult( final AdventureResult result, final boolean updateCalculatedLists )
+	{
+		// Treat the result as normal from this point forward.
+		// Figure out which list the skill should be added to
+		// and add it to that list.
+
+		String resultName = result.getName();
+		if ( resultName == null )
+		{
+			return;
+		}
+
+		if ( result.isItem() )
+		{
+			AdventureResult.addResultToList( KoLConstants.inventory, result );
+
+			if ( updateCalculatedLists )
+			{
+				EquipmentManager.processResult( result );
+
+				boolean shouldRefresh = false;
+				List uses = ConcoctionDatabase.getKnownUses( result );
+
+				for ( int i = 0; i < uses.size() && !shouldRefresh; ++i )
+				{
+					shouldRefresh =
+						ConcoctionDatabase.isPermittedMethod( ConcoctionDatabase.getMixingMethod( ( (AdventureResult) uses.get( i ) ).getItemId() ) );
+				}
+
+				if ( shouldRefresh )
+				{
+					ConcoctionDatabase.refreshConcoctions();
+				}
+				else
+				{
+					int consumeType = ItemDatabase.getConsumptionType( result.getItemId() );
+					if ( consumeType == KoLConstants.CONSUME_EAT || consumeType == KoLConstants.CONSUME_DRINK )
+					{
+						ConcoctionDatabase.refreshConcoctions();
+					}
+				}
+			}
+		}
+		else if ( resultName.equals( AdventureResult.HP ) )
+		{
+			KoLCharacter.setHP(
+				KoLCharacter.getCurrentHP() + result.getCount(), KoLCharacter.getMaximumHP(),
+				KoLCharacter.getBaseMaxHP() );
+		}
+		else if ( resultName.equals( AdventureResult.MP ) )
+		{
+			KoLCharacter.setMP(
+				KoLCharacter.getCurrentMP() + result.getCount(), KoLCharacter.getMaximumMP(),
+				KoLCharacter.getBaseMaxMP() );
+		}
+		else if ( resultName.equals( AdventureResult.MEAT ) )
+		{
+			KoLCharacter.setAvailableMeat( KoLCharacter.getAvailableMeat() + result.getCount() );
+		}
+		else if ( resultName.equals( AdventureResult.ADV ) )
+		{
+			KoLCharacter.setAdventuresLeft( KoLCharacter.getAdventuresLeft() + result.getCount() );
+			if ( result.getCount() < 0 )
+			{
+				AdventureResult[] effectsArray = new AdventureResult[ KoLConstants.activeEffects.size() ];
+				KoLConstants.activeEffects.toArray( effectsArray );
+
+				for ( int i = effectsArray.length - 1; i >= 0; --i )
+				{
+					AdventureResult effect = effectsArray[ i ];
+					if ( effect.getCount() + result.getCount() <= 0 )
+					{
+						KoLConstants.activeEffects.remove( i );
+					}
+					else
+					{
+						KoLConstants.activeEffects.set( i, effect.getInstance( effect.getCount() + result.getCount() ) );
+					}
+				}
+
+				KoLCharacter.setCurrentRun( KoLCharacter.getCurrentRun() - result.getCount() );
+			}
+		}
+		else if ( resultName.equals( AdventureResult.DRUNK ) )
+		{
+			KoLCharacter.setInebriety( KoLCharacter.getInebriety() + result.getCount() );
+		}
+		else if ( resultName.equals( AdventureResult.SUBSTATS ) )
+		{
+			if ( result.isMuscleGain() )
+			{
+				KoLCharacter.incrementTotalMuscle( result.getCount() );
+			}
+			else if ( result.isMysticalityGain() )
+			{
+				KoLCharacter.incrementTotalMysticality( result.getCount() );
+			}
+			else if ( result.isMoxieGain() )
+			{
+				KoLCharacter.incrementTotalMoxie( result.getCount() );
+			}
 		}
 	}
 }

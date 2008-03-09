@@ -44,6 +44,7 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -1022,6 +1023,11 @@ public abstract class KoLCharacter
 		return KoLCharacter.totalSubpoints[ 0 ];
 	}
 
+	public static final void incrementTotalMuscle( int increment )
+	{
+		KoLCharacter.totalSubpoints[ 0 ] += increment;
+	}
+
 	/**
 	 * Accessor method to retrieve the number of subpoints required before the character gains another full point of
 	 * muscle.
@@ -1063,6 +1069,11 @@ public abstract class KoLCharacter
 	public static final int getTotalMysticality()
 	{
 		return KoLCharacter.totalSubpoints[ 1 ];
+	}
+
+	public static final void incrementTotalMysticality( int increment )
+	{
+		KoLCharacter.totalSubpoints[ 1 ] += increment;
 	}
 
 	/**
@@ -1107,6 +1118,12 @@ public abstract class KoLCharacter
 	{
 		return KoLCharacter.totalSubpoints[ 2 ];
 	}
+
+	public static final void incrementTotalMoxie( int increment )
+	{
+		KoLCharacter.totalSubpoints[ 2 ] += increment;
+	}
+
 
 	/**
 	 * Accessor method to retrieve the number of subpoints required before the character gains another full point of
@@ -2469,116 +2486,7 @@ public abstract class KoLCharacter
 
 	public static final void processResult( final AdventureResult result )
 	{
-		KoLCharacter.processResult( result, true );
-	}
-
-	/**
-	 * Processes a result received through adventuring. This places items inside of inventories and lots of other good
-	 * stuff.
-	 */
-
-	public static final void processResult( final AdventureResult result, final boolean updateCalculatedLists )
-	{
-		// Treat the result as normal from this point forward.
-		// Figure out which list the skill should be added to
-		// and add it to that list.
-
-		String resultName = result.getName();
-		if ( resultName == null )
-		{
-			return;
-		}
-
-		if ( result.isItem() )
-		{
-			AdventureResult.addResultToList( KoLConstants.inventory, result );
-
-			if ( updateCalculatedLists )
-			{
-				EquipmentManager.processResult( result );
-
-				boolean shouldRefresh = false;
-				List uses = ConcoctionDatabase.getKnownUses( result );
-
-				for ( int i = 0; i < uses.size() && !shouldRefresh; ++i )
-				{
-					shouldRefresh =
-						ConcoctionDatabase.isPermittedMethod( ConcoctionDatabase.getMixingMethod( ( (AdventureResult) uses.get( i ) ).getItemId() ) );
-				}
-
-				if ( shouldRefresh )
-				{
-					ConcoctionDatabase.refreshConcoctions();
-				}
-				else
-				{
-					int consumeType = ItemDatabase.getConsumptionType( result.getItemId() );
-					if ( consumeType == KoLConstants.CONSUME_EAT || consumeType == KoLConstants.CONSUME_DRINK )
-					{
-						ConcoctionDatabase.refreshConcoctions();
-					}
-				}
-			}
-		}
-		else if ( resultName.equals( AdventureResult.HP ) )
-		{
-			KoLCharacter.setHP(
-				KoLCharacter.getCurrentHP() + result.getCount(), KoLCharacter.getMaximumHP(),
-				KoLCharacter.getBaseMaxHP() );
-		}
-		else if ( resultName.equals( AdventureResult.MP ) )
-		{
-			KoLCharacter.setMP(
-				KoLCharacter.getCurrentMP() + result.getCount(), KoLCharacter.getMaximumMP(),
-				KoLCharacter.getBaseMaxMP() );
-		}
-		else if ( resultName.equals( AdventureResult.MEAT ) )
-		{
-			KoLCharacter.setAvailableMeat( KoLCharacter.getAvailableMeat() + result.getCount() );
-		}
-		else if ( resultName.equals( AdventureResult.ADV ) )
-		{
-			KoLCharacter.setAdventuresLeft( KoLCharacter.getAdventuresLeft() + result.getCount() );
-			if ( result.getCount() < 0 )
-			{
-				AdventureResult[] effectsArray = new AdventureResult[ KoLConstants.activeEffects.size() ];
-				KoLConstants.activeEffects.toArray( effectsArray );
-
-				for ( int i = effectsArray.length - 1; i >= 0; --i )
-				{
-					AdventureResult effect = effectsArray[ i ];
-					if ( effect.getCount() + result.getCount() <= 0 )
-					{
-						KoLConstants.activeEffects.remove( i );
-					}
-					else
-					{
-						KoLConstants.activeEffects.set( i, effect.getInstance( effect.getCount() + result.getCount() ) );
-					}
-				}
-
-				KoLCharacter.setCurrentRun( KoLCharacter.currentRun - result.getCount() );
-			}
-		}
-		else if ( resultName.equals( AdventureResult.DRUNK ) )
-		{
-			KoLCharacter.setInebriety( KoLCharacter.getInebriety() + result.getCount() );
-		}
-		else if ( resultName.equals( AdventureResult.SUBSTATS ) )
-		{
-			if ( result.isMuscleGain() )
-			{
-				KoLCharacter.totalSubpoints[ 0 ] += result.getCount();
-			}
-			else if ( result.isMysticalityGain() )
-			{
-				KoLCharacter.totalSubpoints[ 1 ] += result.getCount();
-			}
-			else if ( result.isMoxieGain() )
-			{
-				KoLCharacter.totalSubpoints[ 2 ] += result.getCount();
-			}
-		}
+		ResultProcessor.processResult( result, true );
 	}
 
 	/**

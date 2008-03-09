@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class EquipmentRequest
@@ -830,7 +831,7 @@ public class EquipmentRequest
 			AdventureResult result = new AdventureResult( itemId, StringUtilities.parseInt( optionMatcher.group( 3 ) ) );
 			if ( resultList == KoLConstants.inventory )
 			{
-				KoLCharacter.processResult( result, false );
+				ResultProcessor.processResult( result, false );
 			}
 			else
 			{
