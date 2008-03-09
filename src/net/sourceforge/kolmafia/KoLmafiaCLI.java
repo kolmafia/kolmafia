@@ -755,21 +755,25 @@ public class KoLmafiaCLI
 
 		if ( command.equals( "alias" ) )
 		{
-			int spaceIndex = parameters.indexOf( " => " );
-			if ( spaceIndex != -1 )
+			if ( parameters.length() == 0 )
 			{
-				String aliasString = parameters.substring( 0, spaceIndex ).trim();
-				String aliasCommand = parameters.substring( spaceIndex + 4 ).trim();
-				Aliases.add( aliasString, aliasCommand );
-
-				RequestLogger.printLine( "String successfully aliased." );
-				RequestLogger.printLine( aliasString + " => " + aliasCommand );
+				Aliases.print();
+				return;
 			}
-			else
+
+			int spaceIndex = parameters.indexOf( " => " );
+			if ( spaceIndex == -1 )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "That was not a valid aliasing." );
+				return;
 			}
 
+			String aliasString = parameters.substring( 0, spaceIndex ).trim();
+			String aliasCommand = parameters.substring( spaceIndex + 4 ).trim();
+			Aliases.add( aliasString, aliasCommand );
+
+			RequestLogger.printLine( "String successfully aliased." );
+			RequestLogger.printLine( aliasString + " => " + aliasCommand );
 			return;
 		}
 
@@ -1018,7 +1022,7 @@ public class KoLmafiaCLI
 			}
 			else
 			{
-				KoLmafia.printList( KoLConstants.eventHistory );
+				RequestLogger.printList( KoLConstants.eventHistory );
 			}
 
 			return;
@@ -1514,7 +1518,7 @@ public class KoLmafiaCLI
 			}
 
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Ambiguous effect name: " + parameters );
-			KoLmafia.printList( names );
+			RequestLogger.printList( names );
 			return;
 		}
 
@@ -1902,7 +1906,7 @@ public class KoLmafiaCLI
 
 			if ( matchList.size() > 1 )
 			{
-				KoLmafia.printList( matchList );
+				RequestLogger.printList( matchList );
 				RequestLogger.printLine();
 
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "[" + parameters + "] has too many matches." );
@@ -2037,7 +2041,7 @@ public class KoLmafiaCLI
 			}
 
 			StoreManager.searchMall( parameters, results, desiredLimit, true );
-			KoLmafia.printList( results );
+			RequestLogger.printList( results );
 			return;
 		}
 
@@ -2213,7 +2217,7 @@ public class KoLmafiaCLI
 				MoodManager.saveSettings();
 			}
 
-			KoLmafia.printList( MoodManager.getTriggers() );
+			RequestLogger.printList( MoodManager.getTriggers() );
 			return;
 		}
 
@@ -2230,7 +2234,7 @@ public class KoLmafiaCLI
 			{
 				MoodManager.maximalSet();
 				MoodManager.saveSettings();
-				KoLmafia.printList( MoodManager.getTriggers() );
+				RequestLogger.printList( MoodManager.getTriggers() );
 			}
 			else if ( parameters.equals( "execute" ) )
 			{
@@ -3371,7 +3375,7 @@ public class KoLmafiaCLI
 			return true;
 		}
 
-		KoLmafia.printList( KoLConstants.conditions );
+		RequestLogger.printList( KoLConstants.conditions );
 		return false;
 	}
 
@@ -4043,14 +4047,14 @@ public class KoLmafiaCLI
 			desiredStream.println( "Encounter Listing: " );
 
 			desiredStream.println();
-			KoLmafia.printList( KoLConstants.encounterList, desiredStream );
+			RequestLogger.printList( KoLConstants.encounterList, desiredStream );
 		}
 		else if ( desiredData.equals( "locations" ) )
 		{
 			desiredStream.println( "Visited Locations: " );
 			desiredStream.println();
 
-			KoLmafia.printList( KoLConstants.adventureList, desiredStream );
+			RequestLogger.printList( KoLConstants.adventureList, desiredStream );
 		}
 		else if ( desiredData.equals( "counters" ) )
 		{
@@ -4151,7 +4155,7 @@ public class KoLmafiaCLI
 
 			if ( filter.equals( "" ) )
 			{
-				KoLmafia.printList( mainList, desiredStream );
+				RequestLogger.printList( mainList, desiredStream );
 			}
 			else
 			{
@@ -4170,7 +4174,7 @@ public class KoLmafiaCLI
 					}
 				}
 
-				KoLmafia.printList( resultList, desiredStream );
+				RequestLogger.printList( resultList, desiredStream );
 			}
 		}
 	}
@@ -4592,7 +4596,7 @@ public class KoLmafiaCLI
 	{
 		if ( parameters.length() <= 4 )
 		{
-			KoLmafia.printList( KoLConstants.closet );
+			RequestLogger.printList( KoLConstants.closet );
 			return;
 		}
 
@@ -4770,7 +4774,7 @@ public class KoLmafiaCLI
 	{
 		if ( parameters.equals( "" ) )
 		{
-			KoLmafia.printList( ConcoctionDatabase.getCreatables() );
+			RequestLogger.printList( ConcoctionDatabase.getCreatables() );
 			return;
 		}
 
@@ -4933,7 +4937,7 @@ public class KoLmafiaCLI
 
 		if ( parameters.length() == 0 )
 		{
-			KoLmafia.printList( KoLConstants.collection );
+			RequestLogger.printList( KoLConstants.collection );
 			return;
 		}
 
@@ -5123,7 +5127,7 @@ public class KoLmafiaCLI
 			}
 
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Ambiguous effect name: " + parameters );
-			KoLmafia.printList( matchingEffects );
+			RequestLogger.printList( matchingEffects );
 
 			return;
 		}

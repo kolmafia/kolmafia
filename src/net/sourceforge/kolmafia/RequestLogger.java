@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia;
 import java.io.PrintStream;
 
 import java.util.Date;
+import java.util.List;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.CafeRequest;
@@ -71,6 +72,9 @@ import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
+
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
+
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -101,6 +105,54 @@ public class RequestLogger
 	public void println( final String line )
 	{
 		RequestLogger.printLine( line );
+	}
+
+	public static final void printList( final List printing, final PrintStream ostream )
+	{
+		if ( printing == null || ostream == null )
+		{
+			return;
+		}
+	
+		StringBuffer buffer = new StringBuffer();
+	
+		if ( printing != KoLConstants.availableSkills )
+		{
+			Object current;
+			for ( int i = 0; i < printing.size(); ++i )
+			{
+				current = printing.get( i );
+				if ( current == null )
+				{
+					continue;
+				}
+	
+				buffer.append( current.toString() );
+				buffer.append( KoLConstants.LINE_BREAK );
+			}
+	
+			ostream.println( buffer.toString() );
+			return;
+		}
+	
+		SkillDatabase.generateSkillList( buffer, false );
+	
+		if ( ostream != INSTANCE )
+		{
+			ostream.println( buffer.toString() );
+			return;
+		}
+	
+		printLine( buffer.toString(), false );
+	
+		buffer.setLength( 0 );
+		SkillDatabase.generateSkillList( buffer, true );
+		KoLConstants.commandBuffer.append( buffer.toString() );
+	}
+
+	public static final void printList( final List printing )
+	{
+		RequestLogger.printList( printing, INSTANCE );
 	}
 
 	public static final void printLine()

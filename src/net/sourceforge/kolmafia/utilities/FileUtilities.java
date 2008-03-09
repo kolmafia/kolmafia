@@ -46,60 +46,6 @@ import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class FileUtilities
 {
-
-	public static final boolean loadLibrary( final File parent, final String directory, final String filename )
-	{
-		try
-		{
-			// Next, load the icon which will be used by KoLmafia
-			// in the system tray.  For now, this will be the old
-			// icon used by KoLmelion.
-
-			File library = new File( parent, filename );
-
-			if ( library.exists() )
-			{
-				if ( parent == KoLConstants.RELAY_LOCATION && !Preferences.getString( "lastRelayUpdate" ).equals(
-					StaticEntity.getVersion() ) )
-				{
-					library.delete();
-				}
-				else
-				{
-					return true;
-				}
-			}
-
-			InputStream input = DataUtilities.getInputStream( directory, filename );
-			if ( input == null )
-			{
-				return false;
-			}
-
-			OutputStream output = DataUtilities.getOutputStream( library );
-
-			byte[] buffer = new byte[ 1024 ];
-			int bufferLength;
-			while ( ( bufferLength = input.read( buffer ) ) != -1 )
-			{
-				output.write( buffer, 0, bufferLength );
-			}
-
-			input.close();
-			output.close();
-			return true;
-
-		}
-		catch ( Exception e )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-
-			StaticEntity.printStackTrace( e );
-			return false;
-		}
-	}
-
 	public static final BufferedReader getReader( final String filename )
 	{
 		return DataUtilities.getReader( filename );
@@ -197,4 +143,56 @@ public class FileUtilities
 		return line == null ? null : line.split( "\t" );
 	}
 
+	public static final boolean loadLibrary( final File parent, final String directory, final String filename )
+	{
+		try
+		{
+			// Next, load the icon which will be used by KoLmafia
+			// in the system tray.  For now, this will be the old
+			// icon used by KoLmelion.
+
+			File library = new File( parent, filename );
+
+			if ( library.exists() )
+			{
+				if ( parent == KoLConstants.RELAY_LOCATION && !Preferences.getString( "lastRelayUpdate" ).equals(
+					StaticEntity.getVersion() ) )
+				{
+					library.delete();
+				}
+				else
+				{
+					return true;
+				}
+			}
+
+			InputStream input = DataUtilities.getInputStream( directory, filename );
+			if ( input == null )
+			{
+				return false;
+			}
+
+			OutputStream output = DataUtilities.getOutputStream( library );
+
+			byte[] buffer = new byte[ 1024 ];
+			int bufferLength;
+			while ( ( bufferLength = input.read( buffer ) ) != -1 )
+			{
+				output.write( buffer, 0, bufferLength );
+			}
+
+			input.close();
+			output.close();
+			return true;
+
+		}
+		catch ( Exception e )
+		{
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+
+			StaticEntity.printStackTrace( e );
+			return false;
+		}
+	}
 }
