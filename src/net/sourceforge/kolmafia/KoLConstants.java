@@ -36,8 +36,6 @@ package net.sourceforge.kolmafia;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Toolkit;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -62,8 +60,8 @@ public interface KoLConstants
 	// Rendered in various locations and therefore made public.
 
 	public static final String REVISION = null;
-	public static final String VERSION_NAME = "KoLmafia v12.2";
-	public static final String VERSION_DATE = "Released on February 17, 2008";
+	public static final String VERSION_NAME = "KoLmafia v12.3";
+	public static final String VERSION_DATE = "Released on March 10, 2008";
 
 	// General constants used for calculations and formatting of
 	// strings, as well as for string parsing.
@@ -429,37 +427,5 @@ public interface KoLConstants
 	// Include just the event history buffer and the command line buffer.
 
 	public static final LockableListModel eventHistory = new LockableListModel();
-
-	/**
-	 * A special kind of ByteArrayOutputStream which provides access to the buffer it uses. This allows you to
-	 * instantiate ByteArrayInputStream objects without having to allocate too much memory.
-	 */
-
-	public static class ByteArrayStream
-		extends ByteArrayOutputStream
-	{
-		public ByteArrayStream()
-		{
-		}
-
-		public ByteArrayStream( final int size )
-		{
-			super( size );
-		}
-
-		public byte[] getCurrentBuffer()
-		{
-			return this.buf;
-		}
-
-		public ByteArrayInputStream getByteArrayInputStream()
-		{
-			return new ByteArrayInputStream( this.buf, 0, this.count );
-		}
-	}
-
-	// Special output streams which are used to print things inside of
-	// KoLmafia to specific buffers.
-
 	public static final LimitedSizeChatBuffer commandBuffer = new LimitedSizeChatBuffer();
 }
