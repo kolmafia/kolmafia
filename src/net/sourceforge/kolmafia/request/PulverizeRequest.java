@@ -174,8 +174,11 @@ public class PulverizeRequest
 	{
 		// "That's too important to pulverize."
 		// "That's not something you can pulverize."
+		// "You don't know how to properly smash stuff."
 
-		if ( this.responseText.indexOf( "too important to pulverize" ) != -1 || this.responseText.indexOf( "not something you can pulverize" ) != -1 )
+		if ( this.responseText.indexOf( "too important to pulverize" ) != -1 ||
+		     this.responseText.indexOf( "not something you can pulverize" ) != -1 ||
+		     this.responseText.indexOf( "don't know how to properly smash stuff" ) != -1)
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "The " + this.item.getName() + " could not be smashed." );
 			ResultProcessor.processResult( this.item );
