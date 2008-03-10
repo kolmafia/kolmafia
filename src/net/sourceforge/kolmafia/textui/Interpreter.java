@@ -36,25 +36,25 @@ package net.sourceforge.kolmafia.textui;
 import java.io.File;
 import java.io.InputStream;
 import java.io.PrintStream;
-
 import java.util.Iterator;
 import java.util.TreeMap;
 
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.NullStream;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.persistence.Preferences;
-import net.sourceforge.kolmafia.request.SendMailRequest;
 import net.sourceforge.kolmafia.textui.parsetree.Function;
 import net.sourceforge.kolmafia.textui.parsetree.Scope;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
 import net.sourceforge.kolmafia.textui.parsetree.VariableList;
 import net.sourceforge.kolmafia.textui.parsetree.VariableReference;
+
+import net.sourceforge.kolmafia.request.SendMailRequest;
+
+import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class Interpreter
 {

@@ -39,19 +39,16 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.LineNumberReader;
 import java.io.PrintStream;
-
 import java.math.BigInteger;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeMap;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
+
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.KoLConstants.ByteArrayStream;
-import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.textui.parsetree.AggregateType;
 import net.sourceforge.kolmafia.textui.parsetree.Assignment;
 import net.sourceforge.kolmafia.textui.parsetree.BasicScript;
@@ -65,6 +62,7 @@ import net.sourceforge.kolmafia.textui.parsetree.ForLoop;
 import net.sourceforge.kolmafia.textui.parsetree.Function;
 import net.sourceforge.kolmafia.textui.parsetree.FunctionCall;
 import net.sourceforge.kolmafia.textui.parsetree.FunctionList;
+import net.sourceforge.kolmafia.textui.parsetree.FunctionReturn;
 import net.sourceforge.kolmafia.textui.parsetree.If;
 import net.sourceforge.kolmafia.textui.parsetree.LoopBreak;
 import net.sourceforge.kolmafia.textui.parsetree.LoopContinue;
@@ -72,10 +70,8 @@ import net.sourceforge.kolmafia.textui.parsetree.Operator;
 import net.sourceforge.kolmafia.textui.parsetree.ParseTreeNode;
 import net.sourceforge.kolmafia.textui.parsetree.RecordType;
 import net.sourceforge.kolmafia.textui.parsetree.RepeatUntilLoop;
-import net.sourceforge.kolmafia.textui.parsetree.FunctionReturn;
 import net.sourceforge.kolmafia.textui.parsetree.Scope;
 import net.sourceforge.kolmafia.textui.parsetree.ScriptExit;
-import net.sourceforge.kolmafia.textui.parsetree.Symbol;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.TypeDef;
 import net.sourceforge.kolmafia.textui.parsetree.UserDefinedFunction;
@@ -86,7 +82,10 @@ import net.sourceforge.kolmafia.textui.parsetree.VariableList;
 import net.sourceforge.kolmafia.textui.parsetree.VariableReference;
 import net.sourceforge.kolmafia.textui.parsetree.VariableReferenceList;
 import net.sourceforge.kolmafia.textui.parsetree.WhileLoop;
+import net.sourceforge.kolmafia.utilities.ByteArrayStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+
+import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class Parser
 {
