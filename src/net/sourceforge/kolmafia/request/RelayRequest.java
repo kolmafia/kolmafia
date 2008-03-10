@@ -349,6 +349,8 @@ public class RelayRequest
 		// we can detach user interface elements.
 
 		StringUtilities.singleStringReplace( responseBuffer, "frames.length == 0", "frames.length == -1" );
+		StringUtilities.globalStringReplace( responseBuffer, " name=adv ", " name=snarfblat " );
+
 		this.responseText = responseBuffer.toString();
 		CustomItemDatabase.linkCustomItem( this );
 	}
