@@ -134,7 +134,7 @@ public class UseItemRequest
 	private static final int TEARS = 869;
 	private static final int ROLLING_PIN = 873;
 	private static final int UNROLLING_PIN = 874;
-	private static final int PLUS_SIGN = 918;
+	private static final int PLUS_SIGN = 818;
 	private static final int MAID = 1000;
 	private static final int CLOCKWORK_BARTENDER = 1111;
 	private static final int CLOCKWORK_CHEF = 1112;
