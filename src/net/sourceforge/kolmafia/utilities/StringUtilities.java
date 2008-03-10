@@ -180,94 +180,55 @@ public class StringUtilities
 			return true;
 		}
 
-		boolean matchedWordDivision = true;
+		return StringUtilities.fuzzyMatches( sourceString, searchString, -1, -1 );
+	}
 
-		int sourceIndex = -1;
-		int maxSourceIndex = sourceString.length() - 1;
+	private static final boolean fuzzyMatches( final String sourceString, final String searchString, final int lastSourceIndex, final int lastSearchIndex )
+	{
+		int maxSearchIndex = searchString.length() - 1;
 
-		char sourceChar;
-		char searchChar = Character.toLowerCase( searchString.charAt( 0 ) );
-
-		// First, find the index of the first character
-		// to begin the search (this allows searches to
-		// start in the middle of the string.
-
-		while( ++sourceIndex <= maxSourceIndex )
+		if ( lastSearchIndex == maxSearchIndex )
 		{
-			sourceChar = Character.toLowerCase( sourceString.charAt( sourceIndex ) );
+			return true;
+		}
 
-			if ( matchedWordDivision && searchChar == sourceChar )
+		// Skip over any non alphanumeric characters in the search string
+		// since they hold no meaning.
+
+		char searchChar;
+		int searchIndex = lastSearchIndex;
+
+		do
+		{
+			if ( ++searchIndex > maxSearchIndex )
 			{
-				if ( StringUtilities.fuzzyMatches( sourceString, searchString, sourceIndex, 0 ) )
+				return true;
+			}
+
+			searchChar = searchString.charAt( searchIndex );
+		}
+		while ( !Character.isLetterOrDigit( searchChar ) );
+
+		// If it matched the first character in the source string, the
+		// character right after the last search, or the match is on a
+		// word boundary, continue searching.
+
+		int sourceIndex = sourceString.indexOf( searchChar, lastSourceIndex + 1 );
+
+		while ( sourceIndex != -1 )
+		{
+			if ( sourceIndex == 0 || sourceIndex == lastSourceIndex + 1 || !Character.isLetterOrDigit( sourceString.charAt( sourceIndex - 1 ) ) )
+			{
+				if ( StringUtilities.fuzzyMatches( sourceString, searchString, sourceIndex, searchIndex ) )
 				{
 					return true;
 				}
 			}
 
-			matchedWordDivision = !Character.isLetterOrDigit( sourceChar );
+			sourceIndex = sourceString.indexOf( searchChar, sourceIndex + 1 );
 		}
 
 		return false;
-	}
-
-	private static final boolean fuzzyMatches( final String sourceString, final String searchString, final int initialSourceIndex, final int initialSearchIndex )
-	{
-		char sourceChar;
-		char searchChar;
-
-		int sourceIndex = initialSourceIndex;
-		int maxSourceIndex = sourceString.length() - 1;
-
-		int searchIndex = initialSearchIndex;
-		int maxSearchIndex = searchString.length() - 1;
-
-		while ( ++searchIndex < maxSearchIndex )
-		{
-			// Ignore any non alphanumeric characters which
-			// appear in the search string.
-
-			searchChar = Character.toLowerCase( searchString.charAt( searchIndex ) );
-
-			if ( !Character.isLetterOrDigit( searchChar ) )
-			{
-				continue;
-			}
-
-			if ( ++sourceIndex > maxSourceIndex )
-			{
-				return false;
-			}
-
-			sourceChar = Character.toLowerCase( sourceString.charAt( sourceIndex ) );
-
-			// Skip the word and continue searching.  Once all words are exhausted,
-			// fail the fuzzy match.
-
-			while ( searchChar != sourceChar )
-			{
-				while ( Character.isLetterOrDigit( sourceChar ) )
-				{
-					if ( ++sourceIndex > maxSourceIndex )
-					{
-						return false;
-					}
-
-					sourceChar = Character.toLowerCase( sourceString.charAt( sourceIndex ) );
-				}
-
-				while ( !Character.isLetterOrDigit( sourceChar ) )
-				{
-					if ( ++sourceIndex > maxSourceIndex )
-					{
-						return false;
-					}
-
-					sourceChar = Character.toLowerCase( sourceString.charAt( sourceIndex ) );
-				}
-			}
-		}
-
-		return true;
 	}
 
 	public static final String singleStringDelete( final String originalString, final String searchString )
