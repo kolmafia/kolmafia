@@ -175,11 +175,6 @@ public class StringUtilities
 
 	public static final boolean fuzzyMatches( final String sourceString, final String searchString )
 	{
-		if ( searchString.startsWith( "*" ) )
-		{
-			return false;
-		}
-
 		if ( searchString == null || searchString.length() == 0 )
 		{
 			return true;
@@ -212,7 +207,7 @@ public class StringUtilities
 
 			searchChar = searchString.charAt( searchIndex );
 		}
-		while ( !Character.isLetterOrDigit( searchChar ) );
+		while ( Character.isWhitespace( searchChar ) );
 
 		// If it matched the first character in the source string, the
 		// character right after the last search, or the match is on a
