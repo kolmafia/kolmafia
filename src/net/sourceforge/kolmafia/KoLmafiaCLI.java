@@ -660,14 +660,20 @@ public class KoLmafiaCLI
 
 	public void executeCommand( String command, String parameters )
 	{
-		// If the command has already been disabled, then return
-		// from this function.
+		if ( command.equals( "gc" ) )
+		{
+			System.gc();
+			return;
+		}
 
 		if ( command.equals( "version" ) )
 		{
 			RequestLogger.printLine( StaticEntity.getVersion() );
 			return;
 		}
+
+		// If the command has already been disabled, then return
+		// from this function.
 
 		if ( StaticEntity.isDisabled( command ) )
 		{
