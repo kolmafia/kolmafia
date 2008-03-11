@@ -831,7 +831,7 @@ public class RelayRequest
 
 		warning.append( "<td valign=center><a href=\"" );
 		warning.append( this.getURLString() );
-		warning.append( "&override=on" );
+		warning.append( "&confirm=on" );
 		warning.append( "\"><img src=\"http://images.kingdomofloathing.com/adventureimages/" );
 		warning.append( image );
 		warning.append( "\"></a></td>" );
@@ -875,7 +875,7 @@ public class RelayRequest
 			warning.append( "<center><a href=\"" );
 			warning.append( url );
 			warning.append( url.indexOf( "?" ) == -1 ? "?" : "&" );
-			warning.append( "override=on\"><img id=\"warningImage\" src=\"http://images.kingdomofloathing.com/itemimages/" );
+			warning.append( "confirm=on\"><img id=\"warningImage\" src=\"http://images.kingdomofloathing.com/itemimages/" );
 			warning.append( image );
 			warning.append( "\" width=30 height=30></a><br></center>" );
 		}
@@ -1176,7 +1176,7 @@ public class RelayRequest
 		String adventureName = adventure != null ? adventure.getAdventureName() :
 			AdventureDatabase.getUnknownName( urlString );
 
-		if ( adventureName != null && this.getFormField( "override" ) == null )
+		if ( adventureName != null && this.getFormField( "confirm" ) == null )
 		{
 			// Wait until any restoration scripts finish running before
 			// allowing an adventuring request to continue.
