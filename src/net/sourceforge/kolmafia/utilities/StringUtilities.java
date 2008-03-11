@@ -175,6 +175,11 @@ public class StringUtilities
 
 	public static final boolean fuzzyMatches( final String sourceString, final String searchString )
 	{
+		if ( searchString.startsWith( "*" ) )
+		{
+			return false;
+		}
+
 		if ( searchString == null || searchString.length() == 0 )
 		{
 			return true;
