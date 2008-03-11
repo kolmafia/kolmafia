@@ -2865,6 +2865,9 @@ public abstract class KoLmafia
 				{
 					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
 						"Stopped purchasing " + currentRequest.getItemName() + " @ " + KoLConstants.COMMA_FORMAT.format( currentPrice ) + "." );
+
+					RequestThread.closeRequestSequence();
+					return;
 				}
 			}
 
