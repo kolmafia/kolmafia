@@ -88,7 +88,7 @@ public class Aliases
 			return line;
 		}
 
-		if ( line.startsWith( "alias " ) )
+		if ( line.startsWith( "alias " ) || line.startsWith( "unalias " ) )
 		{
 			return line;
 		}
