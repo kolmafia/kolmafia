@@ -163,6 +163,7 @@ public class ItemPool
 	public static final int MAKESHIFT_CRANE = 2083;
 	public static final int CAN_OF_STARCH = 2084;
 	public static final int TOWEL = 2085;
+	public static final int LUCRE = 2098;
 	public static final int ANCIENT_CAROLS = 2191;
 	public static final int SHEET_MUSIC = 2192;
 	public static final int FAMILIAR_DOPPELGANGER = 2225;

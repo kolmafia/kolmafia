@@ -39,6 +39,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -47,7 +48,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
-
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AreaCombatData;
 import net.sourceforge.kolmafia.FamiliarData;
@@ -64,17 +64,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.StaticEntity.TurnCounter;
-import net.sourceforge.kolmafia.session.ChatManager;
-import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.SorceressLairManager;
-import net.sourceforge.kolmafia.swingui.AdventureFrame;
-import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
-import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
-import net.sourceforge.kolmafia.textui.DataTypes;
-import net.sourceforge.kolmafia.utilities.FileUtilities;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
-
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.CustomItemDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
@@ -84,11 +74,22 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.session.ChatManager;
+import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.SorceressLairManager;
+import net.sourceforge.kolmafia.swingui.AdventureFrame;
+import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
+import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
+import net.sourceforge.kolmafia.textui.DataTypes;
+import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.PauseObject;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class RelayRequest
 	extends PasswordHashRequest
 {
-	private static final AdventureResult LUCRE = new AdventureResult( 2098, 1 );
+	private final PauseObject pauser = new PauseObject();
 
 	private static final TreeMap overrideMap = new TreeMap();
 	private static final Pattern EMAIL_PATTERN =
@@ -942,22 +943,17 @@ public class RelayRequest
 
 		if ( this.getPath().endsWith( "submitCommand" ) )
 		{
-			CommandDisplayFrame.executeCommand( this.getFormField( "cmd" ) );
+			submitCommand( this.getFormField( "cmd" ) );
 			this.pseudoResponse( "HTTP/1.1 200 OK", "" );
 		}
 		else if ( this.getPath().endsWith( "executeCommand" ) )
 		{
-			CommandDisplayFrame.executeCommand( this.getFormField( "cmd" ) );
+			submitCommand( this.getFormField( "cmd" ) );
 			this.pseudoResponse( "HTTP/1.1 200 OK", "" );
 		}
 		else if ( this.getPath().endsWith( "sideCommand" ) )
 		{
-			CommandDisplayFrame.executeCommand( this.getFormField( "cmd" ) );
-			while ( CommandDisplayFrame.hasQueuedCommands() )
-			{
-				GenericRequest.delay( 500 );
-			}
-
+			submitCommand( this.getFormField( "cmd" ) );
 			this.pseudoResponse( "HTTP/1.1 302 Found", "/charpane.php" );
 		}
 		else if ( this.getPath().endsWith( "messageUpdate" ) )
@@ -978,6 +974,16 @@ public class RelayRequest
 		else
 		{
 			this.pseudoResponse( "HTTP/1.1 200 OK", "" );
+		}
+	}
+
+	private void submitCommand( String command )
+	{
+		CommandDisplayFrame.executeCommand( command );
+
+		while ( CommandDisplayFrame.hasQueuedCommands() )
+		{
+			this.pauser.pause( 500 );
 		}
 	}
 
@@ -1183,7 +1189,7 @@ public class RelayRequest
 
 			while ( KoLmafia.isRunningBetweenBattleChecks() )
 			{
-				GenericRequest.delay( 100 );
+				this.pauser.pause( 200 );
 			}
 
 			// Check for any expired counters.  If there is one, alert the
@@ -1206,7 +1212,7 @@ public class RelayRequest
 			// Check for clovers as well so that people don't accidentally
 			// use up a clover in the middle of a bad moon run.
 
-			if ( KoLCharacter.isHardcore() && AdventureDatabase.isPotentialCloverAdventure( adventureName ) )
+			if ( AdventureDatabase.isPotentialCloverAdventure( adventureName ) )
 			{
 				this.sendGeneralWarning(
 					"clover.gif",
@@ -1282,13 +1288,11 @@ public class RelayRequest
 
 				if ( place.equals( "6" ) && KoLCharacter.isHardcore() && Preferences.getBoolean( "lucreCoreLeaderboard" ) )
 				{
-					if ( KoLConstants.inventory.contains( RelayRequest.LUCRE ) )
+					int lucreCount = InventoryManager.getCount( ItemPool.LUCRE );
+					if ( lucreCount > 0 )
 					{
-						( new DisplayCaseRequest(
-							new Object[]
-							{ RelayRequest.LUCRE.getInstance( RelayRequest.LUCRE.getCount( KoLConstants.inventory ) )
-							}, true ) ).run();
-						( new SendMailRequest( "koldbot", "Completed ascension." ) ).run();
+						new DisplayCaseRequest( new Object[] { ItemPool.get( ItemPool.LUCRE, lucreCount ) }, true ).run();
+						new SendMailRequest( "koldbot", "Completed ascension." ).run();
 					}
 
 					this.sendGeneralWarning(

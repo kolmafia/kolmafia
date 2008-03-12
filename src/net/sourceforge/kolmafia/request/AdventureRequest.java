@@ -181,8 +181,6 @@ public class AdventureRequest
 			}
 		}
 
-		GenericRequest.delay();
-
 		if ( this.formSource.equals( "dungeon.php" ) )
 		{
 			this.data.clear();

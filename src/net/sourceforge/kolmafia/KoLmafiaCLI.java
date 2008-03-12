@@ -38,7 +38,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
+
 import java.net.URLEncoder;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -47,32 +49,19 @@ import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
-
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.session.BuffBotManager;
-import net.sourceforge.kolmafia.session.ClanManager;
-import net.sourceforge.kolmafia.session.CustomCombatManager;
-import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.LeafletManager;
-import net.sourceforge.kolmafia.session.MoodManager;
-import net.sourceforge.kolmafia.session.MushroomManager;
-import net.sourceforge.kolmafia.session.NemesisManager;
-import net.sourceforge.kolmafia.session.PvpManager;
-import net.sourceforge.kolmafia.session.SorceressLairManager;
-import net.sourceforge.kolmafia.session.StoreManager;
-import net.sourceforge.kolmafia.swingui.BuffRequestFrame;
-import net.sourceforge.kolmafia.swingui.CalendarFrame;
-import net.sourceforge.kolmafia.swingui.CouncilFrame;
-import net.sourceforge.kolmafia.swingui.FamiliarTrainingFrame;
-import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
-import net.sourceforge.kolmafia.textui.Interpreter;
-import net.sourceforge.kolmafia.utilities.ByteArrayStream;
-import net.sourceforge.kolmafia.utilities.CharacterEntities;
-import net.sourceforge.kolmafia.utilities.FileUtilities;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
-import net.sourceforge.kolmafia.webui.StationaryButtonDecorator;
-
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.Aliases;
+import net.sourceforge.kolmafia.persistence.BuffBotDatabase;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.EffectDatabase;
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.HolidayDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ItemFinder;
+import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.request.BasementRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
@@ -110,19 +99,30 @@ import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
-
-import net.sourceforge.kolmafia.persistence.AdventureDatabase;
-import net.sourceforge.kolmafia.persistence.Aliases;
-import net.sourceforge.kolmafia.persistence.BuffBotDatabase;
-import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
-import net.sourceforge.kolmafia.persistence.EffectDatabase;
-import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
-import net.sourceforge.kolmafia.persistence.HolidayDatabase;
-import net.sourceforge.kolmafia.persistence.ItemDatabase;
-import net.sourceforge.kolmafia.persistence.ItemFinder;
-import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
-import net.sourceforge.kolmafia.persistence.Preferences;
-import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.session.BuffBotManager;
+import net.sourceforge.kolmafia.session.ClanManager;
+import net.sourceforge.kolmafia.session.CustomCombatManager;
+import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.LeafletManager;
+import net.sourceforge.kolmafia.session.MoodManager;
+import net.sourceforge.kolmafia.session.MushroomManager;
+import net.sourceforge.kolmafia.session.NemesisManager;
+import net.sourceforge.kolmafia.session.PvpManager;
+import net.sourceforge.kolmafia.session.SorceressLairManager;
+import net.sourceforge.kolmafia.session.StoreManager;
+import net.sourceforge.kolmafia.swingui.BuffRequestFrame;
+import net.sourceforge.kolmafia.swingui.CalendarFrame;
+import net.sourceforge.kolmafia.swingui.CouncilFrame;
+import net.sourceforge.kolmafia.swingui.FamiliarTrainingFrame;
+import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
+import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.utilities.ByteArrayStream;
+import net.sourceforge.kolmafia.utilities.CharacterEntities;
+import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.PauseObject;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
+import net.sourceforge.kolmafia.webui.StationaryButtonDecorator;
 
 public class KoLmafiaCLI
 	extends KoLmafia
@@ -558,13 +558,14 @@ public class KoLmafiaCLI
 			String[] messages =
 				KoLConstants.WIN_GAME_TEXT[ KoLConstants.RNG.nextInt( KoLConstants.WIN_GAME_TEXT.length ) ];
 
+			PauseObject pauser = new PauseObject();
 			KoLmafia.updateDisplay( "Executing top-secret 'win game' script..." );
-			GenericRequest.delay( 3000 );
+			pauser.pause( 3000 );
 
 			for ( int i = 0; i < messages.length - 1; ++i )
 			{
 				KoLmafia.updateDisplay( messages[ i ] );
-				GenericRequest.delay( 3000 );
+				pauser.pause( 3000 );
 			}
 
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, messages[ messages.length - 1 ] );

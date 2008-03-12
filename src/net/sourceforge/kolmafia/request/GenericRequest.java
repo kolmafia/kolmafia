@@ -96,15 +96,12 @@ public class GenericRequest
 	private int timeoutCount = 0;
 	private static final int TIMEOUT_LIMIT = 3;
 
-	private static boolean delayActive = true;
 	private static int totalActualDelay = 0;
 	private static int totalConsideredDelay = 0;
 
 	private static final int INITIAL_CACHE_COUNT = 3;
 	private static final int TIMEOUT_DELAY = 500;
 	private static final int INDUCED_DELAY = 800;
-
-	private static final Object WAIT_OBJECT = new Object();
 
 	private static final ArrayList BYTEFLAGS = new ArrayList();
 	private static final ArrayList BYTEARRAYS = new ArrayList();
@@ -171,11 +168,6 @@ public class GenericRequest
 	public String responseText;
 	public HttpURLConnection formConnection;
 	public String redirectLocation;
-
-	public static final void setDelayActive( final boolean delayActive )
-	{
-		GenericRequest.delayActive = delayActive;
-	}
 
 	/**
 	 * static final method called when <code>GenericRequest</code> is first instantiated or whenever the settings have
@@ -949,79 +941,6 @@ public class GenericRequest
 		return request.formURLString.indexOf( "mall" ) != -1 || request.formURLString.indexOf( "chat" ) != -1;
 	}
 
-	public static final boolean delay()
-	{
-		++GenericRequest.totalConsideredDelay;
-
-		if ( !GenericRequest.delayActive )
-		{
-			return true;
-		}
-
-		++GenericRequest.totalActualDelay;
-		return GenericRequest.delay( GenericRequest.INDUCED_DELAY );
-	}
-
-	public static final void printTotalDelay()
-	{
-		int seconds, minutes;
-
-		seconds = GenericRequest.totalActualDelay * GenericRequest.INDUCED_DELAY / 1000;
-		minutes = seconds / 60;
-		seconds = seconds % 60;
-
-		RequestLogger.printLine();
-
-		if ( GenericRequest.delayActive )
-		{
-			RequestLogger.printLine( "Delay between requests: " + GenericRequest.INDUCED_DELAY / 1000.0f + " seconds" );
-			RequestLogger.printLine( "Delay added this session: " + minutes + " minutes, " + seconds + " seconds" );
-		}
-		else
-		{
-			RequestLogger.printLine( "Delay added this session: " + minutes + " minutes, " + seconds + " seconds" );
-
-			seconds = GenericRequest.totalConsideredDelay * GenericRequest.INDUCED_DELAY / 1000;
-			minutes = seconds / 60;
-			seconds = seconds % 60;
-
-			RequestLogger.printLine( "Total delay considered: " + minutes + " minutes, " + seconds + " seconds" );
-		}
-
-		RequestLogger.printLine();
-	}
-
-	/**
-	 * Utility method which waits for the given duration without using Thread.sleep() - this means CPU usage can be
-	 * greatly reduced.
-	 */
-
-	public static final boolean delay( final long milliseconds )
-	{
-		if ( milliseconds <= 0 )
-		{
-			return true;
-		}
-
-		try
-		{
-			synchronized ( GenericRequest.WAIT_OBJECT )
-			{
-				GenericRequest.WAIT_OBJECT.wait( milliseconds );
-				GenericRequest.WAIT_OBJECT.notifyAll();
-			}
-		}
-		catch ( InterruptedException e )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-
-			StaticEntity.printStackTrace( e );
-		}
-
-		return true;
-	}
-
 	/**
 	 * Utility method used to prepare the connection for input and output (if output is necessary). The method attempts
 	 * to open the connection, and then apply the needed settings.
@@ -1169,8 +1088,6 @@ public class GenericRequest
 				RequestLogger.printLine( "Time out during data post (" + this.formURLString + ").  This could be bad..." );
 			}
 
-			GenericRequest.delay( GenericRequest.TIMEOUT_DELAY );
-
 			if ( this instanceof LoginRequest )
 			{
 				GenericRequest.chooseNewLoginServer();
@@ -1238,8 +1155,6 @@ public class GenericRequest
 				// The input stream was already closed.  Ignore this
 				// error and continue.
 			}
-
-			GenericRequest.delay( GenericRequest.TIMEOUT_DELAY );
 
 			if ( this instanceof LoginRequest )
 			{

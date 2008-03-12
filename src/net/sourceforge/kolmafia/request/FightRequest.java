@@ -60,12 +60,14 @@ import net.sourceforge.kolmafia.session.CustomCombatManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.IslandDecorator;
 
 public class FightRequest
 	extends GenericRequest
 {
+	private static final PauseObject PAUSER = new PauseObject();
 	public static final FightRequest INSTANCE = new FightRequest();
 
 	private static final AdventureResult AMNESIA = new AdventureResult( "Amnesia", 1, true );
@@ -681,7 +683,6 @@ public class FightRequest
 			}
 			else if ( FightRequest.action1 != null && !FightRequest.action1.equals( "abort" ) )
 			{
-				GenericRequest.delay();
 				super.run();
 			}
 		}
@@ -1829,7 +1830,7 @@ public class FightRequest
 	{
 		while ( FightRequest.isTrackingFights && !FightRequest.foundNextRound && !KoLmafia.refusesContinue() )
 		{
-			GenericRequest.delay( 200 );
+			PAUSER.pause( 200 );
 		}
 
 		if ( !FightRequest.foundNextRound || KoLmafia.refusesContinue() )

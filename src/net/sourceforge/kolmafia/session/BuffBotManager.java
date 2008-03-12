@@ -63,6 +63,7 @@ import net.sourceforge.kolmafia.request.MailboxRequest;
 import net.sourceforge.kolmafia.request.SendMailRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class BuffBotManager
@@ -313,6 +314,8 @@ public abstract class BuffBotManager
 		BuffBotManager.initialRestores = Math.max( KoLmafia.getRestoreCount(), 100 );
 
 		String restoreItems = Preferences.getString( "mpAutoRecoveryItems" );
+
+		PauseObject pauser = new PauseObject();
 		boolean usingAdventures = restoreItems.indexOf( "rest" ) != -1 || restoreItems.indexOf( "relax" ) != -1;
 
 		// The outer loop goes until user cancels, or
@@ -366,7 +369,7 @@ public abstract class BuffBotManager
 			{
 				if ( BuffBotHome.isBuffBotActive() )
 				{
-					RequestThread.waitOneSecond();
+					pauser.pause( 1000 );
 				}
 			}
 

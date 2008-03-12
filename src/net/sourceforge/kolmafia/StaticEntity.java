@@ -57,7 +57,6 @@ import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.SellStuffRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
-
 import net.sourceforge.kolmafia.session.PvpManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.swingui.DescriptionFrame;
@@ -65,6 +64,7 @@ import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.RequestFrame;
 import net.sourceforge.kolmafia.swingui.RequestSynchFrame;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
+import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class StaticEntity
@@ -663,6 +663,8 @@ public abstract class StaticEntity
 
 	public static final boolean executeCountdown( final String message, final int seconds )
 	{
+		PauseObject pauser = new PauseObject();
+
 		StringBuffer actualMessage = new StringBuffer( message );
 
 		for ( int i = seconds; i > 0 && KoLmafia.permitsContinue(); --i )
@@ -734,7 +736,7 @@ public abstract class StaticEntity
 				KoLmafia.updateDisplay( actualMessage.toString() );
 			}
 
-			RequestThread.waitOneSecond();
+			pauser.pause( 1000 );
 		}
 
 		return KoLmafia.permitsContinue();

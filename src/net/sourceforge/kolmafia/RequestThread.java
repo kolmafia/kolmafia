@@ -46,7 +46,6 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 public abstract class RequestThread
 {
 	private static int sequenceCount = 0;
-	private static final OneSecondDelay ONE_SECOND_DELAY = new OneSecondDelay();
 
 	/**
 	 * Posts a single request one time without forcing concurrency. The display will be enabled if there is no sequence.
@@ -227,25 +226,6 @@ public abstract class RequestThread
 		ChatManager.broadcastMessage( "<font color=red>KoLmafia declares world peace.</font><br>" );
 	}
 
-	public static final void waitOneSecond()
-	{
-		try
-		{
-			if ( SwingUtilities.isEventDispatchThread() )
-			{
-				Worker.post( RequestThread.ONE_SECOND_DELAY );
-			}
-			else
-			{
-				RequestThread.ONE_SECOND_DELAY.run();
-			}
-		}
-		catch ( Exception e )
-		{
-			StaticEntity.printStackTrace( e );
-		}
-	}
-
 	private static class RunnableWrapper
 		extends Job
 	{
@@ -259,20 +239,6 @@ public abstract class RequestThread
 		public void run()
 		{
 			this.wrapped.run();
-		}
-	}
-
-	private static class OneSecondDelay
-		extends Job
-	{
-		public void run()
-		{
-			if ( KoLmafia.refusesContinue() )
-			{
-				return;
-			}
-
-			GenericRequest.delay( 1000 );
 		}
 	}
 }

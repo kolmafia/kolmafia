@@ -1278,7 +1278,6 @@ public abstract class ChoiceManager
 		{
 			// Slight delay before each choice is made
 
-			GenericRequest.delay();
 			Matcher choiceMatcher = ChoiceManager.CHOICE_PATTERN.matcher( request.responseText );
 
 			if ( !choiceMatcher.find() )

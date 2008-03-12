@@ -853,17 +853,6 @@ public class KoLAdventure
 			}
 		}
 
-		if ( Preferences.getBoolean( "cloverProtectActive" ) )
-		{
-			AdventureResult clover = ItemPool.get( ItemPool.TEN_LEAF_CLOVER, 1 );
-			int count = clover.getCount( KoLConstants.inventory );
-
-			if ( count > 0 )
-			{
-				new UseItemRequest( ItemPool.get( ItemPool.TEN_LEAF_CLOVER, count ) ).run();
-			}
-		}
-
 		TurnCounter expired = StaticEntity.getExpiredCounter(
 			this.adventureId, this.formSource.equals( "shore.php" ) ? 3 : 1 );
 

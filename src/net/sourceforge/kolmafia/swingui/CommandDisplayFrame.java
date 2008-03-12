@@ -60,11 +60,13 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
+import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CommandDisplayFrame
 	extends GenericFrame
 {
+	private static final PauseObject pauser = new PauseObject();
 	private static final CommandQueueHandler handler = new CommandQueueHandler();
 	static
 	{
@@ -264,7 +266,7 @@ public class CommandDisplayFrame
 			{
 				while ( CommandDisplayFrame.commandQueue.isEmpty() )
 				{
-					GenericRequest.delay( 500 );
+					CommandDisplayFrame.pauser.pause( 200 );
 				}
 
 				this.handleQueue();
