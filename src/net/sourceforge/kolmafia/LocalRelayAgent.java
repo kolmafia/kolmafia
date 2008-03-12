@@ -49,20 +49,22 @@ import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.SendMailRequest;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+import net.sourceforge.kolmafia.utilities.PauseObject;
 
 public class LocalRelayAgent
 	extends Thread
 {
-	private static final CustomCombatThread CUSTOM_THREAD = new CustomCombatThread();
+	private static final LocalRelayCombatThread COMBAT_THREAD = new LocalRelayCombatThread();
 	private static final TreeMap lastModified = new TreeMap();
 
 	static
 	{
-		LocalRelayAgent.CUSTOM_THREAD.start();
+		LocalRelayAgent.COMBAT_THREAD.start();
 	}
 
 	private final char[] data = new char[ 8096 ];
 	private final StringBuffer buffer = new StringBuffer();
+	private final PauseObject pauser = new PauseObject();
 
 	private Socket socket = null;
 	private BufferedReader reader;
@@ -85,11 +87,7 @@ public class LocalRelayAgent
 	void setSocket( final Socket socket )
 	{
 		this.socket = socket;
-
-		synchronized ( this )
-		{
-			this.notify();
-		}
+		this.pauser.unpause();
 	}
 
 	public void run()
@@ -98,18 +96,7 @@ public class LocalRelayAgent
 		{
 			if ( this.socket == null )
 			{
-				try
-				{
-					synchronized ( this )
-					{
-						this.wait();
-					}
-				}
-				catch ( InterruptedException e )
-				{
-					// We expect this to happen only when we are
-					// interrupted.  Fall through.
-				}
+				this.pauser.pause();
 			}
 
 			if ( this.socket != null )
@@ -286,7 +273,7 @@ public class LocalRelayAgent
 
 		if ( this.path.equals( "/fight.php?action=custom" ) )
 		{
-			LocalRelayAgent.CUSTOM_THREAD.wake( null );
+			LocalRelayAgent.COMBAT_THREAD.wake( null );
 			this.request.pseudoResponse( "HTTP/1.1 302 Found", "/fight.php?action=script" );
 		}
 		else if ( this.path.equals( "/fight.php?action=script" ) )
@@ -311,7 +298,7 @@ public class LocalRelayAgent
 		}
 		else if ( this.path.startsWith( "/fight.php?hotkey=" ) )
 		{
-			LocalRelayAgent.CUSTOM_THREAD.wake( Preferences.getString( "combatHotkey" + this.request.getFormField( "hotkey" ) ) );
+			LocalRelayAgent.COMBAT_THREAD.wake( Preferences.getString( "combatHotkey" + this.request.getFormField( "hotkey" ) ) );
 			this.request.pseudoResponse( "HTTP/1.1 302 Found", "/fight.php?action=script" );
 		}
 		else if ( this.path.equals( "/choice.php?action=auto" ) )
@@ -344,7 +331,7 @@ public class LocalRelayAgent
 			{
 				while ( KoLmafia.isRunningBetweenBattleChecks() )
 				{
-					GenericRequest.delay( 200 );
+					this.pauser.pause( 200 );
 				}
 			}
 
@@ -415,67 +402,6 @@ public class LocalRelayAgent
 		{
 			// The only time this happens is if the
 			// socket is already closed.  Ignore.
-		}
-	}
-
-	private static final class CustomCombatThread
-		extends Thread
-	{
-		private String desiredAction;
-
-		public CustomCombatThread()
-		{
-			this.setDaemon( true );
-		}
-
-		public void wake( final String desiredAction )
-		{
-			this.desiredAction = desiredAction;
-
-			if ( !FightRequest.isTrackingFights() )
-			{
-				FightRequest.beginTrackingFights();
-			}
-
-			synchronized ( this )
-			{
-				this.notify();
-			}
-		}
-
-		public void run()
-		{
-			while ( true )
-			{
-				try
-				{
-					synchronized ( this )
-					{
-						this.wait();
-					}
-				}
-				catch ( InterruptedException e )
-				{
-					// We expect this to happen only when we are
-					// interrupted.  Fall through.
-				}
-
-				if ( this.desiredAction == null )
-				{
-					if ( !Preferences.getString( "battleAction" ).startsWith( "custom" ) )
-					{
-						KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", "battleAction=custom" );
-					}
-
-					FightRequest.INSTANCE.run();
-				}
-				else
-				{
-					FightRequest.INSTANCE.runOnce( this.desiredAction );
-				}
-
-				FightRequest.stopTrackingFights();
-			}
 		}
 	}
 }

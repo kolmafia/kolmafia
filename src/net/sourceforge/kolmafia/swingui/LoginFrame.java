@@ -441,7 +441,7 @@ public class LoginFrame
 	private class ConnectionOptionsPanel
 		extends OptionsPanel
 	{
-		private JCheckBox loadBalancer, loadDistributer;
+		private JCheckBox loadBalancer;
 		private final JCheckBox[] optionBoxes;
 
 		private final String[][] options =
@@ -469,7 +469,7 @@ public class LoginFrame
 				this.optionBoxes[ i ] = new JCheckBox();
 			}
 
-			VerifiableElement[] elements = new VerifiableElement[ 5 + this.options.length ];
+			VerifiableElement[] elements = new VerifiableElement[ 4 + this.options.length ];
 
 			elements[ 0 ] = new VerifiableElement( LoginFrame.this.servers );
 			elements[ 1 ] = new VerifiableElement();
@@ -477,15 +477,11 @@ public class LoginFrame
 				new VerifiableElement(
 					"Attempt to ignore login page load balancer", SwingConstants.LEFT, this.loadBalancer =
 						new JCheckBox() );
-			elements[ 3 ] =
-				new VerifiableElement(
-					"Enable server-friendlier auto-adventuring", SwingConstants.LEFT, this.loadDistributer =
-						new JCheckBox() );
-			elements[ 4 ] = new VerifiableElement();
+			elements[ 3 ] = new VerifiableElement();
 
 			for ( int i = 0; i < this.options.length; ++i )
 			{
-				elements[ i + 5 ] =
+				elements[ i + 4 ] =
 					new VerifiableElement( this.options[ i ][ 1 ], SwingConstants.LEFT, this.optionBoxes[ i ] );
 			}
 
@@ -511,7 +507,6 @@ public class LoginFrame
 			}
 
 			LoginRequest.setIgnoreLoadBalancer( this.loadBalancer.isSelected() );
-			GenericRequest.setDelayActive( this.loadDistributer.isSelected() );
 		}
 
 		public void actionCancelled()
@@ -523,10 +518,7 @@ public class LoginFrame
 			}
 
 			this.loadBalancer.setSelected( false );
-			this.loadDistributer.setSelected( true );
-
 			LoginRequest.setIgnoreLoadBalancer( false );
-			GenericRequest.setDelayActive( true );
 		}
 
 		public void setEnabled( final boolean isEnabled )

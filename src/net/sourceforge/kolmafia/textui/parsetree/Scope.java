@@ -41,10 +41,13 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.utilities.PauseObject;
 
 public class Scope
 	implements ParseTreeNode
 {
+	private final PauseObject pauser = new PauseObject();
+
 	private FunctionList functions;
 	private VariableList variables;
 	private TypeList types;
@@ -336,7 +339,7 @@ public class Scope
 		// Thread.yield();
 
 		// ...but the following does.
-		GenericRequest.delay(1);
+		this.pauser.pause(1);
 
 		Value result = DataTypes.VOID_VALUE;
 		interpreter.traceIndent();

@@ -44,6 +44,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.ChatManager;
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
+import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ChatRequest
@@ -300,19 +301,16 @@ public class ChatRequest
 		{
 			ChatRequest.lastSeen = "";
 			ChatRequest request = new ChatRequest( ChatRequest.lastSeen );
+			PauseObject pauser = new PauseObject();
 
-			while ( GenericRequest.delay( ChatRequest.CHAT_DELAY ) && ChatManager.isRunning() )
+			while ( ChatManager.isRunning() )
 			{
-				try
-				{
-					request.run();
-					request.clearDataFields();
-					request.addFormField( "lasttime", String.valueOf( ChatRequest.lastSeen ) );
-				}
-				catch ( Exception e )
-				{
-					StaticEntity.printStackTrace( e );
-				}
+				pauser.pause( CHAT_DELAY );
+
+				request.run();
+				request.clearDataFields();
+
+				request.addFormField( "lasttime", String.valueOf( ChatRequest.lastSeen ) );
 			}
 
 			ChatRequest.thread = null;

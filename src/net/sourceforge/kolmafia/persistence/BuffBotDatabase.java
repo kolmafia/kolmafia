@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.TreeMap;
@@ -41,7 +42,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
-
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -49,9 +49,8 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.session.BuffBotManager.Offering;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-
-import net.sourceforge.kolmafia.request.GenericRequest;
 
 public class BuffBotDatabase
 	extends KoLDatabase
@@ -293,9 +292,11 @@ public class BuffBotDatabase
 			StaticEntity.printStackTrace( e );
 		}
 
+		PauseObject pauser = new PauseObject();
+
 		while ( BuffBotDatabase.buffBotsAvailable != BuffBotDatabase.buffBotsConfigured )
 		{
-			GenericRequest.delay( 500 );
+			pauser.pause( 200 );
 		}
 
 		KoLmafia.updateDisplay( "Buff prices fetched." );
