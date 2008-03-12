@@ -3218,3 +3218,9 @@
 3217	El Vibrato Megadrone	5	display	500
 3218	purple glowstick	8	display	0
 3219	sane hatrack	5	all	0
+3220
+3221
+3222
+3233	inflatable duck	8	all	50
+3234	water wings	8	all	50
+3235	foam noodle	8	all	50

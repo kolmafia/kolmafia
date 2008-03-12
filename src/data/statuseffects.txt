@@ -488,4 +488,6 @@
 487	Well-preserved	drone3.gif	ba7b40665f789b6ffa055e2ad316263c	use 1 warm El Vibrato drone
 488
 489	Inscrutable exoskeleton	drone5.gif	c281cb24d6830c8c01ecf4b8d28adff6	use 1 glowing El Vibrato drone
-
+490	Heavily Breathing	poolduck.gif	6871f3ff1a73bac71198e69ff813a4fe
+491	Marco Polarity	poolwings.gif	41324219854e4f2f933dcab7b4ec9f33
+492	Full-Body Tan	poolnoodle.gif	9e9e34acd26db8edf192802379003b58
