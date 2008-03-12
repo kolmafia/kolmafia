@@ -880,6 +880,7 @@ filigreed hamethyst earring	0	Mys: 40
 filigreed hamethyst necklace	0	Mys: 40
 filigreed hamethyst ring	0	Mys: 40
 flashing novelty button	0	none
+foam noodle	0	none
 furniture dolly	0	Mys: 75
 furry green earmuffs	0	Mys: 7
 fuzzy bracelets	0	none
@@ -903,6 +904,7 @@ ice skates	0	none
 imitation nice watch	0	Mys: 35
 incredibly dense meat gem	0	none
 infernal insoles	0	Mys: 15
+inflatable duck	0	none
 intergalactic pom poms	0	none
 jar of anniversary jam	0	none
 kick-ass kicks	0	Mys: 65
@@ -1097,6 +1099,7 @@ toy maglev monorail	0	none
 toy train	0	none
 tube sock	0	Mys: 45
 walrus-tusk earring	0	Mys: 10
+water wings	0	none
 wheel	0	none
 white belt	0	Mys: 5
 white collar	0	none

@@ -89,6 +89,9 @@ Market Demon	m	party hat	300
 Market Demon	m	M-242	300
 Market Demon	m	snake	300
 Market Demon	m	sparkler	300
+Market Demon	m	foam noodle	300
+Market Demon	m	inflatable duck	300
+Market Demon	m	water wings	300
 Market Demon	m	Familiar-Gro&trade; Terrarium	500
 Market Demon	m	Hatorade	500
 Market Demon	m	cocktailcrafting kit	1000
