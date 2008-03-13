@@ -70,7 +70,7 @@ public class StationaryButtonDecorator
 			buffer.delete( beginDebug, endDebug );
 		}
 
-		if ( !Preferences.getBoolean( "relayAddsCustomCombat" ) )
+		if ( !Preferences.getBoolean( "relayAddsCustomCombat" ) || Preferences.getBoolean( "serverAddsCustomCombat" ) )
 		{
 			return;
 		}

@@ -72,6 +72,11 @@ public class AccountRequest
 
 	public static final void parseAccountData( final String responseText )
 	{
+		// Disable stationary buttons to avoid conflicts when
+		// the action bar is enabled.
+
+		Preferences.setBoolean( "serverAddsCustomCombat", responseText.indexOf( "action=actionbar'>Disable" ) != -1 );
+
 		// Parse response text -- make sure you
 		// aren't accidentally parsing profiles.
 

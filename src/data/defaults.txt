@@ -266,6 +266,7 @@ user	requireBoxServants	false
 user	retrieveContacts	true
 user	semirareCounter	0
 user	semirareLocation
+user	serverAddsCustomCombat	false
 user	setAutoAttack	false
 user	showGainsPerUnit	false
 user	sideDefeated	neither
