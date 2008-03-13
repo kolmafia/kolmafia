@@ -1722,7 +1722,7 @@ public class KoLmafiaCLI
 		if ( command.equals( "eat" ) || command.equals( "drink" ) || command.equals( "use" ) || command.equals( "chew" ) || command.equals( "hobo" ) || command.equals( "ghost" ) )
 		{
 			SpecialOutfit.createImplicitCheckpoint();
-			this.executeUseItemRequest( parameters );
+			this.executeUseItemRequest( command, parameters );
 			SpecialOutfit.restoreImplicitCheckpoint();
 			return;
 		}
@@ -4570,9 +4570,9 @@ public class KoLmafiaCLI
 	 * A special module used specifically for properly instantiating UseItemRequests.
 	 */
 
-	private void executeUseItemRequest( final String parameters )
+	private void executeUseItemRequest( final String command, final String parameters )
 	{
-		if ( this.currentLine.startsWith( "eat" ) )
+		if ( command.equals( "eat" ) )
 		{
 			if ( this.makeHellKitchenRequest( parameters ) )
 			{
@@ -4584,7 +4584,7 @@ public class KoLmafiaCLI
 			}
 		}
 
-		if ( this.currentLine.startsWith( "drink" ) )
+		if ( command.equals( "drink" ) )
 		{
 			if ( this.makeHellKitchenRequest( parameters ) )
 			{
@@ -4601,11 +4601,11 @@ public class KoLmafiaCLI
 
 		AdventureResult currentMatch;
 
-		if ( this.currentLine.startsWith( "eat" ) || this.currentLine.startsWith( "ghost" ) )
+		if ( command.equals( "eat" ) || command.equals( "ghost" ) )
 		{
 			ItemFinder.setMatchType( ItemFinder.FOOD_MATCH );
 		}
-		else if ( this.currentLine.startsWith( "drink" ) || this.currentLine.startsWith( "hobo" ) )
+		else if ( command.equals( "drink" ) || command.equals( "hobo" ) )
 		{
 			ItemFinder.setMatchType( ItemFinder.BOOZE_MATCH );
 		}
@@ -4622,7 +4622,7 @@ public class KoLmafiaCLI
 		{
 			currentMatch = (AdventureResult) itemList[ i ];
 
-			if ( this.currentLine.startsWith( "eat" ) || this.currentLine.startsWith( "ghost" ) )
+			if ( command.equals( "eat" ) || command.equals( "ghost" ) )
 			{
 				if ( ItemDatabase.getConsumptionType( currentMatch.getItemId() ) != KoLConstants.CONSUME_EAT )
 				{
@@ -4631,7 +4631,7 @@ public class KoLmafiaCLI
 				}
 			}
 
-			if ( this.currentLine.startsWith( "drink" ) || this.currentLine.startsWith( "hobo" ) )
+			if ( command.equals( "drink" ) || command.equals( "hobo" ) )
 			{
 				if ( ItemDatabase.getConsumptionType( currentMatch.getItemId() ) != KoLConstants.CONSUME_DRINK )
 				{
@@ -4641,7 +4641,7 @@ public class KoLmafiaCLI
 				}
 			}
 
-			if ( this.currentLine.startsWith( "use" ) )
+			if ( command.equals( "use" ) )
 			{
 				switch ( ItemDatabase.getConsumptionType( currentMatch.getItemId() ) )
 				{
@@ -4656,8 +4656,8 @@ public class KoLmafiaCLI
 			}
 
 			UseItemRequest request =
-				this.currentLine.startsWith( "hobo" ) ? new UseItemRequest( KoLConstants.CONSUME_HOBO, currentMatch ) :
-				this.currentLine.startsWith( "ghost" ) ? new UseItemRequest( KoLConstants.CONSUME_GHOST, currentMatch ) :
+				command.equals( "hobo" ) ? new UseItemRequest( KoLConstants.CONSUME_HOBO, currentMatch ) :
+				command.equals( "ghost" ) ? new UseItemRequest( KoLConstants.CONSUME_GHOST, currentMatch ) :
 				new UseItemRequest( currentMatch );
 
 			RequestThread.postRequest( request );
