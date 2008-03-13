@@ -56,20 +56,6 @@ public class StationaryButtonDecorator
 
 	public static final void decorate( final String urlString, final StringBuffer buffer )
 	{
-		String debug = "&nbsp;";
-
-		int beginDebug = buffer.indexOf( "<font size=1>" );
-		if ( beginDebug != -1 )
-		{
-			int endDebug = buffer.indexOf( "</font>", beginDebug ) + 7;
-			if ( endDebug - beginDebug > 20 && !Preferences.getBoolean( "hideServerDebugText" ) )
-			{
-				debug = "<br/>" + buffer.substring( beginDebug + 13, endDebug - 7 ) + "<br/>";
-			}
-
-			buffer.delete( beginDebug, endDebug );
-		}
-
 		if ( !Preferences.getBoolean( "relayAddsCustomCombat" ) || Preferences.getBoolean( "serverAddsCustomCombat" ) )
 		{
 			return;
@@ -155,10 +141,7 @@ public class StationaryButtonDecorator
 			actionBuffer.append( "</select>" );
 
 			actionBuffer.append( "</td></tr></table>" );
-			actionBuffer.append( "</td></tr><tr><td><font size=1>" );
-
-			actionBuffer.append( debug );
-			actionBuffer.append( "</font></td></tr>" );
+			actionBuffer.append( "</td></tr>" );
 			buffer.insert( insertionPoint, actionBuffer.toString() );
 
 			StringUtilities.singleStringReplace( buffer, "</head>", "<script src=\"/hotkeys.js\"></script></head>" );
