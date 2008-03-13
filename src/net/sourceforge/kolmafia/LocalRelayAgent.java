@@ -34,22 +34,23 @@
 package net.sourceforge.kolmafia;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
-
 import java.net.Socket;
-
 import java.util.TreeMap;
 
-import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.session.ChoiceManager;
+import net.sourceforge.kolmafia.utilities.PauseObject;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
+
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.SendMailRequest;
-import net.sourceforge.kolmafia.session.ChoiceManager;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
-import net.sourceforge.kolmafia.utilities.PauseObject;
+
+import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class LocalRelayAgent
 	extends Thread
@@ -57,9 +58,9 @@ public class LocalRelayAgent
 	private static final LocalRelayCombatThread COMBAT_THREAD = new LocalRelayCombatThread();
 	private static final TreeMap lastModified = new TreeMap();
 
-	static
+	public static void reset()
 	{
-		LocalRelayAgent.COMBAT_THREAD.start();
+		LocalRelayAgent.lastModified.clear();
 	}
 
 	private final char[] data = new char[ 8096 ];
@@ -79,12 +80,12 @@ public class LocalRelayAgent
 		this.request = new RelayRequest( true );
 	}
 
-	boolean isWaiting()
+	public boolean isWaiting()
 	{
 		return this.socket == null;
 	}
 
-	void setSocket( final Socket socket )
+	public void setSocket( final Socket socket )
 	{
 		this.socket = socket;
 		this.pauser.unpause();
@@ -102,56 +103,37 @@ public class LocalRelayAgent
 			if ( this.socket != null )
 			{
 				this.performRelay();
+				this.closeRelay();
 			}
-
-			this.socket = null;
 		}
 	}
 
 	public void performRelay()
 	{
-		if ( this.socket == null )
-		{
-			return;
-		}
-
 		this.path = null;
 		this.reader = null;
 		this.writer = null;
 
 		try
 		{
-			this.reader = new BufferedReader( new InputStreamReader( this.socket.getInputStream() ) );
-
 			if ( !this.readBrowserRequest() )
 			{
-				this.closeRelay();
 				return;
 			}
 
 			this.readServerResponse();
-
-			if ( this.request.rawByteBuffer != null )
-			{
-				this.writer = new PrintStream( this.socket.getOutputStream(), false );
-				this.writer.println( this.request.statusLine );
-				this.request.printHeaders( this.writer );
-
-				this.writer.println();
-				this.writer.write( this.request.rawByteBuffer );
-				this.writer.flush();
-			}
+			this.sendServerResponse();
 		}
-		catch ( Exception e )
+		catch ( IOException e )
 		{
 		}
-
-		this.closeRelay();
 	}
 
 	public boolean readBrowserRequest()
-		throws Exception
+		throws IOException
 	{
+		this.reader = new BufferedReader( new InputStreamReader( this.socket.getInputStream() ) );
+
 		String requestLine = this.reader.readLine();
 		int spaceIndex = requestLine.indexOf( " " );
 
@@ -214,22 +196,18 @@ public class LocalRelayAgent
 
 		// Validate supplied password hashes
 		String pwd = this.request.getFormField( "pwd" );
-		if ( pwd != null && !pwd.equals( GenericRequest.passwordHash ) )
-			// Bogus. Do not accept this url.
-			return false;
-
-		if ( this.path.startsWith( "/KoLmafia" ) )
-			// KoLmafia internal pages use only "pwd"
-			return pwd != null;
 
 		// Other KoL pages might also use "phash"
-		pwd = this.request.getFormField( "phash" );
-		return pwd == null || pwd.equals( GenericRequest.passwordHash );
-	}
+		if ( pwd == null )
+			pwd = this.request.getFormField( "phash" );
 
-	public static void reset()
-	{
-		LocalRelayAgent.lastModified.clear();
+		// KoLmafia internal pages use only "pwd"
+		if ( this.path.startsWith( "/KoLmafia" ) )
+			return pwd != null;
+
+		// All other pages need either no password hash
+		// or a valid password hash.
+		return pwd == null || pwd.equals( GenericRequest.passwordHash );
 	}
 
 	private boolean shouldSendNotModified()
@@ -259,7 +237,7 @@ public class LocalRelayAgent
 	}
 
 	private void readServerResponse()
-		throws Exception
+		throws IOException
 	{
 		// If not requesting a server-side page, then it is safe
 		// to assume that no changes have been made (save time).
@@ -363,6 +341,21 @@ public class LocalRelayAgent
 		}
 	}
 
+	private void sendServerResponse()
+		throws IOException
+	{
+		if ( this.request.rawByteBuffer != null )
+		{
+			this.writer = new PrintStream( this.socket.getOutputStream(), false );
+			this.writer.println( this.request.statusLine );
+			this.request.printHeaders( this.writer );
+
+			this.writer.println();
+			this.writer.write( this.request.rawByteBuffer );
+			this.writer.flush();
+		}
+	}
+
 	private void closeRelay()
 	{
 		try
@@ -370,25 +363,19 @@ public class LocalRelayAgent
 			if ( this.reader != null )
 			{
 				this.reader.close();
+				this.reader = null;
 			}
 		}
-		catch ( Exception e )
+		catch ( IOException e )
 		{
 			// The only time this happens is if the
-			// print bstream is already closed.  Ignore.
+			// input is already closed.  Ignore.
 		}
 
-		try
+		if ( this.writer != null )
 		{
-			if ( this.writer != null )
-			{
-				this.writer.close();
-			}
-		}
-		catch ( Exception e )
-		{
-			// The only time this happens is if the
-			// print bstream is already closed.  Ignore.
+			this.writer.close();
+			this.writer = null;
 		}
 
 		try
@@ -396,9 +383,10 @@ public class LocalRelayAgent
 			if ( this.socket != null )
 			{
 				this.socket.close();
+				this.socket = null;
 			}
 		}
-		catch ( Exception e )
+		catch ( IOException e )
 		{
 			// The only time this happens is if the
 			// socket is already closed.  Ignore.
