@@ -109,7 +109,7 @@ public class LoginRequest
 		GenericRequest.applySettings();
 
 		String lowercase = this.username.toLowerCase();
-		if ( lowercase.startsWith( "devster" ) || lowercase.equals( "holatuwol" ) || lowercase.equals( "hogulus" ) )
+		if ( lowercase.startsWith( "devster" ) || lowercase.equals( "holatuwol" ) || lowercase.equals( "hogulus" ) || lowercase.equals( "armak" ) )
 		{
 			GenericRequest.setLoginServer( "dev.kingdomofloathing.com" );
 		}
