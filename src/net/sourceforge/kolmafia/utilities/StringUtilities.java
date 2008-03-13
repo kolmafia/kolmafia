@@ -41,7 +41,7 @@ import java.util.regex.Pattern;
 
 public class StringUtilities
 {
-	private static final Pattern NONINTEGER_PATTERN = Pattern.compile( "[^\\-\\0-9]" );
+	private static final Pattern NONINTEGER_PATTERN = Pattern.compile( "[^\\-0-9]" );
 	private static final Pattern NONFLOAT_PATTERN = Pattern.compile( "[^\\-\\.0-9]" );
 
 	/**
