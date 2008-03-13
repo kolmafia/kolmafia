@@ -86,11 +86,20 @@ public class FileUtilities
 		String line = FileUtilities.readLine( reader );
 
 		// Parse the version number and validate
-		int fileVersion = StringUtilities.parseInt( line );
 
-		if ( version == fileVersion )
+		try
 		{
-			return reader;
+			int fileVersion = StringUtilities.parseInt( line );
+
+			if ( version == fileVersion )
+			{
+				return reader;
+			}
+		}
+		catch ( Exception e )
+		{
+			// Incompatible data file, use KoLmafia's internal
+			// files instead.
 		}
 
 		// We don't understand this file format
@@ -266,22 +275,22 @@ public class FileUtilities
 	/**
 	 * Downloads the given file from the KoL images server and stores it locally.
 	 */
-	
+
 	public static final URL downloadImage( final String filename )
 	{
 		if ( filename == null || filename.equals( "" ) )
 		{
 			return null;
 		}
-	
+
 		String localname = filename.substring( filename.indexOf( "/", "http://".length() ) + 1 );
 		if ( localname.startsWith( "albums/" ) )
 		{
 			localname = localname.substring( "albums/".length() );
 		}
-	
+
 		File localfile = new File( UtilityConstants.IMAGE_LOCATION, localname );
-	
+
 		if ( !localfile.exists() || localfile.length() == 0 )
 		{
 			if ( JComponentUtilities.getImage( localname ) != null )
@@ -293,7 +302,7 @@ public class FileUtilities
 				downloadFile( filename, localfile );
 			}
 		}
-	
+
 		try
 		{
 			return localfile.toURI().toURL();
@@ -302,7 +311,7 @@ public class FileUtilities
 		{
 			// This can happen whenever there is bad internet
 			// or whenever the familiar is brand-new.
-	
+
 			return null;
 		}
 	}
