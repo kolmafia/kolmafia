@@ -195,7 +195,7 @@ public class ItemPool
 
 	public static final AdventureResult get( String itemName, int count )
 	{
-		return ItemPool.get( ItemDatabase.getItemId( itemName, count, false ), 1 );
+		return ItemPool.get( ItemDatabase.getItemId( itemName, 1, false ), count );
 	}
 
 	public static final AdventureResult get( int itemId, int count )
