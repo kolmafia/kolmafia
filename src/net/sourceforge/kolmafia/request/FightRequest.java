@@ -1892,8 +1892,6 @@ public class FightRequest
 			return false;
 		}
 
-		UseItemRequest.resetItemUsed();
-
 		FightRequest.action1 = null;
 		FightRequest.action2 = null;
 
