@@ -1121,7 +1121,7 @@ public class KoLmafiaCLI
 			{
 				String desiredValue = CustomCombatManager.getLongCombatOptionName( value );
 
-				if ( !value.startsWith( "attack" ) || desiredValue.startsWith( "attack" ) )
+				if ( !desiredValue.startsWith( "attack" ) || value.startsWith( "attack" ) )
 				{
 					value = desiredValue;
 				}

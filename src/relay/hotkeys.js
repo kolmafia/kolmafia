@@ -53,24 +53,13 @@ function handleCombatHotkey( e, isDown )
 	if ( numericKey == -1 )
 		return false;
 
-	if ( executeCommand( numericKey ) )
-		return true;
-
-	document.location.href = "fight.php?hotkey=" + numericKey;
-	return true;
-}
-
-function executeCommand(numericKey)
-{
 	var button = document.getElementById( "defaultButton" );
 	var viewer = document.getElementById( "hotkeyViewer" );
 
 	var command = viewer.options[numericKey + 1].innerHTML;
-	command = command.substring( command.indexOf( ":" ) + 2, command.length() );
+	command = command.substring( command.indexOf( ":" ) + 2, command.length );
 
-	alert( command );
-
-	if ( command.length() == 0 )
+	if ( command.length == 0 )
 	{
 		if ( numericKey == 0 )
 			button.onclick();
@@ -78,19 +67,30 @@ function executeCommand(numericKey)
 		return true;
 	}
 
-	if ( !command.startsWith( "attack" ) && !command.startsWith( "skill" ) && !command.startsWith( "item" ) && !command.startsWith( "custom" ) && !command.startsWith( "consult" ) )
-	{
-		top.charpane.document.location.href = "/KoLmafia/sideCommand?cmd=" +
-			URLEncode( command ) + "&MAFIAHIT";
-
+	if ( executeCommand( command ) )
 		return true;
-	}
 
 	if ( button.value == "again" || button.value == "auto" )
 	{
 		button.onclick();
 		return true;
 	}
+
+	document.location.href = "fight.php?hotkey=" + numericKey;
+	return true;
+}
+
+function executeCommand( command )
+{
+	if ( command.indexOf( "attack" ) == 0 || command.indexOf( "skill" ) == 0 || command.indexOf( "item" ) == 0 || command.indexOf( "custom" ) == 0 || command.indexOf( "consult" ) )
+	{
+		return false;
+	}
+
+	top.charpane.document.location.href = "/KoLmafia/sideCommand?cmd=" +
+		URLEncode( command ) + "&MAFIAHIT";
+
+	return true;
 }
 
 function updateCombatHotkey()
