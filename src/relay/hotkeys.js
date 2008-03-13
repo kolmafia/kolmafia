@@ -59,6 +59,11 @@ function handleCombatHotkey( e, isDown )
 	var command = viewer.options[numericKey + 1].innerHTML;
 	command = command.substring( command.indexOf( ":" ) + 2, command.length );
 
+	if ( button.value == "auto" )
+	{
+		return handleChoice( numericKey );
+	}
+
 	if ( command.length == 0 )
 	{
 		if ( numericKey == 0 )
@@ -70,7 +75,7 @@ function handleCombatHotkey( e, isDown )
 	if ( executeCommand( command ) )
 		return true;
 
-	if ( button.value == "again" || button.value == "auto" )
+	if ( button.value == "again" )
 	{
 		button.onclick();
 		return true;
@@ -80,10 +85,35 @@ function handleCombatHotkey( e, isDown )
 	return true;
 }
 
+function handleChoice( choiceId )
+{
+	if ( choiceId == 0 )
+	{
+		button.onclick();
+		return true;
+	}
+
+	var forms = document.getElementsByTagName( "form" );
+	for ( var i = 0; i < forms.length; ++i )
+	{
+		var inputs = forms[i].getElementsByTagName( "input" );
+		for ( var j = 0; j < inputs.length; ++j )
+		{
+			if ( inputs[j].value == choiceId )
+			{
+				forms[i].submit();
+				return true;
+			}
+		}
+	}
+	
+	return false;
+}
+
 function executeCommand( command )
 {
-	if ( command.indexOf( "attack" ) == 0 || command.indexOf( "skill" ) == 0 || command.indexOf( "item" ) == 0 || command.indexOf( "custom" ) == 0 || command.indexOf( "consult" ) )
-	{
+	if ( command.indexOf( "attack" ) == 0 || command.indexOf( "skill" ) == 0 || command.indexOf( "item" ) == 0 || command.indexOf( "custom" ) == 0 || command.indexOf( "consult" ) == 0 )
+	{	
 		return false;
 	}
 
