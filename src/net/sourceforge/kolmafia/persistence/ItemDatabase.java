@@ -651,7 +651,21 @@ public class ItemDatabase
 		// to parse based on that.
 
 		String canonicalName = StringUtilities.getCanonicalName( itemName );
-		Object itemId = ItemDatabase.itemIdByName.get( canonicalName );
+		Object itemId;
+
+		// See if it's a weird pluralization with a pattern we can't
+		// guess before checking for singles.
+
+		if ( count > 1 )
+		{
+			itemId = ItemDatabase.itemIdByPlural.get( canonicalName );
+			if ( itemId != null )
+			{
+				return ( (Integer) itemId ).intValue();
+			}
+		}
+
+		itemId = ItemDatabase.itemIdByName.get( canonicalName );
 
 		// If the name, as-is, exists in the item database,
 		// then go ahead and return the item Id.
@@ -666,18 +680,6 @@ public class ItemDatabase
 		if ( canonicalName.equals( "less-than-three- shaped box" ) )
 		{
 			return 1168;
-		}
-
-		// See if it's a weird pluralization with a pattern we can't
-		// guess.
-
-		if ( count > 1 )
-		{
-			itemId = ItemDatabase.itemIdByPlural.get( canonicalName );
-			if ( itemId != null )
-			{
-				return ( (Integer) itemId ).intValue();
-			}
 		}
 
 		if ( !substringMatch )
