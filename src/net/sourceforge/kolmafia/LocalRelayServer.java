@@ -45,7 +45,6 @@ import net.sourceforge.kolmafia.utilities.FileUtilities;
 public class LocalRelayServer
 	implements Runnable
 {
-	private static final int INITIAL_THREAD_COUNT = 10;
 	public static final ArrayList agentThreads = new ArrayList();
 
 	private static long lastStatusMessage = 0;
@@ -161,12 +160,6 @@ public class LocalRelayServer
 		try
 		{
 			this.serverSocket = new ServerSocket( LocalRelayServer.port, 25, InetAddress.getByName( "127.0.0.1" ) );
-
-			while ( LocalRelayServer.agentThreads.size() < LocalRelayServer.INITIAL_THREAD_COUNT )
-			{
-				this.createAgent();
-			}
-
 			return true;
 		}
 		catch ( Exception e )
@@ -199,17 +192,16 @@ public class LocalRelayServer
 			}
 		}
 
-		this.createAgent();
+		this.createAgent( socket );
 	}
 
-	private synchronized LocalRelayAgent createAgent()
+	private synchronized void createAgent( final Socket socket )
 	{
 		LocalRelayAgent agent = new LocalRelayAgent( LocalRelayServer.agentThreads.size() );
+		agent.setSocket( socket );
 
 		LocalRelayServer.agentThreads.add( agent );
 		agent.start();
-
-		return agent;
 	}
 
 	public static final void addStatusMessage( final String message )
