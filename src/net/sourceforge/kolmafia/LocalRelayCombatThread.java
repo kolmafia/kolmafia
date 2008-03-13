@@ -16,6 +16,7 @@ public class LocalRelayCombatThread
 	public LocalRelayCombatThread()
 	{
 		this.setDaemon( true );
+		this.start();
 	}
 
 	public void wake( final String desiredAction )
