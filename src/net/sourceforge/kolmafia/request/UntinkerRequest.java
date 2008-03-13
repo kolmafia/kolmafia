@@ -160,7 +160,7 @@ public class UntinkerRequest
 			super.run();
 		}
 
-		KoLmafia.updateDisplay( "Successfully untinkered " + ItemDatabase.getItemName( this.itemId ) + "." );
+		KoLmafia.updateDisplay( "Successfully untinkered " + this.item );
 	}
 
 	public static final boolean canUntinker()
