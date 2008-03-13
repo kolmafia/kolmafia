@@ -315,15 +315,17 @@ public class ItemFinder
 			else
 			{
 				boolean isNumeric = parameters.charAt( 0 ) == '-' || Character.isDigit( parameters.charAt( 0 ) );
-				for ( int i = 1; i < parameters.length() && parameters.charAt( i ) != ' '; ++i )
+
+				int spaceIndex = 0;
+				for ( ; spaceIndex < parameters.length() && parameters.charAt( spaceIndex ) != ' '; ++spaceIndex )
 				{
-					isNumeric &= Character.isDigit( parameters.charAt( i ) );
+					isNumeric &= Character.isDigit( parameters.charAt( spaceIndex ) );
 				}
 
 				if ( isNumeric )
 				{
-					itemCount = StringUtilities.parseInt( parameters.substring( 0, parameters.indexOf( " " ) ) );
-					parameters = parameters.substring( parameters.indexOf( " " ) + 1 ).trim();
+					itemCount = StringUtilities.parseInt( parameters.substring( 0, spaceIndex ) );
+					parameters = parameters.substring( spaceIndex + 1 ).trim();
 				}
 			}
 		}
@@ -420,6 +422,12 @@ public class ItemFinder
 				{
 					int amount = StringUtilities.parseInt( amountString );
 					firstMatch = new AdventureResult( AdventureResult.MEAT, amount );
+
+					if ( amount <= 0 )
+					{
+						amount += sourceList == KoLConstants.storage ? KoLCharacter.getStorageMeat() :
+							sourceList == KoLConstants.closet ? KoLCharacter.getClosetMeat() : KoLCharacter.getAvailableMeat();
+					}
 				}
 			}
 
