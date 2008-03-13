@@ -1297,6 +1297,8 @@ public class GenericRequest
 				RequestLogger.updateSessionLog();
 				RequestLogger.updateSessionLog( "[" + KoLAdventure.getAdventureCount() + "] " + name );
 			}
+
+			UseItemRequest.resetItemUsed();
 		}
 
 		if ( this instanceof RelayRequest )

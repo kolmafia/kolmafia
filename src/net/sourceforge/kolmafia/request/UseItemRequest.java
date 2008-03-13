@@ -856,7 +856,10 @@ public class UseItemRequest
 			return;
 		}
 
-		int consumptionType = ItemDatabase.getConsumptionType( UseItemRequest.lastItemUsed.getItemId() );
+		AdventureResult item = UseItemRequest.lastItemUsed;
+		UseItemRequest.resetItemUsed();
+
+		int consumptionType = ItemDatabase.getConsumptionType( item.getItemId() );
 
 		if ( consumptionType == KoLConstants.NO_CONSUME )
 		{
@@ -882,7 +885,7 @@ public class UseItemRequest
 		// In the event that the item is not used, then proceed to
 		// undo the consumption.
 
-		ResultProcessor.processResult( UseItemRequest.lastItemUsed.getNegation() );
+		ResultProcessor.processResult( item.getNegation() );
 
 		// Check for familiar growth - if a familiar is added,
 		// make sure to update the StaticEntity.getClient().
@@ -893,13 +896,13 @@ public class UseItemRequest
 			{
 				UseItemRequest.lastUpdate = "You already have that familiar.";
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
-				ResultProcessor.processResult( UseItemRequest.lastItemUsed );
+				ResultProcessor.processResult( item );
 				return;
 			}
 
 			// Pop up a window showing the result
 
-			KoLCharacter.addFamiliar( FamiliarDatabase.growFamiliarLarva( UseItemRequest.lastItemUsed.getItemId() ) );
+			KoLCharacter.addFamiliar( FamiliarDatabase.growFamiliarLarva( item.getItemId() ) );
 			UseItemRequest.showItemUsage( showHTML, responseText, true );
 			return;
 		}
@@ -907,7 +910,7 @@ public class UseItemRequest
 		if ( responseText.indexOf( "You may not" ) != -1 )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Pathed ascension." );
-			ResultProcessor.processResult( UseItemRequest.lastItemUsed );
+			ResultProcessor.processResult( item );
 			return;
 		}
 
@@ -915,7 +918,7 @@ public class UseItemRequest
 		{
 			UseItemRequest.lastUpdate = "Your spleen might go kabooie.";
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
-			ResultProcessor.processResult( UseItemRequest.lastItemUsed );
+			ResultProcessor.processResult( item );
 			return;
 		}
 
@@ -927,7 +930,7 @@ public class UseItemRequest
 		{
 			UseItemRequest.lastUpdate = "Consumption limit reached.";
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
-			ResultProcessor.processResult( UseItemRequest.lastItemUsed );
+			ResultProcessor.processResult( item );
 			return;
 		}
 
@@ -935,13 +938,13 @@ public class UseItemRequest
 		{
 			UseItemRequest.lastUpdate = "Inebriety limit reached.";
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
-			ResultProcessor.processResult( UseItemRequest.lastItemUsed );
+			ResultProcessor.processResult( item );
 			return;
 		}
 
 		// Perform item-specific processing
 
-		switch ( UseItemRequest.lastItemUsed.getItemId() )
+		switch ( item.getItemId() )
 		{
 
 		// If it's a gift package, get the inner message
@@ -968,7 +971,7 @@ public class UseItemRequest
 			{
 				UseItemRequest.lastUpdate = "You can't open that package yet.";
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
-				ResultProcessor.processResult( UseItemRequest.lastItemUsed );
+				ResultProcessor.processResult( item );
 			}
 			else if ( showHTML )
 			{
@@ -1031,7 +1034,7 @@ public class UseItemRequest
 
 			if ( responseText.indexOf( "you're flattered" ) == -1 )
 			{
-				ResultProcessor.processResult( UseItemRequest.lastItemUsed );
+				ResultProcessor.processResult( item );
 			}
 			else
 			{
@@ -1047,7 +1050,7 @@ public class UseItemRequest
 			if ( responseText.indexOf( "The UB3r 31337 HaX0R stands before you." ) != -1 )
 			{
 				ResultProcessor.processResult(
-					UseItemRequest.lastItemUsed.getInstance( UseItemRequest.lastItemUsed.getCount() - 1 ) );
+					item.getInstance( item.getCount() - 1 ) );
 			}
 
 			return;
@@ -1066,7 +1069,7 @@ public class UseItemRequest
 
 			if ( responseText.indexOf( "back to work" ) != -1 || responseText.indexOf( "fireworks are illegal" ) != -1 )
 			{
-				ResultProcessor.processResult( UseItemRequest.lastItemUsed );
+				ResultProcessor.processResult( item );
 			}
 
 			return;
@@ -1088,7 +1091,7 @@ public class UseItemRequest
 
 			if ( responseText.indexOf( "grows into an enormous beanstalk" ) == -1 )
 			{
-				ResultProcessor.processResult( UseItemRequest.lastItemUsed );
+				ResultProcessor.processResult( item );
 			}
 
 			return;
@@ -1105,7 +1108,7 @@ public class UseItemRequest
 
 			if ( responseText.indexOf( "feeling kind of dirty" ) == -1 )
 			{
-				ResultProcessor.processResult( UseItemRequest.lastItemUsed );
+				ResultProcessor.processResult( item );
 			}
 
 			return;
@@ -1119,7 +1122,7 @@ public class UseItemRequest
 			{
 				UseItemRequest.lastUpdate = "You music was inadequate.";
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
-				ResultProcessor.processResult( UseItemRequest.lastItemUsed );
+				ResultProcessor.processResult( item );
 			}
 
 			return;
@@ -1133,7 +1136,7 @@ public class UseItemRequest
 			{
 				UseItemRequest.lastUpdate = "You couldn't make it all the way to the back door.";
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
-				ResultProcessor.processResult( UseItemRequest.lastItemUsed );
+				ResultProcessor.processResult( item );
 			}
 
 			return;
@@ -1148,7 +1151,7 @@ public class UseItemRequest
 
 			if ( responseText.indexOf( "crumble" ) == -1 )
 			{
-				ResultProcessor.processResult( UseItemRequest.lastItemUsed );
+				ResultProcessor.processResult( item );
 			}
 
 			return;
@@ -1172,7 +1175,7 @@ public class UseItemRequest
 			}
 			else
 			{
-				ResultProcessor.processResult( UseItemRequest.lastItemUsed );
+				ResultProcessor.processResult( item );
 			}
 
 		case RAFFLE_TICKET:
@@ -1204,7 +1207,7 @@ public class UseItemRequest
 
 			// The ketchup hound does not go away...
 
-			ResultProcessor.processResult( UseItemRequest.lastItemUsed );
+			ResultProcessor.processResult( item );
 			return;
 
 		case LUCIFER:
@@ -1225,7 +1228,7 @@ public class UseItemRequest
 			{
 				UseItemRequest.lastUpdate = "You don't have everything you need.";
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
-				ResultProcessor.processResult( UseItemRequest.lastItemUsed );
+				ResultProcessor.processResult( item );
 			}
 
 			return;
@@ -1239,7 +1242,7 @@ public class UseItemRequest
 			{
 				UseItemRequest.lastUpdate = "You don't have everything you need.";
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
-				ResultProcessor.processResult( UseItemRequest.lastItemUsed );
+				ResultProcessor.processResult( item );
 			}
 
 			return;
@@ -1253,7 +1256,7 @@ public class UseItemRequest
 			{
 				UseItemRequest.lastUpdate = "You don't have everything you need.";
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
-				ResultProcessor.processResult( UseItemRequest.lastItemUsed );
+				ResultProcessor.processResult( item );
 				return;
 			}
 
@@ -1271,7 +1274,7 @@ public class UseItemRequest
 			{
 				UseItemRequest.lastUpdate = "You don't have everything you need.";
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
-				ResultProcessor.processResult( UseItemRequest.lastItemUsed );
+				ResultProcessor.processResult( item );
 				return;
 			}
 
@@ -1292,7 +1295,7 @@ public class UseItemRequest
 			{
 				UseItemRequest.lastUpdate = "You need a guide.";
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
-				ResultProcessor.processResult( UseItemRequest.lastItemUsed );
+				ResultProcessor.processResult( item );
 				return;
 			}
 
@@ -1302,20 +1305,20 @@ public class UseItemRequest
 			FamiliarData blackbird = KoLCharacter.getFamiliar();
 			KoLCharacter.removeFamiliar( blackbird );
 
-			AdventureResult item = blackbird.getItem();
-			if ( item != null && !item.equals( EquipmentRequest.UNEQUIP ) )
+			AdventureResult blackbirdItem = blackbird.getItem();
+			if ( blackbirdItem != null && !blackbirdItem.equals( EquipmentRequest.UNEQUIP ) )
 			{
-				AdventureResult.addResultToList( KoLConstants.inventory, item );
+				AdventureResult.addResultToList( KoLConstants.inventory, blackbirdItem );
 			}
 
 			if ( !Preferences.getString( "preBlackbirdFamiliar" ).equals( "" ) )
 			{
 				KoLmafiaCLI.DEFAULT_SHELL.executeCommand(
 					"familiar", Preferences.getString( "preBlackbirdFamiliar" ) );
-				if ( item != null && !item.equals( EquipmentRequest.UNEQUIP ) && KoLCharacter.getFamiliar().canEquip(
-					item ) )
+				if ( blackbirdItem != null && !blackbirdItem.equals( EquipmentRequest.UNEQUIP ) &&
+					KoLCharacter.getFamiliar().canEquip( blackbirdItem ) )
 				{
-					( new EquipmentRequest( item ) ).run();
+					new EquipmentRequest( blackbirdItem ).run();
 				}
 
 				Preferences.setString( "preBlackbirdFamiliar", "" );
@@ -1335,7 +1338,7 @@ public class UseItemRequest
 			{
 				UseItemRequest.lastUpdate = "You don't have everything you need.";
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
-				ResultProcessor.processResult( UseItemRequest.lastItemUsed );
+				ResultProcessor.processResult( item );
 			}
 
 			return;
@@ -1352,7 +1355,7 @@ public class UseItemRequest
 			{
 				UseItemRequest.lastUpdate = "You need some dingy planks.";
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
-				ResultProcessor.processResult( UseItemRequest.lastItemUsed );
+				ResultProcessor.processResult( item );
 			}
 
 			return;
@@ -1363,7 +1366,7 @@ public class UseItemRequest
 			// skeleton gives up and falls to pieces."
 			if ( responseText.indexOf( "gives up and falls to pieces." ) != -1 )
 			{
-				ResultProcessor.processResult( UseItemRequest.lastItemUsed );
+				ResultProcessor.processResult( item );
 			}
 			else
 			{
@@ -1383,7 +1386,7 @@ public class UseItemRequest
 			}
 			else
 			{
-				ResultProcessor.processResult( UseItemRequest.lastItemUsed );
+				ResultProcessor.processResult( item );
 			}
 
 			return;
@@ -1403,7 +1406,7 @@ public class UseItemRequest
 			if ( responseText.indexOf( "ironically" ) != -1 )
 			{
 				ResultProcessor.processResult(
-					UseItemRequest.lastItemUsed.getInstance( UseItemRequest.lastItemUsed.getCount() - 1 ) );
+					item.getInstance( item.getCount() - 1 ) );
 			}
 
 			return;
@@ -1422,7 +1425,7 @@ public class UseItemRequest
 			{
 				UseItemRequest.lastUpdate = "Your mouth is too cold.";
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
-				ResultProcessor.processResult( UseItemRequest.lastItemUsed );
+				ResultProcessor.processResult( item );
 			}
 
 			return;
@@ -1434,7 +1437,7 @@ public class UseItemRequest
 
 			ResultProcessor.processResult(
 				UseItemRequest.DOUGH.getInstance( UseItemRequest.DOUGH.getCount( KoLConstants.inventory ) ).getNegation() );
-			ResultProcessor.processResult( UseItemRequest.lastItemUsed );
+			ResultProcessor.processResult( item );
 
 			return;
 
@@ -1446,7 +1449,7 @@ public class UseItemRequest
 			ResultProcessor.processResult(
 				UseItemRequest.FLAT_DOUGH.getInstance(
 					UseItemRequest.FLAT_DOUGH.getCount( KoLConstants.inventory ) ).getNegation() );
-			ResultProcessor.processResult( UseItemRequest.lastItemUsed );
+			ResultProcessor.processResult( item );
 			return;
 
 		case PLUS_SIGN:
@@ -1458,7 +1461,7 @@ public class UseItemRequest
 			{
 				UseItemRequest.lastUpdate = "You don't know how to use it.";
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
-				ResultProcessor.processResult( UseItemRequest.lastItemUsed );
+				ResultProcessor.processResult( item );
 			}
 
 			return;
@@ -1492,13 +1495,13 @@ public class UseItemRequest
 			if ( responseText.indexOf( "You've already got" ) != -1 ||
 			     responseText.indexOf( "You already" ) != -1)
 			{
-				ResultProcessor.processResult( UseItemRequest.lastItemUsed );
+				ResultProcessor.processResult( item );
 				return;
 			}
 
 			KoLCharacter.setBookshelf( true );
 
-			switch ( UseItemRequest.lastItemUsed.getItemId() )
+			switch ( item.getItemId() )
 			{
 			case SNOWCONE_BOOK:
 				KoLCharacter.addAvailableSkill( "Summon Snowcone" );
@@ -1523,7 +1526,7 @@ public class UseItemRequest
 
 			if ( responseText.indexOf( "You already" ) != -1 )
 			{
-				ResultProcessor.processResult( UseItemRequest.lastItemUsed );
+				ResultProcessor.processResult( item );
 				return;
 			}
 
@@ -1535,7 +1538,7 @@ public class UseItemRequest
 
 			if ( responseText.indexOf( "You already" ) != -1 )
 			{
-				ResultProcessor.processResult( UseItemRequest.lastItemUsed );
+				ResultProcessor.processResult( item );
 				return;
 			}
 
@@ -1566,7 +1569,7 @@ public class UseItemRequest
 
 			if ( responseText.indexOf( "whirling maelstrom" ) == -1 )
 			{
-				ResultProcessor.processResult( UseItemRequest.lastItemUsed );
+				ResultProcessor.processResult( item );
 			}
 
 			return;
@@ -1583,7 +1586,7 @@ public class UseItemRequest
 
 			if ( responseText.indexOf( "licorice" ) == -1 )
 			{
-				ResultProcessor.processResult( UseItemRequest.lastItemUsed );
+				ResultProcessor.processResult( item );
 			}
 
 			return;
@@ -1597,7 +1600,7 @@ public class UseItemRequest
 			{
 				UseItemRequest.lastUpdate = "You're missing some parts.";
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
-				ResultProcessor.processResult( UseItemRequest.lastItemUsed );
+				ResultProcessor.processResult( item );
 				return;
 			}
 
@@ -1616,15 +1619,15 @@ public class UseItemRequest
 			{
 				UseItemRequest.lastUpdate = "You're missing some parts.";
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
-				ResultProcessor.processResult( UseItemRequest.lastItemUsed );
+				ResultProcessor.processResult( item );
 				return;
 			}
 
 			// It worked. Also remove the ink and paper.
 			ResultProcessor.processResult(
-				UseItemRequest.INKWELL.getInstance( 0 - UseItemRequest.lastItemUsed.getCount() ) );
+				UseItemRequest.INKWELL.getInstance( 0 - item.getCount() ) );
 			ResultProcessor.processResult(
-				UseItemRequest.SCRAP_OF_PAPER.getInstance( 0 - UseItemRequest.lastItemUsed.getCount() ) );
+				UseItemRequest.SCRAP_OF_PAPER.getInstance( 0 - item.getCount() ) );
 			return;
 
 		case PALM_FROND:
@@ -1634,7 +1637,7 @@ public class UseItemRequest
 
 			if ( responseText.indexOf( "You acquire" ) == -1 )
 			{
-				ResultProcessor.processResult( UseItemRequest.lastItemUsed );
+				ResultProcessor.processResult( item );
 			}
 
 			return;
@@ -1643,7 +1646,7 @@ public class UseItemRequest
 
 			if ( responseText.indexOf( "You can't build anything" ) != -1 )
 			{
-				ResultProcessor.processResult( UseItemRequest.lastItemUsed );
+				ResultProcessor.processResult( item );
 			}
 
 			return;
@@ -1665,7 +1668,7 @@ public class UseItemRequest
 			{
 				UseItemRequest.lastUpdate = "Insufficient adventures left.";
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
-				ResultProcessor.processResult( UseItemRequest.lastItemUsed );
+				ResultProcessor.processResult( item );
 			}
 
 			return;
@@ -1701,17 +1704,17 @@ public class UseItemRequest
 
 			if ( responseText.indexOf( "now-grodulated" ) == -1 )
 			{
-				ResultProcessor.processResult( UseItemRequest.lastItemUsed );
+				ResultProcessor.processResult( item );
 				return;
 			}
 
 			Preferences.setInteger(
 				"currentMojoFilters",
-				Preferences.getInteger( "currentMojoFilters" ) + UseItemRequest.lastItemUsed.getCount() );
+				Preferences.getInteger( "currentMojoFilters" ) + item.getCount() );
 
 			Preferences.setInteger(
 				"currentSpleenUse",
-				Math.max( 0, Preferences.getInteger( "currentSpleenUse" ) - UseItemRequest.lastItemUsed.getCount() ) );
+				Math.max( 0, Preferences.getInteger( "currentSpleenUse" ) - item.getCount() ) );
 
 			return;
 
@@ -1723,7 +1726,7 @@ public class UseItemRequest
 
 			if ( responseText.indexOf( "You place the" ) == -1 && responseText.indexOf( "You build a" ) == -1 && responseText.indexOf( "You quickly burn down" ) == -1)
 			{
-				ResultProcessor.processResult( UseItemRequest.lastItemUsed );
+				ResultProcessor.processResult( item );
 			}
 			return;
 
@@ -1778,7 +1781,7 @@ public class UseItemRequest
 
 			if ( effectData != null )
 			{
-				Preferences.setString( "lastBangPotion" + UseItemRequest.lastItemUsed.getItemId(), effectData );
+				Preferences.setString( "lastBangPotion" + item.getItemId(), effectData );
 			}
 
 			return;
@@ -1795,7 +1798,7 @@ public class UseItemRequest
 			{
 				UseItemRequest.lastUpdate = "You need a charrrm bracelet.";
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
-				ResultProcessor.processResult( UseItemRequest.lastItemUsed );
+				ResultProcessor.processResult( item );
 				return;
 			}
 			ResultProcessor.processResult( UseItemRequest.CHARRRM_BRACELET );
@@ -1808,7 +1811,7 @@ public class UseItemRequest
 			}
 			else
 			{
-				ResultProcessor.processResult( UseItemRequest.lastItemUsed );
+				ResultProcessor.processResult( item );
 			}
 			return;
 
@@ -1819,7 +1822,7 @@ public class UseItemRequest
 			}
 			else
 			{
-				ResultProcessor.processResult( UseItemRequest.lastItemUsed );
+				ResultProcessor.processResult( item );
 			}
 			return;
 
@@ -1830,7 +1833,7 @@ public class UseItemRequest
 			}
 			else
 			{
-				ResultProcessor.processResult( UseItemRequest.lastItemUsed );
+				ResultProcessor.processResult( item );
 			}
 			return;
 
@@ -1842,7 +1845,7 @@ public class UseItemRequest
 			{
 				UseItemRequest.lastUpdate = "Insufficient adventures left.";
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
-				ResultProcessor.processResult( UseItemRequest.lastItemUsed );
+				ResultProcessor.processResult( item );
 			}
 			return;
 
@@ -1854,7 +1857,7 @@ public class UseItemRequest
 
 			if ( responseText.indexOf( "INSUFFICIENT RESOURCES LOCATED" ) != -1 )
 			{
-				ResultProcessor.processResult( UseItemRequest.lastItemUsed );
+				ResultProcessor.processResult( item );
 				return;
 			}
 
@@ -1922,7 +1925,7 @@ public class UseItemRequest
 			// Certain pieces of equipment can also be "used" and
 			// are not consumed.
 
-			ResultProcessor.processResult( UseItemRequest.lastItemUsed );
+			ResultProcessor.processResult( item );
 			return;
 		}
 	}
