@@ -2852,24 +2852,24 @@
 2846	654355112	plastic bib	plastic bibs
 2847	406198903	Dallas Dynasty Falcon Crest shield
 2848	601549776	Gnomitronic Hyperspatial Demodulizer	Gnomitronic Hyperspatial Demodulizers
-2849	
-2850	
-2851	
-2852	
-2853	
-2854	
-2855	
-2856	
+2849
+2850
+2851
+2852
+2853
+2854
+2855
+2856
 2857
-2858	
-2859	
-2860	
-2861	
-2862	
-2863	
-2864	
-2865	
-2866	
+2858
+2859
+2860
+2861
+2862
+2863
+2864
+2865
+2866
 2867
 2868	282485397	pirate pamphlet	pirate pamphlets
 2869	751847928	pirate brochure	pirate brochures
@@ -2947,7 +2947,7 @@
 2941	525080486	Steal This Candy	Steal These Candies
 2942	512578714	chocolate filthy lucre	chocolate filthy lucres
 2943	802063862	Angry Farmer's Wife Candy	Angry Farmer's Wife Candies
-2944	
+2944
 2945	340531020	party hat	party hats
 2946	798085688	V for Vivala mask	V for Vivala masks
 2947	501433602	The Big Book of Pirate Insults	Big Books of Pirate Insults
@@ -3025,7 +3025,7 @@
 3019	523018058	all-purpose cleaner	all-purpose cleaners
 3020	668292774	handful of sawdust	handfuls of sawdust
 3021	932212238	large stone triangle
-3022		medium stone triangle
+3022	960028209	medium stone triangle
 3023	460043851	small stone triangle
 3024	211072893	strange stone pyramid
 3025	619225682	corpse on the beach	corpses on the beach
@@ -3045,7 +3045,7 @@
 3039	173317473	cursed cannonball	cursed cannonballs
 3040	642277267	cursed voodoo skull	cursed voodoo skulls
 3041	149512464	cursed dirty joke scroll	cursed dirty joke scrolls
-3042	622329601	Crimbo P. R. E. S. S. I. E.	
+3042	622329601	Crimbo P. R. E. S. S. I. E.
 3043	637200318	metallic foil bow	metallic foil bows
 3044	501377601	metallic foil radar dish	metallic foil radar dishs
 3045	967669535	nanite-infested gingerbread bugbear
@@ -3057,10 +3057,10 @@
 3050	331604248	cursed eyepatch
 3051	321086673	cursed cutlass
 3052	797230378	cursed breeches
-3053	
-3054	
-3055	
-3056	
+3053
+3054
+3055
+3056
 3057	990761540	nanofiber cloth	squares of nanofiber cloth
 3058	767627450	iGoogly	iGooglies
 3059	358580860	theoretical string	pieces of theoretical string
@@ -3205,20 +3205,20 @@
 3198	361752510	El Vibrato trapezoid
 3199
 3200
-3201	
-3202	
-3203	
-3204	
-3205	
-3206	
-3207	
-3208	
-3209	
-3210	
-3211	
-3212	
-3213	
-3214	
+3201
+3202
+3203
+3204
+3205
+3206
+3207
+3208
+3209
+3210
+3211
+3212
+3213
+3214
 3215	480795503	overcharged El Vibrato power sphere
 3216	925591992	Fly-By-Knight Heraldry form	Fly-By-Knight Heraldry forms
 3217	193025375	El Vibrato Megadrone
