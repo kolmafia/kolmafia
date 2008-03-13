@@ -1119,7 +1119,12 @@ public class KoLmafiaCLI
 
 			if ( name.startsWith( "combatHotkey" ) )
 			{
-				StationaryButtonDecorator.reloadCombatHotkeyMap();
+				String desiredValue = CustomCombatManager.getLongCombatOptionName( value );
+
+				if ( !value.startsWith( "attack" ) || desiredValue.startsWith( "attack" ) )
+				{
+					value = desiredValue;
+				}
 			}
 
 			if ( Preferences.getString( name ).equals( value ) )
@@ -1129,6 +1134,12 @@ public class KoLmafiaCLI
 
 			RequestLogger.printLine( name + " => " + value );
 			Preferences.setString( name, value );
+
+			if ( name.startsWith( "combatHotkey" ) )
+			{
+				StationaryButtonDecorator.reloadCombatHotkeyMap();
+			}
+
 			return;
 		}
 

@@ -142,20 +142,13 @@ public class StationaryButtonDecorator
 
 			actionBuffer.append( "<option>- update hotkeys -</option>" );
 
-			String currentHotkeyValue;
-
 			for ( int i = 0; i < StationaryButtonDecorator.combatHotkeys.size(); ++i )
 			{
 				actionBuffer.append( "<option>" );
 				actionBuffer.append( i );
 				actionBuffer.append( ": " );
 
-				currentHotkeyValue = (String) StationaryButtonDecorator.combatHotkeys.get( i );
-				if ( !currentHotkeyValue.equals( "" ) )
-				{
-					actionBuffer.append( CustomCombatManager.getLongCombatOptionName( currentHotkeyValue ) );
-				}
-
+				actionBuffer.append( StationaryButtonDecorator.combatHotkeys.get( i ) );
 				actionBuffer.append( "</option>" );
 			}
 

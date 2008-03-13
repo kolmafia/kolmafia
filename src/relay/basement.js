@@ -1,22 +1,22 @@
 function basementUpdate( command )
 {
-	var httpObject1 = getHttpObject();
-	if ( !httpObject1 )
-	return true;
+	var httpObject = getHttpObject();
+	if ( !httpObject )
+		return true;
 
 	isRefreshing = true;
-	httpObject1.onreadystatechange = function()
+	httpObject.onreadystatechange = function()
 	{
-		if ( httpObject1.readyState != 4 )
+		if ( httpObject.readyState != 4 )
 			return;
 
-		var bodyBegin = httpObject1.responseText.indexOf( ">", httpObject1.responseText.indexOf( "<body" ) ) + 1;
-		var bodyEnd = httpObject1.responseText.indexOf( "</body>" );
+		var bodyBegin = httpObject.responseText.indexOf( ">", httpObject.responseText.indexOf( "<body" ) ) + 1;
+		var bodyEnd = httpObject.responseText.indexOf( "</body>" );
 
 		if ( bodyBegin > 0 && bodyEnd > 0 )
 		{
 			top.charpane.document.getElementsByTagName( "body" )[0].innerHTML =
-				httpObject1.responseText.substring( bodyBegin, bodyEnd );
+				httpObject.responseText.substring( bodyBegin, bodyEnd );
 		}
 
 		isRefreshing = false;
@@ -31,8 +31,8 @@ function basementUpdate( command )
 	for ( var i = 0; i < buttons.length; ++i )
 		buttons[i].disabled = true;
 
-	httpObject1.open( "GET", "/KoLmafia/sideCommand?cmd=" + command + "&MAFIAHIT" );
-	httpObject1.send( "" );
+	httpObject.open( "GET", "/KoLmafia/sideCommand?cmd=" + command + "&MAFIAHIT" );
+	httpObject.send( "" );
 }
 
 
