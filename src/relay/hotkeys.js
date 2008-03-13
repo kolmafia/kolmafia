@@ -89,6 +89,7 @@ function handleChoice( choiceId )
 {
 	if ( choiceId == 0 )
 	{
+		var button = document.getElementById( "defaultButton" );
 		button.onclick();
 		return true;
 	}
@@ -106,14 +107,14 @@ function handleChoice( choiceId )
 			}
 		}
 	}
-	
+
 	return false;
 }
 
 function executeCommand( command )
 {
 	if ( command.indexOf( "attack" ) == 0 || command.indexOf( "skill" ) == 0 || command.indexOf( "item" ) == 0 || command.indexOf( "custom" ) == 0 || command.indexOf( "consult" ) == 0 )
-	{	
+	{
 		return false;
 	}
 
