@@ -349,7 +349,7 @@ public class StringUtilities
 		else
 		{
 			String clean = StringUtilities.NONINTEGER_PATTERN.matcher( string ).replaceAll( "" );
-			return Integer.parseInt( clean );
+			return clean.equals( "" ) || clean.equals( "-" ) ? 0 : Integer.parseInt( clean );
 		}
 
 		String clean = StringUtilities.NONFLOAT_PATTERN.matcher( string ).replaceAll( "" );
