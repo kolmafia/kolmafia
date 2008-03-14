@@ -316,8 +316,8 @@ public class ItemFinder
 			{
 				boolean isNumeric = parameters.charAt( 0 ) == '-' || Character.isDigit( parameters.charAt( 0 ) );
 
-				int spaceIndex = 0;
-				for ( ; spaceIndex < parameters.length() && parameters.charAt( spaceIndex ) != ' '; ++spaceIndex )
+				int spaceIndex = 1;
+				for ( ; isNumeric && spaceIndex < parameters.length() && parameters.charAt( spaceIndex ) != ' '; ++spaceIndex )
 				{
 					isNumeric &= Character.isDigit( parameters.charAt( spaceIndex ) );
 				}
