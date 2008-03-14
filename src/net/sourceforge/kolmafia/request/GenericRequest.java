@@ -1331,23 +1331,6 @@ public class GenericRequest
 				CharPaneRequest.getInstance().run();
 				return !LoginRequest.isInstanceRunning();
 			}
-
-			switch ( UseItemRequest.currentItemId() )
-			{
-			case UseItemRequest.DRUM_MACHINE:
-			case UseItemRequest.BLACK_PUDDING:
-			case UseItemRequest.CARONCH_MAP:
-			case UseItemRequest.CURSED_PIECE_OF_THIRTEEN:
-				FightRequest.INSTANCE.run();
-				CharPaneRequest.getInstance().run();
-				return !LoginRequest.isInstanceRunning();
-			}
-
-			// This is a request which should not have lead to a
-			// fight, but it did.  Notify the user.
-
-			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Redirected to a fight page." );
-			return true;
 		}
 
 		if ( this.redirectLocation.startsWith( "login.php" ) )

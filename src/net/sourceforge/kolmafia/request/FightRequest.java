@@ -1210,7 +1210,7 @@ public class FightRequest
 		// Reset round information if the battle is complete.
 		// This is recognized when fight.php has no data.
 
-		if ( responseText.indexOf( "fight.php" ) != -1 )
+		if ( responseText.indexOf( "<a href" ) != -1 )
 			return;
 
 		// Check for bounty item not dropping from a monster
