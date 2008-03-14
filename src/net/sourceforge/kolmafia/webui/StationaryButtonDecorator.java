@@ -56,6 +56,16 @@ public class StationaryButtonDecorator
 
 	public static final void decorate( final String urlString, final StringBuffer buffer )
 	{
+		if ( Preferences.getBoolean( "hideServerDebugText" ) )
+		{
+			int beginDebug = buffer.indexOf( "<div style='max-height" );
+			if ( beginDebug != -1 )
+			{
+				int endDebug = buffer.indexOf( "</div>", beginDebug ) + 6;
+				buffer.delete( beginDebug, endDebug );
+			}
+		}
+
 		if ( !Preferences.getBoolean( "relayAddsCustomCombat" ) || Preferences.getBoolean( "serverAddsCustomCombat" ) )
 		{
 			return;
