@@ -66,7 +66,24 @@ public class StationaryButtonDecorator
 			}
 		}
 
-		if ( !Preferences.getBoolean( "relayAddsCustomCombat" ) || Preferences.getBoolean( "serverAddsCustomCombat" ) )
+		if ( Preferences.getBoolean( "serverAddsCustomCombat" ) )
+		{
+			int imageIndex = buffer.indexOf( "<td><img src='http://images.kingdomofloathing.com/itemimages/book3.gif' id='skills'>" );
+			if ( imageIndex != -1 )
+			{
+				boolean again = FightRequest.getCurrentRound() == 0;
+				String location = again ? getAdventureAgainLocation( buffer ) : "fight.php?action=custom";
+
+				buffer.insert( imageIndex, "<td><a href='" + location + "'><img src='http://images.kingdomofloathing.com/itemimages/plexpock.gif'></td><td class=spacer></td>" );
+				imageIndex = buffer.indexOf( "<tr class=label>", imageIndex ) + 16;
+
+				buffer.insert( imageIndex, again ? "<td>again</td><td></td>" : "<td>script</td><td></td>" );
+			}
+
+			return;
+		}
+
+		if ( !Preferences.getBoolean( "relayAddsCustomCombat" ) )
 		{
 			return;
 		}
@@ -181,34 +198,7 @@ public class StationaryButtonDecorator
 		}
 		else if ( FightRequest.getCurrentRound() == 0 )
 		{
-			String location = "main.php";
-			String monster = FightRequest.getLastMonsterName();
-
-			if ( monster.equals( "giant sandworm" ) )
-			{
-				AdventureResult drumMachine = ItemPool.get( UseItemRequest.DRUM_MACHINE, 1 );
-				if ( KoLConstants.inventory.contains( drumMachine ) )
-				{
-					location = "inv_use.php?pwd=" + GenericRequest.passwordHash + "&which=3&whichitem=" + UseItemRequest.DRUM_MACHINE;
-				}
-				else
-				{
-					location = "adventure.php?snarfblat=122";
-				}
-			}
-			else if ( monster.equals( "scary pirate" ) )
-			{
-				location = "inv_use.php?pwd=" + GenericRequest.passwordHash +"&which=3&whichitem=" + UseItemRequest.CURSED_PIECE_OF_THIRTEEN;
-			}
-			else
-			{
-				int startIndex = response.indexOf( "<a href=\"" );
-				if ( startIndex != -1 )
-				{
-					location = response.substring( startIndex + 9, response.indexOf( "\"", startIndex + 10 ) );
-				}
-			}
-
+			String location = getAdventureAgainLocation( response );
 			buffer.append( location );
 			isEnabled &= !location.equals( "main.php" );
 		}
@@ -267,6 +257,39 @@ public class StationaryButtonDecorator
 		{
 			buffer.append( " disabled>&nbsp;" );
 		}
+	}
+
+	private static final String getAdventureAgainLocation( StringBuffer response )
+	{
+		String location = "main.php";
+		String monster = FightRequest.getLastMonsterName();
+
+		if ( monster.equals( "giant sandworm" ) )
+		{
+			AdventureResult drumMachine = ItemPool.get( UseItemRequest.DRUM_MACHINE, 1 );
+			if ( KoLConstants.inventory.contains( drumMachine ) )
+			{
+				location = "inv_use.php?pwd=" + GenericRequest.passwordHash + "&which=3&whichitem=" + UseItemRequest.DRUM_MACHINE;
+			}
+			else
+			{
+				location = "adventure.php?snarfblat=122";
+			}
+		}
+		else if ( monster.equals( "scary pirate" ) )
+		{
+			location = "inv_use.php?pwd=" + GenericRequest.passwordHash +"&which=3&whichitem=" + UseItemRequest.CURSED_PIECE_OF_THIRTEEN;
+		}
+		else
+		{
+			int startIndex = response.indexOf( "<a href=\"" );
+			if ( startIndex != -1 )
+			{
+				location = response.substring( startIndex + 9, response.indexOf( "\"", startIndex + 10 ) );
+			}
+		}
+
+		return location;
 	}
 
 	private static final String getActionName( final String action )
