@@ -50,6 +50,7 @@ global	grabCloversHardcore	false
 global	grabCloversSoftcore	true
 global	greenScreenProtection	false
 global	guiUsesOneWindow	false
+global	hideServerDebugText	false
 global	highlightList
 global	http.proxyHost
 global	http.proxyPassword

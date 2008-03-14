@@ -1210,8 +1210,20 @@ public class FightRequest
 		// Reset round information if the battle is complete.
 		// This is recognized when fight.php has no data.
 
-		if ( responseText.indexOf( "(show old combat form)" ) != -1 )
-			return;
+		if ( Preferences.getBoolean( "serverAddsCustomCombat" ) )
+		{
+			if ( responseText.indexOf( "(show old combat form)" ) != -1 )
+			{
+				return;
+			}
+		}
+		else
+		{
+			if ( responseText.indexOf( "fight.php" ) != -1 )
+			{
+				return;
+			}
+		}
 
 		// Check for bounty item not dropping from a monster
 		// that is known to drop the item.
