@@ -1284,6 +1284,8 @@ public class GenericRequest
 				break;
 			}
 
+			UseItemRequest.resetItemUsed();
+
 			if ( name != null )
 			{
 				if ( consumed )
@@ -1296,9 +1298,14 @@ public class GenericRequest
 
 				RequestLogger.updateSessionLog();
 				RequestLogger.updateSessionLog( "[" + KoLAdventure.getAdventureCount() + "] " + name );
-			}
 
-			UseItemRequest.resetItemUsed();
+				if ( this instanceof UseItemRequest )
+				{
+					FightRequest.INSTANCE.run();
+					CharPaneRequest.getInstance().run();
+					return !LoginRequest.isInstanceRunning();
+				}
+			}
 		}
 
 		if ( this instanceof RelayRequest )
@@ -1331,6 +1338,12 @@ public class GenericRequest
 				CharPaneRequest.getInstance().run();
 				return !LoginRequest.isInstanceRunning();
 			}
+
+			// This is a request which should not have lead to a
+			// fight, but it did.  Notify the user.
+
+			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Redirected to a fight page." );
+			return true;
 		}
 
 		if ( this.redirectLocation.startsWith( "login.php" ) )
