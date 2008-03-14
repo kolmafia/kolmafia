@@ -389,10 +389,10 @@ public class AdventureDatabase
 		String url = location.getRequest().getURLString();
 
 		AdventureDatabase.adventureLookup.put( url, location );
-		AdventureDatabase.adventureLookup.put( url + "&override=on", location );
+		AdventureDatabase.adventureLookup.put( url + "&confirm=on", location );
 		url = StringUtilities.singleStringReplace( url, "snarfblat=", "adv=" );
 		AdventureDatabase.adventureLookup.put( url, location );
-		AdventureDatabase.adventureLookup.put( url + "&override=on", location );
+		AdventureDatabase.adventureLookup.put( url + "&confirm=on", location );
 	}
 
 	public static final boolean validateZone( final String zoneName, final String locationId )
