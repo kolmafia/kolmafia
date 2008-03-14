@@ -74,10 +74,18 @@ public class StationaryButtonDecorator
 				boolean again = FightRequest.getCurrentRound() == 0;
 				String location = again ? getAdventureAgainLocation( buffer ) : "fight.php?action=custom";
 
-				buffer.insert( imageIndex, "<td><a href='" + location + "'><img src='http://images.kingdomofloathing.com/itemimages/plexpock.gif'></td><td class=spacer></td>" );
-				imageIndex = buffer.indexOf( "<tr class=label>", imageIndex ) + 16;
+				// Add a "script" button to the left
 
-				buffer.insert( imageIndex, again ? "<td>again</td><td></td>" : "<td>script</td><td></td>" );
+				buffer.insert( imageIndex, "<td><a href='" + location + "'><img src='http://images.kingdomofloathing.com/itemimages/plexpock.gif'></td><td class=spacer></td>" );
+
+				// Give it either the "script" or "again" label
+				int labelIndex = buffer.indexOf( "<tr class=label>", imageIndex ) + 16;
+
+				buffer.insert( labelIndex, again ? "<td>again</td><td></td>" : "<td>script</td><td></td>" );
+
+				// Also add spacers to the header
+				labelIndex = buffer.indexOf( "<tbody><tr class=label><td></td><td></td><td>1</td><td>2</td>" ) + 23;
+				buffer.insert( labelIndex, "<td></td><td></td>" );
 			}
 
 			return;
