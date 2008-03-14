@@ -111,7 +111,7 @@ public class Aliases
 				if ( line.startsWith( aliasString ) )
 				{
 					String parameters = line.substring( aliasString.length() );
-					line = StringUtilities.globalStringReplace( line, "%%", parameters );
+					line = StringUtilities.globalStringReplace( aliasCommand, "%%", parameters );
 				}
 			}
 
