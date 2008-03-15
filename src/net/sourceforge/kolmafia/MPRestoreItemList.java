@@ -37,6 +37,8 @@ import java.util.TreeMap;
 
 import javax.swing.JCheckBox;
 
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MoodManager;
@@ -57,8 +59,6 @@ public abstract class MPRestoreItemList
 {
 	private static boolean purchaseBasedSort = false;
 	private static TreeMap restoreByName = new TreeMap();
-
-	private static final AdventureResult EXPRESS_CARD = new AdventureResult( UseItemRequest.EXPRESS_CARD, 1 );
 
 	public static final MPRestoreItem EXPRESS =
 		new MPRestoreItem( "Platinum Yendorian Express Card", Integer.MAX_VALUE, false );
@@ -173,7 +173,7 @@ public abstract class MPRestoreItemList
 
 			if ( ItemDatabase.contains( itemName ) )
 			{
-				this.itemUsed = new AdventureResult( itemName, 1, false );
+				this.itemUsed = ItemPool.get( itemName, 1 );
 			}
 			else
 			{
@@ -237,9 +237,11 @@ public abstract class MPRestoreItemList
 					return;
 				}
 
-				if ( KoLConstants.inventory.contains( MPRestoreItemList.EXPRESS_CARD ) )
+				AdventureResult EXPRESS_CARD = this.getItem();
+
+				if ( KoLConstants.inventory.contains( EXPRESS_CARD ) )
 				{
-					RequestThread.postRequest( new UseItemRequest( MPRestoreItemList.EXPRESS_CARD ) );
+					RequestThread.postRequest( new UseItemRequest( EXPRESS_CARD ) );
 					return;
 				}
 
@@ -253,16 +255,16 @@ public abstract class MPRestoreItemList
 					RequestThread.postRequest( new ClanStashRequest() );
 				}
 
-				if ( !ClanManager.getStash().contains( MPRestoreItemList.EXPRESS_CARD ) )
+				if ( !ClanManager.getStash().contains( EXPRESS_CARD ) )
 				{
 					return;
 				}
 
 				RequestThread.postRequest( new ClanStashRequest(
-					new Object[] { MPRestoreItemList.EXPRESS_CARD }, ClanStashRequest.STASH_TO_ITEMS ) );
-				RequestThread.postRequest( new UseItemRequest( MPRestoreItemList.EXPRESS_CARD ) );
+					new Object[] { EXPRESS_CARD }, ClanStashRequest.STASH_TO_ITEMS ) );
+				RequestThread.postRequest( new UseItemRequest( EXPRESS_CARD ) );
 				RequestThread.postRequest( new ClanStashRequest(
-					new Object[] { MPRestoreItemList.EXPRESS_CARD }, ClanStashRequest.ITEMS_TO_STASH ) );
+					new Object[] { EXPRESS_CARD }, ClanStashRequest.ITEMS_TO_STASH ) );
 				return;
 			}
 
