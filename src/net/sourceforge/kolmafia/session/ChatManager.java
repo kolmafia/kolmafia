@@ -826,7 +826,7 @@ public abstract class ChatManager
 				ChatManager.rollingIndex = 0;
 			}
 
-			if ( !ChatManager.isGreenMessage( message ) )
+			if ( !ChatManager.isGreenMessage( message ) && !ChatManager.isWhoMessage( message ) )
 			{
 				ChatManager.clanMessages.set( ChatManager.rollingIndex++ , message );
 			}
@@ -918,10 +918,9 @@ public abstract class ChatManager
 	private static final void processChatMessage( final String channel, final String message, String bufferKey,
 		final boolean ignoreEvents )
 	{
-		boolean isGreenMessage = ChatManager.isGreenMessage( message );
-		String displayHTML = ChatManager.formatChatMessage( channel, message, bufferKey, isGreenMessage );
+		String displayHTML = ChatManager.formatChatMessage( channel, message, bufferKey );
 
-		if ( isGreenMessage )
+		if ( displayHTML.startsWith( "<font color=green>" ) )
 		{
 			if ( ignoreEvents || BuffBotHome.isBuffBotActive() )
 			{
@@ -961,8 +960,12 @@ public abstract class ChatManager
 		return message.indexOf( "logged on" ) != -1 || message.indexOf( "logged off" ) != -1 || message.startsWith( "<a target=mainpane href=\"messages.php\">" ) || message.indexOf( "have been attacked" ) != -1 || message.indexOf( "has proposed a trade" ) != -1 || message.indexOf( "has cancelled a trade" ) != -1 || message.indexOf( "has responded to a trade" ) != -1 || message.indexOf( "has declined a trade" ) != -1 || message.indexOf( "has accepted a trade" ) != -1 || message.indexOf( "has given you" ) != -1 || message.indexOf( "has played" ) != -1 || message.indexOf( "has littered toilet paper" ) != -1 || message.indexOf( "with a brick" ) != -1 || message.indexOf( "has hit you in the face" ) != -1;
 	}
 
-	public static final String formatChatMessage( final String channel, final String message, final String bufferKey,
-		final boolean isGreenMessage )
+	private static final boolean isWhoMessage( final String message )
+	{
+		return message.indexOf( "<a" ) == -1 || message.indexOf( "</a>," ) != -1 || message.startsWith( "<a class=nounder" ) || message.startsWith( "<a target=mainpane href=\'" );
+	}
+
+	public static final String formatChatMessage( final String channel, final String message, final String bufferKey )
 	{
 		StringBuffer displayHTML = new StringBuffer( message );
 		StringUtilities.singleStringDelete( displayHTML, "target=mainpane " );
@@ -970,10 +973,7 @@ public abstract class ChatManager
 		// There are a bunch of messages that are supposed to be
 		// formatted in green.  These are all handled first.
 
-		boolean isWhoMessage =
-			message.indexOf( "<a" ) == -1 || message.indexOf( "</a>," ) != -1 || message.startsWith( "<a class=nounder" ) || message.startsWith( "<a target=mainpane href=\'" );
-
-		if ( isWhoMessage || isGreenMessage )
+		if ( ChatManager.isGreenMessage( message ) || ChatManager.isWhoMessage( message ) )
 		{
 			displayHTML.insert( 0, "<font color=green>" );
 			displayHTML.append( "</font><br>" );
