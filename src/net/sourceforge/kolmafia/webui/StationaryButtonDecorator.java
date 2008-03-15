@@ -179,11 +179,8 @@ public class StationaryButtonDecorator
 			actionBuffer.append( "</td></tr>" );
 			buffer.insert( insertionPoint, actionBuffer.toString() );
 
-			StringUtilities.singleStringReplace( buffer, "</head>", "<script src=\"/hotkeys.js\"></script></head>" );
-			StringUtilities.singleStringReplace(
-				buffer,
-				"<body",
-				"<body onkeyup=\"handleCombatHotkey(event,false);\" onkeydown=\"handleCombatHotkey(event,true);\" " );
+			StringUtilities.insertBefore( buffer, "</html>", "<script src=\"/hotkeys.js\"></script>" );
+			StringUtilities.insertAfter( buffer, "<body", " onkeyup=\"handleCombatHotkey(event,false);\" onkeydown=\"handleCombatHotkey(event,true);\" " );
 		}
 	}
 

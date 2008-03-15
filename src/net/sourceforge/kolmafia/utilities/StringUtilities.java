@@ -232,6 +232,28 @@ public class StringUtilities
 		return false;
 	}
 
+	public static final void insertBefore( final StringBuffer buffer, final String searchString, final String insertString )
+	{
+		int searchIndex = buffer.indexOf( searchString );
+		if ( searchIndex == -1 )
+		{
+			return;
+		}
+
+		buffer.insert( searchIndex, insertString );
+	}
+
+	public static final void insertAfter( final StringBuffer buffer, final String searchString, final String insertString )
+	{
+		int searchIndex = buffer.indexOf( searchString );
+		if ( searchIndex == -1 )
+		{
+			return;
+		}
+
+		buffer.insert( searchIndex + searchString.length(), insertString );
+	}
+
 	public static final String singleStringDelete( final String originalString, final String searchString )
 	{
 		return StringUtilities.singleStringReplace( originalString, searchString, "" );
