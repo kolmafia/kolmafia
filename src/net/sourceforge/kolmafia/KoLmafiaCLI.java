@@ -1338,8 +1338,49 @@ public class KoLmafiaCLI
 
 		if ( command.equals( "safe" ) )
 		{
-			this.showHTML( "", AdventureDatabase.getAreaCombatData(
-				AdventureDatabase.getAdventure( parameters ).toString() ).toString() );
+			KoLAdventure location = AdventureDatabase.getAdventure( parameters );
+			if ( location == null )
+			{
+				return;
+			}
+
+			AreaCombatData data = AdventureDatabase.getAreaCombatData( location.toString() );
+			if ( data == null )
+			{
+				return;
+			}
+
+			StringBuffer buffer = new StringBuffer();
+
+			buffer.append( "<html>" );
+			data.getSummary( buffer, false );
+			buffer.append( "</html>" );
+
+			this.showHTML( "", buffer.toString() );
+			return;
+		}
+
+		if ( command.equals( "monsters" ) )
+		{
+			KoLAdventure location = AdventureDatabase.getAdventure( parameters );
+			if ( location == null )
+			{
+				return;
+			}
+
+			AreaCombatData data = AdventureDatabase.getAreaCombatData( location.toString() );
+			if ( data == null )
+			{
+				return;
+			}
+
+			StringBuffer buffer = new StringBuffer();
+
+			buffer.append( "<html>" );
+			data.getMonsterData( buffer, false );
+			buffer.append( "</html>" );
+
+			this.showHTML( "", buffer.toString() );
 			return;
 		}
 
