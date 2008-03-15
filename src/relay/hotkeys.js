@@ -16,6 +16,9 @@ function getNumericKey( keyCode )
 
 function handleCombatHotkey( e, isDown )
 {
+	if ( inputsActive )
+		return false;
+
 	var keyCode = window.event ? e.keyCode : e.which;
 
 	if ( e.metaKey )
@@ -61,7 +64,7 @@ function handleCombatHotkey( e, isDown )
 
 	if ( button.value == "auto" )
 	{
-		return handleChoice( numericKey );
+		return handleChoiceHotkey( numericKey );
 	}
 
 	if ( command.length == 0 )
@@ -85,7 +88,7 @@ function handleCombatHotkey( e, isDown )
 	return true;
 }
 
-function handleChoice( choiceId )
+function handleChoiceHotkey( choiceId )
 {
 	if ( choiceId == 0 )
 	{
@@ -128,7 +131,7 @@ function updateCombatHotkey()
 {
 	var viewer = document.getElementById( "hotkeyViewer" );
 	var hotkey = (viewer.selectedIndex - 1);
-	var hotkeyAction = prompt( "New value for " + hotkey, "" );
+	var hotkeyAction = prompt( "New command for " + hotkey, "" );
 
 	if ( hotkeyAction === false )
 		return true;

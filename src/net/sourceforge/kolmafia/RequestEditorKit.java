@@ -412,8 +412,8 @@ public class RequestEditorKit
 
 		if ( addComplexFeatures )
 		{
-			StringUtilities.singleStringReplace(
-				buffer, "</head>", "<script language=\"Javascript\" src=\"/basics.js\"></script></head>" );
+			StringUtilities.insertBefore(
+				buffer, "</head>", "<script language=\"Javascript\" src=\"/basics.js\"></script>" );
 
 			if ( location.indexOf( "?" ) == -1 && RequestEditorKit.maps.contains( location ) )
 			{
@@ -462,8 +462,8 @@ public class RequestEditorKit
 		{
 			if ( addComplexFeatures )
 			{
-				StringUtilities.singleStringReplace(
-					buffer, "</head>", "<script language=\"Javascript\" src=\"/sorttable.js\"></script></head>" );
+				StringUtilities.insertBefore(
+					buffer, "</head>", "<script language=\"Javascript\" src=\"/sorttable.js\"></script>" );
 				StringUtilities.singleStringReplace(
 					buffer, "<table><tr><td class=small>",
 					"<table class=\"sortable\" id=\"history\"><tr><td class=small>" );
@@ -534,8 +534,8 @@ public class RequestEditorKit
 			// Automatically name the outfit "backup" for simple save
 			// purposes while adventuring in browser.
 
-			StringUtilities.singleStringReplace(
-				buffer, "<input type=text name=outfitname", "<input type=text name=outfitname value=\"Backup\"" );
+			StringUtilities.insertAfter(
+				buffer, "<input type=text name=outfitname", " value=\"Backup\"" );
 
 			// Split the custom outfits from the normal outfits for
 			// easier browsing.
@@ -557,11 +557,11 @@ public class RequestEditorKit
 
 				buffer.insert( formEndIndex, customString.toString() );
 
-				StringUtilities.singleStringReplace(
-					buffer, "<form name=outfit", "<table><tr><td align=right><form name=outfit" );
-				StringUtilities.singleStringReplace( buffer, "<select", "</td><td><select" );
-				StringUtilities.singleStringReplace( buffer, "</select>", "</select></td><td>" );
-				StringUtilities.singleStringReplace( buffer, "</form>", "</form></td></tr>" );
+				StringUtilities.insertBefore(
+					buffer, "<form name=outfit", "<table><tr><td align=right>" );
+				StringUtilities.insertBefore( buffer, "<select", "</td><td>" );
+				StringUtilities.insertAfter( buffer, "</select>", "</td><td>" );
+				StringUtilities.insertAfter( buffer, "</form>", "</td></tr>" );
 
 				StringUtilities.globalStringReplace( buffer, "<select", "<select style=\"width: 250px\"" );
 			}
@@ -579,15 +579,15 @@ public class RequestEditorKit
 			StringUtilities.globalStringReplace( buffer, "cycles++", "cycles = 0" );
 			StringUtilities.globalStringReplace( buffer, "location.hostname", "location.host" );
 
-			StringUtilities.singleStringReplace(
+			StringUtilities.insertBefore(
 				buffer, "if (postedgraf",
-				"if (postedgraf == \"/exit\") { document.location.href = \"chatlaunch.php\"; return true; } if (postedgraf" );
+				"if (postedgraf == \"/exit\") { document.location.href = \"chatlaunch.php\"; return true; } " );
 
 			// This is a hack to fix KoL chat as handled in earlier
 			// versions of Opera (doubled chat).
 
-			StringUtilities.singleStringReplace(
-				buffer, "http.onreadystatechange", "executed = false; http.onreadystatechange" );
+			StringUtilities.insertBefore(
+				buffer, "http.onreadystatechange", "executed = false; " );
 			StringUtilities.singleStringReplace(
 				buffer, "readyState==4) {", "readyState==4 && !executed) { executed = true;" );
 		}
@@ -606,8 +606,8 @@ public class RequestEditorKit
 		}
 		else if ( location.startsWith( "palinshelves.php" ) )
 		{
-			StringUtilities.singleStringReplace(
-				buffer, "</html>", "<script language=\"Javascript\" src=\"/palinshelves.js\" /></html>" );
+			StringUtilities.insertBefore(
+				buffer, "</html>", "<script language=\"Javascript\" src=\"/palinshelves.js\" />" );
 		}
 		else if ( location.startsWith( "postwarisland.php" ) )
 		{
@@ -616,7 +616,7 @@ public class RequestEditorKit
 		else if ( location.startsWith( "pvp.php" ) )
 		{
 			StringUtilities.singleStringReplace( buffer, "value=rank checked", "value=rank" );
-			StringUtilities.singleStringReplace( buffer, "value=flowers", "value=flowers checked" );
+			StringUtilities.insertAfter( buffer, "value=flowers", " checked" );
 		}
 		else if ( location.startsWith( "rats.php" ) )
 		{
@@ -624,16 +624,16 @@ public class RequestEditorKit
 		}
 		else if ( location.startsWith( "searchplayer.php" ) )
 		{
-			StringUtilities.singleStringReplace( buffer, "name=pvponly", "name=pvponly checked" );
+			StringUtilities.insertAfter( buffer, "name=pvponly", " checked" );
 			StringUtilities.singleStringReplace( buffer, "value=0 checked", "value=0" );
 
 			if ( KoLCharacter.isHardcore() )
 			{
-				StringUtilities.singleStringReplace( buffer, "value=1", "value=1 checked" );
+				StringUtilities.insertAfter( buffer, "value=1", " checked" );
 			}
 			else
 			{
-				StringUtilities.singleStringReplace( buffer, "value=2", "value=2 checked" );
+				StringUtilities.insertAfter( buffer, "value=2", " checked" );
 			}
 		}
 		else if ( location.startsWith( "sewer.php" ) )
@@ -669,7 +669,7 @@ public class RequestEditorKit
 				RequestEditorKit.addChatFeatures( buffer );
 			}
 
-			StringUtilities.globalStringReplace( buffer, "type=text ", "type=text onFocus='this.select();' " );
+			StringUtilities.insertBefore( buffer, "</html>", "<script src=\"/onfocus.js\"></script>" );
 		}
 
 		String defaultColor = Preferences.getString( "defaultBorderColor" );
@@ -682,12 +682,11 @@ public class RequestEditorKit
 
 	public static final void addChatFeatures( final StringBuffer buffer )
 	{
-		StringUtilities.singleStringReplace(
-			buffer,
-			"</head>",
-			"<script language=\"Javascript\"> var " + ChatRequest.getRightClickMenu() + " </script>" + "<script language=\"Javascript\" src=\"/images/scripts/rcm.2.js\"></script></head>" );
+		StringUtilities.insertBefore(
+			buffer, "</html>",
+			"<script language=\"Javascript\"> var " + ChatRequest.getRightClickMenu() + " </script>" + "<script language=\"Javascript\" src=\"/images/scripts/rcm.2.js\"></script>" );
 
-		StringUtilities.singleStringReplace( buffer, "</body>", "<div id='menu' class='rcm'></div></body>" );
+		StringUtilities.insertBefore( buffer, "</body>", "<div id='menu' class='rcm'></div>" );
 	}
 
 	private static final void addFightModifiers( final String location, final StringBuffer buffer )
@@ -827,8 +826,8 @@ public class RequestEditorKit
 			String name = (String) potionNames.get( i );
 			String effect = (String) potionEffects.get( i );
 
-			StringUtilities.singleStringReplace( buffer, name + "</b>", name + " of " + effect + "</b>" );
-			StringUtilities.singleStringReplace( buffer, name + "s</b>", name + "s of " + effect + "</b>" );
+			StringUtilities.globalStringReplace( buffer, name + "</b>", name + " of " + effect + "</b>" );
+			StringUtilities.globalStringReplace( buffer, name + "s</b>", name + "s of " + effect + "</b>" );
 		}
 	}
 
@@ -1016,7 +1015,7 @@ public class RequestEditorKit
 			if ( itemId != null )
 			{
 				String find = "<option value='" + itemId + "'";
-				StringUtilities.singleStringReplace( buffer, find, find + " selected" );
+				StringUtilities.insertAfter( buffer, find, " selected" );
 			}
 		}
 
