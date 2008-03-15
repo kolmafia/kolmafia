@@ -447,7 +447,7 @@ public class KoLmafiaCLI
 
 		int splitIndex = line.indexOf( ";" );
 
-		if ( splitIndex != -1 && !line.startsWith( "alias" ) )
+		if ( splitIndex != -1 && !line.startsWith( "set" ) && !line.startsWith( "alias" ) )
 		{
 			// Determine all the individual statements which need
 			// to be executed based on the existence of the 'set'
@@ -463,29 +463,13 @@ public class KoLmafiaCLI
 				// Allow argument to "set" command to be a
 				// quoted string
 
-				if ( current.startsWith( "set" ) )
+				current = remainder.substring( 0, splitIndex ).trim();
+				if ( current.length() > 0 )
 				{
-					int quoteIndex = current.indexOf( "\"" );
-					if ( quoteIndex != -1 && quoteIndex < splitIndex )
-					{
-						quoteIndex = current.indexOf( "\"", quoteIndex + 1 );
-						if ( quoteIndex != -1 )
-						{
-							splitIndex = current.indexOf( ";", quoteIndex );
-						}
-					}
+					sequenceList.add( current );
 				}
-
-				if ( splitIndex != -1 )
-				{
-					current = remainder.substring( 0, splitIndex ).trim();
-					if ( current.length() > 0 )
-					{
-						sequenceList.add( current );
-					}
-					remainder = remainder.substring( splitIndex + 1 ).trim();
-					splitIndex = remainder.indexOf( ";" );
-				}
+				remainder = remainder.substring( splitIndex + 1 ).trim();
+				splitIndex = remainder.indexOf( ";" );
 			}
 			while ( splitIndex != -1 );
 
