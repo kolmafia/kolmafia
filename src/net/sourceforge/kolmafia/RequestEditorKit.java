@@ -636,6 +636,10 @@ public class RequestEditorKit
 				StringUtilities.singleStringReplace( buffer, "value=2", "value=2 checked" );
 			}
 		}
+		else if ( location.startsWith( "sewer.php" ) )
+		{
+			StationaryButtonDecorator.decorate( location, buffer );
+		}
 		else if ( location.startsWith( "valhalla.php" ) )
 		{
 			ValhallaDecorator.decorateAfterLife( location, buffer );
