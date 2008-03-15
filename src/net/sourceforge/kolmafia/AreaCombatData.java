@@ -192,6 +192,19 @@ public class AreaCombatData
 
 	public String toString( final boolean fullString )
 	{
+		StringBuffer buffer = new StringBuffer();
+
+		buffer.append( "<html>" );
+
+		this.getSummary( buffer, fullString );
+		this.getMonsterData( buffer, fullString );
+
+		buffer.append( "</html>" );
+		return buffer.toString();
+	}
+
+	public void getSummary( final StringBuffer buffer, final boolean fullString )
+	{
 		int ml = KoLCharacter.getMonsterLevelAdjustment();
 		int moxie = KoLCharacter.getAdjustedMoxie() - ml;
 
@@ -232,9 +245,7 @@ public class AreaCombatData
 			averageExperience += weight * monster.getAdjustedExperience( experienceAdjustment, ml, familiar );
 		}
 
-		StringBuffer buffer = new StringBuffer();
-
-		buffer.append( "<html><b>Hit</b>: " );
+		buffer.append( "<b>Hit</b>: " );
 		buffer.append( this.getRateString(
 			minHitPercent, minPerfectHit, maxHitPercent, maxPerfectHit, statName, fullString ) );
 
@@ -256,16 +267,21 @@ public class AreaCombatData
 		{
 			buffer.append( "No data" );
 		}
+	}
+
+	public void getMonsterData( final StringBuffer buffer, final boolean fullString )
+	{
+		int ml = KoLCharacter.getMonsterLevelAdjustment();
+		int moxie = KoLCharacter.getAdjustedMoxie() - ml;
+		int hitstat = EquipmentManager.getAdjustedHitStat() - ml;
+		float combatFactor = this.areaCombatPercent() / 100.0f;
 
 		for ( int i = 0; i < this.monsters.size(); ++i )
 		{
-			buffer.append( "<br><br>" );
 			buffer.append( this.getMonsterString(
 				this.getMonster( i ), moxie, hitstat, ml, this.getWeighting( i ), combatFactor, fullString ) );
+			buffer.append( "<br><br>" );
 		}
-
-		buffer.append( "</html>" );
-		return buffer.toString();
 	}
 
 	private String format( final float percentage )
