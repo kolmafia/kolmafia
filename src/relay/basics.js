@@ -105,31 +105,27 @@ function inlineLoad( location, fields, id )
 		if ( httpObject.readyState != 4 )
 			return;
 
-		// Remove the use link and the form so that players
-		// do not get confused.
-
-		if ( id )
-		{
-			var toRemove = getObject( "multiuse" + id );
-			if ( toRemove )
-				toRemove.style.display = "none";
-		}
-
-		// Handle insertion of the data into the page.
-		// Steal KoL's divs for doing so.
-
 		var text = "<center>" + httpObject.responseText.substring(
 			httpObject.responseText.indexOf( "<table" ), httpObject.responseText.indexOf( "</table><table" ) + 8 ) + "</center>";
 
-		var main = top.mainpane.document;
-		var container = main.createElement( "div" );
-		container.innerHTML = text;
-		container.style.textAlign = "center";
+		// <tinyskills.js>
 
-		if ( main.location.href.indexOf( "store" ) != -1 )
-			main.body.insertBefore( container, main.body.firstChild );
+		var div = top.mainpane.document.getElementById('effdiv');
+		if (!div)
+		{
+			var container = top.mainpane.document.createElement('DIV');
+			container.id = 'effdiv';
+			container.innerHTML = text;
+			top.mainpane.document.body.insertBefore(container, top.mainpane.document.body.firstChild);
+			div = container;
+		}
 		else
-			main.body.appendChild( container );
+			div.innerHTML = text;
+
+		div.style.display = "block";
+		top.mainpane.scrollTo(0, 0);
+
+		// </tinyskills.js>
 
 		if ( httpObject.responseText.indexOf( "charpane" ) != -1 )
 			refreshSidebar( "/charpane.php" );
@@ -177,7 +173,7 @@ function multiUse( location, id )
 		qfield = "itemquantity";
 
 	var qvalue = getObject( "quantity" + id ).value;
-	return inlineLoad( location, "pwd=&action=useitem&whichitem= " + id + "&" + qfield + "=" + qvalue, id );
+	return inlineLoad( location, "MAFIAHIT&action=useitem&whichitem=" + id + "&" + qfield + "=" + qvalue, id );
 }
 
 
