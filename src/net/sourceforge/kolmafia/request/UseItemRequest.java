@@ -147,7 +147,6 @@ public class UseItemRequest
 	private static final int BLACK = 1417;
 	private static final int MUNCHIES_PILL = 1619;
 	private static final int ASTRAL_MUSHROOM = 1622;
-	public static final int EXPRESS_CARD = 1687;
 	private static final int DUSTY_ANIMAL_SKULL = 1799;
 	private static final int QUILL_PEN = 1957;
 	public static final int MACGUFFIN_DIARY = 2044;
@@ -481,7 +480,7 @@ public class UseItemRequest
 		case MOJO_FILTER:
 			return Math.max( 0, 3 - Preferences.getInteger( "currentMojoFilters" ) );
 
-		case EXPRESS_CARD:
+		case ItemPool.EXPRESS_CARD:
 			return Preferences.getBoolean( "expressCardUsed" ) ? 0 : 1;
 		}
 
@@ -2063,7 +2062,7 @@ public class UseItemRequest
 		}
 		else
 		{
-			if ( UseItemRequest.lastItemUsed.getItemId() == UseItemRequest.EXPRESS_CARD )
+			if ( UseItemRequest.lastItemUsed.getItemId() == ItemPool.EXPRESS_CARD )
 			{
 				Preferences.setBoolean( "expressCardUsed", true );
 			}
