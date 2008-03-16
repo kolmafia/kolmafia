@@ -93,7 +93,6 @@ function updateDisplay( display, responseText )
 		refreshSidebar( "/sidepane.php" );
 }
 
-
 function inlineLoad( location, fields, id )
 {
 	var httpObject = getHttpObject();
@@ -105,8 +104,10 @@ function inlineLoad( location, fields, id )
 		if ( httpObject.readyState != 4 )
 			return;
 
-		var text = "<center>" + httpObject.responseText.substring(
-			httpObject.responseText.indexOf( "<table" ), httpObject.responseText.indexOf( "</table><table" ) + 8 ) + "</center>";
+		var text = httpObject.responseText.substring(
+			httpObject.responseText.indexOf( "<table" ), httpObject.responseText.indexOf( "</table>" ) );
+
+		var text = "<center>" + text + "</center>";
 
 		// <tinyskills.js>
 
@@ -120,7 +121,9 @@ function inlineLoad( location, fields, id )
 			div = container;
 		}
 		else
+		{
 			div.innerHTML = text;
+		}
 
 		div.style.display = "block";
 		top.mainpane.scrollTo(0, 0);
