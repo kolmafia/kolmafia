@@ -305,7 +305,7 @@ public class DataUtilities
 	{
 		File directory = file.getParentFile();
 
-		if ( !directory.exists() )
+		if ( directory != null && !directory.exists() )
 		{
 			directory.mkdirs();
 		}
