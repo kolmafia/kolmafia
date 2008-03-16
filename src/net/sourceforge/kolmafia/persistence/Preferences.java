@@ -113,7 +113,10 @@ public class Preferences
 			if ( Preferences.userPropertiesFile != null )
 			{
 				Preferences.saveToFile( Preferences.userPropertiesFile, Preferences.userProperties );
+
 				Preferences.userPropertiesFile = null;
+				Preferences.userValues.clear();
+				Preferences.userProperties.clear();
 			}
 
 			return;
@@ -574,6 +577,14 @@ public class Preferences
 			desiredMap.put( current[ 1 ], current.length == 2 ? "" : current[ 2 ] );
 		}
 
+		// Update Mac-specific properties values to ensure
+		// that the displays are usable (by default).
+
+		boolean isUsingMac = System.getProperty( "os.name" ).startsWith( "Mac" );
+
+		Preferences.globalNames.put( "useDecoratedTabs", String.valueOf( !isUsingMac ) );
+		Preferences.globalNames.put( "chatFontSize", isUsingMac ? "medium" : "small" );
+
 		try
 		{
 			istream.close();
@@ -668,11 +679,6 @@ public class Preferences
 				Preferences.globalProperties.put( key, Preferences.encodeProperty( key, value ) );
 			}
 		}
-
-		boolean isUsingMac = System.getProperty( "os.name" ).startsWith( "Mac" );
-
-		Preferences.globalValues.put( "useDecoratedTabs", String.valueOf( !isUsingMac ) );
-		Preferences.globalValues.put( "chatFontSize", isUsingMac ? "medium" : "small" );
 	}
 
 	private static void ensureUserDefaults()
