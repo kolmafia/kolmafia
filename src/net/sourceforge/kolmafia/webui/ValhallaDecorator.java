@@ -176,6 +176,7 @@ public class ValhallaDecorator
 			buffer,
 			"<input type=submit class=button value=\"Ascend\"> <input type=checkbox name=confirm> (confirm) <input type=checkbox name=confirm2> (seriously)",
 			reminders.toString() );
+
 		return;
 	}
 

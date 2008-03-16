@@ -590,7 +590,7 @@ public abstract class MoodManager
 
 			if ( shouldExecute )
 			{
-				StaticEntity.getClient().getBreakfast( UseSkillRequest.BREAKFAST_SKILLS[ i ], false, minimum );
+				BreakfastManager.castSkill( UseSkillRequest.BREAKFAST_SKILLS[ i ], false, minimum );
 			}
 			else if ( SkillDatabase.getMPConsumptionById( skill.getSkillId() ) <= KoLCharacter.getCurrentMP() - minimum )
 			{

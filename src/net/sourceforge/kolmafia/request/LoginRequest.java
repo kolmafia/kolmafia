@@ -45,6 +45,7 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.LocalRelayAgent;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.session.BreakfastManager;
 import net.sourceforge.kolmafia.session.MushroomManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -349,6 +350,7 @@ public class LoginRequest
 		RequestThread.openRequestSequence();
 		LoginRequest.isLoggingIn = true;
 
+		KoLCharacter.reset( name );
 		RequestThread.postRequest( new GenericRequest( "chatlaunch.php" ) );
 		StaticEntity.getClient().initialize( name );
 
@@ -357,7 +359,7 @@ public class LoginRequest
 		if ( Preferences.getString( name, "getBreakfast" ).equals( "true" ) )
 		{
 			int today = HolidayDatabase.getPhaseStep();
-			StaticEntity.getClient().getBreakfast( true, Preferences.getInteger( "lastBreakfast" ) != today );
+			BreakfastManager.getBreakfast( true, Preferences.getInteger( "lastBreakfast" ) != today );
 			Preferences.setInteger( "lastBreakfast", today );
 		}
 

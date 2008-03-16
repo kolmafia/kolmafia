@@ -97,8 +97,6 @@ public class Preferences
 
 		Preferences.loadPreferences( globalValues, globalProperties, globalPropertiesFile );
 		Preferences.ensureGlobalDefaults();
-
-		Preferences.saveToFile( Preferences.globalPropertiesFile, Preferences.globalProperties );
 	}
 
 	/**
@@ -108,9 +106,16 @@ public class Preferences
 
 	public static final void reset( final String username )
 	{
+		Preferences.saveToFile( Preferences.globalPropertiesFile, Preferences.globalProperties );
+
 		if ( username == null || username.equals( "" ) )
 		{
-			Preferences.userPropertiesFile = null;
+			if ( Preferences.userPropertiesFile != null )
+			{
+				Preferences.saveToFile( Preferences.userPropertiesFile, Preferences.userProperties );
+				Preferences.userPropertiesFile = null;
+			}
+
 			return;
 		}
 
@@ -122,8 +127,6 @@ public class Preferences
 
 		Preferences.loadPreferences( userValues, userProperties, userPropertiesFile );
 		Preferences.ensureUserDefaults();
-
-		Preferences.saveToFile( Preferences.userPropertiesFile, Preferences.userProperties );
 
 		CustomCombatManager.loadSettings();
 		MoodManager.restoreDefaults();
@@ -486,15 +489,11 @@ public class Preferences
 
 			Preferences.globalValues.put( actualName, object );
 			Preferences.globalProperties.put( actualName, Preferences.encodeProperty( actualName, value ) );
-
-			Preferences.saveToFile( Preferences.globalPropertiesFile, Preferences.globalProperties );
 		}
 		else if ( Preferences.userPropertiesFile != null )
 		{
 			Preferences.userValues.put( name, object );
 			Preferences.userProperties.put( name, Preferences.encodeProperty( name, value ) );
-
-			Preferences.saveToFile( Preferences.userPropertiesFile, Preferences.userProperties );
 		}
 
 		if ( object instanceof Boolean && Preferences.checkboxMap.containsKey( name ) )

@@ -99,6 +99,8 @@ import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
+
+import net.sourceforge.kolmafia.session.BreakfastManager;
 import net.sourceforge.kolmafia.session.BuffBotManager;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
@@ -1373,7 +1375,7 @@ public class KoLmafiaCLI
 
 		if ( command.equals( "breakfast" ) )
 		{
-			StaticEntity.getClient().getBreakfast( false, true );
+			BreakfastManager.getBreakfast( false, true );
 			return;
 		}
 

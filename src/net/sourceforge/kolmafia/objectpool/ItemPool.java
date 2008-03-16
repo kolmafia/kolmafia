@@ -171,6 +171,7 @@ public class ItemPool
 	public static final int MUS_MANUAL = 2280;
 	public static final int MYS_MANUAL = 2281;
 	public static final int MOX_MANUAL = 2282;
+	public static final int GUNPOWDER = 2403;
 	public static final int MAYFLOWER_BOUQUET = 2541;
 	public static final int PLASTIC_BIB = 2846;
 	public static final int ANT_HOE = 2570;

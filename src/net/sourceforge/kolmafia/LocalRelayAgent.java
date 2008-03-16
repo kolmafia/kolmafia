@@ -40,6 +40,7 @@ import java.io.PrintStream;
 import java.net.Socket;
 import java.util.TreeMap;
 
+import net.sourceforge.kolmafia.session.ValhallaManager;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -323,7 +324,7 @@ public class LocalRelayAgent
 				}
 				else
 				{
-					StaticEntity.getClient().handleAscension();
+					ValhallaManager.postAscension();
 				}
 			}
 			else if ( this.path.endsWith( "noobmessage=true" ) )
