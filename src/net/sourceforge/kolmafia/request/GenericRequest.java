@@ -374,7 +374,13 @@ public class GenericRequest
 			this.formURLString.equals( "newchatmessages.php" ) || this.formURLString.equals( "submitnewchat.php" );
 
 		this.hasNoResult =
-			this.isChatRequest || this.formURLString.startsWith( "http://" ) || this.formURLString.startsWith( "char" ) || this.formURLString.startsWith( "quest" ) || this.formURLString.endsWith( "menu.php" ) || this.formURLString.startsWith( "desc" ) || this.formURLString.startsWith( "display" ) || this.formURLString.startsWith( "search" ) || this.formURLString.startsWith( "show" ) || this.formURLString.startsWith( "valhalla" ) || this instanceof LoginRequest || this instanceof LogoutRequest || this.formURLString.startsWith( "message" ) || this.formURLString.startsWith( "makeoffer" ) || this instanceof RelayRequest && this.formURLString.startsWith( "clan" ) && !this.formURLString.startsWith( "clan_rumpus" );
+			this.isChatRequest || this.formURLString.startsWith( "http://" ) || this.formURLString.startsWith( "charpane" ) ||
+			this.formURLString.startsWith( "quest" ) || this.formURLString.endsWith( "menu.php" ) || this.formURLString.startsWith( "actionbar" ) ||
+			this.formURLString.startsWith( "desc" ) || this.formURLString.startsWith( "display" ) || this.formURLString.startsWith( "search" ) ||
+			this.formURLString.startsWith( "show" ) || this.formURLString.startsWith( "valhalla" ) ||
+			this.formURLString.startsWith( "message" ) || this.formURLString.startsWith( "makeoffer" ) ||
+			(this.formURLString.startsWith( "clan" ) && !this.formURLString.startsWith( "clan_rumpus" )) ||
+			this instanceof LoginRequest || this instanceof LogoutRequest;
 
 		return this;
 	}
