@@ -278,8 +278,7 @@ public class IslandDecorator
 
 	public static final void startJunkyardQuest()
 	{
-		IslandDecorator.currentJunkyardLocation = "Yossarian";
-		Preferences.setString( "currentJunkyardLocation", "Yossarian" );
+		resetGremlinTool();
 	}
 
 	public static final void resetGremlinTool()
@@ -287,6 +286,8 @@ public class IslandDecorator
 		IslandDecorator.missingGremlinTool = null;
 		IslandDecorator.currentJunkyardTool = "";
 		Preferences.setString( "currentJunkyardTool", "" );
+		IslandDecorator.currentJunkyardLocation = "Yossarian";
+		Preferences.setString( "currentJunkyardLocation", "Yossarian" );
 	}
 
 	private static final int[] AREA_UNLOCK =
@@ -1431,7 +1432,6 @@ public class IslandDecorator
 			Preferences.setString( "sidequestJunkyardCompleted", "none" );
 			Preferences.setString( "sidequestLighthouseCompleted", "none" );
 			Preferences.setString( "sidequestNunsCompleted", "none" );
-			Preferences.setString( "sidequestOrchardCompleted", "none" );
 			Preferences.setString( "sidequestOrchardCompleted", "none" );
 			Preferences.setString( "currentJunkyardTool", "" );
 			Preferences.setString( "currentJunkyardLocation", "" );
