@@ -31,7 +31,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.sourceforge.kolmafia;
+package net.sourceforge.kolmafia.swingui.menu;
 
 import java.util.ArrayList;
 

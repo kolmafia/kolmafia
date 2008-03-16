@@ -76,6 +76,7 @@ import net.sourceforge.kolmafia.session.ChatManager;
 import net.sourceforge.kolmafia.swingui.listener.RefreshSessionListener;
 import net.sourceforge.kolmafia.swingui.listener.WorldPeaceListener;
 import net.sourceforge.kolmafia.swingui.menu.GlobalMenuBar;
+import net.sourceforge.kolmafia.swingui.menu.ScriptMenu;
 import net.sourceforge.kolmafia.swingui.panel.CompactSidePane;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
@@ -692,7 +693,7 @@ public abstract class GenericFrame
 
 		for ( int i = 0; i < scriptList.length; ++i )
 		{
-			if ( !GlobalMenuBar.shouldAddScript( scriptList[ i ] ) )
+			if ( !ScriptMenu.shouldAddScript( scriptList[ i ] ) )
 			{
 			}
 			else if ( scriptList[ i ].isDirectory() )
