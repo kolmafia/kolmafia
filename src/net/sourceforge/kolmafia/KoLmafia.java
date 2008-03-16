@@ -34,22 +34,16 @@
 package net.sourceforge.kolmafia;
 
 import java.awt.Color;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.io.RandomAccessFile;
-
 import java.lang.reflect.Method;
 import java.math.BigInteger;
-
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -68,19 +62,32 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.UtilityConstants;
+
 import net.sourceforge.kolmafia.HPRestoreItemList.HPRestoreItem;
 import net.sourceforge.kolmafia.MPRestoreItemList.MPRestoreItem;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.persistence.AdventureDatabase;
-import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
-import net.sourceforge.kolmafia.persistence.CustomItemDatabase;
-import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
-import net.sourceforge.kolmafia.persistence.FlaggedItems;
-import net.sourceforge.kolmafia.persistence.HolidayDatabase;
-import net.sourceforge.kolmafia.persistence.ItemDatabase;
-import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
-import net.sourceforge.kolmafia.persistence.Preferences;
-import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.session.ClanManager;
+import net.sourceforge.kolmafia.session.DisplayCaseManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.LouvreManager;
+import net.sourceforge.kolmafia.session.MailManager;
+import net.sourceforge.kolmafia.session.MoodManager;
+import net.sourceforge.kolmafia.session.MushroomManager;
+import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.session.StoreManager;
+import net.sourceforge.kolmafia.session.VioletFogManager;
+import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
+import net.sourceforge.kolmafia.swingui.AdventureFrame;
+import net.sourceforge.kolmafia.swingui.CouncilFrame;
+import net.sourceforge.kolmafia.swingui.GenericFrame;
+import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
+import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
+import net.sourceforge.kolmafia.utilities.CharacterEntities;
+import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+import net.sourceforge.kolmafia.utilities.PauseObject;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
+
 import net.sourceforge.kolmafia.request.AccountRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
@@ -105,31 +112,17 @@ import net.sourceforge.kolmafia.request.SellStuffRequest;
 import net.sourceforge.kolmafia.request.SewerRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
-import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
-import net.sourceforge.kolmafia.session.ClanManager;
-import net.sourceforge.kolmafia.session.DisplayCaseManager;
-import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.LouvreManager;
-import net.sourceforge.kolmafia.session.MailManager;
-import net.sourceforge.kolmafia.session.MoodManager;
-import net.sourceforge.kolmafia.session.MushroomManager;
-import net.sourceforge.kolmafia.session.ResultProcessor;
-import net.sourceforge.kolmafia.session.StoreManager;
-import net.sourceforge.kolmafia.session.VioletFogManager;
-import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
-import net.sourceforge.kolmafia.swingui.AdventureFrame;
-import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
-import net.sourceforge.kolmafia.swingui.CouncilFrame;
-import net.sourceforge.kolmafia.swingui.GenericFrame;
-import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
-import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
-import net.sourceforge.kolmafia.utilities.CharacterEntities;
-import net.sourceforge.kolmafia.utilities.FileUtilities;
-import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
-import net.sourceforge.kolmafia.utilities.PauseObject;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
+
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.CustomItemDatabase;
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.FlaggedItems;
+import net.sourceforge.kolmafia.persistence.HolidayDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 
 public abstract class KoLmafia
 {
@@ -709,8 +702,6 @@ public abstract class KoLmafia
 		// Reset all per-player information when refreshing
 		// your session via login.
 
-		KoLCharacter.reset( username );
-
 		MailManager.clearMailboxes();
 		StoreManager.clearCache();
 		DisplayCaseManager.clearCache();
@@ -770,302 +761,6 @@ public abstract class KoLmafia
 		// Libram summoning skills now costs 1 MP again
 		KoLConstants.summoningSkills.sort();
 		KoLConstants.usableSkills.sort();
-	}
-
-	public static final void resetPerAscensionCounters()
-	{
-		Preferences.setInteger( "currentBountyItem", 0 );
-		Preferences.setString( "currentHippyStore", "none" );
-		Preferences.setString( "currentWheelPosition", "muscle" );
-		Preferences.setInteger( "fratboysDefeated", 0 );
-		Preferences.setInteger( "guyMadeOfBeesCount", 0 );
-		Preferences.setBoolean( "guyMadeOfBeesDefeated", false );
-		Preferences.setInteger( "hippiesDefeated", 0 );
-		Preferences.setString( "trapperOre", "chrome" );
-	}
-
-	public void getBreakfast( final boolean checkSettings, final boolean checkCampground )
-	{
-		SpecialOutfit.createImplicitCheckpoint();
-
-		if ( checkCampground )
-		{
-			if ( KoLCharacter.hasToaster() )
-			{
-				for ( int i = 0; i < 3 && KoLmafia.permitsContinue(); ++i )
-				{
-					RequestThread.postRequest( new CampgroundRequest( "toast" ) );
-				}
-
-				KoLmafia.forceContinue();
-			}
-
-			if ( Preferences.getBoolean( "visitRumpus" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ) )
-			{
-				RequestThread.postRequest( new ClanRumpusRequest( ClanRumpusRequest.SEARCH ) );
-				KoLmafia.forceContinue();
-			}
-
-			if ( Preferences.getBoolean( "readManual" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ) )
-			{
-				int manualId = KoLCharacter.isMuscleClass() ? ItemPool.MUS_MANUAL :
-					KoLCharacter.isMysticalityClass() ? ItemPool.MYS_MANUAL : ItemPool.MOX_MANUAL;
-
-				AdventureResult manual = ItemPool.get( manualId, 1 );
-
-				if ( InventoryManager.hasItem( manual ) )
-				{
-					RequestThread.postRequest( new UseItemRequest( manual ) );
-				}
-
-				KoLmafia.forceContinue();
-			}
-
-			if ( Preferences.getBoolean( "useCrimboToys" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ) )
-			{
-				AdventureResult [] toys = new AdventureResult []
-				{
-					ItemPool.get( ItemPool.HOBBY_HORSE, 1 ),
-					ItemPool.get( ItemPool.BALL_IN_A_CUP, 1 ),
-					ItemPool.get( ItemPool.SET_OF_JACKS, 1 )
-				};
-
-				for ( int i = 0; i < toys.length; ++i )
-				{
-					if ( InventoryManager.hasItem( toys[ i ] ) )
-					{
-						RequestThread.postRequest( new UseItemRequest( toys[ i ] ) );
-						KoLmafia.forceContinue();
-					}
-				}
-			}
-
-			if ( Preferences.getBoolean( "grabClovers" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ) )
-			{
-				if ( HermitRequest.getWorthlessItemCount() > 0 )
-				{
-					KoLmafiaCLI.DEFAULT_SHELL.executeLine( "hermit * ten-leaf clover" );
-				}
-
-				KoLmafia.forceContinue();
-			}
-
-			this.bigIslandBreakfast();
-		}
-
-		this.castBreakfastSkills( checkSettings, 0 );
-		SpecialOutfit.restoreImplicitCheckpoint();
-		KoLmafia.forceContinue();
-	}
-
-	private void bigIslandBreakfast()
-	{
-		if ( Preferences.getInteger( "lastFilthClearance" ) == KoLCharacter.getAscensions() )
-		{
-			KoLmafia.updateDisplay( "Collecting cut of hippy profits..." );
-			RequestThread.postRequest( new GenericRequest( "store.php?whichstore=h" ) );
-			KoLmafia.forceContinue();
-		}
-
-		if ( !Preferences.getString( "warProgress" ).equals( "started" ) )
-		{
-			return;
-		}
-
-		SpecialOutfit hippy = EquipmentDatabase.getAvailableOutfit( CoinmastersFrame.WAR_HIPPY_OUTFIT );
-		SpecialOutfit fratboy = EquipmentDatabase.getAvailableOutfit( CoinmastersFrame.WAR_FRAT_OUTFIT );
-
-		String lighthouse = Preferences.getString( "sidequestLighthouseCompleted" );
-		SpecialOutfit lighthouseOutfit = this.sidequestOutfit( lighthouse, hippy, fratboy );
-
-		String farm = Preferences.getString( "sidequestFarmCompleted" );
-		SpecialOutfit farmOutfit = this.sidequestOutfit( farm, hippy, fratboy );
-
-		// If we can't get to (or don't need to get to) either
-		// sidequest location, nothing more to do.
-
-		if ( lighthouseOutfit == null && farmOutfit == null )
-		{
-			return;
-		}
-
-		// Visit locations accessible in current outfit
-
-		SpecialOutfit current = EquipmentManager.currentOutfit();
-
-		if ( farmOutfit != null && current == farmOutfit )
-		{
-			this.visitFarmer();
-			farmOutfit = null;
-		}
-
-		if ( lighthouseOutfit != null && current == lighthouseOutfit )
-		{
-			this.visitPyro();
-			lighthouseOutfit = null;
-		}
-
-		// Visit locations accessible in one outfit
-
-		current = nextOutfit( farmOutfit, lighthouseOutfit );
-		if ( current == null )
-		{
-			return;
-		}
-
-		if ( current == farmOutfit )
-		{
-			this.visitFarmer();
-			farmOutfit = null;
-		}
-
-		if ( current == lighthouseOutfit )
-		{
-			this.visitPyro();
-			lighthouseOutfit = null;
-		}
-
-		// Visit locations accessible in other outfit
-
-		current = nextOutfit( farmOutfit, lighthouseOutfit );
-		if ( current == null )
-		{
-			return;
-		}
-
-		if ( current == farmOutfit )
-		{
-			this.visitFarmer();
-			farmOutfit = null;
-		}
-
-		if ( current == lighthouseOutfit )
-		{
-			this.visitPyro();
-			lighthouseOutfit = null;
-		}
-	}
-
-	private SpecialOutfit sidequestOutfit( String winner, final SpecialOutfit hippy, final SpecialOutfit fratboy )
-	{
-		if ( winner.equals( "hippy" ) )
-		{
-			return hippy;
-		}
-
-		if ( winner.equals( "fratboy" ) )
-		{
-			return fratboy;
-		}
-
-		return null;
-	}
-
-	private SpecialOutfit nextOutfit( final SpecialOutfit one, final SpecialOutfit two )
-	{
-		SpecialOutfit outfit = ( one != null ) ? one : two;
-		if ( outfit != null )
-		{
-			RequestThread.postRequest( new EquipmentRequest( outfit ) );
-		}
-		return outfit;
-	}
-
-	private void visitFarmer()
-	{
-		KoLmafia.updateDisplay( "Collecting produce from farmer..." );
-		RequestThread.postRequest( new GenericRequest( "bigisland.php?place=farm&action=farmer&pwd" ) );
-		KoLmafia.forceContinue();
-	}
-
-	private void visitPyro()
-	{
-		KoLmafia.updateDisplay( "Collecting bombs from pyro..." );
-		RequestThread.postRequest( new GenericRequest( "bigisland.php?place=lighthouse&action=pyro&pwd" ) );
-		KoLmafia.forceContinue();
-	}
-
-	public void castBreakfastSkills( final boolean checkSettings, final int manaRemaining )
-	{
-		this.castBreakfastSkills(
-			checkSettings,
-			Preferences.getBoolean( "loginRecovery" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ),
-			manaRemaining );
-	}
-
-	public boolean castBreakfastSkills( boolean checkSettings, final boolean allowRestore, final int manaRemaining )
-	{
-		if ( Preferences.getBoolean( "breakfastCompleted" ) )
-		{
-			return true;
-		}
-
-		boolean shouldCast = false;
-		boolean limitExceeded = true;
-
-		String skillSetting =
-			Preferences.getString( "breakfast" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) );
-		boolean pathedSummons =
-			Preferences.getBoolean( "pathedSummons" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) );
-
-		if ( skillSetting != null )
-		{
-			for ( int i = 0; i < UseSkillRequest.BREAKFAST_SKILLS.length; ++i )
-			{
-				shouldCast = !checkSettings || skillSetting.indexOf( UseSkillRequest.BREAKFAST_SKILLS[ i ] ) != -1;
-				shouldCast &= KoLCharacter.hasSkill( UseSkillRequest.BREAKFAST_SKILLS[ i ] );
-
-				if ( checkSettings && pathedSummons )
-				{
-					if ( UseSkillRequest.BREAKFAST_SKILLS[ i ].equals( "Pastamastery" ) && !KoLCharacter.canEat() )
-					{
-						shouldCast = false;
-					}
-					if ( UseSkillRequest.BREAKFAST_SKILLS[ i ].equals( "Advanced Cocktailcrafting" ) && !KoLCharacter.canDrink() )
-					{
-						shouldCast = false;
-					}
-				}
-
-				if ( shouldCast )
-				{
-					limitExceeded &=
-						this.getBreakfast( UseSkillRequest.BREAKFAST_SKILLS[ i ], allowRestore, manaRemaining );
-				}
-			}
-		}
-
-		Preferences.setBoolean( "breakfastCompleted", limitExceeded );
-		return limitExceeded;
-	}
-
-	public boolean getBreakfast( final String skillName, final boolean allowRestore, final int manaRemaining )
-	{
-		UseSkillRequest summon = UseSkillRequest.getInstance( skillName );
-		// For all other skills, if you don't need to cast them, then
-		// skip this step.
-
-		int maximumCast = summon.getMaximumCast();
-
-		if ( maximumCast <= 0 )
-		{
-			return true;
-		}
-
-		int castCount =
-			Math.min(
-				maximumCast,
-				allowRestore ? 5 : ( KoLCharacter.getCurrentMP() - manaRemaining ) / SkillDatabase.getMPConsumptionById( SkillDatabase.getSkillId( skillName ) ) );
-
-		if ( castCount == 0 )
-		{
-			return false;
-		}
-
-		summon.setBuffCount( castCount );
-		RequestThread.postRequest( summon );
-
-		return castCount == maximumCast;
 	}
 
 	public void refreshSession()
@@ -3759,110 +3454,6 @@ public abstract class KoLmafia
 				RequestThread.postRequest( new SellStuffRequest( sellList.toArray(), SellStuffRequest.AUTOSELL ) );
 			}
 		}
-
-		RequestThread.closeRequestSequence();
-	}
-
-	public void handleAscension()
-	{
-		RequestThread.openRequestSequence();
-		Preferences.setInteger( "lastBreakfast", -1 );
-
-		KoLmafia.resetCounters();
-		KoLmafia.resetPerAscensionCounters();
-		KoLCharacter.reset();
-
-		this.refreshSession( false );
-		this.resetSession();
-		KoLConstants.conditions.clear();
-
-		// Based on your class, you get some basic
-		// items once you ascend.
-
-		String type = KoLCharacter.getClassType();
-		if ( type.equals( KoLCharacter.SEAL_CLUBBER ) )
-		{
-			ResultProcessor.processResult( new AdventureResult( "seal-skull helmet", 1, false ), false );
-			ResultProcessor.processResult( new AdventureResult( "seal-clubbing club", 1, false ), false );
-		}
-		else if ( type.equals( KoLCharacter.TURTLE_TAMER ) )
-		{
-			ResultProcessor.processResult( new AdventureResult( "helmet turtle", 1, false ), false );
-			ResultProcessor.processResult( new AdventureResult( "turtle totem", 1, false ), false );
-		}
-		else if ( type.equals( KoLCharacter.PASTAMANCER ) )
-		{
-			ResultProcessor.processResult( new AdventureResult( "pasta spoon", 1, false ), false );
-			ResultProcessor.processResult( new AdventureResult( "ravioli hat", 1, false ), false );
-		}
-		else if ( type.equals( KoLCharacter.SAUCEROR ) )
-		{
-			ResultProcessor.processResult( new AdventureResult( "saucepan", 1, false ), false );
-			ResultProcessor.processResult( new AdventureResult( "spices", 1, false ), false );
-		}
-		else if ( type.equals( KoLCharacter.DISCO_BANDIT ) )
-		{
-			ResultProcessor.processResult( new AdventureResult( "disco ball", 1, false ), false );
-			ResultProcessor.processResult( new AdventureResult( "disco mask", 1, false ), false );
-		}
-		else if ( type.equals( KoLCharacter.ACCORDION_THIEF ) )
-		{
-			ResultProcessor.processResult( new AdventureResult( "mariachi pants", 1, false ), false );
-			ResultProcessor.processResult( new AdventureResult( "stolen accordion", 1, false ), false );
-		}
-
-		// Note the information in the session log
-		// for recording purposes.
-
-		MoodManager.setMood( "apathetic" );
-		PrintStream sessionStream = RequestLogger.getSessionStream();
-
-		sessionStream.println();
-		sessionStream.println();
-		sessionStream.println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
-		sessionStream.println( "	   Beginning New Ascension	     " );
-		sessionStream.println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
-		sessionStream.println();
-
-		sessionStream.println( "Ascension #" + KoLCharacter.getAscensions() + ":" );
-
-		if ( KoLCharacter.isHardcore() )
-		{
-			sessionStream.print( "Hardcore " );
-		}
-		else
-		{
-			sessionStream.print( "Softcore " );
-		}
-
-		if ( KoLCharacter.canEat() && KoLCharacter.canDrink() )
-		{
-			sessionStream.print( "No-Path " );
-		}
-		else if ( KoLCharacter.canEat() )
-		{
-			sessionStream.print( "Teetotaler " );
-		}
-		else if ( KoLCharacter.canDrink() )
-		{
-			sessionStream.print( "Boozetafarian " );
-		}
-		else
-		{
-			sessionStream.print( "Oxygenarian " );
-		}
-
-		sessionStream.println( KoLCharacter.getClassType() );
-		sessionStream.println();
-		sessionStream.println();
-
-		RequestLogger.printList( KoLConstants.availableSkills, sessionStream );
-		sessionStream.println();
-
-		sessionStream.println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
-
-		sessionStream.println();
-		sessionStream.println();
 
 		RequestThread.closeRequestSequence();
 	}

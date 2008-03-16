@@ -47,7 +47,6 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.swingui.CouncilFrame;
 import net.sourceforge.kolmafia.swingui.FamiliarTrainingFrame;
 import net.sourceforge.kolmafia.utilities.StringUtilities;

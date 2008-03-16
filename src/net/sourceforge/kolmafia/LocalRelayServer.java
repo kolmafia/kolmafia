@@ -65,6 +65,7 @@ public class LocalRelayServer
 		FileUtilities.loadLibrary( KoLConstants.RELAY_LOCATION, KoLConstants.RELAY_DIRECTORY, "chat.html" );
 		FileUtilities.loadLibrary( KoLConstants.RELAY_LOCATION, KoLConstants.RELAY_DIRECTORY, "cli.html" );
 		FileUtilities.loadLibrary( KoLConstants.RELAY_LOCATION, KoLConstants.RELAY_DIRECTORY, "hotkeys.js" );
+		FileUtilities.loadLibrary( KoLConstants.RELAY_LOCATION, KoLConstants.RELAY_DIRECTORY, "onfocus.js" );
 		FileUtilities.loadLibrary( KoLConstants.RELAY_LOCATION, KoLConstants.RELAY_DIRECTORY, "palinshelves.js" );
 		FileUtilities.loadLibrary( KoLConstants.RELAY_LOCATION, KoLConstants.RELAY_DIRECTORY, "sorttable.js" );
 

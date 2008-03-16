@@ -60,7 +60,6 @@ import com.velocityreviews.forums.HttpTimeoutHandler;
 
 import net.sourceforge.foxtrot.Job;
 
-import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CreateFrameRunnable;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -70,6 +69,7 @@ import net.sourceforge.kolmafia.LocalRelayServer;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.session.ValhallaManager;
 import net.sourceforge.kolmafia.session.ChatManager;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ClanManager;
@@ -754,32 +754,7 @@ public class GenericRequest
 
 		if ( urlString.startsWith( "ascend.php" ) )
 		{
-			// Don't waste quest items.
-
-			// Untinker the Bitchin' meatcar
-
-			if ( InventoryManager.hasItem( ItemPool.BITCHIN_MEATCAR ) )
-			{
-				( new UntinkerRequest( ItemPool.BITCHIN_MEATCAR ) ).run();
-			}
-
-			// Create a badass belt
-
-			CreateItemRequest belt = CreateItemRequest.getInstance( ItemPool.BADASS_BELT );
-			if ( belt != null && belt.getQuantityPossible() > 0 )
-			{
-				belt.setQuantityNeeded( belt.getQuantityPossible() );
-				belt.run();
-			}
-
-			// Use any 31337 scrolls.
-
-			AdventureResult scroll = ItemPool.get( ItemPool.ELITE_SCROLL, 1 );
-			int count = scroll.getCount( KoLConstants.inventory );
-			if ( count > 0 )
-			{
-				( new UseItemRequest( scroll.getInstance( count ) ) ).run();
-			}
+			ValhallaManager.preAscension();
 		}
 
 		do
