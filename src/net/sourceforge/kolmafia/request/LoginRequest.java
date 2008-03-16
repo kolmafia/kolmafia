@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.request;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -45,12 +46,12 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.LocalRelayAgent;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.persistence.HolidayDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.session.ActionBarManager;
 import net.sourceforge.kolmafia.session.BreakfastManager;
 import net.sourceforge.kolmafia.session.MushroomManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-
-import net.sourceforge.kolmafia.persistence.HolidayDatabase;
-import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class LoginRequest
 	extends GenericRequest
@@ -351,7 +352,8 @@ public class LoginRequest
 		LoginRequest.isLoggingIn = true;
 
 		KoLCharacter.reset( name );
-		RequestThread.postRequest( new GenericRequest( "chatlaunch.php" ) );
+
+		ActionBarManager.loadJSONString();
 		StaticEntity.getClient().initialize( name );
 
 		LoginRequest.isLoggingIn = false;

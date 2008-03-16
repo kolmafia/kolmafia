@@ -37,21 +37,22 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
+
 import java.net.Socket;
+
 import java.util.TreeMap;
 
-import net.sourceforge.kolmafia.session.ValhallaManager;
-import net.sourceforge.kolmafia.session.ChoiceManager;
-import net.sourceforge.kolmafia.utilities.PauseObject;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
-
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.SendMailRequest;
-
-import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.session.ActionBarManager;
+import net.sourceforge.kolmafia.session.ChoiceManager;
+import net.sourceforge.kolmafia.session.ValhallaManager;
+import net.sourceforge.kolmafia.utilities.PauseObject;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class LocalRelayAgent
 	extends Thread
@@ -250,7 +251,22 @@ public class LocalRelayAgent
 			this.request.rawByteBuffer = this.request.responseText.getBytes( "UTF-8" );
 		}
 
-		if ( this.path.equals( "/fight.php?action=custom" ) )
+		if ( this.path.startsWith( "/charpane.php" ) )
+		{
+			int initialCount = KoLCharacter.getAdventuresLeft();
+			this.request.run();
+
+			if ( initialCount != KoLCharacter.getAdventuresLeft() && !KoLmafia.isRunningBetweenBattleChecks() && FightRequest.getCurrentRound() == 0 )
+			{
+				StaticEntity.getClient().runBetweenBattleChecks(
+					false, Preferences.getBoolean( "relayMaintainsEffects" ),
+					Preferences.getBoolean( "relayMaintainsHealth" ),
+					Preferences.getBoolean( "relayMaintainsMana" ) );
+
+				this.request.run();
+			}
+		}
+		else if ( this.path.equals( "/fight.php?action=custom" ) )
 		{
 			LocalRelayAgent.COMBAT_THREAD.wake( null );
 			this.request.pseudoResponse( "HTTP/1.1 302 Found", "/fight.php?action=script" );
@@ -284,36 +300,17 @@ public class LocalRelayAgent
 		{
 			ChoiceManager.processChoiceAdventure( this.request );
 		}
-		else if ( this.path.startsWith( "/charpane.php" ) )
-		{
-			int initialCount = KoLCharacter.getAdventuresLeft();
-			this.request.run();
-
-			if ( initialCount != KoLCharacter.getAdventuresLeft() && !KoLmafia.isRunningBetweenBattleChecks() && FightRequest.getCurrentRound() == 0 )
-			{
-				StaticEntity.getClient().runBetweenBattleChecks(
-					false, Preferences.getBoolean( "relayMaintainsEffects" ),
-					Preferences.getBoolean( "relayMaintainsHealth" ),
-					Preferences.getBoolean( "relayMaintainsMana" ) );
-
-				this.request.run();
-			}
-		}
 		else if ( this.path.startsWith( "/sidepane.php" ) )
 		{
 			this.request.pseudoResponse( "HTTP/1.1 200 OK", RequestEditorKit.getFeatureRichHTML(
 				"charpane.php", CharPaneRequest.getLastResponse(), true ) );
 		}
+		else if ( this.path.startsWith( "/actionbar.php" ) )
+		{
+			ActionBarManager.updateJSONString( this.request );
+		}
 		else
 		{
-			if ( !this.request.hasNoResult() )
-			{
-				while ( KoLmafia.isRunningBetweenBattleChecks() )
-				{
-					this.pauser.pause( 200 );
-				}
-			}
-
 			this.request.run();
 
 			if ( this.path.startsWith( "/valhalla.php" ) && this.request.responseCode == 302 )

@@ -42,10 +42,10 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.session.ActionBarManager;
 import net.sourceforge.kolmafia.session.ChatManager;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
-
-import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class LogoutRequest
 	extends GenericRequest
@@ -97,6 +97,8 @@ public class LogoutRequest
 		{
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( scriptSetting );
 		}
+
+		ActionBarManager.saveJSONString();
 
 		super.run();
 		KoLCharacter.reset( "" );
