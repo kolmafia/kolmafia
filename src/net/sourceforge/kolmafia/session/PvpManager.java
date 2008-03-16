@@ -456,7 +456,8 @@ public class PvpManager
 
 	public static final void processDefenseContests()
 	{
-		LogStream pvpResults = LogStream.openStream( new File( KoLCharacter.baseUserName() + "_defense.txt" ), false );
+		File defenseFile = new File( KoLConstants.ATTACKS_LOCATION, KoLCharacter.baseUserName() + "_defense.txt" );
+		LogStream pvpResults = LogStream.openStream( defenseFile, false );
 
 		RequestThread.postRequest( new PvpRequest() );
 		RequestThread.postRequest( new MailboxRequest( "PvP" ) );
