@@ -130,6 +130,7 @@ stainless steel skullcap	90	Mox: 30
 star hat	165	Mox: 67
 stone baseball cap	195	Mox: 82
 superhero mask	10	none
+tattered paper crown	60	Mus: 15
 time helmet	100	Mox: 35
 toy space helmet	175	Mox: 72
 viking helmet	20	none

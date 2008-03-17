@@ -201,6 +201,7 @@ stainless steel skullcap	Maximum HP: +30, Damage Absorption: +60, Muscle Percent
 star hat	Maximum MP: +30
 stone baseball cap	Damage Reduction: 10, Melee Damage: +15, Muscle: -10
 superhero mask	Moxie: +5, Muscle: +5, Mysticality: +5, Softcore Only
+tattered paper crown	Muscle: +3
 time helmet	Adventures: +3
 toy space helmet	Stench Resistance: +30, Spooky Resistance: +30
 viking helmet	Muscle: +1
