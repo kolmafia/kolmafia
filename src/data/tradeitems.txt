@@ -3229,8 +3229,8 @@
 3228
 3229
 3230
-3231
-3232
+3231	tattered paper crown	9	display	0
+3232	vanilla-frosted king cake	1	display	0
 3233	inflatable duck	8	all	50
 3234	water wings	8	all	50
 3235	foam noodle	8	all	50
