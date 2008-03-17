@@ -990,6 +990,7 @@ pat-a-cake pendant	Mysticality: +1
 peace-sign necklace	Damage Reduction: 3
 phat turquoise bracelet	Mysticality: +5
 pink glowstick	Maximum MP: +5, Moxie: -3
+pink plastic baby	Maximum HP: +5, Maximum MP: +5
 pirate fledges	Moxie: +7, Muscle: +7, Mysticality: +7
 plexiglass pendant	Single Equip, Never Fumble, Moxie Percent: +30
 plexiglass pinky ring	Single Equip, Spell Damage: +30, Cold Resistance: +30, Hot Resistance: +30, Sleaze Resistance: +30, Spooky Resistance: +30, Stench Resistance: +30, Mysticality Percent: +30
