@@ -1351,21 +1351,48 @@ public abstract class KoLCharacter
 
 	public static final float getElementalResistance( final int element )
 	{
+		float value = 0.0f;
 		switch ( element )
 		{
 		case MonsterDatabase.COLD:
-			return KoLCharacter.currentModifiers.get( Modifiers.COLD_RESISTANCE );
+			value = KoLCharacter.currentModifiers.get( Modifiers.COLD_RESISTANCE );
+			break;
 		case MonsterDatabase.HEAT:
-			return KoLCharacter.currentModifiers.get( Modifiers.HOT_RESISTANCE );
+			value = KoLCharacter.currentModifiers.get( Modifiers.HOT_RESISTANCE );
+			break;
 		case MonsterDatabase.SLEAZE:
-			return KoLCharacter.currentModifiers.get( Modifiers.SLEAZE_RESISTANCE );
+			value = KoLCharacter.currentModifiers.get( Modifiers.SLEAZE_RESISTANCE );
+			break;
 		case MonsterDatabase.SPOOKY:
-			return KoLCharacter.currentModifiers.get( Modifiers.SPOOKY_RESISTANCE );
+			value = KoLCharacter.currentModifiers.get( Modifiers.SPOOKY_RESISTANCE );
+			break;
 		case MonsterDatabase.STENCH:
-			return KoLCharacter.currentModifiers.get( Modifiers.STENCH_RESISTANCE );
+			value = KoLCharacter.currentModifiers.get( Modifiers.STENCH_RESISTANCE );
+			break;
+		default:
+			return 0.0f;
 		}
 
-		return 0.0f;
+		// "There is no longer a fixed cap to the number of levels of
+		// resistance you can stack up. After 5 levels, however,
+		// diminishing returns kick in, and each successive level gives
+		// you a smaller percentage damage reduction than the last."
+
+		// The following is incorrect, since this is not spaded yet.
+
+		value *= 10;
+
+		// "Rather than having a higher cap, Myst classes now get an
+		// innate 5% reduction in elemental damage taken from all
+		// sources on top of the reduction from resistance equipment
+		// and effects"
+
+		if ( KoLCharacter.isMysticalityClass() )
+		{
+			value += 5;
+		}
+
+		return value;
 	}
 
 	/**

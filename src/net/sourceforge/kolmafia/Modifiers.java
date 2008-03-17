@@ -740,26 +740,6 @@ public class Modifiers
 			}
 			this.floats[ index ] = (float) sum;
 			break;
-		case COLD_RESISTANCE:
-		case HOT_RESISTANCE:
-		case SLEAZE_RESISTANCE:
-		case SPOOKY_RESISTANCE:
-		case STENCH_RESISTANCE:
-			// If already at maximal resistance, keep it
-			if ( this.floats[ index ] == 90 )
-			{
-				break;
-			}
-			// If new mod is maximal, set maximal
-			if ( mod == 90 )
-			{
-				this.floats[ index ] = 90;
-				break;
-			}
-			// Otherwise, cap at 60 or 80
-			this.floats[ index ] =
-				Math.min( this.floats[ index ] + (float) mod, KoLCharacter.isMysticalityClass() ? 80 : 60 );
-			break;
 		default:
 			this.floats[ index ] += mod;
 			break;
@@ -1230,11 +1210,11 @@ public class Modifiers
 			// 1 level for every 4 lbs, applied in the order
 			// Hot, Cold, Spooky, Stench, Sleaze.
 
-			this.add( Modifiers.HOT_RESISTANCE, ( weight + 16 ) / 20 * 10 );
-			this.add( Modifiers.COLD_RESISTANCE, ( weight + 12 ) / 20 * 10 );
-			this.add( Modifiers.SPOOKY_RESISTANCE, ( weight + 8 ) / 20 * 10 );
-			this.add( Modifiers.STENCH_RESISTANCE, ( weight + 4 ) / 20 * 10 );
-			this.add( Modifiers.SLEAZE_RESISTANCE, ( weight + 0 ) / 20 * 10 );
+			this.add( Modifiers.HOT_RESISTANCE, ( weight + 16 ) / 20 );
+			this.add( Modifiers.COLD_RESISTANCE, ( weight + 12 ) / 20 );
+			this.add( Modifiers.SPOOKY_RESISTANCE, ( weight + 8 ) / 20 );
+			this.add( Modifiers.STENCH_RESISTANCE, ( weight + 4 ) / 20 );
+			this.add( Modifiers.SLEAZE_RESISTANCE, ( weight + 0 ) / 20 );
 
 			break;
 		}
@@ -1459,23 +1439,23 @@ public class Modifiers
 
 		if ( enchantment.indexOf( "Slight" ) != -1 )
 		{
-			level = "+10";
+			level = "+1";
 		}
 		else if ( enchantment.indexOf( "So-So" ) != -1 )
 		{
-			level = "+20";
+			level = "+2";
 		}
 		else if ( enchantment.indexOf( "Serious" ) != -1 )
 		{
-			level = "+30";
+			level = "+3";
 		}
 		else if ( enchantment.indexOf( "Sublime" ) != -1 )
 		{
-			level = "+40";
+			level = "+4";
 		}
 		else if ( enchantment.indexOf( "Superhuman" ) != -1 )
 		{
-			level = "+50";
+			level = "+5";
 		}
 
 		if ( enchantment.indexOf( "All Elements" ) != -1 )
