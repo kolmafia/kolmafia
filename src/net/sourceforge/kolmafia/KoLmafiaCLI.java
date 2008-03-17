@@ -2386,12 +2386,6 @@ public class KoLmafiaCLI
 
 		if ( command.equals( "csend" ) )
 		{
-			if ( KoLmafia.isRunningBetweenBattleChecks() )
-			{
-				RequestLogger.printLine( "Send request \"" + parameters + "\" ignored in between-battle execution." );
-				return;
-			}
-
 			this.executeSendRequest( parameters, true );
 			return;
 		}
@@ -2509,9 +2503,34 @@ public class KoLmafiaCLI
 		splitParameters[ 0 ] = splitParameters[ 0 ].trim();
 		splitParameters[ 1 ] = splitParameters[ 1 ].trim();
 
+		System.out.println( splitParameters[ 0 ] );
+
 		Object[] attachments = ItemFinder.getMatchingItemList( KoLConstants.inventory, splitParameters[ 0 ] );
+
 		if ( attachments.length == 0 )
 		{
+			return;
+		}
+
+		int meatAmount = 0;
+		List attachmentList = new ArrayList();
+
+		for ( int i = 0; i < attachments.length; ++i )
+		{
+			if ( ((AdventureResult)attachments[i]).getName().equals( AdventureResult.MEAT ) )
+			{
+				meatAmount += ( (AdventureResult) attachments[i] ).getCount();
+				attachments[i] = null;
+			}
+			else
+			{
+				AdventureResult.addResultToList( attachmentList, (AdventureResult) attachments[i] );
+			}
+		}
+
+		if ( !isConvertible && meatAmount > 0 )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Please use 'csend' if you need to transfer meat." );
 			return;
 		}
 
@@ -2519,37 +2538,13 @@ public class KoLmafiaCLI
 		// scripting a philanthropic buff request, then figure
 		// out if there's a corresponding full-price buff.
 
-		if ( !isConvertible )
+		if ( meatAmount > 0 )
 		{
-			int attachmentCount = attachments.length;
-			for ( int i = 0; i < attachments.length; ++i )
-			{
-				if ( ( (AdventureResult) attachments[ 0 ] ).getName().equals( AdventureResult.MEAT ) )
-				{
-					--attachmentCount;
-					attachments[ i ] = null;
-				}
-			}
-
-			if ( attachmentCount == 0 )
-			{
-				return;
-			}
-		}
-		else
-		{
-			int amount =
-				BuffBotDatabase.getOffering( splitParameters[ 1 ], ( (AdventureResult) attachments[ 0 ] ).getCount() );
-
-			if ( amount == 0 )
-			{
-				return;
-			}
-
-			attachments[ 0 ] = new AdventureResult( AdventureResult.MEAT, amount );
+			meatAmount = BuffBotDatabase.getOffering( splitParameters[ 1 ], meatAmount );
+			AdventureResult.addResultToList( attachmentList, new AdventureResult( AdventureResult.MEAT, meatAmount ) );
 		}
 
-		this.executeSendRequest( splitParameters[ 1 ], message, attachments, false, true );
+		this.executeSendRequest( splitParameters[ 1 ], message, attachmentList.toArray(), false, true );
 	}
 
 	public void executeSendRequest( final String recipient, final String message, final Object[] attachments,
