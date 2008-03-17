@@ -924,6 +924,7 @@ pat-a-cake pendant	0	none
 peace-sign necklace	0	Mys: 20
 phat turquoise bracelet	0	Mys: 20
 pink glowstick	0	none
+pink plastic baby	0	none
 pirate fledges	0	Mys: 60
 plexiglass pendant	0	Mys: 75
 plexiglass pinky ring	0	Mys: 75
