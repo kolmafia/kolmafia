@@ -128,28 +128,26 @@ public class ProfileRequest
 		StringTokenizer st = new StringTokenizer( cleanHTML, "\n" );
 
 		String token = st.nextToken();
+
+		this.playerLevel = new Integer( 0 );
+		this.classType = "Recent Ascension";
+		this.currentMeat = new Integer( 0 );
+		this.ascensionCount = new Integer( 0 );
+		this.turnsPlayed = new Integer( 0 );
+		this.created = new Date();
+		this.lastLogin = new Date();
+		this.food = "none";
+		this.drink = "none";
+		this.pvpRank = new Integer( 0 );
+
+		if ( cleanHTML.indexOf( "\nLevel" ) == -1 )
+		{
+			return;
+		}
+
 		while ( !token.startsWith( "Level" ) )
 		{
 			token = st.nextToken();
-		}
-
-		// It's possible that the player recently ascended and therefore
-		// there's no data on the character.  Default the values and
-		// return, if this is the case.
-
-		if ( token.length() == 6 )
-		{
-			this.playerLevel = new Integer( 0 );
-			this.classType = "Recent Ascension";
-			this.currentMeat = new Integer( 0 );
-			this.ascensionCount = new Integer( 0 );
-			this.turnsPlayed = new Integer( 0 );
-			this.created = new Date();
-			this.lastLogin = new Date();
-			this.food = "none";
-			this.drink = "none";
-			this.pvpRank = new Integer( 0 );
-			return;
 		}
 
 		this.playerLevel = Integer.valueOf( token.substring( 5 ).trim() );
