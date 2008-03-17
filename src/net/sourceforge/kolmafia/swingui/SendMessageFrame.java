@@ -50,12 +50,14 @@ import javax.swing.SwingConstants;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
@@ -64,6 +66,7 @@ import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class SendMessageFrame
 	extends GenericFrame
+	implements ListElementFilter
 {
 	private boolean isStorage = false;
 
@@ -216,6 +219,23 @@ public class SendMessageFrame
 		RequestThread.closeRequestSequence();
 	}
 
+	public boolean isVisible( Object o )
+	{
+		if ( !(o instanceof AdventureResult ) )
+		{
+			return false;
+		}
+
+		AdventureResult ar = (AdventureResult) o;
+
+		if ( !(ar.isItem()) )
+		{
+			return false;
+		}
+
+		return ItemDatabase.isTradeable( ar.getItemId() );
+	}
+
 	public void attachItem()
 	{
 		LockableListModel source = this.isStorage ? KoLConstants.storage : KoLConstants.inventory;
@@ -223,6 +243,9 @@ public class SendMessageFrame
 		{
 			return;
 		}
+
+		source = (LockableListModel) source.clone();
+		source.setFilter( this );
 
 		AdventureResult current;
 		Object[] values = InputFieldUtilities.multiple( "What would you like to send?", source );
