@@ -250,7 +250,7 @@ public class SendMessageFrame
 		AdventureResult current;
 		Object[] values = InputFieldUtilities.multiple( "What would you like to send?", source );
 
-		if ( values.length < source.size() )
+		if ( values.length < source.getSize() )
 		{
 			for ( int i = 0; i < values.length; ++i )
 			{
