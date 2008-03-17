@@ -1240,7 +1240,8 @@ public class ItemDatabase
 		while ( itemMatcher.find() )
 		{
 			int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
-			if ( !ItemDatabase.descriptionById.get( new Integer( itemId ) ).equals( "" ) )
+			String descId = (String)ItemDatabase.descriptionById.get( new Integer( itemId ) );
+			if ( descId != null && !descId.equals( "" ) )
 			{
 				continue;
 			}

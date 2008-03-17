@@ -194,6 +194,7 @@ public class ItemPool
 	public static final int EL_VIBRATO_HELMET = 3162;
 	public static final int ORIGAMI_MAGAZINE = 3194;
 	public static final int OVERCHARGED_POWER_SPHERE = 3215;
+	public static final int TATTERED_PAPER_CROWN = 3231;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

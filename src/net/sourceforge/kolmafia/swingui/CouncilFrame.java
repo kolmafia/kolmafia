@@ -145,6 +145,20 @@ public class CouncilFrame
 
 			AdventureResult.addResultToList( KoLConstants.inventory, button );
 			ResultProcessor.processItem( ItemPool.NOVELTY_BUTTON, -1 );
+			return;
+		}
+
+		AdventureResult crown = ItemPool.get( ItemPool.TATTERED_PAPER_CROWN, 1 );
+		if ( KoLCharacter.hasEquipped( crown ) && responseText.indexOf( "Ah, man, you dropped your crown back there!" ) != -1 )
+		{
+			EquipmentManager.setEquipment( EquipmentManager.HAT, EquipmentRequest.UNEQUIP );
+
+			// Maintain session tally: "unequip" the hat and
+			// discard it.
+
+			AdventureResult.addResultToList( KoLConstants.inventory, crown );
+			ResultProcessor.processItem( ItemPool.TATTERED_PAPER_CROWN, -1 );
+			return;
 		}
 	}
 
