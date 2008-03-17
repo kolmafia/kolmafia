@@ -3520,6 +3520,7 @@ public abstract class KoLmafia
 	{
 		public void run()
 		{
+			Preferences.reset( null );
 			FlaggedItems.saveFlaggedItemList();
 			CustomItemDatabase.saveItemData();
 
