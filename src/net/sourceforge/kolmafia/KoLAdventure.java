@@ -79,32 +79,6 @@ public class KoLAdventure
 
 	private static final GenericRequest ZONE_UNLOCK = new GenericRequest( "" );
 
-	public static final AdventureResult BEAN = new AdventureResult( 186, 1 );
-
-	public static final AdventureResult MAP = new AdventureResult( 667, 1 );
-	public static final AdventureResult ROWBOAT = new AdventureResult( 653, 1 );
-
-	public static final AdventureResult SOCK = new AdventureResult( 609, 1 );
-	public static final AdventureResult[] IMMATERIA =
-	{
-		new AdventureResult( 605, -1 ),
-		new AdventureResult( 606, -1 ),
-		new AdventureResult( 607, -1 ),
-		new AdventureResult( 608, -1 )
-	};
-
-	public static final AdventureResult POWER_SPHERE = new AdventureResult( 3049, -1 );
-	public static final AdventureResult DRONE = new AdventureResult( 3157, -1 );
-	public static final AdventureResult BROKEN_DRONE = new AdventureResult( 3165, -1 );
-	public static final AdventureResult REPAIRED_DRONE = new AdventureResult( 3166, -1 );
-
-	public static final AdventureResult[] AZAZEL =
-	{
-		new AdventureResult( 2566, -1 ),
-		new AdventureResult( 2567, -1 ),
-		new AdventureResult( 2568, -1 ),
-	};
-
 	public static final AdventureResult BEATEN_UP = new AdventureResult( "Beaten Up", 4, true );
 
 	private static KoLAdventure lastVisitedLocation = null;
@@ -507,7 +481,7 @@ public class KoLAdventure
 		else if ( this.adventureId.equals( "82" ) )
 		{
 			this.isValidAdventure =
-				InventoryManager.hasItem( KoLAdventure.SOCK ) || InventoryManager.hasItem( KoLAdventure.ROWBOAT );
+				InventoryManager.hasItem( ItemPool.get( ItemPool.SOCK, 1 ) ) || InventoryManager.hasItem( ItemPool.get( ItemPool.ROWBOAT, 1 ) );
 			return;
 		}
 
@@ -516,12 +490,12 @@ public class KoLAdventure
 
 		else if ( this.adventureId.equals( "83" ) )
 		{
-			if ( !InventoryManager.hasItem( KoLAdventure.ROWBOAT ) && InventoryManager.hasItem( KoLAdventure.MAP ) )
+			if ( !InventoryManager.hasItem( ItemPool.get( ItemPool.ROWBOAT, 1 ) ) && InventoryManager.hasItem( ItemPool.get( ItemPool.GIANT_CASTLE_MAP, 1 ) ) )
 			{
-				RequestThread.postRequest( new UseItemRequest( KoLAdventure.MAP ) );
+				RequestThread.postRequest( new UseItemRequest( ItemPool.get( ItemPool.GIANT_CASTLE_MAP, 1 ) ) );
 			}
 
-			this.isValidAdventure = InventoryManager.retrieveItem( KoLAdventure.ROWBOAT );
+			this.isValidAdventure = InventoryManager.retrieveItem( ItemPool.get( ItemPool.ROWBOAT, 1 ) );
 			return;
 		}
 
@@ -534,7 +508,7 @@ public class KoLAdventure
 			// If the character has a S.O.C.K. or an intragalactic
 			// rowboat, they can get to the airship
 
-			if ( InventoryManager.hasItem( KoLAdventure.SOCK ) || InventoryManager.hasItem( KoLAdventure.ROWBOAT ) )
+			if ( InventoryManager.hasItem( ItemPool.get( ItemPool.SOCK, 1 ) ) || InventoryManager.hasItem( ItemPool.get( ItemPool.ROWBOAT, 1 ) ) )
 			{
 				this.isValidAdventure = true;
 				return;
@@ -553,13 +527,13 @@ public class KoLAdventure
 				// bean which can be used.  If they don't, then try to
 				// find one through adventuring.
 
-				if ( !InventoryManager.hasItem( KoLAdventure.BEAN ) )
+				if ( !InventoryManager.hasItem( ItemPool.get( ItemPool.ENCHANTED_BEAN, 1 ) ) )
 				{
 					ArrayList temporary = new ArrayList();
 					temporary.addAll( KoLConstants.conditions );
 					KoLConstants.conditions.clear();
 
-					KoLConstants.conditions.add( KoLAdventure.BEAN );
+					KoLConstants.conditions.add( ItemPool.get( ItemPool.ENCHANTED_BEAN, 1 ) );
 					StaticEntity.getClient().makeRequest(
 						AdventureDatabase.getAdventureByURL( "adventure.php?snarfblat=33" ),
 						KoLCharacter.getAdventuresLeft() );
@@ -579,7 +553,7 @@ public class KoLAdventure
 				// what's needed in grabbing the item.
 
 				RequestThread.postRequest( CouncilFrame.COUNCIL_VISIT );
-				RequestThread.postRequest( new UseItemRequest( KoLAdventure.BEAN ) );
+				RequestThread.postRequest( new UseItemRequest( ItemPool.get( ItemPool.ENCHANTED_BEAN, 1 ) ) );
 			}
 
 			KoLAdventure.ZONE_UNLOCK.constructURLString( "beanstalk.php" );

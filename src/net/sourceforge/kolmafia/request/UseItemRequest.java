@@ -110,7 +110,6 @@ public class UseItemRequest
 	private static final int SPOOKY_TEMPLE_MAP = 74;
 	private static final int TBONE_KEY = 86;
 	private static final int DINGHY_PLANS = 146;
-	private static final int ENCHANTED_BEAN = 186;
 	private static final int FENG_SHUI = 210;
 	private static final int SELTZER = 344;
 	private static final int PIRATE_SKULL = 407;
@@ -1073,7 +1072,7 @@ public class UseItemRequest
 
 			return;
 
-		case ENCHANTED_BEAN:
+		case ItemPool.ENCHANTED_BEAN:
 
 			// There are three possibilities:
 
@@ -1907,7 +1906,7 @@ public class UseItemRequest
 
 			return;
 
-		case KoLmafia.AUGMENTED_DRONE:
+		case ItemPool.AUGMENTED_DRONE:
 
 			if ( responseText.indexOf( "You put an overcharged sphere in the cavity" ) != -1 )
 			{

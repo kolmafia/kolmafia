@@ -160,56 +160,6 @@ public abstract class KoLmafia
 	private static final Pattern TAVERN_PATTERN = Pattern.compile( "where=(\\d+)" );
 	private static final Pattern GOURD_PATTERN = Pattern.compile( "Bring back (\\d+)" );
 
-	public static final int SOCK = 609;
-	public static final int LUCRE = 2098;
-
-	// Steel items
-	public static final int LASAGNA = 2742;
-	public static final int MARGARITA = 2743;
-	public static final int AIR_FRESHENER = 2744;
-
-	// Molybdenum items
-	public static final int MAGNET = 2497;
-	public static final int HAMMER = 2498;
-	public static final int SCREWDRIVER = 2499;
-	public static final int PLIERS = 2500;
-	public static final int WRENCH = 2501;
-
-	// Gnome postal items
-
-	public static final int BROKEN_DRONE = 3165;
-	public static final int REPAIRED_DRONE = 3166;
-	public static final int AUGMENTED_DRONE = 3167;
-	public static final int TRAPEZOID = 3198;
-
-	// Semi-rares
-	private static final int ASCII_SHIRT = 2121;
-	private static final int RHINO_HORMONES = 2419;
-	private static final int MAGIC_SCROLL = 2420;
-	private static final int PIRATE_JUICE = 2421;
-	private static final int PET_SNACKS = 2422;
-	private static final int INHALER = 2423;
-	private static final int CYCLOPS_EYEDROPS = 2424;
-	private static final int SPINACH = 2425;
-	private static final int FIRE_FLOWER = 2426;
-	private static final int ICE_CUBE = 2427;
-	private static final int FAKE_BLOOD = 2428;
-	private static final int GUANEAU = 2429;
-	private static final int LARD = 2430;
-	private static final int MYTIC_SHELL = 2431;
-	private static final int LIP_BALM = 2432;
-	private static final int ANTIFREEZE = 2433;
-	private static final int BLACK_EYEDROPS = 2434;
-	private static final int DOGSGOTNONOZ = 2435;
-	private static final int FLIPBOOK = 2436;
-	private static final int NEW_CLOACA_COLA = 2437;
-	private static final int MASSAGE_OIL = 2438;
-	private static final int POLTERGEIST = 2439;
-	private static final int TASTY_TART = 2591;
-	private static final int LUNCHBOX = 2592;
-	private static final int KNOB_PASTY = 2593;
-	private static final int KNOB_COFFEE = 2594;
-
 	private static FileLock SESSION_HOLDER = null;
 	private static FileChannel SESSION_CHANNEL = null;
 	private static File SESSION_FILE = null;
@@ -876,32 +826,32 @@ public abstract class KoLmafia
 	{
 		switch ( result.getItemId() )
 		{
-		case ASCII_SHIRT:
-		case RHINO_HORMONES:
-		case MAGIC_SCROLL:
-		case PIRATE_JUICE:
-		case PET_SNACKS:
-		case INHALER:
-		case CYCLOPS_EYEDROPS:
-		case SPINACH:
-		case FIRE_FLOWER:
-		case ICE_CUBE:
-		case FAKE_BLOOD:
-		case GUANEAU:
-		case LARD:
-		case MYTIC_SHELL:
-		case LIP_BALM:
-		case ANTIFREEZE:
-		case BLACK_EYEDROPS:
-		case DOGSGOTNONOZ:
-		case FLIPBOOK:
-		case NEW_CLOACA_COLA:
-		case MASSAGE_OIL:
-		case POLTERGEIST:
-		case TASTY_TART:
-		case LUNCHBOX:
-		case KNOB_PASTY:
-		case KNOB_COFFEE:
+		case ItemPool.ASCII_SHIRT:
+		case ItemPool.RHINO_HORMONES:
+		case ItemPool.MAGIC_SCROLL:
+		case ItemPool.PIRATE_JUICE:
+		case ItemPool.PET_SNACKS:
+		case ItemPool.INHALER:
+		case ItemPool.CYCLOPS_EYEDROPS:
+		case ItemPool.SPINACH:
+		case ItemPool.FIRE_FLOWER:
+		case ItemPool.ICE_CUBE:
+		case ItemPool.FAKE_BLOOD:
+		case ItemPool.GUANEAU:
+		case ItemPool.LARD:
+		case ItemPool.MYSTIC_SHELL:
+		case ItemPool.LIP_BALM:
+		case ItemPool.ANTIFREEZE:
+		case ItemPool.BLACK_EYEDROPS:
+		case ItemPool.DOGSGOTNONOZ:
+		case ItemPool.FLIPBOOK:
+		case ItemPool.NEW_CLOACA_COLA:
+		case ItemPool.MASSAGE_OIL:
+		case ItemPool.POLTERGEIST:
+		case ItemPool.TASTY_TART:
+		case ItemPool.LUNCHBOX:
+		case ItemPool.KNOB_PASTY:
+		case ItemPool.KNOB_COFFEE:
 			return true;
 		}
 		return false;

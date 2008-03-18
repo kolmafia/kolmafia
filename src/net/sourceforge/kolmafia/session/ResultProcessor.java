@@ -584,35 +584,35 @@ public class ResultProcessor
 	{
 		switch ( result.getItemId() )
 		{
-		case KoLmafia.LUCRE:
+		case ItemPool.LUCRE:
 			CoinmastersFrame.externalUpdate();
 			break;
 
-		case KoLmafia.SOCK:
+		case ItemPool.SOCK:
 			// If you get a S.O.C.K., you lose all the Immateria
 			if ( result.getCount() == 1 )
 			{
-				for ( int i = 0; i < KoLAdventure.IMMATERIA.length; ++i )
+				for ( int i = 0; i < ItemPool.IMMATERIA.length; ++i )
 				{
-					processResult( KoLAdventure.IMMATERIA[ i ] );
+					processResult( ItemPool.IMMATERIA[ i ] );
 				}
 			}
 			break;
 
-		case KoLmafia.LASAGNA:
-		case KoLmafia.MARGARITA:
-		case KoLmafia.AIR_FRESHENER:
+		case ItemPool.STEEL_LASAGNA:
+		case ItemPool.STEEL_MARGARITA:
+		case ItemPool.STEEL_AIR_FRESHENER:
 			// When you get a steel item, you lose Azazel's items
 			if ( result.getCount() == 1 )
 			{
-				for ( int i = 0; i < KoLAdventure.AZAZEL.length; ++i )
+				for ( int i = 0; i < ItemPool.AZAZEL.length; ++i )
 				{
-					processResult( KoLAdventure.AZAZEL[ i ] );
+					processResult( ItemPool.AZAZEL[ i ] );
 				}
 			}
 			break;
 
-		case KoLmafia.MAGNET:
+		case ItemPool.MOLYBDENUM_MAGNET:
 			// When you get the molybdenum magnet, tell quest handler
 			if ( result.getCount() == 1 )
 			{
@@ -620,10 +620,10 @@ public class ResultProcessor
 			}
 			break;
 
-		case KoLmafia.HAMMER:
-		case KoLmafia.SCREWDRIVER:
-		case KoLmafia.PLIERS:
-		case KoLmafia.WRENCH:
+		case ItemPool.MOLYBDENUM_HAMMER:
+		case ItemPool.MOLYBDENUM_SCREWDRIVER:
+		case ItemPool.MOLYBDENUM_PLIERS:
+		case ItemPool.MOLYBDENUM_WRENCH:
 			// When you get a molybdenum item, tell quest handler
 			if ( result.getCount() == 1 )
 			{
@@ -631,31 +631,31 @@ public class ResultProcessor
 			}
 			break;
 
-		case KoLmafia.BROKEN_DRONE:
-			if ( result.getCount() == 1 && KoLConstants.inventory.contains( KoLAdventure.DRONE ) )
+		case ItemPool.BROKEN_DRONE:
+			if ( result.getCount() == 1 && KoLConstants.inventory.contains( ItemPool.get( ItemPool.DRONE, 1 ) ) )
 			{
-				processResult( KoLAdventure.DRONE );
+				processResult( ItemPool.get( ItemPool.DRONE, -1 ) );
 			}
 			break;
 
-		case KoLmafia.REPAIRED_DRONE:
-			if ( result.getCount() == 1 && KoLConstants.inventory.contains( KoLAdventure.BROKEN_DRONE ) )
+		case ItemPool.REPAIRED_DRONE:
+			if ( result.getCount() == 1 && KoLConstants.inventory.contains( ItemPool.get( ItemPool.BROKEN_DRONE, 1 ) ) )
 			{
-				processResult( KoLAdventure.BROKEN_DRONE );
+				processResult( ItemPool.get( ItemPool.BROKEN_DRONE, -1 ) );
 			}
 			break;
 
-		case KoLmafia.AUGMENTED_DRONE:
-			if ( result.getCount() == 1 && KoLConstants.inventory.contains( KoLAdventure.REPAIRED_DRONE ) )
+		case ItemPool.AUGMENTED_DRONE:
+			if ( result.getCount() == 1 && KoLConstants.inventory.contains( ItemPool.get( ItemPool.REPAIRED_DRONE, 1 ) ) )
 			{
-				processResult( KoLAdventure.REPAIRED_DRONE );
+				processResult( ItemPool.get( ItemPool.REPAIRED_DRONE, -1 ) );
 			}
 			break;
 
-		case KoLmafia.TRAPEZOID:
-			if ( result.getCount() == 1 && KoLConstants.inventory.contains( KoLAdventure.POWER_SPHERE ) )
+		case ItemPool.TRAPEZOID:
+			if ( result.getCount() == 1 && KoLConstants.inventory.contains( ItemPool.get( ItemPool.POWER_SPHERE, 1 ) ) )
 			{
-				processResult( KoLAdventure.POWER_SPHERE );
+				processResult( ItemPool.get( ItemPool.POWER_SPHERE, -1 ) );
 			}
 			break;
 

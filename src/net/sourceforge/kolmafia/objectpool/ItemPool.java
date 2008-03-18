@@ -94,12 +94,17 @@ public class ItemPool
 	public static final int ELITE_SCROLL = 553;
 	public static final int SONAR = 563;
 	public static final int REMEDY = 588;
+	public static final int TISSUE_PAPER_IMMATERIA = 605;
+	public static final int TIN_FOIL_IMMATERIA = 606;
+	public static final int GAUZE_IMMATERIA = 607;
+	public static final int PLASTIC_WRAP_IMMATERIA = 608;
 	public static final int SOCK = 609;
 	public static final int BLACK_CANDLE = 620;
 	public static final int ROWBOAT = 653;
 	public static final int STAR = 654;
 	public static final int LINE = 655;
 	public static final int STAR_CHART = 656;
+	public static final int GIANT_CASTLE_MAP = 667;
 	public static final int JEWELRY_PLIERS = 709;
 	public static final int PUZZLE_PIECE = 727;
 	public static final int HEDGE_KEY = 728;
@@ -165,6 +170,7 @@ public class ItemPool
 	public static final int CAN_OF_STARCH = 2084;
 	public static final int TOWEL = 2085;
 	public static final int LUCRE = 2098;
+	public static final int ASCII_SHIRT = 2121;
 	public static final int ANCIENT_CAROLS = 2191;
 	public static final int SHEET_MUSIC = 2192;
 	public static final int FAMILIAR_DOPPELGANGER = 2225;
@@ -186,15 +192,51 @@ public class ItemPool
 	public static final int FINGERLESS_HOBO_GLOVES = 2300;
 	public static final int CHOMSKYS_COMICS = 2301;
 	public static final int GUNPOWDER = 2403;
+	public static final int RHINO_HORMONES = 2419;
+	public static final int MAGIC_SCROLL = 2420;
+	public static final int PIRATE_JUICE = 2421;
+	public static final int PET_SNACKS = 2422;
+	public static final int INHALER = 2423;
+	public static final int CYCLOPS_EYEDROPS = 2424;
+	public static final int SPINACH = 2425;
+	public static final int FIRE_FLOWER = 2426;
+	public static final int ICE_CUBE = 2427;
+	public static final int FAKE_BLOOD = 2428;
+	public static final int GUANEAU = 2429;
+	public static final int LARD = 2430;
+	public static final int MYSTIC_SHELL = 2431;
+	public static final int LIP_BALM = 2432;
+	public static final int ANTIFREEZE = 2433;
+	public static final int BLACK_EYEDROPS = 2434;
+	public static final int DOGSGOTNONOZ = 2435;
+	public static final int FLIPBOOK = 2436;
+	public static final int NEW_CLOACA_COLA = 2437;
+	public static final int MASSAGE_OIL = 2438;
+	public static final int POLTERGEIST = 2439;
+	public static final int MOLYBDENUM_MAGNET = 2497;
+	public static final int MOLYBDENUM_HAMMER = 2498;
+	public static final int MOLYBDENUM_SCREWDRIVER = 2499;
+	public static final int MOLYBDENUM_PLIERS = 2500;
+	public static final int MOLYBDENUM_WRENCH = 2501;
 	public static final int MAYFLOWER_BOUQUET = 2541;
-	public static final int PLASTIC_BIB = 2846;
+	public static final int AZAZELS_UNICORN = 2566;
+	public static final int AZAZELS_LOLLYPOP = 2567;
+	public static final int AZAZELS_TUTU = 2568;
 	public static final int ANT_HOE = 2570;
 	public static final int ANT_RAKE = 2571;
 	public static final int ANT_PITCHFORK = 2572;
 	public static final int ANT_SICKLE = 2573;
 	public static final int ANT_PICK = 2574;
+	public static final int TASTY_TART = 2591;
+	public static final int LUNCHBOX = 2592;
+	public static final int KNOB_PASTY = 2593;
+	public static final int KNOB_COFFEE = 2594;
 	public static final int MOJO_FILTER = 2614;
 	public static final int PARROT_CRACKER = 2710;
+	public static final int STEEL_LASAGNA = 2742;
+	public static final int STEEL_MARGARITA = 2743;
+	public static final int STEEL_AIR_FRESHENER = 2744;
+	public static final int PLASTIC_BIB = 2846;
 	public static final int GNOME_DEMODULIZER = 2848;
 	public static final int FOIL_BOW = 3043;
 	public static final int FOIL_RADAR = 3044;
@@ -207,9 +249,29 @@ public class ItemPool
 	public static final int CARD_ATTACK = 3146;
 	public static final int CARD_WALL = 3155;
 	public static final int EL_VIBRATO_HELMET = 3162;
+	public static final int DRONE = 3157;
+	public static final int BROKEN_DRONE = 3165;
+	public static final int REPAIRED_DRONE = 3166;
+	public static final int AUGMENTED_DRONE = 3167;
 	public static final int ORIGAMI_MAGAZINE = 3194;
+	public static final int TRAPEZOID = 3198;
 	public static final int OVERCHARGED_POWER_SPHERE = 3215;
 	public static final int TATTERED_PAPER_CROWN = 3231;
+
+	public static final AdventureResult[] IMMATERIA =
+	{
+		ItemPool.get( TISSUE_PAPER_IMMATERIA, -1 ),
+		ItemPool.get( TIN_FOIL_IMMATERIA, -1 ),
+		ItemPool.get( GAUZE_IMMATERIA, -1 ),
+		ItemPool.get( PLASTIC_WRAP_IMMATERIA, -1 )
+	};
+
+	public static final AdventureResult[] AZAZEL =
+	{
+		ItemPool.get( AZAZELS_UNICORN, -1 ),
+		ItemPool.get( AZAZELS_LOLLYPOP, -1 ),
+		ItemPool.get( AZAZELS_TUTU, -1 ),
+	};
 
 	public static final AdventureResult get( String itemName, int count )
 	{
