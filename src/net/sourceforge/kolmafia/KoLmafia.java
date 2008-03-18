@@ -176,20 +176,6 @@ public abstract class KoLmafia
 	public static final int WRENCH = 2501;
 
 	// Gnome postal items
-	private static final int RED_PAPER_CLIP = 2289;
-	public static final int REALLY_BIG_TINY_HOUSE = 2290;
-	public static final int NONESSENTIAL_AMULET = 2291;
-	public static final int WHITE_WINE_VINAIGRETTE = 2292;
-	public static final int CUP_OF_STRONG_TEA = 2293;
-	public static final int CURIOUSLY_SHINY_AX = 2294;
-	public static final int MARINATED_STAKES = 2295;
-	public static final int KNOB_BUTTER = 2296;
-	public static final int VIAL_OF_ECTOPLASM = 2297;
-	public static final int BOOCK_OF_MAGIKS = 2298;
-	public static final int EZ_PLAY_HARMONICA_BOOK = 2299;
-	public static final int FINGERLESS_HOBO_GLOVES = 2300;
-	public static final int CHOMSKYS_COMICS = 2301;
-	public static final int GNOME_DEMODULIZER = 2848;
 
 	public static final int BROKEN_DRONE = 3165;
 	public static final int REPAIRED_DRONE = 3166;

@@ -662,84 +662,93 @@ public class ResultProcessor
 		 // These update the session results for the item swapping in
 		 // the Gnome's Going Postal quest.
 
-		case KoLmafia.REALLY_BIG_TINY_HOUSE:
+		case ItemPool.REALLY_BIG_TINY_HOUSE:
 			if ( result.getCount() == 1 )
 			{
-				processResult( KoLAdventure.RED_PAPER_CLIP );
+				processResult( ItemPool.get( ItemPool.RED_PAPER_CLIP, -1 ) );
 			}
 			break;
-		case KoLmafia.NONESSENTIAL_AMULET:
+		case ItemPool.NONESSENTIAL_AMULET:
 			if ( result.getCount() == 1 )
 			{
-				processResult( KoLAdventure.REALLY_BIG_TINY_HOUSE );
-			}
-			break;
-
-		case KoLmafia.WHITE_WINE_VINAIGRETTE:
-			if ( result.getCount() == 1 )
-			{
-				processResult( KoLAdventure.NONESSENTIAL_AMULET );
-			}
-			break;
-		case KoLmafia.CURIOUSLY_SHINY_AX:
-			if ( result.getCount() == 1 )
-			{
-				processResult( KoLAdventure.WHITE_WINE_VINAIGRETTE );
-			}
-			break;
-		case KoLmafia.CUP_OF_STRONG_TEA:
-			if ( result.getCount() == 1 )
-			{
-				processResult( KoLAdventure.CURIOUSLY_SHINY_AX );
-			}
-			break;
-		case KoLmafia.MARINATED_STAKES:
-			if ( result.getCount() == 1 )
-			{
-				processResult( KoLAdventure.CUP_OF_STRONG_TEA );
-			}
-			break;
-		case KoLmafia.KNOB_BUTTER:
-			if ( result.getCount() == 1 )
-			{
-				processResult( KoLAdventure.MARINATED_STAKES );
-			}
-			break;
-		case KoLmafia.VIAL_OF_ECTOPLASM:
-			if ( result.getCount() == 1 )
-			{
-				processResult( KoLAdventure.KNOB_BUTTER );
-			}
-			break;
-		case KoLmafia.BOOCK_OF_MAGIKS:
-			if ( result.getCount() == 1 )
-			{
-				processResult( KoLAdventure.VIAL_OF_ECTOPLASM );
-			}
-			break;
-		case KoLmafia.EZ_PLAY_HARMONICA_BOOK:
-			if ( result.getCount() == 1 )
-			{
-				processResult( KoLAdventure.BOOCK_OF_MAGIKS );
-			}
-			break;
-		case KoLmafia.FINGERLESS_HOBO_GLOVES:
-			if ( result.getCount() == 1 )
-			{
-				processResult( KoLAdventure.EZ_PLAY_HARMONICA_BOOK );
-			}
-			break;
-		case KoLmafia.CHOMSKYS_COMICS:
-			if ( result.getCount() == 1 )
-			{
-				processResult( KoLAdventure.FINGERLESS_HOBO_GLOVES );
+				processResult( ItemPool.get( ItemPool.REALLY_BIG_TINY_HOUSE, -1 ) );
 			}
 			break;
 
-		case KoLmafia.GNOME_DEMODULIZER:
-			if ( result.getCount() == 1 && KoLConstants.inventory.contains( KoLAdventure.CHOMSKYS_COMICS ) )
+		case ItemPool.WHITE_WINE_VINAIGRETTE:
+			if ( result.getCount() == 1 )
 			{
-				processResult( KoLAdventure.CHOMSKYS_COMICS );
+				processResult( ItemPool.get( ItemPool.NONESSENTIAL_AMULET, -1 ) );
+			}
+			break;
+		case ItemPool.CURIOUSLY_SHINY_AX:
+			if ( result.getCount() == 1 )
+			{
+				processResult( ItemPool.get( ItemPool.WHITE_WINE_VINAIGRETTE, -1 ) );
+			}
+			break;
+		case ItemPool.CUP_OF_STRONG_TEA:
+			if ( result.getCount() == 1 )
+			{
+				processResult( ItemPool.get( ItemPool.CURIOUSLY_SHINY_AX, -1 ) );
+			}
+			break;
+		case ItemPool.MARINATED_STAKES:
+			if ( result.getCount() == 1 )
+			{
+				processResult( ItemPool.get( ItemPool.CUP_OF_STRONG_TEA, -1 ) );
+			}
+			break;
+		case ItemPool.KNOB_BUTTER:
+			if ( result.getCount() == 1 )
+			{
+				processResult( ItemPool.get( ItemPool.MARINATED_STAKES, -1 ) );
+			}
+			break;
+		case ItemPool.VIAL_OF_ECTOPLASM:
+			if ( result.getCount() == 1 )
+			{
+				processResult( ItemPool.get( ItemPool.KNOB_BUTTER, -1 ) );
+			}
+			break;
+		case ItemPool.BOOCK_OF_MAGIKS:
+			if ( result.getCount() == 1 )
+			{
+				processResult( ItemPool.get( ItemPool.VIAL_OF_ECTOPLASM, -1 ) );
+			}
+			break;
+		case ItemPool.EZ_PLAY_HARMONICA_BOOK:
+			if ( result.getCount() == 1 )
+			{
+				processResult( ItemPool.get( ItemPool.BOOCK_OF_MAGIKS, -1 ) );
+			}
+			break;
+		case ItemPool.FINGERLESS_HOBO_GLOVES:
+			if ( result.getCount() == 1 )
+			{
+				processResult( ItemPool.get( ItemPool.EZ_PLAY_HARMONICA_BOOK, -1 ) );
+			}
+			break;
+		case ItemPool.CHOMSKYS_COMICS:
+			if ( result.getCount() == 1 )
+			{
+				processResult( ItemPool.get( ItemPool.FINGERLESS_HOBO_GLOVES, -1 ) );
+			}
+			break;
+
+		case ItemPool.GNOME_DEMODULIZER:
+			if ( result.getCount() == 1 && KoLConstants.inventory.contains( ItemPool.get( ItemPool.CHOMSKYS_COMICS, 1 ) ) )
+			{
+				processResult( ItemPool.get( ItemPool.CHOMSKYS_COMICS, -1 ) );
+			}
+			break;
+
+		case ItemPool.MUS_MANUAL:
+		case ItemPool.MYS_MANUAL:
+		case ItemPool.MOX_MANUAL:
+			if ( result.getCount() == 1 )
+			{
+				processResult( ItemPool.get( ItemPool.DUSTY_BOOK, -1 ) );
 			}
 			break;
 		}
