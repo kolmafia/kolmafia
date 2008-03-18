@@ -267,7 +267,7 @@ user	retrieveContacts	true
 user	semirareCounter	0
 user	semirareLocation
 user	serverAddsCustomCombat	false
-user	setAutoAttack	false
+user	setAutoAttack	true
 user	showGainsPerUnit	false
 user	sideDefeated	neither
 user	sidequestArenaCompleted	none

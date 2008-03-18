@@ -37,7 +37,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+
 import java.nio.channels.FileChannel;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
@@ -47,15 +49,13 @@ import javax.swing.tree.TreeNode;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
-
-import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
-import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.request.FightRequest;
@@ -360,8 +360,25 @@ public abstract class CustomCombatManager
 			skillId = 0;
 		}
 
+		String skillName;
+		switch ( skillId )
+		{
+		case 0:
+			skillName = "disabled";
+			break;
+		case 1:
+			skillName = "attack with weapon";
+			break;
+		default:
+			skillName = SkillDatabase.getSkillName( skillId ).toLowerCase();
+			break;
+		}
+
+		KoLmafia.updateDisplay( "Thought about: " + skillName );
+
 		if ( Preferences.getInteger( "defaultAutoAttack" ) != skillId )
 		{
+			KoLmafia.updateDisplay( "Changing auto-attack: " + skillName );
 			Preferences.setInteger( "defaultAutoAttack", skillId );
 
 			CustomCombatManager.AUTO_ATTACKER.addFormField( "whichattack", String.valueOf( skillId ) );
