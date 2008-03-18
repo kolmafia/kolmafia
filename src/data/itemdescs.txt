@@ -223,7 +223,7 @@
 217	589253744	herb brownies	piles of herb brownies
 218	719626655	hemp string	hemp strings
 219	662335573	necklace chain	necklace chains
-220	434518378	gnoll teeth	mouthfulls of gnoll teeth
+220	434518378	gnoll teeth	mouthfuls of gnoll teeth
 221	342269163	gnoll-tooth necklace	gnoll-tooth necklaces
 222	579443796	phat turquoise bead	phat turquoise beads
 223	415315582	phat turquoise bracelet	phat turquoise bracelets
