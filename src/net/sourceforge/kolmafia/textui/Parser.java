@@ -372,6 +372,10 @@ public class Parser
 			{
 				if ( f.getName().equalsIgnoreCase( "main" ) )
 				{
+					if ( parentScope.getParentScope() != null )
+					{
+						throw this.parseException( "main method must appear at top level" );
+					}
 					this.mainMethod = f;
 				}
 
