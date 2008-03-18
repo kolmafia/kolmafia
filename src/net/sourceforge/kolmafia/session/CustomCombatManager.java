@@ -50,9 +50,9 @@ import javax.swing.tree.TreeNode;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.LogStream;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -374,11 +374,9 @@ public abstract class CustomCombatManager
 			break;
 		}
 
-		KoLmafia.updateDisplay( "Thought about: " + skillName );
-
 		if ( Preferences.getInteger( "defaultAutoAttack" ) != skillId )
 		{
-			KoLmafia.updateDisplay( "Changing auto-attack: " + skillName );
+			RequestLogger.printLine( "Changing auto-attack: " + skillName );
 			Preferences.setInteger( "defaultAutoAttack", skillId );
 
 			CustomCombatManager.AUTO_ATTACKER.addFormField( "whichattack", String.valueOf( skillId ) );
