@@ -1337,6 +1337,7 @@ A Little Bit Poisoned	Muscle Percent: -30, Mysticality Percent: -30, Moxie Perce
 A Revolution in Your Mouth	Moxie Percent: -10
 Adrenaline Rush	Muscle Percent: +100
 Affronted Decency	Moxie: -20
+Afternoon Insight	Mysticality Percent: +15
 Aloysius' Antiphon of Aptitude	Experience: +3
 Also Schmeckt Zarathustra	Mysticality: +30
 Amorous	Moxie: +5, Sleaze Damage: +5
@@ -1434,11 +1435,13 @@ Expert Oiliness	Equalize: "Mysticality"
 Extreme Muscle Relaxation	Initiative: -50, Muscle Percent: +25
 Extremely Poor Taste	Monster Level: +10
 Eye of the Lihc	Spooky Resistance: +1
+Fancy Feasted	Moxie Percent: +15
+Fastbreaker	Muscle Percent: +15
 Fat Leon's Phat Loot Lyric	Item Drop: +20
 Fearless	Monster Level: -10
 Fever From the Flavor	Cold Resistance: +9
 Fireproof Lips	Hot Resistance: +9
-Fishy Fortification	Muscle Percent: +10
+Fishy Fortification	Muscle Percent: +10, Maximum HP: +50
 Fit To Be Tide	HP Regen Min: 5, HP Regen Max: 16, MP Regen Min: 5, MP Regen Max: 16
 Fitter, Happier	Muscle Percent: +100, Mysticality Percent: +100
 Flame-Retardent Trousers	Hot Resistance: +2
@@ -1645,6 +1648,7 @@ Ur-Kel's Aria of Annoyance	Monster Level: +0
 Very Clean Teeth	Moxie: +1
 Vitamin-Maxed	Muscle Percent: +10
 Wasabi Sinuses	Experience: -1, Item Drop: -10, Meat Drop: +30
+Well-Oiled	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 # Well-preserved
 What's That Smell?	Stench Damage: +3
 Whitened Teeth	Moxie Percent: +10
