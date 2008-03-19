@@ -407,6 +407,12 @@ public abstract class StaticEntity
 		}
 	}
 
+	public static final boolean isHeadless()
+	{
+		String isHeadless = System.getProperty( "java.awt.headless" );
+		return isHeadless != null && Boolean.parseBoolean( isHeadless );
+	}
+
 	public static final ActionPanel[] getExistingPanels()
 	{
 		synchronized ( StaticEntity.existingPanels )
