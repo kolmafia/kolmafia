@@ -80,11 +80,6 @@ public class FightRequest
 	public static final int TOY_SOLDIER = 1397;
 	public static final int TOY_MERCENARY = 2139;
 
-	public static final int MOSSY_STONE_SPHERE = 2174;
-	public static final int SMOOTH_STONE_SPHERE = 2175;
-	public static final int CRACKED_STONE_SPHERE = 2176;
-	public static final int ROUGH_STONE_SPHERE = 2177;
-
 	private static int lastUserId = 0;
 	private static String lostInitiative = "";
 	private static String wonInitiative = "";
@@ -927,8 +922,8 @@ public class FightRequest
 			return;
 		}
 
-		AdventureResult card1 = ItemPool.get( ItemPool.CARD_ATTACK, 1 );
-		AdventureResult card2 = ItemPool.get( ItemPool.CARD_WALL, 1 );
+		AdventureResult card1 = ItemPool.get( ItemPool.PUNCHCARD_ATTACK, 1 );
+		AdventureResult card2 = ItemPool.get( ItemPool.PUNCHCARD_WALL, 1 );
 
 		if ( !KoLConstants.inventory.contains( card1 ) ||
 		     !KoLConstants.inventory.contains( card2 ) )
