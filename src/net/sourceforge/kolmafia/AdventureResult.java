@@ -39,12 +39,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.Preferences;
-import net.sourceforge.kolmafia.request.FightRequest;
-import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class AdventureResult
@@ -383,36 +382,36 @@ public class AdventureResult
 	{
 		switch ( this.itemId )
 		{
-		case UseItemRequest.MILKY_POTION:
-		case UseItemRequest.SWIRLY_POTION:
-		case UseItemRequest.BUBBLY_POTION:
-		case UseItemRequest.SMOKY_POTION:
-		case UseItemRequest.CLOUDY_POTION:
-		case UseItemRequest.EFFERVESCENT_POTION:
-		case UseItemRequest.FIZZY_POTION:
-		case UseItemRequest.DARK_POTION:
-		case UseItemRequest.MURKY_POTION:
+		case ItemPool.MILKY_POTION:
+		case ItemPool.SWIRLY_POTION:
+		case ItemPool.BUBBLY_POTION:
+		case ItemPool.SMOKY_POTION:
+		case ItemPool.CLOUDY_POTION:
+		case ItemPool.EFFERVESCENT_POTION:
+		case ItemPool.FIZZY_POTION:
+		case ItemPool.DARK_POTION:
+		case ItemPool.MURKY_POTION:
 
 			return AdventureResult.bangPotionName( this.itemId );
 
-		case FightRequest.MOSSY_STONE_SPHERE:
-		case FightRequest.SMOOTH_STONE_SPHERE:
-		case FightRequest.CRACKED_STONE_SPHERE:
-		case FightRequest.ROUGH_STONE_SPHERE:
+		case ItemPool.MOSSY_STONE_SPHERE:
+		case ItemPool.SMOOTH_STONE_SPHERE:
+		case ItemPool.CRACKED_STONE_SPHERE:
+		case ItemPool.ROUGH_STONE_SPHERE:
 
 			return AdventureResult.stoneSphereName( this.itemId );
 
-		case UseItemRequest.PUNCHCARD_ATTACK:
-		case UseItemRequest.PUNCHCARD_REPAIR:
-		case UseItemRequest.PUNCHCARD_BUFF:
-		case UseItemRequest.PUNCHCARD_MODIFY:
-		case UseItemRequest.PUNCHCARD_BUILD:
-		case UseItemRequest.PUNCHCARD_TARGET:
-		case UseItemRequest.PUNCHCARD_SELF:
-		case UseItemRequest.PUNCHCARD_FLOOR:
-		case UseItemRequest.PUNCHCARD_DRONE:
-		case UseItemRequest.PUNCHCARD_WALL:
-		case UseItemRequest.PUNCHCARD_SPHERE:
+		case ItemPool.PUNCHCARD_ATTACK:
+		case ItemPool.PUNCHCARD_REPAIR:
+		case ItemPool.PUNCHCARD_BUFF:
+		case ItemPool.PUNCHCARD_MODIFY:
+		case ItemPool.PUNCHCARD_BUILD:
+		case ItemPool.PUNCHCARD_TARGET:
+		case ItemPool.PUNCHCARD_SELF:
+		case ItemPool.PUNCHCARD_FLOOR:
+		case ItemPool.PUNCHCARD_DRONE:
+		case ItemPool.PUNCHCARD_WALL:
+		case ItemPool.PUNCHCARD_SPHERE:
 
 			return AdventureResult.punchCardName( this.itemId );
 

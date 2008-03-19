@@ -79,26 +79,24 @@ public class UseItemRequest
 
 	static
 	{
-		UseItemRequest.LIMITED_USES.put( new Integer( 1412 ), new AdventureResult( "Purple Tongue", 1, true ) );
-		UseItemRequest.LIMITED_USES.put( new Integer( 1413 ), new AdventureResult( "Green Tongue", 1, true ) );
-		UseItemRequest.LIMITED_USES.put( new Integer( 1414 ), new AdventureResult( "Orange Tongue", 1, true ) );
-		UseItemRequest.LIMITED_USES.put( new Integer( 1415 ), new AdventureResult( "Red Tongue", 1, true ) );
-		UseItemRequest.LIMITED_USES.put( new Integer( 1416 ), new AdventureResult( "Blue Tongue", 1, true ) );
-		UseItemRequest.LIMITED_USES.put( new Integer( 1417 ), new AdventureResult( "Black Tongue", 1, true ) );
+		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.PURPLE_SNOWCONE ), new AdventureResult( "Purple Tongue", 1, true ) );
+		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.GREEN_SNOWCONE ), new AdventureResult( "Green Tongue", 1, true ) );
+		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.ORANGE_SNOWCONE ), new AdventureResult( "Orange Tongue", 1, true ) );
+		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.RED_SNOWCONE ), new AdventureResult( "Red Tongue", 1, true ) );
+		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.BLUE_SNOWCONE ), new AdventureResult( "Blue Tongue", 1, true ) );
+		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.BLACK_SNOWCONE ), new AdventureResult( "Black Tongue", 1, true ) );
 
-		UseItemRequest.LIMITED_USES.put( new Integer( 1622 ), new AdventureResult( "Half-Astral", 1, true ) );
+		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.ASTRAL_MUSHROOM ), new AdventureResult( "Half-Astral", 1, true ) );
 
-		UseItemRequest.LIMITED_USES.put( new Integer( 1624 ), new AdventureResult( "Cupcake of Choice", 1, true ) );
-		UseItemRequest.LIMITED_USES.put( new Integer( 1625 ), new AdventureResult( "The Cupcake of Wrath", 1, true ) );
-		UseItemRequest.LIMITED_USES.put( new Integer( 1626 ), new AdventureResult( "Shiny Happy Cupcake", 1, true ) );
-		UseItemRequest.LIMITED_USES.put( new Integer( 1627 ), new AdventureResult(
-			"Tiny Bubbles in the Cupcake", 1, true ) );
-		UseItemRequest.LIMITED_USES.put( new Integer( 1628 ), new AdventureResult(
-			"Your Cupcake Senses Are Tingling", 1, true ) );
+		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.BLUE_CUPCAKE ), new AdventureResult( "Cupcake of Choice", 1, true ) );
+		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.GREEN_CUPCAKE ), new AdventureResult( "The Cupcake of Wrath", 1, true ) );
+		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.ORANGE_CUPCAKE ), new AdventureResult( "Shiny Happy Cupcake", 1, true ) );
+		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.PURPLE_CUPCAKE ), new AdventureResult( "Tiny Bubbles in the Cupcake", 1, true ) );
+		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.PINK_CUPCAKE ), new AdventureResult( "Your Cupcake Senses Are Tingling", 1, true ) );
 
-		UseItemRequest.LIMITED_USES.put( new Integer( 1650 ), ItemDatabase.GOT_MILK );
+		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.MILK_OF_MAGNESIUM ), ItemDatabase.GOT_MILK );
 
-		UseItemRequest.LIMITED_USES.put( new Integer( 2655 ), new AdventureResult( "Absinthe-Minded", 1, true ) );
+		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.ABSINTHE ), new AdventureResult( "Absinthe-Minded", 1, true ) );
 	}
 
 	public static String lastUpdate = "";
@@ -138,14 +136,7 @@ public class UseItemRequest
 	private static final int CLOCKWORK_BARTENDER = 1111;
 	private static final int CLOCKWORK_CHEF = 1112;
 	private static final int CLOCKWORK_MAID = 1113;
-	private static final int PURPLE = 1412;
-	private static final int GREEN = 1413;
-	private static final int ORANGE = 1414;
-	private static final int RED = 1415;
-	private static final int BLUE = 1416;
-	private static final int BLACK = 1417;
 	private static final int MUNCHIES_PILL = 1619;
-	private static final int ASTRAL_MUSHROOM = 1622;
 	private static final int DUSTY_ANIMAL_SKULL = 1799;
 	private static final int QUILL_PEN = 1957;
 	public static final int MACGUFFIN_DIARY = 2044;
@@ -154,32 +145,12 @@ public class UseItemRequest
 	public static final int BLACK_PUDDING = 2338;
 	private static final int COBBS_KNOB_MAP = 2442;
 	private static final int TELESCOPE = 2599;
-	private static final int ABSINTHE = 2655;
-	private static final int MOJO_FILTER = 2614;
 	private static final int LIBRARY_CARD = 2672;
 	public static final int CARONCH_MAP = 2950;
 	private static final int ANCIENT_CURSED_FOOTLOCKER = 3016;
 	private static final int ORNATE_CURSED_CHEST = 3017;
 	private static final int GILDED_CURSED_CHEST = 3018;
 	public static final int CURSED_PIECE_OF_THIRTEEN = 3034;
-	private static final int GENERAL_ASSEMBLY_MODULE = 3075;
-
-	public static final int ICE_SICKLE = 1424;
-	public static final int ICE_BABY = 1425;
-	public static final int ICE_PICK = 1426;
-	public static final int ICE_SKATES = 1427;
-
-	public static final int LIARS_PANTS = 2222;
-	public static final int JUGGLERS_BALLS = 2223;
-	public static final int PINK_SHIRT = 2224;
-	public static final int FLAMING_FAMILIAR = 2225;
-	public static final int EYEBALL_PENDANT = 2226;
-
-	public static final int FORTUNE_TELLER = 3193;
-	public static final int GENTLEMENS_MAGAZINE = 3194;
-	public static final int PAPER_SHURIKEN = 3195;
-	public static final int ORIGAMI_PASTIES = 3196;
-	public static final int RIDING_CROP = 3197;
 
 	// Books
 
@@ -223,32 +194,6 @@ public class UseItemRequest
 	private static final int HOUSE = 526;
 	private static final int SANDCASTLE = 3127;
 
-	// Bang potions
-
-	public static final int MILKY_POTION = 819;
-	public static final int SWIRLY_POTION = 820;
-	public static final int BUBBLY_POTION = 821;
-	public static final int SMOKY_POTION = 822;
-	public static final int CLOUDY_POTION = 823;
-	public static final int EFFERVESCENT_POTION = 824;
-	public static final int FIZZY_POTION = 825;
-	public static final int DARK_POTION = 826;
-	public static final int MURKY_POTION = 827;
-
-
-	// Punchcards
-	public static final int PUNCHCARD_ATTACK = 3146;
-	public static final int PUNCHCARD_REPAIR = 3147;
-	public static final int PUNCHCARD_BUFF = 3148;
-	public static final int PUNCHCARD_MODIFY = 3149;
-	public static final int PUNCHCARD_BUILD = 3150;
-	public static final int PUNCHCARD_TARGET = 3151;
-	public static final int PUNCHCARD_SELF = 3152;
-	public static final int PUNCHCARD_FLOOR = 3153;
-	public static final int PUNCHCARD_DRONE = 3154;
-	public static final int PUNCHCARD_WALL = 3155;
-	public static final int PUNCHCARD_SPHERE = 3156;
-
 	private static final int SPARKLER = 2679;
 	private static final int SNAKE = 2680;
 	private static final int M282 = 2681;
@@ -256,23 +201,6 @@ public class UseItemRequest
 	private static final int STEEL_STOMACH = 2742;
 	private static final int STEEL_LIVER = 2743;
 	private static final int STEEL_SPLEEN = 2744;
-
-	private static final int JOLLY_CHARRRM = 411;
-	private static final int JOLLY_BRACELET = 413;
-	private static final int RUM_CHARRRM = 2957;
-	private static final int RUM_BRACELET = 2959;
-	private static final int GRUMPY_CHARRRM = 2972;
-	private static final int GRUMPY_BRACELET = 2973;
-	private static final int TARRRNISH_CHARRRM = 2974;
-	private static final int TARRRNISH_BRACELET = 2975;
-	private static final int BOOTY_CHARRRM = 2980;
-	private static final int BOOTY_BRACELET = 2981;
-	private static final int CANNONBALL_CHARRRM = 2982;
-	private static final int CANNONBALL_BRACELET = 2983;
-	private static final int COPPER_CHARRRM = 2984;
-	private static final int COPPER_BRACELET = 2985;
-	private static final int TONGUE_CHARRRM = 2986;
-	private static final int TONGUE_BRACELET = 2987;
 
 	private static final AdventureResult CUMMERBUND = new AdventureResult( 778, 1 );
 
@@ -298,22 +226,6 @@ public class UseItemRequest
 	private static final AdventureResult SIMPLE_CURSED_KEY = new AdventureResult( 3013, -1 );
 	private static final AdventureResult ORNATE_CURSED_KEY = new AdventureResult( 3014, -1 );
 	private static final AdventureResult GILDED_CURSED_KEY = new AdventureResult( 3015, -1 );
-	private static final AdventureResult OVERCHARGED_SPHERE = new AdventureResult( 3215, -1 );
-
-	// Cyborg weapon parts
-	private static final AdventureResult LASER_CANON = new AdventureResult( 3069, -1 );
-	private static final AdventureResult UNOBTAINIUM_STRAPS = new AdventureResult( 3073, -1 );
-	private static final AdventureResult TARGETING_CHOP = new AdventureResult( 3076, -1 );
-
-	// Cyborg hat parts
-	private static final AdventureResult CHIN_STRAP = new AdventureResult( 3070, -1 );
-	private static final AdventureResult CARBONITE_VISOR = new AdventureResult( 3072, -1 );
-	private static final AdventureResult KEVLATEFLOCITE_HELMET = new AdventureResult( 3078, -1 );
-
-	// Cyborg pants parts
-	private static final AdventureResult GLUTEAL_SHIELD = new AdventureResult( 3071, -1 );
-	private static final AdventureResult FASTENING_APPARATUS = new AdventureResult( 3074, -1 );
-	private static final AdventureResult LEG_ARMOR = new AdventureResult( 3077, -1 );
 
 	private final int consumptionType;
 	private AdventureResult itemUsed = null;
@@ -329,35 +241,35 @@ public class UseItemRequest
 		switch ( itemId )
 		{
 			// Charrrm bracelets
-		case JOLLY_BRACELET:
-		case RUM_BRACELET:
-		case GRUMPY_BRACELET:
-		case TARRRNISH_BRACELET:
-		case BOOTY_BRACELET:
-		case CANNONBALL_BRACELET:
-		case COPPER_BRACELET:
-		case TONGUE_BRACELET:
+		case ItemPool.JOLLY_BRACELET:
+		case ItemPool.RUM_BRACELET:
+		case ItemPool.GRUMPY_BRACELET:
+		case ItemPool.TARRRNISH_BRACELET:
+		case ItemPool.BOOTY_BRACELET:
+		case ItemPool.CANNONBALL_BRACELET:
+		case ItemPool.COPPER_BRACELET:
+		case ItemPool.TONGUE_BRACELET:
 			// Crimbo toys
 		case ItemPool.HOBBY_HORSE:
 		case ItemPool.BALL_IN_A_CUP:
 		case ItemPool.SET_OF_JACKS:
 			// Iceberglet items
-		case ICE_SICKLE:
-		case ICE_BABY:
-		case ICE_PICK:
-		case ICE_SKATES:
+		case ItemPool.ICE_SICKLE:
+		case ItemPool.ICE_BABY:
+		case ItemPool.ICE_PICK:
+		case ItemPool.ICE_SKATES:
 			// Great Ball of Frozen Fire items
-		case LIARS_PANTS:
-		case JUGGLERS_BALLS:
-		case PINK_SHIRT:
-		case FLAMING_FAMILIAR:
-		case EYEBALL_PENDANT:
+		case ItemPool.LIARS_PANTS:
+		case ItemPool.JUGGLERS_BALLS:
+		case ItemPool.PINK_SHIRT:
+		case ItemPool.FLAMING_FAMILIAR:
+		case ItemPool.EYEBALL_PENDANT:
 			// naughty origami kit items
-		case FORTUNE_TELLER:
-		case GENTLEMENS_MAGAZINE:
-		case PAPER_SHURIKEN:
-		case ORIGAMI_PASTIES:
-		case RIDING_CROP:
+		case ItemPool.FORTUNE_TELLER:
+		case ItemPool.GENTLEMENS_MAGAZINE:
+		case ItemPool.PAPER_SHURIKEN:
+		case ItemPool.ORIGAMI_PASTIES:
+		case ItemPool.RIDING_CROP:
 			return KoLConstants.CONSUME_USE;
 		}
 		return ItemDatabase.getConsumptionType( itemId );
@@ -476,7 +388,7 @@ public class UseItemRequest
 		case GILDED_CURSED_CHEST:
 			return UseItemRequest.GILDED_CURSED_KEY.getCount( KoLConstants.inventory );
 
-		case MOJO_FILTER:
+		case ItemPool.MOJO_FILTER:
 			return Math.max( 0, 3 - Preferences.getInteger( "currentMojoFilters" ) );
 
 		case ItemPool.EXPRESS_CARD:
@@ -1409,12 +1321,12 @@ public class UseItemRequest
 
 			return;
 
-		case PURPLE:
-		case GREEN:
-		case ORANGE:
-		case RED:
-		case BLUE:
-		case BLACK:
+		case ItemPool.PURPLE_SNOWCONE:
+		case ItemPool.GREEN_SNOWCONE:
+		case ItemPool.ORANGE_SNOWCONE:
+		case ItemPool.RED_SNOWCONE:
+		case ItemPool.BLUE_SNOWCONE:
+		case ItemPool.BLACK_SNOWCONE:
 
 			// "Your mouth is still cold from the last snowcone you
 			// ate.	 Try again later."
@@ -1553,7 +1465,7 @@ public class UseItemRequest
 			KoLCharacter.checkTelescope();
 			return;
 
-		case ASTRAL_MUSHROOM:
+		case ItemPool.ASTRAL_MUSHROOM:
 
 			// "You eat the mushroom, and are suddenly engulfed in
 			// a whirling maelstrom of colors and sensations as
@@ -1572,7 +1484,7 @@ public class UseItemRequest
 
 			return;
 
-		case ABSINTHE:
+		case ItemPool.ABSINTHE:
 
 			// "You drink the bottle of absinthe. It tastes like
 			// licorice, pain, and green. Your head begins to ache
@@ -1671,7 +1583,7 @@ public class UseItemRequest
 
 			return;
 
-		case STEEL_STOMACH:
+		case ItemPool.STEEL_LASAGNA:
 
 			if ( responseText.indexOf( "You acquire a skill" ) != -1 )
 			{
@@ -1679,7 +1591,7 @@ public class UseItemRequest
 			}
 			return;
 
-		case STEEL_LIVER:
+		case ItemPool.STEEL_MARGARITA:
 
 			if ( responseText.indexOf( "You acquire a skill" ) != -1 )
 			{
@@ -1687,7 +1599,7 @@ public class UseItemRequest
 			}
 			return;
 
-		case STEEL_SPLEEN:
+		case ItemPool.STEEL_AIR_FRESHENER:
 
 			if ( responseText.indexOf( "You acquire a skill" ) != -1 )
 			{
@@ -1695,7 +1607,7 @@ public class UseItemRequest
 			}
 			return;
 
-		case MOJO_FILTER:
+		case ItemPool.MOJO_FILTER:
 
 			// You strain some of the toxins out of your mojo, and
 			// discard the now-grodulated filter.
@@ -1728,15 +1640,15 @@ public class UseItemRequest
 			}
 			return;
 
-		case MILKY_POTION:
-		case SWIRLY_POTION:
-		case BUBBLY_POTION:
-		case SMOKY_POTION:
-		case CLOUDY_POTION:
-		case EFFERVESCENT_POTION:
-		case FIZZY_POTION:
-		case DARK_POTION:
-		case MURKY_POTION:
+		case ItemPool.MILKY_POTION:
+		case ItemPool.SWIRLY_POTION:
+		case ItemPool.BUBBLY_POTION:
+		case ItemPool.SMOKY_POTION:
+		case ItemPool.CLOUDY_POTION:
+		case ItemPool.EFFERVESCENT_POTION:
+		case ItemPool.FIZZY_POTION:
+		case ItemPool.DARK_POTION:
+		case ItemPool.MURKY_POTION:
 
 			String effectData = null;
 
@@ -1784,14 +1696,14 @@ public class UseItemRequest
 
 			return;
 
-		case JOLLY_CHARRRM:
-		case RUM_CHARRRM:
-		case GRUMPY_CHARRRM:
-		case TARRRNISH_CHARRRM:
-		case BOOTY_CHARRRM:
-		case CANNONBALL_CHARRRM:
-		case COPPER_CHARRRM:
-		case TONGUE_CHARRRM:
+		case ItemPool.JOLLY_CHARRRM:
+		case ItemPool.RUM_CHARRRM:
+		case ItemPool.GRUMPY_CHARRRM:
+		case ItemPool.TARRRNISH_CHARRRM:
+		case ItemPool.BOOTY_CHARRRM:
+		case ItemPool.CANNONBALL_CHARRRM:
+		case ItemPool.COPPER_CHARRRM:
+		case ItemPool.TONGUE_CHARRRM:
 			if ( responseText.indexOf( "You don't have anything to attach that charrrm to." ) != -1 )
 			{
 				UseItemRequest.lastUpdate = "You need a charrrm bracelet.";
@@ -1847,7 +1759,7 @@ public class UseItemRequest
 			}
 			return;
 
-		case GENERAL_ASSEMBLY_MODULE:
+		case ItemPool.GENERAL_ASSEMBLY_MODULE:
 
 			//  "INSUFFICIENT RESOURCES LOCATED TO DISPENSE CRIMBO
 			//  CHEER. PLEASE LOCATE A VITAL APPARATUS VENT AND
@@ -1867,9 +1779,9 @@ public class UseItemRequest
 
 			if ( responseText.indexOf( "carrying the  laser cannon" ) != -1 )
 			{
-				ResultProcessor.processResult( UseItemRequest.LASER_CANON );
-				ResultProcessor.processResult( UseItemRequest.TARGETING_CHOP );
-				ResultProcessor.processResult( UseItemRequest.UNOBTAINIUM_STRAPS );
+				ResultProcessor.processResult( ItemPool.get( ItemPool.LASER_CANON, -1 ) );
+				ResultProcessor.processResult( ItemPool.get( ItemPool.TARGETING_CHOP, -1 ) );
+				ResultProcessor.processResult( ItemPool.get( ItemPool.UNOBTAINIUM_STRAPS, -1 ) );
 
 				return;
 			}
@@ -1882,9 +1794,9 @@ public class UseItemRequest
 
 			if ( responseText.indexOf( "carrying the  polymorphic fastening apparatus" ) != -1 )
 			{
-				ResultProcessor.processResult( UseItemRequest.FASTENING_APPARATUS );
-				ResultProcessor.processResult( UseItemRequest.LEG_ARMOR );
-				ResultProcessor.processResult( UseItemRequest.GLUTEAL_SHIELD );
+				ResultProcessor.processResult( ItemPool.get( ItemPool.FASTENING_APPARATUS, -1 ) );
+				ResultProcessor.processResult( ItemPool.get( ItemPool.LEG_ARMOR, -1 ) );
+				ResultProcessor.processResult( ItemPool.get( ItemPool.GLUTEAL_SHIELD, -1 ) );
 
 				return;
 			}
@@ -1897,9 +1809,9 @@ public class UseItemRequest
 
 			if ( responseText.indexOf( "carrying the  carbonite visor" ) != -1 )
 			{
-				ResultProcessor.processResult( UseItemRequest.CARBONITE_VISOR );
-				ResultProcessor.processResult( UseItemRequest.CHIN_STRAP );
-				ResultProcessor.processResult( UseItemRequest.KEVLATEFLOCITE_HELMET );
+				ResultProcessor.processResult( ItemPool.get( ItemPool.CARBONITE_VISOR, -1 ) );
+				ResultProcessor.processResult( ItemPool.get( ItemPool.CHIN_STRAP, -1 ) );
+				ResultProcessor.processResult( ItemPool.get( ItemPool.KEVLATEFLOCITE_HELMET, -1 ) );
 
 				return;
 			}
@@ -1910,7 +1822,7 @@ public class UseItemRequest
 
 			if ( responseText.indexOf( "You put an overcharged sphere in the cavity" ) != -1 )
 			{
-				ResultProcessor.processResult( UseItemRequest.OVERCHARGED_SPHERE );
+				ResultProcessor.processResult( ItemPool.get( ItemPool.OVERCHARGED_POWER_SPHERE, -1 ) );
 			}
 
 			return;
