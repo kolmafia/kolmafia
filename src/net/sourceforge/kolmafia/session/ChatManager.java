@@ -34,8 +34,11 @@
 package net.sourceforge.kolmafia.session;
 
 import java.awt.Color;
+
 import java.io.File;
+
 import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -48,7 +51,6 @@ import javax.swing.SwingUtilities;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.SortedListModel;
-
 import net.sourceforge.kolmafia.BuffBotHome;
 import net.sourceforge.kolmafia.CreateFrameRunnable;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -58,6 +60,12 @@ import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.LimitedSizeChatBuffer;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.request.CharPaneRequest;
+import net.sourceforge.kolmafia.request.ChatRequest;
+import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.SendMailRequest;
 import net.sourceforge.kolmafia.swingui.ChatFrame;
 import net.sourceforge.kolmafia.swingui.ContactListFrame;
 import net.sourceforge.kolmafia.swingui.TabbedChatFrame;
@@ -65,13 +73,6 @@ import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-
-import net.sourceforge.kolmafia.request.CharPaneRequest;
-import net.sourceforge.kolmafia.request.ChatRequest;
-import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.SendMailRequest;
-
-import net.sourceforge.kolmafia.persistence.Preferences;
 
 public abstract class ChatManager
 {
@@ -171,12 +172,12 @@ public abstract class ChatManager
 		ChatManager.onlineContacts.clear();
 		ChatManager.instantMessageBuffers.clear();
 
-		ChatManager.contactsFrame = new ContactListFrame( ChatManager.onlineContacts );
+		ChatManager.contactsFrame = StaticEntity.isHeadless() ? null : new ContactListFrame( ChatManager.onlineContacts );
 		ChatManager.useTabbedChat = Preferences.getBoolean( "useTabbedChatFrame" );
 
 		if ( ChatManager.useTabbedChat )
 		{
-			( new CreateFrameRunnable( TabbedChatFrame.class ) ).run();
+			new CreateFrameRunnable( TabbedChatFrame.class ).run();
 		}
 	}
 
@@ -944,7 +945,7 @@ public abstract class ChatManager
 
 		buffer.append( displayHTML );
 
-		if ( ChatManager.isRunning && ChatManager.useTabbedChat )
+		if ( ChatManager.isRunning && ChatManager.tabbedFrame != null && ChatManager.useTabbedChat )
 		{
 			ChatManager.tabbedFrame.highlightTab( bufferKey );
 		}
@@ -1148,7 +1149,7 @@ public abstract class ChatManager
 			return;
 		}
 
-		shouldOpenWindow &= ChatManager.isRunning;
+		shouldOpenWindow &= ChatManager.isRunning && !StaticEntity.isHeadless();
 
 		// If the window exists, don't open another one as it
 		// just confuses the disposal issue

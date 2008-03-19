@@ -103,6 +103,11 @@ public class CreateFrameRunnable
 
 	public void run()
 	{
+		if ( StaticEntity.isHeadless() )
+		{
+			return;
+		}
+
 		if ( this.creator == null )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, this.creationType.getName() + " could not be loaded" );
