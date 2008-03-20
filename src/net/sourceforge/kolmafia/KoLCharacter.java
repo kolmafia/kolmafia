@@ -1344,34 +1344,33 @@ public abstract class KoLCharacter
 	}
 
 	/**
-	 * Accessor method to retrieve the current elemental resistance
+	 * Accessor method to retrieve the current elemental resistance levels
 	 *
 	 * @return Total Current Resistance to specified element
 	 */
 
-	public static final float getElementalResistance( final int element )
+	public static final int getElementalResistanceLevels( final int element )
 	{
-		float value = 0.0f;
 		switch ( element )
 		{
 		case MonsterDatabase.COLD:
-			value = KoLCharacter.currentModifiers.get( Modifiers.COLD_RESISTANCE );
-			break;
+			return (int) KoLCharacter.currentModifiers.get( Modifiers.COLD_RESISTANCE );
 		case MonsterDatabase.HEAT:
-			value = KoLCharacter.currentModifiers.get( Modifiers.HOT_RESISTANCE );
-			break;
+			return (int) KoLCharacter.currentModifiers.get( Modifiers.HOT_RESISTANCE );
 		case MonsterDatabase.SLEAZE:
-			value = KoLCharacter.currentModifiers.get( Modifiers.SLEAZE_RESISTANCE );
-			break;
+			return (int) KoLCharacter.currentModifiers.get( Modifiers.SLEAZE_RESISTANCE );
 		case MonsterDatabase.SPOOKY:
-			value = KoLCharacter.currentModifiers.get( Modifiers.SPOOKY_RESISTANCE );
-			break;
+			return (int) KoLCharacter.currentModifiers.get( Modifiers.SPOOKY_RESISTANCE );
 		case MonsterDatabase.STENCH:
-			value = KoLCharacter.currentModifiers.get( Modifiers.STENCH_RESISTANCE );
-			break;
+			return (int) KoLCharacter.currentModifiers.get( Modifiers.STENCH_RESISTANCE );
 		default:
-			return 0.0f;
+			return 0;
 		}
+	}
+
+	public static final float elementalResistanceByLevel( final int levels )
+	{
+		float value = levels;
 
 		// "There is no longer a fixed cap to the number of levels of
 		// resistance you can stack up. After 5 levels, however,
@@ -1393,6 +1392,18 @@ public abstract class KoLCharacter
 		}
 
 		return value;
+	}
+
+	/**
+	 * Accessor method to retrieve the current elemental resistance
+	 *
+	 * @return Total Current Resistance to specified element
+	 */
+
+	public static final float getElementalResistance( final int element )
+	{
+		int levels = KoLCharacter.getElementalResistanceLevels( element );
+		return KoLCharacter.elementalResistanceByLevel( levels );
 	}
 
 	/**
