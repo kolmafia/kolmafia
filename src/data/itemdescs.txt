@@ -2448,7 +2448,7 @@
 2442	325883819	Cobb's Knob map
 2443	199035416	pink glowstick	pink glowstyx
 2444	150158476	Supernova Champagne	bottles of Supernova Champagne
-2445	980448847	Deactivated O. A. F.	Deactivated O. A. F.s
+2445	980448847	Deactivated O. A. F.	Deactivated O.A.F.s
 2446	481449606	hardware upgrade	hardware upgrades
 2447	840387110	bad penguin egg	bad penguin eggs
 2448	476592435	tasteful black bowtie	tasteful black bowties
