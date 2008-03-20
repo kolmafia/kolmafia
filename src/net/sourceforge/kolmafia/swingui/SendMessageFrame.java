@@ -247,10 +247,12 @@ public class SendMessageFrame
 		source = (LockableListModel) source.clone();
 		source.setFilter( this );
 
+		int tradeableItemCount = source.getSize();
+
 		AdventureResult current;
 		Object[] values = InputFieldUtilities.multiple( "What would you like to send?", source );
 
-		if ( values.length < source.getSize() )
+		if ( values.length < tradeableItemCount )
 		{
 			for ( int i = 0; i < values.length; ++i )
 			{
