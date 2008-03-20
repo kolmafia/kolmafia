@@ -1370,28 +1370,27 @@ public abstract class KoLCharacter
 
 	public static final float elementalResistanceByLevel( final int levels )
 	{
-		float value = levels;
+		// salien has a formula which matches my data very nicely:
+		// http://jick-nerfed.us/forums/viewtopic.php?t=4526
+		// For X > 4: 50 * (1-(0.83325)^(X-4)) + 40 
 
-		// "There is no longer a fixed cap to the number of levels of
-		// resistance you can stack up. After 5 levels, however,
-		// diminishing returns kick in, and each successive level gives
-		// you a smaller percentage damage reduction than the last."
+		double value;
 
-		// The following is incorrect, since this is not spaded yet.
-
-		value *= 10;
-
-		// "Rather than having a higher cap, Myst classes now get an
-		// innate 5% reduction in elemental damage taken from all
-		// sources on top of the reduction from resistance equipment
-		// and effects"
+		if ( levels > 4 )
+		{
+			value = 50.0 * ( 1.0 - Math.pow( 0.83325, levels - 4 ) ) + 40.0;
+		}
+		else
+		{
+			value = levels * 10.0;
+		}
 
 		if ( KoLCharacter.isMysticalityClass() )
 		{
-			value += 5;
+			value += 5.0;
 		}
 
-		return value;
+		return (float)value;
 	}
 
 	/**
