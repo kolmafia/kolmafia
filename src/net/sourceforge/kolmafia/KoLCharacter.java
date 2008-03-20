@@ -1372,13 +1372,13 @@ public abstract class KoLCharacter
 	{
 		// salien has a formula which matches my data very nicely:
 		// http://jick-nerfed.us/forums/viewtopic.php?t=4526
-		// For X > 4: 40 + 50 * (1-(5/6)^(X-4))
+		// For X > 4: 90 - 50 * (5/6)^(X-4)
 
 		double value;
 
 		if ( levels > 4 )
 		{
-			value = 40.0 + 50.0 * ( 1.0 - Math.pow( 5.0 / 6.0, levels - 4 ) );
+			value = 90.0 - 50.0 * Math.pow( 5.0 / 6.0, levels - 4 );
 		}
 		else
 		{
