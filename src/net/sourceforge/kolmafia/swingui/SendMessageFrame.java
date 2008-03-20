@@ -160,6 +160,21 @@ public class SendMessageFrame
 		this.framePanel.add( cardPanel, BorderLayout.CENTER );
 	}
 
+	public void createItemAttachPanel()
+	{
+
+	}
+
+	public void createMessagePanel()
+	{
+
+	}
+
+	public void createRecipientPanel()
+	{
+
+	}
+
 	public void setRecipient( String recipient )
 	{
 		this.isStorage = false;
