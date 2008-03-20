@@ -86,6 +86,7 @@ public class BasementRequest
 
 	private static ArrayList desirableEffects = new ArrayList();
 
+	private static int level1, level2;
 	private static float resistance1, resistance2;
 	private static float expected1, expected2;
 
@@ -263,7 +264,7 @@ public class BasementRequest
 
 		if ( BasementRequest.basementTestString.equals( "Elemental Resist" ) )
 		{
-			return BasementRequest.basementTestString + " Test: " + KoLConstants.COMMA_FORMAT.format( BasementRequest.resistance1 ) + "% " + ( BasementRequest.vulnerability == 1 ? "(vulnerable) " : "" ) + MonsterDatabase.elementNames[ BasementRequest.element1 ] + " (" + KoLConstants.COMMA_FORMAT.format( BasementRequest.expected1 ) + " hp), " + KoLConstants.COMMA_FORMAT.format( BasementRequest.resistance2 ) + "% " + ( BasementRequest.vulnerability == 2 ? "(vulnerable) " : "" ) + MonsterDatabase.elementNames[ BasementRequest.element2 ] + " (" + KoLConstants.COMMA_FORMAT.format( BasementRequest.expected2 ) + " hp)";
+			return BasementRequest.basementTestString + " Test: +" + BasementRequest.level1 + " " + MonsterDatabase.elementNames[ BasementRequest.element1 ] + " " + KoLConstants.COMMA_FORMAT.format( BasementRequest.resistance1 ) + "%" + ( BasementRequest.vulnerability == 1 ? " (vulnerable) " : "" )  + " (" + KoLConstants.COMMA_FORMAT.format( BasementRequest.expected1 ) + " hp), +" + BasementRequest.level2 + " " + MonsterDatabase.elementNames[ BasementRequest.element2 ] + " " + KoLConstants.COMMA_FORMAT.format( BasementRequest.resistance2 ) + "%" + ( BasementRequest.vulnerability == 2 ? " (vulnerable) " : "" ) + " (" + KoLConstants.COMMA_FORMAT.format( BasementRequest.expected2 ) + " hp)";
 		}
 
 		if ( BasementRequest.basementTestString.startsWith( "Encounter" ) )
@@ -283,7 +284,7 @@ public class BasementRequest
 	{
 		if ( BasementRequest.basementTestString.equals( "Elemental Resist" ) )
 		{
-			return "<u>" + BasementRequest.basementTestString + "</u><br/>Current: " + KoLConstants.COMMA_FORMAT.format( BasementRequest.resistance1 ) + "% " + ( BasementRequest.vulnerability == 1 ? "(vulnerable) " : "" ) + MonsterDatabase.elementNames[ BasementRequest.element1 ] + " (" + KoLConstants.COMMA_FORMAT.format( BasementRequest.expected1 ) + " hp), " + KoLConstants.COMMA_FORMAT.format( BasementRequest.resistance2 ) + "% " + ( BasementRequest.vulnerability == 2 ? "(vulnerable) " : "" ) + MonsterDatabase.elementNames[ BasementRequest.element2 ] + " (" + KoLConstants.COMMA_FORMAT.format( BasementRequest.expected2 ) + " hp)</br>" + "Needed: " + KoLConstants.COMMA_FORMAT.format( BasementRequest.averageResistanceNeeded ) + "% average resistance or " + BasementRequest.goodeffect.getName();
+			return "<u>" + BasementRequest.basementTestString + "</u><br/>Current: +" + BasementRequest.level1 + " " + MonsterDatabase.elementNames[ BasementRequest.element1 ] + " " + KoLConstants.COMMA_FORMAT.format( BasementRequest.resistance1 ) + "%" + ( BasementRequest.vulnerability == 1 ? " (vulnerable) " : "" ) + " (" + KoLConstants.COMMA_FORMAT.format( BasementRequest.expected1 ) + " hp), +" + BasementRequest.level2 + " " + MonsterDatabase.elementNames[ BasementRequest.element2 ] + " " + KoLConstants.COMMA_FORMAT.format( BasementRequest.resistance2 ) + "%" + ( BasementRequest.vulnerability == 2 ? " (vulnerable) " : "" ) + " (" + KoLConstants.COMMA_FORMAT.format( BasementRequest.expected2 ) + " hp)</br>" + "Needed: " + KoLConstants.COMMA_FORMAT.format( BasementRequest.averageResistanceNeeded ) + "% average resistance or " + BasementRequest.goodeffect.getName();
 		}
 
 		if ( BasementRequest.basementTestString.startsWith( "Monster" ) )
@@ -505,8 +506,10 @@ public class BasementRequest
 			( (float) Math.pow( BasementRequest.basementLevel, 1.4 ) * 4.48f + 8.0f ) * BasementRequest.SAFETY_MARGIN;
 		float damage2 = damage1;
 
-		BasementRequest.resistance1 = KoLCharacter.getElementalResistance( BasementRequest.element1 );
-		BasementRequest.resistance2 = KoLCharacter.getElementalResistance( BasementRequest.element2 );
+		BasementRequest.level1 = KoLCharacter.getElementalResistanceLevels( BasementRequest.element1 );
+		BasementRequest.resistance1 = KoLCharacter.elementalResistanceByLevel( BasementRequest.level1 );
+		BasementRequest.level2 = KoLCharacter.getElementalResistanceLevels( BasementRequest.element2 );
+		BasementRequest.resistance2 = KoLCharacter.elementalResistanceByLevel( BasementRequest.level2 );
 
 		if ( KoLConstants.activeEffects.contains( BasementRequest.goodeffect ) )
 		{

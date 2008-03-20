@@ -1444,7 +1444,7 @@ Fireproof Lips	Hot Resistance: +9
 Fishy Fortification	Muscle Percent: +10, Maximum HP: +50
 Fit To Be Tide	HP Regen Min: 5, HP Regen Max: 16, MP Regen Min: 5, MP Regen Max: 16
 Fitter, Happier	Muscle Percent: +100, Mysticality Percent: +100
-Flame-Retardent Trousers	Hot Resistance: +2
+Flame-Retardant Trousers	Hot Resistance: +1
 Flaming Weapon	Hot Damage: +3
 Flamingly Floral	Hot Damage: +50
 Florid Cheeks	MP Regen Min: 25, MP Regen Max: 30
@@ -1498,7 +1498,7 @@ Hyperoffended	Sleaze Resistance: +9
 Hyphemariffic	Spooky Resistance: +9
 Incredibly Hulking	Muscle Percent: +200
 Inspired!	Mysticality Percent: +20, Moxie Percent: -20
-Insulated Trousers	Cold Resistance: +2
+Insulated Trousers	Cold Resistance: +1
 Izchak's Blessing	Moxie Percent: +25
 Jackasses' Symphony of Destruction	Melee Damage: +12, Spell Damage: +12
 Je Ne Sais Porquoise	Moxie Percent: +50
@@ -1578,12 +1578,12 @@ Shirtless in Seattle	Stench Resistance: +2
 Shot in the Arse	Moxie: +15, Muscle: +15, Mysticality: +15
 Side Affectation	Spooky Resistance: +2
 Sinuses For Miles	Meat Drop: +200
-Sleaze-Resistant Trousers	Sleaze Resistance: +2
+Sleaze-Resistant Trousers	Sleaze Resistance: +1
 Sleazy Weapon	Sleaze Damage: +3
 Sleepy	Muscle Percent: -30
 Slimed	Spooky Damage: +20
 Slippery Oiliness	Equalize: "Moxie"
-Smelly Pants	Stench Resistance: +2
+Smelly Pants	Stench Resistance: +1
 Smooth Movements	Combat Rate: -5
 Smugness	Moxie: +5
 Snarl of the Timberwolf	Spooky Damage: +10
@@ -1598,7 +1598,7 @@ Spiky Hair	Muscle: +6, Moxie: +6
 Spirit of Alph	Muscle Percent: +10
 Spooky Demeanor	Spooky Damage: +10, Muscle Percent: +10, Mysticality Percent: +30, Moxie Percent: +20, Spooky Resistance: +2
 Spooky Weapon	Spooky Damage: +3
-Spookypants	Spooky Resistance: +2
+Spookypants	Spooky Resistance: +1
 Springy Fusilli	Initiative: +40
 Squirming Like a Toad	Familiar Weight: +5, Moxie Percent: +10
 Stabilizing Oiliness	Equalize: "Muscle"
