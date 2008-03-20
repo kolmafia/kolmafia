@@ -100,6 +100,7 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
+import net.sourceforge.kolmafia.request.LogoutRequest;
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
 import net.sourceforge.kolmafia.request.ManageStoreRequest;
 import net.sourceforge.kolmafia.request.MindControlRequest;
@@ -3456,6 +3457,8 @@ public abstract class KoLmafia
 	{
 		public void run()
 		{
+			new LogoutRequest().run();
+
 			Preferences.reset( null );
 			FlaggedItems.saveFlaggedItemList();
 			CustomItemDatabase.saveItemData();
