@@ -31,20 +31,51 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.sourceforge.kolmafia.swingui.menu;
+package net.sourceforge.kolmafia.swingui.listener;
 
-import net.sourceforge.kolmafia.KoLmafia;
+import javax.swing.SwingUtilities;
 
-public class EndSessionMenuItem
-	extends ThreadedMenuItem
+import net.java.dev.spellcast.utilities.LicenseDisplay;
+import net.sourceforge.kolmafia.CreateFrameRunnable;
+import net.sourceforge.kolmafia.swingui.panel.VersionDataPanel;
+
+
+public class LicenseDisplayListener
+	extends ThreadedListener
 {
-	public EndSessionMenuItem()
+	private static final String[] LICENSE_FILENAME =
 	{
-		super( "Exit KoLmafia" );
-	}
+		"kolmafia-license.txt",
+		"spellcast-license.txt",
+		"browserlauncher-license.htm",
+		"sungraphics-license.txt",
+		"foxtrot-license.txt",
+		"jsmooth-license.txt",
+		"osxadapter-license.txt",
+		"unlicensed.htm"
+	};
+
+	private static final String[] LICENSE_NAME =
+	{
+		"KoLmafia",
+		"Spellcast",
+		"BrowserLauncher",
+		"Sun Graphics",
+		"Foxtrot",
+		"JSmooth",
+		"OSXAdapter",
+		"Unlicensed"
+	};
 
 	public void run()
 	{
-		KoLmafia.quit();
+		Object[] parameters = new Object[ 4 ];
+		parameters[ 0 ] = "KoLmafia: Copyright Notices";
+		parameters[ 1 ] = new VersionDataPanel();
+		parameters[ 2 ] = LICENSE_FILENAME;
+		parameters[ 3 ] = LICENSE_NAME;
+
+		SwingUtilities.invokeLater( new CreateFrameRunnable( LicenseDisplay.class, parameters ) );
 	}
 }
+

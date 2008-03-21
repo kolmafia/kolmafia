@@ -37,10 +37,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JMenuItem;
-
 import net.sourceforge.kolmafia.RequestThread;
 
-public abstract class ThreadedMenuItem
+public class ThreadedMenuItem
 	extends JMenuItem
 	implements Runnable
 {
@@ -48,6 +47,16 @@ public abstract class ThreadedMenuItem
 	{
 		super( label );
 		this.addActionListener( new ThreadedMenuItemListener() );
+	}
+
+	public ThreadedMenuItem( final String label, ActionListener listener )
+	{
+		super( label );
+		this.addActionListener( listener );
+	}
+
+	public void run()
+	{
 	}
 
 	private class ThreadedMenuItemListener

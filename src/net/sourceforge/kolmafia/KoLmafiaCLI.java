@@ -1154,8 +1154,7 @@ public class KoLmafiaCLI
 
 		if ( command.equals( "exit" ) || command.equals( "quit" ) )
 		{
-			RequestThread.postRequest( new LogoutRequest() );
-			System.exit( 0 );
+			KoLmafia.quit();
 		}
 
 		// Next, handle any requests for script execution;

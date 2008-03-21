@@ -57,28 +57,6 @@ import net.sourceforge.kolmafia.persistence.Preferences;
 public class DisplayFrameMenuItem
 	extends ThreadedMenuItem
 {
-	private static final String[] LICENSE_FILENAME =
-	{
-		"kolmafia-license.txt",
-		"spellcast-license.txt",
-		"browserlauncher-license.htm",
-		"sungraphics-license.txt",
-		"foxtrot-license.txt",
-		"jsmooth-license.txt",
-		"unlicensed.htm"
-	};
-
-	private static final String[] LICENSE_NAME =
-	{
-		"KoLmafia",
-		"Spellcast",
-		"BrowserLauncher",
-		"Sun Graphics",
-		"Foxtrot",
-		"JSmooth",
-		"Unlicensed"
-	};
-
 	private String frameClass;
 	private WeakReference frameReference;
 
@@ -110,20 +88,7 @@ public class DisplayFrameMenuItem
 
 	private void openNewFrame()
 	{
-		if ( this.frameClass.equals( "LicenseDisplay" ) )
-		{
-			Object[] parameters = new Object[ 4 ];
-			parameters[ 0 ] = "KoLmafia: Copyright Notices";
-			parameters[ 1 ] = new VersionDataPanel();
-			parameters[ 2 ] = LICENSE_FILENAME;
-			parameters[ 3 ] = LICENSE_NAME;
-
-			SwingUtilities.invokeLater( new CreateFrameRunnable( LicenseDisplay.class, parameters ) );
-		}
-		else
-		{
-			KoLmafiaGUI.constructFrame( this.frameClass );
-		}
+		KoLmafiaGUI.constructFrame( this.frameClass );
 	}
 
 	private void openExistingFrame()

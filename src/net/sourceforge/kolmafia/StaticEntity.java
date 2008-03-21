@@ -410,7 +410,7 @@ public abstract class StaticEntity
 	public static final boolean isHeadless()
 	{
 		String isHeadless = System.getProperty( "java.awt.headless" );
-		return isHeadless != null && Boolean.parseBoolean( isHeadless );
+		return isHeadless != null && Boolean.valueOf( isHeadless ) == Boolean.TRUE;
 	}
 
 	public static final ActionPanel[] getExistingPanels()
