@@ -229,6 +229,8 @@
 
 		<delete dir="${dist}/KoLmafia/KoLmafia.app" />
 
+		<symlink action="single" link="${dist}/KoLmafia/Applications" resource="/Applications" />
+
 		<taskdef name="jarbundler" classname="net.sourceforge.jarbundler.JarBundler">
 			<classpath>
 				<fileset dir="${env.ANT_HOME}/lib"/>
@@ -237,13 +239,11 @@
 
 		<jarbundler dir="${dist}/KoLmafia" name="KoLmafia" mainclass="net.sourceforge.kolmafia.KoLmafia" jar="${jarfile}" icon="${lib}/limeglass.icns" />
 
-		<symlink action="single" link="${dist}/KoLmafia/Applications" resource="/Applications" />
-
 		<exec executable="hdiutil" dir="${dist}">
 			<arg line="create ${dmgfile} -srcfolder ${dist}/KoLmafia -volname KoLmafia" />
 		</exec>
 
-		<delete dir="${dist}/KoLmafia" />
+		<delete dir="${dist}/KoLmafia/KoLmafia.app" />
 
 	</target>
 
