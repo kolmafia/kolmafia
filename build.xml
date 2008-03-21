@@ -225,6 +225,8 @@
 
 	<target name="createdmg" depends="init,update,jar">
 
+		<mkdir dir="${dist}/KoLmafia"/>
+
 		<delete dir="${dist}/KoLmafia/KoLmafia.app" />
 
 		<taskdef name="jarbundler" classname="net.sourceforge.jarbundler.JarBundler">
