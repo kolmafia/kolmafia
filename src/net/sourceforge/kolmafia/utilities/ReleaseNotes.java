@@ -35,7 +35,9 @@ package net.sourceforge.kolmafia.utilities;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.PrintStream;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -62,7 +64,7 @@ public class ReleaseNotes
 		ArrayList revisionHistory = getRevisionHistory( INPUT_LOCATION, VIEW_REVISION_ROOT );
 		Collections.sort( revisionHistory );
 
-		PrintStream ostream = new PrintStream( OUTPUT_LOCATION );
+		PrintStream ostream = new PrintStream( new FileOutputStream( OUTPUT_LOCATION ) );
 		Iterator revisionIterator = revisionHistory.iterator();
 
 		while ( revisionIterator.hasNext() )

@@ -33,6 +33,7 @@
 
 package net.sourceforge.kolmafia;
 
+import apple.dts.samplecode.osxadapter.OSXAdapter;
 import java.lang.reflect.Constructor;
 
 import javax.swing.JFrame;
@@ -295,7 +296,21 @@ public class CreateFrameRunnable
 				}
 			}
 
+			// Set a menu bar for most operating systems
 			this.creation.setJMenuBar( new GlobalMenuBar() );
+
+			// In the case of OSX, we'll also need a shutdown hook
+			boolean isUsingMac = System.getProperty( "os.name" ).startsWith( "Mac" );
+
+			if ( isUsingMac )
+			{
+				// Generate and register the OSXAdapter, passing it a hash of all the methods we wish to
+				// use as delegates for various com.apple.eawt.ApplicationListener methods
+
+				OSXAdapter.setQuitHandler(KoLmafia.class, KoLmafia.class.getDeclaredMethod("quit", (Class[])null));
+				OSXAdapter.setAboutHandler(KoLmafia.class, KoLmafia.class.getDeclaredMethod("about", (Class[])null));
+				OSXAdapter.setPreferencesHandler(KoLmafia.class, KoLmafia.class.getDeclaredMethod("preferences", (Class[])null));
+			}
 		}
 		catch ( Exception e )
 		{

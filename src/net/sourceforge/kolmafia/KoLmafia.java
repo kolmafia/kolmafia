@@ -34,16 +34,21 @@
 package net.sourceforge.kolmafia;
 
 import java.awt.Color;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+
 import java.lang.reflect.Method;
 import java.math.BigInteger;
+
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -62,32 +67,18 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.UtilityConstants;
-
 import net.sourceforge.kolmafia.HPRestoreItemList.HPRestoreItem;
 import net.sourceforge.kolmafia.MPRestoreItemList.MPRestoreItem;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.session.ClanManager;
-import net.sourceforge.kolmafia.session.DisplayCaseManager;
-import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.LouvreManager;
-import net.sourceforge.kolmafia.session.MailManager;
-import net.sourceforge.kolmafia.session.MoodManager;
-import net.sourceforge.kolmafia.session.MushroomManager;
-import net.sourceforge.kolmafia.session.ResultProcessor;
-import net.sourceforge.kolmafia.session.StoreManager;
-import net.sourceforge.kolmafia.session.VioletFogManager;
-import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
-import net.sourceforge.kolmafia.swingui.AdventureFrame;
-import net.sourceforge.kolmafia.swingui.CouncilFrame;
-import net.sourceforge.kolmafia.swingui.GenericFrame;
-import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
-import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
-import net.sourceforge.kolmafia.utilities.CharacterEntities;
-import net.sourceforge.kolmafia.utilities.FileUtilities;
-import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
-import net.sourceforge.kolmafia.utilities.PauseObject;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
-
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.CustomItemDatabase;
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.FlaggedItems;
+import net.sourceforge.kolmafia.persistence.HolidayDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.request.AccountRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
@@ -114,16 +105,28 @@ import net.sourceforge.kolmafia.request.SewerRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
-
-import net.sourceforge.kolmafia.persistence.AdventureDatabase;
-import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
-import net.sourceforge.kolmafia.persistence.CustomItemDatabase;
-import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
-import net.sourceforge.kolmafia.persistence.FlaggedItems;
-import net.sourceforge.kolmafia.persistence.HolidayDatabase;
-import net.sourceforge.kolmafia.persistence.ItemDatabase;
-import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
-import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.session.ClanManager;
+import net.sourceforge.kolmafia.session.DisplayCaseManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.LouvreManager;
+import net.sourceforge.kolmafia.session.MailManager;
+import net.sourceforge.kolmafia.session.MoodManager;
+import net.sourceforge.kolmafia.session.MushroomManager;
+import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.session.StoreManager;
+import net.sourceforge.kolmafia.session.VioletFogManager;
+import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
+import net.sourceforge.kolmafia.swingui.AdventureFrame;
+import net.sourceforge.kolmafia.swingui.CouncilFrame;
+import net.sourceforge.kolmafia.swingui.GenericFrame;
+import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
+import net.sourceforge.kolmafia.swingui.listener.LicenseDisplayListener;
+import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
+import net.sourceforge.kolmafia.utilities.CharacterEntities;
+import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+import net.sourceforge.kolmafia.utilities.PauseObject;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class KoLmafia
 {
@@ -3457,8 +3460,6 @@ public abstract class KoLmafia
 	{
 		public void run()
 		{
-			new LogoutRequest().run();
-
 			Preferences.reset( null );
 			FlaggedItems.saveFlaggedItemList();
 			CustomItemDatabase.saveItemData();
@@ -3483,5 +3484,21 @@ public abstract class KoLmafia
 				// Ignore and fall through.
 			}
 		}
+	}
+
+	public static void quit()
+	{
+		RequestThread.postRequest( new LogoutRequest() );
+		System.exit( 0 );
+	}
+
+	public static void about()
+	{
+		new LicenseDisplayListener().run();
+	}
+
+	public static void preferences()
+	{
+		KoLmafiaGUI.constructFrame( "OptionsFrame" );
 	}
 }

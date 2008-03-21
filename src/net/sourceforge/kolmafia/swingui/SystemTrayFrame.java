@@ -33,25 +33,25 @@
 
 package net.sourceforge.kolmafia.swingui;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.File;
-
-import javax.swing.ImageIcon;
-
 import com.jeans.trayicon.TrayIconPopup;
 import com.jeans.trayicon.TrayIconPopupSimpleItem;
 import com.jeans.trayicon.WindowsTrayIcon;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+import java.io.File;
+
+import javax.swing.ImageIcon;
+
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
-
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDesktop;
-import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -270,7 +270,7 @@ public abstract class SystemTrayFrame
 
 		public void run()
 		{
-			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "exit", "" );
+			KoLmafia.quit();
 		}
 	}
 }

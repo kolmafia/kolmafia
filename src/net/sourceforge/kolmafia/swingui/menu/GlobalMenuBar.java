@@ -45,6 +45,7 @@ import net.sourceforge.kolmafia.session.LouvreManager;
 import net.sourceforge.kolmafia.session.NemesisManager;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.VioletFogManager;
+import net.sourceforge.kolmafia.swingui.listener.LicenseDisplayListener;
 
 public class GlobalMenuBar
 	extends JMenuBar
@@ -194,7 +195,7 @@ public class GlobalMenuBar
 		JMenu helperMenu = new JMenu( "Help" );
 		this.add( helperMenu );
 
-		helperMenu.add( new DisplayFrameMenuItem( "Copyright Notice", "LicenseDisplay" ) );
+		helperMenu.add( new ThreadedMenuItem( "Copyright Notice", new LicenseDisplayListener() ) );
 		helperMenu.add( new DebugLogMenuItem() );
 		helperMenu.add( new RelayBrowserMenuItem( "Donate to KoLmafia", "http://kolmafia.sourceforge.net/credits.html" ) );
 
