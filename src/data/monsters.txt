@@ -93,8 +93,7 @@
 # http://forums.hardcoreoxygenation.com/viewtopic.php?t=1795
 
 1335 HaXx0r	HP: 71 Def: 81 Atk: 81 Meat: 24-38	334 scroll (20)	Dyspepsi-Cola (70)	1337 7r0uZ0RZ (15)
-7-Foot Dwarf (Moil)	HP: 40 Def: 53 Atk: 53 Meat: 32-51	miner's helmet (3)	miner's pants (3)	7-Foot Dwarven mattock (3)
-7-Foot Dwarf (Royale)	HP: 40 Def: 53 Atk: 53 Meat: 32-51	miner's helmet (3)	miner's pants (3)	7-Foot Dwarven mattock (3)
+7-Foot Dwarf	HP: 40 Def: 53 Atk: 53 Meat: 32-51	miner's helmet (3)	miner's pants (3)	7-Foot Dwarven mattock (3)
 7-Foot Dwarf Foreman	HP: 50 Def: 57 Atk: 57 Meat: 48-77	7-Foot Dwarven mattock (3)	miner's helmet (3)	miner's pants (3)
 A Bugged Bugbear	HP: 14 Def: 18 Atk: 14	gnoll teeth (30)	gnoll lips (30)
 A Revolting Bugbear	HP: 10 Def: 13 Atk: 13

@@ -42,7 +42,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class BeerPongDecorator
 {
-	private static final Pattern ROUND1_PATTERN = Pattern.compile( "&quot;(.*?)&quot; he taunts" );
+	private static final Pattern ROUND1_PATTERN = Pattern.compile( "The pirate lobs his ball at your cups. &quot;(.*?)&quot; he taunts" );
 	private static final Pattern ROUND2_PATTERN = Pattern.compile( "&quot;However -- (.*?)&quot;" );
 	private static final Pattern ROUND3_PATTERN = Pattern.compile( "and growls &quot;(.*?)&quot;" );
 
