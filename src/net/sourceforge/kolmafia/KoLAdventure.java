@@ -775,7 +775,7 @@ public class KoLAdventure
 
 		if ( KoLCharacter.getAdventuresLeft() == 0 || KoLCharacter.getAdventuresLeft() < this.request.getAdventuresUsed() )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Insufficient adventures to continue." );
+			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Ran out of adventures." );
 			return;
 		}
 
