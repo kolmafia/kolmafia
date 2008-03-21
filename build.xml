@@ -13,6 +13,7 @@
 
 	<property name="jarfile" location="${dist}/${ant.project.name}.jar"/>
 	<property name="tarfile" location="${dist}/${ant.project.name}.tar.gz"/>
+	<property name="dmgfile" location="${dist}/${ant.project.name}.dmg"/>
 	<property name="main" value="net.sourceforge.kolmafia.KoLmafia"/>
 
 	<property environment="env"/>
@@ -194,6 +195,53 @@
 		</taskdef>
 
 		<jsmooth project="${lib}/build.jsmooth" skeletonroot="${env.JSMOOTH_HOME}/skeletons"/>
+
+	</target>
+
+
+	<!-- ================================ -->
+	<!--  generate an application bundle  -->
+	<!-- ================================ -->
+
+	<target name="jarbundler" depends="init,update,jar">
+
+		<taskdef name="jarbundler" classname="net.sourceforge.jarbundler.JarBundler">
+			<classpath>
+				<fileset dir="${env.ANT_HOME}/lib"/>
+			</classpath>
+		</taskdef>
+
+		<jarbundler dir="${dist}" name="KoLmafia" mainclass="net.sourceforge.kolmafia.KoLmafia" jar="${jarfile}" icon="${lib}/limeglass.icns" />
+
+		<delete dir="/Applications/KoLmafia.app" />
+		<move file="${dist}/KoLmafia.app" todir="/Applications" />
+
+	</target>
+
+
+	<!-- ========================== -->
+	<!--  create an OSX disk image  -->
+	<!-- ========================== -->
+
+	<target name="createdmg" depends="init,update,jar">
+
+		<delete dir="${dist}/KoLmafia/KoLmafia.app" />
+
+		<taskdef name="jarbundler" classname="net.sourceforge.jarbundler.JarBundler">
+			<classpath>
+				<fileset dir="${env.ANT_HOME}/lib"/>
+			</classpath>
+		</taskdef>
+
+		<jarbundler dir="${dist}/KoLmafia" name="KoLmafia" mainclass="net.sourceforge.kolmafia.KoLmafia" jar="${jarfile}" icon="${lib}/limeglass.icns" />
+
+		<symlink action="single" link="${dist}/KoLmafia/Applications" resource="/Applications" />
+
+		<exec executable="hdiutil" dir="${dist}">
+			<arg line="create ${dmgfile} -srcfolder ${dist}/KoLmafia -volname KoLmafia" />
+		</exec>
+
+		<delete dir="${dist}/KoLmafia" />
 
 	</target>
 
