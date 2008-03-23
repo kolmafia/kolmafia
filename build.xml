@@ -7,6 +7,7 @@
 	<property name="root" location="."/>
 	<property name="src" location="src"/>
 	<property name="lib" location="lib"/>
+	<property name="util" location="util"/>
 	<property name="build" location="build"/>
 	<property name="dist" location="dist"/>
 	<property name="docs" location="${dist}/docs"/>
@@ -141,12 +142,7 @@
 		</copy>
 
 		<copy todir="${build}" preservelastmodified="true">
-			<fileset dir="${lib}">
-				<exclude name="build.jsmooth"/>
-				<exclude name="limeglass.icns"/>
-				<exclude name="format.xml"/>
-				<exclude name="cleanup.xml"/>
-			</fileset>
+			<fileset dir="${lib}" />
 		</copy>
 
 	</target>
@@ -185,16 +181,10 @@
 	<!--  generate the standard EXE  -->
 	<!-- =========================== -->
 
-	<target name="jsmooth" depends="init,update,jar" if="env.JSMOOTH_HOME">
+	<target name="jsmooth" depends="init,update,jar">
 
-		<taskdef name="jsmooth" classname="net.charabia.jsmoothgen.ant.JSmoothGen">
-			<classpath>
-				<fileset dir="${env.JSMOOTH_HOME}/lib"/>
-				<fileset dir="${env.JSMOOTH_HOME}/jni"/>
-			</classpath>
-		</taskdef>
-
-		<jsmooth project="${lib}/build.jsmooth" skeletonroot="${env.JSMOOTH_HOME}/skeletons"/>
+		<taskdef name="jsmooth" classname="net.charabia.jsmoothgen.ant.JSmoothGen" classpath="${util}/jsmoothgen-ant.jar" />
+		<jsmooth project="${util}/build.jsmooth" skeletonroot="${util}/skeletons"/>
 
 	</target>
 
@@ -205,13 +195,8 @@
 
 	<target name="jarbundler" depends="init,update,jar">
 
-		<taskdef name="jarbundler" classname="net.sourceforge.jarbundler.JarBundler">
-			<classpath>
-				<fileset dir="${env.ANT_HOME}/lib"/>
-			</classpath>
-		</taskdef>
-
-		<jarbundler dir="${dist}" name="KoLmafia" mainclass="net.sourceforge.kolmafia.KoLmafia" jar="${jarfile}" icon="${lib}/limeglass.icns" />
+		<taskdef name="jarbundler" classname="net.sourceforge.jarbundler.JarBundler" classpath="${util}/jarbundler-1.9.jar" />
+		<jarbundler dir="${dist}" name="KoLmafia" mainclass="net.sourceforge.kolmafia.KoLmafia" jar="${jarfile}" icon="${util}/limeglass.icns" />
 
 		<delete dir="/Applications/KoLmafia.app" />
 		<move file="${dist}/KoLmafia.app" todir="/Applications" />
@@ -233,13 +218,8 @@
 
 		<symlink action="single" link="${dist}/KoLmafia/Applications" resource="/Applications" />
 
-		<taskdef name="jarbundler" classname="net.sourceforge.jarbundler.JarBundler">
-			<classpath>
-				<fileset dir="${env.ANT_HOME}/lib"/>
-			</classpath>
-		</taskdef>
-
-		<jarbundler dir="${dist}/KoLmafia" name="KoLmafia" mainclass="net.sourceforge.kolmafia.KoLmafia" jar="${jarfile}" icon="${lib}/limeglass.icns" />
+		<taskdef name="jarbundler" classname="net.sourceforge.jarbundler.JarBundler" classpath="${util}/jarbundler-1.9.jar" />
+		<jarbundler dir="${dist}" name="KoLmafia" mainclass="net.sourceforge.kolmafia.KoLmafia" jar="${jarfile}" icon="${util}/limeglass.icns" />
 
 		<exec executable="hdiutil" dir="${dist}">
 			<arg line="create ${dmgfile} -srcfolder ${dist}/KoLmafia -volname KoLmafia" />
