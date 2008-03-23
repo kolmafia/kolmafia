@@ -225,9 +225,11 @@
 
 	<target name="createdmg" depends="init,update,jar">
 
-		<mkdir dir="${dist}/KoLmafia"/>
+		<exec executable="rm" dir="${dist}">
+			<arg line="-rf KoLmafia" />
+		</exec>
 
-		<delete dir="${dist}/KoLmafia/KoLmafia.app" />
+		<mkdir dir="${dist}/KoLmafia"/>
 
 		<symlink action="single" link="${dist}/KoLmafia/Applications" resource="/Applications" />
 
@@ -243,7 +245,9 @@
 			<arg line="create ${dmgfile} -srcfolder ${dist}/KoLmafia -volname KoLmafia" />
 		</exec>
 
-		<delete dir="${dist}/KoLmafia/KoLmafia.app" />
+		<exec executable="rm" dir="${dist}">
+			<arg line="-rf KoLmafia" />
+		</exec>
 
 	</target>
 
