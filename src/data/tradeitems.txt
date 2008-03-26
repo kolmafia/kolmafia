@@ -1360,7 +1360,7 @@
 1359	ninja pirate zombie robot head	3	all	360
 1360	pirate zombie robot head	0	all	350
 1361	disembodied smile	8	all	20
-1362
+1362	golden sausage	13	display	0
 1363	clockwork pirate skull	15	all	230
 1364	rhesus monkey	7	all	75
 1365	tofurkey leg	1	all	50
@@ -3248,3 +3248,9 @@
 3247
 3248
 3249	pink plastic baby	8	all	0
+3250	silver sausage	13	display	0
+3251
+3252
+3253	mood ring	8	display	5
+3254	black candy heart	4	display	5
+3255	cymbal syrup	3	display	5

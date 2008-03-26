@@ -655,6 +655,7 @@ foon of frigidity	0	Mys: 10
 foon of fulmination	0	Mys: 10
 giant stuffed bugbear	0	none
 gnauga hide buckler	95	Mus: 30
+golden sausage	0	none
 green balloon	0	none
 handmade hobby horse	0	none
 heart-shaped balloon	0	none
@@ -691,6 +692,7 @@ sawblade shield	180	Mus: 75
 sebaceous shield	40	Mus: 2
 set of jacks	0	none
 sewer turtle	20	none
+silver sausage	0	none
 snake shield	117	Mus: 42
 snarling wolf shield	117	Mus: 42
 sock monkey	0	Mys: 40
@@ -917,6 +919,7 @@ lucky rabbit's foot	0	none
 makeshift SCUBA gear	0	none
 makeshift cape	0	Mys: 35
 monster bait	0	none
+mood ring	0	none
 natty blue ascot	0	Mys: 10
 navel ring of navel gazing	0	none
 orange glowstick	0	none
