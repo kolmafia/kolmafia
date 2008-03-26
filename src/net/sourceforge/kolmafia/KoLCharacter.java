@@ -1385,13 +1385,9 @@ public abstract class KoLCharacter
 			value = levels * 10.0;
 		}
 
-		// Jick said that Mysticality classes get an extra 5% elemental
-		// resistance. The thread cited above determined that it's
-		// really 5% of resistance from other sources - NOT a flat 5%.
-
 		if ( KoLCharacter.isMysticalityClass() )
 		{
-			value *= 1.05;
+			value += 5.0;
 		}
 
 		return (float)value;
