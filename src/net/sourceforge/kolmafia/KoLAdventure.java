@@ -253,7 +253,7 @@ public class KoLAdventure
 			// If the player is not half-astral, then
 			// make sure they are before continuing.
 
-			AdventureResult effect = EffectPool.get( EffectPool.ASTRAL );
+			AdventureResult effect = EffectPool.get( EffectPool.HALF_ASTRAL );
 			if ( !KoLConstants.activeEffects.contains( effect ) )
 			{
 				AdventureResult mushroom = ItemPool.get( ItemPool.ASTRAL_MUSHROOM, 1 );
@@ -395,7 +395,7 @@ public class KoLAdventure
 		{
 			// You must be Half-Astral to go on a trip
 
-			AdventureResult effect = EffectPool.get( EffectPool.ASTRAL );
+			AdventureResult effect = EffectPool.get( EffectPool.HALF_ASTRAL );
 			int astral = effect.getCount( KoLConstants.activeEffects );
 			if ( astral == 0 )
 			{

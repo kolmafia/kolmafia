@@ -72,8 +72,8 @@ public class CreateItemRequest
 	private static final int[][] DOUGH_DATA =
 	{
 		// input, tool, output
-		{ ItemPool.DOUGH, ItemPool.ROLLING, ItemPool.FLAT_DOUGH },
-		{ ItemPool.FLAT_DOUGH, ItemPool.UNROLLING, ItemPool.DOUGH }
+		{ ItemPool.DOUGH, ItemPool.ROLLING_PIN, ItemPool.FLAT_DOUGH },
+		{ ItemPool.FLAT_DOUGH, ItemPool.UNROLLING_PIN, ItemPool.DOUGH }
 	};
 
 	/**

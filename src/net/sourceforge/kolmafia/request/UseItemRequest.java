@@ -50,18 +50,18 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-
-import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
-import net.sourceforge.kolmafia.persistence.ItemDatabase;
-import net.sourceforge.kolmafia.persistence.Preferences;
-import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 public class UseItemRequest
 	extends GenericRequest
@@ -79,153 +79,29 @@ public class UseItemRequest
 
 	static
 	{
-		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.PURPLE_SNOWCONE ), new AdventureResult( "Purple Tongue", 1, true ) );
-		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.GREEN_SNOWCONE ), new AdventureResult( "Green Tongue", 1, true ) );
-		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.ORANGE_SNOWCONE ), new AdventureResult( "Orange Tongue", 1, true ) );
-		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.RED_SNOWCONE ), new AdventureResult( "Red Tongue", 1, true ) );
-		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.BLUE_SNOWCONE ), new AdventureResult( "Blue Tongue", 1, true ) );
-		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.BLACK_SNOWCONE ), new AdventureResult( "Black Tongue", 1, true ) );
+		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.PURPLE_SNOWCONE ), EffectPool.get( EffectPool.PURPLE_TONGUE ) );
+		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.GREEN_SNOWCONE ), EffectPool.get( EffectPool.GREEN_TONGUE ) );
+		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.ORANGE_SNOWCONE ), EffectPool.get( EffectPool.ORANGE_TONGUE ) );
+		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.RED_SNOWCONE ), EffectPool.get( EffectPool.RED_TONGUE ) );
+		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.BLUE_SNOWCONE ), EffectPool.get( EffectPool.BLUE_TONGUE ) );
+		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.BLACK_SNOWCONE ), EffectPool.get( EffectPool.BLACK_TONGUE ) );
 
-		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.ASTRAL_MUSHROOM ), new AdventureResult( "Half-Astral", 1, true ) );
+		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.ASTRAL_MUSHROOM ), EffectPool.get( EffectPool.HALF_ASTRAL ) );
 
-		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.BLUE_CUPCAKE ), new AdventureResult( "Cupcake of Choice", 1, true ) );
-		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.GREEN_CUPCAKE ), new AdventureResult( "The Cupcake of Wrath", 1, true ) );
-		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.ORANGE_CUPCAKE ), new AdventureResult( "Shiny Happy Cupcake", 1, true ) );
-		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.PURPLE_CUPCAKE ), new AdventureResult( "Tiny Bubbles in the Cupcake", 1, true ) );
-		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.PINK_CUPCAKE ), new AdventureResult( "Your Cupcake Senses Are Tingling", 1, true ) );
+		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.BLUE_CUPCAKE ), EffectPool.get( EffectPool.BLUE_CUPCAKE ) );
+		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.GREEN_CUPCAKE ), EffectPool.get( EffectPool.GREEN_CUPCAKE ) );
+		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.ORANGE_CUPCAKE ), EffectPool.get( EffectPool.ORANGE_CUPCAKE ) );
+		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.PURPLE_CUPCAKE ), EffectPool.get( EffectPool.PURPLE_CUPCAKE ) );
+		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.PINK_CUPCAKE ), EffectPool.get( EffectPool.PINK_CUPCAKE ) );
 
-		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.MILK_OF_MAGNESIUM ), ItemDatabase.GOT_MILK );
+		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.MILK_OF_MAGNESIUM ), ItemDatabase.MILK );
 
-		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.ABSINTHE ), new AdventureResult( "Absinthe-Minded", 1, true ) );
+		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.ABSINTHE ), EffectPool.get( EffectPool.ABSINTHE ) );
 	}
 
 	public static String lastUpdate = "";
 	private static AdventureResult lastItemUsed = null;
 	private static int askedAboutOde = 0;
-
-	private static final int DOLPHIN_KING_MAP = 26;
-	private static final int FORTUNE_COOKIE = 61;
-	private static final int SPOOKY_TEMPLE_MAP = 74;
-	private static final int TBONE_KEY = 86;
-	private static final int DINGHY_PLANS = 146;
-	private static final int FENG_SHUI = 210;
-	private static final int SELTZER = 344;
-	private static final int PIRATE_SKULL = 407;
-	private static final int CHEF = 438;
-	private static final int BARTENDER = 440;
-	private static final int KETCHUP_HOUND = 493;
-	private static final int RAFFLE_TICKET = 500;
-	private static final int HEY_DEZE_MAP = 516;
-	private static final int GATES_SCROLL = 552;
-	public static final int HACK_SCROLL = 553;
-	private static final int LUCIFER = 571;
-	private static final int TINY_HOUSE = 592;
-	private static final int DRASTIC_HEALING = 595;
-	private static final int SLUG_LORD_MAP = 598;
-	private static final int DR_HOBO_MAP = 601;
-	private static final int WARM_SUBJECT = 621;
-	private static final int TOASTER = 637;
-	private static final int GIANT_CASTLE_MAP = 667;
-	private static final int MAFIA_ARIA = 781;
-	private static final int ANTIDOTE = 829;
-	private static final int TEARS = 869;
-	private static final int ROLLING_PIN = 873;
-	private static final int UNROLLING_PIN = 874;
-	private static final int PLUS_SIGN = 818;
-	private static final int MAID = 1000;
-	private static final int CLOCKWORK_BARTENDER = 1111;
-	private static final int CLOCKWORK_CHEF = 1112;
-	private static final int CLOCKWORK_MAID = 1113;
-	private static final int MUNCHIES_PILL = 1619;
-	private static final int DUSTY_ANIMAL_SKULL = 1799;
-	private static final int QUILL_PEN = 1957;
-	public static final int MACGUFFIN_DIARY = 2044;
-	private static final int BLACK_MARKET_MAP = 2054;
-	public static final int DRUM_MACHINE = 2328;
-	public static final int BLACK_PUDDING = 2338;
-	private static final int COBBS_KNOB_MAP = 2442;
-	private static final int TELESCOPE = 2599;
-	private static final int LIBRARY_CARD = 2672;
-	public static final int CARONCH_MAP = 2950;
-	private static final int ANCIENT_CURSED_FOOTLOCKER = 3016;
-	private static final int ORNATE_CURSED_CHEST = 3017;
-	private static final int GILDED_CURSED_CHEST = 3018;
-	public static final int CURSED_PIECE_OF_THIRTEEN = 3034;
-
-	// Books
-
-	private static final int SNOWCONE_BOOK = 1411;
-	private static final int HILARIOUS_BOOK = 1498;
-	private static final int CANDY_BOOK = 2303;
-	private static final int OLFACTION_BOOK = 2463;
-	private static final int JEWELRY_BOOK = 2502;
-	private static final int DIVINE_BOOK = 3117;
-
-	// Multi-use creation items
-
-	private static final int PALM_FROND = 2605;
-	private static final int MUMMY_WRAP = 2634;
-	private static final int DUCT_TAPE = 2697;
-	private static final int CLINGFILM = 2988;
-	private static final int SAND_BRICK = 2582;
-
-	// Gifts
-
-	private static final int GIFT1 = 1167;
-	private static final int GIFT2 = 1168;
-	private static final int GIFT3 = 1169;
-	private static final int GIFT4 = 1170;
-	private static final int GIFT5 = 1171;
-	private static final int GIFT6 = 1172;
-	private static final int GIFT7 = 1173;
-	private static final int GIFT8 = 1174;
-	private static final int GIFT9 = 1175;
-	private static final int GIFT10 = 1176;
-	private static final int GIFT11 = 1177;
-	private static final int GIFTV = 1460;
-	private static final int GIFTR = 1534;
-	private static final int GIFTW = 2683;
-
-	// Housing
-
-	private static final int NEWBIESPORT_TENT = 69;
-	private static final int BARSKIN_TENT = 73;
-	private static final int COTTAGE = 143;
-	private static final int HOUSE = 526;
-	private static final int SANDCASTLE = 3127;
-
-	private static final int SPARKLER = 2679;
-	private static final int SNAKE = 2680;
-	private static final int M282 = 2681;
-
-	private static final int STEEL_STOMACH = 2742;
-	private static final int STEEL_LIVER = 2743;
-	private static final int STEEL_SPLEEN = 2744;
-
-	private static final AdventureResult CUMMERBUND = new AdventureResult( 778, 1 );
-
-	private static final AdventureResult ASPARAGUS_KNIFE = new AdventureResult( 19, -1 );
-	private static final AdventureResult SAPLING = new AdventureResult( 75, 1 );
-	private static final AdventureResult FERTILIZER = new AdventureResult( 76, 1 );
-	private static final AdventureResult LOCKED_LOCKER = new AdventureResult( 84, 1 );
-	private static final AdventureResult PLANKS = new AdventureResult( 140, -1 );
-	private static final AdventureResult DOUGH = new AdventureResult( 159, 1 );
-	private static final AdventureResult FOUNTAIN = new AdventureResult( 211, 1 );
-	private static final AdventureResult FLAT_DOUGH = new AdventureResult( 301, 1 );
-	private static final AdventureResult SUNKEN_CHEST = new AdventureResult( 405, -1 );
-	private static final AdventureResult PIRATE_PELVIS = new AdventureResult( 406, -1 );
-	private static final AdventureResult SKELETON_BONE = new AdventureResult( 163, -8 );
-	private static final AdventureResult NUTS = new AdventureResult( 509, -1 );
-	private static final AdventureResult PLAN = new AdventureResult( 502, -1 );
-	private static final AdventureResult WINDCHIMES = new AdventureResult( 212, 1 );
-	private static final AdventureResult INKWELL = new AdventureResult( 1958, -1 );
-	private static final AdventureResult SCRAP_OF_PAPER = new AdventureResult( 1959, -1 );
-	private static final AdventureResult WORM_RIDING_HOOKS = new AdventureResult( 2302, -1 );
-	private static final AdventureResult ENCRYPTION_KEY = new AdventureResult( 2441, -1 );
-	private static final AdventureResult CHARRRM_BRACELET = new AdventureResult( 2953, -1 );
-	private static final AdventureResult SIMPLE_CURSED_KEY = new AdventureResult( 3013, -1 );
-	private static final AdventureResult ORNATE_CURSED_KEY = new AdventureResult( 3014, -1 );
-	private static final AdventureResult GILDED_CURSED_KEY = new AdventureResult( 3015, -1 );
 
 	private final int consumptionType;
 	private AdventureResult itemUsed = null;
@@ -262,11 +138,11 @@ public class UseItemRequest
 		case ItemPool.LIARS_PANTS:
 		case ItemPool.JUGGLERS_BALLS:
 		case ItemPool.PINK_SHIRT:
-		case ItemPool.FLAMING_FAMILIAR:
+		case ItemPool.FAMILIAR_DOPPELGANGER:
 		case ItemPool.EYEBALL_PENDANT:
 			// naughty origami kit items
 		case ItemPool.FORTUNE_TELLER:
-		case ItemPool.GENTLEMENS_MAGAZINE:
+		case ItemPool.ORIGAMI_MAGAZINE:
 		case ItemPool.PAPER_SHURIKEN:
 		case ItemPool.ORIGAMI_PASTIES:
 		case ItemPool.RIDING_CROP:
@@ -370,23 +246,23 @@ public class UseItemRequest
 
 		switch ( itemId )
 		{
-		case CHEF:
-		case CLOCKWORK_CHEF:
-		case BARTENDER:
-		case CLOCKWORK_BARTENDER:
-		case MAID:
-		case CLOCKWORK_MAID:
-		case TOASTER:
+		case ItemPool.CHEF:
+		case ItemPool.CLOCKWORK_CHEF:
+		case ItemPool.BARTENDER:
+		case ItemPool.CLOCKWORK_BARTENDER:
+		case ItemPool.MAID:
+		case ItemPool.CLOCKWORK_MAID:
+		case ItemPool.TOASTER:
 			return 1;
 
-		case ANCIENT_CURSED_FOOTLOCKER:
-			return UseItemRequest.SIMPLE_CURSED_KEY.getCount( KoLConstants.inventory );
+		case ItemPool.ANCIENT_CURSED_FOOTLOCKER:
+			return InventoryManager.getCount( ItemPool.SIMPLE_CURSED_KEY );
 
-		case ORNATE_CURSED_CHEST:
-			return UseItemRequest.ORNATE_CURSED_KEY.getCount( KoLConstants.inventory );
+		case ItemPool.ORNATE_CURSED_CHEST:
+			return InventoryManager.getCount( ItemPool.ORNATE_CURSED_KEY );
 
-		case GILDED_CURSED_CHEST:
-			return UseItemRequest.GILDED_CURSED_KEY.getCount( KoLConstants.inventory );
+		case ItemPool.GILDED_CURSED_CHEST:
+			return InventoryManager.getCount( ItemPool.GILDED_CURSED_KEY );
 
 		case ItemPool.MOJO_FILTER:
 			return Math.max( 0, 3 - Preferences.getInteger( "currentMojoFilters" ) );
@@ -532,14 +408,14 @@ public class UseItemRequest
 
 		int price = ItemDatabase.getPriceById( itemId );
 
-		if ( itemId == UseItemRequest.SELTZER || itemId == UseItemRequest.MAFIA_ARIA )
+		if ( itemId == ItemPool.SELTZER || itemId == ItemPool.MAFIA_ARIA )
 		{
 			SpecialOutfit.createImplicitCheckpoint();
 		}
 
 		if ( price != 0 && this.consumptionType != KoLConstants.INFINITE_USES && !InventoryManager.retrieveItem( this.itemUsed ) )
 		{
-			if ( itemId == UseItemRequest.SELTZER || itemId == UseItemRequest.MAFIA_ARIA )
+			if ( itemId == ItemPool.SELTZER || itemId == ItemPool.MAFIA_ARIA )
 			{
 				SpecialOutfit.restoreImplicitCheckpoint();
 			}
@@ -547,7 +423,7 @@ public class UseItemRequest
 			return;
 		}
 
-		if ( itemId == UseItemRequest.SELTZER )
+		if ( itemId == ItemPool.SELTZER )
 		{
 			SpecialOutfit.restoreImplicitCheckpoint();
 		}
@@ -569,18 +445,19 @@ public class UseItemRequest
 			}
 		}
 
-		if ( itemId == UseItemRequest.MACGUFFIN_DIARY )
+		if ( itemId == ItemPool.MACGUFFIN_DIARY )
 		{
 			( new GenericRequest( "diary.php?textversion=1" ) ).run();
 			KoLmafia.updateDisplay( "Your father's diary has been read." );
 			return;
 		}
 
-		if ( itemId == UseItemRequest.MAFIA_ARIA )
+		if ( itemId == ItemPool.MAFIA_ARIA )
 		{
-			if ( !KoLCharacter.hasEquipped( UseItemRequest.CUMMERBUND ) )
+			AdventureResult cummerbund = ItemPool.get( ItemPool.CUMMERBUND, 1 );
+			if ( !KoLCharacter.hasEquipped( cummerbund ) )
 			{
-				RequestThread.postRequest( new EquipmentRequest( UseItemRequest.CUMMERBUND ) );
+				RequestThread.postRequest( new EquipmentRequest( cummerbund ) );
 			}
 		}
 
@@ -601,7 +478,7 @@ public class UseItemRequest
 			this.useOnce( i, iterations, useTypeAsString );
 		}
 
-		if ( itemId == UseItemRequest.MAFIA_ARIA )
+		if ( itemId == ItemPool.MAFIA_ARIA )
 		{
 			SpecialOutfit.restoreImplicitCheckpoint();
 		}
@@ -859,20 +736,20 @@ public class UseItemRequest
 
 		// If it's a gift package, get the inner message
 
-		case GIFT1:
-		case GIFT2:
-		case GIFT3:
-		case GIFT4:
-		case GIFT5:
-		case GIFT6:
-		case GIFT7:
-		case GIFT8:
-		case GIFT9:
-		case GIFT10:
-		case GIFT11:
-		case GIFTV:
-		case GIFTR:
-		case GIFTW:
+		case ItemPool.GIFT1:
+		case ItemPool.GIFT2:
+		case ItemPool.GIFT3:
+		case ItemPool.GIFT4:
+		case ItemPool.GIFT5:
+		case ItemPool.GIFT6:
+		case ItemPool.GIFT7:
+		case ItemPool.GIFT8:
+		case ItemPool.GIFT9:
+		case ItemPool.GIFT10:
+		case ItemPool.GIFT11:
+		case ItemPool.GIFTV:
+		case ItemPool.GIFTR:
+		case ItemPool.GIFTW:
 
 			// "You can't receive things from other players
 			// right now."
@@ -892,7 +769,7 @@ public class UseItemRequest
 
 			// If it's a fortune cookie, get the fortune
 
-		case FORTUNE_COOKIE:
+		case ItemPool.FORTUNE_COOKIE:
 
 			UseItemRequest.showItemUsage( showHTML, responseText, true );
 
@@ -934,7 +811,7 @@ public class UseItemRequest
 
 			return;
 
-		case GATES_SCROLL:
+		case ItemPool.GATES_SCROLL:
 
 			// You can only use a 64735 scroll if you have the
 			// original dictionary in your inventory
@@ -953,7 +830,7 @@ public class UseItemRequest
 
 			return;
 
-		case HACK_SCROLL:
+		case ItemPool.ELITE_SCROLL:
 
 			// "The UB3r 31337 HaX0R stands before you."
 
@@ -965,9 +842,9 @@ public class UseItemRequest
 
 			return;
 
-		case SPARKLER:
-		case SNAKE:
-		case M282:
+		case ItemPool.SPARKLER:
+		case ItemPool.SNAKE:
+		case ItemPool.M282:
 
 			// "You've already celebrated the Fourth of Bor, and
 			// now it's time to get back to work."
@@ -1006,7 +883,7 @@ public class UseItemRequest
 
 			return;
 
-		case LIBRARY_CARD:
+		case ItemPool.LIBRARY_CARD:
 
 			// If you've already used a library card today, it is
 			// not consumed.
@@ -1023,7 +900,7 @@ public class UseItemRequest
 
 			return;
 
-		case HEY_DEZE_MAP:
+		case ItemPool.HEY_DEZE_MAP:
 
 			// "Your song has pleased me greatly. I will reward you
 			// with some of my crazy imps, to do your bidding."
@@ -1037,7 +914,7 @@ public class UseItemRequest
 
 			return;
 
-		case GIANT_CASTLE_MAP:
+		case ItemPool.GIANT_CASTLE_MAP:
 
 			// "I'm sorry, adventurer, but the Sorceress is in
 			// another castle!"
@@ -1051,7 +928,7 @@ public class UseItemRequest
 
 			return;
 
-		case DRASTIC_HEALING:
+		case ItemPool.DRASTIC_HEALING:
 
 			// If a scroll of drastic healing was used and didn't
 			// crumble, it is not consumed
@@ -1066,29 +943,29 @@ public class UseItemRequest
 
 			return;
 
-		case TEARS:
+		case ItemPool.TEARS:
 
 			KoLConstants.activeEffects.remove( KoLAdventure.BEATEN_UP );
 			return;
 
-		case ANTIDOTE:
-		case TINY_HOUSE:
+		case ItemPool.ANTIDOTE:
+		case ItemPool.TINY_HOUSE:
 
 			KoLConstants.activeEffects.clear();
 			return;
 
-		case TBONE_KEY:
+		case ItemPool.TBONE_KEY:
 
-			if ( InventoryManager.hasItem( UseItemRequest.LOCKED_LOCKER ) )
+			if ( InventoryManager.hasItem( ItemPool.LOCKED_LOCKER ) )
 			{
-				ResultProcessor.processResult( UseItemRequest.LOCKED_LOCKER.getNegation() );
+				ResultProcessor.processItem( ItemPool.LOCKED_LOCKER, -1 );
 			}
 			else
 			{
 				ResultProcessor.processResult( item );
 			}
 
-		case RAFFLE_TICKET:
+		case ItemPool.RAFFLE_TICKET:
 
 			// The first time you use an Elf Farm Raffle ticket
 			// with a ten-leaf clover in your inventory, the clover
@@ -1104,15 +981,15 @@ public class UseItemRequest
 
 			return;
 
-		case KETCHUP_HOUND:
+		case ItemPool.KETCHUP_HOUND:
 
 			// Successfully using a ketchup hound uses up the Hey
 			// Deze nuts and pagoda plan.
 
 			if ( responseText.indexOf( "pagoda" ) != -1 )
 			{
-				ResultProcessor.processResult( UseItemRequest.NUTS );
-				ResultProcessor.processResult( UseItemRequest.PLAN );
+				ResultProcessor.processItem( ItemPool.HEY_DEZE_NUTS, -1 );
+				ResultProcessor.processItem( ItemPool.PAGODA_PLANS, -1 );
 			}
 
 			// The ketchup hound does not go away...
@@ -1120,7 +997,7 @@ public class UseItemRequest
 			ResultProcessor.processResult( item );
 			return;
 
-		case LUCIFER:
+		case ItemPool.LUCIFER:
 
 			// Jumbo Dr. Lucifer reduces your hit points to 1.
 
@@ -1129,7 +1006,7 @@ public class UseItemRequest
 
 			return;
 
-		case DOLPHIN_KING_MAP:
+		case ItemPool.DOLPHIN_KING_MAP:
 
 			// "You follow the Dolphin King's map to the bottom of
 			// the sea, and find his glorious treasure."
@@ -1143,7 +1020,7 @@ public class UseItemRequest
 
 			return;
 
-		case SLUG_LORD_MAP:
+		case ItemPool.SLUG_LORD_MAP:
 
 			// "You make your way to the deepest part of the tank,
 			// and find a chest engraved with the initials S. L."
@@ -1157,7 +1034,7 @@ public class UseItemRequest
 
 			return;
 
-		case DR_HOBO_MAP:
+		case ItemPool.DR_HOBO_MAP:
 
 			// "You place it atop the Altar, and grab the Scalpel
 			// at the exact same moment."
@@ -1172,10 +1049,10 @@ public class UseItemRequest
 
 			// Using the map consumes an asparagus knife
 
-			ResultProcessor.processResult( UseItemRequest.ASPARAGUS_KNIFE );
+			ResultProcessor.processItem( ItemPool.ASPARAGUS_KNIFE, -1 );
 			return;
 
-		case COBBS_KNOB_MAP:
+		case ItemPool.COBBS_KNOB_MAP:
 
 			// "You memorize the location of the door, then eat
 			// both the map and the encryption key."
@@ -1190,10 +1067,10 @@ public class UseItemRequest
 
 			// Using the map consumes the encryption key
 
-			ResultProcessor.processResult( UseItemRequest.ENCRYPTION_KEY );
+			ResultProcessor.processItem( ItemPool.ENCRYPTION_KEY, -1 );
 			return;
 
-		case BLACK_MARKET_MAP:
+		case ItemPool.BLACK_MARKET_MAP:
 
 			// "You try to follow the map, but you can't make head
 			// or tail of it. It keeps telling you to take paths
@@ -1237,12 +1114,12 @@ public class UseItemRequest
 			QuestLogRequest.setBlackMarketAvailable();
 			return;
 
-		case SPOOKY_TEMPLE_MAP:
+		case ItemPool.SPOOKY_MAP:
 
-			if ( InventoryManager.hasItem( UseItemRequest.SAPLING ) && InventoryManager.hasItem( UseItemRequest.FERTILIZER ) )
+			if ( InventoryManager.hasItem( ItemPool.SPOOKY_SAPLING ) && InventoryManager.hasItem( ItemPool.SPOOKY_FERTILIZER ) )
 			{
-				ResultProcessor.processResult( UseItemRequest.SAPLING.getNegation() );
-				ResultProcessor.processResult( UseItemRequest.FERTILIZER.getNegation() );
+				ResultProcessor.processItem( ItemPool.SPOOKY_SAPLING, -1 );
+				ResultProcessor.processItem( ItemPool.SPOOKY_FERTILIZER, -1 );
 			}
 			else
 			{
@@ -1253,13 +1130,13 @@ public class UseItemRequest
 
 			return;
 
-		case DINGHY_PLANS:
+		case ItemPool.DINGHY_PLANS:
 
 			// "You need some planks to build the dinghy."
 
-			if ( InventoryManager.hasItem( UseItemRequest.PLANKS ) )
+			if ( InventoryManager.hasItem( ItemPool.DINGY_PLANKS ) )
 			{
-				ResultProcessor.processResult( UseItemRequest.PLANKS );
+				ResultProcessor.processItem( ItemPool.DINGY_PLANKS, -1 );
 			}
 			else
 			{
@@ -1270,7 +1147,7 @@ public class UseItemRequest
 
 			return;
 
-		case PIRATE_SKULL:
+		case ItemPool.PIRATE_SKULL:
 
 			// "Unable to find enough parts, the semi-formed
 			// skeleton gives up and falls to pieces."
@@ -1280,19 +1157,19 @@ public class UseItemRequest
 			}
 			else
 			{
-				ResultProcessor.processResult( UseItemRequest.SUNKEN_CHEST );
-				ResultProcessor.processResult( UseItemRequest.PIRATE_PELVIS );
-				ResultProcessor.processResult( UseItemRequest.SKELETON_BONE );
+				ResultProcessor.processItem( ItemPool.PIRATE_CHEST, -1 );
+				ResultProcessor.processItem( ItemPool.PIRATE_PELVIS, -1 );
+				ResultProcessor.processItem( ItemPool.SKELETON_BONE, -8 );
 			}
 			UseItemRequest.showItemUsage( showHTML, responseText, true );
 			break;
 
-		case FENG_SHUI:
+		case ItemPool.FENG_SHUI:
 
-			if ( InventoryManager.hasItem( UseItemRequest.FOUNTAIN ) && InventoryManager.hasItem( UseItemRequest.WINDCHIMES ) )
+			if ( InventoryManager.hasItem( ItemPool.FOUNTAIN ) && InventoryManager.hasItem( ItemPool.WINDCHIMES ) )
 			{
-				ResultProcessor.processResult( UseItemRequest.FOUNTAIN.getNegation() );
-				ResultProcessor.processResult( UseItemRequest.WINDCHIMES.getNegation() );
+				ResultProcessor.processItem( ItemPool.FOUNTAIN, -1 );
+				ResultProcessor.processItem( ItemPool.WINDCHIMES, -1 );
 			}
 			else
 			{
@@ -1301,7 +1178,7 @@ public class UseItemRequest
 
 			return;
 
-		case WARM_SUBJECT:
+		case ItemPool.WARM_SUBJECT:
 
 			// The first time you use Warm Subject gift
 			// certificates when you have the Torso Awaregness
@@ -1340,29 +1217,25 @@ public class UseItemRequest
 
 			return;
 
-		case ROLLING_PIN:
+		case ItemPool.ROLLING_PIN:
 
 			// Rolling pins remove dough from your inventory
 			// They are not consumed by being used
 
-			ResultProcessor.processResult(
-				UseItemRequest.DOUGH.getInstance( UseItemRequest.DOUGH.getCount( KoLConstants.inventory ) ).getNegation() );
+			ResultProcessor.processItem( ItemPool.DOUGH, 0 - InventoryManager.getCount( ItemPool.DOUGH ) );
 			ResultProcessor.processResult( item );
-
 			return;
 
-		case UNROLLING_PIN:
+		case ItemPool.UNROLLING_PIN:
 
 			// Unrolling pins remove flat dough from your inventory
 			// They are not consumed by being used
 
-			ResultProcessor.processResult(
-				UseItemRequest.FLAT_DOUGH.getInstance(
-					UseItemRequest.FLAT_DOUGH.getCount( KoLConstants.inventory ) ).getNegation() );
+			ResultProcessor.processItem( ItemPool.FLAT_DOUGH, 0 - InventoryManager.getCount( ItemPool.FLAT_DOUGH ) );
 			ResultProcessor.processResult( item );
 			return;
 
-		case PLUS_SIGN:
+		case ItemPool.PLUS_SIGN:
 
 			// "Following The Oracle's advice, you treat the plus
 			// sign as a book, and read it."
@@ -1376,24 +1249,24 @@ public class UseItemRequest
 
 			return;
 
-		case CHEF:
-		case CLOCKWORK_CHEF:
+		case ItemPool.CHEF:
+		case ItemPool.CLOCKWORK_CHEF:
 			KoLCharacter.setChef( true );
 			return;
 
-		case BARTENDER:
-		case CLOCKWORK_BARTENDER:
+		case ItemPool.BARTENDER:
+		case ItemPool.CLOCKWORK_BARTENDER:
 			KoLCharacter.setBartender( true );
 			return;
 
-		case TOASTER:
+		case ItemPool.TOASTER:
 			KoLCharacter.setToaster( true );
 			return;
 
-		case SNOWCONE_BOOK:
-		case HILARIOUS_BOOK:
-		case CANDY_BOOK:
-		case DIVINE_BOOK:
+		case ItemPool.SNOWCONE_BOOK:
+		case ItemPool.HILARIOUS_BOOK:
+		case ItemPool.CANDY_BOOK:
+		case ItemPool.DIVINE_BOOK:
 
 			// "You've already got a Libram of Divine Favors on
 			// your bookshelf."
@@ -1413,23 +1286,23 @@ public class UseItemRequest
 
 			switch ( item.getItemId() )
 			{
-			case SNOWCONE_BOOK:
+			case ItemPool.SNOWCONE_BOOK:
 				KoLCharacter.addAvailableSkill( "Summon Snowcone" );
 				break;
-			case HILARIOUS_BOOK:
+			case ItemPool.HILARIOUS_BOOK:
 				KoLCharacter.addAvailableSkill( "Summon Hilarious Objects" );
 				break;
-			case CANDY_BOOK:
+			case ItemPool.CANDY_BOOK:
 				KoLCharacter.addAvailableSkill( "Summon Candy Hearts" );
 				break;
-			case DIVINE_BOOK:
+			case ItemPool.DIVINE_BOOK:
 				KoLCharacter.addAvailableSkill( "Summon Party Favor" );
 				break;
 			}
 
 			return;
 
-		case JEWELRY_BOOK:
+		case ItemPool.JEWELRY_BOOK:
 
 			// "You already know how to make fancy jewelry, so this
 			// book contains nothing exciting for you."
@@ -1444,7 +1317,7 @@ public class UseItemRequest
 
 			return;
 
-		case OLFACTION_BOOK:
+		case ItemPool.OLFACTION_BOOK:
 
 			if ( responseText.indexOf( "You already" ) != -1 )
 			{
@@ -1456,7 +1329,7 @@ public class UseItemRequest
 
 			return;
 
-		case TELESCOPE:
+		case ItemPool.TELESCOPE:
 			// We've added or upgraded our telescope
 			KoLCharacter.setTelescope( true );
 
@@ -1501,7 +1374,7 @@ public class UseItemRequest
 
 			return;
 
-		case DUSTY_ANIMAL_SKULL:
+		case ItemPool.DUSTY_ANIMAL_SKULL:
 
 			// The magic that had previously animated the animals kicks back
 			// in, and it stands up shakily and looks at you. "Graaangh?"
@@ -1523,7 +1396,7 @@ public class UseItemRequest
 
 			return;
 
-		case QUILL_PEN:
+		case ItemPool.QUILL_PEN:
 
 			if ( responseText.indexOf( "You acquire" ) == -1 )
 			{
@@ -1534,16 +1407,14 @@ public class UseItemRequest
 			}
 
 			// It worked. Also remove the ink and paper.
-			ResultProcessor.processResult(
-				UseItemRequest.INKWELL.getInstance( 0 - item.getCount() ) );
-			ResultProcessor.processResult(
-				UseItemRequest.SCRAP_OF_PAPER.getInstance( 0 - item.getCount() ) );
+			ResultProcessor.processItem( ItemPool.INKWELL, 0 - item.getCount() );
+			ResultProcessor.processItem( ItemPool.SCRAP_OF_PAPER, 0 - item.getCount() );
 			return;
 
-		case PALM_FROND:
-		case MUMMY_WRAP:
-		case DUCT_TAPE:
-		case CLINGFILM:
+		case ItemPool.PALM_FROND:
+		case ItemPool.MUMMY_WRAP:
+		case ItemPool.DUCT_TAPE:
+		case ItemPool.CLINGFILM:
 
 			if ( responseText.indexOf( "You acquire" ) == -1 )
 			{
@@ -1552,7 +1423,7 @@ public class UseItemRequest
 
 			return;
 
-		case SAND_BRICK:
+		case ItemPool.SAND_BRICK:
 
 			if ( responseText.indexOf( "You can't build anything" ) != -1 )
 			{
@@ -1561,7 +1432,7 @@ public class UseItemRequest
 
 			return;
 
-		case DRUM_MACHINE:
+		case ItemPool.DRUM_MACHINE:
 
 			// "Dammit! Your hooks were still on there! Oh well. At
 			// least now you know where the pyramid is."
@@ -1570,9 +1441,8 @@ public class UseItemRequest
 			{
 				// You lose your weapon
 				EquipmentManager.setEquipment( EquipmentManager.WEAPON, EquipmentRequest.UNEQUIP );
-				AdventureResult.addResultToList(
-					KoLConstants.inventory, UseItemRequest.WORM_RIDING_HOOKS.getInstance( 1 ) );
-				ResultProcessor.processResult( UseItemRequest.WORM_RIDING_HOOKS );
+				AdventureResult.addResultToList( KoLConstants.inventory, ItemPool.get( ItemPool.WORM_RIDING_HOOKS, 1 ) );
+				ResultProcessor.processResult( ItemPool.get( ItemPool.WORM_RIDING_HOOKS, -1 ) );
 			}
 			else
 			{
@@ -1583,7 +1453,7 @@ public class UseItemRequest
 
 			return;
 
-		case ItemPool.STEEL_LASAGNA:
+		case ItemPool.STEEL_STOMACH:
 
 			if ( responseText.indexOf( "You acquire a skill" ) != -1 )
 			{
@@ -1591,7 +1461,7 @@ public class UseItemRequest
 			}
 			return;
 
-		case ItemPool.STEEL_MARGARITA:
+		case ItemPool.STEEL_LIVER:
 
 			if ( responseText.indexOf( "You acquire a skill" ) != -1 )
 			{
@@ -1599,7 +1469,7 @@ public class UseItemRequest
 			}
 			return;
 
-		case ItemPool.STEEL_AIR_FRESHENER:
+		case ItemPool.STEEL_SPLEEN:
 
 			if ( responseText.indexOf( "You acquire a skill" ) != -1 )
 			{
@@ -1628,11 +1498,11 @@ public class UseItemRequest
 
 			return;
 
-		case NEWBIESPORT_TENT:
-		case BARSKIN_TENT:
-		case COTTAGE:
-		case HOUSE:
-		case SANDCASTLE:
+		case ItemPool.NEWBIESPORT_TENT:
+		case ItemPool.BARSKIN_TENT:
+		case ItemPool.COTTAGE:
+		case ItemPool.HOUSE:
+		case ItemPool.SANDCASTLE:
 
 			if ( responseText.indexOf( "You place the" ) == -1 && responseText.indexOf( "You build a" ) == -1 && responseText.indexOf( "You quickly burn down" ) == -1)
 			{
@@ -1711,13 +1581,13 @@ public class UseItemRequest
 				ResultProcessor.processResult( item );
 				return;
 			}
-			ResultProcessor.processResult( UseItemRequest.CHARRRM_BRACELET );
+			ResultProcessor.processItem( ItemPool.CHARRRM_BRACELET, -1 );
 			return;
 
-		case ANCIENT_CURSED_FOOTLOCKER:
-			if ( InventoryManager.hasItem( UseItemRequest.SIMPLE_CURSED_KEY ) )
+		case ItemPool.ANCIENT_CURSED_FOOTLOCKER:
+			if ( InventoryManager.hasItem( ItemPool.SIMPLE_CURSED_KEY ) )
 			{
-				ResultProcessor.processResult( UseItemRequest.SIMPLE_CURSED_KEY );
+				ResultProcessor.processItem( ItemPool.SIMPLE_CURSED_KEY, -1 );
 			}
 			else
 			{
@@ -1725,10 +1595,10 @@ public class UseItemRequest
 			}
 			return;
 
-		case ORNATE_CURSED_CHEST:
-			if ( InventoryManager.hasItem( UseItemRequest.ORNATE_CURSED_KEY ) )
+		case ItemPool.ORNATE_CURSED_CHEST:
+			if ( InventoryManager.hasItem( ItemPool.ORNATE_CURSED_KEY ) )
 			{
-				ResultProcessor.processResult( UseItemRequest.ORNATE_CURSED_KEY );
+				ResultProcessor.processItem( ItemPool.ORNATE_CURSED_KEY, -1 );
 			}
 			else
 			{
@@ -1736,10 +1606,10 @@ public class UseItemRequest
 			}
 			return;
 
-		case GILDED_CURSED_CHEST:
-			if ( InventoryManager.hasItem( UseItemRequest.GILDED_CURSED_KEY ) )
+		case ItemPool.GILDED_CURSED_CHEST:
+			if ( InventoryManager.hasItem( ItemPool.GILDED_CURSED_KEY ) )
 			{
-				ResultProcessor.processResult( UseItemRequest.GILDED_CURSED_KEY );
+				ResultProcessor.processItem( ItemPool.GILDED_CURSED_KEY, -1 );
 			}
 			else
 			{
@@ -1747,7 +1617,7 @@ public class UseItemRequest
 			}
 			return;
 
-		case CURSED_PIECE_OF_THIRTEEN:
+		case ItemPool.CURSED_PIECE_OF_THIRTEEN:
 			// You consider taking the piece of thirteen to a rare
 			// coin dealer to see if it's worth anything, but you
 			// don't really have time.
@@ -1842,11 +1712,11 @@ public class UseItemRequest
 
 	public static final boolean isHousing( final int itemId )
 	{
-		return	itemId == UseItemRequest.NEWBIESPORT_TENT ||
-			itemId == UseItemRequest.BARSKIN_TENT ||
-			itemId == UseItemRequest.COTTAGE ||
-			itemId == UseItemRequest.HOUSE ||
-			itemId == UseItemRequest.SANDCASTLE;
+		return	itemId == ItemPool.NEWBIESPORT_TENT ||
+			itemId == ItemPool.BARSKIN_TENT ||
+			itemId == ItemPool.COTTAGE ||
+			itemId == ItemPool.HOUSE ||
+			itemId == ItemPool.SANDCASTLE;
 	}
 
 	private static final void showItemUsage( final boolean showHTML, final String text, boolean consumed )
@@ -1978,7 +1848,7 @@ public class UseItemRequest
 				Preferences.setBoolean( "expressCardUsed", true );
 			}
 
-			if ( UseItemRequest.lastItemUsed.getItemId() == UseItemRequest.MUNCHIES_PILL )
+			if ( UseItemRequest.lastItemUsed.getItemId() == ItemPool.MUNCHIES_PILL )
 			{
 				Preferences.setInteger(
 					"munchiesPillsUsed",
@@ -1995,7 +1865,7 @@ public class UseItemRequest
 			}
 		}
 
-		if ( UseItemRequest.lastItemUsed.getItemId() == UseItemRequest.BLACK_MARKET_MAP && KoLCharacter.getFamiliar().getId() != 59 )
+		if ( UseItemRequest.lastItemUsed.getItemId() == ItemPool.BLACK_MARKET_MAP && KoLCharacter.getFamiliar().getId() != 59 )
 		{
 			AdventureResult map = UseItemRequest.lastItemUsed;
 			FamiliarData blackbird = new FamiliarData( 59 );

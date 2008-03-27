@@ -599,7 +599,7 @@ public class FightRequest
 		{
 			// You can only sniff if you are not on the trail
 
-			if ( KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.ONTHETRAIL ) ) )
+			if ( KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.ON_THE_TRAIL ) ) )
 			{
 				--FightRequest.preparatoryRounds;
 				this.nextRound();
