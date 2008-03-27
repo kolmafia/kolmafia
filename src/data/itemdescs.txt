@@ -3057,9 +3057,9 @@
 3050	331604248	cursed eyepatch
 3051	321086673	cursed cutlass
 3052	797230378	cursed breeches
-3053
-3054
-3055
+3053	878474444	mood ring	mood rings
+3054	127960670	black candy heart	black candy hearts
+3055	342327364	cymbal syrup
 3056
 3057	990761540	nanofiber cloth	squares of nanofiber cloth
 3058	767627450	iGoogly	iGooglies
@@ -3257,6 +3257,3 @@
 3250	115200303	silver sausage
 3251
 3252
-3253	878474444	mood ring	mood rings
-3254	127960670	black candy heart	black candy hearts
-3255	342327364	cymbal syrup

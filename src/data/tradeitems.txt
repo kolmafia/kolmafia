@@ -3051,9 +3051,9 @@
 3050	cursed eyepatch	9	display	0
 3051	cursed cutlass	12	display	0
 3052	cursed breeches	10	display	0
-3053
-3054
-3055
+3053	mood ring	8	display	5
+3054	black candy heart	4	display	5
+3055	cymbal syrup	3	display	5
 3056
 3057	nanofiber cloth	0	all	16
 3058	iGoogly	0	all	14
@@ -3251,6 +3251,3 @@
 3250	silver sausage	13	display	0
 3251
 3252
-3253	mood ring	8	display	5
-3254	black candy heart	4	display	5
-3255	cymbal syrup	3	display	5
