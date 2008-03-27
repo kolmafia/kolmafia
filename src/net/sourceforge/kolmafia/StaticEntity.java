@@ -641,7 +641,7 @@ public abstract class StaticEntity
 		// Player vs. player results should be recorded to the
 		// KoLmafia log.
 
-		if ( location.startsWith( "pvp.php" ) && location.indexOf( "who=" ) != -1 )
+		if ( location.startsWith( "pvp.php" ) && location.indexOf( "action" ) != -1 )
 		{
 			PvpManager.processOffenseContests( responseText );
 		}
