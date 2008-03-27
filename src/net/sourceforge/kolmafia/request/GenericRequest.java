@@ -1246,20 +1246,20 @@ public class GenericRequest
 
 			switch ( itemId )
 			{
-			case UseItemRequest.DRUM_MACHINE:
+			case ItemPool.DRUM_MACHINE:
 				name = "Drum Machine";
 				break;
 
-			case UseItemRequest.BLACK_PUDDING:
+			case ItemPool.BLACK_PUDDING:
 				Preferences.setInteger( "currentFullness", KoLCharacter.getFullness() - 3 );
 				name = "Black Pudding";
 				break;
 
-			case UseItemRequest.CARONCH_MAP:
+			case ItemPool.CARONCH_MAP:
 				name = "Cap'm Caronch's Map";
 				break;
 
-			case UseItemRequest.CURSED_PIECE_OF_THIRTEEN:
+			case ItemPool.CURSED_PIECE_OF_THIRTEEN:
 				name = "Cursed Piece of Thirteen";
 				consumed = false;
 				break;

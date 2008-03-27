@@ -45,7 +45,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.UseItemRequest;
 
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
@@ -271,10 +270,10 @@ public class StationaryButtonDecorator
 
 		if ( monster.equals( "giant sandworm" ) )
 		{
-			AdventureResult drumMachine = ItemPool.get( UseItemRequest.DRUM_MACHINE, 1 );
+			AdventureResult drumMachine = ItemPool.get( ItemPool.DRUM_MACHINE, 1 );
 			if ( KoLConstants.inventory.contains( drumMachine ) )
 			{
-				location = "inv_use.php?pwd=" + GenericRequest.passwordHash + "&which=3&whichitem=" + UseItemRequest.DRUM_MACHINE;
+				location = "inv_use.php?pwd=" + GenericRequest.passwordHash + "&which=3&whichitem=" + ItemPool.DRUM_MACHINE;
 			}
 			else
 			{
@@ -283,7 +282,7 @@ public class StationaryButtonDecorator
 		}
 		else if ( monster.equals( "scary pirate" ) )
 		{
-			location = "inv_use.php?pwd=" + GenericRequest.passwordHash +"&which=3&whichitem=" + UseItemRequest.CURSED_PIECE_OF_THIRTEEN;
+			location = "inv_use.php?pwd=" + GenericRequest.passwordHash +"&which=3&whichitem=" + ItemPool.CURSED_PIECE_OF_THIRTEEN;
 		}
 		else
 		{

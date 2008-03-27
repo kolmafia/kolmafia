@@ -396,7 +396,7 @@ public abstract class UseLinkDecorator
 
 			switch ( itemId )
 			{
-			case UseItemRequest.MACGUFFIN_DIARY:
+			case ItemPool.MACGUFFIN_DIARY:
 
 				return new UseLink( itemId, itemCount, "read", "diary.php?textversion=1" );
 

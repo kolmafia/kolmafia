@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
 import java.io.File;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -46,7 +47,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.UtilityConstants;
-
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -58,7 +58,7 @@ import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
-
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.utilities.BooleanArray;
@@ -70,8 +70,8 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class ItemDatabase
 	extends KoLDatabase
 {
-	public static final AdventureResult ODE = new AdventureResult( "Ode to Booze", 1, true );
-	public static final AdventureResult GOT_MILK = new AdventureResult( "Got Milk", 1, true );
+	public static final AdventureResult ODE = EffectPool.get( EffectPool.ODE );
+	public static final AdventureResult MILK = EffectPool.get( EffectPool.MILK );
 
 	private static final Pattern WIKI_ITEMID_PATTERN = Pattern.compile( "Item number</a>:</b> (\\d+)<br />" );
 	private static final Pattern WIKI_DESCID_PATTERN = Pattern.compile( "<b>Description ID:</b> (\\d+)<br />" );
@@ -961,7 +961,7 @@ public class ItemDatabase
 				(String) ItemDatabase.getAdventureMap(
 					Preferences.getBoolean( "showGainsPerUnit" ),
 					KoLCharacter.getSign().indexOf( "Opossum" ) != -1,
-					KoLConstants.activeEffects.contains( ItemDatabase.GOT_MILK ),
+					KoLConstants.activeEffects.contains( ItemDatabase.MILK ),
 					Preferences.getInteger( "munchiesPillsUsed" ) > 0 ).get(
 					StringUtilities.getCanonicalName( name ) );
 		}

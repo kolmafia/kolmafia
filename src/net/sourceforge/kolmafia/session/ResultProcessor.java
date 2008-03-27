@@ -599,9 +599,9 @@ public class ResultProcessor
 			}
 			break;
 
-		case ItemPool.STEEL_LASAGNA:
-		case ItemPool.STEEL_MARGARITA:
-		case ItemPool.STEEL_AIR_FRESHENER:
+		case ItemPool.STEEL_STOMACH:
+		case ItemPool.STEEL_LIVER:
+		case ItemPool.STEEL_SPLEEN:
 			// When you get a steel item, you lose Azazel's items
 			if ( result.getCount() == 1 )
 			{
