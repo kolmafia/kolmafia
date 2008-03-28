@@ -379,7 +379,7 @@ public class GenericRequest
 			this.formURLString.startsWith( "desc" ) || this.formURLString.startsWith( "display" ) || this.formURLString.startsWith( "search" ) ||
 			this.formURLString.startsWith( "show" ) || this.formURLString.startsWith( "valhalla" ) ||
 			this.formURLString.startsWith( "message" ) || this.formURLString.startsWith( "makeoffer" ) ||
-			(this.formURLString.startsWith( "clan" ) && !this.formURLString.startsWith( "clan_rumpus" )) ||
+			(this.formURLString.startsWith( "clan" ) && !this.formURLString.startsWith( "clan_stash" ) && !this.formURLString.startsWith( "clan_rumpus" ) ) ||
 			this instanceof LoginRequest || this instanceof LogoutRequest;
 
 		return this;

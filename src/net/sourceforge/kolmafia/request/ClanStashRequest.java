@@ -287,13 +287,17 @@ public class ClanStashRequest
 		if ( urlString.indexOf( "take" ) != -1 )
 		{
 			return TransferItemRequest.registerRequest(
-				"remove from stash", urlString, TransferItemRequest.ITEMID_PATTERN, TransferItemRequest.QUANTITY_PATTERN,
-				ClanManager.getStash(), null, "howmuch", 0 );
+				"remove from stash", urlString,
+				TransferItemRequest.ITEMID_PATTERN, TransferItemRequest.QUANTITY_PATTERN,
+				ClanManager.getStash(), null,
+				"howmuch", 0 );
 		}
 
 		return TransferItemRequest.registerRequest(
-			"add to stash", urlString, TransferItemRequest.ITEMID_PATTERN, TransferItemRequest.QTY_PATTERN,
-			KoLConstants.inventory, null, "howmuch", 0 );
+			"add to stash", urlString,
+			TransferItemRequest.ITEMID_PATTERN, TransferItemRequest.QTY_PATTERN,
+			KoLConstants.inventory, ClanManager.getStash(),
+			"howmuch", 0 );
 	}
 
 	public String getStatusMessage()
