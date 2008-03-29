@@ -3251,3 +3251,18 @@
 3250	silver sausage	13	display	0
 3251
 3252
+3253
+3254
+3255
+3256
+3257
+3258
+3259
+3260
+3261
+3262
+3263
+3264
+3265	bag of Crotchety Pine saplings	13	none	0
+3266	bag of Saccharine Maple saplings	13	none	0
+3267	bag of Laughing Willow saplings	13	none	0
