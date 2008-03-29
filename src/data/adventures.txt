@@ -144,6 +144,7 @@ Holiday	trickortreat=Yep.	true	Trick-or-Treating
 Holiday	adventure=84	true	St. Sneaky Pete's Day Stupor
 Holiday	adventure=37	true	Spectral Pickle Factory
 Holiday	adventure=163	true	Yuletide Bonfire
+Holiday	adventure=174	true	Arrrboretum
 Crimbo07	adventure=161	true	Sinister Dodecahedron
 Crimbo07	adventure=162	true	Crimbo Town Toy Factory
 Crimbo06	adventure=115	true	Simple Tool-Making Cave

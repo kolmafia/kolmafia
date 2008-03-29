@@ -598,6 +598,9 @@ yohohoyo	160	Mox: 65	1-handed yoyo
 6-ball	0	none
 7-ball	0	none
 9-ball	0	none
+bag of Crotchety Pine saplings	0	none
+bag of Saccharine Maple saplings	0	none
+bag of Laughing Willow saplings	0	none
 Brimstone Bunker	240	Mus: 30
 Cloaca-Cola shield	75	none
 Codex of Capsaicin Conjuration	0	none
