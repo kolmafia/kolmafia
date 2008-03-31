@@ -1210,11 +1210,11 @@ public class Modifiers
 			// 1 level for every 4 lbs, applied in the order
 			// Hot, Cold, Spooky, Stench, Sleaze.
 
-			this.add( Modifiers.HOT_RESISTANCE, ( weight + 16 ) / 20 );
-			this.add( Modifiers.COLD_RESISTANCE, ( weight + 12 ) / 20 );
-			this.add( Modifiers.SPOOKY_RESISTANCE, ( weight + 8 ) / 20 );
-			this.add( Modifiers.STENCH_RESISTANCE, ( weight + 4 ) / 20 );
-			this.add( Modifiers.SLEAZE_RESISTANCE, ( weight + 0 ) / 20 );
+			this.add( Modifiers.HOT_RESISTANCE, ( weight + 19 ) / 20 );
+			this.add( Modifiers.COLD_RESISTANCE, ( weight + 15 ) / 20 );
+			this.add( Modifiers.SPOOKY_RESISTANCE, ( weight + 11 ) / 20 );
+			this.add( Modifiers.STENCH_RESISTANCE, ( weight + 7 ) / 20 );
+			this.add( Modifiers.SLEAZE_RESISTANCE, ( weight + 3 ) / 20 );
 
 			break;
 		}
