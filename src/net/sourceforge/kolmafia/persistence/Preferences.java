@@ -74,12 +74,10 @@ public class Preferences
 
 	private static final TreeMap userNames = new TreeMap();
 	private static final TreeMap userValues = new TreeMap();
-	private static final TreeMap userProperties = new TreeMap();
 	private static File userPropertiesFile = null;
 
 	private static final TreeMap globalNames = new TreeMap();
 	private static final TreeMap globalValues = new TreeMap();
-	private static final TreeMap globalProperties = new TreeMap();
 	private static File globalPropertiesFile = null;
 
 	private static Boolean TRUE = new Boolean( true );
@@ -93,9 +91,8 @@ public class Preferences
 			Preferences.baseUserName( "" ) + "_prefs.txt" );
 
 		Preferences.globalValues.clear();
-		Preferences.globalProperties.clear();
 
-		Preferences.loadPreferences( globalValues, globalProperties, globalPropertiesFile );
+		Preferences.loadPreferences( globalValues, globalPropertiesFile );
 		Preferences.ensureGlobalDefaults();
 	}
 
@@ -106,17 +103,16 @@ public class Preferences
 
 	public static final void reset( final String username )
 	{
-		Preferences.saveToFile( Preferences.globalPropertiesFile, Preferences.globalProperties );
+		Preferences.saveToFile( Preferences.globalPropertiesFile, Preferences.globalValues );
 
 		if ( username == null || username.equals( "" ) )
 		{
 			if ( Preferences.userPropertiesFile != null )
 			{
-				Preferences.saveToFile( Preferences.userPropertiesFile, Preferences.userProperties );
+				Preferences.saveToFile( Preferences.userPropertiesFile, Preferences.userValues );
 
 				Preferences.userPropertiesFile = null;
 				Preferences.userValues.clear();
-				Preferences.userProperties.clear();
 			}
 
 			return;
@@ -126,9 +122,8 @@ public class Preferences
 			Preferences.baseUserName( username ) + "_prefs.txt" );
 
 		Preferences.userValues.clear();
-		Preferences.userProperties.clear();
 
-		Preferences.loadPreferences( userValues, userProperties, userPropertiesFile );
+		Preferences.loadPreferences( userValues, userPropertiesFile );
 		Preferences.ensureUserDefaults();
 
 		CustomCombatManager.loadSettings();
@@ -140,7 +135,7 @@ public class Preferences
 		return name == null || name.equals( "" ) ? "GLOBAL" : StringUtilities.globalStringReplace( name.trim(), " ", "_" ).toLowerCase();
 	}
 
-	private static void loadPreferences( TreeMap values, TreeMap properties, File file )
+	private static void loadPreferences( TreeMap values, File file )
 	{
 		Properties p = new Properties();
 
@@ -182,7 +177,6 @@ public class Preferences
 
 			Preferences.propertyNames.put( currentName.toLowerCase(), currentName );
 			values.put( currentName, currentValue );
-			properties.put( currentName, encodeProperty( currentName, currentValue ) );
 		}
 	}
 
@@ -203,12 +197,11 @@ public class Preferences
 
 	private static final void encodeString( StringBuffer buffer, String string )
 	{
-		char [] array = string.toCharArray();
-		int length = array.length;
+		int length = string.length();
 
 		for ( int i = 0; i < length; ++i )
 		{
-			char ch = array[i];
+			char ch = string.charAt( i );
 			encodeCharacter( ch );
 			buffer.append( characterMap[ ch ] );
 		}
@@ -491,12 +484,10 @@ public class Preferences
 			String actualName = Preferences.propertyName( user, name );
 
 			Preferences.globalValues.put( actualName, object );
-			Preferences.globalProperties.put( actualName, Preferences.encodeProperty( actualName, value ) );
 		}
 		else if ( Preferences.userPropertiesFile != null )
 		{
 			Preferences.userValues.put( name, object );
-			Preferences.userProperties.put( name, Preferences.encodeProperty( name, value ) );
 		}
 
 		if ( object instanceof Boolean && Preferences.checkboxMap.containsKey( name ) )
@@ -546,11 +537,16 @@ public class Preferences
 			// actually printing them.
 
 			ByteArrayOutputStream ostream = new ByteArrayOutputStream();
+
+			Entry current;
 			Iterator it = data.entrySet().iterator();
 
 			while ( it.hasNext() )
 			{
-				ostream.write( ((String) ((Entry) it.next()).getValue()).getBytes() );
+				current = (Entry) it.next();
+				ostream.write( Preferences.encodeProperty(
+					(String) current.getKey(), current.getValue().toString() ).getBytes() );
+
 				ostream.write( LINE_BREAK_AS_BYTES );
 			}
 
@@ -676,7 +672,6 @@ public class Preferences
 				String value = (String) entries[ i ].getValue();
 
 				Preferences.globalValues.put( key, value );
-				Preferences.globalProperties.put( key, Preferences.encodeProperty( key, value ) );
 			}
 		}
 	}
@@ -694,7 +689,6 @@ public class Preferences
 				String value = (String) entries[ i ].getValue();
 
 				Preferences.userValues.put( key, value );
-				Preferences.userProperties.put( key, Preferences.encodeProperty( key, value ) );
 			}
 		}
 	}
