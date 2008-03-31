@@ -3059,7 +3059,7 @@
 3052	797230378	cursed breeches
 3053	878474444	mood ring	mood rings
 3054	127960670	black candy heart	black candy hearts
-3055	342327364	cymbal syrup
+3055	342327364	cymbal syrup	bottles of cymbal syrup
 3056
 3057	990761540	nanofiber cloth	squares of nanofiber cloth
 3058	767627450	iGoogly	iGooglies
