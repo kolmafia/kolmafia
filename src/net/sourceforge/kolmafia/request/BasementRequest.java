@@ -158,6 +158,7 @@ public class BasementRequest
 	{
 		new FamiliarData( 18 ), // Hovering Sombrero
 		new FamiliarData( 72 ), // Exotic Parrot
+		new FamiliarData( 77 ), // Crimbo P. R. E. S. S. I. E.
 		new FamiliarData( 43 ), // Temporal Riftlet
 		new FamiliarData( 50 ), // Wild Hare
 		new FamiliarData( 53 ), // Astral Badger
