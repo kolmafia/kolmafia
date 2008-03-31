@@ -870,7 +870,7 @@ public class IslandDecorator
 			// You leap out of the way of a runaway Mobile Sweat
 			// Lodge, then watch it run over one, two, three, four,
 			// five, six, seven! Seven frat boys! Ha ha ha!
-			"runaway",
+			"runaway Mobile Sweat Lodge",
 
 			// A few yards away, one of the Jerry's Riggers hippies
 			// detonates a bomb underneath a Wartender's grill. An
@@ -883,7 +883,8 @@ public class IslandDecorator
 			// and psychedelic mushrooms. A charging squad of frat
 			// boys trips them, and is subsequently dragged off the
 			// field ranting about the giant purple squirrels.
-			"purple squirrels", },
+			"purple squirrels",
+		},
 		// 16 total
 		{
 			// You turn to see a nearby War Hippy Elder Shaman
