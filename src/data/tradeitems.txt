@@ -3200,7 +3200,7 @@
 3199
 3200
 3201
-3202
+3202	KoL Con IV Pole	13	display	0
 3203
 3204
 3205
@@ -3261,8 +3261,40 @@
 3260
 3261
 3262
-3263
-3264
+3263	Sp'n-Zor's Grimoire of &quot;Tasteful&quot; Gifts	3	all	0
+3264	black candygram	4	display	0
 3265	bag of Crotchety Pine saplings	13	none	0
 3266	bag of Saccharine Maple saplings	13	none	0
 3267	bag of Laughing Willow saplings	13	none	0
+3268
+3269
+3270
+3271
+3272
+3273
+3274	flavored foot massage oil	0	gift	5
+3275
+3276	black-and-blue light	3	gift	5
+3277	Loudmouth Larry Lamprey	3	gift	5
+3278	cheap studded belt	8	gift	5
+3279	personal massager	15	gift	5
+3280	personalized coffee mug	0	gift	5
+3281	blue plasma ball	3	gift	5
+3282	stick-on eyebrow piercing	8	gift	5
+3283	delicious salad	1	display	1
+3284
+3285
+3286
+3287
+3288
+3289
+3290
+3291
+3292
+3293
+3294
+3295
+3296
+3297
+3298
+3299

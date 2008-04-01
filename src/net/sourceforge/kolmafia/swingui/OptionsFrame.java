@@ -1338,7 +1338,7 @@ public class OptionsFrame
 			this.add(
 				JComponentUtilities.createLabel( title, JLabel.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
 
-			JPanel centerPanel = new JPanel( new GridLayout( 4, 3 ) );
+			JPanel centerPanel = new JPanel( new GridLayout( 5, 3 ) );
 
 			this.loginRecovery = new JCheckBox( "enable auto-recovery" );
 			this.loginRecovery.addActionListener( this );

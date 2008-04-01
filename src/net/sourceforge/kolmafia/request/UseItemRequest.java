@@ -1265,6 +1265,7 @@ public class UseItemRequest
 
 		case ItemPool.SNOWCONE_BOOK:
 		case ItemPool.HILARIOUS_BOOK:
+		case ItemPool.TASTEFUL_BOOK:
 		case ItemPool.CANDY_BOOK:
 		case ItemPool.DIVINE_BOOK:
 
@@ -1291,6 +1292,9 @@ public class UseItemRequest
 				break;
 			case ItemPool.HILARIOUS_BOOK:
 				KoLCharacter.addAvailableSkill( "Summon Hilarious Objects" );
+				break;
+			case ItemPool.TASTEFUL_BOOK:
+				KoLCharacter.addAvailableSkill( "Summon Tasteful Items" );
 				break;
 			case ItemPool.CANDY_BOOK:
 				KoLCharacter.addAvailableSkill( "Summon Candy Hearts" );

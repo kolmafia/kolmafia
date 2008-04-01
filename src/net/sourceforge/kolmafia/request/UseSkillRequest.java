@@ -73,7 +73,8 @@ public class UseSkillRequest
 		"Pastamastery",
 		"Advanced Saucecrafting",
 		"Summon Snowcone",
-		"Summon Hilarious Objects"
+		"Summon Hilarious Objects",
+		"Summon Tasteful Items"
 	};
 
 	private static final int OTTER_TONGUE = 1007;
@@ -160,6 +161,7 @@ public class UseSkillRequest
 		{
 		case SkillDatabase.SNOWCONE:
 		case SkillDatabase.HILARIOUS:
+		case SkillDatabase.TASTEFUL:
 		case SkillDatabase.CANDY_HEART:
 		case SkillDatabase.PARTY_FAVOR:
 			return "campground.php";
@@ -178,6 +180,10 @@ public class UseSkillRequest
 
 		case SkillDatabase.HILARIOUS:
 			this.addFormField( "preaction", "summonhilariousitems" );
+			break;
+
+		case SkillDatabase.TASTEFUL:
+			this.addFormField( "preaction", "summonspencersitems" );
 			break;
 
 		case SkillDatabase.CANDY_HEART:
@@ -302,7 +308,12 @@ public class UseSkillRequest
 
 		case SkillDatabase.HILARIOUS:
 
-			maximumCast = Math.max( 1 - Preferences.getInteger( "grimoireSummons" ), 0 );
+			maximumCast = Math.max( 1 - Preferences.getInteger( "grimoire1Summons" ), 0 );
+			break;
+
+		case SkillDatabase.TASTEFUL:
+
+			maximumCast = Math.max( 1 - Preferences.getInteger( "grimoire2Summons" ), 0 );
 			break;
 
 		// Transcendental Noodlecraft affects # of summons for
@@ -964,7 +975,12 @@ public class UseSkillRequest
 		else if ( action.equals( "hilariousitems" ) )
 		{
 			skillId = SkillDatabase.HILARIOUS;
-			Preferences.increment( "grimoireSummons", 1 );
+			Preferences.increment( "grimoire1Summons", 1 );
+		}
+		else if ( action.equals( "spencersitems" ) )
+		{
+			skillId = SkillDatabase.TASTEFUL;
+			Preferences.increment( "grimoire2Summons", 1 );
 		}
 		else if ( action.equals( "candyheart" ) )
 		{

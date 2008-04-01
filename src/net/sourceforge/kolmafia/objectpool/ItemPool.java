@@ -414,6 +414,7 @@ public class ItemPool
 	public static final int TRAPEZOID = 3198;
 	public static final int OVERCHARGED_POWER_SPHERE = 3215;
 	public static final int TATTERED_PAPER_CROWN = 3231;
+	public static final int TASTEFUL_BOOK = 3263;
 
 	public static final AdventureResult[] IMMATERIA =
 	{

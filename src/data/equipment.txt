@@ -611,6 +611,7 @@ Dyspepsi-Cola shield	75	none
 Gazpacho's Glacial Grimoire	0	none
 Glass Balls of the Goblin King	0	Mys: 20
 Kevlar balloon	0	none
+KoL Con IV Pole	0	none
 Mr. Balloon	0	none
 Mylar balloon	0	none
 Necrotelicomnicon	0	none
@@ -854,6 +855,7 @@ bottle opener belt buckle	0	Mys: 65
 bottlecap turtle	0	Mys: 12
 cannonball charrrm bracelet	0	Mys: 80
 cement shoes	0	Mys: 35
+cheap studded belt	0	none
 chintzy accordion pin	0	none
 chintzy disco ball pendant	0	none
 chintzy noodle ring	0	none
@@ -987,6 +989,7 @@ spooky glove	0	none
 stainless steel scarf	0	Mys: 30
 stainless steel solitaire	0	Mys: 30
 stainless steel suspenders	0	Mys: 30
+stick-on eyebrow piercing	0	none
 string of blue beads	0	none
 string of green beads	0	none
 string of red beads	0	none
