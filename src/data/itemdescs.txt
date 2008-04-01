@@ -3206,7 +3206,7 @@
 3199
 3200
 3201
-3202
+3202	947532941	KoL Con IV Pole
 3203
 3204
 3205
@@ -3267,8 +3267,40 @@
 3260
 3261
 3262
-3263
-3264
+3263	558318053	Sp'n-Zor's Grimoire of &quot;Tasteful&quot; Gifts	Sp'n-Zor's Grimoires of &quot;Tasteful&quot; Gifts
+3264	647531205	black candygram	black candygrams
 3265	983680869	bag of Crotchety Pine saplings
 3266	309371987	bag of Saccharine Maple saplings
 3267	812801333	bag of Laughing Willow saplings
+3268
+3269
+3270
+3271
+3272
+3273
+3274	362025868	flavored foot massage oil
+3275
+3276	183153779	black-and-blue light
+3277	758286827	Loudmouth Larry Lamprey
+3278	895842590	cheap studded belt
+3279	912129024	personal massager
+3280	720462328	personalized coffee mug
+3281	670556086	blue plasma ball
+3282	162403258	stick-on eyebrow piercing
+3283	599355193	delicious salad	bowls of delicious salad
+3284
+3285
+3286
+3287
+3288
+3289
+3290
+3291
+3292
+3293
+3294
+3295
+3296
+3297
+3298
+3299

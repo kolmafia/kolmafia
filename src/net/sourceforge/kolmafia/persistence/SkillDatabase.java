@@ -79,6 +79,7 @@ public class SkillDatabase
 	public static final int CANDY_HEART = 8100;
 	public static final int PARTY_FAVOR = 8101;
 	public static final int HILARIOUS = 8200;
+	public static final int TASTEFUL = 8201;
 
 	private static final String UNCATEGORIZED = "uncategorized";
 	private static final String GNOME_SKILLS = "gnome trainer";
@@ -160,6 +161,7 @@ public class SkillDatabase
 		case 3:			// Smile of Mr. A
 		case SNOWCONE:		// Summon Snowcone
 		case HILARIOUS:		// Summon Hilarious Objects
+		case TASTEFUL:		// Summon Tasteful Items
 		case CANDY_HEART:	// Summon Candy Hearts
 		case PARTY_FAVOR:	// Summon Party Favor
 

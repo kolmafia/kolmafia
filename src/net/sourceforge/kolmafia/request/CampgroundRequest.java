@@ -159,6 +159,10 @@ public class CampgroundRequest
 			"Summon Hilarious Objects"
 		},
 		{
+			"Sp'n-Zor's Grimoire",
+			"Summon Tasteful Items"
+		},
+		{
 			"Libram of Candy Heart Summoning",
 			"Summon Candy Hearts"
 		},

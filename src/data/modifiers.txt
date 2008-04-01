@@ -677,6 +677,7 @@ Dyspepsi-Cola shield	Damage Reduction: 4, Mysticality: +1
 Gazpacho's Glacial Grimoire	Spell Damage: +10
 Glass Balls of the Goblin King	Mysticality: +14
 # Kevlar balloon
+KoL Con IV Pole	Maximum HP: +4, Maximum MP: +4, Moxie: +4, Muscle: +4, Mysticality: +4, Hot Damage: +4
 Mr. Balloon	Moxie: +3, Muscle: +3, Mysticality: +3
 # Mylar balloon
 Necrotelicomnicon	Spell Damage: +10
@@ -917,6 +918,7 @@ bottle opener belt buckle	Single Equip
 bottlecap turtle	Mysticality: +1, Maximum MP: +3
 cannonball charrrm bracelet	Single Equip
 cement shoes	Intrinsic Effect: "Sleeping with the Fishes", Mysticality: +20, Moxie: +20
+cheap studded belt	Damage Reduction: 1
 chintzy accordion pin	Single Equip, Moxie: +12, Mysticality: +6, Class: "Accordion Thief"
 chintzy disco ball pendant	Single Equip, Moxie: +12, Muscle: +6, Class: "Disco Bandit"
 chintzy noodle ring	Single Equip, Mysticality: +12, Muscle: +6, Class: "Pastamancer"
@@ -1047,6 +1049,7 @@ spooky glove	Never Fumble, Moxie: +5, Spooky Damage: +5
 stainless steel scarf	Single Equip, Spell Damage: +20, Monster Level: +20, Mysticality Percent: +15
 stainless steel solitaire	Single Equip, Mana Cost: -2, Adventures: +2, Mysticality Percent: +15
 stainless steel suspenders	Single Equip, Damage Absorption: +60, Maximum MP: +40, Moxie Percent: +15
+stick-on eyebrow piercing	Muscle: +1
 string of blue beads	Mysticality: +1
 string of green beads	Moxie: +1
 string of red beads	Muscle: +1

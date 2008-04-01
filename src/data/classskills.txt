@@ -59,6 +59,7 @@
 8100	Summon Candy Hearts	1	0	0
 8101	Summon Party Favor	1	0	0
 8200	Summon Hilarious Objects	1	5	0
+8201	Summon Tasteful Items	1	5	0
 
 # Skills available to Clubbers
 
