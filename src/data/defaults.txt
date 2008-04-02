@@ -182,7 +182,8 @@ user	demonName4
 user	demonName5
 user	expressCardUsed	false
 user	fratboysDefeated	0
-user	grimoireSummons	0
+user	grimoire1Summons	0
+user	grimoire2Summons	0
 user	guyMadeOfBeesCount	0
 user	guyMadeOfBeesDefeated	false
 user	hippiesDefeated	0
