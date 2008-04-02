@@ -2461,7 +2461,7 @@
 2460	yak toupee	9	all	105
 2461
 2462	odor extractor	0	display	0
-2463	Tome of Transcendent Olfaction	3	display	0
+2463	Manual of Transcendent Olfaction	3	display	0
 2464	bowl of Bounty-Os	1	display	0
 2465	Oreille Divis&eacute;e brandy	2	display	0
 2466	pompadour'd puppy	5	display	0
@@ -3273,7 +3273,7 @@
 3272
 3273
 3274	flavored foot massage oil	0	gift	5
-3275
+3275	foam dart	0	gift	5
 3276	black-and-blue light	3	gift	5
 3277	Loudmouth Larry Lamprey	3	gift	5
 3278	cheap studded belt	8	gift	5

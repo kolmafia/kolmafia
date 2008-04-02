@@ -491,11 +491,11 @@
 490	Heavily Breathing	poolduck.gif	6871f3ff1a73bac71198e69ff813a4fe
 491	Marco Polarity	poolwings.gif	41324219854e4f2f933dcab7b4ec9f33
 492	Full-Body Tan	poolnoodle.gif	9e9e34acd26db8edf192802379003b58
-493	Feet of Watermelon	xxx.gif	45f268386d3756bb92544461749218a9
-494	Feet of Grapefruit	xxx.gif	
-495	Feet of Strawberry	xxx.gif	4d6f74f401bfbfa64d642dcc9d926856
-496
-497	In Tune	xxx.gif	af8e953e80a6eed6910a7836f1cb65d6
-498
-499	Stuck-Up Hair	xxx.gif	59810e3f174754ba0a344c28cbb736a4
+493	Feet of Watermelon	watermelon.gif	45f268386d3756bb92544461749218a9
+494	Feet of Grapefruit	grapefruit.gif	55f1e24b47a0245cefb1567f9b0d0dc7
+495	Feet of Strawberry	sberry.gif	4d6f74f401bfbfa64d642dcc9d926856
+496	Less Vincible	blacklight.gif	6dfbce143dbccccf5403bbd58be86326
+497	In Tuna	lamprey.gif	af8e953e80a6eed6910a7836f1cb65d6
+498	Nerf'd	nerfdart.gif	
+499	Stuck-Up Hair	stuckuphair.gif	59810e3f174754ba0a344c28cbb736a4
 500

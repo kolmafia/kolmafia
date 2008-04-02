@@ -89,4 +89,4 @@ bl	15	bounty-hunting helmet
 bl	15	bounty-hunting rifle
 bl	15	bounty-hunting pants
 bl	100	pompadour'd puppy
-bl	200	Tome of Transcendent Olfaction
+bl	200	Manual of Transcendent Olfaction

@@ -2466,7 +2466,7 @@
 2460	606812905	yak toupee	yak toupees
 2461
 2462	364128826	odor extractor	odor extractors
-2463	810074020	Tome of Transcendent Olfaction	Tomes of Transcendent Olfaction
+2463	810074020	Manual of Transcendent Olfaction	Manuals of Transcendent Olfaction
 2464	972566031	bowl of Bounty-Os	bowls of Bounty-Os
 2465	527016642	Oreille Divis&eacute;e brandy
 2466	461008515	pompadour'd puppy	pompadour'd puppies
@@ -3279,7 +3279,7 @@
 3272
 3273
 3274	362025868	flavored foot massage oil
-3275
+3275	790759909	foam dart
 3276	183153779	black-and-blue light
 3277	758286827	Loudmouth Larry Lamprey
 3278	895842590	cheap studded belt
