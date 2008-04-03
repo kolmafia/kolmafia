@@ -411,7 +411,8 @@ public class ItemFinder
 			if ( itemNames[ i ].endsWith( "meat" ) )
 			{
 				String amountString = itemNames[ i ].split( " " )[ 0 ];
-				isMeatMatch = Character.isDigit( amountString.charAt( 0 ) );
+				char first = amountString.charAt( 0 );
+				isMeatMatch = first == '-' || first == '*' || Character.isDigit( first );
 
 				for ( int j = 1; j < amountString.length() && isMeatMatch; ++j )
 				{
@@ -421,13 +422,14 @@ public class ItemFinder
 				if ( isMeatMatch )
 				{
 					int amount = StringUtilities.parseInt( amountString );
-					firstMatch = new AdventureResult( AdventureResult.MEAT, amount );
 
 					if ( amount <= 0 )
 					{
 						amount += sourceList == KoLConstants.storage ? KoLCharacter.getStorageMeat() :
 							sourceList == KoLConstants.closet ? KoLCharacter.getClosetMeat() : KoLCharacter.getAvailableMeat();
 					}
+
+					firstMatch = new AdventureResult( AdventureResult.MEAT, amount );
 				}
 			}
 
