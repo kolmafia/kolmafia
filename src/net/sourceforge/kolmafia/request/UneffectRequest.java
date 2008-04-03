@@ -277,6 +277,7 @@ public class UneffectRequest
 			return true;
 		}
 
+		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( "uneffect " + EffectDatabase.getEffectName( StringUtilities.parseInt( idMatcher.group( 1 ) ) ) );
 		return true;
 	}
