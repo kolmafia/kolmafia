@@ -496,6 +496,6 @@
 495	Feet of Strawberry	sberry.gif	4d6f74f401bfbfa64d642dcc9d926856
 496	Less Vincible	blacklight.gif	6dfbce143dbccccf5403bbd58be86326
 497	In Tuna	lamprey.gif	af8e953e80a6eed6910a7836f1cb65d6
-498	Nerf'd	nerfdart.gif	
+498	Nerf'd	nerfdart.gif	ac71a37dd7aa84f5c0ea96a0ec07d7bf
 499	Stuck-Up Hair	stuckuphair.gif	59810e3f174754ba0a344c28cbb736a4
 500
