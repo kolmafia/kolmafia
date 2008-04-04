@@ -48,7 +48,6 @@ public class CampgroundRequest
 	extends GenericRequest
 {
 	private static final Pattern LIBRAM_PATTERN = Pattern.compile( "Summon (Candy Heart|Party Favor) *.[(]([\\d,]+) MP[)]" );
-	private static boolean relaxAllowed = false;
 
 	private final String action;
 
@@ -88,15 +87,6 @@ public class CampgroundRequest
 			}
 		}
 
-		if ( this.action.equals( "relax" ) )
-		{
-			if ( !CampgroundRequest.relaxAllowed || KoLCharacter.getCurrentMP() == KoLCharacter.getMaximumMP() )
-			{
-				KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "You don't need to relax." );
-				return;
-			}
-		}
-
 		super.run();
 
 		// If an error state occurred, return from this
@@ -112,8 +102,6 @@ public class CampgroundRequest
 
 	public void processResults()
 	{
-		CampgroundRequest.relaxAllowed = this.responseText.indexOf( "relax" ) != -1;
-
 		KoLCharacter.setChef( this.responseText.indexOf( "cook.php" ) != -1 );
 		KoLCharacter.setBartender( this.responseText.indexOf( "cocktail.php" ) != -1 );
 		KoLCharacter.setToaster( this.responseText.indexOf( "action=toast" ) != -1 );
@@ -215,6 +203,6 @@ public class CampgroundRequest
 
 	public int getAdventuresUsed()
 	{
-		return this.responseCode != 200 || !this.action.equals( "rest" ) && !this.action.equals( "relax" ) ? 0 : 1;
+		return this.responseCode != 200 || !this.action.equals( "rest" ) ? 0 : 1;
 	}
 }

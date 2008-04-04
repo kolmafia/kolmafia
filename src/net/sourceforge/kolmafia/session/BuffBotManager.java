@@ -316,7 +316,7 @@ public abstract class BuffBotManager
 		String restoreItems = Preferences.getString( "mpAutoRecoveryItems" );
 
 		PauseObject pauser = new PauseObject();
-		boolean usingAdventures = restoreItems.indexOf( "rest" ) != -1 || restoreItems.indexOf( "relax" ) != -1;
+		boolean usingAdventures = restoreItems.indexOf( "rest" ) != -1;
 
 		// The outer loop goes until user cancels, or
 		// for however many iterations are needed.

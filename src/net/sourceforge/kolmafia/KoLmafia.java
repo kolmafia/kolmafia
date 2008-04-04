@@ -1902,17 +1902,6 @@ public abstract class KoLmafia
 		this.makeRequest( new CampgroundRequest( "rest" ), StringUtilities.parseInt( turnCount ) );
 	}
 
-	public void makeCampgroundRelaxRequest()
-	{
-		String turnCount = InputFieldUtilities.input( "Relax for how many turns?", "1" );
-		if ( turnCount == null )
-		{
-			return;
-		}
-
-		this.makeRequest( new CampgroundRequest( "relax" ), StringUtilities.parseInt( turnCount ) );
-	}
-
 	public void makeClanSofaRequest()
 	{
 		String turnCount = InputFieldUtilities.input( "Sleep for how many turns?", "1" );

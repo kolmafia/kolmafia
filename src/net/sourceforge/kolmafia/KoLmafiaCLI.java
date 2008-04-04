@@ -2353,10 +2353,9 @@ public class KoLmafiaCLI
 			return;
 		}
 
-		// Campground commands, like relaxing at the beanbag, or
-		// resting at your house/tent.
+		// Campground commands, like resting at your house/tent.
 
-		if ( command.equals( "rest" ) || command.equals( "relax" ) )
+		if ( command.equals( "rest" ) )
 		{
 			this.executeCampgroundRequest( command + " " + parameters );
 			return;
@@ -3330,7 +3329,7 @@ public class KoLmafiaCLI
 	}
 
 	/**
-	 * A special module used to handle campground requests, such as toast retrieval, resting, relaxing, and the like.
+	 * A special module used to handle campground requests, such as toast retrieval, resting, and the like.
 	 */
 
 	private void executeCampgroundRequest( final String parameters )
