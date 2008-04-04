@@ -65,7 +65,6 @@ public abstract class MPRestoreItemList
 	public static final MPRestoreItem SOFA = new MPRestoreItem( "sleep on your clan sofa", Integer.MAX_VALUE, false );
 	public static final MPRestoreItem CAMPGROUND =
 		new MPRestoreItem( "rest at your campground", Integer.MAX_VALUE, false );
-	public static final MPRestoreItem BEANBAG = new MPRestoreItem( "relax in your beanbag", Integer.MAX_VALUE, false );
 
 	private static final MPRestoreItem GALAKTIK =
 		new MPRestoreItem( "Galaktik's Fizzy Invigorating Tonic", 1, 17, false );
@@ -77,7 +76,6 @@ public abstract class MPRestoreItemList
 	{
 		MPRestoreItemList.EXPRESS,
 		MPRestoreItemList.SOFA,
-		MPRestoreItemList.BEANBAG,
 		MPRestoreItemList.CAMPGROUND,
 		MPRestoreItemList.GALAKTIK,
 		new MPRestoreItem( "natural fennel soda", 100, false ),
@@ -265,12 +263,6 @@ public abstract class MPRestoreItemList
 				RequestThread.postRequest( new UseItemRequest( EXPRESS_CARD ) );
 				RequestThread.postRequest( new ClanStashRequest(
 					new Object[] { EXPRESS_CARD }, ClanStashRequest.ITEMS_TO_STASH ) );
-				return;
-			}
-
-			if ( this == MPRestoreItemList.BEANBAG )
-			{
-				RequestThread.postRequest( new CampgroundRequest( "relax" ) );
 				return;
 			}
 

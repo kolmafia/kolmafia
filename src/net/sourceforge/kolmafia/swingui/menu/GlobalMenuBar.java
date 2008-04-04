@@ -138,8 +138,6 @@ public class GlobalMenuBar
 
 		travelMenu.add( new RelayBrowserMenuItem( "Doc Galaktik", "galaktik.php" ) );
 		travelMenu.add( new InvocationMenuItem( "Rest in House", StaticEntity.getClient(), "makeCampgroundRestRequest" ) );
-		travelMenu.add( new InvocationMenuItem(
-			"Relax in Beanbag", StaticEntity.getClient(), "makeCampgroundRelaxRequest" ) );
 		travelMenu.add( new InvocationMenuItem( "Sleep in Sofa", StaticEntity.getClient(), "makeClanSofaRequest" ) );
 
 		travelMenu.add( new JSeparator() );
