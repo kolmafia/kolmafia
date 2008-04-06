@@ -2868,20 +2868,16 @@ public abstract class RuntimeLibrary
 
 	public static Value expected_damage()
 	{
-		// http://kol.coldfront.net/thekolwiki/index.php/Damage
-
-		int baseValue =
-			Math.max( 0, FightRequest.getMonsterAttack() - KoLCharacter.getAdjustedMoxie() ) + FightRequest.getMonsterAttack() / 4 - KoLCharacter.getDamageReduction();
-
-		float damageAbsorb =
-			1.0f - ( (float) Math.sqrt( Math.min( 1000, KoLCharacter.getDamageAbsorption() ) / 10.0f ) - 1.0f ) / 10.0f;
-		float elementAbsorb = 1.0f - KoLCharacter.getElementalResistance( FightRequest.getMonsterAttackElement() );
-		return new Value( (int) Math.ceil( baseValue * damageAbsorb * elementAbsorb ) );
+		return expected_damage( FightRequest.getLastMonster(), FightRequest.getMonsterLevelModifier() );
 	}
 
 	public static Value expected_damage( final Value arg )
 	{
-		Monster monster = (Monster) arg.rawValue();
+		return expected_damage( (Monster) arg.rawValue(), 0 );
+	}
+
+	private static Value expected_damage( Monster monster, int levelModifier )
+	{
 		if ( monster == null )
 		{
 			return DataTypes.ZERO_VALUE;
@@ -2889,8 +2885,18 @@ public abstract class RuntimeLibrary
 
 		// http://kol.coldfront.net/thekolwiki/index.php/Damage
 
+		int attack = monster.getAttack() + levelModifier + KoLCharacter.getMonsterLevelAdjustment();
+		int defenceStat = KoLCharacter.getAdjustedMoxie();
+
+		if ( KoLCharacter.hasSkill(SkillDatabase.getSkillId("Hero of the Half-Shell" ) ) &&
+		     EquipmentManager.usingShield() &&
+		     KoLCharacter.getAdjustedMuscle() > defenceStat )
+		{
+			defenceStat = KoLCharacter.getAdjustedMuscle();
+		}
+
 		int baseValue =
-			Math.max( 0, monster.getAttack() - KoLCharacter.getAdjustedMoxie() ) + FightRequest.getMonsterAttack() / 4 - KoLCharacter.getDamageReduction();
+			Math.max( 0, attack - defenceStat ) + attack / 4 - KoLCharacter.getDamageReduction();
 
 		float damageAbsorb =
 			1.0f - ( (float) Math.sqrt( Math.min( 1000, KoLCharacter.getDamageAbsorption() ) / 10.0f ) - 1.0f ) / 10.0f;

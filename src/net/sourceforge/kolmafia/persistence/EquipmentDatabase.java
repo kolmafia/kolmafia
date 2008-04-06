@@ -90,8 +90,16 @@ public class EquipmentDatabase
 			if ( data.length >= 4 )
 			{
 				String str = data[ 3 ];
-				hval = StringUtilities.parseInt( str.substring( 0, 1 ) );
-				tval = str.substring( str.indexOf( " " ) + 1 );
+				int index = str.indexOf( " " );
+				if ( index > 0 )
+				{
+					hval = StringUtilities.parseInt( str.substring( 0, 1 ) );
+					tval = str.substring( index + 1 );
+				}
+				else
+				{
+					tval = str;
+				}
 			}
 
 			EquipmentDatabase.hands.set( itemId, hval );
@@ -271,7 +279,8 @@ public class EquipmentDatabase
 		case KoLConstants.EQUIP_WEAPON:
 			return EquipmentDatabase.itemTypes.get( itemId );
 		case KoLConstants.EQUIP_OFFHAND:
-			return EquipmentDatabase.getPower( itemId ) > 0 ? "shield" : "offhand";
+			String type = EquipmentDatabase.itemTypes.get( itemId );
+			return type != null ? type : "offhand";
 		case KoLConstants.MP_RESTORE:
 			return "mp restore";
 		case KoLConstants.HP_RESTORE:
