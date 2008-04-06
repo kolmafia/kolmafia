@@ -1,4 +1,4 @@
-1
+2
 # Hats section of equipment.txt
 
 Ancient Saucehelm	50	Mys: 10
@@ -601,13 +601,13 @@ yohohoyo	160	Mox: 65	1-handed yoyo
 bag of Crotchety Pine saplings	0	none
 bag of Saccharine Maple saplings	0	none
 bag of Laughing Willow saplings	0	none
-Brimstone Bunker	240	Mus: 30
-Cloaca-Cola shield	75	none
+Brimstone Bunker	240	Mus: 30	shield
+Cloaca-Cola shield	75	none	shield
 Codex of Capsaicin Conjuration	0	none
 Cookbook of the Damned	0	none
 # *** Dallas Dynasty Falcon Crest shield is a shield of unknown power.
-Dallas Dynasty Falcon Crest shield	0	Mus: 85
-Dyspepsi-Cola shield	75	none
+Dallas Dynasty Falcon Crest shield	0	Mus: 85	shield
+Dyspepsi-Cola shield	75	none	shield
 Gazpacho's Glacial Grimoire	0	none
 Glass Balls of the Goblin King	0	Mys: 20
 Kevlar balloon	0	none
@@ -622,31 +622,31 @@ Tiki lighter	0	none
 Tuesday's ruby	0	Mys: 45
 anniversary balloon	0	none
 anniversary chutney sculpture	0	none
-antique shield	230	Mus: 85
+antique shield	230	Mus: 85	shield
 arrow'd heart balloon	0	none
 ball-in-a-cup	0	none
-barskin buckler	27	none
+barskin buckler	27	none	shield
 basic meat foon	0	Mys: 10
-battered hubcap	220	Mus: 65
-black shield	160	Mus: 65
+battered hubcap	220	Mus: 65	shield
+black shield	160	Mus: 65	shield
 bobble-hip hula elf doll	0	none
 borg sock monkey	0	Mys: 40
 box	0	none
-box turtle	50	Mus: 10
+box turtle	50	Mus: 10	shield
 box-in-the-box	0	none
 box-in-the-box-in-the-box	0	none
-cardboard box turtle	70	Mus: 20
-catskin buckler	177	Mus: 75
+cardboard box turtle	70	Mus: 20	shield
+catskin buckler	177	Mus: 75	shield
 clockwork detective skull	0	Mox: 25
-clownskin buckler	60	Mus: 15
-coffin lid	55	Mus: 10
+clownskin buckler	60	Mus: 15	shield
+coffin lid	55	Mus: 10	shield
 continuum transfunctioner	0	none
 cyborg doll	0	Mys: 40
 deck of tropical cards	0	none
 defective skull	0	none
-demon buckler	77	Mus: 25
+demon buckler	77	Mus: 25	shield
 detective skull	0	none
-duct tape buckler	200	Mus: 82
+duct tape buckler	200	Mus: 82	shield
 easter egg balloon	0	Mys: 35
 enchanted brass knuckles	0	Mys: 10
 fake hand	0	none
@@ -658,18 +658,18 @@ foon of foulness	0	Mys: 10
 foon of frigidity	0	Mys: 10
 foon of fulmination	0	Mys: 10
 giant stuffed bugbear	0	none
-gnauga hide buckler	95	Mus: 30
+gnauga hide buckler	95	Mus: 30	shield
 golden sausage	0	none
 green balloon	0	none
 handmade hobby horse	0	none
 heart-shaped balloon	0	none
-hippo skin buckler	95	Mus: 30
-hors d'oeuvre tray	115	Mus: 40
+hippo skin buckler	95	Mus: 30	shield
+hors d'oeuvre tray	115	Mus: 40	shield
 hypnodisk	0	none
 ice baby	0	none
 incredibly creepy marionette	0	Mys: 40
 joybuzzer	0	none
-keg shield	175	Mus: 70
+keg shield	175	Mus: 70	shield
 kickback cookbook	0	none
 killer rag doll	0	Mys: 40
 mad scientist's sock monkey	0	Mys: 40
@@ -683,24 +683,24 @@ moxie magnet	0	none
 naughty fortune teller	0	none
 off-hand balloon	0	none
 oyster basket	0	none
-penguin skin buckler	95	Mus: 30
-pilgrim shield	240	none
+penguin skin buckler	95	Mus: 30	shield
+pilgrim shield	240	none	shield
 pirate hook	0	none
-pixel shield	55	Mus: 10
+pixel shield	55	Mus: 10	shield
 # *** polyalloy shield is a shield of unknown power.
-polyalloy shield	0	Mus: 55
+polyalloy shield	0	Mus: 55	shield
 rag doll	0	Mys: 40
 red balloon	0	none
 rice bowl	0	none
-sawblade shield	180	Mus: 75
-sebaceous shield	40	Mus: 2
+sawblade shield	180	Mus: 75	shield
+sebaceous shield	40	Mus: 2	shield
 set of jacks	0	none
-sewer turtle	20	none
+sewer turtle	20	none	shield
 silver sausage	0	none
-snake shield	117	Mus: 42
-snarling wolf shield	117	Mus: 42
+snake shield	117	Mus: 42	shield
+snarling wolf shield	117	Mus: 42	shield
 sock monkey	0	Mys: 40
-star buckler	165	Mus: 67
+star buckler	165	Mus: 67	shield
 steaming evil	0	Mys: 75
 strange tiki idol	0	none
 stuffed Cheshire bitten	0	none
@@ -734,9 +734,9 @@ voodoo doll	0	none
 wad of Crovacite	0	none
 white balloon	0	none
 white satin shield	80	Mus: 25
-wicker shield	175	Mus: 70
-wonderwall shield	190	Mus: 70
-yakskin buckler	95	Mus: 30
+wicker shield	175	Mus: 70	shield
+wonderwall shield	190	Mus: 70	shield
+yakskin buckler	95	Mus: 30	shield
 
 # Accessories section of equipment.txt
 

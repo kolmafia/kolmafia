@@ -564,6 +564,17 @@ public class EquipmentManager {
 	}
 
 	/**
+	 * Accessor method to determine if character is currently using a shield
+	 *
+	 * @return boolean true if character has a shield equipped
+	 */
+
+	public static final boolean usingShield()
+	{
+		return EquipmentDatabase.getItemType( EquipmentManager.getEquipment( OFFHAND ).getItemId() ).equals( "shield" );
+	}
+
+	/**
 	 * Accessor method to determine if character's weapon is ranged
 	 *
 	 * @return boolean true if weapon is ranged

@@ -149,7 +149,7 @@ public class FightRequest
 	private static boolean castCleesh = false;
 	private static boolean jiggledChefstaff = false;
 	private static int currentRound = 0;
-	private static int offenseModifier = 0, defenseModifier = 0;
+	private static int levelModifier = 0;
 	private static int healthModifier = 0;
 
 	private static String action1 = null;
@@ -383,7 +383,7 @@ public class FightRequest
 
 		if ( KoLConstants.activeEffects.contains( FightRequest.AMNESIA ) )
 		{
-			if ( FightRequest.monsterData == null || !FightRequest.monsterData.willUsuallyMiss( FightRequest.defenseModifier ) )
+			if ( FightRequest.monsterData == null || !FightRequest.monsterData.willUsuallyMiss( FightRequest.levelModifier ) )
 			{
 				FightRequest.action1 = "attack";
 				this.addFormField( "action", FightRequest.action1 );
@@ -713,6 +713,16 @@ public class FightRequest
 		RequestThread.closeRequestSequence();
 	}
 
+	public static final int getMonsterLevelModifier()
+	{
+		if ( FightRequest.monsterData == null )
+		{
+			return 0;
+		}
+
+		return FightRequest.levelModifier;
+	}
+
 	public static final int getMonsterHealth()
 	{
 		if ( FightRequest.monsterData == null )
@@ -730,7 +740,7 @@ public class FightRequest
 			return 0;
 		}
 
-		return FightRequest.monsterData.getAttack() + FightRequest.offenseModifier + KoLCharacter.getMonsterLevelAdjustment();
+		return FightRequest.monsterData.getAttack() + FightRequest.levelModifier + KoLCharacter.getMonsterLevelAdjustment();
 	}
 
 	public static final int getMonsterDefense()
@@ -740,7 +750,7 @@ public class FightRequest
 			return 0;
 		}
 
-		return FightRequest.monsterData.getDefense() + FightRequest.defenseModifier + KoLCharacter.getMonsterLevelAdjustment();
+		return FightRequest.monsterData.getDefense() + FightRequest.levelModifier + KoLCharacter.getMonsterLevelAdjustment();
 	}
 
 	public static final int getMonsterAttackElement()
@@ -775,7 +785,7 @@ public class FightRequest
 			return false;
 		}
 
-		return FightRequest.monsterData.willUsuallyMiss( FightRequest.defenseModifier + defenseModifier );
+		return FightRequest.monsterData.willUsuallyMiss( FightRequest.levelModifier + defenseModifier );
 	}
 
 	public static final boolean willUsuallyDodge()
@@ -790,7 +800,7 @@ public class FightRequest
 			return false;
 		}
 
-		return FightRequest.monsterData.willUsuallyDodge( FightRequest.offenseModifier + offenseModifier );
+		return FightRequest.monsterData.willUsuallyDodge( FightRequest.levelModifier + offenseModifier );
 	}
 
 	private boolean isAcceptable( final int offenseModifier, final int defenseModifier )
@@ -1625,8 +1635,7 @@ public class FightRequest
 		FightRequest.jiggledChefstaff = false;
 		FightRequest.desiredScroll = null;
 
-		FightRequest.offenseModifier = 0;
-		FightRequest.defenseModifier = 0;
+		FightRequest.levelModifier = 0;
 		FightRequest.healthModifier = 0;
 
 		FightRequest.action1 = null;
@@ -1765,33 +1774,27 @@ public class FightRequest
 		case 2105: // Head + Shield Combo
 		case 2106: // Knee + Shield Combo
 		case 2107: // Head + Knee + Shield Combo
-			FightRequest.offenseModifier -= 5;
-			FightRequest.defenseModifier -= 5;
+			FightRequest.levelModifier -= 5;
 			break;
 
 		case 5003: // Disco Eye-Poke
-			FightRequest.offenseModifier -= 1;
-			FightRequest.defenseModifier -= 1;
+			FightRequest.levelModifier -= 1;
 			break;
 
 		case 5005: // Disco Dance of Doom
-			FightRequest.offenseModifier -= 3;
-			FightRequest.defenseModifier -= 3;
+			FightRequest.levelModifier -= 3;
 			break;
 
 		case 5008: // Disco Dance II: Electric Boogaloo
-			FightRequest.offenseModifier -= 5;
-			FightRequest.defenseModifier -= 5;
+			FightRequest.levelModifier -= 5;
 			break;
 
 		case 5012: // Disco Face Stab
-			FightRequest.offenseModifier -= 7;
-			FightRequest.defenseModifier -= 7;
+			FightRequest.levelModifier -= 7;
 			break;
 
 		case 5019: // Tango of Terror
-			FightRequest.offenseModifier -= 6;
-			FightRequest.defenseModifier -= 6;
+			FightRequest.levelModifier -= 6;
 		}
 
 		if ( mpCost > 0 )
