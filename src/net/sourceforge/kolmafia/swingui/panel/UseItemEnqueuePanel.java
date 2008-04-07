@@ -48,12 +48,6 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.swingui.ItemManageFrame.ConsumeEnqueuePanel.BuffUpListener;
-import net.sourceforge.kolmafia.swingui.ItemManageFrame.ConsumeEnqueuePanel.ConsumableFilterField;
-import net.sourceforge.kolmafia.swingui.ItemManageFrame.ConsumeEnqueuePanel.EnqueueListener;
-import net.sourceforge.kolmafia.swingui.ItemManageFrame.ConsumeEnqueuePanel.ExecuteListener;
-import net.sourceforge.kolmafia.swingui.ItemManageFrame.ConsumeEnqueuePanel.ExperimentalCheckbox;
-import net.sourceforge.kolmafia.swingui.ItemManageFrame.ConsumeEnqueuePanel.ReSortListener;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 
@@ -160,22 +154,22 @@ public class UseItemEnqueuePanel
 	{
 		public void run()
 		{
-			itemManageFrame.getDesiredItems( "Queue" );
+			UseItemEnqueuePanel.this.getDesiredItems( "Queue" );
 			ConcoctionDatabase.refreshConcoctions();
 
-			if ( itemManageFrame.food )
+			if ( UseItemEnqueuePanel.this.food )
 			{
-				itemManageFrame.queueTabs.setTitleAt(
+				UseItemEnqueuePanel.this.queueTabs.setTitleAt(
 					0, ConcoctionDatabase.getQueuedFullness() + " Full Queued" );
 			}
-			if ( itemManageFrame.booze )
+			if ( UseItemEnqueuePanel.this.booze )
 			{
-				itemManageFrame.queueTabs.setTitleAt(
+				UseItemEnqueuePanel.this.queueTabs.setTitleAt(
 					0, ConcoctionDatabase.getQueuedInebriety() + " Drunk Queued" );
 			}
-			if ( itemManageFrame.spleen )
+			if ( UseItemEnqueuePanel.this.spleen )
 			{
-				itemManageFrame.queueTabs.setTitleAt(
+				UseItemEnqueuePanel.this.queueTabs.setTitleAt(
 					0, ConcoctionDatabase.getQueuedSpleenHit() + " Spleen Queued" );
 			}
 		}
@@ -191,23 +185,23 @@ public class UseItemEnqueuePanel
 	{
 		public void run()
 		{
-			itemManageFrame.getDesiredItems( "Consume" );
+			UseItemEnqueuePanel.this.getDesiredItems( "Consume" );
 			ConcoctionDatabase.refreshConcoctions();
 			ConcoctionDatabase.handleQueue( true );
 
-			if ( itemManageFrame.food )
+			if ( UseItemEnqueuePanel.this.food )
 			{
-				itemManageFrame.queueTabs.setTitleAt(
+				UseItemEnqueuePanel.this.queueTabs.setTitleAt(
 					0, ConcoctionDatabase.getQueuedFullness() + " Full Queued" );
 			}
-			if ( itemManageFrame.booze )
+			if ( UseItemEnqueuePanel.this.booze )
 			{
-				itemManageFrame.queueTabs.setTitleAt(
+				UseItemEnqueuePanel.this.queueTabs.setTitleAt(
 					0, ConcoctionDatabase.getQueuedInebriety() + " Drunk Queued" );
 			}
-			if ( itemManageFrame.spleen )
+			if ( UseItemEnqueuePanel.this.spleen )
 			{
-				itemManageFrame.queueTabs.setTitleAt(
+				UseItemEnqueuePanel.this.queueTabs.setTitleAt(
 					0, ConcoctionDatabase.getQueuedSpleenHit() + " Spleen Queued" );
 			}
 		}
@@ -223,18 +217,18 @@ public class UseItemEnqueuePanel
 	{
 		public void run()
 		{
-			if ( itemManageFrame.food )
+			if ( UseItemEnqueuePanel.this.food )
 			{
 				RequestThread.postRequest( new UseItemRequest( ItemPool.get( ItemPool.MILK_OF_MAGNESIUM, 1 ) ) );
 			}
-			else if ( itemManageFrame.booze )
+			else if ( UseItemEnqueuePanel.this.booze )
 			{
 				if ( !KoLConstants.activeEffects.contains( new AdventureResult( "Ode to Booze", 1, true ) ) )
 				{
 					RequestThread.postRequest( UseSkillRequest.getInstance( "The Ode to Booze", 1 ) );
 				}
 			}
-			else if ( itemManageFrame.spleen )
+			else if ( UseItemEnqueuePanel.this.spleen )
 			{
 				RequestThread.postRequest( new UseItemRequest( ItemPool.get( ItemPool.MOJO_FILTER, 1 ) ) );
 			}
@@ -242,7 +236,7 @@ public class UseItemEnqueuePanel
 
 		public String toString()
 		{
-			return itemManageFrame.food ? "use milk" : itemManageFrame.booze ? "cast ode" : "flush mojo";
+			return UseItemEnqueuePanel.this.food ? "use milk" : UseItemEnqueuePanel.this.booze ? "cast ode" : "flush mojo";
 		}
 	}
 
@@ -255,21 +249,21 @@ public class UseItemEnqueuePanel
 
 			if ( ItemDatabase.getFullness( creation.getName() ) > 0 )
 			{
-				if ( !itemManageFrame.food )
+				if ( !UseItemEnqueuePanel.this.food )
 				{
 					return false;
 				}
 			}
 			else if ( ItemDatabase.getInebriety( creation.getName() ) > 0 )
 			{
-				if ( !itemManageFrame.booze )
+				if ( !UseItemEnqueuePanel.this.booze )
 				{
 					return false;
 				}
 			}
 			else if ( ItemDatabase.getSpleenHit( creation.getName() ) > 0 )
 			{
-				if ( !itemManageFrame.spleen )
+				if ( !UseItemEnqueuePanel.this.spleen )
 				{
 					return false;
 				}
@@ -284,7 +278,7 @@ public class UseItemEnqueuePanel
 				return false;
 			}
 
-			if ( itemManageFrame.filters[ 0 ].isSelected() )
+			if ( UseItemEnqueuePanel.this.filters[ 0 ].isSelected() )
 			{
 				AdventureResult item = creation.getItem();
 				if ( item != null && item.getCount( KoLConstants.inventory ) == 0 )
@@ -293,7 +287,7 @@ public class UseItemEnqueuePanel
 				}
 			}
 
-			if ( itemManageFrame.filters[ 1 ].isSelected() )
+			if ( UseItemEnqueuePanel.this.filters[ 1 ].isSelected() )
 			{
 				String range = ItemDatabase.getMuscleRange( creation.getName() );
 				if ( range.equals( "+0.0" ) || range.startsWith( "-" ) )
@@ -302,7 +296,7 @@ public class UseItemEnqueuePanel
 				}
 			}
 
-			if ( itemManageFrame.filters[ 2 ].isSelected() )
+			if ( UseItemEnqueuePanel.this.filters[ 2 ].isSelected() )
 			{
 				String range = ItemDatabase.getMysticalityRange( creation.getName() );
 				if ( range.equals( "+0.0" ) || range.startsWith( "-" ) )
@@ -311,7 +305,7 @@ public class UseItemEnqueuePanel
 				}
 			}
 
-			if ( itemManageFrame.filters[ 3 ].isSelected() )
+			if ( UseItemEnqueuePanel.this.filters[ 3 ].isSelected() )
 			{
 				String range = ItemDatabase.getMoxieRange( creation.getName() );
 				if ( range.equals( "+0.0" ) || range.startsWith( "-" ) )
