@@ -36,7 +36,10 @@ package net.sourceforge.kolmafia;
 import java.util.ArrayList;
 import java.util.Date;
 
+import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
+
+import tab.CloseTabbedPane;
 
 import net.sourceforge.foxtrot.ConcurrentWorker;
 import net.sourceforge.foxtrot.Job;
@@ -522,5 +525,10 @@ public class KoLmafiaGUI
 		GenericRequest request = new GenericRequest( location );
 		request.responseText = text;
 		DescriptionFrame.showRequest( request );
+	}
+
+	public static JTabbedPane getTabbedPane()
+	{
+		return Preferences.getBoolean( "useDecoratedTabs" ) ? new CloseTabbedPane() : new JTabbedPane();
 	}
 }
