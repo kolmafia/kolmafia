@@ -33,14 +33,10 @@
 
 package net.sourceforge.kolmafia.objectpool;
 
-import java.util.TreeMap;
-
 import net.sourceforge.kolmafia.AdventureResult;
 
 public class EffectPool
 {
-	private static final TreeMap effectCache = new TreeMap();
-
 	public static final String ON_THE_TRAIL = "On the Trail";
 
 	public static final String ODE = "Ode to Booze";
@@ -74,13 +70,6 @@ public class EffectPool
 
 	public static final AdventureResult get( String effectName )
 	{
-		if ( effectCache.containsKey( effectName ) )
-		{
-			return (AdventureResult) effectCache.get( effectName );
-		}
-
-		AdventureResult effect = new AdventureResult( effectName, 1, true );
-		effectCache.put( effectName, effect );
-		return effect;
+		return new AdventureResult( effectName, 1, true );
 	}
 }
