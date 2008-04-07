@@ -82,7 +82,6 @@ import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-import tab.CloseTabbedPane;
 
 public abstract class GenericFrame
 	extends JFrame
@@ -124,7 +123,7 @@ public abstract class GenericFrame
 		this.setTitle( title );
 		this.setDefaultCloseOperation( WindowConstants.DISPOSE_ON_CLOSE );
 
-		this.tabs = this.getTabbedPane();
+		this.tabs = KoLmafiaGUI.getTabbedPane();
 		this.framePanel = new JPanel( new BorderLayout( 0, 0 ) );
 
 		this.frameName = this.getClass().getName();
@@ -249,11 +248,6 @@ public abstract class GenericFrame
 	public boolean shouldAddStatusBar()
 	{
 		return Preferences.getBoolean( "addStatusBarToFrames" ) && !this.appearsInTab();
-	}
-
-	public JTabbedPane getTabbedPane()
-	{
-		return Preferences.getBoolean( "useDecoratedTabs" ) ? new CloseTabbedPane() : new JTabbedPane();
 	}
 
 	public void addHotKeys()
