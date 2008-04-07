@@ -33,16 +33,12 @@
 
 package net.sourceforge.kolmafia.objectpool;
 
-import java.util.ArrayList;
-
 import net.sourceforge.kolmafia.AdventureResult;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 public class ItemPool
 {
-	private static final ItemArray itemCache = new ItemArray();
-
 	public static final int ASPARAGUS_KNIFE = 19;
 	public static final int CHEWING_GUM = 23;
 	public static final int TEN_LEAF_CLOVER = 24;
@@ -445,26 +441,6 @@ public class ItemPool
 
 	public static final AdventureResult get( int itemId, int count )
 	{
-		if ( count == 1 )
-		{
-			return itemCache.get( itemId );
-		}
-
 		return new AdventureResult( itemId, count );
-	}
-
-	private static class ItemArray
-	{
-		private ArrayList internalList = new ArrayList();
-
-		public AdventureResult get( int itemId )
-		{
-			for ( int i = internalList.size(); i <= itemId; ++i )
-			{
-				internalList.add( new AdventureResult( i, 1 ) );
-			}
-
-			return (AdventureResult) internalList.get( itemId );
-		}
 	}
 }
