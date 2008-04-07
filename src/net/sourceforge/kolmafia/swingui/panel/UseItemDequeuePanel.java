@@ -41,8 +41,6 @@ import javax.swing.ListSelectionModel;
 
 import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.objectpool.Concoction;
-import net.sourceforge.kolmafia.swingui.ItemManageFrame.ConsumeDequeuePanel.ConsumableFilterField;
-import net.sourceforge.kolmafia.swingui.ItemManageFrame.ConsumeDequeuePanel.UndoQueueButton;
 import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
@@ -156,19 +154,19 @@ public class UseItemDequeuePanel
 			ConcoctionDatabase.pop();
 			ConcoctionDatabase.refreshConcoctions();
 
-			if ( itemManageFrame.food )
+			if ( UseItemDequeuePanel.this.food )
 			{
-				itemManageFrame.queueTabs.setTitleAt(
+				UseItemDequeuePanel.this.queueTabs.setTitleAt(
 					0, ConcoctionDatabase.getQueuedFullness() + " Full Queued" );
 			}
-			if ( itemManageFrame.booze )
+			if ( UseItemDequeuePanel.this.booze )
 			{
-				itemManageFrame.queueTabs.setTitleAt(
+				UseItemDequeuePanel.this.queueTabs.setTitleAt(
 					0, ConcoctionDatabase.getQueuedInebriety() + " Drunk Queued" );
 			}
-			if ( itemManageFrame.spleen )
+			if ( UseItemDequeuePanel.this.spleen )
 			{
-				itemManageFrame.queueTabs.setTitleAt(
+				UseItemDequeuePanel.this.queueTabs.setTitleAt(
 					0, ConcoctionDatabase.getQueuedSpleenHit() + " Spleen Queued" );
 			}
 		}
@@ -188,17 +186,17 @@ public class UseItemDequeuePanel
 
 			if ( ItemDatabase.getFullness( creation.getName() ) > 0 )
 			{
-				return itemManageFrame.food && super.isVisible( element );
+				return UseItemDequeuePanel.this.food && super.isVisible( element );
 			}
 
 			if ( ItemDatabase.getInebriety( creation.getName() ) > 0 )
 			{
-				return itemManageFrame.booze && super.isVisible( element );
+				return UseItemDequeuePanel.this.booze && super.isVisible( element );
 			}
 
 			if ( ItemDatabase.getSpleenHit( creation.getName() ) > 0 )
 			{
-				return itemManageFrame.spleen && super.isVisible( element );
+				return UseItemDequeuePanel.this.spleen && super.isVisible( element );
 			}
 
 			return false;
