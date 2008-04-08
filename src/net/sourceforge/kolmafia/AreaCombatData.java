@@ -197,6 +197,7 @@ public class AreaCombatData
 		buffer.append( "<html>" );
 
 		this.getSummary( buffer, fullString );
+		buffer.append( "<br><br>" );
 		this.getMonsterData( buffer, fullString );
 
 		buffer.append( "</html>" );
@@ -278,9 +279,12 @@ public class AreaCombatData
 
 		for ( int i = 0; i < this.monsters.size(); ++i )
 		{
+			if ( i > 0 )
+			{
+				buffer.append( "<br><br>" );
+			}
 			buffer.append( this.getMonsterString(
 				this.getMonster( i ), moxie, hitstat, ml, this.getWeighting( i ), combatFactor, fullString ) );
-			buffer.append( "<br><br>" );
 		}
 	}
 
