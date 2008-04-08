@@ -150,7 +150,7 @@ Wartime Hippy Camp	-1	Orcish Frat Boy Spy: 0
 Wartime Hippy Camp (Frat Disguise)	-1	War Hippy Drill Sergeant	War Hippy (Space) Cadet
 Wartime Junkyard	100	A.M.C. Gremlin	Batwinged Gremlin	Erudite Gremlin	Spider Gremlin	Vegetable Gremlin
 Wartime Sonofa Beach	-1	Lobsterfrogman
-White Citadel	-1	Angry Raccoon Puppet	Business Hippy	eXtreme Sports Orc
+White Citadel	-1	Angry Raccoon Puppet	Business Hippy	eXtreme Sports Orcs
 Whitey's Grove	75	Knight in White Satin	White Chocolate Golem	White Lion	Whitesnake
 
 
