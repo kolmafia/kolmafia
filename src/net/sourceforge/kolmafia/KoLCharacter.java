@@ -1674,13 +1674,6 @@ public abstract class KoLCharacter
 		{
 			Preferences.setBoolean( "kingLiberated", true );
 			CharPaneRequest.setInteraction();
-
-			// Bad Moon characters can now access storage.
-			// Check it out!
-			if ( KoLCharacter.inBadMoon() )
-			{
-				RequestThread.postRequest( new ClosetRequest() );
-			}
 		}
 	}
 

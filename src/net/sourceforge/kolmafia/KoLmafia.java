@@ -779,13 +779,10 @@ public abstract class KoLmafia
 
 		if ( Preferences.getInteger( "lastEmptiedStorage" ) != KoLCharacter.getAscensions() )
 		{
-			if ( KoLCharacter.canInteract() || !KoLCharacter.inBadMoon() )
+			RequestThread.postRequest( new ClosetRequest() );
+			if ( KoLConstants.storage.isEmpty() )
 			{
-				RequestThread.postRequest( new ClosetRequest() );
-				if ( KoLConstants.storage.isEmpty() )
-				{
-					Preferences.setInteger( "lastEmptiedStorage", KoLCharacter.getAscensions() );
-				}
+				Preferences.setInteger( "lastEmptiedStorage", KoLCharacter.getAscensions() );
 			}
 		}
 
