@@ -3285,9 +3285,9 @@
 3284
 3285
 3286
-3287
-3288
-3289
+3287	quasi-ethereal macaroni fragments	3	display	200
+3288	shimmering tendrils	3	display	500
+3289	scintillating powder	3	display	400
 3290
 3291
 3292
