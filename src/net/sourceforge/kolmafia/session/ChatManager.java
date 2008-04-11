@@ -1366,6 +1366,11 @@ public abstract class ChatManager
 		{
 			super.run();
 
+			if ( this.responseText == null )
+			{
+				return;
+			}
+
 			// First, add in all the colors for all of the
 			// channel tags (for people using standard KoL
 			// chatting mode).

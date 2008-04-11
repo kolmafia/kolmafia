@@ -123,7 +123,7 @@ public abstract class GenericFrame
 		this.setTitle( title );
 		this.setDefaultCloseOperation( WindowConstants.DISPOSE_ON_CLOSE );
 
-		this.tabs = KoLmafiaGUI.getTabbedPane();
+		this.tabs = this.getTabbedPane();
 		this.framePanel = new JPanel( new BorderLayout( 0, 0 ) );
 
 		this.frameName = this.getClass().getName();
@@ -248,6 +248,11 @@ public abstract class GenericFrame
 	public boolean shouldAddStatusBar()
 	{
 		return Preferences.getBoolean( "addStatusBarToFrames" ) && !this.appearsInTab();
+	}
+
+	public JTabbedPane getTabbedPane()
+	{
+		return KoLmafiaGUI.getTabbedPane();
 	}
 
 	public void addHotKeys()
