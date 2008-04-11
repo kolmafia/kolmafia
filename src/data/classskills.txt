@@ -120,11 +120,11 @@
 3000	Manicotti Meditation	3	1	5
 3001
 3002
-3003	Minor Ray of Something	5	4	0
+3003	Ravioli Shurikens	5	4	0
 3004	Entangling Noodles	5	3	0
-3005	eXtreme Ray of Something	5	7	0
+3005	Cannelloni Cannon	5	7	0
 3006	Pastamastery	1	10	0
-3007	Cone of Whatever	5	19	0
+3007	Stuffed Mortar Shell	5	19	0
 3008	Weapon of the Pastalord	5	35	0
 3009	Lasagna Bandages	2	6	0
 3010	Leash of Linguini	3	12	10
