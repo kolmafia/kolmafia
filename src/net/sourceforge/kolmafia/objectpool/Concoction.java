@@ -62,21 +62,24 @@ public class Concoction
 	private static final int SPLEEN_PRIORITY = 3;
 	private static final int NO_PRIORITY = 100;
 
+	private final String name;
 	public final AdventureResult concoction;
 
 	private final int yield;
 	private final int mixingMethod;
-	private boolean isTorsoItem;
-	private int sortOrder;
+	private final int sortOrder;
+
+	private final boolean isTorsoItem;
+	private final boolean isReagentPotion;
+
 	private boolean wasPossible;
 
-	private String name;
 	private final int price;
 
 	private final List ingredients;
 	private AdventureResult[] ingredientArray;
-
 	private int modifier, multiplier;
+
 	public int creatable;
 	public int queued;
 	public int initial;
@@ -93,7 +96,8 @@ public class Concoction
 
 		this.mixingMethod = KoLConstants.NOCREATE;
 		this.isTorsoItem = false;
-		this.wasPossible = true;
+		this.isReagentPotion = false;
+		this.wasPossible = false;
 
 		this.ingredients = new ArrayList();
 		this.ingredientArray = new AdventureResult[ 0 ];
@@ -125,20 +129,30 @@ public class Concoction
 	{
 		this.concoction = concoction;
 
+		this.wasPossible = false;
+		this.mixingMethod = mixingMethod;
+
+		int consumeType =
+			concoction == null ? 0 : ItemDatabase.getConsumptionType( concoction.getItemId() );
+		
 		if ( concoction != null )
 		{
 			this.yield = Math.max( concoction.getCount(), 1 );
 			this.name = concoction.getName();
-			this.isTorsoItem = ItemDatabase.getConsumptionType( concoction.getItemId() ) == KoLConstants.EQUIP_SHIRT;
+			this.isTorsoItem = consumeType == KoLConstants.EQUIP_SHIRT;
+
+			this.isReagentPotion =
+				(this.mixingMethod == KoLConstants.COOK_REAGENT || this.mixingMethod == KoLConstants.SUPER_REAGENT) &&
+				(consumeType == KoLConstants.CONSUME_USE || consumeType == KoLConstants.CONSUME_MULTIPLE);
 		}
 		else
 		{
 			this.yield = 1;
 			this.name = "unknown";
+			
+			this.isTorsoItem = false;
+			this.isReagentPotion = false;
 		}
-
-		this.mixingMethod = mixingMethod;
-		this.wasPossible = false;
 
 		this.fullness = ItemDatabase.getFullness( this.name );
 		this.inebriety = ItemDatabase.getInebriety( this.name );
@@ -146,9 +160,6 @@ public class Concoction
 
 		this.ingredients = new ArrayList();
 		this.ingredientArray = new AdventureResult[ 0 ];
-
-		int consumeType =
-			concoction == null ? 0 : ItemDatabase.getConsumptionType( concoction.getItemId() );
 
 		switch ( consumeType )
 		{
@@ -178,13 +189,7 @@ public class Concoction
 
 	public boolean isReagentPotion()
 	{
-		if ( this.mixingMethod != KoLConstants.COOK_REAGENT && this.mixingMethod != KoLConstants.SUPER_REAGENT )
-		{
-			return false;
-		}
-
-		int type = ItemDatabase.getConsumptionType( this.getItemId() );
-		return type == KoLConstants.CONSUME_USE || type == KoLConstants.CONSUME_MULTIPLE;
+		return this.isReagentPotion;
 	}
 
 	public int compareTo( final Object o )
