@@ -1064,6 +1064,11 @@ public class KoLmafiaCLI
 			{
 				value = value.substring( 1, value.endsWith( "\"" ) ? value.length() - 1 : value.length() );
 			}
+			
+			while ( value.endsWith( ";" ) )
+			{
+				value = value.substring( 0, value.length() - 1 ).trim();
+			}
 
 			if ( name.equals( "battleAction" ) )
 			{
