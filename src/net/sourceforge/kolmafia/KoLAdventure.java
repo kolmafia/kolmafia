@@ -959,11 +959,8 @@ public class KoLAdventure
 			}
 		}
 
-		if ( !KoLmafia.isAdventuring() )
-		{
-			RequestLogger.printLine();
-			RequestLogger.printLine( "[" + KoLAdventure.getAdventureCount() + "] " + this.getAdventureName() );
-		}
+		RequestLogger.printLine();
+		RequestLogger.printLine( "[" + KoLAdventure.getAdventureCount() + "] " + this.getAdventureName() );
 
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( "[" + KoLAdventure.getAdventureCount() + "] " + this.getAdventureName() );

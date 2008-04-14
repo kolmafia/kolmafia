@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
+import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.IslandDecorator;
@@ -73,12 +74,8 @@ public class ResultProcessor
 			return false;
 		}
 
-		if ( !formURLString.startsWith( "inventory.php" ) && !formURLString.startsWith( "multiuse.php" ) )
-		{
-			return true;
-		}
-		
-		return formURLString.indexOf( String.valueOf( ItemPool.DISASSEMBLED_CLOVER ) ) == -1;
+		long currentItemId = UseItemRequest.currentItemId();	
+		return currentItemId == -1 || currentItemId == ItemPool.ELITE_SCROLL;
 	}
 	
 	public static boolean receivedClover()
