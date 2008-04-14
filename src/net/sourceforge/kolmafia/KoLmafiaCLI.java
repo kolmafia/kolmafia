@@ -1450,7 +1450,7 @@ public class KoLmafiaCLI
 
 		if ( command.equals( "leaflet" ) )
 		{
-			LeafletManager.robLeafletManager( !parameters.equals( "nomagic" ) );
+			LeafletManager.robStrangeLeaflet( !parameters.equals( "nomagic" ) );
 			return;
 		}
 

@@ -479,7 +479,7 @@ public abstract class UseLinkDecorator
 		case ItemPool.STRANGE_LEAFLET:
 			
 			useType = "read";
-			useLocation = "leaflet.php";
+			useLocation = "leaflet.php?action=auto";
 			break;
 
 		// Hedge maze puzzle and hedge maze key have a link to the maze
