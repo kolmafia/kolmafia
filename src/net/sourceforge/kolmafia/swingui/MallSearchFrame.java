@@ -51,23 +51,21 @@ import javax.swing.event.ListSelectionListener;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.SortedListModel;
-
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.request.MallPurchaseRequest;
+import net.sourceforge.kolmafia.request.MallSearchRequest;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
+import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
-
-import net.sourceforge.kolmafia.request.MallPurchaseRequest;
-import net.sourceforge.kolmafia.request.MallSearchRequest;
-
-import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class MallSearchFrame
 	extends GenericPanelFrame
@@ -77,7 +75,7 @@ public class MallSearchFrame
 
 	private boolean currentlyBuying;
 	private SortedListModel results;
-	private JList resultsList;
+	private ShowDescriptionList resultsList;
 	private final MallSearchPanel mallSearch;
 
 	public MallSearchFrame()
@@ -275,7 +273,7 @@ public class MallSearchFrame
 			resultsPanel.add( JComponentUtilities.createLabel(
 				"Search Results", SwingConstants.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
 
-			MallSearchFrame.this.resultsList = new JList( MallSearchFrame.this.results );
+			MallSearchFrame.this.resultsList = new ShowDescriptionList( MallSearchFrame.this.results );
 			MallSearchFrame.this.resultsList.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
 			MallSearchFrame.this.resultsList.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
 			MallSearchFrame.this.resultsList.setVisibleRowCount( 11 );
