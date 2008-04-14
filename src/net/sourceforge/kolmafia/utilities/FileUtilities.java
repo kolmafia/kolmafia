@@ -56,6 +56,7 @@ import net.sourceforge.kolmafia.persistence.Preferences;
 public class FileUtilities
 {
 	private static final Pattern FILEID_PATTERN = Pattern.compile( "(\\d+)\\." );
+	private static final String IMAGE_PATH = UtilityConstants.IMAGE_LOCATION.getAbsolutePath();
 
 	public static final BufferedReader getReader( final String filename )
 	{
@@ -286,10 +287,15 @@ public class FileUtilities
 		String localname = filename.substring( filename.indexOf( "/", "http://".length() ) + 1 );
 		if ( localname.startsWith( "albums/" ) )
 		{
-			localname = localname.substring( "albums/".length() );
+			localname = localname.substring( 7 );
 		}
 
 		File localfile = new File( UtilityConstants.IMAGE_LOCATION, localname );
+
+		if ( !localfile.getAbsolutePath().startsWith( FileUtilities.IMAGE_PATH ) )
+		{
+			return null;
+		}
 
 		if ( !localfile.exists() || localfile.length() == 0 )
 		{
