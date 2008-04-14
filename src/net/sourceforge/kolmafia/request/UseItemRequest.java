@@ -535,7 +535,8 @@ public class UseItemRequest
 			{
 				return false;
 			}
-			else if ( KoLCharacter.getAdventuresLeft() > 40 && !InputFieldUtilities.confirm( "Are you sure you want to overdrink?" ) )
+
+			if ( KoLCharacter.getAdventuresLeft() > 0 && !InputFieldUtilities.confirm( "Are you sure you want to overdrink?" ) )
 			{
 				return false;
 			}

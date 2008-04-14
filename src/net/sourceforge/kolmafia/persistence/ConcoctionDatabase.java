@@ -40,11 +40,9 @@ import java.util.Stack;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
-
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
@@ -52,13 +50,6 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.session.ClanManager;
-import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.swingui.CouncilFrame;
-import net.sourceforge.kolmafia.utilities.FileUtilities;
-import net.sourceforge.kolmafia.utilities.SortedListModelArray;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
-
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -66,6 +57,12 @@ import net.sourceforge.kolmafia.request.HellKitchenRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.MicroBreweryRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
+import net.sourceforge.kolmafia.session.ClanManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.swingui.CouncilFrame;
+import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.SortedListModelArray;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ConcoctionDatabase
 {
@@ -76,14 +73,20 @@ public class ConcoctionDatabase
 	public static boolean tripleReagent = false;
 	public static boolean ignoreRefresh = false;
 
-	public static int queuedFullness = 0;
-	public static int queuedInebriety = 0;
-	public static int queuedSpleenHit = 0;
 	public static int queuedAdventuresUsed = 0;
 	public static int queuedStillsUsed = 0;
 
-	public static final Stack queuedChanges = new Stack();
-	public static final SortedListModel queuedIngredients = new SortedListModel();
+	private static int queuedFullness = 0;
+	private static final Stack queuedFoodChanges = new Stack();
+	private static final SortedListModel queuedFoodIngredients = new SortedListModel();
+
+	private static int queuedInebriety = 0;
+	private static final Stack queuedBoozeChanges = new Stack();
+	private static final SortedListModel queuedBoozeIngredients = new SortedListModel();
+
+	private static int queuedSpleenHit = 0;
+	private static final Stack queuedSpleenChanges = new Stack();
+	private static final SortedListModel queuedSpleenIngredients = new SortedListModel();
 
 	public static final Concoction stillsLimit = new Concoction( (AdventureResult) null, KoLConstants.NOCREATE );
 	public static final Concoction adventureLimit = new Concoction( (AdventureResult) null, KoLConstants.NOCREATE );
@@ -345,53 +348,92 @@ public class ConcoctionDatabase
 		return AdventureResult.parseResult( data );
 	}
 
-	public static final SortedListModel getQueue()
+	public static final SortedListModel getQueuedIngredients( boolean food, boolean booze, boolean spleen )
 	{
-		return ConcoctionDatabase.queuedIngredients;
+		return food ? ConcoctionDatabase.queuedFoodIngredients :
+			booze ? ConcoctionDatabase.queuedBoozeIngredients :
+			ConcoctionDatabase.queuedSpleenIngredients;
 	}
 
 	public static final void push( final Concoction c, final int quantity )
 	{
+		Stack queuedChanges;
+		LockableListModel queuedIngredients;
+		
+		if ( c.getFullness() > 0 )
+		{
+			queuedChanges = ConcoctionDatabase.queuedFoodChanges;
+			queuedIngredients = ConcoctionDatabase.queuedFoodIngredients;
+			ConcoctionDatabase.queuedFullness += c.getFullness() * quantity;
+		}
+		else if ( c.getInebriety() > 0 )
+		{
+			queuedChanges = ConcoctionDatabase.queuedBoozeChanges;
+			queuedIngredients = ConcoctionDatabase.queuedBoozeIngredients;			
+			ConcoctionDatabase.queuedInebriety += c.getInebriety() * quantity;
+		}
+		else
+		{
+			queuedChanges = ConcoctionDatabase.queuedSpleenChanges;
+			queuedIngredients = ConcoctionDatabase.queuedSpleenIngredients;			
+			ConcoctionDatabase.queuedSpleenHit += c.getSpleenHit() * quantity;
+		}
+		
 		int adventureChange = ConcoctionDatabase.queuedAdventuresUsed;
 		int stillChange = ConcoctionDatabase.queuedStillsUsed;
 
-		ConcoctionDatabase.queuedFullness += c.getFullness() * quantity;
-		ConcoctionDatabase.queuedInebriety += c.getInebriety() * quantity;
-		ConcoctionDatabase.queuedSpleenHit += c.getSpleenHit() * quantity;
-
 		ArrayList ingredientChange = new ArrayList();
-		c.queue( ingredientChange, quantity );
+		c.queue( queuedIngredients, ingredientChange, quantity );
 
 		adventureChange -= ConcoctionDatabase.queuedAdventuresUsed;
 		stillChange -= ConcoctionDatabase.queuedStillsUsed;
 
-		ConcoctionDatabase.queuedChanges.push( new Integer( stillChange ) );
-		ConcoctionDatabase.queuedChanges.push( new Integer( adventureChange ) );
+		queuedChanges.push( new Integer( stillChange ) );
+		queuedChanges.push( new Integer( adventureChange ) );
 
-		ConcoctionDatabase.queuedChanges.push( ingredientChange );
-		ConcoctionDatabase.queuedChanges.push( new Integer( quantity ) );
-		ConcoctionDatabase.queuedChanges.push( c );
+		queuedChanges.push( ingredientChange );
+		queuedChanges.push( new Integer( quantity ) );
+		queuedChanges.push( c );
 	}
 
-	public static final void pop()
+	public static final Object [] pop( boolean food, boolean booze, boolean spleen )
 	{
-		if ( ConcoctionDatabase.queuedChanges.isEmpty() )
+		Stack queuedChanges;
+		LockableListModel queuedIngredients;
+		
+		if ( food )
 		{
-			return;
+			queuedChanges = ConcoctionDatabase.queuedFoodChanges;
+			queuedIngredients = ConcoctionDatabase.queuedFoodIngredients;
+		}
+		else if ( booze )
+		{
+			queuedChanges = ConcoctionDatabase.queuedBoozeChanges;
+			queuedIngredients = ConcoctionDatabase.queuedBoozeIngredients;			
+		}
+		else
+		{
+			queuedChanges = ConcoctionDatabase.queuedSpleenChanges;
+			queuedIngredients = ConcoctionDatabase.queuedSpleenIngredients;			
 		}
 
-		Concoction c = (Concoction) ConcoctionDatabase.queuedChanges.pop();
-		Integer quantity = (Integer) ConcoctionDatabase.queuedChanges.pop();
-		ArrayList ingredientChange = (ArrayList) ConcoctionDatabase.queuedChanges.pop();
+		if ( queuedChanges.isEmpty() )
+		{
+			return null;
+		}
 
-		Integer adventureChange = (Integer) ConcoctionDatabase.queuedChanges.pop();
-		Integer stillChange = (Integer) ConcoctionDatabase.queuedChanges.pop();
+		Concoction c = (Concoction) queuedChanges.pop();
+		Integer quantity = (Integer) queuedChanges.pop();
+		ArrayList ingredientChange = (ArrayList) queuedChanges.pop();
+
+		Integer adventureChange = (Integer) queuedChanges.pop();
+		Integer stillChange = (Integer) queuedChanges.pop();
 
 		c.queued -= quantity.intValue();
 		for ( int i = 0; i < ingredientChange.size(); ++i )
 		{
 			AdventureResult.addResultToList(
-				ConcoctionDatabase.queuedIngredients, ( (AdventureResult) ingredientChange.get( i ) ).getNegation() );
+				queuedIngredients, ( (AdventureResult) ingredientChange.get( i ) ).getNegation() );
 		}
 
 		int advs = adventureChange.intValue();
@@ -399,14 +441,15 @@ public class ConcoctionDatabase
 		{
 			ConcoctionDatabase.queuedAdventuresUsed += advs;
 			AdventureResult.addResultToList(
-				ConcoctionDatabase.queuedIngredients,
-				new AdventureResult( AdventureResult.ADV, advs ) );
+				queuedIngredients, new AdventureResult( AdventureResult.ADV, advs ) );
 		}
 		ConcoctionDatabase.queuedStillsUsed += stillChange.intValue();
 
 		ConcoctionDatabase.queuedFullness -= c.getFullness() * quantity.intValue();
 		ConcoctionDatabase.queuedInebriety -= c.getInebriety() * quantity.intValue();
 		ConcoctionDatabase.queuedSpleenHit -= c.getSpleenHit() * quantity.intValue();
+		
+		return new Object [] { c, quantity };
 	}
 
 	public static final LockableListModel getUsables()
@@ -419,43 +462,35 @@ public class ConcoctionDatabase
 		return ConcoctionDatabase.creatableList;
 	}
 
-	public static final void handleQueue( boolean consume )
+	public static final void handleQueue( boolean food, boolean booze, boolean spleen, boolean consume )
 	{
-
-		ConcoctionDatabase.queuedChanges.clear();
-		ConcoctionDatabase.queuedIngredients.clear();
-		ConcoctionDatabase.refreshConcoctions();
-
-		ConcoctionDatabase.queuedStillsUsed = 0;
-		ConcoctionDatabase.queuedAdventuresUsed = 0;
-		ConcoctionDatabase.queuedFullness = 0;
-		ConcoctionDatabase.queuedInebriety = 0;
-		ConcoctionDatabase.queuedSpleenHit = 0;
-
-		ConcoctionDatabase.ignoreRefresh = true;
-
-		RequestThread.openRequestSequence();
-		KoLmafia.updateDisplay( "Processing queued items.." );
-
-		SpecialOutfit.createImplicitCheckpoint();
-		Concoction c;
-
-		for ( int i = 0; i < ConcoctionDatabase.usableList.size(); ++i )
+		Object [] currentItem;
+		Stack toProcess = new Stack();
+				
+		while ( ( currentItem = ConcoctionDatabase.pop( food, booze, spleen ) ) != null )
 		{
-			c = (Concoction) ConcoctionDatabase.usableList.get( i );
+			toProcess.push( currentItem );
+		}
+		
+		Concoction c;
+		int quantity = 0;
 
-			if ( c.getQueued() == 0 )
-			{
-				continue;
-			}
+		while ( !toProcess.isEmpty() )
+		{
+			currentItem = (Object []) toProcess.pop();
+			
+			c = (Concoction) currentItem[ 0 ];
+			quantity =  ( (Integer) currentItem[ 1 ] ).intValue();
 
 			GenericRequest request = null;
 
 			if ( !consume && c.getItem() != null )
 			{
-				InventoryManager.retrieveItem( c.getItem().getInstance( c.getQueued() ) );
+				InventoryManager.retrieveItem( c.getItem().getInstance( quantity ) );
+				continue;
 			}
-			else if ( c.getPrice() > 0 )
+
+			if ( c.getPrice() > 0 )
 			{
 				String name = c.getName();
 				if ( HellKitchenRequest.onMenu( name ) )
@@ -490,8 +525,6 @@ public class ConcoctionDatabase
 					}
 				}
 			}
-
-			c.queued = 0;
 		}
 
 		SpecialOutfit.restoreImplicitCheckpoint();
@@ -522,7 +555,9 @@ public class ConcoctionDatabase
 		boolean includeStorage = KoLCharacter.canInteract() && !KoLConstants.storage.isEmpty();
 		boolean includeStash =
 			KoLCharacter.canInteract() && Preferences.getBoolean( "autoSatisfyWithStash" ) && !ClanManager.getStash().isEmpty();
-		boolean includeQueue = !ConcoctionDatabase.queuedIngredients.isEmpty();
+
+		boolean includeQueue = !ConcoctionDatabase.queuedFoodIngredients.isEmpty() &&
+			!ConcoctionDatabase.queuedBoozeIngredients.isEmpty() && !ConcoctionDatabase.queuedSpleenIngredients.isEmpty();
 
 		if ( !includeCloset && !includeStash && !includeQueue )
 		{
@@ -557,11 +592,11 @@ public class ConcoctionDatabase
 			}
 		}
 
-		if ( includeQueue )
+		if ( !ConcoctionDatabase.queuedFoodIngredients.isEmpty() )
 		{
-			for ( int i = 0; i < ConcoctionDatabase.queuedIngredients.size(); ++i )
+			for ( int i = 0; i < ConcoctionDatabase.queuedFoodIngredients.size(); ++i )
 			{
-				AdventureResult ingredient = (AdventureResult) ConcoctionDatabase.queuedIngredients.get( i );
+				AdventureResult ingredient = (AdventureResult) ConcoctionDatabase.queuedFoodIngredients.get( i );
 				if ( ingredient.isItem() )
 				{
 					AdventureResult.addResultToList(
@@ -571,6 +606,34 @@ public class ConcoctionDatabase
 			}
 		}
 
+		if ( !ConcoctionDatabase.queuedBoozeIngredients.isEmpty() )
+		{
+			for ( int i = 0; i < ConcoctionDatabase.queuedBoozeIngredients.size(); ++i )
+			{
+				AdventureResult ingredient = (AdventureResult) ConcoctionDatabase.queuedBoozeIngredients.get( i );
+				if ( ingredient.isItem() )
+				{
+					AdventureResult.addResultToList(
+						availableIngredients,
+						ingredient.getNegation() );
+				}
+			}
+		}
+
+		if ( !ConcoctionDatabase.queuedSpleenIngredients.isEmpty() )
+		{
+			for ( int i = 0; i < ConcoctionDatabase.queuedSpleenIngredients.size(); ++i )
+			{
+				AdventureResult ingredient = (AdventureResult) ConcoctionDatabase.queuedSpleenIngredients.get( i );
+				if ( ingredient.isItem() )
+				{
+					AdventureResult.addResultToList(
+						availableIngredients,
+						ingredient.getNegation() );
+				}
+			}
+		}
+		
 		return availableIngredients;
 	}
 

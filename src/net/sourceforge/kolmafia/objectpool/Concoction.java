@@ -36,18 +36,16 @@ package net.sourceforge.kolmafia.objectpool;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
-
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
-
-import net.sourceforge.kolmafia.request.MallPurchaseRequest;
-
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.request.MallPurchaseRequest;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 /**
  * Internal class used to represent a single concoction. It contains all the information needed to actually make the
@@ -331,12 +329,12 @@ public class Concoction
 		return this.spleenhit;
 	}
 
-	public void queue( final ArrayList ingredientChange, final int amount )
+	public void queue( final LockableListModel globalChanges, final ArrayList localChanges, final int amount )
 	{
-		this.queue( ingredientChange, amount, true );
+		this.queue( globalChanges, localChanges, amount, true );
 	}
 
-	public void queue( final ArrayList ingredientChange, final int amount, final boolean adjust )
+	public void queue( final LockableListModel globalChanges, final ArrayList localChanges, final int amount, boolean adjust )
 	{
 		if ( amount <= 0 )
 		{
@@ -362,15 +360,14 @@ public class Concoction
 		if ( this.concoction.getItemId() != ItemPool.PLASTIC_SWORD )
 		{
 			AdventureResult ingredient = this.concoction.getInstance( decrementAmount );
-			AdventureResult.addResultToList( ingredientChange, ingredient );
-			AdventureResult.addResultToList( ConcoctionDatabase.queuedIngredients, ingredient );
+			AdventureResult.addResultToList( globalChanges, ingredient );
+			AdventureResult.addResultToList( localChanges, ingredient );
 		}
 
 		int advs = ConcoctionDatabase.ADVENTURE_USAGE[ this.mixingMethod ] * overAmount;
 		if ( advs != 0 )
 		{
 			ConcoctionDatabase.queuedAdventuresUsed += advs;
-			AdventureResult.addResultToList( ConcoctionDatabase.queuedIngredients, new AdventureResult( AdventureResult.ADV, advs ) );
 		}
 
 		if ( this.mixingMethod == KoLConstants.STILL_BOOZE || this.mixingMethod == KoLConstants.STILL_MIXER )
@@ -392,7 +389,7 @@ public class Concoction
 		{
 			AdventureResult ingredient = this.ingredientArray[ i ];
 			Concoction c = ConcoctionPool.get( ingredient.getItemId() );
-			c.queue( ingredientChange, icount, false );
+			c.queue( globalChanges, localChanges, icount, false );
 		}
 
 		// Recipes that yield multiple units might result in

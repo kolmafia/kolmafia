@@ -187,7 +187,8 @@ public class UseItemEnqueuePanel
 		{
 			UseItemEnqueuePanel.this.getDesiredItems( "Consume" );
 			ConcoctionDatabase.refreshConcoctions();
-			ConcoctionDatabase.handleQueue( true );
+
+			ConcoctionDatabase.handleQueue( UseItemEnqueuePanel.this.food, UseItemEnqueuePanel.this.booze, UseItemEnqueuePanel.this.spleen, true );
 
 			if ( UseItemEnqueuePanel.this.food )
 			{
