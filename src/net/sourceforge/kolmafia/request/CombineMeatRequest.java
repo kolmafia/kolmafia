@@ -64,19 +64,6 @@ public class CombineMeatRequest
 			meatType == ItemPool.MEAT_PASTE ? -10 : meatType == ItemPool.MEAT_STACK ? -100 : -1000;
 	}
 
-	public int getQuantityPossible()
-	{
-		switch ( this.meatType )
-		{
-		case ItemPool.MEAT_PASTE:
-			return KoLCharacter.getAvailableMeat() / 10;
-		case ItemPool.MEAT_STACK:
-			return KoLCharacter.getAvailableMeat() / 100;
-		default:
-			return KoLCharacter.getAvailableMeat() / 1000;
-		}
-	}
-
 	public void reconstructFields()
 	{
 	}
