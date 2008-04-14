@@ -559,6 +559,34 @@ public class FightRequest
 			return;
 		}
 
+		// If the player wants to use a skill, make sure he knows it
+		String skillName =
+			SkillDatabase.getSkillName( StringUtilities.parseInt( FightRequest.action1.substring( 5 ) ) );
+
+		if ( KoLmafiaCLI.getCombatSkillName( skillName ) == null )
+		{
+			if ( this.isAcceptable( 0, 0 ) )
+			{
+				FightRequest.action1 = "attack";
+				this.addFormField( "action", FightRequest.action1 );
+				return;
+			}
+
+			FightRequest.action1 = "abort";
+			return;
+		}
+
+		// You can only sniff if you are not on the trail
+		if ( skillName.equals( "Transcendent Olfaction" ) )
+		{
+			if ( KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.ON_THE_TRAIL ) ) )
+			{
+				--FightRequest.preparatoryRounds;
+				this.nextRound();
+				return;
+			}
+		}
+
 		// Skills use MP. Make sure the character has enough
 		if ( KoLCharacter.getCurrentMP() < FightRequest.getActionCost() && GenericRequest.passwordHash != null )
 		{
@@ -577,36 +605,7 @@ public class FightRequest
 			FightRequest.action1 = "abort";
 			return;
 		}
-
-		// If the player wants to use a skill, make sure he knows it
-		String skillName =
-			SkillDatabase.getSkillName( StringUtilities.parseInt( FightRequest.action1.substring( 5 ) ) );
-
-		if ( KoLmafiaCLI.getCombatSkillName( skillName ) == null )
-		{
-			if ( this.isAcceptable( 0, 0 ) )
-			{
-				FightRequest.action1 = "attack";
-				this.addFormField( "action", FightRequest.action1 );
-				return;
-			}
-
-			FightRequest.action1 = "abort";
-			return;
-		}
-
-		if ( skillName.equals( "Transcendent Olfaction" ) )
-		{
-			// You can only sniff if you are not on the trail
-
-			if ( KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.ON_THE_TRAIL ) ) )
-			{
-				--FightRequest.preparatoryRounds;
-				this.nextRound();
-				return;
-			}
-		}
-
+		
 		if ( skillName.equals( "CLEESH" ) )
 		{
 			if ( FightRequest.castCleesh )
