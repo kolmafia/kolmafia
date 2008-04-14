@@ -60,11 +60,12 @@ function handleCombatHotkey( e, isDown )
 	var viewer = document.getElementById( "hotkeyViewer" );
 
 	var command = viewer.options[numericKey + 1].innerHTML;
-	command = command.substring( command.indexOf( ":" ) + 2, command.length );
+	var commandIndex = command.indexOf( ":" ) + 2;
+	command = commandIndex + 2 >= command.length ? "" : command.substring( commandIndex, command.length );
 
 	if ( button.value == "auto" )
 	{
-		return handleChoiceHotkey( numericKey );
+		return handleChoiceHotkey( numericKey, command );
 	}
 
 	if ( command.length == 0 )
@@ -88,8 +89,13 @@ function handleCombatHotkey( e, isDown )
 	return true;
 }
 
-function handleChoiceHotkey( choiceId )
+function handleChoiceHotkey( choiceId, command )
 {
+	if ( !command || command == "" )
+	{
+		return false;
+	}
+
 	if ( choiceId == 0 )
 	{
 		var button = document.getElementById( "defaultButton" );
