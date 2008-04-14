@@ -416,21 +416,6 @@ public class ItemPool
 	public static final int TATTERED_PAPER_CROWN = 3231;
 	public static final int TASTEFUL_BOOK = 3263;
 
-	public static final AdventureResult[] IMMATERIA =
-	{
-		ItemPool.get( TISSUE_PAPER_IMMATERIA, -1 ),
-		ItemPool.get( TIN_FOIL_IMMATERIA, -1 ),
-		ItemPool.get( GAUZE_IMMATERIA, -1 ),
-		ItemPool.get( PLASTIC_WRAP_IMMATERIA, -1 )
-	};
-
-	public static final AdventureResult[] AZAZEL =
-	{
-		ItemPool.get( AZAZELS_UNICORN, -1 ),
-		ItemPool.get( AZAZELS_LOLLYPOP, -1 ),
-		ItemPool.get( AZAZELS_TUTU, -1 ),
-	};
-
 	public static final AdventureResult get( String itemName, int count )
 	{
 		int itemId = ItemDatabase.getItemId( itemName, 1, false );

@@ -821,6 +821,11 @@ public class KoLAdventure
 			return;
 		}
 
+		if ( AdventureDatabase.isPotentialCloverAdventure( adventureName ) && Preferences.getBoolean( "cloverProtectActive" ) )
+		{
+			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "use", "* ten-leaf clover" );
+		}
+
 		// If the test is successful, then it is safe to run the
 		// request (without spamming the server).
 

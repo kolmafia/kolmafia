@@ -56,20 +56,19 @@ import java.util.regex.Pattern;
 
 import javax.swing.SwingUtilities;
 
-import com.velocityreviews.forums.HttpTimeoutHandler;
-
 import net.sourceforge.foxtrot.Job;
-
 import net.sourceforge.kolmafia.CreateFrameRunnable;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.LocalRelayServer;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.session.ValhallaManager;
+import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.session.ChatManager;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ClanManager;
@@ -78,6 +77,7 @@ import net.sourceforge.kolmafia.session.LouvreManager;
 import net.sourceforge.kolmafia.session.OceanManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
+import net.sourceforge.kolmafia.session.ValhallaManager;
 import net.sourceforge.kolmafia.session.VioletFogManager;
 import net.sourceforge.kolmafia.swingui.CouncilFrame;
 import net.sourceforge.kolmafia.swingui.RecentEventsFrame;
@@ -87,8 +87,7 @@ import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
-import net.sourceforge.kolmafia.persistence.Preferences;
+import com.velocityreviews.forums.HttpTimeoutHandler;
 
 public class GenericRequest
 	extends Job
@@ -1634,6 +1633,11 @@ public class GenericRequest
 		}
 
 		this.containsUpdate = ResultProcessor.processResults( this.responseText );
+		
+		if ( ResultProcessor.shouldDisassembleClovers( this.formURLString ) )
+		{
+			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "use", "* ten-leaf clover" );
+		}
 	}
 
 	public void processResults()
