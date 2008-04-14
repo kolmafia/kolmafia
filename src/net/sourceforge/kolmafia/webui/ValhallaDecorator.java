@@ -38,20 +38,17 @@ import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
-
-import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.UseSkillRequest;
-
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ValhallaDecorator
 {
@@ -159,6 +156,11 @@ public class ValhallaDecorator
 			reminders.append( "<nobr>blow up your bartender</nobr><br>" );
 		}
 
+		if ( KoLCharacter.getZapper() != null )
+		{
+			reminders.append( "<nobr>blow up your zap wand</nobr><br>" );
+		}
+		
 		if ( InventoryManager.hasItem( ItemPool.RUBBER_EMO_ROE ) )
 		{
 			reminders.append( "<nobr>send your rubber emo roes to Veracity</nobr><br>" );
