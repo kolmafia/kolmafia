@@ -665,8 +665,8 @@ public abstract class ChatManager
 
 	public static final void broadcastMessage( String displayHTML )
 	{
-		String[] broadcast = new String[ ChatManager.currentlyActive.size() ];
-		ChatManager.currentlyActive.toArray( broadcast );
+		String[] broadcast = new String[ ChatManager.instantMessageBuffers.size() ];
+		ChatManager.instantMessageBuffers.keySet().toArray( broadcast );
 
 		String currentKey;
 		LimitedSizeChatBuffer currentBuffer;
