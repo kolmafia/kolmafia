@@ -37,7 +37,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -55,19 +54,18 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
-
+import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
+import net.sourceforge.kolmafia.request.MallPurchaseRequest;
 import net.sourceforge.kolmafia.request.PulverizeRequest;
 import net.sourceforge.kolmafia.request.SellStuffRequest;
 import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
-
-import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.session.MoodManager;
 import net.sourceforge.kolmafia.session.MoodManager.MoodTrigger;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
@@ -225,13 +223,17 @@ public class ShowDescriptionList
 				StaticEntity.openRequestFrame( "desc_effect.php?whicheffect=" + EffectDatabase.getDescriptionId( EffectDatabase.getEffectId( ( (AdventureResult) item ).getName() ) ) );
 			}
 		}
+		else if ( item instanceof Concoction )
+		{
+			StaticEntity.openRequestFrame( "desc_item.php?whichitem=" + ItemDatabase.getDescriptionId( ( (Concoction) item ).getItemId() ) );
+		}
 		else if ( item instanceof CreateItemRequest )
 		{
 			StaticEntity.openRequestFrame( "desc_item.php?whichitem=" + ItemDatabase.getDescriptionId( ( (CreateItemRequest) item ).getItemId() ) );
 		}
-		else if ( item instanceof Concoction )
+		else if ( item instanceof MallPurchaseRequest )
 		{
-			StaticEntity.openRequestFrame( "desc_item.php?whichitem=" + ItemDatabase.getDescriptionId( ( (Concoction) item ).getItemId() ) );
+			StaticEntity.openRequestFrame( "desc_item.php?whichitem=" + ItemDatabase.getDescriptionId( ( (MallPurchaseRequest) item ).getItemId() ) );
 		}
 		else if ( item instanceof UseSkillRequest )
 		{
@@ -256,28 +258,43 @@ public class ShowDescriptionList
 		}
 
 		String name = null;
-		boolean isEffect = item instanceof AdventureResult && ( (AdventureResult) item ).isStatusEffect();
-		boolean isSkill = item instanceof UseSkillRequest;
-
+		
+		boolean isItem = false;
+		boolean isEffect = false;
+		boolean isSkill = false;
+				
 		if ( item instanceof AdventureResult )
 		{
-			name = ( (AdventureResult) item ).getName();
+			AdventureResult result = (AdventureResult) item;
+			name = result.getName();
+
+			isItem = result.isItem();
+			isEffect = result.isStatusEffect();
 		}
 		else if ( isSkill )
 		{
 			name = ( (UseSkillRequest) item ).getSkillName();
-		}
-		else if ( item instanceof CreateItemRequest )
-		{
-			name = ( (CreateItemRequest) item ).getName();
+			isEffect = true;
 		}
 		else if ( item instanceof Concoction )
 		{
 			name = ( (Concoction) item ).getName();
+			isItem = true;
+		}
+		else if ( item instanceof CreateItemRequest )
+		{
+			name = ( (CreateItemRequest) item ).getName();
+			isItem = true;
+		}
+		else if ( item instanceof MallPurchaseRequest )
+		{
+			name = ( (MallPurchaseRequest) item ).getItemName();
+			isItem = true;
 		}
 		else if ( item instanceof SoldItem )
 		{
 			name = ( (SoldItem) item ).getItemName();
+			isItem = true;
 		}
 		else if ( item instanceof String )
 		{
@@ -293,15 +310,23 @@ public class ShowDescriptionList
 			return null;
 		}
 
-		if ( isEffect && SkillDatabase.contains( name ) )
+		boolean inItemTable = ItemDatabase.contains( name );
+		boolean inEffectTable = EffectDatabase.contains( name );
+		boolean inSkillTable = SkillDatabase.contains( name );
+
+		if ( isItem && ( inEffectTable || inSkillTable ) )
+		{
+			name = name + " (item)";
+		}
+		else if ( isEffect && ( inItemTable || inSkillTable ) )
 		{
 			name = name + " (effect)";
 		}
-		else if ( isSkill && EffectDatabase.contains( name ) )
+		else if ( isSkill && ( inItemTable || inEffectTable ) )
 		{
 			name = name + " (skill)";
 		}
-
+		
 		name = StringUtilities.globalStringReplace( name, " ", "_" );
 		name = Character.toUpperCase( name.charAt( 0 ) ) + name.substring( 1 );
 		return "http://kol.coldfront.net/thekolwiki/index.php/" + name;
@@ -332,6 +357,7 @@ public class ShowDescriptionList
 		{
 			this.index =
 				ShowDescriptionList.this.lastSelectIndex == -1 ? ShowDescriptionList.this.getSelectedIndex() : ShowDescriptionList.this.lastSelectIndex;
+
 			this.item = ShowDescriptionList.this.displayModel.getElementAt( this.index );
 
 			if ( this.item == null )
