@@ -46,6 +46,9 @@ public class ItemPool
 	public static final int DOLPHIN_KING_MAP = 26;
 	public static final int CASINO_PASS = 40;
 	public static final int SCHLITZ = 41;
+	public static final int WORTHLESS_TRINKET = 43;
+	public static final int WORTHLESS_GEWGAW = 44;
+	public static final int WORTHLESS_KNICK_KNACK = 45;
 	public static final int FORTUNE_COOKIE = 61;
 	public static final int NEWBIESPORT_TENT = 69;
 	public static final int BARSKIN_TENT = 73;
@@ -107,6 +110,7 @@ public class ItemPool
 	public static final int PAGODA_PLANS = 502;
 	public static final int HEY_DEZE_NUTS = 509;
 	public static final int HEY_DEZE_MAP = 516;
+	public static final int STRANGE_LEAFLET = 520;
 	public static final int HOUSE = 526;
 	public static final int ABRIDGED = 534;
 	public static final int BRIDGE = 535;

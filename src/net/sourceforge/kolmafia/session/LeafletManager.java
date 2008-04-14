@@ -36,20 +36,16 @@ package net.sourceforge.kolmafia.session;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
-
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.swingui.CouncilFrame;
 
 public abstract class LeafletManager
 {
-	private static final AdventureResult LEAFLET = new AdventureResult( 520, 1 );
-	private static final AdventureResult FROBOZZ = new AdventureResult( 526, 1 );
 	private static final Pattern FOREST_PATTERN = Pattern.compile( "Gaps in the dense, forbidding foliage lead (.*?)," );
 
 	// This script assumes that the leaflet can be in any state; the player
@@ -155,7 +151,7 @@ public abstract class LeafletManager
 	public static final void robLeafletManager( final boolean invokeMagic )
 	{
 		// Make sure the player has the Strange Leaflet.
-		if ( !InventoryManager.hasItem( LeafletManager.LEAFLET ) )
+		if ( !InventoryManager.hasItem( ItemPool.STRANGE_LEAFLET ) )
 		{
 			if ( KoLCharacter.getLevel() >= 9 )
 			{

@@ -55,15 +55,11 @@ public class HermitRequest
 
 	public static final AdventureResult WORTHLESS_ITEM = new AdventureResult( 13, 1 );
 
-	private static final int TRINKET_ID = 43;
-	private static final int GEWGAW_ID = 44;
-	private static final int KNICK_KNACK_ID = 45;
-
 	public static final AdventureResult PERMIT = new AdventureResult( 42, 1 );
 
-	public static final AdventureResult TRINKET = new AdventureResult( HermitRequest.TRINKET_ID, 1 );
-	public static final AdventureResult GEWGAW = new AdventureResult( HermitRequest.GEWGAW_ID, 1 );
-	public static final AdventureResult KNICK_KNACK = new AdventureResult( HermitRequest.KNICK_KNACK_ID, 1 );
+	public static final AdventureResult TRINKET = new AdventureResult( ItemPool.WORTHLESS_TRINKET, 1 );
+	public static final AdventureResult GEWGAW = new AdventureResult( ItemPool.WORTHLESS_GEWGAW, 1 );
+	public static final AdventureResult KNICK_KNACK = new AdventureResult( ItemPool.WORTHLESS_KNICK_KNACK, 1 );
 
 	private static final AdventureResult HACK_SCROLL = new AdventureResult( 567, 1 );
 	private static final AdventureResult SUMMON_SCROLL = new AdventureResult( 553, 1 );
@@ -312,7 +308,7 @@ public class HermitRequest
 
 	public static final boolean isWorthlessItem( final int itemId )
 	{
-		return itemId == HermitRequest.TRINKET_ID || itemId == HermitRequest.GEWGAW_ID || itemId == HermitRequest.KNICK_KNACK_ID;
+		return itemId == ItemPool.WORTHLESS_TRINKET || itemId == ItemPool.WORTHLESS_GEWGAW || itemId == ItemPool.WORTHLESS_KNICK_KNACK;
 	}
 
 	private static final int subtractWorthlessItems( final AdventureResult item, final int total )
