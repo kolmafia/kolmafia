@@ -62,10 +62,13 @@ public class CreateItemRequest
 	public static final Pattern ITEMID_PATTERN = Pattern.compile( "item\\d?=(\\d+)" );
 	public static final Pattern QUANTITY_PATTERN = Pattern.compile( "(quantity|qty)=(\\d+)" );
 
-	public String name;
 	public AdventureResult createdItem;
-	public int itemId, beforeQuantity, mixingMethod;
-	public int yield;
+	
+	private String name;
+	private int itemId, mixingMethod;
+	
+	private int beforeQuantity, createdQuantity;
+	private int yield;
 
 	private int quantityNeeded, quantityPossible;
 
@@ -369,8 +372,6 @@ public class CreateItemRequest
 			}
 		}
 
-		int createdQuantity = 0;
-
 		do
 		{
 			this.reconstructFields();
@@ -395,29 +396,6 @@ public class CreateItemRequest
 			default:
 
 				this.combineItems();
-				break;
-			}
-
-			// After each iteration, determine how many were
-			// successfully made, and rerun if you're still
-			// short and continuation is possible.
-
-			createdQuantity = this.createdItem.getCount( KoLConstants.inventory ) - this.beforeQuantity;
-
-			// If we failed to make any at all, it's pointless to
-			// try again.
-
-			if ( createdQuantity == 0 )
-			{
-				// If the subclass didn't detect the failure,
-				// do so here.
-
-				if ( KoLmafia.permitsContinue() )
-				{
-					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Creation failed" );
-				}
-
-				// Stop iteration, regardless
 				break;
 			}
 
@@ -541,10 +519,23 @@ public class CreateItemRequest
 	{
 		// Figure out how many items were created
 
-		AdventureResult createdItem = new AdventureResult( this.itemId, 0 );
-		int createdQuantity = createdItem.getCount( KoLConstants.inventory ) - this.beforeQuantity;
-		KoLmafia.updateDisplay( "Successfully created " + this.getName() + " (" + createdQuantity + ")" );
+		this.createdQuantity = this.createdItem.getCount( KoLConstants.inventory ) - this.beforeQuantity;
 
+		if ( this.createdQuantity == 0 )
+		{
+			// If the subclass didn't detect the failure,
+			// do so here.
+
+			if ( KoLmafia.permitsContinue() )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Creation failed, no results detected." );
+			}
+
+			return;
+		}
+
+		KoLmafia.updateDisplay( "Successfully created " + this.getName() + " (" + createdQuantity + ")" );
+		
 		// Check to see if box-servant was overworked and exploded.
 
 		if ( this.responseText.indexOf( "Smoke" ) != -1 )
