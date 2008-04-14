@@ -46,6 +46,8 @@ import net.sourceforge.kolmafia.swingui.CouncilFrame;
 
 public abstract class LeafletManager
 {
+	private static final GenericRequest LEAFLET_REQUEST = new GenericRequest( "leaflet.php" );
+
 	private static final Pattern FOREST_PATTERN = Pattern.compile( "Gaps in the dense, forbidding foliage lead (.*?)," );
 
 	// This script assumes that the leaflet can be in any state; the player
@@ -138,17 +140,17 @@ public abstract class LeafletManager
 	private static boolean petunias; // true if petunias are done
 	private static boolean giant; // true if giant is done
 
-	public static final void leafletNoMagic()
+	public static final String leafletNoMagic()
 	{
-		LeafletManager.robLeafletManager( false );
+		return LeafletManager.robStrangeLeaflet( false );
 	}
 
-	public static final void leafletWithMagic()
+	public static final String leafletWithMagic()
 	{
-		LeafletManager.robLeafletManager( true );
+		return LeafletManager.robStrangeLeaflet( true );
 	}
 
-	public static final void robLeafletManager( final boolean invokeMagic )
+	public static final String robStrangeLeaflet( final boolean invokeMagic )
 	{
 		// Make sure the player has the Strange Leaflet.
 		if ( !InventoryManager.hasItem( ItemPool.STRANGE_LEAFLET ) )
@@ -160,7 +162,7 @@ public abstract class LeafletManager
 			else
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You are too low level for that quest." );
-				return;
+				return CouncilFrame.COUNCIL_VISIT.responseText;
 			}
 		}
 
@@ -172,7 +174,7 @@ public abstract class LeafletManager
 
 		if ( !KoLmafia.permitsContinue() )
 		{
-			return;
+			return LeafletManager.LEAFLET_REQUEST.responseText;
 		}
 
 		// Solve the puzzles.
@@ -192,7 +194,7 @@ public abstract class LeafletManager
 		if ( !LeafletManager.invokeMagic( invokeMagic ) )
 		{
 			KoLmafia.updateDisplay( "Serpent-slaying quest complete." );
-			return;
+			return LeafletManager.LEAFLET_REQUEST.responseText;
 		}
 
 		// Get the ring
@@ -206,6 +208,8 @@ public abstract class LeafletManager
 		{
 			KoLCharacter.updateStatus();
 		}
+
+		return LeafletManager.LEAFLET_REQUEST.responseText;
 	}
 
 	private static final void initialize()
@@ -842,20 +846,17 @@ public abstract class LeafletManager
 		LeafletManager.fireplace = true;
 	}
 
-	private static final GenericRequest LEAFLET_REQUEST = new GenericRequest( "leaflet.php" );
-
 	private static final String executeCommand( final String command )
 	{
-		GenericRequest request = LeafletManager.LEAFLET_REQUEST;
-		request.clearDataFields();
-		request.addFormField( "pwd" );
-		request.addFormField( "command", command );
-		RequestThread.postRequest( request );
+		LeafletManager.LEAFLET_REQUEST.clearDataFields();
+		LeafletManager.LEAFLET_REQUEST.addFormField( "pwd" );
+		LeafletManager.LEAFLET_REQUEST.addFormField( "command", command );
+		RequestThread.postRequest( LeafletManager.LEAFLET_REQUEST );
 
 		// Figure out where we are
-		LeafletManager.parseLocation( request.responseText );
+		LeafletManager.parseLocation( LeafletManager.LEAFLET_REQUEST.responseText );
 
 		// Let the caller look at the results, if desired
-		return request.responseText;
+		return LeafletManager.LEAFLET_REQUEST.responseText;
 	}
 }

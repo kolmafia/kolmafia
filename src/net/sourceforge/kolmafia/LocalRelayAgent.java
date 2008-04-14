@@ -37,9 +37,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
-
 import java.net.Socket;
-
 import java.util.TreeMap;
 
 import net.sourceforge.kolmafia.persistence.Preferences;
@@ -50,6 +48,7 @@ import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.SendMailRequest;
 import net.sourceforge.kolmafia.session.ActionBarManager;
 import net.sourceforge.kolmafia.session.ChoiceManager;
+import net.sourceforge.kolmafia.session.LeafletManager;
 import net.sourceforge.kolmafia.session.ValhallaManager;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -299,6 +298,11 @@ public class LocalRelayAgent
 		else if ( this.path.equals( "/choice.php?action=auto" ) )
 		{
 			ChoiceManager.processChoiceAdventure( this.request );
+		}
+		else if ( this.path.equals( "/leaflet.php?action=auto" ) )
+		{
+			this.request.pseudoResponse( "HTTP/1.1 200 OK",
+				LeafletManager.leafletWithMagic() );
 		}
 		else if ( this.path.startsWith( "/sidepane.php" ) )
 		{
