@@ -480,7 +480,7 @@ public class ConcoctionDatabase
 			currentItem = (Object []) toProcess.pop();
 			
 			c = (Concoction) currentItem[ 0 ];
-			quantity =  ( (Integer) currentItem[ 1 ] ).intValue();
+			quantity = ( (Integer) currentItem[ 1 ] ).intValue();
 
 			GenericRequest request = null;
 
@@ -505,25 +505,20 @@ public class ConcoctionDatabase
 				{
 					request = new MicroBreweryRequest( name );
 				}
-			}
-			else
-			{
-				request = new UseItemRequest( c.getItem().getInstance( c.getQueued() ) );
-			}
+				else
+				{
+					continue;
+				}
 
-			if ( request != null )
-			{
-				if ( request instanceof UseItemRequest )
+				for ( int j = 0; j < quantity; ++j )
 				{
 					RequestThread.postRequest( request );
 				}
-				else
-				{
-					for ( int j = 0; j < c.getQueued(); ++j )
-					{
-						RequestThread.postRequest( request );
-					}
-				}
+			}
+			else
+			{
+				request = new UseItemRequest( c.getItem().getInstance( quantity ) );
+				RequestThread.postRequest( request );
 			}
 		}
 
