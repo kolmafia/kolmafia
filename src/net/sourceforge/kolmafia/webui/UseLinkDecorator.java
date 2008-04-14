@@ -205,7 +205,7 @@ public abstract class UseLinkDecorator
 			case KoLConstants.PIXEL:
 			case KoLConstants.ROLLING_PIN:
 			case KoLConstants.CRIMBO05:
-			case KoLConstants.CLOVER:
+			case KoLConstants.CREATE_VIA_USE:
 			case KoLConstants.STILL_BOOZE:
 			case KoLConstants.STILL_MIXER:
 			case KoLConstants.SMITH:

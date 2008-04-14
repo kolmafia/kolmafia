@@ -153,7 +153,7 @@ public class CreateItemRequest
 			break;
 
 		case KoLConstants.CATALYST:
-		case KoLConstants.CLOVER:
+		case KoLConstants.CREATE_VIA_USE:
 			formSource = "multiuse.php";
 			break;
 
@@ -176,7 +176,7 @@ public class CreateItemRequest
 		{
 			this.addFormField( "action", "smith" );
 		}
-		else if ( this.mixingMethod == KoLConstants.CLOVER || this.mixingMethod == KoLConstants.CATALYST )
+		else if ( this.mixingMethod == KoLConstants.CREATE_VIA_USE || this.mixingMethod == KoLConstants.CATALYST )
 		{
 			this.addFormField( "action", "useitem" );
 		}
@@ -307,7 +307,7 @@ public class CreateItemRequest
 			return new Crimbo05Request( itemId );
 
 		case KoLConstants.CATALYST:
-		case KoLConstants.CLOVER:
+		case KoLConstants.CREATE_VIA_USE:
 			return new CreateItemRequest( "multiuse.php", itemId, mixingMethod );
 
 		case KoLConstants.WOK:
@@ -499,7 +499,7 @@ public class CreateItemRequest
 	{
 		AdventureResult[] ingredients = ConcoctionDatabase.getIngredients( this.itemId );
 
-		if ( ingredients.length == 1 || this.mixingMethod == KoLConstants.CATALYST || this.mixingMethod == KoLConstants.WOK )
+		if ( this.mixingMethod == KoLConstants.CREATE_VIA_USE || this.mixingMethod == KoLConstants.CATALYST || this.mixingMethod == KoLConstants.WOK )
 		{
 			if ( this.getAdventuresUsed() > KoLCharacter.getAdventuresLeft() )
 			{

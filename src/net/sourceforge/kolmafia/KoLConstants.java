@@ -304,7 +304,7 @@ public interface KoLConstants
 	public static final int SMITH_ARMOR = 14;
 
 	public static final int CRIMBO05 = 15;
-	public static final int CLOVER = 16;
+	public static final int CREATE_VIA_USE = 16;
 
 	public static final int STILL_BOOZE = 17;
 	public static final int STILL_MIXER = 18;
