@@ -412,12 +412,17 @@ public abstract class UseLinkDecorator
 
 			case ItemPool.DINGHY_PLANS:
 
-				if ( InventoryManager.hasItem( ItemPool.DINGY_PLANKS ) || HermitRequest.getWorthlessItemCount() == 0 )
+				if ( InventoryManager.hasItem( ItemPool.DINGY_PLANKS ) )
 				{
-					return null;
+					return new UseLink( itemId, 1, "use", "inv_use.php?which=3&whichitem=" );
 				}
-
-				return new UseLink( ItemPool.DINGY_PLANKS, 1, "planks", "hermit.php?autopermit=on&action=trade&quantity=1&whichitem=" );
+				
+				if ( HermitRequest.getWorthlessItemCount() == 0 )
+				{
+					return new UseLink( ItemPool.DINGY_PLANKS, 1, "planks", "hermit.php?autopermit=on&action=trade&quantity=1&whichitem=" );
+				}
+				
+				return new UseLink( itemId, "sewer", "sewer.php" );
 
 			case ItemPool.TOWEL:
 
@@ -467,6 +472,15 @@ public abstract class UseLinkDecorator
 			useType = "use";
 			useLocation = "uneffect.php";
 			break;
+		
+		// Strange leaflet gets a quick 'read' link which sends you
+		// to the leaflet completion page.
+		
+		case ItemPool.STRANGE_LEAFLET:
+			
+			useType = "read";
+			useLocation = "leaflet.php";
+			break;
 
 		// Hedge maze puzzle and hedge maze key have a link to the maze
 		// for easy access.
@@ -500,6 +514,16 @@ public abstract class UseLinkDecorator
 
 			useType = InventoryManager.getCount( ItemPool.STAR_CHART ) + "," + InventoryManager.getCount( ItemPool.STAR ) + "," + InventoryManager.getCount( ItemPool.LINE );
 			useLocation = "starchart.php";
+			break;
+		
+		// Worthless items get a link to the hermit.
+			
+		case ItemPool.WORTHLESS_TRINKET:
+		case ItemPool.WORTHLESS_GEWGAW:
+		case ItemPool.WORTHLESS_KNICK_KNACK:
+			
+			useType = "hermit";
+			useLocation = "hermit.php?autopermit=on";
 			break;
 
 		// The different kinds of ores will only have a link if they're
