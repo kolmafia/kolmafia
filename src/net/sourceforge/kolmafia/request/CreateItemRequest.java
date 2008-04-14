@@ -399,7 +399,7 @@ public class CreateItemRequest
 				break;
 			}
 
-			this.quantityNeeded -= createdQuantity;
+			this.quantityNeeded -= this.createdQuantity;
 		}
 		while ( this.quantityNeeded > 0 && KoLmafia.permitsContinue() );
 	}
