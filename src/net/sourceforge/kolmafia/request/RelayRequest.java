@@ -39,6 +39,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.net.URL;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -92,12 +94,14 @@ public class RelayRequest
 	private final PauseObject pauser = new PauseObject();
 
 	private static final TreeMap overrideMap = new TreeMap();
+
+	private static final Pattern WHITESPACE_PATTERN = Pattern.compile( "['\\s-]" );
 	private static final Pattern EMAIL_PATTERN =
 		Pattern.compile( "<table style='border: 1px solid black;' cellpadding=10>.*?</table>", Pattern.DOTALL );
-	private static final Pattern WHITESPACE_PATTERN = Pattern.compile( "['\\s-]" );
-
 	private static final Pattern STORE_PATTERN =
 		Pattern.compile( "<tr><td><input name=whichitem type=radio value=(\\d+).*?</tr>", Pattern.DOTALL );
+
+	private static final String RELAY_PATH = KoLConstants.RELAY_LOCATION.getAbsolutePath();
 
 	private static String mainpane = "";
 	private static KoLAdventure lastSafety = null;
@@ -121,33 +125,39 @@ public class RelayRequest
 		this.rawByteBuffer = null;
 		this.headers.clear();
 
-		if ( this.getPath().endsWith( ".css" ) )
+		String path = this.getPath();
+
+		if ( path.endsWith( ".css" ) )
 		{
 			this.contentType = "text/css";
 		}
-		else if ( this.getPath().endsWith( ".js" ) )
+		else if ( path.endsWith( ".js" ) )
 		{
 			this.contentType = "text/javascript";
 		}
-		else if ( this.getPath().endsWith( ".gif" ) )
+		else if ( path.endsWith( ".gif" ) )
 		{
 			this.contentType = "image/gif";
 		}
-		else if ( this.getPath().endsWith( ".png" ) )
+		else if ( path.endsWith( ".png" ) )
 		{
 			this.contentType = "image/png";
 		}
-		else if ( this.getPath().endsWith( ".jpg" ) || this.getPath().endsWith( ".jpeg" ) )
+		else if ( path.endsWith( ".jpg" ) || path.endsWith( ".jpeg" ) )
 		{
 			this.contentType = "image/jpeg";
 		}
-		else if ( this.getPath().endsWith( ".ico" ) )
+		else if ( path.endsWith( ".ico" ) )
 		{
 			this.contentType = "image/x-icon";
 		}
-		else
+		else if ( path.endsWith( ".php" ) || path.endsWith( ".html" ) || path.endsWith( ".ash" ) )
 		{
 			this.contentType = "text/html";
+		}
+		else
+		{
+			this.contentType = "text/plain";
 		}
 
 		return this;
@@ -481,9 +491,17 @@ public class RelayRequest
 	{
 		try
 		{
+			URL imageURL = FileUtilities.downloadImage(
+				"http://images.kingdomofloathing.com" + filename.substring( 6 ) );
+
+			if ( imageURL == null )
+			{
+				this.sendNotFound();
+				return;
+			}
+
 			BufferedInputStream in =
-				new BufferedInputStream( FileUtilities.downloadImage(
-					"http://images.kingdomofloathing.com" + filename.substring( 6 ) ).openConnection().getInputStream() );
+				new BufferedInputStream( imageURL.openConnection().getInputStream() );
 
 			ByteArrayOutputStream outbytes = new ByteArrayOutputStream( 4096 );
 			byte[] buffer = new byte[ 4096 ];
@@ -545,6 +563,13 @@ public class RelayRequest
 		}
 
 		File override = (File) RelayRequest.overrideMap.get( filename );
+
+		if ( !override.getAbsolutePath().startsWith( RELAY_PATH ) )
+		{
+			this.sendNotFound();
+			return;
+		}
+
 		if ( !override.exists() )
 		{
 			if ( filename.equals( "main.html" ) || filename.equals( "main_c.html" ) )
@@ -1057,12 +1082,6 @@ public class RelayRequest
 			return;
 		}
 
-		if ( this.getPath().endsWith( ".css" ) || this.getPath().endsWith( ".js" ) )
-		{
-			this.sendLocalFile( this.getPath() );
-			return;
-		}
-
 		// If it's an ASH override script, make sure to handle it
 		// exactly as it should.
 
@@ -1076,18 +1095,12 @@ public class RelayRequest
 			return;
 		}
 
-		// HTML files never have form fields.  Remove them, because
+		// Local files never have form fields.  Remove them, because
 		// they're probably just used for data tracking purposes
 		// client-side.
 
-		if ( this.getPath().endsWith( ".html" ) )
-		{
-			this.data.clear();
-			this.sendLocalFile( this.getPath() );
-			return;
-		}
-
-		this.sendNotFound();
+		this.data.clear();
+		this.sendLocalFile( this.getPath() );
 	}
 
 	public void run()
