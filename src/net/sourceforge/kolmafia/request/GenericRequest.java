@@ -77,6 +77,7 @@ import net.sourceforge.kolmafia.session.LouvreManager;
 import net.sourceforge.kolmafia.session.OceanManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
+import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.ValhallaManager;
 import net.sourceforge.kolmafia.session.VioletFogManager;
 import net.sourceforge.kolmafia.swingui.CouncilFrame;
@@ -95,12 +96,7 @@ public class GenericRequest
 	private int timeoutCount = 0;
 	private static final int TIMEOUT_LIMIT = 3;
 
-	private static int totalActualDelay = 0;
-	private static int totalConsideredDelay = 0;
-
 	private static final int INITIAL_CACHE_COUNT = 3;
-	private static final int TIMEOUT_DELAY = 500;
-	private static final int INDUCED_DELAY = 800;
 
 	private static final ArrayList BYTEFLAGS = new ArrayList();
 	private static final ArrayList BYTEARRAYS = new ArrayList();
@@ -176,10 +172,6 @@ public class GenericRequest
 
 	public static final void applySettings()
 	{
-		// Reset delay statistics at the beginning of each login
-		GenericRequest.totalActualDelay = 0;
-		GenericRequest.totalConsideredDelay = 0;
-
 		GenericRequest.applyProxySettings();
 
 		int defaultLoginServer = Preferences.getInteger( "defaultLoginServer" );
@@ -653,6 +645,7 @@ public class GenericRequest
 
 		this.timeoutCount = 0;
 		this.containsUpdate = false;
+
 		String location = this.getURLString();
 
 		if ( location.indexOf( "clan" ) != -1 )
@@ -660,6 +653,16 @@ public class GenericRequest
 			if ( location.indexOf( "action=leaveclan" ) != -1 || location.indexOf( "action=joinclan" ) != -1 )
 			{
 				ClanManager.resetClanId();
+			}
+		}
+
+		if ( !this.hasNoResult )
+		{
+			TurnCounter expired = TurnCounter.getExpiredCounter( this );
+			if ( expired != null )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, expired.getLabel() + " counter expired." );
+				return;
 			}
 		}
 

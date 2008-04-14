@@ -47,6 +47,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 
 import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CharPaneRequest
@@ -456,7 +457,7 @@ public class CharPaneRequest
 		KoLmafia.applyEffects();
 		KoLConstants.activeEffects.retainAll( visibleEffects );
 
-		if ( StaticEntity.isCounting( "Wormwood" ) )
+		if ( TurnCounter.isCounting( "Wormwood" ) )
 		{
 			return;
 		}
@@ -465,15 +466,15 @@ public class CharPaneRequest
 
 		if ( absintheCount > 8 )
 		{
-			StaticEntity.startCounting( absintheCount - 9, "Wormwood", "tinybottle.gif" );
+			TurnCounter.startCounting( absintheCount - 9, "Wormwood", "tinybottle.gif" );
 		}
 		else if ( absintheCount > 4 )
 		{
-			StaticEntity.startCounting( absintheCount - 5, "Wormwood", "tinybottle.gif" );
+			TurnCounter.startCounting( absintheCount - 5, "Wormwood", "tinybottle.gif" );
 		}
 		else if ( absintheCount > 0 )
 		{
-			StaticEntity.startCounting( absintheCount - 1, "Wormwood", "tinybottle.gif" );
+			TurnCounter.startCounting( absintheCount - 1, "Wormwood", "tinybottle.gif" );
 		}
 	}
 }

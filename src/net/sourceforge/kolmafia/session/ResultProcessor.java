@@ -468,7 +468,7 @@ public class ResultProcessor
 		{
 			if ( result.getCount() < 0 )
 			{
-				StaticEntity.saveCounters();
+				TurnCounter.saveCounters();
 				AdventureResult.addResultToList( KoLConstants.tally, result.getNegation() );
 			}
 			else if ( KoLmafia.isAdventuring() )

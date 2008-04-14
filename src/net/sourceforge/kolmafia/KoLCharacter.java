@@ -45,6 +45,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -1205,7 +1206,7 @@ public abstract class KoLCharacter
 		KoLAdventure location = KoLAdventure.lastVisitedLocation();
 		String loc = ( location == null ) ? "" : location.getAdventureName();
 		Preferences.setString( "semirareLocation", loc );
-		StaticEntity.stopCounting( "Fortune Cookie" );
+		TurnCounter.stopCounting( "Fortune Cookie" );
 	}
 
 	/**

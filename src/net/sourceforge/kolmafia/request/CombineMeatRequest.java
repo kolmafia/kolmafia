@@ -83,6 +83,8 @@ public class CombineMeatRequest
 
 	public void processResults()
 	{
+		super.processResults();
+		
 		ResultProcessor.processResult(
 			new AdventureResult( AdventureResult.MEAT, this.costToMake * this.getQuantityNeeded() ) );
 	}

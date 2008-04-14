@@ -37,12 +37,12 @@ import java.util.ArrayList;
 
 import net.sourceforge.foxtrot.Job;
 
-import net.sourceforge.kolmafia.StaticEntity.TurnCounter;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.CouncilFrame;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
@@ -810,15 +810,6 @@ public class KoLAdventure
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Thrust smacks are useless with ranged weapons." );
 				return;
 			}
-		}
-
-		TurnCounter expired = StaticEntity.getExpiredCounter(
-			this.adventureId, this.formSource.equals( "shore.php" ) ? 3 : 1 );
-
-		if ( expired != null )
-		{
-			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, expired.getLabel() + " counter expired." );
-			return;
 		}
 
 		if ( AdventureDatabase.isPotentialCloverAdventure( adventureName ) && Preferences.getBoolean( "cloverProtectActive" ) )

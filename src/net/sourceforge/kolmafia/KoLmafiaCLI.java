@@ -113,6 +113,7 @@ import net.sourceforge.kolmafia.session.NemesisManager;
 import net.sourceforge.kolmafia.session.PvpManager;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.StoreManager;
+import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.swingui.BuffRequestFrame;
 import net.sourceforge.kolmafia.swingui.CalendarFrame;
 import net.sourceforge.kolmafia.swingui.CouncilFrame;
@@ -3837,7 +3838,7 @@ public class KoLmafiaCLI
 				desiredStream.println( "Last semirare found " + ( current - turns ) + " turns ago (on turn " + turns + ")" + loc );
 			}
 
-			String counters = StaticEntity.getUnexpiredCounters();
+			String counters = TurnCounter.getUnexpiredCounters();
 			desiredStream.println();
 			if ( counters.equals( "" ) )
 			{

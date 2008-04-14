@@ -60,6 +60,7 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
+import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -784,13 +785,13 @@ public class UseItemRequest
 			RequestLogger.updateSessionLog( message );
 			RequestLogger.printLine( message );
 
-			if ( StaticEntity.isCounting( "Fortune Cookie" ) )
+			if ( TurnCounter.isCounting( "Fortune Cookie" ) )
 			{
 				int desiredCount = 0;
 				for ( int i = 2; i <= 4; ++i )
 				{
 					int number = StringUtilities.parseInt( fortuneMatcher.group( i ) );
-					if ( StaticEntity.isCounting( "Fortune Cookie", number ) )
+					if ( TurnCounter.isCounting( "Fortune Cookie", number ) )
 					{
 						desiredCount = number;
 					}
@@ -798,8 +799,8 @@ public class UseItemRequest
 
 				if ( desiredCount != 0 )
 				{
-					StaticEntity.stopCounting( "Fortune Cookie" );
-					StaticEntity.startCounting( desiredCount, "Fortune Cookie", "fortune.gif" );
+					TurnCounter.stopCounting( "Fortune Cookie" );
+					TurnCounter.startCounting( desiredCount, "Fortune Cookie", "fortune.gif" );
 					return;
 				}
 			}
@@ -807,7 +808,7 @@ public class UseItemRequest
 			for ( int i = 2; i <= 4; ++i )
 			{
 				int number = StringUtilities.parseInt( fortuneMatcher.group( i ) );
-				StaticEntity.startCounting( number, "Fortune Cookie", "fortune.gif" );
+				TurnCounter.startCounting( number, "Fortune Cookie", "fortune.gif" );
 			}
 
 			return;

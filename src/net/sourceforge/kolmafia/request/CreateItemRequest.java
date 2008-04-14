@@ -477,7 +477,7 @@ public class CreateItemRequest
 	{
 		AdventureResult[] ingredients = ConcoctionDatabase.getIngredients( this.itemId );
 
-		if ( this.mixingMethod == KoLConstants.CREATE_VIA_USE || this.mixingMethod == KoLConstants.CATALYST || this.mixingMethod == KoLConstants.WOK )
+		if ( ingredients.length == 1 || this.mixingMethod == KoLConstants.CREATE_VIA_USE || this.mixingMethod == KoLConstants.CATALYST || this.mixingMethod == KoLConstants.WOK )
 		{
 			if ( this.getAdventuresUsed() > KoLCharacter.getAdventuresLeft() )
 			{
@@ -521,20 +521,10 @@ public class CreateItemRequest
 
 		this.createdQuantity = this.createdItem.getCount( KoLConstants.inventory ) - this.beforeQuantity;
 
-		if ( this.createdQuantity == 0 )
+		if ( this.createdQuantity != 0 )
 		{
-			// If the subclass didn't detect the failure,
-			// do so here.
-
-			if ( KoLmafia.permitsContinue() )
-			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Creation failed, no results detected." );
-			}
-
-			return;
+			KoLmafia.updateDisplay( "Successfully created " + this.getName() + " (" + createdQuantity + ")" );
 		}
-
-		KoLmafia.updateDisplay( "Successfully created " + this.getName() + " (" + createdQuantity + ")" );
 		
 		// Check to see if box-servant was overworked and exploded.
 
@@ -630,9 +620,17 @@ public class CreateItemRequest
 		}
 
 		// If we created none, set error state so iteration stops.
-		if ( createdQuantity == 0 )
+		if ( this.createdQuantity == 0 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Unexpected error: nothing created" );
+			// If the subclass didn't detect the failure,
+			// do so here.
+
+			if ( KoLmafia.permitsContinue() )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Creation failed, no results detected." );
+			}
+
+			return;
 		}
 	}
 
@@ -797,11 +795,13 @@ public class CreateItemRequest
 			// to proceed with the concoction.
 
 			int quantity = this.quantityNeeded * multiplier;
+
 			if ( yield > 1 )
 			{
 				quantity = ( quantity + yield - 1 ) / yield;
 			}
-			foundAllIngredients &= InventoryManager.retrieveItem( ingredients[ i ].getInstance( quantity ) );
+			
+			foundAllIngredients &= InventoryManager.retrieveItem( ingredients[ i ].getItemId(), quantity );
 		}
 
 		return foundAllIngredients;
