@@ -966,22 +966,6 @@ public class UseItemRequest
 				ResultProcessor.processResult( item );
 			}
 
-		case ItemPool.RAFFLE_TICKET:
-
-			// The first time you use an Elf Farm Raffle ticket
-			// with a ten-leaf clover in your inventory, the clover
-			// disappears in a puff of smoke and you get pagoda
-			// plans.
-
-			// Subsequent raffle tickets don't consume clovers.
-
-			if ( responseText.indexOf( "puff of smoke" ) != -1 )
-			{
-				ResultProcessor.processItem( ItemPool.TEN_LEAF_CLOVER, -1 );
-			}
-
-			return;
-
 		case ItemPool.KETCHUP_HOUND:
 
 			// Successfully using a ketchup hound uses up the Hey
