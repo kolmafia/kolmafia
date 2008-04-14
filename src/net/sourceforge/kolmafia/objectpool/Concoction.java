@@ -74,6 +74,9 @@ public class Concoction
 
 	private boolean wasPossible;
 
+	private boolean isMarking;
+	private boolean isCalculating;
+
 	private final int price;
 
 	private final List ingredients;
@@ -511,48 +514,36 @@ public class Concoction
 		// the quantity creatable by solving the set of
 		// linear inequalities.
 
-		if ( this.mixingMethod == KoLConstants.ROLLING_PIN || this.mixingMethod == KoLConstants.CLOVER )
+		this.total = MallPurchaseRequest.MAX_QUANTITY;
+
+		for ( int i = 0; i < this.ingredientArray.length; ++i )
 		{
-			// If there's only one ingredient, then the
-			// quantity depends entirely on it.
-			AdventureResult ingredient = this.ingredientArray[ 0 ];
+			AdventureResult ingredient = this.ingredientArray[ i ];
 			Concoction c = ConcoctionPool.get( ingredient.getItemId() );
 
-			this.creatable = c.initial;
-			this.total = this.initial + this.creatable;
+			int available = c.quantity();
+			this.total = Math.min( this.total, available );
 		}
-		else
+
+		if ( ConcoctionDatabase.ADVENTURE_USAGE[ this.mixingMethod ] != 0 )
 		{
-			this.total = MallPurchaseRequest.MAX_QUANTITY;
-
-			for ( int i = 0; i < this.ingredientArray.length; ++i )
-			{
-				AdventureResult ingredient = this.ingredientArray[ i ];
-				Concoction c = ConcoctionPool.get( ingredient.getItemId() );
-				int available = c.quantity();
-				this.total = Math.min( this.total, available );
-			}
-
-			if ( ConcoctionDatabase.ADVENTURE_USAGE[ this.mixingMethod ] != 0 )
-			{
-				Concoction c = ConcoctionDatabase.adventureLimit;
-				int available = c.quantity();
-				this.total = Math.min( this.total, available );
-			}
-
-			if ( this.mixingMethod == KoLConstants.STILL_MIXER || this.mixingMethod == KoLConstants.STILL_BOOZE )
-			{
-				Concoction c = ConcoctionDatabase.stillsLimit;
-				int available = c.quantity();
-				this.total = Math.min( this.total, available );
-			}
-
-			// The total available for other creations is
-			// equal to the total, less the initial.
-
-			this.creatable = ( this.total - this.initial ) * this.getYield();
-			this.total = this.initial + this.creatable;
+			Concoction c = ConcoctionDatabase.adventureLimit;
+			int available = c.quantity();
+			this.total = Math.min( this.total, available );
 		}
+
+		if ( this.mixingMethod == KoLConstants.STILL_MIXER || this.mixingMethod == KoLConstants.STILL_BOOZE )
+		{
+			Concoction c = ConcoctionDatabase.stillsLimit;
+			int available = c.quantity();
+			this.total = Math.min( this.total, available );
+		}
+
+		// The total available for other creations is
+		// equal to the total, less the initial.
+
+		this.creatable = ( this.total - this.initial ) * this.getYield();
+		this.total = this.initial + this.creatable;
 
 		// Now that all the calculations are complete, unmark
 		// the ingredients so that later calculations can make
@@ -582,28 +573,30 @@ public class Concoction
 		// multiplier exists.
 
 		int quantity = ( this.total + this.modifier ) / this.multiplier;
-
-		// Avoid mutual recursion.
-
-		if ( this.mixingMethod == KoLConstants.ROLLING_PIN || this.mixingMethod == KoLConstants.CLOVER || !ConcoctionDatabase.isPermittedMethod( this.mixingMethod ) )
-		{
-			return quantity;
-		}
-
+		
 		// The true value is affected by the maximum value for
 		// the ingredients.  Therefore, calculate the quantity
 		// for all other ingredients to complete the solution
 		// of the linear inequality.
 
 		int mult = this.getYield();
+
+		this.isCalculating = true;
+		
 		for ( int i = 0; quantity > 0 && i < this.ingredientArray.length; ++i )
 		{
 			AdventureResult ingredient = this.ingredientArray[ i ];
 			Concoction c = ConcoctionPool.get( ingredient.getItemId() );
-			int available = c.quantity() * mult;
-			quantity = Math.min( quantity, available );
-		}
 
+			// Avoid mutual recursion.
+			
+			if ( !c.isCalculating )
+			{
+				int available = c.quantity() * mult;
+				quantity = Math.min( quantity, available );
+			}			
+		}
+		
 		// Adventures are also considered an ingredient; if
 		// no adventures are necessary, the multiplier should
 		// be zero and the infinite number available will have
@@ -628,6 +621,7 @@ public class Concoction
 		// The true value is now calculated.  Return this
 		// value to the requesting method.
 
+		this.isCalculating = false;
 		return quantity;
 	}
 
@@ -641,13 +635,8 @@ public class Concoction
 		this.modifier += modifier;
 		this.multiplier += multiplier;
 
-		// Avoid mutual recursion
-
-		if ( this.mixingMethod == KoLConstants.ROLLING_PIN || this.mixingMethod == KoLConstants.CLOVER || !ConcoctionDatabase.isPermittedMethod( this.mixingMethod ) )
-		{
-			return;
-		}
-
+		this.isMarking = true;
+		
 		// Mark all the ingredients, being sure to multiply
 		// by the number of that ingredient needed in this
 		// concoction.
@@ -664,18 +653,26 @@ public class Concoction
 				shouldMark &= this.ingredientArray[ i ].getItemId() != this.ingredientArray[ j ].getItemId();
 			}
 
-			if ( shouldMark )
+			if ( !shouldMark )
 			{
-				for ( int j = i + 1; j < this.ingredientArray.length; ++j )
-				{
-					if ( this.ingredientArray[ i ].getItemId() == this.ingredientArray[ j ].getItemId() )
-					{
-						instanceCount += this.ingredientArray[ j ].getCount();
-					}
-				}
+				continue;
+			}
 
-				ConcoctionPool.get( this.ingredientArray[ i ].getItemId() ).mark(
-					( this.modifier + this.initial ) * instanceCount, this.multiplier * instanceCount );
+			for ( int j = i + 1; j < this.ingredientArray.length; ++j )
+			{
+				if ( this.ingredientArray[ i ].getItemId() == this.ingredientArray[ j ].getItemId() )
+				{
+					instanceCount += this.ingredientArray[ j ].getCount();
+				}
+			}
+
+			Concoction c = ConcoctionPool.get( this.ingredientArray[ i ].getItemId() );
+
+			// Avoid mutual recursion
+			
+			if ( !c.isMarking )
+			{
+				c.mark( ( this.modifier + this.initial ) * instanceCount, this.multiplier * instanceCount );
 			}
 		}
 
@@ -694,6 +691,8 @@ public class Concoction
 		{
 			ConcoctionDatabase.stillsLimit.mark( ( this.modifier + this.initial ), this.multiplier );
 		}
+
+		this.isMarking = false;
 	}
 
 	/**

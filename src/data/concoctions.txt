@@ -106,6 +106,7 @@ heart of rock and roll	4	hot buttered roll	big rock
 Rock and Roll Legend	4	heart of rock and roll	stolen accordion
 Squeezebox of the Ages	4	Rock and Roll Legend	golden reeds
 
+
 # Familiar items and their subcomponents which do not serve any other
 # recalled purpose.
 
@@ -153,14 +154,7 @@ nothing-in-the-box-in-the-box	1	box-in-the-box	spring
 sprocket assembly	1	sprocket	spring
 
 
-# Items created by combining letters and/or numbers.
-
-# Number scrolls are now only combined in combat with a rampaging adding machine
-
-# 31337 scroll	1	30669 scroll	668 scroll
-# 64067 scroll	1	30669 scroll	33398 scroll
-# 64735 scroll	1	64067 scroll	668 scroll
-# 668 scroll	1	334 scroll	334 scroll
+# Items created by combining letters.
 
 ND	1	lowercase N	heavy D
 NG	1	lowercase N	original G
@@ -213,8 +207,12 @@ Sneaky Pete's key lime pie	2	Sneaky Pete's key lime	pie crust
 star key lime	2	Richard's star key	lime
 star key lime pie	2	star key lime	pie crust
 
+
+# Items which can be created by using a rolling pin.
+
 flat dough	11	wad of dough
 wad of dough	11	flat dough
+
 
 # Other recipes which aren't popular but can be created.  There is no
 # real reason why they aren't popular - they just aren't.
@@ -249,6 +247,7 @@ tofu casserole	2	wad of tofu	Gnollish casserole dish
 tofu taco	2	wad of tofu	taco shell
 white chocolate chip cookies	2	white chocolate chips	wad of dough
 
+
 # Food requiring access to L11 or L12 quest areas
 
 fishy fish	2	displaced fish	dehydrated caviar
@@ -268,6 +267,7 @@ Crimbo pie	2	pie crust	plum
 pear tart	2	pie crust	pear
 peach pie	2	pie crust	peach
 
+
 # Booze requiring access to L11 or L12 quest areas
 
 shot of blackberry schnapps	3	fermenting powder	blackberry
@@ -282,6 +282,7 @@ bottle of rum (3)	3	fermenting powder	brown sugar cane
 bottle of tequila (3)	3	fermenting powder	cactus fruit
 bottle of vodka (3)	3	fermenting powder	bowl of rye sprouts
 bottle of whiskey (3)	3	fermenting powder	cob of corn
+
 
 # Standard, tier 1 and tier 2 beverages.  Nothing special about
 # these mixtures except everyone can make them.
@@ -324,6 +325,7 @@ whiskey sour	3	bottle of whiskey	lemon
 white Canadian	3	bottle of vodka	glass of goat's milk
 wine spritzer	3	boxed wine	soda water
 
+
 # Hilarious drinks makable by anyone.
 
 calle de miel with a fly in it	3	margarita	magical ice cube with a fly in it
@@ -334,6 +336,7 @@ Mae West with a fly in it	3	rabbit punch	magical ice cube with a fly in it
 mandarina colada with a fly in it	3	zmobie	magical ice cube with a fly in it
 tangarita with a fly in it	3	tequila sunset	magical ice cube with a fly in it
 prussian cathouse with a fly in it	3	parisian cathouse	magical ice cube with a fly in it
+
 
 # Tier 3, 4 and 5 beverages which can only be made by someone with
 # Advanced Cocktailcrafting.  These include the popular umbrella,
@@ -356,6 +359,7 @@ calle de miel	7	margarita	magical ice cubes
 
 bungle in the jungle	7	banana daiquiri	little paper umbrella
 
+
 # Beverages which can be made by Superhuman Cocktailcrafting
 
 caipifruta	19	bottle of Lieutenant Freeman	kiwi
@@ -370,6 +374,7 @@ vodka and tonic	19	bottle of Definit	tonic water
 vodka gibson	19	bottle of Definit	cocktail onion
 whiskey bittersweet	19	bottle of Domesticated Turkey	kumquat
 zmobie	19	bottle of Lieutenant Freeman	tangerine
+
 
 # Beverages which can be made by Advanced Cocktailcrafting using
 # ingredients available via Superhuman Cocktailcrafting
@@ -411,6 +416,7 @@ skewered jumbo olive	3	jumbo olive	tiny plastic sword
 dirty martini	3	dry martini	skewered jumbo olive
 vesper	3	dry vodka martini	skewered jumbo olive
 
+
 # Item upgrades accessible with Crosby Nash's Still: Moxie class
 # characters with the Superhuman Cocktailcrafting skill
 
@@ -434,6 +440,7 @@ tonic water	18	soda water
 asbestos meat stack	13	asbestos ore	dense meat stack
 chrome meat stack	13	chrome ore	dense meat stack
 linoleum meat stack	13	linoleum ore	dense meat stack
+
 
 # Super-advanced Meatsmithing weapons.
 
@@ -469,6 +476,7 @@ rattail whip	13	whip kit	leathery rat skin
 tail o' nine cats	13	whip kit	leathery cat skin
 white whip	13	whip kit	white snake skin
 yak whip	13	whip kit	yak skin
+
 
 # Meat-smithing weapons.  These items are grouped based on the
 # type of base material used in their creation.
@@ -546,6 +554,7 @@ Frost&trade; brand sword	4	styrofoam sword	cold powder
 ram-battering staff	4	ram horns	ram stick
 icy-hot katana	4	icy katana hilt	hot katana blade
 
+
 # Meat-smithing armor pieces.  These items are helmets, pants,
 # and sometimes accessories which are created in smithing.
 
@@ -569,12 +578,14 @@ grass skirt	4	fake plastic grass	skirt / kilt kit
 
 fez of etymology	4	basic meat fez	facsimile dictionary
 
+
 # Accessories made of hides of various sorts.
 
 black belt	14	black snake skin	enormous belt buckle
 clownskin belt	4	clown skin	big red clown nose
 ratskin belt	14	leathery rat skin	enormous belt buckle
 # white belt	4	white snake skin	enormous belt buckle
+
 
 # Hats made of hides of various sorts.
 
@@ -585,6 +596,7 @@ clown wig	4	basic meat helmet	clown skin
 demon-horned hat	4	basic meat helmet	demon skin
 nasty rat mask	14	basic meat helmet	leathery rat skin
 yak toupee	14	basic meat helmet	yak skin
+
 
 # Pants made of hides of various sorts.
 
@@ -598,6 +610,7 @@ tighty whiteys	4	white snake skin	pants kit
 yakskin pants	14	yak skin	pants kit
 gnauga hide chaps	14	gnauga hide	pants kit
 
+
 # Skirts made of hides of various sorts.
 
 furry skirt	14	furry fur	skirt / kilt kit
@@ -607,6 +620,7 @@ penguinskin mini-skirt	14	penguin skin	skirt / kilt kit
 sticky meat skirt	4	really really sticky spider web	basic meat skirt
 yakskin skirt	14	yak skin	skirt / kilt kit
 
+
 # Kilts made of hides of various sorts.
 
 furry kilt	14	furry fur	skirt / kilt kit
@@ -615,6 +629,7 @@ hippopotamus kilt	14	hippopotamus skin	skirt / kilt kit
 penguinskin mini-kilt	14	penguin skin	skirt / kilt kit
 sticky meat kilt	4	really really sticky spider web	basic meat kilt
 yakskin kilt	14	yak skin	skirt / kilt kit
+
 
 # Bucklers made of hides of various sorts.
 
@@ -626,6 +641,7 @@ gnauga hide buckler	14	buckler buckle	gnauga hide
 hippo skin buckler	14	buckler buckle	hippopotamus skin
 penguin skin buckler	14	buckler buckle	penguin skin
 yakskin buckler	14	buckler buckle	yak skin
+
 
 # Shirts made of hides of various sorts.
 
@@ -639,7 +655,9 @@ tuxedo shirt	14	shirt kit	penguin skin
 white snakeskin duster	14	shirt kit	white snake skin
 yak anorak	14	shirt kit	yak skin
 
+
 # Things made of special turtles
+
 cardboard box turtle	14	cardboard ore	box turtle
 furry green earmuffs	14	furry green turtle	furry green turtle
 knobby kneepads	14	knobby helmet turtle	knobby helmet turtle
@@ -650,11 +668,13 @@ sebaceous shield	14	bum cheek	sewer turtle
 eXtreme nose ring	1	stone of eXtreme power	piercing post
 spooky glove	2	spooky fairy gravy	small leather glove
 
+
 # Time Trappings, smithable by anyone.
 
 time helmet	4	petrified time	helmet recipe
 time trousers	4	petrified time	pants kit
 time sword	4	petrified time	sword hilt
+
 
 # Elemental powders can be compressed into nuggets and wads with the Malus
 
@@ -672,6 +692,16 @@ spooky wad	23	spooky nuggets (5)
 stench wad	23	stench nuggets (5)
 sleaze wad	23	sleaze nuggets (5)
 
+
+# KoLmafia currently doesn't support items with more than one creation method
+
+# hot wad	21	twinkly wad	sleaze wad
+# cold wad	21	twinkly wad	hot wad
+# spooky wad	21	twinkly wad	cold wad
+# stench wad	21	twinkly wad	spooky wad
+# sleaze wad	21	twinkly wad	stench wad
+
+
 # Potions you can make by cooking
 
 vial of baconstone juice	2	vial of Gnomochloric acid	baconstone
@@ -685,6 +715,7 @@ flask of porquoise juice	2	flask of Gnomochloric acid	porquoise
 jug of baconstone juice	2	jug of Gnomochloric acid	baconstone
 jug of hamethyst juice	2	jug of Gnomochloric acid	hamethyst
 jug of porquoise juice	2	jug of Gnomochloric acid	porquoise
+
 
 # Reagent potions.  Not to be confused with reagent broth mixtures
 # which can be combined with pasta by pastamancers.
@@ -710,17 +741,13 @@ Frogade	5	scrumptious reagent	squashed frog
 
 papotion of papower	5	scrumptious reagent	papaya
 
+
 # Advanced Sauces
 
 scrumdiddlyumptious solution	20	delectable catalyst	scrumptious reagent
 
-# The following recipes lead to infinite recursion...
 
-# hot wad	21	twinkly wad	sleaze wad
-# cold wad	21	twinkly wad	hot wad
-# spooky wad	21	twinkly wad	cold wad
-# stench wad	21	twinkly wad	spooky wad
-# sleaze wad	21	twinkly wad	stench wad
+# Reagent potions.
 
 cologne of contempt	21	scrumdiddlyumptious solution	dill
 concentrated cordial of concentration	21	scrumdiddlyumptious solution	tonic water
@@ -736,6 +763,7 @@ phial of coldness	5	scrumptious reagent	cold powder
 phial of spookiness	5	scrumptious reagent	spooky powder
 phial of stench	5	scrumptious reagent	stench powder
 phial of sleaziness	5	scrumptious reagent	sleaze powder
+
 
 # Simple pastamancer recipes.  Available to pastamancers only, and
 # creates pasta if you don't have finer ingredients.
@@ -761,6 +789,7 @@ gnocchetti di Nietzsche	6	Himalayan Hidalgo sauce	dry noodles
 Hell ramen	6	Hell broth	dry noodles
 spaghetti with Skullheads	6	sauce of the ages	dry noodles
 
+
 # Stir-fry items.  These are the main ingredients or are sub-ingredients
 # of chow mein items.
 
@@ -778,6 +807,7 @@ pr0n stir-fry	2	pr0n legs	olive stir-fry
 rat appendix stir-fry	2	rat appendix	spooky stir-fry
 tofu stir-fry	2	wad of tofu	asparagus stir-fry
 
+
 # Middle-end foods made by cooking stir-fries with dry noodles
 
 asparagus lo mein	6	asparagus stir-fry	dry noodles
@@ -785,6 +815,7 @@ Knob lo mein	6	Knob stir-fry	dry noodles
 Knoll lo mein	6	Knoll stir-fry	dry noodles
 olive lo mein	6	olive stir-fry	dry noodles
 spooky lo mein	6	spooky stir-fry	dry noodles
+
 
 # High-end foods made by upgrading stir-fries at the Wok of Ages
 
@@ -800,6 +831,7 @@ sleazy and sour sauce	21	scrumdiddlyumptious solution	sleaze nuggets
 spooky and sour sauce	21	scrumdiddlyumptious solution	spooky nuggets
 stench and sour sauce	21	scrumdiddlyumptious solution	stench nuggets
 
+
 # Top-end foods made by upgrading element-and-sour sauces at the Wok of Ages
 
 cold hi mein	22	cold and sour sauce	dry noodles	MSG
@@ -808,6 +840,7 @@ sleazy hi mein	22	sleazy and sour sauce	dry noodles	MSG
 spooky hi mein	22	spooky and sour sauce	dry noodles	MSG
 stinky hi mein	22	stench and sour sauce	dry noodles	MSG
 
+
 # Top-end foods made by upgrading other things at the Wok of Ages
 
 fishy fish lasagna	22	fishy fish casserole	dry noodles	MSG
@@ -815,6 +848,7 @@ gnat lasagna	22	gnatloaf casserole	dry noodles	MSG
 long pork lasagna	22	long pork casserole	dry noodles	MSG
 sausage wonton	22	beer basted brat	dry noodles	MSG
 tofu wonton	22	super salad	dry noodles	MSG
+
 
 # Star Chart items
 
@@ -901,6 +935,7 @@ Mudflap-Girl Earring	25	tawdry amethyst	precious piercing post
 Mudflap-Girl Necklace	25	tawdry amethyst	heavy necklace chain
 Mudflap-Girl Ring	25	tawdry amethyst	extra-fancy ring setting
 
+
 # Chef staves made by Rodoric
 
 Staff of the Short Order Cook	26	basic meat staff	bowl of cottage cheese	ice-cold Sir Schlitz (3)	twinkly powder (3)	magicalness-in-a-can (5)
@@ -911,6 +946,7 @@ Staff of the Kitchen Floor	26	linoleum staff	stinky hi mein (3)	stinky mushroom 
 Staff of the Walk-In Freezer	26	ram stick	cold hi mein (3)	icy mushroom wine	cold wad (10)	frozen feather
 Staff of the Grand Flamb&eacute;	26	smoldering staff	hot hi mein (3)	flaming mushroom wine	hot wad (10)	flaming feather
 Staff of the Grease Trap	26	giant cheesestick	sleazy hi mein (3)	flat mushroom wine	sleaze wad (10)	flirtatious feather
+
 
 # Recipes that involve multi-using a quantity of an item
 
@@ -941,6 +977,7 @@ clingfilm trousers	27	bit of clingfilm (11)
 brick of sand	27	handful of sand (5)
 sandcastle	27	brick of sand (20)
 
+
 # Recipes that involve single-using one of the ingredients
 
 booty chest charrrm bracelet	28	booty chest charrrm	charrrm bracelet
@@ -952,6 +989,7 @@ rum barrel charrrm bracelet	28	rum barrel charrrm	charrrm bracelet
 silver tongue charrrm bracelet	28	silver tongue charrrm	charrrm bracelet
 tarrrnished charrrm bracelet	28	tarrrnish charrrm	charrrm bracelet
 
+
 # Familiars.  These are familiars which are only available after
 # ascension (not including the ones which are available through
 # post-ascension methods, like supertinkering).
@@ -962,6 +1000,7 @@ deactivated MicroMechaMech	12	clockwork spine	clockwork claws	clockwork key
 dusty animal skull	1	dusty animal cranium	dusty animal jawbone
 scary death orb	1	clockwork sphere	grouchy restless spirit
 reassembled blackbird	1	broken wings	sunken eyes
+
 
 # These are item-combinations which are only available post-ascension,
 # and does not fall into any other categories.
@@ -1036,6 +1075,12 @@ clockwork bartender head	1	clockwork sphere	beer goggles
 clockwork bartender-head-in-the-box	1	clockwork bartender head	nothing-in-the-box
 clockwork bartender-in-the-box	1	clockwork bartender-head-in-the-box	cocktailcrafting kit
 
+
+# Items created via item usage.
+
+scroll of ancient forbidden unspeakable evil	16	disintegrating quill pen	inkwell	tattered scrap of paper
+
+
 # Crimbo toys.  These are items which are created at Uncle Crimbo
 # after collecting enough toy components.
 
@@ -1069,10 +1114,9 @@ teddy borg	29	iGoogly (2)	nanofiber cloth (2)	synthetic stuffing (4)
 toy deathbot	29	iGoogly (2)	LED block (3)
 toy maglev monorail	29	theoretical string (2)	LED block (3)	toy hoverpad (6)
 
+
 # Crimbo tools.  These are items which are created at Ugh Crimbo
 # after collecting enough components.
-
-# Uncle Crimbo can also make them in 2007
 
 fire	29	stick	stick
 prehistoric spear	29	stick	tooth
@@ -1084,10 +1128,9 @@ yo	29	stringy sinew	rock
 leaf tube	24	stringy sinew	big leaf
 lit cigar	1	fire	leaf tube
 
+
 # Evil Crimbo toys.  These are items which are created by Lady Linnea
 # after collecting enough toy components.
-
-# Uncle Crimbo can also make them in 2007
 
 evil teddy bear	29	evil googly eye (2)	spooky stuffing (4)	spooky felt (2)
 fancy dress ball	29	spooky stuffing	spooky felt
@@ -1102,10 +1145,9 @@ toy mercenary	29	evil googly eye (2)	spooky wooden block (3)
 tree-eating kite	29	spooky length of string	spooky felt
 vampire duck-on-a-string	29	spooky length of string	evil googly eye (2)	spooky wooden block (2)	spooky toy wheel (2)
 
+
 # Future Crimbo toys.  These are items which are created by Uncle Crimborg
 # after collecting enough toy components.
-
-# Uncle Crimbo can also make them in 2007
 
 atomic vector plotter	29	ion grid	Feynman gate
 bi-lateral logic compressor	29	capacitor relay	Feynman gate

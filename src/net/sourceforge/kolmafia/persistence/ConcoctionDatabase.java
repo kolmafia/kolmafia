@@ -854,8 +854,8 @@ public class ConcoctionDatabase
 		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.COMBINE ] = true;
 		ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.COMBINE ] = 0;
 
-		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.CLOVER ] = true;
-		ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.CLOVER ] = 0;
+		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.CREATE_VIA_USE ] = true;
+		ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.CREATE_VIA_USE ] = 0;
 
 		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.CATALYST ] = true;
 		ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.CATALYST ] = 0;
