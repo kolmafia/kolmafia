@@ -831,7 +831,7 @@ public class EquipmentRequest
 			AdventureResult result = new AdventureResult( itemId, StringUtilities.parseInt( optionMatcher.group( 3 ) ) );
 			if ( resultList == KoLConstants.inventory )
 			{
-				ResultProcessor.processResult( result, false );
+				ResultProcessor.tallyResult( result, false );
 			}
 			else
 			{
@@ -876,7 +876,7 @@ public class EquipmentRequest
 			if ( inventoryCount != quantityValue )
 			{
 				item = item.getInstance( quantityValue - inventoryCount );
-				KoLCharacter.processResult( item );
+				ResultProcessor.tallyResult( item, true );
 			}
 		}
 	}
