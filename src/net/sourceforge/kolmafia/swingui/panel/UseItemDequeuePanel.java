@@ -86,7 +86,7 @@ public class UseItemDequeuePanel
 			this.queueTabs.addTab( "0 Spleen Queued", this.centerPanel );
 		}
 
-		this.queueTabs.addTab( "Ingredients Used", new GenericScrollPane( ConcoctionDatabase.getQueue(), 7 ) );
+		this.queueTabs.addTab( "Ingredients Used", new GenericScrollPane( ConcoctionDatabase.getQueuedIngredients( this.food, this.booze, this.spleen ), 7 ) );
 		this.actualPanel.add( this.queueTabs, BorderLayout.CENTER );
 
 		this.eastPanel.add( new UndoQueueButton(), BorderLayout.SOUTH );
@@ -107,7 +107,7 @@ public class UseItemDequeuePanel
 
 	public void actionConfirmed()
 	{
-		ConcoctionDatabase.handleQueue( true );
+		ConcoctionDatabase.handleQueue( this.food, this.booze, this.spleen, true );
 
 		if ( this.food )
 		{
@@ -125,7 +125,7 @@ public class UseItemDequeuePanel
 
 	public void actionCancelled()
 	{
-		ConcoctionDatabase.handleQueue( false );
+		ConcoctionDatabase.handleQueue( this.food, this.booze, this.spleen, false );
 
 		if ( this.food )
 		{
@@ -151,7 +151,7 @@ public class UseItemDequeuePanel
 
 		public void run()
 		{
-			ConcoctionDatabase.pop();
+			ConcoctionDatabase.pop( UseItemDequeuePanel.this.food, UseItemDequeuePanel.this.booze, UseItemDequeuePanel.this.spleen );
 			ConcoctionDatabase.refreshConcoctions();
 
 			if ( UseItemDequeuePanel.this.food )
