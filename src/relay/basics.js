@@ -141,29 +141,6 @@ function inlineLoad( location, fields, id )
 }
 
 
-function useAllClovers()
-{
-	var httpObject = getHttpObject();
-	if ( !httpObject )
-		return true;
-
-	httpObject.onreadystatechange = function()
-	{
-		if ( httpObject.readyState != 4 )
-			return;
-
-		document.getElementById( "warningImage" ).src =
-			"http://images.kingdomofloathing.com/itemimages/disclover.gif";
-	}
-
-	httpObject.open( "GET", "/KoLmafia/submitCommand?cmd=use+%2A+ten-leaf+clover" +
-		"&MAFIAHIT", true );
-
-	httpObject.send( "" );
-	return true;
-}
-
-
 function singleUse( location, fields )
 {	return inlineLoad( location, fields, false );
 }

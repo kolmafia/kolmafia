@@ -46,16 +46,14 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
-import net.sourceforge.kolmafia.webui.IslandDecorator;
-
-import net.sourceforge.kolmafia.request.FightRequest;
-import net.sourceforge.kolmafia.request.HermitRequest;
-
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.request.FightRequest;
+import net.sourceforge.kolmafia.request.HermitRequest;
+import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
+import net.sourceforge.kolmafia.webui.IslandDecorator;
 
 public class ResultProcessor
 {
@@ -66,6 +64,28 @@ public class ResultProcessor
 		Pattern.compile( "some of your blood, to the tune of ([\\d,]+) damage" );
 	private static Pattern DISCARD_PATTERN = Pattern.compile( "You discard your (.*?)\\." );
 
+	private static boolean receivedClover = false;
+	
+	public static boolean shouldDisassembleClovers( String formURLString )
+	{
+		if ( !ResultProcessor.receivedClover || FightRequest.getCurrentRound() != 0 || !Preferences.getBoolean( "cloverProtectActive" ) )
+		{
+			return false;
+		}
+
+		if ( !formURLString.startsWith( "inventory.php" ) && !formURLString.startsWith( "multiuse.php" ) )
+		{
+			return true;
+		}
+		
+		return formURLString.indexOf( String.valueOf( ItemPool.DISASSEMBLED_CLOVER ) ) == -1;
+	}
+	
+	public static boolean receivedClover()
+	{
+		return ResultProcessor.receivedClover;
+	}
+	
 	public static boolean processResults( String results )
 	{
 		return ResultProcessor.processResults( results, null );
@@ -73,6 +93,8 @@ public class ResultProcessor
 
 	public static boolean processResults( String results, List data )
 	{
+		ResultProcessor.receivedClover = false;
+		
 		if ( data == null )
 		{
 			RequestLogger.updateDebugLog( "Processing results..." );
@@ -582,42 +604,46 @@ public class ResultProcessor
 
 	public static void gainItem( AdventureResult result )
 	{
+		// All results, whether positive or negative, are
+		// handled here.
+		
 		switch ( result.getItemId() )
 		{
 		case ItemPool.LUCRE:
 			CoinmastersFrame.externalUpdate();
 			break;
-
+		}
+		
+		// From here on out, only positive results are handled.
+		// This is to reduce the number of 'if' checks.
+		
+		if ( result.getCount() < 0 )
+		{
+			return;
+		}
+		
+		switch ( result.getItemId() )
+		{
 		case ItemPool.SOCK:
 			// If you get a S.O.C.K., you lose all the Immateria
-			if ( result.getCount() == 1 )
-			{
-				for ( int i = 0; i < ItemPool.IMMATERIA.length; ++i )
-				{
-					processResult( ItemPool.IMMATERIA[ i ] );
-				}
-			}
+			ResultProcessor.processItem( ItemPool.TISSUE_PAPER_IMMATERIA, -1 );
+			ResultProcessor.processItem( ItemPool.TIN_FOIL_IMMATERIA, -1 );
+			ResultProcessor.processItem( ItemPool.GAUZE_IMMATERIA, -1 );
+			ResultProcessor.processItem( ItemPool.PLASTIC_WRAP_IMMATERIA, -1 );
 			break;
 
 		case ItemPool.STEEL_STOMACH:
 		case ItemPool.STEEL_LIVER:
 		case ItemPool.STEEL_SPLEEN:
 			// When you get a steel item, you lose Azazel's items
-			if ( result.getCount() == 1 )
-			{
-				for ( int i = 0; i < ItemPool.AZAZEL.length; ++i )
-				{
-					processResult( ItemPool.AZAZEL[ i ] );
-				}
-			}
+			ResultProcessor.processItem( ItemPool.AZAZELS_UNICORN, -1 );
+			ResultProcessor.processItem( ItemPool.AZAZELS_LOLLYPOP, -1 );
+			ResultProcessor.processItem( ItemPool.AZAZELS_TUTU, -1 );
 			break;
 
 		case ItemPool.MOLYBDENUM_MAGNET:
 			// When you get the molybdenum magnet, tell quest handler
-			if ( result.getCount() == 1 )
-			{
-				IslandDecorator.startJunkyardQuest();
-			}
+			IslandDecorator.startJunkyardQuest();
 			break;
 
 		case ItemPool.MOLYBDENUM_HAMMER:
@@ -625,37 +651,34 @@ public class ResultProcessor
 		case ItemPool.MOLYBDENUM_PLIERS:
 		case ItemPool.MOLYBDENUM_WRENCH:
 			// When you get a molybdenum item, tell quest handler
-			if ( result.getCount() == 1 )
-			{
-				IslandDecorator.resetGremlinTool();
-			}
+			IslandDecorator.resetGremlinTool();
 			break;
 
 		case ItemPool.BROKEN_DRONE:
-			if ( result.getCount() == 1 && KoLConstants.inventory.contains( ItemPool.get( ItemPool.DRONE, 1 ) ) )
+			if ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.DRONE, 1 ) ) )
 			{
-				processResult( ItemPool.get( ItemPool.DRONE, -1 ) );
+				ResultProcessor.processItem( ItemPool.DRONE, -1 );
 			}
 			break;
 
 		case ItemPool.REPAIRED_DRONE:
-			if ( result.getCount() == 1 && KoLConstants.inventory.contains( ItemPool.get( ItemPool.BROKEN_DRONE, 1 ) ) )
+			if ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.BROKEN_DRONE, 1 ) ) )
 			{
-				processResult( ItemPool.get( ItemPool.BROKEN_DRONE, -1 ) );
+				ResultProcessor.processItem( ItemPool.BROKEN_DRONE, -1 );
 			}
 			break;
 
 		case ItemPool.AUGMENTED_DRONE:
-			if ( result.getCount() == 1 && KoLConstants.inventory.contains( ItemPool.get( ItemPool.REPAIRED_DRONE, 1 ) ) )
+			if ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.REPAIRED_DRONE, 1 ) ) )
 			{
-				processResult( ItemPool.get( ItemPool.REPAIRED_DRONE, -1 ) );
+				ResultProcessor.processItem( ItemPool.REPAIRED_DRONE, -1 );
 			}
 			break;
 
 		case ItemPool.TRAPEZOID:
-			if ( result.getCount() == 1 && KoLConstants.inventory.contains( ItemPool.get( ItemPool.POWER_SPHERE, 1 ) ) )
+			if ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.POWER_SPHERE, 1 ) ) )
 			{
-				processResult( ItemPool.get( ItemPool.POWER_SPHERE, -1 ) );
+				ResultProcessor.processItem( ItemPool.POWER_SPHERE, -1 );
 			}
 			break;
 
@@ -663,93 +686,59 @@ public class ResultProcessor
 		 // the Gnome's Going Postal quest.
 
 		case ItemPool.REALLY_BIG_TINY_HOUSE:
-			if ( result.getCount() == 1 )
-			{
-				processResult( ItemPool.get( ItemPool.RED_PAPER_CLIP, -1 ) );
-			}
+			ResultProcessor.processItem( ItemPool.RED_PAPER_CLIP, -1 );
 			break;
+
 		case ItemPool.NONESSENTIAL_AMULET:
-			if ( result.getCount() == 1 )
-			{
-				processResult( ItemPool.get( ItemPool.REALLY_BIG_TINY_HOUSE, -1 ) );
-			}
+			ResultProcessor.processItem( ItemPool.REALLY_BIG_TINY_HOUSE, -1 );
 			break;
 
 		case ItemPool.WHITE_WINE_VINAIGRETTE:
-			if ( result.getCount() == 1 )
-			{
-				processResult( ItemPool.get( ItemPool.NONESSENTIAL_AMULET, -1 ) );
-			}
+			ResultProcessor.processItem( ItemPool.NONESSENTIAL_AMULET, -1 );
 			break;
 		case ItemPool.CURIOUSLY_SHINY_AX:
-			if ( result.getCount() == 1 )
-			{
-				processResult( ItemPool.get( ItemPool.WHITE_WINE_VINAIGRETTE, -1 ) );
-			}
+			ResultProcessor.processItem( ItemPool.WHITE_WINE_VINAIGRETTE, -1 );
 			break;
 		case ItemPool.CUP_OF_STRONG_TEA:
-			if ( result.getCount() == 1 )
-			{
-				processResult( ItemPool.get( ItemPool.CURIOUSLY_SHINY_AX, -1 ) );
-			}
+			ResultProcessor.processItem( ItemPool.CURIOUSLY_SHINY_AX, -1 );
 			break;
 		case ItemPool.MARINATED_STAKES:
-			if ( result.getCount() == 1 )
-			{
-				processResult( ItemPool.get( ItemPool.CUP_OF_STRONG_TEA, -1 ) );
-			}
+			ResultProcessor.processItem( ItemPool.CUP_OF_STRONG_TEA, -1 );
 			break;
 		case ItemPool.KNOB_BUTTER:
-			if ( result.getCount() == 1 )
-			{
-				processResult( ItemPool.get( ItemPool.MARINATED_STAKES, -1 ) );
-			}
+			ResultProcessor.processItem( ItemPool.MARINATED_STAKES, -1 );
 			break;
 		case ItemPool.VIAL_OF_ECTOPLASM:
-			if ( result.getCount() == 1 )
-			{
-				processResult( ItemPool.get( ItemPool.KNOB_BUTTER, -1 ) );
-			}
+			ResultProcessor.processItem( ItemPool.KNOB_BUTTER, -1 );
 			break;
 		case ItemPool.BOOCK_OF_MAGIKS:
-			if ( result.getCount() == 1 )
-			{
-				processResult( ItemPool.get( ItemPool.VIAL_OF_ECTOPLASM, -1 ) );
-			}
+			ResultProcessor.processItem( ItemPool.VIAL_OF_ECTOPLASM, -1 );
 			break;
 		case ItemPool.EZ_PLAY_HARMONICA_BOOK:
-			if ( result.getCount() == 1 )
-			{
-				processResult( ItemPool.get( ItemPool.BOOCK_OF_MAGIKS, -1 ) );
-			}
+			ResultProcessor.processItem( ItemPool.BOOCK_OF_MAGIKS, -1 );
 			break;
 		case ItemPool.FINGERLESS_HOBO_GLOVES:
-			if ( result.getCount() == 1 )
-			{
-				processResult( ItemPool.get( ItemPool.EZ_PLAY_HARMONICA_BOOK, -1 ) );
-			}
+			ResultProcessor.processItem( ItemPool.EZ_PLAY_HARMONICA_BOOK, -1 );
 			break;
 		case ItemPool.CHOMSKYS_COMICS:
-			if ( result.getCount() == 1 )
-			{
-				processResult( ItemPool.get( ItemPool.FINGERLESS_HOBO_GLOVES, -1 ) );
-			}
+			ResultProcessor.processItem( ItemPool.FINGERLESS_HOBO_GLOVES, -1 );
 			break;
 
 		case ItemPool.GNOME_DEMODULIZER:
-			if ( result.getCount() == 1 && KoLConstants.inventory.contains( ItemPool.get( ItemPool.CHOMSKYS_COMICS, 1 ) ) )
+			if ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.CHOMSKYS_COMICS, 1 ) ) )
 			{
-				processResult( ItemPool.get( ItemPool.CHOMSKYS_COMICS, -1 ) );
+				ResultProcessor.processItem( ItemPool.CHOMSKYS_COMICS, -1 );
 			}
 			break;
 
 		case ItemPool.MUS_MANUAL:
 		case ItemPool.MYS_MANUAL:
 		case ItemPool.MOX_MANUAL:
-			if ( result.getCount() == 1 )
-			{
-				processResult( ItemPool.get( ItemPool.DUSTY_BOOK, -1 ) );
-			}
+			ResultProcessor.processItem( ItemPool.DUSTY_BOOK, -1 );
+			break;
+		
+		case ItemPool.TEN_LEAF_CLOVER:
+			ResultProcessor.receivedClover = true;
 			break;
 		}
 	}

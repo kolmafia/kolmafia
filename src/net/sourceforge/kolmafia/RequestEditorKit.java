@@ -54,9 +54,15 @@ import javax.swing.text.html.HTML;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.ImageView;
 
-import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.request.ChatRequest;
+import net.sourceforge.kolmafia.request.FightRequest;
+import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.MoonPhaseRequest;
+import net.sourceforge.kolmafia.request.ZapRequest;
 import net.sourceforge.kolmafia.session.ChoiceManager;
-import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.RequestFrame;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
@@ -69,16 +75,6 @@ import net.sourceforge.kolmafia.webui.IslandDecorator;
 import net.sourceforge.kolmafia.webui.StationaryButtonDecorator;
 import net.sourceforge.kolmafia.webui.UseLinkDecorator;
 import net.sourceforge.kolmafia.webui.ValhallaDecorator;
-
-import net.sourceforge.kolmafia.request.ChatRequest;
-import net.sourceforge.kolmafia.request.FightRequest;
-import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.MoonPhaseRequest;
-import net.sourceforge.kolmafia.request.UseItemRequest;
-import net.sourceforge.kolmafia.request.ZapRequest;
-
-import net.sourceforge.kolmafia.persistence.ItemDatabase;
-import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class RequestEditorKit
 	extends HTMLEditorKit
@@ -443,7 +439,18 @@ public class RequestEditorKit
 			return;
 		}
 
+		// It's possible that clovers were auto-disassembled.
+		// Go ahead and make the updates.
+		
+		if ( ResultProcessor.shouldDisassembleClovers( location ) )
+		{
+			StringUtilities.singleStringReplace( buffer, "<b>ten-leaf clover</b>", "<b>disassembled clover</b>" );
+			StringUtilities.singleStringReplace( buffer, "clover.gif", "disclover.gif" );
+			StringUtilities.singleStringReplace( buffer, "370834526", "328909735" );
+		}
+		
 		// Change El Vibrato punchcard names wherever they are found
+
 		RequestEditorKit.changePunchcardNames( buffer );
 
 		// Now handle the changes which only impact a single

@@ -39,7 +39,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -56,6 +55,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaASH;
+import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.LocalRelayServer;
 import net.sourceforge.kolmafia.NullStream;
 import net.sourceforge.kolmafia.RequestEditorKit;
@@ -1212,13 +1212,9 @@ public class RelayRequest
 			// Check for clovers as well so that people don't accidentally
 			// use up a clover in the middle of a bad moon run.
 
-			if ( AdventureDatabase.isPotentialCloverAdventure( adventureName ) )
+			if ( AdventureDatabase.isPotentialCloverAdventure( adventureName ) && Preferences.getBoolean( "cloverProtectActive" ) )
 			{
-				this.sendGeneralWarning(
-					"clover.gif",
-					"If you are certain you wish to use your ten-leaf clover, click on the image above to proceed.  Otherwise, click <a href=\"javascript: useAllClovers(); void(0);\">here</a> and wait for the image to turn into a disassembled clover to proceed." );
-
-				return;
+				KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "use", "* ten-leaf clover" );
 			}
 
 			// Special handling of adventuring locations before it's
