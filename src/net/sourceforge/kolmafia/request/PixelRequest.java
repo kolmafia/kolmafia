@@ -99,7 +99,8 @@ public class PixelRequest
 			Matcher quantityMatcher = CreateItemRequest.QUANTITY_PATTERN.matcher( urlString );
 			if ( quantityMatcher.find() )
 			{
-				quantity = StringUtilities.parseInt( quantityMatcher.group( 2 ) );
+				String quantityString = quantityMatcher.group( 2 ).trim();
+				quantity = quantityString.length() == 0 ? 1 : StringUtilities.parseInt( quantityString );
 			}
 		}
 

@@ -425,10 +425,11 @@ public abstract class TransferItemRequest
 				continue;
 			}
 
-			String quantityString = quantityMatcher.group( 1 );
+			String quantityString = quantityMatcher == null ? "" :
+				quantityMatcher.group( 1 ).trim();
 			
 			int quantity = quantityPattern == null ? defaultQuantity :
-				quantityString.trim().length() == 0 ? 1 : StringUtilities.parseInt( quantityString );
+				quantityString.length() == 0 ? 1 : StringUtilities.parseInt( quantityString );
 
 			AdventureResult item = new AdventureResult( itemId, quantity );
 
