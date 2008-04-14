@@ -1173,28 +1173,28 @@ public class FightRequest
 		if ( EquipmentManager.getEquipment( EquipmentManager.HAT ).equals( FightRequest.BROKEN_HELMET ) && responseText.indexOf( "Your antique helmet, weakened" ) != -1 )
 		{
 			EquipmentManager.setEquipment( EquipmentManager.HAT, EquipmentRequest.UNEQUIP );
-			KoLCharacter.processResult( FightRequest.BROKEN_HELMET );
+			ResultProcessor.tallyResult( FightRequest.BROKEN_HELMET, true );
 			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Your antique helmet broke." );
 		}
 
 		if ( EquipmentManager.getEquipment( EquipmentManager.WEAPON ).equals( FightRequest.BROKEN_SPEAR ) && responseText.indexOf( "sunders your antique spear" ) != -1 )
 		{
 			EquipmentManager.setEquipment( EquipmentManager.WEAPON, EquipmentRequest.UNEQUIP );
-			KoLCharacter.processResult( FightRequest.BROKEN_SPEAR );
+			ResultProcessor.tallyResult( FightRequest.BROKEN_SPEAR, true );
 			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Your antique spear broke." );
 		}
 
 		if ( EquipmentManager.getEquipment( EquipmentManager.OFFHAND ).equals( FightRequest.BROKEN_SHIELD ) && responseText.indexOf( "Your antique shield, weakened" ) != -1 )
 		{
 			EquipmentManager.setEquipment( EquipmentManager.OFFHAND, EquipmentRequest.UNEQUIP );
-			KoLCharacter.processResult( FightRequest.BROKEN_SHIELD );
+			ResultProcessor.tallyResult( FightRequest.BROKEN_SHIELD, true );
 			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Your antique shield broke." );
 		}
 
 		if ( EquipmentManager.getEquipment( EquipmentManager.PANTS ).equals( FightRequest.BROKEN_GREAVES ) && responseText.indexOf( "Your antique greaves, weakened" ) != -1 )
 		{
 			EquipmentManager.setEquipment( EquipmentManager.PANTS, EquipmentRequest.UNEQUIP );
-			KoLCharacter.processResult( FightRequest.BROKEN_GREAVES );
+			ResultProcessor.tallyResult( FightRequest.BROKEN_GREAVES, true );
 			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Your antique greaves broke." );
 		}
 

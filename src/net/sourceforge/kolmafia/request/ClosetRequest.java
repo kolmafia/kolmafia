@@ -379,7 +379,7 @@ public class ClosetRequest
 		{
 			while ( !KoLConstants.storage.isEmpty() )
 			{
-				KoLCharacter.processResult( (AdventureResult) KoLConstants.storage.remove( 0 ) );
+				ResultProcessor.tallyResult( (AdventureResult) KoLConstants.storage.remove( 0 ), true );
 			}
 
 			return true;

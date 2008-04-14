@@ -2519,11 +2519,6 @@ public abstract class KoLCharacter
 		}
 	}
 
-	public static final void processResult( final AdventureResult result )
-	{
-		ResultProcessor.processResult( result, true );
-	}
-
 	/**
 	 * Returns the character's zapping wand, if any
 	 */

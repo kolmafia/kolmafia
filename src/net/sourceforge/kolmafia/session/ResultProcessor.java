@@ -427,11 +427,6 @@ public class ResultProcessor
 		return ResultProcessor.processResult( new AdventureResult( parsedEffectName, StringUtilities.parseInt( parsedDuration ), true ) );
 	}
 
-	public static boolean processItem( int itemId, int count )
-	{
-		return ResultProcessor.processResult( ItemPool.get( itemId, count ) );
-	}
-
 	/**
 	 * Utility. The method used to process a result. By default, this method will also add an adventure result to the
 	 * tally directly. This is used whenever the nature of the result is already known and no additional parsing is
@@ -503,7 +498,7 @@ public class ResultProcessor
 			AdventureResult.addResultToList( KoLConstants.tally, result );
 		}
 
-		KoLCharacter.processResult( result );
+		ResultProcessor.tallyResult( result, true );
 
 		if ( result.isItem() )
 		{
@@ -556,6 +551,11 @@ public class ResultProcessor
 		return shouldRefresh;
 	}
 
+	public static boolean processItem( int itemId, int count )
+	{
+		return ResultProcessor.processResult( ItemPool.get( itemId, count ) );
+	}
+
 	private static void processCondition( AdventureResult result, String resultName, int conditionIndex )
 	{
 		if ( resultName.equals( AdventureResult.SUBSTATS ) )
@@ -596,6 +596,115 @@ public class ResultProcessor
 			else
 			{
 				KoLConstants.conditions.set( conditionIndex, condition );
+			}
+		}
+	}
+
+	/**
+	 * Processes a result received through adventuring. This places items inside of inventories and lots of other good
+	 * stuff.
+	 */
+
+	public static final void tallyResult( final AdventureResult result, final boolean updateCalculatedLists )
+	{
+		// Treat the result as normal from this point forward.
+		// Figure out which list the skill should be added to
+		// and add it to that list.
+
+		String resultName = result.getName();
+		if ( resultName == null )
+		{
+			return;
+		}
+
+		if ( result.isItem() )
+		{
+			AdventureResult.addResultToList( KoLConstants.inventory, result );
+
+			if ( updateCalculatedLists )
+			{
+				EquipmentManager.processResult( result );
+
+				boolean shouldRefresh = false;
+				List uses = ConcoctionDatabase.getKnownUses( result );
+
+				for ( int i = 0; i < uses.size() && !shouldRefresh; ++i )
+				{
+					shouldRefresh =
+						ConcoctionDatabase.isPermittedMethod( ConcoctionDatabase.getMixingMethod( ( (AdventureResult) uses.get( i ) ).getItemId() ) );
+				}
+
+				if ( shouldRefresh )
+				{
+					ConcoctionDatabase.refreshConcoctions();
+				}
+				else
+				{
+					int consumeType = ItemDatabase.getConsumptionType( result.getItemId() );
+					if ( consumeType == KoLConstants.CONSUME_EAT || consumeType == KoLConstants.CONSUME_DRINK )
+					{
+						ConcoctionDatabase.refreshConcoctions();
+					}
+				}
+			}
+		}
+		else if ( resultName.equals( AdventureResult.HP ) )
+		{
+			KoLCharacter.setHP(
+				KoLCharacter.getCurrentHP() + result.getCount(), KoLCharacter.getMaximumHP(),
+				KoLCharacter.getBaseMaxHP() );
+		}
+		else if ( resultName.equals( AdventureResult.MP ) )
+		{
+			KoLCharacter.setMP(
+				KoLCharacter.getCurrentMP() + result.getCount(), KoLCharacter.getMaximumMP(),
+				KoLCharacter.getBaseMaxMP() );
+		}
+		else if ( resultName.equals( AdventureResult.MEAT ) )
+		{
+			KoLCharacter.setAvailableMeat( KoLCharacter.getAvailableMeat() + result.getCount() );
+		}
+		else if ( resultName.equals( AdventureResult.ADV ) )
+		{
+			KoLCharacter.setAdventuresLeft( KoLCharacter.getAdventuresLeft() + result.getCount() );
+			if ( result.getCount() < 0 )
+			{
+				AdventureResult[] effectsArray = new AdventureResult[ KoLConstants.activeEffects.size() ];
+				KoLConstants.activeEffects.toArray( effectsArray );
+
+				for ( int i = effectsArray.length - 1; i >= 0; --i )
+				{
+					AdventureResult effect = effectsArray[ i ];
+					if ( effect.getCount() + result.getCount() <= 0 )
+					{
+						KoLConstants.activeEffects.remove( i );
+					}
+					else
+					{
+						KoLConstants.activeEffects.set( i, effect.getInstance( effect.getCount() + result.getCount() ) );
+					}
+				}
+
+				KoLCharacter.setCurrentRun( KoLCharacter.getCurrentRun() - result.getCount() );
+			}
+		}
+		else if ( resultName.equals( AdventureResult.DRUNK ) )
+		{
+			KoLCharacter.setInebriety( KoLCharacter.getInebriety() + result.getCount() );
+		}
+		else if ( resultName.equals( AdventureResult.SUBSTATS ) )
+		{
+			if ( result.isMuscleGain() )
+			{
+				KoLCharacter.incrementTotalMuscle( result.getCount() );
+			}
+			else if ( result.isMysticalityGain() )
+			{
+				KoLCharacter.incrementTotalMysticality( result.getCount() );
+			}
+			else if ( result.isMoxieGain() )
+			{
+				KoLCharacter.incrementTotalMoxie( result.getCount() );
 			}
 		}
 	}
@@ -738,115 +847,6 @@ public class ResultProcessor
 		case ItemPool.TEN_LEAF_CLOVER:
 			ResultProcessor.receivedClover = true;
 			break;
-		}
-	}
-
-	/**
-	 * Processes a result received through adventuring. This places items inside of inventories and lots of other good
-	 * stuff.
-	 */
-
-	public static final void processResult( final AdventureResult result, final boolean updateCalculatedLists )
-	{
-		// Treat the result as normal from this point forward.
-		// Figure out which list the skill should be added to
-		// and add it to that list.
-
-		String resultName = result.getName();
-		if ( resultName == null )
-		{
-			return;
-		}
-
-		if ( result.isItem() )
-		{
-			AdventureResult.addResultToList( KoLConstants.inventory, result );
-
-			if ( updateCalculatedLists )
-			{
-				EquipmentManager.processResult( result );
-
-				boolean shouldRefresh = false;
-				List uses = ConcoctionDatabase.getKnownUses( result );
-
-				for ( int i = 0; i < uses.size() && !shouldRefresh; ++i )
-				{
-					shouldRefresh =
-						ConcoctionDatabase.isPermittedMethod( ConcoctionDatabase.getMixingMethod( ( (AdventureResult) uses.get( i ) ).getItemId() ) );
-				}
-
-				if ( shouldRefresh )
-				{
-					ConcoctionDatabase.refreshConcoctions();
-				}
-				else
-				{
-					int consumeType = ItemDatabase.getConsumptionType( result.getItemId() );
-					if ( consumeType == KoLConstants.CONSUME_EAT || consumeType == KoLConstants.CONSUME_DRINK )
-					{
-						ConcoctionDatabase.refreshConcoctions();
-					}
-				}
-			}
-		}
-		else if ( resultName.equals( AdventureResult.HP ) )
-		{
-			KoLCharacter.setHP(
-				KoLCharacter.getCurrentHP() + result.getCount(), KoLCharacter.getMaximumHP(),
-				KoLCharacter.getBaseMaxHP() );
-		}
-		else if ( resultName.equals( AdventureResult.MP ) )
-		{
-			KoLCharacter.setMP(
-				KoLCharacter.getCurrentMP() + result.getCount(), KoLCharacter.getMaximumMP(),
-				KoLCharacter.getBaseMaxMP() );
-		}
-		else if ( resultName.equals( AdventureResult.MEAT ) )
-		{
-			KoLCharacter.setAvailableMeat( KoLCharacter.getAvailableMeat() + result.getCount() );
-		}
-		else if ( resultName.equals( AdventureResult.ADV ) )
-		{
-			KoLCharacter.setAdventuresLeft( KoLCharacter.getAdventuresLeft() + result.getCount() );
-			if ( result.getCount() < 0 )
-			{
-				AdventureResult[] effectsArray = new AdventureResult[ KoLConstants.activeEffects.size() ];
-				KoLConstants.activeEffects.toArray( effectsArray );
-
-				for ( int i = effectsArray.length - 1; i >= 0; --i )
-				{
-					AdventureResult effect = effectsArray[ i ];
-					if ( effect.getCount() + result.getCount() <= 0 )
-					{
-						KoLConstants.activeEffects.remove( i );
-					}
-					else
-					{
-						KoLConstants.activeEffects.set( i, effect.getInstance( effect.getCount() + result.getCount() ) );
-					}
-				}
-
-				KoLCharacter.setCurrentRun( KoLCharacter.getCurrentRun() - result.getCount() );
-			}
-		}
-		else if ( resultName.equals( AdventureResult.DRUNK ) )
-		{
-			KoLCharacter.setInebriety( KoLCharacter.getInebriety() + result.getCount() );
-		}
-		else if ( resultName.equals( AdventureResult.SUBSTATS ) )
-		{
-			if ( result.isMuscleGain() )
-			{
-				KoLCharacter.incrementTotalMuscle( result.getCount() );
-			}
-			else if ( result.isMysticalityGain() )
-			{
-				KoLCharacter.incrementTotalMysticality( result.getCount() );
-			}
-			else if ( result.isMoxieGain() )
-			{
-				KoLCharacter.incrementTotalMoxie( result.getCount() );
-			}
 		}
 	}
 }

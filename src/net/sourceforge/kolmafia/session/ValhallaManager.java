@@ -74,33 +74,33 @@ public class ValhallaManager
 		String type = KoLCharacter.getClassType();
 		if ( type.equals( KoLCharacter.SEAL_CLUBBER ) )
 		{
-			ResultProcessor.processResult( new AdventureResult( "seal-skull helmet", 1, false ), false );
-			ResultProcessor.processResult( new AdventureResult( "seal-clubbing club", 1, false ), false );
+			ResultProcessor.tallyResult( new AdventureResult( "seal-skull helmet", 1, false ), false );
+			ResultProcessor.tallyResult( new AdventureResult( "seal-clubbing club", 1, false ), false );
 		}
 		else if ( type.equals( KoLCharacter.TURTLE_TAMER ) )
 		{
-			ResultProcessor.processResult( new AdventureResult( "helmet turtle", 1, false ), false );
-			ResultProcessor.processResult( new AdventureResult( "turtle totem", 1, false ), false );
+			ResultProcessor.tallyResult( new AdventureResult( "helmet turtle", 1, false ), false );
+			ResultProcessor.tallyResult( new AdventureResult( "turtle totem", 1, false ), false );
 		}
 		else if ( type.equals( KoLCharacter.PASTAMANCER ) )
 		{
-			ResultProcessor.processResult( new AdventureResult( "pasta spoon", 1, false ), false );
-			ResultProcessor.processResult( new AdventureResult( "ravioli hat", 1, false ), false );
+			ResultProcessor.tallyResult( new AdventureResult( "pasta spoon", 1, false ), false );
+			ResultProcessor.tallyResult( new AdventureResult( "ravioli hat", 1, false ), false );
 		}
 		else if ( type.equals( KoLCharacter.SAUCEROR ) )
 		{
-			ResultProcessor.processResult( new AdventureResult( "saucepan", 1, false ), false );
-			ResultProcessor.processResult( new AdventureResult( "spices", 1, false ), false );
+			ResultProcessor.tallyResult( new AdventureResult( "saucepan", 1, false ), false );
+			ResultProcessor.tallyResult( new AdventureResult( "spices", 1, false ), false );
 		}
 		else if ( type.equals( KoLCharacter.DISCO_BANDIT ) )
 		{
-			ResultProcessor.processResult( new AdventureResult( "disco ball", 1, false ), false );
-			ResultProcessor.processResult( new AdventureResult( "disco mask", 1, false ), false );
+			ResultProcessor.tallyResult( new AdventureResult( "disco ball", 1, false ), false );
+			ResultProcessor.tallyResult( new AdventureResult( "disco mask", 1, false ), false );
 		}
 		else if ( type.equals( KoLCharacter.ACCORDION_THIEF ) )
 		{
-			ResultProcessor.processResult( new AdventureResult( "mariachi pants", 1, false ), false );
-			ResultProcessor.processResult( new AdventureResult( "stolen accordion", 1, false ), false );
+			ResultProcessor.tallyResult( new AdventureResult( "mariachi pants", 1, false ), false );
+			ResultProcessor.tallyResult( new AdventureResult( "stolen accordion", 1, false ), false );
 		}
 
 		// Note the information in the session log
