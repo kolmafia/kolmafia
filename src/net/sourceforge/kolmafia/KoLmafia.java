@@ -114,6 +114,7 @@ import net.sourceforge.kolmafia.session.MoodManager;
 import net.sourceforge.kolmafia.session.MushroomManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.StoreManager;
+import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.VioletFogManager;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
@@ -787,7 +788,7 @@ public abstract class KoLmafia
 		}
 
 		// Charpane can set counters, so load saved counters first.
-		StaticEntity.loadCounters();
+		TurnCounter.loadCounters();
 		RequestThread.postRequest( CharPaneRequest.getInstance() );
 
 		KoLmafia.updateDisplay( "Session data refreshed." );

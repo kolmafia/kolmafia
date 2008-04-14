@@ -63,7 +63,6 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.StaticEntity.TurnCounter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.CustomItemDatabase;
@@ -78,6 +77,7 @@ import net.sourceforge.kolmafia.session.ChatManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
+import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
@@ -1161,6 +1161,17 @@ public class RelayRequest
 			}
 		}
 
+		TurnCounter expired = TurnCounter.getExpiredCounter( this );
+
+		if ( expired != null )
+		{
+			this.sendGeneralWarning(
+				expired.getImage(),
+				"The indicated counter has expired, so may wish to adventure somewhere else at this time.  If you are certain that this is where you'd like to adventure, click on the image to proceed." );
+
+			return;
+		}
+		
 		String path = this.getPath();
 		String urlString = this.getURLString();
 
@@ -1196,18 +1207,6 @@ public class RelayRequest
 			// user instead of running the request.
 
 			int turnsUsed = adventure == null ? 1 : adventure.getFormSource().equals( "shore.php" ) ? 3 : 1;
-
-			TurnCounter expired = StaticEntity.getExpiredCounter(
-				adventure != null ? adventure.getAdventureId() : "", turnsUsed );
-
-			if ( expired != null )
-			{
-				this.sendGeneralWarning(
-					expired.getImage(),
-					"The indicated counter has expired, so may wish to adventure somewhere else at this time.  If you are certain that this is where you'd like to adventure, click on the image to proceed." );
-
-				return;
-			}
 
 			// Check for clovers as well so that people don't accidentally
 			// use up a clover in the middle of a bad moon run.

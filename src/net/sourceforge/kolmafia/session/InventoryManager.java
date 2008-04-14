@@ -462,6 +462,7 @@ public abstract class InventoryManager
 
 		KoLmafia.updateDisplay(
 			KoLConstants.ERROR_STATE, "You need " + missingCount + " more " + item.getName() + " to continue." );
+
 		return false;
 	}
 
