@@ -97,30 +97,6 @@ public class ItemFinder
 
 		String itemName;
 
-		// Always prefer items which start with the search string
-		// over items where the name appears in the middle.
-
-		if ( searchString != null )
-		{
-			int matchCount = 0;
-			String bestMatch = null;
-
-			for ( int i = 0; i < nameList.size(); ++i )
-			{
-				itemName = (String) nameList.get( i );
-				if ( itemName.toLowerCase().startsWith( searchString ) )
-				{
-					++matchCount;
-					bestMatch = itemName;
-				}
-			}
-
-			if ( matchCount == 1 )
-			{
-				return ItemDatabase.getItemId( bestMatch );
-			}
-		}
-
 		// Candy hearts, snowcones and cupcakes take precedence over
 		// all the other items in the game.
 
