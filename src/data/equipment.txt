@@ -101,6 +101,7 @@ meat cowboy hat	40	Mox: 5
 meatloaf helmet	55	Mox: 12
 meaty helmet turtle	70	Mox: 20
 mesh cap	165	Mox: 50
+metallic foil cat ears	30	none
 miner's helmet	80	Mox: 25
 mullet wig	40	Mox: 5
 mummy mask	170	Mox: 70

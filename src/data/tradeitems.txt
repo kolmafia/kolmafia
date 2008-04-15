@@ -3054,7 +3054,7 @@
 3053	mood ring	8	display	5
 3054	black candy heart	4	display	5
 3055	cymbal syrup	3	display	5
-3056
+3056	metallic foil cat ears	9	all	35
 3057	nanofiber cloth	0	all	16
 3058	iGoogly	0	all	14
 3059	theoretical string	0	all	13
