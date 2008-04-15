@@ -474,6 +474,9 @@ public class ConcoctionDatabase
 		
 		Concoction c;
 		int quantity = 0;
+		
+		SpecialOutfit.createImplicitCheckpoint();
+		RequestThread.openRequestSequence();
 
 		while ( !toProcess.isEmpty() )
 		{
