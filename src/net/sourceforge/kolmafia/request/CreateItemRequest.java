@@ -67,7 +67,7 @@ public class CreateItemRequest
 	private String name;
 	private int itemId, mixingMethod;
 	
-	private int beforeQuantity, createdQuantity;
+	private int beforeQuantity;
 	private int yield;
 
 	private int quantityNeeded, quantityPossible;
@@ -371,6 +371,8 @@ public class CreateItemRequest
 				return;
 			}
 		}
+		
+		int createdQuantity = 0;
 
 		do
 		{
@@ -399,7 +401,27 @@ public class CreateItemRequest
 				break;
 			}
 
-			this.quantityNeeded -= this.createdQuantity;
+			// Figure out how many items were created
+
+			createdQuantity = this.createdItem.getCount( KoLConstants.inventory ) - this.beforeQuantity;
+
+			// If we created none, set error state so iteration stops.
+
+			if ( createdQuantity == 0 )
+			{
+				// If the subclass didn't detect the failure,
+				// do so here.
+
+				if ( KoLmafia.permitsContinue() )
+				{
+					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Creation failed, no results detected." );
+				}
+
+				return;
+			}			
+
+			KoLmafia.updateDisplay( "Successfully created " + this.getName() + " (" + createdQuantity + ")" );
+			this.quantityNeeded -= createdQuantity;
 		}
 		while ( this.quantityNeeded > 0 && KoLmafia.permitsContinue() );
 	}
@@ -517,15 +539,8 @@ public class CreateItemRequest
 
 	public void processResults()
 	{
-		// Figure out how many items were created
+		int createdQuantity = this.createdItem.getCount( KoLConstants.inventory ) - this.beforeQuantity;
 
-		this.createdQuantity = this.createdItem.getCount( KoLConstants.inventory ) - this.beforeQuantity;
-
-		if ( this.createdQuantity != 0 )
-		{
-			KoLmafia.updateDisplay( "Successfully created " + this.getName() + " (" + createdQuantity + ")" );
-		}
-		
 		// Check to see if box-servant was overworked and exploded.
 
 		if ( this.responseText.indexOf( "Smoke" ) != -1 )
@@ -617,20 +632,6 @@ public class CreateItemRequest
 
 		default:
 			break;
-		}
-
-		// If we created none, set error state so iteration stops.
-		if ( this.createdQuantity == 0 )
-		{
-			// If the subclass didn't detect the failure,
-			// do so here.
-
-			if ( KoLmafia.permitsContinue() )
-			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Creation failed, no results detected." );
-			}
-
-			return;
 		}
 	}
 
