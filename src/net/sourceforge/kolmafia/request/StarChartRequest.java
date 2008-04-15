@@ -101,21 +101,6 @@ public class StarChartRequest
 		}
 	}
 
-	public void processResults()
-	{
-		// It's possible to fail. For example, you can't make a
-		// shirt without the Torso Awaregness skill.
-
-		// "You can't seem to make a reasonable picture out of
-		// that number of stars and lines."
-
-		if ( this.responseText.indexOf( "reasonable picture" ) != -1 )
-		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't make that item." );
-			return;
-		}
-	}
-
 	public static final boolean registerRequest( final String urlString )
 	{
 		Matcher starMatcher = StarChartRequest.STAR_PATTERN.matcher( urlString );
