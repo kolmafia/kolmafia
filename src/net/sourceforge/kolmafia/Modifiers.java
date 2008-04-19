@@ -1122,6 +1122,7 @@ public class Modifiers
 	}
 
 	private static final double dropFamiliarExponent = 1.0 / Math.sqrt( 2 );
+	private static final double puppyFactor = Math.sqrt( 1.5 );
 	private static final double heavyFamiliarFactor = 10.0 / 300.0;
 
 	public void applyFamiliarModifiers( final FamiliarData familiar )
@@ -1142,10 +1143,7 @@ public class Modifiers
 			this.add( Modifiers.EXPERIENCE, Math.sqrt( weight ) );
 		}
 
-		boolean item = FamiliarDatabase.isItemDropType( familiarId );
-		boolean meat = FamiliarDatabase.isMeatDropType( familiarId );
-
-		if ( item || meat )
+		if ( FamiliarDatabase.isMeatDropType( familiarId ) )
 		{
 			// A Leprechaun provides 100% at 20 lbs.
 
@@ -1155,6 +1153,29 @@ public class Modifiers
 			// http://jick-nerfed.us/forums/viewtopic.php?t=3872
 			// ( .05 * x ) ** ( 1 / sqrt(2) )
 
+			double mod = weight >= 20 ? 1.0 : Math.pow( weight * 0.05, Modifiers.dropFamiliarExponent );
+			if ( weight > 20 )
+			{
+				mod += ( weight - 20 ) * Modifiers.heavyFamiliarFactor;
+			}
+
+			this.add( Modifiers.MEATDROP, 100.0 * mod );
+		}
+
+		boolean fairy = FamiliarDatabase.isFairyType( familiarId );
+		double itemWeight = weight;
+
+		if ( FamiliarDatabase.isPuppyType( familiarId ) )
+		{
+			// A Jumpsuited Hound dog is a fairy at sqrt( 1.5 )
+			// weight.
+
+			itemWeight = weight * puppyFactor;
+			fairy = true;
+		}
+
+		if ( fairy )
+		{
 			// A Gravy Fairy provides 50% at 20 lbs.
 
 			// Starwed has formula which is decent for a 1-20
@@ -1173,21 +1194,13 @@ public class Modifiers
 			// that a Fairy is exactly half as effective as a
 			// Leprechaun.
 
-			double mod = weight >= 20 ? 1.0 : Math.pow( weight * 0.05, Modifiers.dropFamiliarExponent );
-			if ( weight > 20 )
+			double mod = itemWeight >= 20 ? 1.0 : Math.pow( itemWeight * 0.05, Modifiers.dropFamiliarExponent );
+			if ( itemWeight > 20 )
 			{
-				mod += ( weight - 20 ) * Modifiers.heavyFamiliarFactor;
+				mod += ( itemWeight - 20 ) * Modifiers.heavyFamiliarFactor;
 			}
 
-			if ( item )
-			{
-				this.add( Modifiers.ITEMDROP, 50.0 * mod );
-			}
-
-			if ( meat )
-			{
-				this.add( Modifiers.MEATDROP, 100.0 * mod );
-			}
+			this.add( Modifiers.ITEMDROP, 50.0 * mod );
 		}
 
 		switch ( familiarId )

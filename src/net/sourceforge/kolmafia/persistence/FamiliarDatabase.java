@@ -74,7 +74,8 @@ public class FamiliarDatabase
 	private static final BooleanArray volleyById = new BooleanArray();
 	private static final BooleanArray sombreroById = new BooleanArray();
 	private static final BooleanArray meatDropById = new BooleanArray();
-	private static final BooleanArray itemDropById = new BooleanArray();
+	private static final BooleanArray fairyById = new BooleanArray();
+	private static final BooleanArray puppyById = new BooleanArray();
 
 	private static final Map[] eventSkillByName = new TreeMap[ 4 ];
 
@@ -122,7 +123,8 @@ public class FamiliarDatabase
 				FamiliarDatabase.combatById.set( familiarId.intValue(), familiarType.indexOf( "combat" ) != -1 );
 				FamiliarDatabase.volleyById.set( familiarId.intValue(), familiarType.indexOf( "stat0" ) != -1 );
 				FamiliarDatabase.sombreroById.set( familiarId.intValue(), familiarType.indexOf( "stat1" ) != -1 );
-				FamiliarDatabase.itemDropById.set( familiarId.intValue(), familiarType.indexOf( "item0" ) != -1 );
+				FamiliarDatabase.fairyById.set( familiarId.intValue(), familiarType.indexOf( "item0" ) != -1 );
+				FamiliarDatabase.puppyById.set( familiarId.intValue(), familiarType.indexOf( "item1" ) != -1 );
 				FamiliarDatabase.meatDropById.set( familiarId.intValue(), familiarType.indexOf( "meat0" ) != -1 );
 
 				for ( int i = 0; i < 4; ++i )
@@ -245,9 +247,14 @@ public class FamiliarDatabase
 		return FamiliarDatabase.sombreroById.get( familiarId );
 	}
 
-	public static final boolean isItemDropType( final int familiarId )
+	public static final boolean isFairyType( final int familiarId )
 	{
-		return FamiliarDatabase.itemDropById.get( familiarId );
+		return FamiliarDatabase.fairyById.get( familiarId );
+	}
+
+	public static final boolean isPuppyType( final int familiarId )
+	{
+		return FamiliarDatabase.puppyById.get( familiarId );
 	}
 
 	public static final boolean isMeatDropType( final int familiarId )
