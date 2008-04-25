@@ -63,10 +63,10 @@ public class CreateItemRequest
 	public static final Pattern QUANTITY_PATTERN = Pattern.compile( "(quantity|qty)=(\\d+)" );
 
 	public AdventureResult createdItem;
-	
+
 	private String name;
 	private int itemId, mixingMethod;
-	
+
 	private int beforeQuantity;
 	private int yield;
 
@@ -371,11 +371,17 @@ public class CreateItemRequest
 				return;
 			}
 		}
-		
+
 		int createdQuantity = 0;
 
 		do
 		{
+			if ( !this.autoRepairBoxServant() )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Auto-repair was unsuccessful." );
+				return;
+			}
+
 			this.reconstructFields();
 			this.beforeQuantity = this.createdItem.getCount( KoLConstants.inventory );
 
@@ -418,7 +424,7 @@ public class CreateItemRequest
 				}
 
 				return;
-			}			
+			}
 
 			KoLmafia.updateDisplay( "Successfully created " + this.getName() + " (" + createdQuantity + ")" );
 			this.quantityNeeded -= createdQuantity;
@@ -518,11 +524,6 @@ public class CreateItemRequest
 			// for this combine step.  This is extra overhead when
 			// no box servant is needed, but for easy readability,
 			// the test always occurs.
-
-			if ( !this.autoRepairBoxServant() )
-			{
-				return;
-			}
 
 			for ( int i = 0; i < ingredients.length; ++i )
 			{
@@ -704,11 +705,6 @@ public class CreateItemRequest
 			break;
 		}
 
-		if ( !autoRepairSuccessful )
-		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Auto-repair was unsuccessful." );
-		}
-
 		return autoRepairSuccessful && KoLmafia.permitsContinue();
 	}
 
@@ -801,7 +797,7 @@ public class CreateItemRequest
 			{
 				quantity = ( quantity + yield - 1 ) / yield;
 			}
-			
+
 			foundAllIngredients &= InventoryManager.retrieveItem( ingredients[ i ].getItemId(), quantity );
 		}
 

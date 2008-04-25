@@ -356,6 +356,11 @@ public abstract class InventoryManager
 			{
 				return true;
 			}
+
+			if ( !KoLmafia.permitsContinue() )
+			{
+				return false;
+			}
 		}
 
 		// Next, hermit item retrieval is possible when
@@ -401,6 +406,7 @@ public abstract class InventoryManager
 			List results = StoreManager.searchMall( item.getName() );
 			StaticEntity.getClient().makePurchases(
 				results, results.toArray(), getPurchaseCount( itemId, missingCount ), isAutomated );
+
 			missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
 
 			if ( missingCount <= 0 )
@@ -440,6 +446,11 @@ public abstract class InventoryManager
 				{
 					return true;
 				}
+
+				if ( !KoLmafia.permitsContinue() )
+				{
+					return false;
+				}
 			}
 		}
 
@@ -448,6 +459,7 @@ public abstract class InventoryManager
 			List results = StoreManager.searchMall( item.getName() );
 			StaticEntity.getClient().makePurchases(
 				results, results.toArray(), getPurchaseCount( itemId, missingCount ), isAutomated );
+
 			missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
 
 			if ( missingCount <= 0 )
