@@ -304,7 +304,7 @@ public class CharSheetRequest
 		// Loop until we get to Current Familiar, since everything before that
 		// contains the player's skills.
 
-		while ( !token.startsWith( "Current" ) )
+		while ( !token.startsWith( "Current" ) && !token.startsWith( "[" ) )
 		{
 			if ( token.startsWith( "(" ) || token.startsWith( " (" ) )
 			{
