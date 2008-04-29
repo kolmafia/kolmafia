@@ -36,9 +36,8 @@ package net.sourceforge.kolmafia.swingui;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.GridLayout;
-
 import java.io.File;
-
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -559,7 +558,7 @@ public class FamiliarTrainingFrame
 
 					try
 					{
-						LogStream ostream = LogStream.openStream( output, false );
+						PrintStream ostream = LogStream.openStream( output, false );
 						ostream.println( FamiliarTrainingFrame.results.getBuffer().replaceAll(
 								"<br>", KoLConstants.LINE_BREAK ) );
 						ostream.close();

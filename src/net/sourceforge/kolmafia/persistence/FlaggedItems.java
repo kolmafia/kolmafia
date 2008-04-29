@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.persistence;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintStream;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -356,7 +357,7 @@ public class FlaggedItems
 	{
 		AdventureResult item;
 
-		LogStream ostream = LogStream.openStream( FlaggedItems.itemFlagsFile, true );
+		PrintStream ostream = LogStream.openStream( FlaggedItems.itemFlagsFile, true );
 
 		ostream.println( " > junk" );
 		ostream.println();

@@ -1184,7 +1184,7 @@ public class RelayRequest
 
 			return;
 		}
-		
+
 		String path = this.getPath();
 		String urlString = this.getURLString();
 
@@ -1357,7 +1357,7 @@ public class RelayRequest
 	{
 		try
 		{
-			BufferedReader reader = DataUtilities.getReader( "http://sol.kolmafia.us/" + filename );
+			BufferedReader reader = DataUtilities.getReader( "", "http://sol.kolmafia.us/" + filename );
 
 			String line;
 			StringBuffer contents = new StringBuffer();

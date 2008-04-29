@@ -40,11 +40,8 @@ import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import java.io.File;
-
-import java.util.ArrayList;
-import java.util.Date;
+import java.io.PrintStream;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -53,18 +50,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
-import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
-import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.session.MushroomManager;
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
-import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
 
 public class MushroomPlotPanel
 	extends JPanel
@@ -160,7 +152,7 @@ public class MushroomPlotPanel
 
 		try
 		{
-			LogStream ostream = LogStream.openStream( output, true );
+			PrintStream ostream = LogStream.openStream( output, true );
 			ostream.println( "field harvest" );
 
 			for ( int i = 0; i < 16; ++i )

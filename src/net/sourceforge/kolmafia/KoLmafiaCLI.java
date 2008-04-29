@@ -1065,7 +1065,7 @@ public class KoLmafiaCLI
 			{
 				value = value.substring( 1, value.endsWith( "\"" ) ? value.length() - 1 : value.length() );
 			}
-			
+
 			while ( value.endsWith( ";" ) )
 			{
 				value = value.substring( 0, value.length() - 1 ).trim();
@@ -1687,7 +1687,9 @@ public class KoLmafiaCLI
 		{
 			for ( int i = 0; i < KoLAdventure.DEMON_TYPES.length; ++i )
 			{
-				RequestLogger.printLine( i + 1 + ": " + Preferences.getString( "demonName" + ( i + 1 ) ) );
+				String index = String.valueOf( i + 1 );
+
+				RequestLogger.printLine( index + ": " + Preferences.getString( "demonName" + index ) );
 				RequestLogger.printLine( " => Found in the " + KoLAdventure.DEMON_TYPES[ i ][ 0 ] );
 				RequestLogger.printLine( " => Gives " + KoLAdventure.DEMON_TYPES[ i ][ 1 ] );
 			}
@@ -2715,15 +2717,13 @@ public class KoLmafiaCLI
 
 			if ( scriptFile == null )
 			{
-				boolean hasMultipleRuns = true;
 				String runCountString = parameters.split( " " )[ 0 ];
+				boolean hasMultipleRuns = runCountString.endsWith( "x" );
 
-				for ( int i = 0; i < runCountString.length() - 1; ++i )
+				for ( int i = 0; i < runCountString.length() - 1 && hasMultipleRuns; ++i )
 				{
-					hasMultipleRuns &= Character.isDigit( runCountString.charAt( i ) );
+					hasMultipleRuns = Character.isDigit( runCountString.charAt( i ) );
 				}
-
-				hasMultipleRuns &= runCountString.endsWith( "x" );
 
 				if ( hasMultipleRuns )
 				{

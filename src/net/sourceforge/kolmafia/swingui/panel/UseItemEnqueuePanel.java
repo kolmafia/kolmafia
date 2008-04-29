@@ -140,7 +140,7 @@ public class UseItemEnqueuePanel
 	{
 	}
 
-	private class ReSortListener
+	private static class ReSortListener
 		extends ThreadedListener
 	{
 		public void run()
@@ -319,7 +319,7 @@ public class UseItemEnqueuePanel
 		}
 	}
 
-	private class ExperimentalCheckbox
+	private static class ExperimentalCheckbox
 		extends JCheckBox
 		implements ActionListener
 	{

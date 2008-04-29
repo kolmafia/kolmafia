@@ -34,21 +34,17 @@
 package net.sourceforge.kolmafia;
 
 import java.awt.Color;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.io.RandomAccessFile;
-
 import java.lang.reflect.Method;
 import java.math.BigInteger;
-
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -262,7 +258,7 @@ public abstract class KoLmafia
 				return KoLmafia.SESSION_HOLDER != null;
 			}
 
-			LogStream ostream = LogStream.openStream( KoLmafia.SESSION_FILE, true );
+			PrintStream ostream = LogStream.openStream( KoLmafia.SESSION_FILE, true );
 			ostream.println( KoLConstants.VERSION_NAME );
 			ostream.close();
 
@@ -397,9 +393,9 @@ public abstract class KoLmafia
 			installedLooks[ i ] = installed[ i ].getClassName();
 		}
 
-		for ( int i = 0; i < installedLooks.length; ++i )
+		for ( int i = 0; i < installedLooks.length && !foundLookAndFeel; ++i )
 		{
-			foundLookAndFeel |= installedLooks[ i ].equals( lookAndFeel );
+			foundLookAndFeel = installedLooks[ i ].equals( lookAndFeel );
 		}
 
 		if ( !foundLookAndFeel )
@@ -985,7 +981,7 @@ public abstract class KoLmafia
 			return true;
 		}
 
-		float current = ( (Number) currentMethod.invoke( null, empty ) ).floatValue();
+		int current = ( (Number) currentMethod.invoke( null, empty ) ).intValue();
 
 		// If you've already reached the desired value, don't
 		// bother restoring.
@@ -995,8 +991,8 @@ public abstract class KoLmafia
 			return true;
 		}
 
-		float maximum = ( (Number) maximumMethod.invoke( null, empty ) ).floatValue();
-		float needed = Math.min( maximum, Math.max( desired, setting * maximum + 1.0f ) );
+		int maximum = ( (Number) maximumMethod.invoke( null, empty ) ).intValue();
+		int needed = (int) Math.min( maximum, Math.max( desired, setting * maximum + 1.0f ) );
 
 		if ( current >= needed )
 		{
@@ -1021,7 +1017,7 @@ public abstract class KoLmafia
 		String currentTechniqueName;
 
 		// Determine all applicable items and skills for the restoration.
-		// This is a little bit memory floatensive, but it allows for a lot
+		// This is a little bit memory intensive, but it allows for a lot
 		// more flexibility.
 
 		ArrayList possibleItems = new ArrayList();
@@ -1060,7 +1056,7 @@ public abstract class KoLmafia
 			}
 		}
 
-		float last = -1;
+		int last = -1;
 
 		// Special handling of the Hidden Temple. Here, as
 		// long as your health is above zero, you're okay.
@@ -1095,7 +1091,7 @@ public abstract class KoLmafia
 
 		if ( !possibleSkills.isEmpty() )
 		{
-			current = ( (Number) currentMethod.invoke( null, empty ) ).floatValue();
+			current = ( (Number) currentMethod.invoke( null, empty ) ).intValue();
 
 			while ( last != current && current < needed )
 			{
@@ -1108,9 +1104,9 @@ public abstract class KoLmafia
 					currentTechniqueName = possibleSkills.get( indexToTry ).toString().toLowerCase();
 
 					this.recoverOnce( possibleSkills.get( indexToTry ), currentTechniqueName, (int) desired, false );
-					current = ( (Number) currentMethod.invoke( null, empty ) ).floatValue();
+					current = ( (Number) currentMethod.invoke( null, empty ) ).intValue();
 
-					maximum = ( (Number) maximumMethod.invoke( null, empty ) ).floatValue();
+					maximum = ( (Number) maximumMethod.invoke( null, empty ) ).intValue();
 					desired = Math.min( maximum, desired );
 					needed = Math.min( maximum, needed );
 
@@ -1141,9 +1137,9 @@ public abstract class KoLmafia
 				currentTechniqueName = possibleItems.get( i ).toString().toLowerCase();
 
 				this.recoverOnce( possibleItems.get( i ), currentTechniqueName, (int) desired, false );
-				current = ( (Number) currentMethod.invoke( null, empty ) ).floatValue();
+				current = ( (Number) currentMethod.invoke( null, empty ) ).intValue();
 
-				maximum = ( (Number) maximumMethod.invoke( null, empty ) ).floatValue();
+				maximum = ( (Number) maximumMethod.invoke( null, empty ) ).intValue();
 				desired = Math.min( maximum, desired );
 				needed = Math.min( maximum, needed );
 			}
@@ -1172,7 +1168,7 @@ public abstract class KoLmafia
 			HPRestoreItemList.setPurchaseBasedSort( true );
 			MPRestoreItemList.setPurchaseBasedSort( true );
 
-			current = ( (Number) currentMethod.invoke( null, empty ) ).floatValue();
+			current = ( (Number) currentMethod.invoke( null, empty ) ).intValue();
 			last = -1;
 
 			while ( last != current && current < needed )
@@ -1186,9 +1182,9 @@ public abstract class KoLmafia
 					currentTechniqueName = possibleItems.get( indexToTry ).toString().toLowerCase();
 
 					this.recoverOnce( possibleItems.get( indexToTry ), currentTechniqueName, (int) desired, true );
-					current = ( (Number) currentMethod.invoke( null, empty ) ).floatValue();
+					current = ( (Number) currentMethod.invoke( null, empty ) ).intValue();
 
-					maximum = ( (Number) maximumMethod.invoke( null, empty ) ).floatValue();
+					maximum = ( (Number) maximumMethod.invoke( null, empty ) ).intValue();
 					desired = Math.min( maximum, desired );
 
 					if ( last == current )
@@ -1422,7 +1418,7 @@ public abstract class KoLmafia
 
 		for ( int i = 0; i < creatables.length && !shouldCreate; ++i )
 		{
-			shouldCreate |= creatables[ i ] != null && creatables[ i ].getQuantityPossible() >= items[ i ].getCount();
+			shouldCreate = creatables[ i ] != null && creatables[ i ].getQuantityPossible() >= items[ i ].getCount();
 		}
 
 		// In theory, you could do a real validation by doing a full
@@ -1431,7 +1427,7 @@ public abstract class KoLmafia
 
 		for ( int i = 0; i < creatables.length && shouldCreate; ++i )
 		{
-			shouldCreate &= creatables[ i ] == null || creatables[ i ].getQuantityPossible() >= items[ i ].getCount();
+			shouldCreate = creatables[ i ] == null || creatables[ i ].getQuantityPossible() >= items[ i ].getCount();
 		}
 
 		// Create any items which are creatable.
@@ -2160,8 +2156,8 @@ public abstract class KoLmafia
 
 			if ( guildVisit.responseText != null )
 			{
-				success |=
-					stopAtPaco ? guildVisit.responseText.indexOf( "paco" ) != -1 : guildVisit.responseText.indexOf( "You've already beaten" ) != -1;
+				success = stopAtPaco ? guildVisit.responseText.indexOf( "paco" ) != -1 :
+					guildVisit.responseText.indexOf( "You've already beaten" ) != -1;
 			}
 		}
 
@@ -2804,7 +2800,7 @@ public abstract class KoLmafia
 			FileUtilities.getReader( "http://kolmafia.svn.sourceforge.net/viewvc/*checkout*/kolmafia/src/data/" + name );
 
 		File output = new File( UtilityConstants.DATA_LOCATION, "temp.txt" );
-		LogStream writer = LogStream.openStream( output, true );
+		PrintStream writer = LogStream.openStream( output, true );
 
 		String line;
 

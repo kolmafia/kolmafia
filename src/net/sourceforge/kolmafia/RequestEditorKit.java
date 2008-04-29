@@ -441,14 +441,14 @@ public class RequestEditorKit
 
 		// It's possible that clovers were auto-disassembled.
 		// Go ahead and make the updates.
-		
+
 		if ( ResultProcessor.shouldDisassembleClovers( location ) )
 		{
 			StringUtilities.singleStringReplace( buffer, "<b>ten-leaf clover</b>", "<b>disassembled clover</b>" );
 			StringUtilities.singleStringReplace( buffer, "clover.gif", "disclover.gif" );
 			StringUtilities.singleStringReplace( buffer, "370834526", "328909735" );
 		}
-		
+
 		// Change El Vibrato punchcard names wherever they are found
 
 		RequestEditorKit.changePunchcardNames( buffer );
@@ -1421,7 +1421,6 @@ public class RequestEditorKit
 			GenericRequest extractedRequest = new GenericRequest( location );
 			extractedRequest.responseCode = 200;
 			extractedRequest.responseText = "<html><img src=\"" + location + "\"></html>";
-			extractedRequest.responseText = extractedRequest.responseText;
 			return extractedRequest;
 		}
 

@@ -39,9 +39,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
+import java.io.PrintStream;
 import java.lang.ref.WeakReference;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -594,7 +593,7 @@ public class Preferences
 
 	public static final void printDefaults()
 	{
-		LogStream ostream = LogStream.openStream( "choices.txt", true );
+		PrintStream ostream = LogStream.openStream( "choices.txt", true );
 
 		ostream.println( "[u]Configurable[/u]" );
 		ostream.println();
@@ -619,7 +618,7 @@ public class Preferences
 		ostream.close();
 	}
 
-	private static final void printDefaults( final ChoiceAdventure[] choices, final LogStream ostream )
+	private static final void printDefaults( final ChoiceAdventure[] choices, final PrintStream ostream )
 	{
 		for ( int i = 0; i < choices.length; ++i )
 		{

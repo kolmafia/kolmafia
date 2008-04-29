@@ -147,30 +147,15 @@ public abstract class CustomCombatManager
 
 	public static final void copySettings( String name )
 	{
-		if ( name == "" )
+		if ( name == null || name.equals( "" ) )
 		{
 			return;
 		}
 
-		try
-		{
-			String sourceName = CustomCombatManager.settingsFileName();
-			String targetName = CustomCombatManager.settingsFileName( name );
+		File source = new File( KoLConstants.CCS_LOCATION, CustomCombatManager.settingsFileName() );
+		File destination = new File( KoLConstants.CCS_LOCATION, CustomCombatManager.settingsFileName( name ) );
 
-			FileChannel source =
-				DataUtilities.getInputStream( new File( KoLConstants.CCS_LOCATION, sourceName ) ).getChannel();
-			FileChannel target =
-				DataUtilities.getOutputStream( new File( KoLConstants.CCS_LOCATION, targetName ) ).getChannel();
-
-			source.transferTo( 0, source.size(), target );
-			source.close();
-			target.close();
-		}
-		catch ( Exception e )
-		{
-			StaticEntity.printStackTrace( e );
-		}
-
+		FileUtilities.copyFile( source, destination );
 	}
 
 	/**
@@ -199,10 +184,11 @@ public abstract class CustomCombatManager
 
 		if ( CustomCombatManager.reference.size() == 0 )
 		{
-			LogStream ostream = LogStream.openStream( CustomCombatManager.settingsFile, true );
+			PrintStream ostream = LogStream.openStream( CustomCombatManager.settingsFile, true );
 			ostream.println( "[ default ]" );
 			ostream.println( "1: attack with weapon" );
 			ostream.close();
+
 			CustomCombatManager.readSettings();
 		}
 	}

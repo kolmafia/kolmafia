@@ -37,20 +37,22 @@ import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.channels.FileChannel;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
-
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
-
 import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class FileUtilities
@@ -60,7 +62,7 @@ public class FileUtilities
 
 	public static final BufferedReader getReader( final String filename )
 	{
-		return DataUtilities.getReader( filename );
+		return DataUtilities.getReader( UtilityConstants.DATA_DIRECTORY, filename );
 	}
 
 	public static final BufferedReader getReader( final File file )
@@ -84,6 +86,7 @@ public class FileUtilities
 		}
 
 		// Read the version number
+
 		String line = FileUtilities.readLine( reader );
 
 		// Parse the version number and validate
@@ -143,11 +146,8 @@ public class FileUtilities
 
 			return line;
 		}
-		catch ( Exception e )
+		catch ( IOException e )
 		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-
 			StaticEntity.printStackTrace( e );
 			return null;
 		}
@@ -166,55 +166,63 @@ public class FileUtilities
 
 	public static final boolean loadLibrary( final File parent, final String directory, final String filename )
 	{
+		// Next, load the icon which will be used by KoLmafia
+		// in the system tray.  For now, this will be the old
+		// icon used by KoLmelion.
+
+		File library = new File( parent, filename );
+
+		if ( library.exists() )
+		{
+			if ( parent == KoLConstants.RELAY_LOCATION && !Preferences.getString( "lastRelayUpdate" ).equals(
+				StaticEntity.getVersion() ) )
+			{
+				library.delete();
+			}
+			else
+			{
+				return true;
+			}
+		}
+
+		InputStream input = DataUtilities.getInputStream( directory, filename );
+
+		OutputStream output = DataUtilities.getOutputStream( library );
+
+		byte[] buffer = new byte[ 1024 ];
+		int bufferLength;
+
 		try
 		{
-			// Next, load the icon which will be used by KoLmafia
-			// in the system tray.  For now, this will be the old
-			// icon used by KoLmelion.
-
-			File library = new File( parent, filename );
-
-			if ( library.exists() )
-			{
-				if ( parent == KoLConstants.RELAY_LOCATION && !Preferences.getString( "lastRelayUpdate" ).equals(
-					StaticEntity.getVersion() ) )
-				{
-					library.delete();
-				}
-				else
-				{
-					return true;
-				}
-			}
-
-			InputStream input = DataUtilities.getInputStream( directory, filename );
-			if ( input == null )
-			{
-				return false;
-			}
-
-			OutputStream output = DataUtilities.getOutputStream( library );
-
-			byte[] buffer = new byte[ 1024 ];
-			int bufferLength;
 			while ( ( bufferLength = input.read( buffer ) ) != -1 )
 			{
 				output.write( buffer, 0, bufferLength );
 			}
-
-			input.close();
-			output.close();
-			return true;
-
 		}
-		catch ( Exception e )
+		catch ( IOException e )
 		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-
 			StaticEntity.printStackTrace( e );
-			return false;
 		}
+
+		try
+		{
+			input.close();
+		}
+		catch ( IOException e )
+		{
+			StaticEntity.printStackTrace( e );
+		}
+
+		try
+		{
+			output.close();
+		}
+		catch ( IOException e )
+		{
+			StaticEntity.printStackTrace( e );
+		}
+
+		return true;
 	}
 
 	public static final void downloadFile( final String remote, final File local )
@@ -224,35 +232,68 @@ public class FileUtilities
 			return;
 		}
 
+		URLConnection connection;
+
 		try
 		{
-			URLConnection connection = ( new URL( null, remote ) ).openConnection();
-			if ( remote.startsWith( "http://pics.communityofloathing.com" ) )
+			connection = new URL( null, remote ).openConnection();
+		}
+		catch ( IOException e )
+		{
+			return;
+		}
+
+		if ( remote.startsWith( "http://pics.communityofloathing.com" ) )
+		{
+			Matcher idMatcher = FileUtilities.FILEID_PATTERN.matcher( local.getPath() );
+			if ( idMatcher.find() )
 			{
-				Matcher idMatcher = FileUtilities.FILEID_PATTERN.matcher( local.getPath() );
-				if ( idMatcher.find() )
-				{
-					connection.setRequestProperty(
-						"Referer", "http://www.kingdomofloathing.com/showplayer.php?who=" + idMatcher.group( 1 ) );
-				}
+				connection.setRequestProperty(
+					"Referer", "http://www.kingdomofloathing.com/showplayer.php?who=" + idMatcher.group( 1 ) );
 			}
+		}
 
-			BufferedInputStream in = new BufferedInputStream( connection.getInputStream() );
-			ByteArrayOutputStream outbytes = new ByteArrayOutputStream();
+		BufferedInputStream in;
 
-			byte[] buffer = new byte[ 4096 ];
+		try
+		{
+			in = new BufferedInputStream( connection.getInputStream() );
+		}
+		catch ( IOException e )
+		{
+			return;
+		}
 
-			int offset;
+		ByteArrayOutputStream outbytes = new ByteArrayOutputStream();
+
+		byte[] buffer = new byte[ 4096 ];
+
+		int offset;
+
+		try
+		{
 			while ( ( offset = in.read( buffer ) ) > 0 )
 			{
 				outbytes.write( buffer, 0, offset );
 			}
+		}
+		catch ( IOException e )
+		{
+		}
 
+		try
+		{
 			in.close();
+		}
+		catch ( IOException e )
+		{
+		}
 
-			// If it's textual data, then go ahead and modify it so
-			// that all the variables point to KoLmafia.
+		// If it's textual data, then go ahead and modify it so
+		// that all the variables point to KoLmafia.
 
+		try
+		{
 			if ( remote.endsWith( ".js" ) )
 			{
 				String text = outbytes.toString();
@@ -261,15 +302,27 @@ public class FileUtilities
 				text = StringUtilities.globalStringReplace( text, "location.hostname", "location.host" );
 				outbytes.write( text.getBytes() );
 			}
+		}
+		catch ( IOException e )
+		{
+		}
 
-			OutputStream ostream = DataUtilities.getOutputStream( local );
+		OutputStream ostream = DataUtilities.getOutputStream( local );
+
+		try
+		{
 			outbytes.writeTo( ostream );
+		}
+		catch ( IOException e )
+		{
+		}
+
+		try
+		{
 			ostream.close();
 		}
-		catch ( Exception e )
+		catch ( IOException e )
 		{
-			// This can happen whenever there is bad internet
-			// or whenever the familiar is brand-new.
 		}
 	}
 
@@ -319,6 +372,64 @@ public class FileUtilities
 			// or whenever the familiar is brand-new.
 
 			return null;
+		}
+	}
+
+	/**
+	 * Copies a file.
+	 */
+
+	public static void copyFile( File source, File destination )
+	{
+		InputStream sourceStream = DataUtilities.getInputStream( source );
+		OutputStream destinationStream = DataUtilities.getOutputStream( destination );
+
+		if ( !( sourceStream instanceof FileInputStream ) || !( destinationStream instanceof FileOutputStream ) )
+		{
+			try
+			{
+				sourceStream.close();
+			}
+			catch ( IOException e )
+			{
+			}
+
+			try
+			{
+				destinationStream.close();
+			}
+			catch ( IOException e )
+			{
+			}
+
+			return;
+		}
+
+		FileChannel sourceChannel = ( (FileInputStream) sourceStream ).getChannel();
+		FileChannel destinationChannel = ( (FileOutputStream) destinationStream ).getChannel();
+
+		try
+		{
+			sourceChannel.transferTo( 0, sourceChannel.size(), destinationChannel );
+		}
+		catch ( IOException e )
+		{
+		}
+
+		try
+		{
+			sourceStream.close();
+		}
+		catch ( IOException e )
+		{
+		}
+
+		try
+		{
+			destinationStream.close();
+		}
+		catch ( IOException e )
+		{
 		}
 	}
 }

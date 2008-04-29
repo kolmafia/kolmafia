@@ -35,7 +35,7 @@ package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
 import java.io.File;
-
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -1284,7 +1284,7 @@ public class ItemDatabase
 	public static final void saveDataOverride()
 	{
 		File output = new File( UtilityConstants.DATA_LOCATION, "tradeitems.txt" );
-		LogStream writer = LogStream.openStream( output, true );
+		PrintStream writer = LogStream.openStream( output, true );
 		writer.println( KoLConstants.TRADEITEMS_VERSION );
 
 		int lastInteger = 1;
@@ -1506,7 +1506,7 @@ public class ItemDatabase
 	{
 		ItemDatabase.loadScrapeData();
 		RequestLogger.printLine( "Checking internal data..." );
-		LogStream report = LogStream.openStream( new File( UtilityConstants.DATA_LOCATION, "itemdata.txt" ), true );
+		PrintStream report = LogStream.openStream( new File( UtilityConstants.DATA_LOCATION, "itemdata.txt" ), true );
 
 		ItemDatabase.foods.clear();
 		ItemDatabase.boozes.clear();
@@ -1537,7 +1537,7 @@ public class ItemDatabase
 			}
 
 			String description;
-			LogStream livedata =
+			PrintStream livedata =
 				LogStream.openStream( new File( UtilityConstants.DATA_LOCATION, "itemhtml.txt" ), true );
 
 			it = keys.iterator();
@@ -1573,7 +1573,7 @@ public class ItemDatabase
 		report.close();
 	}
 
-	private static final void checkItem( final int itemId, final LogStream report )
+	private static final void checkItem( final int itemId, final PrintStream report )
 	{
 		Integer id = new Integer( itemId );
 
@@ -1870,7 +1870,7 @@ public class ItemDatabase
 		return false;
 	}
 
-	private static final void checkLevels( final LogStream report )
+	private static final void checkLevels( final PrintStream report )
 	{
 		RequestLogger.printLine( "Checking level requirements..." );
 
@@ -1878,7 +1878,7 @@ public class ItemDatabase
 		ItemDatabase.checkLevelMap( report, ItemDatabase.boozes, "Booze" );
 	}
 
-	private static final void checkLevelMap( final LogStream report, final Map map, final String tag )
+	private static final void checkLevelMap( final PrintStream report, final Map map, final String tag )
 	{
 		if ( map.size() == 0 )
 		{
@@ -1899,7 +1899,7 @@ public class ItemDatabase
 		}
 	}
 
-	private static final void checkLevelDatum( final String name, final String text, final LogStream report )
+	private static final void checkLevelDatum( final String name, final String text, final PrintStream report )
 	{
 		Integer requirement = (Integer) ItemDatabase.levelReqByName.get( StringUtilities.getCanonicalName( name ) );
 		int level = requirement == null ? 0 : requirement.intValue();
@@ -1923,7 +1923,7 @@ public class ItemDatabase
 		return StringUtilities.parseInt( matcher.group( 1 ) );
 	}
 
-	private static final void checkEquipment( final LogStream report )
+	private static final void checkEquipment( final PrintStream report )
 	{
 
 		RequestLogger.printLine( "Checking equipment..." );
@@ -1937,7 +1937,7 @@ public class ItemDatabase
 		ItemDatabase.checkEquipmentMap( report, ItemDatabase.containers, "Containers" );
 	}
 
-	private static final void checkEquipmentMap( final LogStream report, final Map map, final String tag )
+	private static final void checkEquipmentMap( final PrintStream report, final Map map, final String tag )
 	{
 		if ( map.size() == 0 )
 		{
@@ -1963,7 +1963,7 @@ public class ItemDatabase
 	private static final Pattern REQ_PATTERN = Pattern.compile( "(\\w+) Required: <b>(\\d+)</b>" );
 	private static final Pattern WEAPON_PATTERN = Pattern.compile( "weapon [(](.*?)[)]" );
 
-	private static final void checkEquipmentDatum( final String name, final String text, final LogStream report )
+	private static final void checkEquipmentDatum( final String name, final String text, final PrintStream report )
 	{
 		Matcher matcher;
 
@@ -2083,7 +2083,7 @@ public class ItemDatabase
 		}
 	}
 
-	private static final void checkModifiers( final LogStream report )
+	private static final void checkModifiers( final PrintStream report )
 	{
 		RequestLogger.printLine( "Checking modifiers..." );
 		ArrayList unknown = new ArrayList();
@@ -2118,7 +2118,7 @@ public class ItemDatabase
 		}
 	}
 
-	private static final void checkModifierMap( final LogStream report, final Map map, final String tag,
+	private static final void checkModifierMap( final PrintStream report, final Map map, final String tag,
 		final ArrayList unknown )
 	{
 		if ( map.size() == 0 )
@@ -2141,7 +2141,7 @@ public class ItemDatabase
 		}
 	}
 
-	private static final void checkModifierDatum( final String name, final String text, final LogStream report,
+	private static final void checkModifierDatum( final String name, final String text, final PrintStream report,
 		final ArrayList unknown )
 	{
 		String known = ItemDatabase.parseEnchantments( text, unknown );
@@ -2252,7 +2252,7 @@ public class ItemDatabase
 	public static final void checkPlurals( final int itemId )
 	{
 		RequestLogger.printLine( "Checking plurals..." );
-		LogStream report = LogStream.openStream( new File( UtilityConstants.DATA_LOCATION, "plurals.txt" ), true );
+		PrintStream report = LogStream.openStream( new File( UtilityConstants.DATA_LOCATION, "plurals.txt" ), true );
 
 		if ( itemId == 0 )
 		{
@@ -2275,7 +2275,7 @@ public class ItemDatabase
 		report.close();
 	}
 
-	private static final void checkPlural( final int itemId, final LogStream report )
+	private static final void checkPlural( final int itemId, final PrintStream report )
 	{
 		Integer id = new Integer( itemId );
 

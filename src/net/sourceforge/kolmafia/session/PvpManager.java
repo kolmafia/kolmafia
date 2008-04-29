@@ -35,7 +35,7 @@ package net.sourceforge.kolmafia.session;
 
 import java.io.BufferedReader;
 import java.io.File;
-
+import java.io.PrintStream;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.TreeMap;
@@ -139,7 +139,7 @@ public class PvpManager
 			}
 		}
 
-		LogStream spreadsheet =
+		PrintStream spreadsheet =
 			LogStream.openStream( new File( KoLConstants.ATTACKS_LOCATION, "__spreadsheet.txt" ), true );
 
 		spreadsheet.println( "Name\tTattoos\t\tTrophies\t\tFlowers\t\tCanadians" );
@@ -422,7 +422,7 @@ public class PvpManager
 			fightData[ i ] = null;
 		}
 
-		LogStream pvpResults =
+		PrintStream pvpResults =
 			LogStream.openStream(
 				new File( KoLConstants.ATTACKS_LOCATION, KoLCharacter.baseUserName() + "_offense.txt" ), false );
 
@@ -457,7 +457,7 @@ public class PvpManager
 	public static final void processDefenseContests()
 	{
 		File defenseFile = new File( KoLConstants.ATTACKS_LOCATION, KoLCharacter.baseUserName() + "_defense.txt" );
-		LogStream pvpResults = LogStream.openStream( defenseFile, false );
+		PrintStream pvpResults = LogStream.openStream( defenseFile, false );
 
 		RequestThread.postRequest( new PvpRequest() );
 		RequestThread.postRequest( new MailboxRequest( "PvP" ) );
@@ -500,7 +500,7 @@ public class PvpManager
 		}
 	}
 
-	public static final void processOffenseContest( final String target, final String line, final LogStream ostream )
+	public static final void processOffenseContest( final String target, final String line, final PrintStream ostream )
 	{
 		String contest = null;
 

@@ -35,6 +35,12 @@ package net.sourceforge.kolmafia.session;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -756,19 +762,7 @@ public abstract class MushroomManager
 		File source = new File( UtilityConstants.IMAGE_LOCATION, location );
 		File destination = new File( KoLConstants.PLOTS_LOCATION + "/" + location );
 
-		try
-		{
-			FileChannel sourceChannel = DataUtilities.getInputStream( source ).getChannel();
-			FileChannel destinationChannel = DataUtilities.getOutputStream( destination ).getChannel();
-
-			sourceChannel.transferTo( 0, sourceChannel.size(), destinationChannel );
-			sourceChannel.close();
-			destinationChannel.close();
-		}
-		catch ( Exception e )
-		{
-			// Copy failed.
-		}
+		FileUtilities.copyFile( source, destination );
 	}
 
 	public static final void saveLayout( final String filename, final String[][] originalData,
@@ -776,9 +770,9 @@ public abstract class MushroomManager
 	{
 		File preview = new File( KoLConstants.PLOTS_LOCATION.getAbsolutePath(), filename + ".htm" );
 
-		LogStream textLayout = LogStream.openStream( new File( KoLConstants.PLOTS_LOCATION, filename + ".txt" ), true );
-		LogStream htmlLayout = LogStream.openStream( preview, true );
-		LogStream plotScript = LogStream.openStream( new File( KoLConstants.PLOTS_LOCATION, filename + ".ash" ), true );
+		PrintStream textLayout = LogStream.openStream( new File( KoLConstants.PLOTS_LOCATION, filename + ".txt" ), true );
+		PrintStream htmlLayout = LogStream.openStream( preview, true );
+		PrintStream plotScript = LogStream.openStream( new File( KoLConstants.PLOTS_LOCATION, filename + ".ash" ), true );
 
 		// The HTML file needs a little bit of header information
 		// to make it proper HTML.
