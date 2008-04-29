@@ -34,7 +34,7 @@
 package net.sourceforge.kolmafia.session;
 
 import java.io.File;
-
+import java.io.PrintStream;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -136,7 +136,8 @@ public class OceanManager
 			{
 				// Save the response Text
 				File output = new File( UtilityConstants.DATA_LOCATION, "ocean.html" );
-				LogStream writer = LogStream.openStream( output, false );
+				PrintStream writer = LogStream.openStream( output, false );
+
 				// Trim to contain only HTML body
 				int start = request.responseText.indexOf( "<body>" );
 				int end = request.responseText.indexOf( "</body>" );

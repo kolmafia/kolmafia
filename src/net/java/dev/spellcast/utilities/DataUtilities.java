@@ -36,12 +36,16 @@ package net.java.dev.spellcast.utilities;
 
 import java.awt.Color;
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Arrays;
@@ -98,28 +102,12 @@ public class DataUtilities
 	 * as listed, in reverse order. Note that rather than throwing an exception should the file not be successfully
 	 * found, this function will instead print out an error message and simply return null.
 	 *
-	 * @param filename the name of the file to be retrieved
+	 * @param file the file to be retrieved
 	 */
-
-	public static BufferedReader getReader( final String filename )
-	{
-		BufferedReader result = DataUtilities.getReader( "", filename );
-		return result != null ? result : DataUtilities.getReader( UtilityConstants.DATA_DIRECTORY, filename );
-	}
 
 	public static BufferedReader getReader( final File file )
 	{
-		try
-		{
-			return DataUtilities.getReader( getInputStream( file ) );
-		}
-		catch ( Exception e )
-		{
-			// This shouldn't happen, since we did an exists check,
-			// but return null anyway.
-
-			return null;
-		}
+		return DataUtilities.getReader( getInputStream( file ) );
 	}
 
 	/**
@@ -144,23 +132,20 @@ public class DataUtilities
 			if ( filename.startsWith( "http://" ) )
 			{
 				HttpURLConnection connection =
-					(HttpURLConnection) ( new URL( null, filename ) ).openConnection();
+					(HttpURLConnection) new URL( null, filename ).openConnection();
 				InputStream istream = connection.getInputStream();
 
 				if ( connection.getResponseCode() != 200 )
 				{
-					return null;
+					return DataUtilities.getReader( EMPTY_STREAM );
 				}
 
 				return DataUtilities.getReader( istream, connection.getContentEncoding() );
 			}
 		}
-		catch ( Exception e )
+		catch ( IOException e )
 		{
-			// If the remote URL could not be read, then
-			// return an empty file location.
-
-			return null;
+			return DataUtilities.getReader( EMPTY_STREAM );
 		}
 
 		return DataUtilities.getReader( DataUtilities.getInputStream( directory, filename, allowOverride ) );
@@ -175,7 +160,7 @@ public class DataUtilities
 	{
 		if ( istream == null )
 		{
-			return null;
+			return DataUtilities.getReader( EMPTY_STREAM );
 		}
 
 		InputStreamReader reader = null;
@@ -199,7 +184,7 @@ public class DataUtilities
 		return new BufferedReader( reader );
 	}
 
-	public static FileInputStream getInputStream( File file )
+	public static InputStream getInputStream( File file )
 	{
 		File parent = file.getParentFile();
 
@@ -220,7 +205,8 @@ public class DataUtilities
 		catch ( Exception e )
 		{
 			e.printStackTrace();
-			return null;
+
+			return EMPTY_STREAM;
 		}
 	}
 
@@ -283,7 +269,7 @@ public class DataUtilities
 		}
 
 		// if it's gotten this far, the file does not exist
-		return null;
+		return EMPTY_STREAM;
 	}
 
 	private static InputStream getInputStream( final ClassLoader loader, final String filename )
@@ -291,17 +277,17 @@ public class DataUtilities
 		return loader.getResourceAsStream( filename );
 	}
 
-	public static FileOutputStream getOutputStream( String filename )
+	public static OutputStream getOutputStream( String filename )
 	{
 		return getOutputStream( new File( filename ) );
 	}
 
-	public static FileOutputStream getOutputStream( File file )
+	public static OutputStream getOutputStream( File file )
 	{
 		return getOutputStream( file, false );
 	}
 
-	public static FileOutputStream getOutputStream( File file, boolean shouldAppend )
+	public static OutputStream getOutputStream( File file, boolean shouldAppend )
 	{
 		File directory = file.getParentFile();
 
@@ -327,7 +313,7 @@ public class DataUtilities
 		catch ( Exception e )
 		{
 			e.printStackTrace();
-			return null;
+			return MEMORY_OUTPUT_STREAM;
 		}
 	}
 
@@ -433,4 +419,7 @@ public class DataUtilities
 		// the conversion to HTML is complete
 		return html;
 	}
+
+	private static ByteArrayInputStream EMPTY_STREAM = new ByteArrayInputStream( new byte[0] );
+	private static ByteArrayOutputStream MEMORY_OUTPUT_STREAM = new ByteArrayOutputStream();
 }

@@ -774,8 +774,15 @@ public class Modifiers
 
 		// OR in certain boolean modifiers
 
-		this.booleans[ Modifiers.NEVER_FUMBLE ] |= mods.booleans[ Modifiers.NEVER_FUMBLE ];
-		this.booleans[ Modifiers.WEAKENS ] |= mods.booleans[ Modifiers.WEAKENS ];
+		if ( !this.booleans[ Modifiers.NEVER_FUMBLE ] )
+		{
+			this.booleans[ Modifiers.NEVER_FUMBLE ] = mods.booleans[ Modifiers.NEVER_FUMBLE ];
+		}
+
+		if ( !this.booleans[ Modifiers.WEAKENS ] )
+		{
+			this.booleans[ Modifiers.WEAKENS ] = mods.booleans[ Modifiers.WEAKENS ];
+		}
 	}
 
 	public static final Modifiers getModifiers( String name )

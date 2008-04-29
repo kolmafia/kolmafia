@@ -45,55 +45,56 @@ import net.java.dev.spellcast.utilities.UtilityConstants;
 public class LogStream
 	extends PrintStream
 {
-	public static final LogStream openStream( final String filename, final boolean forceNewFile )
+	public static final PrintStream openStream( final String filename, final boolean forceNewFile )
 	{
 		return LogStream.openStream( new File( UtilityConstants.ROOT_LOCATION, filename ), forceNewFile );
 	}
 
-	public static final LogStream openStream( final File file, final boolean forceNewFile )
+	public static final PrintStream openStream( final File file, final boolean forceNewFile )
 	{
-		LogStream newStream = null;
+		OutputStream ostream = DataUtilities.getOutputStream( file, !forceNewFile );
+		LogStream newStream;
 
 		try
 		{
-			OutputStream ostream = DataUtilities.getOutputStream( file, !forceNewFile );
 			newStream = new LogStream( ostream );
-
-			if ( file.getName().startsWith( "DEBUG" ) )
-			{
-				newStream.println();
-				newStream.println();
-				newStream.println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
-
-				StringBuffer versionData = new StringBuffer();
-				versionData.append( StaticEntity.getVersion() );
-				versionData.append( ", " );
-				versionData.append( System.getProperty( "os.name" ) );
-				versionData.append( ", Java " );
-				versionData.append( System.getProperty( "java.version" ) );
-
-				int leftIndent = ( 66 - versionData.length() ) / 2;
-				for ( int i = 0; i < leftIndent; ++i )
-				{
-					versionData.insert( 0, ' ' );
-				}
-
-				newStream.println( versionData.toString() );
-
-				newStream.println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
-				newStream.println( " Please note: do not post these logs in the KoLmafia thread.  If " );
-				newStream.println( " you would like us to look at the log, please instead email logs " );
-				newStream.println( " to holatuwol@hotmail.com using the subject \"KoLmafia Debug Log\" " );
-				newStream.println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
-				newStream.println( " Timestamp: " + ( new Date() ).toString() );
-				newStream.println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
-				newStream.println();
-				newStream.println();
-			}
 		}
 		catch ( IOException e )
 		{
-			StaticEntity.printStackTrace( e );
+			e.printStackTrace();
+			return System.out;
+		}
+
+		if ( file.getName().startsWith( "DEBUG" ) )
+		{
+			newStream.println();
+			newStream.println();
+			newStream.println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
+
+			StringBuffer versionData = new StringBuffer();
+			versionData.append( StaticEntity.getVersion() );
+			versionData.append( ", " );
+			versionData.append( System.getProperty( "os.name" ) );
+			versionData.append( ", Java " );
+			versionData.append( System.getProperty( "java.version" ) );
+
+			int leftIndent = ( 66 - versionData.length() ) / 2;
+			for ( int i = 0; i < leftIndent; ++i )
+			{
+				versionData.insert( 0, ' ' );
+			}
+
+			newStream.println( versionData.toString() );
+
+			newStream.println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
+			newStream.println( " Please note: do not post these logs in the KoLmafia thread.  If " );
+			newStream.println( " you would like us to look at the log, please instead email logs " );
+			newStream.println( " to holatuwol@hotmail.com using the subject \"KoLmafia Debug Log\" " );
+			newStream.println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
+			newStream.println( " Timestamp: " + ( new Date() ).toString() );
+			newStream.println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
+			newStream.println();
+			newStream.println();
 		}
 
 		return newStream;

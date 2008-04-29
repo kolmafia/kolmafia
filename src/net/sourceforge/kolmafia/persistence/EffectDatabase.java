@@ -35,7 +35,7 @@ package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
 import java.io.File;
-
+import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
@@ -294,7 +294,7 @@ public class EffectDatabase
 	public static final void saveDataOverride()
 	{
 		File output = new File( UtilityConstants.DATA_LOCATION, "statuseffects.txt" );
-		LogStream writer = LogStream.openStream( output, true );
+		PrintStream writer = LogStream.openStream( output, true );
 		writer.println( KoLConstants.STATUSEFFECTS_VERSION );
 
 		int lastInteger = 1;

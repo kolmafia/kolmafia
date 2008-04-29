@@ -1030,7 +1030,7 @@ public abstract class RuntimeLibrary
 	{
 		if ( filename.startsWith( "http" ) )
 		{
-			return DataUtilities.getReader( filename );
+			return DataUtilities.getReader( "", filename );
 		}
 
 		File input = RuntimeLibrary.getFile( filename );
@@ -1040,7 +1040,7 @@ public abstract class RuntimeLibrary
 		}
 
 		BufferedReader reader = DataUtilities.getReader( "data", filename );
-		return reader != null ? reader : DataUtilities.getReader( filename );
+		return reader != null ? reader : DataUtilities.getReader( "", filename );
 	}
 
 	public static Value load_html( final Value string )

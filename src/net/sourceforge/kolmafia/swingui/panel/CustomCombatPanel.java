@@ -40,6 +40,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.PrintStream;
 
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
@@ -51,12 +52,11 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
 import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
-import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
-
-import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class CustomCombatPanel
 	extends JPanel
@@ -149,7 +149,7 @@ public class CustomCombatPanel
 			String saveText = CustomCombatPanel.this.combatEditor.getText();
 
 			File location = new File( KoLConstants.CCS_LOCATION, CustomCombatManager.settingsFileName() );
-			LogStream writer = LogStream.openStream( location, true );
+			PrintStream writer = LogStream.openStream( location, true );
 
 			writer.print( saveText );
 			writer.close();

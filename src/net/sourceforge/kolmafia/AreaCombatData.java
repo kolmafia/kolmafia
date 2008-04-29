@@ -356,11 +356,9 @@ public class AreaCombatData
 
 		int defense = monster.getDefense();
 		float hitPercent = AreaCombatData.hitPercent( hitstat, defense );
-		int perfectHit = AreaCombatData.perfectHit( hitstat, defense );
 
 		int attack = monster.getAttack();
 		float evadePercent = AreaCombatData.hitPercent( moxie, attack );
-		int perfectEvade = AreaCombatData.perfectHit( moxie, attack );
 
 		int health = monster.getAdjustedHP( ml );
 		float statGain = monster.getExperience();
