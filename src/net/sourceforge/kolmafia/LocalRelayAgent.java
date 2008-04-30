@@ -101,16 +101,18 @@ public class LocalRelayAgent
 				this.pauser.pause();
 			}
 
-			if ( this.socket != null )
-			{
-				this.performRelay();
-				this.closeRelay();
-			}
+			this.performRelay();
+			this.closeRelay();
 		}
 	}
 
 	public void performRelay()
 	{
+		if ( this.socket == null )
+		{
+			return;
+		}
+
 		this.path = null;
 		this.reader = null;
 		this.writer = null;
