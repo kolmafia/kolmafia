@@ -447,7 +447,7 @@ public abstract class InventoryManager
 					return true;
 				}
 
-				if ( !KoLmafia.permitsContinue() )
+				if ( !KoLmafia.permitsContinue() && isAutomated )
 				{
 					return false;
 				}
