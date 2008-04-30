@@ -293,9 +293,9 @@ public class ItemFinder
 				boolean isNumeric = parameters.charAt( 0 ) == '-' || Character.isDigit( parameters.charAt( 0 ) );
 
 				int spaceIndex = 1;
-				for ( ; isNumeric && spaceIndex < parameters.length() && parameters.charAt( spaceIndex ) != ' '; ++spaceIndex )
+				while ( isNumeric && spaceIndex < parameters.length() && parameters.charAt( spaceIndex ) != ' ' )
 				{
-					isNumeric &= Character.isDigit( parameters.charAt( spaceIndex ) );
+					isNumeric = Character.isDigit( parameters.charAt( spaceIndex++ ) );
 				}
 
 				if ( isNumeric )
