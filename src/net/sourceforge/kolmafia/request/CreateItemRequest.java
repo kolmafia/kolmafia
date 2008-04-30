@@ -767,7 +767,11 @@ public class CreateItemRequest
 		{
 			int pasteNeeded = ConcoctionDatabase.getMeatPasteRequired( this.itemId, this.quantityNeeded );
 			AdventureResult paste = ItemPool.get( ItemPool.MEAT_PASTE, pasteNeeded );
-			foundAllIngredients &= InventoryManager.retrieveItem( paste );
+
+			if ( !InventoryManager.retrieveItem( paste ) )
+			{
+				foundAllIngredients = false;
+			}
 		}
 
 		AdventureResult[] ingredients = ConcoctionDatabase.getIngredients( this.itemId );
@@ -798,7 +802,10 @@ public class CreateItemRequest
 				quantity = ( quantity + yield - 1 ) / yield;
 			}
 
-			foundAllIngredients &= InventoryManager.retrieveItem( ingredients[ i ].getItemId(), quantity );
+			if ( !InventoryManager.retrieveItem( ingredients[ i ].getItemId(), quantity ) )
+			{
+				foundAllIngredients = false;
+			}
 		}
 
 		return foundAllIngredients;
