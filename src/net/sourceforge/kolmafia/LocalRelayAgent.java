@@ -138,6 +138,12 @@ public class LocalRelayAgent
 		this.reader = new BufferedReader( new InputStreamReader( this.socket.getInputStream() ) );
 
 		String requestLine = this.reader.readLine();
+		
+		if ( requestLine == null )
+		{
+			return false;
+		}
+		
 		int spaceIndex = requestLine.indexOf( " " );
 
 		this.path = requestLine.substring( spaceIndex, requestLine.lastIndexOf( " " ) ).trim();

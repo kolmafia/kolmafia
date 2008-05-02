@@ -181,7 +181,7 @@ public class CreateFrameRunnable
 
 		if ( this.creationType == SkillBuffFrame.class && this.parameters.length == 1 )
 		{
-			( (SkillBuffFrame) this.creation ).setRecipient( this.parameters.length == 0 ? "" : (String) this.parameters[ 0 ] );
+			( (SkillBuffFrame) this.creation ).setRecipient( (String) this.parameters[ 0 ] );
 		}
 		if ( this.creationType == SendMessageFrame.class )
 		{

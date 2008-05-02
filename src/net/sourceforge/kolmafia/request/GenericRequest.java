@@ -725,10 +725,14 @@ public class GenericRequest
 		// If this is the rat quest, then go ahead and pre-set the data
 		// to reflect a fight sequence (mini-browser compatibility).
 
-		GenericRequest.isRatQuest |= urlString.startsWith( "rats.php" );
-		if ( !this.hasNoResult && !urlString.startsWith( "rats.php" ) )
+		if ( !GenericRequest.isRatQuest )
 		{
-			GenericRequest.isRatQuest &= urlString.startsWith( "fight.php" );
+			GenericRequest.isRatQuest = urlString.startsWith( "rats.php" );
+		}
+
+		if ( !this.hasNoResult && !urlString.startsWith( "rats.php" ) && GenericRequest.isRatQuest )
+		{
+			GenericRequest.isRatQuest = urlString.startsWith( "fight.php" );
 		}
 
 		if ( GenericRequest.isRatQuest )
@@ -1756,8 +1760,11 @@ public class GenericRequest
 				ChatManager.updateChat( "<font color=green>" + event.substring( dash + 2 ) + "</font>" );
 			}
 		}
-
-		shouldLoadEventFrame &= Preferences.getString( "initialFrames" ).indexOf( "RecentEventsFrame" ) != -1;
+		
+		if ( shouldLoadEventFrame )
+		{
+			shouldLoadEventFrame = Preferences.getString( "initialFrames" ).indexOf( "RecentEventsFrame" ) != -1;
+		}
 
 		// If we're not a GUI and there are no GUI windows open
 		// (ie: the GUI loader command wasn't used), quit now.
@@ -1785,9 +1792,10 @@ public class GenericRequest
 
 	public final void loadResponseFromFile( final File f )
 	{
+		BufferedReader buf = FileUtilities.getReader( f );
+
 		try
 		{
-			BufferedReader buf = FileUtilities.getReader( f );
 			String line;
 			StringBuffer response = new StringBuffer();
 
@@ -1804,6 +1812,14 @@ public class GenericRequest
 			// This means simply that there was no file from which
 			// to load the data.  Given that this is run during debug
 			// tests, only, we can ignore the error.
+		}
+		
+		try
+		{
+			buf.close();
+		}
+		catch ( IOException e )
+		{
 		}
 	}
 

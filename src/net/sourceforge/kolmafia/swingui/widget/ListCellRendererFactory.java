@@ -255,7 +255,7 @@ public class ListCellRendererFactory
 		{
 			if ( item.getItem() != null )
 			{
-				int modified = item.getTotal();
+				int modified = item.getAvailable();
 				int initial = 0;
 
 				if ( item.getItem() != null )

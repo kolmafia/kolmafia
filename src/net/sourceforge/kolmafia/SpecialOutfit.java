@@ -218,7 +218,11 @@ public class SpecialOutfit
 		for ( int i = 0; i <= EquipmentManager.FAMILIAR; ++i )
 		{
 			itemName = EquipmentManager.getEquipment( i ).getName();
-			isIdentical &= Preferences.getString( "implicitEquipmentSlot" + i ).equals( itemName );
+			
+			if ( isIdentical )
+			{
+				isIdentical = Preferences.getString( "implicitEquipmentSlot" + i ).equals( itemName );
+			}
 		}
 
 		SpecialOutfit.markedCheckpoint = SpecialOutfit.implicitPoints.size();

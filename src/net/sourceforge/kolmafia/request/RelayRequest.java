@@ -38,9 +38,9 @@ import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintStream;
 import java.net.URL;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -489,39 +489,63 @@ public class RelayRequest
 
 	private void sendLocalImage( final String filename )
 	{
+		URL imageURL = FileUtilities.downloadImage(
+			"http://images.kingdomofloathing.com" + filename.substring( 6 ) );
+
+		if ( imageURL == null )
+		{
+			this.sendNotFound();
+			return;
+		}
+
+		InputStream istream;
+		
 		try
 		{
-			URL imageURL = FileUtilities.downloadImage(
-				"http://images.kingdomofloathing.com" + filename.substring( 6 ) );
+			istream = imageURL.openConnection().getInputStream();
+		}
+		catch ( IOException e )
+		{
+			this.sendNotFound();
+			return;
+		}
 
-			if ( imageURL == null )
-			{
-				this.sendNotFound();
-				return;
-			}
+		ByteArrayOutputStream outbytes = new ByteArrayOutputStream( 4096 );
 
-			BufferedInputStream in =
-				new BufferedInputStream( imageURL.openConnection().getInputStream() );
+		BufferedInputStream bufferedIstream = new BufferedInputStream( istream );
 
-			ByteArrayOutputStream outbytes = new ByteArrayOutputStream( 4096 );
+		try
+		{
 			byte[] buffer = new byte[ 4096 ];
 
 			int offset;
-			while ( ( offset = in.read( buffer ) ) > 0 )
+			while ( ( offset = bufferedIstream.read( buffer ) ) > 0 )
 			{
 				outbytes.write( buffer, 0, offset );
 			}
-
-			in.close();
-			outbytes.flush();
-
-			this.rawByteBuffer = outbytes.toByteArray();
-			this.pseudoResponse( "HTTP/1.1 200 OK", "" );
 		}
-		catch ( Exception e )
+		catch ( IOException e )
 		{
-			this.sendNotFound();
 		}
+			
+		try
+		{
+			bufferedIstream.close();
+		}
+		catch ( IOException e )
+		{
+		}
+
+		try
+		{
+			outbytes.flush();
+		}
+		catch ( IOException e )
+		{
+		}
+
+		this.rawByteBuffer = outbytes.toByteArray();
+		this.pseudoResponse( "HTTP/1.1 200 OK", "" );
 	}
 
 	public static final void setNextMain( final String mainpane )

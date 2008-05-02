@@ -299,7 +299,7 @@ public class Concoction
 		return this.initial;
 	}
 
-	public int getTotal()
+	public int getAvailable()
 	{
 		return this.price > 0 ? KoLCharacter.getAvailableMeat() / this.price : this.visibleTotal;
 	}
@@ -645,9 +645,9 @@ public class Concoction
 			boolean shouldMark = true;
 			instanceCount = this.ingredientArray[ i ].getCount();
 
-			for ( int j = 0; j < i; ++j )
+			for ( int j = 0; j < i && shouldMark; ++j )
 			{
-				shouldMark &= this.ingredientArray[ i ].getItemId() != this.ingredientArray[ j ].getItemId();
+				shouldMark = this.ingredientArray[ i ].getItemId() != this.ingredientArray[ j ].getItemId();
 			}
 
 			if ( !shouldMark )

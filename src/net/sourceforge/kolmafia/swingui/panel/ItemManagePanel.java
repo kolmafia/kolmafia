@@ -364,7 +364,7 @@ public class ItemManagePanel
 			else
 			{
 				itemName = ( (Concoction) items[ i ] ).getName();
-				itemCount = ( (Concoction) items[ i ] ).getTotal();
+				itemCount = ( (Concoction) items[ i ] ).getAvailable();
 			}
 
 			quantity =

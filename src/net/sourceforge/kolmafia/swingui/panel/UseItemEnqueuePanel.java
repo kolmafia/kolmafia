@@ -274,7 +274,7 @@ public class UseItemEnqueuePanel
 				return false;
 			}
 
-			if ( creation.getTotal() == 0 )
+			if ( creation.getAvailable() == 0 )
 			{
 				return false;
 			}

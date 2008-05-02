@@ -856,21 +856,26 @@ public class HolidayDatabase
 			{
 				gameHoliday = gameHoliday + " today";
 			}
-
-			for ( int i = 1; gameHoliday == null; ++i )
+			else 
 			{
-				calendarDayAsArray = HolidayDatabase.convertCalendarDayToArray( calendarDay + i % 96 );
+				calendarDayAsArray = HolidayDatabase.convertCalendarDayToArray( ( calendarDay + 1 ) % 96 );
 				gameHoliday = HolidayDatabase.HOLIDAYS[ calendarDayAsArray[ 0 ] ][ calendarDayAsArray[ 1 ] ];
-
+				
 				if ( gameHoliday != null )
 				{
-					if ( i == 1 )
+					gameHoliday = gameHoliday + " tomorrow";					
+				}
+				else
+				{
+					for ( int i = 2; i < 96 && gameHoliday != null; ++i )
 					{
-						gameHoliday = gameHoliday + " tomorrow";
-					}
-					else
-					{
-						gameHoliday = HolidayDatabase.getDayCountAsString( i ) + " until " + gameHoliday;
+						calendarDayAsArray = HolidayDatabase.convertCalendarDayToArray( ( calendarDay + i ) % 96 );
+						gameHoliday = HolidayDatabase.HOLIDAYS[ calendarDayAsArray[ 0 ] ][ calendarDayAsArray[ 1 ] ];
+
+						if ( gameHoliday != null )
+						{
+							gameHoliday = HolidayDatabase.getDayCountAsString( i ) + " until " + gameHoliday;
+						}
 					}
 				}
 			}

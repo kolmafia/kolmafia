@@ -972,9 +972,12 @@ public class RequestEditorKit
 		for ( int i = 0; i < 3; ++i )
 		{
 			if ( wines[i] == 0 )
+			{
 				continue;
+			}
+
 			String name = ItemDatabase.getItemName( wines[ i ] );
-			StringUtilities.globalStringReplace( buffer, name, i + 1 + " " + name );
+			StringUtilities.globalStringReplace( buffer, name, String.valueOf( i + 1 ) + " " + name );
 		}
 	}
 

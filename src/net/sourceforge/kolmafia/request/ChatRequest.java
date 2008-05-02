@@ -294,7 +294,7 @@ public class ChatRequest
 	 * An internal class used so that the previous request thread can die and a new one can begin.
 	 */
 
-	private class ChatContinuationThread
+	private static class ChatContinuationThread
 		extends Thread
 	{
 		public void run()

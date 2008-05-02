@@ -88,7 +88,7 @@ public class JComponentUtilities
 		component.setMinimumSize( d );
 		component.setSize( d );
 
-		if ( component instanceof JTextField || component instanceof JPasswordField || component instanceof JList || component instanceof JComboBox )
+		if ( component instanceof JTextField || component instanceof JList || component instanceof JComboBox )
 		{
 			component.setMaximumSize( new Dimension( Integer.MAX_VALUE, (int) d.getHeight() ) );
 		}
@@ -202,7 +202,7 @@ public class JComponentUtilities
 			File override = new File( UtilityConstants.ROOT_LOCATION, fullname );
 			if ( override.exists() )
 			{
-				return override.toURL();
+				return override.toURI().toURL();
 			}
 		}
 		catch ( Exception e )

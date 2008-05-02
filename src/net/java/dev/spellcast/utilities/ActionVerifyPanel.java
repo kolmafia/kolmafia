@@ -448,7 +448,7 @@ public abstract class ActionVerifyPanel
 
 			for ( int i = 0; i < c.getComponentCount(); ++i )
 			{
-				if ( c instanceof JComponent && !( c instanceof JLabel || c instanceof JButton ) )
+				if ( !( c instanceof JLabel || c instanceof JButton ) )
 				{
 					this.removeListeners( (JComponent) c.getComponent( i ) );
 				}
@@ -482,7 +482,7 @@ public abstract class ActionVerifyPanel
 
 			for ( int i = 0; i < c.getComponentCount(); ++i )
 			{
-				if ( c instanceof JComponent && !( c instanceof JLabel || c instanceof JButton ) )
+				if ( !( c instanceof JLabel || c instanceof JButton ) )
 				{
 					this.addListeners( (JComponent) c.getComponent( i ) );
 				}
