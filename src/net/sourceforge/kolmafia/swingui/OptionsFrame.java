@@ -1001,8 +1001,7 @@ public class OptionsFrame
 			{
 				this.desktopList.removeAll( this.startupList );
 			}
-
-			if ( e.getSource() == this.desktopList )
+			else if ( e.getSource() == this.desktopList )
 			{
 				this.startupList.removeAll( this.desktopList );
 			}

@@ -2253,8 +2253,7 @@ public class KoLmafiaCLI
 			String[] split = parameters.split( "\\s*,\\s*" );
 			if ( split.length == 3 )
 			{
-				MoodManager.addTrigger( split[ 0 ], split[ 1 ], split.length == 2 ? MoodManager.getDefaultAction(
-					split[ 0 ], split[ 1 ] ) : split[ 2 ] );
+				MoodManager.addTrigger( split[ 0 ], split[ 1 ], split[ 2 ] );
 				MoodManager.saveSettings();
 			}
 			else if ( split.length == 2 )
@@ -2739,7 +2738,7 @@ public class KoLmafiaCLI
 			if ( scriptFile == null )
 			{
 				int spaceIndex = parameters.indexOf( " " );
-				if ( spaceIndex != -1 && arguments == null )
+				if ( spaceIndex != -1 )
 				{
 					arguments = new String[] { parameters.substring( spaceIndex + 1 ).trim() };
 					parameters = parameters.substring( 0, spaceIndex );

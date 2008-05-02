@@ -84,8 +84,6 @@ public class KoLDesktop
 	public JLabel hpLabel, mpLabel, meatLabel, advLabel;
 	public JLabel familiarLabel;
 
-	public KoLCharacterAdapter refreshListener;
-
 	public KoLDesktop()
 	{
 	}

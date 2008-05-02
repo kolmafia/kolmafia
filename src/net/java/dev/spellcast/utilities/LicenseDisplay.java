@@ -229,7 +229,7 @@ public class LicenseDisplay
 		return noLicenseNotice;
 	}
 
-	private class HyperlinkAdapter
+	private static class HyperlinkAdapter
 		implements HyperlinkListener
 	{
 		public void hyperlinkUpdate( final HyperlinkEvent e )

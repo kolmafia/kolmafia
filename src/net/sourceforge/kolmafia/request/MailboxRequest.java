@@ -221,9 +221,12 @@ public class MailboxRequest
 				// At this point, the message is registered with the mail manager, which
 				// records the message and updates whether or not you should continue.
 
-				shouldContinueParsing &=
-					( BuffBotHome.isBuffBotActive() ? BuffBotManager.addMessage( this.boxname, currentMessage ) : MailManager.addMessage(
-						this.boxname, currentMessage ) ) != null;
+				if ( shouldContinueParsing )
+				{
+					shouldContinueParsing =
+						( BuffBotHome.isBuffBotActive() ? BuffBotManager.addMessage( this.boxname, currentMessage ) : MailManager.addMessage(
+							this.boxname, currentMessage ) ) != null;
+				}
 			}
 		}
 

@@ -37,6 +37,7 @@ import java.io.File;
 
 import java.util.Iterator;
 import java.util.TreeMap;
+import java.util.Map.Entry;
 
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.textui.Interpreter;
@@ -140,13 +141,15 @@ public abstract class KoLmafiaASH
 		if ( !createInterpreter )
 		{
 			interpreter = (Interpreter) KoLmafiaASH.INTERPRETERS.get( toExecute );
-                        TreeMap imports = interpreter.getImports();
-			Iterator it = imports.keySet().iterator();
+			TreeMap imports = interpreter.getImports();
+
+			Iterator it = imports.entrySet().iterator();
 
 			while ( it.hasNext() && !createInterpreter )
 			{
-				File file = (File) it.next();
-				createInterpreter = ( (Long) imports.get( file ) ).longValue() != file.lastModified();
+				Entry entry = (Entry) it.next();
+				File file = (File) entry.getKey();
+				createInterpreter = ( (Long) entry.getValue() ).longValue() != file.lastModified();
 			}
 		}
 
@@ -196,11 +199,19 @@ public abstract class KoLmafiaASH
 				func instanceof LibraryFunction && ( (LibraryFunction) func ).getDescription() != null;
 
 			boolean matches = filter.equals( "" );
-			matches |= func.getName().toLowerCase().indexOf( filter ) != -1;
+			
+			if ( !matches )
+			{
+				matches = func.getName().toLowerCase().indexOf( filter ) != -1;
+			}
 
 			Iterator it2 = func.getReferences();
-			matches |=
-				it2.hasNext() && ( (VariableReference) it2.next() ).getType().toString().indexOf( filter ) != -1;
+			
+			if ( !matches )
+			{
+				matches =
+					it2.hasNext() && ( (VariableReference) it2.next() ).getType().toString().indexOf( filter ) != -1;
+			}
 
 			if ( !matches )
 			{

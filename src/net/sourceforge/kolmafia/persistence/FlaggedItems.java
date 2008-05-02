@@ -287,14 +287,14 @@ public class FlaggedItems
 			return;
 		}
 
+		AdventureResult item;
+		BufferedReader reader = DataUtilities.getReader( FlaggedItems.itemFlagsFile );
+
+		String line;
+		LockableListModel model = null;
+		
 		try
 		{
-			AdventureResult item;
-			BufferedReader reader = DataUtilities.getReader( FlaggedItems.itemFlagsFile );
-
-			String line;
-			LockableListModel model = null;
-
 			while ( ( line = reader.readLine() ) != null )
 			{
 				if ( line.equals( "" ) )
@@ -341,7 +341,13 @@ public class FlaggedItems
 					}
 				}
 			}
+		}
+		catch ( IOException e )
+		{
+		}
 
+		try
+		{
 			reader.close();
 		}
 		catch ( IOException e )

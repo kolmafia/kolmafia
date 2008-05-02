@@ -41,6 +41,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
@@ -299,25 +300,28 @@ public class EffectDatabase
 
 		int lastInteger = 1;
 		String defaultAction;
-		Iterator it = EffectDatabase.dataNameById.keySet().iterator();
+		Iterator it = EffectDatabase.dataNameById.entrySet().iterator();
 
 		while ( it.hasNext() )
 		{
-			Integer nextInteger = (Integer) it.next();
+			Entry entry = (Entry) it.next();
+
+			Integer nextInteger = (Integer) entry.getKey();
 			for ( int i = lastInteger; i < nextInteger.intValue(); ++i )
 			{
 				writer.println( i );
 			}
 
 			lastInteger = nextInteger.intValue() + 1;
-			writer.print( nextInteger + "\t" + EffectDatabase.dataNameById.get( nextInteger ) + "\t" + EffectDatabase.imageById.get( nextInteger ) );
+			writer.print( nextInteger + "\t" + EffectDatabase.descriptionById.get( nextInteger ) + "\t" + EffectDatabase.imageById.get( nextInteger ) );
 
 			if ( EffectDatabase.descriptionById.containsKey( nextInteger ) )
 			{
-				writer.print( "\t" + EffectDatabase.descriptionById.get( nextInteger ) );
+				writer.print( "\t" + entry.getValue() );
 
 				defaultAction =
-					(String) EffectDatabase.defaultActions.get( EffectDatabase.dataNameById.get( nextInteger ) );
+					(String) EffectDatabase.defaultActions.get( entry.getValue() );
+
 				if ( defaultAction != null && !defaultAction.equals( "" ) )
 				{
 					writer.print( "\t" + defaultAction );

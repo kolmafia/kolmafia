@@ -156,9 +156,17 @@ public class AscensionHistoryRequest
 
 				boolean shouldReplace = false;
 
-				shouldReplace |= currentMonth > bestMonth;
-				shouldReplace |= currentMonth == bestMonth && currentWeek > bestWeek;
-				shouldReplace &= currentMonth == 9 || currentMonth == 10;
+				shouldReplace = currentMonth > bestMonth;
+				
+				if ( !shouldReplace )
+				{
+					shouldReplace = currentMonth == bestMonth && currentWeek > bestWeek;
+				}
+				
+				if ( shouldReplace )
+				{
+					shouldReplace = currentMonth == 9 || currentMonth == 10;
+				}
 
 				if ( shouldReplace )
 				{
@@ -312,7 +320,7 @@ public class AscensionHistoryRequest
 							AscensionHistoryRequest.ASCEND_DATE_FORMAT.parse( columnsNew[ 1 ] ).getTime() - AscensionHistoryRequest.ASCEND_DATE_FORMAT.parse(
 								columnsOld[ 1 ] ).getTime();
 
-						columnsNew[ 6 ] = String.valueOf( Math.round( timeDifference / 86400000l ) + 1 );
+						columnsNew[ 6 ] = String.valueOf( Math.round( timeDifference / 86400000L ) + 1 );
 					}
 					catch ( Exception e )
 					{

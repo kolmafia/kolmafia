@@ -37,6 +37,7 @@ import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.Date;
@@ -85,13 +86,23 @@ public class CustomItemDatabase
 			return;
 		}
 
+
+		InputStream istream = DataUtilities.getInputStream( CustomItemDatabase.KILT_FILE );
+		
 		try
 		{
-			CustomItemDatabase.INSTANCE.load( DataUtilities.getInputStream( CustomItemDatabase.KILT_FILE ) );
+			CustomItemDatabase.INSTANCE.load( istream );
 		}
-		catch ( Exception e )
+		catch ( IOException e )
 		{
-			StaticEntity.printStackTrace( e );
+		}
+
+		try
+		{
+			istream.close();
+		}
+		catch ( IOException e )
+		{
 		}
 	}
 
@@ -527,19 +538,26 @@ public class CustomItemDatabase
 			return;
 		}
 
+		// Determine the contents of the file by
+		// actually printing them.
+
+		ByteArrayOutputStream ostream = new ByteArrayOutputStream();
+
 		try
 		{
-			// Determine the contents of the file by
-			// actually printing them.
-
-			ByteArrayOutputStream ostream = new ByteArrayOutputStream();
 			CustomItemDatabase.INSTANCE.store( ostream, KoLConstants.VERSION_NAME );
+		}
+		catch ( IOException e )
+		{
+		}
 
-			String[] lines = ostream.toString().split( KoLConstants.LINE_BREAK );
-			Arrays.sort( lines );
+		String[] lines = ostream.toString().split( KoLConstants.LINE_BREAK );
+		Arrays.sort( lines );
 
-			ostream.reset();
-
+		ostream.reset();
+		
+		try
+		{
 			for ( int i = 0; i < lines.length; ++i )
 			{
 				if ( lines[ i ].startsWith( "#" ) )
@@ -550,17 +568,27 @@ public class CustomItemDatabase
 				ostream.write( lines[ i ].getBytes() );
 				ostream.write( KoLConstants.LINE_BREAK.getBytes() );
 			}
+		}
+		catch ( IOException e )
+		{
+		}
 
-			OutputStream fstream = DataUtilities.getOutputStream( CustomItemDatabase.KILT_FILE );
+		OutputStream fstream = DataUtilities.getOutputStream( CustomItemDatabase.KILT_FILE );
+
+		try
+		{
 			ostream.writeTo( fstream );
+		}
+		catch ( IOException e )
+		{
+		}
+
+		try
+		{
 			fstream.close();
 		}
 		catch ( IOException e )
 		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-
-			StaticEntity.printStackTrace( e );
 		}
 	}
 }

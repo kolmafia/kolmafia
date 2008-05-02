@@ -274,7 +274,6 @@ public abstract class HPRestoreItemList
 				return;
 			}
 
-			int belowMax = KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP();
 			int numberToUse = Math.max( (int) Math.floor( (float) hpShort / (float) this.getHealthRestored() ), 1 );
 
 			if ( this == HPRestoreItemList.SOFA )

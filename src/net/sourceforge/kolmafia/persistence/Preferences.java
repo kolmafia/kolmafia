@@ -54,7 +54,6 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.LogStream;
-import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
 import net.sourceforge.kolmafia.session.MoodManager;
@@ -137,30 +136,22 @@ public class Preferences
 	private static void loadPreferences( TreeMap values, File file )
 	{
 		Properties p = new Properties();
+		InputStream istream = DataUtilities.getInputStream( file );
 
 		try
 		{
-			InputStream istream = DataUtilities.getInputStream( file );
 			p.load( istream );
+		}
+		catch ( IOException e )
+		{
+		}
 
+		try
+		{
 			istream.close();
-			istream = null;
 		}
-		catch ( IOException e1 )
+		catch ( IOException e )
 		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-
-			StaticEntity.printStackTrace( e1 );
-		}
-		catch ( Exception e2 )
-		{
-			// Somehow, the userSettings were corrupted; this
-			// means that they will have to be created after
-			// the current file is deleted.
-
-			StaticEntity.printStackTrace( e2 );
-			file.delete();
 		}
 
 		Entry currentEntry;
@@ -530,13 +521,13 @@ public class Preferences
 
 	private static final void saveToFile( File file, TreeMap data )
 	{
+		// Determine the contents of the file by
+		// actually printing them.
+
+		ByteArrayOutputStream ostream = new ByteArrayOutputStream();
+
 		try
 		{
-			// Determine the contents of the file by
-			// actually printing them.
-
-			ByteArrayOutputStream ostream = new ByteArrayOutputStream();
-
 			Entry current;
 			Iterator it = data.entrySet().iterator();
 
@@ -548,14 +539,27 @@ public class Preferences
 
 				ostream.write( LINE_BREAK_AS_BYTES );
 			}
+		}
+		catch ( IOException e )
+		{
+		}
 
-			OutputStream fstream = DataUtilities.getOutputStream( file );
+		OutputStream fstream = DataUtilities.getOutputStream( file );
+		
+		try
+		{
 			ostream.writeTo( fstream );
+		}
+		catch ( IOException e )
+		{
+		}
+
+		try
+		{
 			fstream.close();
 		}
 		catch ( IOException e )
 		{
-			// This should not happen.
 		}
 	}
 

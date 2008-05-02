@@ -159,7 +159,7 @@ public abstract class StaticEntity
 			{
 				for ( int i = 0; i < StaticEntity.frameArray.length && !needsRefresh; ++i )
 				{
-					needsRefresh |= StaticEntity.frameArray[ i ] != KoLConstants.existingFrames.get( i );
+					needsRefresh = StaticEntity.frameArray[ i ] != KoLConstants.existingFrames.get( i );
 				}
 			}
 
@@ -189,7 +189,7 @@ public abstract class StaticEntity
 			{
 				for ( int i = 0; i < StaticEntity.panelArray.length && !needsRefresh; ++i )
 				{
-					needsRefresh |= StaticEntity.panelArray[ i ] != StaticEntity.existingPanels.get( i );
+					needsRefresh = StaticEntity.panelArray[ i ] != StaticEntity.existingPanels.get( i );
 				}
 			}
 

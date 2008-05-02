@@ -52,7 +52,6 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.swingui.BuffBotFrame;
 
 public class BuffBotHome
-	extends StaticEntity
 {
 	private static final DateFormat TIMESTAMP_FORMAT =
 		DateFormat.getDateTimeInstance( DateFormat.SHORT, DateFormat.SHORT );
@@ -113,7 +112,7 @@ public class BuffBotHome
 	private static final PrintStream getPrintStream( final String extension )
 	{
 		File output = BuffBotHome.getFile( extension );
-		return output == null ? null : LogStream.openStream( output, false );
+		return LogStream.openStream( output, false );
 	}
 
 	/**
