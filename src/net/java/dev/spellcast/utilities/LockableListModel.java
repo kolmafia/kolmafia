@@ -979,19 +979,11 @@ public class LockableListModel
 
 	public Object clone()
 	{
+		LockableListModel cloneCopy;
+		
 		try
 		{
-			LockableListModel cloneCopy = (LockableListModel) super.clone();
-			cloneCopy.listenerList = new javax.swing.event.EventListenerList();
-
-			cloneCopy.actualElements = this.cloneList( this.actualElements );
-			cloneCopy.visibleElements = this.cloneList( this.visibleElements );
-			cloneCopy.mirrorList = new ArrayList();
-
-			cloneCopy.currentFilter = this.currentFilter;
-			cloneCopy.selectedValue = null;
-
-			return cloneCopy;
+			cloneCopy = (LockableListModel) super.clone();
 		}
 		catch ( CloneNotSupportedException e )
 		{
@@ -999,112 +991,25 @@ public class LockableListModel
 			// that this method is overriding the one found in Object.  Thus,
 			// this exception should never be thrown, unless one of the super
 			// classes is re-written to throw the exception by default.
+
 			throw new RuntimeException(
 				"AbstractListModel or one of its superclasses was rewritten to throw CloneNotSupportedException by default, call to clone() was unsuccessful" );
 		}
-	}
 
-	/**
-	 * Because <code>ArrayList</code> only creates a shallow copy of the objects, the one used as a data structure
-	 * here must be cloned manually in order to satifsy the contract established by <code>clone()</code>. However,
-	 * the individual elements are known to be of class <code>Object</code>, and objects only force the clone()
-	 * method to be protected. Thus, in order to invoke clone() on each individual element, it must be done
-	 * reflectively, which is the purpose of this private method.
-	 *
-	 * @return as deep a copy of the object as can be obtained
-	 */
+		cloneCopy.listenerList = new javax.swing.event.EventListenerList();
 
-	private ArrayList cloneList( final ArrayList listToClone )
-	{
-		ArrayList clonedList = new ArrayList();
+		cloneCopy.actualElements = new ArrayList();
+		cloneCopy.actualElements.addAll( this.actualElements );
 
-		for ( int i = 0; i < listToClone.size(); ++i )
-		{
-			clonedList.add( LockableListModel.attemptClone( listToClone.get( i ) ) );
-		}
+		cloneCopy.visibleElements = new ArrayList();
+		cloneCopy.addAll( this.visibleElements );
 
-		return clonedList;
-	}
+		cloneCopy.mirrorList = new ArrayList();
 
-	/**
-	 * A private function which attempts to clone the object, if and only if the object implements the
-	 * <code>Cloneable</code> interface. If the object provided does not implement the <code>Cloneable</code>
-	 * interface, or the clone() method is protected (as it is in class <code>Object</code>), then the original
-	 * object is returned.
-	 *
-	 * @param o the object to be cloned
-	 * @return a copy of the object, either shallow or deep, pending whether the original object was intended to be able
-	 *         to be deep-copied
-	 */
+		cloneCopy.currentFilter = this.currentFilter;
+		cloneCopy.selectedValue = null;
 
-	private static Object attemptClone( final Object o )
-	{
-		if ( !( o instanceof Cloneable ) )
-		{
-			return o;
-		}
-
-		java.lang.reflect.Method cloneMethod;
-
-		try
-		{
-			// The function clone() has no parameters; this implementation
-			// is implementation and specification dependent, and is used
-			// with the traditional rule about null for a parameter list in
-			// Class and Method indicating a zero-length parameter list.
-			cloneMethod = o.getClass().getDeclaredMethod( "clone", null );
-		}
-		catch ( SecurityException e )
-		{
-			// If the methods of this function cannot be accessed
-			// because it is protected, then it cannot be called
-			// from this context - the original object should be
-			// returned in this case.
-			return o;
-		}
-		catch ( NoSuchMethodException e )
-		{
-			// This exception should never be thrown because all
-			// objects have the clone() function.  If it is thrown,
-			// then the clone() method was somehow deleted from
-			// class Object (lack of backwards compatibility).
-			// In this case, the original object should be returned.
-			return o;
-		}
-
-		try
-		{
-			// The function clone() has no parameters; this implementation
-			// is implementation and specification dependent, and is used
-			// with the traditional rule about null for a parameter list in
-			// Class and Method indicating a zero-length parameter list.
-			return cloneMethod.invoke( o, null );
-		}
-		catch ( IllegalAccessException e )
-		{
-			// This exception should not occur, since the SecurityException
-			// would have been thrown in the cases where this would have occurred.
-			// But, if it does happen to occur *after* the SecurityException
-			// caught all the instances, then something is wrong.
-			throw new InternalError( "accessible clone() method exists, but IllegalAccessException thrown" );
-		}
-		catch ( IllegalArgumentException e )
-		{
-			// This exception should not occur, since the NoSuchMethodException
-			// would have been thrown in the cases where this would have occurred.
-			// But, if it does happen to occur *after* the NoSuchMethodException
-			// caught all the instances, then something is wrong.
-			throw new InternalError(
-				"accessible clone() method exists, but IllegalArgumentException thrown when no arguments are provided" );
-		}
-		catch ( java.lang.reflect.InvocationTargetException e )
-		{
-			// The only exception normally thrown by the clone() operation is
-			// the CloneNotSupportedException.  If this is thrown by the element,
-			// then it is known that even if it implements the Cloneable interface,
-			// it throws the exception by default - return the original object.
-			return o;
-		}
+		return cloneCopy;
 	}
 
 	/**
