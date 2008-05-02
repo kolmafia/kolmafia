@@ -924,6 +924,7 @@ lucky Crimbo tiki necklace	0	none
 lucky rabbit's foot	0	none
 makeshift SCUBA gear	0	none
 makeshift cape	0	Mys: 35
+mayfly bait necklace	0	none
 monster bait	0	none
 mood ring	0	none
 natty blue ascot	0	Mys: 10

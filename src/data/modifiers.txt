@@ -984,6 +984,7 @@ ladle of mystery	Maximum HP: +20, Maximum MP: +20, Class: "Sauceror"
 lucky rabbit's foot	Item Drop: +7, Meat Drop: +7
 makeshift SCUBA gear	Stench Resistance: +2, Melee Damage: -30, Initiative: -100
 makeshift cape	Item Drop: +5
+mayfly bait necklace	Single Equip
 monster bait	Single Equip, Combat Rate: +5
 natty blue ascot	Meat Drop: +20
 navel ring of navel gazing	Single Equip, Intrinsic Effect: "Omphaloskepsis", Mysticality Percent: +25, Spell Damage Percent: +100, Mana Cost: -1, Softcore Only

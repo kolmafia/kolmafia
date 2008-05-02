@@ -52,6 +52,7 @@
 7013	Fire purple bottle-rocket	5	5	0
 7014	Fire black bottle-rocket	5	5	0
 7015	Creepy Grin	5	30	0
+7024	Summon Mayfly Swarm	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 
