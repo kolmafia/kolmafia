@@ -647,6 +647,13 @@ public abstract class ChatManager
 	{
 		ChatManager.updateSettings();
 
+		// There are no updates if there was a timeout.
+
+		if ( content == null || content.length() == 0 )
+		{
+			return;
+		}
+
 		// Now, extract the contact list and update ChatManager to indicate
 		// the contact list found in the last /friends update
 
