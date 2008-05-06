@@ -707,7 +707,18 @@ public class UseItemRequest
 		{
 			UseItemRequest.lastUpdate = "Your spleen might go kabooie.";
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+
+			int spleenHit = ItemDatabase.getSpleenHit( item.getName() ) * item.getCount();
+			int estimatedSpleen = KoLCharacter.getSpleenLimit() - spleenHit + 1;
+
+			if ( estimatedSpleen > KoLCharacter.getSpleenUse() )
+			{
+				Preferences.setInteger( "currentSpleenUse", estimatedSpleen );
+			}
+
 			ResultProcessor.processResult( item );
+			KoLCharacter.updateStatus();
+
 			return;
 		}
 
@@ -719,7 +730,18 @@ public class UseItemRequest
 		{
 			UseItemRequest.lastUpdate = "Consumption limit reached.";
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+
+			int fullness = ItemDatabase.getFullness( item.getName() ) * item.getCount();
+			int estimatedFullness = KoLCharacter.getFullnessLimit() - fullness + 1;
+
+			if ( estimatedFullness > KoLCharacter.getFullness() )
+			{
+				Preferences.setInteger( "currentFullness", estimatedFullness );
+			}
+
 			ResultProcessor.processResult( item );
+			KoLCharacter.updateStatus();
+
 			return;
 		}
 
