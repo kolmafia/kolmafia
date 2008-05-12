@@ -3288,7 +3288,7 @@
 3287	quasi-ethereal macaroni fragments	3	display	200
 3288	shimmering tendrils	3	display	500
 3289	scintillating powder	3	display	400
-3290
+3290	abandoned candy	4	all	150
 3291
 3292
 3293

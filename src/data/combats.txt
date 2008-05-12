@@ -87,7 +87,7 @@ Guards' Chamber	100	Filthworm Royal Guard
 Haert of the Cyrpt	100	The Bonerdagon
 Hatching Chamber	100	Larval Filthworm
 Haunted Ballroom	80	Floating Platter of Hors D'Oeuvres	Ghastly Organist: 0	Some Zombie Waltzers	Tapdancing Skeleton
-Haunted Bathroom	85	Claw-foot Bathtub	Malevolent Hair Clog	Toilet Papergeist	Guy Made Of Bees: 0
+Haunted Bathroom	75	Claw-foot Bathtub	Malevolent Hair Clog	Toilet Papergeist	Guy Made Of Bees: 0
 Haunted Bedroom	20	Animated Nightstand (Mahogany)	Animated Nightstand (White)	Remains of a Jilted Mistress: 0
 Haunted Billiards Room	100	Chalkdust Wraith	Pooltergeist
 Haunted Conservatory	100	Anglerbush	Confused Goth Music Student	Man-Eating Plant	Skeletal Cat	Skeletal Hamster	Skeletal Monkey
