@@ -3278,7 +3278,7 @@
 3277	Loudmouth Larry Lamprey	3	gift	5
 3278	cheap studded belt	8	gift	5
 3279	personal massager	15	gift	5
-3280	personalized coffee mug	0	gift	5
+3280	personalized coffee mug	0	gift	0
 3281	blue plasma ball	3	gift	5
 3282	stick-on eyebrow piercing	8	gift	5
 3283	delicious salad	1	display	1
