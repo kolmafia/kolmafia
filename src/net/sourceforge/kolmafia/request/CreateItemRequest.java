@@ -1077,11 +1077,15 @@ public class CreateItemRequest
 			command.append( "Cook " );
 			usesTurns = !KoLCharacter.hasChef();
 		}
+		else if ( urlString.startsWith( "smith.php" ) && urlString.indexOf( "action=pulverize" ) != -1 )
+		{
+			return false;
+		}
 		else if ( urlString.startsWith( "smith.php" ) || urlString.startsWith( "knoll.php" ) && urlString.indexOf( "action=smith" ) != -1 )
 		{
-			isCreationURL = urlString.indexOf( "action=pulverize" ) == -1;
+			isCreationURL = true;
 			command.append( "Smith " );
-			usesTurns = urlString.indexOf( "action=pulverize" ) == -1;
+			usesTurns = true;
 		}
 		else if ( urlString.startsWith( "jewelry.php" ) )
 		{

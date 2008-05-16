@@ -299,9 +299,16 @@ public class TurnCounter
 		
 		String action = request.getFormField( "action" );
 		
-		if ( action != null && action.equals( "wokcook" ) )
+		if ( action != null )
 		{
-			turnMultiplier = 1;
+			if ( action.equals( "wokcook" ) )
+			{
+				turnMultiplier = 1;
+			}
+			else if ( action.equals( "pulverize" ) )
+			{
+				turnMultiplier = 0;
+			}
 		}
 				
 		if ( turnMultiplier == 0 )
