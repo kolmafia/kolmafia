@@ -290,7 +290,12 @@ public abstract class ChoiceManager
 			new String[] { "stuffed shoulder parrot", "small meat boost", "eyepatch", "complete the outfit" },
 			new String[] { "403", null, "224" } ),
 
-		// Choice 25 is Ouch! You bump into a door!
+		// Ouch! You bump into a door!
+		new ChoiceAdventure(
+			"Town", "choiceAdventure25", "Dungeon of Doom",
+			new String[] { "magic lamp", "dead mimic", "skip adventure" },
+			new String[] { "1273", "1267", null } ),
+
 		// Choice 26 is A Three-Tined Fork
 		// Choice 27 is Footprints
 		// Choice 28 is A Pair of Craters
@@ -862,12 +867,6 @@ public abstract class ChoiceManager
 		new ChoiceAdventure(
 			"choiceAdventure12", "Castle Wheel",
 			new String[] { "Turn to muscle", "Turn to map quest", "Leave at moxie" } ),
-
-		// Ouch! You bump into a door!
-		new ChoiceAdventure(
-			"choiceAdventure25", "Dungeon of Doom",
-			new String[] { "magic lamp", "dead mimic", "skip adventure" },
-			new String[] { "1273", "1267", null } ),
 
 		// A Three-Tined Fork
 		new ChoiceAdventure(
