@@ -1,12 +1,16 @@
 1
 # Monster Name	Monster Parameters
 #
-# Monster data from Kittiwake's Monster Survival Guide:
+# Original monster data from Kittiwake's Monster Survival Guide:
 #
 # http://forums.kingdomofloathing.com/viewtopic.php?t=39973&start=0
 # http://jick-nerfed.us/forums/viewtopic.php?t=218
 #
 # Last edited by Kittiwake on Fri Apr 14, 2006 4:48 am
+#
+# New monster data from QuantumNightmare at AllianceFromHell:
+#
+# http://alliancefromhell.com/forum/viewtopic.php?t=1289
 #
 # Questionable data:
 #
