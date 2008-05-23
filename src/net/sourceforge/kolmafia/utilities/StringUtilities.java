@@ -71,7 +71,12 @@ public class StringUtilities
 			return null;
 		}
 
-		name = CharacterEntities.escape( CharacterEntities.unescape( name ) );
+		if ( name.indexOf( "&" ) == -1 )
+		{
+			name = CharacterEntities.unescape( name );
+			name = CharacterEntities.escape( name );
+		}
+
 		name = StringUtilities.globalStringReplace( name, "  ", " " ).toLowerCase();
 
 		return name;
