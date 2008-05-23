@@ -36,11 +36,16 @@ package net.sourceforge.kolmafia.utilities;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.regex.Pattern;
 
 
 public class StringUtilities
 {
+	private static final Map displayNames = new TreeMap();
+	private static final Map canonicalNames = new TreeMap();
+
 	private static final Pattern NONINTEGER_PATTERN = Pattern.compile( "[^\\-0-9]" );
 	private static final Pattern NONFLOAT_PATTERN = Pattern.compile( "[^\\-\\.0-9]" );
 
@@ -54,7 +59,20 @@ public class StringUtilities
 
 	public static final String getDisplayName( final String name )
 	{
-		return name == null ? null : CharacterEntities.unescape( name );
+		if ( name == null )
+		{
+			return name;
+		}
+
+		String displayName = (String) StringUtilities.displayNames.get( name );
+
+		if ( displayName == null )
+		{
+			displayName = CharacterEntities.unescape( name );
+			StringUtilities.displayNames.put( name, displayName );
+		}
+
+		return displayName;
 	}
 
 	/**
@@ -64,22 +82,31 @@ public class StringUtilities
 	 * @return The canonicalized name
 	 */
 
-	public static final String getCanonicalName( String name )
+	public static final String getCanonicalName( final String name )
 	{
 		if ( name == null )
 		{
 			return null;
 		}
 
-		if ( name.indexOf( "&" ) == -1 )
+		String canonicalName = (String) StringUtilities.canonicalNames.get( name );
+
+		if ( canonicalName == null )
 		{
-			name = CharacterEntities.unescape( name );
-			name = CharacterEntities.escape( name );
+			if ( name.indexOf( "&" ) == -1 || name.indexOf( ";" ) == -1 )
+			{
+				canonicalName = CharacterEntities.escape( name );
+			}
+			else
+			{
+				canonicalName = name;
+			}
+
+			canonicalName = StringUtilities.globalStringReplace( canonicalName, "  ", " " ).toLowerCase();
+			StringUtilities.canonicalNames.put( name, canonicalName );
 		}
 
-		name = StringUtilities.globalStringReplace( name, "  ", " " ).toLowerCase();
-
-		return name;
+		return canonicalName;
 	}
 
 	/**
@@ -89,7 +116,7 @@ public class StringUtilities
 	 * @param substring The substring for which to search
 	 */
 
-	public static final List getMatchingNames( String [] names, String searchString )
+	public static final List getMatchingNames( final String [] names, String searchString )
 	{
 		boolean isExactMatch = searchString.startsWith( "\"" );
 		List matchList = new ArrayList();
