@@ -856,14 +856,14 @@ public class HolidayDatabase
 			{
 				gameHoliday = gameHoliday + " today";
 			}
-			else 
+			else
 			{
 				calendarDayAsArray = HolidayDatabase.convertCalendarDayToArray( ( calendarDay + 1 ) % 96 );
 				gameHoliday = HolidayDatabase.HOLIDAYS[ calendarDayAsArray[ 0 ] ][ calendarDayAsArray[ 1 ] ];
-				
+
 				if ( gameHoliday != null )
 				{
-					gameHoliday = gameHoliday + " tomorrow";					
+					gameHoliday = gameHoliday + " tomorrow";
 				}
 				else
 				{
@@ -881,7 +881,7 @@ public class HolidayDatabase
 			}
 		}
 
-		return gameHoliday == null && realHoliday == null ? "No known holiday today." : gameHoliday == null ? realHoliday : realHoliday == null ? gameHoliday : realHoliday + " / " + gameHoliday;
+		return gameHoliday == null && realHoliday == null ? "" : gameHoliday == null ? realHoliday : realHoliday == null ? gameHoliday : realHoliday + " / " + gameHoliday;
 	}
 
 	private static String cachedYear = "";

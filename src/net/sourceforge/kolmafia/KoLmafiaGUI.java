@@ -39,8 +39,6 @@ import java.util.Date;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 
-import tab.CloseTabbedPane;
-
 import net.sourceforge.foxtrot.ConcurrentWorker;
 import net.sourceforge.foxtrot.Job;
 import net.sourceforge.kolmafia.persistence.BuffBotDatabase;
@@ -83,8 +81,9 @@ import net.sourceforge.kolmafia.swingui.MushroomFrame;
 import net.sourceforge.kolmafia.swingui.OptionsFrame;
 import net.sourceforge.kolmafia.swingui.StoreManageFrame;
 import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
+import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
+import tab.CloseTabbedPane;
 
 public class KoLmafiaGUI
 	extends KoLmafia
@@ -231,26 +230,25 @@ public class KoLmafiaGUI
 
 		LoginFrame.disposeInstance();
 
-		if ( MailManager.hasNewMessages() )
+		String updateText;
+
+		String holiday = HolidayDatabase.getHoliday( new Date(), true );
+		String moonEffect = HolidayDatabase.getMoonEffect();
+
+		if ( holiday.equals( "" ) )
 		{
-			KoLmafia.updateDisplay( "You have new mail." );
+			updateText = moonEffect;
 		}
 		else
 		{
-			try
-			{
-				String holiday =
-					HolidayDatabase.getHoliday(
-						KoLConstants.DAILY_FORMAT.parse( KoLConstants.DAILY_FORMAT.format( new Date() ) ), true );
-				KoLmafia.updateDisplay( StringUtilities.getDisplayName( holiday + ", " + HolidayDatabase.getMoonEffect() ) );
-			}
-			catch ( Exception e )
-			{
-				// Should not happen, you're parsing something that
-				// was formatted the same way.
+			updateText = holiday + ", " + moonEffect;
+		}
 
-				StaticEntity.printStackTrace( e );
-			}
+		KoLmafia.updateDisplay( CharacterEntities.unescape( updateText ) );
+
+		if ( MailManager.hasNewMessages() )
+		{
+			KoLmafia.updateDisplay( "You have new mail." );
 		}
 	}
 
