@@ -38,7 +38,6 @@ import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import java.util.Date;
 
 import javax.swing.Box;
@@ -66,7 +65,7 @@ import net.sourceforge.kolmafia.swingui.panel.LabeledPanel;
 import net.sourceforge.kolmafia.swingui.panel.OptionsPanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
+import net.sourceforge.kolmafia.utilities.CharacterEntities;
 
 public class LoginFrame
 	extends GenericFrame
@@ -241,20 +240,21 @@ public class LoginFrame
 			this.autoLoginCheckBox.addActionListener( new AutoLoginListener() );
 			this.savePasswordCheckBox.addActionListener( new RemovePasswordListener() );
 
-			try
-			{
-				String holiday =
-					HolidayDatabase.getHoliday(
-						KoLConstants.DAILY_FORMAT.parse( KoLConstants.DAILY_FORMAT.format( new Date() ) ), true );
-				this.setStatusMessage( StringUtilities.getDisplayName( holiday + ", " + HolidayDatabase.getMoonEffect() ) );
-			}
-			catch ( Exception e )
-			{
-				// Should not happen, you're parsing something that
-				// was formatted the same way.
+			String updateText;
 
-				StaticEntity.printStackTrace( e );
+			String holiday = HolidayDatabase.getHoliday( new Date(), true );
+			String moonEffect = HolidayDatabase.getMoonEffect();
+
+			if ( holiday.equals( "" ) )
+			{
+				updateText = moonEffect;
 			}
+			else
+			{
+				updateText = holiday + ", " + moonEffect;
+			}
+
+			this.setStatusMessage( CharacterEntities.unescape( updateText ) );
 		}
 
 		public void setEnabled( final boolean isEnabled )
