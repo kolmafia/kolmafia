@@ -2528,6 +2528,7 @@ public abstract class KoLCharacter
 		// Look for wand
 
 		AdventureResult wand = findWand();
+
 		if ( wand != null )
 		{
 			return wand;
@@ -2535,13 +2536,17 @@ public abstract class KoLCharacter
 
 		// None found. Use a mimic if one in inventory
 
-		AdventureResult mimic = ItemPool.get( ItemPool.DEAD_MIMIC, 1 );
-		if ( !InventoryManager.hasItem( mimic ) )
+		if ( KoLCharacter.getAscensions() != Preferences.getInteger( "lastDeadMimic" ) )
 		{
-			return null;
-		}
+			AdventureResult mimic = ItemPool.get( ItemPool.DEAD_MIMIC, 1 );
 
-		RequestThread.postRequest( new UseItemRequest( mimic ) );
+			if ( !InventoryManager.hasItem( mimic ) )
+			{
+				return null;
+			}
+
+			RequestThread.postRequest( new UseItemRequest( mimic ) );
+		}
 
 		// Look for wand again
 
@@ -2554,6 +2559,7 @@ public abstract class KoLCharacter
 		{
 			if ( KoLConstants.inventory.contains( KoLCharacter.WANDS[ i ] ) )
 			{
+				Preferences.setInteger( "lastDeadMimic", KoLCharacter.getAscensions() );
 				return KoLCharacter.WANDS[ i ];
 			}
 		}
