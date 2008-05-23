@@ -2525,12 +2525,31 @@ public abstract class KoLCharacter
 
 	public static final AdventureResult getZapper()
 	{
-		AdventureResult mimic = ItemPool.get( ItemPool.DEAD_MIMIC, 1 );
-		if ( InventoryManager.hasItem( mimic ) )
+		// Look for wand
+
+		AdventureResult wand = findWand();
+		if ( wand != null )
 		{
-			RequestThread.postRequest( new UseItemRequest( mimic ) );
+			return wand;
 		}
 
+		// None found. Use a mimic if one in inventory
+
+		AdventureResult mimic = ItemPool.get( ItemPool.DEAD_MIMIC, 1 );
+		if ( !InventoryManager.hasItem( mimic ) )
+		{
+			return null;
+		}
+
+		RequestThread.postRequest( new UseItemRequest( mimic ) );
+
+		// Look for wand again
+
+		return findWand();
+	}
+
+	public static final AdventureResult findWand()
+	{
 		for ( int i = 0; i < KoLCharacter.WANDS.length; ++i )
 		{
 			if ( KoLConstants.inventory.contains( KoLCharacter.WANDS[ i ] ) )

@@ -854,6 +854,7 @@ blue ribbon	0	none
 booty chest charrrm bracelet	0	Mys: 80
 bottle opener belt buckle	0	Mys: 65
 bottlecap turtle	0	Mys: 12
+brown plastic baby	0	none
 cannonball charrrm bracelet	0	Mys: 80
 cement shoes	0	Mys: 35
 cheap studded belt	0	none
