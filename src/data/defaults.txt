@@ -243,6 +243,7 @@ user	lastTavernAscension	0
 user	lastTavernSquare	0
 user	lastTelescopeReset	-1
 user	lastTowerClimb	-1
+user	lastZapperWand	0
 user	louvreDesiredGoal	7
 user	louvreGoal	0
 user	louvreLayout

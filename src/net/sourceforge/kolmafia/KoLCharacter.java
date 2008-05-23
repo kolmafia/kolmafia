@@ -2534,19 +2534,24 @@ public abstract class KoLCharacter
 			return wand;
 		}
 
-		// None found. Use a mimic if one in inventory
+		// None found.  If you've already had a zapper wand this ascension,
+		// assume they don't want to use their mimic.
 
-		if ( KoLCharacter.getAscensions() != Preferences.getInteger( "lastDeadMimic" ) )
+		if ( KoLCharacter.getAscensions() == Preferences.getInteger( "lastZapperWand" ) )
 		{
-			AdventureResult mimic = ItemPool.get( ItemPool.DEAD_MIMIC, 1 );
-
-			if ( !InventoryManager.hasItem( mimic ) )
-			{
-				return null;
-			}
-
-			RequestThread.postRequest( new UseItemRequest( mimic ) );
+			return null;
 		}
+
+		// Use a mimic if one in inventory
+
+		AdventureResult mimic = ItemPool.get( ItemPool.DEAD_MIMIC, 1 );
+
+		if ( !InventoryManager.hasItem( mimic ) )
+		{
+			return null;
+		}
+
+		RequestThread.postRequest( new UseItemRequest( mimic ) );
 
 		// Look for wand again
 
@@ -2559,7 +2564,7 @@ public abstract class KoLCharacter
 		{
 			if ( KoLConstants.inventory.contains( KoLCharacter.WANDS[ i ] ) )
 			{
-				Preferences.setInteger( "lastDeadMimic", KoLCharacter.getAscensions() );
+				Preferences.setInteger( "lastZapperWand", KoLCharacter.getAscensions() );
 				return KoLCharacter.WANDS[ i ];
 			}
 		}
