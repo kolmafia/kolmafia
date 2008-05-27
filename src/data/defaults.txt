@@ -154,7 +154,6 @@ user	breakfastCompleted	false
 user	buffBotCasting
 user	buffBotMessageDisposal	0
 user	buffBotPhilanthropyType	1
-user	candyHeartSummons	0
 user	chatbotScript
 user	chatbotScriptExecuted	false
 user	chosenTrip
@@ -244,6 +243,7 @@ user	lastTavernSquare	0
 user	lastTelescopeReset	-1
 user	lastTowerClimb	-1
 user	lastZapperWand	0
+user	libramSummons	0
 user	louvreDesiredGoal	7
 user	louvreGoal	0
 user	louvreLayout

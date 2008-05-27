@@ -345,7 +345,7 @@ public class SkillDatabase
 
 	public static final int libramSkillMPConsumption( final boolean justCast )
 	{
-		int count = Preferences.getInteger( "candyHeartSummons" ) - ( justCast ? 1 : 0 );
+		int count = Preferences.getInteger( "libramSummons" ) - ( justCast ? 1 : 0 );
 		return libramSkillMPConsumption( count ) ;
 	}
 
@@ -371,9 +371,9 @@ public class SkillDatabase
 
 		int count =  ( 1 + (int)Math.sqrt( 8 * cost - 7 ) ) / 2;
 
-		if ( Preferences.getInteger( "candyHeartSummons" ) != count - 1)
+		if ( Preferences.getInteger( "libramSummons" ) != count - 1 )
 		{
-			Preferences.setInteger( "candyHeartSummons", count - 1 );
+			Preferences.setInteger( "libramSummons", count - 1 );
 			KoLConstants.summoningSkills.sort();
 			KoLConstants.usableSkills.sort();
 		}

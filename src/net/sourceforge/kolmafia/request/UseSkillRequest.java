@@ -77,6 +77,12 @@ public class UseSkillRequest
 		"Summon Tasteful Items"
 	};
 
+	public static final String[] LIBRAM_SKILLS =
+	{
+		"Summon Snowcone",
+		"Summon Party Favor"
+	};
+
 	private static final int OTTER_TONGUE = 1007;
 	private static final int WALRUS_TONGUE = 1010;
 	private static final int BANDAGES = 3009;
@@ -242,7 +248,7 @@ public class UseSkillRequest
 		if ( SkillDatabase.isLibramSkill( this.skillId ) )
 		{
 			int mpRemaining = KoLCharacter.getCurrentMP();
-			int initialCount = Preferences.getInteger( "candyHeartSummons" );
+			int initialCount = Preferences.getInteger( "libramSummons" );
 			int count = initialCount;
 
 			while ( mpCost <= mpRemaining )
@@ -998,7 +1004,7 @@ public class UseSkillRequest
 		if ( SkillDatabase.isLibramSkill( skillId ) &&
 		     SkillDatabase.libramSkillMPConsumption() <= KoLCharacter.getCurrentMP() )
 		{
-			Preferences.increment( "candyHeartSummons", 1 );
+			Preferences.increment( "libramSummons", 1 );
 			KoLConstants.summoningSkills.sort();
 			KoLConstants.usableSkills.sort();
 		}

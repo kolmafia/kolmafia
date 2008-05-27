@@ -37,7 +37,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
-
 import java.util.ArrayList;
 import java.util.TreeMap;
 
@@ -52,7 +51,6 @@ import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
-import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
@@ -496,13 +494,14 @@ public abstract class MoodManager
 			// Encounter rate modifying buffs probably shouldn't be cast
 			// during conditional recast.
 
-			if ( skillId == 1019 || skillId == 5017 || skillId == 6015 || skillId == 6016 )
+			if ( skillId == 1019 || skillId == 5017 || skillId == 6015 || skillId == 6016 || skillId == 6017 )
 			{
 				continue;
 			}
 
 			int castCount =
 				( KoLCharacter.getCurrentMP() - minimum ) / SkillDatabase.getMPConsumptionById( skillId );
+
 			int duration = SkillDatabase.getEffectDuration( skillId );
 
 			// If the player opts in to allowing breakfast casting to burn
@@ -510,7 +509,7 @@ public abstract class MoodManager
 
 			if ( currentEffect.getCount() >= 10 )
 			{
-				String breakfast = MoodManager.considerBreakfastBurning( minimum, shouldExecute );
+				String breakfast = MoodManager.considerBreakfastSkill( minimum, shouldExecute );
 				if ( breakfast != null )
 				{
 					return breakfast;
@@ -558,14 +557,14 @@ public abstract class MoodManager
 			}
 			else
 			{
-				return MoodManager.considerBreakfastBurning( minimum, shouldExecute );
+				return MoodManager.considerBreakfastSkill( minimum, shouldExecute );
 			}
 		}
 
-		return MoodManager.considerBreakfastBurning( minimum, shouldExecute );
+		return MoodManager.considerBreakfastSkill( minimum, shouldExecute );
 	}
 
-	private static final String considerBreakfastBurning( final int minimum, final boolean shouldExecute )
+	private static final String considerBreakfastSkill( final int minimum, final boolean shouldExecute )
 	{
 		for ( int i = 0; i < UseSkillRequest.BREAKFAST_SKILLS.length; ++i )
 		{
@@ -598,7 +597,32 @@ public abstract class MoodManager
 			}
 		}
 
-		return null;
+		return MoodManager.considerLibramSummon( minimum, shouldExecute );
+	}
+
+	private static final String considerLibramSummon( final int minimum, final boolean shouldExecute )
+	{
+		if ( SkillDatabase.libramSkillMPConsumption() > KoLCharacter.getCurrentMP() - minimum )
+		{
+			return null;
+		}
+
+		ArrayList libramSkills = new ArrayList();
+
+		for ( int i = 0; i < UseSkillRequest.LIBRAM_SKILLS.length; ++i )
+		{
+			if ( KoLCharacter.hasSkill( UseSkillRequest.LIBRAM_SKILLS[ i ] ) )
+			{
+				libramSkills.add( UseSkillRequest.LIBRAM_SKILLS[ i ] );
+			}
+		}
+
+		if ( libramSkills.isEmpty() )
+		{
+			return null;
+		}
+
+		return "cast 1 " + libramSkills.get( Preferences.getInteger( "libramSummons" ) % libramSkills.size() );
 	}
 
 	public static final void execute( final int multiplicity )
