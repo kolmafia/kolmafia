@@ -690,7 +690,7 @@ public abstract class KoLmafia
 		Preferences.setInteger( "snowconeSummons", 0 );
 		Preferences.setInteger( "grimoire1Summons", 0 );
 		Preferences.setInteger( "grimoire2Summons", 0 );
-		Preferences.setInteger( "candyHeartSummons", 0 );
+		Preferences.setInteger( "libramSummons", 0 );
 
 		Preferences.setInteger( "noodleSummons", 0 );
 		Preferences.setInteger( "reagentSummons", 0 );
