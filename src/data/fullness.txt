@@ -198,6 +198,7 @@ maple syrup	1	1	1-2	0	0	0
 menudo	2	2	2-7	14-18	0	0
 mind flayer corpse	5	1	5-12	0	21-25	0
 mixed wildflower greens	1	10	2-4	25-30	0	0
+mole mol&eacute;	3	4	7-8	11-14	13-14	10-11
 mugcake	1	1	1	0	0	0
 mushroom pizza	3	2	3-10	0	15-18	0
 nanite-infested candy cane	1	4	1-4	10-20	10-20	10-20
