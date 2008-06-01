@@ -24,6 +24,7 @@ Mae West	4	6	14-18	0	0	40-47
 Maiali Sifilitici Pinot Noir	1	10	6-10	60	60	60
 McMillicancuddy's Special Lager	1	10	2-4	10-15	10-15	10-15
 Mon Tiki	4	6	14-18	40-47	0	0
+Morlock's Mark Bourbon	4	4	12-14	22-28	22-28	17-21
 Mt. Noob Pale Ale	2	1	4-9	0	0	0
 Neuromancer	4	6	14-18	25-27	0	16-20
 Oil Nog	4	5	7-9	0	0	0

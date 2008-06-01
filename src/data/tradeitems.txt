@@ -3349,8 +3349,26 @@
 3348
 3349
 3350
-3351
-3352
-3353
+3351	llama lama cria	5	all	0
+3352	zen motorcycle	7	all	75
+3353	llama lama gong	3	all	0
 3354	banana-frosted king cake	1	display	0
 3355	brown plastic baby	8	all	0
+3356	plump juicy grub	16	all	3
+3357	delicious shimmering moth	14	all	3
+3358	delectable fire ant	3	all	3
+3359	scrumptious ice ant	3	all	3
+3360	delicious stinkbug	3	all	3
+3361	yummy death watch beetle	3	all	3
+3362	tasty louse	3	all	3
+3363	mole mol&eacute;	1	all	100
+3364	Morlock's Mark Bourbon	2	all	100
+3365	Climate Colada	3	all	75
+3366	digital underground potion	4	all	75
+3367	interesting-looking twig	3	all	3
+3368	glimmering roc feather	4	all	100
+3369	glimmering phoenix feather	4	all	100
+3370	glimmering penguin feather	4	all	100
+3371	glimmering buzzard feather	4	all	100
+3372	glimmering raven feather	4	all	100
+3373	glimmering great tit feather	4	all	100

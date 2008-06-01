@@ -3355,8 +3355,26 @@
 3348
 3349
 3350
-3351
-3352
-3353
+3351	821134174	llama lama cria	llama lama criae
+3352	915431949	zen motorcycle
+3353	450667217	llama lama gong
 3354	560001000	banana-frosted king cake
 3355	843815341	brown plastic baby
+3356	285773925	plump juicy grub
+3357	125853708	delicious shimmering moth
+3358	515099636	delectable fire ant
+3359	477615124	scrumptious ice ant
+3360	700282942	delicious stinkbug
+3361	649856281	yummy death watch beetle
+3362	889678946	tasty louse
+3363	205635187	mole mol&eacute;
+3364	136432731	Morlock's Mark Bourbon
+3365	232791709	Climate Colada
+3366	435286247	digital underground potion
+3367	941765437	interesting-looking twig
+3368	165379582	glimmering roc feather
+3369	859835974	glimmering phoenix feather
+3370	287900396	glimmering penguin feather
+3371	986251233	glimmering buzzard feather
+3372	819133201	glimmering raven feather
+3373	634790806	glimmering great tit feather

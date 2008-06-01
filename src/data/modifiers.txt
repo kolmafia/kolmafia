@@ -1388,6 +1388,7 @@ Can't Be a Chooser	Meat Drop: +30
 Can't Smell Nothin'	Stench Resistance: +9
 Carlweather's Cantata of Confrontation	Combat Rate: +5
 Carol of the Bones	Muscle Percent: +10
+Carrion' On	Meat Drop: +60
 Carrrsmic	Mysticality Percent: +10
 Chalky Hand	Melee Damage: +3
 Charrrming	Moxie Percent: +10
@@ -1546,6 +1547,7 @@ Patience of the Tortoise	Muscle: +1, Maximum HP: +4
 Paw swap	Cold Resistance: +2
 Peeled Eyeballs	Experience: -1, Item Drop: +15, Meat Drop: -16
 Permafrosty	Cold Damage: +50
+Phoenix, Right?	Experience: +6
 Phorcefullness	Muscle Percent: +100
 Piratastic	Moxie: +100
 Polka of Plenty	Meat Drop: +50
