@@ -215,7 +215,7 @@ public class CharPaneDecorator
 			fontColor = FightRequest.getCurrentRound() == 0 ? "black" : "gray";
 			moodText = "mood " + Preferences.getString( "currentMood" );
 		}
-		else if ( MoodManager.getNextBurnCast( false ) != null )
+		else if ( MoodManager.getNextBurnCast() != null )
 		{
 			fontColor = FightRequest.getCurrentRound() == 0 ? "black" : "gray";
 			moodText = "burn extra mp";
