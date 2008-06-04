@@ -419,32 +419,26 @@ public abstract class MoodManager
 
 		MoodManager.isExecuting = true;
 
-		while ( ( nextBurnCast = MoodManager.getNextBurnCast( true ) ) != null )
+		int currentMP = -1;
+
+		while ( currentMP != KoLCharacter.getCurrentMP() && ( nextBurnCast = MoodManager.getNextBurnCast() ) != null )
 		{
+			currentMP = KoLCharacter.getCurrentMP();
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( nextBurnCast );
 		}
 
 		MoodManager.isExecuting = false;
 	}
 
-	public static final String getNextBurnCast( final boolean shouldExecute )
+	public static final String getNextBurnCast()
 	{
-		// Rather than keeping a safety for the player, let the player
-		// make the mistake of burning below their auto-restore threshold.
+		// Avoid triggering auto-recovery when mana burning.
 
-		int starting =
-			(int) ( Preferences.getFloat( "manaBurningThreshold" ) * (float) KoLCharacter.getMaximumMP() );
-		if ( shouldExecute && ( starting < 0 || KoLCharacter.getCurrentMP() <= starting ) )
-		{
-			return null;
-		}
+		int minimum = Math.max(
+			(int) ( Preferences.getFloat( "manaBurningThreshold" ) * (float) KoLCharacter.getMaximumMP() ),
+			(int) ( Preferences.getFloat( "mpAutoRecovery" ) * (float) KoLCharacter.getMaximumMP() ) ) + 1;
 
-		int minimum =
-			Math.max(
-				0, (int) ( Preferences.getFloat( "mpAutoRecovery" ) * (float) KoLCharacter.getMaximumMP() ) ) + 1;
-		minimum = Math.max( minimum, starting );
-
-		if ( shouldExecute && KoLCharacter.getCurrentMP() <= minimum )
+		if ( minimum < 0 || KoLCharacter.getCurrentMP() <= minimum )
 		{
 			return null;
 		}
@@ -453,9 +447,7 @@ public abstract class MoodManager
 		int desiredDuration = 0;
 
 		// Rather than maintain mood-related buffs only, maintain
-		// any active effect that the character can auto-cast.  This
-		// makes the feature useful even for people who have never
-		// defined a mood.
+		// any active effect that the character can auto-cast.
 
 		AdventureResult currentEffect;
 		AdventureResult nextEffect;
@@ -467,14 +459,16 @@ public abstract class MoodManager
 				i + 1 >= KoLConstants.activeEffects.size() ? null : (AdventureResult) KoLConstants.activeEffects.get( i + 1 );
 
 			skillName = UneffectRequest.effectToSkill( currentEffect.getName() );
+
+			// Only cast if a matching skill was found that the player knows.
+
 			if ( !SkillDatabase.contains( skillName ) || !KoLCharacter.hasSkill( skillName ) )
 			{
 				continue;
 			}
 
-			// Only cast if a matching skill was found.  Limit cast count
-			// to two in order to ensure that KoLmafia doesn't make the
-			// buff counts too far out of balance.
+			// Set the desired duration to properly balance the buff so that
+			// its duration is close to the duration of the next buff down the list
 
 			if ( nextEffect != null )
 			{
@@ -509,7 +503,8 @@ public abstract class MoodManager
 
 			if ( currentEffect.getCount() >= 10 )
 			{
-				String breakfast = MoodManager.considerBreakfastSkill( minimum, shouldExecute );
+				String breakfast = MoodManager.considerBreakfastSkill( minimum );
+
 				if ( breakfast != null )
 				{
 					return breakfast;
@@ -518,6 +513,9 @@ public abstract class MoodManager
 				castCount =
 					( KoLCharacter.getCurrentMP() - minimum ) / SkillDatabase.getMPConsumptionById( skillId );
 			}
+
+			// If all durations exceed 1000 turns more than the number of
+			// turns the player has available, reject.
 
 			if ( currentEffect.getCount() >= KoLCharacter.getAdventuresLeft() + 1000 )
 			{
@@ -542,6 +540,9 @@ public abstract class MoodManager
 				}
 			}
 
+			// Limit cast count to two in order to ensure that KoLmafia doesn't
+			// make the buff counts too far out of balance.
+
 			if ( castCount > 2 && duration > desiredDuration )
 			{
 				castCount = 2;
@@ -557,14 +558,14 @@ public abstract class MoodManager
 			}
 			else
 			{
-				return MoodManager.considerBreakfastSkill( minimum, shouldExecute );
+				return MoodManager.considerBreakfastSkill( minimum );
 			}
 		}
 
-		return MoodManager.considerBreakfastSkill( minimum, shouldExecute );
+		return MoodManager.considerBreakfastSkill( minimum );
 	}
 
-	private static final String considerBreakfastSkill( final int minimum, final boolean shouldExecute )
+	private static final String considerBreakfastSkill( final int minimum )
 	{
 		for ( int i = 0; i < UseSkillRequest.BREAKFAST_SKILLS.length; ++i )
 		{
@@ -582,31 +583,28 @@ public abstract class MoodManager
 			}
 
 			UseSkillRequest skill = UseSkillRequest.getInstance( UseSkillRequest.BREAKFAST_SKILLS[ i ] );
-			if ( skill.getMaximumCast() == 0 )
+
+			int maximumCast = skill.getMaximumCast();
+
+			if ( maximumCast == 0 )
 			{
 				continue;
 			}
 
-			if ( shouldExecute )
+			int castCount = Math.min( maximumCast,
+				( KoLCharacter.getCurrentMP() - minimum ) / SkillDatabase.getMPConsumptionById( skill.getSkillId() ) );
+
+			if ( castCount > 0 )
 			{
-				BreakfastManager.castSkill( UseSkillRequest.BREAKFAST_SKILLS[ i ], false, minimum );
-			}
-			else if ( SkillDatabase.getMPConsumptionById( skill.getSkillId() ) <= KoLCharacter.getCurrentMP() - minimum )
-			{
-				return "cast 1 " + UseSkillRequest.BREAKFAST_SKILLS[ i ];
+				return "cast " + castCount + " " + UseSkillRequest.BREAKFAST_SKILLS[ i ];
 			}
 		}
 
-		return MoodManager.considerLibramSummon( minimum, shouldExecute );
+		return MoodManager.considerLibramSummon( minimum );
 	}
 
-	private static final String considerLibramSummon( final int minimum, final boolean shouldExecute )
+	private static final String considerLibramSummon( final int minimum )
 	{
-		if ( SkillDatabase.libramSkillMPConsumption() > KoLCharacter.getCurrentMP() - minimum )
-		{
-			return null;
-		}
-
 		ArrayList libramSkills = new ArrayList();
 
 		for ( int i = 0; i < UseSkillRequest.LIBRAM_SKILLS.length; ++i )
