@@ -102,7 +102,7 @@
 A Bugged Bugbear	HP: 14 Def: 18 Atk: 14	gnoll teeth (30)	gnoll lips (30)
 A Revolting Bugbear	HP: 10 Def: 13 Atk: 13
 A Revolving Bugbear	HP: 11 Def: 15 Atk: 15
-A.M.C. Gremlin	HP: 175	gremlin juice (0)
+A.M.C. Gremlin	HP: 175	gremlin juice (3)
 Acid Blob	HP: 40 Def: 38 Atk: 38
 Albino Bat	HP: 8 Def: 14 Atk: 10 Meat: 16-26	batgut (10)	bat guano (10)	pink bat eye (0)
 Alphabet Giant	HP: 150 Def: 145 Atk: 145 Meat: 122-183	heavy D (40)	original G (40)
@@ -111,7 +111,7 @@ An Annoying Spooky Gravy Fairy	HP: 20 Def: 20 Atk: 20 E: spooky	annoying pitchfo
 Ancient Protector Spirit	HP: 8	obsidian dagger (20)	mossy stone sphere (20)	rough stone sphere (20)	smooth stone sphere (20)	cracked stone sphere (20)
 Anglerbush	HP: 10 Def: 9 Atk: 9	meat stack (35)
 Angry Pi&ntilde;ata	HP: 20 Def: 22 Atk: 22	pile of candy (100)
-Angry Raccoon Puppet	HP: 20 Def: 35 Atk: 35	felt (0)	stuffing (0)	googly eye (0)
+Angry Raccoon Puppet	HP: 20 Def: 35 Atk: 35	felt (1)	stuffing (10)	googly eye (1)
 Animated Nightstand (Mahogany)	HP: 170 Def: 166 Atk: 158	old coin purse (25)	old leather wallet (25)
 Animated Nightstand (White)	HP: 180 Def: 171 Atk: 147	grouchy restless spirit (80)
 Anime Smiley	HP: 67 Def: 77 Atk: 77	334 scroll (30)	Tasty Fun Good rice candy (40)
@@ -127,12 +127,12 @@ Bar	HP: 5 Def: 3 Atk: 1 Meat: 12-20	bar skin (25)	barskin hat (5)
 Baron Von Ratsworth
 Baseball Bat	HP: 9 Def: 15 Atk: 15 Meat: 17-27	baseball (30)	sonar-in-a-biscuit (20)
 Batrat	HP: 20 Def: 23 Atk: 23 Meat: 18-28	bat wing (15)	bat guano (15)	batgut (15)
-Batwinged Gremlin	HP: 177	gremlin juice (0)	molybdenum hammer (0)
+Batwinged Gremlin	HP: 177	gremlin juice (3)	molybdenum hammer (0)
 Beanbat	HP: 18 Def: 21 Atk: 21 Meat: 28-43	enchanted bean (50)
 Beefy Bodyguard Bat	HP: 36
 Beer Bongadier	HP: 210
 Big Creepy Spider	HP: 1 Def: 1 Atk: 1 Meat: 4-7	spider web (30)	spider web (20)
-Bizarre Construct	HP: 0	El Vibrato punchcard (97 holes)	El Vibrato punchcard (216 holes)
+Bizarre Construct	HP: 300	El Vibrato punchcard (97 holes)	El Vibrato punchcard (216 holes)
 Black Adder	HP: 124	adder bladder (30)	black snake skin (15)
 Black Knight	HP: 134	black greaves (15)	black helmet (15)	black shield (15)	black sword (15)
 Black Panther	HP: 127	Black No. 2 ( 20)
@@ -152,7 +152,7 @@ Brutus, the Toga-Clad Lout	HP: 280
 Bugbear-In-The-Box	HP: 11 Def: 18 Atk: 14 Meat: 12-19	box (20)	bugbear beanie (10)	bugbear bungguard (10)
 Bullet Bill	HP: 15 Def: 25 Atk: 25	black pixel (70)	black pixel (70)	black pixel (70)
 Burly Sidekick	HP: 100 Def: 100 Atk: 100 Meat: 79-168	cocoa eggshell fragment (30)	mohawk wig (10)	tiny house (30)
-Business Hippy	HP: 25 Def: 38 Atk: 38	filthy corduroys (0)	filthy knitted dread sack (0)	herbs (0)	reodorant (0)	massive bag of catnip (0)
+Business Hippy	HP: 25 Def: 38 Atk: 38	filthy corduroys (20)	filthy knitted dread sack (30)	herbs (25)	reodorant (5)	massive bag of catnip (0)
 Buzzy Beetle	HP: 15 Def: 20 Atk: 20	black pixel (50)	white pixel (50)	red pixel (65)
 C.A.R.N.I.V.O.R.E. Operative	HP: 330
 Cactuary	HP: 139	bit-o-cactus (27)	giant cactus quill (5)	cactus fruit (20)	handful of sand (20)
@@ -160,9 +160,9 @@ Carnivorous Dill Plant	HP: 180 Def: 200 Atk: 200	dill (30)	dill (30)
 Carnivorous Moxie Weed	HP: 56 Def: 66 Atk: 66	moxie weed (30)	giant moxie weed (15)	giant moxie weed (15)
 Caveman Frat Boy	HP: 0	ovoid leather thing (20)	chunk of rock salt (20)	stone baseball cap (10)
 Caveman Frat Pledge	HP: 0	stone baseball cap (5)	cup of primitive beer (10)	chunk of rock salt (20)	ovoid leather thing (10)
-Caveman Hippy	HP: 0	stone frisbee (20)	dreadlock whip (10)	handful of pine needles (20)
+Caveman Hippy	HP: 280 E: stench	stone frisbee (20)	dreadlock whip (10)	handful of pine needles (20)
 Caveman Sorority Girl	HP: 0	cup of primitive beer (25)
-Cavewomyn Hippy	HP: 260	handful of pine needles (20)	handful of nuts and berries (20)
+Cavewomyn Hippy	HP: 260 E: stench	handful of pine needles (20)	handful of nuts and berries (20)
 Chalkdust Wraith	HP: 10 Def: 20 Atk: 20 ED: spooky	handful of hand chalk (100)
 Chatty Pirate	HP: 90	bottle of rum (0)
 Chowder Golem	HP: 9 Def: 18 Atk: 22 Meat: 29-46
@@ -213,7 +213,7 @@ Dyspepsi-Cola Knight	HP: 35 Def: 30 Atk: 30	Dyspepsi-Cola (15)	Dyspepsi-Cola (15
 Dyspepsi-Cola Soldier	HP: 30 Def: 30 Atk: 30	Dyspepsi-Cola (15)	Dyspepsi-Cola (15)	Dyspepsi grenade (5)
 Elite Beer Bongadier	HP: 230
 Empty Suit of Armor	HP: 120 Def: 115 Atk: 115 ED: spooky	antique greaves (10)	antique helmet (10)	antique spear (10)	antique shield (10)
-Erudite Gremlin	HP: 173	gremlin juice (0)	molybdenum crescent wrench (0)
+Erudite Gremlin	HP: 173	gremlin juice (3)	molybdenum crescent wrench (0)
 Evil Olive	HP: 120 Def: 125 Atk: 125	bottle of gin (30)	olive (40)	jumbo olive (10)
 eXtreme Cross-Country Hippy	HP: 65 Def: 73 Atk: 73 E: stench	eXtreme mittens (5)	eXtreme scarf (10)	Mountain Stream soda (30)
 eXtreme Orcish Snowboarder	HP: 65 Def: 74 Atk: 76 Meat: 32-50 E: sleaze	eXtreme mittens (5)	Mountain Stream soda (30)	snowboarder pants (10)
@@ -390,7 +390,7 @@ Protagonist	HP: 80 Def: 100 Atk: 100 Meat: 58-129	phonics down (40)	ridiculously
 Protector Spectre	HP: 116
 Pygmy Assault Squad	HP: 148
 Pygmy Blowgunner	HP: 147
-Pygmy Headhunter	HP: 151
+Pygmy Headhunter	HP: 151 E: sleaze
 Quantum Mechanic	HP: 51 Def: 37 Atk: 37	large box (40)	vorpal blade (15)
 Queen Filthworm	HP: 200	heart of the filthworm queen (100)
 Quiet Healer	HP: 90 Def: 95 Atk: 95 Meat: 66-143	amulet of extreme plot significance (10)	scroll of drastic healing (30)	soft green echo eyedrop antidote (30)
@@ -409,7 +409,7 @@ Rolling Stone	HP: 135	palm frond (10)	handful of moss (20)	brown sugar cane (20)
 Rotund Duck	HP: 225	duct tape (0)
 Rudolphus of Crimborg		capacitor relay (8)	carbon nanotube frame (8)	ion grid (8)	Feynman gate (8)	logic synthesizer (8)	high-resistance ultrapolymer plating (4)
 Rushing Bum	HP: 1 Def: 1 Atk: 1	bum cheek (30)	Mad Train wine (30)	moxie weed (15)
-Sabre-Toothed Ferret	HP: 0	sabre teeth (25)
+Sabre-Toothed Ferret	HP: 200 E: stench	sabre teeth (25)
 Sabre-Toothed Goat	HP: 50 Def: 68 Atk: 68 Meat: 44-71	goat beard (5)	Sabre teeth (5)	billy idol (0)
 Sabre-Toothed Lime	HP: 8 Def: 14 Atk: 14
 Salamander	HP: 1
@@ -442,7 +442,7 @@ Sorority Nurse	HP: 200
 Sorority Operator	HP: 200
 Spam Witch	HP: 75 Def: 85 Atk: 85 EA: sleaze Meat: 24-38	30669 scroll (30)	Spam Witch sammich (50)	sammich crust (0)
 Spectral Jellyfish	HP: 60 Def: 70 Atk: 70
-Spider Gremlin	HP: 177	gremlin juice (0)	molybdenum pliers (0)
+Spider Gremlin	HP: 177	gremlin juice (3)	molybdenum pliers (0)
 Spiny Skelelton	HP: 50 Def: 54 Atk: 54 E: spooky	skeleton bone (40)	smart skull (50)	spiked femur (10)
 Spooky Gravy Fairy Guard	HP: 45 Def: 54 Atk: 56 E: spooky	spooky mushroom (40)	halfberd (5)	small leather glove (10)
 Spooky Gravy Fairy Ninja	HP: 55 Def: 65 Atk: 65 E: spooky	spooky mushroom (40)	teeny-tiny ninja stars (5)	tiny ninja sword (5)
@@ -458,9 +458,9 @@ Striking Pencil-Pusher Elf		felt (10)	wooden block (10)	googly eye (10)	length o
 Striking Stocking-Stuffer Elf		length of string (10)	stuffing (10)	wooden block (10)	googly eye (10)	felt (10)	toy wheel (10)
 Sub-Assistant Knob Mad Scientist	HP: 1 Def: 2 Atk: 2 Meat: 5-7	Knob Goblin firecracker (100)	Knob Goblin pants (10)	strongness elixir (30)
 Swamp Duck	HP: 182	fetid feather (0)	duct tape (0)
-Swarm of Fire Ants	HP: 136	ant agonist (20)	ant hoe (1)	ant pick (1)	ant pitchfork (1)	ant rake (1)	ant sickle (1)	handful of sand (20)
+Swarm of Fire Ants	HP: 136 E: heat	ant agonist (20)	ant hoe (1)	ant pick (1)	ant pitchfork (1)	ant rake (1)	ant sickle (1)	handful of sand (20)
 Swarm of Killer Bees	HP: 45 Def: 39 Atk: 41	baby killer bee (5)	royal jelly (25)
-Swarm of Scarab Beatles	HP: 135	Colonel Mustard's Lonely Spades Club Jacket (1)	Corporal Fennel's Lonely Clubs Club Jacket (1)	General Sage's Lonely Diamonds Club Jacket (1)	Private Pepper's Lonely Hearts Club Jacket (1)	savoy truffle (10)	rocky raccoon (40)	mojo filter (5)	Maxwell's Silver Hammer (5)	carbonated water lily (10)	palm frond (10)	hot date (5)	happiness (5)
+Swarm of Scarab Beatles	HP: 135 E: spooky	Colonel Mustard's Lonely Spades Club Jacket (1)	Corporal Fennel's Lonely Clubs Club Jacket (1)	General Sage's Lonely Diamonds Club Jacket (1)	Private Pepper's Lonely Hearts Club Jacket (1)	savoy truffle (10)	rocky raccoon (40)	mojo filter (5)	Maxwell's Silver Hammer (5)	carbonated water lily (10)	palm frond (10)	hot date (5)	happiness (5)
 Swarthy Pirate	HP: 53 Def: 63 Atk: 63 Meat: 20-32	leotarrrd (10)	pirate pelvis (20)	stuffed shoulder parrot (10)
 Taco Cat	HP: 125 Def: 126 Atk: 119 Meat: 32-49	cat appendix (30)	catgut (30)	taco shell (30)
 Tan Gnat	HP: 105 Def: 122 Atk: 116	gnatwing (40)	suntan lotion of moxiousness (50)
@@ -497,7 +497,7 @@ Toilet Papergeist	HP: 115 Def: 100 Atk: 76 ED: spooky	cardboard wakizashi (5)	ro
 Tomb Asp	HP: 155	unidentified jerky (10)
 Tomb Bat	HP: 180	leathery bat skin (30)	unidentified jerky (10)	mummy wrapping (20)
 Tomb Rat	HP: 175	tomb ratchet (3)	leathery rat skin (30)	unidentified jerky (10)
-Tomb Servant	HP: 185	canopic jar (30)	ancient protein powder (15)	mummy wrapping (20)	unidentified jerky (10)
+Tomb Servant	HP: 185 E: spooky	canopic jar (30)	ancient protein powder (15)	mummy wrapping (20)	unidentified jerky (10)
 Tonic Water Elemental	HP: 14 Def: 18 Atk: 18
 Toothy Pirate	HP: 75	bottle of rum (20)	cocktail napkin (10)	
 Toothy Sklelton	HP: 50 Def: 58 Atk: 58 E: spooky	loose teeth (20)	loose teeth (20)	skeleton bone (20)
@@ -510,11 +510,11 @@ Upgraded Ram	HP: 95 Def: 104 Atk: 104 ED: cold	ram horns (5)	ram stick (5)	Ram's
 Vampire Bat	HP: 10 Def: 16 Atk: 18 Meat: 34-54	bat wing (15)	batgut (15)	sonar-in-a-biscuit (20)
 Vampire Clam	HP: 14 Def: 19 Atk: 21
 Vampire Duck	HP: 200	frightful feather (0)	duct tape (0)
-Vegetable Gremlin	HP: 174	gremlin juice (0)	molybdenum screwdriver (0)
+Vegetable Gremlin	HP: 174	gremlin juice (3)	molybdenum screwdriver (0)
 Vicious Gnauga	HP: 40 Def: 45 Atk: 45	gnauga hide (10)
 Vine Gar	HP: 180 Def: 200 Atk: 200	vinegar (30)	vinegar (30)
 W Imp	HP: 40 Def: 40 Atk: 40 E: heat Meat: 24-39	Imp Ale (30)	ruby W (30)	wussiness potion (30)
-Wacky Pirate	HP: 110	cannonball charrrm (0)	yohohoyo (1)
+Wacky Pirate	HP: 110	cannonball charrrm (10)	yohohoyo (5)
 War Frat 110th Infantryman	HP: 185
 War Frat 151st Captain	HP: 205
 War Frat 151st Infantryman	HP: 185
@@ -548,17 +548,17 @@ War Hippy Sky Captain	HP: 200
 War Hippy Spy	HP: 180
 War Hippy Windtalker	HP: 200
 War Pledge	HP: 180	distressed denim pants (5)	bejeweled pledge pin (5)	beer helmet (5)
-Warty Pirate	HP: 110	copper ha'penny charrrm (0)	fish-liver oil (0)	vinegar-soaked lemon slice (0)
+Warty Pirate	HP: 110	copper ha'penny charrrm (10)	fish-liver oil (30)	vinegar-soaked lemon slice (30)
 Warwelf	HP: 2 Def: 3 Atk: 1 Meat: 10-16
-Wealthy Pirate	HP: 110	booty chest charrrm (0)	solid gold pegleg (0)
+Wealthy Pirate	HP: 110	booty chest charrrm (10)	solid gold pegleg (5)
 Weapons-assembly Elfborg		iGoogly (10)	LED block (10)	nanofiber cloth (10)	synthetic stuffing (10)	theoretical string (10)	toy hoverpad (10)
 Weremoose	HP: 53 Def: 63 Atk: 63 Meat: 52-79
 Weretaco	HP: 8 Def: 16 Atk: 16 Meat: 26-41	taco shell (30)	uncooked chorizo (30)	wilted lettuce (0)
-Whiny Pirate	HP: 110	bilge wine (0)
+Whiny Pirate	HP: 110	bilge wine (30)
 White Chocolate Golem	HP: 21 Def: 36 Atk: 34	white chocolate chips (50)
 White Lion	HP: 21 Def: 35 Atk: 35 Meat: 24-39
 Whitesnake	HP: 21 Def: 34 Atk: 36 Meat: 8-13	white snake skin (30)
-Witty Pirate	HP: 110	witty rapier (0)	silver tongue charrrm (0)
+Witty Pirate	HP: 110	witty rapier (10)	silver tongue charrrm (10)
 Wolfman	HP: 2 Def: 3 Atk: 1 Meat: 10-13
 Writing Desk	HP: 62 Def: 57 Atk: 57	disintegrating quill pen (15)	inkwell (30)
 XXX pr0n	HP: 68 Def: 75 Atk: 75 Meat: 24-38	f3d0r4 (15)	lowercase N (20)	pr0n legs (40)
@@ -592,22 +592,29 @@ Gathering of Angels?	HP: 150 Def: 145 Atk: 145 EA: sleaze	orange-frosted astral 
 Higher Plane Serpents	HP: 150 Def: 145 Atk: 145	pink-frosted astral cupcake (15)
 
 # Mouldering Mansion
-An Usher	HP: 0	patent antipsychotics (0)
-Bellhop	HP: 0	bellhop bell (0)
-Black Cat	HP: 0	bottle of black cat tonic (0)
-Ourang-Outang	HP: 0	library card (0)
-Raven	HP: 0	shot of nepenthe schnapps (0)
+An Usher	HP: 0	patent antipsychotics (20)
+Bellhop	HP: 0	bellhop bell (20)
+Black Cat	HP: 0	bottle of black cat tonic (20)
+Ourang-Outang	HP: 0	library card (20)
+Raven	HP: 0	shot of nepenthe schnapps (20)
 
 # Rogue Windmill
-Can-can Dancer	HP: 0	can-can-in-a-can (0)
-Courtesan	HP: 0	bottle of realpagne (0)
-Master of Ceremonies	HP: 0	escargotsicle (0)
-Sensitive Poet-type	HP: 0	sensitive poetry journal (0)
-Voyeuristic Artist	HP: 0	Bohemian rhapsody (0)
+Can-can Dancer	HP: 0	can-can-in-a-can (20)
+Courtesan	HP: 0	bottle of realpagne (20)
+Master of Ceremonies	HP: 0	escargotsicle (20)
+Sensitive Poet-type	HP: 0	sensitive poetry journal (20)
+Voyeuristic Artist	HP: 0	Bohemian rhapsody (20)
 
 # Stately Pleasure Dome
-Ancient Mariner	HP: 0	Mariner's Friend cough drops (0)
-Angry Poet	HP: 0	honey-dew (0)	white Xanadian (0)
+Ancient Mariner	HP: 0	Mariner's Friend cough drops (20)
+Angry Poet	HP: 0	honey-dew (10)	white Xanadian (0)
 Kubla Khan	HP: 0
-Roller-skating Muse	HP: 0	bottled inspiration (0)
-Toothless Mastiff Bitch	HP: 0	disintegrating spiky collar (0)
+Roller-skating Muse	HP: 0	bottled inspiration (20)
+Toothless Mastiff Bitch	HP: 0	disintegrating spiky collar (20)
+
+# Mt. Molehill
+digital underground dweller	HP: 0
+dwarvish gnome	HP: 0
+spelunking astronaut	HP: 0
+velvet underground dweller	HP: 0
+weather underground dweller	HP: 0

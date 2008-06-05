@@ -3365,10 +3365,11 @@
 3364	Morlock's Mark Bourbon	2	all	100
 3365	Climate Colada	3	all	75
 3366	digital underground potion	4	all	75
-3367	interesting-looking twig	3	all	3
+3367	interesting-looking twig	4	all	3
 3368	glimmering roc feather	4	all	100
 3369	glimmering phoenix feather	4	all	100
 3370	glimmering penguin feather	4	all	100
 3371	glimmering buzzard feather	4	all	100
 3372	glimmering raven feather	4	all	100
 3373	glimmering great tit feather	4	all	100
+3374	house of twigs and spit	3	display	1000
