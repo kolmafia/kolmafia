@@ -983,7 +983,7 @@ ladle of mystery	Maximum HP: +20, Maximum MP: +20, Class: "Sauceror"
 # left half of a heart necklace
 # lucky Crimbo tiki necklace
 lucky rabbit's foot	Item Drop: +7, Meat Drop: +7
-makeshift SCUBA gear	Stench Resistance: +2, Melee Damage: -30, Initiative: -100
+makeshift SCUBA gear	Stench Resistance: +2, Item Drop: -100, Initiative: -100
 makeshift cape	Item Drop: +5
 mayfly bait necklace	Single Equip
 monster bait	Single Equip, Combat Rate: +5
