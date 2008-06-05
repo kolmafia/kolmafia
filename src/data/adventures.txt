@@ -117,6 +117,7 @@ Orchard	adventure=130	true	Queen's Chamber
 Mountain	adventure=91	true	Noob Cave
 Mountain	adventure=92	true	Dire Warren
 Mountain	adventure=80	true	Orc Chasm
+Mountain	adventure=177	true	Mt. Molehill
 McLarge	adventure=61	true	Itznotyerzitz Mine
 McLarge	adventure=60	true	Goatlet
 McLarge	adventure=62	true	Ninja Snowmen

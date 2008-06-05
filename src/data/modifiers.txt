@@ -1340,18 +1340,22 @@ Temporary Blindness	Moxie Percent: -25, Item Drop: -75
 'Roids of the Rhinoceros	Muscle: +100
 A Little Bit Poisoned	Muscle Percent: -30, Mysticality Percent: -30, Moxie Percent: -30, Muscle: -5, Mysticality: -5, Moxie: -5
 A Revolution in Your Mouth	Moxie Percent: -10
+Ack! Barred!	Muscle Percent: +30
 Adrenaline Rush	Muscle Percent: +100
 Affronted Decency	Moxie: -20
 Afternoon Insight	Mysticality Percent: +15
+Alchemical, Brother	Mysticality Percent: +30
 Aloysius' Antiphon of Aptitude	Experience: +3
 Also Schmeckt Zarathustra	Mysticality: +30
 Amorous	Moxie: +5, Sleaze Damage: +5
 Ancestral Disapproval	Mysticality Percent: +10
 And Your Family, Too	Familiar Weight: -10
 Animal Exploiter	Muscle: +40, Familiar Weight Percent: -50
+Antarctic Memories	HP Regen Min: 40, HP Regen Max: 40, MP Regen Min: 40, MP Regen Max: 40
 Antsy in your Pantsy	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5
 Apathy	Muscle Percent: -30, Mysticality Percent: -30, Moxie Percent: -30
 Arabian Knighthood	Muscle Percent: +5
+Arcane in the Brain	Mana Cost: -3
 Arse-a'fire	Muscle Percent: +10
 Aspect of the Twinklefairy	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Melee Damage: +5, Spell Damage: +5
 Astral Shell	Damage Absorption: +80, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
@@ -1379,6 +1383,7 @@ Broken Knees	Muscle Percent: -30
 # Brother Flying Burrito's Blessing
 # Brother Smother's Blessing
 Bubble, Bubble	Muscle: +5, Moxie: -5
+Bureaucratized	Familiar Weight: +10
 Burning Ears	Cold Resistance: +3
 Burning Hands	Hot Damage: +11
 Burning Heart	Hot Damage: +10
@@ -1412,6 +1417,7 @@ Cybernetic Muscles	Muscle Percent: +10
 Dang Near Cut In Half	Muscle Percent: -50
 Deep Fried	Hot Resistance: +2
 Demonic Taint	Stench Damage: +30
+Digitally Converted	Monster Level: +30
 Dirge of Dreadfulness	Spooky Damage: +12, Spooky Spell Damage: +12
 Disco Concentration	Item Drop: +20
 Disco Inferno	Moxie: +5, Hot Damage: +3
@@ -1438,6 +1444,8 @@ Enraged	Muscle Percent: +10
 Ermine Eyes	Item Drop: +5
 Erudite	Mysticality Percent: +10
 Expert Oiliness	Equalize: "Mysticality"
+# Extra Sensory Perception	Item Drops: +0
+Extra Terrestrial	HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20
 Extreme Muscle Relaxation	Initiative: -50, Muscle Percent: +25
 Extremely Poor Taste	Monster Level: +10
 Eye of the Lihc	Spooky Resistance: +1
@@ -1455,6 +1463,8 @@ Flaming Weapon	Hot Damage: +3
 Flamingly Floral	Hot Damage: +50
 Florid Cheeks	MP Regen Min: 25, MP Regen Max: 30
 Flower Power	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
+# Form of...Bird!
+# Form of...Cockroach!
 Freaked Out	Spooky Damage: +10
 Fresh Scent	Combat Rate: -5
 Frigid Weapon	Cold Damage: +3
@@ -1511,6 +1521,7 @@ Je Ne Sais Porquoise	Moxie Percent: +50
 Knob Goblin Lust Frenzy	Moxie: +2
 Leash of Linguini	Familiar Weight: +5
 Lemon Enlightenment	Mysticality Percent: +10
+Liquid Courage	Experience: +3
 Locks Like the Raven	Moxie: +15
 Macho Profundo	Muscle Percent: +60, Moxie Percent: +60
 Mad at Science	Muscle: +3
@@ -1521,6 +1532,7 @@ Make Meat FA$T!	Meat Drop: +20
 Man's Worst Enemy	Familiar Weight: +5
 Mariachi Mood	Moxie: +1, Maximum HP: +4
 Material Witness	Meat Drop: +15
+# Melancholy Burden	Item Drop: +60
 Memento Moir&eacute;	Experience: +3
 Minioned	Muscle: +20, Mysticality: -5, Moxie: -5
 Missing Fingers	Muscle: -3
@@ -1532,6 +1544,7 @@ Mysteriously Handsome	Moxie Percent: +5, Monster Level: +3
 Mystic Pickleness	Mysticality: +5, Muscle: -5
 Mystically Oiled	Mysticality Percent: +100
 Neuromancy	Mysticality Percent: +10
+New and Improved	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 Newt Gets In Your Eyes	Moxie: +25
 Object Detection	Item Drop: +5
 Ocelot Eyes	Item Drop: +10
@@ -1559,6 +1572,7 @@ Preternatural Greed	Meat Drop: +100
 Pronounced Potency	Melee Damage: +5
 Provocative Perkiness	Initiative: +20
 Pumped Up	Muscle: +5
+Radiant Personality	Moxie Percent: +30
 Radiating Black Body&trade;	Moxie Percent: +10, Mana Cost: +3
 Radium Radicality	Moxie: +30
 Rage of the Reindeer	Muscle Percent: +10, Melee Damage: +10
@@ -1580,6 +1594,7 @@ Seal Clubbing Frenzy	Muscle: +2
 Seeing Colors	Mysticality Percent: +50
 Seriously Mutated	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 Shamed &amp; Manipulated	Muscle Percent: +50, Moxie Percent: -50
+# Shape of...Mole!
 Shiny Happy Cupcake	Experience: +3
 Shirtless in Seattle	Stench Resistance: +2
 Shot in the Arse	Moxie: +15, Muscle: +15, Mysticality: +15
@@ -1634,6 +1649,7 @@ Tenacity of the Snapper	Melee Damage: +8
 Tenuous Grip on Reality	Moxie Percent: -95
 Tetanus	Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10
 The Cupcake of Wrath	Monster Level: +10
+The Great Tit's Blessing	Monster Level: +20
 The Magical Mojomuscular Melody	Mysticality: +10, Maximum MP: +20
 The Moxious Madrigal	Moxie: +10
 The Q Is Talking To You	Mysticality Percent: +10
@@ -1651,10 +1667,12 @@ Truly Gritty	Muscle: +20
 Turned Into a Skeleton	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50
 Twinklebritches	Damage Absorption: +30
 Twinkly Weapon	Melee Damage: +3
+Unpopular	Monster Level: +30
 Ur-Kel's Aria of Annoyance	Monster Level: +0
 Very Clean Teeth	Moxie: +1
 Vitamin-Maxed	Muscle Percent: +10
 Wasabi Sinuses	Experience: -1, Item Drop: -10, Meat Drop: +30
+Weather, Man	Muscle Percent: +30, Mysticality Percent: +30, Moxie Percent: +30
 Well-Oiled	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 # Well-preserved
 What's That Smell?	Stench Damage: +3
