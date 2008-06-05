@@ -182,10 +182,6 @@ public class AdventureRequest
 		{
 			this.data.clear();
 		}
-		else if ( this.formSource.equals( "adventure.php" ) && this.adventureId.equals( "120" ) )
-		{
-			this.addFormField( "subsnarfblat", String.valueOf( KoLConstants.RNG.nextInt( 4 ) + 1 ) );
-		}
 
 		super.run();
 
