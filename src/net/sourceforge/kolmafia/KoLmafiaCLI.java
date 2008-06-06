@@ -39,8 +39,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
 
-import java.net.URLEncoder;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -1313,18 +1311,8 @@ public class KoLmafiaCLI
 				}
 			}
 
-			try
-			{
-				StaticEntity.openSystemBrowser( "http://kol.coldfront.net/thekolwiki/index.php/Special:Search?search=" + URLEncoder.encode(
-					parameters, "UTF-8" ) + "&go=Go" );
-			}
-			catch ( Exception e )
-			{
-				StaticEntity.openSystemBrowser( "http://kol.coldfront.net/thekolwiki/index.php/Special:Search?search=" + StringUtilities.globalStringReplace(
-					parameters, " ", "+" ) + "&go=Go" );
-			}
-
-			return;
+			StaticEntity.openSystemBrowser( "http://kol.coldfront.net/thekolwiki/index.php/Special:Search?search=" +
+				StringUtilities.getURLEncode( parameters ) + "&go=Go" );
 		}
 
 		if ( command.equals( "safe" ) )

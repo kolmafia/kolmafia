@@ -33,8 +33,6 @@
 
 package net.sourceforge.kolmafia.swingui.listener;
 
-import java.net.URLEncoder;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -44,6 +42,7 @@ import javax.swing.event.HyperlinkListener;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class HyperlinkAdapter
 	implements HyperlinkListener
@@ -156,19 +155,9 @@ public abstract class HyperlinkAdapter
 
 					inputString.append( inputString.length() == 0 ? '?' : '&' );
 
-					try
-					{
-						inputString.append( URLEncoder.encode( nameMatcher.group( 1 ), "UTF-8" ) );
-						inputString.append( '=' );
-						inputString.append( URLEncoder.encode( valueMatcher.group( 1 ), "UTF-8" ) );
-					}
-					catch ( Exception e1 )
-					{
-						// This should not happen.  Therefore, print
-						// a stack trace for debug purposes.
-
-						StaticEntity.printStackTrace( e1 );
-					}
+					inputString.append( StringUtilities.getURLEncode( nameMatcher.group( 1 ) ) );
+					inputString.append( '=' );
+					inputString.append( StringUtilities.getURLEncode( valueMatcher.group( 1 ) ) );
 				}
 
 				// Now that the entire form string is known, handle

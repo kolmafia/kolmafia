@@ -33,7 +33,6 @@
 
 package net.sourceforge.kolmafia.request;
 
-import java.net.URLEncoder;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -190,16 +189,7 @@ public class MoonPhaseRequest
 			for ( int i = 0; i < scriptList.length; ++i )
 			{
 				selectBuffer.append( "<option value=\"" );
-
-				try
-				{
-					selectBuffer.append( URLEncoder.encode( scriptList[ i ], "UTF-8" ) );
-				}
-				catch ( Exception e )
-				{
-					selectBuffer.append( scriptList[ i ] );
-				}
-
+				selectBuffer.append( scriptList[ i ] );
 				selectBuffer.append( "\">" );
 				selectBuffer.append( i + 1 );
 				selectBuffer.append( ": " );
@@ -211,7 +201,7 @@ public class MoonPhaseRequest
 			selectBuffer.append( "<input type=\"button\" class=\"button\" value=\"exec\" onClick=\"" );
 
 			selectBuffer.append( "var script = document.getElementById( 'scriptbar' ).value; " );
-			selectBuffer.append( "parent.charpane.location = '/KoLmafia/sideCommand?cmd=' + script + '&pwd=" );
+			selectBuffer.append( "parent.charpane.location = '/KoLmafia/sideCommand?cmd=' + escape(script) + '&pwd=" );
 			selectBuffer.append( GenericRequest.passwordHash );
 			selectBuffer.append( "'; void(0);" );
 			selectBuffer.append( "\">" );

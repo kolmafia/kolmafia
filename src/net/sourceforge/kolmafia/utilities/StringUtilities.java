@@ -33,6 +33,11 @@
 
 package net.sourceforge.kolmafia.utilities;
 
+import java.io.UnsupportedEncodingException;
+
+import java.net.URLEncoder;
+import java.net.URLDecoder;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -40,14 +45,68 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.regex.Pattern;
 
-
 public class StringUtilities
 {
-	private static final Map displayNames = new TreeMap();
-	private static final Map canonicalNames = new TreeMap();
+	private static final Map urlEncodeCache = new TreeMap();
+	private static final Map urlDecodeCache = new TreeMap();
+
+	private static final Map displayNameCache = new TreeMap();
+	private static final Map canonicalNameCache = new TreeMap();
 
 	private static final Pattern NONINTEGER_PATTERN = Pattern.compile( "[^\\-0-9]" );
 	private static final Pattern NONFLOAT_PATTERN = Pattern.compile( "[^\\-\\.0-9]" );
+
+	public static final String getURLEncode( final String url )
+	{
+		if ( url == null )
+		{
+			return url;
+		}
+
+		String encodedURL = (String) StringUtilities.urlEncodeCache.get( url );
+
+		if ( encodedURL == null )
+		{
+			try
+			{
+				encodedURL = URLEncoder.encode( url, "UTF-8" );
+			}
+			catch ( UnsupportedEncodingException e )
+			{
+				encodedURL = url;
+			}
+
+			StringUtilities.urlEncodeCache.put( url, encodedURL );
+		}
+
+		return encodedURL;
+	}
+
+	public static final String getURLDecode( final String url )
+	{
+		if ( url == null )
+		{
+			return url;
+		}
+
+		String encodedURL = (String) StringUtilities.urlDecodeCache.get( url );
+
+		if ( encodedURL == null )
+		{
+			try
+			{
+				encodedURL = URLDecoder.decode( url, "UTF-8" );
+			}
+			catch ( UnsupportedEncodingException e )
+			{
+				encodedURL = url;
+			}
+
+			StringUtilities.urlDecodeCache.put( url, encodedURL );
+		}
+
+		return encodedURL;
+	}
 
 	/**
 	 * Returns the display name name, where all HTML representations are replaced with their appropriate display
@@ -64,12 +123,12 @@ public class StringUtilities
 			return name;
 		}
 
-		String displayName = (String) StringUtilities.displayNames.get( name );
+		String displayName = (String) StringUtilities.displayNameCache.get( name );
 
 		if ( displayName == null )
 		{
 			displayName = CharacterEntities.unescape( name );
-			StringUtilities.displayNames.put( name, displayName );
+			StringUtilities.displayNameCache.put( name, displayName );
 		}
 
 		return displayName;
@@ -89,7 +148,7 @@ public class StringUtilities
 			return null;
 		}
 
-		String canonicalName = (String) StringUtilities.canonicalNames.get( name );
+		String canonicalName = (String) StringUtilities.canonicalNameCache.get( name );
 
 		if ( canonicalName == null )
 		{
@@ -103,7 +162,7 @@ public class StringUtilities
 			}
 
 			canonicalName = StringUtilities.globalStringReplace( canonicalName, "  ", " " ).toLowerCase();
-			StringUtilities.canonicalNames.put( name, canonicalName );
+			StringUtilities.canonicalNameCache.put( name, canonicalName );
 		}
 
 		return canonicalName;

@@ -409,12 +409,10 @@ public class GenericRequest
 	{
 		this.dataChanged = true;
 
-		String encodedName = name == null ? "" : name;
 		String encodedValue = value == null ? "" : value;
 
 		try
 		{
-			encodedName = URLEncoder.encode( encodedName, this.isChatRequest ? "ISO-8859-1" : "UTF-8" ) + "=";
 			encodedValue = URLEncoder.encode( encodedValue, this.isChatRequest ? "ISO-8859-1" : "UTF-8" );
 		}
 		catch ( IOException e )
@@ -429,7 +427,7 @@ public class GenericRequest
 			Iterator it = this.data.iterator();
 			while ( it.hasNext() )
 			{
-				if ( ( (String) it.next() ).startsWith( encodedName ) )
+				if ( ( (String) it.next() ).startsWith( name ) )
 				{
 					it.remove();
 				}
@@ -439,7 +437,7 @@ public class GenericRequest
 		// If the data did not already exist, then
 		// add it to the end of the array.
 
-		this.data.add( encodedName + encodedValue );
+		this.data.add( name + encodedValue );
 	}
 
 	public void addFormField( final String name, final String value )
@@ -560,21 +558,10 @@ public class GenericRequest
 
 		this.dataChanged = true;
 
-		String encodedName = name;
-
-		try
-		{
-			encodedName = URLEncoder.encode( encodedName, this.isChatRequest ? "ISO-8859-1" : "UTF-8" ) + "=";
-		}
-		catch ( IOException e )
-		{
-			return;
-		}
-
 		Iterator it = this.data.iterator();
 		while ( it.hasNext() )
 		{
-			if ( ( (String) it.next() ).startsWith( encodedName ) )
+			if ( ( (String) it.next() ).startsWith( name ) )
 			{
 				it.remove();
 			}
