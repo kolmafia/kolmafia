@@ -474,6 +474,10 @@ public abstract class MoodManager
 			{
 				desiredDuration = nextEffect.getCount() - currentEffect.getCount();
 			}
+			else
+			{
+				desiredDuration = Integer.MAX_VALUE;
+			}
 
 			int skillId = SkillDatabase.getSkillId( skillName );
 
@@ -509,9 +513,6 @@ public abstract class MoodManager
 				{
 					return breakfast;
 				}
-
-				castCount =
-					( KoLCharacter.getCurrentMP() - minimum ) / SkillDatabase.getMPConsumptionById( skillId );
 			}
 
 			// If all durations exceed 1000 turns more than the number of
@@ -543,13 +544,9 @@ public abstract class MoodManager
 			// Limit cast count to two in order to ensure that KoLmafia doesn't
 			// make the buff counts too far out of balance.
 
-			if ( castCount > 2 && duration > desiredDuration )
+			if ( duration * castCount > desiredDuration )
 			{
-				castCount = 2;
-			}
-			else if ( duration * castCount > desiredDuration )
-			{
-				castCount = Math.min( 3, castCount );
+				castCount = Math.min( 2, castCount );
 			}
 
 			if ( castCount > 0 )
