@@ -409,6 +409,7 @@ public class GenericRequest
 	{
 		this.dataChanged = true;
 
+		String encodedName = name + "=";
 		String encodedValue = value == null ? "" : value;
 
 		try
@@ -427,7 +428,7 @@ public class GenericRequest
 			Iterator it = this.data.iterator();
 			while ( it.hasNext() )
 			{
-				if ( ( (String) it.next() ).startsWith( name ) )
+				if ( ( (String) it.next() ).startsWith( encodedName ) )
 				{
 					it.remove();
 				}
@@ -437,7 +438,7 @@ public class GenericRequest
 		// If the data did not already exist, then
 		// add it to the end of the array.
 
-		this.data.add( name + "=" + encodedValue );
+		this.data.add( encodedName + encodedValue );
 	}
 
 	public void addFormField( final String name, final String value )
@@ -558,10 +559,12 @@ public class GenericRequest
 
 		this.dataChanged = true;
 
+		String encodedName = name + "=";
+
 		Iterator it = this.data.iterator();
 		while ( it.hasNext() )
 		{
-			if ( ( (String) it.next() ).startsWith( name ) )
+			if ( ( (String) it.next() ).startsWith( encodedName ) )
 			{
 				it.remove();
 			}
