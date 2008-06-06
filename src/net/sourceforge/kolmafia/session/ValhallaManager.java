@@ -54,19 +54,24 @@ public class ValhallaManager
 		}
 	}
 
-	public static void postAscension()
+	public static void onAscension()
 	{
 		KoLCharacter.reset();
 
-		RequestThread.openRequestSequence();
 		Preferences.setInteger( "lastBreakfast", -1 );
 
 		KoLmafia.resetCounters();
 		ValhallaManager.resetPerAscensionCounters();
 
-		StaticEntity.getClient().refreshSession( false );
 		StaticEntity.getClient().resetSession();
 		KoLConstants.conditions.clear();
+	}
+
+	public static void postAscension()
+	{
+		RequestThread.openRequestSequence();
+
+		StaticEntity.getClient().refreshSession( false );
 
 		// Based on your class, you get some basic
 		// items once you ascend.

@@ -769,6 +769,11 @@ public class GenericRequest
 			ValhallaManager.preAscension();
 		}
 
+		if ( urlString.startsWith( "valhalla.php" ) && Preferences.getInteger( "lastBreakfast" ) != -1 )
+		{
+			ValhallaManager.onAscension();
+		}
+
 		do
 		{
 			if ( !this.prepareConnection() )
@@ -1640,7 +1645,7 @@ public class GenericRequest
 		}
 
 		this.containsUpdate = ResultProcessor.processResults( this.responseText );
-		
+
 		if ( ResultProcessor.shouldDisassembleClovers( this.formURLString ) )
 		{
 			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "use", "* ten-leaf clover" );
@@ -1760,7 +1765,7 @@ public class GenericRequest
 				ChatManager.updateChat( "<font color=green>" + event.substring( dash + 2 ) + "</font>" );
 			}
 		}
-		
+
 		if ( shouldLoadEventFrame )
 		{
 			shouldLoadEventFrame = Preferences.getString( "initialFrames" ).indexOf( "RecentEventsFrame" ) != -1;
@@ -1813,7 +1818,7 @@ public class GenericRequest
 			// to load the data.  Given that this is run during debug
 			// tests, only, we can ignore the error.
 		}
-		
+
 		try
 		{
 			buf.close();
