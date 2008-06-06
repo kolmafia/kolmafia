@@ -437,7 +437,7 @@ public class GenericRequest
 		// If the data did not already exist, then
 		// add it to the end of the array.
 
-		this.data.add( name + encodedValue );
+		this.data.add( name + "=" + encodedValue );
 	}
 
 	public void addFormField( final String name, final String value )
