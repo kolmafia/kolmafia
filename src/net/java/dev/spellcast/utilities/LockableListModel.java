@@ -980,7 +980,7 @@ public class LockableListModel
 	public Object clone()
 	{
 		LockableListModel cloneCopy;
-		
+
 		try
 		{
 			cloneCopy = (LockableListModel) super.clone();
@@ -1002,7 +1002,7 @@ public class LockableListModel
 		cloneCopy.actualElements.addAll( this.actualElements );
 
 		cloneCopy.visibleElements = new ArrayList();
-		cloneCopy.addAll( this.visibleElements );
+		cloneCopy.visibleElements.addAll( this.visibleElements );
 
 		cloneCopy.mirrorList = new ArrayList();
 
