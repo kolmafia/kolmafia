@@ -41,8 +41,6 @@ import java.io.PrintStream;
 import java.io.RandomAccessFile;
 import java.lang.reflect.Method;
 import java.math.BigInteger;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
 import java.util.ArrayList;
@@ -2270,56 +2268,46 @@ public abstract class KoLmafia
 
 	public static final void addSaveState( final String username, final String password )
 	{
-		try
+		String utfString = StringUtilities.getURLEncode( password );
+
+		StringBuffer encodedString = new StringBuffer();
+		char currentCharacter;
+		for ( int i = 0; i < utfString.length(); ++i )
 		{
-			String utfString = URLEncoder.encode( password, "UTF-8" );
-
-			StringBuffer encodedString = new StringBuffer();
-			char currentCharacter;
-			for ( int i = 0; i < utfString.length(); ++i )
+			currentCharacter = utfString.charAt( i );
+			switch ( currentCharacter )
 			{
-				currentCharacter = utfString.charAt( i );
-				switch ( currentCharacter )
-				{
-				case '-':
-					encodedString.append( "2D" );
-					break;
-				case '.':
-					encodedString.append( "2E" );
-					break;
-				case '*':
-					encodedString.append( "2A" );
-					break;
-				case '_':
-					encodedString.append( "5F" );
-					break;
-				case '+':
-					encodedString.append( "20" );
-					break;
+			case '-':
+				encodedString.append( "2D" );
+				break;
+			case '.':
+				encodedString.append( "2E" );
+				break;
+			case '*':
+				encodedString.append( "2A" );
+				break;
+			case '_':
+				encodedString.append( "5F" );
+				break;
+			case '+':
+				encodedString.append( "20" );
+				break;
 
-				case '%':
-					encodedString.append( utfString.charAt( ++i ) );
-					encodedString.append( utfString.charAt( ++i ) );
-					break;
+			case '%':
+				encodedString.append( utfString.charAt( ++i ) );
+				encodedString.append( utfString.charAt( ++i ) );
+				break;
 
-				default:
-					encodedString.append( Integer.toHexString( currentCharacter ).toUpperCase() );
-					break;
-				}
-			}
-
-			Preferences.setString( username, "saveState", ( new BigInteger( encodedString.toString(), 36 ) ).toString( 10 ) );
-			if ( !KoLConstants.saveStateNames.contains( username ) )
-			{
-				KoLConstants.saveStateNames.add( username );
+			default:
+				encodedString.append( Integer.toHexString( currentCharacter ).toUpperCase() );
+				break;
 			}
 		}
-		catch ( java.io.UnsupportedEncodingException e )
-		{
-			// This should not happen. Therefore, print
-			// a stack trace for debug purposes.
 
-			StaticEntity.printStackTrace( e );
+		Preferences.setString( username, "saveState", ( new BigInteger( encodedString.toString(), 36 ) ).toString( 10 ) );
+		if ( !KoLConstants.saveStateNames.contains( username ) )
+		{
+			KoLConstants.saveStateNames.add( username );
 		}
 	}
 
@@ -2341,33 +2329,22 @@ public abstract class KoLmafia
 
 	public static final String getSaveState( final String loginname )
 	{
-		try
+		String password = Preferences.getString( loginname, "saveState" );
+		if ( password == null || password.length() == 0 || password.indexOf( "/" ) != -1 )
 		{
-			String password = Preferences.getString( loginname, "saveState" );
-			if ( password == null || password.length() == 0 || password.indexOf( "/" ) != -1 )
-			{
-				return null;
-			}
-
-			String hexString = ( new BigInteger( password, 10 ) ).toString( 36 );
-			StringBuffer utfString = new StringBuffer();
-			for ( int i = 0; i < hexString.length(); ++i )
-			{
-				utfString.append( '%' );
-				utfString.append( hexString.charAt( i ) );
-				utfString.append( hexString.charAt( ++i ) );
-			}
-
-			return URLDecoder.decode( utfString.toString(), "UTF-8" );
-		}
-		catch ( java.io.UnsupportedEncodingException e )
-		{
-			// This should not happen. Therefore, print
-			// a stack trace for debug purposes.
-
-			StaticEntity.printStackTrace( e );
 			return null;
 		}
+
+		String hexString = ( new BigInteger( password, 10 ) ).toString( 36 );
+		StringBuffer utfString = new StringBuffer();
+		for ( int i = 0; i < hexString.length(); ++i )
+		{
+			utfString.append( '%' );
+			utfString.append( hexString.charAt( i ) );
+			utfString.append( hexString.charAt( ++i ) );
+		}
+
+		return StringUtilities.getURLDecode( utfString.toString() );
 	}
 
 	public static final boolean checkRequirements( final List requirements )

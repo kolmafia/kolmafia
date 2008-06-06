@@ -33,7 +33,6 @@
 
 package net.sourceforge.kolmafia.webui;
 
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -278,20 +277,13 @@ public class CharPaneDecorator
 
 			buffer.append( ">[<a title=\"I'm feeling moody\" href=\"/KoLmafia/sideCommand?cmd=" );
 
-			try
+			if ( moodText.startsWith( "mood" ) )
 			{
-				if ( moodText.startsWith( "mood" ) )
-				{
-					buffer.append( "mood+execute" );
-				}
-				else
-				{
-					buffer.append( URLEncoder.encode( moodText, "UTF-8" ) );
-				}
+				buffer.append( "mood+execute" );
 			}
-			catch ( Exception e )
+			else
 			{
-				StaticEntity.printStackTrace( e );
+				buffer.append( StringUtilities.getURLEncode( moodText ) );
 			}
 
 			buffer.append( "&pwd=" );
@@ -332,20 +324,13 @@ public class CharPaneDecorator
 
 			buffer.append( ">[<a title=\"I'm feeling moody\" href=\"/KoLmafia/sideCommand?cmd=" );
 
-			try
+			if ( moodText.startsWith( "mood" ) )
 			{
-				if ( moodText.startsWith( "mood" ) )
-				{
-					buffer.append( "mood+execute" );
-				}
-				else
-				{
-					buffer.append( URLEncoder.encode( moodText, "UTF-8" ) );
-				}
+				buffer.append( "mood+execute" );
 			}
-			catch ( Exception e )
+			else
 			{
-				StaticEntity.printStackTrace( e );
+				buffer.append( StringUtilities.getURLEncode( moodText ) );
 			}
 
 			buffer.append( "&pwd=" );
@@ -410,18 +395,8 @@ public class CharPaneDecorator
 
 				buffer.append( " (0)</font>&nbsp;<a href=\"/KoLmafia/sideCommand?cmd=" );
 
-				try
-				{
-					buffer.append( URLEncoder.encode( MoodManager.getDefaultAction(
-						"lose_effect", currentEffect.getName() ), "UTF-8" ) );
-				}
-				catch ( Exception e )
-				{
-					// Hm, something bad happened.  Instead of giving a real link,
-					// give a fake link instead.
-
-					buffer.append( "win+game" );
-				}
+				buffer.append( StringUtilities.getURLEncode(
+					MoodManager.getDefaultAction( "lose_effect", currentEffect.getName() ) ) );
 
 				buffer.append( "&pwd=" );
 				buffer.append( GenericRequest.passwordHash );
@@ -518,19 +493,7 @@ public class CharPaneDecorator
 			if ( !removeAction.equals( "" ) )
 			{
 				buffer.append( "<a href=\"/KoLmafia/sideCommand?cmd=" );
-
-				try
-				{
-					buffer.append( URLEncoder.encode( removeAction, "UTF-8" ) );
-				}
-				catch ( Exception e )
-				{
-					// Hm, something bad happened.  Instead of giving a real link,
-					// give a fake link instead.
-
-					buffer.append( "win+game" );
-				}
-
+				buffer.append( StringUtilities.getURLEncode( removeAction ) );
 				buffer.append( "&pwd=" );
 				buffer.append( GenericRequest.passwordHash );
 				buffer.append( "\" title=\"" );
@@ -586,19 +549,7 @@ public class CharPaneDecorator
 			else if ( !upkeepAction.equals( "" ) )
 			{
 				buffer.append( "&nbsp;<a href=\"/KoLmafia/sideCommand?cmd=" );
-
-				try
-				{
-					buffer.append( URLEncoder.encode( upkeepAction, "UTF-8" ) );
-				}
-				catch ( Exception e )
-				{
-					// Hm, something bad happened.  Instead of giving a real link,
-					// give a fake link instead.
-
-					buffer.append( "win+game" );
-				}
-
+				buffer.append( StringUtilities.getURLEncode( upkeepAction ) );
 				buffer.append( "&pwd=" );
 				buffer.append( GenericRequest.passwordHash );
 				buffer.append( "\" title=\"Increase rounds of " );

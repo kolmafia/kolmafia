@@ -33,7 +33,6 @@
 
 package net.sourceforge.kolmafia.webui;
 
-import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import net.sourceforge.kolmafia.AdventureResult;
@@ -152,17 +151,8 @@ public class BasementDecorator
 		{
 			outfit = (SpecialOutfit) EquipmentManager.getCustomOutfits().get( i );
 
-			changes.append( "<option value=\"outfit+" );
-
-			try
-			{
-				changes.append( URLEncoder.encode( outfit.getName(), "UTF-8" ) );
-			}
-			catch ( Exception e )
-			{
-				changes.append( StringUtilities.globalStringReplace( outfit.getName(), " ", "+" ) );
-			}
-
+			changes.append( "<option value=\"outfit " );
+			changes.append( outfit.getName() );
 			changes.append( "\">outfit " );
 			changes.append( outfit.getName().substring( 8 ) );
 			changes.append( "</option>" );
