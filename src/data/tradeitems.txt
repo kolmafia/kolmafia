@@ -2353,7 +2353,7 @@
 2352	fire poi	12	all	185
 2353	bejeweled pledge pin	8	all	95
 2354	communications windchimes	0	all	45
-2355	henna face paint	3	all	85
+2355	henna face paint	4	all	85
 2356	tube of dread wax	4	all	85
 2357	Gaia beads	8	all	210
 2358	pink clay bead	0	none	0
