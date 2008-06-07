@@ -602,6 +602,11 @@ public abstract class MoodManager
 
 	private static final String considerLibramSummon( final int minimum )
 	{
+		if ( SkillDatabase.libramSkillMPConsumption() > KoLCharacter.getCurrentMP() - minimum )
+		{
+			return null;
+		}
+
 		ArrayList libramSkills = new ArrayList();
 
 		for ( int i = 0; i < UseSkillRequest.LIBRAM_SKILLS.length; ++i )

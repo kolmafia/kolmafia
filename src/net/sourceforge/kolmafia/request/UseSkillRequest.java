@@ -79,7 +79,7 @@ public class UseSkillRequest
 
 	public static final String[] LIBRAM_SKILLS =
 	{
-		"Summon Snowcone",
+		"Summon Candy Hearts",
 		"Summon Party Favor"
 	};
 
