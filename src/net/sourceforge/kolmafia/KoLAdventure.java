@@ -465,12 +465,14 @@ public class KoLAdventure
 				return;
 			}
 
-			AdventureResult planks = ItemPool.get( ItemPool.DINGY_PLANKS, 1 );
-			this.isValidAdventure = InventoryManager.hasItem( planks );
-			if ( this.isValidAdventure )
+			this.isValidAdventure = InventoryManager.hasItem( ItemPool.DINGY_PLANKS );
+			if ( !this.isValidAdventure )
 			{
-				RequestThread.postRequest( new UseItemRequest( planks ) );
+				return;
 			}
+
+			AdventureResult plans = ItemPool.get( ItemPool.DINGHY_PLANS, 1 );
+			RequestThread.postRequest( new UseItemRequest( plans ) );
 
 			return;
 		}
