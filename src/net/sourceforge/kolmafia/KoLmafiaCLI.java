@@ -4514,7 +4514,7 @@ public class KoLmafiaCLI
 
 			ArrayList results = new ArrayList();
 
-			StoreManager.searchMall( '\"' + match.getName() + '\"', results, 10, false );
+			StoreManager.searchMall( '\"' + ItemDatabase.getItemName( match.getItemId() ) + '\"', results, 10, false );
 			StaticEntity.getClient().makePurchases( results, results.toArray(), match.getCount(), false );
 		}
 	}
