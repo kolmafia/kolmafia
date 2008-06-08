@@ -154,7 +154,7 @@ public class BasementDecorator
 			changes.append( "<option value=\"outfit " );
 			changes.append( outfit.getName() );
 			changes.append( "\">outfit " );
-			changes.append( outfit.getName().substring( 8 ) );
+			changes.append( outfit.getName() );
 			changes.append( "</option>" );
 		}
 
