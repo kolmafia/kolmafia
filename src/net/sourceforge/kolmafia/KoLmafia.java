@@ -704,7 +704,7 @@ public abstract class KoLmafia
 		this.refreshSession( true );
 	}
 
-	public void refreshSession( final boolean getQuestLog )
+	public void refreshSession( final boolean refreshAll )
 	{
 		KoLmafia.isRefreshing = true;
 
@@ -720,7 +720,7 @@ public abstract class KoLmafia
 
 		RequestThread.postRequest( new CharSheetRequest() );
 
-		if ( getQuestLog )
+		if ( refreshAll )
 		{
 			RequestThread.postRequest( new AccountRequest() );
 			RequestThread.postRequest( new QuestLogRequest() );
@@ -744,7 +744,7 @@ public abstract class KoLmafia
 		// Retrieve the items which are available for consumption
 		// and item creation.
 
-		if ( getQuestLog )
+		if ( refreshAll )
 		{
 			RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.CLOSET ) );
 		}
@@ -765,7 +765,7 @@ public abstract class KoLmafia
 		// Retrieve campground data to see if the user is able to
 		// cook, make drinks or make toast.
 
-		if ( getQuestLog )
+		if ( refreshAll )
 		{
 			KoLmafia.updateDisplay( "Retrieving campground data..." );
 			RequestThread.postRequest( new CampgroundRequest() );
