@@ -54,6 +54,18 @@
 7015	Creepy Grin	5	30	0
 7024	Summon Mayfly Swarm	5	0	0
 
+# Skills granted in bird form
+7025	Get a You-Eye View	5	30	0
+7038	Vicious Talon Slash	5	5	0
+7039	All-You-Can-Beat Wing Buffet	5	10	0
+7040	Tunnel Upwards	5	0	0
+7041	Tunnel Downwards	5	0	0
+7042	Rise From Your Ashes	5	20	0
+7043	Antarctic Flap	5	20	0
+7044	The Statue Treatment	5	20	0
+7045	Feast on Carrion	5	20	0
+7046	Give Your Opponent &quot;The Bird&quot;	5	20	0
+
 # Skills granted by books on your Mystical Bookshelf
 
 8000	Summon Snowcone	1	5	0
