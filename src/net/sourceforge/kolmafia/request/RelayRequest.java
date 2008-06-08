@@ -937,6 +937,39 @@ public class RelayRequest
 		this.pseudoResponse( "HTTP/1.1 200 OK", warning.toString() );
 	}
 
+	public void sendCloverWarning()
+	{
+		StringBuffer warning = new StringBuffer();
+
+		warning.append( "<html><head><script language=Javascript src=\"/basics.js\"></script>" );
+
+		warning.append( "<link rel=\"stylesheet\" type=\"text/css\" href=\"http://images.kingdomofloathing.com/styles.css\"></head>" );
+		warning.append( "<body><center><table width=95%  cellspacing=0 cellpadding=0><tr><td style=\"color: white;\" align=center bgcolor=blue><b>Results:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid blue;\"><center><table><tr><td><center>" );
+
+		warning.append( "<table><tr>" );
+
+		String url = this.getURLString();
+		
+		warning.append( "<td align=center valign=center><div id=\"lucky\" style=\"padding: 4px 4px 4px 4px\"><a style=\"text-decoration: none\" href=\"" );
+		warning.append( url );
+		warning.append( url.indexOf( "?" ) == -1 ? "?" : "&" );
+		warning.append( "confirm=on\"><img src=\"http://images.kingdomofloathing.com/itemimages/clover.gif\" width=30 height=30 border=0>" );
+		warning.append( "</a></div></td>" );
+
+		warning.append( "<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>" );
+
+		warning.append( "<td align=center valign=center><div id=\"unlucky\" style=\"padding: 4px 4px 4px 4px\"><a style=\"text-decoration: none\" href=\"#\" onClick=\"multiUse('multiuse.php', " );
+		warning.append( ItemPool.TEN_LEAF_CLOVER );
+		warning.append( ", " );
+		warning.append( InventoryManager.getCount( ItemPool.TEN_LEAF_CLOVER ) );
+		warning.append( "); void(0);\"><img src=\"http://images.kingdomofloathing.com/itemimages/discclover.gif\" width=30 height=30 border=0>" );
+		warning.append( "</a></div></td>" );
+
+		warning.append( "</tr></table></center><blockquote>KoLmafia has detected a ten-leaf clover in your inventory.  If you are sure you wish to use it, click on the assembled clover on the left.  If this was an accident, please click on the disassembled clover on the right to disassemble your clovers first.  To disable this warning, please check your preferences and disable clover protection.</blockquote></td></tr></table></center></td></tr></table></center></body></html>" );
+
+		this.pseudoResponse( "HTTP/1.1 200 OK", warning.toString() );
+	}
+
 	private void handleSafety()
 	{
 		if ( RelayRequest.lastSafety == null )
@@ -1240,17 +1273,13 @@ public class RelayRequest
 				this.pauser.pause( 200 );
 			}
 
-			// Check for any expired counters.  If there is one, alert the
-			// user instead of running the request.
-
-			int turnsUsed = adventure == null ? 1 : adventure.getFormSource().equals( "shore.php" ) ? 3 : 1;
-
 			// Check for clovers as well so that people don't accidentally
 			// use up a clover in the middle of a bad moon run.
 
 			if ( AdventureDatabase.isPotentialCloverAdventure( adventureName ) && Preferences.getBoolean( "cloverProtectActive" ) )
 			{
-				KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "use", "* ten-leaf clover" );
+				this.sendCloverWarning();
+				return;
 			}
 
 			// Special handling of adventuring locations before it's
