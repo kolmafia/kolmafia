@@ -72,15 +72,16 @@ public abstract class InventoryManager
 	public static final int getCount( final int itemId )
 	{
 		AdventureResult item = ItemPool.get( itemId, 1 );
+		
 		return item.getCount( KoLConstants.inventory );
 	}
 
 	public static final boolean hasItem( final int itemId )
 	{
-		return InventoryManager.hasItem( ItemPool.get( itemId, 1 ), false );
+		return InventoryManager.hasItem( itemId, false );
 	}
-
-	public static final boolean hasItem( final int itemId, final boolean shouldCreate )
+	
+	public static final boolean hasItem( final int itemId, boolean shouldCreate )
 	{
 		return InventoryManager.hasItem( ItemPool.get( itemId, 1 ), shouldCreate );
 	}
@@ -89,64 +90,10 @@ public abstract class InventoryManager
 	{
 		return InventoryManager.hasItem( item, false );
 	}
-
+	
 	public static final boolean hasItem( final AdventureResult item, final boolean shouldCreate )
 	{
-		if ( item == null )
-		{
-			return false;
-		}
-
-		int count = item.getCount( KoLConstants.inventory ) + item.getCount( KoLConstants.closet );
-
-		if ( KoLCharacter.canInteract() )
-		{
-			count += item.getCount( KoLConstants.storage );
-
-			if ( KoLCharacter.hasClan() && Preferences.getBoolean( "autoSatisfyWithStash" ) )
-			{
-				count += item.getCount( ClanManager.getStash() );
-			}
-		}
-
-		switch ( ItemDatabase.getConsumptionType( item.getItemId() ) )
-		{
-		case KoLConstants.EQUIP_HAT:
-		case KoLConstants.EQUIP_PANTS:
-		case KoLConstants.EQUIP_FAMILIAR:
-		case KoLConstants.EQUIP_OFFHAND:
-			if ( KoLCharacter.hasEquipped( item ) )
-			{
-				++count;
-			}
-			break;
-
-		case KoLConstants.EQUIP_WEAPON:
-			if ( KoLCharacter.hasEquipped( item, EquipmentManager.WEAPON ) )
-			{
-				++count;
-			}
-			if ( KoLCharacter.hasEquipped( item, EquipmentManager.OFFHAND ) )
-			{
-				++count;
-			}
-			break;
-
-		case KoLConstants.EQUIP_ACCESSORY:
-			if ( KoLCharacter.hasEquipped( item, EquipmentManager.ACCESSORY1 ) )
-			{
-				++count;
-			}
-			if ( KoLCharacter.hasEquipped( item, EquipmentManager.ACCESSORY2 ) )
-			{
-				++count;
-			}
-			if ( KoLCharacter.hasEquipped( item, EquipmentManager.ACCESSORY3 ) )
-			{
-				++count;
-			}
-			break;
-		}
+		int count = InventoryManager.getAccessibleCount( item );
 
 		if ( shouldCreate )
 		{
@@ -160,6 +107,43 @@ public abstract class InventoryManager
 		return count > 0 && count >= item.getCount();
 	}
 
+	public static final int getAccessibleCount( final int itemId )
+	{
+		return InventoryManager.getAccessibleCount( ItemPool.get( itemId, 1 ) );
+	}
+	
+	public static final int getAccessibleCount( final AdventureResult item )
+	{
+		if ( item == null )
+		{
+			return 0;
+		}
+
+		int count = item.getCount( KoLConstants.inventory ) + item.getCount( KoLConstants.closet );
+
+		if ( KoLCharacter.canInteract() )
+		{
+			count += item.getCount( KoLConstants.storage );
+
+			if ( KoLCharacter.hasClan() && Preferences.getBoolean( "autoSatisfyWithStash" ) )
+			{
+				count += item.getCount( ClanManager.getStash() );
+			}
+		}
+		
+		for ( int i = 0; i <= EquipmentManager.FAMILIAR; ++i )
+		{
+			AdventureResult equipment = EquipmentManager.getEquipment( i );
+			
+			if ( equipment != null && equipment.getItemId() == item.getItemId() )
+			{
+				++count;
+			}
+		}
+		
+		return count;
+	}
+		
 	public static final boolean retrieveItem( final int itemId )
 	{
 		return retrieveItem( ItemPool.get( itemId, 1 ) );
