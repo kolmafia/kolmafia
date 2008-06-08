@@ -409,7 +409,7 @@ public class CharacterEntities
 		{
 			ch = unicodeVersion.charAt( i );
 
-			if ( Character.isWhitespace( ch ) )
+			if ( ( ch >= 'A' || ch <= 'Z' ) || ( ch >= 'a' && ch <= 'z' ) || Character.isWhitespace( ch ) || Character.isDigit( ch ) )
 			{
 				continue;
 			}
