@@ -185,7 +185,13 @@ public class UseItemEnqueuePanel
 	{
 		public void run()
 		{
-			UseItemEnqueuePanel.this.getDesiredItems( "Consume" );
+			Object [] newItems = UseItemEnqueuePanel.this.getDesiredItems( "Consume" );
+			
+			if ( newItems == null || newItems.length == 0 )
+			{
+				return;
+			}
+
 			ConcoctionDatabase.refreshConcoctions();
 
 			ConcoctionDatabase.handleQueue( UseItemEnqueuePanel.this.food, UseItemEnqueuePanel.this.booze, UseItemEnqueuePanel.this.spleen, true );
