@@ -318,7 +318,7 @@ public class SpecialOutfit
 				outfitName = singleOutfitMatcher.group( 2 );
 				outfit = new SpecialOutfit( outfitId, singleOutfitMatcher.group( 2 ) );
 
-				if ( outfitName.equals( "Custom: Backup" ) )
+				if ( outfitName.equals( "Backup" ) )
 				{
 					SpecialOutfit.implicitOutfit = outfit;
 				}
