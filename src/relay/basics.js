@@ -140,19 +140,18 @@ function inlineLoad( location, fields, id )
 	return true;
 }
 
-
 function singleUse( location, fields )
 {	return inlineLoad( location, fields, false );
 }
 
 
-function multiUse( location, id )
+function multiUse( location, id, quantity )
 {
 	var qfield = "quantity";
 	if ( location == "skills.php" )
 		qfield = "itemquantity";
 
-	var qvalue = getObject( "quantity" + id ).value;
+	var qvalue = quantity ? quantity : getObject( "quantity" + id ).value;
 	return inlineLoad( location, "MAFIAHIT&action=useitem&whichitem=" + id + "&" + qfield + "=" + qvalue, id );
 }
 
