@@ -477,7 +477,7 @@ public class CreateItemRequest
 		// If we have the correct tool, use it to
 		// create the needed dough type.
 
-		if ( InventoryManager.getCount( tool ) > 0 )
+		if ( InventoryManager.hasItem( tool ) )
 		{
 			KoLmafia.updateDisplay( "Using " + ItemDatabase.getItemName( tool ) + "..." );
 			new UseItemRequest( ItemPool.get( tool, 1 ) ).run();

@@ -84,10 +84,12 @@ public class SpecialOutfit
 	{
 		for ( int i = 0; i < this.pieces.size(); ++i )
 		{
-			boolean itemAvailable =
-				InventoryManager.hasItem( (AdventureResult) this.pieces.get( i ) ) && EquipmentManager.canEquip( ( (AdventureResult) this.pieces.get( i ) ).getName() );
+			if ( !InventoryManager.hasItem( (AdventureResult) this.pieces.get( i ) ) )
+			{
+				return false;
+			}
 
-			if ( !itemAvailable )
+			if ( !EquipmentManager.canEquip( ( (AdventureResult) this.pieces.get( i ) ).getName() ) )
 			{
 				return false;
 			}
