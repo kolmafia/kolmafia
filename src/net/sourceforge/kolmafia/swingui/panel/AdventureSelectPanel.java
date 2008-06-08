@@ -87,9 +87,9 @@ public class AdventureSelectPanel
 	extends JPanel
 {
 	private ExecuteButton begin;
-	private boolean isHandlingConditions = false;
-
 	private JComboBox actionSelect;
+	
+	private boolean isUpdating = false;
 
 	private TreeMap zoneMap;
 	private AdventureCountSpinner countField;
@@ -97,8 +97,6 @@ public class AdventureSelectPanel
 
 	private JList locationSelect;
 	private JComponent zoneSelect;
-
-	private KoLAdventure lastAdventure = null;
 
 	private JCheckBox conditionsFieldActive = new JCheckBox();
 	private AutoHighlightTextField conditionField = new AutoHighlightTextField();
@@ -228,7 +226,7 @@ public class AdventureSelectPanel
 
 			AdventureSelectPanel.this.actionSelect = new AutoFilterComboBox( KoLCharacter.getBattleSkillNames(), false );
 
-			AdventureSelectPanel.this.locationSelect.addListSelectionListener( new ConditionchangeListener() );
+			AdventureSelectPanel.this.locationSelect.addListSelectionListener( new ConditionChangeListener() );
 
 			JPanel conditionPanel = new JPanel( new BorderLayout( 5, 5 ) );
 			conditionPanel.add( AdventureSelectPanel.this.conditionField, BorderLayout.CENTER );
@@ -258,7 +256,7 @@ public class AdventureSelectPanel
 			String value = (String) AdventureSelectPanel.this.actionSelect.getSelectedItem();
 			if ( value != null )
 			{
-				Preferences.setString( "battleAction", value  );
+				Preferences.setString( "battleAction", value );
 			}
 		}
 
@@ -272,7 +270,10 @@ public class AdventureSelectPanel
 
 		public void setEnabled( final boolean isEnabled )
 		{
-			AdventureSelectPanel.this.begin.setEnabled( isEnabled );
+			if ( AdventureSelectPanel.this.begin != null )
+			{
+				AdventureSelectPanel.this.begin.setEnabled( isEnabled );
+			}
 		}
 
 		private class EnableObjectivesListener
@@ -287,29 +288,34 @@ public class AdventureSelectPanel
 			}
 		}
 	}
+	
+	private boolean isUpdating()
+	{
+		return KoLmafia.isAdventuring() || this.isUpdating;
+	}
 
-	private class ConditionchangeListener
+	private class ConditionChangeListener
 		implements ListSelectionListener, ListDataListener
 	{
-		public ConditionchangeListener()
+		public ConditionChangeListener()
 		{
 			KoLConstants.conditions.addListDataListener( this );
 		}
 
 		public void valueChanged( final ListSelectionEvent e )
 		{
-			if ( KoLmafia.isAdventuring() )
+			if ( AdventureSelectPanel.this.isUpdating() )
 			{
 				return;
 			}
-
+			
 			KoLConstants.conditions.clear();
 			AdventureSelectPanel.this.fillCurrentConditions();
 		}
 
 		public void intervalAdded( final ListDataEvent e )
 		{
-			if ( AdventureSelectPanel.this.isHandlingConditions )
+			if ( AdventureSelectPanel.this.isUpdating() )
 			{
 				return;
 			}
@@ -319,7 +325,7 @@ public class AdventureSelectPanel
 
 		public void intervalRemoved( final ListDataEvent e )
 		{
-			if ( AdventureSelectPanel.this.isHandlingConditions )
+			if ( AdventureSelectPanel.this.isUpdating() )
 			{
 				return;
 			}
@@ -329,7 +335,7 @@ public class AdventureSelectPanel
 
 		public void contentsChanged( final ListDataEvent e )
 		{
-			if ( AdventureSelectPanel.this.isHandlingConditions )
+			if ( AdventureSelectPanel.this.isUpdating() )
 			{
 				return;
 			}
@@ -341,8 +347,6 @@ public class AdventureSelectPanel
 	private class ExecuteButton
 		extends ThreadedButton
 	{
-		private boolean isProcessing = false;
-
 		public ExecuteButton()
 		{
 			super( "begin" );
@@ -351,11 +355,6 @@ public class AdventureSelectPanel
 
 		public void run()
 		{
-			if ( this.isProcessing )
-			{
-				return;
-			}
-
 			KoLmafia.updateDisplay( "Validating adventure sequence..." );
 
 			KoLAdventure request = (KoLAdventure) AdventureSelectPanel.this.locationSelect.getSelectedValue();
@@ -364,15 +363,15 @@ public class AdventureSelectPanel
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "No location selected." );
 				return;
 			}
-
-			this.isProcessing = true;
+			
+			AdventureSelectPanel.this.isUpdating = true;
 
 			// If there are conditions in the condition field, be
 			// sure to process them.
 
 			boolean conditionsActive = AdventureSelectPanel.this.conditionsFieldActive.isSelected();
 			String conditionList = AdventureSelectPanel.this.conditionField.getText().trim().toLowerCase();
-
+			
 			Object stats = null;
 			int substatIndex = KoLConstants.conditions.indexOf( KoLConstants.tally.get( 2 ) );
 
@@ -396,16 +395,14 @@ public class AdventureSelectPanel
 
 			if ( conditionsActive && conditionList.length() > 0 && !conditionList.equals( "none" ) )
 			{
-				AdventureSelectPanel.this.isHandlingConditions = true;
 				shouldAdventure = this.handleConditions( conditionList, request );
-				AdventureSelectPanel.this.isHandlingConditions = false;
 			}
 
 			RequestThread.closeRequestSequence();
 
 			if ( !shouldAdventure )
 			{
-				this.isProcessing = false;
+				AdventureSelectPanel.this.isUpdating = false;
 				return;
 			}
 
@@ -423,7 +420,7 @@ public class AdventureSelectPanel
 				AdventureSelectPanel.this.countField.setValue( KoLCharacter.getAdventuresLeft() );
 			}
 
-			this.isProcessing = false;
+			AdventureSelectPanel.this.isUpdating = false;
 		}
 
 		private boolean handleConditions( final String conditionList, final KoLAdventure request )
@@ -491,11 +488,6 @@ public class AdventureSelectPanel
 		}
 	}
 
-	public void fillDefaultConditions()
-	{
-		AdventureSelectPanel.this.conditionField.setText( AdventureDatabase.getDefaultConditions( (KoLAdventure) this.locationSelect.getSelectedValue() ) );
-	}
-
 	public void fillCurrentConditions()
 	{
 		StringBuffer conditionString = new StringBuffer();
@@ -512,7 +504,7 @@ public class AdventureSelectPanel
 
 		if ( conditionString.length() == 0 )
 		{
-			this.fillDefaultConditions();
+			AdventureSelectPanel.this.conditionField.setText( AdventureDatabase.getDefaultConditions( (KoLAdventure) this.locationSelect.getSelectedValue() ) );
 		}
 		else
 		{

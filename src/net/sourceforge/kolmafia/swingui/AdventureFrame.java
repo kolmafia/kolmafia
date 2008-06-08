@@ -94,7 +94,7 @@ public class AdventureFrame
 		this.framePanel.add( this.getSouthernTabs(), BorderLayout.CENTER );
 
 		AdventureFrame.updateSelectedAdventure( AdventureDatabase.getAdventure( Preferences.getString( "lastAdventure" ) ) );
-		AdventureFrame.adventureSelector.fillDefaultConditions();
+		AdventureFrame.adventureSelector.fillCurrentConditions();
 
 		JComponentUtilities.setComponentSize( this.framePanel, 640, 480 );
 	}
