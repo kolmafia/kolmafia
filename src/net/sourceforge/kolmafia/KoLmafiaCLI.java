@@ -1313,6 +1313,8 @@ public class KoLmafiaCLI
 
 			StaticEntity.openSystemBrowser( "http://kol.coldfront.net/thekolwiki/index.php/Special:Search?search=" +
 				StringUtilities.getURLEncode( parameters ) + "&go=Go" );
+
+			return;
 		}
 
 		if ( command.equals( "safe" ) )
