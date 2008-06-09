@@ -317,7 +317,7 @@ public abstract class ChatManager
 
 	private static final String getBufferKey( final String contact )
 	{
-		return contact == null ? ChatManager.currentChannel : contact.startsWith( "[" ) ? contact : !ChatManager.channelsSeparate && contact.startsWith( "/" ) ? "[main]" : contact;
+		return contact == null ? ChatManager.currentChannel : contact.startsWith( "[" ) ? contact : !ChatManager.channelsSeparate && contact.startsWith( "/" ) ? "[main]" : contact.toLowerCase();
 	}
 
 	/**
