@@ -1921,7 +1921,7 @@ public abstract class KoLmafia
 	public static final void addTavernLocation( final GenericRequest request )
 	{
 		KoLmafia.validateFaucetQuest();
-		if ( KoLCharacter.getAdventuresLeft() == 0 || KoLCharacter.getCurrentHP() == 0 || KoLCharacter.getInebriety() >= KoLCharacter.getInebrietyLimit() )
+		if ( KoLCharacter.getAdventuresLeft() == 0 || KoLCharacter.getCurrentHP() == 0 || KoLCharacter.getInebriety() > KoLCharacter.getInebrietyLimit() )
 		{
 			return;
 		}
