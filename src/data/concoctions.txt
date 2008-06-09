@@ -68,10 +68,8 @@ enchanted eyepatch	1	eyepatch	lihc eye
 gnatwing earring	1	gnatwing	piercing post
 gnoll-tooth necklace	1	gnoll teeth	hemp string
 Gnollish autoplunger	1	Gnollish plunger	meat engine
-meat cowboy hat	1	basic meat helmet	white snake skin
 peace-sign necklace	1	clay peace-sign bead	hemp string
 phat turquoise bracelet	1	phat turquoise bead	hemp string
-pimpin' meat hat	1	basic meat helmet	dope gangsta bling-bling
 spooky staff	1	spooky shrunken head	spooky stick
 Talisman o' Nam	1	snakehead charrrm	snakehead charrrm
 
@@ -578,6 +576,8 @@ grass skirt	4	fake plastic grass	skirt / kilt kit
 
 fez of etymology	4	basic meat fez	facsimile dictionary
 
+meat cowboy hat	4	basic meat helmet	white snake skin
+pimpin' meat hat	4	basic meat helmet	dope gangsta bling-bling
 
 # Accessories made of hides of various sorts.
 
@@ -613,21 +613,25 @@ gnauga hide chaps	14	gnauga hide	pants kit
 
 # Skirts made of hides of various sorts.
 
+basic meat skirt	4	meat stack	skirt / kilt kit
+sticky meat skirt	4	really really sticky spider web	basic meat skirt
+
 furry skirt	14	furry fur	skirt / kilt kit
 gnauga hide skirt	14	gnauga hide	skirt / kilt kit
 hippopotamus skirt	14	hippopotamus skin	skirt / kilt kit
 penguinskin mini-skirt	14	penguin skin	skirt / kilt kit
-sticky meat skirt	4	really really sticky spider web	basic meat skirt
 yakskin skirt	14	yak skin	skirt / kilt kit
 
 
 # Kilts made of hides of various sorts.
 
+basic meat kilt	4	meat stack	skirt / kilt kit
+sticky meat kilt	4	really really sticky spider web	basic meat kilt
+
 furry kilt	14	furry fur	skirt / kilt kit
 gnauga hide kilt	14	gnauga hide	skirt / kilt kit
 hippopotamus kilt	14	hippopotamus skin	skirt / kilt kit
 penguinskin mini-kilt	14	penguin skin	skirt / kilt kit
-sticky meat kilt	4	really really sticky spider web	basic meat kilt
 yakskin kilt	14	yak skin	skirt / kilt kit
 
 
