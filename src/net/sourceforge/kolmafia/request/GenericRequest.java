@@ -789,15 +789,12 @@ public class GenericRequest
 		// Strung-Up Quartet
 		case 106:
 
-			if ( GenericRequest.lastDecision != 4 )
-			{
-				Preferences.setInteger( "lastQuartetAscension", KoLCharacter.getAscensions() );
-				Preferences.setInteger( "lastQuartetRequest", GenericRequest.lastDecision );
+			Preferences.setInteger( "lastQuartetAscension", KoLCharacter.getAscensions() );
+			Preferences.setInteger( "lastQuartetRequest", GenericRequest.lastDecision );
 
-				if ( KoLCharacter.recalculateAdjustments() )
-				{
-					KoLCharacter.updateStatus();
-				}
+			if ( KoLCharacter.recalculateAdjustments() )
+			{
+				KoLCharacter.updateStatus();
 			}
 
 			break;
