@@ -3051,9 +3051,9 @@
 3050	cursed eyepatch	9	display	0
 3051	cursed cutlass	12	display	0
 3052	cursed breeches	10	display	0
-3053	mood ring	8	display	5
-3054	black candy heart	4	display	5
-3055	cymbal syrup	3	display	5
+3053	mood ring	8	gift	5
+3054	black candy heart	4	gift	5
+3055	cymbal syrup	3	gift	5
 3056	metallic foil cat ears	9	all	35
 3057	nanofiber cloth	0	all	16
 3058	iGoogly	0	all	14
