@@ -36,19 +36,11 @@ package net.sourceforge.kolmafia;
 import java.util.ArrayList;
 
 import net.sourceforge.foxtrot.Job;
-
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.session.CustomCombatManager;
-import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.TurnCounter;
-import net.sourceforge.kolmafia.swingui.AdventureFrame;
-import net.sourceforge.kolmafia.swingui.CouncilFrame;
-import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
-import net.sourceforge.kolmafia.webui.DungeonDecorator;
-
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.BasementRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
@@ -59,10 +51,14 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.SewerRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
-
-import net.sourceforge.kolmafia.persistence.AdventureDatabase;
-import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
-import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.session.CustomCombatManager;
+import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.swingui.AdventureFrame;
+import net.sourceforge.kolmafia.swingui.CouncilFrame;
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
+import net.sourceforge.kolmafia.webui.DungeonDecorator;
 
 public class KoLAdventure
 	extends Job
