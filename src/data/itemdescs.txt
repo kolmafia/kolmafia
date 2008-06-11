@@ -3367,7 +3367,7 @@
 3360	700282942	delicious stinkbug
 3361	649856281	yummy death watch beetle
 3362	889678946	tasty louse
-3363	205635187	mole mol&eacute;	mole molé molé
+3363	205635187	mole mol&eacute;	mole mol&eacute; mol&eacute;
 3364	136432731	Morlock's Mark Bourbon	jugs of Morlock's Mark Bourbon
 3365	232791709	Climate Colada
 3366	435286247	digital underground potion
