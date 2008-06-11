@@ -3354,8 +3354,8 @@
 3353	llama lama gong	3	all	0
 3354	banana-frosted king cake	1	display	0
 3355	brown plastic baby	8	all	0
-3356	plump juicy grub	16	all	3
-3357	delicious shimmering moth	14	all	3
+3356	plump juicy grub	3	all	3
+3357	delicious shimmering moth	3	all	3
 3358	delectable fire ant	3	all	3
 3359	scrumptious ice ant	3	all	3
 3360	delicious stinkbug	3	all	3
