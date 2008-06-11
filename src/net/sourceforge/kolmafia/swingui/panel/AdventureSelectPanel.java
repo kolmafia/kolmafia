@@ -291,7 +291,7 @@ public class AdventureSelectPanel
 	
 	private boolean isUpdating()
 	{
-		return KoLmafia.isAdventuring() || this.isUpdating;
+		return ( KoLmafia.isAdventuring() && KoLConstants.conditions.isEmpty() ) || this.isUpdating;
 	}
 
 	private class ConditionChangeListener
