@@ -72,6 +72,7 @@ public class ItemPool
 	public static final int DOUGH = 159;
 	public static final int SKELETON_BONE = 163;
 	public static final int ENCHANTED_BEAN = 186;
+	public static final int BATSKIN_BELT = 192;
 	public static final int DISASSEMBLED_CLOVER = 196;
 	public static final int FENG_SHUI = 210;
 	public static final int FOUNTAIN = 211;
@@ -137,6 +138,7 @@ public class ItemPool
 	public static final int LINE = 655;
 	public static final int STAR_CHART = 656;
 	public static final int GIANT_CASTLE_MAP = 667;
+	public static final int DRAGONBONE_BELT_BUCKLE = 676;
 	public static final int BADASS_BELT = 677;
 	public static final int JEWELRY_PLIERS = 709;
 	public static final int PUZZLE_PIECE = 727;
