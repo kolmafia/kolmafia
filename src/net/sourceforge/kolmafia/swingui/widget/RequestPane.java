@@ -34,15 +34,12 @@
 package net.sourceforge.kolmafia.swingui.widget;
 
 import java.awt.Color;
-
 import java.io.StringWriter;
-
 import java.util.regex.Pattern;
 
 import javax.swing.JEditorPane;
 
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class RequestPane
@@ -111,7 +108,6 @@ public class RequestPane
 
 		selectedText = RequestPane.LINE_BREAK.matcher( selectedText ).replaceAll( "\n" ).trim();
 		selectedText = KoLConstants.ANYTAG_PATTERN.matcher( selectedText ).replaceAll( "" );
-		selectedText = CharacterEntities.unescape( selectedText );
 
 		return selectedText;
 	}

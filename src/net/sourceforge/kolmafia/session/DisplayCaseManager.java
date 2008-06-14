@@ -57,7 +57,6 @@ public abstract class DisplayCaseManager
 {
 	private static final GenericRequest SHELF_REORDER = new GenericRequest( "managecollection.php" );
 
-	private static final Pattern SELECTED_PATTERN = Pattern.compile( "(\\d+) selected>" );
 	private static final Pattern OPTION_PATTERN =
 		Pattern.compile( "</tr><tr[^>]*><td>([^<]*?) ?\\(?(\\d+)?\\)?</td>.*?javascript:addform\\((\\d+), (\\d+)\\)" );
 	private static final Pattern SHELVES_PATTERN = Pattern.compile( "<script>.*?var shelves = \\{(.*?)\\};.*?</script>", Pattern.DOTALL );

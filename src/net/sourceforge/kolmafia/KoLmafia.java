@@ -117,7 +117,6 @@ import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
 import net.sourceforge.kolmafia.swingui.listener.LicenseDisplayListener;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
-import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.PauseObject;
@@ -571,7 +570,7 @@ public abstract class KoLmafia
 
 		if ( message.indexOf( KoLConstants.LINE_BREAK ) == -1 )
 		{
-			KoLmafia.updateDisplayState( state, CharacterEntities.unescape( message ) );
+			KoLmafia.updateDisplayState( state, message );
 		}
 	}
 

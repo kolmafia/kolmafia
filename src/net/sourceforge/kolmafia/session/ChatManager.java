@@ -34,11 +34,8 @@
 package net.sourceforge.kolmafia.session;
 
 import java.awt.Color;
-
 import java.io.File;
-
 import java.text.SimpleDateFormat;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -70,7 +67,6 @@ import net.sourceforge.kolmafia.swingui.ChatFrame;
 import net.sourceforge.kolmafia.swingui.ContactListFrame;
 import net.sourceforge.kolmafia.swingui.TabbedChatFrame;
 import net.sourceforge.kolmafia.textui.Interpreter;
-import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -895,7 +891,7 @@ public abstract class ChatManager
 				data.append( "\n" );
 			}
 
-			String toSend = CharacterEntities.unescape( data.toString().trim() );
+			String toSend = data.toString().trim();
 			RequestThread.postRequest( new SendMailRequest( channel, toSend ) );
 			return true;
 		}

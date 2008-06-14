@@ -42,7 +42,6 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
-import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MallSearchRequest
@@ -220,6 +219,8 @@ public class MallSearchRequest
 
 	private void searchStore()
 	{
+		Pattern mangledEntityPattern = Pattern.compile( "\\s+;" );
+		
 		if ( this.retainAll )
 		{
 			Matcher shopMatcher = MallSearchRequest.STOREID_PATTERN.matcher( this.responseText );
@@ -227,11 +228,9 @@ public class MallSearchRequest
 
 			int shopId = StringUtilities.parseInt( shopMatcher.group( 2 ) );
 
-			// Translate the shop name to its unicode form so
-			// it can be properly rendered.  In the process,
-			// also handle character entities mangled by KoL.
+			// Handle character entities mangled by KoL.
 
-			String shopName = CharacterEntities.unescape( shopMatcher.group( 1 ).replaceAll( "[ ]+;", ";" ) );
+			String shopName = mangledEntityPattern.matcher( shopMatcher.group( 1 ) ).replaceAll( ";" );
 
 			int lastFindIndex = 0;
 			Matcher priceMatcher = MallSearchRequest.STOREPRICE_PATTERN.matcher( this.responseText );
