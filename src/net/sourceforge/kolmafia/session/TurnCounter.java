@@ -60,6 +60,12 @@ public class TurnCounter
 
 		return this.label.equals( ( (TurnCounter) o ).label ) && this.value == ( (TurnCounter) o ).value;
 	}
+	
+	public static final void clearCounters()
+	{
+		relayCounters.clear();
+		TurnCounter.saveCounters();
+	}
 
 	public static final void loadCounters()
 	{

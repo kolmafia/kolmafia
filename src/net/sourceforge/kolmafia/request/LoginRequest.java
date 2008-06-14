@@ -62,6 +62,8 @@ public class LoginRequest
 
 	private static boolean ignoreLoadBalancer = false;
 	private static LoginRequest lastRequest = null;
+	private static long lastLoginAttempt = 0;
+	
 	private static boolean isLoggingIn;
 
 	private final String username;
@@ -229,6 +231,8 @@ public class LoginRequest
 		}
 
 		LoginRequest.lastRequest = this;
+		LoginRequest.lastLoginAttempt = System.currentTimeMillis();
+		
 		KoLmafia.forceContinue();
 
 		if ( this.detectChallenge() )
@@ -251,6 +255,8 @@ public class LoginRequest
 		{
 			return;
 		}
+
+		LoginRequest.lastLoginAttempt = 0;
 
 		if ( this.responseText.indexOf( "wait fifteen minutes" ) != -1 )
 		{
@@ -276,16 +282,24 @@ public class LoginRequest
 		KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Encountered error in login." );
 	}
 
-	public static final void executeTimeInRequest()
+	public static final boolean executeTimeInRequest()
 	{
-		LoginRequest.executeTimeInRequest( "main.php", "login.php" );
+		return LoginRequest.executeTimeInRequest( "main.php", "login.php" );
 	}
 
-	public static final void executeTimeInRequest( final String requestLocation, final String redirectLocation )
+	public static final boolean executeTimeInRequest( final String requestLocation, final String redirectLocation )
 	{
 		if ( LoginRequest.lastRequest == null )
 		{
-			return;
+			return false;
+		}
+
+		// If it's been less than 30 seconds since the last
+		
+		if ( System.currentTimeMillis() - 30000 < LoginRequest.lastLoginAttempt )
+		{
+			StaticEntity.printStackTrace( "Possible concurrent logins on multiple machines." );
+			System.exit( -1 );
 		}
 
 		if ( LoginRequest.isInstanceRunning() )
@@ -295,6 +309,7 @@ public class LoginRequest
 		}
 
 		RequestThread.postRequest( LoginRequest.lastRequest );
+		return true;
 	}
 
 	public static final boolean isInstanceRunning()

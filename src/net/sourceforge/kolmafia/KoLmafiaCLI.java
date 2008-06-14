@@ -38,8 +38,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
-
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -97,7 +97,6 @@ import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
-
 import net.sourceforge.kolmafia.session.BreakfastManager;
 import net.sourceforge.kolmafia.session.BuffBotManager;
 import net.sourceforge.kolmafia.session.ClanManager;
@@ -2400,6 +2399,18 @@ public class KoLmafiaCLI
 			parameters = command;
 			command = "skills";
 		}
+		
+		if ( command.equals( "counters" ) )
+		{
+			if ( parameters.equalsIgnoreCase( "clear" ) )
+			{
+				TurnCounter.clearCounters();
+				return;
+			}
+
+			this.showData( "counters" );
+			return;
+		}
 
 		if ( command.startsWith( "inv" ) ||
 		     command.equals( "closet" ) ||
@@ -2411,7 +2422,6 @@ public class KoLmafiaCLI
 		     command.equals( "skills" ) ||
 		     command.equals( "locations" ) ||
 		     command.equals( "encounters" ) ||
-		     command.equals( "counters" ) ||
 		     command.startsWith( "moon" ) )
 		{
 			this.showData( command + " " + parameters );
@@ -4791,33 +4801,61 @@ public class KoLmafiaCLI
 
 	public static final SpecialOutfit getMatchingOutfit( final String name )
 	{
-		String lowercaseOutfitName = name.toLowerCase().trim();
-		if ( lowercaseOutfitName.equals( "birthday suit" ) || lowercaseOutfitName.equals( "nothing" ) )
+		String lowercaseName = name.toLowerCase().trim();
+		
+		if ( lowercaseName.equals( "birthday suit" ) || lowercaseName.equals( "nothing" ) )
 		{
 			return SpecialOutfit.BIRTHDAY_SUIT;
 		}
 
-		Object currentTest;
+		List customOutfitList = EquipmentManager.getCustomOutfits();
+		int customOutfitCount = customOutfitList.size();
+		int normalOutfitCount = EquipmentDatabase.getOutfitCount();
 
-		for ( int i = 0; i < EquipmentManager.getCustomOutfits().size(); ++i )
+		// Check for exact matches.
+		
+		for ( int i = 0; i < customOutfitCount; ++i )
 		{
-			currentTest = EquipmentManager.getCustomOutfits().get( i );
-			if ( currentTest instanceof SpecialOutfit && currentTest.toString().toLowerCase().indexOf(
-				lowercaseOutfitName ) != -1 )
+			SpecialOutfit outfit = (SpecialOutfit) customOutfitList.get( i );
+			
+			if ( lowercaseName.equals( outfit.toString().toLowerCase() ) )
 			{
-				return (SpecialOutfit) currentTest;
+				return outfit;
 			}
 		}
 
-		for ( int i = 0; i < EquipmentDatabase.getOutfitCount(); ++i )
+		for ( int i = 0; i < normalOutfitCount; ++i )
 		{
-			currentTest = EquipmentDatabase.getOutfit( i );
-			if ( currentTest != null && currentTest.toString().toLowerCase().indexOf( lowercaseOutfitName ) != -1 )
+			SpecialOutfit outfit = EquipmentDatabase.getOutfit( i );
+			
+			if ( outfit != null && lowercaseName.equals( outfit.toString().toLowerCase() ) )
 			{
-				return (SpecialOutfit) currentTest;
+				return outfit;
 			}
 		}
 
+		// Check for substring matches.
+
+		for ( int i = 0; i < customOutfitCount; ++i )
+		{
+			SpecialOutfit outfit = (SpecialOutfit) customOutfitList.get( i );
+			
+			if ( lowercaseName.indexOf( outfit.toString().toLowerCase() ) != -1 )
+			{
+				return outfit;
+			}
+		}
+
+		for ( int i = 0; i < normalOutfitCount; ++i )
+		{
+			SpecialOutfit outfit = EquipmentDatabase.getOutfit( i );
+			
+			if ( outfit != null && lowercaseName.indexOf( outfit.toString().toLowerCase() ) != -1 )
+			{
+				return outfit;
+			}
+		}
+		
 		return null;
 	}
 
