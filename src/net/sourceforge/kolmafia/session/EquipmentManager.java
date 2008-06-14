@@ -46,7 +46,6 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.SpecialOutfit;
-import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -615,29 +614,36 @@ public class EquipmentManager {
 
 		for ( int i = 0; i < EquipmentDatabase.normalOutfits.size(); ++i )
 		{
-			if ( EquipmentDatabase.normalOutfits.get( i ) != null && EquipmentDatabase.normalOutfits.get( i ).hasAllPieces() )
+			SpecialOutfit outfit = EquipmentDatabase.normalOutfits.get( i );
+			
+			if ( outfit != null && outfit.hasAllPieces() )
 			{
-				available.add( EquipmentDatabase.normalOutfits.get( i ) );
+				available.add( outfit );
 			}
 		}
 
 		for ( int i = 0; i < EquipmentDatabase.weirdOutfits.size(); ++i )
 		{
-			if ( EquipmentDatabase.weirdOutfits.get( i ) != null && EquipmentDatabase.weirdOutfits.get( i ).hasAllPieces() )
+			SpecialOutfit outfit = EquipmentDatabase.weirdOutfits.get( i );
+			
+			if ( outfit != null && outfit.hasAllPieces() )
 			{
-				available.add( EquipmentDatabase.weirdOutfits.get( i ) );
+				available.add( outfit );
 			}
 		}
 
 		Collections.sort( available );
-		getOutfits().clear();
+		
+		List outfits = getOutfits();
+		
+		outfits.clear();
 
 		// Start with the two constant outfits
-		getOutfits().add( SpecialOutfit.NO_CHANGE );
-		getOutfits().add( SpecialOutfit.BIRTHDAY_SUIT );
+		outfits.add( SpecialOutfit.NO_CHANGE );
+		outfits.add( SpecialOutfit.BIRTHDAY_SUIT );
 
 		// Finally any standard outfits
-		getOutfits().addAll( available );
+		outfits.addAll( available );
 
 		// We may have gotten the war hippy or frat outfits
 		CoinmastersFrame.externalUpdate();
