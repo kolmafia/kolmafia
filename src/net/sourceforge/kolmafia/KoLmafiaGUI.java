@@ -81,7 +81,6 @@ import net.sourceforge.kolmafia.swingui.MushroomFrame;
 import net.sourceforge.kolmafia.swingui.OptionsFrame;
 import net.sourceforge.kolmafia.swingui.StoreManageFrame;
 import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
-import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import tab.CloseTabbedPane;
 
@@ -244,7 +243,7 @@ public class KoLmafiaGUI
 			updateText = holiday + ", " + moonEffect;
 		}
 
-		KoLmafia.updateDisplay( CharacterEntities.unescape( updateText ) );
+		KoLmafia.updateDisplay( updateText );
 
 		if ( MailManager.hasNewMessages() )
 		{

@@ -65,7 +65,6 @@ import net.sourceforge.kolmafia.swingui.panel.LabeledPanel;
 import net.sourceforge.kolmafia.swingui.panel.OptionsPanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
-import net.sourceforge.kolmafia.utilities.CharacterEntities;
 
 public class LoginFrame
 	extends GenericFrame
@@ -254,7 +253,7 @@ public class LoginFrame
 				updateText = holiday + ", " + moonEffect;
 			}
 
-			this.setStatusMessage( CharacterEntities.unescape( updateText ) );
+			this.setStatusMessage( updateText );
 		}
 
 		public void setEnabled( final boolean isEnabled )
@@ -298,7 +297,7 @@ public class LoginFrame
 
 			String password = new String( this.passwordField.getPassword() );
 
-			if ( LoginFrame.this.username == null || password == null || LoginFrame.this.username.equals( "" ) || password.equals( "" ) )
+			if ( LoginFrame.this.username == null || LoginFrame.this.username.equals( "" ) || password.equals( "" ) )
 			{
 				this.setStatusMessage( "Invalid login." );
 				return;
