@@ -44,11 +44,13 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
@@ -847,6 +849,16 @@ public class ResultProcessor
 		case ItemPool.TEN_LEAF_CLOVER:
 			ResultProcessor.receivedClover = true;
 			break;
+		
+		case ItemPool.BATSKIN_BELT:
+		case ItemPool.DRAGONBONE_BELT_BUCKLE:
+			
+			CreateItemRequest beltCreator = CreateItemRequest.getInstance( ItemPool.BADASS_BELT );
+			if ( KoLCharacter.getAvailableMeat() > 10 && beltCreator.getQuantityPossible() > 0 )
+			{
+				beltCreator.setQuantityNeeded( 1 );
+				RequestThread.postRequest( beltCreator );
+			}
 		}
 	}
 }
