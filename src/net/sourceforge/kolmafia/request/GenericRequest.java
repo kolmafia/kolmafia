@@ -1327,8 +1327,7 @@ public class GenericRequest
 
 		if ( this.redirectLocation.startsWith( "login.php" ) )
 		{
-			LoginRequest.executeTimeInRequest( this.getURLString(), this.redirectLocation );
-			return false;
+			return !LoginRequest.executeTimeInRequest( this.getURLString(), this.redirectLocation );
 		}
 
 		if ( this.redirectLocation.startsWith( "choice.php" ) )
