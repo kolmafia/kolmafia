@@ -182,6 +182,12 @@ public class AdventureRequest
 		{
 			this.data.clear();
 		}
+		else if ( this.formSource.equals( "adventure.php" ) && this.adventureId.equals( "120" ) )
+		{
+			// Replace with a randomly chosen corner
+			this.removeFormField( "snarfblat" );
+			this.addFormField( "snarfblat", String.valueOf( KoLConstants.RNG.nextInt( 4 ) + 178 ) );
+		}
 
 		super.run();
 

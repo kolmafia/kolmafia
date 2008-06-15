@@ -1788,7 +1788,7 @@ public abstract class KoLmafia
 			return;
 		}
 
-		String selection = selectedValue.substring( 0, selectedValue.lastIndexOf( "(" ) - 1 );
+		String selection = selectedValue.substring( 0, selectedValue.indexOf( "(" ) - 1 );
 		int itemId = ItemDatabase.getItemId( selection );
 		RequestThread.postRequest( new CoinMasterRequest( "lucre", "takebounty", itemId ) );
 	}
