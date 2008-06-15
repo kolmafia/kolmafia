@@ -163,7 +163,7 @@ public class AdventureDatabase
 		AdventureDatabase.bountiesById.set( 82, "5 discarded pacifier" ); // Giant's Castle
 		AdventureDatabase.bountiesById.set( 83, "6 sticky stardust" ); // Hole in the Sky
 		AdventureDatabase.bountiesById.set( 106, "11 non-Euclidean hoof" ); // Haunted Gallery
-		AdventureDatabase.bountiesById.set( 120, "20 disintegrating cork" ); // Haunted Wine Cellar
+		AdventureDatabase.bountiesById.set( 120, "20 disintegrating cork" ); // Haunted Wine Cellar (Random)
 	}
 
 	private static final TreeMap locationByBounty = new TreeMap();

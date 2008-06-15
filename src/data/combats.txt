@@ -95,6 +95,7 @@ Haunted Gallery	80	Guy with a Pitchfork, and his Wife	Cubist Bull	Empty Suit of 
 Haunted Kitchen	100	Demonic Icebox	Paper Towelgeist	Possessed Silverware Drawer	Skullery Maid	Zombie Chef
 Haunted Library	-1	Banshee Librarian	Bookbat	Writing Desk
 Haunted Pantry	80	Possessed Can of Tomatoes	Fiendish Can of Asparagus	Flame-Broiled Meat Blob	Overdone Flame-Broiled Meat Blob	Undead Elbow Macaroni
+Haunted Wine Cellar (Random)	100	Possessed Wine Rack	Skeletal Sommelier
 Haunted Wine Cellar (Upper Left)	100	Possessed Wine Rack	Skeletal Sommelier
 Haunted Wine Cellar (Upper Right)	100	Possessed Wine Rack	Skeletal Sommelier
 Haunted Wine Cellar (Lower Left)	100	Possessed Wine Rack	Skeletal Sommelier
