@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.swingui.panel;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
@@ -48,15 +49,14 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
-import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
-
-import net.sourceforge.kolmafia.request.UseItemRequest;
-import net.sourceforge.kolmafia.request.UseSkillRequest;
-
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.request.UseItemRequest;
+import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
+import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class UseItemEnqueuePanel
 	extends ItemManagePanel
@@ -75,15 +75,26 @@ public class UseItemEnqueuePanel
 
 		this.queueTabs = queueTabs;
 
+		ArrayList listeners = new ArrayList();
+
 		if ( Preferences.getBoolean( "addCreationQueue" ) )
 		{
-			this.setButtons(
-				false, new ActionListener[] { new EnqueueListener(), new ExecuteListener(), new BuffUpListener() } );
+			listeners.add( new EnqueueListener() );
 		}
-		else
+
+		listeners.add( new ExecuteListener() );
+
+		if ( this.food || this.booze )
 		{
-			this.setButtons( false, new ActionListener[] { new ExecuteListener(), new BuffUpListener() } );
+			listeners.add( new FamiliarFeedListener() );
 		}
+
+		listeners.add( new BuffUpListener() );
+
+		ActionListener [] listenerArray = new ActionListener[ listeners.size() ];
+		listeners.toArray( listenerArray );
+
+		this.setButtons( false, listenerArray );
 
 		JLabel test = new JLabel( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
 
@@ -185,8 +196,18 @@ public class UseItemEnqueuePanel
 	{
 		public void run()
 		{
+			boolean warnFirst =
+				( UseItemEnqueuePanel.this.food && ConcoctionDatabase.getQueuedFullness() != 0 ) ||
+				( UseItemEnqueuePanel.this.booze && ConcoctionDatabase.getQueuedInebriety() != 0 ) ||
+				( UseItemEnqueuePanel.this.spleen && ConcoctionDatabase.getQueuedSpleenHit() != 0 );
+
+			if ( warnFirst && !InputFieldUtilities.confirm( "This action will also process any queued items.  Are you sure you wish to continue?" ) )
+			{
+				return;
+			}
+
 			Object [] newItems = UseItemEnqueuePanel.this.getDesiredItems( "Consume" );
-			
+
 			if ( newItems == null || newItems.length == 0 )
 			{
 				return;
@@ -194,7 +215,7 @@ public class UseItemEnqueuePanel
 
 			ConcoctionDatabase.refreshConcoctions();
 
-			ConcoctionDatabase.handleQueue( UseItemEnqueuePanel.this.food, UseItemEnqueuePanel.this.booze, UseItemEnqueuePanel.this.spleen, true );
+			ConcoctionDatabase.handleQueue( UseItemEnqueuePanel.this.food, UseItemEnqueuePanel.this.booze, UseItemEnqueuePanel.this.spleen, KoLConstants.CONSUME_USE );
 
 			if ( UseItemEnqueuePanel.this.food )
 			{
@@ -218,6 +239,56 @@ public class UseItemEnqueuePanel
 			return "consume";
 		}
 	}
+
+	private class FamiliarFeedListener
+		extends ThreadedListener
+	{
+		private int consumptionType;
+
+		public FamiliarFeedListener()
+		{
+			if ( UseItemEnqueuePanel.this.food )
+			{
+				this.consumptionType = KoLConstants.CONSUME_GHOST;
+			}
+			else if ( UseItemEnqueuePanel.this.booze )
+			{
+				this.consumptionType = KoLConstants.CONSUME_HOBO;
+			}
+			else
+			{
+				this.consumptionType = KoLConstants.NO_CONSUME;
+			}
+		}
+
+		public void run()
+		{
+			ConcoctionDatabase.handleQueue( UseItemEnqueuePanel.this.food, UseItemEnqueuePanel.this.booze, UseItemEnqueuePanel.this.spleen, consumptionType );
+
+			if ( UseItemEnqueuePanel.this.food )
+			{
+				UseItemEnqueuePanel.this.queueTabs.setTitleAt( 0, ConcoctionDatabase.getQueuedFullness() + " Full Queued" );
+			}
+			if ( UseItemEnqueuePanel.this.booze )
+			{
+				UseItemEnqueuePanel.this.queueTabs.setTitleAt( 0, ConcoctionDatabase.getQueuedInebriety() + " Drunk Queued" );
+			}
+		}
+
+		public String toString()
+		{
+			switch ( this.consumptionType )
+			{
+			case KoLConstants.CONSUME_GHOST:
+				return "feed ghost";
+			case KoLConstants.CONSUME_HOBO:
+				return "feed hobo";
+			default:
+				return "";
+			}
+		}
+	}
+
 
 	private class BuffUpListener
 		extends ThreadedListener
