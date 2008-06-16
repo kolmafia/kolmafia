@@ -34,20 +34,24 @@
 package net.sourceforge.kolmafia.swingui.panel;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionListener;
 
 import javax.swing.JLabel;
 import javax.swing.JTabbedPane;
 import javax.swing.ListSelectionModel;
 
+import net.sourceforge.kolmafia.FamiliarData;
+import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.objectpool.Concoction;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
+import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
-
-import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
-import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 public class UseItemDequeuePanel
 	extends ItemManagePanel
@@ -57,19 +61,11 @@ public class UseItemDequeuePanel
 
 	public UseItemDequeuePanel( final boolean food, final boolean booze, final boolean spleen )
 	{
-		super( "consume", "create", ConcoctionDatabase.getUsables(), false, false );
+		super( ConcoctionDatabase.getUsables(), false, false );
 
 		this.food = food;
 		this.booze = booze;
 		this.spleen = spleen;
-
-		JLabel test = new JLabel( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
-
-		this.elementList.setCellRenderer( ListCellRendererFactory.getCreationQueueRenderer() );
-		this.elementList.setFixedCellHeight( (int) ( test.getPreferredSize().getHeight() * 2.5f ) );
-
-		this.elementList.setVisibleRowCount( 3 );
-		this.elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 
 		this.queueTabs = KoLmafiaGUI.getTabbedPane();
 
@@ -87,7 +83,18 @@ public class UseItemDequeuePanel
 		}
 
 		this.queueTabs.addTab( "Ingredients Used", new GenericScrollPane( ConcoctionDatabase.getQueuedIngredients( this.food, this.booze, this.spleen ), 7 ) );
+
+		JLabel test = new JLabel( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
+
+		this.elementList.setCellRenderer( ListCellRendererFactory.getCreationQueueRenderer() );
+		this.elementList.setFixedCellHeight( (int) ( test.getPreferredSize().getHeight() * 2.5f ) );
+
+		this.elementList.setVisibleRowCount( 3 );
+		this.elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
+
 		this.actualPanel.add( this.queueTabs, BorderLayout.CENTER );
+
+		this.setButtons( false, new ActionListener[] { new ConsumeListener(), new CreateListener() } );
 
 		this.eastPanel.add( new UndoQueueButton(), BorderLayout.SOUTH );
 
@@ -105,39 +112,57 @@ public class UseItemDequeuePanel
 		return new ConsumableFilterField();
 	}
 
-	public void actionConfirmed()
+	private class ConsumeListener
+		extends ThreadedListener
 	{
-		ConcoctionDatabase.handleQueue( this.food, this.booze, this.spleen, true );
+		public void run()
+		{
+			ConcoctionDatabase.handleQueue( UseItemDequeuePanel.this.food, UseItemDequeuePanel.this.booze, UseItemDequeuePanel.this.spleen, KoLConstants.CONSUME_USE );
 
-		if ( this.food )
-		{
-			this.queueTabs.setTitleAt( 0, ConcoctionDatabase.getQueuedFullness() + " Full Queued" );
+			if ( UseItemDequeuePanel.this.food )
+			{
+				UseItemDequeuePanel.this.queueTabs.setTitleAt( 0, ConcoctionDatabase.getQueuedFullness() + " Full Queued" );
+			}
+			if ( UseItemDequeuePanel.this.booze )
+			{
+				UseItemDequeuePanel.this.queueTabs.setTitleAt( 0, ConcoctionDatabase.getQueuedInebriety() + " Drunk Queued" );
+			}
+			if ( UseItemDequeuePanel.this.spleen )
+			{
+				UseItemDequeuePanel.this.queueTabs.setTitleAt( 0, ConcoctionDatabase.getQueuedSpleenHit() + " Spleen Queued" );
+			}
 		}
-		if ( this.booze )
+
+		public String toString()
 		{
-			this.queueTabs.setTitleAt( 0, ConcoctionDatabase.getQueuedInebriety() + " Drunk Queued" );
-		}
-		if ( this.spleen )
-		{
-			this.queueTabs.setTitleAt( 0, ConcoctionDatabase.getQueuedSpleenHit() + " Spleen Queued" );
+			return "consume";
 		}
 	}
 
-	public void actionCancelled()
+	private class CreateListener
+		extends ThreadedListener
 	{
-		ConcoctionDatabase.handleQueue( this.food, this.booze, this.spleen, false );
+		public void run()
+		{
+			ConcoctionDatabase.handleQueue( UseItemDequeuePanel.this.food, UseItemDequeuePanel.this.booze, UseItemDequeuePanel.this.spleen, KoLConstants.NO_CONSUME );
 
-		if ( this.food )
-		{
-			this.queueTabs.setTitleAt( 0, ConcoctionDatabase.getQueuedFullness() + " Full Queued" );
+			if ( UseItemDequeuePanel.this.food )
+			{
+				UseItemDequeuePanel.this.queueTabs.setTitleAt( 0, ConcoctionDatabase.getQueuedFullness() + " Full Queued" );
+			}
+			if ( UseItemDequeuePanel.this.booze )
+			{
+				UseItemDequeuePanel.this.queueTabs.setTitleAt( 0, ConcoctionDatabase.getQueuedInebriety() + " Drunk Queued" );
+			}
+			if ( UseItemDequeuePanel.this.spleen )
+			{
+				UseItemDequeuePanel.this.queueTabs.setTitleAt( 0, ConcoctionDatabase.getQueuedSpleenHit() + " Spleen Queued" );
+			}
 		}
-		if ( this.booze )
+
+		public String toString()
 		{
-			this.queueTabs.setTitleAt( 0, ConcoctionDatabase.getQueuedInebriety() + " Drunk Queued" );
-		}
-		if ( this.spleen )
-		{
-			this.queueTabs.setTitleAt( 0, ConcoctionDatabase.getQueuedSpleenHit() + " Spleen Queued" );
+			return "create";
 		}
 	}
 
