@@ -341,8 +341,21 @@ public class ItemFinder
 
 		if ( filterType == ItemFinder.CREATE_MATCH )
 		{
+			boolean includeNPCs = Preferences.getBoolean( "autoSatisfyWithNPCs" );
+
+			if ( includeNPCs )
+			{
+				Preferences.setBoolean( "autoSatisfyWithNPCs", false );
+				ConcoctionDatabase.refreshConcoctions();
+			}
+
 			CreateItemRequest instance = CreateItemRequest.getInstance( firstMatch.getItemId() );
 			matchCount = instance == null ? 0 : instance.getQuantityPossible();
+
+			if ( includeNPCs )
+			{
+				Preferences.setBoolean( "autoSatisfyWithNPCs", true );
+			}
 		}
 		else
 		{
