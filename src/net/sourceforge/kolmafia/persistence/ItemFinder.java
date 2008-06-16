@@ -158,7 +158,7 @@ public class ItemFinder
 			}
 		}
 
-		if ( !restoreList.isEmpty() )
+		if ( !restoreList.isEmpty() && filterType != ItemFinder.FOOD_MATCH && filterType != ItemFinder.BOOZE_MATCH )
 		{
 			nameList.clear();
 			nameList.addAll( restoreList );
