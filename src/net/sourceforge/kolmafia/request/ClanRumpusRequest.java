@@ -67,7 +67,7 @@ public class ClanRumpusRequest
 		ClanRumpusRequest.MAXIMUM_USAGE[ 6 ] = new int[ 0 ];
 		ClanRumpusRequest.MAXIMUM_USAGE[ 7 ] = new int[ 0 ];
 		ClanRumpusRequest.MAXIMUM_USAGE[ 8 ] = new int[ 0 ];
-		ClanRumpusRequest.MAXIMUM_USAGE[ 9 ] = new int[] { 0, 0, 3, 1 };
+		ClanRumpusRequest.MAXIMUM_USAGE[ 9 ] = new int[] { 0, 0, 0, 1 };
 	}
 
 	private int turnCount;
@@ -269,17 +269,9 @@ public class ClanRumpusRequest
 
 				this.clearDataFields();
 
-				if ( i == 9 && j == 2 )
-				{
-					this.addFormField( "preaction", "buychips" );
-					this.addFormField( "whichbag", String.valueOf( KoLConstants.RNG.nextInt( 3 ) + 1 ) );
-				}
-				else
-				{
-					this.addFormField( "action", "click" );
-					this.addFormField( "spot", String.valueOf( i ) );
-					this.addFormField( "furni", String.valueOf( j ) );
-				}
+				this.addFormField( "action", "click" );
+				this.addFormField( "spot", String.valueOf( i ) );
+				this.addFormField( "furni", String.valueOf( j ) );
 
 				for ( int k = 0; k < ClanRumpusRequest.MAXIMUM_USAGE[ i ][ j ]; ++k )
 				{
