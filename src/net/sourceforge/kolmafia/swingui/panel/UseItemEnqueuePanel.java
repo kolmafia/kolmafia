@@ -201,7 +201,7 @@ public class UseItemEnqueuePanel
 				( UseItemEnqueuePanel.this.booze && ConcoctionDatabase.getQueuedInebriety() != 0 ) ||
 				( UseItemEnqueuePanel.this.spleen && ConcoctionDatabase.getQueuedSpleenHit() != 0 );
 
-			if ( warnFirst && !InputFieldUtilities.confirm( "This action will also process any queued items.  Are you sure you wish to continue?" ) )
+			if ( warnFirst && !InputFieldUtilities.confirm( "This action will also consume any queued items.  Are you sure you wish to continue?" ) )
 			{
 				return;
 			}
@@ -263,6 +263,24 @@ public class UseItemEnqueuePanel
 
 		public void run()
 		{
+			boolean warnFirst =
+				( UseItemEnqueuePanel.this.food && ConcoctionDatabase.getQueuedFullness() != 0 ) ||
+				( UseItemEnqueuePanel.this.booze && ConcoctionDatabase.getQueuedInebriety() != 0 );
+
+			if ( warnFirst && !InputFieldUtilities.confirm( "This action will also feed any queued items to your familiar.  Are you sure you wish to continue?" ) )
+			{
+				return;
+			}
+
+			Object [] newItems = UseItemEnqueuePanel.this.getDesiredItems( "Consume" );
+
+			if ( newItems == null || newItems.length == 0 )
+			{
+				return;
+			}
+
+			ConcoctionDatabase.refreshConcoctions();
+
 			ConcoctionDatabase.handleQueue( UseItemEnqueuePanel.this.food, UseItemEnqueuePanel.this.booze, UseItemEnqueuePanel.this.spleen, consumptionType );
 
 			if ( UseItemEnqueuePanel.this.food )
