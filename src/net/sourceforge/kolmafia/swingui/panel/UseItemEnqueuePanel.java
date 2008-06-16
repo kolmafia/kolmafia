@@ -272,7 +272,7 @@ public class UseItemEnqueuePanel
 				return;
 			}
 
-			Object [] newItems = UseItemEnqueuePanel.this.getDesiredItems( "Consume" );
+			Object [] newItems = UseItemEnqueuePanel.this.getDesiredItems( "Feed" );
 
 			if ( newItems == null || newItems.length == 0 )
 			{

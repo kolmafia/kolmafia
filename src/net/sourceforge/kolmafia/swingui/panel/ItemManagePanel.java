@@ -331,7 +331,7 @@ public class ItemManagePanel
 		{
 			return this.getDesiredItems(
 				message,
-				message.equals( "Queue" ) || message.equals( "Consume" ) ? ItemManagePanel.USE_MULTIPLE : ItemManagePanel.TAKE_MULTIPLE );
+				message.equals( "Queue" ) || message.equals( "Consume" ) || message.equals( "Feed" ) ? ItemManagePanel.USE_MULTIPLE : ItemManagePanel.TAKE_MULTIPLE );
 		}
 
 		return this.getDesiredItems(
