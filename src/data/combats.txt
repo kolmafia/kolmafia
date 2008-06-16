@@ -96,10 +96,10 @@ Haunted Kitchen	100	Demonic Icebox	Paper Towelgeist	Possessed Silverware Drawer	
 Haunted Library	-1	Banshee Librarian	Bookbat	Writing Desk
 Haunted Pantry	80	Possessed Can of Tomatoes	Fiendish Can of Asparagus	Flame-Broiled Meat Blob	Overdone Flame-Broiled Meat Blob	Undead Elbow Macaroni
 Haunted Wine Cellar (Random)	100	Possessed Wine Rack	Skeletal Sommelier
-Haunted Wine Cellar (Upper Left)	100	Possessed Wine Rack	Skeletal Sommelier
-Haunted Wine Cellar (Upper Right)	100	Possessed Wine Rack	Skeletal Sommelier
-Haunted Wine Cellar (Lower Left)	100	Possessed Wine Rack	Skeletal Sommelier
-Haunted Wine Cellar (Lower Right)	100	Possessed Wine Rack	Skeletal Sommelier
+Haunted Wine Cellar (Northwest)	100	Possessed Wine Rack	Skeletal Sommelier
+Haunted Wine Cellar (Northeast)	100	Possessed Wine Rack	Skeletal Sommelier
+Haunted Wine Cellar (Southwest)	100	Possessed Wine Rack	Skeletal Sommelier
+Haunted Wine Cellar (Southeast)	100	Possessed Wine Rack	Skeletal Sommelier
 Hidden City	100	Ancient Protector Spirit	Boaraffe	Protector Spectre	Pygmy Blowgunner	Pygmy Assault Squad	Pygmy Headhunter
 Hippy Camp	100	Crusty Hippy	Crusty Hippy Jewelry Maker	Crusty Hippy Vegan Chef	Dirty Hippy	Dirty Hippy Jewelry Maker	Dirty Hippy Vegan Chef	Filthy Hippy	Filthy Hippy Jewelry Maker	Filthy Hippy Vegan Chef
 Hippy Camp (Stone Age)	100	Caveman Hippy	Cavewomyn Hippy	Sabre-Toothed Ferret
