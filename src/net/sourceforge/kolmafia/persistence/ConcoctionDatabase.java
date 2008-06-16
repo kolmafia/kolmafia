@@ -485,8 +485,6 @@ public class ConcoctionDatabase
 			c = (Concoction) currentItem[ 0 ];
 			quantity = ( (Integer) currentItem[ 1 ] ).intValue();
 
-			GenericRequest request = null;
-
 			if ( consumptionType != KoLConstants.CONSUME_USE && c.getItem() != null )
 			{
 				AdventureResult toConsume = c.getItem().getInstance( quantity );
@@ -494,43 +492,13 @@ public class ConcoctionDatabase
 
 				if ( consumptionType == KoLConstants.CONSUME_GHOST || consumptionType == KoLConstants.CONSUME_HOBO )
 				{
-					request = new UseItemRequest( consumptionType, toConsume );
-					RequestThread.postRequest( request );
+					RequestThread.postRequest( new UseItemRequest( consumptionType, toConsume ) );
 				}
 
 				continue;
 			}
 
-			if ( c.getPrice() > 0 )
-			{
-				String name = c.getName();
-				if ( HellKitchenRequest.onMenu( name ) )
-				{
-					request = new HellKitchenRequest( name );
-				}
-				else if ( ChezSnooteeRequest.onMenu( name ) )
-				{
-					request = new ChezSnooteeRequest( name );
-				}
-				else if ( MicroBreweryRequest.onMenu( name ) )
-				{
-					request = new MicroBreweryRequest( name );
-				}
-				else
-				{
-					continue;
-				}
-
-				for ( int j = 0; j < quantity; ++j )
-				{
-					RequestThread.postRequest( request );
-				}
-			}
-			else
-			{
-				request = new UseItemRequest( c.getItem().getInstance( quantity ) );
-				RequestThread.postRequest( request );
-			}
+			ConcoctionDatabase.consumeItem( c, quantity );
 		}
 
 		SpecialOutfit.restoreImplicitCheckpoint();
@@ -538,6 +506,65 @@ public class ConcoctionDatabase
 
 		ConcoctionDatabase.ignoreRefresh = false;
 		ConcoctionDatabase.refreshConcoctions();
+	}
+
+	private static final void consumeItem( Concoction c, int quantity )
+	{
+		GenericRequest request = null;
+
+		AdventureResult item = c.getItem();
+
+		// First, consume any items which appear in the inventory.
+
+		if ( item != null )
+		{
+			int initialConsume = Math.min( quantity, InventoryManager.getCount( item.getItemId() ) );
+
+			request = new UseItemRequest( c.getItem().getInstance( initialConsume ) );
+			RequestThread.postRequest( request );
+
+			quantity -= initialConsume;
+
+			if ( quantity == 0 )
+			{
+				return;
+			}
+		}
+
+		// If the item isn't available from restaurants, use the normal
+		// item acquisition methods.
+
+		if ( c.getPrice() <= 0 )
+		{
+			request = new UseItemRequest( c.getItem().getInstance( quantity ) );
+			RequestThread.postRequest( request );
+		}
+
+		// Otherwise, acquire them from the restaurant.
+
+		String name = c.getName();
+
+		if ( HellKitchenRequest.onMenu( name ) )
+		{
+			request = new HellKitchenRequest( name );
+		}
+		else if ( ChezSnooteeRequest.onMenu( name ) )
+		{
+			request = new ChezSnooteeRequest( name );
+		}
+		else if ( MicroBreweryRequest.onMenu( name ) )
+		{
+			request = new MicroBreweryRequest( name );
+		}
+		else
+		{
+			return;
+		}
+
+		for ( int j = 0; j < quantity; ++j )
+		{
+			RequestThread.postRequest( request );
+		}
 	}
 
 	public static final int getQueuedFullness()
