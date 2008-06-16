@@ -89,6 +89,7 @@ public abstract class MPRestoreItemList
 		new MPRestoreItem( "unrefined mountain stream syrup", 55, true ),
 		new MPRestoreItem( "phonics down", 48, false ),
 		new MPRestoreItem( "tonic water", 40, false ),
+		new MPRestoreItem( "palm-frond fan", 37, false ),
 		new MPRestoreItem( "honey-dipped locust", 36, false ),
 		new MPRestoreItem( "Marquis de Poivre soda", 35, false ),
 		new MPRestoreItem( "green pixel potion", 35, true ),

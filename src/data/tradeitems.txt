@@ -2604,7 +2604,7 @@
 2603	smoldering box	4	display	0
 2604	Tuesday's ruby	13	all	200
 2605	palm frond	4	all	45
-2606	palm-frond fan	4	all	85
+2606	palm-frond fan	17	all	85
 2607	palm-frond whip	12	all	95
 2608	palm-frond net	0	all	130
 2609	palm-frond capris	10	all	145
