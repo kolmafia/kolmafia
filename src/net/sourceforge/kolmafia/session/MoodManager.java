@@ -1251,12 +1251,19 @@ public abstract class MoodManager
 			{
 				RequestThread.postRequest( new UseItemRequest( this.item.getInstance( Math.max(
 					this.count, this.count * multiplicity ) ) ) );
+
 				return;
 			}
 			else if ( this.skill != null )
 			{
 				this.skill.setBuffCount( Math.max( this.count, this.count * multiplicity ) );
 				RequestThread.postRequest( this.skill );
+
+				if ( !UseSkillRequest.lastUpdate.equals( "" ) )
+				{
+					RequestThread.declareWorldPeace();
+				}
+
 				return;
 			}
 
