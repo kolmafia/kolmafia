@@ -51,6 +51,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -140,7 +141,7 @@ public class MushroomPlotPanel
 
 	public void scriptLayout()
 	{
-		JFileChooser chooser = new JFileChooser( "scripts" );
+		JFileChooser chooser = new JFileChooser( KoLConstants.SCRIPT_LOCATION );
 		int returnVal = chooser.showSaveDialog( this );
 
 		File output = chooser.getSelectedFile();
