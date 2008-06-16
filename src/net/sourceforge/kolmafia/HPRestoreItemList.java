@@ -37,6 +37,7 @@ import java.util.TreeMap;
 
 import javax.swing.JCheckBox;
 
+import net.sourceforge.kolmafia.MPRestoreItemList.MPRestoreItem;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
@@ -91,6 +92,7 @@ public abstract class HPRestoreItemList
 		new HPRestoreItem( "phonics down", 48 ),
 		new HPRestoreItem( "Disco Power Nap", 40 ),
 		HPRestoreItemList.WALRUS,
+		new HPRestoreItem( "palm-frond fan", 37 ),
 		new HPRestoreItem( "honey-dipped locust", 36 ),
 		new HPRestoreItem( "red paisley oyster egg", 33 ),
 		new HPRestoreItem( "red polka-dot oyster egg", 33 ),
