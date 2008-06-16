@@ -1143,6 +1143,8 @@ public class KoLmafiaCLI
 
 		if ( command.equals( "login" ) )
 		{
+			RequestThread.postRequest( new LogoutRequest() );
+
 			this.attemptLogin( parameters );
 			return;
 		}
@@ -2399,7 +2401,7 @@ public class KoLmafiaCLI
 			parameters = command;
 			command = "skills";
 		}
-		
+
 		if ( command.equals( "counters" ) )
 		{
 			if ( parameters.equalsIgnoreCase( "clear" ) )
@@ -4802,7 +4804,7 @@ public class KoLmafiaCLI
 	public static final SpecialOutfit getMatchingOutfit( final String name )
 	{
 		String lowercaseName = name.toLowerCase().trim();
-		
+
 		if ( lowercaseName.equals( "birthday suit" ) || lowercaseName.equals( "nothing" ) )
 		{
 			return SpecialOutfit.BIRTHDAY_SUIT;
@@ -4813,11 +4815,11 @@ public class KoLmafiaCLI
 		int normalOutfitCount = EquipmentDatabase.getOutfitCount();
 
 		// Check for exact matches.
-		
+
 		for ( int i = 0; i < customOutfitCount; ++i )
 		{
 			SpecialOutfit outfit = (SpecialOutfit) customOutfitList.get( i );
-			
+
 			if ( lowercaseName.equals( outfit.toString().toLowerCase() ) )
 			{
 				return outfit;
@@ -4827,7 +4829,7 @@ public class KoLmafiaCLI
 		for ( int i = 0; i < normalOutfitCount; ++i )
 		{
 			SpecialOutfit outfit = EquipmentDatabase.getOutfit( i );
-			
+
 			if ( outfit != null && lowercaseName.equals( outfit.toString().toLowerCase() ) )
 			{
 				return outfit;
@@ -4839,7 +4841,7 @@ public class KoLmafiaCLI
 		for ( int i = 0; i < customOutfitCount; ++i )
 		{
 			SpecialOutfit outfit = (SpecialOutfit) customOutfitList.get( i );
-			
+
 			if ( lowercaseName.indexOf( outfit.toString().toLowerCase() ) != -1 )
 			{
 				return outfit;
@@ -4849,13 +4851,13 @@ public class KoLmafiaCLI
 		for ( int i = 0; i < normalOutfitCount; ++i )
 		{
 			SpecialOutfit outfit = EquipmentDatabase.getOutfit( i );
-			
+
 			if ( outfit != null && lowercaseName.indexOf( outfit.toString().toLowerCase() ) != -1 )
 			{
 				return outfit;
 			}
 		}
-		
+
 		return null;
 	}
 
