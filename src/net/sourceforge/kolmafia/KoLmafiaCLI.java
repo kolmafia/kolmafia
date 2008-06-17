@@ -4842,7 +4842,7 @@ public class KoLmafiaCLI
 		{
 			SpecialOutfit outfit = (SpecialOutfit) customOutfitList.get( i );
 
-			if ( lowercaseName.indexOf( outfit.toString().toLowerCase() ) != -1 )
+			if ( outfit.toString().toLowerCase().indexOf( lowercaseName ) != -1 )
 			{
 				return outfit;
 			}
@@ -4852,7 +4852,7 @@ public class KoLmafiaCLI
 		{
 			SpecialOutfit outfit = EquipmentDatabase.getOutfit( i );
 
-			if ( outfit != null && lowercaseName.indexOf( outfit.toString().toLowerCase() ) != -1 )
+			if ( outfit != null && outfit.toString().toLowerCase().indexOf( lowercaseName ) != -1 )
 			{
 				return outfit;
 			}
