@@ -455,20 +455,57 @@ public abstract class MoodManager
 		for ( int i = 0; i < KoLConstants.activeEffects.size() && KoLmafia.permitsContinue(); ++i )
 		{
 			currentEffect = (AdventureResult) KoLConstants.activeEffects.get( i );
-			nextEffect =
-				i + 1 >= KoLConstants.activeEffects.size() ? null : (AdventureResult) KoLConstants.activeEffects.get( i + 1 );
-
 			skillName = UneffectRequest.effectToSkill( currentEffect.getName() );
 
-			// Only cast if a matching skill was found that the player knows.
+			// Only cast if a matching skill was found that the
+			// player knows.
 
 			if ( !SkillDatabase.contains( skillName ) || !KoLCharacter.hasSkill( skillName ) )
 			{
 				continue;
 			}
 
-			// Set the desired duration to properly balance the buff so that
-			// its duration is close to the duration of the next buff down the list
+			int skillId = SkillDatabase.getSkillId( skillName );
+
+			// Never recast ode when doing MP burning, because
+			// there's no need for it to have a long duration.
+
+			if ( skillId == 6014 )
+			{
+				continue;
+			}
+
+			// Encounter rate modifying buffs probably shouldn't be
+			// cast during conditional recast.
+
+			if ( skillId == 1019 || skillId == 5017 || skillId == 6015 || skillId == 6016 || skillId == 6017 )
+			{
+				continue;
+			}
+
+			// If duration exceeds 1000 turns more than the number
+			// of turns the player has available, reject.
+
+			if ( currentEffect.getCount() >= KoLCharacter.getAdventuresLeft() + 1000 )
+			{
+				continue;
+			}
+
+			// If the player only wishes to cast buffs related to
+			// their mood, then skip the buff if it's not in the
+			// any of the player's moods.
+
+			if ( !Preferences.getBoolean( "allowNonMoodBurning" ) || !MoodManager.effectInMood( currentEffect ))
+			{
+				continue;
+			}
+
+			// Set the desired duration to properly balance the
+			// buff so that its duration is close to the duration
+			// of the next buff down the list
+
+			nextEffect =
+				i + 1 >= KoLConstants.activeEffects.size() ? null : (AdventureResult) KoLConstants.activeEffects.get( i + 1 );
 
 			if ( nextEffect != null )
 			{
@@ -479,70 +516,14 @@ public abstract class MoodManager
 				desiredDuration = Integer.MAX_VALUE;
 			}
 
-			int skillId = SkillDatabase.getSkillId( skillName );
-
-			// Never recast ode when doing MP burning, because there's no
-			// need for it to have a long duration.
-
-			if ( skillId == 6014 )
-			{
-				continue;
-			}
-
-			// Encounter rate modifying buffs probably shouldn't be cast
-			// during conditional recast.
-
-			if ( skillId == 1019 || skillId == 5017 || skillId == 6015 || skillId == 6016 || skillId == 6017 )
-			{
-				continue;
-			}
+			// Limit cast count to two in order to ensure that
+			// KoLmafia doesn't make the buff counts too far out of
+			// balance.
 
 			int castCount =
 				( KoLCharacter.getCurrentMP() - minimum ) / SkillDatabase.getMPConsumptionById( skillId );
 
 			int duration = SkillDatabase.getEffectDuration( skillId );
-
-			// If the player opts in to allowing breakfast casting to burn
-			// off excess MP, rather than using auto-restore, do so.
-
-			if ( currentEffect.getCount() >= 10 )
-			{
-				String breakfast = MoodManager.considerBreakfastSkill( minimum );
-
-				if ( breakfast != null )
-				{
-					return breakfast;
-				}
-			}
-
-			// If all durations exceed 1000 turns more than the number of
-			// turns the player has available, reject.
-
-			if ( currentEffect.getCount() >= KoLCharacter.getAdventuresLeft() + 1000 )
-			{
-				return null;
-			}
-
-			// If the player only wishes to cast buffs related to their
-			// mood, then skip the buff if it's not in the player's moods.
-
-			if ( !Preferences.getBoolean( "allowNonMoodBurning" ) )
-			{
-				boolean shouldIgnore = true;
-
-				for ( int j = 0; j < MoodManager.displayList.size(); ++j )
-				{
-					shouldIgnore &= !currentEffect.equals( ( (MoodTrigger) MoodManager.displayList.get( j ) ).effect );
-				}
-
-				if ( shouldIgnore )
-				{
-					continue;
-				}
-			}
-
-			// Limit cast count to two in order to ensure that KoLmafia doesn't
-			// make the buff counts too far out of balance.
 
 			if ( duration * castCount > desiredDuration )
 			{
@@ -553,13 +534,27 @@ public abstract class MoodManager
 			{
 				return "cast " + castCount + " " + skillName;
 			}
-			else
+		}
+
+		if ( Preferences.getBoolean( "allowNonMoodBurning" ) )
+		{
+			return MoodManager.considerBreakfastSkill( minimum );
+		}
+
+		return null;
+	}
+
+	private static final boolean effectInMood( AdventureResult effect )
+	{
+		for ( int j = 0; j < MoodManager.displayList.size(); ++j )
+		{
+			if ( effect.equals( ( (MoodTrigger) MoodManager.displayList.get( j ) ).effect ) )
 			{
-				return MoodManager.considerBreakfastSkill( minimum );
+				return true;
 			}
 		}
 
-		return MoodManager.considerBreakfastSkill( minimum );
+		return false;
 	}
 
 	private static final String considerBreakfastSkill( final int minimum )
