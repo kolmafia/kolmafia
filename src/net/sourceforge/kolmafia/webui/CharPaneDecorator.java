@@ -40,19 +40,17 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.MoodManager;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
-
+import net.sourceforge.kolmafia.persistence.EffectDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.UneffectRequest;
-
-import net.sourceforge.kolmafia.persistence.EffectDatabase;
-import net.sourceforge.kolmafia.persistence.Preferences;
-import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.MoodManager;
+import net.sourceforge.kolmafia.utilities.CharacterEntities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CharPaneDecorator
 {
@@ -367,7 +365,11 @@ public class CharPaneDecorator
 			for ( int i = 0; i < missingEffects.size(); ++i )
 			{
 				currentEffect = (AdventureResult) missingEffects.get( i );
-				int effectId = EffectDatabase.getEffectId( currentEffect.getName() );
+
+				String effectName = currentEffect.getName();
+				int effectId = EffectDatabase.getEffectId( effectName );
+				String escapedEffectName = StringUtilities.getEntityEncode( effectName );
+
 				String descriptionId = EffectDatabase.getDescriptionId( effectId );
 
 				buffer.append( "<tr>" );
@@ -377,16 +379,16 @@ public class CharPaneDecorator
 					buffer.append( "<td><img src=\"" );
 					buffer.append( EffectDatabase.getImage( effectId ) );
 					buffer.append( "\" class=hand alt=\"" );
-					buffer.append( currentEffect.getName() );
+					buffer.append( escapedEffectName );
 					buffer.append( "\" title=\"" );
-					buffer.append( currentEffect.getName() );
+					buffer.append( escapedEffectName );
 					buffer.append( "\" onClick='eff(\"" + descriptionId + "\");'></td>" );
 				}
 
 				if ( !GenericRequest.isCompactMode || Preferences.getBoolean( "relayTextualizesEffects" ) )
 				{
 					buffer.append( "<td><font size=2>" );
-					buffer.append( currentEffect.getName() );
+					buffer.append( escapedEffectName );
 				}
 				else
 				{
@@ -396,12 +398,12 @@ public class CharPaneDecorator
 				buffer.append( " (0)</font>&nbsp;<a href=\"/KoLmafia/sideCommand?cmd=" );
 
 				buffer.append( StringUtilities.getURLEncode(
-					MoodManager.getDefaultAction( "lose_effect", currentEffect.getName() ) ) );
+					MoodManager.getDefaultAction( "lose_effect", effectName ) ) );
 
 				buffer.append( "&pwd=" );
 				buffer.append( GenericRequest.passwordHash );
 				buffer.append( "\" title=\"Increase rounds of " );
-				buffer.append( currentEffect.getName() );
+				buffer.append( escapedEffectName );
 				buffer.append( "\"><img src=\"/images/redup.gif\" border=0></a></td></tr>" );
 			}
 		}
@@ -430,6 +432,7 @@ public class CharPaneDecorator
 			}
 
 			String effectName = effect.getName();
+			String escapedEffectName = StringUtilities.getEntityEncode( effectName );
 
 			int nextAppendIndex = text.indexOf( "(", startingIndex ) + 1;
 			buffer.append( text.substring( lastAppendIndex, nextAppendIndex ) );
@@ -447,7 +450,7 @@ public class CharPaneDecorator
 					buffer.delete( deleteIndex, buffer.length() );
 
 					buffer.append( "<td align=right><nobr><font size=2>" );
-					buffer.append( effectName );
+					buffer.append( escapedEffectName );
 					buffer.append( "</font></nobr></td>" );
 				}
 
@@ -508,10 +511,12 @@ public class CharPaneDecorator
 				}
 				else
 				{
-					buffer.append( Character.toUpperCase( removeAction.charAt( 0 ) ) + removeAction.substring( 1 ) + " to remove the " );
+					buffer.append( Character.toUpperCase( removeAction.charAt( 0 ) ) );
+					buffer.append( removeAction.substring( 1 ) );
+					buffer.append( " to remove the " );
 				}
 
-				buffer.append( effectName );
+				buffer.append( escapedEffectName );
 				buffer.append( " effect\"" );
 
 				if ( effectName.indexOf( "Poisoned" ) != -1 || effectName.equals( "Beaten Up" ) )
@@ -553,7 +558,7 @@ public class CharPaneDecorator
 				buffer.append( "&pwd=" );
 				buffer.append( GenericRequest.passwordHash );
 				buffer.append( "\" title=\"Increase rounds of " );
-				buffer.append( effectName );
+				buffer.append( escapedEffectName );
 				buffer.append( "\"><img src=\"/images/" );
 
 				if ( duration <= 5 )

@@ -548,7 +548,7 @@ public class BrowserLauncher
 
 	private static boolean openOverrideBrowser( final String url )
 	{
-		if ( System.getProperty( "os.browser" ) == null )
+		if ( System.getProperty( "os.browser" ) == null || System.getProperty( "os.browser" ).equals( "" ) )
 		{
 			return false;
 		}
@@ -632,7 +632,7 @@ public class BrowserLauncher
 
 	private static final String getWindowsExecutable( String browser, final String url )
 	{
-		if ( System.getProperty( "os.browser" ) != null && BrowserLauncher.executable != null )
+		if ( System.getProperty( "os.browser" ) != null && !System.getProperty( "os.browser" ).equals( "" ) && BrowserLauncher.executable != null )
 		{
 			return BrowserLauncher.executable;
 		}
