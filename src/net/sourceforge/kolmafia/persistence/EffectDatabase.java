@@ -313,11 +313,11 @@ public class EffectDatabase
 			}
 
 			lastInteger = nextInteger.intValue() + 1;
-			writer.print( nextInteger + "\t" + EffectDatabase.descriptionById.get( nextInteger ) + "\t" + EffectDatabase.imageById.get( nextInteger ) );
+			writer.print( nextInteger + "\t" + entry.getValue() + "\t" + EffectDatabase.imageById.get( nextInteger ) );
 
 			if ( EffectDatabase.descriptionById.containsKey( nextInteger ) )
 			{
-				writer.print( "\t" + entry.getValue() );
+				writer.print( "\t" + EffectDatabase.descriptionById.get( nextInteger ) );
 
 				defaultAction =
 					(String) EffectDatabase.defaultActions.get( entry.getValue() );
