@@ -632,11 +632,6 @@ public class BrowserLauncher
 
 	private static final String getWindowsExecutable( String browser, final String url )
 	{
-		if ( System.getProperty( "os.browser" ) != null && !System.getProperty( "os.browser" ).equals( "" ) && BrowserLauncher.executable != null )
-		{
-			return BrowserLauncher.executable;
-		}
-
 		if ( browser.indexOf( ":" ) != -1 )
 		{
 			File alternative = new File( browser );
