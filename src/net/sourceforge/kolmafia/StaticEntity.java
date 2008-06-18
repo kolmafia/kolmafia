@@ -229,6 +229,8 @@ public abstract class StaticEntity
 		( new SystemBrowserThread( location ) ).start();
 	}
 
+	private static String currentBrowser = null;
+
 	private static class SystemBrowserThread
 		extends Thread
 	{
@@ -241,10 +243,12 @@ public abstract class StaticEntity
 
 		public void run()
 		{
-			String browser = Preferences.getString( "preferredWebBrowser" );
-			if ( !browser.equals( "" ) )
+			String preferredBrowser = Preferences.getString( "preferredWebBrowser" );
+
+			if ( currentBrowser == null || !currentBrowser.equals( preferredBrowser ) )
 			{
-				System.setProperty( "os.browser", browser );
+				System.setProperty( "os.browser", preferredBrowser );
+				currentBrowser = preferredBrowser;
 			}
 
 			BrowserLauncher.openURL( this.location );

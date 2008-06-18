@@ -47,6 +47,9 @@ import java.util.regex.Pattern;
 
 public class StringUtilities
 {
+	private static final Map entityEncodeCache = new TreeMap();
+	private static final Map entityDecodeCache = new TreeMap();
+
 	private static final Map urlEncodeCache = new TreeMap();
 	private static final Map urlDecodeCache = new TreeMap();
 
@@ -55,6 +58,63 @@ public class StringUtilities
 
 	private static final Pattern NONINTEGER_PATTERN = Pattern.compile( "[^\\-0-9]" );
 	private static final Pattern NONFLOAT_PATTERN = Pattern.compile( "[^\\-\\.0-9]" );
+
+	/**
+	 * Returns the encoded-encoded version of the provided UTF-8 string.
+	 */
+
+	public static final String getEntityEncode( final String utf8String )
+	{
+		if ( utf8String == null )
+		{
+			return utf8String;
+		}
+
+		String entityString = (String) StringUtilities.entityEncodeCache.get( utf8String );
+
+		if ( entityString == null )
+		{
+			if ( utf8String.indexOf( "&" ) == -1 || utf8String.indexOf( ";" ) == -1 )
+			{
+				entityString = CharacterEntities.escape( utf8String );
+			}
+			else
+			{
+				entityString = utf8String;
+			}
+
+			entityString = StringUtilities.globalStringReplace( entityString, "  ", " " );
+			StringUtilities.entityEncodeCache.put( utf8String, entityString );
+		}
+
+		return entityString;
+	}
+
+	/**
+	 * Returns the UTF-8 version of the provided character entity string.
+	 */
+
+	public static final String getEntityDecode( final String entityString )
+	{
+		if ( entityString == null )
+		{
+			return entityString;
+		}
+
+		String utf8String = (String) StringUtilities.entityDecodeCache.get( entityString );
+
+		if ( utf8String == null )
+		{
+			utf8String = CharacterEntities.unescape( entityString );
+			StringUtilities.entityDecodeCache.put( entityString, utf8String );
+		}
+
+		return utf8String;
+	}
+
+	/**
+	 * Returns the URL-encoded version of the provided URL string.
+	 */
 
 	public static final String getURLEncode( final String url )
 	{
@@ -81,6 +141,10 @@ public class StringUtilities
 
 		return encodedURL;
 	}
+
+	/**
+	 * Returns the URL-decoded version of the provided URL string.
+	 */
 
 	public static final String getURLDecode( final String url )
 	{
@@ -109,11 +173,7 @@ public class StringUtilities
 	}
 
 	/**
-	 * Returns the display name name, where all HTML representations are replaced with their appropriate display
-	 * symbols.
-	 *
-	 * @param name The name to be transformed to display form
-	 * @return The display form of the given name
+	 * Returns the display name for the provided canonical name.
 	 */
 
 	public static final String getDisplayName( final String name )
@@ -127,7 +187,7 @@ public class StringUtilities
 
 		if ( displayName == null )
 		{
-			displayName = CharacterEntities.unescape( name );
+			displayName = StringUtilities.getEntityDecode( name );
 			StringUtilities.displayNameCache.put( name, displayName );
 		}
 
@@ -135,10 +195,7 @@ public class StringUtilities
 	}
 
 	/**
-	 * Returns the canonicalized name, where all symbols are replaced with their HTML representations.
-	 *
-	 * @param name The name to be canonicalized
-	 * @return The canonicalized name
+	 * Returns the canonicalized name for the provided display name.
 	 */
 
 	public static final String getCanonicalName( final String name )
@@ -152,16 +209,7 @@ public class StringUtilities
 
 		if ( canonicalName == null )
 		{
-			if ( name.indexOf( "&" ) == -1 || name.indexOf( ";" ) == -1 )
-			{
-				canonicalName = CharacterEntities.escape( name );
-			}
-			else
-			{
-				canonicalName = name;
-			}
-
-			canonicalName = StringUtilities.globalStringReplace( canonicalName, "  ", " " ).toLowerCase();
+			canonicalName = StringUtilities.getEntityEncode( name ).toLowerCase();
 			StringUtilities.canonicalNameCache.put( name, canonicalName );
 		}
 
