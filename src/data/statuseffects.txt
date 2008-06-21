@@ -512,7 +512,7 @@
 511	Form of...Bird!	wings.gif	01d6a588ff3e955170d2a9d6e74cec81
 512	Cravin' for a Ravin'	glowstick.gif	f6ddd199f57ddb8c6c74e4595c96c6d1
 513	Arcane in the Brain	realbrain.gif	31f972b82e758a2cd28d0270070d5bcb
-514	Weather, Man	raincloud.gif	f3a57418f275cfaaa0bc69b24eb3dd61
+514	Weather, Man	raincloud.gif	f3a57418f275cfaaa0bc69b24eb3dd61	use 1 Climate Colada
 515	Bureaucratized	documents.gif	f3082aab058258f4c69f38b1336c93f8
 516	Liquid Courage	raindrop.gif	f5ed76217a884b3c52c05e6c4484f855
 517	Extra Terrestrial	bigrock.gif	4f44d9eb8922fc512a4b10480e278323
@@ -523,8 +523,8 @@
 522	New and Improved	exclam.gif	0e37dd043a3b0b8d82b20dc0dc5899e2
 523	Extra Sensory Perception	eyes.gif	2cca34cf2648600f341dc5e449af1aa4
 524	Unpopular	sad.gif	70a42e022a0fe19477d8b1adeed519b5
-525	Phoenix, Right?	fire.gif	4ccff5c09faa470c287093ff46eac1fd
-526	Antarctic Memories	snowflake.gif	3a2019c428e67db659941f725b51a88a
-527	Carrion' On	bonepile.gif	447b7c96f0e5c93fb9a64f92850f0b3e
-528	Melancholy Burden	blackbird1.gif	99d1d6de637d4289842cba0ffc2aec19
-529	The Great Tit's Blessing	wink.gif	429a69b3cdc061390828454dd06b6825
+525	Phoenix, Right?	fire.gif	4ccff5c09faa470c287093ff46eac1fd	use 1 glimmering phoenix feather
+526	Antarctic Memories	snowflake.gif	3a2019c428e67db659941f725b51a88a	use 1 glimmering penguin feather
+527	Carrion' On	bonepile.gif	447b7c96f0e5c93fb9a64f92850f0b3e	use 1 glimmering buzzard feather
+528	Melancholy Burden	blackbird1.gif	99d1d6de637d4289842cba0ffc2aec19	use 1 glimmering raven feather
+529	The Great Tit's Blessing	wink.gif	429a69b3cdc061390828454dd06b6825	use 1 glimmering great tit feather
