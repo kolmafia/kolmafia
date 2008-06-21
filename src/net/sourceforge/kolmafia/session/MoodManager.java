@@ -410,11 +410,6 @@ public abstract class MoodManager
 
 	public static final void burnExtraMana( boolean isManualInvocation )
 	{
-		if ( !isManualInvocation && KoLCharacter.canInteract() && KoLCharacter.getCurrentMP() < KoLCharacter.getMaximumMP() )
-		{
-			return;
-		}
-
 		String nextBurnCast;
 
 		MoodManager.isExecuting = true;
@@ -434,11 +429,18 @@ public abstract class MoodManager
 	{
 		// Avoid triggering auto-recovery when mana burning.
 
-		int minimum = Math.max(
-			(int) ( Preferences.getFloat( "manaBurningThreshold" ) * (float) KoLCharacter.getMaximumMP() ),
-			(int) ( Preferences.getFloat( "mpAutoRecovery" ) * (float) KoLCharacter.getMaximumMP() ) ) + 1;
+		int manaBurnThreshold = (int) ( Preferences.getFloat( "manaBurningThreshold" ) * (float) KoLCharacter.getMaximumMP() );
 
-		if ( minimum < 0 || KoLCharacter.getCurrentMP() <= minimum )
+		if ( manaBurnThreshold < 0 )
+		{
+			return null;
+		}
+
+		int manaRecoverTrigger = (int) ( Preferences.getFloat( "mpAutoRecovery" ) * (float) KoLCharacter.getMaximumMP() );
+
+		int minimum = Math.max( manaBurnThreshold, manaRecoverTrigger ) + 1;
+
+		if ( KoLCharacter.getCurrentMP() <= minimum )
 		{
 			return null;
 		}
