@@ -37,7 +37,6 @@ import java.awt.Color;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TreeMap;
@@ -274,14 +273,6 @@ public abstract class ChatManager
 		RequestThread.postRequest( new ChatRequest( ChatManager.currentChannel, "/friends" ) );
 	}
 
-	/**
-	 * Retrieves the chat buffer currently used for storing and saving the currently running chat associated with the
-	 * given contact. If the contact is <code>null</code>, this method returns the main chat.
-	 *
-	 * @param contact Name of the contact
-	 * @return The chat buffer for the given contact
-	 */
-
 	public static final LimitedSizeChatBuffer getChatBuffer( final String contact )
 	{
 		return ChatManager.getChatBuffer( contact, true );
@@ -289,21 +280,21 @@ public abstract class ChatManager
 
 	public static final LimitedSizeChatBuffer getChatBuffer( final String contact, final boolean shouldOpenWindow )
 	{
-		String neededBufferName = ChatManager.getBufferKey( contact );
-		LimitedSizeChatBuffer neededBuffer =
-			(LimitedSizeChatBuffer) ChatManager.instantMessageBuffers.get( neededBufferName );
+		String bufferName = ChatManager.getBufferKey( contact );
+		LimitedSizeChatBuffer buffer =
+			(LimitedSizeChatBuffer) ChatManager.instantMessageBuffers.get( bufferName );
 
 		// This error should not happen, but it's better to be safe than
 		// sorry, so there's a check to make sure that the chat buffer
 		// exists before doing anything with the messages.
 
-		if ( neededBuffer == null )
+		if ( buffer == null )
 		{
-			ChatManager.openInstantMessage( neededBufferName, shouldOpenWindow );
-			neededBuffer = (LimitedSizeChatBuffer) ChatManager.instantMessageBuffers.get( neededBufferName );
+			ChatManager.openInstantMessage( contact, shouldOpenWindow );
+			buffer = (LimitedSizeChatBuffer) ChatManager.instantMessageBuffers.get( bufferName );
 		}
 
-		return neededBuffer;
+		return buffer;
 	}
 
 	/**
@@ -590,12 +581,12 @@ public abstract class ChatManager
 			String[] channels = new String[ channelList.size() ];
 			channelList.toArray( channels );
 
-			ChatManager.openInstantMessage( ChatManager.getBufferKey( ChatManager.currentChannel ), true );
+			ChatManager.openInstantMessage( ChatManager.currentChannel, true );
 
 			for ( int i = 0; i < channels.length; ++i )
 			{
 				channelKey = "/" + KoLConstants.ANYTAG_PATTERN.matcher( channels[ i ] ).replaceAll( "" ).trim();
-				ChatManager.openInstantMessage( ChatManager.getBufferKey( channelKey ), true );
+				ChatManager.openInstantMessage( channelKey, true );
 			}
 
 			return;
@@ -1142,48 +1133,51 @@ public abstract class ChatManager
 	 * Opens an instant message window to the character with the given name so that a private conversation can be
 	 * started.
 	 *
-	 * @param channel The channel to be opened
+	 * @param contact The channel to be opened
 	 */
 
-	public static final void openInstantMessage( final String channel, boolean shouldOpenWindow )
+	public static final void openInstantMessage( final String contact, boolean shouldOpenWindow )
 	{
-		if ( channel == null )
+		if ( contact == null )
 		{
 			return;
 		}
 
 		shouldOpenWindow &= ChatManager.isRunning && !StaticEntity.isHeadless();
 
+		String bufferName = ChatManager.getBufferKey( contact );
+
 		// If the window exists, don't open another one as it
 		// just confuses the disposal issue
 
-		if ( ChatManager.instantMessageBuffers.containsKey( channel ) )
+		if ( ChatManager.instantMessageBuffers.containsKey( bufferName ) )
 		{
 			return;
 		}
 
-		LimitedSizeChatBuffer buffer =
-			new LimitedSizeChatBuffer(
-				KoLCharacter.getUserName() + ": " + channel + " - Started " + Calendar.getInstance().getTime().toString(),
-				true,
-				ChatManager.isRunning && ( !channel.equals( "[main]" ) || Preferences.getBoolean( "useSeparateChannels" ) ) );
+		boolean updateHighlights = ChatManager.isRunning &&
+			( !contact.equals( "[main]" ) || Preferences.getBoolean( "useSeparateChannels" ) );
 
-		ChatManager.instantMessageBuffers.put( channel, buffer );
-		if ( channel.startsWith( "/" ) )
+		LimitedSizeChatBuffer buffer =
+			new LimitedSizeChatBuffer( KoLCharacter.getUserName() + ": " + contact, true, updateHighlights );
+
+		ChatManager.instantMessageBuffers.put( bufferName, buffer );
+
+		if ( contact.startsWith( "/" ) )
 		{
-			ChatManager.currentlyActive.add( channel );
+			ChatManager.currentlyActive.add( contact );
 		}
 
 		if ( shouldOpenWindow )
 		{
 			if ( ChatManager.useTabbedChat )
 			{
-				ChatManager.tabbedFrame.addTab( channel );
+				ChatManager.tabbedFrame.addTab( contact );
 			}
 			else
 			{
 				CreateFrameRunnable creator =
-					new CreateFrameRunnable( ChatFrame.class, new String[] { channel } );
+					new CreateFrameRunnable( ChatFrame.class, new String[] { contact } );
 				if ( SwingUtilities.isEventDispatchThread() )
 				{
 					creator.run();
@@ -1205,10 +1199,10 @@ public abstract class ChatManager
 
 		if ( Preferences.getBoolean( "logChatMessages" ) )
 		{
-			buffer.setActiveLogFile( new File( KoLConstants.CHATLOG_LOCATION, ChatManager.getChatLogName( channel ) ) );
+			buffer.setActiveLogFile( new File( KoLConstants.CHATLOG_LOCATION, ChatManager.getChatLogName( contact ) ) );
 		}
 
-		if ( ChatManager.highlighting && !channel.equals( "[high]" ) )
+		if ( ChatManager.highlighting && !contact.equals( "[high]" ) )
 		{
 			buffer.applyHighlights();
 		}
