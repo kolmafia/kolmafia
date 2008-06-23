@@ -385,8 +385,10 @@ public class ConcoctionDatabase
 		ArrayList ingredientChange = new ArrayList();
 		c.queue( queuedIngredients, ingredientChange, quantity );
 
-		adventureChange -= ConcoctionDatabase.queuedAdventuresUsed;
-		stillChange -= ConcoctionDatabase.queuedStillsUsed;
+		adventureChange = ConcoctionDatabase.queuedAdventuresUsed - adventureChange;
+		AdventureResult.addResultToList(
+			queuedIngredients, new AdventureResult( AdventureResult.ADV, adventureChange ) );
+		stillChange = ConcoctionDatabase.queuedStillsUsed - stillChange;
 
 		queuedChanges.push( new Integer( stillChange ) );
 		queuedChanges.push( new Integer( adventureChange ) );
@@ -439,11 +441,16 @@ public class ConcoctionDatabase
 		int advs = adventureChange.intValue();
 		if ( advs != 0 )
 		{
-			ConcoctionDatabase.queuedAdventuresUsed += advs;
+			ConcoctionDatabase.queuedAdventuresUsed -= advs;
 			AdventureResult.addResultToList(
-				queuedIngredients, new AdventureResult( AdventureResult.ADV, advs ) );
+				queuedIngredients, new AdventureResult( AdventureResult.ADV, -advs ) );
 		}
-		ConcoctionDatabase.queuedStillsUsed += stillChange.intValue();
+
+		int stills = stillChange.intValue();
+		if ( stills != 0 )
+		{
+			ConcoctionDatabase.queuedStillsUsed -= stills;
+		}
 
 		ConcoctionDatabase.queuedFullness -= c.getFullness() * quantity.intValue();
 		ConcoctionDatabase.queuedInebriety -= c.getInebriety() * quantity.intValue();
