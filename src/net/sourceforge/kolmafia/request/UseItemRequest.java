@@ -1719,6 +1719,23 @@ public class UseItemRequest
 
 			ResultProcessor.processResult( item );
 			return;
+
+		case ItemPool.GRUB:
+		case ItemPool.MOTH:
+		case ItemPool.FIRE_ANT:
+		case ItemPool.ICE_ANT:
+		case ItemPool.STINKBUG:
+		case ItemPool.DEATH_WATCH_BEETLE:
+		case ItemPool.LOUSE:
+
+			// You briefly consider eating the plump juicy grub,
+			// but are filled with revulsion at the prospect.
+			if ( responseText.indexOf( "filled with revulsion" ) != -1 )
+			{
+				ResultProcessor.processResult( item );
+			}
+
+			return;
 		}
 	}
 
