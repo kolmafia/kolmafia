@@ -147,6 +147,7 @@ public abstract class ChatManager
 
 	private static boolean enableMonitor = false;
 	private static boolean channelsSeparate = false;
+	private static boolean mergeHobopolis = true;
 	private static boolean eventsIgnored = false;
 
 	private static boolean useTabbedChat = false;
@@ -185,6 +186,7 @@ public abstract class ChatManager
 	{
 		ChatManager.enableMonitor = Preferences.getBoolean( "useChatMonitor" );
 		ChatManager.channelsSeparate = Preferences.getBoolean( "useSeparateChannels" );
+		ChatManager.mergeHobopolis = Preferences.getBoolean( "mergeHobopolisChat" );
 		ChatManager.eventsIgnored = Preferences.getBoolean( "greenScreenProtection" );
 	}
 
@@ -304,7 +306,29 @@ public abstract class ChatManager
 
 	private static final String getBufferKey( final String contact )
 	{
-		return contact == null ? ChatManager.currentChannel : contact.startsWith( "[" ) ? contact : !ChatManager.channelsSeparate && contact.startsWith( "/" ) ? "[main]" : contact.toLowerCase();
+		if ( contact == null )
+		{
+			return ChatManager.currentChannel;
+		}
+
+		if ( contact.startsWith( "[" ) )
+		{
+			return contact;
+		}
+
+		if ( !ChatManager.channelsSeparate && contact.startsWith( "/" ) )
+		{
+			return "[main]";
+		}
+
+		String contactName = contact.toLowerCase();
+
+		if ( ChatManager.mergeHobopolis && contactName.equals( "/hobopolis" ) )
+		{
+			return "/clan";
+		}
+
+		return contactName;
 	}
 
 	/**
