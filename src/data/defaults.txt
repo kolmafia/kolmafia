@@ -84,6 +84,7 @@ global	logStatusEffects	false
 global	logStatusOnLogin	false
 global	lucreCoreLeaderboard	false
 global	mementoListActive	false
+global	mergeHobopolisChat	false
 global	outerChatColor	#b4460f
 global	outerTabColor	#0f46b4
 global	pathedSummonsHardcore	true

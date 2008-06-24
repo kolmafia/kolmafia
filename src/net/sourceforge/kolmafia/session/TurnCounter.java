@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package net.sourceforge.kolmafia.session;
 
@@ -60,7 +60,7 @@ public class TurnCounter
 
 		return this.label.equals( ( (TurnCounter) o ).label ) && this.value == ( (TurnCounter) o ).value;
 	}
-	
+
 	public static final void clearCounters()
 	{
 		relayCounters.clear();
@@ -70,13 +70,13 @@ public class TurnCounter
 	public static final void loadCounters()
 	{
 		relayCounters.clear();
-	
+
 		String counters = Preferences.getString( "relayCounters" );
 		if ( counters.length() == 0 )
 		{
 			return;
 		}
-	
+
 		StringTokenizer tokens = new StringTokenizer( counters, ":" );
 		while ( tokens.hasMoreTokens() )
 		{
@@ -90,32 +90,32 @@ public class TurnCounter
 	public static final void saveCounters()
 	{
 		int currentTurns = KoLCharacter.getCurrentRun();
-	
+
 		StringBuffer counters = new StringBuffer();
 		Iterator it = relayCounters.iterator();
-	
+
 		while ( it.hasNext() )
 		{
 			TurnCounter current = (TurnCounter) it.next();
-	
+
 			if ( current.value < currentTurns )
 			{
 				it.remove();
 				continue;
 			}
-	
+
 			if ( counters.length() > 0 )
 			{
 				counters.append( ":" );
 			}
-	
+
 			counters.append( current.value );
 			counters.append( ":" );
 			counters.append( current.label );
 			counters.append( ":" );
 			counters.append( current.image );
 		}
-	
+
 		Preferences.setString( "relayCounters", counters.toString() );
 	}
 
@@ -125,11 +125,21 @@ public class TurnCounter
 
 		String adventureId;
 		int turnsUsed;
-		
+
 		if ( adventure == null )
 		{
-			adventureId = "";
-			turnsUsed = TurnCounter.getTurnsUsed( request );
+			String adventureName = AdventureDatabase.getUnknownName( request.getURLString() );
+
+			if ( adventureName != null )
+			{
+				adventureId = "";
+				turnsUsed = 1;
+			}
+			else
+			{
+				adventureId = "";
+				turnsUsed = TurnCounter.getTurnsUsed( request );
+			}
 		}
 		else
 		{
@@ -141,29 +151,29 @@ public class TurnCounter
 		{
 			return null;
 		}
-		
+
 		TurnCounter current;
 		int currentTurns = KoLCharacter.getCurrentRun() + turnsUsed - 1;
-	
+
 		TurnCounter expired = null;
 		Iterator it = relayCounters.iterator();
-	
+
 		while ( it.hasNext() )
 		{
 			current = (TurnCounter) it.next();
-	
+
 			if ( current.value > currentTurns )
 			{
 				continue;
 			}
-	
+
 			it.remove();
 			if ( current.value <= currentTurns && !current.isExempt( adventureId ) )
 			{
 				expired = current;
 			}
 		}
-	
+
 		return expired;
 	}
 
@@ -171,31 +181,31 @@ public class TurnCounter
 	{
 		TurnCounter current;
 		int currentTurns = KoLCharacter.getCurrentRun();
-	
+
 		StringBuffer counters = new StringBuffer();
 		Iterator it = relayCounters.iterator();
-	
+
 		while ( it.hasNext() )
 		{
 			current = (TurnCounter) it.next();
-	
+
 			if ( current.value < currentTurns )
 			{
 				it.remove();
 				continue;
 			}
-	
+
 			if ( counters.length() > 0 )
 			{
 				counters.append( KoLConstants.LINE_BREAK );
 			}
-	
+
 			counters.append( current.label );
 			counters.append( " (" );
 			counters.append( current.value - currentTurns );
 			counters.append( ")" );
 		}
-	
+
 		return counters.toString();
 	}
 
@@ -205,9 +215,9 @@ public class TurnCounter
 		{
 			return;
 		}
-	
+
 		TurnCounter counter = new TurnCounter( value, label, image );
-	
+
 		if ( !relayCounters.contains( counter ) )
 		{
 			relayCounters.add( counter );
@@ -227,7 +237,7 @@ public class TurnCounter
 	{
 		TurnCounter current;
 		Iterator it = relayCounters.iterator();
-	
+
 		while ( it.hasNext() )
 		{
 			current = (TurnCounter) it.next();
@@ -236,7 +246,7 @@ public class TurnCounter
 				it.remove();
 			}
 		}
-	
+
 		TurnCounter.saveCounters();
 	}
 
@@ -244,9 +254,9 @@ public class TurnCounter
 	{
 		TurnCounter current;
 		int searchValue = KoLCharacter.getCurrentRun() + value;
-	
+
 		Iterator it = relayCounters.iterator();
-	
+
 		while ( it.hasNext() )
 		{
 			current = (TurnCounter) it.next();
@@ -255,7 +265,7 @@ public class TurnCounter
 				return true;
 			}
 		}
-	
+
 		return false;
 	}
 
@@ -263,7 +273,7 @@ public class TurnCounter
 	{
 		TurnCounter current;
 		Iterator it = TurnCounter.relayCounters.iterator();
-	
+
 		while ( it.hasNext() )
 		{
 			current = (TurnCounter) it.next();
@@ -272,7 +282,7 @@ public class TurnCounter
 				return true;
 			}
 		}
-	
+
 		return false;
 	}
 
@@ -282,10 +292,10 @@ public class TurnCounter
 		{
 			return request.getAdventuresUsed();
 		}
-		
+
 		String path = request.getPath();
 		int turnMultiplier = 0;
-		
+
 		if ( path.equals( "cook.php" ) )
 		{
 			turnMultiplier = KoLCharacter.hasChef() ? 0 : 1;
@@ -302,9 +312,9 @@ public class TurnCounter
 		{
 			turnMultiplier = 3;
 		}
-		
+
 		String action = request.getFormField( "action" );
-		
+
 		if ( action != null )
 		{
 			if ( action.equals( "wokcook" ) )
@@ -316,20 +326,20 @@ public class TurnCounter
 				turnMultiplier = 0;
 			}
 		}
-				
+
 		if ( turnMultiplier == 0 )
 		{
 			return 0;
 		}
-		
+
 		String quantity = request.getFormField( "quantity" );
-		
+
 		if ( quantity == null || quantity.length() == 0 )
 		{
 			return 0;
 		}
-		
+
 		return turnMultiplier * StringUtilities.parseInt( quantity );
 	}
-	
+
 }

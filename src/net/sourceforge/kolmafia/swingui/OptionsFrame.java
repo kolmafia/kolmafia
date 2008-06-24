@@ -586,6 +586,7 @@ public class OptionsFrame
 		{
 			{ "useTabbedChatFrame", "Use tabbed, rather than multi-window, chat" },
 			{ "useSeparateChannels", "Put different channels into separate displays" },
+			{ "mergeHobopolisChat", "Merge /clan and /hobopolis channel displays" },
 			{ "chatLinksUseRelay", "Use the relay browser when clicking on chat links" },
 			{},
 			{ "greenScreenProtection", "Ignore all event messages in KoLmafia chat" },
