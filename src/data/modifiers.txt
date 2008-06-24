@@ -417,7 +417,7 @@ Squeezebox of the Ages	Moxie: +11, Ranged Damage: +15
 Staff of Blood and Pudding	Spell Damage Percent: +25, Maximum HP: +15, MP Regen Min: 2, MP Regen Max: 3
 Staff of the Grand Flamb&eacute;	Spell Damage Percent: +150, Cold Resistance: +5, MP Regen Min: 8, MP Regen Max: 10
 Staff of the Grease Trap	Spell Damage Percent: +150, Sleaze Spell Damage: +20, MP Regen Min: 8, MP Regen Max: 10
-Staff of the Greasefire	Spell Damage Percent: +35, MP Regen Min: 3, MP Regen Max: 4
+Staff of the Greasefire	Spell Damage Percent: +35, Hot Spell Damage: +10, Sleaze Spell Damage: +10, MP Regen Min: 3, MP Regen Max: 4
 Staff of the Kitchen Floor	Spell Damage Percent: +150, Stench Spell Damage: +20, MP Regen Min: 8, MP Regen Max: 10
 Staff of the Midnight Snack	Spell Damage Percent: +20, Spooky Spell Damage: +10, MP Regen Min: 2, MP Regen Max: 3
 Staff of the Short Order Cook	Spell Damage Percent: +20, Mysticality: +5, MP Regen Min: 2, MP Regen Max: 3
@@ -1305,7 +1305,6 @@ Grimacite greaves	Moxie Percent: +0, Initiative: +20
 Grimacite guayabera	Monster Level: +0
 
 Jekyllin hide belt	Muscle: +0, Mysticality: +0, Moxie: +0, Item Drop: +0, Softcore Only
-Staff of the Greasefire	Spell Damage Percent: +35, Hot Spell Damage: +10, Sleaze Spell Damage: +10
 
 Talisman of Baio	Muscle Percent: +0, Mysticality Percent: +0, Moxie Percent: +0
 
