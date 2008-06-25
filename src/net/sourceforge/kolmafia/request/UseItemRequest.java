@@ -650,31 +650,33 @@ public class UseItemRequest
 
 		int consumptionType = ItemDatabase.getConsumptionType( item.getItemId() );
 
-		if ( consumptionType == KoLConstants.NO_CONSUME )
-		{
-			return;
-		}
-
-		if ( consumptionType == KoLConstants.INFINITE_USES )
-		{
-			return;
-		}
-
-		if ( consumptionType == KoLConstants.MESSAGE_DISPLAY )
-		{
-			if ( !LoginRequest.isInstanceRunning() )
-			{
-				UseItemRequest.showItemUsage( showHTML, responseText, true );
-			}
-
-			return;
-		}
-
 		// Assume initially that this causes the item to disappear.
 		// In the event that the item is not used, then proceed to
 		// undo the consumption.
 
-		ResultProcessor.processResult( item.getNegation() );
+		switch ( consumptionType )
+		{
+		case KoLConstants.NO_CONSUME:
+			return;
+
+		case KoLConstants.MESSAGE_DISPLAY:
+			UseItemRequest.showItemUsage( showHTML, responseText, true );
+			return;
+
+		case KoLConstants.CONSUME_ZAP:
+		case KoLConstants.EQUIP_FAMILIAR:
+		case KoLConstants.EQUIP_ACCESSORY:
+		case KoLConstants.EQUIP_HAT:
+		case KoLConstants.EQUIP_PANTS:
+		case KoLConstants.EQUIP_WEAPON:
+		case KoLConstants.EQUIP_OFFHAND:
+		case KoLConstants.EQUIP_CONTAINER:
+		case KoLConstants.INFINITE_USES:
+			break;
+
+		default:
+			ResultProcessor.processResult( item.getNegation() );
+		}
 
 		// Check for familiar growth - if a familiar is added,
 		// make sure to update the StaticEntity.getClient().
