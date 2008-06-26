@@ -88,7 +88,7 @@ public class AdventureSelectPanel
 {
 	private ExecuteButton begin;
 	private JComboBox actionSelect;
-	
+
 	private boolean isUpdating = false;
 
 	private TreeMap zoneMap;
@@ -175,7 +175,7 @@ public class AdventureSelectPanel
 
 	public void updateSelectedAdventure( final KoLAdventure location )
 	{
-		if ( this.locationSelect.getSelectedValue() == location || !KoLConstants.conditions.isEmpty() )
+		if ( !KoLConstants.conditions.isEmpty() )
 		{
 			return;
 		}
@@ -187,6 +187,11 @@ public class AdventureSelectPanel
 		else
 		{
 			( (JComboBox) this.zoneSelect ).setSelectedItem( location.getParentZoneDescription() );
+		}
+
+		if ( this.locationSelect.getSelectedValue() == location && Preferences.getInteger( "currentBountyItem" ) == 0 )
+		{
+			return;
 		}
 
 		this.locationSelect.setSelectedValue( location, true );
@@ -288,7 +293,7 @@ public class AdventureSelectPanel
 			}
 		}
 	}
-	
+
 	private boolean isUpdating()
 	{
 		return ( KoLmafia.isAdventuring() && KoLConstants.conditions.isEmpty() ) || this.isUpdating;
@@ -308,7 +313,7 @@ public class AdventureSelectPanel
 			{
 				return;
 			}
-			
+
 			KoLConstants.conditions.clear();
 			AdventureSelectPanel.this.fillCurrentConditions();
 		}
@@ -363,7 +368,8 @@ public class AdventureSelectPanel
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "No location selected." );
 				return;
 			}
-			
+
+			RequestThread.openRequestSequence();
 			AdventureSelectPanel.this.isUpdating = true;
 
 			// If there are conditions in the condition field, be
@@ -371,7 +377,7 @@ public class AdventureSelectPanel
 
 			boolean conditionsActive = AdventureSelectPanel.this.conditionsFieldActive.isSelected();
 			String conditionList = AdventureSelectPanel.this.conditionField.getText().trim().toLowerCase();
-			
+
 			Object stats = null;
 			int substatIndex = KoLConstants.conditions.indexOf( KoLConstants.tally.get( 2 ) );
 
@@ -391,18 +397,17 @@ public class AdventureSelectPanel
 			}
 
 			boolean shouldAdventure = true;
-			RequestThread.openRequestSequence();
 
 			if ( conditionsActive && conditionList.length() > 0 && !conditionList.equals( "none" ) )
 			{
 				shouldAdventure = this.handleConditions( conditionList, request );
 			}
 
+			AdventureSelectPanel.this.isUpdating = false;
 			RequestThread.closeRequestSequence();
 
 			if ( !shouldAdventure )
 			{
-				AdventureSelectPanel.this.isUpdating = false;
 				return;
 			}
 
@@ -419,8 +424,6 @@ public class AdventureSelectPanel
 			{
 				AdventureSelectPanel.this.countField.setValue( KoLCharacter.getAdventuresLeft() );
 			}
-
-			AdventureSelectPanel.this.isUpdating = false;
 		}
 
 		private boolean handleConditions( final String conditionList, final KoLAdventure request )
