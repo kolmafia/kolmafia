@@ -41,6 +41,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
@@ -1316,22 +1317,26 @@ public class ItemDatabase
 		writer = LogStream.openStream( output, true );
 		writer.println( KoLConstants.ITEMDESCS_VERSION );
 
-		it = ItemDatabase.descriptionById.keySet().iterator();
+		it = ItemDatabase.descriptionById.entrySet().iterator();
+
 		while ( it.hasNext() )
 		{
-			Integer id = (Integer) it.next();
+			Entry entry = (Entry) it.next();
+
+			Integer id = (Integer) entry.getKey();
 			int i = id.intValue();
+
 			if ( i < 0 )
 			{
 				continue;
 			}
 
-			if ( ItemDatabase.descriptionById.get( id ).equals( "" ) )
+			if ( entry.getValue().equals( "" ) )
 			{
 				continue;
 			}
 
-			writer.println( i + "\t" + ItemDatabase.descriptionById.get( id ) + "\t" + ItemDatabase.nameById.get( id ) + "\t" + ItemDatabase.pluralById.get( i ) );
+			writer.println( i + "\t" + entry.getValue() + "\t" + ItemDatabase.nameById.get( id ) + "\t" + ItemDatabase.pluralById.get( i ) );
 		}
 
 		writer.close();

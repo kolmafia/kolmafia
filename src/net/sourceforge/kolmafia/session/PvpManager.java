@@ -38,6 +38,7 @@ import java.io.File;
 import java.io.PrintStream;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -145,12 +146,14 @@ public class PvpManager
 		spreadsheet.println( "Name\tTattoos\t\tTrophies\t\tFlowers\t\tCanadians" );
 		spreadsheet.println( "\tLow\tHigh\tLow\tHigh\tLow\tHigh\tLow\tHigh" );
 
-		Iterator keys = minis.keySet().iterator();
+		Iterator minisIterator = minis.entrySet().iterator();
 
-		while ( keys.hasNext() )
+		while ( minisIterator.hasNext() )
 		{
-			Object key = keys.next();
-			Object[] value = (Object[]) minis.get( key );
+			Entry entry = (Entry) minisIterator.next();
+
+			Object key = entry.getKey();
+			Object[] value = (Object[]) entry.getValue();
 
 			boolean shouldPrint = false;
 			for ( int i = 0; i < value.length; i += 2 )
