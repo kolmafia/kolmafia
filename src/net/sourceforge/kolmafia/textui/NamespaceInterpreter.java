@@ -34,21 +34,16 @@
 package net.sourceforge.kolmafia.textui;
 
 import java.io.File;
-
 import java.util.Iterator;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.Preferences;
-import net.sourceforge.kolmafia.textui.ScriptException;
-import net.sourceforge.kolmafia.textui.parsetree.Function;
 import net.sourceforge.kolmafia.textui.parsetree.Scope;
-import net.sourceforge.kolmafia.textui.parsetree.Type;
-import net.sourceforge.kolmafia.textui.parsetree.Value;
 import net.sourceforge.kolmafia.textui.parsetree.VariableList;
-import net.sourceforge.kolmafia.textui.parsetree.VariableReference;
 
 public class NamespaceInterpreter
 	extends Interpreter
@@ -78,12 +73,14 @@ public class NamespaceInterpreter
 
 		if ( !shouldRefresh )
 		{
-			Iterator it = imports.keySet().iterator();
+			Iterator it = imports.entrySet().iterator();
 
 			while ( it.hasNext() && !shouldRefresh )
 			{
-				File file = (File) it.next();
-				shouldRefresh = ( (Long) imports.get( file ) ).longValue() != file.lastModified();
+				Entry entry = (Entry) it.next();
+
+				File file = (File) entry.getValue();
+				shouldRefresh = ( (Long) entry.getValue() ).longValue() != file.lastModified();
 			}
 		}
 
