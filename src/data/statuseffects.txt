@@ -501,12 +501,12 @@
 500
 501
 502
-503
-504
-505
-506
+503	Trepandation	plothole.gif	351388e013020a8a6903b73814fec155
+504	Educated (Kinda)	eyes.gif	93e8854157c14c46a1b27daa27f1350e
+505	Educated (Sorta)	eyes.gif	8fe585ee3e637b86651ead4dad5c446d
+506	It Didn't Kill You	strboost.gif	31c3f8589619686bc3b0dd16f5094dd8
 507
-508
+508	Hooked Up	jigawatts.gif	4b571247a84c748457f1542e7869d413
 509
 510	Shape of...Mole!	mole.gif	aa5dbfa1d618e2f5b0e863cca3d03f1f
 511	Form of...Bird!	wings.gif	01d6a588ff3e955170d2a9d6e74cec81

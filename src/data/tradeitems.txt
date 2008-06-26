@@ -3124,23 +3124,23 @@
 3123	divine champagne flute	0	all	0
 3124	fruitfilm	4	all	35
 3125	piece of after eight	4	all	35
-3126
+3126	hobo nickel	0	display	0
 3127	sandcastle	3	all	300
 3128	marshmallow	0	all	0
 3129	roasted marshmallow	1	all	0
 3130	strange shiny disc	0	all	0
-3131
-3132
-3133
-3134
-3135
-3136
-3137
+3131	tin cup of mulligan stew	1	all	0
+3132	flamin' bindle	12	all	150
+3133	freezin' bindle	12	all	150
+3134	stinkin' bindle	12	all	150
+3135	spooky bindle	12	all	150
+3136	sleazy bindle	12	all	150
+3137	&quot;WILL WORK FOR BOOZE&quot; sign	13	all	110
 3138
 3139
-3140
-3141
-3142
+3140	old soft shoes	8	display	250
+3141	panhandle panhandling hat	9	all	125
+3142	cup of infinite pencils	13	all	75
 3143
 3144
 3145	El Vibrato translator	8	display	500
@@ -3218,49 +3218,49 @@
 3217	El Vibrato Megadrone	5	display	500
 3218	purple glowstick	8	display	0
 3219	sane hatrack	5	all	0
-3220
-3221
-3222
-3223
-3224
-3225
-3226
-3227
-3228
-3229
-3230
+3220	hobo code binder	13	display	0
+3221	gator skin	0	all	50
+3222	gatorskin umbrella	12	all	145
+3223	sewer nuggets	0	all	55
+3224	sewer wad	3	all	253
+3225	bottle of sewage schnapps	2	all	34
+3226	bottle of Ooze-O	2	all	75
+3227	C. H. U. M. chum	1	all	45
+3228	unfortunate dumplings	1	all	15
+3229	decaying goldfish liver	0	all	48
+3230	oil of oiliness	3	all	85
 3231	tattered paper crown	9	display	0
 3232	vanilla-frosted king cake	1	display	0
 3233	inflatable duck	8	all	50
 3234	water wings	8	all	50
 3235	foam noodle	8	all	50
-3236
-3237
-3238
-3239
-3240
-3241
-3242
-3243
-3244
-3245
-3246
-3247
-3248
+3236	Kissin' Cousins	3	all	0
+3237	Tales from the Fireside	3	all	0
+3238	Blizzards I Have Died In	3	all	0
+3239	Maxing, Relaxing	3	all	0
+3240	Biddy Cracker's Old-Fashioned Cookbook	3	all	0
+3241	Travels with Jerry	3	all	0
+3242	Let Me Be!	3	all	0
+3243	Asleep in the Cemetery	3	all	0
+3244	Summer Nights	3	all	0
+3245	Sensual Massage for Creeps	3	all	0
+3246	Ol' Scratch's ol' britches	10	display	0
+3247	Ol' Scratch's stovepipe hat	9	display	0
+3248	Ol' Scratch's ash can	13	display	0
 3249	pink plastic baby	8	all	0
 3250	silver sausage	13	display	0
-3251
-3252
-3253
-3254
-3255
-3256
-3257
-3258
-3259
-3260
-3261
-3262
+3251	Frosty's old silk hat	9	display 0
+3252	Frosty's carrot	8	display	0
+3253	Frosty's nailbat	12	display	0
+3254	Oscus's pelt	8	display	0
+3255	Wand of Oscus	13	display	0
+3256	Oscus's dumpster waders	10	display	0
+3257	Zombo's skullcap	9	display	0
+3258	Zombo's shield	13	display	0
+3259	Zombo's grievous greaves	10	display	0
+3260	Chester's moustache	8	display	0
+3261	Chester's bag of candy	12	display	0
+3262	Chester's cutoffs	10	display	0
 3263	Sp'n-Zor's Grimoire of &quot;Tasteful&quot; Gifts	3	all	0
 3264	black candygram	4	display	0
 3265	bag of Crotchety Pine saplings	13	none	0
@@ -3282,9 +3282,9 @@
 3281	blue plasma ball	3	gift	5
 3282	stick-on eyebrow piercing	8	gift	5
 3283	delicious salad	1	display	1
-3284
-3285
-3286
+3284	C. H. U. M. lantern	13	all	125
+3285	C. H. U. M. knife	12	all	75
+3286	Frosty's snowball sack	12	display	0
 3287	quasi-ethereal macaroni fragments	3	display	200
 3288	shimmering tendrils	3	display	500
 3289	scintillating powder	3	display	400
@@ -3308,47 +3308,47 @@
 3307
 3308
 3309
-3310
-3311
-3312
-3313
-3314
-3315
-3316
-3317
-3318
-3319
-3320
+3310	sealskin drum	13	display	0
+3311	washboard shield	13	display	0
+3312	spaghetti-box banjo	13	display	0
+3313	marinara jug	13	display	0
+3314	makeshift castanets	13	display	0
+3315	left-handed melodica	13	display	0
+3316	epic wad	3	all	0
+3317	lucky bottlecap	8	all	250
+3318	corncob pipe	8	all	200
+3319	Mr. Joe's bangles	8	all	200
+3320	frayed rope belt	8	all	200
 3321	packet of mayfly bait	3	all	0
 3322	mayfly bait necklace	8	display	0
-3323
-3324
-3325
-3326
-3327
-3328
-3329
+3323	Ol' Scratch's salad fork	3	all	0
+3324	Frosty's frosty mug	3	all	0
+3325	jar of fermented pickle juice	3	all	0
+3326	voodoo snuff	3	all	0
+3327	extra-greasy slider	1	all	0
+3328	crumpled felt fedora	9	display	250
+3329	battered old top-hat	9	display	150
 3330
 3331
-3332
+3332	hobo dungarees	10	display	150
 3333
-3334
-3335
-3336
-3337
-3338
-3339
-3340
-3341
+3334	hobo stogie	8	display	200
+3335	rope with some soap on it	8	display	150
+3336	dead guy's piece of double-sided tape	3	all	0
+3337	dead guy's memento	8	all	0
+3338	frozen banquet	1	all	0
+3339	sharpened hubcap	0	display	100
+3340	very large caltrop	0	display	150
+3341	
 3342
-3343
-3344
-3345
-3346
-3347
-3348
+3343	tiny bindle	7	all	75
+3344	bed of coals	3	all	0
+3345	frigid air mattress	3	all	0
+3346	filth-encrusted futon	3	all	0
+3347	comfy coffin	3	all	0
+3348	stained mattress	3	all	0
 3349
-3350
+3350	Ralph IX cognac	2	all	0
 3351	llama lama cria	5	all	0
 3352	zen motorcycle	7	all	75
 3353	llama lama gong	3	all	0
@@ -3373,3 +3373,45 @@
 3372	glimmering raven feather	4	all	100
 3373	glimmering great tit feather	4	all	100
 3374	house of twigs and spit	3	display	1000
+3375	The Ballad of Richie Thingfinder	3	all	0
+3376	Benetton's Medley of Diversity	3	all	0
+3377	Elron's Explosive Etude	3	all	0
+3378	Chorale of Companionship	3	all	0
+3379	Prelude of Precision	3	all	0
+3380	Ol' Scratch's infernal pitchfork	12	display	0
+3381	Ol' Scratch's stove door	13	display	0
+3382	Ol' Scratch's manacles	8	display	0
+3383	Chester's sunglasses	8	display	0
+3384	Chester's muscle shirt	11	display	0
+3385	Chester's Aquarius medallion	8	display	0
+3386	Zombo's shoulder blade	12	display	0
+3387	Zombo's skull ring	8	display	0
+3388	Zombo's empty eye	0	display	10000
+3389	Frosty's arm	12	display	0
+3390	Staff of the Deepest Freeze	12	display	0
+3391	Frosty's iceball	0	display	10000
+3392	Oscus's garbage can lid	13	display	0
+3393	Oscus's neverending soda	3	display	10000
+3394	Oscus's flypaper pants	10	display	0
+3395	Hodgman's porkpie hat	9	display	0
+3396	Hodgman's lobsterskin pants	10	display	0
+3397	Hodgman's bow tie	8	display	0
+3398	Hodgman's blanket	2	all	0
+3399	jar of squeeze	2	all	0
+3400	bowl of fishysoisse	1	all	0
+3401	deadly lampshade	3	all	0
+3402	concentrated garbage juice	3	all	0
+3403	lewd playing card	3	all	0
+3404
+3405	Hodgman's lucky sock	8	display	0
+3406	Hodgman's varcolac paw	13	display	0
+3407
+3408
+3409	Hodgman's garbage sticker	13	display	0
+3410
+3411
+3412	Hodgman's journal #1: The Lean Times	3	all	0
+3413	Hodgman's journal #2: Entrepreneurythmics	3	all	0
+3414	Hodgman's journal #3: Pumping Tin	3	all	0
+3415	Hodgman's journal #4: View From The Big Top	3	all	0
+3416	hobo fortress blueprints	3	all	0
