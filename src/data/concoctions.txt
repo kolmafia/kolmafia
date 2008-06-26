@@ -423,6 +423,7 @@ bottle of Definit	17	bottle of vodka
 bottle of Domesticated Turkey	17	bottle of whiskey
 bottle of Jorge Sinsonte	17	bottle of tequila
 bottle of Lieutenant Freeman	17	bottle of rum
+bottle of Ooze-O	17	bottle of sewage schnapps
 boxed champagne	17	boxed wine
 
 cocktail onion	18	olive
@@ -692,6 +693,7 @@ sleaze nuggets	23	sleaze powder (5)
 twinkly wad	23	twinkly nuggets (5)
 hot wad	23	hot nuggets (5)
 cold wad	23	cold nuggets (5)
+sewer wad	23	sewer nuggets (5)
 spooky wad	23	spooky nuggets (5)
 stench wad	23	stench nuggets (5)
 sleaze wad	23	sleaze nuggets (5)
@@ -730,6 +732,7 @@ eyedrops of the ermine	5	scrumptious reagent	strawberry
 libation of liveliness	5	scrumptious reagent	grapes
 milk of magnesium	5	scrumptious reagent	glass of goat's milk
 oil of expertise	5	scrumptious reagent	cherry
+oil of oiliness	5	scrumptious reagent	decaying goldfish liver
 oil of slipperiness	5	scrumptious reagent	jumbo olive
 oil of stability	5	scrumptious reagent	lime
 ointment of the occult	5	scrumptious reagent	grapefruit
@@ -828,6 +831,7 @@ Knob sausage chow mein	22	Knob sausage stir-fry	dry noodles	MSG
 pr0n chow mein	22	pr0n stir-fry	dry noodles	MSG
 rat appendix chow mein	22	rat appendix stir-fry	dry noodles	MSG
 tofu chow mein	22	tofu stir-fry	dry noodles	MSG
+unfortunate dumplings	22	C. H. U. M. chum	dry noodles	MSG
 
 cold and sour sauce	21	scrumdiddlyumptious solution	cold nuggets
 hot and sour sauce	21	scrumdiddlyumptious solution	hot nuggets
@@ -950,6 +954,7 @@ Staff of the Kitchen Floor	26	linoleum staff	stinky hi mein (3)	stinky mushroom 
 Staff of the Walk-In Freezer	26	ram stick	cold hi mein (3)	icy mushroom wine	cold wad (10)	frozen feather
 Staff of the Grand Flamb&eacute;	26	smoldering staff	hot hi mein (3)	flaming mushroom wine	hot wad (10)	flaming feather
 Staff of the Grease Trap	26	giant cheesestick	sleazy hi mein (3)	flat mushroom wine	sleaze wad (10)	flirtatious feather
+Staff of the Deepest Freeze	26	Frosty's arm	bowl of fishysoisse	icy mushroom wine (3)	epic wad	glacial sapphire (3)	frigid mote
 
 
 # Recipes that involve multi-using a quantity of an item

@@ -3130,23 +3130,23 @@
 3123	192429115	divine champagne flute	divine champagne flutes
 3124	480977247	fruitfilm	fruitfilms
 3125	653012160	piece of after eight	pieces of after eight
-3126
+3126	972721571	hobo nickel
 3127	445850699	sandcastle	sandcastles
 3128	555622888	marshmallow	marshmallows
 3129	498235185	roasted marshmallow	roasted marshmallows
 3130	722107846	strange shiny disc	strange shiny discs
-3131
-3132
-3133
-3134
-3135
-3136
-3137
+3131	334311392	tin cup of mulligan stew	tin cups of mulligan stew
+3132	556659510	flamin' bindle
+3133	338028007	freezin' bindle
+3134	125255229	stinkin' bindle
+3135	116664322	spooky bindle
+3136	999673147	sleazy bindle
+3137	828428600	&quot;WILL WORK FOR BOOZE&quot; sign
 3138
 3139
-3140
-3141
-3142
+3140	114249239	old soft shoes
+3141	678352310	panhandle panhandling hat
+3142	772668061	cup of infinite pencils
 3143
 3144
 3145	778803106	El Vibrato translator
@@ -3224,49 +3224,49 @@
 3217	193025375	El Vibrato Megadrone
 3218	180768335	purple glowstick	purple glowstyx
 3219	652434605	sane hatrack	sane hatrackers
-3220
-3221
-3222
-3223
-3224
-3225
-3226
-3227
-3228
-3229
-3230
+3220	608608209	hobo code binder
+3221	417149275	gator skin
+3222	607654468	gatorskin umbrella
+3223	748371286	sewer nuggets	clusters of sewer nuggets
+3224	843818484	sewer wad
+3225	985553213	bottle of sewage schnapps	bottles of sewage schnapps
+3226	708971479	bottle of Ooze-O	bottles of Ooze-O
+3227	603451254	C. H. U. M. chum	handfuls of C. H. U. M. chum
+3228	815060531	unfortunate dumplings	bowls of unfortunate dumplings
+3229	194632954	decaying goldfish liver
+3230	133463686	oil of oiliness	flasks of oil of oiliness
 3231	380893218	tattered paper crown
 3232	787163245	vanilla-frosted king cake
 3233	199932706	inflatable duck
 3234	190515908	water wings
 3235	265675713	foam noodle
-3236
-3237
-3238
-3239
-3240
-3241
-3242
-3243
-3244
-3245
-3246
-3247
-3248
+3236	831722443	Kissin' Cousins
+3237	186707798	Tales from the Fireside
+3238	374672848	Blizzards I Have Died In
+3239	664515385	Maxing, Relaxing
+3240	136121854	Biddy Cracker's Old-Fashioned Cookbook
+3241	499215664	Travels with Jerry
+3242	183602575	Let Me Be!
+3243	801300658	Asleep in the Cemetery
+3244	682348153	Summer Nights
+3245	543030767	Sensual Massage for Creeps
+3246	175959334	Ol' Scratch's ol' britches
+3247	288475507	Ol' Scratch's stovepipe hat
+3248	878278248	Ol' Scratch's ash can
 3249	865689800	pink plastic baby
 3250	115200303	silver sausage
-3251
-3252
-3253
-3254
-3255
-3256
-3257
-3258
-3259
-3260
-3261
-3262
+3251	535393288	Frosty's old silk hat
+3252	418045597	Frosty's carrot
+3253	208890943	Frosty's nailbat
+3254	586085772	Oscus's pelt
+3255	872696571	Wand of Oscus
+3256	878350523	Oscus's dumpster waders
+3257	970898531	Zombo's skullcap
+3258	935290105	Zombo's shield
+3259	587267531	Zombo's grievous greaves
+3260	519707440	Chester's moustache
+3261	628538543	Chester's bag of candy
+3262	505652258	Chester's cutoffs
 3263	558318053	Sp'n-Zor's Grimoire of &quot;Tasteful&quot; Gifts	Sp'n-Zor's Grimoires of &quot;Tasteful&quot; Gifts
 3264	647531205	black candygram	black candygrams
 3265	983680869	bag of Crotchety Pine saplings
@@ -3288,9 +3288,9 @@
 3281	670556086	blue plasma ball
 3282	162403258	stick-on eyebrow piercing
 3283	599355193	delicious salad	bowls of delicious salad
-3284
-3285
-3286
+3284	787484881	C. H. U. M. lantern
+3285	253069991	C. H. U. M. knife	C. H. U. M. knives
+3286	858648754	Frosty's snowball sack
 3287	806903125	quasi-ethereal macaroni fragments
 3288	221770723	shimmering tendrils
 3289	712356699	scintillating powder
@@ -3314,47 +3314,47 @@
 3307
 3308
 3309
-3310
-3311
-3312
-3313
-3314
-3315
-3316
-3317
-3318
-3319
-3320
+3310	991608648	sealskin drum
+3311	202540664	washboard shield
+3312	410330006	spaghetti-box banjo
+3313	402193751	marinara jug
+3314	527093822	makeshift castanets
+3315	193779227	left-handed melodica
+3316	987134809	epic wad
+3317	436834470	lucky bottlecap
+3318	425482016	corncob pipe
+3319	419047697	Mr. Joe's bangles
+3320	398731027	frayed rope belt
 3321	876664237	packet of mayfly bait
 3322	454243766	mayfly bait necklace
-3323
-3324
-3325
-3326
-3327
-3328
-3329
+3323	113028478	Ol' Scratch's salad fork
+3324	636162743	Frosty's frosty mug
+3325	779834964	jar of fermented pickle juice	jars of fermented pickle juice
+3326	349482650	voodoo snuff	cans of voodoo snuff
+3327	549862155	extra-greasy slider
+3328	732914439	crumpled felt fedora
+3329	151934208	battered old top-hat
 3330
 3331
-3332
+3332	786774617	hobo dungarees
 3333
-3334
-3335
-3336
-3337
-3338
-3339
-3340
+3334	278044943	hobo stogie
+3335	815191941	rope with some soap on it
+3336	687594503	dead guy's piece of double-sided tape
+3337	226969528	dead guy's memento
+3338	380450499	frozen banquet
+3339	194177152	sharpened hubcap
+3340	777599179	very large caltrop
 3341
 3342
-3343
-3344
-3345
-3346
-3347
-3348
+3343	661779077	tiny bindle
+3344	437736715	bed of coals
+3345	527732082	frigid air mattress
+3346	776771033	filth-encrusted futon
+3347	324466516	comfy coffin
+3348	736849781	stained mattress
 3349
-3350
+3350	831950641	Ralph IX cognac
 3351	821134174	llama lama cria	llama lama criae
 3352	915431949	zen motorcycle
 3353	450667217	llama lama gong
@@ -3379,3 +3379,45 @@
 3372	819133201	glimmering raven feather
 3373	634790806	glimmering great tit feather
 3374	745177190	house of twigs and spit
+3375	141228944	The Ballad of Richie Thingfinder
+3376	258185206	Benetton's Medley of Diversity
+3377	220021939	Elron's Explosive Etude
+3378	701686239	Chorale of Companionship
+3379	243581726	Prelude of Precision
+3380	576715255	Ol' Scratch's infernal pitchfork
+3381	355068482	Ol' Scratch's stove door
+3382	877578886	Ol' Scratch's manacles
+3383	898058153	Chester's sunglasses
+3384	803397279	Chester's muscle shirt
+3385	795271370	Chester's Aquarius medallion
+3386	909940484	Zombo's shoulder blade
+3387	202391134	Zombo's skull ring
+3388	166850527	Zombo's empty eye
+3389	968257348	Frosty's arm
+3390	233793961	Staff of the Deepest Freeze	Staves of the Deepest Freeze
+3391	380631575	Frosty's iceball
+3392	203629025	Oscus's garbage can lid
+3393	445347637	Oscus's neverending soda
+3394	138953077	Oscus's flypaper pants
+3395	667103288	Hodgman's porkpie hat
+3396	159000068	Hodgman's lobsterskin pants
+3397	377044137	Hodgman's bow tie
+3398	211737724	Hodgman's blanket	flasks of Hodgman's blanket
+3399	462827145	jar of squeeze	jars of squeeze
+3400	807905263	bowl of fishysoisse	bowls of fishysoisse
+3401	663239943	deadly lampshade
+3402	637820129	concentrated garbage juice
+3403	683821625	lewd playing card
+3404
+3405	494251681	Hodgman's lucky sock
+3406	307397478	Hodgman's varcolac paw
+3407
+3408
+3409	874739671	Hodgman's garbage sticker
+3410
+3411
+3412	443125100	Hodgman's journal #1: The Lean Times
+3413	359048124	Hodgman's journal #2: Entrepreneurythmics
+3414	456659256	Hodgman's journal #3: Pumping Tin
+3415	435985770	Hodgman's journal #4: View From The Big Top
+3416	128693993	hobo fortress blueprints
