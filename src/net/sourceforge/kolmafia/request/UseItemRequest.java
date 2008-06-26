@@ -648,7 +648,7 @@ public class UseItemRequest
 		AdventureResult item = UseItemRequest.lastItemUsed;
 		UseItemRequest.resetItemUsed();
 
-		int consumptionType = ItemDatabase.getConsumptionType( item.getItemId() );
+		int consumptionType = UseItemRequest.getConsumptionType( item );
 
 		// Assume initially that this causes the item to disappear.
 		// In the event that the item is not used, then proceed to
