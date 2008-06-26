@@ -168,7 +168,7 @@ public class TurnCounter
 			}
 
 			it.remove();
-			if ( current.value <= currentTurns && !current.isExempt( adventureId ) )
+			if ( !current.isExempt( adventureId ) )
 			{
 				expired = current;
 			}
