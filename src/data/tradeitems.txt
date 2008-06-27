@@ -1635,11 +1635,11 @@
 1634	around the world	2	display	0
 1635	scrumdiddlyumptious solution	0	all	0
 1636	Toddler-sized Dragon Costume	7	display	0
-1637	phial of hotness	3	all	0
-1638	phial of coldness	3	all	0
-1639	phial of spookiness	3	all	0
-1640	phial of stench	3	all	0
-1641	phial of sleaziness	3	all	0
+1637	phial of hotness	4	all	0
+1638	phial of coldness	4	all	0
+1639	phial of spookiness	4	all	0
+1640	phial of stench	4	all	0
+1641	phial of sleaziness	4	all	0
 1642	Grimacite Bock	2	all	0
 1643	wedge of gray cheese	1	all	0
 1644	hot and sour sauce	0	all	100

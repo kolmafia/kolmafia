@@ -207,30 +207,6 @@ public class SpecialOutfit
 		SpecialOutfit.explicitPoints.push( explicit );
 	}
 
-	public static final boolean markImplicitCheckpoint()
-	{
-		if ( SpecialOutfit.markedCheckpoint != -1 || SpecialOutfit.implicitPoints.isEmpty() )
-		{
-			return false;
-		}
-
-		boolean isIdentical = true;
-		String itemName;
-
-		for ( int i = 0; i <= EquipmentManager.FAMILIAR; ++i )
-		{
-			itemName = EquipmentManager.getEquipment( i ).getName();
-			
-			if ( isIdentical )
-			{
-				isIdentical = Preferences.getString( "implicitEquipmentSlot" + i ).equals( itemName );
-			}
-		}
-
-		SpecialOutfit.markedCheckpoint = SpecialOutfit.implicitPoints.size();
-		return !isIdentical;
-	}
-
 	/**
 	 * Restores a checkpoint. This should be called whenever the player needs to revert to their checkpointed outfit.
 	 */
@@ -292,6 +268,17 @@ public class SpecialOutfit
 		{
 			SpecialOutfit.restoreCheckpoint( implicit );
 		}
+	}
+
+	public static final boolean markImplicitCheckpoint()
+	{
+		if ( SpecialOutfit.markedCheckpoint != -1 || SpecialOutfit.implicitPoints.isEmpty() )
+		{
+			return false;
+		}
+
+		SpecialOutfit.markedCheckpoint = SpecialOutfit.implicitPoints.size();
+		return true;
 	}
 
 	/**
