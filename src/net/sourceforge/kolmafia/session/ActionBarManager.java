@@ -65,7 +65,7 @@ public class ActionBarManager
 			ActionBarManager.currentJSONString = bar;
 		}
 
-		request.pseudoResponse( "HTTP/1.1 200 OK", "" );
+		RequestThread.postRequest( request );
 		return;
 	}
 
@@ -79,19 +79,5 @@ public class ActionBarManager
 			ActionBarManager.initialJSONString = request.responseText;
 			ActionBarManager.currentJSONString = request.responseText;
 		}
-	}
-
-	public static final void saveJSONString()
-	{
-		if ( ActionBarManager.initialJSONString.equals( ActionBarManager.currentJSONString ) )
-		{
-			return;
-		}
-
-		GenericRequest request = new GenericRequest( "actionbar.php" );
-		request.addFormField( "action", "set" );
-		request.addFormField( "bar", ActionBarManager.currentJSONString );
-
-		RequestThread.postRequest( request );
 	}
 }
