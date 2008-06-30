@@ -58,6 +58,7 @@ public class ValhallaManager
 	{
 		KoLCharacter.reset();
 
+		Preferences.increment( "knownAscensions", 1 );
 		Preferences.setInteger( "lastBreakfast", -1 );
 
 		KoLmafia.resetCounters();
