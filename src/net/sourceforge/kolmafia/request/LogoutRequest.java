@@ -98,8 +98,6 @@ public class LogoutRequest
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( scriptSetting );
 		}
 
-		ActionBarManager.saveJSONString();
-
 		super.run();
 		KoLCharacter.reset( "" );
 
