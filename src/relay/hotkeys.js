@@ -11,8 +11,12 @@ function getNumericKey( keyCode )
     if ( keyCode >= 96 && keyCode <= 105 )
     	return keyCode - 96;
 
+	if ( keyCode == 192 )
+		return 11;
+
     return -1;
 }
+
 
 function handleCombatHotkey( e, isDown )
 {
@@ -96,7 +100,7 @@ function handleChoiceHotkey( choiceId, command )
 		return false;
 	}
 
-	if ( choiceId == 0 )
+	if ( choiceId == 0 || choiceId == 11 )
 	{
 		var button = document.getElementById( "defaultButton" );
 		button.onclick();
