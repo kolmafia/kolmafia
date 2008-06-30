@@ -138,12 +138,12 @@ public class LocalRelayAgent
 		this.reader = new BufferedReader( new InputStreamReader( this.socket.getInputStream() ) );
 
 		String requestLine = this.reader.readLine();
-		
+
 		if ( requestLine == null )
 		{
 			return false;
 		}
-		
+
 		int spaceIndex = requestLine.indexOf( " " );
 
 		this.path = requestLine.substring( spaceIndex, requestLine.lastIndexOf( " " ) ).trim();
@@ -300,7 +300,17 @@ public class LocalRelayAgent
 		}
 		else if ( this.path.startsWith( "/fight.php?hotkey=" ) )
 		{
-			LocalRelayAgent.COMBAT_THREAD.wake( Preferences.getString( "combatHotkey" + this.request.getFormField( "hotkey" ) ) );
+			String hotkey = this.request.getFormField( "hotkey" );
+
+			if ( hotkey.equals( "11" ) )
+			{
+				LocalRelayAgent.COMBAT_THREAD.wake( null );
+			}
+			else
+			{
+				LocalRelayAgent.COMBAT_THREAD.wake( Preferences.getString( "combatHotkey" + hotkey ) );
+			}
+
 			this.request.pseudoResponse( "HTTP/1.1 302 Found", "/fight.php?action=script" );
 		}
 		else if ( this.path.equals( "/choice.php?action=auto" ) )
