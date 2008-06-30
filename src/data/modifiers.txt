@@ -883,7 +883,8 @@ Grimacite gauntlets	Single Equip
 Grimacite girdle	Single Equip
 Grimacite go-go boots	Single Equip
 # Grimacite gorget
-Hodgman's bow tie	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
+Hodgman's bow tie	Single Equip, Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
+# Hodgman's bow tie	Hobo Power: +25
 # Hodgman's lucky sock	Hobo Power: +50
 Ice-Cold Aluminum Necklace	Single Equip, Moxie: +3, Muscle: +3, Mysticality: +3, Cold Spell Damage: +40
 Ice-Cold Beer Ring	Single Equip, Moxie: +3, Muscle: +3, Mysticality: +3, Cold Damage: +40

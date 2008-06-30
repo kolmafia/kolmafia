@@ -16,8 +16,8 @@
 15	Bloody Hand	sad.gif	21bbf1fc30240ba896c783e810fc737b	use 1 seal tooth
 16	Leash of Linguini	string.gif	2d6d3ab04b40e1523aa9c716a04b3aab	cast 1 Leash of Linguini
 17	Sugar Rush	hoppedup.gif	83695b70e0470a36125feca3198a16b4	use 1 Angry Farmer candy
-18	Ghostly Shell	turtle.gif	9d5cb67507556bb105664b1dc9e8bf9a	cast 1 Ghostly Shell
-19	Reptilian Fortitude	turtle.gif	6c7b4a5a3c6807d21493f1253bf8dfd9	cast 1 Reptilian Fortitude
+18	Ghostly Shell	ghosturtle.gif	9d5cb67507556bb105664b1dc9e8bf9a	cast 1 Ghostly Shell
+19	Reptilian Fortitude	scharm.gif	6c7b4a5a3c6807d21493f1253bf8dfd9	cast 1 Reptilian Fortitude
 20	Uncertain	confused.gif	8ae7c039ea59f198c8a56228ea63dc1f
 21	Seal Clubbing Frenzy	happy.gif	93e55821ba196181627eae905eb1f052	cast 1 Seal Clubbing Frenzy
 22	Patience of the Tortoise	happy.gif	13d514f97d8701d2507c8623b88897ff	cast 1 Patience of the Tortoise
@@ -50,7 +50,7 @@
 49	Macho Profundo	notes.gif	a02c6fb27a3f9f4bf2c48d59584adc56	use 1 mafia aria
 50	Empathy	happy.gif	ac32e95f470a7e0999863fa0db58d808	cast 1 Empathy of the Newt
 51	Tenacity of the Snapper	turtle.gif	c05dc4b01f6f2826be599f07620979f7	cast 1 Tenacity of the Snapper
-52	Astral Shell	turtle.gif	4e66acac6b908fb6f70b49092dcff375	cast 1 Astral Shell
+52	Astral Shell	ghosturtle2.gif	4e66acac6b908fb6f70b49092dcff375	cast 1 Astral Shell
 53	Elemental Saucesphere	elesphere.gif	e3d1d1099648703e192a55a9aea17a1e	cast 1 Elemental Saucesphere
 54	Jalape&ntilde;o Saucesphere	pepsphere.gif	432fc725db5720e9237438147bc6516e	cast 1 Jalape&ntilde;o Saucesphere
 55	Jaba&ntilde;ero Saucesphere	pepsphere2.gif	bf3c7c4fa0642b582ad55a36f1105b82	cast 1 Jaba&ntilde;ero Saucesphere
@@ -172,7 +172,7 @@
 171	Spirit of Bacon Grease	bacon.gif	6938d4564e4225d47983a1a834a09604	cast 1 Spirit of Bacon Grease
 172	Yellow Tongue	tongue.gif	3dbc5202908b9b8e507d7f062360b293	use 1 yellow snowcone
 173	Big Veiny Brain	realbrain.gif	55b5adcb51868b248c9808720b1884f8	use 1 Knob Goblin learning pill
-174	Peeled Eyeballs	eyes.gif	76a38896d00f40442e3741d7e94bb5df	use 1 Knob Goblin eyedrops
+174	Peeled Eyeballs	bseye.gif	76a38896d00f40442e3741d7e94bb5df	use 1 Knob Goblin eyedrops
 175	Wasabi Sinuses	hernia.gif	c9cd2df50d6fb5a9d8d7544892c7e5b2	use 1 Knob Goblin nasal spray
 176	Heavy Petting	happy.gif	0bbb62f04a5dd69a88b608fe656a7752	use 1 Knob Goblin pet-buffing spray
 177
