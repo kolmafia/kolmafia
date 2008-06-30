@@ -3120,7 +3120,7 @@
 3113	534973995	Miniborg hiveminder	Miniborg hiveminders
 3114	184372943	Miniborg Destroy-O-Bot	Miniborg Destroy-O-Bots
 3115	194916307	old-fashioned Crimbo Pressie
-3116
+3116	533429176	Stuffed Hodgman	stuffed Hodgmen
 3117	899226971	Libram of Divine Favors	Librams of Divine Favors
 3118	322869689	divine noisemaker	divine noisemakers
 3119	722409266	divine can of silly string	divine cans of silly string
@@ -3240,14 +3240,14 @@
 3233	199932706	inflatable duck
 3234	190515908	water wings
 3235	265675713	foam noodle
-3236	831722443	Kissin' Cousins
+3236	831722443	Kissin' Cousins	copies of Kissin' Cousins
 3237	186707798	Tales from the Fireside
-3238	374672848	Blizzards I Have Died In
+3238	374672848	Blizzards I Have Died In	copies of Blizzards I Have Died In
 3239	664515385	Maxing, Relaxing
 3240	136121854	Biddy Cracker's Old-Fashioned Cookbook
-3241	499215664	Travels with Jerry
-3242	183602575	Let Me Be!
-3243	801300658	Asleep in the Cemetery
+3241	499215664	Travels with Jerry	copies of Travels with Jerry
+3242	183602575	Let Me Be!	copies of Let Me Be!
+3243	801300658	Asleep in the Cemetery	copies of Asleep in the Cemetery
 3244	682348153	Summer Nights
 3245	543030767	Sensual Massage for Creeps
 3246	175959334	Ol' Scratch's ol' britches
