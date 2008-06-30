@@ -158,6 +158,16 @@ public abstract class CustomCombatManager
 		FileUtilities.copyFile( source, destination );
 	}
 
+	public static final String getSettingsFileLocation()
+	{
+		if ( CustomCombatManager.settingsFile == null )
+		{
+			return "unknown";
+		}
+
+		return CustomCombatManager.settingsFile.getAbsolutePath();
+	}
+
 	/**
 	 * Loads the settings located in the given file into this object. Note that all settings are overridden; if the
 	 * given file does not exist, the current global settings will also be rewritten into the appropriate file.

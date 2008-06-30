@@ -606,7 +606,7 @@ public class FightRequest
 			FightRequest.action1 = "abort";
 			return;
 		}
-		
+
 		if ( skillName.equals( "CLEESH" ) )
 		{
 			if ( FightRequest.castCleesh )
@@ -1005,7 +1005,14 @@ public class FightRequest
 	{
 		if ( FightRequest.isAutomatingFight )
 		{
-			RequestLogger.printLine( "Strategy: " + Preferences.getString( "battleAction" ) );
+			String action = Preferences.getString( "battleAction" );
+
+			if ( action.startsWith( "custom" ) )
+			{
+				action = CustomCombatManager.getSettingsFileLocation();
+			}
+
+			RequestLogger.printLine( "Strategy: " + action );
 		}
 
 		if ( FightRequest.lastUserId != KoLCharacter.getUserId() )
@@ -1544,10 +1551,10 @@ public class FightRequest
 			{
 				continue;
 			}
-			
+
 			// "shambles up to your opponent" following a number is most
 			// likely a familiar naming problem, so it should not count.
-			
+
 			if ( damageMatcher.group( 4 ).equals( "shambles up " ) )
 			{
 				continue;
