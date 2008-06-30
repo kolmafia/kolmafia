@@ -71,13 +71,29 @@ public class CreateItemPanel
 		else
 		{
 			JPanel filterPanel = new JPanel();
-			filterPanel.add( new CreationSettingCheckBox(
-				"require in-a-boxes", "requireBoxServants", "Do not cook/mix without chef/bartender" ) );
-			filterPanel.add( new CreationSettingCheckBox(
-				"repair on explosion", "autoRepairBoxServants",
-				"Automatically repair chefs and bartenders on explosion" ) );
 
-			this.northPanel.add( filterPanel, BorderLayout.NORTH );
+			if ( food )
+			{
+				filterPanel.add( new CreationSettingCheckBox(
+					"require in-a-boxes", "requireBoxServants", "Do not cook without chef" ) );
+				filterPanel.add( new CreationSettingCheckBox(
+					"repair on explosion", "autoRepairBoxServants",
+					"Automatically repair chefs on explosion" ) );
+			}
+			else if ( booze )
+			{
+				filterPanel.add( new CreationSettingCheckBox(
+					"require in-a-boxes", "requireBoxServants", "Do not mix without bartender" ) );
+				filterPanel.add( new CreationSettingCheckBox(
+					"repair on explosion", "autoRepairBoxServants",
+					"Automatically repair bartenders on explosion" ) );
+			}
+
+			if ( food || booze )
+			{
+				this.northPanel.add( filterPanel, BorderLayout.NORTH );
+			}
+
 			this.setFixedFilter( food, booze, equip, other, true );
 		}
 
