@@ -137,6 +137,7 @@ public abstract class ChatManager
 	};
 
 	private static boolean isRunning = false;
+	private static boolean channelsInitialized = false;
 	private static String currentChannel = "/clan";
 	private static ContactListFrame contactsFrame = null;
 	private static TabbedChatFrame tabbedFrame = null;
@@ -252,6 +253,7 @@ public abstract class ChatManager
 		}
 
 		ChatManager.isRunning = true;
+		ChatManager.channelsInitialized = false;
 
 		RequestThread.postRequest( new ChatRequest( null, "/listen" ) );
 		RequestThread.postRequest( new ChannelColorsRequest() );
@@ -613,7 +615,11 @@ public abstract class ChatManager
 				ChatManager.openInstantMessage( channelKey, true );
 			}
 
-			return;
+			if ( !ChatManager.channelsInitialized )
+			{
+				ChatManager.channelsInitialized = true;
+				return;
+			}
 		}
 
 		// Now that you know that there was no intent to exit
