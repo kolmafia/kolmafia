@@ -109,6 +109,7 @@ import net.sourceforge.kolmafia.session.MushroomManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
+import net.sourceforge.kolmafia.session.ValhallaManager;
 import net.sourceforge.kolmafia.session.VioletFogManager;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
@@ -664,12 +665,6 @@ public abstract class KoLmafia
 			return;
 		}
 
-		int today = HolidayDatabase.getPhaseStep();
-		if ( Preferences.getInteger( "lastCounterDay" ) != today )
-		{
-			KoLmafia.resetCounters();
-		}
-
 		KoLmafia.registerPlayer( username, String.valueOf( KoLCharacter.getUserId() ) );
 	}
 
@@ -701,6 +696,36 @@ public abstract class KoLmafia
 	public void refreshSession()
 	{
 		this.refreshSession( true );
+
+		// Check to see if you need to reset the counters.
+
+		boolean shouldResetCounters = false;
+
+		int today = HolidayDatabase.getPhaseStep();
+
+		if ( Preferences.getInteger( "lastCounterDay" ) != today )
+		{
+			shouldResetCounters = true;
+		}
+
+		int ascensions = KoLCharacter.getAscensions();
+		int knownAscensions = Preferences.getInteger( "knownAscensions" );
+
+		if ( ascensions != 0 && knownAscensions != -1 && knownAscensions != ascensions )
+		{
+			Preferences.setInteger( "knownAscensions", knownAscensions );
+			ValhallaManager.resetPerAscensionCounters();
+			shouldResetCounters = true;
+		}
+		else if ( knownAscensions == -1 )
+		{
+			Preferences.setInteger( "knownAscensions", knownAscensions );
+		}
+
+		if ( shouldResetCounters )
+		{
+			KoLmafia.resetCounters();
+		}
 	}
 
 	public void refreshSession( final boolean refreshAll )
