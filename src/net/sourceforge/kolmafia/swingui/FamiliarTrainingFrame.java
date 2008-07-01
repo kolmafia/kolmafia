@@ -139,6 +139,7 @@ public class FamiliarTrainingFrame
 
 	private static final AdventureResult PUMPKIN_BUCKET = new AdventureResult( 1971, 1 );
 	private static final AdventureResult FLOWER_BOUQUET = new AdventureResult( 2541, 1 );
+	private static final AdventureResult FIREWORKS = new AdventureResult( 3421, 1 );
 	private static final AdventureResult DOPPELGANGER = new AdventureResult( 2225, 1 );
 
 	private static final AdventureResult GREEN_SNOWCONE = new AdventureResult( 1413, 1 );
@@ -944,6 +945,11 @@ public class FamiliarTrainingFrame
 				RequestThread.postRequest( new EquipmentRequest(
 					FamiliarTrainingFrame.FLOWER_BOUQUET, EquipmentManager.FAMILIAR ) );
 			}
+			else if ( InventoryManager.hasItem( FamiliarTrainingFrame.FIREWORKS ) )
+			{
+				RequestThread.postRequest( new EquipmentRequest(
+					FamiliarTrainingFrame.FIREWORKS, EquipmentManager.FAMILIAR ) );
+			}
 			else if ( status.familiarItemWeight != 0 && InventoryManager.hasItem( status.familiarItem ) )
 			{
 				RequestThread.postRequest( new EquipmentRequest( status.familiarItem, EquipmentManager.FAMILIAR ) );
@@ -1219,7 +1225,7 @@ public class FamiliarTrainingFrame
 			return true;
 		}
 
-		if ( !InventoryManager.hasItem( FamiliarTrainingFrame.PUMPKIN_BUCKET ) && !InventoryManager.hasItem( FamiliarTrainingFrame.FLOWER_BOUQUET ) && status.familiarItemWeight != 0 && !InventoryManager.hasItem( status.familiarItem ) && KoLCharacter.canInteract() )
+		if ( !InventoryManager.hasItem( FamiliarTrainingFrame.PUMPKIN_BUCKET ) && !InventoryManager.hasItem( FamiliarTrainingFrame.FLOWER_BOUQUET )  && !InventoryManager.hasItem( FamiliarTrainingFrame.FIREWORKS ) && status.familiarItemWeight != 0 && !InventoryManager.hasItem( status.familiarItem ) && KoLCharacter.canInteract() )
 		{
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "buy 1 " + status.familiarItem.getName() );
 			RequestThread.postRequest( new EquipmentRequest( status.familiarItem ) );
@@ -1551,6 +1557,7 @@ public class FamiliarTrainingFrame
 		boolean ratHeadBalloon;
 		boolean pumpkinBucket;
 		boolean flowerBouquet;
+		boolean boxFireworks;
 		boolean doppelganger;
 
 		int tpCount;
@@ -1661,6 +1668,7 @@ public class FamiliarTrainingFrame
 			this.ratHeadBalloon = false;
 			this.pumpkinBucket = false;
 			this.flowerBouquet = false;
+			this.boxFireworks = false;
 			this.doppelganger = false;
 
 			this.whipCount = 0;
@@ -1706,6 +1714,12 @@ public class FamiliarTrainingFrame
 				{
 					this.flowerBouquet = true;
 					this.item = FamiliarTrainingFrame.FLOWER_BOUQUET;
+				}
+
+				if ( itemId == FamiliarTrainingFrame.FIREWORKS.getItemId() )
+				{
+					this.boxFireworks = true;
+					this.item = FamiliarTrainingFrame.FIREWORKS;
 				}
 
 				if ( itemId == FamiliarTrainingFrame.LEAD_NECKLACE.getItemId() )
@@ -1793,6 +1807,10 @@ public class FamiliarTrainingFrame
 				// If current familiar is not wearing a flowerBouquet,
 				// search inventory
 				this.flowerBouquet |= FamiliarTrainingFrame.FLOWER_BOUQUET.getCount( inventory ) > 0;
+
+				// If current familiar is not wearing a boxFireworks,
+				// search inventory
+				this.boxFireworks |= FamiliarTrainingFrame.FIREWORKS.getCount( inventory ) > 0;
 			}
 
 			// If current familiar is not wearing a lead necklace,
@@ -1852,6 +1870,7 @@ public class FamiliarTrainingFrame
 				this.pumpkinBucket |= item.getItemId() == FamiliarTrainingFrame.PUMPKIN_BUCKET.getItemId();
 				this.flowerBouquet |= item.getItemId() == FamiliarTrainingFrame.FLOWER_BOUQUET.getItemId();
 				this.doppelganger |= item.getItemId() == FamiliarTrainingFrame.DOPPELGANGER.getItemId();
+				this.boxFireworks |= item.getItemId() == FamiliarTrainingFrame.FIREWORKS.getItemId();
 			}
 		}
 
@@ -2215,6 +2234,10 @@ public class FamiliarTrainingFrame
 			{
 				this.getAccessoryGearSets( weight, FamiliarTrainingFrame.FLOWER_BOUQUET, hat );
 			}
+			if ( this.boxFireworks )
+			{
+				this.getAccessoryGearSets( weight, FamiliarTrainingFrame.FIREWORKS, hat );
+			}
 			if ( this.leadNecklace )
 			{
 				this.getAccessoryGearSets( weight, FamiliarTrainingFrame.LEAD_NECKLACE, hat );
@@ -2372,6 +2395,10 @@ public class FamiliarTrainingFrame
 				weight += 5;
 			}
 			else if ( item == FamiliarTrainingFrame.FLOWER_BOUQUET )
+			{
+				weight += 5;
+			}
+			else if ( item == FamiliarTrainingFrame.FIREWORKS )
 			{
 				weight += 5;
 			}
@@ -2738,6 +2765,10 @@ public class FamiliarTrainingFrame
 			{
 				text.append( " " + FamiliarTrainingFrame.FLOWER_BOUQUET.getName() + " (+5)" );
 			}
+			else if ( this.item == FamiliarTrainingFrame.FIREWORKS )
+			{
+				text.append( " " + FamiliarTrainingFrame.FIREWORKS.getName() + " (+5)" );
+			}		
 			else if ( this.item == FamiliarTrainingFrame.LEAD_NECKLACE )
 			{
 				text.append( " " + FamiliarTrainingFrame.LEAD_NECKLACE.getName() + " (+3)" );
@@ -2800,6 +2831,10 @@ public class FamiliarTrainingFrame
 				if ( this.flowerBouquet )
 				{
 					text.append( " mayflower bouquet (+5)" );
+				}
+				if ( this.boxFireworks )
+				{
+					text.append( " little box of fireworks (+5)" );
 				}
 				if ( this.leadNecklace )
 				{
