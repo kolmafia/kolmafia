@@ -3415,3 +3415,8 @@
 3414	Hodgman's journal #3: Pumping Tin	3	all	0
 3415	Hodgman's journal #4: View From The Big Top	3	all	0
 3416	hobo fortress blueprints	3	all	0
+3417
+3418
+3419
+3420
+3421	little box of fireworks	7	all	0

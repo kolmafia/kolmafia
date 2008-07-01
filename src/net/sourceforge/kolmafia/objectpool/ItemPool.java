@@ -424,6 +424,7 @@ public class ItemPool
 	public static final int STINKBUG = 3360;
 	public static final int DEATH_WATCH_BEETLE = 3361;
 	public static final int LOUSE = 3362;
+	public static final int FIREWORKS = 3421;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
