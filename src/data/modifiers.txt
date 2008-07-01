@@ -1299,6 +1299,7 @@ iced-out bling	Familiar Weight: +5
 icicle katana	Familiar Weight: +5
 lead necklace	Familiar Weight: +3
 limburger biker boots	Familiar Weight: +5
+little box of fireworks	Familiar Weight: +5, Softcore Only
 lucky Tam O'Shanter	Meat Drop: +50, Softcore Only
 lucky Tam O'Shatner	Meat Drop: +50, Softcore Only
 magnifying glass	Familiar Weight: +5

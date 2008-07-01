@@ -263,6 +263,7 @@ public class FamiliarData
 
 		case ItemPool.PUMPKIN_BUCKET:
 		case ItemPool.MAYFLOWER_BOUQUET:
+		case ItemPool.FIREWORKS:
 			return 5;
 
 		case ItemPool.RAT_BALLOON:
@@ -374,6 +375,7 @@ public class FamiliarData
 		case ItemPool.ANT_PICK:
 		case ItemPool.FISH_SCALER:
 		case ItemPool.ORIGAMI_MAGAZINE:
+		case ItemPool.FIREWORKS:
 			return this.id != 54 && this.id != 82;
 
 		case ItemPool.SNOOTY_DISGUISE:
