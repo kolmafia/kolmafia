@@ -47,7 +47,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
@@ -466,7 +466,9 @@ public class MonsterDatabase
 
 		public boolean shouldSteal()
 		{
-			if ( !KoLCharacter.isMoxieClass() )
+			AdventureResult formOfBird = EffectPool.get( EffectPool.FORM_OF_BIRD );
+
+			if ( !KoLCharacter.isMoxieClass() && !KoLConstants.activeEffects.contains( formOfBird ) )
 			{
 				return false;
 			}

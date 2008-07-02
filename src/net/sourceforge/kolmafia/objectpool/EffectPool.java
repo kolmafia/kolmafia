@@ -42,6 +42,8 @@ public class EffectPool
 	public static final String ODE = "Ode to Booze";
 	public static final String MILK = "Got Milk";
 
+	public static final String FORM_OF_BIRD = "Form of...Bird!";
+
 	public static final String HALF_ASTRAL = "Half-Astral";
 	public static final String PERFUME = "Knob Goblin Perfume";
 	public static final String ABSINTHE = "Absinthe-Minded";
