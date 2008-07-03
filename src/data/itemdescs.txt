@@ -3272,12 +3272,12 @@
 3265	983680869	bag of Crotchety Pine saplings
 3266	309371987	bag of Saccharine Maple saplings
 3267	812801333	bag of Laughing Willow saplings
-3268
-3269
-3270
-3271
-3272
-3273
+3268	575824061	handful of Crotchety Pine needles	handfuls of Crotchety Pine needles
+3269	425798774	lump of Saccharine Maple sap	lumps of Saccharine Maple sap
+3270	811790050	handful of Laughing Willow bark	handfuls of Laughing Willow bark
+3271	577653594	crotchety pants
+3272	533229935	Saccharine Maple pendant
+3273	604596957	willowy bonnet
 3274	362025868	flavored foot massage oil
 3275	790759909	foam dart
 3276	183153779	black-and-blue light
