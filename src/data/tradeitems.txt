@@ -3266,12 +3266,12 @@
 3265	bag of Crotchety Pine saplings	13	none	0
 3266	bag of Saccharine Maple saplings	13	none	0
 3267	bag of Laughing Willow saplings	13	none	0
-3268
-3269
-3270
-3271
-3272
-3273
+3268	handful of Crotchety Pine needles	3	all	50
+3269	lump of Saccharine Maple sap	3	all	50
+3270	handful of Laughing Willow bark	3	all	50
+3271	crotchety pants	10	display	0
+3272	Saccharine Maple pendant	8	display	0
+3273	willowy bonnet	9	display	0
 3274	flavored foot massage oil	0	gift	5
 3275	foam dart	0	gift	5
 3276	black-and-blue light	3	gift	5

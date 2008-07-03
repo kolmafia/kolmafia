@@ -142,6 +142,7 @@ tattered paper crown	60	Mus: 15
 time helmet	100	Mox: 35
 toy space helmet	175	Mox: 72
 viking helmet	20	none
+willowy bonnet	75	Mox: 22
 wolf mask	150	Mox: 60
 wooden salad bowl	120	Mox: 45
 wool hat	175	Mox: 72
@@ -197,6 +198,7 @@ buoybottoms	150	Mox: 60
 chain-mail monokini	30	none
 clingfilm trousers	150	Mox: 60
 clockwork pants	80	Mox: 25
+crotchety pants	75	Mox: 22
 cursed breeches	200	Mox: 85
 demonskin trousers	70	Mox: 20
 distressed denim pants	170	Mox: 70
@@ -870,6 +872,7 @@ Radio KoL Patch	0	none
 Red Balloon of Valor	0	Mys: 85
 Ring of Fire	0	Mys: 60
 Ring of the Sewer Snake	0	Mys: 60
+Saccharine Maple pendant	0	Mys: 22
 Scandalously Skimpy Bikini	0	Mys: 10
 Senior LAAAAME merit badge	0	none
 Slow Talkin' Elliot's dogtags	0	Mys: 45

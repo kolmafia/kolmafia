@@ -212,6 +212,7 @@ tattered paper crown	Muscle: +3
 time helmet	Adventures: +3
 toy space helmet	Stench Resistance: +3, Spooky Resistance: +3
 viking helmet	Muscle: +1
+willowy bonnet	Maximum MP: +40
 wolf mask	Intrinsic Effect: "Complete Delusion"
 # wooden salad bowl
 wool hat	Damage Absorption: +20, Cold Resistance: +2
@@ -267,6 +268,7 @@ buoybottoms	Moxie: +11, Monster Level: +7, Initiative: -30
 # chain-mail monokini
 clingfilm trousers	Mysticality: +9
 clockwork pants	Initiative: +10
+crotchety pants	Maximum HP: +40
 cursed breeches	Moxie: +15
 demonskin trousers	Hot Resistance: +2
 distressed denim pants	Stench Resistance: +1, Damage Reduction: 2
@@ -933,6 +935,7 @@ Radio KoL Patch	Moxie: +15
 Red Balloon of Valor	Single Equip, Moxie: +5, Muscle: +5, Mysticality: +5, Item Drop: +11
 Ring of Fire	Single Equip, Moxie: +3, Muscle: +3, Mysticality: +3, Hot Damage: +40
 Ring of the Sewer Snake	Single Equip, Moxie: +3, Muscle: +3, Mysticality: +3, Stench Damage: +40
+Saccharine Maple pendant	Maximum HP: +20, Maximum MP: +20
 Scandalously Skimpy Bikini	Single Equip
 Senior LAAAAME merit badge	Moxie: +3, Muscle: +3, Mysticality: +3
 Slow Talkin' Elliot's dogtags	Muscle: +30, Initiative: -30
@@ -1425,6 +1428,7 @@ Apathy	Muscle Percent: -30, Mysticality Percent: -30, Moxie Percent: -30
 Arabian Knighthood	Muscle Percent: +5
 Arcane in the Brain	Mana Cost: -3
 Arse-a'fire	Muscle Percent: +10
+# Artificially Sweet
 Aspect of the Twinklefairy	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Melee Damage: +5, Spell Damage: +5
 Astral Shell	Damage Absorption: +80, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 Axe Wound	Muscle: -5

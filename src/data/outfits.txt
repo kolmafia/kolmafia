@@ -46,6 +46,7 @@
 # 45	Dire Drifter Duds	Zombo's skullcap, Zombo's shield, Zombo's grievous greaves
 46	Tawdry Tramp Togs	Chester's bag of candy, Chester's cutoffs, Chester's moustache
 # 47	Hodgman's Regal Frippery	Hodgman's porkpie hat, Hodgman's lobsterskin pants, Hodgman's bow tie
+# 48	Arrrbor Day Aparrrrrel	willowy bonnet, crotchety pants, Saccharine Maple pendant
 
 # Outfits for which KoL does not provide an outfit id,
 # and thus are given id #0 to tell KoLmafia to treat
