@@ -930,19 +930,19 @@ public class ConcoctionDatabase
 		// Adventures are considered Item #0 in the event that the
 		// concoction will use ADVs.
 
-		ConcoctionDatabase.adventureLimit.initial =
-			KoLCharacter.getAdventuresLeft() - ConcoctionDatabase.queuedAdventuresUsed;
-		ConcoctionDatabase.adventureLimit.creatable = 0;
 		ConcoctionDatabase.adventureLimit.total = KoLCharacter.getAdventuresLeft();
+		ConcoctionDatabase.adventureLimit.initial =
+			ConcoctionDatabase.adventureLimit.total - ConcoctionDatabase.queuedAdventuresUsed;
+		ConcoctionDatabase.adventureLimit.creatable = 0;
 		ConcoctionDatabase.adventureLimit.visibleTotal = ConcoctionDatabase.adventureLimit.total;
 
 		// Stills are also considered Item #0 in the event that the
 		// concoction will use stills.
 
+		ConcoctionDatabase.stillsLimit.total = KoLCharacter.getStillsAvailable();
 		ConcoctionDatabase.stillsLimit.initial =
-			KoLCharacter.getStillsAvailable() - ConcoctionDatabase.queuedStillsUsed;
+			ConcoctionDatabase.stillsLimit.total - KoLCharacter.getStillsAvailable() - ConcoctionDatabase.queuedStillsUsed;
 		ConcoctionDatabase.stillsLimit.creatable = 0;
-		ConcoctionDatabase.stillsLimit.total = ConcoctionDatabase.stillsLimit.initial;
 		ConcoctionDatabase.stillsLimit.visibleTotal = ConcoctionDatabase.stillsLimit.total;
 
 		ConcoctionDatabase.calculateBasicItems( availableIngredients );
