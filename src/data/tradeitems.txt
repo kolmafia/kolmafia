@@ -3328,10 +3328,10 @@
 3327	extra-greasy slider	1	all	0
 3328	crumpled felt fedora	9	display	250
 3329	battered old top-hat	9	display	150
-3330
-3331
+3330	shapeless wide-brimmed hat	9	display	200
+3331	mostly rat-hide leggings	10	display	200
 3332	hobo dungarees	10	display	150
-3333
+3333	old patched suit-pants	10	display	250
 3334	hobo stogie	8	display	200
 3335	rope with some soap on it	8	display	150
 3336	dead guy's piece of double-sided tape	3	all	0
@@ -3339,15 +3339,15 @@
 3338	frozen banquet	1	all	0
 3339	sharpened hubcap	0	display	100
 3340	very large caltrop	0	display	150
-3341	
-3342
+3341	The Six-Pack of Pain	0	display	200
+3342	hobo monkey	5	display	0
 3343	tiny bindle	7	all	75
 3344	bed of coals	3	all	0
 3345	frigid air mattress	3	all	0
 3346	filth-encrusted futon	3	all	0
 3347	comfy coffin	3	all	0
 3348	stained mattress	3	all	0
-3349
+3349	dinged-up triangle	0	display 300
 3350	Ralph IX cognac	2	all	0
 3351	llama lama cria	5	all	0
 3352	zen motorcycle	7	all	75
@@ -3405,11 +3405,11 @@
 3404
 3405	Hodgman's lucky sock	8	display	0
 3406	Hodgman's varcolac paw	13	display	0
-3407
-3408
+3407	Hodgman's almanac	13	display	0
+3408	Hodgman's harmonica	13	display	0
 3409	Hodgman's garbage sticker	13	display	0
-3410
-3411
+3410	Hodgman's metal detector	13	display	0
+3411	Hodgman's cane	13	display	0
 3412	Hodgman's journal #1: The Lean Times	3	all	0
 3413	Hodgman's journal #2: Entrepreneurythmics	3	all	0
 3414	Hodgman's journal #3: Pumping Tin	3	all	0
@@ -3420,3 +3420,15 @@
 3419
 3420
 3421	little box of fireworks	7	all	0
+3422
+3423
+3424
+3425
+3426
+3427
+3428
+3429
+3430
+3431
+3432
+3433	spice melange	3	all	0

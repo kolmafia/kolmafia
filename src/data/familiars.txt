@@ -82,4 +82,5 @@
 80	RoboGoose	none	3107	overclocked avian microprocessor	2	3	1	0
 81	El Vibrato Megadrone	none	3217		3	3	3	3
 82	Mad Hatrack	none	3219		3	0	1	2
+83	Hobo Monkey	meat0	3342	tiny bindle	0	0	0	0
 90	Llama Lama	none	3351	zen motorcycle	1	2	3	2

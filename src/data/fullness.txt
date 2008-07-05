@@ -255,6 +255,7 @@ skull-shaped Crimboween cookie	2	7	6-12	0	0	0
 sleazy hi mein	5	7	21-29	25-28	25-29	71-75
 spaghetti with Skullheads	6	6	21-29	47-52	0	0
 spectral pickle	4	8	22-25	25-34	25-34	25-34
+# spice melange	-3	1	0	0	0	0
 spicy bean burrito	3	3	5-12	20-24	0	0
 spicy enchanted bean burrito	3	4	6-12	0	22-28	0
 spicy jumping bean burrito	3	3	5-12	0	0	22-28

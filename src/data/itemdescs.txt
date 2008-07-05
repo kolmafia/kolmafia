@@ -3334,10 +3334,10 @@
 3327	549862155	extra-greasy slider
 3328	732914439	crumpled felt fedora
 3329	151934208	battered old top-hat
-3330
-3331
+3330	393800790	shapeless wide-brimmed hat
+3331	160309958	mostly rat-hide leggings
 3332	786774617	hobo dungarees
-3333
+3333	457093585	old patched suit-pants
 3334	278044943	hobo stogie
 3335	815191941	rope with some soap on it
 3336	687594503	dead guy's piece of double-sided tape
@@ -3345,15 +3345,15 @@
 3338	380450499	frozen banquet
 3339	194177152	sharpened hubcap
 3340	777599179	very large caltrop
-3341
-3342
+3341	212225141	The Six-Pack of Pain
+3342	873673563	hobo monkey
 3343	661779077	tiny bindle
 3344	437736715	bed of coals
 3345	527732082	frigid air mattress
 3346	776771033	filth-encrusted futon
 3347	324466516	comfy coffin
 3348	736849781	stained mattress
-3349
+3349	787722904	dinged-up triangle
 3350	831950641	Ralph IX cognac
 3351	821134174	llama lama cria	llama lama criae
 3352	915431949	zen motorcycle
@@ -3411,11 +3411,11 @@
 3404
 3405	494251681	Hodgman's lucky sock
 3406	307397478	Hodgman's varcolac paw
-3407
-3408
+3407	326308790	Hodgman's almanac
+3408	607932819	Hodgman's harmonica
 3409	874739671	Hodgman's garbage sticker
-3410
-3411
+3410	986607676	Hodgman's metal detector
+3411	753829066	Hodgman's cane
 3412	443125100	Hodgman's journal #1: The Lean Times
 3413	359048124	Hodgman's journal #2: Entrepreneurythmics
 3414	456659256	Hodgman's journal #3: Pumping Tin
@@ -3426,3 +3426,15 @@
 3419
 3420
 3421	306172112	little box of fireworks
+3422
+3423
+3424
+3425
+3426
+3427
+3428
+3429
+3430
+3431
+3432
+3433	569771218	spice melange

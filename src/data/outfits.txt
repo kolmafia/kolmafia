@@ -41,11 +41,11 @@
 40	Crimborg Assault Armor	biomechanical crimborg helmet, C.B.F.G., biomechanical crimborg leg armor
 41	El Vibrato Relics	El Vibrato helmet, El Vibrato energy spear, El Vibrato leg guards
 42	Pyretic Panhandler Paraphernalia	Ol' Scratch's stovepipe hat, Ol' Scratch's ash can, Ol' Scratch's ol' britches
-# 43	Hyperborean Hobo Habiliments	Frosty's old silk hat, Frosty's nailbat, Frosty's carrot
+43	Hyperborean Hobo Habiliments	Frosty's old silk hat, Frosty's nailbat, Frosty's carrot
 44	Vile Vagrant Vestments	Wand of Oscus, Oscus's dumpster waders, Oscus's pelt
-# 45	Dire Drifter Duds	Zombo's skullcap, Zombo's shield, Zombo's grievous greaves
+45	Dire Drifter Duds	Zombo's skullcap, Zombo's shield, Zombo's grievous greaves
 46	Tawdry Tramp Togs	Chester's bag of candy, Chester's cutoffs, Chester's moustache
-# 47	Hodgman's Regal Frippery	Hodgman's porkpie hat, Hodgman's lobsterskin pants, Hodgman's bow tie
+47	Hodgman's Regal Frippery	Hodgman's porkpie hat, Hodgman's lobsterskin pants, Hodgman's bow tie
 # 48	Arrrbor Day Aparrrrrel	willowy bonnet, crotchety pants, Saccharine Maple pendant
 
 # Outfits for which KoL does not provide an outfit id,
