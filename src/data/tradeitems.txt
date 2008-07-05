@@ -3249,7 +3249,7 @@
 3248	Ol' Scratch's ash can	13	display	0
 3249	pink plastic baby	8	all	0
 3250	silver sausage	13	display	0
-3251	Frosty's old silk hat	9	display 0
+3251	Frosty's old silk hat	9	display	0
 3252	Frosty's carrot	8	display	0
 3253	Frosty's nailbat	12	display	0
 3254	Oscus's pelt	8	display	0
