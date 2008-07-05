@@ -131,6 +131,7 @@ reinforced beaded headband	170	Mox: 70
 safarrri hat	90	Mox: 30
 seal-skull helmet	10	none
 sequined fez	80	Mox: 25
+shapeless wide-brimmed hat	200	Mox: 200
 skeletortoise	30	none
 snorkel	10	none
 spooky hockey mask	100	Mox: 35
@@ -229,7 +230,9 @@ los chinos	55	Mox: 12
 makeshift skirt	100	Mox: 35
 mariachi pants	10	none
 miner's pants	80	Mox: 25
+mostly rat-hide leggings	200	Mox: 200
 ninja hot pants	70	Mox: 20
+old patched suit-pants	200	Mox: 200
 old school Mafia knickerbockers	100	Mox: 35
 palm-frond capris	140	Mox: 55
 pants of the Slug Lord	35	Mox: 2
@@ -645,8 +648,12 @@ Dallas Dynasty Falcon Crest shield	0	Mus: 85	shield
 Dyspepsi-Cola shield	75	none	shield
 Gazpacho's Glacial Grimoire	0	none
 Glass Balls of the Goblin King	0	Mys: 20
-Hodgman's varcolac paw	0	Mus: 200
+Hodgman's almanac	0	Mys: 200
+Hodgman's cane	0	Mys: 200
 Hodgman's garbage sticker	0	Mox: 200
+Hodgman's harmonica	0	Mox: 200
+Hodgman's metal detector	0	Mus: 200
+Hodgman's varcolac paw	0	Mus: 200
 Kevlar balloon	0	none
 KoL Con IV Pole	0	none
 Mr. Balloon	0	none

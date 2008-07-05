@@ -52,8 +52,8 @@
 51	Tenacity of the Snapper	turtle.gif	c05dc4b01f6f2826be599f07620979f7	cast 1 Tenacity of the Snapper
 52	Astral Shell	ghosturtle2.gif	4e66acac6b908fb6f70b49092dcff375	cast 1 Astral Shell
 53	Elemental Saucesphere	elesphere.gif	e3d1d1099648703e192a55a9aea17a1e	cast 1 Elemental Saucesphere
-54	Jalape&ntilde;o Saucesphere	pepsphere.gif	432fc725db5720e9237438147bc6516e	cast 1 Jalape&ntilde;o Saucesphere
-55	Jaba&ntilde;ero Saucesphere	pepsphere2.gif	bf3c7c4fa0642b582ad55a36f1105b82	cast 1 Jaba&ntilde;ero Saucesphere
+54	Jalape&ntilde;o Saucesphere	pepsphere.gif	432fc725db5720e9237438147bc6516e
+55	Jaba&ntilde;ero Saucesphere	pepsphere2.gif	bf3c7c4fa0642b582ad55a36f1105b82
 56	Extreme Muscle Relaxation	happy.gif	621865253dfe04259868b41e367a62e8	use 1 Mick's IcyVapoHotness Rub
 57	Rainy Soul Miasma	raincloud.gif	a47ef21c02a4b8ba3b1da929f4566934	use 1 thin black candle
 58	Teleportitis	confused.gif	cb5404472a27b435aa6fad1ba528b1b8	use 1 potion of teleportitis
@@ -307,7 +307,7 @@
 306	Piratastic	poison.gif	326cfa0c7a97220cda6575f7d887c38f	use 1 bottle of pirate juice
 307	Healthy Green Glow	light.gif	179ea341b15b46366812867e26705ed0	use 1 irradiated pet snacks
 308	Sinuses For Miles	stench.gif	81577de719bc99a5780d4e0cb5ca81a5	use 1 Mick's IcyVapoHotness Inhaler
-309	One Very Clear Eye	oneeye.gif	a676cca5283da6c64fe7a853bffe43b3	use 1 cyclops eyedrops
+309	One Very Clear Eye	oneeye.gif	25fcac6c285396f710bc74057f6f3ba9	use 1 cyclops eyedrops
 310	Pop-eyed	oneeye.gif	deb5f1d2384c25301d1a81839d8f8a77	use 1 can of spinach
 311	Flamingly Floral	fire.gif	df55e784c72b808b1e00973d23ca14e6	use 1 fire flower
 312	Permafrosty	snowflake.gif	943504f00bdffe88dd982e1851707aec	use 1 freezerburned ice cube
@@ -383,7 +383,7 @@
 382	Seeing Colors	snowflakes.gif	a25aa7677bc87baea8d0350e61b04e9d	use 1 funky dried mushroom
 383	Black Face	blackface.gif	c74fee3997d020f53cc3e077d4897c10	use 1 black facepaint
 384	Erudite	spectacles.gif	bf4f8342a8efe1d4c27054fa73ec1d7a	use 1 black sheepskin diploma
-385	Radiating Black Body&trade;	radiation.gif	3de3c7f145ae87e58ee391127ed697fd	use 1 Black Body&trade; spray
+385	Radiating Black Body&trade;	radiation.gif	3de3c7f145ae87e58ee391127ed697fd
 386
 387	Duhhh	duncecap.gif	1a193e72ad6e010246f9c2174d831fc8
 388	Affronted Decency	angry.gif	5e24e5adb243a87b8511d58fa4af1efe

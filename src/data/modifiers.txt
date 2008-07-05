@@ -201,6 +201,7 @@ reinforced beaded headband	Maximum HP: +40
 safarrri hat	Maximum HP: +15
 # seal-skull helmet
 sequined fez	Moxie: +3
+shapeless wide-brimmed hat	HP Regen Min: 15, HP Regen Max: 20, MP Regen Min: 15, MP Regen Max: 20, Mysticality Percent: +5
 skeletortoise	Mysticality: +2
 # snorkel
 spooky hockey mask	Spooky Resistance: +2, Spooky Damage: +3
@@ -299,7 +300,9 @@ los chinos	Damage Absorption: +20
 makeshift skirt	Initiative: +15
 # mariachi pants
 miner's pants	Damage Absorption: +20
+mostly rat-hide leggings	Initiative: +40, Moxie Percent: +5
 ninja hot pants	Hot Damage: +4
+old patched suit-pants	Monster Level: +40, Moxie Percent: +5
 old school Mafia knickerbockers	Muscle: +25, Mysticality: +25, Moxie: +25
 palm-frond capris	Moxie: +4, Maximum HP: +30, Maximum MP: +30
 pants of the Slug Lord	Stench Resistance: +2
@@ -710,8 +713,12 @@ Dallas Dynasty Falcon Crest shield	Damage Reduction: 15, Cold Resistance: +5, Ho
 Dyspepsi-Cola shield	Damage Reduction: 4, Mysticality: +1
 Gazpacho's Glacial Grimoire	Spell Damage: +10
 Glass Balls of the Goblin King	Mysticality: +14
-# Hodgman's varcolac paw	Converts Hobo Power to Melee Damage
+# Hodgman's almanac	Converts Hobo Power to Spell Damage
+# Hodgman's cane	Converts Hobo Power to HP and MP Regeneration
 # Hodgman's garbage sticker	Converts Hobo Power to + Meat Drops
+# Hodgman's harmonica	Converts Hobo Power to Ranged Damage
+# Hodgman's metal detector	Converts Hobo Power to + Item Drops
+# Hodgman's varcolac paw	Converts Hobo Power to Melee Damage
 # Kevlar balloon
 KoL Con IV Pole	Maximum HP: +4, Maximum MP: +4, Moxie: +4, Muscle: +4, Mysticality: +4, Hot Damage: +4
 Mr. Balloon	Moxie: +3, Muscle: +3, Mysticality: +3
