@@ -74,7 +74,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
  * UI for <code>CloseAndMaxTabbedPane</code>.
  * <p>
  * Credits to:
- * 
+ *
  * @author Amy Fowler
  * @author Philip Milne
  * @author Steve Wilson
@@ -366,7 +366,7 @@ public class CloseTabPaneUI
 
 	/**
 	 * Invoked by <code>installUI</code> to create a layout manager object to manage the <code>JTabbedPane</code>.
-	 * 
+	 *
 	 * @return a layout manager object
 	 * @see TabbedPaneLayout
 	 * @see javax.swing.JTabbedPane#getTabLayoutPolicy
@@ -386,7 +386,7 @@ public class CloseTabPaneUI
 
 	/**
 	 * Creates and installs any required subcomponents for the JTabbedPane. Invoked by installUI.
-	 * 
+	 *
 	 * @since 1.4
 	 */
 	protected void installComponents()
@@ -404,7 +404,7 @@ public class CloseTabPaneUI
 
 	/**
 	 * Removes any installed subcomponents from the JTabbedPane. Invoked by uninstallUI.
-	 * 
+	 *
 	 * @since 1.4
 	 */
 	protected void uninstallComponents()
@@ -558,8 +558,6 @@ public class CloseTabPaneUI
 		map.put( "navigateDown", new DownAction() );
 		map.put( "navigatePageUp", new PageUpAction() );
 		map.put( "navigatePageDown", new PageDownAction() );
-		map.put( "requestFocus", new RequestFocusAction() );
-		map.put( "requestFocusForVisibleComponent", new RequestFocusForVisibleAction() );
 		map.put( "setSelectedIndex", new SetSelectedIndexAction() );
 		map.put( "scrollTabsForwardAction", new ScrollTabsForwardAction() );
 		map.put( "scrollTabsBackwardAction", new ScrollTabsBackwardAction() );
@@ -813,7 +811,7 @@ public class CloseTabPaneUI
 	 * tab index parameter must be a valid tabbed pane tab index (0 to tab count - 1, inclusive). The destination
 	 * rectangle parameter must be a valid <code>Rectangle</code> instance. The handling of invalid parameters is
 	 * unspecified.
-	 * 
+	 *
 	 * @param tabIndex the index of the tab
 	 * @param dest the rectangle where the result should be placed
 	 * @return the resulting rectangle
@@ -1016,27 +1014,6 @@ public class CloseTabPaneUI
 			{
 				ui.navigateSelectedTab( SwingConstants.SOUTH );
 			}
-		}
-	};
-
-	private class RequestFocusAction
-		extends AbstractAction
-	{
-		public void actionPerformed( final ActionEvent e )
-		{
-			JTabbedPane pane = (JTabbedPane) e.getSource();
-			pane.requestFocus();
-		}
-	};
-
-	private class RequestFocusForVisibleAction
-		extends AbstractAction
-	{
-		public void actionPerformed( final ActionEvent e )
-		{
-			JTabbedPane pane = (JTabbedPane) e.getSource();
-			CloseTabPaneUI ui = (CloseTabPaneUI) pane.getUI();
-			ui.requestMyFocusForVisibleComponent();
 		}
 	};
 
@@ -1271,7 +1248,7 @@ public class CloseTabPaneUI
 					{
 						if ( !CloseTabPaneUI.this.requestMyFocusForVisibleComponent() )
 						{
-							CloseTabPaneUI.this.tabPane.requestFocus();
+							CloseTabPaneUI.this.tabPane.requestFocusInWindow();
 						}
 					}
 				}

@@ -218,7 +218,26 @@ public class MallSearchFrame
 
 		public void requestFocus()
 		{
+			super.requestFocus();
 			this.searchField.requestFocus();
+		}
+
+		public boolean requestFocus( boolean temporary )
+		{
+			super.requestFocus( temporary );
+			return this.searchField.requestFocusInWindow();
+		}
+
+		public boolean requestFocusInWindow()
+		{
+			super.requestFocusInWindow();
+			return this.searchField.requestFocusInWindow();
+		}
+
+		public boolean requestFocusInWindow( boolean temporary )
+		{
+			super.requestFocusInWindow( temporary );
+			return this.searchField.requestFocusInWindow();
 		}
 	}
 

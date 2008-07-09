@@ -49,8 +49,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
@@ -63,13 +61,14 @@ import net.sourceforge.kolmafia.swingui.button.DisplayFrameButton;
 import net.sourceforge.kolmafia.swingui.button.LoadScriptButton;
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
 import net.sourceforge.kolmafia.swingui.menu.GlobalMenuBar;
+
 import tab.CloseListener;
 import tab.CloseTabPaneUI;
 import tab.CloseTabbedPane;
 
 public class KoLDesktop
 	extends GenericFrame
-	implements ChangeListener, CloseListener
+	implements CloseListener
 {
 	private static final DisplayDesktopRunnable DISPLAYER = new DisplayDesktopRunnable();
 
@@ -105,7 +104,6 @@ public class KoLDesktop
 
 		JToolBar toolbarPanel = this.getToolbar();
 		this.setJMenuBar( new GlobalMenuBar() );
-		this.tabs.addChangeListener( this );
 
 		int scriptButtons = Preferences.getInteger( "scriptButtonPosition" );
 
@@ -157,15 +155,6 @@ public class KoLDesktop
 		}
 
 		return Preferences.getBoolean( "allowCloseableDesktopTabs" ) ? new CloseableTabbedPane() : new JTabbedPane();
-	}
-
-	public void stateChanged( final ChangeEvent e )
-	{
-		int selectedIndex = KoLDesktop.this.tabs.getSelectedIndex();
-		if ( selectedIndex != -1 && selectedIndex < KoLDesktop.this.tabListing.size() )
-		{
-			( (GenericFrame) KoLDesktop.this.tabListing.get( selectedIndex ) ).requestFocus();
-		}
 	}
 
 	public void closeOperation( final MouseEvent e, final int overTabIndex )
@@ -298,17 +287,6 @@ public class KoLDesktop
 		catch ( Exception e )
 		{
 			StaticEntity.printStackTrace( e );
-		}
-	}
-
-	private static class DisplayDesktopRunnable
-		implements Runnable
-	{
-		public void run()
-		{
-			KoLDesktop.getInstance().pack();
-			KoLDesktop.getInstance().setVisible( true );
-			KoLDesktop.getInstance().requestFocus();
 		}
 	}
 
@@ -451,6 +429,17 @@ public class KoLDesktop
 		public void windowIconified( final WindowEvent e )
 		{
 			KoLDesktop.this.setVisible( false );
+		}
+	}
+
+	private static class DisplayDesktopRunnable
+		implements Runnable
+	{
+		public void run()
+		{
+			KoLDesktop.getInstance().pack();
+			KoLDesktop.getInstance().setVisible( true );
+			KoLDesktop.getInstance().requestFocus();
 		}
 	}
 }

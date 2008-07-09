@@ -106,7 +106,25 @@ public class LoginFrame
 	public void requestFocus()
 	{
 		super.requestFocus();
-		this.usernameField.requestFocus();
+		this.usernameField.requestFocusInWindow();
+	}
+
+	public boolean requestFocus( boolean temporary )
+	{
+		super.requestFocus( temporary );
+		return this.usernameField.requestFocusInWindow();
+	}
+
+	public boolean requestFocusInWindow()
+	{
+		super.requestFocusInWindow();
+		return this.usernameField.requestFocusInWindow();
+	}
+
+	public boolean requestFocusInWindow( boolean temporary )
+	{
+		super.requestFocusInWindow( temporary );
+		return this.usernameField.requestFocusInWindow();
 	}
 
 	public static final boolean instanceExists()

@@ -82,10 +82,6 @@ public abstract class LabeledPanel
 	{
 	}
 
-	public void requestFocus()
-	{
-	}
-
 	public boolean shouldAddStatusLabel()
 	{
 		return false;

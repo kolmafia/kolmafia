@@ -84,21 +84,6 @@ public class CommandDisplayFrame
 		super( "Graphical CLI" );
 		this.setDefaultCloseOperation( WindowConstants.HIDE_ON_CLOSE );
 		this.framePanel.add( new CommandDisplayPanel(), BorderLayout.CENTER );
-
-		// Workaround for Swing bug in JTabbedPane
-		// http://www.javalobby.org/java/forums/t43667.html
-
-		this.getContentPane().setFocusCycleRoot( true );
-		this.getContentPane().setFocusTraversalPolicy( new EntryFieldFocuser() );
-	}
-
-	private class EntryFieldFocuser
-		extends LayoutFocusTraversalPolicy
-	{
-		public Component getDefaultComponent( final Container c )
-		{
-			return CommandDisplayFrame.this.entryField;
-		}
 	}
 
 	public JTabbedPane getTabbedPane()
@@ -118,7 +103,26 @@ public class CommandDisplayFrame
 
 	public void requestFocus()
 	{
-		this.entryField.requestFocus();
+		super.requestFocus();
+		this.entryField.requestFocusInWindow();
+	}
+
+	public boolean requestFocus( boolean temporary )
+	{
+		super.requestFocus( temporary );
+		return this.entryField.requestFocusInWindow();
+	}
+
+	public boolean requestFocusInWindow()
+	{
+		super.requestFocusInWindow();
+		return this.entryField.requestFocusInWindow();
+	}
+
+	public boolean requestFocusInWindow( boolean temporary )
+	{
+		super.requestFocusInWindow( temporary );
+		return this.entryField.requestFocusInWindow();
 	}
 
 	public void dispose()
@@ -151,6 +155,30 @@ public class CommandDisplayFrame
 			this.setLayout( new BorderLayout( 1, 1 ) );
 			this.add( scrollPane, BorderLayout.CENTER );
 			this.add( entryPanel, BorderLayout.SOUTH );
+		}
+
+		public void requestFocus()
+		{
+			super.requestFocus();
+			CommandDisplayFrame.this.entryField.requestFocusInWindow();
+		}
+
+		public boolean requestFocus( boolean temporary )
+		{
+			super.requestFocus( temporary );
+			return CommandDisplayFrame.this.entryField.requestFocusInWindow();
+		}
+
+		public boolean requestFocusInWindow()
+		{
+			super.requestFocusInWindow();
+			return CommandDisplayFrame.this.entryField.requestFocusInWindow();
+		}
+
+		public boolean requestFocusInWindow( boolean temporary )
+		{
+			super.requestFocusInWindow( temporary );
+			return CommandDisplayFrame.this.entryField.requestFocusInWindow();
 		}
 
 		private class CommandEntryListener

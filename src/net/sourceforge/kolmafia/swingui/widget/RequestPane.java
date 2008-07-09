@@ -59,6 +59,38 @@ public class RequestPane
 		this.setBackground( new Color( 252, 252, 252 ) );
 	}
 
+	public boolean isFocusTraversable()
+	{
+		return false;
+	}
+
+	public void requestFocus()
+	{
+		super.requestFocus();
+		this.transferFocus();
+	}
+
+	public boolean requestFocus( boolean temporary )
+	{
+		super.requestFocus( temporary );
+		this.transferFocus();
+		return false;
+	}
+
+	public boolean requestFocusInWindow()
+	{
+		super.requestFocusInWindow();
+		this.transferFocus();
+		return false;
+	}
+
+	public boolean requestFocusInWindow( boolean temporary )
+	{
+		super.requestFocusInWindow( temporary );
+		this.transferFocus();
+		return false;
+	}
+
 	public String getSelectedText()
 	{
 		// Retrieve the HTML version of the current selection
