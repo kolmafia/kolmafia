@@ -701,18 +701,35 @@ public class CloseableTabbedPane
 		this.setForegroundAt( tabIndex, Color.black );
 	}
 
-
-	public final boolean isFocusable()
+	public boolean isFocusable()
 	{
 		return false;
 	}
 
-	public final void setFocusable( final boolean isFocusable )
-	{
-	}
-
 	public final void requestFocus()
 	{
+		super.requestFocus();
 		this.transferFocus();
+	}
+
+	public final boolean requestFocus( boolean temporary )
+	{
+		super.requestFocus( temporary );
+		this.transferFocus();
+		return false;
+	}
+
+	public final boolean requestFocusInWindow()
+	{
+		super.requestFocusInWindow();
+		this.transferFocus();
+		return false;
+	}
+
+	public final boolean requestFocusInWindow( boolean temporary )
+	{
+		super.requestFocusInWindow( temporary );
+		this.transferFocus();
+		return false;
 	}
 }

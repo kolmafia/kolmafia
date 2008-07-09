@@ -334,6 +334,26 @@ public abstract class GenericFrame
 
 	public void requestFocus()
 	{
+		super.requestFocus();
+		this.framePanel.requestFocusInWindow();
+	}
+
+	public boolean requestFocus( boolean temporary )
+	{
+		super.requestFocus( temporary );
+		return this.framePanel.requestFocusInWindow();
+	}
+
+	public boolean requestFocusInWindow()
+	{
+		super.requestFocusInWindow();
+		return this.framePanel.requestFocusInWindow();
+	}
+
+	public boolean requestFocusInWindow( boolean temporary )
+	{
+		super.requestFocusInWindow( temporary );
+		return this.framePanel.requestFocusInWindow();
 	}
 
 	public boolean useSidePane()

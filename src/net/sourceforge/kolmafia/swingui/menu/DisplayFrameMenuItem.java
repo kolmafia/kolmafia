@@ -125,7 +125,7 @@ public class DisplayFrameMenuItem
 				frame.setVisible( true );
 			}
 
-			frame.requestFocus();
+			frame.requestFocusInWindow();
 		}
 	}
 }

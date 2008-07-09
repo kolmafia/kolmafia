@@ -268,6 +268,26 @@ public class ChatFrame
 
 		public void requestFocus()
 		{
+			super.requestFocus();
+			this.entryField.requestFocusInWindow();
+		}
+
+		public boolean requestFocus( boolean temporary )
+		{
+			super.requestFocus( temporary );
+			return this.entryField.requestFocusInWindow();
+		}
+
+		public boolean requestFocusInWindow()
+		{
+			super.requestFocusInWindow();
+			return this.entryField.requestFocusInWindow();
+		}
+
+		public boolean requestFocusInWindow( boolean temporary )
+		{
+			super.requestFocusInWindow( temporary );
+			return this.entryField.requestFocusInWindow();
 		}
 
 		/**
@@ -437,17 +457,46 @@ public class ChatFrame
 		return super.hasFocus() || this.mainPanel != null && this.mainPanel.hasFocus();
 	}
 
-	/**
-	 * Requests focus to be placed on this chat frame. It should be called whenever this window is first created.
-	 */
-
 	public void requestFocus()
 	{
 		super.requestFocus();
 		if ( this.mainPanel != null )
 		{
-			this.mainPanel.requestFocus();
+			this.mainPanel.requestFocusInWindow();
 		}
+	}
+
+	public boolean requestFocus( boolean temporary )
+	{
+		super.requestFocus( temporary );
+		if ( this.mainPanel != null )
+		{
+			return this.mainPanel.requestFocusInWindow();
+		}
+
+		return false;
+	}
+
+	public boolean requestFocusInWindow()
+	{
+		super.requestFocusInWindow();
+		if ( this.mainPanel != null )
+		{
+			return this.mainPanel.requestFocusInWindow();
+		}
+
+		return false;
+	}
+
+	public boolean requestFocusInWindow( boolean temporary )
+	{
+		super.requestFocusInWindow( temporary );
+		if ( this.mainPanel != null )
+		{
+			return this.mainPanel.requestFocusInWindow();
+		}
+
+		return false;
 	}
 
 	/**

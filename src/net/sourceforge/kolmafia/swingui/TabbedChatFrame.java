@@ -223,7 +223,7 @@ public class TabbedChatFrame
 				TabbedChatFrame.this.tabs.addTab( ChatFrame.GCLI_TAB, TabbedChatFrame.this.commandLineDisplay );
 			}
 
-			this.createdPanel.requestFocus();
+			this.createdPanel.requestFocusInWindow();
 		}
 	}
 
