@@ -175,6 +175,11 @@ public class AdventureSelectPanel
 
 	public void updateSelectedAdventure( final KoLAdventure location )
 	{
+		if ( location == null )
+		{
+			return;
+		}
+
 		if ( !KoLConstants.conditions.isEmpty() )
 		{
 			return;
