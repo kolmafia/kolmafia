@@ -676,15 +676,18 @@ public class RequestEditorKit
 				RequestEditorKit.addChatFeatures( buffer );
 			}
 
-			boolean hasCloseTag = buffer.indexOf( "</html>" ) != -1;
+			if ( Preferences.getBoolean( "autoHighlightOnFocus" ) )
+			{
+				boolean hasCloseTag = buffer.indexOf( "</html>" ) != -1;
 
-			if ( hasCloseTag )
-			{
-				StringUtilities.insertBefore( buffer, "</html>", "<script src=\"/onfocus.js\"></script>" );
-			}
-			else
-			{
-				buffer.append( "<script src=\"/onfocus.js\"></script>" );
+				if ( hasCloseTag )
+				{
+					StringUtilities.insertBefore( buffer, "</html>", "<script src=\"/onfocus.js\"></script>" );
+				}
+				else
+				{
+					buffer.append( "<script src=\"/onfocus.js\"></script>" );
+				}
 			}
 		}
 
