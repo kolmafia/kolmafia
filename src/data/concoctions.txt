@@ -175,6 +175,7 @@ enchanted bean burrito	2	flat dough	enchanted bean
 flower petal pie	2	pretty flower	pie crust
 ghostly pickling solution	2	briny vinegar	dill
 goat cheese pizza	2	plain pizza	goat cheese
+guano coffee cup	16	bat guano
 herb brownies	2	herbs	Uncle Jick's Brownie Mix
 hippy herbal tea	2	guano coffee cup	herbs
 insanely spicy bean burrito	2	spicy bean burrito	jaba&ntilde;ero pepper
@@ -946,15 +947,18 @@ Mudflap-Girl Ring	25	tawdry amethyst	extra-fancy ring setting
 
 # Chef staves made by Rodoric
 
-Staff of the Short Order Cook	26	basic meat staff	bowl of cottage cheese	ice-cold Sir Schlitz (3)	twinkly powder (3)	magicalness-in-a-can (5)
-Staff of the Midnight Snack	26	spooky staff	fricasseed brains	bottle of popskull	spooky powder (3)	spray paint (3)
 Staff of Blood and Pudding	26	dripping meat staff	mugcake	bloody mary	twinkly nuggets	bottle of used blood
-Staff of the Greasefire	26	Kentucky-fried meat staff	spicy noodles	bottle of tequila	hot nuggets	sleaze nuggets
-Staff of the Kitchen Floor	26	linoleum staff	stinky hi mein (3)	stinky mushroom wine	stench wad (10)	fetid feather
-Staff of the Walk-In Freezer	26	ram stick	cold hi mein (3)	icy mushroom wine	cold wad (10)	frozen feather
+Staff of the Black Kettle	26	Staff of the Teapot Tempest	olive lo mein	around the world	jug-o-magicalness	magical mystery juice (6)	asbestos ore
+Staff of the Deepest Freeze	26	Frosty's arm	bowl of fishysoisse	icy mushroom wine (3)	epic wad	glacial sapphire (3)	frigid mote
 Staff of the Grand Flamb&eacute;	26	smoldering staff	hot hi mein (3)	flaming mushroom wine	hot wad (10)	flaming feather
 Staff of the Grease Trap	26	giant cheesestick	sleazy hi mein (3)	flat mushroom wine	sleaze wad (10)	flirtatious feather
-Staff of the Deepest Freeze	26	Frosty's arm	bowl of fishysoisse	icy mushroom wine (3)	epic wad	glacial sapphire (3)	frigid mote
+Staff of the Greasefire	26	Kentucky-fried meat staff	spicy noodles	bottle of tequila	hot nuggets	sleaze nuggets
+Staff of the Kitchen Floor	26	linoleum staff	stinky hi mein (3)	stinky mushroom wine	stench wad (10)	fetid feather
+Staff of the Midnight Snack	26	spooky staff	fricasseed brains	bottle of popskull	spooky powder (3)	spray paint (3)
+Staff of the Short Order Cook	26	basic meat staff	bowl of cottage cheese	ice-cold Sir Schlitz (3)	twinkly powder (3)	magicalness-in-a-can (5)
+Staff of the Teapot Tempest	26	big stirring stick	menudo	sangria	hippy herbal tea	concentrated magicalness pill	magical mystery juice (3)
+Staff of the Walk-In Freezer	26	ram stick	cold hi mein (3)	icy mushroom wine	cold wad (10)	frozen feather
+Staff of the Well-Tempered Cauldron	26	Staff of the Black Kettle	bat wing chow mein	Supernova Champagne	bit-o-cactus	squashed frog	eye of newt	salamander spleen
 
 
 # Recipes that involve multi-using a quantity of an item

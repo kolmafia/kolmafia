@@ -372,6 +372,7 @@ Shagadelic Disco Banjo	90	Mox: 15	2-handed banjo
 Spirit Precipice	135	Mus: 45	2-handed sword
 Squeezebox of the Ages	90	Mox: 15	2-handed accordion
 Staff of Blood and Pudding	10	Mys: 15	1-handed chefstaff
+Staff of the Black Kettle	10	Mys: 75	1-handed chefstaff
 Staff of the Deepest Freeze	10	Mys: 200	1-handed chefstaff
 Staff of the Grand Flamb&eacute;	10	Mys: 125	1-handed chefstaff
 Staff of the Grease Trap	10	Mys: 125	1-handed chefstaff
@@ -379,7 +380,9 @@ Staff of the Greasefire	10	Mys: 20	1-handed chefstaff
 Staff of the Kitchen Floor	10	Mys: 125	1-handed chefstaff
 Staff of the Midnight Snack	10	Mys: 15	1-handed chefstaff
 Staff of the Short Order Cook	10	Mys: 15	1-handed chefstaff
+Staff of the Teapot Tempest	10	Mys: 25	1-handed chefstaff
 Staff of the Walk-In Freezer	10	Mys: 125	1-handed chefstaff
+Staff of the Well-Tempered Cauldron	10	Mys: 125	1-handed chefstaff
 Super Magic Power Sword X	100	Mus: 35	1-handed sword
 Totally Gay Claymore	69	Mus: 19	2-handed sword
 Tropical Crimbo Sword	100	Mus: 35	1-handed sword
@@ -408,6 +411,7 @@ batblade	145	Mus: 57	1-handed knife
 beer bong	190	Mox: 80	1-handed bong
 beer-a-pult	190	Mox: 80	3-handed catapult
 big stick	10	Mus: 0	2-handed staff
+big stirring stick	100	Mus: 35	2-handed staff
 bill bec-de-bardiche glaive-guisarme	150	Mus: 60	2-handed polearm?
 black sword	160	Mus: 65	1-handed sword
 bottle-rocket crossbow	100	Mox: 0	1-handed crossbow
