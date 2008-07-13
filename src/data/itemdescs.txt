@@ -3323,7 +3323,7 @@
 3316	987134809	epic wad
 3317	436834470	lucky bottlecap
 3318	425482016	corncob pipe
-3319	419047697	Mr. Joe's bangles
+3319	419047697	Mr. Joe's bangles	sets of Mr. Joe's bangles
 3320	398731027	frayed rope belt
 3321	876664237	packet of mayfly bait
 3322	454243766	mayfly bait necklace
@@ -3438,3 +3438,8 @@
 3431
 3432
 3433	569771218	spice melange
+3434
+3435	768622816	big stirring stick
+3436	812870240	Staff of the Teapot Tempest
+3437	707454044	Staff of the Black Kettle
+3438	452734240	Staff of the Well-Tempered Cauldron

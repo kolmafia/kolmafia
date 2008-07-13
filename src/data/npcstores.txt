@@ -6,6 +6,7 @@ Shadowy Store	1	moxie magnet	3000
 Gouda's Grimoire and Grocery	2	magical mystery juice	100
 Gouda's Grimoire and Grocery	2	delectable catalyst	1000
 Gouda's Grimoire and Grocery	2	MSG	1000
+Gouda's Grimoire and Grocery	2	big stirring stick	1500
 Gouda's Grimoire and Grocery	2	ladle of mystery	3000
 Gouda's Grimoire and Grocery	2	kickback cookbook	4000
 Gouda's Grimoire and Grocery	2	Codex of Capsaicin Conjuration	4000
