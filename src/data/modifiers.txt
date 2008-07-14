@@ -1439,17 +1439,19 @@ Apathy	Muscle Percent: -30, Mysticality Percent: -30, Moxie Percent: -30
 Arabian Knighthood	Muscle Percent: +5
 Arcane in the Brain	Mana Cost: -3
 Arse-a'fire	Muscle Percent: +10
-# Artificially Sweet
+Artificially Sweet	Moxie Percent: +100
 Aspect of the Twinklefairy	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Melee Damage: +5, Spell Damage: +5
 Astral Shell	Damage Absorption: +80, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 Axe Wound	Muscle: -5
 Baconstoned	Mysticality Percent: +50
 Bananas!	Muscle: +40, Mysticality: +40, Moxie: +40
 Barking Dogs	Muscle Percent: -50
+# Barking Mad	Spell Damage Percent: +20
 Basted	Sleaze Damage: +10
 Batigue	Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 Beaten Up	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50
 Bells in the Batfry	Moxie Percent: +10
+Benetton's Medley of Diversity	Spooky Damage: +15, Stench Damage: +15, Hot Damage: +15, Cold Damage: +15, Sleaze Damage: +15
 Bestial Sympathy	Familiar Weight: +3
 Big Flaming Whip	Hot Damage: +20
 Big Veiny Brain	Experience: +2, Meat Drop: -20
@@ -1492,7 +1494,9 @@ Concentration	Spell Damage Percent: +10
 Confused	Mysticality Percent: -30
 Contagious Bad Luck	Mysticality Percent: -20
 Contemptible Emanations	Monster Level: +20
+Chorale of Companionship	Familiar Weight: +10
 Crimbo Epiphany	Mysticality Percent: +10
+# Crotchety, Pining	Melee Damage: +10
 Cupcake of Choice	Item Drop: +30
 Cupshotten	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1, Muscle Percent: -20, Mysticality Percent: -20, Moxie Percent: -20
 Cuts Like a Buttered Knife	Sleaze Damage: +50
@@ -1650,6 +1654,7 @@ Polka of Plenty	Meat Drop: +50
 Ponderous Potency	Melee Damage: +20
 Pop-eyed	Melee Damage: +30
 Power Ballad of the Arrowsmith	Muscle: +10, Maximum HP: +20
+# Prelude of Precision	Critical: +10
 Prestidigysfunction	Mysticality Percent: -95
 Preternatural Greed	Meat Drop: +100
 Pronounced Potency	Melee Damage: +5
@@ -1731,6 +1736,7 @@ Temporary Lycanthropy	Muscle Percent: +0
 Tenacity of the Snapper	Melee Damage: +8
 Tenuous Grip on Reality	Moxie Percent: -95
 Tetanus	Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10
+# The Ballad of Richie Thingfinder	Meat Drop: +50, Item Drop: +25
 The Cupcake of Wrath	Monster Level: +10
 The Great Tit's Blessing	Monster Level: +20
 The Magical Mojomuscular Melody	Mysticality: +10, Maximum MP: +20
