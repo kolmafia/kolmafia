@@ -3408,7 +3408,7 @@
 3401	663239943	deadly lampshade
 3402	637820129	concentrated garbage juice
 3403	683821625	lewd playing card
-3404
+3404	861763537	deck of lewd playing cards
 3405	494251681	Hodgman's lucky sock
 3406	307397478	Hodgman's varcolac paw
 3407	326308790	Hodgman's almanac

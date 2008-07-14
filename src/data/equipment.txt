@@ -639,9 +639,6 @@ yohohoyo	160	Mox: 65	1-handed yoyo
 6-ball	0	none
 7-ball	0	none
 9-ball	0	none
-bag of Crotchety Pine saplings	0	none
-bag of Saccharine Maple saplings	0	none
-bag of Laughing Willow saplings	0	none
 Brimstone Bunker	240	Mus: 30	shield
 C. H. U. M. lantern	0	Mus: 150
 Cloaca-Cola shield	75	none	shield
@@ -677,6 +674,9 @@ anniversary balloon	0	none
 anniversary chutney sculpture	0	none
 antique shield	230	Mus: 85	shield
 arrow'd heart balloon	0	none
+bag of Crotchety Pine saplings	0	none
+bag of Saccharine Maple saplings	0	none
+bag of Laughing Willow saplings	0	none
 ball-in-a-cup	0	none
 barskin buckler	27	none	shield
 basic meat foon	0	Mys: 10
@@ -696,6 +696,7 @@ coffin lid	55	Mus: 10	shield
 continuum transfunctioner	0	none
 cup of infinite pencils	0	Mus: 175
 cyborg doll	0	Mys: 40
+deck of lewd playing cards	0	Mys: 22
 deck of tropical cards	0	none
 defective skull	0	none
 demon buckler	77	Mus: 25	shield
