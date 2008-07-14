@@ -152,7 +152,10 @@ Wartime Frat House	0	War Hippy Spy: 0
 Wartime Frat House (Hippy Disguise)	-1	War Pledge	Frat Warrior Drill Sergeant
 Wartime Hippy Camp	-1	Orcish Frat Boy Spy: 0
 Wartime Hippy Camp (Frat Disguise)	-1	War Hippy Drill Sergeant	War Hippy (Space) Cadet
-Wartime Junkyard	100	A.M.C. Gremlin	Batwinged Gremlin	Erudite Gremlin	Spider Gremlin	Vegetable Gremlin
+Barrel with Something Burning in it	100	A.M.C. Gremlin	Batwinged Gremlin	Spider Gremlin	Vegetable Gremlin
+Near an Abandoned Refrigerator	100	A.M.C. Gremlin	Batwinged Gremlin	Erudite Gremlin	Spider Gremlin	Vegetable Gremlin
+Over Where the Old Tires Are	100	A.M.C. Gremlin	Batwinged Gremlin	Erudite Gremlin	Spider Gremlin	Vegetable Gremlin
+Out by that Rusted-Out Car	100	A.M.C. Gremlin	Erudite Gremlin	Spider Gremlin	Vegetable Gremlin
 Wartime Sonofa Beach	-1	Lobsterfrogman
 White Citadel	-1	Angry Raccoon Puppet	Business Hippy	eXtreme Sports Orcs
 Whitey's Grove	75	Knight in White Satin	White Chocolate Golem	White Lion	Whitesnake

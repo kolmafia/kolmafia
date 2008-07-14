@@ -731,7 +731,10 @@ public class RequestEditorKit
 			IslandDecorator.decorateThemtharFight( buffer );
 			break;
 
-		case 139: // Wartime Junkyard
+		case 182: // Barrel with Something Burning in it
+		case 183: // Near an Abandoned Refrigerator
+		case 184: // Over Where the Old Tires Are
+		case 185: // Out by that Rusted-Out Car
 			// Quest gremlins might have a tool.
 			IslandDecorator.decorateGremlinFight( buffer );
 			break;

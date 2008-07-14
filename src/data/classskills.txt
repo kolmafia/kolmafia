@@ -35,44 +35,24 @@
 26	Envy	0	0	0
 27	Pride	0	0	0
 
-# Skills granted by equipped items
+# Available from hobopolis skill books
 
-7001	Give In To Your Vampiric Urges	5	0	0
-7002	Shake Hands	5	0	0
-7003	Hot Breath	5	5	0
-7004	Cold Breath	5	5	0
-7005	Spooky Breath	5	5	0
-7006	Stinky Breath	5	5	0
-7007	Sleazy Breath	5	5	0
-7008	Moxious Maneuver	5	0	0
-7009	Magic Missile	5	0	0
-7010	Fire red bottle-rocket	5	5	0
-7011	Fire blue bottle-rocket	5	5	0
-7012	Fire orange bottle-rocket	5	5	0
-7013	Fire purple bottle-rocket	5	5	0
-7014	Fire black bottle-rocket	5	5	0
-7015	Creepy Grin	5	30	0
-7024	Summon Mayfly Swarm	5	0	0
-
-# Skills granted in bird form
-7025	Get a You-Eye View	5	30	0
-7038	Vicious Talon Slash	5	5	0
-7039	All-You-Can-Beat Wing Buffet	5	10	0
-7040	Tunnel Upwards	5	0	0
-7041	Tunnel Downwards	5	0	0
-7042	Rise From Your Ashes	5	20	0
-7043	Antarctic Flap	5	20	0
-7044	The Statue Treatment	5	20	0
-7045	Feast on Carrion	5	20	0
-7046	Give Your Opponent &quot;The Bird&quot;	5	20	0
-
-# Skills granted by books on your Mystical Bookshelf
-
-8000	Summon Snowcone	1	5	0
-8100	Summon Candy Hearts	1	0	0
-8101	Summon Party Favor	1	0	0
-8200	Summon Hilarious Objects	1	5	0
-8201	Summon Tasteful Items	1	5	0
+28	Awesome Balls of Fire	5	120	0
+29	Conjure Relaxing Campfire	5	30	0
+30	Snowclone	5	120	0
+31	Maximum Chill	5	30	0
+32	Eggsplosion	5	120	0
+33	Mudbath	5	30	0
+34
+35
+36	Grease Lightning	5	120	0
+37	Inappropriate Backrub	5	30	0
+38	Natural Born Scrabbler	0	0	0
+39	Thrift and Grift	0	0	0
+40	Abs of Tin	0	0	0
+41	Marginally Insane	0	0	0
+42	Raise Backup Dancer	5	120	0
+43	Creepy Lullaby	5	30	0
 
 # Skills available to Clubbers
 
@@ -228,3 +208,76 @@
 6016	Carlweather's Cantata of Confrontation	4	20	5
 6017	Ur-Kel's Aria of Annoyance	4	30	5
 6018	Dirge of Dreadfulness	4	9	5
+6019
+6020	The Ballad of Richie Thingfinder	4	50	5
+6021	Benetton's Medley of Diversity	4	50	5
+6022	Elron's Explosive Etude	4	50	5
+6023	Chorale of Companionship	4	50	5
+6024	Prelude of Precision	4	50	5
+
+# Skills granted conditionally
+
+7001	Give In To Your Vampiric Urges	5	0	0
+7002	Shake Hands	5	0	0
+7003	Hot Breath	5	5	0
+7004	Cold Breath	5	5	0
+7005	Spooky Breath	5	5	0
+7006	Stinky Breath	5	5	0
+7007	Sleazy Breath	5	5	0
+7008	Moxious Maneuver	5	0	0
+7009	Magic Missile	5	0	0
+7010	Fire red bottle-rocket	5	5	0
+7011	Fire blue bottle-rocket	5	5	0
+7012	Fire orange bottle-rocket	5	5	0
+7013	Fire purple bottle-rocket	5	5	0
+7014	Fire black bottle-rocket	5	5	0
+7015	Creepy Grin	5	30	0
+7016	Start Trash Fire	5	100	0
+7017	Overload Discarded Refrigerator	5	100	0
+7018	Trashquake	5	100	0
+7019	Zombo's Visage	5	100	0
+7020	Hypnotize Hobo	5	100	0
+7021	Ask Richard for a Bandage	5	0	0
+7022	Ask Richard for a Grenade	5	0	0
+7023	Ask Richard to Rough the Hobo Up a Bit	5	0	0
+7024	Summon Mayfly Swarm	5	0	0
+7025	Get a You-Eye View	5	30	0
+7026
+7027
+7028
+7029
+7030
+7031
+7032
+7033
+7034
+7035
+7036
+7037
+7038	Vicious Talon Slash	5	5	0
+7039	All-You-Can-Beat Wing Buffet	5	10	0
+7040	Tunnel Upwards	5	0	0
+7041	Tunnel Downwards	5	0	0
+7042	Rise From Your Ashes	5	20	0
+7043	Antarctic Flap	5	20	0
+7044	The Statue Treatment	5	20	0
+7045	Feast on Carrion	5	20	0
+7046	Give Your Opponent &quot;The Bird&quot;	5	20	0
+7047	Ask the hobo for a drink	5	0	0
+7048	Ask the hobo for something to eat	5	0	0
+7049	Ask the hobo for some violence	5	0	0
+7050	Ask the hobo to tell you a joke	5	0	0
+7051	Ask the hobo to dance for you.	5	0	0
+7052	Summon hobo underling	5	0	0
+7053	Rouse Sapling	5	15	0
+7054	Spray Sap	5	15	0
+7055	Put Down Roots	5	15	0
+7056	Fire off a Roman Candle	5	10	0
+
+# Skills granted by books on your Mystical Bookshelf
+
+8000	Summon Snowcone	1	5	0
+8100	Summon Candy Hearts	1	0	0
+8101	Summon Party Favor	1	0	0
+8200	Summon Hilarious Objects	1	5	0
+8201	Summon Tasteful Items	1	5	0

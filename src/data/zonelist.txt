@@ -2,6 +2,7 @@
 Town	Town	Seaside Town
 Casino	Town	Seaside Casino
 Dungeon	Town	Seaside Dungeon
+Hobopolis	Town	Hobopolis
 
 Manor0	Manor0	Spookyraven (Cellar)
 Manor1	Manor1	Spookyraven (First Floor)
@@ -34,6 +35,7 @@ Island	Island	Mysterious Island
 IsleWar	IsleWar	Island War Quest
 Farm	IsleWar	McMillicancuddy's Farm
 Orchard	IsleWar	Organic Orchard
+Junkyard	IsleWar	Wartime Junkyard
 
 Signed Zones	Signed Zones	Signed Zones
 Gyms	Signed Zones	Clan/Signed Gyms
