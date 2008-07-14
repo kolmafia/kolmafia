@@ -169,7 +169,8 @@ public abstract class KoLmafia
 	public static final String NONE = "0";
 	public static final String STOP = "1";
 	public static final String SEMIRARE = "2";
-
+	public static final String GLYPH = "1";
+	
 	public static final String[][] SPECIAL_ENCOUNTERS =
 	{
 		{ "History is Fun!", STOP },
@@ -246,8 +247,30 @@ public abstract class KoLmafia
 		{ "Two Sizes Too Small", SEMIRARE },
 		{ "Yo Ho Ho and a Bottle of Whatever This Is", SEMIRARE },
 		{ "You Can Top Our Desserts, But You Can't Beat Our Meats", SEMIRARE },
+		
+		// Adventuring with the hobo code binder equipped - Glyph Adventures
+		{ "A Funny Thing Happened On the Way", GLYPH },
+		{ "My Little Stowaway", GLYPH },
+		{ "Bacon Bacon Bacon", GLYPH },
+		{ "Stumped", GLYPH },
+		{ "He's a Melancholy Drunk", GLYPH },
+		{ "How Do I Shot Web?", GLYPH },
+		{ "How Dry I Am", GLYPH },
+		{ "God Bless, Bra", GLYPH },
+		{ "They Gave at the Morgue", GLYPH },
+		{ "Elbereth? Who's Elbereth?", GLYPH },
+		{ "Not a Standard-Issue Windowsill, Obviously", GLYPH },
+		{ "They Hate Mimes, Too", GLYPH },
+		{ "Not So Much With the Corncob Pipes, Either.", GLYPH },
+		{ "Thud", GLYPH },
+		{ "They Hate That", GLYPH },
+		{ "Number 163", GLYPH },
+		{ "It's In the Cards", GLYPH },
+		{ "Breakfast of Champions", GLYPH },
+		{ "For Sale By Squatter", GLYPH },
+		{ "Now You're a Hero", GLYPH },	
 	};
-
+	
 	private static final boolean acquireFileLock( final String suffix )
 	{
 		try
@@ -882,6 +905,11 @@ public abstract class KoLmafia
 		case ItemPool.LUNCHBOX:
 		case ItemPool.KNOB_PASTY:
 		case ItemPool.KNOB_COFFEE:
+		case ItemPool.SQUEEZE:
+		case ItemPool.FISHYSOISSE:
+		case ItemPool.LAMP_SHADE:
+		case ItemPool.GARBAGE_JUICE:
+		case ItemPool.LEWD_CARD:
 			return true;
 		}
 		return false;

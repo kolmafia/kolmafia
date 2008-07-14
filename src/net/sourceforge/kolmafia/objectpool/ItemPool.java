@@ -424,6 +424,11 @@ public class ItemPool
 	public static final int STINKBUG = 3360;
 	public static final int DEATH_WATCH_BEETLE = 3361;
 	public static final int LOUSE = 3362;
+	public static final int SQUEEZE = 3399;
+	public static final int FISHYSOISSE = 3400;
+	public static final int LAMP_SHADE = 3401;
+	public static final int GARBAGE_JUICE = 3402;
+	public static final int LEWD_CARD = 3403;
 	public static final int FIREWORKS = 3421;
 
 	public static final AdventureResult get( String itemName, int count )

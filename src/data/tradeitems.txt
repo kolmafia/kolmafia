@@ -3402,7 +3402,7 @@
 3401	deadly lampshade	3	all	0
 3402	concentrated garbage juice	3	all	0
 3403	lewd playing card	3	all	0
-3404
+3404	deck of lewd playing cards	13	display	0
 3405	Hodgman's lucky sock	8	display	0
 3406	Hodgman's varcolac paw	13	display	0
 3407	Hodgman's almanac	13	display	0

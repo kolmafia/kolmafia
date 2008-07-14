@@ -761,6 +761,7 @@ coffin lid	Damage Reduction: 3, Spooky Resistance: +1
 # continuum transfunctioner
 cup of infinite pencils	Meat Drop: +15
 cyborg doll	Muscle: +3
+deck of lewd playing cards	Moxie Percent: +5, Sleaze Damage: +50, Sleaze Spell Damage: +50
 deck of tropical cards	Experience: +1
 # defective skull
 demon buckler	Damage Reduction: 5, Hot Damage: +3
