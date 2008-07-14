@@ -718,13 +718,13 @@ public abstract class KoLmafia
 
 		if ( ascensions != 0 && knownAscensions != -1 && knownAscensions != ascensions )
 		{
-			Preferences.setInteger( "knownAscensions", knownAscensions );
+			Preferences.setInteger( "knownAscensions", ascensions );
 			ValhallaManager.resetPerAscensionCounters();
 			shouldResetCounters = true;
 		}
 		else if ( knownAscensions == -1 )
 		{
-			Preferences.setInteger( "knownAscensions", knownAscensions );
+			Preferences.setInteger( "knownAscensions", ascensions );
 		}
 
 		if ( shouldResetCounters )
