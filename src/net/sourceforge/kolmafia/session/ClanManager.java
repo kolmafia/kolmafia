@@ -571,7 +571,7 @@ public abstract class ClanManager
 	public static final boolean isMember( final String memberName )
 	{
 		ClanManager.retrieveClanData();
-		return Collections.binarySearch( ClanManager.whiteListMembers, memberName.toLowerCase() ) != -1;
+		return Collections.binarySearch( ClanManager.whiteListMembers, memberName.toLowerCase() ) > -1;
 	}
 
 	public static final void applyFilter( final int matchType, final int filterType, final String filter )
