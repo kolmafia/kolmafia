@@ -1216,9 +1216,9 @@ public abstract class KoLCharacter
 
 	public static final int turnsSinceLastSemirare()
 	{
-        KoLCharacter.ensureUpdatedSemirareCounter();
-        int last = Preferences.getInteger( "semirareCounter" );
-        return KoLCharacter.currentRun - last;
+                KoLCharacter.ensureUpdatedSemirareCounter();
+                int last = Preferences.getInteger( "semirareCounter" );
+                return KoLCharacter.currentRun - last;
 	}
 
 	/**
