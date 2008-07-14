@@ -311,17 +311,20 @@ public class IslandDecorator
 		"Farm"
 	};
 
-	private static final String openArea( final int last, final int current, final String[] areas )
+	private static final String areaMessage( final int last, final int current )
 	{
+		final String[] areas = IslandDecorator.fratboy ? IslandDecorator.HIPPY_AREA_UNLOCK : IslandDecorator.FRATBOY_AREA_UNLOCK;
+
 		for ( int i = 0; i < IslandDecorator.AREA_UNLOCK.length; ++i )
 		{
 			int threshold = IslandDecorator.AREA_UNLOCK[ i ];
 			if ( last < threshold && current >= threshold )
 			{
-				return areas[ i ];
+				return "<b>The " + areas[ i ] + " is now accessible in this uniform!</b><br>";
 			}
 		}
-		return null;
+
+		return "";
 	}
 
 	public static final void decorateBattlefieldFight( final StringBuffer buffer )
@@ -339,39 +342,46 @@ public class IslandDecorator
 			return;
 		}
 
-		String side;
-		int delta;
 		int last;
 		int current;
-		String area;
 
 		if ( IslandDecorator.fratboy )
 		{
 			last = IslandDecorator.lastFratboysDefeated;
 			current = IslandDecorator.fratboysDefeated;
-			delta = current - last;
-			side = delta == 1 ? "frat boy" : "frat boys";
-			area = IslandDecorator.openArea( last, current, IslandDecorator.HIPPY_AREA_UNLOCK );
-		}
+                }
 		else
 		{
 			last = IslandDecorator.lastHippiesDefeated;
 			current = IslandDecorator.hippiesDefeated;
-			delta = current - last;
-			side = delta == 1 ? "hippy" : "hippies";
-			area = IslandDecorator.openArea( last, current, IslandDecorator.FRATBOY_AREA_UNLOCK );
-		}
+                }
 
-		if ( delta == 0 )
+                if ( last == current )
 		{
 			return;
 		}
 
-		area = area == null ? "" : "<b>The " + area + " is now accessible in this uniform!</b><br>";
 		String message =
-			"<p><center>" + delta + " " + side + " defeated; " + current + " down, " + ( 1000 - current ) + " left.<br>" + area + "</center>";
+			"<p><center>" + victoryMessage( last, current ) + "<br>" + areaMessage( last, current ) + "</center>";
 
 		buffer.insert( index, message );
+	}
+
+	public static final String victoryMessage( int last, int current )
+	{
+		int delta = current - last;
+		String side;
+
+		if ( IslandDecorator.fratboy )
+		{
+			side = delta == 1 ? "frat boy" : "frat boys";
+		}
+		else
+		{
+			side = delta == 1 ? "hippy" : "hippies";
+		}
+
+		return delta + " " + side + " defeated; " + current + " down, " + ( 1000 - current ) + " left.";
 	}
 
 	/*
@@ -1043,14 +1053,26 @@ public class IslandDecorator
 			test *= 2;
 		}
 
+		int last;
+		int current;
+
 		if ( IslandDecorator.fratboy )
 		{
 			IslandDecorator.fratboysDefeated = Preferences.increment( "fratboysDefeated", delta, 1000, false );
+			last = IslandDecorator.lastFratboysDefeated;
+			current = IslandDecorator.fratboysDefeated;
 		}
 		else
 		{
 			IslandDecorator.hippiesDefeated = Preferences.increment( "hippiesDefeated", delta, 1000, false );
+			last = IslandDecorator.lastHippiesDefeated;
+			current = IslandDecorator.hippiesDefeated;
 		}
+
+		String message = victoryMessage( last, current );
+
+		RequestLogger.updateSessionLog( message );
+		RequestLogger.printLine( message );
 	}
 
 	// Crowther spaded how many kills it takes to display an image in:
