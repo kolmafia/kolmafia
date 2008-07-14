@@ -741,6 +741,12 @@ public abstract class KoLmafia
 
 		KoLmafia.updateDisplay( "Refreshing session data..." );
 
+		// Load saved counters before any requests are made, since both
+		// charpane and charsheet requests can set them.
+
+		KoLCharacter.setCurrentRun( 0 );
+		TurnCounter.loadCounters();
+
 		RequestThread.postRequest( new MoonPhaseRequest() );
 		KoLCharacter.setHoliday( HolidayDatabase.getHoliday( new Date() ) );
 
@@ -810,8 +816,6 @@ public abstract class KoLmafia
 			}
 		}
 
-		// Charpane can set counters, so load saved counters first.
-		TurnCounter.loadCounters();
 		RequestThread.postRequest( CharPaneRequest.getInstance() );
 
 		KoLmafia.updateDisplay( "Session data refreshed." );
