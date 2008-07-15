@@ -6,10 +6,7 @@
 
 package tab;
 
-import java.awt.Component;
 import java.awt.Window;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -370,13 +367,6 @@ public class CloseTabbedPane
 		}
 	}
 
-	public void addTab( String title, Component component )
-	{
-		super.addTab( title, component );
-
-		component.addComponentListener( new TabbedComponentAdapter() );
-	}
-
 	public boolean isFocusable()
 	{
 		return false;
@@ -403,13 +393,5 @@ public class CloseTabbedPane
 	{
 		this.transferFocus();
 		return false;
-	}
-
-	private class TabbedComponentAdapter extends ComponentAdapter
-	{
-		public void componentShown( ComponentEvent e )
-		{
-			CloseTabbedPane.this.transferFocus();
-		}
 	}
 }

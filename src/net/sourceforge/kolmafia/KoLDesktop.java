@@ -35,7 +35,10 @@ package net.sourceforge.kolmafia;
 
 import com.sun.java.forums.CloseableTabbedPane;
 
+import java.awt.Component;
 import java.awt.BorderLayout;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -251,6 +254,9 @@ public class KoLDesktop
 		if ( tabIndex == -1 )
 		{
 			KoLDesktop.INSTANCE.tabListing.add( content );
+
+			content.getContentPane().addComponentListener( new TabbedComponentAdapter( content ) );
+
 			KoLDesktop.INSTANCE.tabs.addTab( content.lastTitle, content.getContentPane() );
 
 			if ( content.tabs != null && !KoLDesktop.isInversionExempt( content ) )
@@ -440,6 +446,22 @@ public class KoLDesktop
 			KoLDesktop.getInstance().pack();
 			KoLDesktop.getInstance().setVisible( true );
 			KoLDesktop.getInstance().requestFocus();
+		}
+	}
+
+	private static class TabbedComponentAdapter
+		extends ComponentAdapter
+	{
+		private GenericFrame frame;
+
+		public TabbedComponentAdapter( final GenericFrame frame )
+		{
+			this.frame = frame;
+		}
+
+		public void componentShown( ComponentEvent e )
+		{
+			this.frame.requestFocusInWindow();
 		}
 	}
 }
