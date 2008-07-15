@@ -3433,7 +3433,7 @@
 3432
 3433	spice melange	3	all	0
 3434
-3435	big stirring stick	12	all	0
+3435	big stirring stick	12	all	105
 3436	Staff of the Teapot Tempest	12	display	0
 3437	Staff of the Black Kettle	12	display	0
 3438	Staff of the Well-Tempered Cauldron	12	display	0
