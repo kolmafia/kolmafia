@@ -219,6 +219,7 @@ public abstract class KoLmafia
 		{ "All The Rave", SEMIRARE },
 		{ "Bad ASCII Art", SEMIRARE },
 		{ "Blaaargh! Blaaargh!", SEMIRARE },
+		{ "C. H. U. M. chieftain", SEMIRARE },
 		{ "Cold Comfort", SEMIRARE },
 		{ "Filth, Filth, and More Filth", SEMIRARE },
 		{ "Flowers for You", SEMIRARE },
