@@ -2327,7 +2327,7 @@
 2326	stone rose	0	none	0
 2327	can of black paint	4	all	150
 2328	drum machine	3	all	160
-2329	handful of confetti	3	display	1000
+2329	handful of confetti	4	display	1000
 2330	chocolate-covered diamond-studded roses	0	gift	1000
 2331	bouquet of circular saw blades	0	gift	250
 2332	Better Than Cuddling Cake	1	gift	50
@@ -3401,7 +3401,7 @@
 3400	bowl of fishysoisse	1	all	0
 3401	deadly lampshade	3	all	0
 3402	concentrated garbage juice	3	all	0
-3403	lewd playing card	3	all	0
+3403	lewd playing card	4	all	0
 3404	deck of lewd playing cards	13	display	0
 3405	Hodgman's lucky sock	8	display	0
 3406	Hodgman's varcolac paw	13	display	0
