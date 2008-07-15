@@ -169,7 +169,7 @@ public abstract class KoLmafia
 	public static final String NONE = "0";
 	public static final String STOP = "1";
 	public static final String SEMIRARE = "2";
-	public static final String GLYPH = "1";
+	public static final String GLYPH = "3";
 	
 	public static final String[][] SPECIAL_ENCOUNTERS =
 	{
@@ -2620,7 +2620,7 @@ public abstract class KoLmafia
 	public static final boolean isAutoStop( final String encounterName )
 	{
 		String encounterType = KoLmafia.encounterType( encounterName );
-		return encounterType == KoLmafia.STOP;
+		return encounterType == KoLmafia.STOP || encounterType == KoLmafia.GLYPH;
 	}
 
 	public void recognizeEncounter( final String encounterName )
@@ -2638,7 +2638,7 @@ public abstract class KoLmafia
 			return;
 		}
 
-		if ( encounterType == KoLmafia.STOP )
+		if ( encounterType == KoLmafia.STOP || encounterType == KoLmafia.GLYPH )
 		{
 			RequestLogger.printLine();
 
