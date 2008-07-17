@@ -281,6 +281,7 @@ bottle of rum (3)	3	fermenting powder	brown sugar cane
 bottle of tequila (3)	3	fermenting powder	cactus fruit
 bottle of vodka (3)	3	fermenting powder	bowl of rye sprouts
 bottle of whiskey (3)	3	fermenting powder	cob of corn
+boxed wine (3)	3	fermenting powder	bunch of square grapes
 
 
 # Standard, tier 1 and tier 2 beverages.  Nothing special about
