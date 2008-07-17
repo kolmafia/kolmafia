@@ -537,5 +537,6 @@
 536
 537	Hobonic	hobohead.gif	1a4b9db2f98937c155609f54c14cdf7c
 538	Crotchety, Pining	pineneedles.gif	a03720e54550e5757e0e8107c6f842bc	use 1 handful of Crotchety Pine needles
-539	Barking Mad	bark2.gif	791ca1dd8ab96e6f5b302f91bd29ce4a	use 1 Handful of Laughing Willow bark
+539	Barking Mad	bark2.gif	791ca1dd8ab96e6f5b302f91bd29ce4a	use 1 handful of Laughing Willow bark
 540	Artificially Sweet	salsaball.gif	14ada94dafeb23efe1b204d9e7772158	use 1 lump of Saccharine Maple sap
+541	Rainbow Bright	prismwad.gif	68a5038ad5d6fefba6982173b7e84d57	chew 1 prismatic wad

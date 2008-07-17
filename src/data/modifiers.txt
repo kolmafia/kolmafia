@@ -517,6 +517,7 @@ clockwork staff	Spell Damage: +10, Critical: 3
 clockwork sword	Melee Damage: +10, Critical: 3
 # clown hammer
 clown whip	Sleaze Resistance: +2
+club of the five seasons	Hot Damage: +5, Cold Damage: +5, Stench Damage: +5, Spooky Damage: +5, Sleaze Damage: +5
 # cool whip
 corn holder	Spell Damage: +1
 costume sword	Melee Damage: -10, Initiative: +30
@@ -618,6 +619,7 @@ poutine pole	Mysticality: +3, Sleaze Damage: +3
 prehistoric spear	Critical: 2
 projectile icemaker	Moxie: +7, Spell Damage: +7, Cold Damage: +5
 pygmy spear	Muscle: +7
+rainbow crossbow	Hot Damage: +5, Cold Damage: +5, Stench Damage: +5, Spooky Damage: +5, Sleaze Damage: +5
 ram stick	Moxie: +5
 ram-battering staff	Hot Spell Damage: +10, Moxie: +5
 ratarang	Ranged Damage: +7, Moxie: +3
@@ -818,6 +820,7 @@ sealskin drum	Melee Damage: +20, Class: "Seal Clubber"
 sebaceous shield	Damage Reduction: 2, Stench Damage: +1, Sleaze Damage: +1
 # set of jacks
 sewer turtle	Damage Reduction: 1, Stench Damage: +1
+six-rainbow shield	Maximum HP: +50, Damage Reduction: 12, Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3
 snake shield	Damage Reduction: 7, Muscle: +6
 snarling wolf shield	Damage Reduction: 7, Maximum HP: +40
 sock monkey	Moxie: +3
@@ -1665,6 +1668,7 @@ Radiant Personality	Moxie Percent: +30
 Radiating Black Body&trade;	Moxie Percent: +10, Mana Cost: +3
 Radium Radicality	Moxie: +30
 Rage of the Reindeer	Muscle Percent: +10, Melee Damage: +10
+Rainbow Bright	Hot Damage: +5, Cold Damage: +5, Stench Damage: +5, Spooky Damage: +5, Sleaze Damage: +5, Muscle Percent: +10, Mystcality Percent: +10, Moxie Percent: +10, Hot Resistance: +3, Cold Resistance: +3, Stench Resistance: +3, Spooky Resistance: +3, Sleaze Resistance: +3
 Rainy Soul Miasma	Muscle: +10, Mysticality: +10, Moxie: -5
 Raving Lunatic	Melee Damage: +20
 Really Quite Poisoned	Muscle Percent: -70, Mysticality Percent: -70, Moxie Percent: -70, Muscle: -9, Mysticality: -9, Moxie: -9

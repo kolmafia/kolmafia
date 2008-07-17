@@ -477,6 +477,11 @@ tail o' nine cats	13	whip kit	leathery cat skin
 white whip	13	whip kit	white snake skin
 yak whip	13	whip kit	yak skin
 
+club of the five seasons	13	bigger stick	prismatic wad
+rainbow crossbow	13	dense meat crossbow	prismatic wad
+six-rainbow shield	14	wonderwall shield	prismatic wad
+
+rainbow bomb	1	stick of dynamite	prismatic wad
 
 # Meat-smithing weapons.  These items are grouped based on the
 # type of base material used in their creation.

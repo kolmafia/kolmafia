@@ -54,6 +54,8 @@
 42	Raise Backup Dancer	5	120	0
 43	Creepy Lullaby	5	30	0
 
+44	Rainbow Gravitation	1	30	0
+
 # Skills available to Clubbers
 
 1000	Seal Clubbing Frenzy	3	1	5
