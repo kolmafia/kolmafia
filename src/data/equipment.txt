@@ -447,6 +447,7 @@ clockwork staff	80	Mys: 25	2-handed staff
 clockwork sword	80	Mus: 25	2-handed sword
 clown hammer	10	Mus: 0	1-handed club
 clown whip	10	Mus: 0	1-handed whip
+club of the five seasons	150	Mus: 60	1-handed club
 cool whip	10	Mus: 0	1-handed whip
 corn holder	20	Mys: 0	1-handed utensil
 costume sword	10	Mus: 0	1-handed sword
@@ -549,6 +550,7 @@ poutine pole	55	Mus: 12	2-handed staff
 prehistoric spear	100	Mox: 35	1-handed throwing spear
 projectile icemaker	125	Mox: 45	2-handed crossbow
 pygmy spear	165	Mus: 67	1-handed spear
+rainbow crossbow	150	Mox: 60	1-handed crossbow
 ram stick	115	Mus: 42	2-handed staff
 ram-battering staff	135	Mus: 52	2-handed staff
 ratarang	60	Mox: 15	1-handed boomerang
@@ -756,6 +758,8 @@ sebaceous shield	40	Mus: 2	shield
 set of jacks	0	none
 sewer turtle	20	none	shield
 silver sausage	0	none
+# *** six-rainbow shield is a shield of unknown power.
+six-rainbow shield	0	Mus: 70	shield
 snake shield	117	Mus: 42	shield
 snarling wolf shield	117	Mus: 42	shield
 sock monkey	0	Mys: 40

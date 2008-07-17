@@ -3437,3 +3437,14 @@
 3436	Staff of the Teapot Tempest	12	display	0
 3437	Staff of the Black Kettle	12	display	0
 3438	Staff of the Well-Tempered Cauldron	12	display	0
+3439	Rainbow's Gravity	3	all	0
+3440	prismatic wad	3	all	90
+3441	club of the five seasons	12	all	200
+3442	rainbow crossbow	12	all	200
+3443
+3444
+3445
+3446
+3447	six-rainbow shield	13	all	150
+3448	rainbow bomb	0	all	150
+

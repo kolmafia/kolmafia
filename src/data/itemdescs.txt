@@ -3443,3 +3443,13 @@
 3436	812870240	Staff of the Teapot Tempest
 3437	707454044	Staff of the Black Kettle
 3438	452734240	Staff of the Well-Tempered Cauldron
+3439	983657975	Rainbow's Gravity
+3440	267408834	prismatic wad	prismatic wads
+3441	219029462	club of the five seasons	clubs of the five seasons
+3442	427899618	rainbow crossbow	rainbow crossbows
+3443
+3444
+3445
+3446
+3447	535499742	six-rainbow shield	six-rainbow shields
+3448	243986741	rainbow bomb	rainbow bombs
