@@ -81,6 +81,8 @@ public class SkillDatabase
 	public static final int HILARIOUS = 8200;
 	public static final int TASTEFUL = 8201;
 
+	public static final int RAINBOW = 44;
+
 	private static final String UNCATEGORIZED = "uncategorized";
 	private static final String GNOME_SKILLS = "gnome trainer";
 	private static final String BAD_MOON = "bad moon";

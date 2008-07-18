@@ -264,6 +264,7 @@ user	plantingDay	-1
 user	plantingLength
 user	plantingScript
 user	preBlackbirdFamiliar
+user	prismaticSummons	0
 user	reagentSummons	0
 user	relayCounters
 user	requireBoxServants	false
