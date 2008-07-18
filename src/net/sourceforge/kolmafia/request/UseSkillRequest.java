@@ -47,6 +47,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MoodManager;
@@ -320,6 +321,18 @@ public class UseSkillRequest
 		case SkillDatabase.TASTEFUL:
 
 			maximumCast = Math.max( 1 - Preferences.getInteger( "grimoire2Summons" ), 0 );
+			break;
+
+		// Rainbow Gravitation can be cast 3 times per day.
+		// Each casting consumes five elemental wads
+
+		case SkillDatabase.RAINBOW:
+			maximumCast = Math.max( 3 - Preferences.getInteger( "prismaticSummons" ), 0 );
+			maximumCast = Math.min( InventoryManager.getCount( ItemPool.COLD_WAD ), maximumCast );
+			maximumCast = Math.min( InventoryManager.getCount( ItemPool.HOT_WAD ), maximumCast );
+			maximumCast = Math.min( InventoryManager.getCount( ItemPool.SLEAZE_WAD ), maximumCast );
+			maximumCast = Math.min( InventoryManager.getCount( ItemPool.SPOOKY_WAD ), maximumCast );
+			maximumCast = Math.min( InventoryManager.getCount( ItemPool.STENCH_WAD ), maximumCast );
 			break;
 
 		// Transcendental Noodlecraft affects # of summons for
@@ -946,6 +959,20 @@ public class UseSkillRequest
 
 		switch ( skillId )
 		{
+		case SkillDatabase.RAINBOW:
+
+                        // Each cast of Rainbow Gravitation consumes five
+                        // elemental wads.
+
+			ResultProcessor.processResult( ItemPool.get( ItemPool.COLD_WAD, -count ) );
+			ResultProcessor.processResult( ItemPool.get( ItemPool.HOT_WAD, -count ) );
+			ResultProcessor.processResult( ItemPool.get( ItemPool.SLEAZE_WAD, -count ) );
+			ResultProcessor.processResult( ItemPool.get( ItemPool.SPOOKY_WAD, -count ) );
+			ResultProcessor.processResult( ItemPool.get( ItemPool.STENCH_WAD, -count ) );
+
+			Preferences.increment( "prismaticSummons", count );
+			break;
+
 		case 3006:
 			Preferences.increment( "noodleSummons", count );
 			break;

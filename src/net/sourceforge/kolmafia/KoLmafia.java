@@ -716,6 +716,7 @@ public abstract class KoLmafia
 		Preferences.setInteger( "noodleSummons", 0 );
 		Preferences.setInteger( "reagentSummons", 0 );
 		Preferences.setInteger( "cocktailSummons", 0 );
+		Preferences.setInteger( "prismaticSummons", 0 );
 
 		// Libram summoning skills now costs 1 MP again
 		KoLConstants.summoningSkills.sort();
