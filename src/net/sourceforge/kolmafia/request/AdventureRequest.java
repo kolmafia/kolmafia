@@ -546,6 +546,7 @@ public class AdventureRequest
 		{ "The Vampire Buffer", "vampire buffer" },
 		{ "The Weathered Old Chap", "weathered old chap" },
 		{ "The Witch", "A witch" },
+		{ "Thud", "hobo glyphs" },
 	};
 
 	private static final String parseNoncombatEncounter( final String urlString, final String responseText )
