@@ -141,7 +141,7 @@ Blackberry Bush	HP: 136	blackberry (15)	blackberry (15)	blackberry (15)
 Blooper	HP: 15 Def: 25 Atk: 25	white pixel (70)	white pixel (70)	white pixel (70)
 Blur	HP: 145	drum machine (30)	palm frond (10)	hot date (5)	carbonated water lily (10)
 Boaraffe	HP: 145
-Bob Racecar	HP: 139 Def: 124 Atk: 118 Meat: 42-66	ketchup hound (10)	leather chaps (15)	mesh cap (15)
+Bob Racecar	HP: 139 Def: 124 Atk: 118 Meat: 42-66	ketchup hound (35)	leather chaps (15)	mesh cap (15)	stunt nuts (30)
 Bookbat	HP: 54 Def: 49 Atk: 49	tattered scrap of paper (30)
 Booze Giant	HP: 66 Def: 76 Atk: 76	bottle of gin (15)	bottle of rum (15)	bottle of tequila (15)	bottle of vodka (15)	bottle of whiskey (15)	boxed wine (15)
 Bow-making Mummy		evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
@@ -394,7 +394,7 @@ Pygmy Headhunter	HP: 151 E: sleaze
 Quantum Mechanic	HP: 51 Def: 37 Atk: 37	large box (40)	vorpal blade (15)
 Queen Filthworm	HP: 200	heart of the filthworm queen (100)
 Quiet Healer	HP: 90 Def: 95 Atk: 95 Meat: 66-143	amulet of extreme plot significance (10)	scroll of drastic healing (30)	soft green echo eyedrop antidote (30)
-Racecar Bob	HP: 139 Def: 118 Atk: 124 Meat: 43-67	enormous belt buckle (25)	leather chaps (15)	mesh cap (15)
+Racecar Bob	HP: 139 Def: 118 Atk: 124 Meat: 43-67	enormous belt buckle (25)	leather chaps (15)	mesh cap (15)	stunt nuts (30)
 Raging Bull	HP: 20 Def: 25 Atk: 25 Meat: 24-42	pile of jumping beans (50)	can of Red Minotaur (30)
 Rampaging Adding Machine	HP: 70
 Ratbat	HP: 22 Def: 25 Atk: 25 Meat: 18-28	rat appendix (15)	ratgut (15)
