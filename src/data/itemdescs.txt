@@ -3325,7 +3325,7 @@
 3318	425482016	corncob pipe
 3319	419047697	Mr. Joe's bangles	sets of Mr. Joe's bangles
 3320	398731027	frayed rope belt
-3321	876664237	packet of mayfly bait
+3321	876664237	packet of mayfly bait	packets of mayfly bait
 3322	454243766	mayfly bait necklace
 3323	113028478	Ol' Scratch's salad fork
 3324	636162743	Frosty's frosty mug
@@ -3348,11 +3348,11 @@
 3341	212225141	The Six-Pack of Pain
 3342	873673563	hobo monkey
 3343	661779077	tiny bindle
-3344	437736715	bed of coals
-3345	527732082	frigid air mattress
+3344	437736715	bed of coals	beds of coals
+3345	527732082	frigid air mattress	frigid air mattresses
 3346	776771033	filth-encrusted futon
 3347	324466516	comfy coffin
-3348	736849781	stained mattress
+3348	736849781	stained mattress	stained mattresses
 3349	787722904	dinged-up triangle
 3350	831950641	Ralph IX cognac
 3351	821134174	llama lama cria	llama lama criae
@@ -3379,11 +3379,11 @@
 3372	819133201	glimmering raven feather
 3373	634790806	glimmering great tit feather
 3374	745177190	house of twigs and spit
-3375	141228944	The Ballad of Richie Thingfinder
-3376	258185206	Benetton's Medley of Diversity
-3377	220021939	Elron's Explosive Etude
-3378	701686239	Chorale of Companionship
-3379	243581726	Prelude of Precision
+3375	141228944	The Ballad of Richie Thingfinder	copies of The Ballad of Richie Thingfinder
+3376	258185206	Benetton's Medley of Diversity	copies of Benetton's Medley of Diversity
+3377	220021939	Elron's Explosive Etude	copies of Elron's Explosive Etude
+3378	701686239	Chorale of Companionship	copies of Chorale of Companionship
+3379	243581726	Prelude of Precision	copies of Prelude of Precision
 3380	576715255	Ol' Scratch's infernal pitchfork
 3381	355068482	Ol' Scratch's stove door
 3382	877578886	Ol' Scratch's manacles
@@ -3443,7 +3443,7 @@
 3436	812870240	Staff of the Teapot Tempest
 3437	707454044	Staff of the Black Kettle
 3438	452734240	Staff of the Well-Tempered Cauldron
-3439	983657975	Rainbow's Gravity
+3439	983657975	Rainbow's Gravity	copies of Rainbow's Gravity
 3440	267408834	prismatic wad	prismatic wads
 3441	219029462	club of the five seasons	clubs of the five seasons
 3442	427899618	rainbow crossbow	rainbow crossbows
