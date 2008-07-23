@@ -983,6 +983,35 @@ public abstract class ChoiceManager
 			"choiceAdventure162", "Goatlet",
 			new String[] { "Open Goatlet", "skip adventure" } ),
 
+		// A Tight Squeeze
+		new ChoiceAdventure(
+			"choiceAdventure291", "Burnbarrel Blvd.",
+			new String[] { "jar of squeeze", "skip adventure" },
+			new String[] { "3399", null } ),
+
+		// Cold Comfort
+		new ChoiceAdventure(
+			"choiceAdventure292", "Exposure Esplanade",
+			new String[] { "bowl of fishysoisse", "skip adventure" },
+			new String[] { "3400", null } ),
+
+		// Flowers for You
+		new ChoiceAdventure(
+			"choiceAdventure293", "The Ancient Hobo Burial Ground",
+			new String[] { "deadly lampshade", "skip adventure" },
+			new String[] { "3401", null } ),
+
+		// Maybe It's a Sexy Snake!
+		new ChoiceAdventure(
+			"choiceAdventure294", "The Purple Light District",
+			new String[] { "lewd playing card", "skip adventure" },
+			new String[] { "3403", null } ),
+
+		// Juicy!
+		new ChoiceAdventure(
+			"choiceAdventure295", "The Heap",
+			new String[] { "concentrated garbage juice", "skip adventure" },
+			new String[] { "3402", null } ),
 	};
 
 	// Some choice adventures have options that cost meat or items
@@ -1037,6 +1066,21 @@ public abstract class ChoiceManager
 
 		//  O Cap'm, My Cap'm
 		{ "189", "1", new AdventureResult( AdventureResult.MEAT, -977 ) },
+
+		// A Tight Squeeze
+		{ "291", "1", new AdventureResult( "hobo nickel", -5 ) },
+
+		// Cold Comfort
+		{ "292", "1", new AdventureResult( "hobo nickel", -5 ) },
+
+		// Flowers for You
+		{ "293", "1", new AdventureResult( "hobo nickel", -5 ) },
+
+		// Maybe It's a Sexy Snake!
+		{ "294", "1", new AdventureResult( "hobo nickel", -5 ) },
+
+		// Juicy!
+		{ "295", "1", new AdventureResult( "hobo nickel", -5 ) },
 	};
 
 	public static final AdventureResult getCost( final String choice, final String decision )
