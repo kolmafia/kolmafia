@@ -323,8 +323,8 @@ public class UseSkillRequest
 			maximumCast = Math.max( 1 - Preferences.getInteger( "grimoire2Summons" ), 0 );
 			break;
 
-		// Rainbow Gravitation can be cast 3 times per day.
-		// Each casting consumes five elemental wads
+		// Rainbow Gravitation can be cast 3 times per day.  Each
+		// casting consumes five elemental wads and a twinkly wad
 
 		case SkillDatabase.RAINBOW:
 			maximumCast = Math.max( 3 - Preferences.getInteger( "prismaticSummons" ), 0 );
@@ -333,6 +333,7 @@ public class UseSkillRequest
 			maximumCast = Math.min( InventoryManager.getCount( ItemPool.SLEAZE_WAD ), maximumCast );
 			maximumCast = Math.min( InventoryManager.getCount( ItemPool.SPOOKY_WAD ), maximumCast );
 			maximumCast = Math.min( InventoryManager.getCount( ItemPool.STENCH_WAD ), maximumCast );
+			maximumCast = Math.min( InventoryManager.getCount( ItemPool.TWINKLY_WAD ), maximumCast );
 			break;
 
 		// Transcendental Noodlecraft affects # of summons for
@@ -962,13 +963,14 @@ public class UseSkillRequest
 		case SkillDatabase.RAINBOW:
 
                         // Each cast of Rainbow Gravitation consumes five
-                        // elemental wads.
+                        // elemental wads and a twinkly wad
 
 			ResultProcessor.processResult( ItemPool.get( ItemPool.COLD_WAD, -count ) );
 			ResultProcessor.processResult( ItemPool.get( ItemPool.HOT_WAD, -count ) );
 			ResultProcessor.processResult( ItemPool.get( ItemPool.SLEAZE_WAD, -count ) );
 			ResultProcessor.processResult( ItemPool.get( ItemPool.SPOOKY_WAD, -count ) );
 			ResultProcessor.processResult( ItemPool.get( ItemPool.STENCH_WAD, -count ) );
+			ResultProcessor.processResult( ItemPool.get( ItemPool.TWINKLY_WAD, -count ) );
 
 			Preferences.increment( "prismaticSummons", count );
 			break;
