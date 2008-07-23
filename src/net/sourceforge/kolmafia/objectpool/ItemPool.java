@@ -207,6 +207,7 @@ public class ItemPool
 	public static final int ICE_BABY = 1425;
 	public static final int ICE_PICK = 1426;
 	public static final int ICE_SKATES = 1427;
+	public static final int TWINKLY_WAD = 1450;
 	public static final int HOT_WAD = 1451;
 	public static final int COLD_WAD = 1452;
 	public static final int SPOOKY_WAD = 1453;
