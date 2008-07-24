@@ -48,7 +48,7 @@
 #	Melee Damage +15
 #	Muscle +X%
 # Grimacite go-go boots
-#	+30& Item Drops from Monsters
+#	+30% Item Drops from Monsters
 #	Moxie +X%
 # Grimacite goggles
 #	Mysticality +X%
