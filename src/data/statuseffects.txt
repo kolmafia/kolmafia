@@ -540,3 +540,8 @@
 539	Barking Mad	bark2.gif	791ca1dd8ab96e6f5b302f91bd29ce4a	use 1 handful of Laughing Willow bark
 540	Artificially Sweet	salsaball.gif	14ada94dafeb23efe1b204d9e7772158	use 1 lump of Saccharine Maple sap
 541	Rainbow Bright	prismwad.gif	68a5038ad5d6fefba6982173b7e84d57	chew 1 prismatic wad
+542	Fire Down Below	hob-o.gif	7341e7eeeb1d5bd12e5a84b3081dc60a	use 1 sterno-flavored Hob-O
+543	Tundra Mouth	hob-o.gif	21e3a840b108a4f0c558aef1ba5471f7	use 1 frostbite-flavored Hob-O
+544	Cholestoriffic	hob-o.gif	13f479e8387e527aaeb7d95f087d6dfd	use 1 fry-oil-flavored Hob-O
+545	Refuse Reflux	hob-o.gif	3d5c6b7bd5ab7dc8dc4efc85f8d20548	use 1 garbage-juice-flavored Hob-O
+546	Scariberi	hob-o.gif	20d098090ca8f63f8243f081d3e085e6	use 1 strawberry-flavored Hob-O

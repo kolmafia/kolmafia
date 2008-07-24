@@ -3426,15 +3426,15 @@
 3419
 3420
 3421	306172112	little box of fireworks
-3422
-3423
-3424
-3425
-3426
-3427
+3422	800001289	sterno-flavored Hob-O
+3423	117092853	frostbite-flavored Hob-O
+3424	650853419	fry-oil-flavored Hob-O
+3425	586708288	garbage-juice-flavored Hob-O
+3426	951203806	strawberry-flavored Hob-O
+3427	965215365	roll of Hob-Os	rolls of Hob-Os
 3428
 3429
-3430
+3430	656438917	bindle of joy
 3431
 3432
 3433	569771218	spice melange

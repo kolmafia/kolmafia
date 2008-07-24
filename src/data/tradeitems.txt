@@ -3420,15 +3420,15 @@
 3419
 3420
 3421	little box of fireworks	7	all	0
-3422
-3423
-3424
-3425
-3426
-3427
+3422	sterno-flavored Hob-O	4	all	5
+3423	frostbite-flavored Hob-O	4	all	5
+3424	fry-oil-flavored Hob-O	4	all	5
+3425	garbage-juice-flavored Hob-O	4	all	5
+3426	strawberry-flavored Hob-O	4	all	5
+3427	roll of Hob-Os	4	all	25
 3428
 3429
-3430
+3430	bindle of joy	3	gift	0
 3431
 3432
 3433	spice melange	3	all	0
@@ -3438,7 +3438,7 @@
 3437	Staff of the Black Kettle	12	display	0
 3438	Staff of the Well-Tempered Cauldron	12	display	0
 3439	Rainbow's Gravity	3	all	0
-3440	prismatic wad	3	all	90
+3440	prismatic wad	4	all	90
 3441	club of the five seasons	12	all	200
 3442	rainbow crossbow	12	all	200
 3443
