@@ -607,6 +607,8 @@ public class MallPurchaseRequest
 		}
 
 		String itemName = null;
+                String priceString = null;
+                int priceVal = 0;
 
 		Matcher quantityMatcher = null;
 
@@ -647,14 +649,17 @@ public class MallPurchaseRequest
 		String idString = itemMatcher.group( 1 );
 		if ( urlString.startsWith( "mall" ) )
 		{
+                        /* the last 9 characters of idString are the price, with leading zeros */
+                        priceString = idString.substring(idString.length() - 9, idString.length());
 			idString = idString.substring( 0, idString.length() - 9 );
 		}
 
+                priceVal = StringUtilities.parseInt( priceString);
 		int itemId = StringUtilities.parseInt( idString );
 		itemName = ItemDatabase.getItemName( itemId );
 
 		RequestLogger.updateSessionLog();
-		RequestLogger.updateSessionLog( "buy " + quantity + " " + itemName );
+		RequestLogger.updateSessionLog( "buy " + quantity + " " + itemName + " for " + priceVal + " each");
 		return true;
 	}
 }
