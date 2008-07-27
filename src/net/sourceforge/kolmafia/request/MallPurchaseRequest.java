@@ -647,19 +647,34 @@ public class MallPurchaseRequest
 		}
 
 		String idString = itemMatcher.group( 1 );
+                String storeName = "an NPC Store";
 		if ( urlString.startsWith( "mall" ) )
 		{
                         /* the last 9 characters of idString are the price, with leading zeros */
-                        priceString = idString.substring(idString.length() - 9, idString.length());
-			idString = idString.substring( 0, idString.length() - 9 );
+                        int idStringLength = idString.length();  
+                        priceString = idString.substring(idStringLength - 9, idStringLength);
+			idString = idString.substring( 0, idStringLength - 9 );
+                        /* store ID is embedded in the URL.  Extract it and get the store name for logging */
+                        Pattern STOREID_PATTERN = Pattern.compile("whichstore\\d?=(\\d+)");
+                        Matcher m = STOREID_PATTERN.matcher(urlString);
+                        if (m.find()) 
+                        {
+                            String storeID = m.group(1);
+                            /* int intID = StringUtilities.parseInt(storeID); */
+                            storeName = storeID;
+                        }
+                        
 		}
-
+                /* in a perfect world where I was not so lazy, I'd verify that the price string
+                 * was really an int and might find another way to effectively strip leading
+                 * zeros from the display */
                 priceVal = StringUtilities.parseInt( priceString);
 		int itemId = StringUtilities.parseInt( idString );
 		itemName = ItemDatabase.getItemName( itemId );
 
 		RequestLogger.updateSessionLog();
-		RequestLogger.updateSessionLog( "buy " + quantity + " " + itemName + " for " + priceVal + " each");
+		RequestLogger.updateSessionLog( "buy " + quantity + " " + itemName + " for " + priceVal + 
+                        " each from " + storeName);
 		return true;
 	}
 }
