@@ -84,3 +84,4 @@
 82	Mad Hatrack	none	3219		3	0	1	2
 89	Hobo Monkey	meat0	3342	tiny bindle	0	0	0	0
 90	Llama Lama	none	3351	zen motorcycle	1	2	3	2
+91	Cotton Candy Carnie	none	3431	cotton candy cordial	0	0	0	0
