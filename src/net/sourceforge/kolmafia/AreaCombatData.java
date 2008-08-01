@@ -385,10 +385,9 @@ public class AreaCombatData
 		else
 		{
 			buffer.append( this.format( 100.0f * combatFactor * weighting / this.weights ) + "%" );
-			buffer.append( ")" );
 		}
 
-		buffer.append( "<br>Hit: <font color=" + AreaCombatData.elementColor( ed ) + ">" );
+		buffer.append( ")<br>Hit: <font color=" + AreaCombatData.elementColor( ed ) + ">" );
 		buffer.append( this.format( hitPercent ) );
 		buffer.append( "%</font>, Evade: <font color=" + AreaCombatData.elementColor( ea ) + ">" );
 		buffer.append( this.format( evadePercent ) );

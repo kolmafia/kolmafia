@@ -477,11 +477,13 @@ public class AdventureRequest
 
 		RequestLogger.printLine( "Encounter: " + encounter );
 		RequestLogger.updateSessionLog( "Encounter: " + encounter );
+		AdventureRequest.registerDemonName( encounter, responseText );
+
 		if ( type != null )
 		{
+			encounter = translateHoboType( request, encounter );
 			StaticEntity.getClient().registerEncounter( encounter, type );
 		}
-		AdventureRequest.registerDemonName( encounter, responseText );
 
 		return encounter;
 	}
@@ -503,6 +505,54 @@ public class AdventureRequest
 		}
 
 		return CustomCombatManager.encounterKey( responseText.substring( spanIndex, endSpanIndex ), false );
+	}
+
+	private static final String translateHoboType( final GenericRequest generic, final String encounter )
+	{
+		if ( !( generic instanceof AdventureRequest ) )
+		{
+			return encounter;
+		}
+
+		AdventureRequest request = (AdventureRequest) generic;
+
+		if ( request.adventureId.equals( "167" ) )
+		{
+			// Hobopolis Town Square
+			return encounter.startsWith( "Hodgman" ) ? encounter : "Normal Hobo";
+		}
+
+		if ( request.adventureId.equals( "168" ) )
+		{
+			// Burnbarrel Blvd.
+			return encounter.equals( "Ol' Scratch" ) ? encounter : "Hot Hobo";
+		}
+
+		if ( request.adventureId.equals( "169" ) )
+		{
+			// Exposure Esplanade
+			return encounter.equals( "Frosty" ) ? encounter : "Cold Hobo";
+		}
+
+		if ( request.adventureId.equals( "170" ) )
+		{
+			// The Heap
+			return encounter.equals( "Oscus" ) ? encounter : "Stench Hobo";
+		}
+
+		if ( request.adventureId.equals( "171" ) )
+		{
+			// The Ancient Hobo Burial Ground
+			return encounter.equals( "Zombo" ) ? encounter : "Spooky Hobo";
+		}
+
+		if ( request.adventureId.equals( "172" ) )
+		{
+			// The Purple Light District
+			return encounter.equals( "Chester" ) ? encounter : "Sleaze Hobo";
+		}
+
+		return encounter;
 	}
 
 	private static final String parseChoiceEncounter( final int choice, final String responseText )

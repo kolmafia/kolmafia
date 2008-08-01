@@ -51,6 +51,7 @@ Black Forest	100	Black Adder	Black Knight	Black Panther	Black Widow	Blackberry B
 Bog	100	Rattlin' Duck	Swamp Duck
 Boss Bat's Lair	100	Beefy Bodyguard Bat	The Boss Bat
 Bugbear Pens	100	An Angry Bugbear: 3	A Bugged Bugbear: 3	Mad Bugbears: 3	A Revolting Bugbear: 3	A Revolving Bugbear: 3	An Annoying Spooky Gravy Fairy: 2
+Burnbarrel Blvd.	-1	Hot Hobo	Ol' Scratch: 0
 Camp Logging Camp	80	Decent Lumberjack	Lumberjack Supervisor	Lumberjill	Lumberjuan	Hockey Elemental: -1
 # Crimbo Town Toy Factory	100	Striking Factory-Worker Elf	Striking Gift-Wrapper Elf	Striking Middle-Management Elf	Striking Pencil-Pusher Elf	Striking Stocking-Stuffer Elf
 Crimbo Town Toy Factory	100	Arc-welding Elfborg	Decal-applying Elfborg	Ribbon-cutting Elfborg	Weapons-assembly Elfborg
@@ -68,6 +69,7 @@ Desert (Ultrahydrated)	100	Cactuary	Giant Giant Giant Centipede	Plaque of Locust
 Dire Warren	100	Fluffy Bunny
 Dungeons of Doom	70	Swarm of Killer Bees	Acid Blob	Mind Flayer	Large Kobold	Quantum Mechanic	Mimic: 0	The Master of Thieves: -1
 El Vibrato Island	-1	Bizarre Construct	Hulking Construct	Industrious Construct	Lonely Construct	Menacing Construct	Towering Construct
+Exposure Esplanade	-1	Cold Hobo	Frosty: 0
 eXtreme Slope	60	Sk8 Gnome	eXtreme Cross-Country Hippy	eXtreme Orcish Snowboarder
 F'c'le	100	Chatty Pirate	Cleanly Pirate	Clingy Pirate	Creamy Pirate	Crusty Pirate	Curmudgeonly Pirate
 Family Plot	100	Vampire Duck	Zombie Duck
@@ -103,6 +105,7 @@ Haunted Wine Cellar (Southeast)	100	Possessed Wine Rack	Skeletal Sommelier
 Hidden City	100	Ancient Protector Spirit	Boaraffe	Protector Spectre	Pygmy Blowgunner	Pygmy Assault Squad	Pygmy Headhunter
 Hippy Camp	100	Crusty Hippy	Crusty Hippy Jewelry Maker	Crusty Hippy Vegan Chef	Dirty Hippy	Dirty Hippy Jewelry Maker	Dirty Hippy Vegan Chef	Filthy Hippy	Filthy Hippy Jewelry Maker	Filthy Hippy Vegan Chef
 Hippy Camp (Stone Age)	100	Caveman Hippy	Cavewomyn Hippy	Sabre-Toothed Ferret
+Hobopolis Town Square	-1	Normal Hobo	Hodgman, The Hoboverlord: 0
 Hole in the Sky	100	The Astronomer: 6	One-Eyed Willie: 2	The Burrowing Bishop: 2	The Family Jewels: 2	The Hooded Warrior: 2	The Junk: 2	The Pork Sword: 2	The Skinflute: 2	The Trouser Snake: 2	The Twig and Berries: 2	The Axe Wound: 2	The Beaver: 2	The Box: 2	The Bush: 2	The Camel's Toe: 2	The Flange: 2	The Honey Pot: 2	The Little Man in the Canoe: 2	The Muff: 2
 Icy Peak	85	Knott Yeti: 2	Snow Queen: 1	Upgraded Ram: 2	Knott Slanding: -1
 Itznotyerzitz Mine	75	7-Foot Dwarf: 2	7-Foot Dwarf Foreman: 1
@@ -143,7 +146,10 @@ Spooky Forest	60	Bar	Spooky Mummy	Spooky Vampire	Triffid	Warwelf	Wolfman	Baiowul
 Spooky Fright Factory	100	Bow-making Mummy	Cookie-baking Thing from Beyond Time	Gift-wrapping Vampire	Skeletal Reindeer	Stocking-stuffing Zombie	Toy-making creature from the Gray Lagoon
 Spooky Gravy Barrow	80	Spooky Gravy Fairy Guard	Spooky Gravy Fairy Ninja	Spooky Gravy Fairy Warlock	Felonia, Queen of the Spooky Gravy Fairies: 0
 Stately Pleasure Dome	70	Ancient Mariner	Angry Poet	Kubla Khan	Roller-skating Muse	Toothless Mastiff Bitch
+The Ancient Hobo Burial Ground	-1	Spooky Hobo	Zombo: 0
+The Heap	-1	Stench Hobo	Oscus: 0
 The Middle Chamber	100	Iiti Kitty	Tomb Bat	Tomb Servant
+The Purple Light District	-1	Sleaze Hobo	Chester: 0
 The Upper Chamber	100	Tomb Asp	Tomb Rat	Tomb Servant
 Themthar Hills	100	Dirty Thieving Brigand
 Thugnderdome	100	Gnarly Gnome	Gnasty Gnome	Gnefarious Gnome	Gnomester Blomester	Gnu Jack Gnome	Vicious Gnauga
