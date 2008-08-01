@@ -3435,8 +3435,8 @@
 3428
 3429
 3430	656438917	bindle of joy
-3431
-3432
+3431	960452345	cotton candy cocoon
+3432	723689501	cotton candy cordial
 3433	569771218	spice melange
 3434
 3435	768622816	big stirring stick
@@ -3453,3 +3453,10 @@
 3446
 3447	535499742	six-rainbow shield	six-rainbow shields
 3448	243986741	rainbow bomb	rainbow bombs
+3449	517488450	cotton candy cone
+3450	927647574	cotton candy pinch
+3451	648613761	cotton candy smidgen
+3452	317488982	cotton candy skoshe
+3453	677974144	cotton candy plug
+3454	749266408	cotton candy pillow
+3455	533359462	cotton candy bale

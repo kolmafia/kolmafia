@@ -3429,8 +3429,8 @@
 3428
 3429
 3430	bindle of joy	3	gift	0
-3431
-3432
+3431	cotton candy cocoon	5	all	0
+3432	cotton candy cordial	7	all	75
 3433	spice melange	3	all	0
 3434
 3435	big stirring stick	12	all	105
@@ -3447,4 +3447,10 @@
 3446
 3447	six-rainbow shield	13	all	150
 3448	rainbow bomb	0	all	150
-
+3449	cotton candy cone	17	all	35
+3450	cotton candy pinch	17	all	35
+3451	cotton candy smidgen	17	all	35
+3452	cotton candy skoshe	17	all	35
+3453	cotton candy plug	17	all	35
+3454	cotton candy pillow	17	all	35
+3455	cotton candy bale	17	all	35
