@@ -33,6 +33,7 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -609,11 +610,12 @@ public class MallPurchaseRequest
 		String itemName = null;
                 String priceString = null;
                 int priceVal = 0;
-
+                boolean isMall = false;
 		Matcher quantityMatcher = null;
 
 		if ( urlString.startsWith( "mall" ) )
 		{
+                        isMall = true;
 			quantityMatcher = TransferItemRequest.QUANTITY_PATTERN.matcher( urlString );
 		}
 		else
@@ -648,7 +650,7 @@ public class MallPurchaseRequest
 
 		String idString = itemMatcher.group( 1 );
                 String storeName = "an NPC Store";
-		if ( urlString.startsWith( "mall" ) )
+		if ( isMall )
 		{
                         /* the last 9 characters of idString are the price, with leading zeros */
                         int idStringLength = idString.length();  
@@ -673,8 +675,14 @@ public class MallPurchaseRequest
 		itemName = ItemDatabase.getItemName( itemId );
 
 		RequestLogger.updateSessionLog();
-		RequestLogger.updateSessionLog( "buy " + quantity + " " + itemName + " for " + priceVal + 
-                        " each from " + storeName);
+                if (isMall) 
+                {
+                    RequestLogger.updateSessionLog( "buy " + quantity + " " + itemName + " for " + priceVal + 
+                        " each from " + storeName + " on " + KoLConstants.DAILY_FORMAT.format( new Date() ) );
+                } else {
+                    RequestLogger.updateSessionLog( "buy " + quantity + " " + itemName + 
+                       " at market price from " + storeName);
+                }
 		return true;
 	}
 }
