@@ -37,6 +37,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -481,7 +482,10 @@ public class AdventureRequest
 
 		if ( type != null )
 		{
-			encounter = translateHoboType( request, encounter );
+			if ( type.equals( "Combat" ) )
+			{
+				encounter = translateHoboType( encounter );
+			}
 			StaticEntity.getClient().registerEncounter( encounter, type );
 		}
 
@@ -507,47 +511,26 @@ public class AdventureRequest
 		return CustomCombatManager.encounterKey( responseText.substring( spanIndex, endSpanIndex ), false );
 	}
 
-	private static final String translateHoboType( final GenericRequest generic, final String encounter )
+	private static final String translateHoboType( final String encounter )
 	{
-		if ( !( generic instanceof AdventureRequest ) )
+		switch ( KoLAdventure.lastAdventureId() )
 		{
-			return encounter;
-		}
-
-		AdventureRequest request = (AdventureRequest) generic;
-
-		if ( request.adventureId.equals( "167" ) )
-		{
+		case 167:
 			// Hobopolis Town Square
 			return encounter.startsWith( "Hodgman" ) ? encounter : "Normal Hobo";
-		}
-
-		if ( request.adventureId.equals( "168" ) )
-		{
+		case 168:
 			// Burnbarrel Blvd.
 			return encounter.equals( "Ol' Scratch" ) ? encounter : "Hot Hobo";
-		}
-
-		if ( request.adventureId.equals( "169" ) )
-		{
+		case 169:
 			// Exposure Esplanade
 			return encounter.equals( "Frosty" ) ? encounter : "Cold Hobo";
-		}
-
-		if ( request.adventureId.equals( "170" ) )
-		{
+		case 170:
 			// The Heap
 			return encounter.equals( "Oscus" ) ? encounter : "Stench Hobo";
-		}
-
-		if ( request.adventureId.equals( "171" ) )
-		{
+		case 171:
 			// The Ancient Hobo Burial Ground
 			return encounter.equals( "Zombo" ) ? encounter : "Spooky Hobo";
-		}
-
-		if ( request.adventureId.equals( "172" ) )
-		{
+		case 172:
 			// The Purple Light District
 			return encounter.equals( "Chester" ) ? encounter : "Sleaze Hobo";
 		}
