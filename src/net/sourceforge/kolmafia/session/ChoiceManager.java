@@ -1067,6 +1067,71 @@ public abstract class ChoiceManager
 		//  O Cap'm, My Cap'm
 		{ "189", "1", new AdventureResult( AdventureResult.MEAT, -977 ) },
 
+		// Big Merv's Protein Shakes
+		{ "237", "1", new AdventureResult( "hobo nickel", -20 ) },
+
+		// Suddenly Salad!
+		{ "238", "1", new AdventureResult( "hobo nickel", -20 ) },
+
+		// Sizzling Weasel On a Stick
+		{ "239", "1", new AdventureResult( "hobo nickel", -20 ) },
+
+		// Arthur Finn's World-Record Homebrew Stout
+		{ "242", "1", new AdventureResult( "hobo nickel", -20 ) },
+
+		// Mad Jack's Corn Squeezery
+		{ "243", "1", new AdventureResult( "hobo nickel", -20 ) },
+
+		// Bathtub Jimmy's Gin Mill
+		{ "244", "1", new AdventureResult( "hobo nickel", -20 ) },
+
+		// The Guy Who Carves Driftwood Animals
+		{ "247", "1", new AdventureResult( "hobo nickel", -10 ) },
+
+		// A Hattery
+		{ "250", "1", new AdventureResult( "hobo nickel", -250 ) },
+		{ "250", "2", new AdventureResult( "hobo nickel", -150 ) },
+		{ "250", "3", new AdventureResult( "hobo nickel", -200 ) },
+
+		// A Pantry
+		{ "251", "1", new AdventureResult( "hobo nickel", -200 ) },
+		{ "251", "2", new AdventureResult( "hobo nickel", -150 ) },
+		{ "251", "3", new AdventureResult( "hobo nickel", -250 ) },
+
+		// Hobo Blanket Bingo
+		{ "252", "1", new AdventureResult( "hobo nickel", -250 ) },
+		{ "252", "2", new AdventureResult( "hobo nickel", -200 ) },
+		{ "252", "3", new AdventureResult( "hobo nickel", -150 ) },
+
+		// Black-and-Blue-and-Decker
+		{ "255", "1", new AdventureResult( "hobo nickel", -10 ) },
+		{ "255", "2", new AdventureResult( "hobo nickel", -10 ) },
+		{ "255", "3", new AdventureResult( "hobo nickel", -10 ) },
+
+		// Instru-mental
+		{ "258", "1", new AdventureResult( "hobo nickel", -99 ) },
+
+		// Everybody's Got Something To Hide
+		{ "261", "1", new AdventureResult( "hobo nickel", -1000 ) },
+
+		// Tanning Salon
+		{ "264", "1", new AdventureResult( "hobo nickel", -5 ) },
+		{ "264", "2", new AdventureResult( "hobo nickel", -5 ) },
+
+		// Let's All Go To The Movies
+		{ "267", "1", new AdventureResult( "hobo nickel", -5 ) },
+		{ "267", "2", new AdventureResult( "hobo nickel", -5 ) },
+
+		// It's Fun To Stay There
+		{ "268", "1", new AdventureResult( "hobo nickel", -5 ) },
+		{ "268", "2", new AdventureResult( "hobo nickel", -5 ) },
+
+		// Tattoo Shop
+		{ "271", "1", new AdventureResult( "hobo nickel", -20 ) },
+
+		// Trianagle, Man
+		{ "275", "1", new AdventureResult( "hobo nickel", -10 ) },
+
 		// A Tight Squeeze
 		{ "291", "1", new AdventureResult( "hobo nickel", -5 ) },
 
