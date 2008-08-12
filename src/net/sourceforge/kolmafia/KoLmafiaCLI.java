@@ -2208,22 +2208,19 @@ public class KoLmafiaCLI
 		if ( command.startsWith( "restore" ) || command.startsWith( "recover" ) || command.startsWith( "check" ) )
 		{
 			boolean wasRecoveryActive = KoLmafia.isRunningBetweenBattleChecks();
-			SpecialOutfit.createImplicitCheckpoint();
+			KoLmafia.recoveryActive = true;
 
 			if ( parameters.equalsIgnoreCase( "hp" ) || parameters.equalsIgnoreCase( "health" ) )
 			{
-				KoLmafia.recoveryActive = true;
 				StaticEntity.getClient().recoverHP( KoLCharacter.getCurrentHP() + 1 );
-				KoLmafia.recoveryActive = wasRecoveryActive;
 			}
 			else if ( parameters.equalsIgnoreCase( "mp" ) || parameters.equalsIgnoreCase( "mana" ) )
 			{
-				KoLmafia.recoveryActive = true;
 				StaticEntity.getClient().recoverMP( KoLCharacter.getCurrentMP() + 1 );
-				KoLmafia.recoveryActive = wasRecoveryActive;
 			}
 
-			SpecialOutfit.restoreImplicitCheckpoint();
+			KoLmafia.recoveryActive = wasRecoveryActive;
+
 			return;
 		}
 

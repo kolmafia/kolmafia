@@ -150,6 +150,7 @@ public class EquipmentRequest
 	private int itemId;
 	private int equipmentType;
 	private SpecialOutfit outfit;
+	private String outfitName;
 	private String error;
 
 	private static boolean shouldSavePreviousOutfit = false;
@@ -161,6 +162,7 @@ public class EquipmentRequest
 
 		this.requestType = requestType;
 		this.outfit = null;
+		this.outfitName = null;
 		this.error = null;
 
 		// Otherwise, add the form field indicating which page
@@ -194,6 +196,7 @@ public class EquipmentRequest
 		this.addFormField( "action", "customoutfit" );
 		this.addFormField( "outfitname", changeName );
 		this.requestType = EquipmentRequest.SAVE_OUTFIT;
+		this.outfitName = changeName;
 	}
 
 	public EquipmentRequest( final AdventureResult changeItem )
@@ -632,7 +635,7 @@ public class EquipmentRequest
 			break;
 
 		case EquipmentRequest.SAVE_OUTFIT:
-			KoLmafia.updateDisplay( "Saving outfit..." );
+			KoLmafia.updateDisplay( "Saving outfit " + this.outfitName + "..." );
 			break;
 
 		case EquipmentRequest.CHANGE_OUTFIT:

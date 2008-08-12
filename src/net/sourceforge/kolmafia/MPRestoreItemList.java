@@ -325,7 +325,15 @@ public abstract class MPRestoreItemList
 
 				numberToBuy = Math.min( KoLCharacter.getAvailableMeat() / unitPrice, numberToBuy );
 
-				if ( !InventoryManager.retrieveItem( this.itemUsed.getInstance( numberToBuy ) ) )
+				// We may need to switch outfits to buy the
+				// recovery item, but make sure we are wearing
+				// our original outfit before consuming it.
+
+				SpecialOutfit.createImplicitCheckpoint();
+				boolean success = InventoryManager.retrieveItem( this.itemUsed.getInstance( numberToBuy ) );
+				SpecialOutfit.restoreImplicitCheckpoint();
+
+				if ( !success )
 				{
 					return;
 				}
