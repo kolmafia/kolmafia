@@ -3441,7 +3441,7 @@
 3440	prismatic wad	4	all	90
 3441	club of the five seasons	12	all	200
 3442	rainbow crossbow	12	all	200
-3443
+3443	black kitten	5	none	0
 3444
 3445
 3446

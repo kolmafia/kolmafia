@@ -809,7 +809,151 @@ public abstract class ChoiceManager
 			"Island", "choiceAdventure191", "F'c'le",
 			new String[] { "moxie substats", "lose hp", "muscle substats", "mysticality substats" } ),
 
-                // Choice 209 is Timbarrrr!
+		// Somewhat Higher and Mostly Dry
+		new ChoiceAdventure(
+			"Hobopolis", "choiceAdventure197", "A Maze of Sewer Tunnels",
+			new String[] { "Head down the dark tunnel", "sewer gator", "Turn the valve" } ),
+			
+		// Disgustin' Junction
+		new ChoiceAdventure(
+			"Hobopolis", "choiceAdventure198", "A Maze of Sewer Tunnels",
+			new String[] { "Head down the dark tunnel", "giant zombie goldfish", "Open the grate" } ),
+			
+		// The Former or the Ladder
+		new ChoiceAdventure(
+			"Hobopolis", "choiceAdventure199", "A Maze of Sewer Tunnels",
+			new String[] { "Take the tunnel", "C. H. U. M.", "Head down the ladder" } ),
+			
+		// Enter The Hoboverlord
+		new ChoiceAdventure(
+			"Hobopolis", "choiceAdventure200", "Hobopolis Town Square",
+			new String[] { "enter combat", "skip adventure" } ),
+			
+		// Home, Home in the Range
+		new ChoiceAdventure(
+			"Hobopolis", "choiceAdventure201", "Burnbarrel Blvd.",
+			new String[] { "enter combat", "skip adventure" } ),
+			
+		// Bumpity Bump Bump
+		new ChoiceAdventure(
+			"Hobopolis", "choiceAdventure202", "Exposure Esplanade",
+			new String[] { "enter combat", "skip adventure" } ),
+			
+		// Deep Enough to Dive
+		new ChoiceAdventure(
+			"Hobopolis", "choiceAdventure203", "The Heap",
+			new String[] { "enter combat", "skip adventure" } ),
+			
+		// Welcome To You!
+		new ChoiceAdventure(
+			"Hobopolis", "choiceAdventure204", "The Ancient Hobo Burial Ground",
+			new String[] { "enter combat", "skip adventure" } ),
+			
+		// Van, Damn
+		new ChoiceAdventure(
+			"Hobopolis", "choiceAdventure205", "The Purple Light District",
+			new String[] { "enter combat", "skip adventure" } ),
+			
+		// Getting Tired
+		new ChoiceAdventure(
+			"Hobopolis", "choiceAdventure206", "Burnbarrel Blvd.",
+			new String[] { "Put a tire on violently", "Put a tire on gently", "skip adventure" } ),
+			
+		// Hot Dog! I Mean... Door!
+		new ChoiceAdventure(
+			"Hobopolis", "choiceAdventure207", "Burnbarrel Blvd.",
+			new String[] { "Open the door", "skip adventure" } ),
+			
+		// Ah, So That's Where They've All Gone
+		new ChoiceAdventure(
+			"Hobopolis", "choiceAdventure208", "The Ancient Hobo Burial Ground",
+			new String[] { "Send the flowers to The Heap", "skip adventure" } ),
+			
+                // Choice 209 is Timbarrrr! &  Choice 210 is Stumped
+		// Choice 211 & 212 are Despite All Your Rage
+
+		// Piping Hot
+		new ChoiceAdventure(
+			"Hobopolis", "choiceAdventure213", "Burnbarrel Blvd.",
+			new String[] { "Turn the valve", "Leave the valve alone" } ),
+			
+		// You vs. The Volcano
+		new ChoiceAdventure(
+			"Hobopolis", "choiceAdventure214", "The Heap",
+			new String[] { "Kick the stuff into the hole", "skip adventure" } ),
+			
+		// Piping Cold
+		new ChoiceAdventure(
+			"Hobopolis", "choiceAdventure215", "Exposure Esplanade",
+			new String[] { "Turn the first valve", "Turn the second valve", "Go all CLUE on the third Pipe" } ),
+			
+		// The Compostal Service
+		new ChoiceAdventure(
+			"Hobopolis", "choiceAdventure216", "The Heap",
+			new String[] { "Be green", "skip adventure" } ),
+			
+		// There Goes Fritz!
+		new ChoiceAdventure(
+			"Hobopolis", "choiceAdventure217", "Exposure Esplanade",
+			new String[] { "Yodel a little", "Yodel a lot", "Yodel your heart out" } ),
+			
+		// I Refuse!
+		new ChoiceAdventure(
+			"Hobopolis", "choiceAdventure218", "The Heap",
+			new String[] { "Explore the junkpile", "skip adventure" } ),
+			
+		// The Furtivity of My City
+		new ChoiceAdventure(
+			"Hobopolis", "choiceAdventure219", "The Purple Light District",
+			new String[] { "Eviscerate him", "Intimidate him", "Wait for him to leave" } ),
+			
+		// Returning to the Tomb
+		new ChoiceAdventure(
+			"Hobopolis", "choiceAdventure220", "The Ancient Hobo Burial Ground",
+			new String[] { "Pry open the door", "skip adventure" } ),
+			
+		// A Chiller Night
+		new ChoiceAdventure(
+			"Hobopolis", "choiceAdventure221", "The Ancient Hobo Burial Ground",
+			new String[] { "Study the dance moves", "Dance with them", "skip adventure" } ),
+			
+		// A Chiller Night (2)
+		new ChoiceAdventure(
+			"Hobopolis", "choiceAdventure222", "The Ancient Hobo Burial Ground",
+			new String[] { "Dance with them", "skip adventure" } ),
+			
+		// Getting Clubbed
+		new ChoiceAdventure(
+			"Hobopolis", "choiceAdventure223", "The Purple Light District",
+			new String[] { "Try to get inside", "Try to bamboozle the crowd", "Try to flimflam the crowd" } ),
+			
+		// Exclusive!
+		new ChoiceAdventure(
+			"Hobopolis", "choiceAdventure224", "The Purple Light District",
+			new String[] { "Pick a fight", "Pick several fights", "Pick your nose" } ),
+			
+		// Attention -- A Tent!
+		new ChoiceAdventure(
+			"Hobopolis", "choiceAdventure225", "Hobopolis Town Square",
+			new String[] { "Slip in the back, Jack", "Head in the front, uh... Joe", "skip adventure" } ),
+		// Choice 226 is Here You Are, Up On Stage (use the same system as 211 & 212)
+		// Choice 227 is Working the Crowd (use the same system as 211 & 212)
+		// Choices 228 & 229 are unknown	
+		// Choices 231-271 are subchoices of Choice 272
+		// Marketplace Entrance
+		new ChoiceAdventure(
+			"Hobopolis", "choiceAdventure272", "Hobopolis Town Square",
+			new String[] { "The Hobo Marketplace", "skip adventure" } ),
+			
+		// Piping Cold
+		new ChoiceAdventure(
+			"Hobopolis", "choiceAdventure273", "Exposure Esplanade",
+			new String[] { "frozen banquet", "Pry open the fridge", "skip adventure" } ),
+
+		// Choice 274 is Tattoo Redux, a subchoice of Choice 272 when you've started a tattoo
+		// Choice 275 is Triangle, Man, a subchoice of Choice 272 when you've already purchased your class instrument
+
+		// Choices 278-290 are llama lama gong related choices
 	};
 
 	static
@@ -1066,6 +1210,9 @@ public abstract class ChoiceManager
 
 		//  O Cap'm, My Cap'm
 		{ "189", "1", new AdventureResult( AdventureResult.MEAT, -977 ) },
+		
+		// Mind Yer Binder
+		{ "230", "1", new AdventureResult( "hobo nickel", -30 ) },
 
 		// Big Merv's Protein Shakes
 		{ "237", "1", new AdventureResult( "hobo nickel", -20 ) },
@@ -1133,18 +1280,24 @@ public abstract class ChoiceManager
 		{ "275", "1", new AdventureResult( "hobo nickel", -10 ) },
 
 		// A Tight Squeeze
+		// The Gong Has Been Bung
+		{ "276", "1", new AdventureResult( "llama gong", -1 ) },
+		{ "276", "2", new AdventureResult( "llama gong", -1 ) },
+		{ "276", "3", new AdventureResult( "llama gong", -1 ) },
+		
+		// A Tight Squeeze - jar of squeeze
 		{ "291", "1", new AdventureResult( "hobo nickel", -5 ) },
-
-		// Cold Comfort
+		
+		// Cold Comfort - bowl of fishysoisse
 		{ "292", "1", new AdventureResult( "hobo nickel", -5 ) },
-
-		// Flowers for You
+		
+		// Flowers for You - deadly lampshade
 		{ "293", "1", new AdventureResult( "hobo nickel", -5 ) },
-
-		// Maybe It's a Sexy Snake!
+		
+		// Maybe It's a Sexy Snake! - lewd playing card
 		{ "294", "1", new AdventureResult( "hobo nickel", -5 ) },
-
-		// Juicy!
+		
+		// Juicy! - concentrated garbage juice
 		{ "295", "1", new AdventureResult( "hobo nickel", -5 ) },
 	};
 

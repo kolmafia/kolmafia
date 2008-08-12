@@ -324,6 +324,7 @@ public class ItemPool
 	public static final int MOLYBDENUM_WRENCH = 2501;
 	public static final int JEWELRY_BOOK = 2502;
 	public static final int MAYFLOWER_BOUQUET = 2541;
+	public static final int OUTRAGEOUS_SOMBRERO = 2548;
 	public static final int AZAZELS_UNICORN = 2566;
 	public static final int AZAZELS_LOLLYPOP = 2567;
 	public static final int AZAZELS_TUTU = 2568;
@@ -430,11 +431,13 @@ public class ItemPool
 	public static final int STINKBUG = 3360;
 	public static final int DEATH_WATCH_BEETLE = 3361;
 	public static final int LOUSE = 3362;
+	public static final int TWIG_HOUSE = 3374;
 	public static final int SQUEEZE = 3399;
 	public static final int FISHYSOISSE = 3400;
 	public static final int LAMP_SHADE = 3401;
 	public static final int GARBAGE_JUICE = 3402;
 	public static final int LEWD_CARD = 3403;
+	public static final int HOBO_FORTRESS = 3416;
 	public static final int FIREWORKS = 3421;
 
 	public static final AdventureResult get( String itemName, int count )

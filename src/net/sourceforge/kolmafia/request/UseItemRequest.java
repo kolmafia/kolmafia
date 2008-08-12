@@ -130,6 +130,8 @@ public class UseItemRequest
 		case ItemPool.HOBBY_HORSE:
 		case ItemPool.BALL_IN_A_CUP:
 		case ItemPool.SET_OF_JACKS:
+			// La Bamba
+		case ItemPool.OUTRAGEOUS_SOMBRERO:
 			// Iceberglet items
 		case ItemPool.ICE_SICKLE:
 		case ItemPool.ICE_BABY:
@@ -1517,6 +1519,8 @@ public class UseItemRequest
 		case ItemPool.COTTAGE:
 		case ItemPool.HOUSE:
 		case ItemPool.SANDCASTLE:
+		case ItemPool.TWIG_HOUSE:
+		case ItemPool.HOBO_FORTRESS:
 
 			if ( responseText.indexOf( "You place the" ) == -1 && responseText.indexOf( "You build a" ) == -1 && responseText.indexOf( "You quickly burn down" ) == -1)
 			{
@@ -1711,6 +1715,7 @@ public class UseItemRequest
 
 			return;
 
+		case ItemPool.OUTRAGEOUS_SOMBRERO:
 		case ItemPool.HOBBY_HORSE:
 		case ItemPool.BALL_IN_A_CUP:
 		case ItemPool.SET_OF_JACKS:
@@ -1747,7 +1752,9 @@ public class UseItemRequest
 			itemId == ItemPool.BARSKIN_TENT ||
 			itemId == ItemPool.COTTAGE ||
 			itemId == ItemPool.HOUSE ||
-			itemId == ItemPool.SANDCASTLE;
+			itemId == ItemPool.SANDCASTLE || 
+			itemId == ItemPool.TWIG_HOUSE ||
+			itemId == ItemPool.HOBO_FORTRESS;
 	}
 
 	private static final void showItemUsage( final boolean showHTML, final String text, boolean consumed )

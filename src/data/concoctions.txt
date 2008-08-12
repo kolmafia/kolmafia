@@ -118,6 +118,7 @@ hovering sombrero	1	irate sombrero	poultrygeist
 large cocoa eggshell fragment	2	cocoa eggshell fragment	cocoa eggshell fragment
 one-winged stab bat	1	batblade	bat wing
 pirate skull	1	eyepatch	brainy skull
+spooky pirate skeleton	28	pirate skull	sunken chest	pirate pelvis	skeleton bone (8)
 pregnant gloomy black mushroom	2	gloomy black mushroom	spooky fairy gravy
 pregnant oily golden mushroom	2	oily golden mushroom	sleazy fairy gravy
 pregnant mushroom	2	Knob mushroom	fairy gravy boat
@@ -995,6 +996,7 @@ clingfilm trousers	27	bit of clingfilm (11)
 
 brick of sand	27	handful of sand (5)
 sandcastle	27	brick of sand (20)
+house of twigs and spit	27	interesting-looking twig (100)
 
 deck of lewd playing cards	27	lewd playing card (52)
 
