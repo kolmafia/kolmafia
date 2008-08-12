@@ -2,7 +2,8 @@
 Town	Town	Seaside Town
 Casino	Town	Seaside Casino
 Dungeon	Town	Seaside Dungeon
-Hobopolis	Town	Hobopolis
+
+Hobopolis	Hobopolis	Hobopolis
 
 Manor0	Manor0	Spookyraven (Cellar)
 Manor1	Manor1	Spookyraven (First Floor)
