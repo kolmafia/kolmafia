@@ -293,8 +293,9 @@ public abstract class HPRestoreItemList
 			}
 			else if ( ItemDatabase.contains( this.restoreName ) )
 			{
-				// In certain instances, you are able to buy more of
-				// the given item from NPC stores, or from the mall.
+				// In certain instances, you are able to buy
+				// more of the given item from NPC stores, or
+				// from the mall.
 
 				int numberAvailable = this.itemUsed.getCount( KoLConstants.inventory );
 
@@ -312,7 +313,15 @@ public abstract class HPRestoreItemList
 						numberToBuy = Math.min( KoLCharacter.getAvailableMeat() / unitPrice, numberToUse );
 					}
 
-					if ( !InventoryManager.retrieveItem( this.itemUsed.getInstance( numberToBuy ) ) )
+					// We may need to switch outfits to buy the
+					// recovery item, but make sure we are wearing
+					// our original outfit before consuming it.
+
+					SpecialOutfit.createImplicitCheckpoint();
+					boolean success = InventoryManager.retrieveItem( this.itemUsed.getInstance( numberToBuy ) );
+					SpecialOutfit.restoreImplicitCheckpoint();
+
+					if ( !success )
 					{
 						return;
 					}

@@ -2946,9 +2946,7 @@ public abstract class KoLmafia
 			}
 		}
 
-		KoLmafia.recoveryActive = false;
 		SpecialOutfit.createImplicitCheckpoint();
-		KoLmafia.recoveryActive = true;
 
 		// Now, run the built-in behavior to take care of
 		// any loose ends.

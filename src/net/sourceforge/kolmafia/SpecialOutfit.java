@@ -227,11 +227,6 @@ public class SpecialOutfit
 
 	public static final void createImplicitCheckpoint()
 	{
-		if ( KoLmafia.isRunningBetweenBattleChecks() )
-		{
-			return;
-		}
-
 		synchronized ( SpecialOutfit.class )
 		{
 			AdventureResult[] implicit = new AdventureResult[ EquipmentManager.FAMILIAR + 1 ];
@@ -252,7 +247,7 @@ public class SpecialOutfit
 
 	public static final void restoreImplicitCheckpoint()
 	{
-		if ( SpecialOutfit.implicitPoints.isEmpty() || KoLmafia.isRunningBetweenBattleChecks() )
+		if ( SpecialOutfit.implicitPoints.isEmpty() )
 		{
 			return;
 		}
