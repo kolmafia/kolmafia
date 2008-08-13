@@ -435,7 +435,7 @@ user	choiceAdventure202	2
 user	choiceAdventure203	2
 user	choiceAdventure204	2
 user	choiceAdventure205	2
-user	choiceAdventure206	3
+user	choiceAdventure206	0
 user	choiceAdventure207	2
 user	choiceAdventure208	2
 user	choiceAdventure213	2
@@ -444,13 +444,13 @@ user	choiceAdventure215	3
 user	choiceAdventure216	2
 user	choiceAdventure217	3
 user	choiceAdventure218	1
-user	choiceAdventure219	3
-user	choiceAdventure220	1
+user	choiceAdventure219	2
+user	choiceAdventure220	2
 user	choiceAdventure221	1
 user	choiceAdventure222	1
-user	choiceAdventure223	3
-user	choiceAdventure224	3
-user	choiceAdventure225	3
+user	choiceAdventure223	0
+user	choiceAdventure224	2
+user	choiceAdventure225	0
 user	choiceAdventure272	2
 user	choiceAdventure273	3
 user	choiceAdventure277	1

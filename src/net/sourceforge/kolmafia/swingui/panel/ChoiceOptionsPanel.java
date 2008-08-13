@@ -103,6 +103,7 @@ public class ChoiceOptionsPanel
 		for ( int i = 0; i < ChoiceManager.CHOICE_ADVS.length; ++i )
 		{
 			this.optionSelects[ i ] = new JComboBox();
+			this.optionSelects[ i ].addItem( "show in browser" );
 			options = ChoiceManager.CHOICE_ADVS[ i ].getOptions();
 			for ( int j = 0; j < options.length; ++j )
 			{
@@ -589,7 +590,7 @@ public class ChoiceOptionsPanel
 		{
 			int index = this.optionSelects[ i ].getSelectedIndex();
 			String choice = ChoiceManager.CHOICE_ADVS[ i ].getSetting();
-			Preferences.setString( choice, String.valueOf( index + 1 ) );
+			Preferences.setString( choice, String.valueOf( index ) );
 		}
 
 		//              The Wheel:
@@ -849,9 +850,9 @@ public class ChoiceOptionsPanel
 		for ( int i = 0; i < this.optionSelects.length; ++i )
 		{
 			index = Preferences.getInteger( ChoiceManager.CHOICE_ADVS[ i ].getSetting() );
-			if ( index > 0 )
+			if ( index >= 0 )
 			{
-				this.optionSelects[ i ].setSelectedIndex( index - 1 );
+				this.optionSelects[ i ].setSelectedIndex( index );
 			}
 		}
 
