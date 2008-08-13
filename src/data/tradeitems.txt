@@ -2592,7 +2592,7 @@
 2591	tasty tart	1	all	0
 2592	Knob Goblin lunchbox	4	all	0
 2593	Knob pasty	1	all	15
-2594	thermos full of Knob coffee	2	all	25
+2594	thermos full of Knob chicory	2	all	25
 2595	Ben-Gal&trade; Balm	4	all	12
 2596	leathery cat skin	0	all	150
 2597	leathery bat skin	0	all	150
