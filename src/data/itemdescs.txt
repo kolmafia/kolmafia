@@ -2597,7 +2597,7 @@
 2591	367112324	tasty tart	tasty tarts
 2592	970979827	Knob Goblin lunchbox	Knob Goblin lunchboxen
 2593	554994778	Knob pasty	Knob pasties
-2594	867148185	thermos full of Knob coffee	thermoses full of Knob coffee
+2594	867148185	thermos full of Knob chicory	thermoses full of Knob chicory
 2595	842588397	Ben-Gal&trade; Balm	tins of Ben-Gal&trade; Balm
 2596	390000537	leathery cat skin	leathery cat skins
 2597	631907210	leathery bat skin	leathery bat skins
