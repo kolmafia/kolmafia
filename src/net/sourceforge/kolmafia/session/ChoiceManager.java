@@ -42,6 +42,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.request.FightRequest;
@@ -1417,6 +1418,29 @@ public abstract class ChoiceManager
 
 			// An array of choice spoilers is the third element
 			result[ 2 ] = ChoiceManager.dynamicChoiceOptions( choice );
+
+			return result;
+
+		case 272:
+			// Marketplace Entrance
+			result = new String[ 3 ][];
+
+			// The choice option is the first element
+			result[ 0 ] = new String[ 1 ];
+			result[ 0 ][ 0 ] = "choiceAdventure272";
+
+			// The name of the choice is second element
+			result[ 1 ] = new String[ 1 ];
+			result[ 1 ][ 0 ] = "Hobo Marketplace";
+
+			// An array of choice spoilers is the third element
+
+			int nickels = InventoryManager.getCount( ItemPool.HOBO_NICKEL );
+			boolean binder = KoLCharacter.hasEquipped( ItemPool.get( ItemPool.HOBO_CODE_BINDER, 1 ) );
+
+			result[ 2 ] = new String[ 2 ];
+			result[ 2 ][ 0 ] = nickels + " nickels, " + ( binder ? "" : "NO ") + " hobo code binder equipped";
+			result[ 2 ][ 1 ] = "skip adventure";
 
 			return result;
 		}

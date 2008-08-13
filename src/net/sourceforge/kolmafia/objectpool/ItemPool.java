@@ -398,6 +398,7 @@ public class ItemPool
 	public static final int SET_OF_JACKS = 3094;
 	public static final int FISH_SCALER = 3097;
 	public static final int DIVINE_BOOK = 3117;
+	public static final int HOBO_NICKEL = 3126;
 	public static final int SANDCASTLE = 3127;
 	public static final int PUNCHCARD_ATTACK = 3146;
 	public static final int PUNCHCARD_REPAIR = 3147;
@@ -422,6 +423,7 @@ public class ItemPool
 	public static final int RIDING_CROP = 3197;
 	public static final int TRAPEZOID = 3198;
 	public static final int OVERCHARGED_POWER_SPHERE = 3215;
+	public static final int HOBO_CODE_BINDER = 3220;
 	public static final int TATTERED_PAPER_CROWN = 3231;
 	public static final int TASTEFUL_BOOK = 3263;
 	public static final int GRUB = 3356;
