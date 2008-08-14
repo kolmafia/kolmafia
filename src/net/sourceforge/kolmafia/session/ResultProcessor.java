@@ -636,17 +636,18 @@ public class ResultProcessor
 						ConcoctionDatabase.isPermittedMethod( ConcoctionDatabase.getMixingMethod( ( (AdventureResult) uses.get( i ) ).getItemId() ) );
 				}
 
+				if ( !shouldRefresh )
+				{
+					int consumeType = ItemDatabase.getConsumptionType( result.getItemId() );
+					shouldRefresh = consumeType == KoLConstants.CONSUME_EAT ||
+						consumeType == KoLConstants.CONSUME_DRINK ||
+						consumeType == KoLConstants.CONSUME_USE ||
+						consumeType == KoLConstants.CONSUME_MULTIPLE;
+				}
+
 				if ( shouldRefresh )
 				{
 					ConcoctionDatabase.refreshConcoctions();
-				}
-				else
-				{
-					int consumeType = ItemDatabase.getConsumptionType( result.getItemId() );
-					if ( consumeType == KoLConstants.CONSUME_EAT || consumeType == KoLConstants.CONSUME_DRINK )
-					{
-						ConcoctionDatabase.refreshConcoctions();
-					}
 				}
 			}
 		}
