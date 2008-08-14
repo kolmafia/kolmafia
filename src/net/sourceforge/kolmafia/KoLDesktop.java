@@ -48,6 +48,7 @@ import java.util.ArrayList;
 import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JTabbedPane;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
@@ -64,6 +65,7 @@ import net.sourceforge.kolmafia.swingui.button.DisplayFrameButton;
 import net.sourceforge.kolmafia.swingui.button.LoadScriptButton;
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
 import net.sourceforge.kolmafia.swingui.menu.GlobalMenuBar;
+import net.sourceforge.kolmafia.utilities.PauseObject;
 
 import tab.CloseListener;
 import tab.CloseTabPaneUI;
@@ -373,7 +375,10 @@ public class KoLDesktop
 			return null;
 		}
 
-		toolbarPanel.add( Box.createHorizontalStrut( 10 ) );
+		toolbarPanel.add( Box.createVerticalStrut( 50 ) );
+
+		toolbarPanel.add( Box.createHorizontalStrut( 5 ) );
+
 		toolbarPanel.add( new DisplayFrameButton( "Council", "council.gif", "CouncilFrame" ) );
 		toolbarPanel.add( new InvocationButton(
 			"Load in Web Browser", "browser.gif", StaticEntity.getClient(), "openRelayBrowser" ) );
@@ -407,7 +412,16 @@ public class KoLDesktop
 		toolbarPanel.add( new DisplayFrameButton( "Farmer's Almanac", "calendar.gif", "CalendarFrame" ) );
 		toolbarPanel.add( new DisplayFrameButton( "Preferences", "preferences.gif", "OptionsFrame" ) );
 
-		toolbarPanel.add( Box.createVerticalStrut( 50 ) );
+		toolbarPanel.add( Box.createHorizontalStrut( 10 ) );
+		toolbarPanel.add( Box.createHorizontalGlue() );
+
+		JProgressBar memoryLabel = new JProgressBar( JProgressBar.HORIZONTAL );
+		memoryLabel.setStringPainted( true );
+
+		new MemoryUsageMonitor( memoryLabel ).start();
+
+		toolbarPanel.add( memoryLabel );
+
 		return toolbarPanel;
 	}
 
@@ -462,6 +476,40 @@ public class KoLDesktop
 		public void componentShown( ComponentEvent e )
 		{
 			this.frame.requestFocusInWindow();
+		}
+	}
+
+	private static class MemoryUsageMonitor
+		extends Thread
+	{
+		private JProgressBar label;
+		private PauseObject pauser;
+
+		public MemoryUsageMonitor( final JProgressBar label )
+		{
+			this.label = label;
+			this.pauser = new PauseObject();
+
+			this.setDaemon( false );
+		}
+
+		public void run()
+		{
+			while ( true )
+			{
+				this.pauser.pause( 2000 );
+
+				Runtime runtime = Runtime.getRuntime();
+
+				int maxMemory = (int) ( runtime.maxMemory() >> 10 );
+				int heapMemory = (int) ( runtime.totalMemory() >> 10 );
+				int usedMemory = (int) ( heapMemory - ( runtime.freeMemory() >> 10 ) );
+
+				this.label.setMaximum( maxMemory );
+				this.label.setValue( usedMemory );
+
+				this.label.setString( usedMemory + " KB / " + maxMemory + " KB" );
+			}
 		}
 	}
 }
