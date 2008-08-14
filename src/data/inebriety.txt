@@ -184,7 +184,7 @@ teqiwila slammer	4	6	14-18	40-47	0	0
 tequila sunrise	3	1	3-6	8-10	0	0
 tequila sunset	3	3	5-10	0	16-20	0
 tequila with training wheels	3	3	5-10	8-9	0	0
-thermos full of Knob chicory	1	1	6-7	5-6	5-6	5-6
+thermos full of Knob coffee	1	1	6-7	5-6	5-6	5-6
 thistle wine	1	10	2-4	0	0	30-60
 tomato daiquiri	3	2	4-8	10-12	0	10-12
 nanite-infested eggnog	3	3	5-10	0	17-30	18-30

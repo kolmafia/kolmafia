@@ -316,12 +316,14 @@ public class UseItemEnqueuePanel
 			if ( UseItemEnqueuePanel.this.food )
 			{
 				RequestThread.postRequest( new UseItemRequest( ItemPool.get( ItemPool.MILK_OF_MAGNESIUM, 1 ) ) );
+				ConcoctionDatabase.getUsables().sort();
 			}
 			else if ( UseItemEnqueuePanel.this.booze )
 			{
 				if ( !KoLConstants.activeEffects.contains( new AdventureResult( "Ode to Booze", 1, true ) ) )
 				{
 					RequestThread.postRequest( UseSkillRequest.getInstance( "The Ode to Booze", 1 ) );
+					ConcoctionDatabase.getUsables().sort();
 				}
 			}
 			else if ( UseItemEnqueuePanel.this.spleen )
