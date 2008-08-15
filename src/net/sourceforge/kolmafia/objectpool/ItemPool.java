@@ -264,6 +264,7 @@ public class ItemPool
 	public static final int SMOOTH_STONE_SPHERE = 2175;
 	public static final int CRACKED_STONE_SPHERE = 2176;
 	public static final int ROUGH_STONE_SPHERE = 2177;
+	public static final int HAROLDS_HAMMER = 2184;
 	public static final int ANCIENT_CAROLS = 2191;
 	public static final int SHEET_MUSIC = 2192;
 	public static final int LIARS_PANTS = 2222;
