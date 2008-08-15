@@ -1661,6 +1661,11 @@ public abstract class ChoiceManager
 				decision = LouvreManager.handleChoice( choice, stepCount );
 			}
 
+			// If this choice has special handling or user wants to
+			// complete an outfit, convert to real decision index
+
+			decision = ChoiceManager.specialChoiceDecision( choice, decision );
+
 			// If the user wants to handle the choice manually,
 			// allow it.
 
@@ -1683,108 +1688,6 @@ public abstract class ChoiceManager
 				return;
 			}
 
-			boolean willIgnore = false;
-
-			// If the user wants to ignore this specific choice or all
-			// choices, see if this choice is ignorable.
-
-			if ( choice.equals( "80" ) )
-			{
-				willIgnore = true;
-
-				if ( decision.equals( "99" ) && Preferences.getInteger( "lastSecondFloorUnlock" ) == KoLCharacter.getAscensions() )
-				{
-					decision = "4";
-				}
-			}
-			else if ( choice.equals( "81" ) )
-			{
-				willIgnore = true;
-
-				// If we've already unlocked the gallery, try
-				// to unlock the second floor.
-				if ( decision.equals( "1" ) && Preferences.getInteger( "lastGalleryUnlock" ) == KoLCharacter.getAscensions() )
-				{
-					decision = "99";
-				}
-
-				// If we've already unlocked the second floor,
-				// ignore this choice adventure.
-				if ( decision.equals( "99" ) && Preferences.getInteger( "lastSecondFloorUnlock" ) == KoLCharacter.getAscensions() )
-				{
-					decision = "4";
-				}
-			}
-
-			// But first, handle the maidens adventure in a less random
-			// fashion that's actually useful.
-
-			else if ( choice.equals( "89" ) )
-			{
-				willIgnore = true;
-
-				switch ( StringUtilities.parseInt( decision ) )
-				{
-				case 0:
-					decision = String.valueOf( KoLConstants.RNG.nextInt( 2 ) + 1 );
-					break;
-				case 1:
-				case 2:
-					break;
-				case 3:
-					decision =
-						KoLConstants.activeEffects.contains( ChoiceManager.MAIDEN_EFFECT ) ? String.valueOf( KoLConstants.RNG.nextInt( 2 ) + 1 ) : "3";
-					break;
-				case 4:
-					decision = KoLConstants.activeEffects.contains( ChoiceManager.MAIDEN_EFFECT ) ? "1" : "3";
-					break;
-				case 5:
-					decision = KoLConstants.activeEffects.contains( ChoiceManager.MAIDEN_EFFECT ) ? "2" : "3";
-					break;
-				}
-			}
-
-			else if ( choice.equals( "127" ) )
-			{
-				willIgnore = true;
-
-				switch ( StringUtilities.parseInt( decision ) )
-				{
-				case 1:
-				case 2:
-				case 3:
-					break;
-				case 4:
-					decision = ChoiceManager.PAPAYA.getCount( KoLConstants.inventory ) >= 3 ? "2" : "1";
-					break;
-				case 5:
-					decision = ChoiceManager.PAPAYA.getCount( KoLConstants.inventory ) >= 3 ? "2" : "3";
-					break;
-				}
-			}
-
-			else if ( choice.equals( "161" ) )
-			{
-				decision = "1";
-
-				for ( int i = 2566; i <= 2568; ++i )
-				{
-					AdventureResult item = new AdventureResult( i, 1 );
-					if ( !KoLConstants.inventory.contains( item ) )
-					{
-						decision = "4";
-					}
-				}
-			}
-
-			// Always change the option whenever it's not an ignore option
-			// and remember to store the result.
-
-			if ( !willIgnore )
-			{
-				decision = ChoiceManager.pickOutfitChoice( option, decision );
-			}
-
 			request.clearDataFields();
 
 			request.addFormField( "pwd" );
@@ -1796,16 +1699,98 @@ public abstract class ChoiceManager
 
 		if ( choice != null && KoLmafia.isAdventuring() )
 		{
-			if ( choice.equals( "112" ) && decision.equals( "1" ) )
+			if ( choice.equals( "112" ) )
 			{
-				InventoryManager.retrieveItem( new AdventureResult( 2184, 1 ) );
+				if ( decision.equals( "1" ) )
+				{
+					InventoryManager.retrieveItem( ItemPool.get( ItemPool.HAROLDS_HAMMER, 1 ) );
+				}
 			}
-
-			if ( choice.equals( "162" ) && !EquipmentManager.isWearingOutfit( 8 ) )
+			else if ( choice.equals( "162" ) )
 			{
-				CouncilFrame.unlockGoatlet();
+				if ( !EquipmentManager.isWearingOutfit( 8 ) )
+				{
+					CouncilFrame.unlockGoatlet();
+				}
 			}
 		}
+	}
+
+	private static final String specialChoiceDecision( final String option, final String decision )
+	{
+		switch ( StringUtilities.parseInt( option ) )
+		{
+		// Take a Look, it's in a Book!
+		case 81:
+			// If we've already unlocked the gallery, try
+			// to unlock the second floor.
+			if ( decision.equals( "1" ) && Preferences.getInteger( "lastGalleryUnlock" ) == KoLCharacter.getAscensions() )
+			{
+				return "99";
+			}
+			// fall through
+
+		// Take a Look, it's in a Book!
+		case 80:
+			// If we've already unlocked the second floor,
+			// ignore this choice adventure.
+			if ( decision.equals( "99" ) && Preferences.getInteger( "lastSecondFloorUnlock" ) == KoLCharacter.getAscensions() )
+			{
+				return "4";
+			}
+			return decision;
+
+		// Handle the maidens adventure in a less random fashion that's
+		// actually useful.
+
+		// Choice 89 is Out in the Garden
+		case 89:
+			switch ( StringUtilities.parseInt( decision ) )
+			{
+			case 0:
+				return String.valueOf( KoLConstants.RNG.nextInt( 2 ) + 1 );
+			case 1:
+			case 2:
+				return decision;
+			case 3:
+				return KoLConstants.activeEffects.contains( ChoiceManager.MAIDEN_EFFECT ) ? String.valueOf( KoLConstants.RNG.nextInt( 2 ) + 1 ) : "3";
+			case 4:
+				return KoLConstants.activeEffects.contains( ChoiceManager.MAIDEN_EFFECT ) ? "1" : "3";
+			case 5:
+				return KoLConstants.activeEffects.contains( ChoiceManager.MAIDEN_EFFECT ) ? "2" : "3";
+			}
+			return decision;
+
+		// Choice 127 is No sir, away!	A papaya war is on!
+		case 127:
+			switch ( StringUtilities.parseInt( decision ) )
+			{
+			case 1:
+			case 2:
+			case 3:
+				return decision;
+			case 4:
+				return ChoiceManager.PAPAYA.getCount( KoLConstants.inventory ) >= 3 ? "2" : "1";
+			case 5:
+				return ChoiceManager.PAPAYA.getCount( KoLConstants.inventory ) >= 3 ? "2" : "3";
+			}
+			return decision;
+
+		// Choice 161 is Bureaucracy of the Damned
+		case 161:
+			// Check if we have all of Azazel's objects of evil
+			for ( int i = 2566; i <= 2568; ++i )
+			{
+				AdventureResult item = new AdventureResult( i, 1 );
+				if ( !KoLConstants.inventory.contains( item ) )
+				{
+					return "4";
+				}
+			}
+			return "1";
+		}
+
+		return ChoiceManager.pickOutfitChoice( option, decision );
 	}
 
 	private static final String pickOutfitChoice( final String option, final String decision )
