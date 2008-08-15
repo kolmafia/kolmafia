@@ -485,6 +485,11 @@ public abstract class ChatManager
 
 	public static final String getNormalizedContent( final String originalContent, boolean isInternal )
 	{
+		if ( originalContent == null || originalContent.length() == 0 )
+		{
+			return "";
+		}
+
 		String noImageContent = ChatManager.IMAGE_PATTERN.matcher( originalContent ).replaceAll( "" );
 		String normalBreaksContent = ChatManager.LINEBREAK_PATTERN.matcher( noImageContent ).replaceAll( "<br>" );
 		String condensedContent = ChatManager.EXPAND_PATTERN.matcher( normalBreaksContent ).replaceAll( "<br>" );
