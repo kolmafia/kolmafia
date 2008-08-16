@@ -3120,7 +3120,7 @@
 3113	534973995	Miniborg hiveminder	Miniborg hiveminders
 3114	184372943	Miniborg Destroy-O-Bot	Miniborg Destroy-O-Bots
 3115	194916307	old-fashioned Crimbo Pressie
-3116	533429176	Stuffed Hodgman	stuffed Hodgmen
+3116	533429176	stuffed Hodgman	stuffed Hodgmen
 3117	899226971	Libram of Divine Favors	Librams of Divine Favors
 3118	322869689	divine noisemaker	divine noisemakers
 3119	722409266	divine can of silly string	divine cans of silly string
@@ -3142,12 +3142,12 @@
 3135	116664322	spooky bindle
 3136	999673147	sleazy bindle
 3137	828428600	&quot;WILL WORK FOR BOOZE&quot; sign
-3138
-3139
+3138	118492859	Hodgman's whackin' stick
+3139	648809275	Hodgman's imaginary hamster
 3140	114249239	old soft shoes
 3141	678352310	panhandle panhandling hat
 3142	772668061	cup of infinite pencils
-3143
+3143	727586163	Hodgman's disgusting technicolor overcoat
 3144
 3145	778803106	El Vibrato translator
 3146	190950432	El Vibrato punchcard (115 holes)	El Vibrato punchcards (115 holes)
