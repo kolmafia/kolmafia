@@ -421,6 +421,7 @@ Greek Pasta of Peril	Mysticality: +11, Initiative: +25
 # Grimacite gat
 # Grimacite glaive
 Hammer of Smiting	Muscle: +16, Critical: 3
+Hodgman's whackin' stick	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
 Kentucky-fried meat crossbow	Moxie: +5
 Kentucky-fried meat staff	Mysticality: +5
 Kentucky-fried meat sword	Muscle: +5
@@ -723,6 +724,8 @@ Glass Balls of the Goblin King	Mysticality: +14
 # Hodgman's cane	Converts Hobo Power to HP and MP Regeneration
 # Hodgman's garbage sticker	Converts Hobo Power to + Meat Drops
 # Hodgman's harmonica	Converts Hobo Power to Ranged Damage
+# Hodgman's imaginary hamster	Converts Hobo Power to + Meat Drops, + Item Drops, and HP and MP Regeneration
+Hodgman's imaginary hamster	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
 # Hodgman's metal detector	Converts Hobo Power to + Item Drops
 # Hodgman's varcolac paw	Converts Hobo Power to Melee Damage
 # Kevlar balloon

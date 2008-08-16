@@ -351,6 +351,7 @@ Greek Pasta of Peril	90	Mys: 15	1-handed utensil
 Grimacite gat	150	Mox: 40	1-handed gun
 Grimacite glaive	125	Mus: 47	2-handed polearm
 Hammer of Smiting	90	Mus: 15	1-handed club
+Hodgman's whackin' stick	200	Mus: 200	1-handed club
 Kentucky-fried meat crossbow	70	Mox: 20	2-handed crossbow
 Kentucky-fried meat staff	70	Mus: 20	2-handed staff
 Kentucky-fried meat sword	70	Mus: 20	2-handed sword
@@ -655,6 +656,7 @@ Hodgman's almanac	0	Mys: 200
 Hodgman's cane	0	Mys: 200
 Hodgman's garbage sticker	0	Mox: 200
 Hodgman's harmonica	0	Mox: 200
+Hodgman's imaginary hamster	0	Mys: 200
 Hodgman's metal detector	0	Mus: 200
 Hodgman's varcolac paw	0	Mus: 200
 Kevlar balloon	0	none
