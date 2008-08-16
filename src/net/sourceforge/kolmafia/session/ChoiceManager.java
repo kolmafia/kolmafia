@@ -1661,8 +1661,8 @@ public abstract class ChoiceManager
 				decision = LouvreManager.handleChoice( choice, stepCount );
 			}
 
-			// If this choice has special handling or user wants to
-			// complete an outfit, convert to real decision index
+			// If this choice has special handling, convert to real
+			// decision index
 
 			decision = ChoiceManager.specialChoiceDecision( choice, decision );
 
@@ -1687,6 +1687,11 @@ public abstract class ChoiceManager
 				StaticEntity.printRequestData( request );
 				return;
 			}
+
+			// If user wants to complete an outfit, convert to real
+			// decision index
+
+			decision = ChoiceManager.pickOutfitChoice( option, decision );
 
 			request.clearDataFields();
 
@@ -1790,7 +1795,7 @@ public abstract class ChoiceManager
 			return "1";
 		}
 
-		return ChoiceManager.pickOutfitChoice( option, decision );
+		return decision;
 	}
 
 	private static final String pickOutfitChoice( final String option, final String decision )
