@@ -178,6 +178,24 @@ public class Concoction
 		this.price = -1;
 	}
 
+	public boolean usesIngredient( int itemId )
+	{
+		for ( int i = 0; i < this.ingredientArray.length; ++i )
+		{
+			if ( this.ingredientArray[ i ].getItemId() == itemId )
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	public boolean usesIngredient( AdventureResult ar )
+	{
+                return this.usesIngredient( ar.getItemId() );
+	}
+
 	public int getYield()
 	{
 		if ( ConcoctionDatabase.tripleReagent && this.isReagentPotion() )
@@ -489,7 +507,7 @@ public class Concoction
 			return;
 		}
 
-		if ( this.isTorsoItem && !KoLCharacter.hasSkill( "Torso Awaregness" ) )
+		if ( this.isTorsoItem && !KoLCharacter.hasSkill( "Torso Awaregness" ) && !this.usesIngredient( ItemPool.SHIRT_KIT ) )
 		{
 			this.visibleTotal = this.total;
 			return;
