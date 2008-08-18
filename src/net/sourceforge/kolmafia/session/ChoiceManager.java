@@ -863,12 +863,12 @@ public abstract class ChoiceManager
 		// Hot Dog! I Mean... Door!
 		new ChoiceAdventure(
 			"Hobopolis", "choiceAdventure207", "Burnbarrel Blvd.",
-			new String[] { "increase Hot hobos & get clan meat", "skip adventure" } ),
+			new String[] { "increase hot hobos & get clan meat", "skip adventure" } ),
 			
 		// Ah, So That's Where They've All Gone
 		new ChoiceAdventure(
 			"Hobopolis", "choiceAdventure208", "The Ancient Hobo Burial Ground",
-			new String[] { "increase Spooky hobos & decrease stench", "skip adventure" } ),
+			new String[] { "increase spooky hobos & decrease stench", "skip adventure" } ),
 			
 		// Choice 209 is Timbarrrr!
 		// Choice 210 is Stumped
@@ -878,17 +878,17 @@ public abstract class ChoiceManager
 		// Piping Hot
 		new ChoiceAdventure(
 			"Hobopolis", "choiceAdventure213", "Burnbarrel Blvd.",
-			new String[] { "increase Sleaze hobos & decrease heat", "skip adventure" } ),
+			new String[] { "increase sleaze hobos & decrease heat", "skip adventure" } ),
 			
 		// You vs. The Volcano
 		new ChoiceAdventure(
 			"Hobopolis", "choiceAdventure214", "The Heap",
-			new String[] { "decrease Stench hobos & increase stench", "skip adventure" } ),
+			new String[] { "decrease stench hobos & increase stench", "skip adventure" } ),
 			
 		// Piping Cold
 		new ChoiceAdventure(
 			"Hobopolis", "choiceAdventure215", "Exposure Esplanade",
-			new String[] { "decrease heat", "decrease Sleaze hobos", "increase number of icicles" } ),
+			new String[] { "decrease heat", "decrease sleaze hobos", "increase number of icicles" } ),
 			
 		// The Compostal Service
 		new ChoiceAdventure(
@@ -898,27 +898,27 @@ public abstract class ChoiceManager
 		// There Goes Fritz!
 		new ChoiceAdventure(
 			"Hobopolis", "choiceAdventure217", "Exposure Esplanade",
-			new String[] { "Yodel a little", "Yodel a lot", "Yodel your heart out" } ),
+			new String[] { "yodel a little", "yodel a lot", "yodel your heart out" } ),
 			
 		// I Refuse!
 		new ChoiceAdventure(
 			"Hobopolis", "choiceAdventure218", "The Heap",
-			new String[] { "Explore the junkpile", "skip adventure" } ),
+			new String[] { "explore the junkpile", "skip adventure" } ),
 			
 		// The Furtivity of My City
 		new ChoiceAdventure(
 			"Hobopolis", "choiceAdventure219", "The Purple Light District",
-			new String[] { "fight Sleaze hobo", "decrease Sleaze hobos & increase stench", "increase Sleaze hobos & get clan meat" } ),
+			new String[] { "fight sleaze hobo", "decrease sleaze hobos & increase stench", "increase sleaze hobos & get clan meat" } ),
 			
 		// Returning to the Tomb
 		new ChoiceAdventure(
 			"Hobopolis", "choiceAdventure220", "The Ancient Hobo Burial Ground",
-			new String[] { "increase Spooky hobos & get clan meat", "skip adventure" } ),
+			new String[] { "increase spooky hobos & get clan meat", "skip adventure" } ),
 			
 		// A Chiller Night
 		new ChoiceAdventure(
 			"Hobopolis", "choiceAdventure221", "The Ancient Hobo Burial Ground",
-			new String[] { "Study the dance moves", "dance with hobo zombies", "skip adventure" } ),
+			new String[] { "study the dance moves", "dance with hobo zombies", "skip adventure" } ),
 			
 		// A Chiller Night (2)
 		new ChoiceAdventure(
@@ -928,12 +928,12 @@ public abstract class ChoiceManager
 		// Getting Clubbed
 		new ChoiceAdventure(
 			"Hobopolis", "choiceAdventure223", "The Purple Light District",
-			new String[] { "Try to get inside", "Try to bamboozle the crowd", "Try to flimflam the crowd" } ),
+			new String[] { "try to get inside", "try to bamboozle the crowd", "try to flimflam the crowd" } ),
 			
 		// Exclusive!
 		new ChoiceAdventure(
 			"Hobopolis", "choiceAdventure224", "The Purple Light District",
-			new String[] { "fight Sleaze hobo", "start barfight", "Gain stats" } ),
+			new String[] { "fight sleaze hobo", "start barfight", "gain stats" } ),
 			
 		// Attention -- A Tent!
 		new ChoiceAdventure(
@@ -955,7 +955,7 @@ public abstract class ChoiceManager
 		// Piping Cold
 		new ChoiceAdventure(
 			"Hobopolis", "choiceAdventure273", "Exposure Esplanade",
-			new String[] { "frozen banquet", "increase Cold hobos & get clan meat", "skip adventure" },
+			new String[] { "frozen banquet", "increase cold hobos & get clan meat", "skip adventure" },
 			new String[] { "3338", null, null } ),
 
 		// Choice 274 is Tattoo Redux, a subchoice of Choice 272 when you've started a tattoo
