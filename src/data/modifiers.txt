@@ -1785,22 +1785,28 @@ Yuletide Sappiness	Mysticality Percent: +10
 
 # Passive Skills section of modifiers.txt
 
+# Abs of Tin	Maximum HP Percent: +10
 Amphibian Sympathy	Familiar Weight: +5
 Claws of the Otter	Melee Damage: +3
 Claws of the Walrus	Melee Damage: +4
 Cold-Blooded Fearlessness	Spooky Resistance: +2
+# Cosmic Ugnderstanding	Maximum MP Percent: +5
 Diminished Gag Reflex	Stench Resistance: +2
 Expert Panhandling	Meat Drop: +10
 Gnefarious Pickpocketing	Meat Drop: +10
+# Gnomish Hardigness	Maximum HP Percent: +5
 Heart of Polyester	Sleaze Resistance: +2
 Hide of the Otter	Damage Absorption: +20
 Hide of the Walrus	Damage Absorption: +40
 Mad Looting Skillz	Item Drop: +20
+# Marginally Insane	Maximum MP Percent: +10
+Natural Born Scrabbler	Item Drop: +5
 Nimble Fingers	Meat Drop: +20
 Northern Exposure	Cold Resistance: +2
 Overdeveloped Sense of Self Preservation	Initiative: +20
 Powers of Observatiogn	Item Drop: +10
 Skin of the Leatherback
+Thrift and Grift	Meat Drop: +10
 Tolerance of the Kitchen	Hot Resistance: +2
 
 # Bad Moon passive skills: the Seven Deadly Sins.

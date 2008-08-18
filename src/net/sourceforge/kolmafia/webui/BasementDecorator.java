@@ -337,11 +337,14 @@ public class BasementDecorator
 		private boolean isElementalImmunity;
 		private boolean isStatEqualizer;
 
-		private static boolean rigatoni = false;
-		private static boolean hardigness = false;
-		private static boolean wisdom = false;
-		private static boolean ugnderstanding = false;
 		private static boolean moxieControlsMP = false;
+
+		private static boolean absOfTin = false;
+		private static boolean gnomishHardigness = false;
+		private static boolean gnomishUgnderstanding = false;
+		private static boolean marginallyInsane = false;
+		private static boolean spiritOfRigatoni = false;
+		private static boolean wisdomOfTheElderTortoise = false;
 
 		private static final AdventureResult MOXIE_MAGNET = new AdventureResult( 519, 1 );
 		private static final AdventureResult TRAVOLTAN_TROUSERS = new AdventureResult( 1792, 1 );
@@ -407,11 +410,14 @@ public class BasementDecorator
 
 		public static void checkSkills()
 		{
-			StatBooster.rigatoni = KoLCharacter.hasSkill( "Spirit of Rigatoni" );
-			StatBooster.hardigness = KoLCharacter.hasSkill( "Gnomish Hardigness" );
-			StatBooster.wisdom = KoLCharacter.hasSkill( "Wisdom of the Elder Tortoises" );
-			StatBooster.ugnderstanding = KoLCharacter.hasSkill( "Cosmic Ugnderstanding" );
 			StatBooster.moxieControlsMP = moxieControlsMP();
+
+			StatBooster.absOfTin = KoLCharacter.hasSkill( "Abs of Tin" );
+			StatBooster.gnomishHardigness = KoLCharacter.hasSkill( "Gnomish Hardigness" );
+			StatBooster.gnomishUgnderstanding = KoLCharacter.hasSkill( "Cosmic Ugnderstanding" );
+			StatBooster.marginallyInsane = KoLCharacter.hasSkill( "Marginally Insane" );
+			StatBooster.spiritOfRigatoni = KoLCharacter.hasSkill( "Spirit of Rigatoni" );
+			StatBooster.wisdomOfTheElderTortoise = KoLCharacter.hasSkill( "Wisdom of the Elder Tortoises" );
 		}
 
 		public boolean equals( final Object o )
@@ -592,14 +598,19 @@ public class BasementDecorator
 				muscleBonus *= 1.5f;
 			}
 
-			if ( StatBooster.rigatoni )
+			if ( StatBooster.absOfTin )
 			{
-				muscleBonus *= 1.25f;
+				muscleBonus *= 1.10f;
 			}
 
-			if ( StatBooster.hardigness )
+			if ( StatBooster.gnomishHardigness )
 			{
 				muscleBonus *= 1.05f;
+			}
+
+			if ( StatBooster.spiritOfRigatoni )
+			{
+				muscleBonus *= 1.25f;
 			}
 
 			return addedHealthFixed + muscleBonus;
@@ -638,14 +649,19 @@ public class BasementDecorator
 				manaBonus *= 1.5f;
 			}
 
-			if ( StatBooster.wisdom )
-			{
-				manaBonus *= 1.5f;
-			}
-
-			if ( StatBooster.ugnderstanding )
+			if ( StatBooster.gnomishUgnderstanding )
 			{
 				manaBonus *= 1.05f;
+			}
+
+			if ( StatBooster.marginallyInsane )
+			{
+				manaBonus *= 1.10f;
+			}
+
+			if ( StatBooster.wisdomOfTheElderTortoise )
+			{
+				manaBonus *= 1.5f;
 			}
 
 			return addedManaFixed + manaBonus;
