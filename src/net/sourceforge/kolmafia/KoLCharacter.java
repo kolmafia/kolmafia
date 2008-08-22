@@ -2389,8 +2389,8 @@ public abstract class KoLCharacter
 		EquipmentManager.setEquipment( EquipmentManager.FAMILIAR, KoLCharacter.currentFamiliar.getItem() );
 
 		KoLCharacter.isUsingStabBat =
-			KoLCharacter.currentFamiliar.getRace().equals( "Stab Bat" ) || KoLCharacter.currentFamiliar.getRace().equals(
-				"Scary Death Orb" );
+			KoLCharacter.currentFamiliar.getRace().equals( "Stab Bat" ) ||
+			KoLCharacter.currentFamiliar.getRace().equals( "Scary Death Orb" );
 
 		EquipmentManager.updateEquipmentList( EquipmentManager.FAMILIAR );
 		KoLCharacter.recalculateAdjustments();
