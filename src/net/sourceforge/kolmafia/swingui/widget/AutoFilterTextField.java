@@ -69,6 +69,16 @@ public class AutoFilterTextField
 		this.addKeyListener( new FilterListener() );
 	}
 
+	public AutoFilterTextField( final JList list, Object initial )
+	{
+		this( list );
+
+		if ( initial != null )
+		{
+			this.setText( initial.toString() );
+		}
+	}
+
 	public void actionPerformed( final ActionEvent e )
 	{
 		this.update();
