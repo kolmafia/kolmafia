@@ -59,39 +59,42 @@ public class InputFieldUtilities {
 		InputFieldUtilities.activeWindow = activeWindow;
 	}
 
-	public static final void alert(final String message) {
+	public static final void alert(final String message)
+	{
 
 		JOptionPane.showMessageDialog(
 			InputFieldUtilities.activeWindow, StringUtilities.basicTextWrap(message));
 	}
 
-	public static final boolean confirm(final String message) {
+	public static final boolean confirm(final String message)
+	{
 
 		return JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(
 			InputFieldUtilities.activeWindow, StringUtilities.basicTextWrap(message), "",
 			JOptionPane.YES_NO_OPTION);
 	}
 
-	public static final String input(final String message) {
+	public static final String input(final String message)
+	{
 
 		return JOptionPane.showInputDialog(
 			InputFieldUtilities.activeWindow, StringUtilities.basicTextWrap(message));
 	}
 
-	public static final String input(final String message, final String initial) {
+	public static final String input(final String message, final String initial)
+	{
 
 		return JOptionPane.showInputDialog(
 			InputFieldUtilities.activeWindow, StringUtilities.basicTextWrap(message),
 			initial);
 	}
 
-	public static final Object input(
-		final String message, final LockableListModel inputs) {
-
+	public static final Object input( final String message, final LockableListModel inputs, final Object initial )
+	{
 		JList selector = new JList(inputs);
 
 		JPanel panel = new JPanel(new BorderLayout());
-		panel.add(new AutoFilterTextField(selector), BorderLayout.NORTH);
+		panel.add( new AutoFilterTextField( selector, initial ), BorderLayout.NORTH );
 		panel.add(new GenericScrollPane(selector), BorderLayout.CENTER);
 
 		int option =
@@ -103,7 +106,13 @@ public class InputFieldUtilities {
 			? null : selector.getSelectedValue();
 	}
 
-	public static final Object input(final String message, final Object[] inputs) {
+	public static final Object input( final String message, final LockableListModel inputs )
+	{
+		return InputFieldUtilities.input( message, inputs, null );
+	}
+
+	public static final Object input(final String message, final Object[] inputs)
+	{
 
 		if (inputs == null || inputs.length == 0) {
 			return null;
@@ -112,8 +121,8 @@ public class InputFieldUtilities {
 		return InputFieldUtilities.input(message, inputs, inputs[0]);
 	}
 
-	public static final Object input(
-		final String message, final Object[] inputs, final Object initial) {
+	public static final Object input( final String message, final Object[] inputs, final Object initial)
+	{
 
 		if (inputs == null || inputs.length == 0) {
 			return null;
@@ -124,8 +133,8 @@ public class InputFieldUtilities {
 			JOptionPane.INFORMATION_MESSAGE, null, inputs, initial);
 	}
 
-	public static final Object[] multiple(
-		final String message, final LockableListModel inputs) {
+	public static final Object[] multiple( final String message, final LockableListModel inputs)
+	{
 
 		JList selector = new JList(inputs);
 		selector.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);

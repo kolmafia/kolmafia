@@ -535,7 +535,7 @@ public class DataTypes
 
 		case TYPE_LOCATION:
 			return ( (KoLAdventure) InputFieldUtilities.input(
-				message, AdventureDatabase.getAsLockableListModel().toArray(),
+				message, AdventureDatabase.getAsLockableListModel(),
 				AdventureDatabase.getAdventure( Preferences.getString( "lastAdventure" ) ) ) ).getAdventureName();
 
 		case TYPE_SKILL:
