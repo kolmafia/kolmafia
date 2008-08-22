@@ -329,21 +329,20 @@ public class EquipmentManager {
 
 		case FAMILIAR:
 
-			// If we are looking at familiar items, include those which can
-			// be universally equipped, but are currently on another
-			// familiar.
+			// If we are looking at familiar items, include those
+			// which can be universally equipped, but are currently
+			// on another familiar.
 
-			EquipmentManager.updateEquipmentList( consumeFilter, EquipmentManager.equipmentLists[ listIndex ] );
+			EquipmentManager.updateEquipmentList( consumeFilter, EquipmentManager.equipmentLists[ FAMILIAR ] );
 
 			FamiliarData[] familiarList = new FamiliarData[ KoLCharacter.familiars.size() ];
 			KoLCharacter.familiars.toArray( familiarList );
 
-			AdventureResult currentItem;
 			FamiliarData currentFamiliar = KoLCharacter.getFamiliar();
 
 			for ( int i = 0; i < familiarList.length; ++i )
 			{
-				currentItem = familiarList[ i ].getItem();
+				AdventureResult currentItem = familiarList[ i ].getItem();
 				if ( currentItem != EquipmentRequest.UNEQUIP && currentFamiliar.canEquip( currentItem ) )
 				{
 					AdventureResult.addResultToList( EquipmentManager.equipmentLists[ FAMILIAR ], currentItem );
@@ -386,19 +385,6 @@ public class EquipmentManager {
 
 			int type = ItemDatabase.getConsumptionType( currentItem.getItemId() );
 
-			// If we are equipping familiar items, make sure
-			// current familiar can use this one
-
-			if ( filterId == KoLConstants.EQUIP_FAMILIAR )
-			{
-				if ( currentFamiliar.canEquip( currentItem ) )
-				{
-					temporary.add( currentItem );
-				}
-
-				continue;
-			}
-
 			// If we want off-hand items and we can dual wield,
 			// allow one-handed weapons of same type
 
@@ -416,6 +402,20 @@ public class EquipmentManager {
 			{
 				continue;
 			}
+
+			// If we are equipping familiar items, make sure
+			// current familiar can use this one
+
+			else if ( filterId == KoLConstants.EQUIP_FAMILIAR )
+			{
+				if ( currentFamiliar.canEquip( currentItem ) )
+				{
+					temporary.add( currentItem );
+				}
+
+				continue;
+			}
+
 			else if ( filterId == KoLConstants.EQUIP_WEAPON && dual )
 			{
 				if ( EquipmentDatabase.getHands( currentItemName ) == 1 && EquipmentDatabase.getWeaponType( currentItemName ) != equipStat )

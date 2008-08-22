@@ -892,17 +892,17 @@ public class EquipmentRequest
 		// Ensure that the inventory stays up-to-date by switching
 		// items around, as needed.
 
-		for ( int i = 0; i < 9; ++i )
+		for ( int i = 0; i < oldEquipment.length; ++i )
 		{
 			oldEquipment[ i ] = EquipmentManager.getEquipment( i );
 		}
 
 		AdventureResult[] equipment = new AdventureResult[ 9 ];
+		int fakeHands = 0;
 		for ( int i = 0; i < equipment.length; ++i )
 		{
 			equipment[ i ] = EquipmentRequest.UNEQUIP;
 		}
-		int fakeHands = 0;
 
 		String name;
 		Matcher equipmentMatcher;
