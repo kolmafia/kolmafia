@@ -242,25 +242,24 @@ public class UseSkillRequest
 			return;
 		}
 
-		int maxPossible = Math.min( this.getMaximumCast(), KoLCharacter.getCurrentMP() / mpCost );
+		int maxPossible = 0;
+		int availableMP = KoLCharacter.getCurrentMP();
 
-		// Libram skills have increasing cost per casting
-
-		if ( SkillDatabase.isLibramSkill( this.skillId ) )
+		if ( !SkillDatabase.isLibramSkill( this.skillId ) )
 		{
-			int mpRemaining = KoLCharacter.getCurrentMP();
-			int initialCount = Preferences.getInteger( "libramSummons" );
-			int count = initialCount;
+			maxPossible = Math.min( this.getMaximumCast(), availableMP / mpCost );
+		}
+		else
+		{
+			// Libram skills have increasing cost per casting
+			int count = Preferences.getInteger( "libramSummons" );
 
-			while ( mpCost <= mpRemaining )
+			while ( mpCost <= availableMP )
 			{
-				mpRemaining -= mpCost;
-				++count;
-
-				mpCost = SkillDatabase.libramSkillMPConsumption( count );
+				maxPossible++;
+				availableMP -= mpCost;
+				mpCost = SkillDatabase.libramSkillMPConsumption( ++count );
 			}
-
-			maxPossible = count - initialCount;
 		}
 
 		if ( buffCount < 1 )
@@ -850,8 +849,7 @@ public class UseSkillRequest
 			// removes any beaten up.
 
 			ResultProcessor.processResult(
-				new AdventureResult( AdventureResult.MP, 0 - SkillDatabase.getMPConsumptionById(
-					this.skillId, true ) * this.buffCount ) );
+				new AdventureResult( AdventureResult.MP, 0 - SkillDatabase.getMPConsumptionById( this.skillId ) * this.buffCount ) );
 
 			if ( this.skillId == UseSkillRequest.OTTER_TONGUE || this.skillId == UseSkillRequest.WALRUS_TONGUE )
 			{
