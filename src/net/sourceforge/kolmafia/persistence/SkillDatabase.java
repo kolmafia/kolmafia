@@ -292,15 +292,10 @@ public class SkillDatabase
 
 	public static final int getMPConsumptionById( final int skillId )
 	{
-		return SkillDatabase.getMPConsumptionById( skillId, false );
-	}
 
-	public static final int getMPConsumptionById( final int skillId, final boolean justCast )
-	{
-		// Libram skills have a special cost shared by all
 		if ( isLibramSkill( skillId ) )
 		{
-			return libramSkillMPConsumption( justCast );
+			return libramSkillMPConsumption();
 		}
 
 		// Moxious Maneuver has a special mana cost.
@@ -341,19 +336,13 @@ public class SkillDatabase
 	/**
 	 * Determines the cost for next casting of a libram skill
 	 *
-	 * @param justCast true if just cast this skill
 	 * @return the MP cost to cast it
 	 */
 
-	public static final int libramSkillMPConsumption( final boolean justCast )
-	{
-		int count = Preferences.getInteger( "libramSummons" ) - ( justCast ? 1 : 0 );
-		return libramSkillMPConsumption( count ) ;
-	}
-
 	public static final int libramSkillMPConsumption()
 	{
-		return libramSkillMPConsumption( false );
+		int count = Preferences.getInteger( "libramSummons" );
+		return libramSkillMPConsumption( count ) ;
 	}
 
 	public static final void setLibramSkillCasts( int cost )
