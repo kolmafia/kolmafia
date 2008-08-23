@@ -935,6 +935,12 @@ public class GenericRequest
 
 		String text = this.responseText;
 
+		// You steel your nerves and descend into the darkened tunnel.
+		if ( text.indexOf( "You steel your nerves and descend into the darkened tunnel." ) == -1 )
+		{
+			return true;
+		}
+
 		// *** CODE TESTS ***
 
 		// You flip through your code binder, and figure out that one
