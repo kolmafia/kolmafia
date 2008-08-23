@@ -149,6 +149,8 @@ public class UseItemRequest
 		case ItemPool.PAPER_SHURIKEN:
 		case ItemPool.ORIGAMI_PASTIES:
 		case ItemPool.RIDING_CROP:
+			// free candy
+		case ItemPool.BAG_OF_CANDY:
 			return KoLConstants.CONSUME_USE;
 		}
 		return ItemDatabase.getConsumptionType( itemId );
@@ -1720,6 +1722,7 @@ public class UseItemRequest
 		case ItemPool.BALL_IN_A_CUP:
 		case ItemPool.SET_OF_JACKS:
 		case ItemPool.EL_VIBRATO_HELMET:
+		case ItemPool.BAG_OF_CANDY:
 
 			// Certain pieces of equipment can also be "used" and
 			// are not consumed.
