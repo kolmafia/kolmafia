@@ -1566,8 +1566,6 @@ public abstract class ChoiceManager
 
 		for ( int stepCount = 0; request.responseText.indexOf( "choice.php" ) != -1; ++stepCount )
 		{
-			// Slight delay before each choice is made
-
 			Matcher choiceMatcher = ChoiceManager.CHOICE_PATTERN.matcher( request.responseText );
 
 			if ( !choiceMatcher.find() )
@@ -1702,22 +1700,29 @@ public abstract class ChoiceManager
 			request.run();
 		}
 
-		if ( choice != null && KoLmafia.isAdventuring() )
+		// If didn't find a choice, nothing more to do
+		if ( choice == null )
 		{
-			if ( choice.equals( "112" ) )
+			return;
+		}
+
+		switch ( StringUtilities.parseInt( choice ) )
+		{
+		case 112:
+			// Please, Hammer
+			if ( KoLmafia.isAdventuring() && decision.equals( "1" ) )
 			{
-				if ( decision.equals( "1" ) )
-				{
-					InventoryManager.retrieveItem( ItemPool.get( ItemPool.HAROLDS_HAMMER, 1 ) );
-				}
+				InventoryManager.retrieveItem( ItemPool.get( ItemPool.HAROLDS_HAMMER, 1 ) );
 			}
-			else if ( choice.equals( "162" ) )
+			break;
+
+		case 162:
+			// Between a Rock and Some Other Rocks
+			if ( KoLmafia.isAdventuring() && !EquipmentManager.isWearingOutfit( 8 ) )
 			{
-				if ( !EquipmentManager.isWearingOutfit( 8 ) )
-				{
-					CouncilFrame.unlockGoatlet();
-				}
+				CouncilFrame.unlockGoatlet();
 			}
+			break;
 		}
 	}
 

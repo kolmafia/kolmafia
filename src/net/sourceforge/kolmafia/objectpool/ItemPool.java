@@ -426,6 +426,11 @@ public class ItemPool
 	public static final int TRAPEZOID = 3198;
 	public static final int OVERCHARGED_POWER_SPHERE = 3215;
 	public static final int HOBO_CODE_BINDER = 3220;
+	public static final int GATORSKIN_UMBRELLA = 3222;
+	public static final int SEWER_WAD = 3224;
+	public static final int OOZE_O = 3226;
+	public static final int DUMPLINGS = 3228;
+	public static final int OIL_OF_OILINESS = 3230;
 	public static final int TATTERED_PAPER_CROWN = 3231;
 	public static final int TASTEFUL_BOOK = 3263;
 	public static final int GRUB = 3356;
