@@ -252,7 +252,7 @@ public class UseSkillRequest
 		else
 		{
 			// Libram skills have increasing cost per casting
-			int count = Preferences.getInteger( "libramSummons" );
+			int count = Preferences.getInteger( "libramSummons" ) + 1;
 
 			while ( mpCost <= availableMP )
 			{
