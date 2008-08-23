@@ -432,6 +432,7 @@ public class ItemPool
 	public static final int DUMPLINGS = 3228;
 	public static final int OIL_OF_OILINESS = 3230;
 	public static final int TATTERED_PAPER_CROWN = 3231;
+	public static final int BAG_OF_CANDY = 3261;
 	public static final int TASTEFUL_BOOK = 3263;
 	public static final int GRUB = 3356;
 	public static final int MOTH = 3357;
