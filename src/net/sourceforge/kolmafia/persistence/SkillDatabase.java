@@ -347,7 +347,27 @@ public class SkillDatabase
 
 	public static final void setLibramSkillCasts( int cost )
 	{
-		// Adjust to unmodified cost
+		// With sufficient mana cost reduction, the first, second, and
+		// third libram summons all cost 1 MP. Therefore, we can't
+		// necessarily tell how many times librams have been used today
+		// by looking at the summoning cost.
+
+		// Heuristic: if the mana cost shown by the bookcase agrees
+		// with our current calculated mana cost, assume we have it
+		// right. Otherwise, assume that summons have been made outside
+		// of KoLmafia and back-calculate from the bookshelf's cost.
+
+		// Get KoLmafia's idea of number of casts
+		int casts = Preferences.getInteger( "libramSummons" );
+
+		// If the next cast costs what the bookshelf says it costs,
+		// assume we're correct.
+		if ( libramSkillMPConsumption( casts + 1) == cost )
+		{
+			return;
+		}
+
+		// Otherwise, derive number of casts from unadjusted mana cost
 		cost -= KoLCharacter.getManaCostAdjustment();
 
 		// cost = 1 + (n * (n-1) / 2)
@@ -362,12 +382,9 @@ public class SkillDatabase
 
 		int count =  ( 1 + (int)Math.sqrt( 8 * cost - 7 ) ) / 2;
 
-		if ( Preferences.getInteger( "libramSummons" ) != count - 1 )
-		{
-			Preferences.setInteger( "libramSummons", count - 1 );
-			KoLConstants.summoningSkills.sort();
-			KoLConstants.usableSkills.sort();
-		}
+		Preferences.setInteger( "libramSummons", count - 1 );
+		KoLConstants.summoningSkills.sort();
+		KoLConstants.usableSkills.sort();
 	}
 
 	/**
