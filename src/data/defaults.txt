@@ -454,4 +454,9 @@ user	choiceAdventure225	0
 user	choiceAdventure272	2
 user	choiceAdventure273	3
 user	choiceAdventure277	1
+user	choiceAdventure291	0
+user	choiceAdventure292	0
+user	choiceAdventure293	0
+user	choiceAdventure294	0
+user	choiceAdventure295	0
 user	choiceAdventure296	1

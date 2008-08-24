@@ -958,10 +958,43 @@ public abstract class ChoiceManager
 			new String[] { "frozen banquet", "increase cold hobos & get clan meat", "skip adventure" },
 			new String[] { "3338", null, null } ),
 
-		// Choice 274 is Tattoo Redux, a subchoice of Choice 272 when you've started a tattoo
-		// Choice 275 is Triangle, Man, a subchoice of Choice 272 when you've already purchased your class instrument
+		// Choice 274 is Tattoo Redux, a subchoice of Choice 272 when
+		// you've started a tattoo
+
+		// Choice 275 is Triangle, Man, a subchoice of Choice 272 when
+		// you've already purchased your class instrument
 
 		// Choices 278-290 are llama lama gong related choices
+
+		// A Tight Squeeze
+		new ChoiceAdventure(
+			"Hobopolis", "choiceAdventure291", "Burnbarrel Blvd.",
+			new String[] { "jar of squeeze", "skip adventure" },
+			new String[] { "3399", null } ),
+
+		// Cold Comfort
+		new ChoiceAdventure(
+			"Hobopolis", "choiceAdventure292", "Exposure Esplanade",
+			new String[] { "bowl of fishysoisse", "skip adventure" },
+			new String[] { "3400", null } ),
+
+		// Flowers for You
+		new ChoiceAdventure(
+			"Hobopolis", "choiceAdventure293", "The Ancient Hobo Burial Ground",
+			new String[] { "deadly lampshade", "skip adventure" },
+			new String[] { "3401", null } ),
+
+		// Maybe It's a Sexy Snake!
+		new ChoiceAdventure(
+			"Hobopolis", "choiceAdventure294", "The Purple Light District",
+			new String[] { "lewd playing card", "skip adventure" },
+			new String[] { "3403", null } ),
+
+		// Juicy!
+		new ChoiceAdventure(
+			"Hobopolis", "choiceAdventure295", "The Heap",
+			new String[] { "concentrated garbage juice", "skip adventure" },
+			new String[] { "3402", null } ),
 	};
 
 	static
@@ -1134,36 +1167,6 @@ public abstract class ChoiceManager
 		new ChoiceAdventure(
 			"choiceAdventure162", "Goatlet",
 			new String[] { "Open Goatlet", "skip adventure" } ),
-
-		// A Tight Squeeze
-		new ChoiceAdventure(
-			"choiceAdventure291", "Burnbarrel Blvd.",
-			new String[] { "jar of squeeze", "skip adventure" },
-			new String[] { "3399", null } ),
-
-		// Cold Comfort
-		new ChoiceAdventure(
-			"choiceAdventure292", "Exposure Esplanade",
-			new String[] { "bowl of fishysoisse", "skip adventure" },
-			new String[] { "3400", null } ),
-
-		// Flowers for You
-		new ChoiceAdventure(
-			"choiceAdventure293", "The Ancient Hobo Burial Ground",
-			new String[] { "deadly lampshade", "skip adventure" },
-			new String[] { "3401", null } ),
-
-		// Maybe It's a Sexy Snake!
-		new ChoiceAdventure(
-			"choiceAdventure294", "The Purple Light District",
-			new String[] { "lewd playing card", "skip adventure" },
-			new String[] { "3403", null } ),
-
-		// Juicy!
-		new ChoiceAdventure(
-			"choiceAdventure295", "The Heap",
-			new String[] { "concentrated garbage juice", "skip adventure" },
-			new String[] { "3402", null } ),
 	};
 
 	// Some choice adventures have options that cost meat or items
@@ -1284,10 +1287,9 @@ public abstract class ChoiceManager
 		// Tattoo Shop
 		{ "271", "1", new AdventureResult( "hobo nickel", -20 ) },
 
-		// Trianagle, Man
+		// Triangle, Man
 		{ "275", "1", new AdventureResult( "hobo nickel", -10 ) },
 
-		// A Tight Squeeze
 		// The Gong Has Been Bung
 		{ "276", "1", new AdventureResult( "llama gong", -1 ) },
 		{ "276", "2", new AdventureResult( "llama gong", -1 ) },

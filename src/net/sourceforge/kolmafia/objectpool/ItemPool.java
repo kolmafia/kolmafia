@@ -39,6 +39,9 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 public class ItemPool
 {
+	public static final int SEAL_TOOTH = 2;
+	public static final int TURTLE_TOTEM = 4;
+	public static final int SPICES = 8;
 	public static final int ASPARAGUS_KNIFE = 19;
 	public static final int CHEWING_GUM = 23;
 	public static final int TEN_LEAF_CLOVER = 24;
@@ -116,6 +119,11 @@ public class ItemPool
 	public static final int ABRIDGED = 534;
 	public static final int BRIDGE = 535;
 	public static final int DICTIONARY = 536;
+	public static final int SCROLL_334 = 547;
+	public static final int SCROLL_668 = 548;
+	public static final int SCROLL_30669 = 549;
+	public static final int SCROLL_33398 = 550;
+	public static final int SCROLL_64067 = 551;
 	public static final int GATES_SCROLL = 552;
 	public static final int ELITE_SCROLL = 553;
 	public static final int SONAR = 563;
@@ -164,6 +172,7 @@ public class ItemPool
 	public static final int UNROLLING_PIN = 874;
 	public static final int PLASTIC_SWORD = 938;
 	public static final int MAID = 1000;
+	public static final int TEQUILA = 1004;
 	public static final int TAM_O_SHANTER = 1040;
 	public static final int TARGETING_CHIP = 1102;
 	public static final int CLOCKWORK_BARTENDER = 1111;
@@ -193,7 +202,9 @@ public class ItemPool
 	public static final int ALUMINUM_WAND = 1271;
 	public static final int MARBLE_WAND = 1272;
 	public static final int MAKEUP_KIT = 1305;
+	public static final int FACSIMILE_DICTIONARY = 1316;
 	public static final int CLOACA_COLA = 1334;
+	public static final int TOY_SOLDIER = 1397;
 	public static final int SNOWCONE_BOOK = 1411;
 	public static final int PURPLE_SNOWCONE = 1412;
 	public static final int GREEN_SNOWCONE = 1413;
@@ -242,6 +253,10 @@ public class ItemPool
 	public static final int BALLROOM_KEY = 1766;
 	public static final int DUSTY_ANIMAL_SKULL = 1799;
 	public static final int TUNING_FORK = 1928;
+	public static final int ANTIQUE_GREAVES = 1929;
+	public static final int ANTIQUE_HELMET = 1930;
+	public static final int ANTIQUE_SPEAR = 1931;
+	public static final int ANTIQUE_SHIELD = 1932;
 	public static final int QUILL_PEN = 1957;
 	public static final int INKWELL = 1958;
 	public static final int SCRAP_OF_PAPER = 1959;
@@ -259,6 +274,7 @@ public class ItemPool
 	public static final int TOWEL = 2085;
 	public static final int LUCRE = 2098;
 	public static final int ASCII_SHIRT = 2121;
+	public static final int TOY_MERCENARY = 2130;
 	public static final int EVIL_TEDDY_SEWING_KIT = 2147;
 	public static final int MOSSY_STONE_SPHERE = 2174;
 	public static final int SMOOTH_STONE_SPHERE = 2175;
@@ -294,6 +310,8 @@ public class ItemPool
 	public static final int DRUM_MACHINE = 2328;
 	public static final int BLACK_PUDDING = 2338;
 	public static final int GUNPOWDER = 2403;
+	public static final int JAM_BAND_FLYERS = 2404;
+	public static final int ROCK_BAND_FLYERS = 2405;
 	public static final int RHINO_HORMONES = 2419;
 	public static final int MAGIC_SCROLL = 2420;
 	public static final int PIRATE_JUICE = 2421;
@@ -346,6 +364,7 @@ public class ItemPool
 	public static final int MUMMY_WRAP = 2634;
 	public static final int ABSINTHE = 2655;
 	public static final int LIBRARY_CARD = 2672;
+	public static final int SPECTRE_SCEPTER = 2678;
 	public static final int SPARKLER = 2679;
 	public static final int SNAKE = 2680;
 	public static final int M282 = 2681;
@@ -357,6 +376,7 @@ public class ItemPool
 	public static final int STEEL_SPLEEN = 2744;
 	public static final int PLASTIC_BIB = 2846;
 	public static final int GNOME_DEMODULIZER = 2848;
+	public static final int PIRATE_INSULT_BOOK = 2947;
 	public static final int CARONCH_MAP = 2950;
 	public static final int CHARRRM_BRACELET = 2953;
 	public static final int RUM_CHARRRM = 2957;
@@ -399,6 +419,12 @@ public class ItemPool
 	public static final int BALL_IN_A_CUP = 3093;
 	public static final int SET_OF_JACKS = 3094;
 	public static final int FISH_SCALER = 3097;
+	public static final int MINIBORG_STOMPER = 3109;
+	public static final int MINIBORG_STRANGLER = 3110;
+	public static final int MINIBORG_LASER = 3111;
+	public static final int MINIBORG_BEEPER = 3112;
+	public static final int MINIBORG_HIVEMINDER = 3113;
+	public static final int MINIBORG_DESTROYOBOT = 3114;
 	public static final int DIVINE_BOOK = 3117;
 	public static final int HOBO_NICKEL = 3126;
 	public static final int SANDCASTLE = 3127;
@@ -442,6 +468,8 @@ public class ItemPool
 	public static final int DEATH_WATCH_BEETLE = 3361;
 	public static final int LOUSE = 3362;
 	public static final int TWIG_HOUSE = 3374;
+	public static final int EMPTY_EYE = 3388;
+	public static final int ICEBALL = 3391;
 	public static final int SQUEEZE = 3399;
 	public static final int FISHYSOISSE = 3400;
 	public static final int LAMP_SHADE = 3401;
