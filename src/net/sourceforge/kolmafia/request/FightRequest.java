@@ -73,12 +73,10 @@ public class FightRequest
 	private static final AdventureResult AMNESIA = new AdventureResult( "Amnesia", 1, true );
 	private static final AdventureResult CUNCTATITIS = new AdventureResult( "Cunctatitis", 1, true );
 
-	private static final AdventureResult ANTIDOTE = new AdventureResult( 829, 1 );
-	private static final AdventureResult SOLDIER = new AdventureResult( 1397, 1 );
-	private static final AdventureResult TEQUILA = new AdventureResult( 1004, -1 );
-
-	public static final int TOY_SOLDIER = 1397;
-	public static final int TOY_MERCENARY = 2139;
+	public static final AdventureResult DICTIONARY1 = ItemPool.get( ItemPool.DICTIONARY, 1 );
+	public static final AdventureResult DICTIONARY2 = ItemPool.get( ItemPool.FACSIMILE_DICTIONARY, 1 );
+	private static final AdventureResult SOLDIER = ItemPool.get( ItemPool.TOY_SOLDIER, 1 );
+	private static final AdventureResult TEQUILA = ItemPool.get( ItemPool.TEQUILA, -1 );
 
 	private static int lastUserId = 0;
 	private static String lostInitiative = "";
@@ -121,31 +119,29 @@ public class FightRequest
 	private static final Pattern NS_HEAL =
 		Pattern.compile( "The Sorceress pulls a tiny red vial out of the folds of her dress and quickly drinks it" );
 
-	public static final AdventureResult DICTIONARY1 = new AdventureResult( 536, 1 );
-	public static final AdventureResult DICTIONARY2 = new AdventureResult( 1316, 1 );
 
-	private static final AdventureResult TOOTH = new AdventureResult( 2, 1 );
-	private static final AdventureResult TURTLE = new AdventureResult( 4, 1 );
-	private static final AdventureResult SPICES = new AdventureResult( 8, 1 );
-	private static final AdventureResult MERCENARY = new AdventureResult( 2139, 1 );
-	private static final AdventureResult STOMPER = new AdventureResult( 3109, 1 );
-	private static final AdventureResult LASER = new AdventureResult( 3111, 1 );
-	private static final AdventureResult DESTROYER = new AdventureResult( 3114, 1 );
-	private static final AdventureResult SHURIKEN = new AdventureResult( 3195, 1 );
+	private static final AdventureResult TOOTH = ItemPool.get( ItemPool.SEAL_TOOTH, 1);
+	private static final AdventureResult TURTLE = ItemPool.get( ItemPool.TURTLE_TOTEM, 1);
+	private static final AdventureResult SPICES = ItemPool.get( ItemPool.SPICES, 1);
+	private static final AdventureResult MERCENARY = ItemPool.get( ItemPool.TOY_MERCENARY, 1);
+	private static final AdventureResult STOMPER = ItemPool.get( ItemPool.MINIBORG_STOMPER, 1);
+	private static final AdventureResult LASER = ItemPool.get( ItemPool.MINIBORG_LASER, 1);
+	private static final AdventureResult DESTROYER = ItemPool.get( ItemPool.MINIBORG_DESTROYOBOT, 1);
+	private static final AdventureResult SHURIKEN = ItemPool.get( ItemPool.PAPER_SHURIKEN, 1);
 
-	private static final String TOOTH_ACTION = "item" + FightRequest.TOOTH.getItemId();
-	private static final String TURTLE_ACTION = "item" + FightRequest.TURTLE.getItemId();
-	private static final String SPICES_ACTION = "item" + FightRequest.SPICES.getItemId();
-	private static final String MERCENARY_ACTION = "item" + FightRequest.MERCENARY.getItemId();
-	private static final String STOMPER_ACTION = "item" + FightRequest.STOMPER.getItemId();
-	private static final String LASER_ACTION = "item" + FightRequest.LASER.getItemId();
-	private static final String DESTROYER_ACTION = "item" + FightRequest.DESTROYER.getItemId();
-	private static final String SHURIKEN_ACTION = "item" + FightRequest.SHURIKEN.getItemId();
+	private static final String TOOTH_ACTION = "item" + ItemPool.SEAL_TOOTH;
+	private static final String TURTLE_ACTION = "item" + ItemPool.TURTLE_TOTEM;
+	private static final String SPICES_ACTION = "item" + ItemPool.SPICES;
+	private static final String MERCENARY_ACTION = "item" + ItemPool.TOY_MERCENARY;
+	private static final String STOMPER_ACTION = "item" + ItemPool.MINIBORG_STOMPER;
+	private static final String LASER_ACTION = "item" + ItemPool.MINIBORG_LASER;
+	private static final String DESTROYER_ACTION = "item" + ItemPool.MINIBORG_DESTROYOBOT;
+	private static final String SHURIKEN_ACTION = "item" + ItemPool.PAPER_SHURIKEN;
 
-	private static final AdventureResult BROKEN_GREAVES = new AdventureResult( 1929, -1 );
-	private static final AdventureResult BROKEN_HELMET = new AdventureResult( 1930, -1 );
-	private static final AdventureResult BROKEN_SPEAR = new AdventureResult( 1931, -1 );
-	private static final AdventureResult BROKEN_SHIELD = new AdventureResult( 1932, -1 );
+	private static final AdventureResult BROKEN_GREAVES = ItemPool.get( ItemPool.ANTIQUE_GREAVES, -1 );
+	private static final AdventureResult BROKEN_HELMET = ItemPool.get( ItemPool.ANTIQUE_HELMET, -1 );
+	private static final AdventureResult BROKEN_SPEAR = ItemPool.get( ItemPool.ANTIQUE_SPEAR, -1 );
+	private static final AdventureResult BROKEN_SHIELD = ItemPool.get( ItemPool.ANTIQUE_SHIELD, -1 );
 
 	private static boolean castCleesh = false;
 	private static boolean jiggledChefstaff = false;
@@ -160,13 +156,13 @@ public class FightRequest
 
 	private static AdventureResult desiredScroll = null;
 
-	private static final AdventureResult SCROLL_334 = new AdventureResult( 547, 1 );
-	public static final AdventureResult SCROLL_668 = new AdventureResult( 548, 1 );
-	private static final AdventureResult SCROLL_30669 = new AdventureResult( 549, 1 );
-	private static final AdventureResult SCROLL_33398 = new AdventureResult( 550, 1 );
-	private static final AdventureResult SCROLL_64067 = new AdventureResult( 551, 1 );
-	public static final AdventureResult SCROLL_64735 = new AdventureResult( 552, 1 );
-	public static final AdventureResult SCROLL_31337 = new AdventureResult( 553, 1 );
+	private static final AdventureResult SCROLL_334 = ItemPool.get( ItemPool.SCROLL_334, 1);
+	public static final AdventureResult SCROLL_668 = ItemPool.get( ItemPool.SCROLL_668, 1);
+	private static final AdventureResult SCROLL_30669 = ItemPool.get( ItemPool.SCROLL_30669, 1);
+	private static final AdventureResult SCROLL_33398 = ItemPool.get( ItemPool.SCROLL_33398, 1);
+	private static final AdventureResult SCROLL_64067 = ItemPool.get( ItemPool.SCROLL_64067, 1);
+	public static final AdventureResult SCROLL_64735 = ItemPool.get( ItemPool.GATES_SCROLL, 1);
+	public static final AdventureResult SCROLL_31337 = ItemPool.get( ItemPool.ELITE_SCROLL, 1);
 
 	// Ultra-rare monsters
 	private static final String[] RARE_MONSTERS =
@@ -470,7 +466,7 @@ public class FightRequest
 				return;
 			}
 
-			if ( item1 == FightRequest.DICTIONARY1.getItemId() || item1 == FightRequest.DICTIONARY2.getItemId() )
+			if ( item1 == ItemPool.DICTIONARY || item1 == ItemPool.FACSIMILE_DICTIONARY )
 			{
 				if ( itemCount < 1 )
 				{
@@ -513,7 +509,7 @@ public class FightRequest
 				return;
 			}
 
-			if ( item1 == FightRequest.ANTIDOTE.getItemId() || item1 == FightRequest.DICTIONARY1.getItemId() || item2 == FightRequest.DICTIONARY2.getItemId() )
+			if ( item1 == ItemPool.ANTIDOTE || item1 == ItemPool.DICTIONARY || item1 == ItemPool.FACSIMILE_DICTIONARY )
 			{
 				if ( KoLConstants.inventory.contains( FightRequest.MERCENARY ) )
 				{
@@ -1702,33 +1698,35 @@ public class FightRequest
 	{
 		switch ( itemId )
 		{
-		case 2: // seal tooth
-		case 4: // turtle totem
-		case 8: // spices
-		case 536: // dictionary
-		case 1316: // facsimile dictionary
-		case 1397: // toy soldier
-		case 2139: // toy mercenary
-		case 2174: // mossy stone sphere
-		case 2175: // smooth stone sphere
-		case 2176: // cracked stone sphere
-		case 2177: // rough stone sphere
-		case 2404: // jam band flyers
-		case 2405: // rock band flyers
-		case 2497: // molybdenum magnet
-		case 2678: // spectre scepter
-		case 2848: // Gnomitronic Hyperspatial Demodulizer
-		case 2947: // The Big Book of Pirate Insults
-		case 3109: // Miniborg stomper
-		case 3110: // Miniborg strangler
-		case 3111: // Miniborg laser
-		case 3112: // Miniborg beeper
-		case 3113: // Miniborg hiveminder
-		case 3114: // Miniborg Destroy-O-Bot
-		case 3195: // naughty paper shuriken
+		case ItemPool.SEAL_TOOTH:
+		case ItemPool.TURTLE_TOTEM:
+		case ItemPool.SPICES:
+		case ItemPool.DICTIONARY:
+		case ItemPool.FACSIMILE_DICTIONARY:
+		case ItemPool.TOY_SOLDIER:
+		case ItemPool.TOY_MERCENARY:
+		case ItemPool.MOSSY_STONE_SPHERE:
+		case ItemPool.SMOOTH_STONE_SPHERE:
+		case ItemPool.CRACKED_STONE_SPHERE:
+		case ItemPool.ROUGH_STONE_SPHERE:
+		case ItemPool.JAM_BAND_FLYERS:
+		case ItemPool.ROCK_BAND_FLYERS:
+		case ItemPool.MOLYBDENUM_MAGNET:
+		case ItemPool.SPECTRE_SCEPTER:
+		case ItemPool.GNOME_DEMODULIZER:
+		case ItemPool.PIRATE_INSULT_BOOK:
+		case ItemPool.MINIBORG_STOMPER:
+		case ItemPool.MINIBORG_STRANGLER:
+		case ItemPool.MINIBORG_LASER:
+		case ItemPool.MINIBORG_BEEPER:
+		case ItemPool.MINIBORG_HIVEMINDER:
+		case ItemPool.MINIBORG_DESTROYOBOT:
+		case ItemPool.PAPER_SHURIKEN:
+		case ItemPool.EMPTY_EYE:
+		case ItemPool.ICEBALL:
 			return false;
 
-		case 829: // Anti-Anti-Antidote
+		case ItemPool.ANTIDOTE: // Anti-Anti-Antidote
 
 			for ( int i = 0; i < KoLConstants.activeEffects.size(); ++i )
 			{
@@ -1831,7 +1829,7 @@ public class FightRequest
 
 		switch ( itemId )
 		{
-		case FightRequest.TOY_SOLDIER:
+		case ItemPool.TOY_SOLDIER:
 			// A toy soldier consumes tequila.
 
 			if ( KoLConstants.inventory.contains( FightRequest.TEQUILA ) )
@@ -1840,7 +1838,7 @@ public class FightRequest
 			}
 			break;
 
-		case FightRequest.TOY_MERCENARY:
+		case ItemPool.TOY_MERCENARY:
 			// A toy mercenary consumes 5-10 meat
 
 			// A sidepane refresh at the end of the battle will

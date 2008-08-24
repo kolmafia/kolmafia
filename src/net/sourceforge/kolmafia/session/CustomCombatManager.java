@@ -55,10 +55,10 @@ import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
-import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -854,14 +854,14 @@ public abstract class CustomCombatManager
 		}
 
 		int itemId = ItemDatabase.getItemId( action );
-		if ( itemId == FightRequest.DICTIONARY1.getItemId() && !KoLConstants.inventory.contains( FightRequest.DICTIONARY1 ) )
+		if ( itemId == ItemPool.DICTIONARY && !KoLConstants.inventory.contains( ItemPool.get( ItemPool.DICTIONARY, 1 ) ) )
 		{
-			itemId = FightRequest.DICTIONARY2.getItemId();
+			itemId = ItemPool.FACSIMILE_DICTIONARY;
 		}
 
-		if ( itemId == FightRequest.DICTIONARY2.getItemId() && !KoLConstants.inventory.contains( FightRequest.DICTIONARY2 ) )
+		if ( itemId == ItemPool.FACSIMILE_DICTIONARY && !KoLConstants.inventory.contains( ItemPool.get( ItemPool.FACSIMILE_DICTIONARY, 1 ) ) )
 		{
-			itemId = FightRequest.DICTIONARY1.getItemId();
+			itemId = ItemPool.DICTIONARY;
 		}
 
 		return itemId <= 0 ? "attack" : String.valueOf( itemId );

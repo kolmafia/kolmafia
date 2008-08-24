@@ -855,7 +855,7 @@ public class UseItemRequest
 			}
 			else
 			{
-				ResultProcessor.processResult( FightRequest.DICTIONARY1.getNegation() );
+				ResultProcessor.processResult( ItemPool.get( ItemPool.DICTIONARY, -1 ) );
 			}
 
 			return;
