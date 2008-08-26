@@ -3281,7 +3281,7 @@
 3280	personalized coffee mug	0	gift	0
 3281	blue plasma ball	3	gift	5
 3282	stick-on eyebrow piercing	8	gift	5
-3283	delicious salad	1	display	1
+3283	delicious salad	1	all	1
 3284	C. H. U. M. lantern	13	all	125
 3285	C. H. U. M. knife	12	all	75
 3286	Frosty's snowball sack	12	display	0
