@@ -80,13 +80,6 @@ public class UseItemRequest
 
 	static
 	{
-		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.PURPLE_SNOWCONE ), EffectPool.get( EffectPool.PURPLE_TONGUE ) );
-		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.GREEN_SNOWCONE ), EffectPool.get( EffectPool.GREEN_TONGUE ) );
-		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.ORANGE_SNOWCONE ), EffectPool.get( EffectPool.ORANGE_TONGUE ) );
-		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.RED_SNOWCONE ), EffectPool.get( EffectPool.RED_TONGUE ) );
-		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.BLUE_SNOWCONE ), EffectPool.get( EffectPool.BLUE_TONGUE ) );
-		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.BLACK_SNOWCONE ), EffectPool.get( EffectPool.BLACK_TONGUE ) );
-
 		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.ASTRAL_MUSHROOM ), EffectPool.get( EffectPool.HALF_ASTRAL ) );
 
 		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.BLUE_CUPCAKE ), EffectPool.get( EffectPool.BLUE_CUPCAKE ) );
