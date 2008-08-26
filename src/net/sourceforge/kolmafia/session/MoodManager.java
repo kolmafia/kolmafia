@@ -445,16 +445,22 @@ public abstract class MoodManager
 			return null;
 		}
 
-		// Rather than maintain mood-related buffs only, maintain
-		// any active effect that the character can auto-cast.
+		// Pre-calculate possible breakfast/libram skill
+
+		boolean onlyMood = !Preferences.getBoolean( "allowNonMoodBurning" );
+		int summonThreshold = Preferences.getInteger( "manaBurnSummonThreshold" );
+		String breakfast = onlyMood ? null : MoodManager.considerBreakfastSkill( minimum );
+
+		// Rather than maintain mood-related buffs only, maintain any
+		// active effect that the character can auto-cast. Examine all
+		// active effects in order from lowest duration to highest.
 
 		for ( int i = 0; i < KoLConstants.activeEffects.size() && KoLmafia.permitsContinue(); ++i )
 		{
 			AdventureResult currentEffect = (AdventureResult) KoLConstants.activeEffects.get( i );
 			String skillName = UneffectRequest.effectToSkill( currentEffect.getName() );
 
-			// Only cast if a matching skill was found that the
-			// player knows.
+			// Only cast if the player knows the skill
 
 			if ( !SkillDatabase.contains( skillName ) || !KoLCharacter.hasSkill( skillName ) )
 			{
@@ -479,21 +485,32 @@ public abstract class MoodManager
 				continue;
 			}
 
-			// If duration exceeds 1000 turns more than the number
-			// of turns the player has available, reject.
+			int currentDuration = currentEffect.getCount();
 
-			if ( currentEffect.getCount() >= KoLCharacter.getAdventuresLeft() + 1000 )
+			// If we already have 1000 turns more than the number
+			// of turns the player has available, that's enough.
+
+			if ( currentDuration >= KoLCharacter.getAdventuresLeft() + 1000 )
 			{
 				continue;
 			}
 
-			// If the player only wishes to cast buffs related to
+			// If the player only wants to cast buffs related to
 			// their mood, then skip the buff if it's not in the
 			// any of the player's moods.
 
-			if ( !Preferences.getBoolean( "allowNonMoodBurning" ) && !MoodManager.effectInMood( currentEffect ) )
+			if ( onlyMood && !MoodManager.effectInMood( currentEffect ) )
 			{
 				continue;
+			}
+
+			// If the player wants to burn mana on summoning
+			// skills, only do so if all potential effects have at
+			// least 10 turns remaining.
+
+			if ( breakfast != null && currentDuration >= summonThreshold )
+			{
+				return breakfast;
 			}
 
 			// Set the desired duration to properly balance the
@@ -530,14 +547,7 @@ public abstract class MoodManager
 
 		// No buff found. Return possible breakfast/libram skill
 
-		if ( Preferences.getBoolean( "allowNonMoodBurning" ) )
-		{
-			return MoodManager.considerBreakfastSkill( minimum );
-		}
-
-		// Nothing to do
-
-		return null;
+		return breakfast;
 	}
 
 	private static final boolean effectInMood( AdventureResult effect )
