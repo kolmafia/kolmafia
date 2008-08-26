@@ -217,11 +217,6 @@ public class CharPaneDecorator
 			fontColor = FightRequest.getCurrentRound() == 0 ? "black" : "gray";
 			moodText = "burn extra mp";
 		}
-		else if ( !Preferences.getBoolean( "relayAddsMoodRefreshLink" ) )
-		{
-			fontColor = "gray";
-			moodText = "burn extra mp";
-		}
 		else if ( !MoodManager.getTriggers().isEmpty() )
 		{
 			fontColor = "gray";
