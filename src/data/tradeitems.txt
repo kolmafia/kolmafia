@@ -1410,12 +1410,12 @@
 1409	Unionize The Elves sign	12	display	0
 1410	sleeping snowy owl	5	all	0
 1411	Tome of Snowcone Summoning	3	all	0
-1412	purple snowcone	3	all	30
-1413	green snowcone	3	all	30
-1414	orange snowcone	3	all	30
-1415	red snowcone	3	all	30
-1416	blue snowcone	3	all	30
-1417	black snowcone	3	all	30
+1412	purple snowcone	4	all	30
+1413	green snowcone	4	all	30
+1414	orange snowcone	4	all	30
+1415	red snowcone	4	all	30
+1416	blue snowcone	4	all	30
+1417	black snowcone	4	all	30
 1418	Pretty Predator Clawicure Kit	7	all	75
 1419	teddy bear sewing kit	7	all	75
 1420	green traffic cone	9	display	100
@@ -2260,10 +2260,10 @@
 2259	photograph of God	0	none	0
 2260	hard rock candy	0	none	0
 2261	hard-boiled ostrich egg	0	none	0
-2262	bird rib	0	none	0
-2263	lion oil	0	none	0
+2262	bird rib	0	all	15
+2263	lion oil	0	all	15
 2264	stunt nuts	1	all	66
-2265	wet stew	0	none	0
+2265	wet stew	1	all	25
 2266	wet stunt nut stew	0	none	0
 2267	Mega Gem	8	none	0
 2268	Staff of Fats	0	none	0
