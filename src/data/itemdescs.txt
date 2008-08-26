@@ -2266,9 +2266,9 @@
 2260	827058631	hard rock candy
 2261	406582855	hard-boiled ostrich egg
 2262	313522450	bird rib
-2263	697550097	lion oil
+2263	697550097	lion oil	vials of lion oil
 2264	809178685	stunt nuts	bags of stunt nuts
-2265	478803907	wet stew
+2265	478803907	wet stew	bowls of wet stew
 2266	602051173	wet stunt nut stew
 2267	984316382	Mega Gem
 2268	654006777	Staff of Fats
@@ -3437,7 +3437,7 @@
 3430	656438917	bindle of joy
 3431	960452345	cotton candy cocoon
 3432	723689501	cotton candy cordial
-3433	569771218	spice melange
+3433	569771218	spice melange	quantities of spice melange
 3434
 3435	768622816	big stirring stick
 3436	812870240	Staff of the Teapot Tempest
