@@ -445,19 +445,13 @@ public abstract class MoodManager
 			return null;
 		}
 
-		String skillName = null;
-		int desiredDuration = 0;
-
 		// Rather than maintain mood-related buffs only, maintain
 		// any active effect that the character can auto-cast.
 
-		AdventureResult currentEffect;
-		AdventureResult nextEffect;
-
 		for ( int i = 0; i < KoLConstants.activeEffects.size() && KoLmafia.permitsContinue(); ++i )
 		{
-			currentEffect = (AdventureResult) KoLConstants.activeEffects.get( i );
-			skillName = UneffectRequest.effectToSkill( currentEffect.getName() );
+			AdventureResult currentEffect = (AdventureResult) KoLConstants.activeEffects.get( i );
+			String skillName = UneffectRequest.effectToSkill( currentEffect.getName() );
 
 			// Only cast if a matching skill was found that the
 			// player knows.
@@ -506,16 +500,12 @@ public abstract class MoodManager
 			// buff so that its duration is close to the duration
 			// of the next buff down the list
 
-			nextEffect =
-				i + 1 >= KoLConstants.activeEffects.size() ? null : (AdventureResult) KoLConstants.activeEffects.get( i + 1 );
+			int desiredDuration = 0;
 
-			if ( nextEffect != null )
+			if ( i + 1 < KoLConstants.activeEffects.size() )
 			{
-				desiredDuration = nextEffect.getCount() - currentEffect.getCount();
-			}
-			else
-			{
-				desiredDuration = Integer.MAX_VALUE;
+				AdventureResult nextEffect = (AdventureResult) KoLConstants.activeEffects.get( i + 1 );
+				desiredDuration = nextEffect.getCount();
 			}
 
 			// Limit cast count to two in order to ensure that
@@ -538,10 +528,14 @@ public abstract class MoodManager
 			}
 		}
 
+		// No buff found. Return possible breakfast/libram skill
+
 		if ( Preferences.getBoolean( "allowNonMoodBurning" ) )
 		{
 			return MoodManager.considerBreakfastSkill( minimum );
 		}
+
+		// Nothing to do
 
 		return null;
 	}
