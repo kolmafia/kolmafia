@@ -497,7 +497,7 @@ public abstract class MoodManager
 			// their mood, then skip the buff if it's not in the
 			// any of the player's moods.
 
-			if ( !Preferences.getBoolean( "allowNonMoodBurning" ) || !MoodManager.effectInMood( currentEffect ))
+			if ( !Preferences.getBoolean( "allowNonMoodBurning" ) && !MoodManager.effectInMood( currentEffect ) )
 			{
 				continue;
 			}
