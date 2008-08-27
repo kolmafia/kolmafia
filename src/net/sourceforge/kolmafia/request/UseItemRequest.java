@@ -339,7 +339,7 @@ public class UseItemRequest
 
 			int inebrietyLeft = limit - KoLCharacter.getInebriety();
 
-			if ( inebrietyLeft <= 0 )
+			if ( inebrietyLeft < 0 )
 			{
 				// We are already drunk
 				return 0;
