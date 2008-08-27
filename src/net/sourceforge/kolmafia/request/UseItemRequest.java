@@ -327,8 +327,38 @@ public class UseItemRequest
 		int inebrietyHit = ItemDatabase.getInebriety( itemName );
 		if ( inebrietyHit > 0 )
 		{
-			int inebrietyLeft = KoLCharacter.getInebrietyLimit() - KoLCharacter.getInebriety();
-			return inebrietyLeft < 0 ? 0 : inebrietyLeft < inebrietyHit ? 1 : allowOverDrink ? inebrietyLeft / inebrietyHit + 1 : inebrietyLeft / inebrietyHit;
+			int limit = KoLCharacter.getInebrietyLimit(); 
+
+			// Green Beer allows drinking to limit + 10,
+			// but only on SSPD. For now, always allow
+
+			if ( itemId == ItemPool.GREEN_BEER )
+			{
+				limit += 10;
+			}
+
+			int inebrietyLeft = limit - KoLCharacter.getInebriety();
+
+			if ( inebrietyLeft <= 0 )
+			{
+				// We are already drunk
+				return 0;
+			}
+
+			if ( inebrietyLeft < inebrietyHit )
+			{
+				// One drink will make us drunk
+				return 1;
+			}
+
+			if ( allowOverDrink )
+			{
+				// Multiple drinks will make us drunk
+				return inebrietyLeft / inebrietyHit + 1;
+			}
+
+			// Multiple drinks to not quite make us drunk
+			return inebrietyLeft / inebrietyHit;
 		}
 
 		return Integer.MAX_VALUE;

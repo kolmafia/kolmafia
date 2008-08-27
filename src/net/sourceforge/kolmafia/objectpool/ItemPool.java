@@ -174,6 +174,7 @@ public class ItemPool
 	public static final int MAID = 1000;
 	public static final int TEQUILA = 1004;
 	public static final int TAM_O_SHANTER = 1040;
+	public static final int GREEN_BEER = 1041;
 	public static final int TARGETING_CHIP = 1102;
 	public static final int CLOCKWORK_BARTENDER = 1111;
 	public static final int CLOCKWORK_CHEF = 1112;
