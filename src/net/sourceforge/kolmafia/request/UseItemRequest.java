@@ -82,12 +82,6 @@ public class UseItemRequest
 	{
 		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.ASTRAL_MUSHROOM ), EffectPool.get( EffectPool.HALF_ASTRAL ) );
 
-		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.BLUE_CUPCAKE ), EffectPool.get( EffectPool.BLUE_CUPCAKE ) );
-		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.GREEN_CUPCAKE ), EffectPool.get( EffectPool.GREEN_CUPCAKE ) );
-		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.ORANGE_CUPCAKE ), EffectPool.get( EffectPool.ORANGE_CUPCAKE ) );
-		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.PURPLE_CUPCAKE ), EffectPool.get( EffectPool.PURPLE_CUPCAKE ) );
-		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.PINK_CUPCAKE ), EffectPool.get( EffectPool.PINK_CUPCAKE ) );
-
 		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.MILK_OF_MAGNESIUM ), ItemDatabase.MILK );
 
 		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.ABSINTHE ), EffectPool.get( EffectPool.ABSINTHE ) );
@@ -1251,6 +1245,26 @@ public class UseItemRequest
 			if ( responseText.indexOf( "still cold" ) != -1 )
 			{
 				UseItemRequest.lastUpdate = "Your mouth is too cold.";
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				ResultProcessor.processResult( item );
+			}
+
+			return;
+
+		case ItemPool.BLUE_CUPCAKE:
+		case ItemPool.GREEN_CUPCAKE:
+		case ItemPool.ORANGE_CUPCAKE:
+		case ItemPool.PURPLE_CUPCAKE:
+		case ItemPool.PINK_CUPCAKE:
+
+			// "Your stomach is still a little queasy from
+			// digesting a cupcake that may or may not exist in
+			// this dimension. You really don't feel like eating
+			// another one just now."
+
+			if ( responseText.indexOf( "a little queasy" ) != -1 )
+			{
+				UseItemRequest.lastUpdate = "Your stomach is too queasy.";
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
 				ResultProcessor.processResult( item );
 			}
