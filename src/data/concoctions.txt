@@ -1102,7 +1102,7 @@ clockwork bartender-in-the-box	1	clockwork bartender-head-in-the-box	cocktailcra
 # Items created via item usage.
 
 scroll of ancient forbidden unspeakable evil	16	disintegrating quill pen	inkwell	tattered scrap of paper
-
+dead guy's memento	28	dead guy's piece of double-sided tape	dead guy's watch	picture of a dead guy's girlfriend
 
 # Crimbo toys.  These are items which are created at Uncle Crimbo
 # after collecting enough toy components.

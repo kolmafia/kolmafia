@@ -145,6 +145,9 @@ public class UseItemRequest
 			// free candy
 		case ItemPool.BAG_OF_CANDY:
 			return KoLConstants.CONSUME_USE;
+
+		case ItemPool.HOBO_CODE_BINDER:
+			return KoLConstants.MESSAGE_DISPLAY;
 		}
 		return ItemDatabase.getConsumptionType( itemId );
 	}
