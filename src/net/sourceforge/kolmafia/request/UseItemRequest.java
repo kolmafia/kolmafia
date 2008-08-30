@@ -800,6 +800,7 @@ public class UseItemRequest
 		case ItemPool.GIFTV:
 		case ItemPool.GIFTR:
 		case ItemPool.GIFTW:
+		case ItemPool.GIFTH:
 
 			// "You can't receive things from other players
 			// right now."
@@ -1763,6 +1764,7 @@ public class UseItemRequest
 		case ItemPool.SET_OF_JACKS:
 		case ItemPool.EL_VIBRATO_HELMET:
 		case ItemPool.BAG_OF_CANDY:
+		case ItemPool.NEVERENDING_SODA:
 
 			// Certain pieces of equipment can also be "used" and
 			// are not consumed.
