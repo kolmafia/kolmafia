@@ -596,8 +596,10 @@ public class ConcoctionDatabase
 		boolean includeStash =
 			KoLCharacter.canInteract() && Preferences.getBoolean( "autoSatisfyWithStash" ) && !ClanManager.getStash().isEmpty();
 
-		boolean includeQueue = !ConcoctionDatabase.queuedFoodIngredients.isEmpty() &&
-			!ConcoctionDatabase.queuedBoozeIngredients.isEmpty() && !ConcoctionDatabase.queuedSpleenIngredients.isEmpty();
+		boolean includeQueue =
+			!ConcoctionDatabase.queuedFoodIngredients.isEmpty() ||
+			!ConcoctionDatabase.queuedBoozeIngredients.isEmpty() ||
+			!ConcoctionDatabase.queuedSpleenIngredients.isEmpty();
 
 		if ( !includeCloset && !includeStash && !includeQueue )
 		{
