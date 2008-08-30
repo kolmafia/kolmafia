@@ -141,10 +141,9 @@ public class GenericRequest
 		{ "www5.kingdomofloathing.com", "69.16.150.200" },
 		{ "www6.kingdomofloathing.com", "69.16.150.205" },
 		{ "www7.kingdomofloathing.com", "69.16.150.206" },
-		{ "www8.kingdomofloathing.com", "69.16.150.207" }
 	};
 
-	public static final int SERVER_COUNT = 8;
+	public static final int SERVER_COUNT = SERVERS.length - 1;
 
 	public static String KOL_HOST = GenericRequest.SERVERS[ 1 ][ 0 ];
 	public static URL KOL_ROOT = null;
