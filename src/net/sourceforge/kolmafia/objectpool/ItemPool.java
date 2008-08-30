@@ -471,6 +471,7 @@ public class ItemPool
 	public static final int TWIG_HOUSE = 3374;
 	public static final int EMPTY_EYE = 3388;
 	public static final int ICEBALL = 3391;
+	public static final int NEVERENDING_SODA = 3393;
 	public static final int SQUEEZE = 3399;
 	public static final int FISHYSOISSE = 3400;
 	public static final int LAMP_SHADE = 3401;
@@ -478,6 +479,7 @@ public class ItemPool
 	public static final int LEWD_CARD = 3403;
 	public static final int HOBO_FORTRESS = 3416;
 	public static final int FIREWORKS = 3421;
+	public static final int GIFTH = 3430;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
