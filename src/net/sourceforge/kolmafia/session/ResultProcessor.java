@@ -66,6 +66,7 @@ public class ResultProcessor
 	private static Pattern CARBS_PATTERN =
 		Pattern.compile( "some of your blood, to the tune of ([\\d,]+) damage" );
 	private static Pattern DISCARD_PATTERN = Pattern.compile( "You discard your (.*?)\\." );
+	private static Pattern HAIKU_STEAL_PATTERN = Pattern.compile( "descitem\\((.*?)\\).*?You acquire something<br>at a serious discount<br>with your deft fingers." );
 
 	private static boolean receivedClover = false;
 	
@@ -133,13 +134,34 @@ public class ResultProcessor
 		return requiresRefresh;
 	}
 
-	private static boolean processHaikuResults( String results )
+	private static boolean processHaikuResults( String result )
 	{
+		boolean shouldRefresh = false;
+		Matcher matcher;
+
 		// PICKPOCKETING
 
 		// You acquire something
 		// at a serious discount
 		// with your deft fingers.
+
+		matcher = ResultProcessor.HAIKU_STEAL_PATTERN.matcher( result );
+		if ( matcher.find() )
+		{
+			int itemId = ItemDatabase.getItemIdFromDescription( matcher.group(1) );
+			if ( itemId > 0 )
+			{
+				AdventureResult item = ItemPool.get( itemId, 1 );
+
+				RequestLogger.printLine( "You acquire an item: " + item );
+				if ( Preferences.getBoolean( "logAcquiredItems" ) )
+				{
+					RequestLogger.updateSessionLog( "You acquire an item: " + item );
+				}
+
+				processResult( item );
+			}
+		}
 
 		// HP LOSS:
 
