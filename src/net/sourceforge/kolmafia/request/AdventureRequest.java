@@ -58,6 +58,9 @@ public class AdventureRequest
 {
 	private static final Pattern AREA_PATTERN = Pattern.compile( "(adv|snarfblat)=(\\d*)", Pattern.DOTALL );
 	private static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice value=(\\d+)" );
+	private static final Pattern HAIKU_MONSTER_1 = Pattern.compile( "<b>Combat!</b>.*<b>([^<]*)</b>", Pattern.DOTALL );
+	private static final Pattern HAIKU_MONSTER_2 = Pattern.compile( "<b>Combat!</b>.*<b>([^<]*)</td>", Pattern.DOTALL );
+
 	private static final GenericRequest ZONE_UNLOCK = new GenericRequest( "" );
 
 	private final String adventureName;
@@ -494,6 +497,24 @@ public class AdventureRequest
 
 	private static final String parseCombatEncounter( final String responseText )
 	{
+		if ( KoLAdventure.lastAdventureId() == 138)
+		{
+			// Haiku dungeon
+			Matcher matcher = HAIKU_MONSTER_1.matcher( responseText );
+			if ( matcher.find() )
+			{
+				return matcher.group(1);
+			}
+
+			matcher = HAIKU_MONSTER_2.matcher( responseText );
+			if ( matcher.find() )
+			{
+				return matcher.group(1);
+			}
+
+			return "";
+		}
+
 		int spanIndex = responseText.indexOf( "<span id='monname" ) + 1;
 		spanIndex = responseText.indexOf( ">", spanIndex ) + 1;
 

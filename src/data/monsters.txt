@@ -106,8 +106,10 @@ A.M.C. Gremlin	HP: 175	gremlin juice (3)
 Acid Blob	HP: 40 Def: 38 Atk: 38
 Albino Bat	HP: 8 Def: 14 Atk: 10 Meat: 16-26	batgut (10)	bat guano (10)	pink bat eye (0)
 Alphabet Giant	HP: 150 Def: 145 Atk: 145 Meat: 122-183	heavy D (40)	original G (40)
+Amateur Ninja	HP: 0	bargain flash powder	third-hand nunchaku
 An Angry Bugbear	HP: 12 Def: 15 Atk: 15
 An Annoying Spooky Gravy Fairy	HP: 20 Def: 20 Atk: 20 E: spooky	annoying pitchfork (100)
+Ancient Insane Monk	HP: 0	little round pebble	bottle of sake	Bash-&#332;s cereal
 Ancient Protector Spirit	HP: 8	obsidian dagger (20)	mossy stone sphere (20)	rough stone sphere (20)	smooth stone sphere (20)	cracked stone sphere (20)
 Anglerbush	HP: 10 Def: 9 Atk: 9	meat stack (35)
 Angry Pi&ntilde;ata	HP: 20 Def: 22 Atk: 22	pile of candy (100)
@@ -222,6 +224,7 @@ eXtreme Orcish Snowboarder	HP: 65 Def: 74 Atk: 76 Meat: 32-50 E: sleaze	eXtreme 
 eXtreme Sports Orcs	HP: 30 Def: 38 Atk: 38	Orcish baseball cap (0)	Orcish cargo shorts (0)	Mountain Stream soda (0)	eXtreme mittens (0)	hang glider (0)
 Fallen Archfiend	HP: 50 Def: 50 Atk: 50 E: heat Meat: 36-58	evil golden arch (30)	infernal insoles (10)
 Felonia, Queen of the Spooky Gravy Fairies	HP: 82 Def: 75 Atk: 75 E: spooky
+Ferocious Bugbear	HP: 0	bugbear beanie	bugbear bungguard
 Fiendish Can of Asparagus	HP: 1 Def: 2 Atk: 1 E: stench Meat: 4-7	asparagus knife (20)	stalk of asparagus (40)	razor-sharp can lid (40)	shredded can label (0)
 Figure-Skating Duck	HP: 180	frozen feather (0)	duct tape (0)
 Filthworm Drone	HP: 185	filthworm drone scent gland (10)
@@ -247,6 +250,7 @@ G Imp	HP: 46 Def: 46 Atk: 46 E: heat Meat: 24-39	hot wing (30)	Imp Ale (30)	leat
 Gargantulihc	HP: 134 Def: 73 Atk: 77 E: spooky
 Gaudy Pirate	HP: 120	costume sword (5)	enormous hoop earring (10)	gold lam&eacute; pants (5)	snakehead charrrm (30)
 Gaunt Ghuol	HP: 50 Def: 56 Atk: 54 E: spooky	ghuol ears (20)	ghuol egg (20)
+Gelatinous Cube	HP: 0	rusty metal ring
 Generic Duck	HP: 188
 Ghastly Organist	HP: 120 Def: 110 Atk: 100	opera mask (20)
 Ghost Miner	HP: 31 Def: 30 Atk: 30 E: spooky	bubblewrap ore (10)	bubblewrap ore (10)	cardboard ore (10)	cardboard ore (10)	styrofoam ore (10)	styrofoam ore (10)
@@ -320,6 +324,7 @@ Knob Goblin Harem Girl	HP: 20 Def: 25 Atk: 25 E: sleaze	Knob Goblin perfume (15)
 Knob Goblin Mad Scientist	HP: 25 Def: 40 Atk: 40 Meat: 32-51	Knob Goblin love potion (10)	Knob Goblin seltzer (20)	Knob Goblin steroids (10)	broken petri dish (0)
 Knob Goblin Master Chef	HP: 20 Def: 22 Atk: 22	dry noodles (15)	Knob mushroom (15)	spices (15)
 Knob Goblin Mutant	HP: 43 Def: 53 Atk: 53 Meat: 44-70
+Knob Goblin Poseur	HP: 0	dope gangsta bling-bling	terrible poem
 Knob Goblin Very Mad Scientist	HP: 30 Def: 45 Atk: 45 Meat: 36-57	Knob Goblin seltzer (15)	Knob Goblin superseltzer (15)	scrumptious reagent (25)	broken petri dish (0)
 Knott Slanding	HP: 0	Dallas Dynasty Falcon Crest shield (100)
 Knott Yeti	HP: 90 Def: 103 Atk: 107 E: cold Meat: 160-262	yeti fur (30)

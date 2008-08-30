@@ -87,6 +87,7 @@ Grim Grimacite Site	100	Mob Penguin Smasher	Mob Penguin Smith	Mob Penguin Superv
 Guano Junction	100	Baseball Bat	Briefcase Bat	Perpendicular Bat	Skullbat	Doughbat	Vampire Bat
 Guards' Chamber	100	Filthworm Royal Guard
 Haert of the Cyrpt	100	The Bonerdagon
+Haiku Dungeon	-1	Amateur Ninja	Ancient Insane Monk	Ferocious Bugbear	Gelatinous Cube	Knob Goblin Poseur
 Hatching Chamber	100	Larval Filthworm
 Haunted Ballroom	80	Floating Platter of Hors D'Oeuvres	Ghastly Organist: 0	Some Zombie Waltzers	Tapdancing Skeleton
 Haunted Bathroom	75	Claw-foot Bathtub	Malevolent Hair Clog	Toilet Papergeist	Guy Made Of Bees: 0
@@ -180,7 +181,6 @@ Frat House In Disguise	0
 Friar Ceremony Location	0
 Goat Party	0
 Greater-Than Sign	0
-Haiku Dungeon	0
 Hidden Temple	0
 Hippy Camp In Disguise	0
 Lemon Party	0

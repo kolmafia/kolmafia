@@ -132,7 +132,7 @@
 126	465274324	meat engine	meat engines
 127	792002723	Gnollish autoplunger	Gnollish autoplungers
 128	752035846	sticky meat pants	pairs of sticky meat pants
-129	546223279	Gnollish nunchaku	Gnollish nunchaku
+129	546223279	third-hand nunchaku	third-hand  nunchaku
 130	548096889	enchanted eyepatch	enchanted eyepatches
 131	805801465	frilly skirt	frilly skirts
 132	185286006	Meat maid body	Meat maid bodies
@@ -3460,3 +3460,15 @@
 3453	677974144	cotton candy plug
 3454	749266408	cotton candy pillow
 3455	533359462	cotton candy bale
+3456
+3457
+3458
+3459
+3460
+3461
+3462	376514717	terrible poem	terrible poems
+3463	293461627	bottle of sake	bottles of sake
+3464	435365663	little round pebble	little round pebbles
+3465	303006655	Bash-&#332;s cereal
+3466
+3467	114774654	bargain flash powder	bags of bargain flash powder

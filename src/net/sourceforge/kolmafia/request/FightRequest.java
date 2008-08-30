@@ -198,10 +198,43 @@ public class FightRequest
 	{
 		if ( FightRequest.currentRound != 1 )
 			return false;
-		if ( FightRequest.lastResponseText.indexOf( "You get the jump" ) != -1 )
+
+		return FightRequest.wonInitiative( FightRequest.lastResponseText );
+	}
+
+	public static final boolean wonInitiative( String text )
+	{
+		// Regular encounter
+		if ( text.indexOf( "You get the jump" ) != -1 )
 			return true;
-		if ( FightRequest.lastResponseText.indexOf( "The Jump: you gets it." ) != -1 )
+
+		// Can Has Cyborger
+		if ( text.indexOf( "The Jump: you gets it." ) != -1 )
 			return true;
+
+		// Haiku dungeon
+
+		//    Before he sees you,
+		//    you're already attacking.
+		//    You're sneaky like that.
+
+		if ( text.indexOf( "You're sneaky like that." ) != -1 )
+			return true;
+
+		//    You leap at your foe,
+		//    throwing caution to the wind,
+		//    and get the first strike.
+
+		if ( text.indexOf( "and get the first strike." ) != -1 )
+			return true;
+
+		//    You jump at your foe
+		//    and strike before he's ready.
+		//    Nice and sportsmanlike.
+
+		if ( text.indexOf( "Nice and sportsmanlike." ) != -1 )
+			return true;
+
 		return false;
 	}
 
@@ -1020,13 +1053,12 @@ public class FightRequest
 
 		boolean shouldLogAction = Preferences.getBoolean( "logBattleAction" );
 
-		// Whether or not you get initiative is easy -- look for the
-		// text saying "You get the jump".
+		// The response tells you if you won initiative.
 
-		if ( responseText.indexOf( "You get the jump" ) == -1 )
+		if ( !FightRequest.wonInitiative( responseText ) )
 		{
-			// If you lose initiative, there's nothing very interesting to
-			// print to the session log.
+			// If you lose initiative, there's nothing very
+			// interesting to print to the session log.
 
 			if ( shouldLogAction )
 			{

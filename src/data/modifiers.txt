@@ -797,6 +797,7 @@ keg shield	Damage Reduction: 11, Damage Absorption: +50, Mysticality: +5
 kickback cookbook	Spell Damage: +20
 killer rag doll	Muscle: +3
 left-handed melodica	Ranged Damage: +25, Class: "Accordion Thief"
+little round pebble	Initiative: +50
 mad scientist's sock monkey	Moxie: +3
 magic lamp	Mysticality: +5
 magical ice cubes	Cold Damage: +1

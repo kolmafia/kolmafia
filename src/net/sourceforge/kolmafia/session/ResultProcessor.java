@@ -100,6 +100,11 @@ public class ResultProcessor
 			RequestLogger.updateDebugLog( "Processing results..." );
 		}
 
+		if ( KoLAdventure.lastAdventureId() == 138 )
+		{
+			return processHaikuResults( results );
+		}
+
 		if ( data == null && results.indexOf( "gains a pound" ) != -1 )
 		{
 			KoLCharacter.incrementFamilarWeight();
@@ -126,6 +131,133 @@ public class ResultProcessor
 
 		KoLmafia.applyEffects();
 		return requiresRefresh;
+	}
+
+	private static boolean processHaikuResults( String results )
+	{
+		// PICKPOCKETING
+
+		// You acquire something
+		// at a serious discount
+		// with your deft fingers.
+
+		// HP LOSS:
+
+		// The cherry blossoms
+		// are as pink as your hit points,
+		// <b>xxx</b> of which you lose.
+
+		// You feel like a worm.
+		// A worm who was just stepped on
+		// by <b>xxx</b> big feet.
+
+		// Bamboo leaves rustle,
+		// your blood falls like gentle rain.
+		// You lose <b>xxx</b> hp.
+
+		// ITEMS:
+
+                // <b>xxx</b>
+                // was once your foe's, is now yours.
+                // Beaters-up, keepers.
+
+		// Near you on the ground
+		// is a <b>xxx</b>.
+		// You hork it and jet.
+
+		// Can't get what you want,
+		// unless it's a <b>xxx</b>.
+		// Serendipity!
+
+		// Loot falls like spring rain,
+		// keen eyes spy a <b>xxx</b>.
+		// Yoink! Now it is yours.
+
+		// A <b>xxx<b>
+		// is now yours for the taking.
+		// As such, you take it.
+
+		// You find an item.
+		// A <b>xxx</b>, in fact.
+		// A looter is you!
+
+		// MEAT
+
+		// The harvest moon glows
+		// you can see 45 Meat,
+		// ripe for the picking.
+
+		// You find 50 Meat
+		// just lying there on the ground.
+		// Wow! What are the odds!?
+
+		// You find 50 Meat,
+		// and decide you will keep it.
+		// Capitalism!
+
+		// On the nearby ground
+		// you can see 69 Meat.
+		// Score! You pick it up.
+
+		// 47 Meat
+		// lies on the ground before you.
+		// Sweet! You pocket it.
+
+		// 47 Meat
+		// does not grow on trees, you know.
+		// It lies on the ground.
+
+		// STATS:
+
+		// You work up a sweat,
+		// gain 1 muscle from the fight.
+		// Sweet! Now go shower.
+
+		// Biceps, triceps, abs,
+		// combat's quite a workout, huh?
+		// You gain 1 muscle.
+
+		// Gentle reeds must bend
+		// but you're mightier than that.
+		// You gain 1 muscle.
+
+		// You're feeling stronger,
+		// having gained 1 Beefiness.
+		// Mighty mighty you.
+
+		// Stars wheel above you.
+		// Ancient wisdom fills your brain.
+		// You gain 1 magic!
+
+		// Nothing up your sleeve
+		// 1 magic in your brainpan.
+		// Abracadabra.
+
+		// Delicious magic
+		// Your hungry brain scarfs it down.
+		// Yum! It tastes like 1!
+
+		// You gain 1 magic.
+		// Pull a rabbit from a hat?
+		// Nah, that's too cliche.
+
+		// Like a winter breeze,
+		// keeping your cool in battle,
+		// you gain 1 Chutzpah.
+
+		// Tranquil zen gardens
+		// look uptight next to your cool
+		// you get 1 more Smarm.
+
+		// A refreshing pond
+		// Is still not as cool as you
+		// you gain 1 Moxie.
+
+		// Extend both your thumbs.
+		// Who just got 1 more Moxie?
+		// You assert: <i>this</i> guy!
+
+		return true;
 	}
 
 	private static void processFumble( String plainTextResult )
