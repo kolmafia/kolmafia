@@ -995,6 +995,12 @@ public abstract class ChoiceManager
 			"Hobopolis", "choiceAdventure295", "The Heap",
 			new String[] { "concentrated garbage juice", "skip adventure" },
 			new String[] { "3402", null } ),
+		
+		// Gravy Fairy Ring
+		new ChoiceAdventure(
+			"Town", "choiceAdventure297", "Haiku Dungeon",
+			new String[] { "mushrooms", "fairy gravy boat", "skip adventure" },
+			new String[] { null, "80", null } ),
 	};
 
 	static

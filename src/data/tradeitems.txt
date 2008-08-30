@@ -127,7 +127,7 @@
 126	meat engine	0	all	124
 127	Gnollish autoplunger	12	all	160
 128	sticky meat pants	10	all	145
-129	Gnollish nunchaku	12	all	50
+129	third-hand nunchaku	12	all	50
 130	enchanted eyepatch	9	all	60
 131	frilly skirt	10	all	40
 132	Meat maid body	0	all	155
@@ -3454,3 +3454,16 @@
 3453	cotton candy plug	17	all	35
 3454	cotton candy pillow	17	all	35
 3455	cotton candy bale	17	all	35
+3456
+3457
+3458
+3459
+3460
+3461
+3462	terrible poem	0	all	10
+3463	bottle of sake	2	all	35
+3464	little round pebble	13	all	45
+3465	Bash-&#332;s cereal	1	all	25
+3466
+3467	bargain flash powder	0	all	0
+

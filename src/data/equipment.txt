@@ -732,6 +732,7 @@ keg shield	175	Mus: 70	shield
 kickback cookbook	0	none
 killer rag doll	0	Mys: 40
 left-handed melodica	0	Mox: 150
+little round pebble	0	Mys: 7
 mad scientist's sock monkey	0	Mys: 40
 magic lamp	0	none
 magical ice cubes	0	none
