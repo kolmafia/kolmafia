@@ -200,6 +200,7 @@ whiskey bittersweet	3	3	5-10	16-20	0	0
 whiskey sour	3	1	3-6	8-10	0	0
 white Canadian	3	1	3-6	10-12	0	0
 white Xanadian	2	2	5-8	12-18	0	0
+white-label gin	3	1	8-10	3-5	3-5	3-5
 white lightning	3	3	5-10	0	0	0
 wine spritzer	3	1	3-6	0	8-10	0
 yellow brick road	4	6	14-18	0	40-47	0

@@ -683,6 +683,7 @@ tiny ninja sword	Moxie: +1
 tiny plastic sword	Moxie: +1
 titanium assault umbrella	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 toy ray gun	Hot Damage: +5, Critical: 2
+trusty torch	Hot Damage: +3
 # two-handed depthsword
 vampire duck-on-a-string	Melee Damage: +5, Item Drop: +5
 vibrating cyborg knife	Melee Damage: +20, Fumble: 3
@@ -916,6 +917,7 @@ Iron Beta of Industry	Single Equip, Moxie: +10, Muscle: +10, Mysticality: +10, I
 Jarlsberg's earring	Mysticality: +10
 # Jekyllin hide belt
 Jolly Roger charrrm bracelet	Moxie: +5
+Junior Adventurer's merit badge	Moxie: +3, Muscle: +3, Mysticality: +3
 Junior LAAAAME merit badge	Moxie: +1, Muscle: +1, Mysticality: +1
 Lead Zeta of Chastity	Single Equip, Moxie: +6, Muscle: +6, Mysticality: +6, Item Drop: +10
 Lockenstock&trade; sandals	Single Equip, Mysticality: +7, Stench Damage: +7
@@ -1528,7 +1530,7 @@ Egg-cellent Vocabulary	Moxie Percent: +10
 Egg-headedness	Mysticality Percent: +10
 Egg-stortionary Tactics	Meat Drop: +50
 Egg-stra Arm	Muscle Percent: +10
-Eggs-tra Sensory Perception	Item Drop: +50
+Eggs-tra Sensory Perception	Item Drop: +10
 Elemental Saucesphere	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
 Elvish	Moxie Percent: +10, Muscle Percent: +10, Mysticality Percent: +10
 Embarrassed	Moxie Percent: -30

@@ -3443,7 +3443,7 @@
 3442	rainbow crossbow	12	all	200
 3443	black kitten	5	none	0
 3444
-3445
+3445	Junior Adventurer's kit	1	all	0
 3446
 3447	six-rainbow shield	13	all	150
 3448	rainbow bomb	0	all	150
@@ -3454,16 +3454,21 @@
 3453	cotton candy plug	17	all	35
 3454	cotton candy pillow	17	all	35
 3455	cotton candy bale	17	all	35
-3456
-3457
-3458
-3459
-3460
-3461
+3456	trusty torch	12	all	0
+3457	Junior Adventurer's merit badge	8	display	0
+3458	STYX deodorant body spray	1	display	0
+3459	white-label gin	2	display	0
+3460	tin rations	1	display	0
+3461	haiku challenge map	0	none	0
 3462	terrible poem	0	all	10
 3463	bottle of sake	2	all	35
 3464	little round pebble	13	all	45
 3465	Bash-&#332;s cereal	1	all	25
 3466
 3467	bargain flash powder	0	all	0
-
+3468
+3469
+3470
+3471
+3472
+3473	Bash-&#332;s boxtop	0	display	0

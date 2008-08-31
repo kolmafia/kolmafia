@@ -614,6 +614,7 @@ tiny ninja sword	20	Mus: 0	1-handed sword
 tiny plastic sword	10	Mus: 0	1-handed sword
 titanium assault umbrella	130	Mus: 50	1-handed umbrella
 toy ray gun	175	Mox: 72	1-handed pistol
+trusty torch	30	Mus: 0	1-handed club
 two-handed depthsword	120	Mus: 45	2-handed sword
 vampire duck-on-a-string	100	Mus: 35	1-handed flail
 vibrating cyborg knife	150	Mus: 55	1-handed sword
@@ -853,6 +854,7 @@ Item #13	0	none
 Jarlsberg's earring	0	Mys: 25
 Jekyllin hide belt	0	none
 Jolly Roger charrrm bracelet	0	Mys: 20
+Junior Adventurer's merit badge	0	none
 Junior LAAAAME merit badge	0	none
 Lead Zeta of Chastity	0	Mys: 85
 Lockenstock&trade; sandals	0	Mys: 65
