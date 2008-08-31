@@ -3449,7 +3449,7 @@
 3442	427899618	rainbow crossbow	rainbow crossbows
 3443	528692853	black kitten
 3444
-3445
+3445	745615343	Junior Adventurer's kit	Junior Adventurer's kits
 3446
 3447	535499742	six-rainbow shield	six-rainbow shields
 3448	243986741	rainbow bomb	rainbow bombs
@@ -3460,15 +3460,21 @@
 3453	677974144	cotton candy plug
 3454	749266408	cotton candy pillow
 3455	533359462	cotton candy bale
-3456
-3457
-3458
-3459
-3460
-3461
+3456	196038026	trusty torch
+3457	450664062	Junior Adventurer's merit badge
+3458	448110334	STYX deodorant body spray
+3459	198896588	white-label gin
+3460	808723295	tin rations
+3461	611048875	haiku challenge map
 3462	376514717	terrible poem	terrible poems
 3463	293461627	bottle of sake	bottles of sake
 3464	435365663	little round pebble	little round pebbles
 3465	303006655	Bash-&#332;s cereal
 3466
 3467	114774654	bargain flash powder	bags of bargain flash powder
+3468
+3469
+3470
+3471
+3472
+3473	524041290	Bash-&#332;s boxtop

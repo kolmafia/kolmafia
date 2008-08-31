@@ -250,7 +250,7 @@ G Imp	HP: 46 Def: 46 Atk: 46 E: heat Meat: 24-39	hot wing (30)	Imp Ale (30)	leat
 Gargantulihc	HP: 134 Def: 73 Atk: 77 E: spooky
 Gaudy Pirate	HP: 120	costume sword (5)	enormous hoop earring (10)	gold lam&eacute; pants (5)	snakehead charrrm (30)
 Gaunt Ghuol	HP: 50 Def: 56 Atk: 54 E: spooky	ghuol ears (20)	ghuol egg (20)
-Gelatinous Cube	HP: 0	rusty metal ring
+Gelatinous Cube	HP: 0	Orcish meat locker	rusty metal ring	rusty metal shaft
 Generic Duck	HP: 188
 Ghastly Organist	HP: 120 Def: 110 Atk: 100	opera mask (20)
 Ghost Miner	HP: 31 Def: 30 Atk: 30 E: spooky	bubblewrap ore (10)	bubblewrap ore (10)	cardboard ore (10)	cardboard ore (10)	styrofoam ore (10)	styrofoam ore (10)
