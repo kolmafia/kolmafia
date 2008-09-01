@@ -504,6 +504,7 @@ grass blade	80	Mus: 25	1-handed sword
 grassy cutlass	150	Mus: 60	1-handed sword
 grave robbing shovel	30	Mus: 0	2-handed polearm
 grease gun	65	Mox: 17	1-handed pistol
+haiku katana	100	Mus: 0	1-handed sword
 hairy staff	135	Mus: 45	2-handed staff
 halfberd	30	Mus: 0	1-handed polearm
 happiness	165	Mox: 67	1-handed pistol

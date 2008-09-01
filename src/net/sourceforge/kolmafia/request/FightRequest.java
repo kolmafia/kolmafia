@@ -324,7 +324,12 @@ public class FightRequest
 				CustomCombatManager.getSetting(
 					FightRequest.encounterLookup, FightRequest.currentRound - 1 - FightRequest.preparatoryRounds );
 		}
-		else if ( !KoLCharacter.canInteract() && FightRequest.wonInitiative() && FightRequest.monsterData != null && FightRequest.monsterData.shouldSteal() )
+
+		// If it is appropriate to try pickpocketing, make the attempt
+
+		else if ( FightRequest.wonInitiative() &&
+			  FightRequest.monsterData != null &&
+			  FightRequest.monsterData.shouldSteal() )
 		{
 			++FightRequest.preparatoryRounds;
 			FightRequest.action1 = "steal";
@@ -428,17 +433,12 @@ public class FightRequest
 
 		if ( FightRequest.action1.indexOf( "steal" ) != -1 )
 		{
-			boolean shouldSteal = FightRequest.wonInitiative();
-
-			if ( CustomCombatManager.getSettingKey( FightRequest.encounterLookup ).equals( "default" ) )
-			{
-				shouldSteal &= FightRequest.monsterData != null && FightRequest.monsterData.shouldSteal();
-			}
-
-			if ( shouldSteal )
+			if ( FightRequest.wonInitiative() &&
+                             FightRequest.monsterData != null &&
+                             FightRequest.monsterData.shouldSteal() )
 			{
 				FightRequest.action1 = "steal";
-				this.addFormField( "action", FightRequest.action1 );
+				this.addFormField( "action", "steal" );
 				return;
 			}
 
