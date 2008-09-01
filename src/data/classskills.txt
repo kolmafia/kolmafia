@@ -275,6 +275,11 @@
 7054	Spray Sap	5	15	0
 7055	Put Down Roots	5	15	0
 7056	Fire off a Roman Candle	5	10	0
+7061	Spring Raindrop Attack	5	0	0
+7062	Summer Siesta	5	10	0
+7063	Falling Leaf Whirlwind	5	10	0
+7064	Winter's Bite Technique	5	10	0
+7065	The 17 Cuts	5	10	0
 
 # Skills granted by books on your Mystical Bookshelf
 

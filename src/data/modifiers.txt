@@ -573,6 +573,7 @@ grass blade	Melee Damage: +5
 grassy cutlass	Melee Damage: +11
 grave robbing shovel	Spooky Damage: +3, Initiative: -10
 grease gun	Moxie: +3, Melee Damage: +3, Sleaze Damage: +3
+haiku katana	Critical: 1, Softcore Only
 hairy staff	Mysticality: +7, Spell Damage: +7, MP Regen Min: 5, MP Regen Max: 7
 halfberd	Melee Damage: +2
 happiness	Hot Damage: +12

@@ -3464,7 +3464,7 @@
 3463	bottle of sake	2	all	35
 3464	little round pebble	13	all	45
 3465	Bash-&#332;s cereal	1	all	25
-3466
+3466	haiku katana	12	all	0
 3467	bargain flash powder	0	all	0
 3468
 3469

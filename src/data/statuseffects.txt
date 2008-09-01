@@ -545,3 +545,4 @@
 544	Cholestoriffic	hob-o.gif	13f479e8387e527aaeb7d95f087d6dfd	use 1 fry-oil-flavored Hob-O
 545	Refuse Reflux	hob-o.gif	3d5c6b7bd5ab7dc8dc4efc85f8d20548	use 1 garbage-juice-flavored Hob-O
 546	Scariberi	hob-o.gif	20d098090ca8f63f8243f081d3e085e6	use 1 strawberry-flavored Hob-O
+548	Haiku State of Mind	nopic2.gif	
