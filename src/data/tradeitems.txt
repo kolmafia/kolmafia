@@ -3347,7 +3347,7 @@
 3346	filth-encrusted futon	3	all	0
 3347	comfy coffin	3	all	0
 3348	stained mattress	3	all	0
-3349	dinged-up triangle	0	display 300
+3349	dinged-up triangle	0	display	300
 3350	Ralph IX cognac	2	all	0
 3351	llama lama cria	5	all	0
 3352	zen motorcycle	7	all	75
