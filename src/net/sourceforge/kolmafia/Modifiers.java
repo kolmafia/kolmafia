@@ -133,6 +133,8 @@ public class Modifiers
 	public static final int MP_REGEN_MAX = 44;
 	public static final int ADVENTURES = 45;
 	public static final int FAMILIAR_WEIGHT_PCT = 46;
+	public static final int MELEE_DAMAGE_PCT = 47;
+	public static final int RANGED_DAMAGE_PCT = 48;
 
 	private static final Object[][] floatModifiers =
 	{
@@ -237,11 +239,11 @@ public class Modifiers
 		  Pattern.compile( "Maximum MP Percent: ([+-]\\d+)" )
 		},
 		{ "Melee Damage",
-		  Pattern.compile( "Melee Damage ([+-]\\d+)" ),
+		  Pattern.compile( "Melee Damage ([+-]\\d+)$" ),
 		  Pattern.compile( "Melee Damage: ([+-]\\d+)" )
 		},
 		{ "Ranged Damage",
-		  Pattern.compile( "Ranged Damage ([+-]\\d+)" ),
+		  Pattern.compile( "Ranged Damage ([+-]\\d+)$" ),
 		  Pattern.compile( "Ranged Damage: ([+-]\\d+)" )
 		},
 		{ "Spell Damage",
@@ -323,6 +325,14 @@ public class Modifiers
 		{ "Familiar Weight Percent",
 		  null,
 		  Pattern.compile( "Familiar Weight Percent: ([+-]\\d+)" )
+		},
+		{ "Melee Damage Percent",
+		  Pattern.compile( "Melee Damage ([+-]\\d+)%" ),
+		  Pattern.compile( "Melee Damage Percent: ([+-]\\d+)" )
+		},
+		{ "Ranged Damage Percent",
+		  Pattern.compile( "Ranged Damage ([+-]\\d+)%" ),
+		  Pattern.compile( "Ranged Damage Percent: ([+-]\\d+)" )
 		},
 	};
 

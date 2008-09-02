@@ -573,7 +573,7 @@ grass blade	Melee Damage: +5
 grassy cutlass	Melee Damage: +11
 grave robbing shovel	Spooky Damage: +3, Initiative: -10
 grease gun	Moxie: +3, Melee Damage: +3, Sleaze Damage: +3
-haiku katana	Critical: 1, Softcore Only
+haiku katana	Muscle Percent: +15, Melee Damage Percent +50, Critical: 1, Softcore Only
 hairy staff	Mysticality: +7, Spell Damage: +7, MP Regen Min: 5, MP Regen Max: 7
 halfberd	Melee Damage: +2
 happiness	Hot Damage: +12
@@ -1933,6 +1933,7 @@ eXtreme Cold-Weather Gear	Cold Resistance: +3
 # Allows casting of Magic Missile
 # Allows familiar to scale fish
 # Allows use of Creepy Grin (once per day)
+# Allows use of seasonal attacks
 # Allows you to equip Chefstaves
 # Allows you to keep 4 songs in your head instead of 3.
 # Attacks Monsters During Combat
