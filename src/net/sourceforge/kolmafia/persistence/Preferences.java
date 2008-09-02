@@ -474,10 +474,18 @@ public class Preferences
 			String actualName = Preferences.propertyName( user, name );
 
 			Preferences.globalValues.put( actualName, object );
+			if ( Preferences.getBoolean( "saveSettingsOnSet" ) )
+			{
+				Preferences.saveToFile( Preferences.globalPropertiesFile, Preferences.globalValues );
+			}
 		}
 		else if ( Preferences.userPropertiesFile != null )
 		{
 			Preferences.userValues.put( name, object );
+			if ( Preferences.getBoolean( "saveSettingsOnSet" ) )
+			{
+				Preferences.saveToFile( Preferences.userPropertiesFile, Preferences.userValues );
+			}
 		}
 
 		if ( object instanceof Boolean && Preferences.checkboxMap.containsKey( name ) )

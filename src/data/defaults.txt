@@ -120,6 +120,7 @@ global	relayUsesInlineLinks	false
 global	relayUsesIntegratedChat	false
 global	relayViewsCustomItems	false
 global	removeMalignantEffects	true
+global	saveSettingsOnSet	true
 global	saveState
 global	saveStateActive
 global	scriptButtonPosition	0

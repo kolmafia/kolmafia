@@ -324,6 +324,7 @@ public class OptionsFrame
 			{ "showAllRequests", "Show all requests in a mini-browser window" },
 			{ "useZoneComboBox", "Use zone selection instead of adventure name filter" },
 			{ "cacheMallSearches", "Cache mall search terms in mall search interface" },
+			{ "saveSettingsOnSet", "Save options to disk whenever they change" },
 
 			{ "", "" },
 
