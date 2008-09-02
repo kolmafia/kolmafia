@@ -1985,12 +1985,35 @@ public abstract class KoLCharacter
 	 * Accessor method which indicates whether the character is in Bad Moon KoLmafia could/should use this to: -
 	 * Eliminate access to Hagnks - Provide access to Hell's Kitchen - Provide access to Nervewrecker's Store
 	 *
-	 * @return <code>true</code> if the character is in a Moxie sign
+	 * @return <code>true</code> if the character is in Bad Moon
 	 */
 
 	public static final boolean inBadMoon()
 	{
 		return KoLCharacter.ascensionSignType == KoLConstants.BAD_MOON;
+	}
+
+	/**
+	 * Accessor method which indicates whether the MCD is potentially
+	 * available
+	 *
+	 * @return <code>true</code> if the character can potentially change
+	 * monster level
+	 */
+
+	public static final boolean mcdAvailable()
+	{
+		switch ( KoLCharacter.ascensionSignType )
+		{
+		case KoLConstants.MYSTICALITY:
+			// Direct access to the Mind Control Device
+		case KoLConstants.MUSCLE:
+			// detuned radio from Degrassi Knoll General Store
+		case KoLConstants.MOXIE:
+			// Annoyotron available on beach
+			return true;
+		}
+		return false;
 	}
 
 	/**

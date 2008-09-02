@@ -1295,7 +1295,7 @@ public class RelayRequest
 				// This one's for the Boss Bat, who has special
 				// items at 4 and 8.
 
-				if ( location != null && location.equals( "34" ) && !KoLCharacter.inBadMoon() )
+				if ( location != null && location.equals( "34" ) && KoLCharacter.mcdAvailable() )
 				{
 					this.sendBossWarning( "Boss Bat", "bossbat.gif", 4, "batpants.gif", 8, "batbling.gif" );
 					return;
@@ -1307,7 +1307,7 @@ public class RelayRequest
 
 			else if ( path.equals( "knob.php" ) )
 			{
-				if ( this.getFormField( "king" ) != null && !KoLCharacter.inBadMoon() )
+				if ( this.getFormField( "king" ) != null && KoLCharacter.mcdAvailable() )
 				{
 					this.sendBossWarning( "Knob Goblin King", "goblinking.gif", 3, "glassballs.gif", 7, "batcape.gif" );
 					return;
@@ -1319,7 +1319,7 @@ public class RelayRequest
 
 			else if ( path.equals( "cyrpt.php" ) )
 			{
-				if ( this.getFormField( "action" ) != null && !KoLCharacter.inBadMoon() )
+				if ( this.getFormField( "action" ) != null && KoLCharacter.mcdAvailable() )
 				{
 					this.sendBossWarning( "Bonerdagon", "bonedragon.gif", 5, "rib.gif", 10, "vertebra.gif" );
 					return;

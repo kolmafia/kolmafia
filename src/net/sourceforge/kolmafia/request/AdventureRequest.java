@@ -112,7 +112,7 @@ public class AdventureRequest
 		else if ( formSource.equals( "knob.php" ) )
 		{
 			this.addFormField( "pwd" );
-			this.addFormField( "king", "Yep." );
+			this.addFormField( "king", "1" );
 		}
 		else if ( formSource.equals( "mountains.php" ) )
 		{
