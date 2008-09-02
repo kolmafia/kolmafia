@@ -1226,7 +1226,7 @@
 1220	776019712	Mr. Balloon	Mr. Balloons
 1221	814985131	red balloon	red balloons
 1222	712704501	Mr. Eh?	Mr. Ehs?
-1223
+1223	888618370	pimonkey item
 1224	413998190	stainless steel shillelagh	stainless steel shillelaghs
 1225	596081188	stainless steel skullcap	stainless steel skullcaps
 1226	905451544	stainless steel solitaire	stainless steel solitaires
@@ -3012,8 +3012,8 @@
 3006	281007103	rainbow pearl earring
 3007	137836419	rainbow pearl necklace
 3008	555630676	rainbow pearl ring
-3009	466991608	strange tiki idol	strange tiki idols
-3010
+3009	466991608	Idol of Ak'gyxoth	Idols of Ak'gyxoth
+3010	364047670	Emblem of Ak'gyxoth
 3011	761288804	sinister altar fragment	sinister altar fragments
 3012	147003205	shimmering rainbow sand	shimmering rainbow sands
 3013	555978098	simple ancient cursed key	simple ancient cursed keys
@@ -3448,7 +3448,7 @@
 3441	219029462	club of the five seasons	clubs of the five seasons
 3442	427899618	rainbow crossbow	rainbow crossbows
 3443	528692853	black kitten
-3444
+3444	638894238	webbed comic mask
 3445	745615343	Junior Adventurer's kit	Junior Adventurer's kits
 3446
 3447	535499742	six-rainbow shield	six-rainbow shields
