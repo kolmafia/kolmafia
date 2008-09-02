@@ -213,6 +213,7 @@ tattered paper crown	Muscle: +3
 time helmet	Adventures: +3
 toy space helmet	Stench Resistance: +3, Spooky Resistance: +3
 viking helmet	Muscle: +1
+webbed comic mask	Moxie: +5, Muscle: +5, Mysticality: +5, Softcore Only
 willowy bonnet	Maximum MP: +40
 wolf mask	Intrinsic Effect: "Complete Delusion"
 # wooden salad bowl
@@ -413,7 +414,6 @@ Frosty's nailbat	Muscle Percent: +30, Critical Hit Percent: +3, Cold Damage: +30
 Frosty's snowball sack	Cold Damage: +50
 Gnollish autoplunger	Mysticality: +3
 # Gnollish flyswatter
-Gnollish nunchaku	Melee Damage: +4
 Gnollish pie server	Spell Damage: +3
 # Gnollish plunger
 Gnollish slotted spoon	Spell Damage: +3
@@ -679,6 +679,7 @@ styrofoam sword	Muscle: +3, Monster Level: +3
 sword behind inappropriate prepositions	Muscle: +7, Adventures: +5
 sword of static	Muscle: +3, Moxie: +2, MP Regen Min: 2, MP Regen Max: 3
 tail o' nine cats	Initiative: +15, Monster Level: +5
+third-hand nunchaku	Melee Damage: +4
 time sword	Adventures: +3
 tiny ninja sword	Moxie: +1
 tiny plastic sword	Moxie: +1
@@ -720,6 +721,7 @@ Codex of Capsaicin Conjuration	Spell Damage: +10
 Cookbook of the Damned	Spell Damage: +10
 Dallas Dynasty Falcon Crest shield	Damage Reduction: 15, Cold Resistance: +5, Hot Resistance: +5, Sleaze Resistance: +5, Spooky Resistance: +5, Stench Resistance: +5
 Dyspepsi-Cola shield	Damage Reduction: 4, Mysticality: +1
+Emblem of Ak'gyxoth	Moxie: +43, Mana Cost: -1
 Gazpacho's Glacial Grimoire	Spell Damage: +10
 Glass Balls of the Goblin King	Mysticality: +14
 # Hodgman's almanac	Converts Hobo Power to Spell Damage
@@ -730,6 +732,7 @@ Glass Balls of the Goblin King	Mysticality: +14
 Hodgman's imaginary hamster	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
 # Hodgman's metal detector	Converts Hobo Power to + Item Drops
 # Hodgman's varcolac paw	Converts Hobo Power to Melee Damage
+Idol of Ak'gyxoth	Moxie: +43, Mana Cost: -1
 # Kevlar balloon
 KoL Con IV Pole	Maximum HP: +4, Maximum MP: +4, Moxie: +4, Muscle: +4, Mysticality: +4, Hot Damage: +4
 Mr. Balloon	Moxie: +3, Muscle: +3, Mysticality: +3
@@ -833,7 +836,6 @@ sock monkey	Moxie: +3
 spaghetti-box banjo	MP Regen Min: 5, MP Regen Max: 10, Class: "Pastamancer"
 star buckler	Damage Reduction: 10, Moxie: +2, Muscle: +2, Mysticality: +2
 steaming evil	Hot Damage: +6, Sleaze Damage: +6, Spooky Damage: +6
-strange tiki idol	Moxie: +43
 # stuffed Cheshire bitten
 # stuffed MagiMechTech MicroMechaMech
 # stuffed Mob Penguin

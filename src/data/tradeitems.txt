@@ -1221,7 +1221,7 @@
 1220	Mr. Balloon	13	gift	2500
 1221	red balloon	13	gift	5000
 1222	Mr. Eh?	8	all	0
-1223
+1223	pimonkey item	0	display	0
 1224	stainless steel shillelagh	12	display	0
 1225	stainless steel skullcap	9	display	0
 1226	stainless steel solitaire	8	display	0
@@ -3007,8 +3007,8 @@
 3006	rainbow pearl earring	8	all	0
 3007	rainbow pearl necklace	8	all	0
 3008	rainbow pearl ring	8	all	0
-3009	strange tiki idol	13	all	0
-3010
+3009	Idol of Ak'gyxoth	13	all	0
+3010	Emblem of Ak'gyxoth	8	all	0
 3011	sinister altar fragment	0	all	1500
 3012	shimmering rainbow sand	0	all	1500
 3013	simple ancient cursed key	0	all	0
@@ -3442,7 +3442,7 @@
 3441	club of the five seasons	12	all	200
 3442	rainbow crossbow	12	all	200
 3443	black kitten	5	none	0
-3444
+3444	webbed comic mask	9	display	0
 3445	Junior Adventurer's kit	1	all	0
 3446
 3447	six-rainbow shield	13	all	150

@@ -143,6 +143,7 @@ tattered paper crown	60	Mus: 15
 time helmet	100	Mox: 35
 toy space helmet	175	Mox: 72
 viking helmet	20	none
+webbed comic mask	10	none
 willowy bonnet	75	Mox: 22
 wolf mask	150	Mox: 60
 wooden salad bowl	120	Mox: 45
@@ -343,7 +344,6 @@ Frosty's nailbat	200	Mus: 200	2-handed club
 Frosty's snowball sack	200	Mox: 200	1-handed sack
 Gnollish autoplunger	60	Mus: 15	3-handed spear
 Gnollish flyswatter	35	Mus: 2	1-handed club
-Gnollish nunchaku	45	Mus: 7	2-handed flail
 Gnollish pie server	20	Mys: 0	1-handed utensil
 Gnollish plunger	35	Mus: 2	1-handed spear
 Gnollish slotted spoon	25	Mys: 0	1-handed utensil
@@ -610,6 +610,7 @@ sweet ninja sword	20	Mus: 0	1-handed sword
 sword behind inappropriate prepositions	130	Mus: 45	2-handed sword
 sword of static	75	Mus: 22	1-handed sword
 tail o' nine cats	30	Mus: 0	1-handed whip
+third-hand nunchaku	45	Mus: 7	2-handed flail
 time sword	100	Mus: 35	1-handed sword
 tiny ninja sword	20	Mus: 0	1-handed sword
 tiny plastic sword	10	Mus: 0	1-handed sword
@@ -652,6 +653,7 @@ Cookbook of the Damned	0	none
 # *** Dallas Dynasty Falcon Crest shield is a shield of unknown power.
 Dallas Dynasty Falcon Crest shield	0	Mus: 85	shield
 Dyspepsi-Cola shield	75	none	shield
+Emblem of Ak'gyxoth	0	Mys: 30
 Gazpacho's Glacial Grimoire	0	none
 Glass Balls of the Goblin King	0	Mys: 20
 Hodgman's almanac	0	Mys: 200
@@ -661,6 +663,7 @@ Hodgman's harmonica	0	Mox: 200
 Hodgman's imaginary hamster	0	Mys: 200
 Hodgman's metal detector	0	Mus: 200
 Hodgman's varcolac paw	0	Mus: 200
+Idol of Ak'gyxoth	0	none
 Kevlar balloon	0	none
 KoL Con IV Pole	0	none
 Mr. Balloon	0	none
@@ -771,7 +774,6 @@ sock monkey	0	Mys: 40
 spaghetti-box banjo	0	Mys: 150
 star buckler	165	Mus: 67	shield
 steaming evil	0	Mys: 75
-strange tiki idol	0	none
 stuffed Cheshire bitten	0	none
 stuffed MagiMechTech MicroMechaMech	0	none
 stuffed Mob Penguin	0	none
