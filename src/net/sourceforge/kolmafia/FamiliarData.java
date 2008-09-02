@@ -293,6 +293,13 @@ public class FamiliarData
 		return this.race;
 	}
 
+	public String getImageLocation()
+	{
+		String image = FamiliarDatabase.getFamiliarImageLocation( this.id );
+		int index = image.lastIndexOf( "/" );
+		return index == -1 ? image : image.substring( index + 1 );
+	}
+
 	public boolean trainable()
 	{
 		if ( this.id == -1 )

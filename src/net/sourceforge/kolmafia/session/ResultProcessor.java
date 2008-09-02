@@ -66,7 +66,8 @@ public class ResultProcessor
 	private static Pattern CARBS_PATTERN =
 		Pattern.compile( "some of your blood, to the tune of ([\\d,]+) damage" );
 	private static Pattern DISCARD_PATTERN = Pattern.compile( "You discard your (.*?)\\." );
-	private static Pattern HAIKU_STEAL_PATTERN = Pattern.compile( "descitem\\((.*?)\\).*?You acquire something<br>at a serious discount<br>with your deft fingers." );
+	private static Pattern HAIKU_PATTERN = Pattern.compile( "<[tT]able><tr><td[^>]*?><img[^>]*/([^/]*\\.gif)[^>]*?('descitem\\((.*?)\\)')?></td>(<td[^>]*><[tT]able><tr>)?<td[^>]*?>(.*?)</td>(</tr></table></td>)?</tr></table>" );
+	private static Pattern INT_PATTERN = Pattern.compile( ".*?([\\d]+).*" );
 
 	private static boolean receivedClover = false;
 	
@@ -134,23 +135,27 @@ public class ResultProcessor
 		return requiresRefresh;
 	}
 
-	private static boolean processHaikuResults( String result )
+	private static boolean processHaikuResults( String results )
 	{
-		boolean shouldRefresh = false;
-		Matcher matcher;
-
-		// PICKPOCKETING
-
-		// You acquire something
-		// at a serious discount
-		// with your deft fingers.
-
-		matcher = ResultProcessor.HAIKU_STEAL_PATTERN.matcher( result );
-		if ( matcher.find() )
+		Matcher matcher = HAIKU_PATTERN.matcher( results );
+		if ( !matcher.find() )
 		{
-			int itemId = ItemDatabase.getItemIdFromDescription( matcher.group(1) );
-			if ( itemId > 0 )
+			return false;
+		}
+
+		boolean shouldRefresh = false;
+		String familiar = KoLCharacter.getFamiliar().getImageLocation();
+
+		do
+		{
+			String image = matcher.group(1);
+			String descid = matcher.group(3);
+			String haiku = matcher.group(5);
+
+			if ( descid != null )
 			{
+				// Found an item
+				int itemId = ItemDatabase.getItemIdFromDescription( descid );
 				AdventureResult item = ItemPool.get( itemId, 1 );
 
 				RequestLogger.printLine( "You acquire an item: " + item );
@@ -160,126 +165,71 @@ public class ResultProcessor
 				}
 
 				processResult( item );
+				shouldRefresh = true;
+				continue;
 			}
-		}
 
-		// HP LOSS:
+			if ( image.equals( familiar ) )
+			{
+				if ( haiku.indexOf( "gains a pound" ) != -1 )
+				{
+					KoLCharacter.incrementFamilarWeight();
 
-		// The cherry blossoms
-		// are as pink as your hit points,
-		// <b>xxx</b> of which you lose.
+					RequestLogger.updateSessionLog();
+					RequestLogger.updateSessionLog( "familiar " + KoLCharacter.getFamiliar() );
+					RequestLogger.updateSessionLog();
+				}
+				continue;
+			}
 
-		// You feel like a worm.
-		// A worm who was just stepped on
-		// by <b>xxx</b> big feet.
+			Matcher m = INT_PATTERN.matcher( haiku );
+			if ( !m.find() )
+			{
+				continue;
+			}
 
-		// Bamboo leaves rustle,
-		// your blood falls like gentle rain.
-		// You lose <b>xxx</b> hp.
+			String points = m.group(1);
 
-		// ITEMS:
+			if ( image.equals( "hp.gif" ) )
+			{
+				// Lost HP
+				String message = "You lose " + points + " hit points";
 
-                // <b>xxx</b>
-                // was once your foe's, is now yours.
-                // Beaters-up, keepers.
+				RequestLogger.printLine( message );
 
-		// Near you on the ground
-		// is a <b>xxx</b>.
-		// You hork it and jet.
+				if ( Preferences.getBoolean( "logGainMessages" ) )
+				{
+					RequestLogger.updateSessionLog( message );
+				}
 
-		// Can't get what you want,
-		// unless it's a <b>xxx</b>.
-		// Serendipity!
+				parseResult( message );
+				continue;
+			}
 
-		// Loot falls like spring rain,
-		// keen eyes spy a <b>xxx</b>.
-		// Yoink! Now it is yours.
+			if ( image.equals( "meat.gif" ) )
+			{
+				String message = "You gain " + points + " Meat";
+				ResultProcessor.processStatGain( message, null );
+				shouldRefresh = true;
+			}
+			else if ( image.equals( "strboost.gif" ) )
+			{
+				String message = "You gain " + points + " Strongness";
+				ResultProcessor.processStatGain( message, null );
+			}
+			else if ( image.equals( "snowflakes.gif" ) )
+			{
+				String message = "You gain " + points + " Magicalness";
+				ResultProcessor.processStatGain( message, null );
+			}
+			else if ( image.equals( "wink.gif" ) )
+			{
+				String message = "You gain " + points + " Roguishness";
+				ResultProcessor.processStatGain( message, null );
+			}
+		} while ( matcher.find() );
 
-		// A <b>xxx<b>
-		// is now yours for the taking.
-		// As such, you take it.
-
-		// You find an item.
-		// A <b>xxx</b>, in fact.
-		// A looter is you!
-
-		// MEAT
-
-		// The harvest moon glows
-		// you can see 45 Meat,
-		// ripe for the picking.
-
-		// You find 50 Meat
-		// just lying there on the ground.
-		// Wow! What are the odds!?
-
-		// You find 50 Meat,
-		// and decide you will keep it.
-		// Capitalism!
-
-		// On the nearby ground
-		// you can see 69 Meat.
-		// Score! You pick it up.
-
-		// 47 Meat
-		// lies on the ground before you.
-		// Sweet! You pocket it.
-
-		// 47 Meat
-		// does not grow on trees, you know.
-		// It lies on the ground.
-
-		// STATS:
-
-		// You work up a sweat,
-		// gain 1 muscle from the fight.
-		// Sweet! Now go shower.
-
-		// Biceps, triceps, abs,
-		// combat's quite a workout, huh?
-		// You gain 1 muscle.
-
-		// Gentle reeds must bend
-		// but you're mightier than that.
-		// You gain 1 muscle.
-
-		// You're feeling stronger,
-		// having gained 1 Beefiness.
-		// Mighty mighty you.
-
-		// Stars wheel above you.
-		// Ancient wisdom fills your brain.
-		// You gain 1 magic!
-
-		// Nothing up your sleeve
-		// 1 magic in your brainpan.
-		// Abracadabra.
-
-		// Delicious magic
-		// Your hungry brain scarfs it down.
-		// Yum! It tastes like 1!
-
-		// You gain 1 magic.
-		// Pull a rabbit from a hat?
-		// Nah, that's too cliche.
-
-		// Like a winter breeze,
-		// keeping your cool in battle,
-		// you gain 1 Chutzpah.
-
-		// Tranquil zen gardens
-		// look uptight next to your cool
-		// you get 1 more Smarm.
-
-		// A refreshing pond
-		// Is still not as cool as you
-		// you gain 1 Moxie.
-
-		// Extend both your thumbs.
-		// Who just got 1 more Moxie?
-		// You assert: <i>this</i> guy!
-
-		return true;
+		return shouldRefresh;
 	}
 
 	private static void processFumble( String plainTextResult )
