@@ -846,6 +846,26 @@ public class ResultProcessor
 			ResultProcessor.processItem( ItemPool.PLASTIC_WRAP_IMMATERIA, -1 );
 			break;
 
+		case ItemPool.MACGUFFIN_DIARY:
+			// If you get your father's MacGuffin diary, you lose
+			// your forged identification documents
+			ResultProcessor.processItem( ItemPool.FORGED_ID_DOCUMENTS, -1 );
+			break;
+
+		case ItemPool.PALINDROME_BOOK:
+			// If you get "I Love Me, Vol. I", you lose the items
+			// you put on the shelves
+			ResultProcessor.processItem( ItemPool.PHOTOGRAPH_OF_GOD, -1 );
+			ResultProcessor.processItem( ItemPool.HARD_ROCK_CANDY, -1 );
+			ResultProcessor.processItem( ItemPool.OSTRICH_EGG, -1 );
+			break;
+
+		case ItemPool.MEGA_GEM:
+			// If you get the Mega Gem, you lose your wet stunt nut
+			// stew
+			ResultProcessor.processItem( ItemPool.WET_STUNT_NUT_STEW, -1 );
+			break;
+
 		case ItemPool.STEEL_STOMACH:
 		case ItemPool.STEEL_LIVER:
 		case ItemPool.STEEL_SPLEEN:

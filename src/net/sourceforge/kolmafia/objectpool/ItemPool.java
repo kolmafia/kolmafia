@@ -266,6 +266,7 @@ public class ItemPool
 	public static final int STUFFED_COCOABO = 1974;
 	public static final int MACGUFFIN_DIARY = 2044;
 	public static final int BLACK_MARKET_MAP = 2054;
+	public static final int FORGED_ID_DOCUMENTS = 2064;
 	public static final int NOVELTY_BUTTON = 2072;
 	public static final int MAKESHIFT_TURBAN = 2079;
 	public static final int MAKESHIFT_CAPE = 2080;
@@ -289,6 +290,12 @@ public class ItemPool
 	public static final int PINK_SHIRT = 2224;
 	public static final int FAMILIAR_DOPPELGANGER = 2225;
 	public static final int EYEBALL_PENDANT = 2226;
+	public static final int PALINDROME_BOOK = 2258;
+	public static final int PHOTOGRAPH_OF_GOD = 2259;
+	public static final int HARD_ROCK_CANDY = 2260;
+	public static final int OSTRICH_EGG = 2261;
+	public static final int WET_STUNT_NUT_STEW = 2266;
+	public static final int MEGA_GEM = 2267;
 	public static final int DUSTY_BOOK = 2279;
 	public static final int MUS_MANUAL = 2280;
 	public static final int MYS_MANUAL = 2281;
