@@ -227,6 +227,7 @@ public class Parser
 		// Operators
 		reservedWords.add( "contains" );
 		reservedWords.add( "remove" );
+		reservedWords.add( "new" );
 
 		// Control flow
 		reservedWords.add( "if" );
@@ -1485,6 +1486,88 @@ public class Parser
 		return scope;
 	}
 
+	private Value parseNewRecord( final Scope scope )
+	{
+		if ( !this.parseIdentifier( this.currentToken() ) )
+		{
+			return null;
+		}
+
+		String name = this.currentToken();
+		Type type = scope.findType( name );
+
+		if ( type == null || !( type instanceof RecordType ) )
+		{
+			throw this.parseException( "'" + name + "' is not a record type" );
+		}
+
+		RecordType target = (RecordType) type;
+
+		this.readToken(); //name
+
+		ValueList params = new ValueList();
+		String [] names = target.getFieldNames();
+		Type [] types = target.getFieldTypes();
+		int param = 0;
+
+		if ( this.currentToken() != null && this.currentToken().equals( "(" ) )
+		{
+			this.readToken(); //(
+
+			while ( this.currentToken() != null && !this.currentToken().equals( ")" ) )
+			{
+				Value val;
+
+				if ( this.currentToken().equals( "," ) )
+				{
+					this.readToken(); // ,
+					val = DataTypes.VOID_VALUE;
+				}
+				else
+				{
+					val = this.parseExpression( scope );
+				}
+
+				if ( val == null )
+				{
+					throw this.parseException( "Expression expected for field #" + ( param + 1 ) + " (" + names[param] + ")" );
+				}
+
+				if ( val != DataTypes.VOID_VALUE )
+				{
+					Type expected = types[param];
+					Type given = val.getType();
+					if ( expected != given )
+					{
+						throw this.parseException( given + " found when " + expected + " expected for field #" + ( param + 1 ) + " (" + names[param] + ")" );
+					}
+				}
+
+				params.add( val );
+				param++;
+
+				if ( this.currentToken().equals( "," ) )
+				{
+					if ( param == names.length )
+					{
+						throw this.parseException( "Too many field initializer for record " + name );
+					}
+
+					this.readToken(); // ,
+				}
+			}
+
+			if ( this.currentToken() == null )
+			{
+				throw this.parseException( ")", this.currentToken() );
+			}
+
+			this.readToken(); // )
+		}
+
+		return target.initialValueExpression( params );
+	}
+
 	private Value parseCall( final Scope scope )
 	{
 		return this.parseCall( scope, null );
@@ -1931,18 +2014,28 @@ public class Parser
 		{
 			;
 		}
+
 		else if ( this.currentToken().equals( "\"" ) || this.currentToken().equals( "\'" ) )
 		{
 			result = this.parseString();
 		}
+
 		else if ( this.currentToken().equals( "$" ) )
 		{
 			result = this.parseTypedConstant( scope );
 		}
+
+		else if ( this.currentToken().equalsIgnoreCase( "new" ) )
+		{
+			this.readToken();
+			result = this.parseNewRecord( scope );
+		}
+
 		else if ( ( result = this.parseCall( scope, result ) ) != null )
 		{
 			;
 		}
+
 		else if ( ( result = this.parseVariableReference( scope ) ) != null )
 		{
 			;
