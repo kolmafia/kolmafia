@@ -193,6 +193,16 @@ public class RecordType
 		return new RecordValue( this );
 	}
 
+	public Value initialValueExpression( ValueList params )
+	{
+		if ( params.isEmpty() )
+		{
+			return new TypeInitializer( this );
+		}
+
+		return new RecordInitializer( this, params );
+	}
+
 	public boolean containsAggregate()
 	{
 		for ( int i = 0; i < this.fieldTypes.length; ++i )
