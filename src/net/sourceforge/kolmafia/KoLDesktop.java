@@ -421,6 +421,8 @@ public class KoLDesktop
 		new MemoryUsageMonitor( memoryLabel ).start();
 
 		toolbarPanel.add( memoryLabel );
+		toolbarPanel.add( Box.createHorizontalStrut( 5 ) );
+		toolbarPanel.add( new InvocationButton( "Collect Garbage", "trashield.gif", StaticEntity.getClient(), "gc" ) );
 
 		return toolbarPanel;
 	}

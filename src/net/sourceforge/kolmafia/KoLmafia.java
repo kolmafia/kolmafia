@@ -3050,6 +3050,14 @@ public abstract class KoLmafia
 		StaticEntity.openSystemBrowser( "http://209.9.238.5:8794/listen.pls" );
 	}
 
+	public void gc()
+	{
+		int mem1 = (int) ( Runtime.getRuntime().freeMemory() >> 10 );
+		System.gc();
+		int mem2 = (int) ( Runtime.getRuntime().freeMemory() >> 10 );
+		RequestLogger.printLine( "Reclaimed " + ( mem2 - mem1 ) + " KB of memory" );
+	}
+
 	public void launchSimulator()
 	{
 		this.startRelayServer();
