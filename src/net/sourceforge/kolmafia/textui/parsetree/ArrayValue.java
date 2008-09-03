@@ -53,22 +53,22 @@ public class ArrayValue
 		this.content = content;
 	}
 
-	public Value aref( final Value index )
+	public Value aref( final Value key )
 	{
 		Value[] array = (Value[]) this.content;
-		int i = index.intValue();
-		if ( i < 0 || i > array.length )
+		int index = key.intValue();
+		if ( index < 0 || index >= array.length )
 		{
 			throw new ScriptException( "Array index out of bounds" );
 		}
-		return array[ i ];
+		return array[ index ];
 	}
 
 	public void aset( final Value key, final Value val )
 	{
 		Value[] array = (Value[]) this.content;
 		int index = key.intValue();
-		if ( index < 0 || index > array.length )
+		if ( index < 0 || index >= array.length )
 		{
 			throw new ScriptException( "Array index out of bounds" );
 		}
@@ -102,7 +102,7 @@ public class ArrayValue
 	{
 		Value[] array = (Value[]) this.content;
 		int index = key.intValue();
-		if ( index < 0 || index > array.length )
+		if ( index < 0 || index >= array.length )
 		{
 			throw new ScriptException( "Array index out of bounds" );
 		}
