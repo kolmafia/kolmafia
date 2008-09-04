@@ -49,6 +49,7 @@ import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.request.AccountRequest;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
+import net.sourceforge.kolmafia.request.ChefStaffRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
@@ -323,8 +324,8 @@ public abstract class StaticEntity
 			QuestLogRequest.registerQuests( true, location, responseText );
 		}
 
-		// Keep theupdated of your current equipment and
-		// familiars, if you visit the appropriate pages.
+		// Keep your current equipment and familiars updated, if you
+		// visit the appropriate pages.
 
 		if ( location.startsWith( "inventory.php" ) && location.indexOf( "which=2" ) != -1 )
 		{
@@ -362,13 +363,20 @@ public abstract class StaticEntity
 		{
 			UseItemRequest.parseConsumption( responseText, false );
 		}
+
 		if ( ( location.indexOf( "multiuse.php" ) != -1 || location.indexOf( "skills.php" ) != -1 ) && location.indexOf( "useitem" ) != -1 )
 		{
 			UseItemRequest.parseConsumption( responseText, false );
 		}
+
 		if ( location.indexOf( "hermit.php" ) != -1 )
 		{
 			HermitRequest.parseHermitTrade( location, responseText );
+		}
+
+		if ( location.indexOf( "action=makestaff" ) != -1 )
+		{
+			ChefStaffRequest.parseCreation( location, responseText );
 		}
 
 		// See if the person learned a new skill from using a
