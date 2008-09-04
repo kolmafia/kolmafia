@@ -126,6 +126,7 @@ public class ChefStaffRequest
 
 	public static final boolean registerRequest( final String urlString )
 	{
+		AdventureResult[] ingredients = ChefStaffRequest.staffIngredients( urlString );
 		if ( ingredients == null )
 		{
 			return true;
