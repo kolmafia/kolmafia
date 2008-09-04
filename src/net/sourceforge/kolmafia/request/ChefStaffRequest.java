@@ -86,12 +86,12 @@ public class ChefStaffRequest
 		}
 	}
 
-	public static final boolean registerRequest( final String urlString )
+	private static final AdventureResult[] staffIngredients( final String urlString )
 	{
 		Matcher itemMatcher = ChefStaffRequest.WHICH_PATTERN.matcher( urlString );
 		if ( !itemMatcher.find() )
 		{
-			return true;
+			return null;
 		}
 
 		// Item ID of the base staff
@@ -99,11 +99,41 @@ public class ChefStaffRequest
 
 		// Find chefstaff item ID
 		int itemId = ConcoctionPool.findConcoction( KoLConstants.STAFF, baseId );
+		return ConcoctionDatabase.getIngredients( itemId );
+	}
+
+	public static final boolean parseCreation( final String urlString, final String responseText )
+	{
+                System.out.println( "parse creation url = '" + urlString + "'" );
+		if ( responseText.indexOf( "You don't have all of the items I'll need to make that Chefstaff." ) == -1 )
+		{
+			return true;
+		}
+
+		AdventureResult[] ingredients = ChefStaffRequest.staffIngredients( urlString );
+		if ( ingredients == null )
+		{
+			return false;
+		}
+
+		for ( int i = 0; i < ingredients.length; ++i )
+		{
+			ResultProcessor.processResult( ingredients[ i ] );
+		}
+
+		return false;
+	}
+
+	public static final boolean registerRequest( final String urlString )
+	{
+		if ( ingredients == null )
+		{
+			return true;
+		}
 
 		StringBuffer chefstaffString = new StringBuffer();
 		chefstaffString.append( "Chefstaff " );
 
-		AdventureResult[] ingredients = ConcoctionDatabase.getIngredients( itemId );
 		for ( int i = 0; i < ingredients.length; ++i )
 		{
 			if ( i > 0 )
