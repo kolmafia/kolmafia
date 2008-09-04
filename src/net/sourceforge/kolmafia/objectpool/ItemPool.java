@@ -316,6 +316,8 @@ public class ItemPool
 	public static final int WORM_RIDING_HOOKS = 2302;
 	public static final int CANDY_BOOK = 2303;
 	public static final int DRUM_MACHINE = 2328;
+	public static final int CONFETTI = 2329;
+	public static final int HOLY_MACGUFFIN = 2334;
 	public static final int BLACK_PUDDING = 2338;
 	public static final int GUNPOWDER = 2403;
 	public static final int JAM_BAND_FLYERS = 2404;
