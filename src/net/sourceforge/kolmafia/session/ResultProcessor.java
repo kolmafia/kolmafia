@@ -866,6 +866,14 @@ public class ResultProcessor
 			ResultProcessor.processItem( ItemPool.WET_STUNT_NUT_STEW, -1 );
 			break;
 
+		case ItemPool.CONFETTI:
+			// If you get the confetti, you lose the Holy MacGuffin
+			if ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.HOLY_MACGUFFIN, 1 ) ) )
+			{
+				ResultProcessor.processItem( ItemPool.HOLY_MACGUFFIN, -1 );
+			}
+			break;
+
 		case ItemPool.STEEL_STOMACH:
 		case ItemPool.STEEL_LIVER:
 		case ItemPool.STEEL_SPLEEN:

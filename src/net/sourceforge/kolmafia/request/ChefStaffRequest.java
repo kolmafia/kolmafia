@@ -104,7 +104,6 @@ public class ChefStaffRequest
 
 	public static final boolean parseCreation( final String urlString, final String responseText )
 	{
-                System.out.println( "parse creation url = '" + urlString + "'" );
 		if ( responseText.indexOf( "You don't have all of the items I'll need to make that Chefstaff." ) == -1 )
 		{
 			return true;
