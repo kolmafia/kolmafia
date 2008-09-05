@@ -320,11 +320,17 @@ public class IslandDecorator
 			int threshold = IslandDecorator.AREA_UNLOCK[ i ];
 			if ( last < threshold && current >= threshold )
 			{
-				return "<b>The " + areas[ i ] + " is now accessible in this uniform!</b><br>";
+				return "The " + areas[ i ] + " is now accessible in this uniform!";
 			}
 		}
 
-		return "";
+		return null;
+	}
+
+	private static final String areaMessageHTML( final int last, final int current )
+	{
+		String message = areaMessage( last, current );
+		return message == null ? "" : "<b>" + message + "</b><br>";
 	}
 
 	public static final void decorateBattlefieldFight( final StringBuffer buffer )
@@ -362,7 +368,7 @@ public class IslandDecorator
 		}
 
 		String message =
-			"<p><center>" + victoryMessage( last, current ) + "<br>" + areaMessage( last, current ) + "</center>";
+			"<p><center>" + victoryMessage( last, current ) + "<br>" + areaMessageHTML( last, current ) + "</center>";
 
 		buffer.insert( index, message );
 	}
@@ -1073,6 +1079,14 @@ public class IslandDecorator
 
 		RequestLogger.updateSessionLog( message );
 		RequestLogger.printLine( message );
+
+		message = areaMessage( last, current );
+
+		if ( message != null )
+		{
+			RequestLogger.updateSessionLog( message );
+			RequestLogger.printLine( message );
+		}
 	}
 
 	// Crowther spaded how many kills it takes to display an image in:
