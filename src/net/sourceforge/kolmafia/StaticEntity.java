@@ -48,6 +48,7 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.request.AccountRequest;
+import net.sourceforge.kolmafia.request.ArtistRequest;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
 import net.sourceforge.kolmafia.request.ChefStaffRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -372,6 +373,11 @@ public abstract class StaticEntity
 		if ( location.indexOf( "hermit.php" ) != -1 )
 		{
 			HermitRequest.parseHermitTrade( location, responseText );
+		}
+
+		if ( location.startsWith( "town_wrong.php" ) )
+		{
+			ArtistRequest.parseResponse( location, responseText );
 		}
 
 		if ( location.indexOf( "action=makestaff" ) != -1 )

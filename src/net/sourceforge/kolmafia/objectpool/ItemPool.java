@@ -76,6 +76,7 @@ public class ItemPool
 	public static final int SKELETON_BONE = 163;
 	public static final int ENCHANTED_BEAN = 186;
 	public static final int BATSKIN_BELT = 192;
+	public static final int RAT_WHISKER = 197;
 	public static final int DISASSEMBLED_CLOVER = 196;
 	public static final int FENG_SHUI = 210;
 	public static final int FOUNTAIN = 211;
@@ -102,6 +103,8 @@ public class ItemPool
 	public static final int JOLLY_BRACELET = 413;
 	public static final int CHEF = 438;
 	public static final int BARTENDER = 440;
+	public static final int PRETENTIOUS_PAINTBRUSH = 450;
+	public static final int PRETENTIOUS_PALETTE = 451;
 	public static final int TRANSFUNCTIONER = 458;
 	public static final int WHITE_PIXEL = 459;
 	public static final int BLACK_PIXEL = 460;
@@ -194,6 +197,7 @@ public class ItemPool
 	public static final int GIFT11 = 1177;
 	public static final int RAT_BALLOON = 1218;
 	public static final int TOY_HOVERCRAFT = 1243;
+	public static final int PRETENTIOUS_PAIL = 1258;
 	public static final int WAX_LIPS = 1260;
 	public static final int NOSE_BONE_FETISH = 1264;
 	public static final int DEAD_MIMIC = 1267;
