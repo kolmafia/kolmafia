@@ -1,6 +1,6 @@
 1
 # Original familiar arena stats from Vladjimir's arena data
-# http://www.the-rye.dreamhosters.com/familiars/
+# http://www.therye.org/familiars/
 
 1	Mosquito	combat	275	hypodermic needle	2	1	3	0
 2	Leprechaun	meat0	276	Meat detector	1	3	0	2
@@ -82,7 +82,7 @@
 80	RoboGoose	none	3107	overclocked avian microprocessor	2	3	1	0
 81	El Vibrato Megadrone	none	3217		3	3	3	3
 82	Mad Hatrack	none	3219		3	0	1	2
-89	Hobo Monkey	meat0	3342	tiny bindle	1	3	2	2
+89	Hobo Monkey	meat0	3342	tiny bindle	0	3	3	3
 90	Llama Lama	none	3351	zen motorcycle	1	2	3	2
 91	Cotton Candy Carnie	none	3431	cotton candy cordial	0	2	2	3
 93	Black Cat	none	3443		0	0	0	0

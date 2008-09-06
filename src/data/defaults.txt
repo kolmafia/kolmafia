@@ -181,6 +181,8 @@ user	demonName2
 user	demonName3
 user	demonName4
 user	demonName5
+user	demonName6	Tatter
+user	demonName7	Ak'gyxoth
 user	expressCardUsed	false
 user	fratboysDefeated	0
 user	grimoire1Summons	0

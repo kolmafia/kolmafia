@@ -70,7 +70,9 @@ public class KoLAdventure
 		{ "Spooky Forest", "Preternatural Greed" },
 		{ "Sonofa Beach", "Fit To Be Tide" },
 		{ "Deep Fat Friars' Gate", "Big Flaming Whip" },
-		{ "Haunted Bathroom", "Demonic Taint" }
+		{ "Haunted Bathroom", "Demonic Taint" },
+		{ null, "pile of smoking rags" },
+		{ null, "Drinks" },
 	};
 
 	private static final GenericRequest ZONE_UNLOCK = new GenericRequest( "" );
