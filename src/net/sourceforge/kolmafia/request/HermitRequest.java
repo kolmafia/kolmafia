@@ -57,12 +57,12 @@ public class HermitRequest
 
 	public static final AdventureResult PERMIT = new AdventureResult( 42, 1 );
 
-	public static final AdventureResult TRINKET = new AdventureResult( ItemPool.WORTHLESS_TRINKET, 1 );
-	public static final AdventureResult GEWGAW = new AdventureResult( ItemPool.WORTHLESS_GEWGAW, 1 );
-	public static final AdventureResult KNICK_KNACK = new AdventureResult( ItemPool.WORTHLESS_KNICK_KNACK, 1 );
+	public static final AdventureResult TRINKET = ItemPool.get( ItemPool.WORTHLESS_TRINKET, 1 );
+	public static final AdventureResult GEWGAW = ItemPool.get( ItemPool.WORTHLESS_GEWGAW, 1 );
+	public static final AdventureResult KNICK_KNACK = ItemPool.get( ItemPool.WORTHLESS_KNICK_KNACK, 1 );
 
-	private static final AdventureResult HACK_SCROLL = new AdventureResult( 567, 1 );
-	private static final AdventureResult SUMMON_SCROLL = new AdventureResult( 553, 1 );
+	private static final AdventureResult HACK_SCROLL = ItemPool.get( 567, 1 );
+	private static final AdventureResult SUMMON_SCROLL = ItemPool.get( 553, 1 );
 
 	private final int itemId;
 

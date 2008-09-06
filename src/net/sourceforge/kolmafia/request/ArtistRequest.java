@@ -1,0 +1,131 @@
+/**
+ * Copyright (c) 2005-2008, KoLmafia development team
+ * http://kolmafia.sourceforge.net/
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ *  [1] Redistributions of source code must retain the above copyright
+ *      notice, this list of conditions and the following disclaimer.
+ *  [2] Redistributions in binary form must reproduce the above copyright
+ *      notice, this list of conditions and the following disclaimer in
+ *      the documentation and/or other materials provided with the
+ *      distribution.
+ *  [3] Neither the name "KoLmafia" nor the names of its contributors may
+ *      be used to endorse or promote products derived from this software
+ *      without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+ * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package net.sourceforge.kolmafia.request;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.session.ResultProcessor;
+
+public class ArtistRequest
+	extends GenericRequest
+{
+	public static final AdventureResult WHISKER = ItemPool.get( ItemPool.RAT_WHISKER, 1 );
+
+	public ArtistRequest()
+	{
+		this(false);
+	}
+
+	public ArtistRequest( boolean whiskers)
+	{
+		super( "town_wrong.php");
+		this.addFormField( "place", "artist" );
+		if ( whiskers )
+		{
+			this.addFormField( "action", "whisker" );
+		}
+	}
+
+	public void processResults()
+	{
+                ArtistRequest.parseResponse( this.getURLString(), this.responseText );
+	}
+
+	public static final boolean parseResponse( final String location, final String responseText )
+	{
+		String message = "You have unlocked a new tattoo.";
+		if ( responseText.indexOf( message ) != -1 )
+		{
+			RequestLogger.printLine( message );
+			RequestLogger.updateSessionLog( message );
+		}
+
+		// The artist pours the pail of paint into a huge barrel, then
+		// says "Oh, hey, umm, do you want this empty pail? I don't
+		// really have room for it, so if you want it, you can have it.
+
+		if ( responseText.indexOf( "do you want this empty pail" ) != -1 )
+		{
+			ResultProcessor.processItem( ItemPool.PRETENTIOUS_PALETTE, -1 );
+			ResultProcessor.processItem( ItemPool.PRETENTIOUS_PAINTBRUSH, -1 );
+			ResultProcessor.processItem( ItemPool.PRETENTIOUS_PAIL, -1 );
+			return true;
+		}
+
+		if ( location.indexOf( "action=whisker" ) != -1 )
+		{
+			int count = ArtistRequest.WHISKER.getCount( KoLConstants.inventory );
+			ResultProcessor.processItem( ItemPool.RAT_WHISKER, -count );
+			return true;
+		}
+
+		return false;
+	}
+
+	public static final boolean registerRequest( final String urlString )
+	{
+		if ( !urlString.startsWith( "town_wrong.php" ) )
+		{
+			return false;
+		}
+
+		String message;
+		if ( urlString.indexOf( "action=whisker" ) != -1 )
+		{
+			int count = ArtistRequest.WHISKER.getCount( KoLConstants.inventory );
+			message = "Selling " + count + " rat whisker" + ( count > 1 ? "s" : "" ) + " to the pretentious artist";
+		}
+		else if ( urlString.indexOf( "place=artist" ) != -1 )
+		{
+			RequestLogger.printLine( "" );
+			RequestLogger.updateSessionLog();
+			message = "Visiting the pretentious artist";
+		}
+		else
+		{
+			return false;
+		}
+
+		RequestLogger.printLine( message );
+		RequestLogger.updateSessionLog( message );
+
+		return true;
+	}
+}
