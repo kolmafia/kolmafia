@@ -1680,7 +1680,10 @@ public class KoLmafiaCLI
 				String index = String.valueOf( i + 1 );
 
 				RequestLogger.printLine( index + ": " + Preferences.getString( "demonName" + index ) );
-				RequestLogger.printLine( " => Found in the " + KoLAdventure.DEMON_TYPES[ i ][ 0 ] );
+				if ( KoLAdventure.DEMON_TYPES[ i ][ 0 ] != null )
+				{
+					RequestLogger.printLine( " => Found in the " + KoLAdventure.DEMON_TYPES[ i ][ 0 ] );
+				}
 				RequestLogger.printLine( " => Gives " + KoLAdventure.DEMON_TYPES[ i ][ 1 ] );
 			}
 
