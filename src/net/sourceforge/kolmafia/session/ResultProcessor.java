@@ -46,6 +46,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -69,6 +70,7 @@ public class ResultProcessor
 	private static Pattern HAIKU_PATTERN = Pattern.compile( "<[tT]able><tr><td[^>]*?><img[^>]*/([^/]*\\.gif)[^>]*?('descitem\\((.*?)\\)')?></td>(<td[^>]*><[tT]able><tr>)?<td[^>]*?>(.*?)</td>(</tr></table></td>)?</tr></table>" );
 	private static Pattern INT_PATTERN = Pattern.compile( ".*?([\\d]+).*" );
 
+	private static AdventureResult haikuEffect = EffectPool.get( EffectPool.HAIKU_STATE_OF_MIND );
 	private static boolean receivedClover = false;
 	
 	public static boolean shouldDisassembleClovers( String formURLString )
@@ -102,7 +104,7 @@ public class ResultProcessor
 			RequestLogger.updateDebugLog( "Processing results..." );
 		}
 
-		if ( KoLAdventure.lastAdventureId() == 138 )
+		if ( haveHaikuResults() )
 		{
 			return processHaikuResults( results );
 		}
@@ -133,6 +135,12 @@ public class ResultProcessor
 
 		KoLmafia.applyEffects();
 		return requiresRefresh;
+	}
+
+	private static boolean haveHaikuResults()
+	{
+                return KoLAdventure.lastAdventureId() == 138 ||
+		       KoLConstants.activeEffects.contains( haikuEffect );
 	}
 
 	private static boolean processHaikuResults( String results )
