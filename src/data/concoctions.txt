@@ -588,6 +588,14 @@ fez of etymology	4	basic meat fez	facsimile dictionary
 meat cowboy hat	4	basic meat helmet	white snake skin
 pimpin' meat hat	4	basic meat helmet	dope gangsta bling-bling
 
+
+# Weapon made via armorcrafting
+
+# There are two equivalent recipes
+gatorskin umbrella	14	titanium assault umbrella	gator skin
+# gatorskin umbrella	14	goatskin umbrella	gator skin
+
+
 # Accessories made of hides of various sorts.
 
 black belt	14	black snake skin	enormous belt buckle
