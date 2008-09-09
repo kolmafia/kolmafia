@@ -964,7 +964,7 @@ public abstract class ChatManager
 
 			String plainTextEvent = KoLConstants.ANYTAG_PATTERN.matcher( displayHTML ).replaceAll( "" );
 
-			KoLConstants.eventHistory.add( ChatManager.EVENT_TIMESTAMP.format( new Date() ) + " - " + plainTextEvent );
+			EventManager.addEvent( ChatManager.EVENT_TIMESTAMP.format( new Date() ) + " - " + plainTextEvent, true );
 			ChatManager.broadcastMessage( displayHTML );
 
 			return;

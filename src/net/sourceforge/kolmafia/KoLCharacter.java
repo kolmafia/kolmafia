@@ -43,6 +43,7 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.EventManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.TurnCounter;
@@ -397,7 +398,7 @@ public abstract class KoLCharacter
 		// carry over from player to player.
 
 		KoLConstants.conditions.clear();
-		KoLConstants.eventHistory.clear();
+		EventManager.clearEventHistory();
 		KoLConstants.recentEffects.clear();
 		KoLConstants.activeEffects.clear();
 
