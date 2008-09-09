@@ -60,6 +60,7 @@ import net.sourceforge.kolmafia.session.BuffBotManager;
 import net.sourceforge.kolmafia.session.ChatManager;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.DisplayCaseManager;
+import net.sourceforge.kolmafia.session.EventManager;
 import net.sourceforge.kolmafia.session.MailManager;
 import net.sourceforge.kolmafia.session.MushroomManager;
 import net.sourceforge.kolmafia.session.StoreManager;
@@ -217,7 +218,7 @@ public class KoLmafiaGUI
 
 			for ( int i = 0; i < initialFrames.length; ++i )
 			{
-				if ( !initialFrames[ i ].equals( "RecentEventsFrame" ) || !KoLConstants.eventHistory.isEmpty() )
+				if ( !initialFrames[ i ].equals( "RecentEventsFrame" ) || EventManager.hasEvents() )
 				{
 					KoLmafiaGUI.constructFrame( initialFrames[ i ] );
 				}

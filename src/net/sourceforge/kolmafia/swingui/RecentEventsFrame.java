@@ -35,10 +35,10 @@ package net.sourceforge.kolmafia.swingui;
 
 import javax.swing.JTabbedPane;
 
-import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.session.EventManager;
 import net.sourceforge.kolmafia.swingui.panel.ScrollablePanel;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
 
@@ -61,13 +61,13 @@ public class RecentEventsFrame
 	{
 		public EventsPanel()
 		{
-			super( "Recent Events", "clear", "check", new ShowDescriptionList( KoLConstants.eventHistory ) );
+			super( "Recent Events", "clear", "check", new ShowDescriptionList( EventManager.getEventHistory() ) );
 		}
 
 		public void actionConfirmed()
 		{
 			// Clear list of events
-			KoLConstants.eventHistory.clear();
+			EventManager.clearEventHistory();
 		}
 
 		public void actionCancelled()

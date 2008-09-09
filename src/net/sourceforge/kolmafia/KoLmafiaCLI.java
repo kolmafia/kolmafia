@@ -101,6 +101,7 @@ import net.sourceforge.kolmafia.session.BuffBotManager;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.EventManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LeafletManager;
 import net.sourceforge.kolmafia.session.MoodManager;
@@ -1008,11 +1009,11 @@ public class KoLmafiaCLI
 		{
 			if ( parameters.equals( "clear" ) )
 			{
-				KoLConstants.eventHistory.clear();
+				EventManager.clearEventHistory();
 			}
 			else
 			{
-				RequestLogger.printList( KoLConstants.eventHistory );
+				RequestLogger.printList( EventManager.getEventHistory() );
 			}
 
 			return;

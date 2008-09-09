@@ -426,6 +426,5 @@ public interface KoLConstants
 	// Locations where session information is displayed for the user.
 	// Include just the event history buffer and the command line buffer.
 
-	public static final LockableListModel eventHistory = new LockableListModel();
 	public static final LimitedSizeChatBuffer commandBuffer = new LimitedSizeChatBuffer();
 }

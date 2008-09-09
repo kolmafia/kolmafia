@@ -54,11 +54,8 @@ import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.swing.SwingUtilities;
-
 import net.sourceforge.foxtrot.Job;
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.CreateFrameRunnable;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -70,11 +67,10 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
 import net.sourceforge.kolmafia.persistence.Preferences;
-import net.sourceforge.kolmafia.request.EquipmentRequest;
-import net.sourceforge.kolmafia.session.ChatManager;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.EventManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LouvreManager;
 import net.sourceforge.kolmafia.session.OceanManager;
@@ -84,10 +80,8 @@ import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.ValhallaManager;
 import net.sourceforge.kolmafia.session.VioletFogManager;
 import net.sourceforge.kolmafia.swingui.CouncilFrame;
-import net.sourceforge.kolmafia.swingui.RecentEventsFrame;
 import net.sourceforge.kolmafia.swingui.RequestFrame;
 import net.sourceforge.kolmafia.swingui.RequestSynchFrame;
-import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -112,9 +106,6 @@ public class GenericRequest
 			GenericRequest.addAdditionalCache();
 		}
 	}
-
-	private static final Pattern EVENT_PATTERN =
-		Pattern.compile( "bgcolor=orange><b>New Events:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid orange;\"><center><table><tr><td>(.*?)</td></tr></table>.*?<td height=4></td></tr></table>" );
 
 	public static final Pattern REDIRECT_PATTERN = Pattern.compile( "([^\\/]+)\\/login\\.php", Pattern.DOTALL );
 
@@ -630,7 +621,7 @@ public class GenericRequest
 
 	public void run()
 	{
-		if ( GenericRequest.serverCookie == null && !( this instanceof LoginRequest ) )
+		if ( GenericRequest.serverCookie == null )
 		{
 			return;
 		}
@@ -918,9 +909,9 @@ public class GenericRequest
 
 	private boolean checkDungeonSewers()
 	{
-                // Somewhat Higher and Mostly Dry
-                // Disgustin' Junction
-                // The Former or the Ladder
+		// Somewhat Higher and Mostly Dry
+		// Disgustin' Junction
+		// The Former or the Ladder
 
 		if ( GenericRequest.lastChoice != 197 && GenericRequest.lastChoice != 198 && GenericRequest.lastChoice != 199 )
 		{
@@ -1549,7 +1540,12 @@ public class GenericRequest
 		// be reused.
 
 		GenericRequest.BYTEFLAGS.set( desiredIndex, Boolean.FALSE );
-		this.processResponse();
+
+		if ( this.responseText != null )
+		{
+			this.processResponse();
+		}
+
 		return true;
 	}
 
@@ -1559,11 +1555,6 @@ public class GenericRequest
 
 	public void processResponse()
 	{
-		if ( this.responseText == null )
-		{
-			return;
-		}
-
 		if ( this.shouldUpdateDebugLog() )
 		{
 			RequestLogger.updateDebugLog( KoLConstants.LINE_BREAK_PATTERN.matcher( this.responseText ).replaceAll( "" ) );
@@ -1571,7 +1562,7 @@ public class GenericRequest
 
 		if ( !this.isChatRequest && !this.formURLString.startsWith( "fight.php" ) )
 		{
-			this.checkForNewEvents();
+			this.responseText = EventManager.checkForNewEvents( this.responseText );
 		}
 
 		if ( GenericRequest.isRatQuest )
@@ -1790,113 +1781,6 @@ public class GenericRequest
 		// 200 (not a redirect or error).
 
 		RequestSynchFrame.showRequest( this );
-	}
-
-	private void checkForNewEvents()
-	{
-		// Capture the entire new events table in order to display the
-		// appropriate message.
-
-		Matcher eventMatcher = GenericRequest.EVENT_PATTERN.matcher( this.responseText );
-		if ( !eventMatcher.find() )
-		{
-			return;
-		}
-
-		// Make an array of events
-		String[] events = eventMatcher.group( 1 ).replaceAll( "<br>", "\n" ).split( "\n" );
-
-		for ( int i = 0; i < events.length; ++i )
-		{
-			if ( events[ i ].indexOf( "/" ) == -1 )
-			{
-				events[ i ] = null;
-			}
-		}
-
-		// Remove the events from the response text
-
-		this.responseText = eventMatcher.replaceFirst( "" );
-
-		boolean shouldLoadEventFrame = false;
-		boolean isChatRunning = ChatManager.isRunning();
-
-		for ( int i = 0; i < events.length; ++i )
-		{
-			if ( events[ i ] == null )
-			{
-				continue;
-			}
-
-			if ( events[ i ].indexOf( "logged" ) != -1 )
-			{
-				continue;
-			}
-
-			String event = events[ i ];
-
-			// The event may be marked up with color and links to
-			// user profiles. For example:
-
-			// 04/25/06 12:53:54 PM - New message received from <a target=mainpane href='showplayer.php?who=115875'><font color=green>Brianna</font></a>.
-			// 04/25/06 01:06:43 PM - <a class=nounder target=mainpane href='showplayer.php?who=115875'><b><font color=green>Brianna</font></b></a> has played a song (The Polka of Plenty) for you.
-
-			// Add in a player Id so that the events can be handled
-			// using a ShowDescriptionList.
-
-			event = event.replaceAll( "</a>", "<a>" ).replaceAll( "<[^a].*?>", " " ).replaceAll( "\\s+", " " );
-			event = event.replaceAll( "<a[^>]*showplayer\\.php\\?who=(\\d+)[^>]*>(.*?)<a>", "$2 (#$1)" );
-
-			if ( event.indexOf( "/" ) == -1 )
-			{
-				continue;
-			}
-
-			shouldLoadEventFrame = true;
-			KoLConstants.eventHistory.add( event );
-
-			// Print everything to the default shell; this way, the
-			// graphical CLI is also notified of events.
-
-			RequestLogger.printLine( event );
-
-			// Balloon messages for whenever the person does not have
-			// focus on KoLmafia.
-
-			if ( StaticEntity.usesSystemTray() )
-			{
-				SystemTrayFrame.showBalloon( event );
-			}
-
-			if ( isChatRunning )
-			{
-				int dash = event.indexOf( "-" );
-				ChatManager.updateChat( "<font color=green>" + event.substring( dash + 2 ) + "</font>" );
-			}
-		}
-
-		if ( shouldLoadEventFrame )
-		{
-			shouldLoadEventFrame = Preferences.getString( "initialFrames" ).indexOf( "RecentEventsFrame" ) != -1;
-		}
-
-		// If we're not a GUI and there are no GUI windows open
-		// (ie: the GUI loader command wasn't used), quit now.
-
-		if ( KoLConstants.existingFrames.isEmpty() )
-		{
-			return;
-		}
-
-		// If we are not running chat, pop up a RecentEventsFrame to
-		// show the events.  Use the standard run method so that you
-		// wait for it to finish before calling it again on another
-		// event.
-
-		if ( !isChatRunning && shouldLoadEventFrame )
-		{
-			SwingUtilities.invokeLater( new CreateFrameRunnable( RecentEventsFrame.class ) );
-		}
 	}
 
 	public final void loadResponseFromFile( final String filename )
