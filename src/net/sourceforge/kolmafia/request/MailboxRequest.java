@@ -163,15 +163,13 @@ public class MailboxRequest
 			return;
 		}
 
-		int nextMessageIndex = this.responseText.indexOf( "<td valign=top>" );
-
-		if ( nextMessageIndex == -1 )
+		if ( this.responseText.indexOf( "<td valign=top>" ) == -1 )
 		{
 			KoLmafia.updateDisplay( "Your mailbox is empty." );
 			return;
 		}
 
-		nextMessageIndex = this.processMessages( nextMessageIndex );
+		this.processMessages();
 		KoLmafia.updateDisplay( "Mail retrieved from page " + this.beginIndex + " of " + this.boxname );
 
 		if ( this.boxname.equals( "PvP" ) && lastMessageId != totalMessages )
@@ -180,21 +178,23 @@ public class MailboxRequest
 		}
 	}
 
-	private int processMessages( final int startIndex )
+	private void processMessages()
 	{
 		boolean shouldContinueParsing = true;
-		int lastMessageIndex = startIndex;
-		int nextMessageIndex = lastMessageIndex;
+
+		int lastMessageIndex = 0;
+		int nextMessageIndex = this.responseText.indexOf( "<td valign=top>" );
 
 		String currentMessage;
-		while ( nextMessageIndex != -1 && shouldContinueParsing )
+
+		do
 		{
 			lastMessageIndex = nextMessageIndex;
 			nextMessageIndex = this.responseText.indexOf( "<td valign=top>", lastMessageIndex + 15 );
 
 			// The last message in the inbox has no "next message
 			// index".  In this case, locate the bold X and use
-			// that as the last message index.
+			// that as the next message index.
 
 			if ( nextMessageIndex == -1 )
 			{
@@ -202,34 +202,37 @@ public class MailboxRequest
 				shouldContinueParsing = false;
 			}
 
+			if ( nextMessageIndex == -1 )
+			{
+				return;
+			}
+
 			// If the next message index is still non-positive, that
 			// means there aren't any messages left to parse.
 
-			if ( nextMessageIndex != -1 )
+			currentMessage = this.responseText.substring( lastMessageIndex, nextMessageIndex );
+
+			// This replaces all of the HTML contained within the message to something
+			// that can be rendered with the default RequestPane, and also be subject
+			// to the custom font sizes provided by LimitedSizeChatBuffer.
+
+			currentMessage =
+				currentMessage.replaceAll( "<br />", "<br>" ).replaceAll( "</?t.*?>", "\n" ).replaceAll(
+					"<blockquote>", "<br>" ).replaceAll( "</blockquote>", "" ).replaceAll( "\n", "" ).replaceAll(
+					"<center>", "<br><center>" );
+
+			// At this point, the message is registered with the mail manager, which
+			// records the message and updates whether or not you should continue.
+
+			if ( BuffBotHome.isBuffBotActive() )
 			{
-				currentMessage = this.responseText.substring( lastMessageIndex, nextMessageIndex );
-
-				// This replaces all of the HTML contained within the message to something
-				// that can be rendered with the default RequestPane, and also be subject
-				// to the custom font sizes provided by LimitedSizeChatBuffer.
-
-				currentMessage =
-					currentMessage.replaceAll( "<br />", "<br>" ).replaceAll( "</?t.*?>", "\n" ).replaceAll(
-						"<blockquote>", "<br>" ).replaceAll( "</blockquote>", "" ).replaceAll( "\n", "" ).replaceAll(
-						"<center>", "<br><center>" );
-
-				// At this point, the message is registered with the mail manager, which
-				// records the message and updates whether or not you should continue.
-
-				if ( shouldContinueParsing )
-				{
-					shouldContinueParsing =
-						( BuffBotHome.isBuffBotActive() ? BuffBotManager.addMessage( this.boxname, currentMessage ) : MailManager.addMessage(
-							this.boxname, currentMessage ) ) != null;
-				}
+				shouldContinueParsing = BuffBotManager.addMessage( this.boxname, currentMessage ) != null;
+			}
+			else
+			{
+				shouldContinueParsing = MailManager.addMessage( this.boxname, currentMessage ) != null;
 			}
 		}
-
-		return nextMessageIndex;
+		while ( shouldContinueParsing && nextMessageIndex != -1 );
 	}
 }
