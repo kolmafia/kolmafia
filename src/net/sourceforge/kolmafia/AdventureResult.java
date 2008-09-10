@@ -316,6 +316,11 @@ public class AdventureResult
 		return item;
 	}
 
+	public static final AdventureResult tallyItem( final String name )
+	{
+		return new AdventureResult( AdventureResult.NO_PRIORITY, name );
+	}
+
 	/**
 	 * Accessor method to determine if this result is a status effect.
 	 *
