@@ -62,6 +62,7 @@ import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+import net.sourceforge.kolmafia.webui.HobopolisDecorator;
 import net.sourceforge.kolmafia.webui.IslandDecorator;
 
 public class FightRequest
@@ -1185,6 +1186,10 @@ public class FightRequest
 		case 132: // Battlefield (Frat Uniform)
 		case 140: // Battlefield (Hippy Uniform)
 			IslandDecorator.handleBattlefield( responseText );
+			break;
+
+		case 167: // Hobopolis Town Square
+			HobopolisDecorator.handleTownSquare( responseText );
 			break;
 		}
 
