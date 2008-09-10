@@ -621,7 +621,7 @@ public class GenericRequest
 
 	public void run()
 	{
-		if ( GenericRequest.serverCookie == null )
+		if ( GenericRequest.serverCookie == null && !( this instanceof LoginRequest ) )
 		{
 			return;
 		}
