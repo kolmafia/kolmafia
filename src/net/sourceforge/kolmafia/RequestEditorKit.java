@@ -312,6 +312,13 @@ public class RequestEditorKit
 		{
 			displayHTML = displayHTML.replaceAll( "<form(.*?)<tr><td([^>]*)>", "<tr><td$2><form$1" );
 			displayHTML = displayHTML.replaceAll( "</td></tr></form>", "</form></td></tr>" );
+
+			// The following all appear when the WOWbar is active
+			// and are useless without Javascript.
+			displayHTML = displayHTML.replaceAll(  "<img.*?id='dragged'>", "" );
+			displayHTML = displayHTML.replaceAll( "<div class=contextmenu.*?</div>", "");
+			displayHTML = displayHTML.replaceAll( "<div id=topbar>?.*?</div>", "");
+			displayHTML = displayHTML.replaceAll( "<div id='fightform' class='hideform'>.*?</div>(<p><center>You win the fight!)", "$1" );
 		}
 
 		// Doc Galaktik's page is going to get completely
