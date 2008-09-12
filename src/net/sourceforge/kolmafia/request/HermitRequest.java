@@ -51,7 +51,13 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 public class HermitRequest
 	extends GenericRequest
 {
+	private static final Pattern CLOVER_PATTERN = Pattern.compile( "(\\d+) left in stock for today" );
+	private static final Pattern TRADE_PATTERN = Pattern.compile( "whichitem=([\\d,]+).*quantity=(\\d+)" );
+
 	private static boolean checkedForClovers = false;
+	private static int usedWorthless1 = 0;
+	private static int usedWorthless2 = 0;
+	private static int usedWorthless3 = 0;
 
 	public static final AdventureResult WORTHLESS_ITEM = new AdventureResult( 13, 1 );
 
@@ -93,8 +99,8 @@ public class HermitRequest
 		this.quantity = quantity;
 
 		this.addFormField( "action", "trade" );
-		this.addFormField( "quantity", String.valueOf( quantity ) );
 		this.addFormField( "whichitem", String.valueOf( itemId ) );
+		this.addFormField( "quantity", String.valueOf( quantity ) );
 		this.addFormField( "pwd" );
 	}
 
@@ -219,12 +225,12 @@ public class HermitRequest
 			return false;
 		}
 
-		// If you don't have enough Hermit Permits, then failure,
-		// so don't subtract anything.
+		// If you don't have enough Hermit Permits, failure
 
 		if ( responseText.indexOf( "You don't have enough Hermit Permits" ) != -1 )
 		{
 			HermitRequest.checkedForClovers = false;
+                        HermitRequest.restoreInventory();
 			return true;
 		}
 
@@ -242,7 +248,7 @@ public class HermitRequest
 		}
 		else
 		{
-			Matcher cloverMatcher = Pattern.compile( "(\\d+) left in stock for today" ).matcher( responseText );
+			Matcher cloverMatcher = CLOVER_PATTERN.matcher( responseText );
 			if ( cloverMatcher.find() )
 			{
 				int count = Integer.parseInt( cloverMatcher.group( 1 ) );
@@ -252,58 +258,64 @@ public class HermitRequest
 			HermitRequest.checkedForClovers = true;
 		}
 
-		if ( !urlString.startsWith( "hermit.php?" ) )
+		Matcher matcher = HermitRequest.TRADE_PATTERN.matcher( urlString );
+		if ( !matcher.find() )
 		{
+			// We simply visited the hermit
 			return true;
+		}
+
+		int itemId = StringUtilities.parseInt( matcher.group( 1 ) );
+		int quantity = StringUtilities.parseInt( matcher.group( 2 ) );
+
+		if ( responseText.indexOf( "looks confused for a moment" ) != -1 )
+		{
+			// Put back Hermit Permits deducted by registerRequest
+			ResultProcessor.processResult( HermitRequest.PERMIT.getInstance( quantity ) );
 		}
 
 		// If the item is unavailable, assume he was asking for clover
+		// If asked for too many, you get no items
 
-		if ( responseText.indexOf( "doesn't have that item." ) != -1 )
+		if ( responseText.indexOf( "doesn't have that item." ) != -1 ||
+		     responseText.indexOf( "You acquire" ) == -1 )
 		{
+                        HermitRequest.restoreInventory();
 			return true;
-		}
-
-		// If you still didn't acquire items, what went wrong?
-
-		if ( responseText.indexOf( "You acquire" ) == -1 )
-		{
-			return true;
-		}
-
-		int quantity = 1;
-		Matcher quantityMatcher = TransferItemRequest.QUANTITY_PATTERN.matcher( urlString );
-
-		if ( quantityMatcher.find() )
-		{
-			quantity = StringUtilities.parseInt( quantityMatcher.group( 1 ) );
-		}
-
-		if ( quantity <= HermitRequest.getWorthlessItemCount() )
-		{
-			Matcher itemMatcher = TransferItemRequest.ITEMID_PATTERN.matcher( urlString );
-			if ( !itemMatcher.find() )
-			{
-				return true;
-			}
-
-			RequestLogger.updateSessionLog();
-			RequestLogger.updateSessionLog( "hermit " + quantity + " " + ItemDatabase.getItemName( StringUtilities.parseInt( itemMatcher.group( 1 ) ) ) );
-
-			// Subtract the worthless items in order of their priority;
-			// as far as we know, the priority is the item Id.
-
-			if ( responseText.indexOf( "looks confused for a moment" ) == -1 )
-			{
-				ResultProcessor.processResult( HermitRequest.PERMIT.getInstance( 0 - quantity ) );
-			}
-
-			quantity -= HermitRequest.subtractWorthlessItems( HermitRequest.TRINKET, quantity );
-			quantity -= HermitRequest.subtractWorthlessItems( HermitRequest.GEWGAW, quantity );
-			HermitRequest.subtractWorthlessItems( HermitRequest.KNICK_KNACK, quantity );
 		}
 
 		return true;
+	}
+
+	public static final void restoreInventory()
+	{
+		// Restore hermit permits and worthless items deducted by
+		// registerRequest
+
+		int quantity = 0;
+
+		if ( HermitRequest.usedWorthless1 > 0 )
+		{
+			ResultProcessor.processResult( HermitRequest.TRINKET.getInstance( HermitRequest.usedWorthless1 ) );
+			quantity += HermitRequest.usedWorthless1;
+		}
+
+		if ( HermitRequest.usedWorthless2 > 0 )
+		{
+			ResultProcessor.processResult( HermitRequest.GEWGAW.getInstance( HermitRequest.usedWorthless2 ) );
+			quantity += HermitRequest.usedWorthless2;
+		}
+
+		if ( HermitRequest.usedWorthless3 > 0 )
+		{
+			ResultProcessor.processResult( HermitRequest.KNICK_KNACK.getInstance( HermitRequest.usedWorthless3 ) );
+			quantity += HermitRequest.usedWorthless3;
+		}
+
+		if ( quantity > 0 )
+		{
+			ResultProcessor.processResult( HermitRequest.PERMIT.getInstance( quantity ) );
+		}
 	}
 
 	public static final boolean isWorthlessItem( final int itemId )
@@ -332,5 +344,51 @@ public class HermitRequest
 
 		AdventureResult clover = ItemPool.get( ItemPool.TEN_LEAF_CLOVER, 1 );
 		return KoLConstants.hermitItems.contains( clover );
+	}
+
+	public static final boolean registerRequest( final String urlString )
+	{
+		if ( !urlString.startsWith( "hermit.php" ) )
+		{
+			return false;
+		}
+
+		HermitRequest.usedWorthless1 = 0;
+		HermitRequest.usedWorthless2 = 0;
+		HermitRequest.usedWorthless3 = 0;
+
+		RequestLogger.updateSessionLog();
+
+		Matcher matcher = HermitRequest.TRADE_PATTERN.matcher( urlString );
+		if ( !matcher.find() )
+		{
+			RequestLogger.updateSessionLog( "hermit" );
+			return true;
+		}
+
+		int itemId = StringUtilities.parseInt( matcher.group( 1 ) );
+		int quantity = StringUtilities.parseInt( matcher.group( 2 ) );
+
+		RequestLogger.updateSessionLog( "hermit " + quantity + " " + ItemDatabase.getItemName( itemId ) );
+
+		if ( quantity > HermitRequest.getWorthlessItemCount() )
+		{
+			// Asking for too many. Request will fail.
+			return true;
+		}
+
+		// Assume hermit permits are consumed. Fix later, if not.
+		ResultProcessor.processResult( HermitRequest.PERMIT.getInstance( 0 - quantity ) );
+
+		// Subtract the worthless items in order of their priority;
+		// as far as we know, the priority is the item Id.
+
+		HermitRequest.usedWorthless1 = HermitRequest.subtractWorthlessItems( HermitRequest.TRINKET, quantity );
+		quantity -= HermitRequest.usedWorthless1;
+		HermitRequest.usedWorthless2 = HermitRequest.subtractWorthlessItems( HermitRequest.GEWGAW, quantity );
+		quantity -= HermitRequest.usedWorthless2;
+		HermitRequest.usedWorthless3 = HermitRequest.subtractWorthlessItems( HermitRequest.KNICK_KNACK, quantity );
+
+		return true;
 	}
 }
