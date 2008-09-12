@@ -123,7 +123,7 @@ public class MultiUseRequest
 		Matcher useMatcher = MultiUseRequest.USE_PATTERN.matcher( urlString );
 		if ( !useMatcher.find() )
 		{
-			return true;
+			return false;
 		}
 
 		// Item ID of the base item
