@@ -50,8 +50,10 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
@@ -149,6 +151,11 @@ public class UseItemRequest
 	public UseItemRequest( final int consumptionType, final AdventureResult item )
 	{
 		this( UseItemRequest.getConsumptionLocation( consumptionType, item ), consumptionType, item );
+	}
+
+	public static void setLastItemUsed( final AdventureResult item )
+	{
+		UseItemRequest.lastItemUsed = item;
 	}
 
 	private static final String getConsumptionLocation( final int consumptionType, final AdventureResult item )
@@ -1182,23 +1189,6 @@ public class UseItemRequest
 
 			return;
 
-		case ItemPool.PIRATE_SKULL:
-
-			// "Unable to find enough parts, the semi-formed
-			// skeleton gives up and falls to pieces."
-			if ( responseText.indexOf( "gives up and falls to pieces." ) != -1 )
-			{
-				ResultProcessor.processResult( item );
-			}
-			else
-			{
-				ResultProcessor.processItem( ItemPool.PIRATE_CHEST, -1 );
-				ResultProcessor.processItem( ItemPool.PIRATE_PELVIS, -1 );
-				ResultProcessor.processItem( ItemPool.SKELETON_BONE, -8 );
-			}
-			UseItemRequest.showItemUsage( showHTML, responseText, true );
-			break;
-
 		case ItemPool.FENG_SHUI:
 
 			if ( InventoryManager.hasItem( ItemPool.FOUNTAIN ) && InventoryManager.hasItem( ItemPool.WINDCHIMES ) )
@@ -1274,7 +1264,7 @@ public class UseItemRequest
 
 		case ItemPool.ROLLING_PIN:
 
-			// Rolling pins remove dough from your inventory
+			// Rolling pins remove dough from your inventory.
 			// They are not consumed by being used
 
 			ResultProcessor.processItem( ItemPool.DOUGH, 0 - InventoryManager.getCount( ItemPool.DOUGH ) );
@@ -1283,7 +1273,7 @@ public class UseItemRequest
 
 		case ItemPool.UNROLLING_PIN:
 
-			// Unrolling pins remove flat dough from your inventory
+			// Unrolling pins remove flat dough from your inventory.
 			// They are not consumed by being used
 
 			ResultProcessor.processItem( ItemPool.FLAT_DOUGH, 0 - InventoryManager.getCount( ItemPool.FLAT_DOUGH ) );
@@ -1455,39 +1445,74 @@ public class UseItemRequest
 
 			return;
 
-		case ItemPool.QUILL_PEN:
 
-			if ( responseText.indexOf( "You acquire" ) == -1 )
+		case ItemPool.PIRATE_SKULL:
+			UseItemRequest.showItemUsage( showHTML, responseText, true );
+			// Fall through
+
+		case ItemPool.QUILL_PEN:
+		case ItemPool.JOLLY_CHARRRM:
+		case ItemPool.RUM_CHARRRM:
+		case ItemPool.GRUMPY_CHARRRM:
+		case ItemPool.TARRRNISH_CHARRRM:
+		case ItemPool.BOOTY_CHARRRM:
+		case ItemPool.CANNONBALL_CHARRRM:
+		case ItemPool.COPPER_CHARRRM:
+		case ItemPool.TONGUE_CHARRRM:
+		case ItemPool.DOUBLE_SIDED_TAPE:
+
+			// These all create things via "use" or "multiuse" of a
+			// an ingredient which also consumes other ingredients.
+
+			// CreateItemRequest removed all the ingredients and
+			// this method removed the first one. Correct for that.
+
+			ResultProcessor.processResult( item );
+
+			if ( responseText.indexOf( "You acquire" ) != -1 )
 			{
-				UseItemRequest.lastUpdate = "You're missing some parts.";
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
-				ResultProcessor.processResult( item );
 				return;
 			}
 
-			// It worked. Also remove the ink and paper.
-			ResultProcessor.processItem( ItemPool.INKWELL, 0 - item.getCount() );
-			ResultProcessor.processItem( ItemPool.SCRAP_OF_PAPER, 0 - item.getCount() );
+			UseItemRequest.lastUpdate = "You're missing some parts.";
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+
+			int concoction = ConcoctionPool.findConcoction( KoLConstants.SINGLE_USE, item.getItemId() );
+
+			// CreateItemRequest already dealt with consuming the
+			// raw materials. None were actually used.
+
+			if ( concoction != -1 )
+			{
+				AdventureResult[] ingredients = ConcoctionDatabase.getIngredients( concoction );
+
+				// Put back the ingredients
+				for ( int i = 0; i < ingredients.length; ++i )
+				{
+					AdventureResult ingredient = ingredients[ i ];
+					ResultProcessor.processItem( ingredient.getItemId(), ingredient.getCount() );
+				}
+			}
+
 			return;
 
 		case ItemPool.PALM_FROND:
 		case ItemPool.MUMMY_WRAP:
 		case ItemPool.DUCT_TAPE:
 		case ItemPool.CLINGFILM:
-
-			if ( responseText.indexOf( "You acquire" ) == -1 )
-			{
-				ResultProcessor.processResult( item );
-			}
-
-			return;
-
+		case ItemPool.TEN_LEAF_CLOVER:
+		case ItemPool.DISASSEMBLED_CLOVER:
+		case ItemPool.BAT_GUANO:
+		case ItemPool.HANDFUL_OF_SAND:
 		case ItemPool.SAND_BRICK:
+		case ItemPool.INTERESTING_TWIG:
+		case ItemPool.LEWD_CARD:
 
-			if ( responseText.indexOf( "You can't build anything" ) != -1 )
-			{
-				ResultProcessor.processResult( item );
-			}
+			// These all create things via "use" or "multiuse" of a
+			// single ingredient. CreateItemRequest already dealt
+			// with consuming the raw materials.
+
+			ResultProcessor.processResult( item );
 
 			return;
 
@@ -1625,24 +1650,6 @@ public class UseItemRequest
 				Preferences.setString( "lastBangPotion" + item.getItemId(), effectData );
 			}
 
-			return;
-
-		case ItemPool.JOLLY_CHARRRM:
-		case ItemPool.RUM_CHARRRM:
-		case ItemPool.GRUMPY_CHARRRM:
-		case ItemPool.TARRRNISH_CHARRRM:
-		case ItemPool.BOOTY_CHARRRM:
-		case ItemPool.CANNONBALL_CHARRRM:
-		case ItemPool.COPPER_CHARRRM:
-		case ItemPool.TONGUE_CHARRRM:
-			if ( responseText.indexOf( "You don't have anything to attach that charrrm to." ) != -1 )
-			{
-				UseItemRequest.lastUpdate = "You need a charrrm bracelet.";
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
-				ResultProcessor.processResult( item );
-				return;
-			}
-			ResultProcessor.processItem( ItemPool.CHARRRM_BRACELET, -1 );
 			return;
 
 		case ItemPool.ANCIENT_CURSED_FOOTLOCKER:
@@ -1909,6 +1916,16 @@ public class UseItemRequest
 		if ( consumptionType == KoLConstants.NO_CONSUME )
 		{
 			return false;
+		}
+
+		if ( consumptionType == KoLConstants.CONSUME_USE || consumptionType == KoLConstants.CONSUME_MULTIPLE )
+		{
+			// See if it is a concoction
+			if ( SingleUseRequest.registerRequest( urlString ) ||
+			     MultiUseRequest.registerRequest( urlString ) )
+			{
+				return true;
+			}
 		}
 
 		String useTypeAsString =

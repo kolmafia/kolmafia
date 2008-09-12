@@ -75,6 +75,7 @@ public class ItemPool
 	public static final int DOUGH = 159;
 	public static final int SKELETON_BONE = 163;
 	public static final int ENCHANTED_BEAN = 186;
+	public static final int BAT_GUANO = 188;
 	public static final int BATSKIN_BELT = 192;
 	public static final int RAT_WHISKER = 197;
 	public static final int DISASSEMBLED_CLOVER = 196;
@@ -367,6 +368,7 @@ public class ItemPool
 	public static final int ANT_PITCHFORK = 2572;
 	public static final int ANT_SICKLE = 2573;
 	public static final int ANT_PICK = 2574;
+	public static final int HANDFUL_OF_SAND = 2581;
 	public static final int SAND_BRICK = 2582;
 	public static final int TASTY_TART = 2591;
 	public static final int LUNCHBOX = 2592;
@@ -474,6 +476,7 @@ public class ItemPool
 	public static final int TATTERED_PAPER_CROWN = 3231;
 	public static final int BAG_OF_CANDY = 3261;
 	public static final int TASTEFUL_BOOK = 3263;
+	public static final int DOUBLE_SIDED_TAPE = 3336;
 	public static final int GRUB = 3356;
 	public static final int MOTH = 3357;
 	public static final int FIRE_ANT = 3358;
@@ -481,6 +484,7 @@ public class ItemPool
 	public static final int STINKBUG = 3360;
 	public static final int DEATH_WATCH_BEETLE = 3361;
 	public static final int LOUSE = 3362;
+	public static final int INTERESTING_TWIG = 3367;
 	public static final int TWIG_HOUSE = 3374;
 	public static final int EMPTY_EYE = 3388;
 	public static final int ICEBALL = 3391;

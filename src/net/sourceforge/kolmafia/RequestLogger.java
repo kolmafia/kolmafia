@@ -674,6 +674,8 @@ public class RequestLogger
 			return;
 		}
 
+		// This must come AFTER CreateItemRequest, which handles all
+		// "create via use" concoctions
 		if ( ( request instanceof UseItemRequest || isExternal ) && UseItemRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
