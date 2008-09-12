@@ -2489,15 +2489,26 @@ public abstract class KoLmafia
 		}
 
 		RequestThread.openRequestSequence();
-		MallPurchaseRequest currentRequest = (MallPurchaseRequest) purchases[ 0 ];
-		AdventureResult itemToBuy = new AdventureResult( currentRequest.getItemId(), 0 );
 
+		MallPurchaseRequest currentRequest = (MallPurchaseRequest) purchases[ 0 ];
+		int currentPrice = currentRequest.getPrice();
+
+		int itemId = currentRequest.getItemId();
+
+		if ( itemId == ItemPool.TEN_LEAF_CLOVER && Preferences.getBoolean( "cloverProtectActive" ) )
+		{
+			// Our clovers will miraculously turn into disassembled
+			// clovers as soon as they are bought.
+
+			itemId = ItemPool.DISASSEMBLED_CLOVER;
+		}
+
+		AdventureResult itemToBuy = ItemPool.get( itemId, 0 );
 		int initialCount = itemToBuy.getCount( KoLConstants.inventory );
 		int currentCount = initialCount;
 		int desiredCount = maxPurchases == Integer.MAX_VALUE ? Integer.MAX_VALUE : initialCount + maxPurchases;
 
 		int previousLimit = 0;
-		int currentPrice = currentRequest.getPrice();
 
 		for ( int i = 0; i < purchases.length && currentCount < desiredCount && KoLmafia.permitsContinue(); ++i )
 		{
@@ -2531,8 +2542,8 @@ public abstract class KoLmafia
 			currentRequest.setLimit( Math.min( previousLimit, desiredCount - currentCount ) );
 			RequestThread.postRequest( currentRequest );
 
-			// Remove the purchase from the list!  Because you
-			// have already made a purchase from the store
+			// Now that you have already made a purchase from the
+			// store, remove the purchase from the list!
 
 			if ( KoLmafia.permitsContinue() )
 			{
@@ -2571,7 +2582,7 @@ public abstract class KoLmafia
 		// With all that information parsed out, we should
 		// refresh the lists at the very end.
 
-		if ( itemToBuy.getCount( KoLConstants.inventory ) >= desiredCount || maxPurchases == Integer.MAX_VALUE )
+		if ( currentCount >= desiredCount || maxPurchases == Integer.MAX_VALUE )
 		{
 			KoLmafia.updateDisplay( "Purchases complete." );
 		}

@@ -42,8 +42,10 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.request.UseItemRequest;
 
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -137,7 +139,9 @@ public class MultiUseRequest
 		}
 
 		int count = StringUtilities.parseInt( useMatcher.group( 2 ) );
-		AdventureResult base = new AdventureResult( baseId, 0 - count );
+
+		UseItemRequest.setLastItemUsed( ItemPool.get( baseId, count ) );
+		AdventureResult base = ItemPool.get( baseId, 0 - count );
 
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( "Use " + count + " " + base.getName() );

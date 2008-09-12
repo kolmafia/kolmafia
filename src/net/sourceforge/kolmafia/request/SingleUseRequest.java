@@ -42,8 +42,10 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.request.UseItemRequest;
 
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -114,7 +116,8 @@ public class SingleUseRequest
 			return false;
 		}
 
-		AdventureResult base = new AdventureResult( baseId, -1 );
+		UseItemRequest.setLastItemUsed( ItemPool.get( baseId, 1 ) );
+		AdventureResult base = ItemPool.get( baseId, -1 );
 
 		AdventureResult[] ingredients = ConcoctionDatabase.getIngredients( result );
 		StringBuffer text = new StringBuffer();

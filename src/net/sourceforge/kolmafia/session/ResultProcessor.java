@@ -80,8 +80,10 @@ public class ResultProcessor
 			return false;
 		}
 
-		return formURLString.startsWith( "adventure.php" ) || formURLString.startsWith( "hermit.php" ) ||
-			formURLString.startsWith( "mallstore.php" ) || formURLString.startsWith( "barrel.php" ) ||
+		return formURLString.startsWith( "adventure.php" ) ||
+			formURLString.startsWith( "hermit.php" ) ||
+			formURLString.startsWith( "mallstore.php" ) ||
+			formURLString.startsWith( "barrel.php" ) ||
 			UseItemRequest.currentItemId() == ItemPool.ELITE_SCROLL;
 	}
 	

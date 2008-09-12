@@ -1601,6 +1601,13 @@ public class GenericRequest
 
 		this.processResults();
 
+		// Let clover protection kick in if needed
+
+		if ( ResultProcessor.shouldDisassembleClovers( this.formURLString ) )
+		{
+			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "use", "* ten-leaf clover" );
+		}
+
 		// Let the mappers do their work
 
 		this.mapCurrentChoice();
@@ -1745,11 +1752,6 @@ public class GenericRequest
 		}
 
 		this.containsUpdate = ResultProcessor.processResults( this.responseText );
-
-		if ( ResultProcessor.shouldDisassembleClovers( this.formURLString ) )
-		{
-			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "use", "* ten-leaf clover" );
-		}
 	}
 
 	public void processResults()
