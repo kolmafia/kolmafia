@@ -687,6 +687,7 @@ bag of Crotchety Pine saplings	0	none
 bag of Saccharine Maple saplings	0	none
 bag of Laughing Willow saplings	0	none
 ball-in-a-cup	0	none
+balloon shield	0	Mus: 10	shield
 barskin buckler	27	none	shield
 basic meat foon	0	Mys: 10
 battered hubcap	220	Mus: 65	shield

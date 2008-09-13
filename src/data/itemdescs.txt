@@ -3470,7 +3470,7 @@
 3463	293461627	bottle of sake	bottles of sake
 3464	435365663	little round pebble	little round pebbles
 3465	303006655	Bash-&#332;s cereal
-3466	261469707	haiku katana	haiku katanas
+3466	261469707	haiku katana	haiku katana
 3467	114774654	bargain flash powder	bags of bargain flash powder
 3468
 3469
@@ -3478,3 +3478,9 @@
 3471
 3472
 3473	524041290	Bash-&#332;s boxtop
+3474
+3475
+3476
+3477
+3478
+3479	562865362	balloon shield

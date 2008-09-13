@@ -108,9 +108,6 @@ Squeezebox of the Ages	4	Rock and Roll Legend	golden reeds
 # Familiar items and their subcomponents which do not serve any other
 # recalled purpose.
 
-balloon helmet	1	long skinny balloon	long skinny balloon
-balloon monkey	1	balloon sword	long skinny balloon
-balloon sword	1	balloon helmet	long skinny balloon
 cocoa egg	2	large cocoa eggshell fragment	large cocoa eggshell fragment
 fertilized ghuol egg	1	ghuol egg	Spooky-Gro fertilizer
 goat	1	anticheese	goat cheese
@@ -977,6 +974,11 @@ Staff of the Well-Tempered Cauldron	26	Staff of the Black Kettle	bat wing chow m
 
 
 # Recipes that involve multi-using a quantity of an item
+
+balloon helmet	27	long skinny balloon (2)
+balloon monkey	27	long skinny balloon (7)
+balloon shield	27	long skinny balloon (4)
+balloon sword	27	long skinny balloon (3)
 
 palm-frond fan	27	palm frond (2)
 palm-frond net	27	palm frond (3)
