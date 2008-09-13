@@ -1500,6 +1500,7 @@ public class UseItemRequest
 		case ItemPool.MUMMY_WRAP:
 		case ItemPool.DUCT_TAPE:
 		case ItemPool.CLINGFILM:
+		case ItemPool.LONG_SKINNY_BALLOON:
 		case ItemPool.TEN_LEAF_CLOVER:
 		case ItemPool.DISASSEMBLED_CLOVER:
 		case ItemPool.BAT_GUANO:
