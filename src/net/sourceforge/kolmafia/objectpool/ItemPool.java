@@ -102,6 +102,7 @@ public class ItemPool
 	public static final int PIRATE_SKULL = 407;
 	public static final int JOLLY_CHARRRM = 411;
 	public static final int JOLLY_BRACELET = 413;
+	public static final int LONG_SKINNY_BALLOON = 433;
 	public static final int CHEF = 438;
 	public static final int BARTENDER = 440;
 	public static final int PRETENTIOUS_PAINTBRUSH = 450;
