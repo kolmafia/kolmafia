@@ -110,7 +110,7 @@ Amateur Ninja	HP: 0	bargain flash powder	third-hand nunchaku
 An Angry Bugbear	HP: 12 Def: 15 Atk: 15
 An Annoying Spooky Gravy Fairy	HP: 20 Def: 20 Atk: 20 E: spooky	annoying pitchfork (100)
 Ancient Insane Monk	HP: 0	little round pebble	bottle of sake	Bash-&#332;s cereal
-Ancient Protector Spirit	HP: 8	obsidian dagger (20)	mossy stone sphere (20)	rough stone sphere (20)	smooth stone sphere (20)	cracked stone sphere (20)
+Ancient Protector Spirit	HP: 80 Def: 158 Atk: 158	obsidian dagger (20)	mossy stone sphere (20)	rough stone sphere (20)	smooth stone sphere (20)	cracked stone sphere (20)
 Anglerbush	HP: 10 Def: 9 Atk: 9	meat stack (35)
 Angry Pi&ntilde;ata	HP: 20 Def: 22 Atk: 22	pile of candy (100)
 Angry Raccoon Puppet	HP: 20 Def: 35 Atk: 35	felt (1)	stuffing (10)	googly eye (1)
@@ -142,7 +142,7 @@ Black Widow	HP: 121	black picnic basket (15)	black pension check (30)
 Blackberry Bush	HP: 136	blackberry (15)	blackberry (15)	blackberry (15)
 Blooper	HP: 15 Def: 25 Atk: 25	white pixel (70)	white pixel (70)	white pixel (70)
 Blur	HP: 145	drum machine (30)	palm frond (10)	hot date (5)	carbonated water lily (10)
-Boaraffe	HP: 145
+Boaraffe	HP: 145 Def: 145 Atk: 145 Meat: 83-116	long pork (0)
 Bob Racecar	HP: 139 Def: 124 Atk: 118 Meat: 42-66	ketchup hound (35)	leather chaps (15)	mesh cap (15)	stunt nuts (30)
 Bookbat	HP: 54 Def: 49 Atk: 49	tattered scrap of paper (30)
 Booze Giant	HP: 66 Def: 76 Atk: 76	bottle of gin (15)	bottle of rum (15)	bottle of tequila (15)	bottle of vodka (15)	bottle of whiskey (15)	boxed wine (15)
@@ -180,9 +180,9 @@ Clownlord Beelzebozo	HP: 65
 Cold Hobo	HP: 0
 Completely Different Spider	HP: 1 Def: 1 Atk: 1 Meat: 4-7	spider web (25)	spider web (25)
 Confused Goth Music Student	HP: 9 Def: 9 Atk: 9
-Conjoined Zmombie	HP: 124 Def: 71 Atk: 79 E: spooky
+Conjoined Zmombie	HP: 124 Def: 71 Atk: 79 E: spooky Meat: 224-338	cranberries (0)	cranberries (0)	loose teeth (0)
 Cookie-baking Thing from Beyond Time		evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
-Corpulent Zobmie	HP: 50 Def: 55 Atk: 53 E: spooky	cranberries (20)	cranberries (20)	loose teeth (10)
+Corpulent Zobmie	HP: 50 Def: 55 Atk: 53 E: spooky Meat: 60-90	cranberries (20)	cranberries (20)	loose teeth (10)
 Count Bakula	HP: 70 Def: 80 Atk: 80	Talisman of Bakula (100)
 Crazy Bastard	HP: 25 Def: 20 Atk: 20	crazy bastard sword (100)
 Creamy Pirate	HP: 90	creamsicle (20)	cream stout (20)	Oil of Parrrlay (15)	ball polish (0)
@@ -241,21 +241,21 @@ Flock of Stab-Bats	HP: 155 Def: 128 Atk: 135 Meat: 51-80	bat wing (30)	batblade 
 Fluffy Bunny	HP: 1 Def: 1 Atk: 1
 Forest Spirit	HP: 3 Def: 2 Atk: 1	forest tears (30)
 Frat Warrior Drill Sergeant	HP: 200	distressed denim pants (10)	bejeweled pledge pin (10)	beer helmet (10)
-Frog	HP: 1
+Frog	HP: 3 Def: 3 Atk: 3 Meat: 8-12	squashed frog (100)
 Frosty	HP: 0
 Frozen Duck	HP: 180	frozen feather (0)	duct tape (0)
 Fruit Golem	HP: 46 Def: 56 Atk: 56	cherry (15)	orange (15)	lime (15)
 Furry Giant	HP: 150 Def: 135 Atk: 135 EA: sleaze Meat: 120-182	furry fur (35)	disturbing fanfic (30)	wolf mask (10)
 G Imp	HP: 46 Def: 46 Atk: 46 E: heat Meat: 24-39	hot wing (30)	Imp Ale (30)	leather mask (5)
-Gargantulihc	HP: 134 Def: 73 Atk: 77 E: spooky
+Gargantulihc	HP: 134 Def: 73 Atk: 77 E: spooky	lihc eye (0)	lihc eye (0)	lihc face (0)
 Gaudy Pirate	HP: 120	costume sword (5)	enormous hoop earring (10)	gold lam&eacute; pants (5)	snakehead charrrm (30)
-Gaunt Ghuol	HP: 50 Def: 56 Atk: 54 E: spooky	ghuol ears (20)	ghuol egg (20)
+Gaunt Ghuol	HP: 50 Def: 56 Atk: 54 E: spooky Meat: 18-24	ghuol ears (20)	ghuol egg (20)
 Gelatinous Cube	HP: 0	Orcish meat locker	rusty metal ring	rusty metal shaft
 Generic Duck	HP: 188
 Ghastly Organist	HP: 120 Def: 110 Atk: 100	opera mask (20)
 Ghost Miner	HP: 31 Def: 30 Atk: 30 E: spooky	bubblewrap ore (10)	bubblewrap ore (10)	cardboard ore (10)	cardboard ore (10)	styrofoam ore (10)	styrofoam ore (10)
 Ghostly Pickle Factory Worker	HP: 180 Def: 200 Atk: 200	ghost cucumber (30)	ghost cucumber (30)
-Ghuol	HP: 10 Def: 19 Atk: 19 E: spooky Meat: 28-40	ghuol egg (25)	ghuol ears (25)
+Ghuol	HP: 10 Def: 19 Atk: 19 E: spooky Meat: 30-36	ghuol egg (25)	ghuol ears (25)
 Giant Giant Giant Centipede	HP: 142	centipede eggs (20)	handful of sand (25)	handful of sand (15)
 Giant Giant Moth	HP: 11 Def: 12 Atk: 11
 Giant Pair of Tweezers	HP: 8 Def: 18 Atk: 16
@@ -282,7 +282,7 @@ Goth Giant	HP: 150 Def: 130 Atk: 130 Meat: 124-183	awful poetry journal (30)	thi
 Grass Elemental	HP: 50 Def: 60 Atk: 60
 Grassy Pirate	HP: 120	grassy cutlass (10)
 Grave Rober	HP: 12 Def: 22 Atk: 18	dead guy's watch (5)	grave robbing shovel (50)
-Grave Rober Zmobie	HP: 50 Def: 59 Atk: 59 E: spooky	dead guy's watch (10)	rusty grave robbing shovel (10)	loose teeth (10)
+Grave Rober Zmobie	HP: 50 Def: 59 Atk: 59 E: spooky Meat: 40-60	dead guy's watch (10)	rusty grave robbing shovel (10)	loose teeth (10)
 Greasy Duck	HP: 185	flirtatious feather (0)	duct tape (0)
 Green Ops Soldier	HP: 250
 Gritty Pirate	HP: 120	true grit (30)
@@ -297,7 +297,7 @@ Hellion	HP: 52 Def: 52 Atk: 52 E: heat	Hellion cube (30)
 Hockey Elemental	HP: 40 Def: 65 Atk: 65	hockey stick of furious angry rage (100)
 Hodgman, The Hoboverlord	HP: 0
 Hot Hobo	HP: 0
-Huge Ghuol	HP: 129 Def: 71 Atk: 79 E: spooky
+Huge Ghuol	HP: 129 Def: 71 Atk: 79 E: spooky Meat: 258-344	    ghuol ears (0)	ghuol egg (0)
 Hulking Construct	HP: 0	El Vibrato punchcard (104 holes)
 Hung-over Half-Orc Hobo	HP: 1 Def: 1 Atk: 1 E: stench	dirty hobo gloves (30)	Mad Train wine (60)	moxie weed (15)	hobo gristle (0)
 Hunter-Gatherer Cave Elf		tooth (15)	tooth (5)
@@ -364,8 +364,8 @@ Monty Basingstoke-Pratt, IV	HP: 240
 Naughty Sorceress
 Naughty Sorceress (second form)
 Naughty Sorority Nurse	HP: 160
-Neil	HP: 355
-Newt	HP: 1
+Neil	HP: 355	    bullet-proof corduroys (0)	green clay bead (0)	Lockenstock&trade; sandals (0)	longhaired hippy wig (100)	reinforced beaded headband (0)
+Newt	HP: 3 Def: 3 Atk: 3 Meat: 8-12	eye of newt (100)
 Next-Generation Frat Boy	HP: 200
 Ninja Snowman (Katana)	HP: 70 Def: 85 Atk: 85 E: cold	frigid ninja stars (20)	frozen nunchaku (5)	icy katana hilt (15)	coal button (0)
 Ninja Snowman (Masked)	HP: 70 Def: 85 Atk: 85 E: cold	cold ninja mask (10)	frigid ninja stars (20)	frozen nunchaku (5)	coal button (0)
@@ -400,10 +400,10 @@ Possibility Giant	HP: 150 Def: 130 Atk: 130 Meat: 122-183	chaos butterfly (20)	p
 Poutine Ooze	HP: 3 Def: 2 Atk: 1	poutine (40)
 Procrastination Giant	HP: 150 Def: 125 Atk: 125 Meat: 122-183	procrastination potion (30)
 Protagonist	HP: 80 Def: 100 Atk: 100 Meat: 58-129	phonics down (40)	ridiculously huge sword (10)	super-spikey hair gel (20)
-Protector Spectre	HP: 116
-Pygmy Assault Squad	HP: 148
-Pygmy Blowgunner	HP: 147
-Pygmy Headhunter	HP: 151 E: sleaze
+Protector Spectre	HP: 116	ancient amulet (100)	spectre scepter (100)
+Pygmy Assault Squad	HP: 148 Def: 152 Atk: 152 Meat: 102-145	bottle of alcohol (0)	pygmy pygment (0)	pygmy spear (0)
+Pygmy Blowgunner	HP: 147 Def: 156 Atk: 156 Meat: 86-118	big bad voodoo mask (0)	pygmy blowgun (0)	pygmy nose-bone (0)
+Pygmy Headhunter	HP: 151 Def: 146 Atk: 146 E: sleaze Meat: 143-207
 Quantum Mechanic	HP: 51 Def: 37 Atk: 37	large box (40)	vorpal blade (15)
 Queen Filthworm	HP: 200	heart of the filthworm queen (100)
 Quiet Healer	HP: 90 Def: 95 Atk: 95 Meat: 66-143	amulet of extreme plot significance (10)	scroll of drastic healing (30)	soft green echo eyedrop antidote (30)
@@ -425,7 +425,7 @@ Rushing Bum	HP: 1 Def: 1 Atk: 1	bum cheek (30)	Mad Train wine (30)	moxie weed (1
 Sabre-Toothed Ferret	HP: 200 E: stench	sabre teeth (25)
 Sabre-Toothed Goat	HP: 50 Def: 68 Atk: 68 Meat: 44-71	goat beard (5)	Sabre teeth (5)	billy idol (0)
 Sabre-Toothed Lime	HP: 8 Def: 14 Atk: 14
-Salamander	HP: 1
+Salamander	HP: 3 Def: 3 Atk: 3 Meat: 8-12	salamander spleen (100)
 Sassy Pirate	HP: 51 Def: 61 Atk: 61 Meat: 16-26	crowbarrr (10)	sunken chest (15)	swashbuckling pants (10)
 Scary Clown	HP: 15 Def: 19 Atk: 19 E: spooky Meat: 20-32	big red clown nose (10)	bloody clown pants (10)	long skinny balloon (40)	empty greasepaint tube (0)
 Scorched Duck	HP: 185	flaming feather (0)	duct tape (0)
@@ -517,7 +517,7 @@ Tomb Servant	HP: 185 E: spooky	canopic jar (30)	ancient protein powder (15)	mumm
 Tonic Water Elemental	HP: 14 Def: 18 Atk: 18
 Toothy Pirate	HP: 75	bottle of rum (20)	cocktail napkin (10)	
 Toothy Sklelton	HP: 50 Def: 58 Atk: 58 E: spooky	loose teeth (20)	loose teeth (20)	skeleton bone (20)
-Topiary Golem	HP: 150 Def: 180 Atk: 180	hedge maze puzzle (65)
+Topiary Golem	HP: 250 Def: 232 Atk: 232	hedge maze puzzle (60)
 Towering Construct	HP: 0	El Vibrato punchcard (165 holes)	El Vibrato punchcard (176 holes)
 Toy-making creature from the Gray Lagoon		evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
 Triffid	HP: 6 Def: 5 Atk: 1	moxie weed (30)	spooky stick (30)	triffid bark (0)

@@ -573,7 +573,7 @@ grass blade	Melee Damage: +5
 grassy cutlass	Melee Damage: +11
 grave robbing shovel	Spooky Damage: +3, Initiative: -10
 grease gun	Moxie: +3, Melee Damage: +3, Sleaze Damage: +3
-haiku katana	Muscle Percent: +15, Melee Damage Percent +50, Critical: 1, Softcore Only
+haiku katana	Muscle Percent: +15, Melee Damage Percent: +50, Critical Hit Percent: +1, Softcore Only
 hairy staff	Mysticality: +7, Spell Damage: +7, MP Regen Min: 5, MP Regen Max: 7
 halfberd	Melee Damage: +2
 happiness	Hot Damage: +12
@@ -695,7 +695,7 @@ white sword	Muscle: +2
 white whip	Experience: +1
 wholeberd	Melee Damage: +6
 wiffle-flail	Mysticality: +3, Muscle: +2, Initiative: +20
-# witty rapier
+witty rapier	Experience: +2
 wooden axe	Muscle: +3
 wooden stakes	Melee Damage: +1
 # worm-riding hooks
@@ -752,7 +752,8 @@ Zombo's shield	Damage Absorption: +50, Spooky Damage: +30, Muscle Percent: +20, 
 anniversary chutney sculpture	Moxie: +1, Muscle: +1, Mysticality: +1
 antique shield	Damage Reduction: 15, Initiative: -10
 # arrow'd heart balloon
-# ball-in-a-cup
+ball-in-a-cup	Experience: +2
+balloon shield	Damage Reduction: 3
 barskin buckler	Damage Reduction: 1, Muscle: +2
 basic meat foon	Mysticality: +3, Spell Damage: +3
 battered hubcap	Damage Reduction: 14, Muscle: +15, Maximum HP: +100, Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
@@ -790,7 +791,7 @@ foon of fulmination	Mysticality: +3, Hot Spell Damage: +8
 # giant stuffed bugbear
 gnauga hide buckler	Damage Reduction: 5, Moxie: +3, Muscle: +3, Mysticality: +3
 # green balloon
-# handmade hobby horse
+handmade hobby horse	Experience: +2
 # heart-shaped balloon
 hippo skin buckler	Damage Reduction: 5, Muscle: +5
 hors d'oeuvre tray	Damage Reduction: 7, Initiative: +20
@@ -827,7 +828,7 @@ rag doll	Muscle: +3
 sawblade shield	Damage Reduction: 11, Melee Damage: +11
 sealskin drum	Melee Damage: +20, Class: "Seal Clubber"
 sebaceous shield	Damage Reduction: 2, Stench Damage: +1, Sleaze Damage: +1
-# set of jacks
+set of jacks	Experience: +2
 sewer turtle	Damage Reduction: 1, Stench Damage: +1
 six-rainbow shield	Maximum HP: +50, Damage Reduction: 12, Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3
 snake shield	Damage Reduction: 7, Muscle: +6
@@ -1075,7 +1076,7 @@ lucky bottlecap	Single Equip, Moxie Percent: +5, Muscle Percent: +5, Mysticality
 lucky rabbit's foot	Item Drop: +7, Meat Drop: +7
 makeshift SCUBA gear	Stench Resistance: +2, Item Drop: -100, Initiative: -100
 makeshift cape	Item Drop: +5
-mayfly bait necklace	Single Equip
+mayfly bait necklace	Single Equip, Item Drop: +10, Meat Drop: +10, Softcore Only
 monster bait	Single Equip, Combat Rate: +5
 natty blue ascot	Meat Drop: +20
 navel ring of navel gazing	Single Equip, Intrinsic Effect: "Omphaloskepsis", Mysticality Percent: +25, Spell Damage Percent: +100, Mana Cost: -1, Softcore Only
@@ -1509,7 +1510,7 @@ Contagious Bad Luck	Mysticality Percent: -20
 Contemptible Emanations	Monster Level: +20
 Chorale of Companionship	Familiar Weight: +10
 Crimbo Epiphany	Mysticality Percent: +10
-# Crotchety, Pining	Melee Damage: +10
+Crotchety, Pining	Melee Damage Percent: +300
 Cupcake of Choice	Item Drop: +30
 Cupshotten	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1, Muscle Percent: -20, Mysticality Percent: -20, Moxie Percent: -20
 Cuts Like a Buttered Knife	Sleaze Damage: +50
@@ -1632,7 +1633,7 @@ Make Meat FA$T!	Meat Drop: +20
 Man's Worst Enemy	Familiar Weight: +5
 Mariachi Mood	Moxie: +1, Maximum HP: +4
 Material Witness	Meat Drop: +15
-# Melancholy Burden	Item Drop: +60
+Melancholy Burden	Item Drop: +60
 Memento Moir&eacute;	Experience: +3
 Minioned	Muscle: +20, Mysticality: -5, Moxie: -5
 Missing Fingers	Muscle: -3
@@ -1750,7 +1751,7 @@ Temporary Lycanthropy	Muscle Percent: +0
 Tenacity of the Snapper	Melee Damage: +8
 Tenuous Grip on Reality	Moxie Percent: -95
 Tetanus	Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10
-# The Ballad of Richie Thingfinder	Meat Drop: +50, Item Drop: +25
+The Ballad of Richie Thingfinder	Meat Drop: +50, Item Drop: +20
 The Cupcake of Wrath	Monster Level: +10
 The Great Tit's Blessing	Monster Level: +20
 The Magical Mojomuscular Melody	Mysticality: +10, Maximum MP: +20
@@ -1777,7 +1778,7 @@ Vitamin-Maxed	Muscle Percent: +10
 Wasabi Sinuses	Experience: -1, Item Drop: -10, Meat Drop: +30
 Weather, Man	Muscle Percent: +30, Mysticality Percent: +30, Moxie Percent: +30
 Well-Oiled	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
-# Well-preserved
+Well-preserved	HP Regen Min: 150, HP Regen Max: 200
 What's That Smell?	Stench Damage: +3
 Whitened Teeth	Moxie Percent: +10
 Winklered	Meat Drop: +40
@@ -1785,27 +1786,27 @@ Wintergreen Warmongery	Muscle: +30
 Woad Warrior	Muscle: +25
 Wreathed in Merriment	Moxie Percent: +10
 Wussiness	Muscle: -3
-Your #1 Problem	Muscle: -20, Mysticality: -20, Moxie: -20
+Your #1 Problem	Muscle: -20, Mysticality: -20, Moxie: -20, Item Drop: +100
 Your Cupcake Senses Are Tingling	Meat Drop: +30
 Yuletide Sappiness	Mysticality Percent: +10
 
 # Passive Skills section of modifiers.txt
 
-# Abs of Tin	Maximum HP Percent: +10
+Abs of Tin	Maximum HP Percent: +10
 Amphibian Sympathy	Familiar Weight: +5
 Claws of the Otter	Melee Damage: +3
 Claws of the Walrus	Melee Damage: +4
 Cold-Blooded Fearlessness	Spooky Resistance: +2
-# Cosmic Ugnderstanding	Maximum MP Percent: +5
+Cosmic Ugnderstanding	Maximum MP Percent: +5
 Diminished Gag Reflex	Stench Resistance: +2
 Expert Panhandling	Meat Drop: +10
 Gnefarious Pickpocketing	Meat Drop: +10
-# Gnomish Hardigness	Maximum HP Percent: +5
+Gnomish Hardigness	Maximum HP Percent: +5
 Heart of Polyester	Sleaze Resistance: +2
 Hide of the Otter	Damage Absorption: +20
 Hide of the Walrus	Damage Absorption: +40
 Mad Looting Skillz	Item Drop: +20
-# Marginally Insane	Maximum MP Percent: +10
+Marginally Insane	Maximum MP Percent: +10
 Natural Born Scrabbler	Item Drop: +5
 Nimble Fingers	Meat Drop: +20
 Northern Exposure	Cold Resistance: +2
@@ -1832,7 +1833,7 @@ Pride	Experience: +4
 
 # Outfits section of modifiers.txt
 
-# 8-Bit Finery
+8-Bit Finery	Initiative: +10
 Antique Arms and Armor	Muscle: +15
 Arboreal Raiment	Stench Resistance: +3
 Black Armaments	Muscle: +6
@@ -1844,7 +1845,7 @@ Cloaca-Cola Uniform	MP Regen Min: 1, MP Regen Max: 3
 # Crimbo Duds
 Dire Drifter Duds	Familiar Weight: +5
 Dyspepsi-Cola Uniform	MP Regen Min: 1, MP Regen Max: 3
-Encephalic Ensemble
+# Encephalic Ensemble
 Filthy Hippy Disguise	Stench Damage: +5
 Frat Boy Ensemble	Sleaze Damage: +5
 Frat Warrior Fatigues	Sleaze Damage: +15
@@ -1852,6 +1853,7 @@ Furry Suit	Moxie Percent: -75, Monster Level: +5
 Glad Bag Glad Rags	Mysticality: +10, Moxie: +10, Sleaze Damage: +5, Stench Damage: +5
 # Gnauga Hides
 Grass Guise	HP Regen Min: 1, HP Regen Max: 3
+# Hodgman's Regal Frippery	Hobo Power: +25
 Hot and Cold Running Ninja Suit	Cold Resistance: +2, Hot Resistance: +2
 # Hyperborean Hobo Habiliments
 Knob Goblin Elite Guard Uniform	Muscle: +7
@@ -1863,9 +1865,9 @@ Palmist Paraphernalia	Moxie: +7
 # Radio Free Regalia
 Star Garb	Muscle: +7, Mysticality: +7, Moxie: +7
 Swashbuckling Getup	Moxie: +7
-# Tapered Threads
+Tapered Threads	Initiative: +30
 # Terrifying Clown Suit
-# Terrycloth Tackle
+Terrycloth Tackle	Damage Absorption: +20
 Time Trappings	Adventures: +3
 # Tropical Crimbo Duds
 Vile Vagrant Vestments	Mana Cost: -5
