@@ -431,7 +431,7 @@
 430	acid-squirting flower	8	all	60
 431	clown shoes	8	all	60
 432	bloody clown pants	10	all	60
-433	long skinny balloon	0	all	22
+433	long skinny balloon	4	all	22
 434	balloon helmet	9	all	60
 435	balloon sword	12	all	60
 436	balloon monkey	5	all	67
