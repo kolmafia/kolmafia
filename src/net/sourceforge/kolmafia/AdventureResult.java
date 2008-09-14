@@ -318,7 +318,9 @@ public class AdventureResult
 
 	public static final AdventureResult tallyItem( final String name )
 	{
-		return new AdventureResult( AdventureResult.NO_PRIORITY, name );
+		AdventureResult item = new AdventureResult( AdventureResult.NO_PRIORITY, name );
+		item.priority = AdventureResult.ITEM_PRIORITY;
+		return item;
 	}
 
 	/**
