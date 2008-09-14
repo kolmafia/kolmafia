@@ -703,6 +703,7 @@ public abstract class KoLmafia
 		Preferences.setBoolean( "breakfastCompleted", false );
 
 		Preferences.setBoolean( "expressCardUsed", false );
+		Preferences.setBoolean( "spiceMelangeUsed", false );
 		Preferences.setInteger( "currentFullness", 0 );
 		Preferences.setInteger( "currentMojoFilters", 0 );
 		Preferences.setInteger( "currentSpleenUse", 0 );

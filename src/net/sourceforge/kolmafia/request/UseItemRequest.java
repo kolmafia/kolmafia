@@ -271,6 +271,10 @@ public class UseItemRequest
 
 		case ItemPool.EXPRESS_CARD:
 			return Preferences.getBoolean( "expressCardUsed" ) ? 0 : 1;
+
+		case ItemPool.SPICE_MELANGE:
+			return Preferences.getBoolean( "spiceMelangeUsed" ) ? 0 : 1;
+
 		}
 
 		Integer key = new Integer( itemId );
@@ -1583,6 +1587,23 @@ public class UseItemRequest
 
 			return;
 
+		case ItemPool.SPICE_MELANGE:
+			
+			// You pop the spice melange into your mouth and chew it up.
+			if ( responseText.indexOf( "too scared to eat any more of that stuff today" ) != -1 )
+			{
+				Preferences.setBoolean( "spiceMelangeUsed", true );
+				ResultProcessor.processResult( item );
+			} 
+			else if ( responseText.indexOf( "You pop the spice melange into your mouth and chew it up" ) != -1 )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.SPICE_MELANGE, -1 ) );
+				Preferences.setInteger( "currentFullness", Preferences.getInteger( "currentFullness" ) - 3 );
+				KoLCharacter.setInebriety( KoLCharacter.getInebriety() - 3 );
+				Preferences.setBoolean( "spiceMelangeUsed", true );
+				KoLCharacter.updateStatus();
+			}
+
 		case ItemPool.NEWBIESPORT_TENT:
 		case ItemPool.BARSKIN_TENT:
 		case ItemPool.COTTAGE:
@@ -1947,6 +1968,11 @@ public class UseItemRequest
 			if ( UseItemRequest.lastItemUsed.getItemId() == ItemPool.EXPRESS_CARD )
 			{
 				Preferences.setBoolean( "expressCardUsed", true );
+			}
+
+			if ( UseItemRequest.lastItemUsed.getItemId() == ItemPool.SPICE_MELANGE )
+			{
+				Preferences.setBoolean( "spiceMelangeUsed", true );
 			}
 
 			if ( UseItemRequest.lastItemUsed.getItemId() == ItemPool.MUNCHIES_PILL )
