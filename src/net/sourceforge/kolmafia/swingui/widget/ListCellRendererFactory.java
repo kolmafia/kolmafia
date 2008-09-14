@@ -112,17 +112,22 @@ public class ListCellRendererFactory
 			StringBuffer stringForm = new StringBuffer();
 			stringForm.append( ar.getName() );
 
-			int value = ItemDatabase.getPriceById( ar.getItemId() );
+			int itemId = ar.getItemId();
 
-			if ( value == 0 )
+			if ( itemId > 0 )
 			{
-				stringForm.append( " (no-sell)" );
-			}
-			else
-			{
-				stringForm.append( " (" );
-				stringForm.append( value );
-				stringForm.append( " meat)" );
+				int value = ItemDatabase.getPriceById( itemId );
+
+				if ( value == 0 )
+				{
+					stringForm.append( " (no-sell)" );
+				}
+				else
+				{
+					stringForm.append( " (" );
+					stringForm.append( value );
+					stringForm.append( " meat)" );
+				}
 			}
 
 			stringForm.append( " (" );
@@ -149,17 +154,22 @@ public class ListCellRendererFactory
 			StringBuffer stringForm = new StringBuffer();
 			stringForm.append( icr.getName() );
 
-			int value = ItemDatabase.getPriceById( icr.getItemId() );
+			int itemId = icr.getItemId();
 
-			if ( value == 0 )
+			if ( itemId > 0 )
 			{
-				stringForm.append( " (no-sell)" );
-			}
-			else
-			{
-				stringForm.append( " (" );
-				stringForm.append( value );
-				stringForm.append( " meat)" );
+				int value = ItemDatabase.getPriceById( itemId );
+
+				if ( value == 0 )
+				{
+					stringForm.append( " (no-sell)" );
+				}
+				else
+				{
+					stringForm.append( " (" );
+					stringForm.append( value );
+					stringForm.append( " meat)" );
+				}
 			}
 
 			stringForm.append( " (" );
