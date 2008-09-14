@@ -286,6 +286,7 @@ user	sidequestLighthouseCompleted	none
 user	sidequestNunsCompleted	none
 user	sidequestOrchardCompleted	none
 user	snowconeSummons	0
+user	spiceMelangeUsed	false
 user	stationaryButton1
 user	stationaryButton2
 user	stationaryButton3

@@ -498,6 +498,7 @@ public class ItemPool
 	public static final int HOBO_FORTRESS = 3416;
 	public static final int FIREWORKS = 3421;
 	public static final int GIFTH = 3430;
+	public static final int SPICE_MELANGE = 3433;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
