@@ -23,6 +23,15 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 public class BreakfastManager
 {
+	private static final AdventureResult [] toys = new AdventureResult []
+	{
+		ItemPool.get( ItemPool.HOBBY_HORSE, 1 ),
+		ItemPool.get( ItemPool.BALL_IN_A_CUP, 1 ),
+		ItemPool.get( ItemPool.SET_OF_JACKS, 1 ),
+		ItemPool.get( ItemPool.BAG_OF_CANDY, 1 ),
+		ItemPool.get( ItemPool.EMBLEM_AKGYXOTH, 1 )
+	};
+
 	public static void getBreakfast( final boolean checkSettings, final boolean runComplete )
 	{
 		SpecialOutfit.createImplicitCheckpoint();
@@ -87,13 +96,6 @@ public class BreakfastManager
 	{
 		if ( Preferences.getBoolean( "useCrimboToys" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ) )
 		{
-			AdventureResult [] toys = new AdventureResult []
-			{
-				ItemPool.get( ItemPool.HOBBY_HORSE, 1 ),
-				ItemPool.get( ItemPool.BALL_IN_A_CUP, 1 ),
-				ItemPool.get( ItemPool.SET_OF_JACKS, 1 )
-			};
-
 			for ( int i = 0; i < toys.length; ++i )
 			{
 				if ( InventoryManager.hasItem( toys[ i ] ) )

@@ -411,6 +411,7 @@ public class ItemPool
 	public static final int TONGUE_CHARRRM = 2986;
 	public static final int TONGUE_BRACELET = 2987;
 	public static final int CLINGFILM = 2988;
+	public static final int EMBLEM_AKGYXOTH = 3010;
 	public static final int SIMPLE_CURSED_KEY = 3013;
 	public static final int ORNATE_CURSED_KEY = 3014;
 	public static final int GILDED_CURSED_KEY = 3015;
