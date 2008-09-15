@@ -1374,7 +1374,7 @@ public class OptionsFrame
 			this.readManual.addActionListener( this );
 			centerPanel.add( this.readManual );
 
-			this.useCrimboToys = new JCheckBox( "use Crimbo toys" );
+			this.useCrimboToys = new JCheckBox( "use once-a-day items" );
 			this.useCrimboToys.addActionListener( this );
 			centerPanel.add( this.useCrimboToys );
 
