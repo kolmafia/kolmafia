@@ -35,7 +35,10 @@ package net.sourceforge.kolmafia.objectpool;
 
 import net.sourceforge.kolmafia.AdventureResult;
 
+import java.util.HashSet;
+
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class ItemPool
 {
@@ -517,4 +520,88 @@ public class ItemPool
 	{
 		return new AdventureResult( itemId, count );
 	}
+
+	// Support for various classes of items:
+
+	// BANG POTIONS and STONE SPHERES
+
+	public static final String[][] bangPotionStrings =
+	{
+		// name, combat use mssage, inventory use message
+		{ "inebriety", "wino", "liquid fire" },
+		{ "healing", "better", "You gain" },
+		{ "confusion", "confused", "Confused" },
+		{ "blessing", "stylish", "Izchak's Blessing" },
+		{ "detection", "blink", "Object Detection" },
+		{ "sleepiness", "yawn", "Sleepy" },
+		{ "mental acuity", "smarter", "Strange Mental Acuity" },
+		{ "ettin strength", "stronger", "Strength of Ten Ettins" },
+		{ "teleportitis", "disappearing", "Teleportitis" },
+	};
+	
+	public static final String[][] stoneSphereStrings =
+	{
+		// name, combat use mssage
+		{ "fire", "bright red light" },
+		{ "lightning", "bright yellow light" },
+		{ "water", "bright blue light" },
+		{ "nature", "bright green light" },
+	};
+	
+	public static final boolean eliminationProcessor( final String[][] strings, final int index,
+		final int id, final int minId, final int maxId, final String baseName )
+	{
+		String effect = strings[index][0];
+		Preferences.setString( baseName + id, effect );
+		String name = ItemDatabase.getItemName( id );
+		String testName = name + " of " + effect;
+		String testPlural = name + "s of " + effect;
+		ItemDatabase.registerItemAlias( id, testName, testPlural );
+		
+		HashSet possibilities = new HashSet();
+		for ( int i = 0; i < strings.length; ++i )
+		{
+			possibilities.add(strings[i][0]);
+		}
+
+		int missing = 0;
+		for ( int i = minId; i <= maxId; ++i ) 
+		{
+			effect = Preferences.getString( baseName + i );
+			if ( effect.equals( "" ) )
+			{
+				if ( missing != 0 )
+				{
+					// more than one missing item in set
+					return false;
+				}
+				missing = i;		
+			}
+			else
+			{
+				possibilities.remove( effect );
+			}
+		}
+	
+		if ( missing == 0 )
+		{
+			// no missing items
+			return false;
+		}
+
+		if ( possibilities.size() != 1 )
+		{
+			// something's screwed up if this happens
+			return false;
+		}
+
+		effect = (String) possibilities.iterator().next();
+		Preferences.setString( baseName + missing, effect );
+		name = ItemDatabase.getItemName( missing );
+		testName = name + " of " + effect;
+		testPlural = name + "s of " + effect;
+		ItemDatabase.registerItemAlias( missing, testName, testPlural );
+		return true;	
+	}
+
 }

@@ -1630,48 +1630,19 @@ public class UseItemRequest
 		case ItemPool.DARK_POTION:
 		case ItemPool.MURKY_POTION:
 
-			String effectData = null;
+			String[][] strings = ItemPool.bangPotionStrings;
 
-			if ( responseText.indexOf( "liquid fire" ) != -1 )
+			for ( int i = 0; i < strings.length; ++i )
 			{
-				effectData = "inebriety";
-			}
-			else if ( responseText.indexOf( "You gain" ) != -1 )
-			{
-				effectData = "healing";
-			}
-			else if ( responseText.indexOf( "Confused" ) != -1 )
-			{
-				effectData = "confusion";
-			}
-			else if ( responseText.indexOf( "Izchak's Blessing" ) != -1 )
-			{
-				effectData = "blessing";
-			}
-			else if ( responseText.indexOf( "Object Detection" ) != -1 )
-			{
-				effectData = "detection";
-			}
-			else if ( responseText.indexOf( "Sleepy" ) != -1 )
-			{
-				effectData = "sleepiness";
-			}
-			else if ( responseText.indexOf( "Strange Mental Acuity" ) != -1 )
-			{
-				effectData = "mental acuity";
-			}
-			else if ( responseText.indexOf( "Strength of Ten Ettins" ) != -1 )
-			{
-				effectData = "ettin strength";
-			}
-			else if ( responseText.indexOf( "Teleportitis" ) != -1 )
-			{
-				effectData = "teleportitis";
-			}
-
-			if ( effectData != null )
-			{
-				Preferences.setString( "lastBangPotion" + item.getItemId(), effectData );
+				if ( responseText.indexOf( strings[i][2] ) != -1 &&
+				     ItemPool.eliminationProcessor( strings, i,
+								    item.getItemId(),
+								    819, 827,
+								    "lastBangPotion" ) )
+				{
+					KoLmafia.updateDisplay( "All bang potions have been identified!" );
+					break;
+				}
 			}
 
 			return;

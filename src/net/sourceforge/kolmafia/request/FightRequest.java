@@ -1302,52 +1302,19 @@ public class FightRequest
 			int potionId = ItemDatabase.getItemId( bangMatcher.group( 1 ) + " potion" );
 
 			String effectText = bangMatcher.group( 2 );
-			String effectData = null;
+			String[][] strings = ItemPool.bangPotionStrings;
 
-			if ( effectText.indexOf( "wino" ) != -1 )
+			for ( int i = 0; i < strings.length; ++i )
 			{
-				effectData = "inebriety";
-			}
-			else if ( effectText.indexOf( "better" ) != -1 )
-			{
-				effectData = "healing";
-			}
-			else if ( effectText.indexOf( "confused" ) != -1 )
-			{
-				effectData = "confusion";
-			}
-			else if ( effectText.indexOf( "stylish" ) != -1 )
-			{
-				effectData = "blessing";
-			}
-			else if ( effectText.indexOf( "blink" ) != -1 )
-			{
-				effectData = "detection";
-			}
-			else if ( effectText.indexOf( "yawn" ) != -1 )
-			{
-				effectData = "sleepiness";
-			}
-			else if ( effectText.indexOf( "smarter" ) != -1 )
-			{
-				effectData = "mental acuity";
-			}
-			else if ( effectText.indexOf( "stronger" ) != -1 )
-			{
-				effectData = "ettin strength";
-			}
-			else if ( effectText.indexOf( "disappearing" ) != -1 )
-			{
-				effectData = "teleportitis";
-			}
-
-			if ( effectData != null )
-			{
-				Preferences.setString( "lastBangPotion" + potionId, effectData );
-				String name = ItemDatabase.getItemName( potionId );
-				String testName = name + " of " + effectData;
-				String testPlural = name + "s of " + effectData;
-				ItemDatabase.registerItemAlias( potionId, testName, testPlural );
+				if ( effectText.indexOf( strings[i][1] ) != -1 &&
+				     ItemPool.eliminationProcessor( strings, i,
+								    potionId,
+								    819, 827,
+								    "lastBangPotion" ) )
+				{
+					KoLmafia.updateDisplay( "All bang potions have been identified!" );
+					break;
+				}
 			}
 		}
 	}
@@ -1369,32 +1336,19 @@ public class FightRequest
 			}
 
 			String effectText = sphereMatcher.group( 2 );
-			String effectData = null;
+			String[][] strings = ItemPool.stoneSphereStrings;
 
-			// "It radiates a bright red light, and a gout of flame
-			// blasts out of it"
-			if ( effectText.equals( "bright red light" ) )
+			for ( int i = 0; i < strings.length; ++i )
 			{
-				effectData = "fire";
-			}
-			else if ( effectText.equals( "bright yellow light" ) )
-			{
-				effectData = "lightning";
-			}
-			else if ( effectText.equals( "bright blue light" ) )
-			{
-				effectData = "water";
-			}
-			else if ( effectText.equals( "bright green light" ) )
-			{
-				effectData = "nature";
-			}
-
-			if ( effectData != null )
-			{
-				Preferences.setString( "lastStoneSphere" + sphereId, effectData );
-				String testName = ItemDatabase.getItemName( sphereId ) + " of " + effectData;
-				ItemDatabase.registerItemAlias( sphereId, testName, null );
+				if ( effectText.indexOf( strings[i][1] ) != -1 &&
+				     ItemPool.eliminationProcessor( strings, i,
+								    sphereId,
+								    2174, 2177,
+								    "lastStoneSphere" ) )
+				{
+					KoLmafia.updateDisplay( "All stone spheres have been identified!" );
+					break;
+				}
 			}
 		}
 	}
