@@ -427,18 +427,18 @@ public abstract class MoodManager
 
 	public static final String getNextBurnCast()
 	{
-		// Avoid triggering auto-recovery when mana burning.
+		// Punt immediately if mana burning is disabled
 
-		int manaBurnThreshold = (int) ( Preferences.getFloat( "manaBurningThreshold" ) * (float) KoLCharacter.getMaximumMP() );
-
-		if ( manaBurnThreshold < 0 )
+		float manaBurnPreference = Preferences.getFloat( "manaBurningThreshold" );
+		if ( manaBurnPreference < 0.0f )
 		{
 			return null;
 		}
 
-		int manaRecoverTrigger = (int) ( Preferences.getFloat( "mpAutoRecovery" ) * (float) KoLCharacter.getMaximumMP() );
+		float manaRecoverPreference = Preferences.getFloat( "mpAutoRecovery" );
+		int minimum = (int)( Math.max( manaBurnPreference, manaRecoverPreference ) * (float) KoLCharacter.getMaximumMP() ) + 1;
 
-		int minimum = Math.max( manaBurnThreshold, manaRecoverTrigger ) + 1;
+		// Punt immediately if already burned enough or must recover MP
 
 		if ( KoLCharacter.getCurrentMP() <= minimum )
 		{

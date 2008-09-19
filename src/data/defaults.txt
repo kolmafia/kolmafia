@@ -145,7 +145,7 @@ global	userAgent
 global	visitRumpusHardcore	true
 global	visitRumpusSoftcore	true
 
-user	autoAbortThreshold	-0.1
+user	autoAbortThreshold	-0.05
 user	autoRepairBoxServants	true
 user	availableDimes	0
 user	availableLucre	0
@@ -190,7 +190,7 @@ user	grimoire2Summons	0
 user	guyMadeOfBeesCount	0
 user	guyMadeOfBeesDefeated	false
 user	hippiesDefeated	0
-user	hpAutoRecovery	-0.1
+user	hpAutoRecovery	-0.05
 user	hpAutoRecoveryItems	cannelloni cocoon;scroll of drastic healing;tongue of the walrus;lasagna bandages;doc galaktik's ailment ointment
 user	hpAutoRecoveryTarget	1.0
 user	invalidBuffMessage	You sent an amount which does not correspond to a valid buff amount.
@@ -255,7 +255,7 @@ user	louvreLayout
 user	louvreOverride
 user	luckySewerAdventure	stolen accordion
 user	manaBurnSummonThreshold	10
-user	manaBurningThreshold	-0.1
+user	manaBurningThreshold	-0.05
 user	mpAutoRecovery	0.0
 user	mpAutoRecoveryItems	phonics down;knob goblin superseltzer;mountain stream soda;magical mystery juice;knob goblin seltzer;cherry cloaca cola;soda water
 user	mpAutoRecoveryTarget	0.3
