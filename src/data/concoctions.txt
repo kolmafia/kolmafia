@@ -741,6 +741,7 @@ jug of porquoise juice	2	jug of Gnomochloric acid	porquoise
 
 banana smoothie	5	scrumptious reagent	banana
 cordial of concentration	5	scrumptious reagent	soda water
+cranberry cordial	5	scrumptious reagent	cranberries
 eyedrops of the ermine	5	scrumptious reagent	strawberry
 libation of liveliness	5	scrumptious reagent	grapes
 milk of magnesium	5	scrumptious reagent	glass of goat's milk
@@ -769,13 +770,17 @@ scrumdiddlyumptious solution	20	delectable catalyst	scrumptious reagent
 
 # Reagent potions.
 
-cologne of contempt	21	scrumdiddlyumptious solution	dill
-concentrated cordial of concentration	21	scrumdiddlyumptious solution	tonic water
-potent potion of potency	21	scrumdiddlyumptious solution	kumquat
 Connery's Elixir of Audacity	21	scrumdiddlyumptious solution	cocktail onion
 Hawking's Elixir of Brilliance	21	scrumdiddlyumptious solution	tangerine
 Ferrigno's Elixir of Power	21	scrumdiddlyumptious solution	kiwi
+blackberry polite	21	scrumdiddlyumptious solution	blackberry
+cologne of contempt	21	scrumdiddlyumptious solution	dill
+concentrated cordial of concentration	21	scrumdiddlyumptious solution	tonic water
+potent potion of potency	21	scrumdiddlyumptious solution	kumquat
 eyedrops of the ocelot	21	scrumdiddlyumptious solution	raspberry
+peach lozenge	21	scrumdiddlyumptious solution	peach
+pear lozenge	21	scrumdiddlyumptious solution	pear
+plum lozenge	21	scrumdiddlyumptious solution	plum
 potion of temporary gr8tness	21	scrumdiddlyumptious solution	gr8ps
 
 phial of hotness	5	scrumptious reagent	hot powder
