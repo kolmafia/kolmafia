@@ -1471,6 +1471,7 @@ Big Flaming Whip	Hot Damage: +20
 Big Veiny Brain	Experience: +2, Meat Drop: -20
 Black Face	Muscle Percent: +10
 Black Tongue	Familiar Weight: +5, Experience: +3, Item Drop: +30, Meat Drop: +30
+Blackbery Politeness	Meat Drop: +20
 Blessing of Charcoatl	Hot Damage: +10
 Blessing of Squirtlcthulli	HP Regen Min: 7, HP Regen Max: 9, MP Regen Min: 7, MP Regen Max: 9
 Bloody Bloody Bloody!	Spooky Damage: +50
@@ -1509,6 +1510,7 @@ Confused	Mysticality Percent: -30
 Contagious Bad Luck	Mysticality Percent: -20
 Contemptible Emanations	Monster Level: +20
 Chorale of Companionship	Familiar Weight: +10
+Cranberry Cordiality	Meat Drop: +10
 Crimbo Epiphany	Mysticality Percent: +10
 Crotchety, Pining	Melee Damage Percent: +300
 Cupcake of Choice	Item Drop: +30
@@ -1754,6 +1756,9 @@ Tetanus	Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10
 The Ballad of Richie Thingfinder	Meat Drop: +50, Item Drop: +20
 The Cupcake of Wrath	Monster Level: +10
 The Great Tit's Blessing	Monster Level: +20
+The Halls of Moxiousness	Experience: +3
+The Halls of Musclularity	Experience: +3
+The Halls of Mysticality	Experience: +3
 The Magical Mojomuscular Melody	Mysticality: +10, Maximum MP: +20
 The Moxious Madrigal	Moxie: +10
 The Q Is Talking To You	Mysticality Percent: +10
