@@ -782,6 +782,10 @@ peach lozenge	21	scrumdiddlyumptious solution	peach
 pear lozenge	21	scrumdiddlyumptious solution	pear
 plum lozenge	21	scrumdiddlyumptious solution	plum
 potion of temporary gr8tness	21	scrumdiddlyumptious solution	gr8ps
+blackberry polite	21	scrumdiddlyumptious solution	blackberry
+peach lozenge	21	scrumdiddlyumptious solution	peach
+pear lozenge	21	scrumdiddlyumptious solution	pear
+plum lozenge	21	scrumdiddlyumptious solution	plum
 
 phial of hotness	5	scrumptious reagent	hot powder
 phial of coldness	5	scrumptious reagent	cold powder
