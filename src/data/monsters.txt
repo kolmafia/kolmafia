@@ -198,7 +198,7 @@ Dairy Ooze	HP: 8 Def: 13 Atk: 13
 Danglin' Chad	HP: 0
 Decal-applying Elfborg		iGoogly (10)	LED block (10)	nanofiber cloth (10)	synthetic stuffing (10)	theoretical string (10)	toy hoverpad (10)
 Decent Lumberjack	HP: 35 Def: 35 Atk: 35 Meat: 17-26	poutine (30)	disbelief suspenders (10)
-Demonic Icebox	HP: 5 Def: 5 Atk: 5	ancient frozen dinner (30)	leftovers of indeterminate origin (40)
+Demonic Icebox	HP: 5 Def: 5 Atk: 5	accidental cider (0)	ancient frozen dinner (30)	dire fudgesicle (0)	leftovers of indeterminate origin (40)
 Demoninja	HP: 48 Def: 30 Atk: 50 E: heat Meat: 40-65	hot katana blade (30)	ninja hot pants (5)
 Dirty Hippy	HP: 30 Def: 40 Atk: 40 E: stench	Feng Shui for Big Dumb Idiots (30)	filthy corduroys (5)	reodorant (5)	filthy knitted dread sack (5)
 Dirty Hippy Jewelry Maker	HP: 30 Def: 40 Atk: 40 E: stench	filthy corduroys (5)	hemp string (30)	phat turquoise bead (10)	filthy knitted dread sack (5)	reodorant (5)
@@ -394,7 +394,7 @@ Plaque of Locusts	HP: 140	bronzed locust (20)	honey-dipped locust (20)	handful o
 Pooltergeist	HP: 25 Def: 20 Atk: 20	1-ball (3)	2-ball (3)	3-ball (3)	4-ball (3)	5-ball (3)	6-ball (3)	7-ball (3)	8-ball (15)
 Portly Abomination	HP: 63 Def: 73 Atk: 73 Meat: 61-91
 Possessed Can of Tomatoes	HP: 1 Def: 2 Atk: 1 Meat: 2-4	razor-sharp can lid (45)	tomato (60)	shredded can label (0)
-Possessed Silverware Drawer	HP: 6 Def: 4 Atk: 4	corn holder (15)	eggbeater (4)
+Possessed Silverware Drawer	HP: 6 Def: 4 Atk: 4	antique packet of ketchup (0)	corn holder (15)	eggbeater (4)
 Possessed Wine Rack	HP: 165	dusty bottle of Marsala (20)	dusty bottle of Merlot (20)	dusty bottle of Muscat (20)	dusty bottle of Pinot Noir (20)	dusty bottle of Port (20)	dusty bottle of Zinfandel (20)
 Possibility Giant	HP: 150 Def: 130 Atk: 130 Meat: 122-183	chaos butterfly (20)	plot hole (20)	probability potion (30)
 Poutine Ooze	HP: 3 Def: 2 Atk: 1	poutine (40)
@@ -583,7 +583,7 @@ Zim Merman	HP: 0
 Zmobie	HP: 10 Def: 20 Atk: 20 E: spooky Meat: 29-43	cranberries (20)	loose teeth (50)
 Zobmie	HP: 10 Def: 19 Atk: 19 E: spooky Meat: 28-40	cranberries (20)	cranberries (20)
 Zol	HP: 15 Def: 25 Atk: 25	green pixel (70)	green pixel (70)	green pixel (70)
-Zombie Chef	HP: 4 Def: 5 Atk: 5	chef's hat (5)	fricasseed brains (20)	stale baguette (30)
+Zombie Chef	HP: 4 Def: 5 Atk: 5	bottle of cooking sherry (30)	chef's hat (5)	fricasseed brains (20)	stale baguette (30)
 Zombie Duck	HP: 185
 Zombo	HP: 0
 
