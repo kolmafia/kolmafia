@@ -285,7 +285,7 @@ public class ItemPool
 	public static final int TOWEL = 2085;
 	public static final int LUCRE = 2098;
 	public static final int ASCII_SHIRT = 2121;
-	public static final int TOY_MERCENARY = 2130;
+	public static final int TOY_MERCENARY = 2139;
 	public static final int EVIL_TEDDY_SEWING_KIT = 2147;
 	public static final int MOSSY_STONE_SPHERE = 2174;
 	public static final int SMOOTH_STONE_SPHERE = 2175;
