@@ -814,7 +814,17 @@ public class AdventureResult
 	{
 		if ( this.isItem() )
 		{
-			return this.count[ 0 ] == quantity ? this : new AdventureResult( this.name, quantity, false );
+			if ( this.count[ 0 ] == quantity )
+			{
+				return this;
+			}
+
+			// Handle pseudo and tally items
+			AdventureResult item = new AdventureResult( AdventureResult.NO_PRIORITY, this.name );
+			item.priority = AdventureResult.ITEM_PRIORITY;
+			item.itemId = this.itemId;
+			item.count[ 0 ] = quantity;
+			return item;
 		}
 
 		if ( this.isStatusEffect() )
