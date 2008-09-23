@@ -55,6 +55,7 @@ import net.sourceforge.kolmafia.request.DisplayCaseRequest;
 import net.sourceforge.kolmafia.session.DisplayCaseManager;
 import net.sourceforge.kolmafia.swingui.panel.ItemManagePanel;
 import net.sourceforge.kolmafia.swingui.panel.OverlapPanel;
+import net.sourceforge.kolmafia.swingui.panel.ScrollableFilteredPanel;
 import net.sourceforge.kolmafia.swingui.panel.ScrollablePanel;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
@@ -178,7 +179,7 @@ public class MuseumFrame
 		}
 
 		private class OutsideDisplayPanel
-			extends ScrollablePanel
+			extends ScrollableFilteredPanel
 		{
 			private final ShowDescriptionList elementList;
 
@@ -209,7 +210,7 @@ public class MuseumFrame
 		}
 
 		private class InsideDisplayPanel
-			extends ScrollablePanel
+			extends ScrollableFilteredPanel
 		{
 			private final ShowDescriptionList elementList;
 
