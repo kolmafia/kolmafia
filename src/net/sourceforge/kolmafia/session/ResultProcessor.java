@@ -321,6 +321,11 @@ public class ResultProcessor
 
 		if ( acquisition.startsWith( "You acquire" ) )
 		{
+			if ( acquisition.indexOf( "clan trophy" ) != -1 )
+			{
+				return false;
+			}
+
 			if ( acquisition.indexOf( "effect" ) == -1 )
 			{
 				ResultProcessor.processItem( parsedResults, acquisition, data );
