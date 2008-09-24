@@ -69,7 +69,6 @@ import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ClanManager;
-import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EventManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LouvreManager;
@@ -836,6 +835,11 @@ public class GenericRequest
 
 	private void mapCurrentChoice()
 	{
+		if ( ChoiceManager.postChoice( this, GenericRequest.lastChoice, GenericRequest.lastDecision ) )
+		{
+			return;
+		}
+
 		String text = this.responseText;
 
 		// Let the Violet Fog handle this
@@ -852,12 +856,6 @@ public class GenericRequest
 
 		// Handle the Guy Made of Bees
 		if ( this.checkGuyMadeOfBees() )
-		{
-			return;
-		}
-
-		// Handle the dungeon sewers
-		if ( this.checkDungeonSewers() )
 		{
 			return;
 		}
@@ -903,117 +901,6 @@ public class GenericRequest
 			}
 
 		}
-
-		return true;
-	}
-
-	private boolean checkDungeonSewers()
-	{
-		// Somewhat Higher and Mostly Dry
-		// Disgustin' Junction
-		// The Former or the Ladder
-
-		if ( GenericRequest.lastChoice != 197 && GenericRequest.lastChoice != 198 && GenericRequest.lastChoice != 199 )
-		{
-			return false;
-		}
-
-		if ( GenericRequest.lastDecision != 1 )
-		{
-			return true;
-		}
-
-		String text = this.responseText;
-
-		// You steel your nerves and descend into the darkened tunnel.
-		if ( text.indexOf( "You steel your nerves and descend into the darkened tunnel." ) == -1 )
-		{
-			return true;
-		}
-
-		// *** CODE TESTS ***
-
-		// You flip through your code binder, and figure out that one
-		// of the glyphs is code for 'shortcut', while the others are
-		// the glyphs for 'longcut' and 'crewcut', respectively. You
-		// head down the 'shortcut' tunnel.
-
-		// You flip through your code binder, and gain a basic
-		// understanding of the sign: "This ladder just goes in a big
-		// circle. If you climb it you'll end up back where you
-		// started." You continue down the tunnel, instead.
-
-		// You consult your binder and translate the glyphs -- one of
-		// them says "This way to the Great Egress" and the other two
-		// are just advertisements for Amalgamated Ladderage, Inc. You
-		// head toward the Egress.
-
-		// *** ITEM TESTS ***
-
-		// "How about these?" you ask, offering the fish some of your
-		// unfortunate dumplings.
-		if ( text.indexOf( "some of your unfortunate dumplings" ) != -1 )
-		{
-			// Remove unfortunate dumplings from inventory
-			ResultProcessor.processItem( ItemPool.DUMPLINGS, -1 );
-		}
-
-		// Before you can ask him what kind of tribute he wants, you
-		// see his eyes light up at the sight of your sewer wad.
-		if ( text.indexOf( "the sight of your sewer wad" ) != -1 )
-		{
-			// Remove sewer wad from inventory
-			ResultProcessor.processItem( ItemPool.SEWER_WAD, -1 );
-		}
-
-		// He finds a bottle of Ooze-O, and begins giggling madly. He
-		// uncorks the bottle, takes a drink, and passes out in a heap.
-		if ( text.indexOf( "He finds a bottle of Ooze-O" ) != -1 )
-		{
-			// Remove bottle of Ooze-O from inventory
-			ResultProcessor.processItem( ItemPool.OOZE_O, -1 );
-		}
-
-		// You grunt and strain, but you can't manage to get between
-		// the bars. In a flash of insight, you douse yourself with oil
-		// of oiliness (it takes three whole bottles to cover your
-		// entire body) and squeak through like a champagne cork. Only
-		// without the bang, and you're not made out of cork, and
-		// champagne doesn't usually smell like sewage. Anyway. You
-		// continue down the tunnel.
-		if ( text.indexOf( "it takes three whole bottles" ) != -1 )
-		{
-			// Remove 3 bottles of oil of oiliness from inventory
-			ResultProcessor.processItem( ItemPool.OIL_OF_OILINESS, -3 );
-		}
-
-		// Fortunately, your gatorskin umbrella allows you to pass
-		// beneath the sewagefall without incident. There's not much
-		// left of the umbrella, though, and you discard it before
-		// moving deeper into the tunnel.
-		if ( text.indexOf( "your gatorskin umbrella allows you to pass" ) != -1 )
-		{
-			// Unequip gatorskin umbrella and discard it.
-
-			AdventureResult umbrella = ItemPool.get( ItemPool.GATORSKIN_UMBRELLA, 1 );
-			if ( KoLCharacter.hasEquipped( umbrella, EquipmentManager.WEAPON ) )
-			{
-				EquipmentManager.setEquipment( EquipmentManager.WEAPON, EquipmentRequest.UNEQUIP );
-			}
-			else if ( KoLCharacter.hasEquipped( umbrella, EquipmentManager.OFFHAND ) )
-			{
-				EquipmentManager.setEquipment( EquipmentManager.OFFHAND, EquipmentRequest.UNEQUIP );
-			}
-
-			AdventureResult.addResultToList( KoLConstants.inventory, umbrella );
-			ResultProcessor.processItem( ItemPool.GATORSKIN_UMBRELLA, -1 );
-		}
-
-		// *** GRATE ***
-
-		// Further into the sewer, you encounter a halfway-open grate
-		// with a crank on the opposite side. What luck -- looks like
-		// somebody else opened this grate from the other side!
 
 		return true;
 	}
