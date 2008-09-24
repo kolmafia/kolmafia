@@ -45,8 +45,10 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.swingui.CouncilFrame;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -54,6 +56,8 @@ public abstract class ChoiceManager
 {
 	private static final AdventureResult PAPAYA = new AdventureResult( 498, 1 );
 	private static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice value=(\\d+)" );
+	private static final Pattern TATTOO_PATTERN = Pattern.compile( "otherimages/sigils/hobotat(\\d+).gif" );
+
 	public static final GenericRequest CHOICE_HANDLER = new GenericRequest( "choice.php" );
 
 	private static final AdventureResult MAIDEN_EFFECT = new AdventureResult( "Dreams and Lights", 1, true );
@@ -1231,24 +1235,6 @@ public abstract class ChoiceManager
 		// Mind Yer Binder
 		{ "230", "1", new AdventureResult( "hobo nickel", -30 ) },
 
-		// Big Merv's Protein Shakes
-		{ "237", "1", new AdventureResult( "hobo nickel", -20 ) },
-
-		// Suddenly Salad!
-		{ "238", "1", new AdventureResult( "hobo nickel", -20 ) },
-
-		// Sizzling Weasel On a Stick
-		{ "239", "1", new AdventureResult( "hobo nickel", -20 ) },
-
-		// Arthur Finn's World-Record Homebrew Stout
-		{ "242", "1", new AdventureResult( "hobo nickel", -20 ) },
-
-		// Mad Jack's Corn Squeezery
-		{ "243", "1", new AdventureResult( "hobo nickel", -20 ) },
-
-		// Bathtub Jimmy's Gin Mill
-		{ "244", "1", new AdventureResult( "hobo nickel", -20 ) },
-
 		// The Guy Who Carves Driftwood Animals
 		{ "247", "1", new AdventureResult( "hobo nickel", -10 ) },
 
@@ -1289,9 +1275,6 @@ public abstract class ChoiceManager
 		// It's Fun To Stay There
 		{ "268", "1", new AdventureResult( "hobo nickel", -5 ) },
 		{ "268", "2", new AdventureResult( "hobo nickel", -5 ) },
-
-		// Tattoo Shop
-		{ "271", "1", new AdventureResult( "hobo nickel", -20 ) },
 
 		// Triangle, Man
 		{ "275", "1", new AdventureResult( "hobo nickel", -10 ) },
@@ -1713,16 +1696,27 @@ public abstract class ChoiceManager
 		{
 			return;
 		}
+	}
 
-		switch ( StringUtilities.parseInt( choice ) )
+	public static final boolean postChoice( final GenericRequest request, final int choice, final int decision )
+	{
+		String urlString = request.getPath();
+		if ( !urlString.startsWith( "choice.php" ) )
+		{
+			return false;
+		}
+
+		String text = request.responseText;
+
+		switch ( choice )
 		{
 		case 112:
 			// Please, Hammer
-			if ( KoLmafia.isAdventuring() && decision.equals( "1" ) )
+			if ( KoLmafia.isAdventuring() && decision == 1 )
 			{
 				InventoryManager.retrieveItem( ItemPool.get( ItemPool.HAROLDS_HAMMER, 1 ) );
 			}
-			break;
+			return true;
 
 		case 162:
 			// Between a Rock and Some Other Rocks
@@ -1730,8 +1724,218 @@ public abstract class ChoiceManager
 			{
 				CouncilFrame.unlockGoatlet();
 			}
-			break;
+			return true;
+
+		case 197:
+			// Somewhat Higher and Mostly Dry
+		case 198:
+			// Disgustin' Junction
+		case 199:
+			// The Former or the Ladder
+			if ( decision == 1 )
+			{
+				ChoiceManager.checkDungeonSewers( request );
+			}
+			return true;
+
+		case 200:
+			// Enter The Hoboverlord
+		case 201:
+			// Home, Home in the Range
+		case 202:
+			// Bumpity Bump Bump
+		case 203:
+			// Deep Enough to Dive
+		case 204:
+			// Welcome To You!
+		case 205:
+			// Van, Damn
+
+			// Abort for Hobopolis bosses
+			if ( KoLmafia.isAdventuring() && decision == 2 )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, ChoiceManager.hobopolisBossName( choice) + " waits for you." );
+			}
+			return true;
+
+		case 237:
+			// Big Merv's Protein Shakes
+		case 238:
+			// Suddenly Salad!
+		case 239:
+			// Sizzling Weasel On a Stick
+			if ( decision == 1 && text.indexOf( "You gain" ) != -1 )
+			{
+                                // You spend 20 hobo nickels
+				AdventureResult cost = new AdventureResult( "hobo nickel", -20 );
+				ResultProcessor.processResult( cost );
+
+				// You gain 5 fullness
+				Preferences.setInteger( "currentFullness", KoLCharacter.getFullness() + 5 );
+			}
+			return true;
+
+		case 242:
+			// Arthur Finn's World-Record Homebrew Stout
+		case 243:
+			// Mad Jack's Corn Squeezery
+		case 244:
+			// Bathtub Jimmy's Gin Mill
+			if ( decision == 1 && text.indexOf( "You gain" ) != -1 )
+			{
+				// You spend 20 hobo nickels
+				AdventureResult cost = new AdventureResult( "hobo nickel", -20 );
+				ResultProcessor.processResult( cost );
+
+				// You gain 5 drunkenness.  This will be set
+				// when we refresh the charpane.
+			}
+			return true;
+
+		case 271:
+			// Tattoo Shop
+		case 274:
+			// Tattoo Redux
+			if ( decision == 1 )
+			{
+				Matcher matcher = ChoiceManager.TATTOO_PATTERN.matcher( request.responseText );
+				if ( matcher.find() )
+				{
+					int tattoo = StringUtilities.parseInt( matcher.group(1) );
+					AdventureResult cost = new AdventureResult( "hobo nickel", -20 * tattoo );
+					ResultProcessor.processResult( cost );
+				}
+			}
+			return true;
 		}
+
+		return false;
+	}
+
+	private static String hobopolisBossName( final int choice )
+	{
+		switch (choice )
+		{
+		case 200:
+			// Enter The Hoboverlord
+			return "Hodgman";
+		case 201:
+			// Home, Home in the Range
+			return "Ol' Scratch";
+		case 202:
+			// Bumpity Bump Bump
+			return "Frosty";
+		case 203:
+			// Deep Enough to Dive
+			return "Oscus";
+		case 204:
+			// Welcome To You!
+			return "Zombo";
+		case 205:
+			// Van, Damn
+			return "Chester";
+		}
+
+		return "nobody";
+	}
+
+	private static void checkDungeonSewers( final GenericRequest request )
+	{
+		// Somewhat Higher and Mostly Dry
+		// Disgustin' Junction
+		// The Former or the Ladder
+
+		String text = request.responseText;
+
+		// You steel your nerves and descend into the darkened tunnel.
+		if ( text.indexOf( "You steel your nerves and descend into the darkened tunnel." ) == -1 )
+		{
+			return;
+		}
+
+		// *** CODE TESTS ***
+
+		// You flip through your code binder, and figure out that one
+		// of the glyphs is code for 'shortcut', while the others are
+		// the glyphs for 'longcut' and 'crewcut', respectively. You
+		// head down the 'shortcut' tunnel.
+
+		// You flip through your code binder, and gain a basic
+		// understanding of the sign: "This ladder just goes in a big
+		// circle. If you climb it you'll end up back where you
+		// started." You continue down the tunnel, instead.
+
+		// You consult your binder and translate the glyphs -- one of
+		// them says "This way to the Great Egress" and the other two
+		// are just advertisements for Amalgamated Ladderage, Inc. You
+		// head toward the Egress.
+
+		// *** ITEM TESTS ***
+
+		// "How about these?" you ask, offering the fish some of your
+		// unfortunate dumplings.
+		if ( text.indexOf( "some of your unfortunate dumplings" ) != -1 )
+		{
+			// Remove unfortunate dumplings from inventory
+			ResultProcessor.processItem( ItemPool.DUMPLINGS, -1 );
+		}
+
+		// Before you can ask him what kind of tribute he wants, you
+		// see his eyes light up at the sight of your sewer wad.
+		if ( text.indexOf( "the sight of your sewer wad" ) != -1 )
+		{
+			// Remove sewer wad from inventory
+			ResultProcessor.processItem( ItemPool.SEWER_WAD, -1 );
+		}
+
+		// He finds a bottle of Ooze-O, and begins giggling madly. He
+		// uncorks the bottle, takes a drink, and passes out in a heap.
+		if ( text.indexOf( "He finds a bottle of Ooze-O" ) != -1 )
+		{
+			// Remove bottle of Ooze-O from inventory
+			ResultProcessor.processItem( ItemPool.OOZE_O, -1 );
+		}
+
+		// You grunt and strain, but you can't manage to get between
+		// the bars. In a flash of insight, you douse yourself with oil
+		// of oiliness (it takes three whole bottles to cover your
+		// entire body) and squeak through like a champagne cork. Only
+		// without the bang, and you're not made out of cork, and
+		// champagne doesn't usually smell like sewage. Anyway. You
+		// continue down the tunnel.
+		if ( text.indexOf( "it takes three whole bottles" ) != -1 )
+		{
+			// Remove 3 bottles of oil of oiliness from inventory
+			ResultProcessor.processItem( ItemPool.OIL_OF_OILINESS, -3 );
+		}
+
+		// Fortunately, your gatorskin umbrella allows you to pass
+		// beneath the sewagefall without incident. There's not much
+		// left of the umbrella, though, and you discard it before
+		// moving deeper into the tunnel.
+		if ( text.indexOf( "your gatorskin umbrella allows you to pass" ) != -1 )
+		{
+			// Unequip gatorskin umbrella and discard it.
+
+			AdventureResult umbrella = ItemPool.get( ItemPool.GATORSKIN_UMBRELLA, 1 );
+			if ( KoLCharacter.hasEquipped( umbrella, EquipmentManager.WEAPON ) )
+			{
+				EquipmentManager.setEquipment( EquipmentManager.WEAPON, EquipmentRequest.UNEQUIP );
+			}
+			else if ( KoLCharacter.hasEquipped( umbrella, EquipmentManager.OFFHAND ) )
+			{
+				EquipmentManager.setEquipment( EquipmentManager.OFFHAND, EquipmentRequest.UNEQUIP );
+			}
+
+			AdventureResult.addResultToList( KoLConstants.inventory, umbrella );
+			ResultProcessor.processItem( ItemPool.GATORSKIN_UMBRELLA, -1 );
+		}
+
+		// *** GRATE ***
+
+		// Further into the sewer, you encounter a halfway-open grate
+		// with a crank on the opposite side. What luck -- looks like
+		// somebody else opened this grate from the other side!
 	}
 
 	private static final String specialChoiceDecision( final String option, final String decision )
