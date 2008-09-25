@@ -313,22 +313,22 @@ public abstract class UseLinkDecorator
 		switch ( ConcoctionDatabase.getMixingMethod( itemId ) )
 		{
 		case KoLConstants.COMBINE:
-			return new UseLink( itemId, itemCount, "combine", KoLCharacter.inMuscleSign() ? "knoll.php?place=paster" : "combine.php" );
+			return new UseLink( itemId, itemCount, "combine", KoLCharacter.inMuscleSign() ? "knoll.php?place=paster" : "craft.php?mode=combine&a=" );
 
 		case KoLConstants.MIX:
 		case KoLConstants.MIX_SPECIAL:
 		case KoLConstants.MIX_SUPER:
-			return new UseLink( itemId, itemCount, "mix", "cocktail.php" );
+			return new UseLink( itemId, itemCount, "mix", "craft.php?mode=cocktail&a=" );
 
 		case KoLConstants.COOK:
 		case KoLConstants.COOK_REAGENT:
 		case KoLConstants.SUPER_REAGENT:
 		case KoLConstants.COOK_PASTA:
-			return new UseLink( itemId, itemCount, "cook", "cook.php" );
+			return new UseLink( itemId, itemCount, "cook", "craft.php?mode=cook&a=" );
 
 		case KoLConstants.JEWELRY:
 		case KoLConstants.EXPENSIVE_JEWELRY:
-			return new UseLink( itemId, itemCount, "jewelry", "jewelry.php" );
+			return new UseLink( itemId, itemCount, "jewelry", "craft.php?mode=jewelry&a=" );
 		}
 
 		return null;
@@ -416,12 +416,12 @@ public abstract class UseLinkDecorator
 				{
 					return new UseLink( itemId, 1, "use", "inv_use.php?which=3&whichitem=" );
 				}
-				
+
 				if ( HermitRequest.getWorthlessItemCount() == 0 )
 				{
 					return new UseLink( ItemPool.DINGY_PLANKS, 1, "planks", "hermit.php?autopermit=on&action=trade&quantity=1&whichitem=" );
 				}
-				
+
 				return new UseLink( itemId, "sewer", "sewer.php" );
 
 			case ItemPool.TOWEL:
@@ -472,12 +472,12 @@ public abstract class UseLinkDecorator
 			useType = "use";
 			useLocation = "uneffect.php";
 			break;
-		
+
 		// Strange leaflet gets a quick 'read' link which sends you
 		// to the leaflet completion page.
-		
+
 		case ItemPool.STRANGE_LEAFLET:
-			
+
 			useType = "read";
 			useLocation = "leaflet.php?action=auto";
 			break;
@@ -515,13 +515,13 @@ public abstract class UseLinkDecorator
 			useType = InventoryManager.getCount( ItemPool.STAR_CHART ) + "," + InventoryManager.getCount( ItemPool.STAR ) + "," + InventoryManager.getCount( ItemPool.LINE );
 			useLocation = "starchart.php";
 			break;
-		
+
 		// Worthless items get a link to the hermit.
-			
+
 		case ItemPool.WORTHLESS_TRINKET:
 		case ItemPool.WORTHLESS_GEWGAW:
 		case ItemPool.WORTHLESS_KNICK_KNACK:
-			
+
 			useType = "hermit";
 			useLocation = "hermit.php?autopermit=on";
 			break;
