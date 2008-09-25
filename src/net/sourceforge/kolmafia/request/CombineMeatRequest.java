@@ -54,10 +54,11 @@ public class CombineMeatRequest
 
 	public CombineMeatRequest( final int meatType )
 	{
-		super( "inventory.php", meatType );
+		super( "craft.php", meatType );
 
-		this.addFormField( "action", "makestuff" );
+		this.addFormField( "action", "makepaste" );
 		this.addFormField( "whichitem", String.valueOf( meatType ) );
+		this.addFormField( "ajax", "1" );
 
 		this.meatType = meatType;
 		this.costToMake =
@@ -77,14 +78,14 @@ public class CombineMeatRequest
 		}
 
 		KoLmafia.updateDisplay( "Creating " + this.getQuantityNeeded() + " " + ItemDatabase.getItemName( this.meatType ) + "..." );
-		this.addFormField( "quantity", String.valueOf( this.getQuantityNeeded() ) );
+		this.addFormField( "qty", String.valueOf( this.getQuantityNeeded() ) );
 		super.run();
 	}
 
 	public void processResults()
 	{
 		super.processResults();
-		
+
 		ResultProcessor.processResult(
 			new AdventureResult( AdventureResult.MEAT, this.costToMake * this.getQuantityNeeded() ) );
 	}
