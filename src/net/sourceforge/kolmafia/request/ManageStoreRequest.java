@@ -86,7 +86,6 @@ public class ManageStoreRequest
 	{
 		super( "manageprices.php" );
 		this.addFormField( "action", "update" );
-		this.addFormField( "pwd" );
 
 		this.requestType = ManageStoreRequest.PRICE_MANAGEMENT;
 		for ( int i = 0; i < itemId.length; ++i )

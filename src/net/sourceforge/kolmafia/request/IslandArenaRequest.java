@@ -77,7 +77,7 @@ public class IslandArenaRequest
 		}
 
 		this.addFormField( "action", "concert" );
-		this.addFormField( "pwd" );
+
 		if ( option < 0 || option > 3 )
 		{
 			this.error = "Invalid concert selected";
@@ -115,7 +115,6 @@ public class IslandArenaRequest
 		}
 
 		this.addFormField( "action", "concert" );
-		this.addFormField( "pwd" );
 		this.addFormField( "option", String.valueOf( this.option ) );
 	}
 

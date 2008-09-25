@@ -57,7 +57,6 @@ public class GalaktikRequest
 	{
 		super( "galaktik.php" );
 
-		this.addFormField( "pwd" );
 		this.addFormField( "action", type );
 
 		if ( restoreAmount > 0 )

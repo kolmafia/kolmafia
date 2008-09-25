@@ -72,7 +72,6 @@ public abstract class TransferItemRequest
 	public TransferItemRequest( final String formSource )
 	{
 		super( formSource );
-		this.addFormField( "pwd" );
 		this.attachments = new Object[ 0 ];
 	}
 
@@ -427,7 +426,7 @@ public abstract class TransferItemRequest
 
 			String quantityString = quantityMatcher == null ? "" :
 				quantityMatcher.group( 1 ).trim();
-			
+
 			int quantity = quantityPattern == null ? defaultQuantity :
 				quantityString.length() == 0 ? 1 : StringUtilities.parseInt( quantityString );
 

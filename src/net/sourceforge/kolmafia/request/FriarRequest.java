@@ -55,7 +55,6 @@ public class FriarRequest
 		super( "friars.php" );
 
 		this.addFormField( "action", "buffs" );
-		this.addFormField( "pwd" );
 		if ( option >= 1 && option <= 3 )
 		{
 			this.option = option;

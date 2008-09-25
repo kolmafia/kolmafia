@@ -55,7 +55,6 @@ public class StyxPixieRequest
 	{
 		super( "heydeze.php" );
 
-		this.addFormField( "pwd" );
 		this.addFormField( "action", "styxbuff" );
 
 		switch ( stat )

@@ -184,7 +184,6 @@ public class EquipmentRequest
 		if ( requestType == EquipmentRequest.UNEQUIP_ALL )
 		{
 			this.addFormField( "action", "unequipall" );
-			this.addFormField( "pwd" );
 		}
 	}
 
@@ -244,7 +243,6 @@ public class EquipmentRequest
 			this.error = null;
 			this.addFormField( "action", "unequip" );
 			this.addFormField( "type", EquipmentRequest.phpSlotNames[ equipmentSlot ] );
-			this.addFormField( "pwd" );
 			return;
 		}
 
@@ -272,7 +270,6 @@ public class EquipmentRequest
 
 		this.addFormField( "action", action );
 		this.addFormField( "whichitem", String.valueOf( this.itemId ) );
-		this.addFormField( "pwd" );
 	}
 
 	public EquipmentRequest( final SpecialOutfit change )

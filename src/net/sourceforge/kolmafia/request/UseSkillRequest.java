@@ -203,7 +203,6 @@ public class UseSkillRequest
 
 		default:
 			this.addFormField( "action", "Skillz." );
-			this.addFormField( "pwd" );
 			this.addFormField( "whichskill", String.valueOf( this.skillId ) );
 			break;
 		}

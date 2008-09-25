@@ -102,7 +102,6 @@ public class AdventureRequest
 		else if ( formSource.equals( "shore.php" ) )
 		{
 			this.addFormField( "whichtrip", adventureId );
-			this.addFormField( "pwd" );
 		}
 		else if ( formSource.equals( "casino.php" ) )
 		{
@@ -111,17 +110,14 @@ public class AdventureRequest
 		}
 		else if ( formSource.equals( "knob.php" ) )
 		{
-			this.addFormField( "pwd" );
 			this.addFormField( "king", "1" );
 		}
 		else if ( formSource.equals( "mountains.php" ) )
 		{
-			this.addFormField( "pwd" );
 			this.addFormField( "orcs", "1" );
 		}
 		else if ( formSource.equals( "friars.php" ) )
 		{
-			this.addFormField( "pwd" );
 			this.addFormField( "action", "ritual" );
 		}
 		else if ( formSource.equals( "lair6.php" ) )
@@ -202,7 +198,6 @@ public class AdventureRequest
 
 		if ( this.formSource.equals( "dungeon.php" ) )
 		{
-			this.addFormField( "pwd" );
 			this.addFormField( "action", "Yep." );
 
 			if ( this.responseText.indexOf( "Locked Door" ) != -1 && AdventureRequest.SKELETON_KEY.getCount( KoLConstants.inventory ) + AdventureRequest.SKELETON_KEY.getCount( KoLConstants.closet ) > 1 )

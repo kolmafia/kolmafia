@@ -198,7 +198,6 @@ public class UseItemRequest
 		this.consumptionType = consumptionType;
 		this.itemUsed = item;
 
-		this.addFormField( "pwd" );
 		if ( UseItemRequest.isHousing( item.getItemId() ) )
 		{
 			this.addFormField( "confirm", "true" );
@@ -337,7 +336,7 @@ public class UseItemRequest
 		int inebrietyHit = ItemDatabase.getInebriety( itemName );
 		if ( inebrietyHit > 0 )
 		{
-			int limit = KoLCharacter.getInebrietyLimit(); 
+			int limit = KoLCharacter.getInebrietyLimit();
 
 			// Green Beer allows drinking to limit + 10,
 			// but only on SSPD. For now, always allow
@@ -1590,13 +1589,13 @@ public class UseItemRequest
 			return;
 
 		case ItemPool.SPICE_MELANGE:
-			
+
 			// You pop the spice melange into your mouth and chew it up.
 			if ( responseText.indexOf( "too scared to eat any more of that stuff today" ) != -1 )
 			{
 				Preferences.setBoolean( "spiceMelangeUsed", true );
 				ResultProcessor.processResult( item );
-			} 
+			}
 			else if ( responseText.indexOf( "You pop the spice melange into your mouth and chew it up" ) != -1 )
 			{
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SPICE_MELANGE, -1 ) );
@@ -1800,7 +1799,7 @@ public class UseItemRequest
 			itemId == ItemPool.BARSKIN_TENT ||
 			itemId == ItemPool.COTTAGE ||
 			itemId == ItemPool.HOUSE ||
-			itemId == ItemPool.SANDCASTLE || 
+			itemId == ItemPool.SANDCASTLE ||
 			itemId == ItemPool.TWIG_HOUSE ||
 			itemId == ItemPool.HOBO_FORTRESS;
 	}

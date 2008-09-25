@@ -111,7 +111,6 @@ public class PvpRequest
 		this.hunterType = PvpRequest.ATTACK;
 
 		this.addFormField( "action", "Yep." );
-		this.addFormField( "pwd" );
 		this.addFormField( "who", opponent );
 		this.addFormField( "stance", String.valueOf( stance ) );
 		this.addFormField( "attacktype", mission );
@@ -241,7 +240,7 @@ public class PvpRequest
 				return;
 			}
 
-			new GenericRequest( "campground.php?pwd&confirm=on&smashstone=Yep." ).run();
+			new GenericRequest( "campground.php?confirm=on&smashstone=Yep." ).run();
 			super.run();
 
 			return;

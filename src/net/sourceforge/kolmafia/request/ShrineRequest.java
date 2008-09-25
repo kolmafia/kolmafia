@@ -68,7 +68,6 @@ public class ShrineRequest
 	{
 		super( "shrines.php" );
 
-		this.addFormField( "pwd" );
 		this.addFormField(
 			"action",
 			heroId == ShrineRequest.BORIS ? "boris" : heroId == ShrineRequest.JARLSBERG ? "jarlsberg" : "sneakypete" );

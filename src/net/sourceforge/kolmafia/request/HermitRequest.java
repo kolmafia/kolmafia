@@ -101,7 +101,6 @@ public class HermitRequest
 		this.addFormField( "action", "trade" );
 		this.addFormField( "whichitem", String.valueOf( itemId ) );
 		this.addFormField( "quantity", String.valueOf( quantity ) );
-		this.addFormField( "pwd" );
 	}
 
 	public static final void resetClovers()

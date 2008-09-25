@@ -62,7 +62,6 @@ public class MindControlRequest
 
 		if ( KoLCharacter.inMuscleSign() )
 		{
-			this.addFormField( "pwd" );
 			this.addFormField( "whichitem", String.valueOf( MindControlRequest.RADIO.getItemId() ) );
 			this.addFormField( "tuneradio", String.valueOf( level ) );
 		}

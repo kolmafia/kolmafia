@@ -63,7 +63,6 @@ public class RaffleRequest
 		this.source = source;
 
 		this.addFormField( "action", "buy" );
-		this.addFormField( "pwd" );
 		this.addFormField( "where", String.valueOf( source ) );
 		this.addFormField( "quantity", String.valueOf( count ) );
 	}

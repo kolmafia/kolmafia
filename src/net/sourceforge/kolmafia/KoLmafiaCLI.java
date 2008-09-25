@@ -4539,6 +4539,8 @@ public class KoLmafiaCLI
 
 	private void executeItemCreationRequest( final String parameters )
 	{
+		ConcoctionDatabase.refreshConcoctions();
+
 		if ( parameters.equals( "" ) )
 		{
 			RequestLogger.printList( ConcoctionDatabase.getCreatables() );

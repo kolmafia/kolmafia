@@ -107,7 +107,6 @@ public class ChatRequest
 	{
 		super( "submitnewchat.php" );
 		this.addFormField( "playerid", String.valueOf( KoLCharacter.getUserId() ) );
-		this.addFormField( "pwd" );
 
 		String contactId = contact == null ? "[none]" :
 			StringUtilities.globalStringReplace( KoLmafia.getPlayerId( contact ), " ", "_" ).trim();

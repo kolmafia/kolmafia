@@ -65,7 +65,6 @@ public class MailboxRequest
 	{
 		super( "messages.php" );
 		this.addFormField( "box", boxname );
-		this.addFormField( "pwd" );
 		this.addFormField( "the_action", action );
 
 		this.action = action;

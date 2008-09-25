@@ -79,7 +79,6 @@ public class CafeRequest
 		this.price = price;
 		this.fullness = ItemDatabase.getFullness( itemName );
 		this.inebriety = ItemDatabase.getInebriety( itemName );
-		this.addFormField( "pwd" );
 		this.addFormField( "action", "CONSUME!" );
 		this.addFormField( "whichitem", String.valueOf( itemId ) );
 	}

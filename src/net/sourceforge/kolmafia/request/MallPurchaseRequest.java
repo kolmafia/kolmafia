@@ -72,6 +72,7 @@ public class MallPurchaseRequest
 	private final AdventureResult item;
 	private int initialCount;
 
+	private String hashField;
 	private boolean isNPCStore;
 	private String npcStoreId;
 
@@ -86,22 +87,22 @@ public class MallPurchaseRequest
 	{
 		super( storeId.indexOf( "." ) == -1 ? "store.php" : storeId );
 
+		this.hashField = "pwd";
+
 		if ( storeId.indexOf( "." ) == -1 )
 		{
 			this.addFormField( "whichstore", storeId );
-			this.addFormField( "phash" );
 			this.addFormField( "buying", "Yep." );
+			this.hashField = "phash";
 		}
 		else if ( storeId.equals( "galaktik.php" ) )
 		{
 			// Annoying special case.
 			this.addFormField( "action", "buyitem" );
-			this.addFormField( "pwd" );
 		}
 		else
 		{
 			this.addFormField( "action", "buy" );
-			this.addFormField( "pwd" );
 		}
 
 		this.addFormField( "whichitem", String.valueOf( itemId ) );
@@ -119,6 +120,11 @@ public class MallPurchaseRequest
 		this.isNPCStore = true;
 		this.npcStoreId = storeId;
 		this.canPurchase = true;
+	}
+
+	public String getHashField()
+	{
+		return this.hashField;
 	}
 
 	/**
@@ -653,19 +659,19 @@ public class MallPurchaseRequest
 		if ( isMall )
 		{
                         /* the last 9 characters of idString are the price, with leading zeros */
-                        int idStringLength = idString.length();  
+                        int idStringLength = idString.length();
                         priceString = idString.substring(idStringLength - 9, idStringLength);
 			idString = idString.substring( 0, idStringLength - 9 );
                         /* store ID is embedded in the URL.  Extract it and get the store name for logging */
                         Pattern STOREID_PATTERN = Pattern.compile("whichstore\\d?=(\\d+)");
                         Matcher m = STOREID_PATTERN.matcher(urlString);
-                        if (m.find()) 
+                        if (m.find())
                         {
                             String storeID = m.group(1);
                             /* int intID = StringUtilities.parseInt(storeID); */
                             storeName = storeID;
                         }
-                        
+
 		}
                 /* in a perfect world where I was not so lazy, I'd verify that the price string
                  * was really an int and might find another way to effectively strip leading
@@ -675,12 +681,12 @@ public class MallPurchaseRequest
 		itemName = ItemDatabase.getItemName( itemId );
 
 		RequestLogger.updateSessionLog();
-                if (isMall) 
+                if (isMall)
                 {
-                    RequestLogger.updateSessionLog( "buy " + quantity + " " + itemName + " for " + priceVal + 
+                    RequestLogger.updateSessionLog( "buy " + quantity + " " + itemName + " for " + priceVal +
                         " each from " + storeName + " on " + KoLConstants.DAILY_FORMAT.format( new Date() ) );
                 } else {
-                    RequestLogger.updateSessionLog( "buy " + quantity + " " + itemName + 
+                    RequestLogger.updateSessionLog( "buy " + quantity + " " + itemName +
                        " at market price from " + storeName);
                 }
 		return true;
