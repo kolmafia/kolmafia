@@ -62,7 +62,7 @@ public class CreateItemRequest
 	public static final Pattern ITEMID_PATTERN = Pattern.compile( "item\\d?=(\\d+)" );
 	public static final Pattern QUANTITY_PATTERN = Pattern.compile( "(quantity|qty)=(\\d+)" );
 
-	public static final Pattern CRAFT_PATTERN_1 = Pattern.compile( "[\\&\\?](a|b)=(\\d+)" );
+	public static final Pattern CRAFT_PATTERN_1 = Pattern.compile( "[\\&\\?](?:a|b)=(\\d+)" );
 	public static final Pattern CRAFT_PATTERN_2 = Pattern.compile( "steps\\[\\]=(\\d+),(\\d+)" );
 
 	public AdventureResult createdItem;
