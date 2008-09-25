@@ -107,7 +107,6 @@ public class CoinMasterRequest
 		this.action = action;
 
 		this.addFormField( "action", action );
-		this.addFormField( "pwd" );
 	}
 
 	public CoinMasterRequest( final String token, final String action, final int itemId )
@@ -118,7 +117,6 @@ public class CoinMasterRequest
 		this.itemId = itemId;
 
 		this.addFormField( "action", action );
-		this.addFormField( "pwd" );
 		this.addFormField( "whichitem", String.valueOf( itemId ) );
 	}
 
@@ -131,7 +129,6 @@ public class CoinMasterRequest
 		this.quantity = quantity;
 
 		this.addFormField( "action", action );
-		this.addFormField( "pwd" );
 		this.addFormField( "whichitem", String.valueOf( itemId ) );
 
 		if ( master == HIPPY || master == FRATBOY )

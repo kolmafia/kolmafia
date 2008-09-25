@@ -135,11 +135,6 @@ public class ClosetRequest
 			this.destination = KoLConstants.inventory;
 			break;
 		}
-
-		// Now, make sure that every request has a password hash
-		// attached to it.
-
-		this.addFormField( "pwd" );
 	}
 
 	protected boolean retryOnTimeout()

@@ -927,7 +927,8 @@ public class ConcoctionDatabase
 	private static final void cachePermitted( final List availableIngredients )
 	{
 		ConcoctionDatabase.tripleReagent = KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR );
-		boolean willBuyServant = KoLCharacter.canInteract() && Preferences.getBoolean( "autoSatisfyWithMall" );
+		boolean willBuyServant = KoLCharacter.canInteract() &&
+			( Preferences.getBoolean( "autoSatisfyWithMall" ) || Preferences.getBoolean( "autoSatisfyWithStash" ) );
 
 		// Adventures are considered Item #0 in the event that the
 		// concoction will use ADVs.
@@ -1068,20 +1069,11 @@ public class ConcoctionDatabase
 				ItemPool.CHEF, ItemPool.CLOCKWORK_CHEF );
 		ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.COOK ] = 0;
 
-		boolean useMall = Preferences.getBoolean( "autoSatisfyWithMall" );
-		boolean useStash = Preferences.getBoolean( "autoSatisfyWithStash" );
-
-		if ( !ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.COOK ] )
+		if ( !ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.COOK ] && !Preferences.getBoolean( "requireBoxServants" ) )
 		{
 			ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.COOK ] =
-				KoLCharacter.canInteract() && ( useMall || useStash );
-
-			if ( !ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.COOK ] && !Preferences.getBoolean( "requireBoxServants" ) )
-			{
-				ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.COOK ] =
-					InventoryManager.hasItem( ItemPool.BAKE_OVEN ) || KoLCharacter.getAvailableMeat() >= 1000;
-				ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.COOK ] = 1;
-			}
+				InventoryManager.hasItem( ItemPool.BAKE_OVEN ) || KoLCharacter.getAvailableMeat() >= 1000;
+			ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.COOK ] = 1;
 		}
 
 		// Since catalysts aren't purchasable, you can only
@@ -1113,21 +1105,15 @@ public class ConcoctionDatabase
 		// or they don't need a box servant and have a kit.
 
 		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.MIX ] =
-			KoLCharacter.hasBartender() || ConcoctionDatabase.isAvailable(
+			willBuyServant || KoLCharacter.hasBartender() || ConcoctionDatabase.isAvailable(
 				ItemPool.BARTENDER, ItemPool.CLOCKWORK_BARTENDER );
 		ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.MIX ] = 0;
 
-		if ( !ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.MIX ] )
+		if ( !ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.MIX ] && !Preferences.getBoolean( "requireBoxServants" ) )
 		{
 			ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.MIX ] =
-				KoLCharacter.canInteract() && ( useMall || useStash );
-
-			if ( !ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.MIX ] && !Preferences.getBoolean( "requireBoxServants" ) )
-			{
-				ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.MIX ] =
-					InventoryManager.hasItem( ItemPool.COCKTAIL_KIT ) || KoLCharacter.getAvailableMeat() >= 1000;
-				ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.MIX ] = 1;
-			}
+				InventoryManager.hasItem( ItemPool.COCKTAIL_KIT ) || KoLCharacter.getAvailableMeat() >= 1000;
+			ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.MIX ] = 1;
 		}
 
 		// Mixing of advanced drinks is possible whenever the

@@ -83,13 +83,11 @@ public class UneffectRequest
 
 		if ( this.isShruggable )
 		{
-			this.addFormField( "pwd" );
 			this.addFormField( "action", "unbuff" );
 			this.addFormField( "whichbuff", String.valueOf( this.effectId ) );
 		}
 		else
 		{
-			this.addFormField( "pwd" );
 			this.addFormField( "using", "Yep." );
 			this.addFormField( "whicheffect", String.valueOf( this.effectId ) );
 		}

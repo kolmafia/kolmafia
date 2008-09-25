@@ -76,7 +76,6 @@ public class UntinkerRequest
 	{
 		super( "town_right.php" );
 
-		this.addFormField( "pwd" );
 		this.addFormField( "action", "untinker" );
 		this.addFormField( "whichitem", String.valueOf( itemId ) );
 

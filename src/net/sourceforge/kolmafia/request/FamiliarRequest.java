@@ -89,7 +89,6 @@ public class FamiliarRequest
 		this.changeTo = familiar;
 		this.item = item;
 
-		this.addFormField( "pwd" );
 		this.addFormField( "action", "equip" );
 		this.addFormField( "whichfam", String.valueOf( familiar.getId() ) );
 		this.addFormField( "whichitem", String.valueOf( item.getItemId() ) );

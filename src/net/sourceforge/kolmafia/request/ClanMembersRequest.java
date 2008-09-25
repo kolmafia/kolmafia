@@ -96,7 +96,6 @@ public class ClanMembersRequest
 		this.isDetailLookup = false;
 		this.rankList = null;
 
-		this.addFormField( "pwd" );
 		this.addFormField( "action", "modify" );
 
 		ArrayList fields = new ArrayList();

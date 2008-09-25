@@ -62,7 +62,6 @@ public class PulverizeRequest
 	{
 		super( "smith.php" );
 		this.addFormField( "action", "pulverize" );
-		this.addFormField( "pwd" );
 
 		this.item = item;
 		this.addFormField( "smashitem", String.valueOf( item.getItemId() ) );

@@ -568,9 +568,15 @@ public class GenericRequest
 		return this.formURLString;
 	}
 
+	public String getHashField()
+	{
+		return "pwd";
+	}
+
 	public String getDataString( final boolean includeHash )
 	{
 		StringBuffer dataBuffer = new StringBuffer();
+		String hashField = getHashField();
 
 		String element;
 		for ( int i = 0; i < this.data.size(); ++i )
@@ -589,18 +595,28 @@ public class GenericRequest
 				{
 					element = element.substring( 0, index );
 				}
-
-				dataBuffer.append( element );
-
-				if ( includeHash )
-				{
-					dataBuffer.append( "=" );
-					dataBuffer.append( GenericRequest.passwordHash );
-				}
+			
+				hashField = element;
 			}
 			else
 			{
 				dataBuffer.append( element );
+			}
+		}
+
+		if ( GenericRequest.passwordHash != null )
+		{
+			if ( !this.data.isEmpty() )
+			{
+				dataBuffer.append( "&" );
+			}
+
+			dataBuffer.append( hashField );
+
+			if ( includeHash )
+			{
+				dataBuffer.append( "=" );
+				dataBuffer.append( GenericRequest.passwordHash );
 			}
 		}
 

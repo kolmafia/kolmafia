@@ -62,6 +62,9 @@ public class CreateItemRequest
 	public static final Pattern ITEMID_PATTERN = Pattern.compile( "item\\d?=(\\d+)" );
 	public static final Pattern QUANTITY_PATTERN = Pattern.compile( "(quantity|qty)=(\\d+)" );
 
+	public static final Pattern CRAFT_PATTERN_1 = Pattern.compile( "[\\&\\?](a|b)=(\\d+)" );
+	public static final Pattern CRAFT_PATTERN_2 = Pattern.compile( "steps\\[\\]=(\\d+),(\\d+)" );
+
 	public AdventureResult createdItem;
 
 	private String name;
@@ -90,7 +93,13 @@ public class CreateItemRequest
 
 	public CreateItemRequest( final String formSource, final int itemId )
 	{
-		this( formSource, itemId, KoLConstants.SUBCLASS );
+		super( formSource );
+
+		this.itemId = itemId;
+		this.name = ItemDatabase.getItemName( itemId );
+		this.yield = ConcoctionDatabase.getYield( itemId );
+		this.mixingMethod = KoLConstants.SUBCLASS;
+		this.createdItem = new AdventureResult( itemId, yield );
 	}
 
 	/**
@@ -102,110 +111,110 @@ public class CreateItemRequest
 	 * @param quantityNeeded How many of this item are needed
 	 */
 
-	private CreateItemRequest( final String formSource, final int itemId, final int mixingMethod )
+	private CreateItemRequest( final int itemId )
 	{
-		super( formSource );
-		this.addFormField( "pwd" );
+		super( "" );
 
 		this.itemId = itemId;
 		this.name = ItemDatabase.getItemName( itemId );
 		this.yield = ConcoctionDatabase.getYield( itemId );
-		this.mixingMethod = mixingMethod;
+		this.mixingMethod = ConcoctionDatabase.getMixingMethod( this.itemId );
 		this.createdItem = new AdventureResult( itemId, yield );
 	}
 
 	public void reconstructFields()
 	{
-		String formSource = "";
+		String formSource = "craft.php";
+		String action = "craft";
+		String mode = null;
 
-		switch ( this.mixingMethod )
+		if ( KoLCharacter.inMuscleSign() )
 		{
-		case KoLConstants.COMBINE:
-			formSource = KoLCharacter.inMuscleSign() ? "knoll.php" : "combine.php";
-			break;
+			if ( this.mixingMethod == KoLConstants.COMBINE )
+			{
+				formSource = "knoll.php";
+				action = "combine";
+			}
+			else if ( this.mixingMethod == KoLConstants.SMITH )
+			{
+				formSource = "knoll.php";
+				action = "smith";
+			}
+		}
 
-		case KoLConstants.MIX:
-		case KoLConstants.MIX_SPECIAL:
-		case KoLConstants.MIX_SUPER:
-			formSource = "cocktail.php";
-			break;
+		if ( formSource.equals( "craft.php" ) )
+		{
+			switch ( this.mixingMethod )
+			{
+			case KoLConstants.COMBINE:
+				mode = "combine";
+				break;
 
-		case KoLConstants.COOK:
-		case KoLConstants.COOK_REAGENT:
-		case KoLConstants.SUPER_REAGENT:
-		case KoLConstants.COOK_PASTA:
-			formSource = "cook.php";
-			break;
+			case KoLConstants.MIX:
+			case KoLConstants.MIX_SPECIAL:
+			case KoLConstants.MIX_SUPER:
+				mode = "cocktail";
+				break;
 
-		case KoLConstants.SMITH:
-			formSource = KoLCharacter.inMuscleSign() ? "knoll.php" : "smith.php";
-			break;
+			case KoLConstants.COOK:
+			case KoLConstants.COOK_REAGENT:
+			case KoLConstants.SUPER_REAGENT:
+			case KoLConstants.COOK_PASTA:
+				mode = "cook";
+				break;
 
-		case KoLConstants.SMITH_ARMOR:
-		case KoLConstants.SMITH_WEAPON:
-			formSource = "smith.php";
-			break;
+			case KoLConstants.SMITH:
+			case KoLConstants.SMITH_ARMOR:
+			case KoLConstants.SMITH_WEAPON:
+				mode = "smith";
+				break;
 
-		case KoLConstants.JEWELRY:
-		case KoLConstants.EXPENSIVE_JEWELRY:
-			formSource = "jewelry.php";
-			break;
+			case KoLConstants.JEWELRY:
+			case KoLConstants.EXPENSIVE_JEWELRY:
+				mode = "jewelry";
+				break;
 
-		case KoLConstants.ROLLING_PIN:
-			formSource = "inv_use.php";
-			break;
+			case KoLConstants.ROLLING_PIN:
+				formSource = "inv_use.php";
+				break;
 
-		case KoLConstants.CATALYST:
-		case KoLConstants.CREATE_VIA_USE:
-			formSource = "multiuse.php";
-			break;
+			case KoLConstants.CATALYST:
+			case KoLConstants.CREATE_VIA_USE:
+				formSource = "multiuse.php";
+				action = "useitem";
+				break;
 
-		case KoLConstants.WOK:
-		case KoLConstants.MALUS:
-		case KoLConstants.STILL_MIXER:
-		case KoLConstants.STILL_BOOZE:
-			formSource = "guild.php";
-			break;
+			case KoLConstants.WOK:
+				formSource = "guild.php";
+				action = "stillfruit";
 
-		case KoLConstants.CRIMBO07:
-			formSource = "crimbo07.php";
-			break;
+			case KoLConstants.MALUS:
+				formSource = "guild.php";
+				action = "malussmash";
+
+			case KoLConstants.STILL_MIXER:
+				formSource = "guild.php";
+				action = "stillfruit";
+
+			case KoLConstants.STILL_BOOZE:
+				formSource = "guild.php";
+				action = "stillbooze";
+				break;
+
+			case KoLConstants.CRIMBO07:
+				formSource = "crimbo07.php";
+				action = "toys";
+				break;
+			}
 		}
 
 		this.constructURLString( formSource );
-		this.addFormField( "pwd" );
+		this.addFormField( "action", action );
 
-		if ( KoLCharacter.inMuscleSign() && this.mixingMethod == KoLConstants.SMITH )
+		if ( mode != null )
 		{
-			this.addFormField( "action", "smith" );
-		}
-		else if ( this.mixingMethod == KoLConstants.CREATE_VIA_USE || this.mixingMethod == KoLConstants.CATALYST )
-		{
-			this.addFormField( "action", "useitem" );
-		}
-		else if ( this.mixingMethod == KoLConstants.STILL_BOOZE )
-		{
-			this.addFormField( "action", "stillbooze" );
-		}
-		else if ( this.mixingMethod == KoLConstants.STILL_MIXER )
-		{
-			this.addFormField( "action", "stillfruit" );
-		}
-		else if ( this.mixingMethod == KoLConstants.WOK )
-		{
-			this.addFormField( "action", "wokcook" );
-		}
-		else if ( this.mixingMethod == KoLConstants.MALUS )
-		{
-			this.addFormField( "action", "malussmash" );
-		}
-		else if ( this.mixingMethod == KoLConstants.CRIMBO07 )
-		{
-			this.addFormField( "action", "toys" );
-		}
-		else if ( this.mixingMethod != KoLConstants.SUBCLASS )
-		{
-			this.addFormField( "action", "combine" );
+			this.addFormField( "mode", mode );
+			this.addFormField( "ajax", "1" );
 		}
 	}
 
@@ -246,6 +255,8 @@ public class CreateItemRequest
 		{
 			if ( !ConcoctionDatabase.isPermittedMethod( instance.mixingMethod ) )
 			{
+				System.out.println( instance.toString() + " not permitted: " + instance.mixingMethod );
+
 				return null;
 			}
 		}
@@ -267,36 +278,6 @@ public class CreateItemRequest
 
 		switch ( mixingMethod )
 		{
-		case KoLConstants.COMBINE:
-			return new CreateItemRequest(
-				KoLCharacter.inMuscleSign() ? "knoll.php" : "combine.php", itemId, mixingMethod );
-
-		case KoLConstants.MIX:
-		case KoLConstants.MIX_SPECIAL:
-		case KoLConstants.MIX_SUPER:
-			return new CreateItemRequest( "cocktail.php", itemId, mixingMethod );
-
-		case KoLConstants.COOK:
-		case KoLConstants.COOK_REAGENT:
-		case KoLConstants.SUPER_REAGENT:
-		case KoLConstants.COOK_PASTA:
-			return new CreateItemRequest( "cook.php", itemId, mixingMethod );
-
-		case KoLConstants.SMITH:
-			return new CreateItemRequest(
-				KoLCharacter.inMuscleSign() ? "knoll.php" : "smith.php", itemId, mixingMethod );
-
-		case KoLConstants.SMITH_ARMOR:
-		case KoLConstants.SMITH_WEAPON:
-			return new CreateItemRequest( "smith.php", itemId, mixingMethod );
-
-		case KoLConstants.JEWELRY:
-		case KoLConstants.EXPENSIVE_JEWELRY:
-			return new CreateItemRequest( "jewelry.php", itemId, mixingMethod );
-
-		case KoLConstants.ROLLING_PIN:
-			return new CreateItemRequest( "inv_use.php", itemId, mixingMethod );
-
 		case KoLConstants.STARCHART:
 			return new StarChartRequest( itemId );
 
@@ -308,16 +289,6 @@ public class CreateItemRequest
 
 		case KoLConstants.CRIMBO05:
 			return new Crimbo05Request( itemId );
-
-		case KoLConstants.CATALYST:
-		case KoLConstants.CREATE_VIA_USE:
-			return new CreateItemRequest( "multiuse.php", itemId, mixingMethod );
-
-		case KoLConstants.WOK:
-		case KoLConstants.MALUS:
-		case KoLConstants.STILL_MIXER:
-		case KoLConstants.STILL_BOOZE:
-			return new CreateItemRequest( "guild.php", itemId, mixingMethod );
 
 		case KoLConstants.CRIMBO06:
 			return new Crimbo06Request( itemId );
@@ -334,8 +305,11 @@ public class CreateItemRequest
 		case KoLConstants.CRIMBO07:
 			return new Crimbo07Request( itemId );
 
-		default:
+		case KoLConstants.NOCREATE:
 			return null;
+
+		default:
+			return new CreateItemRequest( itemId );
 		}
 	}
 
@@ -503,6 +477,9 @@ public class CreateItemRequest
 
 	private void combineItems()
 	{
+		String path = this.getPath();
+		String quantityField = "quantity";
+
 		AdventureResult[] ingredients = ConcoctionDatabase.getIngredients( this.itemId );
 
 		if ( ingredients.length == 1 || this.mixingMethod == KoLConstants.CREATE_VIA_USE || this.mixingMethod == KoLConstants.CATALYST || this.mixingMethod == KoLConstants.WOK )
@@ -518,6 +495,13 @@ public class CreateItemRequest
 
 			this.addFormField( "whichitem", String.valueOf( ingredients[ 0 ].getItemId() ) );
 		}
+		else if ( path.equals( "craft.php" ) )
+		{
+			quantityField = "qty";
+
+			this.addFormField( "a", String.valueOf( ingredients[ 0 ].getItemId() ) );
+			this.addFormField( "b", String.valueOf( ingredients[ 1 ].getItemId() ) );
+		}
 		else
 		{
 			// Check to make sure that the box servant is available
@@ -532,7 +516,7 @@ public class CreateItemRequest
 		}
 
 		int quantity = ( this.quantityNeeded + this.yield - 1 ) / this.yield;
-		this.addFormField( "quantity", String.valueOf( quantity ) );
+		this.addFormField( quantityField, String.valueOf( quantity ) );
 
 		KoLmafia.updateDisplay( "Creating " + this.name + " (" + this.quantityNeeded + ")..." );
 		super.run();
@@ -1060,44 +1044,73 @@ public class CreateItemRequest
 
 		StringBuffer command = new StringBuffer();
 
-		if ( urlString.startsWith( "combine.php" ) || urlString.startsWith( "knoll.php" ) && urlString.indexOf( "action=combine" ) != -1 )
+		if ( urlString.startsWith( "craft.php" ) && urlString.indexOf( "action=craft" ) != -1 )
 		{
-			isCreationURL = true;
-			command.append( "Combine " );
+			if ( urlString.indexOf( "mode=combine" ) != -1 )
+			{
+				isCreationURL = true;
+				command.append( "Combine " );
+			}
+			else if ( urlString.indexOf( "mode=cocktail" ) != -1 )
+			{
+				isCreationURL = true;
+				command.append( "Mix " );
+				usesTurns = !KoLCharacter.hasBartender();
+			}
+			else if ( urlString.indexOf( "mode=cook" ) != -1 )
+			{
+				isCreationURL = true;
+				command.append( "Cook " );
+				usesTurns = !KoLCharacter.hasChef();
+			}
+			else if ( urlString.indexOf( "mode=smith" ) != -1 )
+			{
+				isCreationURL = true;
+				command.append( "Smith " );
+				usesTurns = true;
+			}
+			else if ( urlString.startsWith( "mode=jewelry" ) )
+			{
+				isCreationURL = true;
+				command.append( "Ply " );
+				usesTurns = true;
+			}
 		}
-		else if ( urlString.startsWith( "cocktail.php" ) )
+		else if ( urlString.startsWith( "knoll.php" ) )
 		{
-			isCreationURL = true;
-			command.append( "Mix " );
-			usesTurns = !KoLCharacter.hasBartender();
+			if ( urlString.indexOf( "action=combine" ) != -1 )
+			{
+				isCreationURL = true;
+				command.append( "Combine " );
+			}
+			else if ( urlString.indexOf( "action=smith" ) != -1 )
+			{
+				isCreationURL = true;
+				command.append( "Smith " );
+				usesTurns = true;
+			}
 		}
-		else if ( urlString.startsWith( "cook.php" ) )
+		else if ( urlString.startsWith( "guild.php" ) )
 		{
-			isCreationURL = true;
-			command.append( "Cook " );
-			usesTurns = !KoLCharacter.hasChef();
-		}
-		else if ( urlString.startsWith( "smith.php" ) && urlString.indexOf( "action=pulverize" ) != -1 )
-		{
-			return false;
-		}
-		else if ( urlString.startsWith( "smith.php" ) || urlString.startsWith( "knoll.php" ) && urlString.indexOf( "action=smith" ) != -1 )
-		{
-			isCreationURL = true;
-			command.append( "Smith " );
-			usesTurns = true;
-		}
-		else if ( urlString.startsWith( "jewelry.php" ) )
-		{
-			isCreationURL = true;
-			command.append( "Ply " );
-			usesTurns = true;
-		}
-		else if ( urlString.indexOf( "action=stillbooze" ) != -1 || urlString.indexOf( "action=stillfruit" ) != -1 )
-		{
-			isCreationURL = true;
-			command.append( "Distill " );
-			usesTurns = false;
+			if ( urlString.indexOf( "action=stillbooze" ) != -1 || urlString.indexOf( "action=stillfruit" ) != -1 )
+			{
+				isCreationURL = true;
+				command.append( "Distill " );
+				usesTurns = false;
+			}
+			else if ( urlString.indexOf( "action=wokcook" ) != -1 )
+			{
+				isCreationURL = true;
+				command.append( "Wok " );
+				usesTurns = true;
+			}
+			else if ( urlString.indexOf( "action=malussmash" ) != -1 )
+			{
+				isCreationURL = true;
+				command.append( "Pulverize " );
+				usesTurns = false;
+				multiplier = 5;
+			}
 		}
 		else if ( urlString.startsWith( "gnomes.php" ) )
 		{
@@ -1105,27 +1118,29 @@ public class CreateItemRequest
 			command.append( "Tinker " );
 			usesTurns = false;
 		}
-		else if ( urlString.indexOf( "action=wokcook" ) != -1 )
-		{
-			isCreationURL = true;
-			command.append( "Wok " );
-			usesTurns = true;
-		}
-		else if ( urlString.indexOf( "action=malussmash" ) != -1 )
-		{
-			isCreationURL = true;
-			command.append( "Pulverize " );
-			usesTurns = false;
-			multiplier = 5;
-		}
 
 		if ( !isCreationURL )
 		{
 			return false;
 		}
 
-		Matcher itemMatcher = CreateItemRequest.ITEMID_PATTERN.matcher( urlString );
-		Matcher quantityMatcher = CreateItemRequest.QUANTITY_PATTERN.matcher( urlString );
+		Matcher itemMatcher = null;
+		Matcher quantityMatcher = null;
+
+		if ( urlString.startsWith( "craft.php" ) )
+		{
+			// Parsing out crafting URLs will be a bit of a pain, so we'll
+			// implement this at a later time.  For now, just simple stuff
+			// that KoLmafia does internally.
+
+			itemMatcher = CreateItemRequest.CRAFT_PATTERN_1.matcher( urlString );
+		}
+		else
+		{
+			itemMatcher = CreateItemRequest.ITEMID_PATTERN.matcher( urlString );
+		}
+
+		quantityMatcher = CreateItemRequest.QUANTITY_PATTERN.matcher( urlString );
 
 		boolean needsPlus = false;
 		int quantity = quantityMatcher.find() ? StringUtilities.parseInt( quantityMatcher.group( 2 ) ) : 1;
@@ -1174,11 +1189,7 @@ public class CreateItemRequest
 			needsPlus = true;
 		}
 
-		if ( urlString.startsWith( "combine.php" ) )
-		{
-			ResultProcessor.processItem( ItemPool.MEAT_PASTE, 0 - quantity );
-		}
-		else if ( urlString.indexOf( "action=wokcook" ) != -1 )
+		if ( urlString.indexOf( "action=wokcook" ) != -1 )
 		{
 			command.append( " + " );
 			command.append( quantity );
