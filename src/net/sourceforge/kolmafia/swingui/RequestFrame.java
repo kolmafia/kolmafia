@@ -102,7 +102,6 @@ public class RequestFrame
 	{
 		this( "Mini-Browser" );
 
-		this.setDefaultCloseOperation( WindowConstants.HIDE_ON_CLOSE );
 		this.displayRequest( new GenericRequest( "main.php" ) );
 	}
 
