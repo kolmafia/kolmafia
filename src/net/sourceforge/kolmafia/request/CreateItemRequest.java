@@ -186,15 +186,18 @@ public class CreateItemRequest
 
 			case KoLConstants.WOK:
 				formSource = "guild.php";
-				action = "stillfruit";
+				action = "wokcook";
+				break;
 
 			case KoLConstants.MALUS:
 				formSource = "guild.php";
 				action = "malussmash";
+				break;
 
 			case KoLConstants.STILL_MIXER:
 				formSource = "guild.php";
 				action = "stillfruit";
+				break;
 
 			case KoLConstants.STILL_BOOZE:
 				formSource = "guild.php";
