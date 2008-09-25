@@ -89,7 +89,6 @@ import javax.swing.text.html.HTMLDocument;
 public class ChatBuffer
 {
 	private boolean shouldReset = false;
-	private final DisplayPaneUpdater UPDATER = new DisplayPaneUpdater();
 	private final DisplayQueueHandler HANDLER = new DisplayQueueHandler();
 
 	private static TreeMap activeLogFiles = new TreeMap();
@@ -127,9 +126,8 @@ public class ChatBuffer
 		this.scrollBars = new ArrayList();
 		this.displayPanes = new ArrayList();
 
-		this.UPDATER.queueClear();
+		this.HANDLER.queueClear();
 		this.shouldReset = false;
-		this.UPDATER.start();
 	}
 
 	/**
@@ -139,7 +137,7 @@ public class ChatBuffer
 
 	public void clearBuffer()
 	{
-		this.UPDATER.queueClear();
+		this.HANDLER.queueClear();
 	}
 
 	/**
@@ -159,7 +157,7 @@ public class ChatBuffer
 	/**
 	 * Sets the chat display used to display the chat messages currently being stored in the buffer. Note that whenever
 	 * modifications are made to the buffer, the display will also be modified to reflect these changes.
-	 * 
+	 *
 	 * @param display The chat display to be used to display incoming messages.
 	 */
 
@@ -261,7 +259,7 @@ public class ChatBuffer
 	 * Appends the given <code>SpellcastMessage</code> to the chat buffer. Note that though the parameter allows for
 	 * <i>any</i> <code>SpellcastMessage</code> to be appended to the buffer, the truth is, only pre-specified
 	 * messages will actually be displayed while others will simply be ignored.
-	 * 
+	 *
 	 * @param message The message to be appended to this <code>ChatBuffer</code>
 	 */
 
@@ -288,7 +286,7 @@ public class ChatBuffer
 
 	private void fireBufferChanged( final String newContents )
 	{
-		this.UPDATER.queueUpdate( newContents );
+		this.HANDLER.queueUpdate( newContents );
 		if ( this.activeLogWriter != null && newContents != null )
 		{
 			this.updateLogFile( newContents );
@@ -299,7 +297,7 @@ public class ChatBuffer
 	 * An internal module used to update the log file. This method basically appends the given string to the current
 	 * logfile. However, because many things may wish to update a log file, it is useful to have an extra module whose
 	 * job is merely to write data to the current log file.
-	 * 
+	 *
 	 * @param chatContent The content to be written to the file
 	 */
 
@@ -309,71 +307,6 @@ public class ChatBuffer
 		{
 			this.activeLogWriter.println( chatContent );
 			this.activeLogWriter.flush();
-		}
-	}
-
-	private class DisplayPaneUpdater
-		extends Thread
-	{
-		public void queueClear()
-		{
-			ChatBuffer.this.displayBuffer.setLength( 0 );
-			ChatBuffer.this.shouldReset = true;
-
-			synchronized ( this )
-			{
-				this.notify();
-			}
-		}
-
-		public void queueUpdate( String newContents )
-		{
-			if ( newContents == null )
-			{
-				ChatBuffer.this.shouldReset = true;
-			}
-			else if ( newContents.indexOf( "<body" ) != -1 )
-			{
-				ChatBuffer.this.displayBuffer.setLength( 0 );
-				ChatBuffer.this.displayBuffer.append( newContents.substring( newContents.indexOf( ">" ) + 1 ).trim() );
-				ChatBuffer.this.shouldReset = true;
-			}
-			else
-			{
-				newContents = newContents.trim();
-				ChatBuffer.this.displayBuffer.append( newContents );
-
-				if ( !ChatBuffer.this.shouldReset )
-				{
-					ChatBuffer.this.contentQueue.add( newContents );
-				}
-			}
-
-			synchronized ( this )
-			{
-				this.notify();
-			}
-		}
-
-		public void run()
-		{
-			while ( true )
-			{
-				try
-				{
-					synchronized ( this )
-					{
-						this.wait();
-					}
-
-					SwingUtilities.invokeLater( ChatBuffer.this.HANDLER );
-				}
-				catch ( InterruptedException e )
-				{
-					// We expect this to happen only when we are
-					// interrupted.  Fall through.
-				}
-			}
 		}
 	}
 
@@ -489,6 +422,40 @@ public class ChatBuffer
 
 			int length = displayPane.getDocument().getLength();
 			displayPane.setCaretPosition( ChatBuffer.this.autoScroll ? Math.max( length - 1, 0 ) : 0 );
+		}
+
+		public void queueClear()
+		{
+			ChatBuffer.this.displayBuffer.setLength( 0 );
+			ChatBuffer.this.shouldReset = true;
+
+			SwingUtilities.invokeLater( ChatBuffer.this.HANDLER );
+		}
+
+		public void queueUpdate( String newContents )
+		{
+			if ( newContents == null )
+			{
+				ChatBuffer.this.shouldReset = true;
+			}
+			else if ( newContents.indexOf( "<body" ) != -1 )
+			{
+				ChatBuffer.this.displayBuffer.setLength( 0 );
+				ChatBuffer.this.displayBuffer.append( newContents.substring( newContents.indexOf( ">" ) + 1 ).trim() );
+				ChatBuffer.this.shouldReset = true;
+			}
+			else
+			{
+				newContents = newContents.trim();
+				ChatBuffer.this.displayBuffer.append( newContents );
+
+				if ( !ChatBuffer.this.shouldReset )
+				{
+					ChatBuffer.this.contentQueue.add( newContents );
+				}
+			}
+
+			SwingUtilities.invokeLater( ChatBuffer.this.HANDLER );
 		}
 	}
 }
