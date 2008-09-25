@@ -60,13 +60,14 @@ public class PulverizeRequest
 
 	public PulverizeRequest( final AdventureResult item )
 	{
-		super( "smith.php" );
+		super( "craft.php" );
 		this.addFormField( "action", "pulverize" );
 
 		this.item = item;
 		this.addFormField( "smashitem", String.valueOf( item.getItemId() ) );
-		this.addFormField( "quantity", String.valueOf( item.getCount() ) );
-
+		this.addFormField( "qty", String.valueOf( item.getCount() ) );
+		this.addFormField( "ajax", "1" );
+		
 		// 1 to confirm smashing untradables
 		this.addFormField( "conftrade", "1" );
 	}
