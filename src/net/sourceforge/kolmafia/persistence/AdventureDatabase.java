@@ -362,7 +362,7 @@ public class AdventureDatabase
 
 			bounty = StringUtilities.getCanonicalName( bounty.substring( bounty.indexOf( " " ) + 1 ) );
 			AdventureDatabase.locationByBounty.put(
-				bounty, AdventureDatabase.getAdventureByURL( "adventure.php?snarfblat=" + i ) );
+				bounty, AdventureDatabase.getAdventureByURL( "adventure.php?snarfblat=" + i + "&pwd" ) );
 		}
 	}
 
