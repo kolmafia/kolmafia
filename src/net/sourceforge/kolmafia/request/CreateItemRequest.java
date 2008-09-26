@@ -258,8 +258,6 @@ public class CreateItemRequest
 		{
 			if ( !ConcoctionDatabase.isPermittedMethod( instance.mixingMethod ) )
 			{
-				System.out.println( instance.toString() + " not permitted: " + instance.mixingMethod );
-
 				return null;
 			}
 		}
