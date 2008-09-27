@@ -52,7 +52,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class MultiUseRequest
 	extends CreateItemRequest
 {
-	private static final Pattern USE_PATTERN = Pattern.compile( "multiuse.php.*whichitem=(\\d+).*quantity=(\\d+)" );
+	private static final Pattern USE_PATTERN = Pattern.compile( "multiuse.php.*quantity=(\\d+).*whichitem=(\\d+)" );
 	private AdventureResult ingredient;
 
 	public MultiUseRequest( final int itemId )
@@ -72,8 +72,8 @@ public class MultiUseRequest
 		int count = this.ingredient.getCount();
 
 		this.addFormField( "action", "useitem" );
-		this.addFormField( "whichitem", String.valueOf( use ) );
 		this.addFormField( "quantity", String.valueOf( count ) );
+		this.addFormField( "whichitem", String.valueOf( use ) );
 	}
 
 	public void reconstructFields()
@@ -99,7 +99,14 @@ public class MultiUseRequest
 
 	static final String[] ERRORS =
 	{
+		"You can't figure out what to do with this thing. Maybe you should mess with more than one of them at a time.",
 		"You can't weave anything out of that quantity of palm fronds.",
+		"You tie the mummy wrapping in a bow, but it's not a very good bow, so you untie it and put it back in your pocket.",
+		"You can't figure out how to do anything with that particular number of wrappings.",
+		"You mess with the duct tape for a while, but can't figure out how to make anything interesting",
+		"You can't make anything interesting out of that number of bits of clingfilm.",
+		"Nothing worthwhile can be sculpted out of a single balloon. Trust me on that one.",
+		"You twist the balloons around for a while, but you can't figure out how to make anything interesting",
 	};
 
 	public void processResults()
@@ -127,7 +134,7 @@ public class MultiUseRequest
 		}
 
 		// Item ID of the base item
-		int baseId = StringUtilities.parseInt( useMatcher.group( 1 ) );
+		int baseId = StringUtilities.parseInt( useMatcher.group( 2 ) );
 
 		// Find result item ID
 		int result = ConcoctionPool.findConcoction( KoLConstants.MULTI_USE, baseId );
@@ -138,7 +145,7 @@ public class MultiUseRequest
 			return false;
 		}
 
-		int count = StringUtilities.parseInt( useMatcher.group( 2 ) );
+		int count = StringUtilities.parseInt( useMatcher.group( 1 ) );
 
 		UseItemRequest.setLastItemUsed( ItemPool.get( baseId, count ) );
 		AdventureResult base = ItemPool.get( baseId, 0 - count );
