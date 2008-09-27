@@ -1130,9 +1130,9 @@ public class CreateItemRequest
 
 		if ( urlString.startsWith( "craft.php" ) )
 		{
-			// Parsing out crafting URLs will be a bit of a pain, so we'll
-			// implement this at a later time.  For now, just simple stuff
-			// that KoLmafia does internally.
+			// Parsing out crafting URLs will be a bit of a pain,
+			// so we'll implement this at a later time.  For now,
+			// just simple stuff that KoLmafia does internally.
 
 			itemMatcher = CreateItemRequest.CRAFT_PATTERN_1.matcher( urlString );
 		}
@@ -1201,6 +1201,10 @@ public class CreateItemRequest
 			command.append( quantity );
 			command.append( " MSG" );
 			ResultProcessor.processItem( ItemPool.MSG, 0 - quantity );
+		}
+		else if ( urlString.indexOf( "mode=combine" ) != -1 )
+		{
+			ResultProcessor.processItem( ItemPool.MEAT_PASTE, 0 - quantity );
 		}
 
 		if ( usesTurns )
