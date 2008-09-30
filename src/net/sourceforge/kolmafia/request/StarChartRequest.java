@@ -104,9 +104,15 @@ public class StarChartRequest
 	public static final boolean registerRequest( final String urlString )
 	{
 		Matcher starMatcher = StarChartRequest.STAR_PATTERN.matcher( urlString );
+
+		if ( !starMatcher.find() )
+		{
+			return true;
+		}
+
 		Matcher lineMatcher = StarChartRequest.LINE_PATTERN.matcher( urlString );
 
-		if ( !starMatcher.find() || !lineMatcher.find() )
+		if ( !lineMatcher.find() )
 		{
 			return true;
 		}
