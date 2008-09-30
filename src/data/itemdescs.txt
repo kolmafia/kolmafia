@@ -2468,7 +2468,7 @@
 2462	364128826	odor extractor	odor extractors
 2463	810074020	Manual of Transcendent Olfaction	Manuals of Transcendent Olfaction
 2464	972566031	bowl of Bounty-Os	bowls of Bounty-Os
-2465	527016642	Oreille Divis&eacute;e brandy
+2465	527016642	Oreille Divis&eacute;e brandy	snifters of Oreille Divis&eacute;e brandy
 2466	461008515	pompadour'd puppy	pompadour'd puppies
 2467	400348108	blue suede shoes	blue suede shoeses, preciousss
 2468	136659520	callused fingerbone	callused fingerbones

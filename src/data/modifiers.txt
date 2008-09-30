@@ -1608,6 +1608,7 @@ Hella Tough	Muscle Percent: +25, Damage Reduction: 5
 Hennaliciousness	Mysticality: +3
 Hernia!	Muscle Percent: -70
 Hippy Stench	Combat Rate: +5
+Hoity Toity	Item Drop: +30
 Hombre Muerto Caminando	Maximum MP: +20, Spooky Resistance: +1
 Hopped Up on Goofballs	Muscle Percent: +20, Moxie Percent: +20
 Hornswaggled	Moxie Percent: +50, Muscle Percent: -50
