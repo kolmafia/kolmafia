@@ -1070,7 +1070,7 @@ public class CreateItemRequest
 				command.append( "Smith " );
 				usesTurns = true;
 			}
-			else if ( urlString.startsWith( "mode=jewelry" ) )
+			else if ( urlString.indexOf( "mode=jewelry" ) != -1 )
 			{
 				isCreationURL = true;
 				command.append( "Ply " );
