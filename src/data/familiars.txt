@@ -85,4 +85,5 @@
 89	Hobo Monkey	meat0	3342	tiny bindle	0	3	3	3
 90	Llama Lama	none	3351	zen motorcycle	1	2	3	2
 91	Cotton Candy Carnie	none	3431	cotton candy cordial	0	2	2	3
+92	Disembodied Hand	none	3434		0	0	0	0
 93	Black Cat	none	3443		0	0	0	0

@@ -3432,7 +3432,7 @@
 3431	cotton candy cocoon	5	all	0
 3432	cotton candy cordial	7	all	75
 3433	spice melange	3	all	0
-3434
+3434	spooky rattling cigar box	5	all	0
 3435	big stirring stick	12	all	105
 3436	Staff of the Teapot Tempest	12	display	0
 3437	Staff of the Black Kettle	12	display	0
