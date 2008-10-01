@@ -702,6 +702,9 @@ public abstract class KoLmafia
 		Preferences.setInteger( "lastCounterDay", HolidayDatabase.getPhaseStep() );
 		Preferences.setBoolean( "breakfastCompleted", false );
 
+		Preferences.setString( "barrelLayout", "?????????" );
+		Preferences.setInteger( "lastBarrelSmashed", 0 );
+
 		Preferences.setBoolean( "expressCardUsed", false );
 		Preferences.setBoolean( "spiceMelangeUsed", false );
 		Preferences.setInteger( "currentFullness", 0 );

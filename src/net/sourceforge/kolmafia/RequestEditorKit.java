@@ -67,6 +67,7 @@ import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.RequestFrame;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+import net.sourceforge.kolmafia.webui.BarrelDecorator;
 import net.sourceforge.kolmafia.webui.BasementDecorator;
 import net.sourceforge.kolmafia.webui.BeerPongDecorator;
 import net.sourceforge.kolmafia.webui.CharPaneDecorator;
@@ -488,6 +489,10 @@ public class RequestEditorKit
 					"<td></td>",
 					"<td><img src=\"http://images.kingdomofloathing.com/itemimages/confused.gif\" title=\"No Data\" alt=\"No Data\" height=30 width=30></td>" );
 			}
+		}
+		else if ( location.startsWith( "barrel.php" ) )
+		{
+			BarrelDecorator.decorate( buffer );
 		}
 		else if ( location.startsWith( "basement.php" ) )
 		{
