@@ -382,7 +382,7 @@ public class FamiliarData
 		case ItemPool.FISH_SCALER:
 		case ItemPool.ORIGAMI_MAGAZINE:
 		case ItemPool.FIREWORKS:
-			return this.id != 54 && this.id != 82 && this.id != 92;
+			return this.id != 54 && this.id != 82;
 
 		case ItemPool.SNOOTY_DISGUISE:
 		case ItemPool.GROUCHO_DISGUISE:
@@ -402,7 +402,10 @@ public class FamiliarData
 			if ( this.id == 92 )
 			{
 				// Disembodied Hand can equip one-handed weapons
-				return EquipmentDatabase.getHands( item.getItemId() ) == 1;
+				// Disembodied Hand cannot equip chefstaves
+				int itemId = item.getItemId();
+				return ( EquipmentDatabase.getHands( itemId ) == 1 &&
+					 !EquipmentDatabase.getItemType( itemId ).equals( "chefstaff" ) );
 			}
 			
 			return item.getName().equals( FamiliarDatabase.getFamiliarItem( this.id ) );
