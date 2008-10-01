@@ -3438,7 +3438,7 @@
 3431	960452345	cotton candy cocoon
 3432	723689501	cotton candy cordial
 3433	569771218	spice melange	quantities of spice melange
-3434
+3434	756933632	spooky rattling cigar box
 3435	768622816	big stirring stick
 3436	812870240	Staff of the Teapot Tempest
 3437	707454044	Staff of the Black Kettle

@@ -396,13 +396,6 @@ public class EquipmentManager {
 				}
 			}
 
-			// Otherwise, slot and item type must match
-
-			else if ( filterId != type )
-			{
-				continue;
-			}
-
 			// If we are equipping familiar items, make sure
 			// current familiar can use this one
 
@@ -413,6 +406,13 @@ public class EquipmentManager {
 					temporary.add( currentItem );
 				}
 
+				continue;
+			}
+
+			// Otherwise, slot and item type must match
+
+			else if ( filterId != type )
+			{
 				continue;
 			}
 

@@ -50,6 +50,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
@@ -381,7 +382,7 @@ public class FamiliarData
 		case ItemPool.FISH_SCALER:
 		case ItemPool.ORIGAMI_MAGAZINE:
 		case ItemPool.FIREWORKS:
-			return this.id != 54 && this.id != 82;
+			return this.id != 54 && this.id != 82 && this.id != 92;
 
 		case ItemPool.SNOOTY_DISGUISE:
 		case ItemPool.GROUCHO_DISGUISE:
@@ -392,8 +393,19 @@ public class FamiliarData
 			return this.id == 77;
 
 		default:
-			return this.id == 82 ? ItemDatabase.getConsumptionType( item.getItemId() ) == KoLConstants.EQUIP_HAT :
-				item.getName().equals( FamiliarDatabase.getFamiliarItem( this.id ) );
+			if ( this.id == 82 )
+			{
+				// Mad Hatrack can wear hats
+				return ItemDatabase.getConsumptionType( item.getItemId() ) == KoLConstants.EQUIP_HAT;
+			}
+
+			if ( this.id == 92 )
+			{
+				// Disembodied Hand can equip one-handed weapons
+				return EquipmentDatabase.getHands( item.getItemId() ) == 1;
+			}
+			
+			return item.getName().equals( FamiliarDatabase.getFamiliarItem( this.id ) );
 		}
 	}
 

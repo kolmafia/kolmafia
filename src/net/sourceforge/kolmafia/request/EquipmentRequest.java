@@ -354,15 +354,15 @@ public class EquipmentRequest
 			break;
 
 		case EquipmentManager.FAMILIAR:
-			if ( this.equipmentType == KoLConstants.EQUIP_FAMILIAR )
+			switch ( this.equipmentType )
 			{
+			case KoLConstants.EQUIP_FAMILIAR:
 				return "equip";
-			}
-			if ( this.equipmentType == KoLConstants.EQUIP_HAT )
-			{
+
+			case KoLConstants.EQUIP_HAT:
+			case KoLConstants.EQUIP_WEAPON:
 				return "hatrack";
 			}
-
 			break;
 
 		default:
