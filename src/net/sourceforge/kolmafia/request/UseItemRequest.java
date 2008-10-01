@@ -1605,6 +1605,8 @@ public class UseItemRequest
 				KoLCharacter.updateStatus();
 			}
 
+			return;
+
 		case ItemPool.NEWBIESPORT_TENT:
 		case ItemPool.BARSKIN_TENT:
 		case ItemPool.COTTAGE:

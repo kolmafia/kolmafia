@@ -83,6 +83,7 @@ import net.sourceforge.kolmafia.swingui.RequestFrame;
 import net.sourceforge.kolmafia.swingui.RequestSynchFrame;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+import net.sourceforge.kolmafia.webui.BarrelDecorator;
 
 import com.velocityreviews.forums.HttpTimeoutHandler;
 
@@ -113,6 +114,7 @@ public class GenericRequest
 
 	public static String passwordHash = "";
 	public static boolean isRatQuest = false;
+	public static boolean isBarrelSmash = false;
 	public static boolean handlingChoices = false;
 
 	public static int lastChoice = 0;
@@ -739,6 +741,19 @@ public class GenericRequest
 		if ( GenericRequest.isRatQuest )
 		{
 			KoLmafia.addTavernLocation( this );
+		}
+
+		if ( !this.hasNoResult && GenericRequest.isBarrelSmash )
+		{
+			// Smash has resulted in a mimic.
+			// Continue tracking throughout the combat
+			GenericRequest.isBarrelSmash = urlString.startsWith( "fight.php" );
+		}
+
+		if ( urlString.startsWith( "barrel.php?" ) )
+		{
+			GenericRequest.isBarrelSmash = true;
+			BarrelDecorator.beginSmash( urlString );
 		}
 
 		if ( !this.hasNoResult )

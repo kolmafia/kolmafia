@@ -53,10 +53,12 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
+import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+import net.sourceforge.kolmafia.webui.BarrelDecorator;
 import net.sourceforge.kolmafia.webui.IslandDecorator;
 
 public class ResultProcessor
@@ -625,6 +627,11 @@ public class ResultProcessor
 		{
 			// Do special processing when you get certain items
 			ResultProcessor.gainItem( result );
+
+			if ( GenericRequest.isBarrelSmash )
+			{
+				BarrelDecorator.gainItem( result );
+			}
 		}
 
 		shouldRefresh |= result.getName().equals( AdventureResult.MEAT );

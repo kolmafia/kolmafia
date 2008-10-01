@@ -150,6 +150,7 @@ user	autoRepairBoxServants	true
 user	availableDimes	0
 user	availableLucre	0
 user	availableQuarters	0
+user	barrelLayout	?????????
 user	battleAction	attack with weapon
 user	betweenBattleScript
 user	breakfastCompleted	false
@@ -207,6 +208,7 @@ user	lastBangPotion825
 user	lastBangPotion826
 user	lastBangPotion827
 user	lastBangPotionReset	-1
+user	lastBarrelSmashed	0
 user	lastBattlefieldReset	-1
 user	lastBreakfast	-1
 user	lastCouncilVisit	0
