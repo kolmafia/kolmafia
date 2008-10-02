@@ -40,7 +40,6 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.StaticEntity;
 
-import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.persistence.Preferences;
@@ -493,22 +492,21 @@ public abstract class LouvreManager
 		return "";
 	}
 
-	public static final boolean mapChoice( final int lastChoice, final String text )
+	public static final boolean mapChoice( final int lastChoice, final int lastDecision, final String text )
 	{
 		if ( !LouvreManager.louvreChoice( lastChoice ) )
 		{
 			return false;
 		}
 
-		int lastDecision = GenericRequest.getLastDecision() - 1;
 		// Punt if bogus decision
-		if ( lastDecision < 0 || lastDecision > 2 )
+		if ( lastDecision < 1 || lastDecision > 3 )
 		{
 			return true;
 		}
 
 		// Return if we've already mapped this decision
-		if ( LouvreManager.LouvreChoiceTable[ lastChoice - LouvreManager.FIRST_CHOICE ][ lastDecision ] != 0 )
+		if ( LouvreManager.LouvreChoiceTable[ lastChoice - LouvreManager.FIRST_CHOICE ][ lastDecision - 1 ] != 0 )
 		{
 			return true;
 		}
@@ -546,7 +544,7 @@ public abstract class LouvreManager
 	private static final void mapChoice( final int choice, final int decision, final int destination )
 	{
 		int choices[] = LouvreManager.choiceTuple( choice );
-		choices[ decision ] = destination;
+		choices[ decision - 1 ] = destination;
 		LouvreManager.saveMap();
 
 		// If 2 choices have been discovered, 3rd might be knowable.

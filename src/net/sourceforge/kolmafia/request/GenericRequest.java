@@ -116,10 +116,7 @@ public class GenericRequest
 	public static boolean isRatQuest = false;
 	public static boolean isBarrelSmash = false;
 	public static boolean handlingChoices = false;
-
-	public static int lastChoice = 0;
-	public static int lastDecision = 0;
-	public static boolean choiceMapped = true;
+	private static boolean choiceHandled = true;
 
 	protected String encounter = "";
 	public static boolean isCompactMode = false;
@@ -764,7 +761,8 @@ public class GenericRequest
 
 		if ( urlString.startsWith( "choice.php" ) )
 		{
-			this.saveLastChoice();
+			GenericRequest.choiceHandled = false;
+			ChoiceManager.preChoice( this );
 		}
 
 		// If you're about to fight the Naughty Sorceress,
@@ -799,164 +797,6 @@ public class GenericRequest
 			}
 		}
 		while ( !this.postClientData() && !this.retrieveServerReply() && this.timeoutCount < GenericRequest.TIMEOUT_LIMIT );
-	}
-
-	private void saveLastChoice()
-	{
-		// We are about to call choice.php
-		GenericRequest.choiceMapped = false;
-
-		if ( this.data.isEmpty() )
-		{
-			return;
-		}
-
-		// We are about to take a choice option
-		GenericRequest.lastChoice = StringUtilities.parseInt( this.getFormField( "whichchoice" ) );
-		GenericRequest.lastDecision = StringUtilities.parseInt( this.getFormField( "option" ) );
-
-		switch ( GenericRequest.lastChoice )
-		{
-		// Strung-Up Quartet
-		case 106:
-
-			Preferences.setInteger( "lastQuartetAscension", KoLCharacter.getAscensions() );
-			Preferences.setInteger( "lastQuartetRequest", GenericRequest.lastDecision );
-
-			if ( KoLCharacter.recalculateAdjustments() )
-			{
-				KoLCharacter.updateStatus();
-			}
-
-			break;
-
-		// Wheel In the Sky Keep on Turning: Muscle Position
-		case 9:
-			Preferences.setString(
-				"currentWheelPosition",
-				GenericRequest.lastDecision == 1 ? "mysticality" : GenericRequest.lastDecision == 2 ? "moxie" : "muscle" );
-			break;
-
-		// Wheel In the Sky Keep on Turning: Mysticality Position
-		case 10:
-			Preferences.setString(
-				"currentWheelPosition",
-				GenericRequest.lastDecision == 1 ? "map quest" : GenericRequest.lastDecision == 2 ? "muscle" : "mysticality" );
-			break;
-
-		// Wheel In the Sky Keep on Turning: Map Quest Position
-		case 11:
-			Preferences.setString(
-				"currentWheelPosition",
-				GenericRequest.lastDecision == 1 ? "moxie" : GenericRequest.lastDecision == 2 ? "mysticality" : "map quest" );
-			break;
-
-		// Wheel In the Sky Keep on Turning: Moxie Position
-		case 12:
-			Preferences.setString(
-				"currentWheelPosition",
-				GenericRequest.lastDecision == 1 ? "muscle" : GenericRequest.lastDecision == 2 ? "map quest" : "moxie" );
-			break;
-
-		// Start the Island War Quest
-		case 142:
-		case 146:
-			if ( GenericRequest.lastDecision == 3 )
-			{
-				QuestLogRequest.setHippyStoreUnavailable();
-			}
-			break;
-		}
-	}
-
-	private void mapLastChoice()
-	{
-		// Only look at the results once after taking a choice
-		if ( GenericRequest.choiceMapped )
-		{
-			return;
-		}
-
-		GenericRequest.choiceMapped = true;
-
-		if ( ChoiceManager.postChoice( this, GenericRequest.lastChoice, GenericRequest.lastDecision ) )
-		{
-			return;
-		}
-
-		String text = this.responseText;
-
-		// Let the Violet Fog handle this
-		if ( VioletFogManager.mapChoice( GenericRequest.lastChoice, text ) )
-		{
-			return;
-		}
-
-		// Let the Louvre handle this
-		if ( LouvreManager.mapChoice( GenericRequest.lastChoice, text ) )
-		{
-			return;
-		}
-
-		// Handle the Guy Made of Bees
-		if ( this.checkGuyMadeOfBees() )
-		{
-			return;
-		}
-	}
-
-	private boolean checkGuyMadeOfBees()
-	{
-		if ( GenericRequest.lastChoice != 105 )
-		{
-			return false;
-		}
-
-		if ( GenericRequest.lastDecision != 3 )
-		{
-			return true;
-		}
-
-		KoLCharacter.ensureUpdatedGuyMadeOfBees();
-		String text = this.responseText;
-
-		String urlString = this.formURLString;
-		if ( urlString.startsWith( "fight.php" ) )
-		{
-			if ( text.indexOf( "guy made of bee pollen" ) != -1 )
-			{
-				// Record that we beat the guy made of bees.
-				Preferences.setBoolean( "guyMadeOfBeesDefeated", true );
-			}
-		}
-		else if ( urlString.startsWith( "choice.php" ) )
-		{
-			if ( text.indexOf( "that ship is sailed" ) != -1 )
-			{
-				// For some reason, we didn't notice when we
-				// beat the guy made of bees. Record it now.
-				Preferences.setBoolean( "guyMadeOfBeesDefeated", true );
-			}
-			else if ( text.indexOf( "Nothing happens." ) != -1 )
-			{
-				// Increment the number of times we've
-				// called the guy made of bees.
-				Preferences.increment( "guyMadeOfBeesCount", 1, 5, true );
-			}
-
-		}
-
-		return true;
-	}
-
-	public static final int getLastChoice()
-	{
-		return GenericRequest.lastChoice;
-	}
-
-	public static final int getLastDecision()
-	{
-		return GenericRequest.lastDecision;
 	}
 
 	public static final boolean shouldIgnore( final GenericRequest request )
@@ -1539,9 +1379,11 @@ public class GenericRequest
 			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "use", "* ten-leaf clover" );
 		}
 
-		// Let the mappers do their work
-
-		this.mapLastChoice();
+		if ( !GenericRequest.choiceHandled )
+		{
+			GenericRequest.choiceHandled = true;
+			ChoiceManager.postChoice( this );
+		}
 
 		// Once everything is complete, decide whether or not
 		// you should refresh your status.
