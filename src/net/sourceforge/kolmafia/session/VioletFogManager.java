@@ -41,7 +41,6 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
-import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.persistence.Preferences;
@@ -374,22 +373,21 @@ public abstract class VioletFogManager
 		return "";
 	}
 
-	public static final boolean mapChoice( final int lastChoice, final String text )
+	public static final boolean mapChoice( final int lastChoice, final int lastDecision, final String text )
 	{
 		if ( !VioletFogManager.fogChoice( lastChoice ) )
 		{
 			return false;
 		}
 
-		int lastDecision = GenericRequest.getLastDecision() - 1;
 		// Punt if bogus decision
-		if ( lastDecision < 0 || lastDecision > 3 )
+		if ( lastDecision < 1 || lastDecision > 4 )
 		{
 			return true;
 		}
 
 		// Return if we've already mapped this decision
-		if ( VioletFogManager.FogChoiceTable[ lastChoice - VioletFogManager.FIRST_CHOICE ][ lastDecision ] != 0 )
+		if ( VioletFogManager.FogChoiceTable[ lastChoice - VioletFogManager.FIRST_CHOICE ][ lastDecision - 1 ] != 0 )
 		{
 			return true;
 		}
@@ -410,7 +408,7 @@ public abstract class VioletFogManager
 
 		// Update the path table
 		int choices[] = VioletFogManager.FogChoiceTable[ lastChoice - VioletFogManager.FIRST_CHOICE ];
-		choices[ lastDecision ] = source;
+		choices[ lastDecision - 1 ] = source;
 		VioletFogManager.saveMap();
 
 		// See if exactly one exit is unknown

@@ -48,12 +48,16 @@ import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.swingui.CouncilFrame;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class ChoiceManager
 {
+	public static int lastChoice = 0;
+	public static int lastDecision = 0;
+
 	private static final AdventureResult PAPAYA = new AdventureResult( 498, 1 );
 	private static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice value=(\\d+)" );
 	private static final Pattern TATTOO_PATTERN = Pattern.compile( "otherimages/sigils/hobotat(\\d+).gif" );
@@ -1698,25 +1702,120 @@ public abstract class ChoiceManager
 		}
 	}
 
-	public static final boolean postChoice( final GenericRequest request, final int choice, final int decision )
+	public static final int getLastChoice()
 	{
-		String urlString = request.getPath();
-		if ( !urlString.startsWith( "choice.php" ) )
+		return ChoiceManager.lastChoice;
+	}
+
+	public static final int getLastDecision()
+	{
+		return ChoiceManager.lastDecision;
+	}
+
+	public static final void preChoice( final GenericRequest request )
+	{
+		String choice = request.getFormField( "whichchoice" );
+		String option = request.getFormField( "option" );
+
+		if ( choice == null || option == null )
 		{
-			return false;
+			return;
 		}
 
+		// We are about to take a choice option
+		ChoiceManager.lastChoice = StringUtilities.parseInt( choice );
+		ChoiceManager.lastDecision = StringUtilities.parseInt( option );
+
+		switch ( ChoiceManager.lastChoice )
+		{
+		// Strung-Up Quartet
+		case 106:
+
+			Preferences.setInteger( "lastQuartetAscension", KoLCharacter.getAscensions() );
+			Preferences.setInteger( "lastQuartetRequest", ChoiceManager.lastDecision );
+
+			if ( KoLCharacter.recalculateAdjustments() )
+			{
+				KoLCharacter.updateStatus();
+			}
+
+			break;
+
+		// Wheel In the Sky Keep on Turning: Muscle Position
+		case 9:
+			Preferences.setString(
+				"currentWheelPosition",
+				ChoiceManager.lastDecision == 1 ? "mysticality" : ChoiceManager.lastDecision == 2 ? "moxie" : "muscle" );
+			break;
+
+		// Wheel In the Sky Keep on Turning: Mysticality Position
+		case 10:
+			Preferences.setString(
+				"currentWheelPosition",
+				ChoiceManager.lastDecision == 1 ? "map quest" : ChoiceManager.lastDecision == 2 ? "muscle" : "mysticality" );
+			break;
+
+		// Wheel In the Sky Keep on Turning: Map Quest Position
+		case 11:
+			Preferences.setString(
+				"currentWheelPosition",
+				ChoiceManager.lastDecision == 1 ? "moxie" : ChoiceManager.lastDecision == 2 ? "mysticality" : "map quest" );
+			break;
+
+		// Wheel In the Sky Keep on Turning: Moxie Position
+		case 12:
+			Preferences.setString(
+				"currentWheelPosition",
+				ChoiceManager.lastDecision == 1 ? "muscle" : ChoiceManager.lastDecision == 2 ? "map quest" : "moxie" );
+			break;
+
+		// Start the Island War Quest
+		case 142:
+		case 146:
+			if ( ChoiceManager.lastDecision == 3 )
+			{
+				QuestLogRequest.setHippyStoreUnavailable();
+			}
+			break;
+		}
+	}
+
+	public static void postChoice( final GenericRequest request )
+	{
 		String text = request.responseText;
 
-		switch ( choice )
+		switch ( ChoiceManager.lastChoice )
 		{
+		case 48: case 49: case 50: case 51: case 52:
+		case 53: case 54: case 55: case 56: case 57:
+		case 58: case 59: case 60: case 61: case 62:
+		case 63: case 64: case 65: case 66: case 67:
+		case 68: case 69: case 70:
+			// Choices in the Violet Fog
+			VioletFogManager.mapChoice( ChoiceManager.lastChoice, ChoiceManager.lastDecision, text );
+			break;
+
+		case 92: case 93: case 94: case 95: case 96:
+		case 97: case 98: case 99: case 100: case 101:
+		case 102: case 103: case 104:
+			// Choices in the Louvre
+			LouvreManager.mapChoice( ChoiceManager.lastChoice, ChoiceManager.lastDecision, text );
+			break;
+
+		case 105:
+			if ( ChoiceManager.lastDecision == 3 )
+			{
+				checkGuyMadeOfBees( request );
+			}
+			break;
+		
 		case 112:
 			// Please, Hammer
-			if ( KoLmafia.isAdventuring() && decision == 1 )
+			if ( ChoiceManager.lastDecision == 1 && KoLmafia.isAdventuring() )
 			{
 				InventoryManager.retrieveItem( ItemPool.get( ItemPool.HAROLDS_HAMMER, 1 ) );
 			}
-			return true;
+			break;
 
 		case 162:
 			// Between a Rock and Some Other Rocks
@@ -1724,7 +1823,7 @@ public abstract class ChoiceManager
 			{
 				CouncilFrame.unlockGoatlet();
 			}
-			return true;
+			break;
 
 		case 197:
 			// Somewhat Higher and Mostly Dry
@@ -1732,11 +1831,11 @@ public abstract class ChoiceManager
 			// Disgustin' Junction
 		case 199:
 			// The Former or the Ladder
-			if ( decision == 1 )
+			if ( ChoiceManager.lastDecision == 1 )
 			{
 				ChoiceManager.checkDungeonSewers( request );
 			}
-			return true;
+			break;
 
 		case 200:
 			// Enter The Hoboverlord
@@ -1752,11 +1851,11 @@ public abstract class ChoiceManager
 			// Van, Damn
 
 			// Abort for Hobopolis bosses
-			if ( KoLmafia.isAdventuring() && decision == 2 )
+			if ( ChoiceManager.lastDecision == 2 && KoLmafia.isAdventuring() )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, ChoiceManager.hobopolisBossName( choice) + " waits for you." );
+				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, ChoiceManager.hobopolisBossName( ChoiceManager.lastChoice) + " waits for you." );
 			}
-			return true;
+			break;
 
 		case 237:
 			// Big Merv's Protein Shakes
@@ -1764,16 +1863,16 @@ public abstract class ChoiceManager
 			// Suddenly Salad!
 		case 239:
 			// Sizzling Weasel On a Stick
-			if ( decision == 1 && text.indexOf( "You gain" ) != -1 )
+			if ( ChoiceManager.lastDecision == 1 && text.indexOf( "You gain" ) != -1 )
 			{
-                                // You spend 20 hobo nickels
+				// You spend 20 hobo nickels
 				AdventureResult cost = new AdventureResult( "hobo nickel", -20 );
 				ResultProcessor.processResult( cost );
 
 				// You gain 5 fullness
 				Preferences.setInteger( "currentFullness", KoLCharacter.getFullness() + 5 );
 			}
-			return true;
+			break;
 
 		case 242:
 			// Arthur Finn's World-Record Homebrew Stout
@@ -1781,7 +1880,7 @@ public abstract class ChoiceManager
 			// Mad Jack's Corn Squeezery
 		case 244:
 			// Bathtub Jimmy's Gin Mill
-			if ( decision == 1 && text.indexOf( "You gain" ) != -1 )
+			if ( ChoiceManager.lastDecision == 1 && text.indexOf( "You gain" ) != -1 )
 			{
 				// You spend 20 hobo nickels
 				AdventureResult cost = new AdventureResult( "hobo nickel", -20 );
@@ -1790,13 +1889,13 @@ public abstract class ChoiceManager
 				// You gain 5 drunkenness.  This will be set
 				// when we refresh the charpane.
 			}
-			return true;
+			break;
 
 		case 271:
 			// Tattoo Shop
 		case 274:
 			// Tattoo Redux
-			if ( decision == 1 )
+			if ( ChoiceManager.lastDecision == 1 )
 			{
 				Matcher matcher = ChoiceManager.TATTOO_PATTERN.matcher( request.responseText );
 				if ( matcher.find() )
@@ -1806,10 +1905,41 @@ public abstract class ChoiceManager
 					ResultProcessor.processResult( cost );
 				}
 			}
-			return true;
+			break;
 		}
+	}
 
-		return false;
+	private static void checkGuyMadeOfBees( final GenericRequest request )
+	{
+		KoLCharacter.ensureUpdatedGuyMadeOfBees();
+
+		String text = request.responseText;
+		String urlString = request.getPath();
+
+		if ( urlString.startsWith( "fight.php" ) )
+		{
+			if ( text.indexOf( "guy made of bee pollen" ) != -1 )
+			{
+				// Record that we beat the guy made of bees.
+				Preferences.setBoolean( "guyMadeOfBeesDefeated", true );
+			}
+		}
+		else if ( urlString.startsWith( "choice.php" ) )
+		{
+			if ( text.indexOf( "that ship is sailed" ) != -1 )
+			{
+				// For some reason, we didn't notice when we
+				// beat the guy made of bees. Record it now.
+				Preferences.setBoolean( "guyMadeOfBeesDefeated", true );
+			}
+			else if ( text.indexOf( "Nothing happens." ) != -1 )
+			{
+				// Increment the number of times we've
+				// called the guy made of bees.
+				Preferences.increment( "guyMadeOfBeesCount", 1, 5, true );
+			}
+
+		}
 	}
 
 	private static String hobopolisBossName( final int choice )
