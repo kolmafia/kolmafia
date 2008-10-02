@@ -37,6 +37,7 @@ import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
@@ -260,6 +261,50 @@ public abstract class VioletFogManager
 			choice[ 2 ] = 0;
 			choice[ 3 ] = i < VioletFogManager.FIRST_GOAL_LOCATION ? -1 : 0;
 		}
+
+		int lastVioletFogAscension = Preferences.getInteger( "lastVioletFogMap" );
+		if ( lastVioletFogAscension != KoLCharacter.getAscensions() )
+		{
+			Preferences.setInteger( "lastVioletFogMap", KoLCharacter.getAscensions() );
+			Preferences.setString( "violetFogLayout", "" );
+		}
+
+		String layout = Preferences.getString( "violetFogLayout" );
+		if ( layout.equals( "" ) )
+		{
+			return;
+		}
+
+		int currentIndex = 0;
+		String[] layoutSplit = layout.split( "," );
+
+		for ( int i = 0; i < VioletFogManager.FogChoiceTable.length; ++i )
+		{
+			for ( int j = 0; j < VioletFogManager.FogChoiceTable[ i ].length; ++j )
+			{
+				VioletFogManager.FogChoiceTable[ i ][ j ] = StringUtilities.parseInt( layoutSplit[ currentIndex++ ] );
+			}
+		}
+	}
+
+	public static final void saveMap()
+	{
+		StringBuffer map = new StringBuffer();
+
+		for ( int i = 0; i < VioletFogManager.FogChoiceTable.length; ++i )
+		{
+			for ( int j = 0; j < VioletFogManager.FogChoiceTable[ i ].length; ++j )
+			{
+				if ( i != 0 || j != 0 )
+				{
+					map.append( ',' );
+				}
+				map.append( VioletFogManager.FogChoiceTable[ i ][ j ] );
+			}
+		}
+
+		Preferences.setInteger( "lastVioletFogMap", KoLCharacter.getAscensions() );
+		Preferences.setString( "violetFogLayout", map.toString() );
 	}
 
 	public static final boolean fogChoice( final int choice )
@@ -366,6 +411,7 @@ public abstract class VioletFogManager
 		// Update the path table
 		int choices[] = VioletFogManager.FogChoiceTable[ lastChoice - VioletFogManager.FIRST_CHOICE ];
 		choices[ lastDecision ] = source;
+		VioletFogManager.saveMap();
 
 		// See if exactly one exit is unknown
 		int unknownIndex = -1;
@@ -406,6 +452,7 @@ public abstract class VioletFogManager
 			if ( !found )
 			{
 				choices[ unknownIndex ] = exit;
+				VioletFogManager.saveMap();
 				return true;
 			}
 		}

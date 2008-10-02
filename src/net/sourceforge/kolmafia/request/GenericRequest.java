@@ -119,6 +119,7 @@ public class GenericRequest
 
 	public static int lastChoice = 0;
 	public static int lastDecision = 0;
+	public static boolean choiceMapped = true;
 
 	protected String encounter = "";
 	public static boolean isCompactMode = false;
@@ -802,11 +803,15 @@ public class GenericRequest
 
 	private void saveLastChoice()
 	{
+		// We are about to call choice.php
+		GenericRequest.choiceMapped = false;
+
 		if ( this.data.isEmpty() )
 		{
 			return;
 		}
 
+		// We are about to take a choice option
 		GenericRequest.lastChoice = StringUtilities.parseInt( this.getFormField( "whichchoice" ) );
 		GenericRequest.lastDecision = StringUtilities.parseInt( this.getFormField( "option" ) );
 
@@ -864,8 +869,16 @@ public class GenericRequest
 		}
 	}
 
-	private void mapCurrentChoice()
+	private void mapLastChoice()
 	{
+		// Only look at the results once after taking a choice
+		if ( GenericRequest.choiceMapped )
+		{
+			return;
+		}
+
+		GenericRequest.choiceMapped = true;
+
 		if ( ChoiceManager.postChoice( this, GenericRequest.lastChoice, GenericRequest.lastDecision ) )
 		{
 			return;
@@ -1528,7 +1541,7 @@ public class GenericRequest
 
 		// Let the mappers do their work
 
-		this.mapCurrentChoice();
+		this.mapLastChoice();
 
 		// Once everything is complete, decide whether or not
 		// you should refresh your status.

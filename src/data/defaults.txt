@@ -249,6 +249,7 @@ user	lastTavernAscension	0
 user	lastTavernSquare	0
 user	lastTelescopeReset	-1
 user	lastTowerClimb	-1
+user	lastVioletFogMap	0
 user	lastZapperWand	0
 user	libramSummons	0
 user	louvreDesiredGoal	7
@@ -306,6 +307,7 @@ user	telescopeUpgrades	0
 user	thanksMessage	Thank you for the donation!
 user	trapperOre	chrome ore
 user	violetFogGoal	0
+user	violetFogLayout
 user	warProgress	unstarted
 
 user	choiceAdventure2	2
