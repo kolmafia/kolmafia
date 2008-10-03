@@ -1719,6 +1719,9 @@ public abstract class ChoiceManager
 
 		if ( choice == null || option == null )
 		{
+			// Visiting a choice page but not yet making a decision
+			ChoiceManager.lastChoice = 0;
+			ChoiceManager.lastDecision = 0;
 			return;
 		}
 
