@@ -35,6 +35,8 @@ package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -53,7 +55,7 @@ import net.sourceforge.kolmafia.request.QuestLogRequest;
 public class NPCStoreDatabase
 	extends KoLDatabase
 {
-	private static final ArrayList NPC_ITEMS = new ArrayList();
+	private static final HashMultimap NPC_ITEMS = new HashMultimap();
 	private static final AdventureResult LAB_KEY = new AdventureResult( 339, 1 );
 
 	static
@@ -66,8 +68,9 @@ public class NPCStoreDatabase
 		{
 			if ( data.length == 4 )
 			{
-				NPCStoreDatabase.NPC_ITEMS.add( new MallPurchaseRequest(
-					data[ 0 ], data[ 1 ], ItemDatabase.getItemId( data[ 2 ] ),
+				int id = ItemDatabase.getItemId( data[ 2 ] );
+				NPCStoreDatabase.NPC_ITEMS.put( id,
+					new MallPurchaseRequest( data[ 0 ], data[ 1 ], id,
 					StringUtilities.parseInt( data[ 3 ] ) ) );
 			}
 		}
@@ -90,17 +93,16 @@ public class NPCStoreDatabase
 		int itemId = ItemDatabase.getItemId( itemName );
 
 		MallPurchaseRequest foundItem = null;
-		MallPurchaseRequest currentItem = null;
 
-		for ( int i = 0; i < NPCStoreDatabase.NPC_ITEMS.size(); ++i )
+		ArrayList items = NPCStoreDatabase.NPC_ITEMS.get( itemId );
+		if ( items == null )
 		{
-			currentItem = (MallPurchaseRequest) NPCStoreDatabase.NPC_ITEMS.get( i );
-			if ( currentItem.getItemId() != itemId )
-			{
-				continue;
-			}
+			return null;
+		}
+		for ( Iterator i = items.iterator(); i.hasNext(); )
+		{
+			foundItem = (MallPurchaseRequest) i.next();
 
-			foundItem = currentItem;
 			if ( !NPCStoreDatabase.canPurchase( foundItem.getStoreId(), foundItem.getShopName() ) )
 			{
 				continue;
@@ -261,5 +263,31 @@ public class NPCStoreDatabase
 	{
 		MallPurchaseRequest item = NPCStoreDatabase.getPurchaseRequest( itemName );
 		return item != null && ( !validate || item.canPurchase() );
+	}
+	
+	// This is a basic implementation of a non-shrinking, order-preserving multimap.
+	// put() takes an int key, and an arbitrary Object.
+	// get() returns an ArrayList of all Objects with the specified key, in their
+	// original insertion order, or null if there were none.
+	private static final class HashMultimap
+		extends HashMap
+	{
+		public final void put( int key, Object value )
+		{
+			Integer okey = new Integer( key );
+			ArrayList curr = (ArrayList) super.get( okey );
+			if ( curr == null )
+			{
+				curr = new ArrayList();
+				super.put( okey, curr );
+			}
+			curr.add( value );
+			curr.trimToSize();	// minimize wasted space
+		}
+		
+		public final ArrayList get( int key )
+		{
+			return (ArrayList) super.get( new Integer( key ) );
+		}
 	}
 }
