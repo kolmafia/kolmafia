@@ -325,7 +325,6 @@ public class OptionsFrame
 			{ "useZoneComboBox", "Use zone selection instead of adventure name filter" },
 			{ "cacheMallSearches", "Cache mall search terms in mall search interface" },
 			{ "saveSettingsOnSet", "Save options to disk whenever they change" },
-			{ "discoverRecipes", "Discover new recipes (at expense of server load)" },
 
 			{ "", "" },
 
