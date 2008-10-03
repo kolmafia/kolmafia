@@ -217,10 +217,7 @@ public class CreateItemRequest
 		if ( mode != null )
 		{
 			this.addFormField( "mode", mode );
-			if ( !Preferences.getBoolean( "discoverRecipes" ) )
-			{
-				this.addFormField( "ajax", "1" );
-			}
+			this.addFormField( "ajax", "1" );
 		}
 	}
 
