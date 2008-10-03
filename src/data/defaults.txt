@@ -184,6 +184,7 @@ user	demonName4
 user	demonName5
 user	demonName6	Tatter
 user	demonName7	Ak'gyxoth
+user	discoverRecipes	true
 user	expressCardUsed	false
 user	fratboysDefeated	0
 user	grimoire1Summons	0
