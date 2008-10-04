@@ -65,7 +65,13 @@ public abstract class MPRestoreItemList
 	public static final MPRestoreItem SOFA = new MPRestoreItem( "sleep on your clan sofa", Integer.MAX_VALUE, false );
 	public static final MPRestoreItem CAMPGROUND =
 		new MPRestoreItem( "rest at your campground", Integer.MAX_VALUE, false );
+	public static final MPRestoreItem DISCOREST =
+		new MPRestoreItem( "free disco rest", Integer.MAX_VALUE, false );
 
+	private static final MPRestoreItem NUNS =
+		new MPRestoreItem( "visit the nuns", 1000, false);
+	private static final MPRestoreItem OSCUS =
+		new MPRestoreItem( "Oscus's neverending soda", 250, false);
 	private static final MPRestoreItem GALAKTIK =
 		new MPRestoreItem( "Galaktik's Fizzy Invigorating Tonic", 1, 17, false );
 	public static final MPRestoreItem MYSTERY_JUICE =
@@ -77,7 +83,10 @@ public abstract class MPRestoreItemList
 		MPRestoreItemList.EXPRESS,
 		MPRestoreItemList.SOFA,
 		MPRestoreItemList.CAMPGROUND,
+		MPRestoreItemList.DISCOREST,
 		MPRestoreItemList.GALAKTIK,
+		MPRestoreItemList.NUNS,
+		MPRestoreItemList.OSCUS,
 		new MPRestoreItem( "natural fennel soda", 100, false ),
 		new MPRestoreItem( "bottle of Vangoghbitussin", 100, false ),
 		new MPRestoreItem( "Monstar energy beverage", 75, false ),
@@ -273,6 +282,17 @@ public abstract class MPRestoreItemList
 				return;
 			}
 
+			if ( this == MPRestoreItemList.DISCOREST )
+			{
+				int freerests = 0;
+				if ( KoLCharacter.hasSkill( "Disco Nap" ) ) ++freerests;
+				if ( KoLCharacter.hasSkill( "Disco Power Nap" ) ) freerests += 2;
+				if ( Preferences.getInteger( "timesRested" ) >= freerests ) return;
+				
+				RequestThread.postRequest( new CampgroundRequest( "rest" ) );
+				return;
+			}
+
 			if ( this == MPRestoreItemList.GALAKTIK )
 			{
 				if ( purchase && needed > KoLCharacter.getCurrentMP() )
@@ -282,6 +302,31 @@ public abstract class MPRestoreItemList
 				}
 
 				return;
+			}
+			
+			if ( this == MPRestoreItemList.NUNS )
+			{
+				if ( Preferences.getInteger( "nunsVisits" ) >= 3 ) return;
+				String side = Preferences.getString( "sidequestNunsCompleted" );
+				if ( !side.equals( "fratboy" ) ) return;	// no MP for hippies!
+				if ( KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP() < 1000 )
+				{
+					// don't waste this limited resource on small restores
+					return;
+				}
+				
+				KoLmafiaCLI.executeNunsRequest( "mp" );
+				return;
+			}
+
+			if ( this == MPRestoreItemList.OSCUS )
+			{
+				if ( Preferences.getBoolean( "oscusSodaUsed" ) ) return;
+				if ( KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP() < 250 )
+				{
+					// don't waste this once-a-day item on small restores
+					return;
+				}
 			}
 
 			if ( this == MPRestoreItemList.MYSTERY_JUICE )

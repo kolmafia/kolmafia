@@ -41,6 +41,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -124,6 +125,10 @@ public class CampgroundRequest
 		else if ( this.action.equals( "bookshelf" ) )
 		{
 			parseBookTitles();
+		}
+		else if ( this.action.equals( "rest" ) )
+		{
+			Preferences.increment( "timesRested", 1 );
 		}
 	}
 

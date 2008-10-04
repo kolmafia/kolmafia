@@ -2202,6 +2202,12 @@ public class KoLmafiaCLI
 			return;
 		}
 
+		if ( command.equals( "nuns" ) )
+		{
+			this.executeNunsRequest( parameters );
+			return;
+		}
+
 		if ( command.equals( "mpitems" ) )
 		{
 			int restores = KoLmafia.getRestoreCount();
@@ -2450,7 +2456,7 @@ public class KoLmafiaCLI
 			AdventureDatabase.addAdventure( adventure );
 			return;
 		}
-
+		
 		// If all else fails, then assume that the
 		// person was trying to call a script.
 
@@ -5124,6 +5130,37 @@ public class KoLmafiaCLI
 		}
 
 		RequestThread.postRequest( new FriarRequest( action ) );
+	}
+
+	/**
+	 * Attempts to get HP or HP/MP restoration from the Nuns at Our Lady of Perpetual Indecision
+	 */
+
+	public static void executeNunsRequest( final String parameters )
+	{
+		if ( Preferences.getInteger( "nunsVisits" ) >= 3 ) {
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+				"Nun of the nuns are available right now." );
+			return;
+		}
+		String side = Preferences.getString( "sidequestNunsCompleted" );
+		if ( !side.equals( "fratboy" ) && !side.equals( "hippy" ) )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+				"You have not opened the Nunnery yet." );
+			return;
+		}
+		if ( side.equals( "hippy" ) && parameters.equalsIgnoreCase( "mp" ) )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+				"Only HP restoration is available from the nuns." );
+			return;
+		}
+		String url = Preferences.getString( "warProgress" ).equals( "finished" ) ?
+			"postwarisland.php" : "bigisland.php";
+			
+		KoLmafia.updateDisplay( "Get thee to a nunnery!" );
+		RequestThread.postRequest( new GenericRequest( url + "?place=nunnery&pwd&action=nuns" ) );
 	}
 
 	/**

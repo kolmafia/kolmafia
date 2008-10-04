@@ -198,6 +198,7 @@ user	invalidBuffMessage	You sent an amount which does not correspond to a valid 
 user	kingLiberated	false
 user	knownAscensions	-1
 user	lastAdventure
+user	lastBarrelSmashed	0
 user	lastBangPotion819
 user	lastBangPotion820
 user	lastBangPotion821
@@ -264,8 +265,10 @@ user	mpAutoRecoveryItems	phonics down;knob goblin superseltzer;mountain stream s
 user	mpAutoRecoveryTarget	0.3
 user	munchiesPillsUsed	0
 user	noodleSummons	0
+user	nunsVisits	0
 user	oceanAction	savecontinue
 user	oceanDestination	manual
+user	oscusSodaUsed	false
 user	plantingDate
 user	plantingDay	-1
 user	plantingLength
@@ -305,6 +308,7 @@ user	telescope6
 user	telescope7
 user	telescopeUpgrades	0
 user	thanksMessage	Thank you for the donation!
+user	timesRested	99
 user	trapperOre	chrome ore
 user	violetFogGoal	0
 user	violetFogLayout

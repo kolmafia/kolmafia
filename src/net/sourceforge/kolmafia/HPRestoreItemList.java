@@ -63,8 +63,10 @@ public abstract class HPRestoreItemList
 
 	private static final HPRestoreItem SOFA = new HPRestoreItem( "sleep on your clan sofa", Integer.MAX_VALUE );
 	private static final HPRestoreItem CAMPGROUND = new HPRestoreItem( "rest at your campground", 40 );
+	private static final HPRestoreItem DISCOREST = new HPRestoreItem( "free disco rest", 40 );
 
 	private static final HPRestoreItem GALAKTIK = new HPRestoreItem( "Galaktik's Curative Nostrum", 1, 10 );
+	private static final HPRestoreItem NUNS = new HPRestoreItem( "visit the nuns", 1000 );
 	private static final HPRestoreItem HERBS =
 		new HPRestoreItem( "Medicinal Herb's medicinal herbs", Integer.MAX_VALUE, 100 );
 	private static final HPRestoreItem OINTMENT = new HPRestoreItem( "Doc Galaktik's Ailment Ointment", 9, 60 );
@@ -77,11 +79,13 @@ public abstract class HPRestoreItemList
 	{
 		HPRestoreItemList.SOFA,
 		HPRestoreItemList.CAMPGROUND,
+		HPRestoreItemList.DISCOREST,
 		HPRestoreItemList.GALAKTIK,
 		HPRestoreItemList.HERBS,
 		HPRestoreItemList.SCROLL,
 		HPRestoreItemList.MASSAGE_OIL,
 		HPRestoreItemList.COCOON,
+		HPRestoreItemList.NUNS,
 		new HPRestoreItem( "red pixel potion", 110 ),
 		new HPRestoreItem( "really thick bandage", 109 ),
 		new HPRestoreItem( "filthy poultice", 100 ),
@@ -253,6 +257,38 @@ public abstract class HPRestoreItemList
 			if ( this == HPRestoreItemList.CAMPGROUND )
 			{
 				RequestThread.postRequest( new CampgroundRequest( "rest" ) );
+				return;
+			}
+
+			if ( this == HPRestoreItemList.DISCOREST )
+			{
+				int freerests = 0;
+				if ( KoLCharacter.hasSkill( "Disco Nap" ) ) ++freerests;
+				if ( KoLCharacter.hasSkill( "Disco Power Nap" ) ) freerests += 2;
+				if ( Preferences.getInteger( "timesRested" ) >= freerests ) return;
+				
+				RequestThread.postRequest( new CampgroundRequest( "rest" ) );
+				return;
+			}
+
+			if ( this == HPRestoreItemList.NUNS )
+			{
+				if ( Preferences.getInteger( "nunsVisits" ) >= 3 ) return;
+				String side = Preferences.getString( "sidequestNunsCompleted" );
+				if ( !side.equals( "fratboy" ) && !side.equals( "hippy" ) ) return;
+				if ( KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP() < 1000 )
+				{
+					// don't waste this limited resource on small restores
+					return;
+				}
+				if ( side.equals( "fratboy" ) &&
+					(KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP() < 1000) )
+				{
+					// don't waste the MP restoration, either
+					return;
+				}
+				
+				KoLmafiaCLI.executeNunsRequest( "hp" );
 				return;
 			}
 
