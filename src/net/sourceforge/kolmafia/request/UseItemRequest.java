@@ -865,11 +865,31 @@ public class UseItemRequest
 					return;
 				}
 			}
-
+			
+			int minCounter;
+			if ( ( KoLCharacter.canEat() || KoLCharacter.canDrink() ) &&
+				KoLCharacter.getCurrentRun() > 120 )
+			{
+				minCounter = 150;	// conservative, wiki claims 160 minimum
+			}
+			else
+			{	// Oxygenarian path, or early enough in an ascension that
+				// a player might have done an oxydrop
+				minCounter = 100;	// conservative, wiki claims 102 minimum			
+			}
+			minCounter -= KoLCharacter.turnsSinceLastSemirare();
 			for ( int i = 2; i <= 4; ++i )
 			{
 				int number = StringUtilities.parseInt( fortuneMatcher.group( i ) );
-				TurnCounter.startCounting( number, "Fortune Cookie", "fortune.gif" );
+				if ( number < minCounter )
+				{
+					KoLmafia.updateDisplay( "Lucky number " + number +
+						" ignored - too soon to be a semirare." );
+				}
+				else
+				{
+					TurnCounter.startCounting( number, "Fortune Cookie", "fortune.gif" );
+				}
 			}
 
 			return;
