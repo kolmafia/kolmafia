@@ -135,6 +135,7 @@ public class Modifiers
 	public static final int FAMILIAR_WEIGHT_PCT = 46;
 	public static final int MELEE_DAMAGE_PCT = 47;
 	public static final int RANGED_DAMAGE_PCT = 48;
+	public static final int STACKABLE_MANA_COST = 49;
 
 	private static final Object[][] floatModifiers =
 	{
@@ -333,6 +334,10 @@ public class Modifiers
 		{ "Ranged Damage Percent",
 		  Pattern.compile( "Ranged Damage ([+-]\\d+)%" ),
 		  Pattern.compile( "Ranged Damage Percent: ([+-]\\d+)" )
+		},
+		{ "Stackable Mana Cost",
+		  Pattern.compile( "(.*) MP to use Skills" ),
+		  Pattern.compile( "Mana Cost \\(stackable\\): ([+-]\\d+)" )
 		},
 	};
 
