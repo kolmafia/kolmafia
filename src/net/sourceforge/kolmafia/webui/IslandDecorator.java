@@ -1439,6 +1439,16 @@ public class IslandDecorator
 		{
 			Preferences.setString( "sidequestNunsCompleted", "none" );
 		}
+		
+		if ( responseText.indexOf( "The Sisters tend to your wounds" ) != -1 ||
+			responseText.indexOf( "The Sisters give you an invigorating massage" ) != -1 )
+		{
+			Preferences.increment( "nunsVisits", 1 );
+		}
+		else if ( responseText.indexOf( "all of the Sisters are busy right now" ) != -1 )
+		{
+			Preferences.setInteger( "nunsVisits", 99 );
+		}
 	}
 
 	private static final void parseLighthouse( final String responseText )
