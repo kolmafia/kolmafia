@@ -488,6 +488,12 @@ public class CharPaneDecorator
 				removeAction = "uneffect " + effectName;
 			}
 
+			if ( effectName.equalsIgnoreCase( "On the Trail" ) )
+			{
+				buffer.append( StringUtilities.getEntityEncode(
+					Preferences.getString( "olfactedMonster" ) ) );
+				buffer.append( ", " );
+			}
 			if ( !removeAction.equals( "" ) )
 			{
 				buffer.append( "<a href=\"/KoLmafia/sideCommand?cmd=" );
