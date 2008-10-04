@@ -1981,6 +1981,11 @@ public class FightRequest
 				}
 				else
 				{
+					if ( skill.equalsIgnoreCase( "Transcendent Olfaction" ) )
+					{
+						Preferences.setString( "olfactedMonster",
+							FightRequest.encounterLookup );
+					}
 					FightRequest.action1 = CustomCombatManager.getShortCombatOptionName( "skill " + skill );
 					if ( shouldLogAction )
 					{
@@ -2003,6 +2008,11 @@ public class FightRequest
 					}
 					else
 					{
+						if ( item.equalsIgnoreCase( "odor extractor" ) )
+						{
+							Preferences.setString( "olfactedMonster",
+								FightRequest.encounterLookup );
+						}
 						FightRequest.action1 = CustomCombatManager.getShortCombatOptionName( item );
 						if ( shouldLogAction )
 						{
@@ -2016,6 +2026,11 @@ public class FightRequest
 						item = ItemDatabase.getItemName( StringUtilities.parseInt( itemMatcher.group( 1 ) ) );
 						if ( item != null )
 						{
+							if ( item.equalsIgnoreCase( "odor extractor" ) )
+							{
+								Preferences.setString( "olfactedMonster",
+									FightRequest.encounterLookup );
+							}
 							FightRequest.action2 = CustomCombatManager.getShortCombatOptionName( item );
 							if ( shouldLogAction )
 							{
