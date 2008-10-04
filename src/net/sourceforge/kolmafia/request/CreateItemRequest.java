@@ -242,10 +242,7 @@ public class CreateItemRequest
 	{
 		CreateItemRequest instance = CreateItemRequest.ALL_CREATIONS.get( itemId );
 
-		// Assume if you have subclass that everything
-		// works as intended.
-
-		if ( instance == null || instance.mixingMethod == KoLConstants.SUBCLASS )
+		if ( instance == null )
 		{
 			return instance;
 		}
@@ -256,7 +253,8 @@ public class CreateItemRequest
 
 		if ( returnNullIfNotPermitted )
 		{
-			if ( !ConcoctionDatabase.isPermittedMethod( instance.mixingMethod ) )
+			if ( !ConcoctionDatabase.isPermittedMethod( 
+				ConcoctionDatabase.getMixingMethod( itemId ) ) )
 			{
 				return null;
 			}

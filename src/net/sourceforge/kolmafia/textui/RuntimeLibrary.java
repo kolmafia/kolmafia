@@ -1725,11 +1725,17 @@ public abstract class RuntimeLibrary
 		return new Value( item == null ? 0 : item.getQuantityPossible() );
 	}
 
-	public static Value get_ingredients( final Value item )
+	public static Value get_ingredients( final Value arg )
 	{
-		AdventureResult[] data = ConcoctionDatabase.getIngredients( item.intValue() );
+		int item = arg.intValue();
 		MapValue value = new MapValue( DataTypes.RESULT_TYPE );
-
+		if ( !ConcoctionDatabase.isPermittedMethod(
+			ConcoctionDatabase.getMixingMethod( item ) ) )
+		{
+			return value;	// can't make it
+		}
+		
+		AdventureResult[] data = ConcoctionDatabase.getIngredients( item );
 		for ( int i = 0; i < data.length; ++i )
 		{
 			value.aset(
