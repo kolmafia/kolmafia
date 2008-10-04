@@ -89,7 +89,7 @@ Elder Turtle Shell	Muscle: +7, Class: "Turtle Tamer"
 Frosty's old silk hat	Muscle Percent: +20, Cold Damage: +30, Class: "Seal Clubber"
 # Grimacite gasmask
 # Grimacite goggles
-Hodgman's porkpie hat	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
+Hodgman's porkpie hat	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20, Hobo Power: +25
 # Kentucky-style derby
 Knob Goblin elite helm	Muscle: +3
 Knob Goblin harem veil	Stench Resistance: +1
@@ -239,7 +239,7 @@ Dyspepsi-Cola fatigues	Mysticality: +3
 # El Vibrato leg guards
 # Grimacite gaiters
 # Grimacite greaves
-Hodgman's lobsterskin pants	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
+Hodgman's lobsterskin pants	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20, Hobo Power: +25
 Knob Goblin Uberpants	Moxie: +2, Muscle: +2, Mysticality: +2
 Knob Goblin elite pants	Moxie: +3
 Knob Goblin harem pants	Moxie: +1
@@ -724,14 +724,13 @@ Dyspepsi-Cola shield	Damage Reduction: 4, Mysticality: +1
 Emblem of Ak'gyxoth	Moxie: +43, Mana Cost: -1
 Gazpacho's Glacial Grimoire	Spell Damage: +10
 Glass Balls of the Goblin King	Mysticality: +14
-# Hodgman's almanac	Converts Hobo Power to Spell Damage
-# Hodgman's cane	Converts Hobo Power to HP and MP Regeneration
-# Hodgman's garbage sticker	Converts Hobo Power to + Meat Drops
-# Hodgman's harmonica	Converts Hobo Power to Ranged Damage
-# Hodgman's imaginary hamster	Converts Hobo Power to + Meat Drops, + Item Drops, and HP and MP Regeneration
-Hodgman's imaginary hamster	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
-# Hodgman's metal detector	Converts Hobo Power to + Item Drops
-# Hodgman's varcolac paw	Converts Hobo Power to Melee Damage
+Hodgman's almanac	Spell Damage: +1200, Hobo Powered
+Hodgman's cane	HP Regen Min: 250, HP Regen Max: 330, MP Regen Min: 250, MP Regen Max: 330, Hobo Powered
+Hodgman's garbage sticker	Meat Drop: +1000, Hobo Powered
+Hodgman's harmonica	Ranged Damage: +1000, Hobo Powered
+Hodgman's imaginary hamster	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20, Item Drop: +500, Meat Drop: +1000, HP Regen Min: 250, HP Regen Max: 330, MP Regen Min: 250, MP Regen Max: 330, Hobo Powered
+Hodgman's metal detector	Item Drop: +500, Hobo Powered
+Hodgman's varcolac paw	Melee Damage: +800, Hobo Powered
 Idol of Ak'gyxoth	Moxie: +43, Mana Cost: -1
 # Kevlar balloon
 KoL Con IV Pole	Maximum HP: +4, Maximum MP: +4, Moxie: +4, Muscle: +4, Mysticality: +4, Hot Damage: +4
@@ -909,9 +908,8 @@ Grimacite gauntlets	Single Equip
 Grimacite girdle	Single Equip
 Grimacite go-go boots	Single Equip
 # Grimacite gorget
-Hodgman's bow tie	Single Equip, Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
-# Hodgman's bow tie	Hobo Power: +25
-# Hodgman's lucky sock	Hobo Power: +50
+Hodgman's bow tie	Single Equip, Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20, Hobo Power: +25
+Hodgman's lucky sock	Hobo Power: +50
 Ice-Cold Aluminum Necklace	Single Equip, Moxie: +3, Muscle: +3, Mysticality: +3, Cold Spell Damage: +40
 Ice-Cold Beer Ring	Single Equip, Moxie: +3, Muscle: +3, Mysticality: +3, Cold Damage: +40
 Ice-Cold Beerring	Single Equip, Sleaze Resistance: +3, Stench Resistance: +3
@@ -1608,6 +1606,7 @@ Hella Tough	Muscle Percent: +25, Damage Reduction: 5
 Hennaliciousness	Mysticality: +3
 Hernia!	Muscle Percent: -70
 Hippy Stench	Combat Rate: +5
+Hobonic	Hobo Power: +5
 Hoity Toity	Item Drop: +30
 Hombre Muerto Caminando	Maximum MP: +20, Spooky Resistance: +1
 Hopped Up on Goofballs	Muscle Percent: +20, Moxie Percent: +20
@@ -1859,7 +1858,7 @@ Furry Suit	Moxie Percent: -75, Monster Level: +5
 Glad Bag Glad Rags	Mysticality: +10, Moxie: +10, Sleaze Damage: +5, Stench Damage: +5
 # Gnauga Hides
 Grass Guise	HP Regen Min: 1, HP Regen Max: 3
-# Hodgman's Regal Frippery	Hobo Power: +25
+Hodgman's Regal Frippery	Hobo Power: +25
 Hot and Cold Running Ninja Suit	Cold Resistance: +2, Hot Resistance: +2
 # Hyperborean Hobo Habiliments
 Knob Goblin Elite Guard Uniform	Muscle: +7

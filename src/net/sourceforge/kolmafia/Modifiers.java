@@ -136,6 +136,7 @@ public class Modifiers
 	public static final int MELEE_DAMAGE_PCT = 47;
 	public static final int RANGED_DAMAGE_PCT = 48;
 	public static final int STACKABLE_MANA_COST = 49;
+	public static final int HOBO_POWER = 50;
 
 	private static final Object[][] floatModifiers =
 	{
@@ -339,6 +340,10 @@ public class Modifiers
 		  Pattern.compile( "(.*) MP to use Skills" ),
 		  Pattern.compile( "Mana Cost \\(stackable\\): ([+-]\\d+)" )
 		},
+		{ "Hobo Power",
+		  Pattern.compile( "(.*) Hobo Power" ),
+		  Pattern.compile( "Hobo Power: ([+-]\\d+)" )
+		},
 	};
 
 	public static final int FLOAT_MODIFIERS = Modifiers.floatModifiers.length;
@@ -347,6 +352,7 @@ public class Modifiers
 	public static final int SINGLE = 1;
 	public static final int NEVER_FUMBLE = 2;
 	public static final int WEAKENS = 3;
+	public static final int HOBO_POWERED = 4;
 
 	private static final Object[][] booleanModifiers =
 	{
@@ -365,6 +371,10 @@ public class Modifiers
 		{ "Weakens Monster",
 		  Pattern.compile( "Successful hit weakens opponent" ),
 		  Pattern.compile( "Weakens Monster" )
+		},
+		{ "Hobo Powered",
+		  Pattern.compile( "Converts Hobo Power to" ),
+		  Pattern.compile( "Hobo Powered" )
 		},
 	};
 
@@ -533,6 +543,7 @@ public class Modifiers
 	private final float[] floats;
 	private final boolean[] booleans;
 	private final String[] strings;
+	private float[] hoboFactors;
 
 	public Modifiers()
 	{
@@ -557,6 +568,7 @@ public class Modifiers
 		{
 			this.strings[ i ] = "";
 		}
+		this.hoboFactors = null;
 	};
 
 	public float get( final int index )
@@ -919,6 +931,26 @@ public class Modifiers
 
 	private boolean override( final String name )
 	{
+		if ( this.booleans[ HOBO_POWERED ] )
+		{
+			if ( this.hoboFactors == null )
+			{
+				this.hoboFactors = (float []) this.floats.clone();
+				// Any values >= 200 will be treated as conversion factors
+				// (divided by 1000) from Hobo Power to the modifier.
+			}
+			float hoboPower = KoLCharacter.getHoboPower();
+			for ( int i = 0; i < this.floats.length; ++i )
+			{
+				float factor = this.hoboFactors[ i ];
+				if ( factor >= 200.0f )
+				{
+					this.floats[ i ] = factor * hoboPower / 1000.0f;
+				}
+			}
+			return true;
+		}
+		
 		if ( name.equalsIgnoreCase( "Temporary Lycanthropy" ) )
 		{
 			this.set( Modifiers.MUS_PCT, HolidayDatabase.getBloodEffect() );
