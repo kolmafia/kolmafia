@@ -782,10 +782,6 @@ peach lozenge	21	scrumdiddlyumptious solution	peach
 pear lozenge	21	scrumdiddlyumptious solution	pear
 plum lozenge	21	scrumdiddlyumptious solution	plum
 potion of temporary gr8tness	21	scrumdiddlyumptious solution	gr8ps
-blackberry polite	21	scrumdiddlyumptious solution	blackberry
-peach lozenge	21	scrumdiddlyumptious solution	peach
-pear lozenge	21	scrumdiddlyumptious solution	pear
-plum lozenge	21	scrumdiddlyumptious solution	plum
 
 phial of hotness	5	scrumptious reagent	hot powder
 phial of coldness	5	scrumptious reagent	cold powder
@@ -802,7 +798,7 @@ delicious noodles	6	dry noodles	herbs
 delicious spicy noodles	6	dry noodles	secret blend of herbs and spices
 painful penne pasta	6	dry noodles	jaba&ntilde;ero pepper
 pr0n m4nic0tti	6	dry noodles	pr0n legs
-ravioli della hippy	6	wad of tofu	dry noodles
+ravioli della hippy	6	dry noodles	wad of tofu
 spicy noodles	6	dry noodles	spices
 
 
@@ -810,12 +806,15 @@ spicy noodles	6	dry noodles	spices
 # duo - end items and non-end items.
 
 fancy schmancy cheese sauce	5	scrumptious reagent	goat cheese
-Hell broth	5	scrumptious reagent	hellion cube
-Himalayan Hidalgo sauce	5	Knob mushroom	scrumptious reagent
-sauce of the ages	5	Knob sausage	scrumptious reagent
 fettucini Inconnu	6	fancy schmancy cheese sauce	dry noodles
-gnocchetti di Nietzsche	6	Himalayan Hidalgo sauce	dry noodles
+
+Hell broth	5	scrumptious reagent	hellion cube
 Hell ramen	6	Hell broth	dry noodles
+
+Himalayan Hidalgo sauce	5	scrumptious reagent	Knob mushroom
+gnocchetti di Nietzsche	6	Himalayan Hidalgo sauce	dry noodles
+
+sauce of the ages	5	scrumptious reagent	Knob sausage
 spaghetti with Skullheads	6	sauce of the ages	dry noodles
 
 
@@ -827,7 +826,7 @@ secret blend of herbs and spices	2	herbs	spices
 asparagus stir-fry	2	stalk of asparagus	secret blend of herbs and spices
 Knob stir-fry	2	Knob mushroom	secret blend of herbs and spices
 Knoll stir-fry	2	Knoll mushroom	secret blend of herbs and spices
-olive stir-fry	2	secret blend of herbs and spices	olive
+olive stir-fry	2	olive	secret blend of herbs and spices
 spooky stir-fry	2	spooky mushroom	secret blend of herbs and spices
 
 bat wing stir-fry	2	bat wing	Knob stir-fry
@@ -853,6 +852,7 @@ Knob sausage chow mein	22	Knob sausage stir-fry	dry noodles	MSG
 pr0n chow mein	22	pr0n stir-fry	dry noodles	MSG
 rat appendix chow mein	22	rat appendix stir-fry	dry noodles	MSG
 tofu chow mein	22	tofu stir-fry	dry noodles	MSG
+
 unfortunate dumplings	22	C. H. U. M. chum	dry noodles	MSG
 
 cold and sour sauce	21	scrumdiddlyumptious solution	cold nuggets
