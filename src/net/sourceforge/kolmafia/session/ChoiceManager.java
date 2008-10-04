@@ -49,6 +49,7 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
+import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.swingui.CouncilFrame;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -2011,6 +2012,11 @@ public abstract class ChoiceManager
 		{
 			// Remove unfortunate dumplings from inventory
 			ResultProcessor.processItem( ItemPool.DUMPLINGS, -1 );
+			if ( !InventoryManager.hasItem( ItemPool.DUMPLINGS ) )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE,
+					"That was your last unfortunate dumplings." );
+			}
 		}
 
 		// Before you can ask him what kind of tribute he wants, you
@@ -2019,6 +2025,11 @@ public abstract class ChoiceManager
 		{
 			// Remove sewer wad from inventory
 			ResultProcessor.processItem( ItemPool.SEWER_WAD, -1 );
+			if ( !InventoryManager.hasItem( ItemPool.SEWER_WAD ) )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE,
+					"That was your last sewer wad." );
+			}
 		}
 
 		// He finds a bottle of Ooze-O, and begins giggling madly. He
@@ -2027,6 +2038,11 @@ public abstract class ChoiceManager
 		{
 			// Remove bottle of Ooze-O from inventory
 			ResultProcessor.processItem( ItemPool.OOZE_O, -1 );
+			if ( !InventoryManager.hasItem( ItemPool.OOZE_O ) )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE,
+					"That was your last bottle of Ooze-O." );
+			}
 		}
 
 		// You grunt and strain, but you can't manage to get between
@@ -2040,6 +2056,11 @@ public abstract class ChoiceManager
 		{
 			// Remove 3 bottles of oil of oiliness from inventory
 			ResultProcessor.processItem( ItemPool.OIL_OF_OILINESS, -3 );
+			if ( InventoryManager.getCount( ItemPool.DUMPLINGS ) < 3 )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE,
+					"You have less than 3 bottles of oil of oiliness left." );
+			}
 		}
 
 		// Fortunately, your gatorskin umbrella allows you to pass
@@ -2051,6 +2072,7 @@ public abstract class ChoiceManager
 			// Unequip gatorskin umbrella and discard it.
 
 			AdventureResult umbrella = ItemPool.get( ItemPool.GATORSKIN_UMBRELLA, 1 );
+			int slot = EquipmentManager.WEAPON;
 			if ( KoLCharacter.hasEquipped( umbrella, EquipmentManager.WEAPON ) )
 			{
 				EquipmentManager.setEquipment( EquipmentManager.WEAPON, EquipmentRequest.UNEQUIP );
@@ -2058,10 +2080,20 @@ public abstract class ChoiceManager
 			else if ( KoLCharacter.hasEquipped( umbrella, EquipmentManager.OFFHAND ) )
 			{
 				EquipmentManager.setEquipment( EquipmentManager.OFFHAND, EquipmentRequest.UNEQUIP );
+				slot = EquipmentManager.OFFHAND;
 			}
 
 			AdventureResult.addResultToList( KoLConstants.inventory, umbrella );
 			ResultProcessor.processItem( ItemPool.GATORSKIN_UMBRELLA, -1 );
+			if ( InventoryManager.hasItem( ItemPool.GATORSKIN_UMBRELLA ) )
+			{
+				RequestThread.postRequest( new EquipmentRequest( umbrella, slot ) );
+			}
+			else
+			{
+				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE,
+					"That was your last gatorskin umbrella." );
+			}
 		}
 
 		// *** GRATE ***
