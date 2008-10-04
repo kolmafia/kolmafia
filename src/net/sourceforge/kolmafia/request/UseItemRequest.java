@@ -1604,7 +1604,6 @@ public class UseItemRequest
 				Preferences.setBoolean( "spiceMelangeUsed", true );
 				KoLCharacter.updateStatus();
 			}
-
 			return;
 
 		case ItemPool.NEWBIESPORT_TENT:
@@ -1761,13 +1760,15 @@ public class UseItemRequest
 
 			return;
 
+		case ItemPool.NEVERENDING_SODA:
+			Preferences.setBoolean( "oscusSodaUsed", true );
+			/*FALLTHRU*/
 		case ItemPool.OUTRAGEOUS_SOMBRERO:
 		case ItemPool.HOBBY_HORSE:
 		case ItemPool.BALL_IN_A_CUP:
 		case ItemPool.SET_OF_JACKS:
 		case ItemPool.EL_VIBRATO_HELMET:
 		case ItemPool.BAG_OF_CANDY:
-		case ItemPool.NEVERENDING_SODA:
 		case ItemPool.EMBLEM_AKGYXOTH:
 
 			// Certain pieces of equipment can also be "used" and

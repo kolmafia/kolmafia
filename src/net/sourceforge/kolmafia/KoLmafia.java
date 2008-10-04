@@ -702,10 +702,12 @@ public abstract class KoLmafia
 		Preferences.setInteger( "lastCounterDay", HolidayDatabase.getPhaseStep() );
 		Preferences.setBoolean( "breakfastCompleted", false );
 
+		Preferences.setInteger( "timesRested", 0 );
+		Preferences.setInteger( "nunsVisits", 0 );
 		Preferences.setString( "barrelLayout", "?????????" );
 		Preferences.setInteger( "lastBarrelSmashed", 0 );
-
 		Preferences.setBoolean( "expressCardUsed", false );
+		Preferences.setBoolean( "oscusSodaUsed", false );
 		Preferences.setBoolean( "spiceMelangeUsed", false );
 		Preferences.setInteger( "currentFullness", 0 );
 		Preferences.setInteger( "currentMojoFilters", 0 );
@@ -3446,6 +3448,11 @@ public abstract class KoLmafia
 	private static class UpdateCheckThread
 		extends Thread
 	{
+		public UpdateCheckThread()
+		{
+			super( "UpdateCheckThread" );
+		}
+		
 		public void run()
 		{
 			if ( KoLConstants.VERSION_NAME.startsWith( "KoLmafia r" ) )
@@ -3503,6 +3510,11 @@ public abstract class KoLmafia
 	private static class ShutdownThread
 		extends Thread
 	{
+		public ShutdownThread()
+		{
+			super( "ShutdownThread" );
+		}
+		
 		public void run()
 		{
 			Preferences.reset( null );
