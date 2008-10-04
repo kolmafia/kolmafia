@@ -1348,6 +1348,17 @@ public abstract class KoLCharacter
 	}
 
 	/**
+	 * Accessor method to retrieve the total Hobo Power
+	 *
+	 * @return Total Hobo Power
+	 */
+
+	public static final int getHoboPower()
+	{
+		return (int) KoLCharacter.currentModifiers.get( Modifiers.HOBO_POWER );
+	}
+
+	/**
 	 * Accessor method to retrieve the current elemental resistance levels
 	 *
 	 * @return Total Current Resistance to specified element

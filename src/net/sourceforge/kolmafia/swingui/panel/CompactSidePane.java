@@ -66,6 +66,7 @@ public class CompactSidePane
 	private JLabel familiarLabel;
 	private JLabel mlLabel, encLabel, initLabel;
 	private JLabel expLabel, meatDropLabel, itemDropLabel;
+	private JLabel hoboLabel, hoboPowerLabel;
 
 	public CompactSidePane()
 	{
@@ -160,7 +161,7 @@ public class CompactSidePane
 		panels[ ++panelCount ] = new JPanel( new GridLayout( 1, 1 ) );
 		panels[ panelCount ].add( this.familiarLabel = new UnanimatedLabel() );
 
-		panels[ ++panelCount ] = new JPanel( new GridLayout( 6, 2 ) );
+		panels[ ++panelCount ] = new JPanel( new GridLayout( 8, 2 ) );
 		panels[ panelCount ].add( new JLabel( "ML: ", JLabel.RIGHT ) );
 		panels[ panelCount ].add( this.mlLabel = new JLabel( " ", JLabel.LEFT ) );
 		panels[ panelCount ].add( new JLabel( "Enc: ", JLabel.RIGHT ) );
@@ -173,6 +174,8 @@ public class CompactSidePane
 		panels[ panelCount ].add( this.meatDropLabel = new JLabel( " ", JLabel.LEFT ) );
 		panels[ panelCount ].add( new JLabel( "Item: ", JLabel.RIGHT ) );
 		panels[ panelCount ].add( this.itemDropLabel = new JLabel( " ", JLabel.LEFT ) );
+		panels[ panelCount ].add( this.hoboLabel = new JLabel( " ", JLabel.RIGHT ) );
+		panels[ panelCount ].add( this.hoboPowerLabel = new JLabel( " ", JLabel.LEFT ) );
 
 		JPanel compactContainer = new JPanel();
 		compactContainer.setOpaque( false );
@@ -216,6 +219,7 @@ public class CompactSidePane
 		this.expLabel.setForeground( Color.BLACK );
 		this.meatDropLabel.setForeground( Color.BLACK );
 		this.itemDropLabel.setForeground( Color.BLACK );
+		this.hoboPowerLabel.setForeground( Color.BLACK );
 	}
 
 	public String getStatText( final int adjusted, final int base )
@@ -266,6 +270,17 @@ public class CompactSidePane
 		this.expLabel.setText( KoLConstants.ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getExperienceAdjustment() ) );
 		this.meatDropLabel.setText( KoLConstants.ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getMeatDropPercentAdjustment() ) + "%" );
 		this.itemDropLabel.setText( KoLConstants.ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getItemDropPercentAdjustment() ) + "%" );
+		int hobo = KoLCharacter.getHoboPower();
+		if ( hobo != 0 )
+		{
+			this.hoboLabel.setText( "Hobo: " );
+			this.hoboPowerLabel.setText( KoLConstants.MODIFIER_FORMAT.format( hobo ) );
+		}
+		else
+		{
+			this.hoboLabel.setText( "" );
+			this.hoboPowerLabel.setText( "" );
+		}
 
 		int currentLevel = KoLCharacter.calculateLastLevel();
 		int nextLevel = KoLCharacter.calculateNextLevel();
