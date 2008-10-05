@@ -52,4 +52,4 @@
 # and thus are given id #0 to tell KoLmafia to treat
 # it in a special way.
 
-0	Terrifying Clown Suit	foolscap fool's cap, bloody clown pants, big red clown nose, polka-dot bowtie, clown shoes
+0	Terrifying Clown Suit	foolscap fool's cap, bloody clown pants, big red clown nose, polka-dot bow tie, clown shoes

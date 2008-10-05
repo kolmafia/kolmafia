@@ -1090,7 +1090,7 @@ pirate fledges	Moxie: +7, Muscle: +7, Mysticality: +7
 plexiglass pendant	Single Equip, Never Fumble, Moxie Percent: +30
 plexiglass pinky ring	Single Equip, Spell Damage: +30, Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, Mysticality Percent: +30
 plexiglass pocketwatch	Single Equip, Mana Cost: -3, Adventures: +3, Mysticality Percent: +30
-polka-dot bowtie	Moxie: +3
+polka-dot bow tie	Moxie: +3
 porquoise bracelet	Moxie: +4, Never Fumble
 porquoise eyebrow ring	Moxie: +4, Never Fumble
 porquoise necklace	Single Equip, Moxie: +4, Meat Drop: +10

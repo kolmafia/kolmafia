@@ -1030,7 +1030,7 @@ pirate fledges	0	Mys: 60
 plexiglass pendant	0	Mys: 75
 plexiglass pinky ring	0	Mys: 75
 plexiglass pocketwatch	0	Mys: 75
-polka-dot bowtie	0	Mys: 10
+polka-dot bow tie	0	Mys: 10
 porquoise bracelet	0	Mys: 10
 porquoise eyebrow ring	0	Mys: 10
 porquoise necklace	0	Mys: 10
