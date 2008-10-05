@@ -131,6 +131,7 @@ public class UseItemDequeuePanel
 			{
 				UseItemDequeuePanel.this.queueTabs.setTitleAt( 0, ConcoctionDatabase.getQueuedSpleenHit() + " Spleen Queued" );
 			}
+			ConcoctionDatabase.getUsables().sort();
 		}
 
 		public String toString()
@@ -158,6 +159,7 @@ public class UseItemDequeuePanel
 			{
 				UseItemDequeuePanel.this.queueTabs.setTitleAt( 0, ConcoctionDatabase.getQueuedSpleenHit() + " Spleen Queued" );
 			}
+			ConcoctionDatabase.getUsables().sort();
 		}
 
 		public String toString()
@@ -194,6 +196,7 @@ public class UseItemDequeuePanel
 				UseItemDequeuePanel.this.queueTabs.setTitleAt(
 					0, ConcoctionDatabase.getQueuedSpleenHit() + " Spleen Queued" );
 			}
+			ConcoctionDatabase.getUsables().sort();
 		}
 	}
 

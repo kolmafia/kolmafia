@@ -183,6 +183,7 @@ public class UseItemEnqueuePanel
 				UseItemEnqueuePanel.this.queueTabs.setTitleAt(
 					0, ConcoctionDatabase.getQueuedSpleenHit() + " Spleen Queued" );
 			}
+			ConcoctionDatabase.getUsables().sort();
 		}
 
 		public String toString()
@@ -232,6 +233,7 @@ public class UseItemEnqueuePanel
 				UseItemEnqueuePanel.this.queueTabs.setTitleAt(
 					0, ConcoctionDatabase.getQueuedSpleenHit() + " Spleen Queued" );
 			}
+			ConcoctionDatabase.getUsables().sort();
 		}
 
 		public String toString()
@@ -329,6 +331,7 @@ public class UseItemEnqueuePanel
 			else if ( UseItemEnqueuePanel.this.spleen )
 			{
 				RequestThread.postRequest( new UseItemRequest( ItemPool.get( ItemPool.MOJO_FILTER, 1 ) ) );
+				ConcoctionDatabase.getUsables().sort();
 			}
 		}
 

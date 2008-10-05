@@ -211,37 +211,67 @@ public class Concoction
 		return this.isReagentPotion;
 	}
 
-	public int compareTo( final Object o )
+	public int compareTo( final Object other )
 	{
-		if ( o == null || !( o instanceof Concoction ) )
+		if ( other == null || !( other instanceof Concoction ) )
 		{
 			return -1;
 		}
-
+		
+		Concoction o = (Concoction) other;
+		
 		if ( this.name == null )
 		{
-			return ( (Concoction) o ).name == null ? 0 : 1;
+			return o.name == null ? 0 : 1;
 		}
 
-		if ( ( (Concoction) o ).name == null )
+		if ( o.name == null )
 		{
 			return -1;
 		}
 
-		if ( this.sortOrder != ( (Concoction) o ).sortOrder )
+		if ( this.sortOrder !=  o.sortOrder )
 		{
-			return this.sortOrder - ( (Concoction) o ).sortOrder;
+			return this.sortOrder - o.sortOrder;
 		}
 
-		if ( this.sortOrder == NO_PRIORITY )
+		boolean thisCantConsume = false, oCantConsume = false;
+		int limit;
+
+		switch ( this.sortOrder )
 		{
-			return this.name.compareToIgnoreCase( ( (Concoction) o ).name );
+		case NO_PRIORITY:
+			return this.name.compareToIgnoreCase( o.name );
+			
+		case FOOD_PRIORITY:
+			limit = KoLCharacter.getFullnessLimit() - KoLCharacter.getFullness()
+				- ConcoctionDatabase.getQueuedFullness();
+			thisCantConsume = this.fullness > limit;
+			oCantConsume = o.fullness > limit;
+			break;
+		
+		case BOOZE_PRIORITY:
+			limit = KoLCharacter.getInebrietyLimit() - KoLCharacter.getInebriety()
+				- ConcoctionDatabase.getQueuedInebriety();
+			thisCantConsume = this.inebriety > limit;
+			oCantConsume = o.inebriety > limit;
+			break;
+		
+		case SPLEEN_PRIORITY:
+			limit = KoLCharacter.getSpleenLimit() - KoLCharacter.getSpleenUse()
+				- ConcoctionDatabase.getQueuedSpleenHit();
+			thisCantConsume = this.spleenhit > limit;
+			oCantConsume = o.spleenhit > limit;
+		}
+		if ( thisCantConsume != oCantConsume )
+		{
+			return thisCantConsume ? 1 : -1;
 		}
 
 		if ( !Preferences.getBoolean( "showGainsPerUnit" ) )
 		{
 			int fullness1 = this.fullness;
-			int fullness2 = ( (Concoction) o ).fullness;
+			int fullness2 = o.fullness;
 
 			if ( fullness1 != fullness2 )
 			{
@@ -249,7 +279,7 @@ public class Concoction
 			}
 
 			int inebriety1 = this.inebriety;
-			int inebriety2 = ( (Concoction) o ).inebriety;
+			int inebriety2 = o.inebriety;
 
 			if ( inebriety1 != inebriety2 )
 			{
@@ -257,7 +287,7 @@ public class Concoction
 			}
 
 			int spleenhit1 = this.spleenhit;
-			int spleenhit2 = ( (Concoction) o ).spleenhit;
+			int spleenhit2 = o.spleenhit;
 
 			if ( spleenhit1 != spleenhit2 )
 			{
@@ -267,14 +297,14 @@ public class Concoction
 
 		float adventures1 = StringUtilities.parseFloat( ItemDatabase.getAdventureRange( this.name ) );
 		float adventures2 =
-			StringUtilities.parseFloat( ItemDatabase.getAdventureRange( ( (Concoction) o ).name ) );
+			StringUtilities.parseFloat( ItemDatabase.getAdventureRange( o.name ) );
 
 		if ( adventures1 != adventures2 )
 		{
 			return adventures2 - adventures1 > 0.0f ? 1 : -1;
 		}
 
-		return this.name.compareToIgnoreCase( ( (Concoction) o ).name );
+		return this.name.compareToIgnoreCase( o.name );
 	}
 
 	public boolean equals( final Object o )
