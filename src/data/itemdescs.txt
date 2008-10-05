@@ -2236,7 +2236,7 @@
 2230	393099216	icicle katana	icicle katana
 2231	749553139	frigid mote	frigid motes
 2232	998866392	smudged alchemical recipe	smudged alchemical recipes
-2233	620090169	polka-dot bowtie	polka-dot bowties
+2233	620090169	polka-dot bow tie	polka-dot bow ties
 2234	458249860	calavera concertina	calavera concertinas
 2235	345804457	ratarang	ratarangs
 2236	542676786	turtle pheromones	vials of turtle pheromones

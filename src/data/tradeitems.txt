@@ -2231,7 +2231,7 @@
 2230	icicle katana	7	all	75
 2231	frigid mote	5	all	80
 2232	smudged alchemical recipe	3	all	60
-2233	polka-dot bowtie	8	all	25
+2233	polka-dot bow tie	8	all	25
 2234	calavera concertina	12	all	45
 2235	ratarang	12	all	65
 2236	turtle pheromones	3	display	0
