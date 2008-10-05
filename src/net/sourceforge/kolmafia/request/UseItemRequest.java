@@ -1654,13 +1654,15 @@ public class UseItemRequest
 
 			for ( int i = 0; i < strings.length; ++i )
 			{
-				if ( responseText.indexOf( strings[i][2] ) != -1 &&
-				     ItemPool.eliminationProcessor( strings, i,
-								    item.getItemId(),
-								    819, 827,
-								    "lastBangPotion" ) )
+				if ( responseText.indexOf( strings[i][2] ) != -1 )
 				{
-					KoLmafia.updateDisplay( "All bang potions have been identified!" );
+					if ( ItemPool.eliminationProcessor( strings, i,
+									    item.getItemId(),
+									    819, 827,
+									    "lastBangPotion" ) )
+					{
+						KoLmafia.updateDisplay( "All bang potions have been identified!" );
+					}
 					break;
 				}
 			}
