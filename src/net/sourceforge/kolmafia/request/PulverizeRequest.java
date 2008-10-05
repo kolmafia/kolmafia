@@ -54,7 +54,7 @@ public class PulverizeRequest
 	extends GenericRequest
 {
 	public static final Pattern ITEMID_PATTERN = Pattern.compile( "smashitem=(\\d+)" );
-	public static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity=(\\d+)" );
+	public static final Pattern QUANTITY_PATTERN = Pattern.compile( "qty=(\\d+)" );
 
 	private AdventureResult item;
 
@@ -191,29 +191,37 @@ public class PulverizeRequest
 
 	public static final boolean registerRequest( final String urlString )
 	{
-		if ( !urlString.startsWith( "smith.php" ) || urlString.indexOf( "action=pulverize" ) == -1 )
+		if ( !urlString.startsWith( "craft.php" ) || urlString.indexOf( "action=pulverize" ) == -1 )
 		{
 			return false;
 		}
 
 		Matcher itemMatcher = PulverizeRequest.ITEMID_PATTERN.matcher( urlString );
+
+		if ( !itemMatcher.find() )
+		{
+			return false;
+		}
+
 		Matcher quantityMatcher = PulverizeRequest.QUANTITY_PATTERN.matcher( urlString );
 
-		if ( itemMatcher.find() && quantityMatcher.find() )
+		if ( !quantityMatcher.find() )
 		{
-			int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
-			String name = ItemDatabase.getItemName( itemId );
-
-			if ( name == null )
-			{
-				return true;
-			}
-
-			int quantity = StringUtilities.parseInt( quantityMatcher.group( 1 ) );
-
-			ResultProcessor.processResult( new AdventureResult( itemId, 0 - quantity ) );
-			RequestLogger.updateSessionLog( "pulverize " + quantity + " " + name );
+			return false;
 		}
+
+		int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
+		String name = ItemDatabase.getItemName( itemId );
+
+		if ( name == null )
+		{
+			return true;
+		}
+
+		int quantity = StringUtilities.parseInt( quantityMatcher.group( 1 ) );
+
+		ResultProcessor.processResult( new AdventureResult( itemId, 0 - quantity ) );
+		RequestLogger.updateSessionLog( "pulverize " + quantity + " " + name );
 
 		return true;
 	}
