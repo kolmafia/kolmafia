@@ -1306,13 +1306,15 @@ public class FightRequest
 
 			for ( int i = 0; i < strings.length; ++i )
 			{
-				if ( effectText.indexOf( strings[i][1] ) != -1 &&
-				     ItemPool.eliminationProcessor( strings, i,
-								    potionId,
-								    819, 827,
-								    "lastBangPotion" ) )
+				if ( effectText.indexOf( strings[i][1] ) != -1 )
 				{
-					KoLmafia.updateDisplay( "All bang potions have been identified!" );
+					if ( ItemPool.eliminationProcessor( strings, i,
+									    potionId,
+									    819, 827,
+									    "lastBangPotion" ) )
+					{
+						KoLmafia.updateDisplay( "All bang potions have been identified!" );
+					}
 					break;
 				}
 			}
@@ -1340,13 +1342,15 @@ public class FightRequest
 
 			for ( int i = 0; i < strings.length; ++i )
 			{
-				if ( effectText.indexOf( strings[i][1] ) != -1 &&
-				     ItemPool.eliminationProcessor( strings, i,
-								    sphereId,
-								    2174, 2177,
-								    "lastStoneSphere" ) )
+				if ( effectText.indexOf( strings[i][1] ) != -1 )
 				{
-					KoLmafia.updateDisplay( "All stone spheres have been identified!" );
+					if ( ItemPool.eliminationProcessor( strings, i,
+									    sphereId,
+									    2174, 2177,
+									    "lastStoneSphere" ) )
+					{
+						KoLmafia.updateDisplay( "All stone spheres have been identified!" );
+					}
 					break;
 				}
 			}
