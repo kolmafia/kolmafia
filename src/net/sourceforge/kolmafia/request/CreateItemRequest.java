@@ -256,7 +256,10 @@ public class CreateItemRequest
 			if ( !ConcoctionDatabase.isPermittedMethod( 
 				ConcoctionDatabase.getMixingMethod( itemId ) ) )
 			{
-				return null;
+				if ( !(instance instanceof CombineMeatRequest) )
+				{	// meat paste & stacks aren't actually marked as createable
+					return null;
+				}
 			}
 		}
 
