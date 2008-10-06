@@ -268,40 +268,49 @@ public class Concoction
 			return thisCantConsume ? 1 : -1;
 		}
 
-		if ( !Preferences.getBoolean( "showGainsPerUnit" ) )
-		{
-			int fullness1 = this.fullness;
-			int fullness2 = o.fullness;
-
-			if ( fullness1 != fullness2 )
-			{
-				return fullness2 - fullness1;
-			}
-
-			int inebriety1 = this.inebriety;
-			int inebriety2 = o.inebriety;
-
-			if ( inebriety1 != inebriety2 )
-			{
-				return inebriety2 - inebriety1;
-			}
-
-			int spleenhit1 = this.spleenhit;
-			int spleenhit2 = o.spleenhit;
-
-			if ( spleenhit1 != spleenhit2 )
-			{
-				return spleenhit2 - spleenhit1;
-			}
-		}
-
-		float adventures1 = StringUtilities.parseFloat( ItemDatabase.getAdventureRange( this.name ) );
+		float adventures1 =
+			StringUtilities.parseFloat( ItemDatabase.getAdventureRange( this.name ) );
 		float adventures2 =
 			StringUtilities.parseFloat( ItemDatabase.getAdventureRange( o.name ) );
 
-		if ( adventures1 != adventures2 )
+		if ( Preferences.getBoolean( "showGainsPerUnit" ) )
 		{
-			return adventures2 - adventures1 > 0.0f ? 1 : -1;
+			if ( adventures1 != adventures2 )
+			{
+				return adventures2 - adventures1 > 0.0f ? 1 : -1;
+			}		
+		}
+
+		int fullness1 = this.fullness;
+		int fullness2 = o.fullness;
+
+		if ( fullness1 != fullness2 )
+		{
+			return fullness2 - fullness1;
+		}
+
+		int inebriety1 = this.inebriety;
+		int inebriety2 = o.inebriety;
+
+		if ( inebriety1 != inebriety2 )
+		{
+			return inebriety2 - inebriety1;
+		}
+
+		int spleenhit1 = this.spleenhit;
+		int spleenhit2 = o.spleenhit;
+
+		if ( spleenhit1 != spleenhit2 )
+		{
+			return spleenhit2 - spleenhit1;
+		}
+
+		if ( !Preferences.getBoolean( "showGainsPerUnit" ) )
+		{
+			if ( adventures1 != adventures2 )
+			{
+				return adventures2 - adventures1 > 0.0f ? 1 : -1;
+			}		
 		}
 
 		return this.name.compareToIgnoreCase( o.name );

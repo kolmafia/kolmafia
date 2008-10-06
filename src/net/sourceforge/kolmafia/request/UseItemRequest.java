@@ -74,6 +74,7 @@ public class UseItemRequest
 	private static final Pattern ROW_PATTERN = Pattern.compile( "<tr>.*?</tr>" );
 	private static final Pattern INVENTORY_PATTERN = Pattern.compile( "</blockquote></td></tr></table>.*?</body>" );
 	private static final Pattern ITEMID_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
+	private static final Pattern HELPER_PATTERN = Pattern.compile( "utensil=(\\d+)" );
 	private static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity=(\\d+)" );
 	private static final Pattern FORTUNE_PATTERN =
 		Pattern.compile( "<font size=1>(Lucky numbers: (\\d+), (\\d+), (\\d+))</td>" );
@@ -91,6 +92,7 @@ public class UseItemRequest
 
 	public static String lastUpdate = "";
 	private static AdventureResult lastItemUsed = null;
+	private static AdventureResult lastHelperUsed = null;
 	private static int askedAboutOde = 0;
 
 	private final int consumptionType;
@@ -682,6 +684,7 @@ public class UseItemRequest
 		}
 
 		AdventureResult item = UseItemRequest.lastItemUsed;
+		AdventureResult helper = UseItemRequest.lastHelperUsed;
 		UseItemRequest.resetItemUsed();
 
 		int consumptionType = UseItemRequest.getConsumptionType( item );
@@ -712,6 +715,37 @@ public class UseItemRequest
 
 		default:
 			ResultProcessor.processResult( item.getNegation() );
+		}
+		
+		// Check for consumption helpers, which will need to be removed from inventory
+		// if they were successfully used.
+		
+		if ( helper != null )
+		{	// Check for success message, since there are multiple ways these could fail:
+			//
+			// "You pour the <drink> into your divine champagne flute, and it immediately 
+			// begins fizzing over. You drink it quickly, then throw the flute in front of 
+			// a plastic fireplace and break it."
+			//
+			// "You eat the now piping-hot <food> -- it's sizzlicious! The salad fork 
+			// cools, and you discard it."
+			//
+			// "Brisk! Refreshing! You drink the frigid <drink> and discard the 
+			// no-longer-frosty mug."
+			
+			if ( responseText.indexOf( "a plastic fireplace" ) != -1 ||
+				responseText.indexOf( "The salad fork cools" ) != -1  ||
+				responseText.indexOf( "discard the no-longer-frosty" ) != -1 )
+			{
+				ResultProcessor.processResult( helper.getNegation() );
+			}
+			else
+			{
+				UseItemRequest.lastUpdate = "Consumption helper failed.";
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				ResultProcessor.processResult( item );
+				return;
+			}		
 		}
 
 		// Check for familiar growth - if a familiar is added,
@@ -1919,14 +1953,39 @@ public class UseItemRequest
 		return new AdventureResult( itemId, itemCount );
 	}
 
+	private static final AdventureResult extractHelper( final String urlString )
+	{
+		if ( !urlString.startsWith( "inv_eat.php" )
+			&& !urlString.startsWith( "inv_booze.php" ) )
+		{
+			return null;
+		}
+		
+		Matcher helperMatcher = UseItemRequest.HELPER_PATTERN.matcher( urlString );
+		if ( !helperMatcher.find() )
+		{
+			return null;
+		}
+
+		int itemId = StringUtilities.parseInt( helperMatcher.group( 1 ) );
+		if ( ItemDatabase.getItemName( itemId ) == null )
+		{
+			return null;
+		}
+
+		return new AdventureResult( itemId, 1 );
+	}
+
 	public static final void resetItemUsed()
 	{
 		UseItemRequest.lastItemUsed = null;
+		UseItemRequest.lastHelperUsed = null;
 	}
 
 	public static final boolean registerRequest( final String urlString )
 	{
 		UseItemRequest.lastItemUsed = UseItemRequest.extractItem( urlString );
+		UseItemRequest.lastHelperUsed = UseItemRequest.extractHelper( urlString );
 		if ( UseItemRequest.lastItemUsed == null )
 		{
 			return false;

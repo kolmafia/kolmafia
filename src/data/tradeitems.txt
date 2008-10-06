@@ -3321,9 +3321,9 @@
 3320	frayed rope belt	8	all	200
 3321	packet of mayfly bait	3	all	0
 3322	mayfly bait necklace	8	display	0
-3323	Ol' Scratch's salad fork	3	all	0
-3324	Frosty's frosty mug	3	all	0
-3325	jar of fermented pickle juice	3	all	0
+3323	Ol' Scratch's salad fork	0	all	0
+3324	Frosty's frosty mug	0	all	0
+3325	jar of fermented pickle juice	2	all	0
 3326	voodoo snuff	3	all	0
 3327	extra-greasy slider	1	all	0
 3328	crumpled felt fedora	9	display	250
