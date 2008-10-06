@@ -35,7 +35,6 @@ package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 
 import net.sourceforge.kolmafia.AdventureResult;
@@ -47,6 +46,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.HashMultimap;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
@@ -263,31 +263,5 @@ public class NPCStoreDatabase
 	{
 		MallPurchaseRequest item = NPCStoreDatabase.getPurchaseRequest( itemName );
 		return item != null && ( !validate || item.canPurchase() );
-	}
-	
-	// This is a basic implementation of a non-shrinking, order-preserving multimap.
-	// put() takes an int key, and an arbitrary Object.
-	// get() returns an ArrayList of all Objects with the specified key, in their
-	// original insertion order, or null if there were none.
-	private static final class HashMultimap
-		extends HashMap
-	{
-		public final void put( int key, Object value )
-		{
-			Integer okey = new Integer( key );
-			ArrayList curr = (ArrayList) super.get( okey );
-			if ( curr == null )
-			{
-				curr = new ArrayList();
-				super.put( okey, curr );
-			}
-			curr.add( value );
-			curr.trimToSize();	// minimize wasted space
-		}
-		
-		public final ArrayList get( int key )
-		{
-			return (ArrayList) super.get( new Integer( key ) );
-		}
 	}
 }
