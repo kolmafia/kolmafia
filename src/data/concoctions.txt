@@ -603,6 +603,7 @@ ratskin belt	14	leathery rat skin	enormous belt buckle
 
 # Hats made of hides of various sorts.
 
+barskin hat	4	basic meat helmet	bar skin
 bat hat	14	basic meat helmet	leathery bat skin
 black cowboy hat	14	basic meat helmet	black snake skin
 catskin cap	14	basic meat helmet	leathery cat skin
