@@ -100,6 +100,7 @@ Mohawk wig	Melee Damage: +10
 Ol' Scratch's stovepipe hat	Mysticality Percent: +20, Hot Spell Damage: +30, Class: "Sauceror"
 Orcish baseball cap	Muscle: +3, Mysticality: -3
 Radio Free Baseball Cap	Intrinsic Effect: "Radio Head"
+# Seasonal Beret has moon-dependent effects
 Scalp of Gorgolok	Muscle: +7, Class: "Seal Clubber"
 Snow Queen Crown	Cold Damage: +5, Cold Resistance: +3
 # Sombrero De Vida
@@ -1363,7 +1364,7 @@ smile-sharpening stone	Familiar Weight: +5
 spoon!	Familiar Weight: +5
 sucky decal	Familiar Weight: +5
 # targeting chip
-tasteful black bowtie	Familiar Weight: +5
+tasteful black bow tie	Familiar Weight: +5
 # teddy bear sewing kit
 # teddy borg sewing kit
 tiny Mountie hat	Familiar Weight: +5

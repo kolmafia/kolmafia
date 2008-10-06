@@ -2451,7 +2451,7 @@
 2445	980448847	Deactivated O. A. F.	Deactivated O.A.F.s
 2446	481449606	hardware upgrade	hardware upgrades
 2447	840387110	bad penguin egg	bad penguin eggs
-2448	476592435	tasteful black bowtie	tasteful black bowties
+2448	476592435	tasteful black bow tie	tasteful black bow ties
 2449	223792397	six-pack of New Cloaca-Cola	six-packs of New Cloaca-Cola
 2450	404489596	empty Cloaca-Cola bottle	empty Cloaca-Cola bottles
 2451	289037416	goatskin umbrella	goatskin umbrellas
@@ -3476,7 +3476,7 @@
 3469
 3470
 3471
-3472
+3472	909119591	Seasonal Beret
 3473	524041290	Bash-&#332;s boxtop
 3474	517550983	cranberry cordial	cranberry cordials
 3475	202269894	blackberry polite

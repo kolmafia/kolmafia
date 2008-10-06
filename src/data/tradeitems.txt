@@ -2446,7 +2446,7 @@
 2445	Deactivated O. A. F.	5	all	0
 2446	hardware upgrade	7	all	75
 2447	bad penguin egg	5	all	0
-2448	tasteful black bowtie	7	all	75
+2448	tasteful black bow tie	7	all	75
 2449	six-pack of New Cloaca-Cola	4	all	0
 2450	empty Cloaca-Cola bottle	0	all	200
 2451	goatskin umbrella	12	all	185
@@ -3470,7 +3470,7 @@
 3469
 3470
 3471
-3472
+3472	Seasonal Beret	9	display	0
 3473	Bash-&#332;s boxtop	0	display	0
 3474	cranberry cordial	4	all	36
 3475	blackberry polite	4	all	36
