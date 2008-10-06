@@ -101,7 +101,7 @@ public class IslandArenaRequest
 
 		for ( int i = 0; i < array.length; ++i )
 		{
-			if ( array[i][0].startsWith( effect) )
+			if ( array[i][0].toLowerCase().startsWith( effect.toLowerCase() ) )
 			{
 				this.option = i + 1;
 				break;
@@ -181,6 +181,8 @@ public class IslandArenaRequest
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't find the Mysterious Island Arena." );
 			return;
 		}
+
+		Preferences.setBoolean( "concertVisited", true );
 
 		if ( this.responseText.indexOf( "You're all rocked out." ) != -1 )
 		{
