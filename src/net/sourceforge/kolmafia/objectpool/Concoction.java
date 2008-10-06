@@ -88,6 +88,7 @@ public class Concoction
 	public int visibleTotal;
 
 	private final int fullness, inebriety, spleenhit;
+	private final float mainstatGain;
 
 	public Concoction( final String name, final int price )
 	{
@@ -106,6 +107,10 @@ public class Concoction
 		this.fullness = ItemDatabase.getFullness( name );
 		this.inebriety = ItemDatabase.getInebriety( name );
 		this.spleenhit = ItemDatabase.getSpleenHit( name );
+		this.mainstatGain = StringUtilities.parseFloat( 
+			KoLCharacter.isMuscleClass() ? ItemDatabase.getMuscleRange( name )
+				: KoLCharacter.isMysticalityClass() ? ItemDatabase.getMysticalityRange( name )
+					: ItemDatabase.getMoxieRange( name ) );
 
 		int consumeType = this.fullness > 0 ? KoLConstants.CONSUME_EAT : this.inebriety > 0 ? KoLConstants.CONSUME_DRINK : KoLConstants.CONSUME_USE;
 
@@ -158,6 +163,10 @@ public class Concoction
 		this.fullness = ItemDatabase.getFullness( this.name );
 		this.inebriety = ItemDatabase.getInebriety( this.name );
 		this.spleenhit = ItemDatabase.getSpleenHit( this.name );
+		this.mainstatGain = StringUtilities.parseFloat( 
+			KoLCharacter.isMuscleClass() ? ItemDatabase.getMuscleRange( this.name )
+				: KoLCharacter.isMysticalityClass() ? ItemDatabase.getMysticalityRange( this.name )
+					: ItemDatabase.getMoxieRange( this.name ) );
 
 		this.ingredients = new ArrayList();
 		this.ingredientArray = new AdventureResult[ 0 ];
@@ -311,6 +320,14 @@ public class Concoction
 			{
 				return adventures2 - adventures1 > 0.0f ? 1 : -1;
 			}		
+		}
+		
+		float gain1 = this.mainstatGain;
+		float gain2 = o.mainstatGain;
+
+		if ( gain1 != gain2 )
+		{
+			return gain2 - gain1 > 0.0f ? 1 : -1;
 		}
 
 		return this.name.compareToIgnoreCase( o.name );
