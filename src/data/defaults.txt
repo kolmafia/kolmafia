@@ -157,11 +157,13 @@ user	breakfastCompleted	false
 user	buffBotCasting
 user	buffBotMessageDisposal	0
 user	buffBotPhilanthropyType	1
+user	cellarLayout	0
 user	chatbotScript
 user	chatbotScriptExecuted	false
 user	chosenTrip
 user	clanAttacksEnabled	false
 user	cocktailSummons	0
+user	concertVisited	false
 user	currentBountyItem	0
 user	currentFullness	0
 user	currentHippyStore	none
@@ -212,6 +214,7 @@ user	lastBangPotionReset	-1
 user	lastBarrelSmashed	0
 user	lastBattlefieldReset	-1
 user	lastBreakfast	-1
+user	lastCellarReset	-1
 user	lastCouncilVisit	0
 user	lastCounterDay	-1
 user	lastDustyBottle2271
