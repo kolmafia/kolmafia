@@ -238,8 +238,6 @@ public class FamiliarTrainingFrame
 	public void dispose()
 	{
 		FamiliarTrainingFrame.stop = true;
-		KoLCharacter.removeCharacterListener( this.weightListener );
-
 		super.dispose();
 	}
 
@@ -2768,7 +2766,7 @@ public class FamiliarTrainingFrame
 			else if ( this.item == FamiliarTrainingFrame.FIREWORKS )
 			{
 				text.append( " " + FamiliarTrainingFrame.FIREWORKS.getName() + " (+5)" );
-			}		
+			}
 			else if ( this.item == FamiliarTrainingFrame.LEAD_NECKLACE )
 			{
 				text.append( " " + FamiliarTrainingFrame.LEAD_NECKLACE.getName() + " (+3)" );

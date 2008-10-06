@@ -47,12 +47,6 @@ public class DescriptionFrame
 		DescriptionFrame.INSTANCE = this;
 	}
 
-	public void dispose()
-	{
-		DescriptionFrame.INSTANCE = null;
-		super.dispose();
-	}
-
 	public boolean hasSideBar()
 	{
 		return false;

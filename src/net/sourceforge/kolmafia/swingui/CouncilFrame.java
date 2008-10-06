@@ -66,9 +66,15 @@ public class CouncilFrame
 	public CouncilFrame()
 	{
 		super( "Council of Loathing" );
+	}
 
-		CouncilFrame.COUNCIL_VISIT.responseText = null;
-		this.displayRequest( CouncilFrame.COUNCIL_VISIT );
+	public void setVisible( boolean isVisible )
+	{
+		if ( isVisible )
+		{
+			CouncilFrame.COUNCIL_VISIT.responseText = null;
+			this.displayRequest( CouncilFrame.COUNCIL_VISIT );
+		}
 	}
 
 	public boolean hasSideBar()

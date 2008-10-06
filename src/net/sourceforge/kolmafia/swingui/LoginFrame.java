@@ -52,7 +52,6 @@ import javax.swing.SwingConstants;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLDesktop;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -103,6 +102,11 @@ public class LoginFrame
 		return false;
 	}
 
+	public boolean showInWindowMenu()
+	{
+		return false;
+	}
+
 	public void requestFocus()
 	{
 		super.requestFocus();
@@ -127,11 +131,6 @@ public class LoginFrame
 		return this.usernameField.requestFocusInWindow();
 	}
 
-	public static final boolean instanceExists()
-	{
-		return LoginFrame.INSTANCE != null;
-	}
-
 	public static final void hideInstance()
 	{
 		if ( LoginFrame.INSTANCE != null )
@@ -151,14 +150,15 @@ public class LoginFrame
 	public void dispose()
 	{
 		this.honorProxySettings();
+		super.dispose();
+	}
 
-		if ( !KoLDesktop.instanceExists() )
+	protected void checkForLogout()
+	{
+		if ( GenericFrame.existingFrameCount == 0 )
 		{
 			System.exit( 0 );
 		}
-
-		super.dispose();
-		LoginFrame.INSTANCE = null;
 	}
 
 	public JPanel constructLoginPanel()

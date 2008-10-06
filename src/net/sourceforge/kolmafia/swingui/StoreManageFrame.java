@@ -113,12 +113,6 @@ public class StoreManageFrame
 		StoreManageFrame.INSTANCE.setTitle( "Store Manager (potential earnings: " + KoLConstants.COMMA_FORMAT.format( potentialEarnings ) + " meat)" );
 	}
 
-	public void dispose()
-	{
-		StoreManageFrame.INSTANCE = null;
-		super.dispose();
-	}
-
 	private class StoreManagePanel
 		extends GenericPanel
 	{

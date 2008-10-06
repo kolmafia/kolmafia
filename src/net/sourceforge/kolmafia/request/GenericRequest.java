@@ -595,7 +595,7 @@ public class GenericRequest
 				{
 					element = element.substring( 0, index );
 				}
-			
+
 				hashField = element;
 			}
 			else
@@ -1542,7 +1542,7 @@ public class GenericRequest
 		// in a browser.  If you're using a command-line
 		// interface, then you should not display the request.
 
-		if ( KoLConstants.existingFrames.isEmpty() )
+		if ( StaticEntity.isHeadless() )
 		{
 			return;
 		}

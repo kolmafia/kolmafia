@@ -295,12 +295,6 @@ public class GearChangeFrame
 		GearChangeFrame.INSTANCE.offhands.clear();
 	}
 
-	public void dispose()
-	{
-		GearChangeFrame.INSTANCE = null;
-		super.dispose();
-	}
-
 	private class ChangeComboBox
 		extends JComboBox
 	{

@@ -291,13 +291,10 @@ public class MallPurchaseRequest
 	{
 		StringBuffer buffer = new StringBuffer();
 
-		if ( !KoLConstants.existingFrames.isEmpty() )
+		buffer.append( "<html><nobr>" );
+		if ( !this.canPurchase() )
 		{
-			buffer.append( "<html><nobr>" );
-			if ( !this.canPurchase() )
-			{
-				buffer.append( "<font color=gray>" );
-			}
+			buffer.append( "<font color=gray>" );
 		}
 
 		buffer.append( this.itemName );
@@ -323,15 +320,12 @@ public class MallPurchaseRequest
 		buffer.append( "): " );
 		buffer.append( this.shopName );
 
-		if ( !KoLConstants.existingFrames.isEmpty() )
+		if ( !this.canPurchase() )
 		{
-			if ( !this.canPurchase() )
-			{
-				buffer.append( "</font>" );
-			}
-
-			buffer.append( "</nobr></html>" );
+			buffer.append( "</font>" );
 		}
+
+		buffer.append( "</nobr></html>" );
 
 		return buffer.toString();
 	}

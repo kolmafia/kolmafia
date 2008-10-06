@@ -49,13 +49,24 @@ public class WindowMenu
 
 	public JComponent constructMenuItem( final Object o )
 	{
-		return new DisplayFrameMenuItem( (GenericFrame) o );
+		String frameKey = (String) o;
+		String frameTitle = frameKey;
+
+		for ( int i = 0; i < KoLConstants.FRAME_NAMES.length; ++i )
+		{
+			if ( KoLConstants.FRAME_NAMES[ i ][ 1 ].equals( frameKey ) )
+			{
+				frameTitle = KoLConstants.FRAME_NAMES[ i ][ 0 ];
+			}
+		}
+
+		return new DisplayFrameMenuItem( frameTitle, frameKey );
 	}
 
 	public JComponent[] getHeaders()
 	{
 		JComponent[] headers = new JComponent[ 1 ];
-		headers[ 0 ] = new DisplayFrameMenuItem( (GenericFrame) null );
+		headers[ 0 ] = new DisplayFrameMenuItem( "Show All Displays", null );
 		return headers;
 	}
 }

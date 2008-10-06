@@ -50,8 +50,6 @@ import net.sourceforge.kolmafia.swingui.listener.LicenseDisplayListener;
 public class GlobalMenuBar
 	extends JMenuBar
 {
-	private WindowMenu windowMenu;
-
 	public ScriptMenu scriptMenu;
 	public BookmarkMenu bookmarkMenu;
 
@@ -161,7 +159,7 @@ public class GlobalMenuBar
 
 		questsMenu.add( new JSeparator() );
 
-		questsMenu.add( new InvocationMenuItem( "NemesisManager Quest", NemesisManager.class, "faceNemesisManager" ) );
+		questsMenu.add( new InvocationMenuItem( "Nemesis Quest", NemesisManager.class, "faceNemesis" ) );
 		questsMenu.add( new InvocationMenuItem( "Leaflet (No Stats)", LeafletManager.class, "leafletNoMagic" ) );
 		questsMenu.add( new InvocationMenuItem( "Leaflet (With Stats)", LeafletManager.class, "leafletWithMagic" ) );
 
@@ -185,7 +183,7 @@ public class GlobalMenuBar
 		this.scriptMenu = new ScriptMenu();
 		this.add( this.scriptMenu );
 
-		this.add( this.windowMenu = new WindowMenu() );
+		this.add( new WindowMenu() );
 
 		// Add help information for KoLmafia.  This includes
 		// the additional help-oriented stuffs.
@@ -218,23 +216,5 @@ public class GlobalMenuBar
 			"KoL Visual Wiki", "http://kol.coldfront.net/thekolwiki/index.php/Main_Page" ) );
 		helperMenu.add( new InvocationMenuItem( "Violet Fog Mapper", VioletFogManager.class, "showGemelliMap" ) );
 		helperMenu.add( new InvocationMenuItem( "Louvre Mapper", LouvreManager.class, "showGemelliMap" ) );
-	}
-
-	public void dispose()
-	{
-		if ( this.windowMenu != null )
-		{
-			this.windowMenu.dispose();
-		}
-
-		if ( this.scriptMenu != null )
-		{
-			this.scriptMenu.dispose();
-		}
-
-		if ( this.bookmarkMenu != null )
-		{
-			this.bookmarkMenu.dispose();
-		}
 	}
 }

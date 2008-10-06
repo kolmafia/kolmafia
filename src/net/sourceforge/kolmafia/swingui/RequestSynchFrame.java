@@ -47,12 +47,6 @@ public class RequestSynchFrame
 		RequestSynchFrame.INSTANCE = this;
 	}
 
-	public void dispose()
-	{
-		RequestSynchFrame.INSTANCE = null;
-		super.dispose();
-	}
-
 	public static final void showLocation( final String location )
 	{
 		RequestSynchFrame.showRequest( RequestEditorKit.extractRequest( location ) );

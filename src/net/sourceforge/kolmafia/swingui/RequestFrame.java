@@ -122,6 +122,11 @@ public class RequestFrame
 		this.getToolbar();
 	}
 
+	public boolean showInWindowMenu()
+	{
+		return false;
+	}
+
 	public JToolBar getToolbar()
 	{
 		JToolBar toolbarPanel = super.getToolbar( true );
@@ -327,16 +332,6 @@ public class RequestFrame
 
 	public void refresh( final GenericRequest request )
 	{
-		if ( KoLConstants.removedFrames.contains( this ) )
-		{
-			KoLConstants.removedFrames.remove( this );
-		}
-
-		if ( !KoLConstants.existingFrames.contains( this ) )
-		{
-			KoLConstants.existingFrames.add( this );
-		}
-
 		this.displayRequest( request );
 
 		if ( !this.isVisible() && !this.appearsInTab() )
@@ -558,6 +553,7 @@ public class RequestFrame
 		for ( int i = 0; i < RequestFrame.sideBarFrames.size(); ++i )
 		{
 			current = (RequestFrame) RequestFrame.sideBarFrames.get( i );
+
 			current.sideBuffer.clearBuffer();
 			current.sideBuffer.append( displayHTML );
 		}
@@ -566,6 +562,16 @@ public class RequestFrame
 	public boolean containsText( final String search )
 	{
 		return this.mainBuffer.getBuffer().indexOf( search ) != -1;
+	}
+
+	public void setVisible( final boolean isVisible )
+	{
+		if ( isVisible && this.sideBuffer != null && !RequestFrame.sideBarFrames.contains( this ) )
+		{
+			RequestFrame.sideBarFrames.add( this );
+		}
+
+		super.setVisible( isVisible );
 	}
 
 	public void dispose()
