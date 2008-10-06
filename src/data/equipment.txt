@@ -29,6 +29,7 @@ Mohawk wig	140	Mox: 55
 Ol' Scratch's stovepipe hat	200	Mys: 200
 Orcish baseball cap	60	Mox: 15
 Radio Free Baseball Cap	150	Mox: 60
+Seasonal Beret	100	Mys: 35
 Scalp of Gorgolok	50	Mus: 10
 Snow Queen Crown	115	Mox: 42
 Sombrero De Vida	50	Mox: 10
