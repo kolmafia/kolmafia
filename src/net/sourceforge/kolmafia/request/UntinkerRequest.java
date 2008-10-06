@@ -201,7 +201,7 @@ public class UntinkerRequest
 			return true;
 		}
 
-		if ( !KoLConstants.existingFrames.isEmpty() )
+		if ( !StaticEntity.isHeadless() )
 		{
 			if ( !InputFieldUtilities.confirm( "KoLmafia thinks you haven't completed the screwdriver quest.  Would you like to have KoLmafia automatically complete it now?" ) )
 			{

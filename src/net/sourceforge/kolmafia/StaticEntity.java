@@ -35,6 +35,8 @@ package net.sourceforge.kolmafia;
 
 import edu.stanford.ejalbert.BrowserLauncher;
 
+import java.awt.Frame;
+
 import java.io.File;
 import java.io.PrintStream;
 
@@ -61,7 +63,6 @@ import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.session.PvpManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.swingui.DescriptionFrame;
-import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.RequestFrame;
 import net.sourceforge.kolmafia.swingui.RequestSynchFrame;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
@@ -79,8 +80,6 @@ public abstract class StaticEntity
 	private static int usesRelayWindows = 0;
 
 	public static final ArrayList existingPanels = new ArrayList();
-
-	private static GenericFrame[] frameArray = new GenericFrame[ 0 ];
 	private static ActionPanel[] panelArray = new GenericPanel[ 0 ];
 
 	public static final String getVersion()
@@ -114,25 +113,6 @@ public abstract class StaticEntity
 		return StaticEntity.client;
 	}
 
-	public static final void registerFrame( final GenericFrame frame )
-	{
-		synchronized ( KoLConstants.existingFrames )
-		{
-			KoLConstants.existingFrames.add( frame );
-			StaticEntity.getExistingFrames();
-		}
-	}
-
-	public static final void unregisterFrame( final GenericFrame frame )
-	{
-		synchronized ( KoLConstants.existingFrames )
-		{
-			KoLConstants.existingFrames.remove( frame );
-			KoLConstants.removedFrames.remove( frame );
-			StaticEntity.getExistingFrames();
-		}
-	}
-
 	public static final void registerPanel( final ActionPanel frame )
 	{
 		synchronized ( StaticEntity.existingPanels )
@@ -151,34 +131,9 @@ public abstract class StaticEntity
 		}
 	}
 
-	public static final GenericFrame[] getExistingFrames()
-	{
-		synchronized ( KoLConstants.existingFrames )
-		{
-			boolean needsRefresh = StaticEntity.frameArray.length != KoLConstants.existingFrames.size();
-
-			if ( !needsRefresh )
-			{
-				for ( int i = 0; i < StaticEntity.frameArray.length && !needsRefresh; ++i )
-				{
-					needsRefresh = StaticEntity.frameArray[ i ] != KoLConstants.existingFrames.get( i );
-				}
-			}
-
-			if ( needsRefresh )
-			{
-				StaticEntity.frameArray = new GenericFrame[ KoLConstants.existingFrames.size() ];
-				KoLConstants.existingFrames.toArray( StaticEntity.frameArray );
-			}
-
-			return StaticEntity.frameArray;
-		}
-	}
-
 	public static final boolean isHeadless()
 	{
-		String isHeadless = System.getProperty( "java.awt.headless" );
-		return isHeadless != null && Boolean.valueOf( isHeadless ) == Boolean.TRUE;
+		return StaticEntity.client instanceof KoLmafiaCLI;
 	}
 
 	public static final ActionPanel[] getExistingPanels()
@@ -273,7 +228,7 @@ public abstract class StaticEntity
 			return;
 		}
 
-		GenericFrame[] frames = StaticEntity.getExistingFrames();
+		Frame[] frames = Frame.getFrames();
 		RequestFrame requestHolder = null;
 
 		for ( int i = frames.length - 1; i >= 0; --i )

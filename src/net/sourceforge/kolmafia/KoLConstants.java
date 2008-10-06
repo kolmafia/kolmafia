@@ -102,7 +102,6 @@ public interface KoLConstants
 
 	public static final Toolkit TOOLKIT = Toolkit.getDefaultToolkit();
 	public static final LockableListModel existingFrames = new LockableListModel();
-	public static final LockableListModel removedFrames = new LockableListModel();
 
 	// Menus rendered in the relay browser and the KoLmafia mini-browser.
 	// Ensures that the two menus always contain the same information.
@@ -144,6 +143,38 @@ public interface KoLConstants
 		{ "Distant Woods", "woods.php" },
 		{ "Mysterious Island", "island.php" }
 	};
+
+	public static final String[][] FRAME_NAMES =
+	{
+		{ "Adventure", "AdventureFrame" },
+		{ "Mini-Browser", "RequestFrame" },
+		{ "Relay Server", "LocalRelayServer" },
+		{ "Purchases", "MallSearchFrame" },
+		{ "Graphical CLI", "CommandDisplayFrame" },
+		{ "Player Status", "CharSheetFrame" },
+		{ "Item Manager", "ItemManageFrame" },
+		{ "Gear Changer", "GearChangeFrame" },
+		{ "Store Manager", "StoreManageFrame" },
+		{ "Coin Masters", "CoinmastersFrame" },
+		{ "Museum Display", "MuseumFrame" },
+		{ "Hall of Legends", "MeatManageFrame" },
+		{ "Skill Casting", "SkillBuffFrame" },
+		{ "Contact List", "ContactListFrame" },
+		{ "Buffbot Manager", "BuffBotFrame" },
+		{ "Purchase Buffs", "BuffRequestFrame" },
+		{ "Flower Hunter", "FlowerHunterFrame" },
+		{ "Mushroom Plot", "MushroomFrame" },
+		{ "Familiar Trainer", "FamiliarTrainingFrame" },
+		{ "IcePenguin Express", "MailboxFrame" },
+		{ "Loathing Chat", "ChatManager" },
+		{ "Recent Events", "RecentEventsFrame" },
+		{ "Clan Management", "ClanManageFrame" },
+		{ "Farmer's Almanac", "CalendarFrame" },
+		{ "Internal Database", "DatabaseFrame" },
+		{ "Coin Toss Game", "MoneyMakingGameFrame" },
+		{ "Preferences", "OptionsFrame" }
+	};
+
 
 	// Scripting-related constants.  Used throughout KoLmafia in
 	// order to ensure proper handling of scripts.

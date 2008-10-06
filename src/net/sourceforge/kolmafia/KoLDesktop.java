@@ -37,6 +37,7 @@ import com.sun.java.forums.CloseableTabbedPane;
 
 import java.awt.Component;
 import java.awt.BorderLayout;
+import java.awt.Frame;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseEvent;
@@ -144,6 +145,11 @@ public class KoLDesktop
 		}
 	}
 
+	public boolean showInWindowMenu()
+	{
+		return false;
+	}
+
 	public JTabbedPane getTabbedPane()
 	{
 		if ( Preferences.getBoolean( "useDecoratedTabs" ) )
@@ -213,13 +219,6 @@ public class KoLDesktop
 
 	public void dispose()
 	{
-		this.setVisible( false );
-
-		if ( this.tabs != null && this.tabs instanceof CloseTabbedPane )
-		{
-			( (CloseTabbedPane) this.tabs ).removeCloseListener( this );
-		}
-
 		while ( !this.tabListing.isEmpty() )
 		{
 			this.tabs.removeTabAt( 0 );
@@ -227,7 +226,6 @@ public class KoLDesktop
 		}
 
 		super.dispose();
-		KoLDesktop.INSTANCE = null;
 	}
 
 	public static final boolean instanceExists()
@@ -360,10 +358,15 @@ public class KoLDesktop
 			KoLDesktop.INSTANCE.setTitle( KoLDesktop.INSTANCE.lastTitle );
 		}
 
-		GenericFrame[] frames = StaticEntity.getExistingFrames();
+		Frame[] frames = Frame.getFrames();
 		for ( int i = 0; i < frames.length; ++i )
 		{
-			frames[ i ].setTitle( frames[ i ].lastTitle );
+			if ( frames[ i ] instanceof GenericFrame )
+			{
+				GenericFrame frame = (GenericFrame) frames[ i ];
+
+				frame.setTitle( frame.lastTitle );
+			}
 		}
 	}
 

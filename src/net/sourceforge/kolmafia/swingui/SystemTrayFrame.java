@@ -37,6 +37,7 @@ import com.jeans.trayicon.TrayIconPopup;
 import com.jeans.trayicon.TrayIconPopupSimpleItem;
 import com.jeans.trayicon.WindowsTrayIcon;
 
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -143,7 +144,7 @@ public abstract class SystemTrayFrame
 			return;
 		}
 
-		GenericFrame[] frames = StaticEntity.getExistingFrames();
+		Frame[] frames = Frame.getFrames();
 		boolean anyFrameVisible = false;
 		for ( int i = 0; i < frames.length; ++i )
 		{
@@ -184,12 +185,6 @@ public abstract class SystemTrayFrame
 
 	public static final void showDisplay()
 	{
-		if ( KoLConstants.existingFrames.isEmpty() )
-		{
-			KoLmafiaGUI.constructFrame( "LocalRelayServer" );
-			return;
-		}
-
 		if ( !KoLDesktop.instanceExists() )
 		{
 			KoLmafiaGUI.checkFrameSettings();

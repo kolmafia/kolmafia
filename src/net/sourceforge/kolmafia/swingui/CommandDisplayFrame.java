@@ -125,12 +125,6 @@ public class CommandDisplayFrame
 		return this.entryField.requestFocusInWindow();
 	}
 
-	public void dispose()
-	{
-		KoLConstants.commandBuffer.setChatDisplay( null );
-		super.dispose();
-	}
-
 	private class CommandDisplayPanel
 		extends JPanel
 	{

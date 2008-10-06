@@ -144,7 +144,7 @@ public class KoLmafiaGUI
 	}
 
 	/**
-	 * Initializes the <code>KoLmafia</code> session. Called after the login has been confirmed to notify thethat the
+	 * Initializes the <code>KoLmafia</code> session. Called after the login has been confirmed and the
 	 * login was successful, the user-specific settings should be loaded, and the user can begin adventuring.
 	 */
 
@@ -162,12 +162,6 @@ public class KoLmafiaGUI
 		}
 
 		LoginFrame.hideInstance();
-
-		if ( StaticEntity.getExistingFrames().length > 0 )
-		{
-			LoginFrame.disposeInstance();
-			return;
-		}
 
 		KoLmafiaGUI.checkFrameSettings();
 		String frameSetting = Preferences.getString( "initialFrames" );

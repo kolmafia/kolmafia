@@ -33,21 +33,11 @@
 
 package net.sourceforge.kolmafia.swingui.menu;
 
-import java.lang.ref.WeakReference;
-
-import javax.swing.SwingUtilities;
-
-import net.java.dev.spellcast.utilities.LicenseDisplay;
-
-import net.sourceforge.kolmafia.CreateFrameRunnable;
+import java.awt.Frame;
 import net.sourceforge.kolmafia.KoLDesktop;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
-import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.swingui.ChatFrame;
-import net.sourceforge.kolmafia.swingui.GenericFrame;
-import net.sourceforge.kolmafia.swingui.panel.VersionDataPanel;
-
 import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.swingui.GenericFrame;
 
 /**
  * In order to keep the user interface from freezing (or at least appearing to freeze), this internal class is used
@@ -58,7 +48,6 @@ public class DisplayFrameMenuItem
 	extends ThreadedMenuItem
 {
 	private String frameClass;
-	private WeakReference frameReference;
 
 	public DisplayFrameMenuItem( final String title, final String frameClass )
 	{
@@ -66,43 +55,24 @@ public class DisplayFrameMenuItem
 		this.frameClass = frameClass;
 	}
 
-	public DisplayFrameMenuItem( final GenericFrame frame )
-	{
-		super( frame == null ? "Show All Displays" : frame.toString() );
-
-		this.frameClass = null;
-		this.frameReference = frame == null ? null : new WeakReference( frame );
-	}
-
 	public void run()
 	{
 		if ( this.frameClass == null )
 		{
-			this.openExistingFrame();
-		}
-		else
-		{
-			this.openNewFrame();
-		}
-	}
-
-	private void openNewFrame()
-	{
-		KoLmafiaGUI.constructFrame( this.frameClass );
-	}
-
-	private void openExistingFrame()
-	{
-		if ( this.frameReference == null )
-		{
-			GenericFrame[] frames = StaticEntity.getExistingFrames();
 			String interfaceSetting = Preferences.getString( "initialDesktop" );
+
+			Frame [] frames = Frame.getFrames();
 
 			for ( int i = 0; i < frames.length; ++i )
 			{
-				if ( interfaceSetting.indexOf( frames[ i ].getFrameName() ) == -1 )
+				if ( frames[ i ] instanceof GenericFrame )
 				{
-					frames[ i ].setVisible( true );
+					GenericFrame frame = (GenericFrame) frames[ i ];
+
+					if ( interfaceSetting.indexOf( frame.getFrameName() ) == -1 )
+					{
+						frame.setVisible( true );
+					}
 				}
 			}
 
@@ -110,22 +80,10 @@ public class DisplayFrameMenuItem
 			{
 				KoLDesktop.getInstance().setVisible( true );
 			}
-
-			return;
 		}
-
-		GenericFrame frame = (GenericFrame) this.frameReference.get();
-		if ( frame != null )
+		else
 		{
-			boolean appearsInTab =
-				GenericFrame.appearsInTab( frame instanceof ChatFrame ? "ChatManager" : frame.getFrameName() );
-
-			if ( !appearsInTab )
-			{
-				frame.setVisible( true );
-			}
-
-			frame.requestFocusInWindow();
+			KoLmafiaGUI.constructFrame( this.frameClass );
 		}
 	}
 }

@@ -1452,12 +1452,12 @@ public class KoLmafiaCLI
 		}
 
 		// Next is the command to face your nemesis.  This
-		// method invokes the "faceNemesisManager" method on the
+		// method invokes the "faceNemesis" method on the
 		// script requestor.
 
 		if ( command.equals( "nemesis" ) )
 		{
-			NemesisManager.faceNemesisManager();
+			NemesisManager.faceNemesis();
 			return;
 		}
 
@@ -2456,7 +2456,7 @@ public class KoLmafiaCLI
 			AdventureDatabase.addAdventure( adventure );
 			return;
 		}
-		
+
 		// If all else fails, then assume that the
 		// person was trying to call a script.
 
@@ -5158,7 +5158,7 @@ public class KoLmafiaCLI
 		}
 		String url = Preferences.getString( "warProgress" ).equals( "finished" ) ?
 			"postwarisland.php" : "bigisland.php";
-			
+
 		KoLmafia.updateDisplay( "Get thee to a nunnery!" );
 		RequestThread.postRequest( new GenericRequest( url + "?place=nunnery&pwd&action=nuns" ) );
 	}

@@ -47,12 +47,6 @@ public class ProfileFrame
 		ProfileFrame.INSTANCE = this;
 	}
 
-	public void dispose()
-	{
-		ProfileFrame.INSTANCE = null;
-		super.dispose();
-	}
-
 	public static final void showRequest( final GenericRequest request )
 	{
 		if ( StaticEntity.isHeadless() )

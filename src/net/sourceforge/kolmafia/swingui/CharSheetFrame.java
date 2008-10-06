@@ -93,12 +93,6 @@ public class CharSheetFrame
 		return true;
 	}
 
-	public void dispose()
-	{
-		KoLCharacter.removeCharacterListener( this.statusRefresher );
-		super.dispose();
-	}
-
 	/**
 	 * Utility method for creating a panel that displays the given label, using formatting if the values are different.
 	 */

@@ -33,6 +33,8 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.awt.Frame;
+
 import net.sourceforge.kolmafia.BuffBotHome;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -45,7 +47,6 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.session.ActionBarManager;
 import net.sourceforge.kolmafia.session.ChatManager;
-import net.sourceforge.kolmafia.swingui.GenericFrame;
 
 public class LogoutRequest
 	extends GenericRequest
@@ -77,17 +78,13 @@ public class LogoutRequest
 			KoLDesktop.getInstance().dispose();
 		}
 
-		GenericFrame[] frames = StaticEntity.getExistingFrames();
+		Frame[] frames = Frame.getFrames();
 		for ( int i = 0; i < frames.length; ++i )
 		{
 			frames[ i ].dispose();
 		}
 
 		KoLAdventure.resetAutoAttack();
-		if ( KoLDesktop.instanceExists() )
-		{
-			KoLDesktop.getInstance().dispose();
-		}
 
 		ChatManager.dispose();
 		BuffBotHome.setBuffBotActive( false );

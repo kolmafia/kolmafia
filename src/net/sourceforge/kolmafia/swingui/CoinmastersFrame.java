@@ -106,16 +106,12 @@ public class CoinmastersFrame
 		CoinmastersFrame.externalUpdate();
 	}
 
-	public void dispose()
-	{
-		CoinmastersFrame.INSTANCE = null;
-		super.dispose();
-	}
-
 	public static void externalUpdate()
 	{
 		if ( INSTANCE == null )
+		{
 			return;
+		}
 
 		IslandDecorator.ensureUpdatedBigIsland();
 		atWar = Preferences.getString( "warProgress" ).equals( "started" );

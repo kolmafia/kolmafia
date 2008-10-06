@@ -144,10 +144,6 @@ public class BuffRequestFrame
 	public void dispose()
 	{
 		Preferences.setInteger( "lastBuffRequestType", this.types.getSelectedIndex() );
-
-		this.panelMap.clear();
-		this.mainPanel.dispose();
-
 		super.dispose();
 	}
 

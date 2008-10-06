@@ -176,20 +176,6 @@ public class TabbedChatFrame
 	{
 		super.dispose();
 		ChatManager.dispose();
-
-		if ( this.tabs != null )
-		{
-			if ( this.tabs instanceof CloseTabbedPane )
-			{
-				( (CloseTabbedPane) this.tabs ).removeCloseListener( this );
-			}
-			else
-			{
-				( (CloseableTabbedPane) this.tabs ).addCloseableTabbedPaneListener( this );
-			}
-		}
-
-		TabbedChatFrame.instanceExists = false;
 	}
 
 	private class TabAdder

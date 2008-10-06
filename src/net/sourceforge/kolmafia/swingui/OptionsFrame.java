@@ -861,37 +861,6 @@ public class OptionsFrame
 		extends GenericPanel
 		implements ListDataListener
 	{
-		private final String[][] FRAME_OPTIONS =
-		{
-			{ "Adventure", "AdventureFrame" },
-			{ "Mini-Browser", "RequestFrame" },
-			{ "Relay Server", "LocalRelayServer" },
-			{ "Purchases", "MallSearchFrame" },
-			{ "Graphical CLI", "CommandDisplayFrame" },
-			{ "Player Status", "CharSheetFrame" },
-			{ "Item Manager", "ItemManageFrame" },
-			{ "Gear Changer", "GearChangeFrame" },
-			{ "Store Manager", "StoreManageFrame" },
-			{ "Coin Masters", "CoinmastersFrame" },
-			{ "Museum Display", "MuseumFrame" },
-			{ "Hall of Legends", "MeatManageFrame" },
-			{ "Skill Casting", "SkillBuffFrame" },
-			{ "Contact List", "ContactListFrame" },
-			{ "Buffbot Manager", "BuffBotFrame" },
-			{ "Purchase Buffs", "BuffRequestFrame" },
-			{ "Flower Hunter", "FlowerHunterFrame" },
-			{ "Mushroom Plot", "MushroomFrame" },
-			{ "Familiar Trainer", "FamiliarTrainingFrame" },
-			{ "IcePenguin Express", "MailboxFrame" },
-			{ "Loathing Chat", "ChatManager" },
-			{ "Recent Events", "RecentEventsFrame" },
-			{ "Clan Management", "ClanManageFrame" },
-			{ "Farmer's Almanac", "CalendarFrame" },
-			{ "Internal Database", "DatabaseFrame" },
-			{ "Coin Toss Game", "MoneyMakingGameFrame" },
-			{ "Preferences", "OptionsFrame" }
-		};
-
 		private boolean isRefreshing = false;
 
 		private final LockableListModel completeList = new LockableListModel();
@@ -903,9 +872,9 @@ public class OptionsFrame
 			super( new Dimension( 100, 20 ), new Dimension( 300, 20 ) );
 			this.setContent( null );
 
-			for ( int i = 0; i < this.FRAME_OPTIONS.length; ++i )
+			for ( int i = 0; i < KoLConstants.FRAME_NAMES.length; ++i )
 			{
-				this.completeList.add( this.FRAME_OPTIONS[ i ][ 0 ] );
+				this.completeList.add( KoLConstants.FRAME_NAMES[ i ][ 0 ] );
 			}
 
 			JPanel optionPanel = new JPanel( new GridLayout( 1, 3, 10, 10 ) );
@@ -963,11 +932,11 @@ public class OptionsFrame
 			pieces = frameString.split( "," );
 			for ( int i = 0; i < pieces.length; ++i )
 			{
-				for ( int j = 0; j < this.FRAME_OPTIONS.length; ++j )
+				for ( int j = 0; j < KoLConstants.FRAME_NAMES.length; ++j )
 				{
-					if ( !this.startupList.contains( this.FRAME_OPTIONS[ j ][ 0 ] ) && this.FRAME_OPTIONS[ j ][ 1 ].equals( pieces[ i ] ) )
+					if ( !this.startupList.contains( KoLConstants.FRAME_NAMES[ j ][ 0 ] ) && KoLConstants.FRAME_NAMES[ j ][ 1 ].equals( pieces[ i ] ) )
 					{
-						this.startupList.add( this.FRAME_OPTIONS[ j ][ 0 ] );
+						this.startupList.add( KoLConstants.FRAME_NAMES[ j ][ 0 ] );
 					}
 				}
 			}
@@ -975,11 +944,11 @@ public class OptionsFrame
 			pieces = desktopString.split( "," );
 			for ( int i = 0; i < pieces.length; ++i )
 			{
-				for ( int j = 0; j < this.FRAME_OPTIONS.length; ++j )
+				for ( int j = 0; j < KoLConstants.FRAME_NAMES.length; ++j )
 				{
-					if ( !this.desktopList.contains( this.FRAME_OPTIONS[ j ][ 0 ] ) && this.FRAME_OPTIONS[ j ][ 1 ].equals( pieces[ i ] ) )
+					if ( !this.desktopList.contains( KoLConstants.FRAME_NAMES[ j ][ 0 ] ) && KoLConstants.FRAME_NAMES[ j ][ 1 ].equals( pieces[ i ] ) )
 					{
-						this.desktopList.add( this.FRAME_OPTIONS[ j ][ 0 ] );
+						this.desktopList.add( KoLConstants.FRAME_NAMES[ j ][ 0 ] );
 					}
 				}
 			}
@@ -1032,30 +1001,30 @@ public class OptionsFrame
 
 			for ( int i = 0; i < this.startupList.getSize(); ++i )
 			{
-				for ( int j = 0; j < this.FRAME_OPTIONS.length; ++j )
+				for ( int j = 0; j < KoLConstants.FRAME_NAMES.length; ++j )
 				{
-					if ( this.startupList.getElementAt( i ).equals( this.FRAME_OPTIONS[ j ][ 0 ] ) )
+					if ( this.startupList.getElementAt( i ).equals( KoLConstants.FRAME_NAMES[ j ][ 0 ] ) )
 					{
 						if ( frameString.length() != 0 )
 						{
 							frameString.append( "," );
 						}
-						frameString.append( this.FRAME_OPTIONS[ j ][ 1 ] );
+						frameString.append( KoLConstants.FRAME_NAMES[ j ][ 1 ] );
 					}
 				}
 			}
 
 			for ( int i = 0; i < this.desktopList.getSize(); ++i )
 			{
-				for ( int j = 0; j < this.FRAME_OPTIONS.length; ++j )
+				for ( int j = 0; j < KoLConstants.FRAME_NAMES.length; ++j )
 				{
-					if ( this.desktopList.getElementAt( i ).equals( this.FRAME_OPTIONS[ j ][ 0 ] ) )
+					if ( this.desktopList.getElementAt( i ).equals( KoLConstants.FRAME_NAMES[ j ][ 0 ] ) )
 					{
 						if ( desktopString.length() != 0 )
 						{
 							desktopString.append( "," );
 						}
-						desktopString.append( this.FRAME_OPTIONS[ j ][ 1 ] );
+						desktopString.append( KoLConstants.FRAME_NAMES[ j ][ 1 ] );
 					}
 				}
 			}

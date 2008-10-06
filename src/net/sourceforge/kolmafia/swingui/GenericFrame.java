@@ -42,11 +42,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
-
 import java.io.File;
-
 import java.lang.ref.WeakReference;
-
 import java.util.HashMap;
 
 import javax.swing.JCheckBox;
@@ -72,7 +69,6 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.request.LogoutRequest;
-import net.sourceforge.kolmafia.session.ChatManager;
 import net.sourceforge.kolmafia.swingui.listener.RefreshSessionListener;
 import net.sourceforge.kolmafia.swingui.listener.WorldPeaceListener;
 import net.sourceforge.kolmafia.swingui.menu.GlobalMenuBar;
@@ -86,7 +82,11 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public abstract class GenericFrame
 	extends JFrame
 {
+	protected static int existingFrameCount = 0;
+	protected boolean exists = false;
+
 	protected HashMap listenerMap;
+
 	private GlobalMenuBar menuBar;
 
 	public JTabbedPane tabs;
@@ -148,18 +148,20 @@ public abstract class GenericFrame
 
 		this.addHotKeys();
 
-		boolean shouldAddFrame =
-			!( this instanceof KoLDesktop ) && !( this instanceof ContactListFrame ) && !( this instanceof LoginFrame );
-
-		if ( this instanceof ChatFrame )
+		if ( this.showInWindowMenu() )
 		{
-			shouldAddFrame = !ChatManager.usingTabbedChat() || this instanceof TabbedChatFrame;
+			KoLConstants.existingFrames.add( this.getFrameName() );
 		}
+	}
 
-		if ( shouldAddFrame )
-		{
-			StaticEntity.registerFrame( this );
-		}
+	public boolean shouldAddStatusBar()
+	{
+		return Preferences.getBoolean( "addStatusBarToFrames" ) && !this.appearsInTab();
+	}
+
+	public boolean showInWindowMenu()
+	{
+		return true;
 	}
 
 	public void setJMenuBar( final GlobalMenuBar menuBar )
@@ -202,38 +204,6 @@ public abstract class GenericFrame
 		}
 	}
 
-	protected void removeThreadedListeners()
-	{
-		if ( this.listenerMap == null )
-		{
-			return;
-		}
-
-		Object[] keys = this.listenerMap.keySet().toArray();
-		for ( int i = 0; i < keys.length; ++i )
-		{
-			WeakReference ref = (WeakReference) this.listenerMap.get( keys[ i ] );
-			if ( ref == null )
-			{
-				continue;
-			}
-
-			Object listener = ref.get();
-			if ( listener == null )
-			{
-				continue;
-			}
-
-			if ( listener instanceof ActionListener )
-			{
-				this.removeActionListener( keys[ i ], (ActionListener) listener );
-			}
-		}
-
-		this.listenerMap.clear();
-		this.listenerMap = null;
-	}
-
 	public boolean appearsInTab()
 	{
 		return GenericFrame.appearsInTab( this.frameName );
@@ -243,11 +213,6 @@ public abstract class GenericFrame
 	{
 		String tabSetting = Preferences.getString( "initialDesktop" );
 		return tabSetting.indexOf( frameName ) != -1;
-	}
-
-	public boolean shouldAddStatusBar()
-	{
-		return Preferences.getBoolean( "addStatusBarToFrames" ) && !this.appearsInTab();
 	}
 
 	public JTabbedPane getTabbedPane()
@@ -428,41 +393,36 @@ public abstract class GenericFrame
 		if ( this.isVisible() )
 		{
 			this.rememberPosition();
+			this.setVisible( false );
 		}
 
 		// Determine which frame needs to be removed from
 		// the maintained list of frames.
 
 		KoLDesktop.removeTab( this );
-		StaticEntity.unregisterFrame( this );
-		KoLConstants.existingFrames.remove( this );
 
-		if ( this.refreshListener != null )
+		if ( this.exists )
 		{
-			KoLCharacter.removeCharacterListener( this.refreshListener );
+			this.exists = false;
+			--GenericFrame.existingFrameCount;
+
+			KoLConstants.existingFrames.remove( this.getFrameName() );
+			this.checkForLogout();
 		}
-
-		this.removeThreadedListeners();
-		this.getRootPane().resetKeyboardActions();
-
-		if ( this.menuBar != null )
-		{
-			this.menuBar.dispose();
-		}
-
-		super.dispose();
-		this.checkForLogout();
 	}
 
-	private void checkForLogout()
+	public boolean exists()
 	{
-		if ( !KoLConstants.existingFrames.isEmpty() || LoginFrame.instanceExists() )
-		{
-			return;
-		}
+		return this.exists;
+	}
 
-		GenericFrame.createDisplay( LoginFrame.class );
-		RequestThread.postRequest( new LogoutRequest() );
+	protected void checkForLogout()
+	{
+		if ( !StaticEntity.isHeadless() && GenericFrame.existingFrameCount == 0 )
+		{
+			RequestThread.postRequest( new LogoutRequest() );
+			GenericFrame.createDisplay( LoginFrame.class );
+		}
 	}
 
 	public String toString()
@@ -567,23 +527,8 @@ public abstract class GenericFrame
 
 		super.processWindowEvent( e );
 
-		if ( e.getID() == WindowEvent.WINDOW_CLOSING )
+		if ( e.getID() == WindowEvent.WINDOW_ACTIVATED )
 		{
-			if ( KoLConstants.existingFrames.contains( this ) )
-			{
-				KoLConstants.existingFrames.remove( this );
-				KoLConstants.removedFrames.add( this );
-				this.checkForLogout();
-			}
-		}
-		else if ( e.getID() == WindowEvent.WINDOW_ACTIVATED )
-		{
-			if ( KoLConstants.removedFrames.contains( this ) )
-			{
-				KoLConstants.removedFrames.remove( this );
-				KoLConstants.existingFrames.add( this );
-			}
-
 			InputFieldUtilities.setActiveWindow( this );
 		}
 	}
@@ -592,6 +537,19 @@ public abstract class GenericFrame
 	{
 		if ( isVisible )
 		{
+			if ( !this.exists )
+			{
+				this.exists = true;
+				++GenericFrame.existingFrameCount;
+
+				String frameName = this.getFrameName();
+
+				if ( this.showInWindowMenu() && !KoLConstants.existingFrames.contains( frameName ) )
+				{
+					KoLConstants.existingFrames.add( frameName );
+				}
+			}
+
 			this.restorePosition();
 		}
 		else
@@ -605,7 +563,6 @@ public abstract class GenericFrame
 		{
 			super.setExtendedState( Frame.NORMAL );
 			super.repaint();
-			KoLConstants.removedFrames.remove( this );
 		}
 	}
 

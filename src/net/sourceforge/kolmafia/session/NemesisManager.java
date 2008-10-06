@@ -85,7 +85,7 @@ public abstract class NemesisManager
 		return true;
 	}
 
-	public static final void faceNemesisManager()
+	public static final void faceNemesis()
 	{
 		// Make sure the player is qualified to use this script
 

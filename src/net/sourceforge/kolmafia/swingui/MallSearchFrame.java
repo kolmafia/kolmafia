@@ -93,12 +93,6 @@ public class MallSearchFrame
 		return null;
 	}
 
-	public void dispose()
-	{
-		MallSearchFrame.INSTANCE = null;
-		super.dispose();
-	}
-
 	/**
 	 * An internal class which represents the panel used for mall searches in the <code>AdventureFrame</code>.
 	 */

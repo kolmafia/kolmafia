@@ -178,6 +178,11 @@ public class ChatFrame
 		return false;
 	}
 
+	public boolean showInWindowMenu()
+	{
+		return false;
+	}
+
 	public void dispose()
 	{
 		super.dispose();

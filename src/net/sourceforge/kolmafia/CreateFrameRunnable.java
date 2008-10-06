@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia;
 import apple.dts.samplecode.osxadapter.OSXAdapter;
 import java.lang.reflect.Constructor;
 
+import java.awt.Frame;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
@@ -216,36 +217,18 @@ public class CreateFrameRunnable
 
 	private boolean loadPreviousFrame()
 	{
-		// Check to see if this is a frame that should
-		// only be loaded once, based on the static final list.
-
-		GenericFrame currentFrame;
-		Class currentType;
-
-		String creationTypeName =
-			( this.creationType == GenericPanelFrame.class ? this.parameters[ 1 ].getClass() : this.creationType ).getName();
-		creationTypeName = creationTypeName.substring( creationTypeName.lastIndexOf( "." ) + 1 );
-
-		for ( int i = 0; i < KoLConstants.existingFrames.size() && this.creation == null; ++i )
+		if ( this.creationType == ChatFrame.class )
 		{
-			currentFrame = (GenericFrame) KoLConstants.existingFrames.get( i );
-			currentType = currentFrame.getClass();
-
-			if ( currentType == this.creationType && currentType != ChatFrame.class )
-			{
-				this.creation = currentFrame;
-				return true;
-			}
+			return false;
 		}
 
-		for ( int i = 0; i < KoLConstants.removedFrames.size() && this.creation == null; ++i )
-		{
-			currentFrame = (GenericFrame) KoLConstants.removedFrames.get( i );
-			currentType = currentFrame.getClass();
+		Frame[] frames = Frame.getFrames();
 
-			if ( currentType == this.creationType && currentType != ChatFrame.class )
+		for ( int i = 0; i < frames.length; ++i )
+		{
+			if ( frames[ i ].getClass() == this.creationType )
 			{
-				this.creation = currentFrame;
+				this.creation = (GenericFrame) frames[ i ];
 				return true;
 			}
 		}

@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia;
 
 import java.awt.Color;
+import java.awt.Frame;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -170,7 +171,7 @@ public abstract class KoLmafia
 	public static final String STOP = "1";
 	public static final String SEMIRARE = "2";
 	public static final String GLYPH = "3";
-	
+
 	public static final String[][] SPECIAL_ENCOUNTERS =
 	{
 		{ "History is Fun!", STOP },
@@ -248,7 +249,7 @@ public abstract class KoLmafia
 		{ "Two Sizes Too Small", SEMIRARE },
 		{ "Yo Ho Ho and a Bottle of Whatever This Is", SEMIRARE },
 		{ "You Can Top Our Desserts, But You Can't Beat Our Meats", SEMIRARE },
-		
+
 		// Adventuring with the hobo code binder equipped - Glyph Adventures
 		{ "A Funny Thing Happened On the Way", GLYPH },
 		{ "Bacon Bacon Bacon", GLYPH },
@@ -263,7 +264,7 @@ public abstract class KoLmafia
 		{ "My Little Stowaway", GLYPH },
 		{ "Not So Much With the Corncob Pipes, Either.", GLYPH },
 		{ "Not a Standard-Issue Windowsill, Obviously", GLYPH },
-		{ "Now You're a Hero", GLYPH },	
+		{ "Now You're a Hero", GLYPH },
 		{ "Number 163", GLYPH },
 		{ "Stumped", GLYPH },
 		{ "They Gave at the Morgue", GLYPH },
@@ -271,7 +272,7 @@ public abstract class KoLmafia
 		{ "They Hate That", GLYPH },
 		{ "Thud", GLYPH },
 	};
-	
+
 	private static final boolean acquireFileLock( final String suffix )
 	{
 		try
@@ -621,11 +622,16 @@ public abstract class KoLmafia
 			panels[ i ].setEnabled( state != KoLConstants.CONTINUE_STATE );
 		}
 
-		GenericFrame[] frames = StaticEntity.getExistingFrames();
+		Frame [] frames = Frame.getFrames();
 		for ( int i = 0; i < frames.length; ++i )
 		{
-			frames[ i ].setStatusMessage( message );
-			frames[ i ].updateDisplayState( state );
+			if ( frames[ i ] instanceof GenericFrame )
+			{
+				GenericFrame frame = (GenericFrame) frames[ i ];
+
+				frame.setStatusMessage( message );
+				frame.updateDisplayState( state );
+			}
 		}
 
 		if ( KoLDesktop.instanceExists() )

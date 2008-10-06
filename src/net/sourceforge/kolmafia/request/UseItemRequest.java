@@ -536,7 +536,7 @@ public class UseItemRequest
 			return true;
 		}
 
-		if ( KoLConstants.existingFrames.isEmpty() )
+		if ( StaticEntity.isHeadless() )
 		{
 			return true;
 		}

@@ -173,7 +173,7 @@ public class EventManager
 		// If we're not a GUI and there are no GUI windows open
 		// (ie: the GUI loader command wasn't used), quit now.
 
-		if ( KoLConstants.existingFrames.isEmpty() )
+		if ( StaticEntity.isHeadless() )
 		{
 			return responseText;
 		}
