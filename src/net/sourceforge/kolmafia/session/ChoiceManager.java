@@ -1458,21 +1458,9 @@ public abstract class ChoiceManager
 			// could be based on base stat or on character class -
 			// which are the same, bar great effort
 			//
-			// For now, assume base stat.
+			// Base stat appears to have been incorrect - use character class.
 
-			int mus = KoLCharacter.getBaseMuscle();
-			int mys = KoLCharacter.getBaseMysticality();
-			int mox = KoLCharacter.getBaseMoxie();
-			int stat;
-
-			if ( mus > mys )
-			{
-				stat = mus > mox ? KoLConstants.MUSCLE : KoLConstants.MOXIE;
-			}
-			else
-			{
-				stat = mys > mox ? KoLConstants.MYSTICALITY : KoLConstants.MOXIE;
-			}
+			int stat = KoLCharacter.getPrimeIndex() + 1;
 
 			// Mus: combat, shot of rotgut (2948), drunkenness
 			// Mys: drunkenness, shot of rotgut (2948), shot of rotgut (2948)
