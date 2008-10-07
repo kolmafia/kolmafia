@@ -72,8 +72,8 @@
 71	Ode to Booze	notes.gif	626c8ef76cfc003c6ac2e65e9af5fd7a	cast 1 The Ode to Booze
 72	Sleeping with the Fishes	sleepy.gif	5285075ac41f4e239008e57f0b11e193
 73	Ticking Clock	clock.gif	6e54ea1584f2410c94c93032c5a038f0	use 1 cheap wind-up clock
-74	Fresh Scent	happy.gif	a12c86c626c44ecd48540d1e55bf1204	use 1 deodorant
-75	Hippy Stench	stench.gif	70ff46e1347de854172cb7a644f2854e	use 1 reodorant
+74	Fresh Scent	happy.gif	a12c86c626c44ecd48540d1e55bf1204	use either 1 chunk of rock salt, 1 deodorant
+75	Hippy Stench	stench.gif	70ff46e1347de854172cb7a644f2854e	use either 1 handful of pine needles, 1 reodorant
 76	Wreathed in Merriment	scook1.gif	074e5435520828037e01f4059da13cf7
 77	Fury of the Bells	scook2.gif	8166c389286809c05b40933c210194cf
 78	Yuletide Sappiness	scook3.gif	b4a14c949225b6e8427fbad113c8d777
