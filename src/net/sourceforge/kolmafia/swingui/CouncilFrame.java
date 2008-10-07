@@ -70,6 +70,8 @@ public class CouncilFrame
 
 	public void setVisible( boolean isVisible )
 	{
+		super.setVisible( isVisible );
+
 		if ( isVisible )
 		{
 			CouncilFrame.COUNCIL_VISIT.responseText = null;
