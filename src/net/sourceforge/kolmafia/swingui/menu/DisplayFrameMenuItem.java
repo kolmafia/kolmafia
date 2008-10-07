@@ -59,6 +59,8 @@ public class DisplayFrameMenuItem
 	{
 		if ( this.frameClass == null )
 		{
+			String interfaceSetting = Preferences.getString( "initialDesktop" );
+
 			Frame [] frames = Frame.getFrames();
 
 			for ( int i = 0; i < frames.length; ++i )
@@ -67,7 +69,7 @@ public class DisplayFrameMenuItem
 				{
 					GenericFrame frame = (GenericFrame) frames[ i ];
 
-					if ( frame.showInWindowMenu() )
+					if ( frame.showInWindowMenu() && frame.interfaceSetting.indexOf( frame.getFrameName() ) == -1 )
 					{
 						frame.setVisible( true );
 					}
