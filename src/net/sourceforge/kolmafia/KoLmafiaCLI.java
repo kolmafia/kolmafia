@@ -4605,8 +4605,14 @@ public class KoLmafiaCLI
 	 * A special module used specifically for properly instantiating UseItemRequests.
 	 */
 
-	private void executeUseItemRequest( final String command, final String parameters )
+	private void executeUseItemRequest( final String command, String parameters )
 	{
+		boolean either = parameters.startsWith( "either " );
+		if ( either )
+		{
+			parameters = parameters.substring( 7 ).trim();
+		}
+		
 		if ( command.equals( "eat" ) )
 		{
 			if ( this.makeHellKitchenRequest( parameters ) )
@@ -4653,49 +4659,66 @@ public class KoLmafiaCLI
 
 		ItemFinder.setMatchType( ItemFinder.ANY_MATCH );
 
-		for ( int i = 0; i < itemList.length; ++i )
-		{
-			currentMatch = (AdventureResult) itemList[ i ];
-
-			if ( command.equals( "eat" ) || command.equals( "ghost" ) )
+		for ( int level = either ? 0 : 2; level <= 2; ++level )
+		{	// level=0: use only items in inventory, exit on first success
+			// level=1: buy/make as needed, exit on first success
+			// level=2: use all items in list, buy/make as needed
+			for ( int i = 0; i < itemList.length; ++i )
 			{
-				if ( ItemDatabase.getConsumptionType( currentMatch.getItemId() ) != KoLConstants.CONSUME_EAT )
+				currentMatch = (AdventureResult) itemList[ i ];
+	
+				if ( command.equals( "eat" ) || command.equals( "ghost" ) )
 				{
-					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, currentMatch.getName() + " cannot be consumed." );
-					return;
+					if ( ItemDatabase.getConsumptionType( currentMatch.getItemId() ) != KoLConstants.CONSUME_EAT )
+					{
+						KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, currentMatch.getName() + " cannot be consumed." );
+						return;
+					}
+				}
+	
+				if ( command.equals( "drink" ) || command.equals( "hobo" ) )
+				{
+					if ( ItemDatabase.getConsumptionType( currentMatch.getItemId() ) != KoLConstants.CONSUME_DRINK )
+					{
+						KoLmafia.updateDisplay(
+							KoLConstants.ERROR_STATE, currentMatch.getName() + " is not an alcoholic beverage." );
+						return;
+					}
+				}
+	
+				if ( command.equals( "use" ) )
+				{
+					switch ( ItemDatabase.getConsumptionType( currentMatch.getItemId() ) )
+					{
+					case KoLConstants.CONSUME_EAT:
+						KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, currentMatch.getName() + " must be eaten." );
+						return;
+					case KoLConstants.CONSUME_DRINK:
+						KoLmafia.updateDisplay(
+							KoLConstants.ERROR_STATE, currentMatch.getName() + " is an alcoholic beverage." );
+						return;
+					}
+				}
+	
+				int have = currentMatch.getCount( KoLConstants.inventory );
+				if ( level > 0 || have > 0 )
+				{
+					if ( level == 0 && have < currentMatch.getCount() )
+					{
+						currentMatch = currentMatch.getInstance( have );
+					}
+					UseItemRequest request =
+						command.equals( "hobo" ) ? new UseItemRequest( KoLConstants.CONSUME_HOBO, currentMatch ) :
+						command.equals( "ghost" ) ? new UseItemRequest( KoLConstants.CONSUME_GHOST, currentMatch ) :
+						new UseItemRequest( currentMatch );
+		
+					RequestThread.postRequest( request );
+					if ( level < 2 )
+					{
+						return;
+					}
 				}
 			}
-
-			if ( command.equals( "drink" ) || command.equals( "hobo" ) )
-			{
-				if ( ItemDatabase.getConsumptionType( currentMatch.getItemId() ) != KoLConstants.CONSUME_DRINK )
-				{
-					KoLmafia.updateDisplay(
-						KoLConstants.ERROR_STATE, currentMatch.getName() + " is not an alcoholic beverage." );
-					return;
-				}
-			}
-
-			if ( command.equals( "use" ) )
-			{
-				switch ( ItemDatabase.getConsumptionType( currentMatch.getItemId() ) )
-				{
-				case KoLConstants.CONSUME_EAT:
-					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, currentMatch.getName() + " must be eaten." );
-					return;
-				case KoLConstants.CONSUME_DRINK:
-					KoLmafia.updateDisplay(
-						KoLConstants.ERROR_STATE, currentMatch.getName() + " is an alcoholic beverage." );
-					return;
-				}
-			}
-
-			UseItemRequest request =
-				command.equals( "hobo" ) ? new UseItemRequest( KoLConstants.CONSUME_HOBO, currentMatch ) :
-				command.equals( "ghost" ) ? new UseItemRequest( KoLConstants.CONSUME_GHOST, currentMatch ) :
-				new UseItemRequest( currentMatch );
-
-			RequestThread.postRequest( request );
 		}
 	}
 
