@@ -69,7 +69,7 @@ public class DisplayFrameMenuItem
 				{
 					GenericFrame frame = (GenericFrame) frames[ i ];
 
-					if ( frame.showInWindowMenu() && frame.interfaceSetting.indexOf( frame.getFrameName() ) == -1 )
+					if ( frame.showInWindowMenu() && interfaceSetting.indexOf( frame.getFrameName() ) == -1 )
 					{
 						frame.setVisible( true );
 					}
