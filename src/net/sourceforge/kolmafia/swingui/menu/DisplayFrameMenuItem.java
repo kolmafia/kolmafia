@@ -59,17 +59,15 @@ public class DisplayFrameMenuItem
 	{
 		if ( this.frameClass == null )
 		{
-			String interfaceSetting = Preferences.getString( "initialDesktop" );
-
 			Frame [] frames = Frame.getFrames();
 
 			for ( int i = 0; i < frames.length; ++i )
 			{
-				if ( frames[ i ] instanceof GenericFrame )
+				if ( ( frames[ i ] instanceof GenericFrame ) )
 				{
 					GenericFrame frame = (GenericFrame) frames[ i ];
 
-					if ( interfaceSetting.indexOf( frame.getFrameName() ) == -1 )
+					if ( frame.showInWindowMenu() )
 					{
 						frame.setVisible( true );
 					}
