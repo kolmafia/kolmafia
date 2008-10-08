@@ -1122,7 +1122,7 @@ public abstract class MoodManager
 
 				if ( action.startsWith( "use" ) )
 				{
-					this.item = ItemFinder.getFirstMatchingItem( parameters );
+					this.item = ItemFinder.getFirstMatchingItem( parameters, false );
 
 					if ( this.item == null )
 					{
