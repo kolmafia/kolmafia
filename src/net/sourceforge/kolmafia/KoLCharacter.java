@@ -2868,4 +2868,14 @@ public abstract class KoLCharacter
 			Preferences.setBoolean( "lastPirateInsult8", false );
 		}
 	}
+
+	public static final void ensureUpdatedCellar()
+	{
+		int lastAscension = Preferences.getInteger( "lastCellarReset" );
+		if ( lastAscension < KoLCharacter.getAscensions() )
+		{
+			Preferences.setInteger( "lastCellarReset", KoLCharacter.getAscensions() );
+			Preferences.setInteger( "cellarLayout", 0 );
+		}
+	}
 }

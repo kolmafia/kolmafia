@@ -120,6 +120,7 @@ import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.utilities.ByteArrayStream;
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.StationaryButtonDecorator;
@@ -2454,6 +2455,31 @@ public class KoLmafiaCLI
 					parameters.substring( spaceIndex ).trim() );
 
 			AdventureDatabase.addAdventure( adventure );
+			return;
+		}
+		
+		if ( command.equals( "spade" ) )
+		{
+			String[] data = Preferences.getString( "spadingData" ).split( "\\|" );
+			if ( data.length < 3 )
+			{
+				KoLmafia.updateDisplay( "No spading data has been collected yet. " +
+					"Please try again later." );
+				return;
+			}
+			for ( int i = 0; i < data.length-2; i += 3 )
+			{
+				String contents = data[ i ];
+				String recipient = data[ i+1 ];
+				String explanation = data[ i+2 ];
+				if ( InputFieldUtilities.confirm ( "A spade is you!\n\n" +
+					"Would you like to send the data \"" + contents + "\" to " +
+					recipient + "?\nThis information will be used " + explanation ) )
+				{
+					RequestThread.postRequest( new SendMailRequest( recipient, contents ) );
+				}
+			}
+			Preferences.setString( "spadingData", "" );
 			return;
 		}
 

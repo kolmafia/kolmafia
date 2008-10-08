@@ -59,6 +59,7 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.BarrelDecorator;
+import net.sourceforge.kolmafia.webui.CellarDecorator;
 import net.sourceforge.kolmafia.webui.IslandDecorator;
 
 public class ResultProcessor
@@ -631,6 +632,14 @@ public class ResultProcessor
 			if ( GenericRequest.isBarrelSmash )
 			{
 				BarrelDecorator.gainItem( result );
+			}
+			if ( RequestLogger.getLastURLString().startsWith( "fight.php" ) )
+			{
+				int adv = KoLAdventure.lastAdventureId();
+				if ( adv >= 178 && adv <= 181 )
+				{
+					CellarDecorator.gainItem( adv, result );
+				}
 			}
 		}
 
