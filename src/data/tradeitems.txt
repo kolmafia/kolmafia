@@ -742,7 +742,7 @@
 741	broken skull	0	all	15
 742	Knoll shroomkabob	1	all	30
 743	stuffed spooky mushroom	1	all	35
-744	can of hair spray	4	all	12
+744	hair spray	4	all	12
 745	serrated proboscis extension	7	all	75
 746	stat script	3	none	0
 747	Knob Goblin firecracker	0	all	15
@@ -3479,3 +3479,8 @@
 3478	peach lozenge	4	all	77
 3479	balloon shield	13	all	0
 3480	black spot	0	all	0
+3481
+3482
+3483
+3484
+3485	glittery mascara	4	all	12

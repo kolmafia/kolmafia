@@ -70,7 +70,8 @@ Nervewrecker's Store	y	E-Z Cook Oven&trade;	500
 Nervewrecker's Store	y	tenderizing hammer	500
 
 Market Demon	m	Ben-Gal&trade; Balm	24
-Market Demon	m	can of hair spray	24
+Market Demon	m	glittery mascara	24
+Market Demon	m	hair spray	24
 Market Demon	m	chewing gum on a string	30
 Market Demon	m	anti-anti-antidote	40
 Market Demon	m	fortune cookie	40

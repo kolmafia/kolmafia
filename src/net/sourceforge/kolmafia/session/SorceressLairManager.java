@@ -458,7 +458,7 @@ public abstract class SorceressLairManager
 		{
 			"ice cube",
 			"moonlight reflecting off of what appears to be ice",
-			"can of hair spray"
+			"hair spray"
 		},
 		{
 			"malevolent crop circle",
