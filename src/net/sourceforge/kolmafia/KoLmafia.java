@@ -701,6 +701,12 @@ public abstract class KoLmafia
 		}
 
 		KoLmafia.registerPlayer( username, String.valueOf( KoLCharacter.getUserId() ) );
+		
+		if ( Preferences.getString( "spadingData" ).length() > 10 )
+		{
+			KoLmafia.updateDisplay( "Some data has been collected that may be of interest " +
+				"to others.  Please type `spade' to examine and submit or delete this data." );		
+		}
 	}
 
 	public static final void resetCounters()
@@ -712,6 +718,7 @@ public abstract class KoLmafia
 		Preferences.setInteger( "nunsVisits", 0 );
 		Preferences.setString( "barrelLayout", "?????????" );
 		Preferences.setInteger( "lastBarrelSmashed", 0 );
+		Preferences.setBoolean( "concertVisited", false );
 		Preferences.setBoolean( "expressCardUsed", false );
 		Preferences.setBoolean( "oscusSodaUsed", false );
 		Preferences.setBoolean( "spiceMelangeUsed", false );
@@ -812,6 +819,7 @@ public abstract class KoLmafia
 		KoLCharacter.ensureUpdatedPotionEffects();
 		KoLCharacter.ensureUpdatedSemirareCounter();
 		KoLCharacter.ensureUpdatedSphereEffects();
+		KoLCharacter.ensureUpdatedCellar();
 
 		// Retrieve the items which are available for consumption
 		// and item creation.

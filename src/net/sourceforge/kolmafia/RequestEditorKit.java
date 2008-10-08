@@ -55,6 +55,8 @@ import javax.swing.text.html.HTML;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.ImageView;
 
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.request.ChatRequest;
@@ -64,12 +66,15 @@ import net.sourceforge.kolmafia.request.MoonPhaseRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.swingui.AdventureFrame;
+import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.RequestFrame;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.BarrelDecorator;
 import net.sourceforge.kolmafia.webui.BasementDecorator;
 import net.sourceforge.kolmafia.webui.BeerPongDecorator;
+import net.sourceforge.kolmafia.webui.CellarDecorator;
 import net.sourceforge.kolmafia.webui.CharPaneDecorator;
 import net.sourceforge.kolmafia.webui.DungeonDecorator;
 import net.sourceforge.kolmafia.webui.IslandDecorator;
@@ -824,6 +829,7 @@ public class RequestEditorKit
 	{
 		// Change dusty bottle names in item dropdown
 		RequestEditorKit.changeDustyBottleNames( buffer );
+		CellarDecorator.decorate( buffer );
 	}
 
 	private static final void changePotionImages( final StringBuffer buffer )
@@ -981,6 +987,9 @@ public class RequestEditorKit
 		}
 		glyphs[ 2 ] = StringUtilities.parseInt( matcher.group( 1 ) );
 
+		AdventureFrame.updateSelectedAdventure(
+			AdventureDatabase.getAdventure( "Haunted Wine Cellar (automatic)" ) );
+		KoLConstants.conditions.clear();
 		int wines[] = new int[ 3 ];
 
 		for ( int i = 2271; i <= 2276; ++i )
@@ -991,6 +1000,8 @@ public class RequestEditorKit
 				if ( glyph == glyphs[ j ] )
 				{
 					wines[ j ] = i;
+					AdventureResult.addResultToList( KoLConstants.conditions,
+						ItemPool.get( i, 1 ) );
 					break;
 				}
 			}

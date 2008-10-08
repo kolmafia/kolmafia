@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.swingui.RequestSynchFrame;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+import net.sourceforge.kolmafia.webui.CellarDecorator;
 import net.sourceforge.kolmafia.webui.DungeonDecorator;
 
 public class AdventureRequest
@@ -184,9 +185,10 @@ public class AdventureRequest
 		}
 		else if ( this.formSource.equals( "adventure.php" ) && this.adventureId.equals( "120" ) )
 		{
-			// Replace with a randomly chosen corner
+			// Replace with a (not-so-)randomly chosen corner
 			this.removeFormField( "snarfblat" );
-			this.addFormField( "snarfblat", String.valueOf( KoLConstants.RNG.nextInt( 4 ) + 178 ) );
+			this.addFormField( "snarfblat", String.valueOf(
+				CellarDecorator.recommendCorner() ) );
 		}
 
 		super.run();
