@@ -26,7 +26,7 @@
 25	Disco State of Mind	discoball.gif	869b501ce3b0e8ba139e7f3807db0c1f	cast 1 Disco Aerobics
 26	Mariachi Mood	happy.gif	c0a491f833b3490be4763e48a0a4c317	cast 1 Moxie of the Mariachi
 27	Temporary Lycanthropy	lycanth.gif	79bc05cd8f6cdf869c66a840f79ce2d3	use 1 blood of the Wereseal
-28	Butt-Rock Hair	buttrock.gif	04bc18fe47f495a894774fa1bbb9713d	use 5 can of hair spray
+28	Butt-Rock Hair	buttrock.gif	04bc18fe47f495a894774fa1bbb9713d	use 5 hair spray
 29	Contemptible Emanations	stench.gif	20f081726fb8cfa9a64736d6fb8333a4	use 1 cologne of contempt
 30	Incredibly Hulking	strboost.gif	fd5616e89e1c2ecb0b01b61929682d2d	use 1 Ferrigno's Elixir of Power
 31	Superhuman Sarcasm	wink.gif	2ca6aa31e5eed5cd125e9fd374b74a78	use 1 serum of sarcasm
@@ -552,3 +552,4 @@
 552	The Halls of Musclularity	candy.gif	5ae8ae820ae42b7ef7fc66d9db0aa403	use 1 plum lozenge
 553	The Halls of Mysticality	candy.gif	445ce68a580764aee2290ed14feac1ba	use 1 pear lozenge
 554	The Halls of Moxiousness	candy.gif	5ae8ae820ae42b7ef7fc66d9db0aa403	use 1 peach lozenge
+555	Glittering Eyelids	eyelashes.gif	fc50db33358ccef36aae08cc54387702	use 5 glittery mascara

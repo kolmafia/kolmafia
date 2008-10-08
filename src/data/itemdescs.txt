@@ -747,7 +747,7 @@
 741	326999380	broken skull	broken skulls
 742	383495078	Knoll shroomkabob	Knoll shroomkabobs
 743	662946800	stuffed spooky mushroom	stuffed spooky mushrooms
-744	206943648	can of hair spray	cans of hair spray
+744	206943648	hair spray	cans of hair spray
 745	946548920	serrated proboscis extension	serrated proboscis extensions
 746	129773162	stat script
 747	832516586	Knob Goblin firecracker	Knob Goblin firecrackers
@@ -3485,3 +3485,8 @@
 3478	853223528	peach lozenge
 3479	562865362	balloon shield
 3480	591209933	black spot	black spots
+3481
+3482
+3483
+3484
+3485	247764107	glittery mascara	tubes of glittery mascara

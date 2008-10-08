@@ -4,11 +4,14 @@
 
 present	1	box	wrapping paper
 bow staff	4	big stick	bow
-bowlegged pants	4	basic meat pants	bow
-bowler	4	basic meat helmet	bow
+bowlegged pants	4	pants kit	bow
+bowler	4	helmet recipe	bow
 Crimbo hat	4	wrapping paper	helmet recipe
 Crimbo pants	4	wrapping paper	pants kit
 Crimbo sword	4	wrapping paper	sword hilt
+Tropical Crimbo Hat	4	tropical wrapping paper	helmet recipe
+Tropical Crimbo Shorts	4	tropical wrapping paper	pants kit
+Tropical Crimbo Sword	4	tropical wrapping paper	sword hilt
 
 
 # Quest items which are created by combination and their subparts.

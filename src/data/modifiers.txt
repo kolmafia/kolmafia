@@ -1578,6 +1578,7 @@ Fury of the Bells	Muscle Percent: +10
 Fustulent	Stench Damage: +15
 Gelded	Monster Level: +5
 Ghostly Shell	Damage Absorption: +80
+Glittering Eyelids	Mysticality Percent: +15
 Gnawed-Off Arm	Muscle: -5
 Go Get 'Em, Tiger!	Muscle Percent: +15
 Good Karma	Mysticality: +5
