@@ -170,7 +170,8 @@ public class FamiliarData
 
 		if ( !KoLmafia.isRefreshing() && this.item != null && this.item != EquipmentRequest.UNEQUIP )
 		{
-			AdventureResult.addResultToList( KoLConstants.inventory, ItemPool.get( this.item.getItemId(), 1 ) );
+			AdventureResult n = ItemPool.get( this.item.getItemId(), 1 );
+			AdventureResult.addResultToList( KoLConstants.inventory, n );
 		}
 
 		if ( item != null && item != EquipmentRequest.UNEQUIP )
@@ -184,7 +185,8 @@ public class FamiliarData
 
 		if ( !KoLmafia.isRefreshing() && item != null && item != EquipmentRequest.UNEQUIP )
 		{
-			AdventureResult.addResultToList( KoLConstants.inventory, ItemPool.get( item.getItemId(), -1 ) );
+			AdventureResult o = ItemPool.get( item.getItemId(), -1 );
+			AdventureResult.addResultToList( KoLConstants.inventory, o );
 		}
 
 		if ( !KoLmafia.isRefreshing() )
