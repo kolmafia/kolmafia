@@ -74,97 +74,7 @@ public class AdventureDatabase
 	private static final TreeMap cloverLookup = new TreeMap();
 
 	private static final StringArray conditionsById = new StringArray();
-	static
-	{
-		AdventureDatabase.conditionsById.set( 15, "1 mosquito larva" ); // Spooky Forest
-		AdventureDatabase.conditionsById.set( 16, "1 fairy gravy" ); // Haiku Dungeon
-		AdventureDatabase.conditionsById.set( 17, "3 choiceadv" ); // Hidden Temple
-		AdventureDatabase.conditionsById.set( 18, "1 gnollish toolbox, 1 tires" ); // Degrassi Knoll
-		AdventureDatabase.conditionsById.set( 19, "1 dungeoneer's dungarees" ); // Limerick Dungeon
-		AdventureDatabase.conditionsById.set( 21, "1 smart skull" ); // Pre-Cyrpt Cemetary
-		AdventureDatabase.conditionsById.set( 22, "1 disembodied brain" ); // Fernswarthy's Tower
-		AdventureDatabase.conditionsById.set( 25, "1 beer goggles" ); // Typical Tavern
-		AdventureDatabase.conditionsById.set( 26, "outfit" ); // Hippy Camp
-		AdventureDatabase.conditionsById.set( 27, "outfit" ); // Frat House
-		AdventureDatabase.conditionsById.set( 30, "1 Pine-Fresh air freshener" ); // Bat Hole Entryway
-		AdventureDatabase.conditionsById.set( 31, "3 sonar-in-a-biscuit, 1 broken skull" ); // Guano Junction
-		AdventureDatabase.conditionsById.set( 33, "1 enchanted bean" ); // Beanbat Chamber
-		AdventureDatabase.conditionsById.set( 38, "1 plus sign" ); // Enormous Greater-Than Sign
-		AdventureDatabase.conditionsById.set( 39, "1 dead mimic" ); // Dungeons of Doom
-		AdventureDatabase.conditionsById.set( 41, "outfit" ); // Knob Goblin Treasury
-		AdventureDatabase.conditionsById.set( 42, "outfit, 1 Knob Goblin perfume" ); // Knob Goblin Harem
-		AdventureDatabase.conditionsById.set( 47, "1 annoying pitchfork" ); // Bugbear Pens
-		AdventureDatabase.conditionsById.set( 48, "1 inexplicably glowing rock" ); // Spooky Gravy Barrow
-		AdventureDatabase.conditionsById.set( 60, "6 goat cheese" ); // Goatlet
-		AdventureDatabase.conditionsById.set( 61, "outfit" ); // Itznotyerzitz Mine
-		AdventureDatabase.conditionsById.set( 62, "1 frigid ninja stars" ); // Ninja Snowmen
-		AdventureDatabase.conditionsById.set( 63, "outfit" ); // eXtreme Slope
-		AdventureDatabase.conditionsById.set( 66, "outfit" ); // Pirate Cove
-		AdventureDatabase.conditionsById.set( 73, "1 digital key" ); // 8-Bit Realm
-		AdventureDatabase.conditionsById.set( 75, "1 wussiness potion, 1 ruby W, 1 dodecagram" ); // Friar's Quest 1
-		AdventureDatabase.conditionsById.set( 76, "1 box of birthday candles" ); // Friar's Quest 2
-		AdventureDatabase.conditionsById.set( 77, "1 eldritch butterknife" ); // Friar's Quest 3
-		AdventureDatabase.conditionsById.set( 79, "1 Azazel's unicorn, 1 Azazel's lollipop, 1 Azazel's tutu" ); 	// Friar's gate
-		AdventureDatabase.conditionsById.set( 80, "1 64735 scroll, 1 lowercase N" ); // Valley Beyond Orc Chasm
-		AdventureDatabase.conditionsById.set( 81, "1 metallic A, 1 S.O.C.K." ); // Fantasy Airship
-		AdventureDatabase.conditionsById.set( 82, "2 choiceadv, castle map items, 1 heavy D" ); // Giant's Castle
-		AdventureDatabase.conditionsById.set( 83, "1 Richard's star key, 1 star hat, 1 star crossbow" ); // Hole in the Sky
-		AdventureDatabase.conditionsById.set( 85, "outfit" ); // Cola Battlefield
-		AdventureDatabase.conditionsById.set( 100, "1 bird rib, 1 lion oil" ); // Whitey's Grove
-		AdventureDatabase.conditionsById.set( 102, "1 chef's hat" ); // Haunted Kitchen
-		AdventureDatabase.conditionsById.set( 103, "1 Spookyraven gallery key" ); // Haunted Conservatory
-		AdventureDatabase.conditionsById.set( 105, "1 pool cue, 1 handful of hand chalk" ); // Haunted Billiards
-		AdventureDatabase.conditionsById.set( 107, "1 fancy bath salts" ); // Haunted Bathroom
-		AdventureDatabase.conditionsById.set( 108, "1 Lord Spookyraven's spectacles" ); // Haunted Bedroom
-		AdventureDatabase.conditionsById.set( 111, "1 sunken eyes, 1 broken wings, 1 black market map" ); // Black Forest
-		AdventureDatabase.conditionsById.set( 112, "1 spider web" ); // Sleazy Back Alley
-		AdventureDatabase.conditionsById.set( 113, "1 razor-sharp can lid" ); // Haunted Pantry
-		AdventureDatabase.conditionsById.set( 114, "1 chef's hat" ); // Knob Outskirts
-		AdventureDatabase.conditionsById.set( 119, "1 stunt nuts, 1 I Love Me Vol I" ); // Palindome
-		AdventureDatabase.conditionsById.set( 124, "1 carved wooden wheel" );	// The Upper Chamber
-		AdventureDatabase.conditionsById.set( 127, "1 filthworm hatchling scent gland" ); // The Hatching Chamber
-		AdventureDatabase.conditionsById.set( 128, "1 filthworm drone scent gland" ); // The Feeding Chamber
-		AdventureDatabase.conditionsById.set( 129, "1 filthworm royal guard scent gland" ); // The Guards Chamber
-		AdventureDatabase.conditionsById.set( 136, "5 barrel of gunpowder" );		// Sonofa Beach
-		AdventureDatabase.conditionsById.set( 151, "1 choiceadv" ); // Stately Pleasure Dome
-		AdventureDatabase.conditionsById.set( 152, "1 choiceadv" ); // Mouldering Mansion
-		AdventureDatabase.conditionsById.set( 153, "1 choiceadv" ); // Rogue Windmill
-		AdventureDatabase.conditionsById.set( 158, "1 Mizzenmast mop, 1 ball polish, 1 rigging shampoo" );	// F'c'le
-	}
-
 	private static final StringArray bountiesById = new StringArray();
-	static
-	{
-		// First set of bounties
-		AdventureDatabase.bountiesById.set( 15, "3 triffid bark" ); // Spooky Forest
-		AdventureDatabase.bountiesById.set( 18, "6 oily rag" ); // Degrassi Knoll
-		AdventureDatabase.bountiesById.set( 20, "20 empty greasepaint tube" ); // Fun House
-		AdventureDatabase.bountiesById.set( 22, "7 wilted lettuce" ); // Fernswarthy's Tower
-		AdventureDatabase.bountiesById.set( 30, "14 pink bat eye" ); // Bat Hole Entryway
-		AdventureDatabase.bountiesById.set( 112, "13 hobo gristle" ); // Sleazy Back Alley
-		AdventureDatabase.bountiesById.set( 113, "13 shredded can label" ); // Haunted Pantry
-		AdventureDatabase.bountiesById.set( 114, "8 bloodstained briquette" ); // Knob Outskirts
-
-		// Second set of bounties
-		AdventureDatabase.bountiesById.set( 26, "11 greasy dreadlock" ); // Hippy Camp
-		AdventureDatabase.bountiesById.set( 27, "34 empty aftershave bottle" ); // Frat House
-		AdventureDatabase.bountiesById.set( 41, "17 bundle of receipts" ); // Knob Goblin Treasury
-		AdventureDatabase.bountiesById.set( 45, "4 callused fingerbone" ); // South of the Border
-		AdventureDatabase.bountiesById.set( 50, "40 broken petri dish" ); // Knob Goblin Laboratory
-		AdventureDatabase.bountiesById.set( 66, "5 vial of pirate sweat" ); // Pirate Cove
-		AdventureDatabase.bountiesById.set( 100, "8 white lint" ); // Whitey's Grove
-		AdventureDatabase.bountiesById.set( 39, "6 worthless piece of yellow glass" ); // Dungeon's of Doom
-
-		// Third set of bounties
-		AdventureDatabase.bountiesById.set( 60, "40 billy idol" ); // Goatlet
-		AdventureDatabase.bountiesById.set( 62, "40 coal button" ); // Ninja Snowmen
-		AdventureDatabase.bountiesById.set( 80, "5 sammich crust" ); // Valley Beyond Orc Chasm
-		AdventureDatabase.bountiesById.set( 81, "5 burned-out arcanodiode" ); // Fantasy Airship
-		AdventureDatabase.bountiesById.set( 82, "5 discarded pacifier" ); // Giant's Castle
-		AdventureDatabase.bountiesById.set( 83, "6 sticky stardust" ); // Hole in the Sky
-		AdventureDatabase.bountiesById.set( 106, "11 non-Euclidean hoof" ); // Haunted Gallery
-		AdventureDatabase.bountiesById.set( 120, "20 disintegrating cork" ); // Haunted Wine Cellar (Random)
-	}
 
 	private static final TreeMap locationByBounty = new TreeMap();
 
@@ -276,6 +186,18 @@ public class AdventureDatabase
 				AdventureDatabase.adventureTable[ 3 ].add( name );
 
 				AdventureDatabase.cloverLookup.put( name, hasCloverAdventure ? Boolean.TRUE : Boolean.FALSE );
+				if ( data.length > 4 )
+				{
+					int id = StringUtilities.parseInt( location[ 1 ] );
+					if ( !data[ 4 ].equals( "" ) )
+					{
+						AdventureDatabase.conditionsById.set( id, data[ 4 ] );
+					}
+					if ( data.length > 5 && !data[ 5 ].equals( "" ) )
+					{
+						AdventureDatabase.bountiesById.set( id, data[ 5 ] );
+					}				
+				}
 			}
 		}
 
@@ -493,7 +415,7 @@ public class AdventureDatabase
 
 	public static final AdventureResult getBounty( final int itemId )
 	{
-                String name = ItemDatabase.getItemName( itemId );
+		String name = ItemDatabase.getItemName( itemId );
 		if ( name == null )
 			return null;
 		KoLAdventure adventure = (KoLAdventure) AdventureDatabase.locationByBounty.get( StringUtilities.getCanonicalName( name ) );
