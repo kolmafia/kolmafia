@@ -581,11 +581,6 @@ public class GenericRequest
 		String element;
 		for ( int i = 0; i < this.data.size(); ++i )
 		{
-			if ( i > 0 )
-			{
-				dataBuffer.append( '&' );
-			}
-
 			element = (String) this.data.get( i );
 
 			if ( element.startsWith( "pwd" ) || element.startsWith( "phash" ) )
@@ -600,13 +595,17 @@ public class GenericRequest
 			}
 			else
 			{
+				if ( dataBuffer.length() > 0 )
+				{
+					dataBuffer.append( '&' );
+				}
 				dataBuffer.append( element );
 			}
 		}
 
 		if ( GenericRequest.passwordHash != null )
 		{
-			if ( !this.data.isEmpty() )
+			if ( dataBuffer.length() > 0 )
 			{
 				dataBuffer.append( "&" );
 			}

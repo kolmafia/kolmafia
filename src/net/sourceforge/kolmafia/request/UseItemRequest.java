@@ -920,6 +920,11 @@ public class UseItemRequest
 					KoLmafia.updateDisplay( "Lucky number " + number +
 						" ignored - too soon to be a semirare." );
 				}
+				else if ( number > 205 )
+				{	// conservative, wiki claims 200 maximum
+					KoLmafia.updateDisplay( "Lucky number " + number +
+						" ignored - too large to be a semirare." );
+				}
 				else
 				{
 					TurnCounter.startCounting( number, "Fortune Cookie", "fortune.gif" );
