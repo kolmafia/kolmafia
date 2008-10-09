@@ -1062,7 +1062,9 @@ public class EquipmentRequest
 
 		if ( !KoLmafia.isRefreshing() )
 		{
-			for ( int i = 0; i <= EquipmentManager.FAMILIAR; ++i )
+			// Omit familiar items, since inventory is handled by
+			// familiar.setItem()
+			for ( int i = 0; i < EquipmentManager.FAMILIAR; ++i )
 			{
 				refreshCreations |= EquipmentRequest.switchItem( oldEquipment[ i ], equipment[ i ] );
 			}
@@ -1145,14 +1147,19 @@ public class EquipmentRequest
 
 		if ( urlString.indexOf( "action=unequip" ) != -1 )
 		{
+			if ( urlString.indexOf( "terrarium=1" ) != -1 )
+			{
+				FamiliarRequest.unequipCurrentFamiliar();
+				return true;
+			}
+
 			Matcher slotMatcher = EquipmentRequest.SLOT_PATTERN.matcher( urlString );
 			if ( slotMatcher.find() )
 			{
 				RequestLogger.updateSessionLog( "unequip " + slotMatcher.group( 1 ) );
-				return true;
 			}
 
-			return false;
+			return true;
 		}
 
 		Matcher itemMatcher = EquipmentRequest.ITEMID_PATTERN.matcher( urlString );
@@ -1161,7 +1168,8 @@ public class EquipmentRequest
 			return true;
 		}
 
-		String itemName = ItemDatabase.getItemName( StringUtilities.parseInt( itemMatcher.group( 1 ) ) );
+		int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
+		String itemName = ItemDatabase.getItemName( itemId );
 		if ( itemName == null )
 		{
 			return true;
@@ -1186,6 +1194,10 @@ public class EquipmentRequest
 		{
 			RequestLogger.updateSessionLog();
 			RequestLogger.updateSessionLog( "equip acc3 " + itemName );
+		}
+		else if ( urlString.indexOf( "terrarium=1" ) != -1 )
+		{
+			FamiliarRequest.equipCurrentFamiliar( itemId );
 		}
 		else
 		{

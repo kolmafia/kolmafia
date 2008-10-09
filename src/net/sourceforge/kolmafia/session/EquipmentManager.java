@@ -403,7 +403,7 @@ public class EquipmentManager {
 			{
 				if ( currentFamiliar.canEquip( currentItem ) )
 				{
-					temporary.add( currentItem );
+					temporary.add( currentItem.getInstance( 1 ) );
 				}
 
 				continue;
