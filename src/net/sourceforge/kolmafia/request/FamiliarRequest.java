@@ -270,20 +270,23 @@ public class FamiliarRequest
 
 			if ( familiar.getId() == familiarId )
 			{
-				AdventureResult item = ItemPool.get( itemId, 1 );
-				RequestLogger.updateSessionLog();
-				RequestLogger.updateSessionLog( "Equip " + familiar.getRace() + " with " + item.getName() );
-				familiar.setItem( item );
-
+				FamiliarRequest.equipFamiliar( familiar, itemId );
 				return;
 			}
 		}
 	}
 
+	private static final void equipFamiliar( FamiliarData familiar, final int itemId )
+	{
+		AdventureResult item = ItemPool.get( itemId, 1 );
+		RequestLogger.updateSessionLog();
+		RequestLogger.updateSessionLog( "Equip " + familiar.getRace() + " with " + item.getName() );
+		familiar.setItem( item );
+	}
+
 	public static final void equipCurrentFamiliar( final int itemId )
 	{
-		FamiliarData familiar = KoLCharacter.getFamiliar();
-		FamiliarRequest.equipFamiliar( familiar.getId(), itemId );
+		FamiliarRequest.equipFamiliar( KoLCharacter.getFamiliar(), itemId );
 	}
 
 	private static final void unequipFamiliar( final int familiarId )
@@ -297,18 +300,21 @@ public class FamiliarRequest
 
 			if ( familiar.getId() == familiarId )
 			{
-				RequestLogger.updateSessionLog();
-				RequestLogger.updateSessionLog( "Unequip " + familiar.getRace() );
-				familiar.setItem( EquipmentRequest.UNEQUIP );
-
+				FamiliarRequest.unequipFamiliar( familiar );
 				return;
 			}
 		}
 	}
 
+	private static final void unequipFamiliar( FamiliarData familiar )
+	{
+		RequestLogger.updateSessionLog();
+		RequestLogger.updateSessionLog( "Unequip " + familiar.getRace() );
+		familiar.setItem( EquipmentRequest.UNEQUIP );
+	}
+
 	public static final void unequipCurrentFamiliar()
 	{
-		FamiliarData familiar = KoLCharacter.getFamiliar();
-		FamiliarRequest.unequipFamiliar( familiar.getId() );
+		FamiliarRequest.unequipFamiliar( KoLCharacter.getFamiliar() );
 	}
 }
