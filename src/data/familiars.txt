@@ -87,3 +87,5 @@
 91	Cotton Candy Carnie	none	3431	cotton candy cordial	0	2	2	3
 92	Disembodied Hand	none	3434		3	2	0	2
 93	Black Cat	none	3443		0	0	0	0
+94	Uniclops	stat0,meat0	3481	eye 'n' horn shampoo	0	0	0	0
+95	Psychedelic Bear	item0,meat0	3482	psychedelic bubble wand	0	0	0	0
