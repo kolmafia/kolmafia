@@ -3485,8 +3485,8 @@
 3478	853223528	peach lozenge
 3479	562865362	balloon shield
 3480	591209933	black spot	black spots
-3481
-3482
-3483
-3484
+3481	708700964	uniclops egg
+3482	523994193	passed-out psychedelic bear
+3483	512021127	psychedelic bubble wand
+3484	558562693	eye 'n' horn shampoo
 3485	247764107	glittery mascara	tubes of glittery mascara

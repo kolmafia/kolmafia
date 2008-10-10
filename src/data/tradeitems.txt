@@ -3479,8 +3479,8 @@
 3478	peach lozenge	4	all	77
 3479	balloon shield	13	all	0
 3480	black spot	0	all	0
-3481
-3482
-3483
-3484
+3481	uniclops egg	5	all	0
+3482	passed-out psychedelic bear	5	all	0
+3483	psychedelic bubble wand	7	all	75
+3484	eye 'n' horn shampoo	7	all	75
 3485	glittery mascara	4	all	12
