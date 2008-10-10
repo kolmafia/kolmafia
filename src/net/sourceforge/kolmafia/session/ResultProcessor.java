@@ -620,6 +620,7 @@ public class ResultProcessor
 			}
 
 			AdventureResult.addResultToList( KoLConstants.tally, result );
+			shouldRefresh = true;
 		}
 
 		ResultProcessor.tallyResult( result, true );
@@ -642,8 +643,6 @@ public class ResultProcessor
 				}
 			}
 		}
-
-		shouldRefresh |= result.getName().equals( AdventureResult.MEAT );
 
 		// Process the adventure result through the conditions
 		// list, removing it if the condition is satisfied.
@@ -801,6 +800,10 @@ public class ResultProcessor
 		else if ( resultName.equals( AdventureResult.MEAT ) )
 		{
 			KoLCharacter.setAvailableMeat( KoLCharacter.getAvailableMeat() + result.getCount() );
+			if ( updateCalculatedLists )
+			{
+				ConcoctionDatabase.refreshConcoctions();
+			}
 		}
 		else if ( resultName.equals( AdventureResult.ADV ) )
 		{

@@ -85,9 +85,6 @@ public class CombineMeatRequest
 	public void processResults()
 	{
 		super.processResults();
-
-		ResultProcessor.processResult(
-			new AdventureResult( AdventureResult.MEAT, this.costToMake * this.getQuantityNeeded() ) );
 	}
 
 	public static final boolean registerRequest( final String urlString )
@@ -98,10 +95,19 @@ public class CombineMeatRequest
 			return true;
 		}
 
+		int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
+
 		Matcher quantityMatcher = CreateItemRequest.QUANTITY_PATTERN.matcher( urlString );
 		int quantity = quantityMatcher.find() ? StringUtilities.parseInt( quantityMatcher.group( 2 ) ) : 1;
 
-		RequestLogger.updateSessionLog( "Create " + quantity + " " + ItemDatabase.getItemName( StringUtilities.parseInt( itemMatcher.group( 1 ) ) ) );
+		RequestLogger.updateSessionLog( "Create " + quantity + " " + ItemDatabase.getItemName( itemId ) );
+
+		int cost = itemId == ItemPool.MEAT_PASTE ? 10 : itemId == ItemPool.MEAT_STACK ? 100 : 1000;
+		int total = cost * quantity;
+		if ( total <= KoLCharacter.getAvailableMeat() )
+		{
+			ResultProcessor.processResult( new AdventureResult( AdventureResult.MEAT, -1 * total ) );
+		}
 
 		return true;
 	}
