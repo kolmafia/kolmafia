@@ -82,6 +82,7 @@ public class ChoiceOptionsPanel
 	private final JComboBox billiardRoomSelect;
 	private final JComboBox riseSelect, fallSelect;
 	private final JComboBox oceanDestSelect, oceanActionSelect;
+	private final JComboBox barrelSelect;
 
 	/**
 	 * Constructs a new <code>ChoiceOptionsPanel</code>.
@@ -222,6 +223,15 @@ public class ChoiceOptionsPanel
 		this.oceanActionSelect.addItem( "save and continue" );
 		this.oceanActionSelect.addItem( "save and show" );
 		this.oceanActionSelect.addItem( "save and stop" );
+		
+		this.barrelSelect = new JComboBox();
+		this.barrelSelect.addItem( "top rows (mixed drinks)" );
+		this.barrelSelect.addItem( "middle rows (basic booze)" );
+		this.barrelSelect.addItem( "top & middle rows" );
+		this.barrelSelect.addItem( "bottom rows (schnapps, fine wine)" );
+		this.barrelSelect.addItem( "top & bottom rows" );
+		this.barrelSelect.addItem( "middle & bottom rows" );
+		this.barrelSelect.addItem( "all available drinks" );
 
 		this.addChoiceSelect( "Plains", "Castle Wheel", this.castleWheelSelect );
 		this.addChoiceSelect( "Plains", "Papaya War", this.palindomePapayaSelect );
@@ -235,6 +245,7 @@ public class ChoiceOptionsPanel
 		this.addChoiceSelect( "Manor1", "The Maidens", this.maidenSelect );
 		this.addChoiceSelect( "Island", "Ocean Destination", this.oceanDestSelect );
 		this.addChoiceSelect( "Island", "Ocean Action", this.oceanActionSelect );
+		this.addChoiceSelect( "Mountain", "Barrel full of Barrels", this.barrelSelect );
 
 		this.addChoiceSelect(
 			ChoiceManager.LUCKY_SEWER.getZone(), ChoiceManager.LUCKY_SEWER.getName(), this.sewerSelect );
@@ -580,6 +591,7 @@ public class ChoiceOptionsPanel
 		Preferences.setString( "luckySewerAdventure", (String) this.sewerSelect.getSelectedItem() );
 		Preferences.setString( "choiceAdventure89", String.valueOf( this.maidenSelect.getSelectedIndex() ) );
 		Preferences.setString( "choiceAdventure127", String.valueOf( this.palindomePapayaSelect.getSelectedIndex() + 1 ) );
+		Preferences.setString( "barrelGoal", String.valueOf( this.barrelSelect.getSelectedIndex() + 1 ) );
 
 		int louvreGoal = this.louvreSelect.getSelectedIndex();
 		Preferences.setString(
@@ -827,6 +839,7 @@ public class ChoiceOptionsPanel
 
 		this.maidenSelect.setSelectedIndex( Preferences.getInteger( "choiceAdventure89" ) );
 		this.palindomePapayaSelect.setSelectedIndex( Preferences.getInteger( "choiceAdventure127" ) - 1 );
+		this.barrelSelect.setSelectedIndex( Preferences.getInteger( "barrelGoal" ) - 1 );
 
 		boolean foundItem = false;
 		String sewerItem = Preferences.getString( "luckySewerAdventure" );

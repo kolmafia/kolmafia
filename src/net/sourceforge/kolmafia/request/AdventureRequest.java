@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.swingui.RequestSynchFrame;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+import net.sourceforge.kolmafia.webui.BarrelDecorator;
 import net.sourceforge.kolmafia.webui.CellarDecorator;
 import net.sourceforge.kolmafia.webui.DungeonDecorator;
 
@@ -125,7 +126,7 @@ public class AdventureRequest
 		{
 			this.addFormField( "place", adventureId );
 		}
-		else if ( !formSource.equals( "dungeon.php" ) && !formSource.equals( "basement.php" ) && !formSource.equals( "rats.php" ) )
+		else if ( !formSource.equals( "dungeon.php" ) && !formSource.equals( "basement.php" ) && !formSource.equals( "rats.php" ) && !formSource.equals( "barrel.php" ) )
 		{
 			this.addFormField( "action", adventureId );
 		}
@@ -189,6 +190,17 @@ public class AdventureRequest
 			this.removeFormField( "snarfblat" );
 			this.addFormField( "snarfblat", String.valueOf(
 				CellarDecorator.recommendCorner() ) );
+		}
+		else if ( this.formSource.equals( "barrel.php" ) )
+		{
+			int square = BarrelDecorator.recommendSquare();
+			if ( square == 0 )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+					"All booze in the specified rows has been collected." );
+				return;
+			}
+			this.addFormField( "smash", String.valueOf( square ) );
 		}
 
 		super.run();
@@ -605,6 +617,12 @@ public class AdventureRequest
 				return "Unrecognized Limerick";
 			}
 		}
+		else if ( urlString.startsWith( "barrel.php" ) )
+		{
+			// Without this special case, encounter names in the Barrels would
+			// be things like "bottle of rum"
+			return "Barrel Smash";
+		}
 
 		String encounter = parseEncounter( responseText );
 
@@ -794,6 +812,10 @@ public class AdventureRequest
 		{
 			// Only register initial encounter of Dvorak's Revenge
 			return responseText.indexOf( "I before E, except after C" ) != -1;
+		}
+		else if ( formSource.startsWith( "barrel.php?smash" ) )
+		{
+			return true;
 		}
 
 		// It is not a known adventure.  Therefore,
