@@ -157,6 +157,8 @@ Burly Sidekick	HP: 100 Def: 100 Atk: 100 Meat: 79-168	cocoa eggshell fragment (3
 Business Hippy	HP: 25 Def: 38 Atk: 38	filthy corduroys (20)	filthy knitted dread sack (30)	herbs (25)	reodorant (5)	massive bag of catnip (0)
 Buzzy Beetle	HP: 15 Def: 20 Atk: 20	black pixel (50)	white pixel (50)	red pixel (65)
 C.A.R.N.I.V.O.R.E. Operative	HP: 330
+C. H. U. M.	HP: 202	bottle of sewage schnapps (0)	C. H. U. M. lantern (0)	C. H. U. M. knife (0)	sewer nuggets (0)	C. H. U. M. chum (0)
+C. H. U. M. chieftain	HP: 0	sewer nuggets (0)	sewer nuggets (0)	C. H. U. M. knife (0)	bottle of sewage schnapps (0)	bottle of sewage schnapps (0)	C. H. U. M. chum (0)
 Cactuary	HP: 139	bit-o-cactus (27)	giant cactus quill (5)	cactus fruit (20)	handful of sand (20)
 Carnivorous Dill Plant	HP: 180 Def: 200 Atk: 200	dill (30)	dill (30)
 Carnivorous Moxie Weed	HP: 56 Def: 66 Atk: 66	moxie weed (30)	giant moxie weed (15)	giant moxie weed (15)
@@ -167,7 +169,7 @@ Caveman Sorority Girl	HP: 0 E: sleaze	cup of primitive beer (25)
 Cavewomyn Hippy	HP: 260 E: stench	handful of pine needles (20)	handful of nuts and berries (20)
 Chalkdust Wraith	HP: 10 Def: 20 Atk: 20 ED: spooky	handful of hand chalk (100)
 Chatty Pirate	HP: 90 Atk: 100 Def: 100 Meat: 52-76
-Chester	HP: 0
+Chester	HP: 8000
 Chowder Golem	HP: 9 Def: 18 Atk: 22 Meat: 29-46
 Claw-foot Bathtub	HP: 110 Def: 100 Atk: 80	bottle of Monsieur Bubble (25)
 Cleanly Pirate	HP: 90 Atk: 100 Def: 100 Meat: 49-72	Swabbie&trade; swab (20)	Tom's of the Spanish Main Toothpaste (20)	rigging shampoo (0)
@@ -177,7 +179,7 @@ Cloaca-Cola Footsoldier	HP: 35 Def: 30 Atk: 30	Cloaca-Cola (15)	Cloaca-Cola (15)
 Cloaca-Cola Soldier	HP: 30 Def: 30 Atk: 30	Cloaca-Cola (15)	Cloaca-Cola (15)	Cloaca grenade (5)
 Cloud of Disembodied Whiskers	HP: 3 Def: 3 Atk: 1	shaving cream (20)
 Clownlord Beelzebozo	HP: 65
-Cold Hobo	HP: 0
+Cold Hobo	HP: 500	hobo nickel (0)	freezin' bindle (0)	Maxing, Relaxing (0)	Blizzards I Have Died In (0)	frigid air mattress (0)
 Completely Different Spider	HP: 1 Def: 1 Atk: 1 Meat: 4-7	spider web (25)	spider web (25)
 Confused Goth Music Student	HP: 9 Def: 9 Atk: 9
 Conjoined Zmombie	HP: 124 Def: 71 Atk: 79 E: spooky Meat: 224-338	cranberries (0)	cranberries (0)	loose teeth (0)
@@ -242,7 +244,7 @@ Fluffy Bunny	HP: 1 Def: 1 Atk: 1
 Forest Spirit	HP: 3 Def: 2 Atk: 1	forest tears (30)
 Frat Warrior Drill Sergeant	HP: 200	distressed denim pants (10)	bejeweled pledge pin (10)	beer helmet (10)
 Frog	HP: 3 Def: 3 Atk: 3 Meat: 8-12	squashed frog (100)
-Frosty	HP: 0
+Frosty	HP: 350
 Frozen Duck	HP: 180	frozen feather (0)	duct tape (0)
 Fruit Golem	HP: 46 Def: 56 Atk: 56	cherry (15)	orange (15)	lime (15)
 Furry Giant	HP: 150 Def: 135 Atk: 135 EA: sleaze Meat: 120-182	furry fur (35)	disturbing fanfic (30)	wolf mask (10)
@@ -260,6 +262,7 @@ Giant Giant Giant Centipede	HP: 142	centipede eggs (20)	handful of sand (25)	han
 Giant Giant Moth	HP: 11 Def: 12 Atk: 11
 Giant Pair of Tweezers	HP: 8 Def: 18 Atk: 16
 Giant Skeelton	HP: 130 Def: 73 Atk: 77 E: spooky	skeleton bone (0)	skeleton bone (0)	skeleton bone (0)
+Giant Zombie Goldfish	HP: 260	decaying goldfish liver (0)	sewer nuggets (0)	sewer nuggets (0)
 Gift-wrapping Vampire		evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
 Glass of Orange Juice	HP: 330
 Gluttonous Ghuol	HP: 50 Def: 56 Atk: 54 E: spooky Meat: 24-38	ghuol ears (10)	ghuol egg (10)	ghuol guolash (20)
@@ -295,8 +298,8 @@ Handsome Mariachi	HP: 15 Def: 17 Atk: 23 Meat: 4-7	bottle of tequila (30)	choriz
 Heavy Kegtank	HP: 300
 Hellion	HP: 52 Def: 52 Atk: 52 E: heat	Hellion cube (30)
 Hockey Elemental	HP: 40 Def: 65 Atk: 65	hockey stick of furious angry rage (100)
-Hodgman, The Hoboverlord	HP: 0
-Hot Hobo	HP: 0
+Hodgman, The Hoboverlord	HP: 25000
+Hot Hobo	HP: 500	bed of coals (0)	hobo nickel (0)	flamin' bindle (0)	Tales from the Fireside (0)	Kissin' Cousins (0)
 Huge Ghuol	HP: 129 Def: 71 Atk: 79 E: spooky Meat: 258-344	    ghuol ears (0)	ghuol egg (0)
 Hulking Construct	HP: 0	El Vibrato punchcard (104 holes)
 Hung-over Half-Orc Hobo	HP: 1 Def: 1 Atk: 1 E: stench	dirty hobo gloves (30)	Mad Train wine (60)	moxie weed (15)	hobo gristle (0)
@@ -372,17 +375,17 @@ Ninja Snowman (Masked)	HP: 70 Def: 85 Atk: 85 E: cold	cold ninja mask (10)	frigi
 Ninja Snowman (Ricebowl)	HP: 70 Def: 85 Atk: 85 ED: cold	frigid ninja stars (20)	rice bowl (5)	chopsticks (5)	coal button (0)
 Ninja Snowman Janitor	HP: 70 Def: 90 Atk: 70 ED: cold	frigid ninja stars (20)	ninja mop (5)	pail (10)	coal button (0)
 Ninja Snowman Weaponmaster	HP: 80 Def: 90 Atk: 90 ED: cold	ridiculously overelaborate ninja weapon (5)	frigid ninja stars (20)	frozen nunchaku (5)	frigid mote (0)	coal button (0)
-Normal Hobo	HP: 0
+Normal Hobo	HP: 380	hobo nickel (15)	Mr. Joe's bangles (0)	corncob pipe (0)	panhandle panhandling hat (0)	frayed rope belt (0)	cup of infinite pencils (0)	"WILL WORK FOR BOOZE" sign (0)	lucky bottlecap (0)
 Oasis Monster	HP: 145	displaced fish (20)	palm frond (10)	Supernova Champagne (20)	wonderwall shield (4)	carbonated water lily (10)	hot date (5)
 Octorok	HP: 15 Def: 25 Atk: 25	red pixel (70)	red pixel (70)	red pixel (70)
-Ol' Scratch	HP: 0
+Ol' Scratch	HP: 8000
 One-Eyed Gnoll	HP: 5 Def: 11 Atk: 11 Meat: 19-28	eyepatch (5)	gnoll teeth (5)
 One-Eyed Willie	HP: 150 Def: 150 Atk: 150 E: sleaze	line (30)	line (30)	star (30)
 Orcish Frat Boy (French Maid)	HP: 30 Def: 41 Atk: 41 E: sleaze Meat: 24-39	bottle of gin (20)	Ice-cold Sir Schlitz (20)	Orcish cargo shorts (5)	deodorant (5)	empty aftershave bottle (0)
 Orcish Frat Boy (Paddling)	HP: 30 Def: 40 Atk: 40 E: sleaze Meat: 24-39	bottle of vodka (20)	homoerotic frat-paddle (5)	Ice-cold Sir Schlitz (20)	deodorant (5)	empty aftershave bottle (0)
 Orcish Frat Boy (Sorority Orcs)	HP: 30 Def: 39 Atk: 39 E: sleaze Meat: 24-39	Ice-cold Sir Schlitz (20)	ice-cold fotie (20)	Orcish baseball cap (5)	deodorant (5)	empty aftershave bottle (0)
 Orcish Frat Boy Spy	HP: 180
-Oscus	HP: 0
+Oscus	HP: 6500
 Overdone Flame-Broiled Meat Blob	HP: 2 Def: 1 Atk: 1 E: heat Meat: 4-7	meat paste (40)	meat paste (40)	meat paste (40)
 P Imp	HP: 42 Def: 42 Atk: 42 E: heat Meat: 24-39	Imp Ale (30)	hot wing (30)	diamond-studded cane (5)
 Panty Raider Frat Boy	HP: 250
@@ -430,6 +433,7 @@ Sassy Pirate	HP: 51 Def: 61 Atk: 61 Meat: 16-26	crowbarrr (10)	sunken chest (15)
 Scary Clown	HP: 15 Def: 19 Atk: 19 E: spooky Meat: 20-32	big red clown nose (10)	bloody clown pants (10)	long skinny balloon (40)	empty greasepaint tube (0)
 Scorched Duck	HP: 185	flaming feather (0)	duct tape (0)
 Senile Lihc	HP: 50 Def: 57 Atk: 57 E: spooky	lihc eye (20)	lihc face (10)
+Sewer Gator	HP: 304	gator skin (0)	sewer nuggets (0)	sewer nuggets (0)
 Shady Pirate	HP: 57 Def: 67 Atk: 67 Meat: 24-36	safarrri hat (10)
 Shaky Clown	HP: 16 Def: 19 Atk: 19 E: sleaze Meat: 16-26	bloody clown pants (15)	big red clown nose (15)	bottle of gin (10)	bottle of rum (10)	bottle of tequila (10)	bottle of whiskey (10)	bottle of vodka (10)	boxed wine (10)	empty greasepaint tube (0)
 Shifty Pirate	HP: 59 Def: 69 Atk: 69 Meat: 36-58	arrrgyle socks (10)	sunken chest (30)	flaregun (30)
@@ -444,7 +448,7 @@ Skelter Butleton, the Butler Skeleton	HP: 180	silver shrimp fork (100)
 Skleleton	HP: 10 Def: 18 Atk: 18 E: spooky	loose teeth (30)	skeleton bone (60)
 Skullbat	HP: 10 Def: 16 Atk: 16 EA: spooky Meat: 25-37	broken skull (40)	loose teeth (20)	sonar-in-a-biscuit (30)
 Skullery Maid	HP: 4 Def: 4 Atk: 4	bottle of popskull (30)	dishrag (5)
-Sleaze Hobo	HP: 0
+Sleaze Hobo	HP: 500	hobo nickel (0)	sleazy bindle (0)	Summer Nights (0)	Sensual Massage for Creeps (0)	stained mattress (0)
 Sleeping Knob Goblin Guard	HP: 1 Def: 1 Atk: 1 Meat: 4-8	viking helmet (30)	Knob Goblin pants (5)	Knob Goblin scimitar (30)
 Slick Lihc	HP: 50 Def: 60 Atk: 58 E: spooky	lihc eye (20)	lihc face (10)
 Slow Talkin' Elliot	HP: 200
@@ -461,11 +465,11 @@ Spiny Skelelton	HP: 50 Def: 54 Atk: 54 E: spooky	skeleton bone (40)	smart skull 
 Spooky Gravy Fairy Guard	HP: 45 Def: 54 Atk: 56 E: spooky	spooky mushroom (40)	halfberd (5)	small leather glove (10)
 Spooky Gravy Fairy Ninja	HP: 55 Def: 65 Atk: 65 E: spooky	spooky mushroom (40)	teeny-tiny ninja stars (5)	tiny ninja sword (5)
 Spooky Gravy Fairy Warlock	HP: 50 Def: 60 Atk: 60 E: spooky	spooky mushroom (40)	enchanted toothpick (5)
-Spooky Hobo	HP: 0
+Spooky Hobo	HP: 500	hobo nickel (0)	spooky bindle (0)	Asleep in the Cemetery (0)	Let Me Be! (0)	comfy coffin (0)
 Spooky Mummy	HP: 3 Def: 4 Atk: 1 E: spooky Meat: 8-13	dried face (10)	spooky shrunken head (20)
 Spooky Vampire	HP: 2 Def: 4 Atk: 1 E: spooky Meat: 4-7
 Spunky Princess	HP: 75 Def: 89 Atk: 91 Meat: 62-141	cocoa eggshell fragment (30)	tiny house (30)	titanium assault umbrella (10)
-Stench Hobo	HP: 0
+Stench Hobo	HP: 500	hobo nickel (0)	stinkin' bindle (0)	Biddy Cracker's Old-Fashioned Cookbook (0)	Travels with Jerry (0)	filth-encrusted futon (0)
 Stocking-stuffing Zombie		evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
 Striking Factory-Worker Elf		felt (10)	wooden block (10)	googly eye (10)	length of string (10)	stuffing (10)	toy wheel (10)
 Striking Gift-Wrapper Elf		felt (10)	wooden block (10)	googly eye (10)	length of string (10)	stuffing (10)	toy wheel (10)
@@ -585,7 +589,7 @@ Zobmie	HP: 10 Def: 19 Atk: 19 E: spooky Meat: 28-40	cranberries (20)	cranberries
 Zol	HP: 15 Def: 25 Atk: 25	green pixel (70)	green pixel (70)	green pixel (70)
 Zombie Chef	HP: 4 Def: 5 Atk: 5	bottle of cooking sherry (30)	chef's hat (5)	fricasseed brains (20)	stale baguette (30)
 Zombie Duck	HP: 185
-Zombo	HP: 0
+Zombo	HP: 10000
 
 # Bad Trip
 Swarm of Country Bats	HP: 20 Def: 20 Atk: 20	orange-frosted astral cupcake (15)
