@@ -150,6 +150,7 @@ user	autoRepairBoxServants	true
 user	availableDimes	0
 user	availableLucre	0
 user	availableQuarters	0
+user	barrelGoal	1
 user	barrelLayout	?????????
 user	battleAction	attack with weapon
 user	betweenBattleScript

@@ -38,15 +38,18 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class BarrelDecorator
 {
-	private static final Pattern unsmashed = Pattern.compile( "smash=(\\d+)&pwd=(\\w+)'>" +
+	private static final Pattern UNSMASHED = Pattern.compile( "smash=(\\d+)&pwd=(\\w+)'>" +
 		"<img src='http://images.kingdomofloathing.com/otherimages/mountains/smallbarrel.gif' " +
 		"border=0 alt=\"An Unsmashed Barrel \\(1\\)\" title=\"An Unsmashed Barrel \\(1\\)\">" );
+	private static long unsmashedSquares = 0;
 		
 	private static final int B = 1;			// flag for booze items found in barrels
 	private static final int RSHIFT = 8;
@@ -74,7 +77,14 @@ public abstract class BarrelDecorator
 		return y * 3 + x;
 	}
 
-	public static final void decorate( final StringBuffer buffer )
+	public static final int quadToBarrel( int quad )	// 0..8 => 1..36
+	{	// Corresponding barrels are at N, N+1, N+6, and N+7
+		int x = quad % 3;
+		int y = quad / 3;
+		return y * 12 + x * 2 + 1;
+	}
+
+	private static int[] compute()
 	{
 		String layout = Preferences.getString("barrelLayout");
 
@@ -119,17 +129,27 @@ public abstract class BarrelDecorator
 			}
 		}
 		
-		Matcher m = unsmashed.matcher( buffer.toString() );
-		buffer.delete( 0, buffer.length() );
+		return possibles;
+	}
+
+	public static final void decorate( final StringBuffer buffer )
+	{
+		int [] possibles = compute();
+
+		Matcher m = UNSMASHED.matcher( buffer.toString() );
+		buffer.setLength( 0 );
+		unsmashedSquares = 1L;	// make value non-zero, even if no barrels remain unsmashed
 		
 		while ( m.find() )
 		{
-			int quad = barrelToQuad( StringUtilities.parseInt( m.group(1) ) );
+			int square = StringUtilities.parseInt( m.group(1) );
+			int quad = barrelToQuad( square );
 			if ( quad < 0 || quad >= 9 )
 			{
 				continue;	// shouldn't happen
 			}
-
+			unsmashedSquares |= 1L << square;
+			
 			int possible = possibles[quad];
 			if ( possible == 0 )
 			{
@@ -154,7 +174,7 @@ public abstract class BarrelDecorator
 			//	r-bs, r-s, r-s-b, rs, s, s-b, s-b-r, s-br, and
 			//	s-r.
 
-			String filename = "";
+			StringBuffer filename = new StringBuffer();
 			while ( true )
 			{
 				int max = b;
@@ -168,24 +188,24 @@ public abstract class BarrelDecorator
 				}
 				if ( b == max )
 				{
-					filename += "b";
+					filename.append( "b" );
 					b = 0;
 				}
 				if ( r == max )
 				{
-					filename += "r";
+					filename.append( "r" );
 					r = 0;
 				}
 				if ( s == max )
 				{
-					filename += "s";
+					filename.append( "s" );
 					s = 0;
 				}
 				if ( b + r + s == 0 )
 				{
 					break;
 				}
-				filename += "-";
+				filename.append( "-" );
 			}
 			
 			m.appendReplacement( buffer, "smash=$1&pwd=$2'>" +
@@ -255,5 +275,71 @@ public abstract class BarrelDecorator
 		}
 		layout.setCharAt( barrelToQuad( square ), type );
 		Preferences.setString( "barrelLayout", layout.toString() );
+	}
+	
+	public static final int recommendSquare()
+	{
+		if ( unsmashedSquares == 0L )
+		{	// need to visit the page to determine which barrels are available
+			GenericRequest req = new GenericRequest( "barrel.php" );
+			RequestThread.postRequest( req );
+			decorate( new StringBuffer( req.responseText ) );
+		}
+		
+		int rows = Preferences.getInteger( "barrelGoal" );	
+		int square = 0;
+		int[] possibles = compute();
+		if ( (rows & 1) != 0 )
+		{
+			square = recommendRow( possibles, 0 ) ;
+		}
+		if ( (rows & 2) != 0 && square == 0 )
+		{
+			square = recommendRow( possibles, 3 ) ;
+		}
+		if ( (rows & 4) != 0 && square == 0 )
+		{
+			square = recommendRow( possibles, 6 ) ;
+		}
+	
+		if ( square != 0 )
+		{
+			unsmashedSquares &= ~(1L << square);
+		}
+		return square;
+	}
+	
+	private static final int recommendRow( final int[] possibles, final int startQuad )
+	{
+		int maxprob = -1;
+		int quad = -1;
+		for ( int i = startQuad; i < startQuad + 3; ++i )
+		{
+			int prob = possibles[ i ] & MASK;
+			if ( prob > maxprob )
+			{
+				maxprob = prob;
+				quad = i;
+			}
+		}
+		
+		int square = quadToBarrel( quad );
+		if ( (unsmashedSquares & (1L << (square))) != 0L )
+		{
+			return square;
+		}
+		if ( (unsmashedSquares & (1L << (square + 1))) != 0L )
+		{
+			return square + 1;
+		}
+		if ( (unsmashedSquares & (1L << (square + 6))) != 0L )
+		{
+			return square + 6;
+		}
+		if ( (unsmashedSquares & (1L << (square + 7))) != 0L )
+		{
+			return square + 7;
+		}
+		return 0;		
 	}
 }
