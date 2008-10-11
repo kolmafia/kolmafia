@@ -55,6 +55,7 @@ import net.sourceforge.kolmafia.request.CharSheetRequest;
 import net.sourceforge.kolmafia.request.ChefStaffRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.GourdRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.SellStuffRequest;
@@ -333,6 +334,11 @@ public abstract class StaticEntity
 		if ( location.startsWith( "town_wrong.php" ) )
 		{
 			ArtistRequest.parseResponse( location, responseText );
+		}
+
+		if ( location.startsWith( "town_right.php" ) )
+		{
+			GourdRequest.parseResponse( location, responseText );
 		}
 
 		if ( location.indexOf( "action=makestaff" ) != -1 )

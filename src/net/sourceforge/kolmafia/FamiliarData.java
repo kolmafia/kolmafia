@@ -273,6 +273,9 @@ public class FamiliarData
 		case ItemPool.TOY_HOVERCRAFT:
 			return -5;
 
+		case ItemPool.BATHYSPHERE:
+			return -20;
+
 		case ItemPool.MAKEUP_KIT:
 		case ItemPool.PARROT_CRACKER:
 			return 15;
@@ -384,6 +387,7 @@ public class FamiliarData
 		case ItemPool.FISH_SCALER:
 		case ItemPool.ORIGAMI_MAGAZINE:
 		case ItemPool.FIREWORKS:
+		case ItemPool.BATHYSPHERE:
 			return this.id != 54 && this.id != 82;
 
 		case ItemPool.SNOOTY_DISGUISE:

@@ -3468,7 +3468,7 @@
 3467	bargain flash powder	0	all	0
 3468
 3469
-3470
+3470	little bitty bathysphere	7	none	0
 3471
 3472	Seasonal Beret	9	display	0
 3473	Bash-&#332;s boxtop	0	display	0
