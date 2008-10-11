@@ -3121,7 +3121,7 @@
 3120	divine blowout	0	all	0
 3121	divine champagne popper	0	all	0
 3122	divine cracker	0	all	0
-3123	divine champagne flute	0	all	0
+3123	divine champagne flute	23	all	0
 3124	fruitfilm	4	all	35
 3125	piece of after eight	4	all	35
 3126	hobo nickel	0	display	0
@@ -3321,8 +3321,8 @@
 3320	frayed rope belt	8	all	200
 3321	packet of mayfly bait	3	all	0
 3322	mayfly bait necklace	8	display	0
-3323	Ol' Scratch's salad fork	0	all	0
-3324	Frosty's frosty mug	0	all	0
+3323	Ol' Scratch's salad fork	22	all	0
+3324	Frosty's frosty mug	23	all	0
 3325	jar of fermented pickle juice	2	all	0
 3326	voodoo snuff	3	all	0
 3327	extra-greasy slider	1	all	0

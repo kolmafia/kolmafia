@@ -1161,6 +1161,8 @@ public class ItemDatabase
 		{
 		case KoLConstants.CONSUME_EAT:
 		case KoLConstants.CONSUME_DRINK:
+		case KoLConstants.CONSUME_FOOD_HELPER:
+		case KoLConstants.CONSUME_DRINK_HELPER:
 		case KoLConstants.CONSUME_USE:
 		case KoLConstants.MESSAGE_DISPLAY:
 		case KoLConstants.INFINITE_USES:
