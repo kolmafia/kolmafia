@@ -148,7 +148,7 @@ public class CreateItemPanel
 		int maximum = UseItemRequest.maximumUses( selection.getItemId() );
 		int quantityDesired =
 			maximum < 2 ? maximum : InputFieldUtilities.getQuantity(
-				"Creating multiple " + selection.getName() + "...", Math.min(
+				"Creating multiple " + selection.getName() + " for immedate use...", Math.min(
 					maximum, selection.getQuantityPossible() ) );
 
 		if ( quantityDesired < 1 )

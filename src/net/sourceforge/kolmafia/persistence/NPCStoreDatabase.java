@@ -43,6 +43,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
@@ -103,7 +104,8 @@ public class NPCStoreDatabase
 		{
 			foundItem = (MallPurchaseRequest) i.next();
 
-			if ( !NPCStoreDatabase.canPurchase( foundItem.getStoreId(), foundItem.getShopName() ) )
+			if ( !NPCStoreDatabase.canPurchase( foundItem.getStoreId(), foundItem.getShopName(),
+				itemName ) )
 			{
 				continue;
 			}
@@ -121,7 +123,8 @@ public class NPCStoreDatabase
 		return foundItem;
 	}
 
-	private static final boolean canPurchase( final String storeId, final String shopName )
+	private static final boolean canPurchase( final String storeId, final String shopName,
+		final String itemName )
 	{
 		if ( storeId == null )
 		{
@@ -152,6 +155,14 @@ public class NPCStoreDatabase
 		}
 		else if ( storeId.equals( "r" ) )
 		{
+			if ( Preferences.getInteger( "lastPirateEphemeraReset" ) == KoLCharacter.getAscensions()
+				&& !Preferences.getString( "lastPirateEphemera" ).equalsIgnoreCase( itemName ) )
+			{
+				if ( MallPurchaseRequest.PIRATE_EPHEMERA_PATTERN.matcher( itemName ).matches() )
+				{
+					return false;
+				}
+			}
 			return EquipmentManager.hasOutfit( 9 );
 		}
 		else if ( storeId.equals( "4" ) || storeId.equals( "5" ) )
