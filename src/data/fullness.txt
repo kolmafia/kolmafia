@@ -72,7 +72,7 @@ bat wing kabob	2	1	2-5	0	7-8	0
 bat wing stir-fry	3	4	6-14	0	27-45	0
 bat-shaped Crimboween cookie	2	7	6-12	0	0	0
 bean burrito	3	1	3-8	10-14	0	0
-beefy fish meat	0	1	3	8	0	0
+beefy fish meat	1	1	3	0	0	0
 beer basted brat	3	11	13-16	31-40	31-40	31-40
 bell-shaped crimbo cookie	2	7	6-12	0	0	0
 birthday party jellybean cheesecake	3	1	3	20	20	20
@@ -158,7 +158,7 @@ gingerbread horror	1	4	1-5	10-20	10-20	10-20
 gingerbread massacre	3	1	3-6	5-6	5-6	5-6
 gingerbread stir-fry	5	1	9-17	9-11	9-11	9-11
 glass of goat's milk	1	1	1	0	0	0
-glistening fish meat	0	1	2-3	0	4-7	0
+glistening fish meat	1	1	2-3	0	4-7	0
 gnat lasagna	3	10	11-18	45-54	0	0
 gnatloaf	2	8	3-9	25-50	0	0
 gnatloaf casserole	3	9	10-14	23-37	0	0
@@ -256,7 +256,7 @@ single-serving herbal stuffing	4	1	12-15	0	0	32-35
 skewered cat appendix	2	1	2-5	7-17	0	0
 skull-shaped Crimboween cookie	2	7	6-12	0	0	0
 sleazy hi mein	5	7	21-29	25-28	25-29	71-75
-slick fish meat	0	1	3	0	0	8
+slick fish meat	1	1	3	0	0	8
 spaghetti with Skullheads	6	6	21-29	47-52	0	0
 spectral pickle	4	8	22-25	25-34	25-34	25-34
 spicy bean burrito	3	3	5-12	20-24	0	0
