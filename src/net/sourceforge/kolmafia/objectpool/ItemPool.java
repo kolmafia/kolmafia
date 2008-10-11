@@ -308,6 +308,7 @@ public class ItemPool
 	public static final int OSTRICH_EGG = 2261;
 	public static final int WET_STUNT_NUT_STEW = 2266;
 	public static final int MEGA_GEM = 2267;
+	public static final int FERNSWARTHYS_KEY = 2277;
 	public static final int DUSTY_BOOK = 2279;
 	public static final int MUS_MANUAL = 2280;
 	public static final int MYS_MANUAL = 2281;

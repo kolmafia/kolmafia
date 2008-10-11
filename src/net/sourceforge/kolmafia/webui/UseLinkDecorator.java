@@ -586,6 +586,13 @@ public abstract class UseLinkDecorator
 			useType = "guild";
 			useLocation = "guild.php?place=paco";
 			break;
+		
+		// Link to the guild when receiving guild quest items.
+		
+		case ItemPool.FERNSWARTHYS_KEY:
+		case ItemPool.DUSTY_BOOK:
+			useType = "guild";
+			useLocation = "guild.php?place=ocg";
 
 		// Link to the untinkerer if you find an abridged dictionary.
 
