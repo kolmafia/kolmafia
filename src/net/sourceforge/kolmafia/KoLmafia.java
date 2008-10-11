@@ -85,6 +85,7 @@ import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.GourdRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.LogoutRequest;
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
@@ -158,7 +159,6 @@ public abstract class KoLmafia
 	public static boolean executedLogin = false;
 
 	private static final Pattern TAVERN_PATTERN = Pattern.compile( "where=(\\d+)" );
-	private static final Pattern GOURD_PATTERN = Pattern.compile( "Bring back (\\d+)" );
 
 	private static FileLock SESSION_HOLDER = null;
 	private static FileChannel SESSION_CHANNEL = null;
@@ -2165,38 +2165,17 @@ public abstract class KoLmafia
 
 	public void tradeGourdItems()
 	{
-		GenericRequest gourdVisit = new GenericRequest( "town_right.php?place=gourd" );
+		RequestThread.postRequest( new GourdRequest() );
 
-		KoLmafia.updateDisplay( "Determining items needed..." );
-		RequestThread.postRequest( gourdVisit );
+		AdventureResult item = GourdRequest.gourdItem( 5 );
+		int neededCount = Preferences.getInteger( "gourdItemCount" );
 
-		// For every class, it's the same -- the message reads, "Bring
-		// back" and then the number of the item needed. Compare how
-		// many you need with how many you have.
-
-		Matcher neededMatcher = KoLmafia.GOURD_PATTERN.matcher( gourdVisit.responseText );
-		AdventureResult item;
-
-		switch ( KoLCharacter.getPrimeIndex() )
-		{
-		case 0:
-			item = new AdventureResult( 747, 5 );
-			break;
-		case 1:
-			item = new AdventureResult( 559, 5 );
-			break;
-		default:
-			item = new AdventureResult( 27, 5 );
-		}
-
-		int neededCount = neededMatcher.find() ? StringUtilities.parseInt( neededMatcher.group( 1 ) ) : 26;
-		gourdVisit.addFormField( "action=gourd" );
+		GenericRequest gourdVisit = new GourdRequest( true );
 
 		while ( neededCount <= 25 && neededCount <= item.getCount( KoLConstants.inventory ) )
 		{
-			KoLmafia.updateDisplay( "Giving up " + neededCount + " " + item.getName() + "s..." );
 			RequestThread.postRequest( gourdVisit );
-			ResultProcessor.processResult( item.getInstance( 0 - neededCount++ ) );
+			neededCount++;
 		}
 
 		int totalProvided = 0;
@@ -2215,7 +2194,7 @@ public abstract class KoLmafia
 
 	public void unlockGuildStore( final boolean stopAtPaco )
 	{
-		GenericRequest guildVisit = new GenericRequest( "town_right.php?place=gourd" );
+		GenericRequest guildVisit = new GenericRequest( "guild.php" );
 
 		// The wiki claims that your prime stats are somehow connected,
 		// but the exact procedure is uncertain. Therefore, just allow

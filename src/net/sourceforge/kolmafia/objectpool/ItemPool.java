@@ -50,6 +50,7 @@ public class ItemPool
 	public static final int TEN_LEAF_CLOVER = 24;
 	public static final int MEAT_PASTE = 25;
 	public static final int DOLPHIN_KING_MAP = 26;
+	public static final int SPIDER_WEB = 27;
 	public static final int CASINO_PASS = 40;
 	public static final int SCHLITZ = 41;
 	public static final int WORTHLESS_TRINKET = 43;
@@ -134,6 +135,7 @@ public class ItemPool
 	public static final int SCROLL_64067 = 551;
 	public static final int GATES_SCROLL = 552;
 	public static final int ELITE_SCROLL = 553;
+	public static final int CAN_LID = 559;
 	public static final int SONAR = 563;
 	public static final int LUCIFER = 571;
 	public static final int REMEDY = 588;
@@ -159,6 +161,7 @@ public class ItemPool
 	public static final int JEWELRY_PLIERS = 709;
 	public static final int PUZZLE_PIECE = 727;
 	public static final int HEDGE_KEY = 728;
+	public static final int KNOB_FIRECRACKER = 746;
 	public static final int CUMMERBUND = 778;
 	public static final int MAFIA_ARIA = 781;
 	public static final int PLUS_SIGN = 818;
@@ -503,6 +506,7 @@ public class ItemPool
 	public static final int FIREWORKS = 3421;
 	public static final int GIFTH = 3430;
 	public static final int SPICE_MELANGE = 3433;
+	public static final int BATHYSPHERE = 3470;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

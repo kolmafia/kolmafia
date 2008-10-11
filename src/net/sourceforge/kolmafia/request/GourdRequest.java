@@ -38,90 +38,93 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public class ArtistRequest
+public class GourdRequest
 	extends GenericRequest
 {
-	public static final AdventureResult WHISKER = ItemPool.get( ItemPool.RAT_WHISKER, 1 );
+	private static final Pattern GOURD_PATTERN = Pattern.compile( "Bring back (\\d*)", Pattern.DOTALL );
 
-	public ArtistRequest()
+	public GourdRequest()
 	{
 		this(false);
 	}
 
-	public ArtistRequest( boolean whiskers)
+	public GourdRequest( boolean trade )
 	{
-		super( "town_wrong.php");
-		this.addFormField( "place", "artist" );
-		if ( whiskers )
+		super( "town_right.php");
+		this.addFormField( "place", "gourd" );
+		if ( trade )
 		{
-			this.addFormField( "action", "whisker" );
+			this.addFormField( "action", "gourd" );
 		}
 	}
 
 	public void processResults()
 	{
-                ArtistRequest.parseResponse( this.getURLString(), this.responseText );
+		GourdRequest.parseResponse( this.getURLString(), this.responseText );
 	}
 
 	public static final boolean parseResponse( final String location, final String responseText )
 	{
-		if ( !location.startsWith( "town_wrong.php" ) )
+		if ( !location.startsWith( "town_right.php" ) )
 		{
 			return false;
 		}
 
-		String message = "You have unlocked a new tattoo.";
-		if ( responseText.indexOf( message ) != -1 )
+		// Bring back 5 of their... erp... lids, and you'll
+		// be... be... gurk... rewarded
+
+		Matcher matcher = GourdRequest.GOURD_PATTERN.matcher( responseText );
+		int count =  matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 26;
+
+		Preferences.setInteger( "gourdItemCount", count );
+		return true;
+	}
+
+	public static final AdventureResult gourdItem( final int count )
+	{
+		switch ( KoLCharacter.getPrimeIndex() )
 		{
-			RequestLogger.printLine( message );
-			RequestLogger.updateSessionLog( message );
+		case 0:
+			return ItemPool.get( ItemPool.KNOB_FIRECRACKER, count );
+		case 1:
+			return ItemPool.get( ItemPool.CAN_LID, count );
+		default:
+			return ItemPool.get( ItemPool.SPIDER_WEB, count );
 		}
-
-		// The artist pours the pail of paint into a huge barrel, then
-		// says "Oh, hey, umm, do you want this empty pail? I don't
-		// really have room for it, so if you want it, you can have it.
-
-		if ( responseText.indexOf( "do you want this empty pail" ) != -1 )
-		{
-			ResultProcessor.processItem( ItemPool.PRETENTIOUS_PALETTE, -1 );
-			ResultProcessor.processItem( ItemPool.PRETENTIOUS_PAINTBRUSH, -1 );
-			ResultProcessor.processItem( ItemPool.PRETENTIOUS_PAIL, -1 );
-			return true;
-		}
-
-		if ( location.indexOf( "action=whisker" ) != -1 )
-		{
-			int count = ArtistRequest.WHISKER.getCount( KoLConstants.inventory );
-			ResultProcessor.processItem( ItemPool.RAT_WHISKER, -count );
-			return true;
-		}
-
-		return false;
 	}
 
 	public static final boolean registerRequest( final String urlString )
 	{
-		if ( !urlString.startsWith( "town_wrong.php" ) )
+		if ( !urlString.startsWith( "town_right.php" ) )
 		{
 			return false;
 		}
 
 		String message;
-		if ( urlString.indexOf( "action=whisker" ) != -1 )
+		if ( urlString.indexOf( "action=gourd" ) != -1 )
 		{
-			int count = ArtistRequest.WHISKER.getCount( KoLConstants.inventory );
-			message = "Selling " + count + " rat whisker" + ( count > 1 ? "s" : "" ) + " to the pretentious artist";
+			int count = Preferences.getInteger( "gourdItemCount" );
+			AdventureResult item = GourdRequest.gourdItem( -count );
+			if ( item.getCount( KoLConstants.inventory ) < count )
+			{
+				return true;
+			}
+			message = "Giving " + count + " " + item.getName() + "s to the Captain of the Gourd";
+			ResultProcessor.processResult( item );
 		}
-		else if ( urlString.indexOf( "place=artist" ) != -1 )
+		else if ( urlString.indexOf( "place=gourd" ) != -1 )
 		{
 			RequestLogger.printLine( "" );
 			RequestLogger.updateSessionLog();
-			message = "Visiting the pretentious artist";
+			message = "Visiting the Captain of the Gourd";
 		}
 		else
 		{
