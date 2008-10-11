@@ -3484,3 +3484,9 @@
 3483	psychedelic bubble wand	7	all	75
 3484	eye 'n' horn shampoo	7	all	75
 3485	glittery mascara	4	all	12
+3486	dull fish scale	0	all	40
+3487
+3488
+3489	beefy fish meat	1	all	35
+3490	glistening fish meat	1	all	35
+3491	slick fish meat	1	all	35

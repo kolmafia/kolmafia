@@ -3490,3 +3490,9 @@
 3483	512021127	psychedelic bubble wand
 3484	558562693	eye 'n' horn shampoo
 3485	247764107	glittery mascara	tubes of glittery mascara
+3486	433811634	dull fish scale	dull fish scales
+3487
+3488
+3489	946050609	beefy fish meat	filets of beefy fish meat
+3490	493009120	glistening fish meat	filets of glistening fish meat
+3491	930651591	slick fish meat	filets of slick fish meat
