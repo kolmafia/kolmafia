@@ -364,7 +364,21 @@ public abstract class UseLinkDecorator
 			}
 
 			return new UseLink( itemId, itemCount, "drink", "inv_booze.php?which=1&whichitem=" );
-
+		
+		case KoLConstants.CONSUME_FOOD_HELPER:
+			if ( !KoLCharacter.canEat() )
+			{
+				return null;
+			}
+			return new UseLink( itemId, 1, "eat with", "inv_use.php?which=1&whichitem=" );
+		
+		case KoLConstants.CONSUME_DRINK_HELPER:
+			if ( !KoLCharacter.canDrink() )
+			{
+				return null;
+			}
+			return new UseLink( itemId, 1, "drink with", "inv_use.php?which=1&whichitem=" );
+		
 		case KoLConstants.CONSUME_MULTIPLE:
 		case KoLConstants.HP_RESTORE:
 		case KoLConstants.MP_RESTORE:

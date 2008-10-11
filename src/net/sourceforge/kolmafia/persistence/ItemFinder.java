@@ -183,10 +183,12 @@ public class ItemFinder
 			switch ( filterType )
 			{
 			case ItemFinder.FOOD_MATCH:
-				ItemFinder.conditionalRemove( nameIterator, useType != KoLConstants.CONSUME_EAT );
+				ItemFinder.conditionalRemove( nameIterator, useType != KoLConstants.CONSUME_EAT
+					&& useType != KoLConstants.CONSUME_FOOD_HELPER );
 				break;
 			case ItemFinder.BOOZE_MATCH:
-				ItemFinder.conditionalRemove( nameIterator, useType != KoLConstants.CONSUME_DRINK );
+				ItemFinder.conditionalRemove( nameIterator, useType != KoLConstants.CONSUME_DRINK
+					&& useType != KoLConstants.CONSUME_DRINK_HELPER );
 				break;
 			case ItemFinder.CREATE_MATCH:
 				ItemFinder.conditionalRemove( nameIterator, ConcoctionDatabase.getMixingMethod( itemId ) == KoLConstants.NOCREATE );

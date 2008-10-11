@@ -4692,19 +4692,26 @@ public class KoLmafiaCLI
 			for ( int i = 0; i < itemList.length; ++i )
 			{
 				currentMatch = (AdventureResult) itemList[ i ];
+				int consumpt = ItemDatabase.getConsumptionType( currentMatch.getItemId() );
 	
-				if ( command.equals( "eat" ) || command.equals( "ghost" ) )
+				if ( command.equals( "eat" ) && consumpt == KoLConstants.CONSUME_FOOD_HELPER )
+				{	// allowed
+				}
+				else if ( command.equals( "eat" ) || command.equals( "ghost" ) )
 				{
-					if ( ItemDatabase.getConsumptionType( currentMatch.getItemId() ) != KoLConstants.CONSUME_EAT )
+					if ( consumpt != KoLConstants.CONSUME_EAT )
 					{
 						KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, currentMatch.getName() + " cannot be consumed." );
 						return;
 					}
 				}
 	
-				if ( command.equals( "drink" ) || command.equals( "hobo" ) )
+				if ( command.equals( "drink" ) && consumpt == KoLConstants.CONSUME_DRINK_HELPER )
+				{	// allowed
+				}
+				else if ( command.equals( "drink" ) || command.equals( "hobo" ) )
 				{
-					if ( ItemDatabase.getConsumptionType( currentMatch.getItemId() ) != KoLConstants.CONSUME_DRINK )
+					if ( consumpt != KoLConstants.CONSUME_DRINK )
 					{
 						KoLmafia.updateDisplay(
 							KoLConstants.ERROR_STATE, currentMatch.getName() + " is not an alcoholic beverage." );
@@ -4714,12 +4721,14 @@ public class KoLmafiaCLI
 	
 				if ( command.equals( "use" ) )
 				{
-					switch ( ItemDatabase.getConsumptionType( currentMatch.getItemId() ) )
+					switch ( consumpt )
 					{
 					case KoLConstants.CONSUME_EAT:
+					case KoLConstants.CONSUME_FOOD_HELPER:
 						KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, currentMatch.getName() + " must be eaten." );
 						return;
 					case KoLConstants.CONSUME_DRINK:
+					case KoLConstants.CONSUME_DRINK_HELPER:
 						KoLmafia.updateDisplay(
 							KoLConstants.ERROR_STATE, currentMatch.getName() + " is an alcoholic beverage." );
 						return;

@@ -772,11 +772,16 @@ public class ResultProcessor
 
 				if ( !shouldRefresh )
 				{
-					int consumeType = ItemDatabase.getConsumptionType( result.getItemId() );
-					shouldRefresh = consumeType == KoLConstants.CONSUME_EAT ||
-						consumeType == KoLConstants.CONSUME_DRINK ||
-						consumeType == KoLConstants.CONSUME_USE ||
-						consumeType == KoLConstants.CONSUME_MULTIPLE;
+					switch ( ItemDatabase.getConsumptionType( result.getItemId() ) )
+					{
+					case KoLConstants.CONSUME_EAT:
+					case KoLConstants.CONSUME_DRINK:
+					case KoLConstants.CONSUME_USE:
+					case KoLConstants.CONSUME_MULTIPLE:
+					case KoLConstants.CONSUME_FOOD_HELPER:
+					case KoLConstants.CONSUME_DRINK_HELPER:
+						shouldRefresh = true;
+					}
 				}
 
 				if ( shouldRefresh )

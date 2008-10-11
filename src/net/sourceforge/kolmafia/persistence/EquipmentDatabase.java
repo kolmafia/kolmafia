@@ -262,6 +262,10 @@ public class EquipmentDatabase
 			return "food";
 		case KoLConstants.CONSUME_DRINK:
 			return "booze";
+		case KoLConstants.CONSUME_FOOD_HELPER:
+			return "food helper";
+		case KoLConstants.CONSUME_DRINK_HELPER:
+			return "drink helper";
 		case KoLConstants.GROW_FAMILIAR:
 			return "familiar larva";
 		case KoLConstants.CONSUME_ZAP:

@@ -306,6 +306,8 @@ public interface KoLConstants
 	public static final int EQUIP_CONTAINER = 19;
 	public static final int CONSUME_SPECIAL = 20;
 	public static final int CONSUME_SPHERE = 21;
+	public static final int CONSUME_FOOD_HELPER = 22;
+	public static final int CONSUME_DRINK_HELPER = 23;
 
 	public static final int CONSUME_HOBO = 98;
 	public static final int CONSUME_GHOST = 99;

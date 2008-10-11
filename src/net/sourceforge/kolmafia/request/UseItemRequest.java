@@ -94,6 +94,10 @@ public class UseItemRequest
 	private static AdventureResult lastItemUsed = null;
 	private static AdventureResult lastHelperUsed = null;
 	private static int askedAboutOde = 0;
+	private static AdventureResult queuedFoodHelper = null;
+	private static int queuedFoodHelperCount = 0;
+	private static AdventureResult queuedDrinkHelper = null;
+	private static int queuedDrinkHelperCount = 0;
 
 	private final int consumptionType;
 	private AdventureResult itemUsed = null;
@@ -381,6 +385,7 @@ public class UseItemRequest
 		// kind of request.
 
 		int itemId = this.itemUsed.getItemId();
+		int count;
 
 		switch ( this.consumptionType )
 		{
@@ -395,6 +400,46 @@ public class UseItemRequest
 			return;
 		case KoLConstants.CONSUME_SPHERE:
 			( new PortalRequest( this.itemUsed ) ).run();
+			return;
+			
+		case KoLConstants.CONSUME_FOOD_HELPER:
+			count = this.itemUsed.getCount();
+			if ( !InventoryManager.retrieveItem( this.itemUsed ) )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Helper not available." );
+				return;
+			}
+			if ( this.itemUsed.equals( queuedFoodHelper ) )
+			{
+				queuedFoodHelperCount += count;
+			}
+			else
+			{
+				queuedFoodHelper = this.itemUsed;
+				queuedFoodHelperCount = count;
+			}
+			KoLmafia.updateDisplay( "Helper queued for next " + count + " food" +
+				(count == 1 ? "" : "s") + " eaten." );
+			return;
+			
+		case KoLConstants.CONSUME_DRINK_HELPER:
+			count = this.itemUsed.getCount();
+			if ( !InventoryManager.retrieveItem( this.itemUsed ) )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Helper not available." );
+				return;
+			}
+			if ( this.itemUsed.equals( queuedDrinkHelper ) )
+			{
+				queuedDrinkHelperCount += count;
+			}
+			else
+			{
+				queuedDrinkHelper = this.itemUsed;
+				queuedDrinkHelperCount = count;
+			}
+			KoLmafia.updateDisplay( "Helper queued for next " + count + " beverage" +
+				(count == 1 ? "" : "s") + " drunk." );
 			return;
 		}
 
@@ -642,8 +687,29 @@ public class UseItemRequest
 			break;
 
 		case KoLConstants.CONSUME_EAT:
+			this.addFormField( "which", "1" );
+			if ( queuedFoodHelper != null && queuedFoodHelperCount > 0 )
+			{
+				this.addFormField( "utensil", String.valueOf( queuedFoodHelper.getItemId() ) );
+				--queuedFoodHelperCount;
+			}
+			else
+			{
+				this.removeFormField( "utensil" );
+			}
+			break;
+			
 		case KoLConstants.CONSUME_DRINK:
 			this.addFormField( "which", "1" );
+			if ( queuedDrinkHelper != null && queuedDrinkHelperCount > 0 )
+			{
+				this.addFormField( "utensil", String.valueOf( queuedDrinkHelper.getItemId() ) );
+				--queuedDrinkHelperCount;
+			}
+			else
+			{
+				this.removeFormField( "utensil" );
+			}
 			break;
 
 		default:
