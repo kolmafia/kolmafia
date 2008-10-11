@@ -233,6 +233,8 @@ user	lastGuyMadeOfBeesReset	-1
 user	lastKingLiberation	-1
 user	lastLouvreMap	0
 user	lastMessageId
+user	lastPirateEphemera
+user	lastPirateEphemeraReset	-1
 user	lastPirateInsult1	false
 user	lastPirateInsult2	false
 user	lastPirateInsult3	false

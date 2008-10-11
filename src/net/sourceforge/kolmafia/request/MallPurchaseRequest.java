@@ -45,6 +45,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -56,7 +57,8 @@ public class MallPurchaseRequest
 	private static final AdventureResult TROUSERS = new AdventureResult( 1792, 1 );
 	private static final Pattern YIELD_PATTERN =
 		Pattern.compile( "You may only buy ([\\d,]+) of this item per day from this store\\.You have already purchased ([\\d,]+)" );
-
+	public static final Pattern PIRATE_EPHEMERA_PATTERN =
+		Pattern.compile( "pirate (?:brochure|pamphlet|tract)" );
 	private static boolean usePriceComparison;
 
 	// In order to prevent overflows from happening, make
@@ -497,6 +499,15 @@ public class MallPurchaseRequest
 
 	public void processResults()
 	{
+		if ( this.isNPCStore && this.npcStoreId.equals( "r" ) )
+		{
+			Matcher m = PIRATE_EPHEMERA_PATTERN.matcher( this.responseText );
+			if ( m.find() )
+			{
+				Preferences.setInteger( "lastPirateEphemeraReset", KoLCharacter.getAscensions() );
+				Preferences.setString( "lastPirateEphemera", m.group( 0 ) );
+			}
+		}
 		int quantityAcquired = this.item.getCount( KoLConstants.inventory ) - this.initialCount;
 		if ( quantityAcquired > 0 )
 		{
