@@ -2416,6 +2416,12 @@ public class KoLmafiaCLI
 				TurnCounter.clearCounters();
 				return;
 			}
+			
+			if ( parameters.startsWith( "add " ) )
+			{
+				TurnCounter.startCounting( StringUtilities.parseInt( parameters.substring( 4 ) ),
+					"Manual", "watch.gif" );
+			}
 
 			this.showData( "counters" );
 			return;

@@ -73,6 +73,7 @@ public class FightRequest
 
 	private static final AdventureResult AMNESIA = new AdventureResult( "Amnesia", 1, true );
 	private static final AdventureResult CUNCTATITIS = new AdventureResult( "Cunctatitis", 1, true );
+	private static final AdventureResult ONTHETRAIL = new AdventureResult( "On the Trail", 1, true );
 
 	public static final AdventureResult DICTIONARY1 = ItemPool.get( ItemPool.DICTIONARY, 1 );
 	public static final AdventureResult DICTIONARY2 = ItemPool.get( ItemPool.FACSIMILE_DICTIONARY, 1 );
@@ -1985,7 +1986,8 @@ public class FightRequest
 				}
 				else
 				{
-					if ( skill.equalsIgnoreCase( "Transcendent Olfaction" ) )
+					if ( skill.equalsIgnoreCase( "Transcendent Olfaction" ) &&
+						!KoLConstants.activeEffects.contains( FightRequest.ONTHETRAIL ) )
 					{
 						Preferences.setString( "olfactedMonster",
 							FightRequest.encounterLookup );
@@ -2012,7 +2014,8 @@ public class FightRequest
 					}
 					else
 					{
-						if ( item.equalsIgnoreCase( "odor extractor" ) )
+						if ( item.equalsIgnoreCase( "odor extractor" ) &&
+							!KoLConstants.activeEffects.contains( FightRequest.ONTHETRAIL ) )
 						{
 							Preferences.setString( "olfactedMonster",
 								FightRequest.encounterLookup );
@@ -2030,7 +2033,8 @@ public class FightRequest
 						item = ItemDatabase.getItemName( StringUtilities.parseInt( itemMatcher.group( 1 ) ) );
 						if ( item != null )
 						{
-							if ( item.equalsIgnoreCase( "odor extractor" ) )
+							if ( item.equalsIgnoreCase( "odor extractor" ) &&
+								!KoLConstants.activeEffects.contains( FightRequest.ONTHETRAIL ) )
 							{
 								Preferences.setString( "olfactedMonster",
 									FightRequest.encounterLookup );
