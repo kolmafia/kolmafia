@@ -371,7 +371,7 @@
 370	The Real Deal	light.gif	526472c3f3acbe7a8068ccf92628a40a	use 1 bottle of realpagne
 371	Memento Moir&eacute;	photograph.gif	731ba2df034beec5412f82879eec9392
 372	Flashing Eyes	bigeyes.gif	eaa0f2cd06a00116af53bd65177fdf4b
-373	Mmmmmelon	melon.gif	bd27dcbc85c224d16256b51a8ca02db5
+373	Mmmmmelon	melon.gif	bd27dcbc85c224d16256b51a8ca02db5	eat 1 honey-dew
 374	Contagious Bad Luck	bmirror.gif	86bb1d1be1a84c4554906852f4273f90	use 1 bottle of black cat tonic
 375	Sparkling Consciousness	snowflakes.gif	a735ff0b16a7d7491c0dbb79c2e7895c
 376	Sneaky Serpentine Subtlety	snakehead.gif	1539b9172f5093b00da60bf5764477a6
@@ -505,7 +505,7 @@
 504	Educated (Kinda)	eyes.gif	93e8854157c14c46a1b27daa27f1350e
 505	Educated (Sorta)	eyes.gif	8fe585ee3e637b86651ead4dad5c446d
 506	It Didn't Kill You	strboost.gif	31c3f8589619686bc3b0dd16f5094dd8
-507
+507	The Sweats	stench.gif	589d1f03440b93d85f80fe6b3b4653d1
 508	Hooked Up	jigawatts.gif	4b571247a84c748457f1542e7869d413
 509
 510	Shape of...Mole!	mole.gif	aa5dbfa1d618e2f5b0e863cca3d03f1f
@@ -532,9 +532,9 @@
 531	Benetton's Medley of Diversity	notes.gif	c8d08f07fdafe4308601d97322ca69dd
 532	Elron's Explosive Etude	notes.gif	26318ef7c75a6bf1fa80584e2e8941b3
 533	Chorale of Companionship	notes.gif	e9227c476b197f54d5fe6be5e52995b5
-534
+534	Prelude of Precision	notes.gif	3f442b411c8d73c4116db7b89669b852
 535	Deadly Lampblade	blacksword.gif	32cfd91b38e4cfd44a05d368aec7cf48	use 1 deadly lampshade
-536
+536	Drenched With Filth	blooddrops.gif	0bae503909ac0e2a21763466adf33d29	use 1 concentrated garbage juice
 537	Hobonic	hobohead.gif	1a4b9db2f98937c155609f54c14cdf7c
 538	Crotchety, Pining	pineneedles.gif	a03720e54550e5757e0e8107c6f842bc	use 1 handful of Crotchety Pine needles
 539	Barking Mad	bark2.gif	791ca1dd8ab96e6f5b302f91bd29ce4a	use 1 handful of Laughing Willow bark
@@ -546,7 +546,7 @@
 545	Refuse Reflux	hob-o.gif	3d5c6b7bd5ab7dc8dc4efc85f8d20548	use 1 garbage-juice-flavored Hob-O
 546	Scariberi	hob-o.gif	20d098090ca8f63f8243f081d3e085e6	use 1 strawberry-flavored Hob-O
 548	Haiku State of Mind	nopic2.gif	
-549
+549	Fishy	fish.gif	17c22c50b2943cf6162d2c001e01cad3
 550	Cranberry Cordiality	cran.gif	f3f908946ea0a80e40d92e7db920e77d	use 1 cranberry cordial
 551	Blackbery Politeness	blackberry.gif	192d4ba46ffe2402b2ff321bafa2db43	use 1 blackberry polite
 552	The Halls of Musclularity	candy.gif	5ae8ae820ae42b7ef7fc66d9db0aa403	use 1 plum lozenge
