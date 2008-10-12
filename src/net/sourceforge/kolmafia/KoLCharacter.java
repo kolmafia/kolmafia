@@ -2709,6 +2709,12 @@ public abstract class KoLCharacter
 		{
 			newModifiers.add( Modifiers.MONSTER_LEVEL, brimstoneMonsterLevel );
 		}
+		// Also affects item/meat drop, but apparently only one is needed
+		if ( brimstoneMonsterLevel > 1 )
+		{
+			newModifiers.add( Modifiers.MEATDROP, brimstoneMonsterLevel );
+			newModifiers.add( Modifiers.ITEMDROP, brimstoneMonsterLevel );
+		}
 
 		// Certain outfits give benefits to the character
 		SpecialOutfit outfit = EquipmentManager.currentOutfit();
