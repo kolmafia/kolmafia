@@ -593,6 +593,7 @@ public abstract class UseLinkDecorator
 		case ItemPool.DUSTY_BOOK:
 			useType = "guild";
 			useLocation = "guild.php?place=ocg";
+			break;
 
 		// Link to the untinkerer if you find an abridged dictionary.
 
