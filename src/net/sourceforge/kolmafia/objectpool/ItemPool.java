@@ -485,6 +485,8 @@ public class ItemPool
 	public static final int TATTERED_PAPER_CROWN = 3231;
 	public static final int BAG_OF_CANDY = 3261;
 	public static final int TASTEFUL_BOOK = 3263;
+	public static final int FERMENTED_PICKLE_JUICE = 3325;
+	public static final int EXTRA_GREASY_SLIDER = 3327;
 	public static final int DOUBLE_SIDED_TAPE = 3336;
 	public static final int GRUB = 3356;
 	public static final int MOTH = 3357;
