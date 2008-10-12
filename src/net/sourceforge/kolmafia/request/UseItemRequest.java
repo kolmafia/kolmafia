@@ -1730,6 +1730,12 @@ public class UseItemRequest
 				KoLCharacter.updateStatus();
 			}
 			return;
+		
+		case ItemPool.FERMENTED_PICKLE_JUICE:
+		case ItemPool.EXTRA_GREASY_SLIDER:
+			Preferences.setInteger( "currentSpleenUse",
+				Math.max( 0, Preferences.getInteger( "currentSpleenUse" ) - 5 ) );
+			return;
 
 		case ItemPool.NEWBIESPORT_TENT:
 		case ItemPool.BARSKIN_TENT:
