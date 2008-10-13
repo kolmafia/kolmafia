@@ -1131,7 +1131,7 @@ public class FightRequest
 		}
 	}
 
-	public static final void updateCombatData( final String encounter, final String responseText )
+	public static final void updateCombatData( String encounter, final String responseText )
 	{
 		FightRequest.foundNextRound = true;
 		FightRequest.lastResponseText = responseText;
@@ -1155,6 +1155,12 @@ public class FightRequest
 		{
 			// If this is the first round, then register the
 			// opponent you are fighting against.
+
+			if ( encounter.equalsIgnoreCase( "Animated Nightstand" ) )
+			{
+				encounter = responseText.indexOf( "darkstand.gif" ) != -1 ?
+					"Animated Nightstand (Mahogany)" : "Animated Nightstand (White)" ;
+			}
 
 			FightRequest.encounterLookup = CustomCombatManager.encounterKey( encounter );
 			FightRequest.monsterData = MonsterDatabase.findMonster( FightRequest.encounterLookup, false );

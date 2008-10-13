@@ -504,6 +504,15 @@ public class AdventureRequest
 		return encounter;
 	}
 
+	private static String fromName = null;
+	private static String toName = null;
+	
+	public static final void setNameOverride( final String from, final String to )
+	{
+		fromName = from;
+		toName = to;
+	}
+
 	private static final String parseCombatEncounter( final String responseText )
 	{
 		Matcher matcher = MONSTER_NAME.matcher( responseText );
@@ -511,7 +520,13 @@ public class AdventureRequest
 		{
 			return "";
 		}
-		return CustomCombatManager.encounterKey( matcher.group(2), false );
+		String name = CustomCombatManager.encounterKey( matcher.group(2), false );
+		if ( name.equalsIgnoreCase( fromName ) )
+		{
+			name = CustomCombatManager.encounterKey( toName, false );
+		}
+		fromName = null;
+		return name;
 	}
 
 	private static final String translateHoboType( final String encounter )
