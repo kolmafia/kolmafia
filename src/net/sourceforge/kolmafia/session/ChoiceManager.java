@@ -2051,7 +2051,7 @@ public abstract class ChoiceManager
 		{
 			// Remove 3 bottles of oil of oiliness from inventory
 			ResultProcessor.processItem( ItemPool.OIL_OF_OILINESS, -3 );
-			if ( InventoryManager.getCount( ItemPool.DUMPLINGS ) < 3 )
+			if ( InventoryManager.getCount( ItemPool.OIL_OF_OILINESS ) < 3 )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE,
 					"You have less than 3 bottles of oil of oiliness left." );
