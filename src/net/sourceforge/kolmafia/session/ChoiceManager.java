@@ -45,6 +45,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -1759,6 +1760,12 @@ public abstract class ChoiceManager
 			Preferences.setString(
 				"currentWheelPosition",
 				ChoiceManager.lastDecision == 1 ? "muscle" : ChoiceManager.lastDecision == 2 ? "map quest" : "moxie" );
+			break;
+			
+		// Maidens: disambiguate the Knights
+		case 89:
+			AdventureRequest.setNameOverride( "Knight",
+				ChoiceManager.lastDecision == 1 ? "Knight (Wolf)" : "Knight (Snake)" );
 			break;
 
 		// Start the Island War Quest

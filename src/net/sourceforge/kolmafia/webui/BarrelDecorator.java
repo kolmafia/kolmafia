@@ -37,10 +37,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -50,6 +52,7 @@ public abstract class BarrelDecorator
 		"<img src='http://images.kingdomofloathing.com/otherimages/mountains/smallbarrel.gif' " +
 		"border=0 alt=\"An Unsmashed Barrel \\(1\\)\" title=\"An Unsmashed Barrel \\(1\\)\">" );
 	private static long unsmashedSquares = 0;
+	private static int unsmashedUser = -1;
 		
 	private static final int B = 1;			// flag for booze items found in barrels
 	private static final int RSHIFT = 8;
@@ -139,6 +142,7 @@ public abstract class BarrelDecorator
 		Matcher m = UNSMASHED.matcher( buffer.toString() );
 		buffer.setLength( 0 );
 		unsmashedSquares = 1L;	// make value non-zero, even if no barrels remain unsmashed
+		unsmashedUser = KoLCharacter.getUserId();
 		
 		while ( m.find() )
 		{
@@ -224,6 +228,8 @@ public abstract class BarrelDecorator
 		if ( m.find() )
 		{
 			square = StringUtilities.parseInt( m.group( 1 ) );
+			AdventureRequest.setNameOverride( "Mimic", square <= 12 ? "Mimic (Top 2 Rows)" :
+				square <= 24 ? "Mimic (Middle 2 Rows)" : "Mimic (Bottom 2 Rows)" );
 		}
 		Preferences.setInteger( "lastBarrelSmashed", square );
 	}
@@ -279,7 +285,7 @@ public abstract class BarrelDecorator
 	
 	public static final int recommendSquare()
 	{
-		if ( unsmashedSquares == 0L )
+		if ( unsmashedSquares == 0L || unsmashedUser != KoLCharacter.getUserId() )
 		{	// need to visit the page to determine which barrels are available
 			GenericRequest req = new GenericRequest( "barrel.php" );
 			RequestThread.postRequest( req );
