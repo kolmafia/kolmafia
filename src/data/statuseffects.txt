@@ -549,7 +549,7 @@
 549	Fishy	fish.gif	17c22c50b2943cf6162d2c001e01cad3
 550	Cranberry Cordiality	cran.gif	f3f908946ea0a80e40d92e7db920e77d	use 1 cranberry cordial
 551	Blackbery Politeness	blackberry.gif	192d4ba46ffe2402b2ff321bafa2db43	use 1 blackberry polite
-552	The Halls of Musclularity	candy.gif	5ae8ae820ae42b7ef7fc66d9db0aa403	use 1 plum lozenge
+552	The Halls of Muscularity	candy.gif	5ae8ae820ae42b7ef7fc66d9db0aa403	use 1 plum lozenge
 553	The Halls of Mysticality	candy.gif	445ce68a580764aee2290ed14feac1ba	use 1 pear lozenge
 554	The Halls of Moxiousness	candy.gif	5ae8ae820ae42b7ef7fc66d9db0aa403	use 1 peach lozenge
-555	Glittering Eyelids	eyelashes.gif	fc50db33358ccef36aae08cc54387702	use 5 glittery mascara
+555	Glittering Eyelashes	eyelashes.gif	fc50db33358ccef36aae08cc54387702	use 5 glittery mascara
