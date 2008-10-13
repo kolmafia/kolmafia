@@ -2973,7 +2973,7 @@
 2967	981906398	Swabbie&trade; swab
 2968	641422046	Oil of Parrrlay	tubs of Oil of Parrrlay
 2969	971196776	creamsicle	creamsicles
-2970	411448208	cream stout	glasses of cream stout
+2970	411448208	cream stout	bottles of cream stout
 2971	122144074	curmudgel	curmudgels
 2972	756065687	grumpy old man charrrm	grumpy old men charrrm
 2973	954806283	grumpy old man charrrm bracelet	grumpy old man charrrm bracelets
