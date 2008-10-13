@@ -3899,8 +3899,32 @@ public class KoLmafiaCLI
 				desiredData.equals( "display" ) ? KoLConstants.collection :
 				desiredData.equals( "outfits" ) ? EquipmentManager.getOutfits() :
 				desiredData.equals( "familiars" ) ? KoLCharacter.getFamiliarList() :
-				desiredData.equals( "effects" ) ? KoLConstants.activeEffects :
 				KoLConstants.inventory;
+				
+			if ( desiredData.equals( "effects" ) )
+			{
+				mainList = KoLConstants.activeEffects;
+				AdventureResult[] effects = new AdventureResult[ mainList.size() ];
+				mainList.toArray( effects );
+		
+				int nBuffs = 0;
+		
+				for ( int i = 0; i < effects.length; ++i )
+				{
+					String skillName = UneffectRequest.effectToSkill( effects[ i ].getName() );
+					if ( SkillDatabase.contains( skillName ) )
+					{
+						int skillId = SkillDatabase.getSkillId( skillName );
+						if ( skillId > 6000 && skillId < 7000 )
+						{
+							++nBuffs;
+						}
+					}
+				}
+			
+				desiredStream.println( nBuffs + " of " + UseSkillRequest.songLimit() +
+					" AT buffs active." );
+			}
 
 			if ( desiredData.startsWith( "skills" ) )
 			{
