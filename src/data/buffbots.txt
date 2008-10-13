@@ -3,7 +3,7 @@
 
 Testudinata	537858	http://clanotori.org/bots/testudinata.xml
 Noblesse Oblige	594822	http://forums.kingdomofloathing.com/
-IocaineBot	792443	http://kolmods.com/aprocalypse/iocainebot/iocainebot.xml
+IocaineBot	792443	http://www.iocainepowder.org/iocainebot/iocainebot.xml
 Niten	353078	http://www.jick-nerfed.us/NitraMo/Buffbot/Niten.xml
 The Professor	725798	http://www.jick-nerfed.us/Barkeep/theprofessor.xml
 kolabuff	1061817	http://www.koladdict.com/buffbot/kolabuff.xml
