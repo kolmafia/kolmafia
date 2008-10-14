@@ -612,6 +612,14 @@ public abstract class UseLinkDecorator
 			useLocation = "mountains.php?orcs=1";
 			break;
 
+		// Link to the frat house if you acquired a Spanish Fly
+
+		case ItemPool.SPANISH_FLY:
+
+			useType = String.valueOf( InventoryManager.getCount( itemId ) );
+			useLocation = "adventure.php?snarfblat=27";
+			break;
+
 		default:
 
 			// Bounty items get a count and a link to the Bounty
