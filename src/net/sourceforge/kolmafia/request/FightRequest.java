@@ -1161,6 +1161,13 @@ public class FightRequest
 				encounter = responseText.indexOf( "darkstand.gif" ) != -1 ?
 					"Animated Nightstand (Mahogany)" : "Animated Nightstand (White)" ;
 			}
+			else if ( encounter.equalsIgnoreCase( "Orcish Frat Boy" ) )
+			{
+				encounter =
+					responseText.indexOf( "fratskirt.gif" ) != -1 ? "Orcish Frat Boy (Pledge)" :
+					responseText.indexOf( "rectify" ) != -1 ? "Orcish Frat Boy (Music Lover)" :
+						"Orcish Frat Boy (Paddler)";
+			}
 
 			FightRequest.encounterLookup = CustomCombatManager.encounterKey( encounter );
 			FightRequest.monsterData = MonsterDatabase.findMonster( FightRequest.encounterLookup, false );

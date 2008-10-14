@@ -383,9 +383,9 @@ Octorok	HP: 15 Def: 25 Atk: 25	red pixel (70)	red pixel (70)	red pixel (70)
 Ol' Scratch	HP: 8000
 One-Eyed Gnoll	HP: 5 Def: 11 Atk: 11 Meat: 19-28	eyepatch (5)	gnoll teeth (5)
 One-Eyed Willie	HP: 150 Def: 150 Atk: 150 E: sleaze	line (30)	line (30)	star (30)
-Orcish Frat Boy (French Maid)	HP: 30 Def: 41 Atk: 41 E: sleaze Meat: 24-39	bottle of gin (20)	Ice-cold Sir Schlitz (20)	Orcish cargo shorts (5)	deodorant (5)	empty aftershave bottle (0)
-Orcish Frat Boy (Paddling)	HP: 30 Def: 40 Atk: 40 E: sleaze Meat: 24-39	bottle of vodka (20)	homoerotic frat-paddle (5)	Ice-cold Sir Schlitz (20)	deodorant (5)	empty aftershave bottle (0)
-Orcish Frat Boy (Sorority Orcs)	HP: 30 Def: 39 Atk: 39 E: sleaze Meat: 24-39	Ice-cold Sir Schlitz (20)	ice-cold fotie (20)	Orcish baseball cap (5)	deodorant (5)	empty aftershave bottle (0)
+Orcish Frat Boy (Paddler)	HP: 30 Def: 40 Atk: 40 E: sleaze Meat: 24-39	bottle of gin (20)	Ice-cold Sir Schlitz (20)	Orcish cargo shorts (5)	deodorant (5)	empty aftershave bottle (0)
+Orcish Frat Boy (Pledge)	HP: 30 Def: 41 Atk: 41 E: sleaze Meat: 24-39	bottle of vodka (20)	homoerotic frat-paddle (5)	Ice-cold Sir Schlitz (20)	deodorant (5)	frilly skirt (0)	empty aftershave bottle (0)
+Orcish Frat Boy (Music Lover)	HP: 30 Def: 39 Atk: 39 E: sleaze Meat: 24-39	Ice-cold Sir Schlitz (20)	ice-cold fotie (20)	Orcish baseball cap (5)	deodorant (5)	roofie (25)	empty aftershave bottle (0)
 Orcish Frat Boy Spy	HP: 180 Atk: 165 E: sleaze	    beer helmet (30)	distressed denim pants (30)	bejeweled pledge pin (30)
 Oscus	HP: 6500
 Overdone Flame-Broiled Meat Blob	HP: 2 Def: 1 Atk: 1 E: heat Meat: 4-7	meat paste (40)	meat paste (40)	meat paste (40)
