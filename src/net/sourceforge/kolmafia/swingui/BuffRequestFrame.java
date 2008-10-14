@@ -97,7 +97,6 @@ public class BuffRequestFrame
 	public BuffRequestFrame()
 	{
 		super( "Purchase Buffs" );
-		this.setDefaultCloseOperation( WindowConstants.HIDE_ON_CLOSE );
 
 		this.panelMap = new TreeMap();
 		this.nameList = new SortedListModel[ 4 ];

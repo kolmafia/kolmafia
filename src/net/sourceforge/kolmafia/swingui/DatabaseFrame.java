@@ -65,7 +65,6 @@ public class DatabaseFrame
 	public DatabaseFrame()
 	{
 		super( "Internal Database" );
-		this.setDefaultCloseOperation( WindowConstants.HIDE_ON_CLOSE );
 
 		this.tabs.addTab( "Items", new ExamineItemsPanel() );
 		this.tabs.addTab( "Familiars", new ItemLookupPanel( DatabaseFrame.allFamiliars, "familiar", "which" ) );

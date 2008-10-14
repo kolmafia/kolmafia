@@ -64,6 +64,7 @@ import net.sourceforge.kolmafia.swingui.panel.LabeledPanel;
 import net.sourceforge.kolmafia.swingui.panel.OptionsPanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class LoginFrame
 	extends GenericFrame
@@ -271,6 +272,7 @@ public class LoginFrame
 				updateText = holiday + ", " + moonEffect;
 			}
 
+			updateText = StringUtilities.getEntityDecode( updateText, false );
 			this.setStatusMessage( updateText );
 		}
 

@@ -168,19 +168,17 @@ public abstract class ChatManager
 		ChatManager.isRunning = false;
 		ChatManager.onlineContacts.clear();
 		ChatManager.instantMessageBuffers.clear();
-
-		ChatManager.contactsFrame = StaticEntity.isHeadless() ? null : new ContactListFrame( ChatManager.onlineContacts );
 		ChatManager.useTabbedChat = Preferences.getBoolean( "useTabbedChatFrame" );
 
 		if ( ChatManager.useTabbedChat )
 		{
+			if ( ChatManager.tabbedFrame == null )
+			{
+				ChatManager.tabbedFrame = new TabbedChatFrame();
+			}
+
 			new CreateFrameRunnable( TabbedChatFrame.class ).run();
 		}
-	}
-
-	public static final void setTabbedFrame( final TabbedChatFrame tabbedFrame )
-	{
-		ChatManager.tabbedFrame = tabbedFrame;
 	}
 
 	private static final void updateSettings()
@@ -433,13 +431,11 @@ public abstract class ChatManager
 
 		if ( ChatManager.contactsFrame != null )
 		{
-			ChatManager.contactsFrame.setVisible( false );
 			ChatManager.contactsFrame.dispose();
 		}
 
 		if ( ChatManager.tabbedFrame != null )
 		{
-			ChatManager.tabbedFrame.setVisible( false );
 			ChatManager.tabbedFrame.dispose();
 		}
 	}
@@ -459,9 +455,14 @@ public abstract class ChatManager
 
 	public static final void updateContactList( final String[] contactList )
 	{
-		if ( ChatManager.contactsFrame == null || !ChatManager.isRunning )
+		if ( !ChatManager.isRunning )
 		{
 			return;
+		}
+
+		if ( ChatManager.contactsFrame == null )
+		{
+			ChatManager.contactsFrame = new ContactListFrame( ChatManager.onlineContacts );
 		}
 
 		ChatManager.onlineContacts.clear();
@@ -777,6 +778,7 @@ public abstract class ChatManager
 			int dotIndex = message.indexOf( "." );
 			String channel = "/" + message.substring( startIndex, dotIndex == -1 ? message.length() : dotIndex );
 
+			ChatManager.openInstantMessage( channel, true );
 			ChatManager.processChatMessage( channel, message );
 		}
 		else if ( message.startsWith( "You are now talking in channel: " ) )
@@ -974,7 +976,7 @@ public abstract class ChatManager
 
 		buffer.append( displayHTML );
 
-		if ( ChatManager.isRunning && ChatManager.tabbedFrame != null && ChatManager.useTabbedChat )
+		if ( ChatManager.isRunning && ChatManager.useTabbedChat )
 		{
 			ChatManager.tabbedFrame.highlightTab( bufferKey );
 		}

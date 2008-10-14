@@ -99,7 +99,6 @@ public class CalendarFrame
 	public CalendarFrame()
 	{
 		super( "Farmer's Almanac" );
-		this.setDefaultCloseOperation( WindowConstants.HIDE_ON_CLOSE );
 		this.framePanel.setLayout( new BorderLayout() );
 
 		CalendarFrame.selectedRow = -1;

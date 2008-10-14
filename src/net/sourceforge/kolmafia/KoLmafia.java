@@ -610,13 +610,14 @@ public abstract class KoLmafia
 		// Next, update all of the panels with the
 		// desired update message.
 
+		String unicodeMessage = StringUtilities.getEntityDecode( message, false );
 		ActionPanel[] panels = StaticEntity.getExistingPanels();
 
 		for ( int i = 0; i < panels.length; ++i )
 		{
 			if ( panels[ i ] instanceof GenericPanel )
 			{
-				( (GenericPanel) panels[ i ] ).setStatusMessage( message );
+				( (GenericPanel) panels[ i ] ).setStatusMessage( unicodeMessage );
 			}
 
 			panels[ i ].setEnabled( state != KoLConstants.CONTINUE_STATE );
@@ -629,7 +630,7 @@ public abstract class KoLmafia
 			{
 				GenericFrame frame = (GenericFrame) frames[ i ];
 
-				frame.setStatusMessage( message );
+				frame.setStatusMessage( unicodeMessage );
 				frame.updateDisplayState( state );
 			}
 		}
@@ -701,11 +702,11 @@ public abstract class KoLmafia
 		}
 
 		KoLmafia.registerPlayer( username, String.valueOf( KoLCharacter.getUserId() ) );
-		
+
 		if ( Preferences.getString( "spadingData" ).length() > 10 )
 		{
 			KoLmafia.updateDisplay( "Some data has been collected that may be of interest " +
-				"to others.  Please type `spade' to examine and submit or delete this data." );		
+				"to others.  Please type `spade' to examine and submit or delete this data." );
 		}
 	}
 
@@ -3445,7 +3446,7 @@ public abstract class KoLmafia
 		{
 			super( "UpdateCheckThread" );
 		}
-		
+
 		public void run()
 		{
 			if ( KoLConstants.VERSION_NAME.startsWith( "KoLmafia r" ) )
@@ -3507,7 +3508,7 @@ public abstract class KoLmafia
 		{
 			super( "ShutdownThread" );
 		}
-		
+
 		public void run()
 		{
 			Preferences.reset( null );
