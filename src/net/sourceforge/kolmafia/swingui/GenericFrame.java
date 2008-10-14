@@ -83,7 +83,7 @@ public abstract class GenericFrame
 	extends JFrame
 {
 	protected static int existingFrameCount = 0;
-	protected boolean exists = false;
+	private boolean exists = false;
 
 	protected HashMap listenerMap;
 

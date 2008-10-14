@@ -65,12 +65,22 @@ public class StringUtilities
 
 	public static final String getEntityEncode( final String utf8String )
 	{
+		return getEntityEncode( utf8String, true );
+	}
+
+	public static final String getEntityEncode( final String utf8String, boolean cache )
+	{
 		if ( utf8String == null )
 		{
 			return utf8String;
 		}
 
-		String entityString = (String) StringUtilities.entityEncodeCache.get( utf8String );
+		String entityString = null;
+
+		if ( cache )
+		{
+			entityString = (String) StringUtilities.entityEncodeCache.get( utf8String );
+		}
 
 		if ( entityString == null )
 		{
@@ -84,7 +94,11 @@ public class StringUtilities
 			}
 
 			entityString = StringUtilities.globalStringReplace( entityString, "  ", " " );
-			StringUtilities.entityEncodeCache.put( utf8String, entityString );
+
+			if ( cache )
+			{
+				StringUtilities.entityEncodeCache.put( utf8String, entityString );
+			}
 		}
 
 		return entityString;
@@ -96,17 +110,31 @@ public class StringUtilities
 
 	public static final String getEntityDecode( final String entityString )
 	{
+		return getEntityDecode( entityString, true );
+	}
+
+	public static final String getEntityDecode( final String entityString, boolean cache )
+	{
 		if ( entityString == null )
 		{
 			return entityString;
 		}
 
-		String utf8String = (String) StringUtilities.entityDecodeCache.get( entityString );
+		String utf8String = null;
+
+		if ( cache )
+		{
+			utf8String = (String) StringUtilities.entityDecodeCache.get( entityString );
+		}
 
 		if ( utf8String == null )
 		{
 			utf8String = CharacterEntities.unescape( entityString );
-			StringUtilities.entityDecodeCache.put( entityString, utf8String );
+
+			if ( cache )
+			{
+				StringUtilities.entityDecodeCache.put( entityString, utf8String );
+			}
 		}
 
 		return utf8String;

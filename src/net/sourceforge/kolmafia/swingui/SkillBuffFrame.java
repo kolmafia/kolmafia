@@ -80,7 +80,6 @@ public class SkillBuffFrame
 	public SkillBuffFrame( final String recipient )
 	{
 		super( "Skill Casting" );
-		this.setDefaultCloseOperation( WindowConstants.HIDE_ON_CLOSE );
 
 		this.framePanel.add( new SkillBuffPanel(), BorderLayout.NORTH );
 

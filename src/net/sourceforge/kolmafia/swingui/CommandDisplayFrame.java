@@ -82,7 +82,6 @@ public class CommandDisplayFrame
 	public CommandDisplayFrame()
 	{
 		super( "Graphical CLI" );
-		this.setDefaultCloseOperation( WindowConstants.HIDE_ON_CLOSE );
 		this.framePanel.add( new CommandDisplayPanel(), BorderLayout.CENTER );
 	}
 

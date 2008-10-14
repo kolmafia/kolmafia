@@ -56,14 +56,11 @@ public class TabbedChatFrame
 {
 	private final ChatPanel commandLineDisplay;
 	private static boolean addGCLI = false;
-	private static boolean instanceExists = false;
 
 	public TabbedChatFrame()
 	{
 		this.commandLineDisplay = new ChatPanel( ChatFrame.GCLI_TAB );
 		TabbedChatFrame.addGCLI = Preferences.getBoolean( "addChatCommandLine" );
-		ChatManager.setTabbedFrame( this );
-
 		this.setTitle( "Loathing Chat" );
 	}
 
@@ -79,8 +76,6 @@ public class TabbedChatFrame
 
 	public void initialize( final String associatedContact )
 	{
-		TabbedChatFrame.instanceExists = true;
-
 		if ( this.tabs instanceof CloseTabbedPane )
 		{
 			( (CloseTabbedPane) this.tabs ).setCloseIconStyle( CloseTabPaneUI.GRAY_CLOSE_ICON );
@@ -96,7 +91,7 @@ public class TabbedChatFrame
 
 	public boolean closeTab( final int tabIndexToClose )
 	{
-		if ( tabIndexToClose == -1 || !TabbedChatFrame.instanceExists )
+		if ( tabIndexToClose == -1 )
 		{
 			return false;
 		}
@@ -174,8 +169,14 @@ public class TabbedChatFrame
 
 	public void dispose()
 	{
-		super.dispose();
 		ChatManager.dispose();
+
+		for ( int i = this.tabs.getTabCount() - 1; i >= 0; --i )
+		{
+			this.closeOperation( null, i );
+		}
+
+		super.dispose();
 	}
 
 	private class TabAdder

@@ -67,7 +67,6 @@ public class ContactListFrame
 	public ContactListFrame( final SortedListModel contacts )
 	{
 		super( "Contact List" );
-		this.setDefaultCloseOperation( WindowConstants.HIDE_ON_CLOSE );
 		this.contacts = contacts;
 
 		this.framePanel.setLayout( new CardLayout( 10, 10 ) );
@@ -81,7 +80,6 @@ public class ContactListFrame
 			toolbarPanel.add( new InvocationButton( "Mass-mail", "mail.gif", this, "mailSelected" ) );
 		}
 
-		this.setDefaultCloseOperation( WindowConstants.HIDE_ON_CLOSE );
 		this.pack();
 	}
 
