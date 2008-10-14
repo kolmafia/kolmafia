@@ -580,8 +580,14 @@ public class Preferences
 
 		while ( ( current = FileUtilities.readData( istream ) ) != null )
 		{
-			desiredMap = current[ 0 ].equals( "global" ) ? Preferences.globalNames : Preferences.userNames;
-			desiredMap.put( current[ 1 ], current.length == 2 ? "" : current[ 2 ] );
+			if ( current.length >= 2 )
+			{
+				String map = current[ 0 ];
+				String name = current[ 1 ];
+				String value = current.length == 2 ? "" : current[ 2 ];
+				desiredMap = map.equals( "global" ) ? Preferences.globalNames : Preferences.userNames;
+				desiredMap.put( name, value );
+			}
 		}
 
 		// Update Mac-specific properties values to ensure

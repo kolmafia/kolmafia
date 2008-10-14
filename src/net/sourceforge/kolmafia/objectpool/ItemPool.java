@@ -257,6 +257,7 @@ public class ItemPool
 	public static final int ORANGE_CUPCAKE = 1626;
 	public static final int PURPLE_CUPCAKE = 1627;
 	public static final int PINK_CUPCAKE = 1628;
+	public static final int SPANISH_FLY = 1633;
 	public static final int MILK_OF_MAGNESIUM = 1650;
 	public static final int CITADEL_SATCHEL = 1656;
 	public static final int GROUCHO_DISGUISE = 1678;
