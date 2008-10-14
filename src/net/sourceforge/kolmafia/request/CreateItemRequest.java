@@ -97,9 +97,8 @@ public class CreateItemRequest
 
 		this.itemId = itemId;
 		this.name = ItemDatabase.getItemName( itemId );
-		this.yield = ConcoctionDatabase.getYield( itemId );
 		this.mixingMethod = KoLConstants.SUBCLASS;
-		this.createdItem = new AdventureResult( itemId, yield );
+		this.calculateYield();
 	}
 
 	/**
@@ -117,12 +116,17 @@ public class CreateItemRequest
 
 		this.itemId = itemId;
 		this.name = ItemDatabase.getItemName( itemId );
-		this.yield = ConcoctionDatabase.getYield( itemId );
 		this.mixingMethod = ConcoctionDatabase.getMixingMethod( this.itemId );
-		this.createdItem = new AdventureResult( itemId, yield );
+		this.calculateYield();
 	}
 
-	public void reconstructFields()
+	private void calculateYield()
+	{
+		this.yield = ConcoctionDatabase.getYield( this.itemId );
+		this.createdItem = new AdventureResult( this.itemId, this.yield );
+	}
+
+	private void reconstructFields()
 	{
 		String formSource = "craft.php";
 		String action = "craft";
@@ -517,6 +521,7 @@ public class CreateItemRequest
 			}
 		}
 
+		this.calculateYield();
 		int quantity = ( this.quantityNeeded + this.yield - 1 ) / this.yield;
 		this.addFormField( quantityField, String.valueOf( quantity ) );
 
