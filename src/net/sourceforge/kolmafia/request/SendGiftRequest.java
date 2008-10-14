@@ -67,9 +67,13 @@ public class SendGiftRequest
 
 		while ( ( data = FileUtilities.readData( reader ) ) != null )
 		{
-			SendGiftRequest.PACKAGES.add( new GiftWrapper(
-				data[ 0 ], StringUtilities.parseInt( data[ 1 ] ), StringUtilities.parseInt( data[ 2 ] ),
-				StringUtilities.parseInt( data[ 3 ] ) ) );
+			if ( data.length >= 4 )
+			{
+				SendGiftRequest.PACKAGES.add( new GiftWrapper(
+					data[ 0 ], StringUtilities.parseInt( data[ 1 ] ),
+					StringUtilities.parseInt( data[ 2 ] ),
+					StringUtilities.parseInt( data[ 3 ] ) ) );
+			}
 		}
 	}
 

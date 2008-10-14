@@ -46,7 +46,10 @@ public class Aliases
 
 			while ( ( data = FileUtilities.readData( reader ) ) != null )
 			{
-				Aliases.aliasMap.put( " " + data[ 0 ] + " ", " " + data[ 1 ] + " " );
+				if ( data.length >= 2 )
+				{
+					Aliases.aliasMap.put( " " + data[ 0 ] + " ", " " + data[ 1 ] + " " );
+				}
 			}
 
 			try

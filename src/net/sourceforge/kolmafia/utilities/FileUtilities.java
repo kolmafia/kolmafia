@@ -118,7 +118,10 @@ public class FileUtilities
 
 		// Override file is wrong version. Get built-in file
 
-		return DataUtilities.getReader( UtilityConstants.DATA_DIRECTORY, filename, false );
+		reader = DataUtilities.getReader( UtilityConstants.DATA_DIRECTORY, filename, false );
+		// Don't forget to skip past its version number:
+		FileUtilities.readLine( reader );
+		return reader;
 	}
 
 	public static final String readLine( final BufferedReader reader )

@@ -91,11 +91,15 @@ public class BuffBotDatabase
 
 			while ( ( data = FileUtilities.readData( reader ) ) != null )
 			{
-				KoLmafia.registerPlayer( data[ 0 ], data[ 1 ] );
-
-				BuffBotDatabase.nameList.add( data[ 0 ].toLowerCase() );
-				BuffBotDatabase.buffDataMap.put( data[ 0 ].toLowerCase(), data );
+				if ( data.length >= 2 )
+				{
+					KoLmafia.registerPlayer( data[ 0 ], data[ 1 ] );
+	
+					BuffBotDatabase.nameList.add( data[ 0 ].toLowerCase() );
+					BuffBotDatabase.buffDataMap.put( data[ 0 ].toLowerCase(), data );
+				}
 			}
+			BuffBotDatabase.hasNameList = true;
 
 			try
 			{
@@ -310,6 +314,7 @@ public class BuffBotDatabase
 
 		public DynamicBotFetcher( final String[] data )
 		{
+			super( "DynamicBotFetcher" );
 			this.botName = data[ 0 ];
 			this.location = data[ 2 ];
 
