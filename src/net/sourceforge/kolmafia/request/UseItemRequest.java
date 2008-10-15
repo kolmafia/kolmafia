@@ -33,6 +33,7 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.lang.Math;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -56,6 +57,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -409,14 +411,14 @@ public class UseItemRequest
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Helper not available." );
 				return;
 			}
-			if ( this.itemUsed.equals( queuedFoodHelper ) )
+			if ( this.itemUsed.equals( this.queuedFoodHelper ) )
 			{
 				queuedFoodHelperCount += count;
 			}
 			else
 			{
-				queuedFoodHelper = this.itemUsed;
-				queuedFoodHelperCount = count;
+				this.queuedFoodHelper = this.itemUsed;
+				this.queuedFoodHelperCount = count;
 			}
 			KoLmafia.updateDisplay( "Helper queued for next " + count + " food" +
 				(count == 1 ? "" : "s") + " eaten." );
@@ -675,12 +677,14 @@ public class UseItemRequest
 			break;
 
 		case KoLConstants.CONSUME_HOBO:
+			this.queuedFoodHelper = null;
 			this.addFormField( "action", "hobo" );
 			this.addFormField( "which", "1" );
 			useTypeAsString = "Boozing hobo with";
 			break;
 
 		case KoLConstants.CONSUME_GHOST:
+			this.queuedDrinkHelper = null;
 			this.addFormField( "action", "ghost" );
 			this.addFormField( "which", "1" );
 			useTypeAsString = "Feeding ghost with";
@@ -688,10 +692,22 @@ public class UseItemRequest
 
 		case KoLConstants.CONSUME_EAT:
 			this.addFormField( "which", "1" );
-			if ( queuedFoodHelper != null && queuedFoodHelperCount > 0 )
+			if ( this.queuedFoodHelper != null && this.queuedFoodHelperCount > 0 )
 			{
-				this.addFormField( "utensil", String.valueOf( queuedFoodHelper.getItemId() ) );
-				--queuedFoodHelperCount;
+				if ( this.queuedFoodHelper.getItemId() == ItemPool.SCRATCHS_FORK )
+				{
+					UseItemRequest.lastUpdate = this.elementalHelper( "Hotform",
+						MonsterDatabase.HEAT, 1000 );
+					if ( !UseItemRequest.lastUpdate.equals( "" ) )
+					{
+						KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+							UseItemRequest.lastUpdate );
+						this.queuedFoodHelper = null;
+						return;
+					}
+				}
+				this.addFormField( "utensil", String.valueOf( this.queuedFoodHelper.getItemId() ) );
+				--this.queuedFoodHelperCount;
 			}
 			else
 			{
@@ -703,6 +719,18 @@ public class UseItemRequest
 			this.addFormField( "which", "1" );
 			if ( queuedDrinkHelper != null && queuedDrinkHelperCount > 0 )
 			{
+				if ( this.queuedFoodHelper.getItemId() == ItemPool.FROSTYS_MUG )
+				{
+					UseItemRequest.lastUpdate = this.elementalHelper( "Coldform",
+						MonsterDatabase.COLD, 1000 );
+					if ( !UseItemRequest.lastUpdate.equals( "" ) )
+					{
+						KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+							UseItemRequest.lastUpdate );
+						this.queuedDrinkHelper = null;
+						return;
+					}
+				}
 				this.addFormField( "utensil", String.valueOf( queuedDrinkHelper.getItemId() ) );
 				--queuedDrinkHelperCount;
 			}
@@ -734,6 +762,32 @@ public class UseItemRequest
 			UseItemRequest.lastItemUsed = this.itemUsed;
 			UseItemRequest.parseConsumption( UseItemRequest.REDIRECT_REQUEST.responseText, true );
 		}
+	}
+	
+	private String elementalHelper( String remove, int resist, int amount )
+	{
+		AdventureResult effect = new AdventureResult( remove, 1, true );
+		if ( KoLConstants.activeEffects.contains( effect ) )
+		{
+			RequestThread.postRequest( new UneffectRequest( effect ) );
+		}
+		if ( KoLConstants.activeEffects.contains( effect ) )
+		{
+			return "Unable to remove " + remove + ", which makes this helper unusable.";
+		}
+		
+		int healthNeeded = (int) Math.ceil(amount *
+			(100.0f - KoLCharacter.getElementalResistance( resist )) / 100.0f);
+		if ( KoLCharacter.getCurrentHP() <= healthNeeded )
+		{
+			StaticEntity.getClient().recoverHP( healthNeeded + 1 );
+		}
+		if ( KoLCharacter.getCurrentHP() <= healthNeeded )
+		{
+			return "Unable to gain enough HP to survive the use of this helper.";
+		}
+
+		return "";
 	}
 
 	public void processResults()
@@ -1711,6 +1765,7 @@ public class UseItemRequest
 				"currentSpleenUse",
 				Math.max( 0, Preferences.getInteger( "currentSpleenUse" ) - item.getCount() ) );
 
+			KoLCharacter.updateStatus();
 			return;
 
 		case ItemPool.SPICE_MELANGE:
@@ -1735,6 +1790,7 @@ public class UseItemRequest
 		case ItemPool.EXTRA_GREASY_SLIDER:
 			Preferences.setInteger( "currentSpleenUse",
 				Math.max( 0, Preferences.getInteger( "currentSpleenUse" ) - 5 ) );
+			KoLCharacter.updateStatus();
 			return;
 
 		case ItemPool.NEWBIESPORT_TENT:

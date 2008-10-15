@@ -47,6 +47,7 @@ import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 
 import net.sourceforge.kolmafia.objectpool.Concoction;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
@@ -206,48 +207,68 @@ public class ListCellRendererFactory
 
 			stringForm.append( ")" );
 			stringForm.append( "</b><br>&nbsp;" );
-
-			int fullness = ItemDatabase.getFullness( item.getName() );
-			int inebriety = ItemDatabase.getInebriety( item.getName() );
-			int spleenhit = ItemDatabase.getSpleenHit( item.getName() );
-
-			if ( fullness > 0 )
+			
+			switch ( item.getItemId() )
 			{
-				stringForm.append( fullness );
-				stringForm.append( " full" );
-			}
-			else if ( inebriety > 0 )
-			{
-				stringForm.append( inebriety );
-				stringForm.append( " drunk" );
-			}
-			else if ( spleenhit > 0 )
-			{
-				stringForm.append( spleenhit );
-				stringForm.append( " spleen" );
-			}
-
-			this.appendRange( stringForm, ItemDatabase.getAdventureRange( item.getName() ), "adv" );
-
-			if ( Preferences.getBoolean( "showGainsPerUnit" ) )
-			{
+			case ItemPool.MUNCHIES_PILL:
+				stringForm.append( "+1-3 adv from next food eaten" );
+				break;
+				
+			case ItemPool.SCRATCHS_FORK:
+				stringForm.append( "+30% adv/mus/mys/mox from next food, +50% from salad" );
+				break;
+			
+			case ItemPool.DIVINE_FLUTE:
+				stringForm.append( "+(7*adv)+(0-15) MP from next drink" );
+				break;
+			
+			case ItemPool.FROSTYS_MUG:
+				stringForm.append( "+30% adv/mus/mys/mox from next drink, +50% from beer" );
+				break;
+			
+			default:
+				int fullness = ItemDatabase.getFullness( item.getName() );
+				int inebriety = ItemDatabase.getInebriety( item.getName() );
+				int spleenhit = ItemDatabase.getSpleenHit( item.getName() );
+	
 				if ( fullness > 0 )
 				{
-					stringForm.append( " / full" );
+					stringForm.append( fullness );
+					stringForm.append( " full" );
 				}
 				else if ( inebriety > 0 )
 				{
-					stringForm.append( " / drunk" );
+					stringForm.append( inebriety );
+					stringForm.append( " drunk" );
 				}
 				else if ( spleenhit > 0 )
 				{
-					stringForm.append( " / spleen" );
+					stringForm.append( spleenhit );
+					stringForm.append( " spleen" );
 				}
+	
+				this.appendRange( stringForm, ItemDatabase.getAdventureRange( item.getName() ), "adv" );
+	
+				if ( Preferences.getBoolean( "showGainsPerUnit" ) )
+				{
+					if ( fullness > 0 )
+					{
+						stringForm.append( " / full" );
+					}
+					else if ( inebriety > 0 )
+					{
+						stringForm.append( " / drunk" );
+					}
+					else if ( spleenhit > 0 )
+					{
+						stringForm.append( " / spleen" );
+					}
+				}
+	
+				this.appendRange( stringForm, ItemDatabase.getMuscleRange( item.getName() ), "mus" );
+				this.appendRange( stringForm, ItemDatabase.getMysticalityRange( item.getName() ), "mys" );
+				this.appendRange( stringForm, ItemDatabase.getMoxieRange( item.getName() ), "mox" );
 			}
-
-			this.appendRange( stringForm, ItemDatabase.getMuscleRange( item.getName() ), "mus" );
-			this.appendRange( stringForm, ItemDatabase.getMysticalityRange( item.getName() ), "mys" );
-			this.appendRange( stringForm, ItemDatabase.getMoxieRange( item.getName() ), "mox" );
 
 			if ( !meetsRequirement )
 			{

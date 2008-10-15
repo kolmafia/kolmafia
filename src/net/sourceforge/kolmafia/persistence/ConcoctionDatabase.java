@@ -359,14 +359,17 @@ public class ConcoctionDatabase
 	{
 		Stack queuedChanges;
 		LockableListModel queuedIngredients;
+		int id = c.getItemId();
+		int consumpt = ItemDatabase.getConsumptionType( id );
 
-		if ( c.getFullness() > 0 )
+		if ( c.getFullness() > 0 || consumpt == KoLConstants.CONSUME_FOOD_HELPER ||
+			id == ItemPool.MUNCHIES_PILL )
 		{
 			queuedChanges = ConcoctionDatabase.queuedFoodChanges;
 			queuedIngredients = ConcoctionDatabase.queuedFoodIngredients;
 			ConcoctionDatabase.queuedFullness += c.getFullness() * quantity;
 		}
-		else if ( c.getInebriety() > 0 )
+		else if ( c.getInebriety() > 0 || consumpt == KoLConstants.CONSUME_DRINK_HELPER )
 		{
 			queuedChanges = ConcoctionDatabase.queuedBoozeChanges;
 			queuedIngredients = ConcoctionDatabase.queuedBoozeIngredients;
@@ -494,6 +497,12 @@ public class ConcoctionDatabase
 
 			if ( consumptionType != KoLConstants.CONSUME_USE && c.getItem() != null )
 			{
+				int consumpt = ItemDatabase.getConsumptionType( c.getItemId() );
+				if ( consumpt == KoLConstants.CONSUME_FOOD_HELPER ||
+					consumpt == KoLConstants.CONSUME_DRINK_HELPER )
+				{
+					continue;
+				}
 				AdventureResult toConsume = c.getItem().getInstance( quantity );
 				InventoryManager.retrieveItem( toConsume );
 

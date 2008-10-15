@@ -369,8 +369,31 @@ public class UseItemEnqueuePanel
 					return false;
 				}
 			}
-			else
+			else switch ( ItemDatabase.getConsumptionType( creation.getName() ) )
 			{
+			case KoLConstants.CONSUME_FOOD_HELPER:
+				if ( !UseItemEnqueuePanel.this.food )
+				{
+					return false;
+				}
+				break;
+				
+			case KoLConstants.CONSUME_DRINK_HELPER:
+				if ( !UseItemEnqueuePanel.this.booze )
+				{
+					return false;
+				}
+				break;
+			
+			case KoLConstants.CONSUME_MULTIPLE:
+				if ( !UseItemEnqueuePanel.this.food ||
+					creation.getItemId() != ItemPool.MUNCHIES_PILL )
+				{
+					return false;
+				}
+				break;
+				
+			default:
 				return false;
 			}
 
@@ -385,6 +408,30 @@ public class UseItemEnqueuePanel
 				if ( item != null && item.getCount( KoLConstants.inventory ) == 0 )
 				{
 					return false;
+				}
+			}
+			
+			switch ( ItemDatabase.getConsumptionType( creation.getName() ) )
+			{
+			case KoLConstants.CONSUME_FOOD_HELPER:
+				if ( UseItemEnqueuePanel.this.food )
+				{
+					return true;
+				}
+				break;
+				
+			case KoLConstants.CONSUME_DRINK_HELPER:
+				if ( UseItemEnqueuePanel.this.booze )
+				{
+					return true;
+				}
+				break;
+			
+			case KoLConstants.CONSUME_MULTIPLE:
+				if ( UseItemEnqueuePanel.this.food &&
+					creation.getItemId() == ItemPool.MUNCHIES_PILL )
+				{
+					return true;
 				}
 			}
 
