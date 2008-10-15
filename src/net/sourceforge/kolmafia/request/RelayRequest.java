@@ -1325,28 +1325,35 @@ public class RelayRequest
 					return;
 				}
 			}
-		}
+	
+			// If the person is visiting the sorceress and they forgot
+			// to make the Wand, remind them.
 
-		// If the person is visiting the sorceress and they forgot
-		// to make the Wand, remind them.
+			else if ( path.equals( "lair6.php" ) )
+			{
+				// As of NS 13,they need not have it equipped. In fact,
+				// there are far better weapons to equip for the
+				// battle. But, just in case, check current equipment
+				// as well as inventory.
+	
+				String place = this.getFormField( "place" );
+				if ( place != null )
+				{
+					if ( place.equals( "5" ) && !KoLCharacter.hasEquipped( SorceressLairManager.NAGAMAR ) && !InventoryManager.retrieveItem( SorceressLairManager.NAGAMAR ) )
+					{
+						this.sendGeneralWarning(
+							"wand.gif", "It's possible there is something very important you're forgetting to do." );
+						return;
+					}
+				}
+			}
+		}
 
 		else if ( path.equals( "lair6.php" ) )
 		{
-			// As of NS 13,they need not have it equipped. In fact,
-			// there are far better weapons to equip for the
-			// battle. But, just in case, check current equipment
-			// as well as inventory.
-
 			String place = this.getFormField( "place" );
 			if ( place != null )
 			{
-				if ( place.equals( "5" ) && !KoLCharacter.hasEquipped( SorceressLairManager.NAGAMAR ) && !InventoryManager.retrieveItem( SorceressLairManager.NAGAMAR ) )
-				{
-					this.sendGeneralWarning(
-						"wand.gif", "It's possible there is something very important you're forgetting to do." );
-					return;
-				}
-
 				if ( place.equals( "6" ) && KoLCharacter.isHardcore() && Preferences.getBoolean( "lucreCoreLeaderboard" ) )
 				{
 					int lucreCount = InventoryManager.getCount( ItemPool.LUCRE );

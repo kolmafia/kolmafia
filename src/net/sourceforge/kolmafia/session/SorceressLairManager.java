@@ -1034,7 +1034,13 @@ public abstract class SorceressLairManager
 			requirements.add( SorceressLairManager.SKELETON );
 			return requirements;
 		}
-
+		
+		if ( !useCloverForSkeleton )
+		{	// we want any HP-increasing benefits of the player's equipment
+			SpecialOutfit.restoreImplicitCheckpoint();
+			SpecialOutfit.createImplicitCheckpoint();
+		}
+		
 		do
 		{
 			// The character needs to have at least 50 HP, or 25% of

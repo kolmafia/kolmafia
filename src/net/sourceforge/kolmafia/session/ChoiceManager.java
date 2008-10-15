@@ -955,6 +955,12 @@ public abstract class ChoiceManager
 
 		// Choices 228 & 229 are unknown	
 
+		// Mind Yer Binder
+		new ChoiceAdventure(
+			"Hobopolis", "choiceAdventure230", "Hobopolis Town Square",
+			new String[] { "hobo code binder", "skip adventure" },
+			new String[] { "3220", null } ),
+
 		// Choices 231-271 are subchoices of Choice 272
 
 		// Marketplace Entrance
