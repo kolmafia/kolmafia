@@ -126,7 +126,7 @@ public class CreateItemRequest
 		this.createdItem = new AdventureResult( this.itemId, this.yield );
 	}
 
-	private void reconstructFields()
+	public void reconstructFields()
 	{
 		String formSource = "craft.php";
 		String action = "craft";
