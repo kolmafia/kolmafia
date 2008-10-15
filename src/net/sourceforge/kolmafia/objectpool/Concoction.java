@@ -58,7 +58,7 @@ public class Concoction
 	private static final int FOOD_PRIORITY = 1;
 	private static final int BOOZE_PRIORITY = 2;
 	private static final int SPLEEN_PRIORITY = 3;
-	private static final int NO_PRIORITY = 100;
+	private static final int NO_PRIORITY = 0;
 
 	private final String name;
 	public final AdventureResult concoction;
@@ -282,13 +282,10 @@ public class Concoction
 		float adventures2 =
 			StringUtilities.parseFloat( ItemDatabase.getAdventureRange( o.name ) );
 
-		if ( Preferences.getBoolean( "showGainsPerUnit" ) )
+		if ( adventures1 != adventures2 )
 		{
-			if ( adventures1 != adventures2 )
-			{
-				return adventures2 - adventures1 > 0.0f ? 1 : -1;
-			}		
-		}
+			return adventures2 - adventures1 > 0.0f ? 1 : -1;
+		}		
 
 		int fullness1 = this.fullness;
 		int fullness2 = o.fullness;
@@ -314,14 +311,6 @@ public class Concoction
 			return spleenhit2 - spleenhit1;
 		}
 
-		if ( !Preferences.getBoolean( "showGainsPerUnit" ) )
-		{
-			if ( adventures1 != adventures2 )
-			{
-				return adventures2 - adventures1 > 0.0f ? 1 : -1;
-			}		
-		}
-		
 		float gain1 = this.mainstatGain;
 		float gain2 = o.mainstatGain;
 
