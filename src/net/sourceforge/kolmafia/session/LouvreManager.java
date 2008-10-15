@@ -334,12 +334,14 @@ public abstract class LouvreManager
 
 	public static final String handleChoice( final String choice, final int stepCount )
 	{
-		LouvreManager.resetDecisions();
-
 		// We only handle LouvreManager choices
+		int source = StringUtilities.parseInt( choice );
+		if ( !LouvreManager.louvreChoice( source ) )
+		{
+			return "";
+		}
 
 		String override = Preferences.getString( "louvreOverride" );
-
 		if ( override.indexOf( "," ) != -1 )
 		{
 			String[] options = override.split( "\\s*,\\s*" );
@@ -360,13 +362,8 @@ public abstract class LouvreManager
 			}
 		}
 
-		int source = StringUtilities.parseInt( choice );
-		if ( !LouvreManager.louvreChoice( source ) )
-		{
-			return "";
-		}
-
 		// Get the routing tuple for this choice/goal
+		LouvreManager.resetDecisions();
 		int goal = Preferences.getInteger( "louvreGoal" );
 
 		// Pick the best choice

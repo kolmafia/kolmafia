@@ -65,6 +65,7 @@ public class CustomCombatPanel
 	protected JTextArea combatEditor;
 	protected DefaultTreeModel combatModel;
 	protected CardLayout combatCards;
+	public JComboBox availableScripts;
 
 	public CustomCombatPanel()
 	{
@@ -74,11 +75,18 @@ public class CustomCombatPanel
 		this.combatCards = new CardLayout();
 
 		this.setLayout( this.combatCards );
+		this.availableScripts = new CombatComboBox();
+
 		this.add( "tree", new CustomCombatTreePanel() );
 		this.add( "editor", new CustomCombatEditorPanel() );
 
-		CustomCombatManager.loadSettings();
-		this.refreshCombatTree();
+		this.updateFromPreferences();
+	}
+
+	public void updateFromPreferences()
+	{
+		CustomCombatManager.setScript();
+		this.refreshCombatEditor();
 	}
 
 	public void refreshCombatEditor()
@@ -133,6 +141,30 @@ public class CustomCombatPanel
 		}
 	}
 
+	public class CombatComboBox
+		extends JComboBox
+	{
+		public CombatComboBox()
+		{
+			super( CustomCombatManager.getAvailableScripts() );
+			this.addActionListener( new CombatComboBoxListener() );
+		}
+
+		public class CombatComboBoxListener
+			implements ActionListener
+		{
+			public void actionPerformed( final ActionEvent e )
+			{
+				String script = (String) CombatComboBox.this.getSelectedItem();
+				if ( script != null )
+				{
+					CustomCombatManager.setScript( script );
+					CustomCombatPanel.this.refreshCombatTree();
+				}
+			}
+		}
+	}
+
 	private class CustomCombatEditorPanel
 		extends ScrollablePanel
 	{
@@ -161,8 +193,7 @@ public class CustomCombatPanel
 			// After storing all the data on disk, go ahead
 			// and reload the data inside of the tree.
 
-			CustomCombatManager.loadSettings();
-			CustomCombatPanel.this.refreshCombatTree();
+			CustomCombatPanel.this.updateFromPreferences();
 			CustomCombatPanel.this.combatCards.show( CustomCombatPanel.this, "tree" );
 		}
 
@@ -179,15 +210,12 @@ public class CustomCombatPanel
 	public class CustomCombatTreePanel
 		extends ScrollablePanel
 	{
-		public JComboBox availableScripts;
-
 		public CustomCombatTreePanel()
 		{
 			super( "", "edit", "help", CustomCombatPanel.this.combatTree );
 			CustomCombatPanel.this.combatTree.setVisibleRowCount( 8 );
 
-			this.availableScripts = new CombatComboBox();
-			this.centerPanel.add( this.availableScripts, BorderLayout.NORTH );
+			this.centerPanel.add( CustomCombatPanel.this.availableScripts, BorderLayout.NORTH );
 
 			JPanel extraButtons = new JPanel( new GridLayout( 2, 1, 5, 5 ) );
 
@@ -202,8 +230,7 @@ public class CustomCombatPanel
 
 		public void actionConfirmed()
 		{
-			CustomCombatManager.loadSettings();
-			CustomCombatPanel.this.refreshCombatEditor();
+			CustomCombatPanel.this.updateFromPreferences();
 			CustomCombatPanel.this.combatCards.show( CustomCombatPanel.this, "editor" );
 		}
 
@@ -213,31 +240,6 @@ public class CustomCombatPanel
 
 		public void setEnabled( final boolean isEnabled )
 		{
-		}
-
-		public class CombatComboBox
-			extends JComboBox
-		{
-			public CombatComboBox()
-			{
-				super( CustomCombatManager.getAvailableScripts() );
-				this.setSelectedItem( CustomCombatManager.settingName() );
-				this.addActionListener( new CombatComboBoxListener() );
-			}
-
-			public class CombatComboBoxListener
-				implements ActionListener
-			{
-				public void actionPerformed( final ActionEvent e )
-				{
-					String script = (String) CombatComboBox.this.getSelectedItem();
-					if ( script != null )
-					{
-						CustomCombatManager.setScript( script );
-						CustomCombatPanel.this.refreshCombatTree();
-					}
-				}
-			}
 		}
 
 		public class NewScriptButton
@@ -257,7 +259,6 @@ public class CustomCombatPanel
 				}
 
 				CustomCombatManager.setScript( name );
-				CustomCombatTreePanel.this.availableScripts.setSelectedItem( CustomCombatManager.settingName() );
 				CustomCombatPanel.this.refreshCombatTree();
 			}
 		}
@@ -280,7 +281,6 @@ public class CustomCombatPanel
 
 				CustomCombatManager.copySettings( name );
 				CustomCombatManager.setScript( name );
-				CustomCombatTreePanel.this.availableScripts.setSelectedItem( CustomCombatManager.settingName() );
 				CustomCombatPanel.this.refreshCombatTree();
 			}
 		}
