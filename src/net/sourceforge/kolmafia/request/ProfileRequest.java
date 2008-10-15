@@ -140,18 +140,30 @@ public class ProfileRequest
 		this.drink = "none";
 		this.pvpRank = new Integer( 0 );
 
-		if ( cleanHTML.indexOf( "\nLevel" ) == -1 )
+		if ( cleanHTML.indexOf( "Level" ) == -1 )
 		{
 			return;
 		}
 
-		while ( !token.startsWith( "Level" ) )
+		while ( token.indexOf( "Level" ) == -1 )
 		{
 			token = st.nextToken();
 		}
 
-		this.playerLevel = Integer.valueOf( token.substring( 5 ).trim() );
-		this.classType = KoLCharacter.getClassType( st.nextToken().trim() );
+		if ( token.startsWith( "Level" ) )
+		{	// no custom title
+			this.playerLevel = Integer.valueOf( token.substring( 5 ).trim() );
+			this.classType = KoLCharacter.getClassType( st.nextToken().trim() );
+		}
+		else	// (Level n) - player has custom title
+		{
+			this.playerLevel = new Integer(
+				StringUtilities.parseInt( token.substring( 6 ).trim() ) );
+			while ( !st.nextToken().startsWith( "Class" ) )
+			{
+			}
+			this.classType = KoLCharacter.getClassType( st.nextToken().trim() );
+		}
 
 		if ( cleanHTML.indexOf( "\nAscensions" ) != -1 && cleanHTML.indexOf( "\nPath" ) != -1 )
 		{
@@ -352,6 +364,9 @@ public class ProfileRequest
 		// know the name of the player, this can be
 		// arbitrarily skipped.
 
+		dataMatcher.find();
+		
+		// At some point the player class was added to the table.  Skip over it.
 		dataMatcher.find();
 
 		// The player's three primary stats appear in
