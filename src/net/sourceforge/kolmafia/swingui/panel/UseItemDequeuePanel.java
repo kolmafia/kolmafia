@@ -45,6 +45,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.objectpool.Concoction;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
@@ -225,6 +226,31 @@ public class UseItemDequeuePanel
 			if ( ItemDatabase.getSpleenHit( creation.getName() ) > 0 )
 			{
 				return UseItemDequeuePanel.this.spleen && super.isVisible( element );
+			}
+
+			switch ( ItemDatabase.getConsumptionType( creation.getName() ) )
+			{
+			case KoLConstants.CONSUME_FOOD_HELPER:
+				if ( UseItemDequeuePanel.this.food )
+				{
+					return true;
+				}
+				break;
+				
+			case KoLConstants.CONSUME_DRINK_HELPER:
+				if ( UseItemDequeuePanel.this.booze )
+				{
+					return true;
+				}
+				break;
+			
+			case KoLConstants.CONSUME_MULTIPLE:
+				if ( UseItemDequeuePanel.this.food &&
+					creation.getItemId() == ItemPool.MUNCHIES_PILL )
+				{
+					return true;
+				}
+				break;
 			}
 
 			return false;

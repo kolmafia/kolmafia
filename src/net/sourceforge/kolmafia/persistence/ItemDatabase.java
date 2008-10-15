@@ -907,7 +907,7 @@ public class ItemDatabase
 		}
 
 		Integer requirement = (Integer) ItemDatabase.levelReqByName.get( StringUtilities.getCanonicalName( name ) );
-		return requirement == null ? false : KoLCharacter.getLevel() >= requirement.intValue();
+		return requirement == null ? true : KoLCharacter.getLevel() >= requirement.intValue();
 	}
 
 	public static final int getFullness( final String name )

@@ -452,6 +452,7 @@ public class ItemPool
 	public static final int MINIBORG_HIVEMINDER = 3113;
 	public static final int MINIBORG_DESTROYOBOT = 3114;
 	public static final int DIVINE_BOOK = 3117;
+	public static final int DIVINE_FLUTE = 3123;
 	public static final int HOBO_NICKEL = 3126;
 	public static final int SANDCASTLE = 3127;
 	public static final int PUNCHCARD_ATTACK = 3146;
@@ -486,6 +487,8 @@ public class ItemPool
 	public static final int TATTERED_PAPER_CROWN = 3231;
 	public static final int BAG_OF_CANDY = 3261;
 	public static final int TASTEFUL_BOOK = 3263;
+	public static final int SCRATCHS_FORK = 3323;
+	public static final int FROSTYS_MUG = 3324;
 	public static final int FERMENTED_PICKLE_JUICE = 3325;
 	public static final int EXTRA_GREASY_SLIDER = 3327;
 	public static final int DOUBLE_SIDED_TAPE = 3336;
