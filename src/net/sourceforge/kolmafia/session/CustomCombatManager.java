@@ -97,6 +97,11 @@ public abstract class CustomCombatManager
 		return CustomCombatManager.availableScripts;
 	}
 
+	public static void setScript()
+	{
+		CustomCombatManager.setScript( CustomCombatManager.settingName() );
+	}
+
 	public static void setScript( String name )
 	{
 		if ( name == null || name.equals( "" ) )
@@ -115,6 +120,8 @@ public abstract class CustomCombatManager
 		{
 			CustomCombatManager.availableScripts.add( name );
 		}
+
+                CustomCombatManager.availableScripts.setSelectedItem( name );
 
 		name = name + ".ccs";
 

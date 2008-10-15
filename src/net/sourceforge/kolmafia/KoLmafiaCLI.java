@@ -1098,7 +1098,7 @@ public class KoLmafiaCLI
 
 			if ( name.equals( "customCombatScript" ) )
 			{
-				while ( name.endsWith( ".css" ) )
+				while ( name.endsWith( ".ccs" ) )
 				{
 					name = name.substring( 0, name.length() - 4 );
 				}

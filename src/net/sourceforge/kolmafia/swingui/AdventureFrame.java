@@ -58,6 +58,7 @@ public class AdventureFrame
 	extends GenericFrame
 {
 	private static AdventureSelectPanel adventureSelector = null;
+	private static CustomCombatPanel customCombatPanel;
 	private static JProgressBar requestMeter = null;
 	private static JSplitPane sessionGrid;
 
@@ -135,6 +136,19 @@ public class AdventureFrame
 		AdventureFrame.adventureSelector.updateSelectedAdventure( location );
 	}
 
+	public static final void updateFromPreferences()
+	{
+		if ( AdventureFrame.adventureSelector != null )
+		{
+			AdventureFrame.adventureSelector.updateFromPreferences();
+		}
+
+		if ( AdventureFrame.customCombatPanel != null )
+		{
+			AdventureFrame.customCombatPanel.updateFromPreferences();
+		}
+	}
+
 	public boolean useSidePane()
 	{
 		return true;
@@ -151,7 +165,8 @@ public class AdventureFrame
 		this.tabs.addTab( "HP/MP Usage", restoreScroller );
 
 		this.tabs.addTab( "Mood Setup", new MoodOptionsPanel() );
-		this.tabs.addTab( "Custom Combat", new CustomCombatPanel() );
+		AdventureFrame.customCombatPanel = new CustomCombatPanel();
+		this.tabs.addTab( "Custom Combat", AdventureFrame.customCombatPanel );
 
 		this.tabs.insertTab( "Overview", null, this.getAdventureSummary(), null, 0 );
 		ChoiceOptionsPanel choicePanel = new ChoiceOptionsPanel();

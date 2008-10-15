@@ -173,6 +173,16 @@ public class AdventureSelectPanel
 		}
 	}
 
+	public void updateFromPreferences()
+	{
+                if ( AdventureSelectPanel.this.actionSelect != null )
+                {
+                        String battleAction = Preferences.getString( "battleAction" );
+                        int battleIndex = KoLCharacter.getBattleSkillNames().indexOf( battleAction );
+                        KoLCharacter.getBattleSkillNames().setSelectedIndex( battleIndex == -1 ? 0 : battleIndex );
+                }
+	}
+
 	public void updateSelectedAdventure( final KoLAdventure location )
 	{
 		if ( location == null )

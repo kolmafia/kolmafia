@@ -58,6 +58,7 @@ import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
 import net.sourceforge.kolmafia.session.MoodManager;
 import net.sourceforge.kolmafia.session.ChoiceManager.ChoiceAdventure;
+import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -124,7 +125,7 @@ public class Preferences
 		Preferences.loadPreferences( userValues, userPropertiesFile );
 		Preferences.ensureUserDefaults();
 
-		CustomCombatManager.loadSettings();
+		AdventureFrame.updateFromPreferences();
 		MoodManager.restoreDefaults();
 	}
 

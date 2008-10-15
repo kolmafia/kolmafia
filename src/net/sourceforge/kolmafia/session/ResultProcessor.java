@@ -109,11 +109,20 @@ public class ResultProcessor
 			RequestLogger.updateDebugLog( "Processing results..." );
 		}
 
-		if ( haveHaikuResults() )
+		boolean requiresRefresh = haveHaikuResults() ?
+			processHaikuResults( results, data ) :
+			processNormalResults( results, data );
+
+		if ( data == null )
 		{
-			return processHaikuResults( results );
+			KoLmafia.applyEffects();
 		}
 
+		return requiresRefresh;
+	}
+
+	private static boolean processNormalResults( String results, List data )
+	{
 		if ( data == null && results.indexOf( "gains a pound" ) != -1 )
 		{
 			KoLCharacter.incrementFamilarWeight();
@@ -124,22 +133,21 @@ public class ResultProcessor
 		}
 
 		String plainTextResult = KoLConstants.ANYTAG_PATTERN.matcher( results ).replaceAll( KoLConstants.LINE_BREAK );
-		StringTokenizer parsedResults = new StringTokenizer( plainTextResult, KoLConstants.LINE_BREAK );
 
 		if ( data == null )
 		{
 			ResultProcessor.processFumble( plainTextResult );
 		}
 
-		boolean requiresRefresh = false;
+		StringTokenizer parsedResults = new StringTokenizer( plainTextResult, KoLConstants.LINE_BREAK );
+		boolean shouldRefresh = false;
 
 		while ( parsedResults.hasMoreTokens() )
 		{
-			ResultProcessor.processNextResult( parsedResults, data );
+			shouldRefresh |= ResultProcessor.processNextResult( parsedResults, data );
 		}
 
-		KoLmafia.applyEffects();
-		return requiresRefresh;
+		return shouldRefresh;
 	}
 
 	private static boolean haveHaikuResults()
@@ -148,7 +156,7 @@ public class ResultProcessor
 		       KoLConstants.activeEffects.contains( haikuEffect );
 	}
 
-	private static boolean processHaikuResults( String results )
+	private static boolean processHaikuResults( String results, List data )
 	{
 		Matcher matcher = HAIKU_PATTERN.matcher( results );
 		if ( !matcher.find() )
@@ -169,20 +177,13 @@ public class ResultProcessor
 			{
 				// Found an item
 				int itemId = ItemDatabase.getItemIdFromDescription( descid );
-				AdventureResult item = ItemPool.get( itemId, 1 );
+				AdventureResult result = ItemPool.get( itemId, 1 );
+				ResultProcessor.processItem( "You acquire an item:", result, data );
 
-				RequestLogger.printLine( "You acquire an item: " + item );
-				if ( Preferences.getBoolean( "logAcquiredItems" ) )
-				{
-					RequestLogger.updateSessionLog( "You acquire an item: " + item );
-				}
-
-				processResult( item );
-				shouldRefresh = true;
 				continue;
 			}
 
-			if ( image.equals( familiar ) )
+			if ( data == null && image.equals( familiar ) )
 			{
 				if ( haiku.indexOf( "gains a pound" ) != -1 )
 				{
@@ -203,6 +204,19 @@ public class ResultProcessor
 
 			String points = m.group(1);
 
+			if ( image.equals( "meat.gif" ) )
+			{
+				String message = "You gain " + points + " Meat";
+				ResultProcessor.processStatGain( message, data );
+				shouldRefresh = true;
+				continue;
+			}
+
+			if ( data != null )
+			{
+				continue;
+			}
+
 			if ( image.equals( "hp.gif" ) )
 			{
 				// Lost HP
@@ -219,26 +233,25 @@ public class ResultProcessor
 				continue;
 			}
 
-			if ( image.equals( "meat.gif" ) )
-			{
-				String message = "You gain " + points + " Meat";
-				ResultProcessor.processStatGain( message, null );
-				shouldRefresh = true;
-			}
-			else if ( image.equals( "strboost.gif" ) )
+			if ( image.equals( "strboost.gif" ) )
 			{
 				String message = "You gain " + points + " Strongness";
-				ResultProcessor.processStatGain( message, null );
+				shouldRefresh |= ResultProcessor.processStatGain( message, data );
+				continue;
 			}
-			else if ( image.equals( "snowflakes.gif" ) )
+
+			if ( image.equals( "snowflakes.gif" ) )
 			{
 				String message = "You gain " + points + " Magicalness";
-				ResultProcessor.processStatGain( message, null );
+				shouldRefresh |= ResultProcessor.processStatGain( message, data );
+				continue;
 			}
-			else if ( image.equals( "wink.gif" ) )
+
+			if ( image.equals( "wink.gif" ) )
 			{
 				String message = "You gain " + points + " Roguishness";
-				ResultProcessor.processStatGain( message, null );
+				shouldRefresh |= ResultProcessor.processStatGain( message, data );
+				continue;
 			}
 		} while ( matcher.find() );
 
@@ -305,7 +318,7 @@ public class ResultProcessor
 	{
 		String lastToken = parsedResults.nextToken();
 
-		// Skip effect acquisition - it's followed by a boldface
+		// Skip skill acquisition - it's followed by a boldface
 		// which makes the parser think it's found an item.
 
 		if ( lastToken.indexOf( "You acquire a skill" ) != -1 || lastToken.indexOf( "You gain a skill" ) != -1 )
@@ -369,29 +382,12 @@ public class ResultProcessor
 
 	private static void processItem( StringTokenizer parsedResults, String acquisition, List data )
 	{
-		AdventureResult lastResult;
 		String item = parsedResults.nextToken();
 
 		if ( acquisition.indexOf( "an item" ) != -1 )
 		{
-			if ( data == null )
-			{
-				RequestLogger.printLine( acquisition + " " + item );
-				if ( Preferences.getBoolean( "logAcquiredItems" ) )
-				{
-					RequestLogger.updateSessionLog( acquisition + " " + item );
-				}
-			}
-
-			lastResult = ItemPool.get( item, 1 );
-
-			if ( data == null )
-			{
-				processResult( lastResult );
-				return;
-			}
-
-			AdventureResult.addResultToList( data, lastResult );
+			AdventureResult result = ItemPool.get( item, 1 );
+			ResultProcessor.processItem( acquisition, result, data );
 			return;
 		}
 
@@ -414,23 +410,29 @@ public class ResultProcessor
 			countString = "1";
 		}
 
-		RequestLogger.printLine( acquisition + " " + item );
-
-		if ( Preferences.getBoolean( "logAcquiredItems" ) )
-		{
-			RequestLogger.updateSessionLog( acquisition + " " + item );
-		}
-
 		int itemCount = StringUtilities.parseInt( countString );
-		lastResult = ItemPool.get( ItemDatabase.getItemId( itemName, itemCount ), itemCount );
+		AdventureResult result = ItemPool.get( ItemDatabase.getItemId( itemName, itemCount ), itemCount );
 
-		if ( data == null )
+		ResultProcessor.processItem( acquisition, result, data );
+	}
+
+	private static void processItem( String acquisition, AdventureResult result, List data )
+	{
+		if ( data != null )
 		{
-			processResult( lastResult );
+			AdventureResult.addResultToList( data, result );
 			return;
 		}
 
-		AdventureResult.addResultToList( data, lastResult );
+		String message = acquisition + " " + result.getName();
+
+		RequestLogger.printLine( message );
+		if ( Preferences.getBoolean( "logAcquiredItems" ) )
+		{
+			RequestLogger.updateSessionLog( message );
+		}
+
+		processResult( result );
 	}
 
 	private static boolean processEffect( StringTokenizer parsedResults, String acquisition, List data )
@@ -455,7 +457,7 @@ public class ResultProcessor
 		return parseEffect( effectName + " (" + duration + ")" );
 	}
 
-	public static AdventureResult parseResult( String result )
+	private static AdventureResult parseResult( String result )
 	{
 		String trimResult = result.trim();
 		RequestLogger.updateDebugLog( "Parsing result: " + trimResult );
@@ -500,33 +502,32 @@ public class ResultProcessor
 			return true;
 		}
 
-		AdventureResult lastResult = ResultProcessor.parseResult( lastToken );
-		if ( data == null )
+		AdventureResult result = ResultProcessor.parseResult( lastToken );
+		if ( data != null )
 		{
-			processResult( lastResult );
-			if ( lastResult.getName().equals( AdventureResult.SUBSTATS ) )
+			if ( result.getName().equals( AdventureResult.MEAT ) )
 			{
-				if ( Preferences.getBoolean( "logStatGains" ) )
-				{
-					RequestLogger.updateSessionLog( lastToken );
-				}
-			}
-			else if ( Preferences.getBoolean( "logGainMessages" ) )
-			{
-				RequestLogger.updateSessionLog( lastToken );
+				AdventureResult.addResultToList( data, result );
 			}
 
+			return false;
 		}
-		else if ( lastResult.getName().equals( AdventureResult.MEAT ) )
+
+		boolean shouldRefresh =	 processResult( result );
+
+		if ( result.getName().equals( AdventureResult.SUBSTATS ) )
 		{
-			AdventureResult.addResultToList( data, lastResult );
-			if ( Preferences.getBoolean( "logGainMessages" ) )
+			if ( Preferences.getBoolean( "logStatGains" ) )
 			{
 				RequestLogger.updateSessionLog( lastToken );
 			}
 		}
+		else if ( Preferences.getBoolean( "logGainMessages" ) )
+		{
+			RequestLogger.updateSessionLog( lastToken );
+		}
 
-		return false;
+		return shouldRefresh;
 	}
 
 	private static void processDiscard( String lastToken )
@@ -540,7 +541,7 @@ public class ResultProcessor
 		}
 	}
 
-	public static boolean parseEffect( String result )
+	private static boolean parseEffect( String result )
 	{
 		RequestLogger.updateDebugLog( "Parsing effect: " + result );
 
@@ -561,8 +562,7 @@ public class ResultProcessor
 
 	public static boolean processResult( AdventureResult result )
 	{
-		// This should not happen, but check just in case and
-		// return if the result was null.
+		// This should not happen, but punt if the result was null.
 
 		if ( result == null )
 		{
@@ -634,6 +634,7 @@ public class ResultProcessor
 			{
 				BarrelDecorator.gainItem( result );
 			}
+
 			if ( RequestLogger.getLastURLString().startsWith( "fight.php" ) )
 			{
 				int adv = KoLAdventure.lastAdventureId();
@@ -642,20 +643,17 @@ public class ResultProcessor
 					CellarDecorator.gainItem( adv, result );
 				}
 			}
-		}
 
-		// Process the adventure result through the conditions
-		// list, removing it if the condition is satisfied.
-
-		if ( result.isItem() && HermitRequest.isWorthlessItem( result.getItemId() ) )
-		{
-			result = HermitRequest.WORTHLESS_ITEM.getInstance( result.getCount() );
-		}
+                        if ( HermitRequest.isWorthlessItem( result.getItemId() ) )
+                        {
+                                result = HermitRequest.WORTHLESS_ITEM.getInstance( result.getCount() );
+                        }
+                }
 
 		// Now, if it's an actual stat gain, be sure to update the
 		// list to reflect the current value of stats so far.
 
-		if ( resultName.equals( AdventureResult.SUBSTATS ) && KoLConstants.tally.size() >= 3 )
+		if ( resultName.equals( AdventureResult.SUBSTATS ) )
 		{
 			int currentTest =
 				KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMuscle() ) - KoLmafia.initialStats[ 0 ];
@@ -678,9 +676,11 @@ public class ResultProcessor
 		}
 
 		int conditionIndex = KoLConstants.conditions.indexOf( result );
-
 		if ( conditionIndex != -1 )
 		{
+			// Process the adventure result through the conditions
+			// list, removing it if the condition is satisfied.
+
 			ResultProcessor.processCondition( result, resultName, conditionIndex );
 		}
 
@@ -737,8 +737,8 @@ public class ResultProcessor
 	}
 
 	/**
-	 * Processes a result received through adventuring. This places items inside of inventories and lots of other good
-	 * stuff.
+	 * Processes a result received through adventuring. This places items
+	 * inside of inventories and lots of other good stuff.
 	 */
 
 	public static final void tallyResult( final AdventureResult result, final boolean updateCalculatedLists )
@@ -855,7 +855,7 @@ public class ResultProcessor
 		}
 	}
 
-	public static void gainItem( AdventureResult result )
+	private static void gainItem( AdventureResult result )
 	{
 		// All results, whether positive or negative, are
 		// handled here.
