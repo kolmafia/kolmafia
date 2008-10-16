@@ -1688,6 +1688,7 @@ Rainbow Bright	Hot Damage: +5, Cold Damage: +5, Stench Damage: +5, Spooky Damage
 Rainy Soul Miasma	Muscle: +10, Mysticality: +10, Moxie: -5
 Raving Lunatic	Melee Damage: +20
 Really Quite Poisoned	Muscle Percent: -70, Mysticality Percent: -70, Moxie Percent: -70, Muscle: -9, Mysticality: -9, Moxie: -9
+Red Door Syndrome	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
 Red Tongue	Meat Drop: +30
 Reedy Pipes	Moxie Percent: +5
 Reptilian Fortitude	Maximum HP: +30
