@@ -719,7 +719,7 @@ public class UseItemRequest
 			this.addFormField( "which", "1" );
 			if ( queuedDrinkHelper != null && queuedDrinkHelperCount > 0 )
 			{
-				if ( this.queuedFoodHelper.getItemId() == ItemPool.FROSTYS_MUG )
+				if ( this.queuedDrinkHelper.getItemId() == ItemPool.FROSTYS_MUG )
 				{
 					UseItemRequest.lastUpdate = this.elementalHelper( "Coldform",
 						MonsterDatabase.COLD, 1000 );
