@@ -39,6 +39,7 @@ import javax.swing.JCheckBox;
 
 import net.sourceforge.kolmafia.MPRestoreItemList.MPRestoreItem;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
 import net.sourceforge.kolmafia.request.CampgroundRequest;
@@ -74,6 +75,8 @@ public abstract class HPRestoreItemList
 	public static final HPRestoreItem SCROLL = new HPRestoreItem( "scroll of drastic healing", Integer.MAX_VALUE );
 	private static final HPRestoreItem MASSAGE_OIL = new HPRestoreItem( "scented massage oil", Integer.MAX_VALUE );
 	private static final HPRestoreItem COCOON = new HPRestoreItem( "Cannelloni Cocoon", Integer.MAX_VALUE );
+	private static final HPRestoreItem GRUB =
+		new HPRestoreItem( "plump juicy grub", 95 );
 
 	public static final HPRestoreItem[] CONFIGURES = new HPRestoreItem[]
 	{
@@ -91,6 +94,7 @@ public abstract class HPRestoreItemList
 		new HPRestoreItem( "filthy poultice", 100 ),
 		new HPRestoreItem( "gauze garter", 100 ),
 		new HPRestoreItem( "bottle of Vangoghbitussin", 100 ),
+		HPRestoreItemList.GRUB,
 		new HPRestoreItem( "ancient Magi-Wipes", 55 ),
 		new HPRestoreItem( "green pixel potion", 50 ),
 		new HPRestoreItem( "phonics down", 48 ),
@@ -250,6 +254,12 @@ public abstract class HPRestoreItemList
 		public void recoverHP( final int needed, final boolean purchase )
 		{
 			if ( !KoLmafia.permitsContinue() )
+			{
+				return;
+			}
+			
+			if ( this == HPRestoreItemList.GRUB && !KoLConstants.activeEffects.contains( 
+				EffectPool.get( EffectPool.FORM_OF_BIRD ) ) )
 			{
 				return;
 			}

@@ -38,6 +38,7 @@ import java.util.TreeMap;
 import javax.swing.JCheckBox;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -77,6 +78,8 @@ public abstract class MPRestoreItemList
 	public static final MPRestoreItem MYSTERY_JUICE =
 		new MPRestoreItem( "magical mystery juice", Integer.MAX_VALUE, 100, true );
 	public static final MPRestoreItem SELTZER = new MPRestoreItem( "Knob Goblin seltzer", 10, 80, true );
+	private static final MPRestoreItem MOTH =
+		new MPRestoreItem( "delicious shimmering moth", 35, false );
 
 	public static final MPRestoreItem[] CONFIGURES = new MPRestoreItem[]
 	{
@@ -101,6 +104,7 @@ public abstract class MPRestoreItemList
 		new MPRestoreItem( "palm-frond fan", 37, false ),
 		new MPRestoreItem( "honey-dipped locust", 36, false ),
 		new MPRestoreItem( "Marquis de Poivre soda", 35, false ),
+		MPRestoreItemList.MOTH,
 		new MPRestoreItem( "green pixel potion", 35, true ),
 		new MPRestoreItem( "blue paisley oyster egg", 33, false ),
 		new MPRestoreItem( "blue polka-dot oyster egg", 33, false ),
@@ -234,6 +238,12 @@ public abstract class MPRestoreItemList
 		public void recoverMP( final int needed, final boolean purchase )
 		{
 			if ( !KoLmafia.permitsContinue() )
+			{
+				return;
+			}
+			
+			if ( this == MPRestoreItemList.MOTH && !KoLConstants.activeEffects.contains( 
+				EffectPool.get( EffectPool.FORM_OF_BIRD ) ) )
 			{
 				return;
 			}
