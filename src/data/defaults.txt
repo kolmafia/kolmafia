@@ -281,6 +281,8 @@ user	plantingDate
 user	plantingDay	-1
 user	plantingLength
 user	plantingScript
+user	postAscensionScript
+user	preAscensionScript
 user	preBlackbirdFamiliar
 user	prismaticSummons	0
 user	reagentSummons	0

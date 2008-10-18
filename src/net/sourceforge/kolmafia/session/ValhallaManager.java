@@ -6,6 +6,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -52,6 +53,9 @@ public class ValhallaManager
 		{
 			BreakfastManager.visitPyro();
 		}
+		
+		// User-defined actions:
+		KoLmafiaCLI.DEFAULT_SHELL.executeLine( Preferences.getString( "preAscensionScript" ) );
 	}
 
 	public static void onAscension()
@@ -151,6 +155,7 @@ public class ValhallaManager
 		}
 
 		sessionStream.println( KoLCharacter.getClassType() );
+		sessionStream.println( KoLCharacter.getSign() );
 		sessionStream.println();
 		sessionStream.println();
 
@@ -163,6 +168,9 @@ public class ValhallaManager
 		sessionStream.println();
 
 		RequestThread.closeRequestSequence();
+		
+		// User-defined actions:
+		KoLmafiaCLI.DEFAULT_SHELL.executeLine( Preferences.getString( "postAscensionScript" ) );
 	}
 
 	public static final void resetPerAscensionCounters()
