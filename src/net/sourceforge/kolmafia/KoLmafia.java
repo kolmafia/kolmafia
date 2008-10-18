@@ -1371,7 +1371,11 @@ public abstract class KoLmafia
 		{
 			if ( mpRestoreSetting.indexOf( MPRestoreItemList.CONFIGURES[ i ].toString().toLowerCase() ) != -1 )
 			{
-				restoreCount += MPRestoreItemList.CONFIGURES[ i ].getItem().getCount( KoLConstants.inventory );
+				AdventureResult item = MPRestoreItemList.CONFIGURES[ i ].getItem();
+				if ( item != null )
+				{
+					restoreCount += item.getCount( KoLConstants.inventory );
+				}
 			}
 		}
 
