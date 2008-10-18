@@ -769,7 +769,7 @@ public class AdventureResult
 				sourceList.remove( index );
 				return;
 			}
-			else if ( sumResult.getCount() < 0 && ( sourceList == KoLConstants.tally && !Preferences.getBoolean( "allowNegativeTally" ) ) )
+			else if ( sumResult.getCount() < 0 && ( sourceList != KoLConstants.tally || !Preferences.getBoolean( "allowNegativeTally" ) ) )
 			{
 				sourceList.remove( index );
 				return;
