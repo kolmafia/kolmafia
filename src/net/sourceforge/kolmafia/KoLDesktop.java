@@ -427,6 +427,8 @@ public class KoLDesktop
 		toolbarPanel.add( Box.createHorizontalStrut( 10 ) );
 		toolbarPanel.add( new InvocationButton( "Collect Garbage", "trashield.gif", StaticEntity.getClient(), "gc" ) );
 
+		toolbarPanel.add( Box.createHorizontalStrut( 5 ) );
+
 		return toolbarPanel;
 	}
 
