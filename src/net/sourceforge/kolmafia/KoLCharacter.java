@@ -623,11 +623,6 @@ public abstract class KoLCharacter
 		if ( KoLCharacter.classtype == null )
 		{
 			KoLCharacter.classtype = KoLCharacter.getClassType( KoLCharacter.classname );
-
-			if ( classtype.equals( KoLCharacter.ASTRAL_SPIRIT ) )
-			{
-				KoLCharacter.determineClassType();
-			}
 		}
 
 		return KoLCharacter.classtype;
@@ -648,27 +643,6 @@ public abstract class KoLCharacter
 			KoLCharacter.DISCO_BANDIT_RANKS.contains( classname ) ? KoLCharacter.DISCO_BANDIT :
 			KoLCharacter.ACCORDION_THIEF_RANKS.contains( classname ) ? KoLCharacter.ACCORDION_THIEF :
 			KoLCharacter.ASTRAL_SPIRIT;
-	}
-
-	public static final void determineClassType()
-	{
-		GenericRequest accountAvatar = new GenericRequest( "account_avatar.php" );
-		KoLmafia.updateDisplay( "Determining player class type..." );
-		RequestThread.postRequest( accountAvatar );
-
-		if ( accountAvatar.responseText == null )
-		{
-			return;
-		}
-
-		Pattern classNamePattern = Pattern.compile( "the Level \\d+ ([^<]+)</td><td class=small><i>\\(default\\)</i></td>" );
-		Matcher classNameMatcher = classNamePattern.matcher( accountAvatar.responseText );
-
-		if ( classNameMatcher.find() )
-		{
-			KoLCharacter.setClassName( classNameMatcher.group(1) );
-		}
-
 	}
 
 	public static final boolean isMuscleClass()
