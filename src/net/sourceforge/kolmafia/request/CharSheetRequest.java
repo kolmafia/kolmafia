@@ -153,6 +153,18 @@ public class CharSheetRequest
 		int maximumMP = GenericRequest.intToken( cleanContent );
 		token = cleanContent.nextToken();
 		KoLCharacter.setMP( currentMP, maximumMP, CharSheetRequest.retrieveBase( token, maximumMP ) );
+		
+		// Players with a custom title will have their actual class shown in this area.
+		
+		while ( !token.startsWith( "Mus" ) )
+		{
+			if ( token.equals( "Class:" ) )
+			{
+				KoLCharacter.setClassName( cleanContent.nextToken().trim() );
+				break;
+			}
+			token = cleanContent.nextToken();
+		}
 
 		// Next, you begin parsing the different stat points;
 		// this involves hunting for the stat point's name,
