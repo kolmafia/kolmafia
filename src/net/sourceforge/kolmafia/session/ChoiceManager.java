@@ -883,7 +883,13 @@ public abstract class ChoiceManager
 		// Choice 209 is Timbarrrr!
 		// Choice 210 is Stumped
 
-		// Choice 211 & 212 are Despite All Your Rage
+		// Despite All Your Rage
+		new ChoiceAdventure(
+			"Hobopolis", "choiceAdventure211", "A Maze of Sewer Tunnels",
+			new String[] { "gnaw through the bars" } ),
+			
+		// Choice 212 is also Despite All Your Rage, apparently after you've already
+		// tried to wait for rescue?
 
 		// Piping Hot
 		new ChoiceAdventure(
@@ -1981,6 +1987,7 @@ public abstract class ChoiceManager
 		// The Former or the Ladder
 
 		String text = request.responseText;
+		int explorations = 0;
 
 		// You steel your nerves and descend into the darkened tunnel.
 		if ( text.indexOf( "You steel your nerves and descend into the darkened tunnel." ) == -1 )
@@ -1994,16 +2001,31 @@ public abstract class ChoiceManager
 		// of the glyphs is code for 'shortcut', while the others are
 		// the glyphs for 'longcut' and 'crewcut', respectively. You
 		// head down the 'shortcut' tunnel.
+		
+		if ( text.indexOf( "'crewcut'" ) != -1 )
+		{
+			explorations += 1;
+		}
 
 		// You flip through your code binder, and gain a basic
 		// understanding of the sign: "This ladder just goes in a big
 		// circle. If you climb it you'll end up back where you
 		// started." You continue down the tunnel, instead.
 
+		if ( text.indexOf( "in a big circle" ) != -1 )
+		{
+			explorations += 3;
+		}
+
 		// You consult your binder and translate the glyphs -- one of
 		// them says "This way to the Great Egress" and the other two
 		// are just advertisements for Amalgamated Ladderage, Inc. You
 		// head toward the Egress.
+
+		if ( text.indexOf( "Amalgamated Ladderage" ) != -1 )
+		{
+			explorations += 5;
+		}
 
 		// *** ITEM TESTS ***
 
@@ -2013,6 +2035,7 @@ public abstract class ChoiceManager
 		{
 			// Remove unfortunate dumplings from inventory
 			ResultProcessor.processItem( ItemPool.DUMPLINGS, -1 );
+			++explorations;
 			if ( !InventoryManager.hasItem( ItemPool.DUMPLINGS ) )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE,
@@ -2026,6 +2049,7 @@ public abstract class ChoiceManager
 		{
 			// Remove sewer wad from inventory
 			ResultProcessor.processItem( ItemPool.SEWER_WAD, -1 );
+			++explorations;
 			if ( !InventoryManager.hasItem( ItemPool.SEWER_WAD ) )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE,
@@ -2039,6 +2063,7 @@ public abstract class ChoiceManager
 		{
 			// Remove bottle of Ooze-O from inventory
 			ResultProcessor.processItem( ItemPool.OOZE_O, -1 );
+			++explorations;
 			if ( !InventoryManager.hasItem( ItemPool.OOZE_O ) )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE,
@@ -2057,6 +2082,7 @@ public abstract class ChoiceManager
 		{
 			// Remove 3 bottles of oil of oiliness from inventory
 			ResultProcessor.processItem( ItemPool.OIL_OF_OILINESS, -3 );
+			++explorations;
 			if ( InventoryManager.getCount( ItemPool.OIL_OF_OILINESS ) < 3 )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE,
@@ -2072,6 +2098,7 @@ public abstract class ChoiceManager
 		{
 			// Unequip gatorskin umbrella and discard it.
 
+			++explorations;
 			AdventureResult umbrella = ItemPool.get( ItemPool.GATORSKIN_UMBRELLA, 1 );
 			int slot = EquipmentManager.WEAPON;
 			if ( KoLCharacter.hasEquipped( umbrella, EquipmentManager.WEAPON ) )
@@ -2102,6 +2129,13 @@ public abstract class ChoiceManager
 		// Further into the sewer, you encounter a halfway-open grate
 		// with a crank on the opposite side. What luck -- looks like
 		// somebody else opened this grate from the other side!
+		
+		if ( text.indexOf( "somebody else opened this grate" ) != -1 )
+		{
+			explorations += 5;
+		}
+		
+		KoLmafia.updateDisplay( "+" + explorations + " Explorations" );
 	}
 
 	private static final String specialChoiceDecision( final String option, final String decision )
