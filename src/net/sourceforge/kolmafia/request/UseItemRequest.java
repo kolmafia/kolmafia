@@ -1102,6 +1102,14 @@ public class UseItemRequest
 			}
 
 			return;
+		
+		case ItemPool.GONG:
+			// You're already in the middle of a journey of reincarnation.
+			if ( responseText.indexOf( "middle of a journey of reincarnation" ) != -1 )
+			{
+				ResultProcessor.processResult( item );
+			}
+			return;
 
 		case ItemPool.ENCHANTED_BEAN:
 

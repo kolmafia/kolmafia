@@ -492,6 +492,7 @@ public class ItemPool
 	public static final int FERMENTED_PICKLE_JUICE = 3325;
 	public static final int EXTRA_GREASY_SLIDER = 3327;
 	public static final int DOUBLE_SIDED_TAPE = 3336;
+	public static final int GONG = 3353;
 	public static final int GRUB = 3356;
 	public static final int MOTH = 3357;
 	public static final int FIRE_ANT = 3358;

@@ -1195,6 +1195,82 @@ public abstract class ChoiceManager
 		new ChoiceAdventure(
 			"choiceAdventure162", "Goatlet",
 			new String[] { "Open Goatlet", "skip adventure" } ),
+		
+		// The Gong Has Been Bung
+		new ChoiceAdventure(
+			"choiceAdventure276", "Gong",
+			new String[] { "3 adventures", "12 adventures", "15 adventures" } ),
+			
+		// Welcome Back!
+		new ChoiceAdventure(
+			"choiceAdventure277", "Gong",
+			new String[] { "finish journey", "also finish journey" } ),
+			
+		// Enter the Roach
+		new ChoiceAdventure(
+			"choiceAdventure278", "Gong",
+			new String[] { "muscle substats", "mysticality substats", "moxie substats" } ),
+			
+		// It's Nukyuhlur - the 'S' is Silent.
+		new ChoiceAdventure(
+			"choiceAdventure279", "Gong",
+			new String[] { "moxie substats", "muscle substats", "gain MP" } ),
+			
+		// Eek! Eek!
+		new ChoiceAdventure(
+			"choiceAdventure280", "Gong",
+			new String[] { "mysticality substats", "muscle substats", "gain MP" } ),
+			
+		// A Meta-Metamorphosis
+		new ChoiceAdventure(
+			"choiceAdventure281", "Gong",
+			new String[] { "moxie substats", "mysticality substats", "gain MP" } ),
+			
+		// You've Got Wings, But No Wingman
+		new ChoiceAdventure(
+			"choiceAdventure282", "Gong",
+			new String[] { "+30% muscle", "+10% all stats", "+30 ML" } ),
+			
+		// Time Enough at Last!
+		new ChoiceAdventure(
+			"choiceAdventure283", "Gong",
+			new String[] { "+30% muscle", "+10% all stats", "+50% item drops" } ),
+			
+		// Scavenger Is Your Middle Name
+		new ChoiceAdventure(
+			"choiceAdventure284", "Gong",
+			new String[] { "+30% muscle", "+50% item drops", "+30 ML" } ),
+			
+		// Bugging Out
+		new ChoiceAdventure(
+			"choiceAdventure285", "Gong",
+			new String[] { "+30% mysticality", "+30 ML", "+10% all stats" } ),
+			
+		// A Sweeping Generalization
+		new ChoiceAdventure(
+			"choiceAdventure286", "Gong",
+			new String[] { "+50% item drops", "+10% all stats", "+30% mysticality" } ),
+			
+		// In the Frigid Aire
+		new ChoiceAdventure(
+			"choiceAdventure287", "Gong",
+			new String[] { "+30 ML", "+30% mysticality", "+50% item drops" } ),
+			
+		// Our House
+		new ChoiceAdventure(
+			"choiceAdventure288", "Gong",
+			new String[] { "+30 ML", "+30% moxie", "+10% all stats" } ),
+			
+		// Workin' For The Man
+		new ChoiceAdventure(
+			"choiceAdventure289", "Gong",
+			new String[] { "+30 ML", "+30% moxie", "+50% item drops" } ),
+			
+		// The World's Not Fair
+		new ChoiceAdventure(
+			"choiceAdventure290", "Gong",
+			new String[] { "+30% moxie", "+10% all stats", "+50% item drops" } ),
+			
 	};
 
 	// Some choice adventures have options that cost meat or items
@@ -1733,6 +1809,11 @@ public abstract class ChoiceManager
 
 		switch ( ChoiceManager.lastChoice )
 		{
+		// The Gong Has Been Bung
+		case 276:
+			Preferences.setInteger( "moleTunnelLevel", 0 );
+			break;
+		
 		// Strung-Up Quartet
 		case 106:
 
