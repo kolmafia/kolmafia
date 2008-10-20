@@ -494,6 +494,12 @@ public class CharPaneDecorator
 					Preferences.getString( "olfactedMonster" ) ) );
 				buffer.append( ", " );
 			}
+			else if ( effectName.equalsIgnoreCase( "Shape of...Mole!" ) )
+			{
+				int level = Preferences.getInteger( "moleTunnelLevel" );
+				buffer.append( (level >= 0 ? "+" : "") + level );
+				buffer.append( ", " );
+			}
 			if ( !removeAction.equals( "" ) )
 			{
 				buffer.append( "<a href=\"/KoLmafia/sideCommand?cmd=" );

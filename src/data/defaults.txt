@@ -267,6 +267,7 @@ user	louvreOverride
 user	luckySewerAdventure	stolen accordion
 user	manaBurnSummonThreshold	10
 user	manaBurningThreshold	-0.05
+user	moleTunnelLevel	0
 user	mpAutoRecovery	0.0
 user	mpAutoRecoveryItems	phonics down;knob goblin superseltzer;mountain stream soda;magical mystery juice;knob goblin seltzer;cherry cloaca cola;soda water
 user	mpAutoRecoveryTarget	0.3
@@ -477,7 +478,20 @@ user	choiceAdventure224	2
 user	choiceAdventure225	0
 user	choiceAdventure272	2
 user	choiceAdventure273	3
+user	choiceAdventure276	0
 user	choiceAdventure277	1
+user	choiceAdventure278	0
+user	choiceAdventure279	0
+user	choiceAdventure280	0
+user	choiceAdventure281	0
+user	choiceAdventure282	0
+user	choiceAdventure283	0
+user	choiceAdventure284	0
+user	choiceAdventure286	0
+user	choiceAdventure287	0
+user	choiceAdventure288	0
+user	choiceAdventure289	0
+user	choiceAdventure290	0
 user	choiceAdventure291	0
 user	choiceAdventure292	0
 user	choiceAdventure293	0

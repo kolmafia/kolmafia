@@ -2005,6 +2005,14 @@ public class FightRequest
 						Preferences.setString( "olfactedMonster",
 							FightRequest.encounterLookup );
 					}
+					else if ( skill.equalsIgnoreCase( "Tunnel Upwards" ) )
+					{
+						Preferences.increment( "moleTunnelLevel", 1 );
+					}
+					else if ( skill.equalsIgnoreCase( "Tunnel Downwards" ) )
+					{
+						Preferences.increment( "moleTunnelLevel", -1 );
+					}
 					FightRequest.action1 = CustomCombatManager.getShortCombatOptionName( "skill " + skill );
 					if ( shouldLogAction )
 					{
