@@ -3541,9 +3541,25 @@ public abstract class KoLmafia
 		}
 	}
 
+	public static void logout()
+	{
+		if ( KoLDesktop.instanceExists() )
+		{
+			KoLDesktop.getInstance().dispose();
+		}
+
+		Frame[] frames = Frame.getFrames();
+		for ( int i = 0; i < frames.length; ++i )
+		{
+			frames[ i ].dispose();
+		}
+
+		RequestThread.postRequest( new LogoutRequest() );
+	}
+
 	public static void quit()
 	{
-		RequestThread.postRequest( new LogoutRequest() );
+		logout();
 		System.exit( 0 );
 	}
 

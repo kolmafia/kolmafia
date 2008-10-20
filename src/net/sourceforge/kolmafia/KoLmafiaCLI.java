@@ -77,7 +77,6 @@ import net.sourceforge.kolmafia.request.HellKitchenRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.IslandArenaRequest;
 import net.sourceforge.kolmafia.request.LoginRequest;
-import net.sourceforge.kolmafia.request.LogoutRequest;
 import net.sourceforge.kolmafia.request.MicroBreweryRequest;
 import net.sourceforge.kolmafia.request.MindControlRequest;
 import net.sourceforge.kolmafia.request.ProfileRequest;
@@ -1144,15 +1143,14 @@ public class KoLmafiaCLI
 
 		if ( command.equals( "login" ) )
 		{
-			RequestThread.postRequest( new LogoutRequest() );
-
+			KoLmafia.logout();
 			this.attemptLogin( parameters );
 			return;
 		}
 
 		if ( command.equals( "logout" ) )
 		{
-			RequestThread.postRequest( new LogoutRequest() );
+			KoLmafia.logout();
 			return;
 		}
 
@@ -2416,7 +2414,7 @@ public class KoLmafiaCLI
 				TurnCounter.clearCounters();
 				return;
 			}
-			
+
 			if ( parameters.startsWith( "add " ) )
 			{
 				TurnCounter.startCounting( StringUtilities.parseInt( parameters.substring( 4 ) ),
@@ -2463,7 +2461,7 @@ public class KoLmafiaCLI
 			AdventureDatabase.addAdventure( adventure );
 			return;
 		}
-		
+
 		if ( command.equals( "spade" ) )
 		{
 			String[] data = Preferences.getString( "spadingData" ).split( "\\|" );
@@ -3900,15 +3898,15 @@ public class KoLmafiaCLI
 				desiredData.equals( "outfits" ) ? EquipmentManager.getOutfits() :
 				desiredData.equals( "familiars" ) ? KoLCharacter.getFamiliarList() :
 				KoLConstants.inventory;
-				
+
 			if ( desiredData.equals( "effects" ) )
 			{
 				mainList = KoLConstants.activeEffects;
 				AdventureResult[] effects = new AdventureResult[ mainList.size() ];
 				mainList.toArray( effects );
-		
+
 				int nBuffs = 0;
-		
+
 				for ( int i = 0; i < effects.length; ++i )
 				{
 					String skillName = UneffectRequest.effectToSkill( effects[ i ].getName() );
@@ -3921,7 +3919,7 @@ public class KoLmafiaCLI
 						}
 					}
 				}
-			
+
 				desiredStream.println( nBuffs + " of " + UseSkillRequest.songLimit() +
 					" AT buffs active." );
 			}
@@ -4668,7 +4666,7 @@ public class KoLmafiaCLI
 		{
 			parameters = parameters.substring( 7 ).trim();
 		}
-		
+
 		if ( command.equals( "eat" ) )
 		{
 			if ( this.makeHellKitchenRequest( parameters ) )
@@ -4723,7 +4721,7 @@ public class KoLmafiaCLI
 			{
 				currentMatch = (AdventureResult) itemList[ i ];
 				int consumpt = ItemDatabase.getConsumptionType( currentMatch.getItemId() );
-	
+
 				if ( command.equals( "eat" ) && consumpt == KoLConstants.CONSUME_FOOD_HELPER )
 				{	// allowed
 				}
@@ -4735,7 +4733,7 @@ public class KoLmafiaCLI
 						return;
 					}
 				}
-	
+
 				if ( command.equals( "drink" ) && consumpt == KoLConstants.CONSUME_DRINK_HELPER )
 				{	// allowed
 				}
@@ -4748,7 +4746,7 @@ public class KoLmafiaCLI
 						return;
 					}
 				}
-	
+
 				if ( command.equals( "use" ) )
 				{
 					switch ( consumpt )
@@ -4764,7 +4762,7 @@ public class KoLmafiaCLI
 						return;
 					}
 				}
-	
+
 				int have = currentMatch.getCount( KoLConstants.inventory );
 				if ( level > 0 || have > 0 )
 				{
@@ -4776,7 +4774,7 @@ public class KoLmafiaCLI
 						command.equals( "hobo" ) ? new UseItemRequest( KoLConstants.CONSUME_HOBO, currentMatch ) :
 						command.equals( "ghost" ) ? new UseItemRequest( KoLConstants.CONSUME_GHOST, currentMatch ) :
 						new UseItemRequest( currentMatch );
-		
+
 					RequestThread.postRequest( request );
 					if ( level < 2 )
 					{

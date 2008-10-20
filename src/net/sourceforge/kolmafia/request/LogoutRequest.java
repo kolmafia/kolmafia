@@ -73,17 +73,6 @@ public class LogoutRequest
 		LogoutRequest.isRunning = true;
 		KoLmafia.updateDisplay( "Preparing for logout..." );
 
-		if ( KoLDesktop.instanceExists() )
-		{
-			KoLDesktop.getInstance().dispose();
-		}
-
-		Frame[] frames = Frame.getFrames();
-		for ( int i = 0; i < frames.length; ++i )
-		{
-			frames[ i ].dispose();
-		}
-
 		KoLAdventure.resetAutoAttack();
 
 		ChatManager.dispose();
