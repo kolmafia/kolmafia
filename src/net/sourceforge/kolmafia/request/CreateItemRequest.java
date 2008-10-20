@@ -60,6 +60,7 @@ public class CreateItemRequest
 	private static final CreationRequestArray ALL_CREATIONS = new CreationRequestArray();
 
 	public static final Pattern ITEMID_PATTERN = Pattern.compile( "item\\d?=(\\d+)" );
+	public static final Pattern WHICHITEM_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
 	public static final Pattern QUANTITY_PATTERN = Pattern.compile( "(quantity|qty)=(\\d+)" );
 
 	public static final Pattern CRAFT_PATTERN_1 = Pattern.compile( "[\\&\\?](?:a|b)=(\\d+)" );
@@ -916,6 +917,12 @@ public class CreateItemRequest
 
 	public static final boolean registerRequest( final boolean isExternal, final String urlString )
 	{
+		int whichitem = -1;
+		Matcher whichMatcher = CreateItemRequest.WHICHITEM_PATTERN.matcher( urlString );
+		if ( whichMatcher.find() )
+		{
+			whichitem = StringUtilities.parseInt( whichMatcher.group( 1 ) );
+		}
 		// First, delegate subclasses, if it's a subclass request.
 
 		if ( urlString.startsWith( "starchart.php" ) )
@@ -953,13 +960,13 @@ public class CreateItemRequest
 			String tool = "";
 			String ingredient = "";
 
-			if ( urlString.indexOf( "whichitem=873" ) != -1 )
+			if ( whichitem == 873 )
 			{
 				// Rolling Pin
 				tool = "rolling pin";
 				ingredient = "wad of dough";
 			}
-			if ( urlString.indexOf( "whichitem=874" ) != -1 )
+			if ( whichitem == 874 )
 			{
 				// Unrolling Pin
 				tool = "unrolling pin";
@@ -992,17 +999,17 @@ public class CreateItemRequest
 			int item1 = -1;
 			int item2 = -1;
 
-			if ( urlString.indexOf( "whichitem=24" ) != -1 )
+			if ( whichitem == 24 )
 			{
 				// Ten-leaf clover
 				item1 = ItemPool.TEN_LEAF_CLOVER;
 			}
-			else if ( urlString.indexOf( "whichitem=196" ) != -1 )
+			else if ( whichitem == 196 )
 			{
 				// Disassembled clover
 				item1 = ItemPool.DISASSEMBLED_CLOVER;
 			}
-			else if ( urlString.indexOf( "whichitem=1605" ) != -1 )
+			else if ( whichitem == 1605 )
 			{
 				// Delectable Catalyst
 				method = "Mix ";
