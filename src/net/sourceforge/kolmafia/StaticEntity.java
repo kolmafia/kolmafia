@@ -54,6 +54,7 @@ import net.sourceforge.kolmafia.request.ArtistRequest;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
 import net.sourceforge.kolmafia.request.ChefStaffRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.GourdRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
@@ -196,6 +197,7 @@ public abstract class StaticEntity
 
 		public SystemBrowserThread( final String location )
 		{
+			super( "SystemBrowserThread@" + location );
 			this.location = location;
 		}
 
@@ -256,23 +258,30 @@ public abstract class StaticEntity
 	{
 		if ( location.startsWith( "account.php" ) )
 		{
-			boolean wasHardcore = KoLCharacter.isHardcore();
-			boolean hadRestrictions = !KoLCharacter.canEat() || !KoLCharacter.canDrink();
-
-			AccountRequest.parseAccountData( responseText );
-
-			if ( wasHardcore && !KoLCharacter.isHardcore() )
+			if ( location.indexOf( "&ajax" ) != -1 )
 			{
-				RequestLogger.updateSessionLog();
-				RequestLogger.updateSessionLog( "dropped hardcore" );
-				RequestLogger.updateSessionLog();
+				AccountRequest.parseAjax( location );
 			}
-
-			if ( hadRestrictions && KoLCharacter.canEat() && KoLCharacter.canDrink() )
+			else
 			{
-				RequestLogger.updateSessionLog();
-				RequestLogger.updateSessionLog( "dropped consumption restrictions" );
-				RequestLogger.updateSessionLog();
+				boolean wasHardcore = KoLCharacter.isHardcore();
+				boolean hadRestrictions = !KoLCharacter.canEat() || !KoLCharacter.canDrink();
+	
+				AccountRequest.parseAccountData( responseText );
+	
+				if ( wasHardcore && !KoLCharacter.isHardcore() )
+				{
+					RequestLogger.updateSessionLog();
+					RequestLogger.updateSessionLog( "dropped hardcore" );
+					RequestLogger.updateSessionLog();
+				}
+	
+				if ( hadRestrictions && KoLCharacter.canEat() && KoLCharacter.canDrink() )
+				{
+					RequestLogger.updateSessionLog();
+					RequestLogger.updateSessionLog( "dropped consumption restrictions" );
+					RequestLogger.updateSessionLog();
+				}
 			}
 		}
 

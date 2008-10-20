@@ -50,9 +50,13 @@ public class AccountRequest
 		Pattern.compile( "Turn On (\\S*?) Autosale Mode" );
 	private static final Pattern AUTOATTACK_PATTERN =
 		Pattern.compile( "<select class=small name=whichattack>.*?</select>", Pattern.DOTALL );
+	private static final Pattern AUTOATTACK_AJAX_PATTERN =
+		Pattern.compile( "whichattack=(\\d+)");
 
-	private static final Pattern SELECTED1_PATTERN = Pattern.compile( "value=(\\d+) selected>" );
-	private static final Pattern SELECTED2_PATTERN = Pattern.compile( "selected value=(\\d+)>" );
+	private static final Pattern SELECTED1_PATTERN =
+		Pattern.compile( "value=\"?(\\d+)\"? selected>" );
+	private static final Pattern SELECTED2_PATTERN =
+		Pattern.compile( "selected value=\"?(\\d+)\"?>" );
 
 	public AccountRequest()
 	{
@@ -68,6 +72,16 @@ public class AccountRequest
 	{
 		super.processResults();
 		AccountRequest.parseAccountData( this.responseText );
+	}
+	
+	public static final void parseAjax( final String location )
+	{
+		Matcher matcher = AccountRequest.AUTOATTACK_AJAX_PATTERN.matcher( location );
+		if ( matcher.find() )
+		{
+			Preferences.setInteger( "defaultAutoAttack",
+				StringUtilities.parseInt( matcher.group( 1 ) ) );
+		}
 	}
 
 	public static final void parseAccountData( final String responseText )
