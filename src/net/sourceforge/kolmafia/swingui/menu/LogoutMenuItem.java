@@ -35,7 +35,7 @@ package net.sourceforge.kolmafia.swingui.menu;
 
 import net.sourceforge.kolmafia.RequestThread;
 
-import net.sourceforge.kolmafia.request.LogoutRequest;
+import net.sourceforge.kolmafia.KoLmafia;
 
 public class LogoutMenuItem
 	extends ThreadedMenuItem
@@ -47,6 +47,6 @@ public class LogoutMenuItem
 
 	public void run()
 	{
-		RequestThread.postRequest( new LogoutRequest() );
+		KoLmafia.logout();
 	}
 }
