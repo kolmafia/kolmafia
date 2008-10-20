@@ -917,12 +917,6 @@ public class CreateItemRequest
 
 	public static final boolean registerRequest( final boolean isExternal, final String urlString )
 	{
-		int whichitem = -1;
-		Matcher whichMatcher = CreateItemRequest.WHICHITEM_PATTERN.matcher( urlString );
-		if ( whichMatcher.find() )
-		{
-			whichitem = StringUtilities.parseInt( whichMatcher.group( 1 ) );
-		}
 		// First, delegate subclasses, if it's a subclass request.
 
 		if ( urlString.startsWith( "starchart.php" ) )
@@ -957,23 +951,30 @@ public class CreateItemRequest
 				return true;
 			}
 
+			Matcher whichMatcher = CreateItemRequest.WHICHITEM_PATTERN.matcher( urlString );
+			if ( !whichMatcher.find() )
+			{
+				return false;
+			}
+
+			int whichitem = StringUtilities.parseInt( whichMatcher.group( 1 ) );
+
 			String tool = "";
 			String ingredient = "";
 
-			if ( whichitem == 873 )
+			switch ( whichitem )
 			{
+			case 873:
 				// Rolling Pin
 				tool = "rolling pin";
 				ingredient = "wad of dough";
-			}
-			if ( whichitem == 874 )
-			{
+				break;
+			case 874:
 				// Unrolling Pin
 				tool = "unrolling pin";
 				ingredient = "flat dough";
-			}
-			else
-			{
+				break;
+			default:
 				return false;
 			}
 
@@ -994,33 +995,39 @@ public class CreateItemRequest
 				return true;
 			}
 
-			int quantity = 1;
-			String method = "Use ";
-			int item1 = -1;
-			int item2 = -1;
-
-			if ( whichitem == 24 )
-			{
-				// Ten-leaf clover
-				item1 = ItemPool.TEN_LEAF_CLOVER;
-			}
-			else if ( whichitem == 196 )
-			{
-				// Disassembled clover
-				item1 = ItemPool.DISASSEMBLED_CLOVER;
-			}
-			else if ( whichitem == 1605 )
-			{
-				// Delectable Catalyst
-				method = "Mix ";
-				item1 = ItemPool.CATALYST;
-				item2 = ItemPool.REAGENT;
-			}
-			else
+			Matcher whichMatcher = CreateItemRequest.WHICHITEM_PATTERN.matcher( urlString );
+			if ( !whichMatcher.find() )
 			{
 				return false;
 			}
 
+			int whichitem = StringUtilities.parseInt( whichMatcher.group( 1 ) );
+
+			String method = "Use ";
+			int item1 = -1;
+			int item2 = -1;
+
+			switch ( whichitem )
+			{
+			case 24:
+				// Ten-leaf clover
+				item1 = ItemPool.TEN_LEAF_CLOVER;
+				break;
+			case 196:
+				// Disassembled clover
+				item1 = ItemPool.DISASSEMBLED_CLOVER;
+				break;
+			case 1605:
+				// Delectable Catalyst
+				method = "Mix ";
+				item1 = ItemPool.CATALYST;
+				item2 = ItemPool.REAGENT;
+				break;
+			default:
+				return false;
+			}
+
+			int quantity = 1;
 			Matcher quantityMatcher = CreateItemRequest.QUANTITY_PATTERN.matcher( urlString );
 			if ( quantityMatcher.find() )
 			{
