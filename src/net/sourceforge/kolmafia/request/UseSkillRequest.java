@@ -846,9 +846,23 @@ public class UseSkillRequest
 
 			// Tongue of the Walrus (1010) automatically
 			// removes any beaten up.
+			
+			if ( SkillDatabase.isLibramSkill( this.skillId ) )
+			{
+				// UGLY HACK WARNING!
+				// libramSummons has already been incremented at this point, so the
+				// MP adjustment below will use a too-large value.  Temporarily
+				// decrementing it seems the easiest fix.
+				Preferences.increment( "libramSummons", -1 );
+			}
 
 			ResultProcessor.processResult(
 				new AdventureResult( AdventureResult.MP, 0 - SkillDatabase.getMPConsumptionById( this.skillId ) * this.buffCount ) );
+
+			if ( SkillDatabase.isLibramSkill( this.skillId ) )
+			{
+				Preferences.increment( "libramSummons", 1 );
+			}
 
 			if ( this.skillId == UseSkillRequest.OTTER_TONGUE || this.skillId == UseSkillRequest.WALRUS_TONGUE )
 			{
