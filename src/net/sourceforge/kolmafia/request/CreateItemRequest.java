@@ -65,6 +65,10 @@ public class CreateItemRequest
 
 	public static final Pattern CRAFT_PATTERN_1 = Pattern.compile( "[\\&\\?](?:a|b)=(\\d+)" );
 	public static final Pattern CRAFT_PATTERN_2 = Pattern.compile( "steps\\[\\]=(\\d+),(\\d+)" );
+	
+	public static final Pattern CRAFT_COMMENT_PATTERN =
+		Pattern.compile( "<!-- ?cr:(\\d+)x(\\d+),(\\d+)=(\\d+) ?-->" );
+	// 1=quantity, 2,3=items used, 4=result (redundant)
 
 	public AdventureResult createdItem;
 
@@ -528,6 +532,21 @@ public class CreateItemRequest
 
 		KoLmafia.updateDisplay( "Creating " + this.name + " (" + this.quantityNeeded + ")..." );
 		super.run();
+	}
+	
+	public static void parseCrafting( String responseText )
+	{
+		Matcher m = CRAFT_COMMENT_PATTERN.matcher( responseText );
+		while ( m.find() )
+		{
+			int qty = StringUtilities.parseInt( m.group( 1 ) );
+			int item1 = StringUtilities.parseInt( m.group( 2 ) );
+			int item2 = StringUtilities.parseInt( m.group( 3 ) );
+			ResultProcessor.processItem( item1, -qty );
+			ResultProcessor.processItem( item2, -qty );
+			RequestLogger.updateSessionLog( "Crafting used " + qty + " each of " +
+				ItemDatabase.getItemName( item1 ) + " and " + ItemDatabase.getItemName( item2 ) );		
+		}
 	}
 
 	public void processResults()

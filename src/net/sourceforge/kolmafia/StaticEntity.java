@@ -53,6 +53,7 @@ import net.sourceforge.kolmafia.request.AccountRequest;
 import net.sourceforge.kolmafia.request.ArtistRequest;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
 import net.sourceforge.kolmafia.request.ChefStaffRequest;
+import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -256,6 +257,11 @@ public abstract class StaticEntity
 
 	public static final void externalUpdate( final String location, final String responseText )
 	{
+		if ( location.startsWith( "craft.php" ) )
+		{
+			CreateItemRequest.parseCrafting( responseText );
+		}
+		
 		if ( location.startsWith( "account.php" ) )
 		{
 			if ( location.indexOf( "&ajax" ) != -1 )
