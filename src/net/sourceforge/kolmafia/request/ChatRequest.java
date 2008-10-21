@@ -53,65 +53,79 @@ public class ChatRequest
 	extends GenericRequest
 {
 	private static final ArrayList CHAT_COMMANDS = new ArrayList();
+	private static final ArrayList CHANNEL_COMMANDS = new ArrayList();
 
 	static
 	{
-		// Basic commands used by KoL.
+		// Basic KoL commands.
 
-		CHAT_COMMANDS.add( "/w" );
-		CHAT_COMMANDS.add( "/who" );
-		CHAT_COMMANDS.add( "/whois" );
+		ChatRequest.registerChatCommand( "/w", false );
+		ChatRequest.registerChatCommand( "/who", false );
+		ChatRequest.registerChatCommand( "/whois", false );
 
-		CHAT_COMMANDS.add( "/em" );
-		CHAT_COMMANDS.add( "/me" );
+		ChatRequest.registerChatCommand( "/w", false );
+		ChatRequest.registerChatCommand( "/who", false );
+		ChatRequest.registerChatCommand( "/whois", false );
 
-		CHAT_COMMANDS.add( "/msg" );
-		CHAT_COMMANDS.add( "/whisper" );
-		CHAT_COMMANDS.add( "/w" );
-		CHAT_COMMANDS.add( "/tell" );
-		CHAT_COMMANDS.add( "/r" );
-		CHAT_COMMANDS.add( "/reply" );
-		CHAT_COMMANDS.add( "/v" );
-		CHAT_COMMANDS.add( "/conv" );
+		ChatRequest.registerChatCommand( "/em", true );
+		ChatRequest.registerChatCommand( "/me", true );
 
-		CHAT_COMMANDS.add( "/ignore" );
-		CHAT_COMMANDS.add( "/baleet" );
-		CHAT_COMMANDS.add( "/friend" );
+		ChatRequest.registerChatCommand( "/msg", false );
+		ChatRequest.registerChatCommand( "/whisper", false );
+		ChatRequest.registerChatCommand( "/w", false );
+		ChatRequest.registerChatCommand( "/tell", false );
+		ChatRequest.registerChatCommand( "/r", false );
+		ChatRequest.registerChatCommand( "/reply", false );
+		ChatRequest.registerChatCommand( "/v", false );
+		ChatRequest.registerChatCommand( "/conv", false );
 
-		CHAT_COMMANDS.add( "/channel" );
-		CHAT_COMMANDS.add( "/c" );
-		CHAT_COMMANDS.add( "/listen" );
-		CHAT_COMMANDS.add( "/l" );
+		ChatRequest.registerChatCommand( "/ignore", false );
+		ChatRequest.registerChatCommand( "/baleet", false );
+		ChatRequest.registerChatCommand( "/friend", false );
 
-		CHAT_COMMANDS.add( "/friends" );
-		CHAT_COMMANDS.add( "/romans" );
-		CHAT_COMMANDS.add( "/clannies" );
+		ChatRequest.registerChatCommand( "/channel", false );
+		ChatRequest.registerChatCommand( "/c", false );
+		ChatRequest.registerChatCommand( "/listen", false );
+		ChatRequest.registerChatCommand( "/l", false );
+		ChatRequest.registerChatCommand( "/switch", false );
+		ChatRequest.registerChatCommand( "/s", false );
 
-		CHAT_COMMANDS.add( "/last" );
-		CHAT_COMMANDS.add( "/updates" );
-		CHAT_COMMANDS.add( "/exit" );
+		ChatRequest.registerChatCommand( "/friends", false );
+		ChatRequest.registerChatCommand( "/romans", false );
+		ChatRequest.registerChatCommand( "/clannies", false );
 
-		CHAT_COMMANDS.add( "/warn" );
-		CHAT_COMMANDS.add( "/ban" );
+		ChatRequest.registerChatCommand( "/last", false );
+		ChatRequest.registerChatCommand( "/updates", false );
+		ChatRequest.registerChatCommand( "/exit", false );
+
+		ChatRequest.registerChatCommand( "/warn", true );
+		ChatRequest.registerChatCommand( "/ban", true );
+
+		// Chat macros are also commands.
+
+		for ( int i = 1; i <= 20; ++i )
+		{
+			ChatRequest.registerChatCommand( "/" + i, true );
+		}
 
 		// Chat channels are also effectively commands.
 
-		CHAT_COMMANDS.add( "/newbie" );
-		CHAT_COMMANDS.add( "/normal" );
-		CHAT_COMMANDS.add( "/trade" );
-		CHAT_COMMANDS.add( "/clan" );
-		CHAT_COMMANDS.add( "/games" );
-		CHAT_COMMANDS.add( "/radio" );
-		CHAT_COMMANDS.add( "/pvp" );
-		CHAT_COMMANDS.add( "/lounge" );
-		CHAT_COMMANDS.add( "/haiku" );
-		CHAT_COMMANDS.add( "/foodcourt" );
-		CHAT_COMMANDS.add( "/veteran" );
-		CHAT_COMMANDS.add( "/valhalla" );
-		CHAT_COMMANDS.add( "/hardcore" );
-		CHAT_COMMANDS.add( "/mod" );
-		CHAT_COMMANDS.add( "/harem" );
-		CHAT_COMMANDS.add( "/dev" );
+		ChatRequest.registerChatCommand( "/newbie", false );
+		ChatRequest.registerChatCommand( "/normal", false );
+		ChatRequest.registerChatCommand( "/trade", false );
+		ChatRequest.registerChatCommand( "/clan", false );
+		ChatRequest.registerChatCommand( "/games", false );
+		ChatRequest.registerChatCommand( "/radio", false );
+		ChatRequest.registerChatCommand( "/pvp", false );
+		ChatRequest.registerChatCommand( "/lounge", false );
+		ChatRequest.registerChatCommand( "/haiku", false );
+		ChatRequest.registerChatCommand( "/foodcourt", false );
+		ChatRequest.registerChatCommand( "/veteran", false );
+		ChatRequest.registerChatCommand( "/valhalla", false );
+		ChatRequest.registerChatCommand( "/hardcore", false );
+		ChatRequest.registerChatCommand( "/mod", false );
+		ChatRequest.registerChatCommand( "/harem", false );
+		ChatRequest.registerChatCommand( "/dev", false );
 	}
 
 	private static final Pattern LASTSEEN_PATTERN = Pattern.compile( "<!--lastseen:(\\d+)-->" );
@@ -121,7 +135,18 @@ public class ChatRequest
 	private static String lastSeen = "";
 	private static ChatContinuationThread thread = null;
 
+	private boolean isCommand;
 	private final boolean shouldUpdateChat;
+
+	private static final void registerChatCommand( String command, boolean requiresChannel )
+	{
+		CHAT_COMMANDS.add( command );
+
+		if ( requiresChannel )
+		{
+			CHANNEL_COMMANDS.add( command );
+		}
+	}
 
 	/**
 	 * Constructs a new <code>ChatRequest</code>.
@@ -144,6 +169,7 @@ public class ChatRequest
 		this.addFormField( "lasttime", lastSeen );
 		ChatRequest.lastSeen = lastSeen;
 
+		this.isCommand = false;
 		this.shouldUpdateChat = true;
 	}
 
@@ -175,44 +201,13 @@ public class ChatRequest
 		String contactId = contact == null ? "[none]" :
 			StringUtilities.globalStringReplace( KoLmafia.getPlayerId( contact ), " ", "_" ).trim();
 
+		this.isCommand = false;
 		String actualMessage = message == null ? "" : message.trim();
 
-		if ( actualMessage.startsWith( "/c " ) || actualMessage.startsWith( "/channel " ) )
-		{
-			// The player is switching channels.  Notify the chat client
-			// that you're no longer in the original channel.
-
-			ChatManager.stopConversation();
-		}
-		else if ( actualMessage.startsWith( "/exit" ) )
-		{
-			// Exiting chat should dispose.  KoLmafia should send the
-			// message to be server-friendly.
-
-			ChatManager.dispose();
-		}
-		else if ( actualMessage.startsWith( "/whois" ) )
-		{
-			// Leave /whois requests alone, since they always include
-			// the name of the player.
-		}
-		else if ( contactId.startsWith( "[" ) )
+		if ( contactId.startsWith( "[" ) )
 		{
 			// This is a message coming from an aggregated window, so
 			// leave it as is.
-		}
-		else if ( actualMessage.startsWith( "/" ) && actualMessage.length() > 1 && Character.isDigit( actualMessage.charAt( 1 ) ) )
-		{
-			// This is a chat macro, and in order to work properly,
-			// chat macros can't be disturbed.
-		}
-		else if ( actualMessage.startsWith( "/msg " ) || actualMessage.startsWith( "/whisper " ) ||
-			actualMessage.startsWith( "/w " ) || actualMessage.startsWith( "/tell " ) || actualMessage.startsWith( "/r " ) ||
-			actualMessage.startsWith( "/reply " ) || actualMessage.startsWith( "/conv " ) || actualMessage.startsWith( "/v " ) )
-		{
-			// Explicit requests for private messages should be left
-			// alone, since they'd otherwise they'd be accidentally
-			// put into a chat channel.
 		}
 		else if ( !contact.startsWith( "/" ) )
 		{
@@ -221,27 +216,55 @@ public class ChatRequest
 
 			actualMessage = "/msg " + contactId + " " + actualMessage;
 		}
-		else if ( actualMessage.equals( "/w" ) || actualMessage.equals( "/who" ) )
+		else if ( !actualMessage.startsWith( "/" ) )
 		{
-			// Attempts to view the /who list use the name of the channel
-			// without the / in front of the channel name.
-
-			actualMessage = "/who " + contact.substring(1);
-		}
-		else
-		{
-			// All other messages are directed to a channel.  Append the
+			// All non-command messages are directed to a channel.  Append the
 			// name of the channel to the beginning of the message so you
 			// ensure the message gets there.
 
 			actualMessage = contact + " " + actualMessage;
+		}
+		else
+		{
+			int spaceIndex = actualMessage.indexOf( " " );
+			String baseCommand = spaceIndex == -1 ? actualMessage : actualMessage.substring( 0, spaceIndex );
+
+			if ( !CHAT_COMMANDS.contains( baseCommand ) )
+			{
+				// This is a CLI command executed with just a / so leave
+				// it alone for processing.
+
+				this.isCommand = true;
+			}
+			else if ( baseCommand.equals( "/exit" ) )
+			{
+				// Exiting chat should dispose.  KoLmafia should send the
+				// message to be server-friendly.
+
+				ChatManager.dispose();
+			}
+			else if ( actualMessage.equals( "/w" ) || actualMessage.equals( "/who" ) )
+			{
+				// Attempts to view the /who list use the name of the channel
+				// without the / in front of the channel name.
+
+				baseCommand = "/who " + contact.substring(1);
+			}
+			else if ( CHANNEL_COMMANDS.contains( baseCommand ) )
+			{
+				// Direct the message to a channel.  Append the name of
+				// the channel to the beginning of the message so you
+				// ensure the message gets there.
+
+				actualMessage = contact + " " + actualMessage;
+			}
 		}
 
 		this.addFormField( "graf", actualMessage );
 		this.shouldUpdateChat = shouldUpdateChat;
 	}
 
-	public static final String executeChatCommand( String graf, boolean shouldQueue )
+	public static final String executeChatCommand( String graf )
 	{
 		if ( graf == null )
 		{
@@ -268,15 +291,21 @@ public class ChatRequest
 			return KoLmafia.getLastMessage();
 		}
 
+		String baseCommand;
+		String parameters;
+
 		int spaceIndex = lgraf.indexOf( " " );
 
-		if ( spaceIndex == -1 )
+		if ( spaceIndex != -1 )
 		{
-			return null;
+			baseCommand = lgraf.substring( 0, spaceIndex );
+			parameters = lgraf.substring( spaceIndex ).trim();
 		}
-
-		String baseCommand = lgraf.substring( 0, spaceIndex );
-		String parameters = lgraf.substring( spaceIndex ).trim();
+		else
+		{
+			baseCommand = lgraf;
+			parameters = "";
+		}
 
 		if ( CHAT_COMMANDS.contains( baseCommand ) )
 		{
@@ -295,14 +324,10 @@ public class ChatRequest
 		String command = baseCommand + " " + parameters;
 		command = command.trim();
 
-		if ( shouldQueue )
-		{
-			CommandDisplayFrame.executeCommand( command );
-			return " > " + command;
-		}
+		CommandDisplayFrame.executeCommand( command );
+		ChatManager.broadcastMessage("<font color=olive> &gt; " + command + "</font><br>" );
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeLine( command );
-		return KoLmafia.getLastMessage();
+		return " &gt; " + command;
 	}
 
 	protected boolean retryOnTimeout()
@@ -312,12 +337,9 @@ public class ChatRequest
 
 	public void run()
 	{
-		String commandResult = ChatRequest.executeChatCommand( this.getFormField( "graf" ), true );
-		if ( commandResult != null )
+		if ( this.isCommand )
 		{
-			KoLmafia.registerPlayer( KoLConstants.VERSION_NAME, "458968" );
-			ChatManager.broadcastMessage(
-				"<font color=green>" + commandResult + "</font><br>" );
+			ChatRequest.executeChatCommand( this.getFormField( "graf" ) );
 			return;
 		}
 
