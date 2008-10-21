@@ -1075,13 +1075,10 @@ public class RelayRequest
 		// via chat, check to see if it's a CLI command.  Otherwise,
 		// run it as normal.
 
-		String chatResponse = ChatRequest.executeChatCommand( this.getFormField( "graf" ), false );
+		String chatResponse = ChatRequest.executeChatCommand( this.getFormField( "graf" ) );
 		if ( chatResponse != null )
 		{
-			this.pseudoResponse(
-				"HTTP/1.1 200 OK",
-				"<font color=\"blue\"><b><a target=\"mainpane\" href=\"showplayer.php?who=458968\" style=\"color:blue\">" + KoLConstants.VERSION_NAME + "</a> (private)</b>: " + chatResponse + "</font><br>" );
-
+			this.pseudoResponse( "HTTP/1.1 200 OK", "<font color=\"olive\">" + chatResponse + "</font><br>" );
 			return;
 		}
 
@@ -1325,7 +1322,7 @@ public class RelayRequest
 					return;
 				}
 			}
-	
+
 			// If the person is visiting the sorceress and they forgot
 			// to make the Wand, remind them.
 
@@ -1335,7 +1332,7 @@ public class RelayRequest
 				// there are far better weapons to equip for the
 				// battle. But, just in case, check current equipment
 				// as well as inventory.
-	
+
 				String place = this.getFormField( "place" );
 				if ( place != null )
 				{
