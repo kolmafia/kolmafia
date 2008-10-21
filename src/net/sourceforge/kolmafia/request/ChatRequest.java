@@ -33,6 +33,8 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.ArrayList;
+import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -50,6 +52,68 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class ChatRequest
 	extends GenericRequest
 {
+	private static final ArrayList CHAT_COMMANDS = new ArrayList();
+
+	static
+	{
+		// Basic commands used by KoL.
+
+		CHAT_COMMANDS.add( "/w" );
+		CHAT_COMMANDS.add( "/who" );
+		CHAT_COMMANDS.add( "/whois" );
+
+		CHAT_COMMANDS.add( "/em" );
+		CHAT_COMMANDS.add( "/me" );
+
+		CHAT_COMMANDS.add( "/msg" );
+		CHAT_COMMANDS.add( "/whisper" );
+		CHAT_COMMANDS.add( "/w" );
+		CHAT_COMMANDS.add( "/tell" );
+		CHAT_COMMANDS.add( "/r" );
+		CHAT_COMMANDS.add( "/reply" );
+		CHAT_COMMANDS.add( "/v" );
+		CHAT_COMMANDS.add( "/conv" );
+
+		CHAT_COMMANDS.add( "/ignore" );
+		CHAT_COMMANDS.add( "/baleet" );
+		CHAT_COMMANDS.add( "/friend" );
+
+		CHAT_COMMANDS.add( "/channel" );
+		CHAT_COMMANDS.add( "/c" );
+		CHAT_COMMANDS.add( "/listen" );
+		CHAT_COMMANDS.add( "/l" );
+
+		CHAT_COMMANDS.add( "/friends" );
+		CHAT_COMMANDS.add( "/romans" );
+		CHAT_COMMANDS.add( "/clannies" );
+
+		CHAT_COMMANDS.add( "/last" );
+		CHAT_COMMANDS.add( "/updates" );
+		CHAT_COMMANDS.add( "/exit" );
+
+		CHAT_COMMANDS.add( "/warn" );
+		CHAT_COMMANDS.add( "/ban" );
+
+		// Chat channels are also effectively commands.
+
+		CHAT_COMMANDS.add( "/newbie" );
+		CHAT_COMMANDS.add( "/normal" );
+		CHAT_COMMANDS.add( "/trade" );
+		CHAT_COMMANDS.add( "/clan" );
+		CHAT_COMMANDS.add( "/games" );
+		CHAT_COMMANDS.add( "/radio" );
+		CHAT_COMMANDS.add( "/pvp" );
+		CHAT_COMMANDS.add( "/lounge" );
+		CHAT_COMMANDS.add( "/haiku" );
+		CHAT_COMMANDS.add( "/foodcourt" );
+		CHAT_COMMANDS.add( "/veteran" );
+		CHAT_COMMANDS.add( "/valhalla" );
+		CHAT_COMMANDS.add( "/hardcore" );
+		CHAT_COMMANDS.add( "/mod" );
+		CHAT_COMMANDS.add( "/harem" );
+		CHAT_COMMANDS.add( "/dev" );
+	}
+
 	private static final Pattern LASTSEEN_PATTERN = Pattern.compile( "<!--lastseen:(\\d+)-->" );
 	private static final int CHAT_DELAY = 10000;
 
@@ -113,20 +177,19 @@ public class ChatRequest
 
 		String actualMessage = message == null ? "" : message.trim();
 
-		if ( actualMessage.startsWith( "/c" ) )
+		if ( actualMessage.startsWith( "/c " ) || actualMessage.startsWith( "/channel " ) )
 		{
 			// The player is switching channels.  Notify the chat client
 			// that you're no longer in the original channel.
 
 			ChatManager.stopConversation();
 		}
-		else if ( actualMessage.startsWith( "/ex" ) )
+		else if ( actualMessage.startsWith( "/exit" ) )
 		{
 			// Exiting chat should dispose.  KoLmafia should send the
 			// message to be server-friendly.
 
 			ChatManager.dispose();
-			actualMessage = "/exit";
 		}
 		else if ( actualMessage.startsWith( "/whois" ) )
 		{
@@ -143,7 +206,9 @@ public class ChatRequest
 			// This is a chat macro, and in order to work properly,
 			// chat macros can't be disturbed.
 		}
-		else if ( actualMessage.startsWith( "/msg" ) || actualMessage.startsWith( "/r" ) || actualMessage.startsWith( "/v" ) )
+		else if ( actualMessage.startsWith( "/msg " ) || actualMessage.startsWith( "/whisper " ) ||
+			actualMessage.startsWith( "/w " ) || actualMessage.startsWith( "/tell " ) || actualMessage.startsWith( "/r " ) ||
+			actualMessage.startsWith( "/reply " ) || actualMessage.startsWith( "/conv " ) || actualMessage.startsWith( "/v " ) )
 		{
 			// Explicit requests for private messages should be left
 			// alone, since they'd otherwise they'd be accidentally
@@ -156,7 +221,7 @@ public class ChatRequest
 
 			actualMessage = "/msg " + contactId + " " + actualMessage;
 		}
-		else if ( actualMessage.startsWith( "/w" ) )
+		else if ( actualMessage.equals( "/w" ) || actualMessage.equals( "/who" ) )
 		{
 			// Attempts to view the /who list use the name of the channel
 			// without the / in front of the channel name.
@@ -184,7 +249,18 @@ public class ChatRequest
 		}
 
 		graf = graf.trim();
+
+		if ( !graf.startsWith( "/" ) )
+		{
+			return null;
+		}
+
 		String lgraf = graf.toLowerCase();
+
+		if ( !lgraf.startsWith( "/" ) )
+		{
+			return null;
+		}
 
 		if ( lgraf.startsWith( "/msg 0 " ) )
 		{
@@ -192,32 +268,37 @@ public class ChatRequest
 			return KoLmafia.getLastMessage();
 		}
 
-		if ( !lgraf.startsWith( "/do" ) && !lgraf.startsWith( "/run" ) && !lgraf.startsWith( "/cli" ) && !lgraf.startsWith( "/wiki" ) && !lgraf.startsWith( "/lookup" ) )
-		{
-			return null;
-		}
+		int spaceIndex = lgraf.indexOf( " " );
 
-		int spaceIndex = graf.indexOf( " " );
 		if ( spaceIndex == -1 )
 		{
 			return null;
 		}
 
-		String command = graf.substring( spaceIndex + 1 );
+		String baseCommand = lgraf.substring( 0, spaceIndex );
+		String parameters = lgraf.substring( spaceIndex ).trim();
 
-		if ( lgraf.startsWith( "/wiki" ) )
+		if ( CHAT_COMMANDS.contains( baseCommand ) )
 		{
-			command = "wiki " + command;
+			return null;
 		}
-		else if ( lgraf.startsWith( "/lookup" ) )
+
+		if ( baseCommand.startsWith( "/do " ) || baseCommand.startsWith( "/cli " ) || baseCommand.startsWith( "/run " ) )
 		{
-			command = "lookup " + command;
+			baseCommand = "";
 		}
+		else
+		{
+			baseCommand = baseCommand.substring( 1 );
+		}
+
+		String command = baseCommand + " " + parameters;
+		command = command.trim();
 
 		if ( shouldQueue )
 		{
 			CommandDisplayFrame.executeCommand( command );
-			return "Command received, processing...";
+			return " > " + command;
 		}
 
 		KoLmafiaCLI.DEFAULT_SHELL.executeLine( command );
