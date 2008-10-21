@@ -257,6 +257,14 @@ public abstract class StaticEntity
 
 	public static final void externalUpdate( final String location, final String responseText )
 	{
+		if ( location.startsWith( "inv_equip.php" ) && location.indexOf( "ajax=1" ) != -1 )
+		{
+			// Unfortunately, it would do no good to parse the results of an outfit change,
+			// since there's no indication of which slot items ended up in.
+			// Must do an equipment refresh to resynchronize.
+			RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.EQUIPMENT ) );
+		}
+		
 		if ( location.startsWith( "craft.php" ) )
 		{
 			CreateItemRequest.parseCrafting( responseText );
