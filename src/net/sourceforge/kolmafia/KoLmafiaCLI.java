@@ -1035,6 +1035,12 @@ public class KoLmafiaCLI
 			return;
 		}
 
+		if ( command.equals( "aa" ) || command.equals( "autoattack" ) )
+		{
+			CustomCombatManager.setAutoAttack( parameters );
+			return;
+		}
+
 		// Adding another undocumented property setting command
 		// so people can configure variables in scripts.
 
@@ -1774,7 +1780,7 @@ public class KoLmafiaCLI
 		// request.  Again, complicated request, so
 		// delegate to the appropriate utility method.
 
-		if ( command.equals( "create" ) || command.equals( "make" ) || command.equals( "bake" ) || command.equals( "mix" ) || command.equals( "smith" ) || command.equals( "tinker" ) )
+		if ( command.equals( "create" ) || command.equals( "make" ) || command.equals( "bake" ) || command.equals( "mix" ) || command.equals( "smith" ) || command.equals( "tinker" ) || command.equals( "ply" ) )
 		{
 			this.executeItemCreationRequest( parameters );
 			return;
