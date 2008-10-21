@@ -292,7 +292,6 @@ public class SkillDatabase
 
 	public static final int getMPConsumptionById( final int skillId )
 	{
-
 		if ( isLibramSkill( skillId ) )
 		{
 			return libramSkillMPConsumption();
@@ -341,8 +340,8 @@ public class SkillDatabase
 
 	public static final int libramSkillMPConsumption()
 	{
-		int count = Preferences.getInteger( "libramSummons" );
-		return libramSkillMPConsumption( count ) ;
+		int cast = Preferences.getInteger( "libramSummons" );
+		return libramSkillMPConsumption( cast ) ;
 	}
 
 	public static final void setLibramSkillCasts( int cost )
@@ -362,7 +361,7 @@ public class SkillDatabase
 
 		// If the next cast costs what the bookshelf says it costs,
 		// assume we're correct.
-		if ( libramSkillMPConsumption( casts + 1) == cost )
+		if ( libramSkillMPConsumption( casts + 1 ) == cost )
 		{
 			return;
 		}
@@ -394,13 +393,31 @@ public class SkillDatabase
 	 * @return the MP cost to cast it
 	 */
 
-	public static final int libramSkillMPConsumption( final int count )
+	public static final int libramSkillMPConsumption( final int cast )
 	{
 		// Old formula: n * (n+1) / 2
-		// return Math.max( ( count + 1 ) * ( count + 2 ) / 2 + KoLCharacter.getManaCostAdjustment(), 1 );
+		// return Math.max( ( cast + 1 ) * ( cast + 2 ) / 2 + KoLCharacter.getManaCostAdjustment(), 1 );
 
 		// New formula: 1 + (n * (n-1) / 2)
-		return Math.max( 1 + ( count + 1 ) * count / 2 + KoLCharacter.getManaCostAdjustment(), 1 );
+		return Math.max( 1 + ( cast + 1 ) * cast / 2 + KoLCharacter.getManaCostAdjustment(), 1 );
+	}
+
+	/**
+	 * Determines the cost for casting a libram skill multiple times
+	 *
+	 * @param cast	which casting
+	 * @param count	how many casts
+	 * @return the MP cost to cast it
+	 */
+
+	public static final int libramSkillMPConsumption( int cast, int count )
+	{
+		int total = 0;
+		while ( count-- > 0 )
+		{
+			total += libramSkillMPConsumption( cast++ );
+		}
+		return total;
 	}
 
 	/**
