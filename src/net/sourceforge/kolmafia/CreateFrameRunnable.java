@@ -278,9 +278,13 @@ public class CreateFrameRunnable
 					( (GenericFrame) this.creation ).addCompactPane();
 				}
 			}
+			else
+			{
+				// Set a menu bar for anything that doesn't extend
+				// the KoLmafia frame classes.
 
-			// Set a menu bar for most operating systems
-			this.creation.setJMenuBar( new GlobalMenuBar() );
+				this.creation.setJMenuBar( new GlobalMenuBar() );
+			}
 
 			// In the case of OSX, we'll also need a shutdown hook
 			boolean isUsingMac = System.getProperty( "os.name" ).startsWith( "Mac" );

@@ -91,7 +91,7 @@ public abstract class ChatManager
 		Pattern.compile( "<a target=mainpane href=\"([^<]*?)\"><font color=green>(.*?) <a[^>]+><font color=green>([^<]*?)</font></a>.</font></a>" );
 	private static final Pattern WHOIS_PATTERN =
 		Pattern.compile( "(<a [^>]*?>)<b><font color=green>([^>]*? \\(#\\d+\\))</b></a>([^<]*?)<br>" );
-	
+
 	private static final Pattern DOJAX_PATTERN =
 		Pattern.compile( "<!--js\\(\\s*dojax\\(\\s*['\"](.*?)['\"]\\s*\\)\\s*;?\\s*\\)-->" );
 	private static final RelayRequest DOJAX_VISITOR = new RelayRequest( false );
@@ -663,7 +663,7 @@ public abstract class ChatManager
 
 			ChatManager.processChatMessage( lines[ i ].trim() );
 		}
-		
+
 		// Simulate embedded JavaScript execution requests, as used by chat crafting commands
 		Matcher dojax = ChatManager.DOJAX_PATTERN.matcher( content );
 		if ( dojax.find() )
@@ -673,14 +673,14 @@ public abstract class ChatManager
 		// commands entered there would be executed here as well, resulting in various effects
 		// ranging from harmless to double crafting.  Just print a message until such time as
 		// this can be fixed properly.
-		
+
 		//	ChatManager.DOJAX_VISITOR.constructURLString( dojax.group( 1 ) );
 		//	RequestThread.postRequest( ChatManager.DOJAX_VISITOR );
 		//	if ( ChatManager.DOJAX_VISITOR.responseText != null )
 		//	{
 		//		ChatManager.broadcastMessage( ChatManager.DOJAX_VISITOR.responseText + "<br>" );
 		//	}
-		
+
 			ChatManager.broadcastMessage( "(Sorry, advanced chat commands are not supported " +
 				"here yet.)<br>" );
 		}

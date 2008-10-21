@@ -146,6 +146,8 @@ public abstract class GenericFrame
 			this.getContentPane().add( this.framePanel, BorderLayout.CENTER );
 		}
 
+		this.menuBar = new GlobalMenuBar();
+		this.setJMenuBar( this.menuBar );
 		this.addHotKeys();
 
 		if ( this.showInWindowMenu() )
@@ -162,12 +164,6 @@ public abstract class GenericFrame
 	public boolean showInWindowMenu()
 	{
 		return true;
-	}
-
-	public void setJMenuBar( final GlobalMenuBar menuBar )
-	{
-		this.menuBar = menuBar;
-		super.setJMenuBar( menuBar );
 	}
 
 	protected void addActionListener( final JCheckBox component, final ActionListener listener )
