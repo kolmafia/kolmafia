@@ -272,7 +272,7 @@ public class Concoction
 			thisCantConsume = this.spleenhit > limit;
 			oCantConsume = o.spleenhit > limit;
 		}
-		if ( thisCantConsume != oCantConsume )
+		if ( Preferences.getBoolean( "sortByRoom" ) && (thisCantConsume != oCantConsume) )
 		{
 			return thisCantConsume ? 1 : -1;
 		}
