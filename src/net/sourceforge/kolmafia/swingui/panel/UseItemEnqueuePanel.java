@@ -103,7 +103,7 @@ public class UseItemEnqueuePanel
 		this.elementList.setVisibleRowCount( 6 );
 		this.elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 
-		this.filters = new JCheckBox[ food || booze || spleen ? 5 : 4 ];
+		this.filters = new JCheckBox[ food || booze || spleen ? 6 : 5 ];
 
 		this.filters[ 0 ] = new JCheckBox( "no create" );
 		this.filters[ 1 ] = new JCheckBox( "+mus only" );
@@ -118,6 +118,11 @@ public class UseItemEnqueuePanel
 		if ( food || booze || spleen )
 		{
 			this.filters[ 4 ] = new ExperimentalCheckbox( food, booze );
+			this.filters[ 5 ] = new ByRoomCheckbox();
+		}
+		else
+		{
+			this.filters[ 4 ] = new ByRoomCheckbox();
 		}
 
 		JPanel filterPanel = new JPanel();
@@ -489,6 +494,33 @@ public class UseItemEnqueuePanel
 			}
 
 			Preferences.setBoolean( "showGainsPerUnit", this.isSelected() );
+			ConcoctionDatabase.getUsables().sort();
+		}
+	}
+
+	private static class ByRoomCheckbox
+		extends JCheckBox
+		implements ActionListener
+	{
+		public ByRoomCheckbox()
+		{
+			super( "by room" );
+
+			this.setToolTipText( "Sort items you have no room for to the bottom" );
+			this.setSelected( Preferences.getBoolean( "sortByRoom" ) );
+
+			this.addActionListener( this );
+			Preferences.registerCheckbox( "sortByRoom", this );
+		}
+
+		public void actionPerformed( final ActionEvent e )
+		{
+			if ( Preferences.getBoolean( "sortByRoom" ) == this.isSelected() )
+			{
+				return;
+			}
+
+			Preferences.setBoolean( "sortByRoom", this.isSelected() );
 			ConcoctionDatabase.getUsables().sort();
 		}
 	}
