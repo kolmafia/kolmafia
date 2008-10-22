@@ -98,12 +98,14 @@ public class AdventureSelectPanel
 	private JList locationSelect;
 	private JComponent zoneSelect;
 
+	private final LockableListModel locationConditions = new LockableListModel();
 	private JCheckBox conditionsFieldActive = new JCheckBox();
-	private AutoHighlightTextField conditionField = new AutoHighlightTextField();
+	private ConditionsComboBox conditionField = new ConditionsComboBox();
 
 	public AdventureSelectPanel( final boolean enableAdventures )
 	{
 		super( new BorderLayout( 10, 10 ) );
+
 		this.matchingAdventures = AdventureDatabase.getAsLockableListModel().getMirrorImage();
 
 		// West pane is a scroll pane which lists all of the available
@@ -391,7 +393,7 @@ public class AdventureSelectPanel
 			// sure to process them.
 
 			boolean conditionsActive = AdventureSelectPanel.this.conditionsFieldActive.isSelected();
-			String conditionList = AdventureSelectPanel.this.conditionField.getText().trim().toLowerCase();
+			String conditionList = ((String) AdventureSelectPanel.this.conditionField.getText()).trim().toLowerCase();
 
 			Object stats = null;
 			int substatIndex = KoLConstants.conditions.indexOf( KoLConstants.tally.get( 2 ) );
@@ -520,14 +522,20 @@ public class AdventureSelectPanel
 			conditionString.append( ( (AdventureResult) KoLConstants.conditions.getElementAt( i ) ).toConditionString() );
 		}
 
-		if ( conditionString.length() == 0 )
+		String text;
+
+		if ( conditionString.length() > 0 )
 		{
-			AdventureSelectPanel.this.conditionField.setText( AdventureDatabase.getDefaultConditions( (KoLAdventure) this.locationSelect.getSelectedValue() ) );
+			text = conditionString.toString();
 		}
 		else
 		{
-			this.conditionField.setText( conditionString.toString() );
+			KoLAdventure location = (KoLAdventure) this.locationSelect.getSelectedValue();
+			AdventureDatabase.getDefaultConditionsList( location, this.locationConditions );
+			text = (String) this.locationConditions.get(0);
 		}
+
+                this.conditionField.setText( text );
 	}
 
 	public JPanel getAdventureSummary( final String property )
@@ -663,6 +671,15 @@ public class AdventureSelectPanel
 			this.savedText = text;
 			this.safetyText.clearBuffer();
 			this.safetyText.append( text );
+		}
+	}
+
+	private class ConditionsComboBox
+		extends AutoFilterComboBox
+	{
+		public ConditionsComboBox()
+		{
+			super( AdventureSelectPanel.this.locationConditions, true );
 		}
 	}
 

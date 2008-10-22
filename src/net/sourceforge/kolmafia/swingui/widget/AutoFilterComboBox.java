@@ -80,6 +80,25 @@ public class AutoFilterComboBox
 		this.editor.addKeyListener( listener );
 	}
 
+	public String getText()
+	{
+		return (String) ( this.getSelectedItem() != null ? this.getSelectedItem() : this.currentMatch );
+	}
+
+        public void setText( final String text )
+	{
+		if ( this.model.indexOf( text ) != -1 )
+		{
+			this.setSelectedItem( text );
+		}
+		else
+		{
+			this.setSelectedItem( null );
+			this.currentMatch = text;
+			this.editor.setText( text );
+		}
+	}
+
 	public void setModel( final LockableListModel model )
 	{
 		super.setModel( model );

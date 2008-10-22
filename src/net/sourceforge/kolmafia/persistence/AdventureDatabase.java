@@ -496,7 +496,28 @@ public class AdventureDatabase
 		{
 			return conditions;
 		}
+
 		return "none";
+	}
+
+	public static final LockableListModel getDefaultConditionsList( final KoLAdventure adventure, LockableListModel list )
+	{
+		String [] conditions = AdventureDatabase.getDefaultConditions( adventure ).split( "\\|" );
+		if ( list == null )
+		{
+			list = new LockableListModel();
+		}
+		else
+		{
+			list.clear();
+		}
+
+		for ( int i = 0; i < conditions.length; ++i )
+		{
+			list.add( conditions[i] );
+		}
+
+		return list;
 	}
 
 	public static final boolean isFreeAdventure( final String text )
