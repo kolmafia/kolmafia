@@ -80,6 +80,7 @@ public class MallPurchaseRequest
 
 	private boolean canPurchase;
 	public static final int MAX_QUANTITY = 16777215;
+	private int itemSequenceCount = 0;	// for detecting renamed items
 
 	/**
 	 * Constructs a new <code>MallPurchaseRequest</code> which retrieves things from NPC stores.
@@ -384,6 +385,7 @@ public class MallPurchaseRequest
 		KoLmafia.updateDisplay( "Purchasing " + ItemDatabase.getItemName( this.itemId ) + " (" + KoLConstants.COMMA_FORMAT.format( this.limit ) + " @ " + KoLConstants.COMMA_FORMAT.format( this.getPrice() ) + ")..." );
 
 		this.initialCount = this.item.getCount( KoLConstants.inventory );
+		this.itemSequenceCount = ResultProcessor.itemSequenceCount;
 		super.run();
 	}
 
@@ -517,6 +519,13 @@ public class MallPurchaseRequest
 
 			return;
 		}
+		
+		if ( this.itemSequenceCount != ResultProcessor.itemSequenceCount )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+				"Wrong item received - possibly its name has changed." );
+			return;
+		}
 
 		int startIndex = this.responseText.indexOf( "<center>" );
 		int stopIndex = this.responseText.indexOf( "</table>" );
@@ -619,14 +628,14 @@ public class MallPurchaseRequest
 		}
 
 		String itemName = null;
-                String priceString = null;
-                int priceVal = 0;
-                boolean isMall = false;
+		String priceString = null;
+		int priceVal = 0;
+		boolean isMall = false;
 		Matcher quantityMatcher = null;
 
 		if ( urlString.startsWith( "mall" ) )
 		{
-                        isMall = true;
+			isMall = true;
 			quantityMatcher = TransferItemRequest.QUANTITY_PATTERN.matcher( urlString );
 		}
 		else
@@ -663,37 +672,37 @@ public class MallPurchaseRequest
                 String storeName = "an NPC Store";
 		if ( isMall )
 		{
-                        /* the last 9 characters of idString are the price, with leading zeros */
-                        int idStringLength = idString.length();
-                        priceString = idString.substring(idStringLength - 9, idStringLength);
+			/* the last 9 characters of idString are the price, with leading zeros */
+			int idStringLength = idString.length();
+			priceString = idString.substring(idStringLength - 9, idStringLength);
 			idString = idString.substring( 0, idStringLength - 9 );
-                        /* store ID is embedded in the URL.  Extract it and get the store name for logging */
-                        Pattern STOREID_PATTERN = Pattern.compile("whichstore\\d?=(\\d+)");
-                        Matcher m = STOREID_PATTERN.matcher(urlString);
-                        if (m.find())
-                        {
-                            String storeID = m.group(1);
-                            /* int intID = StringUtilities.parseInt(storeID); */
-                            storeName = storeID;
-                        }
+			/* store ID is embedded in the URL.  Extract it and get the store name for logging */
+			Pattern STOREID_PATTERN = Pattern.compile("whichstore\\d?=(\\d+)");
+			Matcher m = STOREID_PATTERN.matcher(urlString);
+			if (m.find())
+			{
+				String storeID = m.group(1);
+				/* int intID = StringUtilities.parseInt(storeID); */
+				storeName = storeID;
+			}
 
 		}
-                /* in a perfect world where I was not so lazy, I'd verify that the price string
-                 * was really an int and might find another way to effectively strip leading
-                 * zeros from the display */
-                priceVal = StringUtilities.parseInt( priceString);
+		/* in a perfect world where I was not so lazy, I'd verify that the price string
+		 * was really an int and might find another way to effectively strip leading
+		 * zeros from the display */
+		priceVal = StringUtilities.parseInt( priceString);
 		int itemId = StringUtilities.parseInt( idString );
 		itemName = ItemDatabase.getItemName( itemId );
 
 		RequestLogger.updateSessionLog();
-                if (isMall)
-                {
-                    RequestLogger.updateSessionLog( "buy " + quantity + " " + itemName + " for " + priceVal +
-                        " each from " + storeName + " on " + KoLConstants.DAILY_FORMAT.format( new Date() ) );
-                } else {
-                    RequestLogger.updateSessionLog( "buy " + quantity + " " + itemName +
+		if (isMall)
+		{
+			RequestLogger.updateSessionLog( "buy " + quantity + " " + itemName + " for " + priceVal +
+			" each from " + storeName + " on " + KoLConstants.DAILY_FORMAT.format( new Date() ) );
+		} else {
+			RequestLogger.updateSessionLog( "buy " + quantity + " " + itemName +
                        " at market price from " + storeName);
-                }
+		}
 		return true;
 	}
 }

@@ -1522,8 +1522,32 @@ public class GenericRequest
 		{
 			ResultProcessor.processItem( ItemPool.CHEWING_GUM, -1 );
 		}
-
-		this.containsUpdate = ResultProcessor.processResults( this.responseText );
+		
+		if ( this.formURLString.startsWith( "mall.php" ) || 
+			this.formURLString.startsWith( "searchmall.php" ) )
+		{
+			// These pages cannot possibly contain an actual item drop, but may have
+			// a bogus "You acquire an item:" as part of a store name.
+			this.containsUpdate = false;
+		}
+		else if ( this.formURLString.startsWith( "mallstore.php" ) )
+		{
+			// Mall stores themselves can only contain processable results when actually
+			// buying an item, and then only at the very top of the page.
+			if ( this.getFormField( "whichitem" ) != null )
+			{
+				this.containsUpdate = ResultProcessor.processResults(
+					this.responseText.substring( 0, this.responseText.indexOf( "</table>" ) ) );
+			}
+			else
+			{
+				this.containsUpdate = false;
+			}
+		}
+		else
+		{
+			this.containsUpdate = ResultProcessor.processResults( this.responseText );
+		}
 	}
 
 	public void processResults()

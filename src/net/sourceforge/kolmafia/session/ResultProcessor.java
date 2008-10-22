@@ -76,6 +76,10 @@ public class ResultProcessor
 	private static AdventureResult haikuEffect = EffectPool.get( EffectPool.HAIKU_STATE_OF_MIND );
 	private static boolean receivedClover = false;
 	
+	// This number will change every time an item is processed, and can be used by other code
+	// to tell if an item is received, without necessarily knowing which item it was.
+	public static int itemSequenceCount = 0;
+	
 	public static boolean shouldDisassembleClovers( String formURLString )
 	{
 		if ( !ResultProcessor.receivedClover || FightRequest.getCurrentRound() != 0 || !Preferences.getBoolean( "cloverProtectActive" ) )
@@ -433,6 +437,7 @@ public class ResultProcessor
 		}
 
 		processResult( result );
+		++ResultProcessor.itemSequenceCount;
 	}
 
 	private static boolean processEffect( StringTokenizer parsedResults, String acquisition, List data )
