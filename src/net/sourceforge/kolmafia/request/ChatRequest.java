@@ -123,6 +123,7 @@ public class ChatRequest
 		ChatRequest.registerChatCommand( "/veteran", false );
 		ChatRequest.registerChatCommand( "/valhalla", false );
 		ChatRequest.registerChatCommand( "/hardcore", false );
+		ChatRequest.registerChatCommand( "/hobopolis", false );
 		ChatRequest.registerChatCommand( "/mod", false );
 		ChatRequest.registerChatCommand( "/harem", false );
 		ChatRequest.registerChatCommand( "/dev", false );
