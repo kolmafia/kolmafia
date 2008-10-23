@@ -427,6 +427,7 @@ bottle of Domesticated Turkey	17	bottle of whiskey
 bottle of Jorge Sinsonte	17	bottle of tequila
 bottle of Lieutenant Freeman	17	bottle of rum
 bottle of Ooze-O	17	bottle of sewage schnapps
+bottle of Pete's Sake	17	bottle of sake
 boxed champagne	17	boxed wine
 bottle of Pete's sake	17	bottle of sake
 
