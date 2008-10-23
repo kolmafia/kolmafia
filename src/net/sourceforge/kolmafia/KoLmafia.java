@@ -117,6 +117,7 @@ import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.CouncilFrame;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
+import net.sourceforge.kolmafia.swingui.LoginFrame;
 import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
 import net.sourceforge.kolmafia.swingui.listener.LicenseDisplayListener;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
@@ -3543,6 +3544,18 @@ public abstract class KoLmafia
 
 	public static void logout()
 	{
+		// Create the login frame first to ensure that
+		// there is one active frame.
+
+		if ( !StaticEntity.isHeadless() )
+		{
+			GenericFrame.createDisplay( LoginFrame.class );
+		}
+
+		// Close down any other active frames.  Since
+		// there is at least one active, logout will
+		// not be called again.
+
 		if ( KoLDesktop.instanceExists() )
 		{
 			KoLDesktop.getInstance().dispose();
@@ -3551,8 +3564,13 @@ public abstract class KoLmafia
 		Frame[] frames = Frame.getFrames();
 		for ( int i = 0; i < frames.length; ++i )
 		{
-			frames[ i ].dispose();
+			if ( frames[ i ].getClass() != LoginFrame.class )
+			{
+				frames[ i ].dispose();
+			}
 		}
+
+		// Execute the logout request.
 
 		RequestThread.postRequest( new LogoutRequest() );
 	}

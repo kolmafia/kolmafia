@@ -64,11 +64,11 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLCharacterAdapter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDesktop;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.Preferences;
-import net.sourceforge.kolmafia.request.LogoutRequest;
 import net.sourceforge.kolmafia.swingui.listener.RefreshSessionListener;
 import net.sourceforge.kolmafia.swingui.listener.WorldPeaceListener;
 import net.sourceforge.kolmafia.swingui.menu.GlobalMenuBar;
@@ -416,8 +416,7 @@ public abstract class GenericFrame
 	{
 		if ( !StaticEntity.isHeadless() && GenericFrame.existingFrameCount == 0 )
 		{
-			RequestThread.postRequest( new LogoutRequest() );
-			GenericFrame.createDisplay( LoginFrame.class );
+			KoLmafia.logout();
 		}
 	}
 
