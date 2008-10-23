@@ -482,7 +482,7 @@ especially homoerotic frat-paddle	150	Mus: 60	1-handed club
 fetus-smashing club	200	Mus: 85	2-handed club
 filthy pestle	60	Mys: 15	1-handed utensil
 fire poi	190	Mox: 80	2-handed flail
-fish bazooka	200	Mpx: 85	2-handed bazooka
+fish bazooka	200	Mox: 85	2-handed bazooka
 fish scimitar	200	Mus: 85	1-handed sword
 fish stick	200	Mus: 85	2-handed staff
 flamin' bindle	200	Mus: 200	2-handed polearm

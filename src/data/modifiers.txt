@@ -1790,9 +1790,10 @@ Unpopular	Monster Level: +30
 Ur-Kel's Aria of Annoyance	Monster Level: +0
 Very Clean Teeth	Moxie: +1
 Vitamin-Maxed	Muscle Percent: +10
+#Warm Belly
 Wasabi Sinuses	Experience: -1, Item Drop: -10, Meat Drop: +30
 Weather, Man	Muscle Percent: +30, Mysticality Percent: +30, Moxie Percent: +30
-Well-Oiled	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
+Well-Oiled	Damage Reduction: +10, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 Well-preserved	HP Regen Min: 150, HP Regen Max: 200
 What's That Smell?	Stench Damage: +3
 Whitened Teeth	Moxie Percent: +10

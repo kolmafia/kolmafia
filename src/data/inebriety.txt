@@ -55,6 +55,7 @@ bottle of Domesticated Turkey	3	2	4-8	0	0	0
 bottle of Jorge Sinsonte	3	2	4-8	0	0	0
 bottle of Lieutenant Freeman	3	2	4-8	0	0	0
 bottle of Ooze-O	3	1	0	0	0	0
+bottle of Pete's Sake	3	2	4-8	0	0	0
 bottle of cooking sherry	2	1	2-3	0	0	0
 bottle of gin	3	1	3	0	0	0
 bottle of popskull	2	1	2-4	0	0	0
