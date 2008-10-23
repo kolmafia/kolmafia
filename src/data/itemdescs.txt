@@ -3496,3 +3496,9 @@
 3489	946050609	beefy fish meat	filets of beefy fish meat
 3490	493009120	glistening fish meat	filets of glistening fish meat
 3491	930651591	slick fish meat	filets of slick fish meat
+3492	710553035	fish scimitar
+3493	293762096	fish stick
+3494	860667475	fish bazooka
+3495
+3496	540293802	bazookafish bubble gum	bazookafish bubble gums
+3497	316828573	bottle of Pete's sake	bottles of Pete's sake

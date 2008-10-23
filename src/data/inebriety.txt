@@ -60,6 +60,7 @@ bottle of gin	3	1	3	0	0	0
 bottle of popskull	2	1	2-4	0	0	0
 bottle of realpagne	2	2	5-8	0	0	12-18
 bottle of rum	3	1	3	0	0	0
+bottles of Pete's sake	3	2	6	0	0	0
 bottle of sake	3	1	3	0	0	0
 bottle of sewage schnapps	3	1	0	0	0	0
 bottle of single-barrel whiskey	3	9	13-20	40-50	40-50	40-50

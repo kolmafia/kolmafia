@@ -3490,3 +3490,9 @@
 3489	beefy fish meat	1	all	35
 3490	glistening fish meat	1	all	35
 3491	slick fish meat	1	all	35
+3492	fish scimitar	12	all	220
+3493	fish stick	12	all	190
+3494	fish bazooka	12	all	250
+3495
+3496	bazookafish bubble gum	3	all	5
+3497	bottle of Pete's sake	2	all	70
