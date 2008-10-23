@@ -429,7 +429,6 @@ bottle of Lieutenant Freeman	17	bottle of rum
 bottle of Ooze-O	17	bottle of sewage schnapps
 bottle of Pete's Sake	17	bottle of sake
 boxed champagne	17	boxed wine
-bottle of Pete's sake	17	bottle of sake
 
 cocktail onion	18	olive
 kiwi	18	lemon
