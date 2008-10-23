@@ -551,6 +551,9 @@ eggbeater	Spell Damage: +2
 # fetus-smashing club
 filthy pestle	Spell Damage: +7
 fire poi	Hot Damage: +15, Moxie: +3
+fish bazooka	Moxie Percent: +5, Meat Drop: +10
+fish scimitar	Muscle Percent: +5, Melee Damage Percent: +10
+fish stick	Mysticality Percent: +5, Spell Damage Percent: +15
 flamin' bindle	Hot Damage: +25, Item Drop: +10
 flaming cardboard sword	Muscle: +3, Melee Damage: +3, Hot Damage: +3
 flaming crutch	Hot Damage: +3
@@ -1559,6 +1562,7 @@ Fat Leon's Phat Loot Lyric	Item Drop: +20
 Fearless	Monster Level: -10
 Fever From the Flavor	Cold Resistance: +9
 Fireproof Lips	Hot Resistance: +9
+Fishbreath	Stench Damage: +15
 Fishy Fortification	Muscle Percent: +10, Maximum HP: +50
 Fit To Be Tide	HP Regen Min: 5, HP Regen Max: 16, MP Regen Min: 5, MP Regen Max: 16
 Fitter, Happier	Muscle Percent: +100, Mysticality Percent: +100

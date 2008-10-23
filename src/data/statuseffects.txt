@@ -553,3 +553,5 @@
 553	The Halls of Mysticality	candy.gif	445ce68a580764aee2290ed14feac1ba	use 1 pear lozenge
 554	The Halls of Moxiousness	candy.gif	5ae8ae820ae42b7ef7fc66d9db0aa403	use 1 peach lozenge
 555	Glittering Eyelashes	eyelashes.gif	fc50db33358ccef36aae08cc54387702	use 5 glittery mascara
+556	Warm Belly	stomach.gif	78f695c8688a47aa520f24f0108ff573	drink 1 bottle of Pete's sake
+557	Fishbreath	breath.gif	ddc1e7f70dcc1442f42c5720c9196c12	use 1 bazookafish bubble gum
