@@ -228,7 +228,7 @@ public class ChatRequest
 		else
 		{
 			int spaceIndex = actualMessage.indexOf( " " );
-			String baseCommand = spaceIndex == -1 ? actualMessage : actualMessage.substring( 0, spaceIndex );
+			String baseCommand = spaceIndex == -1 ? actualMessage.toLowerCase() : actualMessage.substring( 0, spaceIndex ).toLowerCase();
 
 			if ( !CHAT_COMMANDS.contains( baseCommand ) )
 			{
@@ -247,7 +247,7 @@ public class ChatRequest
 			else if ( actualMessage.equals( "/w" ) || actualMessage.equals( "/who" ) )
 			{
 				// Attempts to view the /who list use the name of the channel
-				// without the / in front of the channel name.
+				// when the user doesn't specify the channel.
 
 				baseCommand = "/who " + contact.substring(1);
 			}
