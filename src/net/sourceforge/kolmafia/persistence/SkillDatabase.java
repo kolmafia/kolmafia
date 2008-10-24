@@ -341,7 +341,7 @@ public class SkillDatabase
 	public static final int libramSkillMPConsumption()
 	{
 		int cast = Preferences.getInteger( "libramSummons" );
-		return libramSkillMPConsumption( cast ) ;
+		return libramSkillMPConsumption( cast );
 	}
 
 	public static final void setLibramSkillCasts( int cost )
@@ -418,6 +418,43 @@ public class SkillDatabase
 			total += libramSkillMPConsumption( cast++ );
 		}
 		return total;
+	}
+
+	/**
+	 * Determines how many times you can cast libram skills with the
+	 * specified amount of MP
+	 *
+	 * @param availableMP	how much MP is available
+	 * @return the number of casts
+	 */
+
+	public static final int libramSkillCasts( int availableMP )
+	{
+		return libramSkillCasts( Preferences.getInteger( "libramSummons" ), availableMP );
+	}
+
+	/**
+	 * Determines how many times you can cast libram skills with the
+	 * specified amount of MP starting with specified casting
+	 *
+	 * @param cast	which casting
+	 * @param availableMP	how much MP is available
+	 * @return the number of casts
+	 */
+
+	public static final int libramSkillCasts( int cast, int availableMP )
+	{
+                int mpCost = SkillDatabase.libramSkillMPConsumption( cast );
+                int count = 0;
+
+                while ( mpCost <= availableMP )
+                {
+                        count++;
+                        availableMP -= mpCost;
+                        mpCost = SkillDatabase.libramSkillMPConsumption( ++cast );
+                }
+
+                return count;
 	}
 
 	/**
