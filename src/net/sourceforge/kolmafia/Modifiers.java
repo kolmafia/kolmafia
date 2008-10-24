@@ -401,6 +401,16 @@ public class Modifiers
 	};
 
 	public static final int STRING_MODIFIERS = Modifiers.stringModifiers.length;
+	
+	// Clownosity behaves differently from any other current modifiers - multiples of the
+	// same item do not contribute any more towards it, even if their other attributes do
+	// stack.  Treat it as a special case for now, rather than creating a 4th class of
+	// modifier types.  Currently, there are 19 distinct points of Clownosity available,
+	// so bits in an int will work to represent them.
+	
+	private static final Pattern CLOWNOSITY_PATTERN =
+		Pattern.compile( "Clownosity: ([+-]\\d+)" );
+	private static int clownosityMask = 1;
 
 	public static final String getModifierName( final int index )
 	{
@@ -544,6 +554,7 @@ public class Modifiers
 	private final boolean[] booleans;
 	private final String[] strings;
 	private float[] hoboFactors;
+	private int clownosity;
 
 	public Modifiers()
 	{
@@ -569,6 +580,7 @@ public class Modifiers
 			this.strings[ i ] = "";
 		}
 		this.hoboFactors = null;
+		this.clownosity = 0;
 	};
 
 	public float get( final int index )
@@ -633,6 +645,18 @@ public class Modifiers
 
 		return this.strings[ index ];
 	};
+	
+	public int getClownosity()
+	{
+		int n = this.clownosity;
+		// Count the bits:
+		n = ((n & 0xAAAAAAAA) >>>  1) + (n & 0x55555555);
+		n = ((n & 0xCCCCCCCC) >>>  2) + (n & 0x33333333);
+		n = ((n & 0xF0F0F0F0) >>>  4) + (n & 0x0F0F0F0F);
+		n = ((n & 0xFF00FF00) >>>  8) + (n & 0x00FF00FF);
+		n = ((n & 0xFFFF0000) >>> 16) + (n & 0x0000FFFF);
+		return n;
+	}
 
 	public boolean set( final int index, final double mod )
 	{
@@ -722,6 +746,12 @@ public class Modifiers
 				changed = true;
 			}
 		}
+		
+		if ( this.clownosity != mods.clownosity )
+		{
+			this.clownosity = mods.clownosity;
+			changed = true;
+		}
 
 		return changed;
 	}
@@ -810,6 +840,8 @@ public class Modifiers
 		{
 			this.booleans[ Modifiers.WEAKENS ] = mods.booleans[ Modifiers.WEAKENS ];
 		}
+		
+		this.clownosity |= mods.clownosity;
 	}
 
 	public static final Modifiers getModifiers( String name )
@@ -888,6 +920,26 @@ public class Modifiers
 					newStrings[ i ] = matcher.group( 1 );
 					continue;
 				}
+			}
+		}
+		
+		Matcher matcher = CLOWNOSITY_PATTERN.matcher( string );
+		if ( matcher.find() )
+		{
+			switch ( StringUtilities.parseInt( matcher.group( 1 ) ) )
+			{	// Assign each item with Clownosity its own bit or two in the value
+			case 1:
+				newMods.clownosity = clownosityMask;
+				clownosityMask <<= 1;
+				break;
+				
+			case 2:
+				newMods.clownosity = clownosityMask | (clownosityMask << 1);
+				clownosityMask <<= 2;
+				break;
+			
+			default:
+				// invalid Clownosity, just ignore it for now
 			}
 		}
 

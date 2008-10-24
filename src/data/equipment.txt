@@ -669,7 +669,7 @@ Hodgman's metal detector	0	Mus: 200
 Hodgman's varcolac paw	0	Mus: 200
 Idol of Ak'gyxoth	0	none
 Kevlar balloon	0	none
-KoL Con IV Pole	0	none
+KoL Con IV Pole	0	Mys: 10
 Mr. Balloon	0	none
 Mylar balloon	0	none
 Necrotelicomnicon	0	none
@@ -682,7 +682,7 @@ Spanish fly trap	0	none
 Tiki lighter	0	none
 Tuesday's ruby	0	Mys: 45
 Wand of Oscus	0	Mys: 200
-Zombo's shield	0	Mus: 200 shield
+Zombo's shield	0	Mus: 200	shield
 anniversary balloon	0	none
 anniversary chutney sculpture	0	none
 antique shield	230	Mus: 85	shield
@@ -696,7 +696,7 @@ barskin buckler	27	none	shield
 basic meat foon	0	Mys: 10
 battered hubcap	220	Mus: 65	shield
 black shield	160	Mus: 65	shield
-bobble-hip hula elf doll	0	none
+bobble-hip hula elf doll	0	Mys: 5
 borg sock monkey	0	Mys: 40
 box	0	none
 box turtle	50	Mus: 10	shield
@@ -733,13 +733,14 @@ green balloon	0	none
 handmade hobby horse	0	none
 heart-shaped balloon	0	none
 hippo skin buckler	95	Mus: 30	shield
+hobo code binder	0	none
 hors d'oeuvre tray	115	Mus: 40	shield
 hypnodisk	0	none
 ice baby	0	none
 incredibly creepy marionette	0	Mys: 40
 joybuzzer	0	none
 keg shield	175	Mus: 70	shield
-kickback cookbook	0	none
+kickback cookbook	0	Mys: 5
 killer rag doll	0	Mys: 40
 left-handed melodica	0	Mox: 150
 little round pebble	0	Mys: 7
@@ -820,8 +821,8 @@ yakskin buckler	95	Mus: 30	shield
 Aluminum Epsilon of Humility	0	Mys: 85
 Amulet of Yendor	0	none
 Ankh of Badahnkadh	0	Mys: 67
-Baron von Ratsworth's money clip	0	none
-Baron von Ratsworth's monocle	0	none
+Baron von Ratsworth's money clip	0	Mys: 10
+Baron von Ratsworth's monocle	0	Mys: 10
 Blue Diamond of Honesty	0	Mys: 85
 Bonerdagon necklace	0	Mys: 25
 Boris's ring	0	Mys: 25
@@ -870,7 +871,7 @@ Lord Spookyraven's ear trumpet	0	Mys: 40
 Lord Spookyraven's spectacles	0	none
 Mafia bow tie	0	Mys: 35
 Mafia stogie	0	Mys: 35
-MagiMechTech NanoMechaMech	0	none
+MagiMechTech NanoMechaMech	0	Mys: 15
 Mega Gem	0	none
 Mr. Accessory	0	none
 Mr. Accessory Jr.	0	none
@@ -883,7 +884,7 @@ Mudflap-Girl Necklace	0	Mys: 60
 Mudflap-Girl Ring	0	Mys: 60
 Nickel Gamma of Frugality	0	Mys: 85
 Nose Ring of Putrescence	0	Mys: 60
-Ol' Scratch's manacles	0	Mox: 200
+Ol' Scratch's manacles	0	Mys: 200
 Orange Star of Sacrifice	0	Mys: 85
 Order of the Silver Wossname	0	Mys: 85
 Oscus's pelt	0	Mys: 200
@@ -930,7 +931,7 @@ badass belt	0	Mys: 35
 beach glass necklace	0	Mys: 20
 beaten-up Chucks	0	Mys: 45
 beer goggles	0	none
-bejeweled accordion strap	0	none
+bejeweled accordion strap	0	Mox: 5
 bejeweled pledge pin	0	Mys: 70
 big red clown nose	0	Mys: 10
 black belt	0	Mys: 60
@@ -946,12 +947,12 @@ brown plastic baby	0	none
 cannonball charrrm bracelet	0	Mys: 80
 cement shoes	0	Mys: 35
 cheap studded belt	0	none
-chintzy accordion pin	0	none
-chintzy disco ball pendant	0	none
-chintzy noodle ring	0	none
-chintzy saucepan earring	0	none
-chintzy seal pendant	0	none
-chintzy turtle brooch	0	none
+chintzy accordion pin	0	Mox: 45
+chintzy disco ball pendant	0	Mox: 45
+chintzy noodle ring	0	Mys: 45
+chintzy saucepan earring	0	Mys: 45
+chintzy seal pendant	0	Mus: 45
+chintzy turtle brooch	0	Mus: 45
 clingfilm slippers	0	Mys: 60
 clown shoes	0	Mys: 10
 clownskin belt	0	Mys: 10
@@ -1011,11 +1012,11 @@ intergalactic pom poms	0	none
 jar of anniversary jam	0	none
 kick-ass kicks	0	Mys: 65
 knobby kneepads	0	none
-ladle of mystery	0	none
+ladle of mystery	0	Mys: 5
 left half of a heart necklace	0	none
 lucky bottlecap	0	Mys: 200
 lucky Crimbo tiki necklace	0	none
-lucky rabbit's foot	0	none
+lucky rabbit's foot	0	Mys: 15
 makeshift SCUBA gear	0	none
 makeshift cape	0	Mys: 35
 mayfly bait necklace	0	none
@@ -1083,7 +1084,7 @@ spade necklace	0	none
 spark plug earring	0	Mys: 75
 sparkly engagement ring	0	none
 special sauce glove	0	none
-spooky glove	0	none
+spooky glove	0	Mys: 15
 stainless steel scarf	0	Mys: 30
 stainless steel solitaire	0	Mys: 30
 stainless steel suspenders	0	Mys: 30
@@ -1093,9 +1094,9 @@ string of green beads	0	none
 string of red beads	0	none
 stuffed shoulder parrot	0	Mys: 25
 support cummerbund	0	Mys: 35
-tap shoes	0	none
+tap shoes	0	Mys: 30
 tarrrnished charrrm bracelet	0	Mys: 60
-tin star	0	none
+tin star	0	Mys: 15
 tiny plastic 7-foot dwarf	0	none
 tiny plastic Axe Wound	0	none
 tiny plastic Baron von Ratsworth	0	none
@@ -1109,8 +1110,8 @@ tiny plastic Crimbo elf	0	none
 tiny plastic Crimbo reindeer	0	none
 tiny plastic Crimbo wreath	0	none
 tiny plastic Crimboween pentagram	0	none
-tiny plastic Dr. Awkward	0	none
-tiny plastic Ed the Undying	0	none
+tiny plastic Dr. Awkward	0	Mys: 10
+tiny plastic Ed the Undying	0	Mys: 10
 tiny plastic Felonia	0	none
 tiny plastic G Imp	0	none
 tiny plastic Gnollish crossdresser	0	none
@@ -1123,15 +1124,15 @@ tiny plastic Knob Goblin bean counter	0	none
 tiny plastic Knob Goblin harem girl	0	none
 tiny plastic Knob Goblin mad scientist	0	none
 tiny plastic Knott Yeti	0	none
-tiny plastic Lord Spookyraven	0	none
-tiny plastic Naughty Sorceress	0	none
+tiny plastic Lord Spookyraven	0	Mys: 10
+tiny plastic Naughty Sorceress	0	Mys: 35
 tiny plastic Orcish Frat Boy	0	none
 tiny plastic Protagonist	0	none
 tiny plastic Scream Queen	0	none
 tiny plastic Sneaky Pete	0	none
 tiny plastic Spam Witch	0	none
 tiny plastic Spunky Princess	0	none
-tiny plastic Susie	0	none
+tiny plastic Susie	0	Mys: 5
 tiny plastic The Big Wisniewski	0	none
 tiny plastic The Man	0	none
 tiny plastic Trouser Snake	0	none
@@ -1181,7 +1182,7 @@ tiny plastic lobsterfrogman	0	none
 tiny plastic mosquito	0	none
 tiny plastic ninja snowman	0	none
 tiny plastic pastamancer	0	none
-tiny plastic protector spectre	0	none
+tiny plastic protector spectre	0	Mys: 10
 tiny plastic sabre-toothed lime	0	none
 tiny plastic sauceror	0	none
 tiny plastic scary clown	0	none
@@ -1202,10 +1203,10 @@ tiny plastic undead elbow macaroni	0	none
 tiny plastic warwelf	0	none
 tiny plastic whitesnake	0	none
 tiny plastic zmobie	0	none
-toy crazy train	0	none
+toy crazy train	0	Mys: 15
 toy jet pack	0	Mys: 72
-toy maglev monorail	0	none
-toy train	0	none
+toy maglev monorail	0	Mys: 15
+toy train	0	Mys: 15
 tube sock	0	Mys: 45
 walrus-tusk earring	0	Mys: 10
 water wings	0	none
@@ -1215,7 +1216,7 @@ white collar	0	none
 woven baling wire bracelets	0	Mys: 75
 wrench bracelet	0	Mys: 75
 x-ray specs	0	none
-ye olde golde frontes	0	none
+ye olde golde frontes	0	Mox: 5
 yellow glowstick	0	none
 
 # Containers section of equipment.txt

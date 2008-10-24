@@ -271,10 +271,16 @@ public class CompactSidePane
 		this.meatDropLabel.setText( KoLConstants.ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getMeatDropPercentAdjustment() ) + "%" );
 		this.itemDropLabel.setText( KoLConstants.ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getItemDropPercentAdjustment() ) + "%" );
 		int hobo = KoLCharacter.getHoboPower();
+		int clown = KoLCharacter.getClownosity();
 		if ( hobo != 0 )
 		{
 			this.hoboLabel.setText( "Hobo: " );
 			this.hoboPowerLabel.setText( KoLConstants.MODIFIER_FORMAT.format( hobo ) );
+		}
+		else if ( clown != 0 )
+		{
+			this.hoboLabel.setText( "Clown: " );
+			this.hoboPowerLabel.setText( clown + "/4" );
 		}
 		else
 		{

@@ -1333,6 +1333,17 @@ public abstract class KoLCharacter
 	}
 
 	/**
+	 * Accessor method to retrieve the player's Clownosity
+	 *
+	 * @return Clownosity
+	 */
+
+	public static final int getClownosity()
+	{
+		return (int) KoLCharacter.currentModifiers.getClownosity();
+	}
+
+	/**
 	 * Accessor method to retrieve the current elemental resistance levels
 	 *
 	 * @return Total Current Resistance to specified element
