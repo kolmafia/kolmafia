@@ -111,7 +111,7 @@ antique helmet	Initiative: -10, Spooky Resistance: +3
 asbestos helmet turtle	Hot Resistance: +1
 asshat	Stench Resistance: +1, Sleaze Damage: +1
 balaclava	Cold Resistance: +1
-balloon helmet	Damage Absorption: +20
+balloon helmet	Damage Absorption: +20, Clownosity: +1
 barskin hat	Muscle: +1
 basic meat fez	Moxie: +2, Mysticality: +1
 basic meat helmet	Muscle: +1
@@ -133,7 +133,7 @@ chef's hat	Mysticality: +2, MP Regen Min: 1, MP Regen Max: 1
 chrome helmet turtle	Moxie: +5, Muscle: +5, Mysticality: +5
 clingfilm cap	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1, MP Regen Min: 2, MP Regen Max: 3
 clockwork hat	Spooky Resistance: +1
-clown wig	Mysticality: +3, Spell Damage: +3
+clown wig	Mysticality: +3, Spell Damage: +3, Clownosity: +2
 coconut shell	Damage Absorption: +1
 cold ninja mask	Initiative: +15
 cornuthaum	Mysticality: +3, Moxie: +3
@@ -153,7 +153,7 @@ fancy ball mask	Moxie Percent: +10
 fez of etymology	Moxie: +7
 filthy knitted dread sack	Stench Damage: +3
 fire	Intrinsic Effect: "Head on Fire, Ass Catching", Hot Damage: +7
-foolscap fool's cap	Moxie: +2, Mysticality: -2
+foolscap fool's cap	Moxie: +2, Mysticality: -2, Clownosity: +1
 # football helmet
 furry green turtle	Moxie: +3
 gasmask	Stench Resistance: +3
@@ -262,7 +262,7 @@ basic meat pants	Moxie: +1
 basic meat skirt	Moxie: +1
 biomechanical crimborg leg armor	Hot Damage: +5, Stench Damage: +5
 black greaves	Muscle: +10, Damage Absorption: +30
-bloody clown pants	Spooky Damage: +3
+bloody clown pants	Spooky Damage: +3, Clownosity: +1
 bounty-hunting pants	Item Drop: +15
 bowlegged pants	Moxie: +5
 # bugbear bungguard
@@ -356,7 +356,7 @@ barskin cloak	Muscle: +2
 bat-ass leather jacket	Mysticality: +10, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 bronze breastplate	Damage Absorption: +20, Damage Reduction: 4
 clockwork trench coat	Damage Absorption: +15
-clownskin harness	Spooky Damage: +2, Sleaze Damage: +2
+clownskin harness	Spooky Damage: +2, Sleaze Damage: +2, Clownosity: +2
 coconut bikini top	Mysticality: +5
 demonskin jacket	Mysticality: +5, Hot Spell Damage: +5
 duct tape shirt	Moxie: +9, Meat Drop: +20
@@ -471,7 +471,7 @@ asbestos staff	Mysticality: +7, Moxie: +5
 asbestos sword	Muscle: +7, Mysticality: +5
 asparagus knife	Stench Damage: +1
 # automatic catapult
-balloon sword	Never Fumble, Melee Damage: -2
+balloon sword	Never Fumble, Melee Damage: -2, Clownosity: +2
 # bamboo bokuto
 bar whip	Familiar Weight: +2
 basic meat crossbow	Moxie: +1
@@ -518,7 +518,7 @@ clockwork crossbow	Ranged Damage: +10, Critical: 3
 clockwork staff	Spell Damage: +10, Critical: 3
 clockwork sword	Melee Damage: +10, Critical: 3
 # clown hammer
-clown whip	Sleaze Resistance: +2
+clown whip	Sleaze Resistance: +2, Clownosity: +2
 club of the five seasons	Hot Damage: +5, Cold Damage: +5, Stench Damage: +5, Spooky Damage: +5, Sleaze Damage: +5
 # cool whip
 corn holder	Spell Damage: +1
@@ -770,7 +770,7 @@ box-in-the-box-in-the-box	Meat Drop: +3
 cardboard box turtle	Damage Reduction: 4, Muscle: +3
 catskin buckler	Damage Reduction: 11, Muscle: +10, Damage Absorption: +50
 # clockwork detective skull
-clownskin buckler	Damage Reduction: 3, Spooky Damage: +3
+clownskin buckler	Damage Reduction: 3, Spooky Damage: +3, Clownosity: +2
 coffin lid	Damage Reduction: 3, Spooky Resistance: +1
 # continuum transfunctioner
 cup of infinite pencils	Meat Drop: +15
@@ -993,7 +993,7 @@ beaten-up Chucks	Initiative: +40
 # beer goggles
 bejeweled accordion strap	Maximum HP: +25, Maximum MP: +25, Class: "Accordion Thief"
 bejeweled pledge pin	Single Equip, Maximum HP: +40
-big red clown nose	Maximum HP: +7
+big red clown nose	Maximum HP: +7, Clownosity: +1
 black belt	Single Equip, Muscle: +7, Melee Damage: +7
 blackberry combat boots	Single Equip, Muscle: +10, Maximum HP: +45, Melee Damage: +5
 blackberry moccasins	Single Equip, Moxie: +8, Initiative: +25, Damage Reduction: 3
@@ -1014,8 +1014,8 @@ chintzy saucepan earring	Single Equip, Mysticality: +12, Moxie: +6, Class: "Sauc
 chintzy seal pendant	Single Equip, Muscle: +12, Moxie: +6, Class: "Seal Clubber"
 chintzy turtle brooch	Single Equip, Muscle: +12, Mysticality: +6, Class: "Turtle Tamer"
 clingfilm slippers	Single Equip, Spell Damage: +15
-clown shoes	Maximum MP: +7
-clownskin belt	Maximum MP: +15
+clown shoes	Maximum MP: +7, Clownosity: +1
+clownskin belt	Maximum MP: +15, Clownosity: +2
 # club necklace
 colored-light &quot;necklace&quot;	Maximum MP: +15
 consolation ribbon	Moxie: +1, Muscle: +1, Mysticality: +1
@@ -1094,7 +1094,7 @@ pirate fledges	Moxie: +7, Muscle: +7, Mysticality: +7
 plexiglass pendant	Single Equip, Never Fumble, Moxie Percent: +30
 plexiglass pinky ring	Single Equip, Spell Damage: +30, Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, Mysticality Percent: +30
 plexiglass pocketwatch	Single Equip, Mana Cost: -3, Adventures: +3, Mysticality Percent: +30
-polka-dot bow tie	Moxie: +3
+polka-dot bow tie	Moxie: +3, Clownosity: +2
 porquoise bracelet	Moxie: +4, Never Fumble
 porquoise eyebrow ring	Moxie: +4, Never Fumble
 porquoise necklace	Single Equip, Moxie: +4, Meat Drop: +10
@@ -1688,7 +1688,7 @@ Radiant Personality	Moxie Percent: +30
 Radiating Black Body&trade;	Moxie Percent: +10, Mana Cost: +3
 Radium Radicality	Moxie: +30
 Rage of the Reindeer	Muscle Percent: +10, Melee Damage: +10
-Rainbow Bright	Hot Damage: +5, Cold Damage: +5, Stench Damage: +5, Spooky Damage: +5, Sleaze Damage: +5, Muscle Percent: +10, Mystcality Percent: +10, Moxie Percent: +10, Hot Resistance: +3, Cold Resistance: +3, Stench Resistance: +3, Spooky Resistance: +3, Sleaze Resistance: +3
+Rainbow Bright	Hot Damage: +15, Cold Damage: +15, Stench Damage: +15, Spooky Damage: +15, Sleaze Damage: +15, Muscle Percent: +30, Mysticality Percent: +30, Moxie Percent: +30, Hot Resistance: +3, Cold Resistance: +3, Stench Resistance: +3, Spooky Resistance: +3, Sleaze Resistance: +3
 Rainy Soul Miasma	Muscle: +10, Mysticality: +10, Moxie: -5
 Raving Lunatic	Melee Damage: +20
 Really Quite Poisoned	Muscle Percent: -70, Mysticality Percent: -70, Moxie Percent: -70, Muscle: -9, Mysticality: -9, Moxie: -9

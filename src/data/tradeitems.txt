@@ -3350,7 +3350,7 @@
 3349	dinged-up triangle	0	display	300
 3350	Ralph IX cognac	2	all	0
 3351	llama lama cria	5	all	0
-3352	zen motorcycle	7	all	75
+3352	zen motorcycle	7	all	0
 3353	llama lama gong	3	all	0
 3354	banana-frosted king cake	1	display	0
 3355	brown plastic baby	8	all	0
@@ -3443,7 +3443,7 @@
 3442	rainbow crossbow	12	all	200
 3443	black kitten	5	none	0
 3444	webbed comic mask	9	display	0
-3445	Junior Adventurer's kit	1	all	0
+3445	Junior Adventurer's kit	0	all	0
 3446
 3447	six-rainbow shield	13	all	150
 3448	rainbow bomb	0	all	150
@@ -3454,9 +3454,9 @@
 3453	cotton candy plug	17	all	35
 3454	cotton candy pillow	17	all	35
 3455	cotton candy bale	17	all	35
-3456	trusty torch	12	all	0
+3456	trusty torch	12	display	0
 3457	Junior Adventurer's merit badge	8	display	0
-3458	STYX deodorant body spray	1	display	0
+3458	STYX deodorant body spray	0	display	0
 3459	white-label gin	2	display	0
 3460	tin rations	1	display	0
 3461	haiku challenge map	0	none	0
@@ -3465,7 +3465,7 @@
 3464	little round pebble	13	all	45
 3465	Bash-&#332;s cereal	1	all	25
 3466	haiku katana	12	all	0
-3467	bargain flash powder	0	all	0
+3467	bargain flash powder	0	all	2
 3468
 3469
 3470	little bitty bathysphere	7	none	0
