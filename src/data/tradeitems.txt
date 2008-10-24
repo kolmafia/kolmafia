@@ -3495,4 +3495,4 @@
 3494	fish bazooka	12	all	250
 3495
 3496	bazookafish bubble gum	3	all	5
-3497	bottle of Pete's sake	2	all	70
+3497	bottle of Pete's Sake	2	all	70
