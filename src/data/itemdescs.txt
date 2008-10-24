@@ -1732,7 +1732,7 @@
 1726	628334658	sinewy crossbow string	sinewy crossbow strings
 1727	123559093	sturdy sword hilt	sturdy sword hilts
 1728	952798241	dense meat sword	dense meat swords
-1729	141835260	dense meat staff	dense meat staffs
+1729	141835260	dense meat staff	dense meat staves
 1730	572944807	dense meat crossbow	dense meat crossbows
 1731	796162603	Spirit Precipice	Spirit Precipices
 1732	480169596	smoldering staff	smoldering staffs
@@ -1811,7 +1811,7 @@
 1805	464464293	dusty fourth cervical vertebra	dusty fourth cervical vertebrae
 1806	572586064	dusty fifth cervical vertebra	dusty fifth cervical vertebrae
 1807	979135235	dusty sixth cervical vertebra	dusty sixth cervical vertebrae
-1808	416359760	dusty seventh cervical vertebra	dusty second cervical vertebrae
+1808	416359760	dusty seventh cervical vertebra	dusty seventh cervical vertebrae
 1809	677057753	dusty first thoracic vertebra	dusty first thoracic vertebrae
 1810	136895778	dusty second thoracic vertebra	dusty second thoracic vertebrae
 1811	674310808	dusty third thoracic vertebra	dusty third thoracic vertebrae
@@ -2452,7 +2452,7 @@
 2446	481449606	hardware upgrade	hardware upgrades
 2447	840387110	bad penguin egg	bad penguin eggs
 2448	476592435	tasteful black bow tie	tasteful black bow ties
-2449	223792397	six-pack of New Cloaca-Cola	six-packs of New Cloaca-Cola
+2449	223792397	six-pack of New Cloaca-Cola	six-pack of New Cloaca-Cola
 2450	404489596	empty Cloaca-Cola bottle	empty Cloaca-Cola bottles
 2451	289037416	goatskin umbrella	goatskin umbrellas
 2452	160247422	wool hat	wool hats
@@ -2580,7 +2580,7 @@
 2574	577092879	ant pick	ant picks
 2575	991245163	bronzed locust	bronzed locusts
 2576	300470894	honey-dipped locust	honey-dipped locusts
-2577	604989033	giant cactus quill	giant cactus quills
+2577	604989033	giant cactus quill	giant catus quills
 2578	445174128	Staff of the Short Order Cook	Staves of the Short Order Cook
 2579	241600811	cactus fruit	cactus fruits
 2580	661963442	scorpion whip	scorpion whips
@@ -2655,7 +2655,7 @@
 2649	615488389	Lord Spookyraven's ear trumpet	Lord Spookyraven's ear trumpets
 2650	908181356	bottled green pixie	bottled green pixies
 2651	369275206	green pixie spog	green pixie spogs
-2652	823135730	S.T.L.T.	S.T.L.T.S
+2652	823135730	S.T.L.T.	S.T.L.T.S.
 2653	762481213	honey-dew	slices of honey-dew
 2654	401169468	white Xanadian	white Xanadians
 2655	689551675	tiny bottle of absinthe	tiny bottles of absinthe
@@ -2667,7 +2667,7 @@
 2661	752091149	flask of Amontillado	flasks of Amontillado
 2662	162287327	fancy ball mask	fancy ball masks
 2663	279361902	Can-Can skirt	Can-Can skirts
-2664	187780421	sensitive poetry journal	sensitive poetry journals
+2664	187780421	sensitive poetry journal	sensitive poetry journal
 2665	535649142	bottled inspiration	bottles of inspiration
 2666	447434542	bellhop bell	bellhop bells
 2667	473494040	disintegrating spiky collar	disintegrating spiky collars
@@ -2773,7 +2773,7 @@
 2767	151539537	Crimbo pie	Crimbo pies
 2768	954878848	pear tart	pear tarts
 2769	225193372	peach pie	peach pies
-2770	477113151	chunk of rock salt	chunk of rock salts
+2770	477113151	chunk of rock salt	chunks of rock salt
 2771	173491862	handful of pine needles	handfuls of pine needles
 2772	979351283	steamy ruby	steamy rubies
 2773	250931608	glacial sapphire	glacial sapphires
@@ -3028,7 +3028,7 @@
 3022	960028209	medium stone triangle
 3023	460043851	small stone triangle
 3024	211072893	strange stone pyramid
-3025	619225682	corpse on the beach	corpses on the beach
+3025	619225682	corpse on the beach	corpses on the beaches
 3026	915696450	corpsetini	corpsetinis
 3027	410047686	corpsedriver	corpsedrivers
 3028	924952398	Corpse Island iced tea	Corpse Island iced teas
@@ -3087,7 +3087,7 @@
 3080	447370300	teddy borg	teddy borgs
 3081	746649355	marionette collective	marionette collectives
 3082	205640093	monomolecular yo-yo	monomolecular yo-yo-yo
-3083	380691724	stuffed gray blob	stuffed gray blob
+3083	380691724	stuffed gray blob	stuffed gray blobs
 3084	375409737	borg sock monkey	borg sock monkeys
 3085	153919945	roboduck-on-a-string	roboducks-on-strings
 3086	941936499	mylar scout drone	mylar scout drones
@@ -3466,7 +3466,7 @@
 3459	198896588	white-label gin
 3460	808723295	tin rations
 3461	611048875	haiku challenge map
-3462	376514717	terrible poem	terrible poems
+3462	376514717	terrible poem	terrible poetries
 3463	293461627	bottle of sake	bottles of sake
 3464	435365663	little round pebble	little round pebbles
 3465	303006655	Bash-&#332;s cereal
@@ -3501,4 +3501,4 @@
 3494	860667475	fish bazooka
 3495
 3496	540293802	bazookafish bubble gum	bazookafish bubble gums
-3497	316828573	bottle of Pete's sake	bottles of Pete's sake
+3497	316828573	bottle of Pete's Sake	bottles of Pete's Sake
