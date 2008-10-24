@@ -343,12 +343,13 @@ public class FlowerHunterFrame
 			this.winMessage = new AutoHighlightTextField( Preferences.getString( "defaultFlowerWinMessage" ) );
 			this.winMessage.addFocusListener( new SaveMessageListener() );
 			this.lossMessage = new AutoHighlightTextField( Preferences.getString( "defaultFlowerLossMessage" ) );
-			this.winMessage.addFocusListener( new SaveMessageListener() );
+			this.lossMessage.addFocusListener( new SaveMessageListener() );
 
 			this.stanceSelect = new JComboBox();
 			this.stanceSelect.addItem( "Bully your opponent" );
 			this.stanceSelect.addItem( "Burninate your opponent" );
 			this.stanceSelect.addItem( "Backstab your opponent" );
+			this.stanceSelect.addItem( "Ballyhoo!" );
 
 			this.victorySelect = new JComboBox();
 			this.victorySelect.addItem( "Steal a pretty flower" );
