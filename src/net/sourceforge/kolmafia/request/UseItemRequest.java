@@ -150,6 +150,7 @@ public class UseItemRequest
 		case ItemPool.BAG_OF_CANDY:
 			// free booze
 		case ItemPool.EMBLEM_AKGYXOTH:
+		case ItemPool.IDOL_AKGYXOTH:
 			return KoLConstants.CONSUME_USE;
 
 		case ItemPool.HOBO_CODE_BINDER:
@@ -1967,6 +1968,7 @@ public class UseItemRequest
 		case ItemPool.EL_VIBRATO_HELMET:
 		case ItemPool.BAG_OF_CANDY:
 		case ItemPool.EMBLEM_AKGYXOTH:
+		case ItemPool.IDOL_AKGYXOTH:
 
 			// Certain pieces of equipment can also be "used" and
 			// are not consumed.

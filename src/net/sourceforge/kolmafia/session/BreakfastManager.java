@@ -29,7 +29,8 @@ public class BreakfastManager
 		ItemPool.get( ItemPool.BALL_IN_A_CUP, 1 ),
 		ItemPool.get( ItemPool.SET_OF_JACKS, 1 ),
 		ItemPool.get( ItemPool.BAG_OF_CANDY, 1 ),
-		ItemPool.get( ItemPool.EMBLEM_AKGYXOTH, 1 )
+		ItemPool.get( ItemPool.EMBLEM_AKGYXOTH, 1 ),
+		ItemPool.get( ItemPool.IDOL_AKGYXOTH, 1 ),
 	};
 
 	public static void getBreakfast( final boolean checkSettings, final boolean runComplete )
