@@ -11,6 +11,7 @@ global	allowSocketTimeout	true
 global	autoHighlightOnFocus	true
 global	autoPlantHardcore	false
 global	autoPlantSoftcore	false
+global	autoSatisfyWithCloset	true
 global	autoSatisfyWithMall	true
 global	autoSatisfyWithNPCs	true
 global	autoSatisfyWithStash	false

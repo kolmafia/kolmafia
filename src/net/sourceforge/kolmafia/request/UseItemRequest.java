@@ -73,11 +73,12 @@ public class UseItemRequest
 {
 	private static final GenericRequest REDIRECT_REQUEST = new GenericRequest( "inventory.php?action=message" );
 
+	public static final Pattern ITEMID_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
+	public static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity=(\\d+)" );
+
 	private static final Pattern ROW_PATTERN = Pattern.compile( "<tr>.*?</tr>" );
 	private static final Pattern INVENTORY_PATTERN = Pattern.compile( "</blockquote></td></tr></table>.*?</body>" );
-	private static final Pattern ITEMID_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
 	private static final Pattern HELPER_PATTERN = Pattern.compile( "utensil=(\\d+)" );
-	private static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity=(\\d+)" );
 	private static final Pattern FORTUNE_PATTERN =
 		Pattern.compile( "<font size=1>(Lucky numbers: (\\d+), (\\d+), (\\d+))</td>" );
 
