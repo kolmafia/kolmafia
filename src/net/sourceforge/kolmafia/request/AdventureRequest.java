@@ -777,7 +777,7 @@ public class AdventureRequest
 			Preferences.setString( settingName, demon );
 
 			if ( KoLConstants.conditions.isEmpty() )
-				KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, (String) demons[ index ][0] );
+				KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, (String) demons[ index - 1 ][0] );
 		}
 	}
 
