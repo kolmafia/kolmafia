@@ -600,7 +600,7 @@ public class ConcoctionDatabase
 
 	private static final List getAvailableIngredients()
 	{
-		boolean includeCloset = !KoLConstants.closet.isEmpty();
+		boolean includeCloset = !KoLConstants.closet.isEmpty() && Preferences.getBoolean( "autoSatisfyWithCloset" );
 		boolean includeStorage = KoLCharacter.canInteract() && !KoLConstants.storage.isEmpty();
 		boolean includeStash =
 			KoLCharacter.canInteract() && Preferences.getBoolean( "autoSatisfyWithStash" ) && !ClanManager.getStash().isEmpty();

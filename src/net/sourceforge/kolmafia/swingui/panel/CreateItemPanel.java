@@ -89,10 +89,10 @@ public class CreateItemPanel
 					"Automatically repair bartenders on explosion" ) );
 			}
 
-			if ( food || booze )
-			{
-				this.northPanel.add( filterPanel, BorderLayout.NORTH );
-			}
+			filterPanel.add( new CreationSettingCheckBox(
+						 "use closet", "autoSatisfyWithCloset", "Look in closet for ingredients" ) );
+
+			this.northPanel.add( filterPanel, BorderLayout.NORTH );
 
 			this.setFixedFilter( food, booze, equip, other, true );
 		}

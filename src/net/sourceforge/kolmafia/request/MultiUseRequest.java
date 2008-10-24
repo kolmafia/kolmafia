@@ -52,7 +52,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class MultiUseRequest
 	extends CreateItemRequest
 {
-	private static final Pattern USE_PATTERN = Pattern.compile( "multiuse.php.*quantity=(\\d+).*whichitem=(\\d+)" );
 	private AdventureResult ingredient;
 
 	public MultiUseRequest( final int itemId )
@@ -127,14 +126,26 @@ public class MultiUseRequest
 
 	public static final boolean registerRequest( final String urlString )
 	{
-		Matcher useMatcher = MultiUseRequest.USE_PATTERN.matcher( urlString );
-		if ( !useMatcher.find() )
+		if ( !urlString.startsWith( "multiuse.php") )
+		{
+			return false;
+		}
+
+		Matcher itemMatcher = UseItemRequest.ITEMID_PATTERN.matcher( urlString );
+		if ( !itemMatcher.find() )
+		{
+			return false;
+		}
+
+		Matcher quantityMatcher = UseItemRequest.QUANTITY_PATTERN.matcher( urlString );
+
+		if ( !quantityMatcher.find() )
 		{
 			return false;
 		}
 
 		// Item ID of the base item
-		int baseId = StringUtilities.parseInt( useMatcher.group( 2 ) );
+		int baseId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
 
 		// Find result item ID
 		int result = ConcoctionPool.findConcoction( KoLConstants.MULTI_USE, baseId );
@@ -145,7 +156,7 @@ public class MultiUseRequest
 			return false;
 		}
 
-		int count = StringUtilities.parseInt( useMatcher.group( 1 ) );
+		int count = StringUtilities.parseInt( quantityMatcher.group( 1 ) );
 
 		UseItemRequest.setLastItemUsed( ItemPool.get( baseId, count ) );
 		AdventureResult base = ItemPool.get( baseId, 0 - count );
