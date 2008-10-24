@@ -244,21 +244,13 @@ public class UseSkillRequest
 		int maxPossible = 0;
 		int availableMP = KoLCharacter.getCurrentMP();
 
-		if ( !SkillDatabase.isLibramSkill( this.skillId ) )
+		if ( SkillDatabase.isLibramSkill( this.skillId ) )
 		{
-			maxPossible = Math.min( this.getMaximumCast(), availableMP / mpCost );
+			maxPossible = SkillDatabase.libramSkillCasts( availableMP );
 		}
 		else
 		{
-			// Libram skills have increasing cost per casting
-			int cast = Preferences.getInteger( "libramSummons" );
-
-			while ( mpCost <= availableMP )
-			{
-				maxPossible++;
-				availableMP -= mpCost;
-				mpCost = SkillDatabase.libramSkillMPConsumption( ++cast );
-			}
+			maxPossible = Math.min( this.getMaximumCast(), availableMP / mpCost );
 		}
 
 		if ( buffCount < 1 )
@@ -548,21 +540,18 @@ public class UseSkillRequest
 
 	private void useSkillLoop()
 	{
-		// Before executing the skill, ensure that all necessary mana is
-		// recovered in advance.
-
-		int castsRemaining = this.buffCount;
-		int mpPerCast = SkillDatabase.getMPConsumptionById( this.skillId );
-
-		int currentMP = KoLCharacter.getCurrentMP();
-		int maximumMP = KoLCharacter.getMaximumMP();
-
 		if ( KoLmafia.refusesContinue() )
 		{
 			return;
 		}
 
-		int currentCast = 0;
+		// Before executing the skill, ensure that all necessary mana is
+		// recovered in advance.
+
+		int castsRemaining = this.buffCount;
+
+		int maximumMP = KoLCharacter.getMaximumMP();
+		int mpPerCast = SkillDatabase.getMPConsumptionById( this.skillId );
 		int maximumCast = maximumMP / mpPerCast;
 
 		while ( !KoLmafia.refusesContinue() && castsRemaining > 0 )
@@ -581,12 +570,7 @@ public class UseSkillRequest
 
 			// Find out how many times we can cast with current MP
 
-			currentCast = Math.min( castsRemaining, KoLCharacter.getCurrentMP() / mpPerCast );
-
-			if ( SkillDatabase.isLibramSkill( this.skillId ) )
-			{
-				currentCast = Math.min( currentCast, 1 );
-			}
+			int currentCast = this.availableCasts( castsRemaining, mpPerCast );
 
 			// If none, attempt to recover MP in order to cast;
 			// take auto-recovery into account.
@@ -594,24 +578,20 @@ public class UseSkillRequest
 			if ( currentCast == 0 )
 			{
 				currentCast = Math.min( castsRemaining, maximumCast );
-				currentMP = KoLCharacter.getCurrentMP();
+				int currentMP = KoLCharacter.getCurrentMP();
+
+				int recoverMP = mpPerCast * currentCast;
 
 				SpecialOutfit.createImplicitCheckpoint();
-
 				if ( MoodManager.isExecuting() )
 				{
-					StaticEntity.getClient().recoverMP(
-						Math.min( Math.max( mpPerCast * currentCast, MoodManager.getMaintenanceCost() ), maximumMP ) );
+					recoverMP = Math.min( Math.max( recoverMP, MoodManager.getMaintenanceCost() ), maximumMP );
 				}
-				else
-				{
-					StaticEntity.getClient().recoverMP( mpPerCast * currentCast );
-				}
-
+				StaticEntity.getClient().recoverMP( recoverMP  );
 				SpecialOutfit.restoreImplicitCheckpoint();
 
-				// If no change occurred, that means the person was
-				// unable to recover MP; abort the process.
+				// If no change occurred, that means the person
+				// was unable to recover MP; abort the process.
 
 				if ( currentMP == KoLCharacter.getCurrentMP() )
 				{
@@ -620,8 +600,7 @@ public class UseSkillRequest
 					return;
 				}
 
-				currentCast =
-					Math.min( this.getMaximumCast(), Math.min( castsRemaining, KoLCharacter.getCurrentMP() / mpPerCast ) );
+				currentCast = this.availableCasts( castsRemaining, mpPerCast );
 			}
 
 			if ( KoLmafia.refusesContinue() )
@@ -654,9 +633,7 @@ public class UseSkillRequest
 
 			if ( currentCast > 0 )
 			{
-				// Attempt to cast the buff.  In the event that it
-				// fails, make sure to report it and return whether
-				// or not at least one cast was completed.
+				// Attempt to cast the buff.
 
 				this.buffCount = currentCast;
 				UseSkillRequest.optimizeEquipment( this.skillId );
@@ -680,9 +657,9 @@ public class UseSkillRequest
 
 				super.run();
 
-				// Otherwise, you have completed the correct number
-				// of casts.  Deduct it from the number of casts
-				// remaining and continue.
+				// Otherwise, you have completed the correct
+				// number of casts.  Deduct it from the number
+				// of casts remaining and continue.
 
 				castsRemaining -= currentCast;
 			}
@@ -692,6 +669,26 @@ public class UseSkillRequest
 		{
 			UseSkillRequest.lastUpdate = "Error encountered during cast attempt.";
 		}
+	}
+
+	public final int availableCasts( int maxCasts, int mpPerCast )
+	{
+		int availableMP = KoLCharacter.getCurrentMP();
+		int currentCast = 0;
+
+		if ( SkillDatabase.isLibramSkill( this.skillId ) )
+		{
+			currentCast = SkillDatabase.libramSkillCasts( availableMP );
+		}
+		else
+		{
+			currentCast = availableMP / mpPerCast;
+			currentCast = Math.min( this.getMaximumCast(), currentCast );
+		}
+
+		currentCast = Math.min( maxCasts, currentCast );
+
+		return currentCast;
 	}
 
 	public static final boolean hasAccordion()
@@ -844,12 +841,13 @@ public class UseSkillRequest
 				KoLmafia.updateDisplay( this.skillName + " was successfully cast on " + this.target + "." );
 			}
 			
-			int mpCost = SkillDatabase.isLibramSkill( this.skillId ) ?
-				SkillDatabase.libramSkillMPConsumption( Preferences.getInteger( "libramSummons" ) - 1, this.buffCount ) :
-				SkillDatabase.getMPConsumptionById( this.skillId ) * this.buffCount;
+			if ( !SkillDatabase.isLibramSkill( this.skillId ) )
+			{
+				int mpCost = SkillDatabase.getMPConsumptionById( this.skillId ) * this.buffCount;
 
-			ResultProcessor.processResult(
-				new AdventureResult( AdventureResult.MP, 0 - mpCost ) );
+				ResultProcessor.processResult(
+					new AdventureResult( AdventureResult.MP, 0 - mpCost ) );
+			}
 
 			// Tongue of the Walrus (1010) automatically
 			// removes any beaten up.
@@ -1031,10 +1029,27 @@ public class UseSkillRequest
 			return false;
 		}
 
-		if ( SkillDatabase.isLibramSkill( skillId ) &&
-		     SkillDatabase.libramSkillMPConsumption() <= KoLCharacter.getCurrentMP() )
+		Matcher countMatcher = UseSkillRequest.COUNT2_PATTERN.matcher( urlString );
+		int count = 1;
+
+		if ( countMatcher.find() )
 		{
-			Preferences.increment( "libramSummons", 1 );
+			count = StringUtilities.parseInt( countMatcher.group( 1 ) );
+		}
+
+		if ( SkillDatabase.isLibramSkill( skillId ) )
+		{
+			int cast = Preferences.getInteger( "libramSummons" );
+			int mpCost = SkillDatabase.libramSkillMPConsumption( cast, count );
+
+			if ( mpCost > KoLCharacter.getCurrentMP() )
+			{
+				return true;
+			}
+
+			ResultProcessor.processResult( new AdventureResult( AdventureResult.MP, 0 - mpCost ) );
+
+			Preferences.increment( "libramSummons", count );
 			KoLConstants.summoningSkills.sort();
 			KoLConstants.usableSkills.sort();
 		}
@@ -1042,7 +1057,7 @@ public class UseSkillRequest
 		String skillName = SkillDatabase.getSkillName( skillId );
 
 		RequestLogger.updateSessionLog();
-		RequestLogger.updateSessionLog( "cast 1 " + skillName );
+		RequestLogger.updateSessionLog( "cast " + count + " " + skillName );
 
 		return true;
 	}
