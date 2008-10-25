@@ -151,7 +151,7 @@ Bow-making Mummy		evil googly eye (10)	spooky felt (10)	spooky length of string 
 Brainsweeper	HP: 9 Def: 18 Atk: 18 Meat: 29-47	disembodied brain (30)
 Bread Golem	HP: 8 Def: 16 Atk: 24 Meat: 26-41	wad of dough (30)
 Briefcase Bat	HP: 11 Def: 17 Atk: 17 Meat: 25-37	bat guano (10)	briefcase (40)	sonar-in-a-biscuit (20)
-Brutus, the Toga-Clad Lout	HP: 280	    kick-ass kicks (0)	wreath of laurels (100)		white class ring (0)
+Brutus, the Toga-Clad Lout	HP: 280	    kick-ass kicks (0)	wreath of laurels (100)	white class ring (0)
 Bugbear-In-The-Box	HP: 11 Def: 18 Atk: 14 Meat: 12-19	box (20)	bugbear beanie (10)	bugbear bungguard (10)
 Bullet Bill	HP: 15 Def: 25 Atk: 25	black pixel (70)	black pixel (70)	black pixel (70)
 Burly Sidekick	HP: 100 Def: 100 Atk: 100 Meat: 79-168	cocoa eggshell fragment (30)	mohawk wig (10)	tiny house (30)
