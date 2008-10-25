@@ -64,13 +64,14 @@ public class StarChartRequest
 		{
 			for ( int i = 0; i < ingredients.length; ++i )
 			{
-				if ( ingredients[ i ].getItemId() == ItemPool.STAR )
+				switch ( ingredients[ i ].getItemId() )
 				{
+				case ItemPool.STAR:
 					this.stars = ingredients[ i ].getCount();
-				}
-				else if ( ingredients[ i ].getItemId() == ItemPool.LINE )
-				{
+					break;
+				case ItemPool.LINE:
 					this.lines = ingredients[ i ].getCount();
+					break;
 				}
 			}
 		}
@@ -99,6 +100,12 @@ public class StarChartRequest
 			KoLmafia.updateDisplay( "Creating " + this.getName() + " (" + i + " of " + this.getQuantityNeeded() + ")..." );
 			super.run();
 		}
+	}
+
+	public void processResults()
+	{
+		// Since we create one at a time, override processResults so
+		// superclass method doesn't undo ingredient usage.
 	}
 
 	public static final boolean registerRequest( final String urlString )
