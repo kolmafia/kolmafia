@@ -34,7 +34,7 @@
 package net.sourceforge.kolmafia.request;
 
 import java.lang.Math;
-import java.util.TreeMap;
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -82,7 +82,7 @@ public class UseItemRequest
 	private static final Pattern FORTUNE_PATTERN =
 		Pattern.compile( "<font size=1>(Lucky numbers: (\\d+), (\\d+), (\\d+))</td>" );
 
-	private static final TreeMap LIMITED_USES = new TreeMap();
+	private static final HashMap LIMITED_USES = new HashMap();
 
 	static
 	{

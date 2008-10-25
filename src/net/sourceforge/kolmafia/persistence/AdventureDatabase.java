@@ -38,7 +38,7 @@ import java.io.BufferedReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.TreeMap;
+import java.util.HashMap;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -65,18 +65,18 @@ public class AdventureDatabase
 	private static final AdventureDatabase.AdventureArray allAdventures = new AdventureDatabase.AdventureArray();
 
 	public static final ArrayList PARENT_LIST = new ArrayList();
-	public static final TreeMap PARENT_ZONES = new TreeMap();
-	public static final TreeMap ZONE_DESCRIPTIONS = new TreeMap();
+	public static final HashMap PARENT_ZONES = new HashMap();
+	public static final HashMap ZONE_DESCRIPTIONS = new HashMap();
 
 	private static final StringArray[] adventureTable = new StringArray[ 4 ];
-	private static final TreeMap areaCombatData = new TreeMap();
-	private static final TreeMap adventureLookup = new TreeMap();
-	private static final TreeMap cloverLookup = new TreeMap();
+	private static final HashMap areaCombatData = new HashMap();
+	private static final HashMap adventureLookup = new HashMap();
+	private static final HashMap cloverLookup = new HashMap();
 
 	private static final StringArray conditionsById = new StringArray();
 	private static final StringArray bountiesById = new StringArray();
 
-	private static final TreeMap locationByBounty = new TreeMap();
+	private static final HashMap locationByBounty = new HashMap();
 
 	static
 	{

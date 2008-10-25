@@ -33,7 +33,7 @@
 
 package net.sourceforge.kolmafia.request;
 
-import java.util.TreeMap;
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -61,7 +61,7 @@ public class UseSkillRequest
 	extends GenericRequest
 	implements Comparable
 {
-	private static final TreeMap ALL_SKILLS = new TreeMap();
+	private static final HashMap ALL_SKILLS = new HashMap();
 	private static final Pattern SKILLID_PATTERN = Pattern.compile( "whichskill=(\\d+)" );
 	private static final Pattern BOOKID_PATTERN = Pattern.compile( "preaction=summon([^&]*)" );
 

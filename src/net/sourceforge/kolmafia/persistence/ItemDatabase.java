@@ -37,12 +37,14 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.HashMap;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -88,48 +90,48 @@ public class ItemDatabase
 	private static final StringArray pluralById = new StringArray();
 
 	private static final Map nameById = new TreeMap();
-	private static final Map dataNameById = new TreeMap();
+	private static final Map dataNameById = new HashMap();
 	private static final Map descriptionById = new TreeMap();
-	private static final Map itemIdByName = new TreeMap();
-	private static final Map itemIdByPlural = new TreeMap();
+	private static final Map itemIdByName = new HashMap();
+	private static final Map itemIdByPlural = new HashMap();
 
-	private static final Map itemIdByDescription = new TreeMap();
+	private static final Map itemIdByDescription = new HashMap();
 
-	private static final Map levelReqByName = new TreeMap();
-	private static final Map fullnessByName = new TreeMap();
-	private static final Map inebrietyByName = new TreeMap();
-	private static final Map spleenHitByName = new TreeMap();
+	private static final Map levelReqByName = new HashMap();
+	private static final Map fullnessByName = new HashMap();
+	private static final Map inebrietyByName = new HashMap();
+	private static final Map spleenHitByName = new HashMap();
 
-	private static final Map[][][][] advsByName = new TreeMap[ 2 ][ 2 ][ 2 ][ 2 ];
+	private static final Map[][][][] advsByName = new HashMap[ 2 ][ 2 ][ 2 ][ 2 ];
 
 	static
 	{
-		ItemDatabase.advsByName[ 0 ][ 0 ][ 0 ][ 0 ] = new TreeMap();
-		ItemDatabase.advsByName[ 0 ][ 0 ][ 0 ][ 1 ] = new TreeMap();
-		ItemDatabase.advsByName[ 0 ][ 0 ][ 1 ][ 0 ] = new TreeMap();
-		ItemDatabase.advsByName[ 0 ][ 0 ][ 1 ][ 1 ] = new TreeMap();
+		ItemDatabase.advsByName[ 0 ][ 0 ][ 0 ][ 0 ] = new HashMap();
+		ItemDatabase.advsByName[ 0 ][ 0 ][ 0 ][ 1 ] = new HashMap();
+		ItemDatabase.advsByName[ 0 ][ 0 ][ 1 ][ 0 ] = new HashMap();
+		ItemDatabase.advsByName[ 0 ][ 0 ][ 1 ][ 1 ] = new HashMap();
 
-		ItemDatabase.advsByName[ 0 ][ 1 ][ 0 ][ 0 ] = new TreeMap();
-		ItemDatabase.advsByName[ 0 ][ 1 ][ 0 ][ 1 ] = new TreeMap();
-		ItemDatabase.advsByName[ 0 ][ 1 ][ 1 ][ 0 ] = new TreeMap();
-		ItemDatabase.advsByName[ 0 ][ 1 ][ 1 ][ 1 ] = new TreeMap();
+		ItemDatabase.advsByName[ 0 ][ 1 ][ 0 ][ 0 ] = new HashMap();
+		ItemDatabase.advsByName[ 0 ][ 1 ][ 0 ][ 1 ] = new HashMap();
+		ItemDatabase.advsByName[ 0 ][ 1 ][ 1 ][ 0 ] = new HashMap();
+		ItemDatabase.advsByName[ 0 ][ 1 ][ 1 ][ 1 ] = new HashMap();
 
-		ItemDatabase.advsByName[ 1 ][ 0 ][ 0 ][ 0 ] = new TreeMap();
-		ItemDatabase.advsByName[ 1 ][ 0 ][ 0 ][ 1 ] = new TreeMap();
-		ItemDatabase.advsByName[ 1 ][ 0 ][ 1 ][ 0 ] = new TreeMap();
-		ItemDatabase.advsByName[ 1 ][ 0 ][ 1 ][ 1 ] = new TreeMap();
+		ItemDatabase.advsByName[ 1 ][ 0 ][ 0 ][ 0 ] = new HashMap();
+		ItemDatabase.advsByName[ 1 ][ 0 ][ 0 ][ 1 ] = new HashMap();
+		ItemDatabase.advsByName[ 1 ][ 0 ][ 1 ][ 0 ] = new HashMap();
+		ItemDatabase.advsByName[ 1 ][ 0 ][ 1 ][ 1 ] = new HashMap();
 
-		ItemDatabase.advsByName[ 1 ][ 1 ][ 0 ][ 0 ] = new TreeMap();
-		ItemDatabase.advsByName[ 1 ][ 1 ][ 0 ][ 1 ] = new TreeMap();
-		ItemDatabase.advsByName[ 1 ][ 1 ][ 1 ][ 0 ] = new TreeMap();
-		ItemDatabase.advsByName[ 1 ][ 1 ][ 1 ][ 1 ] = new TreeMap();
+		ItemDatabase.advsByName[ 1 ][ 1 ][ 0 ][ 0 ] = new HashMap();
+		ItemDatabase.advsByName[ 1 ][ 1 ][ 0 ][ 1 ] = new HashMap();
+		ItemDatabase.advsByName[ 1 ][ 1 ][ 1 ][ 0 ] = new HashMap();
+		ItemDatabase.advsByName[ 1 ][ 1 ][ 1 ][ 1 ] = new HashMap();
 	}
 
-	private static final Map muscleByName = new TreeMap();
-	private static final Map mysticalityByName = new TreeMap();
-	private static final Map moxieByName = new TreeMap();
+	private static final Map muscleByName = new HashMap();
+	private static final Map mysticalityByName = new HashMap();
+	private static final Map moxieByName = new HashMap();
 
-	private static final Map accessById = new TreeMap();
+	private static final Map accessById = new HashMap();
 	private static final BooleanArray tradeableById = new BooleanArray();
 	private static final BooleanArray giftableById = new BooleanArray();
 	private static final BooleanArray displayableById = new BooleanArray();
@@ -339,6 +341,7 @@ public class ItemDatabase
 
 		ItemDatabase.canonicalNames = new String[ ItemDatabase.itemIdByName.size() ];
 		ItemDatabase.itemIdByName.keySet().toArray( ItemDatabase.canonicalNames );
+		Arrays.sort( ItemDatabase.canonicalNames );
 	}
 
 	private static final void saveItemValues( String[] data, Map map )
@@ -601,6 +604,7 @@ public class ItemDatabase
 
 		ItemDatabase.canonicalNames = new String[ ItemDatabase.itemIdByName.size() ];
 		ItemDatabase.itemIdByName.keySet().toArray( ItemDatabase.canonicalNames );
+		Arrays.sort( ItemDatabase.canonicalNames );
 		if ( plural != null )
 		{
 			ItemDatabase.itemIdByPlural.put( StringUtilities.getCanonicalName( plural ), id );

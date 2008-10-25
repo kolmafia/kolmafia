@@ -38,6 +38,7 @@ import java.io.File;
 import java.io.PrintStream;
 import java.util.Map;
 import java.util.Set;
+import java.util.HashMap;
 import java.util.TreeMap;
 
 import javax.swing.ImageIcon;
@@ -62,13 +63,13 @@ public class FamiliarDatabase
 
 	private static final Map familiarById = new TreeMap();
 	private static final Map familiarByName = new TreeMap();
-	private static final Map familiarByLarva = new TreeMap();
-	private static final Map familiarByItem = new TreeMap();
+	private static final Map familiarByLarva = new HashMap();
+	private static final Map familiarByItem = new HashMap();
 
-	private static final Map familiarItemById = new TreeMap();
-	private static final Map familiarLarvaById = new TreeMap();
+	private static final Map familiarItemById = new HashMap();
+	private static final Map familiarLarvaById = new HashMap();
 
-	private static final Map familiarImageById = new TreeMap();
+	private static final Map familiarImageById = new HashMap();
 
 	private static final BooleanArray combatById = new BooleanArray();
 	private static final BooleanArray volleyById = new BooleanArray();
@@ -77,13 +78,13 @@ public class FamiliarDatabase
 	private static final BooleanArray fairyById = new BooleanArray();
 	private static final BooleanArray puppyById = new BooleanArray();
 
-	private static final Map[] eventSkillByName = new TreeMap[ 4 ];
+	private static final Map[] eventSkillByName = new HashMap[ 4 ];
 
 	static
 	{
 		for ( int i = 0; i < 4; ++i )
 		{
-			FamiliarDatabase.eventSkillByName[ i ] = new TreeMap();
+			FamiliarDatabase.eventSkillByName[ i ] = new HashMap();
 		}
 
 		// This begins by opening up the data file and preparing

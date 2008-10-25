@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia;
 import java.io.File;
 
 import java.util.Iterator;
+import java.util.HashMap;
 import java.util.TreeMap;
 import java.util.Map.Entry;
 
@@ -49,14 +50,14 @@ import net.sourceforge.kolmafia.textui.parsetree.VariableReference;
 
 public abstract class KoLmafiaASH
 {
-	private static final TreeMap relayScriptMap = new TreeMap();
+	private static final HashMap relayScriptMap = new HashMap();
 
 	public static Interpreter relayScript = null;
 	public static final RelayRequest relayRequest = new RelayRequest( false );
 	public static final StringBuffer serverReplyBuffer = new StringBuffer();
 
-	private static final TreeMap TIMESTAMPS = new TreeMap();
-	private static final TreeMap INTERPRETERS = new TreeMap();
+	private static final HashMap TIMESTAMPS = new HashMap();
+	private static final HashMap INTERPRETERS = new HashMap();
 
 	public static final Interpreter NAMESPACE_INTERPRETER = new NamespaceInterpreter( "commandLineNamespace" );
 

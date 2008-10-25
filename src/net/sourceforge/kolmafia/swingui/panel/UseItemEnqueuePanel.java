@@ -353,6 +353,20 @@ public class UseItemEnqueuePanel
 		{
 			Concoction creation = (Concoction) element;
 
+			if ( creation.getAvailable() == 0 )
+			{
+				return false;
+			}
+
+			if ( UseItemEnqueuePanel.this.filters[ 0 ].isSelected() )
+			{
+				AdventureResult item = creation.getItem();
+				if ( item != null && item.getCount( KoLConstants.inventory ) == 0 )
+				{
+					return false;
+				}
+			}
+			
 			if ( ItemDatabase.getFullness( creation.getName() ) > 0 )
 			{
 				if ( !UseItemEnqueuePanel.this.food )
@@ -381,14 +395,20 @@ public class UseItemEnqueuePanel
 				{
 					return false;
 				}
-				break;
+				else
+				{
+					return super.isVisible( element );
+				}
 				
 			case KoLConstants.CONSUME_DRINK_HELPER:
 				if ( !UseItemEnqueuePanel.this.booze )
 				{
 					return false;
 				}
-				break;
+				else
+				{
+					return super.isVisible( element );
+				}
 			
 			case KoLConstants.CONSUME_MULTIPLE:
 				if ( !UseItemEnqueuePanel.this.food ||
@@ -396,48 +416,13 @@ public class UseItemEnqueuePanel
 				{
 					return false;
 				}
-				break;
+				else
+				{
+					return super.isVisible( element );
+				}
 				
 			default:
 				return false;
-			}
-
-			if ( creation.getAvailable() == 0 )
-			{
-				return false;
-			}
-
-			if ( UseItemEnqueuePanel.this.filters[ 0 ].isSelected() )
-			{
-				AdventureResult item = creation.getItem();
-				if ( item != null && item.getCount( KoLConstants.inventory ) == 0 )
-				{
-					return false;
-				}
-			}
-			
-			switch ( ItemDatabase.getConsumptionType( creation.getName() ) )
-			{
-			case KoLConstants.CONSUME_FOOD_HELPER:
-				if ( UseItemEnqueuePanel.this.food )
-				{
-					return true;
-				}
-				break;
-				
-			case KoLConstants.CONSUME_DRINK_HELPER:
-				if ( UseItemEnqueuePanel.this.booze )
-				{
-					return true;
-				}
-				break;
-			
-			case KoLConstants.CONSUME_MULTIPLE:
-				if ( UseItemEnqueuePanel.this.food &&
-					creation.getItemId() == ItemPool.MUNCHIES_PILL )
-				{
-					return true;
-				}
 			}
 
 			if ( UseItemEnqueuePanel.this.filters[ 1 ].isSelected() )

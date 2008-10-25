@@ -39,6 +39,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+import java.util.HashMap;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -116,7 +117,7 @@ public abstract class ChatManager
 		}
 	}
 
-	private static final TreeMap colors = new TreeMap();
+	private static final HashMap colors = new HashMap();
 
 	private static final String[] AVAILABLE_COLORS = { "#000000", // default (0)
 	"#CC9900", // brown (1)

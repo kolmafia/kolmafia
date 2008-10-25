@@ -43,7 +43,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Random;
-import java.util.TreeMap;
+import java.util.HashMap;
 import java.util.regex.Pattern;
 
 import javax.swing.JLabel;
@@ -440,8 +440,8 @@ public interface KoLConstants
 	public static final LockableListModel activeEffects = new LockableListModel();
 	public static final ArrayList recentEffects = new ArrayList();
 
-	public static final TreeMap seenPlayerIds = new TreeMap();
-	public static final TreeMap seenPlayerNames = new TreeMap();
+	public static final HashMap seenPlayerIds = new HashMap();
+	public static final HashMap seenPlayerNames = new HashMap();
 	public static final SortedListModel contactList = new SortedListModel();
 
 	public static final SortedListModel hermitItems = new SortedListModel();

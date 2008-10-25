@@ -41,7 +41,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -83,7 +83,7 @@ public abstract class ClanManager
 
 	private static final Map profileMap = ProfileSnapshot.getProfileMap();
 	private static final Map ascensionMap = AscensionSnapshot.getAscensionMap();
-	private static final Map titleMap = new TreeMap();
+	private static final Map titleMap = new HashMap();
 
 	private static final List battleList = new ArrayList();
 

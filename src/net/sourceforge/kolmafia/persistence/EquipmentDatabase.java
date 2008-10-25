@@ -35,7 +35,7 @@ package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
 import java.util.ArrayList;
-import java.util.TreeMap;
+import java.util.HashMap;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
@@ -57,7 +57,7 @@ public class EquipmentDatabase
 	private static final StringArray itemTypes = new StringArray();
 	private static final StringArray statRequirements = new StringArray();
 
-	private static final TreeMap outfitPieces = new TreeMap();
+	private static final HashMap outfitPieces = new HashMap();
 	public static final SpecialOutfitArray normalOutfits = new SpecialOutfitArray();
 	public static final SpecialOutfitArray weirdOutfits = new SpecialOutfitArray();
 

@@ -33,7 +33,7 @@
 
 package net.sourceforge.kolmafia;
 
-import java.util.TreeMap;
+import java.util.HashMap;
 
 import javax.swing.JCheckBox;
 
@@ -59,7 +59,7 @@ public abstract class MPRestoreItemList
 	extends StaticEntity
 {
 	private static boolean purchaseBasedSort = false;
-	private static TreeMap restoreByName = new TreeMap();
+	private static HashMap restoreByName = new HashMap();
 
 	public static final MPRestoreItem EXPRESS =
 		new MPRestoreItem( "Platinum Yendorian Express Card", Integer.MAX_VALUE, false );

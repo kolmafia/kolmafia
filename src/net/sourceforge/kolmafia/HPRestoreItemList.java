@@ -33,7 +33,7 @@
 
 package net.sourceforge.kolmafia;
 
-import java.util.TreeMap;
+import java.util.HashMap;
 
 import javax.swing.JCheckBox;
 
@@ -58,7 +58,7 @@ public abstract class HPRestoreItemList
 	extends StaticEntity
 {
 	private static boolean purchaseBasedSort = false;
-	private static TreeMap restoreByName = new TreeMap();
+	private static HashMap restoreByName = new HashMap();
 
 	public static final HPRestoreItem WALRUS = new HPRestoreItem( "Tongue of the Walrus", 35 );
 
