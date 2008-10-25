@@ -3444,7 +3444,7 @@
 3443	black kitten	5	none	0
 3444	webbed comic mask	9	display	0
 3445	Junior Adventurer's kit	0	all	0
-3446
+3446	groovy prism necklace	8	all	250
 3447	six-rainbow shield	13	all	150
 3448	rainbow bomb	0	all	150
 3449	cotton candy cone	17	all	35

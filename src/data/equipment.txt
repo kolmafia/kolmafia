@@ -992,6 +992,7 @@ glowing red eye	0	Mys: 60
 gnatwing earring	0	Mys: 30
 gnoll-tooth necklace	0	Mys: 10
 green glowstick	0	none
+groovy prism necklace	0	Mys: 60
 grumpy old man charrrm bracelet	0	Mys: 60
 hamethyst bracelet	0	Mys: 10
 hamethyst earring	0	Mys: 10

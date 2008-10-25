@@ -970,6 +970,8 @@ Mudflap-Girl Earring	25	tawdry amethyst	precious piercing post
 Mudflap-Girl Necklace	25	tawdry amethyst	heavy necklace chain
 Mudflap-Girl Ring	25	tawdry amethyst	extra-fancy ring setting
 
+groovy prism necklace	25	prismatic wad	heavy necklace chain
+
 
 # Chef staves made by Rodoric
 
