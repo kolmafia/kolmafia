@@ -42,19 +42,19 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
+import java.util.HashMap;
 import java.util.regex.Pattern;
 
 public class StringUtilities
 {
-	private static final Map entityEncodeCache = new TreeMap();
-	private static final Map entityDecodeCache = new TreeMap();
+	private static final Map entityEncodeCache = new HashMap();
+	private static final Map entityDecodeCache = new HashMap();
 
-	private static final Map urlEncodeCache = new TreeMap();
-	private static final Map urlDecodeCache = new TreeMap();
+	private static final Map urlEncodeCache = new HashMap();
+	private static final Map urlDecodeCache = new HashMap();
 
-	private static final Map displayNameCache = new TreeMap();
-	private static final Map canonicalNameCache = new TreeMap();
+	private static final Map displayNameCache = new HashMap();
+	private static final Map canonicalNameCache = new HashMap();
 
 	private static final Pattern NONINTEGER_PATTERN = Pattern.compile( "[^\\-0-9]" );
 	private static final Pattern NONFLOAT_PATTERN = Pattern.compile( "[^\\-\\.0-9]" );

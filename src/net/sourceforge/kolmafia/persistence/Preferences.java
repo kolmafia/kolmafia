@@ -45,6 +45,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Properties;
+import java.util.HashMap;
 import java.util.TreeMap;
 import java.util.Map.Entry;
 
@@ -68,14 +69,14 @@ public class Preferences
 	private static final byte [] LINE_BREAK_AS_BYTES = KoLConstants.LINE_BREAK.getBytes();
 
 	private static final String [] characterMap = new String[ 65536 ];
-	private static final TreeMap checkboxMap = new TreeMap();
-	private static final TreeMap propertyNames = new TreeMap();
+	private static final HashMap checkboxMap = new HashMap();
+	private static final HashMap propertyNames = new HashMap();
 
-	private static final TreeMap userNames = new TreeMap();
+	private static final HashMap userNames = new HashMap();
 	private static final TreeMap userValues = new TreeMap();
 	private static File userPropertiesFile = null;
 
-	private static final TreeMap globalNames = new TreeMap();
+	private static final HashMap globalNames = new HashMap();
 	private static final TreeMap globalValues = new TreeMap();
 	private static File globalPropertiesFile = null;
 
@@ -575,7 +576,7 @@ public class Preferences
 	private static final void initializeMaps()
 	{
 		String[] current;
-		TreeMap desiredMap;
+		HashMap desiredMap;
 
 		BufferedReader istream = FileUtilities.getVersionedReader( "defaults.txt", KoLConstants.DEFAULTS_VERSION );
 

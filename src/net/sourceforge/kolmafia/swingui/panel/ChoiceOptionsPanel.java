@@ -39,6 +39,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.TreeMap;
 
 import javax.swing.JComboBox;
@@ -66,7 +67,7 @@ public class ChoiceOptionsPanel
 	extends JPanel
 {
 	private final TreeMap choiceMap;
-	private final TreeMap selectMap;
+	private final HashMap selectMap;
 	private final CardLayout choiceCards;
 
 	private final JComboBox[] optionSelects;
@@ -93,7 +94,7 @@ public class ChoiceOptionsPanel
 		this.choiceCards = new CardLayout( 10, 10 );
 
 		this.choiceMap = new TreeMap();
-		this.selectMap = new TreeMap();
+		this.selectMap = new HashMap();
 
 		this.setLayout( this.choiceCards );
 		this.add( new JPanel(), "" );

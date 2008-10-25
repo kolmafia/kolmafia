@@ -34,7 +34,7 @@
 package net.sourceforge.kolmafia.utilities;
 
 import java.util.Map;
-import java.util.TreeMap;
+import java.util.HashMap;
 
 public class CharacterEntities
 {
@@ -380,8 +380,8 @@ public class CharacterEntities
 		{ "&euro;",	"\u20ac" }  // euro sign, U+20AC NEW
 	};
 
-	private static final Map entities = new TreeMap();
-	private static final Map unicodes = new TreeMap();
+	private static final Map entities = new HashMap();
+	private static final Map unicodes = new HashMap();
 
 	static
 	{

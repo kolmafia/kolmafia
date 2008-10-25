@@ -38,7 +38,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
-import java.util.TreeMap;
+import java.util.HashMap;
 
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
@@ -57,7 +57,7 @@ public class LocalRelayAgent
 	extends Thread
 {
 	private static final LocalRelayCombatThread COMBAT_THREAD = new LocalRelayCombatThread();
-	private static final TreeMap lastModified = new TreeMap();
+	private static final HashMap lastModified = new HashMap();
 
 	public static void reset()
 	{
@@ -78,6 +78,7 @@ public class LocalRelayAgent
 
 	public LocalRelayAgent( final int id )
 	{
+		super( "LocalRelayAgent" );
 		this.request = new RelayRequest( true );
 	}
 
@@ -350,7 +351,7 @@ public class LocalRelayAgent
 			{
 				if ( KoLCharacter.isHardcore() && Preferences.getBoolean( "lucreCoreLeaderboard" ) )
 				{
-					( new Thread( new SendMailRequest( "koldbot", "Started ascension." ) ) ).start();
+					( new Thread( new SendMailRequest( "koldbot", "Started ascension." ), "koldbot start asc" ) ).start();
 				}
 			}
 		}

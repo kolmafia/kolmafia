@@ -71,7 +71,7 @@ import java.io.File;
 import java.io.PrintWriter;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.TreeMap;
+import java.util.HashMap;
 
 import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
@@ -91,7 +91,7 @@ public class ChatBuffer
 	private boolean shouldReset = false;
 	private final DisplayQueueHandler HANDLER = new DisplayQueueHandler();
 
-	private static TreeMap activeLogFiles = new TreeMap();
+	private static HashMap activeLogFiles = new HashMap();
 	private final ArrayList contentQueue = new ArrayList();
 
 	private final String title;

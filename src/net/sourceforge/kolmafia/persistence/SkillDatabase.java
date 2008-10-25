@@ -41,6 +41,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.HashMap;
 import java.util.TreeMap;
 
 import net.sourceforge.kolmafia.AdventureResult;
@@ -59,12 +60,12 @@ public class SkillDatabase
 	private static String [] canonicalNames = new String[0];
 	private static final Map skillById = new TreeMap();
 	private static final Map skillByName = new TreeMap();
-	private static final Map mpConsumptionById = new TreeMap();
+	private static final Map mpConsumptionById = new HashMap();
 	private static final Map skillTypeById = new TreeMap();
-	private static final Map durationById = new TreeMap();
+	private static final Map durationById = new HashMap();
 
-	private static final Map skillsByCategory = new TreeMap();
-	private static final Map skillCategoryById = new TreeMap();
+	private static final Map skillsByCategory = new HashMap();
+	private static final Map skillCategoryById = new HashMap();
 
 	public static final int CASTABLE = -1;
 	public static final int PASSIVE = 0;

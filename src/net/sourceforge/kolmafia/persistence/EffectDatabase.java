@@ -43,6 +43,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.HashMap;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -65,11 +66,11 @@ public class EffectDatabase
 	private static final Map nameById = new TreeMap();
 	private static final Map dataNameById = new TreeMap();
 	private static final Map effectByName = new TreeMap();
-	private static final TreeMap defaultActions = new TreeMap();
+	private static final HashMap defaultActions = new HashMap();
 
-	private static final Map imageById = new TreeMap();
-	private static final Map descriptionById = new TreeMap();
-	private static final Map effectByDescription = new TreeMap();
+	private static final Map imageById = new HashMap();
+	private static final Map descriptionById = new HashMap();
+	private static final Map effectByDescription = new HashMap();
 
 	static
 	{

@@ -610,12 +610,15 @@ public class ConcoctionDatabase
 			!ConcoctionDatabase.queuedBoozeIngredients.isEmpty() ||
 			!ConcoctionDatabase.queuedSpleenIngredients.isEmpty();
 
-		if ( !includeCloset && !includeStash && !includeQueue )
+		if ( !includeCloset && !includeStash && !includeQueue &&
+			ConcoctionDatabase.queuedFoodIngredients.isEmpty() &&
+			ConcoctionDatabase.queuedBoozeIngredients.isEmpty() &&
+			ConcoctionDatabase.queuedSpleenIngredients.isEmpty() )
 		{
 			return KoLConstants.inventory;
 		}
 
-		ArrayList availableIngredients = new ArrayList();
+		SortedListModel availableIngredients = new SortedListModel();
 		availableIngredients.addAll( KoLConstants.inventory );
 
 		if ( includeCloset )
@@ -850,15 +853,13 @@ public class ConcoctionDatabase
 				{
 					ConcoctionDatabase.creatableList.remove( instance );
 					item.setPossible( false );
+					changeDetected = true;
 				}
 			}
 			else if ( !item.wasPossible() )
 			{
 				ConcoctionDatabase.creatableList.add( instance );
 				item.setPossible( true );
-			}
-			else
-			{
 				changeDetected = true;
 			}
 		}

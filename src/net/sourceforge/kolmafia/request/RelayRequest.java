@@ -44,7 +44,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.TreeMap;
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -93,7 +93,7 @@ public class RelayRequest
 {
 	private final PauseObject pauser = new PauseObject();
 
-	private static final TreeMap overrideMap = new TreeMap();
+	private static final HashMap overrideMap = new HashMap();
 
 	private static final Pattern WHITESPACE_PATTERN = Pattern.compile( "['\\s-]" );
 	private static final Pattern EMAIL_PATTERN =
