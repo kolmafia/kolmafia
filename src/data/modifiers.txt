@@ -1051,6 +1051,7 @@ glowing red eye	Spooky Resistance: +2
 gnatwing earring	Initiative: +15, Mysticality: +6
 gnoll-tooth necklace	Muscle: +5
 green glowstick	Maximum MP: +5, Moxie: -3
+groovy prism necklace	Single Equip
 grumpy old man charrrm bracelet	Single Equip, Monster Level: +7
 hamethyst bracelet	Single Equip, Muscle: +3, Critical: 3
 hamethyst earring	Muscle: +3, Critical: 3
@@ -1961,6 +1962,7 @@ eXtreme Cold-Weather Gear	Cold Resistance: +3
 # Converts Hobo Power to Melee Damage
 # Critical Hits are extra-explosive
 # Damages Attacking Opponent
+# Deals a rainbow of damage to attackers
 # Drains MP on Successful Hit
 # Explosively hilarious
 # Familiar Will Attack You Less Often

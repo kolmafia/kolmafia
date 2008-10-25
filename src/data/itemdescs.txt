@@ -3450,7 +3450,7 @@
 3443	528692853	black kitten
 3444	638894238	webbed comic mask
 3445	745615343	Junior Adventurer's kit	Junior Adventurer's kits
-3446
+3446	912335435	groovy prism necklace	groovy prism necklaces
 3447	535499742	six-rainbow shield	six-rainbow shields
 3448	243986741	rainbow bomb	rainbow bombs
 3449	517488450	cotton candy cone
