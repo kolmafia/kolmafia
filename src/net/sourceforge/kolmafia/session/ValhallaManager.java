@@ -13,6 +13,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.request.CreateItemRequest;
+import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
@@ -171,6 +172,12 @@ public class ValhallaManager
 		
 		// User-defined actions:
 		KoLmafiaCLI.DEFAULT_SHELL.executeLine( Preferences.getString( "postAscensionScript" ) );
+		
+		if ( Preferences.getBoolean( "autostartGalaktikQuest" ) )
+		{
+			RequestThread.postRequest(
+				new GenericRequest( "galaktik.php?action=startquest&pwd" ) );
+		}
 	}
 
 	public static final void resetPerAscensionCounters()

@@ -306,7 +306,7 @@ public class ListCellRendererFactory
 			}
 		}
 
-		private void appendRange( final StringBuffer stringForm, final String range, final String suffix )
+		protected void appendRange( final StringBuffer stringForm, final String range, final String suffix )
 		{
 			if ( range.equals( "+0.0" ) && !suffix.equals( "adv" ) )
 			{
@@ -528,6 +528,93 @@ public class ListCellRendererFactory
 			JLabel defaultComponent =
 				(JLabel) super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
 			defaultComponent.setText( stringForm );
+			return defaultComponent;
+		}
+	}
+
+	public static final DefaultListCellRenderer getStorageRenderer()
+	{
+		return new StorageRenderer();
+	}
+
+	private static class StorageRenderer
+		extends DefaultRenderer
+	{
+		public StorageRenderer()
+		{
+			this.setOpaque( true );
+		}
+
+		public boolean allowHighlight()
+		{
+			return true;
+		}
+
+		public Component getRenderer( final Component defaultComponent, final AdventureResult ar )
+		{
+			if ( !ar.isItem() )
+			{
+				return defaultComponent;
+			}
+
+			StringBuffer stringForm = new StringBuffer();
+			stringForm.append( ar.getName() );
+
+			int power = EquipmentDatabase.getPower( ar.getName() );
+
+			if ( power > 0 )
+			{
+				stringForm.append( " (+" );
+				stringForm.append( power );
+				stringForm.append( ")" );
+			}
+			else
+			{
+				int fullness = ItemDatabase.getFullness( ar.getName() );
+				int inebriety = ItemDatabase.getInebriety( ar.getName() );
+				
+				if ( fullness + inebriety > 0 )
+				{
+					stringForm.append( " (" );
+					if ( fullness > 0 )
+					{
+						stringForm.append( fullness );
+					}
+					else 	//if ( inebriety > 0 )
+					{
+						stringForm.append( inebriety );
+					}
+	
+					this.appendRange( stringForm,
+						ItemDatabase.getAdventureRange( ar.getName() ), "adv" );
+	
+					if ( Preferences.getBoolean( "showGainsPerUnit" ) )
+					{
+						if ( fullness > 0 )
+						{
+							stringForm.append( "/full" );
+						}
+						else 	//if ( inebriety > 0 )
+						{
+							stringForm.append( "/drunk" );
+						}
+					}
+					stringForm.append( ")" );
+				}
+			}
+
+			stringForm.append( " (" );
+			stringForm.append( KoLConstants.COMMA_FORMAT.format( ar.getCount() ) );
+			stringForm.append( ")" );
+
+			if ( !ItemDatabase.meetsLevelRequirement( ar.getName() ) ||
+				!EquipmentManager.canEquip( ar.getName() ) )
+			{
+				stringForm.insert( 0, "<html><font color=gray>" );
+				stringForm.append( "</font></html>" );
+			}
+
+			( (JLabel) defaultComponent ).setText( stringForm.toString() );
 			return defaultComponent;
 		}
 	}

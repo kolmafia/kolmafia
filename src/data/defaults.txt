@@ -148,6 +148,7 @@ global	visitRumpusSoftcore	true
 
 user	autoAbortThreshold	-0.05
 user	autoRepairBoxServants	true
+user	autostartGalaktikQuest	true
 user	availableDimes	0
 user	availableLucre	0
 user	availableQuarters	0

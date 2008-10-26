@@ -55,6 +55,7 @@ import net.sourceforge.kolmafia.swingui.panel.InventoryPanel;
 import net.sourceforge.kolmafia.swingui.panel.ItemManagePanel;
 import net.sourceforge.kolmafia.swingui.panel.OverlapPanel;
 import net.sourceforge.kolmafia.swingui.panel.RestorativeItemPanel;
+import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -335,6 +336,7 @@ public class ItemManageFrame
 
 			this.addFilters();
 			this.addMovers();
+			this.elementList.setCellRenderer( ListCellRendererFactory.getStorageRenderer() );
 
 			if ( isEquipmentOnly )
 			{
