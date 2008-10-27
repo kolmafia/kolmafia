@@ -1484,7 +1484,7 @@ public class FightRequest
 		return null;
 	}
 
-	public static final float pirateInsultOdds()
+	public static final int countPirateInsults()
 	{
 		KoLCharacter.ensureUpdatedPirateInsults();
 
@@ -1497,7 +1497,12 @@ public class FightRequest
 			}
 		}
 
-		return FightRequest.pirateInsultOdds( count );
+		return count;
+	}
+
+	public static final float pirateInsultOdds()
+	{
+		return FightRequest.pirateInsultOdds( FightRequest.countPirateInsults() );
 	}
 
 	public static final float pirateInsultOdds( int count )

@@ -798,6 +798,11 @@ public class RequestEditorKit
 			monsterData.append( FightRequest.getMonsterAttack() );
 			monsterData.append( ", Def: " );
 			monsterData.append( FightRequest.getMonsterDefense() );
+			if ( FightRequest.getLastMonsterName().indexOf( "pirate" ) != -1 )
+			{
+				monsterData.append( ", Insults: ");
+				monsterData.append( FightRequest.countPirateInsults() );
+			}
 		}
 
 		List items = FightRequest.getLastMonster().getItems();
