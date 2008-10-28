@@ -45,6 +45,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.swingui.CouncilFrame;
+import net.sourceforge.kolmafia.swingui.ItemManageFrame;
 
 import net.sourceforge.kolmafia.request.ClanStashRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
@@ -397,6 +398,29 @@ public abstract class InventoryManager
 			{
 				return true;
 			}
+		}
+
+		// Use budgeted pulls if the item is available from storage.
+		
+		if ( !KoLCharacter.canInteract() && !KoLCharacter.isHardcore() )
+		{
+			int pullCount = Math.min( item.getCount( KoLConstants.storage ),
+				ItemManageFrame.getPullsBudgeted() );
+			if ( pullCount > 0 )
+			{
+				pullCount = Math.min( pullCount, item.getCount() );
+				int newbudget = ItemManageFrame.getPullsBudgeted() - pullCount;
+				RequestThread.postRequest( new ClosetRequest(
+					ClosetRequest.STORAGE_TO_INVENTORY,
+					new AdventureResult[] { item.getInstance( pullCount ) } ) );
+				ItemManageFrame.setPullsBudgeted( newbudget );
+
+				missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
+				if ( missingCount <= 0 )
+				{
+					return true;
+				}
+			}		
 		}
 
 		switch ( mixingMethod )

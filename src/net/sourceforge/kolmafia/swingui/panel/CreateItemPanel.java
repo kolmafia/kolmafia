@@ -44,13 +44,17 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
+import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
+
+import net.sourceforge.kolmafia.swingui.ItemManageFrame;
 
 /**
  * Internal class used to handle everything related to creating items; this allows creating of items, which usually
@@ -116,20 +120,29 @@ public class CreateItemPanel
 		CreateItemRequest selection = (CreateItemRequest) selected;
 		int quantityDesired =
 			InputFieldUtilities.getQuantity(
-				"Creating multiple " + selection.getName() + "...", selection.getQuantityPossible() );
+				"Creating multiple " + selection.getName() + "...", selection.getQuantityPossible() + selection.getQuantityPullable() );
 		if ( quantityDesired < 1 )
 		{
 			return;
 		}
 
 		KoLmafia.updateDisplay( "Verifying ingredients..." );
-		selection.setQuantityNeeded( quantityDesired );
+		int pulled = Math.max( 0, quantityDesired - selection.getQuantityPossible() );
+		selection.setQuantityNeeded( quantityDesired - pulled );
 
 		RequestThread.openRequestSequence();
 
 		SpecialOutfit.createImplicitCheckpoint();
 		RequestThread.postRequest( selection );
 		SpecialOutfit.restoreImplicitCheckpoint();
+		if ( pulled > 0 && KoLmafia.permitsContinue() )
+		{
+			int newbudget = ItemManageFrame.getPullsBudgeted() - pulled;
+			RequestThread.postRequest( new ClosetRequest(
+				ClosetRequest.STORAGE_TO_INVENTORY,
+				new AdventureResult[] { ItemPool.get( selection.getItemId(), pulled ) } ) );
+			ItemManageFrame.setPullsBudgeted( newbudget );
+		}		
 
 		RequestThread.closeRequestSequence();
 	}
@@ -148,8 +161,8 @@ public class CreateItemPanel
 		int maximum = UseItemRequest.maximumUses( selection.getItemId() );
 		int quantityDesired =
 			maximum < 2 ? maximum : InputFieldUtilities.getQuantity(
-				"Creating multiple " + selection.getName() + " for immedate use...", Math.min(
-					maximum, selection.getQuantityPossible() ) );
+				"Creating multiple " + selection.getName() + " for immedate use...", Math.min( maximum,
+					selection.getQuantityPossible() + selection.getQuantityPullable() ) );
 
 		if ( quantityDesired < 1 )
 		{
@@ -157,13 +170,22 @@ public class CreateItemPanel
 		}
 
 		KoLmafia.updateDisplay( "Verifying ingredients..." );
-		selection.setQuantityNeeded( quantityDesired );
+		int pulled = Math.max( 0, quantityDesired - selection.getQuantityPossible() );
+		selection.setQuantityNeeded( quantityDesired - pulled );
 
 		RequestThread.openRequestSequence();
 
 		SpecialOutfit.createImplicitCheckpoint();
 		RequestThread.postRequest( selection );
 		SpecialOutfit.restoreImplicitCheckpoint();
+		if ( pulled > 0 && KoLmafia.permitsContinue() )
+		{
+			int newbudget = ItemManageFrame.getPullsBudgeted() - pulled;
+			RequestThread.postRequest( new ClosetRequest(
+				ClosetRequest.STORAGE_TO_INVENTORY,
+				new AdventureResult[] { ItemPool.get( selection.getItemId(), pulled ) } ) );
+			ItemManageFrame.setPullsBudgeted( newbudget );
+		}		
 
 		RequestThread.postRequest( new UseItemRequest( new AdventureResult(
 			selection.getItemId(), quantityDesired ) ) );

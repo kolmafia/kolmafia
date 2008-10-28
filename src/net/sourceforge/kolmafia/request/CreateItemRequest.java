@@ -78,7 +78,7 @@ public class CreateItemRequest
 	private int beforeQuantity;
 	private int yield;
 
-	private int quantityNeeded, quantityPossible;
+	private int quantityNeeded, quantityPossible, quantityPullable;
 
 	private static final int[][] DOUGH_DATA =
 	{
@@ -864,7 +864,7 @@ public class CreateItemRequest
 	}
 
 	/**
-	 * Returns the quantity of items to be created by this request if it were to run right now.
+	 * Returns the quantity of items that could be created with available ingredients.
 	 */
 
 	public int getQuantityPossible()
@@ -873,13 +873,32 @@ public class CreateItemRequest
 	}
 
 	/**
-	 * Sets the quantity of items to be created by this request. This method is used whenever the original quantity
-	 * intended by the request changes.
+	 * Sets the quantity of items that could be created.  This is set by
+	 * refreshConcoctions.
 	 */
 
 	public void setQuantityPossible( final int quantityPossible )
 	{
 		this.quantityPossible = quantityPossible;
+	}
+
+	/**
+	 * Returns the quantity of items that could be pulled with the current budget.
+	 */
+
+	public int getQuantityPullable()
+	{
+		return this.quantityPullable;
+	}
+
+	/**
+	 * Sets the quantity of items that could be pulled.  This is set by
+	 * refreshConcoctions.
+	 */
+
+	public void setQuantityPullable( final int quantityPullable )
+	{
+		this.quantityPullable = quantityPullable;
 	}
 
 	/**
