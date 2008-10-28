@@ -35,15 +35,20 @@ package net.sourceforge.kolmafia.swingui;
 
 import java.awt.BorderLayout;
 
+import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
+import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.swingui.panel.CardLayoutSelectorPanel;
@@ -55,6 +60,8 @@ import net.sourceforge.kolmafia.swingui.panel.InventoryPanel;
 import net.sourceforge.kolmafia.swingui.panel.ItemManagePanel;
 import net.sourceforge.kolmafia.swingui.panel.OverlapPanel;
 import net.sourceforge.kolmafia.swingui.panel.RestorativeItemPanel;
+import net.sourceforge.kolmafia.swingui.widget.AutoHighlightSpinner;
+import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -69,9 +76,14 @@ public class ItemManageFrame
 	extends GenericFrame
 {
 	private static int pullsRemaining = 0;
+	private static int pullsBudgeted = 0;
 
 	private static final JLabel pullsRemainingLabel1 = new JLabel( " " );
 	private static final JLabel pullsRemainingLabel2 = new JLabel( " " );
+	private static final PullBudgetSpinner pullBudgetSpinner1 =
+		new PullBudgetSpinner();
+	private static final PullBudgetSpinner pullBudgetSpinner2 =
+		new PullBudgetSpinner();
 
 	/**
 	 * Constructs a new <code>ItemManageFrame</code> and inserts all of the necessary panels into a tabular layout for
@@ -207,6 +219,33 @@ public class ItemManageFrame
 			ItemManageFrame.pullsRemainingLabel1.setText( pullsRemaining + " Pulls Left" );
 			ItemManageFrame.pullsRemainingLabel2.setText( pullsRemaining + " Pulls Left" );
 		}
+		
+		if ( pullsRemaining < pullsBudgeted )
+		{
+			ItemManageFrame.setPullsBudgeted( pullsRemaining );
+		}
+	}
+	
+	public static final int getPullsBudgeted()
+	{
+		return ItemManageFrame.pullsBudgeted;
+	}
+	
+	public static final void setPullsBudgeted( int pullsBudgeted )
+	{
+		if ( pullsBudgeted < ConcoctionDatabase.queuedPullsUsed )
+		{
+			pullsBudgeted = ConcoctionDatabase.queuedPullsUsed;
+		}
+		if ( pullsBudgeted > pullsRemaining )
+		{
+			pullsBudgeted = pullsRemaining;
+		}
+		ItemManageFrame.pullsBudgeted = pullsBudgeted;
+		ItemManageFrame.pullBudgetSpinner1.setValue(
+			new Integer( pullsBudgeted ) );
+		ItemManageFrame.pullBudgetSpinner2.setValue(
+			new Integer( pullsBudgeted ) );
 	}
 
 	private class JunkItemsPanel
@@ -337,15 +376,35 @@ public class ItemManageFrame
 			this.addFilters();
 			this.addMovers();
 			this.elementList.setCellRenderer( ListCellRendererFactory.getStorageRenderer() );
-
+			
+			Box box = Box.createVerticalBox();
+			JLabel budget = new JLabel( "Budget:" );
+			budget.setToolTipText(
+				"Sets the number of pulls KoLmafia is allowed to use\n" +
+				"to fulfill item consumption and other usage requests" );
+			box.add( budget );
+			box.add( Box.createVerticalStrut( 5 ) );
 			if ( isEquipmentOnly )
 			{
-				this.eastPanel.add( ItemManageFrame.pullsRemainingLabel1, BorderLayout.SOUTH );
+				ItemManageFrame.pullBudgetSpinner1.setHorizontalAlignment(
+					AutoHighlightTextField.RIGHT );
+				JComponentUtilities.setComponentSize(
+					ItemManageFrame.pullBudgetSpinner1, 56, 24 );
+				box.add( ItemManageFrame.pullBudgetSpinner1 );
+				box.add( Box.createVerticalStrut( 5 ) );
+				box.add( ItemManageFrame.pullsRemainingLabel1 );
 			}
 			else
 			{
-				this.eastPanel.add( ItemManageFrame.pullsRemainingLabel2, BorderLayout.SOUTH );
+				ItemManageFrame.pullBudgetSpinner2.setHorizontalAlignment(
+					AutoHighlightTextField.RIGHT );
+				JComponentUtilities.setComponentSize(
+					ItemManageFrame.pullBudgetSpinner2, 56, 24 );
+				box.add( ItemManageFrame.pullBudgetSpinner2 );
+				box.add( Box.createVerticalStrut( 5 ) );
+				box.add( ItemManageFrame.pullsRemainingLabel2 );
 			}
+			this.eastPanel.add( box, BorderLayout.SOUTH );
 		}
 
 		public void addMovers()
@@ -433,6 +492,25 @@ public class ItemManageFrame
 			}
 
 			RequestThread.closeRequestSequence();
+		}
+	}
+	
+	private static class PullBudgetSpinner
+		extends AutoHighlightSpinner
+		implements ChangeListener
+	{
+		public PullBudgetSpinner()
+		{
+			super();
+			this.setAlignmentX( 0.0f );
+			this.addChangeListener( this );
+		}
+
+		public void stateChanged( ChangeEvent e )
+		{
+			int desired = InputFieldUtilities.getValue( this, 0 );
+			ItemManageFrame.setPullsBudgeted( desired );
+			ConcoctionDatabase.refreshConcoctions();
 		}
 	}
 }

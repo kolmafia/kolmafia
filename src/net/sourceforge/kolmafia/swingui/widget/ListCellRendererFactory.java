@@ -175,12 +175,32 @@ public class ListCellRendererFactory
 
 			stringForm.append( " (" );
 			stringForm.append( KoLConstants.COMMA_FORMAT.format( icr.getQuantityPossible() ) );
+			if ( icr.getQuantityPullable() > 0 )
+			{
+				stringForm.append( ", " );
+				stringForm.append( KoLConstants.COMMA_FORMAT.format(
+					icr.getQuantityPullable() ) );
+				stringForm.append( " pullable" );
+			}
 			stringForm.append( ")" );
 
+			boolean isHTML = false;
+			if ( icr.getQuantityPossible() == 0 && icr.getQuantityPullable() > 0 )
+			{
+				stringForm.insert( 0, "<i>" );
+				stringForm.append( "</i>" );
+				isHTML = true;
+			}
 			if ( KoLConstants.junkList.contains( icr.createdItem ) )
 			{
-				stringForm.insert( 0, "<html><font color=gray>" );
-				stringForm.append( "</font></html>" );
+				stringForm.insert( 0, "<font color=gray>" );
+				stringForm.append( "</font>" );
+				isHTML = true;
+			}
+			if ( isHTML )
+			{
+				stringForm.insert( 0, "<html>" );
+				stringForm.append( "</html>" );
 			}
 
 			( (JLabel) defaultComponent ).setText( stringForm.toString() );
@@ -203,7 +223,7 @@ public class ListCellRendererFactory
 			stringForm.append( item.getName() );
 
 			stringForm.append( " (" );
-			this.appendAmount( stringForm, item );
+			boolean pulling = this.appendAmount( stringForm, item );
 
 			stringForm.append( ")" );
 			stringForm.append( "</b><br>&nbsp;" );
@@ -274,6 +294,12 @@ public class ListCellRendererFactory
 			{
 				stringForm.append( "</font>" );
 			}
+			
+			if ( pulling )
+			{
+				stringForm.insert( 6, "<i>" );
+				stringForm.append( "</i>" );
+			}
 
 			stringForm.append( "</html>" );
 
@@ -282,7 +308,7 @@ public class ListCellRendererFactory
 			return defaultComponent;
 		}
 
-		public void appendAmount( final StringBuffer stringForm, final Concoction item )
+		public boolean appendAmount( final StringBuffer stringForm, final Concoction item )
 		{
 			if ( item.getItem() != null )
 			{
@@ -303,7 +329,9 @@ public class ListCellRendererFactory
 			{
 				stringForm.append( item.getPrice() );
 				stringForm.append( " meat" );
+				return false;
 			}
+			return item.initial + item.creatable <= 0;
 		}
 
 		protected void appendRange( final StringBuffer stringForm, final String range, final String suffix )
@@ -392,12 +420,32 @@ public class ListCellRendererFactory
 
 			stringForm.append( " (" );
 			stringForm.append( KoLConstants.COMMA_FORMAT.format( icr.getQuantityPossible() ) );
+			if ( icr.getQuantityPullable() > 0 )
+			{
+				stringForm.append( ", " );
+				stringForm.append( KoLConstants.COMMA_FORMAT.format(
+					icr.getQuantityPullable() ) );
+				stringForm.append( " pullable" );
+			}
 			stringForm.append( ")" );
-
+			
+			boolean isHTML = false;
+			if ( icr.getQuantityPossible() == 0 && icr.getQuantityPullable() > 0 )
+			{
+				stringForm.insert( 0, "<i>" );
+				stringForm.append( "</i>" );
+				isHTML = true;
+			}
 			if ( KoLConstants.junkList.contains( icr.createdItem ) )
 			{
-				stringForm.insert( 0, "<html><font color=gray>" );
-				stringForm.append( "</font></html>" );
+				stringForm.insert( 0, "<font color=gray>" );
+				stringForm.append( "</font>" );
+				isHTML = true;
+			}
+			if ( isHTML )
+			{
+				stringForm.insert( 0, "<html>" );
+				stringForm.append( "</html>" );
 			}
 
 			( (JLabel) defaultComponent ).setText( stringForm.toString() );
@@ -423,9 +471,10 @@ public class ListCellRendererFactory
 			return false;
 		}
 
-		public void appendAmount( final StringBuffer stringForm, final Concoction item )
+		public boolean appendAmount( final StringBuffer stringForm, final Concoction item )
 		{
 			stringForm.append( item.getQueued() );
+			return item.queuedPulls != 0;
 		}
 	}
 

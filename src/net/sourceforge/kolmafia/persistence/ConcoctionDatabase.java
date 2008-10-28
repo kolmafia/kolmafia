@@ -60,6 +60,7 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.swingui.CouncilFrame;
+import net.sourceforge.kolmafia.swingui.ItemManageFrame;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.SortedListModelArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -75,6 +76,7 @@ public class ConcoctionDatabase
 
 	public static int queuedAdventuresUsed = 0;
 	public static int queuedStillsUsed = 0;
+	public static int queuedPullsUsed = 0;
 
 	private static int queuedFullness = 0;
 	private static final Stack queuedFoodChanges = new Stack();
@@ -384,6 +386,7 @@ public class ConcoctionDatabase
 
 		int adventureChange = ConcoctionDatabase.queuedAdventuresUsed;
 		int stillChange = ConcoctionDatabase.queuedStillsUsed;
+		int pullChange = ConcoctionDatabase.queuedPullsUsed;
 
 		ArrayList ingredientChange = new ArrayList();
 		c.queue( queuedIngredients, ingredientChange, quantity );
@@ -392,7 +395,14 @@ public class ConcoctionDatabase
 		AdventureResult.addResultToList(
 			queuedIngredients, new AdventureResult( AdventureResult.ADV, adventureChange ) );
 		stillChange = ConcoctionDatabase.queuedStillsUsed - stillChange;
+		pullChange = ConcoctionDatabase.queuedPullsUsed - pullChange;
+		if ( pullChange != 0 )
+		{
+			AdventureResult.addResultToList(
+				queuedIngredients, new AdventureResult( AdventureResult.PULL, pullChange ) );
+		}
 
+		queuedChanges.push( new Integer( pullChange ) );
 		queuedChanges.push( new Integer( stillChange ) );
 		queuedChanges.push( new Integer( adventureChange ) );
 
@@ -433,8 +443,10 @@ public class ConcoctionDatabase
 
 		Integer adventureChange = (Integer) queuedChanges.pop();
 		Integer stillChange = (Integer) queuedChanges.pop();
+		Integer pullChange = (Integer) queuedChanges.pop();
 
 		c.queued -= quantity.intValue();
+		c.queuedPulls -= pullChange.intValue();
 		for ( int i = 0; i < ingredientChange.size(); ++i )
 		{
 			AdventureResult.addResultToList(
@@ -453,6 +465,14 @@ public class ConcoctionDatabase
 		if ( stills != 0 )
 		{
 			ConcoctionDatabase.queuedStillsUsed -= stills;
+		}
+
+		int pulls = pullChange.intValue();
+		if ( pulls != 0 )
+		{
+			ConcoctionDatabase.queuedPullsUsed -= pulls;
+			AdventureResult.addResultToList(
+				queuedIngredients, new AdventureResult( AdventureResult.PULL, -pulls ) );
 		}
 
 		ConcoctionDatabase.queuedFullness -= c.getFullness() * quantity.intValue();
@@ -828,6 +848,8 @@ public class ConcoctionDatabase
 
 		CreateItemRequest instance;
 		boolean changeDetected = false;
+		boolean considerPulls = !KoLCharacter.canInteract() && !KoLCharacter.isHardcore() &&
+			ItemManageFrame.getPullsBudgeted() - ConcoctionDatabase.queuedPullsUsed > 0;
 
 		for ( int i = 1; i < count; ++i )
 		{
@@ -836,16 +858,30 @@ public class ConcoctionDatabase
 			{
 				continue;
 			}
+			
+			int pullable = 0;
+			if ( considerPulls && item.getPrice() <= 0 &&
+				ItemDatabase.meetsLevelRequirement( item.getName() ) )
+			{
+				AdventureResult ar = ItemPool.get( i, 1 );
+				pullable = Math.min ( ar.getCount( KoLConstants.storage ) - item.queuedPulls,
+					ItemManageFrame.getPullsBudgeted() - ConcoctionDatabase.queuedPullsUsed );
+				if ( pullable > 0 )
+				{
+					item.setPullable( pullable );
+				}
+			}
 
 			instance = CreateItemRequest.getInstance( i, false );
-			if ( instance == null || item.creatable == instance.getQuantityPossible() )
+			if ( instance == null )
 			{
 				continue;
 			}
 
 			instance.setQuantityPossible( item.creatable );
-
-			if ( instance.getQuantityPossible() == 0 )
+			instance.setQuantityPullable( pullable );
+			
+			if ( instance.getQuantityPossible() + pullable == 0 )
 			{
 				// We can't make this concoction now
 

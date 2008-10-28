@@ -83,7 +83,9 @@ public class Concoction
 
 	public int creatable;
 	public int queued;
+	public int queuedPulls;
 	public int initial;
+	public int pullable;
 	public int total;
 	public int visibleTotal;
 
@@ -202,7 +204,7 @@ public class Concoction
 
 	public boolean usesIngredient( AdventureResult ar )
 	{
-                return this.usesIngredient( ar.getItemId() );
+		return this.usesIngredient( ar.getItemId() );
 	}
 
 	public int getYield()
@@ -415,7 +417,13 @@ public class Concoction
 		}
 
 		int decrementAmount = Math.min( this.initial, amount );
-		int overAmount = amount - decrementAmount;
+		int overAmount = Math.min( this.creatable, amount - decrementAmount );
+		int pullAmount = amount - decrementAmount - overAmount;
+		
+		if ( pullAmount != 0 )
+		{
+			ConcoctionDatabase.queuedPullsUsed += pullAmount;
+		}
 
 		// Tiny plastic swords are special in that they
 		// are not used up.
@@ -441,6 +449,7 @@ public class Concoction
 		if ( adjust )
 		{
 			this.queued += amount;
+			this.queuedPulls += pullAmount;
 		}
 
 		// Recipes that yield multiple units require smaller
@@ -468,6 +477,7 @@ public class Concoction
 	{
 		this.initial = -1;
 		this.creatable = 0;
+		this.pullable = 0;
 		this.total = 0;
 
 		this.modifier = 0;
@@ -479,6 +489,13 @@ public class Concoction
 			this.creatable = -1;
 			this.total = this.initial;
 		}
+	}
+	
+	public void setPullable( final int pullable )
+	{
+		this.pullable = pullable;
+		this.total += pullable;
+		this.visibleTotal += pullable;
 	}
 
 	public void setPossible( final boolean wasPossible )

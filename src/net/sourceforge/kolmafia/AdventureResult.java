@@ -78,6 +78,7 @@ public class AdventureResult
 	public static final String MEAT = "Meat";
 	public static final String SUBSTATS = "Substats";
 	public static final String FULLSTATS = "Fullstats";
+	public static final String PULL = "Pull";
 
 	private static final List MUS_SUBSTAT = new ArrayList();
 	private static final List MYS_SUBSTAT = new ArrayList();
@@ -197,7 +198,7 @@ public class AdventureResult
 		{
 			this.priority = AdventureResult.MEAT_PRIORITY;
 		}
-		else if ( name.equals( AdventureResult.HP ) || name.equals( AdventureResult.MP ) || name.equals( AdventureResult.DRUNK ) )
+		else if ( name.equals( AdventureResult.HP ) || name.equals( AdventureResult.MP ) || name.equals( AdventureResult.DRUNK ) || name.equals( AdventureResult.PULL ) )
 		{
 			this.priority = AdventureResult.NO_PRIORITY;
 		}
@@ -298,6 +299,7 @@ public class AdventureResult
 		else if ( StaticEntity.getClient() != null )
 		{
 			RequestLogger.printLine( "Unknown item found: " + this.name );
+			StaticEntity.printStackTrace();
 		}
 	}
 
@@ -562,6 +564,11 @@ public class AdventureResult
 		if ( this.name.equals( AdventureResult.CHOICE ) )
 		{
 			return " Choices Left: " + KoLConstants.COMMA_FORMAT.format( this.count[ 0 ] );
+		}
+
+		if ( this.name.equals( AdventureResult.PULL ) )
+		{
+			return " Budgeted Pulls: " + KoLConstants.COMMA_FORMAT.format( this.count[ 0 ] );
 		}
 
 		if ( this.name.equals( AdventureResult.HP ) || this.name.equals( AdventureResult.MP ) || this.name.equals( AdventureResult.DRUNK ) )
