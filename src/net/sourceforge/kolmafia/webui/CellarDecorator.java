@@ -136,6 +136,8 @@ public abstract class CellarDecorator
 				"|Seventh|to determine if there is any pattern to the dusty wine " +
 				"drop locations.|" + Preferences.getString( "spadingData" );
 			Preferences.setString( "spadingData", msg );
+			KoLmafia.updateDisplay( "Cellar pattern # " + whichMatch +
+				" identified - please type `spade' to submit." );
 		}
 		if ( nMatches > 0 )
 		{
@@ -170,7 +172,7 @@ public abstract class CellarDecorator
 				continue;
 			}
 			Matcher cell = THREECELLS.matcher( row.group( 0 ) );
-			if ( !cell.find() )
+			if ( !cell.find() || cell.group( 1 ).indexOf( "glyph" ) != -1 )
 			{
 				continue;
 			}
