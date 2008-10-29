@@ -3493,6 +3493,15 @@
 3492	fish scimitar	12	all	220
 3493	fish stick	12	all	190
 3494	fish bazooka	12	all	250
-3495
+3495	sea salt crystal	3	all	100
 3496	bazookafish bubble gum	3	all	5
 3497	bottle of Pete's Sake	2	all	70
+3498	invisible bag	9	all	5
+3499	witch hat	9	all	5
+3500	beholed bedsheet	9	all	5
+3501	fancy canap&eacute;s	1	all	50
+3502	thermos of brew	3	all	50
+3503	giant glass of brandy	2	all	50
+3504	French slippers	8	none	0
+3505	LWA ring	8	none	0
+3506	LARP membership card	0	none	0
