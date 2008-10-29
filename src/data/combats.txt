@@ -123,7 +123,7 @@ Menagerie 1	100	BASIC Elemental	Fruit Golem	Knob Goblin Mutant
 Menagerie 2	100	Carnivorous Moxie Weed	Grass Elemental	Weremoose
 Menagerie 3	100	Booze Giant	Portly Abomination	Spectral Jellyfish
 Mouldering Mansion	70	Bellhop	Black Cat	Ourang-Outang	Raven	An Usher
-Ninja Snowmen	100	Ninja Snowman (Katana)	Ninja Snowman (Masked)	Ninja Snowman (Ricebowl)	Ninja Snowman Janitor	Ninja Snowman Weaponmaster
+Ninja Snowmen	100	Ninja Snowman (Hilt/Mask): 2	Ninja Snowman (Chopsticks)	Ninja Snowman Janitor	Ninja Snowman Weaponmaster
 Oasis in the Desert	100	Blur	Oasis Monster	Rolling Stone	Swarm of Scarab Beatles
 Orc Chasm	100	1335 HaXx0r	Anime Smiley	Flaming Troll	Lamz0r N00b	Me4t BegZ0r	Rampaging Adding Machine	Spam Witch	XXX pr0n	Bad ASCII Art: 0
 Other Back 40	100	Greasy Duck

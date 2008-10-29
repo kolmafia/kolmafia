@@ -1168,6 +1168,11 @@ public class FightRequest
 					responseText.indexOf( "rectify" ) != -1 ? "Orcish Frat Boy (Music Lover)" :
 						"Orcish Frat Boy (Paddler)";
 			}
+			else if ( encounter.equalsIgnoreCase( "Ninja Snowman" ) )
+			{
+				encounter = responseText.indexOf( "ninjarice.gif" ) != -1 ?
+					"Ninja Snowman (Chopsticks)" : "Ninja Snowman (Hilt/Mask)";
+			}
 
 			FightRequest.encounterLookup = CustomCombatManager.encounterKey( encounter );
 			FightRequest.monsterData = MonsterDatabase.findMonster( FightRequest.encounterLookup, false );
