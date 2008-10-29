@@ -58,10 +58,11 @@ public class HermitRequest
 	private static int usedWorthless1 = 0;
 	private static int usedWorthless2 = 0;
 	private static int usedWorthless3 = 0;
+	private static int usedPermit = 0;
 
 	public static final AdventureResult WORTHLESS_ITEM = new AdventureResult( 13, 1 );
 
-	public static final AdventureResult PERMIT = new AdventureResult( 42, 1 );
+	public static final AdventureResult PERMIT = ItemPool.get( ItemPool.HERMIT_PERMIT, 1 );
 
 	public static final AdventureResult TRINKET = ItemPool.get( ItemPool.WORTHLESS_TRINKET, 1 );
 	public static final AdventureResult GEWGAW = ItemPool.get( ItemPool.WORTHLESS_GEWGAW, 1 );
@@ -270,7 +271,7 @@ public class HermitRequest
 		if ( responseText.indexOf( "looks confused for a moment" ) != -1 )
 		{
 			// Put back Hermit Permits deducted by registerRequest
-			ResultProcessor.processResult( HermitRequest.PERMIT.getInstance( quantity ) );
+			ResultProcessor.processResult( HermitRequest.PERMIT.getInstance( HermitRequest.usedPermit ) );
 		}
 
 		// If the item is unavailable, assume he was asking for clover
@@ -311,9 +312,9 @@ public class HermitRequest
 			quantity += HermitRequest.usedWorthless3;
 		}
 
-		if ( quantity > 0 )
+		if ( HermitRequest.usedPermit > 0 )
 		{
-			ResultProcessor.processResult( HermitRequest.PERMIT.getInstance( quantity ) );
+			ResultProcessor.processResult( HermitRequest.PERMIT.getInstance( HermitRequest.usedPermit ) );
 		}
 	}
 
@@ -355,6 +356,7 @@ public class HermitRequest
 		HermitRequest.usedWorthless1 = 0;
 		HermitRequest.usedWorthless2 = 0;
 		HermitRequest.usedWorthless3 = 0;
+		HermitRequest.usedPermit = 0;
 
 		RequestLogger.updateSessionLog();
 
@@ -377,7 +379,8 @@ public class HermitRequest
 		}
 
 		// Assume hermit permits are consumed. Fix later, if not.
-		ResultProcessor.processResult( HermitRequest.PERMIT.getInstance( 0 - quantity ) );
+		HermitRequest.usedPermit = Math.min( quantity, HermitRequest.PERMIT.getCount( KoLConstants.inventory ) );
+		ResultProcessor.processResult( HermitRequest.PERMIT.getInstance( 0 - HermitRequest.usedPermit ) );
 
 		// Subtract the worthless items in order of their priority;
 		// as far as we know, the priority is the item Id.
