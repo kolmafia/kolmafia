@@ -47,6 +47,7 @@ basic meat helmet	40	Mox: 5
 bat hat	180	Mox: 75
 battered old top-hat	200	Mox: 200
 beer helmet	170	Mox: 70
+beholed bedsheet	10	none
 big bad voodoo mask	160	Mox: 65
 biomechanical crimborg helmet	150	Mox: 60
 black cowboy hat	165	Mox: 67
@@ -95,6 +96,7 @@ grungy bandana	150	Mox: 60
 helmet turtle	10	none
 ice pick	100	none
 indie comic hipster glasses	10	none
+invisible bag	10	none
 irate sombrero	45	Mox: 7
 jewel-eyed wizard hat	10	none
 knobby helmet turtle	20	none
@@ -146,6 +148,7 @@ toy space helmet	175	Mox: 72
 viking helmet	20	none
 webbed comic mask	10	none
 willowy bonnet	75	Mox: 22
+witch hat	10	none
 wolf mask	150	Mox: 60
 wooden salad bowl	120	Mox: 45
 wool hat	175	Mox: 72
@@ -842,6 +845,7 @@ Dyspepsi-Cola-issue canteen	0	none
 Earring of Fire	0	Mys: 60
 El Vibrato translator	0	Mys: 200
 Elmley shades	0	Mys: 75
+French slippers	0	none
 Frosty's carrot	0	Mus: 200
 Gaia beads	0	Mys: 72
 Golden Mr. Accessory	0	none
@@ -869,6 +873,7 @@ Lead Zeta of Chastity	0	Mys: 85
 Lockenstock&trade; sandals	0	Mys: 65
 Lord Spookyraven's ear trumpet	0	Mys: 40
 Lord Spookyraven's spectacles	0	none
+LWA ring	0	none
 Mafia bow tie	0	Mys: 35
 Mafia stogie	0	Mys: 35
 MagiMechTech NanoMechaMech	0	Mys: 15

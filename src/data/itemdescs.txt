@@ -3499,6 +3499,15 @@
 3492	710553035	fish scimitar
 3493	293762096	fish stick
 3494	860667475	fish bazooka
-3495
+3495	832935553	sea salt crystal	sea salt crystals
 3496	540293802	bazookafish bubble gum	bazookafish bubble gums
 3497	316828573	bottle of Pete's Sake	bottles of Pete's Sake
+3498	455779285	invisible bag	invisible bags
+3499	853786970	witch hat	witch hats
+3500	652790607	beholed bedsheet	beholed bedsheets
+3501	253194792	fancy canap&eacute;s	plates of fancy canap&eacute;s
+3502	501342128	thermos of brew	thermi of brew
+3503	991064132	giant glass of brandy	giant glasses of brandy
+3504	998896442	French slippers
+3505	616784691	LWA ring
+3506	589734444	LARP membership card

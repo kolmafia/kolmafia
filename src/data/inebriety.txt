@@ -109,6 +109,7 @@ flask of Amontillado	4	4	10-15	10-30	15-30	10-30
 flat mushroom wine	3	6	10-14	8-10	0	0
 flute of flat champagne	2	2	3-6	0	15	0
 fuzzbump	4	4	10-14	34-36	0	0
+giant glass of brandy	3	5	8-11	25-40	25-40	25-40
 gibson	3	3	5-10	0	0	16-20
 gimlet	4	6	14-18	0	40-47	0
 gin	5	1	10-15	9-10	9-10	9-10

@@ -555,3 +555,4 @@
 555	Glittering Eyelashes	eyelashes.gif	fc50db33358ccef36aae08cc54387702	use 5 glittery mascara
 556	Warm Belly	stomach.gif	78f695c8688a47aa520f24f0108ff573	drink 1 bottle of Pete's Sake
 557	Fishbreath	breath.gif	ddc1e7f70dcc1442f42c5720c9196c12	use 1 bazookafish bubble gum
+558	Salty Dogs	feet.gif	10d0d4b9af1a2982ced17d627f2b3e43	use 1 sea salt crystal
