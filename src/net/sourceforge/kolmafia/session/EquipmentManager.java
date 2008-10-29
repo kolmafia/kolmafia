@@ -325,6 +325,7 @@ public class EquipmentManager {
 		case ACCESSORY3:
 
 			EquipmentManager.updateEquipmentList( consumeFilter, EquipmentManager.accessories );
+			AdventureResult.addResultToList( EquipmentManager.accessories, equippedItem );
 			break;
 
 		case FAMILIAR:
@@ -425,22 +426,6 @@ public class EquipmentManager {
 			}
 
 			temporary.add( currentItem );
-		}
-
-		if ( currentList == EquipmentManager.accessories )
-		{
-			if ( !currentList.contains( getEquipment( ACCESSORY1 ) ) )
-			{
-				currentList.add( getEquipment( ACCESSORY1 ) );
-			}
-			if ( !currentList.contains( getEquipment( ACCESSORY2 ) ) )
-			{
-				currentList.add( getEquipment( ACCESSORY2 ) );
-			}
-			if ( !currentList.contains( getEquipment( ACCESSORY3 ) ) )
-			{
-				currentList.add( getEquipment( ACCESSORY3 ) );
-			}
 		}
 
 		currentList.retainAll( temporary );
