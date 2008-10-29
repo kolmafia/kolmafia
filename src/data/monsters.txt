@@ -198,7 +198,7 @@ Cubist Bull	HP: 110 Def: 105 Atk: 105	broken sword (5)	non-Euclidean hoof (0)
 Curmudgeonly Pirate	HP: 90	all-purpose cleaner (25)	curmudgel (5)	grumpy old man charrrm (10)	handful of sawdust (30)	mizzenmast mop (0)
 Dairy Goat	HP: 50 Def: 68 Atk: 68 Meat: 40-64	glass of goat's milk (20)	goat cheese (40)	billy idol (0)
 Dairy Ooze	HP: 8 Def: 13 Atk: 13 Meat: 11-15
-Danglin' Chad	HP: 0
+Danglin' Chad	HP: 300 Meat: 297-342 E: sleaze	Danglin' Chad's loincloth (100)	beer helmet (0)	bejeweled pledge pin (0)	distressed denim pants (0)	kick-ass kicks (0)	white class ring (0)
 Decal-applying Elfborg		iGoogly (10)	LED block (10)	nanofiber cloth (10)	synthetic stuffing (10)	theoretical string (10)	toy hoverpad (10)
 Decent Lumberjack	HP: 35 Def: 35 Atk: 35 Meat: 17-26	poutine (30)	disbelief suspenders (10)
 Demonic Icebox	HP: 5 Def: 5 Atk: 5	accidental cider (0)	ancient frozen dinner (30)	dire fudgesicle (0)	leftovers of indeterminate origin (40)
@@ -206,7 +206,7 @@ Demoninja	HP: 48 Def: 30 Atk: 50 E: heat Meat: 40-65	hot katana blade (30)	ninja
 Dirty Hippy	HP: 30 Def: 40 Atk: 40 E: stench	Feng Shui for Big Dumb Idiots (30)	filthy corduroys (5)	reodorant (5)	filthy knitted dread sack (5)
 Dirty Hippy Jewelry Maker	HP: 30 Def: 40 Atk: 40 E: stench	filthy corduroys (5)	hemp string (30)	phat turquoise bead (10)	filthy knitted dread sack (5)	reodorant (5)
 Dirty Hippy Vegan Chef	HP: 30 Def: 40 Atk: 40 E: stench	carob chunks (30)	filthy knitted dread sack (5)	Uncle Jick's Brownie Mix (30)	reodorant (5)	filthy corduroys (5)
-Dirty Thieving Brigand	HP: 185
+Dirty Thieving Brigand	HP: 185 Def: 171 Atk: 169 Meat: 822-1303
 Disease-In-The-Box	HP: 14 Def: 18 Atk: 18	box (30)	disease (40)
 Dodecapede	HP: 8 Def: 12 Atk: 12
 Doughbat	HP: 8 Def: 14 Atk: 14 EA: sleaze Meat: 17-27	sonar-in-a-biscuit (20)	wad of dough (30)
@@ -218,7 +218,7 @@ Drunken Rat	HP: 8 Def: 11 Atk: 9 Meat: 8-12	rat whisker (100)	rat appendix (20)
 Dyspepsi-Cola General	HP: 40 Def: 30 Atk: 30	Dyspepsi-Cola (15)	Dyspepsi-Cola (15)	Dyspepsi-Cola d-rations (5)	Dyspepsi grenade (5)
 Dyspepsi-Cola Knight	HP: 35 Def: 30 Atk: 30	Dyspepsi-Cola (15)	Dyspepsi-Cola (15)	Dyspepsi grenade (5)
 Dyspepsi-Cola Soldier	HP: 30 Def: 30 Atk: 30	Dyspepsi-Cola (15)	Dyspepsi-Cola (15)	Dyspepsi grenade (5)
-Elite Beer Bongadier	HP: 230
+Elite Beer Bongadier	HP: 230 Def: 205 Atk: 190 E: sleaze	beer bong (30)	beer helmet (1)	bejeweled pledge pin (1)	distressed denim pants (1)	kick-ass kicks (4)	PADL Phone (3)
 Empty Suit of Armor	HP: 120 Def: 115 Atk: 115 ED: spooky	antique greaves (10)	antique helmet (10)	antique spear (10)	antique shield (10)
 Erudite Gremlin	HP: 173	gremlin juice (3)	molybdenum crescent wrench (0)
 Evil Olive	HP: 140 Def: 125 Atk: 125	bottle of gin (30)	olive (40)	jumbo olive (10)
@@ -227,7 +227,7 @@ eXtreme Orcish Snowboarder	HP: 65 Def: 74 Atk: 76 Meat: 32-50 E: sleaze	eXtreme 
 eXtreme Sports Orcs	HP: 30 Def: 38 Atk: 38	Orcish baseball cap (0)	Orcish cargo shorts (0)	Mountain Stream soda (0)	eXtreme mittens (0)	hang glider (0)
 Fallen Archfiend	HP: 50 Def: 50 Atk: 50 E: heat Meat: 36-58	evil golden arch (30)	infernal insoles (10)
 Felonia, Queen of the Spooky Gravy Fairies	HP: 82 Def: 75 Atk: 75 E: spooky
-Ferocious Bugbear	HP: 0	bugbear beanie	bugbear bungguard
+Ferocious Bugbear	HP: 5 Meat: 17-23	bugbear beanie (0)	bugbear bungguard (0)
 Fiendish Can of Asparagus	HP: 1 Def: 2 Atk: 1 E: stench Meat: 4-7	asparagus knife (20)	stalk of asparagus (40)	razor-sharp can lid (40)	shredded can label (0)
 Figure-Skating Duck	HP: 186 Atk: 179 Meat: 139-171 E: cold	frozen feather (10)	duct tape (5)
 Filthworm Drone	HP: 185	filthworm drone scent gland (10)
@@ -245,7 +245,7 @@ Fluffy Bunny	HP: 1 Def: 1 Atk: 1
 Forest Spirit	HP: 3 Def: 2 Atk: 1	forest tears (30)
 Frat Warrior Drill Sergeant	HP: 200	distressed denim pants (10)	bejeweled pledge pin (10)	beer helmet (10)
 Frog	HP: 3 Def: 3 Atk: 3 Meat: 8-12	squashed frog (100)
-Frosty	HP: 350
+Frosty	HP: 350 E: cold
 Frozen Duck	HP: 180 Atk: 170 Meat: 125-152 E: cold	frozen feather (10)	duct tape (5)
 Fruit Golem	HP: 46 Def: 56 Atk: 56	cherry (15)	orange (15)	lime (15)
 Funk Sole Brother	HP: 400	dull fish scale (0)	slick fish meat (0)
@@ -266,7 +266,7 @@ Giant Pair of Tweezers	HP: 8 Def: 18 Atk: 16
 Giant Skeelton	HP: 130 Def: 73 Atk: 77 E: spooky	skeleton bone (0)	skeleton bone (0)	skeleton bone (0)
 Giant Zombie Goldfish	HP: 260	decaying goldfish liver (0)	sewer nuggets (0)	sewer nuggets (0)
 Gift-wrapping Vampire		evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
-Glass of Orange Juice	HP: 330
+Glass of Orange Juice	HP: 330 Atk: 220 Meat: 327-500 E: stench	green clay bead (100)	orange peel hat (100)	bullet-proof corduroys (0)	Lockenstock&trade; sandals (0)	round purple sunglasses (0)
 Gluttonous Ghuol	HP: 50 Def: 56 Atk: 54 E: spooky Meat: 24-38	ghuol ears (10)	ghuol egg (10)	ghuol guolash (20)
 Gnarly Gnome	HP: 35 Def: 35 Atk: 35	clockwork key (5)	clockwork key (5)	flange (5)
 Gnasty Gnome	HP: 35 Def: 35 Atk: 35	clockwork key (5)	clockwork key (5)	flange (5)
@@ -289,15 +289,15 @@ Grassy Pirate	HP: 120	grassy cutlass (10)
 Grave Rober	HP: 12 Def: 22 Atk: 18	dead guy's watch (5)	grave robbing shovel (50)
 Grave Rober Zmobie	HP: 50 Def: 59 Atk: 59 E: spooky Meat: 40-60	dead guy's watch (10)	rusty grave robbing shovel (10)	loose teeth (10)
 Greasy Duck	HP: 185 Atk: 173 Meat: 132-170 E: sleaze	flirtatious feather (10)	duct tape (5)
-Green Ops Soldier	HP: 250
+Green Ops Soldier	HP: 250 Def: 200 Atk: 200 E: stench	communications windchimes (3)	gas balloon (17)	gas balloon (3)	green clay bead (30)	green smoke bomb (6)	green smoke bomb (3)	henna face paint (8)	round green sunglasses (5)
 Gritty Pirate	HP: 120	true grit (30)
 Groovy Pirate	HP: 120	buoybottoms (10)
 Grungy Pirate	HP: 120	acoustic guitarrr (20)	grungy bandana (10)	grungy flannel shirt (5)
 Guard Bugbear	HP: 6 Def: 12 Atk: 12 Meat: 21-30	bugbear beanie (25)	bugbear bungguard (0)
-Guy Made Of Bees	HP: 0	guy made of bee pollen (100)
+Guy Made Of Bees	HP: 100000	guy made of bee pollen (100)
 Guy with a Pitchfork, and his Wife	HP: 120 Def: 110 Atk: 110	pitchfork (5)
 Handsome Mariachi	HP: 15 Def: 17 Atk: 23 Meat: 4-7	bottle of tequila (30)	chorizo taco (20)	handsomeness potion (20)
-Heavy Kegtank	HP: 300
+Heavy Kegtank	HP: 300 Atk: 180 E: sleaze	meat engine (6)	PADL Phone (5)	sake bomb (12)	sake bomb (3)
 Hellion	HP: 52 Def: 52 Atk: 52 E: heat	Hellion cube (30)
 Hockey Elemental	HP: 40 Def: 65 Atk: 65	hockey stick of furious angry rage (100)
 Hodgman, The Hoboverlord	HP: 25000
@@ -341,7 +341,7 @@ Larval Filthworm	HP: 215	filthworm hatchling scent gland (10)
 Lemon-In-The-Box	HP: 12 Def: 17 Atk: 17	box (20)	lemon (50)
 Lesser Fruit Golem	HP: 9 Def: 17 Atk: 23	grapefruit (15)	grapes (15)	lemon (15)	orange (15)	strawberry (15)
 Lihc	HP: 11 Def: 20 Atk: 30 ED: spooky EA: spooky EA: sleaze Meat: 29-43	lihc eye (30)
-Lobsterfrogman	HP: 212
+Lobsterfrogman	HP: 190 Def: 169 Atk: 171 Meat: 78	barrel of gunpowder (100)
 Lonely Construct	HP: 0	El Vibrato punchcard (213 holes)	El Vibrato punchcard (182 holes)
 Lord Spookyraven	HP: 200
 Lumberjack Supervisor	HP: 40 Def: 40 Atk: 40 Meat: 25-38	balaclava (5)	balaclava baklava (25)
@@ -364,14 +364,14 @@ Mind Flayer	HP: 47 Def: 40 Atk: 36	mind flayer corpse (25)	cornuthaum (15)	large
 Mob Penguin Smasher		chunk of depleted Grimacite (0)	kneecapping stick (0)	penguin skin (0)
 Mob Penguin Smith		chunk of depleted Grimacite (0)	iron pasta spoon (0)	scroll of pasta summoning (0)
 Mob Penguin Supervisor		chunk of depleted Grimacite (0)	mafia aria (0)	Mob Penguin cellular phone (0)	support cummerbund (0)
-Mobile Armored Sweat Lodge	HP: 300
-Monty Basingstoke-Pratt, IV	HP: 240
+Mobile Armored Sweat Lodge	HP: 300 Atk: 180 E: stench	communications windchimes (3)	didgeridooka (33)	gas balloon (20)
+Monty Basingstoke-Pratt, IV	HP: 240 Meat: 174-215 E: sleaze	white class ring (0)	natty blue ascot (100)	distressed denim pants (0)	bejeweled pledge pin (0)	kick-ass kicks (0)
 Naughty Sorceress
 Naughty Sorceress (second form)
-Naughty Sorority Nurse	HP: 160
+Naughty Sorority Nurse	HP: 200 Def: 175 Atk: 170 ED: sleaze	energy drink IV (27)	gauze garter (25)	gauze garter (16)	kick-ass kicks (2)	PADL Phone (3)
 Neil	HP: 355	    bullet-proof corduroys (0)	green clay bead (0)	Lockenstock&trade; sandals (0)	longhaired hippy wig (100)	reinforced beaded headband (0)
 Newt	HP: 3 Def: 3 Atk: 3 Meat: 8-12	eye of newt (100)
-Next-Generation Frat Boy	HP: 200
+Next-Generation Frat Boy	HP: 200 Meat: 150-200 E: sleaze	beaten-up Chucks (100)	white class ring (100)	kick-ass kicks (0)	beer helmet (0)	distressed denim pants (0)
 Ninja Snowman (Katana)	HP: 70 Def: 85 Atk: 85 E: cold	frigid ninja stars (20)	frozen nunchaku (5)	icy katana hilt (15)	coal button (0)
 Ninja Snowman (Masked)	HP: 70 Def: 85 Atk: 85 E: cold	cold ninja mask (10)	frigid ninja stars (20)	frozen nunchaku (5)	coal button (0)
 Ninja Snowman (Ricebowl)	HP: 70 Def: 85 Atk: 85 ED: cold	frigid ninja stars (20)	rice bowl (5)	chopsticks (5)	coal button (0)
@@ -390,7 +390,7 @@ Orcish Frat Boy Spy	HP: 180 Atk: 165 E: sleaze	    beer helmet (30)	distressed d
 Oscus	HP: 6500
 Overdone Flame-Broiled Meat Blob	HP: 2 Def: 1 Atk: 1 E: heat Meat: 4-7	meat paste (40)	meat paste (40)	meat paste (40)
 P Imp	HP: 42 Def: 42 Atk: 42 E: heat Meat: 24-39	Imp Ale (30)	hot wing (30)	diamond-studded cane (5)
-Panty Raider Frat Boy	HP: 250
+Panty Raider Frat Boy	HP: 250 Def: 200 Atk: 200 E: sleaze	chloroform rag (12)	chloroform rag (7)	depantsing bomb (18)	depantsing bomb (3)	Elmley shades (6)	PADL Phone (3)	panty raider camouflage (10)	white class ring (30)
 Paper Towelgeist	HP: 6 Def: 4 Atk: 4	cardboard katana (5)
 Pencil Golem	HP: 11 Def: 15 Atk: 15
 Perpendicular Bat	HP: 12 Def: 18 Atk: 18 Meat: 26-40	batgut (15)	bat wing (15)	sonar-in-a-biscuit (20)
@@ -455,13 +455,13 @@ Skullery Maid	HP: 4 Def: 4 Atk: 4	bottle of popskull (30)	dishrag (5)
 Sleaze Hobo	HP: 500	hobo nickel (0)	sleazy bindle (0)	Summer Nights (0)	Sensual Massage for Creeps (0)	stained mattress (0)
 Sleeping Knob Goblin Guard	HP: 1 Def: 1 Atk: 1 Meat: 4-8	viking helmet (30)	Knob Goblin pants (5)	Knob Goblin scimitar (30)
 Slick Lihc	HP: 50 Def: 60 Atk: 58 E: spooky	lihc eye (20)	lihc face (10)
-Slow Talkin' Elliot	HP: 200
+Slow Talkin' Elliot	HP: 200 Meat: 130-154 E: stench	bullet-proof corduroys (0)	green clay bead (0)	Lockenstock&trade; sandals (0)	Slow Talkin' Elliot's dogtags (100)
 Smarmy Pirate	HP: 55 Def: 65 Atk: 65 E: sleaze Meat: 22-34	bottle of rum (50)	Jolly Roger charrrm bracelet (20)	eyepatch (10)	vial of pirate sweat (0)
 Smart Skelton	HP: 11 Def: 20 Atk: 20 E: spooky	smart skull (50)
 Snow Queen	HP: 70 Def: 104 Atk: 104 E: cold	crazy little Turkish delight (25)	ga-ga radio (5)	Snow Queen Crown (5)
 Some Zombie Waltzers	HP: 120 Def: 110 Atk: 110 E: spooky	dance card (15)
-Sorority Nurse	HP: 200
-Sorority Operator	HP: 200
+Sorority Nurse	HP: 200 Def: 170 Atk: 175 E: sleaze	energy drink IV (18)	gauze garter (20)	gauze garter (7)	kick-ass kicks (2)	PADL Phone (3)
+Sorority Operator	HP: 200 Def: 180 Atk: 185 E: sleaze	beer helmet (1)	bejeweled pledge pin (1)	distressed denim pants (1)	kick-ass kicks (2)	PADL Phone (18)	PADL Phone (18)	PADL Phone (18)	white class ring (31)
 Spam Witch	HP: 75 Def: 85 Atk: 85 EA: sleaze Meat: 24-38	30669 scroll (30)	Spam Witch sammich (50)	sammich crust (0)
 Spectral Jellyfish	HP: 60 Def: 70 Atk: 70
 Spider Gremlin	HP: 177	gremlin juice (3)	molybdenum pliers (0)
@@ -539,29 +539,29 @@ Vicious Gnauga	HP: 40 Def: 45 Atk: 45	gnauga hide (10)
 Vine Gar	HP: 180 Def: 200 Atk: 200	vinegar (30)	vinegar (30)
 W Imp	HP: 40 Def: 40 Atk: 40 E: heat Meat: 24-39	Imp Ale (30)	ruby W (30)	wussiness potion (30)
 Wacky Pirate	HP: 110	cannonball charrrm (10)	yohohoyo (5)
-War Frat 110th Infantryman	HP: 185
-War Frat 151st Captain	HP: 205
-War Frat 151st Infantryman	HP: 185
-War Frat 500th Infantrygentleman	HP: 185
-War Frat Elite 110th Captain	HP: 215
-War Frat Elite 500th Captain	HP: 210
-War Frat Elite Wartender	HP: 220
-War Frat Grill Sergeant	HP: 100
-War Frat Kegrider	HP: 300
-War Frat Mobile Grill Unit	HP: 215
-War Frat Senior Grill Sergeant	HP: 120
-War Frat Streaker	HP: 0
-War Frat Wartender	HP: 200
+War Frat 110th Infantryman	HP: 185 Def: 172 Atk: 172 E: sleaze	beer bomb (5)	beer helmet (10)	bejeweled pledge pin (10)	bottle opener belt buckle (10)	distressed denim pants (10)	giant foam finger (10)	keg shield (6)
+War Frat 151st Captain	HP: 205 Def: 175 Atk: 180 E: sleaze	beer bomb (9)	beer helmet (5)	bejeweled pledge pin (4)	distressed denim pants (5)	keg shield (5)	PADL Phone (2)	perforated battle paddle (15)	red class ring (31)
+War Frat 151st Infantryman	HP: 185 Def: 175 Atk: 170 E: sleaze	beer bomb (5)	beer helmet (10)	bejeweled pledge pin (10)	bottle opener belt buckle (12)	distressed denim pants (9)	keg shield (5)	perforated battle paddle (10)
+War Frat 500th Infantrygentleman	HP: 185 Def: 170 Atk: 175	beer bomb (5)	beer helmet (10)	bejeweled pledge pin (10)	bottle opener belt buckle (10)	distressed denim pants (9)	keg shield (5)	perforated battle paddle (9)
+War Frat Elite 110th Captain	HP: 215 Def: 190 Atk: 190 E: sleaze	beer bomb (9)	beer helmet (5)	bejeweled pledge pin (5)	distressed denim pants (4)	giant foam finger (14)	keg shield (5)	PADL Phone (3)	red class ring (29)
+War Frat Elite 500th Captain	HP: 210 Def: 190 Atk: 185 E: sleaze	beer bomb (10)	beer helmet (4)	bejeweled pledge pin (4)	distressed denim pants (6)	keg shield (5)	PADL Phone (2)	perforated battle paddle (14)	red class ring (31)
+War Frat Elite Wartender	HP: 220 Def: 185 Atk: 195 E: sleaze	beer bomb (20)	beer bomb (10)	beer helmet (1)	bejeweled pledge pin (1)	distressed denim pants (1)	blue class ring (31)	kick-ass kicks (2)	molotov cocktail cocktail (0)	PADL Phone (3)	sake bomb (25)	sake bomb (13)	tequila grenade (0)
+War Frat Grill Sergeant	HP: 100 Def: 165 Atk: 190 E: sleaze	Frat Army FGF (5)	kick-ass kicks (10)	Monstar energy beverage (20)	PADL Phone (3)	war tongs (17)
+War Frat Kegrider	HP: 300 Atk: 170 E: sleaze	beer bong (5)	beer helmet (1)	bejeweled pledge pin (1)	distressed denim pants (1)	furniture dolly (15)	PADL Phone (5)
+War Frat Mobile Grill Unit	HP: 215 Atk: 195 E: sleaze	beer helmet (2)	bejeweled pledge pin (1)	distressed denim pants (2)	Frat Army FGF (5)	PADL Phone (11)	sausage bomb (41)	shiny hood ornament (25)	white class ring (31)
+War Frat Senior Grill Sergeant	HP: 120 Def: 170 Atk: 210 E: sleaze	asbestos apron (0)	Frat Army FGF (20)kick-ass kicks (15)	Monstar energy beverage (31)	PADL Phone (4)	war tongs (19)
+War Frat Streaker	HP: 0 Meat: 400-418 E: sleaze	white class ring (0)	tube sock (100)	distressed denim pants (0)
+War Frat Wartender	HP: 200 Def: 175 Atk: 185 E: sleaze	beer bomb (14)	beer bomb (7)	beer helmet (1)	bejeweled pledge pin (1)	distressed denim pants (1)	kick-ass kicks (3)	molotov cocktail cocktail (0)	PADL Phone (2)	red class ring (30)	sake bomb (22)	sake bomb (22)	tequila grenade (0)
 War Hippy (Space) Cadet	HP: 180	round purple sunglasses (5)	reinforced beaded headband (5)	bullet-proof corduroys (5)
-War Hippy Airborne Commander	HP: 220
-War Hippy Baker	HP: 185
-War Hippy Dread Squad	HP: 300
+War Hippy Airborne Commander	HP: 220 Def: 185 Atk: 195 E: stench	bullet-proof corduroys (1)	communications windchimes (3)	ferret bait (22)	ferret bait (16)	Lockenstock&trade; sandals (2)	purple clay bead (31)	reinforced beaded headband (1)	round purple sunglasses (1)	water pipe bomb (18)	water pipe bomb (10)	exploding hacky-sack (0)	patchouli oil bomb (0)
+War Hippy Baker	HP: 185 Def: 170 Atk: 175 E: stench	bullet-proof corduroys (8)	hippy protest button (10)	lead pipe (11)	reinforced beaded headband (10)	round purple sunglasses (10)	water pipe bomb (20)	wicker shield (5)
+War Hippy Dread Squad	HP: 300 Atk: 170 E: stench	bullet-proof corduroys (2)	communications windchimes (3)	didgeridooka (20)	Lockenstock&trade; sandals (2)	reinforced beaded headband (2)	round purple sunglasses (2)	tube of dread wax (15)
 War Hippy Drill Sergeant	HP: 200	round purple sunglasses (10)	reinforced beaded headband (10)	bullet-proof corduroys (10)
-War Hippy Elder Shaman	HP: 120
-War Hippy Elite Fire Spinner	HP: 220
-War Hippy Elite Rigger	HP: 220
-War Hippy F.R.O.G.	HP: 208
-War Hippy Fire Spinner	HP: 230
+War Hippy Elder Shaman	HP: 120 Def: 170 Atk: 210 E: stench	carbonated soy milk (30)	communications windchimes (3)	flowing hippy skirt (5)	funky dried mushroom (20)	Gaia beads (19)	Lockenstock&trade; sandals (14)
+War Hippy Elite Fire Spinner	HP: 230 Def: 205 Atk: 190 E: stench	bullet-proof corduroys (1)	communications windchimes (4)	fire poi (30)	Lockenstock&trade; sandals (2)	reinforced beaded headband (1)	round purple sunglasses (1)
+War Hippy Elite Rigger	HP: 220 Def: 190 Atk: 190 E: stench	bullet-proof corduroys (5)	communications windchimes (3)	lead pipe (17)	pink clay bead (29)	reinforced beaded headband (5)	round purple sunglasses (5)	wicker shield (4)	water pipe bomb (10)
+War Hippy F.R.O.G.	HP: 208 Def: 185 Atk: 180 E: stench	bullet-proof corduroys (6)	communications windchimes (2)	lead pipe (17)	pink clay bead (31)	reinforced beaded headband (6)	round purple sunglasses (6)	wicker shield (6)	water pipe bomb (10)
+War Hippy Fire Spinner	HP: 210 Def: 195 Atk: 180 E: stench	bullet-proof corduroys (1)	communications windchimes (3)	fire poi (20)	Lockenstock&trade; sandals (1)	reinforced beaded headband (1)	round purple sunglasses (1)
 War Hippy Green Gourmet	HP: 217 Def: 190 Atk: 185 E: stench	bullet-proof corduroys (5)	communications windchimes (3)	Hippy Army MPE (52)	lead pipe (13)	reinforced beaded headband (6)	round purple sunglasses (4)	water pipe bomb (38)	wicker shield (6)	pink clay bead (29)
 War Hippy Homeopath	HP: 200 Def: 175 Atk: 170 E: stench	communications windchimes (3)	filthy poultice (15)	hippy medical kit (18)	Lockenstock&trade; sandals (2)	natural fennel soda (10)
 War Hippy Infantryman	HP: 189 Def: 175 Atk: 170 E: stench	bullet-proof corduroys (10)	hippy protest button (10)	lead pipe (11)	reinforced beaded headband (11)	round purple sunglasses (10)	wicker shield (6)	water pipe bomb (5)

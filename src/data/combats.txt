@@ -38,7 +38,7 @@ Astral Mushroom (Great Trip)	100	Angels of Avalon	Bustle in the Hedgerow	Elders 
 Astral Mushroom (Mediocre Trip)	100	Feeling That You're Being Watched	Really Interesting Wallpaper	The Best Carpet Ever	Urge to Stare at Your Hands	Visible Music
 Back 40	100	Fire-Breathing Duck	Scorched Duck
 Barn	100	Generic Duck
-Barrel full of Barrels	-1	Mimic
+Barrel full of Barrels	-1	Mimic (Bottom 2 Rows)	Mimic (Middle 2 Rows)	Mimic (Top 2 Rows)
 Barrrney's Barrr	100	Tetchy Pirate	Tipsy Pirate	Toothy Pirate
 Bat Hole Entryway	100	Albino Bat	Pine Bat	Regular Old Bat
 Batrat and Ratbat Burrow	100	Batrat	Ratbat

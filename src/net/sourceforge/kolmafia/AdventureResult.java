@@ -299,7 +299,6 @@ public class AdventureResult
 		else if ( StaticEntity.getClient() != null )
 		{
 			RequestLogger.printLine( "Unknown item found: " + this.name );
-			StaticEntity.printStackTrace();
 		}
 	}
 
