@@ -53,6 +53,7 @@ public class ItemPool
 	public static final int SPIDER_WEB = 27;
 	public static final int CASINO_PASS = 40;
 	public static final int SCHLITZ = 41;
+	public static final int HERMIT_PERMIT = 42;
 	public static final int WORTHLESS_TRINKET = 43;
 	public static final int WORTHLESS_GEWGAW = 44;
 	public static final int WORTHLESS_KNICK_KNACK = 45;
