@@ -33,6 +33,7 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.HashSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -179,6 +180,29 @@ public class FightRequest
 		"master of thieves",
 		"temporal bandit"
 	};
+	
+	// Skills which cannot be used with a ranged weapon
+	private static final HashSet INVALID_WITH_RANGED_ATTACK = new HashSet();
+	static {
+		INVALID_WITH_RANGED_ATTACK.add( "1003" );
+		INVALID_WITH_RANGED_ATTACK.add( "skill thrust-smack" );
+		INVALID_WITH_RANGED_ATTACK.add( "1005" );
+		INVALID_WITH_RANGED_ATTACK.add( "skill lunging thrust-smack" );
+		INVALID_WITH_RANGED_ATTACK.add( "2003" );
+		INVALID_WITH_RANGED_ATTACK.add( "skill headbutt" );
+		INVALID_WITH_RANGED_ATTACK.add( "2005" );
+		INVALID_WITH_RANGED_ATTACK.add( "skill shieldbutt" );
+		INVALID_WITH_RANGED_ATTACK.add( "2015" );
+		INVALID_WITH_RANGED_ATTACK.add( "skill kneebutt" );
+		INVALID_WITH_RANGED_ATTACK.add( "2103" );
+		INVALID_WITH_RANGED_ATTACK.add( "skill head + knee combo" );
+		INVALID_WITH_RANGED_ATTACK.add( "2105" );
+		INVALID_WITH_RANGED_ATTACK.add( "skill head + shield combo" );
+		INVALID_WITH_RANGED_ATTACK.add( "2106" );
+		INVALID_WITH_RANGED_ATTACK.add( "skill knee + shield combo" );
+		INVALID_WITH_RANGED_ATTACK.add( "2107" );
+		INVALID_WITH_RANGED_ATTACK.add( "skill head + knee + shield combo" );
+	}
 
 	/**
 	 * Constructs a new <code>FightRequest</code>. Theprovided will be used to determine whether or not the fight
@@ -650,7 +674,7 @@ public class FightRequest
 			FightRequest.castCleesh = true;
 		}
 
-		if ( FightRequest.isInvalidThrustSmack( FightRequest.action1 ) )
+		if ( FightRequest.isInvalidRangedAttack( FightRequest.action1 ) )
 		{
 			FightRequest.action1 = "abort";
 			return;
@@ -660,13 +684,9 @@ public class FightRequest
 		this.addFormField( "whichskill", FightRequest.action1.substring( 5 ) );
 	}
 
-	public static final boolean isInvalidThrustSmack( final String action )
+	public static final boolean isInvalidRangedAttack( final String action )
 	{
-		boolean isThrustSmack = action.equals( "skill thrust-smack" ) ||
-			action.equals( "skill lunging thrust-smack" ) ||
-			action.equals( "1003" ) || action.equals( "1005" );
-
-		if ( !isThrustSmack )
+		if ( !INVALID_WITH_RANGED_ATTACK.contains( action.toLowerCase() ) )
 		{
 			return false;
 		}
@@ -675,7 +695,7 @@ public class FightRequest
 
 		if ( EquipmentDatabase.getWeaponType( weaponId ) == KoLConstants.MOXIE )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Thrust smacks are useless with ranged weapons." );
+			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "This skill is useless with ranged weapons." );
 			return true;
 		}
 
@@ -1995,7 +2015,7 @@ public class FightRequest
 			Matcher skillMatcher = FightRequest.SKILL_PATTERN.matcher( urlString );
 			if ( skillMatcher.find() )
 			{
-				if ( FightRequest.isInvalidThrustSmack( skillMatcher.group( 1 ) ) )
+				if ( FightRequest.isInvalidRangedAttack( skillMatcher.group( 1 ) ) )
 				{
 					return true;
 				}
