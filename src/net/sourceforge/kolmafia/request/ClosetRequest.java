@@ -228,10 +228,9 @@ public class ClosetRequest
 		switch ( this.moveType )
 		{
 		case EMPTY_STORAGE:
-			while ( !KoLConstants.storage.isEmpty() )
-			{
-				ResultProcessor.processResult( (AdventureResult) KoLConstants.storage.remove( 0 ) );
-			}
+			Object[] items = KoLConstants.storage.toArray();
+			KoLConstants.storage.clear();
+			ResultProcessor.processBulkItems( items );
 
 			if ( !this.containsUpdate )
 			{
@@ -372,10 +371,9 @@ public class ClosetRequest
 
 		if ( urlString.indexOf( "action=takeall" ) != -1 )
 		{
-			while ( !KoLConstants.storage.isEmpty() )
-			{
-				ResultProcessor.tallyResult( (AdventureResult) KoLConstants.storage.remove( 0 ), true );
-			}
+			Object[] items = KoLConstants.storage.toArray();
+			KoLConstants.storage.clear();
+			ResultProcessor.processBulkItems( items );
 
 			return true;
 		}

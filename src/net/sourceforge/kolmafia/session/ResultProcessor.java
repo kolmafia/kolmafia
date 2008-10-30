@@ -649,11 +649,11 @@ public class ResultProcessor
 				}
 			}
 
-                        if ( HermitRequest.isWorthlessItem( result.getItemId() ) )
-                        {
-                                result = HermitRequest.WORTHLESS_ITEM.getInstance( result.getCount() );
-                        }
-                }
+			if ( HermitRequest.isWorthlessItem( result.getItemId() ) )
+			{
+				result = HermitRequest.WORTHLESS_ITEM.getInstance( result.getCount() );
+			}
+		}
 
 		// Now, if it's an actual stat gain, be sure to update the
 		// list to reflect the current value of stats so far.
@@ -1037,5 +1037,43 @@ public class ResultProcessor
 				RequestThread.postRequest( beltCreator );
 			}
 		}
+	}
+	
+	/**
+	 * Handle lots of items being received at once (specifically, from emptying Hangk's),
+	 * deferring updates to the end as much as possible.
+	 */
+	public static void processBulkItems( Object[] items )
+	{
+		if ( items.length == 0 )
+		{
+			return;
+		}
+		RequestLogger.updateDebugLog( "Processing bulk items" );
+		KoLmafia.updateDisplay( "Processing, this may take a while..." );
+		for ( int i = 0; i < items.length; ++i )
+		{
+			AdventureResult result = (AdventureResult) items[ i ];
+			
+			// Skip adding to tally, since you haven't really gained these items -
+			// merely moved them around.
+			//AdventureResult.addResultToList( KoLConstants.tally, result );
+			
+			// Skip gainItem's processing, which is mostly concerned with quest items
+			// that couldn't be in Hangk's anyway.
+			//ResultProcessor.gainItem( result );
+			
+			AdventureResult.addResultToList( KoLConstants.inventory, result );
+			EquipmentManager.processResult( result );
+			
+			// Skip conditions handling, since this can't happen during an adventure
+			// request, and therefore the conditions will be rechecked.
+		}
+		
+		// Assume that at least one item in the list required each of these updates:
+		CoinmastersFrame.externalUpdate();
+		ConcoctionDatabase.refreshConcoctions();
+		
+		KoLmafia.updateDisplay( "Processing complete." );
 	}
 }
