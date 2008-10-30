@@ -662,8 +662,9 @@ public class FightRequest
 
 	public static final boolean isInvalidThrustSmack( final String action )
 	{
-		boolean isThrustSmack = action.equals( "skill thrust-smack" ) || action.equals( "skill lunging thrust-smack" ) ||
-			action.equals( "1003" ) && action.equals( "1005" );
+		boolean isThrustSmack = action.equals( "skill thrust-smack" ) ||
+			action.equals( "skill lunging thrust-smack" ) ||
+			action.equals( "1003" ) || action.equals( "1005" );
 
 		if ( !isThrustSmack )
 		{
