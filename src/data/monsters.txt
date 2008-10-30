@@ -580,7 +580,7 @@ Weretaco	HP: 8 Def: 16 Atk: 16 Meat: 26-41	taco shell (30)	uncooked chorizo (30)
 Whiny Pirate	HP: 110 Def: 120 Atk: 120 Meat: 69-84	bilge wine (30)
 White Chocolate Golem	HP: 21 Def: 36 Atk: 37	white chocolate chips (50)
 White Lion	HP: 21 Def: 35 Atk: 36 Meat: 24-36	    catgut (15)	lion oil (20)
-Whitesnake	HP: 21 Def: 34 Atk: 36 Meat: 8-13	white snake skin (30)
+Whitesnake	HP: 21 Def: 34 Atk: 36 Meat: 8-13	white snake skin (30)	bird rib (20)
 Witty Pirate	HP: 110	witty rapier (10)	silver tongue charrrm (10)
 Wolfman	HP: 2 Def: 3 Atk: 1 Meat: 10-13
 Writing Desk	HP: 62 Def: 57 Atk: 57	disintegrating quill pen (15)	inkwell (30)
