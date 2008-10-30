@@ -1304,7 +1304,7 @@
 1298	401860894	ring of conflict	rings of conflict
 1299	688927956	pirate hook
 1300	123353646	monster bait	monster baits
-1301	119071035	deodorant	cans of deoderant
+1301	119071035	deodorant	cans of deodorant
 1302	406730890	reodorant	cans of reodorant
 1303	422099540	Mjolnir Jr.
 1304	440819786	doppelshifter egg	doppelshifter eggs
