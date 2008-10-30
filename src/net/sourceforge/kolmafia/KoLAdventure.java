@@ -805,9 +805,10 @@ public class KoLAdventure
 				}
 			}
 
-			if ( FightRequest.isInvalidThrustSmack( action ) )
+			if ( FightRequest.isInvalidRangedAttack( action ) )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Thrust smacks are useless with ranged weapons." );
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+					"Your selected attack skill is useless with ranged weapons." );
 				return;
 			}
 		}
