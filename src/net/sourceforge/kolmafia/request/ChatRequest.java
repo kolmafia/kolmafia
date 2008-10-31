@@ -103,6 +103,8 @@ public class ChatRequest
 
 		// Chat macros are also commands.
 
+		ChatRequest.registerChatCommand( "/macro", true );
+
 		for ( int i = 1; i <= 20; ++i )
 		{
 			ChatRequest.registerChatCommand( "/" + i, true );

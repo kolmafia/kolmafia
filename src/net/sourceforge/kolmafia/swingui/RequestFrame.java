@@ -535,18 +535,8 @@ public class RequestFrame
 		}
 	}
 
-	public static final boolean sidebarFrameExists()
-	{
-		return !RequestFrame.sideBarFrames.isEmpty();
-	}
-
 	public static final void refreshStatus()
 	{
-		if ( RequestFrame.sideBarFrames.isEmpty() )
-		{
-			return;
-		}
-
 		RequestFrame current;
 		String displayHTML = RequestEditorKit.getDisplayHTML( "charpane.php", CharPaneRequest.getLastResponse() );
 
@@ -564,20 +554,8 @@ public class RequestFrame
 		return this.mainBuffer.getBuffer().indexOf( search ) != -1;
 	}
 
-	public void setVisible( final boolean isVisible )
-	{
-		if ( isVisible && this.sideBuffer != null && !RequestFrame.sideBarFrames.contains( this ) )
-		{
-			RequestFrame.sideBarFrames.add( this );
-		}
-
-		super.setVisible( isVisible );
-	}
-
 	public void dispose()
 	{
-		RequestFrame.sideBarFrames.remove( this );
-
 		this.history.clear();
 		this.shownHTML.clear();
 		super.dispose();
