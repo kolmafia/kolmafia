@@ -117,6 +117,7 @@ public class ChatRequest
 		ChatRequest.registerChatCommand( "/games", false );
 		ChatRequest.registerChatCommand( "/radio", false );
 		ChatRequest.registerChatCommand( "/pvp", false );
+		ChatRequest.registerChatCommand( "/villa", false );
 		ChatRequest.registerChatCommand( "/lounge", false );
 		ChatRequest.registerChatCommand( "/haiku", false );
 		ChatRequest.registerChatCommand( "/foodcourt", false );
