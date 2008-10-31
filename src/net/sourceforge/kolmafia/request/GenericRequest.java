@@ -1410,7 +1410,7 @@ public class GenericRequest
 		{
 			this.containsUpdate = true;
 		}
-		else if ( RequestFrame.sidebarFrameExists() )
+		else
 		{
 			this.containsUpdate = this.responseText.indexOf( "charpane" ) != -1;
 		}
@@ -1522,8 +1522,8 @@ public class GenericRequest
 		{
 			ResultProcessor.processItem( ItemPool.CHEWING_GUM, -1 );
 		}
-		
-		if ( this.formURLString.startsWith( "mall.php" ) || 
+
+		if ( this.formURLString.startsWith( "mall.php" ) ||
 			this.formURLString.startsWith( "searchmall.php" ) )
 		{
 			// These pages cannot possibly contain an actual item drop, but may have
