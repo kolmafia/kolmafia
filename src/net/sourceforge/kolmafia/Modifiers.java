@@ -37,6 +37,7 @@ import java.io.BufferedReader;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Map;
+import java.util.HashMap;
 import java.util.TimeZone;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
@@ -55,7 +56,11 @@ public class Modifiers
 	extends KoLDatabase
 {
 	private static final Map modifiersByName = new TreeMap();
+	private static final HashMap familiarEffectByName = new HashMap();
 	private static final ArrayList passiveSkills = new ArrayList();
+
+	private static final Pattern FAMILIAR_EFFECT_PATTERN =
+		Pattern.compile( "Familiar Effect: \"(.*?)\"" );
 
 	static
 	{
@@ -71,6 +76,12 @@ public class Modifiers
 
 			String name = StringUtilities.getCanonicalName( data[ 0 ] );
 			Modifiers.modifiersByName.put( name, data[ 1 ] );
+			
+			Matcher matcher = FAMILIAR_EFFECT_PATTERN.matcher( data[ 1 ] );
+			if ( matcher.find() )
+			{
+				Modifiers.familiarEffectByName.put( name, matcher.group( 1 ) );
+			}
 		}
 
 		try
@@ -1338,6 +1349,13 @@ public class Modifiers
 			break;
 		}
 	}
+	
+	public static final String getFamiliarEffect( final String itemName )
+	{
+		return (String) Modifiers.familiarEffectByName.get( 
+			StringUtilities.getCanonicalName( itemName ) );
+	}
+
 
 	// Parsing item enchantments into KoLmafia modifiers
 

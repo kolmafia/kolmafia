@@ -301,7 +301,14 @@ public class GearChangeFrame
 		public ChangeComboBox( final LockableListModel slot )
 		{
 			super( slot );
-			this.setRenderer( ListCellRendererFactory.getUsableEquipmentRenderer() );
+			if ( slot == EquipmentManager.getEquipmentLists()[ EquipmentManager.FAMILIAR ] )
+			{
+				this.setRenderer( ListCellRendererFactory.getFamiliarEquipmentRenderer() );
+			}
+			else
+			{
+				this.setRenderer( ListCellRendererFactory.getUsableEquipmentRenderer() );
+			}
 			this.addActionListener( new ChangeItemListener() );
 		}
 

@@ -42,6 +42,7 @@ import javax.swing.JList;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.Modifiers;
 
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -572,6 +573,43 @@ public class ListCellRendererFactory
 				{
 					stringForm = "<html><font color=gray>" + stringForm + "</font></html>";
 				}
+			}
+
+			JLabel defaultComponent =
+				(JLabel) super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
+			defaultComponent.setText( stringForm );
+			return defaultComponent;
+		}
+	}
+
+	public static final DefaultListCellRenderer getFamiliarEquipmentRenderer()
+	{
+		return new FamiliarEquipmentRenderer();
+	}
+
+	private static class FamiliarEquipmentRenderer
+		extends UsableEquipmentRenderer
+	{
+		public Component getListCellRendererComponent( final JList list, final Object value, final int index,
+			final boolean isSelected, final boolean cellHasFocus )
+		{
+			if ( value == null || !( value instanceof AdventureResult ) )
+			{
+				return super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
+			};
+
+			AdventureResult ar = (AdventureResult) value;
+			String effect = Modifiers.getFamiliarEffect( ar.getName() );
+			if ( effect == null )
+			{
+				return super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
+			};
+
+			String stringForm = ar.getName() + " (" + effect + ")";
+			if ( KoLCharacter.getFamiliar() == null || 
+				!KoLCharacter.getFamiliar().canEquip( ar ) )
+			{
+				stringForm = "<html><font color=gray>" + stringForm + "</font></html>";
 			}
 
 			JLabel defaultComponent =
