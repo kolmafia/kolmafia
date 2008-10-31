@@ -80,6 +80,7 @@ public class RequestFrame
 	private static final int HISTORY_LIMIT = 4;
 	private static final Pattern IMAGE_PATTERN =
 		Pattern.compile( "http://images\\.kingdomofloathing\\.com/[^\\s\"\'>]+" );
+	private static final Pattern TOID_PATTERN = Pattern.compile( "toid=(\\d+)" );
 
 	private static final ArrayList sideBarFrames = new ArrayList();
 
@@ -332,12 +333,12 @@ public class RequestFrame
 
 	public void refresh( final GenericRequest request )
 	{
-		this.displayRequest( request );
-
 		if ( !this.isVisible() && !this.appearsInTab() )
 		{
 			this.setVisible( true );
 		}
+
+		this.displayRequest( request );
 	}
 
 	public String getDisplayHTML( final String responseText )
@@ -363,7 +364,6 @@ public class RequestFrame
 		}
 
 		this.currentLocation = request.getURLString();
-		this.mainBuffer.clearBuffer();
 
 		if ( request.responseText == null || request.responseText.length() == 0 )
 		{
@@ -382,8 +382,7 @@ public class RequestFrame
 
 			if ( request.responseText == null || request.responseText.length() == 0 )
 			{
-				this.mainBuffer.append( "<b>Tried to access</b>: " + this.currentLocation );
-				this.mainBuffer.append( "<br><b>Redirected</b>: " + request.redirectLocation );
+				this.mainBuffer.clearBuffer();
 				return;
 			}
 
@@ -393,16 +392,16 @@ public class RequestFrame
 		this.showHTML( this.currentLocation, request.responseText );
 	}
 
-	public void showHTML( String location, final String responseText )
+	public void showHTML( String location, String responseText )
 	{
 		// Function exactly like a history in a normal browser -
 		// if you open a new frame after going back, all the ones
 		// in the future get removed.
 
-		String renderText = this.getDisplayHTML( responseText );
+		responseText = this.getDisplayHTML( responseText );
 
 		this.history.add( location );
-		this.shownHTML.add( renderText );
+		this.shownHTML.add( responseText );
 
 		if ( this.history.size() > RequestFrame.HISTORY_LIMIT )
 		{
@@ -413,16 +412,49 @@ public class RequestFrame
 		location = location.substring( location.lastIndexOf( "/" ) + 1 );
 		this.locationField.setText( location );
 
-		this.locationIndex = this.shownHTML.size() - 1;
+		this.locationIndex = RequestFrame.this.shownHTML.size() - 1;
 
-		Matcher imageMatcher = RequestFrame.IMAGE_PATTERN.matcher( renderText );
+		Matcher imageMatcher = RequestFrame.IMAGE_PATTERN.matcher( responseText );
 		while ( imageMatcher.find() )
 		{
 			FileUtilities.downloadImage( imageMatcher.group() );
 		}
 
-		this.mainBuffer.append( renderText );
+		this.mainBuffer.clearBuffer();
+		this.mainBuffer.append( responseText );
 	}
+
+	public static final void refreshStatus()
+	{
+		RequestFrame current;
+		String displayHTML = RequestEditorKit.getDisplayHTML( "charpane.php", CharPaneRequest.getLastResponse() );
+
+		for ( int i = 0; i < RequestFrame.sideBarFrames.size(); ++i )
+		{
+			current = (RequestFrame) RequestFrame.sideBarFrames.get( i );
+
+			current.sideBuffer.clearBuffer();
+			current.sideBuffer.append( displayHTML );
+		}
+	}
+
+	public boolean containsText( final String search )
+	{
+		return this.mainBuffer.getBuffer().indexOf( search ) != -1;
+	}
+
+	public void dispose()
+	{
+		this.history.clear();
+		this.shownHTML.clear();
+		super.dispose();
+	}
+
+	public boolean shouldAddStatusBar()
+	{
+		return false;
+	}
+
 
 	private class HomeButton
 		extends ThreadedButton
@@ -534,39 +566,6 @@ public class RequestFrame
 			}
 		}
 	}
-
-	public static final void refreshStatus()
-	{
-		RequestFrame current;
-		String displayHTML = RequestEditorKit.getDisplayHTML( "charpane.php", CharPaneRequest.getLastResponse() );
-
-		for ( int i = 0; i < RequestFrame.sideBarFrames.size(); ++i )
-		{
-			current = (RequestFrame) RequestFrame.sideBarFrames.get( i );
-
-			current.sideBuffer.clearBuffer();
-			current.sideBuffer.append( displayHTML );
-		}
-	}
-
-	public boolean containsText( final String search )
-	{
-		return this.mainBuffer.getBuffer().indexOf( search ) != -1;
-	}
-
-	public void dispose()
-	{
-		this.history.clear();
-		this.shownHTML.clear();
-		super.dispose();
-	}
-
-	public boolean shouldAddStatusBar()
-	{
-		return false;
-	}
-
-	private static final Pattern TOID_PATTERN = Pattern.compile( "toid=(\\d+)" );
 
 	public class RequestHyperlinkAdapter
 		extends HyperlinkAdapter
