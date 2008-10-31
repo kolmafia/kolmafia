@@ -40,7 +40,10 @@ import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -114,6 +117,7 @@ import net.sourceforge.kolmafia.swingui.BuffRequestFrame;
 import net.sourceforge.kolmafia.swingui.CalendarFrame;
 import net.sourceforge.kolmafia.swingui.CouncilFrame;
 import net.sourceforge.kolmafia.swingui.FamiliarTrainingFrame;
+import net.sourceforge.kolmafia.swingui.ItemManageFrame;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
 import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.utilities.ByteArrayStream;
@@ -121,6 +125,7 @@ import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.PauseObject;
+import net.sourceforge.kolmafia.utilities.PrefixMap;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.StationaryButtonDecorator;
 
@@ -141,6 +146,10 @@ public class KoLmafiaCLI
 	private BufferedReader commandStream;
 
 	public static boolean isExecutingCheckOnlyCommand = false;
+	
+	// Flag values for Commands:
+	public static int FULL_LINE_CMD = 1;
+	public static int FLOW_CONTROL_CMD = 2;
 
 	public static final void initialize()
 	{
@@ -358,186 +367,376 @@ public class KoLmafiaCLI
 		// defined by the user.
 
 		this.currentLine = line = Aliases.apply( line );
-
-		// Handle if-statements in a special way right
-		// here.  Nesting is handled explicitly by
-		// reading until the last statement in the line
-		// is no longer an if-statement.
-
-		String lowercase = line.toLowerCase();
-
-		if ( lowercase.startsWith( "if " ) || lowercase.startsWith( "while " ) )
+		if ( !line.startsWith( "repeat" ) )
 		{
+			this.previousLine = line;
+		}
+
+		while ( KoLmafia.permitsContinue() & line.length() > 0 )
+		{
+			String command, parameters;
 			int splitIndex = line.indexOf( ";" );
-			boolean isWhile = lowercase.startsWith( "while" );
-
-			String condition;
-			StringBuffer statement = new StringBuffer();
-
-			// Attempt to construct the entire string which will be involved
-			// in the test.  All dangling 'if' statements at the end of a line
-			// are to include the entire next line be part of this line.
-
 			if ( splitIndex != -1 )
 			{
-				condition = line.substring( 0, splitIndex ).trim();
-				statement.append( line.substring( splitIndex + 1 ).trim() );
+				parameters = line.substring( 0, splitIndex ).trim();
+				line = line.substring( splitIndex + 1 ).trim();
 			}
 			else
 			{
-				condition = line;
-				statement.append( this.getNextLine() );
+				parameters = line;
+				line = "";
 			}
-
-			String lastTest = "";
-
-			// Here, we search for dangling if-statements, and while they
-			// exist, we add them to the full statement.  Note, however,
-			// that users sometimes end lines with ";" for no good reason
-			// at all, even for if-statements, so acknowledge and find
-			// the real end statement in spite of this.
-
-			splitIndex = statement.lastIndexOf( ";" );
-			lastTest = statement.substring( splitIndex + 1 ).toLowerCase().trim();
-
-			while ( lastTest.length() == 0 )
+			if ( parameters.length() == 0 )
 			{
-				statement.delete( splitIndex, statement.length() );
-				splitIndex = statement.lastIndexOf( ";" );
-				lastTest = statement.substring( splitIndex + 1 ).toLowerCase().trim();
+				continue;
 			}
-
-			while ( lastTest.startsWith( "if " ) || lastTest.startsWith( "while " ) )
+			
+			splitIndex = parameters.indexOf( " " );
+			// First, check for parameterless commands.
+			// Multi-word commands can only match here.
+			command = parameters.toLowerCase();
+			if ( splitIndex == -1 || (Command.lookup.get( command ) != null &&
+				Command.lookup.getKeyType( command ) == PrefixMap.EXACT_KEY) )
 			{
-				statement.append( this.getNextLine() );
-				lastTest = statement.substring( statement.lastIndexOf( ";" ) + 1 ).toLowerCase().trim();
-
-				while ( lastTest.length() == 0 )
+				if ( command.endsWith( "?" ) )
 				{
-					statement.delete( splitIndex, statement.length() );
-					splitIndex = statement.lastIndexOf( ";" );
-					lastTest = statement.substring( splitIndex + 1 ).toLowerCase().trim();
+					KoLmafiaCLI.isExecutingCheckOnlyCommand = true;
+					command = command.substring( 0, command.length() - 1 );
+				}
+				parameters = "";
+			}
+			else
+			{
+				command = command.substring( 0, splitIndex );
+				parameters = parameters.substring( splitIndex + 1 ).trim();
+				if ( command.endsWith( "?" ) )
+				{
+					KoLmafiaCLI.isExecutingCheckOnlyCommand = true;
+					command = command.substring( 0, command.length() - 1 );
+				}
+				Command handler = (Command) Command.lookup.get( command );
+				int flags = handler == null ? 0 : handler.flags;
+				if ( flags == KoLmafiaCLI.FULL_LINE_CMD && !line.equals( "" ) )
+				{
+					parameters = parameters + ";" + line;
+					line = "";
+				}
+				
+				if ( flags == KoLmafiaCLI.FLOW_CONTROL_CMD )
+				{
+					String continuation = this.getContinuation( line );
+					handler.continuation = continuation;
+					handler.CLI = this;
+					RequestThread.openRequestSequence();
+					handler.run( command, parameters );
+					RequestThread.closeRequestSequence();
+					handler.CLI = null;
+					KoLmafiaCLI.isExecutingCheckOnlyCommand = false;
+					this.previousLine = command + " " + parameters + ";" + continuation;
+					return;
 				}
 			}
-
-			// Now that we finally have the complete if-statement, we find
-			// the condition string, test for it, and execute the line if
-			// applicable.  Otherwise, we skip the entire line.
-
-			condition = condition.substring( condition.indexOf( " " ) + 1 );
-
-			if ( isWhile )
-			{
-				while ( KoLmafiaCLI.testConditional( condition ) )
-				{
-					this.executeLine( statement.toString() );
-				}
-			}
-			else if ( KoLmafiaCLI.testConditional( condition ) )
-			{
-				this.executeLine( statement.toString() );
-			}
-
-			this.previousLine = condition + ";" + statement;
-			return;
+			
+			RequestThread.openRequestSequence();
+			this.executeCommand( command, parameters );
+			RequestThread.closeRequestSequence();
+			KoLmafiaCLI.isExecutingCheckOnlyCommand = false;
 		}
-
-		// Check to see if we can execute the line iteratively, which
-		// is possible whenever if-statements aren't involved.
-
-		int splitIndex = line.indexOf( ";" );
-
-		if ( splitIndex != -1 && !line.startsWith( "set" ) && !line.startsWith( "alias" ) )
+	}
+	
+	private String getContinuation( String line )
+	{
+		StringBuffer block = new StringBuffer( line );
+		boolean seenCmd = false, needAnotherCmd = false;
+		while ( true )
 		{
-			// Determine all the individual statements which need
-			// to be executed based on the existence of the 'set'
-			// command, which may wrap things in quotes.
-
-			ArrayList sequenceList = new ArrayList();
-			String remainder = line.trim();
-
-			do
+			while ( line.length() > 0 )
 			{
-				String current = remainder.toLowerCase();
-
-				// Allow argument to "set" command to be a
-				// quoted string
-
-				current = remainder.substring( 0, splitIndex ).trim();
-				if ( current.length() > 0 )
+				String command;
+				int splitIndex = line.indexOf( ";" );
+				if ( splitIndex == -1 )
 				{
-					sequenceList.add( current );
-				}
-				remainder = remainder.substring( splitIndex + 1 ).trim();
-				splitIndex = remainder.indexOf( ";" );
-			}
-			while ( splitIndex != -1 );
-
-			sequenceList.add( remainder );
-
-			// If there are multiple statements to be executed,
-			// then check if there are any conditional statements.
-			// If there are, you will need to run everything
-			// recursively.	 Otherwise, an iterative approach works
-			// best.
-
-			if ( sequenceList.size() > 1 )
-			{
-				String[] sequence = new String[ sequenceList.size() ];
-				sequenceList.toArray( sequence );
-
-				boolean canExecuteIteratively = true;
-
-				for ( int i = 0; canExecuteIteratively && i < sequence.length; ++i )
-				{
-					canExecuteIteratively =
-						!sequence[ i ].toLowerCase().startsWith( "if " ) && !sequence[ i ].toLowerCase().startsWith(
-							"while " );
-				}
-
-				if ( canExecuteIteratively )
-				{
-					for ( int i = 0; i < sequence.length && KoLmafia.permitsContinue(); ++i )
-					{
-						this.executeLine( sequence[ i ] );
-					}
+					command = line.toLowerCase();
+					line = "";
 				}
 				else
 				{
-					// Handle multi-line sequences by executing the first command
-					// and using recursion to execute the remainder of the line.
-					// This ensures that nested if-statements are preserved.
-
-					String part1 = line.substring( 0, sequence[ 0 ].length() ).trim();
-					String part2 = line.substring( sequence[ 0 ].length() + 1 ).trim();
-
-					this.executeLine( part1 );
-
-					if ( KoLmafia.permitsContinue() )
-					{
-						this.executeLine( part2 );
-					}
+					command = line.substring( 0, splitIndex ).toLowerCase();
+					line = line.substring( splitIndex + 1 ).trim();
 				}
-
-				this.previousLine = line;
-				return;
+				if ( command.equals( "" ) )
+				{
+					continue;
+				}
+				seenCmd = true;
+				needAnotherCmd = false;
+				command = command.split( " " )[ 0 ];
+				if ( command.endsWith( "?" ) )
+				{
+					command = command.substring( 0, command.length() - 1 );
+				}
+				Command handler = (Command) Command.lookup.get( command );
+				int flags = handler == null ? 0 : handler.flags;
+				if ( flags == KoLmafiaCLI.FULL_LINE_CMD )
+				{
+					line = "";
+					break;
+				}
+				if ( flags == KoLmafiaCLI.FLOW_CONTROL_CMD )
+				{
+					needAnotherCmd = true;
+				}
 			}
-
-			// If there are zero or one, then you either do nothing or you
-			// continue on with the revised line.
-
-			if ( sequenceList.isEmpty() )
+			if ( seenCmd && !needAnotherCmd )
 			{
-				return;
+				return block.toString();
 			}
+			
+			line = this.getNextLine();
+			if ( line == null )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+					"Unterminated conditional statement." );
+				return "";
+			}
+			block.append( ";" );
+			block.append( line );
+		}
+	}
 
-			line = (String) sequenceList.get( 0 );
+	/**
+	 * A utility command which decides, based on the command to be executed, what to be done with it. It can either
+	 * delegate this to other functions, or do it itself.
+	 */
+
+	public void executeCommand( String command, String parameters )
+	{
+		// If the command has already been disabled, then return
+		// from this function.
+
+		if ( StaticEntity.isDisabled( command ) )
+		{
+			RequestLogger.printLine( "Called disabled command: " + command + " " + parameters );
+			return;
 		}
 
-		// Win game sanity check.  This will find its
-		// way back into the GUI ... one day.
+		if ( parameters.equals( "refresh" ) )
+		{
+			parameters = command;
+			command = "refresh";
+		}
 
-		if ( line.equalsIgnoreCase( "win game" ) )
+		Command handler = (Command) Command.lookup.get( command );
+		if ( handler == null )
+		{
+			handler = Command.getSubstringMatch( command );
+		}
+		if ( handler != null )
+		{
+			if ( command.endsWith( "*" ) )
+			{
+				RequestLogger.printLine( "(A * after a command name indicates that it can be "
+					+ "typed in a longer form.  There's no need to type the asterisk!)" );
+			}
+			handler.CLI = this;
+			handler.run( command, parameters );
+			handler.CLI = null;
+			return;
+		}
+
+		// If all else fails, then assume that the
+		// person was trying to call a script.
+
+		this.executeScript( this.currentLine );
+	}
+	
+	public static class Command
+	{
+		// Assign 'flags' in an instance initializer if the command needs one of these:
+		// KoLmafiaCLI.FULL_LINE_CMD - the command's parameters are the entire remainder
+		//	of the line, semicolons do not end the command.
+		// KoLmafiaCLI.FLOW_CONTROL_CMD - the remainder of the command line, plus additional
+		//	lines as needed to ensure that at least one command is included, and that the
+		//	final command is not itself flagged as FLOW_CONTROL_CMD, are made available to
+		//	this command via its 'continuation' field, rather than being executed.  The
+		//	command can examine and modify the continuation, and execute it zero or more
+		// 	times by calling CLI.executeLine(continuation).
+		public int flags = 0;
+		
+		// Assign 'usage' in an instance initializer to set the help usage text.
+		// If usage is null, this command won't be shown in the command list.
+		public String usage = " - no help available.";
+		// Usage strings should start with a space, or [?] if they support the
+		// isExecutingCheckOnlyCommand flag, followed by any parameters (with placeholder
+		// names enclosed in angle brackets - they'll be italicized in HTML output).
+		// There should then be a dash and a brief description of the command.
+		
+		// Or, override getUsage(cmd) to dynamically construct the usage text
+		// (but it would probably be better to have separate commands in that case).
+		public String getUsage( String cmd )
+		{
+			return this.usage;
+		}
+		
+		// Override one of run(cmd, parameters), run(cmd, parameters[]), or run(cmd)
+		// to specify the command's action, with different levels of parameter processing.
+		public void run( String cmd, String parameters )
+		{
+			String[] splits = parameters.split( "\\s+" );
+			this.run( cmd, splits );
+		}
+		
+		public void run( String cmd, String[] parameters )
+		{
+			if ( parameters.length > 1 || parameters[ 0 ].length() > 0 )
+			{
+				KoLmafia.updateDisplay( "(" + cmd + " does not use any parameters)" );
+			}
+			this.run( cmd );
+		}
+		
+		public void run( String cmd )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, cmd + " is not implemented!" );
+		}
+		
+		// 'CLI' is provided as a reference back to the invoking instance of KoLmafiaCLI,
+		// for convenience if the command needs to call any of its non-static methods.
+		// Note that this reference can become invalid if another CLI instance is recursively
+		// invoked, and happens to execute the same command; any command that uses 'CLI' more
+		// than once should put it in a local variable first.
+		KoLmafiaCLI CLI;
+		
+		// FLOW_CONTROL_CMDs will have the command line they're to operate on stored here:
+		String continuation;		
+		
+		// Each command class must be instantiated (probably in a static initializer), and
+		// at least one of these methods called on it to add it to the command table.  These
+		// methods return 'this', for easy chaining.
+		public Command register( String name )
+		{	// For commands that must be typed with an exact name
+			lookup.putExact( name.toLowerCase(), this );
+			this.registerFlags( name );
+			return this;
+		}
+		
+		public Command registerPrefix( String prefix )
+		{	// For commands that are parsed as startsWith(...)
+			lookup.putPrefix( prefix.toLowerCase(), this );
+			this.registerFlags( prefix );
+			return this;
+		}
+		
+		public Command registerSubstring ( String substring )
+		{	// For commands that are parsed as indexOf(...)!=-1.  Use sparingly!
+			substring = substring.toLowerCase();
+			substringLookup.add( substring );
+			substringLookup.add( this );
+			// Make it visible in the normal lookup map:
+			lookup.putExact( "*" + substring + "*", this );
+			this.registerFlags( substring );
+			return this;
+		}
+		
+		// Internal implementation thingies:
+		static final PrefixMap lookup = new PrefixMap();
+		static final ArrayList substringLookup = new ArrayList();
+		static private String fullLineCmds = "";
+		static private String flowControlCmds = "";
+		
+		private void registerFlags( String name )
+		{
+			if ( this.flags == KoLmafiaCLI.FULL_LINE_CMD )
+			{
+				fullLineCmds += (fullLineCmds.length() == 0) ? name : ", " + name;
+			}
+			if ( this.flags == KoLmafiaCLI.FLOW_CONTROL_CMD )
+			{
+				flowControlCmds += (flowControlCmds.length() == 0) ? name : ", " + name;
+			}
+		}
+		
+		static Command getSubstringMatch( String cmd )
+		{
+			for ( int i = 0; i < substringLookup.size(); i += 2 )
+			{
+				if ( cmd.indexOf( (String) substringLookup.get( i ) ) != -1 )
+				{
+					return (Command) substringLookup.get( i + 1 );
+				}
+			}
+			return null;
+		}
+	}
+
+	public static class ConditionalCommand
+		extends Command
+	{
+		{ flags = KoLmafiaCLI.FLOW_CONTROL_CMD; }
+	}
+	
+	static { new If().register( "if" ); }
+	public static class If
+		extends ConditionalCommand
+	{
+		{ usage = " <condition>; <commands> - do commands once if condition is true (see condref)."; }
+		public void run( String command, String parameters )
+		{
+			if ( KoLmafiaCLI.testConditional( parameters ) )
+			{
+				CLI.executeLine( this.continuation );
+			}		
+		}
+	}
+
+	static { new While().register( "while" ); }
+	public static class While
+		extends ConditionalCommand
+	{
+		{ usage = " <condition>; <commands> - do commands repeatedly while condition is true."; }
+		public void run( String command, String parameters )
+		{
+			// must make local copies since the executed commands could overwrite these
+			KoLmafiaCLI CLI = this.CLI;
+			String continuation = this.continuation;
+			
+			while ( KoLmafiaCLI.testConditional( parameters ) )
+			{
+				CLI.executeLine( continuation );
+			}
+		}
+	}
+
+	static { new CondRef().register( "condref" ); }
+	public static class CondRef
+		extends Command
+	{
+		{ usage = " - list <condition>s usable with if/while commands."; }
+		public void run( String cmd )
+		{
+			RequestLogger.printLine( "<table border=2>" +
+				"<tr><td colspan=3>today | tomorrow is mus | mys | mox day</td></tr>" +
+				"<tr><td colspan=3>class is [not] sauceror | <i>etc.</i></td></tr>" +
+				"<tr><td colspan=3>skill list contains | lacks <i>skill</i></td></tr>" +
+				"<tr><td>level<br>health<br>mana<br>meat<br>adventures<br>" +
+				"inebriety | drunkenness<br>muscle<br>mysticality<br>moxie<br>" +
+				"worthless item<br><i>item</i><br><i>effect</i></td>" +
+				"<td>=<br>==<br>&lt;&gt;<br>!=<br>&lt;<br>&lt;=<br>&gt;<br>&gt;=</td>" +
+				"<td><i>number</i><br><i>number</i>%&nbsp;(health/mana only)<br>" +
+				"<i>item</i> (qty in inventory)<br><i>effect</i> (turns remaining)</td>" +
+				"</tr></table>" );
+		}
+	}
+	
+	// Command names with embedded spaces can only match the full line, and cannot currently
+	// use the isExecutingCheckOnlyCommand, FULL_LINE_CMD, or FLOW_CONTROL_CMD features.
+
+	static { new WinGame().register( "win game" ); }
+	public static class WinGame
+		extends Command
+	{
+		{ usage = " - I'm as surprised as you!  I didn't think it was possible."; }
+		public void run( String cmd )
 		{
 			String[] messages =
 				KoLConstants.WIN_GAME_TEXT[ KoLConstants.RNG.nextInt( KoLConstants.WIN_GAME_TEXT.length ) ];
@@ -553,35 +752,46 @@ public class KoLmafiaCLI
 			}
 
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, messages[ messages.length - 1 ] );
-			return;
 		}
-
-		// Maybe a request to burn excess MP, as generated
-		// by the gCLI or the relay browser?
-
-		if ( line.equalsIgnoreCase( "save as mood" ) )
+	}
+	
+	static { new SaveAsMood().register( "save as mood" ); }
+	public static class SaveAsMood
+		extends Command
+	{
+		{ usage = " - add your current effects to the mood."; }
+		public void run( String cmd )
 		{
 			MoodManager.minimalSet();
 			MoodManager.saveSettings();
-			return;
 		}
-
-		if ( line.equalsIgnoreCase( "burn extra mp" ) )
+	}
+	
+	static { new BurnExtraMP().register( "burn extra mp" ); }
+	public static class BurnExtraMP
+		extends Command
+	{
+		{ usage = " - use some MP for buff extension and summons."; }
+		public void run( String cmd )
 		{
-			this.recoverHP();
+			CLI.recoverHP();
 
 			SpecialOutfit.createImplicitCheckpoint();
 			MoodManager.burnExtraMana( true );
 			SpecialOutfit.restoreImplicitCheckpoint();
-
-			return;
 		}
-
-		if ( line.equalsIgnoreCase( "<inline-ash-script>" ) )
+	}
+	
+	static { new InlineASHScript().register( "<inline-ash-script>" ); }
+	public static class InlineASHScript
+		extends Command
+	{
+		{ usage = " - embed an ASH script in a CLI script."; }
+		public void run( String cmd )
 		{
 			ByteArrayStream ostream = new ByteArrayStream();
 
-			String currentLine = this.getNextLine();
+			String currentLine = CLI.getNextLine();
 
 			while ( currentLine != null && !currentLine.equals( "</inline-ash-script>" ) )
 			{
@@ -598,7 +808,7 @@ public class KoLmafiaCLI
 					StaticEntity.printStackTrace( e );
 				}
 
-				currentLine = this.getNextLine();
+				currentLine = CLI.getNextLine();
 			}
 
 			if ( currentLine == null )
@@ -610,92 +820,62 @@ public class KoLmafiaCLI
 			Interpreter interpreter = new Interpreter();
 			interpreter.validate( null, ostream.getByteArrayInputStream() );
 			interpreter.execute( "main", null );
-
-			return;
 		}
-
-		// Not a special full-line command.  Go ahead and
-		// split the command into extra pieces.
-
-		String command = line.trim().split( " " )[ 0 ].toLowerCase();
-		String parameters = line.trim().substring( command.length() ).trim();
-
-		if ( command.endsWith( "?" ) )
-		{
-			KoLmafiaCLI.isExecutingCheckOnlyCommand = true;
-			command = command.substring( 0, command.length() - 1 );
-		}
-
-		RequestThread.openRequestSequence();
-		this.executeCommand( command, parameters );
-		RequestThread.closeRequestSequence();
-
-		if ( !command.equals( "repeat" ) )
-		{
-			this.previousLine = line;
-		}
-
-		KoLmafiaCLI.isExecutingCheckOnlyCommand = false;
 	}
-
-	/**
-	 * A utility command which decides, based on the command to be executed, what to be done with it. It can either
-	 * delegate this to other functions, or do it itself.
-	 */
-
-	public void executeCommand( String command, String parameters )
+	
+	static { new GC().register( "gc" ); }
+	public static class GC
+		extends Command
 	{
-		if ( command.equals( "gc" ) )
+		{ usage = " - force Java garbage collection."; }
+		public void run( String cmd )
 		{
 			System.gc();
-			return;
 		}
-
-		if ( command.equals( "version" ) )
+	}
+	
+	static { new Version().register( "version" ); }
+	public static class Version
+		extends Command
+	{
+		{ usage = " - display KoLmafia version."; }
+		public void run( String cmd )
 		{
 			RequestLogger.printLine( StaticEntity.getVersion() );
-			return;
 		}
-
-		// If the command has already been disabled, then return
-		// from this function.
-
-		if ( StaticEntity.isDisabled( command ) )
+	}
+	
+	static { new Enable().register( "enable" ).register( "disable" ); }
+	public static class Enable
+		extends Command
+	{
+		{ usage = " all | <command> [, <command>]... - allow/deny CLI commands."; }
+		public void run( String command, String parameters )
 		{
-			RequestLogger.printLine( "Called disabled command: " + command + " " + parameters );
-			return;
-		}
-
-		if ( command.equals( "enable" ) )
-		{
-			StaticEntity.enable( parameters.toLowerCase() );
-			return;
-		}
-
-		if ( command.equals( "disable" ) )
-		{
-			StaticEntity.disable( parameters.toLowerCase() );
-			return;
-		}
-
-		if ( command.equals( "logecho" ) || command.equals( "logprint" ) )
-		{
-			if ( parameters.equalsIgnoreCase( "timestamp" ) )
+			if ( command.equals( "enable" ) )
 			{
-				parameters = HolidayDatabase.getCalendarDayAsString( new Date() );
+				StaticEntity.enable( parameters.toLowerCase() );
+				return;
 			}
-
-			parameters = StringUtilities.globalStringDelete( StringUtilities.globalStringDelete( parameters, "\n" ), "\r" );
-			parameters = StringUtilities.globalStringReplace( parameters, "<", "&lt;" );
-
-			RequestLogger.getSessionStream().println( " > " + parameters );
+	
+			if ( command.equals( "disable" ) )
+			{
+				StaticEntity.disable( parameters.toLowerCase() );
+				return;
+			}
 		}
-
-		if ( command.equals( "log" ) )
+	}
+	
+	static { new Log().register( "log" ); }
+	public static class Log
+		extends Command
+	{
+		{ usage = " [status],[equipment],[effects],[<etc>.] - record data, \"log snapshot\" for all commmon data."; }
+		public void run( String cmd, String parameters )
 		{
 			if ( parameters.equals( "snapshot" ) )
 			{
-				this.executeCommand( "log", "moon, status, equipment, skills, effects, modifiers" );
+				CLI.executeCommand( "log", "moon, status, equipment, skills, effects, modifiers" );
 				return;
 			}
 
@@ -726,7 +906,7 @@ public class KoLmafiaCLI
 				RequestLogger.updateSessionLog();
 				RequestLogger.updateSessionLog( " > " + options[ i ] );
 
-				this.showData( options[ i ], true );
+				CLI.showData( options[ i ], true );
 			}
 
 			RequestLogger.updateSessionLog();
@@ -740,11 +920,16 @@ public class KoLmafiaCLI
 
 			RequestLogger.getDebugStream().println();
 			RequestLogger.getDebugStream().println();
-
-			return;
 		}
-
-		if ( command.equals( "alias" ) )
+	}
+	
+	static { new Alias().register( "alias" ); }
+	public static class Alias
+		extends Command
+	{
+		{ usage = " [ <word> => <expansion> ] - list or create CLI abbreviations."; }
+		{ flags = KoLmafiaCLI.FULL_LINE_CMD; }
+		public void run( String cmd, String parameters )
 		{
 			if ( parameters.length() == 0 )
 			{
@@ -765,19 +950,26 @@ public class KoLmafiaCLI
 
 			RequestLogger.printLine( "String successfully aliased." );
 			RequestLogger.printLine( aliasString + " => " + aliasCommand );
-			return;
 		}
-
-		if ( command.equals( "unalias" ) )
+	}
+	
+	static { new Unalias().register( "unalias" ); }
+	public static class Unalias
+		extends Command
+	{
+		{ usage = " <word> - remove a CLI abbreviation."; }
+		public void run( String cmd, String parameters )
 		{
 			Aliases.remove( parameters );
-			return;
 		}
-
-		// Insert random video game reference command to
-		// start things off.
-
-		if ( command.equals( "priphea" ) )
+	}
+	
+	static { new Priphea().register( "priphea" ); }
+	public static class Priphea
+		extends Command
+	{
+		{ usage = " - launch KoLmafia GUI."; }
+		public void run( String cmd )
 		{
 			if ( !KoLDesktop.instanceExists() )
 			{
@@ -786,26 +978,28 @@ public class KoLmafiaCLI
 			}
 
 			KoLDesktop.displayDesktop();
-			return;
 		}
-
-		// Allow access to individual frames so you can
-		// do things in the GUI.
-
-		if ( parameters.equals( "" ) )
+	}
+	
+	static { new Basement().register( "basement" ); }
+	public static class Basement
+		extends Command
+	{
+		{ usage = " - check Fernswarthy's Basement status."; }
+		public void run( String cmd )
 		{
-			if ( command.equals( "basement" ) )
-			{
-				BasementRequest.checkBasement();
-				return;
-			}
-
-			if ( KoLmafiaCLI.findScriptFile( command ) != null )
-			{
-				this.executeScript( command );
-				return;
-			}
-
+			BasementRequest.checkBasement();
+		}
+	}
+	
+	static { new Window().register( "chat" ).register( "mail" ).registerPrefix( "opt" )
+		.register( "item" ).register( "gear" ).register( "radio" ); }
+	public static class Window
+		extends Command
+	{
+		{ usage = " - switch to tab or open window"; }
+		public void run( String command )
+		{
 			if ( command.equals( "chat" ) )
 			{
 				KoLmafiaGUI.constructFrame( "ChatManager" );
@@ -830,38 +1024,28 @@ public class KoLmafiaCLI
 				return;
 			}
 
-			if ( command.equals( "clan" ) )
-			{
-				KoLmafiaGUI.constructFrame( "ClanManageFrame" );
-				return;
-			}
-
 			if ( command.equals( "gear" ) )
 			{
 				KoLmafiaGUI.constructFrame( "GearChangeFrame" );
 				return;
 			}
 
-			if ( command.equals( "pvp" ) )
-			{
-				KoLmafiaGUI.constructFrame( "FlowerHunterFrame" );
-				return;
-			}
-
 			if ( command.equals( "radio" ) )
 			{
-				this.launchRadioKoL();
+				CLI.launchRadioKoL();
 				return;
 			}
 		}
-
-		// Maybe the person is trying to load a raw URL
-		// to test something without creating a brand new
-		// GenericRequest object to handle it yet?
-
-		if ( command.startsWith( "http:" ) || command.indexOf( ".php" ) != -1 )
+	}
+	
+	static { new HTTP().registerPrefix( "http:" ).registerSubstring( ".php" ); }
+	public static class HTTP
+		extends Command
+	{
+		{ usage = " - visit URL without showing results."; }
+		public void run( String cmd )
 		{
-			GenericRequest visitor = new GenericRequest( this.currentLine );
+			GenericRequest visitor = new GenericRequest( cmd );
 			if ( GenericRequest.shouldIgnore( visitor ) )
 			{
 				return;
@@ -869,13 +1053,15 @@ public class KoLmafiaCLI
 
 			RequestThread.postRequest( visitor );
 			StaticEntity.externalUpdate( visitor.getURLString(), visitor.responseText );
-			return;
 		}
-
-		// Allow a version which lets you see the resulting
-		// text without loading a mini/relay browser window.
-
-		if ( command.equals( "text" ) )
+	}
+	
+	static { new Text().register( "text" ); }
+	public static class Text
+		extends Command
+	{
+		{ usage = " <URL> - show text results from visiting URL."; }
+		public void run( String cmd, String parameters )
 		{
 			GenericRequest visitor = new GenericRequest( parameters );
 			if ( GenericRequest.shouldIgnore( visitor ) )
@@ -886,109 +1072,198 @@ public class KoLmafiaCLI
 			RequestThread.postRequest( visitor );
 			StaticEntity.externalUpdate( visitor.getURLString(), visitor.responseText );
 
-			this.showHTML( visitor.getURLString(), visitor.responseText );
-			return;
+			CLI.showHTML( visitor.getURLString(), visitor.responseText );
 		}
-
-		// Maybe the person wants to load up their browser
-		// from the KoLmafia CLI?
-
-		if ( command.equals( "relay" ) )
+	}
+	
+	static { new Relay().register( "relay" ); }
+	public static class Relay
+		extends Command
+	{
+		{ usage = " - open the relay browser."; }
+		public void run( String cmd )
 		{
 			StaticEntity.getClient().openRelayBrowser();
-			return;
 		}
-
-		if ( command.startsWith( "forum" ) )
+	}
+	
+	static { new Forum().registerPrefix( "forum" ); }
+	public static class Forum
+		extends Command
+	{
+		{ usage = " - visit the official KoL forums."; }
+		public void run( String cmd )
 		{
 			StaticEntity.openSystemBrowser( "http://forums.kingdomofloathing.com/" );
-			return;
 		}
-
-		// First, handle the wait command, for however
-		// many seconds the user would like to wait.
-
-		if ( command.equals( "wait" ) || command.equals( "pause" ) )
+	}
+	
+	static { new Wait().register( "wait" ).register( "pause" ) ; }
+	public static class Wait
+		extends Command
+	{
+		{ usage = " [<seconds>] - pause script execution (default 1 second)."; }
+		public void run( String cmd, String parameters )
 		{
 			int seconds = parameters.equals( "" ) ? 1 : StringUtilities.parseInt( parameters );
 			StaticEntity.executeCountdown( "Countdown: ", seconds );
 
 			KoLmafia.updateDisplay( "Waiting completed." );
-			return;
 		}
-
-		if ( command.equals( "junk" ) || command.equals( "cleanup" ) )
+	}
+	
+	static { new Junk().register( "junk" ).register( "cleanup" ); }
+	public static class Junk
+		extends Command
+	{
+		{ usage = " - use, pulverize, or autosell your junk items."; }
+		public void run( String cmd )
 		{
-			this.makeJunkRemovalRequest();
-			return;
+			CLI.makeJunkRemovalRequest();
 		}
-
-		// Preconditions kickass, so they're handled right
-		// after the wait command.  (Right)
-
-		if ( command.startsWith( "goal" ) || command.startsWith( "condition" ) || command.startsWith( "objective" ) )
+	}
+	
+	static { new MoleRef().register( "moleref" ); }
+	public static class MoleRef
+		extends Command
+	{
+		{ usage = " - Path of the Mole spoilers."; }
+		public void run( String cmd )
 		{
-			this.executeConditionsCommand( parameters );
-			return;
+			RequestLogger.printLine( "<table border=2>" +
+			"<tr><td>9</td><td rowspan=6></td><td rowspan=3></td><td>+30% all stats</td></tr>" +
+			"<tr><td>8</td><td rowspan=5>+10 fam weight</td></tr>" +
+			"<tr><td>7</td></tr>" +
+			"<tr><td>6</td><td>MP</td></tr>" +
+			"<tr><td>5</td><td rowspan=6>food</td></tr>" +
+			"<tr><td>4</td></tr>" +
+			"<tr><td>3</td><td>HP</td><td rowspan=7>+3 stats/fight</td></tr>" +
+			"<tr><td>2</td><td rowspan=5>+meat</td></tr>" +
+			"<tr><td>1</td></tr>" +
+			"<tr><td>0</td></tr>" +
+			"<tr><td>-1</td><td rowspan=5>booze</td></tr>" +
+			"<tr><td>-2</td></tr>" +
+			"<tr><td>-3</td><td>stats</td></tr>" +
+			"<tr><td>-4</td><td rowspan=6></td><td rowspan=5>regenerate</td></tr>" +
+			"<tr><td>-5</td></tr>" +
+			"<tr><td>-6</td><td>-3MP/skill</td></tr>" +
+			"<tr><td>-7</td><td rowspan=3></td></tr>" +
+			"<tr><td>-8</td></tr>" +
+			"<tr><td>-9</td><td>+30 ML</td></tr>" +
+			"</table>" );
 		}
-
-		// Handle the update command.  This downloads stuff
-		// from the KoLmafia sourceforge website, so it does
-		// not require for you to be online.
-
-		if ( command.equals( "update" ) )
+	}
+	
+	static { new Conditions().registerPrefix( "goal" ).registerPrefix( "condition" )
+		.registerPrefix( "objective" ); }
+	public static class Conditions
+		extends Command
+	{
+		{ usage = " clear | check | add <condition> | set <condition> - modify your adventuring goals"; }
+		public void run( String cmd, String parameters )
 		{
-			this.downloadAdventureOverride();
-			return;
+			CLI.executeConditionsCommand( parameters );
 		}
-
-		if ( command.equals( "newdata" ) )
+	}
+	
+	static { new Update().register( "update" ); }
+	public static class Update
+		extends Command
+	{
+		{ usage = " - download most recent data files."; }
+		public void run( String cmd )
 		{
-			ItemDatabase.findItemDescriptions();
-			EffectDatabase.findStatusEffects();
-			RequestLogger.printLine( "Data tables updated." );
-			return;
+			CLI.downloadAdventureOverride();
 		}
-
-		if ( command.equals( "checkdata" ) )
+	}
+	
+	static { new Developer().register( "newdata" ).register( "checkdata" )
+		.register( "checkplurals" ).register( "checkmodifiers" ); }
+	public static class Developer
+		extends Command
+	{
+		{ usage = null; }
+		public void run( String command, String parameters )
 		{
-			int itemId = StringUtilities.parseInt( parameters );
-			ItemDatabase.checkInternalData( itemId );
-			RequestLogger.printLine( "Internal data checked." );
-			return;
+			if ( command.equals( "newdata" ) )
+			{
+				ItemDatabase.findItemDescriptions();
+				EffectDatabase.findStatusEffects();
+				RequestLogger.printLine( "Data tables updated." );
+				return;
+			}
+	
+			if ( command.equals( "checkdata" ) )
+			{
+				int itemId = StringUtilities.parseInt( parameters );
+				ItemDatabase.checkInternalData( itemId );
+				RequestLogger.printLine( "Internal data checked." );
+				return;
+			}
+	
+			if ( command.equals( "checkplurals" ) )
+			{
+				int itemId = StringUtilities.parseInt( parameters );
+				ItemDatabase.checkPlurals( itemId );
+				RequestLogger.printLine( "Plurals checked." );
+				return;
+			}
+	
+			if ( command.equals( "checkmodifiers" ) )
+			{
+				Modifiers.checkModifiers();
+				RequestLogger.printLine( "Modifiers checked." );
+				return;
+			}
 		}
-
-		if ( command.equals( "checkplurals" ) )
-		{
-			int itemId = StringUtilities.parseInt( parameters );
-			ItemDatabase.checkPlurals( itemId );
-			RequestLogger.printLine( "Plurals checked." );
-			return;
-		}
-
-		if ( command.equals( "checkmodifiers" ) )
-		{
-			Modifiers.checkModifiers();
-			RequestLogger.printLine( "Modifiers checked." );
-			return;
-		}
-
-		if ( command.equals( "clear" ) || command.equals( "cls" ) )
+	}
+	
+	static { new Clear().register( "clear" ).register( "cls" ); }
+	public static class Clear
+		extends Command
+	{
+		{ usage = " - clear CLI window."; }
+		public void run( String cmd )
 		{
 			KoLConstants.commandBuffer.clearBuffer();
-			return;
 		}
-
-		if ( command.equals( "abort" ) )
+	}
+	
+	static { new Abort().register( "abort" ); }
+	public static class Abort
+		extends Command
+	{
+		{ usage = " [message] - stop current script or automated task."; }
+		public void run( String cmd, String parameters )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, parameters.length() == 0 ? "Script abort." : parameters );
-			return;
 		}
-
-		// Adding the requested echo command.  I guess this is
-		// useful for people who want to echo things...
-
-		if ( command.equals( "cecho" ) || command.equals( "colorecho" ) )
+	}
+	
+	static { new Events().register( "events" ); }
+	public static class Events
+		extends Command
+	{
+		{ usage = " [clear] - clear or show recent events."; }
+		public void run( String cmd, String parameters )
+		{
+			if ( parameters.equals( "clear" ) )
+			{
+				EventManager.clearEventHistory();
+			}
+			else
+			{
+				RequestLogger.printList( EventManager.getEventHistory() );
+			}
+		}
+	}
+	
+	static { new ColorEcho().register( "colorecho" ).register( "cecho" ); }
+	public static class ColorEcho
+		extends Command
+	{
+		{ usage = " <color> <text> - show text using color (specified by name or #RRGGBB)."; }
+		public void run( String cmd, String parameters )
 		{
 			int spaceIndex = parameters.indexOf( " " );
 			String color = "#000000";
@@ -1001,25 +1276,34 @@ public class KoLmafiaCLI
 			parameters = parameters.substring( spaceIndex + 1 );
 			RequestLogger.printLine( "<font color=\"" + color + "\">" + StringUtilities.globalStringReplace(
 				parameters, "<", "&lt;" ) + "</font>" );
-
-			return;
 		}
-
-		if ( command.equals( "events" ) )
+	}
+	
+	static { new LogEcho().register( "logecho" ).register( "logprint" ); }
+	public static class LogEcho
+		extends Command
+	{
+		{ usage = " timestamp | <text> - include timestamp or text in the session log only."; }
+		public void run( String cmd, String parameters )
 		{
-			if ( parameters.equals( "clear" ) )
+			if ( parameters.equalsIgnoreCase( "timestamp" ) )
 			{
-				EventManager.clearEventHistory();
-			}
-			else
-			{
-				RequestLogger.printList( EventManager.getEventHistory() );
+				parameters = HolidayDatabase.getCalendarDayAsString( new Date() );
 			}
 
-			return;
+			parameters = StringUtilities.globalStringDelete( StringUtilities.globalStringDelete( parameters, "\n" ), "\r" );
+			parameters = StringUtilities.globalStringReplace( parameters, "<", "&lt;" );
+
+			RequestLogger.getSessionStream().println( " > " + parameters );
 		}
-
-		if ( command.equals( "echo" ) || command.equals( "print" ) )
+	}
+	
+	static { new Echo().register( "echo" ).register( "print" ); }
+	public static class Echo
+		extends Command
+	{
+		{ usage = " timestamp | <text> - include timestamp or text in the session log."; }
+		public void run( String cmd, String parameters )
 		{
 			if ( parameters.equalsIgnoreCase( "timestamp" ) )
 			{
@@ -1031,20 +1315,29 @@ public class KoLmafiaCLI
 
 			RequestLogger.printLine( parameters );
 			RequestLogger.getSessionStream().println( " > " + parameters );
-
-			return;
 		}
 
-		if ( command.equals( "aa" ) || command.equals( "autoattack" ) )
+	}
+	
+	static { new Autoattack().register( "aa" ).register( "autoattack" ); }
+	public static class Autoattack
+		extends Command
+	{
+		{ usage = " <skill> - set default attack method."; }
+		public void run( String cmd, String parameters )
 		{
 			CustomCombatManager.setAutoAttack( parameters );
-			return;
 		}
 
-		// Adding another undocumented property setting command
-		// so people can configure variables in scripts.
-
-		if ( command.equals( "get" ) || command.equals( "set" ) )
+	}
+	
+	static { new Get().register( "get" ).register( "set" ); }
+	public static class Get
+		extends Command
+	{
+		{ usage = " <preference> [ = <value> ] - show/change preference settings"; }
+		{ flags = KoLmafiaCLI.FULL_LINE_CMD; }
+		public void run( String cmd, String parameters )
 		{
 			int splitIndex = parameters.indexOf( "=" );
 			if ( splitIndex == -1 )
@@ -1134,48 +1427,61 @@ public class KoLmafiaCLI
 			{
 				StationaryButtonDecorator.reloadCombatHotkeyMap();
 			}
-
-			return;
 		}
-
-		// Next, handle any requests to login or relogin.
-		// This will be done by calling a utility method.
-
-		if ( command.equals( "timein" ) )
+	}
+	
+	static { new Timein().register( "timein" ); }
+	public static class Timein
+		extends Command
+	{
+		{ usage = " - relogin if your session has timed out."; }
+		public void run( String cmd )
 		{
 			LoginRequest.executeTimeInRequest();
-			return;
 		}
-
-		if ( command.equals( "login" ) )
+	}
+	
+	static { new Login().register( "login" ); }
+	public static class Login
+		extends Command
+	{
+		{ usage = " <username> - logout then log back in as username."; }
+		public void run( String cmd, String parameters )
 		{
 			KoLmafia.logout();
-			this.attemptLogin( parameters );
-			return;
+			CLI.attemptLogin( parameters );
 		}
-
-		if ( command.equals( "logout" ) )
+	}
+	
+	static { new Logout().register( "logout" ); }
+	public static class Logout
+		extends Command
+	{
+		{ usage = " - logout and return to login window."; }
+		public void run( String cmd )
 		{
 			KoLmafia.logout();
-			return;
 		}
-
-		// Now for formal exit commands.
-
-		if ( command.equals( "exit" ) || command.equals( "quit" ) )
+	}
+	
+	static { new Exit().register( "exit" ).register( "quit" ); }
+	public static class Exit
+		extends Command
+	{
+		{ usage = " - logout and exit KoLmafia."; }
+		public void run( String cmd )
 		{
 			KoLmafia.quit();
 		}
-
-		// Next, handle any requests for script execution;
-		// these can be done at any time (including before
-		// login), so they should be handled before a test
-		// of login state needed for other commands.
-
-		if ( command.equals( "namespace" ) )
+	}
+	
+	static { new Namespace().register( "namespace" ); }
+	public static class Namespace
+		extends Command
+	{
+		{ usage = " [<filter>] - list namespace scripts and the functions they define."; }
+		public void run( String cmd, String parameters )
 		{
-			// Validate the script first.
-
 			String[] scripts = Preferences.getString( "commandLineNamespace" ).split( "," );
 			for ( int i = 0; i < scripts.length; ++i )
 			{
@@ -1194,21 +1500,30 @@ public class KoLmafiaCLI
 
 				RequestLogger.printLine();
 			}
-
-			return;
 		}
-
-		if ( command.equals( "ashref" ) )
+	}
+	
+	static { new ASHref().register( "ashref" ); }
+	public static class ASHref
+		extends Command
+	{
+		{ usage = " [<filter>] - summarize ASH built-in functions [matching filter]."; }
+		public void run( String cmd, String parameters )
 		{
 			KoLmafiaASH.showExistingFunctions( parameters );
-			return;
 		}
-
-		if ( command.equals( "using" ) )
+	}
+	
+	static { new Using().register( "using" ); }
+	public static class Using
+		extends Command
+	{
+		{ usage = " <filename> - add ASH script to namespace."; }
+		public void run( String cmd, String parameters )
 		{
 			// Validate the script first.
 
-			this.executeCommand( "validate", parameters );
+			CLI.executeCommand( "validate", parameters );
 			if ( !KoLmafia.permitsContinue() )
 			{
 				return;
@@ -1230,37 +1545,49 @@ public class KoLmafiaCLI
 			}
 
 			Preferences.setString( "commandLineNamespace", namespace.toString() );
-			return;
 		}
-
-		if ( command.equals( "verify" ) || command.equals( "validate" ) || command.equals( "check" ) || command.equals( "call" ) || command.equals( "run" ) || command.startsWith( "exec" ) || command.equals( "load" ) || command.equals( "start" ) )
+	}
+	
+	static { new Call().register( "verify" ).register( "validate" ).register( "check" )
+		.register( "call" ).register( "run" ).registerPrefix( "exec" )
+		.register( "load" ).register( "start" ); }
+	public static class Call
+		extends Command
+	{
+		{ usage = " [<number>x] <filename> | <function> [<parameters>] - check/run script."; }
+		public void run( String command, String parameters )
 		{
-			this.executeScriptCommand( command, parameters );
-			return;
+			CLI.executeScriptCommand( command, parameters );
 		}
-
-		// Next, handle repeat commands - these are a
-		// carry-over feature which made sense in CLI.
-
-		if ( command.equals( "repeat" ) )
+	}
+	
+	static { new Repeat().register( "repeat" ); }
+	public static class Repeat
+		extends Command
+	{
+		{ usage = " [<number>] - repeat previous line [number times]."; }
+		public void run( String cmd, String parameters )
 		{
-			if ( this.previousLine != null )
+			KoLmafiaCLI CLI = this.CLI;
+			String previousLine = CLI.previousLine;
+			if ( previousLine != null )
 			{
 				int repeatCount = parameters.length() == 0 ? 1 : StringUtilities.parseInt( parameters );
 				for ( int i = 0; i < repeatCount && KoLmafia.permitsContinue(); ++i )
 				{
 					RequestLogger.printLine( "Repetition " + ( i + 1 ) + " of " + repeatCount + "..." );
-					this.executeLine( this.previousLine );
+					CLI.executeLine( previousLine );
 				}
 			}
-
-			return;
 		}
-
-		// Next, handle requests to start or stop
-		// debug mode.
-
-		if ( command.equals( "debug" ) )
+	}
+	
+	static { new Debug().register( "debug" ); }
+	public static class Debug
+		extends Command
+	{
+		{ usage = " [on] | off - start or stop logging of debugging data."; }
+		public void run( String cmd, String parameters )
 		{
 			if ( parameters.equals( "off" ) )
 			{
@@ -1270,14 +1597,15 @@ public class KoLmafiaCLI
 			{
 				RequestLogger.openDebugLog();
 			}
-
-			return;
 		}
-
-		// Next, handle requests to start or stop
-		// the mirror stream.
-
-		if ( command.indexOf( "mirror" ) != -1 )
+	}
+	
+	static { new Mirror().registerSubstring( "mirror" ); }
+	public static class Mirror
+		extends Command
+	{
+		{ usage = " [<filename>] - stop [or start] logging to an additional file."; }
+		public void run( String command, String parameters )
 		{
 			if ( command.indexOf( "end" ) != -1 || command.indexOf( "stop" ) != -1 || command.indexOf( "close" ) != -1 || parameters.length() == 0 || parameters.equals( "end" ) || parameters.equals( "stop" ) || parameters.equals( "close" ) )
 			{
@@ -1293,11 +1621,27 @@ public class KoLmafiaCLI
 
 				RequestLogger.openMirror( parameters );
 			}
-
-			return;
 		}
-
-		if ( command.equals( "wiki" ) || command.equals( "lookup" ) )
+	}
+	
+	static { new Wiki().register( "wiki" ); }
+	public static class Wiki
+		extends Command
+	{
+		{ usage = " <searchText> - perform search on KoL Wiki."; }
+		public void run( String cmd, String parameters )
+		{
+			StaticEntity.openSystemBrowser( "http://kol.coldfront.net/thekolwiki/index.php/Special:Search?search=" +
+				StringUtilities.getURLEncode( parameters ) + "&go=Go" );
+		}
+	}
+	
+	static { new Lookup().register( "lookup" ); }
+	public static class Lookup
+		extends Command
+	{
+		{ usage = " <item> | <effect> - go to appropriate KoL Wiki page."; }
+		public void run( String command, String parameters )
 		{
 			if ( command.equals( "lookup" ) )
 			{
@@ -1319,11 +1663,15 @@ public class KoLmafiaCLI
 
 			StaticEntity.openSystemBrowser( "http://kol.coldfront.net/thekolwiki/index.php/Special:Search?search=" +
 				StringUtilities.getURLEncode( parameters ) + "&go=Go" );
-
-			return;
 		}
-
-		if ( command.equals( "safe" ) )
+	}
+	
+	static { new Safe().register( "safe" ); }
+	public static class Safe
+		extends Command
+	{
+		{ usage = " <location> - show summary data for the specified area."; }
+		public void run( String cmd, String parameters )
 		{
 			KoLAdventure location = AdventureDatabase.getAdventure( parameters );
 			if ( location == null )
@@ -1343,11 +1691,16 @@ public class KoLmafiaCLI
 			data.getSummary( buffer, false );
 			buffer.append( "</html>" );
 
-			this.showHTML( "", buffer.toString() );
-			return;
+			CLI.showHTML( "", buffer.toString() );
 		}
-
-		if ( command.equals( "monsters" ) )
+	}
+	
+	static { new Monsters().register( "monsters" ); }
+	public static class Monsters
+		extends Command
+	{
+		{ usage = " <location> - show combat details for the specified area."; }
+		public void run( String cmd, String parameters )
 		{
 			KoLAdventure location = AdventureDatabase.getAdventure( parameters );
 			if ( location == null )
@@ -1367,26 +1720,27 @@ public class KoLmafiaCLI
 			data.getMonsterData( buffer, false );
 			buffer.append( "</html>" );
 
-			this.showHTML( "", buffer.toString() );
-			return;
+			CLI.showHTML( "", buffer.toString() );
 		}
-
-		// Re-adding the breakfast command, just
-		// so people can add it in scripting.
-
-		if ( command.equals( "breakfast" ) )
+	}
+	
+	static { new Breakfast().register( "breakfast" ); }
+	public static class Breakfast
+		extends Command
+	{
+		{ usage = " - perform start-of-day activities."; }
+		public void run( String cmd )
 		{
 			BreakfastManager.getBreakfast( false, true );
-			return;
 		}
-
-		if ( parameters.equals( "refresh" ) )
-		{
-			parameters = command;
-			command = "refresh";
-		}
-
-		if ( command.equals( "refresh" ) )
+	}
+	
+	static { new Refresh().register( "refresh" ); }
+	public static class Refresh
+		extends Command
+	{
+		{ usage = " all | status | equip | inv | storage | familiar - resynchronize with KoL."; }
+		public void run( String cmd, String parameters )
 		{
 			if ( parameters.equals( "all" ) )
 			{
@@ -1413,122 +1767,137 @@ public class KoLmafiaCLI
 				RequestThread.postRequest( new FamiliarRequest() );
 			}
 
-			this.showData( parameters );
-			return;
+			CLI.showData( parameters );
 		}
-
-		// Look!  It's the command to complete the
-		// Sorceress entryway.
-
-		if ( command.equals( "entryway" ) )
+	}
+	
+	static { new Entryway().register( "entryway" ); }
+	public static class Entryway
+		extends Command
+	{
+		{ usage = " [clover] - automatically complete quest [using a clover]."; }
+		public void run( String cmd, String parameters )
 		{
-			SorceressLairManager.completeCloverlessEntryway();
-			return;
+			if ( parameters.equalsIgnoreCase( "clover" ) )
+			{
+				SorceressLairManager.completeCloveredEntryway();
+			}
+			else
+			{
+				SorceressLairManager.completeCloverlessEntryway();
+			}
 		}
-
-		// Look!  It's the command to complete the
-		// Sorceress hedge maze!  This is placed
-		// right after for consistency.
-
-		if ( command.equals( "maze" ) || command.startsWith( "hedge" ) )
+	}
+	
+	static { new Quest().register( "maze" ).registerPrefix( "hedge" )
+		.register( "tower" ).register( "guardians" ).register( "chamber" )
+		.register( "nemesis" )
+		.register( "guild" ).register( "gourd" ).register( "tavern" ); }
+	public static class Quest
+		extends Command
+	{
+		{ usage = " - automatically complete quest."; }
+		public void run( String command )
 		{
-			SorceressLairManager.completeHedgeMaze();
-			return;
+			if ( command.equals( "maze" ) || command.startsWith( "hedge" ) )
+			{
+				SorceressLairManager.completeHedgeMaze();
+				return;
+			}
+	
+			if ( command.equals( "tower" ) || command.equals( "guardians" ) || command.equals( "chamber" ) )
+			{
+				SorceressLairManager.fightAllTowerGuardians();
+				return;
+			}
+	
+			if ( command.equals( "nemesis" ) )
+			{
+				NemesisManager.faceNemesis();
+				return;
+			}
+	
+			if ( command.equals( "guild" ) )
+			{
+				StaticEntity.getClient().unlockGuildStore();
+				return;
+			}
+	
+			if ( command.equals( "gourd" ) )
+			{
+				StaticEntity.getClient().tradeGourdItems();
+				return;
+			}
+	
+			if ( command.equals( "tavern" ) )
+			{
+				StaticEntity.getClient().locateTavernFaucet();
+				return;
+			}
+			KoLmafia.updateDisplay( "What... is your quest?  [internal error]" );
 		}
-
-		// Look!  It's the command to fight the guardians
-		// in the Sorceress's tower!  This is placed
-		// right after for consistency.
-
-		if ( command.equals( "tower" ) || command.equals( "guardians" ) || command.equals( "chamber" ) )
-		{
-			SorceressLairManager.fightAllTowerGuardians();
-			return;
-		}
-
-		// Next is the command to rob the strange leaflet.
-		// This method invokes the "robLeafletManager" method
-		// on the script requestor.
-
-		if ( command.equals( "leaflet" ) )
+	}
+	
+	static { new Leaflet().register( "leaflet" ); }
+	public static class Leaflet
+		extends Command
+	{
+		{ usage = " [nomagic] - complete leaflet quest [without using magic words]."; }
+		public void run( String cmd, String parameters )
 		{
 			LeafletManager.robStrangeLeaflet( !parameters.equals( "nomagic" ) );
-			return;
 		}
-
-		// Next is the command to face your nemesis.  This
-		// method invokes the "faceNemesis" method on the
-		// script requestor.
-
-		if ( command.equals( "nemesis" ) )
+	}
+	
+	static { new Train().register( "train" ); }
+	public static class Train
+		extends Command
+	{
+		{ usage = " base <weight> | buffed <weight> | turns <number> - train familiar."; }
+		public void run( String cmd, String parameters )
 		{
-			NemesisManager.faceNemesis();
-			return;
+			CLI.trainFamiliar( parameters );
 		}
-
-		if ( command.equals( "guild" ) )
-		{
-			StaticEntity.getClient().unlockGuildStore();
-			return;
-		}
-
-		if ( command.equals( "gourd" ) )
-		{
-			StaticEntity.getClient().tradeGourdItems();
-			return;
-		}
-
-		if ( command.equals( "tavern" ) )
-		{
-			StaticEntity.getClient().locateTavernFaucet();
-			return;
-		}
-
-		// Next is the command to train your current familiar
-
-		if ( command.equals( "train" ) )
-		{
-			this.trainFamiliar( parameters );
-			return;
-		}
-
-		// Next is the command to visit the council.
-		// This prints data to the command line.
-
-		if ( command.equals( "council" ) )
+	}
+	
+	static { new Council().register( "council" ); }
+	public static class Council
+		extends Command
+	{
+		{ usage = " - visit the Council to advance quest progress."; }
+		public void run( String cmd )
 		{
 			RequestThread.postRequest( CouncilFrame.COUNCIL_VISIT );
 
-			this.showHTML( "council.php", StringUtilities.singleStringReplace(
+			CLI.showHTML( "council.php", StringUtilities.singleStringReplace(
 				CouncilFrame.COUNCIL_VISIT.responseText, "<a href=\"town.php\">Back to Seaside Town</a>", "" ) );
-
-			return;
 		}
-
-		// Campground activities are fairly common, so
-		// they will be listed first after the above.
-
-		if ( command.startsWith( "camp" ) )
-		{
-			this.executeCampgroundRequest( parameters );
-			return;
-		}
-
-		// Buffs are pretty neat, too - for now, it's
-		// just casts on self
-
-		if ( command.equals( "cast" ) || command.equals( "skill" ) )
+	}
+	
+	static { new Cast().register( "cast" ).register( "skill" ); }
+	public static class Cast
+		extends Command
+	{
+		{ usage = "[?] [ [<count>] <skill> [on <player>] ] - list spells, or use one."; }
+		public void run( String command, String parameters )
 		{
 			if ( parameters.length() > 0 )
 			{
 				SpecialOutfit.createImplicitCheckpoint();
-				this.executeCastBuffRequest( parameters );
+				CLI.executeCastBuffRequest( parameters );
 				SpecialOutfit.restoreImplicitCheckpoint();
 				return;
 			}
+			CLI.showData( "skills" + (command.equals( "cast" ) ? " cast" : "") );
 		}
-
-		if ( command.equals( "up" ) )
+	}
+	
+	static { new Up().register( "up" ); }
+	public static class Up
+		extends Command
+	{
+		{ usage = " <effect> [, <effect>]... - extend duration of effects."; }
+		public void run( String cmd, String parameters )
 		{
 			if ( parameters.indexOf( "," ) != -1 )
 			{
@@ -1565,13 +1934,15 @@ public class KoLmafiaCLI
 
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Ambiguous effect name: " + parameters );
 			RequestLogger.printList( names );
-			return;
 		}
-
-		// Uneffect with martians are related to buffs,
-		// so listing them next seems logical.
-
-		if ( command.equals( "shrug" ) || command.equals( "uneffect" ) || command.equals( "remedy" ) )
+	}
+	
+	static { new Shrug().register( "shrug" ).register( "uneffect" ).register( "remedy" ); }
+	public static class Shrug
+		extends Command
+	{
+		{ usage = "[?] <effect> [, <effect>]... - remove effects using appropriate means."; }
+		public void run( String cmd, String parameters )
 		{
 			if ( parameters.indexOf( "," ) != -1 )
 			{
@@ -1584,30 +1955,38 @@ public class KoLmafiaCLI
 				return;
 			}
 
-			this.executeUneffectRequest( parameters );
-			return;
+			CLI.executeUneffectRequest( parameters );
 		}
-
-		// Add in item retrieval the way KoLmafia handles
-		// it internally.
-
-		if ( command.equals( "find" ) || command.equals( "acquire" ) || command.equals( "retrieve" ) )
+	}
+	
+	static { new Acquire().register( "find" ).register( "acquire" ).register( "retrieve" ); }
+	public static class Acquire
+		extends Command
+	{
+		{ usage = " <item> - ensure that you have item, creating or buying it if needed."; }
+		public void run( String cmd, String parameters )
 		{
 			AdventureResult item = ItemFinder.getFirstMatchingItem( parameters, ItemFinder.ANY_MATCH );
 			if ( item != null )
 			{
 				InventoryManager.retrieveItem( item, false );
 			}
-
-			return;
 		}
-
-		// Adding clan management command options inline
-		// in the parsing.
-
-		if ( command.equals( "clan" ) )
+	}
+	
+	static { new Clan().register( "clan" ); }
+	public static class Clan
+		extends Command
+	{
+		{ usage = " [ snapshot | stashlog ] - clan management."; }
+		public void run( String cmd, String parameters )
 		{
-			if ( parameters.equals( "snapshot" ) )
+			if ( parameters.equals( "" ) )
+			{
+				KoLmafiaGUI.constructFrame( "ClanManageFrame" );
+				return;
+			}
+			else if ( parameters.equals( "snapshot" ) )
 			{
 				ClanManager.takeSnapshot( 20, 10, 5, 0, false, true );
 			}
@@ -1615,11 +1994,15 @@ public class KoLmafiaCLI
 			{
 				ClanManager.saveStashLog();
 			}
-
-			return;
 		}
-
-		if ( command.equals( "!" ) || command.equals( "bang" ) )
+	}
+	
+	static { new Bang().register( "!" ).register( "bang" ); }
+	public static class Bang
+		extends Command
+	{
+		{ usage = " - list the Dungeons of Doom potions you've identified."; }
+		public void run( String cmd )
 		{
 			for ( int i = 819; i <= 827; ++i )
 			{
@@ -1627,11 +2010,15 @@ public class KoLmafiaCLI
 				potion = potion.substring( 0, potion.length() - 7 );
 				RequestLogger.printLine( potion + ": " + Preferences.getString( "lastBangPotion" + i ) );
 			}
-
-			return;
 		}
-
-		if ( command.equals( "insults" ) )
+	}
+	
+	static { new Insults().register( "insults" ); }
+	public static class Insults
+		extends Command
+	{
+		{ usage = " - list the pirate insult comebacks you know."; }
+		public void run( String cmd )
 		{
 			KoLCharacter.ensureUpdatedPirateInsults();
 
@@ -1663,11 +2050,15 @@ public class KoLmafiaCLI
 
 			RequestLogger.printLine();
 			RequestLogger.printLine( "Since you know " + count + " insult" + ( count == 1 ? "" : "s" ) + ", you have a " + KoLConstants.FLOAT_FORMAT.format( odds ) + "% chance of winning at Insult Beer Pong." );
-
-			return;
 		}
-
-		if ( command.equals( "dusty" ) )
+	}
+	
+	static { new Dusty().register( "dusty" ); }
+	public static class Dusty
+		extends Command
+	{
+		{ usage = " - list the dusty bottles of wine you've identified."; }
+		public void run( String cmd )
 		{
 			for ( int i = 2271; i <= 2276; ++i )
 			{
@@ -1675,11 +2066,15 @@ public class KoLmafiaCLI
 				String type = ItemDatabase.dustyBottleType( i );
 				RequestLogger.printLine( bottle + ": " + type );
 			}
-
-			return;
 		}
-
-		if ( command.equals( "demons" ) )
+	}
+	
+	static { new Demons().register( "demons" ); }
+	public static class Demons
+		extends Command
+	{
+		{ usage = " - list the demon names you know."; }
+		public void run( String cmd )
 		{
 			for ( int i = 0; i < KoLAdventure.DEMON_TYPES.length; ++i )
 			{
@@ -1692,11 +2087,15 @@ public class KoLmafiaCLI
 				}
 				RequestLogger.printLine( " => Gives " + KoLAdventure.DEMON_TYPES[ i ][ 1 ] );
 			}
-
-			return;
 		}
-
-		if ( command.equals( "summon" ) )
+	}
+	
+	static { new Summon().register( "summon" ); }
+	public static class Summon
+		extends Command
+	{
+		{ usage = " <demonName> | <effect> | <location> | <number> - use the Summoning Chamber."; }
+		public void run( String cmd, String parameters )
 		{
 			if ( parameters.length() == 0 )
 			{
@@ -1744,189 +2143,231 @@ public class KoLmafiaCLI
 			KoLmafia.updateDisplay( "Summoning " + demon + "..." );
 			RequestThread.postRequest( demonSummon );
 			RequestThread.enableDisplayIfSequenceComplete();
-
-			return;
 		}
-
-		// One command is an item usage request.  These
-		// requests are complicated, so delegate to the
-		// appropriate utility method.
-
-		if ( command.equals( "eat" ) || command.equals( "drink" ) || command.equals( "use" ) || command.equals( "chew" ) || command.equals( "hobo" ) || command.equals( "ghost" ) )
+	}
+	
+	static { new Use().register( "eat" ).register( "drink" ).register( "use" )
+		.register( "chew" ).register( "hobo" ).register( "ghost" ); }
+	public static class Use
+		extends Command
+	{
+		{ usage = " [either] <item> [, <item>]... - use/consume items"; }
+		public void run( String command, String parameters )
 		{
 			SpecialOutfit.createImplicitCheckpoint();
-			this.executeUseItemRequest( command, parameters );
+			CLI.executeUseItemRequest( command, parameters );
 			SpecialOutfit.restoreImplicitCheckpoint();
-			return;
 		}
-
-		// Zapping with wands is a type of item usage
-
-		if ( command.equals( "zap" ) )
+	}
+	
+	static { new Zap().register( "zap" ); }
+	public static class Zap
+		extends Command
+	{
+		{ usage = " <item> [, <item>]... - transform items with your wand."; }
+		public void run( String cmd, String parameters )
 		{
-			this.makeZapRequest();
-			return;
+			CLI.currentLine = cmd + " " + parameters;	// this is weird!
+			CLI.makeZapRequest();
 		}
-
-		// Smashing is a type of item usage
-
-		if ( command.equals( "smash" ) || command.equals( "pulverize" ) )
+	}
+	
+	static { new Smash().register( "smash" ).register( "pulverize" ); }
+	public static class Smash
+		extends Command
+	{
+		{ usage = " <item> [, <item>]... - pulverize specified items"; }
+		public void run( String cmd, String parameters )
 		{
-			this.makePulverizeRequest( parameters );
-			return;
+			CLI.makePulverizeRequest( parameters );
 		}
-
-		// Another item-related command is a creation
-		// request.  Again, complicated request, so
-		// delegate to the appropriate utility method.
-
-		if ( command.equals( "create" ) || command.equals( "make" ) || command.equals( "bake" ) || command.equals( "mix" ) || command.equals( "smith" ) || command.equals( "tinker" ) || command.equals( "ply" ) )
+	}
+	
+	static { new Create().register( "create" ).register( "make" ).register( "bake" )
+		.register( "mix" ).register( "smith" ).register( "tinker" ).register( "ply" ); }
+	public static class Create
+		extends Command
+	{
+		{ usage = " [ <item>... ] - list creatables, or create specified items."; }
+		public void run( String cmd, String parameters )
 		{
-			this.executeItemCreationRequest( parameters );
-			return;
+			CLI.executeItemCreationRequest( parameters );
 		}
-
-		// Another item-related command is an untinker
-		// request.  Again, complicated request, so
-		// delegate to the appropriate utility method.
-
-		if ( command.equals( "untinker" ) )
+	}
+	
+	static { new Untinker().register( "untinker" ); }
+	public static class Untinker
+		extends Command
+	{
+		{ usage = " [ <item>... ] - complete quest, or untinker items."; }
+		public void run( String cmd, String parameters )
 		{
-			this.executeUntinkerRequest( parameters );
-			return;
+			CLI.executeUntinkerRequest( parameters );
 		}
-
-		if ( command.equals( "automall" ) )
+	}
+	
+	static { new Automall().register( "automall" ); }
+	public static class Automall
+		extends Command
+	{
+		{ usage = " - dump all profitable, non-memento items into the Mall."; }
+		public void run( String cmd )
 		{
-			this.makeAutoMallRequest();
-			return;
+			CLI.makeAutoMallRequest();
 		}
-
-		// Another item-related command is the autosell
-		// request.  This one's simple, but it still
-		// gets its own utility method.
-
-		if ( command.equals( "mallsell" ) )
+	}
+	
+	static { new Mallsell().register( "mallsell" ); }
+	public static class Mallsell
+		extends Command
+	{
+		{ usage = " <item> [[@] <price> [[limit] <num>]] [, <another>]... - sell in Mall."; }
+		public void run( String cmd, String parameters )
 		{
-			this.executeMallSellRequest( parameters );
-			return;
+			CLI.executeMallSellRequest( parameters );
 		}
-
-		// Yay for more item-related commands.  This
-		// one is the one that allows you to place
-		// things into your clan stash.
-
-		if ( command.equals( "stash" ) )
+	}
+	
+	static { new Stash().register( "stash" ); }
+	public static class Stash
+		extends Command
+	{
+		{ usage = " [put] <item>... | take <item>... - exchange items with clan stash"; }
+		public void run( String cmd, String parameters )
 		{
-			this.executeStashRequest( parameters );
-			return;
+			CLI.executeStashRequest( parameters );
 		}
-
-		// Another w00t for more item-related commands.
-		// This one is the one that allows you to pull
-		// things from storage.
-
-		if ( command.equals( "hagnk" ) || command.equals( "pull" ) )
+	}
+	
+	static { new Pull().register( "hagnk" ).register( "pull" ); }
+	public static class Pull
+		extends Command
+	{
+		{ usage = " outfit <name> | <item> [, <item>]... - pull items from Hagnk's storage."; }
+		public void run( String cmd, String parameters )
 		{
-			this.executeHagnkRequest( parameters );
-			return;
+			CLI.executeHagnkRequest( parameters );
 		}
-
-		// Another item-related command is the autosell
-		// request.  This one's simple, but it still
-		// gets its own utility method.
-
-		if ( command.equals( "sell" ) || command.equals( "autosell" ) )
+	}
+	
+	static { new Sell().register( "sell" ).register( "autosell" ); }
+	public static class Sell
+		extends Command
+	{
+		{ usage = " <item> [, <item>]... - autosell items."; }
+		public void run( String cmd, String parameters )
 		{
-			this.executeSellStuffRequest( parameters );
-			return;
+			CLI.executeSellStuffRequest( parameters );
 		}
-
-		if ( command.equals( "reprice" ) || command.equals( "undercut" ) )
+	}
+	
+	static { new Reprice().register( "reprice" ).register( "undercut" ); }
+	public static class Reprice
+		extends Command
+	{
+		{ usage = " - price all max-priced items at or below current Mall minimum price."; }
+		public void run( String cmd )
 		{
 			StaticEntity.getClient().priceItemsAtLowestPrice( true );
-			return;
 		}
-
-		// Setting the Canadian mind control machine
-
-		if ( command.equals( "mind-control" ) || command.equals( "mcd" ) )
+	}
+	
+	static { new MCD().register( "mind-control" ).register( "mcd" ); }
+	public static class MCD
+		extends Command
+	{
+		{ usage = " <number> - set mind control device (or equivalent) to new value."; }
+		public void run( String cmd, String parameters )
 		{
-			this.executeMindControlRequest( parameters );
-			return;
+			CLI.executeMindControlRequest( parameters );
 		}
-
-		// Commands to manipulate the mushroom plot
-
-		if ( command.equals( "field" ) )
+	}
+	
+	static { new Mushroom().register( "field" ); }
+	public static class Mushroom
+		extends Command
+	{
+		{ usage = " [ plant <square> <type> | pick <square> | harvest ] - view or use your mushroom plot"; }
+		public void run( String cmd, String parameters )
 		{
-			this.executeMushroomCommand( parameters );
-			return;
+			CLI.executeMushroomCommand( parameters );
 		}
-
-		// Commands to manipulate the tlescope
-
-		if ( command.equals( "telescope" ) )
+	}
+	
+	static { new Telescope().register( "telescope" ); }
+	public static class Telescope
+		extends Command
+	{
+		{ usage = " [look] high | low - get daily buff, or Lair hints from your telescope."; }
+		public void run( String cmd, String parameters )
 		{
-			this.executeTelescopeRequest( parameters );
-			return;
+			CLI.executeTelescopeRequest( parameters );
 		}
-
-		// One of the largest commands is adventuring,
-		// which (as usual) gets its own module.
-
-		if ( command.startsWith( "adv" ) )
+	}
+	
+	static { new Adv().registerPrefix( "adv" ); }
+	public static class Adv
+		extends Command
+	{
+		{ usage = "[?] last | [<count>] <location> - spend your turns."; }
+		public void run( String cmd, String parameters )
 		{
-			this.executeAdventureRequest( parameters );
-			return;
+			CLI.executeAdventureRequest( parameters );
 		}
-
-		// Donations get their own command and module,
-		// too, which handles hero donations and basic
-		// clan donations.
-
-		if ( command.equals( "donate" ) )
+	}
+	
+	static { new Donate().register( "donate" ); }
+	public static class Donate
+		extends Command
+	{
+		{ usage = " boris | mus | jarl | mys | pete | mox <amount> - donate in Hall of Legends."; }
+		public void run( String cmd, String parameters )
 		{
-			this.executeDonateCommand( parameters );
-			return;
+			CLI.executeDonateCommand( parameters );
 		}
-
-		// Another popular command involves changing
-		// a specific piece of equipment.
-
-		if ( command.equals( "equip" ) || command.equals( "wear" ) || command.equals( "wield" ) )
+	}
+	
+	static {
+		new Equip().register( "equip" ).register( "wear" ).register( "wield" );
+		new AliasCmd( "equip", "off-hand" ).register( "second" ).register( "hold" )
+			.register( "dualwield" );
+	}
+	public static class Equip
+		extends Command
+	{
+		{ usage = " [list <filter>] | [<slot>] <item> - show equipment, or equip item [in slot]."; }
+		public void run( String cmd, String parameters )
 		{
-			this.executeEquipCommand( parameters );
-			return;
+			CLI.executeEquipCommand( parameters );
 		}
-
-		if ( command.equals( "second" ) || command.equals( "hold" ) || command.equals( "dualwield" ) )
+	}
+	
+	static { new Unequip().register( "unequip" ).register( "remove" ); }
+	public static class Unequip
+		extends Command
+	{
+		{ usage = " <slot> | <name> - remove equipment in slot, or that matches name"; }
+		public void run( String cmd, String parameters )
 		{
-			this.executeEquipCommand( "off-hand " + parameters );
-			return;
+			CLI.executeUnequipCommand( parameters );
 		}
-
-		// You can remove a specific piece of equipment.
-
-		if ( command.equals( "unequip" ) || command.equals( "remove" ) )
+	}
+	
+	static { new Familiar().register( "familiar" ); }
+	public static class Familiar
+		extends Command
+	{
+		{ usage = "[?] [list <filter>] | <species> | none - list or change familiar types"; }
+		public void run( String cmd, String parameters )
 		{
-			this.executeUnequipCommand( parameters );
-			return;
-		}
-
-		// Another popular command involves changing
-		// your current familiar.
-
-		if ( command.equals( "familiar" ) )
-		{
-			if ( parameters.equals( "list" ) )
+			if ( parameters.startsWith( "list" ) )
 			{
-				this.showData( "familiars " + parameters.substring( 4 ).trim() );
+				CLI.showData( "familiars " + parameters.substring( 4 ).trim() );
 				return;
 			}
 			else if ( parameters.length() == 0 )
 			{
-				this.showData( "familiars" );
+				CLI.showData( "familiars" );
 				return;
 			}
 			else if ( parameters.equalsIgnoreCase( "none" ) || parameters.equalsIgnoreCase( "unequip" ) )
@@ -1988,61 +2429,70 @@ public class KoLmafiaCLI
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have a " + parameters + " for a familiar." );
 			}
-
-			return;
 		}
-
-		// Another popular command involves managing
-		// your player's closet!  Which can be fun.
-
-		if ( command.equals( "closet" ) )
+	}
+	
+	static { new Closet().register( "closet" ); }
+	public static class Closet
+		extends Command
+	{
+		{ usage = " list <filter> | put <item>... | take <item>... - list or manipulate your closet."; }
+		public void run( String cmd, String parameters )
 		{
-			if ( parameters.equals( "list" ) )
+			if ( parameters.startsWith( "list" ) )
 			{
-				this.showData( "closet " + parameters.substring( 4 ).trim() );
+				CLI.showData( "closet " + parameters.substring( 4 ).trim() );
 				return;
 			}
 			else if ( parameters.length() == 0 )
 			{
-				this.showData( "closet" );
+				CLI.showData( "closet" );
 				return;
 			}
 
-			this.executeClosetManageRequest( parameters );
-			return;
+			CLI.executeClosetManageRequest( parameters );
 		}
-
-		// More commands -- this time to put stuff into
-		// your display case (or remove them).
-
-		if ( command.equals( "display" ) )
+	}
+	
+	static { new Display().register( "display" ); }
+	public static class Display
+		extends Command
+	{
+		{ usage = " [<filter>] | put <item>... | take <item>... - list or manipulate your display case."; }
+		public void run( String cmd, String parameters )
 		{
-			this.executeDisplayCaseRequest( parameters );
-			return;
+			CLI.executeDisplayCaseRequest( parameters );
 		}
-
-		// Yet another popular command involves changing
-		// your outfit.
-
-		if ( command.equals( "checkpoint" ) )
+	}
+	
+	static { new Checkpoint().register( "checkpoint" ); }
+	public static class Checkpoint
+		extends Command
+	{
+		{ usage = " - remembers current equipment, use \"outfit checkpoint\" to restore."; }
+		public void run( String cmd )
 		{
 			SpecialOutfit.createExplicitCheckpoint();
 			KoLmafia.updateDisplay( "Internal checkpoint created." );
 			RequestThread.enableDisplayIfSequenceComplete();
-
-			return;
 		}
-
-		if ( command.equals( "outfit" ) )
+	}
+	
+	static { new Outfit().register( "outfit" ); }
+	public static class Outfit
+		extends Command
+	{
+		{ usage = " [list <filter>] | checkpoint | <name> - list, restore, or change outfits."; }
+		public void run( String cmd, String parameters )
 		{
-			if ( parameters.equals( "list" ) )
+			if ( parameters.startsWith( "list" ) )
 			{
-				this.showData( "outfits " + parameters.substring( 4 ).trim() );
+				CLI.showData( "outfits " + parameters.substring( 4 ).trim() );
 				return;
 			}
 			else if ( parameters.length() == 0 )
 			{
-				this.showData( "outfits" );
+				CLI.showData( "outfits" );
 				return;
 			}
 			else if ( parameters.equalsIgnoreCase( "checkpoint" ) )
@@ -2051,35 +2501,40 @@ public class KoLmafiaCLI
 				return;
 			}
 
-			this.executeChangeOutfitCommand( parameters );
-			return;
+			CLI.executeChangeOutfitCommand( parameters );
 		}
-
-		// Purchases from the mall are really popular,
-		// as far as scripts go.  Nobody is sure why,
-		// but they're popular, so they're implemented.
-
-		if ( command.equals( "buy" ) || command.equals( "mallbuy" ) )
+	}
+	
+	static { new Buy().register( "buy" ).register( "mallbuy"); }
+	public static class Buy
+		extends Command
+	{
+		{ usage = " <item> [, <item>]... - buy from NPC store or the Mall."; }
+		public void run( String cmd, String parameters )
 		{
 			SpecialOutfit.createImplicitCheckpoint();
-			this.executeBuyCommand( parameters );
+			CLI.executeBuyCommand( parameters );
 			SpecialOutfit.restoreImplicitCheckpoint();
-			return;
 		}
-
-		// The BuffBot may never get called from the CLI,
-		// but we'll include it here for completeness sake
-
-		if ( command.equals( "buffbot" ) )
+	}
+	
+	static { new Buffbot().register( "buffbot" ); }
+	public static class Buffbot
+		extends Command
+	{
+		{ usage = " <number> - run buffbot for number iterations."; }
+		public void run( String cmd, String parameters )
 		{
-			this.executeBuffBotCommand( parameters );
-			return;
+			CLI.executeBuffBotCommand( parameters );
 		}
-
-		// If you just want to see what's in the mall,
-		// then execute a search from here.
-
-		if ( command.equals( "searchmall" ) )
+	}
+	
+	static { new SearchMall().register( "searchmall" ); }
+	public static class SearchMall
+		extends Command
+	{
+		{ usage = " <item> [ with limit <number> ] - search the Mall."; }
+		public void run( String cmd, String parameters )
 		{
 			List results = new ArrayList();
 			int desiredLimit = 0;
@@ -2093,11 +2548,22 @@ public class KoLmafiaCLI
 
 			StoreManager.searchMall( parameters, results, desiredLimit, true );
 			RequestLogger.printList( results );
-			return;
 		}
-
-		if ( command.equals( "pvp" ) || command.equals( "attack" ) )
+	}
+	
+	static { new Attack().register( "pvp" ).register( "attack" ); }
+	public static class Attack
+		extends Command
+	{
+		{ usage = " [ <target> [, <target>]... ] - PvP for dignity or flowers"; }
+		public void run( String cmd, String parameters )
 		{
+			if ( parameters.equals( "" ) )
+			{
+				KoLmafiaGUI.constructFrame( "FlowerHunterFrame" );
+				return;
+			}
+			
 			RequestThread.openRequestSequence();
 			int stance = 0;
 
@@ -2162,65 +2628,116 @@ public class KoLmafiaCLI
 				parameters, stance, KoLCharacter.canInteract() ? "dignity" : "flowers" ) );
 
 			RequestThread.closeRequestSequence();
-			return;
 		}
-
-		if ( command.equals( "flowers" ) )
+	}
+	
+	static { new Flowers().register( "flowers" ); }
+	public static class Flowers
+		extends Command
+	{
+		{ usage = " - commit random acts of PvP."; }
+		public void run( String cmd )
 		{
 			PvpManager.executeFlowerHuntRequest();
-			return;
 		}
-
-		if ( command.startsWith( "pvplog" ) )
+	}
+	
+	static { new PvPLog().registerPrefix( "pvplog" ); }
+	public static class PvPLog
+		extends Command
+	{
+		{ usage = " - summarize PvP results."; }
+		public void run( String cmd )
 		{
 			PvpManager.summarizeFlowerHunterData();
-			return;
 		}
-
-		if ( command.equals( "hermit" ) )
+	}
+	
+	static { new Hermit().register( "hermit" ); }
+	public static class Hermit
+		extends Command
+	{
+		{ usage = "[?] [<item>] - get clover status, or trade for item."; }
+		public void run( String cmd, String parameters )
 		{
-			this.executeHermitRequest( parameters );
-			return;
+			CLI.executeHermitRequest( parameters );
 		}
-
-		if ( command.equals( "raffle" ) )
+	}
+	
+	static { new Raffle().register( "raffle" ); }
+	public static class Raffle
+		extends Command
+	{
+		{ usage = " <ticketsToBuy> [ inventory | storage ] - buy raffle tickets"; }
+		public void run( String cmd, String parameters )
 		{
-			this.executeRaffleRequest( parameters );
-			return;
+			CLI.executeRaffleRequest( parameters );
 		}
-
-		if ( command.equals( "styx" ) )
+	}
+	
+	static { new Styx().register( "styx" ); }
+	public static class Styx
+		extends Command
+	{
+		{ usage = " muscle | mysticality | moxie - get daily Styx Pixie buff."; }
+		public void run( String cmd, String parameters )
 		{
-			this.executeStyxRequest( parameters );
-			return;
+			CLI.executeStyxRequest( parameters );
 		}
-
-		if ( command.equals( "concert" ) )
+	}
+	
+	static { new Concert().register( "concert" ); }
+	public static class Concert
+		extends Command
+	{
+		{ usage = " m[oon'd] | d[ilated pupils] | o[ptimist primal] | e[lvish] | wi[nklered] | wh[ite-boy angst]"; }
+		public void run( String cmd, String parameters )
 		{
-			this.executeArenaRequest( parameters );
-			return;
+			CLI.executeArenaRequest( parameters );
 		}
-
-		if ( command.equals( "friars" ) )
+	}
+	
+	static { new Friars().register( "friars" ); }
+	public static class Friars
+		extends Command
+	{
+		{ usage = " [blessing] food | familiar | booze - get daily blessing."; }
+		public void run( String cmd, String parameters )
 		{
-			this.executeFriarRequest( parameters );
-			return;
+			CLI.executeFriarRequest( parameters );
 		}
-
-		if ( command.equals( "nuns" ) )
+	}
+	
+	static { new Nuns().register( "nuns" ); }
+	public static class Nuns
+		extends Command
+	{
+		{ usage = " [mp] - visit the Nunnery for restoration [but only if MP is restored]."; }
+		public void run( String cmd, String parameters )
 		{
-			this.executeNunsRequest( parameters );
-			return;
+			CLI.executeNunsRequest( parameters );
 		}
-
-		if ( command.equals( "mpitems" ) )
+	}
+	
+	static { new MPItems().register( "mpitems" ); }
+	public static class MPItems
+		extends Command
+	{
+		{ usage = " - counts MP restoratives in inventory."; }
+		public void run( String cmd )
 		{
 			int restores = KoLmafia.getRestoreCount();
 			RequestLogger.printLine( restores + " mana restores remaining." );
-			return;
 		}
-
-		if ( command.startsWith( "restore" ) || command.startsWith( "recover" ) || command.startsWith( "check" ) )
+	}
+	
+	static { new Recover().registerPrefix( "restore" ).registerPrefix( "recover" )
+		.registerPrefix( "check" ); }
+	public static class Recover
+		extends Command
+	{
+		{ usage = " hp | health | mp | mana - attempt to regain some HP or MP."; }
+		public void run( String cmd, String parameters )
 		{
 			boolean wasRecoveryActive = KoLmafia.isRunningBetweenBattleChecks();
 			KoLmafia.recoveryActive = true;
@@ -2235,11 +2752,15 @@ public class KoLmafiaCLI
 			}
 
 			KoLmafia.recoveryActive = wasRecoveryActive;
-
-			return;
 		}
-
-		if ( command.startsWith( "trigger" ) )
+	}
+	
+	static { new Trigger().registerPrefix( "trigger" ); }
+	public static class Trigger
+		extends Command
+	{
+		{ usage = " clear | autofill | [<type>,] <effect> [, <action>] - edit current mood"; }
+		public void run( String cmd, String parameters )
 		{
 			if ( parameters.equals( "clear" ) )
 			{
@@ -2271,10 +2792,15 @@ public class KoLmafiaCLI
 			}
 
 			RequestLogger.printList( MoodManager.getTriggers() );
-			return;
 		}
-
-		if ( command.startsWith( "mood" ) )
+	}
+	
+	static { new Mood().registerPrefix( "mood" ); }
+	public static class Mood
+		extends Command
+	{
+		{ usage = " clear | autofill | execute | repeat [<numTimes>] | <moodName> [<numTimes>] - mood management."; }
+		public void run ( String cmd, String parameters )
 		{
 			parameters = parameters.toLowerCase();
 
@@ -2333,53 +2859,78 @@ public class KoLmafiaCLI
 				String previousMood = Preferences.getString( "currentMood" );
 				MoodManager.setMood( parameters );
 
-				this.executeCommand( "mood", "repeat " + multiplicity );
+				CLI.executeCommand( "mood", "repeat " + multiplicity );
 
 				if ( multiplicity > 0 )
 				{
 					MoodManager.setMood( previousMood );
 				}
 			}
-
-			return;
 		}
-
-		if ( command.equals( "restaurant" ) )
+	}
+	
+	static { new Restaurant().register( "restaurant" ).registerSubstring( "brewery" ); }
+	public static class Restaurant
+		extends Command
+	{
+		{ usage = "[?] [ daily special | <item> ] - show daily special [or consume it or other restaurant item]."; }
+		public void run( String cmd, String parameters )
 		{
-			this.makeChezSnooteeRequest( parameters );
-			return;
+			if ( cmd.equals( "restaurant" ) )
+			{
+				CLI.makeChezSnooteeRequest( parameters );
+			}
+			else
+			{
+				CLI.makeMicroBreweryRequest( parameters );
+			}
 		}
-
-		if ( command.indexOf( "brewery" ) != -1 )
+	}
+	
+	static { new Kitchen().registerSubstring( "kitchen" ); }
+	public static class Kitchen
+		extends Command
+	{
+		{ usage = "[?] <item> - consumes item at Hell's Kitchen, if available."; }
+		public void run( String cmd, String parameters )
 		{
-			this.makeMicroBreweryRequest( parameters );
-			return;
+			CLI.makeHellKitchenRequest( parameters );
 		}
-
-		if ( command.indexOf( "kitchen" ) != -1 )
+	}
+	
+	static {
+		new Camp().registerPrefix( "camp" ); 
+		new AliasCmd( "campground", "rest" ).register( "rest" );
+	}
+	public static class Camp
+		extends Command
+	{
+		{ usage = " rest | toast | <etc.> [<numTimes>] - perform campground actions."; }
+		public void run( String cmd, String[] parameters )
 		{
-			this.makeHellKitchenRequest( parameters );
-			return;
+			StaticEntity.getClient().makeRequest(
+				new CampgroundRequest( parameters[ 0 ] ),
+				parameters.length == 1 ? 1 : StringUtilities.parseInt( parameters[ 1 ] ) );
 		}
-
-		// Campground commands, like resting at your house/tent.
-
-		if ( command.equals( "rest" ) )
-		{
-			this.executeCampgroundRequest( command + " " + parameters );
-			return;
-		}
-
-		if ( command.equals( "sofa" ) || command.equals( "sleep" ) )
+	}
+	
+	static { new Sofa().register( "sofa" ).register( "sleep" ); }
+	public static class Sofa
+		extends Command
+	{
+		{ usage = " <number> - rest on your clan sofa for number turns."; }
+		public void run( String cmd, String parameters )
 		{
 			RequestThread.postRequest( ( new ClanRumpusRequest( ClanRumpusRequest.SOFA ) ).setTurnCount( StringUtilities.parseInt( parameters ) ) );
-			return;
 		}
-
-		// Because it makes sense to add this command as-is,
-		// you now have the ability to request buffs.
-
-		if ( command.equals( "send" ) || command.equals( "kmail" ) )
+	}
+	
+	static { new Send().register( "send" ).register( "kmail" ).register( "csend" ); }
+	public static class Send
+		extends Command
+	{
+		{ usage = " <item> [, <item>]... to <recipient> [ || <message> ] - send kmail"; }
+		public void run( String cmd, String parameters )
 		{
 			if ( KoLmafia.isRunningBetweenBattleChecks() )
 			{
@@ -2387,33 +2938,40 @@ public class KoLmafiaCLI
 				return;
 			}
 
-			this.executeSendRequest( parameters, false );
-			return;
+			CLI.executeSendRequest( parameters, cmd.equals( "csend" ) );
 		}
-
-		if ( command.equals( "csend" ) )
+	}
+	
+	static {
+		new AliasCmd( "skills", "buff" ).registerPrefix( "buff" );
+		new AliasCmd( "skills", "passive" ).registerPrefix( "pass" );
+		new AliasCmd( "skills", "self" ).registerPrefix( "self" );
+		new AliasCmd( "skills", "combat" ).registerPrefix( "combat" );
+	}
+	public static class AliasCmd
+		extends Command
+	{
+		private String actualCmd, actualParams;
+		public AliasCmd( String actualCmd, String actualParams )
 		{
-			this.executeSendRequest( parameters, true );
-			return;
+			super();
+			this.actualCmd = actualCmd;
+			this.actualParams = actualParams;
+			this.usage = " => " + actualCmd + " " + actualParams;
 		}
-
-		// Finally, handle command abbreviations - in
-		// other words, commands that look like they're
-		// their own commands, but are actually commands
-		// which are derived from other commands.
-
-		if ( command.startsWith( "skill" ) )
+		
+		public void run( String cmd, String parameters )
 		{
-			command = "skills";
+			CLI.executeCommand( this.actualCmd, (this.actualParams + " " + parameters).trim() );
 		}
-
-		if ( command.startsWith( "cast" ) || command.startsWith( "buff" ) || command.startsWith( "pass" ) || command.startsWith( "self" ) || command.startsWith( "combat" ) )
-		{
-			parameters = command;
-			command = "skills";
-		}
-
-		if ( command.equals( "counters" ) )
+	}
+	
+	static { new Counters().register( "counters" ); }
+	public static class Counters
+		extends Command
+	{
+		{ usage = " [ clear | add <number> ] - show, clear, or add to current turn counters."; }
+		public void run( String cmd, String parameters )
 		{
 			if ( parameters.equalsIgnoreCase( "clear" ) )
 			{
@@ -2427,31 +2985,30 @@ public class KoLmafiaCLI
 					"Manual", "watch.gif" );
 			}
 
-			this.showData( "counters" );
-			return;
+			CLI.showData( "counters" );
 		}
-
-		if ( command.startsWith( "inv" ) ||
-		     command.equals( "closet" ) ||
-		     command.equals( "storage" ) ||
-		     command.equals( "session" ) ||
-		     command.equals( "summary" ) ||
-		     command.equals( "effects" ) ||
-		     command.equals( "status" ) ||
-		     command.equals( "skills" ) ||
-		     command.equals( "locations" ) ||
-		     command.equals( "encounters" ) ||
-		     command.startsWith( "moon" ) )
+	}
+	
+	static { new ShowData().registerPrefix( "inv" ).register( "storage" )
+		.register( "session" ).register( "summary" ).register( "effects" ).register( "status" )
+		.register( "skills" ).register( "locations" ).register( "encounters" )
+		.registerPrefix( "moon" ); }
+	public static class ShowData
+		extends Command
+	{
+		{ usage = " [<param>] - list indicated type of data, possibly filtered by param."; }
+		public void run( String cmd, String parameters )
 		{
-			this.showData( command + " " + parameters );
-			return;
+			CLI.showData( cmd + " " + parameters );
 		}
-
-		// If someone wants to add a new adventure on
-		// the fly, and it's a valid URL (ie: not a
-		// send or search URL), go right ahead.
-
-		if ( command.equals( "location" ) )
+	}
+	
+	static { new Location().register( "location" ); }
+	public static class Location
+		extends Command
+	{
+		{ usage = null; }
+		public void run( String cmd, String parameters )
 		{
 			int spaceIndex = parameters.indexOf( " " );
 			if ( spaceIndex == -1 )
@@ -2465,10 +3022,126 @@ public class KoLmafiaCLI
 					parameters.substring( spaceIndex ).trim() );
 
 			AdventureDatabase.addAdventure( adventure );
-			return;
 		}
-
-		if ( command.equals( "spade" ) )
+	}
+	
+	static { new Help().register( "help" ); }
+	public static class Help
+		extends Command
+	{
+		{ usage = " [<filter>] - list CLI commands [that match filter]."; }
+		
+		static private Pattern PLACEHOLDER = Pattern.compile( "<(.+?)>" );
+		
+		public void run( String cmd, String filter )
+		{
+			filter = filter.toLowerCase();
+			if ( filter.equals( "help" ) )
+			{
+				RequestLogger.printLine( "Square brackets [ ] enclose optional elements of " +
+				"commands.  In command descriptions, they may also enclose the effects of  " +
+				"using those optional elements." );
+				RequestLogger.printLine();
+				RequestLogger.printLine( "Vertical bars | separate alternative elements -  " +
+				"choose any one.  (But note that || is an actual part of a few commands.)" );
+				RequestLogger.printLine();
+				RequestLogger.printLine( "An ellipsis ... after an element means that it  " +
+				"can be repeated as many times as needed." );
+				RequestLogger.printLine();
+				RequestLogger.printLine( "Elements in <i>italics</i> are placeholders -  " +
+				"replace them with an actual name you want the command to operate on." );
+				RequestLogger.printLine();
+				RequestLogger.printLine( "Commands with an asterisk * after the name are " +
+				"abbreviations - you can type them in a longer form if desired." );
+				RequestLogger.printLine();
+				RequestLogger.printLine( "Some command names can be followed by a question  " +
+				"mark (shown as [?] ), in which case the command will just display what it  " +
+				"would do, rather than actually doing it." );
+				RequestLogger.printLine();
+				RequestLogger.printLine( "When adventuring, or using an item or skill, the  " +
+				"name can be preceded by a number specifying how many times to do it.  An  " +
+				"asterisk in place of this number means \"as many as possible\" or \"the  " +
+				"current quantity in inventory\", depending on context.  Negative numbers  " +
+				"mean to do that many less than the maximum." );
+				RequestLogger.printLine();
+				RequestLogger.printLine( "Usually, multiple commands can be given on the  " +
+				"same line, separated by semicolons.  The exceptions (" + Command.fullLineCmds +
+				") treat the entire remainder of the line as a parameter." );
+				RequestLogger.printLine();
+				RequestLogger.printLine( "A few commands (" + Command.flowControlCmds + 
+				") treat at least one following command as a block that is executed  " +
+				"conditionally or repetitively.  The block consists of the remainder of the  " +
+				"line, or the entire next line if that's empty.  The block is extended by " +
+				"additional lines if it would otherwise end with one of these special  " +
+				"commands." );
+				return;
+			}
+			boolean anymatches = false;
+			HashMap alreadySeen = new HashMap();	// usage => name of cmd already printed out
+			Iterator i = Command.lookup.entrySet().iterator();
+			while ( i.hasNext() )
+			{
+				Map.Entry e = (Map.Entry) i.next();
+				String name = (String) e.getKey();
+				int type = lookup.getKeyType( name );
+				if ( type == lookup.NOT_A_KEY )
+				{
+					continue;
+				}
+				Command handler = (Command) e.getValue();
+				if ( handler == null )	// shouldn't happen
+				{
+					continue;
+				}
+				String usage = handler.getUsage( name );
+				if ( usage == null || (name.indexOf( filter ) == -1 &&
+					usage.toLowerCase().indexOf( filter ) == -1) )
+				{
+					continue;
+				}
+				if ( type == lookup.PREFIX_KEY )
+				{
+					name += "*";
+				}
+				if ( KoLmafiaCLI.isExecutingCheckOnlyCommand )
+				{
+					RequestLogger.printLine( DataUtilities.convertToHTML( name ) + " @ " +
+						handler.getClass().getName() );
+					anymatches = true;
+					continue;
+				}
+				String previouslySeen = (String) alreadySeen.get( usage );
+				if ( previouslySeen == null )
+				{
+					// This isn't turning out very useful
+					// alreadySeen.put( usage, name );
+				}
+				else
+				{
+					usage = " => " + previouslySeen;
+				}
+				anymatches = true;
+				Matcher m = PLACEHOLDER.matcher( usage );
+				while ( m.find() )
+				{
+					usage = Pattern.compile( "<?(\\Q" + m.group( 1 ) + "\\E)>?" )
+						.matcher( usage ).replaceAll( "<i>$1</i>" );
+				}
+				RequestLogger.printLine( DataUtilities.convertToHTML( name ) + usage );
+			}
+			if ( !anymatches )
+			{
+				KoLmafia.updateDisplay( "No matching commands found!" );
+			}
+		}
+	}
+	
+	static { new Spade().register( "spade" ); }
+	public static class Spade
+		extends Command
+	{
+		{ usage = " - examine and submit or delete any automatically gathered data."; }
+		public void run( String cmd )
 		{
 			String[] data = Preferences.getString( "spadingData" ).split( "\\|" );
 			if ( data.length < 3 )
@@ -2482,7 +3155,7 @@ public class KoLmafiaCLI
 				String contents = data[ i ];
 				String recipient = data[ i+1 ];
 				String explanation = data[ i+2 ];
-				if ( InputFieldUtilities.confirm ( "A spade is you!\n\n" +
+				if ( InputFieldUtilities.confirm ( 
 					"Would you like to send the data \"" + contents + "\" to " +
 					recipient + "?\nThis information will be used " + explanation ) )
 				{
@@ -2490,15 +3163,26 @@ public class KoLmafiaCLI
 				}
 			}
 			Preferences.setString( "spadingData", "" );
-			return;
 		}
-
-		// If all else fails, then assume that the
-		// person was trying to call a script.
-
-		this.executeScript( this.currentLine );
 	}
-
+	
+	static { new Budget().register( "budget" ); }
+	public static class Budget
+		extends Command
+	{
+		{ usage = " [<number>] - show [or set] the number of budgeted Hagnk's pulls."; }
+		public void run( String cmd, String parameters )
+		{
+			if ( parameters.length() > 0 )
+			{
+				ItemManageFrame.setPullsBudgeted( StringUtilities.parseInt( parameters ) );
+			}
+			KoLmafia.updateDisplay( ItemManageFrame.getPullsBudgeted() +
+				" pulls budgeted for automatic use, " + ItemManageFrame.getPullsRemaining()
+				+ " pulls remaining." );
+		}
+	}
+	
 	public void showHTML( final String location, final String text )
 	{
 		// Strip out all the new lines found in the source
@@ -3375,18 +4059,6 @@ public class KoLmafiaCLI
 		}
 
 		return condition;
-	}
-
-	/**
-	 * A special module used to handle campground requests, such as toast retrieval, resting, and the like.
-	 */
-
-	private void executeCampgroundRequest( final String parameters )
-	{
-		String[] parameterList = parameters.split( " " );
-		StaticEntity.getClient().makeRequest(
-			new CampgroundRequest( parameterList[ 0 ] ),
-			parameterList.length == 1 ? 1 : StringUtilities.parseInt( parameterList[ 1 ] ) );
 	}
 
 	/**
@@ -4373,7 +5045,31 @@ public class KoLmafiaCLI
 			return;
 		}
 
-		Object[] items = ItemFinder.getMatchingItemList( KoLConstants.storage, parameters );
+		Object[] items;
+		if ( parameters.startsWith( "outfit " ) )
+		{
+			SpecialOutfit outfit = KoLmafiaCLI.getMatchingOutfit(
+				parameters.substring( 7 ).trim() );
+			if ( outfit == null )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "No such outfit." );
+				return;
+			}
+			AdventureResult[] pieces = outfit.getPieces();
+			ArrayList needed = new ArrayList();
+			for ( int i = 0; i < pieces.length; ++i )
+			{
+				if ( !InventoryManager.hasItem( pieces[ i ] ) )
+				{
+					needed.add( pieces[ i ] );
+				}
+			}
+			items = needed.toArray();
+		}
+		else
+		{		
+			items = ItemFinder.getMatchingItemList( KoLConstants.storage, parameters );
+		}
 
 		if ( items.length == 0 )
 		{
@@ -4387,7 +5083,8 @@ public class KoLmafiaCLI
 			if ( ( (AdventureResult) items[ i ] ).getName().equals( AdventureResult.MEAT ) )
 			{
 				RequestThread.postRequest( new ClosetRequest(
-					( (AdventureResult) items[ i ] ).getCount(), ClosetRequest.PULL_MEAT_FROM_STORAGE ) );
+					ClosetRequest.PULL_MEAT_FROM_STORAGE,
+					( (AdventureResult) items[ i ] ).getCount() ) );
 
 				items[ i ] = null;
 				++meatAttachmentCount;
