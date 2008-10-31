@@ -72,158 +72,161 @@
 
 # Hats section of modifiers.txt
 
-Ancient Saucehelm	Mysticality: +7, Class: "Sauceror"
-Baron von Ratsworth's tophat	Moxie: +5, Muscle: +5, Mysticality: +5
-Brimstone Beret	Moxie Percent: +50, Muscle Percent: -20
-Cerebral Cloche	Maximum MP: +15
-Cloaca-Cola helmet	Damage Absorption: +10
-Colander of Em-er'il	Mysticality: +7, Class: "Pastamancer"
-Crimbo hat	Spooky Resistance: +1
-Crown of the Goblin King	Muscle: +10
-Disco 'Fro Pick	Moxie: +7, Class: "Disco Bandit"
-Dolphin King's crown	Moxie: +2, Muscle: +2, Mysticality: +2
-Dyspepsi-Cola helmet	Damage Absorption: +10
-El Sombrero De Lopez	Moxie: +7, Class: "Accordion Thief"
-# El Vibrato helmet
-Elder Turtle Shell	Muscle: +7, Class: "Turtle Tamer"
-Frosty's old silk hat	Muscle Percent: +20, Cold Damage: +30, Class: "Seal Clubber"
-# Grimacite gasmask
-# Grimacite goggles
-Hodgman's porkpie hat	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20, Hobo Power: +25
-# Kentucky-style derby
-Knob Goblin elite helm	Muscle: +3
-Knob Goblin harem veil	Stench Resistance: +1
-Knob Goblin visor	Moxie: +3
-# KoL Con 3-D Glasses
+Ancient Saucehelm	Mysticality: +7, Class: "Sauceror", Familiar Effect: "3xGhuol, cap 12"
+Baron von Ratsworth's tophat	Moxie: +5, Muscle: +5, Mysticality: +5, Familiar Effect: "1xPotato, 3xGhuol, cap 18"
+Brimstone Beret	Moxie Percent: +50, Muscle Percent: -20, Familiar Effect: "1xVolley, 1xLep"
+Cerebral Cloche	Maximum MP: +15, Familiar Effect: "1.5xLep, cap 22"
+Cloaca-Cola helmet	Damage Absorption: +10, Familiar Effect: "3xFairy, cap 7"
+Colander of Em-er'il	Mysticality: +7, Class: "Pastamancer", Familiar Effect: "3xGhuol, cap 12"
+Crimbo hat	Spooky Resistance: +1, Familiar Effect: "1.75xVolley, 1.75xLep, cap 25"
+Crown of the Goblin King	Muscle: +10, Familiar Effect: "2xBarrr, 1xGhuol, cap 17"
+Disco 'Fro Pick	Moxie: +7, Class: "Disco Bandit", Familiar Effect: "3xGhuol, cap 12"
+Dolphin King's crown	Moxie: +2, Muscle: +2, Mysticality: +2, Familiar Effect: "atk, 2xGhuol, cap 8"
+Dyspepsi-Cola helmet	Damage Absorption: +10, Familiar Effect: "3xFairy, cap 7"
+El Sombrero De Lopez	Moxie: +7, Class: "Accordion Thief", Familiar Effect: "3xGhuol, cap 12"
+El Vibrato helmet	Familiar Effect: "0.5xPotato, 1xFairy"
+Elder Turtle Shell	Muscle: +7, Class: "Turtle Tamer", Familiar Effect: "3xGhuol, cap 12"
+Frosty's old silk hat	Muscle Percent: +20, Cold Damage: +30, Class: "Seal Clubber", Familiar Effect: "cold atk"
+Grimacite gasmask	Familiar Effect: "1xLep, 1.5xFairy, cap 37"
+Grimacite goggles	Familiar Effect: "1xVolley, 1xLep, cap 31"
+Hodgman's porkpie hat	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20, Hobo Power: +25, Familiar Effect: "0.5xVolley, 0.5xFairy"
+Kentucky-style derby	Familiar Effect: "atk, cap 5"
+Knob Goblin elite helm	Muscle: +3, Familiar Effect: "2xFairy, cap 15"
+Knob Goblin harem veil	Stench Resistance: +1, Familiar Effect: "5xLep, cap 2"
+Knob Goblin visor	Moxie: +3, Familiar Effect: "2xVolley, 1xPotato, cap 12"
+KoL Con 3-D Glasses	Familiar Effect: "8xLep, ?xFairy, cap 2"
 MAHI fez	Moxie: +30
-Mohawk wig	Melee Damage: +10
-Ol' Scratch's stovepipe hat	Mysticality Percent: +20, Hot Spell Damage: +30, Class: "Sauceror"
-Orcish baseball cap	Muscle: +3, Mysticality: -3
-Radio Free Baseball Cap	Intrinsic Effect: "Radio Head"
-# Seasonal Beret has moon-dependent effects
-Scalp of Gorgolok	Muscle: +7, Class: "Seal Clubber"
-Snow Queen Crown	Cold Damage: +5, Cold Resistance: +3
+Mohawk wig	Melee Damage: +10, Familiar Effect: "1xPotato, 1xGhuol, cap 35"
+Ol' Scratch's stovepipe hat	Mysticality Percent: +20, Hot Spell Damage: +30, Class: "Sauceror", Familiar Effect: "hot atk"
+Orcish baseball cap	Muscle: +3, Mysticality: -3, Familiar Effect: "1xVolley, 1xBarrr, cap 15"
+Radio Free Baseball Cap	Intrinsic Effect: "Radio Head", Familiar Effect: "1xLep, 1xFairy, cap 37"
+Scalp of Gorgolok	Muscle: +7, Class: "Seal Clubber", Familiar Effect: "3xGhuol, cap 12"
+Seasonal Beret	Familiar Effect: "1xPotato, ?xFairy, cap 25"
+Snow Queen Crown	Cold Damage: +5, Cold Resistance: +3, Familiar Effect: "cold atk, 1xGhuol, cap 28"
 # Sombrero De Vida
-Tropical Crimbo Hat	Spooky Resistance: +1
-Zombo's skullcap	Muscle Percent: +20, Familiar Weight: +10, Class: "Turtle Tamer"
-anniversary concrete fedora	Moxie: +1, Muscle: +1, Mysticality: +1
-antique helmet	Initiative: -10, Spooky Resistance: +3
-asbestos helmet turtle	Hot Resistance: +1
-asshat	Stench Resistance: +1, Sleaze Damage: +1
-balaclava	Cold Resistance: +1
-balloon helmet	Damage Absorption: +20, Clownosity: +1
-barskin hat	Muscle: +1
-basic meat fez	Moxie: +2, Mysticality: +1
-basic meat helmet	Muscle: +1
-bat hat	Mysticality: +9, Item Drop: +5
-battered old top-hat	Maximum HP: +500, Moxie Percent: +5
-beer helmet	Maximum MP: +40
-big bad voodoo mask	Mysticality: +7, Spell Damage: +15
-biomechanical crimborg helmet	Hot Damage: +5, Stench Damage: +5
-black cowboy hat	Muscle: +8, Melee Damage: +8
-black helmet	Maximum HP: +30
-blue traffic cone	Moxie: +3, Hot Resistance: +2
-bounty-hunting helmet	Item Drop: +20
-bowler	Muscle: +5
-bubblewrap bottlecap turtleban	Mysticality: +3, Maximum MP: +5, MP Regen Min: 2, MP Regen Max: 3
-# bugbear beanie
-bum cheek	Stench Resistance: +1
-catskin cap	Muscle: +9, Maximum HP: +40
-chef's hat	Mysticality: +2, MP Regen Min: 1, MP Regen Max: 1
-chrome helmet turtle	Moxie: +5, Muscle: +5, Mysticality: +5
-clingfilm cap	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1, MP Regen Min: 2, MP Regen Max: 3
-clockwork hat	Spooky Resistance: +1
-clown wig	Mysticality: +3, Spell Damage: +3, Clownosity: +2
-coconut shell	Damage Absorption: +1
-cold ninja mask	Initiative: +15
-cornuthaum	Mysticality: +3, Moxie: +3
-crumpled felt fedora	Familiar Weight: +10, Muscle Percent: +5
-cursed eyepatch	Mysticality: +15
-demon-horned hat	Moxie: +4
-# disco mask
-draggin' ball hat	Intrinsic Effect: "Draggin' Balls"
-duct tape fedora	Mysticality: +12, Maximum MP: +40
-eXtreme scarf	Mysticality: +5
-enchanted eyepatch	Mysticality: +5
-enchantlers	Hot Spell Damage: +10
-extra-large palm-frond toupee	Experience: +2
-eyepatch	Moxie: +2
-f3d0r4	Moxie: +6
-fancy ball mask	Moxie Percent: +10
-fez of etymology	Moxie: +7
-filthy knitted dread sack	Stench Damage: +3
-fire	Intrinsic Effect: "Head on Fire, Ass Catching", Hot Damage: +7
-foolscap fool's cap	Moxie: +2, Mysticality: -2, Clownosity: +1
-# football helmet
-furry green turtle	Moxie: +3
-gasmask	Stench Resistance: +3
-giant discarded bottlecap	Damage Reduction: 3, Mysticality: -10
-goat beard	Mysticality: +3
-# goofily-plumed helmet
-grass hat	Maximum MP: +10
-green traffic cone	Moxie: +3, Stench Resistance: +2
-grungy bandana	Stench Damage: +10, Sleaze Damage: +10
-# helmet turtle
-ice pick	Item Drop: +15, Softcore Only
-indie comic hipster glasses	Moxie: +5, Muscle: +5, Mysticality: +5
-irate sombrero	Melee Damage: +3
-jewel-eyed wizard hat	Maximum MP: +30, Mana Cost: -1, Softcore Only
-knobby helmet turtle	Melee Damage: +1
-leather mask	Muscle: +3, Moxie: -3
-lihc face	Spooky Resistance: +2
-linoleum helmet turtle	Maximum HP: +10, Maximum MP: +10
-longhaired hippy wig	Stench Damage: +20, Mysticality Percent: +5
-# maiden wig
-makeshift turban	Intrinsic Effect: "Temporary Blindness", Spooky Resistance: +2
-meat cowboy hat	Muscle: +3
-meatloaf helmet	Muscle: +3, Melee Damage: +1
-meaty helmet turtle	Muscle: +3
-mesh cap	Intrinsic Effect: "Red Neck"
-miner's helmet	Item Drop: +5
-mullet wig	Sleaze Damage: +2
-mummy mask	Spooky Damage: +12
-nasty rat mask	Moxie: +9, Monster Level: -5
-opera mask	Moxie: -5
-orange peel hat	Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3
+Tropical Crimbo Hat	Spooky Resistance: +1, Familiar Effect: "1xLep, 1.5xFairy, cap 25"
+Zombo's skullcap	Muscle Percent: +20, Familiar Weight: +10, Class: "Turtle Tamer", Familiar Effect: "spooky atk"
+anniversary concrete fedora	Moxie: +1, Muscle: +1, Mysticality: +1, Familiar Effect: "?xVolley, ?xLep, cap 2"
+antique helmet	Initiative: -10, Spooky Resistance: +3, Familiar Effect: "0.5xPotato, 0.5xFairy"
+asbestos helmet turtle	Hot Resistance: +1, Familiar Effect: "hot atk, 1xFairy, cap 20"
+asshat	Stench Resistance: +1, Sleaze Damage: +1, Familiar Effect: "stench atk, 1xVolley, cap 7"
+balaclava	Cold Resistance: +1, Familiar Effect: "cold atk, 1.5xLep, cap 12"
+balloon helmet	Damage Absorption: +20, Clownosity: +1, Familiar Effect: "3xFairy, cap 12"
+barskin hat	Muscle: +1, Familiar Effect: "atk, 1xVolley, cap 13"
+basic meat fez	Moxie: +2, Mysticality: +1, Familiar Effect: "3xLep, cap 11"
+basic meat helmet	Muscle: +1, Familiar Effect: "sleaze atk, 2xFairy, cap 10"
+bat hat	Mysticality: +9, Item Drop: +5, Familiar Effect: "spooky atk, 1xVolley, cap 45"
+battered old top-hat	Maximum HP: +500, Moxie Percent: +5, Familiar Effect: "0.5xVolley, 0.75xFairy"
+beer helmet	Maximum MP: +40, Familiar Effect: "0.5xBarrr, 1xFairy, cap 42"
+beholed bedsheet	Familiar Effect: "8xVolley, 8xLep, cap 2"
+big bad voodoo mask	Mysticality: +7, Spell Damage: +15, Familiar Effect: "1xBarrr, 1xGhuol, cap 40"
+biomechanical crimborg helmet	Hot Damage: +5, Stench Damage: +5, Familiar Effect: "atk, 1xFairy, cap 37"
+black cowboy hat	Muscle: +8, Melee Damage: +8, Familiar Effect: "1xBarrr, 1xLep, cap 41"
+black helmet	Maximum HP: +30, Familiar Effect: "1xFairy, cap 40"
+blue traffic cone	Moxie: +3, Hot Resistance: +2, Familiar Effect: "2xLep, 2xFairy, cap 15"
+bounty-hunting helmet	Item Drop: +20, Familiar Effect: "1.5xFairy, cap 25"
+bowler	Muscle: +5, Familiar Effect: "1.5xVolley, 1.5xLep, cap 25"
+bubblewrap bottlecap turtleban	Mysticality: +3, Maximum MP: +5, MP Regen Min: 2, MP Regen Max: 3, Familiar Effect: "1xPotato, 2xLep, cap 17"
+bugbear beanie	Familiar Effect: "atk, cap 7"
+bum cheek	Stench Resistance: +1, Familiar Effect: "stench atk, 1xVolley, cap 5"
+catskin cap	Muscle: +9, Maximum HP: +40, Familiar Effect: "1xVolley, 1xBarrr, cap 45"
+chef's hat	Mysticality: +2, MP Regen Min: 1, MP Regen Max: 1, Familiar Effect: "atk, 3xLep, cap 7"
+chrome helmet turtle	Moxie: +5, Muscle: +5, Mysticality: +5, Familiar Effect: "cold atk, 1xFairy, cap 30"
+clingfilm cap	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1, MP Regen Min: 2, MP Regen Max: 3, Familiar Effect: "1xVolley, cap 37"
+clockwork hat	Spooky Resistance: +1, Familiar Effect: "atk, 1xVolley, cap 20"
+clown wig	Mysticality: +3, Spell Damage: +3, Clownosity: +2, Familiar Effect: "chromatic atk, 1xPotato, cap 12"
+coconut shell	Damage Absorption: +1, Familiar Effect: "1xFairy, cap 7"
+cold ninja mask	Initiative: +15, Familiar Effect: "cold atk, 1xBarrr, cap 20"
+cornuthaum	Mysticality: +3, Moxie: +3, Familiar Effect: "1.5xPotato, 1.25xFairy, cap 21"
+crumpled felt fedora	Familiar Weight: +10, Muscle Percent: +5, Familiar Effect: "0.75xVolley, 0.75xLep"
+cursed eyepatch	Mysticality: +15, Familiar Effect: "spooky atk, 1xBarrr"
+demon-horned hat	Moxie: +4, Familiar Effect: "hot atk, 1xLep, cap 17"
+disco mask	Familiar Effect: "atk, cap 2"
+draggin' ball hat	Intrinsic Effect: "Draggin' Balls", Familiar Effect: "atk, 1xVolley, cap 25"
+duct tape fedora	Mysticality: +12, Maximum MP: +40, Familiar Effect: "1xBarrr, 1xLep, cap 48"
+eXtreme scarf	Mysticality: +5, Familiar Effect: "atk, 1xBarrr, cap 25"
+enchanted eyepatch	Mysticality: +5, Familiar Effect: "4xBarrr, cap 8"
+enchantlers	Hot Spell Damage: +10, Familiar Effect: "atk, 1xLep, cap 28"
+extra-large palm-frond toupee	Experience: +2, Familiar Effect: "1xVolley, 1xPotato, cap 37"
+eyepatch	Moxie: +2, Familiar Effect: "3xBarrr, cap 6"
+f3d0r4	Moxie: +6, Familiar Effect: "atk, 1xLep, cap 27"
+fancy ball mask	Moxie Percent: +10, Familiar Effect: "1xBarr, 1xFairy, cap 22"
+fez of etymology	Moxie: +7, Familiar Effect: "1xLep, cap 30"
+filthy knitted dread sack	Stench Damage: +3, Familiar Effect: "1xVolley, 1xPotato, cap 15"
+fire	Intrinsic Effect: "Head on Fire, Ass Catching", Hot Damage: +7, Familiar Effect: "hot atk, 1xVolley, cap 2"
+foolscap fool's cap	Moxie: +2, Mysticality: -2, Clownosity: +1, Familiar Effect: "3xVolley, cap 10"
+football helmet	Familiar Effect: "atk, cap 37"
+furry green turtle	Moxie: +3, Familiar Effect: "2xPotato, 2xFairy, cap 11"
+gasmask	Stench Resistance: +3, Familiar Effect: "?xBarrr, cap 12"
+giant discarded bottlecap	Damage Reduction: 3, Mysticality: -10, Familiar Effect: "atk, 1xFairy, cap 38"
+goat beard	Mysticality: +3, Familiar Effect: "atk, 1xPotato, cap 15"
+goofily-plumed helmet	Familiar Effect: "atk, cap 17"
+grass hat	Maximum MP: +10, Familiar Effect: "2xVolley, 1xBarrr, cap 20"
+green traffic cone	Moxie: +3, Stench Resistance: +2, Familiar Effect: "2xLep, 2xFairy, cap 15"
+grungy bandana	Stench Damage: +10, Sleaze Damage: +10, Familiar Effect: "1xVolley, 0.5xPotato, cap 37"
+helmet turtle	Familiar Effect: "atk, cap 2"
+ice pick	Item Drop: +15, Softcore Only, Familiar Effect: "1.5xLep, 1.5xFairy, cap 25"
+indie comic hipster glasses	Moxie: +5, Muscle: +5, Mysticality: +5, Familiar Effect: "?xVolley, 8xLep, cap 2"
+invisible bag	Familiar Effect: "8xVolley, 8xLep, cap 2"
+irate sombrero	Melee Damage: +3, Familiar Effect: "1xPotato, 3xLep, cap 11"
+jewel-eyed wizard hat	Maximum MP: +30, Mana Cost: -1, Softcore Only, Familiar Effect: "atk, 5xVolley, 5xLep, cap 2"
+knobby helmet turtle	Melee Damage: +1, Familiar Effect: "atk, 2xFairy, cap 5"
+leather mask	Muscle: +3, Moxie: -3, Familiar Effect: "sleaze atk, 1xBarrr, cap 15"
+lihc face	Spooky Resistance: +2, Familiar Effect: "spooky atk, 1xBarrr, cap 22"
+linoleum helmet turtle	Maximum HP: +10, Maximum MP: +10, Familiar Effect: "stench atk, 1xFairy, cap 25"
+longhaired hippy wig	Stench Damage: +20, Mysticality Percent: +5, Familiar Effect: "1xPotato, 1xGhuol"
+maiden wig	Familiar Effect: "2xPotato, cap 8"
+makeshift turban	Intrinsic Effect: "Temporary Blindness", Spooky Resistance: +2, Familiar Effect: "1.5xBarrr, 1xLep, cap 25"
+meat cowboy hat	Muscle: +3, Familiar Effect: "1xBarrr, 3xLep, cap 10"
+meatloaf helmet	Muscle: +3, Melee Damage: +1, Familiar Effect: "1xBarrr, 1.5xFairy, cap 13"
+meaty helmet turtle	Muscle: +3, Familiar Effect: "sleaze atk, 1xFairy, cap 17"
+mesh cap	Intrinsic Effect: "Red Neck", Familiar Effect: "atk, 1xVolley, cap 41"
+metallic foil cat ears	Intrinsic Effect: "O Hai!", Familiar Effect: "atk, cap 7"
+miner's helmet	Item Drop: +5, Familiar Effect: "1xBarrr, 1xFairy, cap 20"
+mullet wig	Sleaze Damage: +2, Familiar Effect: "3xPotato, 2xGhuol, cap 10"
+mummy mask	Spooky Damage: +12, Familiar Effect: "1xBarrr, 1xFairy, cap 42"
+nasty rat mask	Moxie: +9, Monster Level: -5, Familiar Effect: "sleaze atk, 1xBarrr, cap 45"
+opera mask	Moxie: -5, Familiar Effect: "spooky atk, 1xBarrr, cap 2"
+orange peel hat	Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, Familiar Effect: "atk, 1xVolley"
 orange traffic cone	Moxie: +3, Spooky Resistance: +2
-oriole-feather headdress	Maximum HP: +1, Maximum MP: +1
-outrageous sombrero	Moxie: +5, Muscle: +5, Mysticality: +5, Initiative: -20
-pail	Damage Absorption: +10
-# panhandle panhandling hat	
-party hat	MP Regen Min: 3, MP Regen Max: 5, Mysticality: +3
-# pentacorn hat
-pimpin' meat hat	Muscle: +2, Moxie: +2
-pixel hat	Moxie: +2, Muscle: +2, Mysticality: +2
-plexiglass pith helmet	Familiar Weight: +5, HP Regen Min: 10, HP Regen Max: 12, MP Regen Min: 10, MP Regen Max: 12, Muscle Percent: +30
-raspberry beret	Hot Resistance: +2
-# ravioli hat
-red traffic cone	Moxie: +3, Cold Resistance: +2
-reinforced beaded headband	Maximum HP: +40
-safarrri hat	Maximum HP: +15
-# seal-skull helmet
-sequined fez	Moxie: +3
-shapeless wide-brimmed hat	HP Regen Min: 15, HP Regen Max: 20, MP Regen Min: 15, MP Regen Max: 20, Mysticality Percent: +5
-skeletortoise	Mysticality: +2
-# snorkel
-spooky hockey mask	Spooky Resistance: +2, Spooky Damage: +3
-stainless steel skullcap	Maximum HP: +30, Damage Absorption: +60, Muscle Percent: +15
-star hat	Maximum MP: +30
-stone baseball cap	Damage Reduction: 10, Melee Damage: +15, Muscle: -10
-superhero mask	Moxie: +5, Muscle: +5, Mysticality: +5, Softcore Only
-tattered paper crown	Muscle: +3
-time helmet	Adventures: +3
-toy space helmet	Stench Resistance: +3, Spooky Resistance: +3
-viking helmet	Muscle: +1
+oriole-feather headdress	Maximum HP: +1, Maximum MP: +1, Familiar Effect: "atk, 3xVolley, cap 3"
+outrageous sombrero	Moxie: +5, Muscle: +5, Mysticality: +5, Initiative: -20, Familiar Effect: "1.5xLep, 1.5xFairy, cap 25"
+pail	Damage Absorption: +10, Familiar Effect: "2xFairy, cap 7"
+panhandle panhandling hat	Familiar Effect: "1xLep, cap 37"
+party hat	MP Regen Min: 3, MP Regen Max: 5, Mysticality: +3, Familiar Effect: "4xLep, cap 7"
+pentacorn hat	Familiar Effect: "atk, cap 10"
+pimpin' meat hat	Muscle: +2, Moxie: +2, Familiar Effect: "sleaze atk, 1xVolley, cap 13"
+pixel hat	Moxie: +2, Muscle: +2, Mysticality: +2, Familiar Effect: "atk, 2xVolley, cap 12"
+plexiglass pith helmet	Familiar Weight: +5, HP Regen Min: 10, HP Regen Max: 12, MP Regen Min: 10, MP Regen Max: 12, Muscle Percent: +30, Familiar Effect: "1xVolley, 1xLep, cap 45"
+raspberry beret	Hot Resistance: +2, Familiar Effect: "2xPotato, 2xLep, cap 12"
+ravioli hat	Familiar Effect: "atk, cap 2"
+red traffic cone	Moxie: +3, Cold Resistance: +2, Familiar Effect: "2xVolley, 2xLep, cap 15"
+reinforced beaded headband	Maximum HP: +40, Familiar Effect: "0.5xBarrr, 1xFairy, cap 42"
+safarrri hat	Maximum HP: +15, Familiar Effect: "2xVolley, cap 22"
+seal-skull helmet	Familiar Effect: "atk, cap 2"
+sequined fez	Moxie: +3, Familiar Effect: "1.75xLep, cap 20"
+shapeless wide-brimmed hat	HP Regen Min: 15, HP Regen Max: 20, MP Regen Min: 15, MP Regen Max: 20, Mysticality Percent: +5, Familiar Effect: "0.75xLep, 0x75xFairy"
+skeletortoise	Mysticality: +2, Familiar Effect: "spooky atk, 2xFairy, cap 7"
+snorkel	Familiar Effect: "atk, cap 2"
+spooky hockey mask	Spooky Resistance: +2, Spooky Damage: +3, Familiar Effect: "1xBarrr, 1.5xGhuol, cap 25"
+stainless steel skullcap	Maximum HP: +30, Damage Absorption: +60, Muscle Percent: +15, Familiar Effect: "1xLep, 1xFairy, cap 22"
+star hat	Maximum MP: +30, Familiar Effect: "0.5xVolley, 0.5xPotato, cap 41"
+stone baseball cap	Damage Reduction: 10, Melee Damage: +15, Muscle: -10, Familiar Effect: "1xVolley, cap 48"
+superhero mask	Moxie: +5, Muscle: +5, Mysticality: +5, Softcore Only, Familiar Effect: "?xLep, ?xFairy, cap 2"
+tattered paper crown	Muscle: +3, Familiar Effect: "1xSombrero, cap 15"
+time helmet	Adventures: +3, Familiar Effect: "0.5xPotato, 1xFairy, cap 25"
+toy space helmet	Stench Resistance: +3, Spooky Resistance: +3, Familiar Effect: "0.5xPotato, 1xFairy, cap 43"
+viking helmet	Muscle: +1, Familiar Effect: "atk, cap 5"
 webbed comic mask	Moxie: +5, Muscle: +5, Mysticality: +5, Softcore Only
-willowy bonnet	Maximum MP: +40
-wolf mask	Intrinsic Effect: "Complete Delusion"
-# wooden salad bowl
-wool hat	Damage Absorption: +20, Cold Resistance: +2
-worn tophat	Moxie: +7, Initiative: +20
-wreath of laurels	Muscle: +25, Maximum HP: +25, Maximum MP: +25
-yak toupee	MP Regen Min: 3, MP Regen Max: 4
-# yellow plastic hard hat
-yellow traffic cone	Moxie: +3, Sleaze Resistance: +2
+willowy bonnet	Maximum MP: +40, Familiar Effect: "?xFairy, cap 18"
+wolf mask	Intrinsic Effect: "Complete Delusion", Familiar Effect: "1xBarrr, HP regen, cap 37"
+wooden salad bowl	Familiar Effect: "atk, cap 30"
+wool hat	Damage Absorption: +20, Cold Resistance: +2, Familiar Effect: "1xLep, cap 43"
+worn tophat	Moxie: +7, Initiative: +20, Familiar Effect: "1xBarrr, 1xLep, cap 31"
+wreath of laurels	Muscle: +25, Maximum HP: +25, Maximum MP: +25, Familiar Effect: "0.5xLep, 0.5xFairy"
+yak toupee	MP Regen Min: 3, MP Regen Max: 4, Familiar Effect: "atk, 1xPotato, cap 25"
+yellow plastic hard hat	Familiar Effect: "atk, cap 22"
+yellow traffic cone	Moxie: +3, Sleaze Resistance: +2, Familiar Effect: "?xVolley, ?xLep, cap 15"
 
 # Pants section of modifiers.txt
 
@@ -1298,11 +1301,11 @@ Panda outfit	Familiar Weight: +5, Item Drop: +5
 Pretty Predator Clawicure Kit	Familiar Weight: +5
 Toddler-sized Dragon Costume	Familiar Weight: +5, Item Drop: +5
 annoying pitchfork	Monster Level: +5
-# ant hoe
-# ant pick
-# ant pitchfork
-# ant rake
-# ant sickle
+ant hoe	Familiar Effect: "sleaze damage, meat"
+ant pick	Familiar Effect: "cold damage, meat"
+ant pitchfork	Familiar Effect: "stench damage, meat"
+ant rake	Familiar Effect: "hot damage, meat"
+ant sickle	Familiar Effect: "spooky damage, meat"
 attention spanner	Familiar Weight: +5
 # badger badge
 blue suede shoes	Familiar Weight: +5
@@ -1332,7 +1335,7 @@ iced-out bling	Familiar Weight: +5
 icicle katana	Familiar Weight: +5
 lead necklace	Familiar Weight: +3
 limburger biker boots	Familiar Weight: +5
-little bitty bathysphere	Familiar Weight: -20
+little bitty bathysphere	Familiar Weight: -20, Familiar Effect: "adventure underwater"
 little box of fireworks	Familiar Weight: +5, Softcore Only
 lucky Tam O'Shanter	Meat Drop: +50, Softcore Only
 lucky Tam O'Shatner	Meat Drop: +50, Softcore Only
@@ -1353,7 +1356,7 @@ miniature gravy-covered maypole	Item Drop: +25, Softcore Only
 # moonglasses
 origami &quot;gentlemen's&quot; magazine	Softcore Only
 overclocked avian microprocessor	Familiar Weight: +5
-# oversized fish scaler
+oversized fish scaler	Familiar Effect: "attack"
 palm-frond toupee	Familiar Weight: +5
 # penguin-smacking club
 pet rock &quot;Groucho&quot; disguise	Familiar Weight: +11
