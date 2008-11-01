@@ -75,6 +75,7 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
 import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
+import net.sourceforge.kolmafia.swingui.panel.DailyDeedsPanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightSpinner;
@@ -571,6 +572,10 @@ public class AdventureSelectPanel
 
 		resultSelect.addItem( "Visited Locations" );
 		resultPanel.add( new GenericScrollPane( KoLConstants.adventureList, 4 ), String.valueOf( cardCount++ ) );
+
+		resultSelect.addItem( "Daily Deeds" );
+		resultPanel.add( new GenericScrollPane( new DailyDeedsPanel() ),
+			String.valueOf( cardCount++ ) );
 
 		resultSelect.addActionListener( new ResultSelectListener( resultCards, resultPanel, resultSelect, property ) );
 

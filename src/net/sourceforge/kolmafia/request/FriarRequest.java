@@ -39,6 +39,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.swingui.RequestFrame;
 
 public class FriarRequest
@@ -113,6 +114,7 @@ public class FriarRequest
 		}
 
 		RequestLogger.updateSessionLog( "friars blessing " + matcher.group( 1 ) );
+		Preferences.setBoolean( "friarsBlessingReceived", true );
 		return true;
 	}
 }

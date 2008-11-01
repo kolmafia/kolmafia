@@ -724,6 +724,11 @@ public abstract class KoLmafia
 		Preferences.setBoolean( "expressCardUsed", false );
 		Preferences.setBoolean( "oscusSodaUsed", false );
 		Preferences.setBoolean( "spiceMelangeUsed", false );
+		Preferences.setBoolean( "friarsBlessingReceived", false );
+		Preferences.setBoolean( "styxPixieVisited", false );
+		Preferences.setBoolean( "telescopeLookedHigh", false );
+		Preferences.setBoolean( "dailyDungeonDone", false );
+		Preferences.setBoolean( "libraryCardUsed", false );
 		Preferences.setInteger( "currentFullness", 0 );
 		Preferences.setInteger( "currentMojoFilters", 0 );
 		Preferences.setInteger( "currentSpleenUse", 0 );
@@ -1654,7 +1659,8 @@ public abstract class KoLmafia
 
 			int remainingIterations = totalIterations - currentIteration + 1;
 			int gumAmount = stopCount == 0 ? remainingIterations : Math.min( stopCount, remainingIterations );
-			if ( !InventoryManager.retrieveItem( ItemPool.CHEWING_GUM, gumAmount ) )
+			if ( !InventoryManager.hasItem( ItemPool.CHEWING_GUM ) &&
+				!InventoryManager.retrieveItem( ItemPool.CHEWING_GUM, gumAmount ) )
 			{
 				return;
 			}
