@@ -3502,6 +3502,6 @@
 3501	fancy canap&eacute;s	1	all	50
 3502	thermos of brew	3	all	50
 3503	giant glass of brandy	2	all	50
-3504	French slippers	8	none	0
-3505	LWA ring	8	none	0
-3506	LARP membership card	0	none	0
+3504	French slippers	8	display	0
+3505	LWA ring	8	display	0
+3506	LARP membership card	0	display	0
