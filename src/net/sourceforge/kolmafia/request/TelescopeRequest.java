@@ -48,7 +48,7 @@ public class TelescopeRequest
 {
 	public static final int HIGH = 1;
 	public static final int LOW = 2;
-	private static final Pattern WHERE_PATTERN = Pattern.compile( "action=telescope([^?]*)" );
+	private static final Pattern WHERE_PATTERN = Pattern.compile( "action=telescope([^&]*)" );
 
 	private final int where;
 
@@ -179,6 +179,10 @@ public class TelescopeRequest
 
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( "telescope look " + matcher.group( 1 ) );
+		if ( matcher.group( 1 ).equals( "high" ) )
+		{
+			Preferences.setBoolean( "telescopeLookedHigh", true );
+		}
 
 		return true;
 	}

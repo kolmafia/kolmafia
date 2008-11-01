@@ -179,6 +179,7 @@ user	currentPvpVictories
 user	currentSpleenUse	0
 user	currentWheelPosition	muscle
 user	customCombatScript	default
+user	dailyDungeonDone	false
 user	defaultAutoAttack	0
 user	defaultFlowerLossMessage
 user	defaultFlowerWinMessage
@@ -191,6 +192,7 @@ user	demonName6	Tatter
 user	demonName7	Ak'gyxoth
 user	expressCardUsed	false
 user	fratboysDefeated	0
+user	friarsBlessingReceived	false
 user	gourdItemCount	5
 user	grimoire1Summons	0
 user	grimoire2Summons	0
@@ -262,6 +264,7 @@ user	lastTowerClimb	-1
 user	lastVioletFogMap	0
 user	lastZapperWand	0
 user	libramSummons	0
+user	libraryCardUsed	false
 user	louvreDesiredGoal	7
 user	louvreGoal	0
 user	louvreLayout
@@ -313,6 +316,7 @@ user	stationaryButton2
 user	stationaryButton3
 user	stationaryButton4
 user	stationaryButton5
+user	styxPixieVisited	false
 user	tavernLayout	0000000000000000000000000
 user	telescope1
 user	telescope2
@@ -321,6 +325,7 @@ user	telescope4
 user	telescope5
 user	telescope6
 user	telescope7
+user	telescopeLookedHigh	false
 user	telescopeUpgrades	0
 user	thanksMessage	Thank you for the donation!
 user	timesRested	99

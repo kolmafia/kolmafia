@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.webui;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class DungeonDecorator
@@ -57,6 +58,10 @@ public abstract class DungeonDecorator
 		{
 			DungeonDecorator.dungeonRoom = StringUtilities.parseInt( roomMatcher.group( 1 ) );
 			DungeonDecorator.dungeonEncounter = "Encounter: " + roomMatcher.group( 2 );
+			if ( DungeonDecorator.dungeonRoom == 10 )
+			{
+				Preferences.setBoolean( "dailyDungeonDone", true );
+			}
 		}
 		else
 		{

@@ -55,6 +55,7 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.LogStream;
+import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
 import net.sourceforge.kolmafia.session.MoodManager;
@@ -70,6 +71,7 @@ public class Preferences
 
 	private static final String [] characterMap = new String[ 65536 ];
 	private static final HashMap checkboxMap = new HashMap();
+	private static final HashMap listenerMap = new HashMap();
 	private static final HashMap propertyNames = new HashMap();
 
 	private static final HashMap userNames = new HashMap();
@@ -505,6 +507,31 @@ public class Preferences
 				}
 			}
 		}
+
+		if ( Preferences.listenerMap.containsKey( name ) )
+		{
+			ArrayList list = (ArrayList) Preferences.listenerMap.get( name );
+			for ( int i = 0; i < list.size(); ++i )
+			{
+				WeakReference reference = (WeakReference) list.get( i );
+				ChangeListener listener = (ChangeListener) reference.get();
+				if ( listener != null )
+				{
+					try
+					{
+						listener.update();
+					}
+					catch ( Exception e )
+					{
+						// Don't let a botched listener interfere with
+						// the code that modified the preference.
+			
+						StaticEntity.printStackTrace( e );
+					}
+				}
+			}
+		}
+
 	}
 
 	private static final String propertyName( final String user, final String name )
@@ -527,6 +554,28 @@ public class Preferences
 		}
 
 		list.add( new WeakReference( checkbox ) );
+	}
+	
+	public interface ChangeListener
+	{
+		public void update();
+	}
+	
+	public static final void registerListener( String name, ChangeListener listener )
+	{
+		ArrayList list = null;
+
+		if ( Preferences.listenerMap.containsKey( name ) )
+		{
+			list = (ArrayList) Preferences.listenerMap.get( name );
+		}
+		else
+		{
+			list = new ArrayList();
+			Preferences.listenerMap.put( name, list );
+		}
+
+		list.add( new WeakReference( listener ) );
 	}
 
 	private static final void saveToFile( File file, TreeMap data )

@@ -1149,7 +1149,7 @@ public class UseItemRequest
 			{
 				ResultProcessor.processResult( item );
 			}
-
+			Preferences.setBoolean( "libraryCardUsed", true );
 			return;
 
 		case ItemPool.HEY_DEZE_MAP:
