@@ -50,6 +50,11 @@ public class TurnCounter
 	{
 		return this.image;
 	}
+	
+	public int getTurnsRemaining()
+	{
+		return this.value - KoLCharacter.getCurrentRun();
+	}
 
 	public boolean equals( final Object o )
 	{

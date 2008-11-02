@@ -658,7 +658,18 @@ public class GenericRequest
 			TurnCounter expired = TurnCounter.getExpiredCounter( this );
 			if ( expired != null )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, expired.getLabel() + " counter expired." );
+				int remain = expired.getTurnsRemaining();
+				if ( remain == 0 )
+				{
+					KoLmafia.updateDisplay( KoLConstants.ABORT_STATE,
+						expired.getLabel() + " counter expired." );
+				}
+				else
+				{
+					KoLmafia.updateDisplay( KoLConstants.ABORT_STATE,
+						expired.getLabel() + " counter will expire after " +
+						remain + " more turn" + ((remain == 1) ? "." : "s.") );
+				}
 				return;
 			}
 		}
