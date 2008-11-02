@@ -428,7 +428,7 @@ public class ResultProcessor
 			return;
 		}
 
-		String message = acquisition + " " + result.getName();
+		String message = acquisition + " " + result.toString();
 
 		RequestLogger.printLine( message );
 		if ( Preferences.getBoolean( "logAcquiredItems" ) )
