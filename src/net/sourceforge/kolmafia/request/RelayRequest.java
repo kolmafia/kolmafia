@@ -1232,9 +1232,20 @@ public class RelayRequest
 
 		if ( expired != null )
 		{
-			this.sendGeneralWarning(
-				expired.getImage(),
-				"The indicated counter has expired, so may wish to adventure somewhere else at this time.  If you are certain that this is where you'd like to adventure, click on the image to proceed." );
+			int remain = expired.getTurnsRemaining();
+			if ( remain == 0 )
+			{
+				this.sendGeneralWarning(
+					expired.getImage(),
+					"The indicated counter has expired, so may wish to adventure somewhere else at this time.  If you are certain that this is where you'd like to adventure, click on the image to proceed." );
+			}
+			else
+			{
+				this.sendGeneralWarning( expired.getImage(),
+					"The indicated counter will expire after " + remain +
+					" more turn" + ((remain != 1) ? "s" : "") +
+					", so may wish to adventure somewhere else at this time.  If you are certain that this is where you'd like to adventure, click on the image to proceed." );
+			}
 
 			return;
 		}
