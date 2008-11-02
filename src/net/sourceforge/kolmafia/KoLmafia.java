@@ -121,6 +121,7 @@ import net.sourceforge.kolmafia.swingui.LoginFrame;
 import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
 import net.sourceforge.kolmafia.swingui.listener.LicenseDisplayListener;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
+import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.PauseObject;
@@ -1328,6 +1329,8 @@ public abstract class KoLmafia
 				MoodManager.removeMalignantEffects();
 			}
 
+			this.invokeRecoveryScript( "HP", recover );
+
 			return this.recover(
 				recover, "hpAutoRecovery", "getCurrentHP", "getMaximumHP", HPRestoreItemList.CONFIGURES );
 		}
@@ -1406,6 +1409,8 @@ public abstract class KoLmafia
 	{
 		try
 		{
+			this.invokeRecoveryScript( "MP", mpNeeded );
+			
 			return this.recover(
 				mpNeeded, "mpAutoRecovery", "getCurrentMP", "getMaximumMP", MPRestoreItemList.CONFIGURES );
 		}
@@ -1416,6 +1421,25 @@ public abstract class KoLmafia
 
 			StaticEntity.printStackTrace( e );
 			return false;
+		}
+	}
+	
+	private void invokeRecoveryScript( String type, int needed )
+	{
+		String scriptName = Preferences.getString( "recoveryScript" );
+		if ( scriptName.length() == 0 )
+		{
+			return;
+		}
+		Interpreter interpreter = KoLmafiaASH.getInterpreter(
+			KoLmafiaCLI.findScriptFile( scriptName ) );
+		if ( interpreter != null )
+		{
+			interpreter.execute( "main", new String[]
+			{
+				type,
+				String.valueOf( needed )
+			} );
 		}
 	}
 

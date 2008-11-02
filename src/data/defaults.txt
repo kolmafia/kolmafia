@@ -292,6 +292,7 @@ user	preAscensionScript
 user	preBlackbirdFamiliar
 user	prismaticSummons	0
 user	reagentSummons	0
+user	recoveryScript
 user	relayCounters
 user	requireBoxServants	false
 user	retrieveContacts	true
