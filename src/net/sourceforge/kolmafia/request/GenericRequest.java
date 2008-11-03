@@ -664,7 +664,7 @@ public class GenericRequest
 					KoLmafia.updateDisplay( KoLConstants.ABORT_STATE,
 						expired.getLabel() + " counter expired." );
 				}
-				else
+				else if ( remain > 0 )
 				{
 					KoLmafia.updateDisplay( KoLConstants.ABORT_STATE,
 						expired.getLabel() + " counter will expire after " +
