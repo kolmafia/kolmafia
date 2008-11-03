@@ -43,6 +43,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.textui.parsetree.Scope;
+import net.sourceforge.kolmafia.textui.parsetree.Value;
 import net.sourceforge.kolmafia.textui.parsetree.VariableList;
 
 public class NamespaceInterpreter
@@ -58,14 +59,14 @@ public class NamespaceInterpreter
 		this.lastImportString = "";
 	}
 
-	public void execute( final String functionName, final String[] parameters )
+	public Value execute( final String functionName, final String[] parameters )
 	{
 		String importString = Preferences.getString( setting );
 		if ( importString.equals( "" ) )
 		{
 			KoLmafia.updateDisplay(
 				KoLConstants.ERROR_STATE, "No available namespace with function: " + functionName );
-			return;
+			return DataTypes.VOID_VALUE;
 		}
 
 		TreeMap imports = this.parser.getImports();
@@ -101,18 +102,18 @@ public class NamespaceInterpreter
 				{
 					// The user changed the script since it was validated
 					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, e.getMessage() );
-					return;
+					return DataTypes.VOID_VALUE;
 				}
 				catch ( Exception e )
 				{
 					StaticEntity.printStackTrace( e );
-					return;
+					return DataTypes.VOID_VALUE;
 				}
 			}
 
 			this.lastImportString = importString;
 		}
 
-		super.execute( functionName, parameters, shouldRefresh );
+		return super.execute( functionName, parameters, shouldRefresh );
 	}
 }

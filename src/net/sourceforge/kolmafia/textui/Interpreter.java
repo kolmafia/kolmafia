@@ -151,7 +151,7 @@ public class Interpreter
 		}
 	}
 
-	public void execute( final String functionName, final String[] parameters )
+	public Value execute( final String functionName, final String[] parameters )
 	{
 		String currentScript = this.getFileName() == null ? "<>" : "<" + this.getFileName() + ">";
 		String notifyList = Preferences.getString( "previousNotifyList" );
@@ -165,14 +165,15 @@ public class Interpreter
 			RequestThread.postRequest( notifier );
 		}
 
-                this.execute( functionName, parameters, true );
+		return this.execute( functionName, parameters, true );
 	}
 
-	public void execute( final String functionName, final String[] parameters, final boolean executeTopLevel )
+	public Value execute( final String functionName, final String[] parameters, final boolean executeTopLevel )
 	{
 		try
 		{
-			this.executeScope( this.scope, functionName, parameters, executeTopLevel );
+			return this.executeScope(
+				this.scope, functionName, parameters, executeTopLevel );
 		}
 		catch ( ScriptException e )
 		{
@@ -182,6 +183,7 @@ public class Interpreter
 		{
 			StaticEntity.printStackTrace( e, "", true );
 		}
+		return DataTypes.VOID_VALUE;
 	}
 
 	private Value executeScope( final Scope topScope, final String functionName, final String[] parameters,

@@ -41,6 +41,8 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.KoLmafiaASH;
+import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -59,6 +61,8 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
+
+import net.sourceforge.kolmafia.textui.Interpreter;
 
 public abstract class InventoryManager
 {
@@ -330,21 +334,33 @@ public abstract class InventoryManager
 
 		// Next, attempt to create the item from existing ingredients
 		// (if possible).
+		boolean scriptSaysBuy = false;
 
 		if ( creator != null && creator.getQuantityPossible() > 0 )
 		{
-			creator.setQuantityNeeded( Math.min( missingCount, creator.getQuantityPossible() ) );
-			RequestThread.postRequest( creator );
+			scriptSaysBuy = invokeBuyScript( item, missingCount, 2, false );
 			missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
 
 			if ( missingCount <= 0 )
 			{
 				return true;
 			}
-
-			if ( !KoLmafia.permitsContinue() )
+			if ( !scriptSaysBuy )
 			{
-				return false;
+				creator.setQuantityNeeded(
+					Math.min( missingCount, creator.getQuantityPossible() ) );
+				RequestThread.postRequest( creator );
+				missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
+	
+				if ( missingCount <= 0 )
+				{
+					return true;
+				}
+	
+				if ( !KoLmafia.permitsContinue() )
+				{
+					return false;
+				}
 			}
 		}
 
@@ -385,8 +401,20 @@ public abstract class InventoryManager
 
 		// If the item should be bought early, go ahead and purchase it
 		// now, after having checked the clan stash.
+		
+		if ( !scriptSaysBuy && shouldUseMall && !hasAnyIngredient( itemId ) )
+		{
+			scriptSaysBuy = mixingMethod == KoLConstants.NOCREATE ||
+				invokeBuyScript( item, missingCount, 0, true );
+			missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
 
-		if ( shouldUseNPCStore || shouldUseMall && !hasAnyIngredient( itemId ) )
+			if ( missingCount <= 0 )
+			{
+				return true;
+			}
+		}
+
+		if ( shouldUseNPCStore || scriptSaysBuy )
 		{
 			List results = StoreManager.searchMall( item.getName() );
 			StaticEntity.getClient().makePurchases(
@@ -435,30 +463,43 @@ public abstract class InventoryManager
 		case KoLConstants.MALUS:
 		case KoLConstants.STAFF:
 		case KoLConstants.MULTI_USE:
-
+			scriptSaysBuy = true;
 			break;
+
+		default:
+			scriptSaysBuy =
+				itemId == ItemPool.DOUGH || itemId == ItemPool.DISASSEMBLED_CLOVER;
+		}
+		
+		if (creator != null && mixingMethod != KoLConstants.NOCREATE )
+		{
+			scriptSaysBuy = invokeBuyScript( item, missingCount, 1, scriptSaysBuy );
+			missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
+
+			if ( missingCount <= 0 )
+			{
+				return true;
+			}
+		}
 
 		// If it's creatable, and you have at least one ingredient, see
 		// if you can make it via recursion.
 
-		default:
+		if ( creator != null && mixingMethod != KoLConstants.NOCREATE && !scriptSaysBuy )
+		{
+			creator.setQuantityNeeded( missingCount );
+			RequestThread.postRequest( creator );
 
-			if ( creator != null && itemId != ItemPool.DOUGH && itemId != ItemPool.DISASSEMBLED_CLOVER )
+			missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
+
+			if ( missingCount <= 0 )
 			{
-				creator.setQuantityNeeded( missingCount );
-				RequestThread.postRequest( creator );
+				return true;
+			}
 
-				missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
-
-				if ( missingCount <= 0 )
-				{
-					return true;
-				}
-
-				if ( !KoLmafia.permitsContinue() && isAutomated )
-				{
-					return false;
-				}
+			if ( !KoLmafia.permitsContinue() && isAutomated )
+			{
+				return false;
 			}
 		}
 
@@ -484,6 +525,29 @@ public abstract class InventoryManager
 			KoLConstants.ERROR_STATE, "You need " + missingCount + " more " + item.getName() + " to continue." );
 
 		return false;
+	}
+	
+	private static boolean invokeBuyScript( AdventureResult item, int qty,
+		int ingredientLevel, boolean defaultBuy )
+	{
+		String scriptName = Preferences.getString( "buyScript" );
+		if ( scriptName.length() == 0 )
+		{
+			return defaultBuy;
+		}
+		Interpreter interpreter = KoLmafiaASH.getInterpreter(
+			KoLmafiaCLI.findScriptFile( scriptName ) );
+		if ( interpreter != null )
+		{
+			return interpreter.execute( "main", new String[]
+			{
+				item.getName(),
+				String.valueOf( qty ),
+				String.valueOf( ingredientLevel ),
+				String.valueOf( defaultBuy )
+			} ).intValue() != 0;
+		}
+		return defaultBuy;
 	}
 
 	private static int getPurchaseCount( final int itemId, final int missingCount )
