@@ -46,6 +46,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.session.MoodManager;
@@ -85,11 +86,12 @@ public class MoodOptionsPanel
 			this.centerPanel.add( this.availableMoods, BorderLayout.NORTH );
 			MoodOptionsPanel.this.moodList = (JList) this.scrollComponent;
 
-			JPanel extraButtons = new JPanel( new GridLayout( 3, 1, 5, 5 ) );
+			JPanel extraButtons = new JPanel( new GridLayout( 4, 1, 5, 5 ) );
 
 			extraButtons.add( new NewMoodButton() );
 			extraButtons.add( new DeleteMoodButton() );
 			extraButtons.add( new CopyMoodButton() );
+			extraButtons.add( new ExecuteButton() );
 
 			JPanel buttonHolder = new JPanel( new BorderLayout() );
 			buttonHolder.add( extraButtons, BorderLayout.NORTH );
@@ -194,6 +196,20 @@ public class MoodOptionsPanel
 				MoodManager.copyTriggers( moodName );
 				MoodManager.setMood( moodName );
 				MoodManager.saveSettings();
+			}
+		}
+
+		private class ExecuteButton
+			extends ThreadedButton
+		{
+			public ExecuteButton()
+			{
+				super( "execute" );
+			}
+
+			public void run()
+			{
+				KoLmafiaCLI.DEFAULT_SHELL.executeLine( "mood execute" );
 			}
 		}
 	}
