@@ -559,14 +559,21 @@ public class EquipmentManager {
 	}
 
 	/**
-	 * Accessor method to determine if character's weapon is ranged
+	 * Accessor method to determine which stat determines the character's
+	 * chance to hit.
 	 *
-	 * @return boolean true if weapon is ranged
+	 * @return int MOXIE or MUSCLE
 	 */
 
 	public static final int getHitStatType()
 	{
-		return EquipmentDatabase.getWeaponType( getEquipment( WEAPON ).getName() );
+		switch ( EquipmentDatabase.getWeaponType( getEquipment( WEAPON ).getName() ) )
+		{
+		case KoLConstants.MOXIE:
+			return KoLConstants.MOXIE;
+		default:
+			return KoLConstants.MUSCLE;
+		}
 	}
 
 	/**
@@ -579,12 +586,13 @@ public class EquipmentManager {
 	{
 		switch ( getHitStatType() )
 		{
-		case KoLConstants.MOXIE:
-			return KoLCharacter.getAdjustedMoxie();
+		default:
+		case KoLConstants.MUSCLE:
+			return KoLCharacter.getAdjustedMuscle();
 		case KoLConstants.MYSTICALITY:
 			return KoLCharacter.getAdjustedMysticality();
-		default:
-			return KoLCharacter.getAdjustedMuscle();
+		case KoLConstants.MOXIE:
+			return KoLCharacter.getAdjustedMoxie();
 		}
 	}
 
