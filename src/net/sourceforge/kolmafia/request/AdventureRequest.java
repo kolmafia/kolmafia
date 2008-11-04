@@ -43,6 +43,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -531,28 +532,39 @@ public class AdventureRequest
 
 	private static final String translateHoboType( final String encounter )
 	{
+		String override = null;
 		switch ( KoLAdventure.lastAdventureId() )
 		{
 		case 167:
 			// Hobopolis Town Square
-			return encounter.startsWith( "Hodgman" ) ? encounter : "Normal Hobo";
+			override = "Normal Hobo";
+			break;
 		case 168:
 			// Burnbarrel Blvd.
-			return encounter.equals( "Ol' Scratch" ) ? encounter : "Hot Hobo";
+			override = "Hot Hobo";
+			break;
 		case 169:
 			// Exposure Esplanade
-			return encounter.equals( "Frosty" ) ? encounter : "Cold Hobo";
+			override = "Cold Hobo";
+			break;
 		case 170:
 			// The Heap
-			return encounter.equals( "Oscus" ) ? encounter : "Stench Hobo";
+			override = "Stench Hobo";
+			break;
 		case 171:
 			// The Ancient Hobo Burial Ground
-			return encounter.equals( "Zombo" ) ? encounter : "Spooky Hobo";
+			override = "Spooky Hobo";
+			break;
 		case 172:
 			// The Purple Light District
-			return encounter.equals( "Chester" ) ? encounter : "Sleaze Hobo";
+			override = "Sleaze Hobo";
+			break;
 		}
-
+		
+		if ( override != null && MonsterDatabase.findMonster( encounter, false ) == null )
+		{
+			return override;
+		}
 		return encounter;
 	}
 

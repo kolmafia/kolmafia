@@ -138,6 +138,7 @@ Bizarre Construct	HP: 300 Atk: 300	El Vibrato punchcard (97 holes)	El Vibrato pu
 Black Adder	HP: 124 Def: 127 Atk: 129 Meat: 80-120	adder bladder (30)	black snake skin (15)	sunken eyes (0)
 Black Knight	HP: 135 Def: 135 Atk: 123 Meat: 73-105	black greaves (15)	black helmet (15)	black shield (15)	black sword (15)
 Black Panther	HP: 127 Def: 125 Atk: 133 Meat: 120-180	Black No. 2 (20)	broken wings (0)
+Black Pudding	HP: 40 Atk: 50	black pudding (100)	black pudding (100)
 Black Widow	HP: 120 Def: 132 Atk: 129 Meat: 40-60	black pension check (30)	black picnic basket (15)
 Blackberry Bush	HP: 136 Def: 127 Atk: 126	blackberry (15)	blackberry (15)	blackberry (15)
 Blooper	HP: 15 Def: 25 Atk: 25	white pixel (70)	white pixel (70)	white pixel (70)
@@ -263,6 +264,7 @@ Ghuol	HP: 10 Def: 19 Atk: 19 E: spooky Meat: 30-36	ghuol egg (25)	ghuol ears (25
 Giant Giant Giant Centipede	HP: 142	centipede eggs (20)	handful of sand (25)	handful of sand (15)
 Giant Giant Moth	HP: 11 Def: 12 Atk: 11
 Giant Pair of Tweezers	HP: 8 Def: 18 Atk: 16
+Giant Sandworm	HP: 200 Def: 185 Atk: 175 Meat: 200-300	spices (10)	spices (10)	spices (10)	spice melange (0)
 Giant Skeelton	HP: 130 Def: 73 Atk: 77 E: spooky	skeleton bone (0)	skeleton bone (0)	skeleton bone (0)
 Giant Zombie Goldfish	HP: 260	decaying goldfish liver (0)	sewer nuggets (0)	sewer nuggets (0)
 Gift-wrapping Vampire		evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
@@ -642,3 +644,16 @@ dwarvish gnome	HP: 0
 spelunking astronaut	HP: 0
 velvet underground dweller	HP: 0
 weather underground dweller	HP: 0
+
+# Feast of Boris
+Candied Yam Golem	HP: 0
+Malevolent Tofurkey	HP: 0
+Possessed Can of Cranberry Sauce	HP: 0
+Stuffing Golem	HP: 0
+
+# El Dia de los Whatever
+El Novio Cad&acute;ver	HP: 0
+El Padre Cad&acute;ver	HP: 0
+La Novia Cad&acute;ver	HP: 0
+La Persona Inocente Cad&acute;ver	HP: 0
+
