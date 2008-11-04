@@ -48,7 +48,8 @@ import java.util.HashMap;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -69,6 +70,9 @@ import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.IntegerArray;
 import net.sourceforge.kolmafia.utilities.StringArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 public class ItemDatabase
 	extends KoLDatabase
@@ -477,9 +481,8 @@ public class ItemDatabase
 		range = range.trim();
 
 		boolean isNegative = range.startsWith( "-" );
-		if ( range.startsWith( "-" ) )
+		if ( isNegative )
 		{
-			isNegative = true;
 			range = range.substring( 1 );
 		}
 
@@ -2328,5 +2331,232 @@ public class ItemDatabase
 		{
 			report.println( itemId + "\t" + descId + "\t" + name + "\t" + plural );
 		}
+	}
+
+	public static final void checkConsumptionData()
+	{
+		RequestLogger.printLine( "Checking consumption data..." );
+
+		PrintStream writer = LogStream.openStream( new File( UtilityConstants.DATA_LOCATION, "consumption.txt" ), true );
+
+		ItemDatabase.checkEpicure( writer );
+		ItemDatabase.checkMixologist( writer );
+
+		writer.close();
+	}
+
+	private static final String EPICURE = "http://www.feesher.com/epicure/export_data.php";
+
+	private static final void checkEpicure( final PrintStream writer )
+	{
+		RequestLogger.printLine( "Connecting to Well-Tempered Epicure..." );
+		Document doc = getXMLDocument( EPICURE );
+
+		if ( doc == null )
+		{
+			return;
+		}
+
+		writer.println( KoLConstants.FULLNESS_VERSION );
+		writer.println( "# Data provided courtesy of the Garden of Earthly Delights" );
+		writer.println( "# The Well-Tempered Epicure: " + EPICURE );
+		writer.println();
+		writer.println( "# Food" + "\t" + "Fullness" + "\t" + "Level Req" + "\t" + "Adv" + "\t" + "Musc" + "\t" + "Myst" + "\t" + "Moxie" );
+		writer.println();
+
+		NodeList elements = doc.getElementsByTagName( "iteminfo" );
+
+		for ( int i = 0; i < elements.getLength(); i++ )
+		{
+			Node element = elements.item( i );
+			checkFood( element, writer );
+		}
+	}
+
+	private static final void checkFood( final Node element, final PrintStream writer )
+	{
+		String name= "";
+		String advs= "";
+		String musc= "";
+		String myst= "";
+		String mox= "";
+		String fullness= "";
+		String level= "";
+
+		for ( Node node = element.getFirstChild(); node != null; node = node.getNextSibling() )
+		{
+			String tag = node.getNodeName();
+			Node child = node.getFirstChild();
+
+			if ( tag.equals( "title" ) )
+			{
+				name = ItemDatabase.getStringValue( child );
+			}
+			else if ( tag.equals( "advs" ) )
+			{
+				advs = ItemDatabase.getNumericValue( child );
+			}
+			else if ( tag.equals( "musc" ) )
+			{
+				musc = ItemDatabase.getNumericValue( child );
+			}
+			else if ( tag.equals( "myst" ) )
+			{
+				myst = ItemDatabase.getNumericValue( child );
+			}
+			else if ( tag.equals( "mox" ) )
+			{
+				mox = ItemDatabase.getNumericValue( child );
+			}
+			else if ( tag.equals( "fullness" ) )
+			{
+				fullness = ItemDatabase.getNumericValue( child );
+			}
+			else if ( tag.equals( "level" ) )
+			{
+				level = ItemDatabase.getNumericValue( child );
+			}
+		}
+
+		String line = name + "\t" + fullness + "\t" + level + "\t" + advs + "\t" + musc + "\t" + myst + "\t" + mox;
+
+		Integer present = (Integer) ItemDatabase.fullnessByName.get( StringUtilities.getCanonicalName( name ) );
+
+		if ( present == null )
+		{
+			writer.println( "# Unknown food:" );
+			writer.print( "# " );
+		}
+
+		writer.println( line );
+	}
+
+	private static final String MIXOLOGIST = "http://www.feesher.com/mixology/export_data.php";
+
+	private static final void checkMixologist( final PrintStream writer )
+	{
+		RequestLogger.printLine( "Connecting to Well-Tempered Mixologist..." );
+		Document doc = getXMLDocument( MIXOLOGIST );
+
+		if ( doc == null )
+		{
+			return;
+		}
+
+		writer.println( KoLConstants.INEBRIETY_VERSION );
+		writer.println( "# Data provided courtesy of the Garden of Earthly Delights" );
+		writer.println( "# The Well-Tempered Mixologist: " + MIXOLOGIST );
+		writer.println();
+		writer.println( "# Drink" + "\t" + "Inebriety" + "\t" + "Level Req" + "\t" + "Adv" + "\t" + "Musc" + "\t" + "Myst" + "\t" + "Moxie" );
+		writer.println();
+
+		NodeList elements = doc.getElementsByTagName( "iteminfo" );
+
+		for ( int i = 0; i < elements.getLength(); i++ )
+		{
+			Node element = elements.item( i );
+			checkBooze( element, writer );
+		}
+	}
+
+	private static final void checkBooze( final Node element, final PrintStream writer )
+	{
+		String name= "";
+		String advs= "";
+		String musc= "";
+		String myst= "";
+		String mox= "";
+		String drunk= "";
+		String level= "";
+
+		for ( Node node = element.getFirstChild(); node != null; node = node.getNextSibling() )
+		{
+			String tag = node.getNodeName();
+			Node child = node.getFirstChild();
+
+			if ( tag.equals( "title" ) )
+			{
+				name = ItemDatabase.getStringValue( child );
+			}
+			else if ( tag.equals( "advs" ) )
+			{
+				advs = ItemDatabase.getNumericValue( child );
+			}
+			else if ( tag.equals( "musc" ) )
+			{
+				musc = ItemDatabase.getNumericValue( child );
+			}
+			else if ( tag.equals( "myst" ) )
+			{
+				myst = ItemDatabase.getNumericValue( child );
+			}
+			else if ( tag.equals( "mox" ) )
+			{
+				mox = ItemDatabase.getNumericValue( child );
+			}
+			else if ( tag.equals( "drunk" ) )
+			{
+				drunk = ItemDatabase.getNumericValue( child );
+			}
+			else if ( tag.equals( "level" ) )
+			{
+				level = ItemDatabase.getNumericValue( child );
+			}
+		}
+
+
+		String line = name + "\t" + drunk + "\t" + level + "\t" + advs + "\t" + musc + "\t" + myst + "\t" + mox;
+
+		Integer present = (Integer) ItemDatabase.inebrietyByName.get( StringUtilities.getCanonicalName( name ) );
+
+		if ( present == null )
+		{
+			writer.println( "# Unknown booze:" );
+			writer.print( "# " );
+		}
+
+		writer.println( line );
+	}
+
+	private static final String getStringValue( final Node node )
+	{
+		return StringUtilities.getEntityEncode( node.getNodeValue().trim() );
+	}
+
+	private static final String getNumericValue( final Node node )
+	{
+		String value = node.getNodeValue().trim();
+
+		int sign = value.startsWith( "-" ) ? -1 : 1;
+		if ( sign == -1 )
+		{
+			value = value.substring( 1 );
+		}
+
+		int dash = value.indexOf( "-" );
+		if ( dash == -1 )
+		{
+			return String.valueOf( sign * StringUtilities.parseInt( value ) );
+		}
+
+		int first = sign * StringUtilities.parseInt( value.substring( 0, dash) );
+		int second = StringUtilities.parseInt( value.substring( dash + 1 ) );
+		return String.valueOf( first ) + "-" + String.valueOf( second );
+	}
+
+	private static final Document getXMLDocument( final String uri )
+	{
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		try
+		{
+			DocumentBuilder db = dbf.newDocumentBuilder();
+			return db.parse( uri );
+		}
+		catch ( Exception e )
+		{
+			RequestLogger.printLine( "Failed to parse XML document from \"" + uri + "\"" );
+		}
+
+		return null;
 	}
 }
