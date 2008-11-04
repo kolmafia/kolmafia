@@ -58,6 +58,7 @@ public class ChatRequest
 	{
 		CHANNEL_COMMANDS.add( "/em" );
 		CHANNEL_COMMANDS.add( "/me" );
+		CHANNEL_COMMANDS.add( "/ann" );
 	}
 
 	private static final Pattern LASTSEEN_PATTERN = Pattern.compile( "<!--lastseen:(\\d+)-->" );
