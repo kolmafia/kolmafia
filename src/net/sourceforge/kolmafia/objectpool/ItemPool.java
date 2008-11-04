@@ -517,6 +517,9 @@ public class ItemPool
 	public static final int GIFTH = 3430;
 	public static final int SPICE_MELANGE = 3433;
 	public static final int BATHYSPHERE = 3470;
+	public static final int STICKER_BOOK = 3507;
+	public static final int STICKER_SWORD = 3508;
+	public static final int STICKER_CROSSBOW = 3526;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

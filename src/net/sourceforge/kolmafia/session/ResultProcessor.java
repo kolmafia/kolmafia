@@ -882,6 +882,21 @@ public class ResultProcessor
 		
 		switch ( result.getItemId() )
 		{
+		// Sticker weapons may have been folded from the other form
+		case ItemPool.STICKER_SWORD:
+			if ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.STICKER_CROSSBOW, 1 ) ) )
+			{
+				ResultProcessor.processItem( ItemPool.STICKER_CROSSBOW, -1 );
+			}
+			break;
+			
+		case ItemPool.STICKER_CROSSBOW:
+			if ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.STICKER_SWORD, 1 ) ) )
+			{
+				ResultProcessor.processItem( ItemPool.STICKER_SWORD, -1 );
+			}
+			break;
+			
 		case ItemPool.SOCK:
 			// If you get a S.O.C.K., you lose all the Immateria
 			ResultProcessor.processItem( ItemPool.TISSUE_PAPER_IMMATERIA, -1 );

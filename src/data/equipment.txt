@@ -578,6 +578,9 @@ savory crossbow	80	Mox: 25	2-handed crossbow
 savory staff	80	Mus: 25	2-handed staff
 savory sword	80	Mus: 25	1-handed sword
 scorpion whip	20	Mus: 0	1-handed whip
+# scratch 'n' sniff weapons have variable power, 10xLevel max 100
+scratch 'n' sniff sword	100	Mus: 0	1-handed sword
+scratch 'n' sniff crossbow	100	Mox: 0	1-handed crossbow
 seal-clubbing club	10	Mus: 0	1-handed club
 serpentine sword	115	Mus: 42	1-handed sword
 shiny butcherknife	30	Mys: 0	1-handed utensil

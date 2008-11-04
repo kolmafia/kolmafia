@@ -3511,3 +3511,23 @@
 3504	998896442	French slippers
 3505	616784691	LWA ring
 3506	589734444	LARP membership card
+3507	125077165	Scratch 'n' Sniff Sticker Tome
+3508	357198453	scratch 'n' sniff sword
+3509	770830221	scratch 'n' sniff unicorn sticker	scratch 'n' sniff unicorn stickers
+3510	198703778	scratch 'n' sniff apple sticker	scratch 'n' sniff apple stickers
+3511	851366427	scratch 'n' sniff UPC sticker	scratch 'n' sniff UPC stickers
+3512	996652180	scratch 'n' sniff wrestler sticker	scratch 'n' sniff wrestler stickers
+3513	116270748	scratch 'n' sniff dragon sticker	scratch 'n' sniff dragon stickers
+3514	793884084	scratch 'n' sniff rock band sticker	scratch 'n' sniff rock band stickers
+3515
+3516
+3517
+3518
+3519
+3520
+3521
+3522
+3523
+3524
+3525
+3526	954957871	scratch 'n' sniff crossbow

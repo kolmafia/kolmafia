@@ -390,9 +390,28 @@ public class UseItemRequest
 
 		int itemId = this.itemUsed.getItemId();
 		int count;
+		
+		switch ( itemId )
+		{
+		case ItemPool.STICKER_SWORD:
+		case ItemPool.STICKER_CROSSBOW:
+			if ( !InventoryManager.retrieveItem( this.itemUsed ) )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+					"You don't have one of those." );
+				return;
+			}
+			( new GenericRequest( "bedazzle.php?action=fold&pwd" ) ).run();
+			return;
+		}
 
 		switch ( this.consumptionType )
 		{
+		case KoLConstants.CONSUME_STICKER:
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+				"(not implemented yet, sorry)" );
+			return;
+		
 		case KoLConstants.EQUIP_HAT:
 		case KoLConstants.EQUIP_WEAPON:
 		case KoLConstants.EQUIP_OFFHAND:
@@ -1507,6 +1526,7 @@ public class UseItemRequest
 		case ItemPool.TASTEFUL_BOOK:
 		case ItemPool.CANDY_BOOK:
 		case ItemPool.DIVINE_BOOK:
+		case ItemPool.STICKER_BOOK:
 
 			// "You've already got a Libram of Divine Favors on
 			// your bookshelf."
@@ -1540,6 +1560,9 @@ public class UseItemRequest
 				break;
 			case ItemPool.DIVINE_BOOK:
 				KoLCharacter.addAvailableSkill( "Summon Party Favor" );
+				break;
+			case ItemPool.STICKER_BOOK:
+				KoLCharacter.addAvailableSkill( "Summon Stickers" );
 				break;
 			}
 

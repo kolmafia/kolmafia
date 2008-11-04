@@ -647,6 +647,7 @@ savory crossbow	Moxie: +4
 savory staff	Mysticality: +4
 savory sword	Muscle: +4
 scorpion whip	Melee Damage: +13
+# scratch 'n' sniff sword
 # seal-clubbing club
 serpentine sword	Monster Level: +10
 shiny butcherknife	Spell Damage: +5
@@ -1392,6 +1393,14 @@ velvet choker	Familiar Weight: +5
 wax lips	Experience: +3, Softcore Only
 # weegee sqouija
 woolen cravat	Familiar Weight: +5
+
+# Bedazzlements section of modifiers.txt
+scratch 'n' sniff unicorn sticker	Item Drop: +25
+scratch 'n' sniff apple sticker	Experience: +2
+scratch 'n' sniff UPC sticker	Meat Drop: +25
+scratch 'n' sniff wrestler sticker	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
+scratch 'n' sniff dragon sticker	Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3
+scratch 'n' sniff rock band sticker	Melee Damage: +20
 
 # Special case overrides
 
