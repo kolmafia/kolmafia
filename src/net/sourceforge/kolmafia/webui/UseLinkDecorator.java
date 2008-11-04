@@ -141,6 +141,11 @@ public abstract class UseLinkDecorator
 				"</center></blockquote>",
 				"<p><center><a href=\"inv_use.php?pwd=" + GenericRequest.passwordHash + "&which=2&whichitem=" + specialLinkId + "\">[" + specialLinkText + " it again]</a></center></blockquote>" );
 		}
+		
+		StringUtilities.singleStringReplace( buffer,
+			"A sticker falls off your weapon, faded and torn.",
+			"A sticker falls off your weapon, faded and torn. <font size=1>" +
+			"[<a href=\"bedazzle.php\">bedazzle</a>]</font>" );
 	}
 
 	private static final boolean shouldAddCreateLink( int itemId, String location )
@@ -247,7 +252,6 @@ public abstract class UseLinkDecorator
 
 		if ( link == null )
 		{
-			useLinkMatcher.appendReplacement( buffer, "$0" );
 			return;
 		}
 
