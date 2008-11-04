@@ -3505,3 +3505,23 @@
 3504	French slippers	8	display	0
 3505	LWA ring	8	display	0
 3506	LARP membership card	0	display	0
+3507	Scratch 'n' Sniff Sticker Tome	3	all	0
+3508	scratch 'n' sniff sword	12	none	0
+3509	scratch 'n' sniff unicorn sticker	24	all	30
+3510	scratch 'n' sniff apple sticker	24	all	30
+3511	scratch 'n' sniff UPC sticker	24	all	30
+3512	scratch 'n' sniff wrestler sticker	24	all	30
+3513	scratch 'n' sniff dragon sticker	24	all	30
+3514	scratch 'n' sniff rock band sticker	24	all	30
+3515
+3516
+3517
+3518
+3519
+3520
+3521
+3522
+3523
+3524
+3525
+3526	scratch 'n' sniff crossbow	12	none	0
