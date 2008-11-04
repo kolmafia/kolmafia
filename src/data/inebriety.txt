@@ -1,64 +1,36 @@
 1
 # Data provided courtesy of the Garden of Earthly Delights
-# The Well-Tempered Mixologist
-# http://www.feesher.com/mixology/index.php
+# The Well-Tempered Mixologist: http://www.feesher.com/mixology/export_data.php
 
+# Drink	Inebriety	Level Req	Adv	Musc	Myst	Moxie
 
-# Drink	Drunk	Level Req	Adv	Musc	Myst	Moxie
-
-Acqua Del Piatto Merlot	1	10	6-10	60	60	60
-Acque Luride Grezze Cabernet	1	10	6-10	60	60	60
-Blackfly Chardonnay	3	7	5-6	0	0	25-45
-Bottle of Pinot Renoir	2	4	4-8	30	18	0
-Corpse Island iced tea	6	5	21	25	29	26
-Cyder	3	5	5	0	0	0
-Divine	4	6	14-18	16-20	25-27	0
-Ferita Del Petto Zinfandel	1	10	6-10	60	60	60
-Gordon Bennett	4	6	14-18	16-20	25-27	0
-Grimacite Bock	1	8	6-10	65	64	62
-Hi-Octane Peppermint Oil	5	5	10-15	0	0	0
-Hodgman's blanket	2	15	14-16	300-800	300-800	300-800
-Imp Ale	1	1	1-2	7-8	0	-5
-Infinitesimal IPA	3	1	3-9	0	0	0
-Mad Train wine	3	1	3-4	0	0	0
-Mae West	4	6	14-18	0	0	40-47
-Maiali Sifilitici Pinot Noir	1	10	6-10	60	60	60
-McMillicancuddy's Special Lager	1	10	2-4	10-15	10-15	10-15
-Mon Tiki	4	6	14-18	40-47	0	0
-Morlock's Mark Bourbon	4	4	12-14	22-28	22-28	17-21
-Mt. Noob Pale Ale	2	1	4-9	0	0	0
-Neuromancer	4	6	14-18	25-27	0	16-20
-Oil Nog	4	5	7-9	0	0	0
-Oreille Divis&eacute;e brandy	3	4	12-15	15-25	15-25	15-25
-Pan-Dimensional Gargle Blaster	5	12	25-27	77-97	61-69	56-70
-Petite Porter	3	4	3-5	0	0	0
-Ralph IX cognac	6	15	55-58	229-247	228-300	227-289
-Ram's Face Lager	1	2	1-4	8-10	0	0
-Scrawny Stout	3	6	3-6	0	0	0
-Spasmi Dolorosi Del Rene Champagne	1	10	6-10	60	60	60
-Supernova Champagne	3	8	7-11	8-12	8-12	8-12
-Uovo Marcio Shiraz	1	10	6-10	60	60	60
 a little sump'm sump'm	4	4	10-14	0	25-27	8-10
-accidental cider	3	1	4-6	0	0	0
+accidental cider	3	1	3-6	0	0	0
+acqua del piatto merlot	1	10	6-10	60	60	60
+acque luride grezze cabernet	1	10	6-10	60	60	60
 around the world	4	4	10-14	0-30	0-30	0-30
-banana daiquiri	3	3	6-11	10-26	10-26	17-43
+# arthur finn's world-record homebrew stout	5	1	40-60	533-897	0	0
+banana daiquiri	3	3	6-10	10-26	10-26	17-43
+# bathtub jimmy's gin mill	5	1	40-60	0	0	600-879
 beertini	3	2	4-8	0	10-12	10-12
 bilge wine	3	1	3-6	0	0	0
 black & tan	2	7	6-7	10-12	10-12	10-12
+blackfly chardonnay	3	7	5-6	0	0	25-45
 bloody beer	1	1	1-2	0	0	0
-bloody mary	3	1	3-6	1-2	1-2	1-2
+bloody mary	3	1	5-6	1-2	1-2	1-2
 bodyslam	6	6	22-26	16-20	0	0
-boilermaker	4	12	10-12	10-15	10-15	10-15
-bottle of Calcutta Emerald	3	2	4-8	0	0	0
-bottle of Definit	3	2	4-8	0	0	0
-bottle of Domesticated Turkey	3	2	4-8	0	0	0
-bottle of Jorge Sinsonte	3	2	4-8	0	0	0
-bottle of Lieutenant Freeman	3	2	4-8	0	0	0
-bottle of Ooze-O	3	1	0	0	0	0
-bottle of Pete's Sake	3	2	4-8	0	0	0
-bottle of cooking sherry	2	1	2-3	0	0	0
+boilermaker	4	12	11-15	25-29	10-15	10-15
+bottle of calcutta emerald	3	2	4-8	0	0	0
+bottle of cooking sherry	2	1	2-4	0	0	0
+bottle of definit	3	2	4-8	0	0	0
+bottle of domesticated turkey	3	2	4-8	0	0	0
 bottle of gin	3	1	3	0	0	0
-bottle of popskull	2	1	2-4	0	0	0
+bottle of jorge sinsonte	3	2	4-8	0	0	0
+bottle of lieutenant freeman	3	2	4-8	0	0	0
+bottle of ooze-o	3	1	0	0	0	0
+bottle of pete's sake	3	2	4-8	0	0	0
+bottle of pinot renoir	2	2	4-8	30	18	0
+bottle of popskull	2	2	2-4	0	0	0
 bottle of realpagne	2	2	5-8	0	0	12-18
 bottle of rum	3	1	3	0	0	0
 bottle of sake	3	1	3	0	0	0
@@ -73,95 +45,122 @@ braincracker sweet	5	1	10-15	9-11	9-11	9-11
 bungle in the jungle	4	7	13-17	40-99	54-118	31-122
 caipifruta	3	3	5-10	16-20	0	0
 calle de miel	4	4	10-14	8-10	0	25-27
-can of Swiller	1	10	2-4	10-15	0	0
+can of swiller	1	10	2-4	10-15	0	0
 candycaine	4	1	7-10	8-9	8-9	8-9
 cherry bomb	6	6	22-26	0	16-20	0
 cool mushroom wine	3	6	10-14	0	8-10	0
-corpse on the beach	6	5	20	0	72	0
-corpsebite	3	1	8	10	10	10
-corpsedriver	6	5	20	72	0	0
-corpsetini	6	5	22	0	0	72
-cream stout	1	3	2-4	8-10	8-10	8-10
+corpse island iced tea	6	5	19-25	25-30	25-30	25-30
+corpse on the beach	6	5	19-25	0	71-75	0
+corpsebite	3	1	6-10	11-15	11-15	11-15
+corpsedriver	6	5	19-25	70-74	0	0
+corpsetini	6	5	19-25	0	0	70-75
+cream stout	1	3	1-4	8-10	8-10	8-10
 cruelty-free wine	1	10	2-4	0	10-15	0
 cup of primitive beer	1	12	2-5	50-65	0	0
-cursed bottle of black-label rum	3	3	5-9	0	0	0
+cursed bottle of black-label rum	3	3	5-10	0	0	0
 cursed bottle of rum	1	1	1	0	0	0
+cyder	3	5	5	0	0	0
 dirty martini	6	6	22-26	0	0	16-20
 distilled fortified wine	1	1	5-6	5-6	5-6	5-6
+divine	4	6	14-18	16-20	25-27	0
 dry martini	3	3	5-10	0	0	8-10
 dry vodka martini	3	3	5-10	0	0	8-10
 ducha de oro	4	4	10-14	8-10	25-27	0
-dusty bottle of Marsala	2	1	0	0	0	0
-dusty bottle of Merlot	2	1	0	0	0	0
-dusty bottle of Muscat	2	1	0	0	0	0
-dusty bottle of Pinot Noir	2	1	0	0	0	0
-dusty bottle of Port	2	1	0	0	0	0
-dusty bottle of Zinfandel	2	1	0	0	0	0
+dusty bottle of marsala	2	1	0	0	0	0
+dusty bottle of merlot	2	1	0	0	0	0
+dusty bottle of muscat	2	1	0	0	0	0
+dusty bottle of pinot noir	2	1	0	0	0	0
+dusty bottle of port	2	1	0	0	0	0
+dusty bottle of zinfandel	2	1	0	0	0	0
 ecto-nog	3	1	3-6	5-6	5-6	5-6
 eggnog	3	3	5-10	0	17-30	18-30
-eggnogtini	3	1	3-5	5-7	5-7	5-7
-especially salty dog	4	4	9-15	32-50	32-50	32-50
+eggnogtini	3	3	3-5	5-7	5-7	5-7
+especially salty dog	4	4	9-13	32-50	32-50	32-50
 extra-spicy bloody mary	3	3	5-10	5-11	5-11	5-11
+ferita del petto zinfandel	1	10	6-10	60	60	60
 fermented honey	3	1	3-6	5-6	5-6	5-6
 fine wine	1	1	1-3	0	0	3-5
 flaming mushroom wine	3	6	10-14	12-15	0	0
-flask of Amontillado	4	4	10-15	10-30	15-30	10-30
+flask of amontillado	4	4	10-15	10-30	15-30	10-30
 flat mushroom wine	3	6	10-14	8-10	0	0
-flute of flat champagne	2	2	3-6	0	15	0
+flute of flat champagne	2	2	2-7	0	15	0
 fuzzbump	4	4	10-14	34-36	0	0
 giant glass of brandy	3	5	8-11	25-40	25-40	25-40
 gibson	3	3	5-10	0	0	16-20
 gimlet	4	6	14-18	0	40-47	0
-gin	5	1	10-15	9-10	9-10	9-10
+gin	5	6	10-15	9-10	9-10	9-10
 gin and tonic	3	3	5-10	0	16-20	0
-gloomy mushroom wine	3	7	13-17	12-15	13-15	12-15
+gloomy mushroom wine	3	7	12-17	12-15	13-15	12-15
+gordon bennett	4	6	14-18	16-20	25-27	0
 green beer	1	1	1-3	0	0	0
+grimacite bock	1	8	4-10	65	64	62
 grog	3	3	5-10	8-10	0	0
 grogtini	6	6	22-26	16-20	0	0
+hi-octane peppermint oil	5	5	10-15	0	0	0
+hodgman's blanket	2	15	14-16	300-800	300-800	300-800
 horizontal tango	4	4	10-14	0	34-36	0
-hot choculate	5	1	10-15	9-10	9-10	9-10
-hot toady	4	1	6-10	7-8	7-8	7-8
-ice-cold Sir Schlitz	1	1	1	0	0	0
-ice-cold Willer	1	1	1	0	0	0
+hot choculate	5	4	10-15	9-10	9-10	9-10
+hot toady	4	4	6-10	7-8	7-8	7-8
 ice-cold fotie	3	1	3	0	0	0
+ice-cold sir schlitz	1	1	1	0	0	0
+ice-cold willer	1	1	1	0	0	0
 icy mushroom wine	3	6	10-14	0	12-15	0
+imp ale	1	1	1-2	7-8	0	-5
+infinitesimal ipa	3	1	3-9	0	0	0
 jar of fermented pickle juice	5	13	31-33	80-100	80-100	80-100
-jar of squeeze	7	8	26-30	28-45	28-45	25-45
-kamicorpse-ee	3	1	10	0	0	31
-knob mushroom wine	3	6	10-13	0	4-6	0
-knoll mushroom wine	3	6	10-13	4-6	0	0
+jar of squeeze	7	8	26-30	25-45	25-45	25-45
+kamicorpse-ee	3	1	5-10	0	0	31-35
+knob mushroom wine	3	6	10-14	0	4-6	0
+knoll mushroom wine	3	6	10-14	4-6	0	0
 lumbering jack	3	1	3-8	0	11-14	0
+# mad jack's corn squeezery	5	1	40-60	0	614-966	0
+mad train wine	3	1	3-4	0	0	0
+mae west	4	6	14-18	0	0	40-47
+maiali sifilitici pinot noir	1	10	6-10	60	60	60
 mandarina colada	4	6	14-18	0	16-20	25-27
-margarita	3	1	3-6	8-10	0	0
-martini	3	1	3-7	0	0	8-10
-melted Jell-o shot	1	10	2-4	0-40	0-40	0-40
+margarita	3	1	5-6	8-10	0	0
+martini	3	1	5-6	0	0	8-10
+mcmillicancuddy's special lager	1	10	2-4	10-15	10-15	10-15
+melted jell-o shot	1	10	2-4	0-40	0-40	0-40
 mimosette	3	3	5-10	16-20	0	0
-monkey wrench	3	1	3-6	0	8-10	0
+mon tiki	4	6	14-18	40-47	0	0
+monkey wrench	3	1	5-6	0	8-10	0
 moons-shine	4	1	6-10	7-8	7-8	7-8
+morlock's mark bourbon	4	4	10-15	10-28	10-28	10-28
+mt. noob pale ale	2	1	4-9	0	0	0
+nanite-infested eggnog	3	3	5-10	0	16-30	16-30
+neuromancer	4	6	14-18	25-27	0	16-20
 ocean motion	4	4	10-14	25-27	8-10	0
+oil nog	4	5	7-9	0	0	0
 oily mushroom wine	3	7	12-17	14-15	12-15	12-15
 old-fashioned	3	3	5-10	0	8-10	0
-papaya sling	3	1	3-7	16-30	0	0
+oreille divis&eacute;e brandy	3	4	12-15	15-25	15-25	15-25
+pan-dimensional gargle blaster	5	12	23-27	77-97	61-69	56-70
+papaya sling	3	1	3-8	16-30	0	0
 papaya slung	3	2	4-8	11-15	11-15	11-15
 parisian cathouse	3	3	5-10	0	0	16-20
 perpendicular hula	4	4	10-14	0	0	34-36
+petite porter	3	4	3-5	0	0	0
 pink pony	4	4	10-14	25-27	0	8-10
 plum wine	2	8	4-8	14-20	0	0
 pointy mushroom wine	3	6	10-14	0	0	8-10
 prussian cathouse	4	6	14-18	0	0	40-47
-purple corpsel	3	1	6-10	39-34	0	0
+purple corpsel	3	1	5-10	29-34	0	0
 rabbit punch	3	3	5-10	0	0	16-20
-red-headed corpse	3	1	7	0	35	0
+ralph ix cognac	6	15	55-59	228-300	228-300	228-300
+ram's face lager	1	2	1-4	8-10	0	0
+red-headed corpse	3	1	6-10	0	31-35	0
 redrum	3	1	3-6	0	15-30	0
 rockin' wagon	4	4	10-14	0	0	34-36
 roll in the hay	4	4	10-14	0	34-36	0
-rum and cola	3	1	3-6	0	0	10-12
-salty dog	3	1	3-8	0	8-10	0
-salty slug	3	2	4-10	0	10-12	10-12
+rum and cola	3	1	5-6	0	0	10-12
+salty dog	3	1	5-6	0	8-10	0
+salty slug	3	2	4-8	0	10-12	10-12
 sangria	3	3	5-10	0	8-10	0
 sangria del diablo	6	6	22-26	0	16-20	0
-screwdriver	3	1	3-6	8-10	0	0
-shot of blackberry schnapps	1	3	1-4	5-7	5-7	5-7
+scrawny stout	3	6	3-6	0	0	0
+screwdriver	3	1	5-6	8-10	0	0
+shot of blackberry schnapps	1	3	1-5	5-7	5-7	5-7
 shot of flower schnapps	1	1	1-3	0	0	0
 shot of grapefruit schnapps	1	1	1-3	0	3-5	0
 shot of nepenthe schnapps	2	2	5-8	0	12-18	0
@@ -173,37 +172,39 @@ shot of tomato schnapps	1	1	1-3	1-2	1-2	1-2
 slap and tickle	4	4	10-14	0	8-10	25-27
 slip 'n' slide	4	4	10-14	34-36	0	0
 snifter of thoroughly aged brandy	2	1	2-6	0	8-10	0
-spiced rum	3	2	4-9	0	0	17-30
+spasmi dolorosi del rene champagne	1	10	6-10	60	60	60
+spiced rum	3	2	4-8	0	0	17-30
 spooky eggnog	3	3	5-10	0	16-30	16-30
 spooky mushroom wine	3	6	10-14	0	0	4-6
 steel margarita	5	5	0	0	0	0
 stinky mushroom wine	3	6	10-14	0	0	12-15
-strawberry daiquiri	3	1	3-6	0	0	8-10
-strawberry wine	3	1	3-6	0	0	8-10
+strawberry daiquiri	3	1	5-6	0	0	8-10
+strawberry wine	3	1	5-6	0	0	8-10
+supernova champagne	3	8	7-12	8-12	8-12	8-12
 tangarita	4	6	14-18	0	16-20	25-27
 teqiwila	3	3	5-10	16-20	0	0
 teqiwila slammer	4	6	14-18	40-47	0	0
-tequila sunrise	3	1	3-6	8-10	0	0
+tequila sunrise	3	1	5-6	8-10	0	0
 tequila sunset	3	3	5-10	0	16-20	0
 tequila with training wheels	3	3	5-10	8-9	0	0
-thermos full of Knob coffee	1	1	6-7	5-6	5-6	5-6
+thermos full of knob coffee	1	1	6-7	5-6	5-6	5-6
 thistle wine	1	10	2-4	0	0	30-60
 tomato daiquiri	3	2	4-8	10-12	0	10-12
-nanite-infested eggnog	3	3	5-10	0	17-30	18-30
+uovo marcio shiraz	1	10	6-10	60	60	60
 vesper	6	6	22-26	0	0	16-20
-vodka and cranberry	3	1	3-6	0	15-20	0
+vodka and cranberry	3	1	5-6	0	15-20	0
 vodka and tonic	3	3	5-10	0	16-20	0
 vodka gibson	3	3	5-10	0	0	16-20
-vodka martini	3	1	3-6	0	0	8-10
+vodka martini	3	1	5-6	0	0	8-10
 vodka stratocaster	4	6	14-18	25-27	0	16-20
-whiskey and cola	3	1	3-6	0	4-6	4-6
-whiskey and soda	3	1	3-6	0	8-10	0
+whiskey and cola	3	1	5-6	0	4-6	4-6
+whiskey and soda	3	1	5-6	0	8-10	0
 whiskey bittersweet	3	3	5-10	16-20	0	0
-whiskey sour	3	1	3-6	8-10	0	0
-white Canadian	3	1	3-6	10-12	0	0
-white Xanadian	2	2	5-8	12-18	0	0
-white-label gin	3	1	8-10	3-5	3-5	3-5
+whiskey sour	3	1	5-6	8-10	0	0
+white canadian	3	1	5-6	10-12	0	0
 white lightning	3	3	5-10	0	0	0
-wine spritzer	3	1	3-6	0	8-10	0
+white xanadian	2	2	5-8	12-18	0	0
+white-label gin	3	1	8-10	3-5	3-5	3-5
+wine spritzer	3	1	5-6	0	8-10	0
 yellow brick road	4	6	14-18	0	40-47	0
 zmobie	3	3	5-10	0	16-20	0

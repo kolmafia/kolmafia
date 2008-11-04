@@ -1178,7 +1178,7 @@ public class KoLmafiaCLI
 	}
 	
 	static { new Developer().register( "newdata" ).register( "checkdata" )
-		.register( "checkplurals" ).register( "checkmodifiers" ); }
+		.register( "checkplurals" ).register( "checkmodifiers" ).register( "checkconsumption" ); }
 	public static class Developer
 		extends Command
 	{
@@ -1213,6 +1213,13 @@ public class KoLmafiaCLI
 			{
 				Modifiers.checkModifiers();
 				RequestLogger.printLine( "Modifiers checked." );
+				return;
+			}
+	
+			if ( command.equals( "checkconsumption" ) )
+			{
+				ItemDatabase.checkConsumptionData();
+				RequestLogger.printLine( "Consumption data checked." );
 				return;
 			}
 		}
