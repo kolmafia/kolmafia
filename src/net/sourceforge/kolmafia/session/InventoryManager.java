@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.session;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import net.sourceforge.kolmafia.AdventureResult;
@@ -567,6 +568,11 @@ public abstract class InventoryManager
 
 	private static final boolean hasAnyIngredient( final int itemId )
 	{
+		return hasAnyIngredient( itemId, null );
+	}
+
+	private static final boolean hasAnyIngredient( final int itemId, HashSet seen )
+	{
 		if ( itemId < 0 )
 		{
 			return false;
@@ -587,14 +593,31 @@ public abstract class InventoryManager
 		for ( int i = 0; i < ingredients.length; ++i )
 		{
 			// An item is immediately available if it is in your inventory,
-			// in your closet, or you have the ingredients for a substep.
+			// or in your closet.
 
 			if ( KoLConstants.inventory.contains( ingredients[ i ] ) || KoLConstants.closet.contains( ingredients[ i ] ) )
 			{
 				return true;
 			}
+		}
+		
+		Integer key = new Integer( itemId );
+		if ( seen == null )
+		{
+			seen = new HashSet();
+		}
+		else if ( seen.contains( key ) )
+		{
+			return false;
+		}
+		seen.add( key );
 
-			if ( InventoryManager.hasAnyIngredient( ingredients[ i ].getItemId() ) )
+		for ( int i = 0; i < ingredients.length; ++i )
+		{
+			// An item is immediately available if 
+			// you have the ingredients for a substep.
+
+			if ( InventoryManager.hasAnyIngredient( ingredients[ i ].getItemId(), seen ) )
 			{
 				return true;
 			}
