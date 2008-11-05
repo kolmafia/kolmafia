@@ -776,20 +776,47 @@ public class RequestEditorKit
 			return;
 		}
 
+		int insertionPoint;
+		boolean haiku = false;
 		int nameIndex = buffer.indexOf( "<span id='monname" );
-		if ( nameIndex == -1 )
+		if ( nameIndex != -1 )
 		{
-			return;
+			int combatIndex = buffer.indexOf( "</span>", nameIndex );
+			if ( combatIndex == -1 )
+			{
+				return;
+			}
+			insertionPoint = combatIndex + 7;
 		}
-
-		int combatIndex = buffer.indexOf( "</span>", nameIndex );
-		if ( combatIndex == -1 )
+		else
 		{
-			return;
+			// find bold "Combat"
+			insertionPoint = buffer.indexOf( "<b>" );
+			if ( insertionPoint == -1 )
+			{
+				return;
+			}
+			// find bold monster name
+			insertionPoint = buffer.indexOf( "<b>", insertionPoint + 4 );
+			if ( insertionPoint == -1 )
+			{
+				return;
+			}
+			// find end of haiku
+			insertionPoint = buffer.indexOf( "</td>", insertionPoint + 4 );
+			if ( insertionPoint == -1 )
+			{
+				return;
+			}
+			haiku = true;
 		}
 
 		StringBuffer monsterData = new StringBuffer();
 		monsterData.append( "<font size=2 color=gray>" );
+		if ( haiku )
+		{
+			monsterData.append( "<br><br>Pretend that the line<br>below has five syllables:" );
+		}
 		if ( FightRequest.getLastMonster().getHP() != 0 )
 		{
 			monsterData.append( "<br />HP: " );
@@ -821,7 +848,7 @@ public class RequestEditorKit
 
 		IslandDecorator.appendMissingGremlinTool( monsterData );
 		monsterData.append( "</font>" );
-		buffer.insert( combatIndex + 7, monsterData.toString() );
+		buffer.insert( insertionPoint, monsterData.toString() );
 	}
 
 	private static final void addMultiuseModifiers( final StringBuffer buffer )

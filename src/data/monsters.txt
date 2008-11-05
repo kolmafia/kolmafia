@@ -106,10 +106,10 @@ A.M.C. Gremlin	HP: 175	gremlin juice (3)
 Acid Blob	HP: 40 Def: 38 Atk: 38
 Albino Bat	HP: 8 Def: 14 Atk: 10 Meat: 16-26	batgut (10)	bat guano (10)	pink bat eye (0)
 Alphabet Giant	HP: 150 Def: 145 Atk: 145 Meat: 122-183	heavy D (40)	original G (40)
-Amateur Ninja	HP: 0	bargain flash powder	third-hand nunchaku
+Amateur Ninja	HP: 5 Meat: 18-22	bargain flash powder	third-hand nunchaku
 An Angry Bugbear	HP: 12 Def: 15 Atk: 15
 An Annoying Spooky Gravy Fairy	HP: 20 Def: 20 Atk: 20 E: spooky	annoying pitchfork (100)
-Ancient Insane Monk	HP: 0	little round pebble	bottle of sake	Bash-&#332;s cereal
+Ancient Insane Monk	HP: 6	little round pebble	bottle of sake	Bash-&#332;s cereal	haiku challenge map (0)
 Ancient Protector Spirit	HP: 80 Def: 158 Atk: 158	obsidian dagger (20)	mossy stone sphere (20)	rough stone sphere (20)	smooth stone sphere (20)	cracked stone sphere (20)
 Anglerbush	HP: 10 Def: 9 Atk: 7	meat stack (35)
 Angry Pi&ntilde;ata	HP: 20 Def: 22 Atk: 22	pile of candy (100)
@@ -255,7 +255,7 @@ G Imp	HP: 46 Def: 46 Atk: 46 E: heat Meat: 24-39	hot wing (30)	Imp Ale (30)	leat
 Gargantulihc	HP: 134 Def: 73 Atk: 77 E: spooky	lihc eye (0)	lihc eye (0)	lihc face (0)
 Gaudy Pirate	HP: 120	costume sword (5)	enormous hoop earring (10)	gold lam&eacute; pants (5)	snakehead charrrm (30)
 Gaunt Ghuol	HP: 50 Def: 56 Atk: 54 E: spooky Meat: 18-24	ghuol ears (20)	ghuol egg (20)
-Gelatinous Cube	HP: 0	Orcish meat locker	rusty metal ring	rusty metal shaft
+Gelatinous Cube	HP: 6 Meat: 21-29	Orcish meat locker	rusty metal ring	rusty metal shaft
 Generic Duck	HP: 180 Atk: 166 Def: 166 Meat: 70-80
 Ghastly Organist	HP: 120 Def: 110 Atk: 100	opera mask (20)
 Ghost Miner	HP: 31 Def: 30 Atk: 30 E: spooky	bubblewrap ore (10)	bubblewrap ore (10)	cardboard ore (10)	cardboard ore (10)	styrofoam ore (10)	styrofoam ore (10)
@@ -331,7 +331,7 @@ Knob Goblin Harem Girl	HP: 20 Def: 25 Atk: 25 E: sleaze	Knob Goblin perfume (15)
 Knob Goblin Mad Scientist	HP: 25 Def: 40 Atk: 40 Meat: 32-51	Knob Goblin love potion (10)	Knob Goblin seltzer (20)	Knob Goblin steroids (10)	broken petri dish (0)
 Knob Goblin Master Chef	HP: 20 Def: 22 Atk: 22	dry noodles (15)	Knob mushroom (15)	spices (15)
 Knob Goblin Mutant	HP: 43 Def: 53 Atk: 53 Meat: 44-70
-Knob Goblin Poseur	HP: 0	dope gangsta bling-bling	terrible poem
+Knob Goblin Poseur	HP: 5 Meat: 17-21	dope gangsta bling-bling	terrible poem
 Knob Goblin Very Mad Scientist	HP: 30 Def: 45 Atk: 45 Meat: 36-57	Knob Goblin seltzer (15)	Knob Goblin superseltzer (15)	scrumptious reagent (25)	broken petri dish (0)
 Knott Slanding	HP: 0	Dallas Dynasty Falcon Crest shield (100)
 Knott Yeti	HP: 90 Def: 103 Atk: 107 E: cold Meat: 160-262	yeti fur (30)
