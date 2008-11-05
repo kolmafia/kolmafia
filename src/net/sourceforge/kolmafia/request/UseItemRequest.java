@@ -1430,8 +1430,13 @@ public class UseItemRequest
 
 			if ( responseText.indexOf( "ironically" ) != -1 )
 			{
-				ResultProcessor.processResult(
-					item.getInstance( item.getCount() - 1 ) );
+				int remaining = item.getCount() - 1;
+				if ( remaining > 0 )
+				{
+					item = item.getInstance( remaining );
+					ResultProcessor.processResult( item );
+					(new UseItemRequest( item )).run();
+				}
 			}
 
 			return;
@@ -1745,6 +1750,8 @@ public class UseItemRequest
 				EquipmentManager.setEquipment( EquipmentManager.WEAPON, EquipmentRequest.UNEQUIP );
 				AdventureResult.addResultToList( KoLConstants.inventory, ItemPool.get( ItemPool.WORM_RIDING_HOOKS, 1 ) );
 				ResultProcessor.processResult( ItemPool.get( ItemPool.WORM_RIDING_HOOKS, -1 ) );
+				SpecialOutfit.forgetEquipment( ItemPool.get( ItemPool.WORM_RIDING_HOOKS, 1 ) );
+				KoLmafia.updateDisplay( "Don't forget to equip a weapon!" );
 			}
 			else
 			{

@@ -313,4 +313,36 @@ public class SpecialOutfit
 
 		return outfits;
 	}
+
+	/**
+	 * Method to replace a particular piece of equipment in all active checkpoints,
+	 * after it has been transformed or consumed.
+	 */
+
+	public static final void forgetEquipment( AdventureResult item )
+	{
+		AdventureResult[] checkpoint;
+		for ( int i = SpecialOutfit.implicitPoints.size() - 1; i >= 0; --i )
+		{
+			checkpoint = (AdventureResult[]) SpecialOutfit.implicitPoints.get( i );
+			for ( int j = 0; j < checkpoint.length; ++j )
+			{
+				if ( item.equals( checkpoint[ j ] ) )
+				{
+					checkpoint[ j ] = EquipmentRequest.UNEQUIP;
+				}
+			}
+		}
+		for ( int i = SpecialOutfit.explicitPoints.size() - 1; i >= 0; --i )
+		{
+			checkpoint = (AdventureResult[]) SpecialOutfit.explicitPoints.get( i );
+			for ( int j = 0; j < checkpoint.length; ++j )
+			{
+				if ( item.equals( checkpoint[ j ] ) )
+				{
+					checkpoint[ j ] = EquipmentRequest.UNEQUIP;
+				}
+			}
+		}
+	}
 }
