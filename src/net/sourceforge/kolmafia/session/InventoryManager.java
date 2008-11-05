@@ -45,6 +45,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.swingui.CouncilFrame;
@@ -202,14 +203,14 @@ public abstract class InventoryManager
 		{
 			if ( EquipmentManager.getEquipment( i ).equals( item ) )
 			{
+				SpecialOutfit.forgetEquipment( item );
 				RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, i ) );
 				--missingCount;
+				if ( missingCount <= 0 )
+				{
+					return true;
+				}
 			}
-		}
-
-		if ( missingCount <= 0 )
-		{
-			return true;
 		}
 
 		for ( int i = 0; i < KoLCharacter.getFamiliarList().size(); ++i )
