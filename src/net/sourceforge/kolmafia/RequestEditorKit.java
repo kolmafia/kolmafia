@@ -89,6 +89,8 @@ public class RequestEditorKit
 	private static final Pattern BOOKSHELF_PATTERN =
 		Pattern.compile( "onClick=\"location.href='(.*?)';\"", Pattern.DOTALL );
 	private static final Pattern ALTAR_PATTERN = Pattern.compile( "'An altar with a carving of a god of ([^']*)'" );
+	private static final Pattern HOBOPOLIS_IMG_PATTERN = Pattern.compile(
+		"otherimages/hobopolis/[a-z]+(\\d+)" );
 
 	private static final RequestViewFactory DEFAULT_FACTORY = new RequestViewFactory();
 
@@ -519,6 +521,16 @@ public class RequestEditorKit
 		{
 			StationaryButtonDecorator.decorate( location, buffer );
 			RequestEditorKit.addChoiceSpoilers( buffer );
+		}
+		else if ( location.startsWith( "clan_hobopolis.php" ) &&
+			location.indexOf( "place=1" ) == -1)
+		{
+			Matcher m = HOBOPOLIS_IMG_PATTERN.matcher( buffer );
+			if ( m.find() )
+			{
+				StringUtilities.singleStringReplace( buffer, "</b>", 
+					"</b> <font size=1>(image " + m.group( 1 ) + ")</font>" );
+			}
 		}
 		else if ( location.startsWith( "dungeon.php" ) )
 		{

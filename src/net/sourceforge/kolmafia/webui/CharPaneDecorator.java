@@ -60,6 +60,9 @@ public class CharPaneDecorator
 	{
 		StringUtilities.singleStringReplace( buffer, "<body", "<body onload=\"updateSafetyText();\"" );
 
+		StringUtilities.singleStringReplace( buffer, "</body>",
+		"<center><font size=1>[<a href=\"charpane.php\">refresh</a>]</font></center></body>" );
+
 		if ( Preferences.getBoolean( "relayAddsRestoreLinks" ) )
 		{
 			CharPaneDecorator.addRestoreLinks( buffer );
