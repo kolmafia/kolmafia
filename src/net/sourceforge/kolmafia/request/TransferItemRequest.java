@@ -53,7 +53,7 @@ import net.sourceforge.kolmafia.persistence.Preferences;
 public abstract class TransferItemRequest
 	extends GenericRequest
 {
-	public static final Pattern ITEMID_PATTERN = Pattern.compile( "item[^=]*\\d*=([-\\d]+)" );
+	public static final Pattern ITEMID_PATTERN = Pattern.compile( "item[^=&]*\\d*=([-\\d]+)" );
 
 	public static final Pattern HOWMANY_PATTERN = Pattern.compile( "howmany\\d*=(\\d+)" );
 	public static final Pattern QTY_PATTERN = Pattern.compile( "qty\\d+=([\\d]+)" );
