@@ -64,7 +64,7 @@ public class AdventureRequest
 
 	private static final Pattern MONSTER_NAME = Pattern.compile( "<span id='monname'(>| title=\")([^<\"]*?)(</span>|\">)", Pattern.DOTALL );
 	private static final Pattern HAIKU_MONSTER_NAME = Pattern.compile(
-		"<b>.*<b>([^<]+)<", Pattern.DOTALL );
+		"<b>.*?<b>([^<]+)<", Pattern.DOTALL );
 
 	private static final GenericRequest ZONE_UNLOCK = new GenericRequest( "" );
 
