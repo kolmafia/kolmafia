@@ -224,7 +224,10 @@ public class MallSearchRequest
 		if ( this.retainAll )
 		{
 			Matcher shopMatcher = MallSearchRequest.STOREID_PATTERN.matcher( this.responseText );
-			shopMatcher.find();
+			if ( !shopMatcher.find() )
+			{
+				return;	// no mall store
+			}
 
 			int shopId = StringUtilities.parseInt( shopMatcher.group( 2 ) );
 
