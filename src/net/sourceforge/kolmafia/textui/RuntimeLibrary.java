@@ -899,16 +899,16 @@ public abstract class RuntimeLibrary
 		// Quest status inquiries
 		
 		params = new Type[] {};
-		functions.add( new LibraryFunction( "galaktikCuresAvailable", DataTypes.BOOLEAN_TYPE, params ) );
+		functions.add( new LibraryFunction( "galaktik_cures_discounted", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] {};
-		functions.add( new LibraryFunction( "isWhiteCitadelAvailable", DataTypes.BOOLEAN_TYPE, params ) );
+		functions.add( new LibraryFunction( "white_citadel_available", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] {};
-		functions.add( new LibraryFunction( "isBlackMarketAvailable", DataTypes.BOOLEAN_TYPE, params ) );
+		functions.add( new LibraryFunction( "black_market_available", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] {};
-		functions.add( new LibraryFunction( "isHippyStoreAvailable", DataTypes.BOOLEAN_TYPE, params ) );
+		functions.add( new LibraryFunction( "hippy_store_available", DataTypes.BOOLEAN_TYPE, params ) );
 
 	}
 
@@ -3184,22 +3184,22 @@ public abstract class RuntimeLibrary
 		return new Value( DataTypes.parseStatValue( Modifiers.getStringModifier( name, mod ), true ) );
 	}
 	
-	public static Value galaktikCuresAvailable()
+	public static Value galaktik_cures_discounted()
 	{
 		return DataTypes.makeBooleanValue( QuestLogRequest.galaktikCuresAvailable() );
 	}
 
-	public static Value isWhiteCitadelAvailable()
+	public static Value white_citadel_available()
 	{
 		return DataTypes.makeBooleanValue( QuestLogRequest.isWhiteCitadelAvailable() );
 	}
 
-	public static Value isBlackMarketAvailable()
+	public static Value black_market_available()
 	{
 		return DataTypes.makeBooleanValue( QuestLogRequest.isBlackMarketAvailable() );
 	}
 
-	public static Value isHippyStoreAvailable()
+	public static Value hippy_store_available()
 	{
 		return DataTypes.makeBooleanValue( QuestLogRequest.isHippyStoreAvailable() );
 	}
