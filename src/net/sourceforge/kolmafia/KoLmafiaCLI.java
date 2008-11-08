@@ -75,6 +75,7 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.FriarRequest;
+import net.sourceforge.kolmafia.request.GalaktikRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HellKitchenRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
@@ -2657,6 +2658,17 @@ public class KoLmafiaCLI
 		public void run( String cmd )
 		{
 			PvpManager.summarizeFlowerHunterData();
+		}
+	}
+	
+	static { new Galaktik().register( "galaktik" ); }
+	public static class Galaktik
+		extends Command
+	{
+		{ usage = "(hp|mp) [<amount>] - restore some or all hp or mp"; }
+		public void run( String cmd, String parameters )
+		{
+			CLI.executeGalaktikRequest( parameters );
 		}
 	}
 	
@@ -5957,6 +5969,41 @@ public class KoLmafiaCLI
 
 		KoLmafia.updateDisplay( "Get thee to a nunnery!" );
 		RequestThread.postRequest( new GenericRequest( url + "?place=nunnery&pwd&action=nuns" ) );
+	}
+
+	/**
+	 * Makes a request to Doc Galaktik to purchase a cure.	If the
+	 * cure is not available, this method does not report an error.
+	 */
+
+	public void executeGalaktikRequest( String parameters )
+	{
+		if ( currentLine == null )
+			return;
+
+		if ( !currentLine.startsWith( "galaktik" ) )
+			return;
+
+		String[] split = parameters.split( " " );
+
+		// Cure "HP" or "MP"
+
+		String typeString = split[ 0 ];
+		String type;
+
+		if ( typeString.equalsIgnoreCase( "hp" ) )
+			type = GalaktikRequest.HP;
+		else if ( typeString.equalsIgnoreCase( "mp" ) )
+			type = GalaktikRequest.MP;
+		else
+		{
+			updateDisplay( KoLConstants.ERROR_STATE, "Unknown Doc Galaktik request <" + parameters + ">" );
+			return;
+		}
+
+		int amount = split.length == 1 ? 0 : StringUtilities.parseInt( split[ 1 ] );
+
+		RequestThread.postRequest( new GalaktikRequest( type, amount ) );
 	}
 
 	/**
