@@ -311,6 +311,11 @@ public abstract class StaticEntity
 		{
 			EquipmentRequest.parseEquipment( responseText );
 		}
+		
+		if ( location.startsWith( "bedazzle.php" ) )
+		{
+			EquipmentRequest.parseBedazzlements( responseText );
+		}
 
 		if ( location.indexOf( "familiar.php" ) != -1 )
 		{

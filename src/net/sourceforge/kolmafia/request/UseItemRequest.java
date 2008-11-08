@@ -408,10 +408,6 @@ public class UseItemRequest
 		switch ( this.consumptionType )
 		{
 		case KoLConstants.CONSUME_STICKER:
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
-				"(not implemented yet, sorry)" );
-			return;
-		
 		case KoLConstants.EQUIP_HAT:
 		case KoLConstants.EQUIP_WEAPON:
 		case KoLConstants.EQUIP_OFFHAND:

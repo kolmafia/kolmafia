@@ -1761,6 +1761,7 @@ public class KoLmafiaCLI
 			else if ( parameters.equals( "gear" ) || parameters.startsWith( "equip" ) || parameters.equals( "outfit" ) )
 			{
 				RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.EQUIPMENT ) );
+				RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.BEDAZZLEMENTS ) );
 			}
 			else if ( parameters.startsWith( "inv" ) )
 			{
@@ -4317,7 +4318,7 @@ public class KoLmafiaCLI
 			// If it can't be equipped, give up
 			if ( slot == -1 )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't equip a	" + match.getName() );
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't equip a " + match.getName() );
 				return;
 			}
 		}
@@ -4369,7 +4370,7 @@ public class KoLmafiaCLI
 		// The following loop removes all items with the
 		// specified name.
 
-		for ( int i = 0; i <= EquipmentManager.FAMILIAR; ++i )
+		for ( int i = 0; i <= EquipmentManager.STICKER3; ++i )
 		{
 			AdventureResult item = EquipmentManager.getEquipment( i );
 			if ( item != null && item.getName().toLowerCase().indexOf( parameters ) != -1 )
@@ -4541,6 +4542,20 @@ public class KoLmafiaCLI
 
 			desiredStream.println( "Pet: " + KoLCharacter.getFamiliar() );
 			desiredStream.println( "Item: " + EquipmentManager.getFamiliarItem() );
+			AdventureResult st1 = EquipmentManager.getEquipment( EquipmentManager.STICKER1 );
+			AdventureResult st2 = EquipmentManager.getEquipment( EquipmentManager.STICKER2 );
+			AdventureResult st3 = EquipmentManager.getEquipment( EquipmentManager.STICKER3 );
+			if ( st1 != EquipmentRequest.UNEQUIP || st2 != EquipmentRequest.UNEQUIP
+				|| st3 != EquipmentRequest.UNEQUIP )
+			{
+				desiredStream.println();
+				desiredStream.println( "Sticker 1: " + getStickerText( st1,
+					EquipmentManager.getTurns( EquipmentManager.STICKER1 ) ) );
+				desiredStream.println( "Sticker 2: " + getStickerText( st2,
+					EquipmentManager.getTurns( EquipmentManager.STICKER2 ) ) );
+				desiredStream.println( "Sticker 3: " + getStickerText( st3,
+					EquipmentManager.getTurns( EquipmentManager.STICKER3 ) ) );
+			}
 		}
 		else if ( desiredData.equals( "encounters" ) )
 		{
@@ -4701,6 +4716,15 @@ public class KoLmafiaCLI
 				RequestLogger.printList( resultList, desiredStream );
 			}
 		}
+	}
+	
+	private static final String getStickerText( AdventureResult item, int turns )
+	{
+		if ( !item.equals( EquipmentRequest.UNEQUIP ) )
+		{
+			item = item.getInstance( turns );
+		}
+		return item.toString();
 	}
 
 	private static final String getStatString( final int base, final int adjusted, final int tnp )
@@ -5978,12 +6002,6 @@ public class KoLmafiaCLI
 
 	public void executeGalaktikRequest( String parameters )
 	{
-		if ( currentLine == null )
-			return;
-
-		if ( !currentLine.startsWith( "galaktik" ) )
-			return;
-
 		String[] split = parameters.split( " " );
 
 		// Cure "HP" or "MP"

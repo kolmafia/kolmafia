@@ -45,7 +45,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.SpecialOutfit;
-
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -87,10 +87,14 @@ public class EquipmentRequest
 	private static final Pattern FAMILIARITEM_PATTERN =
 		Pattern.compile( "<b>([^<]*?)</b>\\s*<[^<]+unequip&type=familiarequip\">" );
 	private static final Pattern OUTFITLIST_PATTERN = Pattern.compile( "<select name=whichoutfit>.*?</select>" );
+	private static final Pattern STICKER_PATTERN = Pattern.compile(
+		"<td>\\s*(shiny|dull)?\\s*([^<]+)<a [^>]+action=peel|<td>\\s*<img [^>]+magnify" );
 
 	private static final Pattern OUTFIT_PATTERN = Pattern.compile( "whichoutfit=(\\d+)" );
 	private static final Pattern SLOT_PATTERN = Pattern.compile( "type=([a-z]+)" );
 	private static final Pattern ITEMID_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
+	private static final Pattern STICKERITEM_PATTERN = Pattern.compile( "sticker=(\\d+)" );
+	private static final Pattern STICKERSLOT_PATTERN = Pattern.compile( "slot=(\\d+)" );
 
 	public static final AdventureResult UNEQUIP = new AdventureResult( "(none)", 1, false );
 	private static final AdventureResult SPECTACLES = new AdventureResult( 1916, 1 );
@@ -109,6 +113,8 @@ public class EquipmentRequest
 	public static final int REMOVE_ITEM = 8;
 	public static final int UNEQUIP_ALL = 9;
 
+	public static final int BEDAZZLEMENTS = 10;
+
 	// Array indexed by equipment "slot" from KoLCharacter
 	//
 	// Perhaps this should be in that module, except this is closely tied
@@ -126,6 +132,9 @@ public class EquipmentRequest
 		"acc2",
 		"acc3",
 		"familiar",
+		"sticker1",
+		"sticker2",
+		"sticker3",
 		"fakehand"
 	};
 
@@ -141,6 +150,9 @@ public class EquipmentRequest
 		"acc2",
 		"acc3",
 		"familiarequip",
+		"st1",
+		"st2",
+		"st3",
 		"fakehand"
 	};
 
@@ -158,7 +170,10 @@ public class EquipmentRequest
 	public EquipmentRequest( final int requestType )
 	{
 		super(
-			requestType == EquipmentRequest.CLOSET ? "closet.php" : requestType == EquipmentRequest.UNEQUIP_ALL ? "inv_equip.php" : "inventory.php" );
+			requestType == EquipmentRequest.BEDAZZLEMENTS ? "bedazzle.php" :
+			requestType == EquipmentRequest.CLOSET ? "closet.php" :
+			requestType == EquipmentRequest.UNEQUIP_ALL ? "inv_equip.php" : 
+			"inventory.php" );
 
 		this.requestType = requestType;
 		this.outfit = null;
@@ -168,7 +183,11 @@ public class EquipmentRequest
 		// Otherwise, add the form field indicating which page
 		// of the inventory you want to request
 
-		if ( requestType == EquipmentRequest.MISCELLANEOUS )
+		if ( requestType == EquipmentRequest.BEDAZZLEMENTS )
+		{
+			// no fields necessary
+		}
+		else if ( requestType == EquipmentRequest.MISCELLANEOUS )
 		{
 			this.addFormField( "which", "3" );
 		}
@@ -196,6 +215,7 @@ public class EquipmentRequest
 		this.addFormField( "outfitname", changeName );
 		this.requestType = EquipmentRequest.SAVE_OUTFIT;
 		this.outfitName = changeName;
+		this.error = null;
 	}
 
 	public EquipmentRequest( final AdventureResult changeItem )
@@ -213,8 +233,17 @@ public class EquipmentRequest
 
 	public EquipmentRequest( final AdventureResult changeItem, final int equipmentSlot, final boolean force )
 	{
-		super( "inv_equip.php" );
-		this.initializeChangeData( changeItem, equipmentSlot, force );
+		super( equipmentSlot >= EquipmentManager.STICKER1 ?
+			"bedazzle.php" : "inv_equip.php" );
+		this.error = null;
+		if ( equipmentSlot >= EquipmentManager.STICKER1 )
+		{
+			this.initializeStickerData( changeItem, equipmentSlot, force );
+		}
+		else
+		{
+			this.initializeChangeData( changeItem, equipmentSlot, force );
+		}
 	}
 
 	protected boolean shouldFollowRedirect()
@@ -240,7 +269,6 @@ public class EquipmentRequest
 		if ( changeItem.equals( EquipmentRequest.UNEQUIP ) )
 		{
 			this.requestType = EquipmentRequest.REMOVE_ITEM;
-			this.error = null;
 			this.addFormField( "action", "unequip" );
 			this.addFormField( "type", EquipmentRequest.phpSlotNames[ equipmentSlot ] );
 			return;
@@ -252,10 +280,10 @@ public class EquipmentRequest
 		// Find out what kind of item it is
 		this.equipmentType = ItemDatabase.getConsumptionType( this.itemId );
 
-		// If unspecified slot, pick based on type of item
 		if ( this.equipmentSlot == -1 )
 		{
-			this.equipmentSlot = EquipmentRequest.chooseEquipmentSlot( this.equipmentType );
+			this.error = "No suitable slot available for " + changeItem;
+			return;
 		}
 
 		// Make sure you can equip it in the requested slot
@@ -270,6 +298,39 @@ public class EquipmentRequest
 
 		this.addFormField( "action", action );
 		this.addFormField( "whichitem", String.valueOf( this.itemId ) );
+	}
+
+	private void initializeStickerData( final AdventureResult sticker, final int equipmentSlot, final boolean force )
+	{
+		this.equipmentSlot = equipmentSlot;
+		this.addFormField( "slot",
+			String.valueOf( equipmentSlot - EquipmentManager.STICKER1 + 1 ) );
+
+		if ( sticker.equals( EquipmentRequest.UNEQUIP ) )
+		{
+			this.requestType = EquipmentRequest.REMOVE_ITEM;
+			this.addFormField( "action", "peel" );
+			return;
+		}
+
+		// Find out what item is being equipped
+		this.itemId = sticker.getItemId();
+
+		// Find out what kind of item it is
+		this.equipmentType = ItemDatabase.getConsumptionType( this.itemId );
+		
+		if ( this.equipmentType != KoLConstants.CONSUME_STICKER )
+		{
+			this.error = "You can't equip a " + ItemDatabase.getItemName( this.itemId ) + 
+				" in a sticker slot.";
+			return;
+		}
+
+		this.addFormField( "sticker", String.valueOf( this.itemId ) );
+		this.requestType = EquipmentRequest.CHANGE_ITEM;
+		this.changeItem = sticker.getCount() == 1 ? sticker : sticker.getInstance( 1 );
+
+		this.addFormField( "action", "juststick" );
 	}
 
 	public EquipmentRequest( final SpecialOutfit change )
@@ -419,6 +480,30 @@ public class EquipmentRequest
 
 			// All accessory slots are in use. Pick #1
 			return EquipmentManager.ACCESSORY1;
+		}
+
+		case KoLConstants.CONSUME_STICKER:
+		{
+			AdventureResult test = EquipmentManager.getEquipment( EquipmentManager.STICKER1 );
+			if ( test == null || test.equals( EquipmentRequest.UNEQUIP ) )
+			{
+				return EquipmentManager.STICKER1;
+			}
+
+			test = EquipmentManager.getEquipment( EquipmentManager.STICKER2 );
+			if ( test == null || test.equals( EquipmentRequest.UNEQUIP ) )
+			{
+				return EquipmentManager.STICKER2;
+			}
+
+			test = EquipmentManager.getEquipment( EquipmentManager.STICKER3 );
+			if ( test == null || test.equals( EquipmentRequest.UNEQUIP ) )
+			{
+				return EquipmentManager.STICKER3;
+			}
+			
+			// All sticker slots are in use.  Abort rather than risk peeling the wrong one.
+			return -1;
 		}
 
 		default:
@@ -605,6 +690,14 @@ public class EquipmentRequest
 			{
 				return;
 			}
+			
+			if ( this.equipmentSlot >= EquipmentManager.STICKER1 &&
+				this.equipmentSlot <= EquipmentManager.STICKER3 &&
+				!EquipmentManager.getEquipment( this.equipmentSlot )
+					.equals( EquipmentRequest.UNEQUIP ) )
+			{
+				( new EquipmentRequest( EquipmentRequest.UNEQUIP, this.equipmentSlot ) ).run();	
+			}
 		}
 
 		if ( this.requestType == EquipmentRequest.REMOVE_ITEM && EquipmentManager.getEquipment( this.equipmentSlot ).equals(
@@ -629,6 +722,10 @@ public class EquipmentRequest
 
 		case EquipmentRequest.CLOSET:
 			KoLmafia.updateDisplay( "Refreshing closet..." );
+			break;
+
+		case EquipmentRequest.BEDAZZLEMENTS:
+			KoLmafia.updateDisplay( "Refreshing stickers..." );
 			break;
 
 		case EquipmentRequest.SAVE_OUTFIT:
@@ -674,7 +771,7 @@ public class EquipmentRequest
 					return;
 				}
 
-				if ( result.indexOf( "You put" ) == -1 && result.indexOf( "You equip" ) == -1 && result.indexOf( "Item equipped" ) == -1 && result.indexOf( "equips an item" ) == -1 )
+				if ( result.indexOf( "You put" ) == -1 && result.indexOf( "You equip" ) == -1 && result.indexOf( "Item equipped" ) == -1 && result.indexOf( "equips an item" ) == -1  && result.indexOf( "You apply the shiny sticker" ) == -1 )
 				{
 					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, result );
 					return;
@@ -731,6 +828,11 @@ public class EquipmentRequest
 			EquipmentRequest.REFRESH1.run();
 			EquipmentRequest.REFRESH2.run();
 			EquipmentRequest.REFRESH3.run();
+			return;
+		}
+		else if ( this.getURLString().startsWith( "bedazzle.php" ) )
+		{
+			EquipmentRequest.parseBedazzlements( this.responseText );
 			return;
 		}
 
@@ -877,6 +979,47 @@ public class EquipmentRequest
 			{
 				item = item.getInstance( quantityValue - inventoryCount );
 				ResultProcessor.tallyResult( item, true );
+			}
+		}
+	}
+	
+	public static final void parseBedazzlements( final String responseText )
+	{
+		Matcher matcher = EquipmentRequest.STICKER_PATTERN.matcher( responseText );
+		for ( int slot = EquipmentManager.STICKER1; slot <= EquipmentManager.STICKER3; ++slot )
+		{
+			if ( !matcher.find() )
+			{
+				return;	// presumably doesn't have a sticker weapon
+			}
+			if ( matcher.group( 2 ) == null )
+			{
+				EquipmentManager.setEquipment( slot, EquipmentRequest.UNEQUIP );
+			}
+			else
+			{
+				AdventureResult item = ItemPool.get( matcher.group( 2 ), 1 );
+				if ( !KoLmafia.isRefreshing() &&
+					!item.equals( EquipmentManager.getEquipment( slot ) ) )
+				{
+					AdventureResult.addResultToList( KoLConstants.inventory,
+						item.getInstance( -1 ) );
+					EquipmentManager.setTurns( slot, 20, 20 );
+				}
+				EquipmentManager.setEquipment( slot, item );
+				String adjective = matcher.group( 1 );
+				if ( adjective.equals( "shiny" ) )
+				{
+					EquipmentManager.setTurns( slot, 16, 20 );
+				}
+				else if ( adjective.equals( "dull" ) )
+				{
+					EquipmentManager.setTurns( slot, 1, 5 );
+				}
+				else
+				{
+					EquipmentManager.setTurns( slot, 6, 15 );
+				}
 			}
 		}
 	}
@@ -1124,6 +1267,12 @@ public class EquipmentRequest
 
 	public static final boolean registerRequest( final String urlString )
 	{
+		if ( urlString.startsWith( "bedazzle.php" ) )
+		{
+			registerBedazzlement( urlString );
+			return true;
+		}
+
 		if ( !urlString.startsWith( "inv_equip.php" ) )
 		{
 			return false;
@@ -1210,5 +1359,53 @@ public class EquipmentRequest
 		}
 
 		return true;
+	}
+
+	public static final void registerBedazzlement( final String urlString )
+	{
+		if ( urlString.indexOf( "action=fold" ) != -1 )
+		{
+			RequestLogger.updateSessionLog( "folded sticker weapon" );
+			return;
+		}
+
+		if ( urlString.indexOf( "action=peel" ) != -1 )
+		{
+			Matcher slotMatcher = EquipmentRequest.STICKERSLOT_PATTERN.matcher( urlString );
+			if ( slotMatcher.find() )
+			{
+				RequestLogger.updateSessionLog( "peeled sticker " + slotMatcher.group( 1 ) );
+			}
+			return;
+		}
+
+		if ( urlString.indexOf( "action=juststick" ) == -1 )
+		{
+			return;
+		}
+		
+		Matcher itemMatcher = EquipmentRequest.STICKERITEM_PATTERN.matcher( urlString );
+		if ( !itemMatcher.find() )
+		{
+			return;
+		}
+
+		int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
+		String itemName = ItemDatabase.getItemName( itemId );
+		if ( itemName == null )
+		{
+			return;
+		}
+
+		Matcher slotMatcher = EquipmentRequest.STICKERSLOT_PATTERN.matcher( urlString );
+		if ( slotMatcher.find() )
+		{
+			RequestLogger.updateSessionLog( "stuck " + itemName + " in slot "
+				+ slotMatcher.group( 1 ) );
+		}
+		else
+		{
+			RequestLogger.updateSessionLog( "stuck " + itemName + " in empty slot" );
+		}
 	}
 }
