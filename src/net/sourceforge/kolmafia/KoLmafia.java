@@ -835,6 +835,7 @@ public abstract class KoLmafia
 		if ( refreshAll )
 		{
 			RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.CLOSET ) );
+			RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.BEDAZZLEMENTS ) );
 		}
 
 		// If the password hash is non-null, but is not available,

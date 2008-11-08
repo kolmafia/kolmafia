@@ -105,6 +105,8 @@ public class FightRequest
 		Pattern.compile( "<font color=[\"]?\\w+[\"]?><b>\\+?([\\d,]+)</b></font> (?:damage|points|HP worth)" );
 	private static final Pattern CLEESH_PATTERN =
 		Pattern.compile( "You cast CLEESH at your opponent.*?turns into a (\\w*)", Pattern.DOTALL );
+	private static final Pattern WORN_STICKER_PATTERN =
+		Pattern.compile( "A sticker falls off your weapon, faded and torn" );
 
 	// NOTE: All of the non-empty patterns that can match in the first group
 	// imply that the entire expression should be ignored.	If you add one
@@ -1327,6 +1329,20 @@ public class FightRequest
 			{
 				KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Bounty item failed to drop from expected monster." );
 			}
+		}
+		
+		// Check for worn-out stickers
+		int count = 0;
+		Matcher m = WORN_STICKER_PATTERN.matcher( responseText );
+		while ( m.find() )
+		{
+			++count;
+		}
+		if ( count > 0 )
+		{
+			KoLmafia.updateDisplay( (count == 1 ? "A sticker" : count + " stickers") +
+				" fell off your weapon." );
+			EquipmentManager.stickersExpired( count );
 		}
 
 		FightRequest.clearInstanceData();

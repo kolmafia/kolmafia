@@ -46,6 +46,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
+import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LouvreManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
@@ -539,6 +540,8 @@ public class AdventureRequest
 			name = CustomCombatManager.encounterKey( toName, false );
 		}
 		fromName = null;
+		
+		EquipmentManager.decrementTurns();
 		return name;
 	}
 

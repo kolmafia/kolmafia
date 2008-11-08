@@ -44,8 +44,11 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -64,15 +67,20 @@ public class EquipmentManager {
 	public static final int ACCESSORY2 = 6;
 	public static final int ACCESSORY3 = 7;
 	public static final int FAMILIAR = 8;
-	public static final int FAKEHAND = 9;
+	public static final int STICKER1 = 9;
+	public static final int STICKER2 = 10;
+	public static final int STICKER3 = 11;
+	public static final int FAKEHAND = 12;
 
 	private static LockableListModel equipment = new LockableListModel();
 	private static final LockableListModel accessories = new SortedListModel();
-	private static final LockableListModel[] equipmentLists = new LockableListModel[ 9 ];
+	private static final LockableListModel stickers = new SortedListModel();
+	private static final LockableListModel[] equipmentLists = new LockableListModel[ 12 ];
+	private static final int[] turnsRemaining = new int[ 3 ];
 
 	static
 	{
-		for ( int i = 0; i < 9; ++i )
+		for ( int i = 0; i < 12; ++i )
 		{
 			EquipmentManager.equipment.add( EquipmentRequest.UNEQUIP );
 
@@ -83,6 +91,12 @@ public class EquipmentManager {
 			case EquipmentManager.ACCESSORY3:
 				EquipmentManager.equipmentLists[ i ] = EquipmentManager.accessories.getMirrorImage();
 				break;
+				
+			case EquipmentManager.STICKER1:
+			case EquipmentManager.STICKER2:
+			case EquipmentManager.STICKER3:
+				EquipmentManager.equipmentLists[ i ] =
+					EquipmentManager.stickers.getMirrorImage();
 
 			default:
 				EquipmentManager.equipmentLists[ i ] = new SortedListModel();
@@ -108,7 +122,7 @@ public class EquipmentManager {
 
 		EquipmentManager.equipment.clear();
 
-		for ( int i = 0; i < 9; ++i )
+		for ( int i = 0; i < 12; ++i )
 		{
 			EquipmentManager.equipment.add( EquipmentRequest.UNEQUIP );
 		}
@@ -131,6 +145,10 @@ public class EquipmentManager {
 		if ( consumeType == KoLConstants.EQUIP_ACCESSORY )
 		{
 			AdventureResult.addResultToList( EquipmentManager.accessories, item );
+		}
+		else if ( consumeType == KoLConstants.CONSUME_STICKER )
+		{
+			AdventureResult.addResultToList( EquipmentManager.stickers, item );
 		}
 		else
 		{
@@ -170,6 +188,20 @@ public class EquipmentManager {
 			else
 			{
 				item = (AdventureResult) EquipmentManager.accessories.get( index );
+			}
+			break;
+			
+		case STICKER1:
+		case STICKER2:
+		case STICKER3:
+			index = EquipmentManager.stickers.indexOf( item );
+			if ( index == -1 )
+			{
+				EquipmentManager.stickers.add( item );
+			}
+			else
+			{
+				item = (AdventureResult) EquipmentManager.stickers.get( index );
 			}
 			break;
 
@@ -285,17 +317,80 @@ public class EquipmentManager {
 
 	public static final AdventureResult getEquipment( final int type )
 	{
-		if ( type >= 0 && type < equipment.size() )
-		{
-			return (AdventureResult) equipment.get( type );
-		}
-
 		if ( type == FAMILIAR )
 		{
 			return getFamiliarItem();
 		}
 
+		if ( type >= 0 && type < equipment.size() )
+		{
+			return (AdventureResult) equipment.get( type );
+		}
+
 		return EquipmentRequest.UNEQUIP;
+	}
+	
+	public static final int getTurns( int slot )
+	{
+		return EquipmentManager.turnsRemaining[ slot - EquipmentManager.STICKER1 ];
+	}
+	
+	public static final void setTurns( int slot, int minTurns, int maxTurns )
+	{
+		int curr = EquipmentManager.turnsRemaining[ slot - EquipmentManager.STICKER1 ];
+		if ( curr > maxTurns )
+		{
+			curr = maxTurns;
+		}
+		if ( curr < minTurns )
+		{
+			curr = minTurns;
+		}
+		EquipmentManager.turnsRemaining[ slot - EquipmentManager.STICKER1 ] = curr;
+	}
+	
+	public static final boolean isStickerWeapon( AdventureResult item )
+	{
+		return item != null && isStickerWeapon( item.getItemId() );
+	}
+	
+	public static final boolean isStickerWeapon( int itemId )
+	{
+		return itemId == ItemPool.STICKER_SWORD || itemId == ItemPool.STICKER_CROSSBOW;
+	}
+	
+	public static final boolean usingStickerWeapon()
+	{
+		return isStickerWeapon( getEquipment( EquipmentManager.WEAPON ) ) ||
+			isStickerWeapon( getEquipment( EquipmentManager.OFFHAND ) ) ||
+			isStickerWeapon( getEquipment( EquipmentManager.FAMILIAR ) );
+	}
+	
+	public static final void decrementTurns()
+	{
+		if ( usingStickerWeapon() )
+		{
+			--EquipmentManager.turnsRemaining[ 0 ];
+			--EquipmentManager.turnsRemaining[ 1 ];
+			--EquipmentManager.turnsRemaining[ 2 ];
+		}
+	}
+	
+	public static final void stickersExpired( int count )
+	{
+		for ( int i = 0; i < 3; ++i )
+		{
+			if ( EquipmentManager.turnsRemaining[ i ] <= 0 &&
+				getEquipment( EquipmentManager.STICKER1 + i ) != EquipmentRequest.UNEQUIP )
+			{
+				setEquipment( EquipmentManager.STICKER1 + i, EquipmentRequest.UNEQUIP );
+				--count;
+			}
+		}
+		if ( count != 0 )	// we've lost count somewhere, refresh
+		{
+			RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.BEDAZZLEMENTS ) );
+		}
 	}
 
 	/**
@@ -326,6 +421,13 @@ public class EquipmentManager {
 
 			EquipmentManager.updateEquipmentList( consumeFilter, EquipmentManager.accessories );
 			AdventureResult.addResultToList( EquipmentManager.accessories, equippedItem );
+			break;
+
+		case STICKER1:
+		case STICKER2:
+		case STICKER3:
+			EquipmentManager.updateEquipmentList( consumeFilter, EquipmentManager.stickers );
+			// existing stickers are not relocatable
 			break;
 
 		case FAMILIAR:
@@ -486,6 +588,10 @@ public class EquipmentManager {
 			return KoLConstants.EQUIP_ACCESSORY;
 		case FAMILIAR:
 			return KoLConstants.EQUIP_FAMILIAR;
+		case STICKER1:
+		case STICKER2:
+		case STICKER3:
+			return KoLConstants.CONSUME_STICKER;
 		default:
 			return -1;
 		}
@@ -509,6 +615,8 @@ public class EquipmentManager {
 			return ACCESSORY1;
 		case KoLConstants.EQUIP_FAMILIAR:
 			return FAMILIAR;
+		case KoLConstants.CONSUME_STICKER:
+			return STICKER1;
 		default:
 			return -1;
 		}
