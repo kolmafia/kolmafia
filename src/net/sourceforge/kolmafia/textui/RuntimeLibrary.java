@@ -90,6 +90,7 @@ import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.ManageStoreRequest;
 import net.sourceforge.kolmafia.request.MicroBreweryRequest;
+import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
@@ -894,6 +895,21 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.EFFECT_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "stat_modifier", DataTypes.STAT_TYPE, params ) );
+		
+		// Quest status inquiries
+		
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "galaktikCuresAvailable", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "isWhiteCitadelAvailable", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "isBlackMarketAvailable", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "isHippyStoreAvailable", DataTypes.BOOLEAN_TYPE, params ) );
+
 	}
 
         public static Method findMethod( final String name, final Class[] args )
@@ -3166,5 +3182,25 @@ public abstract class RuntimeLibrary
 		String name = arg.toString();
 		String mod = modifier.toString();
 		return new Value( DataTypes.parseStatValue( Modifiers.getStringModifier( name, mod ), true ) );
+	}
+	
+	public static Value galaktikCuresAvailable()
+	{
+		return DataTypes.makeBooleanValue( QuestLogRequest.galaktikCuresAvailable() );
+	}
+
+	public static Value isWhiteCitadelAvailable()
+	{
+		return DataTypes.makeBooleanValue( QuestLogRequest.isWhiteCitadelAvailable() );
+	}
+
+	public static Value isBlackMarketAvailable()
+	{
+		return DataTypes.makeBooleanValue( QuestLogRequest.isBlackMarketAvailable() );
+	}
+
+	public static Value isHippyStoreAvailable()
+	{
+		return DataTypes.makeBooleanValue( QuestLogRequest.isHippyStoreAvailable() );
 	}
 }
