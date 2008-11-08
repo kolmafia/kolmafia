@@ -156,8 +156,8 @@ public class ResultProcessor
 
 	private static boolean haveHaikuResults()
 	{
-                return KoLAdventure.lastAdventureId() == 138 ||
-		       KoLConstants.activeEffects.contains( haikuEffect );
+		return KoLAdventure.lastAdventureId() == 138 ||
+			KoLConstants.activeEffects.contains( haikuEffect );
 	}
 
 	private static boolean processHaikuResults( String results, List data )
@@ -882,6 +882,15 @@ public class ResultProcessor
 		
 		switch ( result.getItemId() )
 		{
+		case ItemPool.ROASTED_MARSHMALLOW:
+			// Special Yuletide adventures
+			if ( KoLAdventure.lastAdventureId() == 163 &&
+				KoLConstants.inventory.contains( ItemPool.get( ItemPool.MARSHMALLOW, 1 ) ) )
+			{
+				ResultProcessor.processItem( ItemPool.MARSHMALLOW, -1 );
+			}
+			break;
+		
 		// Sticker weapons may have been folded from the other form
 		case ItemPool.STICKER_SWORD:
 			if ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.STICKER_CROSSBOW, 1 ) ) )

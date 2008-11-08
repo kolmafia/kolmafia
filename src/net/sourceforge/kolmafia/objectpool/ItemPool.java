@@ -453,6 +453,8 @@ public class ItemPool
 	public static final int MINIBORG_BEEPER = 3112;
 	public static final int MINIBORG_HIVEMINDER = 3113;
 	public static final int MINIBORG_DESTROYOBOT = 3114;
+	public static final int MARSHMALLOW = 3128;
+	public static final int ROASTED_MARSHMALLOW = 3129;
 	public static final int DIVINE_BOOK = 3117;
 	public static final int DIVINE_FLUTE = 3123;
 	public static final int HOBO_NICKEL = 3126;
