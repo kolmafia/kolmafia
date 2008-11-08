@@ -39,6 +39,7 @@ import java.util.List;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
+
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
@@ -48,16 +49,23 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
+import net.sourceforge.kolmafia.StaticEntity;
+
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+
 import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 import net.sourceforge.kolmafia.swingui.GearChangeFrame;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public class EquipmentManager {
-
+public class EquipmentManager
+{
+	// Mutable equipment slots
 	public static final int HAT = 0;
 	public static final int WEAPON = 1;
 	public static final int OFFHAND = 2;
@@ -67,20 +75,29 @@ public class EquipmentManager {
 	public static final int ACCESSORY2 = 6;
 	public static final int ACCESSORY3 = 7;
 	public static final int FAMILIAR = 8;
+
+	// Count of real equipment slots: HAT to FAMILIAR
+	public static final int SLOTS = 9;
+
+	// Pseudo-equipment slots
 	public static final int STICKER1 = 9;
 	public static final int STICKER2 = 10;
 	public static final int STICKER3 = 11;
 	public static final int FAKEHAND = 12;
 
+	// Count of all equipment slots: HAT to STICKER3
+	public static final int ALL_SLOTS = 12;
+
 	private static LockableListModel equipment = new LockableListModel();
 	private static final LockableListModel accessories = new SortedListModel();
 	private static final LockableListModel stickers = new SortedListModel();
-	private static final LockableListModel[] equipmentLists = new LockableListModel[ 12 ];
+	private static final LockableListModel[] equipmentLists = new LockableListModel[ EquipmentManager.SLOTS ];
+
 	private static final int[] turnsRemaining = new int[ 3 ];
 
 	static
 	{
-		for ( int i = 0; i < 12; ++i )
+		for ( int i = 0; i < EquipmentManager.SLOTS; ++i )
 		{
 			EquipmentManager.equipment.add( EquipmentRequest.UNEQUIP );
 
@@ -122,7 +139,7 @@ public class EquipmentManager {
 
 		EquipmentManager.equipment.clear();
 
-		for ( int i = 0; i < 12; ++i )
+		for ( int i = 0; i < EquipmentManager.SLOTS; ++i )
 		{
 			EquipmentManager.equipment.add( EquipmentRequest.UNEQUIP );
 		}
@@ -130,6 +147,29 @@ public class EquipmentManager {
 		EquipmentManager.fakeHandCount = 0;
 		EquipmentManager.customOutfits.clear();
 		EquipmentManager.outfits.clear();
+	}
+
+	public static AdventureResult[] emptyEquipmentArray()
+	{
+		AdventureResult[] array = new AdventureResult[ EquipmentManager.SLOTS ];
+
+		for ( int i = 0; i < EquipmentManager.SLOTS; ++i )
+		{
+			array[ i ] = EquipmentRequest.UNEQUIP;
+		}
+
+		return array;
+	}
+
+	public static AdventureResult[] currentEquipment()
+	{
+		AdventureResult[] array = new AdventureResult[ EquipmentManager.SLOTS ];
+
+		for ( int i = 0; i < EquipmentManager.SLOTS; ++i )
+		{
+			array[ i ] = EquipmentManager.getEquipment( i );
+		}
+		return array;
 	}
 
 	public static final void processResult( AdventureResult item )
@@ -221,12 +261,12 @@ public class EquipmentManager {
 
 		switch ( slot )
 		{
-		case WEAPON:
-		case OFFHAND:
+		case EquipmentManager.WEAPON:
+		case EquipmentManager.OFFHAND:
 			GearChangeFrame.updateWeapons();
 			break;
 
-		case FAMILIAR:
+		case EquipmentManager.FAMILIAR:
 			KoLCharacter.currentFamiliar.setItem( item );
 			break;
 		}
@@ -262,7 +302,15 @@ public class EquipmentManager {
 
 	public static final void setEquipment( final AdventureResult[] equipment )
 	{
-		for ( int i = HAT; i <= FAMILIAR; ++i )
+		// Sanity check: must set ALL equipment slots
+
+		if ( equipment.length != EquipmentManager.SLOTS )
+		{
+			StaticEntity.printStackTrace( "Equipment array slot mismatch: " + EquipmentManager.SLOTS + " expected, " + equipment.length + " provided." );
+			return;
+		}
+
+		for ( int i = 0; i < EquipmentManager.SLOTS; ++i )
 		{
 			if ( equipment[ i ] == null || equipment[ i ].equals( EquipmentRequest.UNEQUIP ) )
 			{
@@ -317,7 +365,7 @@ public class EquipmentManager {
 
 	public static final AdventureResult getEquipment( final int type )
 	{
-		if ( type == FAMILIAR )
+		if ( type == EquipmentManager.FAMILIAR )
 		{
 			return getFamiliarItem();
 		}
@@ -411,32 +459,32 @@ public class EquipmentManager {
 			return;
 		}
 
-		AdventureResult equippedItem = getEquipment( listIndex );
+		AdventureResult equippedItem = EquipmentManager.getEquipment( listIndex );
 
 		switch ( listIndex )
 		{
-		case ACCESSORY1:
-		case ACCESSORY2:
-		case ACCESSORY3:
+		case EquipmentManager.ACCESSORY1:
+		case EquipmentManager.ACCESSORY2:
+		case EquipmentManager.ACCESSORY3:
 
 			EquipmentManager.updateEquipmentList( consumeFilter, EquipmentManager.accessories );
 			AdventureResult.addResultToList( EquipmentManager.accessories, equippedItem );
 			break;
 
-		case STICKER1:
-		case STICKER2:
-		case STICKER3:
+		case EquipmentManager.STICKER1:
+		case EquipmentManager.STICKER2:
+		case EquipmentManager.STICKER3:
 			EquipmentManager.updateEquipmentList( consumeFilter, EquipmentManager.stickers );
 			// existing stickers are not relocatable
 			break;
 
-		case FAMILIAR:
+		case EquipmentManager.FAMILIAR:
 
 			// If we are looking at familiar items, include those
 			// which can be universally equipped, but are currently
 			// on another familiar.
 
-			EquipmentManager.updateEquipmentList( consumeFilter, EquipmentManager.equipmentLists[ FAMILIAR ] );
+			EquipmentManager.updateEquipmentList( consumeFilter, EquipmentManager.equipmentLists[ EquipmentManager.FAMILIAR ] );
 
 			FamiliarData[] familiarList = new FamiliarData[ KoLCharacter.familiars.size() ];
 			KoLCharacter.familiars.toArray( familiarList );
@@ -448,7 +496,7 @@ public class EquipmentManager {
 				AdventureResult currentItem = familiarList[ i ].getItem();
 				if ( currentItem != EquipmentRequest.UNEQUIP && currentFamiliar.canEquip( currentItem ) )
 				{
-					AdventureResult.addResultToList( EquipmentManager.equipmentLists[ FAMILIAR ], currentItem );
+					AdventureResult.addResultToList( EquipmentManager.equipmentLists[ EquipmentManager.FAMILIAR ], currentItem );
 				}
 			}
 
@@ -562,7 +610,7 @@ public class EquipmentManager {
 	public static final void updateEquipmentLists()
 	{
 		EquipmentManager.updateOutfits();
-		for ( int i = 0; i <= FAMILIAR; ++i )
+		for ( int i = 0; i < EquipmentManager.SLOTS; ++i )
 		{
 			updateEquipmentList( i );
 		}
@@ -572,21 +620,21 @@ public class EquipmentManager {
 	{
 		switch ( equipmentType )
 		{
-		case HAT:
+		case EquipmentManager.HAT:
 			return KoLConstants.EQUIP_HAT;
-		case WEAPON:
+		case EquipmentManager.WEAPON:
 			return KoLConstants.EQUIP_WEAPON;
-		case OFFHAND:
+		case EquipmentManager.OFFHAND:
 			return KoLConstants.EQUIP_OFFHAND;
-		case SHIRT:
+		case EquipmentManager.SHIRT:
 			return KoLConstants.EQUIP_SHIRT;
-		case PANTS:
+		case EquipmentManager.PANTS:
 			return KoLConstants.EQUIP_PANTS;
-		case ACCESSORY1:
-		case ACCESSORY2:
-		case ACCESSORY3:
+		case EquipmentManager.ACCESSORY1:
+		case EquipmentManager.ACCESSORY2:
+		case EquipmentManager.ACCESSORY3:
 			return KoLConstants.EQUIP_ACCESSORY;
-		case FAMILIAR:
+		case EquipmentManager.FAMILIAR:
 			return KoLConstants.EQUIP_FAMILIAR;
 		case STICKER1:
 		case STICKER2:
@@ -602,19 +650,19 @@ public class EquipmentManager {
 		switch ( consumeFilter )
 		{
 		case KoLConstants.EQUIP_HAT:
-			return HAT;
+			return EquipmentManager.HAT;
 		case KoLConstants.EQUIP_WEAPON:
-			return WEAPON;
+			return EquipmentManager.WEAPON;
 		case KoLConstants.EQUIP_OFFHAND:
-			return OFFHAND;
+			return EquipmentManager.OFFHAND;
 		case KoLConstants.EQUIP_SHIRT:
-			return SHIRT;
+			return EquipmentManager.SHIRT;
 		case KoLConstants.EQUIP_PANTS:
-			return PANTS;
+			return EquipmentManager.PANTS;
 		case KoLConstants.EQUIP_ACCESSORY:
-			return ACCESSORY1;
+			return EquipmentManager.ACCESSORY1;
 		case KoLConstants.EQUIP_FAMILIAR:
-			return FAMILIAR;
+			return EquipmentManager.FAMILIAR;
 		case KoLConstants.CONSUME_STICKER:
 			return STICKER1;
 		default:
@@ -630,7 +678,7 @@ public class EquipmentManager {
 
 	public static final int getWeaponHandedness()
 	{
-		return EquipmentDatabase.getHands( EquipmentManager.getEquipment( WEAPON ).getName() );
+		return EquipmentDatabase.getHands( EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getName() );
 	}
 
 	/**
@@ -641,7 +689,7 @@ public class EquipmentManager {
 
 	public static final boolean usingTwoWeapons()
 	{
-		return EquipmentDatabase.getHands( getEquipment( OFFHAND ).getName() ) == 1;
+		return EquipmentDatabase.getHands( EquipmentManager.getEquipment( EquipmentManager.OFFHAND ).getName() ) == 1;
 	}
 
 	/**
@@ -652,7 +700,7 @@ public class EquipmentManager {
 
 	public static final boolean usingChefstaff()
 	{
-		return EquipmentDatabase.getItemType( EquipmentManager.getEquipment( WEAPON ).getItemId() ).equals( "chefstaff" );
+		return EquipmentDatabase.getItemType( EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getItemId() ).equals( "chefstaff" );
 	}
 
 	/**
@@ -675,7 +723,7 @@ public class EquipmentManager {
 
 	public static final int getHitStatType()
 	{
-		switch ( EquipmentDatabase.getWeaponType( getEquipment( WEAPON ).getName() ) )
+		switch ( EquipmentDatabase.getWeaponType( EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getName() ) )
 		{
 		case KoLConstants.MOXIE:
 			return KoLConstants.MOXIE;
