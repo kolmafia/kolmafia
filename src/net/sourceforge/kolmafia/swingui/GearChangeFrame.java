@@ -87,7 +87,7 @@ public class GearChangeFrame
 		super( "Gear Changer" );
 		GearChangeFrame.INSTANCE = this;
 
-		this.equipment = new ChangeComboBox[ 9 ];
+		this.equipment = new ChangeComboBox[ EquipmentManager.SLOTS ];
 
 		LockableListModel[] lists = EquipmentManager.getEquipmentLists();
 		// We maintain our own lists of valid weapons and offhand items
@@ -133,8 +133,8 @@ public class GearChangeFrame
 
 			VerifiableElement[] elements = new VerifiableElement[ 16 ];
 
-			elements[ 0 ] = new VerifiableElement( "Hat: ", GearChangeFrame.this.equipment[ 0 ] );
-			elements[ 1 ] = new VerifiableElement( "Weapon: ", GearChangeFrame.this.equipment[ 1 ] );
+			elements[ 0 ] = new VerifiableElement( "Hat: ", GearChangeFrame.this.equipment[ EquipmentManager.HAT ] );
+			elements[ 1 ] = new VerifiableElement( "Weapon: ", GearChangeFrame.this.equipment[ EquipmentManager.WEAPON ] );
 
 			JPanel radioPanel = new JPanel( new GridLayout( 1, 4 ) );
 			ButtonGroup radioGroup = new ButtonGroup();
@@ -160,20 +160,20 @@ public class GearChangeFrame
 
 			elements[ 2 ] = new VerifiableElement( "", radioPanel );
 
-			elements[ 3 ] = new VerifiableElement( "Off-Hand: ", GearChangeFrame.this.equipment[ 2 ] );
-			elements[ 4 ] = new VerifiableElement( "Shirt: ", GearChangeFrame.this.equipment[ 3 ] );
-			elements[ 5 ] = new VerifiableElement( "Pants: ", GearChangeFrame.this.equipment[ 4 ] );
+			elements[ 3 ] = new VerifiableElement( "Off-Hand: ", GearChangeFrame.this.equipment[ EquipmentManager.OFFHAND ] );
+			elements[ 4 ] = new VerifiableElement( "Shirt: ", GearChangeFrame.this.equipment[ EquipmentManager.SHIRT ] );
+			elements[ 5 ] = new VerifiableElement( "Pants: ", GearChangeFrame.this.equipment[ EquipmentManager.PANTS ] );
 
 			elements[ 6 ] = new VerifiableElement();
 
-			elements[ 7 ] = new VerifiableElement( "Accessory: ", GearChangeFrame.this.equipment[ 5 ] );
-			elements[ 8 ] = new VerifiableElement( "Accessory: ", GearChangeFrame.this.equipment[ 6 ] );
-			elements[ 9 ] = new VerifiableElement( "Accessory: ", GearChangeFrame.this.equipment[ 7 ] );
+			elements[ 7 ] = new VerifiableElement( "Accessory: ", GearChangeFrame.this.equipment[ EquipmentManager.ACCESSORY1 ] );
+			elements[ 8 ] = new VerifiableElement( "Accessory: ", GearChangeFrame.this.equipment[ EquipmentManager.ACCESSORY2 ] );
+			elements[ 9 ] = new VerifiableElement( "Accessory: ", GearChangeFrame.this.equipment[ EquipmentManager.ACCESSORY3 ] );
 
 			elements[ 10 ] = new VerifiableElement();
 
 			elements[ 11 ] = new VerifiableElement( "Familiar: ", GearChangeFrame.this.familiarSelect );
-			elements[ 12 ] = new VerifiableElement( "Fam Item: ", GearChangeFrame.this.equipment[ 8 ] );
+			elements[ 12 ] = new VerifiableElement( "Fam Item: ", GearChangeFrame.this.equipment[ EquipmentManager.FAMILIAR ] );
 
 			elements[ 13 ] = new VerifiableElement();
 

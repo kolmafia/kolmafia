@@ -820,6 +820,8 @@ public class EquipmentRequest
 		// Fetch updated equipment
 		if ( this.requestType == EquipmentRequest.CLOSET )
 		{
+			KoLmafia.setIsRefreshing( true );
+
 			InventoryManager.resetInventory();
 			EquipmentManager.resetEquipment();
 
@@ -828,6 +830,9 @@ public class EquipmentRequest
 			EquipmentRequest.REFRESH1.run();
 			EquipmentRequest.REFRESH2.run();
 			EquipmentRequest.REFRESH3.run();
+
+			KoLmafia.setIsRefreshing( false );
+
 			return;
 		}
 		else if ( this.getURLString().startsWith( "bedazzle.php" ) )
@@ -1026,23 +1031,14 @@ public class EquipmentRequest
 
 	public static final void parseEquipment( final String responseText )
 	{
-		AdventureResult[] oldEquipment = new AdventureResult[ 9 ];
+		AdventureResult[] oldEquipment = EquipmentManager.currentEquipment();
 		int oldFakeHands = EquipmentManager.getFakeHands();
 
 		// Ensure that the inventory stays up-to-date by switching
 		// items around, as needed.
 
-		for ( int i = 0; i < oldEquipment.length; ++i )
-		{
-			oldEquipment[ i ] = EquipmentManager.getEquipment( i );
-		}
-
-		AdventureResult[] equipment = new AdventureResult[ 9 ];
+		AdventureResult[] equipment = EquipmentManager.emptyEquipmentArray();
 		int fakeHands = 0;
-		for ( int i = 0; i < equipment.length; ++i )
-		{
-			equipment[ i ] = EquipmentRequest.UNEQUIP;
-		}
 
 		String name;
 		Matcher equipmentMatcher;
@@ -1205,10 +1201,15 @@ public class EquipmentRequest
 
 		if ( !KoLmafia.isRefreshing() )
 		{
-			// Omit familiar items, since inventory is handled by
-			// familiar.setItem()
-			for ( int i = 0; i < EquipmentManager.FAMILIAR; ++i )
+			for ( int i = 0; i < EquipmentManager.SLOTS; ++i )
 			{
+				if ( i == EquipmentManager.FAMILIAR )
+				{
+					// Omit familiar items, since inventory
+					// is handled by familiar.setItem()
+					continue;
+				}
+
 				refreshCreations |= EquipmentRequest.switchItem( oldEquipment[ i ], equipment[ i ] );
 			}
 		}
@@ -1226,14 +1227,14 @@ public class EquipmentRequest
 		// Now update your equipment to make sure that selected
 		// items are properly selected in the dropdowns.
 
-		Matcher outfitsMatcher = EquipmentRequest.OUTFITLIST_PATTERN.matcher( responseText );
+		EquipmentManager.setEquipment( equipment );
 
+                // Look for custom outfits
+
+		Matcher outfitsMatcher = EquipmentRequest.OUTFITLIST_PATTERN.matcher( responseText );
 		LockableListModel outfits = outfitsMatcher.find() ? SpecialOutfit.parseOutfits( outfitsMatcher.group() ) : null;
 
-		EquipmentManager.setEquipment( equipment );
 		EquipmentManager.setOutfits( outfits );
-
-		EquipmentManager.updateOutfits();
 
 		// If you need to update your creatables list, do so at
 		// the end of the processing.

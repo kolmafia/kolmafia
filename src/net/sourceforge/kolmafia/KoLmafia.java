@@ -882,6 +882,11 @@ public abstract class KoLmafia
 		return KoLmafia.isRefreshing;
 	}
 
+	public static final void setIsRefreshing( final boolean isRefreshing )
+	{
+		KoLmafia.isRefreshing = isRefreshing;
+	}
+
 	/**
 	 * Used to reset the session tally to its original values.
 	 */
