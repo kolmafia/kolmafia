@@ -1046,6 +1046,11 @@ public class ResultProcessor
 		case ItemPool.MOX_MANUAL:
 			ResultProcessor.processItem( ItemPool.DUSTY_BOOK, -1 );
 			break;
+
+		case ItemPool.FRATHOUSE_BLUEPRINTS:
+			ResultProcessor.processItem( ItemPool.CARONCH_MAP, -1 );
+			ResultProcessor.processItem( ItemPool.CARONCH_NASTY_BOOTY, -1 );
+			break;
 		
 		case ItemPool.TEN_LEAF_CLOVER:
 			ResultProcessor.receivedClover = true;

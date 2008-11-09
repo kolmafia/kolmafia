@@ -71,6 +71,7 @@ public class ItemPool
 	public static final int MEAT_STACK = 88;
 	public static final int KETCHUP = 106;
 	public static final int CATSUP = 107;
+	public static final int FRILLY_SKIRT = 131;
 	public static final int BITCHIN_MEATCAR = 134;
 	public static final int DINGY_PLANKS = 140;
 	public static final int DINGHY_DINGY = 141;
@@ -79,6 +80,7 @@ public class ItemPool
 	public static final int BAKE_OVEN = 157;
 	public static final int DOUGH = 159;
 	public static final int SKELETON_BONE = 163;
+	public static final int BRIEFCASE = 184;
 	public static final int ENCHANTED_BEAN = 186;
 	public static final int BAT_GUANO = 188;
 	public static final int BATSKIN_BELT = 192;
@@ -90,6 +92,7 @@ public class ItemPool
 	public static final int COCKTAIL_KIT = 236;
 	public static final int TOMATO = 246;
 	public static final int DENSE_STACK = 258;
+	public static final int MULLET_WIG = 267;
 	public static final int MOSQUITO_LARVA = 275;
 	public static final int FLAT_DOUGH = 301;
 	public static final int DRY_NOODLES = 304;
@@ -117,6 +120,7 @@ public class ItemPool
 	public static final int BLACK_PIXEL = 460;
 	public static final int RED_PIXEL = 461;
 	public static final int GREEN_PIXEL = 462;
+	public static final int HOT_WING = 471;
 	public static final int BLUE_PIXEL = 463;
 	public static final int TALISMAN = 486;
 	public static final int KETCHUP_HOUND = 493;
@@ -404,6 +408,7 @@ public class ItemPool
 	public static final int GNOME_DEMODULIZER = 2848;
 	public static final int PIRATE_INSULT_BOOK = 2947;
 	public static final int CARONCH_MAP = 2950;
+	public static final int FRATHOUSE_BLUEPRINTS = 2951;
 	public static final int CHARRRM_BRACELET = 2953;
 	public static final int RUM_CHARRRM = 2957;
 	public static final int RUM_BRACELET = 2959;
@@ -420,6 +425,8 @@ public class ItemPool
 	public static final int TONGUE_CHARRRM = 2986;
 	public static final int TONGUE_BRACELET = 2987;
 	public static final int CLINGFILM = 2988;
+	public static final int CARONCH_NASTY_BOOTY = 2999;
+	public static final int CARONCH_DENTURES = 3000;
 	public static final int IDOL_AKGYXOTH = 3009;
 	public static final int EMBLEM_AKGYXOTH = 3010;
 	public static final int SIMPLE_CURSED_KEY = 3013;

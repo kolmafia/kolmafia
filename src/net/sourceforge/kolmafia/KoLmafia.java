@@ -2734,22 +2734,44 @@ public abstract class KoLmafia
 			}
 		}
 
+		KoLmafia.handleSpecialEncounter( encounterName );
+
+		KoLConstants.encounterList.add( new RegisteredEncounter( encounterType, encounterName ) );
+	}
+
+	public static void handleSpecialEncounter( String encounterName )
+	{
 		if ( encounterName.equalsIgnoreCase( "Cheetahs Never Lose" ) )
 		{
 			if ( InventoryManager.hasItem( ItemPool.BAG_OF_CATNIP ) )
 			{
 				ResultProcessor.processItem( ItemPool.BAG_OF_CATNIP, -1 );
 			}
+			return;
 		}
+
 		if ( encounterName.equalsIgnoreCase( "Summer Holiday" ) )
 		{
 			if ( InventoryManager.hasItem( ItemPool.HANG_GLIDER ) )
 			{
 				ResultProcessor.processItem( ItemPool.HANG_GLIDER, -1 );
 			}
+			return;
 		}
 
-		KoLConstants.encounterList.add( new RegisteredEncounter( encounterType, encounterName ) );
+		if ( encounterName.equalsIgnoreCase( "Step Up to the Table, Put the Ball in Play" ) )
+		{
+			if ( InventoryManager.hasItem( ItemPool.CARONCH_DENTURES ) )
+			{
+				ResultProcessor.processItem( ItemPool.CARONCH_DENTURES, -1 );
+			}
+
+			if ( InventoryManager.hasItem( ItemPool.FRATHOUSE_BLUEPRINTS ) )
+			{
+				ResultProcessor.processItem( ItemPool.FRATHOUSE_BLUEPRINTS, -1 );
+			}
+			return;
+		}
 	}
 
 	private class RegisteredEncounter

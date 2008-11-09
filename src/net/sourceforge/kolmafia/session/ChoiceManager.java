@@ -1506,6 +1506,23 @@ public abstract class ChoiceManager
 
 			return result;
 
+		case 188:
+			// The Infiltrationist
+			result = new String[ 3 ][];
+
+			// The choice option is the first element
+			result[ 0 ] = new String[ 1 ];
+			result[ 0 ][ 0 ] = "choiceAdventure188";
+
+			// The name of the choice is second element
+			result[ 1 ] = new String[ 1 ];
+			result[ 1 ][ 0 ] = "Orcish Frat House Blueprints";
+
+			// An array of choice spoilers is the third element
+			result[ 2 ] = ChoiceManager.dynamicChoiceOptions( choice );
+
+			return result;
+
 		case 272:
 			// Marketplace Entrance
 			result = new String[ 3 ][];
@@ -1568,6 +1585,26 @@ public abstract class ChoiceManager
 
 			result[ 0 ] = KoLConstants.FLOAT_FORMAT.format( odds ) + "% chance of winning";
 			result[ 1 ] = odds == 100.0f ? "Oh come on. Do it!" : "Try later";
+			return result;
+
+		case 188:
+			// The Infiltrationist
+			result = new String[ 3 ];
+
+			// Attempt a frontal assault
+			boolean ok1 = EquipmentManager.isWearingOutfit( 3 );
+			result[ 0 ] = "Frat Boy Ensemble (" + ( ok1 ? "" : "NOT " ) + "equipped)";
+
+			// Go in through the side door
+			boolean ok2a = KoLCharacter.hasEquipped( ItemPool.get( ItemPool.MULLET_WIG, 1 ) );
+			boolean ok2b = InventoryManager.getCount( ItemPool.BRIEFCASE ) >= 1;
+			result[ 1 ] = "mullet wig (" + ( ok2a ? "" : "NOT " ) + "equipped) + briefcase (" + ( ok2b ? "OK)" : "0 in inventory)" );
+
+			// Catburgle
+			boolean ok3a = KoLCharacter.hasEquipped( ItemPool.get( ItemPool.FRILLY_SKIRT, 1 ) );
+			int wings = InventoryManager.getCount( ItemPool.HOT_WING );
+			result[ 2 ] = "frilly skirt (" + ( ok3a ? "" : "NOT " ) + " equipped) + 3 hot wings (" + wings + " in inventory)";
+
 			return result;
 		}
 		return null;

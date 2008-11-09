@@ -1381,6 +1381,22 @@ public class UseItemRequest
 
 			return;
 
+		case ItemPool.CARONCH_MAP:
+
+			// The item is only consumed once you turn in
+			// the nasty booty. That's handled elsewhere.
+
+			ResultProcessor.processResult( item );
+			return;
+
+		case ItemPool.FRATHOUSE_BLUEPRINTS:
+
+			// The item is only consumed once you turn in the
+			// dentures. That's handled elsewhere.
+
+			ResultProcessor.processResult( item );
+			return;
+
 		case ItemPool.DINGHY_PLANS:
 
 			// "You need some planks to build the dinghy."
