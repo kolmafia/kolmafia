@@ -2675,7 +2675,7 @@ public abstract class KoLmafia
 		return encounterType == KoLmafia.STOP || encounterType == KoLmafia.GLYPH;
 	}
 
-	public void recognizeEncounter( final String encounterName )
+	public static void recognizeEncounter( final String encounterName )
 	{
 		String encounterType = KoLmafia.encounterType( encounterName );
 
@@ -2713,10 +2713,12 @@ public abstract class KoLmafia
 	 * Utility. The method used to register a given encounter in the running adventure summary.
 	 */
 
-	public void registerEncounter( String encounterName, final String encounterType )
+	public static void registerEncounter( String encounterName, final String encounterType )
 	{
 		encounterName = encounterName.trim();
-		this.recognizeEncounter( encounterName );
+
+		KoLmafia.handleSpecialEncounter( encounterName );
+		KoLmafia.recognizeEncounter( encounterName );
 
 		RegisteredEncounter[] encounters = new RegisteredEncounter[ KoLConstants.encounterList.size() ];
 		KoLConstants.encounterList.toArray( encounters );
@@ -2732,8 +2734,6 @@ public abstract class KoLmafia
 				return;
 			}
 		}
-
-		KoLmafia.handleSpecialEncounter( encounterName );
 
 		KoLConstants.encounterList.add( new RegisteredEncounter( encounterType, encounterName ) );
 	}
@@ -2773,7 +2773,7 @@ public abstract class KoLmafia
 		}
 	}
 
-	private class RegisteredEncounter
+	private static class RegisteredEncounter
 		implements Comparable
 	{
 		private final String type;
