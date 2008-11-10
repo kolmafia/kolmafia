@@ -1670,112 +1670,31 @@ public abstract class ChoiceManager
 			return;
 		}
 
-		String choice = null;
-		String option = null;
-		String decision = null;
-
 		for ( int stepCount = 0; request.responseText.indexOf( "choice.php" ) != -1; ++stepCount )
 		{
 			Matcher choiceMatcher = ChoiceManager.CHOICE_PATTERN.matcher( request.responseText );
 
 			if ( !choiceMatcher.find() )
 			{
-				// choice.php did not offer us any choices. This would
-				// be a bug in KoL itself. Bail now and let the user
-				// finish by hand.
+				// choice.php did not offer us any choices.
+				// This would be a bug in KoL itself.
+				// Bail now and let the user finish by hand.
 
 				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Encountered choice adventure with no choices." );
 				request.showInBrowser( true );
 				return;
 			}
 
-			choice = choiceMatcher.group( 1 );
-			option = "choiceAdventure" + choice;
-			decision = Preferences.getString( option );
-
-			// Certain choices should always be taken.  These
-			// choices are handled here.
-
-			if ( choice.equals( "7" ) )
-			{
-				decision = "1";
-			}
-
-			// If this happens to be adventure 26 or 27,
-			// check against the player's conditions.
-
-			if ( ( choice.equals( "26" ) || choice.equals( "27" ) ) && !KoLConstants.conditions.isEmpty() )
-			{
-				for ( int i = 0; i < 12; ++i )
-				{
-					if ( AdventureDatabase.WOODS_ITEMS[ i ].getCount( KoLConstants.conditions ) > 0 )
-					{
-						decision = choice.equals( "26" ) ? String.valueOf( i / 4 + 1 ) : String.valueOf( i % 4 / 2 + 1 );
-					}
-				}
-			}
-
-			// If the player is looking for the ballroom key,
-			// then update their preferences so that KoLmafia
-			// automatically switches things for them.
-
-			if ( choice.equals( "85" ) )
-			{
-				if ( !KoLConstants.inventory.contains( ChoiceManager.BALLROOM_KEY ) )
-				{
-					Preferences.setString( option, decision.equals( "1" ) ? "2" : "1" );
-				}
-				else
-				{
-					for ( int i = 0; i < ChoiceManager.MISTRESS_ITEMS.length; ++i )
-					{
-						if ( KoLConstants.conditions.contains( ChoiceManager.MISTRESS_ITEMS[ i ] ) )
-						{
-							decision = "3";
-						}
-					}
-				}
-			}
-
-			// Auto-skip the goatlet adventure if you're not wearing
-			// the mining outfit so it can be tried again later.
-
-			if ( choice.equals( "162" ) && !EquipmentManager.isWearingOutfit( 8 ) )
-			{
-				decision = "2";
-			}
-
-			// Sometimes, the choice adventure for the louvre
-			// loses track of whether to ignore the louvre or not.
-
-			if ( choice.equals( "91" ) )
-			{
-				decision = Preferences.getInteger( "louvreDesiredGoal" ) != 0 ? "1" : "2";
-			}
-
-			// If there is no setting which determines the
-			// decision, see if it's in the violet fog
-
-			if ( decision.equals( "" ) )
-			{
-				decision = VioletFogManager.handleChoice( choice );
-			}
-
-			// If there is no setting which determines the
-			// decision, see if it's in the Louvre
-
-			if ( decision.equals( "" ) )
-			{
-				decision = LouvreManager.handleChoice( choice, stepCount );
-			}
+			String choice = choiceMatcher.group( 1 );
+			String option = "choiceAdventure" + choice;
+			String decision = Preferences.getString( option );
 
 			// If this choice has special handling, convert to real
 			// decision index
 
-			decision = ChoiceManager.specialChoiceDecision( choice, decision );
+			decision = ChoiceManager.specialChoiceDecision( choice, option, decision, stepCount );
 
-			// If the user wants to handle the choice manually,
-			// allow it.
+			// Let user handle the choice manually, if requested
 
 			if ( decision.equals( "0" ) )
 			{
@@ -1785,8 +1704,7 @@ public abstract class ChoiceManager
 				return;
 			}
 
-			// If there is currently no setting which determines the
-			// decision, give an error and bail.
+			// Bail if no setting determines the decision
 
 			if ( decision.equals( "" ) )
 			{
@@ -1808,12 +1726,6 @@ public abstract class ChoiceManager
 			request.addFormField( "option", decision );
 
 			request.run();
-		}
-
-		// If didn't find a choice, nothing more to do
-		if ( choice == null )
-		{
-			return;
 		}
 	}
 
@@ -2256,14 +2168,96 @@ public abstract class ChoiceManager
 		KoLmafia.updateDisplay( "+" + explorations + " Explorations" );
 	}
 
-	private static final String specialChoiceDecision( final String option, final String decision )
+	private static final String specialChoiceDecision( final String choice, final String option, final String decision, final int stepCount )
 	{
-		switch ( StringUtilities.parseInt( option ) )
+		int choiceValue = StringUtilities.parseInt( choice );
+
+		switch ( choiceValue )
 		{
+		// How Depressing
+		case 7:
+			return "1";
+
+		// A Three-Tined Fork
+		// Footprints
+		case 26:
+		case 27:
+
+			// Check if we can satisfy one of user's conditions
+			if ( !KoLConstants.conditions.isEmpty() )
+			{
+
+				for ( int i = 0; i < 12; ++i )
+				{
+					if ( AdventureDatabase.WOODS_ITEMS[ i ].getCount( KoLConstants.conditions ) > 0 )
+					{
+						return choiceValue == 26 ? String.valueOf( i / 4 + 1 ) : String.valueOf( i % 4 / 2 + 1 );
+					}
+				}
+			}
+
+			return decision;
+
+
+		// One NightStand (simple wooden)
+		case 85:
+
+			// If the player is looking for the ballroom key,
+			// then update their preferences so that KoLmafia
+			// automatically switches things for them.
+
+			if ( !KoLConstants.inventory.contains( ChoiceManager.BALLROOM_KEY ) )
+			{
+				Preferences.setString( option, decision.equals( "1" ) ? "2" : "1" );
+			}
+			else
+			{
+				for ( int i = 0; i < ChoiceManager.MISTRESS_ITEMS.length; ++i )
+				{
+					if ( KoLConstants.conditions.contains( ChoiceManager.MISTRESS_ITEMS[ i ] ) )
+					{
+						return "3";
+					}
+				}
+			}
+
+			return decision;
+
+		// Choice 162 is Between a Rock and Some Other Rocks
+		case 162:
+
+			// Auto-skip the goatlet adventure if you're not wearing
+			// the mining outfit so it can be tried again later.
+
+			return EquipmentManager.isWearingOutfit( 8 ) ? decision : "2";
+
+		case 91:
+
+			// Sometimes, the choice adventure for the louvre
+			// loses track of whether to ignore the louvre or not.
+
+			return Preferences.getInteger( "louvreDesiredGoal" ) != 0 ? "1" : "2";
+
+		case 48: case 49: case 50: case 51: case 52:
+		case 53: case 54: case 55: case 56: case 57:
+		case 58: case 59: case 60: case 61: case 62:
+		case 63: case 64: case 65: case 66: case 67:
+		case 68: case 69: case 70:
+
+			// Choices in the Violet Fog
+			if ( decision.equals( "" ) )
+			{
+				return VioletFogManager.handleChoice( choice );
+			}
+
+			return decision;
+
 		// Take a Look, it's in a Book!
 		case 81:
+
 			// If we've already unlocked the gallery, try
 			// to unlock the second floor.
+
 			if ( decision.equals( "1" ) && Preferences.getInteger( "lastGalleryUnlock" ) == KoLCharacter.getAscensions() )
 			{
 				return "99";
@@ -2272,19 +2266,22 @@ public abstract class ChoiceManager
 
 		// Take a Look, it's in a Book!
 		case 80:
+
 			// If we've already unlocked the second floor,
 			// ignore this choice adventure.
+
 			if ( decision.equals( "99" ) && Preferences.getInteger( "lastSecondFloorUnlock" ) == KoLCharacter.getAscensions() )
 			{
 				return "4";
 			}
 			return decision;
 
-		// Handle the maidens adventure in a less random fashion that's
-		// actually useful.
-
-		// Choice 89 is Out in the Garden
+		// Out in the Garden
 		case 89:
+
+			// Handle the maidens adventure in a less random
+			// fashion that's actually useful.
+
 			switch ( StringUtilities.parseInt( decision ) )
 			{
 			case 0:
@@ -2301,7 +2298,19 @@ public abstract class ChoiceManager
 			}
 			return decision;
 
-		// Choice 127 is No sir, away!	A papaya war is on!
+		case 92: case 93: case 94: case 95: case 96:
+		case 97: case 98: case 99: case 100: case 101:
+		case 102: case 103: case 104:
+			// Choices in the Louvre
+
+			if ( decision.equals( "" ) )
+			{
+				return LouvreManager.handleChoice( choice, stepCount );
+			}
+
+			return decision;
+
+		// No sir, away! A papaya war is on!
 		case 127:
 			switch ( StringUtilities.parseInt( decision ) )
 			{
@@ -2316,7 +2325,7 @@ public abstract class ChoiceManager
 			}
 			return decision;
 
-		// Choice 161 is Bureaucracy of the Damned
+		// Bureaucracy of the Damned
 		case 161:
 			// Check if we have all of Azazel's objects of evil
 			for ( int i = 2566; i <= 2568; ++i )
