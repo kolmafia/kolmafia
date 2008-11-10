@@ -107,6 +107,8 @@ public class FightRequest
 		Pattern.compile( "You cast CLEESH at your opponent.*?turns into a (\\w*)", Pattern.DOTALL );
 	private static final Pattern WORN_STICKER_PATTERN =
 		Pattern.compile( "A sticker falls off your weapon, faded and torn" );
+	private static final Pattern BALLROOM_SONG_PATTERN =
+		Pattern.compile( "You hear strains of (?:(lively)|(mellow)|(lovely)) music in the distance" );
 
 	// NOTE: All of the non-empty patterns that can match in the first group
 	// imply that the entire expression should be ignored.	If you add one
@@ -1343,6 +1345,15 @@ public class FightRequest
 			KoLmafia.updateDisplay( (count == 1 ? "A sticker" : count + " stickers") +
 				" fell off your weapon." );
 			EquipmentManager.stickersExpired( count );
+		}
+		
+		// Check for ballroom song hint
+		m = BALLROOM_SONG_PATTERN.matcher( responseText );
+		if ( m.find() )
+		{
+			Preferences.setInteger( "lastQuartetAscension", KoLCharacter.getAscensions() );
+			Preferences.setInteger( "lastQuartetRequest", m.start( 1 ) != -1 ? 1 :
+				m.start( 2 ) != -1 ? 2 : 3 );
 		}
 
 		FightRequest.clearInstanceData();
