@@ -486,6 +486,18 @@ public class BasementDecorator
 		{
 			if ( item == null )
 			{
+				if ( this.action.startsWith( "concert " ) &&
+					Preferences.getBoolean( "concertVisited" ) )
+				{
+					return true;
+				}
+	
+				if ( this.action.startsWith( "telescope " ) &&
+					Preferences.getBoolean( "telescopeLookedHigh" ) )
+				{
+					return true;
+				}
+	
 				return false;
 			}
 
@@ -498,7 +510,7 @@ public class BasementDecorator
 			{
 				return true;
 			}
-
+			
 			return false;
 		}
 
