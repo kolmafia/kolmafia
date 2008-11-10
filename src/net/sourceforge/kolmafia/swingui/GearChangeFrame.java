@@ -87,7 +87,7 @@ public class GearChangeFrame
 		super( "Gear Changer" );
 		GearChangeFrame.INSTANCE = this;
 
-		this.equipment = new ChangeComboBox[ EquipmentManager.SLOTS ];
+		this.equipment = new ChangeComboBox[ EquipmentManager.ALL_SLOTS ];
 
 		LockableListModel[] lists = EquipmentManager.getEquipmentLists();
 		// We maintain our own lists of valid weapons and offhand items
@@ -131,7 +131,7 @@ public class GearChangeFrame
 		{
 			super( "change gear", "save as outfit", new Dimension( 120, 20 ), new Dimension( 300, 20 ) );
 
-			VerifiableElement[] elements = new VerifiableElement[ 16 ];
+			VerifiableElement[] elements = new VerifiableElement[ 20 ];
 
 			elements[ 0 ] = new VerifiableElement( "Hat: ", GearChangeFrame.this.equipment[ EquipmentManager.HAT ] );
 			elements[ 1 ] = new VerifiableElement( "Weapon: ", GearChangeFrame.this.equipment[ EquipmentManager.WEAPON ] );
@@ -179,6 +179,12 @@ public class GearChangeFrame
 
 			elements[ 14 ] = new VerifiableElement( "Outfit: ", GearChangeFrame.this.outfitSelect );
 			elements[ 15 ] = new VerifiableElement( "Custom: ", GearChangeFrame.this.customSelect );
+
+			elements[ 16 ] = new VerifiableElement();
+
+			elements[ 17 ] = new VerifiableElement( "Sticker: ", GearChangeFrame.this.equipment[ EquipmentManager.STICKER1 ]  );
+			elements[ 18 ] = new VerifiableElement( "Sticker: ", GearChangeFrame.this.equipment[ EquipmentManager.STICKER2 ]  );
+			elements[ 19 ] = new VerifiableElement( "Sticker: ", GearChangeFrame.this.equipment[ EquipmentManager.STICKER3 ]  );
 
 			this.setContent( elements );
 			GearChangeFrame.this.outfitButton = this.cancelledButton;
@@ -230,7 +236,7 @@ public class GearChangeFrame
 	{
 		// Find out what changed
 
-		AdventureResult[] pieces = new AdventureResult[ 8 ];
+		AdventureResult[] pieces = new AdventureResult[ EquipmentManager.ALL_SLOTS ];
 
 		for ( int i = 0; i < pieces.length; ++i )
 		{
@@ -257,6 +263,15 @@ public class GearChangeFrame
 		// Move on to other equipment
 
 		for ( int i = 0; i < EquipmentManager.ACCESSORY1; ++i )
+		{
+			if ( pieces[ i ] != null )
+			{
+				RequestThread.postRequest( new EquipmentRequest( pieces[ i ], i, true ) );
+				pieces[ i ] = null;
+			}
+		}
+
+		for ( int i = EquipmentManager.STICKER1; i <= EquipmentManager.STICKER3; ++i )
 		{
 			if ( pieces[ i ] != null )
 			{

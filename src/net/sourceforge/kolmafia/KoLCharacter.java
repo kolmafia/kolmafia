@@ -2623,6 +2623,10 @@ public abstract class KoLCharacter
 			return KoLCharacter.hasEquipped( item, EquipmentManager.ACCESSORY1 ) || KoLCharacter.hasEquipped(
 				item, EquipmentManager.ACCESSORY2 ) || KoLCharacter.hasEquipped( item, EquipmentManager.ACCESSORY3 );
 
+		case KoLConstants.CONSUME_STICKER:
+			return KoLCharacter.hasEquipped( item, EquipmentManager.STICKER1 ) || KoLCharacter.hasEquipped(
+				item, EquipmentManager.STICKER2 ) || KoLCharacter.hasEquipped( item, EquipmentManager.STICKER3 );
+
 		case KoLConstants.EQUIP_FAMILIAR:
 			return KoLCharacter.hasEquipped( item, EquipmentManager.FAMILIAR );
 		}
@@ -2686,6 +2690,21 @@ public abstract class KoLCharacter
 			case EquipmentManager.SHIRT:
 				newModifiers.add( Modifiers.DAMAGE_ABSORPTION, EquipmentDatabase.getPower( item.getItemId() ) );
 				break;
+			}
+		}
+		
+		// Possibly look at stickers
+		if ( EquipmentManager.usingStickerWeapon() )
+		{
+			for ( int slot = EquipmentManager.STICKER1; slot <= EquipmentManager.STICKER3; ++slot )
+			{
+				AdventureResult item = EquipmentManager.getEquipment( slot );
+				if ( item == null )
+				{
+					continue;
+				}
+	
+				newModifiers.add( Modifiers.getModifiers( item.getName() ) );
 			}
 		}
 

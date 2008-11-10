@@ -90,14 +90,13 @@ public class EquipmentManager
 
 	private static LockableListModel equipment = new LockableListModel();
 	private static final LockableListModel accessories = new SortedListModel();
-	private static final LockableListModel stickers = new SortedListModel();
-	private static final LockableListModel[] equipmentLists = new LockableListModel[ EquipmentManager.SLOTS ];
+	private static final LockableListModel[] equipmentLists = new LockableListModel[ EquipmentManager.ALL_SLOTS ];
 
 	private static final int[] turnsRemaining = new int[ 3 ];
 
 	static
 	{
-		for ( int i = 0; i < EquipmentManager.SLOTS; ++i )
+		for ( int i = 0; i < EquipmentManager.ALL_SLOTS; ++i )
 		{
 			EquipmentManager.equipment.add( EquipmentRequest.UNEQUIP );
 
@@ -109,12 +108,6 @@ public class EquipmentManager
 				EquipmentManager.equipmentLists[ i ] = EquipmentManager.accessories.getMirrorImage();
 				break;
 				
-			case EquipmentManager.STICKER1:
-			case EquipmentManager.STICKER2:
-			case EquipmentManager.STICKER3:
-				EquipmentManager.equipmentLists[ i ] =
-					EquipmentManager.stickers.getMirrorImage();
-
 			default:
 				EquipmentManager.equipmentLists[ i ] = new SortedListModel();
 				break;
@@ -139,7 +132,7 @@ public class EquipmentManager
 
 		EquipmentManager.equipment.clear();
 
-		for ( int i = 0; i < EquipmentManager.SLOTS; ++i )
+		for ( int i = 0; i < EquipmentManager.ALL_SLOTS; ++i )
 		{
 			EquipmentManager.equipment.add( EquipmentRequest.UNEQUIP );
 		}
@@ -188,7 +181,40 @@ public class EquipmentManager
 		}
 		else if ( consumeType == KoLConstants.CONSUME_STICKER )
 		{
-			AdventureResult.addResultToList( EquipmentManager.stickers, item );
+			// The available stickers cannot be combined into a single list, as is done with
+			// accessories, since stickers cannot be moved to a different slot.  If a slot
+			// contains your last sticker of a particular type, then that type must only appear
+			// for that slot (so that it can be the initially selected value), not in the
+			// other two slots.  There are only six types of stickers, and no reason to
+			// believe that there will ever be many (or even any) more, so this duplication
+			// should not present a problem.
+			AdventureResult.addResultToList( EquipmentManager.equipmentLists[ 
+				EquipmentManager.STICKER1 ], item );
+			AdventureResult.addResultToList( EquipmentManager.equipmentLists[ 
+				EquipmentManager.STICKER2 ], item );
+			AdventureResult.addResultToList( EquipmentManager.equipmentLists[ 
+				EquipmentManager.STICKER3 ], item );
+			
+			// Make sure the current sticker in each slot remains in the list, even if there
+			// are no more of that type in inventory.
+			if ( !EquipmentManager.equipmentLists[ EquipmentManager.STICKER1 ].contains(
+				EquipmentManager.getEquipment( EquipmentManager.STICKER1 ) ) )
+			{
+				EquipmentManager.equipmentLists[ EquipmentManager.STICKER1 ].add(
+					EquipmentManager.getEquipment( EquipmentManager.STICKER1 ) );
+			}
+			if ( !EquipmentManager.equipmentLists[ EquipmentManager.STICKER2 ].contains(
+				EquipmentManager.getEquipment( EquipmentManager.STICKER2 ) ) )
+			{
+				EquipmentManager.equipmentLists[ EquipmentManager.STICKER2 ].add(
+					EquipmentManager.getEquipment( EquipmentManager.STICKER2 ) );
+			}
+			if ( !EquipmentManager.equipmentLists[ EquipmentManager.STICKER3 ].contains(
+				EquipmentManager.getEquipment( EquipmentManager.STICKER3 ) ) )
+			{
+				EquipmentManager.equipmentLists[ EquipmentManager.STICKER3 ].add(
+					EquipmentManager.getEquipment( EquipmentManager.STICKER3 ) );
+			}
 		}
 		else
 		{
@@ -231,20 +257,6 @@ public class EquipmentManager
 			}
 			break;
 			
-		case STICKER1:
-		case STICKER2:
-		case STICKER3:
-			index = EquipmentManager.stickers.indexOf( item );
-			if ( index == -1 )
-			{
-				EquipmentManager.stickers.add( item );
-			}
-			else
-			{
-				item = (AdventureResult) EquipmentManager.stickers.get( index );
-			}
-			break;
-
 		default:
 			if ( !EquipmentManager.equipmentLists[ slot ].contains( item ) )
 			{
@@ -471,13 +483,6 @@ public class EquipmentManager
 			AdventureResult.addResultToList( EquipmentManager.accessories, equippedItem );
 			break;
 
-		case EquipmentManager.STICKER1:
-		case EquipmentManager.STICKER2:
-		case EquipmentManager.STICKER3:
-			EquipmentManager.updateEquipmentList( consumeFilter, EquipmentManager.stickers );
-			// existing stickers are not relocatable
-			break;
-
 		case EquipmentManager.FAMILIAR:
 
 			// If we are looking at familiar items, include those
@@ -610,7 +615,7 @@ public class EquipmentManager
 	public static final void updateEquipmentLists()
 	{
 		EquipmentManager.updateOutfits();
-		for ( int i = 0; i < EquipmentManager.SLOTS; ++i )
+		for ( int i = 0; i < EquipmentManager.ALL_SLOTS; ++i )
 		{
 			updateEquipmentList( i );
 		}
