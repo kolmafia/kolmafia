@@ -721,7 +721,7 @@ public class KoLmafiaCLI
 				"<tr><td colspan=3>skill list contains | lacks <i>skill</i></td></tr>" +
 				"<tr><td>level<br>health<br>mana<br>meat<br>adventures<br>" +
 				"inebriety | drunkenness<br>muscle<br>mysticality<br>moxie<br>" +
-				"worthless item<br><i>item</i><br><i>effect</i></td>" +
+				"worthless item<br>stickers<br><i>item</i><br><i>effect</i></td>" +
 				"<td>=<br>==<br>&lt;&gt;<br>!=<br>&lt;<br>&lt;=<br>&gt;<br>&gt;=</td>" +
 				"<td><i>number</i><br><i>number</i>%&nbsp;(health/mana only)<br>" +
 				"<i>item</i> (qty in inventory)<br><i>effect</i> (turns remaining)</td>" +
@@ -1747,7 +1747,7 @@ public class KoLmafiaCLI
 	public static class Refresh
 		extends Command
 	{
-		{ usage = " all | status | equip | inv | storage | familiar - resynchronize with KoL."; }
+		{ usage = " all | status | equip | inv | storage | familiar | stickers - resynchronize with KoL."; }
 		public void run( String cmd, String parameters )
 		{
 			if ( parameters.equals( "all" ) )
@@ -1761,6 +1761,9 @@ public class KoLmafiaCLI
 			else if ( parameters.equals( "gear" ) || parameters.startsWith( "equip" ) || parameters.equals( "outfit" ) )
 			{
 				RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.EQUIPMENT ) );
+			}
+			else if ( parameters.startsWith( "stick" ) )
+			{
 				RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.BEDAZZLEMENTS ) );
 			}
 			else if ( parameters.startsWith( "inv" ) )
@@ -3712,6 +3715,20 @@ public class KoLmafiaCLI
 		if ( left.equals( "worthless item" ) )
 		{
 			return HermitRequest.getWorthlessItemCount();
+		}
+		
+		if ( left.equals( "stickers" ) )
+		{
+			int count = 0;
+			for ( int i = EquipmentManager.STICKER1; i <= EquipmentManager.STICKER3; ++i )
+			{
+				AdventureResult item = EquipmentManager.getEquipment( i ) ;
+				if ( !EquipmentRequest.UNEQUIP.equals( item ) )
+				{
+					++count;
+				}
+			}
+			return count;
 		}
 
 		AdventureResult item = KoLmafiaCLI.itemParameter( left );
