@@ -165,9 +165,8 @@ public class BasementDecorator
 				continue;
 			}
 
-			changes.append( "<option value=\"familiar+" );
-			changes.append( StringUtilities.globalStringReplace(
-				BasementRequest.POSSIBLE_FAMILIARS[ i ].getRace(), " ", "+" ) );
+			changes.append( "<option value=\"familiar " );
+			changes.append( BasementRequest.POSSIBLE_FAMILIARS[ i ].getRace() );
 			changes.append( "\">familiar " );
 			changes.append( BasementRequest.POSSIBLE_FAMILIARS[ i ].getRace() );
 			changes.append( "</option>" );
