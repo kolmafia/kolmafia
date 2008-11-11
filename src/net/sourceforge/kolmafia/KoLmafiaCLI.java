@@ -548,7 +548,7 @@ public class KoLmafiaCLI
 		// If all else fails, then assume that the
 		// person was trying to call a script.
 
-		this.executeScript( this.currentLine );
+		this.executeScript( command + " " + parameters );
 	}
 	
 	public static class Command
