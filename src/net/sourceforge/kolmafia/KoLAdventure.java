@@ -1029,7 +1029,8 @@ public class KoLAdventure
 
 		// Not an internal location.  Perhaps it's something related
 		// to another common request?
-
+		
+		KoLAdventure.lastVisitedLocation = null;
 		String location = AdventureDatabase.getUnknownName( urlString );
 		if ( location == null )
 		{

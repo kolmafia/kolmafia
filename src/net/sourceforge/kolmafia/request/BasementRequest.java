@@ -849,12 +849,12 @@ public class BasementRequest
 				if ( autoSwitch )
 				{
 					BasementRequest.changeBasementOutfit( "gauntlet" );
-				}
 
-				damageAbsorb =
-					1.0f - ( (float) Math.sqrt( KoLCharacter.getDamageAbsorption() / 10.0f ) - 1.0f ) / 10.0f;
-				healthRequirement = drainRequirement * damageAbsorb;
-				BasementRequest.basementTestValue = (int) healthRequirement;
+					damageAbsorb =
+						1.0f - ( (float) Math.sqrt( Math.min( 1000, KoLCharacter.getDamageAbsorption() ) / 10.0f ) - 1.0f ) / 10.0f;
+					healthRequirement = drainRequirement * damageAbsorb;
+					BasementRequest.basementTestValue = (int) healthRequirement;
+				}
 
 				if ( KoLCharacter.getMaximumHP() < healthRequirement )
 				{
