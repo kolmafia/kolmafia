@@ -309,6 +309,12 @@ public class AdventureDatabase
 		AdventureDatabase.allAdventures.add( location );
 
 		String url = location.getRequest().getURLString();
+		int index = url.indexOf( "&pwd" );
+		if ( index != -1 )
+		{
+			url = url.substring( 0, index ) +
+				url.substring( index + 4 );
+		}
 
 		AdventureDatabase.adventureLookup.put( url, location );
 		url = StringUtilities.singleStringReplace( url, "snarfblat=", "adv=" );
@@ -366,11 +372,17 @@ public class AdventureDatabase
 				(KoLAdventure) AdventureDatabase.adventureLookup.get( "sewer.php?doodit=1" );
 		}
 
-		int confirmIndex = adventureURL.indexOf( "&confirm=on" );
-		if ( confirmIndex != -1 )
+		int index = adventureURL.indexOf( "&confirm=on" );
+		if ( index != -1 )
 		{
-			adventureURL = adventureURL.substring( 0, confirmIndex ) +
-				adventureURL.substring( confirmIndex + 11 );
+			adventureURL = adventureURL.substring( 0, index ) +
+				adventureURL.substring( index + 11 );
+		}
+		index = adventureURL.indexOf( "&pwd" );
+		if ( index != -1 )
+		{
+			adventureURL = adventureURL.substring( 0, index ) +
+				adventureURL.substring( index + 4 );
 		}
 
 		KoLAdventure location = (KoLAdventure) AdventureDatabase.adventureLookup.get( adventureURL );
