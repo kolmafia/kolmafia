@@ -383,7 +383,7 @@
 382	Seeing Colors	snowflakes.gif	a25aa7677bc87baea8d0350e61b04e9d	use 1 funky dried mushroom
 383	Black Face	blackface.gif	c74fee3997d020f53cc3e077d4897c10	use 1 black facepaint
 384	Erudite	spectacles.gif	bf4f8342a8efe1d4c27054fa73ec1d7a	use 1 black sheepskin diploma
-385	Radiating Black Body&trade;	radiation.gif	3de3c7f145ae87e58ee391127ed697fd
+385	Radiating Black Body&trade;	radiation.gif	3de3c7f145ae87e58ee391127ed697fd	use 1 Black Body&trade; spray
 386
 387	Duhhh	duncecap.gif	1a193e72ad6e010246f9c2174d831fc8
 388	Affronted Decency	angry.gif	5e24e5adb243a87b8511d58fa4af1efe
