@@ -1478,7 +1478,7 @@ Axe Wound	Muscle: -5
 Baconstoned	Mysticality Percent: +50
 Bananas!	Muscle: +40, Mysticality: +40, Moxie: +40
 Barking Dogs	Muscle Percent: -50
-# Barking Mad	Spell Damage Percent: +20
+Barking Mad	Mysticality Percent: +100
 Basted	Sleaze Damage: +10
 Batigue	Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 Beaten Up	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50
@@ -1566,7 +1566,7 @@ Enraged	Muscle Percent: +10
 Ermine Eyes	Item Drop: +5
 Erudite	Mysticality Percent: +10
 Expert Oiliness	Equalize: "Mysticality"
-# Extra Sensory Perception	Item Drops: +0
+Extra Sensory Perception	Item Drops: +50
 Extra Terrestrial	HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20
 Extreme Muscle Relaxation	Initiative: -50, Muscle Percent: +25
 Extremely Poor Taste	Monster Level: +10
@@ -1805,7 +1805,7 @@ Unpopular	Monster Level: +30
 Ur-Kel's Aria of Annoyance	Monster Level: +0
 Very Clean Teeth	Moxie: +1
 Vitamin-Maxed	Muscle Percent: +10
-#Warm Belly
+# Warm Belly
 Wasabi Sinuses	Experience: -1, Item Drop: -10, Meat Drop: +30
 Weather, Man	Muscle Percent: +30, Mysticality Percent: +30, Moxie Percent: +30
 Well-Oiled	Damage Reduction: +10, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
