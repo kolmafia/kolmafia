@@ -636,10 +636,14 @@ public class FightRequest
 			return;
 		}
 
-		// You can only sniff if you are not on the trail
 		if ( skillName.equals( "Transcendent Olfaction" ) )
 		{
-			if ( KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.ON_THE_TRAIL ) ) )
+			// You can't sniff if you are already on the trail.
+
+			// You can't sniff in Bad Moon, even though the skill
+			// shows up on the char sheet.
+
+			if ( KoLCharacter.inBadMoon() || KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.ON_THE_TRAIL ) ) )
 			{
 				--FightRequest.preparatoryRounds;
 				this.nextRound();
