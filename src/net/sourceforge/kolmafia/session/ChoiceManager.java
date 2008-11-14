@@ -1758,24 +1758,6 @@ public abstract class ChoiceManager
 
 		switch ( ChoiceManager.lastChoice )
 		{
-		// The Gong Has Been Bung
-		case 276:
-			Preferences.setInteger( "moleTunnelLevel", 0 );
-			break;
-		
-		// Strung-Up Quartet
-		case 106:
-
-			Preferences.setInteger( "lastQuartetAscension", KoLCharacter.getAscensions() );
-			Preferences.setInteger( "lastQuartetRequest", ChoiceManager.lastDecision );
-
-			if ( KoLCharacter.recalculateAdjustments() )
-			{
-				KoLCharacter.updateStatus();
-			}
-
-			break;
-
 		// Wheel In the Sky Keep on Turning: Muscle Position
 		case 9:
 			Preferences.setString(
@@ -1809,6 +1791,24 @@ public abstract class ChoiceManager
 			AdventureRequest.setNameOverride( "Knight",
 				ChoiceManager.lastDecision == 1 ? "Knight (Wolf)" : "Knight (Snake)" );
 			break;
+		
+		// Strung-Up Quartet
+		case 106:
+
+			Preferences.setInteger( "lastQuartetAscension", KoLCharacter.getAscensions() );
+			Preferences.setInteger( "lastQuartetRequest", ChoiceManager.lastDecision );
+
+			if ( KoLCharacter.recalculateAdjustments() )
+			{
+				KoLCharacter.updateStatus();
+			}
+
+			break;
+
+		// Wheel In the Pyramid, Keep on Turning
+		case 134:
+			ResultProcessor.processItem( ItemPool.CARVED_WOODEN_WHEEL, -1 );
+			break;
 
 		// Start the Island War Quest
 		case 142:
@@ -1817,6 +1817,11 @@ public abstract class ChoiceManager
 			{
 				QuestLogRequest.setHippyStoreUnavailable();
 			}
+			break;
+
+		// The Gong Has Been Bung
+		case 276:
+			Preferences.setInteger( "moleTunnelLevel", 0 );
 			break;
 		}
 	}
