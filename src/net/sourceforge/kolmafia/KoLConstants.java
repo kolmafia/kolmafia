@@ -416,7 +416,17 @@ public interface KoLConstants
 			"Crossing first obstacle, admiring landmarks...",
 			"Path set to oxygenarian, familiar pace set to grue-ing...",
 			"You have died from KoLera."
-		}
+		},
+
+		{
+			"Challenging Naughty Sorceress to a game of chess...",
+			"Naughty Sorceress accepts, and invites you to go first.  Calculating move...",
+			"Timeout in findBestMove(), making random move: &#9817;f2-f3",
+			"Naughty Sorceress moves: &#9823;e7-e5",
+			"Timeout in findBestMove(), making random move: &#9817;g2-g4",
+			"Naughty Sorceress moves: &#9819;d8-h4",
+			"Checkmate."
+		},
 	};
 
 	// Variables which relate to a given session.  These are made
@@ -429,6 +439,7 @@ public interface KoLConstants
 	public static final SortedListModel closet = new SortedListModel();
 	public static final SortedListModel storage = new SortedListModel();
 	public static final SortedListModel collection = new SortedListModel();
+	public static final SortedListModel campground = new SortedListModel();
 
 	public static final LockableListModel usableSkills = new LockableListModel();
 	public static final LockableListModel summoningSkills = new LockableListModel();

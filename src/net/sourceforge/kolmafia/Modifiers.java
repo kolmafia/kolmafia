@@ -148,6 +148,12 @@ public class Modifiers
 	public static final int RANGED_DAMAGE_PCT = 48;
 	public static final int STACKABLE_MANA_COST = 49;
 	public static final int HOBO_POWER = 50;
+	public static final int BASE_RESTING_HP = 51;
+	public static final int RESTING_HP_PCT = 52;
+	public static final int BONUS_RESTING_HP = 53;
+	public static final int BASE_RESTING_MP = 54;
+	public static final int RESTING_MP_PCT = 55;
+	public static final int BONUS_RESTING_MP = 56;
 
 	private static final Object[][] floatModifiers =
 	{
@@ -354,6 +360,30 @@ public class Modifiers
 		{ "Hobo Power",
 		  Pattern.compile( "(.*) Hobo Power" ),
 		  Pattern.compile( "Hobo Power: ([+-]\\d+)" )
+		},
+		{ "Base Resting HP",
+		  null,
+		  Pattern.compile( "Base Resting HP: ([+-]\\d+)" )
+		},
+		{ "Resting HP Percent",
+		  null,
+		  Pattern.compile( "Resting HP Percent: ([+-]\\d+)" )
+		},
+		{ "Bonus Resting HP",
+		  null,
+		  Pattern.compile( "Bonus Resting HP: ([+-]\\d+)" )
+		},
+		{ "Base Resting MP",
+		  null,
+		  Pattern.compile( "Base Resting MP: ([+-]\\d+)" )
+		},
+		{ "Resting MP Percent",
+		  null,
+		  Pattern.compile( "Resting MP Percent: ([+-]\\d+)" )
+		},
+		{ "Bonus Resting MP",
+		  null,
+		  Pattern.compile( "Bonus Resting MP: ([+-]\\d+)" )
 		},
 	};
 
@@ -1674,7 +1704,9 @@ public class Modifiers
 			}
 
 			// It's a string. Check all modifiers.
-			String[] strings = ( (String) modifier ).split( ", " );
+			// Familiar Effect has to be special-cased since its parameter contains commas.
+			String[] strings = ( (String) modifier ).replaceFirst(
+				"(, )?Familiar Effect: \"[^\"]+\"" , "" ).split( ", " );
 			for ( int j = 0; j < strings.length; ++j )
 			{
 				String mod = strings[ j ].trim();
