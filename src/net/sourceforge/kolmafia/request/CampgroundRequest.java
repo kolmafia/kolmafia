@@ -33,6 +33,7 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -41,6 +42,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -48,7 +50,12 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class CampgroundRequest
 	extends GenericRequest
 {
-	private static final Pattern LIBRAM_PATTERN = Pattern.compile( "Summon (Candy Heart|Party Favor) *.[(]([\\d,]+) MP[)]" );
+	private static final Pattern LIBRAM_PATTERN =
+		Pattern.compile( "Summon (Candy Heart|Party Favor) *.[(]([\\d,]+) MP[)]" );
+	private static final Pattern HOUSING_PATTERN =
+		Pattern.compile( "/rest(\\d+)(tp)?(_free)?.gif" );
+	private static final Pattern FURNISHING_PATTERN =
+		Pattern.compile( "<b>(?:an? )?(.*?)</b>" );
 
 	private final String action;
 
@@ -58,8 +65,7 @@ public class CampgroundRequest
 
 	public CampgroundRequest()
 	{
-		super( "campground.php" );
-		this.action = "";
+		this( "inspectdwelling" );
 	}
 
 	/**
@@ -129,6 +135,96 @@ public class CampgroundRequest
 		else if ( this.action.equals( "rest" ) )
 		{
 			Preferences.increment( "timesRested", 1 );
+		}
+		else if ( this.action.equals( "inspectdwelling" ) )
+		{
+			Matcher m = HOUSING_PATTERN.matcher( this.responseText );
+			if ( !m.find() )
+			{
+				KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Unable to parse housing!" );
+				return;
+			}
+			KoLConstants.campground.clear();
+			int itemId = 666;
+			switch ( StringUtilities.parseInt( m.group( 1 ) ) )
+			{
+			case 0:
+				itemId = ItemPool.BIG_ROCK;	// placeholder for "the ground"
+				break;
+			case 1:
+				itemId = ItemPool.NEWBIESPORT_TENT;
+				break;
+			case 2:
+				itemId = ItemPool.BARSKIN_TENT;
+				break;
+			case 3:
+				itemId = ItemPool.COTTAGE;
+				break;
+			case 4:
+				itemId = ItemPool.HOUSE;
+				break;
+			case 5:
+				itemId = ItemPool.SANDCASTLE;
+				break;
+			case 6:
+				itemId = ItemPool.TWIG_HOUSE;
+				break;
+			case 7:
+				itemId = ItemPool.HOBO_FORTRESS;
+				break;
+			default:
+				KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Unrecognized housing type!" );
+			}
+			KoLConstants.campground.add( ItemPool.get( itemId, 1 ) );
+			
+			if ( m.group( 2 ) != null )
+			{
+				KoLConstants.campground.add( ItemPool.get( ItemPool.TOILET_PAPER, 1 ) );
+			}
+			
+			// TODO: check free rest status (m.group(3)!=null) against timesRested,
+			// adjust it if there appear to have been rests used outside of KoLmafia.
+			
+			int startIndex = this.responseText.indexOf( "Your dwelling has the following stuff" );
+			int endIndex = this.responseText.indexOf( "<b>Your Campsite</b>", startIndex + 1 );
+			if ( startIndex > 0 && endIndex > 0 )
+			{
+				m = FURNISHING_PATTERN.matcher( this.responseText.substring( startIndex, endIndex ) );
+				while ( m.find() )
+				{
+					KoLConstants.campground.add( ItemPool.get( m.group( 1 ), 1 ) );
+				}
+			}
+			
+			findImage( "fengshui.gif", ItemPool.FENG_SHUI );
+			findImage( "pagoda.gif", ItemPool.PAGODA_PLANS );
+			findImage( "bartender.gif", ItemPool.BARTENDER );
+			findImage( "bartender2.gif", ItemPool.CLOCKWORK_BARTENDER );
+			findImage( "chef.gif", ItemPool.CHEF );
+			findImage( "chef2.gif", ItemPool.CLOCKWORK_CHEF );
+			findImage( "maid.gif", ItemPool.MAID );
+			findImage( "maid2.gif", ItemPool.CLOCKWORK_MAID );
+			findImage( "scarecrow.gif", ItemPool.SCARECROW );
+			findImage( "golem.gif", ItemPool.MEAT_GOLEM );
+			findImage( "bouquet.gif", ItemPool.PRETTY_BOUQUET );
+			findImage( "pfsection.gif", ItemPool.PICKET_FENCE );
+			findImage( "bfsection.gif", ItemPool.BARBED_FENCE );
+		}
+	}
+
+	private void findImage( String filename, int itemId )
+	{
+		String text = this.responseText;
+		int count = 0;
+		int i = text.indexOf( filename );
+		while ( i != -1 )
+		{
+			++count;
+			i = text.indexOf( filename, i + 1 );		
+		}
+		if ( count > 0 )
+		{
+			KoLConstants.campground.add( ItemPool.get( itemId, count ) );
 		}
 	}
 

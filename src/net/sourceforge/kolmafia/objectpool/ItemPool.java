@@ -51,6 +51,7 @@ public class ItemPool
 	public static final int MEAT_PASTE = 25;
 	public static final int DOLPHIN_KING_MAP = 26;
 	public static final int SPIDER_WEB = 27;
+	public static final int BIG_ROCK = 30;
 	public static final int CASINO_PASS = 40;
 	public static final int SCHLITZ = 41;
 	public static final int HERMIT_PERMIT = 42;
@@ -63,12 +64,15 @@ public class ItemPool
 	public static final int SPOOKY_MAP = 74;
 	public static final int SPOOKY_SAPLING = 75;
 	public static final int SPOOKY_FERTILIZER = 76;
+	public static final int PRETTY_BOUQUET = 78;
 	public static final int GRAVY_BOAT = 80;
 	public static final int WILLER = 81;
 	public static final int LOCKED_LOCKER = 84;
 	public static final int TBONE_KEY = 86;
 	public static final int MEAT_FROM_YESTERDAY = 87;
 	public static final int MEAT_STACK = 88;
+	public static final int MEAT_GOLEM = 101;
+	public static final int SCARECROW = 104;
 	public static final int KETCHUP = 106;
 	public static final int CATSUP = 107;
 	public static final int FRILLY_SKIRT = 131;
@@ -76,6 +80,7 @@ public class ItemPool
 	public static final int DINGY_PLANKS = 140;
 	public static final int DINGHY_DINGY = 141;
 	public static final int COTTAGE = 143;
+	public static final int BARBED_FENCE = 145;
 	public static final int DINGHY_PLANS = 146;
 	public static final int BAKE_OVEN = 157;
 	public static final int DOUGH = 159;
@@ -93,6 +98,7 @@ public class ItemPool
 	public static final int TOMATO = 246;
 	public static final int DENSE_STACK = 258;
 	public static final int MULLET_WIG = 267;
+	public static final int PICKET_FENCE = 270;
 	public static final int MOSQUITO_LARVA = 275;
 	public static final int FLAT_DOUGH = 301;
 	public static final int DRY_NOODLES = 304;
@@ -220,6 +226,7 @@ public class ItemPool
 	public static final int ALUMINUM_WAND = 1271;
 	public static final int MARBLE_WAND = 1272;
 	public static final int MAKEUP_KIT = 1305;
+	public static final int COMFY_BLANKET = 1305;
 	public static final int FACSIMILE_DICTIONARY = 1316;
 	public static final int CLOACA_COLA = 1334;
 	public static final int TOY_SOLDIER = 1397;
@@ -271,6 +278,7 @@ public class ItemPool
 	public static final int GALLERY_KEY = 1765;
 	public static final int BALLROOM_KEY = 1766;
 	public static final int DUSTY_ANIMAL_SKULL = 1799;
+	public static final int TOILET_PAPER = 1923;
 	public static final int TUNING_FORK = 1928;
 	public static final int ANTIQUE_GREAVES = 1929;
 	public static final int ANTIQUE_HELMET = 1930;

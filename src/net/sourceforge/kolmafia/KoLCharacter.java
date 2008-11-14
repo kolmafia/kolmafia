@@ -66,6 +66,7 @@ import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
@@ -1341,6 +1342,28 @@ public abstract class KoLCharacter
 	public static final int getClownosity()
 	{
 		return (int) KoLCharacter.currentModifiers.getClownosity();
+	}
+	
+	public static final int getRestingHP()
+	{
+		int rv = (int) KoLCharacter.currentModifiers.get( Modifiers.BASE_RESTING_HP );
+		float factor = KoLCharacter.currentModifiers.get( Modifiers.RESTING_HP_PCT );
+		if ( factor != 0 )
+		{
+			rv *= (factor + 100.0) / 100.0;
+		}
+		return rv + (int) KoLCharacter.currentModifiers.get( Modifiers.BONUS_RESTING_HP );
+	}
+
+	public static final int getRestingMP()
+	{
+		int rv = (int) KoLCharacter.currentModifiers.get( Modifiers.BASE_RESTING_MP );
+		float factor = KoLCharacter.currentModifiers.get( Modifiers.RESTING_MP_PCT );
+		if ( factor != 0 )
+		{
+			rv *= (factor + 100.0) / 100.0;
+		}
+		return rv + (int) KoLCharacter.currentModifiers.get( Modifiers.BONUS_RESTING_MP );
 	}
 
 	/**
@@ -2748,6 +2771,32 @@ public abstract class KoLCharacter
 		for ( int i = 0; i < KoLConstants.activeEffects.size(); ++i )
 		{
 			newModifiers.add( Modifiers.getModifiers( ( (AdventureResult) KoLConstants.activeEffects.get( i ) ).getName() ) );
+		}
+		
+		// Add modifiers from campground equipment.
+		for ( int i = 0; i< KoLConstants.campground.size(); ++i )
+		{
+			AdventureResult item = (AdventureResult) KoLConstants.campground.get( i );
+			String name = item.getName();
+			for ( int count = item.getCount(); count > 0; --count )
+			{
+				newModifiers.add( Modifiers.getModifiers( name ) );
+			}
+		}
+		
+		if ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.COMFY_BLANKET, 1 ) ) )
+		{
+			newModifiers.add( Modifiers.getModifiers( "comfy blanket" ) );
+		}
+		
+		if ( HolidayDatabase.getRonaldPhase() == 5 )
+		{
+			newModifiers.add( Modifiers.RESTING_MP_PCT, 100 );
+		}
+
+		if ( HolidayDatabase.getGrimacePhase() == 5 )
+		{
+			newModifiers.add( Modifiers.RESTING_HP_PCT, 100 );
 		}
 
 		// Add familiar effects based on calculated weight adjustment,

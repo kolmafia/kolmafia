@@ -1402,6 +1402,44 @@ scratch 'n' sniff wrestler sticker	Muscle Percent: +10, Mysticality Percent: +10
 scratch 'n' sniff dragon sticker	Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3
 scratch 'n' sniff rock band sticker	Melee Damage: +20, Spell Damage: +20
 
+# Campground equipment section of modifiers.txt
+# big rock is used as a placeholder for "the ground" (when you have no housing)
+big rock	Base Resting HP: +4, Base Resting MP: +5
+Newbiesport&trade; tent	Base Resting HP: +9, Base Resting MP: +10
+barskin tent	Base Resting HP: +19, Base Resting MP: +20
+cottage	Base Resting HP: +29, Base Resting MP: +30
+Frobozz Real-Estate Company Instant House (TM)	Base Resting HP: +39, Base Resting MP: +40
+sandcastle	Base Resting HP: +49, Base Resting MP: 50
+house of twigs and spit	Base Resting HP: +59, Base Resting MP: +60
+hobo fortress blueprints	Base Resting HP: +84, Base Resting MP: +85
+
+beanbag chair	Bonus Resting MP: +30
+gauze hammock	Bonus Resting HP: +60
+bed of coals	Hot Resistance: +2
+comfy coffin	Spooky Resistance: +2
+filth-encrusted futon	Stench Resistance: +2
+frigid air mattress	Cold Resistance: +2
+stained mattress	Sleaze Resistance: +2
+
+# black-and-blue light
+# blue plasma ball
+# Loudmouth Larry Lamprey
+Feng Shui for Big Dumb Idiots	Bonus Resting MP: +7
+pagoda plans	Resting HP Percent: +100, Resting MP Percent: +100, Adventures: +3
+# bartender-in-the-box
+# clockwork bartender-in-the-box
+# chef-in-the-box
+# clockwork chef-in-the-box
+meat maid	Adventures: +4
+clockwork maid	Adventures: +8
+# spooky scarecrow
+# meat golem
+# pretty bouquet
+white picket fence	Bonus Resting MP: +1
+# barbed-wire fence
+
+comfy blanket	Base Resting HP: +50
+
 # Special case overrides
 
 Grimacite gaiters	Adventures: +3, Mysticality Percent: +0
@@ -1446,7 +1484,6 @@ Temporary Blindness	Moxie Percent: -25, Item Drop: -75
 
 # Re-Possessed
 # The Vitus Virus
-# Braaains	Meat Drop: +100, Initiative: -x
 # Braaaaaains	Meat Drop: +, Item Drop: -x
 # Midgetized
 
@@ -1473,6 +1510,7 @@ Arcane in the Brain	Mana Cost (stackable): -3
 Arse-a'fire	Muscle Percent: +10
 Artificially Sweet	Moxie Percent: +100
 Aspect of the Twinklefairy	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Melee Damage: +5, Spell Damage: +5
+Ass Over Teakettle	Initiative: +50
 Astral Shell	Damage Absorption: +80, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 Axe Wound	Muscle: -5
 Baconstoned	Mysticality Percent: +50
@@ -1496,6 +1534,8 @@ Bloody Bloody Bloody!	Spooky Damage: +50
 Bloody Hand	Muscle: -1
 Blue Tongue	Item Drop: +30
 Bootyliciousness	Item Drop: +10
+# Braaains	Meat Drop: +100, Initiative: -x
+Braaains	Meat Drop: +100
 Broken Knees	Muscle Percent: -30
 # Brother Corsican's Blessing
 # Brother Flying Burrito's Blessing

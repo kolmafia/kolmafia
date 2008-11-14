@@ -122,6 +122,7 @@ import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
 import net.sourceforge.kolmafia.swingui.listener.LicenseDisplayListener;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.RuntimeLibrary;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.PauseObject;
@@ -792,6 +793,7 @@ public abstract class KoLmafia
 		// Get current moon phases
 
 		KoLmafia.updateDisplay( "Refreshing session data..." );
+		RuntimeLibrary.sessionVariables.clear();
 
 		// Load saved counters before any requests are made, since both
 		// charpane and charsheet requests can set them.

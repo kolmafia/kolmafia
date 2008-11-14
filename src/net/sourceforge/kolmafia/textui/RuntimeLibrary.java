@@ -46,6 +46,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -119,9 +120,9 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class RuntimeLibrary
 {
-	private static StringBuffer concatenateBuffer = new StringBuffer();
 	private static final GenericRequest VISITOR = new GenericRequest( "" );
 	private static final RelayRequest RELAYER = new RelayRequest( false );
+	public static final HashMap sessionVariables = new HashMap();
 
 	public static final FunctionList functions = new FunctionList();
 
@@ -333,6 +334,9 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "get_inventory", DataTypes.RESULT_TYPE, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "get_campground", DataTypes.RESULT_TYPE, params ) );
 
 		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "is_npc_item", DataTypes.BOOLEAN_TYPE, params ) );
@@ -662,11 +666,11 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "end", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.MATCHER_TYPE };
-		functions.add( new LibraryFunction( "group", DataTypes.BOOLEAN_TYPE, params ) );
+		functions.add( new LibraryFunction( "group", DataTypes.STRING_TYPE, params ) );
 		params = new Type[] { DataTypes.MATCHER_TYPE, DataTypes.INT_TYPE };
-		functions.add( new LibraryFunction( "group", DataTypes.BOOLEAN_TYPE, params ) );
+		functions.add( new LibraryFunction( "group", DataTypes.STRING_TYPE, params ) );
 		params = new Type[] { DataTypes.MATCHER_TYPE };
-		functions.add( new LibraryFunction( "group_count", DataTypes.BOOLEAN_TYPE, params ) );
+		functions.add( new LibraryFunction( "group_count", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] { DataTypes.MATCHER_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "replace_first", DataTypes.STRING_TYPE, params ) );
@@ -747,6 +751,12 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "set_property", DataTypes.VOID_TYPE, params ) );
+
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "get_session", DataTypes.ANY_TYPE, params ) );
+
+		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.ANY_TYPE };
+		functions.add( new LibraryFunction( "set_session", DataTypes.VOID_TYPE, params ) );
 
 		// Functions for aggregates.
 
@@ -856,10 +866,10 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "monster_hp", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] {};
-		functions.add( new LibraryFunction( "item_drops", DataTypes.INT_TYPE, params ) );
+		functions.add( new LibraryFunction( "item_drops", DataTypes.RESULT_TYPE, params ) );
 
 		params = new Type[] { DataTypes.MONSTER_TYPE };
-		functions.add( new LibraryFunction( "item_drops", DataTypes.INT_TYPE, params ) );
+		functions.add( new LibraryFunction( "item_drops", DataTypes.RESULT_TYPE, params ) );
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "will_usually_miss", DataTypes.BOOLEAN_TYPE, params ) );
@@ -1666,6 +1676,24 @@ public abstract class RuntimeLibrary
 
 		AdventureResult [] items = new AdventureResult[ KoLConstants.inventory.size() ];
 		KoLConstants.inventory.toArray( items );
+
+		for ( int i = 0; i < items.length; ++i )
+		{
+			value.aset(
+				DataTypes.parseItemValue( items[i].getName(), true ),
+				DataTypes.parseIntValue( String.valueOf( items[i].getCount() ) ) );
+		}
+
+		return value;
+	}
+
+	public static Value get_campground()
+	{
+		MapValue value = new MapValue( DataTypes.RESULT_TYPE );
+		AdventureResult result;
+
+		AdventureResult [] items = new AdventureResult[ KoLConstants.campground.size() ];
+		KoLConstants.campground.toArray( items );
 
 		for ( int i = 0; i < items.length; ++i )
 		{
@@ -2738,6 +2766,22 @@ public abstract class RuntimeLibrary
 
 		KoLmafiaCLI.DEFAULT_SHELL.executeCommand(
 			"set", name.toString() + "=" + value.toString() );
+		return DataTypes.VOID_VALUE;
+	}
+	
+	public static Value get_session( final Value name )
+	{
+		Value rv = (Value) RuntimeLibrary.sessionVariables.get( name.toString() );
+		if ( rv == null )
+		{
+			rv = DataTypes.VOID_VALUE;
+		}
+		return rv;
+	}
+
+	public static Value set_session( final Value name, final Value value )
+	{
+		RuntimeLibrary.sessionVariables.put( name.toString(), value );
 		return DataTypes.VOID_VALUE;
 	}
 
