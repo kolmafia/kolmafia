@@ -393,6 +393,7 @@ public class ChatBuffer
 			try
 			{
 				currentHTML.insertAfterEnd( parentElement, (String) this.newContents );
+				currentHTML.putProperty( "multiByte", Boolean.FALSE );
 			}
 			catch ( Exception e )
 			{
