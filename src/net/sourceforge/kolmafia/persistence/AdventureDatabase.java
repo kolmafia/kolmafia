@@ -651,10 +651,6 @@ public class AdventureDatabase
 		{
 			return "Sorceress Tower: Naughty Sorceress";
 		}
-		else if ( urlString.startsWith( "hiddencity.php" ) )
-		{
-			return "Hidden City: Unexplored Ruins";
-		}
 
 		return null;
 	}

@@ -1805,11 +1805,6 @@ public abstract class ChoiceManager
 
 			break;
 
-		// Wheel In the Pyramid, Keep on Turning
-		case 134:
-			ResultProcessor.processItem( ItemPool.CARVED_WOODEN_WHEEL, -1 );
-			break;
-
 		// Start the Island War Quest
 		case 142:
 		case 146:
@@ -2224,6 +2219,19 @@ public abstract class ChoiceManager
 						return "3";
 					}
 				}
+			}
+
+			return decision;
+
+		// Wheel In the Pyramid, Keep on Turning
+		case 134:
+
+			// Visiting this choice removes the carved wooden wheel
+			// from your inventory.
+
+			if ( InventoryManager.getCount( ItemPool.CARVED_WOODEN_WHEEL ) > 0 )
+			{
+				ResultProcessor.processItem( ItemPool.CARVED_WOODEN_WHEEL, -1 );
 			}
 
 			return decision;
