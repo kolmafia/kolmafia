@@ -291,6 +291,7 @@ public class ItemPool
 	public static final int PUMPKIN_BUCKET = 1971;
 	public static final int STUFFED_COCOABO = 1974;
 	public static final int MACGUFFIN_DIARY = 2044;
+	public static final int REASSEMBLED_BLACKBIRD = 2052;
 	public static final int BLACK_MARKET_MAP = 2054;
 	public static final int FORGED_ID_DOCUMENTS = 2064;
 	public static final int NOVELTY_BUTTON = 2072;

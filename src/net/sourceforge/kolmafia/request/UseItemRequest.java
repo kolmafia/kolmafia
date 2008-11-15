@@ -2177,7 +2177,11 @@ public class UseItemRequest
 			return false;
 		}
 
-		int consumptionType = ItemDatabase.getConsumptionType( UseItemRequest.lastItemUsed.getItemId() );
+		int itemId = UseItemRequest.lastItemUsed.getItemId();
+		int count = UseItemRequest.lastItemUsed.getCount();
+		String name = UseItemRequest.lastItemUsed.getName();
+		int consumptionType = ItemDatabase.getConsumptionType( itemId );
+
 		if ( consumptionType == KoLConstants.NO_CONSUME )
 		{
 			return false;
@@ -2198,7 +2202,7 @@ public class UseItemRequest
 
 		if ( consumptionType == KoLConstants.CONSUME_EAT )
 		{
-			int fullness = ItemDatabase.getFullness( UseItemRequest.lastItemUsed.getName() );
+			int fullness = ItemDatabase.getFullness( name );
 			if ( fullness > 0 && KoLCharacter.getFullness() + fullness <= KoLCharacter.getFullnessLimit() )
 			{
 				Preferences.setInteger( "currentFullness", KoLCharacter.getFullness() + fullness );
@@ -2208,54 +2212,49 @@ public class UseItemRequest
 		}
 		else
 		{
-			if ( UseItemRequest.lastItemUsed.getItemId() == ItemPool.EXPRESS_CARD )
-			{
+                        switch ( itemId )
+                        {
+                        case ItemPool.EXPRESS_CARD:
 				Preferences.setBoolean( "expressCardUsed", true );
-			}
+                                break;
 
-			if ( UseItemRequest.lastItemUsed.getItemId() == ItemPool.SPICE_MELANGE )
-			{
+                        case ItemPool.SPICE_MELANGE:
 				Preferences.setBoolean( "spiceMelangeUsed", true );
+                                break;
+
+                        case ItemPool.MUNCHIES_PILL:
+				Preferences.increment( "munchiesPillsUsed", count );
+                                break;
 			}
 
-			if ( UseItemRequest.lastItemUsed.getItemId() == ItemPool.MUNCHIES_PILL )
-			{
-				Preferences.setInteger(
-					"munchiesPillsUsed",
-					Preferences.getInteger( "munchiesPillsUsed" ) + UseItemRequest.lastItemUsed.getCount() );
-			}
-
-			int spleenHit =
-				ItemDatabase.getSpleenHit( UseItemRequest.lastItemUsed.getName() ) * UseItemRequest.lastItemUsed.getCount();
+			int spleenHit = ItemDatabase.getSpleenHit( name ) * count;
 			if ( spleenHit > 0 && KoLCharacter.getSpleenUse() + spleenHit <= KoLCharacter.getSpleenLimit() )
 			{
-				Preferences.setInteger(
-					"currentSpleenUse",
-					KoLCharacter.getSpleenUse() + spleenHit );
+				Preferences.increment( "currentSpleenUse",spleenHit );
 			}
 		}
 
-		if ( UseItemRequest.lastItemUsed.getItemId() == ItemPool.BLACK_MARKET_MAP && KoLCharacter.getFamiliar().getId() != 59 )
+		if ( itemId == ItemPool.BLACK_MARKET_MAP && KoLCharacter.getFamiliar().getId() != 59 )
 		{
 			AdventureResult map = UseItemRequest.lastItemUsed;
 			FamiliarData blackbird = new FamiliarData( 59 );
+
 			if ( !KoLCharacter.getFamiliarList().contains( blackbird ) )
 			{
-				( new UseItemRequest( new AdventureResult( 2052, 1 ) ) ).run();
+				( new UseItemRequest( ItemPool.get( ItemPool.REASSEMBLED_BLACKBIRD, 1 ) ) ).run();
+				UseItemRequest.lastItemUsed = map;
 			}
 
 			if ( !KoLmafia.permitsContinue() )
 			{
-				UseItemRequest.lastItemUsed = map;
 				return true;
 			}
 
 			( new FamiliarRequest( blackbird ) ).run();
-			UseItemRequest.lastItemUsed = map;
 		}
 
 		RequestLogger.updateSessionLog();
-		RequestLogger.updateSessionLog( useTypeAsString + UseItemRequest.lastItemUsed.getCount() + " " + UseItemRequest.lastItemUsed.getName() );
+		RequestLogger.updateSessionLog( useTypeAsString + count + " " + name );
 		return true;
 	}
 }

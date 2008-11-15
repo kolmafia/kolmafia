@@ -206,7 +206,7 @@ public class HiddenCityRequest
 
 	public static final boolean registerRequest( final String urlString )
 	{
-		if ( urlString.indexOf( "snarfblat=118" ) != 1 )
+		if ( urlString.indexOf( "snarfblat=118" ) != -1 )
 		{
 			return true;
 		}
