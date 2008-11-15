@@ -199,6 +199,7 @@ user	grimoire1Summons	0
 user	grimoire2Summons	0
 user	guyMadeOfBeesCount	0
 user	guyMadeOfBeesDefeated	false
+user	hiddenCitySquare	0
 user	hippiesDefeated	0
 user	hpAutoRecovery	-0.05
 user	hpAutoRecoveryItems	cannelloni cocoon;scroll of drastic healing;tongue of the walrus;lasagna bandages;doc galaktik's ailment ointment

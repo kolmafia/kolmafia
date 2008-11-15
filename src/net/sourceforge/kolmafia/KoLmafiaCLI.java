@@ -79,6 +79,7 @@ import net.sourceforge.kolmafia.request.GalaktikRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HellKitchenRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
+import net.sourceforge.kolmafia.request.HiddenCityRequest;
 import net.sourceforge.kolmafia.request.IslandArenaRequest;
 import net.sourceforge.kolmafia.request.LoginRequest;
 import net.sourceforge.kolmafia.request.MicroBreweryRequest;
@@ -2684,6 +2685,17 @@ public class KoLmafiaCLI
 		public void run( String cmd, String parameters )
 		{
 			CLI.executeHermitRequest( parameters );
+		}
+	}
+	
+	static { new HiddenCity().register( "hiddencity" ); }
+	public static class HiddenCity
+		extends Command
+	{
+		{ usage = "<square> [temple|altar <item>] - restore some or all hp or mp"; }
+		public void run( String cmd, String parameters )
+		{
+			CLI.executeHiddenCityRequest( parameters );
 		}
 	}
 	
@@ -6039,6 +6051,52 @@ public class KoLmafiaCLI
 		int amount = split.length == 1 ? 0 : StringUtilities.parseInt( split[ 1 ] );
 
 		RequestThread.postRequest( new GalaktikRequest( type, amount ) );
+	}
+
+	/**
+	 * Makes a request to visit the hidden city
+	 */
+
+	public void executeHiddenCityRequest( String parameters )
+	{
+		String[] split = parameters.split( " " );
+
+		int square = StringUtilities.parseInt( split[ 0 ] );
+
+		if ( split.length == 1 )
+		{
+			Preferences.setInteger( "hiddenCitySquare", square );
+			KoLmafia.updateDisplay( "Hidden City adventure square set to " + square );
+
+			return;
+		}
+
+		HiddenCityRequest request1 = null;
+		HiddenCityRequest request2 = null;
+
+		String type = split[1];
+
+		if ( type.equalsIgnoreCase( "temple" ) )
+		{
+			request1 = new HiddenCityRequest( square );
+			request2 = new HiddenCityRequest( true );
+		}
+		else if ( type.equalsIgnoreCase( "altar" ) && split.length < 3 )
+		{
+			AdventureResult result = ItemFinder.getFirstMatchingItem( split[2], ItemFinder.ANY_MATCH );
+			request1 = new HiddenCityRequest( square );
+			request2 = new HiddenCityRequest( true, result.getItemId() );
+		}
+		else
+		{
+			updateDisplay( KoLConstants.ERROR_STATE, "Unknown Hidden City request <" + parameters + ">" );
+			return;
+		}
+
+		RequestThread.openRequestSequence();
+		RequestThread.postRequest( request1 );
+		RequestThread.postRequest( request2 );
+		RequestThread.closeRequestSequence();
 	}
 
 	/**

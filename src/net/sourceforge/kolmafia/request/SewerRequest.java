@@ -86,7 +86,7 @@ public class SewerRequest
 				return;
 			}
 
-            this.runLuckySewer();
+			this.runLuckySewer();
 		}
 		else
 		{

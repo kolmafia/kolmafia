@@ -1200,12 +1200,18 @@ public class GenericRequest
 			return false;
 		}
 
+		if ( this.redirectLocation.startsWith( "adventure.php" ) )
+		{
+			this.constructURLString( this.redirectLocation, false );
+			return false;
+		}
+
 		if ( this.redirectLocation.startsWith( "fight.php" ) )
 		{
 			// You have been redirected to a fight!  Here, you need
 			// to complete the fight before you can continue.
 
-			if ( LoginRequest.isInstanceRunning() || this == ChoiceManager.CHOICE_HANDLER || this instanceof AdventureRequest || this instanceof BasementRequest )
+			if ( LoginRequest.isInstanceRunning() || this == ChoiceManager.CHOICE_HANDLER || this instanceof AdventureRequest || this instanceof BasementRequest || this instanceof HiddenCityRequest )
 			{
 				FightRequest.INSTANCE.run();
 				CharPaneRequest.getInstance().run();
