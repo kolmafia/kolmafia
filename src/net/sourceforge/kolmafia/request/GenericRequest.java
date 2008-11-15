@@ -1106,9 +1106,9 @@ public class GenericRequest
 			return true;
 		}
 
-		// Check to see if this is a login page redirect.  If it is, then
-		// construct the URL string and notify the browser that it should
-		// change everything.
+		// Check to see if this is a login page redirect.  If it is,
+		// then construct the URL string and notify the browser that it
+		// should change everything.
 
 		if ( this.formURLString.equals( "login.php" ) )
 		{
