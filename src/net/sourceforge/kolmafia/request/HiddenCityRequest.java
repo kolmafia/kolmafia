@@ -43,6 +43,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -52,39 +53,103 @@ public class HiddenCityRequest
 	private static final Pattern WHICH_PATTERN = Pattern.compile( "which=([\\d,]+)" );
 	private static final Pattern ROUND_PATTERN = Pattern.compile( "whichitem=([\\d,]+)" );
 
-	public HiddenCityRequest( int square )
+	private final String action;
+	private int square = 0;
+	private int itemId = 0;
+
+	public HiddenCityRequest( String action)
 	{
 		super( "hiddencity.php");
-		this.addFormField( "which", String.valueOf( square ) );
+		this.action = action;
+	}
+
+	public HiddenCityRequest()
+	{
+		this( null );
+	}
+
+	public HiddenCityRequest( int square )
+	{
+		this( null );
+		this.square = square;
+	}
+
+	public HiddenCityRequest( boolean temple )
+	{
+		this( "trisocket" );
 	}
 
 	public HiddenCityRequest( boolean altar, int itemId )
 	{
-		super( "hiddencity.php");
+		this( "roundthing" );
+		this.itemId = itemId;
+	}
 
-		if ( altar )
+	public void reconstructFields()
+	{
+		this.constructURLString( "hiddencity.php" );
+
+		if ( this.action == null )
 		{
-			this.addFormField( "action", "roundthing" );
-			this.addFormField( "whichitem", String.valueOf( itemId ) );
+			int square = this.square;
+
+			if ( !validSquare( square ) )
+			{
+				square = Preferences.getInteger( "hiddenCitySquare" );
+			}
+
+			if ( !validSquare( square ) )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You must select a square of the Hidden City to visit." );
+				return;
+			}
+
+			this.addFormField( "which", String.valueOf( square - 1 ) );
 		}
 		else
 		{
-			this.addFormField( "action", "trisocket" );
+			this.addFormField( "action", this.action );
+
+			if ( this.itemId != 0 )
+			{
+				this.addFormField( "whichitem", String.valueOf( this.itemId ) );
+			}
 		}
+	}
+
+	public void run()
+	{
+		this.reconstructFields();
+
+		if ( !KoLmafia.permitsContinue() )
+		{
+			return;
+		}
+
+		super.run();
+	}
+
+	private boolean validSquare( int square )
+	{
+		return square >= 1 && square <= 25;
 	}
 
 	public void processResults()
 	{
-		HiddenCityRequest.parseResponse( this.getURLString(), this.responseText );
+		if ( !this.getURLString().startsWith( "hiddencity.php" ) )
+		{
+			return;
+		}
+
+		if (!HiddenCityRequest.parseResponse( this.getURLString(), this.responseText ) )
+		{
+
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Nothing more to do here." );
+		}
 	}
 
 	public static final boolean parseResponse( final String location, final String responseText )
 	{
-		if ( !location.startsWith( "hiddencity.php" ) )
-		{
-			return false;
-		}
-
 		// You carefully socket the four triangular stones into their
 		// places in the carving, and step back as the door slowly
 		// slides to one side with a loud grinding noise.
@@ -99,7 +164,7 @@ public class HiddenCityRequest
 		if ( !matcher.find() )
 		{
 			// We simply visited a square
-			return true;
+			return false;
 		}
 
 		int itemId = StringUtilities.parseInt( matcher.group( 1 ) );
@@ -128,8 +193,24 @@ public class HiddenCityRequest
 		return false;
 	}
 
+	public static final int getSquare( final String urlString )
+	{
+		Matcher matcher = HiddenCityRequest.WHICH_PATTERN.matcher( urlString );
+		if ( !matcher.find() )
+		{
+			return 0;
+		}
+
+		return 1 + StringUtilities.parseInt( matcher.group( 1 ) );
+	}
+
 	public static final boolean registerRequest( final String urlString )
 	{
+		if ( urlString.indexOf( "snarfblat=118" ) != 1 )
+		{
+			return true;
+		}
+
 		if ( !urlString.startsWith( "hiddencity.php" ) )
 		{
 			return false;
@@ -156,14 +237,12 @@ public class HiddenCityRequest
 		}
 		else
 		{
-			Matcher matcher = HiddenCityRequest.WHICH_PATTERN.matcher( urlString );
-			if ( !matcher.find() )
+			int square = HiddenCityRequest.getSquare( urlString );
+
+			if ( square == 0 )
 			{
 				return true;
 			}
-
-			int square = StringUtilities.parseInt( matcher.group( 1 ) );
-
 			message = "Visiting square " + square + " in the Hidden City";
 		}
 

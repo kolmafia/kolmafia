@@ -1743,7 +1743,7 @@ public abstract class KoLmafia
 		if ( request instanceof CampgroundRequest )
 		{
 			KoLmafia.currentIterationString =
-				"Canpground request " + currentIteration + " of " + totalIterations + " in progress...";
+				"Campground request " + currentIteration + " of " + totalIterations + " in progress...";
 		}
 
 		RequestLogger.printLine();
@@ -2640,7 +2640,11 @@ public abstract class KoLmafia
 
 	public void registerAdventure( final KoLAdventure adventureLocation )
 	{
-		String adventureName = adventureLocation.getAdventureName();
+		KoLmafia.registerAdventure( adventureLocation.getAdventureName() );
+	}
+
+	public static void registerAdventure( final String adventureName )
+	{
 		if ( adventureName == null )
 		{
 			return;

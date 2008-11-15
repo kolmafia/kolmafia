@@ -48,6 +48,7 @@ import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.HiddenCityRequest;
 import net.sourceforge.kolmafia.request.SewerRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
@@ -132,6 +133,10 @@ public class KoLAdventure
 		else if ( formSource.equals( "basement.php" ) )
 		{
 			this.request = new BasementRequest( adventureName );
+		}
+		else if ( adventureId.equals( "118" ) )
+		{
+			this.request = new HiddenCityRequest();
 		}
 		else
 		{
@@ -929,6 +934,17 @@ public class KoLAdventure
 		// Run between-combat scripts here to avoid potential
 		// sidepane conflict issues.
 
+		if ( this.adventureId.equals( "118" ) )
+		{
+			// The Hidden City is weird. It redirects you to the
+			// container zone (the grid of 25 squares) if you try
+			// to adventure at this adventure ID.
+
+			// We detect adventuring in individual squares
+			// elsewhere.
+			return;
+		}
+
 		if ( this.adventureId.equals( "123" ) )
 		{
 			AdventureResult hydrated = EffectPool.get( EffectPool.HYDRATED );
@@ -975,7 +991,6 @@ public class KoLAdventure
 		if ( matchingLocation != null )
 		{
 			matchingLocation.recordToSession();
-			String locationId = matchingLocation.adventureId;
 
 			// Disassemble clovers when going to areas where the
 			// player has a high probability of accidentally using
@@ -985,6 +1000,8 @@ public class KoLAdventure
 			{
 				return true;
 			}
+
+			String locationId = matchingLocation.adventureId;
 
 			// Do some quick adventure validation, which allows you
 			// to unlock the bat zone.
@@ -1045,7 +1062,6 @@ public class KoLAdventure
 			urlString.startsWith( "barrel.php" ) ||
 			urlString.startsWith( "basement.php" ) ||
 			urlString.startsWith( "dungeon.php" ) ||
-			urlString.startsWith( "hiddencity.php" ) ||
 			urlString.startsWith( "lair" ) ||
 			urlString.startsWith( "rats.php" );
 
@@ -1055,14 +1071,13 @@ public class KoLAdventure
 			KoLAdventure.resetAutoAttack();
 		}
 
-		if ( !KoLmafia.isAdventuring() )
-		{
-			RequestLogger.printLine();
-			RequestLogger.printLine( "[" + KoLAdventure.getAdventureCount() + "] " + location );
-		}
+		RequestLogger.printLine();
+		RequestLogger.printLine( "[" + KoLAdventure.getAdventureCount() + "] " + location );
 
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( "[" + KoLAdventure.getAdventureCount() + "] " + location );
+
+		StaticEntity.getClient().registerAdventure( location );
 
 		String encounter = "";
 

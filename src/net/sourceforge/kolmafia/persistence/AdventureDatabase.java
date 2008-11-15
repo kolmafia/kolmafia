@@ -53,6 +53,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.BasementRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
+import net.sourceforge.kolmafia.request.HiddenCityRequest;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -574,6 +575,16 @@ public class AdventureDatabase
 		if ( urlString.startsWith( "adventure.php" ) && urlString.indexOf( "snarfblat=122" ) != -1 )
 		{
 			return "Oasis in the Desert";
+		}
+		else if ( urlString.startsWith( "hiddencity.php" ) && urlString.indexOf( "which=" ) != -1 )
+		{
+			int square = HiddenCityRequest.getSquare( urlString );
+			if ( square == 0 )
+			{
+				return null;
+			}
+
+			return "Hidden City (Square " + square + ")";
 		}
 		else if ( urlString.startsWith( "shore.php" ) && urlString.indexOf( "whichtrip=1" ) != -1 )
 		{

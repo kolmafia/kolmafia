@@ -500,7 +500,7 @@ public class AdventureRequest
 		{
 			if ( type.equals( "Combat" ) )
 			{
-				encounter = translateHoboType( encounter );
+				encounter = AdventureRequest.translateHoboType( encounter );
 			}
 			StaticEntity.getClient().registerEncounter( encounter, type );
 		}
@@ -814,13 +814,21 @@ public class AdventureRequest
 		// data fields.  Therefore, it will equal fight.php
 		// exactly every single time.
 
-		if ( formSource.startsWith( "fight.php" ) )
+		if ( formSource.startsWith( "adventure.php" ) )
+		{
+			return true;
+		}
+		else if ( formSource.startsWith( "fight.php" ) )
 		{
 			return FightRequest.getCurrentRound() == 0;
 		}
-		else if ( formSource.startsWith( "adventure.php" ) )
+		else if ( formSource.startsWith( "choice.php" ) )
 		{
-			return true;
+			return responseText.indexOf( "choice.php" ) != -1;
+		}
+		else if ( formSource.startsWith( "hiddencity.php" ) )
+		{
+			return formSource.indexOf( "which=" ) != -1;
 		}
 		else if ( formSource.startsWith( "cave.php" ) )
 		{
@@ -841,10 +849,6 @@ public class AdventureRequest
 		else if ( formSource.startsWith( "rats.php" ) )
 		{
 			return true;
-		}
-		else if ( formSource.startsWith( "choice.php" ) )
-		{
-			return responseText.indexOf( "choice.php" ) != -1;
 		}
 		else if ( formSource.startsWith( "palinshelves.php" ) )
 		{
