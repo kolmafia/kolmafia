@@ -130,6 +130,8 @@ public abstract class HPRestoreItemList
 
 	public static void updateHealthRestored()
 	{
+		HPRestoreItemList.CAMPGROUND.healthPerUse = HPRestoreItemList.DISCOREST.healthPerUse =
+			KoLCharacter.getRestingHP();
 		HPRestoreItemList.SOFA.healthPerUse = KoLCharacter.getLevel() * 5 + 1;
 		HPRestoreItemList.GALAKTIK.purchaseCost = QuestLogRequest.galaktikCuresAvailable() ? 6 : 10;
 	}

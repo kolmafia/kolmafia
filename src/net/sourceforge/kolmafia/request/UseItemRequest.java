@@ -208,7 +208,8 @@ public class UseItemRequest
 		this.consumptionType = consumptionType;
 		this.itemUsed = item;
 
-		if ( UseItemRequest.isHousing( item.getItemId() ) )
+		if ( UseItemRequest.isHousing( item.getItemId() ) &&
+			!KoLConstants.campground.contains(item) )
 		{
 			this.addFormField( "confirm", "true" );
 		}
@@ -1241,6 +1242,7 @@ public class UseItemRequest
 			{
 				ResultProcessor.processItem( ItemPool.HEY_DEZE_NUTS, -1 );
 				ResultProcessor.processItem( ItemPool.PAGODA_PLANS, -1 );
+				(new CampgroundRequest()).run();
 			}
 
 			// The ketchup hound does not go away...
@@ -1420,6 +1422,7 @@ public class UseItemRequest
 			{
 				ResultProcessor.processItem( ItemPool.FOUNTAIN, -1 );
 				ResultProcessor.processItem( ItemPool.WINDCHIMES, -1 );
+				(new CampgroundRequest()).run();
 			}
 			else
 			{
@@ -1527,11 +1530,13 @@ public class UseItemRequest
 		case ItemPool.CHEF:
 		case ItemPool.CLOCKWORK_CHEF:
 			KoLCharacter.setChef( true );
+			(new CampgroundRequest()).run();
 			return;
 
 		case ItemPool.BARTENDER:
 		case ItemPool.CLOCKWORK_BARTENDER:
 			KoLCharacter.setBartender( true );
+			(new CampgroundRequest()).run();
 			return;
 
 		case ItemPool.TOASTER:
@@ -1856,7 +1861,37 @@ public class UseItemRequest
 			if ( responseText.indexOf( "You place the" ) == -1 && responseText.indexOf( "You build a" ) == -1 && responseText.indexOf( "You quickly burn down" ) == -1)
 			{
 				ResultProcessor.processResult( item );
+				return;
 			}
+			(new CampgroundRequest()).run();
+			return;
+		
+		case ItemPool.MAID:
+		case ItemPool.CLOCKWORK_MAID:
+		case ItemPool.SCARECROW:
+		case ItemPool.MEAT_GOLEM:
+			(new CampgroundRequest()).run();
+			return;
+			
+		case ItemPool.PRETTY_BOUQUET:
+		case ItemPool.PICKET_FENCE:
+		case ItemPool.BARBED_FENCE:
+		case ItemPool.BEANBAG_CHAIR:
+		case ItemPool.GAUZE_HAMMOCK:
+		case ItemPool.HOT_BEDDING:
+		case ItemPool.COLD_BEDDING:
+		case ItemPool.STENCH_BEDDING:
+		case ItemPool.SPOOKY_BEDDING:
+		case ItemPool.SLEAZE_BEDDING:
+		case ItemPool.BLACK_BLUE_LIGHT:
+		case ItemPool.LOUDMOUTH_LARRY:
+		case ItemPool.PLASMA_BALL:
+			if ( responseText.indexOf( "already" ) != -1 )
+			{
+				ResultProcessor.processResult( item );
+				return;
+			}
+			(new CampgroundRequest()).run();
 			return;
 
 		case ItemPool.MILKY_POTION:
@@ -2046,7 +2081,14 @@ public class UseItemRequest
 			itemId == ItemPool.HOUSE ||
 			itemId == ItemPool.SANDCASTLE ||
 			itemId == ItemPool.TWIG_HOUSE ||
-			itemId == ItemPool.HOBO_FORTRESS;
+			itemId == ItemPool.HOBO_FORTRESS ||
+			itemId == ItemPool.HOT_BEDDING ||
+			itemId == ItemPool.COLD_BEDDING ||
+			itemId == ItemPool.STENCH_BEDDING ||
+			itemId == ItemPool.SPOOKY_BEDDING ||
+			itemId == ItemPool.SLEAZE_BEDDING ||
+			itemId == ItemPool.BEANBAG_CHAIR ||
+			itemId == ItemPool.GAUZE_HAMMOCK;
 	}
 
 	private static final void showItemUsage( final boolean showHTML, final String text, boolean consumed )

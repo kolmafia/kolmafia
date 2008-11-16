@@ -116,6 +116,7 @@ public class ItemPool
 	public static final int PIRATE_SKULL = 407;
 	public static final int JOLLY_CHARRRM = 411;
 	public static final int JOLLY_BRACELET = 413;
+	public static final int BEANBAG_CHAIR = 429;
 	public static final int LONG_SKINNY_BALLOON = 433;
 	public static final int CHEF = 438;
 	public static final int BARTENDER = 440;
@@ -403,6 +404,7 @@ public class ItemPool
 	public static final int PALM_FROND = 2605;
 	public static final int MOJO_FILTER = 2614;
 	public static final int MUMMY_WRAP = 2634;
+	public static final int GAUZE_HAMMOCK = 2638;
 	public static final int ABSINTHE = 2655;
 	public static final int LIBRARY_CARD = 2672;
 	public static final int SPECTRE_SCEPTER = 2678;
@@ -509,11 +511,19 @@ public class ItemPool
 	public static final int TATTERED_PAPER_CROWN = 3231;
 	public static final int BAG_OF_CANDY = 3261;
 	public static final int TASTEFUL_BOOK = 3263;
+	public static final int BLACK_BLUE_LIGHT = 3276;
+	public static final int LOUDMOUTH_LARRY = 3277;
+	public static final int PLASMA_BALL = 3281;
 	public static final int SCRATCHS_FORK = 3323;
 	public static final int FROSTYS_MUG = 3324;
 	public static final int FERMENTED_PICKLE_JUICE = 3325;
 	public static final int EXTRA_GREASY_SLIDER = 3327;
 	public static final int DOUBLE_SIDED_TAPE = 3336;
+	public static final int HOT_BEDDING = 3344;	// bed of coals
+	public static final int COLD_BEDDING = 3345;	// frigid air mattress
+	public static final int STENCH_BEDDING = 3346;	// filth-encrusted futon
+	public static final int SPOOKY_BEDDING = 3347;	// comfy coffin
+	public static final int SLEAZE_BEDDING = 3348;	// stained mattress
 	public static final int GONG = 3353;
 	public static final int GRUB = 3356;
 	public static final int MOTH = 3357;
