@@ -135,6 +135,8 @@ public abstract class MPRestoreItemList
 
 	public static void updateManaRestored()
 	{
+		MPRestoreItemList.CAMPGROUND.manaPerUse = MPRestoreItemList.DISCOREST.manaPerUse =
+			KoLCharacter.getRestingMP();
 		MPRestoreItemList.SOFA.manaPerUse = KoLCharacter.getLevel() * 5 + 1;
 		MPRestoreItemList.MYSTERY_JUICE.manaPerUse = (int) ( KoLCharacter.getLevel() * 1.5f + 4.0f );
 		MPRestoreItemList.GALAKTIK.purchaseCost = QuestLogRequest.galaktikCuresAvailable() ? 12 : 17;

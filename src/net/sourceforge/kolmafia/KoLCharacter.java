@@ -1350,7 +1350,7 @@ public abstract class KoLCharacter
 		float factor = KoLCharacter.currentModifiers.get( Modifiers.RESTING_HP_PCT );
 		if ( factor != 0 )
 		{
-			rv *= (factor + 100.0) / 100.0;
+			rv = (int) (rv * (factor + 100.0f) / 100.0f);
 		}
 		return rv + (int) KoLCharacter.currentModifiers.get( Modifiers.BONUS_RESTING_HP );
 	}
@@ -1361,7 +1361,7 @@ public abstract class KoLCharacter
 		float factor = KoLCharacter.currentModifiers.get( Modifiers.RESTING_MP_PCT );
 		if ( factor != 0 )
 		{
-			rv *= (factor + 100.0) / 100.0;
+			rv = (int) (rv * (factor + 100.0f) / 100.0f);
 		}
 		return rv + (int) KoLCharacter.currentModifiers.get( Modifiers.BONUS_RESTING_MP );
 	}

@@ -1206,7 +1206,7 @@ public abstract class KoLmafia
 					desired = Math.min( maximum, desired );
 					needed = Math.min( maximum, needed );
 
-					if ( last == current )
+					if ( last >= current )
 					{
 						++indexToTry;
 					}
@@ -1338,6 +1338,7 @@ public abstract class KoLmafia
 
 			this.invokeRecoveryScript( "HP", recover );
 
+			HPRestoreItemList.updateHealthRestored();
 			return this.recover(
 				recover, "hpAutoRecovery", "getCurrentHP", "getMaximumHP", HPRestoreItemList.CONFIGURES );
 		}
@@ -1418,6 +1419,7 @@ public abstract class KoLmafia
 		{
 			this.invokeRecoveryScript( "MP", mpNeeded );
 			
+			MPRestoreItemList.updateManaRestored();
 			return this.recover(
 				mpNeeded, "mpAutoRecovery", "getCurrentMP", "getMaximumMP", MPRestoreItemList.CONFIGURES );
 		}
