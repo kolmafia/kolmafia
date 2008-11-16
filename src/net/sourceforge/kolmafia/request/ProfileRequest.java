@@ -152,8 +152,18 @@ public class ProfileRequest
 
 		if ( token.startsWith( "Level" ) )
 		{	// no custom title
-			this.playerLevel = Integer.valueOf( token.substring( 5 ).trim() );
+			this.playerLevel = new Integer( 
+				StringUtilities.parseInt( token.substring( 5 ).trim() ) );
 			this.classType = KoLCharacter.getClassType( st.nextToken().trim() );
+			if ( this.classType.equals( KoLCharacter.ASTRAL_SPIRIT ) &&
+				this.responseText.indexOf( "<b>Class:</b>" ) != -1 )
+			{
+				// oops, we've been fooled by a custom title starting with "Level"
+				while ( !st.nextToken().startsWith( "Class" ) )
+				{
+				}
+				this.classType = KoLCharacter.getClassType( st.nextToken().trim() );
+			}
 		}
 		else	// (Level n) - player has custom title
 		{
