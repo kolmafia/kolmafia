@@ -1217,9 +1217,14 @@ public class UseItemRequest
 			return;
 
 		case ItemPool.ANTIDOTE:
-		case ItemPool.TINY_HOUSE:
+			// You're unpoisoned -- don't waste the anti-anti-antidote.
 
-			KoLConstants.activeEffects.clear();
+			if ( responseText.indexOf( "don't waste the anti" ) != -1 )
+			{
+				ResultProcessor.processResult( item );
+				return;
+			}
+			CharPaneRequest.getInstance().run();
 			return;
 
 		case ItemPool.TBONE_KEY:
@@ -1232,6 +1237,7 @@ public class UseItemRequest
 			{
 				ResultProcessor.processResult( item );
 			}
+			return;
 
 		case ItemPool.KETCHUP_HOUND:
 
@@ -1858,7 +1864,7 @@ public class UseItemRequest
 		case ItemPool.TWIG_HOUSE:
 		case ItemPool.HOBO_FORTRESS:
 
-			if ( responseText.indexOf( "You place the" ) == -1 && responseText.indexOf( "You build a" ) == -1 && responseText.indexOf( "You quickly burn down" ) == -1)
+			if ( responseText.indexOf( "You've already got" ) != -1 )
 			{
 				ResultProcessor.processResult( item );
 				return;
