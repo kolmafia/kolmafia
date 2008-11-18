@@ -108,6 +108,11 @@ public class FunctionReturn
 		{
 			interpreter.setState( Interpreter.STATE_RETURN );
 		}
+		
+		if ( this.expectedType == null )
+		{
+			return result;
+		}
 
 		if ( this.expectedType.equals( DataTypes.TYPE_STRING ) )
 		{
