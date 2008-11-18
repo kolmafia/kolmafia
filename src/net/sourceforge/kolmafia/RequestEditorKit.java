@@ -77,6 +77,7 @@ import net.sourceforge.kolmafia.webui.BeerPongDecorator;
 import net.sourceforge.kolmafia.webui.CellarDecorator;
 import net.sourceforge.kolmafia.webui.CharPaneDecorator;
 import net.sourceforge.kolmafia.webui.DungeonDecorator;
+import net.sourceforge.kolmafia.webui.HobopolisDecorator;
 import net.sourceforge.kolmafia.webui.IslandDecorator;
 import net.sourceforge.kolmafia.webui.StationaryButtonDecorator;
 import net.sourceforge.kolmafia.webui.UseLinkDecorator;
@@ -89,8 +90,6 @@ public class RequestEditorKit
 	private static final Pattern BOOKSHELF_PATTERN =
 		Pattern.compile( "onClick=\"location.href='(.*?)';\"", Pattern.DOTALL );
 	private static final Pattern ALTAR_PATTERN = Pattern.compile( "'An altar with a carving of a god of ([^']*)'" );
-	private static final Pattern HOBOPOLIS_IMG_PATTERN = Pattern.compile(
-		"otherimages/hobopolis/[a-z]+(\\d+)" );
 
 	private static final RequestViewFactory DEFAULT_FACTORY = new RequestViewFactory();
 
@@ -522,15 +521,9 @@ public class RequestEditorKit
 			StationaryButtonDecorator.decorate( location, buffer );
 			RequestEditorKit.addChoiceSpoilers( buffer );
 		}
-		else if ( location.startsWith( "clan_hobopolis.php" ) &&
-			location.indexOf( "place=1" ) == -1)
+		else if ( location.startsWith( "clan_hobopolis.php" ) )
 		{
-			Matcher m = HOBOPOLIS_IMG_PATTERN.matcher( buffer );
-			if ( m.find() )
-			{
-				StringUtilities.singleStringReplace( buffer, "</b>", 
-					"</b> <font size=1>(image " + m.group( 1 ) + ")</font>" );
-			}
+			HobopolisDecorator.decorate( location, buffer );
 		}
 		else if ( location.startsWith( "dungeon.php" ) )
 		{
