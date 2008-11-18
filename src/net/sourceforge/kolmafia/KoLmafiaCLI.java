@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -122,6 +123,8 @@ import net.sourceforge.kolmafia.swingui.FamiliarTrainingFrame;
 import net.sourceforge.kolmafia.swingui.ItemManageFrame;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
 import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.parsetree.Value;
+import net.sourceforge.kolmafia.textui.parsetree.CompositeValue;
 import net.sourceforge.kolmafia.utilities.ByteArrayStream;
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
@@ -146,6 +149,8 @@ public class KoLmafiaCLI
 	private String previousLine = null;
 	private String currentLine = null;
 	private BufferedReader commandStream;
+	private boolean elseValid = false;
+	private boolean elseRuns = false;
 
 	public static boolean isExecutingCheckOnlyCommand = false;
 	
@@ -400,43 +405,39 @@ public class KoLmafiaCLI
 			if ( splitIndex == -1 || (Command.lookup.get( command ) != null &&
 				Command.lookup.getKeyType( command ) == PrefixMap.EXACT_KEY) )
 			{
-				if ( command.endsWith( "?" ) )
-				{
-					KoLmafiaCLI.isExecutingCheckOnlyCommand = true;
-					command = command.substring( 0, command.length() - 1 );
-				}
 				parameters = "";
 			}
 			else
 			{
 				command = command.substring( 0, splitIndex );
 				parameters = parameters.substring( splitIndex + 1 ).trim();
-				if ( command.endsWith( "?" ) )
-				{
-					KoLmafiaCLI.isExecutingCheckOnlyCommand = true;
-					command = command.substring( 0, command.length() - 1 );
-				}
-				Command handler = (Command) Command.lookup.get( command );
-				int flags = handler == null ? 0 : handler.flags;
-				if ( flags == KoLmafiaCLI.FULL_LINE_CMD && !line.equals( "" ) )
-				{
-					parameters = parameters + ";" + line;
-					line = "";
-				}
-				
-				if ( flags == KoLmafiaCLI.FLOW_CONTROL_CMD )
-				{
-					String continuation = this.getContinuation( line );
-					handler.continuation = continuation;
-					handler.CLI = this;
-					RequestThread.openRequestSequence();
-					handler.run( command, parameters );
-					RequestThread.closeRequestSequence();
-					handler.CLI = null;
-					KoLmafiaCLI.isExecutingCheckOnlyCommand = false;
-					this.previousLine = command + " " + parameters + ";" + continuation;
-					return;
-				}
+			}
+			
+			if ( command.endsWith( "?" ) )
+			{
+				KoLmafiaCLI.isExecutingCheckOnlyCommand = true;
+				command = command.substring( 0, command.length() - 1 );
+			}
+			Command handler = (Command) Command.lookup.get( command );
+			int flags = handler == null ? 0 : handler.flags;
+			if ( flags == KoLmafiaCLI.FULL_LINE_CMD && !line.equals( "" ) )
+			{
+				parameters = parameters + ";" + line;
+				line = "";
+			}
+			
+			if ( flags == KoLmafiaCLI.FLOW_CONTROL_CMD )
+			{
+				String continuation = this.getContinuation( line );
+				handler.continuation = continuation;
+				handler.CLI = this;
+				RequestThread.openRequestSequence();
+				handler.run( command, parameters );
+				RequestThread.closeRequestSequence();
+				handler.CLI = null;
+				KoLmafiaCLI.isExecutingCheckOnlyCommand = false;
+				this.previousLine = command + " " + parameters + ";" + continuation;
+				return;
 			}
 			
 			RequestThread.openRequestSequence();
@@ -670,6 +671,39 @@ public class KoLmafiaCLI
 			return null;
 		}
 	}
+	
+	/**
+	 *	Sets whether a following "else" command should be executed.
+	 */
+	public void elseRuns( boolean shouldRun )
+	{
+		this.elseRuns = shouldRun;
+		this.elseValid = true;
+	}
+
+	/**
+	 *	Indicates that a following "else" command is not valid here.
+	 */
+	public void elseInvalid()
+	{
+		this.elseValid = false;
+	}
+
+	/**
+	 *	Tests whether a "else" command should be executed, and mark further "else"s
+	 *	as invalid.  If this "else" is invalid, generate an error and return false.
+	 */
+	public boolean elseRuns()
+	{
+		if ( !this.elseValid )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+				"'else' must follow a conditional command, and both must be at the outermost level." );
+			return false;
+		}
+		this.elseValid = false;
+		return this.elseRuns;
+	}
 
 	public static class ConditionalCommand
 		extends Command
@@ -677,6 +711,67 @@ public class KoLmafiaCLI
 		{ flags = KoLmafiaCLI.FLOW_CONTROL_CMD; }
 	}
 	
+	static { new Try().register( "try" ); }
+	public static class Try
+		extends ConditionalCommand
+	{
+		{ usage = " ; <commands> - do commands, and continue even if an error occurs."; }
+		public void run( String command )
+		{
+			KoLmafiaCLI CLI = this.CLI;
+			CLI.elseInvalid();
+			CLI.executeLine( this.continuation );
+			if ( KoLmafia.permitsContinue() )
+			{
+				CLI.elseRuns( false );
+			}
+			else
+			{
+				KoLmafia.forceContinue();
+				CLI.elseRuns( true );
+			}
+		}
+	}
+
+	static { new Else().register( "else" ); }
+	public static class Else
+		extends ConditionalCommand
+	{
+		{ usage = " ; <commands> - do commands if preceding if/while/try didn't execute."; }
+		public void run( String command )
+		{
+			KoLmafiaCLI CLI = this.CLI;
+			if ( CLI.elseRuns() )
+			{
+				CLI.executeLine( this.continuation );
+			}
+		}
+	}
+
+	static { new ElseIf().register( "elseif" ); }
+	public static class ElseIf
+		extends ConditionalCommand
+	{
+		{ usage = " <condition>; <commands> - do if condition is true but preceding condition was false."; }
+		public void run( String command, String parameters )
+		{
+			KoLmafiaCLI CLI = this.CLI;
+			if ( !CLI.elseRuns() )
+			{
+				CLI.elseRuns( false );
+			}
+			else if ( CLI.testConditional( parameters ) )
+			{
+				CLI.executeLine( this.continuation );
+				CLI.elseRuns( false );
+			}
+			else
+			{
+				CLI.elseRuns( true );
+			}
+		}
+	}
+
 	static { new If().register( "if" ); }
 	public static class If
 		extends ConditionalCommand
@@ -684,10 +779,17 @@ public class KoLmafiaCLI
 		{ usage = " <condition>; <commands> - do commands once if condition is true (see condref)."; }
 		public void run( String command, String parameters )
 		{
-			if ( KoLmafiaCLI.testConditional( parameters ) )
+			KoLmafiaCLI CLI = this.CLI;
+			if ( CLI.testConditional( parameters ) )
 			{
+				CLI.elseInvalid();
 				CLI.executeLine( this.continuation );
-			}		
+				CLI.elseRuns( false );
+			}
+			else
+			{
+				CLI.elseRuns( true );
+			}
 		}
 	}
 
@@ -702,9 +804,12 @@ public class KoLmafiaCLI
 			KoLmafiaCLI CLI = this.CLI;
 			String continuation = this.continuation;
 			
-			while ( KoLmafiaCLI.testConditional( parameters ) )
+			CLI.elseRuns( true );
+			while ( CLI.testConditional( parameters ) )
 			{
+				CLI.elseInvalid();
 				CLI.executeLine( continuation );
+				CLI.elseRuns( false );
 			}
 		}
 	}
@@ -781,6 +886,46 @@ public class KoLmafiaCLI
 			SpecialOutfit.createImplicitCheckpoint();
 			MoodManager.burnExtraMana( true );
 			SpecialOutfit.restoreImplicitCheckpoint();
+		}
+	}
+	
+	static { new ASH().register( "ash" ); }
+	public static class ASH
+		extends Command
+	{
+		{ flags = KoLmafiaCLI.FULL_LINE_CMD; }
+		{ usage = " <statement> - test a line of ASH code without having to edit a script."; }
+		public void run( String cmd, String parameters )
+		{
+			if ( !parameters.endsWith( ";" ) )
+			{
+				parameters += ";";
+			}
+			ByteArrayInputStream istream = new ByteArrayInputStream(
+				(parameters + KoLConstants.LINE_BREAK).getBytes() );
+
+			Interpreter interpreter = new Interpreter();
+			interpreter.validate( null, istream );
+			Value rv = interpreter.execute( "main", null );
+			KoLmafia.updateDisplay( "Returned: " + rv );
+			if ( rv instanceof CompositeValue )
+			{
+				dump( (CompositeValue) rv, "" );
+			}
+		}
+		
+		private void dump( CompositeValue obj, String indent )
+		{
+			Value[] keys = obj.keys();
+			for ( int i = 0; i < keys.length; ++i )
+			{
+				Value v = obj.aref( keys[ i ] );
+				RequestLogger.printLine( indent + keys[ i ] + " => " + v );
+				if ( v instanceof CompositeValue )
+				{
+					dump( (CompositeValue) v, indent + "&nbsp;&nbsp;" );
+				}
+			}
 		}
 	}
 	

@@ -1029,7 +1029,8 @@ public class Parser
 				throw this.parseException( "Expression expected" );
 			}
 
-			if ( !Parser.validCoercion( expectedType, value.getType(), "return" ) )
+			if ( expectedType != null &&
+				!Parser.validCoercion( expectedType, value.getType(), "return" ) )
 			{
 				throw this.parseException( "Cannot return " + value.getType() + " value from " + expectedType + " function");
 			}
