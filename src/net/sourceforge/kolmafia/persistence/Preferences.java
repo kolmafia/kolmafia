@@ -760,4 +760,16 @@ public class Preferences
 			}
 		}
 	}
+	
+	public static void resetToDefault( String name )
+	{
+		if ( Preferences.userNames.containsKey( name ) )
+		{
+			Preferences.setString( name, (String) Preferences.userNames.get( name ) );
+		}
+		else if ( Preferences.globalNames.containsKey( name ) )
+		{
+			Preferences.setString( name, (String) Preferences.globalNames.get( name ) );
+		}
+	}
 }

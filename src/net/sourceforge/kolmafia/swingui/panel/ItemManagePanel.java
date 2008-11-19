@@ -49,10 +49,13 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
@@ -76,7 +79,7 @@ public class ItemManagePanel
 	public static final int USE_MULTIPLE = 0;
 
 	public static final int TAKE_ALL = 1;
-	public static final int TAKE_ALL_BUT_ONE = 2;
+	public static final int TAKE_ALL_BUT_USABLE = 2;
 	public static final int TAKE_MULTIPLE = 3;
 	public static final int TAKE_ONE = 4;
 
@@ -290,7 +293,7 @@ public class ItemManagePanel
 
 		this.movers = new JRadioButton[ 4 ];
 		this.movers[ 0 ] = new JRadioButton( "max possible" );
-		this.movers[ 1 ] = new JRadioButton( "all but one" );
+		this.movers[ 1 ] = new JRadioButton( "all but usable" );
 		this.movers[ 2 ] = new JRadioButton( "multiple", true );
 		this.movers[ 3 ] = new JRadioButton( "exactly one" );
 
@@ -336,7 +339,7 @@ public class ItemManagePanel
 
 		return this.getDesiredItems(
 			message,
-			this.movers[ 0 ].isSelected() ? ItemManagePanel.TAKE_ALL : this.movers[ 1 ].isSelected() ? ItemManagePanel.TAKE_ALL_BUT_ONE : ItemManagePanel.TAKE_ONE );
+			this.movers[ 0 ].isSelected() ? ItemManagePanel.TAKE_ALL : this.movers[ 1 ].isSelected() ? ItemManagePanel.TAKE_ALL_BUT_USABLE : ItemManagePanel.TAKE_ONE );
 	}
 
 	public Object[] getDesiredItems( final String message, final int quantityType )
@@ -421,8 +424,8 @@ public class ItemManagePanel
 			quantity = itemCount;
 			break;
 
-		case TAKE_ALL_BUT_ONE:
-			quantity = itemCount - 1;
+		case TAKE_ALL_BUT_USABLE:
+			quantity = itemCount - this.getUsableItemAmount( item, itemName );
 			break;
 
 		case TAKE_MULTIPLE:
@@ -491,6 +494,52 @@ public class ItemManagePanel
 		}
 
 		return quantity;
+	}
+
+	protected int getUsableItemAmount( final Object item, final String itemName )
+	{
+		int id;
+		if ( item instanceof Concoction )
+		{
+			id = ((Concoction) item).getItemId();
+		}
+		else
+		{
+			id = ((AdventureResult) item).getItemId();
+		}
+		switch ( ItemDatabase.getConsumptionType( id ) )
+		{
+		case KoLConstants.EQUIP_HAT:
+			return Preferences.getInteger( "usableHats" );
+		case KoLConstants.EQUIP_WEAPON:
+			switch ( EquipmentDatabase.getHands( itemName ) )
+			{
+			case 3:
+				return Preferences.getInteger( "usable3HWeapons" );
+			case 2:
+				return Preferences.getInteger( "usable2HWeapons" );
+			default:
+				return Preferences.getInteger( "usable1HWeapons" );
+			}
+		case KoLConstants.EQUIP_OFFHAND:
+			return Preferences.getInteger( "usableOffhands" );
+		case KoLConstants.EQUIP_SHIRT:
+			return Preferences.getInteger( "usableShirts" );
+		case KoLConstants.EQUIP_PANTS:
+			return Preferences.getInteger( "usablePants" );
+		case KoLConstants.EQUIP_ACCESSORY:
+			Modifiers mods = Modifiers.getModifiers( itemName );
+			if ( mods != null && mods.getBoolean( Modifiers.SINGLE ) )
+			{
+				return Preferences.getInteger( "usable1xAccs" );
+			}
+			else
+			{
+				return Preferences.getInteger( "usableAccessories" );
+			}
+		default:
+			return Preferences.getInteger( "usableOther" );
+		}
 	}
 
 	public abstract class TransferListener
