@@ -33,9 +33,13 @@
 
 package net.sourceforge.kolmafia.swingui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 
 import javax.swing.Box;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -49,6 +53,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.swingui.panel.CardLayoutSelectorPanel;
@@ -58,6 +63,7 @@ import net.sourceforge.kolmafia.swingui.panel.UseItemPanel;
 import net.sourceforge.kolmafia.swingui.panel.CreateItemPanel;
 import net.sourceforge.kolmafia.swingui.panel.InventoryPanel;
 import net.sourceforge.kolmafia.swingui.panel.ItemManagePanel;
+import net.sourceforge.kolmafia.swingui.panel.LabeledPanel;
 import net.sourceforge.kolmafia.swingui.panel.OverlapPanel;
 import net.sourceforge.kolmafia.swingui.panel.RestorativeItemPanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightSpinner;
@@ -178,7 +184,7 @@ public class ItemManageFrame
 
 		selectorPanel.addSeparator();
 
-		selectorPanel.addPanel( "Item Filters", new JPanel() );
+		selectorPanel.addPanel( "Item Filters", new ItemFilterPanel() );
 		selectorPanel.addPanel( " - Mementos", new MementoItemsPanel() );
 		selectorPanel.addPanel( " - Cleanup", new JunkItemsPanel() );
 		selectorPanel.addPanel( " - Keep One", new SingletonItemsPanel() );
@@ -511,6 +517,89 @@ public class ItemManageFrame
 			int desired = InputFieldUtilities.getValue( this, 0 );
 			ItemManageFrame.setPullsBudgeted( desired );
 			ConcoctionDatabase.refreshConcoctions();
+		}
+	}
+	
+	public static class PrefPopup
+		extends JComboBox
+		implements ActionListener, Preferences.ChangeListener
+	{
+		private String pref;
+		
+		public PrefPopup( String pref )
+		{
+			this( pref, "1|2|3|4|5" );
+		}
+		
+		public PrefPopup( String pref, String items )
+		{
+			super( items.split( "\\|" ) );
+			this.pref = pref;
+			this.addActionListener( this );
+			Preferences.registerListener( pref, this );
+			this.update();
+		}
+		
+		public void update()
+		{
+			this.setSelectedItem( Preferences.getString( this.pref ) );
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{
+			Preferences.setString( this.pref, (String) this.getSelectedItem() );
+		}
+	}
+
+	private static class ItemFilterPanel
+		extends LabeledPanel
+	{
+		public ItemFilterPanel()
+		{
+			super( "Number of items retained by \"all but usable\" option", 
+				"reset to defaults", new Dimension( 100, 20 ), new Dimension( 100, 20 ) );
+
+			VerifiableElement[] elements = new VerifiableElement[ 10 ];
+			elements[ 0 ] = new VerifiableElement( "Hats: ", 
+				new PrefPopup( "usableHats" ) );
+			elements[ 1 ] = new VerifiableElement( "1H Weapons: ", 
+				new PrefPopup( "usable1HWeapons" ) );
+			elements[ 2 ] = new VerifiableElement( "2H Weapons: ", 
+				new PrefPopup( "usable2HWeapons" ) );
+			elements[ 3 ] = new VerifiableElement( "3H Weapons: ", 
+				new PrefPopup( "usable3HWeapons" ) );
+			elements[ 4 ] = new VerifiableElement( "Off-Hands: ", 
+				new PrefPopup( "usableOffhands" ) );
+			elements[ 5 ] = new VerifiableElement( "Shirts: ", 
+				new PrefPopup( "usableShirts" ) );
+			elements[ 6 ] = new VerifiableElement( "Pants: ", 
+				new PrefPopup( "usablePants" ) );
+			elements[ 7 ] = new VerifiableElement( "1x-equip Accs.: ", 
+				new PrefPopup( "usable1xAccs" ) );
+			elements[ 8 ] = new VerifiableElement( "Accessories: ", 
+				new PrefPopup( "usableAccessories" ) );
+			elements[ 9 ] = new VerifiableElement( "Other Items: ", 
+				new PrefPopup( "usableOther" ) );
+
+			this.setContent( elements );
+		}
+		
+		public void actionConfirmed()
+		{
+			Preferences.resetToDefault( "usable1HWeapons" );
+			Preferences.resetToDefault( "usable1xAccs" );
+			Preferences.resetToDefault( "usable2HWeapons" );
+			Preferences.resetToDefault( "usable3HWeapons" );
+			Preferences.resetToDefault( "usableAccessories" );
+			Preferences.resetToDefault( "usableHats" );
+			Preferences.resetToDefault( "usableOffhands" );
+			Preferences.resetToDefault( "usableOther" );
+			Preferences.resetToDefault( "usablePants" );
+			Preferences.resetToDefault( "usableShirts" );
+		}
+
+		public void actionCancelled()
+		{
 		}
 	}
 }
