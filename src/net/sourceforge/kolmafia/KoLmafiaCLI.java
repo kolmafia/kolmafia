@@ -2305,13 +2305,18 @@ public class KoLmafiaCLI
 	}
 	
 	static { new Use().register( "eat" ).register( "drink" ).register( "use" )
-		.register( "chew" ).register( "hobo" ).register( "ghost" ); }
+		.register( "chew" ).register( "hobo" ).register( "ghost" ).register( "overdrink" ); }
 	public static class Use
 		extends Command
 	{
 		{ usage = " [either] <item> [, <item>]... - use/consume items"; }
 		public void run( String command, String parameters )
 		{
+			if ( command.equals( "overdrink" ) )
+			{
+				UseItemRequest.permitOverdrink();
+				command = "drink";
+			}
 			SpecialOutfit.createImplicitCheckpoint();
 			CLI.executeUseItemRequest( command, parameters );
 			SpecialOutfit.restoreImplicitCheckpoint();
