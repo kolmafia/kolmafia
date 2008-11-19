@@ -97,6 +97,7 @@ public class UseItemRequest
 	private static AdventureResult lastItemUsed = null;
 	private static AdventureResult lastHelperUsed = null;
 	private static int askedAboutOde = 0;
+	private static int permittedOverdrink = 0;
 	private static AdventureResult queuedFoodHelper = null;
 	private static int queuedFoodHelperCount = 0;
 	private static AdventureResult queuedDrinkHelper = null;
@@ -594,6 +595,11 @@ public class UseItemRequest
 		}
 	}
 
+	public static final void permitOverdrink()
+	{
+		UseItemRequest.permittedOverdrink = KoLCharacter.getUserId();
+	}
+
 	public static final boolean allowBoozeConsumption( final int inebrietyBonus )
 	{
 		if ( KoLCharacter.isFallingDown() || inebrietyBonus < 1 )
@@ -619,7 +625,8 @@ public class UseItemRequest
 				ode.setBuffCount( 1 );
 				RequestThread.postRequest( ode );
 			}
-			else if ( knowsOde && UseItemRequest.askedAboutOde != KoLCharacter.getUserId() )
+			else if ( knowsOde && UseItemRequest.askedAboutOde != KoLCharacter.getUserId()
+				&& UseItemRequest.permittedOverdrink != KoLCharacter.getUserId() )
 			{
 				if ( !InputFieldUtilities.confirm( "Are you sure you want to drink without ode?" ) )
 				{
@@ -633,7 +640,8 @@ public class UseItemRequest
 		// Make sure the player does not overdrink if they still
 		// have PvP attacks remaining.
 
-		if ( KoLCharacter.getInebriety() + inebrietyBonus > KoLCharacter.getInebrietyLimit() )
+		if ( KoLCharacter.getInebriety() + inebrietyBonus > KoLCharacter.getInebrietyLimit()
+			&& UseItemRequest.permittedOverdrink != KoLCharacter.getUserId() )
 		{
 			if ( KoLCharacter.getAttacksLeft() > 0 && !InputFieldUtilities.confirm( "Are you sure you want to overdrink without PvPing?" ) )
 			{
