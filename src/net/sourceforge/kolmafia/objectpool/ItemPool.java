@@ -289,6 +289,7 @@ public class ItemPool
 	public static final int INKWELL = 1958;
 	public static final int SCRAP_OF_PAPER = 1959;
 	public static final int EVIL_SCROLL = 1960;
+	public static final int DANCE_CARD = 1963;
 	public static final int PUMPKIN_BUCKET = 1971;
 	public static final int STUFFED_COCOABO = 1974;
 	public static final int MACGUFFIN_DIARY = 2044;

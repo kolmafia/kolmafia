@@ -1009,6 +1009,11 @@ public class UseItemRequest
 			}
 
 			return;
+			
+		case ItemPool.DANCE_CARD:
+			TurnCounter.stopCounting( "Dance Card" );
+			TurnCounter.startCounting( 3, "Dance Card", "guildapp.gif" );
+			return;
 
 			// If it's a fortune cookie, get the fortune
 
