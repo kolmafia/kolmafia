@@ -1588,7 +1588,7 @@ public class UseItemRequest
 			switch ( item.getItemId() )
 			{
 			case ItemPool.SNOWCONE_BOOK:
-				KoLCharacter.addAvailableSkill( "Summon Snowcone" );
+				KoLCharacter.addAvailableSkill( "Summon Snowcones" );
 				break;
 			case ItemPool.HILARIOUS_BOOK:
 				KoLCharacter.addAvailableSkill( "Summon Hilarious Objects" );

@@ -2240,7 +2240,18 @@ public abstract class KoLCharacter
 
 	public static final boolean canSummonSnowcones()
 	{
-		return KoLCharacter.hasSkill( "Summon Snowcone" );
+		return KoLCharacter.hasSkill( "Summon Snowcones" );
+	}
+
+	/**
+	 * Accessor method to look up whether or not the character can summon stickers
+	 *
+	 * @return <code>true</code> if stickers can be summoned by this character
+	 */
+
+	public static final boolean canSummonStickers()
+	{
+		return KoLCharacter.hasSkill( "Summon Stickers" );
 	}
 
 	/**

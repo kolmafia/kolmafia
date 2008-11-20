@@ -283,7 +283,8 @@
 
 # Skills granted by books on your Mystical Bookshelf
 
-8000	Summon Snowcone	1	5	0
+8000	Summon Snowcones	1	2	0
+8001	Summon Stickers	1	2	0
 8100	Summon Candy Hearts	1	0	0
 8101	Summon Party Favor	1	0	0
 8200	Summon Hilarious Objects	1	5	0

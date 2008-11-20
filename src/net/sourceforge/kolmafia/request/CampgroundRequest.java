@@ -232,7 +232,11 @@ public class CampgroundRequest
 	{
 		{
 			"Tome of Snowcone Summoning",
-			"Summon Snowcone"
+			"Summon Snowcones"
+		},
+		{
+			"Tome of Sticker Summoning",
+			"Summon Stickers"
 		},
 		{
 			// The bookshelf currently says:

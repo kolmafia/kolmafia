@@ -333,6 +333,7 @@ public class CharSheetRequest
 				switch ( skillId )
 				{
 				case SkillDatabase.SNOWCONE:
+				case SkillDatabase.STICKER:
 				case SkillDatabase.HILARIOUS:
 				case SkillDatabase.TASTEFUL:
 				case SkillDatabase.CANDY_HEART:

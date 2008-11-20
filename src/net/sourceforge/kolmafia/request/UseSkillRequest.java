@@ -73,7 +73,8 @@ public class UseSkillRequest
 		"Advanced Cocktailcrafting",
 		"Pastamastery",
 		"Advanced Saucecrafting",
-		"Summon Snowcone",
+		"Summon Snowcones",
+		"Summon Stickers",
 		"Summon Hilarious Objects",
 		"Summon Tasteful Items"
 	};
@@ -167,6 +168,7 @@ public class UseSkillRequest
 		switch ( SkillDatabase.getSkillId( skillName ) )
 		{
 		case SkillDatabase.SNOWCONE:
+		case SkillDatabase.STICKER:
 		case SkillDatabase.HILARIOUS:
 		case SkillDatabase.TASTEFUL:
 		case SkillDatabase.CANDY_HEART:
@@ -183,6 +185,10 @@ public class UseSkillRequest
 		{
 		case SkillDatabase.SNOWCONE:
 			this.addFormField( "preaction", "summonsnowcone" );
+			break;
+
+		case SkillDatabase.STICKER:
+			this.addFormField( "preaction", "summonstickers" );
 			break;
 
 		case SkillDatabase.HILARIOUS:
@@ -295,14 +301,15 @@ public class UseSkillRequest
 		switch ( this.skillId )
 		{
 
-		// Snowcones and grimoire items can only be summoned
-		// once per day.
+		// Tomes can be used three times per day
 
 		case SkillDatabase.SNOWCONE:
+		case SkillDatabase.STICKER:
 
-			maximumCast = Math.max( 1 - Preferences.getInteger( "snowconeSummons" ), 0 );
+			maximumCast = Math.max( 3 - Preferences.getInteger( "tomeSummons" ), 0 );
 			break;
 
+		// Grimoire items can only be summoned once per day.
 		case SkillDatabase.HILARIOUS:
 
 			maximumCast = Math.max( 1 - Preferences.getInteger( "grimoire1Summons" ), 0 );
@@ -1004,7 +1011,12 @@ public class UseSkillRequest
 		if ( action.equals( "snowcone" ) )
 		{
 			skillId = SkillDatabase.SNOWCONE;
-			Preferences.increment( "snowconeSummons", 1 );
+			Preferences.increment( "tomeSummons", 1 );
+		}
+		if ( action.equals( "stickers" ) )
+		{
+			skillId = SkillDatabase.STICKER;
+			Preferences.increment( "tomeSummons", 1 );
 		}
 		else if ( action.equals( "hilariousitems" ) )
 		{
