@@ -92,7 +92,7 @@ public class CombineMeatRequest
 		Matcher itemMatcher = CreateItemRequest.ITEMID_PATTERN.matcher( urlString );
 		if ( !itemMatcher.find() )
 		{
-			return true;
+			return false;
 		}
 
 		int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );

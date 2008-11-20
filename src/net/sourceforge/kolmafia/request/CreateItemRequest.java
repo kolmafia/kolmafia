@@ -977,7 +977,7 @@ public class CreateItemRequest
 			return ChefStaffRequest.registerRequest( urlString );
 		}
 
-		if ( urlString.indexOf( "action=makestuff" ) != -1 )
+		if ( urlString.indexOf( "action=makepaste" ) != -1 || urlString.indexOf( "action=makestuff" ) != -1 )
 		{
 			return CombineMeatRequest.registerRequest( urlString );
 		}

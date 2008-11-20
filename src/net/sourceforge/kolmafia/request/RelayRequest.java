@@ -1233,21 +1233,25 @@ public class RelayRequest
 		if ( expired != null )
 		{
 			int remain = expired.getTurnsRemaining();
+			String message = null;
+
 			if ( remain == 0 )
 			{
-				this.sendGeneralWarning(
-					expired.getImage(),
-					"The indicated counter has expired, so may wish to adventure somewhere else at this time.  If you are certain that this is where you'd like to adventure, click on the image to proceed." );
+				message = "The indicated counter has expired, so may wish to adventure somewhere else at this time.  If you are certain that this is where you'd like to adventure, click on the image to proceed.";
 			}
-			else
+			else if ( remain > 0 )
 			{
-				this.sendGeneralWarning( expired.getImage(),
-					"The indicated counter will expire after " + remain +
-					" more turn" + ((remain != 1) ? "s" : "") +
-					", so may wish to adventure somewhere else at this time.  If you are certain that this is where you'd like to adventure, click on the image to proceed." );
+				message = "The indicated counter will expire after " + 
+					remain + " more turn" +
+					((remain != 1) ? "s" : "") +
+					", so may wish to adventure somewhere else at this time.  If you are certain that this is where you'd like to adventure, click on the image to proceed.";
 			}
 
-			return;
+			if ( message != null )
+			{
+				this.sendGeneralWarning( expired.getImage(), message );
+				return;
+			}
 		}
 
 		String path = this.getPath();
