@@ -37,6 +37,10 @@ public class TurnCounter
 		{
 			return adventureId.equals( "151" ) || adventureId.equals( "152" ) || adventureId.equals( "153" );
 		}
+		else if ( this.label.equals( "Dance Card" ) )
+		{
+			return adventureId.equals( "109" );
+		}
 
 		return false;
 	}
