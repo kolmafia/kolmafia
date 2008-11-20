@@ -357,13 +357,23 @@ public class GenericRequest
 			this.formURLString.equals( "newchatmessages.php" ) || this.formURLString.equals( "submitnewchat.php" );
 
 		this.hasNoResult =
-			this.isChatRequest || this.formURLString.startsWith( "http://" ) || this.formURLString.startsWith( "charpane" ) ||
-			this.formURLString.startsWith( "quest" ) || this.formURLString.endsWith( "menu.php" ) || this.formURLString.startsWith( "actionbar" ) ||
-			this.formURLString.startsWith( "desc" ) || this.formURLString.startsWith( "display" ) || this.formURLString.startsWith( "search" ) ||
-			this.formURLString.startsWith( "show" ) || this.formURLString.startsWith( "search" ) || this.formURLString.startsWith( "valhalla" ) ||
-			this.formURLString.startsWith( "message" ) || this.formURLString.startsWith( "makeoffer" ) ||
+			this.isChatRequest ||
+			this.formURLString.startsWith( "http://" ) ||
+			this.formURLString.startsWith( "charpane" ) ||
+			this.formURLString.startsWith( "quest" ) ||
+			this.formURLString.endsWith( "menu.php" ) ||
+			this.formURLString.startsWith( "actionbar" ) ||
+			this.formURLString.startsWith( "desc" ) ||
+			this.formURLString.startsWith( "display" ) ||
+			this.formURLString.startsWith( "search" ) ||
+			this.formURLString.startsWith( "show" ) ||
+			this.formURLString.startsWith( "search" ) ||
+			this.formURLString.startsWith( "valhalla" ) ||
+			this.formURLString.startsWith( "message" ) ||
+			this.formURLString.startsWith( "makeoffer" ) ||
 			(this.formURLString.startsWith( "clan" ) && !this.formURLString.startsWith( "clan_stash" ) && !this.formURLString.startsWith( "clan_rumpus" ) ) ||
-			this instanceof LoginRequest || this instanceof LogoutRequest;
+			this instanceof LoginRequest ||
+			this instanceof LogoutRequest;
 
 		return this;
 	}
@@ -659,18 +669,22 @@ public class GenericRequest
 			if ( expired != null )
 			{
 				int remain = expired.getTurnsRemaining();
+				String message = null;
+
 				if ( remain == 0 )
 				{
-					KoLmafia.updateDisplay( KoLConstants.ABORT_STATE,
-						expired.getLabel() + " counter expired." );
+					message = expired.getLabel() + " counter expired.";
 				}
 				else if ( remain > 0 )
 				{
-					KoLmafia.updateDisplay( KoLConstants.ABORT_STATE,
-						expired.getLabel() + " counter will expire after " +
-						remain + " more turn" + ((remain == 1) ? "." : "s.") );
+					message = expired.getLabel() + " counter will expire after " + remain + " more turn" + ((remain == 1) ? "." : "s.");
 				}
-				return;
+
+				if ( message != null )
+				{
+					KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, message );
+					return;
+				}
 			}
 		}
 

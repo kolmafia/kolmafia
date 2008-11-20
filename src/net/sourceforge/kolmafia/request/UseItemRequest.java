@@ -2243,26 +2243,24 @@ public class UseItemRequest
 		String name = UseItemRequest.lastItemUsed.getName();
 		int consumptionType = ItemDatabase.getConsumptionType( itemId );
 
-		if ( consumptionType == KoLConstants.NO_CONSUME )
+		switch ( consumptionType )
 		{
+		case KoLConstants.NO_CONSUME:
 			return false;
-		}
 
-		if ( consumptionType == KoLConstants.CONSUME_USE || consumptionType == KoLConstants.CONSUME_MULTIPLE )
-		{
+		case KoLConstants.CONSUME_USE:
+		case KoLConstants.CONSUME_MULTIPLE:
+
 			// See if it is a concoction
 			if ( SingleUseRequest.registerRequest( urlString ) ||
 			     MultiUseRequest.registerRequest( urlString ) )
 			{
 				return true;
 			}
-		}
+			break;
 
-		String useTypeAsString =
-			consumptionType == KoLConstants.CONSUME_EAT ? "eat " : consumptionType == KoLConstants.CONSUME_DRINK ? "drink " : "use ";
+		case KoLConstants.CONSUME_EAT:
 
-		if ( consumptionType == KoLConstants.CONSUME_EAT )
-		{
 			int fullness = ItemDatabase.getFullness( name );
 			if ( fullness > 0 && KoLCharacter.getFullness() + fullness <= KoLCharacter.getFullnessLimit() )
 			{
@@ -2270,22 +2268,23 @@ public class UseItemRequest
 				Preferences.setInteger( "munchiesPillsUsed", Math.max(
 					Preferences.getInteger( "munchiesPillsUsed" ) - 1, 0 ) );
 			}
-		}
-		else
-		{
-                        switch ( itemId )
-                        {
-                        case ItemPool.EXPRESS_CARD:
+			break;
+
+		default:
+
+			switch ( itemId )
+			{
+			case ItemPool.EXPRESS_CARD:
 				Preferences.setBoolean( "expressCardUsed", true );
-                                break;
+				break;
 
-                        case ItemPool.SPICE_MELANGE:
+			case ItemPool.SPICE_MELANGE:
 				Preferences.setBoolean( "spiceMelangeUsed", true );
-                                break;
+				break;
 
-                        case ItemPool.MUNCHIES_PILL:
+			case ItemPool.MUNCHIES_PILL:
 				Preferences.increment( "munchiesPillsUsed", count );
-                                break;
+				break;
 			}
 
 			int spleenHit = ItemDatabase.getSpleenHit( name ) * count;
@@ -2313,6 +2312,9 @@ public class UseItemRequest
 
 			( new FamiliarRequest( blackbird ) ).run();
 		}
+
+		String useTypeAsString =
+			consumptionType == KoLConstants.CONSUME_EAT ? "eat " : consumptionType == KoLConstants.CONSUME_DRINK ? "drink " : "use ";
 
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( useTypeAsString + count + " " + name );
