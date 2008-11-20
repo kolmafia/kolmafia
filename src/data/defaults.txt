@@ -310,7 +310,6 @@ user	sidequestJunkyardCompleted	none
 user	sidequestLighthouseCompleted	none
 user	sidequestNunsCompleted	none
 user	sidequestOrchardCompleted	none
-user	snowconeSummons	0
 user	sortByRoom	true
 user	spadingData
 user	spiceMelangeUsed	false
@@ -332,6 +331,7 @@ user	telescopeLookedHigh	false
 user	telescopeUpgrades	0
 user	thanksMessage	Thank you for the donation!
 user	timesRested	99
+user	tomeSummons	0
 user	trapperOre	chrome ore
 user	usable1HWeapons	3
 user	usable1xAccs	1

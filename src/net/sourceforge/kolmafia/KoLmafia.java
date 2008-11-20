@@ -736,7 +736,7 @@ public abstract class KoLmafia
 		Preferences.setInteger( "currentSpleenUse", 0 );
 		Preferences.setString( "currentPvpVictories", "" );
 
-		Preferences.setInteger( "snowconeSummons", 0 );
+		Preferences.setInteger( "tomeSummons", 0 );
 		Preferences.setInteger( "grimoire1Summons", 0 );
 		Preferences.setInteger( "grimoire2Summons", 0 );
 		Preferences.setInteger( "libramSummons", 0 );

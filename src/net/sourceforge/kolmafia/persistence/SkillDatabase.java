@@ -77,6 +77,7 @@ public class SkillDatabase
 
 	// Mr. Skills
 	public static final int SNOWCONE = 8000;
+	public static final int STICKER = 8001;
 	public static final int CANDY_HEART = 8100;
 	public static final int PARTY_FAVOR = 8101;
 	public static final int HILARIOUS = 8200;
@@ -162,11 +163,12 @@ public class SkillDatabase
 		switch ( skillId.intValue() )
 		{
 		case 3:			// Smile of Mr. A
-		case SNOWCONE:		// Summon Snowcone
+		case SNOWCONE:		// Summon Snowcones
 		case HILARIOUS:		// Summon Hilarious Objects
 		case TASTEFUL:		// Summon Tasteful Items
 		case CANDY_HEART:	// Summon Candy Hearts
 		case PARTY_FAVOR:	// Summon Party Favor
+		case STICKER:		// Summon Stickers
 
 			category = SkillDatabase.MR_SKILLS;
 			break;
