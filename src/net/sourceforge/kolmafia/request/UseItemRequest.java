@@ -2269,48 +2269,48 @@ public class UseItemRequest
 					Preferences.getInteger( "munchiesPillsUsed" ) - 1, 0 ) );
 			}
 			break;
+                }
 
-		default:
+		switch ( itemId )
+		{
+		case ItemPool.EXPRESS_CARD:
+			Preferences.setBoolean( "expressCardUsed", true );
+			break;
 
-			switch ( itemId )
+		case ItemPool.SPICE_MELANGE:
+			Preferences.setBoolean( "spiceMelangeUsed", true );
+			break;
+
+		case ItemPool.MUNCHIES_PILL:
+			Preferences.increment( "munchiesPillsUsed", count );
+			break;
+
+		case ItemPool.BLACK_MARKET_MAP:
+			if ( KoLCharacter.getFamiliar().getId() != 59 )
 			{
-			case ItemPool.EXPRESS_CARD:
-				Preferences.setBoolean( "expressCardUsed", true );
-				break;
+				AdventureResult map = UseItemRequest.lastItemUsed;
+				FamiliarData blackbird = new FamiliarData( 59 );
 
-			case ItemPool.SPICE_MELANGE:
-				Preferences.setBoolean( "spiceMelangeUsed", true );
-				break;
+				if ( !KoLCharacter.getFamiliarList().contains( blackbird ) )
+				{
+					( new UseItemRequest( ItemPool.get( ItemPool.REASSEMBLED_BLACKBIRD, 1 ) ) ).run();
+					UseItemRequest.lastItemUsed = map;
+				}
 
-			case ItemPool.MUNCHIES_PILL:
-				Preferences.increment( "munchiesPillsUsed", count );
-				break;
+				if ( !KoLmafia.permitsContinue() )
+				{
+					return true;
+				}
+
+				( new FamiliarRequest( blackbird ) ).run();
 			}
-
-			int spleenHit = ItemDatabase.getSpleenHit( name ) * count;
-			if ( spleenHit > 0 && KoLCharacter.getSpleenUse() + spleenHit <= KoLCharacter.getSpleenLimit() )
-			{
-				Preferences.increment( "currentSpleenUse",spleenHit );
-			}
+			break;
 		}
 
-		if ( itemId == ItemPool.BLACK_MARKET_MAP && KoLCharacter.getFamiliar().getId() != 59 )
+		int spleenHit = ItemDatabase.getSpleenHit( name ) * count;
+		if ( spleenHit > 0 && KoLCharacter.getSpleenUse() + spleenHit <= KoLCharacter.getSpleenLimit() )
 		{
-			AdventureResult map = UseItemRequest.lastItemUsed;
-			FamiliarData blackbird = new FamiliarData( 59 );
-
-			if ( !KoLCharacter.getFamiliarList().contains( blackbird ) )
-			{
-				( new UseItemRequest( ItemPool.get( ItemPool.REASSEMBLED_BLACKBIRD, 1 ) ) ).run();
-				UseItemRequest.lastItemUsed = map;
-			}
-
-			if ( !KoLmafia.permitsContinue() )
-			{
-				return true;
-			}
-
-			( new FamiliarRequest( blackbird ) ).run();
+			Preferences.increment( "currentSpleenUse", spleenHit );
 		}
 
 		String useTypeAsString =
