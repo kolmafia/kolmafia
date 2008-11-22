@@ -921,6 +921,7 @@ public class HolidayDatabase
 			HolidayDatabase.easter = KoLConstants.DAILY_FORMAT.format( holidayFinder.getTime() );
 
 			holidayFinder.set( Calendar.MONTH, Calendar.NOVEMBER );
+			holidayFinder.set( Calendar.DAY_OF_MONTH, 1 );
 			switch ( holidayFinder.get( Calendar.DAY_OF_WEEK ) )
 			{
 			case Calendar.FRIDAY:

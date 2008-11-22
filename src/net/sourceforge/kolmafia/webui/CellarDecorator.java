@@ -130,15 +130,7 @@ public abstract class CellarDecorator
 			wines[ 2 ] += (patt >> 2) & DUSTYMASK;
 			wines[ 3 ] += (patt >> 3) & DUSTYMASK;
 		}
-		if ( nMatches == 1 && layout != commonBits )
-		{	// yay!  a spade is you!
-			String msg = "Haunted Wine Cellar pattern # " + whichMatch +
-				"|Seventh|to determine if there is any pattern to the dusty wine " +
-				"drop locations.|" + Preferences.getString( "spadingData" );
-			Preferences.setString( "spadingData", msg );
-			KoLmafia.updateDisplay( "Cellar pattern # " + whichMatch +
-				" identified - please type `spade' to submit." );
-		}
+
 		if ( nMatches > 0 )
 		{
 			layout |= commonBits;
