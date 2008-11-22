@@ -138,15 +138,14 @@ public class GearChangeFrame
 
 			JPanel radioPanel = new JPanel( new GridLayout( 1, 4 ) );
 			ButtonGroup radioGroup = new ButtonGroup();
-			GearChangeFrame.this.weaponTypes = new JRadioButton[ 4 ];
+			GearChangeFrame.this.weaponTypes = new JRadioButton[ 3 ];
 
 			GearChangeFrame.this.weaponTypes[ 0 ] = new JRadioButton( "all", true );
 
-			GearChangeFrame.this.weaponTypes[ 1 ] = new JRadioButton( "mus" );
-			GearChangeFrame.this.weaponTypes[ 2 ] = new JRadioButton( "mys" );
-			GearChangeFrame.this.weaponTypes[ 3 ] = new JRadioButton( "mox" );
+			GearChangeFrame.this.weaponTypes[ 1 ] = new JRadioButton( "melee" );
+			GearChangeFrame.this.weaponTypes[ 2 ] = new JRadioButton( "ranged" );
 
-			for ( int i = 0; i < 4; ++i )
+			for ( int i = 0; i < weaponTypes.length; ++i )
 			{
 				if ( i == 1 )
 				{
@@ -476,9 +475,7 @@ public class GearChangeFrame
 				continue;
 			}
 
-			equipStat = EquipmentDatabase.getWeaponType( currentItem.getName() );
-
-			if ( this.weaponTypes[ 0 ].isSelected() || this.weaponTypes[ 1 ].isSelected() && equipStat == KoLConstants.MUSCLE || this.weaponTypes[ 2 ].isSelected() && equipStat == KoLConstants.MYSTICALITY || this.weaponTypes[ 3 ].isSelected() && equipStat == KoLConstants.MOXIE )
+			if ( filterWeapon( currentItem ) )
 			{
 				items.add( currentItem );
 			}
@@ -486,8 +483,8 @@ public class GearChangeFrame
 
 		// Add the current weapon
 
-		equipStat = EquipmentDatabase.getWeaponType( currentWeapon.getName() );
-		if ( !items.contains( currentWeapon ) && ( this.weaponTypes[ 0 ].isSelected() || this.weaponTypes[ 1 ].isSelected() && equipStat == KoLConstants.MUSCLE || this.weaponTypes[ 2 ].isSelected() && equipStat == KoLConstants.MYSTICALITY || this.weaponTypes[ 3 ].isSelected() && equipStat == KoLConstants.MOXIE ) )
+		if ( !items.contains( currentWeapon ) &&
+		     filterWeapon( currentWeapon ) )
 		{
 			items.add( currentWeapon );
 		}
@@ -499,6 +496,23 @@ public class GearChangeFrame
 		}
 
 		return items;
+	}
+
+	private boolean filterWeapon( final AdventureResult weapon )
+	{
+		if ( this.weaponTypes[ 0 ].isSelected() )
+		{
+			return true;
+		}
+
+		switch ( EquipmentDatabase.getWeaponType( weapon.getName() ) )
+		{
+		case KoLConstants.MELEE:
+			return this.weaponTypes[ 1 ].isSelected();
+		case KoLConstants.RANGED:
+			return this.weaponTypes[ 2 ].isSelected();
+		}
+		return false;
 	}
 
 	private List validOffhandItems( final AdventureResult weapon, final AdventureResult offhandItem )
@@ -515,14 +529,14 @@ public class GearChangeFrame
 
 		// The type of weapon in the off hand must
 		// agree with the weapon in the main hand
-		int equipStat = EquipmentDatabase.getWeaponType( weapon.getName() );
+		int type = EquipmentDatabase.getWeaponType( weapon.getName() );
 
 		// Search inventory for suitable items
 
 		for ( int i = 0; i < KoLConstants.inventory.size(); ++i )
 		{
 			AdventureResult currentItem = (AdventureResult) KoLConstants.inventory.get( i );
-			if ( !items.contains( currentItem ) && this.validOffhandItem( currentItem, weapons, equipStat ) )
+			if ( !items.contains( currentItem ) && this.validOffhandItem( currentItem, weapons, type ) )
 			{
 				items.add( currentItem );
 			}
@@ -536,7 +550,7 @@ public class GearChangeFrame
 
 		// Possibly add the current off-hand item
 		AdventureResult currentOffhand = EquipmentManager.getEquipment( EquipmentManager.OFFHAND );
-		if ( !items.contains( currentOffhand ) && this.validOffhandItem( currentOffhand, weapons, equipStat ) )
+		if ( !items.contains( currentOffhand ) && this.validOffhandItem( currentOffhand, weapons, type ) )
 		{
 			items.add( currentOffhand );
 		}
@@ -550,7 +564,7 @@ public class GearChangeFrame
 		return items;
 	}
 
-	private boolean validOffhandItem( final AdventureResult currentItem, boolean weapons, final int equipStat )
+	private boolean validOffhandItem( final AdventureResult currentItem, boolean weapons, final int type )
 	{
 		switch ( ItemDatabase.getConsumptionType( currentItem.getItemId() ) )
 		{
@@ -563,7 +577,7 @@ public class GearChangeFrame
 			{
 				return false;
 			}
-			if ( equipStat != EquipmentDatabase.getWeaponType( currentItem.getName() ) )
+			if ( type != EquipmentDatabase.getWeaponType( currentItem.getName() ) )
 			{
 				return false;
 			}

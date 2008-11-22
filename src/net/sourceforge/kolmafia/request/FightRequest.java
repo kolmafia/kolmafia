@@ -701,7 +701,7 @@ public class FightRequest
 
 		int weaponId = EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getItemId();
 
-		if ( EquipmentDatabase.getWeaponType( weaponId ) == KoLConstants.MOXIE )
+		if ( EquipmentDatabase.getWeaponType( weaponId ) == KoLConstants.RANGED )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "This skill is useless with ranged weapons." );
 			return true;
