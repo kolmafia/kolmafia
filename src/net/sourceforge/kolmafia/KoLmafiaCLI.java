@@ -992,6 +992,18 @@ public class KoLmafiaCLI
 		}
 	}
 	
+	static { new Holiday().register( "holiday" ); }
+	public static class Holiday
+		extends Command
+	{
+		{ usage = " <HolidayName> - enable special processing for unpredicted holidays."; }
+		public void run( String command, String parameters )
+		{
+			KoLCharacter.setHoliday( parameters );
+			KoLCharacter.updateStatus();
+		}
+	}
+
 	static { new Enable().register( "enable" ).register( "disable" ); }
 	public static class Enable
 		extends Command

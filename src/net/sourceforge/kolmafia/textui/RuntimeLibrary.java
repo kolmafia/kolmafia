@@ -872,6 +872,12 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "item_drops", DataTypes.RESULT_TYPE, params ) );
 
 		params = new Type[] {};
+		functions.add( new LibraryFunction( "meat_drop", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] { DataTypes.MONSTER_TYPE };
+		functions.add( new LibraryFunction( "meat_drop", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] {};
 		functions.add( new LibraryFunction( "will_usually_miss", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] {};
@@ -1871,10 +1877,7 @@ public abstract class RuntimeLibrary
 	public static Value restore_mp( final Value amount )
 	{
 		int desiredMP = amount.intValue();
-		while ( !KoLmafia.refusesContinue() && desiredMP > KoLCharacter.getCurrentMP() )
-		{
-			StaticEntity.getClient().recoverMP( desiredMP );
-		}
+		StaticEntity.getClient().recoverMP( desiredMP );
 		return RuntimeLibrary.continueValue();
 	}
 
@@ -3169,6 +3172,28 @@ public abstract class RuntimeLibrary
 		}
 
 		return value;
+	}
+
+	public static Value meat_drop()
+	{
+		Monster monster = FightRequest.getLastMonster();
+		if ( monster == null )
+		{
+			return new Value( -1 );
+		}
+		
+		return new Value( (monster.getMinMeat() +monster.getMaxMeat()) / 2 );
+	}
+	
+	public static Value meat_drop( final Value arg )
+	{
+		Monster monster = (Monster) arg.rawValue();
+		if ( monster == null )
+		{
+			return new Value( -1 );
+		}
+		
+		return new Value( (monster.getMinMeat() +monster.getMaxMeat()) / 2 );
 	}
 
 	public static Value will_usually_dodge()
