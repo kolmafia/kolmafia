@@ -2257,7 +2257,7 @@ public abstract class RuntimeLibrary
 
 	public static Value weapon_type( final Value item )
 	{
-		int stat = EquipmentDatabase.getWeaponType( item.intValue() );
+		int stat = EquipmentDatabase.getWeaponStat( item.intValue() );
 		return stat == KoLConstants.MUSCLE ? DataTypes.MUSCLE_VALUE : stat == KoLConstants.MYSTICALITY ? DataTypes.MYSTICALITY_VALUE :
 			stat == KoLConstants.MOXIE ? DataTypes.MOXIE_VALUE : DataTypes.STAT_INIT;
 	}

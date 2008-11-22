@@ -282,6 +282,11 @@ public interface KoLConstants
 	public static final int MOXIE = 3;
 	public static final int BAD_MOON = 4;
 
+	// Weapon Types
+
+	public static final int MELEE = 1;
+	public static final int RANGED = 2;
+
 	// Item consumption types
 
 	public static final int NO_CONSUME = 0;

@@ -300,7 +300,7 @@ public class EquipmentDatabase
 		}
 	}
 
-	public static final int getWeaponType( final int itemId )
+	public static final int getWeaponStat( final int itemId )
 	{
 		int consumptionType = ItemDatabase.getConsumptionType( itemId );
 
@@ -322,6 +322,36 @@ public class EquipmentDatabase
 		}
 
 		return KoLConstants.MUSCLE;
+	}
+
+	public static final int getWeaponStat( final String itemName )
+	{
+		if ( itemName == null )
+		{
+			return KoLConstants.NONE;
+		}
+
+		int itemId = ItemDatabase.getItemId( itemName );
+
+		if ( itemId == -1 )
+		{
+			return KoLConstants.NONE;
+		}
+
+		return EquipmentDatabase.getWeaponStat( itemId );
+	}
+
+	public static final int getWeaponType( final int itemId )
+	{
+		switch ( EquipmentDatabase.getWeaponStat( itemId ) )
+		{
+		case KoLConstants.NONE:
+			return KoLConstants.NONE;
+		case KoLConstants.MOXIE:
+			return KoLConstants.RANGED;
+		default:
+			return KoLConstants.MELEE;
+		}
 	}
 
 	public static final int getWeaponType( final String itemName )

@@ -531,7 +531,7 @@ public class EquipmentManager
 		// weapons, then also allow one-handed weapons in the off-hand.
 
 		boolean dual = getWeaponHandedness() == 1 && KoLCharacter.hasSkill( "Double-Fisted Skull Smashing" );
-		int equipStat = EquipmentManager.getHitStatType();
+		int weaponType = EquipmentManager.getWeaponType();
 		FamiliarData currentFamiliar = KoLCharacter.getFamiliar();
 
 		for ( int i = 0; i < KoLConstants.inventory.size(); ++i )
@@ -546,7 +546,7 @@ public class EquipmentManager
 
 			if ( filterId == KoLConstants.EQUIP_OFFHAND && type == KoLConstants.EQUIP_WEAPON && dual )
 			{
-				if ( EquipmentDatabase.getHands( currentItemName ) != 1 || EquipmentDatabase.getWeaponType( currentItemName ) != equipStat )
+				if ( EquipmentDatabase.getHands( currentItemName ) != 1 || EquipmentDatabase.getWeaponType( currentItemName ) != weaponType )
 				{
 					continue;
 				}
@@ -574,7 +574,7 @@ public class EquipmentManager
 
 			else if ( filterId == KoLConstants.EQUIP_WEAPON && dual )
 			{
-				if ( EquipmentDatabase.getHands( currentItemName ) == 1 && EquipmentDatabase.getWeaponType( currentItemName ) != equipStat )
+				if ( EquipmentDatabase.getHands( currentItemName ) == 1 && EquipmentDatabase.getWeaponType( currentItemName ) != weaponType )
 				{
 					continue;
 				}
@@ -720,6 +720,18 @@ public class EquipmentManager
 	}
 
 	/**
+	 * Accessor method to determine what type of weapon the character is
+	 * wielding.
+	 *
+	 * @return int MELEE or RANGED
+	 */
+
+	public static final int getWeaponType()
+	{
+		return EquipmentDatabase.getWeaponType( EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getName() );
+	}
+
+	/**
 	 * Accessor method to determine which stat determines the character's
 	 * chance to hit.
 	 *
@@ -728,9 +740,9 @@ public class EquipmentManager
 
 	public static final int getHitStatType()
 	{
-		switch ( EquipmentDatabase.getWeaponType( EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getName() ) )
+		switch ( EquipmentManager.getWeaponType() )
 		{
-		case KoLConstants.MOXIE:
+		case KoLConstants.RANGED:
 			return KoLConstants.MOXIE;
 		default:
 			return KoLConstants.MUSCLE;
