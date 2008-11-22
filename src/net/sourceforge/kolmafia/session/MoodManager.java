@@ -798,7 +798,7 @@ public abstract class MoodManager
 		for ( int i = 0; i < MoodManager.displayList.size(); ++i )
 		{
 			MoodTrigger current = (MoodTrigger) MoodManager.displayList.get( i );
-			if ( !current.getType().equals( "lose_effect" ) || !current.shouldExecute( 1 ) )
+			if ( !current.getType().equals( "lose_effect" ) || !current.shouldExecute( -1 ) )
 			{
 				continue;
 			}
