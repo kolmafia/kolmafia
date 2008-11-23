@@ -43,6 +43,8 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
@@ -872,6 +874,11 @@ public class AdventureRequest
 
 	public int getAdventuresUsed()
 	{
+		if ( "The Sea".equals( AdventureDatabase.getZone( this.adventureName ) ) )
+		{
+			return KoLConstants.activeEffects.contains(
+				EffectPool.get( EffectPool.FISHY ) ) ? 1 : 2;
+		}
 		return this.formSource.startsWith( "shore" ) ? 3 : 1;
 	}
 

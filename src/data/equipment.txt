@@ -73,6 +73,7 @@ demon-horned hat	70	Mox: 20
 disco mask	10	none
 draggin' ball hat	100	Mox: 35
 duct tape fedora	195	Mox: 82
+eelskin hat	200	Mys: 85
 eXtreme scarf	100	Mox: 35
 enchanted eyepatch	35	Mox: 2
 enchantlers	115	Mox: 42
@@ -86,6 +87,7 @@ fire	10	none
 foolscap fool's cap	40	Mox: 5
 football helmet	150	Mox: 60
 furry green turtle	45	Mox: 7
+ganger bandana	200	Mox: 85
 gasmask	50	Mox: 10
 giant discarded bottlecap	155	Mox: 62
 goat beard	60	Mox: 15
@@ -127,6 +129,7 @@ pentacorn hat	40	Mox: 5
 pimpin' meat hat	55	Mox: 12
 pixel hat	50	Mox: 10
 plexiglass pith helmet	180	Mox: 75
+propeller beanie	30	none
 raspberry beret	50	Mox: 10
 ravioli hat	10	none
 red traffic cone	60	Mox: 15
@@ -141,6 +144,7 @@ spooky hockey mask	100	Mox: 35
 stainless steel skullcap	90	Mox: 30
 star hat	165	Mox: 67
 stone baseball cap	195	Mox: 82
+straw hat	200	Mox: 85
 superhero mask	10	none
 tattered paper crown	60	Mus: 15
 time helmet	100	Mox: 35
@@ -210,6 +214,7 @@ demonskin trousers	70	Mox: 20
 distressed denim pants	170	Mox: 70
 duct tape dockers	195	Mox: 82
 dungeoneer's dungarees	30	none
+eelskin pants	200	Mox: 85
 filthy corduroys	60	Mox: 15
 flowing hippy skirt	180	Mox: 75
 frilly skirt	35	Mox: 2
@@ -310,6 +315,7 @@ palm-frond cloak	140	Mus: 55
 pirate shirt	50	Mus: 10
 rhinestone cowboy shirt	100	Mus: 35
 safety vest	70	Mus: 20
+shark jumper	200	Mus: 85
 soggy wofl t-shirt	45	Mus: 7
 souvenir ski t-shirt	100	Mus: 35
 star shirt	165	Mus: 67
@@ -541,6 +547,7 @@ meatspout staff	125	Mus: 45	2-handed staff
 muculent machete	60	Mus: 15	1-handed sword
 ninja mop	90	Mus: 30	2-handed polearm
 obsidian dagger	30	Mus: 10	1-handed knife
+octopus's spade	200	Mus: 85	1-handed knife
 origami riding crop	100	Mus: 0	1-handed crop
 oversized pizza cutter	100	Mys: 35	1-handed utensil
 palm-frond whip	25	Mus: 0	1-handed whip
@@ -723,6 +730,7 @@ demon buckler	77	Mus: 25	shield
 detective skull	0	none
 duct tape buckler	200	Mus: 82	shield
 easter egg balloon	0	Mys: 35
+eelskin buckler	200	Mus: 85	shield
 enchanted brass knuckles	0	Mys: 10
 fake hand	0	none
 flaming talons	0	Mys: 30
@@ -1081,6 +1089,7 @@ rum barrel charrrm bracelet	0	Mys: 40
 rusty chain necklace	0	Mys: 75
 second-hand knockoff engagement ring	0	none
 severed rocking horse head	0	Mys: 10
+shark tooth necklace	0	Mys: 85
 shiny hood ornament	0	Mys: 80
 shiny ring	0	Mys: 10
 silver tongue charrrm bracelet	0	Mys: 80

@@ -54,6 +54,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.BasementRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.HiddenCityRequest;
+import net.sourceforge.kolmafia.request.RichardRequest;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -73,6 +74,7 @@ public class AdventureDatabase
 	private static final HashMap areaCombatData = new HashMap();
 	private static final HashMap adventureLookup = new HashMap();
 	private static final HashMap cloverLookup = new HashMap();
+	private static final HashMap zoneLookup = new HashMap();
 
 	private static final StringArray conditionsById = new StringArray();
 	private static final StringArray bountiesById = new StringArray();
@@ -181,6 +183,7 @@ public class AdventureDatabase
 					continue;
 				}
 
+				AdventureDatabase.zoneLookup.put( name, zone );
 				AdventureDatabase.adventureTable[ 0 ].add( zone );
 				AdventureDatabase.adventureTable[ 1 ].add( location[ 0 ] + ".php" );
 				AdventureDatabase.adventureTable[ 2 ].add( location[ 1 ] );
@@ -387,7 +390,9 @@ public class AdventureDatabase
 		}
 
 		KoLAdventure location = (KoLAdventure) AdventureDatabase.adventureLookup.get( adventureURL );
-		return location == null || location.getRequest() instanceof ClanRumpusRequest ? null : location;
+		return location == null ||
+			location.getRequest() instanceof ClanRumpusRequest ||
+			location.getRequest() instanceof RichardRequest ? null : location;
 	}
 
 	public static final KoLAdventure getAdventure( final String adventureName )
@@ -413,6 +418,11 @@ public class AdventureDatabase
 			AdventureDatabase.adventureTable[ 1 ].get( tableIndex ),
 			AdventureDatabase.adventureTable[ 2 ].get( tableIndex ),
 			AdventureDatabase.adventureTable[ 3 ].get( tableIndex ) );
+	}
+	
+	public static final String getZone( final String location )
+	{
+		return (String) zoneLookup.get( location );
 	}
 
 	public static final KoLAdventure getBountyLocation( final int itemId )

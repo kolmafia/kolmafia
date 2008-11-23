@@ -144,6 +144,7 @@ demon-horned hat	Moxie: +4, Familiar Effect: "hot atk, 1xLep, cap 17"
 disco mask	Familiar Effect: "atk, cap 2"
 draggin' ball hat	Intrinsic Effect: "Draggin' Balls", Familiar Effect: "atk, 1xVolley, cap 25"
 duct tape fedora	Mysticality: +12, Maximum MP: +40, Familiar Effect: "1xBarrr, 1xLep, cap 48"
+eelskin hat	Spell Damage Percent: +15, Familiar Effect: "??"
 eXtreme scarf	Mysticality: +5, Familiar Effect: "atk, 1xBarrr, cap 25"
 enchanted eyepatch	Mysticality: +5, Familiar Effect: "4xBarrr, cap 8"
 enchantlers	Hot Spell Damage: +10, Familiar Effect: "atk, 1xLep, cap 28"
@@ -157,6 +158,7 @@ fire	Intrinsic Effect: "Head on Fire, Ass Catching", Hot Damage: +7, Familiar Ef
 foolscap fool's cap	Moxie: +2, Mysticality: -2, Clownosity: +1, Familiar Effect: "3xVolley, cap 10"
 football helmet	Familiar Effect: "atk, cap 37"
 furry green turtle	Moxie: +3, Familiar Effect: "2xPotato, 2xFairy, cap 11"
+ganger bandana	Muscle Percent: +5, Melee Damage Percent: +15, Familiar Effect: "??"
 gasmask	Stench Resistance: +3, Familiar Effect: "?xBarrr, cap 12"
 giant discarded bottlecap	Damage Reduction: 3, Mysticality: -10, Familiar Effect: "atk, 1xFairy, cap 38"
 goat beard	Mysticality: +3, Familiar Effect: "atk, 1xPotato, cap 15"
@@ -198,6 +200,7 @@ pentacorn hat	Familiar Effect: "atk, cap 10"
 pimpin' meat hat	Muscle: +2, Moxie: +2, Familiar Effect: "sleaze atk, 1xVolley, cap 13"
 pixel hat	Moxie: +2, Muscle: +2, Mysticality: +2, Familiar Effect: "atk, 2xVolley, cap 12"
 plexiglass pith helmet	Familiar Weight: +5, HP Regen Min: 10, HP Regen Max: 12, MP Regen Min: 10, MP Regen Max: 12, Muscle Percent: +30, Familiar Effect: "1xVolley, 1xLep, cap 45"
+propeller beanie	Initiative: +10, Familiar Effect: "??"
 raspberry beret	Hot Resistance: +2, Familiar Effect: "2xPotato, 2xLep, cap 12"
 ravioli hat	Familiar Effect: "atk, cap 2"
 red traffic cone	Moxie: +3, Cold Resistance: +2, Familiar Effect: "2xVolley, 2xLep, cap 15"
@@ -212,6 +215,8 @@ spooky hockey mask	Spooky Resistance: +2, Spooky Damage: +3, Familiar Effect: "1
 stainless steel skullcap	Maximum HP: +30, Damage Absorption: +60, Muscle Percent: +15, Familiar Effect: "1xLep, 1xFairy, cap 22"
 star hat	Maximum MP: +30, Familiar Effect: "0.5xVolley, 0.5xPotato, cap 41"
 stone baseball cap	Damage Reduction: 10, Melee Damage: +15, Muscle: -10, Familiar Effect: "1xVolley, cap 48"
+# straw hat also has +15% food drop, +15% booze drop
+straw hat	Item Drop: +10, Familiar Effect: "??"
 superhero mask	Moxie: +5, Muscle: +5, Mysticality: +5, Softcore Only, Familiar Effect: "?xLep, ?xFairy, cap 2"
 tattered paper crown	Muscle: +3, Familiar Effect: "1xSombrero, cap 15"
 time helmet	Adventures: +3, Familiar Effect: "0.5xPotato, 1xFairy, cap 25"
@@ -280,6 +285,7 @@ demonskin trousers	Hot Resistance: +2
 distressed denim pants	Stench Resistance: +1, Damage Reduction: 2
 duct tape dockers	Moxie: +6, Muscle: +6, Mysticality: +6, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 dungeoneer's dungarees	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
+eelskin pants	Mysticality Percent: +5
 filthy corduroys	Mysticality: +3, Moxie: -3
 flowing hippy skirt	Mysticality: +9, Stench Spell Damage: +15
 # frilly skirt
@@ -380,6 +386,7 @@ palm-frond cloak	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2,
 pirate shirt	Moxie: +3
 rhinestone cowboy shirt	Muscle: +5
 safety vest	Damage Reduction: 3, Moxie: +5
+shark jumper	Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, HP Regen Min: 20, HP Regen Max: 40
 soggy wofl t-shirt	Muscle: +3
 souvenir ski t-shirt	Moxie: +5
 star shirt	Moxie: +5, Muscle: +5, Mysticality: +5
@@ -610,6 +617,7 @@ meatspout staff	Mysticality: +7, Adventures: +3, Meat Drop: +15
 muculent machete	Muscle: +2, Meat Drop: +5
 ninja mop	Melee Damage: +5
 obsidian dagger	Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3
+octopus's spade	Item Drop: +5, Initiative: +10, Melee Damage: +15
 origami riding crop	Intrinsic Effect: "Innuendo Shopping", Sleaze Damage: +10, Initiative: +15, Softcore Only
 oversized pizza cutter	Spell Damage: +13
 palm-frond whip	Melee Damage: +30
@@ -786,6 +794,7 @@ demon buckler	Damage Reduction: 5, Hot Damage: +3
 # detective skull
 duct tape buckler	Damage Reduction: 12, Maximum HP: +65, Maximum MP: +65
 easter egg balloon	Moxie: +5, Muscle: +5, Mysticality: +5
+eelskin buckler	Damage Reduction: 13, Maximum HP: +55, Maximum MP: +55
 enchanted brass knuckles	Critical: 2
 fake hand	Melee Damage: -1
 flaming talons	Melee Damage: +5, Hot Damage: +5
@@ -1139,6 +1148,7 @@ round purple sunglasses	Single Equip, Sleaze Resistance: +1
 rusty chain necklace	Muscle: +9, Maximum HP: +25
 second-hand knockoff engagement ring	Single Equip, Moxie: +1, Muscle: +1, Mysticality: +1
 severed rocking horse head	Moxie: +3, Muscle: +3, Mysticality: +3
+shark tooth necklace	Single Equip, Moxie Percent: +5, Initiative: +35
 shiny hood ornament	Moxie: +5, Muscle: +5, Mysticality: +5, Maximum HP: +30, Maximum MP: +30, Initiative: +10
 shiny ring	Moxie: +3, Muscle: +3, Mysticality: +3
 silver tongue charrrm bracelet	Single Equip, Moxie: +5, Spell Damage: +10
@@ -1409,7 +1419,7 @@ Newbiesport&trade; tent	Base Resting HP: +9, Base Resting MP: +10
 barskin tent	Base Resting HP: +19, Base Resting MP: +20
 cottage	Base Resting HP: +29, Base Resting MP: +30
 Frobozz Real-Estate Company Instant House (TM)	Base Resting HP: +39, Base Resting MP: +40
-sandcastle	Base Resting HP: +49, Base Resting MP: 50
+sandcastle	Base Resting HP: +49, Base Resting MP: +50
 house of twigs and spit	Base Resting HP: +59, Base Resting MP: +60
 hobo fortress blueprints	Base Resting HP: +84, Base Resting MP: +85
 
@@ -1606,7 +1616,7 @@ Enraged	Muscle Percent: +10
 Ermine Eyes	Item Drop: +5
 Erudite	Mysticality Percent: +10
 Expert Oiliness	Equalize: "Mysticality"
-Extra Sensory Perception	Item Drops: +50
+Extra Sensory Perception	Item Drop: +50
 Extra Terrestrial	HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20
 Extreme Muscle Relaxation	Initiative: -50, Muscle Percent: +25
 Extremely Poor Taste	Monster Level: +10

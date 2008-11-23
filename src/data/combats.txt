@@ -33,6 +33,7 @@
 
 8-Bit Realm	100	Blooper	Bullet Bill	Buzzy Beetle	Goomba	Keese	Koopa Troopa	Octorok	Tektite	Zol
 A Maze of Sewer Tunnels	95	C. H. U. M.	Giant Zombie Goldfish	Sewer Gator	C. H. U. M. chieftain: 0
+An Octopus's Garden	-1	Neptune Flytrap	Octopus Gardener	Sponge	Stranglin' Algae
 Astral Mushroom (Bad Trip)	100	Swarm of Country Bats	Trippy Floating Head (Sky)	Trippy Floating Head (Stench)	Trippy Floating Head (Todd)	Zombie Baby
 Astral Mushroom (Great Trip)	100	Angels of Avalon	Bustle in the Hedgerow	Elders of the Gentle Race	Gathering of Angels?	Higher Plane Serpents
 Astral Mushroom (Mediocre Trip)	100	Feeling That You're Being Watched	Really Interesting Wallpaper	The Best Carpet Ever	Urge to Stare at Your Hands	Visible Music
@@ -150,6 +151,9 @@ Spooky Fright Factory	100	Bow-making Mummy	Cookie-baking Thing from Beyond Time	
 Spooky Gravy Barrow	80	Spooky Gravy Fairy Guard	Spooky Gravy Fairy Ninja	Spooky Gravy Fairy Warlock	Felonia, Queen of the Spooky Gravy Fairies: 0
 Stately Pleasure Dome	70	Ancient Mariner	Angry Poet	Kubla Khan	Roller-skating Muse	Toothless Mastiff Bitch
 The Ancient Hobo Burial Ground	-1	Spooky Hobo	Zombo: 0
+The Briny Deeps	100	Funk Sole Brother	Pumped-Up Bass	School of Wizardfish
+The Brinier Deepers	100	Bazookafish	Clubfish	Scimitarfish
+The Briniest Deepests	100	Acoustic Electric Eel	Decent White Shark	Ganger
 The Heap	-1	Stench Hobo	Oscus: 0
 The Middle Chamber	100	Iiti Kitty	Tomb Bat	Tomb Servant
 The Purple Light District	-1	Sleaze Hobo	Chester: 0

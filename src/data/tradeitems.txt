@@ -3513,15 +3513,27 @@
 3512	scratch 'n' sniff wrestler sticker	24	all	30
 3513	scratch 'n' sniff dragon sticker	24	all	30
 3514	scratch 'n' sniff rock band sticker	24	all	30
-3515
-3516
-3517
-3518
-3519
-3520
-3521
-3522
-3523
-3524
-3525
+3515	ganger bandana	9	all	400
+3516	eel skin	0	all	100
+3517	eelskin hat	9	all	175
+3518	eelskin pants	10	all	180
+3519	eelskin buckler	13	all	185
+3520	shark tooth	0	all	150
+3521	shark tooth necklace	8	all	350
+3522	shark jumper	11	all	245
+3523	shark cartilage	3	all	500
+3524	eel battery	3	all	500
+3525	temporary teardrop tattoos	3	all	500
 3526	scratch 'n' sniff crossbow	12	none	0
+
+3550	propeller beanie	9	display	0
+3551	straw hat	9	all	50
+3552	octopus's spade	12	all	250
+3553	soggy seed packet	3	all	500
+3554	glob of green slime	0	all	185
+
+3567	slab of sponge	0	all	50
+
+3571	flytrap pellet	3	all	25
+
+3575	sand dollar	0	all	50
