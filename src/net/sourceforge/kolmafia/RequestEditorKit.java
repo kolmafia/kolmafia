@@ -832,8 +832,13 @@ public class RequestEditorKit
 			monsterData.append( FightRequest.getMonsterDefense() );
 			if ( FightRequest.getLastMonsterName().indexOf( "pirate" ) != -1 )
 			{
+				int count = FightRequest.countPirateInsults();
 				monsterData.append( ", Insults: ");
-				monsterData.append( FightRequest.countPirateInsults() );
+				monsterData.append( count );
+				monsterData.append( " (");
+				float odds = FightRequest.pirateInsultOdds( count ) * 100.0f;
+				monsterData.append( KoLConstants.FLOAT_FORMAT.format( odds ) );
+				monsterData.append( "%)");
 			}
 		}
 
