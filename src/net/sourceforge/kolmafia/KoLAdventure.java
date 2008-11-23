@@ -49,6 +49,7 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HiddenCityRequest;
+import net.sourceforge.kolmafia.request.RichardRequest;
 import net.sourceforge.kolmafia.request.SewerRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
@@ -129,6 +130,10 @@ public class KoLAdventure
 		else if ( formSource.equals( "clan_gym.php" ) )
 		{
 			this.request = new ClanRumpusRequest( StringUtilities.parseInt( adventureId ) );
+		}
+		else if ( formSource.equals( "clan_hobopolis.php" ) )
+		{
+			this.request = new RichardRequest( StringUtilities.parseInt( adventureId ) );
 		}
 		else if ( formSource.equals( "basement.php" ) )
 		{

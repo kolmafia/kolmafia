@@ -613,6 +613,7 @@ black cowboy hat	14	basic meat helmet	black snake skin
 catskin cap	14	basic meat helmet	leathery cat skin
 clown wig	4	basic meat helmet	clown skin
 demon-horned hat	4	basic meat helmet	demon skin
+eelskin hat	14	basic meat helmet	eel skin
 nasty rat mask	14	basic meat helmet	leathery rat skin
 yak toupee	14	basic meat helmet	yak skin
 
@@ -621,6 +622,7 @@ yak toupee	14	basic meat helmet	yak skin
 
 barskin loincloth	4	bar skin	pants kit
 demonskin trousers	4	demon skin	pants kit
+eelskin pants	14	pants kit	eel skin
 furry pants	14	furry fur	pants kit
 hippopotamus pants	14	hippopotamus skin	pants kit
 penguin shorts	14	penguin skin	pants kit
@@ -660,6 +662,7 @@ barskin buckler	14	buckler buckle	bar skin
 catskin buckler	14	buckler buckle	leathery cat skin
 clownskin buckler	14	buckler buckle	clown skin
 demon buckler	14	buckler buckle	demon skin
+eelskin buckler	14	buckler buckle	eel skin
 gnauga hide buckler	14	buckler buckle	gnauga hide
 hippo skin buckler	14	buckler buckle	hippopotamus skin
 penguin skin buckler	14	buckler buckle	penguin skin
@@ -971,7 +974,7 @@ Mudflap-Girl Necklace	25	tawdry amethyst	heavy necklace chain
 Mudflap-Girl Ring	25	tawdry amethyst	extra-fancy ring setting
 
 groovy prism necklace	25	prismatic wad	heavy necklace chain
-
+shark tooth necklace	25	shark tooth	heavy necklace chain
 
 # Chef staves made by Rodoric
 
@@ -1026,6 +1029,8 @@ sandcastle	27	brick of sand (20)
 house of twigs and spit	27	interesting-looking twig (100)
 
 deck of lewd playing cards	27	lewd playing card (52)
+
+propeller beanie	27	Bash-&#332;s boxtop (20)
 
 
 # Recipes that involve single-using one of the ingredients

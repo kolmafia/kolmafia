@@ -3519,15 +3519,27 @@
 3512	996652180	scratch 'n' sniff wrestler sticker	scratch 'n' sniff wrestler stickers
 3513	116270748	scratch 'n' sniff dragon sticker	scratch 'n' sniff dragon stickers
 3514	793884084	scratch 'n' sniff rock band sticker	scratch 'n' sniff rock band stickers
-3515
-3516
-3517
-3518
-3519
-3520
-3521
-3522
-3523
-3524
-3525
+3515	458358672	ganger bandana	ganger bandanas
+3516	432435978	eel skin	pieces of eel skin
+3517	785586926	eelskin hat	eelskin hats
+3518	605906373	eelskin pants	pairs of eelskin pants
+3519	767266958	eelskin buckler	eelskin bucklers
+3520	906200885	shark tooth	shark teeth
+3521	999591089	shark tooth necklace
+3522	168628928	shark jumper	shark jumpers
+3523	752008573	shark cartilage	bits of shark cartilage
+3524	886718236	eel battery	eel batteries
+3525	700314352	temporary teardrop tattoo	temporary teardrop tattoos
 3526	954957871	scratch 'n' sniff crossbow
+
+3550	723192821	propeller beanie
+3551	620730491	straw hat	straw hats
+3552	792356929	octopus's spade	octopus's spades
+3553	291361148	soggy seed packet	soggy seed packets
+3554	840194329	glob of green slime	globs of green slime
+
+3567	429199968	slab of sponge	slabs of sponge
+
+3571	877457317	flytrap pellet	flytrap pellets
+
+3575	613536361	sand dollar	sand dollars

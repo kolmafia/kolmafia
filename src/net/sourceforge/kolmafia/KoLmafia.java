@@ -96,6 +96,7 @@ import net.sourceforge.kolmafia.request.PasswordHashRequest;
 import net.sourceforge.kolmafia.request.PulverizeRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
+import net.sourceforge.kolmafia.request.RichardRequest;
 import net.sourceforge.kolmafia.request.SellStuffRequest;
 import net.sourceforge.kolmafia.request.SewerRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
@@ -1485,6 +1486,11 @@ public abstract class KoLmafia
 				if ( KoLmafia.currentAdventure.getRequest() instanceof ClanRumpusRequest )
 				{
 					RequestThread.postRequest( ( (ClanRumpusRequest) KoLmafia.currentAdventure.getRequest() ).setTurnCount( iterations ) );
+					return;
+				}
+				if ( KoLmafia.currentAdventure.getRequest() instanceof RichardRequest )
+				{
+					RequestThread.postRequest( ( (RichardRequest) KoLmafia.currentAdventure.getRequest() ).setTurnCount( iterations ) );
 					return;
 				}
 

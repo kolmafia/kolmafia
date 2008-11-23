@@ -371,7 +371,9 @@ public class GenericRequest
 			this.formURLString.startsWith( "valhalla" ) ||
 			this.formURLString.startsWith( "message" ) ||
 			this.formURLString.startsWith( "makeoffer" ) ||
-			(this.formURLString.startsWith( "clan" ) && !this.formURLString.startsWith( "clan_stash" ) && !this.formURLString.startsWith( "clan_rumpus" ) ) ||
+			( this.formURLString.startsWith( "clan" ) &&
+				!this.formURLString.startsWith( "clan_stash" ) && !this.formURLString.startsWith( "clan_rumpus" ) &&
+				!this.formURLString.startsWith( "clan_hobopolis" ) ) ||
 			this instanceof LoginRequest ||
 			this instanceof LogoutRequest;
 

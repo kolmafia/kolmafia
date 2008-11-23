@@ -72,6 +72,8 @@ public class EffectPool
 	public static final String PURPLE_CUPCAKE = "Tiny Bubbles in the Cupcake";
 	public static final String PINK_CUPCAKE = "Your Cupcake Senses Are Tingling";
 
+	public static final String FISHY = "Fishy";
+
 	public static final AdventureResult get( String effectName )
 	{
 		return new AdventureResult( effectName, 1, true );
