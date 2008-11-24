@@ -99,10 +99,17 @@ public class BreakfastManager
 		{
 			for ( int i = 0; i < toys.length; ++i )
 			{
-				if ( InventoryManager.hasItem( toys[ i ] ) )
+				AdventureResult toy = toys[ i ];
+				if ( InventoryManager.hasItem( toy ) )
 				{
-					RequestThread.postRequest( new UseItemRequest( toys[ i ] ) );
+					int slot = KoLCharacter.equipmentSlot( toy );
+					RequestThread.postRequest( new UseItemRequest( toy ) );
 					KoLmafia.forceContinue();
+					if ( slot != EquipmentManager.NONE && !KoLCharacter.hasEquipped( toy, slot ) )
+					{
+						RequestThread.postRequest( new EquipmentRequest( toy, slot ) );
+						KoLmafia.forceContinue();
+					}
 				}
 			}
 		}
