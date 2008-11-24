@@ -701,6 +701,12 @@ public class AdventureSelectPanel
 		public void stateChanged( ChangeEvent e )
 		{
 			int maximum = KoLCharacter.getAdventuresLeft();
+			if ( maximum == 0 )
+			{
+				this.setValue( new Integer( 0 ) );
+				return;
+			}
+
 			int desired = InputFieldUtilities.getValue( this, maximum );
 			if ( desired == maximum + 1 )
 				this.setValue( new Integer( 1 ) );
