@@ -68,19 +68,19 @@ public class StatusEffectPanel
 
 		if ( Preferences.getString( "currentMood" ).equals( "apathetic" ) )
 		{
-			Preferences.setString( "currentMood", "default" );
+			MoodManager.setMood( "default" );
 		}
 
-		String name, action;
+		int count = 0;
 
 		for ( int i = 0; i < effects.length; ++i )
 		{
-			name = ( (AdventureResult) effects[ i ] ).getName();
-
-			action = MoodManager.getDefaultAction( "lose_effect", name );
+			String name = ( (AdventureResult) effects[ i ] ).getName();
+			String action = MoodManager.getDefaultAction( "lose_effect", name );
 			if ( !action.equals( "" ) )
 			{
 				MoodManager.addTrigger( "lose_effect", name, action );
+				count++;
 				continue;
 			}
 
@@ -88,7 +88,13 @@ public class StatusEffectPanel
 			if ( !action.equals( "" ) )
 			{
 				MoodManager.addTrigger( "gain_effect", name, action );
+				count++;
 			}
+		}
+
+		if ( count > 0 )
+		{
+			MoodManager.saveSettings();
 		}
 	}
 }
