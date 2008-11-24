@@ -155,6 +155,7 @@ public class ItemPool
 	public static final int DRASTIC_HEALING = 595;
 	public static final int SLUG_LORD_MAP = 598;
 	public static final int DR_HOBO_MAP = 601;
+	public static final int SHOPPING_LIST = 602;
 	public static final int TISSUE_PAPER_IMMATERIA = 605;
 	public static final int TIN_FOIL_IMMATERIA = 606;
 	public static final int GAUZE_IMMATERIA = 607;
