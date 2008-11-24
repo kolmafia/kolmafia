@@ -845,7 +845,7 @@ public class UseItemRequest
 			return;
 
 		case KoLConstants.MESSAGE_DISPLAY:
-			UseItemRequest.showItemUsage( showHTML, responseText, true );
+			UseItemRequest.showItemUsage( showHTML, responseText );
 			return;
 
 		case KoLConstants.CONSUME_ZAP:
@@ -910,7 +910,7 @@ public class UseItemRequest
 			// Pop up a window showing the result
 
 			KoLCharacter.addFamiliar( FamiliarDatabase.growFamiliarLarva( item.getItemId() ) );
-			UseItemRequest.showItemUsage( showHTML, responseText, true );
+			UseItemRequest.showItemUsage( showHTML, responseText );
 			return;
 		}
 
@@ -1005,7 +1005,7 @@ public class UseItemRequest
 			}
 			else if ( showHTML )
 			{
-				UseItemRequest.showItemUsage( true, responseText, true );
+				UseItemRequest.showItemUsage( true, responseText );
 			}
 
 			return;
@@ -1019,7 +1019,7 @@ public class UseItemRequest
 
 		case ItemPool.FORTUNE_COOKIE:
 
-			UseItemRequest.showItemUsage( showHTML, responseText, true );
+			UseItemRequest.showItemUsage( showHTML, responseText );
 
 			Matcher fortuneMatcher = UseItemRequest.FORTUNE_PATTERN.matcher( responseText );
 			if ( !fortuneMatcher.find() )
@@ -1322,6 +1322,20 @@ public class UseItemRequest
 			// Using the map consumes an asparagus knife
 
 			ResultProcessor.processItem( ItemPool.ASPARAGUS_KNIFE, -1 );
+			return;
+
+		case ItemPool.SHOPPING_LIST:
+
+			// "Since you've already built a bitchin' meatcar, you
+			// wad the shopping list up and throw it away."
+
+			if ( responseText.indexOf( "throw it away" ) == -1 )
+			{
+				ResultProcessor.processResult( item );
+			}
+
+			UseItemRequest.showItemUsage( showHTML, responseText );
+
 			return;
 
 		case ItemPool.COBBS_KNOB_MAP:
@@ -1705,7 +1719,7 @@ public class UseItemRequest
 
 
 		case ItemPool.PIRATE_SKULL:
-			UseItemRequest.showItemUsage( showHTML, responseText, true );
+			UseItemRequest.showItemUsage( showHTML, responseText );
 			// Fall through
 
 		case ItemPool.QUILL_PEN:
@@ -2110,17 +2124,12 @@ public class UseItemRequest
 			itemId == ItemPool.GAUZE_HAMMOCK;
 	}
 
-	private static final void showItemUsage( final boolean showHTML, final String text, boolean consumed )
+	private static final void showItemUsage( final boolean showHTML, final String text )
 	{
 		if ( showHTML )
 		{
 			StaticEntity.getClient().showHTML(
 				"inventory.php?action=message", UseItemRequest.trimInventoryText( text ) );
-		}
-
-		if ( !consumed )
-		{
-			ResultProcessor.processResult( UseItemRequest.lastItemUsed );
 		}
 	}
 

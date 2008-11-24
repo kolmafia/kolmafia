@@ -600,7 +600,7 @@
 599	pants of the Slug Lord	10	all	40
 600	Dr. Hobo's scalpel	12	all	40
 601	Dr. Hobo's map	3	none	0
-602	Degrassi Knoll shopping list	15	none	0
+602	Degrassi Knoll shopping list	3	none	0
 603	Item #13	8	all	0
 604	Penultimate Fantasy chest	4	all	108
 605	Tissue Paper Immateria	0	none	0
