@@ -344,6 +344,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "is_tradeable", DataTypes.BOOLEAN_TYPE, params ) );
 
+		params = new Type[] { DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "autosell_price", DataTypes.INT_TYPE, params ) );
+
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "daily_special", DataTypes.ITEM_TYPE, params ) );
 
@@ -1719,6 +1722,11 @@ public abstract class RuntimeLibrary
 	public static Value is_npc_item( final Value item )
 	{
 		return DataTypes.makeBooleanValue( NPCStoreDatabase.contains( ItemDatabase.getItemName( item.intValue() ), false ) );
+	}
+
+	public static Value autosell_price( final Value item )
+	{
+		return new Value( ItemDatabase.getPriceById( item.intValue() ) );
 	}
 
 	public static Value daily_special()
