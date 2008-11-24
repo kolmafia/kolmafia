@@ -583,6 +583,20 @@ public abstract class UseLinkDecorator
 			itemId = ItemPool.DINGHY_PLANS;
 			break;
 
+		// Link which use the Knob map when you get the encryption key.
+
+		case ItemPool.ENCRYPTION_KEY:
+
+			if ( !InventoryManager.hasItem( ItemPool.COBBS_KNOB_MAP ) )
+			{
+				return null;
+			}
+
+			useType = "use map";
+			useLocation = "inv_use.php?pwd=" + GenericRequest.passwordHash + "&which=3&whichitem=";
+			itemId = ItemPool.COBBS_KNOB_MAP;
+			break;
+
 		// Link to the guild upon completion of the Citadel quest.
 
 		case ItemPool.CITADEL_SATCHEL:
