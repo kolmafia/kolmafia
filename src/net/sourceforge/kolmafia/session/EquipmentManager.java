@@ -65,6 +65,8 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class EquipmentManager
 {
+	public static final int NONE = -1;
+
 	// Mutable equipment slots
 	public static final int HAT = 0;
 	public static final int WEAPON = 1;

@@ -2654,18 +2654,73 @@ public abstract class KoLCharacter
 			return KoLCharacter.hasEquipped( item, EquipmentManager.PANTS );
 
 		case KoLConstants.EQUIP_ACCESSORY:
-			return KoLCharacter.hasEquipped( item, EquipmentManager.ACCESSORY1 ) || KoLCharacter.hasEquipped(
-				item, EquipmentManager.ACCESSORY2 ) || KoLCharacter.hasEquipped( item, EquipmentManager.ACCESSORY3 );
+			return	KoLCharacter.hasEquipped( item, EquipmentManager.ACCESSORY1 ) || 
+				KoLCharacter.hasEquipped( item, EquipmentManager.ACCESSORY2 ) |
+				KoLCharacter.hasEquipped( item, EquipmentManager.ACCESSORY3 );
 
 		case KoLConstants.CONSUME_STICKER:
-			return KoLCharacter.hasEquipped( item, EquipmentManager.STICKER1 ) || KoLCharacter.hasEquipped(
-				item, EquipmentManager.STICKER2 ) || KoLCharacter.hasEquipped( item, EquipmentManager.STICKER3 );
+			return	KoLCharacter.hasEquipped( item, EquipmentManager.STICKER1 ) ||
+				KoLCharacter.hasEquipped( item, EquipmentManager.STICKER2 ) ||
+				KoLCharacter.hasEquipped( item, EquipmentManager.STICKER3 );
 
 		case KoLConstants.EQUIP_FAMILIAR:
 			return KoLCharacter.hasEquipped( item, EquipmentManager.FAMILIAR );
 		}
 
 		return false;
+	}
+
+	public static final int equipmentSlot( final AdventureResult item )
+	{
+		switch ( ItemDatabase.getConsumptionType( item.getItemId() ) )
+		{
+		case KoLConstants.EQUIP_WEAPON:
+			return KoLCharacter.hasEquipped( item, EquipmentManager.WEAPON ) ?
+				EquipmentManager.WEAPON :
+			KoLCharacter.hasEquipped( item, EquipmentManager.OFFHAND ) ?
+				EquipmentManager.OFFHAND :
+			EquipmentManager.NONE;
+
+		case KoLConstants.EQUIP_OFFHAND:
+			return KoLCharacter.hasEquipped( item, EquipmentManager.OFFHAND ) ?
+				EquipmentManager.OFFHAND : EquipmentManager.NONE;
+
+		case KoLConstants.EQUIP_HAT:
+			return KoLCharacter.hasEquipped( item, EquipmentManager.HAT ) ?
+				EquipmentManager.HAT : EquipmentManager.NONE;
+
+		case KoLConstants.EQUIP_SHIRT:
+			return KoLCharacter.hasEquipped( item, EquipmentManager.SHIRT ) ?
+				EquipmentManager.SHIRT : EquipmentManager.NONE;
+
+		case KoLConstants.EQUIP_PANTS:
+			return KoLCharacter.hasEquipped( item, EquipmentManager.PANTS ) ?
+				EquipmentManager.PANTS : EquipmentManager.NONE;
+
+		case KoLConstants.EQUIP_ACCESSORY:
+			return KoLCharacter.hasEquipped( item, EquipmentManager.ACCESSORY1 ) ?
+				EquipmentManager.ACCESSORY1 :
+			KoLCharacter.hasEquipped( item, EquipmentManager.ACCESSORY2 ) ?
+				EquipmentManager.ACCESSORY2 :
+			KoLCharacter.hasEquipped( item, EquipmentManager.ACCESSORY3 ) ?
+				EquipmentManager.ACCESSORY3 :
+			EquipmentManager.NONE;
+
+		case KoLConstants.CONSUME_STICKER:
+			return KoLCharacter.hasEquipped( item, EquipmentManager.STICKER1 ) ?
+				EquipmentManager.STICKER1 :
+			KoLCharacter.hasEquipped( item, EquipmentManager.STICKER2 ) ?
+				EquipmentManager.STICKER2 :
+			KoLCharacter.hasEquipped( item, EquipmentManager.STICKER3 ) ?
+				EquipmentManager.STICKER3 :
+			EquipmentManager.NONE;
+
+		case KoLConstants.EQUIP_FAMILIAR:
+			return KoLCharacter.hasEquipped( item, EquipmentManager.FAMILIAR ) ?
+				EquipmentManager.FAMILIAR: EquipmentManager.NONE;
+		}
+
+		return EquipmentManager.NONE;
 	}
 
 	public static final void updateStatus()
