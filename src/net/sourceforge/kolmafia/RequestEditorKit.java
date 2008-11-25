@@ -63,6 +63,7 @@ import net.sourceforge.kolmafia.request.ChatRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.MoonPhaseRequest;
+import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
@@ -87,6 +88,7 @@ public class RequestEditorKit
 	extends HTMLEditorKit
 {
 	private static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice value=(\\d+)" );
+	private static final Pattern CHOICE2_PATTERN = Pattern.compile( "whichchoice=(\\d+)" );
 	private static final Pattern BOOKSHELF_PATTERN =
 		Pattern.compile( "onClick=\"location.href='(.*?)';\"", Pattern.DOTALL );
 	private static final Pattern ALTAR_PATTERN = Pattern.compile( "'An altar with a carving of a god of ([^']*)'" );
@@ -519,7 +521,7 @@ public class RequestEditorKit
 		else if ( location.startsWith( "choice.php" ) )
 		{
 			StationaryButtonDecorator.decorate( location, buffer );
-			RequestEditorKit.addChoiceSpoilers( buffer );
+			RequestEditorKit.addChoiceSpoilers( location, buffer );
 		}
 		else if ( location.startsWith( "clan_hobopolis.php" ) )
 		{
@@ -1125,24 +1127,23 @@ public class RequestEditorKit
 		}
 	}
 
-	private static final void addChoiceSpoilers( final StringBuffer buffer )
+	private static final void addChoiceSpoilers( final String location, final StringBuffer buffer )
 	{
-		// For the plus sign teleportitis adventure, replace the book
-		// message with a link to the plus sign.
-
-		StringUtilities.singleStringReplace(
-			buffer, "It's actually a book.  Read it.",
-			"It's actually a book. <font size=1>[<a href=\"inv_use.php?pwd=" + GenericRequest.passwordHash + "&which=3&whichitem=818\">read it</a>]</font>" );
-
-		// For everything else, make sure that it's an actual choice adventure
+		// Make sure that it's an actual choice adventure
 		Matcher choiceMatcher = RequestEditorKit.CHOICE_PATTERN.matcher( buffer.toString() );
 		if ( !choiceMatcher.find() )
 		{
+			// It's a response to taking a choice.
+			RequestEditorKit.decorateChoiceResponse( location, buffer );
 			return;
 		}
 
 		// Find the options for the choice we've encountered
 		int choice = StringUtilities.parseInt( choiceMatcher.group( 1 ) );
+
+		// Add special decoration for Pyramid choices
+		PyramidRequest.decorateChoice( choice, buffer );
+
 		String[][] possibleDecisions = ChoiceManager.choiceSpoilers( choice );
 
 		if ( possibleDecisions == null )
@@ -1199,6 +1200,33 @@ public class RequestEditorKit
 		}
 
 		buffer.append( text.substring( index1 ) );
+	}
+
+	private static final void decorateChoiceResponse( final String location, final StringBuffer buffer )
+	{
+		Matcher matcher = RequestEditorKit.CHOICE2_PATTERN.matcher( location );
+		if ( !matcher.find() )
+		{
+			return;
+		}
+
+		int choice = StringUtilities.parseInt( matcher.group( 1 ) );
+
+		switch ( choice )
+		{
+		// The Oracle Will See You Now
+		case 3:
+			StringUtilities.singleStringReplace(
+				buffer, "It's actually a book.	Read it.",
+				"It's actually a book. <font size=1>[<a href=\"inv_use.php?pwd=" + GenericRequest.passwordHash + "&which=3&whichitem=818\">read it</a>]</font>" );
+			break;
+
+		// Wheel In the Pyramid, Keep on Turning
+		case 134:
+		case 135:
+			PyramidRequest.decorateChoiceResponse( buffer );
+			break;
+		}
 	}
 
 	private static final void addTavernSpoilers( final StringBuffer buffer )

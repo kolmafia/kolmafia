@@ -49,6 +49,7 @@ import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -1803,6 +1804,15 @@ public abstract class ChoiceManager
 				KoLCharacter.updateStatus();
 			}
 
+			break;
+
+		// Wheel In the Pyramid, Keep on Turning
+		case 134:
+		case 135:
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				PyramidRequest.advancePyramidPosition();
+			}
 			break;
 
 		// Start the Island War Quest

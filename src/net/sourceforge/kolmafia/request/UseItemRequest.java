@@ -60,6 +60,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
@@ -2102,6 +2103,11 @@ public class UseItemRequest
 				ResultProcessor.processResult( item );
 			}
 
+			return;
+
+		case ItemPool.TOMB_RATCHET:
+
+			PyramidRequest.advancePyramidPosition();
 			return;
 		}
 	}

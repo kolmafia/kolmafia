@@ -60,6 +60,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.GourdRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.HiddenCityRequest;
+import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.SellStuffRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
@@ -363,6 +364,11 @@ public abstract class StaticEntity
 		if ( location.startsWith( "hiddencity.php" ) )
 		{
 			HiddenCityRequest.parseResponse( location, responseText );
+		}
+
+		if ( location.startsWith( "pyramid.php" ) )
+		{
+			PyramidRequest.parseResponse( location, responseText );
 		}
 
 		if ( location.startsWith( "town_wrong.php" ) )
