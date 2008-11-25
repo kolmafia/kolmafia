@@ -347,6 +347,8 @@ public class ItemPool
 	public static final int CHOMSKYS_COMICS = 2301;
 	public static final int WORM_RIDING_HOOKS = 2302;
 	public static final int CANDY_BOOK = 2303;
+	public static final int ANCIENT_BRONZE_TOKEN = 2317;
+	public static final int ANCIENT_BOMB = 2318;
 	public static final int CARVED_WOODEN_WHEEL = 2319;
 	public static final int DRUM_MACHINE = 2328;
 	public static final int CONFETTI = 2329;
@@ -386,6 +388,7 @@ public class ItemPool
 	public static final int MOLYBDENUM_PLIERS = 2500;
 	public static final int MOLYBDENUM_WRENCH = 2501;
 	public static final int JEWELRY_BOOK = 2502;
+	public static final int TOMB_RATCHET = 2540;
 	public static final int MAYFLOWER_BOUQUET = 2541;
 	public static final int OUTRAGEOUS_SOMBRERO = 2548;
 	public static final int AZAZELS_UNICORN = 2566;

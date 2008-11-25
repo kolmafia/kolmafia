@@ -250,6 +250,7 @@ user	lastPirateInsult6	false
 user	lastPirateInsult7	false
 user	lastPirateInsult8	false
 user	lastPirateInsultReset	-1
+user	lastPyramidReset	-1
 user	lastQuartetAscension	-1
 user	lastQuartetRequest	0
 user	lastSecondFloorUnlock	-1
@@ -293,6 +294,8 @@ user	postAscensionScript
 user	preAscensionScript
 user	preBlackbirdFamiliar
 user	prismaticSummons	0
+user	pyramidPosition	0
+user	pyramidBombUsed	false
 user	reagentSummons	0
 user	recoveryScript
 user	relayCounters
