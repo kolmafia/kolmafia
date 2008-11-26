@@ -122,7 +122,7 @@ public class Modifiers
 	public static final int HP_PCT = 22;
 	public static final int MP = 23;
 	public static final int MP_PCT = 24;
-	public static final int MELEE_DAMAGE = 25;
+	public static final int WEAPON_DAMAGE = 25;
 	public static final int RANGED_DAMAGE = 26;
 	public static final int SPELL_DAMAGE = 27;
 	public static final int SPELL_DAMAGE_PCT = 28;
@@ -144,7 +144,7 @@ public class Modifiers
 	public static final int MP_REGEN_MAX = 44;
 	public static final int ADVENTURES = 45;
 	public static final int FAMILIAR_WEIGHT_PCT = 46;
-	public static final int MELEE_DAMAGE_PCT = 47;
+	public static final int WEAPON_DAMAGE_PCT = 47;
 	public static final int RANGED_DAMAGE_PCT = 48;
 	public static final int STACKABLE_MANA_COST = 49;
 	public static final int HOBO_POWER = 50;
@@ -154,6 +154,7 @@ public class Modifiers
 	public static final int BASE_RESTING_MP = 54;
 	public static final int RESTING_MP_PCT = 55;
 	public static final int BONUS_RESTING_MP = 56;
+	public static final int CRITICAL_PCT = 57;
 
 	private static final Object[][] floatModifiers =
 	{
@@ -257,9 +258,9 @@ public class Modifiers
 		  null,
 		  Pattern.compile( "Maximum MP Percent: ([+-]\\d+)" )
 		},
-		{ "Melee Damage",
-		  Pattern.compile( "Melee Damage ([+-]\\d+)$" ),
-		  Pattern.compile( "Melee Damage: ([+-]\\d+)" )
+		{ "Weapon Damage",
+		  Pattern.compile( "Weapon Damage ([+-]\\d+)$" ),
+		  Pattern.compile( "Weapon Damage: ([+-]\\d+)" )
 		},
 		{ "Ranged Damage",
 		  Pattern.compile( "Ranged Damage ([+-]\\d+)$" ),
@@ -294,23 +295,23 @@ public class Modifiers
 		  Pattern.compile( "Stench Damage: ([+-]\\d+)" )
 		},
 		{ "Cold Spell Damage",
-		  Pattern.compile( "([+-]\\d+) Damage to <font color=blue>Cold Spells</font>" ),
+		  Pattern.compile( "([+-]\\d+) (Damage )?to <font color=blue>Cold Spells</font>" ),
 		  Pattern.compile( "Cold Spell Damage: ([+-]\\d+)" )
 		},
 		{ "Hot Spell Damage",
-		  Pattern.compile( "([+-]\\d+) Damage to <font color=red>Hot Spells</font>" ),
+		  Pattern.compile( "([+-]\\d+) (Damage )?to <font color=red>Hot Spells</font>" ),
 		  Pattern.compile( "Hot Spell Damage: ([+-]\\d+)" )
 		},
 		{ "Sleaze Spell Damage",
-		  Pattern.compile( "([+-]\\d+) Damage to <font color=blueviolet>Sleaze Spells</font>" ),
+		  Pattern.compile( "([+-]\\d+) (Damage )?to <font color=blueviolet>Sleaze Spells</font>" ),
 		  Pattern.compile( "Sleaze Spell Damage: ([+-]\\d+)" )
 		},
 		{ "Spooky Spell Damage",
-		  Pattern.compile( "([+-]\\d+) Damage to <font color=gray>Spooky Spells</font>" ),
+		  Pattern.compile( "([+-]\\d+) (Damage )?to <font color=gray>Spooky Spells</font>" ),
 		  Pattern.compile( "Spooky Spell Damage: ([+-]\\d+)" )
 		},
 		{ "Stench Spell Damage",
-		  Pattern.compile( "([+-]\\d+) Damage to <font color=green>Stench Spells</font>" ),
+		  Pattern.compile( "([+-]\\d+) (Damage )?to <font color=green>Stench Spells</font>" ),
 		  Pattern.compile( "Stench Spell Damage: ([+-]\\d+)" )
 		},
 		{ "Critical",
@@ -345,9 +346,9 @@ public class Modifiers
 		  null,
 		  Pattern.compile( "Familiar Weight Percent: ([+-]\\d+)" )
 		},
-		{ "Melee Damage Percent",
-		  Pattern.compile( "Melee Damage ([+-]\\d+)%" ),
-		  Pattern.compile( "Melee Damage Percent: ([+-]\\d+)" )
+		{ "Weapon Damage Percent",
+		  Pattern.compile( "Weapon Damage ([+-]\\d+)%" ),
+		  Pattern.compile( "Weapon Damage Percent: ([+-]\\d+)" )
 		},
 		{ "Ranged Damage Percent",
 		  Pattern.compile( "Ranged Damage ([+-]\\d+)%" ),
@@ -384,6 +385,10 @@ public class Modifiers
 		{ "Bonus Resting MP",
 		  null,
 		  Pattern.compile( "Bonus Resting MP: ([+-]\\d+)" )
+		},
+		{ "Critical Hit Percent",
+		  Pattern.compile( "([+-]\\d+)% chance of Critical Hit" ),
+		  Pattern.compile( "Critical Hit Percent: (\\d+)" )
 		},
 	};
 
@@ -1432,7 +1437,7 @@ public class Modifiers
 
 	private static final Pattern ALL_ATTR_PATTERN = Pattern.compile( "^All Attributes ([+-]\\d+)$" );
 	private static final Pattern ALL_ATTR_PCT_PATTERN = Pattern.compile( "^All Attributes ([+-]\\d+)%$" );
-	private static final Pattern CLASS_PATTERN = Pattern.compile( "Bonus for (.*) only" );
+	private static final Pattern CLASS_PATTERN = Pattern.compile( "Bonus&nbsp;for&nbsp;(.*)&nbsp;only" );
 	private static final Pattern COMBAT_PATTERN = Pattern.compile( "Monsters will be (.*) attracted to you." );
 	private static final Pattern HP_MP_PATTERN = Pattern.compile( "^Maximum HP/MP ([+-]\\d+)$" );
 
@@ -1487,11 +1492,11 @@ public class Modifiers
 		{
 			String plural = matcher.group( 1 );
 			String cls = "none";
-			if ( plural.equals( "Accordion Thieves" ) )
+			if ( plural.equals( "Accordion&nbsp;Thieves" ) )
 			{
 				cls = KoLCharacter.ACCORDION_THIEF;
 			}
-			else if ( plural.equals( "Disco Bandits" ) )
+			else if ( plural.equals( "Disco&nbsp;Bandits" ) )
 			{
 				cls = KoLCharacter.DISCO_BANDIT;
 			}
@@ -1503,11 +1508,11 @@ public class Modifiers
 			{
 				cls = KoLCharacter.SAUCEROR;
 			}
-			else if ( plural.equals( "Seal Clubbers" ) )
+			else if ( plural.equals( "Seal&nbsp;Clubbers" ) )
 			{
 				cls = KoLCharacter.SEAL_CLUBBER;
 			}
-			else if ( plural.equals( "Turtle Tamers" ) )
+			else if ( plural.equals( "Turtle&nbsp; Tamers" ) )
 			{
 				cls = KoLCharacter.TURTLE_TAMER;
 			}

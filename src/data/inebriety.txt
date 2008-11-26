@@ -29,8 +29,8 @@ bottle of jorge sinsonte	3	2	4-8	0	0	0
 bottle of lieutenant freeman	3	2	4-8	0	0	0
 bottle of ooze-o	3	1	0	0	0	0
 bottle of pete's sake	3	2	4-8	0	0	0
-bottle of pinot renoir	2	2	4-8	30	18	0
-bottle of popskull	2	2	2-4	0	0	0
+bottle of pinot renoir	2	4	4-8	30	18	0
+bottle of popskull	2	1	2-4	0	0	0
 bottle of realpagne	2	2	5-8	0	0	12-18
 bottle of rum	3	1	3	0	0	0
 bottle of sake	3	1	3	0	0	0

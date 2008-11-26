@@ -127,7 +127,7 @@
 126	meat engine	0	all	124
 127	Gnollish autoplunger	12	all	160
 128	sticky meat pants	10	all	145
-129	third-hand nunchaku	12	all	50
+129	third-hand nunchaku	12	all	35
 130	enchanted eyepatch	9	all	60
 131	frilly skirt	10	all	40
 132	Meat maid body	0	all	155
@@ -3093,7 +3093,7 @@
 3092	handmade hobby horse	13	all	0
 3093	ball-in-a-cup	13	all	0
 3094	set of jacks	13	all	0
-3095	laser-broiled pear	1	all	155
+3095	laser-broiled pear	1	all	0
 3096	polyalloy shield	13	all	155
 3097	oversized fish scaler	7	all	70
 3098	killing feather	0	all	0
@@ -3443,7 +3443,7 @@
 3442	rainbow crossbow	12	all	200
 3443	black kitten	5	none	0
 3444	webbed comic mask	9	display	0
-3445	Junior Adventurer's kit	0	all	0
+3445	Junior Adventurer's kit	3	all	0
 3446	groovy prism necklace	8	all	250
 3447	six-rainbow shield	13	all	150
 3448	rainbow bomb	0	all	150
@@ -3456,7 +3456,7 @@
 3455	cotton candy bale	17	all	35
 3456	trusty torch	12	display	0
 3457	Junior Adventurer's merit badge	8	display	0
-3458	STYX deodorant body spray	0	display	0
+3458	STYX deodorant body spray	3	display	0
 3459	white-label gin	2	display	0
 3460	tin rations	1	display	0
 3461	haiku challenge map	0	none	0
@@ -3523,17 +3523,54 @@
 3522	shark jumper	11	all	245
 3523	shark cartilage	3	all	500
 3524	eel battery	3	all	500
-3525	temporary teardrop tattoos	3	all	500
+3525	temporary teardrop tattoo	3	all	500
 3526	scratch 'n' sniff crossbow	12	none	0
-
+3527
+3528
+3529
+3530
+3531
+3532
+3533
+3534
+3535
+3536
+3537
+3538
+3539
+3540
+3541
+3542
+3543
+3544
+3545
+3546
+3547
+3548
+3549
 3550	propeller beanie	9	display	0
 3551	straw hat	9	all	50
 3552	octopus's spade	12	all	250
 3553	soggy seed packet	3	all	500
 3554	glob of green slime	0	all	185
-
-3567	slab of sponge	0	all	50
-
+3555
+3556
+3557
+3558
+3559
+3560
+3561
+3562
+3563
+3564
+3565
+3566
+3567	slab of sponge	0	all	125
+3568
+3569
+3570
 3571	flytrap pellet	3	all	25
-
+3572
+3573
+3574
 3575	sand dollar	0	all	50

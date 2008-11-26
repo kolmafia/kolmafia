@@ -1539,12 +1539,19 @@ public class ItemDatabase
 		{
 			Set keys = ItemDatabase.descriptionById.keySet();
 			Iterator it = keys.iterator();
+			int lastId = 0;
+
 			while ( it.hasNext() )
 			{
 				int id = ( (Integer) it.next() ).intValue();
 				if ( id < 1 )
 				{
 					continue;
+				}
+
+				while ( ++lastId < id )
+				{
+					report.println( lastId );
 				}
 
 				ItemDatabase.checkItem( id, report );
@@ -1758,7 +1765,7 @@ public class ItemDatabase
 		}
 	}
 
-	private static final Pattern DATA_PATTERN = Pattern.compile( "<img.*?><br>(.*?)<script", Pattern.DOTALL );
+	private static final Pattern DATA_PATTERN = Pattern.compile( "<img.*?><(br|blockquote)>(.*?)<script", Pattern.DOTALL );
 
 	private static final String descriptionText( final String rawText )
 	{
@@ -1768,7 +1775,7 @@ public class ItemDatabase
 			return null;
 		}
 
-		return matcher.group( 1 );
+		return matcher.group( 2 );
 	}
 
 	private static final Pattern NAME_PATTERN = Pattern.compile( "<b>(.*?)</b>" );
@@ -1854,6 +1861,9 @@ public class ItemDatabase
 		case KoLConstants.HPMP_RESTORE:
 		case KoLConstants.MESSAGE_DISPLAY:
 		case KoLConstants.INFINITE_USES:
+		case KoLConstants.CONSUME_FOOD_HELPER:
+		case KoLConstants.CONSUME_DRINK_HELPER:
+		case KoLConstants.CONSUME_STICKER:
 			return descType.indexOf( "usable" ) != -1 || descType.equals( "gift package" ) || descType.equals( "food" ) || descType.equals( "booze" );
 		case KoLConstants.CONSUME_SPECIAL:
 			return descType.indexOf( "usable" ) != -1 || descType.equals( "food" ) || descType.equals( "beverage" ) || descType.equals( "booze" );
@@ -2090,6 +2100,10 @@ public class ItemDatabase
 		if ( isWeapon )
 		{
 			report.println( name + "\t" + power + "\t" + req + "\t" + weaponType );
+		}
+		else if ( isShield )
+		{
+			report.println( name + "\t" + power + "\t" + req + "\tshield" );
 		}
 		else
 		{

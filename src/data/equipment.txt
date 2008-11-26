@@ -29,8 +29,8 @@ Mohawk wig	140	Mox: 55
 Ol' Scratch's stovepipe hat	200	Mys: 200
 Orcish baseball cap	60	Mox: 15
 Radio Free Baseball Cap	150	Mox: 60
-Seasonal Beret	100	Mys: 35
 Scalp of Gorgolok	50	Mus: 10
+Seasonal Beret	100	Mys: 35
 Snow Queen Crown	115	Mox: 42
 Sombrero De Vida	50	Mox: 10
 Tropical Crimbo Hat	100	Mox: 35
@@ -73,8 +73,8 @@ demon-horned hat	70	Mox: 20
 disco mask	10	none
 draggin' ball hat	100	Mox: 35
 duct tape fedora	195	Mox: 82
-eelskin hat	200	Mys: 85
 eXtreme scarf	100	Mox: 35
+eelskin hat	200	Mys: 85
 enchanted eyepatch	35	Mox: 2
 enchantlers	115	Mox: 42
 extra-large palm-frond toupee	150	Mox: 60
@@ -336,11 +336,11 @@ Bigger Bugfinder Blade	200	Mus: 85	2-handed sword
 Bjorn's Hammer	50	Mus: 10	1-handed club
 Brimstone Bludgeon	200	Mus: 30	1-handed club
 Bugfinder Blade	180	Mus: 75	2-handed sword
-C.B.F.G.	150	Mox: 60	2-handed rifle
 C. H. U. M. knife	150	Mus: 175	1-handed knife
+C.B.F.G.	150	Mox: 60	2-handed rifle
 Cerebral Crossbow	90	Mox: 30	1-handed crossbow
 Chelonian Morningstar	90	Mus: 15	1-handed flail
-Chester's bag of candy	200	Mox: 200	2-handed
+Chester's bag of candy	200	Mox: 200	2-handed bag
 Cloaca-Cola-issue combat knife	30	Mus: 0	1-handed knife
 Crimbo sword	100	Mus: 35	2-handed sword
 Crimbo ukelele	80	Mox: 20	2-handed guitar
@@ -351,14 +351,14 @@ El Vibrato energy spear	200	Mus: 200	2-handed spear
 Frost&trade; brand sword	70	Mus: 20	1-handed sword
 Frosty's arm	200	Mus: 200	1-handed staff
 Frosty's nailbat	200	Mus: 200	2-handed club
-Frosty's snowball sack	200	Mox: 200	1-handed sack
+Frosty's snowball sack	200	Mox: 200	1-handed snowsack
 Gnollish autoplunger	60	Mus: 15	3-handed spear
 Gnollish flyswatter	35	Mus: 2	1-handed club
 Gnollish pie server	20	Mys: 0	1-handed utensil
 Gnollish plunger	35	Mus: 2	1-handed spear
 Gnollish slotted spoon	25	Mys: 0	1-handed utensil
 Greek Pasta of Peril	90	Mys: 15	1-handed utensil
-Grimacite gat	150	Mox: 40	1-handed gun
+Grimacite gat	150	Mox: 40	1-handed pistol
 Grimacite glaive	125	Mus: 47	2-handed polearm
 Hammer of Smiting	90	Mus: 15	1-handed club
 Hodgman's whackin' stick	200	Mus: 200	1-handed club
@@ -401,7 +401,7 @@ Unionize The Elves sign	50	Mus: 10	1-handed club
 Wand of Nagamar	30	Mus: 0	1-handed wand
 Zim Merman's guitar	200	Mox: 85	2-handed guitar
 Zombo's shoulder blade	200	Mus: 200	2-handed sword
-acoustic guitarrr	100	Mox: 35	2-handed guitar
+acoustic guitarrr	140	Mox: 55	2-handed guitar
 antique spear	200	Mus: 85	1-handed polearm
 armed gun	140	Mox: 55	2-handed rifle
 arse-shooting crossbow	160	Mox: 65	2-handed crossbow
@@ -535,7 +535,7 @@ iron pasta spoon	110	Mys: 40	1-handed utensil
 jack flapper	35	Mys: 2	1-handed utensil
 kneecapping stick	90	Mus: 30	1-handed club
 lead pipe	175	Mus: 72	1-handed club
-lead yo-yo	80	Mox: 25	1-handed yo-yo
+lead yo-yo	80	Mox: 25	1-handed yoyo
 linoleum crossbow	100	Mox: 35	2-handed crossbow
 linoleum staff	120	Mus: 45	2-handed staff
 linoleum sword	110	Mus: 40	2-handed sword
@@ -563,7 +563,7 @@ pool cue	40	Mus: 0	2-handed staff
 portable corkscrew	30	Mys: 0	1-handed utensil
 potato pistol	120	Mox: 45	1-handed pistol
 poutine pole	55	Mus: 12	2-handed staff
-prehistoric spear	100	Mox: 35	1-handed throwing spear
+prehistoric spear	100	Mox: 35	1-handed spear
 projectile icemaker	125	Mox: 45	2-handed crossbow
 pygmy spear	165	Mus: 67	1-handed spear
 rainbow crossbow	150	Mox: 60	1-handed crossbow
@@ -586,8 +586,8 @@ savory staff	80	Mus: 25	2-handed staff
 savory sword	80	Mus: 25	1-handed sword
 scorpion whip	20	Mus: 0	1-handed whip
 # scratch 'n' sniff weapons have variable power, 10xLevel max 100
-scratch 'n' sniff sword	100	Mus: 0	1-handed sword
 scratch 'n' sniff crossbow	100	Mox: 0	1-handed crossbow
+scratch 'n' sniff sword	100	Mus: 0	1-handed sword
 seal-clubbing club	10	Mus: 0	1-handed club
 serpentine sword	115	Mus: 42	1-handed sword
 shiny butcherknife	30	Mys: 0	1-handed utensil
@@ -627,7 +627,7 @@ sweet ninja sword	20	Mus: 0	1-handed sword
 sword behind inappropriate prepositions	130	Mus: 45	2-handed sword
 sword of static	75	Mus: 22	1-handed sword
 tail o' nine cats	30	Mus: 0	1-handed whip
-third-hand nunchaku	45	Mus: 7	2-handed flail
+third-hand nunchaku	30	Mus: 7	2-handed flail
 time sword	100	Mus: 35	1-handed sword
 tiny ninja sword	20	Mus: 0	1-handed sword
 tiny plastic sword	10	Mus: 0	1-handed sword
@@ -652,7 +652,7 @@ yohohoyo	160	Mox: 65	1-handed yoyo
 
 # Off-hand section of equipment.txt
 
-"WILL WORK FOR BOOZE" sign	0	Mus: 175
+&quot;WILL WORK FOR BOOZE&quot; sign	0	Mus: 175
 1-ball	0	none
 17-ball	0	none
 2-ball	0	none
@@ -670,7 +670,6 @@ Cookbook of the Damned	0	none
 # *** Dallas Dynasty Falcon Crest shield is a shield of unknown power.
 Dallas Dynasty Falcon Crest shield	0	Mus: 85	shield
 Dyspepsi-Cola shield	75	none	shield
-Emblem of Ak'gyxoth	0	Mys: 30
 Gazpacho's Glacial Grimoire	0	none
 Glass Balls of the Goblin King	0	Mys: 20
 Hodgman's almanac	0	Mys: 200
@@ -687,7 +686,9 @@ Mr. Balloon	0	none
 Mylar balloon	0	none
 Necrotelicomnicon	0	none
 Ol' Scratch's ash can	0	Mys: 200
+# *** Ol' Scratch's stove door is a shield of unknown power.
 Ol' Scratch's stove door	0	Mus: 200	shield
+# *** Oscus's garbage can lid is a shield of unknown power.
 Oscus's garbage can lid	0	Mus: 200	shield
 Raggedy Hippy doll	0	none
 Sinful Desires	0	none
@@ -695,15 +696,17 @@ Spanish fly trap	0	none
 Tiki lighter	0	none
 Tuesday's ruby	0	Mys: 45
 Wand of Oscus	0	Mys: 200
+# *** Zombo's shield is a shield of unknown power.
 Zombo's shield	0	Mus: 200	shield
 anniversary balloon	0	none
 anniversary chutney sculpture	0	none
 antique shield	230	Mus: 85	shield
 arrow'd heart balloon	0	none
 bag of Crotchety Pine saplings	0	none
-bag of Saccharine Maple saplings	0	none
 bag of Laughing Willow saplings	0	none
+bag of Saccharine Maple saplings	0	none
 ball-in-a-cup	0	none
+# *** balloon shield is a shield of unknown power.
 balloon shield	0	Mus: 10	shield
 barskin buckler	27	none	shield
 basic meat foon	0	Mys: 10
@@ -823,9 +826,10 @@ tip jar	0	Mys: 52
 tropical paperweight	0	none
 voodoo doll	0	none
 wad of Crovacite	0	none
+# *** washboard shield is a shield of unknown power.
 washboard shield	0	Mus: 150	shield
 white balloon	0	none
-white satin shield	80	Mus: 25
+white satin shield	80	Mus: 25	shield
 wicker shield	175	Mus: 70	shield
 wonderwall shield	190	Mus: 70	shield
 yakskin buckler	95	Mus: 30	shield
@@ -856,6 +860,7 @@ Dyspepsi-Cola-issue canteen	0	none
 Earring of Fire	0	Mys: 60
 El Vibrato translator	0	Mys: 200
 Elmley shades	0	Mys: 75
+Emblem of Ak'gyxoth	0	Mys: 30
 French slippers	0	none
 Frosty's carrot	0	Mus: 200
 Gaia beads	0	Mys: 72
@@ -880,11 +885,11 @@ Jekyllin hide belt	0	none
 Jolly Roger charrrm bracelet	0	Mys: 20
 Junior Adventurer's merit badge	0	none
 Junior LAAAAME merit badge	0	none
+LWA ring	0	none
 Lead Zeta of Chastity	0	Mys: 85
 Lockenstock&trade; sandals	0	Mys: 65
 Lord Spookyraven's ear trumpet	0	Mys: 40
 Lord Spookyraven's spectacles	0	none
-LWA ring	0	none
 Mafia bow tie	0	Mys: 35
 Mafia stogie	0	Mys: 35
 MagiMechTech NanoMechaMech	0	Mys: 15
@@ -1031,8 +1036,8 @@ kick-ass kicks	0	Mys: 65
 knobby kneepads	0	none
 ladle of mystery	0	Mys: 5
 left half of a heart necklace	0	none
-lucky bottlecap	0	Mys: 200
 lucky Crimbo tiki necklace	0	none
+lucky bottlecap	0	Mys: 200
 lucky rabbit's foot	0	Mys: 15
 makeshift SCUBA gear	0	none
 makeshift cape	0	Mys: 35
@@ -1074,7 +1079,7 @@ ring of cold resistance	0	Mys: 25
 ring of conflict	0	Mys: 25
 ring of fire resistance	0	Mys: 25
 ring of gain strength	0	Mys: 25
-ring of half-assed regeneration	0	Mys: 10
+ring of half-assed regeneration	0	none
 ring of increase damage	0	Mys: 25
 rope with some soap on it	0	Mys: 200
 rose-colored glasses	0	none
