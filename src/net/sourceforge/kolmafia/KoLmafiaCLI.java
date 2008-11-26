@@ -5240,7 +5240,7 @@ public class KoLmafiaCLI
 		{
 			String name = SorceressLairManager.gateName( desc );
 			String effect = SorceressLairManager.gateEffect( desc );
-			String remedy = desc[ 3 ];
+			String remedy = locateItem( desc[ 3 ] );
 			RequestLogger.printLine( "Outer gate: " + name + " (" + effect + "/" + remedy + ")" );
 		}
 		else
@@ -5256,13 +5256,30 @@ public class KoLmafiaCLI
 			if ( desc != null )
 			{
 				String name = SorceressLairManager.guardianName( desc );
-				String item = SorceressLairManager.guardianItem( desc );
+				String item = locateItem( SorceressLairManager.guardianItem( desc ) );
 				RequestLogger.printLine( "Tower Guardian #" + i + ": " + name + " (" + item + ")" );
 			}
 			else
 			{
 				RequestLogger.printLine( "Tower Guardian #" + i + ": " + prop + " (unrecognized)" );
 			}
+		}
+	}
+	
+	private String locateItem( String name )
+	{
+		AdventureResult item = ItemPool.get( name, 1 );
+		if ( KoLConstants.inventory.contains( item ) )
+		{
+			return name + " - have";
+		}
+		else if ( KoLConstants.closet.contains( item ) )
+		{
+			return name + " - in closet";
+		}
+		else
+		{
+			return name + " - NEED";
 		}
 	}
 

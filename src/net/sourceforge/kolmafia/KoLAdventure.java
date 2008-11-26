@@ -378,13 +378,17 @@ public class KoLAdventure
 			{
 				if ( !InventoryManager.hasItem( talisman ) )
 				{
+					this.isValidAdventure = false;
 					return;
 				}
 
 				RequestThread.postRequest( new EquipmentRequest( talisman ) );
 			}
-
-			this.isValidAdventure = true;
+			
+			RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString(
+				"plains.php" ) );
+			this.isValidAdventure = KoLAdventure.ZONE_UNLOCK.responseText.indexOf(
+				"dome.gif" ) != -1;
 			return;
 		}
 
