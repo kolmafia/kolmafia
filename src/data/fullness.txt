@@ -67,7 +67,7 @@ catsup	1	1	1	0	0	0
 centipede eggs	2	7	6-7	8-10	8-10	6-10
 cherry	1	2	1-3	0	0	0
 cherry pie	3	4	6-12	0	8-10	0
-childrens' meal of the damned	0	1	0	0	0	0
+children's meal of the damned	0	1	0	0	0	0
 chorizo brownies	3	2	3-9	0	0	0
 chorizo taco	1	1	1-3	3-5	0	0
 cob of corn	1	2	1	0	10-15	0
