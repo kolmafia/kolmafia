@@ -3531,28 +3531,28 @@
 3524	886718236	eel battery	eel batteries
 3525	700314352	temporary teardrop tattoo	temporary teardrop tattoos
 3526	954957871	scratch 'n' sniff crossbow
-3527
-3528
-3529
-3530
-3531
-3532
-3533
-3534
-3535
-3536
-3537
-3538
-3539
-3540
-3541
-3542
-3543
-3544
-3545
-3546
-3547
-3548
+3527	351701182	mutant rattlesnake egg
+3528	891738778	mutant fire ant egg
+3529	968330921	mutant cactus bud
+3530	992356573	mutant gila monster egg
+3531	364676045	rattlesnake enrager
+3532	389238235	ant antidepressant
+3533	409013542	cactus monocle
+3534	768366195	Jawmaster 2000&trade;
+3535	820037367	plans for depleted Grimacite hammer
+3536	927505126	plans for depleted Grimacite gravy boat
+3537	798308680	plans for depleted Grimacite weightlifting belt
+3538	152348854	plans for depleted Grimacite grappling hook
+3539	636894517	plans for depleted Grimacite ninja mask
+3540	293209260	plans for depleted Grimacite shinguards
+3541	895732318	plans for depleted Grimacite astrolabe
+3542	126476278	depleted Grimacite hammer	depleted Grimacite hammers
+3543	642914247	depleted Grimacite gravy boat	depleted Grimacite gravy boats
+3544	672543421	depleted Grimacite weightlifting belt
+3545	865042094	depleted Grimacite grappling hook
+3546	858745735	depleted Grimacite ninja mask
+3547	572568246	depleted Grimacite shinguards
+3548	494543142	depleted Grimacite astrolabe
 3549
 3550	723192821	propeller beanie
 3551	620730491	straw hat	straw hats
@@ -3572,11 +3572,13 @@
 3565
 3566
 3567	429199968	slab of sponge	slabs of sponge
-3568
-3569
-3570
+3568	696352853	sponge helmet	sponge helmets
+3569	247707875	spongy shield	spongy shields
+3570	714193120	square sponge pants	pairs of square sponge pants
 3571	877457317	flytrap pellet	flytrap pellets
-3572
-3573
-3574
+3572	797747016	baby cuddlefish
+3573	651110933	six-armed sweater
+3574	544627516	slimy chest	slimy chests
 3575	613536361	sand dollar	sand dollars
+3576	379228450	flytrap bezoar
+3577	862599004	bezoar ring

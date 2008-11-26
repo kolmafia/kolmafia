@@ -479,12 +479,12 @@ public class ItemPool
 	public static final int MINIBORG_BEEPER = 3112;
 	public static final int MINIBORG_HIVEMINDER = 3113;
 	public static final int MINIBORG_DESTROYOBOT = 3114;
-	public static final int MARSHMALLOW = 3128;
-	public static final int ROASTED_MARSHMALLOW = 3129;
 	public static final int DIVINE_BOOK = 3117;
 	public static final int DIVINE_FLUTE = 3123;
 	public static final int HOBO_NICKEL = 3126;
 	public static final int SANDCASTLE = 3127;
+	public static final int MARSHMALLOW = 3128;
+	public static final int ROASTED_MARSHMALLOW = 3129;
 	public static final int PUNCHCARD_ATTACK = 3146;
 	public static final int PUNCHCARD_REPAIR = 3147;
 	public static final int PUNCHCARD_BUFF = 3148;

@@ -649,11 +649,11 @@ Roller-skating Muse	HP: 0	bottled inspiration (20)
 Toothless Mastiff Bitch	HP: 0	disintegrating spiky collar (20)
 
 # Mt. Molehill
-digital underground dweller	HP: 0
-dwarvish gnome	HP: 0
-spelunking astronaut	HP: 0
-velvet underground dweller	HP: 0
-weather underground dweller	HP: 0
+Digital Underground Dweller	HP: 0
+Dwarvish Gnome	HP: 0
+Spelunking Astronaut	HP: 0
+Velvet Underground Dweller	HP: 0
+Weather Underground Dweller	HP: 0
 
 # Feast of Boris
 Candied Yam Golem	HP: 0

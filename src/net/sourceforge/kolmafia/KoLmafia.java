@@ -188,6 +188,8 @@ public abstract class KoLmafia
 		{ "Drawn Onward", STOP },
 		{ "Mr. Alarm", STOP },
 		{ "We'll All Be Flat", STOP },
+		{ "You and the Cap'm Make it Hap'm", STOP },
+		{ "This Adventure Bites", STOP },
 		{ "It's Always Swordfish", STOP },
 
 		// Adventures that start the Around the World Quest
@@ -215,8 +217,11 @@ public abstract class KoLmafia
 		{ "Walk Without Rhythm", STOP },
 
 		// Adventure in Oasis until you have worm-riding manual pages
-		// 3-15 Adventure in Arid, Extra-Dry Desert until you have
+		// 3-15.
+		// Adventure in Arid, Extra-Dry Desert until you have
 		// worm-riding hooks.
+
+		{ "The Sleeper Has Awakened", STOP },
 
 		// Adventures that give semirares
 		{ "A Menacing Phantom", SEMIRARE },

@@ -70,6 +70,7 @@ cornuthaum	85	Mox: 27
 crumpled felt fedora	200	Mox: 200
 cursed eyepatch	200	Mus: 85
 demon-horned hat	70	Mox: 20
+depleted Grimacite ninja mask	100	Mox: 35
 disco mask	10	none
 draggin' ball hat	100	Mox: 35
 duct tape fedora	195	Mox: 82
@@ -140,6 +141,7 @@ sequined fez	80	Mox: 25
 shapeless wide-brimmed hat	200	Mox: 200
 skeletortoise	30	none
 snorkel	10	none
+sponge helmet	200	Mox: 85
 spooky hockey mask	100	Mox: 35
 stainless steel skullcap	90	Mox: 30
 star hat	165	Mox: 67
@@ -211,6 +213,7 @@ clockwork pants	80	Mox: 25
 crotchety pants	75	Mox: 22
 cursed breeches	200	Mox: 85
 demonskin trousers	70	Mox: 20
+depleted Grimacite shinguards	100	Mox: 35
 distressed denim pants	170	Mox: 70
 duct tape dockers	195	Mox: 82
 dungeoneer's dungarees	30	none
@@ -254,6 +257,7 @@ pixel pants	50	Mox: 10
 plexiglass pants	180	Mox: 75
 snowboarder pants	100	Mox: 35
 spandex anniversary shorts	10	none
+square sponge pants	200	Mox: 85
 stainless steel slacks	90	Mox: 30
 star pants	165	Mox: 67
 sticky meat kilt	45	Mox: 7
@@ -472,6 +476,7 @@ denim axe	170	Mus: 70	2-handed axe
 dense meat crossbow	60	Mox: 15	2-handed crossbow
 dense meat staff	60	Mus: 15	2-handed staff
 dense meat sword	60	Mus: 15	2-handed sword
+depleted Grimacite hammer	100	Mus: 35	2-handed club
 diamond-studded cane	60	Mus: 15	1-handed club
 didgeridooka	180	Mox: 75	2-handed heavy blowgun
 disco ball	10	Mox: 0	1-handed disco ball
@@ -730,6 +735,7 @@ deck of lewd playing cards	0	Mys: 22
 deck of tropical cards	0	none
 defective skull	0	none
 demon buckler	77	Mus: 25	shield
+depleted Grimacite gravy boat	0	Mus: 35
 detective skull	0	none
 duct tape buckler	200	Mus: 82	shield
 easter egg balloon	0	Mys: 35
@@ -795,6 +801,8 @@ snake shield	117	Mus: 42	shield
 snarling wolf shield	117	Mus: 42	shield
 sock monkey	0	Mys: 40
 spaghetti-box banjo	0	Mys: 150
+# *** spongy shield is a shield of unknown power.
+spongy shield	0	Mus: 95	shield
 star buckler	165	Mus: 67	shield
 steaming evil	0	Mys: 75
 stuffed Cheshire bitten	0	none
@@ -954,6 +962,7 @@ beaten-up Chucks	0	Mys: 45
 beer goggles	0	none
 bejeweled accordion strap	0	Mox: 5
 bejeweled pledge pin	0	Mys: 70
+bezoar ring	0	Mys: 35
 big red clown nose	0	Mys: 10
 black belt	0	Mys: 60
 blackberry combat boots	0	Mus: 75
@@ -985,6 +994,9 @@ corncob pipe	0	Mys: 200
 cyborg stompin' boot	0	Mus: 60
 dead guy's memento	0	Mys: 200
 dead guy's watch	0	Mys: 10
+depleted Grimacite astrolabe	0	Mys: 25
+depleted Grimacite grappling hook	0	Mys: 25
+depleted Grimacite weightlifting belt	0	Mys: 25
 diamond necklace	0	none
 dirty hobo gloves	0	none
 disbelief suspenders	0	Mys: 10
