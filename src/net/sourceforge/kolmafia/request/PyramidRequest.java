@@ -410,7 +410,7 @@ public class PyramidRequest
 		{
 		case 1:
 			return PyramidRequest.getPyramidBombUsed() ?
-				"Empty/Rubble": "Empty/Rubble/Ed's Chamber";
+				"Empty/Rubble": "Empty/Empty/Ed's Chamber";
 		case 2:
 			return "Rats/Token";
 		case 3:
