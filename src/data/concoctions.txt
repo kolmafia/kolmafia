@@ -615,6 +615,7 @@ clown wig	4	basic meat helmet	clown skin
 demon-horned hat	4	basic meat helmet	demon skin
 eelskin hat	14	basic meat helmet	eel skin
 nasty rat mask	14	basic meat helmet	leathery rat skin
+sponge helmet	14	basic meat helmet	slab of sponge
 yak toupee	14	basic meat helmet	yak skin
 
 
@@ -622,10 +623,11 @@ yak toupee	14	basic meat helmet	yak skin
 
 barskin loincloth	4	bar skin	pants kit
 demonskin trousers	4	demon skin	pants kit
-eelskin pants	14	pants kit	eel skin
+eelskin pants	14	eel skin	pants kit
 furry pants	14	furry fur	pants kit
 hippopotamus pants	14	hippopotamus skin	pants kit
 penguin shorts	14	penguin skin	pants kit
+square sponge pants	14	slab of sponge	pants kit
 sticky meat pants	4	really really sticky spider web	basic meat pants
 tighty whiteys	4	white snake skin	pants kit
 yakskin pants	14	yak skin	pants kit
@@ -666,6 +668,7 @@ eelskin buckler	14	buckler buckle	eel skin
 gnauga hide buckler	14	buckler buckle	gnauga hide
 hippo skin buckler	14	buckler buckle	hippopotamus skin
 penguin skin buckler	14	buckler buckle	penguin skin
+spongy shield	14	buckler buckle	slab of sponge
 yakskin buckler	14	buckler buckle	yak skin
 
 
@@ -973,6 +976,7 @@ Mudflap-Girl Earring	25	tawdry amethyst	precious piercing post
 Mudflap-Girl Necklace	25	tawdry amethyst	heavy necklace chain
 Mudflap-Girl Ring	25	tawdry amethyst	extra-fancy ring setting
 
+bezoar ring	25	flytrap bezoar	extra-fancy ring setting
 groovy prism necklace	25	prismatic wad	heavy necklace chain
 shark tooth necklace	25	shark tooth	heavy necklace chain
 

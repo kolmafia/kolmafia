@@ -40,7 +40,7 @@ Astral Mushroom (Mediocre Trip)	100	Feeling That You're Being Watched	Really Int
 Back 40	100	Fire-Breathing Duck	Scorched Duck
 Barn	100	Generic Duck
 Barrel full of Barrels	-1	Mimic (Bottom 2 Rows)	Mimic (Middle 2 Rows)	Mimic (Top 2 Rows)
-Barrrney's Barrr	100	Tetchy Pirate	Tipsy Pirate	Toothy Pirate
+Barrrney's Barrr	80	Tetchy Pirate	Tipsy Pirate	Toothy Pirate
 Bat Hole Entryway	100	Albino Bat	Pine Bat	Regular Old Bat
 Batrat and Ratbat Burrow	100	Batrat	Ratbat
 Battlefield (Cloaca Uniform)	95	Dyspepsi-Cola General	Dyspepsi-Cola Knight	Dyspepsi-Cola Soldier
@@ -74,7 +74,7 @@ Dungeons of Doom	70	Swarm of Killer Bees	Acid Blob	Mind Flayer	Large Kobold	Quan
 El Vibrato Island	-1	Bizarre Construct	Hulking Construct	Industrious Construct	Lonely Construct	Menacing Construct	Towering Construct
 Exposure Esplanade	-1	Cold Hobo	Frosty: 0
 eXtreme Slope	60	Sk8 Gnome	eXtreme Cross-Country Hippy	eXtreme Orcish Snowboarder
-F'c'le	100	Chatty Pirate	Cleanly Pirate	Clingy Pirate	Creamy Pirate	Crusty Pirate	Curmudgeonly Pirate
+F'c'le	80	Chatty Pirate	Cleanly Pirate	Clingy Pirate	Creamy Pirate	Crusty Pirate	Curmudgeonly Pirate
 Family Plot	100	Vampire Duck	Zombie Duck
 Fantasy Airship	80	Burly Sidekick: 2	Irritating Series of Random Encounters: 3	MagiMechTech MechaMech: 2	Protagonist: 2	Quiet Healer: 2	Spunky Princess: 2
 Feeding Chamber	100	Filthworm Drone
@@ -92,7 +92,7 @@ Guards' Chamber	100	Filthworm Royal Guard
 Haert of the Cyrpt	100	The Bonerdagon
 Haiku Dungeon	-1	Amateur Ninja	Ancient Insane Monk	Ferocious Bugbear	Gelatinous Cube	Knob Goblin Poseur
 Hatching Chamber	100	Larval Filthworm
-Haunted Ballroom	80	Floating Platter of Hors D'Oeuvres	Ghastly Organist: 0	Some Zombie Waltzers	Tapdancing Skeleton
+Haunted Ballroom	80	Floating Platter of Hors D'Oeuvres	Ghastly Organist: 0	Zombie Waltzers	Tapdancing Skeleton
 Haunted Bathroom	75	Claw-foot Bathtub	Malevolent Hair Clog	Toilet Papergeist	Guy Made Of Bees: 0
 Haunted Bedroom	20	Animated Nightstand (Mahogany)	Animated Nightstand (White)	Remains of a Jilted Mistress: 0
 Haunted Billiards Room	100	Chalkdust Wraith	Pooltergeist
@@ -106,7 +106,7 @@ Haunted Wine Cellar (Northwest)	100	Possessed Wine Rack	Skeletal Sommelier
 Haunted Wine Cellar (Northeast)	100	Possessed Wine Rack	Skeletal Sommelier
 Haunted Wine Cellar (Southwest)	100	Possessed Wine Rack	Skeletal Sommelier
 Haunted Wine Cellar (Southeast)	100	Possessed Wine Rack	Skeletal Sommelier
-Hidden City	100	Ancient Protector Spirit	Boaraffe	Protector Spectre	Pygmy Blowgunner	Pygmy Assault Squad	Pygmy Headhunter
+Hidden City	70	Ancient Protector Spirit	Boaraffe	Protector Spectre	Pygmy Blowgunner	Pygmy Assault Squad	Pygmy Headhunter
 Hippy Camp	100	Crusty Hippy	Crusty Hippy Jewelry Maker	Crusty Hippy Vegan Chef	Dirty Hippy	Dirty Hippy Jewelry Maker	Dirty Hippy Vegan Chef	Filthy Hippy	Filthy Hippy Jewelry Maker	Filthy Hippy Vegan Chef
 Hippy Camp (Stone Age)	100	Caveman Hippy	Cavewomyn Hippy	Sabre-Toothed Ferret
 Hobopolis Town Square	95	Normal Hobo	Hodgman, The Hoboverlord: 0
@@ -160,7 +160,7 @@ The Purple Light District	-1	Sleaze Hobo	Chester: 0
 The Upper Chamber	100	Tomb Asp	Tomb Rat	Tomb Servant
 Themthar Hills	100	Dirty Thieving Brigand
 Thugnderdome	100	Gnarly Gnome	Gnasty Gnome	Gnefarious Gnome	Gnomester Blomester	Gnu Jack Gnome	Vicious Gnauga
-Typical Tavern	-1	Drunken Rat
+Typical Tavern	-1	Drunken Rat	Baron von Ratsworth: 0
 Wartime Frat House	0	War Hippy Spy: 0
 Wartime Frat House (Hippy Disguise)	-1	War Pledge	Frat Warrior Drill Sergeant
 Wartime Hippy Camp	-1	Orcish Frat Boy Spy: 0

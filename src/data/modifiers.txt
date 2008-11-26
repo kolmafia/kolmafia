@@ -141,10 +141,11 @@ cornuthaum	Mysticality: +3, Moxie: +3, Familiar Effect: "1.5xPotato, 1.25xFairy,
 crumpled felt fedora	Familiar Weight: +10, Muscle Percent: +5, Familiar Effect: "0.75xVolley, 0.75xLep"
 cursed eyepatch	Mysticality: +15, Familiar Effect: "spooky atk, 1xBarrr"
 demon-horned hat	Moxie: +4, Familiar Effect: "hot atk, 1xLep, cap 17"
+depleted Grimacite ninja mask	Familiar Effect: "1xBarrr, 1xFairy, cap 25"
 disco mask	Familiar Effect: "atk, cap 2"
 draggin' ball hat	Intrinsic Effect: "Draggin' Balls", Familiar Effect: "atk, 1xVolley, cap 25"
 duct tape fedora	Mysticality: +12, Maximum MP: +40, Familiar Effect: "1xBarrr, 1xLep, cap 48"
-eelskin hat	Spell Damage Percent: +15, Familiar Effect: "??"
+eelskin hat	Spell Damage Percent: +15, Familiar Effect: "1xLep"
 eXtreme scarf	Mysticality: +5, Familiar Effect: "atk, 1xBarrr, cap 25"
 enchanted eyepatch	Mysticality: +5, Familiar Effect: "4xBarrr, cap 8"
 enchantlers	Hot Spell Damage: +10, Familiar Effect: "atk, 1xLep, cap 28"
@@ -158,7 +159,7 @@ fire	Intrinsic Effect: "Head on Fire, Ass Catching", Hot Damage: +7, Familiar Ef
 foolscap fool's cap	Moxie: +2, Mysticality: -2, Clownosity: +1, Familiar Effect: "3xVolley, cap 10"
 football helmet	Familiar Effect: "atk, cap 37"
 furry green turtle	Moxie: +3, Familiar Effect: "2xPotato, 2xFairy, cap 11"
-ganger bandana	Muscle Percent: +5, Weapon Damage Percent: +15, Familiar Effect: "??"
+ganger bandana	Muscle Percent: +5, Weapon Damage Percent: +15, Familiar Effect: "atk"
 gasmask	Stench Resistance: +3, Familiar Effect: "?xBarrr, cap 12"
 giant discarded bottlecap	Damage Reduction: 3, Mysticality: -10, Familiar Effect: "atk, 1xFairy, cap 38"
 goat beard	Mysticality: +3, Familiar Effect: "atk, 1xPotato, cap 15"
@@ -200,7 +201,7 @@ pentacorn hat	Familiar Effect: "atk, cap 10"
 pimpin' meat hat	Muscle: +2, Moxie: +2, Familiar Effect: "sleaze atk, 1xVolley, cap 13"
 pixel hat	Moxie: +2, Muscle: +2, Mysticality: +2, Familiar Effect: "atk, 2xVolley, cap 12"
 plexiglass pith helmet	Familiar Weight: +5, HP Regen Min: 10, HP Regen Max: 12, MP Regen Min: 10, MP Regen Max: 12, Muscle Percent: +30, Familiar Effect: "1xVolley, 1xLep, cap 45"
-propeller beanie	Initiative: +10, Familiar Effect: "??"
+propeller beanie	Initiative: +10, Familiar Effect: "none, cap 7"
 raspberry beret	Hot Resistance: +2, Familiar Effect: "2xPotato, 2xLep, cap 12"
 ravioli hat	Familiar Effect: "atk, cap 2"
 red traffic cone	Moxie: +3, Cold Resistance: +2, Familiar Effect: "2xVolley, 2xLep, cap 15"
@@ -211,6 +212,7 @@ sequined fez	Moxie: +3, Familiar Effect: "1.75xLep, cap 20"
 shapeless wide-brimmed hat	HP Regen Min: 15, HP Regen Max: 20, MP Regen Min: 15, MP Regen Max: 20, Mysticality Percent: +5, Familiar Effect: "0.75xLep, 0x75xFairy"
 skeletortoise	Mysticality: +2, Familiar Effect: "spooky atk, 2xFairy, cap 7"
 snorkel	Familiar Effect: "atk, cap 2"
+sponge helmet	Mysticality Percent: +10, MP Regen Min: 15, MP Regen Max: 20, Damage Absorption: +40, Familiar Effect: "none"
 spooky hockey mask	Spooky Resistance: +2, Spooky Damage: +3, Familiar Effect: "1xBarrr, 1.5xGhuol, cap 25"
 stainless steel skullcap	Maximum HP: +30, Damage Absorption: +60, Muscle Percent: +15, Familiar Effect: "1xLep, 1xFairy, cap 22"
 star hat	Maximum MP: +30, Familiar Effect: "0.5xVolley, 0.5xPotato, cap 41"
@@ -282,6 +284,7 @@ clockwork pants	Initiative: +10
 crotchety pants	Maximum HP: +40
 cursed breeches	Moxie: +15
 demonskin trousers	Hot Resistance: +2
+# depleted Grimacite shinguards
 distressed denim pants	Stench Resistance: +1, Damage Reduction: 2
 duct tape dockers	Moxie: +6, Muscle: +6, Mysticality: +6, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 dungeoneer's dungarees	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
@@ -325,6 +328,7 @@ pixel pants	Maximum HP: +10, Maximum MP: +10
 plexiglass pants	Initiative: +25, Item Drop: +20, Moxie Percent: +30
 snowboarder pants	Damage Absorption: +20
 spandex anniversary shorts	Moxie: +1, Muscle: +1, Mysticality: +1
+square sponge pants	Moxie Percent: +10, HP Regen Min: 10, HP Regen Max: 15, MP Regen Min: 10, MP Regen Max: 15, Damage Absorption: +30
 stainless steel slacks	Initiative: +15, Meat Drop: +20, Moxie Percent: +15
 star pants	Initiative: +20
 sticky meat kilt	Moxie: +3
@@ -543,6 +547,7 @@ denim axe	Muscle: +10, Weapon Damage: +10
 dense meat crossbow	Moxie: +3
 dense meat staff	Mysticality: +3
 dense meat sword	Muscle: +3
+# depleted Grimacite hammer
 diamond-studded cane	Moxie: +5, Class: "Disco Bandit"
 didgeridooka	Moxie: +9
 # disco ball
@@ -794,6 +799,7 @@ deck of lewd playing cards	Moxie Percent: +5, Sleaze Damage: +50, Sleaze Spell D
 deck of tropical cards	Experience: +1
 # defective skull
 demon buckler	Damage Reduction: 5, Hot Damage: +3
+# depleted Grimacite gravy boat
 # detective skull
 duct tape buckler	Damage Reduction: 12, Maximum HP: +65, Maximum MP: +65
 easter egg balloon	Moxie: +5, Muscle: +5, Mysticality: +5
@@ -857,6 +863,7 @@ snake shield	Damage Reduction: 7, Muscle: +6
 snarling wolf shield	Damage Reduction: 7, Maximum HP: +40
 sock monkey	Moxie: +3
 spaghetti-box banjo	MP Regen Min: 5, MP Regen Max: 10, Class: "Pastamancer"
+spongy shield	Damage Reduction: 14, Muscle Percent: +10, HP Regen Min: 20, HP Regen Max: 50, Damage Absorption: +50
 star buckler	Damage Reduction: 10, Moxie: +2, Muscle: +2, Mysticality: +2
 steaming evil	Hot Damage: +6, Sleaze Damage: +6, Spooky Damage: +6
 # stuffed Cheshire bitten
@@ -1015,6 +1022,7 @@ beaten-up Chucks	Initiative: +40
 # beer goggles
 bejeweled accordion strap	Maximum HP: +25, Maximum MP: +25, Class: "Accordion Thief"
 bejeweled pledge pin	Single Equip, Maximum HP: +40
+# bezoar ring
 big red clown nose	Maximum HP: +7, Clownosity: +1
 black belt	Single Equip, Muscle: +7, Weapon Damage: +7
 blackberry combat boots	Single Equip, Muscle: +10, Maximum HP: +45, Weapon Damage: +5
@@ -1046,6 +1054,9 @@ corncob pipe	Single Equip, Muscle Percent: +10
 cyborg stompin' boot	Single Equip, Damage Reduction: 8, Weapon Damage: +20, Initiative: +30
 dead guy's memento	Single Equip, Moxie Percent: +5, Muscle Percent: +5, Mysticality Percent: +5, Adventures: +5
 dead guy's watch	Single Equip, Adventures: +1
+depleted Grimacite astrolabe	Single Equip
+depleted Grimacite grappling hook	Single Equip
+depleted Grimacite weightlifting belt	Single Equip
 # diamond necklace
 dirty hobo gloves	Single Equip, Stench Damage: +2
 disbelief suspenders	Sleaze Resistance: +1
@@ -1317,12 +1328,14 @@ hemp backpack	Item Drop: +2
 
 1.21 jigawatts	Familiar Weight: +5
 100-Watt bulb	Familiar Weight: +5
+Jawmaster 2000&trade;	Familiar Weight: +5
 Mayflower bouquet	Familiar Weight: +5, Softcore Only
 Meat detector	Familiar Weight: +5
 Panda outfit	Familiar Weight: +5, Item Drop: +5
 Pretty Predator Clawicure Kit	Familiar Weight: +5
 Toddler-sized Dragon Costume	Familiar Weight: +5, Item Drop: +5
 annoying pitchfork	Monster Level: +5
+ant antidepressant	Monster Level: +5
 ant hoe	Familiar Effect: "sleaze damage, meat"
 ant pick	Familiar Effect: "cold damage, meat"
 ant pitchfork	Familiar Effect: "stench damage, meat"
@@ -1335,6 +1348,7 @@ blundarrrbus	Familiar Weight: +5
 bone collar	Familiar Weight: +5
 bottle of perfume	Familiar Weight: +5
 brass stinger	Familiar Weight: +5
+cactus monocle	Familiar Weight: +5
 # can of starch
 candied yam pinky ring	Familiar Weight: +5
 chocolate spurs	Familiar Weight: +5
@@ -1391,9 +1405,11 @@ prosthetic forehead	Familiar Weight: +5
 psychedelic bubble wand	Familiar Weight: +5
 rainbow tie	Familiar Weight: +5
 rat head balloon	Familiar Weight: -3
+rattlesnake enrager	Familiar Weight: +5
 rhesus monkey	Familiar Weight: +5
 serrated proboscis extension	Familiar Weight: +20
 # shock collar
+six-armed sweater	Familiar Weight: +5
 skewer-mounted razor blade	Familiar Weight: +5
 smile-sharpening stone	Familiar Weight: +5
 spoon!	Familiar Weight: +5
@@ -1417,6 +1433,7 @@ velvet choker	Familiar Weight: +5
 wax lips	Experience: +3, Softcore Only
 # weegee sqouija
 woolen cravat	Familiar Weight: +5
+# zen motorcycle
 
 # Bedazzlements section of modifiers.txt
 scratch 'n' sniff unicorn sticker	Item Drop: +25
@@ -1480,6 +1497,13 @@ Grimacite gorget	Muscle Percent: +0, Item Drop: +25
 Grimacite gown	Monster Level: +0
 Grimacite greaves	Moxie Percent: +0, Initiative: +20
 Grimacite guayabera	Monster Level: +0
+# depleted Grimacite astrolabe
+# depleted Grimacite grappling hook
+# depleted Grimacite gravy boat
+# depleted Grimacite hammer
+# depleted Grimacite ninja mask
+# depleted Grimacite shinguards
+# depleted Grimacite weightlifting belt
 
 Jekyllin hide belt	Muscle: +0, Mysticality: +0, Moxie: +0, Item Drop: +0, Softcore Only
 
@@ -2000,6 +2024,7 @@ eXtreme Cold-Weather Gear	Cold Resistance: +3
 # +15% Food Drops from Monsters
 # +15% Moxie
 # +15% Muscle
+# +2 PvP fight(s) per day when equipped
 # +20 damage to Disco Bandit Combat Skills
 # +20% Food Drops from Monsters
 # +25% Mysticality
@@ -2064,9 +2089,11 @@ eXtreme Cold-Weather Gear	Cold Resistance: +3
 # Makes your ghost better at eating stuff.
 # More likely to use more powerful attacks
 # Moxie used to determine Maximum MP
+# Needed for depleted Grimacite smithing
 # Never runs out of pencils!
 # On Critical: Insanity!
 # Prevents Level Teleporting
+# Protects the wearer from poison
 # Provides Mostly Accurate Battle Statistics During Fights
 # Reduce enemy defense by 15%
 # Reduces familiar's MP expenditure by 2-4.

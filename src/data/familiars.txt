@@ -89,3 +89,8 @@
 93	Black Cat	none	3443		0	0	0	0
 94	Uniclops	stat0,meat0	3481	eye 'n' horn shampoo	0	0	0	0
 95	Psychedelic Bear	item0,meat0	3482	psychedelic bubble wand	0	0	0	0
+96	Baby Mutant Rattlesnake	combat,stat0	3527	rattlesnake enrager	0	0	0	0
+97	Mutant Fire Ant	combat,item0	3528	ant antidepressant	0	0	0	0
+98	Mutant Cactus Bud	combat,meat0	3529	cactus monocle	0	0	0	0
+99	Mutant Gila Monster	combat	3530	Jawmaster 2000&trade;	0	0	0	0
+100	Cuddlefish	none	3572	six-armed sweater	0	0	0	0

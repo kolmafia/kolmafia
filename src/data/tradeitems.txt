@@ -3525,28 +3525,28 @@
 3524	eel battery	3	all	500
 3525	temporary teardrop tattoo	3	all	500
 3526	scratch 'n' sniff crossbow	12	none	0
-3527
-3528
-3529
-3530
-3531
-3532
-3533
-3534
-3535
-3536
-3537
-3538
-3539
-3540
-3541
-3542
-3543
-3544
-3545
-3546
-3547
-3548
+3527	mutant rattlesnake egg	5	all	0
+3528	mutant fire ant egg	5	all	0
+3529	mutant cactus bud	5	all	0
+3530	mutant gila monster egg	5	all	0
+3531	rattlesnake enrager	7	all	75
+3532	ant antidepressant	7	all	75
+3533	cactus monocle	7	all	75
+3534	Jawmaster 2000&trade;	7	all	75
+3535	plans for depleted Grimacite hammer	3	all	0
+3536	plans for depleted Grimacite gravy boat	3	all	0
+3537	plans for depleted Grimacite weightlifting belt	3	all	0
+3538	plans for depleted Grimacite grappling hook	3	all	0
+3539	plans for depleted Grimacite ninja mask	3	all	0
+3540	plans for depleted Grimacite shinguards	3	all	0
+3541	plans for depleted Grimacite astrolabe	3	all	0
+3542	depleted Grimacite hammer	12	all	0
+3543	depleted Grimacite gravy boat	13	all	0
+3544	depleted Grimacite weightlifting belt	8	all	0
+3545	depleted Grimacite grappling hook	8	all	0
+3546	depleted Grimacite ninja mask	9	all	0
+3547	depleted Grimacite shinguards	10	all	0
+3548	depleted Grimacite astrolabe	8	all	0
 3549
 3550	propeller beanie	9	display	0
 3551	straw hat	9	all	50
@@ -3566,11 +3566,13 @@
 3565
 3566
 3567	slab of sponge	0	all	125
-3568
-3569
-3570
+3568	sponge helmet	9	all	150
+3569	spongy shield	13	all	150
+3570	square sponge pants	10	all	150
 3571	flytrap pellet	3	all	25
-3572
-3573
-3574
+3572	baby cuddlefish	5	all	0
+3573	six-armed sweater	7	all	70
+3574	slimy chest	4	all	450
 3575	sand dollar	0	all	50
+3576	flytrap bezoar	0	all	40
+3577	bezoar ring	8	all	275
