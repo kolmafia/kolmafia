@@ -988,6 +988,12 @@ public class KoLAdventure
 
 	public static final boolean recordToSession( final String urlString )
 	{
+		// Pyramid is an adventure, but is handled elsewhere
+		if ( urlString.startsWith( "pyramid.php" ) )
+		{
+			return false;
+		}
+
 		// In the event that this is an adventure, assume "snarfblat"
 		// instead of "adv" in order to determine the location.
 
