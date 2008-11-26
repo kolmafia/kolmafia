@@ -276,6 +276,7 @@ public class ItemPool
 	public static final int CITADEL_SATCHEL = 1656;
 	public static final int GROUCHO_DISGUISE = 1678;
 	public static final int EXPRESS_CARD = 1687;
+	public static final int SWORD_PREPOSITIONS = 1734;
 	public static final int LIBRARY_KEY = 1764;
 	public static final int GALLERY_KEY = 1765;
 	public static final int BALLROOM_KEY = 1766;

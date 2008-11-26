@@ -622,6 +622,10 @@ public class RequestEditorKit
 			StringUtilities.singleStringReplace(
 				buffer, "readyState==4) {", "readyState==4 && !executed) { executed = true;" );
 		}
+		else if ( location.startsWith( "manor2.php" ) )
+		{
+			RequestEditorKit.add2ndFloorSpoilers( buffer );
+		}
 		else if ( location.startsWith( "manor3.php" ) )
 		{
 			RequestEditorKit.addWineCellarSpoilers( buffer );
@@ -867,6 +871,51 @@ public class RequestEditorKit
 	{
 		// Change bang potion names in item dropdown
 		RequestEditorKit.changePotionNames( buffer );
+	}
+
+	private static final void add2ndFloorSpoilers( final StringBuffer buffer )
+	{
+		// Insert GMoB/Ballroom song spoilers
+		StringBuffer spoiler = new StringBuffer();
+		if ( Preferences.getBoolean( "guyMadeOfBeesDefeated" ) )
+		{
+			spoiler.append( "GMoB: dead<br>" );
+		}
+		else 
+		{
+			int count = Preferences.getInteger( "guyMadeOfBeesCount" );
+			if ( count > 0 )
+			{
+				spoiler.append( "GMoB: " );
+				spoiler.append( count );
+				spoiler.append( "<br>" );
+			}
+		}
+
+		if ( KoLCharacter.getAscensions() == Preferences.getInteger( "lastQuartetAscension" ) )
+		{
+			switch ( Preferences.getInteger( "lastQuartetRequest" ) )
+			{
+			case 1:
+				spoiler.append( "Song: +ML<br>" );
+				break;
+			case 2:
+				spoiler.append( "Song: -combat<br>" );
+				break;
+			case 3:
+				spoiler.append( "Song: +items<br>" );
+				break;
+			}
+		}
+		
+		if ( spoiler.length() > 0 )
+		{
+			spoiler.insert( 0, "<small><center>" );
+			spoiler.append( "</center></small>" );
+			StringUtilities.singleStringReplace( buffer,
+				"<img src=\"http://images.kingdomofloathing.com/otherimages/manor/sm2_3.gif\" height=100 width=100 border=0>",
+				spoiler.toString() );
+		}
 	}
 
 	private static final void addWineCellarSpoilers( final StringBuffer buffer )

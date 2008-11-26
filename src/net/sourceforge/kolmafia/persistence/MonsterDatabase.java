@@ -153,6 +153,7 @@ public class MonsterDatabase
 				{
 					monster.doneWithItems();
 					String keyName = CustomCombatManager.encounterKey( data[ 0 ], true );
+					StringUtilities.registerPrepositions( keyName );
 					MonsterDatabase.MONSTER_DATA.put( keyName, monster );
 				}
 			}
