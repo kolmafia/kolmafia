@@ -43,6 +43,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class StringUtilities
@@ -55,9 +56,16 @@ public class StringUtilities
 
 	private static final Map displayNameCache = new HashMap();
 	private static final Map canonicalNameCache = new HashMap();
+	
+	private static final Map prepositionsMap = new HashMap();
 
 	private static final Pattern NONINTEGER_PATTERN = Pattern.compile( "[^\\-0-9]" );
 	private static final Pattern NONFLOAT_PATTERN = Pattern.compile( "[^\\-\\.0-9]" );
+	private static final Pattern PREPOSITIONS_PATTERN = Pattern.compile(
+		"\\b(?:about|above|across|after|against|along|among|around|at|before|behind|" +
+		"below|beneath|beside|between|beyond|by|down|during|except|for|from|in|inside|" +
+		"into|like|near|of|off|on|onto|out|outside|over|past|through|throughout|to|" +
+		"under|up|upon|with|within|without)\\b" );
 
 	/**
 	 * Returns the encoded-encoded version of the provided UTF-8 string.
@@ -589,5 +597,26 @@ public class StringUtilities
 		}
 
 		return result.toString();
+	}
+	
+	public static final void registerPrepositions( String text )
+	{
+		Matcher m = StringUtilities.PREPOSITIONS_PATTERN.matcher( text );
+		if ( !m.find() )
+		{
+			return;
+		}
+		StringUtilities.prepositionsMap.put( m.replaceAll( "@" ), text );
+	}
+	
+	public static final String lookupPrepositions( String text )
+	{
+		Matcher m = StringUtilities.PREPOSITIONS_PATTERN.matcher( text );
+		if ( !m.find() )
+		{
+			return text;
+		}
+		String rv = (String) StringUtilities.prepositionsMap.get( m.replaceAll( "@" ) );
+		return rv == null ? text : rv;
 	}
 }

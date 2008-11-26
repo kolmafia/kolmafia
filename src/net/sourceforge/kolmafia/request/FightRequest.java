@@ -1206,6 +1206,14 @@ public class FightRequest
 
 			FightRequest.encounterLookup = CustomCombatManager.encounterKey( encounter );
 			FightRequest.monsterData = MonsterDatabase.findMonster( FightRequest.encounterLookup, false );
+			if ( FightRequest.monsterData == null &&
+				EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getItemId() == ItemPool.SWORD_PREPOSITIONS )
+			{
+				FightRequest.encounterLookup =
+					StringUtilities.lookupPrepositions( FightRequest.encounterLookup );
+				FightRequest.monsterData = MonsterDatabase.findMonster(
+					FightRequest.encounterLookup, false );
+			}
 
 			FightRequest.isTrackingFights = false;
 			FightRequest.checkForInitiative( responseText );
