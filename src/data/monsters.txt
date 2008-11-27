@@ -215,6 +215,7 @@ Dirty Thieving Brigand	HP: 185 Def: 171 Atk: 169 Meat: 822-1157
 Disease-In-The-Box	HP: 14 Def: 18 Atk: 18	box (30)	disease (40)
 Dodecapede	HP: 8 Def: 12 Atk: 12
 Doughbat	HP: 8 Def: 14 Atk: 14 EA: sleaze Meat: 17-27	sonar-in-a-biscuit (20)	wad of dough (30)
+Dr. Awkward	HP: 200 Atk: 170	Drowsy Sword (100)	Staff of Fats (100)
 Drab Bard	HP: 170 Def: 138 Atk: 136 Meat: 34-54	drab sonata (30)	guitar pick (15)	olive (40)
 Drunk Duck	HP: 173 Atk: 165 Meat: 188-216	bottle of gin (0)	bottle of rum (0)	bottle of tequila (0)	bottle of vodka (0)	bottle of whiskey (0)	boxed wine (0)	duct tape (0)
 Drunk Goat	HP: 50 Def: 68 Atk: 68 Meat: 36-54	bottle of whiskey (25)	goat beard (5)	billy idol (0)
