@@ -410,8 +410,13 @@ public class AscensionHistoryRequest
 
 	private static final String[] extractColumns( final String rowData )
 	{
-		return rowData.replaceFirst( "</tr><td.*?>", "" ).replaceAll( "&nbsp;", "" ).replaceAll( " ", "" ).split(
+		String[] columns = rowData.replaceFirst( "</tr><td.*?>", "" ).replaceAll( "&nbsp;", "" ).replaceAll( " ", "" ).split(
 			"(</?t[rd].*?>)+" );
+		for ( int i = 0; i < columns.length; ++i )
+		{
+			columns[i] = columns[i].replaceAll( "<.*?>", "" );
+		}
+		return columns;
 	}
 
 	public static class AscensionDataField

@@ -56,6 +56,7 @@ public class ProfileRequest
 	implements Comparable
 {
 	private static final Pattern DATA_PATTERN = Pattern.compile( "<td.*?>(.*?)</td>" );
+	private static final Pattern NUMERIC_PATTERN = Pattern.compile( "\\d+" );
 	private static final SimpleDateFormat INPUT_FORMAT = new SimpleDateFormat( "MMMM d, yyyy", Locale.US );
 	public static final SimpleDateFormat OUTPUT_FORMAT = new SimpleDateFormat( "MM/dd/yy", Locale.US );
 
@@ -140,41 +141,57 @@ public class ProfileRequest
 		this.drink = "none";
 		this.pvpRank = new Integer( 0 );
 
-		if ( cleanHTML.indexOf( "Level" ) == -1 )
-		{
-			return;
-		}
-
-		while ( token.indexOf( "Level" ) == -1 )
-		{
+		if ( cleanHTML.indexOf( "\nClass:" ) != -1 )
+		{	// has custom title
+			while ( !st.nextToken().startsWith( " (#" ) )
+			{
+			}
+			String title = st.nextToken();	// custom title, may include level
+			// Next token will be one of:
+			//	(Level n), if the custom title doesn't include the level
+			//	(In Ronin) or possibly similar messages
+			//	Class:,	if neither of the above applies
 			token = st.nextToken();
+			if ( token.startsWith( "(Level" ) )
+			{
+				this.playerLevel = new Integer(
+					StringUtilities.parseInt( token.substring( 6 ).trim() ) );
+			}
+			else
+			{	// Must attempt to parse the level out of the custom title.
+				// This is inherently inaccurate, since the title can contain other digits,
+				// before, after, or adjacent to the level.
+				Matcher m = ProfileRequest.NUMERIC_PATTERN.matcher( title );
+				if ( m.find() && m.group().length() < 5 )
+				{
+					this.playerLevel = new Integer(
+						StringUtilities.parseInt( m.group() ) );
+				}
+			}
+		
+			while ( !token.startsWith( "Class" ) )
+			{
+				token = st.nextToken();
+			}
+			this.classType = KoLCharacter.getClassType( st.nextToken().trim() );
 		}
-
-		if ( token.startsWith( "Level" ) )
+		else
 		{	// no custom title
+			if ( cleanHTML.indexOf( "Level" ) == -1 )
+			{
+				return;
+			}
+	
+			while ( token.indexOf( "Level" ) == -1 )
+			{
+				token = st.nextToken();
+			}
+	
 			this.playerLevel = new Integer( 
 				StringUtilities.parseInt( token.substring( 5 ).trim() ) );
 			this.classType = KoLCharacter.getClassType( st.nextToken().trim() );
-			if ( this.classType.equals( KoLCharacter.ASTRAL_SPIRIT ) &&
-				this.responseText.indexOf( "<b>Class:</b>" ) != -1 )
-			{
-				// oops, we've been fooled by a custom title starting with "Level"
-				while ( !st.nextToken().startsWith( "Class" ) )
-				{
-				}
-				this.classType = KoLCharacter.getClassType( st.nextToken().trim() );
-			}
 		}
-		else	// (Level n) - player has custom title
-		{
-			this.playerLevel = new Integer(
-				StringUtilities.parseInt( token.substring( 6 ).trim() ) );
-			while ( !st.nextToken().startsWith( "Class" ) )
-			{
-			}
-			this.classType = KoLCharacter.getClassType( st.nextToken().trim() );
-		}
-
+		
 		if ( cleanHTML.indexOf( "\nAscensions" ) != -1 && cleanHTML.indexOf( "\nPath" ) != -1 )
 		{
 			while ( !st.nextToken().startsWith( "Path" ) )
