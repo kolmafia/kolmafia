@@ -41,6 +41,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -51,6 +52,7 @@ public class PyramidRequest
 	extends GenericRequest
 {
 	private static final Pattern IMAGE_PATTERN = Pattern.compile( "http://images.kingdomofloathing.com/otherimages/pyramid/pyramid4_([\\d,]+)(b)?.gif" );
+	private static final PyramidRequest PYRAMID = new PyramidRequest();
 
 	public PyramidRequest()
 	{
@@ -59,7 +61,7 @@ public class PyramidRequest
 
 	public PyramidRequest( boolean lower )
 	{
-		super( "hiddencity.php");
+		super( "pyramid.php");
 
 		if ( lower )
 		{
@@ -280,6 +282,12 @@ public class PyramidRequest
 
 	public static final void decorateChoiceResponse( final StringBuffer buffer )
 	{
+                // Make sure we know the current pyramid position
+		if ( PyramidRequest.getPyramidPosition() == 0 )
+		{
+			RequestThread.postRequest( PyramidRequest.PYRAMID );
+		}
+
 		// Replace Adventure Again section with image of pyramid
 
 		StringUtilities.singleStringReplace( buffer,
