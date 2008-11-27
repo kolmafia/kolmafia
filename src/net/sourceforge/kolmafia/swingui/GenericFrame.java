@@ -55,6 +55,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JToolBar;
+import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
@@ -81,6 +82,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class GenericFrame
 	extends JFrame
+	implements Runnable
 {
 	protected static int existingFrameCount = 0;
 	private boolean exists = false;
@@ -552,13 +554,34 @@ public abstract class GenericFrame
 			this.rememberPosition();
 		}
 
-		super.setVisible( isVisible );
-
-		if ( isVisible )
+		if ( isVisible && !SwingUtilities.isEventDispatchThread() )
 		{
-			super.setExtendedState( Frame.NORMAL );
-			super.repaint();
+			try
+			{
+				SwingUtilities.invokeAndWait( this );
+			}
+			catch ( Exception e )
+			{
+				StaticEntity.printStackTrace( e );
+			}
 		}
+		else
+		{
+			super.setVisible( isVisible );
+	
+			if ( isVisible )
+			{
+				super.setExtendedState( Frame.NORMAL );
+				super.repaint();
+			}
+		}
+	}
+	
+	public void run()
+	{
+		super.setVisible( true );
+		super.setExtendedState( Frame.NORMAL );
+		super.repaint();
 	}
 
 	public void pack()
