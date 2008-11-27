@@ -638,6 +638,14 @@ public abstract class UseLinkDecorator
 			useLocation = "adventure.php?snarfblat=27";
 			break;
 
+		// Link to use the Orcish Frat House Blueprints
+
+		case ItemPool.FRATHOUSE_BLUEPRINTS:
+			
+			useType = "use";
+			useLocation = "inv_use.php?pwd=" + GenericRequest.passwordHash + "&which=3&whichitem=";
+			break;
+
 		default:
 
 			// Bounty items get a count and a link to the Bounty
