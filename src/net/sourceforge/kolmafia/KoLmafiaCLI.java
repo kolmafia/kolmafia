@@ -1337,7 +1337,8 @@ public class KoLmafiaCLI
 	}
 	
 	static { new Developer().register( "newdata" ).register( "checkdata" )
-		.register( "checkplurals" ).register( "checkmodifiers" ).register( "checkconsumption" ); }
+		.register( "checkplurals" ).register( "checkmodifiers" )
+		.register( "checkconsumption" ).register( "checkprofile" ); }
 	public static class Developer
 		extends Command
 	{
@@ -1379,6 +1380,40 @@ public class KoLmafiaCLI
 			{
 				ItemDatabase.checkConsumptionData();
 				RequestLogger.printLine( "Consumption data checked." );
+				return;
+			}
+
+			if ( command.equals( "checkprofile" ) )
+			{
+				String playerId = KoLmafia.getPlayerId( parameters );
+				if ( playerId.equals( parameters ) )
+				{
+					BuffRequestFrame.ONLINE_VALIDATOR.addFormField( "playerid", String.valueOf( KoLCharacter.getUserId() ) );
+					BuffRequestFrame.ONLINE_VALIDATOR.addFormField( "pwd" );
+					BuffRequestFrame.ONLINE_VALIDATOR.addFormField( "graf", "/whois " + parameters );
+	
+					RequestThread.postRequest( BuffRequestFrame.ONLINE_VALIDATOR );
+					Matcher idMatcher =
+						Pattern.compile( "\\(#(\\d+)\\)" ).matcher( BuffRequestFrame.ONLINE_VALIDATOR.responseText );
+	
+					if ( idMatcher.find() )
+					{
+						KoLmafia.registerPlayer( parameters, idMatcher.group( 1 ) );
+					}
+					else
+					{
+						RequestLogger.printLine( "no such player" );
+						return;
+					}
+				}
+				ProfileRequest prof = new ProfileRequest( parameters );
+				prof.run();
+				RequestLogger.printLine( "name [" + prof.getPlayerName() + "]" );
+				RequestLogger.printLine( "id [" + prof.getPlayerId() + "]" );
+				RequestLogger.printLine( "level [" + prof.getPlayerLevel() + "]" );
+				RequestLogger.printLine( "class [" + prof.getClassType() + "]" );
+				RequestLogger.printLine( "clan [" + prof.getClanName() + "]" );
+				RequestLogger.printLine( "restrict [" + prof.getRestriction() + "]" );
 				return;
 			}
 		}
