@@ -87,8 +87,8 @@ El Sombrero De Lopez	Moxie: +7, Class: "Accordion Thief", Familiar Effect: "3xGh
 El Vibrato helmet	Familiar Effect: "0.5xPotato, 1xFairy"
 Elder Turtle Shell	Muscle: +7, Class: "Turtle Tamer", Familiar Effect: "3xGhuol, cap 12"
 Frosty's old silk hat	Muscle Percent: +20, Cold Damage: +30, Class: "Seal Clubber", Familiar Effect: "cold atk"
-Grimacite gasmask	Familiar Effect: "1xLep, 1.5xFairy, cap 37"
-Grimacite goggles	Familiar Effect: "1xVolley, 1xLep, cap 31"
+Grimacite gasmask	Weapon Damage +15, Familiar Effect: "1xLep, 1.5xFairy, cap 37"
+Grimacite goggles	Adventures: +3, Familiar Effect: "1xVolley, 1xLep, cap 31"
 Hodgman's porkpie hat	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20, Hobo Power: +25, Familiar Effect: "0.5xVolley, 0.5xFairy"
 Kentucky-style derby	Familiar Effect: "atk, cap 5"
 Knob Goblin elite helm	Muscle: +3, Familiar Effect: "2xFairy, cap 15"
@@ -248,8 +248,8 @@ Crimbo pants	Initiative: +30
 Danglin' Chad's loincloth	Sleaze Damage: +25, Moxie: -10
 Dyspepsi-Cola fatigues	Mysticality: +3
 # El Vibrato leg guards
-# Grimacite gaiters
-# Grimacite greaves
+Grimacite gaiters	Adventures: +3
+Grimacite greaves	Initiative: +20
 Hodgman's lobsterskin pants	Moxie Percent: +20, Muscle Percent: +20, Mysticality Percent: +20, Hobo Power: +25
 Knob Goblin Uberpants	Moxie: +2, Muscle: +2, Mysticality: +2
 Knob Goblin elite pants	Moxie: +3
@@ -284,7 +284,7 @@ clockwork pants	Initiative: +10
 crotchety pants	Maximum HP: +40
 cursed breeches	Moxie: +15
 demonskin trousers	Hot Resistance: +2
-# depleted Grimacite shinguards
+depleted Grimacite shinguards	none
 distressed denim pants	Stench Resistance: +1, Damage Reduction: 2
 duct tape dockers	Moxie: +6, Muscle: +6, Mysticality: +6, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 dungeoneer's dungarees	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
@@ -352,11 +352,11 @@ ASCII shirt	Mysticality: +7
 # Ascension Souvenir T-Shirt
 Chester's muscle shirt	Muscle Percent: +10, Damage Reduction: 10
 # Colonel Mustard's Lonely Spades Club Jacket
-# Corporal Fennel's Lonely Clubs Club Jacket
+Corporal Fennel's Lonely Clubs Club Jacket	PvP Fights: +3
 General Sage's Lonely Diamonds Club Jacket	Adventures: +3
 Grateful Undead T-shirt	Item Drop: +5
-# Grimacite gown
-# Grimacite guayabera
+Grimacite gown	none
+Grimacite guayabera	none
 Hodgman's disgusting technicolor overcoat	Spooky Damage: +15, Stench Damage: +15, Hot Damage: +15, Cold Damage: +15, Sleaze Damage: +15, Cold Resistance: +5, Hot Resistance: +5, Sleaze Resistance: +5, Spooky Resistance: +5, Stench Resistance: +5
 Kiss the Knob apron	Maximum MP: +5
 Knob Goblin elite shirt	Muscle: +3
@@ -433,8 +433,8 @@ Gnollish pie server	Spell Damage: +3
 # Gnollish plunger
 Gnollish slotted spoon	Spell Damage: +3
 Greek Pasta of Peril	Mysticality: +11, Initiative: +25
-# Grimacite gat
-# Grimacite glaive
+Grimacite gat	Initiative: +20
+Grimacite glaive	Weapon Damage: +15
 Hammer of Smiting	Muscle: +16, Critical: 3
 Hodgman's whackin' stick	Moxie Percent: +20, Muscle Percent: +20, Mysticality Percent: +20
 Kentucky-fried meat crossbow	Moxie: +5
@@ -537,7 +537,7 @@ club of the five seasons	Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, C
 # cool whip
 corn holder	Spell Damage: +1
 costume sword	Weapon Damage: -10, Initiative: +30
-crazy bastard sword	Weapon Damage: +30, Critical Hit Percent: +2
+crazy bastard sword	Weapon Damage: +30, Critical Hit Percent: +2, PvP Fights: +7
 crowbarrr	Initiative: +15
 curdflinger	Moxie: +3, Weakens Monster
 curmudgel	Monster Level: +8, Weapon Damage: +10
@@ -547,7 +547,7 @@ denim axe	Muscle: +10, Weapon Damage: +10
 dense meat crossbow	Moxie: +3
 dense meat staff	Mysticality: +3
 dense meat sword	Muscle: +3
-# depleted Grimacite hammer
+depleted Grimacite hammer	none
 diamond-studded cane	Moxie: +5, Class: "Disco Bandit"
 didgeridooka	Moxie: +9
 # disco ball
@@ -632,7 +632,7 @@ perforated battle paddle	Weapon Damage: +10
 pestoblade	Muscle: +3, Stench Damage: +3
 pitchfork	Weapon Damage: +9
 pixel sword	Initiative: +15
-plexiglass pike pike	Weapon Damage: +25, Muscle Percent: +30
+plexiglass pike pike	Weapon Damage: +25, Muscle Percent: +30, PvP Fights: +10
 pointed stick	Critical: 2, Weapon Damage: +10
 pool cue	Moxie: +3
 portable corkscrew	Weapon Damage: +3, Spell Damage: +3
@@ -799,7 +799,7 @@ deck of lewd playing cards	Moxie Percent: +5, Sleaze Damage: +50, Sleaze Spell D
 deck of tropical cards	Experience: +1
 # defective skull
 demon buckler	Damage Reduction: 5, Hot Damage: +3
-# depleted Grimacite gravy boat
+depleted Grimacite gravy boat	none
 # detective skull
 duct tape buckler	Damage Reduction: 12, Maximum HP: +65, Maximum MP: +65
 easter egg balloon	Moxie: +5, Muscle: +5, Mysticality: +5
@@ -934,12 +934,12 @@ Frosty's carrot	Single Equip, Stench Resistance: +3, Sleaze Resistance: +3, Clas
 Gaia beads	Stench Damage: +10, Stench Spell Damage: +10
 Golden Mr. Accessory	Moxie: +15, Muscle: +15, Mysticality: +15, Softcore Only
 Green Clover of Justice	Single Equip, Moxie: +8, Muscle: +8, Mysticality: +8, Item Drop: +8
-# Grimacite galoshes
-# Grimacite garter
-Grimacite gauntlets	Single Equip
-Grimacite girdle	Single Equip
-Grimacite go-go boots	Single Equip
-# Grimacite gorget
+Grimacite galoshes	Meat Drop: +25
+Grimacite garter	Spell Damage: +15
+Grimacite gauntlets	Meat Drop: +30, Single Equip
+Grimacite girdle	Spell Damage: +20, Single Equip
+Grimacite go-go boots	Item Drop: +30, Single Equip
+Grimacite gorget	Item Drop: +25
 Hodgman's bow tie	Single Equip, Moxie Percent: +20, Muscle Percent: +20, Mysticality Percent: +20, Hobo Power: +25
 Hodgman's lucky sock	Single Equip, Hobo Power: +50
 Ice-Cold Aluminum Necklace	Single Equip, Moxie: +3, Muscle: +3, Mysticality: +3, Cold Spell Damage: +40
@@ -1007,7 +1007,7 @@ Warehouse 23 bling	Maximum MP: +23
 Xlyinia's notebook	Moxie: +15, Muscle: +15, Mysticality: +15
 Yellow Moon of Compassion	Single Equip, Moxie: +9, Muscle: +9, Mysticality: +9, Item Drop: +7
 Zinc Delta of Tranquility	Single Equip, Moxie: +8, Muscle: +8, Mysticality: +8, Item Drop: +8
-Zombo's skull ring	Single Equip, Moxie Percent: +15
+Zombo's skull ring	Single Equip, Moxie Percent: +15, PvP Fights: +5
 acid-squirting flower	Single Equip
 albatross necklace	Single Equip, Mysticality Percent: +10
 amulet of extreme plot significance	Maximum MP: +30
@@ -1071,7 +1071,7 @@ enormous hoop earring	Moxie: +5
 evil flaming eyeball pendant	Single Equip, Initiative: +15, Meat Drop: +15, Softcore Only
 exclusive ultra-rare item	Moxie: +15, Muscle: +15, Mysticality: +15
 filigreed hamethyst earring	Muscle: +8, Critical: 3
-filigreed hamethyst necklace	Single Equip, Muscle: +10, Weapon Damage: +8
+filigreed hamethyst necklace	Single Equip, Muscle: +10, Weapon Damage: +8, PvP Fights: +3
 filigreed hamethyst ring	Single Equip, Muscle: +12, Maximum HP: +25, HP Regen Min: 2, HP Regen Max: 4
 flashing novelty button	Maximum HP: +5, Moxie: -2
 # foam noodle
@@ -1089,7 +1089,7 @@ groovy prism necklace	Single Equip
 grumpy old man charrrm bracelet	Single Equip, Monster Level: +7
 hamethyst bracelet	Single Equip, Muscle: +3, Critical: 3
 hamethyst earring	Muscle: +3, Critical: 3
-hamethyst necklace	Single Equip, Muscle: +4, Weapon Damage: +5
+hamethyst necklace	Single Equip, Muscle: +4, Weapon Damage: +5, PvP Fights: +3
 hamethyst ring	Single Equip, Muscle: +5, Maximum HP: +10, HP Regen Min: 2, HP Regen Max: 4
 headhunter necktie	Single Equip, Muscle: +15, Moxie: -3
 # hemp string
@@ -1483,20 +1483,20 @@ comfy blanket	Base Resting HP: +50
 
 # Special case overrides
 
-Grimacite gaiters	Adventures: +3, Mysticality Percent: +0
-Grimacite galoshes	Moxie Percent: +0, Meat Drop: +25
-Grimacite garter	Mysticality Percent: +0, Spell Damage: +15
-Grimacite gasmask	Muscle Percent: +0, Weapon Damage: +15
-Grimacite gat	Moxie Percent: +0, Initiative: +20
-Grimacite gauntlets	Muscle Percent: +0, Meat Drop: +30
-Grimacite girdle	Mysticality Percent: +0, Spell Damage: +20
-Grimacite glaive	Muscle Percent: +0, Weapon Damage: +15
-Grimacite go-go boots	Moxie Percent: +0, Item Drop: +30
-Grimacite goggles	Adventures: +3, Mysticality Percent: +0
-Grimacite gorget	Muscle Percent: +0, Item Drop: +25
-Grimacite gown	Monster Level: +0
-Grimacite greaves	Moxie Percent: +0, Initiative: +20
-Grimacite guayabera	Monster Level: +0
+#Grimacite gaiters	Adventures: +3, Mysticality Percent: +0
+#Grimacite galoshes	Moxie Percent: +0, Meat Drop: +25
+#Grimacite garter	Mysticality Percent: +0, Spell Damage: +15
+#Grimacite gasmask	Muscle Percent: +0, Weapon Damage: +15
+#Grimacite gat	Moxie Percent: +0, Initiative: +20
+#Grimacite gauntlets	Muscle Percent: +0, Meat Drop: +30
+#Grimacite girdle	Mysticality Percent: +0, Spell Damage: +20
+#Grimacite glaive	Muscle Percent: +0, Weapon Damage: +15
+#Grimacite go-go boots	Moxie Percent: +0, Item Drop: +30
+#Grimacite goggles	Adventures: +3, Mysticality Percent: +0
+#Grimacite gorget	Muscle Percent: +0, Item Drop: +25
+#Grimacite gown	Monster Level: +0
+#Grimacite greaves	Moxie Percent: +0, Initiative: +20
+#Grimacite guayabera	Monster Level: +0
 # depleted Grimacite astrolabe
 # depleted Grimacite grappling hook
 # depleted Grimacite gravy boat

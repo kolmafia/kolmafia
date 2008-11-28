@@ -462,7 +462,7 @@ public class HolidayDatabase
 		final int hamburglarPosition )
 	{
 		int grimaceEffect = 4 - HolidayDatabase.getGrimaceMoonlight( grimacePhase );
-		if ( HolidayDatabase.getHamburglarLight( ronaldPhase, grimacePhase, hamburglarPosition ) != 1 )
+		if ( HolidayDatabase.getHamburglarLight( ronaldPhase, grimacePhase, hamburglarPosition ) < 0 )
 		{
 			++grimaceEffect;
 		}
