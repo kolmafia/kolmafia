@@ -1461,7 +1461,7 @@ public class FightRequest
 	// The pirate sneers at you and replies &quot;<insult>&quot;
 
 	private static final Pattern PIRATE_INSULT_PATTERN =
-		Pattern.compile( "The pirate sneers at you and replies &quot;(.*?)&quot;" );
+		Pattern.compile( "The pirate sneers \\w+ you and replies &quot;(.*?)&quot;" );
 
 	// The first string is an insult you hear from Rickets.
 	// The second string is the insult you must use in reply.
@@ -1501,6 +1501,14 @@ public class FightRequest
 			"It only seems that way because you haven't learned to count to one."
 		},
 	};
+	
+	static {
+		for ( int i = 0; i < PIRATE_INSULTS.length; ++i )
+		{
+			StringUtilities.registerPrepositions( PIRATE_INSULTS[ i ][ 0 ] );
+			StringUtilities.registerPrepositions( PIRATE_INSULTS[ i ][ 1 ] );
+		}
+	}
 
 	private static final void parsePirateInsult( final String responseText )
 	{
@@ -1521,8 +1529,13 @@ public class FightRequest
 		}
 	}
 
-	private static final int findPirateInsult( final String insult )
+	private static final int findPirateInsult( String insult )
 	{
+		if ( EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getItemId() == 
+			ItemPool.SWORD_PREPOSITIONS )
+		{
+			insult = StringUtilities.lookupPrepositions( insult );
+		}
 		for ( int i = 0; i < PIRATE_INSULTS.length; ++i )
 		{
 			if ( insult.equals( PIRATE_INSULTS[i][1] ) )
@@ -1533,8 +1546,13 @@ public class FightRequest
 		return 0;
 	}
 
-	public static final int findPirateRetort( final String insult )
+	public static final int findPirateRetort( String insult )
 	{
+		if ( EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getItemId() == 
+			ItemPool.SWORD_PREPOSITIONS )
+		{
+			insult = StringUtilities.lookupPrepositions( insult );
+		}
 		for ( int i = 0; i < PIRATE_INSULTS.length; ++i )
 		{
 			if ( insult.equals( PIRATE_INSULTS[i][0] ) )
