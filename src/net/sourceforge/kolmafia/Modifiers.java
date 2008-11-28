@@ -43,6 +43,7 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
@@ -75,6 +76,10 @@ public class Modifiers
 			}
 
 			String name = StringUtilities.getCanonicalName( data[ 0 ] );
+			if ( Modifiers.modifiersByName.containsKey( name ) )
+			{
+				KoLmafia.updateDisplay( "Duplicate modifiers for: " + name );
+			}
 			Modifiers.modifiersByName.put( name, data[ 1 ] );
 			
 			Matcher matcher = FAMILIAR_EFFECT_PATTERN.matcher( data[ 1 ] );
@@ -155,6 +160,7 @@ public class Modifiers
 	public static final int RESTING_MP_PCT = 55;
 	public static final int BONUS_RESTING_MP = 56;
 	public static final int CRITICAL_PCT = 57;
+	public static final int PVP_FIGHTS = 58;
 
 	private static final Object[][] floatModifiers =
 	{
@@ -388,7 +394,11 @@ public class Modifiers
 		},
 		{ "Critical Hit Percent",
 		  Pattern.compile( "([+-]\\d+)% chance of Critical Hit" ),
-		  Pattern.compile( "Critical Hit Percent: (\\d+)" )
+		  Pattern.compile( "Critical Hit Percent: ([+-]\\d+)" )
+		},
+		{ "PvP Fights",
+		  Pattern.compile( "([+-]\\d+) PvP fight\\(s\\) per day when equipped" ),
+		  Pattern.compile( "PvP Fights: ([+-]\\d+)" )
 		},
 	};
 
@@ -1014,6 +1024,14 @@ public class Modifiers
 	private static final int GO_GO_BOOTS = 2823;
 	private static final int GIRDLE = 2824;
 	private static final int GOWN = 2825;
+	
+	private static final int HAMMER = 3542;
+	private static final int GRAVY_BOAT = 3543;
+	private static final int WEIGHTLIFTING_BELT = 3544;
+	private static final int GRAPPLING_HOOK = 3545;
+	private static final int NINJA_MASK = 3546;
+	private static final int SHINGUARDS = 3547;
+	private static final int ASTROLABE = 3548;
 
 	// Items that modify based on day of week
 	private static final int TUESDAYS_RUBY = 2604;
@@ -1083,6 +1101,40 @@ public class Modifiers
 
 		switch ( itemId )
 		{
+		case HAMMER:
+			this.set( Modifiers.MONSTER_LEVEL, HolidayDatabase.getGrimaciteEffect() / 2 );
+			return true;
+			
+		case GRAVY_BOAT:
+			this.set( Modifiers.MYS_PCT, HolidayDatabase.getGrimaciteEffect() / 2 );
+			this.set( Modifiers.ADVENTURES, HolidayDatabase.getGrimaciteEffect() / 10 );
+			return true;
+			
+		case WEIGHTLIFTING_BELT:
+			this.set( Modifiers.MUS_PCT, HolidayDatabase.getGrimaciteEffect() / 2 );
+			this.set( Modifiers.ADVENTURES, HolidayDatabase.getGrimaciteEffect() / 10 );
+			return true;
+			
+		case GRAPPLING_HOOK:
+			this.set( Modifiers.MOX_PCT, HolidayDatabase.getGrimaciteEffect() / 2 );
+			this.set( Modifiers.ADVENTURES, HolidayDatabase.getGrimaciteEffect() / 10 );
+			return true;
+			
+		case NINJA_MASK:
+			this.set( Modifiers.MOX_PCT, HolidayDatabase.getGrimaciteEffect() / 2 );
+			this.set( Modifiers.PVP_FIGHTS, HolidayDatabase.getGrimaciteEffect() / 10 );
+			return true;
+			
+		case SHINGUARDS:
+			this.set( Modifiers.MUS_PCT, HolidayDatabase.getGrimaciteEffect() / 2 );
+			this.set( Modifiers.PVP_FIGHTS, HolidayDatabase.getGrimaciteEffect() / 10 );
+			return true;
+			
+		case ASTROLABE:
+			this.set( Modifiers.MYS_PCT, HolidayDatabase.getGrimaciteEffect() / 2 );
+			this.set( Modifiers.PVP_FIGHTS, HolidayDatabase.getGrimaciteEffect() / 10 );
+			return true;
+
 		case GALOSHES:
 		case GAT:
 		case GO_GO_BOOTS:
