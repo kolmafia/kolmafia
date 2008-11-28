@@ -63,6 +63,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.utilities.BooleanArray;
@@ -1181,6 +1182,47 @@ public class ItemDatabase
 		default:
 			return false;
 		}
+	}
+
+	/**
+	 * Returns whether or not the item with the given name is made of
+	 * grimacite and is thus affected by the moon phases.
+	 *
+	 * @return <code>true</code> if the item is grimacite
+	 */
+
+	public static final boolean isGrimacite( int itemId )
+	{
+		switch ( itemId )
+		{
+		case ItemPool.GRIMACITE_GALOSHES:
+		case ItemPool.GRIMACITE_GARTER:
+		case ItemPool.GRIMACITE_GORGET:
+		case ItemPool.GRIMACITE_GREAVES:
+		case ItemPool.GRIMACITE_GUAYABERA:
+		case ItemPool.GRIMACITE_GOGGLES:
+		case ItemPool.GRIMACITE_GLAIVE:
+                        // Grimacite Generation 1
+		case ItemPool.GRIMACITE_GASMASK:
+		case ItemPool.GRIMACITE_GAT:
+		case ItemPool.GRIMACITE_GIRDLE:
+		case ItemPool.GRIMACITE_GO_GO_BOOTS:
+		case ItemPool.GRIMACITE_GAUNTLETS:
+		case ItemPool.GRIMACITE_GAITERS:
+		case ItemPool.GRIMACITE_GOWN:
+                        // Grimacite Generation 2
+		case ItemPool.GRIMACITE_HAMMER:
+		case ItemPool.GRIMACITE_GRAVY_BOAT:
+		case ItemPool.GRIMACITE_WEIGHTLIFTING_BELT:
+		case ItemPool.GRIMACITE_GRAPPLING_HOOK:
+		case ItemPool.GRIMACITE_NINJA_MASK:
+		case ItemPool.GRIMACITE_SHINGUARDS:
+		case ItemPool.GRIMACITE_ASTROLABE:
+                        // Depleted Grimacite
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
