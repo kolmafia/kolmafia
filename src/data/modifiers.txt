@@ -1483,20 +1483,20 @@ comfy blanket	Base Resting HP: +50
 
 # Special case overrides
 
-#Grimacite gaiters	Adventures: +3, Mysticality Percent: +0
-#Grimacite galoshes	Moxie Percent: +0, Meat Drop: +25
-#Grimacite garter	Mysticality Percent: +0, Spell Damage: +15
-#Grimacite gasmask	Muscle Percent: +0, Weapon Damage: +15
-#Grimacite gat	Moxie Percent: +0, Initiative: +20
-#Grimacite gauntlets	Muscle Percent: +0, Meat Drop: +30
-#Grimacite girdle	Mysticality Percent: +0, Spell Damage: +20
-#Grimacite glaive	Muscle Percent: +0, Weapon Damage: +15
-#Grimacite go-go boots	Moxie Percent: +0, Item Drop: +30
-#Grimacite goggles	Adventures: +3, Mysticality Percent: +0
-#Grimacite gorget	Muscle Percent: +0, Item Drop: +25
-#Grimacite gown	Monster Level: +0
-#Grimacite greaves	Moxie Percent: +0, Initiative: +20
-#Grimacite guayabera	Monster Level: +0
+# Grimacite gaiters	Adventures: +3, Mysticality Percent: +0
+# Grimacite galoshes	Moxie Percent: +0, Meat Drop: +25
+# Grimacite garter	Mysticality Percent: +0, Spell Damage: +15
+# Grimacite gasmask	Muscle Percent: +0, Weapon Damage: +15
+# Grimacite gat	Moxie Percent: +0, Initiative: +20
+# Grimacite gauntlets	Muscle Percent: +0, Meat Drop: +30
+# Grimacite girdle	Mysticality Percent: +0, Spell Damage: +20
+# Grimacite glaive	Muscle Percent: +0, Weapon Damage: +15
+# Grimacite go-go boots	Moxie Percent: +0, Item Drop: +30
+# Grimacite goggles	Adventures: +3, Mysticality Percent: +0
+# Grimacite gorget	Muscle Percent: +0, Item Drop: +25
+# Grimacite gown	Monster Level: +0
+# Grimacite greaves	Moxie Percent: +0, Initiative: +20
+# Grimacite guayabera	Monster Level: +0
 # depleted Grimacite astrolabe
 # depleted Grimacite grappling hook
 # depleted Grimacite gravy boat

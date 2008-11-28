@@ -44,6 +44,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
@@ -1009,30 +1010,6 @@ public class Modifiers
 	private static final int BAIO = 877;
 	private static final int JEKYLLIN = 1291;
 
-	private static final int GOGGLES = 1540;
-	private static final int GLAIVE = 1541;
-	private static final int GREAVES = 1542;
-	private static final int GARTER = 1543;
-	private static final int GALOSHES = 1544;
-	private static final int GORGET = 1545;
-	private static final int GUAYABERA = 1546;
-
-	private static final int GASMASK = 2819;
-	private static final int GAT = 2820;
-	private static final int GAITERS = 2821;
-	private static final int GAUNTLETS = 2822;
-	private static final int GO_GO_BOOTS = 2823;
-	private static final int GIRDLE = 2824;
-	private static final int GOWN = 2825;
-	
-	private static final int HAMMER = 3542;
-	private static final int GRAVY_BOAT = 3543;
-	private static final int WEIGHTLIFTING_BELT = 3544;
-	private static final int GRAPPLING_HOOK = 3545;
-	private static final int NINJA_MASK = 3546;
-	private static final int SHINGUARDS = 3547;
-	private static final int ASTROLABE = 3548;
-
 	// Items that modify based on day of week
 	private static final int TUESDAYS_RUBY = 2604;
 
@@ -1052,8 +1029,9 @@ public class Modifiers
 			if ( this.hoboFactors == null )
 			{
 				this.hoboFactors = (float []) this.floats.clone();
-				// Any values >= 200 will be treated as conversion factors
-				// (divided by 1000) from Hobo Power to the modifier.
+				// Any values >= 200 will be treated as
+				// conversion factors (divided by 1000) from
+				// Hobo Power to the modifier.
 			}
 			float hoboPower = KoLCharacter.getHoboPower();
 			for ( int i = 0; i < this.floats.length; ++i )
@@ -1099,68 +1077,78 @@ public class Modifiers
 
 		int itemId = ItemDatabase.getItemId( name );
 
+                if ( ItemDatabase.isGrimacite( itemId ) )
+                {
+                        int effect = HolidayDatabase.getGrimaciteEffect();
+
+                        switch ( itemId )
+                        {
+			case ItemPool.GRIMACITE_HAMMER:
+				this.set( Modifiers.MONSTER_LEVEL, effect / 2 );
+				break;
+
+                        case ItemPool.GRIMACITE_GRAVY_BOAT:
+                                this.set( Modifiers.MYS_PCT, effect / 2 );
+                                this.set( Modifiers.ADVENTURES, effect / 10 );
+                                break;
+
+                        case ItemPool.GRIMACITE_WEIGHTLIFTING_BELT:
+                                this.set( Modifiers.MUS_PCT, effect / 2 );
+                                this.set( Modifiers.ADVENTURES, effect / 10 );
+                                break;
+
+                        case ItemPool.GRIMACITE_GRAPPLING_HOOK:
+                                this.set( Modifiers.MOX_PCT, effect / 2 );
+                                this.set( Modifiers.ADVENTURES, effect / 10 );
+                                break;
+
+                        case ItemPool.GRIMACITE_NINJA_MASK:
+                                this.set( Modifiers.MOX_PCT, effect / 2 );
+                                this.set( Modifiers.PVP_FIGHTS, effect / 10 );
+                                break;
+
+                        case ItemPool.GRIMACITE_SHINGUARDS:
+                                this.set( Modifiers.MUS_PCT, effect / 2 );
+                                this.set( Modifiers.PVP_FIGHTS, effect / 10 );
+                                break;
+
+                        case ItemPool.GRIMACITE_ASTROLABE:
+                                this.set( Modifiers.MYS_PCT, effect / 2 );
+                                this.set( Modifiers.PVP_FIGHTS, effect / 10 );
+                                break;
+
+                        case ItemPool.GRIMACITE_GALOSHES:
+                        case ItemPool.GRIMACITE_GAT:
+                        case ItemPool.GRIMACITE_GO_GO_BOOTS:
+                        case ItemPool.GRIMACITE_GREAVES:
+                                this.set( Modifiers.MOX_PCT, effect );
+                                break;
+
+                        case ItemPool.GRIMACITE_GAITERS:
+                        case ItemPool.GRIMACITE_GARTER:
+                        case ItemPool.GRIMACITE_GIRDLE:
+                        case ItemPool.GRIMACITE_GOGGLES:
+                                this.set( Modifiers.MYS_PCT, effect );
+                                break;
+
+                        case ItemPool.GRIMACITE_GASMASK:
+                        case ItemPool.GRIMACITE_GAUNTLETS:
+                        case ItemPool.GRIMACITE_GLAIVE:
+                        case ItemPool.GRIMACITE_GORGET:
+                                this.set( Modifiers.MUS_PCT, effect );
+                                break;
+
+                        case ItemPool.GRIMACITE_GUAYABERA:
+                        case ItemPool.GRIMACITE_GOWN:
+                                this.set( Modifiers.MONSTER_LEVEL, effect );
+                                break;
+                        }
+
+                        return true;
+                }
+
 		switch ( itemId )
 		{
-		case HAMMER:
-			this.set( Modifiers.MONSTER_LEVEL, HolidayDatabase.getGrimaciteEffect() / 2 );
-			return true;
-			
-		case GRAVY_BOAT:
-			this.set( Modifiers.MYS_PCT, HolidayDatabase.getGrimaciteEffect() / 2 );
-			this.set( Modifiers.ADVENTURES, HolidayDatabase.getGrimaciteEffect() / 10 );
-			return true;
-			
-		case WEIGHTLIFTING_BELT:
-			this.set( Modifiers.MUS_PCT, HolidayDatabase.getGrimaciteEffect() / 2 );
-			this.set( Modifiers.ADVENTURES, HolidayDatabase.getGrimaciteEffect() / 10 );
-			return true;
-			
-		case GRAPPLING_HOOK:
-			this.set( Modifiers.MOX_PCT, HolidayDatabase.getGrimaciteEffect() / 2 );
-			this.set( Modifiers.ADVENTURES, HolidayDatabase.getGrimaciteEffect() / 10 );
-			return true;
-			
-		case NINJA_MASK:
-			this.set( Modifiers.MOX_PCT, HolidayDatabase.getGrimaciteEffect() / 2 );
-			this.set( Modifiers.PVP_FIGHTS, HolidayDatabase.getGrimaciteEffect() / 10 );
-			return true;
-			
-		case SHINGUARDS:
-			this.set( Modifiers.MUS_PCT, HolidayDatabase.getGrimaciteEffect() / 2 );
-			this.set( Modifiers.PVP_FIGHTS, HolidayDatabase.getGrimaciteEffect() / 10 );
-			return true;
-			
-		case ASTROLABE:
-			this.set( Modifiers.MYS_PCT, HolidayDatabase.getGrimaciteEffect() / 2 );
-			this.set( Modifiers.PVP_FIGHTS, HolidayDatabase.getGrimaciteEffect() / 10 );
-			return true;
-
-		case GALOSHES:
-		case GAT:
-		case GO_GO_BOOTS:
-		case GREAVES:
-			this.set( Modifiers.MOX_PCT, HolidayDatabase.getGrimaciteEffect() );
-			return true;
-
-		case GAITERS:
-		case GARTER:
-		case GIRDLE:
-		case GOGGLES:
-			this.set( Modifiers.MYS_PCT, HolidayDatabase.getGrimaciteEffect() );
-			return true;
-
-		case GASMASK:
-		case GAUNTLETS:
-		case GLAIVE:
-		case GORGET:
-			this.set( Modifiers.MUS_PCT, HolidayDatabase.getGrimaciteEffect() );
-			return true;
-
-		case GUAYABERA:
-		case GOWN:
-			this.set( Modifiers.MONSTER_LEVEL, HolidayDatabase.getGrimaciteEffect() );
-			return true;
-
 		case BAIO:
 			int mod = HolidayDatabase.getBaioEffect();
 			this.set( Modifiers.MOX_PCT, mod );

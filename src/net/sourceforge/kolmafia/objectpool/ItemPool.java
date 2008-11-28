@@ -262,6 +262,13 @@ public class ItemPool
 	public static final int WEEGEE_SQOUIJA = 1537;
 	public static final int TAM_O_SHATNER = 1539;
 	public static final int MSG = 1549;
+	public static final int GRIMACITE_GOGGLES = 1540;
+	public static final int GRIMACITE_GLAIVE = 1541;
+	public static final int GRIMACITE_GREAVES = 1542;
+	public static final int GRIMACITE_GARTER = 1543;
+	public static final int GRIMACITE_GALOSHES = 1544;
+	public static final int GRIMACITE_GORGET = 1545;
+	public static final int GRIMACITE_GUAYABERA = 1546;
 	public static final int CATALYST = 1605;
 	public static final int MUNCHIES_PILL = 1619;
 	public static final int ASTRAL_MUSHROOM = 1622;
@@ -423,6 +430,13 @@ public class ItemPool
 	public static final int STEEL_STOMACH = 2742;
 	public static final int STEEL_LIVER = 2743;
 	public static final int STEEL_SPLEEN = 2744;
+	public static final int GRIMACITE_GASMASK = 2819;
+	public static final int GRIMACITE_GAT = 2820;
+	public static final int GRIMACITE_GAITERS = 2821;
+	public static final int GRIMACITE_GAUNTLETS = 2822;
+	public static final int GRIMACITE_GO_GO_BOOTS = 2823;
+	public static final int GRIMACITE_GIRDLE = 2824;
+	public static final int GRIMACITE_GOWN = 2825;
 	public static final int PLASTIC_BIB = 2846;
 	public static final int GNOME_DEMODULIZER = 2848;
 	public static final int PIRATE_INSULT_BOOK = 2947;
@@ -556,6 +570,13 @@ public class ItemPool
 	public static final int STICKER_BOOK = 3507;
 	public static final int STICKER_SWORD = 3508;
 	public static final int STICKER_CROSSBOW = 3526;
+	public static final int GRIMACITE_HAMMER = 3542;
+	public static final int GRIMACITE_GRAVY_BOAT = 3543;
+	public static final int GRIMACITE_WEIGHTLIFTING_BELT = 3544;
+	public static final int GRIMACITE_GRAPPLING_HOOK = 3545;
+	public static final int GRIMACITE_NINJA_MASK = 3546;
+	public static final int GRIMACITE_SHINGUARDS = 3547;
+	public static final int GRIMACITE_ASTROLABE = 3548;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
