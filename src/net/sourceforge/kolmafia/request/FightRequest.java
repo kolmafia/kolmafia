@@ -1069,8 +1069,8 @@ public class FightRequest
 
 			if ( action.startsWith( "custom" ) )
 			{
-				action = CustomCombatManager.getSettingsFileLocation() + " [" + 
-					CustomCombatManager.getSettingKey( FightRequest.encounterLookup ) + "]";
+				String file = Preferences.getBoolean( "debugPathnames" ) ? CustomCombatManager.getSettingsFileLocation() : CustomCombatManager.settingsFileName();
+				action = file + " [" + CustomCombatManager.getSettingKey( FightRequest.encounterLookup ) + "]";
 			}
 
 			RequestLogger.printLine( "Strategy: " + action );

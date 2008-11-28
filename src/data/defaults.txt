@@ -38,6 +38,7 @@ global	commandLineNamespace
 global	cookies.inventory
 global	createHackerSummons	true
 global	customizedTabs	false
+global	debugPathnames	true
 global	defaultBorderColor	blue
 global	defaultDropdown1	0
 global	defaultDropdown2	1
