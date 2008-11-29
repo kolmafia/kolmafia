@@ -73,6 +73,10 @@ public class Interpreter
 	private PrintStream traceStream = NullStream.INSTANCE;
 	private int traceIndentation = 0;
 
+	// For use in runtime error messages
+	private String fileName;
+	private int lineNumber;
+
 	public Interpreter()
 	{
 		this.parser = new Parser();
@@ -113,6 +117,17 @@ public class Interpreter
 	public void setState( final String state )
 	{
 		this.currentState = state;
+	}
+
+	public void setLineAndFile( final String fileName, final int lineNumber )
+	{
+		this.fileName = fileName;
+		this.lineNumber = lineNumber;
+	}
+
+	public final String getLineAndFile()
+	{
+		return Parser.getLineAndFile( this.fileName, this.lineNumber );
 	}
 
 	private static final String indentation = " " + " " + " ";
@@ -381,5 +396,10 @@ public class Interpreter
 
 		this.setState( STATE_NORMAL );
 		KoLmafia.forceContinue();
+	}
+
+	public final ScriptException runtimeException( final String message )
+	{
+		return new ScriptException( message + " " + this.getLineAndFile() );
 	}
 }

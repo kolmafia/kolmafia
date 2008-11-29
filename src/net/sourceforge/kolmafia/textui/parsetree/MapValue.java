@@ -37,6 +37,7 @@ import java.util.Set;
 import java.util.TreeMap;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
+import net.sourceforge.kolmafia.textui.Interpreter;
 
 public class MapValue
 	extends AggregateValue
@@ -47,13 +48,13 @@ public class MapValue
 		this.content = new TreeMap();
 	}
 
-	public Value aref( final Value key )
+	public Value aref( final Value key, final Interpreter interpreter )
 	{
 		TreeMap map = (TreeMap) this.content;
 		return (Value) map.get( key );
 	}
 
-	public void aset( final Value key, Value val )
+	public void aset( final Value key, Value val, final Interpreter interpreter )
 	{
 		TreeMap map = (TreeMap) this.content;
 
@@ -78,7 +79,7 @@ public class MapValue
 		map.put( key, val );
 	}
 
-	public Value remove( final Value key )
+	public Value remove( final Value key, final Interpreter interpreter )
 	{
 		TreeMap map = (TreeMap) this.content;
 		return (Value) map.remove( key );

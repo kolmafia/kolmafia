@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.textui.parsetree;
 import java.io.PrintStream;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
+import net.sourceforge.kolmafia.textui.Interpreter;
 
 public class CompositeValue
 	extends Value
@@ -52,14 +53,24 @@ public class CompositeValue
 
 	public Value aref( final Value key )
 	{
+		return this.aref( key, null );
+	}
+
+	public Value aref( final Value key, final Interpreter interpreter )
+	{
 		return null;
 	}
 
 	public void aset( final Value key, final Value val )
 	{
+		this.aset( key, val, null );
 	}
 
-	public Value remove( final Value key )
+	public void aset( final Value key, final Value val, final Interpreter interpreter )
+	{
+	}
+
+	public Value remove( final Value key, final Interpreter interpreter )
 	{
 		return null;
 	}

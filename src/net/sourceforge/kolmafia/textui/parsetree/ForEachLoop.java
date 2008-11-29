@@ -120,7 +120,7 @@ public class ForEachLoop
 			Value result;
 			if ( nextVariable != null )
 			{
-				AggregateValue nextSlice = (AggregateValue) slice.aref( key );
+				AggregateValue nextSlice = (AggregateValue) slice.aref( key, interpreter );
 				interpreter.traceIndent();
 				result = this.executeSlice( interpreter, nextSlice, it, nextVariable );
 			}

@@ -38,7 +38,6 @@ import java.io.PrintStream;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.textui.Parser;
-import net.sourceforge.kolmafia.textui.ScriptException;
 
 public class Operator
 	implements ParseTreeNode
@@ -168,7 +167,7 @@ public class Operator
 			}
 			else
 			{
-				throw new ScriptException( "Internal error: Unary minus can only be applied to numbers" );
+				throw interpreter.runtimeException( "Internal error: Unary minus can only be applied to numbers" );
 			}
 			interpreter.trace( "<- " + result );
 			interpreter.traceUnindent();
@@ -178,7 +177,7 @@ public class Operator
 		// Unknown operator
 		if ( rhs == null )
 		{
-			throw new ScriptException( "Internal error: missing right operand." );
+			throw interpreter.runtimeException( "Internal error: missing right operand." );
 		}
 
 		// Binary operators with optional right values
@@ -241,7 +240,7 @@ public class Operator
 		// Ensure type compatibility of operands
 		if ( !Parser.validCoercion( lhs.getType(), rhs.getType(), this.operator ) )
 		{
-			throw new ScriptException( "Internal error: left hand side and right hand side do not correspond" );
+			throw interpreter.runtimeException( "Internal error: left hand side and right hand side do not correspond" );
 		}
 
 		// Special binary operator: <aggref> contains <any>
@@ -378,8 +377,13 @@ public class Operator
 
 		if ( this.operator.equals( "/" ) )
 		{
-			Value result =
-				isInt ? new Value( (float) lint / (float) rint ) : new Value( lfloat / rfloat );
+			float left = isInt ? (float) lint : lfloat;
+			float right = isInt ? (float) rint : rfloat;
+			if ( right == 0.0f )
+			{
+				throw interpreter.runtimeException( "Division by zero" );
+			}
+			Value result = new Value( left / right );
 			interpreter.trace( "<- " + result );
 			interpreter.traceUnindent();
 			return result;
@@ -387,7 +391,13 @@ public class Operator
 
 		if ( this.operator.equals( "%" ) )
 		{
-			Value result = isInt ? new Value( lint % rint ) : new Value( lfloat % rfloat );
+			float left = isInt ? (float) lint : lfloat;
+			float right = isInt ? (float) rint : rfloat;
+			if ( right == 0.0f )
+			{
+				throw interpreter.runtimeException( "Mod by zero" );
+			}
+			Value result = new Value( left % right );
 			interpreter.trace( "<- " + result );
 			interpreter.traceUnindent();
 			return result;
@@ -442,7 +452,7 @@ public class Operator
 		}
 
 		// Unknown operator
-		throw new ScriptException( "Internal error: illegal operator \"" + this.operator + "\"" );
+		throw interpreter.runtimeException( "Internal error: illegal operator \"" + this.operator + "\"" );
 	}
 
 	public Value execute( final Interpreter interpreter )

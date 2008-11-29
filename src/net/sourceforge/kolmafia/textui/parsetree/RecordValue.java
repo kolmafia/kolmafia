@@ -36,7 +36,7 @@ package net.sourceforge.kolmafia.textui.parsetree;
 import java.io.PrintStream;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
-import net.sourceforge.kolmafia.textui.ScriptException;
+import net.sourceforge.kolmafia.textui.Interpreter;
 
 public class RecordValue
 	extends CompositeValue
@@ -65,47 +65,47 @@ public class RecordValue
 		return ( (RecordType) this.type ).getDataType( key );
 	}
 
-	public Value aref( final Value key )
+	public Value aref( final Value key, final Interpreter interpreter )
 	{
 		int index = ( (RecordType) this.type ).indexOf( key );
 		if ( index < 0 )
 		{
-			throw new ScriptException( "Internal error: field index out of bounds" );
+			throw interpreter.runtimeException( "Internal error: field index out of bounds" );
 		}
 		Value[] array = (Value[]) this.content;
 		return array[ index ];
 	}
 
-	public Value aref( final int index )
+	public Value aref( final int index, final Interpreter interpreter )
 	{
 		RecordType type = (RecordType) this.type;
 		int size = type.fieldCount();
 		if ( index < 0 || index >= size )
 		{
-			throw new ScriptException( "Internal error: field index out of bounds" );
+			throw interpreter.runtimeException( "Internal error: field index out of bounds" );
 		}
 		Value[] array = (Value[]) this.content;
 		return array[ index ];
 	}
 
-	public void aset( final Value key, final Value val )
+	public void aset( final Value key, final Value val, final Interpreter interpreter )
 	{
 		int index = ( (RecordType) this.type ).indexOf( key );
 		if ( index < 0 )
 		{
-			throw new ScriptException( "Internal error: field index out of bounds" );
+			throw interpreter.runtimeException( "Internal error: field index out of bounds" );
 		}
 
-		this.aset( index, val );
+		this.aset( index, val, interpreter );
 	}
 
-	public void aset( final int index, final Value val )
+	public void aset( final int index, final Value val, final Interpreter interpreter )
 	{
 		RecordType type = (RecordType) this.type;
 		int size = type.fieldCount();
 		if ( index < 0 || index >= size )
 		{
-			throw new ScriptException( "Internal error: field index out of bounds" );
+			throw interpreter.runtimeException( "Internal error: field index out of bounds" );
 		}
 
 		Value[] array = (Value[]) this.content;
@@ -130,17 +130,17 @@ public class RecordValue
 		}
 		else
 		{
-			throw new ScriptException(
+			throw interpreter.runtimeException(
 				"Internal error: Cannot assign " + val.getType() + " to " + array[ index ].getType() );
 		}
 	}
 
-	public Value remove( final Value key )
+	public Value remove( final Value key, final Interpreter interpreter )
 	{
 		int index = ( (RecordType) this.type ).indexOf( key );
 		if ( index < 0 )
 		{
-			throw new ScriptException( "Internal error: field index out of bounds" );
+			throw interpreter.runtimeException( "Internal error: field index out of bounds" );
 		}
 		Value[] array = (Value[]) this.content;
 		Value result = array[ index ];
@@ -181,7 +181,7 @@ public class RecordValue
 		int size = ( (RecordType) this.type ).getFieldTypes().length;
 		for ( int i = 0; i < size; ++i )
 		{
-			Value value = this.aref( i );
+			Value value = this.aref( i, null );
 			if ( i > 0 )
 			{
 				writer.print( "\t" );

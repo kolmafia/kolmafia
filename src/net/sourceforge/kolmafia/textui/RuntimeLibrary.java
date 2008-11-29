@@ -2732,7 +2732,7 @@ public abstract class RuntimeLibrary
 		int range = arg.intValue();
 		if ( range < 2 )
 		{
-			throw new ScriptException( "Random range must be at least 2" );
+			throw LibraryFunction.interpreter.runtimeException( "Random range must be at least 2" );
 		}
 		return new Value( KoLConstants.RNG.nextInt( range ) );
 	}
@@ -2759,7 +2759,12 @@ public abstract class RuntimeLibrary
 
 	public static Value square_root( final Value val )
 	{
-		return new Value( (float) Math.sqrt( val.floatValue() ) );
+		float value = val.floatValue();
+		if ( value < 0.0f )
+		{
+			throw LibraryFunction.interpreter.runtimeException( "Can't take square root of a negative value" );
+		}
+		return new Value( (float) Math.sqrt( value ) );
 	}
 
 	// Settings-type functions.

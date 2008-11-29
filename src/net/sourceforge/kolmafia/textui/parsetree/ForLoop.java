@@ -38,7 +38,7 @@ import java.io.PrintStream;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
-import net.sourceforge.kolmafia.textui.ScriptException;
+import net.sourceforge.kolmafia.textui.Parser;
 
 public class ForLoop
 	extends Loop
@@ -48,10 +48,12 @@ public class ForLoop
 	private final Value last;
 	private final Value increment;
 	private final int direction;
+	private final String fileName;
+	private final int lineNumber;
 
 	public ForLoop( final Scope scope, final VariableReference variable,
 		final Value initial, final Value last, final Value increment,
-		final int direction )
+		final int direction, final Parser parser )
 	{
 		super( scope );
 		this.variable = variable;
@@ -59,6 +61,8 @@ public class ForLoop
 		this.last = last;
 		this.increment = increment;
 		this.direction = direction;
+		this.fileName = parser.getShortFileName();
+		this.lineNumber = parser.getLineNumber();
 	}
 
 	public VariableReference getVariable()
@@ -88,6 +92,8 @@ public class ForLoop
 
 	public Value execute( final Interpreter interpreter )
 	{
+		interpreter.setLineAndFile( this.fileName, this.lineNumber );
+
 		if ( !KoLmafia.permitsContinue() )
 		{
 			interpreter.setState( Interpreter.STATE_EXIT );
@@ -167,7 +173,7 @@ public class ForLoop
 
 		if ( current != end && increment == 0 )
 		{
-			throw new ScriptException( "Start not equal to end and increment equals 0" );
+			throw interpreter.runtimeException( "Start not equal to end and increment equals 0" );
 		}
 
 		while ( up && current <= end || !up && current >= end )

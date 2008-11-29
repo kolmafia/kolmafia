@@ -37,6 +37,7 @@ import java.io.PrintStream;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.Parser;
 
 public class Expression
 	extends Value
@@ -45,15 +46,21 @@ public class Expression
 	Value rhs;
 	Operator oper;
 
+	// For runtime error messages
+	String fileName;
+	int lineNumber;
+
 	public Expression()
 	{
 	}
 
-	public Expression( final Value lhs, final Value rhs, final Operator oper )
+	public Expression( final Value lhs, final Value rhs, final Operator oper, final Parser parser )
 	{
 		this.lhs = lhs;
 		this.rhs = rhs;
 		this.oper = oper;
+		this.fileName = parser.getShortFileName();
+		this.lineNumber = parser.getLineNumber();
 	}
 
 	public Type getType()
@@ -107,6 +114,7 @@ public class Expression
 
 	public Value execute( final Interpreter interpreter )
 	{
+		interpreter.setLineAndFile( this.fileName, this.lineNumber );
 		return this.oper.applyTo( interpreter, this.lhs, this.rhs );
 	}
 
