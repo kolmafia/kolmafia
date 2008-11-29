@@ -445,6 +445,7 @@ Knob Goblin melon baller	Spell Damage: +8
 Knob Goblin scimitar	Muscle: +1
 Knob Goblin spatula	Spell Damage: +4
 Knob Goblin tongs	Spell Damage: +2
+KoL Con Cinco Pi&ntilde;ata Bat	Maximum HP: +10, Maximum MP: +10, HP Regen Min: 1, HP Regen Max: 3, MP Regen Min: 1, MP Regen Max: 3
 Mace of the Tortoise	Muscle: +7, Class: "Turtle Tamer"
 Mafia violin case	Muscle: +20, Weapon Damage: +30
 Maxwell's Silver Hammer	Mysticality: +10, Weapon Damage: +10

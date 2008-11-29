@@ -367,7 +367,9 @@ perpendicular hula	7	strawberry daiquiri	magical ice cubes
 calle de miel	7	margarita	magical ice cubes
 
 bungle in the jungle	7	banana daiquiri	little paper umbrella
-
+berry-infused sake	7	bottle of Pete's Sake	sea lychee
+citrus-infused sake	7	bottle of Pete's Sake	sea tangelo
+melon-infused sake	7	bottle of Pete's Sake	sea honeydew
 
 # Beverages which can be made by Superhuman Cocktailcrafting
 
