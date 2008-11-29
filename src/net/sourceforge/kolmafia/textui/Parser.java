@@ -92,6 +92,7 @@ public class Parser
 	// Variables used during parsing
 
 	private String fileName;
+	private String shortFileName;
 	private InputStream istream;
 
 	private LineNumberReader commandStream;
@@ -117,16 +118,19 @@ public class Parser
 		if ( scriptFile != null )
 		{
 			this.fileName = scriptFile.getPath();
+			this.shortFileName = this.fileName.substring( this.fileName.lastIndexOf( File.separator ) + 1 );
 			this.istream = DataUtilities.getInputStream( scriptFile );
 		}
 		else if ( stream != null )
 		{
 			this.fileName = null;
+			this.shortFileName = null;
 			this.istream = stream;
 		}
 		else
 		{
 			this.fileName = null;
+			this.shortFileName = null;
 			this.istream = null;
 			return;
 		}
@@ -185,6 +189,16 @@ public class Parser
 		return this.fileName;
 	}
 
+	public String getShortFileName()
+	{
+		return this.shortFileName;
+	}
+
+	public int getLineNumber()
+	{
+		return this.lineNumber;
+	}
+
 	public TreeMap getImports()
 	{
 		return this.imports;
@@ -210,11 +224,6 @@ public class Parser
 	public static final char[] tokenList =
 		{ ' ', '.', ',', '{', '}', '(', ')', '$', '!', '+', '-', '=', '"', '\'', '*', '^', '/', '%', '[', ']', '!', ';', '<', '>' };
 	public static final String[] multiCharTokenList = { "==", "!=", "<=", ">=", "||", "&&", "/*", "*/" };
-
-	// Feature control;
-	// disabled until and if we choose to document the feature
-
-	private static final boolean arrays = false;
 
 	private static final ArrayList reservedWords = new ArrayList();
 
@@ -912,7 +921,7 @@ public class Parser
 			throw this.parseException( "Missing index token" );
 		}
 
-		if ( Parser.arrays && this.readIntegerToken( this.currentToken() ) )
+		if ( this.readIntegerToken( this.currentToken() ) )
 		{
 			int size = StringUtilities.parseInt( this.currentToken() );
 			this.readToken(); // integer
@@ -1455,7 +1464,7 @@ public class Parser
 
 		Scope scope = this.parseLoopScope( functionType, varList, parentScope );
 
-		return new ForLoop( scope, new VariableReference( indexvar ), initial, last, increment, direction );
+		return new ForLoop( scope, new VariableReference( indexvar ), initial, last, increment, direction, this );
 	}
 
 	private Scope parseLoopScope( final Type functionType, final VariableList varList,
@@ -1634,7 +1643,7 @@ public class Parser
 		{
 			throw this.parseException( "Undefined reference to function '" + name + "'" );
 		}
-		FunctionCall call = new FunctionCall( target, params );
+		FunctionCall call = new FunctionCall( target, params, this );
 		Value result = call;
 		while ( result != null && this.currentToken() != null && this.currentToken().equals( "." ) )
 		{
@@ -1898,7 +1907,7 @@ public class Parser
 				throw this.parseException( "Value expected" );
 			}
 
-			lhs = new Expression( lhs, null, new Operator( operator ) );
+			lhs = new Expression( lhs, null, new Operator( operator ), this );
 			if ( lhs.getType() != DataTypes.BOOLEAN_TYPE )
 			{
 				throw this.parseException( "\"!\" operator requires a boolean value" );
@@ -1920,7 +1929,7 @@ public class Parser
 				throw this.parseException( "Value expected" );
 			}
 
-			lhs = new Expression( lhs, null, new Operator( operator ) );
+			lhs = new Expression( lhs, null, new Operator( operator ), this );
 		}
 		else if ( this.currentToken().equals( "remove" ) )
 		{
@@ -1933,7 +1942,7 @@ public class Parser
 				throw this.parseException( "Aggregate reference expected" );
 			}
 
-			lhs = new Expression( lhs, null, new Operator( operator ) );
+			lhs = new Expression( lhs, null, new Operator( operator ), this );
 		}
 		else if ( ( lhs = this.parseValue( scope ) ) == null )
 		{
@@ -1967,7 +1976,7 @@ public class Parser
 					"Cannot apply operator " + oper + " to " + lhs + " (" + lhs.getType() + ") and " + rhs + " (" + rhs.getType() + ")" );
 			}
 
-			lhs = new Expression( lhs, rhs, oper );
+			lhs = new Expression( lhs, rhs, oper, this );
 		}
 		while ( true );
 	}
@@ -2369,8 +2378,7 @@ public class Parser
 				if ( this.nextToken().equals( "(" ) )
 				{
 					return this.parseCall(
-						scope, indices.isEmpty() ? new VariableReference( var ) : new CompositeReference(
-							var, indices ) );
+						scope, indices.isEmpty() ? new VariableReference( var ) : new CompositeReference( var, indices, this ) );
 				}
 
 				if ( !( type instanceof RecordType ) )
@@ -2412,7 +2420,7 @@ public class Parser
 			throw this.parseException( this.currentToken(), "]" );
 		}
 
-		return new CompositeReference( var, indices );
+		return new CompositeReference( var, indices, this );
 	}
 
 	private String parseDirective( final String directive )
@@ -2789,13 +2797,17 @@ public class Parser
 
 	private final String getLineAndFile()
 	{
-		if ( this.fileName == null )
+		return Parser.getLineAndFile( this.shortFileName, this.lineNumber );
+	}
+
+	public static final String getLineAndFile( final String fileName, final int lineNumber )
+	{
+		if ( fileName == null )
 		{
 			return "(" + Preferences.getString( "commandLineNamespace" ) + ")";
 		}
 
-		String partialName = this.fileName.substring( this.fileName.lastIndexOf( File.separator ) + 1 );
-		return "(" + partialName + ", line " + this.lineNumber + ")";
+		return "(" + fileName + ", line " + lineNumber + ")";
 	}
 
 	public static void printIndices( final ValueList indices, final PrintStream stream, final int indent )

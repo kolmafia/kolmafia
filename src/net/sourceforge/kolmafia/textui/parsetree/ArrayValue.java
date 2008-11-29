@@ -34,7 +34,7 @@
 package net.sourceforge.kolmafia.textui.parsetree;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
-import net.sourceforge.kolmafia.textui.ScriptException;
+import net.sourceforge.kolmafia.textui.Interpreter;
 
 public class ArrayValue
 	extends AggregateValue
@@ -53,24 +53,24 @@ public class ArrayValue
 		this.content = content;
 	}
 
-	public Value aref( final Value key )
+	public Value aref( final Value key, final Interpreter interpreter )
 	{
 		Value[] array = (Value[]) this.content;
 		int index = key.intValue();
 		if ( index < 0 || index >= array.length )
 		{
-			throw new ScriptException( "Array index out of bounds" );
+			throw interpreter.runtimeException( "Array index out of bounds" );
 		}
 		return array[ index ];
 	}
 
-	public void aset( final Value key, final Value val )
+	public void aset( final Value key, final Value val, final Interpreter interpreter )
 	{
 		Value[] array = (Value[]) this.content;
 		int index = key.intValue();
 		if ( index < 0 || index >= array.length )
 		{
-			throw new ScriptException( "Array index out of bounds" );
+			throw interpreter.runtimeException( "Array index out of bounds" );
 		}
 
 		if ( array[ index ].getType().equals( val.getType() ) )
@@ -93,18 +93,18 @@ public class ArrayValue
 		}
 		else
 		{
-			throw new ScriptException(
+			throw interpreter.runtimeException(
 				"Internal error: Cannot assign " + val.getType() + " to " + array[ index ].getType() );
 		}
 	}
 
-	public Value remove( final Value key )
+	public Value remove( final Value key, final Interpreter interpreter )
 	{
 		Value[] array = (Value[]) this.content;
 		int index = key.intValue();
 		if ( index < 0 || index >= array.length )
 		{
-			throw new ScriptException( "Array index out of bounds" );
+			throw interpreter.runtimeException( "Array index out of bounds" );
 		}
 		Value result = array[ index ];
 		array[ index ] = this.getDataType().initialValue();

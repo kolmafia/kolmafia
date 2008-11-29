@@ -40,18 +40,22 @@ import java.util.Iterator;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
-import net.sourceforge.kolmafia.textui.ScriptException;
+import net.sourceforge.kolmafia.textui.Parser;
 
 public class FunctionCall
 	extends Value
 {
 	private final Function target;
 	private final ValueList params;
+	private final String fileName;
+	private final int lineNumber;
 
-	public FunctionCall( final Function target, final ValueList params )
+	public FunctionCall( final Function target, final ValueList params, final Parser parser )
 	{
 		this.target = target;
 		this.params = params;
+		this.fileName = parser.getShortFileName();
+		this.lineNumber = parser.getLineNumber();
 	}
 
 	public Function getTarget()
@@ -71,6 +75,8 @@ public class FunctionCall
 
 	public Value execute( final Interpreter interpreter )
 	{
+		interpreter.setLineAndFile( this.fileName, this.lineNumber );
+
 		if ( !KoLmafia.permitsContinue() )
 		{
 			interpreter.setState( Interpreter.STATE_EXIT );
@@ -98,7 +104,7 @@ public class FunctionCall
 			if ( !valIterator.hasNext() )
 			{
 				this.target.restoreBindings( interpreter );
-				throw new ScriptException( "Internal error: illegal arguments" );
+				throw interpreter.runtimeException( "Internal error: illegal arguments" );
 			}
 
 			paramValue = (Value) valIterator.next();
@@ -145,7 +151,7 @@ public class FunctionCall
 		if ( valIterator.hasNext() )
 		{
 			this.target.restoreBindings( interpreter );
-			throw new ScriptException( "Internal error: illegal arguments" );
+			throw interpreter.runtimeException( "Internal error: illegal arguments" );
 		}
 
 		interpreter.trace( "Entering function " + this.target.getName() );

@@ -49,6 +49,7 @@ public class LibraryFunction
 	private Method method;
 	private final String description;
 	private final Value[] values;
+	public static Interpreter interpreter;
 
 	public LibraryFunction( final String name, final Type type, final Type[] params )
 	{
@@ -99,7 +100,7 @@ public class LibraryFunction
 
 		if ( this.method == null )
 		{
-			throw new ScriptException( "Internal error: no method for " + this.getName() );
+			throw interpreter.runtimeException( "Internal error: no method for " + this.getName() );
 		}
 
 		// Dereference variables and pass ScriptValues to function
@@ -114,7 +115,10 @@ public class LibraryFunction
 		try
 		{
 			// Invoke the method
-			return (Value) this.method.invoke( this, this.values );
+			LibraryFunction.interpreter = interpreter;
+			Value value = (Value) this.method.invoke( this, this.values );
+			LibraryFunction.interpreter = null;
+			return value;
 		}
 		catch ( InvocationTargetException e )
 		{

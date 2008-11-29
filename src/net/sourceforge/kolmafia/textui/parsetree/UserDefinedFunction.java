@@ -41,7 +41,6 @@ import java.util.Stack;
 
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.textui.Interpreter;
-import net.sourceforge.kolmafia.textui.ScriptException;
 
 public class UserDefinedFunction
 	extends Function
@@ -120,7 +119,7 @@ public class UserDefinedFunction
 
 		if ( this.scope == null )
 		{
-			throw new ScriptException( "Calling undefined user function: " + this.getName() );
+			throw interpreter.runtimeException( "Calling undefined user function: " + this.getName() );
 		}
 
 		Value result = this.scope.execute( interpreter );
