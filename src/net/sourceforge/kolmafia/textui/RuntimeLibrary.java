@@ -1977,6 +1977,19 @@ public abstract class RuntimeLibrary
 			return new Value( KoLCharacter.getBaseMoxie() );
 		}
 
+		if ( stat == KoLConstants.MUSCLE + 3 )
+		{
+			return new Value( KoLCharacter.getTotalMuscle() );
+		}
+		if ( stat == KoLConstants.MYSTICALITY + 3 )
+		{
+			return new Value( KoLCharacter.getTotalMysticality() );
+		}
+		if ( stat == KoLConstants.MOXIE + 3 )
+		{
+			return new Value( KoLCharacter.getTotalMoxie() );
+		}
+
 		return DataTypes.ZERO_VALUE;
 	}
 

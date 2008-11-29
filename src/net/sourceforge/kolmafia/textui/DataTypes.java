@@ -125,14 +125,18 @@ public class DataTypes
 	// Common values
 
 	public static final String[] BOOLEANS = { "true", "false" };
-	public static final String[] STATS = { "Muscle", "Mysticality", "Moxie" };
+	public static final String[] STATS = { "Muscle", "Mysticality", "Moxie",
+		"SubMuscle", "SubMysticality", "SubMoxie" };
 
-        public static final Value[] STAT_VALUES =
-        {
-                new Value( DataTypes.STAT_TYPE, KoLConstants.MUSCLE, DataTypes.STATS[ 0 ] ),
-                new Value( DataTypes.STAT_TYPE, KoLConstants.MYSTICALITY, DataTypes.STATS[ 1 ] ),
-                new Value( DataTypes.STAT_TYPE, KoLConstants.MOXIE, DataTypes.STATS[ 2 ] ),
-        };
+	public static final Value[] STAT_VALUES =
+	{
+		new Value( DataTypes.STAT_TYPE, KoLConstants.MUSCLE, DataTypes.STATS[ 0 ] ),
+		new Value( DataTypes.STAT_TYPE, KoLConstants.MYSTICALITY, DataTypes.STATS[ 1 ] ),
+		new Value( DataTypes.STAT_TYPE, KoLConstants.MOXIE, DataTypes.STATS[ 2 ] ),
+		new Value( DataTypes.STAT_TYPE, KoLConstants.MUSCLE + 3, DataTypes.STATS[ 3 ] ),
+		new Value( DataTypes.STAT_TYPE, KoLConstants.MYSTICALITY + 3, DataTypes.STATS[ 4 ] ),
+		new Value( DataTypes.STAT_TYPE, KoLConstants.MOXIE + 3, DataTypes.STATS[ 5 ] ),
+	};
 
 	public static final Value VOID_VALUE = new Value();
 	public static final Value TRUE_VALUE = new Value( true );

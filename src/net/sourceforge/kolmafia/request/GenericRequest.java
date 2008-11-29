@@ -1557,10 +1557,11 @@ public class GenericRequest
 		}
 
 		if ( this.formURLString.startsWith( "mall.php" ) ||
-			this.formURLString.startsWith( "searchmall.php" ) )
+			this.formURLString.startsWith( "searchmall.php" ) ||
+			this.formURLString.startsWith( "account.php" ) )
 		{
 			// These pages cannot possibly contain an actual item drop, but may have
-			// a bogus "You acquire an item:" as part of a store name.
+			// a bogus "You acquire an item:" as part of a store name or profile quote.
 			this.containsUpdate = false;
 		}
 		else if ( this.formURLString.startsWith( "mallstore.php" ) )
