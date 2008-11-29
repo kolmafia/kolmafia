@@ -13,6 +13,7 @@ around the world	4	4	10-14	0-30	0-30	0-30
 banana daiquiri	3	3	6-10	10-26	10-26	17-43
 # bathtub jimmy's gin mill	5	1	40-60	0	0	600-879
 beertini	3	2	4-8	0	10-12	10-12
+berry-infused sake	4	7	14-17	0	0	75-120
 bilge wine	3	1	3-6	0	0	0
 black & tan	2	7	6-7	10-12	10-12	10-12
 blackfly chardonnay	3	7	5-6	0	0	25-45
@@ -48,6 +49,7 @@ calle de miel	4	4	10-14	8-10	0	25-27
 can of swiller	1	10	2-4	10-15	0	0
 candycaine	4	1	7-10	8-9	8-9	8-9
 cherry bomb	6	6	22-26	0	16-20	0
+citrus-infused sake	4	7	14-17	75-120	0	0
 cool mushroom wine	3	6	10-14	0	8-10	0
 corpse island iced tea	6	5	19-25	25-30	25-30	25-30
 corpse on the beach	6	5	19-25	0	71-75	0
@@ -121,6 +123,7 @@ mandarina colada	4	6	14-18	0	16-20	25-27
 margarita	3	1	5-6	8-10	0	0
 martini	3	1	5-6	0	0	8-10
 mcmillicancuddy's special lager	1	10	2-4	10-15	10-15	10-15
+melon-infused sake	4	7	14-17	0	75-120	0
 melted jell-o shot	1	10	2-4	0-40	0-40	0-40
 mimosette	3	3	5-10	16-20	0	0
 mon tiki	4	6	14-18	40-47	0	0

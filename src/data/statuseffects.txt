@@ -545,6 +545,7 @@
 544	Cholestoriffic	hob-o.gif	13f479e8387e527aaeb7d95f087d6dfd	use 1 fry-oil-flavored Hob-O
 545	Refuse Reflux	hob-o.gif	3d5c6b7bd5ab7dc8dc4efc85f8d20548	use 1 garbage-juice-flavored Hob-O
 546	Scariberi	hob-o.gif	20d098090ca8f63f8243f081d3e085e6	use 1 strawberry-flavored Hob-O
+547
 548	Haiku State of Mind	nopic2.gif	
 549	Fishy	fish.gif	17c22c50b2943cf6162d2c001e01cad3
 550	Cranberry Cordiality	cran.gif	f3f908946ea0a80e40d92e7db920e77d	use 1 cranberry cordial
@@ -556,3 +557,7 @@
 556	Warm Belly	stomach.gif	78f695c8688a47aa520f24f0108ff573	drink 1 bottle of Pete's Sake
 557	Fishbreath	breath.gif	ddc1e7f70dcc1442f42c5720c9196c12	use 1 bazookafish bubble gum
 558	Salty Dogs	feet.gif	10d0d4b9af1a2982ced17d627f2b3e43	use 1 sea salt crystal
+559
+560	It's Electric!	electric.gif	769be7a70eab7e99640316f78c7d7c33	use 1 eel battery
+561	Crocodile Tear	raindrop.gif	1244fd2f71f838ce95600e79cec2177c	use 1 temporary teardrop tattoo
+562	Swimming with Sharks	sharkfin.gif	a56c246742def1df7013e3941f14a3f0	use 1 shark cartilage

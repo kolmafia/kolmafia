@@ -243,6 +243,12 @@ sandwich of the gods	5	12	32-38	50-89	63-95	63-83
 sausage pizza	3	2	3-10	15-18	0	0
 sausage wonton	3	12	12-18	50-80	20-30	20-30
 savoy truffle	2	9	6-7	15-20	15-20	15-20
+sea avocado	1	2	2-3	0	0	27
+sea carrot	1	2	2-3	0	26	0
+sea cucumber	1	2	2-3	29	0	0
+sea honeydew	1	2	2-3	0	28	0
+sea lychee	1	2	2-3	0	0	37
+sea tangelo	1	2	2-3	16	0	0
 shoots and leaves	4	1	6-10	7-8	7-8	7-8
 single-serving herbal stuffing	4	1	12-16	0	0	32-35
 # sizzling weasel on a stick	5	1	60-80	0	0	220-400
