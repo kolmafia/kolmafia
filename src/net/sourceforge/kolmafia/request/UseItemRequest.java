@@ -262,13 +262,15 @@ public class UseItemRequest
 
 		switch ( itemId )
 		{
+		case ItemPool.TOASTER:
+			return 3;
+
 		case ItemPool.CHEF:
 		case ItemPool.CLOCKWORK_CHEF:
 		case ItemPool.BARTENDER:
 		case ItemPool.CLOCKWORK_BARTENDER:
 		case ItemPool.MAID:
 		case ItemPool.CLOCKWORK_MAID:
-		case ItemPool.TOASTER:
 			return 1;
 
 		case ItemPool.ANCIENT_CURSED_FOOTLOCKER:
@@ -1573,10 +1575,6 @@ public class UseItemRequest
 			(new CampgroundRequest()).run();
 			return;
 
-		case ItemPool.TOASTER:
-			KoLCharacter.setToaster( true );
-			return;
-
 		case ItemPool.SNOWCONE_BOOK:
 		case ItemPool.HILARIOUS_BOOK:
 		case ItemPool.TASTEFUL_BOOK:
@@ -2081,6 +2079,7 @@ public class UseItemRequest
 		case ItemPool.BAG_OF_CANDY:
 		case ItemPool.EMBLEM_AKGYXOTH:
 		case ItemPool.IDOL_AKGYXOTH:
+		case ItemPool.TOASTER:
 
 			// Certain pieces of equipment can also be "used" and
 			// are not consumed.

@@ -33,13 +33,15 @@ public class BreakfastManager
 		ItemPool.get( ItemPool.IDOL_AKGYXOTH, 1 ),
 	};
 
+	private static final AdventureResult toaster = ItemPool.get( ItemPool.TOASTER, 1 );
+
 	public static void getBreakfast( final boolean checkSettings, final boolean runComplete )
 	{
 		SpecialOutfit.createImplicitCheckpoint();
 
 		if ( runComplete )
 		{
-			checkCampground();
+			checkToaster();
 			checkRumpusRoom();
 			readGuildManual();
 			useCrimboToys();
@@ -53,13 +55,13 @@ public class BreakfastManager
 		KoLmafia.forceContinue();
 	}
 
-	public static void checkCampground()
+	public static void checkToaster()
 	{
-		if ( KoLCharacter.hasToaster() )
+		if ( InventoryManager.hasItem( toaster ) )
 		{
 			for ( int i = 0; i < 3 && KoLmafia.permitsContinue(); ++i )
 			{
-				RequestThread.postRequest( new CampgroundRequest( "toast" ) );
+				RequestThread.postRequest( new UseItemRequest( toaster ) );
 			}
 
 			KoLmafia.forceContinue();

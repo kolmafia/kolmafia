@@ -271,7 +271,6 @@ public abstract class KoLCharacter
 
 	// Campground information
 
-	private static boolean hasToaster = false;
 	private static boolean hasChef = false;
 	private static boolean hasBartender = false;
 	private static boolean hasBookshelf = false;
@@ -370,7 +369,6 @@ public abstract class KoLCharacter
 		KoLCharacter.hasDisplayCase = false;
 		KoLCharacter.hasClan = false;
 
-		KoLCharacter.hasToaster = false;
 		KoLCharacter.hasChef = false;
 		KoLCharacter.hasBartender = false;
 		KoLCharacter.hasBookshelf = false;
@@ -1512,28 +1510,6 @@ public abstract class KoLCharacter
 	public static final void setClan( final boolean hasClan )
 	{
 		KoLCharacter.hasClan = hasClan;
-	}
-
-	/**
-	 * Accessor method which indicates whether or not the character has a toaster
-	 *
-	 * @return <code>true</code> if the character has a toaster
-	 */
-
-	public static final boolean hasToaster()
-	{
-		return KoLCharacter.hasToaster;
-	}
-
-	/**
-	 * Accessor method to indicate a change in state of the toaster.
-	 *
-	 * @param hasToaster Whether or not the character currently has a toaster
-	 */
-
-	public static final void setToaster( final boolean hasToaster )
-	{
-		KoLCharacter.hasToaster = hasToaster;
 	}
 
 	/**
