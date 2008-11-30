@@ -92,8 +92,6 @@ public class ForLoop
 
 	public Value execute( final Interpreter interpreter )
 	{
-		interpreter.setLineAndFile( this.fileName, this.lineNumber );
-
 		if ( !KoLmafia.permitsContinue() )
 		{
 			interpreter.setState( Interpreter.STATE_EXIT );
@@ -173,7 +171,7 @@ public class ForLoop
 
 		if ( current != end && increment == 0 )
 		{
-			throw interpreter.runtimeException( "Start not equal to end and increment equals 0" );
+			throw interpreter.runtimeException( "Start not equal to end and increment equals 0", this.fileName, this.lineNumber );
 		}
 
 		while ( up && current <= end || !up && current >= end )

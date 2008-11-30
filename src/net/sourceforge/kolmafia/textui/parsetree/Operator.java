@@ -44,9 +44,15 @@ public class Operator
 {
 	String operator;
 
-	public Operator( final String operator )
+	// For runtime error messages
+	String fileName;
+	int lineNumber;
+
+	public Operator( final String operator, final Parser parser )
 	{
 		this.operator = operator;
+		this.fileName = parser.getShortFileName();
+		this.lineNumber = parser.getLineNumber();
 	}
 
 	public boolean equals( final String op )
@@ -167,7 +173,7 @@ public class Operator
 			}
 			else
 			{
-				throw interpreter.runtimeException( "Internal error: Unary minus can only be applied to numbers" );
+				throw Interpreter.runtimeException( "Internal error: Unary minus can only be applied to numbers", this.fileName, this.lineNumber );
 			}
 			interpreter.trace( "<- " + result );
 			interpreter.traceUnindent();
@@ -177,7 +183,7 @@ public class Operator
 		// Unknown operator
 		if ( rhs == null )
 		{
-			throw interpreter.runtimeException( "Internal error: missing right operand." );
+			throw interpreter.runtimeException( "Internal error: missing right operand.", this.fileName, this.lineNumber );
 		}
 
 		// Binary operators with optional right values
@@ -240,7 +246,7 @@ public class Operator
 		// Ensure type compatibility of operands
 		if ( !Parser.validCoercion( lhs.getType(), rhs.getType(), this.operator ) )
 		{
-			throw interpreter.runtimeException( "Internal error: left hand side and right hand side do not correspond" );
+			throw interpreter.runtimeException( "Internal error: left hand side and right hand side do not correspond", this.fileName, this.lineNumber );
 		}
 
 		// Special binary operator: <aggref> contains <any>
@@ -381,7 +387,7 @@ public class Operator
 			float right = isInt ? (float) rint : rfloat;
 			if ( right == 0.0f )
 			{
-				throw interpreter.runtimeException( "Division by zero" );
+				throw interpreter.runtimeException( "Division by zero", this.fileName, this.lineNumber );
 			}
 			Value result = new Value( left / right );
 			interpreter.trace( "<- " + result );
@@ -395,7 +401,7 @@ public class Operator
 			float right = isInt ? (float) rint : rfloat;
 			if ( right == 0.0f )
 			{
-				throw interpreter.runtimeException( "Mod by zero" );
+				throw interpreter.runtimeException( "Mod by zero", this.fileName, this.lineNumber );
 			}
 			Value result = new Value( left % right );
 			interpreter.trace( "<- " + result );
@@ -452,7 +458,7 @@ public class Operator
 		}
 
 		// Unknown operator
-		throw interpreter.runtimeException( "Internal error: illegal operator \"" + this.operator + "\"" );
+		throw interpreter.runtimeException( "Internal error: illegal operator \"" + this.operator + "\"", this.fileName, this.lineNumber );
 	}
 
 	public Value execute( final Interpreter interpreter )

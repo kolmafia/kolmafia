@@ -125,11 +125,6 @@ public class Interpreter
 		this.lineNumber = lineNumber;
 	}
 
-	public final String getLineAndFile()
-	{
-		return Parser.getLineAndFile( this.fileName, this.lineNumber );
-	}
-
 	private static final String indentation = " " + " " + " ";
 	public static final void indentLine( final PrintStream stream, final int indent )
 	{
@@ -400,6 +395,11 @@ public class Interpreter
 
 	public final ScriptException runtimeException( final String message )
 	{
-		return new ScriptException( message + " " + this.getLineAndFile() );
+		return Interpreter.runtimeException( message, this.fileName, this.lineNumber );
+	}
+
+	public static final ScriptException runtimeException( final String message, final String fileName, final int lineNumber )
+	{
+		return new ScriptException( message + " " + Parser.getLineAndFile( fileName, lineNumber ) );
 	}
 }

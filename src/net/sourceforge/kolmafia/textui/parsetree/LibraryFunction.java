@@ -116,9 +116,7 @@ public class LibraryFunction
 		{
 			// Invoke the method
 			LibraryFunction.interpreter = interpreter;
-			Value value = (Value) this.method.invoke( this, this.values );
-			LibraryFunction.interpreter = null;
-			return value;
+			return (Value) this.method.invoke( this, this.values );
 		}
 		catch ( InvocationTargetException e )
 		{
@@ -137,6 +135,10 @@ public class LibraryFunction
 		{
 			// This is not expected, but is an internal error in ASH
 			throw new ScriptException( e );
+		}
+		finally
+		{
+			LibraryFunction.interpreter = null;
 		}
 	}
 }
