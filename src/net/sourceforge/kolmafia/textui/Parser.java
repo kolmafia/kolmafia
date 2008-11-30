@@ -1907,7 +1907,7 @@ public class Parser
 				throw this.parseException( "Value expected" );
 			}
 
-			lhs = new Expression( lhs, null, new Operator( operator ), this );
+			lhs = new Expression( lhs, null, new Operator( operator, this ) );
 			if ( lhs.getType() != DataTypes.BOOLEAN_TYPE )
 			{
 				throw this.parseException( "\"!\" operator requires a boolean value" );
@@ -1929,7 +1929,7 @@ public class Parser
 				throw this.parseException( "Value expected" );
 			}
 
-			lhs = new Expression( lhs, null, new Operator( operator ), this );
+			lhs = new Expression( lhs, null, new Operator( operator, this ) );
 		}
 		else if ( this.currentToken().equals( "remove" ) )
 		{
@@ -1942,7 +1942,7 @@ public class Parser
 				throw this.parseException( "Aggregate reference expected" );
 			}
 
-			lhs = new Expression( lhs, null, new Operator( operator ), this );
+			lhs = new Expression( lhs, null, new Operator( operator, this ) );
 		}
 		else if ( ( lhs = this.parseValue( scope ) ) == null )
 		{
@@ -1976,7 +1976,7 @@ public class Parser
 					"Cannot apply operator " + oper + " to " + lhs + " (" + lhs.getType() + ") and " + rhs + " (" + rhs.getType() + ")" );
 			}
 
-			lhs = new Expression( lhs, rhs, oper, this );
+			lhs = new Expression( lhs, rhs, oper );
 		}
 		while ( true );
 	}
@@ -2273,7 +2273,7 @@ public class Parser
 			return null;
 		}
 
-		return new Operator( oper );
+		return new Operator( oper, this );
 	}
 
 	private boolean isOperator( final String oper )
