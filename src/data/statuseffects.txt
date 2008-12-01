@@ -561,3 +561,18 @@
 560	It's Electric!	electric.gif	769be7a70eab7e99640316f78c7d7c33	use 1 eel battery
 561	Crocodile Tear	raindrop.gif	1244fd2f71f838ce95600e79cec2177c	use 1 temporary teardrop tattoo
 562	Swimming with Sharks	sharkfin.gif	a56c246742def1df7013e3941f14a3f0	use 1 shark cartilage
+563
+564
+565
+566
+567
+568
+569
+570
+571
+572
+573
+574
+575	Sweet and Yellow		942780e5b1c9e30d3ec506b2835f8951	use one sugar banana
+576	Sweet and Green		4b1ee51d04f250ffe112377e889e0059	use one sugar lime
+577	Sweet and Red		8d6bb82952a477356a26c91b5642a51d	use one sugar cherry
