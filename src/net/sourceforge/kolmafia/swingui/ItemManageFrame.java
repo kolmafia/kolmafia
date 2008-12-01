@@ -65,6 +65,7 @@ import net.sourceforge.kolmafia.swingui.panel.InventoryPanel;
 import net.sourceforge.kolmafia.swingui.panel.ItemManagePanel;
 import net.sourceforge.kolmafia.swingui.panel.LabeledPanel;
 import net.sourceforge.kolmafia.swingui.panel.OverlapPanel;
+import net.sourceforge.kolmafia.swingui.panel.PulverizePanel;
 import net.sourceforge.kolmafia.swingui.panel.RestorativeItemPanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightSpinner;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
@@ -178,6 +179,7 @@ public class ItemManageFrame
 		selectorPanel.addPanel( "Equipment", new InventoryPanel( KoLConstants.inventory, true ) );
 		selectorPanel.addPanel( " - Storage", new HagnkStoragePanel( true ) );
 		selectorPanel.addPanel( " - Create", new CreateItemPanel( false, false, true, false ) );
+		selectorPanel.addPanel( " - Pulverize", new PulverizePanel() );
 
 		// Now a special panel which does nothing more than list
 		// some common actions and some descriptions.

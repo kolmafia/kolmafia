@@ -1,0 +1,146 @@
+1
+# Data provided courtesy of the Garden of Earthly Delights
+# The Well-Tempered Anvil: http://www.feesher.com/anvil/export_data.php
+
+# Format: <item><tab><result>
+# <result> can be any of:
+#	an item name - for items that don't smash into powders/nuggets wads as usual.
+#	nosmash - for items that can't be smashed at all
+# 	TBD: a way of specifying nonstandard yields and elements, if that is needed.
+
+# Ultra-rare items smash into ultimate wads.
+17-ball	ultimate wad
+Counterclockwise Watch	ultimate wad
+crazy bastard sword	ultimate wad
+Dallas Dynasty Falcon Crest shield	ultimate wad
+hockey stick of furious angry rage	ultimate wad
+hypnodisk	ultimate wad
+incredibly dense meat gem	ultimate wad
+Talisman of Baio	ultimate wad
+Talisman of Bakula	ultimate wad
+
+# Antique Arms & Armor got nerfed.
+antique greaves	useless powder
+antique helmet	useless powder
+antique shield	useless powder
+antique spear	useless powder
+
+# Equipment made entirely out of items from NPC stores smash to useless powder.
+# Note that the NPC-buyable items themselves don't need to be listed here, they
+# are automatically considered to smash to useless powder.
+Gnollish autoplunger	useless powder
+
+# Hobopolis boss loot pulverizes into epic wads.
+Chester's Aquarius medallion	epic wad
+Chester's bag of candy	epic wad
+Chester's cutoffs	epic wad
+Chester's moustache	epic wad
+Chester's muscle shirt	epic wad
+Chester's sunglasses	epic wad
+Frosty's arm	epic wad
+Frosty's carrot	epic wad
+Frosty's nailbat	epic wad
+Frosty's old silk hat	epic wad
+Frosty's snowball sack	epic wad
+Hodgman's almanac	epic wad
+Hodgman's bow tie	epic wad
+Hodgman's cane	epic wad
+hodgman's disgusting technicolor overcoat	epic wad
+Hodgman's garbage sticker	epic wad
+Hodgman's harmonica	epic wad
+hodgman's imaginary hamster	epic wad
+Hodgman's lobsterskin pants	epic wad
+Hodgman's lucky sock	epic wad
+Hodgman's metal detector	epic wad
+Hodgman's porkpie hat	epic wad
+Hodgman's varcolac paw	epic wad
+hodgman's whackin' stick	epic wad
+Ol' Scratch's ash can	epic wad
+Ol' Scratch's infernal pitchfork	epic wad
+Ol' Scratch's manacles	epic wad
+Ol' Scratch's ol' britches	epic wad
+Ol' Scratch's stove door	epic wad
+Ol' Scratch's stovepipe hat	epic wad
+Oscus's dumpster waders	epic wad
+Oscus's flypaper pants	epic wad
+Oscus's garbage can lid	epic wad
+Oscus's pelt	epic wad
+Wand of Oscus	epic wad
+Zombo's grievous greaves	epic wad
+Zombo's shield	epic wad
+Zombo's shoulder blade	epic wad
+Zombo's skull ring	epic wad
+Zombo's skullcap	epic wad
+
+# Starting equipment is useless.
+helmet turtle	useless powder
+pasta spoon	useless powder
+saucepan	useless powder
+seal-clubbing club	useless powder
+stolen accordion	useless powder
+disco ball	useless powder
+ravioli hat	useless powder
+disco mask	useless powder
+mariachi pants	useless powder
+seal-skull helmet	useless powder
+
+# Unenchanted equipment is useless.
+Wand of Nagamar	useless powder
+hemp string	useless powder
+chisel	useless powder
+
+# Anniversary items do not appear in the Pulverize menu online, however they
+# can be smashed by direct form submission - presumably a bug, prevent that.
+anniversary chutney sculpture	nosmash
+spandex anniversary shorts	nosmash
+jar of anniversary jam	nosmash
+bucket of anniversary lard	nosmash
+anniversary concrete fedora	nosmash
+
+# Miscellaneous exceptions.
+tiny plastic sword	nosmash
+wad of Crovacite	wad of Crovacite
+Emblem of Ak'gyxoth	nosmash
+
+# Some equipment from The Sea has special results.
+fish scimitar	sea salt crystal
+fish stick	sea salt crystal
+fish bazooka	sea salt crystal
+
+# Mr. Store equipment is not pulverizable.
+Mr. Accessory	nosmash
+Golden Mr. Accessory	nosmash
+Ms. Accessory	nosmash
+Mr. Accessory Jr.	nosmash
+Mr. Eh?	nosmash
+ice sickle	nosmash
+ice baby	nosmash
+ice pick	nosmash
+ice skates	nosmash
+Jekyllin hide belt	nosmash
+jewel-eyed wizard hat	nosmash
+Travoltan trousers	nosmash
+pilgrim shield	nosmash
+liar's pants	nosmash
+flaming juggler's balls	nosmash
+flaming pink shirt	nosmash
+evil flaming eyeball pendant	nosmash
+bottle-rocket crossbow	nosmash
+navel ring of navel gazing	nosmash
+V for Vivala mask	nosmash
+naughty fortune teller	nosmash
+origami pasties	nosmash
+origami riding crop	nosmash
+mayfly bait necklace	nosmash
+haiku katana	nosmash
+scratch 'n' sniff sword	nosmash
+scratch 'n' sniff crossbow	nosmash
+
+# Depleted grimacite items.
+depleted Grimacite hammer	chunk of depleted Grimacite
+depleted Grimacite gravy boat	chunk of depleted Grimacite
+depleted Grimacite weightlifting belt	chunk of depleted Grimacite
+depleted Grimacite grappling hook	chunk of depleted Grimacite
+depleted Grimacite ninja mask	chunk of depleted Grimacite
+depleted Grimacite shinguards	chunk of depleted Grimacite
+depleted Grimacite astrolabe	chunk of depleted Grimacite

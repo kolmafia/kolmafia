@@ -245,6 +245,7 @@ public class ItemPool
 	public static final int ICE_BABY = 1425;
 	public static final int ICE_PICK = 1426;
 	public static final int ICE_SKATES = 1427;
+	public static final int USELESS_POWDER = 1437;
 	public static final int TWINKLY_WAD = 1450;
 	public static final int HOT_WAD = 1451;
 	public static final int COLD_WAD = 1452;
@@ -270,6 +271,7 @@ public class ItemPool
 	public static final int GRIMACITE_GORGET = 1545;
 	public static final int GRIMACITE_GUAYABERA = 1546;
 	public static final int CATALYST = 1605;
+	public static final int ULTIMATE_WAD = 1606;
 	public static final int MUNCHIES_PILL = 1619;
 	public static final int ASTRAL_MUSHROOM = 1622;
 	public static final int BADGER_BADGE = 1623;
@@ -534,6 +536,7 @@ public class ItemPool
 	public static final int BLACK_BLUE_LIGHT = 3276;
 	public static final int LOUDMOUTH_LARRY = 3277;
 	public static final int PLASMA_BALL = 3281;
+	public static final int EPIC_WAD = 3316;
 	public static final int SCRATCHS_FORK = 3323;
 	public static final int FROSTYS_MUG = 3324;
 	public static final int FERMENTED_PICKLE_JUICE = 3325;

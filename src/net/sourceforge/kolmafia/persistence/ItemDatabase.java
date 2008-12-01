@@ -45,6 +45,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -2614,5 +2615,297 @@ public class ItemDatabase
 		}
 
 		return null;
+	}
+
+	public static final void checkPulverizationData()
+	{
+		RequestLogger.printLine( "Checking pulverization data..." );
+
+		PrintStream writer = LogStream.openStream( new File( UtilityConstants.DATA_LOCATION, "pulvereport.txt" ), true );
+
+		ItemDatabase.checkAnvil( writer );
+
+		writer.close();
+	}
+
+	private static final String ANVIL = "http://www.feesher.com/anvil/export_data.php";
+
+	private static final void checkAnvil( final PrintStream writer )
+	{
+		RequestLogger.printLine( "Connecting to Well-Tempered Anvil..." );
+		Document doc = getXMLDocument( ANVIL );
+
+		if ( doc == null )
+		{
+			return;
+		}
+
+		writer.println( KoLConstants.PULVERIZE_VERSION );
+		writer.println( "# Data provided courtesy of the Garden of Earthly Delights" );
+		writer.println( "# The Well-Tempered Anvil: " + ANVIL );
+		writer.println();
+
+		NodeList elements = doc.getElementsByTagName( "iteminfo" );
+
+		HashSet seen = new HashSet();
+		for ( int i = 0; i < elements.getLength(); i++ )
+		{
+			Node element = elements.item( i );
+			checkPulverize( element, writer, seen );
+		}
+		
+		for ( int id = 1; id <= ItemDatabase.maxItemId; ++id )
+		{
+			int pulver = EquipmentDatabase.getPulverization( id );
+			if ( pulver != -1 && !seen.contains( new Integer( id ) ) )
+			{
+				String name = ItemDatabase.getItemName( id );
+				writer.println( name + ": not listed in anvil" );
+			}
+		}
+	}
+
+	private static final void checkPulverize( final Node element, final PrintStream writer,
+		HashSet seen )
+	{
+		String name= "";
+		int id = -1;
+		int yield = -1;
+		boolean cansmash = false;
+		boolean confirmed = false;
+		boolean twinkly = false;
+		boolean hot = false;
+		boolean cold = false;
+		boolean stench = false;
+		boolean spooky = false;
+		boolean sleaze = false;
+		String advs= "";
+		String musc= "";
+		String myst= "";
+		String mox= "";
+		String fullness= "";
+		String level= "";
+
+		for ( Node node = element.getFirstChild(); node != null; node = node.getNextSibling() )
+		{
+			String tag = node.getNodeName();
+			Node child = node.getFirstChild();
+
+			if ( tag.equals( "cansmash" ) )
+			{
+				cansmash = ItemDatabase.getStringValue( child ).equals( "y" );
+			}
+			else if ( tag.equals( "confirmed" ) )
+			{
+				confirmed = ItemDatabase.getStringValue( child ).equals( "y" );
+			}
+			else if ( tag.equals( "title" ) )
+			{
+				name = ItemDatabase.getStringValue( child );
+			}
+			else if ( tag.equals( "kolid" ) )
+			{
+				id = StringUtilities.parseInt( ItemDatabase.getNumericValue( child ) );
+				seen.add( new Integer( id ) );
+			}
+			else if ( tag.equals( "yield" ) )
+			{
+				yield = StringUtilities.parseInt( ItemDatabase.getNumericValue( child ) );
+			}
+			else if ( tag.equals( "cold" ) )
+			{
+				cold = !ItemDatabase.getStringValue( child ).equals( "0" );
+			}
+			else if ( tag.equals( "hot" ) )
+			{
+				hot = !ItemDatabase.getStringValue( child ).equals( "0" );
+			}
+			else if ( tag.equals( "sleazy" ) )
+			{
+				sleaze = !ItemDatabase.getStringValue( child ).equals( "0" );
+			}
+			else if ( tag.equals( "spooky" ) )
+			{
+				spooky = !ItemDatabase.getStringValue( child ).equals( "0" );
+			}
+			else if ( tag.equals( "stinky" ) )
+			{
+				stench = !ItemDatabase.getStringValue( child ).equals( "0" );
+			}
+			else if ( tag.equals( "twinkly" ) )
+			{
+				twinkly = !ItemDatabase.getStringValue( child ).equals( "0" );
+			}
+		}
+		
+		if ( id < 1 )
+		{
+			writer.println( name + ": anvil doesn't know ID, so can't check" );
+			return;
+		}
+		int pulver = EquipmentDatabase.getPulverization( id );
+		if ( !name.equalsIgnoreCase( ItemDatabase.getItemName( id ) ) )
+		{
+			writer.println( name + ": doesn't match mafia name: " + 
+				ItemDatabase.getItemName( id ) );
+		}
+		name = ItemDatabase.getItemName( id );
+		if ( !confirmed )
+		{
+			name = "(unconfirmed) " + name;
+		}
+		if ( pulver == -1 )
+		{
+			if ( cansmash )
+			{
+				writer.println( name + ": anvil says this is smashable" );
+			}
+			return;
+		}
+		if ( !cansmash )
+		{
+			writer.println( name + ": anvil says this is not smashable" );
+			return;
+		}
+		if ( pulver == ItemPool.USELESS_POWDER )
+		{
+			if ( yield != 1 || twinkly || hot || cold || stench || spooky || sleaze )
+			{
+				writer.println( name + ": anvil says something other than useless powder" );
+			}
+			return;
+		}
+		if ( yield == 1 && !(twinkly || hot || cold || stench || spooky || sleaze ) )
+		{
+			writer.println( name + ": anvil says useless powder" );
+			return;
+		}
+		if ( pulver == ItemPool.EPIC_WAD )
+		{
+			if ( yield != 10 )
+			{
+				writer.println( name + ": anvil says something other than epic wad" );
+			}
+			return;
+		}
+		if ( yield == 10 )
+		{
+			writer.println( name + ": anvil says epic wad" );
+			return;
+		}
+		if ( pulver == ItemPool.ULTIMATE_WAD )
+		{
+			if ( yield != 11 )
+			{
+				writer.println( name + ": anvil says something other than ultimate wad" );
+			}
+			return;
+		}
+		if ( yield == 11 )
+		{
+			writer.println( name + ": anvil says ultimate wad" );
+			return;
+		}
+		if ( pulver >= 0 )
+		{
+			writer.println( name + ": I don't know how anvil would say " +
+				ItemDatabase.getItemName( pulver ) );
+			return;
+		}
+		if ( yield < 1 || yield > 11 )
+		{
+			writer.println( name + ": anvil said yield=" + yield + ", wut?" );
+			return;
+		}
+		if ( (pulver & EquipmentDatabase.ELEM_TWINKLY) != 0 )
+		{
+			if ( !twinkly )
+			{
+				writer.println( name + ": anvil didn't say twinkly" );
+			}
+			return;
+		}
+		else if ( twinkly )
+		{
+			writer.println( name + ": anvil said twinkly" );
+			return;
+		}
+
+
+		if ( (pulver & EquipmentDatabase.ELEM_HOT) != 0 )
+		{
+			if ( !hot )
+			{
+				writer.println( name + ": anvil didn't say hot" );
+			}
+			return;
+		}
+		else if ( hot )
+		{
+			writer.println( name + ": anvil said hot" );
+			return;
+		}
+		if ( (pulver & EquipmentDatabase.ELEM_COLD) != 0 )
+		{
+			if ( !cold )
+			{
+				writer.println( name + ": anvil didn't say cold" );
+			}
+			return;
+		}
+		else if ( cold )
+		{
+			writer.println( name + ": anvil said cold" );
+			return;
+		}
+		if ( (pulver & EquipmentDatabase.ELEM_STENCH) != 0 )
+		{
+			if ( !stench )
+			{
+				writer.println( name + ": anvil didn't say stench" );
+			}
+			return;
+		}
+		else if ( stench )
+		{
+			writer.println( name + ": anvil said stench" );
+			return;
+		}
+		if ( (pulver & EquipmentDatabase.ELEM_SPOOKY) != 0 )
+		{
+			if ( !spooky )
+			{
+				writer.println( name + ": anvil didn't say spooky" );
+			}
+			return;
+		}
+		else if ( spooky )
+		{
+			writer.println( name + ": anvil said spooky" );
+			return;
+		}
+		if ( (pulver & EquipmentDatabase.ELEM_SLEAZE) != 0 )
+		{
+			if ( !sleaze )
+			{
+				writer.println( name + ": anvil didn't say sleaze" );
+			}
+			return;
+		}
+		else if ( sleaze )
+		{
+			writer.println( name + ": anvil said sleaze" );
+			return;
+		}
+		int myyield = 1;
+		while ( (pulver & EquipmentDatabase.YIELD_1P) == 0 )
+		{
+			myyield++;
+		}
+		if ( yield != myyield )
+		{
+			writer.println( name + ": anvil said yield is " + yield + ", not " + myyield );
+			return;
+		}
 	}
 }

@@ -231,6 +231,7 @@ public interface KoLConstants
 		"npcstores.txt",
 		"outfits.txt",
 		"packages.txt",
+		"pulverize.txt",
 		"spleenhit.txt",
 		"statuseffects.txt",
 		"tradeitems.txt",
@@ -259,6 +260,7 @@ public interface KoLConstants
 	public static final int NPCSTORES_VERSION = 1;
 	public static final int OUTFITS_VERSION = 1;
 	public static final int PACKAGES_VERSION = 1;
+	public static final int PULVERIZE_VERSION = 1;
 	public static final int SPLEENHIT_VERSION = 2;
 	public static final int STATUSEFFECTS_VERSION = 2;
 	public static final int TRADEITEMS_VERSION = 1;
@@ -445,6 +447,7 @@ public interface KoLConstants
 	public static final SortedListModel storage = new SortedListModel();
 	public static final SortedListModel collection = new SortedListModel();
 	public static final SortedListModel campground = new SortedListModel();
+	public static final SortedListModel pulverizeQueue = new SortedListModel();
 
 	public static final LockableListModel usableSkills = new LockableListModel();
 	public static final LockableListModel summoningSkills = new LockableListModel();
