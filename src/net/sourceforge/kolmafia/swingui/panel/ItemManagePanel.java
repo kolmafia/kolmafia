@@ -91,7 +91,7 @@ public class ItemManagePanel
 	public JCheckBox[] filters;
 	public JRadioButton[] movers;
 
-	private final AutoFilterTextField filterfield;
+	protected final AutoFilterTextField filterfield;
 
 	public ItemManagePanel( final String confirmedText, final String cancelledText, final LockableListModel elementModel )
 	{

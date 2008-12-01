@@ -41,8 +41,10 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
+import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.IntegerArray;
@@ -60,6 +62,51 @@ public class EquipmentDatabase
 	private static final HashMap outfitPieces = new HashMap();
 	public static final SpecialOutfitArray normalOutfits = new SpecialOutfitArray();
 	public static final SpecialOutfitArray weirdOutfits = new SpecialOutfitArray();
+	
+	private static final IntegerArray pulverize = new IntegerArray();
+	// Values in pulverize are one of:
+	//	0 - not initialized yet
+	//	positive - ID of special-case pulverize result (worthless powder, epic wad, etc.)
+	//	-1 - not pulverizable (quest item, Mr. Store item, etc.)
+	//	other negative - bitmap, some combination of PULVERIZE_BITS, YIELD_x, ELEM_x
+	public static final int PULVERIZE_BITS = 0x80000000;	// makes value negative
+	public static final int YIELD_UNCERTAIN = 0x001;
+	public static final int YIELD_1P = 0x002;
+	public static final int YIELD_2P = 0x004;
+	public static final int YIELD_3P = 0x008;
+	public static final int YIELD_4P_1N = 0x010;
+	public static final int YIELD_1N3P_2N = 0x020;
+	public static final int YIELD_3N = 0x040;
+	public static final int YIELD_4N_1W = 0x080;
+	public static final int YIELD_1W3N_2W = 0x100;
+	public static final int YIELD_3W = 0x200;
+	public static final int MASK_YIELD = 0x3FF;
+	public static final int ELEM_TWINKLY = 0x01000;
+	public static final int ELEM_HOT = 0x02000;
+	public static final int ELEM_COLD = 0x04000;
+	public static final int ELEM_STENCH = 0x08000;
+	public static final int ELEM_SPOOKY = 0x10000;
+	public static final int ELEM_SLEAZE = 0x20000;
+	public static final int MASK_ELEMENT = 0x3F000;
+	public static final int MASK_ELEMENTAL = MASK_ELEMENT - ELEM_TWINKLY;
+	
+	public static final int[] IMPLICATIONS = {
+		Modifiers.COLD_RESISTANCE, ELEM_HOT | ELEM_SPOOKY,
+		Modifiers.HOT_RESISTANCE, ELEM_STENCH | ELEM_SLEAZE,
+		Modifiers.SLEAZE_RESISTANCE, ELEM_COLD | ELEM_SPOOKY,
+		Modifiers.SPOOKY_RESISTANCE, ELEM_HOT | ELEM_STENCH,
+		Modifiers.STENCH_RESISTANCE, ELEM_COLD | ELEM_SLEAZE,
+		Modifiers.COLD_DAMAGE, ELEM_COLD,
+		Modifiers.HOT_DAMAGE, ELEM_HOT,
+		Modifiers.SLEAZE_DAMAGE, ELEM_SLEAZE,
+		Modifiers.SPOOKY_DAMAGE, ELEM_SPOOKY,
+		Modifiers.STENCH_DAMAGE, ELEM_STENCH,
+		Modifiers.COLD_SPELL_DAMAGE, ELEM_COLD,
+		Modifiers.HOT_SPELL_DAMAGE, ELEM_HOT,
+		Modifiers.SLEAZE_SPELL_DAMAGE, ELEM_SLEAZE,
+		Modifiers.SPOOKY_SPELL_DAMAGE, ELEM_SPOOKY,
+		Modifiers.STENCH_SPELL_DAMAGE, ELEM_STENCH,
+	};
 
 	static
 	{
@@ -76,7 +123,7 @@ public class EquipmentDatabase
 			}
 
 			itemId = ItemDatabase.getItemId( data[ 0 ] );
-			if ( itemId < 0)
+			if ( itemId < 0 )
 			{
 				continue;
 			}
@@ -150,6 +197,56 @@ public class EquipmentDatabase
 					outfitList.get( arrayIndex ).addPiece( new AdventureResult( pieces[ i ], 1, false ) );
 				}
 			}
+		}
+
+		try
+		{
+			reader.close();
+		}
+		catch ( Exception e )
+		{
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+
+			StaticEntity.printStackTrace( e );
+		}
+
+		reader = FileUtilities.getVersionedReader( "pulverize.txt", KoLConstants.PULVERIZE_VERSION );
+
+		while ( ( data = FileUtilities.readData( reader ) ) != null )
+		{
+			if ( data.length < 2 )
+			{
+				continue;
+			}
+
+			itemId = ItemDatabase.getItemId( data[ 0 ] );
+			if ( itemId < 0 )
+			{
+				continue;
+			}
+
+			if ( data[ 1 ].equals( "nosmash" ) )
+			{
+				EquipmentDatabase.pulverize.set( itemId, -1 );
+			}
+			else
+			{
+				int resultId = ItemDatabase.getItemId( data[ 1 ] );
+				EquipmentDatabase.pulverize.set( itemId, resultId );
+			}
+		}
+
+		try
+		{
+			reader.close();
+		}
+		catch ( Exception e )
+		{
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+
+			StaticEntity.printStackTrace( e );
 		}
 	}
 
@@ -369,6 +466,142 @@ public class EquipmentDatabase
 		}
 
 		return EquipmentDatabase.getWeaponType( itemId );
+	}
+	
+	public static final int getPulverization( final String itemName )
+	{
+		if ( itemName == null )
+		{
+			return -1;
+		}
+
+		int itemId = ItemDatabase.getItemId( itemName );
+
+		if ( itemId == -1 )
+		{
+			return -1;
+		}
+
+		return EquipmentDatabase.getPulverization( itemId );
+	}
+	
+	public static final int getPulverization( final int id )
+	{
+		if ( id < 0 )
+		{
+			return -1;
+		}
+		int pulver = EquipmentDatabase.pulverize.get( id );
+		if ( pulver == 0 )
+		{
+			pulver = EquipmentDatabase.derivePulverization( id );
+			EquipmentDatabase.pulverize.set( id, pulver );
+		}
+		return pulver;
+	}
+	
+	private static final int derivePulverization( final int id )
+	{
+		switch ( ItemDatabase.getConsumptionType( id ) )
+		{
+		case KoLConstants.EQUIP_ACCESSORY:
+		case KoLConstants.EQUIP_HAT:
+		case KoLConstants.EQUIP_PANTS:
+		case KoLConstants.EQUIP_SHIRT:
+		case KoLConstants.EQUIP_WEAPON:
+		case KoLConstants.EQUIP_OFFHAND:
+			break;
+		
+		default:
+			return -1;
+		}
+	
+		if ( !ItemDatabase.isDisplayable( id ) )
+		{	// quest item
+			return -1;
+		}
+		if ( ItemDatabase.isGiftable( id ) && !ItemDatabase.isTradeable( id ) )
+		{	// gift item
+			return ItemPool.USELESS_POWDER;
+		}
+
+		String name = ItemDatabase.getItemName( id );
+		if ( NPCStoreDatabase.contains( name, false ) )
+		{
+			return ItemPool.USELESS_POWDER;
+		}
+		
+		int pulver = PULVERIZE_BITS | ELEM_TWINKLY;
+		Modifiers mods = Modifiers.getModifiers( name );
+		if ( mods == null )
+		{	// Apparently no enchantments at all, which would imply that this
+			// item pulverizes to useless powder.  However, there are many items
+			// with enchantments that don't correspond to a KoLmafia modifier
+			// (the "They do nothing!" enchantment of beer goggles, for example),
+			// so this can't safely be assumed, so for now all truly unenchanted
+			// items will have to be explicitly listed in pulverize.txt.
+			pulver |= EquipmentDatabase.ELEM_TWINKLY;
+		}
+		else
+		{
+			for ( int i = 0; i < IMPLICATIONS.length; i += 2 )
+			{
+				if ( mods.get( IMPLICATIONS[ i ] ) > 0.0f )
+				{
+					pulver |= IMPLICATIONS[ i+1 ];
+				}
+			}
+		}
+		
+		int power = EquipmentDatabase.power.get( id );
+		if ( power <= 0 )
+		{
+			// power is unknown, derive from requirement (which isn't always accurate)
+			pulver |= YIELD_UNCERTAIN;
+			String req = EquipmentDatabase.statRequirements.get( id );
+			if ( req != null )
+			{
+				power = StringUtilities.parseInt( req ) * 2 + 30;
+			}
+		}
+		if ( power >= 180 )
+		{
+			pulver |= YIELD_3W;
+		}
+		else if ( power >= 160 )
+		{
+			pulver |= YIELD_1W3N_2W;
+		}
+		else if ( power >= 140 )
+		{
+			pulver |= YIELD_4N_1W;
+		}
+		else if ( power >= 120 )
+		{
+			pulver |= YIELD_3N;
+		}
+		else if ( power >= 100 )
+		{
+			pulver |= YIELD_1N3P_2N;
+		}
+		else if ( power >= 80 )
+		{
+			pulver |= YIELD_4P_1N;
+		}
+		else if ( power >= 60 )
+		{
+			pulver |= YIELD_3P;
+		}
+		else if ( power >= 40 )
+		{
+			pulver |= YIELD_2P;
+		}
+		else
+		{
+			pulver |= YIELD_1P;
+		}
+		
+		return pulver;
 	}
 
 	public static final SpecialOutfit getOutfit( final int id )

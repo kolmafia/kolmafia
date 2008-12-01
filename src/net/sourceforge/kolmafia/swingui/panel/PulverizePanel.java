@@ -1,0 +1,417 @@
+/**
+ * Copyright (c) 2005-2008, KoLmafia development team
+ * http://kolmafia.sourceforge.net/
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ *  [1] Redistributions of source code must retain the above copyright
+ *      notice, this list of conditions and the following disclaimer.
+ *  [2] Redistributions in binary form must reproduce the above copyright
+ *      notice, this list of conditions and the following disclaimer in
+ *      the documentation and/or other materials provided with the
+ *      distribution.
+ *  [3] Neither the name "KoLmafia" nor the names of its contributors may
+ *      be used to endorse or promote products derived from this software
+ *      without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+ * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package net.sourceforge.kolmafia.swingui.panel;
+
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.event.ActionListener;
+
+import javax.swing.ButtonGroup;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.JCheckBox;
+import javax.swing.JTable;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableColumnModel;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+
+import net.java.dev.spellcast.utilities.LockableListModel;
+
+import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.request.CreateItemRequest;
+import net.sourceforge.kolmafia.request.PulverizeRequest;
+import net.sourceforge.kolmafia.request.SellStuffRequest;
+import net.sourceforge.kolmafia.swingui.BuffRequestFrame;
+import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
+import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
+import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+
+public class PulverizePanel
+	extends ItemManagePanel
+{
+	private JTable yields;
+
+	public PulverizePanel()
+	{
+		super( KoLConstants.inventory );
+
+		this.setButtons( true, new ActionListener[] {
+				new EnqueueListener(),
+				new ClearListener(),
+				new PulverizeListener(),
+				new WadbotListener(),
+		} );
+
+		this.elementList.setCellRenderer( ListCellRendererFactory.getPulverizationRenderer() );
+		this.movers[ 2 ].setSelected( true );
+	}
+
+	private static class YieldsModel
+		extends DefaultTableModel
+	{
+		private static String[][] contents = new String[][] { {
+			"P", "2P", "3P",
+			"<html><center>4P<br>or N</html>",
+			"<html><center>N+3P<br>or 2N</html>",
+			"3N",
+			"<html><center>4N<br>or W</html>",
+			"<html><center>W+3N<br>or 2W</html>",
+			"3W"
+		} };
+
+		public YieldsModel()
+		{
+			super( contents, contents[0] );
+		}
+		
+		public boolean isCellEditable( int row, int column )
+		{
+			return false;
+		}
+	}
+	public void addFilters()
+	{
+		JPanel filterPanel = new JPanel();
+		this.filters = new JCheckBox[ 7 ];
+
+		this.filters[ 0 ] = new JCheckBox( "twinkly", true );
+		this.filters[ 1 ] = new JCheckBox( "<html><font color=red>hot</html>", true );
+		this.filters[ 2 ] = new JCheckBox( "<html><font color=blue>cold</html>", true );
+		this.filters[ 3 ] = new JCheckBox( "<html><font color=green>stench</html>", true );
+		this.filters[ 4 ] = new JCheckBox( "<html><font color=gray>spooky</html>", true );
+		this.filters[ 5 ] = new JCheckBox( "<html><font color=purple>sleaze</html>", true );
+		this.filters[ 6 ] = new JCheckBox( "other" );
+
+		for ( int i = 0; i < 7; ++i )
+		{
+			filterPanel.add( this.filters[ i ] );
+			this.listenToCheckBox( this.filters[ i ] );
+		}
+
+		this.northPanel.add( filterPanel, BorderLayout.NORTH );
+
+		this.yields = new JTable( new YieldsModel() );
+		this.yields.setTableHeader( null );
+		this.yields.setShowVerticalLines( true );
+		this.yields.setSelectionMode( ListSelectionModel.SINGLE_INTERVAL_SELECTION );
+		this.yields.setCellSelectionEnabled( true );
+		this.yields.selectAll();
+		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
+		tcr.setHorizontalAlignment( DefaultTableCellRenderer.CENTER );
+		this.yields.setDefaultRenderer( Object.class, tcr );
+		Dimension dims = tcr.getTableCellRendererComponent( this.yields,
+			"<html>&nbsp;W+3N&nbsp;<br>&nbsp;N+3P&nbsp;</html>",
+			false, false, 0, 0 ).getPreferredSize();
+		this.yields.setRowHeight( dims.height );
+		dims.width *= 9;
+		this.yields.setPreferredScrollableViewportSize( dims );
+		this.yields.setToolTipText( "Drag to select a range of yields. " +
+			"P = powder, N = nugget, W = wad." );
+		this.yields.getColumnModel().getSelectionModel().addListSelectionListener(
+			(ListSelectionListener) this.filterfield );
+
+		// If the yields list was added directly to northPanel, it would get horizontally
+		// stretched, creating useless blank space inside the list frame.  Having an
+		// intermediate JPanel, with the default FlowLayout, allows the list to take on its
+		// natural width.
+		JPanel panel = new JPanel();
+		panel.add( new JScrollPane( this.yields,
+			JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ) );
+		this.northPanel.add( panel, BorderLayout.CENTER );
+		this.filterItems();
+	}
+
+	public AutoFilterTextField getWordFilter()
+	{
+		return new EquipmentFilterField();
+	}
+
+	private class EquipmentFilterField
+		extends AutoFilterTextField
+		implements ListSelectionListener
+	{
+		boolean others = false;
+		int elemMask = 0;
+		int yieldMask = 0;
+		
+		public EquipmentFilterField()
+		{
+			super( PulverizePanel.this.elementList );
+		}
+		
+		public void valueChanged( ListSelectionEvent e )
+		{
+			this.update();
+		}
+		
+		public void update()
+		{
+			this.elemMask =
+				(PulverizePanel.this.filters[ 0 ].isSelected() ?
+					EquipmentDatabase.ELEM_TWINKLY : 0) |
+				(PulverizePanel.this.filters[ 1 ].isSelected() ?
+					EquipmentDatabase.ELEM_HOT : 0) |
+				(PulverizePanel.this.filters[ 2 ].isSelected() ?
+					EquipmentDatabase.ELEM_COLD : 0) |
+				(PulverizePanel.this.filters[ 3 ].isSelected() ?
+					EquipmentDatabase.ELEM_STENCH : 0) |
+				(PulverizePanel.this.filters[ 4 ].isSelected() ?
+					EquipmentDatabase.ELEM_SPOOKY : 0) |
+				(PulverizePanel.this.filters[ 5 ].isSelected() ?
+					EquipmentDatabase.ELEM_SLEAZE : 0);
+			this.yieldMask = 0;
+			int[] indices = PulverizePanel.this.yields.getSelectedColumns();
+			for ( int i = 0; i < indices.length; ++i )
+			{
+				this.yieldMask |= EquipmentDatabase.YIELD_1P << indices[ i ];
+			}
+			this.others = PulverizePanel.this.filters[ 6 ].isSelected();
+			super.update();
+		}
+
+		public boolean isVisible( final Object element )
+		{
+			if ( element == null || !(element instanceof AdventureResult) )
+			{
+				return false;
+			}
+
+			boolean isVisibleWithFilter = true;
+			int itemId = ( (AdventureResult) element ).getItemId();
+			if ( itemId == -1 )
+			{
+				return false;
+			}
+			
+			int pulver = EquipmentDatabase.getPulverization( itemId );
+			if ( pulver == -1 )
+			{
+				return false;
+			}
+			
+			if ( pulver >= 0 )
+			{
+				isVisibleWithFilter = this.others;
+			}
+			else
+			{
+				isVisibleWithFilter = ( pulver & this.elemMask ) != 0 &&
+					( pulver & this.yieldMask ) != 0;
+			}
+
+			return isVisibleWithFilter && super.isVisible( element );
+		}
+	}
+	
+	public class EnqueueListener
+		extends TransferListener
+	{
+		public EnqueueListener()
+		{
+			super( "Smashing", false );
+		}
+
+		public void run()
+		{
+			Object[] items = this.initialSetup();
+			if ( items == null || items.length == 0 )
+			{
+				return;
+			}
+
+			for ( int i = 0; i < items.length; ++i )
+			{
+				AdventureResult item = (AdventureResult) items[ i ];
+				if ( item.getCount() > 0 )
+				{
+					KoLConstants.pulverizeQueue.remove( item );
+					KoLConstants.pulverizeQueue.add( item );
+					LockableListModel inv = (LockableListModel)
+						PulverizePanel.this.elementList.getModel();
+					int index = inv.indexOf( item );
+					inv.fireContentsChanged( inv, index, index );
+				}
+			}
+		}
+
+		public String toString()
+		{
+			return "add to queue";
+		}
+	}
+
+	public class ClearListener
+		extends ThreadedListener
+	{
+		public void run()
+		{
+			KoLConstants.pulverizeQueue.clear();
+			LockableListModel inv = (LockableListModel)
+				PulverizePanel.this.elementList.getModel();
+			inv.fireContentsChanged( inv, 0, inv.size() - 1 );
+		}
+		
+		public String toString()
+		{
+			return "clear queue";
+		}
+	}
+
+	public class PulverizeListener
+		extends ThreadedListener
+	{
+		public void run()
+		{
+			if ( KoLConstants.pulverizeQueue.isEmpty() )
+			{
+				InputFieldUtilities.alert( "No items in queue!" );
+				return;
+			}
+			AdventureResult[] items =
+				new AdventureResult[ KoLConstants.pulverizeQueue.size() ];
+			KoLConstants.pulverizeQueue.toArray( items );
+			KoLConstants.pulverizeQueue.clear();
+			for ( int i = 0; i < items.length; ++i )
+			{
+				RequestThread.postRequest( new PulverizeRequest( items[ i ] ) );
+			}
+		}
+		
+		public String toString()
+		{
+			return "pulverize";
+		}
+	}
+	
+	private static class MsgOption
+	{
+		private String asString;
+		private String asMessage;
+		
+		public MsgOption( String asString, String asMessage )
+		{
+			this.asString = asString;
+			this.asMessage = asMessage;
+		}
+		
+		public String toString()
+		{
+			return this.asString;
+		}
+		
+		public String toMessage()
+		{
+			return this.asMessage;
+		}
+	}
+
+	public class WadbotListener
+		extends ThreadedListener
+	{
+		public void run()
+		{
+			if ( KoLConstants.pulverizeQueue.isEmpty() )
+			{
+				InputFieldUtilities.alert( "No items in queue!" );
+				return;
+			}
+			
+			BuffRequestFrame.ONLINE_VALIDATOR.addFormField( "playerid", String.valueOf( KoLCharacter.getUserId() ) );
+			BuffRequestFrame.ONLINE_VALIDATOR.addFormField( "pwd" );
+			BuffRequestFrame.ONLINE_VALIDATOR.addFormField( "graf", "/whois wadbot" );
+	
+			RequestThread.postRequest( BuffRequestFrame.ONLINE_VALIDATOR );
+	
+			String message;
+			if ( BuffRequestFrame.ONLINE_VALIDATOR.responseText != null && BuffRequestFrame.ONLINE_VALIDATOR.responseText.indexOf( "online" ) != -1 )
+			{	// bot online
+				if ( KoLCharacter.canInteract() )
+				{
+					message = "Wadbot is online, and ready to SMASH!";
+				}
+				else
+				{
+					message = "Wadbot is online, but you won't be able to receive your smashed items while you are under hardcore/Ronin restrictions.  Are you sure you want to continue?";
+				}
+			}
+			else
+			{	// bot offline
+				if ( KoLCharacter.canInteract() )
+				{
+					message = "Wadbot is offline, so there will be a delay before you receive your smashed items.  Are you sure you want to continue?";
+				}
+				else
+				{
+					message = "You won't be able to receive your smashed items while you are under hardcore/Ronin restrictions.  Wadbot isn't online, anyway.  Proceed at your own risk.";
+				}
+			}
+			
+			MsgOption selected = (MsgOption) InputFieldUtilities.input( message,
+				new MsgOption[] {
+					new MsgOption( "receive results as is", "powders" ),
+					new MsgOption( "powders -> nuggets", "nuggets" ),
+					new MsgOption( "also nuggets -> wads", "wads" ),
+				}, null );
+			if ( selected == null )
+			{
+				return;
+			}
+			
+			AdventureResult[] items =
+				new AdventureResult[ KoLConstants.pulverizeQueue.size() ];
+			KoLConstants.pulverizeQueue.toArray( items );
+			KoLConstants.pulverizeQueue.clear();
+			KoLmafiaCLI.DEFAULT_SHELL.executeSendRequest( "wadbot", selected.toMessage(),
+				items, false, true );
+		}
+		
+		public String toString()
+		{
+			return "send to wadbot";
+		}
+	}
+}

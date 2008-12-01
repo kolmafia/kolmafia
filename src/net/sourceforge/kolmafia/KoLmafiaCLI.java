@@ -1338,7 +1338,8 @@ public class KoLmafiaCLI
 	
 	static { new Developer().register( "newdata" ).register( "checkdata" )
 		.register( "checkplurals" ).register( "checkmodifiers" )
-		.register( "checkconsumption" ).register( "checkprofile" ); }
+		.register( "checkconsumption" ).register( "checkprofile" )
+		.register( "checkpulverization" ); }
 	public static class Developer
 		extends Command
 	{
@@ -1380,6 +1381,13 @@ public class KoLmafiaCLI
 			{
 				ItemDatabase.checkConsumptionData();
 				RequestLogger.printLine( "Consumption data checked." );
+				return;
+			}
+
+			if ( command.equals( "checkpulverization" ) )
+			{
+				ItemDatabase.checkPulverizationData();
+				RequestLogger.printLine( "Pulverization data checked." );
 				return;
 			}
 

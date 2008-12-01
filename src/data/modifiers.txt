@@ -87,7 +87,7 @@ El Sombrero De Lopez	Moxie: +7, Class: "Accordion Thief", Familiar Effect: "3xGh
 El Vibrato helmet	Familiar Effect: "0.5xPotato, 1xFairy"
 Elder Turtle Shell	Muscle: +7, Class: "Turtle Tamer", Familiar Effect: "3xGhuol, cap 12"
 Frosty's old silk hat	Muscle Percent: +20, Cold Damage: +30, Class: "Seal Clubber", Familiar Effect: "cold atk"
-Grimacite gasmask	Weapon Damage +15, Familiar Effect: "1xLep, 1.5xFairy, cap 37"
+Grimacite gasmask	Weapon Damage: +15, Familiar Effect: "1xLep, 1.5xFairy, cap 37"
 Grimacite goggles	Adventures: +3, Familiar Effect: "1xVolley, 1xLep, cap 31"
 Hodgman's porkpie hat	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20, Hobo Power: +25, Familiar Effect: "0.5xVolley, 0.5xFairy"
 Kentucky-style derby	Familiar Effect: "atk, cap 5"
