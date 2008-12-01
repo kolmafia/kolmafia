@@ -1907,7 +1907,7 @@ public class ItemDatabase
 		case KoLConstants.CONSUME_FOOD_HELPER:
 		case KoLConstants.CONSUME_DRINK_HELPER:
 		case KoLConstants.CONSUME_STICKER:
-			return descType.indexOf( "usable" ) != -1 || descType.equals( "gift package" ) || descType.equals( "food" ) || descType.equals( "booze" );
+			return descType.indexOf( "usable" ) != -1 || descType.equals( "gift package" ) || descType.equals( "food" ) || descType.equals( "booze" ) || descType.equals( "potion" );
 		case KoLConstants.CONSUME_SPECIAL:
 			return descType.indexOf( "usable" ) != -1 || descType.equals( "food" ) || descType.equals( "beverage" ) || descType.equals( "booze" );
 		case KoLConstants.GROW_FAMILIAR:

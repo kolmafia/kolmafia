@@ -35,6 +35,7 @@ black forest cake	3	7	6-8	0	25-50	0
 black forest ham	3	7	8-9	25-45	0	0
 black pudding	3	7	5-7	10-12	10-12	9-12
 blackberry	1	2	2-3	2-4	2-4	2-4
+blueberry-frosted king cake	3	1	3	0	0	0
 blue velvet cake	3	1	3	0	0	0
 boring spaghetti	3	3	4-11	6-8	6-8	6-8
 boris's key lime pie	4	6	13-19	28-33	0	0
@@ -124,6 +125,7 @@ gingerborg hive	5	5	10-15	0	0	0
 gingerbread bugbear	1	4	1-5	10-20	10-20	10-20
 gingerbread horror	1	4	1-5	10-20	10-20	10-20
 gingerbread massacre	3	1	3-6	5-6	5-6	5-6
+gingerbread mutant bugbear	1	1	1-5	10-20	10-20	10-20
 gingerbread stir-fry	5	1	9-17	9-11	9-11	9-11
 glass of goat's milk	1	1	1	0	0	0
 glistening fish meat	1	1	2-3	0	4-7	0
@@ -155,6 +157,7 @@ hot wing	1	1	1-2	0	2-5	0
 insanely spicy bean burrito	3	4	7-14	27-32	0	0
 insanely spicy enchanted bean burrito	3	5	8-15	0	28-32	0
 insanely spicy jumping bean burrito	3	4	7-14	0	0	33
+irradiated candy cane	1	1	1-5	10-20	10-20	10-20
 it came from beyond dessert	4	1	6-12	7-8	7-8	7-8
 jarlsberg's key lime pie	4	6	13-19	0	28-33	0
 jumbo dr. lucifer	1	1	1-3	0	0	0

@@ -3472,8 +3472,8 @@
 3465	303006655	Bash-&#332;s cereal
 3466	261469707	haiku katana	haiku katana
 3467	114774654	bargain flash powder	bags of bargain flash powder
-3468
-3469
+3468	734986269	blue plastic baby
+3469	811123211	blueberry-frosted king cake
 3470	149442346	little bitty bathysphere
 3471
 3472	909119591	Seasonal Beret
@@ -3582,3 +3582,16 @@
 3575	613536361	sand dollar	sand dollars
 3576	379228450	flytrap bezoar
 3577	862599004	bezoar ring
+3578	846538926	candy cornucopia	candy cornucopias
+3579	929088085	tiny ballet slippers	pairs of tiny ballet slippers
+3580
+3581
+3582
+3583
+3584	991734610	irradiated candy cane	irradiated candy canes
+3585	612504863	gingerbread mutant bugbear	gingerbread mutant bugbears
+3586	636841452	oozenog
+3587	961155973	sugar plum	sugar plums
+3588	235633176	sugar banana	sugar bananas
+3589	395279915	sugar lime	sugar limes
+3590	534779871	sugar cherry

@@ -1030,6 +1030,7 @@ blackberry combat boots	Single Equip, Muscle: +10, Maximum HP: +45, Weapon Damag
 blackberry moccasins	Single Equip, Moxie: +8, Initiative: +25, Damage Reduction: 3
 blackberry slippers	Single Equip, Mysticality: +10, Spell Damage: +10, Spell Damage Percent: +5
 blue glowstick	Maximum MP: +5, Moxie: -3
+blue plastic baby	Single Equip, Maximum HP: +5, Maximum MP: +5
 blue ribbon	Maximum HP: +5
 booty chest charrrm bracelet	Single Equip, Meat Drop: +10
 bottle opener belt buckle	Single Equip
@@ -1420,6 +1421,7 @@ tasteful black bow tie	Familiar Weight: +5
 # teddy bear sewing kit
 # teddy borg sewing kit
 tiny Mountie hat	Familiar Weight: +5
+tiny ballet slippers	Familiar Weight: +5
 tiny balloon knife	Familiar Weight: +5
 tiny bindle	Familiar Weight: +5
 tiny bust of Pallas	Familiar Weight: +5

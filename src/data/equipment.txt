@@ -970,6 +970,7 @@ blackberry combat boots	0	Mus: 75
 blackberry moccasins	0	Mys: 75
 blackberry slippers	0	Mys: 75
 blue glowstick	0	none
+blue plastic baby	0	none
 blue ribbon	0	none
 booty chest charrrm bracelet	0	Mys: 80
 bottle opener belt buckle	0	Mys: 65

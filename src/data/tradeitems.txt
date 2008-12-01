@@ -3466,8 +3466,8 @@
 3465	Bash-&#332;s cereal	1	all	25
 3466	haiku katana	12	all	0
 3467	bargain flash powder	0	all	2
-3468
-3469
+3468	blue plastic baby	8	all	0
+3469	blueberry-frosted king cake	1	display	0
 3470	little bitty bathysphere	7	none	0
 3471
 3472	Seasonal Beret	9	display	0
@@ -3576,3 +3576,16 @@
 3575	sand dollar	0	all	50
 3576	flytrap bezoar	0	all	40
 3577	bezoar ring	8	all	275
+3578	candy cornucopia	5	all	0
+3579	tiny ballet slippers	7	all	70
+3580
+3581
+3582
+3583
+3584	irradiated candy cane	1	all	0
+3585	gingerbread mutant bugbear	1	all	0
+3586	oozenog	2	all	0
+3587	sugar plum	3	none	0
+3588	sugar banana	4	all	10
+3589	sugar lime	4	all	10
+3590	sugar cherry	4	all	10
