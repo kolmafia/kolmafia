@@ -75,8 +75,6 @@ public class FunctionCall
 
 	public Value execute( final Interpreter interpreter )
 	{
-		interpreter.setLineAndFile( this.fileName, this.lineNumber );
-
 		if ( !KoLmafia.permitsContinue() )
 		{
 			interpreter.setState( Interpreter.STATE_EXIT );
@@ -155,6 +153,7 @@ public class FunctionCall
 		}
 
 		interpreter.trace( "Entering function " + this.target.getName() );
+		interpreter.setLineAndFile( this.fileName, this.lineNumber );
 		Value result = this.target.execute( interpreter );
 		interpreter.trace( "Function " + this.target.getName() + " returned: " + result );
 
