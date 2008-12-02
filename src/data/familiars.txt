@@ -94,4 +94,4 @@
 98	Mutant Cactus Bud	combat,meat0	3529	cactus monocle	0	0	0	0
 99	Mutant Gila Monster	combat	3530	Jawmaster 2000&trade;	0	0	0	0
 100	Cuddlefish	none	3572	six-armed sweater	0	0	0	0
-101	Sugar Fruit Fairy	stat0,item0	3578	tiny ballet slippers	0	0	0	0
+101	Sugar Fruit Fairy	stat0,item0	3578	tiny ballet slippers	0	3	3	2
