@@ -55,6 +55,7 @@ import net.sourceforge.kolmafia.request.BasementRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.HiddenCityRequest;
 import net.sourceforge.kolmafia.request.RichardRequest;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -684,7 +685,7 @@ public class AdventureDatabase
 
 	private static boolean hasClover()
 	{
-		return KoLConstants.inventory.contains( ItemPool.get( ItemPool.TEN_LEAF_CLOVER, 1 ) );
+		return InventoryManager.getCount(ItemPool.TEN_LEAF_CLOVER ) > 0;
 	}
 
 	public static boolean isPotentialCloverAdventure( String adventureName )
