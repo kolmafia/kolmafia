@@ -1266,7 +1266,7 @@ public class RequestEditorKit
 		// The Oracle Will See You Now
 		case 3:
 			StringUtilities.singleStringReplace(
-				buffer, "It's actually a book.	Read it.",
+				buffer, "It's actually a book.  Read it.",
 				"It's actually a book. <font size=1>[<a href=\"inv_use.php?pwd=" + GenericRequest.passwordHash + "&which=3&whichitem=818\">read it</a>]</font>" );
 			break;
 
