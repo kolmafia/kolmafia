@@ -154,7 +154,6 @@ public class SewerRequest
 		// Enter the sewer
 
 		super.run();
-		ResultProcessor.processItem( ItemPool.TEN_LEAF_CLOVER, -1 );
 	}
 
 	/**
