@@ -265,6 +265,10 @@ public class UseItemRequest
 		case ItemPool.TOASTER:
 			return 3;
 
+		case ItemPool.DANCE_CARD:
+			// Disallow using a dance card if already active
+			return TurnCounter.isCounting( "Dance Card" ) ? 0 : 1;
+
 		case ItemPool.CHEF:
 		case ItemPool.CLOCKWORK_CHEF:
 		case ItemPool.BARTENDER:
