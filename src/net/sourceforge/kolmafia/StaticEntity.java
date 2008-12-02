@@ -269,7 +269,7 @@ public abstract class StaticEntity
 		
 		if ( location.startsWith( "craft.php" ) )
 		{
-			CreateItemRequest.parseCrafting( responseText );
+			CreateItemRequest.parseCrafting( location, responseText );
 		}
 		
 		if ( location.startsWith( "account.php" ) )

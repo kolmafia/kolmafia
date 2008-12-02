@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.request;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -63,6 +64,7 @@ public class CreateItemRequest
 	public static final Pattern WHICHITEM_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
 	public static final Pattern QUANTITY_PATTERN = Pattern.compile( "(quantity|qty)=(\\d+)" );
 
+	public static final Pattern TARGET_PATTERN = Pattern.compile( "target=(\\d+)" );
 	public static final Pattern CRAFT_PATTERN_1 = Pattern.compile( "[\\&\\?](?:a|b)=(\\d+)" );
 	public static final Pattern CRAFT_PATTERN_2 = Pattern.compile( "steps\\[\\]=(\\d+),(\\d+)" );
 	
@@ -533,24 +535,11 @@ public class CreateItemRequest
 		KoLmafia.updateDisplay( "Creating " + this.name + " (" + this.quantityNeeded + ")..." );
 		super.run();
 	}
-	
-	public static void parseCrafting( String responseText )
-	{
-		Matcher m = CRAFT_COMMENT_PATTERN.matcher( responseText );
-		while ( m.find() )
-		{
-			int qty = StringUtilities.parseInt( m.group( 1 ) );
-			int item1 = StringUtilities.parseInt( m.group( 2 ) );
-			int item2 = StringUtilities.parseInt( m.group( 3 ) );
-			ResultProcessor.processItem( item1, -qty );
-			ResultProcessor.processItem( item2, -qty );
-			RequestLogger.updateSessionLog( "Crafting used " + qty + " each of " +
-				ItemDatabase.getItemName( item1 ) + " and " + ItemDatabase.getItemName( item2 ) );		
-		}
-	}
 
 	public void processResults()
 	{
+		CreateItemRequest.parseCrafting( this.getURLString(), this.responseText );
+
 		int createdQuantity = this.createdItem.getCount( KoLConstants.inventory ) - this.beforeQuantity;
 
 		// Check to see if box-servant was overworked and exploded.
@@ -644,6 +633,26 @@ public class CreateItemRequest
 
 		default:
 			break;
+		}
+	}
+	
+	public static void parseCrafting( final String location, final String responseText )
+	{
+		if ( !location.startsWith( "craft.php" ) )
+		{
+			return;
+		}
+
+		Matcher m = CRAFT_COMMENT_PATTERN.matcher( responseText );
+		while ( m.find() )
+		{
+			int qty = StringUtilities.parseInt( m.group( 1 ) );
+			int item1 = StringUtilities.parseInt( m.group( 2 ) );
+			int item2 = StringUtilities.parseInt( m.group( 3 ) );
+			ResultProcessor.processItem( item1, -qty );
+			ResultProcessor.processItem( item2, -qty );
+			RequestLogger.updateSessionLog( "Crafting used " + qty + " each of " +
+				ItemDatabase.getItemName( item1 ) + " and " + ItemDatabase.getItemName( item2 ) );		
 		}
 	}
 
@@ -1103,9 +1112,13 @@ public class CreateItemRequest
 
 		StringBuffer command = new StringBuffer();
 
-		if ( urlString.startsWith( "craft.php" ) && urlString.indexOf( "action=craft" ) != -1 )
+		if ( urlString.startsWith( "craft.php" ) )
 		{
-			if ( urlString.indexOf( "mode=combine" ) != -1 )
+			if ( urlString.indexOf( "action=craft" ) == -1 )
+			{
+				return true;
+			}
+			else if ( urlString.indexOf( "mode=combine" ) != -1 )
 			{
 				isCreationURL = true;
 				command.append( "Combine " );
@@ -1133,6 +1146,11 @@ public class CreateItemRequest
 				isCreationURL = true;
 				command.append( "Ply " );
 				usesTurns = true;
+			}
+			else
+			{
+				// Take credit for all visits to crafting
+				return true;
 			}
 		}
 		else if ( urlString.startsWith( "knoll.php" ) )
@@ -1183,86 +1201,48 @@ public class CreateItemRequest
 			return false;
 		}
 
-		Matcher itemMatcher = null;
-		Matcher quantityMatcher = null;
+		AdventureResult [] ingredients = CreateItemRequest.findIngredients( urlString );
 
-		if ( urlString.startsWith( "craft.php" ) )
-		{
-			// Parsing out crafting URLs will be a bit of a pain,
-			// so we'll implement this at a later time.  For now,
-			// just simple stuff that KoLmafia does internally.
-
-			itemMatcher = CreateItemRequest.CRAFT_PATTERN_1.matcher( urlString );
-		}
-		else
-		{
-			itemMatcher = CreateItemRequest.ITEMID_PATTERN.matcher( urlString );
-		}
-
-		quantityMatcher = CreateItemRequest.QUANTITY_PATTERN.matcher( urlString );
-
-		boolean needsPlus = false;
-		int quantity = quantityMatcher.find() ? StringUtilities.parseInt( quantityMatcher.group( 2 ) ) : 1;
+		int quantity = 1;
 
 		if ( urlString.indexOf( "makemax=on" ) != -1 )
 		{
 			quantity = Integer.MAX_VALUE;
 
-			while ( itemMatcher.find() )
+			for ( int i = 0; i < ingredients.length; ++i )
 			{
-				int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
-				AdventureResult item = new AdventureResult( itemId, 1 );
+				AdventureResult item = ingredients[i];
 				quantity = Math.min( item.getCount( KoLConstants.inventory ), quantity );
 			}
-
-			itemMatcher = CreateItemRequest.ITEMID_PATTERN.matcher( urlString );
+		}
+		else
+		{
+			Matcher quantityMatcher = CreateItemRequest.QUANTITY_PATTERN.matcher( urlString );
+			if ( quantityMatcher.find() )
+			{
+				quantity = StringUtilities.parseInt( quantityMatcher.group( 2 ) );
+			}
 		}
 
 		quantity *= multiplier;
 
-		if ( urlString.indexOf( "action=stillbooze" ) != -1 || urlString.indexOf( "action=stillfruit" ) != -1 )
+		boolean needsPlus = false;
+		for ( int i = 0; i < ingredients.length; ++i )
 		{
-			KoLCharacter.decrementStillsAvailable( quantity );
-		}
+			AdventureResult item = ingredients[i];
+			int itemId = item.getItemId();
+			String name = item.getName();
 
-		while ( itemMatcher.find() )
-		{
 			if ( needsPlus )
 			{
 				command.append( " + " );
-			}
-
-			int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
-			String name = ItemDatabase.getItemName( itemId );
-
-			if ( name == null )
-			{
-				continue;
 			}
 
 			command.append( quantity );
 			command.append( ' ' );
 			command.append( name );
 
-			ResultProcessor.processItem( itemId, 0 - quantity );
 			needsPlus = true;
-		}
-
-		if ( urlString.indexOf( "action=wokcook" ) != -1 )
-		{
-			command.append( " + " );
-			command.append( quantity );
-			command.append( " dry noodles" );
-			ResultProcessor.processItem( ItemPool.DRY_NOODLES, 0 - quantity );
-
-			command.append( " + " );
-			command.append( quantity );
-			command.append( " MSG" );
-			ResultProcessor.processItem( ItemPool.MSG, 0 - quantity );
-		}
-		else if ( urlString.indexOf( "mode=combine" ) != -1 )
-		{
-			ResultProcessor.processItem( ItemPool.MEAT_PASTE, 0 - quantity );
 		}
 
 		if ( usesTurns )
@@ -1272,7 +1252,78 @@ public class CreateItemRequest
 
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( command.toString() );
+
+		CreateItemRequest.useIngredients( urlString, ingredients, quantity );
+
+		if ( urlString.indexOf( "action=stillbooze" ) != -1 || urlString.indexOf( "action=stillfruit" ) != -1 )
+		{
+			KoLCharacter.decrementStillsAvailable( quantity );
+		}
+
 		return true;
+	}
+
+	private static final AdventureResult [] findIngredients( final String urlString )
+	{
+		if ( urlString.startsWith( "craft.php" ) && urlString.indexOf( "target" ) != -1 )
+		{
+			// Crafting is going to make an item from ingredients.
+			// Return the ingredients we think will be used.
+
+			Matcher targetMatcher = CreateItemRequest.TARGET_PATTERN.matcher( urlString );
+			if ( !targetMatcher.find() )
+			{
+				return null;
+			}
+
+			int itemId = StringUtilities.parseInt( targetMatcher.group( 1 ) );
+			return ConcoctionDatabase.getIngredients( itemId );
+		}
+
+		Matcher itemMatcher = urlString.startsWith( "craft.php" ) ?
+			CreateItemRequest.CRAFT_PATTERN_1.matcher( urlString ) :
+			CreateItemRequest.ITEMID_PATTERN.matcher( urlString );
+
+		ArrayList ingredients = new ArrayList();
+
+		while ( itemMatcher.find() )
+		{
+			int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
+			AdventureResult result = ItemPool.get( itemId, 1 );
+
+			ingredients.add( result );
+		}
+
+		if ( urlString.indexOf( "action=wokcook" ) != -1 )
+		{
+			ingredients.add( ItemPool.get( ItemPool.DRY_NOODLES, 1 ) );
+			ingredients.add( ItemPool.get( ItemPool.MSG, 1 ) );
+		}
+
+		AdventureResult [] ingredientArray = new AdventureResult[ ingredients.size() ];
+		ingredients.toArray( ingredientArray );
+
+		return ingredientArray;
+	}
+
+	private static final void useIngredients( final String urlString, AdventureResult [] ingredients, int quantity )
+	{
+		// Let crafting tell us which ingredients it used and remove
+		// them from inventory after the fact.
+
+		if ( ingredients != null && !urlString.startsWith( "craft.php" ) )
+		{
+                        for ( int i = 0; i < ingredients.length; ++i )
+                        {
+                                AdventureResult item = ingredients[i];
+                                ResultProcessor.processItem( item.getItemId(), 0 - quantity );
+                        }
+                }
+
+		if ( urlString.indexOf( "mode=combine" ) != -1 )
+		{
+			ResultProcessor.processItem( ItemPool.MEAT_PASTE, 0 - quantity );
+		}
 	}
 
 	private static class CreationRequestArray
