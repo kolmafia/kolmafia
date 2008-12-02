@@ -549,19 +549,18 @@ public class EquipmentRequest
 					EquipmentRequest.shouldSavePreviousOutfit = false;
 				}
 
-				boolean unequipAllNeeded = false;
+				// Only make a request to unequip everything if
+				// you are wearing something.
 
 				for ( int i = 0; i < EquipmentManager.FAMILIAR; ++i )
 				{
-					unequipAllNeeded |= !EquipmentManager.getEquipment( i ).equals( EquipmentRequest.UNEQUIP );
+					if ( !EquipmentManager.getEquipment( i ).equals( EquipmentRequest.UNEQUIP ) )
+					{
+						( new EquipmentRequest( EquipmentRequest.UNEQUIP_ALL ) ).run();
+						break;
+					}
 				}
 
-				if ( unequipAllNeeded )
-				{
-					( new EquipmentRequest( EquipmentRequest.UNEQUIP_ALL ) ).run();
-				}
-
-				( new EquipmentRequest( EquipmentRequest.UNEQUIP, EquipmentManager.FAMILIAR ) ).run();
 				return;
 			}
 
