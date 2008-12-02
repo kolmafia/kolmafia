@@ -677,16 +677,20 @@ public class AdventureDatabase
 	}
 
 	/**
-	 * Returns whether or not the current user has a ten-leaf clover.
+	 * Returns whether or not the user has a ten-leaf clover in inventory.
 	 *
 	 * @return <code>true</code>
 	 */
 
+	private static boolean hasClover()
+	{
+		return KoLConstants.inventory.contains( ItemPool.get( ItemPool.TEN_LEAF_CLOVER, 1 ) );
+	}
+
 	public static boolean isPotentialCloverAdventure( String adventureName )
 	{
-		AdventureResult clover = ItemPool.get( ItemPool.TEN_LEAF_CLOVER, 1 );
-		return KoLConstants.inventory.contains( clover ) &&
-			cloverLookup.get( adventureName ) == Boolean.TRUE;
+		return AdventureDatabase.hasClover() &&
+		       cloverLookup.get( adventureName ) == Boolean.TRUE;
 	}
 
 	public static class AdventureArray

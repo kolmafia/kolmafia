@@ -100,6 +100,7 @@ public class CombineMeatRequest
 		Matcher quantityMatcher = CreateItemRequest.QUANTITY_PATTERN.matcher( urlString );
 		int quantity = quantityMatcher.find() ? StringUtilities.parseInt( quantityMatcher.group( 2 ) ) : 1;
 
+		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( "Create " + quantity + " " + ItemDatabase.getItemName( itemId ) );
 
 		int cost = itemId == ItemPool.MEAT_PASTE ? 10 : itemId == ItemPool.MEAT_STACK ? 100 : 1000;

@@ -1555,9 +1555,16 @@ public class GenericRequest
 			ResultProcessor.processItem( ItemPool.TEN_LEAF_CLOVER, -1 );
 		}
 
-		if ( this.formURLString.startsWith( "sewer.php" ) && this.responseText.indexOf( "You acquire" ) != -1 )
+		if ( this.formURLString.startsWith( "sewer.php" ) )
 		{
-			ResultProcessor.processItem( ItemPool.CHEWING_GUM, -1 );
+			if ( this.responseText.indexOf( "You acquire" ) != -1 )
+			{
+				ResultProcessor.processItem( ItemPool.CHEWING_GUM, -1 );
+			}
+			if ( this.responseText.indexOf( "it's time for you to leave" ) != -1 )
+			{
+				ResultProcessor.processItem( ItemPool.TEN_LEAF_CLOVER, -1 );
+			}
 		}
 
 		if ( this.formURLString.startsWith( "mall.php" ) ||
