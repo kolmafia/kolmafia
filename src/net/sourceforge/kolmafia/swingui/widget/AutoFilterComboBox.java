@@ -150,6 +150,7 @@ public class AutoFilterComboBox
 	public synchronized void findMatch( final int keyCode )
 	{
 		this.currentName = this.getEditor().getItem().toString();
+		int caretPosition = this.editor.getCaretPosition();
 
 		if ( !this.allowAdditions && this.model.contains( this.currentName ) )
 		{
@@ -165,6 +166,7 @@ public class AutoFilterComboBox
 			if ( this.model.getSize() != 1 || keyCode == KeyEvent.VK_BACK_SPACE || keyCode == KeyEvent.VK_DELETE )
 			{
 				this.editor.setText( this.currentName );
+				this.editor.setCaretPosition( caretPosition );
 				return;
 			}
 
@@ -172,6 +174,7 @@ public class AutoFilterComboBox
 			this.matchString = this.currentMatch.toString().toLowerCase();
 
 			this.editor.setText( this.currentMatch.toString() );
+			this.editor.setCaretPosition( caretPosition );
 			this.editor.setSelectionStart( this.currentName.length() );
 			this.editor.setSelectionEnd( this.matchString.length() );
 
