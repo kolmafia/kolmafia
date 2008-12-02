@@ -297,6 +297,20 @@ public class LoginFrame
 		public void actionConfirmed()
 		{
 			Preferences.setBoolean( "relayBrowserOnly", false );
+			this.doLogin();
+		}
+
+		public void actionCancelled()
+		{
+			if ( !LoginRequest.isInstanceRunning() )
+			{
+				Preferences.setBoolean( "relayBrowserOnly", true );
+				this.doLogin();
+			}
+		}
+
+		private void doLogin()
+		{
 			Preferences.setBoolean( "alwaysGetBreakfast", this.getBreakfastCheckBox.isSelected() );
 
 			LoginFrame.this.username = null;
@@ -337,15 +351,6 @@ public class LoginFrame
 
 			LoginFrame.this.honorProxySettings();
 			RequestThread.postRequest( new LoginRequest( LoginFrame.this.username, password ) );
-		}
-
-		public void actionCancelled()
-		{
-			if ( !LoginRequest.isInstanceRunning() )
-			{
-				Preferences.setBoolean( "relayBrowserOnly", true );
-				this.actionConfirmed();
-			}
 		}
 
 		private class AutoLoginListener

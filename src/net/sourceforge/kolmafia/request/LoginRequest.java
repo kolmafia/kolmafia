@@ -104,8 +104,6 @@ public class LoginRequest
 
 	private boolean detectChallenge()
 	{
-		KoLmafia.updateDisplay( "Validating login server..." );
-
 		// Setup the login server in order to ensure that
 		// the initial try is randomized.  Or, in the case
 		// of a devster, the developer server.
@@ -117,6 +115,8 @@ public class LoginRequest
 		{
 			GenericRequest.setLoginServer( "dev.kingdomofloathing.com" );
 		}
+
+		KoLmafia.updateDisplay( "Validating login server (" + GenericRequest.KOL_HOST + ")..." );
 
 		GenericRequest.serverCookie = null;
 		GenericRequest.passwordHash = "";
@@ -276,6 +276,15 @@ public class LoginRequest
 		{
 			// Too many bad logins in too short a time span.
 			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Too many failed login attempts." );
+			return;
+		}
+
+		if ( GenericRequest.KOL_HOST.equals( "dev.kingdomofloathing.com" ) &&
+			this.responseText.indexOf( "do not have the privileges" ) != -1)
+		{
+			// Can't use dev server without permission. Skip it.
+			Preferences.setInteger( "defaultLoginServer", 1 );
+			this.run();
 			return;
 		}
 
