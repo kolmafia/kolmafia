@@ -57,7 +57,7 @@ public class MeatTransferPanel
 	{
 		super(
 			transferType == ClosetRequest.MEAT_TO_CLOSET ? "Put Meat in Your Closet" : transferType == ClosetRequest.MEAT_TO_INVENTORY ? "Take Meat from Your Closet" : transferType == ClosetRequest.PULL_MEAT_FROM_STORAGE ? "Pull Meat from Hagnk's" : "Unknown Transfer Type",
-			"transfer", "bedidall", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
+			"transfer", "transfer all", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
 
 		this.amountField = new AutoHighlightTextField();
 		this.closetField = new JLabel( " " );
@@ -74,20 +74,32 @@ public class MeatTransferPanel
 		KoLCharacter.addCharacterListener( new KoLCharacterAdapter( new AmountRefresher() ) );
 	}
 
+	private int currentAvailable()
+	{
+		switch ( this.transferType )
+		{
+		case ClosetRequest.MEAT_TO_CLOSET:
+			return KoLCharacter.getAvailableMeat();
+
+		case ClosetRequest.MEAT_TO_INVENTORY:
+			return KoLCharacter.getClosetMeat();
+
+		case ClosetRequest.PULL_MEAT_FROM_STORAGE:
+			return KoLCharacter.getStorageMeat();
+		}
+
+		return 0;
+	}
+
 	private void refreshCurrentAmount()
 	{
 		switch ( this.transferType )
 		{
 		case ClosetRequest.MEAT_TO_CLOSET:
-			this.closetField.setText( KoLConstants.COMMA_FORMAT.format( KoLCharacter.getAvailableMeat() ) + " meat" );
-			break;
-
 		case ClosetRequest.MEAT_TO_INVENTORY:
-			this.closetField.setText( KoLConstants.COMMA_FORMAT.format( KoLCharacter.getClosetMeat() ) + " meat" );
-			break;
-
 		case ClosetRequest.PULL_MEAT_FROM_STORAGE:
-			this.closetField.setText( KoLConstants.COMMA_FORMAT.format( KoLCharacter.getStorageMeat() ) + " meat" );
+			int amount = this.currentAvailable();
+			this.closetField.setText( KoLConstants.COMMA_FORMAT.format( amount ) + " meat" );
 			break;
 
 		default:
@@ -107,7 +119,9 @@ public class MeatTransferPanel
 
 	public void actionCancelled()
 	{
-		KoLmafiaGUI.constructFrame( "MoneyMakingGameFrame" );
+		RequestThread.openRequestSequence();
+		RequestThread.postRequest( new ClosetRequest( this.transferType, this.currentAvailable() ) );
+		RequestThread.closeRequestSequence();
 	}
 
 	public boolean shouldAddStatusLabel( final VerifiableElement[] elements )
