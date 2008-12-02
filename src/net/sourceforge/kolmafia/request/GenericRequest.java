@@ -250,10 +250,11 @@ public class GenericRequest
 
 		for ( int i = 0; i < GenericRequest.SERVERS.length; ++i )
 		{
-			if ( GenericRequest.substringMatches( server, GenericRequest.SERVERS[ i ][ 0 ] ) || GenericRequest.substringMatches(
-				server, GenericRequest.SERVERS[ i ][ 1 ] ) )
+			if ( GenericRequest.substringMatches( server, GenericRequest.SERVERS[ i ][ 0 ] ) ||
+			     GenericRequest.substringMatches( server, GenericRequest.SERVERS[ i ][ 1 ] ) )
 			{
 				GenericRequest.setLoginServer( i );
+				return;
 			}
 		}
 	}
@@ -264,7 +265,8 @@ public class GenericRequest
 
 		try
 		{
-			GenericRequest.KOL_ROOT = new URL( "http", GenericRequest.SERVERS[ serverIndex ][ 1 ], 80, "/" );
+			// GenericRequest.KOL_ROOT = new URL( "http", GenericRequest.SERVERS[ serverIndex ][ 1 ], 80, "/" );
+			GenericRequest.KOL_ROOT = new URL( "http", GenericRequest.KOL_HOST, 80, "/" );
 		}
 		catch ( IOException e )
 		{
@@ -279,11 +281,13 @@ public class GenericRequest
 
 	private static final void chooseNewLoginServer()
 	{
-		KoLmafia.updateDisplay( "Choosing new login server..." );
 		LoginRequest.setIgnoreLoadBalancer( true );
 
+		// Don't try to use the dev server
 		GenericRequest.retryServer = Math.max( 1, ( GenericRequest.retryServer + 1 ) % GenericRequest.SERVERS.length );
 		GenericRequest.setLoginServer( GenericRequest.retryServer );
+
+		KoLmafia.updateDisplay( "Choosing new login server (" + GenericRequest.KOL_HOST + ")..." );
 	}
 
 	/**
@@ -1137,8 +1141,8 @@ public class GenericRequest
 			Matcher matcher = GenericRequest.REDIRECT_PATTERN.matcher( this.redirectLocation );
 			if ( matcher.find() )
 			{
+				RequestLogger.printLine( "Redirected to " + matcher.group(1) + "..." );
 				GenericRequest.setLoginServer( matcher.group( 1 ) );
-				RequestLogger.printLine( "Redirected to " + GenericRequest.KOL_HOST + "..." );
 				return false;
 			}
 
