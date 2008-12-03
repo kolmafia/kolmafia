@@ -572,7 +572,7 @@ public class FightRequest
 				return;
 			}
 
-			if ( item1 == ItemPool.ANTIDOTE || item1 == ItemPool.DICTIONARY || item1 == ItemPool.FACSIMILE_DICTIONARY )
+			if ( singleUseCombatItem( item1 ) )
 			{
 				if ( KoLConstants.inventory.contains( FightRequest.MERCENARY ) )
 				{
@@ -610,7 +610,7 @@ public class FightRequest
 					this.addFormField( "whichitem2", String.valueOf( FightRequest.SPICES.getItemId() ) );
 				}
 			}
-			else if ( itemCount >= 2 )
+			else if ( itemCount >= 2 && !soloUseCombatItem( item1 ))
 			{
 				FightRequest.action2 = FightRequest.action1;
 				this.addFormField( "whichitem2", String.valueOf( item1 ) );
@@ -690,6 +690,29 @@ public class FightRequest
 
 		this.addFormField( "action", "skill" );
 		this.addFormField( "whichskill", FightRequest.action1.substring( 5 ) );
+	}
+
+	private boolean singleUseCombatItem( int itemId )
+	{
+		switch ( itemId )
+		{
+		case ItemPool.ANTIDOTE:
+		case ItemPool.DICTIONARY:
+		case ItemPool.FACSIMILE_DICTIONARY:
+			return true;
+		}
+		return false;
+	}
+
+	private boolean soloUseCombatItem( int itemId )
+	{
+		switch ( itemId )
+		{
+		case ItemPool.SCRAP_OF_PAPER:
+		case ItemPool.DIVINE_CHAMPAGNE_POPPER:
+			return true;
+		}
+		return false;
 	}
 
 	public static final boolean isInvalidRangedAttack( final String action )
