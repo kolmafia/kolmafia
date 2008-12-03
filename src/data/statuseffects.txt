@@ -572,7 +572,7 @@
 571
 572
 573
-574
+574	Festive Radiation	radiation.gif	e5a8d675772cc484709f8905c98cad3c
 575	Sweet and Yellow		942780e5b1c9e30d3ec506b2835f8951	use one sugar banana
 576	Sweet and Green		4b1ee51d04f250ffe112377e889e0059	use one sugar lime
 577	Sweet and Red		8d6bb82952a477356a26c91b5642a51d	use one sugar cherry

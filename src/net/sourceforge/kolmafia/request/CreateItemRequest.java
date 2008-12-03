@@ -1114,7 +1114,11 @@ public class CreateItemRequest
 
 		if ( urlString.startsWith( "craft.php" ) )
 		{
-			if ( urlString.indexOf( "action=craft" ) == -1 )
+			if ( urlString.indexOf( "action=pulverize" ) != -1 )
+			{
+				return false;
+			}
+			else if ( urlString.indexOf( "action=craft" ) == -1 )
 			{
 				return true;
 			}
