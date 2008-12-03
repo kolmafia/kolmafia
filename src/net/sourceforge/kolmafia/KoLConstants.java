@@ -263,7 +263,7 @@ public interface KoLConstants
 	public static final int PULVERIZE_VERSION = 1;
 	public static final int SPLEENHIT_VERSION = 2;
 	public static final int STATUSEFFECTS_VERSION = 2;
-	public static final int TRADEITEMS_VERSION = 1;
+	public static final int TRADEITEMS_VERSION = 2;
 	public static final int ZAPGROUPS_VERSION = 1;
 	public static final int ZONELIST_VERSION = 1;
 
@@ -316,6 +316,7 @@ public interface KoLConstants
 	public static final int CONSUME_FOOD_HELPER = 22;
 	public static final int CONSUME_DRINK_HELPER = 23;
 	public static final int CONSUME_STICKER = 24;
+	public static final int COMBAT_ITEM = 25;
 
 	public static final int CONSUME_HOBO = 98;
 	public static final int CONSUME_GHOST = 99;

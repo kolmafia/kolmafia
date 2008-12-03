@@ -1891,7 +1891,7 @@ public class ItemDatabase
 		switch ( type )
 		{
 		case KoLConstants.NO_CONSUME:
-			return descType.equals( "" ) || descType.indexOf( "combat" ) != -1 || descType.equals( "crafting item" );
+			return descType.equals( "" ) || descType.equals( "crafting item" );
 		case KoLConstants.CONSUME_EAT:
 
 			return descType.equals( "food" ) || descType.equals( "beverage" );
@@ -1930,6 +1930,8 @@ public class ItemDatabase
 			return descType.indexOf( "weapon" ) != -1;
 		case KoLConstants.EQUIP_OFFHAND:
 			return descType.indexOf( "off-hand item" ) != -1;
+		case KoLConstants.COMBAT_ITEM:
+			return descType.indexOf( "combat" ) != -1;
 		case KoLConstants.CONSUME_HOBO:
 		case KoLConstants.CONSUME_GHOST:
 			return false;
