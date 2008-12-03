@@ -349,11 +349,13 @@ public abstract class StaticEntity
 		if ( location.indexOf( "inventory.php" ) != -1 && location.indexOf( "action=message" ) != -1 )
 		{
 			UseItemRequest.parseConsumption( responseText, false );
+			UseItemRequest.resetItemUsed();
 		}
 
 		if ( ( location.indexOf( "multiuse.php" ) != -1 || location.indexOf( "skills.php" ) != -1 ) && location.indexOf( "useitem" ) != -1 )
 		{
 			UseItemRequest.parseConsumption( responseText, false );
+			UseItemRequest.resetItemUsed();
 		}
 
 		if ( location.indexOf( "hermit.php" ) != -1 )

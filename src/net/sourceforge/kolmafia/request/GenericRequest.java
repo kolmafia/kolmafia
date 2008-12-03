@@ -1415,6 +1415,8 @@ public class GenericRequest
 			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "use", "* ten-leaf clover" );
 		}
 
+		UseItemRequest.resetItemUsed();
+
 		if ( !GenericRequest.choiceHandled )
 		{
 			GenericRequest.choiceHandled = true;
