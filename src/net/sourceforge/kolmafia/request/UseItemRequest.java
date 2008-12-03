@@ -848,6 +848,7 @@ public class UseItemRequest
 		switch ( consumptionType )
 		{
 		case KoLConstants.NO_CONSUME:
+		case KoLConstants.COMBAT_ITEM:
 			return;
 
 		case KoLConstants.MESSAGE_DISPLAY:
@@ -2263,6 +2264,7 @@ public class UseItemRequest
 		switch ( consumptionType )
 		{
 		case KoLConstants.NO_CONSUME:
+		case KoLConstants.COMBAT_ITEM:
 			return false;
 
 		case KoLConstants.CONSUME_USE:

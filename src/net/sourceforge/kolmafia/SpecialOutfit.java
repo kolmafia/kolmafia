@@ -197,7 +197,7 @@ public class SpecialOutfit
 
 	public static final void createExplicitCheckpoint()
 	{
-		AdventureResult[] explicit = new AdventureResult[ EquipmentManager.FAMILIAR + 1 ];
+		AdventureResult[] explicit = new AdventureResult[ EquipmentManager.SLOTS ];
 
 		for ( int i = 0; i < explicit.length; ++i )
 		{
@@ -229,7 +229,7 @@ public class SpecialOutfit
 	{
 		synchronized ( SpecialOutfit.class )
 		{
-			AdventureResult[] implicit = new AdventureResult[ EquipmentManager.FAMILIAR + 1 ];
+			AdventureResult[] implicit = new AdventureResult[ EquipmentManager.SLOTS ];
 
 			for ( int i = 0; i < implicit.length; ++i )
 			{

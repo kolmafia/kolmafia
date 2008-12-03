@@ -590,6 +590,7 @@ public class ItemManagePanel
 				switch ( usageType )
 				{
 				case KoLConstants.NO_CONSUME:
+				case KoLConstants.COMBAT_ITEM:
 					break;
 
 				case KoLConstants.EQUIP_FAMILIAR:

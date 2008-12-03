@@ -60,6 +60,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -734,8 +735,7 @@ public abstract class CustomCombatManager
 			return CustomCombatManager.getLongItemAction( action.substring( 4 ).trim() );
 		}
 
-		List matchingNames = ItemDatabase.getMatchingNames( action );
-		int itemId = matchingNames.isEmpty() ? -1 : ItemDatabase.getItemId( (String) matchingNames.get(0) );
+		int itemId = CustomCombatManager.getCombatItem( action );
 
 		if ( itemId <= 0 )
 		{
@@ -860,17 +860,47 @@ public abstract class CustomCombatManager
 			return CustomCombatManager.getShortItemAction( action.substring( 4 ) );
 		}
 
-		int itemId = ItemDatabase.getItemId( action );
-		if ( itemId == ItemPool.DICTIONARY && !KoLConstants.inventory.contains( ItemPool.get( ItemPool.DICTIONARY, 1 ) ) )
+		int itemId = CustomCombatManager.getCombatItem( action );
+
+		if ( itemId <= 0 )
+		{
+			return "attack";
+		}
+
+		if ( itemId == ItemPool.DICTIONARY && InventoryManager.getCount( ItemPool.DICTIONARY ) < 1 )
 		{
 			itemId = ItemPool.FACSIMILE_DICTIONARY;
 		}
 
-		if ( itemId == ItemPool.FACSIMILE_DICTIONARY && !KoLConstants.inventory.contains( ItemPool.get( ItemPool.FACSIMILE_DICTIONARY, 1 ) ) )
+		if ( itemId == ItemPool.FACSIMILE_DICTIONARY && InventoryManager.getCount(  ItemPool.FACSIMILE_DICTIONARY ) < 1 )
 		{
 			itemId = ItemPool.DICTIONARY;
 		}
 
-		return itemId <= 0 ? "attack" : String.valueOf( itemId );
+		return String.valueOf( itemId );
+	}
+
+	public static final int getCombatItem( String action )
+	{
+		List matchingNames = ItemDatabase.getMatchingNames( action );
+		int count = matchingNames.size();
+		int itemId = -1;
+
+		for ( int i = 0; i < count; ++i )
+		{
+			String name = (String) matchingNames.get( i );
+			int id = ItemDatabase.getItemId( name );
+			switch ( ItemDatabase.getConsumptionType( id ) )
+			{
+			case KoLConstants.COMBAT_ITEM:
+				itemId = id;
+				break;
+			default:
+				// Equipment, food, etc.
+				continue;
+			}
+		}
+
+		return itemId;
 	}
 }
