@@ -461,12 +461,9 @@ public class HolidayDatabase
 	public static final int getGrimaciteEffect( final int ronaldPhase, final int grimacePhase,
 		final int hamburglarPosition )
 	{
-		int grimaceEffect = 4 - HolidayDatabase.getGrimaceMoonlight( grimacePhase );
-		if ( HolidayDatabase.getHamburglarLight( ronaldPhase, grimacePhase, hamburglarPosition ) < 0 )
-		{
-			++grimaceEffect;
-		}
-
+		int grimaceEffect = 4 - HolidayDatabase.getGrimaceMoonlight( grimacePhase )
+			+ HolidayDatabase.getHamburglarDarkness( ronaldPhase, grimacePhase,
+				hamburglarPosition );
 		return grimaceEffect * 10;
 	}
 
@@ -594,6 +591,93 @@ public class HolidayDatabase
 				++totalEffect;
 			}
 			return totalEffect;
+
+		default:
+			return 0;
+
+		}
+	}
+
+	public static final int getHamburglarDarkness( final int ronaldPhase,
+		final int grimacePhase, final int hamburglarPosition )
+	{
+		//         6    5    4    3
+		//
+		//       /---\          /---\
+		//   7   | R |          | G |   2
+		//       \___/          \___/
+		//
+		//       8   9    10    0   1
+
+		switch ( hamburglarPosition )
+		{
+
+		case 0:
+			if ( grimacePhase > 0 && grimacePhase < 5 )
+			{
+				return 1;
+			}
+			return -1;
+
+		case 1:
+			if ( grimacePhase < 4 )
+			{
+				return -1;
+			}
+			return 1;
+
+		case 2:
+			if ( grimacePhase > 3 )
+			{
+				return 0;
+			}
+			return 1;
+
+		case 4:
+			if ( grimacePhase > 0 && grimacePhase < 5 )
+			{
+				return 0;
+			}
+			return 1;
+
+		case 5:
+			if ( ronaldPhase > 3 )
+			{
+				return 0;
+			}
+			return 1;
+
+		case 7:
+			if ( ronaldPhase > 0 && ronaldPhase < 5 )
+			{
+				return 0;
+			}
+			return 1;
+
+		case 8:
+			if ( ronaldPhase > 0 && ronaldPhase < 5 )
+			{
+				return 1;
+			}
+			return 0;
+
+		case 9:
+			if ( ronaldPhase < 4 )
+			{
+				return 0;
+			}
+			return 1;
+
+		case 10:
+			if ( ronaldPhase > 3 )
+			{
+				return 0;
+			}
+			if ( grimacePhase > 0 && grimacePhase < 5 )
+			{
+				return 0;
+			}
+			return 1;
 
 		default:
 			return 0;
