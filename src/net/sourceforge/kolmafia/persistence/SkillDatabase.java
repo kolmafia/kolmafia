@@ -319,8 +319,15 @@ public class SkillDatabase
 		}
 
 		Object mpConsumption = SkillDatabase.mpConsumptionById.get( new Integer( skillId ) );
-		return mpConsumption == null ? 0 : Math.max(
-			( (Integer) mpConsumption ).intValue() + KoLCharacter.getManaCostAdjustment(), 1 );
+
+		if ( mpConsumption == null )
+		{
+			return 0;
+		}
+
+		int cost = ( (Integer) mpConsumption ).intValue();
+
+		return cost == 0 ? 0 : Math.max( cost + KoLCharacter.getManaCostAdjustment(), 1 );
 	}
 
 	/**
