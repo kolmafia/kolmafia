@@ -363,6 +363,9 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "closet_amount", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] { DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "equipped_amount", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "creatable_amount", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] { DataTypes.ITEM_TYPE };
@@ -1775,6 +1778,22 @@ public abstract class RuntimeLibrary
 	{
 		AdventureResult item = new AdventureResult( arg.intValue(), 0 );
 		return new Value( item.getCount( KoLConstants.closet ) );
+	}
+
+	public static Value equipped_amount( final Value arg )
+	{
+		AdventureResult item = new AdventureResult( arg.intValue(), 0 );
+		int runningTotal = 0;
+
+		for ( int i = 0; i <= EquipmentManager.FAMILIAR; ++i )
+		{
+			if ( EquipmentManager.getEquipment( i ).equals( item ) )
+			{
+				++runningTotal;
+			}
+		}
+
+		return new Value( runningTotal );
 	}
 
 	public static Value creatable_amount( final Value arg )
