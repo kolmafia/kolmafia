@@ -838,7 +838,6 @@ public class UseItemRequest
 
 		AdventureResult item = UseItemRequest.lastItemUsed;
 		AdventureResult helper = UseItemRequest.lastHelperUsed;
-		UseItemRequest.resetItemUsed();
 
 		int consumptionType = UseItemRequest.getConsumptionType( item );
 
