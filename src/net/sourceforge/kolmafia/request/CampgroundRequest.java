@@ -181,8 +181,9 @@ public class CampgroundRequest
 				KoLConstants.campground.add( ItemPool.get( ItemPool.TOILET_PAPER, 1 ) );
 			}
 			
-			// TODO: check free rest status (m.group(3)!=null) against timesRested,
-			// adjust it if there appear to have been rests used outside of KoLmafia.
+			// TODO: check free rest status (m.group(3)!=null)
+			// against timesRested, adjust it if there appear to
+			// have been rests used outside of KoLmafia.
 			
 			int startIndex = this.responseText.indexOf( "Your dwelling has the following stuff" );
 			int endIndex = this.responseText.indexOf( "<b>Your Campsite</b>", startIndex + 1 );
@@ -191,11 +192,17 @@ public class CampgroundRequest
 				m = FURNISHING_PATTERN.matcher( this.responseText.substring( startIndex, endIndex ) );
 				while ( m.find() )
 				{
-					KoLConstants.campground.add( ItemPool.get( m.group( 1 ), 1 ) );
+                                        String name = m.group(1);
+
+					if ( name.equals( "Really Good Feng Shui" ) )
+					{
+						name = "Feng Shui for Big Dumb Idiots";
+					}
+
+					KoLConstants.campground.add( ItemPool.get( name, 1 ) );
 				}
 			}
 			
-			findImage( "fengshui.gif", ItemPool.FENG_SHUI );
 			findImage( "pagoda.gif", ItemPool.PAGODA_PLANS );
 			findImage( "bartender.gif", ItemPool.BARTENDER );
 			findImage( "bartender2.gif", ItemPool.CLOCKWORK_BARTENDER );
