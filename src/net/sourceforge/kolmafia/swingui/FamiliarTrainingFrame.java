@@ -96,7 +96,7 @@ public class FamiliarTrainingFrame
 	private static final Pattern STEAL_PATTERN =
 		Pattern.compile( "She also drops an item from her mouth.*You acquire an item: <b>(.*?)</b>" );
 	private static final Pattern CAGELOST_PATTERN =
-		Pattern.compile( "You enter (.*?) against (.*?) in an Ultimate Cage Match.<p>(.*?\\1.*?\\.<p>)\\1 struggles for" );
+		Pattern.compile( "You enter (.*?) against (.*?) in an Ultimate Cage Match.<p>(.*?\\1.*?[.!]<p>)\\1 struggles for" );
 	private static final Pattern HUNTLOST_PATTERN =
 		Pattern.compile( "You enter (.*?) against (.*?) in a Scavenger Hunt.<p>(.*?\\1.*?\\.<p>)\\1 finds" );
 	private static final Pattern COURSELOST_PATTERN =
@@ -1089,7 +1089,7 @@ public class FamiliarTrainingFrame
 
 				FamiliarTrainingFrame.statusMessage(
 					KoLConstants.CONTINUE_STATE,
-					CakeArenaManager.getEvent( contest + 1 ) + " rank " + ( rank + 1 ) + ": trial " + ( trial + 1 ) );
+					CakeArenaManager.getEvent( contest + 1 ) + " rank " + ( rank + 1 ) + ": trial " + trial );
 
 				// Choose possible weights
 				int[] weights = status.getWeights();
