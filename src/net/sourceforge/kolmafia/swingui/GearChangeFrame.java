@@ -45,6 +45,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -115,7 +116,7 @@ public class GearChangeFrame
 		this.customSelect = new ChangeComboBox( EquipmentManager.getCustomOutfits() );
 
 		this.framePanel.setLayout( new CardLayout( 10, 10 ) );
-		this.framePanel.add( new EquipPanel(), "" );
+		this.framePanel.add( new JScrollPane( new EquipPanel() ), "" );
 		this.ensureValidSelections();
 	}
 

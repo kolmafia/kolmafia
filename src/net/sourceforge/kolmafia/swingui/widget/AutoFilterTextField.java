@@ -67,6 +67,9 @@ public class AutoFilterTextField
 
 		this.model.setFilter( this );
 		this.addKeyListener( new FilterListener() );
+		
+		// Make this look like a normal search field on OS X:
+		this.putClientProperty( "JTextField.variant", "search" );
 	}
 
 	public AutoFilterTextField( final JList list, Object initial )
