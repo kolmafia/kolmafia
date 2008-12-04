@@ -164,6 +164,7 @@ public class ItemPool
 	public static final int BLACK_CANDLE = 620;
 	public static final int WARM_SUBJECT = 621;
 	public static final int TOASTER = 637;
+	public static final int QUANTUM_EGG = 652;
 	public static final int ROWBOAT = 653;
 	public static final int STAR = 654;
 	public static final int LINE = 655;
