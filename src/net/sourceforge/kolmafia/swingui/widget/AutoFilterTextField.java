@@ -69,7 +69,8 @@ public class AutoFilterTextField
 		this.addKeyListener( new FilterListener() );
 		
 		// Make this look like a normal search field on OS X:
-		this.putClientProperty( "JTextField.variant", "search" );
+		// Unfortunately, has nasty visual glitch in AdventureSelectPanel.
+		//this.putClientProperty( "JTextField.variant", "search" );
 	}
 
 	public AutoFilterTextField( final JList list, Object initial )
