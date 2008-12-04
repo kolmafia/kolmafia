@@ -1060,11 +1060,26 @@ public class ResultProcessor
 		case ItemPool.DRAGONBONE_BELT_BUCKLE:
 			
 			CreateItemRequest beltCreator = CreateItemRequest.getInstance( ItemPool.BADASS_BELT );
-			if ( KoLCharacter.getAvailableMeat() > 10 && beltCreator.getQuantityPossible() > 0 )
+			// getQuantityPossible() should take meat paste or
+			// Muscle Sign into account
+			if ( beltCreator.getQuantityPossible() > 0 )
 			{
 				beltCreator.setQuantityNeeded( 1 );
 				RequestThread.postRequest( beltCreator );
 			}
+			break;
+
+		case ItemPool.QUANTUM_EGG:
+
+			CreateItemRequest rowboatCreator = CreateItemRequest.getInstance( ItemPool.ROWBOAT );
+			// getQuantityPossible() should take meat paste or
+			// Muscle Sign into account
+			if ( rowboatCreator.getQuantityPossible() > 0 )
+			{
+				rowboatCreator.setQuantityNeeded( 1 );
+				RequestThread.postRequest( rowboatCreator );
+			}
+			break;
 		}
 	}
 	
