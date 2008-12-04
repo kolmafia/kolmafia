@@ -87,6 +87,7 @@ import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.DisplayCaseRequest;
+import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.ManageStoreRequest;
@@ -570,6 +571,9 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.FAMILIAR_TYPE };
 		functions.add( new LibraryFunction( "familiar_equipment", DataTypes.ITEM_TYPE, params ) );
+
+		params = new Type[] { DataTypes.FAMILIAR_TYPE };
+		functions.add( new LibraryFunction( "familiar_equipped_equipment", DataTypes.ITEM_TYPE, params ) );
 
 		params = new Type[] { DataTypes.FAMILIAR_TYPE };
 		functions.add( new LibraryFunction( "familiar_weight", DataTypes.INT_TYPE, params ) );
@@ -2329,6 +2333,13 @@ public abstract class RuntimeLibrary
 	public static Value familiar_equipment( final Value familiar )
 	{
 		return DataTypes.parseItemValue( FamiliarDatabase.getFamiliarItem( familiar.intValue() ), true );
+	}
+
+	public static Value familiar_equipped_equipment( final Value familiar )
+	{
+		FamiliarData fam = KoLCharacter.findFamiliar( familiar.toString() );
+		AdventureResult item = fam == null ? EquipmentRequest.UNEQUIP : fam.getItem();
+		return item == EquipmentRequest.UNEQUIP ? DataTypes.ITEM_INIT : DataTypes.parseItemValue( item.getName(), true );
 	}
 
 	public static Value familiar_weight( final Value familiar )
