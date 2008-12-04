@@ -3620,8 +3620,11 @@ public abstract class KoLmafia
 
 	public static void logout()
 	{
-		// Create the login frame first to ensure that
-		// there is one active frame.
+		// Execute the logout request.
+
+		RequestThread.postRequest( new LogoutRequest() );
+
+		// Create login frame to ensure that there is an active frame.
 
 		if ( !StaticEntity.isHeadless() )
 		{
@@ -3645,10 +3648,6 @@ public abstract class KoLmafia
 				frames[ i ].dispose();
 			}
 		}
-
-		// Execute the logout request.
-
-		RequestThread.postRequest( new LogoutRequest() );
 	}
 
 	public static void quit()
