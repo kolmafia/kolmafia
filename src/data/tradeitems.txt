@@ -3469,7 +3469,7 @@
 3468	blue plastic baby	8	all	0
 3469	blueberry-frosted king cake	1	display	0
 3470	little bitty bathysphere	7	none	0
-3471
+3471	damp old boot	0	none	0
 3472	Seasonal Beret	9	display	0
 3473	Bash-&#332;s boxtop	0	display	0
 3474	cranberry cordial	4	all	36
@@ -3607,6 +3607,6 @@
 3606	rusty diving helmet	9	all	125
 3607	aerated diving helmet	9	display	0
 3608	live nautical mine	25	all	200
-3609	das boot	7	none	0
+3609	das boot	7	display	0
 3610	imitation whetstone	7	all	70
 3611	sea grease	4	all	200
