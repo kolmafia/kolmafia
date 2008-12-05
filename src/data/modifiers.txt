@@ -1381,6 +1381,7 @@ hot pink lipstick	Familiar Weight: +5
 hypodermic needle	Familiar Weight: +5
 iced-out bling	Familiar Weight: +5
 icicle katana	Familiar Weight: +5
+# imitation whetstone
 lead necklace	Familiar Weight: +3
 limburger biker boots	Familiar Weight: +5
 little bitty bathysphere	Familiar Weight: -20, Familiar Effect: "adventure underwater"
@@ -2092,6 +2093,7 @@ eXtreme Cold-Weather Gear	Cold Resistance: +3
 # Increases Astral Mushroom Drop Rate
 # Jellyfish Vision
 # Makes Familiar Less Sensitive to Light
+# Makes Imitation Crab claws sharper
 # Makes Llama Lamas friendlier
 # Makes March Hare More Better
 # Makes Origami Towel Crane More Resistant to Wear and Tear

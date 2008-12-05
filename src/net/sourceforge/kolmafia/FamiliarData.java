@@ -257,6 +257,8 @@ public class FamiliarData
 		case ItemPool.TEDDY_BORG_SEWING_KIT:
 		case ItemPool.FISH_SCALER:
 		case ItemPool.ORIGAMI_MAGAZINE:
+		case ItemPool.ZEN_MOTORCYCLE:
+		case ItemPool.IMITATION_WHETSTONE:
 			return 0;
 
 		case ItemPool.LEAD_NECKLACE:
