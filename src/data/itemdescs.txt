@@ -3584,9 +3584,9 @@
 3577	862599004	bezoar ring
 3578	846538926	candy cornucopia	candy cornucopias
 3579	929088085	tiny ballet slippers	pairs of tiny ballet slippers
-3580
-3581
-3582
+3580	653887123	wriggling flytrap pellet
+3581	345932481	sushi-rolling mat
+3582	788629105	white rice	white rices
 3583
 3584	991734610	irradiated candy cane	irradiated candy canes
 3585	612504863	gingerbread mutant bugbear	gingerbread mutant bugbears
@@ -3595,3 +3595,24 @@
 3588	235633176	sugar banana	sugar bananas
 3589	395279915	sugar lime	sugar limes
 3590	534779871	sugar cherry
+3591	773882501	Mer-kin hookspear	Mer-kin hookspears
+3592	951192082	Mer-kin takebag	Mer-kin takebags
+3593	471800731	Mer-kin thingpouch
+3594	989518869	Mer-kin killscroll	Mer-kin killscrolls
+3595	199516593	Mer-kin fastjuice	Mer-kin fastjuices
+3596	243332864	imitation crab crate	imitation crab crates
+3597	319067199	imitation crab meat	imitation crab meats
+3598	146773709	imitation crab zoea	imitation crab zoeas
+3599	473366824	moist sailor's cap	moist sailor's caps
+3600	918387441	rusty speargun	rusty spearguns
+3601	658706699	rusty compass
+3602	993248155	rusty broken diving helmet
+3603	581706506	rusty porthole
+3604	976845849	rusty rivet	rusty rivets
+3605	310741567	bubblin' stone
+3606	887322976	rusty diving helmet
+3607	784913887	aerated diving helmet
+3608	398933232	live nautical mine
+3609		das boot
+3610	510671971	imitation whetstone
+3611	285153209	sea grease	tubs of sea grease

@@ -71,6 +71,7 @@ spooky scarecrow	1	wooden stakes	spooky staff
 # Weapons and accessories that can be created by non-seal clubbers by
 # combining items.
 
+aerated diving helmet	1	bubblin' stone	rusty diving helmet
 asshat	1	bum cheek	bum cheek
 beach glass necklace	1	beach glass bead	hemp string
 detective skull	1	gnoll lips	brainy skull
@@ -1147,8 +1148,9 @@ clockwork bartender-in-the-box	1	clockwork bartender-head-in-the-box	cocktailcra
 
 # Items created via item usage.
 
-scroll of ancient forbidden unspeakable evil	28	disintegrating quill pen	inkwell	tattered scrap of paper
 dead guy's memento	28	dead guy's piece of double-sided tape	dead guy's watch	picture of a dead guy's girlfriend
+rusty diving helmet	28	rusty broken diving helmet	rusty porthole	rusty rivet (8)
+scroll of ancient forbidden unspeakable evil	28	disintegrating quill pen	inkwell	tattered scrap of paper
 
 # Crimbo toys.  These are items which are created at Uncle Crimbo
 # after collecting enough toy components.

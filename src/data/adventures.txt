@@ -37,6 +37,7 @@ The Sea	adventure=186	true	The Briny Deeps
 The Sea	adventure=187	true	The Brinier Deepers
 The Sea	adventure=189	true	The Briniest Deepests
 The Sea	adventure=190	true	An Octopus's Garden
+The Sea	adventure=191	true	The Wreck of the Edgar Fitzsimmons
 Town	sewer=0	true	Unlucky Sewer
 Town	luckysewer=0	false	Sewer With Clovers
 Town	adventure=112	true	Sleazy Back Alley	1 spider web	13 hobo gristle

@@ -1661,13 +1661,17 @@ public class Modifiers
 		{
 			level = "+3";
 		}
-		else if ( enchantment.indexOf( "Sublime" ) != -1 )
+		else if ( enchantment.indexOf( "Stupendous" ) != -1 )
 		{
 			level = "+4";
 		}
 		else if ( enchantment.indexOf( "Superhuman" ) != -1 )
 		{
 			level = "+5";
+		}
+		else if ( enchantment.indexOf( "Sublime" ) != -1 )
+		{
+			level = "+9";
 		}
 
 		if ( enchantment.indexOf( "All Elements" ) != -1 )

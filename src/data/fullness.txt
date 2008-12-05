@@ -325,5 +325,6 @@ white chocolate chip cookies	2	1	2-5	0	11-13	0
 white chocolate chips	1	1	1-2	0	0	0
 white citadel burger	2	1	2-8	0	0	0
 white citadel fries	2	1	2-5	0	0	0
+white rice	1	1	1-2	1-2	1-2	1-2
 wreath-shaped crimbo cookie	2	7	6-11	0	0	0
 yam candy	3	1	5-10	0	31-34	0
