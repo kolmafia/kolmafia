@@ -3620,10 +3620,6 @@ public abstract class KoLmafia
 
 	public static void logout()
 	{
-		// Execute the logout request.
-
-		RequestThread.postRequest( new LogoutRequest() );
-
 		// Create login frame to ensure that there is an active frame.
 
 		if ( !StaticEntity.isHeadless() )
@@ -3631,14 +3627,16 @@ public abstract class KoLmafia
 			GenericFrame.createDisplay( LoginFrame.class );
 		}
 
-		// Close down any other active frames.  Since
-		// there is at least one active, logout will
-		// not be called again.
+		// Shut down main frame
 
 		if ( KoLDesktop.instanceExists() )
 		{
 			KoLDesktop.getInstance().dispose();
 		}
+
+		// Close down any other active frames.	Since
+		// there is at least one active, logout will
+		// not be called again.
 
 		Frame[] frames = Frame.getFrames();
 		for ( int i = 0; i < frames.length; ++i )
@@ -3648,6 +3646,10 @@ public abstract class KoLmafia
 				frames[ i ].dispose();
 			}
 		}
+
+		// Execute the logout request.
+
+		RequestThread.postRequest( new LogoutRequest() );
 	}
 
 	public static void quit()
