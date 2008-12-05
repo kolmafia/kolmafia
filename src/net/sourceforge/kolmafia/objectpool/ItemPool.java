@@ -549,6 +549,7 @@ public class ItemPool
 	public static final int STENCH_BEDDING = 3346;	// filth-encrusted futon
 	public static final int SPOOKY_BEDDING = 3347;	// comfy coffin
 	public static final int SLEAZE_BEDDING = 3348;	// stained mattress
+	public static final int ZEN_MOTORCYCLE = 3352;
 	public static final int GONG = 3353;
 	public static final int GRUB = 3356;
 	public static final int MOTH = 3357;
@@ -584,6 +585,7 @@ public class ItemPool
 	public static final int GRIMACITE_ASTROLABE = 3548;
 	public static final int RUSTY_BROKEN_DIVING_HELMET = 3602;
 	public static final int DAS_BOOT = 3609;
+	public static final int IMITATION_WHETSTONE = 3610;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
