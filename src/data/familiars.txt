@@ -95,3 +95,4 @@
 99	Mutant Gila Monster	combat	3530	Jawmaster 2000&trade;	0	0	0	0
 100	Cuddlefish	none	3572	six-armed sweater	0	1	3	3
 101	Sugar Fruit Fairy	stat0,item0	3578	tiny ballet slippers	0	3	3	2
+102	Imitation Crab	none	3598	imitation whetstone	0	0	0	0

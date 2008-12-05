@@ -1024,6 +1024,8 @@ public abstract class ChoiceManager
 			"Town", "choiceAdventure297", "Haiku Dungeon",
 			new String[] { "mushrooms", "fairy gravy boat", "skip adventure" },
 			new String[] { null, "80", null } ),
+
+		// Choice 299 is Down at the Hatch
 	};
 
 	static

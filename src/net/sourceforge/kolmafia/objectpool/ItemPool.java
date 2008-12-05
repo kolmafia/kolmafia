@@ -582,6 +582,8 @@ public class ItemPool
 	public static final int GRIMACITE_NINJA_MASK = 3546;
 	public static final int GRIMACITE_SHINGUARDS = 3547;
 	public static final int GRIMACITE_ASTROLABE = 3548;
+	public static final int RUSTY_BROKEN_DIVING_HELMET = 3602;
+	public static final int DAS_BOOT = 3609;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

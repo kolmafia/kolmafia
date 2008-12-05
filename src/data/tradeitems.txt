@@ -3569,7 +3569,7 @@
 3568	sponge helmet	9	all	150
 3569	spongy shield	13	all	150
 3570	square sponge pants	10	all	150
-3571	flytrap pellet	3	all	25
+3571	flytrap pellet	4	all	25
 3572	baby cuddlefish	5	all	0
 3573	six-armed sweater	7	all	70
 3574	slimy chest	4	all	450
@@ -3578,9 +3578,9 @@
 3577	bezoar ring	8	all	275
 3578	candy cornucopia	5	all	0
 3579	tiny ballet slippers	7	all	70
-3580
-3581
-3582
+3580	wriggling flytrap pellet	3	none	0
+3581	sushi-rolling mat	0	display	0
+3582	white rice	1	all	0
 3583
 3584	irradiated candy cane	1	all	0
 3585	gingerbread mutant bugbear	1	all	0
@@ -3589,3 +3589,24 @@
 3588	sugar banana	4	all	10
 3589	sugar lime	4	all	10
 3590	sugar cherry	4	all	10
+3591	Mer-kin hookspear	12	all	300
+3592	Mer-kin takebag	13	all	400
+3593	Mer-kin thingpouch	4	all	250
+3594	Mer-kin killscroll	25	all	100
+3595	Mer-kin fastjuice	4	all	150
+3596	imitation crab crate	4	all	330
+3597	imitation crab meat	25	all	50
+3598	imitation crab zoea	5	all	0
+3599	moist sailor's cap	9	all	275
+3600	rusty speargun	12	all	225
+3601	rusty compass	13	all	450
+3602	rusty broken diving helmet	3	all	75
+3603	rusty porthole	0	all	50
+3604	rusty rivet	0	all	25
+3605	bubblin' stone	0	none	0
+3606	rusty diving helmet	9	all	125
+3607	aerated diving helmet	9	display	0
+3608	live nautical mine	25	all	200
+3609	das boot	7	none	0
+3610	imitation whetstone	7	all	70
+3611	sea grease	4	all	200

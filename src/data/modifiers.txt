@@ -106,6 +106,7 @@ Snow Queen Crown	Cold Damage: +5, Cold Resistance: +3, Familiar Effect: "cold at
 # Sombrero De Vida
 Tropical Crimbo Hat	Spooky Resistance: +1, Familiar Effect: "1xLep, 1.5xFairy, cap 25"
 Zombo's skullcap	Muscle Percent: +20, Familiar Weight: +10, Class: "Turtle Tamer", Familiar Effect: "spooky atk"
+aerated diving helmet	Stench Resistance: +3, Item Drop: -50, Initiative: -50
 anniversary concrete fedora	Moxie: +1, Muscle: +1, Mysticality: +1, Familiar Effect: "?xVolley, ?xLep, cap 2"
 antique helmet	Initiative: -10, Spooky Resistance: +3, Familiar Effect: "0.5xPotato, 0.5xFairy"
 asbestos helmet turtle	Hot Resistance: +1, Familiar Effect: "hot atk, 1xFairy, cap 20"
@@ -186,6 +187,7 @@ meaty helmet turtle	Muscle: +3, Familiar Effect: "sleaze atk, 1xFairy, cap 17"
 mesh cap	Intrinsic Effect: "Red Neck", Familiar Effect: "atk, 1xVolley, cap 41"
 metallic foil cat ears	Intrinsic Effect: "O Hai!", Familiar Effect: "atk, cap 7"
 miner's helmet	Item Drop: +5, Familiar Effect: "1xBarrr, 1xFairy, cap 20"
+moist sailor's cap	Muscle Percent: +10, Stench Damage: +20, Hot Resistance: +4
 mullet wig	Sleaze Damage: +2, Familiar Effect: "3xPotato, 2xGhuol, cap 10"
 mummy mask	Spooky Damage: +12, Familiar Effect: "1xBarrr, 1xFairy, cap 42"
 nasty rat mask	Moxie: +9, Monster Level: -5, Familiar Effect: "sleaze atk, 1xBarrr, cap 45"
@@ -206,6 +208,7 @@ raspberry beret	Hot Resistance: +2, Familiar Effect: "2xPotato, 2xLep, cap 12"
 ravioli hat	Familiar Effect: "atk, cap 2"
 red traffic cone	Moxie: +3, Cold Resistance: +2, Familiar Effect: "2xVolley, 2xLep, cap 15"
 reinforced beaded headband	Maximum HP: +40, Familiar Effect: "0.5xBarrr, 1xFairy, cap 42"
+rusty diving helmet	Stench Resistance: +1, Item Drop: -50, Initiative: -50
 safarrri hat	Maximum HP: +15, Familiar Effect: "2xVolley, cap 22"
 seal-skull helmet	Familiar Effect: "atk, cap 2"
 sequined fez	Moxie: +3, Familiar Effect: "1.75xLep, cap 20"
@@ -449,6 +452,7 @@ KoL Con Cinco Pi&ntilde;ata Bat	Maximum HP: +10, Maximum MP: +10, HP Regen Min: 
 Mace of the Tortoise	Muscle: +7, Class: "Turtle Tamer"
 Mafia violin case	Muscle: +20, Weapon Damage: +30
 Maxwell's Silver Hammer	Mysticality: +10, Weapon Damage: +10
+Mer-kin hookspear	Initiative: +20, Weapon Damage: +40
 # Mjolnir Jr.
 Ol' Scratch's infernal pitchfork	Hot Damage: +40, Critical Hit Percent: +2
 Pasta of Peril	Mysticality: +7, Initiative: +15, Class: "Pastamancer"
@@ -633,7 +637,7 @@ perforated battle paddle	Weapon Damage: +10
 pestoblade	Muscle: +3, Stench Damage: +3
 pitchfork	Weapon Damage: +9
 pixel sword	Initiative: +15
-plexiglass pike pike	Weapon Damage: +25, Muscle Percent: +30, PvP Fights: +10
+plexiglass pike pike	Weapon Damage: +25, PvP Fights: +10, Muscle Percent: +30
 pointed stick	Critical: 2, Weapon Damage: +10
 pool cue	Moxie: +3
 portable corkscrew	Weapon Damage: +3, Spell Damage: +3
@@ -654,6 +658,7 @@ ridiculously overelaborate ninja weapon	Critical: 3, Fumble: 3
 roboduck-on-a-string	Weapon Damage: +5, Item Drop: +5
 rubber axe	Sleaze Damage: +2
 rusty grave robbing shovel	Spooky Damage: +5, Initiative: -10
+rusty speargun	Weapon Damage: +25, Critical: 3
 sabre teeth	Weapon Damage: +4
 # sack of doorknobs
 # saucepan
@@ -756,6 +761,7 @@ Hodgman's varcolac paw	Weapon Damage: +800, Hobo Powered
 Idol of Ak'gyxoth	Moxie: +43, Mana Cost: -1
 # Kevlar balloon
 KoL Con IV Pole	Maximum HP: +4, Maximum MP: +4, Moxie: +4, Muscle: +4, Mysticality: +4, Hot Damage: +4
+Mer-kin takebag	Item Drop: +5
 Mr. Balloon	Moxie: +3, Muscle: +3, Mysticality: +3
 # Mylar balloon
 Necrotelicomnicon	Spell Damage: +10
@@ -853,6 +859,7 @@ polyalloy shield	Damage Reduction: 9, Cold Resistance: +1, Hot Resistance: +1, S
 rag doll	Muscle: +3
 # red balloon
 # rice bowl
+rusty compass	Initiative: +30
 sawblade shield	Damage Reduction: 11, Weapon Damage: +11
 sealskin drum	Weapon Damage: +20, Class: "Seal Clubber"
 sebaceous shield	Damage Reduction: 2, Stench Damage: +1, Sleaze Damage: +1
@@ -1143,7 +1150,7 @@ pulled porquoise pendant	Single Equip, Moxie: +10, Meat Drop: +15
 pulled porquoise ring	Single Equip, Moxie: +11, Maximum HP: +15, Maximum MP: +15, HP Regen Min: 1, HP Regen Max: 2, MP Regen Min: 1, MP Regen Max: 2
 purple glowstick	Maximum MP: +5, Moxie: -3
 pygmy nose-bone	Single Equip, Moxie: +7
-rainbow pearl earring	Single Equip, Moxie: +15, Muscle: +15, Mysticality: +15, Cold Resistance: +4, Hot Resistance: +4, Sleaze Resistance: +4, Spooky Resistance: +4, Stench Resistance: +4
+rainbow pearl earring	Single Equip, Moxie: +15, Muscle: +15, Mysticality: +15, Cold Resistance: +9, Hot Resistance: +9, Sleaze Resistance: +9, Spooky Resistance: +9, Stench Resistance: +9
 rainbow pearl necklace	Single Equip, Moxie: +15, Muscle: +15, Mysticality: +15, Spell Damage: +200
 rainbow pearl ring	Single Equip, Moxie: +15, Muscle: +15, Mysticality: +15, Spooky Damage: +40, Stench Damage: +40, Hot Damage: +40, Cold Damage: +40, Sleaze Damage: +40
 ratskin belt	Single Equip, Moxie: +8, Meat Drop: +10
@@ -1337,7 +1344,7 @@ Panda outfit	Familiar Weight: +5, Item Drop: +5
 Pretty Predator Clawicure Kit	Familiar Weight: +5
 Toddler-sized Dragon Costume	Familiar Weight: +5, Item Drop: +5
 annoying pitchfork	Monster Level: +5
-ant antidepressant	Monster Level: +5
+ant antidepressant	Familiar Weight: +5
 ant hoe	Familiar Effect: "sleaze damage, meat"
 ant pick	Familiar Effect: "cold damage, meat"
 ant pitchfork	Familiar Effect: "stench damage, meat"
@@ -1356,6 +1363,7 @@ candied yam pinky ring	Familiar Weight: +5
 chocolate spurs	Familiar Weight: +5
 cotton candy cordial	Familiar Weight: +5
 cracker	Familiar Weight: +15
+das boot	Familiar Weight: -10, Familiar Effect: "adventure underwater"
 dental pliers	Familiar Weight: +5
 diamond-studded fronts	Familiar Weight: +5
 # evil teddy bear sewing kit
@@ -2007,6 +2015,7 @@ eXtreme Cold-Weather Gear	Cold Resistance: +3
 
 # Unknown Modifiers section of modifiers.txt
 
+# (+15% Underwater)
 # (31-50 damage per successful handshake)
 # (In Sewers)
 # (On the Festival of Jarlsberg only)
@@ -2015,7 +2024,6 @@ eXtreme Cold-Weather Gear	Cold Resistance: +3
 # + ???
 # +1-3 Stat(s) per Fight
 # +10 Damage vs. Lions
-# +10 PvP fight(s) per day when equipped.
 # +10 Ranged Damage
 # +10 damage to Disco Bandit Combat Skills
 # +10% Food Drops from Monsters
@@ -2027,11 +2035,9 @@ eXtreme Cold-Weather Gear	Cold Resistance: +3
 # +15% Food Drops from Monsters
 # +15% Moxie
 # +15% Muscle
-# +2 PvP fight(s) per day when equipped
 # +20 damage to Disco Bandit Combat Skills
 # +20% Food Drops from Monsters
 # +25% Mysticality
-# +3 PvP fight(s) per day when equipped.
 # +3 damage to Disco Bandit Combat Skills
 # +3% Food Drops from Monsters
 # +30 to All Attributes.  Yeah, +30.  That's the ticket.
@@ -2040,12 +2046,11 @@ eXtreme Cold-Weather Gear	Cold Resistance: +3
 # +30% Food Drops from Monsters
 # +30% Item Drops from Hobos
 # +5 Duration to Buffs You Cast
-# +5 PvP fight(s) per day when equipped.
 # +5 to Familiar Damage
 # +5% Booze Drops from Monsters
+# +5% Item Drops From Monsters
 # +5% Mysticality
 # +50% Weapon Drops from Monsters
-# +7 PvP fight(s) per day when equipped.
 # +7 damage to Disco Bandit Combat Skills
 # 5-Finger Discount
 # 50% Discount on Gift Packages
@@ -2076,6 +2081,7 @@ eXtreme Cold-Weather Gear	Cold Resistance: +3
 # Disco Bandit Combat Skills weaken enemies by an additional +100%
 # Drains MP on Successful Hit
 # Explosively hilarious
+# Extracts Meat on Critical Hits
 # Familiar Will Attack You Less Often
 # Familiar gains 1-2 extra experience per Adventure
 # Gives Extra Offhand Equipment Slot
@@ -2094,6 +2100,7 @@ eXtreme Cold-Weather Gear	Cold Resistance: +3
 # Moxie used to determine Maximum MP
 # Needed for depleted Grimacite smithing
 # Never runs out of pencils!
+# On Critical:  Deals 50-60 additional damage
 # On Critical: Insanity!
 # Prevents Level Teleporting
 # Protects the wearer from poison

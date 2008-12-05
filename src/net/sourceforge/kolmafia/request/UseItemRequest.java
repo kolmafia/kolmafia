@@ -1721,6 +1721,7 @@ public class UseItemRequest
 			return;
 
 
+		case ItemPool.RUSTY_BROKEN_DIVING_HELMET:
 		case ItemPool.PIRATE_SKULL:
 			UseItemRequest.showItemUsage( showHTML, responseText );
 			// Fall through
