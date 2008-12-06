@@ -90,3 +90,9 @@ bl	15	bounty-hunting rifle
 bl	15	bounty-hunting pants
 bl	100	pompadour'd puppy
 bl	200	Manual of Transcendent Olfaction
+
+# Things you can buy with sand dollars
+
+bs	5	sea grease
+bs	100	damp old boot
+bs	300	sushi-rolling mat

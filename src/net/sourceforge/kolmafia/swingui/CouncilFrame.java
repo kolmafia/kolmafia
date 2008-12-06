@@ -120,6 +120,10 @@ public class CouncilFrame
 		{
 			CoinMasterRequest.parseBountyVisit( location, responseText );
 		}
+		else if ( location.startsWith( "monkeycastle" ) )
+		{
+			CoinMasterRequest.parseBigBrotherVisit( location, responseText );
+		}
 		else if ( location.startsWith( "manor3" ) && location.indexOf( "action=summon" ) != -1 )
 		{
 			AdventureRequest.registerDemonName( "Summoning Chamber", responseText );

@@ -59,12 +59,14 @@ public class CoinMasterRequest
 	private static final Pattern ACTION_PATTERN = Pattern.compile( "action=([^&]+)" );
 	private static final Pattern CAMP_PATTERN = Pattern.compile( "whichcamp=(\\d+)" );
 	private static final Pattern BHH_BUY_PATTERN = Pattern.compile( "whichitem=(\\d+).*?howmany=(\\d+)" );
+	private static final Pattern BB_BUY_PATTERN = Pattern.compile( "whichitem=(\\d+).*?quantity=(\\d+)" );
 	private static final Pattern CAMP_TRADE_PATTERN = Pattern.compile( "whichitem=(\\d+).*?quantity=(\\d+)" );
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You've.*?got (\\d+) (dime|quarter)" );
 
 	private static final String BHH = "Bounty Hunter Hunter";
 	private static final String HIPPY = "Dimemaster";
 	private static final String FRATBOY = "Quartersmaster";
+	private static final String BIGBROTHER = "Big Brother";
 
 	private final String token;
 	private final String master;
@@ -93,6 +95,10 @@ public class CoinMasterRequest
 		else if ( token.equals( "lucre" ) )
 		{
 			this.master = BHH;
+		}
+		else if ( token.equals( "sand dollar" ) )
+		{
+			this.master = BIGBROTHER;
 		}
 		else
 		{
@@ -131,7 +137,7 @@ public class CoinMasterRequest
 		this.addFormField( "action", action );
 		this.addFormField( "whichitem", String.valueOf( itemId ) );
 
-		if ( master == HIPPY || master == FRATBOY )
+		if ( master == HIPPY || master == FRATBOY || master == BIGBROTHER )
 		{
 			this.addFormField( "quantity", String.valueOf( quantity ) );
 		}
@@ -153,6 +159,11 @@ public class CoinMasterRequest
 			return "bhh.php";
 		}
 
+		if ( token.equals( "sand dollar" ) )
+		{
+			return "monkeycastle.php";
+		}
+
 		if ( token.equals( "dime" ) || token.equals( "quarter" ) )
 		{
 			return "bigisland.php";
@@ -170,6 +181,21 @@ public class CoinMasterRequest
 		if ( KoLmafia.permitsContinue() )
 		{
 			KoLmafia.updateDisplay( master + " successfully looted!" );
+		}
+	}
+
+	public static void parseBigBrotherVisit( final String location, final String responseText )
+	{
+		Matcher actionMatcher = CoinMasterRequest.ACTION_PATTERN.matcher( location );
+		if ( !actionMatcher.find() )
+		{
+			return;
+		}
+
+		if ( responseText.indexOf( "You don't have enough" ) != -1 )
+		{
+			CoinMasterRequest.refundPurchase( location, BIGBROTHER );
+			CoinmastersFrame.externalUpdate();
 		}
 	}
 
@@ -300,6 +326,13 @@ public class CoinMasterRequest
 			property = "availableLucre";
 			token = "lucre";
 		}
+		else if ( master == BIGBROTHER )
+		{
+			matcher = CoinMasterRequest.BB_BUY_PATTERN.matcher( urlString );
+			prices = CoinmastersDatabase.sandDollarBuyPrices();
+			property = "availableSandDollars";
+			token = "sand dollars";
+		}
 		else if ( master == HIPPY )
 		{
 			matcher = CoinMasterRequest.CAMP_TRADE_PATTERN.matcher( urlString );
@@ -326,6 +359,11 @@ public class CoinMasterRequest
 		{
 			AdventureResult lucres = CoinmastersFrame.LUCRE.getInstance( cost );
 			ResultProcessor.processResult( lucres );
+		}
+		else if ( master == BIGBROTHER )
+		{
+			AdventureResult sandDollars = CoinmastersFrame.SAND_DOLLAR.getInstance( cost );
+			ResultProcessor.processResult( sandDollars );
 		}
 
 		KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have enough " + token + " to buy that." );
@@ -396,6 +434,11 @@ public class CoinMasterRequest
 			return registerHunterRequest( urlString );
 		}
 
+		if ( urlString.startsWith( "monkeycastle.php" ) )
+		{
+			return registerSeaRequest( urlString );
+		}
+
 		if ( urlString.startsWith( "bigisland.php" ) )
 		{
 			return registerIslandRequest( urlString );
@@ -461,6 +504,24 @@ public class CoinMasterRequest
 		Preferences.setInteger( "currentBountyItem", 0 );
 	}
 
+	private static final boolean registerSeaRequest( final String urlString )
+	{
+		Matcher actionMatcher = CoinMasterRequest.ACTION_PATTERN.matcher( urlString );
+		if ( !actionMatcher.find() )
+		{
+			return true;
+		}
+
+		String action = actionMatcher.group(1);
+
+		if ( action.equals( "buyitem" ) )
+		{
+			CoinMasterRequest.buyStuff( urlString, BIGBROTHER );
+		}
+
+		return true;
+	}
+
 	private static final boolean registerIslandRequest( final String urlString )
 	{
 		String master = findCampMaster( urlString );
@@ -503,6 +564,13 @@ public class CoinMasterRequest
 			token = "filthy lucre";
 			property = "availableLucre";
 		}
+		else if ( master == BIGBROTHER )
+		{
+			tradeMatcher = CoinMasterRequest.BB_BUY_PATTERN.matcher( urlString );
+			prices = CoinmastersDatabase.sandDollarBuyPrices();
+			token = "sand dollar";
+			property = "availableSandDollar";
+		}
 		else if ( master == HIPPY )
 		{
 			tradeMatcher = CoinMasterRequest.CAMP_TRADE_PATTERN.matcher( urlString );
@@ -542,6 +610,11 @@ public class CoinMasterRequest
 		{
 			AdventureResult lucres = CoinmastersFrame.LUCRE.getInstance( -cost );
 			ResultProcessor.processResult( lucres );
+		}
+		else if ( master == BIGBROTHER )
+		{
+			AdventureResult sandDollars = CoinmastersFrame.SAND_DOLLAR.getInstance( -cost );
+			ResultProcessor.processResult( sandDollars );
 		}
 
 		Preferences.increment( property, -cost );
