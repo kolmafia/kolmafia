@@ -691,7 +691,7 @@ public class IslandDecorator
 			// lodge in a berserker rage. Several sweaty, naked
 			// hippies run out and off the battlefield, brushing
 			// burning coals out of their dreadlocks.
-			"burning coals",
+			"brushing burning coals",
 
 			// You see one of your frat brothers punch an
 			// F.R.O.G. in the solar plexus, then aim the
