@@ -175,6 +175,7 @@ public class ItemPool
 	public static final int JEWELRY_PLIERS = 709;
 	public static final int PUZZLE_PIECE = 727;
 	public static final int HEDGE_KEY = 728;
+	public static final int SCUBA_GEAR = 734;
 	public static final int KNOB_FIRECRACKER = 746;
 	public static final int CUMMERBUND = 778;
 	public static final int MAFIA_ARIA = 781;
@@ -585,6 +586,8 @@ public class ItemPool
 	public static final int GRIMACITE_ASTROLABE = 3548;
 	public static final int SAND_DOLLAR = 3575;
 	public static final int RUSTY_BROKEN_DIVING_HELMET = 3602;
+	public static final int BUBBLIN_STONE = 3605;
+	public static final int AERATED_DIVING_HELMET = 3607;
 	public static final int DAS_BOOT = 3609;
 	public static final int IMITATION_WHETSTONE = 3610;
 

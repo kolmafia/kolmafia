@@ -45,10 +45,14 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
+
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.SpecialOutfit;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
@@ -56,6 +60,7 @@ import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.panel.ItemManagePanel;
@@ -67,8 +72,14 @@ import net.sourceforge.kolmafia.webui.IslandDecorator;
 public class CoinmastersFrame
 	extends GenericFrame
 {
-	public static final AdventureResult LUCRE = new AdventureResult( 2098, -1 );
-	public static final AdventureResult SAND_DOLLAR = new AdventureResult( 3575, -1 );
+	public static final AdventureResult LUCRE = ItemPool.get( ItemPool.LUCRE, -1 );
+	public static final AdventureResult SAND_DOLLAR = ItemPool.get( ItemPool.SAND_DOLLAR, -1 );
+
+	public static final AdventureResult AERATED_DIVING_HELMET = ItemPool.get( ItemPool.AERATED_DIVING_HELMET, 1 );
+	public static final AdventureResult SCUBA_GEAR = ItemPool.get( ItemPool.SCUBA_GEAR, 1 );
+	public static final AdventureResult BATHYSPHERE = ItemPool.get( ItemPool.BATHYSPHERE, 1 );
+	public static final AdventureResult DAS_BOOT = ItemPool.get( ItemPool.DAS_BOOT, 1 );
+	public static final AdventureResult BUBBLIN_STONE = ItemPool.get( ItemPool.BUBBLIN_STONE, 1 );
 
 	public static final int WAR_HIPPY_OUTFIT = 32;
 	public static final int WAR_FRAT_OUTFIT = 33;
@@ -143,7 +154,7 @@ public class CoinmastersFrame
 	}
 
 	private class DimemasterPanel
-		extends CoinmasterPanel
+		extends WarMasterPanel
 	{
 		public DimemasterPanel()
 		{
@@ -155,13 +166,11 @@ public class CoinmastersFrame
 			       "dime",
 			       "dimemaster",
 			       "hippy");
-			buyAction = "getgear";
-			sellAction = "turnin";
 		}
 	}
 
 	private class QuartersmasterPanel
-		extends CoinmasterPanel
+		extends WarMasterPanel
 	{
 		public QuartersmasterPanel()
 		{
@@ -173,8 +182,6 @@ public class CoinmastersFrame
 			       "quarter",
 			       "quartersmaster",
 			       "fratboy" );
-			buyAction = "getgear";
-			sellAction = "turnin";
 		}
 	}
 
@@ -186,11 +193,9 @@ public class CoinmastersFrame
 			super( CoinmastersDatabase.getLucreItems(),
 			       null,
 			       CoinmastersDatabase.lucreBuyPrices(),
-			       0,
 			       "availableLucre",
 			       "lucre",
-			       "bounty hunter hunter",
-			       null);
+			       "bounty hunter hunter");
 			buyAction = "buy";
 		}
 
@@ -203,22 +208,156 @@ public class CoinmastersFrame
 	private class BigBrotherPanel
 		extends CoinmasterPanel
 	{
+		private AdventureResult self = null;
+		private AdventureResult familiar = null;
+		private boolean rescuedBigBrother = false;
+
 		public BigBrotherPanel()
 		{
 			super( CoinmastersDatabase.getSandDollarItems(),
 			       null,
 			       CoinmastersDatabase.sandDollarBuyPrices(),
-			       0,
 			       "availableSandDollars",
 			       "sand dollar",
-			       "big brother",
-			       null);
+			       "big brother");
 			buyAction = "buyitem";
+		}
+
+		public void update()
+		{
+			if ( InventoryManager.hasItem( CoinmastersFrame.AERATED_DIVING_HELMET ) )
+			{
+				this.self = CoinmastersFrame.AERATED_DIVING_HELMET;
+				this.rescuedBigBrother = true;
+			}
+			else if ( InventoryManager.hasItem( CoinmastersFrame.SCUBA_GEAR ) )
+			{
+				this.self = CoinmastersFrame.SCUBA_GEAR;
+				this.rescuedBigBrother = InventoryManager.hasItem( CoinmastersFrame.BUBBLIN_STONE );
+			}
+			else
+			{
+				this.rescuedBigBrother = false;
+			}
+
+			if ( InventoryManager.hasItem( CoinmastersFrame.DAS_BOOT ) )
+			{
+				this.familiar = CoinmastersFrame.DAS_BOOT;
+			}
+			else if ( InventoryManager.hasItem( CoinmastersFrame.BATHYSPHERE ) )
+			{
+				this.familiar = CoinmastersFrame.BATHYSPHERE;
+			}
+		}
+
+		public boolean enabled()
+		{
+			return this.rescuedBigBrother;
+		}
+
+		public boolean accessible()
+		{
+			if ( !this.rescuedBigBrother )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You haven't rescued Big Brother yet." );
+				return false;
+			}
+
+			if ( this.self == null )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have the right equipment to adventure underwater." );
+				return false;
+			}
+
+			if ( this.familiar == null )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Your familiar doesn't have the right equipment to adventure underwater." );
+				return false;
+			}
+
+			return true;
+		}
+
+		public void equip()
+		{
+			if ( !KoLCharacter.hasEquipped( self ) )
+			{
+				EquipmentRequest request = new EquipmentRequest( self );
+				RequestThread.postRequest( request );
+			}
+
+			if ( !KoLCharacter.hasEquipped( familiar ) )
+			{
+				EquipmentRequest request = new EquipmentRequest( familiar );
+				RequestThread.postRequest( request );
+			}
 		}
 
 		public int buyDefault( final int max )
 		{
 			return 1;
+		}
+	}
+
+	private class WarMasterPanel
+		extends CoinmasterPanel
+	{
+		private final int outfit;
+		private final String side;
+
+		private boolean hasOutfit = false;
+
+		public WarMasterPanel( LockableListModel purchases, Map sellPrices, Map buyPrices, int outfit, String property, String token, String master, String side )
+		{
+			super( purchases, sellPrices, buyPrices, property, token, master);
+			this.outfit = outfit;
+			this.side = side;
+			buyAction = "getgear";
+			sellAction = "turnin";
+		}
+
+		public void update()
+		{
+			this.hasOutfit = EquipmentManager.hasOutfit( this.outfit );
+		}
+
+		public boolean enabled()
+		{
+			return CoinmastersFrame.atWar && this.hasOutfit;
+		}
+
+		public boolean accessible()
+		{
+			if ( !CoinmastersFrame.atWar )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You're not at war." );
+				return false;
+			}
+
+			if ( !this.hasOutfit )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have the right outfit" );
+				return false;
+			}
+
+			return true;
+		}
+
+		public void equip()
+		{
+			if ( !EquipmentManager.isWearingOutfit( this.outfit ) )
+			{
+
+				SpecialOutfit outfit = EquipmentDatabase.getOutfit( this.outfit );
+				EquipmentRequest request = new EquipmentRequest( outfit );
+				EquipmentManager.retrieveOutfit( this.outfit );
+				RequestThread.postRequest( request );
+			}
+		}
+
+		public boolean showLighthouse()
+		{
+			return Preferences.getString( "sidequestLighthouseCompleted" ).equals( side );
 		}
 	}
 
@@ -228,31 +367,26 @@ public class CoinmastersFrame
 		private final LockableListModel purchases;
 		private final Map sellPrices;
 		private final Map buyPrices;
-		private final int outfit;
 		private final String property;
 		private final String token;
 		private final String master;
-		private final String side;
+
 		protected String buyAction;
 		protected String sellAction;
 
 		private SellPanel sellPanel = null;
 		private BuyPanel buyPanel = null;
 
-		private boolean hasOutfit = false;
-
-		public CoinmasterPanel( LockableListModel purchases, Map sellPrices, Map buyPrices, int outfit, String property, String token, String master, String side )
+		public CoinmasterPanel( LockableListModel purchases, Map sellPrices, Map buyPrices, String property, String token, String master )
 		{
 			super( new BorderLayout() );
 
 			this.purchases = purchases;
 			this.sellPrices = sellPrices;
 			this.buyPrices = buyPrices;
-			this.outfit = outfit;
 			this.property = property;
 			this.token = token;
 			this.master = master;
-			this.side = side;
 
 			if ( sellPrices != null )
 			{
@@ -275,14 +409,27 @@ public class CoinmastersFrame
 		{
 		}
 
+		public boolean enabled()
+		{
+			return true;
+		}
+
+		public boolean accessible()
+		{
+			return true;
+		}
+
+		public void equip()
+		{
+		}
+
 		public boolean showLighthouse()
 		{
-			return Preferences.getString( "sidequestLighthouseCompleted" ).equals( side );
+			return false;
 		}
 
 		public void update()
 		{
-			this.hasOutfit = this.outfit == 0 || EquipmentManager.hasOutfit( this.outfit );
 		}
 
 		public int buyDefault( final int max )
@@ -290,36 +437,15 @@ public class CoinmastersFrame
 			return max;
 		}
 
-		private GenericRequest outfitRequest()
-		{
-			return new EquipmentRequest( EquipmentDatabase.getOutfit( this.outfit ) );
-		}
-
 		public void check()
 		{
-			if ( this.outfit == 0 )
+			if ( !this.accessible() )
 			{
-				return;
-			}
-
-			if ( !this.hasOutfit )
-			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have the right outfit" );
-				return;
-			}
-
-			if ( !CoinmastersFrame.atWar )
-			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You're not at war." );
 				return;
 			}
 
 			RequestThread.openRequestSequence();
-			if ( !EquipmentManager.isWearingOutfit( this.outfit ) )
-			{
-				EquipmentManager.retrieveOutfit( this.outfit );
-				RequestThread.postRequest( outfitRequest() );
-			}
+			this.equip();
 			RequestThread.postRequest( new CoinMasterRequest( this.token ) );
 			RequestThread.closeRequestSequence();
 		}
@@ -331,18 +457,14 @@ public class CoinmastersFrame
 				return;
 			}
 
-			if ( this.outfit != 0 && !this.hasOutfit )
+			if ( !this.accessible() )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have the right outfit" );
 				return;
 			}
 
 			RequestThread.openRequestSequence();
 
-			if ( this.outfit != 0 && !EquipmentManager.isWearingOutfit( this.outfit ) )
-			{
-				RequestThread.postRequest( outfitRequest() );
-			}
+			this.equip();
 
 			for ( int i = 0; i < items.length; ++i )
 			{
@@ -372,7 +494,7 @@ public class CoinmastersFrame
 			public void setEnabled( final boolean isEnabled )
 			{
 				super.setEnabled( isEnabled );
-				this.buttons[ 0 ].setEnabled( hasOutfit && atWar );
+				this.buttons[ 0 ].setEnabled( CoinmasterPanel.this.enabled() );
 			}
 
 			public void addFilters()
@@ -454,7 +576,7 @@ public class CoinmastersFrame
 			public void setEnabled( final boolean isEnabled )
 			{
 				super.setEnabled( isEnabled );
-				this.buttons[ 0 ].setEnabled( outfit == 0 || hasOutfit && atWar );
+				this.buttons[ 0 ].setEnabled( CoinmasterPanel.this.enabled() );
 			}
 
 			public void addFilters()

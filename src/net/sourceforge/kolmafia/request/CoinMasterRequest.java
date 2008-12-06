@@ -137,9 +137,14 @@ public class CoinMasterRequest
 		this.addFormField( "action", action );
 		this.addFormField( "whichitem", String.valueOf( itemId ) );
 
-		if ( master == HIPPY || master == FRATBOY || master == BIGBROTHER )
+		if ( master == HIPPY || master == FRATBOY )
 		{
 			this.addFormField( "quantity", String.valueOf( quantity ) );
+		}
+		else if ( master == BIGBROTHER )
+		{
+			this.addFormField( "quantity", String.valueOf( quantity ) );
+			this.addFormField( "who", "2" );
 		}
 		else if ( master == BHH )
 		{
