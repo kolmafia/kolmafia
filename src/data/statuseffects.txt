@@ -528,11 +528,11 @@
 527	Carrion' On	bonepile.gif	447b7c96f0e5c93fb9a64f92850f0b3e	use 1 glimmering buzzard feather
 528	Melancholy Burden	blackbird1.gif	99d1d6de637d4289842cba0ffc2aec19	use 1 glimmering raven feather
 529	The Great Tit's Blessing	wink.gif	429a69b3cdc061390828454dd06b6825	use 1 glimmering great tit feather
-530	The Ballad of Richie Thingfinder	nopic2.gif	ff0e9ff0189cea375f60b5860463518d
-531	Benetton's Medley of Diversity	notes.gif	c8d08f07fdafe4308601d97322ca69dd
-532	Elron's Explosive Etude	notes.gif	26318ef7c75a6bf1fa80584e2e8941b3
-533	Chorale of Companionship	notes.gif	e9227c476b197f54d5fe6be5e52995b5
-534	Prelude of Precision	notes.gif	3f442b411c8d73c4116db7b89669b852
+530	The Ballad of Richie Thingfinder	notes.gif	ff0e9ff0189cea375f60b5860463518d	cast 1 The Ballad of Richie Thingfinder
+531	Benetton's Medley of Diversity	notes.gif	c8d08f07fdafe4308601d97322ca69dd	cast 1 Benetton's Medley of Diversity
+532	Elron's Explosive Etude	notes.gif	26318ef7c75a6bf1fa80584e2e8941b3	cast 1 Elron's Explosive Etude
+533	Chorale of Companionship	notes.gif	e9227c476b197f54d5fe6be5e52995b5	cast 1 Chorale of Companionship
+534	Prelude of Precision	notes.gif	3f442b411c8d73c4116db7b89669b852	cast 1 Prelude of Precision
 535	Deadly Lampblade	blacksword.gif	32cfd91b38e4cfd44a05d368aec7cf48	use 1 deadly lampshade
 536	Drenched With Filth	blooddrops.gif	0bae503909ac0e2a21763466adf33d29	use 1 concentrated garbage juice
 537	Hobonic	hobohead.gif	1a4b9db2f98937c155609f54c14cdf7c

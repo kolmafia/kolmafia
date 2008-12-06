@@ -45,6 +45,8 @@ grapefruit, grapes, lemon, olive, orange, strawberry, tomato
 cherry, jumbo olive, lime
 skewered cherry, skewered jumbo olive, skewered lime
 cocktail onion, kiwi, kumquat, raspberry, tangerine, tonic water, peach, plum, pear
+sea avocado, sea carrot, sea cucumber
+sea honeydew, sea lychee, sea tangelo
 Knob mushroom, Knoll mushroom, spooky mushroom
 cool mushroom, pointy mushroom, warm mushroom
 flaming mushroom, frozen mushroom, stinky mushroom

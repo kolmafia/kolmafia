@@ -3551,7 +3551,7 @@
 3550	propeller beanie	9	display	0
 3551	straw hat	9	all	50
 3552	octopus's spade	12	all	250
-3553	soggy seed packet	3	all	500
+3553	soggy seed packet	0	all	500
 3554	glob of green slime	0	all	185
 3555	sea carrot	1	all	350
 3556	sea cucumber	1	all	350
