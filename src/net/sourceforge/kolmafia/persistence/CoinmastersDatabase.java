@@ -60,6 +60,10 @@ public class CoinmastersDatabase
 	private static final LockableListModel buyForLucre = new LockableListModel();
 	private static final Map lucreBuyPriceByName = new TreeMap();
 
+	private static final LockableListModel buyForSandDollars = new LockableListModel();
+	private static final Map sandDollarBuyPriceByName = new TreeMap();
+
+
 	private static final Map lighthouseItems = new TreeMap();
 
 	static
@@ -125,6 +129,13 @@ public class CoinmastersDatabase
 					buyForLucre.add( item );
 					lucreBuyPriceByName.put( name, iprice );
 				}
+				else if ( code.equals( "bs" ) )
+				{
+					// Something we buy with sand dollars
+					AdventureResult item = new AdventureResult( name, 0, false );
+					buyForSandDollars.add( item );
+					sandDollarBuyPriceByName.put( name, iprice );
+				}
 			}
 		}
 
@@ -189,6 +200,16 @@ public class CoinmastersDatabase
 	public static final Map lucreBuyPrices()
 	{
 		return lucreBuyPriceByName;
+	}
+
+	public static final LockableListModel getSandDollarItems()
+	{
+		return buyForSandDollars;
+	}
+
+	public static final Map sandDollarBuyPrices()
+	{
+		return sandDollarBuyPriceByName;
 	}
 
 	public static final Map lighthouseItems()

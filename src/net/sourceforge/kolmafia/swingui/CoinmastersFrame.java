@@ -68,6 +68,7 @@ public class CoinmastersFrame
 	extends GenericFrame
 {
 	public static final AdventureResult LUCRE = new AdventureResult( 2098, -1 );
+	public static final AdventureResult SAND_DOLLAR = new AdventureResult( 3575, -1 );
 
 	public static final int WAR_HIPPY_OUTFIT = 32;
 	public static final int WAR_FRAT_OUTFIT = 33;
@@ -77,10 +78,12 @@ public class CoinmastersFrame
 	private static int dimes = 0;
 	private static int quarters = 0;
 	private static int lucre = 0;
+	private static int sandDollars = 0;
 
 	private CoinmasterPanel dimePanel = null;
 	private CoinmasterPanel quarterPanel = null;
 	private CoinmasterPanel lucrePanel = null;
+	private CoinmasterPanel sandDollarPanel = null;
 
 	public CoinmastersFrame()
 	{
@@ -102,6 +105,11 @@ public class CoinmastersFrame
 		panel.add( lucrePanel );
 		this.tabs.add( "Bounty Hunter Hunter", panel );
 
+		panel = new JPanel( new BorderLayout() );
+		sandDollarPanel = new BigBrotherPanel();
+		panel.add( sandDollarPanel );
+		this.tabs.add( "Big Brother", panel );
+
 		this.framePanel.add( this.tabs, BorderLayout.CENTER );
 		CoinmastersFrame.externalUpdate();
 	}
@@ -117,10 +125,12 @@ public class CoinmastersFrame
 		atWar = Preferences.getString( "warProgress" ).equals( "started" );
 		dimes = Preferences.getInteger( "availableDimes" );
 		quarters = Preferences.getInteger( "availableQuarters" );
-		lucre =	 LUCRE.getCount( KoLConstants.inventory );
+		lucre = LUCRE.getCount( KoLConstants.inventory );
 		Preferences.setInteger( "availableLucre", lucre );
+		sandDollars = SAND_DOLLAR.getCount( KoLConstants.inventory );
+		Preferences.setInteger( "availableSandDollars", sandDollars );
 
-		INSTANCE.setTitle( "Coin Masters (" + dimes + " dimes/" + quarters + " quarters/" + lucre + " lucre)" );
+		INSTANCE.setTitle( "Coin Masters (" + dimes + " dimes/" + quarters + " quarters/" + lucre + " lucre/" + sandDollars +" sand dollars)" );
 		INSTANCE.update();
 	}
 
@@ -129,6 +139,7 @@ public class CoinmastersFrame
 		dimePanel.update();
 		quarterPanel.update();
 		lucrePanel.update();
+		sandDollarPanel.update();
 	}
 
 	private class DimemasterPanel
@@ -181,6 +192,28 @@ public class CoinmastersFrame
 			       "bounty hunter hunter",
 			       null);
 			buyAction = "buy";
+		}
+
+		public int buyDefault( final int max )
+		{
+			return 1;
+		}
+	}
+
+	private class BigBrotherPanel
+		extends CoinmasterPanel
+	{
+		public BigBrotherPanel()
+		{
+			super( CoinmastersDatabase.getSandDollarItems(),
+			       null,
+			       CoinmastersDatabase.sandDollarBuyPrices(),
+			       0,
+			       "availableSandDollars",
+			       "sand dollar",
+			       "big brother",
+			       null);
+			buyAction = "buyitem";
 		}
 
 		public int buyDefault( final int max )
