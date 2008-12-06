@@ -638,6 +638,14 @@ public abstract class UseLinkDecorator
 			useLocation = "adventure.php?snarfblat=27";
 			break;
 
+		// Link to Big Brother if you pick up a sand dollar
+
+		case ItemPool.SAND_DOLLAR:
+
+			useType = String.valueOf( InventoryManager.getCount( itemId ) );
+			useLocation = "monkeycastle.php?who=2&pwd=" + GenericRequest.passwordHash;
+			break;
+
 		// Link to use the Orcish Frat House Blueprints
 
 		case ItemPool.FRATHOUSE_BLUEPRINTS:
