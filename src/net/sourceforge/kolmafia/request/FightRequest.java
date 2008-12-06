@@ -541,6 +541,7 @@ public class FightRequest
 				if ( FightRequest.encounterLookup.equals( "rampaging adding machine" ) )
 				{
 					FightRequest.action1 = "attack";
+					this.addFormField( "action", FightRequest.action1 );
 					return;
 				}
 			}
@@ -2142,7 +2143,8 @@ public class FightRequest
 				Matcher itemMatcher = FightRequest.ITEM1_PATTERN.matcher( urlString );
 				if ( itemMatcher.find() )
 				{
-					String item = ItemDatabase.getItemName( StringUtilities.parseInt( itemMatcher.group( 1 ) ) );
+					int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
+					String item = ItemDatabase.getItemName( itemId );
 					if ( item == null )
 					{
 						if ( shouldLogAction )
@@ -2158,7 +2160,7 @@ public class FightRequest
 							Preferences.setString( "olfactedMonster",
 								FightRequest.encounterLookup );
 						}
-						FightRequest.action1 = CustomCombatManager.getShortCombatOptionName( item );
+						FightRequest.action1 = String.valueOf( itemId );
 						if ( shouldLogAction )
 						{
 							action.append( "uses the " + item );
@@ -2168,7 +2170,8 @@ public class FightRequest
 					itemMatcher = FightRequest.ITEM2_PATTERN.matcher( urlString );
 					if ( itemMatcher.find() )
 					{
-						item = ItemDatabase.getItemName( StringUtilities.parseInt( itemMatcher.group( 1 ) ) );
+						itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
+						item = ItemDatabase.getItemName( itemId );
 						if ( item != null )
 						{
 							if ( item.equalsIgnoreCase( "odor extractor" ) &&
@@ -2177,7 +2180,7 @@ public class FightRequest
 								Preferences.setString( "olfactedMonster",
 									FightRequest.encounterLookup );
 							}
-							FightRequest.action2 = CustomCombatManager.getShortCombatOptionName( item );
+							FightRequest.action2 = String.valueOf( itemId );
 							if ( shouldLogAction )
 							{
 								action.append( " and uses the " + item );
