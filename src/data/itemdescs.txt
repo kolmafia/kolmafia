@@ -3576,12 +3576,12 @@
 3569	247707875	spongy shield	spongy shields
 3570	714193120	square sponge pants	pairs of square sponge pants
 3571	877457317	flytrap pellet	flytrap pellets
-3572	797747016	baby cuddlefish
-3573	651110933	six-armed sweater
+3572	797747016	baby cuddlefish	baby cuddlefishes
+3573	651110933	six-armed sweater	six-armed sweaters
 3574	544627516	slimy chest	slimy chests
 3575	613536361	sand dollar	sand dollars
-3576	379228450	flytrap bezoar
-3577	862599004	bezoar ring
+3576	379228450	flytrap bezoar	flytrap bezoars
+3577	862599004	bezoar ring	bezoar rings
 3578	846538926	candy cornucopia	candy cornucopias
 3579	929088085	tiny ballet slippers	pairs of tiny ballet slippers
 3580	653887123	wriggling flytrap pellet
