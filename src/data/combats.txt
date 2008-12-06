@@ -158,8 +158,7 @@ The Heap	-1	Stench Hobo	Oscus: 0
 The Middle Chamber	100	Iiti Kitty	Tomb Bat	Tomb Servant
 The Purple Light District	-1	Sleaze Hobo	Chester: 0
 The Upper Chamber	100	Tomb Asp	Tomb Rat	Tomb Servant
-The Wreck of the Edgar Fitzsimmons	100	Cargo Crab	Drowned
-Sailor	Mer-kin Scavenger	Mine Crab	Unholy Diver
+The Wreck of the Edgar Fitzsimmons	100	Cargo Crab	Drowned Sailor	Mer-kin Scavenger	Mine Crab	Unholy Diver
 Themthar Hills	100	Dirty Thieving Brigand
 Thugnderdome	100	Gnarly Gnome	Gnasty Gnome	Gnefarious Gnome	Gnomester Blomester	Gnu Jack Gnome	Vicious Gnauga
 Typical Tavern	-1	Drunken Rat	Baron von Ratsworth: 0
