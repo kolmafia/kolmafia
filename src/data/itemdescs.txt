@@ -3613,6 +3613,6 @@
 3606	887322976	rusty diving helmet
 3607	784913887	aerated diving helmet
 3608	398933232	live nautical mine
-3609		das boot
+3609	279675364	das boot
 3610	510671971	imitation whetstone
 3611	285153209	sea grease	tubs of sea grease
