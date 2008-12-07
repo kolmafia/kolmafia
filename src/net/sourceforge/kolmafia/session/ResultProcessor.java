@@ -868,6 +868,7 @@ public class ResultProcessor
 		switch ( result.getItemId() )
 		{
 		case ItemPool.LUCRE:
+		case ItemPool.SAND_DOLLAR:
 			CoinmastersFrame.externalUpdate();
 			break;
 		}
