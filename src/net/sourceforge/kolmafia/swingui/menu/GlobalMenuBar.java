@@ -102,6 +102,7 @@ public class GlobalMenuBar
 		toolsMenu.add( new DisplayFrameMenuItem( "Meat Manager", "MeatManageFrame" ) );
 		toolsMenu.add( new DisplayFrameMenuItem( "Store Manager", "StoreManageFrame" ) );
 		toolsMenu.add( new DisplayFrameMenuItem( "Museum Display", "MuseumFrame" ) );
+		toolsMenu.add( new DisplayFrameMenuItem( "Trophy Arranger", "TrophyFrame" ) );
 
 		toolsMenu.add( new JSeparator() );
 
