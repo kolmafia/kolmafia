@@ -1236,3 +1236,18 @@ astronaut pants	29	high-resistance ultrapolymer plating	quantum polarity inducer
 toy jet pack	29 	high-resistance ultrapolymer plating	reverse-oscillating klystron	ion-pulse modulation stabilizer
 toy ray gun	29	high-resistance ultrapolymer plating	servomechanical torsion facilitator	hyperbolic plasma focuser
 toy space helmet	29	high-resistance ultrapolymer plating	bi-lateral logic compressor	atomic vector plotter
+
+$ Crimbo 08 items
+
+wriggling tentacle	1	unstable DNA	pulsing flesh
+mass of wriggling tentacles	1	wriggling tentacle	wriggling tentacle
+pair of twitching claws	1	twitching claw	twitching claw
+gnashing teeth	1	pair of twitching claws	unstable DNA
+chitinous pod	1	rigid carapace	rigid carapace
+
+parasitic claw	1	twitching claw	unstable DNA
+parasitic tentacles	1	mass of wriggling tentacles	rigid carapace
+parasitic headgnawer	1	gnashing teeth	rigid carapace
+parasitic strangleworm	1	wriggling tentacle	rigid carapace
+
+burrowgrub hive	1	chitinous pod	unstable DNA

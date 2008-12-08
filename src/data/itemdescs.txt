@@ -3616,3 +3616,30 @@
 3609	279675364	das boot
 3610	510671971	imitation whetstone
 3611	285153209	sea grease	tubs of sea grease
+3612	791293538	sturdy Crimbo crate	sturdy Crimbo crates
+3613	665840770	battered Crimbo Crate	battered Crimbo Crates
+3614	928327133	twitching claw	twitching claws
+3615	714915970	rigid carapace	rigid carapaces
+3616	629483390	pulsing flesh
+3617	306616538	unstable DNA
+3618	631172988	The Spirit of Crimbo
+3619	329989943	wriggling tentacle	wriggling tentacles
+3620	443642278	mass of wriggling tentacles
+3621	933179859	pair of twitching claws
+3622	378139843	gnashing teeth
+3623	968004822	chitinous pod
+3624	115811576	parasitic claw	parasitic claws
+3625	619513279	parasitic tentacles
+3626	366474890	parasitic headgnawer
+3627	495138723	parasitic strangleworm
+3628
+3629	325140798	burrowgrub hive
+3630	863133643	dusty Crimbo crate	dusty Crimbo crates
+3631
+3632
+3633	237976715	elven socks	pairs of elven socks
+3634	797319795	cheap elven gloves	pairs of cheap elven gloves
+3635	404814593	festive holiday hat	festive holiday hats
+3636	641537318	patent leather shoes	pairs of patent leather shoes
+3637	935975647	gray bow tie	gray bow ties
+3638	218664990	penguin thesaurus	penguin thesauri

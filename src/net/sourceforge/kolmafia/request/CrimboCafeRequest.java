@@ -46,7 +46,7 @@ public class CrimboCafeRequest
 {
 	public CrimboCafeRequest( final String name )
 	{
-		super( "Crimbo Cafe", "4" );
+		super( "Crimbo Cafe", "5" );
 
 		int itemId = 0;
 		int price = 0;
@@ -54,33 +54,33 @@ public class CrimboCafeRequest
 		switch ( KoLConstants.cafeItems.indexOf( name ) )
 		{
 		case 0:
-			itemId = -49;
-			price = 50;
+			itemId = -58;
+			price = 45;
 			break;
 
 		case 1:
-			itemId = -50;
-			price = 75;
+			itemId = -59;
+			price = 68;
 			break;
 
 		case 2:
-			itemId = -51;
-			price = 100;
+			itemId = -60;
+			price = 90;
 			break;
 
 		case 3:
-			itemId = -52;
-			price = 50;
+			itemId = -61;
+			price = 45;
 			break;
 
 		case 4:
-			itemId = -53;
-			price = 75;
+			itemId = -62;
+			price = 68;
 			break;
 
 		case 5:
-			itemId = -54;
-			price = 100;
+			itemId = -63;
+			price = 90;
 			break;
 		}
 
@@ -96,12 +96,12 @@ public class CrimboCafeRequest
 	{
 		KoLmafia.updateDisplay( "Visiting Crimbo Cafe..." );
 		KoLConstants.cafeItems.clear();
-		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Cyder", 50 );
-		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Oil Nog", 75 );
-		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Hi-Octane Peppermint Oil", 100 );
-		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Soylent Red and Green", 50 );
-		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Disc-Shaped Nutrition Unit", 75 );
-		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Gingerborg Hive", 100 );
+		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Grimacider", 45 );
+		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Isotope Nog", 68 );
+		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Mutagin 'n' Tonic", 90 );
+		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Candy Cane Surprise", 45 );
+		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Grimdrop Chow Mein", 68 );
+		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Grimgerbread House", 90 );
 		ConcoctionDatabase.getUsables().sort();
 		KoLmafia.updateDisplay( "Menu retrieved." );
 	}
@@ -114,7 +114,7 @@ public class CrimboCafeRequest
 	public static final boolean registerRequest( final String urlString )
 	{
 		Matcher matcher = CafeRequest.CAFE_PATTERN.matcher( urlString );
-		if ( !matcher.find() || !matcher.group( 1 ).equals( "4" ) )
+		if ( !matcher.find() || !matcher.group( 1 ).equals( "5" ) )
 		{
 			return false;
 		}
@@ -131,29 +131,29 @@ public class CrimboCafeRequest
 
 		switch ( itemId )
 		{
-		case -49:
-			itemName = "Cyder";
-			price = 50;
+		case -58:
+			itemName = "Grimacider";
+			price = 45;
 			break;
-		case -50:
-			itemName = "Oil Nog";
-			price = 75;
+		case -59:
+			itemName = "Isotope Nog";
+			price = 68;
 			break;
-		case -51:
-			itemName = "Hi-Octane Peppermint Oil";
-			price = 100;
+		case -60:
+			itemName = "Mutagin 'n' Tonic";
+			price = 90;
 			break;
-		case -52:
-			itemName = "Soylent Red and Green";
-			price = 50;
+		case -61:
+			itemName = "Candy Cane Surprise";
+			price = 45;
 			break;
-		case -53:
-			itemName = "Disc-Shaped Nutrition Unit";
-			price = 75;
+		case -62:
+			itemName = "Grimdrop Chow Mein";
+			price = 68;
 			break;
-		case -54:
-			itemName = "Gingerborg Hive";
-			price = 100;
+		case -63:
+			itemName = "Grimgerbread House";
+			price = 90;
 			break;
 		default:
 			return false;
