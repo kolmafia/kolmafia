@@ -183,7 +183,7 @@
 182	batgut	0	all	12
 183	bat wing	0	all	14
 184	briefcase	4	all	15
-185	fat stacks of cash	0	all	150
+185	fat stacks of cash	25	all	150
 186	enchanted bean	3	all	25
 187	loose teeth	15	all	17
 188	bat guano	4	all	12

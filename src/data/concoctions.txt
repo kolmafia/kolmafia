@@ -1237,7 +1237,7 @@ toy jet pack	29 	high-resistance ultrapolymer plating	reverse-oscillating klystr
 toy ray gun	29	high-resistance ultrapolymer plating	servomechanical torsion facilitator	hyperbolic plasma focuser
 toy space helmet	29	high-resistance ultrapolymer plating	bi-lateral logic compressor	atomic vector plotter
 
-$ Crimbo 08 items
+# Crimbo 08 items
 
 wriggling tentacle	1	unstable DNA	pulsing flesh
 mass of wriggling tentacles	1	wriggling tentacle	wriggling tentacle

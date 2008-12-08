@@ -709,6 +709,7 @@ public class FightRequest
 	{
 		switch ( itemId )
 		{
+		case ItemPool.FAT_STACKS_OF_CASH:
 		case ItemPool.SCRAP_OF_PAPER:
 		case ItemPool.DIVINE_CHAMPAGNE_POPPER:
 			return true;
