@@ -638,7 +638,7 @@ eelskin pants	14	eel skin	pants kit
 furry pants	14	furry fur	pants kit
 hippopotamus pants	14	hippopotamus skin	pants kit
 penguin shorts	14	penguin skin	pants kit
-square sponge pants	14	slab of sponge	pants kit
+square sponge pants	14	slab of sponge	basic meat pants
 sticky meat pants	4	really really sticky spider web	basic meat pants
 tighty whiteys	4	white snake skin	pants kit
 yakskin pants	14	yak skin	pants kit
