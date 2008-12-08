@@ -83,6 +83,7 @@ extra-large palm-frond toupee	150	Mox: 60
 eyepatch	25	none
 f3d0r4	110	Mox: 40
 fancy ball mask	90	Mox: 15
+festive holiday hat	30	none
 fez of etymology	120	Mox: 45
 filthy knitted dread sack	60	Mox: 15
 fire	10	none
@@ -127,6 +128,7 @@ oriole-feather headdress	15	none
 outrageous sombrero	100	none
 pail	30	none
 panhandle panhandling hat	150	Mus: 175
+parasitic headgnawer	30	none
 party hat	30	none
 pentacorn hat	40	Mox: 5
 pimpin' meat hat	55	Mox: 12
@@ -253,6 +255,7 @@ old school Mafia knickerbockers	100	Mox: 35
 palm-frond capris	140	Mox: 55
 pants of the Slug Lord	35	Mox: 2
 paper-plate-mail pants	80	Mox: 25
+parasitic tentacles	30	none
 penguin shorts	120	Mox: 45
 penguinskin mini-kilt	120	Mox: 45
 penguinskin mini-skirt	120	Mox: 45
@@ -561,6 +564,7 @@ octopus's spade	200	Mus: 85	1-handed knife
 origami riding crop	100	Mus: 0	1-handed crop
 oversized pizza cutter	100	Mys: 35	1-handed utensil
 palm-frond whip	25	Mus: 0	1-handed whip
+parasitic claw	30	Mus:0	1-handed club
 pasta spoon	10	Mys: 0	1-handed utensil
 penguin whip	20	Mus: 0	1-handed whip
 perforated battle paddle	175	Mus: 72	2-handed club
@@ -705,6 +709,7 @@ Oscus's garbage can lid	0	Mus: 200	shield
 Raggedy Hippy doll	0	none
 Sinful Desires	0	none
 Spanish fly trap	0	none
+The Spirit of Crimbo	0	none
 Tiki lighter	0	none
 Tuesday's ruby	0	Mys: 45
 Wand of Oscus	0	Mys: 200
@@ -787,7 +792,9 @@ moxie magnet	0	none
 naughty fortune teller	0	none
 off-hand balloon	0	none
 oyster basket	0	none
+parasitic strangleworm	0	none
 penguin skin buckler	95	Mus: 30	shield
+penguin thesaurus	0	none
 pilgrim shield	240	none	shield
 pirate hook	0	none
 pixel shield	55	Mus: 10	shield
@@ -985,6 +992,7 @@ bottlecap turtle	0	Mys: 12
 brown plastic baby	0	none
 cannonball charrrm bracelet	0	Mys: 80
 cement shoes	0	Mys: 35
+cheap elven gloves	0	none
 cheap studded belt	0	none
 chintzy accordion pin	0	Mox: 45
 chintzy disco ball pendant	0	Mox: 45
@@ -1013,6 +1021,7 @@ disembodied smile	0	none
 dope gangsta bling-bling	0	Mys: 7
 eXtreme mittens	0	Mys: 40
 eXtreme nose ring	0	Mys: 10
+elven socks	0	none
 enchanted toothpick	0	Mys: 25
 encoder ring	0	none
 energy drink IV	0	Mys: 75
@@ -1033,6 +1042,7 @@ giant pinky ring	0	Mys: 35
 glowing red eye	0	Mys: 60
 gnatwing earring	0	Mys: 30
 gnoll-tooth necklace	0	Mys: 10
+gray bow tie	0	none
 green glowstick	0	none
 groovy prism necklace	0	Mys: 60
 grumpy old man charrrm bracelet	0	Mys: 60
@@ -1070,6 +1080,7 @@ navel ring of navel gazing	0	none
 old soft shoes	0	Mys: 200
 orange glowstick	0	none
 pat-a-cake pendant	0	none
+patent leather shoes	0	none
 peace-sign necklace	0	Mys: 20
 phat turquoise bracelet	0	Mys: 20
 pink glowstick	0	none

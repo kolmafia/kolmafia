@@ -590,6 +590,7 @@ public class ItemPool
 	public static final int AERATED_DIVING_HELMET = 3607;
 	public static final int DAS_BOOT = 3609;
 	public static final int IMITATION_WHETSTONE = 3610;
+	public static final int BURROWGRUB_HIVE = 3629;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

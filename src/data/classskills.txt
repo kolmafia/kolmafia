@@ -280,6 +280,15 @@
 7063	Falling Leaf Whirlwind	5	10	0
 7064	Winter's Bite Technique	5	10	0
 7065	The 17 Cuts	5	10	0
+7066
+7067
+7068
+7069	Recite 'The Spirit of Crimbo'	5	0	0
+7070
+7071
+7072
+7073
+7074	Consume Burrowgrub	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 

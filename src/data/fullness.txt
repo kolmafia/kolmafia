@@ -58,6 +58,7 @@ can-shaped gelatinous cranberry sauce	3	6	9-17	0	0	71-74
 candied yams	3	5	7-14	0	72-75	0
 candy cane	1	4	1-5	10-20	10-20	10-20
 candy cane pizza	4	1	6-11	7-9	7-9	7-9
+candy cane surprise	3	5	4-5	0	0	0
 candy stake	1	4	1-5	10-20	10-20	10-20
 carob brownies	2	1	2-5	0	17-19	0
 carob chunk cookies	2	1	2-5	0	6-9	0
@@ -139,6 +140,8 @@ goat cheese taco	2	1	2-5	0	11-33	0
 gr8ps	1	1	1-2	0	0	0
 grapefruit	1	1	1	0	0	0
 grapes	1	1	1	0	0	0
+grimdrop chow mein	4	5	6-9	0	0	0
+grimgerbread house	5	5	10-15	0	0	0
 grue egg omelette	4	9	21-27	35-45	35-45	35-45
 gumdrop chow mein	3	1	3-7	5-7	5-7	5-7
 handful of nuts and berries	1	12	3-5	0	50-60	0
