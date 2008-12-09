@@ -1025,7 +1025,15 @@ public abstract class ChoiceManager
 			new String[] { "mushrooms", "fairy gravy boat", "skip adventure" },
 			new String[] { null, "80", null } ),
 
-		// Choice 299 is Down at the Hatch
+		// In the Shade
+		new ChoiceAdventure(
+			"The Sea", "choiceAdventure298", "An Octopus's Garden",
+			new String[] { "plant seeds", "skip adventure" } ),
+
+		// Down at the Hatch
+		new ChoiceAdventure(
+			"The Sea", "choiceAdventure299", "The Wreck of the Edgar Fitzsimmons",
+			new String[] { "release creatures", "skip adventure" } ),
 	};
 
 	static
@@ -1466,22 +1474,10 @@ public abstract class ChoiceManager
 		{
 		case 184:
 			// That Explains All The Eyepatches
-			result = new String[ 4 ][];
 
-			// The choice option is the first element
-			result[ 0 ] = new String[ 1 ];
-			result[ 0 ][ 0 ] = "choiceAdventure184";
+			result = ChoiceManager.dynamicChoiceSpoilers( 4, choice, "Barrrney's Barrr" );
 
-			// The name of the choice is second element
-			result[ 1 ] = new String[ 1 ];
-			result[ 1 ][ 0 ] = "Barrrney's Barrr";
-
-			// An array of choice spoilers is the third element
-			result[ 2 ] = ChoiceManager.dynamicChoiceOptions( choice );
-
-			// A parallel array of items is the fourth element
-			result[ 3 ] = new String[ 3 ];
-
+			// Fill in items corresponding to choices
 			for ( int i = 0; i < 3; ++i )
 			{
 				if ( result[ 2 ][ i ].equals( "shot of rotgut" ) )
@@ -1494,62 +1490,46 @@ public abstract class ChoiceManager
 
 		case 187:
 			// Arrr You Man Enough?
-			result = new String[ 3 ][];
-
-			// The choice option is the first element
-			result[ 0 ] = new String[ 1 ];
-			result[ 0 ][ 0 ] = "choiceAdventure187";
-
-			// The name of the choice is second element
-			result[ 1 ] = new String[ 1 ];
-			result[ 1 ][ 0 ] = "Barrrney's Barrr";
-
-			// An array of choice spoilers is the third element
-			result[ 2 ] = ChoiceManager.dynamicChoiceOptions( choice );
-
-			return result;
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "Barrrney's Barrr" );
 
 		case 188:
 			// The Infiltrationist
-			result = new String[ 3 ][];
-
-			// The choice option is the first element
-			result[ 0 ] = new String[ 1 ];
-			result[ 0 ][ 0 ] = "choiceAdventure188";
-
-			// The name of the choice is second element
-			result[ 1 ] = new String[ 1 ];
-			result[ 1 ][ 0 ] = "Orcish Frat House Blueprints";
-
-			// An array of choice spoilers is the third element
-			result[ 2 ] = ChoiceManager.dynamicChoiceOptions( choice );
-
-			return result;
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "Orcish Frat House Blueprints" );
 
 		case 272:
 			// Marketplace Entrance
-			result = new String[ 3 ][];
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "Hobo Marketplace" );
 
-			// The choice option is the first element
-			result[ 0 ] = new String[ 1 ];
-			result[ 0 ][ 0 ] = "choiceAdventure272";
-
-			// The name of the choice is second element
-			result[ 1 ] = new String[ 1 ];
-			result[ 1 ][ 0 ] = "Hobo Marketplace";
-
-			// An array of choice spoilers is the third element
-
-			int nickels = InventoryManager.getCount( ItemPool.HOBO_NICKEL );
-			boolean binder = KoLCharacter.hasEquipped( ItemPool.get( ItemPool.HOBO_CODE_BINDER, 1 ) );
-
-			result[ 2 ] = new String[ 2 ];
-			result[ 2 ][ 0 ] = nickels + " nickels, " + ( binder ? "" : "NO ") + " hobo code binder equipped";
-			result[ 2 ][ 1 ] = "skip adventure";
-
-			return result;
+		case 298:
+			// In the Shade
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "An Octopus's Garden" );
 		}
 		return null;
+	}
+
+	private static final String[][] dynamicChoiceSpoilers( final int count, final int choice, final String name )
+	{
+		String[][] result = new String[ count ][];
+
+		// The choice option is the first element
+		result[ 0 ] = new String[ 1 ];
+		result[ 0 ][ 0 ] = "choiceAdventure" + String.valueOf( choice );
+
+		// The name of the choice is second element
+		result[ 1 ] = new String[ 1 ];
+		result[ 1 ][ 0 ] = name;
+
+		// An array of choice spoilers is the third element
+		result[ 2 ] = ChoiceManager.dynamicChoiceOptions( choice );
+
+		if ( count > 3 )
+		{
+			// A parallel array of items is the fourth element
+			// Caller will fill it in
+			result[ 3 ] = new String[ 3 ];
+		}
+
+		return result;
 	}
 
 	private static final String[] dynamicChoiceOptions( final int choice )
@@ -1607,6 +1587,30 @@ public abstract class ChoiceManager
 			boolean ok3a = KoLCharacter.hasEquipped( ItemPool.get( ItemPool.FRILLY_SKIRT, 1 ) );
 			int wings = InventoryManager.getCount( ItemPool.HOT_WING );
 			result[ 2 ] = "frilly skirt (" + ( ok3a ? "" : "NOT " ) + " equipped) + 3 hot wings (" + wings + " in inventory)";
+
+			return result;
+
+		case 272:
+			// Marketplace Entrance
+			result = new String[ 2 ];
+
+			int nickels = InventoryManager.getCount( ItemPool.HOBO_NICKEL );
+			boolean binder = KoLCharacter.hasEquipped( ItemPool.get( ItemPool.HOBO_CODE_BINDER, 1 ) );
+
+			result[ 0 ] = nickels + " nickels, " + ( binder ? "" : "NO ") + " hobo code binder equipped";
+			result[ 1 ] = "skip adventure";
+
+			return result;
+
+		case 298:
+			// In the Shade
+			result = new String[ 2 ];
+
+			int seeds = InventoryManager.getCount( ItemPool.SEED_PACKET );
+			int slime = InventoryManager.getCount( ItemPool.GREEN_SLIME );
+
+			result[ 0 ] = seeds + " seed packets, " + slime + " globs of green slime";
+			result[ 1 ] = "skip adventure";
 
 			return result;
 		}
@@ -1957,6 +1961,20 @@ public abstract class ChoiceManager
 					AdventureResult cost = new AdventureResult( "hobo nickel", -20 * tattoo );
 					ResultProcessor.processResult( cost );
 				}
+			}
+			break;
+
+		case 298:
+			// In the Shade
+
+			// You carefully plant the packet of seeds, sprinkle it
+			// with gooey green algae, wait a few days, and then
+			// you reap what you sow. Sowed. Sew?
+
+			if ( ChoiceManager.lastDecision == 1 && text.indexOf( "you reap what you sow" ) != -1 )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.SEED_PACKET, -1 ) );
+				ResultProcessor.processResult( ItemPool.get( ItemPool.GREEN_SLIME, -1 ) );
 			}
 			break;
 		}
