@@ -585,6 +585,8 @@ public class ItemPool
 	public static final int GRIMACITE_NINJA_MASK = 3546;
 	public static final int GRIMACITE_SHINGUARDS = 3547;
 	public static final int GRIMACITE_ASTROLABE = 3548;
+	public static final int SEED_PACKET = 3553;
+	public static final int GREEN_SLIME = 3554;
 	public static final int SAND_DOLLAR = 3575;
 	public static final int RUSTY_BROKEN_DIVING_HELMET = 3602;
 	public static final int BUBBLIN_STONE = 3605;
