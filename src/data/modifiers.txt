@@ -1624,7 +1624,7 @@ Carlweather's Cantata of Confrontation	Combat Rate: +5
 Carol of the Bones	Muscle Percent: +10
 Carrion' On	Meat Drop: +60
 Carrrsmic	Mysticality Percent: +10
-Chalky Hand	Weapon Damage: +3
+Chalky Hand	Weapon Damage: +3, Never Fumble
 Charrrming	Moxie Percent: +10
 Chauve-Souris Merde Fou	Stench Damage: +50
 Chronologically Pummeled	Muscle: -5, Mysticality: -5, Moxie: +20
@@ -1922,6 +1922,7 @@ Weather, Man	Muscle Percent: +30, Mysticality Percent: +30, Moxie Percent: +30
 Well-Oiled	Damage Reduction: +10, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 Well-preserved	HP Regen Min: 150, HP Regen Max: 200
 What's That Smell?	Stench Damage: +3
+White Knuckles	Never Fumble
 Whitened Teeth	Moxie Percent: +10
 Winklered	Meat Drop: +40
 Wintergreen Warmongery	Muscle: +30
