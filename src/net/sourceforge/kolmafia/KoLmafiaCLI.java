@@ -2897,7 +2897,7 @@ public class KoLmafiaCLI
 	public static class HiddenCity
 		extends Command
 	{
-		{ usage = "<square> [temple|altar <item>] - restore some or all hp or mp"; }
+		{ usage = " <square> [temple|altar <item>] - set Hidden City square [and perform an action there]."; }
 		public void run( String cmd, String parameters )
 		{
 			CLI.executeHiddenCityRequest( parameters );

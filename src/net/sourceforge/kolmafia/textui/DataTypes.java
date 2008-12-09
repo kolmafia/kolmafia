@@ -282,6 +282,24 @@ public class DataTypes
 		return new Value( DataTypes.LOCATION_TYPE, name, (Object) content );
 	}
 
+	public static final Value parseLocationValue( final int adv, final boolean returnDefault )
+	{
+		if ( adv <= 0 )
+		{
+			return DataTypes.LOCATION_INIT;
+		}
+
+		KoLAdventure content = AdventureDatabase.getAdventureByURL(
+			"adventure.php?snarfblat=" + adv );
+		if ( content == null )
+		{
+			return returnDefault ? DataTypes.LOCATION_INIT : null;
+		}
+
+		return new Value( DataTypes.LOCATION_TYPE, content.getAdventureName(),
+			(Object) content );
+	}
+
 	public static final int classToInt( final String name )
 	{
 		for ( int i = 0; i < DataTypes.CLASSES.length; ++i )
