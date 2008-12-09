@@ -409,6 +409,10 @@ public class EquipmentManager
 			curr = minTurns;
 		}
 		EquipmentManager.turnsRemaining[ slot - EquipmentManager.STICKER1 ] = curr;
+		GearChangeFrame.updateStickers(
+			EquipmentManager.turnsRemaining[ 0 ],
+			EquipmentManager.turnsRemaining[ 1 ],
+			EquipmentManager.turnsRemaining[ 2 ] );
 	}
 	
 	public static final boolean isStickerWeapon( AdventureResult item )
@@ -427,14 +431,22 @@ public class EquipmentManager
 			isStickerWeapon( getEquipment( EquipmentManager.OFFHAND ) ) ||
 			isStickerWeapon( getEquipment( EquipmentManager.FAMILIAR ) );
 	}
+
+	public static final boolean hasStickerWeapon()
+	{
+		return EquipmentManager.usingStickerWeapon() ||
+			InventoryManager.hasItem( ItemPool.STICKER_SWORD ) ||
+			InventoryManager.hasItem( ItemPool.STICKER_CROSSBOW );
+	}
 	
 	public static final void decrementTurns()
 	{
 		if ( usingStickerWeapon() )
 		{
-			--EquipmentManager.turnsRemaining[ 0 ];
-			--EquipmentManager.turnsRemaining[ 1 ];
-			--EquipmentManager.turnsRemaining[ 2 ];
+			GearChangeFrame.updateStickers(
+				--EquipmentManager.turnsRemaining[ 0 ],
+				--EquipmentManager.turnsRemaining[ 1 ],
+				--EquipmentManager.turnsRemaining[ 2 ] );
 		}
 	}
 	

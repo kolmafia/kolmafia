@@ -82,6 +82,7 @@ public class GearChangeFrame
 	private final SortedListModel weapons = new SortedListModel();
 	private final SortedListModel offhands = new SortedListModel();
 	private final ChangeComboBox outfitSelect, customSelect, familiarSelect;
+	private JLabel sticker1Label, sticker2Label, sticker3Label;
 
 	public GearChangeFrame()
 	{
@@ -183,8 +184,11 @@ public class GearChangeFrame
 			elements[ 16 ] = new VerifiableElement();
 
 			elements[ 17 ] = new VerifiableElement( "Sticker: ", GearChangeFrame.this.equipment[ EquipmentManager.STICKER1 ]  );
+			GearChangeFrame.this.sticker1Label = elements[ 17 ].getLabel();
 			elements[ 18 ] = new VerifiableElement( "Sticker: ", GearChangeFrame.this.equipment[ EquipmentManager.STICKER2 ]  );
+			GearChangeFrame.this.sticker2Label = elements[ 18 ].getLabel();
 			elements[ 19 ] = new VerifiableElement( "Sticker: ", GearChangeFrame.this.equipment[ EquipmentManager.STICKER3 ]  );
+			GearChangeFrame.this.sticker3Label = elements[ 19 ].getLabel();
 
 			this.setContent( elements );
 			GearChangeFrame.this.outfitButton = this.cancelledButton;
@@ -297,6 +301,18 @@ public class GearChangeFrame
 		GearChangeFrame.INSTANCE.offhands.setSelectedItem( EquipmentManager.getEquipment( EquipmentManager.OFFHAND ) );
 
 		GearChangeFrame.INSTANCE.ensureValidSelections();
+	}
+
+	public static final void updateStickers( int st1, int st2, int st3 )
+	{
+		if ( GearChangeFrame.INSTANCE == null )
+		{
+			return;
+		}
+		
+		GearChangeFrame.INSTANCE.sticker1Label.setText( "Sticker (" + st1 + "): " );
+		GearChangeFrame.INSTANCE.sticker2Label.setText( "Sticker (" + st2 + "): " );
+		GearChangeFrame.INSTANCE.sticker3Label.setText( "Sticker (" + st3 + "): " );
 	}
 
 	public static final void clearWeaponLists()
