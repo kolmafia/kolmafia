@@ -331,7 +331,15 @@ public class EquipmentRequest
 		this.requestType = EquipmentRequest.CHANGE_ITEM;
 		this.changeItem = sticker.getCount() == 1 ? sticker : sticker.getInstance( 1 );
 
-		this.addFormField( "action", "stick" );
+		if ( EquipmentManager.hasStickerWeapon() )
+		{
+			this.addFormField( "action", "stick" );
+		}
+		else
+		{
+			this.addFormField( "action", "juststick" );
+			this.removeFormField( "slot" );
+		}
 	}
 
 	public EquipmentRequest( final SpecialOutfit change )
@@ -771,7 +779,7 @@ public class EquipmentRequest
 					return;
 				}
 
-				if ( result.indexOf( "You put" ) == -1 && result.indexOf( "You equip" ) == -1 && result.indexOf( "Item equipped" ) == -1 && result.indexOf( "equips an item" ) == -1  && result.indexOf( "You apply the shiny sticker" ) == -1 )
+				if ( result.indexOf( "You put" ) == -1 && result.indexOf( "You equip" ) == -1 && result.indexOf( "Item equipped" ) == -1 && result.indexOf( "equips an item" ) == -1  && result.indexOf( "You apply the shiny sticker" ) == -1 && result.indexOf( "fold it into an impromptu sword" ) == -1 )
 				{
 					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, result );
 					return;
