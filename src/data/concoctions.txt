@@ -1251,3 +1251,4 @@ parasitic headgnawer	1	gnashing teeth	rigid carapace
 parasitic strangleworm	1	wriggling tentacle	rigid carapace
 
 burrowgrub hive	1	chitinous pod	unstable DNA
+pair of ragged claws	1	mass of wriggling tentacles	pair of twitching claws

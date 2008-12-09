@@ -3632,11 +3632,11 @@
 3625	619513279	parasitic tentacles
 3626	366474890	parasitic headgnawer
 3627	495138723	parasitic strangleworm
-3628
+3628	675006664	pair of ragged claws
 3629	325140798	burrowgrub hive
 3630	863133643	dusty Crimbo crate	dusty Crimbo crates
-3631
-3632
+3631	280911764	Gummi-DNA
+3632	811567210	radioactive chew toy
 3633	237976715	elven socks	pairs of elven socks
 3634	797319795	cheap elven gloves	pairs of cheap elven gloves
 3635	404814593	festive holiday hat	festive holiday hats
