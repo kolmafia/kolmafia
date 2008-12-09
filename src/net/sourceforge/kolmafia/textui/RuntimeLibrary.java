@@ -234,6 +234,9 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "to_location", DataTypes.LOCATION_TYPE, params ) );
 
 		params = new Type[] { DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "to_location", DataTypes.LOCATION_TYPE, params ) );
+
+		params = new Type[] { DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "to_familiar", DataTypes.FAMILIAR_TYPE, params ) );
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "to_familiar", DataTypes.FAMILIAR_TYPE, params ) );
@@ -296,6 +299,9 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "drink", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "overdrink", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "put_closet", DataTypes.BOOLEAN_TYPE, params ) );
@@ -1300,7 +1306,14 @@ public abstract class RuntimeLibrary
 
 	public static Value to_location( final Value value )
 	{
-		return DataTypes.parseLocationValue( value.toString(), true );
+		if ( value.getType().equals( DataTypes.TYPE_INT ) )
+		{
+			return DataTypes.parseLocationValue( value.intValue(), true );
+		}
+		else
+		{
+			return DataTypes.parseLocationValue( value.toString(), true );
+		}
 	}
 
 	public static Value to_familiar( final Value value )
@@ -1549,6 +1562,18 @@ public abstract class RuntimeLibrary
 		}
 
 		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "drink", count + " " + item );
+		return UseItemRequest.lastUpdate.equals( "" ) ? RuntimeLibrary.continueValue() : DataTypes.FALSE_VALUE;
+	}
+
+	public static Value overdrink( final Value countValue, final Value item )
+	{
+		int count = countValue.intValue();
+		if ( count <= 0 )
+		{
+			return RuntimeLibrary.continueValue();
+		}
+
+		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "overdrink", count + " " + item );
 		return UseItemRequest.lastUpdate.equals( "" ) ? RuntimeLibrary.continueValue() : DataTypes.FALSE_VALUE;
 	}
 
