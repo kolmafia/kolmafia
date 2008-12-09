@@ -59,6 +59,8 @@ public class LoginRequest
 	private static boolean completedLogin = false;
 	private static final Pattern CHALLENGE_PATTERN =
 		Pattern.compile( "<input type=hidden name=challenge value=\"([^\"]*?)\">" );
+	private static final Pattern PLAYERS_PATTERN =
+		Pattern.compile( "There are currently <b>(.*?)</b> players logged in." );
 
 	private static boolean ignoreLoadBalancer = false;
 	private static LoginRequest lastRequest = null;
@@ -146,6 +148,12 @@ public class LoginRequest
 
 		// We got this far, so that means we now have a
 		// challenge pattern.
+
+		Matcher playersMatcher = LoginRequest.PLAYERS_PATTERN.matcher( this.responseText );
+		if ( playersMatcher.find() )
+		{
+			KoLmafia.updateDisplay( playersMatcher.group( 1 ) + " players online." );
+		}
 
 		try
 		{
