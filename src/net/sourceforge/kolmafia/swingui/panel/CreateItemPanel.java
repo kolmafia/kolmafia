@@ -110,86 +110,80 @@ public class CreateItemPanel
 
 	public void actionConfirmed()
 	{
-		Object selected = this.elementList.getSelectedValue();
-
-		if ( selected == null )
+		Object[] items = this.elementList.getSelectedValues();
+		for ( int i = 0; i < items.length; ++i )
 		{
-			return;
+			CreateItemRequest selection = (CreateItemRequest) items[ i ];
+			int quantityDesired =
+				InputFieldUtilities.getQuantity(
+					"Creating multiple " + selection.getName() + "...", selection.getQuantityPossible() + selection.getQuantityPullable() );
+			if ( quantityDesired < 1 )
+			{
+				continue;
+			}
+	
+			KoLmafia.updateDisplay( "Verifying ingredients..." );
+			int pulled = Math.max( 0, quantityDesired - selection.getQuantityPossible() );
+			selection.setQuantityNeeded( quantityDesired - pulled );
+	
+			RequestThread.openRequestSequence();
+	
+			SpecialOutfit.createImplicitCheckpoint();
+			RequestThread.postRequest( selection );
+			SpecialOutfit.restoreImplicitCheckpoint();
+			if ( pulled > 0 && KoLmafia.permitsContinue() )
+			{
+				int newbudget = ItemManageFrame.getPullsBudgeted() - pulled;
+				RequestThread.postRequest( new ClosetRequest(
+					ClosetRequest.STORAGE_TO_INVENTORY,
+					new AdventureResult[] { ItemPool.get( selection.getItemId(), pulled ) } ) );
+				ItemManageFrame.setPullsBudgeted( newbudget );
+			}		
+	
+			RequestThread.closeRequestSequence();
 		}
-
-		CreateItemRequest selection = (CreateItemRequest) selected;
-		int quantityDesired =
-			InputFieldUtilities.getQuantity(
-				"Creating multiple " + selection.getName() + "...", selection.getQuantityPossible() + selection.getQuantityPullable() );
-		if ( quantityDesired < 1 )
-		{
-			return;
-		}
-
-		KoLmafia.updateDisplay( "Verifying ingredients..." );
-		int pulled = Math.max( 0, quantityDesired - selection.getQuantityPossible() );
-		selection.setQuantityNeeded( quantityDesired - pulled );
-
-		RequestThread.openRequestSequence();
-
-		SpecialOutfit.createImplicitCheckpoint();
-		RequestThread.postRequest( selection );
-		SpecialOutfit.restoreImplicitCheckpoint();
-		if ( pulled > 0 && KoLmafia.permitsContinue() )
-		{
-			int newbudget = ItemManageFrame.getPullsBudgeted() - pulled;
-			RequestThread.postRequest( new ClosetRequest(
-				ClosetRequest.STORAGE_TO_INVENTORY,
-				new AdventureResult[] { ItemPool.get( selection.getItemId(), pulled ) } ) );
-			ItemManageFrame.setPullsBudgeted( newbudget );
-		}		
-
-		RequestThread.closeRequestSequence();
 	}
 
 	public void actionCancelled()
 	{
-		Object selected = this.elementList.getSelectedValue();
-
-		if ( selected == null )
+		Object[] items = this.elementList.getSelectedValues();
+		for ( int i = 0; i < items.length; ++i )
 		{
-			return;
+			CreateItemRequest selection = (CreateItemRequest) items[ i ];
+	
+			int maximum = UseItemRequest.maximumUses( selection.getItemId() );
+			int quantityDesired =
+				maximum < 2 ? maximum : InputFieldUtilities.getQuantity(
+					"Creating multiple " + selection.getName() + " for immedate use...", Math.min( maximum,
+						selection.getQuantityPossible() + selection.getQuantityPullable() ) );
+	
+			if ( quantityDesired < 1 )
+			{
+				continue;
+			}
+	
+			KoLmafia.updateDisplay( "Verifying ingredients..." );
+			int pulled = Math.max( 0, quantityDesired - selection.getQuantityPossible() );
+			selection.setQuantityNeeded( quantityDesired - pulled );
+	
+			RequestThread.openRequestSequence();
+	
+			SpecialOutfit.createImplicitCheckpoint();
+			RequestThread.postRequest( selection );
+			SpecialOutfit.restoreImplicitCheckpoint();
+			if ( pulled > 0 && KoLmafia.permitsContinue() )
+			{
+				int newbudget = ItemManageFrame.getPullsBudgeted() - pulled;
+				RequestThread.postRequest( new ClosetRequest(
+					ClosetRequest.STORAGE_TO_INVENTORY,
+					new AdventureResult[] { ItemPool.get( selection.getItemId(), pulled ) } ) );
+				ItemManageFrame.setPullsBudgeted( newbudget );
+			}		
+	
+			RequestThread.postRequest( new UseItemRequest( new AdventureResult(
+				selection.getItemId(), quantityDesired ) ) );
+			RequestThread.closeRequestSequence();
 		}
-
-		CreateItemRequest selection = (CreateItemRequest) selected;
-
-		int maximum = UseItemRequest.maximumUses( selection.getItemId() );
-		int quantityDesired =
-			maximum < 2 ? maximum : InputFieldUtilities.getQuantity(
-				"Creating multiple " + selection.getName() + " for immedate use...", Math.min( maximum,
-					selection.getQuantityPossible() + selection.getQuantityPullable() ) );
-
-		if ( quantityDesired < 1 )
-		{
-			return;
-		}
-
-		KoLmafia.updateDisplay( "Verifying ingredients..." );
-		int pulled = Math.max( 0, quantityDesired - selection.getQuantityPossible() );
-		selection.setQuantityNeeded( quantityDesired - pulled );
-
-		RequestThread.openRequestSequence();
-
-		SpecialOutfit.createImplicitCheckpoint();
-		RequestThread.postRequest( selection );
-		SpecialOutfit.restoreImplicitCheckpoint();
-		if ( pulled > 0 && KoLmafia.permitsContinue() )
-		{
-			int newbudget = ItemManageFrame.getPullsBudgeted() - pulled;
-			RequestThread.postRequest( new ClosetRequest(
-				ClosetRequest.STORAGE_TO_INVENTORY,
-				new AdventureResult[] { ItemPool.get( selection.getItemId(), pulled ) } ) );
-			ItemManageFrame.setPullsBudgeted( newbudget );
-		}		
-
-		RequestThread.postRequest( new UseItemRequest( new AdventureResult(
-			selection.getItemId(), quantityDesired ) ) );
-		RequestThread.closeRequestSequence();
 	}
 
 	private class CreationSettingCheckBox

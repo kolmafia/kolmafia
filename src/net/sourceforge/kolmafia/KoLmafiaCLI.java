@@ -1954,6 +1954,7 @@ public class KoLmafiaCLI
 			if ( parameters.equals( "all" ) )
 			{
 				StaticEntity.getClient().refreshSession();
+				return;
 			}
 			else if ( parameters.equals( "status" ) || parameters.equals( "effects" ) )
 			{
@@ -1961,6 +1962,7 @@ public class KoLmafiaCLI
 			}
 			else if ( parameters.equals( "gear" ) || parameters.startsWith( "equip" ) || parameters.equals( "outfit" ) )
 			{
+				parameters = "equip";
 				RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.EQUIPMENT ) );
 			}
 			else if ( parameters.startsWith( "stick" ) )
@@ -1970,13 +1972,21 @@ public class KoLmafiaCLI
 			else if ( parameters.startsWith( "inv" ) )
 			{
 				RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.CLOSET ) );
+				return;
+			}
+			else if ( parameters.startsWith( "camp" ) )
+			{
+				RequestThread.postRequest( new CampgroundRequest() );
+				return;
 			}
 			else if ( parameters.equals( "storage" ) )
 			{
 				RequestThread.postRequest( new ClosetRequest() );
+				return;
 			}
-			else if ( parameters.equals( "familiar" ) || parameters.equals( "terrarium" ) )
+			else if ( parameters.startsWith( "familiar" ) || parameters.equals( "terrarium" ) )
 			{
+				parameters = "familiars";
 				RequestThread.postRequest( new FamiliarRequest() );
 			}
 
