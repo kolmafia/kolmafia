@@ -52,6 +52,7 @@ import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
+import net.sourceforge.kolmafia.request.CrimboCafeRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HellKitchenRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
@@ -591,6 +592,10 @@ public class ConcoctionDatabase
 		else if ( MicroBreweryRequest.onMenu( name ) )
 		{
 			request = new MicroBreweryRequest( name );
+		}
+		else if ( CrimboCafeRequest.onMenu( name ) )
+		{
+			request = new CrimboCafeRequest( name );
 		}
 		else
 		{

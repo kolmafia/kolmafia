@@ -127,7 +127,7 @@ public class CafeRequest
 			return;
 		}
 
-		KoLmafia.updateDisplay( "Visiting " + this.name + "..." );
+		KoLmafia.updateDisplay( "Purchasing " + this.itemName + " at the " + this.name + "..." );
 		super.run();
 	}
 
