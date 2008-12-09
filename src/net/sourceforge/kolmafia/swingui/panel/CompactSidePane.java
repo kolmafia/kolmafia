@@ -37,17 +37,21 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JProgressBar;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
 import net.sourceforge.kolmafia.swingui.button.RequestButton;
@@ -67,6 +71,8 @@ public class CompactSidePane
 	private JLabel mlLabel, encLabel, initLabel;
 	private JLabel expLabel, meatDropLabel, itemDropLabel;
 	private JLabel hoboLabel, hoboPowerLabel;
+	private JPopupMenu modPopup;
+	private JLabel modPopLabel;
 
 	public CompactSidePane()
 	{
@@ -176,6 +182,10 @@ public class CompactSidePane
 		panels[ panelCount ].add( this.itemDropLabel = new JLabel( " ", JLabel.LEFT ) );
 		panels[ panelCount ].add( this.hoboLabel = new JLabel( " ", JLabel.RIGHT ) );
 		panels[ panelCount ].add( this.hoboPowerLabel = new JLabel( " ", JLabel.LEFT ) );
+		this.modPopLabel = new JLabel();
+		this.modPopup = new JPopupMenu();
+		this.modPopup.insert( this.modPopLabel, 0 );
+		panels[ panelCount ].addMouseListener( new ModPopListener() );	
 
 		JPanel compactContainer = new JPanel();
 		compactContainer.setOpaque( false );
@@ -220,6 +230,16 @@ public class CompactSidePane
 		this.meatDropLabel.setForeground( Color.BLACK );
 		this.itemDropLabel.setForeground( Color.BLACK );
 		this.hoboPowerLabel.setForeground( Color.BLACK );
+	}
+	
+	private class ModPopListener
+		extends MouseAdapter
+	{
+		public void mousePressed( MouseEvent e )
+		{
+			CompactSidePane.this.modPopup.show( e.getComponent(),
+				e.getX(), e.getY() );
+		}
 	}
 
 	public String getStatText( final int adjusted, final int base )
@@ -287,6 +307,93 @@ public class CompactSidePane
 			this.hoboLabel.setText( "" );
 			this.hoboPowerLabel.setText( "" );
 		}
+		
+		StringBuffer buf = new StringBuffer( "<html><table border=1><tr><td></td><td>Damage</td><td>Spell dmg</td><td>Resistance</td></tr>" );
+		this.addElement( buf, "Hot", Modifiers.HOT_DAMAGE );
+		this.addElement( buf, "Cold", Modifiers.COLD_DAMAGE );
+		this.addElement( buf, "Stench", Modifiers.STENCH_DAMAGE );
+		this.addElement( buf, "Spooky", Modifiers.SPOOKY_DAMAGE );
+		this.addElement( buf, "Sleaze", Modifiers.SLEAZE_DAMAGE );
+		buf.append( "<tr><td>Weapon</td><td>" );
+		buf.append( KoLConstants.MODIFIER_FORMAT.format(
+			KoLCharacter.currentNumericModifier( Modifiers.WEAPON_DAMAGE ) ) );
+		buf.append( "<br>" );
+		buf.append( KoLConstants.MODIFIER_FORMAT.format(
+			KoLCharacter.currentNumericModifier( Modifiers.WEAPON_DAMAGE_PCT ) ) );
+		buf.append( "%</td><td rowspan=2>General<br>spell dmg:<br>" );
+		buf.append( KoLConstants.MODIFIER_FORMAT.format(
+			KoLCharacter.currentNumericModifier( Modifiers.SPELL_DAMAGE ) ) );
+		buf.append( "<br>" );
+		buf.append( KoLConstants.MODIFIER_FORMAT.format(
+			KoLCharacter.currentNumericModifier( Modifiers.SPELL_DAMAGE_PCT ) ) );
+		buf.append( "%</td><td rowspan=2>DA: " );
+		buf.append( KoLConstants.COMMA_FORMAT.format(
+			KoLCharacter.getDamageAbsorption() ) );
+		buf.append( "<br>(" );
+		buf.append( KoLConstants.ROUNDED_MODIFIER_FORMAT.format(
+			Math.max( 0.0f, ( (float) Math.sqrt( Math.min( 10000.0f, KoLCharacter.getDamageAbsorption() * 10.0f ) ) - 10.0f ) ) ) );
+		buf.append( "%)<br>DR: " );
+		buf.append( KoLConstants.MODIFIER_FORMAT.format(
+			KoLCharacter.getDamageReduction() ) );
+		buf.append( "</td></tr><tr><td>Ranged</td><td>" );
+		buf.append( KoLConstants.MODIFIER_FORMAT.format(
+			KoLCharacter.currentNumericModifier( Modifiers.RANGED_DAMAGE ) ) );
+		buf.append( "<br>" );
+		buf.append( KoLConstants.MODIFIER_FORMAT.format(
+			KoLCharacter.currentNumericModifier( Modifiers.RANGED_DAMAGE_PCT ) ) );
+		buf.append( "%</td></tr><tr><td>Critical</td>" );
+		buf.append( KoLConstants.MODIFIER_FORMAT.format(
+			KoLCharacter.currentNumericModifier( Modifiers.CRITICAL ) ) );
+		buf.append( " X<br>" );
+		buf.append( KoLConstants.MODIFIER_FORMAT.format(
+			KoLCharacter.currentNumericModifier( Modifiers.CRITICAL_PCT ) ) );
+		buf.append( "%</td><td rowspan=2>MP cost:<br>" );
+		buf.append( KoLConstants.MODIFIER_FORMAT.format(
+			KoLCharacter.getManaCostAdjustment() ) );
+		int hpmin = (int) KoLCharacter.currentNumericModifier( Modifiers.HP_REGEN_MIN );
+		int hpmax = (int) KoLCharacter.currentNumericModifier( Modifiers.HP_REGEN_MAX );
+		int mpmin = (int) KoLCharacter.currentNumericModifier( Modifiers.MP_REGEN_MIN );
+		int mpmax = (int) KoLCharacter.currentNumericModifier( Modifiers.MP_REGEN_MAX );
+		if ( hpmax != 0 || mpmax != 0 )
+		{
+			buf.append( "<br>Regenerate:<br>HP " );
+			buf.append( hpmin );
+			if ( hpmin != hpmax )
+			{
+				buf.append( "-" );
+				buf.append( hpmax );
+			}
+			buf.append( "<br>MP " );
+			buf.append( mpmin );
+			if ( mpmin != mpmax )
+			{
+				buf.append( "-" );
+				buf.append( mpmax );
+			}
+		}
+		buf.append( "</td><td rowspan=2>Rollover:<br>Adv " );
+		buf.append( KoLConstants.MODIFIER_FORMAT.format(
+			KoLCharacter.currentNumericModifier( Modifiers.ADVENTURES ) ) );
+		buf.append( "<br>PvP " );
+		buf.append( KoLConstants.MODIFIER_FORMAT.format(
+			KoLCharacter.currentNumericModifier( Modifiers.PVP_FIGHTS ) ) );
+		buf.append( "<br>HP ~" );
+		buf.append( KoLCharacter.getRestingHP() );
+		buf.append( "<br>MP " );
+		buf.append( KoLCharacter.getRestingMP() );
+		buf.append( "</td></tr><tr><td>Fumble</td><td>" );
+		if ( KoLCharacter.currentBooleanModifier( Modifiers.NEVER_FUMBLE ) )
+		{
+			buf.append( "never" );
+		}
+		else
+		{
+			buf.append( KoLConstants.MODIFIER_FORMAT.format(
+				KoLCharacter.currentNumericModifier( Modifiers.FUMBLE ) ) );
+			buf.append( " X" );
+		}
+		buf.append( "</td></tr></table></html>" );
+		this.modPopLabel.setText( buf.toString() );
 
 		int currentLevel = KoLCharacter.calculateLastLevel();
 		int nextLevel = KoLCharacter.calculateNextLevel();
@@ -313,5 +420,30 @@ public class CompactSidePane
 		}
 		this.familiarLabel.setVerticalTextPosition( JLabel.BOTTOM );
 		this.familiarLabel.setHorizontalTextPosition( JLabel.CENTER );
+	}
+	
+	private void addElement( StringBuffer buf, String name, int dmgModifier )
+	{
+		float wdmg = KoLCharacter.currentNumericModifier( dmgModifier );
+		float sdmg = KoLCharacter.currentNumericModifier(
+			dmgModifier - Modifiers.COLD_DAMAGE + Modifiers.COLD_SPELL_DAMAGE );
+		int resist = (int) KoLCharacter.currentNumericModifier(
+			dmgModifier - Modifiers.COLD_DAMAGE + Modifiers.COLD_RESISTANCE );
+		if ( wdmg == 0.0f && sdmg == 0.0f && resist == 0 )
+		{
+			return;	// skip this row entirely, it's all zeros
+		}
+		buf.append( "<tr><td>" );
+		buf.append( name );
+		buf.append( "</td><td>" );
+		buf.append( KoLConstants.MODIFIER_FORMAT.format( wdmg ) );
+		buf.append( "</td><td>" );
+		buf.append( KoLConstants.MODIFIER_FORMAT.format( sdmg ) );
+		buf.append( "</td><td>" );
+		buf.append( KoLConstants.MODIFIER_FORMAT.format( resist ) );
+		buf.append( " (" );
+		buf.append( KoLConstants.ROUNDED_MODIFIER_FORMAT.format(
+			KoLCharacter.elementalResistanceByLevel( resist ) ) );
+		buf.append( "%)</td></tr>" );
 	}
 }
