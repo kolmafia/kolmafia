@@ -43,6 +43,9 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.RequestThread;
+
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -58,6 +61,9 @@ public class CafeRequest
 	protected static final Pattern CAFE_PATTERN = Pattern.compile( "cafe.php.*cafeid=(\\d*)", Pattern.DOTALL );
 	protected static final Pattern ITEM_PATTERN = Pattern.compile( "whichitem=(-?\\d*)", Pattern.DOTALL );
 	private static final LockableListModel existing = new LockableListModel();
+	private static final AdventureResult LARP = ItemPool.get( ItemPool.LARP_MEMBERSHIP_CARD, 1 );
+	private static final GenericRequest LARP_REQUEST = new ClosetRequest( ClosetRequest.STORAGE_TO_INVENTORY, new AdventureResult[] { CafeRequest.LARP } );
+
 	protected String name = "";
 	protected String itemName = null;
 	protected boolean isPurchase = false;
@@ -81,6 +87,25 @@ public class CafeRequest
 		this.inebriety = ItemDatabase.getInebriety( itemName );
 		this.addFormField( "action", "CONSUME!" );
 		this.addFormField( "whichitem", String.valueOf( itemId ) );
+	}
+
+	public static int discountedPrice( int price )
+	{
+		int count = LARP.getCount( KoLConstants.inventory ) + LARP.getCount( KoLConstants.closet );
+
+		// If you have a LARP card in storage, pull it.
+		if ( count == 0 && KoLCharacter.canInteract() && LARP.getCount( KoLConstants.storage ) > 0 )
+		{
+			RequestThread.postRequest( LARP_REQUEST );
+			count = LARP.getCount( KoLConstants.inventory );
+		}
+
+		if ( count > 0 )
+		{
+			price = (int)( 0.90 * (float) price );
+		}
+
+		return price;
 	}
 
 	public void run()
@@ -216,10 +241,12 @@ public class CafeRequest
 		return true;
 	}
 
-	public static final void registerItemUsage( final String itemName, final int price )
+	public static final void registerItemUsage( final String itemName, int price )
 	{
 		int inebriety = ItemDatabase.getInebriety( itemName );
 		String consume = inebriety > 0 ? "drink" : "eat";
+
+		price = CafeRequest.discountedPrice( price );
 
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( "Buy and " + consume + " 1 " + itemName + " for " + price + " Meat" );

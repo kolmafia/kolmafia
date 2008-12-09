@@ -524,3 +524,6 @@ user	choiceAdventure293	0
 user	choiceAdventure294	0
 user	choiceAdventure295	0
 user	choiceAdventure296	1
+user	choiceAdventure297	2
+user	choiceAdventure298	1
+user	choiceAdventure299	1

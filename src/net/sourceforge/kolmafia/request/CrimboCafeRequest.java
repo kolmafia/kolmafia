@@ -55,32 +55,32 @@ public class CrimboCafeRequest
 		{
 		case 0:
 			itemId = -58;
-			price = 45;
+			price = 50;
 			break;
 
 		case 1:
 			itemId = -59;
-			price = 68;
+			price = 75;
 			break;
 
 		case 2:
 			itemId = -60;
-			price = 90;
+			price = 100;
 			break;
 
 		case 3:
 			itemId = -61;
-			price = 45;
+			price = 50;
 			break;
 
 		case 4:
 			itemId = -62;
-			price = 68;
+			price = 75;
 			break;
 
 		case 5:
 			itemId = -63;
-			price = 90;
+			price = 100;
 			break;
 		}
 
@@ -96,12 +96,12 @@ public class CrimboCafeRequest
 	{
 		KoLmafia.updateDisplay( "Visiting Crimbo Cafe..." );
 		KoLConstants.cafeItems.clear();
-		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Grimacider", 45 );
-		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Isotope Nog", 68 );
-		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Mutagin 'n' Tonic", 90 );
-		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Candy Cane Surprise", 45 );
-		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Grimdrop Chow Mein", 68 );
-		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Grimgerbread House", 90 );
+		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Grimacider", 50 );
+		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Isotope Nog", 75 );
+		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Mutagin 'n' Tonic", 100 );
+		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Candy Cane Surprise", 50 );
+		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Grimdrop Chow Mein", 75 );
+		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Grimgerbread House", 100 );
 		ConcoctionDatabase.getUsables().sort();
 		KoLmafia.updateDisplay( "Menu retrieved." );
 	}
@@ -133,27 +133,27 @@ public class CrimboCafeRequest
 		{
 		case -58:
 			itemName = "Grimacider";
-			price = 45;
+			price = 50;
 			break;
 		case -59:
 			itemName = "Isotope Nog";
-			price = 68;
+			price = 75;
 			break;
 		case -60:
 			itemName = "Mutagin 'n' Tonic";
-			price = 90;
+			price = 100;
 			break;
 		case -61:
 			itemName = "Candy Cane Surprise";
-			price = 45;
+			price = 50;
 			break;
 		case -62:
 			itemName = "Grimdrop Chow Mein";
-			price = 68;
+			price = 75;
 			break;
 		case -63:
 			itemName = "Grimgerbread House";
-			price = 90;
+			price = 100;
 			break;
 		default:
 			return false;

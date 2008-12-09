@@ -44,6 +44,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.Modifiers;
 
+import net.sourceforge.kolmafia.request.CafeRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 
@@ -328,7 +329,7 @@ public class ListCellRendererFactory
 			}
 			else
 			{
-				stringForm.append( item.getPrice() );
+				stringForm.append( CafeRequest.discountedPrice( item.getPrice() ) );
 				stringForm.append( " meat" );
 				return false;
 			}
