@@ -575,6 +575,7 @@ public class ConcoctionDatabase
 		{
 			request = new UseItemRequest( c.getItem().getInstance( quantity ) );
 			RequestThread.postRequest( request );
+			return;
 		}
 
 		// Otherwise, acquire them from the restaurant.

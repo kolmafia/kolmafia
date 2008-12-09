@@ -133,7 +133,7 @@ monkey wrench	3	1	5-6	0	8-10	0
 moons-shine	4	1	6-10	7-8	7-8	7-8
 morlock's mark bourbon	4	4	10-15	10-28	10-28	10-28
 mt. noob pale ale	2	1	4-9	0	0	0
-mutagin 'n' tonic	5	1	10-15	0	0	0
+mutagin 'n' tonic	5	5	10-15	0	0	0
 nanite-infested eggnog	3	3	5-10	0	16-30	16-30
 neuromancer	4	6	14-18	25-27	0	16-20
 ocean motion	4	4	10-14	25-27	8-10	0

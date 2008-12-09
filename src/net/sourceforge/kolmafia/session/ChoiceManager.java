@@ -1019,6 +1019,8 @@ public abstract class ChoiceManager
 			new String[] { "concentrated garbage juice", "skip adventure" },
 			new String[] { "3402", null } ),
 		
+		// Choice 296 is Pop!
+
 		// Gravy Fairy Ring
 		new ChoiceAdventure(
 			"Town", "choiceAdventure297", "Haiku Dungeon",
