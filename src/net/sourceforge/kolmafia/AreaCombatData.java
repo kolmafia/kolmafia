@@ -57,6 +57,11 @@ public class AreaCombatData
 	// Parallel lists: monsters and encounter weighting
 	private final List monsters;
 	private final List weightings;
+	
+	// Flags in low-order bits of weightings
+	private static final int ASCENSION_ODD = 0x01;
+	private static final int ASCENSION_EVEN = 0x02;
+	private static final int WEIGHT_SHIFT = 2;
 
 	public AreaCombatData( final int combats )
 	{
@@ -73,12 +78,23 @@ public class AreaCombatData
 	public boolean addMonster( String name )
 	{
 		int weighting = 1;
+		int flags = ASCENSION_EVEN | ASCENSION_ODD;
 
 		int colon = name.indexOf( ":" );
 		if ( colon > 0 )
 		{
-			weighting = StringUtilities.parseInt( name.substring( colon + 1 ).trim() );
+			String weight = name.substring( colon + 1 ).trim();
+			weighting = StringUtilities.parseInt( weight );
 			name = name.substring( 0, colon );
+			switch ( weight.charAt( 0 ) )
+			{
+			case 'e':
+				flags = ASCENSION_EVEN;
+				break;
+			case 'o':
+				flags = ASCENSION_ODD;
+				break;
+			}
 		}
 
 		Monster monster = MonsterDatabase.findMonster( name, false );
@@ -88,7 +104,7 @@ public class AreaCombatData
 		}
 
 		this.monsters.add( monster );
-		this.weightings.add( new Integer( weighting ) );
+		this.weightings.add( new Integer( (weighting << WEIGHT_SHIFT) | flags ) );
 
 		// Don't let ultra-rare monsters skew hit and evade numbers -
 		// or anything else.
@@ -100,7 +116,9 @@ public class AreaCombatData
 		// Don't let special monsters skew combat percentage numbers
 		// or things derived from them, like area-wide item and meat
 		// drops. Do include them in hit and evade ("safety") numbers.
-		if ( weighting > 0 )
+		// Assume that the number and total weights of even- and 
+		// odd-ascension-only monsters are equal.
+		if ( weighting > 0 && flags != ASCENSION_ODD )
 		{
 			this.weights += weighting;
 		}
@@ -149,7 +167,12 @@ public class AreaCombatData
 
 	public int getWeighting( final int i )
 	{
-		return ( (Integer) this.weightings.get( i ) ).intValue();
+		int raw = ( (Integer) this.weightings.get( i ) ).intValue();
+		if ( ((raw >> (KoLCharacter.getAscensions() & 1)) & 1) == 0 )
+		{
+			return -2;	// impossible this ascension
+		}
+		return raw >> WEIGHT_SHIFT;
 	}
 
 	public int combats()
@@ -235,7 +258,7 @@ public class AreaCombatData
 		{
 			int weighting = this.getWeighting( i );
 
-			// Omit ultra-rare (-1) and special (0) monsters
+			// Omit impossible (-2), ultra-rare (-1) and special (0) monsters
 			if ( weighting < 1 )
 			{
 				continue;
@@ -374,7 +397,12 @@ public class AreaCombatData
 		buffer.append( monster.getName() );
 		buffer.append( "</b></font> (" );
 
-		if ( weighting < 0 )
+		if ( weighting == -2 )
+		{
+			buffer.append( "unavailable this ascension)" );
+			return buffer.toString();
+		}
+		else if ( weighting == -1 )
 		{
 			buffer.append( "ultra-rare" );
 		}

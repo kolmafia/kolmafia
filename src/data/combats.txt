@@ -30,6 +30,10 @@
 # A weight of 0 means this is a one-time (boss) encounter in the area. A
 # weight of -1 means this is an ultra-rare encounter. Neither type of
 # monster will be included in average XP calculations.
+#
+# The weight can be preceded by an "o" to indicate that that the monster
+# can only appear in your first and subsequent odd-numbered ascensions,
+# or "e" if it can only appear in even-numbered ascensions.
 
 8-Bit Realm	100	Blooper	Bullet Bill	Buzzy Beetle	Goomba	Keese	Koopa Troopa	Octorok	Tektite	Zol
 A Maze of Sewer Tunnels	95	C. H. U. M.	Giant Zombie Goldfish	Sewer Gator	C. H. U. M. chieftain: 0
@@ -76,7 +80,7 @@ Exposure Esplanade	-1	Cold Hobo	Frosty: 0
 eXtreme Slope	60	Sk8 Gnome	eXtreme Cross-Country Hippy	eXtreme Orcish Snowboarder
 F'c'le	80	Chatty Pirate	Cleanly Pirate	Clingy Pirate	Creamy Pirate	Crusty Pirate	Curmudgeonly Pirate
 Family Plot	100	Vampire Duck	Zombie Duck
-Fantasy Airship	80	Burly Sidekick: 2	Irritating Series of Random Encounters: 3	MagiMechTech MechaMech: 2	Protagonist: 2	Quiet Healer: 2	Spunky Princess: 2
+Fantasy Airship	80	Burly Sidekick	Irritating Series of Random Encounters: 2	MagiMechTech MechaMech	Protagonist	Quiet Healer	Spunky Princess
 Feeding Chamber	100	Filthworm Drone
 Fernswarthy's Ruins	100	Brainsweeper	Bread Golem	Chowder Golem	Weretaco	Yeast Beast	Lesser Fruit Golem
 Frat House	100	Orcish Frat Boy (Music Lover)	Orcish Frat Boy (Paddler)	Orcish Frat Boy (Pledge)
@@ -100,7 +104,7 @@ Haunted Conservatory	100	Anglerbush	Confused Goth Music Student	Man-Eating Plant
 Haunted Gallery	80	Guy with a Pitchfork, and his Wife	Cubist Bull	Empty Suit of Armor	Knight (Snake): 0	Knight (Wolf): 0
 Haunted Kitchen	100	Demonic Icebox	Paper Towelgeist	Possessed Silverware Drawer	Skullery Maid	Zombie Chef
 Haunted Library	-1	Banshee Librarian	Bookbat	Writing Desk
-Haunted Pantry	80	Possessed Can of Tomatoes	Fiendish Can of Asparagus	Flame-Broiled Meat Blob	Overdone Flame-Broiled Meat Blob	Undead Elbow Macaroni
+Haunted Pantry	80	Possessed Can of Tomatoes	Fiendish Can of Asparagus	Flame-Broiled Meat Blob: o1	Overdone Flame-Broiled Meat Blob: e1	Undead Elbow Macaroni
 Haunted Wine Cellar (automatic)	100	Possessed Wine Rack	Skeletal Sommelier
 Haunted Wine Cellar (Northwest)	100	Possessed Wine Rack	Skeletal Sommelier
 Haunted Wine Cellar (Northeast)	100	Possessed Wine Rack	Skeletal Sommelier
@@ -110,13 +114,13 @@ Hidden City	70	Ancient Protector Spirit	Boaraffe	Protector Spectre	Pygmy Blowgun
 Hippy Camp	100	Crusty Hippy	Crusty Hippy Jewelry Maker	Crusty Hippy Vegan Chef	Dirty Hippy	Dirty Hippy Jewelry Maker	Dirty Hippy Vegan Chef	Filthy Hippy	Filthy Hippy Jewelry Maker	Filthy Hippy Vegan Chef
 Hippy Camp (Stone Age)	100	Caveman Hippy	Cavewomyn Hippy	Sabre-Toothed Ferret
 Hobopolis Town Square	95	Normal Hobo	Hodgman, The Hoboverlord: 0
-Hole in the Sky	100	The Astronomer: 6	One-Eyed Willie: 2	The Burrowing Bishop: 2	The Family Jewels: 2	The Hooded Warrior: 2	The Junk: 2	The Pork Sword: 2	The Skinflute: 2	The Trouser Snake: 2	The Twig and Berries: 2	The Axe Wound: 2	The Beaver: 2	The Box: 2	The Bush: 2	The Camel's Toe: 2	The Flange: 2	The Honey Pot: 2	The Little Man in the Canoe: 2	The Muff: 2
+Hole in the Sky	100	The Astronomer: 3	One-Eyed Willie: o2	The Burrowing Bishop: o2	The Family Jewels: o2	The Hooded Warrior: o2	The Junk: o2	The Pork Sword: o2	The Skinflute: o2	The Trouser Snake: o2	The Twig and Berries: o2	The Axe Wound: e2	The Beaver: e2	The Box: e2	The Bush: e2	The Camel's Toe: e2	The Flange: e2	The Honey Pot: e2	The Little Man in the Canoe: e2	The Muff: e2
 Icy Peak	85	Knott Yeti: 2	Snow Queen: 1	Upgraded Ram: 2	Knott Slanding: -1
 Itznotyerzitz Mine	75	7-Foot Dwarf: 2	7-Foot Dwarf Foreman: 1
 King's Chamber	100	The Knob Goblin King
 Knob Goblin Harem	60	Knob Goblin Elite Guardsman: 1	Knob Goblin Harem Girl: 2
-Knob Goblin Kitchens	100	Knob Goblin Chef: 3	Knob Goblin Master Chef: 2
-Knob Goblin Laboratory	100	Knob Goblin Mad Scientist: 2	Knob Goblin Very Mad Scientist: 1
+Knob Goblin Kitchens	100	Knob Goblin Chef: 2	Knob Goblin Master Chef: 1
+Knob Goblin Laboratory	100	Knob Goblin Mad Scientist: 3	Knob Goblin Very Mad Scientist: 1
 Knob Goblin Treasury	85	Knob Goblin Bean Counter	Knob Goblin Elite Guardsman	Infinite Meat Bug: -1
 Knob Shaft	85	Ghost Miner
 McMillicancuddy's Farm	100	Drunk Duck	Figure-Skating Duck	Fire-Breathing Duck	Frozen Duck	Greasy Duck	Mean Drunk Duck	Rattlin' Duck	Rotund Duck	Scorched Duck	Swamp Duck	Vampire Duck	Zombie Duck
