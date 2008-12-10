@@ -838,6 +838,39 @@ public class UseItemRequest
 
 		AdventureResult item = UseItemRequest.lastItemUsed;
 		AdventureResult helper = UseItemRequest.lastHelperUsed;
+		
+		// Check for consumption helpers, which will need to be removed
+		// from inventory if they were successfully used.
+		
+		if ( helper != null )
+		{
+			// Check for success message, since there are multiple
+			// ways these could fail:
+			//
+			// "You pour the <drink> into your divine champagne
+			// flute, and it immediately begins fizzing over. You
+			// drink it quickly, then throw the flute in front of a
+			// plastic fireplace and break it."
+			//
+			// "You eat the now piping-hot <food> -- it's
+			// sizzlicious! The salad fork cools, and you discard
+			// it."
+			//
+			// "Brisk! Refreshing! You drink the frigid <drink> and
+			// discard the no-longer-frosty mug."
+
+			if ( responseText.indexOf( "a plastic fireplace" ) == -1 &&
+			     responseText.indexOf( "The salad fork cools" ) == -1 &&
+			     responseText.indexOf( "discard the no-longer-frosty" ) == -1 )
+			{
+				UseItemRequest.lastUpdate = "Consumption helper failed.";
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				return;
+			}		
+
+			// Remove the consumption helper from inventory.
+			ResultProcessor.processResult( helper.getNegation() );
+		}
 
 		int consumptionType = UseItemRequest.getConsumptionType( item );
 
@@ -847,6 +880,10 @@ public class UseItemRequest
 
 		switch ( consumptionType )
 		{
+		case KoLConstants.CONSUME_FOOD_HELPER:
+		case KoLConstants.CONSUME_DRINK_HELPER:
+			// Consumption helpers are removed above when you
+			// successfully eat or drink.
 		case KoLConstants.NO_CONSUME:
 		case KoLConstants.COMBAT_ITEM:
 			return;
@@ -868,37 +905,6 @@ public class UseItemRequest
 
 		default:
 			ResultProcessor.processResult( item.getNegation() );
-		}
-		
-		// Check for consumption helpers, which will need to be removed from inventory
-		// if they were successfully used.
-		
-		if ( helper != null )
-		{	// Check for success message, since there are multiple ways these could fail:
-			//
-			// "You pour the <drink> into your divine champagne flute, and it immediately 
-			// begins fizzing over. You drink it quickly, then throw the flute in front of 
-			// a plastic fireplace and break it."
-			//
-			// "You eat the now piping-hot <food> -- it's sizzlicious! The salad fork 
-			// cools, and you discard it."
-			//
-			// "Brisk! Refreshing! You drink the frigid <drink> and discard the 
-			// no-longer-frosty mug."
-			
-			if ( responseText.indexOf( "a plastic fireplace" ) != -1 ||
-				responseText.indexOf( "The salad fork cools" ) != -1  ||
-				responseText.indexOf( "discard the no-longer-frosty" ) != -1 )
-			{
-				ResultProcessor.processResult( helper.getNegation() );
-			}
-			else
-			{
-				UseItemRequest.lastUpdate = "Consumption helper failed.";
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
-				ResultProcessor.processResult( item );
-				return;
-			}		
 		}
 
 		// Check for familiar growth - if a familiar is added,
@@ -1872,9 +1878,8 @@ public class UseItemRequest
 			}
 			else if ( responseText.indexOf( "You pop the spice melange into your mouth and chew it up" ) != -1 )
 			{
-				ResultProcessor.processResult( ItemPool.get( ItemPool.SPICE_MELANGE, -1 ) );
-				Preferences.setInteger( "currentFullness", Preferences.getInteger( "currentFullness" ) - 3 );
-				KoLCharacter.setInebriety( KoLCharacter.getInebriety() - 3 );
+				Preferences.setInteger( "currentFullness", Math.max( 0, Preferences.getInteger( "currentFullness" ) - 3 ) );
+				KoLCharacter.setInebriety( Math.max( 0, KoLCharacter.getInebriety() - 3 ) );
 				Preferences.setBoolean( "spiceMelangeUsed", true );
 				KoLCharacter.updateStatus();
 			}
@@ -2222,8 +2227,8 @@ public class UseItemRequest
 
 	private static final AdventureResult extractHelper( final String urlString )
 	{
-		if ( !urlString.startsWith( "inv_eat.php" )
-			&& !urlString.startsWith( "inv_booze.php" ) )
+		if ( !urlString.startsWith( "inv_eat.php" ) &&
+		     !urlString.startsWith( "inv_booze.php" ) )
 		{
 			return null;
 		}
