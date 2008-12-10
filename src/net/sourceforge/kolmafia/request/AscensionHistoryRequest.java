@@ -412,8 +412,8 @@ public class AscensionHistoryRequest
 	{
 		String[] columns = rowData.replaceFirst( "</tr><td.*?>", "" ).replaceAll( "&nbsp;", "" ).replaceAll( " ", "" ).split(
 			"(</?t[rd].*?>)+" );
-		for ( int i = 0; i < columns.length; ++i )
-		{
+		for ( int i = 5; i <= 6; ++i )
+		{	// These two columns now have alt text that would mess up parsing.
 			columns[i] = columns[i].replaceAll( "<.*?>", "" );
 		}
 		return columns;
