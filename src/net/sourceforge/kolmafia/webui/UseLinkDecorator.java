@@ -241,7 +241,7 @@ public abstract class UseLinkDecorator
 		{
 			link = getCreateLink( itemId, itemCount );
 		}
-		else if ( consumeMethod == KoLConstants.NO_CONSUME )
+		else if ( consumeMethod == KoLConstants.NO_CONSUME || consumeMethod == KoLConstants.COMBAT_ITEM )
 		{
 			link = getNavigationLink( itemId );
 		}
@@ -418,10 +418,13 @@ public abstract class UseLinkDecorator
 
 				return new UseLink( itemId, itemCount, "read", "diary.php?textversion=1" );
 
+			case ItemPool.SPOOKY_MAP:
 			case ItemPool.SPOOKY_SAPLING:
 			case ItemPool.SPOOKY_FERTILIZER:
 
-				if ( !InventoryManager.hasItem( ItemPool.SPOOKY_MAP ) )
+				if ( !InventoryManager.hasItem( ItemPool.SPOOKY_MAP ) ||
+				     !InventoryManager.hasItem( ItemPool.SPOOKY_SAPLING ) ||
+				     !InventoryManager.hasItem( ItemPool.SPOOKY_FERTILIZER ) )
 				{
 					return null;
 				}
@@ -652,6 +655,23 @@ public abstract class UseLinkDecorator
 			
 			useType = "use";
 			useLocation = "inv_use.php?pwd=" + GenericRequest.passwordHash + "&which=3&whichitem=";
+			break;
+
+		// Link to use the Black Market Map if you get blackbird parts
+
+		case ItemPool.BROKEN_WINGS:
+		case ItemPool.SUNKEN_EYES:
+
+			if ( !InventoryManager.hasItem( ItemPool.BROKEN_WINGS ) ||
+			     !InventoryManager.hasItem( ItemPool.SUNKEN_EYES ) ||
+			     !InventoryManager.hasItem( ItemPool.BLACK_MARKET_MAP ) )
+			{
+				return null;
+			}
+
+			useType = "use map";
+			useLocation = "inv_use.php?pwd=" + GenericRequest.passwordHash + "&which=3&whichitem=";
+			itemId = ItemPool.BLACK_MARKET_MAP;
 			break;
 
 		default:
