@@ -80,6 +80,12 @@ public class MindControlRequest
 		return true;
 	}
 
+	public boolean shouldFollowRedirect()
+	{	// Musc sign MCD redirects to a message page, processResults() doesn't
+		// get called if the redirect is ignored.
+		return true;
+	}
+
 	public void run()
 	{
 		// Avoid server hits if user gives an invalid level
