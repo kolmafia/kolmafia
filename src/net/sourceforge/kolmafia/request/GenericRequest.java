@@ -1444,7 +1444,7 @@ public class GenericRequest
 		}
 		else
 		{
-			this.containsUpdate = this.responseText.indexOf( "charpane" ) != -1;
+			this.containsUpdate |= this.responseText.indexOf( "charpane" ) != -1;
 		}
 
 		if ( this.containsUpdate )
