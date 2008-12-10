@@ -41,6 +41,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.RuntimeLibrary;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 
 public class Scope
@@ -202,6 +203,49 @@ public class Scope
 			return true;
 		}
 		return false;
+	}
+
+	public Function findFunction( final String name, final ValueList params )
+	{
+		Function result = this.findFunction( this.functions, name, params, true );
+
+		if ( result == null )
+		{
+			result = this.findFunction( RuntimeLibrary.functions, name, params, true );
+		}
+
+		if ( result == null )
+		{
+			result = this.findFunction( this.functions, name, params, false );
+		}
+
+		if ( result == null )
+		{
+			result = this.findFunction( RuntimeLibrary.functions, name, params, false );
+		}
+
+		return result;
+	}
+
+	private Function findFunction( final FunctionList source, final String name, final ValueList params, boolean exact )
+	{
+		Function[] functions = source.findFunctions( name );
+
+		for ( int i = 0; i < functions.length; ++i )
+		{
+			Function function = functions[ i ];
+			if ( function.paramsMatch( params, exact ) )
+			{
+				return function;
+			}
+		}
+
+		if ( !exact && this.parentScope != null )
+		{
+			return this.parentScope.findFunction( name, params );
+		}
+
+		return null;
 	}
 
 	private boolean isMatchingFunction( final UserDefinedFunction existing, final UserDefinedFunction f )
