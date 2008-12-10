@@ -1415,8 +1415,6 @@ public class GenericRequest
 			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "use", "* ten-leaf clover" );
 		}
 
-		UseItemRequest.resetItemUsed();
-
 		if ( !GenericRequest.choiceHandled )
 		{
 			GenericRequest.choiceHandled = true;
@@ -1438,11 +1436,6 @@ public class GenericRequest
 				return;
 			}
 
-			this.containsUpdate = true;
-		}
-
-		if ( this.containsUpdate )
-		{
 			this.containsUpdate = true;
 		}
 		else if ( effectCount != KoLConstants.activeEffects.size() || this.getAdventuresUsed() > 0 )
