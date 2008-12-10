@@ -39,6 +39,7 @@ import java.util.Iterator;
 
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.Parser;
 
 
 public abstract class Function
@@ -87,6 +88,42 @@ public abstract class Function
 
 	public void restoreBindings( Interpreter interpreter )
 	{
+	}
+
+	public boolean paramsMatch( final ValueList params, boolean exact )
+	{
+		if ( params == null )
+		{
+			return true;
+		}
+
+		Iterator refIterator = this.getReferences();
+		Iterator valIterator = params.iterator();
+
+		while ( refIterator.hasNext() && valIterator.hasNext() )
+		{
+			Type paramType = ((VariableReference) refIterator.next()).getType();
+			Type valueType = ((Value) valIterator.next()).getType();
+
+			if ( paramType == valueType )
+			{
+				continue;
+			}
+
+			if ( !exact && Parser.validCoercion( paramType, valueType, "parameter" ) )
+			{
+				continue;
+			}
+
+			return false;
+		}
+
+		if ( refIterator.hasNext() || valIterator.hasNext() )
+		{
+			return false;
+		}
+
+		return true;
 	}
 
 	public void printDisabledMessage( Interpreter interpreter )

@@ -61,6 +61,7 @@ import net.sourceforge.kolmafia.textui.parsetree.ForEachLoop;
 import net.sourceforge.kolmafia.textui.parsetree.ForLoop;
 import net.sourceforge.kolmafia.textui.parsetree.Function;
 import net.sourceforge.kolmafia.textui.parsetree.FunctionCall;
+import net.sourceforge.kolmafia.textui.parsetree.FunctionInvocation;
 import net.sourceforge.kolmafia.textui.parsetree.FunctionList;
 import net.sourceforge.kolmafia.textui.parsetree.FunctionReturn;
 import net.sourceforge.kolmafia.textui.parsetree.If;
@@ -843,6 +844,10 @@ public class Parser
 			// loop doesn't have a ; token
 			return result;
 		}
+		else if ( ( result = this.parseInvoke( scope ) ) != null )
+		{
+			;
+		}
 		else if ( ( result = this.parseCall( scope ) ) != null )
 		{
 			;
@@ -1596,8 +1601,28 @@ public class Parser
 		}
 
 		String name = this.currentToken();
-
 		this.readToken(); //name
+
+		ValueList params = parseParameters( scope, firstParam );
+		Function target = this.findFunction( scope, name, params );
+
+		if ( target == null )
+		{
+			throw this.parseException( "Undefined reference to function '" + name + "'" );
+		}
+
+		FunctionCall call = new FunctionCall( target, params, this );
+
+		return parsePostCall( scope, call );
+	}
+
+	private ValueList parseParameters( final Scope scope, final Value firstParam )
+	{
+		if ( !this.currentToken().equals( "(" ) )
+		{
+			return null;
+		}
+
 		this.readToken(); //(
 
 		ValueList params = new ValueList();
@@ -1638,12 +1663,11 @@ public class Parser
 
 		this.readToken(); // )
 
-		Function target = this.findFunction( scope, name, params );
-		if ( target == null )
-		{
-			throw this.parseException( "Undefined reference to function '" + name + "'" );
-		}
-		FunctionCall call = new FunctionCall( target, params, this );
+		return params;
+	}
+
+	private Value parsePostCall( final Scope scope, FunctionCall call )
+	{
 		Value result = call;
 		while ( result != null && this.currentToken() != null && this.currentToken().equals( "." ) )
 		{
@@ -1654,6 +1678,46 @@ public class Parser
 		}
 
 		return result;
+	}
+
+	private Value parseInvoke( final Scope scope )
+	{
+		if ( this.currentToken() == null || !this.currentToken().equalsIgnoreCase( "call" ) )
+		{
+			return null;
+		}
+
+		this.readToken(); // call
+
+		Type type = this.parseType( scope, true, false );
+
+		// You can omit the type, but then this function invocation
+		// cannot be used in an expression
+
+		if ( type == null )
+		{
+			type = DataTypes.VOID_TYPE;
+		}
+
+		String identifier = this.currentToken();
+
+		if ( !this.parseIdentifier( identifier ) )
+		{
+			throw this.parseException( "Variable reference expected for function name" );
+		}
+
+		Value name = this.parseVariableReference( scope );
+
+		if ( name == null || !( name instanceof VariableReference ) )
+		{
+			throw this.parseException( "Variable reference expected for function name" );
+		}
+
+		ValueList params = parseParameters( scope, null );
+
+		FunctionInvocation call = new FunctionInvocation( scope, type, name, params, this );
+
+		return parsePostCall( scope, call );
 	}
 
         private final Function findFunction( final Scope scope, final String name, final ValueList params )
@@ -1741,8 +1805,8 @@ public class Parser
         }
 
 	private final Function findFunction( final Scope scope, final FunctionList source,
-						   final String name, final ValueList params,
-						   boolean isExactMatch )
+					     final String name, final ValueList params,
+					     boolean isExactMatch )
 	{
 		String errorMessage = null;
 
@@ -2039,6 +2103,11 @@ public class Parser
 		{
 			this.readToken();
 			result = this.parseNewRecord( scope );
+		}
+
+		else if ( ( result = this.parseInvoke( scope ) ) != null )
+		{
+			;
 		}
 
 		else if ( ( result = this.parseCall( scope, result ) ) != null )

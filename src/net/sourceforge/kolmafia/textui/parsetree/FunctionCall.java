@@ -45,10 +45,10 @@ import net.sourceforge.kolmafia.textui.Parser;
 public class FunctionCall
 	extends Value
 {
-	private final Function target;
-	private final ValueList params;
-	private final String fileName;
-	private final int lineNumber;
+	protected Function target;
+	protected final ValueList params;
+	protected final String fileName;
+	protected final int lineNumber;
 
 	public FunctionCall( final Function target, final ValueList params, final Parser parser )
 	{
