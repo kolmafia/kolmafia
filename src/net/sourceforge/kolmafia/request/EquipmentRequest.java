@@ -58,7 +58,7 @@ public class EquipmentRequest
 	extends PasswordHashRequest
 {
 	private static final EquipmentRequest REFRESH1 = new EquipmentRequest( EquipmentRequest.CONSUMABLES );
-	private static final EquipmentRequest REFRESH2 = new EquipmentRequest( EquipmentRequest.EQUIPMENT );
+	private static final EquipmentRequest REFRESH2 = new EquipmentRequest( EquipmentRequest.ALL_EQUIPMENT );
 	private static final EquipmentRequest REFRESH3 = new EquipmentRequest( EquipmentRequest.MISCELLANEOUS );
 	private static final EquipmentRequest REFRESH4 = new EquipmentRequest( EquipmentRequest.BEDAZZLEMENTS );
 
@@ -80,13 +80,13 @@ public class EquipmentRequest
 	private static final Pattern PANTS_PATTERN =
 		Pattern.compile( "Pants</a>:</td>.*?<b>(.*?)</b>.*unequip&type=pants" );
 	private static final Pattern ACC1_PATTERN =
-		Pattern.compile( "<b>([^<]*?)</b>\\s*<[^<]+unequip&type=acc1\">" );
+		Pattern.compile( "<b>([^<]*?)</b>\\s*<[^<]+unequip&type=acc1\"" );
 	private static final Pattern ACC2_PATTERN =
-		Pattern.compile( "<b>([^<]*?)</b>\\s*<[^<]+unequip&type=acc2\">" );
+		Pattern.compile( "<b>([^<]*?)</b>\\s*<[^<]+unequip&type=acc2\"" );
 	private static final Pattern ACC3_PATTERN =
-		Pattern.compile( "<b>([^<]*?)</b>\\s*<[^<]+unequip&type=acc3\">" );
+		Pattern.compile( "<b>([^<]*?)</b>\\s*<[^<]+unequip&type=acc3\"" );
 	private static final Pattern FAMILIARITEM_PATTERN =
-		Pattern.compile( "<b>([^<]*?)</b>\\s*<[^<]+unequip&type=familiarequip\">" );
+		Pattern.compile( "<b>([^<]*?)</b>\\s*<[^<]+unequip&type=familiarequip\"" );
 	private static final Pattern OUTFITLIST_PATTERN = Pattern.compile( "<select name=whichoutfit>.*?</select>" );
 	private static final Pattern STICKER_PATTERN = Pattern.compile(
 		"<td>\\s*(shiny|dull)?\\s*([^<]+)<a [^>]+action=peel|<td>\\s*<img [^>]+magnify" );
@@ -104,7 +104,7 @@ public class EquipmentRequest
 
 	public static final int CLOSET = 1;
 	public static final int CONSUMABLES = 2;
-	public static final int EQUIPMENT = 3;
+	public static final int EQUIPMENT = 3;	// loads current equipment only
 	public static final int MISCELLANEOUS = 4;
 
 	public static final int SAVE_OUTFIT = 5;
@@ -115,6 +115,7 @@ public class EquipmentRequest
 	public static final int UNEQUIP_ALL = 9;
 
 	public static final int BEDAZZLEMENTS = 10;
+	public static final int ALL_EQUIPMENT = 11;	// loads entire equipment page
 
 	// Array indexed by equipment "slot" from KoLCharacter
 	//
@@ -187,6 +188,11 @@ public class EquipmentRequest
 		if ( requestType == EquipmentRequest.BEDAZZLEMENTS )
 		{
 			// no fields necessary
+		}
+		else if ( requestType == EquipmentRequest.EQUIPMENT )
+		{
+			this.addFormField( "ajax", "1" );
+			this.addFormField( "curequp", "1" );
 		}
 		else if ( requestType == EquipmentRequest.MISCELLANEOUS )
 		{

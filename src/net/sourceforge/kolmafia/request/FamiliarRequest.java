@@ -252,6 +252,11 @@ public class FamiliarRequest
 			{
 				RequestLogger.updateSessionLog();
 				RequestLogger.updateSessionLog( "familiar " + KoLCharacter.getFamiliarList().get( index ).toString() );
+				if ( urlString.indexOf( "ajax=" ) != -1 )
+				{	// we're not going to see the familiar page, must change
+					// to the new familiar here.
+					KoLCharacter.setFamiliar( changeTo );
+				}
 				return true;
 			}
 		}

@@ -319,7 +319,8 @@ public abstract class StaticEntity
 			EquipmentRequest.parseBedazzlements( responseText );
 		}
 
-		if ( location.indexOf( "familiar.php" ) != -1 )
+		if ( location.indexOf( "familiar.php" ) != -1 &&
+			location.indexOf( "ajax=1" ) == -1)
 		{
 			FamiliarData.registerFamiliarData( responseText );
 		}
