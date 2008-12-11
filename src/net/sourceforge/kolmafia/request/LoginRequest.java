@@ -61,6 +61,8 @@ public class LoginRequest
 		Pattern.compile( "<input type=hidden name=challenge value=\"([^\"]*?)\">" );
 	private static final Pattern PLAYERS_PATTERN =
 		Pattern.compile( "There are currently <b>(.*?)</b> players logged in." );
+	private static final Pattern GRIMBO_PATTERN =
+		Pattern.compile( "(Elves Defeated:)</b></td><td class=small>([0-9,]+)</td></tr><tr><td class=small><b>(Elves Cured:)</b></td><td class=small>([0-9,]+)</td></tr><tr><td colspan=2 height=2 bgcolor=black></td></tr><tr><td class=small><b>(Penguins Defeated:)&nbsp;&nbsp;&nbsp;&nbsp;</b></td><td class=small>([0-9,]+)</td></tr><tr><td class=small><b>(Penguins Bribed:)</b></td><td class=small>([0-9,]+)" );
 
 	private static boolean ignoreLoadBalancer = false;
 	private static LoginRequest lastRequest = null;
@@ -153,6 +155,18 @@ public class LoginRequest
 		if ( playersMatcher.find() )
 		{
 			KoLmafia.updateDisplay( playersMatcher.group( 1 ) + " players online." );
+		}
+		playersMatcher = LoginRequest.GRIMBO_PATTERN.matcher( this.responseText );
+		if ( playersMatcher.find() )
+		{
+			KoLmafia.updateDisplay( playersMatcher.group( 1 ) + " " +
+				playersMatcher.group( 2 ) );
+			KoLmafia.updateDisplay( playersMatcher.group( 3 ) + " " +
+				playersMatcher.group( 4 ) );
+			KoLmafia.updateDisplay( playersMatcher.group( 5 ) + " " +
+				playersMatcher.group( 6 ) );
+			KoLmafia.updateDisplay( playersMatcher.group( 7 ) + " " +
+				playersMatcher.group( 8 ) );
 		}
 
 		try
