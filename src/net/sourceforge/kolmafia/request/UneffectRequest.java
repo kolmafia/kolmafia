@@ -200,7 +200,8 @@ public class UneffectRequest
 
 		String action = MoodManager.getDefaultAction( "gain_effect", this.effect.getName() );
 
-		if ( !action.equals( "" ) && !action.startsWith( "uneffect" ) )
+		if ( !action.equals( "" ) && !action.startsWith( "uneffect" ) &&
+			!action.startsWith( "shrug" ) && !action.startsWith( "remedy" ) )
 		{
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( action );
 			return;

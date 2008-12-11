@@ -79,6 +79,8 @@
 1018	Northern Exposure	0	0	0
 1019	Musk of the Moose	3	10	10
 1020	Snarl of the Timberwolf	3	10	10
+1021
+1022	Clobber	5	1	0
 
 # Skills available to Tamers
 
@@ -105,6 +107,7 @@
 2020	Hero of the Half-Shell	0	0	0
 2021	Tao of the Terrapin	0	0	0
 2022	Spectral Snapper	5	20	0
+2023	Toss	5	1	0
 2103	Head + Knee Combo	5	8	0
 2105	Head + Shield Combo	5	9	0
 2106	Knee + Shield Combo	5	10	0
@@ -188,6 +191,7 @@
 5017	Smooth Movement	3	10	10
 5018	Superhuman Cocktailcrafting	0	0	0
 5019	Tango of Terror	5	8	0
+5020	Suckerpunch	5	1	0
 
 # Skills available to Thieves
 
@@ -216,6 +220,7 @@
 6022	Elron's Explosive Etude	4	50	5
 6023	Chorale of Companionship	4	50	5
 6024	Prelude of Precision	4	50	5
+6025	Sing	5	1	0
 
 # Skills granted conditionally
 
