@@ -104,6 +104,14 @@ public class UneffectRequest
 		return id != -1 && SkillDatabase.isBuff( id );
 	}
 
+	public static final boolean isRemovable( final String effectName )
+	{
+		return !effectName.equals( "Goofball Withdrawal" ) &&
+			!effectName.equals( "Eau de Tortue" ) &&
+			!effectName.equals( "Cursed by the RNG" ) &&
+			!effectName.equals( "Form of...Bird!" );
+	}
+
 	/**
 	 * Given the name of an effect, return the name of the skill that created that effect
 	 *
@@ -231,29 +239,39 @@ public class UneffectRequest
 
 	public void processResults()
 	{
-		// If it notifies you that the effect was removed, delete it
-		// from the list of effects.
+		// Using a remedy no longer says "Effect removed." If you have
+		// more remedies available, it gives a new list, not containing
+		// the effect. If you have no more remedies, it says "You don't
+		// have any more green fluffy antidote echo drops, or whatever
+		// they're called."
 
-		if ( this.responseText != null && ( this.isShruggable || this.responseText.indexOf( "Effect removed." ) != -1 ) )
+		if ( this.responseText == null )
 		{
-			KoLConstants.activeEffects.remove( this.effect );
-
-			if ( this.isShruggable )
-			{
-				CharSheetRequest.parseStatus( this.responseText );
-			}
-			else
-			{
-				ResultProcessor.processResult( UneffectRequest.REMEDY.getNegation() );
-			}
-
-			KoLmafia.updateDisplay( this.effect.getName() + " removed." );
-			RequestFrame.refreshStatus();
+			// What's wrong?
+			return;
 		}
-		else if ( !this.isShruggable )
+
+		if ( !isRemovable( this.effect.getName() ) )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Failed to remove " + this.effect.getName() + "." );
+			return;
 		}
+
+		// Assume it worked.
+
+		KoLConstants.activeEffects.remove( this.effect );
+
+		if ( this.isShruggable )
+		{
+			CharSheetRequest.parseStatus( this.responseText );
+		}
+		else
+		{
+			ResultProcessor.processResult( UneffectRequest.REMEDY.getNegation() );
+		}
+
+		KoLmafia.updateDisplay( this.effect.getName() + " removed." );
+		RequestFrame.refreshStatus();
 	}
 
 	public static final boolean registerRequest( final String location )
