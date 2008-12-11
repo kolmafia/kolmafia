@@ -1017,6 +1017,7 @@ public abstract class MoodManager
 		}
 
 		boolean powerNapClearable =
+			name.equals( "Apathy" ) ||
 			name.equals( "Confused" ) ||
 			name.equals( "Cunctatitis" ) ||
 			name.equals( "Embarrassed" ) ||
@@ -1038,6 +1039,7 @@ public abstract class MoodManager
 			name.equals( "Confused" ) ||
 			name.equals( "Embarrassed" ) ||
 			name.equals( "Sleepy" ) ||
+			name.equals( "Sunburned" ) ||
 			name.equals( "Wussiness" );
 
 		if ( discoNapClearable && KoLCharacter.hasSkill( "Disco Nap" ) )
