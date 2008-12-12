@@ -1615,10 +1615,10 @@ public abstract class KoLmafia
 		boolean checkBounty = false;
 		AdventureResult bounty = null;
 
-		if ( isAdventure )
+		if ( isAdventure && ( bounty = AdventureDatabase.currentBounty() ) != null )
 		{
-			bounty = AdventureDatabase.currentBounty();
-			checkBounty = ( bounty != null && AdventureDatabase.getBountyLocation( bounty.getItemId() ) == request );
+			AdventureResult ar = AdventureDatabase.getBounty( (KoLAdventure) request );
+			checkBounty = ar != null && bounty.getItemId() == ar.getItemId();
 		}
 
 		while ( KoLmafia.permitsContinue() && ++currentIteration <= totalIterations )
