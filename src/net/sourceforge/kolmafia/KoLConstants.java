@@ -243,7 +243,7 @@ public interface KoLConstants
 
 	// The current version number of each data file
 
-	public static final int ADVENTURES_VERSION = 3;
+	public static final int ADVENTURES_VERSION = 4;
 	public static final int BUFFBOTS_VERSION = 1;
 	public static final int CLASSSKILLS_VERSION = 2;
 	public static final int COINMASTERS_VERSION = 1;

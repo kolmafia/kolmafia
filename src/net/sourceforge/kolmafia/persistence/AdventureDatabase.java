@@ -279,6 +279,7 @@ public class AdventureDatabase
 			AdventureDatabase.addAdventure( AdventureDatabase.getAdventure( i ) );
 		}
 
+		AdventureDatabase.locationByBounty.clear();
 		for ( int i = 0; i < AdventureDatabase.bountiesById.size(); ++i )
 		{
 			String bounty = AdventureDatabase.bountiesById.get( i );
@@ -288,23 +289,13 @@ public class AdventureDatabase
 			}
 
 			bounty = StringUtilities.getCanonicalName( bounty.substring( bounty.indexOf( " " ) + 1 ) );
-			AdventureDatabase.locationByBounty.put(
-				bounty, AdventureDatabase.getAdventureByURL( "adventure.php?snarfblat=" + i + "&pwd" ) );
-		}
-	}
-
-	public static final void refreshAdventureList( final String desiredZone )
-	{
-		KoLAdventure location;
-		AdventureDatabase.adventures.clear();
-
-		for ( int i = 0; i < AdventureDatabase.adventureTable[ 0 ].size(); ++i )
-		{
-			location = AdventureDatabase.allAdventures.get( i );
-			if ( location.getParentZone().equals( desiredZone ) )
+			if ( AdventureDatabase.locationByBounty.get( bounty ) != null )
 			{
-				AdventureDatabase.adventures.add( location );
+				// Only store the first location
+				continue;
 			}
+			KoLAdventure adventure = AdventureDatabase.getAdventureByURL( "adventure.php?snarfblat=" + i + "&pwd" );
+			AdventureDatabase.locationByBounty.put( bounty, adventure );
 		}
 	}
 
@@ -428,7 +419,7 @@ public class AdventureDatabase
 
 	public static final KoLAdventure getBountyLocation( final int itemId )
 	{
-		return getBountyLocation( ItemDatabase.getItemName( itemId ) );
+		return AdventureDatabase.getBountyLocation( ItemDatabase.getItemName( itemId ) );
 	}
 
 	public static final KoLAdventure getBountyLocation( final String item )
@@ -441,15 +432,22 @@ public class AdventureDatabase
 		String name = ItemDatabase.getItemName( itemId );
 		if ( name == null )
 			return null;
-		KoLAdventure adventure = (KoLAdventure) AdventureDatabase.locationByBounty.get( StringUtilities.getCanonicalName( name ) );
+		KoLAdventure adventure = AdventureDatabase.getBountyLocation( name );
 		if ( adventure == null )
 			return null;
+                return AdventureDatabase.getBounty( adventure );
+	}
+
+	public static final AdventureResult getBounty( final KoLAdventure adventure )
+	{
 		int adventureId = StringUtilities.parseInt( adventure.getAdventureId() );
 		String bounty = AdventureDatabase.bountiesById.get( adventureId );
 		if ( bounty == null )
 			return null;
 
-		int count = StringUtilities.parseInt( bounty.substring( 0, bounty.indexOf( " " ) ) );
+		int space = bounty.indexOf( " " );
+		int count = StringUtilities.parseInt( bounty.substring( 0, space ) );
+		String name = bounty.substring( space + 1 );
 		return new AdventureResult( name, count, false );
 	}
 

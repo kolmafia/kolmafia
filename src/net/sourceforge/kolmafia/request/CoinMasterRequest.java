@@ -38,6 +38,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -475,8 +476,10 @@ public class CoinMasterRequest
 			int itemId = StringUtilities.parseInt( idMatcher.group( 1 ) );
 			Preferences.setInteger( "currentBountyItem", itemId );
 
-			AdventureFrame.updateSelectedAdventure( AdventureDatabase.getBountyLocation( itemId ) );
-			AdventureResult bounty = AdventureDatabase.getBounty( itemId );
+
+			KoLAdventure adventure = AdventureDatabase.getBountyLocation( itemId );
+			AdventureFrame.updateSelectedAdventure( adventure );
+			AdventureResult bounty = AdventureDatabase.getBounty( adventure );
 			String plural = ItemDatabase.getPluralName( itemId );
 
 			RequestLogger.updateSessionLog();
