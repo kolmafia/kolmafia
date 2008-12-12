@@ -401,9 +401,14 @@ public class PvpManager
 
 	public static final void processOffenseContests( final String responseText )
 	{
+		int endIndex = responseText.indexOf( "Your PvP Ranking" );
+		if ( endIndex == -1 )
+		{
+			return;
+		}
 		String resultText =
 			StringUtilities.globalStringReplace(
-				responseText.substring( responseText.indexOf( "<td>" ) + 4, responseText.indexOf( "Your PvP Ranking" ) ),
+				responseText.substring( responseText.indexOf( "<td>" ) + 4, endIndex ),
 				"<p>", KoLConstants.LINE_BREAK );
 
 		resultText =
