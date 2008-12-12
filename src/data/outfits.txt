@@ -8,7 +8,7 @@
 7	eXtreme Cold-Weather Gear	eXtreme scarf, snowboarder pants, eXtreme mittens
 8	Mining Gear	miner's helmet, 7-Foot Dwarven mattock, miner's pants
 9	Swashbuckling Getup	eyepatch, swashbuckling pants, stuffed shoulder parrot
-# No outfit #10
+10	Terrifying Clown Suit	foolscap fool's cap, bloody clown pants, big red clown nose, polka-dot bow tie, clown shoes
 11	Crimbo Duds	Crimbo hat, Crimbo pants, Crimbo sword
 12	Star Garb	star buckler, star hat, star pants
 # No outfit #13
@@ -46,7 +46,7 @@
 45	Dire Drifter Duds	Zombo's skullcap, Zombo's shield, Zombo's grievous greaves
 46	Tawdry Tramp Togs	Chester's bag of candy, Chester's cutoffs, Chester's moustache
 47	Hodgman's Regal Frippery	Hodgman's porkpie hat, Hodgman's lobsterskin pants, Hodgman's bow tie
-# 48	Arrrbor Day Aparrrrrel	willowy bonnet, crotchety pants, Saccharine Maple pendant
+48	Arrrbor Day Aparrrrrel	willowy bonnet, crotchety pants, Saccharine Maple pendant
 49	Mutant Couture	parasitic claw, parasitic tentacles, parasitic headgnawer, parasitic strangleworm
 
 # Outfits for which KoL does not provide an outfit id,
