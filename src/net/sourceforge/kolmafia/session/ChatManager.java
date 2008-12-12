@@ -56,6 +56,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.LimitedSizeChatBuffer;
+import net.sourceforge.kolmafia.LocalRelayServer;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.Preferences;
@@ -95,7 +96,7 @@ public abstract class ChatManager
 
 	private static final Pattern DOJAX_PATTERN =
 		Pattern.compile( "<!--js\\(\\s*dojax\\(\\s*['\"](.*?)['\"]\\s*\\)\\s*;?\\s*\\)-->" );
-	private static final RelayRequest DOJAX_VISITOR = new RelayRequest( false );
+	private static final GenericRequest DOJAX_VISITOR = new GenericRequest( "" );
 
 	private static final SimpleDateFormat EVENT_TIMESTAMP = new SimpleDateFormat( "MM/dd/yy hh:mm a", Locale.US );
 
@@ -669,21 +670,26 @@ public abstract class ChatManager
 		Matcher dojax = ChatManager.DOJAX_PATTERN.matcher( content );
 		if ( dojax.find() )
 		{
-		// If the following code was enabled, advanced chat commands would fully work in the
-		// internal chat.  However, if the user also had relay browser chat running, all
-		// commands entered there would be executed here as well, resulting in various effects
-		// ranging from harmless to double crafting.  Just print a message until such time as
-		// this can be fixed properly.
-
-		//	ChatManager.DOJAX_VISITOR.constructURLString( dojax.group( 1 ) );
-		//	RequestThread.postRequest( ChatManager.DOJAX_VISITOR );
-		//	if ( ChatManager.DOJAX_VISITOR.responseText != null )
-		//	{
-		//		ChatManager.broadcastMessage( ChatManager.DOJAX_VISITOR.responseText + "<br>" );
-		//	}
-
-			ChatManager.broadcastMessage( "(Sorry, advanced chat commands are not supported " +
-				"here yet.)<br>" );
+			if ( LocalRelayServer.isRunning() )
+			{
+				// If this was allowed, and the chat pane was open in the relay
+				// browser, chat commands would be executed twice.  That could be
+				// disastrous, especially in the case of /drink.
+				ChatManager.broadcastMessage( "(Sorry, advanced chat commands are disallowed if the relay server is running.)<br>" );
+			}
+			else do
+			{
+				ChatManager.DOJAX_VISITOR.constructURLString( dojax.group( 1 ) );
+				RequestThread.postRequest( ChatManager.DOJAX_VISITOR );
+				if ( ChatManager.DOJAX_VISITOR.responseText != null )
+				{
+					StaticEntity.externalUpdate( ChatManager.DOJAX_VISITOR.getURLString(),
+						ChatManager.DOJAX_VISITOR.responseText );
+					ChatManager.broadcastMessage(
+						ChatManager.DOJAX_VISITOR.responseText + "<br>" );
+				}
+			}
+			while ( dojax.find() );
 		}
 	}
 
