@@ -442,8 +442,10 @@ public class AdventureDatabase
 	{
 		int adventureId = StringUtilities.parseInt( adventure.getAdventureId() );
 		String bounty = AdventureDatabase.bountiesById.get( adventureId );
-		if ( bounty == null )
+		if ( bounty == null || bounty.equals( "" ) )
+		{
 			return null;
+		}
 
 		int space = bounty.indexOf( " " );
 		int count = StringUtilities.parseInt( bounty.substring( 0, space ) );
@@ -486,7 +488,7 @@ public class AdventureDatabase
 		if ( bountyId != 0 )
 		{
 			String bounty = AdventureDatabase.bountiesById.get( adventureId );
-			if ( !bounty.equals( "" ) && ItemDatabase.getItemId( bounty.substring( bounty.indexOf( " " ) ).trim() ) == bountyId )
+			if ( bounty != null && !bounty.equals( "" ) && ItemDatabase.getItemId( bounty.substring( bounty.indexOf( " " ) ).trim() ) == bountyId )
 			{
 				return bounty;
 			}
