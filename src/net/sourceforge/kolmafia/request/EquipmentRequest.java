@@ -792,11 +792,6 @@ public class EquipmentRequest
 				}
 			}
 
-			if ( KoLCharacter.hasEquipped( EquipmentRequest.SPECTACLES ) )
-			{
-				ItemDatabase.identifyDustyBottles();
-			}
-
 			KoLmafia.updateDisplay( "Equipment changed." );
 			if ( !this.containsUpdate )
 			{
@@ -1265,6 +1260,14 @@ public class EquipmentRequest
 		LockableListModel outfits = outfitsMatcher.find() ? SpecialOutfit.parseOutfits( outfitsMatcher.group() ) : null;
 
 		EquipmentManager.setOutfits( outfits );
+
+		// If Lord Spookyraven's spectacles are now equipped, identify
+		// the dusty bottles, if necessary.
+
+		if ( KoLCharacter.hasEquipped( EquipmentRequest.SPECTACLES ) )
+		{
+			ItemDatabase.identifyDustyBottles();
+		}
 
 		// If you need to update your creatables list, do so at
 		// the end of the processing.

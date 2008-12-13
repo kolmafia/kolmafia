@@ -140,8 +140,9 @@ public class EffectDatabase
 
 	public static final String getEffectName( final int effectId )
 	{
-		return effectId == -1 ? "Unknown effect" : StringUtilities.getDisplayName( (String) EffectDatabase.nameById.get( new Integer(
-			effectId ) ) );
+		return effectId == -1 ?
+			"Unknown effect" :
+			StringUtilities.getDisplayName( (String) EffectDatabase.nameById.get( new Integer( effectId ) ) );
 	}
 
 	public static final String getEffectName( final String descriptionId )

@@ -42,14 +42,19 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.MoodManager;
-import net.sourceforge.kolmafia.session.ResultProcessor;
-import net.sourceforge.kolmafia.swingui.RequestFrame;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
+
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+
+import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.MoodManager;
+import net.sourceforge.kolmafia.session.ResultProcessor;
+
+import net.sourceforge.kolmafia.swingui.RequestFrame;
+
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class UneffectRequest
 	extends GenericRequest
@@ -104,12 +109,17 @@ public class UneffectRequest
 		return id != -1 && SkillDatabase.isBuff( id );
 	}
 
-	public static final boolean isRemovable( final String effectName )
+	public static final boolean isRemovable( final int id )
 	{
-		return !effectName.equals( "Goofball Withdrawal" ) &&
-			!effectName.equals( "Eau de Tortue" ) &&
-			!effectName.equals( "Cursed by the RNG" ) &&
-			!effectName.equals( "Form of...Bird!" );
+		switch ( id )
+		{
+		case EffectPool.GOOFBALL_WITHDRAWAL_ID:
+		case EffectPool.EAU_DE_TORTUE_ID:
+		case EffectPool.CURSED_BY_RNG_ID:
+		case EffectPool.FORM_OF_BIRD_ID:
+			return false;
+		}
+		return true;
 	}
 
 	/**
@@ -251,7 +261,7 @@ public class UneffectRequest
 			return;
 		}
 
-		if ( !isRemovable( this.effect.getName() ) )
+		if ( !isRemovable( this.effectId ) )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Failed to remove " + this.effect.getName() + "." );
 			return;
@@ -264,10 +274,6 @@ public class UneffectRequest
 		if ( this.isShruggable )
 		{
 			CharSheetRequest.parseStatus( this.responseText );
-		}
-		else
-		{
-			ResultProcessor.processResult( UneffectRequest.REMEDY.getNegation() );
 		}
 
 		KoLmafia.updateDisplay( this.effect.getName() + " removed." );
@@ -294,8 +300,16 @@ public class UneffectRequest
 			return true;
 		}
 
+		int id = StringUtilities.parseInt( idMatcher.group( 1 ) );
+		String name = EffectDatabase.getEffectName( id );
+
+		if ( isRemovable( id ) && location.startsWith( "uneffect" ) )
+		{
+			ResultProcessor.processResult( UneffectRequest.REMEDY.getNegation() );
+		}
+
 		RequestLogger.updateSessionLog();
-		RequestLogger.updateSessionLog( "uneffect " + EffectDatabase.getEffectName( StringUtilities.parseInt( idMatcher.group( 1 ) ) ) );
+		RequestLogger.updateSessionLog( "uneffect " + name );
 		return true;
 	}
 }

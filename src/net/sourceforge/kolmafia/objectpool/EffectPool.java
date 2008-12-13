@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.objectpool;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.persistence.EffectDatabase;
 
 public class EffectPool
 {
@@ -74,7 +75,17 @@ public class EffectPool
 
 	public static final String FISHY = "Fishy";
 
-	public static final AdventureResult get( String effectName )
+	public static final int GOOFBALL_WITHDRAWAL_ID = 111;
+	public static final int CURSED_BY_RNG_ID = 217;
+	public static final int EAU_DE_TORTUE_ID = 263;
+	public static final int FORM_OF_BIRD_ID = 511;
+
+	public static final AdventureResult get( final int effectId )
+	{
+		return EffectPool.get( EffectDatabase.getEffectName( effectId ) );
+	}
+
+	public static final AdventureResult get( final String effectName )
 	{
 		return new AdventureResult( effectName, 1, true );
 	}
