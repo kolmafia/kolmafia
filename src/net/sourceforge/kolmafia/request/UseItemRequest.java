@@ -295,6 +295,8 @@ public class UseItemRequest
 		case ItemPool.SPICE_MELANGE:
 			return Preferences.getBoolean( "spiceMelangeUsed" ) ? 0 : 1;
 
+		case ItemPool.BURROWGRUB_HIVE:
+			return Preferences.getBoolean( "burrowgrubHiveUsed" ) ? 0 : 1;
 		}
 
 		Integer key = new Integer( itemId );
@@ -2090,7 +2092,6 @@ public class UseItemRequest
 		case ItemPool.EMBLEM_AKGYXOTH:
 		case ItemPool.IDOL_AKGYXOTH:
 		case ItemPool.TOASTER:
-		case ItemPool.BURROWGRUB_HIVE:
 
 			// Certain pieces of equipment can also be "used" and
 			// are not consumed.
@@ -2118,6 +2119,27 @@ public class UseItemRequest
 		case ItemPool.TOMB_RATCHET:
 
 			PyramidRequest.advancePyramidPosition();
+			return;
+
+		case ItemPool.BURROWGRUB_HIVE:
+
+			// The hive is not consumed
+			ResultProcessor.processResult( item );
+
+			// One way or another, you have used it today
+			Preferences.setBoolean( "burrowgrubHiveUsed", true );
+
+			// You pick up the burrowgrub hive to look inside it,
+			// and a bunch of the grubs crawl out of it and burrow
+			// under your skin.  It's horrifying.  You can still
+			// feel them in there.	Gah.
+
+			if ( responseText.indexOf( "It's horrifying." ) != -1 )
+			{
+				// You have three grub summons left today
+				Preferences.setInteger( "burrowgrubSummonsRemaining", 3 );
+			}
+
 			return;
 		}
 	}
