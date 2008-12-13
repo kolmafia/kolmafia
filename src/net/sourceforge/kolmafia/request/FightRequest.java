@@ -1196,6 +1196,7 @@ public class FightRequest
 		FightRequest.parseBangPotion( responseText );
 		FightRequest.parseStoneSphere( responseText );
 		FightRequest.parsePirateInsult( responseText );
+		FightRequest.parseGrubUsage( responseText );
 
 		// Spend MP and consume items
 
@@ -1639,6 +1640,41 @@ public class FightRequest
 		odds *= ( count * 1.0f - 2 ) / 6;
 
 		return odds;
+	}
+
+	private static final void parseGrubUsage( final String responseText )
+	{
+		// You concentrate on one of the burrowgrubs digging its way
+		// through your body, and absorb it into your bloodstream.
+		// It's refreshingly disgusting!
+
+		if ( responseText.indexOf( "refreshingly disgusting" ) != -1 )
+		{
+			// We have used our burrowgrub hive today
+			Preferences.setBoolean( "burrowgrubHiveUsed", true );
+
+			int uses = Preferences.getInteger( "burrowgrubSummonsRemaining" );
+
+			// <option value="7074" picurl="nopic" selected>Consume
+			// Burrowgrub (0 Mojo Points)</option>
+
+			if ( responseText.indexOf( "option value=\"7074\"" ) == -1 )
+			{
+				// No more uses today
+				uses = 0;
+			}
+			// At least one more use today
+			else if ( uses >= 2)
+			{
+				uses = uses - 1;
+			}
+			else
+			{
+				uses = 1;
+			}
+
+			Preferences.setInteger( "burrowgrubSummonsRemaining", uses );
+		}
 	}
 
 	private static final void updateMonsterHealth( final String responseText )

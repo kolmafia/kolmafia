@@ -727,6 +727,8 @@ public abstract class KoLmafia
 		Preferences.setInteger( "timesRested", 0 );
 		Preferences.setInteger( "nunsVisits", 0 );
 		Preferences.setString( "barrelLayout", "?????????" );
+		Preferences.setBoolean( "burrowgrubHiveUsed", false );
+		Preferences.setInteger( "burrowgrubSummonsRemaining", 0 );
 		Preferences.setInteger( "lastBarrelSmashed", 0 );
 		Preferences.setBoolean( "concertVisited", false );
 		Preferences.setBoolean( "expressCardUsed", false );

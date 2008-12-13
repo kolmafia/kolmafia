@@ -49,8 +49,5 @@
 48	Arrrbor Day Aparrrrrel	willowy bonnet, crotchety pants, Saccharine Maple pendant
 49	Mutant Couture	parasitic claw, parasitic tentacles, parasitic headgnawer, parasitic strangleworm
 
-# Outfits for which KoL does not provide an outfit id,
-# and thus are given id #0 to tell KoLmafia to treat
-# it in a special way.
-
-0	Terrifying Clown Suit	foolscap fool's cap, bloody clown pants, big red clown nose, polka-dot bow tie, clown shoes
+# Outfits for which KoL does not provide an outfit id, and thus are
+# given id #0 to tell KoLmafia to treat it in a special way.
