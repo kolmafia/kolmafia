@@ -68,8 +68,16 @@ public class JComponentUtilities
 	 * @param height the new forced height of the component
 	 */
 
-	public static void setComponentSize( final JComponent component, final int width, final int height )
+	public static void setComponentSize( final JComponent component, int width, int height )
 	{
+		if ( width == -1 )
+		{
+			width = component.getPreferredSize().width;
+		}
+		if ( height == -1 )
+		{
+			height = component.getPreferredSize().height;
+		}
 		JComponentUtilities.setComponentSize( component, new Dimension( width, height ) );
 	}
 

@@ -144,14 +144,14 @@ public class AdventureSelectPanel
 			}
 		}
 
-		JComponentUtilities.setComponentSize( this.zoneSelect, 200, 24 );
+		JComponentUtilities.setComponentSize( this.zoneSelect, 200, -1 );
 		zonePanel.add( this.zoneSelect, BorderLayout.CENTER );
 
 		if ( enableAdventures )
 		{
 			this.countField = new AdventureCountSpinner();
 			this.countField.setHorizontalAlignment( AutoHighlightTextField.RIGHT );
-			JComponentUtilities.setComponentSize( this.countField, 56, 24 );
+			JComponentUtilities.setComponentSize( this.countField, 56, -1 );
 			zonePanel.add( this.countField, BorderLayout.EAST );
 		}
 

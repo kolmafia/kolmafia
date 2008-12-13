@@ -37,6 +37,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.JList;
 
@@ -59,6 +61,12 @@ public class AutoFilterTextField
 	protected String text;
 	protected LockableListModel model;
 	protected boolean strict;
+	protected int quantity;
+	protected boolean qtyChecked;
+	protected boolean qtyEQ, qtyLT, qtyGT;
+
+	private static final Pattern QTYSEARCH_PATTERN = Pattern.compile(
+		"\\s*#\\s*([<=>]+)\\s*([\\d,]+)\\s*" );
 
 	public AutoFilterTextField( final JList list )
 	{
@@ -69,8 +77,8 @@ public class AutoFilterTextField
 		this.addKeyListener( new FilterListener() );
 		
 		// Make this look like a normal search field on OS X:
-		// Unfortunately, has nasty visual glitch in AdventureSelectPanel.
-		//this.putClientProperty( "JTextField.variant", "search" );
+		// Unfortunately, has (had?) nasty visual glitch in AdventureSelectPanel.
+		this.putClientProperty( "JTextField.variant", "search" );
 	}
 
 	public AutoFilterTextField( final JList list, Object initial )
@@ -96,15 +104,30 @@ public class AutoFilterTextField
 
 	public void update()
 	{
-		AutoFilterTextField.this.text = AutoFilterTextField.this.getText().toLowerCase();
-
-		AutoFilterTextField.this.strict = true;
-		AutoFilterTextField.this.model.updateFilter( false );
-
-		if ( AutoFilterTextField.this.model.getSize() == 0 )
+		this.text = this.getText().toLowerCase();
+		Matcher m = AutoFilterTextField.QTYSEARCH_PATTERN.matcher( this.text );
+		if ( m.find() )
 		{
-			AutoFilterTextField.this.strict = false;
-			AutoFilterTextField.this.model.updateFilter( false );
+			this.qtyChecked = true;
+			this.quantity = StringUtilities.parseInt( m.group( 2 ) );
+			String op = m.group( 1 );
+			this.qtyEQ = op.indexOf( "=" ) != -1;
+			this.qtyLT = op.indexOf( "<" ) != -1;
+			this.qtyGT = op.indexOf( ">" ) != -1;
+			this.text = m.replaceFirst( "" );
+		}
+		else
+		{
+			this.qtyChecked = false;
+		}
+
+		this.strict = true;
+		this.model.updateFilter( false );
+
+		if ( this.model.getSize() == 0 )
+		{
+			this.strict = false;
+			this.model.updateFilter( false );
 		}
 
 		if ( this.model.getSize() == 1 )
@@ -119,6 +142,17 @@ public class AutoFilterTextField
 
 	public boolean isVisible( final Object element )
 	{
+		if ( this.qtyChecked )
+		{
+			int qty = AutoFilterTextField.getResultQuantity( element );
+			if ( ( qty == this.quantity && !this.qtyEQ ) ||
+				 ( qty < this.quantity && !this.qtyLT ) ||
+				 ( qty > this.quantity && !this.qtyGT ) )
+			{
+				return false;
+			}
+		}
+
 		if ( this.text == null || this.text.length() == 0 )
 		{
 			return true;
@@ -128,11 +162,6 @@ public class AutoFilterTextField
 		// filter based on its string form.
 
 		String elementName = AutoFilterTextField.getResultName( element );
-
-		if ( this.text == null || this.text.length() == 0 )
-		{
-			return true;
-		}
 
 		return this.strict ? elementName.indexOf( this.text ) != -1 :
 			StringUtilities.fuzzyMatches( elementName, this.text );
@@ -171,6 +200,41 @@ public class AutoFilterTextField
 		}
 
 		return element.toString();
+	}
+
+	public static final int getResultQuantity( final Object element )
+	{
+		if ( element == null )
+		{
+			return -1;
+		}
+
+		if ( element instanceof AdventureResult )
+		{
+			return ( (AdventureResult) element ).getCount();
+		}
+		if ( element instanceof CreateItemRequest )
+		{
+			return ( (CreateItemRequest) element ).getQuantityPossible();
+		}
+		if ( element instanceof Concoction )
+		{
+			return ( (Concoction) element ).getAvailable();
+		}
+		if ( element instanceof SoldItem )
+		{
+			return ( (SoldItem) element ).getQuantity();
+		}
+		if ( element instanceof LowerCaseEntry )
+		{	// no meaningful integer fields
+			return -1;
+		}
+		if ( element instanceof KoLAdventure )
+		{
+			return StringUtilities.parseInt( ( (KoLAdventure) element ).getAdventureId() );
+		}
+
+		return -1;
 	}
 
 	private class FilterListener
