@@ -1150,55 +1150,11 @@ public class GenericRequest
 			return true;
 		}
 
-		if ( this.redirectLocation.startsWith( "fight.php" ) )
+		if ( this.redirectLocation.startsWith( "fight.php" ) && this instanceof UseItemRequest )
 		{
-			int itemId = UseItemRequest.currentItemId();
-			String name = null;
-			boolean consumed = true;
-
-			switch ( itemId )
-			{
-			case ItemPool.DRUM_MACHINE:
-				name = "Drum Machine";
-				break;
-
-			case ItemPool.BLACK_PUDDING:
-				Preferences.setInteger( "currentFullness", KoLCharacter.getFullness() - 3 );
-				name = "Black Pudding";
-				break;
-
-			case ItemPool.CARONCH_MAP:
-				name = "Cap'm Caronch's Map";
-				break;
-
-			case ItemPool.CURSED_PIECE_OF_THIRTEEN:
-				name = "Cursed Piece of Thirteen";
-				consumed = false;
-				break;
-			}
-
-			UseItemRequest.resetItemUsed();
-
-			if ( name != null )
-			{
-				if ( consumed )
-				{
-					ResultProcessor.processResult( ItemPool.get( itemId, -1 ) );
-				}
-
-				RequestLogger.printLine();
-				RequestLogger.printLine( "[" + KoLAdventure.getAdventureCount() + "] " + name );
-
-				RequestLogger.updateSessionLog();
-				RequestLogger.updateSessionLog( "[" + KoLAdventure.getAdventureCount() + "] " + name );
-
-				if ( this instanceof UseItemRequest )
-				{
-					FightRequest.INSTANCE.run();
-					CharPaneRequest.getInstance().run();
-					return !LoginRequest.isInstanceRunning();
-				}
-			}
+			FightRequest.INSTANCE.run();
+			CharPaneRequest.getInstance().run();
+			return !LoginRequest.isInstanceRunning();
 		}
 
 		if ( this instanceof RelayRequest )

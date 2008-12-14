@@ -1086,6 +1086,52 @@ public class FightRequest
 		return desiredSkill == 0 ? "attack" : "skill" + desiredSkill;
 	}
 
+	public static final void checkItemMonster( final String name )
+	{
+		int itemId = -1;
+		String itemName = null;
+		boolean consumed = true;
+
+		if ( name.equalsIgnoreCase( "Black Pudding" ) )
+		{
+			itemId = ItemPool.BLACK_PUDDING;
+			itemName = "Black Pudding";
+			Preferences.setInteger( "currentFullness", KoLCharacter.getFullness() - 3 );
+		}
+		else if ( name.equalsIgnoreCase( "Giant Sandworm" ) )
+		{
+			itemId = ItemPool.DRUM_MACHINE;
+			itemName = "Drum Machine";
+		}
+		else if ( name.equalsIgnoreCase( "Booty Crab" ) )
+		{
+			itemId = ItemPool.CARONCH_MAP;
+			itemName = "Cap'm Caronch's Map";
+		}
+		else if ( name.equalsIgnoreCase( "Scary Pirate" ) )
+		{
+			itemId = ItemPool.CURSED_PIECE_OF_THIRTEEN;
+			itemName = "Cursed Piece of Thirteen";
+			consumed = false;
+		}
+		else
+		{
+			return;
+		}
+
+		if ( !consumed )
+		{
+			ResultProcessor.processResult( ItemPool.get( itemId, 1 ) );
+		}
+
+		int adventure = KoLAdventure.getAdventureCount();
+		RequestLogger.printLine();
+		RequestLogger.printLine( "[" + adventure + "] " + itemName );
+
+		RequestLogger.updateSessionLog();
+		RequestLogger.updateSessionLog( "[" + adventure + "] " + itemName );
+	}
+
 	private static final void checkForInitiative( final String responseText )
 	{
 		if ( FightRequest.isAutomatingFight )
@@ -1202,11 +1248,6 @@ public class FightRequest
 
 		++FightRequest.currentRound;
 
-		if ( !KoLConstants.activeEffects.contains( FightRequest.CUNCTATITIS ) || responseText.indexOf( "You decide" ) == -1 )
-		{
-			FightRequest.payActionCost();
-		}
-
 		if ( FightRequest.currentRound == 1 )
 		{
 			// If this is the first round, then register the
@@ -1254,6 +1295,11 @@ public class FightRequest
 				FightRequest.monsterData = MonsterDatabase.findMonster( FightRequest.encounterLookup, false );
 				FightRequest.healthModifier = 0;
 			}
+		}
+
+		if ( !KoLConstants.activeEffects.contains( FightRequest.CUNCTATITIS ) || responseText.indexOf( "You decide" ) == -1 )
+		{
+			FightRequest.payActionCost();
 		}
 
 		switch ( KoLAdventure.lastAdventureId() )
@@ -1392,6 +1438,15 @@ public class FightRequest
 			Preferences.setInteger( "lastQuartetAscension", KoLCharacter.getAscensions() );
 			Preferences.setInteger( "lastQuartetRequest", m.start( 1 ) != -1 ? 1 :
 				m.start( 2 ) != -1 ? 2 : 3 );
+		}
+
+		if ( responseText.indexOf( "<!--WINWINWIN-->" ) != -1 )
+		{
+			// Count Black Puddings defeated
+			if ( FightRequest.encounterLookup.equalsIgnoreCase( "Black Pudding" ) )
+			{
+				Preferences.increment( "blackPuddingsDefeated", 1 );
+			}
 		}
 
 		FightRequest.clearInstanceData();

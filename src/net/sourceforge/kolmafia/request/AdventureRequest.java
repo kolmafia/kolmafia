@@ -544,6 +544,7 @@ public class AdventureRequest
 		fromName = null;
 		
 		EquipmentManager.decrementTurns();
+		FightRequest.checkItemMonster( name );
 		return name;
 	}
 
