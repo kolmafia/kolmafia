@@ -579,3 +579,4 @@
 578	Juiced Up	hoppedup.gif	7f080adc95268a99697772779bd8b1ab	use 1 Mer-kin fastjuice
 579	Greased-Up Familiar		0487080d0f3d6c9914d932035b9fd04a	use 1 sea grease
 580	Yuletide Mutations	dna.gif	fc7d6c4da83c00b8d1237e45f985c050	use 1 unstable DNA
+581	Amorphous Cheer	blobcookie.gif	c231efaf4c038ee84154112b4796e099	eat 1 blob-shaped Crimbo cookie
