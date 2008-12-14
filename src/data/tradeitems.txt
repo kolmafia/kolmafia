@@ -3637,3 +3637,4 @@
 3636	patent leather shoes	8	all	30
 3637	gray bow tie	8	all	30
 3638	penguin thesaurus	13	all	45
+3639	blob-shaped Crimbo cookie	1	all	50
