@@ -72,7 +72,7 @@ public class PulverizeRequest
 		this.addFormField( "conftrade", "1" );
 	}
 
-	public void useMalus( final String itemName )
+	public void useMalus( final String itemName, final int quantity )
 	{
 		if ( itemName == null || !ItemDatabase.contains( itemName ) )
 		{
@@ -87,7 +87,8 @@ public class PulverizeRequest
 			return;
 		}
 
-		int amountNeeded = ingredients[ 0 ].getCount( KoLConstants.inventory ) / 5;
+		int amountNeeded = Math.min( quantity,
+			ingredients[ 0 ].getCount( KoLConstants.inventory ) / 5 );
 		if ( amountNeeded == 0 )
 		{
 			return;
@@ -132,18 +133,20 @@ public class PulverizeRequest
 			break;
 
 		default:
-
-			if ( !KoLCharacter.isMuscleClass() || !KoLCharacter.hasSkill( "Pulverize" ) )
-			{
-			}
+			int qty = this.item.getCount();
 			if ( this.item.getName().endsWith( "powder" ) )
 			{
-				this.useMalus( StringUtilities.singleStringReplace( this.item.getName(), "powder", "nugget" ) );
-				this.useMalus( StringUtilities.singleStringReplace( this.item.getName(), "powder", "wad" ) );
+				this.useMalus( StringUtilities.singleStringReplace(
+					this.item.getName(), "powder", "nuggets" ), qty / 5 );
+				// This 2nd step isn't necessarily a good idea: the player
+				// might want the nuggets themselves (for hi meins, perhaps).
+				//this.useMalus( StringUtilities.singleStringReplace(
+				//	this.item.getName(), "powder", "wad" ), qty / 25 );
 			}
-			else if ( this.item.getName().endsWith( "nugget" ) )
+			else if ( this.item.getName().endsWith( "nuggets" ) )
 			{
-				this.useMalus( StringUtilities.singleStringReplace( this.item.getName(), "nugget", "wad" ) );
+				this.useMalus( StringUtilities.singleStringReplace(
+					this.item.getName(), "nuggets", "wad" ), qty / 5 );
 			}
 
 			return;
