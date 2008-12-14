@@ -2361,6 +2361,8 @@ public abstract class KoLCharacter
 	{
 		KoLCharacter.stillsAvailable -= decrementAmount;
 		ConcoctionDatabase.refreshConcoctions();
+		// Allow Daily Deeds to update when the number of stills changes
+		Preferences.firePreferenceChanged( "(stills)" );
 	}
 
 	public static final boolean canUseWok()
@@ -2708,6 +2710,9 @@ public abstract class KoLCharacter
 		{
 			listenerArray[ i ].updateStatus();
 		}
+		
+		// Allow Daily Deeds to change state based on character status
+		Preferences.firePreferenceChanged( "(character)" );
 	}
 
 	public static final boolean recalculateAdjustments()

@@ -507,31 +507,36 @@ public class Preferences
 				}
 			}
 		}
-
+		
+		Preferences.firePreferenceChanged( name );
+	}
+	
+	public static final void firePreferenceChanged( String name )
+	{
 		if ( Preferences.listenerMap.containsKey( name ) )
 		{
-			ArrayList list = (ArrayList) Preferences.listenerMap.get( name );
-			for ( int i = 0; i < list.size(); ++i )
+			Iterator i = ((ArrayList) Preferences.listenerMap.get( name )).iterator();
+			while ( i.hasNext() )
 			{
-				WeakReference reference = (WeakReference) list.get( i );
+				WeakReference reference = (WeakReference) i.next();
 				ChangeListener listener = (ChangeListener) reference.get();
-				if ( listener != null )
+				if ( listener == null )
 				{
-					try
-					{
-						listener.update();
-					}
-					catch ( Exception e )
-					{
-						// Don't let a botched listener interfere with
-						// the code that modified the preference.
-			
-						StaticEntity.printStackTrace( e );
-					}
+					i.remove();
+				}
+				else try
+				{
+					listener.update();
+				}
+				catch ( Exception e )
+				{
+					// Don't let a botched listener interfere with
+					// the code that modified the preference.
+		
+					StaticEntity.printStackTrace( e );
 				}
 			}
 		}
-
 	}
 
 	private static final String propertyName( final String user, final String name )

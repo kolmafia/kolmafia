@@ -361,7 +361,7 @@ public class KoLmafiaCLI
 		{
 			return;
 		}
-
+		String origLine = line;
 		line = CharacterEntities.unescape( line );
 
 		line = line.replaceAll( "[ \t]+", " " ).trim();
@@ -444,6 +444,11 @@ public class KoLmafiaCLI
 			this.executeCommand( command, parameters );
 			RequestThread.closeRequestSequence();
 			KoLmafiaCLI.isExecutingCheckOnlyCommand = false;
+		}
+		
+		if ( KoLmafia.permitsContinue() )
+		{	// Notify user-entered Daily Deeds that the command was successful.
+			Preferences.firePreferenceChanged( origLine );
 		}
 	}
 	

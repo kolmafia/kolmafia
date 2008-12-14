@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class DailyDeedsPanel
@@ -72,17 +73,23 @@ public class DailyDeedsPanel
 		this.add( new ConcertDaily() );
 		this.add( new NunsDaily() );
 		this.add( new BooleanDaily( "libraryCardUsed", "use library card" ) );
+		this.add( new BooleanDaily( "outrageousSombreroUsed", "use outrageous sombrero" ) );
 		this.add( new BooleanDaily( "oscusSodaUsed", "use Oscus's neverending soda" ) );
 		this.add( new BooleanDaily( "expressCardUsed", "use Yendorian Express card" ) );
 		this.add( new MojoDaily() );
 		this.add( new MelangeDaily() );
+		this.add( new StillsDaily() );
+		if ( Preferences.getInteger( "blackPuddingsDefeated" ) < 240 )
+		{
+			this.add( new PuddingDaily() );
+		}
 		this.add( new SpadeDaily() );
 	}
 	
 	public void add( Daily daily )
 	{
 		daily.add( Box.createHorizontalGlue() );
-		daily.update();
+		daily.initialUpdate();
 		super.add( daily );
 	}
 	
@@ -95,7 +102,7 @@ public class DailyDeedsPanel
 			if ( panel != null )
 			{
 				panel.add( new CommandDaily( command ) );
-				panel.validate();
+				panel.revalidate();
 			}
 		}
 	}
@@ -180,15 +187,15 @@ public class DailyDeedsPanel
 		
 		public void actionPerformed( ActionEvent e )
 		{
-			KoLmafia.forceContinue();
-			RequestLogger.printLine();
-			RequestLogger.printLine( " > " + StringUtilities.globalStringReplace(
-				e.getActionCommand(), "<", "&lt;" ) );
-			RequestLogger.printLine();
-			KoLmafiaCLI.DEFAULT_SHELL.executeLine( e.getActionCommand() );
+			CommandDisplayFrame.executeCommand( e.getActionCommand() );
 			// Try to avoid having a random button, possibly with a high associated
 			// cost, set as the default button when this one is disabled.
 			KeyboardFocusManager.getCurrentKeyboardFocusManager().clearGlobalFocusOwner();
+		}
+		
+		public void initialUpdate()
+		{
+			this.update();
 		}
 		
 		public void update()
@@ -220,15 +227,16 @@ public class DailyDeedsPanel
 		public CommandDaily( String command )
 		{
 			this.addButton( command );
+			this.addListener( command );
 		}
 		
-		public void actionPerformed( ActionEvent e )
+		public void initialUpdate()
 		{
-			super.actionPerformed( e );
-			if ( KoLmafia.permitsContinue() )
-			{
-				this.setEnabled( false );
-			}
+		}
+		
+		public void update()
+		{
+			this.setEnabled( false );
 		}
 	}
 	
@@ -418,6 +426,38 @@ public class DailyDeedsPanel
 			{
 				this.setText( "spice melange not used" );
 			}
+		}
+	}
+
+	public static class StillsDaily
+		extends Daily
+	{
+		public StillsDaily()
+		{
+			this.addListener( "(stills)" );
+			this.addLabel( "" );
+		}
+		
+		public void update()
+		{
+			this.setText( KoLCharacter.getStillsAvailable() +
+				"/10 stills available" );
+		}
+	}
+
+	public static class PuddingDaily
+		extends Daily
+	{
+		public PuddingDaily()
+		{
+			this.addListener( "blackPuddingsDefeated" );
+			this.addButton( "eat black pudding" );
+			this.addLabel( "" );
+		}
+		
+		public void update()
+		{
+			this.setText( Preferences.getInteger( "blackPuddingsDefeated" ) + " defeated!" );
 		}
 	}
 

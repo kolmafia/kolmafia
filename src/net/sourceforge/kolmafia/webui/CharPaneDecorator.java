@@ -55,6 +55,10 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class CharPaneDecorator
 {
 	private static final Pattern COLOR_PATTERN = Pattern.compile( "(color|class)=\"?\'?([^\"\'>]*)" );
+	private static final Pattern LASTADV_PATTERN = Pattern.compile(
+		">Last Adventure.*?<font[^>]*>(.*?)<br></font>.*?</table>" );
+	
+	private static final ArrayList recentLocations = new ArrayList();
 
 	public static final void decorate( final StringBuffer buffer )
 	{
@@ -71,6 +75,12 @@ public class CharPaneDecorator
 		if ( Preferences.getBoolean( "relayAddsUpArrowLinks" ) )
 		{
 			CharPaneDecorator.addUpArrowLinks( buffer );
+		}
+		
+		if ( !GenericRequest.isCompactMode &&
+			Preferences.getInteger( "recentLocations" ) >= 1 )
+		{
+			CharPaneDecorator.addRecentLocations( buffer );
 		}
 	}
 
@@ -581,5 +591,50 @@ public class CharPaneDecorator
 		}
 
 		buffer.append( text.substring( lastAppendIndex ) );
+	}
+
+	private static final void addRecentLocations( final StringBuffer buffer )
+	{
+		Matcher m = LASTADV_PATTERN.matcher( buffer );
+		if ( !m.find() )
+		{
+			return;
+		}
+		// group(1) is the link itself, end() is the insertion point for the recent list
+		String link = m.group( 1 );
+		int nLinks = Preferences.getInteger( "recentLocations" );
+		if ( CharPaneDecorator.recentLocations.size() == 0 )
+		{	// initialize
+			CharPaneDecorator.recentLocations.add( link );
+			return;
+		}
+		if ( !CharPaneDecorator.recentLocations.get( 0 ).equals( link ) )
+		{
+			CharPaneDecorator.recentLocations.remove( link );
+			CharPaneDecorator.recentLocations.add( 0, link );
+			if ( CharPaneDecorator.recentLocations.size() > nLinks + 1 )
+			{
+				CharPaneDecorator.recentLocations.subList( nLinks + 1,
+					CharPaneDecorator.recentLocations.size() ).clear();
+			}
+		}
+		if ( CharPaneDecorator.recentLocations.size() <= 1 )
+		{
+			return;
+		}
+		
+		String text = buffer.substring( m.end() );
+		buffer.setLength( m.end() );
+		buffer.append( "<font size=1>" );
+		for ( int i = 1; i < CharPaneDecorator.recentLocations.size(); ++i )
+		{
+			if ( i > 1 )
+			{
+				buffer.append( ", " );
+			}
+			buffer.append( CharPaneDecorator.recentLocations.get( i ) );		
+		}
+		buffer.append( "</font>" );
+		buffer.append( text );
 	}
 }
