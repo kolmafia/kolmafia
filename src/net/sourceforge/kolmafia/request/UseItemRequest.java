@@ -2083,7 +2083,6 @@ public class UseItemRequest
 		case ItemPool.NEVERENDING_SODA:
 			Preferences.setBoolean( "oscusSodaUsed", true );
 			/*FALLTHRU*/
-		case ItemPool.OUTRAGEOUS_SOMBRERO:
 		case ItemPool.HOBBY_HORSE:
 		case ItemPool.BALL_IN_A_CUP:
 		case ItemPool.SET_OF_JACKS:
@@ -2096,6 +2095,11 @@ public class UseItemRequest
 			// Certain pieces of equipment can also be "used" and
 			// are not consumed.
 
+			ResultProcessor.processResult( item );
+			return;
+
+		case ItemPool.OUTRAGEOUS_SOMBRERO:
+			Preferences.setBoolean( "outrageousSombreroUsed", true );
 			ResultProcessor.processResult( item );
 			return;
 

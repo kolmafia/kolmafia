@@ -733,6 +733,7 @@ public abstract class KoLmafia
 		Preferences.setBoolean( "concertVisited", false );
 		Preferences.setBoolean( "expressCardUsed", false );
 		Preferences.setBoolean( "oscusSodaUsed", false );
+		Preferences.setBoolean( "outrageousSombreroUsed", false );
 		Preferences.setBoolean( "spiceMelangeUsed", false );
 		Preferences.setBoolean( "friarsBlessingReceived", false );
 		Preferences.setBoolean( "styxPixieVisited", false );

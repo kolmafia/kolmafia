@@ -291,6 +291,7 @@ user	oceanAction	savecontinue
 user	oceanDestination	manual
 user	olfactedMonster	unknown
 user	oscusSodaUsed	false
+user	outrageousSombreroUsed	false
 user	plantingDate
 user	plantingDay	-1
 user	plantingLength
@@ -302,6 +303,7 @@ user	prismaticSummons	0
 user	pyramidPosition	0
 user	pyramidBombUsed	false
 user	reagentSummons	0
+user	recentLocations	5
 user	recoveryScript
 user	relayCounters
 user	requireBoxServants	false
