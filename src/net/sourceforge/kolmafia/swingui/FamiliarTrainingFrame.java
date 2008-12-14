@@ -134,6 +134,7 @@ public class FamiliarTrainingFrame
 	// Familiar buffing items
 	private static final AdventureResult BUFFING_SPRAY = new AdventureResult( 1512, 1 );
 	private static final AdventureResult PITH_HELMET = new AdventureResult( 1231, 1 );
+	private static final AdventureResult CRUMPLED_FEDORA = new AdventureResult( 3328, 1 );
 	private static final AdventureResult LEAD_NECKLACE = new AdventureResult( 865, 1 );
 	private static final AdventureResult RAT_HEAD_BALLOON = new AdventureResult( 1218, 1 );
 
@@ -1551,6 +1552,7 @@ public class FamiliarTrainingFrame
 		int specWeight;
 
 		boolean pithHelmet;
+		boolean crumpledFedora;
 		boolean leadNecklace;
 		boolean ratHeadBalloon;
 		boolean pumpkinBucket;
@@ -1662,6 +1664,7 @@ public class FamiliarTrainingFrame
 			this.specWeight = 0;
 
 			this.pithHelmet = false;
+			this.crumpledFedora = false;
 			this.leadNecklace = false;
 			this.ratHeadBalloon = false;
 			this.pumpkinBucket = false;
@@ -1677,6 +1680,12 @@ public class FamiliarTrainingFrame
 			{
 				this.pithHelmet = true;
 				this.hat = FamiliarTrainingFrame.PITH_HELMET;
+			}
+
+			if ( hat.getItemId() == FamiliarTrainingFrame.CRUMPLED_FEDORA.getItemId() )
+			{
+				this.crumpledFedora = true;
+				this.hat = FamiliarTrainingFrame.CRUMPLED_FEDORA;
 			}
 
 			if ( weapon != null && weapon.getItemId() == FamiliarTrainingFrame.BAR_WHIP.getItemId() )
@@ -1787,6 +1796,10 @@ public class FamiliarTrainingFrame
 			// If not wearing a pith helmet, search inventory
 			this.pithHelmet |=
 				FamiliarTrainingFrame.PITH_HELMET.getCount( inventory ) > 0 && EquipmentManager.canEquip( "plexiglass pith helmet" );
+
+			// If not wearing a crumpled fedora helmet, search inventory
+			this.crumpledFedora |=
+				FamiliarTrainingFrame.CRUMPLED_FEDORA.getCount( inventory ) > 0 && EquipmentManager.canEquip( "crumpled felt fedora" );
 
 			// If current familiar item is not the special item and
 			// such an item affects weight, search inventory
@@ -2027,6 +2040,12 @@ public class FamiliarTrainingFrame
 				this.weights.add( new Integer( Math.max( weight + 5, 1 ) ) );
 			}
 
+			// Add weight with fedora
+			if ( this.crumpledFedora )
+			{
+				this.weights.add( new Integer( Math.max( weight + 10, 1 ) ) );
+			}
+
 			// Add weight with no helmet
 			this.weights.add( new Integer( Math.max( weight, 1 ) ) );
 		}
@@ -2200,6 +2219,11 @@ public class FamiliarTrainingFrame
 				this.getItemGearSets( weight, FamiliarTrainingFrame.PITH_HELMET );
 			}
 
+			if ( this.crumpledFedora )
+			{
+				this.getItemGearSets( weight, FamiliarTrainingFrame.CRUMPLED_FEDORA );
+			}
+
 			this.getItemGearSets( weight, null );
 		}
 
@@ -2341,7 +2365,11 @@ public class FamiliarTrainingFrame
 		{
 			int weight = this.familiar.getWeight();
 
-			if ( hat == FamiliarTrainingFrame.PITH_HELMET )
+			if ( hat == FamiliarTrainingFrame.CRUMPLED_FEDORA )
+			{
+				weight += 10;
+			}
+			else if ( hat == FamiliarTrainingFrame.PITH_HELMET )
 			{
 				weight += 5;
 			}
@@ -2640,8 +2668,12 @@ public class FamiliarTrainingFrame
 			weight += this.tpCount;
 			weight += 2 * this.whipCount;
 
-			// Add pith helmet
-			if ( this.pithHelmet )
+			// Add crumpled fedora
+			if ( this.crumpledFedora )
+			{
+				weight += 10;
+			}
+			else if ( this.pithHelmet )
 			{
 				weight += 5;
 			}
@@ -2746,6 +2778,11 @@ public class FamiliarTrainingFrame
 				text.append( " bar whip (+2)" );
 			}
 
+			if ( this.hat == FamiliarTrainingFrame.CRUMPLED_FEDORA )
+			{
+				text.append( " crumpled felt fedora (+10)" );
+			}
+
 			if ( this.hat == FamiliarTrainingFrame.PITH_HELMET )
 			{
 				text.append( " plexiglass pith helmet (+5)" );
@@ -2803,6 +2840,11 @@ public class FamiliarTrainingFrame
 				text.append( " bar whip (+2)" );
 			}
 
+			if ( this.hat == FamiliarTrainingFrame.CRUMPLED_FEDORA )
+			{
+				text.append( " crumpled felt fedora (+10)" );
+			}
+
 			if ( this.hat == FamiliarTrainingFrame.PITH_HELMET )
 			{
 				text.append( " plexiglass pith helmet (+5)" );
@@ -2814,6 +2856,10 @@ public class FamiliarTrainingFrame
 			}
 			else
 			{
+				if ( this.crumpledFedora )
+				{
+					text.append( " crumpled felt fedora (+10)" );
+				}
 				if ( this.pithHelmet )
 				{
 					text.append( " plexiglass pith helmet (+5)" );
@@ -2901,12 +2947,12 @@ public class FamiliarTrainingFrame
 				GearSet that = (GearSet) o;
 				int changes = 0;
 
-				// Plexiglass pith helmet is considered the
+				// Crumpled felt fedora is considered the
 				// most ideal change, if it exists.
 
 				if ( this.hat != that.hat )
 				{
-					changes += that.item == null ? 1 : 5;
+					changes += that.item == null ? 1 : 10;
 				}
 
 				// Pumpkin basket is also ideal, lead necklace
