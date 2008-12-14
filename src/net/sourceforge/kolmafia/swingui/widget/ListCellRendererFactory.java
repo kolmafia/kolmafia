@@ -776,7 +776,11 @@ public class ListCellRendererFactory
 					HTML = true;
 				}
 				
-				if ( (pulver & EquipmentDatabase.YIELD_3W) != 0 )
+				if ( (pulver & EquipmentDatabase.MALUS_UPGRADE ) != 0 )
+				{
+					stringForm.append( " upgrade" );
+				}
+				else if ( (pulver & EquipmentDatabase.YIELD_3W) != 0 )
 				{
 					stringForm.append( " 3W" );
 				}

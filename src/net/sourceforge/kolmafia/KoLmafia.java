@@ -3447,7 +3447,7 @@ public abstract class KoLmafia
 
 					default:
 
-						if ( currentItem.getName().endsWith( "powder" ) || currentItem.getName().endsWith( "nugget" ) )
+						if ( currentItem.getName().endsWith( "powder" ) || currentItem.getName().endsWith( "nuggets" ) )
 						{
 							RequestThread.postRequest( new PulverizeRequest( currentItem.getInstance( itemCount ) ) );
 						}

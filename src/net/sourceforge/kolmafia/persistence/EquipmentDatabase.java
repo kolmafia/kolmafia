@@ -87,8 +87,9 @@ public class EquipmentDatabase
 	public static final int ELEM_STENCH = 0x08000;
 	public static final int ELEM_SPOOKY = 0x10000;
 	public static final int ELEM_SLEAZE = 0x20000;
-	public static final int MASK_ELEMENT = 0x3F000;
-	public static final int MASK_ELEMENTAL = MASK_ELEMENT - ELEM_TWINKLY;
+	public static final int ELEM_OTHER = 0x40000;
+	public static final int MASK_ELEMENT = 0x7F000;
+	public static final int MALUS_UPGRADE = 0x100000;
 	
 	public static final int[] IMPLICATIONS = {
 		Modifiers.COLD_RESISTANCE, ELEM_HOT | ELEM_SPOOKY,
@@ -229,6 +230,11 @@ public class EquipmentDatabase
 			if ( data[ 1 ].equals( "nosmash" ) )
 			{
 				EquipmentDatabase.pulverize.set( itemId, -1 );
+			}
+			else if ( data[ 1 ].equals( "upgrade" ) )
+			{
+				EquipmentDatabase.pulverize.set( itemId, 
+					EquipmentDatabase.deriveUpgrade( data[ 0 ] ) );
 			}
 			else
 			{
@@ -601,6 +607,45 @@ public class EquipmentDatabase
 			pulver |= YIELD_1P;
 		}
 		
+		return pulver;
+	}
+
+	private static final int deriveUpgrade( final String name )
+	{
+		int pulver = PULVERIZE_BITS | MALUS_UPGRADE | YIELD_4N_1W;
+		if ( name.endsWith( "powder" ) )
+		{
+			pulver |= YIELD_4P_1N;
+		}
+		
+		if ( name.startsWith( "twinkly" ) )
+		{
+			pulver |= ELEM_TWINKLY;
+		}
+		else if ( name.startsWith( "hot" ) )
+		{
+			pulver |= ELEM_HOT;
+		}
+		else if ( name.startsWith( "cold" ) )
+		{
+			pulver |= ELEM_COLD;
+		}
+		else if ( name.startsWith( "stench" ) )
+		{
+			pulver |= ELEM_STENCH;
+		}
+		else if ( name.startsWith( "spook" ) )
+		{
+			pulver |= ELEM_SPOOKY;
+		}
+		else if ( name.startsWith( "sleaz" ) )
+		{
+			pulver |= ELEM_SLEAZE;
+		}
+		else
+		{
+			pulver |= ELEM_OTHER;
+		}
 		return pulver;
 	}
 

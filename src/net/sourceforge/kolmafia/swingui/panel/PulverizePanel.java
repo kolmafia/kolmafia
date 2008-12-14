@@ -190,6 +190,7 @@ public class PulverizePanel
 		
 		public void update()
 		{
+			this.others = PulverizePanel.this.filters[ 6 ].isSelected();
 			this.elemMask =
 				(PulverizePanel.this.filters[ 0 ].isSelected() ?
 					EquipmentDatabase.ELEM_TWINKLY : 0) |
@@ -202,14 +203,14 @@ public class PulverizePanel
 				(PulverizePanel.this.filters[ 4 ].isSelected() ?
 					EquipmentDatabase.ELEM_SPOOKY : 0) |
 				(PulverizePanel.this.filters[ 5 ].isSelected() ?
-					EquipmentDatabase.ELEM_SLEAZE : 0);
+					EquipmentDatabase.ELEM_SLEAZE : 0) |
+				(this.others ? EquipmentDatabase.ELEM_OTHER : 0);
 			this.yieldMask = 0;
 			int[] indices = PulverizePanel.this.yields.getSelectedColumns();
 			for ( int i = 0; i < indices.length; ++i )
 			{
 				this.yieldMask |= EquipmentDatabase.YIELD_1P << indices[ i ];
 			}
-			this.others = PulverizePanel.this.filters[ 6 ].isSelected();
 			super.update();
 		}
 
@@ -315,6 +316,9 @@ public class PulverizePanel
 				new AdventureResult[ KoLConstants.pulverizeQueue.size() ];
 			KoLConstants.pulverizeQueue.toArray( items );
 			KoLConstants.pulverizeQueue.clear();
+			LockableListModel inv = (LockableListModel)
+				PulverizePanel.this.elementList.getModel();
+			inv.fireContentsChanged( inv, 0, inv.size() - 1 );
 			for ( int i = 0; i < items.length; ++i )
 			{
 				RequestThread.postRequest( new PulverizeRequest( items[ i ] ) );
@@ -405,6 +409,9 @@ public class PulverizePanel
 				new AdventureResult[ KoLConstants.pulverizeQueue.size() ];
 			KoLConstants.pulverizeQueue.toArray( items );
 			KoLConstants.pulverizeQueue.clear();
+			LockableListModel inv = (LockableListModel)
+				PulverizePanel.this.elementList.getModel();
+			inv.fireContentsChanged( inv, 0, inv.size() - 1 );
 			KoLmafiaCLI.DEFAULT_SHELL.executeSendRequest( "wadbot", selected.toMessage(),
 				items, false, true );
 		}
