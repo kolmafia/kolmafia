@@ -158,6 +158,7 @@ user	barrelGoal	1
 user	barrelLayout	?????????
 user	battleAction	attack with weapon
 user	betweenBattleScript
+user	blackPuddingsDefeated	0
 user	breakfastCompleted	false
 user	buffBotCasting
 user	buffBotMessageDisposal	0

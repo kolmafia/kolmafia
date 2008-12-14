@@ -461,6 +461,7 @@ Sabre-Toothed Lime	HP: 8 Def: 14 Atk: 14
 Salamander	HP: 3 Def: 3 Atk: 3 Meat: 8-12	salamander spleen (100)
 Sassy Pirate	HP: 51 Def: 61 Atk: 61 Meat: 16-26	crowbarrr (10)	sunken chest (15)	swashbuckling pants (10)
 Scary Clown	HP: 15 Def: 19 Atk: 19 E: spooky Meat: 20-32	big red clown nose (10)	bloody clown pants (10)	long skinny balloon (40)	empty greasepaint tube (0)
+Scary Pirate	HP: 200 Atk: 154 E: spooky Meat: 35-55	cursed breeches (0)	cursed cutlass (0)	cursed eyepatch (0)
 School of Wizardfish	HP: 400	dull fish scale (0)	glistening fish meat (0)
 Scimitarfish	HP: 550	dull fish scale (0)	fish scimitar (0)
 Scorched Duck	HP: 185 Atk: 170 Meat: 148-200 E: heat	flaming feather (10)	duct tape (5)

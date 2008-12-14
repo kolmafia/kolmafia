@@ -261,9 +261,12 @@ public abstract class StaticEntity
 	{
 		if ( location.startsWith( "inv_equip.php" ) && location.indexOf( "ajax=1" ) != -1 )
 		{
-			// Unfortunately, it would do no good to parse the results of an outfit change,
-			// since there's no indication of which slot items ended up in.
+			// Unfortunately, it would do no good to parse the
+			// results of an outfit change, since there's no
+			// indication of which slot items ended up in.
+			//
 			// Must do an equipment refresh to resynchronize.
+
 			RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.EQUIPMENT ) );
 		}
 		
@@ -319,8 +322,7 @@ public abstract class StaticEntity
 			EquipmentRequest.parseBedazzlements( responseText );
 		}
 
-		if ( location.indexOf( "familiar.php" ) != -1 &&
-			location.indexOf( "ajax=1" ) == -1)
+		if ( location.indexOf( "familiar.php" ) != -1 && location.indexOf( "ajax=1" ) == -1)
 		{
 			FamiliarData.registerFamiliarData( responseText );
 		}
@@ -348,6 +350,11 @@ public abstract class StaticEntity
 		// See if the request would have used up an item.
 
 		if ( location.indexOf( "inventory.php" ) != -1 && location.indexOf( "action=message" ) != -1 )
+		{
+			UseItemRequest.parseConsumption( responseText, false );
+		}
+
+		if ( ( location.indexOf( "inv_eat.php" ) != -1 || location.indexOf( "inv_booze.php" ) != -1 || location.indexOf( "inv_use.php" ) != -1 || location.indexOf( "inv_familiar.php" ) != -1 ) && location.indexOf( "whichitem" ) != -1 )
 		{
 			UseItemRequest.parseConsumption( responseText, false );
 		}
@@ -438,12 +445,17 @@ public abstract class StaticEntity
 		if ( location.startsWith( "store.php" ) && location.indexOf( "whichstore=h" ) != -1 && Preferences.getInteger( "lastFilthClearance" ) != KoLCharacter.getAscensions() )
 		{
 			String side = "none";
-			if ( responseText.indexOf( "peach" ) != -1 && responseText.indexOf( "pear" ) != -1 && responseText.indexOf( "plum" ) != -1 )
+
+			if ( responseText.indexOf( "peach" ) != -1 &&
+			     responseText.indexOf( "pear" ) != -1 &&
+			     responseText.indexOf( "plum" ) != -1 )
 			{
 				Preferences.setInteger( "lastFilthClearance", KoLCharacter.getAscensions() );
 				side = "hippy";
 			}
-			else if ( responseText.indexOf( "bowl of rye sprouts" ) != -1 && responseText.indexOf( "cob of corn" ) != -1 && responseText.indexOf( "juniper berries" ) != -1 )
+			else if ( responseText.indexOf( "bowl of rye sprouts" ) != -1 &&
+				  responseText.indexOf( "cob of corn" ) != -1 &&
+				  responseText.indexOf( "juniper berries" ) != -1 )
 			{
 				Preferences.setInteger( "lastFilthClearance", KoLCharacter.getAscensions() );
 				side = "fratboy";

@@ -836,7 +836,9 @@ public class RequestEditorKit
 			monsterData.append( FightRequest.getMonsterAttack() );
 			monsterData.append( ", Def: " );
 			monsterData.append( FightRequest.getMonsterDefense() );
-			if ( FightRequest.getLastMonsterName().indexOf( "pirate" ) != -1 )
+
+			String monster = FightRequest.getLastMonsterName();
+			if ( monster.indexOf( "pirate" ) != -1 )
 			{
 				int count = FightRequest.countPirateInsults();
 				monsterData.append( ", Insults: ");
@@ -845,6 +847,12 @@ public class RequestEditorKit
 				float odds = FightRequest.pirateInsultOdds( count ) * 100.0f;
 				monsterData.append( KoLConstants.FLOAT_FORMAT.format( odds ) );
 				monsterData.append( "%)");
+			}
+			else if ( monster.equalsIgnoreCase( "Black Pudding" ) )
+			{
+				int count = Preferences.getInteger( "blackPuddingsDefeated" );
+				monsterData.append( ", Defeated: ");
+				monsterData.append( count );
 			}
 		}
 

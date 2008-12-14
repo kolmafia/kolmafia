@@ -2192,31 +2192,12 @@ public class UseItemRequest
 
 	private static final AdventureResult extractItem( final String urlString )
 	{
-		if ( urlString.startsWith( "inv_eat.php" ) )
-		{
-			;
-		}
-		else if ( urlString.startsWith( "inv_booze.php" ) )
-		{
-			;
-		}
-		else if ( urlString.startsWith( "multiuse.php" ) )
-		{
-			;
-		}
-		else if ( urlString.startsWith( "skills.php" ) )
-		{
-			;
-		}
-		else if ( urlString.startsWith( "inv_familiar.php" ) )
-		{
-			;
-		}
-		else if ( urlString.startsWith( "inv_use.php" ) )
-		{
-			;
-		}
-		else
+		if ( !urlString.startsWith( "inv_eat.php" ) &&
+		     !urlString.startsWith( "inv_booze.php" ) &&
+		     !urlString.startsWith( "multiuse.php" ) &&
+		     !urlString.startsWith( "skills.php" ) &&
+		     !urlString.startsWith( "inv_familiar.php" ) &&
+		     !urlString.startsWith( "inv_use.php" ) )
 		{
 			return null;
 		}
@@ -2268,12 +2249,6 @@ public class UseItemRequest
 		}
 
 		return new AdventureResult( itemId, 1 );
-	}
-
-	public static final void resetItemUsed()
-	{
-		UseItemRequest.lastItemUsed = null;
-		UseItemRequest.lastHelperUsed = null;
 	}
 
 	public static final boolean registerRequest( final String urlString )
