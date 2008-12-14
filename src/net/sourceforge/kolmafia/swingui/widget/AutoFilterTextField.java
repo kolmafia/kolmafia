@@ -41,11 +41,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.JList;
+import javax.swing.SwingUtilities;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
+import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
@@ -55,7 +57,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class AutoFilterTextField
 	extends AutoHighlightTextField
-	implements ActionListener, ListElementFilter
+	implements ActionListener, ListElementFilter, Runnable
 {
 	protected JList list;
 	protected String text;
@@ -76,8 +78,9 @@ public class AutoFilterTextField
 		this.model.setFilter( this );
 		this.addKeyListener( new FilterListener() );
 		
-		// Make this look like a normal search field on OS X:
-		// Unfortunately, has (had?) nasty visual glitch in AdventureSelectPanel.
+		// Make this look like a normal search field on OS X.
+		// Note that the field MUST NOT be forced to a height other than its
+		// preferred height; that produces some ugly visual glitches.
 		this.putClientProperty( "JTextField.variant", "search" );
 	}
 
@@ -96,9 +99,30 @@ public class AutoFilterTextField
 		this.update();
 	}
 
+	private String tempText = null;
+	
 	public void setText( final String text )
 	{
-		super.setText( text );
+		this.tempText = text;
+		if ( !SwingUtilities.isEventDispatchThread() )
+		{
+			try
+			{
+				SwingUtilities.invokeAndWait( this );
+			}
+			catch ( Exception e )
+			{
+				StaticEntity.printStackTrace( e );
+			}
+		}
+		else {
+			this.run();
+		}
+	}
+	
+	public void run()
+	{
+		super.setText( this.tempText );
 		this.update();
 	}
 
