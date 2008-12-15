@@ -1801,6 +1801,44 @@ public class UseItemRequest
 
 			return;
 
+		case ItemPool.BLACK_PUDDING:
+
+			// "You screw up your courage and eat the black pudding.
+			// It turns out to be the blood sausage sort of
+			// pudding. You're not positive that that's a good
+			// thing. Bleah."
+
+			if ( responseText.indexOf( "blood sausage" ) != -1 )
+			{
+				return;
+			}
+
+			// "You don't have time to properly enjoy a black
+			// pudding right now."
+			if ( responseText.indexOf( "don't have time" ) != -1 )
+			{
+				UseItemRequest.lastUpdate = "Insufficient adventures left.";
+			}
+
+			// "You're way too beaten up to enjoy a black pudding
+			// right now. Because they're tough to chew. Yeah."
+			else if ( responseText.indexOf( "too beaten up" ) != -1 )
+			{
+				UseItemRequest.lastUpdate = "Too beaten up.";
+			}
+
+			if ( !UseItemRequest.lastUpdate.equals( "" ) )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+			}
+
+			// If we are redirected to a fight, the item is
+			// consumed elsewhere
+
+			ResultProcessor.processResult( item );
+
+			return;
+
 		case ItemPool.DRUM_MACHINE:
 
 			// "Dammit! Your hooks were still on there! Oh well. At
@@ -1814,13 +1852,79 @@ public class UseItemRequest
 				ResultProcessor.processResult( ItemPool.get( ItemPool.WORM_RIDING_HOOKS, -1 ) );
 				SpecialOutfit.forgetEquipment( ItemPool.get( ItemPool.WORM_RIDING_HOOKS, 1 ) );
 				KoLmafia.updateDisplay( "Don't forget to equip a weapon!" );
+				return;
 			}
-			else
+
+			// "You don't have time to play the drums."
+			if ( responseText.indexOf( "don't have time" ) != -1 )
 			{
 				UseItemRequest.lastUpdate = "Insufficient adventures left.";
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
-				ResultProcessor.processResult( item );
 			}
+
+			// "You're too beaten-up to play the drums."
+			else if ( responseText.indexOf( "too beaten up" ) != -1 )
+			{
+				UseItemRequest.lastUpdate = "Too beaten up.";
+			}
+
+			// "You head to your campsite and crank up the drum
+			// machine. You press buttons at random, waiting for
+			// something interesting to happen, but you only
+			// succeed in annoying your neighbors."
+			else if ( responseText.indexOf( "head to your campsite" ) != -1 )
+			{
+				UseItemRequest.lastUpdate = "Can't find the beach";
+			}
+
+			if ( !UseItemRequest.lastUpdate.equals( "" ) )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+			}
+
+			// If we are redirected to a fight, the item is
+			// consumed elsewhere
+
+			ResultProcessor.processResult( item );
+
+			return;
+
+		case ItemPool.CURSED_PIECE_OF_THIRTEEN:
+
+			// "You take the piece of thirteen to a rare coin
+			// dealer in Seaside Town (he's got a shop set up right
+			// next to that library across the street from the
+			// Sleazy Back Alley) to see what you can get for
+			// it. Turns out you can get X Meat for it."
+			if ( responseText.indexOf( "rare coin dealer in Seaside Town" ) != -1 )
+			{
+				return;
+			}
+
+			// You consider taking the piece of thirteen to a rare
+			// coin dealer to see if it's worth anything, but you
+			// don't really have time.
+			if ( responseText.indexOf( "don't really have time" ) != -1 )
+			{
+				UseItemRequest.lastUpdate = "Insufficient adventures left.";
+			}
+
+			// "You consider taking the piece of thirteen to a rare
+			// coin dealer to see if it's worth anything, but
+			// you're feeling pretty crappy right now."
+			else if ( responseText.indexOf( "feeling pretty crappy" ) != -1 )
+			{
+				UseItemRequest.lastUpdate = "Too beaten up.";
+			}
+
+			if ( !UseItemRequest.lastUpdate.equals( "" ) )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+			}
+
+			// Even if we are redirected to a fight, the item is
+			// not consumed
+
+			ResultProcessor.processResult( item );
 
 			return;
 
@@ -1996,18 +2100,6 @@ public class UseItemRequest
 			}
 			else
 			{
-				ResultProcessor.processResult( item );
-			}
-			return;
-
-		case ItemPool.CURSED_PIECE_OF_THIRTEEN:
-			// You consider taking the piece of thirteen to a rare
-			// coin dealer to see if it's worth anything, but you
-			// don't really have time.
-			if ( responseText.indexOf( "don't really have time" ) != -1 )
-			{
-				UseItemRequest.lastUpdate = "Insufficient adventures left.";
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
 				ResultProcessor.processResult( item );
 			}
 			return;

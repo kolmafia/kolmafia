@@ -580,3 +580,4 @@
 579	Greased-Up Familiar		0487080d0f3d6c9914d932035b9fd04a	use 1 sea grease
 580	Yuletide Mutations	dna.gif	fc7d6c4da83c00b8d1237e45f985c050	use 1 unstable DNA
 581	Amorphous Cheer	blobcookie.gif	c231efaf4c038ee84154112b4796e099	eat 1 blob-shaped Crimbo cookie
+582	In Vino Veres	grapes.gif	f2406fa59f6076fa20ed17d6f45c177f	drink 1 canteen of wine

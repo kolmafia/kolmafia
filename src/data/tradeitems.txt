@@ -3638,3 +3638,9 @@
 3637	gray bow tie	8	all	30
 3638	penguin thesaurus	13	all	45
 3639	blob-shaped Crimbo cookie	1	all	50
+3640
+3641
+3642
+3643
+3644	depleted Grimacite kneecapping stick	12	all	400
+3645	canteen of wine	2	all	100

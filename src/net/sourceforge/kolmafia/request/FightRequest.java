@@ -1107,6 +1107,7 @@ public class FightRequest
 		{
 			itemId = ItemPool.CARONCH_MAP;
 			itemName = "Cap'm Caronch's Map";
+			consumed = false;
 		}
 		else if ( name.equalsIgnoreCase( "Scary Pirate" ) )
 		{
@@ -1119,9 +1120,9 @@ public class FightRequest
 			return;
 		}
 
-		if ( !consumed )
+		if ( consumed )
 		{
-			ResultProcessor.processResult( ItemPool.get( itemId, 1 ) );
+			ResultProcessor.processResult( ItemPool.get( itemId, -1 ) );
 		}
 
 		int adventure = KoLAdventure.getAdventureCount();
@@ -1183,8 +1184,8 @@ public class FightRequest
 
 		FightRequest.action1 = Preferences.getString( "defaultAutoAttack" );
 
-		// If no default action is made by the player, then the round remains
-		// the same.  Simply report winning/losing initiative.
+		// If no default action is made by the player, then the round
+		// remains the same.  Simply report winning/losing initiative.
 
 		if ( FightRequest.action1.equals( "" ) || FightRequest.action1.equals( "0" ) )
 		{
@@ -1246,6 +1247,11 @@ public class FightRequest
 
 		// Spend MP and consume items
 
+		if ( !KoLConstants.activeEffects.contains( FightRequest.CUNCTATITIS ) || responseText.indexOf( "You decide" ) == -1 )
+		{
+			FightRequest.payActionCost();
+		}
+
 		++FightRequest.currentRound;
 
 		if ( FightRequest.currentRound == 1 )
@@ -1295,11 +1301,6 @@ public class FightRequest
 				FightRequest.monsterData = MonsterDatabase.findMonster( FightRequest.encounterLookup, false );
 				FightRequest.healthModifier = 0;
 			}
-		}
-
-		if ( !KoLConstants.activeEffects.contains( FightRequest.CUNCTATITIS ) || responseText.indexOf( "You decide" ) == -1 )
-		{
-			FightRequest.payActionCost();
 		}
 
 		switch ( KoLAdventure.lastAdventureId() )
@@ -2040,6 +2041,11 @@ public class FightRequest
 
 	public static final void payItemCost( final int itemId )
 	{
+		if ( itemId <= 0 )
+		{
+			return;
+		}
+
 		if ( FightRequest.isItemConsumed( itemId ) )
 		{
 			ResultProcessor.processResult( new AdventureResult( itemId, -1 ) );
