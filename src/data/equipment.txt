@@ -485,6 +485,7 @@ dense meat crossbow	60	Mox: 15	2-handed crossbow
 dense meat staff	60	Mus: 15	2-handed staff
 dense meat sword	60	Mus: 15	2-handed sword
 depleted Grimacite hammer	100	Mus: 35	2-handed club
+depleted Grimacite kneecapping stick	90	Mus: 30	1-handed club
 diamond-studded cane	60	Mus: 15	1-handed club
 didgeridooka	180	Mox: 75	2-handed heavy blowgun
 disco ball	10	Mox: 0	1-handed disco ball

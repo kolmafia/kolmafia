@@ -48,6 +48,7 @@ caipifruta	3	3	5-10	16-20	0	0
 calle de miel	4	4	10-14	8-10	0	25-27
 can of swiller	1	10	2-4	10-15	0	0
 candycaine	4	1	7-10	8-9	8-9	8-9
+canteen of wine	3	5	7-9	24-34	35-39	36
 cherry bomb	6	6	22-26	0	16-20	0
 citrus-infused sake	4	7	14-17	75-120	0	0
 cool mushroom wine	3	6	10-14	0	8-10	0

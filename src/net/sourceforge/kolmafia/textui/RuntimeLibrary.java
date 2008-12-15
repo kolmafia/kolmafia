@@ -3000,7 +3000,7 @@ public abstract class RuntimeLibrary
 	public static Value get_monsters( final Value location )
 	{
 		KoLAdventure adventure = (KoLAdventure) location.rawValue();
-		AreaCombatData data = adventure.getAreaSummary();
+		AreaCombatData data = adventure == null ? null : adventure.getAreaSummary();
 
 		int monsterCount = data == null ? 0 : data.getMonsterCount();
 

@@ -556,6 +556,7 @@ dense meat crossbow	Moxie: +3
 dense meat staff	Mysticality: +3
 dense meat sword	Muscle: +3
 depleted Grimacite hammer	none
+depleted Grimacite kneecapping stick	Critical Hit Percent: +3
 diamond-studded cane	Moxie: +5, Class: "Disco Bandit"
 didgeridooka	Moxie: +9
 # disco ball
@@ -1751,6 +1752,7 @@ Hot Blooded	Hot Damage: +10, Muscle Percent: +30, Mysticality Percent: +10, Moxi
 Hyperbolic Hypothermia	Cold Damage: +20
 Hyperoffended	Sleaze Resistance: +9
 Hyphemariffic	Spooky Resistance: +9
+In Vino Veres	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 Incredibly Hulking	Muscle Percent: +200
 Inspired!	Mysticality Percent: +20, Moxie Percent: -20
 Insulated Trousers	Cold Resistance: +1
