@@ -30,6 +30,7 @@
 # Naughty Sorceress (second form)
 #
 # Mob Penguin Goon
+# Mob Penguin Hitpenguin
 # Mob Penguin Enforcer
 # Mob Penguin Racketeer
 #
@@ -382,6 +383,7 @@ Mimic (Top 2 Rows)	HP: 45 Def: 35 Atk: 35
 Mind Flayer	HP: 47 Def: 40 Atk: 36	mind flayer corpse (25)	cornuthaum (15)	large box (20)
 Mine Crab	HP: 850	live nautical mine
 Mob Penguin Goon		penguin thesaurus (0)
+Mob Penguin Hitpenguin		canteen of wine (0)	depleted Grimacite kneecapping stick (0)
 Mob Penguin Enforcer		patent leather shoes (0)
 Mob Penguin Racketeer		gray bow tie (0)
 Mob Penguin Smasher		chunk of depleted Grimacite (0)	kneecapping stick (0)	penguin skin (0)
@@ -389,8 +391,8 @@ Mob Penguin Smith		chunk of depleted Grimacite (0)	iron pasta spoon (0)	scroll o
 Mob Penguin Supervisor		chunk of depleted Grimacite (0)	mafia aria (0)	Mob Penguin cellular phone (0)	support cummerbund (0)
 Mobile Armored Sweat Lodge	HP: 300 Atk: 180 E: stench	communications windchimes (3)	didgeridooka (33)	gas balloon (20)
 Monty Basingstoke-Pratt, IV	HP: 240 Meat: 174-215 E: sleaze	white class ring (0)	natty blue ascot (100)	distressed denim pants (0)	bejeweled pledge pin (0)	kick-ass kicks (0)
-Mutant Doll-Dressing Elf		cheap elven gloves
-Mutant Gift-Wrapping Elf		elven socks
+Mutant Doll-Dressing Elf		cheap elven gloves (0)
+Mutant Gift-Wrapping Elf		elven socks (0)
 Mutant Cookie-Baking Elf		festive holiday hat (0)
 Naughty Sorceress
 Naughty Sorceress (second form)
