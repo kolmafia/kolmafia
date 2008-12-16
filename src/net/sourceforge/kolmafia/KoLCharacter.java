@@ -2400,9 +2400,27 @@ public abstract class KoLCharacter
 
 		for ( int i = 0; i < familiarArray.length; ++i )
 		{
-			if ( race.equals( familiarArray[ i ].getRace() ) )
+			FamiliarData familiar = familiarArray[ i ];
+			if ( familiar.getRace().equals( race ) )
 			{
-				return familiarArray[ i ];
+				return familiar;
+			}
+		}
+
+		return null;
+	}
+
+	public static final FamiliarData findFamiliar( final int familiarId )
+	{
+		FamiliarData[] familiarArray = new FamiliarData[ KoLCharacter.familiars.size() ];
+		KoLCharacter.familiars.toArray( familiarArray );
+
+		for ( int i = 0; i < familiarArray.length; ++i )
+		{
+			FamiliarData familiar = familiarArray[ i ];
+			if ( familiar.getId() == familiarId )
+			{
+				return familiar;
 			}
 		}
 

@@ -40,6 +40,7 @@ import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -1260,6 +1261,9 @@ public class EquipmentRequest
 		LockableListModel outfits = outfitsMatcher.find() ? SpecialOutfit.parseOutfits( outfitsMatcher.group() ) : null;
 
 		EquipmentManager.setOutfits( outfits );
+
+		// Check if familiar equipment is locked
+		FamiliarData.checkLockedItem( responseText );
 
 		// If Lord Spookyraven's spectacles are now equipped, identify
 		// the dusty bottles, if necessary.
