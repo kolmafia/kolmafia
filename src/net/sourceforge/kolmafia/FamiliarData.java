@@ -64,6 +64,8 @@ public class FamiliarData
 
 	private static final Pattern DESCID_PATTERN = Pattern.compile( "descitem\\((.*?)\\)" );
 
+	private static final Pattern LOCK_PATTERN = Pattern.compile( "familiar.php\\?action=lockequip.*'This Familiar Equipment is (Locked|Unlocked)'" );
+
 	private final int id;
 
 	private int weight;
@@ -149,6 +151,20 @@ public class FamiliarData
 
 		KoLCharacter.setFamiliar( firstFamiliar );
 		EquipmentManager.setEquipment( EquipmentManager.FAMILIAR, firstFamiliar.getItem() );
+		FamiliarData.checkLockedItem( searchText );
+	}
+
+	public static final void checkLockedItem( final String searchText )
+	{
+		Matcher lockMatcher = FamiliarData.LOCK_PATTERN.matcher( searchText );
+		boolean locked = false;
+
+		if ( lockMatcher.find() )
+		{
+			locked = lockMatcher.group(1).equals( "Locked" );
+		}
+
+		EquipmentManager.lockFamiliarItem( locked );
 	}
 
 	public int getId()
@@ -192,6 +208,7 @@ public class FamiliarData
 		if ( !KoLmafia.isRefreshing() )
 		{
 			EquipmentManager.updateEquipmentList( EquipmentManager.FAMILIAR );
+			EquipmentManager.lockFamiliarItem();
 		}
 	}
 
@@ -353,7 +370,8 @@ public class FamiliarData
 	}
 
 	/**
-	 * Returns whether or not the familiar can equip the given familiar item.
+	 * Returns whether or not the familiar can equip the given familiar
+	 * item.
 	 */
 
 	public boolean canEquip( final AdventureResult item )
@@ -422,6 +440,41 @@ public class FamiliarData
 			
 			return item.getName().equals( FamiliarDatabase.getFamiliarItem( this.id ) );
 		}
+	}
+
+	public static boolean lockableItem( final AdventureResult item )
+	{
+		if ( item == null || item == EquipmentRequest.UNEQUIP )
+		{
+			return false;
+		}
+
+		switch ( item.getItemId() )
+		{
+		case ItemPool.LEAD_NECKLACE:
+		case ItemPool.TAM_O_SHANTER:
+		case ItemPool.ANNOYING_PITCHFORK:
+		case ItemPool.GRAVY_MAYPOLE:
+		case ItemPool.RAT_BALLOON:
+		case ItemPool.WAX_LIPS:
+		case ItemPool.TAM_O_SHATNER:
+		case ItemPool.PUMPKIN_BUCKET:
+		case ItemPool.FAMILIAR_DOPPELGANGER:
+		case ItemPool.MAYFLOWER_BOUQUET:
+		case ItemPool.ANT_HOE:
+		case ItemPool.ANT_RAKE:
+		case ItemPool.ANT_PITCHFORK:
+		case ItemPool.ANT_SICKLE:
+		case ItemPool.ANT_PICK:
+		case ItemPool.FISH_SCALER:
+		case ItemPool.ORIGAMI_MAGAZINE:
+		case ItemPool.FIREWORKS:
+		case ItemPool.BATHYSPHERE:
+		case ItemPool.DAS_BOOT:
+			return true;
+		}
+
+		return false;
 	}
 
 	public boolean isCombatFamiliar()

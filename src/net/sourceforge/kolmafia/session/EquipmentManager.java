@@ -94,7 +94,14 @@ public class EquipmentManager
 	private static final LockableListModel accessories = new SortedListModel();
 	private static final LockableListModel[] equipmentLists = new LockableListModel[ EquipmentManager.ALL_SLOTS ];
 
+	private static int fakeHandCount = 0;
+
+	private static final LockableListModel customOutfits = new LockableListModel();
+	private static final LockableListModel outfits = new LockableListModel();
+
 	private static final int[] turnsRemaining = new int[ 3 ];
+
+	private static AdventureResult lockedFamiliarItem = EquipmentRequest.UNEQUIP;
 
 	static
 	{
@@ -117,11 +124,6 @@ public class EquipmentManager
 		}
 	}
 
-	private static int fakeHandCount = 0;
-
-	private static LockableListModel customOutfits = new LockableListModel();
-	private static LockableListModel outfits = new LockableListModel();
-
 	public static void resetEquipment()
 	{
 		for ( int i = 0; i < EquipmentManager.equipmentLists.length; ++i )
@@ -142,6 +144,7 @@ public class EquipmentManager
 		EquipmentManager.fakeHandCount = 0;
 		EquipmentManager.customOutfits.clear();
 		EquipmentManager.outfits.clear();
+		EquipmentManager.lockedFamiliarItem = EquipmentRequest.UNEQUIP;
 	}
 
 	public static AdventureResult[] emptyEquipmentArray()
@@ -183,13 +186,16 @@ public class EquipmentManager
 		}
 		else if ( consumeType == KoLConstants.CONSUME_STICKER )
 		{
-			// The available stickers cannot be combined into a single list, as is done with
-			// accessories, since stickers cannot be moved to a different slot.  If a slot
-			// contains your last sticker of a particular type, then that type must only appear
-			// for that slot (so that it can be the initially selected value), not in the
-			// other two slots.  There are only six types of stickers, and no reason to
-			// believe that there will ever be many (or even any) more, so this duplication
-			// should not present a problem.
+			// The available stickers cannot be combined into a
+			// single list, as is done with accessories, since
+			// stickers cannot be moved to a different slot.  If a
+			// slot contains your last sticker of a particular
+			// type, then that type must only appear for that slot
+			// (so that it can be the initially selected value),
+			// not in the other two slots.	There are only six
+			// types of stickers, and no reason to believe that
+			// there will ever be many (or even any) more, so this
+			// duplication should not present a problem.
 			AdventureResult.addResultToList( EquipmentManager.equipmentLists[ 
 				EquipmentManager.STICKER1 ], item );
 			AdventureResult.addResultToList( EquipmentManager.equipmentLists[ 
@@ -197,8 +203,9 @@ public class EquipmentManager
 			AdventureResult.addResultToList( EquipmentManager.equipmentLists[ 
 				EquipmentManager.STICKER3 ], item );
 			
-			// Make sure the current sticker in each slot remains in the list, even if there
-			// are no more of that type in inventory.
+			// Make sure the current sticker in each slot remains
+			// in the list, even if there are no more of that type
+			// in inventory.
 			if ( !EquipmentManager.equipmentLists[ EquipmentManager.STICKER1 ].contains(
 				EquipmentManager.getEquipment( EquipmentManager.STICKER1 ) ) )
 			{
@@ -307,11 +314,14 @@ public class EquipmentManager
 	}
 
 	/**
-	 * Accessor method to set the equipment the character is currently using. This does not take into account the power
-	 * of the item or anything of that nature; only the item's name is stored. Note that if no item is equipped, the
-	 * value should be <code>none</code>, not <code>null</code> or the empty string.
+	 * Accessor method to set the equipment the character is currently
+	 * using. This does not take into account the power of the item or
+	 * anything of that nature; only the item's name is stored. Note that
+	 * if no item is equipped, the value should be <code>none</code>, not
+	 * <code>null</code> or the empty string.
 	 *
-	 * @param equipment All of the available equipment, stored in an array index by the constants
+	 * @param equipment All of the available equipment, stored in an array
+	 * index by the constants
 	 */
 
 	public static final void setEquipment( final AdventureResult[] equipment )
@@ -350,14 +360,46 @@ public class EquipmentManager
 	}
 
 	/**
-	 * Accessor method to retrieve the name of the item equipped on the character's familiar.
+	 * Accessor method to retrieve the name of the item equipped on the
+	 * character's familiar.
 	 *
-	 * @return The name of the item equipped on the character's familiar, <code>none</code> if no such item exists
+	 * @return The name of the item equipped on the character's familiar,
+	 * <code>none</code> if no such item exists
 	 */
 
 	public static final AdventureResult getFamiliarItem()
 	{
 		return KoLCharacter.currentFamiliar == null ? EquipmentRequest.UNEQUIP : KoLCharacter.currentFamiliar.getItem();
+	}
+
+	public static final AdventureResult lockedFamiliarItem()
+	{
+		return EquipmentManager.lockedFamiliarItem;
+	}
+
+	public static final boolean familiarItemLockable()
+	{
+		return FamiliarData.lockableItem( EquipmentManager.getFamiliarItem() );
+	}
+
+	public static final void lockFamiliarItem()
+	{
+		EquipmentManager.lockFamiliarItem( EquipmentManager.familiarItemLocked() );
+	}
+
+	public static final boolean familiarItemLocked()
+	{
+		return EquipmentManager.lockedFamiliarItem != EquipmentRequest.UNEQUIP;
+	}
+
+	public static final void lockFamiliarItem( boolean lock )
+	{
+		EquipmentManager.lockedFamiliarItem = lock ? EquipmentManager.getFamiliarItem() : EquipmentRequest.UNEQUIP;
+	}
+
+	public static final void lockFamiliarItem( FamiliarData familiar )
+	{
+		EquipmentManager.lockedFamiliarItem = familiar.getItem();
 	}
 
 	public static final int getFakeHands()
@@ -850,8 +892,8 @@ public class EquipmentManager
 	}
 
 	/**
-	 * Utility method which determines whether or not the equipment corresponding to the given outfit is already
-	 * equipped.
+	 * Utility method which determines whether or not the equipment
+	 * corresponding to the given outfit is already equipped.
 	 */
 
 	public static final boolean isWearingOutfit( final SpecialOutfit outfit )
@@ -912,7 +954,8 @@ public class EquipmentManager
 	}
 
 	/**
-	 * Utility method which determines the outfit ID the character is currently wearing
+	 * Utility method which determines the outfit ID the character is
+	 * currently wearing
 	 */
 
 	public static final SpecialOutfit currentOutfit()

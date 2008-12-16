@@ -56,12 +56,14 @@ public class FamiliarRequest
 
 	private final FamiliarData changeTo;
 	private final AdventureResult item;
+	private final boolean locking;
 
 	public FamiliarRequest()
 	{
 		super( "familiar.php" );
 		this.changeTo = null;
 		this.item = null;
+		this.locking = false;
 	}
 
 	public FamiliarRequest( final FamiliarData changeTo )
@@ -70,6 +72,7 @@ public class FamiliarRequest
 
 		this.changeTo = changeTo == null ? FamiliarData.NO_FAMILIAR : changeTo;
 		this.item = null;
+		this.locking = false;
 
 		if ( this.changeTo == FamiliarData.NO_FAMILIAR )
 		{
@@ -88,10 +91,20 @@ public class FamiliarRequest
 
 		this.changeTo = familiar;
 		this.item = item;
+		this.locking = false;
 
 		this.addFormField( "action", "equip" );
 		this.addFormField( "whichfam", String.valueOf( familiar.getId() ) );
 		this.addFormField( "whichitem", String.valueOf( item.getItemId() ) );
+	}
+
+	public FamiliarRequest( boolean locking )
+	{
+		super( "familiar.php" );
+		this.addFormField( "action", "lockequip" );
+		this.changeTo = null;
+		this.item = null;
+		this.locking = true;
 	}
 
 	public String getFamiliarChange()
@@ -101,7 +114,7 @@ public class FamiliarRequest
 
 	protected boolean retryOnTimeout()
 	{
-		return true;
+		return !this.locking;
 	}
 
 	public void run()
@@ -109,6 +122,14 @@ public class FamiliarRequest
 		if ( this.item != null )
 		{
 			KoLmafia.updateDisplay( "Equipping " + this.changeTo.getName() + " the " + this.changeTo.getRace() + " with " + this.item.getName() + "..." );
+			super.run();
+			return;
+		}
+
+		if ( this.locking )
+		{
+			String verb = EquipmentManager.familiarItemLocked() ? "Unlocking" : "Locking";
+			KoLmafia.updateDisplay( verb + " familiar item..." );
 			super.run();
 			return;
 		}
@@ -141,29 +162,65 @@ public class FamiliarRequest
 
 		EquipmentManager.updateEquipmentList( EquipmentManager.FAMILIAR );
 
-		// If you're not equipping a familiar, or your old familiar
-		// wasn't wearing something, or your new familiar can't equip
-		// the old item, then do nothing further.
+		// If we didn't have a familiar before or don't have one now,
+		// leave equipment alone.
 
-		if ( familiar == FamiliarData.NO_FAMILIAR )
+		if ( familiar == FamiliarData.NO_FAMILIAR || this.changeTo == FamiliarData.NO_FAMILIAR)
 		{
 			return;
 		}
 
-		if ( this.changeTo == FamiliarData.NO_FAMILIAR || this.changeTo.getId() == 59 )
+		// If we are switching to certain specialized familiars, don't
+		// steal any equipment from the old familiar
+
+		switch ( this.changeTo.getId() )
 		{
+		case 54:	// Comma Chameleon
+		case 59:	// Reassembled Blackbird
+		case 82:	// Mad Hatrack
+		case 92:	// Disembodied Hand
 			return;
 		}
 
 		AdventureResult item = familiar.getItem();
 
-		if ( item == EquipmentRequest.UNEQUIP || !this.changeTo.getItem().equals( EquipmentRequest.UNEQUIP ) || !this.changeTo.canEquip( item ) )
+		// If the old familiar wasn't wearing equipment, nothing to
+		// steal.
+
+		if ( item == EquipmentRequest.UNEQUIP )
 		{
 			return;
 		}
 
-		// In all other cases, a switch is probably in order.  Go ahead
-		// and make the item switch.
+		// If KoL itself switched equipment because it was locked,
+		// remove it from the old familiar and add it to the new one.
+
+		if ( item == EquipmentManager.lockedFamiliarItem() )
+		{
+			FamiliarRequest.unequipFamiliar( familiar.getId() );
+			if ( this.changeTo.canEquip( item ) )
+			{
+				FamiliarRequest.equipFamiliar( this.changeTo.getId(), item.getItemId() );
+			}
+			return;
+		}
+
+		// If the new familiar already has an item, leave it alone.
+
+		if ( !this.changeTo.getItem().equals( EquipmentRequest.UNEQUIP ) )
+		{
+			return;
+		}
+
+		// If the new familiar can't equip the old item, don't steal
+
+		if ( !this.changeTo.canEquip( item ) )
+		{
+			return;
+		}
+
+		// It's probably worthwhile to transfer the item from the old
+		// familiar to the new one. Do so.
 
 		KoLmafia.updateDisplay( familiar.getItem().getName() + " is better than " + this.changeTo.getItem().getName() + ".  Switching items..." );
 		( new EquipmentRequest( item, EquipmentManager.FAMILIAR ) ).run();
@@ -176,6 +233,11 @@ public class FamiliarRequest
 		if ( this.item != null )
 		{
 			KoLmafia.updateDisplay( "Familiar equipped." );
+		}
+		else if ( this.locking )
+		{
+                        String locked = EquipmentManager.familiarItemLocked() ? "locked" : "unlocked";
+			KoLmafia.updateDisplay( "Familiar item " + locked + "." );
 		}
 		else if ( this.changeTo == null )
 		{
@@ -210,9 +272,9 @@ public class FamiliarRequest
 				return true;
 			}
 
-                        int familiarId = StringUtilities.parseInt( familiarMatcher.group(1) );
-                        int itemId = StringUtilities.parseInt( familiarMatcher.group(2) );
-                        FamiliarRequest.equipFamiliar( familiarId, itemId );
+			int familiarId = StringUtilities.parseInt( familiarMatcher.group(1) );
+			int itemId = StringUtilities.parseInt( familiarMatcher.group(2) );
+			FamiliarRequest.equipFamiliar( familiarId, itemId );
 
 			return true;
 		}
@@ -225,40 +287,79 @@ public class FamiliarRequest
 				return true;
 			}
 
-                        int familiarId = StringUtilities.parseInt( familiarMatcher.group(1) );
-                        FamiliarRequest.unequipFamiliar( familiarId );
+			int familiarId = StringUtilities.parseInt( familiarMatcher.group(1) );
+			FamiliarRequest.unequipFamiliar( familiarId );
 
 			return true;
 		}
 
-		Matcher familiarMatcher = FamiliarRequest.EQUIP_PATTERN.matcher( urlString );
-		if ( familiarMatcher.find() )
+		if ( urlString.indexOf( "action=lockequip" ) != -1 )
 		{
-			FamiliarData changeTo = new FamiliarData( StringUtilities.parseInt( familiarMatcher.group( 1 ) ) );
-
-			// Special handling for the blackbird.  If
-			// the blackbird is equipped, then cache your
-			// earlier familiar so that as soon as you use
-			// the map, KoLmafia knows to change it back.
-
-			if ( changeTo.getId() == 59 )
+			if ( EquipmentManager.familiarItemLockable() )
 			{
-				Preferences.setString( "preBlackbirdFamiliar", KoLCharacter.getFamiliar().getRace() );
-			}
-
-			int index = KoLCharacter.getFamiliarList().indexOf( changeTo );
-
-			if ( index != -1 )
-			{
+				String verb= EquipmentManager.familiarItemLocked() ? "unlock" : "lock";
 				RequestLogger.updateSessionLog();
-				RequestLogger.updateSessionLog( "familiar " + KoLCharacter.getFamiliarList().get( index ).toString() );
-				if ( urlString.indexOf( "ajax=" ) != -1 )
-				{	// we're not going to see the familiar page, must change
-					// to the new familiar here.
-					KoLCharacter.setFamiliar( changeTo );
-				}
-				return true;
+				RequestLogger.updateSessionLog( "familiar " + verb );
 			}
+			return true;
+		}
+
+		Matcher familiarMatcher = FamiliarRequest.EQUIP_PATTERN.matcher( urlString );
+		if ( !familiarMatcher.find() )
+		{
+			return true;
+		}
+
+		int id = StringUtilities.parseInt( familiarMatcher.group( 1 ) );
+		FamiliarData changeTo = KoLCharacter.findFamiliar( id );
+
+		// If we don't actually have the new familiar, nothing to do.
+
+		if ( changeTo == null )
+		{
+			return true;
+		}
+
+		FamiliarData familiar = KoLCharacter.getFamiliar();
+
+		// Special handling for the blackbird. If the blackbird is
+		// equipped, then cache your earlier familiar so that as soon
+		// as you use the map, KoLmafia knows to change it back.
+
+		if ( id == 59 )
+		{
+			Preferences.setString( "preBlackbirdFamiliar", familiar.getRace() );
+		}
+
+		RequestLogger.updateSessionLog();
+		RequestLogger.updateSessionLog( "familiar " + changeTo.toString() );
+
+		// If we have a familiar item locked and the new familiar can
+		// equip it, it will be automatically transferred, so move it
+		// from the old familiar to the new familiar now
+
+		AdventureResult lockedItem = EquipmentManager.lockedFamiliarItem();
+
+		if ( lockedItem != EquipmentRequest.UNEQUIP )
+		{
+                        if ( changeTo.canEquip( lockedItem ) )
+                        {
+                                FamiliarRequest.unequipFamiliar( familiar.getId() );
+                                FamiliarRequest.equipFamiliar( changeTo.getId(), lockedItem.getItemId() );
+                                EquipmentManager.lockFamiliarItem( changeTo );
+                        }
+                        else
+                        {
+                                EquipmentManager.lockFamiliarItem( false );
+                        }
+		}
+
+		// If we're not going to see the familiar page, change to the
+		// new familiar here.
+
+		if ( urlString.indexOf( "ajax=" ) != -1 )
+		{
+			KoLCharacter.setFamiliar( changeTo );
 		}
 
 		return true;
@@ -266,26 +367,21 @@ public class FamiliarRequest
 
 	private static final void equipFamiliar( final int familiarId, final int itemId )
 	{
-		FamiliarData[] familiars = new FamiliarData[ KoLCharacter.getFamiliarList().size() ];
-		KoLCharacter.getFamiliarList().toArray( familiars );
+		FamiliarData familiar = KoLCharacter.findFamiliar( familiarId );
 
-		for ( int i = 0; i < familiars.length; ++i )
+		if ( familiar != null )
 		{
-			FamiliarData familiar = familiars[ i ];
-
-			if ( familiar.getId() == familiarId )
-			{
-				FamiliarRequest.equipFamiliar( familiar, itemId );
-				return;
-			}
+			FamiliarRequest.equipFamiliar( familiar, itemId );
 		}
 	}
 
 	private static final void equipFamiliar( FamiliarData familiar, final int itemId )
 	{
 		AdventureResult item = ItemPool.get( itemId, 1 );
+
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( "Equip " + familiar.getRace() + " with " + item.getName() );
+
 		familiar.setItem( item );
 	}
 
@@ -296,18 +392,10 @@ public class FamiliarRequest
 
 	private static final void unequipFamiliar( final int familiarId )
 	{
-		FamiliarData[] familiars = new FamiliarData[ KoLCharacter.getFamiliarList().size() ];
-		KoLCharacter.getFamiliarList().toArray( familiars );
-
-		for ( int i = 0; i < familiars.length; ++i )
+		FamiliarData familiar = KoLCharacter.findFamiliar( familiarId );
+		if ( familiar != null )
 		{
-			FamiliarData familiar = familiars[ i ];
-
-			if ( familiar.getId() == familiarId )
-			{
-				FamiliarRequest.unequipFamiliar( familiar );
-				return;
-			}
+			FamiliarRequest.unequipFamiliar( familiar );
 		}
 	}
 

@@ -2614,7 +2614,7 @@ public class KoLmafiaCLI
 	public static class Familiar
 		extends Command
 	{
-		{ usage = "[?] [list <filter>] | <species> | none - list or change familiar types"; }
+		{ usage = "[?] [list <filter>] | lock | unlock | <species> | none - list or change familiar types"; }
 		public void run( String cmd, String parameters )
 		{
 			if ( parameters.startsWith( "list" ) )
@@ -2636,6 +2636,31 @@ public class KoLmafiaCLI
 
 				RequestThread.postRequest( new FamiliarRequest( FamiliarData.NO_FAMILIAR ) );
 				return;
+			}
+			else if ( parameters.equalsIgnoreCase( "lock" ) )
+			{
+				if ( EquipmentManager.familiarItemLocked() )
+				{
+					KoLmafia.updateDisplay( "Familiar item already locked." );
+					return;
+				}
+				if ( !EquipmentManager.familiarItemLockable() )
+				{
+					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Familiar item can't be locked." );
+					return;
+				}
+				RequestThread.postRequest( new FamiliarRequest( true ) );
+                                return;
+			}
+			else if ( parameters.equalsIgnoreCase( "unlock" ) )
+			{
+				if ( !EquipmentManager.familiarItemLocked() )
+				{
+					KoLmafia.updateDisplay( "Familiar item already unlocked." );
+					return;
+				}
+				RequestThread.postRequest( new FamiliarRequest( true ) );
+                                return;
 			}
 			else if ( parameters.indexOf( "(no change)" ) != -1 )
 			{
