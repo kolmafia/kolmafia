@@ -1081,6 +1081,13 @@ public class ResultProcessor
 				RequestThread.postRequest( rowboatCreator );
 			}
 			break;
+
+		case ItemPool.DAS_BOOT:
+			if ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.DAMP_OLD_BOOT, 1 ) ) )
+			{
+				ResultProcessor.processItem( ItemPool.DAMP_OLD_BOOT, -1 );
+			}
+			break;
 		}
 	}
 	
