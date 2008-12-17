@@ -2312,7 +2312,10 @@ public class UseItemRequest
 
 		int itemCount = 1;
 
-		if ( urlString.indexOf( "multiuse.php" ) != -1 || urlString.indexOf( "skills.php" ) != -1 )
+		if ( urlString.indexOf( "multiuse.php" ) != -1 ||
+		     urlString.indexOf( "skills.php" ) != -1 ||
+		     urlString.indexOf( "inv_eat.php" ) != -1 ||
+		     urlString.indexOf( "inv_booze.php" ) != -1 )
 		{
 			Matcher quantityMatcher = UseItemRequest.QUANTITY_PATTERN.matcher( urlString );
 			if ( quantityMatcher.find() )
@@ -2380,12 +2383,11 @@ public class UseItemRequest
 
 		case KoLConstants.CONSUME_EAT:
 
-			int fullness = ItemDatabase.getFullness( name );
+			int fullness = ItemDatabase.getFullness( name ) * count;
 			if ( fullness > 0 && KoLCharacter.getFullness() + fullness <= KoLCharacter.getFullnessLimit() )
 			{
 				Preferences.setInteger( "currentFullness", KoLCharacter.getFullness() + fullness );
-				Preferences.setInteger( "munchiesPillsUsed", Math.max(
-					Preferences.getInteger( "munchiesPillsUsed" ) - 1, 0 ) );
+				Preferences.setInteger( "munchiesPillsUsed", Math.max( Preferences.getInteger( "munchiesPillsUsed" ) - 1, 0 ) );
 			}
 			break;
                 }
