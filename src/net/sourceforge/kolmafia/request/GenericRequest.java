@@ -262,11 +262,13 @@ public class GenericRequest
 	private static final void setLoginServer( final int serverIndex )
 	{
 		GenericRequest.KOL_HOST = GenericRequest.SERVERS[ serverIndex ][ 0 ];
+                String root = Preferences.getBoolean( "connectViaAddress" ) ?
+                        GenericRequest.SERVERS[ serverIndex ][ 1 ] :
+                        GenericRequest.KOL_HOST;
 
 		try
 		{
-			// GenericRequest.KOL_ROOT = new URL( "http", GenericRequest.SERVERS[ serverIndex ][ 1 ], 80, "/" );
-			GenericRequest.KOL_ROOT = new URL( "http", GenericRequest.KOL_HOST, 80, "/" );
+			GenericRequest.KOL_ROOT = new URL( "http", root, 80, "/" );
 		}
 		catch ( IOException e )
 		{

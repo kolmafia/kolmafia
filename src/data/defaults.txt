@@ -35,6 +35,7 @@ global	combatHotkey7
 global	combatHotkey8
 global	combatHotkey9
 global	commandLineNamespace
+global	connectViaAddress	false
 global	cookies.inventory
 global	createHackerSummons	true
 global	customizedTabs	false
