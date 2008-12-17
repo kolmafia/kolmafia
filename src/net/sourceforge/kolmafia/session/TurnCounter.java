@@ -130,30 +130,26 @@ public class TurnCounter
 
 	public static final TurnCounter getExpiredCounter( GenericRequest request )
 	{
-		KoLAdventure adventure = AdventureDatabase.getAdventureByURL( request.getURLString() );
+		String URL = request.getURLString();
+		KoLAdventure adventure = AdventureDatabase.getAdventureByURL( URL );
 
 		String adventureId;
 		int turnsUsed;
 
-		if ( adventure == null )
-		{
-			String adventureName = AdventureDatabase.getUnknownName( request.getURLString() );
-
-			if ( adventureName != null )
-			{
-				adventureId = "";
-				turnsUsed = 1;
-			}
-			else
-			{
-				adventureId = "";
-				turnsUsed = TurnCounter.getTurnsUsed( request );
-			}
-		}
-		else
+		if ( adventure != null )
 		{
 			adventureId = adventure.getAdventureId();
 			turnsUsed = adventure.getRequest().getAdventuresUsed();
+		}
+		else if ( AdventureDatabase.getUnknownName( URL ) != null )
+		{
+			adventureId = "";
+			turnsUsed = 1;
+		}
+		else
+		{
+			adventureId = "";
+			turnsUsed = TurnCounter.getTurnsUsed( request );
 		}
 
 		if ( turnsUsed == 0 )
@@ -303,6 +299,16 @@ public class TurnCounter
 		}
 
 		String path = request.getPath();
+
+		if ( path.equals( "adventure.php" ) )
+		{
+			// Assume unknown adventure locations take 1 turn each
+			// This is likely not true under the Sea, for example,
+			// but it's as good a guess as any we can make.
+
+			return 1;
+		}
+
 		int turnMultiplier = 0;
 
 		if ( path.equals( "cook.php" ) )
