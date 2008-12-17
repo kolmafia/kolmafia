@@ -577,6 +577,7 @@ public class ItemPool
 	public static final int GIFTH = 3430;
 	public static final int SPICE_MELANGE = 3433;
 	public static final int BATHYSPHERE = 3470;
+	public static final int DAMP_OLD_BOOT = 3471;
 	public static final int LARP_MEMBERSHIP_CARD = 3506;
 	public static final int STICKER_BOOK = 3507;
 	public static final int STICKER_SWORD = 3508;
