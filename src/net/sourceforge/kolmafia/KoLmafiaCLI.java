@@ -5683,11 +5683,11 @@ public class KoLmafiaCLI
 				continue;
 			}
 
-			irequest = CreateItemRequest.getInstance( currentMatch.getItemId() );
+			irequest = CreateItemRequest.getInstance( currentMatch );
 
 			if ( irequest == null )
 			{
-				switch ( ConcoctionDatabase.getMixingMethod( currentMatch.getItemId() ) )
+				switch ( ConcoctionDatabase.getMixingMethod( currentMatch ) )
 				{
 				case KoLConstants.COOK:
 				case KoLConstants.COOK_REAGENT:

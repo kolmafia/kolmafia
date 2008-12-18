@@ -529,11 +529,28 @@ public class AdventureResult
 			return new AdventureResult( AdventureResult.SUBSTATS, gained );
 		}
 
-		StringTokenizer parsedItem = new StringTokenizer( s, "()" );
-		String parsedItemName = parsedItem.nextToken().trim();
-		String parsedItemCount = parsedItem.hasMoreTokens() ? parsedItem.nextToken() : "1";
+		return AdventureResult.parseItem( s, false );
+	}
 
-		return new AdventureResult( parsedItemName, StringUtilities.parseInt( parsedItemCount ) );
+	public static final AdventureResult parseItem( final String s, final boolean pseudoAllowed )
+	{
+		StringTokenizer parsedItem = new StringTokenizer( s, "()" );
+
+		String name = parsedItem.nextToken().trim();
+		int count = parsedItem.hasMoreTokens() ? StringUtilities.parseInt( parsedItem.nextToken() ) : 1;
+
+		if ( !pseudoAllowed )
+		{
+			return new AdventureResult( name, count );
+		}
+
+                // Hand craft an item Adventure Result, regardless of the name
+		AdventureResult item = new AdventureResult( AdventureResult.NO_PRIORITY, name );
+		item.priority = AdventureResult.ITEM_PRIORITY;
+		item.itemId = ItemDatabase.getItemId( name, 1 );
+		item.count[0] = count;
+
+		return item;
 	}
 
 	/**

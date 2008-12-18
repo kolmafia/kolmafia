@@ -63,6 +63,7 @@ import net.sourceforge.kolmafia.request.HiddenCityRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.SellStuffRequest;
+import net.sourceforge.kolmafia.request.SushiRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.session.PvpManager;
@@ -362,6 +363,11 @@ public abstract class StaticEntity
 		if ( ( location.indexOf( "multiuse.php" ) != -1 || location.indexOf( "skills.php" ) != -1 ) && location.indexOf( "useitem" ) != -1 )
 		{
 			UseItemRequest.parseConsumption( responseText, false );
+		}
+
+		if ( location.startsWith( "sushi.php" ) )
+		{
+			SushiRequest.parseConsumption( location, responseText );
 		}
 
 		if ( location.indexOf( "hermit.php" ) != -1 )

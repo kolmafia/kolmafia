@@ -351,7 +351,7 @@ public class ItemFinder
 				ConcoctionDatabase.refreshConcoctions();
 			}
 
-			CreateItemRequest instance = CreateItemRequest.getInstance( firstMatch.getItemId() );
+			CreateItemRequest instance = CreateItemRequest.getInstance( firstMatch );
 			matchCount = instance == null ? 0 : instance.getQuantityPossible();
 
 			if ( includeNPCs )

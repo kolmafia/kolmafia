@@ -277,6 +277,13 @@ pear tart	2	pie crust	pear
 peach pie	2	pie crust	peach
 
 
+# Sushi
+
+beefy nigiri	30	beefy fish meat	white rice
+glistening nigiri	30	glistening fish meat	white rice
+slick nigiri	30	slick fish meat	white rice
+
+
 # Booze requiring access to L11 or L12 quest areas
 
 shot of blackberry schnapps	3	fermenting powder	blackberry

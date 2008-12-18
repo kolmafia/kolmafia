@@ -1604,7 +1604,7 @@ public abstract class KoLmafia
 		for ( int i = 0; i < KoLConstants.conditions.size(); ++i )
 		{
 			items[ i ] = (AdventureResult) KoLConstants.conditions.get( i );
-			creatables[ i ] = CreateItemRequest.getInstance( items[ i ].getItemId() );
+			creatables[ i ] = CreateItemRequest.getInstance( items[ i ] );
 		}
 
 		// Turn on auto-attack in order to save server hits if the
@@ -1957,7 +1957,7 @@ public abstract class KoLmafia
 			}
 
 			// Otherwise, accept any COMBINE recipe
-			if ( ConcoctionDatabase.getMixingMethod( itemId ) == KoLConstants.COMBINE )
+			if ( ConcoctionDatabase.getMixingMethod( currentItem ) == KoLConstants.COMBINE )
 			{
 				untinkerItems.add( currentItem );
 			}
@@ -3358,7 +3358,7 @@ public abstract class KoLmafia
 					continue;
 				}
 
-				if ( canUntinker && ConcoctionDatabase.getMixingMethod( currentItem.getItemId() ) == KoLConstants.COMBINE )
+				if ( canUntinker && ConcoctionDatabase.getMixingMethod( currentItem ) == KoLConstants.COMBINE )
 				{
 					RequestThread.postRequest( new UntinkerRequest( currentItem.getItemId() ) );
 					madeUntinkerRequest = true;

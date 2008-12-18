@@ -94,5 +94,6 @@ bl	200	Manual of Transcendent Olfaction
 # Things you can buy with sand dollars
 
 bs	5	sea grease
+bs	50	map to Madness Reef
 bs	100	damp old boot
 bs	300	sushi-rolling mat

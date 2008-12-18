@@ -60,12 +60,14 @@ public class Concoction
 	private static final int SPLEEN_PRIORITY = 3;
 	private static final int NO_PRIORITY = 0;
 
-	private final String name;
+	private String name;
+	private int price;
+
 	public final AdventureResult concoction;
 
 	private final int yield;
 	private final int mixingMethod;
-	private final int sortOrder;
+	private int sortOrder;
 
 	private final boolean isTorsoItem;
 	private final boolean isReagentPotion;
@@ -74,8 +76,6 @@ public class Concoction
 
 	private boolean isMarking;
 	private boolean isCalculating;
-
-	private final int price;
 
 	private final List ingredients;
 	private AdventureResult[] ingredientArray;
@@ -89,49 +89,8 @@ public class Concoction
 	public int total;
 	public int visibleTotal;
 
-	private final int fullness, inebriety, spleenhit;
-	private final float mainstatGain;
-
-	public Concoction( final String name, final int price )
-	{
-		this.name = name;
-		this.concoction = null;
-		this.yield = 1;
-
-		this.mixingMethod = KoLConstants.NOCREATE;
-		this.isTorsoItem = false;
-		this.isReagentPotion = false;
-		this.wasPossible = false;
-
-		this.ingredients = new ArrayList();
-		this.ingredientArray = new AdventureResult[ 0 ];
-
-		this.fullness = ItemDatabase.getFullness( name );
-		this.inebriety = ItemDatabase.getInebriety( name );
-		this.spleenhit = ItemDatabase.getSpleenHit( name );
-		this.mainstatGain = StringUtilities.parseFloat( 
-			KoLCharacter.isMuscleClass() ? ItemDatabase.getMuscleRange( name )
-				: KoLCharacter.isMysticalityClass() ? ItemDatabase.getMysticalityRange( name )
-					: ItemDatabase.getMoxieRange( name ) );
-
-		int consumeType = this.fullness > 0 ? KoLConstants.CONSUME_EAT : this.inebriety > 0 ? KoLConstants.CONSUME_DRINK : KoLConstants.CONSUME_USE;
-
-		switch ( consumeType )
-		{
-		case KoLConstants.CONSUME_EAT:
-			this.sortOrder = this.fullness > 0 ? FOOD_PRIORITY : NO_PRIORITY;
-			break;
-		case KoLConstants.CONSUME_DRINK:
-			this.sortOrder = this.inebriety > 0 ? BOOZE_PRIORITY : NO_PRIORITY;
-			break;
-		default:
-			this.sortOrder = this.spleenhit > 0 ? SPLEEN_PRIORITY : NO_PRIORITY;
-			break;
-		}
-
-		this.price = price;
-		this.resetCalculations();
-	}
+	private int fullness, inebriety, spleenhit;
+	private float mainstatGain;
 
 	public Concoction( final AdventureResult concoction, final int mixingMethod )
 	{
@@ -140,11 +99,20 @@ public class Concoction
 		this.wasPossible = false;
 		this.mixingMethod = mixingMethod;
 
-		int consumeType =
-			concoction == null ? 0 : ItemDatabase.getConsumptionType( concoction.getItemId() );
-		
-		if ( concoction != null )
+		if ( concoction == null )
 		{
+			this.yield = 1;
+			this.name = "unknown";
+			this.isTorsoItem = false;
+			this.isReagentPotion = false;
+			this.fullness = 0;
+			this.inebriety = 0;
+			this.spleenhit = 0;
+			this.mainstatGain = 0.0f;
+		}
+		else
+		{
+			int consumeType = ItemDatabase.getConsumptionType( concoction.getItemId() );
 			this.yield = Math.max( concoction.getCount(), 1 );
 			this.name = concoction.getName();
 			this.isTorsoItem = consumeType == KoLConstants.EQUIP_SHIRT;
@@ -152,41 +120,43 @@ public class Concoction
 			this.isReagentPotion =
 				(this.mixingMethod == KoLConstants.COOK_REAGENT || this.mixingMethod == KoLConstants.SUPER_REAGENT) &&
 				(consumeType == KoLConstants.CONSUME_USE || consumeType == KoLConstants.CONSUME_MULTIPLE);
-		}
-		else
-		{
-			this.yield = 1;
-			this.name = "unknown";
-			
-			this.isTorsoItem = false;
-			this.isReagentPotion = false;
-		}
 
-		this.fullness = ItemDatabase.getFullness( this.name );
-		this.inebriety = ItemDatabase.getInebriety( this.name );
-		this.spleenhit = ItemDatabase.getSpleenHit( this.name );
-		this.mainstatGain = StringUtilities.parseFloat( 
-			KoLCharacter.isMuscleClass() ? ItemDatabase.getMuscleRange( this.name )
-				: KoLCharacter.isMysticalityClass() ? ItemDatabase.getMysticalityRange( this.name )
-					: ItemDatabase.getMoxieRange( this.name ) );
+			this.setConsumptionData();
+		}
 
 		this.ingredients = new ArrayList();
 		this.ingredientArray = new AdventureResult[ 0 ];
 
-		switch ( consumeType )
-		{
-		case KoLConstants.CONSUME_EAT:
-			this.sortOrder = this.fullness > 0 ? FOOD_PRIORITY : NO_PRIORITY;
-			break;
-		case KoLConstants.CONSUME_DRINK:
-			this.sortOrder = this.inebriety > 0 ? BOOZE_PRIORITY : NO_PRIORITY;
-			break;
-		default:
-			this.sortOrder = this.spleenhit > 0 ? SPLEEN_PRIORITY : NO_PRIORITY;
-			break;
-		}
-
 		this.price = -1;
+
+		this.resetCalculations();
+	}
+
+	public Concoction( final String name, final int price )
+	{
+		this( (AdventureResult) null, KoLConstants.NOCREATE );
+
+		this.name = name;
+		this.price = price;
+
+		this.setConsumptionData();
+	}
+
+	private void setConsumptionData()
+	{
+		this.fullness = ItemDatabase.getFullness( this.name );
+		this.inebriety = ItemDatabase.getInebriety( this.name );
+		this.spleenhit = ItemDatabase.getSpleenHit( this.name );
+
+		this.sortOrder = this.fullness > 0 ? FOOD_PRIORITY :
+			this.inebriety > 0 ? BOOZE_PRIORITY :
+			this.spleenhit > 0 ? SPLEEN_PRIORITY :
+			NO_PRIORITY;
+
+		String range = KoLCharacter.isMuscleClass() ? ItemDatabase.getMuscleRange( this.name ) :
+			KoLCharacter.isMysticalityClass() ? ItemDatabase.getMysticalityRange( this.name ) :
+			ItemDatabase.getMoxieRange( this.name );
+		this.mainstatGain = StringUtilities.parseFloat( range );
 	}
 
 	public boolean usesIngredient( int itemId )
@@ -392,6 +362,37 @@ public class Concoction
 	public int getSpleenHit()
 	{
 		return this.spleenhit;
+	}
+
+	public boolean hasIngredients( final AdventureResult[] ingredients )
+	{
+		AdventureResult[] ingredientTest = this.ingredientArray;
+		if ( ingredientTest.length != ingredients.length )
+		{
+			return false;
+		}
+
+		int[] ingredientTestIds = new int[ ingredients.length ];
+		for ( int j = 0; j < ingredientTestIds.length; ++j )
+		{
+			ingredientTestIds[ j ] = ingredientTest[ j ].getItemId();
+		}
+
+		boolean foundMatch = true;
+		for ( int j = 0; j < ingredients.length && foundMatch; ++j )
+		{
+			foundMatch = false;
+			for ( int k = 0; k < ingredientTestIds.length && !foundMatch; ++k )
+			{
+				foundMatch |= ingredients[ j ].getItemId() == ingredientTestIds[ k ];
+				if ( foundMatch )
+				{
+					ingredientTestIds[ k ] = -1;
+				}
+			}
+		}
+
+		return foundMatch;
 	}
 
 	public void queue( final LockableListModel globalChanges, final ArrayList localChanges, final int amount )
