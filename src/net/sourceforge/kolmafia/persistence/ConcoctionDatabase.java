@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Stack;
 
@@ -128,16 +129,14 @@ public class ConcoctionDatabase
 			StaticEntity.printStackTrace( e );
 		}
 
-		Concoction current;
-		int count = ConcoctionPool.count();
+		// Add all concoctions to usable list
 
-		for ( int i = 0; i < count; ++i )
+		Iterator it = ConcoctionPool.iterator();
+
+		while ( it.hasNext() )
 		{
-			current = ConcoctionPool.get( i );
-			if ( current != null )
-			{
-				ConcoctionDatabase.usableList.add( current );
-			}
+			Concoction current = (Concoction) it.next();
+			ConcoctionDatabase.usableList.add( current );
 		}
 
 		ConcoctionDatabase.usableList.sort();
@@ -154,19 +153,20 @@ public class ConcoctionDatabase
 		boolean bogus = false;
 
 		String name = data[ 0 ];
-		AdventureResult item = AdventureResult.parseResult( name );
+		int mixingMethod = StringUtilities.parseInt( data[ 1 ] );
+
+		AdventureResult item = AdventureResult.parseItem( name, true );
 		int itemId = item.getItemId();
 
-		if ( itemId <= 0 )
-		{
-			RequestLogger.printLine( "Unknown concoction: " + name );
-			bogus = true;
-		}
-
-		int mixingMethod = StringUtilities.parseInt( data[ 1 ] );
 		if ( mixingMethod <= 0 || mixingMethod >= KoLConstants.METHOD_COUNT )
 		{
 			RequestLogger.printLine( "Unknown mixing method (" + mixingMethod + ") for concoction: " + name );
+			bogus = true;
+		}
+
+		if ( itemId < 0 && !ConcoctionDatabase.pseudoItemMixingMethod( mixingMethod ) )
+		{
+			RequestLogger.printLine( "Unknown concoction: " + name );
 			bogus = true;
 		}
 
@@ -193,8 +193,13 @@ public class ConcoctionDatabase
 				concoction.addIngredient( ingredients[ i ] );
 			}
 
-			ConcoctionPool.set( itemId, concoction );
+			ConcoctionPool.set( concoction );
 		}
+	}
+
+	private static boolean pseudoItemMixingMethod( final int mixingMethod )
+	{
+		return mixingMethod == KoLConstants.SUSHI;
 	}
 
 	public static final boolean isKnownCombination( final AdventureResult[] ingredients )
@@ -271,40 +276,12 @@ public class ConcoctionDatabase
 			}
 		}
 
-		int[] ingredientTestIds;
-		AdventureResult[] ingredientTest;
+		Iterator it = ConcoctionPool.iterator();
 
-		int count = ConcoctionPool.count();
-
-		for ( int i = 0; i < count; ++i )
+		while ( it.hasNext() )
 		{
-			ingredientTest = ConcoctionPool.get( i ).getIngredients();
-			if ( ingredientTest.length != ingredients.length )
-			{
-				continue;
-			}
-
-			ingredientTestIds = new int[ ingredients.length ];
-			for ( int j = 0; j < ingredientTestIds.length; ++j )
-			{
-				ingredientTestIds[ j ] = ingredientTest[ j ].getItemId();
-			}
-
-			boolean foundMatch = true;
-			for ( int j = 0; j < ingredients.length && foundMatch; ++j )
-			{
-				foundMatch = false;
-				for ( int k = 0; k < ingredientTestIds.length && !foundMatch; ++k )
-				{
-					foundMatch |= ingredients[ j ].getItemId() == ingredientTestIds[ k ];
-					if ( foundMatch )
-					{
-						ingredientTestIds[ k ] = -1;
-					}
-				}
-			}
-
-			if ( foundMatch )
+			Concoction current = (Concoction) it.next();
+			if ( current.hasIngredients( ingredients ) )
 			{
 				return true;
 			}
@@ -568,12 +545,24 @@ public class ConcoctionDatabase
 			}
 		}
 
-		// If the item isn't available from restaurants, use the normal
-		// item acquisition methods.
+		// If it doesn't have a price, it's not from a store
 
 		if ( c.getPrice() <= 0 )
 		{
-			request = new UseItemRequest( c.getItem().getInstance( quantity ) );
+			AdventureResult concoction = c.getItem();
+
+			// If concoction is a normal item, use normal item
+			// acquisition methods.
+
+			if ( concoction.getItemId() > 0 )
+			{
+				request = new UseItemRequest( concoction.getInstance( quantity ) );
+				RequestThread.postRequest( request );
+				return;
+			}
+
+			// Otherwise, making item will consume it.
+			request = CreateItemRequest.getInstance( concoction.getInstance( quantity ) );
 			RequestThread.postRequest( request );
 			return;
 		}
@@ -751,16 +740,12 @@ public class ConcoctionDatabase
 		// actually necessary, it's a good safety and doesn't use up
 		// that much CPU time.
 
-		Concoction item;
-		int count = ConcoctionPool.count();
+		Iterator it = ConcoctionPool.iterator();
 
-		for ( int i = 1; i < count; ++i )
+		while ( it.hasNext() )
 		{
-			item = ConcoctionPool.get( i );
-			if ( item != null )
-			{
-				item.resetCalculations();
-			}
+			Concoction item = (Concoction) it.next();
+			item.resetCalculations();
 		}
 
 		// Make assessment of availability of mixing methods.
@@ -773,13 +758,11 @@ public class ConcoctionDatabase
 		// Next, do calculations on all mixing methods which cannot
 		// be created at this time.
 
-		for ( int i = 1; i < count; ++i )
+		it = ConcoctionPool.iterator();
+
+		while ( it.hasNext() )
 		{
-			item = ConcoctionPool.get( i );
-			if ( item == null )
-			{
-				continue;
-			}
+			Concoction item = (Concoction) it.next();
 
 			AdventureResult concoction = item.concoction;
 			if ( concoction == null )
@@ -799,13 +782,11 @@ public class ConcoctionDatabase
 
 		ConcoctionDatabase.cachePermitted( availableIngredients );
 
-		for ( int i = 1; i < count; ++i )
+		it = ConcoctionPool.iterator();
+
+		while ( it.hasNext() )
 		{
-			item = ConcoctionPool.get( i );
-			if ( item == null )
-			{
-				continue;
-			}
+			Concoction item = (Concoction) it.next();
 
 			AdventureResult concoction = item.concoction;
 			if ( concoction == null )
@@ -839,10 +820,13 @@ public class ConcoctionDatabase
 		// created any other way, making sure that it's a permitted
 		// mixture before doing the calculation.
 
-		for ( int i = 1; i < count; ++i )
+		it = ConcoctionPool.iterator();
+
+		while ( it.hasNext() )
 		{
-			item = ConcoctionPool.get( i );
-			if ( item != null && item.toString() != null && item.creatable > -1 )
+			Concoction item = (Concoction) it.next();
+
+			if ( item.creatable > -1 )
 			{
 				item.calculate( availableIngredients );
 			}
@@ -857,19 +841,25 @@ public class ConcoctionDatabase
 		boolean considerPulls = !KoLCharacter.canInteract() && !KoLCharacter.isHardcore() &&
 			ItemManageFrame.getPullsBudgeted() - ConcoctionDatabase.queuedPullsUsed > 0;
 
-		for ( int i = 1; i < count; ++i )
+		it = ConcoctionPool.iterator();
+
+		while ( it.hasNext() )
 		{
-			item = ConcoctionPool.get( i );
-			if ( item == null )
+			Concoction item = (Concoction) it.next();
+			
+			AdventureResult ar = item.getItem();
+			if ( ar == null )
 			{
 				continue;
 			}
-			
+
+			int itemId = ar.getItemId();
+
 			int pullable = 0;
-			if ( considerPulls && item.getPrice() <= 0 &&
-				ItemDatabase.meetsLevelRequirement( item.getName() ) )
+
+			if ( considerPulls && itemId > 0 && item.getPrice() <= 0 &&
+			     ItemDatabase.meetsLevelRequirement( item.getName() ) )
 			{
-				AdventureResult ar = ItemPool.get( i, 1 );
 				pullable = Math.min ( ar.getCount( KoLConstants.storage ) - item.queuedPulls,
 					ItemManageFrame.getPullsBudgeted() - ConcoctionDatabase.queuedPullsUsed );
 				if ( pullable > 0 )
@@ -878,7 +868,8 @@ public class ConcoctionDatabase
 				}
 			}
 
-			instance = CreateItemRequest.getInstance( i, false );
+			instance = CreateItemRequest.getInstance( ar );
+
 			if ( instance == null )
 			{
 				continue;
@@ -1208,6 +1199,11 @@ public class ConcoctionDatabase
 		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.MALUS ] = KoLCharacter.canUseMalus();
 		ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.MALUS ] = 0;
 
+		// You can make Sushi if you have a sushi-rolling mat
+
+		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.SUSHI ] = InventoryManager.hasItem( ItemPool.SUSHI_ROLLING_MAT );
+		ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.SUSHI ] = 0;
+
 		// Now, go through all the cached adventure usage values and if
 		// the number of adventures left is zero and the request requires
 		// adventures, it is not permitted.
@@ -1241,20 +1237,35 @@ public class ConcoctionDatabase
 		return item == null ? KoLConstants.NOCREATE : item.getMixingMethod();
 	}
 
+	public static final int getMixingMethod( final AdventureResult ar )
+	{
+		Concoction item = ConcoctionPool.get( ar.getName() );
+		return item == null ? KoLConstants.NOCREATE : item.getMixingMethod();
+	}
+
 	/**
-	 * Returns the item Ids of the ingredients for the given item. Note that if there are no ingredients, then
-	 * <code>null</code> will be returned instead.
+	 * Returns the item Ids of the ingredients for the given item. Note
+	 * that if there are no ingredients, then <code>null</code> will be
+	 * returned instead.
 	 */
 
 	public static final AdventureResult[] getIngredients( final int itemId )
+	{
+		return ConcoctionDatabase.getIngredients( ConcoctionDatabase.getStandardIngredients( itemId ) );
+	}
+
+	public static final AdventureResult[] getIngredients( final String name )
+	{
+		return ConcoctionDatabase.getIngredients( ConcoctionDatabase.getStandardIngredients( name ) );
+	}
+
+	private static final AdventureResult[] getIngredients( AdventureResult[] ingredients )
 	{
 		List availableIngredients = ConcoctionDatabase.getAvailableIngredients();
 
 		// Ensure that you're retrieving the same ingredients that
 		// were used in the calculations.  Usually this is the case,
 		// but ice-cold beer and ketchup are tricky cases.
-
-		AdventureResult[] ingredients = ConcoctionDatabase.getStandardIngredients( itemId );
 
 		for ( int i = 0; i < ingredients.length; ++i )
 		{
@@ -1283,7 +1294,16 @@ public class ConcoctionDatabase
 
 	public static final AdventureResult[] getStandardIngredients( final int itemId )
 	{
-		Concoction item = ConcoctionPool.get( itemId );
+		return ConcoctionDatabase.getStandardIngredients( ConcoctionPool.get( itemId ) );
+	}
+
+	public static final AdventureResult[] getStandardIngredients( final String name )
+	{
+		return ConcoctionDatabase.getStandardIngredients( ConcoctionPool.get( name ) );
+	}
+
+	public static final AdventureResult[] getStandardIngredients( final Concoction item )
+	{
 		return item == null ? ConcoctionDatabase.NO_INGREDIENTS : item.getIngredients();
 	}
 

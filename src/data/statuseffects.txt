@@ -581,3 +581,4 @@
 580	Yuletide Mutations	dna.gif	fc7d6c4da83c00b8d1237e45f985c050	use 1 unstable DNA
 581	Amorphous Cheer	blobcookie.gif	c231efaf4c038ee84154112b4796e099	eat 1 blob-shaped Crimbo cookie
 582	In Vino Vires	grapes.gif	f2406fa59f6076fa20ed17d6f45c177f	drink 1 canteen of wine
+583	Yuletide Industry	limboswafer.gif	0d1f6ff4bf9945933408bc6f311b1f31	eat 1 <i>limbos</i> gingerbread

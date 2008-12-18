@@ -34,6 +34,9 @@
 package net.sourceforge.kolmafia.objectpool;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.TreeMap;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -43,21 +46,52 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 public class ConcoctionPool
 {
-	private static final ConcoctionArray concoctionCache = new ConcoctionArray();
+	private static final TreeMap map = new TreeMap();
+	private static Collection values = null;
+	private static final ConcoctionArray cache = new ConcoctionArray();
 
-	public static int count()
+	static
 	{
-		return concoctionCache.size();
+		// Pre-set concoctions for all items.
+
+		int maxItemId = ItemDatabase.maxItemId();
+		for ( int i = 0; i <= maxItemId; ++i )
+		{
+			AdventureResult ar = ItemDatabase.getItemName( i ) == null ? null : ItemPool.get( i, 1 );
+			Concoction c = new Concoction( ar, KoLConstants.NOCREATE );
+			ConcoctionPool.set( c );
+		}
 	}
 
 	public static Concoction get( int itemId )
 	{
-		return concoctionCache.get( itemId );
+		return ConcoctionPool.cache.get( itemId );
 	}
 
-	public static void set( int itemId, Concoction c )
+	public static Concoction get( final String name )
 	{
-		concoctionCache.set( itemId, c );
+		return (Concoction) ConcoctionPool.map.get( name );
+	}
+
+	public static void set( final Concoction c )
+	{
+		ConcoctionPool.map.put( c.getName(), c );
+		ConcoctionPool.values = null;
+
+		int itemId = c.getItemId();
+		if ( itemId >= 0)
+		{
+			ConcoctionPool.cache.set( itemId, c );
+		}
+	}
+
+	public static Iterator iterator()
+	{
+		if ( ConcoctionPool.values == null )
+		{
+			ConcoctionPool.values = ConcoctionPool.map.values();
+		}
+		return ConcoctionPool.values.iterator();
 	}
 
 	/**
@@ -66,12 +100,12 @@ public class ConcoctionPool
 
 	public static final int findConcoction( final int mixingMethod, final int itemId )
 	{
-		int count = concoctionCache.size();
+		int count = ConcoctionPool.cache.size();
 		AdventureResult ingredient = ItemPool.get( itemId, 1 );
 
 		for ( int i = 0; i < count; ++i )
 		{
-			Concoction concoction = concoctionCache.get( i );
+			Concoction concoction = ConcoctionPool.cache.get( i );
 			if ( concoction == null || concoction.getMixingMethod() != mixingMethod )
 			{
 				continue;
@@ -95,22 +129,23 @@ public class ConcoctionPool
 	}
 
 	/**
-	 * Internal class which functions exactly an array of concoctions, except it uses "sets" and "gets" like a list.
-	 * This could be done with generics (Java 1.5) but is done like this so that we get backwards compatibility.
+	 * Internal class which functions exactly an array of concoctions,
+	 * except it uses "sets" and "gets" like a list.
+	 *
+	 * This could be done with generics (Java 1.5) but is done like this so
+	 * that we get backwards compatibility.
 	 */
 
 	private static class ConcoctionArray
 	{
-		private final ArrayList internalList = new ArrayList();
+		private final ArrayList internalList = new ArrayList( ItemDatabase.maxItemId() );
 
 		public ConcoctionArray()
 		{
-			int maxItemId = ItemDatabase.maxItemId();
-			for ( int i = 0; i <= maxItemId; ++i )
+			int max = ItemDatabase.maxItemId();
+			for ( int i = 0; i <= max; ++i )
 			{
-				this.internalList.add( new Concoction(
-					ItemDatabase.getItemName( i ) == null ? null : ItemPool.get( i, 1 ),
-					KoLConstants.NOCREATE ) );
+				this.internalList.add( null );
 			}
 		}
 

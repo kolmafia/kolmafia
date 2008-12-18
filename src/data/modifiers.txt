@@ -572,6 +572,7 @@ eXtreme meat crossbow	Moxie: +7
 eXtreme meat staff	Mysticality: +7
 eXtreme meat sword	Muscle: +7
 eggbeater	Spell Damage: +2
+# elven whittling knife
 # fetus-smashing club
 filthy pestle	Spell Damage: +7
 fire poi	Hot Damage: +15, Moxie: +3
@@ -1752,7 +1753,7 @@ Hot Blooded	Hot Damage: +10, Muscle Percent: +30, Mysticality Percent: +10, Moxi
 Hyperbolic Hypothermia	Cold Damage: +20
 Hyperoffended	Sleaze Resistance: +9
 Hyphemariffic	Spooky Resistance: +9
-In Vino Veres	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
+In Vino Vires	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 Incredibly Hulking	Muscle Percent: +200
 Inspired!	Mysticality Percent: +20, Moxie Percent: -20
 Insulated Trousers	Cold Resistance: +1
@@ -1935,6 +1936,7 @@ Wreathed in Merriment	Moxie Percent: +10
 Wussiness	Muscle: -3
 Your #1 Problem	Muscle: -20, Mysticality: -20, Moxie: -20, Item Drop: +100
 Your Cupcake Senses Are Tingling	Meat Drop: +30
+Yuletide Industry	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 Yuletide Sappiness	Mysticality Percent: +10
 
 # Passive Skills section of modifiers.txt
@@ -2120,6 +2122,7 @@ eXtreme Cold-Weather Gear	Cold Resistance: +3
 # Never runs out of pencils!
 # On Critical:  Deals 50-60 additional damage
 # On Critical: Insanity!
+# On Critical: Whittles enemy down
 # Prevents Level Teleporting
 # Protects the wearer from poison
 # Provides Mostly Accurate Battle Statistics During Fights

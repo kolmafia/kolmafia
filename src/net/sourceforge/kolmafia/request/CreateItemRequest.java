@@ -35,6 +35,8 @@ package net.sourceforge.kolmafia.request;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -58,7 +60,7 @@ public class CreateItemRequest
 	implements Comparable
 {
 	private static final GenericRequest REDIRECT_REQUEST = new GenericRequest( "inventory.php?action=message" );
-	private static final CreationRequestArray ALL_CREATIONS = new CreationRequestArray();
+	private static final CreationRequestMap ALL_CREATIONS = new CreationRequestMap();
 
 	public static final Pattern ITEMID_PATTERN = Pattern.compile( "item\\d?=(\\d+)" );
 	public static final Pattern WHICHITEM_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
@@ -106,6 +108,17 @@ public class CreateItemRequest
 		this.name = ItemDatabase.getItemName( itemId );
 		this.mixingMethod = KoLConstants.SUBCLASS;
 		this.calculateYield();
+	}
+
+	public CreateItemRequest( final String formSource, final String name )
+	{
+		super( formSource );
+
+		this.itemId = -1;
+		this.name = name;
+		this.mixingMethod = KoLConstants.SUBCLASS;
+		this.yield = 1;
+		this.createdItem = new AdventureResult( name, 1, false );
 	}
 
 	/**
@@ -232,26 +245,19 @@ public class CreateItemRequest
 		}
 	}
 
-	public static final CreateItemRequest getInstance( final AdventureResult item )
-	{
-		CreateItemRequest ir = CreateItemRequest.getInstance( item.getItemId(), true );
-		if ( ir == null )
-		{
-			return null;
-		}
-
-		ir.setQuantityNeeded( item.getCount() );
-		return ir;
-	}
-
 	public static final CreateItemRequest getInstance( final int itemId )
 	{
-		return CreateItemRequest.getInstance( itemId, true );
+		return CreateItemRequest.getInstance( ItemPool.get( itemId, 1 ), true );
 	}
 
-	public static final CreateItemRequest getInstance( final int itemId, final boolean returnNullIfNotPermitted )
+	public static final CreateItemRequest getInstance( final AdventureResult item )
 	{
-		CreateItemRequest instance = CreateItemRequest.ALL_CREATIONS.get( itemId );
+		return CreateItemRequest.getInstance( item, true );
+	}
+
+	public static final CreateItemRequest getInstance( final AdventureResult item, final boolean returnNullIfNotPermitted )
+	{
+		CreateItemRequest instance = CreateItemRequest.ALL_CREATIONS.get( item.getName() );
 
 		if ( instance == null )
 		{
@@ -262,29 +268,29 @@ public class CreateItemRequest
 		// then return null to indicate that it is not
 		// possible to create the item.
 
-		if ( returnNullIfNotPermitted )
+		if ( returnNullIfNotPermitted &&
+		     !ConcoctionDatabase.isPermittedMethod( ConcoctionDatabase.getMixingMethod( item ) ) &&
+		     !(instance instanceof CombineMeatRequest) )
 		{
-			if ( !ConcoctionDatabase.isPermittedMethod( 
-				ConcoctionDatabase.getMixingMethod( itemId ) ) )
-			{
-				if ( !(instance instanceof CombineMeatRequest) )
-				{	// meat paste & stacks aren't actually marked as createable
-					return null;
-				}
-			}
+			// meat paste & stacks aren't marked as creatable
+			return null;
 		}
 
+		instance.setQuantityNeeded( item.getCount() );
 		return instance;
 	}
 
-	public static final CreateItemRequest constructInstance( final int itemId )
+	public static final CreateItemRequest constructInstance( final String name )
 	{
+		AdventureResult item = AdventureResult.pseudoItem( name );
+		int itemId = item.getItemId();
+
 		if ( itemId == ItemPool.MEAT_PASTE || itemId == ItemPool.MEAT_STACK || itemId == ItemPool.DENSE_STACK )
 		{
 			return new CombineMeatRequest( itemId );
 		}
 
-		int mixingMethod = ConcoctionDatabase.getMixingMethod( itemId );
+		int mixingMethod = ConcoctionDatabase.getMixingMethod( item );
 
 		// Otherwise, return the appropriate subclass of
 		// item which will be created.
@@ -300,12 +306,6 @@ public class CreateItemRequest
 		case KoLConstants.GNOME_TINKER:
 			return new GnomeTinkerRequest( itemId );
 
-		case KoLConstants.CRIMBO05:
-			return new Crimbo05Request( itemId );
-
-		case KoLConstants.CRIMBO06:
-			return new Crimbo06Request( itemId );
-
 		case KoLConstants.STAFF:
 			return new ChefStaffRequest( itemId );
 
@@ -315,11 +315,20 @@ public class CreateItemRequest
 		case KoLConstants.SINGLE_USE:
 			return new SingleUseRequest( itemId );
 
-		case KoLConstants.CRIMBO07:
-			return new Crimbo07Request( itemId );
+		case KoLConstants.SUSHI:
+			return new SushiRequest( name );
 
 		case KoLConstants.NOCREATE:
 			return null;
+
+		case KoLConstants.CRIMBO05:
+			return new Crimbo05Request( itemId );
+
+		case KoLConstants.CRIMBO06:
+			return new Crimbo06Request( itemId );
+
+		case KoLConstants.CRIMBO07:
+			return new Crimbo07Request( itemId );
 
 		default:
 			return new CreateItemRequest( itemId );
@@ -394,6 +403,13 @@ public class CreateItemRequest
 				break;
 			}
 
+			// Certain creations are used immediately.
+
+			if ( this.noCreation() )
+			{
+				break;
+			}
+
 			// Figure out how many items were created
 
 			createdQuantity = this.createdItem.getCount( KoLConstants.inventory ) - this.beforeQuantity;
@@ -417,6 +433,11 @@ public class CreateItemRequest
 			this.quantityNeeded -= createdQuantity;
 		}
 		while ( this.quantityNeeded > 0 && KoLmafia.permitsContinue() );
+	}
+
+	public boolean noCreation()
+	{
+		return false;
 	}
 
 	public void makeDough()
@@ -850,7 +871,7 @@ public class CreateItemRequest
 
 	public String getName()
 	{
-		return ItemDatabase.getItemName( this.itemId );
+		return this.name;
 	}
 
 	/**
@@ -974,6 +995,11 @@ public class CreateItemRequest
 		if ( urlString.startsWith( "mystic.php" ) )
 		{
 			return PixelRequest.registerRequest( urlString );
+		}
+
+		if ( urlString.startsWith( "sushi.php" ) )
+		{
+			return SushiRequest.registerRequest( urlString );
 		}
 
 		if ( urlString.startsWith( "crimbo07.php" ) )
@@ -1330,38 +1356,25 @@ public class CreateItemRequest
 		}
 	}
 
-	private static class CreationRequestArray
+	private static class CreationRequestMap
 	{
-		private final ArrayList internalList = new ArrayList();
+		private final TreeMap internalMap = new TreeMap();
 
-		public CreateItemRequest get( final int index )
+		public CreateItemRequest get( final String name )
 		{
-			if ( index < 0 )
+			CreateItemRequest value = (CreateItemRequest) this.internalMap.get( name );
+			if ( value == null )
 			{
-				return null;
+				value = CreateItemRequest.constructInstance( name );
+				this.set( name, value );
+				
 			}
-
-			for ( int i = this.internalList.size(); i <= index; ++i )
-			{
-				this.internalList.add( CreateItemRequest.constructInstance( i ) );
-			}
-
-			return (CreateItemRequest) this.internalList.get( index );
+			return value;
 		}
 
-		public void set( final int index, final CreateItemRequest value )
+		public void set( final String name, final CreateItemRequest value )
 		{
-			for ( int i = this.internalList.size(); i <= index; ++i )
-			{
-				this.internalList.add( CreateItemRequest.constructInstance( i ) );
-			}
-
-			this.internalList.set( index, value );
-		}
-
-		public int size()
-		{
-			return this.internalList.size();
+			this.internalMap.put( name, value );
 		}
 	}
 }

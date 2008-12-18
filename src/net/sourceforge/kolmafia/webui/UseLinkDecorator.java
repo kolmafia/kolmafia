@@ -199,7 +199,7 @@ public abstract class UseLinkDecorator
 		for ( int i = 0; i < creations.size(); ++i )
 		{
 			creation = (AdventureResult) creations.get( i );
-			mixingMethod = ConcoctionDatabase.getMixingMethod( creation.getItemId() );
+			mixingMethod = ConcoctionDatabase.getMixingMethod( creation );
 
 			// Only accept if it's a creation method that the editor kit
 			// currently understands and links.
@@ -221,7 +221,7 @@ public abstract class UseLinkDecorator
 				continue;
 			}
 
-			irequest = CreateItemRequest.getInstance( creation.getItemId() );
+			irequest = CreateItemRequest.getInstance( creation );
 
 			if ( ConcoctionDatabase.isPermittedMethod( mixingMethod ) && irequest != null && irequest.getQuantityPossible() > 0 )
 			{
@@ -646,7 +646,7 @@ public abstract class UseLinkDecorator
 		case ItemPool.SAND_DOLLAR:
 
 			useType = String.valueOf( InventoryManager.getCount( itemId ) );
-			useLocation = "monkeycastle.php?who=2&pwd=" + GenericRequest.passwordHash;
+			useLocation = "monkeycastle.php?who=2";
 			break;
 
 		// Link to use the Orcish Frat House Blueprints

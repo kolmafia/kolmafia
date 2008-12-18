@@ -592,6 +592,7 @@ public class ItemPool
 	public static final int SEED_PACKET = 3553;
 	public static final int GREEN_SLIME = 3554;
 	public static final int SAND_DOLLAR = 3575;
+	public static final int SUSHI_ROLLING_MAT = 3581;
 	public static final int RUSTY_BROKEN_DIVING_HELMET = 3602;
 	public static final int BUBBLIN_STONE = 3605;
 	public static final int AERATED_DIVING_HELMET = 3607;

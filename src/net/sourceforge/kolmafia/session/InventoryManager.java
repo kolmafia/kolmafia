@@ -104,7 +104,7 @@ public abstract class InventoryManager
 
 		if ( shouldCreate )
 		{
-			CreateItemRequest creation = CreateItemRequest.getInstance( item.getItemId() );
+			CreateItemRequest creation = CreateItemRequest.getInstance( item );
 			if ( creation != null )
 			{
 				count += creation.getQuantityPossible();
@@ -267,8 +267,8 @@ public abstract class InventoryManager
 		boolean shouldUseNPCStore =
 			NPCStoreDatabase.contains( item.getName() ) && Preferences.getBoolean( "autoSatisfyWithNPCs" );
 
-		int mixingMethod = ConcoctionDatabase.getMixingMethod( itemId );
-		CreateItemRequest creator = CreateItemRequest.getInstance( itemId );
+		CreateItemRequest creator = CreateItemRequest.getInstance( item );
+		int mixingMethod = ConcoctionDatabase.getMixingMethod( item );
 
 		// First, attempt to pull the item from the closet.
 		// If this is successful, return from the method.
