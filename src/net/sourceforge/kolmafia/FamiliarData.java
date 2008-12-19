@@ -412,6 +412,7 @@ public class FamiliarData
 		case ItemPool.FIREWORKS:
 		case ItemPool.BATHYSPHERE:
 		case ItemPool.DAS_BOOT:
+		case ItemPool.MINIATURE_ANTLERS:
 			return this.id != 54 && this.id != 82;
 
 		case ItemPool.SNOOTY_DISGUISE:
@@ -471,6 +472,7 @@ public class FamiliarData
 		case ItemPool.FIREWORKS:
 		case ItemPool.BATHYSPHERE:
 		case ItemPool.DAS_BOOT:
+		case ItemPool.MINIATURE_ANTLERS:
 			return true;
 		}
 
