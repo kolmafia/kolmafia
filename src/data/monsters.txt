@@ -332,6 +332,7 @@ Industrious Construct	HP: 0	El Vibrato punchcard (129 holes)	El Vibrato punchcar
 Infinite Meat Bug	HP: 50 Def: 45 Atk: 45	incredibly dense meat gem (100)
 Irate Mariachi	HP: 17 Def: 20 Atk: 20 Meat: 4-6	bottle of tequila (35)	irate sombrero (20)	mariachi G-string (30)
 Irritating Series of Random Encounters	HP: 110 Def: 105 Atk: 105 Meat: 81-179	cocoa eggshell fragment (20)	soft green echo eyedrop antidote (20)	tiny house (20)
+Jamfish	HP: 0	seaweed (0)	jamfish jam (0)
 Keese	HP: 15 Def: 25 Atk: 25	blue pixel (70)	blue pixel (70)	blue pixel (70)
 <s>Killer</s> Festive Arc-Welding Elfbot		capacitor relay (8)	carbon nanotube frame (8)	ion grid (8)	Feynman gate (8)	logic synthesizer (8)	high-resistance ultrapolymer plating (4)
 <s>Killer</s> Festive Decal-Applying Elfbot		capacitor relay (8)	carbon nanotube frame (8)	ion grid (8)	Feynman gate (8)	logic synthesizer (8)	high-resistance ultrapolymer plating (4)
@@ -369,6 +370,7 @@ Lumberjill	HP: 36 Def: 36 Atk: 36 Meat: 17-26	Blatantly Canadian (30)	maple syru
 Lumberjuan	HP: 35 Def: 35 Atk: 35 Meat: 17-26	los chinos (5)	leaflet (15)	wooden axe (5)
 Mad Bugbears	HP: 13 Def: 17 Atk: 15
 MagiMechTech MechaMech	HP: 100 Def: 120 Atk: 120	photoprotoneutron torpedo (30)	metallic A (30)	glowing red eye (18)	oversized pizza cutter (7)	burned-out arcanodiode (0)
+Magic Dragonfish	HP: 0	rough fish scale (0)	seaweed (0)	dragonfish caviar (0)
 Malevolent Hair Clog	HP: 85 Def: 90 Atk: 95 ED: spooky
 Man-Eating Plant	HP: 10 Def: 9 Atk: 7
 Mariachi Calavera	HP: 30 Def: 22 Atk: 22	bottle of tequila (30)	marzipan skull (30)	callused fingerbone (0)
@@ -437,6 +439,7 @@ Poutine Ooze	HP: 3 Def: 3 Atk: 3	poutine (40)
 Procrastination Giant	HP: 150 Def: 125 Atk: 125 Meat: 120-180	procrastination potion (30)
 Protagonist	HP: 80 Def: 100 Atk: 100 Meat: 58-129	phonics down (40)	ridiculously huge sword (10)	super-spikey hair gel (20)
 Protector Spectre	HP: 116	ancient amulet (100)	spectre scepter (100)
+Puffer Fish	HP: 0	pufferfish spine (0)	rough fish scale (0)	seaweed (0)
 Pumped-up Bass	HP: 500	dull fish scale (0)	beefy fish meat (0)
 Pygmy Assault Squad	HP: 148 Def: 152 Atk: 152 Meat: 102-145	bottle of alcohol (0)	pygmy pygment (0)	pygmy spear (0)
 Pygmy Blowgunner	HP: 147 Def: 156 Atk: 156 Meat: 86-118	big bad voodoo mask (0)	pygmy blowgun (0)	pygmy nose-bone (0)

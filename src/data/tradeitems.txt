@@ -3485,7 +3485,7 @@
 3484	eye 'n' horn shampoo	7	all	75
 3485	glittery mascara	4	all	12
 3486	dull fish scale	0	all	40
-3487
+3487	rough fish scale	0	all	120
 3488
 3489	beefy fish meat	1	all	35
 3490	glistening fish meat	1	all	35
@@ -3638,13 +3638,14 @@
 3637	gray bow tie	8	all	30
 3638	penguin thesaurus	13	all	45
 3639	blob-shaped Crimbo cookie	1	all	50
-3640
-3641
-3642
-3643
+3640	seaweed	0	all	40
+3641	jamfish jam	3	all	30
+3642	dragonfish caviar	0	all	90
+3643	pufferfish spine	25	all	25
 3644	depleted Grimacite kneecapping stick	12	all	400
 3645	canteen of wine	2	all	100
 3646	<i>limbos</i> gingerbread	1	all	100
-3647
-3648
+3647	elven whittling knife	12	all	400
+3648	magic dragonfish fry	5	all	0
 3649	map to Madness Reef	3	none	0
+3650	toast with jam	1	all	40
