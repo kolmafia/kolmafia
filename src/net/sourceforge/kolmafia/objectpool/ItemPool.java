@@ -578,6 +578,7 @@ public class ItemPool
 	public static final int SPICE_MELANGE = 3433;
 	public static final int BATHYSPHERE = 3470;
 	public static final int DAMP_OLD_BOOT = 3471;
+	public static final int SEA_SALT_CRYSTAL = 3495;
 	public static final int LARP_MEMBERSHIP_CARD = 3506;
 	public static final int STICKER_BOOK = 3507;
 	public static final int STICKER_SWORD = 3508;
@@ -591,6 +592,9 @@ public class ItemPool
 	public static final int GRIMACITE_ASTROLABE = 3548;
 	public static final int SEED_PACKET = 3553;
 	public static final int GREEN_SLIME = 3554;
+	public static final int SEA_CARROT = 3555;
+	public static final int SEA_CUCUMBER = 3556;
+	public static final int SEA_AVOCADO = 3557;
 	public static final int SAND_DOLLAR = 3575;
 	public static final int SUSHI_ROLLING_MAT = 3581;
 	public static final int RUSTY_BROKEN_DIVING_HELMET = 3602;
@@ -600,6 +604,7 @@ public class ItemPool
 	public static final int IMITATION_WHETSTONE = 3610;
 	public static final int BURROWGRUB_HIVE = 3629;
 	public static final int JAMFISH_JAM = 3641;
+	public static final int DRAGONFISH_CAVIAR = 3642;
 	public static final int MINIATURE_ANTLERS = 3651;
 
 	public static final AdventureResult get( String itemName, int count )

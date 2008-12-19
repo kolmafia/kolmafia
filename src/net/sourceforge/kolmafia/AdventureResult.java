@@ -321,6 +321,7 @@ public class AdventureResult
 	{
 		AdventureResult item = new AdventureResult( AdventureResult.NO_PRIORITY, name );
 		item.priority = AdventureResult.ITEM_PRIORITY;
+		item.itemId = ItemDatabase.getItemId( name, 1 );
 		return item;
 	}
 
