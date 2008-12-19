@@ -57,6 +57,16 @@ public class SushiRequest
 	private static final Pattern WHICH_PATTERN = Pattern.compile( "whichsushi=(\\d+)" );
 	private static final Pattern CONSUME_PATTERN = Pattern.compile( "You eat the (.*)\\." );
 
+	public static final Object[][] SUSHI =
+	{
+		{ new Integer(1), "beefy nigiri" },
+		{ new Integer(2), "glistening nigiri" },
+		{ new Integer(3), "slick nigiri" },
+		{ new Integer(4), "beefy maki" },
+		{ new Integer(5), "glistening maki" },
+		{ new Integer(6), "slick maki" },
+	};
+
 	public SushiRequest( final String name )
 	{
 		super( "sushi.php", name );
@@ -138,32 +148,27 @@ public class SushiRequest
 
 	public static String idToName( final int id )
 	{
-		switch ( id )
+		for ( int i = 0; i < SUSHI.length; ++i )
 		{
-		case 1:
-			return "beefy nigiri";
-		case 2:
-			return "glistening nigiri";
-		case 3:
-			return "slick nigiri";
+			Object [] sushi = SUSHI[i];
+			if ( ((Integer)sushi[0]).intValue() == id )
+			{
+				return (String)sushi[1];
+			}
 		}
 
-		return "(unknown";
+		return "unknown";
 	}
 
 	public static int nameToId( final String name )
 	{
-		if ( name.equals( "beefy nigiri" ) )
+		for ( int i = 0; i < SUSHI.length; ++i )
 		{
-			return 1;
-		}
-		if ( name.equals( "glistening nigiri" ) )
-		{
-			return 2;
-		}
-		if ( name.equals( "slick nigiri" ) )
-		{
-			return 3;
+			Object [] sushi = SUSHI[i];
+			if ( name.equals( (String)sushi[1] ) )
+			{
+				return ((Integer)sushi[0]).intValue();
+			}
 		}
 
 		return -1;

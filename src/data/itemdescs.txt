@@ -3491,7 +3491,7 @@
 3484	558562693	eye 'n' horn shampoo
 3485	247764107	glittery mascara	tubes of glittery mascara
 3486	433811634	dull fish scale	dull fish scales
-3487
+3487	912006135	rough fish scale	rough fish scales
 3488
 3489	946050609	beefy fish meat	filets of beefy fish meat
 3490	493009120	glistening fish meat	filets of glistening fish meat
@@ -3644,13 +3644,14 @@
 3637	935975647	gray bow tie	gray bow ties
 3638	218664990	penguin thesaurus	penguin thesauri
 3639	508506361	blob-shaped Crimbo cookie
-3640
-3641
-3642
-3643
+3640	440608325	seaweed	sheets of seaweed
+3641	903837198	jamfish jam
+3642	271341113	dragonfish caviar
+3643	282340653	pufferfish spine
 3644	409887850	depleted Grimacite kneecapping stick
 3645	880677333	canteen of wine	canteens of wine
 3646	970160730	<i>limbos</i> gingerbread	wafers of <i>limbos</i> gingerbread
-3647
-3648
+3647	599279187	elven whittling knife
+3648	516748124	magic dragonfish fry
 3649	410531723	map to Madness Reef
+3650	357577494	toast with jam

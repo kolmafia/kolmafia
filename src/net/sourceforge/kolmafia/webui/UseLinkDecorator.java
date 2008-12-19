@@ -649,6 +649,14 @@ public abstract class UseLinkDecorator
 			useLocation = "monkeycastle.php?who=2";
 			break;
 
+		// Link to the Old Man if you buy the damp old boot
+
+		case ItemPool.DAMP_OLD_BOOT:
+
+			useType = "old man";
+			useLocation = "oldman.php?action=talk";
+			break;
+
 		// Link to use the Orcish Frat House Blueprints
 
 		case ItemPool.FRATHOUSE_BLUEPRINTS:
