@@ -118,7 +118,7 @@ public class CreateItemRequest
 		this.name = name;
 		this.mixingMethod = KoLConstants.SUBCLASS;
 		this.yield = 1;
-		this.createdItem = new AdventureResult( name, 1, false );
+		this.createdItem = AdventureResult.tallyItem( name );
 	}
 
 	/**

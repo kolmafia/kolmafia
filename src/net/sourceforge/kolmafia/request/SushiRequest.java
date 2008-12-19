@@ -54,10 +54,13 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class SushiRequest
 	extends CreateItemRequest
 {
-	private static final Pattern WHICH_PATTERN = Pattern.compile( "whichsushi=(\\d+)" );
-	private static final Pattern CONSUME_PATTERN = Pattern.compile( "You eat the (.*)\\." );
+	private static final Pattern SUSHI_PATTERN = Pattern.compile( "whichsushi=(\\d+)" );
+	private static final Pattern TOPPING_PATTERN = Pattern.compile( "whichtopping=(\\d+)" );
+	private static final Pattern FILLING1_PATTERN = Pattern.compile( "whichfilling1=(\\d+)" );
 
-	public static final Object[][] SUSHI =
+	private static final Pattern CONSUME_PATTERN = Pattern.compile( "You eat the ([a-zA-Z ]*)\\." );
+
+	private static final Object[][] SUSHI =
 	{
 		{ new Integer(1), "beefy nigiri" },
 		{ new Integer(2), "glistening nigiri" },
@@ -67,11 +70,176 @@ public class SushiRequest
 		{ new Integer(6), "slick maki" },
 	};
 
+	private static String idToName( final int id )
+	{
+		for ( int i = 0; i < SUSHI.length; ++i )
+		{
+			Object [] sushi = SUSHI[i];
+			if ( ((Integer)sushi[0]).intValue() == id )
+			{
+				return (String)sushi[1];
+			}
+		}
+
+		return null;
+	}
+
+	private static int nameToId( final String name )
+	{
+		// Check for base sushi
+		for ( int i = 0; i < SUSHI.length; ++i )
+		{
+			Object [] sushi = SUSHI[i];
+			if ( name.equals( (String)sushi[1] ) )
+			{
+				return ((Integer)sushi[0]).intValue();
+			}
+		}
+
+		// Check for filled sushi
+		for ( int i = 0; i < FILLING1.length; ++i )
+		{
+			Object [] sushi = FILLING1[i];
+			if ( name.indexOf( (String)sushi[0] ) != -1 )
+			{
+				return SushiRequest.nameToId( (String)sushi[1] );
+			}
+		}
+
+		return -1;
+	}
+
+	private static final Object[][] TOPPING =
+	{
+		{ "salty", new Integer( ItemPool.SEA_SALT_CRYSTAL ) },
+		{ "magical", new Integer( ItemPool.DRAGONFISH_CAVIAR ) },
+	};
+
+	private static String toppingToName( final String baseName, final int topping )
+	{
+		for ( int i = 0; i < TOPPING.length; ++i )
+		{
+			Object [] sushi = TOPPING[i];
+			if ( topping == ((Integer)sushi[1]).intValue() )
+			{
+				return (String)sushi[0] + " " + baseName;
+			}
+		}
+
+		return baseName;
+	}
+
+	private static int nameToTopping( final String name )
+	{
+		for ( int i = 0; i < TOPPING.length; ++i )
+		{
+			Object [] sushi = TOPPING[i];
+			if ( name.startsWith( (String)sushi[0] ) )
+			{
+				return ((Integer)sushi[1]).intValue();
+			}
+		}
+
+		return -1;
+	}
+
+	private static final Object[][] FILLING1 =
+	{
+		{ "giant dragon roll",
+		  "beefy maki", new Integer( ItemPool.SEA_CUCUMBER ) },
+		{ "musclebound rabbit roll",
+		  "beefy maki", new Integer( ItemPool.SEA_CARROT ) },
+		{ "python roll",
+		  "beefy maki", new Integer( ItemPool.SEA_AVOCADO ) },
+
+		{ "wise dragon roll",
+		  "glistening maki", new Integer( ItemPool.SEA_CUCUMBER ) },
+		{ "white rabbit roll",
+		  "glistening maki", new Integer( ItemPool.SEA_CARROT ) },
+		{ "ancient serpent roll",
+		  "glistening maki", new Integer( ItemPool.SEA_AVOCADO ) },
+
+		{ "tricky dragon roll",
+		  "slick maki", new Integer( ItemPool.SEA_CUCUMBER ) },
+		{ "sneaky rabbit roll",
+		  "slick maki", new Integer( ItemPool.SEA_CARROT ) },
+		{ "slippery snake roll",
+		  "slick maki", new Integer( ItemPool.SEA_AVOCADO ) },
+	};
+
+	private static String filling1ToName( final String baseName, final int filling1 )
+	{
+		for ( int i = 0; i < FILLING1.length; ++i )
+		{
+			Object [] sushi = FILLING1[i];
+			if ( baseName.equals( sushi[1] ) &&
+			     filling1 == ((Integer)sushi[2]).intValue() )
+			{
+				return (String)sushi[0];
+			}
+		}
+
+		return baseName;
+	}
+
+	private static int nameToFilling1( final String name )
+	{
+		for ( int i = 0; i < FILLING1.length; ++i )
+		{
+			Object [] sushi = FILLING1[i];
+			if ( name.indexOf( (String)sushi[0] ) != -1 )
+			{
+				return ((Integer)sushi[2]).intValue();
+			}
+		}
+
+		return -1;
+	}
+
+	private static String sushiName( final int id, final int topping, final int filling1 )
+	{
+		String name = SushiRequest.idToName( id );
+
+		if ( name == null )
+		{
+			return "unknown";
+		}
+
+		if ( filling1 > 0 )
+		{
+			name = SushiRequest.filling1ToName( name, filling1 );
+		}
+
+		if ( topping > 0 )
+		{
+			name = SushiRequest.toppingToName( name, topping );
+		}
+
+		return name;
+	}
+
 	public SushiRequest( final String name )
 	{
 		super( "sushi.php", name );
 		this.addFormField( "action", "Yep." );
-		this.addFormField( "whichsushi", String.valueOf( SushiRequest.nameToId( name ) ) );
+
+		int sushi = SushiRequest.nameToId( name );
+		if ( sushi > 0 )
+		{
+			this.addFormField( "whichsushi", String.valueOf( sushi ) );
+		}
+
+		int topping = SushiRequest.nameToTopping( name );
+		if ( topping > 0 )
+		{
+			this.addFormField( "whichtopping", String.valueOf( topping ) );
+		}
+
+		int filling1 = SushiRequest.nameToFilling1( name );
+		if ( filling1 > 0 )
+		{
+			this.addFormField( "whichfilling1", String.valueOf( filling1 ) );
+		}
 	}
 
 	public void reconstructFields()
@@ -106,7 +274,6 @@ public class SushiRequest
 			super.run();
 			SushiRequest.parseConsumption( this.getURLString(), this.responseText );
 		}
-
 	}
 
 	public static void parseConsumption( final String location, final String responseText )
@@ -146,49 +313,38 @@ public class SushiRequest
 		}
 	}
 
-	public static String idToName( final int id )
-	{
-		for ( int i = 0; i < SUSHI.length; ++i )
-		{
-			Object [] sushi = SUSHI[i];
-			if ( ((Integer)sushi[0]).intValue() == id )
-			{
-				return (String)sushi[1];
-			}
-		}
-
-		return "unknown";
-	}
-
-	public static int nameToId( final String name )
-	{
-		for ( int i = 0; i < SUSHI.length; ++i )
-		{
-			Object [] sushi = SUSHI[i];
-			if ( name.equals( (String)sushi[1] ) )
-			{
-				return ((Integer)sushi[0]).intValue();
-			}
-		}
-
-		return -1;
-	}
-
 	public static final boolean registerRequest( final String urlString )
 	{
-		Matcher matcher = SushiRequest.WHICH_PATTERN.matcher( urlString );
+		Matcher matcher = SushiRequest.SUSHI_PATTERN.matcher( urlString );
 		if ( !matcher.find() )
 		{
 			return true;
 		}
 
 		int id = StringUtilities.parseInt( matcher.group( 1 ) );
-                String name = SushiRequest.idToName( id );
+		int topping = 0;
+		int filling1 = 0;
+
+		matcher = SushiRequest.TOPPING_PATTERN.matcher( urlString );
+
+		if ( matcher.find() )
+		{
+			topping = StringUtilities.parseInt( matcher.group( 1 ) );
+		}
+
+		matcher = SushiRequest.FILLING1_PATTERN.matcher( urlString );
+
+		if ( matcher.find() )
+		{
+			filling1 = StringUtilities.parseInt( matcher.group( 1 ) );
+		}
+
+		String name = SushiRequest.sushiName( id, topping, filling1 );
 
 		StringBuffer buf = new StringBuffer();
 		buf.append( "Roll and eat " );
 		buf.append( name );
-                buf.append( " from " );
+		buf.append( " from " );
 
 		AdventureResult[] ingredients = ConcoctionDatabase.getIngredients( name );
 		for ( int i = 0; i < ingredients.length; ++i )
