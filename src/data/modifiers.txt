@@ -1409,6 +1409,7 @@ metal mandible	Familiar Weight: +5
 metallic foil bow	Familiar Weight: +5
 metallic foil radar dish	Familiar Weight: +5
 miniature Jacob's ladder	Familiar Weight: +5
+miniature antlers	Familiar Weight: +5
 miniature carton of clove cigarettes	Familiar Weight: +5
 miniature castagnets	Familiar Weight: +5
 # miniature dormouse
@@ -1663,6 +1664,7 @@ Dreadlocked	Mysticality Percent: +50, Moxie Percent: -50
 Dreams and Lights	Mysticality: +10, Mana Cost: -3
 Drenched With Filth	Stench Damage: +75
 Drummed Out	Mysticality Percent: +50, Muscle Percent: -50
+Drunk With Power	Spell Damage Percent: +100
 Duhhh	Mysticality: -20
 Dwarven Hardiness	Muscle Percent: +5
 Eau D'enmity	Monster Level: +5

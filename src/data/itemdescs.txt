@@ -3655,3 +3655,5 @@
 3648	516748124	magic dragonfish fry
 3649	410531723	map to Madness Reef
 3650	357577494	toast with jam
+3651	844666131	miniature antlers	pairs of miniature antlers
+3652	668910096	elven moonshine	jars of elven moonshine

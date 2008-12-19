@@ -3649,3 +3649,5 @@
 3648	magic dragonfish fry	5	all	0
 3649	map to Madness Reef	3	none	0
 3650	toast with jam	1	all	40
+3651	miniature antlers	7	all	150
+3652	elven moonshine	2	all	100

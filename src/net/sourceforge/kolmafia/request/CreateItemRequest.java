@@ -264,9 +264,8 @@ public class CreateItemRequest
 			return instance;
 		}
 
-		// If the item creation process is not permitted,
-		// then return null to indicate that it is not
-		// possible to create the item.
+		// If the item creation process is not permitted, then return
+		// null to indicate that it is not possible to create the item.
 
 		if ( returnNullIfNotPermitted &&
 		     !ConcoctionDatabase.isPermittedMethod( ConcoctionDatabase.getMixingMethod( item ) ) &&
@@ -360,12 +359,11 @@ public class CreateItemRequest
 		// Validate the ingredients once for the item
 		// creation process.
 
-		if ( this.mixingMethod != KoLConstants.SUBCLASS && this.mixingMethod != KoLConstants.ROLLING_PIN )
+		if ( this.mixingMethod != KoLConstants.SUBCLASS &&
+		     this.mixingMethod != KoLConstants.ROLLING_PIN &&
+		     !this.makeIngredients() )
 		{
-			if ( !this.makeIngredients() )
-			{
-				return;
-			}
+			return;
 		}
 
 		int createdQuantity = 0;
@@ -538,11 +536,6 @@ public class CreateItemRequest
 		}
 		else
 		{
-			// Check to make sure that the box servant is available
-			// for this combine step.  This is extra overhead when
-			// no box servant is needed, but for easy readability,
-			// the test always occurs.
-
 			for ( int i = 0; i < ingredients.length; ++i )
 			{
 				this.addFormField( "item" + ( i + 1 ), String.valueOf( ingredients[ i ].getItemId() ) );
@@ -843,10 +836,25 @@ public class CreateItemRequest
 				quantity = ( quantity + yield - 1 ) / yield;
 			}
 
+			// Retrieving and item can mess with this.quantityNeeded
+			//
+			// This is because we use only one instance for each
+			// CreateItemRequest. Bringing in new items from
+			// anywhere - closet, NPC stores, storage, etc. -
+			// forces the concoction list to refresh, which fetches
+			// every CreateItemRequest, which resets that variable.
+
+			// For now, save and restore it around the problematic
+			// call. There has to be a better solution.
+
+			int quantityNeeded = this.quantityNeeded;
+
 			if ( !InventoryManager.retrieveItem( ingredients[ i ].getItemId(), quantity ) )
 			{
 				foundAllIngredients = false;
 			}
+
+			this.quantityNeeded = quantityNeeded;
 		}
 
 		return foundAllIngredients;

@@ -180,6 +180,7 @@ public abstract class InventoryManager
 	{
 		int itemId = item.getItemId();
 		int availableCount = 0;
+
 		if ( itemId == HermitRequest.WORTHLESS_ITEM.getItemId() )
 		{
 			availableCount = HermitRequest.getWorthlessItemCount();
@@ -257,19 +258,6 @@ public abstract class InventoryManager
 			return HermitRequest.getWorthlessItemCount() >= item.getCount();
 		}
 
-		// Try to purchase the item from the mall, if the user wishes
-		// to autosatisfy through purchases, and the item is not
-		// creatable through combines.
-
-		boolean shouldUseMall = shouldUseMall( item );
-
-		boolean shouldUseStash = Preferences.getBoolean( "autoSatisfyWithStash" );
-		boolean shouldUseNPCStore =
-			NPCStoreDatabase.contains( item.getName() ) && Preferences.getBoolean( "autoSatisfyWithNPCs" );
-
-		CreateItemRequest creator = CreateItemRequest.getInstance( item );
-		int mixingMethod = ConcoctionDatabase.getMixingMethod( item );
-
 		// First, attempt to pull the item from the closet.
 		// If this is successful, return from the method.
 
@@ -311,6 +299,7 @@ public abstract class InventoryManager
 		// See if the item can be retrieved from the clan stash.  If it
 		// can, go ahead and pull as many items as possible from there.
 
+		boolean shouldUseStash = Preferences.getBoolean( "autoSatisfyWithStash" );
 		if ( shouldUseStash && KoLCharacter.canInteract() && KoLCharacter.hasClan() )
 		{
 			if ( !ClanManager.isStashRetrieved() )
@@ -338,6 +327,7 @@ public abstract class InventoryManager
 		// (if possible).
 		boolean scriptSaysBuy = false;
 
+		CreateItemRequest creator = CreateItemRequest.getInstance( item );
 		if ( creator != null && creator.getQuantityPossible() > 0 )
 		{
 			scriptSaysBuy = invokeBuyScript( item, missingCount, 2, false );
@@ -347,6 +337,7 @@ public abstract class InventoryManager
 			{
 				return true;
 			}
+
 			if ( !scriptSaysBuy )
 			{
 				creator.setQuantityNeeded(
@@ -401,9 +392,13 @@ public abstract class InventoryManager
 			}
 		}
 
-		// If the item should be bought early, go ahead and purchase it
-		// now, after having checked the clan stash.
+		// Try to purchase the item from the mall, if the user wishes
+		// to autosatisfy through purchases, and the item is not
+		// creatable through combines.
 		
+		boolean shouldUseMall = shouldUseMall( item );
+		int mixingMethod = ConcoctionDatabase.getMixingMethod( item );
+
 		if ( !scriptSaysBuy && shouldUseMall && !hasAnyIngredient( itemId ) )
 		{
 			scriptSaysBuy = mixingMethod == KoLConstants.NOCREATE ||
@@ -415,6 +410,9 @@ public abstract class InventoryManager
 				return true;
 			}
 		}
+
+		boolean shouldUseNPCStore =
+			NPCStoreDatabase.contains( item.getName() ) && Preferences.getBoolean( "autoSatisfyWithNPCs" );
 
 		if ( shouldUseNPCStore || scriptSaysBuy )
 		{

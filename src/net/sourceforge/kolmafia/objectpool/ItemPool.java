@@ -600,6 +600,7 @@ public class ItemPool
 	public static final int IMITATION_WHETSTONE = 3610;
 	public static final int BURROWGRUB_HIVE = 3629;
 	public static final int JAMFISH_JAM = 3641;
+	public static final int MINIATURE_ANTLERS = 3651;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
