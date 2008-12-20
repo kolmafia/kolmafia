@@ -121,15 +121,6 @@ public class CreateItemRequest
 		this.createdItem = AdventureResult.tallyItem( name );
 	}
 
-	/**
-	 * Constructs a new <code>CreateItemRequest</code> where you create the given number of items.
-	 *
-	 * @param formSource The form to be used for the item creation
-	 * @param itemId The identifier for the item to be created
-	 * @param mixingMethod How the item is created
-	 * @param quantityNeeded How many of this item are needed
-	 */
-
 	private CreateItemRequest( final int itemId )
 	{
 		super( "" );
@@ -264,18 +255,20 @@ public class CreateItemRequest
 			return instance;
 		}
 
+		if ( instance instanceof CombineMeatRequest )
+		{
+			return instance;
+		}
+
 		// If the item creation process is not permitted, then return
 		// null to indicate that it is not possible to create the item.
 
 		if ( returnNullIfNotPermitted &&
-		     !ConcoctionDatabase.isPermittedMethod( ConcoctionDatabase.getMixingMethod( item ) ) &&
-		     !(instance instanceof CombineMeatRequest) )
+		     !ConcoctionDatabase.isPermittedMethod( ConcoctionDatabase.getMixingMethod( item ) ) )
 		{
-			// meat paste & stacks aren't marked as creatable
 			return null;
 		}
 
-		instance.setQuantityNeeded( item.getCount() );
 		return instance;
 	}
 
@@ -836,25 +829,10 @@ public class CreateItemRequest
 				quantity = ( quantity + yield - 1 ) / yield;
 			}
 
-			// Retrieving and item can mess with this.quantityNeeded
-			//
-			// This is because we use only one instance for each
-			// CreateItemRequest. Bringing in new items from
-			// anywhere - closet, NPC stores, storage, etc. -
-			// forces the concoction list to refresh, which fetches
-			// every CreateItemRequest, which resets that variable.
-
-			// For now, save and restore it around the problematic
-			// call. There has to be a better solution.
-
-			int quantityNeeded = this.quantityNeeded;
-
 			if ( !InventoryManager.retrieveItem( ingredients[ i ].getItemId(), quantity ) )
 			{
 				foundAllIngredients = false;
 			}
-
-			this.quantityNeeded = quantityNeeded;
 		}
 
 		return foundAllIngredients;
@@ -1374,15 +1352,11 @@ public class CreateItemRequest
 			if ( value == null )
 			{
 				value = CreateItemRequest.constructInstance( name );
-				this.set( name, value );
+				this.internalMap.put( name, value );
 				
 			}
-			return value;
-		}
 
-		public void set( final String name, final CreateItemRequest value )
-		{
-			this.internalMap.put( name, value );
+			return value;
 		}
 	}
 }

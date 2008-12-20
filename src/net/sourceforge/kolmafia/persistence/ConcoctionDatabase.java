@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.request.CafeRequest;
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.CrimboCafeRequest;
@@ -524,8 +525,6 @@ public class ConcoctionDatabase
 
 	private static final void consumeItem( Concoction c, int quantity )
 	{
-		GenericRequest request = null;
-
 		AdventureResult item = c.getItem();
 
 		// First, consume any items which appear in the inventory.
@@ -534,7 +533,7 @@ public class ConcoctionDatabase
 		{
 			int initialConsume = Math.min( quantity, InventoryManager.getCount( item.getItemId() ) );
 
-			request = new UseItemRequest( c.getItem().getInstance( initialConsume ) );
+			UseItemRequest request = new UseItemRequest( c.getItem().getInstance( initialConsume ) );
 			RequestThread.postRequest( request );
 
 			quantity -= initialConsume;
@@ -556,13 +555,14 @@ public class ConcoctionDatabase
 
 			if ( concoction.getItemId() > 0 )
 			{
-				request = new UseItemRequest( concoction.getInstance( quantity ) );
+				UseItemRequest request = new UseItemRequest( concoction.getInstance( quantity ) );
 				RequestThread.postRequest( request );
 				return;
 			}
 
 			// Otherwise, making item will consume it.
-			request = CreateItemRequest.getInstance( concoction.getInstance( quantity ) );
+			CreateItemRequest request = CreateItemRequest.getInstance( concoction.getInstance( quantity ) );
+			request.setQuantityNeeded( quantity );
 			RequestThread.postRequest( request );
 			return;
 		}
@@ -570,6 +570,7 @@ public class ConcoctionDatabase
 		// Otherwise, acquire them from the restaurant.
 
 		String name = c.getName();
+		CafeRequest request;
 
 		if ( HellKitchenRequest.onMenu( name ) )
 		{
