@@ -959,41 +959,30 @@ public class ItemDatabase
 			return "+0.0";
 		}
 
-		int fullness = ItemDatabase.getFullness( name );
-		int inebriety = ItemDatabase.getInebriety( name );
-		int spleenhit = ItemDatabase.getSpleenHit( name );
-
+		String cname = StringUtilities.getCanonicalName( name );
+		boolean perUnit = Preferences.getBoolean( "showGainsPerUnit" );
 		String range = null;
 
-		if ( fullness > 0 )
+		if ( ItemDatabase.getFullness( name ) > 0 )
 		{
-			range =
-				(String) ItemDatabase.getAdventureMap(
-					Preferences.getBoolean( "showGainsPerUnit" ),
-					KoLCharacter.getSign().indexOf( "Opossum" ) != -1,
-					KoLConstants.activeEffects.contains( ItemDatabase.MILK ),
-					Preferences.getInteger( "munchiesPillsUsed" ) > 0 ).get(
-					StringUtilities.getCanonicalName( name ) );
+			boolean sushi = ConcoctionDatabase.getMixingMethod( cname ) == KoLConstants.SUSHI;
+			boolean zodiacEffect = !sushi && KoLCharacter.getSign().indexOf( "Opossum" ) != -1;
+			boolean milkEffect = !sushi && KoLConstants.activeEffects.contains( ItemDatabase.MILK );
+			boolean munchiesEffect = !sushi && Preferences.getInteger( "munchiesPillsUsed" ) > 0;
+			range = (String) ItemDatabase.getAdventureMap(
+				perUnit, zodiacEffect, milkEffect, munchiesEffect ).get( cname );
 		}
-		else if ( inebriety > 0 )
+		else if ( ItemDatabase.getInebriety( name ) > 0 )
 		{
-			range =
-				(String) ItemDatabase.getAdventureMap(
-					Preferences.getBoolean( "showGainsPerUnit" ),
-					KoLCharacter.getSign().indexOf( "Blender" ) != -1,
-					KoLConstants.activeEffects.contains( ItemDatabase.ODE ),
-					false ).get(
-					StringUtilities.getCanonicalName( name ) );
+			boolean zodiacEffect = KoLCharacter.getSign().indexOf( "Blender" ) != -1;
+			boolean odeEffect = KoLConstants.activeEffects.contains( ItemDatabase.ODE );
+			range = (String) ItemDatabase.getAdventureMap(
+				perUnit, zodiacEffect, odeEffect, false ).get( cname );
 		}
-		else if ( spleenhit > 0 )
+		else if ( ItemDatabase.getSpleenHit( name ) > 0 )
 		{
-			range =
-				(String) ItemDatabase.getAdventureMap(
-					Preferences.getBoolean( "showGainsPerUnit" ),
-					false,
-					false,
-					false ).get(
-					StringUtilities.getCanonicalName( name ) );
+			range = (String) ItemDatabase.getAdventureMap(
+				perUnit, false, false, false ).get( cname );
 		}
 
 		if ( range == null )

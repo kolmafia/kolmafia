@@ -58,7 +58,7 @@ public class SushiRequest
 	private static final Pattern TOPPING_PATTERN = Pattern.compile( "whichtopping=(\\d+)" );
 	private static final Pattern FILLING1_PATTERN = Pattern.compile( "whichfilling1=(\\d+)" );
 
-	private static final Pattern CONSUME_PATTERN = Pattern.compile( "You eat the ([a-zA-Z ]*)\\." );
+	private static final Pattern CONSUME_PATTERN = Pattern.compile( "You eat the ([^.]*)\\." );
 
 	private static final Object[][] SUSHI =
 	{

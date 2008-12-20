@@ -1238,6 +1238,12 @@ public class ConcoctionDatabase
 		return item == null ? KoLConstants.NOCREATE : item.getMixingMethod();
 	}
 
+	public static final int getMixingMethod( final String name )
+	{
+		Concoction item = ConcoctionPool.get( name );
+		return item == null ? KoLConstants.NOCREATE : item.getMixingMethod();
+	}
+
 	public static final int getMixingMethod( final AdventureResult ar )
 	{
 		Concoction item = ConcoctionPool.get( ar.getName() );
