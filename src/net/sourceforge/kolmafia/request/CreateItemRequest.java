@@ -281,7 +281,7 @@ public class CreateItemRequest
 
 	public static final CreateItemRequest constructInstance( final String name )
 	{
-		AdventureResult item = AdventureResult.pseudoItem( name );
+		AdventureResult item = AdventureResult.tallyItem( name );
 		int itemId = item.getItemId();
 
 		if ( itemId == ItemPool.MEAT_PASTE || itemId == ItemPool.MEAT_STACK || itemId == ItemPool.DENSE_STACK )
