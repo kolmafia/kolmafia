@@ -461,7 +461,7 @@ public class Concoction
 		for ( int i = 0; i < this.ingredientArray.length; ++i )
 		{
 			AdventureResult ingredient = this.ingredientArray[ i ];
-			Concoction c = ConcoctionPool.get( ingredient.getItemId() );
+			Concoction c = ConcoctionPool.get( ingredient );
 			c.queue( globalChanges, localChanges, icount, false );
 		}
 
@@ -582,7 +582,7 @@ public class Concoction
 		for ( int i = 0; i < this.ingredientArray.length; ++i )
 		{
 			AdventureResult ingredient = this.ingredientArray[ i ];
-			Concoction c = ConcoctionPool.get( ingredient.getItemId() );
+			Concoction c = ConcoctionPool.get( ingredient );
 			c.calculate( availableIngredients );
 		}
 
@@ -597,7 +597,7 @@ public class Concoction
 		for ( int i = 0; i < this.ingredientArray.length; ++i )
 		{
 			AdventureResult ingredient = this.ingredientArray[ i ];
-			Concoction c = ConcoctionPool.get( ingredient.getItemId() );
+			Concoction c = ConcoctionPool.get( ingredient );
 
 			int available = c.quantity();
 			this.total = Math.min( this.total, available );
@@ -664,7 +664,7 @@ public class Concoction
 		for ( int i = 0; quantity > 0 && i < this.ingredientArray.length; ++i )
 		{
 			AdventureResult ingredient = this.ingredientArray[ i ];
-			Concoction c = ConcoctionPool.get( ingredient.getItemId() );
+			Concoction c = ConcoctionPool.get( ingredient );
 
 			// Avoid mutual recursion.
 			
@@ -744,7 +744,7 @@ public class Concoction
 				}
 			}
 
-			Concoction c = ConcoctionPool.get( this.ingredientArray[ i ].getItemId() );
+			Concoction c = ConcoctionPool.get( this.ingredientArray[ i ] );
 
 			// Avoid mutual recursion
 			
@@ -790,7 +790,7 @@ public class Concoction
 
 		for ( int i = 0; i < this.ingredientArray.length; ++i )
 		{
-			ConcoctionPool.get( this.ingredientArray[ i ].getItemId() ).unmark();
+			ConcoctionPool.get( this.ingredientArray[ i ] ).unmark();
 		}
 
 		if ( ConcoctionDatabase.ADVENTURE_USAGE[ this.mixingMethod ] != 0 )
@@ -819,7 +819,7 @@ public class Concoction
 		int runningTotal = 0;
 		for ( int i = 0; i < this.ingredientArray.length; ++i )
 		{
-			Concoction ingredient = ConcoctionPool.get( this.ingredientArray[ i ].getItemId() );
+			Concoction ingredient = ConcoctionPool.get( this.ingredientArray[ i ] );
 
 			runningTotal += ingredient.getMeatPasteNeeded( quantityNeeded - ingredient.initial );
 		}
