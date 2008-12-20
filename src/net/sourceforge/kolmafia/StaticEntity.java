@@ -260,22 +260,11 @@ public abstract class StaticEntity
 
 	public static final void externalUpdate( final String location, final String responseText )
 	{
-		if ( location.startsWith( "inv_equip.php" ) && location.indexOf( "ajax=1" ) != -1 )
-		{
-			// Unfortunately, it would do no good to parse the
-			// results of an outfit change, since there's no
-			// indication of which slot items ended up in.
-			//
-			// Must do an equipment refresh to resynchronize.
-
-			RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.EQUIPMENT ) );
-		}
-		
 		if ( location.startsWith( "craft.php" ) )
 		{
 			CreateItemRequest.parseCrafting( location, responseText );
 		}
-		
+
 		if ( location.startsWith( "account.php" ) )
 		{
 			if ( location.indexOf( "&ajax" ) != -1 )
@@ -315,7 +304,14 @@ public abstract class StaticEntity
 
 		if ( location.startsWith( "inventory.php" ) && location.indexOf( "which=2" ) != -1 )
 		{
-			EquipmentRequest.parseEquipment( responseText );
+			// If KoL is showing us our current equipment, parse it.
+			EquipmentRequest.parseEquipment( location, responseText );
+		}
+
+		if ( location.startsWith( "inventory.php" ) && location.indexOf( "curequip=1" ) != -1 )
+		{
+			// If KoL is showing us our current equipment, parse it.
+			EquipmentRequest.parseEquipment( location, responseText );
 		}
 		
 		if ( location.startsWith( "bedazzle.php" ) )

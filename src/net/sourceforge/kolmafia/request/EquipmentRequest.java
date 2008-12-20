@@ -193,7 +193,7 @@ public class EquipmentRequest
 		else if ( requestType == EquipmentRequest.EQUIPMENT )
 		{
 			this.addFormField( "ajax", "1" );
-			this.addFormField( "curequp", "1" );
+			this.addFormField( "curequip", "1" );
 		}
 		else if ( requestType == EquipmentRequest.MISCELLANEOUS )
 		{
@@ -846,24 +846,19 @@ public class EquipmentRequest
 
 			return;
 		}
-		else if ( this.getURLString().startsWith( "bedazzle.php" ) )
+
+		if ( this.getURLString().startsWith( "bedazzle.php" ) )
 		{
 			EquipmentRequest.parseBedazzlements( this.responseText );
 			return;
 		}
 
-		int outfitDivider = this.responseText.indexOf( "Save as Custom Outfit" );
-
 		if ( this.requestType != EquipmentRequest.MISCELLANEOUS && this.requestType != EquipmentRequest.CONSUMABLES )
 		{
-			// In valhalla, you can't make outfits and have no inventory.
-			if ( outfitDivider == -1 )
-			{
-				return;
-			}
-
-			EquipmentRequest.parseEquipment( this.responseText );
+			EquipmentRequest.parseEquipment( this.getURLString(), this.responseText );
 		}
+
+		int outfitDivider = this.responseText.indexOf( "Save as Custom Outfit" );
 
 		if ( outfitDivider != -1 )
 		{
@@ -1055,8 +1050,13 @@ public class EquipmentRequest
 		}
 	}
 
-	public static final void parseEquipment( final String responseText )
+	public static final void parseEquipment( final String location, final String responseText )
 	{
+		if ( location.indexOf( "onlyitem=" ) != -1 )
+		{
+			return;
+		}
+
 		AdventureResult[] oldEquipment = EquipmentManager.currentEquipment();
 		int oldFakeHands = EquipmentManager.getFakeHands();
 

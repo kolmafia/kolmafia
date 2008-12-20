@@ -326,7 +326,7 @@ old school Mafia knickerbockers	Muscle: +25, Mysticality: +25, Moxie: +25
 palm-frond capris	Moxie: +4, Maximum HP: +30, Maximum MP: +30
 pants of the Slug Lord	Stench Resistance: +2
 # paper-plate-mail pants
-# parasitic tentacles
+parasitic tentacles	Initiative: +30
 penguin shorts	Initiative: +20
 penguinskin mini-kilt	Initiative: +20
 penguinskin mini-skirt	Initiative: +20
@@ -556,7 +556,7 @@ dense meat crossbow	Moxie: +3
 dense meat staff	Mysticality: +3
 dense meat sword	Muscle: +3
 depleted Grimacite hammer	none
-depleted Grimacite kneecapping stick	Critical Hit Percent: +3
+depleted Grimacite kneecapping stick	none
 diamond-studded cane	Moxie: +5, Class: "Disco Bandit"
 didgeridooka	Moxie: +9
 # disco ball
@@ -858,7 +858,7 @@ marionette collective	Mysticality: +3
 naughty fortune teller	Softcore Only
 off-hand balloon	Muscle: +1, Mysticality: +1, Moxie: +1
 # oyster basket
-# parasitic strangleworm
+parasitic strangleworm	Damage Reduction: 15
 penguin skin buckler	Damage Reduction: 5, Moxie: +5
 penguin thesaurus	Mysticality: +1, Maximum HP: +5, Maximum MP: +5
 pilgrim shield	Maximum HP: +30, Weapon Damage: +15, Experience: +3, HP Regen Min: 10, HP Regen Max: 12, Softcore Only
@@ -966,7 +966,7 @@ Iiti Kitty phone charm	Single Equip, Spooky Damage: +15
 Iron Beta of Industry	Single Equip, Moxie: +10, Muscle: +10, Mysticality: +10, Item Drop: +6
 # Item #13
 Jarlsberg's earring	Mysticality: +10
-# Jekyllin hide belt
+Jekyllin hide belt	none
 Jolly Roger charrrm bracelet	Moxie: +5
 Junior Adventurer's merit badge	Single Equip, Moxie: +3, Muscle: +3, Mysticality: +3
 Junior LAAAAME merit badge	Moxie: +1, Muscle: +1, Mysticality: +1
@@ -1116,8 +1116,8 @@ headhunter necktie	Single Equip, Muscle: +15, Moxie: -3
 # hemp string
 hippy medical kit	Single Equip, Mysticality: +10, HP Regen Min: 6, HP Regen Max: 10
 hippy protest button	Single Equip
-hobo stogie	Single Equip
 # hobo stogie	Single Equip, Physical Damage Percent against Hobos: +100
+hobo stogie	Single Equip
 hockey stick of furious angry rage	Monster Level: +30, Muscle Percent: +5
 ice skates	Single Equip, Initiative: +15, Meat Drop: +15, Softcore Only
 imitation nice watch	Single Equip, Adventures: +3
@@ -1140,8 +1140,8 @@ monster bait	Single Equip, Combat Rate: +5
 # mood ring
 natty blue ascot	Meat Drop: +20
 navel ring of navel gazing	Single Equip, Intrinsic Effect: "Omphaloskepsis", Mysticality Percent: +25, Spell Damage Percent: +100, Mana Cost: -1, Softcore Only
-old soft shoes	Single Equip, Item Drop: +30
 # old soft shoes	+30% Item Drops from Hobos
+old soft shoes	Single Equip, Item Drop: +30
 orange glowstick	Maximum MP: +5, Moxie: -3
 pat-a-cake pendant	Mysticality: +1
 patent leather shoes	Muscle: +1, Hot Resistance: +1
@@ -1177,8 +1177,8 @@ ring of fire resistance	Hot Resistance: +2
 ring of gain strength	Muscle: +10
 ring of half-assed regeneration	Single Equip
 ring of increase damage	Weapon Damage: +10, Spell Damage: +10
-rope with some soap on it	Single Equip
 # rope with some soap on it	+100% Spell Damage against Hobos
+rope with some soap on it	Single Equip
 rose-colored glasses	Maximum HP: +5, Maximum MP: +5
 round green sunglasses	Single Equip, Moxie: +9, Sleaze Resistance: +2
 round purple sunglasses	Single Equip, Sleaze Resistance: +1
@@ -1409,7 +1409,7 @@ metal mandible	Familiar Weight: +5
 metallic foil bow	Familiar Weight: +5
 metallic foil radar dish	Familiar Weight: +5
 miniature Jacob's ladder	Familiar Weight: +5
-miniature antlers	Familiar Weight: +5
+miniature antlers	none
 miniature carton of clove cigarettes	Familiar Weight: +5
 miniature castagnets	Familiar Weight: +5
 # miniature dormouse
@@ -2052,6 +2052,7 @@ eXtreme Cold-Weather Gear	Cold Resistance: +3
 # +100% Spell Damage
 # +100% Spell Damage against Hobos
 # +15 Moxie
+# +15 Weapon Damage
 # +15% Booze Drops from Monsters
 # +15% Food Drops from Monsters
 # +15% Moxie
@@ -2098,6 +2099,7 @@ eXtreme Cold-Weather Gear	Cold Resistance: +3
 # Damages Attacking Opponent
 # Damages Attacking Opponent (Underwater Only)
 # Deals 2-3 damage to attackers
+# Deals 30-45 damage to attackers.
 # Deals a rainbow of damage to attackers
 # Disco Bandit Combat Skills weaken enemies by an additional +100%
 # Drains MP on Successful Hit
@@ -2123,8 +2125,8 @@ eXtreme Cold-Weather Gear	Cold Resistance: +3
 # Needed for depleted Grimacite smithing
 # Never runs out of pencils!
 # On Critical:  Deals 50-60 additional damage
+# On Critical:  Whittles enemy down
 # On Critical: Insanity!
-# On Critical: Whittles enemy down
 # Prevents Level Teleporting
 # Protects the wearer from poison
 # Provides Mostly Accurate Battle Statistics During Fights

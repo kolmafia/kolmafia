@@ -1185,6 +1185,7 @@ public class ItemDatabase
 	{
 		switch ( itemId )
 		{
+                        // Grimacite Generation 1
 		case ItemPool.GRIMACITE_GALOSHES:
 		case ItemPool.GRIMACITE_GARTER:
 		case ItemPool.GRIMACITE_GORGET:
@@ -1192,7 +1193,7 @@ public class ItemDatabase
 		case ItemPool.GRIMACITE_GUAYABERA:
 		case ItemPool.GRIMACITE_GOGGLES:
 		case ItemPool.GRIMACITE_GLAIVE:
-                        // Grimacite Generation 1
+                        // Grimacite Generation 2
 		case ItemPool.GRIMACITE_GASMASK:
 		case ItemPool.GRIMACITE_GAT:
 		case ItemPool.GRIMACITE_GIRDLE:
@@ -1200,7 +1201,7 @@ public class ItemDatabase
 		case ItemPool.GRIMACITE_GAUNTLETS:
 		case ItemPool.GRIMACITE_GAITERS:
 		case ItemPool.GRIMACITE_GOWN:
-                        // Grimacite Generation 2
+                        // Depleted Grimacite
 		case ItemPool.GRIMACITE_HAMMER:
 		case ItemPool.GRIMACITE_GRAVY_BOAT:
 		case ItemPool.GRIMACITE_WEIGHTLIFTING_BELT:
@@ -1208,7 +1209,7 @@ public class ItemDatabase
 		case ItemPool.GRIMACITE_NINJA_MASK:
 		case ItemPool.GRIMACITE_SHINGUARDS:
 		case ItemPool.GRIMACITE_ASTROLABE:
-                        // Depleted Grimacite
+		case ItemPool.GRIMACITE_KNEECAPPING_STICK:
 			return true;
 		}
 

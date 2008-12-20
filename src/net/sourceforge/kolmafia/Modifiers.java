@@ -1083,6 +1083,10 @@ public class Modifiers
 
                         switch ( itemId )
                         {
+			case ItemPool.GRIMACITE_KNEECAPPING_STICK:
+				// Unknown, so far
+				break;
+
 			case ItemPool.GRIMACITE_HAMMER:
 				this.set( Modifiers.MONSTER_LEVEL, effect / 2 );
 				break;
@@ -1149,6 +1153,9 @@ public class Modifiers
 
 		switch ( itemId )
 		{
+		case ItemPool.MINIATURE_ANTLERS:
+			return true;
+
 		case BAIO:
 			int mod = HolidayDatabase.getBaioEffect();
 			this.set( Modifiers.MOX_PCT, mod );
