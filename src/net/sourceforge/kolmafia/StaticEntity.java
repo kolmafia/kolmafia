@@ -302,16 +302,21 @@ public abstract class StaticEntity
 		// Keep your current equipment and familiars updated, if you
 		// visit the appropriate pages.
 
-		if ( location.startsWith( "inventory.php" ) && location.indexOf( "which=2" ) != -1 )
+		if ( location.startsWith( "inventory.php" ) &&
+		     ( location.indexOf( "which=2" ) != -1 || location.indexOf( "curequip=1" ) != -1 ) )
 		{
 			// If KoL is showing us our current equipment, parse it.
 			EquipmentRequest.parseEquipment( location, responseText );
 		}
 
-		if ( location.startsWith( "inventory.php" ) && location.indexOf( "curequip=1" ) != -1 )
+		if ( location.startsWith( "inv_equip.php" ) &&
+		     location.indexOf( "ajax=1" ) != -1 )
 		{
-			// If KoL is showing us our current equipment, parse it.
-			EquipmentRequest.parseEquipment( location, responseText );
+			// If we are changing equipment via a chat command,
+			// need to ask KoL for an update, since otherwise we
+			// don't know exactly where accessories end up.
+
+			RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.EQUIPMENT ) );
 		}
 		
 		if ( location.startsWith( "bedazzle.php" ) )

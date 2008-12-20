@@ -779,7 +779,7 @@ Sinful Desires	Spell Damage: +10
 # Spanish fly trap
 # The Spirit of Crimbo
 Tiki lighter	Experience: +1
-# Tuesday's ruby
+Tuesday's ruby	none
 Wand of Oscus	Spell Damage Percent: +100, Stench Spell Damage: +30, Class: "Pastamancer"
 Zombo's shield	Damage Reduction: 15, Damage Absorption: +50, Spooky Damage: +30, Muscle Percent: +20, Class: "Turtle Tamer"
 # anniversary balloon
@@ -1014,7 +1014,7 @@ Senior LAAAAME merit badge	Moxie: +3, Muscle: +3, Mysticality: +3
 Slow Talkin' Elliot's dogtags	Muscle: +30, Initiative: -30
 Sneaky Pete's breath spray	Moxie: +10
 Talisman o' Nam	Single Equip, Moxie: +3, Muscle: +3, Mysticality: +3
-# Talisman of Baio
+Talisman of Baio	none
 Talisman of Bakula	Single Equip
 The Ring	Single Equip, Moxie: +3, Muscle: +3, Mysticality: +3, Spooky Damage: +40
 Unspeakable Earring	Single Equip, Cold Resistance: +3, Sleaze Resistance: +3
@@ -1532,11 +1532,10 @@ comfy blanket	Base Resting HP: +50
 # depleted Grimacite shinguards
 # depleted Grimacite weightlifting belt
 
-Jekyllin hide belt	Muscle: +0, Mysticality: +0, Moxie: +0, Item Drop: +0, Softcore Only
-
-Talisman of Baio	Muscle Percent: +0, Mysticality Percent: +0, Moxie Percent: +0
-
-Tuesday's ruby	Muscle Percent: +0, Mysticality Percent: +0, Moxie Percent: +0, Meat Drop: +0, Item Drop: +0
+# miniature antlers
+# Jekyllin hide belt
+# Talisman of Baio
+# Tuesday's ruby
 
 # Intrinsic Effects section of modifiers.txt
 
