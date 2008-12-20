@@ -3643,15 +3643,15 @@
 3636	641537318	patent leather shoes	pairs of patent leather shoes
 3637	935975647	gray bow tie	gray bow ties
 3638	218664990	penguin thesaurus	penguin thesauri
-3639	508506361	blob-shaped Crimbo cookie
+3639	508506361	blob-shaped Crimbo cookie	blob-shaped Crimbo cookies
 3640	440608325	seaweed	sheets of seaweed
 3641	903837198	jamfish jam
-3642	271341113	dragonfish caviar
-3643	282340653	pufferfish spine
-3644	409887850	depleted Grimacite kneecapping stick
-3645	880677333	canteen of wine	canteens of wine
+3642	271341113	dragonfish caviar	ounces of dragonfish caviar
+3643	282340653	pufferfish spine	pufferfish spines
+3644	409887850	depleted Grimacite kneecapping stick	depleted Grimacite kneecapping sticks
+3645	880677333	canteen of wine	canteen of wines
 3646	970160730	<i>limbos</i> gingerbread	wafers of <i>limbos</i> gingerbread
-3647	599279187	elven whittling knife
+3647	599279187	elven whittling knife	elven whittling knives
 3648	516748124	magic dragonfish fry
 3649	410531723	map to Madness Reef
 3650	357577494	toast with jam

@@ -710,10 +710,10 @@ public class ConcoctionDatabase
 	private static final void setBetterIngredient( final int itemId1, final int itemId2,
 		final List availableIngredients )
 	{
+		AdventureResult better = ConcoctionDatabase.getBetterIngredient( itemId1, itemId2, availableIngredients );
+		int available = better.getCount( availableIngredients );
+
 		Concoction item;
-		int available =
-			ConcoctionDatabase.getBetterIngredient( itemId1, itemId2, availableIngredients ).getCount(
-				availableIngredients );
 
 		item = ConcoctionPool.get( itemId1 );
 		item.initial = available;
@@ -1246,7 +1246,7 @@ public class ConcoctionDatabase
 
 	public static final int getMixingMethod( final AdventureResult ar )
 	{
-		Concoction item = ConcoctionPool.get( ar.getName() );
+		Concoction item = ConcoctionPool.get( ar );
 		return item == null ? KoLConstants.NOCREATE : item.getMixingMethod();
 	}
 

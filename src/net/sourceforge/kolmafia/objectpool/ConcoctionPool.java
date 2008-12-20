@@ -55,11 +55,17 @@ public class ConcoctionPool
 		// Pre-set concoctions for all items.
 
 		int maxItemId = ItemDatabase.maxItemId();
-		for ( int i = 0; i <= maxItemId; ++i )
+		for ( int i = 1; i <= maxItemId; ++i )
 		{
-			AdventureResult ar = ItemDatabase.getItemName( i ) == null ? null : ItemPool.get( i, 1 );
-			Concoction c = new Concoction( ar, KoLConstants.NOCREATE );
-			ConcoctionPool.set( c );
+			String name = ItemDatabase.getItemName( i );
+
+			// Skip non-existent items
+			if ( name != null )
+			{
+				AdventureResult ar =  ItemPool.get( i, 1 );
+				Concoction c = new Concoction( ar, KoLConstants.NOCREATE );
+				ConcoctionPool.set( c );
+			}
 		}
 	}
 
@@ -73,13 +79,19 @@ public class ConcoctionPool
 		return (Concoction) ConcoctionPool.map.get( name );
 	}
 
+	public static Concoction get( final AdventureResult ar )
+	{
+		int itemId = ar.getItemId();
+		return itemId > 0 ? ConcoctionPool.get( itemId ) : ConcoctionPool.get( ar.getName() );
+	}
+
 	public static void set( final Concoction c )
 	{
 		ConcoctionPool.map.put( c.getName(), c );
 		ConcoctionPool.values = null;
 
 		int itemId = c.getItemId();
-		if ( itemId >= 0)
+		if ( itemId > 0)
 		{
 			ConcoctionPool.cache.set( itemId, c );
 		}
@@ -95,13 +107,13 @@ public class ConcoctionPool
 	}
 
 	/**
-	 * Find a concoction made in a particular way that includes the specified ingredient
+	 * Find a concoction made in a particular way that includes the
+	 * specified ingredient
 	 */
 
 	public static final int findConcoction( final int mixingMethod, final int itemId )
 	{
 		int count = ConcoctionPool.cache.size();
-		AdventureResult ingredient = ItemPool.get( itemId, 1 );
 
 		for ( int i = 0; i < count; ++i )
 		{
@@ -119,12 +131,13 @@ public class ConcoctionPool
 
 			for ( int j = 0; j < ingredients.length; ++j )
 			{
-				if ( ingredients[ j ].equals( ingredient ) )
+				if ( ingredients[ j ].getItemId() == itemId )
 				{
 					return i;
 				}
 			}
 		}
+
 		return -1;
 	}
 
