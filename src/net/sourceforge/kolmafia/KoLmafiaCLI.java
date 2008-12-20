@@ -1287,6 +1287,67 @@ public class KoLmafiaCLI
 		}
 	}
 	
+	static { new ModRef().register( "modref" ); }
+	public static class ModRef
+		extends Command
+	{
+		{ usage = " [<object>] - list all modifiers, show values for player [and object]."; }
+		public void run( String cmd, String parameters )
+		{
+			Modifiers mods = Modifiers.getModifiers( parameters );
+			StringBuffer buf = new StringBuffer( "<table border=2>" +
+				"<tr><td colspan=2>NUMERIC MODIFIERS</td></tr>" );
+			String mod;
+			int i = 0;
+			while ( (mod = Modifiers.getModifierName( i++ )) != null )
+			{	
+				buf.append( "<tr><td>" );
+				buf.append( mod );
+				buf.append( "</td><td>" );
+				buf.append( KoLCharacter.currentNumericModifier( mod ) );
+				if ( mods != null )
+				{
+					buf.append( "</td><td>" );
+					buf.append( mods.get( mod ) );
+				}
+				buf.append( "</td></tr>" );
+			}
+			buf.append( "<tr><td colspan=2>BOOLEAN MODIFIERS</td></tr>" );
+			i = 0;
+			while ( (mod = Modifiers.getBooleanModifierName( i++ )) != null )
+			{	
+				buf.append( "<tr><td>" );
+				buf.append( mod );
+				buf.append( "</td><td>" );
+				buf.append( KoLCharacter.currentBooleanModifier( mod ) );
+				if ( mods != null )
+				{
+					buf.append( "</td><td>" );
+					buf.append( mods.getBoolean( mod ) );
+				}
+				buf.append( "</td></tr>" );
+			}
+			buf.append( "<tr><td colspan=2>STRING MODIFIERS</td></tr>" );
+			i = 0;
+			while ( (mod = Modifiers.getStringModifierName( i++ )) != null )
+			{	
+				buf.append( "<tr><td>" );
+				buf.append( mod );
+				buf.append( "</td><td>N/A" );
+				// There are currently no string modifiers at the player level.
+				// buf.append( KoLCharacter.currentStringModifier( mod ) );
+				if ( mods != null )
+				{
+					buf.append( "</td><td>" );
+					buf.append( mods.getString( mod ) );
+				}
+				buf.append( "</td></tr>" );
+			}
+			buf.append( "</table>" );
+			RequestLogger.printLine( buf.toString() );
+		}
+	}
+	
 	static { new MoleRef().register( "moleref" ); }
 	public static class MoleRef
 		extends Command
