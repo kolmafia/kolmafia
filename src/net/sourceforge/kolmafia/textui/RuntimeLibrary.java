@@ -107,6 +107,7 @@ import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
 import net.sourceforge.kolmafia.swingui.ItemManageFrame;
+// import net.sourceforge.kolmafia.swingui.ScriptUIFrame;
 import net.sourceforge.kolmafia.textui.parsetree.AggregateType;
 import net.sourceforge.kolmafia.textui.parsetree.ArrayValue;
 import net.sourceforge.kolmafia.textui.parsetree.CompositeValue;
@@ -147,6 +148,9 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "user_confirm", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "launch_ui", DataTypes.VOID_TYPE, params ) );
 
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "logprint", DataTypes.VOID_TYPE, params ) );
@@ -904,6 +908,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "numeric_modifier", DataTypes.FLOAT_TYPE, params ) );
 
+		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "numeric_modifier", DataTypes.FLOAT_TYPE, params ) );
+
 		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "numeric_modifier", DataTypes.FLOAT_TYPE, params ) );
 
@@ -916,11 +923,23 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "boolean_modifier", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.STRING_TYPE };
+		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "boolean_modifier", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "boolean_modifier", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "string_modifier", DataTypes.STRING_TYPE, params ) );
+
+		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "effect_modifier", DataTypes.EFFECT_TYPE, params ) );
+
+		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "effect_modifier", DataTypes.EFFECT_TYPE, params ) );
+
+		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "class_modifier", DataTypes.CLASS_TYPE, params ) );
 
 		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "class_modifier", DataTypes.CLASS_TYPE, params ) );
@@ -973,6 +992,13 @@ public abstract class RuntimeLibrary
 	public static Value user_confirm( final Value message )
 	{
 		return DataTypes.makeBooleanValue( InputFieldUtilities.confirm( message.toString() ) );
+	}
+
+	public static Value launch_ui( final Value title, final Value serverFunc, final Value listeners )
+	{
+		//new ScriptUIFrame( LibraryFunction.interpreter, title.toString(),
+		//	serverFunc.toString(), listeners.toString() );
+		return DataTypes.VOID_VALUE;
 	}
 
 	public static Value logprint( final Value string )
@@ -3311,6 +3337,13 @@ public abstract class RuntimeLibrary
 		String name = arg.toString();
 		String mod = modifier.toString();
 		return DataTypes.makeBooleanValue( Modifiers.getBooleanModifier( name, mod ) );
+	}
+
+	public static Value string_modifier( final Value arg, final Value modifier )
+	{
+		String name = arg.toString();
+		String mod = modifier.toString();
+		return new Value( Modifiers.getStringModifier( name, mod ) );
 	}
 
 	public static Value effect_modifier( final Value arg, final Value modifier )

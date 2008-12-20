@@ -440,6 +440,7 @@ public class Modifiers
 	public static final int CLASS = 0;
 	public static final int INTRINSIC_EFFECT = 1;
 	public static final int EQUALIZE = 2;
+	public static final int MODIFIERS = 3;
 
 	private static final Object[][] stringModifiers =
 	{
@@ -454,6 +455,10 @@ public class Modifiers
 		{ "Equalize",
 		  null,
 		  Pattern.compile( "Equalize: \"(.*?)\"" )
+		},
+		{ "Modifiers",
+		  null,
+		  Pattern.compile( "^(none)$" )
 		},
 	};
 
@@ -472,6 +477,16 @@ public class Modifiers
 	public static final String getModifierName( final int index )
 	{
 		return Modifiers.modifierName( Modifiers.floatModifiers, index );
+	}
+
+	public static final String getBooleanModifierName( final int index )
+	{
+		return Modifiers.modifierName( Modifiers.booleanModifiers, index );
+	}
+
+	public static final String getStringModifierName( final int index )
+	{
+		return Modifiers.modifierName( Modifiers.stringModifiers, index );
 	}
 
 	private static final String modifierName( final Object[][] table, final int index )
@@ -979,6 +994,7 @@ public class Modifiers
 				}
 			}
 		}
+		newStrings[ Modifiers.MODIFIERS ] = string;
 		
 		Matcher matcher = CLOWNOSITY_PATTERN.matcher( string );
 		if ( matcher.find() )
@@ -1749,8 +1765,7 @@ public class Modifiers
 
 			if ( modifier instanceof Modifiers )
 			{
-				RequestLogger.printLine( "Key \"" + name + "\" already parsed. Skipping." );
-				continue;
+				modifier = ((Modifiers) modifier).getString( Modifiers.MODIFIERS );
 			}
 
 			if ( !( modifier instanceof String ) )
