@@ -782,7 +782,9 @@ public abstract class SorceressLairManager
 		if ( percussion == SorceressLairManager.BROKEN_SKULL )
 		{
 			RequestThread.postRequest( new UntinkerRequest( SorceressLairManager.SKELETON.getItemId() ) );
-			RequestThread.postRequest( CreateItemRequest.getInstance( SorceressLairManager.BONE_RATTLE ) );
+			CreateItemRequest request = CreateItemRequest.getInstance( SorceressLairManager.BONE_RATTLE );
+			request.setQuantityNeeded( 1 );
+			RequestThread.postRequest( request );
 		}
 
 		// Finally, arm the stone mariachis with their
