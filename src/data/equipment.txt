@@ -566,7 +566,7 @@ octopus's spade	200	Mus: 85	1-handed knife
 origami riding crop	100	Mus: 0	1-handed crop
 oversized pizza cutter	100	Mys: 35	1-handed utensil
 palm-frond whip	25	Mus: 0	1-handed whip
-parasitic claw	30	Mus:0	1-handed club
+parasitic claw	30	Mus: 0	1-handed club
 pasta spoon	10	Mys: 0	1-handed utensil
 penguin whip	20	Mus: 0	1-handed whip
 perforated battle paddle	175	Mus: 72	2-handed club
