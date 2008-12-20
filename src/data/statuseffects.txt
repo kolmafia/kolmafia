@@ -583,4 +583,5 @@
 582	In Vino Vires	grapes.gif	f2406fa59f6076fa20ed17d6f45c177f	drink 1 canteen of wine
 583	Yuletide Industry	limboswafer.gif	0d1f6ff4bf9945933408bc6f311b1f31	eat 1 <i>limbos</i> gingerbread
 584	The Colors...		53452a728619fde70e097526f7e560fe
+595	Jammin'	jamtoast.gif	ab3170899e6d22313b8507ceb499c7e3	eat 1 toast with jam
 586	Drunk With Power	moon4.gif	b2a15cf693cf363a637c8af66666db63	drink 1 elven moonshine

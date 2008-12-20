@@ -1203,6 +1203,7 @@ clockwork bartender-in-the-box	1	clockwork bartender-head-in-the-box	cocktailcra
 dead guy's memento	28	dead guy's piece of double-sided tape	dead guy's watch	picture of a dead guy's girlfriend
 rusty diving helmet	28	rusty broken diving helmet	rusty porthole	rusty rivet (8)
 scroll of ancient forbidden unspeakable evil	28	disintegrating quill pen	inkwell	tattered scrap of paper
+toast with jam	28	jamfish jam	toast
 
 # Crimbo toys.  These are items which are created at Uncle Crimbo
 # after collecting enough toy components.
