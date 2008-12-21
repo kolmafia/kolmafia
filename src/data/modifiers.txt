@@ -1545,9 +1545,11 @@ Complete Delusion	Moxie: +5, Muscle: +4
 Draggin' Balls	Moxie: +6, Muscle: -3
 Free Bird	Mysticality: +20
 # Get Me Off This Crazy Thing!
-# Head on Fire, Ass Catching
+Head on Fire, Ass Catching	Initiative: +10
 # Innuendo Shopping
 # Missing Kidney
+# O Hai!
+# Omphaloskepsis	free run away @ 100% chance, end of combat benefits
 Radio Head	Moxie: +20
 Red Neck	Moxie: -5, Muscle: +15
 Shiny Happy Weapon	Muscle: +20
@@ -1943,18 +1945,28 @@ Yuletide Sappiness	Mysticality Percent: +10
 # Passive Skills section of modifiers.txt
 
 Abs of Tin	Maximum HP Percent: +10
+# Ambidextrous Funkslinging
 Amphibian Sympathy	Familiar Weight: +5
+# Armorcraftiness
 Claws of the Otter	Weapon Damage: +3
 Claws of the Walrus	Weapon Damage: +4
 Cold-Blooded Fearlessness	Spooky Resistance: +2
 Cosmic Ugnderstanding	Maximum MP Percent: +5
 Diminished Gag Reflex	Stench Resistance: +2
+# Disco Fever	+1 ranged damage per player level
+# Double-Fisted Skull Smashing
 Expert Panhandling	Meat Drop: +10
+# Eye of the Stoat	+0.5X critical hits, improve smacks
 Gnefarious Pickpocketing	Meat Drop: +10
 Gnomish Hardigness	Maximum HP Percent: +5
 Heart of Polyester	Sleaze Resistance: +2
+# Hero of the Half-Shell
 Hide of the Otter	Damage Absorption: +20
 Hide of the Walrus	Damage Absorption: +40
+# Immaculate Seasoning	auto-choose hot vs. cold
+# Impetuous Sauciness	+5 reagent potion duration
+# Intrinsic Spiciness	+1 spell damage per player level, max 10
+# Liver of Steel
 Mad Looting Skillz	Item Drop: +20
 Marginally Insane	Maximum MP Percent: +10
 Natural Born Scrabbler	Item Drop: +5
@@ -1962,9 +1974,22 @@ Nimble Fingers	Meat Drop: +20
 Northern Exposure	Cold Resistance: +2
 Overdeveloped Sense of Self Preservation	Initiative: +20
 Powers of Observatiogn	Item Drop: +10
+# Pulverize
+# Really Expensive Jewelrycrafting
 Skin of the Leatherback
+Spirit of Ravioli	Maximum HP Percent: +25
+# Spirit of Rigatoni	allows wielding of chefstaves
+# Spleen of Steel
+# Stomach of Steel
+# Super-Advanced Meatsmithing
+# Superhuman Cocktailcrafting
+# Tao of the Terrapin
+# The Way of Sauce
 Thrift and Grift	Meat Drop: +10
 Tolerance of the Kitchen	Hot Resistance: +2
+# Torso Awaregness
+# Transcendental Noodlecraft
+Wisdom of the Elder Tortoises	Maximum MP Percent: +50
 
 # Bad Moon passive skills: the Seven Deadly Sins.
 # The skills positively or negatively modify seven aspects of gameplay
@@ -1993,8 +2018,10 @@ Bugbear Costume	Mysticality: +3, Spell Damage: +3
 Cloaca-Cola Uniform	MP Regen Min: 1, MP Regen Max: 3
 # Clockwork Apparatus
 # Crimbo Duds
+# Crimborg Assault Armor
 Dire Drifter Duds	Familiar Weight: +5
 Dyspepsi-Cola Uniform	MP Regen Min: 1, MP Regen Max: 3
+# El Vibrato Relics
 # Encephalic Ensemble
 Filthy Hippy Disguise	Stench Damage: +5
 Frat Boy Ensemble	Sleaze Damage: +5
@@ -2005,14 +2032,16 @@ Glad Bag Glad Rags	Mysticality: +10, Moxie: +10, Sleaze Damage: +5, Stench Damag
 Grass Guise	HP Regen Min: 1, HP Regen Max: 3
 Hodgman's Regal Frippery	Hobo Power: +25
 Hot and Cold Running Ninja Suit	Cold Resistance: +2, Hot Resistance: +2
-# Hyperborean Hobo Habiliments
+Hyperborean Hobo Habiliments	Cold Damage: +50
 Knob Goblin Elite Guard Uniform	Muscle: +7
 Knob Goblin Harem Girl Disguise	Sleaze Damage: +3
 # Mining Gear
-# OK Lumberjack Outfit	Critical: x
+# Mutant Couture
+OK Lumberjack Outfit	Critical: 2
 Palmist Paraphernalia	Moxie: +7
-# Pyretic Panhandler Paraphernalia	Grants Start Trash Fire combat skill
+Pyretic Panhandler Paraphernalia	MP Regen Min: 20, MP Regen Max: 30
 # Radio Free Regalia
+# Roy Orbison Disguise
 Star Garb	Muscle: +7, Mysticality: +7, Moxie: +7
 Swashbuckling Getup	Moxie: +7
 Tapered Threads	Initiative: +30
