@@ -1182,6 +1182,7 @@ tiny plastic Knob Goblin harem girl	0	none
 tiny plastic Knob Goblin mad scientist	0	none
 tiny plastic Knott Yeti	0	none
 tiny plastic Lord Spookyraven	0	Mys: 10
+tiny plastic Mob Penguin	0	none
 tiny plastic Naughty Sorceress	0	Mys: 35
 tiny plastic Orcish Frat Boy	0	none
 tiny plastic Protagonist	0	none

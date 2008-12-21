@@ -313,10 +313,8 @@ public abstract class StaticEntity
 		     location.indexOf( "ajax=1" ) != -1 )
 		{
 			// If we are changing equipment via a chat command,
-			// need to ask KoL for an update, since otherwise we
-			// don't know exactly where accessories end up.
-
-			RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.EQUIPMENT ) );
+			// try to deduce what changed.
+			EquipmentRequest.parseEquipmentChange( location, responseText );
 		}
 		
 		if ( location.startsWith( "bedazzle.php" ) )

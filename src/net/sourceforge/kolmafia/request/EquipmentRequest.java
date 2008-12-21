@@ -45,6 +45,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
@@ -93,10 +94,13 @@ public class EquipmentRequest
 		"<td>\\s*(shiny|dull)?\\s*([^<]+)<a [^>]+action=peel|<td>\\s*<img [^>]+magnify" );
 
 	private static final Pattern OUTFIT_PATTERN = Pattern.compile( "whichoutfit=(\\d+)" );
-	private static final Pattern SLOT_PATTERN = Pattern.compile( "type=([a-z]+)" );
+	private static final Pattern SLOT_PATTERN = Pattern.compile( "type=([a-z123]+)" );
 	private static final Pattern ITEMID_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
 	private static final Pattern STICKERITEM_PATTERN = Pattern.compile( "sticker=(\\d+)" );
-	private static final Pattern STICKERSLOT_PATTERN = Pattern.compile( "slot=(\\d+)" );
+	private static final Pattern SLOT1_PATTERN = Pattern.compile( "slot=(\\d+)" );
+
+	private static final Pattern EQUIPPED_PATTERN = Pattern.compile( "<td[^>]*>Item equipped:</td><td>.*?<b>(.*?)</b></td>" );
+	private static final Pattern UNEQUIPPED_PATTERN = Pattern.compile( "<td[^>]*>Item unequipped:</td><td>.*?<b>(.*?)</b></td>" );
 
 	public static final AdventureResult UNEQUIP = new AdventureResult( "(none)", 1, false );
 	private static final AdventureResult SPECTACLES = new AdventureResult( 1916, 1 );
@@ -630,8 +634,9 @@ public class EquipmentRequest
 				{
 					equipmentType = ItemDatabase.getConsumptionType( pieces[ i ].getItemId() );
 
-					// If the item is an accessory, you will have to remove all
-					// other accessories to be consistent.
+					// If the item is an accessory, you
+					// will have to remove all other
+					// accessories to be consistent.
 
 					if ( equipmentType == KoLConstants.EQUIP_ACCESSORY )
 					{
@@ -1223,22 +1228,7 @@ public class EquipmentRequest
 		// First, handle all of the equipment pre-processing,
 		// like inventory shuffling and the like.
 
-		boolean refreshCreations = false;
-
-		if ( !KoLmafia.isRefreshing() )
-		{
-			for ( int i = 0; i < EquipmentManager.SLOTS; ++i )
-			{
-				if ( i == EquipmentManager.FAMILIAR )
-				{
-					// Omit familiar items, since inventory
-					// is handled by familiar.setItem()
-					continue;
-				}
-
-				refreshCreations |= EquipmentRequest.switchItem( oldEquipment[ i ], equipment[ i ] );
-			}
-		}
+		boolean refresh = EquipmentRequest.switchEquipment( oldEquipment, equipment );
 
 		// Adjust inventory of fake hands
 
@@ -1249,11 +1239,6 @@ public class EquipmentRequest
 				EquipmentRequest.FAKE_HAND, newFakeHands - oldFakeHands ) );
 			EquipmentManager.setFakeHands( fakeHands );
 		}
-
-		// Now update your equipment to make sure that selected
-		// items are properly selected in the dropdowns.
-
-		EquipmentManager.setEquipment( equipment );
 
                 // Look for custom outfits
 
@@ -1276,10 +1261,229 @@ public class EquipmentRequest
 		// If you need to update your creatables list, do so at
 		// the end of the processing.
 
-		if ( refreshCreations )
+		if ( refresh )
 		{
 			ConcoctionDatabase.refreshConcoctions();
 		}
+	}
+
+	private static final boolean switchEquipment( final AdventureResult [] oldEquipment, final AdventureResult [] newEquipment )
+	{
+		boolean refresh = false;
+
+		if ( !KoLmafia.isRefreshing() )
+		{
+			for ( int i = 0; i < EquipmentManager.SLOTS; ++i )
+			{
+				if ( i == EquipmentManager.FAMILIAR )
+				{
+					// Omit familiar items, since inventory
+					// is handled by familiar.setItem()
+					continue;
+				}
+
+				AdventureResult oldItem = oldEquipment[ i ];
+				AdventureResult newItem = newEquipment[ i ];
+
+				refresh |= EquipmentRequest.switchItem( oldItem, newItem );
+			}
+		}
+
+		// Now update your equipment to make sure that selected
+		// items are properly selected in the dropdowns.
+
+		EquipmentManager.setEquipment( newEquipment );
+
+                return refresh;
+	}
+
+	private static final boolean switchItem( final int type, final AdventureResult newItem )
+	{
+		boolean refresh = false;
+
+		if ( type != EquipmentManager.FAMILIAR )
+		{
+			// Inventory is handled by familiar.setItem()
+			AdventureResult[] oldEquipment = EquipmentManager.currentEquipment();
+			AdventureResult oldItem = oldEquipment[ type ];
+			refresh = EquipmentRequest.switchItem( oldItem, newItem );
+		}
+
+		// Now update your equipment to make sure that selected
+		// items are properly selected in the dropdowns.
+
+		EquipmentManager.setEquipment( type, newItem );
+
+		return refresh;
+	}
+
+	public static final void parseEquipmentChange( final String location, final String responseText )
+	{
+		// inv_equip.php?action=equip&whichitem=2764&slot=1&ajax=1
+		// inv_equip.php?action=equip&whichitem=1234&ajax=1
+
+		if ( location.indexOf( "action=equip" ) != -1 )
+		{
+			// We equipped an item.
+			int itemId = EquipmentRequest.parseItemId( location );
+			if ( itemId < 0 )
+			{
+				return;
+			}
+
+			int type = EquipmentManager.itemIdToEquipmentType( itemId );
+			if ( type == EquipmentManager.ACCESSORY1 )
+			{
+				int slot = EquipmentRequest.parseSlot( location );
+				switch ( slot )
+				{
+				case 2:
+					type = EquipmentManager.ACCESSORY2;
+					break;
+				case 3:
+					type = EquipmentManager.ACCESSORY3;
+					break;
+				}
+			}
+
+			if ( EquipmentRequest.switchItem( type, ItemPool.get( itemId, 1 ) ) )
+			{
+				ConcoctionDatabase.refreshConcoctions();
+			}
+
+			return;
+		}
+
+		// inv_equip.php?action=unequip&type=acc3&ajax=1
+		if ( location.indexOf( "action=unequip" ) != -1 )
+		{
+			// We unequipped an item.
+			String slotName = EquipmentRequest.parseSlotName( location );
+			if ( slotName == null )
+			{
+				return;
+			}
+
+			int type = EquipmentRequest.slotNumber( slotName );
+			if ( type < 0 )
+			{
+				return;
+			}
+
+			if ( EquipmentRequest.switchItem( type, EquipmentRequest.UNEQUIP ) )
+			{
+				ConcoctionDatabase.refreshConcoctions();
+			}
+
+			return;
+		}
+
+		// inv_equip.php?action=outfit&whichoutfit=-28&ajax=1
+		if ( location.indexOf( "action=outfit" ) != -1 )
+		{
+			// We changed into an outfit.
+
+			// Since we don't actually know where accessories end
+			// up, we could ask KoL for an update.
+
+			// RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.EQUIPMENT ) );
+			// return;
+
+			// ...but we'll apply heuristics and hope for the best.
+
+			AdventureResult[] oldEquipment = EquipmentManager.currentEquipment();
+			AdventureResult[] newEquipment = EquipmentManager.currentEquipment();
+
+			Matcher unequipped = UNEQUIPPED_PATTERN.matcher( responseText );
+			while ( unequipped.find() )
+			{
+				EquipmentRequest.unequipItem( newEquipment, unequipped.group( 1 ) );
+			}
+
+			Matcher equipped = EQUIPPED_PATTERN.matcher( responseText );
+			while ( equipped.find() )
+			{
+				EquipmentRequest.equipItem( newEquipment, equipped.group( 1 ) );
+			}
+
+			if ( EquipmentRequest.switchEquipment( oldEquipment, newEquipment ) )
+			{
+				ConcoctionDatabase.refreshConcoctions();
+			}
+
+			return;
+		}
+	}
+
+	private static void unequipItem( final AdventureResult [] equipment, final String name )
+	{
+		for ( int i = 0; i < EquipmentManager.SLOTS; ++i )
+		{
+			AdventureResult oldItem = equipment[ i ];
+			if ( oldItem.getName().equals( name ) )
+			{
+				equipment[ i ] = EquipmentRequest.UNEQUIP;
+				break;
+			}
+		}
+	}
+
+	private static void equipItem( final AdventureResult [] equipment, final String name )
+	{
+		if ( !EquipmentDatabase.contains( name ) )
+		{
+			return;
+		}
+
+		AdventureResult item = new AdventureResult( name, 1, false );
+		int itemId = item.getItemId();
+		int slot = EquipmentManager.itemIdToEquipmentType( itemId );
+
+                switch ( slot )
+                {
+                case EquipmentManager.ACCESSORY1:
+			// Heuristic: KoL seems to fill the last slots first.
+			if ( equipment[ EquipmentManager.ACCESSORY3 ] == EquipmentRequest.UNEQUIP )
+			{
+				slot = EquipmentManager.ACCESSORY3;
+			}
+			else if ( equipment[ EquipmentManager.ACCESSORY2 ] == EquipmentRequest.UNEQUIP )
+			{
+				slot = EquipmentManager.ACCESSORY2;
+			}
+			else if ( equipment[ EquipmentManager.ACCESSORY1 ] == EquipmentRequest.UNEQUIP )
+			{
+				slot = EquipmentManager.ACCESSORY1;
+			}
+                        break;
+
+		case EquipmentManager.WEAPON:
+			if ( equipment[ EquipmentManager.WEAPON ] != EquipmentRequest.UNEQUIP )
+			{
+				slot = EquipmentManager.OFFHAND;
+			}
+			break;
+		}
+
+		equipment[ slot ] = item;
+	}
+
+	private static int parseItemId( final String location )
+	{
+		Matcher matcher = ITEMID_PATTERN.matcher( location );
+		return matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : -1;
+	}
+
+	private static int parseSlot( final String location )
+	{
+		Matcher matcher = SLOT1_PATTERN.matcher( location );
+		return matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : -1;
+	}
+
+	private static String parseSlotName( final String location )
+	{
+		Matcher matcher = EquipmentRequest.SLOT_PATTERN.matcher( location );
+		return matcher.find() ? matcher.group( 1 ) : null;
 	}
 
 	public static final int slotNumber( final String name )
@@ -1340,22 +1544,21 @@ public class EquipmentRequest
 				return true;
 			}
 
-			Matcher slotMatcher = EquipmentRequest.SLOT_PATTERN.matcher( urlString );
-			if ( slotMatcher.find() )
+			String slotName = parseSlotName( urlString );
+			if ( slotName != null )
 			{
-				RequestLogger.updateSessionLog( "unequip " + slotMatcher.group( 1 ) );
+				RequestLogger.updateSessionLog( "unequip " + slotName );
 			}
 
 			return true;
 		}
 
-		Matcher itemMatcher = EquipmentRequest.ITEMID_PATTERN.matcher( urlString );
-		if ( !itemMatcher.find() )
+		int itemId = EquipmentRequest.parseItemId( urlString );
+		if ( itemId == -1 )
 		{
 			return true;
 		}
 
-		int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
 		String itemName = ItemDatabase.getItemName( itemId );
 		if ( itemName == null )
 		{
@@ -1409,7 +1612,7 @@ public class EquipmentRequest
 
 		if ( urlString.indexOf( "action=peel" ) != -1 )
 		{
-			Matcher slotMatcher = EquipmentRequest.STICKERSLOT_PATTERN.matcher( urlString );
+			Matcher slotMatcher = EquipmentRequest.SLOT1_PATTERN.matcher( urlString );
 			if ( slotMatcher.find() )
 			{
 				RequestLogger.updateSessionLog( "peeled sticker " + slotMatcher.group( 1 ) );
@@ -1430,15 +1633,17 @@ public class EquipmentRequest
 			return;
 		}
 
-		Matcher slotMatcher = EquipmentRequest.STICKERSLOT_PATTERN.matcher( urlString );
 		if ( urlString.indexOf( "action=juststick" ) != -1 )
 		{
 			RequestLogger.updateSessionLog( "stuck " + itemName + " in empty slot" );
 		}
-		else if ( slotMatcher.find() && urlString.indexOf( "action=stick" ) != -1 )
+		else if ( urlString.indexOf( "action=stick" ) != -1 )
 		{
-			RequestLogger.updateSessionLog( "stuck " + itemName + " in slot "
-				+ slotMatcher.group( 1 ) );
+			int slot = EquipmentRequest.parseSlot( urlString );
+			if ( slot > 0 )
+			{
+				RequestLogger.updateSessionLog( "stuck " + itemName + " in slot " + slot );
+			}
 		}
 	}
 }

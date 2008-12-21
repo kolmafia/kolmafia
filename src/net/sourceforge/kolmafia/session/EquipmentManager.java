@@ -731,6 +731,11 @@ public class EquipmentManager
 		}
 	}
 
+	public static final int itemIdToEquipmentType( final int itemId )
+	{
+		return EquipmentManager.consumeFilterToEquipmentType( ItemDatabase.getConsumptionType( itemId ) );
+	}
+
 	/**
 	 * Accessor method to retrieve # of hands character's weapon uses
 	 *
