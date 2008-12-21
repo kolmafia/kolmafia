@@ -37,6 +37,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -310,6 +311,7 @@ public class SushiRequest
 		if ( fullness > 0 )
 		{
 			Preferences.increment( "currentFullness", fullness );
+			KoLCharacter.updateStatus();
 		}
 	}
 
