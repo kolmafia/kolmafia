@@ -516,12 +516,16 @@ public class RequestLogger
 			return;
 		}
 
-		if ( urlString.startsWith( "leaflet" ) || urlString.startsWith( "cave" ) || urlString.startsWith( "lair" ) || urlString.startsWith( "campground" ) )
-		{
-			return;
-		}
-
-		if ( urlString.startsWith( "inventory.php?which" ) || urlString.startsWith( "inventory.php?action=message" ) || urlString.equals( "knoll.php?place=paster" ) || urlString.equals( "town_right.php?place=untinker" ) )
+		if ( urlString.startsWith( "leaflet" ) ||
+		     urlString.startsWith( "cave" ) ||
+		     urlString.startsWith( "lair" ) ||
+		     urlString.startsWith( "campground" ) ||
+		     urlString.startsWith( "doc.php" ) ||
+		     urlString.startsWith( "inventory.php?ajax" ) ||
+		     urlString.startsWith( "inventory.php?which" ) ||
+		     urlString.startsWith( "inventory.php?action=message" ) ||
+		     urlString.equals( "knoll.php?place=paster" ) ||
+		     urlString.equals( "town_right.php?place=untinker" ) )
 		{
 			return;
 		}

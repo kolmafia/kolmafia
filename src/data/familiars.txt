@@ -103,4 +103,4 @@
 101	Sugar Fruit Fairy	stat0,item0	3578	tiny ballet slippers	0	3	3	2
 102	Imitation Crab	none	3598	imitation whetstone	3	1	2	2
 103	Pair of Ragged Claws	none	3628	radioactive chew toy	1	1	1	1
-104	Magic Dragonfish	none	3648		0	0	0	0
+104	Magic Dragonfish	none	3648	fin-bit wax	0	0	0	0

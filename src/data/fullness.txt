@@ -196,7 +196,7 @@ laser-broiled pear	1	1	3-4	8-10	8-10	8-10
 lemon	1	1	1	0	0	0
 lemon meringue pie	3	2	3-9	8-10	0	0
 lihc eye pie	4	2	5-12	0	11-12	0
-<i>limbos</i> gingerbread	3	5	6-15	22-40	22-40	22-40
+<i>limbos</i> gingerbread	3	5	5-15	22-40	22-40	22-40
 lime	1	2	1-3	0	0	0
 long pork casserole	3	9	8-15	0	37-51	0
 long pork chop sandwiches	2	8	3-9	0	25-35	0
