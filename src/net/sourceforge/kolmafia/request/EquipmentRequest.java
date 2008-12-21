@@ -1354,6 +1354,24 @@ public class EquipmentRequest
 			return;
 		}
 
+		// inv_equip.php?action=dualwield&whichitem=1325&ajax=1
+		if ( location.indexOf( "action=dualwield" ) != -1 )
+		{
+			// We equipped an item.
+			int itemId = EquipmentRequest.parseItemId( location );
+			if ( itemId < 0 )
+			{
+				return;
+			}
+
+			if ( EquipmentRequest.switchItem( EquipmentManager.OFFHAND, ItemPool.get( itemId, 1 ) ) )
+			{
+				ConcoctionDatabase.refreshConcoctions();
+			}
+
+			return;
+		}
+
 		// inv_equip.php?action=unequip&type=acc3&ajax=1
 		if ( location.indexOf( "action=unequip" ) != -1 )
 		{
