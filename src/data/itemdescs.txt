@@ -3657,8 +3657,8 @@
 3650	357577494	toast with jam
 3651	844666131	miniature antlers	pairs of miniature antlers
 3652	668910096	elven moonshine	jars of elven moonshine
-3653
-3654
+3653	411676372	knuckle sandwich
+3654	742862717	psycho sweater
 3655	486633888	fin-bit wax	tubs of fin-bit wax
 3656	627111093	tiny plastic Mob Penguin	tiny plastic Mob Penguins
 3657	644060479	tiny plastic mutant elf	

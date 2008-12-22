@@ -394,6 +394,7 @@ loathing eagle baby-doll shirt	Moxie: +3
 origami pasties	Meat Drop: +30, Softcore Only
 palm-frond cloak	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
 pirate shirt	Moxie: +3
+psycho sweater	Weapon Damage Percent: +20, Spell Damage Percent: +20
 rhinestone cowboy shirt	Muscle: +5
 safety vest	Damage Reduction: 3, Moxie: +5
 shark jumper	Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, HP Regen Min: 20, HP Regen Max: 40

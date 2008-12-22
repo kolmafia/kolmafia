@@ -29,9 +29,10 @@
 # Naughty Sorceress
 # Naughty Sorceress (second form)
 #
+# Mob Penguin Enforcer
 # Mob Penguin Goon
 # Mob Penguin Hitpenguin
-# Mob Penguin Enforcer
+# Mob Penguin Psychopath
 # Mob Penguin Racketeer
 #
 # Mob Penguin Smasher
@@ -386,9 +387,10 @@ Mimic (Middle 2 Rows)	HP: 35 Def: 25 Atk: 25
 Mimic (Top 2 Rows)	HP: 45 Def: 35 Atk: 35
 Mind Flayer	HP: 47 Def: 40 Atk: 36	mind flayer corpse (25)	cornuthaum (15)	large box (20)
 Mine Crab	HP: 850	live nautical mine
+Mob Penguin Enforcer		patent leather shoes (0)
 Mob Penguin Goon		penguin thesaurus (0)
 Mob Penguin Hitpenguin		canteen of wine (0)	depleted Grimacite kneecapping stick (0)
-Mob Penguin Enforcer		patent leather shoes (0)
+Mob Penguin Psychopath		knuckle sandwich (0)	psycho sweater (0)
 Mob Penguin Racketeer		gray bow tie (0)
 Mob Penguin Smasher		chunk of depleted Grimacite (0)	kneecapping stick (0)	penguin skin (0)
 Mob Penguin Smith		chunk of depleted Grimacite (0)	iron pasta spoon (0)	scroll of pasta summoning (0)

@@ -323,6 +323,7 @@ loathing eagle baby-doll shirt	45	Mus: 7
 origami pasties	100	none
 palm-frond cloak	140	Mus: 55
 pirate shirt	50	Mus: 10
+psycho sweater	100	Mus: 35
 rhinestone cowboy shirt	100	Mus: 35
 safety vest	70	Mus: 20
 shark jumper	200	Mus: 85
