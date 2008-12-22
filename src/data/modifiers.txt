@@ -451,7 +451,7 @@ Knob Goblin melon baller	Spell Damage: +8
 Knob Goblin scimitar	Muscle: +1
 Knob Goblin spatula	Spell Damage: +4
 Knob Goblin tongs	Spell Damage: +2
-KoL Con Cinco Pi&ntilde;ata Bat	Maximum HP: +10, Maximum MP: +10, HP Regen Min: 1, HP Regen Max: 3, MP Regen Min: 1, MP Regen Max: 3
+KoL Con Cinco Pi&ntilde;ata Bat	Maximum HP: +10, Maximum MP: +10, HP Regen Min: 1, HP Regen Max: 3, MP Regen Min: 1, MP Regen Max: 3, Softcore Only
 Mace of the Tortoise	Muscle: +7, Class: "Turtle Tamer"
 Mafia violin case	Muscle: +20, Weapon Damage: +30
 Maxwell's Silver Hammer	Mysticality: +10, Weapon Damage: +10
@@ -1301,6 +1301,7 @@ tiny plastic leprechaun	Familiar Weight: +1
 tiny plastic levitating potato	Familiar Weight: +1
 tiny plastic lobsterfrogman	Monster Level: +1
 tiny plastic mosquito	Familiar Weight: +1
+tiny plastic mutant elf	Maximum HP: +3, Maximum MP: +3
 tiny plastic ninja snowman	Monster Level: +1
 tiny plastic pastamancer	Mysticality: +2, Muscle: +1
 tiny plastic protector spectre	Spooky Damage: +10
@@ -1465,6 +1466,7 @@ woolen cravat	Familiar Weight: +5
 # zen motorcycle
 
 # Bedazzlements section of modifiers.txt
+
 scratch 'n' sniff unicorn sticker	Item Drop: +25
 scratch 'n' sniff apple sticker	Experience: +2
 scratch 'n' sniff UPC sticker	Meat Drop: +25
@@ -1473,6 +1475,7 @@ scratch 'n' sniff dragon sticker	Spooky Damage: +3, Stench Damage: +3, Hot Damag
 scratch 'n' sniff rock band sticker	Weapon Damage: +20, Spell Damage: +20
 
 # Campground equipment section of modifiers.txt
+
 # big rock is used as a placeholder for "the ground" (when you have no housing)
 big rock	Base Resting HP: +4, Base Resting MP: +5
 Newbiesport&trade; tent	Base Resting HP: +9, Base Resting MP: +10
@@ -1519,6 +1522,7 @@ comfy blanket	Base Resting HP: +50
 # Grimacite gat	Moxie Percent: +0, Initiative: +20
 # Grimacite gauntlets	Muscle Percent: +0, Meat Drop: +30
 # Grimacite girdle	Mysticality Percent: +0, Spell Damage: +20
+
 # Grimacite glaive	Muscle Percent: +0, Weapon Damage: +15
 # Grimacite go-go boots	Moxie Percent: +0, Item Drop: +30
 # Grimacite goggles	Adventures: +3, Mysticality Percent: +0
@@ -1526,15 +1530,19 @@ comfy blanket	Base Resting HP: +50
 # Grimacite gown	Monster Level: +0
 # Grimacite greaves	Moxie Percent: +0, Initiative: +20
 # Grimacite guayabera	Monster Level: +0
+
+# depleted Grimacite hammer
+
 # depleted Grimacite astrolabe
 # depleted Grimacite grappling hook
 # depleted Grimacite gravy boat
-# depleted Grimacite hammer
 # depleted Grimacite ninja mask
 # depleted Grimacite shinguards
 # depleted Grimacite weightlifting belt
 
 # miniature antlers
+# depleted Grimacite kneecapping stick
+
 # Jekyllin hide belt
 # Talisman of Baio
 # Tuesday's ruby

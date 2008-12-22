@@ -380,7 +380,7 @@ Knob Goblin melon baller	80	Mys: 25	1-handed utensil
 Knob Goblin scimitar	15	Mus: 0	1-handed sword
 Knob Goblin spatula	30	Mys: 0	1-handed utensil
 Knob Goblin tongs	20	Mys: 0	1-handed utensil
-KoL Con Cinco Pi&ntilde;ata Bat	10	none	2-handed club
+KoL Con Cinco Pi&ntilde;ata Bat	10	Mus: 0	2-handed club
 Mace of the Tortoise	50	Mus: 10	1-handed mace
 Mafia violin case	100	Mus: 35	1-handed club
 Maxwell's Silver Hammer	165	Mus: 67	1-handed club
@@ -1238,6 +1238,7 @@ tiny plastic leprechaun	0	none
 tiny plastic levitating potato	0	none
 tiny plastic lobsterfrogman	0	none
 tiny plastic mosquito	0	none
+tiny plastic mutant elf	0	none
 tiny plastic ninja snowman	0	none
 tiny plastic pastamancer	0	none
 tiny plastic protector spectre	0	Mys: 10

@@ -3547,7 +3547,7 @@
 3546	depleted Grimacite ninja mask	9	all	0
 3547	depleted Grimacite shinguards	10	all	0
 3548	depleted Grimacite astrolabe	8	all	0
-3549	KoL Con Cinco Pi&ntilde;ata Bat	12	display 0
+3549	KoL Con Cinco Pi&ntilde;ata Bat	12	display	0
 3550	propeller beanie	9	display	0
 3551	straw hat	9	all	50
 3552	octopus's spade	12	all	250
@@ -3655,3 +3655,4 @@
 3654
 3655	fin-bit wax	7	all	75
 3656	tiny plastic Mob Penguin	8	all	0
+3657	tiny plastic mutant elf	8	all	0
