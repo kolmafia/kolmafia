@@ -493,6 +493,9 @@ public abstract class KoLmafia
 		FlaggedItems.initializeLists();
 		Runtime.getRuntime().addShutdownHook( new ShutdownThread() );
 
+		// Create a script directory if necessary
+		KoLConstants.SCRIPT_LOCATION.mkdirs();
+
 		// Now run the main routines for each, so that
 		// you have an interface.
 
