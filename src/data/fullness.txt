@@ -6,7 +6,7 @@
 
 abominable snowcone	2	1	2-5	5-15	5-15	5-15
 ancient frozen dinner	4	1	4-8	0	8-10	0
-ancient serpent roll	3	1	0	0	0	0
+ancient serpent roll	3	1	9-14	0	8-16	20-30
 ancient unspeakable fruitcake	3	1	3-6	15-20	15-20	15-20
 angel-food cake	3	1	3	0	0	0
 antique packet of ketchup	1	1	1-2	1-3	0	1-3
@@ -27,7 +27,7 @@ bat wing stir-fry	3	4	6-14	0	27-45	0
 bat-shaped crimboween cookie	2	7	6-12	0	0	0
 bean burrito	3	1	3-8	10-14	0	0
 beefy fish meat	1	1	2-3	4-8	0	0
-beefy maki	3	1	0	0	0	0
+beefy maki	3	1	8-12	8-16	0	0
 beefy nigiri	2	1	4-8	8-16	0	0
 beer basted brat	3	11	13-16	31-40	31-40	31-40
 bell-shaped crimbo cookie	2	7	6-12	0	0	0
@@ -126,7 +126,7 @@ ghuol egg	1	1	1	-3	0	0
 ghuol egg quiche	3	2	3-9	0	0	0
 ghuol guolash	3	1	3-6	-11-19	-11-19	-11-19
 ghuol-ear kabob	2	1	2-5	0	0	0
-giant dragon roll	3	1	0	0	0	0
+giant dragon roll	3	1	9-14	28-46	0	0
 gingerborg hive	5	5	10-15	0	0	0
 gingerbread bugbear	1	4	1-5	10-20	10-20	10-20
 gingerbread horror	1	4	1-5	10-20	10-20	10-20
@@ -135,7 +135,7 @@ gingerbread mutant bugbear	1	1	1-5	10-20	10-20	10-20
 gingerbread stir-fry	5	1	9-17	9-11	9-11	9-11
 glass of goat's milk	1	1	1	0	0	0
 glistening fish meat	1	1	2-3	0	4-8	0
-glistening maki	3	1	0	0	0	0
+glistening maki	3	1	8-12	0	8-16	0
 glistening nigiri	2	1	4-8	0	8-16	0
 gnat lasagna	3	10	11-18	45-54	0	0
 gnatloaf	2	8	3-9	25-50	0	0
@@ -204,18 +204,18 @@ long pork chop sandwiches	2	8	3-9	0	25-35	0
 long pork lasagna	3	10	11-18	0	46-55	0
 lord of the flies-sized fries	3	1	4-6	0	15-20	-15-20
 lucky surprise egg	1	1	1	0	0	0
-magical ancient serpent roll	3	1	0	0	0	0
-magical beefy maki	3	1	0	0	0	0
-magical giant dragon roll	3	1	0	0	0	0
-magical glistening maki	3	1	0	0	0	0
-magical musclebound rabbit roll	3	1	0	0	0	0
-magical python roll	3	1	0	0	0	0
-magical slick maki	3	1	0	0	0	0
-magical slippery snake roll	3	1	0	0	0	0
-magical sneaky rabbit roll	3	1	0	0	0	0
-magical tricky dragon roll	3	1	0	0	0	0
-magical white rabbit roll	3	1	0	0	0	0
-magical wise dragon roll	3	1	0	0	0	0
+magical ancient serpent roll	3	1	9-14	0	8-16	20-30
+magical beefy maki	3	1	8-12	8-16	0	0
+magical giant dragon roll	3	1	9-14	28-46	0	0
+magical glistening maki	3	1	8-12	0	8-16	0
+magical musclebound rabbit roll	3	1	9-14	8-16	20-30	0
+magical python roll	3	1	9-14	8-16	0	20-30
+magical slick maki	3	1	8-12	0	0	8-16
+magical slippery snake roll	3	1	9-14	0	0	28-46
+magical sneaky rabbit roll	3	1	9-14	0	20-30	8-16
+magical tricky dragon roll	3	1	9-14	20-30	0	8-16
+magical white rabbit roll	3	1	9-14	0	28-46	0
+magical wise dragon roll	3	1	9-14	20-30	8-16	0
 manetwich	2	4	3-9	14-30	0	5-18
 maple syrup	1	1	1-2	0	0	0
 menudo	2	2	2-7	14-18	0	0
@@ -223,7 +223,7 @@ mind flayer corpse	5	1	5-6	0	21-25	0
 mixed wildflower greens	1	10	2-4	25-30	0	0
 mole mol&eacute;	3	4	7-8	10-14	10-14	10-14
 mugcake	1	1	1	0	0	0
-musclebound rabbit roll	3	1	0	0	0	0
+musclebound rabbit roll	3	1	9-14	8-16	20-30	0
 mushroom pizza	3	2	3-10	0	15-18	0
 nanite-infested candy cane	1	4	1-5	11-20	11-20	11-20
 nanite-infested fruitcake	3	1	3-6	15-20	15-20	15-20
@@ -254,7 +254,7 @@ pr0n m4nic0tti	4	3	8-14	0	0	28-30
 pr0n stir-fry	2	4	3-11	7-12	0	8-12
 pr0n taco	2	1	2-5	0	0	11-33
 purple pixel pie	3	1	3-6	12-18	12-18	12-18
-python roll	3	1	0	0	0	0
+python roll	3	1	9-14	8-16	0	20-30
 questionable taco	3	1	4-5	0	0	0
 radio button candy	1	8	2-9	30-50	33-49	30-50
 raspberry	1	2	1-3	0	0	0
@@ -268,18 +268,18 @@ roasted marshmallow	1	1	1	0	0	0
 royal jelly	1	1	1	10-15	0	0
 royal jelly taco	1	1	1-3	4-20	0	0
 s.t.l.t.	4	4	10-15	10-30	10-30	13-27
-salty ancient serpent roll	3	1	0	0	0	0
-salty beefy maki	3	1	0	0	0	0
-salty giant dragon roll	3	1	0	0	0	0
-salty glistening maki	3	1	0	0	0	0
-salty musclebound rabbit roll	3	1	0	0	0	0
-salty python roll	3	1	0	0	0	0
-salty slick maki	3	1	0	0	0	0
-salty slippery snake roll	3	1	0	0	0	0
-salty sneaky rabbit roll	3	1	0	0	0	0
-salty tricky dragon roll	3	1	0	0	0	0
-salty white rabbit roll	3	1	0	0	0	0
-salty wise dragon roll	3	1	0	0	0	0
+salty ancient serpent roll	3	1	9-14	0	8-16	20-30
+salty beefy maki	3	1	8-12	8-16	0	0
+salty giant dragon roll	3	1	9-14	28-46	0	0
+salty glistening maki	3	1	8-12	0	8-16	0
+salty musclebound rabbit roll	3	1	9-14	8-16	20-30	0
+salty python roll	3	1	9-14	8-16	0	20-30
+salty slick maki	3	1	8-12	0	0	8-16
+salty slippery snake roll	3	1	9-14	0	0	28-46
+salty sneaky rabbit roll	3	1	9-14	0	20-30	8-16
+salty tricky dragon roll	3	1	9-14	20-30	0	8-16
+salty white rabbit roll	3	1	9-14	0	28-46	0
+salty wise dragon roll	3	1	9-14	20-30	8-16	0
 sandwich of the gods	5	12	32-38	50-89	63-95	63-83
 sausage pizza	3	2	3-10	15-18	0	0
 sausage wonton	3	12	12-18	50-80	20-30	20-30
@@ -297,11 +297,11 @@ skewered cat appendix	2	1	2-5	7-17	0	0
 skull-shaped crimboween cookie	2	7	6-12	0	0	0
 sleazy hi mein	5	7	21-29	25-28	25-29	71-75
 slick fish meat	1	1	2-3	0	0	4-8
-slick maki	3	1	0	0	0	0
+slick maki	3	1	8-12	0	0	8-16
 slick nigiri	2	1	4-8	0	0	8-16
-slippery snake roll	3	1	0	0	0	0
+slippery snake roll	3	1	9-14	0	0	28-46
 sneaky pete's key lime pie	4	6	13-19	0	0	28-33
-sneaky rabbit roll	3	1	0	0	0	0
+sneaky rabbit roll	3	1	9-14	0	20-30	8-16
 soylent red and green	3	5	4-5	0	0	0
 spaghetti with skullheads	6	6	21-29	47-52	0	0
 spam witch sammich	2	1	2-3	0	4-6	0
@@ -349,7 +349,7 @@ tofurkey nugget	3	1	4-11	30-33	0	0
 tomato	1	1	1	0	0	0
 tombstone-shaped crimboween cookie	2	7	6-11	0	0	0
 tree-shaped crimbo cookie	2	7	6-11	0	0	0
-tricky dragon roll	3	1	0	0	0	0
+tricky dragon roll	3	1	9-14	20-30	0	8-16
 trollhouse cookies	2	1	2-3	4-6	0	0
 tube of cranberry go-goo	3	1	8-14	0	0	31-34
 twigs and gravel	3	1	3-6	5-6	5-6	5-6
@@ -369,8 +369,8 @@ white chocolate chip cookies	2	1	2-5	0	11-13	0
 white chocolate chips	1	1	1-2	0	0	0
 white citadel burger	2	1	2-8	0	0	0
 white citadel fries	2	1	2-5	0	0	0
-white rabbit roll	3	1	0	0	0	0
+white rabbit roll	3	1	9-14	0	28-46	0
 white rice	1	1	1-2	1-2	1-2	1-2
-wise dragon roll	3	1	0	0	0	0
+wise dragon roll	3	1	9-14	20-30	8-16	0
 wreath-shaped crimbo cookie	2	7	6-11	0	0	0
 yam candy	3	1	5-10	0	31-34	0
