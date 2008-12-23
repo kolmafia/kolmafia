@@ -4,6 +4,7 @@
 package net.sourceforge.kolmafia.session;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.StringTokenizer;
 
@@ -17,6 +18,7 @@ import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class TurnCounter
+implements Comparable
 {
 	private static final ArrayList relayCounters = new ArrayList();
 
@@ -68,6 +70,16 @@ public class TurnCounter
 		}
 
 		return this.label.equals( ( (TurnCounter) o ).label ) && this.value == ( (TurnCounter) o ).value;
+	}
+
+	public int compareTo( final Object o )
+	{
+		if ( o == null || !( o instanceof TurnCounter ) )
+		{
+			return -1;
+		}
+
+		return this.value - ( (TurnCounter) o ).value;
 	}
 
 	public static final void clearCounters()
@@ -357,4 +369,24 @@ public class TurnCounter
 		return turnMultiplier * StringUtilities.parseInt( quantity );
 	}
 
+	public static final void deleteByHash( final int hash )
+	{
+		Iterator it = relayCounters.iterator();
+
+		while ( it.hasNext() )
+		{
+			if ( System.identityHashCode( it.next() ) == hash )
+			{
+				it.remove();
+			}
+		}
+
+		TurnCounter.saveCounters();
+	}
+
+	public static final Iterator iterator()
+	{
+		Collections.sort( relayCounters );
+		return relayCounters.iterator();
+	}
 }
