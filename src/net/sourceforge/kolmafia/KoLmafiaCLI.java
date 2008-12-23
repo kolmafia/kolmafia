@@ -3335,7 +3335,7 @@ public class KoLmafiaCLI
 	public static class Counters
 		extends Command
 	{
-		{ usage = " [ clear | add <number> ] - show, clear, or add to current turn counters."; }
+		{ usage = " [ clear | add <number> [<title> <img>] ] - show, clear, or add to current turn counters."; }
 		public void run( String cmd, String parameters )
 		{
 			if ( parameters.equalsIgnoreCase( "clear" ) )
@@ -3344,10 +3344,33 @@ public class KoLmafiaCLI
 				return;
 			}
 
+			if ( parameters.startsWith( "deletehash " ) )
+			{
+				TurnCounter.deleteByHash(
+					StringUtilities.parseInt( parameters.substring( 11 ) ) );
+				return;
+			}
+
 			if ( parameters.startsWith( "add " ) )
 			{
-				TurnCounter.startCounting( StringUtilities.parseInt( parameters.substring( 4 ) ),
-					"Manual", "watch.gif" );
+				String title = "Manual";
+				String image = "watch.gif";
+				parameters = parameters.substring( 4 ).trim();
+				if ( parameters.endsWith( ".gif" ) )
+				{
+					int lastSpace = parameters.lastIndexOf( " " );
+					image = parameters.substring( lastSpace + 1 );
+					parameters = parameters.substring( 0, lastSpace + 1 ).trim();
+				}
+				int spacePos = parameters.indexOf( " " );
+				if ( spacePos != -1 )
+				{
+					title = parameters.substring( spacePos + 1 );
+					parameters = parameters.substring( 0, spacePos ).trim();
+				}
+				
+				TurnCounter.startCounting( StringUtilities.parseInt( parameters ),
+					title, image );
 			}
 
 			CLI.showData( "counters" );

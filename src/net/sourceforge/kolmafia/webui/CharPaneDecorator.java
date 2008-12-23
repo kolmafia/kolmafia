@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.webui;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -49,6 +50,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MoodManager;
+import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -57,6 +59,8 @@ public class CharPaneDecorator
 	private static final Pattern COLOR_PATTERN = Pattern.compile( "(color|class)=\"?\'?([^\"\'>]*)" );
 	private static final Pattern LASTADV_PATTERN = Pattern.compile(
 		">Last Adventure.*?<font[^>]*>(.*?)<br></font>.*?</table>" );
+	private static final Pattern EFFECT_PATTERN = Pattern.compile(
+		"onClick='eff\\(.*?(\\d+)(?:</a>)?\\)" );
 	
 	private static final ArrayList recentLocations = new ArrayList();
 
@@ -77,10 +81,103 @@ public class CharPaneDecorator
 			CharPaneDecorator.addUpArrowLinks( buffer );
 		}
 		
+		Iterator it = TurnCounter.iterator();
+		if ( it.hasNext() )
+		{
+			CharPaneDecorator.addCounters( buffer, it );
+		}
+		
 		if ( !GenericRequest.isCompactMode &&
 			Preferences.getInteger( "recentLocations" ) >= 1 )
 		{
 			CharPaneDecorator.addRecentLocations( buffer );
+		}
+	}
+
+	public static final void addCounters( final StringBuffer buffer, Iterator it )
+	{
+		String text = buffer.toString();
+		buffer.setLength( 0 );
+		TurnCounter current = (TurnCounter) it.next();
+		int lastPos = 0;
+		int insPos;
+		boolean compact = GenericRequest.isCompactMode;
+		Matcher m = CharPaneDecorator.EFFECT_PATTERN.matcher( text );
+		while ( m.find() )
+		{
+			int duration = StringUtilities.parseInt( m.group( 1 ) );
+			if ( duration >= current.getTurnsRemaining() )
+			{
+				insPos = text.lastIndexOf( "<tr>", m.start( 0 ) );
+				buffer.append( text.substring( lastPos, insPos ) );
+				lastPos = insPos;
+				do
+				{
+					CharPaneDecorator.addOneCounter( buffer, current, compact );
+					if ( !it.hasNext() )
+					{
+						buffer.append( text.substring( lastPos ) );
+						return;
+					}
+					current = (TurnCounter) it.next();
+				}
+				while ( duration >= current.getTurnsRemaining() );
+			}
+		}
+		// If we've gotten this far, there are counters that are higher than
+		// any effect duration.  Insert them at the very end, but before any intrinsics.
+		insPos = text.lastIndexOf( "(&infin;)" );
+		if ( insPos != -1 )
+		{
+			insPos = text.lastIndexOf( "</table>", insPos );
+		}
+		else
+		{
+			insPos = text.lastIndexOf( "</table>" );
+		}
+		buffer.append( text.substring( lastPos, insPos ) );
+		lastPos = insPos;
+		while ( true )
+		{
+			CharPaneDecorator.addOneCounter( buffer, current, compact );
+			if ( !it.hasNext() )
+			{
+				buffer.append( text.substring( lastPos ) );
+				return;
+			}
+			current = (TurnCounter) it.next();
+		}
+	}
+	
+	private static final void addOneCounter( StringBuffer buffer, TurnCounter current, boolean compact )
+	{
+		if ( compact )
+		{
+			buffer.append( "<tr><td><img src=\"http://images.kingdomofloathing.com/itemimages/" );
+			buffer.append( current.getImage() );
+			buffer.append( "\" title=\"" );
+			buffer.append( current.getLabel() );
+			buffer.append( "\"></td><td>(<a href=\"/KoLmafia/sideCommand?cmd=counters+deletehash+" );
+			buffer.append( System.identityHashCode( current ) );
+			buffer.append( "&pwd=" );
+			buffer.append( GenericRequest.passwordHash );
+			buffer.append( "\">" );
+			buffer.append( current.getTurnsRemaining() );
+			buffer.append( "</a>)</td></tr>" );
+		}
+		else	// !compact
+		{
+			buffer.append( "<tr><td><img src=\"http://images.kingdomofloathing.com/itemimages/" );
+			buffer.append( current.getImage() );
+			buffer.append( "\"></td><td valign=center><font size=2>" );
+			buffer.append( current.getLabel() );
+			buffer.append( " (<a href=\"/KoLmafia/sideCommand?cmd=counters+deletehash+" );
+			buffer.append( System.identityHashCode( current ) );
+			buffer.append( "&pwd=" );
+			buffer.append( GenericRequest.passwordHash );
+			buffer.append( "\">" );
+			buffer.append( current.getTurnsRemaining() );
+			buffer.append( "</a>)</td></tr>" );
 		}
 	}
 
