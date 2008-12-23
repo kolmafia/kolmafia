@@ -430,7 +430,9 @@ public class HolidayDatabase
 
 	public static final int getBloodEffect( final int ronaldPhase, final int grimacePhase, final int hamburglarPosition )
 	{
-		return 50 + ( HolidayDatabase.getMoonlight( ronaldPhase, grimacePhase, hamburglarPosition ) - 4 ) * 5;
+		return (int) Math.round( 10.0f + 20.0f *
+			Math.sqrt( (float) HolidayDatabase.getMoonlight(
+				ronaldPhase, grimacePhase, hamburglarPosition ) ) );
 	}
 
 	/**
