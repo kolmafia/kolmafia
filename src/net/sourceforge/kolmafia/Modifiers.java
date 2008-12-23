@@ -1037,6 +1037,11 @@ public class Modifiers
 
 	// Effects that modify based on remaining duration
 	private static final AdventureResult MALLOWED_OUT = new AdventureResult( "Mallowed Out", 0, true );
+	private static final AdventureResult HOT_HOB_O = new AdventureResult( "Fire Down Below", 0, true );
+	private static final AdventureResult COLD_HOB_O = new AdventureResult( "Tundra Mouth", 0, true );
+	private static final AdventureResult STENCH_HOB_O = new AdventureResult( "Refuse Reflux", 0, true );
+	private static final AdventureResult SPOOKY_HOB_O = new AdventureResult( "Scariberi", 0, true );
+	private static final AdventureResult SLEAZE_HOB_O = new AdventureResult( "Cholestoriffic", 0, true );
 
 	private boolean override( final String name )
 	{
@@ -1067,9 +1072,50 @@ public class Modifiers
 			return true;
 		}
 
+		if ( name.equalsIgnoreCase( "Mild Lycanthropy" ) )
+		{
+			int moonlight = HolidayDatabase.getMoonlight();
+			this.set( Modifiers.MUS_PCT, moonlight );
+			this.set( Modifiers.MOX_PCT, -moonlight );
+			return true;
+		}
+
+		if ( name.equalsIgnoreCase( "Lycanthropy, Eh?" ) )
+		{
+			int moonlight = HolidayDatabase.getMoonlight();
+			this.set( Modifiers.MUS_PCT, moonlight * 2 );
+			this.set( Modifiers.MOX_PCT, -moonlight * 2 );
+			return true;
+		}
+
 		if ( name.equalsIgnoreCase( "Ur-Kel's Aria of Annoyance" ) )
 		{
 			this.set( Modifiers.MONSTER_LEVEL, 2 * KoLCharacter.getLevel() );
+			return true;
+		}
+
+		if ( name.equalsIgnoreCase( "Brawnee's Anthem of Absorption" ) )
+		{
+			this.set( Modifiers.DAMAGE_REDUCTION,
+				Math.floor( Math.pow( KoLCharacter.getLevel(), 1.2 ) ) );
+			return true;
+		}
+
+		if ( name.equalsIgnoreCase( "Full of Vinegar" ) )
+		{
+			this.set( Modifiers.WEAPON_DAMAGE, KoLCharacter.getInebriety() );
+			return true;
+		}
+
+		if ( name.equalsIgnoreCase( "Kiss of the Black Fairy" ) )
+		{
+			this.set( Modifiers.SPOOKY_DAMAGE, KoLCharacter.getInebriety() * 2 );
+			return true;
+		}
+
+		if ( name.equalsIgnoreCase( "Warm Belly" ) )
+		{
+			this.set( Modifiers.HOT_DAMAGE, KoLCharacter.getInebriety() * 3 );
 			return true;
 		}
 
@@ -1088,6 +1134,41 @@ public class Modifiers
 			this.set( Modifiers.MUS_PCT, mod );
 			this.set( Modifiers.MYS_PCT, mod );
 			this.set( Modifiers.MOX_PCT, mod );
+			return true;
+		}
+
+		if ( name.equalsIgnoreCase( "Fire Down Below" ) )
+		{
+			this.set( Modifiers.HOT_DAMAGE, Math.min( 100,
+				Modifiers.HOT_HOB_O.getCount( KoLConstants.activeEffects ) ) );
+			return true;
+		}
+
+		if ( name.equalsIgnoreCase( "Tundra Mouth" ) )
+		{
+			this.set( Modifiers.COLD_DAMAGE, Math.min( 100,
+				Modifiers.COLD_HOB_O.getCount( KoLConstants.activeEffects ) ) );
+			return true;
+		}
+
+		if ( name.equalsIgnoreCase( "Refuse Reflux" ) )
+		{
+			this.set( Modifiers.STENCH_DAMAGE, Math.min( 100,
+				Modifiers.STENCH_HOB_O.getCount( KoLConstants.activeEffects ) ) );
+			return true;
+		}
+
+		if ( name.equalsIgnoreCase( "Scariberi" ) )
+		{
+			this.set( Modifiers.SPOOKY_DAMAGE, Math.min( 100,
+				Modifiers.SPOOKY_HOB_O.getCount( KoLConstants.activeEffects ) ) );
+			return true;
+		}
+
+		if ( name.equalsIgnoreCase( "Cholestoriffic" ) )
+		{
+			this.set( Modifiers.SLEAZE_DAMAGE, Math.min( 100,
+				Modifiers.SLEAZE_HOB_O.getCount( KoLConstants.activeEffects ) ) );
 			return true;
 		}
 
