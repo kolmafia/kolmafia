@@ -40,6 +40,7 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.BasementRequest;
@@ -1005,11 +1006,13 @@ public class KoLAdventure
 
 		if ( matchingLocation != null )
 		{
-			matchingLocation.recordToSession();
+			// If you will be in a drunken stupor, St. Sneaky
+			// Pete's day or otherwise, switch to appropriate
+			// adventure so logging is correct.
 
-			// Disassemble clovers when going to areas where the
-			// player has a high probability of accidentally using
-			// a ten-leaf clover.
+			matchingLocation = KoLAdventure.checkDrunkenness( matchingLocation );
+
+			matchingLocation.recordToSession();
 
 			if ( !( matchingLocation.getRequest() instanceof AdventureRequest ) || matchingLocation.isValidAdventure )
 			{
@@ -1112,6 +1115,25 @@ public class KoLAdventure
 		}
 
 		return true;
+	}
+
+	private static final KoLAdventure checkDrunkenness( KoLAdventure location )
+	{
+		int inebriety = KoLCharacter.getInebriety();
+
+		if ( inebriety < 20 )
+		{
+			return location;
+		}
+
+		if ( inebriety >= 26 && HolidayDatabase.getHoliday().equals( "St. Sneaky Pete's Day" ) )
+		{
+			// St. Sneaky Pete's Day Drunken Stupor
+			return AdventureDatabase.getAdventure( "St. Sneaky Pete's Day Stupor" );
+		}
+
+		// Regular Drunken Stupor
+		return AdventureDatabase.getAdventure( "Drunken Stupor" );
 	}
 
 	public static final int getAdventureCount()

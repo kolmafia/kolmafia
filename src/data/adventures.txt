@@ -166,6 +166,7 @@ Wormwood	adventure=151	true	Stately Pleasure Dome	1 choiceadv
 Wormwood	adventure=152	true	Mouldering Mansion	1 choiceadv
 Wormwood	adventure=153	true	Rogue Windmill	1 choiceadv
 Holiday	trickortreat=Yep.	true	Trick-or-Treating
+Holiday	adventure=23	true	Drunken Stupor
 Holiday	adventure=84	true	St. Sneaky Pete's Day Stupor
 Holiday	adventure=163	true	Yuletide Bonfire
 Holiday	adventure=174	true	Arrrboretum
