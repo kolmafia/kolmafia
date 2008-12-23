@@ -1219,6 +1219,7 @@ tiny plastic cubist bull	0	none
 tiny plastic demoninja	0	none
 tiny plastic disco bandit	0	none
 tiny plastic drunk goat	0	none
+tiny plastic fat stack of cash	0	none
 tiny plastic fiendish can of asparagus	0	none
 tiny plastic filthy hippy jewelry maker	0	none
 tiny plastic fluffy bunny	0	none
