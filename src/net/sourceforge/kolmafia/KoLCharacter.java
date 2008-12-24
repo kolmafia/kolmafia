@@ -659,6 +659,14 @@ public abstract class KoLCharacter
 		return KoLCharacter.classtype.equals( KoLCharacter.DISCO_BANDIT ) || KoLCharacter.classtype.equals( KoLCharacter.ACCORDION_THIEF );
 	}
 
+	public static final int mainStat()
+	{
+		return KoLCharacter.isMuscleClass() ? KoLConstants.MUSCLE :
+			KoLCharacter.isMysticalityClass() ? KoLConstants.MYSTICALITY :
+			KoLCharacter.isMoxieClass() ? KoLConstants.MOXIE :
+			KoLConstants.NONE;
+	}
+
 	/**
 	 * Accessor method to set the character's current health state.
 	 *

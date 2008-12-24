@@ -39,6 +39,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -142,6 +143,10 @@ public class ItemDatabase
 	private static final BooleanArray giftableById = new BooleanArray();
 	private static final BooleanArray displayableById = new BooleanArray();
 
+	private static float muscleFactor = 1.0f;
+	private static float mysticalityFactor = 1.0f;
+	private static float moxieFactor = 1.0f;
+
 	static
 	{
 		ItemDatabase.reset();
@@ -151,6 +156,12 @@ public class ItemDatabase
 	{
 		boolean isFullReset = ItemDatabase.itemIdByName.isEmpty();
 		ItemDatabase.itemIdByName.clear();
+
+		// For efficiency, figure out just once if today is a stat day
+		int statDay = HolidayDatabase.statDay( new Date() );
+		ItemDatabase.muscleFactor = statDay == KoLConstants.MUSCLE ? 1.25f : 1.0f;
+		ItemDatabase.mysticalityFactor = statDay == KoLConstants.MYSTICALITY ? 1.25f : 1.0f;
+		ItemDatabase.moxieFactor = statDay == KoLConstants.MOXIE ? 1.25f : 1.0f;
 
 		// This begins by opening up the data file and preparing
 		// a buffered reader; once this is done, every line is
@@ -363,9 +374,9 @@ public class ItemDatabase
 
 		ItemDatabase.levelReqByName.put( name, Integer.valueOf( data[ 2 ] ) );
 		ItemDatabase.addAdventureRange( name, StringUtilities.parseInt( data[ 1 ] ), data[ 3 ] );
-		ItemDatabase.muscleByName.put( name, ItemDatabase.extractRange( data[ 4 ] ) );
-		ItemDatabase.mysticalityByName.put( name, ItemDatabase.extractRange( data[ 5 ] ) );
-		ItemDatabase.moxieByName.put( name, ItemDatabase.extractRange( data[ 6 ] ) );
+		ItemDatabase.muscleByName.put( name, ItemDatabase.extractStatRange( data[ 4 ], ItemDatabase.muscleFactor ) );
+		ItemDatabase.mysticalityByName.put( name, ItemDatabase.extractStatRange( data[ 5 ], ItemDatabase.mysticalityFactor ) );
+		ItemDatabase.moxieByName.put( name, ItemDatabase.extractStatRange( data[ 6 ], ItemDatabase.moxieFactor ) );
 	}
 
 	private static final int getIncreasingGains( final int value )
@@ -478,7 +489,7 @@ public class ItemDatabase
 		return ItemDatabase.advsByName[ perUnit ? 1 : 0 ][ gainZodiac ? 1 : 0 ][ gainEffect1 ? 1 : 0 ][ gainEffect2 ? 1 : 0 ];
 	}
 
-	private static final String extractRange( String range )
+	private static final String extractStatRange( String range, float statFactor )
 	{
 		range = range.trim();
 
@@ -493,11 +504,13 @@ public class ItemDatabase
 
 		if ( dashIndex == -1 )
 		{
-			return KoLConstants.SINGLE_PRECISION_FORMAT.format( isNegative ? 0 - start : start );
+			float num = isNegative ? 0 - start : start;
+			return KoLConstants.SINGLE_PRECISION_FORMAT.format( statFactor * num );
 		}
 
 		int end = StringUtilities.parseInt( range.substring( dashIndex + 1 ) );
-		return KoLConstants.SINGLE_PRECISION_FORMAT.format( ( start + end ) / ( isNegative ? -2.0f : 2.0f ) );
+		float num = ( start + end ) / ( isNegative ? -2.0f : 2.0f );
+		return KoLConstants.SINGLE_PRECISION_FORMAT.format( statFactor * num );
 	}
 
 	/**
@@ -1507,9 +1520,9 @@ public class ItemDatabase
 
 		ItemDatabase.inebrietyByName.put( name, new Integer( inebriety ) );
 		ItemDatabase.addAdventureRange( name, inebriety, adventures );
-		ItemDatabase.muscleByName.put( name, ItemDatabase.extractRange( muscle ) );
-		ItemDatabase.mysticalityByName.put( name, ItemDatabase.extractRange( mysticality ) );
-		ItemDatabase.moxieByName.put( name, ItemDatabase.extractRange( moxie ) );
+		ItemDatabase.muscleByName.put( name, ItemDatabase.extractStatRange( muscle, ItemDatabase.muscleFactor ) );
+		ItemDatabase.mysticalityByName.put( name, ItemDatabase.extractStatRange( mysticality, ItemDatabase.mysticalityFactor ) );
+		ItemDatabase.moxieByName.put( name, ItemDatabase.extractStatRange( moxie, ItemDatabase.moxieFactor ) );
 	}
 
 	public static final String dustyBottleType( final int itemId )
