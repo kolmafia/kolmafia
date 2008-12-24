@@ -1319,6 +1319,7 @@ tiny plastic spooky pirate skeleton	Familiar Weight: +1
 tiny plastic spooky vampire	Monster Level: +1
 tiny plastic stab bat	Familiar Weight: +1
 tiny plastic star starfish	Familiar Weight: +1
+tiny plastic strand of DNA	Moxie: +3, Muscle: +3, Mysticality: +3
 tiny plastic sweet nutcracker	Familiar Weight: +1
 tiny plastic taco cat	Monster Level: +1
 tiny plastic topiary golem	Monster Level: +1

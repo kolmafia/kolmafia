@@ -3657,3 +3657,4 @@
 3656	tiny plastic Mob Penguin	8	all	0
 3657	tiny plastic mutant elf	8	all	0
 3658	tiny plastic fat stack of cash	8	all	0
+3659	tiny plastic strand of DNA	8	all	0
