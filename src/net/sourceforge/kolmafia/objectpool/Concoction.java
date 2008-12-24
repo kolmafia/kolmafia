@@ -153,9 +153,24 @@ public class Concoction
 			this.spleenhit > 0 ? SPLEEN_PRIORITY :
 			NO_PRIORITY;
 
-		String range = KoLCharacter.isMuscleClass() ? ItemDatabase.getMuscleRange( this.name ) :
-			KoLCharacter.isMysticalityClass() ? ItemDatabase.getMysticalityRange( this.name ) :
-			ItemDatabase.getMoxieRange( this.name );
+		this.setStatGain();
+	}
+
+	public void setStatGain()
+	{
+		String range = "+0.0";
+		switch ( KoLCharacter.mainStat() )
+		{
+		case KoLConstants.MUSCLE:
+			range = ItemDatabase.getMuscleRange( this.name );
+			break;
+		case KoLConstants.MYSTICALITY:
+			range = ItemDatabase.getMysticalityRange( this.name );
+			break;
+		case KoLConstants.MOXIE:
+			range = ItemDatabase.getMoxieRange( this.name );
+			break;
+		}
 		this.mainstatGain = StringUtilities.parseFloat( range );
 	}
 

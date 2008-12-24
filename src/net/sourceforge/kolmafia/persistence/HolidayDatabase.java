@@ -801,6 +801,26 @@ public class HolidayDatabase
 	}
 
 	/**
+	 * Returns whether or not the given day's most important attribute is being a moxie day. Note that this ranks behind
+	 * being a holiday, so HOLIDAYS which are also stat days (Halloween and Oyster Egg Day, for example), will not be
+	 * recognized as "stat days" in this method.
+	 */
+
+	public static final int statDay( final Date time )
+	{
+		switch ( HolidayDatabase.SPECIAL[ HolidayDatabase.getCalendarDay( time ) ] )
+		{
+		case HolidayDatabase.SP_MUSDAY:
+			return KoLConstants.MUSCLE;
+		case HolidayDatabase.SP_MYSDAY:
+			return KoLConstants.MYSTICALITY;
+		case HolidayDatabase.SP_MOXDAY:
+			return KoLConstants.MOXIE;
+		}
+		return KoLConstants.NONE;
+	}
+
+	/**
 	 * Returns a complete list of all holiday predictions for the given day, as an array.
 	 */
 
