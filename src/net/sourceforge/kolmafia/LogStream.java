@@ -89,7 +89,7 @@ public class LogStream
 			newStream.println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
 			newStream.println( " Please note: do not post these logs in the KoLmafia thread.  If " );
 			newStream.println( " you would like us to look at the log, please instead email logs " );
-			newStream.println( " to holatuwol@hotmail.com using the subject \"KoLmafia Debug Log\" " );
+			newStream.println( " to veracity@hambo.com using the subject \"KoLmafia Debug Log\" " );
 			newStream.println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
 			newStream.println( " Timestamp: " + ( new Date() ).toString() );
 			newStream.println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
