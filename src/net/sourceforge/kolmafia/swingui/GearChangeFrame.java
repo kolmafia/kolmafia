@@ -33,14 +33,18 @@
 
 package net.sourceforge.kolmafia.swingui;
 
+import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -83,6 +87,7 @@ public class GearChangeFrame
 	private final SortedListModel offhands = new SortedListModel();
 	private final ChangeComboBox outfitSelect, customSelect, familiarSelect;
 	private JLabel sticker1Label, sticker2Label, sticker3Label;
+	private FamLockCheckbox	famLockCheckbox;
 
 	public GearChangeFrame()
 	{
@@ -176,7 +181,11 @@ public class GearChangeFrame
 			elements[ 11 ] = new VerifiableElement( "Familiar: ", GearChangeFrame.this.familiarSelect );
 			elements[ 12 ] = new VerifiableElement( "Fam Item: ", GearChangeFrame.this.equipment[ EquipmentManager.FAMILIAR ] );
 
-			elements[ 13 ] = new VerifiableElement();
+			GearChangeFrame.this.famLockCheckbox = new FamLockCheckbox();
+			JPanel boxholder = new JPanel( new BorderLayout() );
+			boxholder.add( GearChangeFrame.this.famLockCheckbox );
+			elements[ 13 ] = new VerifiableElement( "", boxholder );
+			GearChangeFrame.updateFamiliarLock();
 
 			elements[ 14 ] = new VerifiableElement( "Outfit: ", GearChangeFrame.this.outfitSelect );
 			elements[ 15 ] = new VerifiableElement( "Custom: ", GearChangeFrame.this.customSelect );
@@ -618,5 +627,36 @@ public class GearChangeFrame
 		currentItems.addAll( newItems );
 
 		currentItems.setSelectedItem( equippedItem );
+	}
+	
+	private class FamLockCheckbox
+	extends JCheckBox
+	implements ActionListener
+	{
+		public FamLockCheckbox()
+		{
+			super( "familiar item locked" );
+			this.addActionListener( this );
+		}
+		
+		public void actionPerformed( ActionEvent e )
+		{
+			RequestThread.postRequest( new FamiliarRequest( true ) );
+		}
+	}
+	
+	public static void updateFamiliarLock()
+	{
+		if ( GearChangeFrame.INSTANCE == null )
+		{
+			return;
+		}
+		FamLockCheckbox box = GearChangeFrame.INSTANCE.famLockCheckbox;
+		if ( box == null )
+		{
+			return;
+		}
+		box.setSelected( EquipmentManager.familiarItemLocked() );
+		box.setEnabled( EquipmentManager.familiarItemLockable() );
 	}
 }

@@ -72,6 +72,8 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
+import net.sourceforge.kolmafia.swingui.GearChangeFrame;
+
 /**
  * A container class representing the <code>KoLCharacter</code>. This class also allows for data listeners that are
  * updated whenever the character changes; ultimately, the purpose of this class is to shift away from the
@@ -241,6 +243,9 @@ public abstract class KoLCharacter
 
 	private static int[] adjustedStats = new int[ 3 ];
 	private static int[] totalSubpoints = new int[ 3 ];
+	private static int[] triggerSubpoints = new int[ 3 ];
+	private static int[] triggerItem = new int[ 3 ];
+	static { resetTriggers(); }
 
 	public static final SortedListModel battleSkillNames = new SortedListModel();
 
@@ -337,6 +342,7 @@ public abstract class KoLCharacter
 		KoLCharacter.attacksLeft = 0;
 		KoLCharacter.adjustedStats = new int[ 3 ];
 		KoLCharacter.totalSubpoints = new int[ 3 ];
+		KoLCharacter.resetTriggers();
 
 		KoLCharacter.currentModifiers.reset();
 
@@ -850,6 +856,34 @@ public abstract class KoLCharacter
 		KoLCharacter.totalSubpoints[ 0 ] = totalMuscle;
 		KoLCharacter.totalSubpoints[ 1 ] = totalMysticality;
 		KoLCharacter.totalSubpoints[ 2 ] = totalMoxie;
+		
+		if ( totalMuscle >= KoLCharacter.triggerSubpoints[ 0 ] )
+		{
+			KoLCharacter.handleTrigger( KoLCharacter.triggerItem[ 0 ] );
+		}
+		else if ( totalMysticality >= KoLCharacter.triggerSubpoints[ 1 ] )
+		{
+			KoLCharacter.handleTrigger( KoLCharacter.triggerItem[ 1 ] );
+		}
+		else if ( totalMoxie >= KoLCharacter.triggerSubpoints[ 2 ] )
+		{
+			KoLCharacter.handleTrigger( KoLCharacter.triggerItem[ 2 ] );
+		}
+	}
+	
+	public static final void resetTriggers()
+	{
+		KoLCharacter.triggerSubpoints[ 0 ] = Integer.MAX_VALUE;
+		KoLCharacter.triggerSubpoints[ 1 ] = Integer.MAX_VALUE;
+		KoLCharacter.triggerSubpoints[ 2 ] = Integer.MAX_VALUE;
+	}
+	
+	public static final void handleTrigger( int itemId )
+	{
+		KoLmafia.updateDisplay( "You can now equip a " + ItemDatabase.getItemName( itemId )
+			+ " (and possibly other things)." );
+		EquipmentManager.updateEquipmentLists();
+		Preferences.firePreferenceChanged( "(equippable)" );
 	}
 
 	/**
@@ -1013,6 +1047,21 @@ public abstract class KoLCharacter
 	public static final void incrementTotalMuscle( int increment )
 	{
 		KoLCharacter.totalSubpoints[ 0 ] += increment;
+		if ( KoLCharacter.totalSubpoints[ 0 ] >= KoLCharacter.triggerSubpoints[ 0 ] )
+		{
+			KoLCharacter.handleTrigger( KoLCharacter.triggerItem[ 0 ] );
+		}
+	}
+	
+	public static final boolean muscleTrigger( int points, int itemId )
+	{
+		points = calculatePointSubpoints( points );
+		if ( points < KoLCharacter.triggerSubpoints[ 0 ] )
+		{
+			KoLCharacter.triggerSubpoints[ 0 ] = points;
+			KoLCharacter.triggerItem[ 0 ] = itemId;
+		}
+		return false;	// for the convenience of the caller
 	}
 
 	/**
@@ -1061,6 +1110,21 @@ public abstract class KoLCharacter
 	public static final void incrementTotalMysticality( int increment )
 	{
 		KoLCharacter.totalSubpoints[ 1 ] += increment;
+		if ( KoLCharacter.totalSubpoints[ 1 ] >= KoLCharacter.triggerSubpoints[ 1 ] )
+		{
+			KoLCharacter.handleTrigger( KoLCharacter.triggerItem[ 1 ] );
+		}
+	}
+
+	public static final boolean mysticalityTrigger( int points, int itemId )
+	{
+		points = calculatePointSubpoints( points );
+		if ( points < KoLCharacter.triggerSubpoints[ 1 ] )
+		{
+			KoLCharacter.triggerSubpoints[ 1 ] = points;
+			KoLCharacter.triggerItem[ 1 ] = itemId;
+		}
+		return false;	// for the convenience of the caller
 	}
 
 	/**
@@ -1109,8 +1173,22 @@ public abstract class KoLCharacter
 	public static final void incrementTotalMoxie( int increment )
 	{
 		KoLCharacter.totalSubpoints[ 2 ] += increment;
+		if ( KoLCharacter.totalSubpoints[ 2 ] >= KoLCharacter.triggerSubpoints[ 2 ] )
+		{
+			KoLCharacter.handleTrigger( KoLCharacter.triggerItem[ 2 ] );
+		}
 	}
 
+	public static final boolean moxieTrigger( int points, int itemId )
+	{
+		points = calculatePointSubpoints( points );
+		if ( points < KoLCharacter.triggerSubpoints[ 2 ] )
+		{
+			KoLCharacter.triggerSubpoints[ 2 ] = points;
+			KoLCharacter.triggerItem[ 2 ] = itemId;
+		}
+		return false;	// for the convenience of the caller
+	}
 
 	/**
 	 * Accessor method to retrieve the number of subpoints required before the character gains another full point of

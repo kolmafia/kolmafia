@@ -55,6 +55,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 
@@ -394,12 +395,17 @@ public class EquipmentManager
 
 	public static final void lockFamiliarItem( boolean lock )
 	{
-		EquipmentManager.lockedFamiliarItem = lock ? EquipmentManager.getFamiliarItem() : EquipmentRequest.UNEQUIP;
+		EquipmentManager.lockedFamiliarItem =
+			lock ? EquipmentManager.getFamiliarItem() : EquipmentRequest.UNEQUIP;
+		GearChangeFrame.updateFamiliarLock();
+		Preferences.firePreferenceChanged( "(familiarLock)" );
 	}
 
 	public static final void lockFamiliarItem( FamiliarData familiar )
 	{
 		EquipmentManager.lockedFamiliarItem = familiar.getItem();
+		GearChangeFrame.updateFamiliarLock();
+		Preferences.firePreferenceChanged( "(familiarLock)" );
 	}
 
 	public static final int getFakeHands()
@@ -533,9 +539,15 @@ public class EquipmentManager
 		{
 		case EquipmentManager.ACCESSORY1:
 		case EquipmentManager.ACCESSORY2:
+			return;	// do all the work when updating ACC3
+			
 		case EquipmentManager.ACCESSORY3:
 
 			EquipmentManager.updateEquipmentList( consumeFilter, EquipmentManager.accessories );
+			AdventureResult.addResultToList( EquipmentManager.accessories, 
+				EquipmentManager.getEquipment( EquipmentManager.ACCESSORY1 ) );
+			AdventureResult.addResultToList( EquipmentManager.accessories, 
+				EquipmentManager.getEquipment( EquipmentManager.ACCESSORY2 ) );
 			AdventureResult.addResultToList( EquipmentManager.accessories, equippedItem );
 			break;
 
@@ -670,6 +682,7 @@ public class EquipmentManager
 
 	public static final void updateEquipmentLists()
 	{
+		KoLCharacter.resetTriggers();
 		EquipmentManager.updateOutfits();
 		for ( int i = 0; i < EquipmentManager.ALL_SLOTS; ++i )
 		{
@@ -994,20 +1007,27 @@ public class EquipmentManager
 		}
 
 		String requirement = EquipmentDatabase.getEquipRequirement( itemId );
+		int req;
 
 		if ( requirement.startsWith( "Mus:" ) )
 		{
-			return KoLCharacter.getBaseMuscle() >= StringUtilities.parseInt( requirement.substring( 5 ) );
+			req = StringUtilities.parseInt( requirement.substring( 5 ) );
+			return KoLCharacter.getBaseMuscle() >= req ||
+				KoLCharacter.muscleTrigger( req, itemId );
 		}
 
 		if ( requirement.startsWith( "Mys:" ) )
 		{
-			return KoLCharacter.getBaseMysticality() >= StringUtilities.parseInt( requirement.substring( 5 ) );
+			req = StringUtilities.parseInt( requirement.substring( 5 ) );
+			return KoLCharacter.getBaseMysticality() >= req ||
+				KoLCharacter.mysticalityTrigger( req, itemId );
 		}
 
 		if ( requirement.startsWith( "Mox:" ) )
 		{
-			return KoLCharacter.getBaseMoxie() >= StringUtilities.parseInt( requirement.substring( 5 ) );
+			req = StringUtilities.parseInt( requirement.substring( 5 ) );
+			return KoLCharacter.getBaseMoxie() >= req ||
+				KoLCharacter.moxieTrigger( req, itemId );
 		}
 
 		return true;
