@@ -59,9 +59,10 @@ bunch of square grapes	2	7	6-7	1-5	5-20	1-5
 c. h. u. m. chum	3	1	1	0	0	0
 cactus fruit	2	7	6-7	6-20	1-5	1-5
 can-shaped gelatinous cranberry sauce	3	6	9-17	0	0	71-74
+can of franks 'n' beans	3	1	8-10	20-40	20-40	20-40
 candied yams	3	5	7-14	0	72-75	0
 candy cane	1	4	1-5	10-20	10-20	10-20
-candy cane pizza	4	1	6-11	7-9	7-9	7-9
+candy cane pizza	4	1	6-11	0	0	0
 candy cane surprise	3	5	4-5	0	0	0
 candy stake	1	4	1-5	10-20	10-20	10-20
 carob brownies	2	1	2-5	0	17-19	0
@@ -132,7 +133,7 @@ gingerbread bugbear	1	4	1-5	10-20	10-20	10-20
 gingerbread horror	1	4	1-5	10-20	10-20	10-20
 gingerbread massacre	3	1	3-6	5-6	5-6	5-6
 gingerbread mutant bugbear	1	1	1-5	10-20	10-20	10-20
-gingerbread stir-fry	5	1	9-17	9-11	9-11	9-11
+gingerbread stir-fry	3	1	3-7	0	0	0
 glass of goat's milk	1	1	1	0	0	0
 glistening fish meat	1	1	2-3	0	4-8	0
 glistening maki	3	1	8-12	0	8-16	0
@@ -150,7 +151,7 @@ grapes	1	1	1	0	0	0
 grimdrop chow mein	4	5	6-9	0	0	0
 grimgerbread house	5	5	10-15	0	0	0
 grue egg omelette	4	9	21-27	35-45	35-45	35-45
-gumdrop chow mein	3	1	3-7	5-7	5-7	5-7
+gumdrop chow mein	5	1	9-17	0	0	0
 handful of nuts and berries	1	12	3-5	0	50-60	0
 handful of walnuts	1	10	2-4	0	0	20-30
 happy birthday, claude! cake	3	1	3	0	0	0

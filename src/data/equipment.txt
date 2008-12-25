@@ -526,6 +526,7 @@ giant driftwood sculpture	190	Mus: 80	2-handed flail
 giant foam finger	170	Mus: 70	1-handed club
 giant needle	150	Mus: 60	2-handed spear
 glistening staff	60	Mus: 15	2-handed staff
+glow-in-the-dark dart gun	50	Mox: 0	1-handed pistol
 gnauga hide whip	20	Mus: 0	1-handed whip
 goatskin umbrella	180	Mus: 75	1-handed umbrella
 goulauncher	100	Mox: 35	2-handed crossbow
@@ -765,6 +766,7 @@ foon of foulness	0	Mys: 10
 foon of frigidity	0	Mys: 10
 foon of fulmination	0	Mys: 10
 giant stuffed bugbear	0	none
+glow-in-the-dark stuffed burrowgrub	0	none
 gnauga hide buckler	95	Mus: 30	shield
 golden sausage	0	none
 green balloon	0	none
@@ -1042,6 +1044,7 @@ furry green earmuffs	0	Mys: 7
 fuzzy bracelets	0	none
 gearbox necklace	0	Mys: 75
 giant pinky ring	0	Mys: 35
+glow-in-the-dark wristwatch	0	none
 glowing red eye	0	Mys: 60
 gnatwing earring	0	Mys: 30
 gnoll-tooth necklace	0	Mys: 10
@@ -1212,6 +1215,7 @@ tiny plastic blood-faced volleyball	0	none
 tiny plastic blooper	0	none
 tiny plastic brainsweeper	0	none
 tiny plastic briefcase bat	0	none
+tiny plastic chunk of depleted Grimacite	0	none
 tiny plastic cocoabo	0	none
 tiny plastic coffee pixie	0	none
 tiny plastic conservationist hippy	0	none

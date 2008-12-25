@@ -596,6 +596,7 @@ giant driftwood sculpture	Moxie: +8, Weapon Damage: +15
 giant foam finger	Damage Reduction: 3
 giant needle	Monster Level: +5
 glistening staff	Mysticality: +2, Sleaze Damage: +3
+glow-in-the-dark dart gun	Moxie: +3, Ranged Damage: +6
 gnauga hide whip	Item Drop: +3
 goatskin umbrella	Stench Damage: +15
 goulauncher	Moxie: +4, Spooky Damage: +5
@@ -829,6 +830,7 @@ foon of foulness	Mysticality: +3, Stench Spell Damage: +8
 foon of frigidity	Mysticality: +3, Cold Spell Damage: +8
 foon of fulmination	Mysticality: +3, Hot Spell Damage: +8
 # giant stuffed bugbear
+glow-in-the-dark stuffed burrowgrub	Muscle: +3, Weapon Damage: +3
 gnauga hide buckler	Damage Reduction: 5, Moxie: +3, Muscle: +3, Mysticality: +3
 # golden sausage
 # green balloon
@@ -1102,6 +1104,7 @@ furry green earmuffs	Cold Resistance: +1
 fuzzy bracelets	Moxie: +15, Muscle: +15, Mysticality: +15
 gearbox necklace	Mysticality: +11, Maximum MP: +50
 giant pinky ring	Single Equip
+glow-in-the-dark wristwatch	Mysticality: +3, Spell Damage: +3, Adventures: +3, Single Equip
 glowing red eye	Spooky Resistance: +2
 gnatwing earring	Initiative: +15, Mysticality: +6
 gnoll-tooth necklace	Muscle: +5
@@ -1275,6 +1278,7 @@ tiny plastic blood-faced volleyball	Familiar Weight: +1
 tiny plastic blooper	Monster Level: +1
 tiny plastic brainsweeper	Monster Level: +1
 tiny plastic briefcase bat	Monster Level: +1
+tiny plastic chunk of depleted Grimacite	HP Regen Min: 1, HP Regen Max: 2, MP Regen Min: 1, MP Regen Max: 2
 tiny plastic cocoabo	Familiar Weight: +1
 tiny plastic coffee pixie	Familiar Weight: +1
 tiny plastic conservationist hippy	Stench Damage: +5
@@ -2331,6 +2335,7 @@ eXtreme Cold-Weather Gear	Cold Resistance: +3
 # Shoots Bottle-Rockets!
 # Sporadic HP Regeneration
 # Squeaky!
+# Super Accurate!
 # Teddy Bear loses less stuffing when hit.
 # They Do Nothing!
 # Weakens Monster on Critical Hit
