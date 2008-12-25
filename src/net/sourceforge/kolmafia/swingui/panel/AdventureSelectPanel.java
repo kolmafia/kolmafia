@@ -455,8 +455,9 @@ public class AdventureSelectPanel
 
 			String[] splitConditions = conditionList.split( "\\s*,\\s*" );
 
-			// First, figure out whether or not you need to do a disjunction
-			// on the conditions, which changes how KoLmafia handles them.
+			// First, figure out whether or not you need to do a
+			// disjunction on the conditions, which changes how
+			// KoLmafia handles them.
 
 			for ( int i = 0; i < splitConditions.length; ++i )
 			{
@@ -472,9 +473,10 @@ public class AdventureSelectPanel
 				}
 				else if ( splitConditions[ i ].equals( "outfit" ) )
 				{
-					// Determine where you're adventuring and use
-					// that to determine which components make up
-					// the outfit pulled from that area.
+					// Determine where you're adventuring
+					// and use that to determine which
+					// components make up the outfit pulled
+					// from that area.
 
 					if ( !EquipmentManager.addOutfitConditions( request ) )
 					{
