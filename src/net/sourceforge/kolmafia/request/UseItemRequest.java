@@ -2182,7 +2182,6 @@ public class UseItemRequest
 		case ItemPool.BAG_OF_CANDY:
 		case ItemPool.EMBLEM_AKGYXOTH:
 		case ItemPool.IDOL_AKGYXOTH:
-		case ItemPool.TOASTER:
 
 			// Certain pieces of equipment can also be "used" and
 			// are not consumed.

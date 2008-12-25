@@ -635,7 +635,7 @@
 634	cool whip	12	all	15
 635	little paper umbrella	12	all	35
 636	meat globe	3	none	0
-637	cheap toaster	3	display	0
+637	cheap toaster	18	display	0
 638	asshat	9	all	45
 639	abominable snowcone	1	all	30
 640	Ent cider	1	all	33
@@ -3658,3 +3658,17 @@
 3657	tiny plastic mutant elf	8	all	0
 3658	tiny plastic fat stack of cash	8	all	0
 3659	tiny plastic strand of DNA	8	all	0
+3660	tiny plastic chunk of depleted Grimacite	8	all	0
+3661
+3662
+3663
+3664
+3665
+3666
+3667
+3668	glow-in-the-dark wristwatch	8	all	0
+3669	glow-in-the-dark dart gun	12	all	0
+3670	glow-in-the-dark stuffed burrowgrub	13	all	0
+3671	Uncle Crimbo's Rations	3	all	0
+3672	can of franks 'n' beans	1	all	0
+3673	bottle of peppermint schnapps	2	all	0

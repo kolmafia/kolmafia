@@ -1036,6 +1036,8 @@ public abstract class ChoiceManager
 		new ChoiceAdventure(
 			"The Sea", "choiceAdventure299", "The Wreck of the Edgar Fitzsimmons",
 			new String[] { "release creatures", "skip adventure" } ),
+
+		// Choice 300 is Merry Crimbo!
 	};
 
 	static

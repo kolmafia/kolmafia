@@ -54,32 +54,32 @@ public class CrimboCafeRequest
 		switch ( KoLConstants.cafeItems.indexOf( name ) )
 		{
 		case 0:
-			itemId = -58;
+			itemId = -4;
 			price = 50;
 			break;
 
 		case 1:
-			itemId = -59;
+			itemId = -5;
 			price = 75;
 			break;
 
 		case 2:
-			itemId = -60;
+			itemId = -6;
 			price = 100;
 			break;
 
 		case 3:
-			itemId = -61;
+			itemId = -9;
 			price = 50;
 			break;
 
 		case 4:
-			itemId = -62;
+			itemId = -8;
 			price = 75;
 			break;
 
 		case 5:
-			itemId = -63;
+			itemId = -7;
 			price = 100;
 			break;
 		}
@@ -96,12 +96,12 @@ public class CrimboCafeRequest
 	{
 		KoLmafia.updateDisplay( "Visiting Crimbo Cafe..." );
 		KoLConstants.cafeItems.clear();
-		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Grimacider", 50 );
-		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Isotope Nog", 75 );
-		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Mutagin 'n' Tonic", 100 );
-		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Candy Cane Surprise", 50 );
-		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Grimdrop Chow Mein", 75 );
-		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Grimgerbread House", 100 );
+		CafeRequest.addMenuItem( KoLConstants.cafeItems, "eggnogtini", 50 );
+		CafeRequest.addMenuItem( KoLConstants.cafeItems, "candycaine", 75 );
+		CafeRequest.addMenuItem( KoLConstants.cafeItems, "braincracker sweet", 100 );
+		CafeRequest.addMenuItem( KoLConstants.cafeItems, "gingerbread stir-fry", 50 );
+		CafeRequest.addMenuItem( KoLConstants.cafeItems, "candy cane pizza", 75 );
+		CafeRequest.addMenuItem( KoLConstants.cafeItems, "gumdrop chow mein", 100 );
 		ConcoctionDatabase.getUsables().sort();
 		KoLmafia.updateDisplay( "Menu retrieved." );
 	}
@@ -131,28 +131,28 @@ public class CrimboCafeRequest
 
 		switch ( itemId )
 		{
-		case -58:
-			itemName = "Grimacider";
+		case -4:
+			itemName = "eggnogtini";
 			price = 50;
 			break;
-		case -59:
-			itemName = "Isotope Nog";
+		case -5:
+			itemName = "candycaine";
 			price = 75;
 			break;
-		case -60:
-			itemName = "Mutagin 'n' Tonic";
+		case -6:
+			itemName = "braincracker sweet";
 			price = 100;
 			break;
-		case -61:
-			itemName = "Candy Cane Surprise";
+		case -9:
+			itemName = "gingerbread stir-fry";
 			price = 50;
 			break;
-		case -62:
-			itemName = "Grimdrop Chow Mein";
+		case -8:
+			itemName = "candy cane pizza";
 			price = 75;
 			break;
-		case -63:
-			itemName = "Grimgerbread House";
+		case -7:
+			itemName = "gumdrop chow mein";
 			price = 100;
 			break;
 		default:

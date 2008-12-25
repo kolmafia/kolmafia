@@ -3664,3 +3664,17 @@
 3657	644060479	tiny plastic mutant elf	
 3658	196626222	tiny plastic fat stack of cash
 3659	441811155	tiny plastic strand of DNA
+3660	971857735	tiny plastic chunk of depleted Grimacite
+3661
+3662
+3663
+3664
+3665
+3666
+3667
+3668	277958099	glow-in-the-dark wristwatch	glow-in-the-dark wristwatches
+3669	833264909	glow-in-the-dark dart gun	glow-in-the-dark dart guns
+3670	201697185	glow-in-the-dark stuffed burrowgrub	glow-in-the-dark stuffed burrowgrubs
+3671	910986160	Uncle Crimbo's Rations	tins of Uncle Crimbo's Rations
+3672	208004985	can of franks 'n' beans	cans of franks 'n' beans
+3673	310999359	bottle of peppermint schnapps	bottles of peppermint schnapps
