@@ -4242,32 +4242,34 @@ public class KoLmafiaCLI
 			RequestLogger.printLine( "Conditions list cleared." );
 			return true;
 		}
-		else if ( option.equals( "check" ) )
+
+		if ( option.equals( "check" ) )
 		{
 			KoLmafia.checkRequirements( KoLConstants.conditions );
 			RequestLogger.printLine( "Conditions list validated against available items." );
 			return true;
 		}
-		else if ( option.equals( "add" ) || option.equals( "set" ) )
+
+		if ( option.equals( "add" ) || option.equals( "set" ) )
 		{
-			AdventureResult condition;
 			String[] conditionsList = parameters.substring( option.length() ).toLowerCase().trim().split( "\\s*,\\s*" );
 
 			for ( int i = 0; i < conditionsList.length; ++i )
 			{
-				if ( conditionsList[ i ].equalsIgnoreCase( "castle map items" ) )
+				String condition = conditionsList[ i ];
+
+				if ( condition.equalsIgnoreCase( "castle map items" ) )
 				{
-					this.addItemCondition( "set", new AdventureResult( 616, 1 ) ); // furry fur
-					this.addItemCondition( "set", new AdventureResult( 619, 1 ) ); // giant needle
-					this.addItemCondition( "set", new AdventureResult( 622, 1 ) ); // awful poetry journal
+					this.addItemCondition( "set", ItemPool.get( ItemPool.FURRY_FUR, 1 ) );
+					this.addItemCondition( "set", ItemPool.get( ItemPool.GIANT_NEEDLE, 1 ) );
+					this.addItemCondition( "set", ItemPool.get( ItemPool.AWFUL_POETRY_JOURNAL, 1 ) );
+					continue;
 				}
-				else
+
+				AdventureResult ar = this.extractCondition( condition );
+				if ( ar != null )
 				{
-					condition = this.extractCondition( conditionsList[ i ] );
-					if ( condition != null )
-					{
-						this.addItemCondition( option, condition );
-					}
+					this.addItemCondition( option, ar );
 				}
 			}
 
@@ -4328,7 +4330,6 @@ public class KoLmafiaCLI
 
 		conditionString = conditionString.toLowerCase();
 
-		AdventureResult condition = null;
 		Matcher meatMatcher = KoLmafiaCLI.MEAT_PATTERN.matcher( conditionString );
 		boolean isMeatCondition = meatMatcher.find() ? meatMatcher.group().length() == conditionString.length() : false;
 
@@ -4336,20 +4337,20 @@ public class KoLmafiaCLI
 		{
 			String[] splitCondition = conditionString.split( "\\s+" );
 			int amount = StringUtilities.parseInt( splitCondition[ 0 ] );
-			condition = new AdventureResult( AdventureResult.MEAT, amount );
+			return new AdventureResult( AdventureResult.MEAT, amount );
 		}
-		else if ( conditionString.endsWith( "choiceadv" ) || conditionString.endsWith( "choices" ) || conditionString.endsWith( "choice" ) )
+
+                if ( conditionString.endsWith( "choiceadv" ) || conditionString.endsWith( "choices" ) || conditionString.endsWith( "choice" ) )
 		{
 			// If it's a choice adventure condition, parse out the
 			// number of choice adventures the user wishes to do.
 
 			String[] splitCondition = conditionString.split( "\\s+" );
-			condition =
-				new AdventureResult(
-					AdventureResult.CHOICE,
-					splitCondition.length > 1 ? StringUtilities.parseInt( splitCondition[ 0 ] ) : 1 );
+			int count = splitCondition.length > 1 ? StringUtilities.parseInt( splitCondition[ 0 ] ) : 1;
+			return new AdventureResult( AdventureResult.CHOICE, count );
 		}
-		else if ( conditionString.startsWith( "level" ) )
+
+		if ( conditionString.startsWith( "level" ) )
 		{
 			// If the condition is a level, then determine how many
 			// substat points are required to the next level and
@@ -4363,9 +4364,10 @@ public class KoLmafiaCLI
 			AdventureResult.CONDITION_SUBSTATS[ primeIndex ] =
 				KoLCharacter.calculateSubpoints( ( level - 1 ) * ( level - 1 ) + 4, 0 ) - KoLCharacter.getTotalPrime();
 
-			condition = AdventureResult.CONDITION_SUBSTATS_RESULT;
+			return AdventureResult.CONDITION_SUBSTATS_RESULT;
 		}
-		else if ( conditionString.endsWith( "mus" ) || conditionString.endsWith( "muscle" ) || conditionString.endsWith( "moxie" ) || conditionString.endsWith( "mys" ) || conditionString.endsWith( "myst" ) || conditionString.endsWith( "mox" ) || conditionString.endsWith( "mysticality" ) )
+
+		if ( conditionString.endsWith( "mus" ) || conditionString.endsWith( "muscle" ) || conditionString.endsWith( "moxie" ) || conditionString.endsWith( "mys" ) || conditionString.endsWith( "myst" ) || conditionString.endsWith( "mox" ) || conditionString.endsWith( "mysticality" ) )
 		{
 			String[] splitCondition = conditionString.split( "\\s+" );
 
@@ -4378,32 +4380,43 @@ public class KoLmafiaCLI
 					0,
 					AdventureResult.CONDITION_SUBSTATS[ statIndex ] - ( conditionString.indexOf( "mus" ) != -1 ? KoLCharacter.getTotalMuscle() : conditionString.indexOf( "mys" ) != -1 ? KoLCharacter.getTotalMysticality() : KoLCharacter.getTotalMoxie() ) );
 
-			condition = AdventureResult.CONDITION_SUBSTATS_RESULT;
+			return AdventureResult.CONDITION_SUBSTATS_RESULT;
 		}
-		else if ( conditionString.endsWith( "health" ) || conditionString.endsWith( "mana" ) )
+
+		if ( conditionString.endsWith( "health" ) || conditionString.endsWith( "mana" ) )
 		{
+			String type;
+			int max, current;
+
+			if ( conditionString.endsWith( "health" ) )
+			{
+				type = AdventureResult.HP;
+				max = KoLCharacter.getMaximumHP();
+				current = KoLCharacter.getCurrentHP();
+			}
+			else
+			{
+				type = AdventureResult.MP;
+				max = KoLCharacter.getMaximumMP();
+				current = KoLCharacter.getCurrentMP();
+			}
+
 			String numberString = conditionString.split( "\\s+" )[ 0 ];
-			int points =
-				StringUtilities.parseInt( numberString.endsWith( "%" ) ? numberString.substring(
-					0, numberString.length() - 1 ) : numberString );
+			int points;
 
 			if ( numberString.endsWith( "%" ) )
 			{
-				if ( conditionString.endsWith( "health" ) )
-				{
-					points = (int) ( (float) points * (float) KoLCharacter.getMaximumHP() / 100.0f );
-				}
-				else if ( conditionString.endsWith( "mana" ) )
-				{
-					points = (int) ( (float) points * (float) KoLCharacter.getMaximumMP() / 100.0f );
-				}
+				int num = StringUtilities.parseInt( numberString.substring( 0, numberString.length() - 1 ) );
+				points = (int) ( (float) num * (float) max / 100.0f );
+			}
+			else
+			{
+				points = StringUtilities.parseInt( numberString );
 			}
 
-			points -= conditionString.endsWith( "health" ) ? KoLCharacter.getCurrentHP() : KoLCharacter.getCurrentMP();
+			points -= current;
 
-			condition =
-				new AdventureResult(
-					conditionString.endsWith( "health" ) ? AdventureResult.HP : AdventureResult.MP, points );
+			AdventureResult condition = new AdventureResult( type, points );
 
 			int previousIndex = KoLConstants.conditions.indexOf( condition );
 			if ( previousIndex != -1 )
@@ -4411,8 +4424,11 @@ public class KoLmafiaCLI
 				AdventureResult previousCondition = (AdventureResult) KoLConstants.conditions.get( previousIndex );
 				condition = condition.getInstance( condition.getCount() - previousCondition.getCount() );
 			}
+
+			return condition;
 		}
-		else if ( conditionString.endsWith( "outfit" ) )
+
+		if ( conditionString.endsWith( "outfit" ) )
 		{
 			// Usage: conditions add <location> outfit
 			String outfitLocation;
@@ -4454,13 +4470,11 @@ public class KoLmafiaCLI
 				KoLmafia.updateDisplay(
 					KoLConstants.ERROR_STATE, "No outfit corresponds to " + lastAdventure.getAdventureName() + "." );
 			}
-		}
-		else
-		{
-			condition = ItemFinder.getFirstMatchingItem( conditionString );
+
+			return null;
 		}
 
-		return condition;
+		return ItemFinder.getFirstMatchingItem( conditionString );
 	}
 
 	/**
