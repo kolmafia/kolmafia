@@ -126,12 +126,6 @@ public class UseItemRequest
 		case ItemPool.CANNONBALL_BRACELET:
 		case ItemPool.COPPER_BRACELET:
 		case ItemPool.TONGUE_BRACELET:
-			// Crimbo toys
-		case ItemPool.HOBBY_HORSE:
-		case ItemPool.BALL_IN_A_CUP:
-		case ItemPool.SET_OF_JACKS:
-			// La Bamba
-		case ItemPool.OUTRAGEOUS_SOMBRERO:
 			// Iceberglet items
 		case ItemPool.ICE_SICKLE:
 		case ItemPool.ICE_BABY:
@@ -149,12 +143,20 @@ public class UseItemRequest
 		case ItemPool.PAPER_SHURIKEN:
 		case ItemPool.ORIGAMI_PASTIES:
 		case ItemPool.RIDING_CROP:
+			return KoLConstants.CONSUME_USE;
+
+			// Crimbo toys
+		case ItemPool.HOBBY_HORSE:
+		case ItemPool.BALL_IN_A_CUP:
+		case ItemPool.SET_OF_JACKS:
+			// La Bamba
+		case ItemPool.OUTRAGEOUS_SOMBRERO:
 			// free candy
 		case ItemPool.BAG_OF_CANDY:
 			// free booze
 		case ItemPool.EMBLEM_AKGYXOTH:
 		case ItemPool.IDOL_AKGYXOTH:
-			return KoLConstants.CONSUME_USE;
+			return KoLConstants.INFINITE_USES;
 
 		case ItemPool.HOBO_CODE_BINDER:
 			return KoLConstants.MESSAGE_DISPLAY;
@@ -2174,14 +2176,9 @@ public class UseItemRequest
 
 		case ItemPool.NEVERENDING_SODA:
 			Preferences.setBoolean( "oscusSodaUsed", true );
-			/*FALLTHRU*/
-		case ItemPool.HOBBY_HORSE:
-		case ItemPool.BALL_IN_A_CUP:
-		case ItemPool.SET_OF_JACKS:
+			return;
+
 		case ItemPool.EL_VIBRATO_HELMET:
-		case ItemPool.BAG_OF_CANDY:
-		case ItemPool.EMBLEM_AKGYXOTH:
-		case ItemPool.IDOL_AKGYXOTH:
 
 			// Certain pieces of equipment can also be "used" and
 			// are not consumed.
@@ -2217,9 +2214,6 @@ public class UseItemRequest
 			return;
 
 		case ItemPool.BURROWGRUB_HIVE:
-
-			// The hive is not consumed
-			ResultProcessor.processResult( item );
 
 			// One way or another, you have used it today
 			Preferences.setBoolean( "burrowgrubHiveUsed", true );

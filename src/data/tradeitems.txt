@@ -3391,7 +3391,7 @@
 3390	Staff of the Deepest Freeze	12	display	0
 3391	Frosty's iceball	25	display	10000
 3392	Oscus's garbage can lid	13	display	0
-3393	Oscus's neverending soda	3	display	10000
+3393	Oscus's neverending soda	18	display	10000
 3394	Oscus's flypaper pants	10	display	0
 3395	Hodgman's porkpie hat	9	display	0
 3396	Hodgman's lobsterskin pants	10	display	0
@@ -3627,7 +3627,7 @@
 3626	parasitic headgnawer	9	all	0
 3627	parasitic strangleworm	13	all	0
 3628	pair of ragged claws	5	all	0
-3629	burrowgrub hive	3	display	0
+3629	burrowgrub hive	18	display	0
 3630	dusty Crimbo crate	4	all	0
 3631	Gummi-DNA	4	all	30
 3632	radioactive chew toy	7	all	70
