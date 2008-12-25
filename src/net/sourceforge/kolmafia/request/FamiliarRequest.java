@@ -297,9 +297,16 @@ public class FamiliarRequest
 		{
 			if ( EquipmentManager.familiarItemLockable() )
 			{
-				String verb= EquipmentManager.familiarItemLocked() ? "unlock" : "lock";
+				String verb = EquipmentManager.familiarItemLocked() ? "unlock" : "lock";
 				RequestLogger.updateSessionLog();
 				RequestLogger.updateSessionLog( "familiar " + verb );
+				if ( urlString.indexOf( "frominv=" ) != -1 )
+				{	// If the lock icon is clicked from the Equipment page (rather than
+					// the Familiars page), the results are shown via a redirect that we
+					// don't follow.  Must change the lock state here, instead.
+					EquipmentManager.lockFamiliarItem(
+						!EquipmentManager.familiarItemLocked() );
+				}
 			}
 			return true;
 		}
