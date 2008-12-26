@@ -381,6 +381,11 @@ public class AdventureResult
 		return this.priority == AdventureResult.ITEM_PRIORITY;
 	}
 
+	public boolean isMeat()
+	{
+		return this.priority == AdventureResult.MEAT_PRIORITY;
+	}
+
 	/**
 	 * Accessor method to retrieve the name associated with the result.
 	 *

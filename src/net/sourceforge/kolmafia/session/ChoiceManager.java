@@ -1293,133 +1293,232 @@ public abstract class ChoiceManager
 	public static final Object[][] CHOICE_COST =
 	{
 		// Denim Axes Examined
-		{ "2", "1", new AdventureResult( "rubber axe", -1 ) },
+		{ new Integer(2), new Integer(1), 
+		  new AdventureResult( "rubber axe", -1 ) },
 
 		// Finger-Lickin'... Death.
-		{ "4", "1", new AdventureResult( AdventureResult.MEAT, -500 ) },
-		{ "4", "2", new AdventureResult( AdventureResult.MEAT, -500 ) },
+		{ new Integer(4), new Integer(1), 
+		  new AdventureResult( AdventureResult.MEAT, -500 ) },
+		{ new Integer(4), new Integer(2), 
+		  new AdventureResult( AdventureResult.MEAT, -500 ) },
 
 		// Under the Knife
-		{ "21", "1", new AdventureResult( AdventureResult.MEAT, -500 ) },
+		{ new Integer(21), new Integer(1), 
+		  new AdventureResult( AdventureResult.MEAT, -500 ) },
 
 		// Ouch! You bump into a door!
-		{ "25", "1", new AdventureResult( AdventureResult.MEAT, -50 ) },
-		{ "25", "2", new AdventureResult( AdventureResult.MEAT, -5000 ) },
+		{ new Integer(25), new Integer(1), 
+		  new AdventureResult( AdventureResult.MEAT, -50 ) },
+		{ new Integer(25), new Integer(2), 
+		  new AdventureResult( AdventureResult.MEAT, -5000 ) },
 
 		// Have a Heart
 		// This trades all vampire hearts for an equal number of
 		// bottles of used blood.
-		{ "47", "1", new AdventureResult( "vampire heart", 1 ) },
+		{ new Integer(47), new Integer(1), 
+		  new AdventureResult( "vampire heart", 1 ) },
 
 		// Lording Over The Flies
 		// This trades all Spanish flies for around the worlds,
 		// in multiples of 5.  Excess flies are left in inventory.
-		{ "72", "1", new AdventureResult( "Spanish fly", 5 ) },
+		{ new Integer(72), new Integer(1), 
+		  new AdventureResult( "Spanish fly", 5 ) },
 
 		// No sir, away!  A papaya war is on!
-		{ "127", "2", new AdventureResult( "papaya", -3 ) },
+		{ new Integer(127), new Integer(2), 
+		  new AdventureResult( "papaya", -3 ) },
 
 		// Do Geese See God?
-		{ "129", "1", new AdventureResult( AdventureResult.MEAT, -500 ) },
+		{ new Integer(129), new Integer(1), 
+		  new AdventureResult( AdventureResult.MEAT, -500 ) },
 
 		// Rod Nevada, Vendor
-		{ "130", "1", new AdventureResult( AdventureResult.MEAT, -500 ) },
+		{ new Integer(130), new Integer(1), 
+		  new AdventureResult( AdventureResult.MEAT, -500 ) },
 
 		// Let's Make a Deal!
-		{ "132", "1", new AdventureResult( AdventureResult.MEAT, -5000 ) },
+		{ new Integer(132), new Integer(1), 
+		  new AdventureResult( AdventureResult.MEAT, -5000 ) },
 
 		// The Blackberry Cobbler
-		{ "177", "1", new AdventureResult( "blackberry", -10 ) },
-		{ "177", "2", new AdventureResult( "blackberry", -10 ) },
-		{ "177", "3", new AdventureResult( "blackberry", -10 ) },
+		{ new Integer(177), new Integer(1), 
+		  new AdventureResult( "blackberry", -10 ) },
+		{ new Integer(177), new Integer(2), 
+		  new AdventureResult( "blackberry", -10 ) },
+		{ new Integer(177), new Integer(3), 
+		  new AdventureResult( "blackberry", -10 ) },
 
 		// Chieftain of the Flies
 		// This trades all Spanish flies for around the worlds,
 		// in multiples of 5.  Excess flies are left in inventory.
-		{ "181", "1", new AdventureResult( "Spanish fly", 5 ) },
+		{ new Integer(181), new Integer(1), 
+		  new AdventureResult( "Spanish fly", 5 ) },
 
 		//  O Cap'm, My Cap'm
-		{ "189", "1", new AdventureResult( AdventureResult.MEAT, -977 ) },
+		{ new Integer(189), new Integer(1), 
+		  new AdventureResult( AdventureResult.MEAT, -977 ) },
 		
 		// Mind Yer Binder
-		{ "230", "1", new AdventureResult( "hobo nickel", -30 ) },
+		{ new Integer(230), new Integer(1), 
+		  new AdventureResult( "hobo nickel", -30 ) },
 
 		// The Guy Who Carves Driftwood Animals
-		{ "247", "1", new AdventureResult( "hobo nickel", -10 ) },
+		{ new Integer(247), new Integer(1), 
+		  new AdventureResult( "hobo nickel", -10 ) },
 
 		// A Hattery
-		{ "250", "1", new AdventureResult( "hobo nickel", -250 ) },
-		{ "250", "2", new AdventureResult( "hobo nickel", -150 ) },
-		{ "250", "3", new AdventureResult( "hobo nickel", -200 ) },
+		{ new Integer(250), new Integer(1), 
+		  new AdventureResult( "hobo nickel", -250 ) },
+		{ new Integer(250), new Integer(2), 
+		  new AdventureResult( "hobo nickel", -150 ) },
+		{ new Integer(250), new Integer(3), 
+		  new AdventureResult( "hobo nickel", -200 ) },
 
 		// A Pantry
-		{ "251", "1", new AdventureResult( "hobo nickel", -200 ) },
-		{ "251", "2", new AdventureResult( "hobo nickel", -150 ) },
-		{ "251", "3", new AdventureResult( "hobo nickel", -250 ) },
+		{ new Integer(251), new Integer(1), 
+		  new AdventureResult( "hobo nickel", -200 ) },
+		{ new Integer(251), new Integer(2), 
+		  new AdventureResult( "hobo nickel", -150 ) },
+		{ new Integer(251), new Integer(3), 
+		  new AdventureResult( "hobo nickel", -250 ) },
 
 		// Hobo Blanket Bingo
-		{ "252", "1", new AdventureResult( "hobo nickel", -250 ) },
-		{ "252", "2", new AdventureResult( "hobo nickel", -200 ) },
-		{ "252", "3", new AdventureResult( "hobo nickel", -150 ) },
+		{ new Integer(252), new Integer(1), 
+		  new AdventureResult( "hobo nickel", -250 ) },
+		{ new Integer(252), new Integer(2), 
+		  new AdventureResult( "hobo nickel", -200 ) },
+		{ new Integer(252), new Integer(3), 
+		  new AdventureResult( "hobo nickel", -150 ) },
 
 		// Black-and-Blue-and-Decker
-		{ "255", "1", new AdventureResult( "hobo nickel", -10 ) },
-		{ "255", "2", new AdventureResult( "hobo nickel", -10 ) },
-		{ "255", "3", new AdventureResult( "hobo nickel", -10 ) },
+		{ new Integer(255), new Integer(1), 
+		  new AdventureResult( "hobo nickel", -10 ) },
+		{ new Integer(255), new Integer(2), 
+		  new AdventureResult( "hobo nickel", -10 ) },
+		{ new Integer(255), new Integer(3), 
+		  new AdventureResult( "hobo nickel", -10 ) },
 
 		// Instru-mental
-		{ "258", "1", new AdventureResult( "hobo nickel", -99 ) },
+		{ new Integer(258), new Integer(1), 
+		  new AdventureResult( "hobo nickel", -99 ) },
 
 		// Everybody's Got Something To Hide
-		{ "261", "1", new AdventureResult( "hobo nickel", -1000 ) },
+		{ new Integer(261), new Integer(1), 
+		  new AdventureResult( "hobo nickel", -1000 ) },
 
 		// Tanning Salon
-		{ "264", "1", new AdventureResult( "hobo nickel", -5 ) },
-		{ "264", "2", new AdventureResult( "hobo nickel", -5 ) },
+		{ new Integer(264), new Integer(1), 
+		  new AdventureResult( "hobo nickel", -5 ) },
+		{ new Integer(264), new Integer(2), 
+		  new AdventureResult( "hobo nickel", -5 ) },
 
 		// Let's All Go To The Movies
-		{ "267", "1", new AdventureResult( "hobo nickel", -5 ) },
-		{ "267", "2", new AdventureResult( "hobo nickel", -5 ) },
+		{ new Integer(267), new Integer(1), 
+		  new AdventureResult( "hobo nickel", -5 ) },
+		{ new Integer(267), new Integer(2), 
+		  new AdventureResult( "hobo nickel", -5 ) },
 
 		// It's Fun To Stay There
-		{ "268", "1", new AdventureResult( "hobo nickel", -5 ) },
-		{ "268", "2", new AdventureResult( "hobo nickel", -5 ) },
+		{ new Integer(268), new Integer(1), 
+		  new AdventureResult( "hobo nickel", -5 ) },
+		{ new Integer(268), new Integer(2), 
+		  new AdventureResult( "hobo nickel", -5 ) },
 
 		// Triangle, Man
-		{ "275", "1", new AdventureResult( "hobo nickel", -10 ) },
+		{ new Integer(275), new Integer(1), 
+		  new AdventureResult( "hobo nickel", -10 ) },
 
 		// The Gong Has Been Bung
-		{ "276", "1", new AdventureResult( "llama gong", -1 ) },
-		{ "276", "2", new AdventureResult( "llama gong", -1 ) },
-		{ "276", "3", new AdventureResult( "llama gong", -1 ) },
+		{ new Integer(276), new Integer(1), 
+		  new AdventureResult( "llama gong", -1 ) },
+		{ new Integer(276), new Integer(2), 
+		  new AdventureResult( "llama gong", -1 ) },
+		{ new Integer(276), new Integer(3), 
+		  new AdventureResult( "llama gong", -1 ) },
 		
 		// A Tight Squeeze - jar of squeeze
-		{ "291", "1", new AdventureResult( "hobo nickel", -5 ) },
+		{ new Integer(291), new Integer(1), 
+		  new AdventureResult( "hobo nickel", -5 ) },
 		
 		// Cold Comfort - bowl of fishysoisse
-		{ "292", "1", new AdventureResult( "hobo nickel", -5 ) },
+		{ new Integer(292), new Integer(1), 
+		  new AdventureResult( "hobo nickel", -5 ) },
 		
 		// Flowers for You - deadly lampshade
-		{ "293", "1", new AdventureResult( "hobo nickel", -5 ) },
+		{ new Integer(293), new Integer(1), 
+		  new AdventureResult( "hobo nickel", -5 ) },
 		
 		// Maybe It's a Sexy Snake! - lewd playing card
-		{ "294", "1", new AdventureResult( "hobo nickel", -5 ) },
+		{ new Integer(294), new Integer(1), 
+		  new AdventureResult( "hobo nickel", -5 ) },
 		
 		// Juicy! - concentrated garbage juice
-		{ "295", "1", new AdventureResult( "hobo nickel", -5 ) },
+		{ new Integer(295), new Integer(1), 
+		  new AdventureResult( "hobo nickel", -5 ) },
 	};
 
-	public static final AdventureResult getCost( final String choice, final String decision )
+	private static final AdventureResult getCost( final int choice, final int decision )
 	{
 		for ( int i = 0; i < ChoiceManager.CHOICE_COST.length; ++i )
 		{
-			if ( choice.equals( ChoiceManager.CHOICE_COST[ i ][ 0 ] ) && decision.equals( ChoiceManager.CHOICE_COST[ i ][ 1 ] ) )
+			if ( choice == ((Integer)ChoiceManager.CHOICE_COST[ i ][ 0 ]).intValue() &&
+			     decision == ((Integer)ChoiceManager.CHOICE_COST[ i ][ 1 ]).intValue() )
 			{
 				return (AdventureResult) ChoiceManager.CHOICE_COST[ i ][ 2 ];
 			}
 		}
 
 		return null;
+	}
+
+	private static final void payCost( final int choice, final int decision )
+	{
+		AdventureResult cost = ChoiceManager.getCost( choice, decision );
+
+		// No cost for this choice/decision
+		if ( cost == null )
+		{
+			return;
+		}
+
+		int costCount = cost.getCount();
+
+		// No cost for this choice/decision
+		if ( costCount == 0 )
+		{
+			return;
+		}
+
+		if ( cost.isItem() )
+		{
+			int inventoryCount = cost.getCount( KoLConstants.inventory );
+			// Make sure we have enough in inventory
+			if ( costCount + inventoryCount < 0 )
+			{
+				return;
+			}
+
+			if ( costCount > 0 )
+			{
+				int multiplier = inventoryCount / costCount;
+				cost = cost.getInstance( multiplier * costCount * -1 );
+			}
+		}
+		else if ( cost.isMeat() )
+		{
+			int purseCount = KoLCharacter.getAvailableMeat();
+			// Make sure we have enough in inventory
+			if ( costCount + purseCount < 0 )
+			{
+				return;
+			}
+		}
+		else
+		{
+			return;
+		}
+
+		ResultProcessor.processResult( cost );
 	}
 
 	public static final String[][] choiceSpoilers( final int choice )
@@ -1982,6 +2081,9 @@ public abstract class ChoiceManager
 			}
 			break;
 		}
+
+		// Certain choices cost meat or items when selected
+		ChoiceManager.payCost( ChoiceManager.lastChoice, ChoiceManager.lastDecision );
 	}
 
 	private static void checkGuyMadeOfBees( final GenericRequest request )
