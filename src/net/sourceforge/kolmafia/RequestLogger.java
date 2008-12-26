@@ -442,38 +442,6 @@ public class RequestLogger
 		if ( urlString.startsWith( "choice" ) )
 		{
 			RequestLogger.updateSessionLog( urlString );
-
-			// Certain choices cost meat when selected
-
-			String choice = request.getFormField( "whichchoice" );
-			String decision = request.getFormField( "option" );
-
-			if ( choice == null || decision == null )
-			{
-				return;
-			}
-
-			AdventureResult cost = ChoiceManager.getCost( choice, decision );
-			int costCount = cost == null ? 0 : cost.getCount();
-
-			if ( costCount == 0 )
-			{
-				return;
-			}
-
-			int inventoryCount = cost.getCount( KoLConstants.inventory );
-			if ( cost.isItem() && inventoryCount == 0 )
-			{
-				return;
-			}
-
-			if ( costCount > 0 )
-			{
-				int multiplier = inventoryCount / costCount;
-				cost = cost.getInstance( multiplier * costCount * -1 );
-			}
-
-			ResultProcessor.processResult( cost );
 			return;
 		}
 
