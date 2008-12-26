@@ -97,7 +97,7 @@ public class IslandArenaRequest
 			return;
 		}
 
-		String [][] array = quest.equals( "hippies" ) ? HIPPY_CONCERTS : FRATBOY_CONCERTS;
+		String [][] array = IslandArenaRequest.quest.equals( "hippies" ) ? HIPPY_CONCERTS : FRATBOY_CONCERTS;
 
 		for ( int i = 0; i < array.length; ++i )
 		{
@@ -110,7 +110,7 @@ public class IslandArenaRequest
 
 		if ( this.option == 0 )
 		{
-			this.error = "That effect not available to " + quest;
+			this.error = "That effect not available to " + IslandArenaRequest.quest;
 			return;
 		}
 
@@ -121,32 +121,22 @@ public class IslandArenaRequest
 	private static String chooseUrl()
 	{
 		IslandDecorator.ensureUpdatedBigIsland();
-                quest = questCompleter();
-                if ( quest.equals( "hippies" ) || quest.equals( "fratboys" ) )
-                {
-                        String winner = Preferences.getString( "sideDefeated" );
-                        if ( winner.equals( "neither" ) )
-                                return "bigisland.php";
-                        if ( !winner.equals( quest ) )
-                                return "postwarisland.php";
-                }
+		IslandArenaRequest.quest = IslandDecorator.questCompleter( "sidequestArenaCompleted" );
+		if ( !IslandArenaRequest.quest.equals( "none" ) )
+		{
+			String loser = Preferences.getString( "sideDefeated" );
+			if ( loser.equals( "neither" ) )
+				return "bigisland.php";
+			if ( !loser.equals( IslandArenaRequest.quest ) )
+				return "postwarisland.php";
+		}
 		return "bogus.php";
-	}
-
-	private static String questCompleter()
-	{
-		String quest = Preferences.getString( "sidequestArenaCompleted" );
-		if ( quest.equals( "hippy" ) )
-			return "hippies";
-		if ( quest.equals( "fratboy" ) )
-			return "fratboys";
-		return "none";
 	}
 
 	private void setError()
 	{
 		// If he has not yet finished the sidequest, say so
-		if ( quest.equals( "none" ) )
+		if ( IslandArenaRequest.quest.equals( "none" ) )
 		{
 			this.error = "Arena not open";
 		}

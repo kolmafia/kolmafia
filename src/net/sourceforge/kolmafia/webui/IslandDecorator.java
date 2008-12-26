@@ -102,15 +102,6 @@ public class IslandDecorator
 	private static final Pattern JUNKYARD_PATTERN =
 		Pattern.compile( "The last time I saw my (.*?), (it was|they were) (.*?)\\.", Pattern.DOTALL );
 
-	private static final AdventureResult JAM_FLYERS = new AdventureResult( 2404, -1 );
-	private static final AdventureResult ROCK_FLYERS = new AdventureResult( 2405, -1 );
-
-	private static final AdventureResult MAGNET = new AdventureResult( 2497, -1 );
-	private static final AdventureResult HAMMER = new AdventureResult( 2498, -1 );
-	private static final AdventureResult SCREWDRIVER = new AdventureResult( 2499, -1 );
-	private static final AdventureResult PLIERS = new AdventureResult( 2500, -1 );
-	private static final AdventureResult WRENCH = new AdventureResult( 2501, -1 );
-
 	public static final int NONE = 0;
 	public static final int JUNKYARD = 1;
 	public static final int ORCHARD = 2;
@@ -1298,9 +1289,9 @@ public class IslandDecorator
 		if ( responseText.indexOf( "I'll take 'em" ) != -1 )
 		{
 			Preferences.setString( "sidequestArenaCompleted", "hippy" );
-			if ( InventoryManager.hasItem( IslandDecorator.JAM_FLYERS ) )
+			if ( InventoryManager.hasItem( ItemPool.JAM_BAND_FLYERS ) )
 			{
-				ResultProcessor.processResult( IslandDecorator.JAM_FLYERS );
+				ResultProcessor.processItem( ItemPool.JAM_BAND_FLYERS, -1 );
 			}
 			return;
 		}
@@ -1319,9 +1310,9 @@ public class IslandDecorator
 		if ( responseText.indexOf( "I'll take them" ) != -1 )
 		{
 			Preferences.setString( "sidequestArenaCompleted", "fratboy" );
-			if ( InventoryManager.hasItem( IslandDecorator.JAM_FLYERS ) )
+			if ( InventoryManager.hasItem( ItemPool.ROCK_BAND_FLYERS ) )
 			{
-				ResultProcessor.processResult( IslandDecorator.ROCK_FLYERS );
+				ResultProcessor.processItem( ItemPool.ROCK_BAND_FLYERS, -1 );
 			}
 			return;
 		}
@@ -1384,11 +1375,12 @@ public class IslandDecorator
 		}
 
 		// Give the magnet and the tools to Yossarian
-		ResultProcessor.processResult( IslandDecorator.MAGNET );
-		ResultProcessor.processResult( IslandDecorator.HAMMER );
-		ResultProcessor.processResult( IslandDecorator.PLIERS );
-		ResultProcessor.processResult( IslandDecorator.WRENCH );
-		ResultProcessor.processResult( IslandDecorator.SCREWDRIVER );
+
+		ResultProcessor.processItem( ItemPool.MOLYBDENUM_MAGNET, -1 );
+		ResultProcessor.processItem( ItemPool.MOLYBDENUM_HAMMER, -1 );
+		ResultProcessor.processItem( ItemPool.MOLYBDENUM_SCREWDRIVER, -1 );
+		ResultProcessor.processItem( ItemPool.MOLYBDENUM_PLIERS, -1 );
+		ResultProcessor.processItem( ItemPool.MOLYBDENUM_WRENCH, -1 );
 
 		if ( responseText.indexOf( "spark plug earring" ) != -1 || responseText.indexOf( "woven baling wire bracelets" ) != -1 || responseText.indexOf( "gearbox necklace" ) != -1 )
 		{
@@ -1560,13 +1552,59 @@ public class IslandDecorator
 		// Quest-specific page decorations
 		IslandDecorator.decorateArena( buffer );
 
-		// Now replace sidequest location images for completed quests
-		IslandDecorator.sidequestImage( buffer, "sidequestArenaCompleted", IslandDecorator.ARENA );
+		// Replace sidequest location images for completed quests
+
+		// The arena is available after the war only if the fans of the
+		// concert you promoted won the war.
+		String arena = IslandDecorator.questCompleter( "sidequestArenaCompleted" );
+		String winner = IslandDecorator.warWinner();
+		if ( arena.equals( winner ) )
+		{
+			IslandDecorator.sidequestImage( buffer, "sidequestArenaCompleted", IslandDecorator.ARENA );
+		}
+
+		// If you aided the nuns during the war, they will help you
+		// after the war, regardless of who won.
 		IslandDecorator.sidequestImage( buffer, "sidequestNunsCompleted", IslandDecorator.NUNS );
+	}
+
+	public static String questCompleter( final String preference )
+	{
+		String quest = Preferences.getString( preference );
+		if ( quest.equals( "hippy" ) )
+			return "hippies";
+		if ( quest.equals( "fratboy" ) )
+			return "fratboys";
+		return "none";
+	}
+
+	public static final String warWinner()
+	{
+		String loser = Preferences.getString( "sideDefeated" );
+		if ( loser.equals( "hippies" ) )
+		{
+			return "fratboys";
+		}
+		if ( loser.equals( "fratboys" ) )
+		{
+			return "hippies";
+		}
+		return "neither";
 	}
 
 	public static final String currentIsland()
 	{
-		return Preferences.getString( "warProgress" ).equals( "finished" ) ? "postwarisland.php" : "bigisland.php";
+		IslandDecorator.ensureUpdatedBigIsland();
+
+		String progress = Preferences.getString( "warProgress" );
+		if ( progress.equals( "finished" ) )
+		{
+			return "postwarisland.php";
+		}
+		if ( progress.equals( "started" ) )
+		{
+			return "bigisland.php";
+		}
+		return "bogus.php";
 	}
 }
