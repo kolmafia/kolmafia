@@ -905,6 +905,24 @@ public class ConcoctionDatabase
 		}
 	}
 
+	/**
+	 * Reset concoction stat gains when you've logged in a new
+	 * character.
+	 */
+
+	public static final void resetConcoctionStatGains()
+	{
+		Iterator it = ConcoctionPool.iterator();
+
+		while ( it.hasNext() )
+		{
+			Concoction current = (Concoction) it.next();
+			current.setStatGain();
+		}
+
+		ConcoctionDatabase.usableList.sort();
+	}
+
 	public static final int getMeatPasteRequired( final int itemId, final int creationCount )
 	{
 		Concoction item = ConcoctionPool.get( itemId );
