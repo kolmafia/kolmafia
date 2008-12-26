@@ -609,7 +609,7 @@ public abstract class KoLCharacter
 		{
 			// If we have an actual class, we have a mainstat.
 			// Reset concoction mainstat gains to reflect this.
-			ConcoctionPool.resetConcoctionStatGains();
+			ConcoctionDatabase.resetConcoctionStatGains();
 		}
 	}
 
