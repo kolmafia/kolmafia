@@ -40,6 +40,7 @@ import java.util.regex.Pattern;
 import javax.swing.JEditorPane;
 
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class RequestPane
@@ -92,6 +93,10 @@ public class RequestPane
 		}
 
 		selectedText = selectedText.substring( beginIndex, endIndex ).trim();
+		if ( Preferences.getBoolean( "copyAsHTML" ) )
+		{
+			return selectedText;
+		}
 
 		// Now we begin trimming out some of the whitespace,
 		// because that causes some strange rendering problems.
@@ -109,6 +114,6 @@ public class RequestPane
 		selectedText = RequestPane.LINE_BREAK.matcher( selectedText ).replaceAll( "\n" ).trim();
 		selectedText = KoLConstants.ANYTAG_PATTERN.matcher( selectedText ).replaceAll( "" );
 
-		return selectedText;
+		return StringUtilities.getEntityDecode( selectedText, false );
 	}
 }
