@@ -142,6 +142,22 @@ public class ConcoctionPool
 	}
 
 	/**
+	 * Reset concoction stat gains when you've logged in a new
+	 * character.
+	 */
+
+	public static final void resetConcoctionStatGains()
+	{
+		Iterator it = ConcoctionPool.iterator();
+
+		while ( it.hasNext() )
+		{
+			Concoction current = (Concoction) it.next();
+			current.setStatGain();
+		}
+	}
+
+	/**
 	 * Internal class which functions exactly an array of concoctions,
 	 * except it uses "sets" and "gets" like a list.
 	 *

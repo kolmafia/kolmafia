@@ -41,6 +41,7 @@ import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
+import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EventManager;
@@ -604,6 +605,12 @@ public abstract class KoLCharacter
 		KoLCharacter.classname = classname;
 		KoLCharacter.classtype = null;
 		KoLCharacter.getClassType();
+		if ( KoLCharacter.classtype != KoLCharacter.ASTRAL_SPIRIT )
+		{
+			// If we have an actual class, we have a mainstat.
+			// Reset concoction mainstat gains to reflect this.
+			ConcoctionPool.resetConcoctionStatGains();
+		}
 	}
 
 	/**
