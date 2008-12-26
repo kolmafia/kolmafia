@@ -128,7 +128,7 @@ public class CouncilFrame
 		{
 			AdventureRequest.registerDemonName( "Summoning Chamber", responseText );
 		}
-		else if ( location.startsWith( "adventure" ) && location.indexOf( "=84" ) != -1 )
+		else if ( location.startsWith( "adventure" ) && KoLCharacter.getInebriety() > 25 )
 		{
 			CouncilFrame.handleSneakyPeteChange( responseText );
 		}
