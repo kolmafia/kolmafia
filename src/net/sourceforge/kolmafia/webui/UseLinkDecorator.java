@@ -344,7 +344,12 @@ public abstract class UseLinkDecorator
 		{
 		case KoLConstants.GROW_FAMILIAR:
 
-			return itemId == ItemPool.MOSQUITO_LARVA ? new UseLink( itemId, "council", "council.php" ) : null;
+			if ( itemId  == ItemPool.MOSQUITO_LARVA )
+			{
+				return new UseLink( itemId, "council", "council.php" );
+			}
+
+			return new UseLink( itemId, "grow", "inv_familiar.php?whichitem=" );
 
 		case KoLConstants.CONSUME_EAT:
 
