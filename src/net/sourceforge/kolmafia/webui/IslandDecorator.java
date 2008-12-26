@@ -44,18 +44,23 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 
-import net.sourceforge.kolmafia.request.CoinMasterRequest;
-import net.sourceforge.kolmafia.request.FightRequest;
-import net.sourceforge.kolmafia.request.IslandArenaRequest;
-import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.ResultProcessor;
-import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
+
+import net.sourceforge.kolmafia.request.CoinMasterRequest;
+import net.sourceforge.kolmafia.request.FightRequest;
+import net.sourceforge.kolmafia.request.IslandArenaRequest;
+
+import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.ResultProcessor;
+
+import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
+
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class IslandDecorator
 {
@@ -1463,6 +1468,7 @@ public class IslandDecorator
 
 		String side = EquipmentManager.isWearingOutfit( 32 ) ? "hippy" : "fratboy";
 		Preferences.setString( "sidequestLighthouseCompleted", side );
+		ResultProcessor.processItem( ItemPool.GUNPOWDER, -5 );
 	}
 
 	public static final void ensureUpdatedBigIsland()
@@ -1557,5 +1563,10 @@ public class IslandDecorator
 		// Now replace sidequest location images for completed quests
 		IslandDecorator.sidequestImage( buffer, "sidequestArenaCompleted", IslandDecorator.ARENA );
 		IslandDecorator.sidequestImage( buffer, "sidequestNunsCompleted", IslandDecorator.NUNS );
+	}
+
+	public static final String currentIsland()
+	{
+		return Preferences.getString( "warProgress" ).equals( "finished" ) ? "postwarisland.php" : "bigisland.php";
 	}
 }

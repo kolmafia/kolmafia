@@ -40,7 +40,9 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -321,16 +323,34 @@ public class SellStuffRequest
 			return;
 		}
 
-		if ( KoLCharacter.getAutosellMode().equals( "detailed" ) )
-		{
-			StaticEntity.externalUpdate( "sellstuff_ugly.php", this.responseText );
-		}
+		SellStuffRequest.parseAutosell( this.getURLString(), this.responseText );
 
 		// Move out of inventory. Process meat gains, if old autosell
 		// interface.
 
 		KoLmafia.updateDisplay( "Items sold." );
 		KoLCharacter.updateStatus();
+	}
+
+	public static final void parseAutosell( final String location, final String responseText )
+	{
+		if ( !location.startsWith( "sellstuff_ugly.php" ) )
+		{
+			return;
+		}
+
+		// "You sell your 2 disturbing fanfics to an organ
+		// grinder's monkey for 264 Meat."
+
+		Matcher matcher = SellStuffRequest.AUTOSELL_PATTERN.matcher( responseText );
+		if ( matcher.find() )
+		{
+			int amount = StringUtilities.parseInt( matcher.group( 1 ) );
+			String message = "You gain " + amount + " Meat";
+			RequestLogger.printLine( message );
+			RequestLogger.updateSessionLog( message );
+			ResultProcessor.processResult( new AdventureResult( AdventureResult.MEAT, amount ) );
+		}
 	}
 
 	public static final boolean registerRequest( final String urlString )

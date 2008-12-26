@@ -66,6 +66,7 @@ import net.sourceforge.kolmafia.request.PortalRequest;
 import net.sourceforge.kolmafia.request.PulverizeRequest;
 import net.sourceforge.kolmafia.request.PvpRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
+import net.sourceforge.kolmafia.request.PyroRequest;
 import net.sourceforge.kolmafia.request.RaffleRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.RichardRequest;
@@ -667,6 +668,12 @@ public class RequestLogger
 		}
 
 		if ( ( request instanceof PyramidRequest || isExternal ) && PyramidRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		if ( ( request instanceof PyroRequest || isExternal ) && PyroRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;

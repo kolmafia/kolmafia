@@ -61,6 +61,7 @@ import net.sourceforge.kolmafia.request.GourdRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.HiddenCityRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
+import net.sourceforge.kolmafia.request.PyroRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.SellStuffRequest;
 import net.sourceforge.kolmafia.request.SushiRequest;
@@ -334,17 +335,7 @@ public abstract class StaticEntity
 
 		if ( location.startsWith( "sellstuff_ugly.php" ) )
 		{
-			// New autosell interface.
-
-			// "You sell your 2 disturbing fanfics to an organ
-			// grinder's monkey for 264 Meat."
-
-			Matcher matcher = SellStuffRequest.AUTOSELL_PATTERN.matcher( responseText );
-			if ( matcher.find() )
-			{
-				ResultProcessor.processResult( new AdventureResult(
-					AdventureResult.MEAT, StringUtilities.parseInt( matcher.group( 1 ) ) ) );
-			}
+			SellStuffRequest.parseAutosell( location, responseText );
 		}
 
 		// See if the request would have used up an item.
@@ -369,7 +360,7 @@ public abstract class StaticEntity
 			SushiRequest.parseConsumption( location, responseText );
 		}
 
-		if ( location.indexOf( "hermit.php" ) != -1 )
+		if ( location.startsWith( "hermit.php" ) )
 		{
 			HermitRequest.parseHermitTrade( location, responseText );
 		}
@@ -392,6 +383,11 @@ public abstract class StaticEntity
 		if ( location.startsWith( "town_right.php" ) )
 		{
 			GourdRequest.parseResponse( location, responseText );
+		}
+
+		if ( location.indexOf( "action=pyro" ) != -1 )
+		{
+			PyroRequest.parseResponse( location, responseText );
 		}
 
 		if ( location.indexOf( "action=makestaff" ) != -1 )
