@@ -550,6 +550,9 @@ public class UseItemRequest
 		{
 			switch ( this.consumptionType )
 			{
+			case KoLConstants.CONSUME_EAT:
+			case KoLConstants.CONSUME_DRINK:
+				// The miracle of "consume some"!
 			case KoLConstants.CONSUME_MULTIPLE:
 			case KoLConstants.HP_RESTORE:
 			case KoLConstants.MP_RESTORE:
@@ -729,6 +732,7 @@ public class UseItemRequest
 
 		case KoLConstants.CONSUME_EAT:
 			this.addFormField( "which", "1" );
+			this.addFormField( "quantity", String.valueOf( this.itemUsed.getCount() ) );
 			if ( this.queuedFoodHelper != null && this.queuedFoodHelperCount > 0 )
 			{
 				if ( this.queuedFoodHelper.getItemId() == ItemPool.SCRATCHS_FORK )
@@ -754,6 +758,7 @@ public class UseItemRequest
 			
 		case KoLConstants.CONSUME_DRINK:
 			this.addFormField( "which", "1" );
+			this.addFormField( "quantity", String.valueOf( this.itemUsed.getCount() ) );
 			if ( queuedDrinkHelper != null && queuedDrinkHelperCount > 0 )
 			{
 				if ( this.queuedDrinkHelper.getItemId() == ItemPool.FROSTYS_MUG )
