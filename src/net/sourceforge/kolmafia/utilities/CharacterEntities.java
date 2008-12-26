@@ -416,10 +416,13 @@ public class CharacterEntities
 
 			String entity = (String) CharacterEntities.entities.get( new Character( ch ) );
 
-			// If we don't have a translation, move along in string
+			// If we don't have a translation, use Unicode escape
 			if ( entity == null )
 			{
-				continue;
+				if ( ch < 0x80 ) {
+					continue;
+				}
+				entity = "&#" + (int) ch + ";";
 			}
 
 			// If we don't have a string buffer, make one
@@ -485,7 +488,15 @@ public class CharacterEntities
 
 			// Replace entity with unicode
 			String entity = entityVersion.substring( index, semi + 1 );
-			Character unicode = (Character) CharacterEntities.unicodes.get( entity );
+			Character unicode;
+			if ( entity.charAt( 1 ) == '#' )
+			{
+				unicode = new Character( (char) StringUtilities.parseInt( entity ) );
+			}
+			else
+			{
+				unicode = (Character) CharacterEntities.unicodes.get( entity );
+			}
 
 			// If we don't have a translation, skip past entity
 			if ( unicode == null )
