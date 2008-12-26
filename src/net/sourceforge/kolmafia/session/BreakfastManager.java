@@ -14,6 +14,7 @@ import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
+import net.sourceforge.kolmafia.request.PyroRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 
@@ -317,7 +318,7 @@ public class BreakfastManager
 	public static void visitPyro()
 	{
 		KoLmafia.updateDisplay( "Collecting bombs from pyro..." );
-		RequestThread.postRequest( new GenericRequest( "bigisland.php?place=lighthouse&action=pyro&pwd" ) );
+		RequestThread.postRequest( new PyroRequest() );
 		KoLmafia.forceContinue();
 	}
 

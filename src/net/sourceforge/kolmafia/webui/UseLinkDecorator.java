@@ -49,6 +49,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
+import net.sourceforge.kolmafia.request.PyroRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
@@ -685,6 +686,11 @@ public abstract class UseLinkDecorator
 			useType = "use map";
 			useLocation = "inv_use.php?pwd=" + GenericRequest.passwordHash + "&which=3&whichitem=";
 			itemId = ItemPool.BLACK_MARKET_MAP;
+			break;
+
+		case ItemPool.GUNPOWDER:
+			useType = String.valueOf( InventoryManager.getCount( itemId ) );
+			useLocation = PyroRequest.pyroURL();
 			break;
 
 		default:

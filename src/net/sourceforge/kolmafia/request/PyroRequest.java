@@ -33,100 +33,73 @@
 
 package net.sourceforge.kolmafia.request;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.webui.IslandDecorator;
 
-public class ArtistRequest
+public class PyroRequest
 	extends GenericRequest
 {
-	public static final AdventureResult WHISKER = ItemPool.get( ItemPool.RAT_WHISKER, 1 );
+	public static final AdventureResult GUNPOWDER = ItemPool.get( ItemPool.GUNPOWDER, 1 );
 
-	public ArtistRequest()
+	public PyroRequest()
 	{
-		this(false);
-	}
-
-	public ArtistRequest( boolean whiskers)
-	{
-		super( "town_wrong.php" );
-		this.addFormField( "place", "artist" );
-		if ( whiskers )
-		{
-			this.addFormField( "action", "whisker" );
-		}
+		super( IslandDecorator.currentIsland() );
+		this.addFormField( "place", "lighthouse" );
+		this.addFormField( "action", "pyro" );
 	}
 
 	public void processResults()
 	{
-                ArtistRequest.parseResponse( this.getURLString(), this.responseText );
+                PyroRequest.parseResponse( this.getURLString(), this.responseText );
 	}
 
 	public static final boolean parseResponse( final String location, final String responseText )
 	{
-		if ( !location.startsWith( "town_wrong.php" ) )
+		if ( !location.startsWith( IslandDecorator.currentIsland() ) )
 		{
 			return false;
 		}
 
-		String message = "You have unlocked a new tattoo.";
-		if ( responseText.indexOf( message ) != -1 )
-		{
-			RequestLogger.printLine( message );
-			RequestLogger.updateSessionLog( message );
-		}
+                // "The Lighthouse Keeper's eyes light up as he sees your
+                // gunpowder.<p>&quot;Big boom!  Big big boom!  Give me those,
+                // <i>bumpty-bump</i>, and I'll make you the big
+                // boom!&quot;<p>He takes the gunpowder into a back room, and
+                // returns with an armload of big bombs."
 
-		// The artist pours the pail of paint into a huge barrel, then
-		// says "Oh, hey, umm, do you want this empty pail? I don't
-		// really have room for it, so if you want it, you can have it.
-
-		if ( responseText.indexOf( "do you want this empty pail" ) != -1 )
+		if ( responseText.indexOf( "eyes light up" ) != -1 )
 		{
-			ResultProcessor.processItem( ItemPool.PRETENTIOUS_PALETTE, -1 );
-			ResultProcessor.processItem( ItemPool.PRETENTIOUS_PAINTBRUSH, -1 );
-			ResultProcessor.processItem( ItemPool.PRETENTIOUS_PAIL, -1 );
-			return true;
-		}
-
-		if ( location.indexOf( "action=whisker" ) != -1 )
-		{
-			int count = ArtistRequest.WHISKER.getCount( KoLConstants.inventory );
-			ResultProcessor.processItem( ItemPool.RAT_WHISKER, -count );
+			int count = PyroRequest.GUNPOWDER.getCount( KoLConstants.inventory );
+			ResultProcessor.processItem( ItemPool.GUNPOWDER, -count );
 			return true;
 		}
 
 		return false;
 	}
 
+	public static final String pyroURL()
+	{
+		return IslandDecorator.currentIsland() + "?place=lighthouse&action=pyro";
+	}
+
 	public static final boolean registerRequest( final String urlString )
 	{
-		if ( !urlString.startsWith( "town_wrong.php" ) )
+		if ( !urlString.startsWith( IslandDecorator.currentIsland() ) )
 		{
 			return false;
 		}
 
-		String message;
-		if ( urlString.indexOf( "action=whisker" ) != -1 )
-		{
-			int count = ArtistRequest.WHISKER.getCount( KoLConstants.inventory );
-			message = "Selling " + count + " rat whisker" + ( count > 1 ? "s" : "" ) + " to the pretentious artist";
-		}
-		else if ( urlString.indexOf( "place=artist" ) != -1 )
-		{
-			RequestLogger.printLine( "" );
-			RequestLogger.updateSessionLog();
-			message = "Visiting the pretentious artist";
-		}
-		else
+		if ( urlString.indexOf( "action=pyro" ) == -1 )
 		{
 			return false;
 		}
+
+		int count = PyroRequest.GUNPOWDER.getCount( KoLConstants.inventory );
+		String message = "Visiting the lighthouse keeper with " + count + " barrel" + ( count > 1 ? "s" : "" ) + " of gunpowder.";
 
 		RequestLogger.printLine( message );
 		RequestLogger.updateSessionLog( message );
