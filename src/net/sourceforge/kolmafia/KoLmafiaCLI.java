@@ -1034,7 +1034,7 @@ public class KoLmafiaCLI
 	public static class Log
 		extends Command
 	{
-		{ usage = " [status],[equipment],[effects],[<etc>.] - record data, \"log snapshot\" for all commmon data."; }
+		{ usage = " [status],[equipment],[effects],[<etc>.] - record data, \"log snapshot\" for all common data."; }
 		public void run( String cmd, String parameters )
 		{
 			if ( parameters.equals( "snapshot" ) )
