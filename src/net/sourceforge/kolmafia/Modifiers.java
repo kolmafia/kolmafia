@@ -1181,7 +1181,7 @@ public class Modifiers
                         switch ( itemId )
                         {
 			case ItemPool.GRIMACITE_KNEECAPPING_STICK:
-				// Unknown, so far
+				this.set( Modifiers.CRITICAL_PCT, (effect + 10) / 20 );
 				break;
 
 			case ItemPool.GRIMACITE_HAMMER:
