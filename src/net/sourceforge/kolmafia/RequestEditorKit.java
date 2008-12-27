@@ -1166,8 +1166,60 @@ public class RequestEditorKit
 				String find = "<option value='" + itemId + "'";
 				StringUtilities.insertAfter( buffer, find, " selected" );
 			}
+
+			String ball = RequestEditorKit.altarToBilliardBall( domain );
+			String effect = RequestEditorKit.altarToEffect( domain );
+
+			if ( ball != null && effect != null )
+			{
+				StringUtilities.globalStringReplace( buffer, ball, ball + " (" + effect + ")" );
+			}
 		}
 
+	}
+
+	private static final String altarToBilliardBall( final String domain )
+	{
+		if ( domain.equals( "lightning" ) )
+		{
+			return "1-ball";
+		}
+		if ( domain.equals( "water" ) )
+		{
+			return "2-ball";
+		}
+		if ( domain.equals( "fire" ) )
+		{
+			return "5-ball";
+		}
+		if ( domain.equals( "nature" ) )
+		{
+			return "6-ball";
+		}
+
+		return null;
+	}
+
+	private static final String altarToEffect( final String domain )
+	{
+		if ( domain.equals( "lightning" ) )
+		{
+			return "Blessing of Pikachutlotal";
+		}
+		if ( domain.equals( "water" ) )
+		{
+			return "Blessing of Bulbazinalli";
+		}
+		if ( domain.equals( "fire" ) )
+		{
+			return "Blessing of Charcoatl";
+		}
+		if ( domain.equals( "nature" ) )
+		{
+			return "Blessing of Squirtlcthulli";
+		}
+
+		return null;
 	}
 
 	private static final void changeSphereNames( final StringBuffer buffer )
