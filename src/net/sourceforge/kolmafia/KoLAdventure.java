@@ -941,9 +941,6 @@ public class KoLAdventure
 		KoLAdventure.lastVisitedLocation = this;
 		this.updateAutoAttack();
 
-		// Run between-combat scripts here to avoid potential
-		// sidepane conflict issues.
-
 		if ( this.adventureId.equals( "118" ) )
 		{
 			// The Hidden City is weird. It redirects you to the
@@ -977,13 +974,13 @@ public class KoLAdventure
 			}
 		}
 
+		StaticEntity.getClient().registerAdventure( this );
+
 		RequestLogger.printLine();
 		RequestLogger.printLine( "[" + KoLAdventure.getAdventureCount() + "] " + this.getAdventureName() );
 
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( "[" + KoLAdventure.getAdventureCount() + "] " + this.getAdventureName() );
-
-		StaticEntity.getClient().registerAdventure( this );
 
 		if ( !( this.request instanceof AdventureRequest ) )
 		{
