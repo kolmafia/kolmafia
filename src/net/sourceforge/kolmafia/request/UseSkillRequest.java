@@ -71,18 +71,26 @@ public class UseSkillRequest
 	public static final String[] BREAKFAST_SKILLS =
 	{
 		"Advanced Cocktailcrafting",
-		"Pastamastery",
 		"Advanced Saucecrafting",
+		"Pastamastery",
+	};
+
+	public static final String[] TOME_SKILLS =
+	{
 		"Summon Snowcones",
 		"Summon Stickers",
-		"Summon Hilarious Objects",
-		"Summon Tasteful Items"
 	};
 
 	public static final String[] LIBRAM_SKILLS =
 	{
 		"Summon Candy Hearts",
 		"Summon Party Favor"
+	};
+
+	public static final String[] GRIMOIRE_SKILLS =
+	{
+		"Summon Hilarious Objects",
+		"Summon Tasteful Items"
 	};
 
 	private static final int OTTER_TONGUE = 1007;

@@ -1293,13 +1293,18 @@ public class OptionsFrame
 		private final String breakfastType;
 		private final JCheckBox[] skillOptions;
 
-		private final JCheckBox grabClovers;
-		private final JCheckBox mushroomPlot;
-		private final JCheckBox rumpusRoom;
-		private final JCheckBox readManual;
-		private final JCheckBox useCrimboToys;
 		private final JCheckBox loginRecovery;
 		private final JCheckBox pathedSummons;
+		private final JCheckBox rumpusRoom;
+
+		private final JCheckBox mushroomPlot;
+		private final JCheckBox grabClovers;
+		private final JCheckBox readManual;
+		private final JCheckBox useCrimboToys;
+
+		private final SkillMenu tomeSkills;
+		private final SkillMenu libramSkills;
+		private final SkillMenu grimoireSkills;
 
 		public BreakfastPanel( final String title, final String breakfastType )
 		{
@@ -1308,7 +1313,7 @@ public class OptionsFrame
 			this.add(
 				JComponentUtilities.createLabel( title, JLabel.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
 
-			JPanel centerPanel = new JPanel( new GridLayout( 5, 3 ) );
+			JPanel centerPanel = new JPanel( new GridLayout( 4, 3 ) );
 
 			this.loginRecovery = new JCheckBox( "enable auto-recovery" );
 			this.loginRecovery.addActionListener( this );
@@ -1349,6 +1354,22 @@ public class OptionsFrame
 
 			JPanel centerHolder = new JPanel( new BorderLayout() );
 			centerHolder.add( centerPanel, BorderLayout.NORTH );
+
+			JPanel southPanel = new JPanel( new GridLayout( 1, 3 ) );
+
+			this.tomeSkills = new SkillMenu( "Tome Skills", UseSkillRequest.TOME_SKILLS, "tomeSkills" + this.breakfastType );
+			this.tomeSkills.addActionListener( this );
+			southPanel.add( this.tomeSkills );
+
+			this.libramSkills = new SkillMenu( "Libram Skills", UseSkillRequest.LIBRAM_SKILLS, "libramSkills" + this.breakfastType );
+			this.libramSkills.addActionListener( this );
+			southPanel.add( this.libramSkills );
+
+			this.grimoireSkills = new SkillMenu( "Grimoire Skills", UseSkillRequest.GRIMOIRE_SKILLS, "grimoireSkills" + this.breakfastType );
+			this.grimoireSkills.addActionListener( this );
+			southPanel.add( this.grimoireSkills );
+
+			centerHolder.add( southPanel, BorderLayout.SOUTH );
 
 			JPanel centerContainer = new JPanel( new CardLayout( 10, 10 ) );
 			centerContainer.add( centerHolder, "" );
@@ -1395,6 +1416,10 @@ public class OptionsFrame
 				"readManual" + this.breakfastType, this.readManual.isSelected() );
 			Preferences.setBoolean(
 				"useCrimboToys" + this.breakfastType, this.useCrimboToys.isSelected() );
+
+			this.tomeSkills.setPreference();
+			this.libramSkills.setPreference();
+			this.grimoireSkills.setPreference();
 		}
 
 		public void actionCancelled()
@@ -1416,6 +1441,68 @@ public class OptionsFrame
 
 		public void setEnabled( final boolean isEnabled )
 		{
+		}
+	}
+
+	private class SkillMenu
+		extends JComboBox
+	{
+		final String preference;
+
+		public SkillMenu( final String name, final String[] skills, final String preference )
+		{
+			super();
+			this.addItem( "No " + name );
+			this.addItem( "All " + name );
+			for ( int i = 0; i < skills.length; ++ i )
+			{
+				this.addItem( skills[i] );
+			}
+
+			this.preference = preference;
+			this.getPreference();
+		}
+
+		public void getPreference()
+		{
+			String skill = Preferences.getString( this.preference );
+			if ( skill.equals( "none" ) )
+			{
+				this.setSelectedIndex( 0 );
+			}
+			else if ( skill.equals( "all" ) )
+			{
+				this.setSelectedIndex( 1 );
+			}
+			else
+			{
+				this.setSelectedItem( skill );
+			}
+
+			if ( this.getSelectedIndex() < 0 )
+			{
+				this.setSelectedIndex( 0 );
+			}
+		}
+
+		public void setPreference()
+		{
+			String skill = null;
+			int index = this.getSelectedIndex();
+			switch ( index )
+			{
+			case -1:
+			case 0:
+				skill = "none";
+				break;
+			case 1:
+				skill = "all";
+				break;
+			default:
+				skill = (String) this.getItemAt( index );
+				break;
+			}
+			Preferences.setString( this.preference, skill );
 		}
 	}
 }

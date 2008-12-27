@@ -15,8 +15,8 @@ global	autoSatisfyWithCloset	true
 global	autoSatisfyWithMall	true
 global	autoSatisfyWithNPCs	true
 global	autoSatisfyWithStash	false
-global	breakfastHardcore	Summon Snowcone,Advanced Saucecrafting,Pastamastery,Advanced Cocktailcrafting
-global	breakfastSoftcore	Summon Snowcone,Summon Hilarious Objects,Advanced Saucecrafting,Pastamastery,Advanced Cocktailcrafting
+global	breakfastHardcore	Advanced Saucecrafting,Pastamastery,Advanced Cocktailcrafting
+global	breakfastSoftcore	Advanced Saucecrafting,Pastamastery,Advanced Cocktailcrafting
 global	browserBookmarks
 global	cacheMallSearches	false
 global	charsheetDropdown	1
@@ -53,6 +53,8 @@ global	getBreakfast
 global	grabCloversHardcore	false
 global	grabCloversSoftcore	true
 global	greenScreenProtection	false
+global	grimoireSkillsHardcore	none
+global	grimoireSkillsSoftcore	Summon Hilarious Objects
 global	guiUsesOneWindow	false
 global	hideServerDebugText	false
 global	highlightList
@@ -70,6 +72,8 @@ global	lastRelayUpdate
 global	lastRssUpdate	0
 global	lastRssVersion
 global	lastUsername
+global	libramSkillsHardcore	none
+global	libramSkillsSoftcore	none
 global	logAcquiredItems	true
 global	logBattleAction	true
 global	logChatMessages	true
@@ -132,6 +136,8 @@ global	scriptList	restore hp | restore mp
 global	showAllRequests	false
 global	swingLookAndFeel
 global	switchEquipmentForBuffs	true
+global	tomeSkillsHardcore	Summon Snowcone
+global	tomeSkillsSoftcore	Summon Snowcone
 global	toolbarPosition	1
 global	useChatMonitor	false
 global	useChatToolbar	true
