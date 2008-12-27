@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.swingui.widget;
 import java.awt.Component;
 
 import javax.swing.DefaultListCellRenderer;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JList;
 
@@ -99,7 +100,8 @@ public class ListCellRendererFactory
 
 			if ( value instanceof Concoction )
 			{
-				return this.getRenderer( defaultComponent, (Concoction) value );
+				return this.getRenderer( defaultComponent, (Concoction) value,
+					list.getWidth() );
 			}
 
 			return defaultComponent;
@@ -209,12 +211,14 @@ public class ListCellRendererFactory
 			return defaultComponent;
 		}
 
-		public Component getRenderer( final Component defaultComponent, final Concoction item )
+		public Component getRenderer( final Component defaultComponent, final Concoction item,
+			final int listWidth )
 		{
 			StringBuffer stringForm = new StringBuffer();
-			boolean meetsRequirement = ItemDatabase.meetsLevelRequirement( item.getName() );
+			String name = item.getName();
+			boolean meetsRequirement = ItemDatabase.meetsLevelRequirement( name );
 
-			stringForm.append( "<html>" );
+			stringForm.append( "<html><nobr>" );
 
 			if ( !meetsRequirement )
 			{
@@ -222,13 +226,13 @@ public class ListCellRendererFactory
 			}
 
 			stringForm.append( "<b>" );
-			stringForm.append( item.getName() );
+			stringForm.append( name );
 
 			stringForm.append( " (" );
 			boolean pulling = this.appendAmount( stringForm, item );
 
 			stringForm.append( ")" );
-			stringForm.append( "</b><br>&nbsp;" );
+			stringForm.append( "</b></nobr><br><nobr>&nbsp;" );
 			
 			switch ( item.getItemId() )
 			{
@@ -249,9 +253,9 @@ public class ListCellRendererFactory
 				break;
 			
 			default:
-				int fullness = ItemDatabase.getFullness( item.getName() );
-				int inebriety = ItemDatabase.getInebriety( item.getName() );
-				int spleenhit = ItemDatabase.getSpleenHit( item.getName() );
+				int fullness = ItemDatabase.getFullness( name );
+				int inebriety = ItemDatabase.getInebriety( name );
+				int spleenhit = ItemDatabase.getSpleenHit( name );
 	
 				if ( fullness > 0 )
 				{
@@ -269,7 +273,7 @@ public class ListCellRendererFactory
 					stringForm.append( " spleen" );
 				}
 	
-				this.appendRange( stringForm, ItemDatabase.getAdventureRange( item.getName() ), "adv" );
+				this.appendRange( stringForm, ItemDatabase.getAdventureRange( name ), "adv" );
 	
 				if ( Preferences.getBoolean( "showGainsPerUnit" ) )
 				{
@@ -287,9 +291,15 @@ public class ListCellRendererFactory
 					}
 				}
 	
-				this.appendRange( stringForm, ItemDatabase.getMuscleRange( item.getName() ), "mus" );
-				this.appendRange( stringForm, ItemDatabase.getMysticalityRange( item.getName() ), "mys" );
-				this.appendRange( stringForm, ItemDatabase.getMoxieRange( item.getName() ), "mox" );
+				this.appendRange( stringForm, ItemDatabase.getMuscleRange( name ), "mus" );
+				this.appendRange( stringForm, ItemDatabase.getMysticalityRange( name ), "mys" );
+				this.appendRange( stringForm, ItemDatabase.getMoxieRange( name ), "mox" );
+				String notes = ItemDatabase.getNotes( name );
+				if ( notes != null )
+				{
+					stringForm.append( ", " );
+					stringForm.append( notes );
+				}
 			}
 
 			if ( !meetsRequirement )
@@ -303,10 +313,19 @@ public class ListCellRendererFactory
 				stringForm.append( "</i>" );
 			}
 
-			stringForm.append( "</html>" );
+			stringForm.append( "</nobr></html>" );
 
 			defaultComponent.setFont( KoLConstants.DEFAULT_FONT );
-			( (JLabel) defaultComponent ).setText( stringForm.toString() );
+			String text = stringForm.toString();
+			( (JLabel) defaultComponent ).setText( text );
+			if ( defaultComponent.getPreferredSize().width > listWidth )
+			{
+				((JComponent) defaultComponent).setToolTipText( text );
+			}
+			else
+			{
+				((JComponent) defaultComponent).setToolTipText( null );
+			}
 			return defaultComponent;
 		}
 

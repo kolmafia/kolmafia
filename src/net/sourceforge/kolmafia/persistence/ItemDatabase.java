@@ -108,6 +108,7 @@ public class ItemDatabase
 	private static final Map fullnessByName = new HashMap();
 	private static final Map inebrietyByName = new HashMap();
 	private static final Map spleenHitByName = new HashMap();
+	private static final Map notesByName = new HashMap();
 
 	private static final Map[][][][] advsByName = new HashMap[ 2 ][ 2 ][ 2 ][ 2 ];
 
@@ -377,6 +378,10 @@ public class ItemDatabase
 		ItemDatabase.muscleByName.put( name, ItemDatabase.extractStatRange( data[ 4 ], ItemDatabase.muscleFactor ) );
 		ItemDatabase.mysticalityByName.put( name, ItemDatabase.extractStatRange( data[ 5 ], ItemDatabase.mysticalityFactor ) );
 		ItemDatabase.moxieByName.put( name, ItemDatabase.extractStatRange( data[ 6 ], ItemDatabase.moxieFactor ) );
+		if ( data.length >= 8 && data[ 7 ].length() > 0 )
+		{
+			ItemDatabase.notesByName.put( name, data[ 7 ] );
+		}
 	}
 
 	private static final int getIncreasingGains( final int value )
@@ -963,6 +968,16 @@ public class ItemDatabase
 
 		Integer spleenhit = (Integer) ItemDatabase.spleenHitByName.get( StringUtilities.getCanonicalName( name ) );
 		return spleenhit == null ? 0 : spleenhit.intValue();
+	}
+
+	public static final String getNotes( final String name )
+	{
+		if ( name == null )
+		{
+			return null;
+		}
+
+		return (String) ItemDatabase.notesByName.get( StringUtilities.getCanonicalName( name ) );
 	}
 
 	public static final String getAdventureRange( final String name )
@@ -2489,6 +2504,14 @@ public class ItemDatabase
 			writer.println( "# Unknown food:" );
 			writer.print( "# " );
 		}
+		else
+		{
+			String note = (String) ItemDatabase.notesByName.get( StringUtilities.getCanonicalName( name ) );
+			if ( note != null )
+			{
+				line = line + "\t" + note;
+			}
+		}
 
 		writer.println( line );
 	}
@@ -2575,6 +2598,14 @@ public class ItemDatabase
 		{
 			writer.println( "# Unknown booze:" );
 			writer.print( "# " );
+		}
+		else
+		{
+			String note = (String) ItemDatabase.notesByName.get( StringUtilities.getCanonicalName( name ) );
+			if ( note != null )
+			{
+				line = line + "\t" + note;
+			}
 		}
 
 		writer.println( line );
