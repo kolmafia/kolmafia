@@ -2238,7 +2238,7 @@ public class UseItemRequest
 		minCounter -= KoLCharacter.turnsSinceLastSemirare();
 		for ( int i = 2; i <= 4; ++i )
 		{
-			int number = StringUtilities.parseInt( fortuneMatcher.group( i ) );
+			int number = StringUtilities.parseInt( matcher.group( i ) );
 			if ( number < minCounter )
 			{
 				KoLmafia.updateDisplay( "Lucky number " + number +
