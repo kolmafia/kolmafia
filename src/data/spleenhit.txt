@@ -4,30 +4,36 @@
 
 # Item	Spleenhit	Level Req	Adv	Musc	Myst	Moxie
 ancient protein powder	1	1	0	12-14	0	0
-antique bottle of cough syrup	1	6	0	0	18-20	0
+antique bottle of cough syrup	1	6	0	0	18-20	0	10 The Q Is Talking To You (+10% mys)
 astronaut ice-cream	1	7	8-10	0	0	0
 bit-o-cactus	1	1	0	0	10-12	0
-black paisley oyster egg	1	1	0	0	11-15	0
-black polka-dot oyster egg	1	1	0	0	0	11-15
-black striped oyster egg	1	1	0	11-15	0	0
-blue paisley oyster egg	1	1	0	0	11-15	0
-blue polka-dot oyster egg	1	1	0	0	0	11-15
-blue striped oyster egg	1	1	0	11-15	0	0
-bottle of ultravitamins	1	6	0	18-20	0	0
+black paisley oyster egg	1	1	0	0	11-15	0	20 Egg-stortionary Tactics (+50% meat drop)
+black polka-dot oyster egg	1	1	0	0	0	11-15	20 Egg-stortionary Tactics (+50% meat drop)
+black striped oyster egg	1	1	0	11-15	0	0	20 Egg-stortionary Tactics (+50% meat drop)
+blue paisley oyster egg	1	1	0	0	11-15	0	31-35 MP
+blue polka-dot oyster egg	1	1	0	0	0	11-15	31-35 MP
+blue striped oyster egg	1	1	0	11-15	0	0	31-35 MP
+bottle of ultravitamins	1	6	0	18-20	0	0	10 Vitamin-Maxed (+10% mus)
+Breathetastic&trade; Premium Canned Air	5	9	20-25	60-70	60-70	60-70
+can of Red Minotaur	3	1	0	0	0	0	+1 PvP fight, 5 Wings
 can-can-in-a-can	1	1	0	0	0	10-12
-cold wad	1	6	1	24-30	16-20	8-10
+cold wad	1	6	1	24-30	16-20	8-10	10 Cold Blooded (+30% mus, +20% mys, +10% mox, cold dmg/res)
 concentrated magicalness pill	1	2	0	0	5-7	0
 enchanted barbell	1	2	0	5-7	0	0
+enchanted leopard-print barbell	5	12	15-25	58-100	55-100	52-100
 epic wad	1	15	5	140-150	140-150	140-150
 extra-strength strongness elixir	1	3	0	8-10	0	0
 giant moxie weed	1	2	0	0	0	5-7
-glimmering buzzard feather	1	1	0	0	0	0
-glimmering great tit feather	1	1	0	0	0	0
-glimmering penguin feather	1	1	0	0	0	0
-glimmering phoenix feather	1	1	0	0	0	0
-glimmering raven feather	1	1	0	0	0	0
+glimmering buzzard feather	1	1	0	0	0	0	20 Carrion' On (+60% meat drop)
+glimmering great tit feather	1	1	0	0	0	0	20 The Great Tit's Blessing (+20 ML)
+glimmering penguin feather	1	1	0	0	0	0	20 Antarctic Memories (+40 HP/MP regen)
+glimmering phoenix feather	1	1	0	0	0	0	20 Phoenix, Right? (+6 exp)
+glimmering raven feather	1	1	0	0	0	0	20 Melancholy Burden (+60% item drop)
+glimmering roc feather	4	1	6-10	24-28	24-26	27-30
+guy made of bee pollen	3	8	6-10	18-60	18-60	18-60
 handful of moss	1	1	0	0	0	12-14
-hot wad	1	6	1	24-30	8-10	16-20
+Hatorade	5	1	0	0	0	0	+1 PvP fight
+hot wad	1	6	1	24-30	8-10	16-20	10 Hot Blooded (+30% mus, +20% mox, +10% mys, hot dmg/res)
 jug-o-magicalness	1	3	0	0	8-10	0
 lavender paisley oyster egg	1	1	0	0	11-15	11-15
 lavender polka-dot oyster egg	1	1	0	0	0	22-30
@@ -37,43 +43,32 @@ Mariner's Friend cough drops	1	1	0	10-12	0	0
 mauve paisley oyster egg	1	1	0	0	22-30	0
 mauve polka-dot oyster egg	1	1	0	0	11-15	11-15
 mauve striped oyster egg	1	1	0	11-15	11-15	0
-Medicinal Herb's medicinal herbs	1	3	0	0	0	0
+Medicinal Herb's medicinal herbs	1	3	0	0	0	0	full heal
 moxie weed	1	1	0	0	0	1-3
-off-white paisley oyster egg	1	1	0	0	11-15	0
-off-white polka-dot oyster egg	1	1	0	0	0	11-15
-off-white striped oyster egg	1	1	0	11-15	0	0
+not-a-pipe	4	4	4-12	20-30	20-30	20-30
+off-white paisley oyster egg	1	1	0	0	11-15	0	20 Eggs-tra Sensory Perception (+10% item drop)
+off-white polka-dot oyster egg	1	1	0	0	0	11-15	20 Eggs-tra Sensory Perception (+10% item drop)
+off-white striped oyster egg	1	1	0	11-15	0	0	20 Eggs-tra Sensory Perception (+10% item drop)
 patent antipsychotics	1	1	0	0	10-12	0
+prismatic wad	3	7	5-7	50-60	50-60	50-60	10 Rainbow Bright (+30% all, prismatic dmg/res)
 puce paisley oyster egg	1	1	0	11-15	11-15	0
 puce polka-dot oyster egg	1	1	0	11-15	0	11-15
 puce striped oyster egg	1	1	0	22-30	0	0
-red paisley oyster egg	1	1	0	0	11-15	0
-red polka-dot oyster egg	1	1	0	0	0	11-15
-red striped oyster egg	1	1	0	11-15	0	0
-sleaze wad	1	6	1	12-15	12-15	24-30
-spooky wad	1	6	1	8-10	24-30	16-20
-stench wad	1	6	1	16-20	24-30	8-10
+red paisley oyster egg	1	1	0	0	11-15	0	31-35 HP
+red polka-dot oyster egg	1	1	0	0	0	11-15	31-35 HP
+red striped oyster egg	1	1	0	11-15	0	0	31-35 HP
+sleaze wad	1	6	1	12-15	12-15	24-30	10 Supafly (+30% mox, +15% mus, +15% mys, sleaze dmg/res)
+spooky wad	1	6	1	8-10	24-30	16-20	10 Spooky Demeanor (+30% mys, +20% mox, +10% mus, spooky dmg/res)
+steel-scented air freshener	5	5	0	0	0	0	Spleen of Steel skill
+stench wad	1	6	1	16-20	24-30	8-10	10 Stenchtastic (+30% mys, +20% mus, +10% mox, stench dmg/res)
 strongness elixir	1	1	0	1-3	0	0
 suntan lotion of moxiousness	1	3	0	0	0	8-10
-tube of hair oil	1	6	0	0	0	18-20
-twinkly wad	1	6	1	8-10	8-10	8-10
-yellow paisley oyster egg	1	1	0	0	11-15	0
-yellow polka-dot oyster egg	1	1	0	0	0	11-15
-yellow striped oyster egg	1	1	0	11-15	0	0
-
-thermos of brew	2	1	3-5	25-40	25-40	25-40
-
-can of Red Minotaur	3	1	0	0	0	0
-guy made of bee pollen	3	8	6-10	18-60	18-60	18-60
-prismatic wad	3	7	5-7	50-60	50-60	50-60
+thermos of brew	2	1	3-5	25-40	25-40	25-40	LWA ring (1 time)
+tube of hair oil	1	6	0	0	0	18-20	10 Got Your Boots On (+10% mox)
+twinkly wad	1	6	1	8-10	8-10	8-10	10 Aspect of the Twinklefairy (+10% all, +weapon/spell dmg)
+ultimate wad	15	6	0	0	0	0	+1 level
 voodoo snuff	3	13	8	0	100-150	0
-
-glimmering roc feather	4	1	6-10	24-28	24-26	27-30
-not-a-pipe	4	4	4-12	20-30	20-30	20-30
-
-Breathetastic&trade; Premium Canned Air	5	9	20-25	60-70	60-70	60-70
-enchanted leopard-print barbell	5	12	15-25	58-100	55-100	52-100
-Hatorade	5	1	0	0	0	0
-steel-scented air freshener	5	5	0	0	0	0
-
-ultimate wad	15	6	0	0	0	0
+yellow paisley oyster egg	1	1	0	0	11-15	0	20 Egg-headedness (+10% mys)
+yellow polka-dot oyster egg	1	1	0	0	0	11-15	20 Egg-cellent Vocabulary (+10% mox)
+yellow striped oyster egg	1	1	0	11-15	0	0	20	Egg-stra Arm (+10% mus)
 
