@@ -53,6 +53,8 @@ public class HiddenCityRequest
 	private static final Pattern WHICH_PATTERN = Pattern.compile( "which=([\\d,]+)" );
 	private static final Pattern ROUND_PATTERN = Pattern.compile( "whichitem=([\\d,]+)" );
 
+	private static int lastSquare = 0;
+
 	private final String action;
 	private int square = 0;
 	private int itemId = 0;
@@ -208,6 +210,8 @@ public class HiddenCityRequest
 	{
 		if ( urlString.indexOf( "snarfblat=118" ) != -1 )
 		{
+			// Set this square for use in automated adventuring
+			Preferences.setInteger( "hiddenCitySquare", HiddenCityRequest.lastSquare );
 			return true;
 		}
 
@@ -243,12 +247,14 @@ public class HiddenCityRequest
 			{
 				return true;
 			}
-			message = "Visiting square " + square + " in the Hidden City";
+			message = "[" + KoLAdventure.getAdventureCount() + "] Hidden City (Square " + square + ")";
+			HiddenCityRequest.lastSquare = square;
 		}
 
 		RequestLogger.printLine( "" );
-		RequestLogger.updateSessionLog();
 		RequestLogger.printLine( message );
+
+		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( message );
 
 		return true;
