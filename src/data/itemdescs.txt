@@ -3650,7 +3650,7 @@
 3643	282340653	pufferfish spine	pufferfish spines
 3644	409887850	depleted Grimacite kneecapping stick	depleted Grimacite kneecapping sticks
 3645	880677333	canteen of wine	canteen of wines
-3646	970160730	<i>limbos</i> gingerbread	wafers of <i>limbos</i> gingerbread
+3646	970160730	elven <i>limbos</i> gingerbread	wafers of <i>limbos</i> gingerbread
 3647	599279187	elven whittling knife	elven whittling knives
 3648	516748124	magic dragonfish fry
 3649	410531723	map to Madness Reef
