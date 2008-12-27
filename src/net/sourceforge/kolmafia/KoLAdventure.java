@@ -936,7 +936,7 @@ public class KoLAdventure
 		CustomCombatManager.setAutoAttack( attack );
 	}
 
-	public void recordToSession()
+	private boolean recordToSession()
 	{
 		KoLAdventure.lastVisitedLocation = this;
 		this.updateAutoAttack();
@@ -952,7 +952,7 @@ public class KoLAdventure
 
 			// We detect adventuring in individual squares
 			// elsewhere.
-			return;
+			return false;
 		}
 
 		if ( this.adventureId.equals( "123" ) )
@@ -989,6 +989,8 @@ public class KoLAdventure
 		{
 			StaticEntity.getClient().registerEncounter( this.getAdventureName(), "Noncombat" );
 		}
+
+		return true;
 	}
 
 	public static final boolean recordToSession( final String urlString )
@@ -1012,7 +1014,10 @@ public class KoLAdventure
 
 			matchingLocation = KoLAdventure.checkDrunkenness( matchingLocation );
 
-			matchingLocation.recordToSession();
+			if ( !matchingLocation.recordToSession() )
+			{
+				return false;
+			}
 
 			if ( !( matchingLocation.getRequest() instanceof AdventureRequest ) || matchingLocation.isValidAdventure )
 			{

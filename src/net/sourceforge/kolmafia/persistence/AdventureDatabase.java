@@ -587,15 +587,9 @@ public class AdventureDatabase
 		{
 			return "Oasis in the Desert";
 		}
-		else if ( urlString.startsWith( "hiddencity.php" ) && urlString.indexOf( "which=" ) != -1 )
+		else if ( urlString.startsWith( "hiddencity.php" ) )
 		{
-			int square = HiddenCityRequest.getSquare( urlString );
-			if ( square == 0 )
-			{
-				return null;
-			}
-
-			return "Hidden City (Square " + square + ")";
+			return null;
 		}
 		else if ( urlString.startsWith( "shore.php" ) && urlString.indexOf( "whichtrip=1" ) != -1 )
 		{
