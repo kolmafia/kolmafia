@@ -289,6 +289,12 @@ public interface KoLConstants
 	public static final int MELEE = 1;
 	public static final int RANGED = 2;
 
+	// Mystical Book Types
+
+	public static final int TOME = 1;
+	public static final int GRIMOIRE = 2;
+	public static final int LIBRAM = 3;
+
 	// Item consumption types
 
 	public static final int NO_CONSUME = 0;

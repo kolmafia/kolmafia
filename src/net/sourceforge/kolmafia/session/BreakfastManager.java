@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.session;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestThread;
@@ -51,7 +52,14 @@ public class BreakfastManager
 			visitBigIsland();
 		}
 
-		castSkills( checkSettings, 0 );
+		boolean recoverMana = Preferences.getBoolean( "loginRecovery" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) );
+
+		boolean done = true;
+
+		done &= castSkills( checkSettings, recoverMana, 0 );
+		done &= castBookSkills( recoverMana, 0 );
+
+		Preferences.setBoolean( "breakfastCompleted", done );
 
 		SpecialOutfit.restoreImplicitCheckpoint();
 		KoLmafia.forceContinue();
@@ -132,14 +140,6 @@ public class BreakfastManager
 		}
 	}
 
-	public static void castSkills( final boolean checkSettings, final int manaRemaining )
-	{
-		BreakfastManager.castSkills(
-			checkSettings,
-			Preferences.getBoolean( "loginRecovery" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ),
-			manaRemaining );
-	}
-
 	public static boolean castSkills( boolean checkSettings, final boolean allowRestore, final int manaRemaining )
 	{
 		if ( Preferences.getBoolean( "breakfastCompleted" ) )
@@ -147,42 +147,48 @@ public class BreakfastManager
 			return true;
 		}
 
-		boolean shouldCast = false;
-		boolean limitExceeded = true;
-
 		String skillSetting =
 			Preferences.getString( "breakfast" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) );
+
+		if ( skillSetting == null )
+		{
+			return true;
+		}
+
 		boolean pathedSummons =
 			Preferences.getBoolean( "pathedSummons" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) );
 
-		if ( skillSetting != null )
+		boolean limitExceeded = true;
+
+		for ( int i = 0; i < UseSkillRequest.BREAKFAST_SKILLS.length; ++i )
 		{
-			for ( int i = 0; i < UseSkillRequest.BREAKFAST_SKILLS.length; ++i )
+			String skill = UseSkillRequest.BREAKFAST_SKILLS[ i ];
+
+			if ( checkSettings && skillSetting.indexOf( skill ) == -1 )
 			{
-				shouldCast = !checkSettings || skillSetting.indexOf( UseSkillRequest.BREAKFAST_SKILLS[ i ] ) != -1;
-				shouldCast &= KoLCharacter.hasSkill( UseSkillRequest.BREAKFAST_SKILLS[ i ] );
+				continue;
+			}
+			     
+			if ( !KoLCharacter.hasSkill( skill ) )
+			{
+				continue;
+			}
 
-				if ( checkSettings && pathedSummons )
+			if ( checkSettings && pathedSummons )
+			{
+				if ( skill.equals( "Pastamastery" ) && !KoLCharacter.canEat() )
 				{
-					if ( UseSkillRequest.BREAKFAST_SKILLS[ i ].equals( "Pastamastery" ) && !KoLCharacter.canEat() )
-					{
-						shouldCast = false;
-					}
-					if ( UseSkillRequest.BREAKFAST_SKILLS[ i ].equals( "Advanced Cocktailcrafting" ) && !KoLCharacter.canDrink() )
-					{
-						shouldCast = false;
-					}
+					continue;
 				}
-
-				if ( shouldCast )
+				if ( skill.equals( "Advanced Cocktailcrafting" ) && !KoLCharacter.canDrink() )
 				{
-					limitExceeded &=
-						BreakfastManager.castSkill( UseSkillRequest.BREAKFAST_SKILLS[ i ], allowRestore, manaRemaining );
+					continue;
 				}
 			}
+
+			limitExceeded &= BreakfastManager.castSkill( skill, allowRestore, manaRemaining );
 		}
 
-		Preferences.setBoolean( "breakfastCompleted", limitExceeded );
 		return limitExceeded;
 	}
 
@@ -211,6 +217,149 @@ public class BreakfastManager
 
 		summon.setBuffCount( castCount );
 		RequestThread.postRequest( summon );
+
+		return castCount == maximumCast;
+	}
+
+	public static boolean castBookSkills( final boolean allowRestore, final int manaRemaining )
+	{
+		if ( Preferences.getBoolean( "breakfastCompleted" ) )
+		{
+			return true;
+		}
+
+		String suffix = KoLCharacter.canInteract() ? "Softcore" : "Hardcore";
+
+		boolean done = true;
+
+		done &= castBookSkills( Preferences.getString( "tomeSkills" + suffix ), KoLConstants.TOME, UseSkillRequest.TOME_SKILLS, allowRestore, manaRemaining );
+		done &= castBookSkills( Preferences.getString( "grimoireSkills" + suffix ), KoLConstants.GRIMOIRE, UseSkillRequest.GRIMOIRE_SKILLS, allowRestore, manaRemaining );
+		done &= castBookSkills( Preferences.getString( "libramSkills" + suffix ), KoLConstants.LIBRAM, UseSkillRequest.LIBRAM_SKILLS, allowRestore, manaRemaining );
+
+		return done;
+	}
+
+	public static boolean castBookSkills( final String name, final int type, final String [] skills, final boolean allowRestore, final int manaRemaining )
+	{
+		if ( name.equals( "none" ) )
+		{
+			return true;
+		}
+
+		boolean castAll = name.equals( "all" );
+		int skillCount = 0;
+		String skill = null;
+
+		// Determine how many skills we will cast from this list
+		for ( int i = 0; i < skills.length; ++i )
+		{
+			String skillName = skills[ i ];
+
+			if ( !castAll && !name.equals( skillName ) )
+			{
+				continue;
+			}
+
+			if ( !KoLCharacter.hasSkill( skillName ) )
+			{
+				continue;
+			}
+
+			skillCount++;
+			skill = skillName;
+		}
+
+		// If none, we are done
+		if ( skillCount == 0 )
+		{
+			return true;
+		}
+
+		// Determine total number of times we will try to use skills of
+		// this type.
+
+		int totalCasts = 0;
+
+		switch ( type )
+		{
+		case KoLConstants.TOME:
+			// Tomes can be used three times a day, spread among
+			// all available tomes.
+			totalCasts = 3;
+			break;
+		case KoLConstants.GRIMOIRE:
+			// Grimoires can be used once a day, each.
+			totalCasts = skillCount;
+			break;
+		case KoLConstants.LIBRAM:
+			// Librams can be used as many times per day as you
+			// have mana available.
+			totalCasts = SkillDatabase.libramSkillCasts( KoLCharacter.getCurrentMP() - manaRemaining );
+			// Note that if we allow MP to be restored, we could
+			// potentially summon a lot more. Maybe someday...
+			break;
+		}
+
+		if ( skillCount == 1 )
+		{
+			// We are casting exactly one skill from this list.
+			return BreakfastManager.castBookSkill( skill, totalCasts, allowRestore, manaRemaining );
+		}
+
+		// Determine number of times we will cast each skill. Divide
+		// evenly, with any excess going to first skill.
+
+		int nextCast = totalCasts / skillCount;
+		int cast = nextCast + totalCasts - ( nextCast * skillCount );
+
+		boolean done = true;
+
+		// We are casting more than one skill from this list. Cast one
+		// at a time until we are done.
+
+		for ( int i = 0; i < skills.length; ++i )
+		{
+			String skillName = skills[ i ];
+
+			if ( !KoLCharacter.hasSkill( skillName ) )
+			{
+				continue;
+			}
+
+			done &= BreakfastManager.castBookSkill( skillName, cast, allowRestore, manaRemaining );
+			cast = nextCast;
+		}
+
+		return true;
+	}
+
+	public static boolean castBookSkill( final String name, final int casts, final boolean allowRestore, final int manaRemaining )
+	{
+		UseSkillRequest skill = UseSkillRequest.getInstance( name );
+
+		int maximumCast = skill.getMaximumCast();
+
+		if ( maximumCast <= 0 )
+		{
+			return true;
+		}
+
+		int castCount = Math.min( casts, maximumCast );
+
+		if ( castCount > 1 && !allowRestore )
+		{
+			int available = KoLCharacter.getCurrentMP() - manaRemaining;
+			int perCast = SkillDatabase.getMPConsumptionById( SkillDatabase.getSkillId( name ) );
+			castCount = Math.min( maximumCast, available / perCast );
+		}
+
+		if ( castCount == 0 )
+		{
+			return false;
+		}
+
+		skill.setBuffCount( castCount );
+		RequestThread.postRequest( skill );
 
 		return castCount == maximumCast;
 	}
