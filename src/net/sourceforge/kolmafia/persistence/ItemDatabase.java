@@ -1488,47 +1488,51 @@ public class ItemDatabase
 		{
 		case 0:
 			// Unidentified
-			ItemDatabase.setDustyBottle( itemId, 2, "0", "0", "0", "0" );
+			ItemDatabase.setDustyBottle( itemId, 2, "0", "0", "0", "0", null );
 			break;
 		case 1: // "Prince"
 			// "You drink the wine. You've had better, but you've
 			// had worse."
-			ItemDatabase.setDustyBottle( itemId, 2, "4-5", "6-8", "5-7", "5-9" );
+			ItemDatabase.setDustyBottle( itemId, 2, "4-5", "6-8", "5-7", "5-9", null );
 			break;
 		case 2:
 			// "You guzzle the entire bottle of wine before you
 			// realize that it has turned into vinegar. Bleeah."
-			ItemDatabase.setDustyBottle( itemId, 0, "0", "0", "0", "0" );
+			ItemDatabase.setDustyBottle( itemId, 0, "0", "0", "0", "0",
+				"10 Full of Vinegar (+weapon damage)" );
 			break;
 		case 3: // "Widget"
 			// "You drink the bottle of wine, then belch up a cloud
 			// of foul-smelling green smoke. Looks like this wine
 			// was infused with wormwood. Spoooooooky."
-			ItemDatabase.setDustyBottle( itemId, 2, "3-4", "3-6", "15-18", "3-6" );
+			ItemDatabase.setDustyBottle( itemId, 2, "3-4", "3-6", "15-18", "3-6",
+				"10 Kiss of the Black Fairy (+spooky damage)" );
 			break;
 		case 4: // "Snake"
 			// "This wine is fantastic! You gulp down the entire
 			// bottle, and feel great!"
-			ItemDatabase.setDustyBottle( itemId, 2, "5-7", "10-15", "10-15", "10-15" );
+			ItemDatabase.setDustyBottle( itemId, 2, "5-7", "10-15", "10-15", "10-15", null );
 			break;
 		case 5: // "Pitchfork"
 			// "You drink the wine. It tastes pretty good, but when
 			// you get to the bottom, it's full of sediment, which
 			// turns out to be powdered glass. Ow."
-			ItemDatabase.setDustyBottle( itemId, 2, "4-5", "7-10", "5-7", "8-10" );
+			ItemDatabase.setDustyBottle( itemId, 2, "4-5", "7-10", "5-7", "8-10",
+				"lose 60-70% HP" );
 			break;
 		case 6:
 			// "You drink the wine, but it seems to have gone
 			// bad. Not in the "turned to vinegar" sense, but the
 			// "turned to crime" sense. It perpetrates some
 			// violence against you on the inside."
-			ItemDatabase.setDustyBottle( itemId, 2, "0-1", "0", "0", "0" );
+			ItemDatabase.setDustyBottle( itemId, 2, "0-1", "0", "0", "0",
+				"lose 80-90% HP" );
 			break;
 		}
 	}
 
 	private static final void setDustyBottle( final int itemId, final int inebriety, final String adventures,
-		final String muscle, final String mysticality, final String moxie )
+		final String muscle, final String mysticality, final String moxie, final String note )
 	{
 		String name =
 			StringUtilities.getCanonicalName( (String) ItemDatabase.dataNameById.get( new Integer( itemId ) ) );
@@ -1538,6 +1542,7 @@ public class ItemDatabase
 		ItemDatabase.muscleByName.put( name, ItemDatabase.extractStatRange( muscle, ItemDatabase.muscleFactor ) );
 		ItemDatabase.mysticalityByName.put( name, ItemDatabase.extractStatRange( mysticality, ItemDatabase.mysticalityFactor ) );
 		ItemDatabase.moxieByName.put( name, ItemDatabase.extractStatRange( moxie, ItemDatabase.moxieFactor ) );
+		ItemDatabase.notesByName.put( name, note );
 	}
 
 	public static final String dustyBottleType( final int itemId )
