@@ -1043,65 +1043,10 @@ public class UseItemRequest
 
 			UseItemRequest.showItemUsage( showHTML, responseText );
 
-			Matcher fortuneMatcher = UseItemRequest.FORTUNE_PATTERN.matcher( responseText );
-			if ( !fortuneMatcher.find() )
+			Matcher matcher = UseItemRequest.FORTUNE_PATTERN.matcher( responseText );
+			while ( matcher.find() )
 			{
-				return;
-			}
-
-			String message = fortuneMatcher.group( 1 );
-			RequestLogger.updateSessionLog( message );
-			RequestLogger.printLine( message );
-
-			if ( TurnCounter.isCounting( "Fortune Cookie" ) )
-			{
-				int desiredCount = 0;
-				for ( int i = 2; i <= 4; ++i )
-				{
-					int number = StringUtilities.parseInt( fortuneMatcher.group( i ) );
-					if ( TurnCounter.isCounting( "Fortune Cookie", number ) )
-					{
-						desiredCount = number;
-					}
-				}
-
-				if ( desiredCount != 0 )
-				{
-					TurnCounter.stopCounting( "Fortune Cookie" );
-					TurnCounter.startCounting( desiredCount, "Fortune Cookie", "fortune.gif" );
-					return;
-				}
-			}
-			
-			int minCounter;
-			if ( ( KoLCharacter.canEat() || KoLCharacter.canDrink() ) &&
-				KoLCharacter.getCurrentRun() > 120 )
-			{
-				minCounter = 150;	// conservative, wiki claims 160 minimum
-			}
-			else
-			{	// Oxygenarian path, or early enough in an ascension that
-				// a player might have done an oxydrop
-				minCounter = 100;	// conservative, wiki claims 102 minimum			
-			}
-			minCounter -= KoLCharacter.turnsSinceLastSemirare();
-			for ( int i = 2; i <= 4; ++i )
-			{
-				int number = StringUtilities.parseInt( fortuneMatcher.group( i ) );
-				if ( number < minCounter )
-				{
-					KoLmafia.updateDisplay( "Lucky number " + number +
-						" ignored - too soon to be a semirare." );
-				}
-				else if ( number > 205 )
-				{	// conservative, wiki claims 200 maximum
-					KoLmafia.updateDisplay( "Lucky number " + number +
-						" ignored - too large to be a semirare." );
-				}
-				else
-				{
-					TurnCounter.startCounting( number, "Fortune Cookie", "fortune.gif" );
-				}
+				UseItemRequest.handleFortuneCookie( matcher );
 			}
 
 			return;
@@ -2254,6 +2199,61 @@ public class UseItemRequest
 			itemId == ItemPool.SLEAZE_BEDDING ||
 			itemId == ItemPool.BEANBAG_CHAIR ||
 			itemId == ItemPool.GAUZE_HAMMOCK;
+	}
+
+	private static final void handleFortuneCookie( final Matcher matcher )
+	{
+		String message = matcher.group( 1 );
+
+		RequestLogger.updateSessionLog( message );
+		RequestLogger.printLine( message );
+
+		if ( TurnCounter.isCounting( "Fortune Cookie" ) )
+		{
+			for ( int i = 2; i <= 4; ++i )
+			{
+				int number = StringUtilities.parseInt( matcher.group( i ) );
+				if ( TurnCounter.isCounting( "Fortune Cookie", number ) )
+				{
+					TurnCounter.stopCounting( "Fortune Cookie" );
+					TurnCounter.startCounting( number, "Fortune Cookie", "fortune.gif" );
+					return;
+				}
+			}
+		}
+			
+		int minCounter;
+		if ( ( KoLCharacter.canEat() || KoLCharacter.canDrink() ) &&
+		     KoLCharacter.getCurrentRun() > 120 )
+		{
+			minCounter = 150;	// conservative, wiki claims 160 minimum
+		}
+		else
+		{
+			// Oxygenarian path, or early enough in an ascension
+			// that a player might have done an oxydrop
+			minCounter = 100;	// conservative, wiki claims 102 minimum			
+		}
+
+		minCounter -= KoLCharacter.turnsSinceLastSemirare();
+		for ( int i = 2; i <= 4; ++i )
+		{
+			int number = StringUtilities.parseInt( fortuneMatcher.group( i ) );
+			if ( number < minCounter )
+			{
+				KoLmafia.updateDisplay( "Lucky number " + number +
+							" ignored - too soon to be a semirare." );
+			}
+			else if ( number > 205 )
+			{	// conservative, wiki claims 200 maximum
+				KoLmafia.updateDisplay( "Lucky number " + number +
+							" ignored - too large to be a semirare." );
+			}
+			else
+			{
+				TurnCounter.startCounting( number, "Fortune Cookie", "fortune.gif" );
+			}
+		}
 	}
 
 	private static final void showItemUsage( final boolean showHTML, final String text )
