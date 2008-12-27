@@ -41,10 +41,13 @@ import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class HiddenCityRequest
@@ -247,7 +250,16 @@ public class HiddenCityRequest
 			{
 				return true;
 			}
-			message = "[" + KoLAdventure.getAdventureCount() + "] Hidden City (Square " + square + ")";
+
+			String name = "Hidden City";
+			Preferences.setString( "lastAdventure", name );
+			AdventureFrame.updateSelectedAdventure( AdventureDatabase.getAdventure( name ) );
+			StaticEntity.getClient().registerAdventure( name );
+
+			String location = name + " (Square " + square + ")";
+
+
+			message = "[" + KoLAdventure.getAdventureCount() + "] " + location;
 			HiddenCityRequest.lastSquare = square;
 		}
 
