@@ -398,11 +398,9 @@ public class UseItemRequest
 
 	public void run()
 	{
-		// Equipment should be handled by a different
-		// kind of request.
+		// Equipment should be handled by a different kind of request.
 
 		int itemId = this.itemUsed.getItemId();
-		int count;
 		
 		switch ( itemId )
 		{
@@ -414,9 +412,20 @@ public class UseItemRequest
 					"You don't have one of those." );
 				return;
 			}
-			( new GenericRequest( "bedazzle.php?action=fold&pwd" ) ).run();
+			RequestThread.postRequest( new GenericRequest( "bedazzle.php?action=fold&pwd" ) );
+			return;
+
+		case ItemPool.MACGUFFIN_DIARY:
+			RequestThread.postRequest( new GenericRequest( "diary.php?textversion=1" ) );
+			KoLmafia.updateDisplay( "Your father's diary has been read." );
+			return;
+
+		case ItemPool.PUZZLE_PIECE:
+			SorceressLairManager.completeHedgeMaze();
 			return;
 		}
+
+		int count;
 
 		switch ( this.consumptionType )
 		{
@@ -428,10 +437,11 @@ public class UseItemRequest
 		case KoLConstants.EQUIP_PANTS:
 		case KoLConstants.EQUIP_ACCESSORY:
 		case KoLConstants.EQUIP_FAMILIAR:
-			( new EquipmentRequest( this.itemUsed ) ).run();
+			RequestThread.postRequest( new EquipmentRequest( this.itemUsed ) );
 			return;
+
 		case KoLConstants.CONSUME_SPHERE:
-			( new PortalRequest( this.itemUsed ) ).run();
+			RequestThread.postRequest( new PortalRequest( this.itemUsed ) );
 			return;
 			
 		case KoLConstants.CONSUME_FOOD_HELPER:
@@ -477,12 +487,6 @@ public class UseItemRequest
 
 		UseItemRequest.lastUpdate = "";
 
-		if ( itemId == SorceressLairManager.PUZZLE_PIECE.getItemId() )
-		{
-			SorceressLairManager.completeHedgeMaze();
-			return;
-		}
-
 		int maximumUses = UseItemRequest.maximumUses( itemId, this.consumptionType );
 		if ( maximumUses < this.itemUsed.getCount() )
 		{
@@ -494,31 +498,38 @@ public class UseItemRequest
 			return;
 		}
 
-		// If it's an elemental phial, then remove the
-		// other elemental effects first.
+		// If it's an elemental phial, remove other elemental effects
+		// first.
 
-		int phialIndex = -1;
 		for ( int i = 0; i < BasementRequest.ELEMENT_PHIALS.length; ++i )
 		{
-			if ( itemId == BasementRequest.ELEMENT_PHIALS[ i ].getItemId() )
+			AdventureResult phial = BasementRequest.ELEMENT_PHIALS[ i ];
+			if ( itemId == phial.getItemId() )
 			{
-				phialIndex = i;
-			}
-		}
-
-		if ( phialIndex != -1 )
-		{
-			for ( int i = 0; i < BasementRequest.ELEMENT_FORMS.length && KoLmafia.permitsContinue(); ++i )
-			{
-				if ( i != phialIndex && KoLConstants.activeEffects.contains( BasementRequest.ELEMENT_FORMS[ i ] ) )
+				for ( int j = 0; j < BasementRequest.ELEMENT_FORMS.length; ++j )
 				{
-					( new UneffectRequest( BasementRequest.ELEMENT_FORMS[ i ] ) ).run();
-				}
-			}
+					if ( j == i )
+					{
+						continue;
+					}
 
-			if ( !KoLmafia.permitsContinue() )
-			{
-				return;
+					AdventureResult form = BasementRequest.ELEMENT_FORMS[ j ];
+					if ( !KoLConstants.activeEffects.contains( form ) )
+					{
+						continue;
+					}
+
+					RequestThread.postRequest( new UneffectRequest( form ) );
+
+					if ( !KoLmafia.permitsContinue() )
+					{
+						return;
+					}
+
+					break;
+				}
+
+				break;
 			}
 		}
 
@@ -562,13 +573,6 @@ public class UseItemRequest
 				iterations = this.itemUsed.getCount();
 				this.itemUsed = this.itemUsed.getInstance( 1 );
 			}
-		}
-
-		if ( itemId == ItemPool.MACGUFFIN_DIARY )
-		{
-			( new GenericRequest( "diary.php?textversion=1" ) ).run();
-			KoLmafia.updateDisplay( "Your father's diary has been read." );
-			return;
 		}
 
 		if ( itemId == ItemPool.MAFIA_ARIA )
