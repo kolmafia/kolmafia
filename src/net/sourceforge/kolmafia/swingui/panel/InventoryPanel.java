@@ -189,15 +189,15 @@ public class InventoryPanel
 				return false;
 			}
 
-			int itemId =
-				element instanceof AdventureResult ? ( (AdventureResult) element ).getItemId() : element instanceof CreateItemRequest ? ( (CreateItemRequest) element ).getItemId() : -1;
+			String name = 
+				element instanceof AdventureResult ? ( (AdventureResult) element ).getName() : element instanceof CreateItemRequest ? ( (CreateItemRequest) element ).getName() : null;
 
-			if ( itemId == -1 )
+			if ( name == null )
 			{
 				return true;
 			}
 
-			switch ( ItemDatabase.getConsumptionType( itemId ) )
+			switch ( ItemDatabase.getConsumptionType( name ) )
 			{
 			case KoLConstants.EQUIP_WEAPON:
 				isVisibleWithFilter = InventoryPanel.this.equipmentFilters[ 0 ].isSelected();

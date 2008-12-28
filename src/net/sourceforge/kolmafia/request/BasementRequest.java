@@ -615,18 +615,12 @@ public class BasementRequest
 			return false;
 		}
 
-		// You can survive, but you need an elemental phial in order to do
-		// so.  Go ahead and save it.
+		// You can survive, but you need an elemental phial in order to
+		// do so.  Go ahead and use one, which will automatically
+		// uneffect any competing phials, first
 
-		for ( int i = 0; i < BasementRequest.ELEMENT_FORMS.length; ++i )
-		{
-			if ( KoLConstants.activeEffects.contains( BasementRequest.ELEMENT_FORMS[ i ] ) )
-			{
-				( new UneffectRequest( BasementRequest.ELEMENT_FORMS[ i ] ) ).run();
-			}
-		}
+		RequestThread.postRequest( new UseItemRequest( BasementRequest.goodphial ) );
 
-		( new UseItemRequest( BasementRequest.goodphial ) ).run();
 		float damage =
 			BasementRequest.expected1 >= BasementRequest.expected2 ? BasementRequest.expected2 : BasementRequest.expected1;
 		StaticEntity.getClient().recoverHP( (int) ( 1.0f + damage ) );
