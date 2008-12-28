@@ -546,56 +546,7 @@ public class RequestEditorKit
 		}
 		else if ( location.startsWith( "inventory.php" ) )
 		{
-			if ( KoLCharacter.inMuscleSign() )
-			{
-				StringUtilities.globalStringReplace( buffer, "combine.php", "knoll.php?place=paster" );
-			}
-
-			AdventureResult wand = KoLCharacter.getZapper();
-			if ( wand != null )
-			{
-				StringUtilities.singleStringReplace(
-					buffer,
-					"]</a></font></td></tr></table></center>",
-					"]</a>&nbsp;&nbsp;<a href=\"wand.php?whichwand=" + wand.getItemId() + "\">[zap items]</a></font></td></tr></table></center>" );
-			}
-
-			RequestEditorKit.changeSphereImages( buffer );
-
-			// Automatically name the outfit "backup" for simple save
-			// purposes while adventuring in browser.
-
-			StringUtilities.insertAfter(
-				buffer, "<input type=text name=outfitname", " value=\"Backup\"" );
-
-			// Split the custom outfits from the normal outfits for
-			// easier browsing.
-
-			int selectBeginIndex = buffer.indexOf( "<option value=-" );
-			if ( selectBeginIndex != -1 && addComplexFeatures )
-			{
-				int selectEndIndex = buffer.indexOf( "</select>", selectBeginIndex );
-				String outfitString = buffer.substring( selectBeginIndex, selectEndIndex );
-				buffer.delete( selectBeginIndex, selectEndIndex );
-
-				int formEndIndex = buffer.indexOf( "</form>", selectBeginIndex ) + 7;
-
-				StringBuffer customString = new StringBuffer();
-				customString.append( "<tr><td align=right><form name=outfit2 action=inv_equip.php><input type=hidden name=action value=\"outfit\"><input type=hidden name=which value=2><b>Custom:</b></td><td><select name=whichoutfit><option value=0>(select a custom outfit)</option>" );
-				customString.append( outfitString );
-				customString.append( "</select></td><td> <input class=button type=submit value=\"Dress Up!\"></form></td></tr></table>" );
-				StringUtilities.globalStringDelete( customString, "Custom: " );
-
-				buffer.insert( formEndIndex, customString.toString() );
-
-				StringUtilities.insertBefore(
-					buffer, "<form name=outfit", "<table><tr><td align=right>" );
-				StringUtilities.insertBefore( buffer, "<select", "</td><td>" );
-				StringUtilities.insertAfter( buffer, "</select>", "</td><td>" );
-				StringUtilities.insertAfter( buffer, "</form>", "</td></tr>" );
-
-				StringUtilities.globalStringReplace( buffer, "<select", "<select style=\"width: 250px\"" );
-			}
+			RequestEditorKit.decorateInventory( buffer, addComplexFeatures );
 		}
 		else if ( location.startsWith( "lair6.php" ) )
 		{
@@ -724,6 +675,69 @@ public class RequestEditorKit
 		{
 			StringUtilities.globalStringReplace( buffer, "bgcolor=blue", "bgcolor=\"" + defaultColor + "\"" );
 			StringUtilities.globalStringReplace( buffer, "border: 1px solid blue", "border: 1px solid " + defaultColor );
+		}
+	}
+
+	private static final void decorateInventory( final StringBuffer buffer, final boolean addComplexFeatures )
+	{
+		if ( KoLCharacter.inMuscleSign() )
+		{
+			StringUtilities.globalStringReplace( buffer, "combine.php", "knoll.php?place=paster" );
+		}
+
+		AdventureResult mat = ItemPool.get( ItemPool.SUSHI_ROLLING_MAT, 1 );
+		if ( mat.getCount( KoLConstants.inventory ) > 0 )
+		{
+			StringUtilities.singleStringReplace(
+				buffer,
+				"]</a></font></td></tr></table></center>",
+				"]</a>&nbsp;&nbsp;<a href=\"sushi.php\">[roll sushi]</a></font></td></tr></table></center>" );
+		}
+
+		AdventureResult wand = KoLCharacter.getZapper();
+		if ( wand != null )
+		{
+			StringUtilities.singleStringReplace(
+				buffer,
+				"]</a></font></td></tr></table></center>",
+				"]</a>&nbsp;&nbsp;<a href=\"wand.php?whichwand=" + wand.getItemId() + "\">[zap items]</a></font></td></tr></table></center>" );
+		}
+
+		RequestEditorKit.changeSphereImages( buffer );
+
+		// Automatically name the outfit "backup" for simple save
+		// purposes while adventuring in browser.
+
+		StringUtilities.insertAfter(
+			buffer, "<input type=text name=outfitname", " value=\"Backup\"" );
+
+		// Split the custom outfits from the normal outfits for
+		// easier browsing.
+
+		int selectBeginIndex = buffer.indexOf( "<option value=-" );
+		if ( selectBeginIndex != -1 && addComplexFeatures )
+		{
+			int selectEndIndex = buffer.indexOf( "</select>", selectBeginIndex );
+			String outfitString = buffer.substring( selectBeginIndex, selectEndIndex );
+			buffer.delete( selectBeginIndex, selectEndIndex );
+
+			int formEndIndex = buffer.indexOf( "</form>", selectBeginIndex ) + 7;
+
+			StringBuffer customString = new StringBuffer();
+			customString.append( "<tr><td align=right><form name=outfit2 action=inv_equip.php><input type=hidden name=action value=\"outfit\"><input type=hidden name=which value=2><b>Custom:</b></td><td><select name=whichoutfit><option value=0>(select a custom outfit)</option>" );
+			customString.append( outfitString );
+			customString.append( "</select></td><td> <input class=button type=submit value=\"Dress Up!\"></form></td></tr></table>" );
+			StringUtilities.globalStringDelete( customString, "Custom: " );
+
+			buffer.insert( formEndIndex, customString.toString() );
+
+			StringUtilities.insertBefore(
+				buffer, "<form name=outfit", "<table><tr><td align=right>" );
+			StringUtilities.insertBefore( buffer, "<select", "</td><td>" );
+			StringUtilities.insertAfter( buffer, "</select>", "</td><td>" );
+			StringUtilities.insertAfter( buffer, "</form>", "</td></tr>" );
+
+			StringUtilities.globalStringReplace( buffer, "<select", "<select style=\"width: 250px\"" );
 		}
 	}
 
