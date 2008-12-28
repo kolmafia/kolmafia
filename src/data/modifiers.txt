@@ -146,8 +146,8 @@ depleted Grimacite ninja mask	Familiar Effect: "1xBarrr, 1xFairy, cap 25"
 disco mask	Familiar Effect: "atk, cap 2"
 draggin' ball hat	Intrinsic Effect: "Draggin' Balls", Familiar Effect: "atk, 1xVolley, cap 25"
 duct tape fedora	Mysticality: +12, Maximum MP: +40, Familiar Effect: "1xBarrr, 1xLep, cap 48"
-eelskin hat	Spell Damage Percent: +15, Familiar Effect: "1xLep"
 eXtreme scarf	Mysticality: +5, Familiar Effect: "atk, 1xBarrr, cap 25"
+eelskin hat	Spell Damage Percent: +15, Familiar Effect: "1xLep"
 enchanted eyepatch	Mysticality: +5, Familiar Effect: "4xBarrr, cap 8"
 enchantlers	Hot Spell Damage: +10, Familiar Effect: "atk, 1xLep, cap 28"
 extra-large palm-frond toupee	Experience: +2, Familiar Effect: "1xVolley, 1xPotato, cap 37"
@@ -556,7 +556,7 @@ denim axe	Muscle: +10, Weapon Damage: +10
 dense meat crossbow	Moxie: +3
 dense meat staff	Mysticality: +3
 dense meat sword	Muscle: +3
-depleted Grimacite hammer	none
+# depleted Grimacite hammer
 depleted Grimacite kneecapping stick	none
 diamond-studded cane	Moxie: +5, Class: "Disco Bandit"
 didgeridooka	Moxie: +9
@@ -1104,7 +1104,7 @@ furry green earmuffs	Cold Resistance: +1
 fuzzy bracelets	Moxie: +15, Muscle: +15, Mysticality: +15
 gearbox necklace	Mysticality: +11, Maximum MP: +50
 giant pinky ring	Single Equip
-glow-in-the-dark wristwatch	Mysticality: +3, Spell Damage: +3, Adventures: +3, Single Equip
+glow-in-the-dark wristwatch	Single Equip, Mysticality: +3, Spell Damage: +3, Adventures: +3
 glowing red eye	Spooky Resistance: +2
 gnatwing earring	Initiative: +15, Mysticality: +6
 gnoll-tooth necklace	Muscle: +5
@@ -1686,9 +1686,10 @@ Chorale of Companionship	Familiar Weight: +10
 Cranberry Cordiality	Meat Drop: +10
 # Cravin' for a Ravin'	meat drop?
 Crimbo Epiphany	Mysticality Percent: +10
+Crimbo Nostalgia	Experience: +5
 # Crocodile Tear	+10 familiar weight underwater
 Crotchety, Pining	Weapon Damage Percent: +300
-# Cruisin' for a Bruisin'	+weapon damage?
+Cruisin' for a Bruisin'	Weapon Damage Percent: +100
 Crusty Head	Damage Reduction: 10
 # Cunctatitis
 Cupcake of Choice	Item Drop: +30
@@ -2047,7 +2048,7 @@ Tenuous Grip on Reality	Moxie Percent: -95
 Tetanus	Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10
 # The 'Tussin
 The Ballad of Richie Thingfinder	Meat Drop: +50, Item Drop: +20
-# The Colors...
+The Colors...	Cold Resistance: -5, Hot Resistance: -5, Sleaze Resistance: -5, Spooky Resistance: -5, Stench Resistance: -5
 The Cupcake of Wrath	Monster Level: +10
 The Great Tit's Blessing	Monster Level: +20
 The Halls of Moxiousness	Experience: +3
