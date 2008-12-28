@@ -277,6 +277,20 @@ public class UseItemRequest
 		case ItemPool.CLOCKWORK_BARTENDER:
 		case ItemPool.MAID:
 		case ItemPool.CLOCKWORK_MAID:
+			// Campground equipment
+			return 1;
+
+		case ItemPool.BEANBAG_CHAIR:
+		case ItemPool.GAUZE_HAMMOCK:
+		case ItemPool.HOT_BEDDING:
+		case ItemPool.COLD_BEDDING:
+		case ItemPool.STENCH_BEDDING:
+		case ItemPool.SPOOKY_BEDDING:
+		case ItemPool.SLEAZE_BEDDING:
+		case ItemPool.BLACK_BLUE_LIGHT:
+		case ItemPool.LOUDMOUTH_LARRY:
+		case ItemPool.PLASMA_BALL:
+			// Dwelling furnishings
 			return 1;
 
 		case ItemPool.ANCIENT_CURSED_FOOTLOCKER:
