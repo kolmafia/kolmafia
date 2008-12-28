@@ -3590,14 +3590,14 @@
 3583
 3584	991734610	irradiated candy cane	irradiated candy canes
 3585	612504863	gingerbread mutant bugbear	gingerbread mutant bugbears
-3586	636841452	oozenog
+3586	636841452	oozenog	oozenogs
 3587	961155973	sugar plum	sugar plums
 3588	235633176	sugar banana	sugar bananas
 3589	395279915	sugar lime	sugar limes
-3590	534779871	sugar cherry
+3590	534779871	sugar cherry	sugar cherrys
 3591	773882501	Mer-kin hookspear	Mer-kin hookspears
 3592	951192082	Mer-kin takebag	Mer-kin takebags
-3593	471800731	Mer-kin thingpouch
+3593	471800731	Mer-kin thingpouch	Mer-kin thingpouchs
 3594	989518869	Mer-kin killscroll	Mer-kin killscrolls
 3595	199516593	Mer-kin fastjuice	Mer-kin fastjuices
 3596	243332864	imitation crab crate	imitation crab crates
@@ -3605,38 +3605,38 @@
 3598	146773709	imitation crab zoea	imitation crab zoeas
 3599	473366824	moist sailor's cap	moist sailor's caps
 3600	918387441	rusty speargun	rusty spearguns
-3601	658706699	rusty compass
+3601	658706699	rusty compass	rusty compasss
 3602	993248155	rusty broken diving helmet
-3603	581706506	rusty porthole
+3603	581706506	rusty porthole	rusty portholes
 3604	976845849	rusty rivet	rusty rivets
 3605	310741567	bubblin' stone
-3606	887322976	rusty diving helmet
+3606	887322976	rusty diving helmet	rusty diving helmets
 3607	784913887	aerated diving helmet
 3608	398933232	live nautical mine
 3609	279675364	das boot
-3610	510671971	imitation whetstone
+3610	510671971	imitation whetstone	imitation whetstones
 3611	285153209	sea grease	tubs of sea grease
 3612	791293538	sturdy Crimbo crate	sturdy Crimbo crates
 3613	665840770	battered Crimbo Crate	battered Crimbo Crates
 3614	928327133	twitching claw	twitching claws
 3615	714915970	rigid carapace	rigid carapaces
-3616	629483390	pulsing flesh
-3617	306616538	unstable DNA
+3616	629483390	pulsing flesh	pulsing fleshs
+3617	306616538	unstable DNA	unstable DNAs
 3618	631172988	The Spirit of Crimbo
 3619	329989943	wriggling tentacle	wriggling tentacles
-3620	443642278	mass of wriggling tentacles
-3621	933179859	pair of twitching claws
-3622	378139843	gnashing teeth
-3623	968004822	chitinous pod
+3620	443642278	mass of wriggling tentacles	mass of wriggling tentacless
+3621	933179859	pair of twitching claws	pair of twitching clawss
+3622	378139843	gnashing teeth	gnashing teeths
+3623	968004822	chitinous pod	chitinous pods
 3624	115811576	parasitic claw	parasitic claws
-3625	619513279	parasitic tentacles
-3626	366474890	parasitic headgnawer
-3627	495138723	parasitic strangleworm
-3628	675006664	pair of ragged claws
-3629	325140798	burrowgrub hive
+3625	619513279	parasitic tentacles	parasitic tentacless
+3626	366474890	parasitic headgnawer	parasitic headgnawers
+3627	495138723	parasitic strangleworm	parasitic strangleworms
+3628	675006664	pair of ragged claws	pair of ragged clawss
+3629	325140798	burrowgrub hive	burrowgrub hives
 3630	863133643	dusty Crimbo crate	dusty Crimbo crates
 3631	280911764	Gummi-DNA
-3632	811567210	radioactive chew toy
+3632	811567210	radioactive chew toy	radioactive chew toys
 3633	237976715	elven socks	pairs of elven socks
 3634	797319795	cheap elven gloves	pairs of cheap elven gloves
 3635	404814593	festive holiday hat	festive holiday hats
@@ -3645,26 +3645,26 @@
 3638	218664990	penguin thesaurus	penguin thesauri
 3639	508506361	blob-shaped Crimbo cookie	blob-shaped Crimbo cookies
 3640	440608325	seaweed	sheets of seaweed
-3641	903837198	jamfish jam
+3641	903837198	jamfish jam	bits of jamfish jam
 3642	271341113	dragonfish caviar	ounces of dragonfish caviar
 3643	282340653	pufferfish spine	pufferfish spines
 3644	409887850	depleted Grimacite kneecapping stick	depleted Grimacite kneecapping sticks
 3645	880677333	canteen of wine	canteen of wines
 3646	970160730	elven <i>limbos</i> gingerbread	wafers of <i>limbos</i> gingerbread
 3647	599279187	elven whittling knife	elven whittling knives
-3648	516748124	magic dragonfish fry
+3648	516748124	magic dragonfish fry	magic dragonfish frys
 3649	410531723	map to Madness Reef
-3650	357577494	toast with jam
+3650	357577494	toast with jam	pieces of toast with jam
 3651	844666131	miniature antlers	pairs of miniature antlers
 3652	668910096	elven moonshine	jars of elven moonshine
-3653	411676372	knuckle sandwich
-3654	742862717	psycho sweater
+3653	411676372	knuckle sandwich	knuckle sandwiches
+3654	742862717	psycho sweater	psycho sweaters
 3655	486633888	fin-bit wax	tubs of fin-bit wax
 3656	627111093	tiny plastic Mob Penguin	tiny plastic Mob Penguins
-3657	644060479	tiny plastic mutant elf	
-3658	196626222	tiny plastic fat stack of cash
-3659	441811155	tiny plastic strand of DNA
-3660	971857735	tiny plastic chunk of depleted Grimacite
+3657	644060479	tiny plastic mutant elf	tiny plastic mutant elfs
+3658	196626222	tiny plastic fat stack of cash	tiny plastic fat stack of cashs
+3659	441811155	tiny plastic strand of DNA	tiny plastic strand of DNAs
+3660	971857735	tiny plastic chunk of depleted Grimacite	tiny plastic chunk of depleted Grimacites
 3661
 3662
 3663
@@ -3675,6 +3675,6 @@
 3668	277958099	glow-in-the-dark wristwatch	glow-in-the-dark wristwatches
 3669	833264909	glow-in-the-dark dart gun	glow-in-the-dark dart guns
 3670	201697185	glow-in-the-dark stuffed burrowgrub	glow-in-the-dark stuffed burrowgrubs
-3671	910986160	Uncle Crimbo's Rations	tins of Uncle Crimbo's Rations
+3671	910986160	Uncle Crimbo's Rations	Tins of Uncle Crimbo's Rations
 3672	208004985	can of franks 'n' beans	cans of franks 'n' beans
 3673	310999359	bottle of peppermint schnapps	bottles of peppermint schnapps
