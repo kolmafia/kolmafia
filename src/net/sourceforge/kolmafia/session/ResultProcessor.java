@@ -1082,6 +1082,12 @@ public class ResultProcessor
 			}
 			break;
 
+		case ItemPool.WORM_RIDING_HOOKS:
+			ResultProcessor.processItem( ItemPool.WORM_RIDING_MANUAL_1, -1 );
+			ResultProcessor.processItem( ItemPool.WORM_RIDING_MANUAL_2, -1 );
+			ResultProcessor.processItem( ItemPool.WORM_RIDING_MANUAL_3_15, -1 );
+			break;
+
 		case ItemPool.DAS_BOOT:
 			if ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.DAMP_OLD_BOOT, 1 ) ) )
 			{
