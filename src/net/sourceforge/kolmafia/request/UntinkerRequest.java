@@ -44,12 +44,16 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
+
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
+
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -61,7 +65,7 @@ public class UntinkerRequest
 	private static boolean canUntinker;
 	private static int lastUserId = 0;
 
-	private static final AdventureResult SCREWDRIVER = new AdventureResult( 454, -1 );
+	private static final AdventureResult SCREWDRIVER = ItemPool.get( ItemPool.RUSTY_SCREWDRIVER, -1 );
 
 	private final int itemId;
 	private int iterationsNeeded;
@@ -113,15 +117,6 @@ public class UntinkerRequest
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You cannot untinker that item." );
 			return;
-		}
-
-		// Visiting the untinker automatically deducts a
-		// screwdriver from the inventory.
-
-		if ( KoLConstants.inventory.contains( UntinkerRequest.SCREWDRIVER ) )
-		{
-			UntinkerRequest.canUntinker = true;
-			ResultProcessor.processResult( UntinkerRequest.SCREWDRIVER );
 		}
 
 		if ( !InventoryManager.retrieveItem( this.item ) )
@@ -257,6 +252,14 @@ public class UntinkerRequest
 		if ( !urlString.startsWith( "town_right.php" ) || urlString.indexOf( "action=untinker" ) == -1 )
 		{
 			return false;
+		}
+
+		// Visiting the untinker removes screwdriver from inventory.
+
+		if ( KoLConstants.inventory.contains( UntinkerRequest.SCREWDRIVER ) )
+		{
+			UntinkerRequest.canUntinker = true;
+			ResultProcessor.processResult( UntinkerRequest.SCREWDRIVER );
 		}
 
 		Matcher itemMatcher = TransferItemRequest.ITEMID_PATTERN.matcher( urlString );

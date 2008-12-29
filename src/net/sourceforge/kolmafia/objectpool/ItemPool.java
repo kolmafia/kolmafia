@@ -123,6 +123,7 @@ public class ItemPool
 	public static final int BARTENDER = 440;
 	public static final int PRETENTIOUS_PAINTBRUSH = 450;
 	public static final int PRETENTIOUS_PALETTE = 451;
+	public static final int RUSTY_SCREWDRIVER = 454;
 	public static final int TRANSFUNCTIONER = 458;
 	public static final int WHITE_PIXEL = 459;
 	public static final int BLACK_PIXEL = 460;

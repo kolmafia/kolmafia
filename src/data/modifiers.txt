@@ -556,7 +556,7 @@ denim axe	Muscle: +10, Weapon Damage: +10
 dense meat crossbow	Moxie: +3
 dense meat staff	Mysticality: +3
 dense meat sword	Muscle: +3
-# depleted Grimacite hammer
+depleted Grimacite hammer	none
 depleted Grimacite kneecapping stick	none
 diamond-studded cane	Moxie: +5, Class: "Disco Bandit"
 didgeridooka	Moxie: +9
@@ -1104,7 +1104,7 @@ furry green earmuffs	Cold Resistance: +1
 fuzzy bracelets	Moxie: +15, Muscle: +15, Mysticality: +15
 gearbox necklace	Mysticality: +11, Maximum MP: +50
 giant pinky ring	Single Equip
-glow-in-the-dark wristwatch	Single Equip, Mysticality: +3, Spell Damage: +3, Adventures: +3
+glow-in-the-dark wristwatch	Mysticality: +3, Spell Damage: +3, Adventures: +3, Single Equip
 glowing red eye	Spooky Resistance: +2
 gnatwing earring	Initiative: +15, Mysticality: +6
 gnoll-tooth necklace	Muscle: +5
