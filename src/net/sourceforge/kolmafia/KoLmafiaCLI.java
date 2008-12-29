@@ -422,7 +422,7 @@ public class KoLmafiaCLI
 			int flags = handler == null ? 0 : handler.flags;
 			if ( flags == KoLmafiaCLI.FULL_LINE_CMD && !line.equals( "" ) )
 			{
-				parameters = parameters + ";" + line;
+				parameters = parameters + " ; " + line;
 				line = "";
 			}
 			
