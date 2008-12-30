@@ -83,6 +83,10 @@ public class UseItemRequest
 	private static final Pattern FORTUNE_PATTERN =
 		Pattern.compile( "<font size=1>(Lucky numbers: (\\d+), (\\d+), (\\d+))</td>" );
 
+	private static final Pattern GHOST1_PATTERN = Pattern.compile( "My name is ([^.]*)" );
+	private static final Pattern GHOST2_PATTERN = Pattern.compile( "My name is ([^,]*)" );
+	private static final Pattern GHOST3_PATTERN = Pattern.compile( "You must call me ([^.]*])" );
+
 	private static final HashMap LIMITED_USES = new HashMap();
 
 	static
@@ -1011,6 +1015,8 @@ public class UseItemRequest
 			return;
 		}
 
+		Matcher matcher;
+
 		// Perform item-specific processing
 
 		switch ( item.getItemId() )
@@ -1061,7 +1067,7 @@ public class UseItemRequest
 
 			UseItemRequest.showItemUsage( showHTML, responseText );
 
-			Matcher matcher = UseItemRequest.FORTUNE_PATTERN.matcher( responseText );
+			matcher = UseItemRequest.FORTUNE_PATTERN.matcher( responseText );
 			while ( matcher.find() )
 			{
 				UseItemRequest.handleFortuneCookie( matcher );
@@ -2197,6 +2203,54 @@ public class UseItemRequest
 				Preferences.setInteger( "burrowgrubSummonsRemaining", 3 );
 			}
 
+			return;
+
+		case ItemPool.MACARONI_FRAGMENTS:
+
+			KoLCharacter.ensureUpdatedPastamancerGhost();
+			matcher = UseItemRequest.GHOST1_PATTERN.matcher( responseText );
+			if ( matcher.find() )
+			{
+				Preferences.setString( "pastamancerGhostType", KoLConstants.MACARONI_GHOST );
+				Preferences.setString( "pastamancerGhostName", matcher.group(1) );
+				Preferences.setInteger( "pastamancerGhostExperience", 0 );
+			}
+			else
+			{
+				ResultProcessor.processResult( item );
+			}
+			return;
+
+		case ItemPool.SHIMMERING_TENDRILS:
+
+			KoLCharacter.ensureUpdatedPastamancerGhost();
+			matcher = UseItemRequest.GHOST3_PATTERN.matcher( responseText );
+			if ( matcher.find() )
+			{
+				Preferences.setString( "pastamancerGhostType", KoLConstants.ANGEL_HAIR_WISP );
+				Preferences.setString( "pastamancerGhostName", matcher.group(1) );
+				Preferences.setInteger( "pastamancerGhostExperience", 0 );
+			}
+			else
+			{
+				ResultProcessor.processResult( item );
+			}
+			return;
+
+		case ItemPool.SCINTILLATING_POWDER:
+
+			KoLCharacter.ensureUpdatedPastamancerGhost();
+			matcher = UseItemRequest.GHOST2_PATTERN.matcher( responseText );
+			if ( matcher.find() )
+			{
+				Preferences.setString( "pastamancerGhostType", KoLConstants.SPICE_GHOST );
+				Preferences.setString( "pastamancerGhostName", matcher.group(1) );
+				Preferences.setInteger( "pastamancerGhostExperience", 0 );
+			}
+			else
+			{
+				ResultProcessor.processResult( item );
+			}
 			return;
 		}
 	}

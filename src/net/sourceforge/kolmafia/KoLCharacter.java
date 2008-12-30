@@ -605,12 +605,18 @@ public abstract class KoLCharacter
 		KoLCharacter.classname = classname;
 		KoLCharacter.classtype = null;
 		KoLCharacter.getClassType();
-		if ( KoLCharacter.classtype != KoLCharacter.ASTRAL_SPIRIT )
+
+		if ( KoLCharacter.classtype == KoLCharacter.ASTRAL_SPIRIT )
 		{
-			// If we have an actual class, we have a mainstat.
-			// Reset concoction mainstat gains to reflect this.
-			ConcoctionDatabase.resetConcoctionStatGains();
+			return;
 		}
+
+		// If we have an actual class, we have a mainstat.
+		// Reset concoction mainstat gains to reflect this.
+		ConcoctionDatabase.resetConcoctionStatGains();
+
+		// Allow or disallow special fight actions
+		FightRequest.initialize();
 	}
 
 	/**
@@ -3066,6 +3072,18 @@ public abstract class KoLCharacter
 				String testName = ItemDatabase.getItemName( i ) + " of " + testProperty;
 				ItemDatabase.registerItemAlias( i, testName, null );
 			}
+		}
+	}
+
+	public static final void ensureUpdatedPastamancerGhost()
+	{
+		int lastAscension = Preferences.getInteger( "lastPastamancerGhostReset" );
+		if ( lastAscension < KoLCharacter.getAscensions() )
+		{
+			Preferences.setInteger( "lastPastamancerGhostReset", KoLCharacter.getAscensions() );
+			Preferences.setString( "pastamancerGhostType", "" );
+			Preferences.setString( "pastamancerGhostName", "" );
+			Preferences.setInteger( "pastamancerGhostExperience", 0 );
 		}
 	}
 

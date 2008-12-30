@@ -725,38 +725,37 @@ public abstract class KoLmafia
 	public static final void resetCounters()
 	{
 		Preferences.setInteger( "lastCounterDay", HolidayDatabase.getPhaseStep() );
-		Preferences.setBoolean( "breakfastCompleted", false );
 
-		Preferences.setInteger( "timesRested", 0 );
-		Preferences.setInteger( "nunsVisits", 0 );
 		Preferences.setString( "barrelLayout", "?????????" );
+		Preferences.setBoolean( "breakfastCompleted", false );
 		Preferences.setBoolean( "burrowgrubHiveUsed", false );
 		Preferences.setInteger( "burrowgrubSummonsRemaining", 0 );
-		Preferences.setInteger( "lastBarrelSmashed", 0 );
+		Preferences.setInteger( "cocktailSummons", 0 );
 		Preferences.setBoolean( "concertVisited", false );
-		Preferences.setBoolean( "expressCardUsed", false );
-		Preferences.setBoolean( "oscusSodaUsed", false );
-		Preferences.setBoolean( "outrageousSombreroUsed", false );
-		Preferences.setBoolean( "spiceMelangeUsed", false );
-		Preferences.setBoolean( "friarsBlessingReceived", false );
-		Preferences.setBoolean( "styxPixieVisited", false );
-		Preferences.setBoolean( "telescopeLookedHigh", false );
-		Preferences.setBoolean( "dailyDungeonDone", false );
-		Preferences.setBoolean( "libraryCardUsed", false );
 		Preferences.setInteger( "currentFullness", 0 );
 		Preferences.setInteger( "currentMojoFilters", 0 );
 		Preferences.setInteger( "currentSpleenUse", 0 );
 		Preferences.setString( "currentPvpVictories", "" );
-
-		Preferences.setInteger( "tomeSummons", 0 );
+		Preferences.setBoolean( "dailyDungeonDone", false );
+		Preferences.setBoolean( "expressCardUsed", false );
+		Preferences.setBoolean( "friarsBlessingReceived", false );
 		Preferences.setInteger( "grimoire1Summons", 0 );
 		Preferences.setInteger( "grimoire2Summons", 0 );
+		Preferences.setInteger( "lastBarrelSmashed", 0 );
 		Preferences.setInteger( "libramSummons", 0 );
-
+		Preferences.setBoolean( "libraryCardUsed", false );
 		Preferences.setInteger( "noodleSummons", 0 );
-		Preferences.setInteger( "reagentSummons", 0 );
-		Preferences.setInteger( "cocktailSummons", 0 );
+		Preferences.setInteger( "nunsVisits", 0 );
+		Preferences.setBoolean( "oscusSodaUsed", false );
+		Preferences.setBoolean( "outrageousSombreroUsed", false );
+		Preferences.setInteger( "pastamancerGhostSummons", 0 );
 		Preferences.setInteger( "prismaticSummons", 0 );
+		Preferences.setInteger( "reagentSummons", 0 );
+		Preferences.setBoolean( "spiceMelangeUsed", false );
+		Preferences.setBoolean( "styxPixieVisited", false );
+		Preferences.setBoolean( "telescopeLookedHigh", false );
+		Preferences.setInteger( "timesRested", 0 );
+		Preferences.setInteger( "tomeSummons", 0 );
 
 		// Libram summoning skills now costs 1 MP again
 		KoLConstants.summoningSkills.sort();
