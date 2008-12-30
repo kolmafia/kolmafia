@@ -79,11 +79,40 @@ public class ChefStaffRequest
 			return;
 		}
 
-		for ( int i = 1; i <= this.getQuantityNeeded(); ++i )
+		super.run();
+	}
+
+	public void processResults()
+	{
+		// Since we create one at a time, override processResults so
+		// superclass method doesn't undo ingredient usage.
+
+		if ( ChefStaffRequest.parseCreation( this.getURLString(), this.responseText ) )
+                {
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You're missing some ingredients." );
+                }
+	}
+
+	public static final boolean parseCreation( final String urlString, final String responseText )
+	{
+		if ( responseText.indexOf( "You don't have all of the items I'll need to make that Chefstaff." ) != -1 )
 		{
-			KoLmafia.updateDisplay( "Creating " + this.getName() + " (" + i + " of " + this.getQuantityNeeded() + ")..." );
-			super.run();
+			return true;
 		}
+
+		AdventureResult[] ingredients = ChefStaffRequest.staffIngredients( urlString );
+		if ( ingredients == null )
+		{
+			return false;
+		}
+
+		for ( int i = 0; i < ingredients.length; ++i )
+		{
+			AdventureResult ingredient = ingredients[ i ];
+			ResultProcessor.processResult( ingredient.getInstance( -1 * ingredient.getCount() ) );
+		}
+
+		return false;
 	}
 
 	private static final AdventureResult[] staffIngredients( final String urlString )
@@ -100,27 +129,6 @@ public class ChefStaffRequest
 		// Find chefstaff item ID
 		int itemId = ConcoctionPool.findConcoction( KoLConstants.STAFF, baseId );
 		return ConcoctionDatabase.getIngredients( itemId );
-	}
-
-	public static final boolean parseCreation( final String urlString, final String responseText )
-	{
-		if ( responseText.indexOf( "You don't have all of the items I'll need to make that Chefstaff." ) == -1 )
-		{
-			return true;
-		}
-
-		AdventureResult[] ingredients = ChefStaffRequest.staffIngredients( urlString );
-		if ( ingredients == null )
-		{
-			return false;
-		}
-
-		for ( int i = 0; i < ingredients.length; ++i )
-		{
-			ResultProcessor.processResult( ingredients[ i ] );
-		}
-
-		return false;
 	}
 
 	public static final boolean registerRequest( final String urlString )
@@ -144,8 +152,6 @@ public class ChefStaffRequest
 			chefstaffString.append( ingredients[ i ].getCount() );
 			chefstaffString.append( " " );
 			chefstaffString.append( ingredients[ i ].getName() );
-
-			ResultProcessor.processResult( ingredients[ i ].getInstance( -1 * ingredients[ i ].getCount() ) );
 		}
 
 		RequestLogger.updateSessionLog();
