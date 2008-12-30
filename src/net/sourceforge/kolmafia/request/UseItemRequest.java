@@ -580,13 +580,20 @@ public class UseItemRequest
 			switch ( this.consumptionType )
 			{
 			case KoLConstants.CONSUME_EAT:
-			case KoLConstants.CONSUME_DRINK:
 				// The miracle of "consume some"!
 			case KoLConstants.CONSUME_MULTIPLE:
 			case KoLConstants.HP_RESTORE:
 			case KoLConstants.MP_RESTORE:
 			case KoLConstants.HPMP_RESTORE:
 				break;
+			case KoLConstants.CONSUME_DRINK:
+				// The miracle of "consume some" does not apply
+				// to TPS drinks...
+				if ( !isTPSDrink( itemId ) )
+				{
+					break;
+				}
+				// Fall through.
 			default:
 				iterations = this.itemUsed.getCount();
 				this.itemUsed = this.itemUsed.getInstance( 1 );
@@ -629,6 +636,21 @@ public class UseItemRequest
 			KoLmafia.updateDisplay( "Finished " + useTypeAsString.toLowerCase() + " " + Math.max(
 				iterations, this.itemUsed.getCount() ) + " " + this.itemUsed.getName() + "." );
 		}
+	}
+
+	public static final boolean isTPSDrink( final int itemId )
+	{
+		switch (itemId )
+		{
+		case ItemPool.DIRTY_MARTINI:
+		case ItemPool.GROGTINI:
+		case ItemPool.CHERRY_BOMB:
+		case ItemPool.VESPER:
+		case ItemPool.BODYSLAM:
+		case ItemPool.SANGRIA_DEL_DIABLO:
+			return true;
+		}
+		return false;
 	}
 
 	public static final void permitOverdrink()
