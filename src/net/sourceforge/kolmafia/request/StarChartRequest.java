@@ -95,31 +95,53 @@ public class StarChartRequest
 			return;
 		}
 
-		for ( int i = 1; i <= this.getQuantityNeeded(); ++i )
-		{
-			KoLmafia.updateDisplay( "Creating " + this.getName() + " (" + i + " of " + this.getQuantityNeeded() + ")..." );
-			super.run();
-		}
+		super.run();
 	}
 
 	public void processResults()
 	{
 		// Since we create one at a time, override processResults so
 		// superclass method doesn't undo ingredient usage.
+
+		if ( StarChartRequest.parseCreation( this.getURLString(), this.responseText ) )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't draw that." );
+		}
+	}
+
+	public static final boolean parseCreation( final String urlString, final String responseText )
+	{
+                // Your stars and lines combine to form a new item!
+
+		if ( responseText.indexOf( "Your stars and lines combine to form a new item!" ) == -1 )
+		{
+			return true;
+		}
+
+		Matcher starMatcher = StarChartRequest.STAR_PATTERN.matcher( urlString );
+		Matcher lineMatcher = StarChartRequest.LINE_PATTERN.matcher( urlString );
+
+		if ( !starMatcher.find() || !lineMatcher.find() )
+		{
+			return true;
+		}
+
+		int stars = StringUtilities.parseInt( starMatcher.group( 1 ) );
+		int lines = StringUtilities.parseInt( lineMatcher.group( 1 ) );
+
+		ResultProcessor.processItem( ItemPool.STAR, 0 - stars );
+		ResultProcessor.processItem( ItemPool.LINE, 0 - lines );
+		ResultProcessor.processItem( ItemPool.STAR_CHART, -1 );
+
+		return false;
 	}
 
 	public static final boolean registerRequest( final String urlString )
 	{
 		Matcher starMatcher = StarChartRequest.STAR_PATTERN.matcher( urlString );
-
-		if ( !starMatcher.find() )
-		{
-			return true;
-		}
-
 		Matcher lineMatcher = StarChartRequest.LINE_PATTERN.matcher( urlString );
 
-		if ( !lineMatcher.find() )
+		if ( !starMatcher.find() || !lineMatcher.find() )
 		{
 			return true;
 		}
@@ -129,10 +151,6 @@ public class StarChartRequest
 
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( "Draw " + stars + " stars with " + lines + " lines" );
-
-		ResultProcessor.processItem( ItemPool.STAR, 0 - stars );
-		ResultProcessor.processItem( ItemPool.LINE, 0 - lines );
-		ResultProcessor.processItem( ItemPool.STAR_CHART, -1 );
 
 		return true;
 	}

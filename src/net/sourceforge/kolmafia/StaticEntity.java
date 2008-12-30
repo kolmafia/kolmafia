@@ -48,7 +48,9 @@ import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
+
 import net.sourceforge.kolmafia.persistence.Preferences;
+
 import net.sourceforge.kolmafia.request.AccountRequest;
 import net.sourceforge.kolmafia.request.ArtistRequest;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
@@ -64,15 +66,18 @@ import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.PyroRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.SellStuffRequest;
+import net.sourceforge.kolmafia.request.StarChartRequest;
 import net.sourceforge.kolmafia.request.SushiRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+
 import net.sourceforge.kolmafia.session.PvpManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.swingui.DescriptionFrame;
 import net.sourceforge.kolmafia.swingui.RequestFrame;
 import net.sourceforge.kolmafia.swingui.RequestSynchFrame;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
+
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -393,6 +398,11 @@ public abstract class StaticEntity
 		if ( location.indexOf( "action=makestaff" ) != -1 )
 		{
 			ChefStaffRequest.parseCreation( location, responseText );
+		}
+
+		if ( location.startsWith( "starchart.php" ) )
+		{
+			StarChartRequest.parseCreation( location, responseText );
 		}
 
 		// See if the person learned a new skill from using a

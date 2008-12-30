@@ -216,12 +216,41 @@ public class UseItemRequest
 		this.consumptionType = consumptionType;
 		this.itemUsed = item;
 
-		if ( UseItemRequest.isHousing( item.getItemId() ) &&
-			!KoLConstants.campground.contains(item) )
+		if ( UseItemRequest.needsConfirmation( item ) )
 		{
 			this.addFormField( "confirm", "true" );
 		}
+
 		this.addFormField( "whichitem", String.valueOf( item.getItemId() ) );
+	}
+
+	private static boolean needsConfirmation( final AdventureResult item )
+	{
+		switch ( item.getItemId() )
+		{
+		case ItemPool.NEWBIESPORT_TENT:
+		case ItemPool.BARSKIN_TENT:
+		case ItemPool.COTTAGE:
+		case ItemPool.HOUSE:
+		case ItemPool.SANDCASTLE:
+		case ItemPool.TWIG_HOUSE:
+		case ItemPool.HOBO_FORTRESS:
+		case ItemPool.HOT_BEDDING:
+		case ItemPool.COLD_BEDDING:
+		case ItemPool.STENCH_BEDDING:
+		case ItemPool.SPOOKY_BEDDING:
+		case ItemPool.SLEAZE_BEDDING:
+		case ItemPool.BEANBAG_CHAIR:
+		case ItemPool.GAUZE_HAMMOCK:
+			return !KoLConstants.campground.contains(item);
+
+		case ItemPool.MACARONI_FRAGMENTS:
+		case ItemPool.SHIMMERING_TENDRILS:
+		case ItemPool.SCINTILLATING_POWDER:
+			return true;
+		}
+
+		return false;
 	}
 
 	public static final int currentItemId()
@@ -2275,24 +2304,6 @@ public class UseItemRequest
 			}
 			return;
 		}
-	}
-
-	public static final boolean isHousing( final int itemId )
-	{
-		return	itemId == ItemPool.NEWBIESPORT_TENT ||
-			itemId == ItemPool.BARSKIN_TENT ||
-			itemId == ItemPool.COTTAGE ||
-			itemId == ItemPool.HOUSE ||
-			itemId == ItemPool.SANDCASTLE ||
-			itemId == ItemPool.TWIG_HOUSE ||
-			itemId == ItemPool.HOBO_FORTRESS ||
-			itemId == ItemPool.HOT_BEDDING ||
-			itemId == ItemPool.COLD_BEDDING ||
-			itemId == ItemPool.STENCH_BEDDING ||
-			itemId == ItemPool.SPOOKY_BEDDING ||
-			itemId == ItemPool.SLEAZE_BEDDING ||
-			itemId == ItemPool.BEANBAG_CHAIR ||
-			itemId == ItemPool.GAUZE_HAMMOCK;
 	}
 
 	private static final void handleFortuneCookie( final Matcher matcher )
