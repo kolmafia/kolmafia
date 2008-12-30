@@ -3137,13 +3137,20 @@ public class KoLmafiaCLI
 			boolean wasRecoveryActive = KoLmafia.isRunningBetweenBattleChecks();
 			KoLmafia.recoveryActive = true;
 
+			int target;
 			if ( parameters.equalsIgnoreCase( "hp" ) || parameters.equalsIgnoreCase( "health" ) )
 			{
-				StaticEntity.getClient().recoverHP( KoLCharacter.getCurrentHP() + 1 );
+				target = (int) (Preferences.getFloat( "hpAutoRecoveryTarget" )
+					* (float) KoLCharacter.getMaximumHP());
+				StaticEntity.getClient().recoverHP( Math.max( target,
+					KoLCharacter.getCurrentHP() + 1 ) );
 			}
 			else if ( parameters.equalsIgnoreCase( "mp" ) || parameters.equalsIgnoreCase( "mana" ) )
 			{
-				StaticEntity.getClient().recoverMP( KoLCharacter.getCurrentMP() + 1 );
+				target = (int) (Preferences.getFloat( "mpAutoRecoveryTarget" )
+					* (float) KoLCharacter.getMaximumMP());
+				StaticEntity.getClient().recoverMP( Math.max( target,
+					KoLCharacter.getCurrentMP() + 1 ) );
 			}
 
 			KoLmafia.recoveryActive = wasRecoveryActive;

@@ -194,7 +194,8 @@ public class CharPaneDecorator
 		// First, locate your HP information inside of the response
 		// text and replace it with a restore HP link.
 
-		float threshold = Preferences.getFloat( "hpAutoRecoveryTarget" ) * (float) KoLCharacter.getMaximumHP();
+		float threshold = /* Preferences.getFloat( "hpAutoRecoveryTarget" ) * (float) */
+			KoLCharacter.getMaximumHP();
 		float dangerous = Preferences.getFloat( "hpAutoRecovery" ) * (float) KoLCharacter.getMaximumHP();
 
 		if ( KoLCharacter.getCurrentHP() < threshold )
@@ -264,7 +265,8 @@ public class CharPaneDecorator
 		// Next, locate your MP information inside of the response
 		// text and replace it with a restore MP link.
 
-		threshold = Preferences.getFloat( "mpAutoRecoveryTarget" ) * (float) KoLCharacter.getMaximumMP();
+		threshold = /*Preferences.getFloat( "mpAutoRecoveryTarget" ) * (float) */
+			KoLCharacter.getMaximumMP();
 		dangerous = Preferences.getFloat( "mpAutoRecovery" ) * (float) KoLCharacter.getMaximumMP();
 
 		if ( KoLCharacter.getCurrentMP() < threshold )
