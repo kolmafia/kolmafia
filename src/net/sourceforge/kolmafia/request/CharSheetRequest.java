@@ -115,7 +115,8 @@ public class CharSheetRequest
 
 		KoLCharacter.setUserId( StringUtilities.parseInt( token.substring( 3, token.length() - 1 ) ) );
 		GenericRequest.skipTokens( cleanContent, 1 );
-		KoLCharacter.setClassName( cleanContent.nextToken().trim() );
+
+		String className = cleanContent.nextToken().trim();
 
 		// Hit point parsing begins with the first index of
 		// the words indicating that the upcoming token will
@@ -160,7 +161,7 @@ public class CharSheetRequest
 		{
 			if ( token.equals( "Class:" ) )
 			{
-				KoLCharacter.setClassName( cleanContent.nextToken().trim() );
+				className = cleanContent.nextToken().trim();
 				break;
 			}
 			token = cleanContent.nextToken();
@@ -357,6 +358,9 @@ public class CharSheetRequest
 		}
 
 		KoLCharacter.setAvailableSkills( newSkillSet );
+
+		// Finally, set the class name that we figured out.
+		KoLCharacter.setClassName( className );
 	}
 
 	/**

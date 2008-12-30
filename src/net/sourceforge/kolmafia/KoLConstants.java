@@ -295,6 +295,12 @@ public interface KoLConstants
 	public static final int GRIMOIRE = 2;
 	public static final int LIBRAM = 3;
 
+	// Pastamancer Ghost Types
+
+        public static final String MACARONI_GHOST = "Undead Elbow Macaroni";
+        public static final String SPICE_GHOST = "Spice Ghost";
+        public static final String ANGEL_HAIR_WISP = "Angel Hair Wisp";
+
 	// Item consumption types
 
 	public static final int NO_CONSUME = 0;

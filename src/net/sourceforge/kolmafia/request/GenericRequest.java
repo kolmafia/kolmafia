@@ -1339,7 +1339,7 @@ public class GenericRequest
 
 		if ( this.formURLString.equals( "fight.php" ) )
 		{
-			FightRequest.updateCombatData( this.encounter, this.responseText );
+			FightRequest.updateCombatData( this.getURLString(), this.encounter, this.responseText );
 		}
 
 		int effectCount = KoLConstants.activeEffects.size();

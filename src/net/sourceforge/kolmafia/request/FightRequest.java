@@ -69,6 +69,10 @@ import net.sourceforge.kolmafia.webui.IslandDecorator;
 public class FightRequest
 	extends GenericRequest
 {
+	// Character-class permissions
+	private static boolean canSteal = false;
+	private static boolean canSummon = false;
+
 	private static final PauseObject PAUSER = new PauseObject();
 	public static final FightRequest INSTANCE = new FightRequest();
 
@@ -126,6 +130,9 @@ public class FightRequest
 	private static final Pattern NS_HEAL =
 		Pattern.compile( "The Sorceress pulls a tiny red vial out of the folds of her dress and quickly drinks it" );
 
+	private static final Pattern GHOST1_PATTERN = Pattern.compile( "You focus your thoughts and call out to (.*?)\\." );
+	private static final Pattern GHOST2_PATTERN = Pattern.compile( "crackle of psychokinetic energy as (.*?) possesses it\\." );
+	private static final Pattern GHOST3_PATTERN = Pattern.compile( "A chill permeates the air as (.*?)'s spirit enters it.\\." );
 
 	private static final AdventureResult TOOTH = ItemPool.get( ItemPool.SEAL_TOOTH, 1);
 	private static final AdventureResult TURTLE = ItemPool.get( ItemPool.TURTLE_TOTEM, 1);
@@ -217,6 +224,12 @@ public class FightRequest
 	private FightRequest()
 	{
 		super( "fight.php" );
+	}
+
+	public static final void initialize()
+	{
+		FightRequest.canSteal = KoLCharacter.isMoxieClass();
+		FightRequest.canSummon = KoLCharacter.getClassType() == KoLCharacter.PASTAMANCER;
 	}
 
 	protected boolean retryOnTimeout()
@@ -357,7 +370,8 @@ public class FightRequest
 
 		// If it is appropriate to try pickpocketing, make the attempt
 
-		else if ( FightRequest.wonInitiative() &&
+		else if ( FightRequest.canSteal &&
+			  FightRequest.wonInitiative() &&
 			  FightRequest.monsterData != null &&
 			  FightRequest.monsterData.shouldSteal() )
 		{
@@ -463,12 +477,31 @@ public class FightRequest
 
 		if ( FightRequest.action1.indexOf( "steal" ) != -1 )
 		{
-			if ( FightRequest.wonInitiative() &&
-                             FightRequest.monsterData != null &&
-                             FightRequest.monsterData.shouldSteal() )
+			if ( FightRequest.canSteal &&
+			     FightRequest.wonInitiative() &&
+			     FightRequest.monsterData != null &&
+			     FightRequest.monsterData.shouldSteal() )
 			{
 				FightRequest.action1 = "steal";
 				this.addFormField( "action", "steal" );
+				return;
+			}
+
+			--FightRequest.preparatoryRounds;
+			this.nextRound();
+			return;
+		}
+
+		// Summon a ghost if requested.
+
+		if ( FightRequest.action1.indexOf( "summon" ) != -1 )
+		{
+			if ( FightRequest.canSummon &&
+			     FightRequest.wonInitiative() &&
+			     Preferences.getInteger( "pastamancerGhostSummons" ) < 10 )
+			{
+				FightRequest.action1 = "summon";
+				this.addFormField( "action", "summon" );
 				return;
 			}
 
@@ -482,7 +515,8 @@ public class FightRequest
 
 		if ( FightRequest.action1.startsWith( "jiggle" ) )
 		{
-			if ( !FightRequest.jiggledChefstaff && EquipmentManager.usingChefstaff() )
+			if ( !FightRequest.jiggledChefstaff &&
+			     EquipmentManager.usingChefstaff() )
 			{
 				this.addFormField( "action", "chefstaff" );
 				return;
@@ -645,6 +679,17 @@ public class FightRequest
 			// shows up on the char sheet.
 
 			if ( KoLCharacter.inBadMoon() || KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.ON_THE_TRAIL ) ) )
+			{
+				--FightRequest.preparatoryRounds;
+				this.nextRound();
+				return;
+			}
+		}
+		else if ( skillName.equals( "Consume Burrowgrub" ) )
+		{
+			// You can only consume 3 burrowgrubs per day
+
+			if ( Preferences.getInteger( "burrowgrubSummonsRemaining" ) <= 0 )
 			{
 				--FightRequest.preparatoryRounds;
 				this.nextRound();
@@ -1233,7 +1278,7 @@ public class FightRequest
 		}
 	}
 
-	public static final void updateCombatData( String encounter, final String responseText )
+	public static final void updateCombatData( final String location, String encounter, final String responseText )
 	{
 		FightRequest.foundNextRound = true;
 		FightRequest.lastResponseText = responseText;
@@ -1243,7 +1288,9 @@ public class FightRequest
 		FightRequest.parseBangPotion( responseText );
 		FightRequest.parseStoneSphere( responseText );
 		FightRequest.parsePirateInsult( responseText );
-		FightRequest.parseGrubUsage( responseText );
+
+		FightRequest.parseGrubUsage( location, responseText );
+		FightRequest.parseGhostSummoning( location, responseText );
 
 		// Spend MP and consume items
 
@@ -1698,8 +1745,13 @@ public class FightRequest
 		return odds;
 	}
 
-	private static final void parseGrubUsage( final String responseText )
+	private static final void parseGrubUsage( final String location, final String responseText )
 	{
+		if ( location.indexOf( "7074" ) == -1 )
+		{
+			return;
+		}
+
 		// You concentrate on one of the burrowgrubs digging its way
 		// through your body, and absorb it into your bloodstream.
 		// It's refreshingly disgusting!
@@ -1731,6 +1783,80 @@ public class FightRequest
 
 			Preferences.setInteger( "burrowgrubSummonsRemaining", uses );
 		}
+	}
+
+	private static final void parseGhostSummoning( final String location, final String responseText )
+	{
+		if ( location.indexOf( "summon" ) == -1 )
+		{
+			return;
+		}
+
+                String name = null;
+                String type = null;
+
+		Matcher matcher1 = FightRequest.GHOST1_PATTERN.matcher( responseText );
+		Matcher matcher2 = FightRequest.GHOST2_PATTERN.matcher( responseText );
+		Matcher matcher3 = FightRequest.GHOST3_PATTERN.matcher( responseText );
+
+		// You focus your thoughts and call out to <name>. He claws his
+		// way up from beneath the ground at your feet.
+		if ( matcher1.find() )
+		{
+			name = matcher1.group(1);
+			type = KoLConstants.MACARONI_GHOST;
+		}
+
+		// You conjure up a swirling cloud of spicy dried couscous, and
+		// there is a crackle of psychokinetic energy as <name>
+		// possesses it.
+		else if ( matcher2.find() )
+		{
+			name = matcher2.group(1);
+			type = KoLConstants.SPICE_GHOST;
+		}
+
+		// You concentrate, and summon a mass of writhing angel hair. A
+		// chill permeates the air as <name>'s spirit enters it.
+		else if ( matcher3.find() )
+		{
+			name = matcher3.group(1);
+			type = KoLConstants.ANGEL_HAIR_WISP;
+		}
+
+		else
+		{
+			return;
+		}
+
+		if ( !name.equals( Preferences.getString( "pastamancerGhostName" ) ) ||
+		     !type.equals( Preferences.getString( "pastamancerGhostType" ) ) )
+		{
+			Preferences.setString( "pastamancerGhostName", name );
+			Preferences.setString( "pastamancerGhostType", type );
+			Preferences.setInteger( "pastamancerGhostExperience", 0 );
+		}
+
+		int uses = Preferences.getInteger( "pastamancerGhostSummons" );
+
+		// You are mentally exhausted by the effort of summoning <name>.
+		if ( responseText.indexOf( "You are mentally exhausted by the effort" ) != -1 )
+		{
+			uses = 10;
+		}
+
+		// Your brain feels tired.
+		else if ( responseText.indexOf( "Your brain feels tired" ) != -1 && uses < 8 )
+		{
+			uses = 8;
+		}
+		else
+		{
+			++uses;
+		}
+
+                Preferences.setInteger( "pastamancerGhostSummons", uses );
+                Preferences.increment( "pastamancerGhostExperience", 1 );
 	}
 
 	private static final void updateMonsterHealth( final String responseText )
@@ -1971,7 +2097,10 @@ public class FightRequest
 			return;
 		}
 
-		if ( FightRequest.action1.equals( "attack" ) || FightRequest.action1.equals( "runaway" ) || FightRequest.action1.equals( "steal" ) )
+		if ( FightRequest.action1.equals( "attack" ) ||
+		     FightRequest.action1.equals( "runaway" ) ||
+		     FightRequest.action1.equals( "steal" ) ||
+		     FightRequest.action1.equals( "summon" )   )
 		{
 			return;
 		}
@@ -2184,6 +2313,14 @@ public class FightRequest
 			if ( shouldLogAction )
 			{
 				action.append( "attacks!" );
+			}
+		}
+		else if ( urlString.indexOf( "summon" ) != -1 )
+		{
+			FightRequest.action1 = "summon";
+			if ( shouldLogAction )
+			{
+				action.append( "summons a ghost!" );
 			}
 		}
 		else if ( urlString.indexOf( "chefstaff" ) != -1 )

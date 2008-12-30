@@ -657,6 +657,11 @@ public abstract class CustomCombatManager
 			return "jiggle chefstaff";
 		}
 
+		if ( action.startsWith( "summon" ) )
+		{
+			return "summon pastamancer ghost";
+		}
+
 		if ( action.startsWith( "abort" ) || action.startsWith( "consult" ) )
 		{
 			return action;
@@ -788,6 +793,11 @@ public abstract class CustomCombatManager
 		if ( action.startsWith( "jiggle" ) )
 		{
 			return "jiggle";
+		}
+
+		if ( action.startsWith( "summon" ) )
+		{
+			return "summon";
 		}
 
 		if ( action.startsWith( "consult" ) )

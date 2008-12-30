@@ -2358,6 +2358,36 @@ public class KoLmafiaCLI
 		}
 	}
 	
+	static { new Entity().register( "entity" ); }
+	public static class Entity
+		extends Command
+	{
+		{ usage = " - give details of your current pastamancer combat entity."; }
+		public void run( String cmd )
+		{
+			if ( KoLCharacter.getClassType() != KoLCharacter.PASTAMANCER )
+			{
+				KoLmafia.updateDisplay(
+					KoLConstants.ERROR_STATE,
+					"Only Pastamancers can summon a combat entity" );
+				return;
+			}
+
+			KoLCharacter.ensureUpdatedPastamancerGhost();
+			String name = Preferences.getString( "pastamancerGhostName" );
+			if ( name.equals( "" ) )
+			{
+				RequestLogger.printLine( "You have not summoned a combat entity yet." );
+				return;
+			}
+
+			String type = Preferences.getString( "pastamancerGhostType" );
+			int experience = Preferences.getInteger( "pastamancerGhostExperience" );
+			int summons = Preferences.getInteger( "pastamancerGhostSummons" );
+			RequestLogger.printLine( "You've summoned " + name + " the " + type + " ( " + experience + " exp) " + summons + " time" + ( summons != 1 ? "s" : "" ) + " today." );
+		}
+	}
+	
 	static { new Demons().register( "demons" ); }
 	public static class Demons
 		extends Command
