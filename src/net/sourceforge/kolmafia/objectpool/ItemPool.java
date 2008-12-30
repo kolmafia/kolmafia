@@ -202,8 +202,14 @@ public class ItemPool
 	public static final int ROLLING_PIN = 873;
 	public static final int UNROLLING_PIN = 874;
 	public static final int PLASTIC_SWORD = 938;
+	public static final int DIRTY_MARTINI = 948;
+	public static final int GROGTINI = 949;
+	public static final int CHERRY_BOMB = 950;
 	public static final int MAID = 1000;
 	public static final int TEQUILA = 1004;
+	public static final int VESPER = 1023;
+	public static final int BODYSLAM = 1024;
+	public static final int SANGRIA_DEL_DIABLO = 1025;
 	public static final int TAM_O_SHANTER = 1040;
 	public static final int GREEN_BEER = 1041;
 	public static final int TARGETING_CHIP = 1102;
