@@ -254,9 +254,7 @@ public class KoLmafiaCLI
 
 		try
 		{
-			String holiday =
-				HolidayDatabase.getHoliday(
-					KoLConstants.DAILY_FORMAT.parse( KoLConstants.DAILY_FORMAT.format( new Date() ) ), true );
+			String holiday = HolidayDatabase.getHoliday( true );
 			KoLmafia.updateDisplay( holiday + ", " + HolidayDatabase.getMoonEffect() );
 		}
 		catch ( Exception e )
@@ -3724,7 +3722,7 @@ public class KoLmafiaCLI
 		List availablePackages = SendGiftRequest.getPackages();
 		int desiredPackageIndex = Math.min( Math.min( availablePackages.size() - 1, attachments.length ), 5 );
 
-		if ( HolidayDatabase.getHoliday( new Date() ).startsWith( "Valentine's" ) )
+		if ( HolidayDatabase.getHoliday().startsWith( "Valentine's" ) )
 		{
 			desiredPackageIndex = 0;
 		}

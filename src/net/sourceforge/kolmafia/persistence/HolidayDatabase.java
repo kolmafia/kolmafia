@@ -41,6 +41,7 @@ import java.util.List;
 import java.util.TimeZone;
 
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -256,6 +257,29 @@ public class HolidayDatabase
 		}
 	}
 
+	public static final void logMoonStatus( final String label )
+	{
+		Date now = new Date();
+
+		int calendarDay = HolidayDatabase.getCalendarDay( now );
+		int phaseStep = ( calendarDay + 16 ) % 16;
+		String kolString = HolidayDatabase.getCalendarDayAsString( calendarDay );
+
+		int ronald = HolidayDatabase.RONALD_PHASE;
+		String ronaldString = HolidayDatabase.getPhaseName( ronald );
+		int grimace = HolidayDatabase.GRIMACE_PHASE;
+		String grimaceString = HolidayDatabase.getPhaseName( grimace );
+
+		String message1 = label + ": " +
+			now + " = " +
+			kolString + " (" + calendarDay + ":" + phaseStep + ").";
+		String message2 = "Ronald: " + ronaldString + " (" + ronald + ")" +
+			", Grimace: " + grimaceString + " (" + grimace + ")";
+
+		RequestLogger.printLine( message1 );
+		RequestLogger.printLine( message2 );
+	}
+
 	public static final void setMoonPhases( final int ronaldPhase, final int grimacePhase )
 	{
 		int oldStep = HolidayDatabase.getPhaseStep();
@@ -319,6 +343,9 @@ public class HolidayDatabase
 		{
 			phaseError -= 16;
 		}
+
+		String message = "Old phase = " + oldStep + " new phase = " + newStep + " phase error = " + phaseError;
+		RequestLogger.printLine( message );
 
 		// Adjust the new year by the appropriate number of days.
 
@@ -772,11 +799,15 @@ public class HolidayDatabase
 	 * milliseconds since January 1, 1970.
 	 */
 
+	public static final String getCalendarDayAsString( final int day )
+	{
+		int[] calendarDayAsArray = HolidayDatabase.convertCalendarDayToArray( day );
+		return HolidayDatabase.MONTH_NAMES[ calendarDayAsArray[ 0 ] ] + " " + calendarDayAsArray[ 1 ];
+	}
+
 	public static final String getCalendarDayAsString( final Date time )
 	{
-		int[] calendarDayAsArray =
-			HolidayDatabase.convertCalendarDayToArray( HolidayDatabase.getCalendarDay( time ) );
-		return HolidayDatabase.MONTH_NAMES[ calendarDayAsArray[ 0 ] ] + " " + calendarDayAsArray[ 1 ];
+		return HolidayDatabase.getCalendarDayAsString( HolidayDatabase.getCalendarDay( time ) );
 	}
 
 	/**
@@ -993,6 +1024,11 @@ public class HolidayDatabase
 		return HolidayDatabase.getHoliday( new Date(), false );
 	}
 
+	public static final String getHoliday( final boolean showPredictions)
+	{
+		return HolidayDatabase.getHoliday( new Date(), showPredictions );
+	}
+
 	public static final String getHoliday( final Date time )
 	{
 		return HolidayDatabase.getHoliday( time, false );
@@ -1014,34 +1050,47 @@ public class HolidayDatabase
 		{
 			if ( gameHoliday != null )
 			{
-				gameHoliday = gameHoliday + " today";
+				return gameHoliday + " today";
 			}
-			else
+
+			calendarDayAsArray = HolidayDatabase.convertCalendarDayToArray( ( calendarDay + 1 ) % 96 );
+			gameHoliday = HolidayDatabase.HOLIDAYS[ calendarDayAsArray[ 0 ] ][ calendarDayAsArray[ 1 ] ];
+
+			if ( gameHoliday != null )
 			{
-				calendarDayAsArray = HolidayDatabase.convertCalendarDayToArray( ( calendarDay + 1 ) % 96 );
+				return gameHoliday + " tomorrow";
+			}
+
+			for ( int i = 2; i < 96 && gameHoliday == null; ++i )
+			{
+				calendarDayAsArray = HolidayDatabase.convertCalendarDayToArray( ( calendarDay + i ) % 96 );
 				gameHoliday = HolidayDatabase.HOLIDAYS[ calendarDayAsArray[ 0 ] ][ calendarDayAsArray[ 1 ] ];
 
 				if ( gameHoliday != null )
 				{
-					gameHoliday = gameHoliday + " tomorrow";
-				}
-				else
-				{
-					for ( int i = 2; i < 96 && gameHoliday == null; ++i )
-					{
-						calendarDayAsArray = HolidayDatabase.convertCalendarDayToArray( ( calendarDay + i ) % 96 );
-						gameHoliday = HolidayDatabase.HOLIDAYS[ calendarDayAsArray[ 0 ] ][ calendarDayAsArray[ 1 ] ];
-
-						if ( gameHoliday != null )
-						{
-							gameHoliday = HolidayDatabase.getDayCountAsString( i ) + " until " + gameHoliday;
-						}
-					}
+					return HolidayDatabase.getDayCountAsString( i ) + " until " + gameHoliday;
 				}
 			}
+
+                        return "";
 		}
 
-		return gameHoliday == null && realHoliday == null ? "" : gameHoliday == null ? realHoliday : realHoliday == null ? gameHoliday : realHoliday + " / " + gameHoliday;
+                if ( gameHoliday == null && realHoliday == null )
+                {
+                        return "";
+                }
+
+                if ( gameHoliday == null )
+                {
+                        return realHoliday;
+                }
+
+                if ( realHoliday == null )
+                {
+                        return gameHoliday;
+                }
+
+                return realHoliday + " / " + gameHoliday;
 	}
 
 	private static String cachedYear = "";

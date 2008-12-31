@@ -227,7 +227,7 @@ public class KoLmafiaGUI
 
 		String updateText;
 
-		String holiday = HolidayDatabase.getHoliday( new Date(), true );
+		String holiday = HolidayDatabase.getHoliday( true );
 		String moonEffect = HolidayDatabase.getMoonEffect();
 
 		if ( holiday.equals( "" ) )

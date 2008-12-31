@@ -200,7 +200,7 @@ public class CalendarFrame
 		// reparse the date.
 
 		CalendarFrame.calendarDay = HolidayDatabase.getCalendarDay( time );
-		int phaseStep = ( CalendarFrame.calendarDay % 16 + 16 ) % 16;
+		int phaseStep = ( CalendarFrame.calendarDay + 16 ) % 16;
 
 		CalendarFrame.ronaldPhase = phaseStep % 8;
 		CalendarFrame.grimacePhase = phaseStep / 2;
