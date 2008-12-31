@@ -159,6 +159,7 @@ public class FightRequest
 
 	private static boolean castCleesh = false;
 	private static boolean jiggledChefstaff = false;
+	private static boolean summonedGhost = false;
 	private static int currentRound = 0;
 	private static int levelModifier = 0;
 	private static int healthModifier = 0;
@@ -1495,6 +1496,22 @@ public class FightRequest
 			{
 				Preferences.increment( "blackPuddingsDefeated", 1 );
 			}
+
+			// Give your summoned combat entity some experience
+			if ( FightRequest.summonedGhost )
+			{
+				// The Angel Hair Wisp can leave the battle
+				// before you win. We'll check if the summoned
+				// entity is still present by looking for its
+				// image.
+
+				if ( responseText.indexOf( "angelwisp.gif" ) != -1 ||
+				     responseText.indexOf( "spiceghost.gif" ) != -1 ||
+				     responseText.indexOf( "macaroni.gif" ) != -1 )
+				{
+					Preferences.increment( "pastamancerGhostExperience", 1 );
+				}
+			}
 		}
 
 		FightRequest.clearInstanceData();
@@ -1829,6 +1846,8 @@ public class FightRequest
 			return;
 		}
 
+		FightRequest.summonedGhost = true;
+
 		if ( !name.equals( Preferences.getString( "pastamancerGhostName" ) ) ||
 		     !type.equals( Preferences.getString( "pastamancerGhostType" ) ) )
 		{
@@ -1856,7 +1875,6 @@ public class FightRequest
 		}
 
                 Preferences.setInteger( "pastamancerGhostSummons", uses );
-                Preferences.increment( "pastamancerGhostExperience", 1 );
 	}
 
 	private static final void updateMonsterHealth( final String responseText )
@@ -1993,6 +2011,7 @@ public class FightRequest
 		IslandDecorator.startFight();
 		FightRequest.castCleesh = false;
 		FightRequest.jiggledChefstaff = false;
+		FightRequest.summonedGhost = false;
 		FightRequest.desiredScroll = null;
 
 		FightRequest.levelModifier = 0;
