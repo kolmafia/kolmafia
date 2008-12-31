@@ -51,12 +51,14 @@ public class HolidayDatabase
 	private static long BOUNDARY = 0;
 	private static long COLLISION = 0;
 
+	private static long MS_PER_DAY = 86400000L;
+
 	static
 	{
 		try
 		{
-			// Change it so that it doesn't recognize daylight savings in order
-			// to ensure different localizations work.
+			// Change it so that it doesn't recognize daylight
+			// savings to ensure different localizations work.
 
 			Calendar myCalendar = Calendar.getInstance( TimeZone.getTimeZone( "GMT-5" ) );
 
@@ -71,7 +73,7 @@ public class HolidayDatabase
 		}
 		catch ( Exception e )
 		{
-			// This should not happen.  Therefore, print
+			// This should not happen. Therefore, print
 			// a stack trace for debug purposes.
 
 			StaticEntity.printStackTrace( e );
@@ -86,16 +88,17 @@ public class HolidayDatabase
 	{
 		try
 		{
-			int calendarDay = HolidayDatabase.getCalendarDay( new Date() );
-			int phaseStep = ( calendarDay % 16 + 16 ) % 16;
+			Date now = new Date();
+			int calendarDay = HolidayDatabase.getCalendarDay( now );
+			int phaseStep = ( calendarDay + 16 ) % 16;
 
 			HolidayDatabase.RONALD_PHASE = phaseStep % 8;
 			HolidayDatabase.GRIMACE_PHASE = phaseStep / 2;
-			HolidayDatabase.HAMBURGLAR_POSITION = HolidayDatabase.getHamburglarPosition( new Date() );
+			HolidayDatabase.HAMBURGLAR_POSITION = HolidayDatabase.getHamburglarPosition( now );
 		}
 		catch ( Exception e )
 		{
-			// This should not happen.  Therefore, print
+			// This should not happen. Therefore, print
 			// a stack trace for debug purposes.
 
 			StaticEntity.printStackTrace( e );
@@ -255,22 +258,73 @@ public class HolidayDatabase
 
 	public static final void setMoonPhases( final int ronaldPhase, final int grimacePhase )
 	{
-		// Reset the new year based on the internal
-		// phase error.
-
-		int phaseError = HolidayDatabase.getPhaseStep();
+		int oldStep = HolidayDatabase.getPhaseStep();
 
 		HolidayDatabase.RONALD_PHASE = ronaldPhase;
 		HolidayDatabase.GRIMACE_PHASE = grimacePhase;
 
-		phaseError -= HolidayDatabase.getPhaseStep();
+		int newStep = HolidayDatabase.getPhaseStep();
 
-		// Adjust the new year by the appropriate
-		// number of days.
+		if ( oldStep == newStep )
+		{
+			return;
+		}
 
-		HolidayDatabase.NEWYEAR += phaseError * 86400000L;
-		HolidayDatabase.BOUNDARY += phaseError * 86400000L;
-		HolidayDatabase.COLLISION += phaseError * 86400000L;
+		// There are several reasons why our calculation of the KoL
+		// moon phases might disagree with KoL's
+
+		// - We assume KoL dates change at midnight of a calendar
+		//   day. They do not. They change at KoL Rollover, which is
+		//   before midnight in Arizona.
+		//
+		// - If you are in a different timezone than the KoL servers,
+		//   Rollover happens at different times. Even if you are in
+		//   the same timezone as Arizona, you may observe DST, and KoL
+		//   does not.
+		//
+		// - The local computer clock may be off
+
+		// If we ignore, for the moment, the last case, KoLmafia's idea
+		// of the KoL date could be one off from KoL's idea:
+		//
+		// - If Rollover is finished but it is not yet midnight in this
+		//   timezone, KoL will be one day ahead
+		//
+		// - If it is after midnight in this timezone, but Rollover has
+		//   not occurred for KoL, KoL will be one day behind.
+
+		// Therefore, assuming the local computer clock is correct, We
+		// could be one day out of phase in either direction.
+
+		// Unfortunately, a computer's clock can be arbitrarily
+		// incorrect. We can accomodate that if we can, somehow, synch
+		// up with the date used by KoL itself. We have two options:
+
+		// We can easily see KoL's moon phases on the top menu. These
+		// go through a 16-day cycle. If the local clock is 7 or fewer
+		// days off, we can assume that our relative error to KoL is
+		// from -8 to +7.
+
+		// We can see KoL's actual month and day from the chatlaunch
+		// frame. That goes through a 96-day cycle, which would allow
+		// us to correct a phase error from -48 to +47.
+
+		// For now, since we already read the moon phases, we'll do the
+		// former, and assume that the phase error is between -8 days
+		// and +7 days.
+
+		int phaseError = oldStep - newStep;
+
+		if ( phaseError > 7 )
+		{
+			phaseError -= 16;
+		}
+
+		// Adjust the new year by the appropriate number of days.
+
+		HolidayDatabase.NEWYEAR += phaseError * MS_PER_DAY;
+		HolidayDatabase.BOUNDARY += phaseError * MS_PER_DAY;
+		HolidayDatabase.COLLISION += phaseError * MS_PER_DAY;
 	}
 
 	public static final int getRonaldPhase()
@@ -292,7 +346,7 @@ public class HolidayDatabase
 		}
 
 		timeDifference -= HolidayDatabase.COLLISION;
-		int dayDifference = (int) Math.floor( timeDifference / 86400000L );
+		int dayDifference = (int) Math.floor( timeDifference / MS_PER_DAY );
 		return ( dayDifference * 2 % 11 + 11 ) % 11;
 	}
 
@@ -700,11 +754,11 @@ public class HolidayDatabase
 
 			if ( timeDifference > HolidayDatabase.BOUNDARY )
 			{
-				timeDifference -= 86400000L;
+				timeDifference -= MS_PER_DAY;
 			}
 
-			int dayDifference = (int) Math.floor( timeDifference / 86400000L );
-			return ( dayDifference % 96 + 96 ) % 96;
+			int dayDifference = (int) Math.floor( timeDifference / MS_PER_DAY );
+			return ( dayDifference + 96 ) % 96;
 		}
 		catch ( Exception e )
 		{
