@@ -235,6 +235,8 @@ public class UseItemRequest
 		case ItemPool.SANDCASTLE:
 		case ItemPool.TWIG_HOUSE:
 		case ItemPool.HOBO_FORTRESS:
+			return CampgroundRequest.getCurrentDwelling() != null;
+ 
 		case ItemPool.HOT_BEDDING:
 		case ItemPool.COLD_BEDDING:
 		case ItemPool.STENCH_BEDDING:
@@ -242,12 +244,13 @@ public class UseItemRequest
 		case ItemPool.SLEAZE_BEDDING:
 		case ItemPool.BEANBAG_CHAIR:
 		case ItemPool.GAUZE_HAMMOCK:
-			return !KoLConstants.campground.contains(item);
+			return CampgroundRequest.getCurrentBed() != null;
 
 		case ItemPool.MACARONI_FRAGMENTS:
 		case ItemPool.SHIMMERING_TENDRILS:
 		case ItemPool.SCINTILLATING_POWDER:
-			return true;
+			String ghost = Preferences.getString( "pastamancerGhostType" );
+			return !ghost.equals( "" );
 		}
 
 		return false;
@@ -470,6 +473,47 @@ public class UseItemRequest
 		case ItemPool.PUZZLE_PIECE:
 			SorceressLairManager.completeHedgeMaze();
 			return;
+
+		case ItemPool.NEWBIESPORT_TENT:
+		case ItemPool.BARSKIN_TENT:
+		case ItemPool.COTTAGE:
+		case ItemPool.HOUSE:
+		case ItemPool.SANDCASTLE:
+		case ItemPool.TWIG_HOUSE:
+		case ItemPool.HOBO_FORTRESS:
+			AdventureResult dwelling = CampgroundRequest.getCurrentDwelling();
+			int oldLevel = CampgroundRequest.getCurrentDwellingLevel();
+			int newLevel = CampgroundRequest.dwellingLevel( itemId );
+			if ( newLevel < oldLevel && dwelling != null && !UseItemRequest.confirmReplacement( dwelling.getName() ) )
+			{
+				return;
+			}
+			break;
+ 
+		case ItemPool.HOT_BEDDING:
+		case ItemPool.COLD_BEDDING:
+		case ItemPool.STENCH_BEDDING:
+		case ItemPool.SPOOKY_BEDDING:
+		case ItemPool.SLEAZE_BEDDING:
+		case ItemPool.BEANBAG_CHAIR:
+		case ItemPool.GAUZE_HAMMOCK:
+			AdventureResult bed = CampgroundRequest.getCurrentBed();
+			if ( bed != null && !UseItemRequest.confirmReplacement( bed.getName() ) )
+			{
+				return;
+			}
+			break;
+
+		case ItemPool.MACARONI_FRAGMENTS:
+		case ItemPool.SHIMMERING_TENDRILS:
+		case ItemPool.SCINTILLATING_POWDER:
+
+			String ghost = Preferences.getString( "pastamancerGhostType" );
+			if ( !ghost.equals( "" ) && !UseItemRequest.confirmReplacement( ghost ) )
+			{
+				return;
+			}
+			break;
 		}
 
 		int count;
@@ -685,6 +729,21 @@ public class UseItemRequest
 	public static final void permitOverdrink()
 	{
 		UseItemRequest.permittedOverdrink = KoLCharacter.getUserId();
+	}
+
+	public static final boolean confirmReplacement( final String name )
+	{
+		if ( StaticEntity.isHeadless() )
+		{
+			return true;
+		}
+
+		if ( !InputFieldUtilities.confirm( "Are you sure you want to replace your " + name + "?" ) )
+		{
+			return false;
+		}
+
+		return true;
 	}
 
 	public static final boolean allowBoozeConsumption( final int inebrietyBonus )
@@ -1303,7 +1362,7 @@ public class UseItemRequest
 			{
 				ResultProcessor.processItem( ItemPool.HEY_DEZE_NUTS, -1 );
 				ResultProcessor.processItem( ItemPool.PAGODA_PLANS, -1 );
-				(new CampgroundRequest()).run();
+				RequestThread.postRequest( new CampgroundRequest() );
 			}
 
 			// The ketchup hound does not go away...
@@ -1433,7 +1492,7 @@ public class UseItemRequest
 				if ( blackbirdItem != null && !blackbirdItem.equals( EquipmentRequest.UNEQUIP ) &&
 					KoLCharacter.getFamiliar().canEquip( blackbirdItem ) )
 				{
-					new EquipmentRequest( blackbirdItem ).run();
+					RequestThread.postRequest( new EquipmentRequest( blackbirdItem ) );
 				}
 
 				Preferences.setString( "preBlackbirdFamiliar", "" );
@@ -1497,7 +1556,7 @@ public class UseItemRequest
 			{
 				ResultProcessor.processItem( ItemPool.FOUNTAIN, -1 );
 				ResultProcessor.processItem( ItemPool.WINDCHIMES, -1 );
-				(new CampgroundRequest()).run();
+				RequestThread.postRequest( new CampgroundRequest() );
 			}
 			else
 			{
@@ -1605,13 +1664,13 @@ public class UseItemRequest
 		case ItemPool.CHEF:
 		case ItemPool.CLOCKWORK_CHEF:
 			KoLCharacter.setChef( true );
-			(new CampgroundRequest()).run();
+			RequestThread.postRequest( new CampgroundRequest() );
 			return;
 
 		case ItemPool.BARTENDER:
 		case ItemPool.CLOCKWORK_BARTENDER:
 			KoLCharacter.setBartender( true );
-			(new CampgroundRequest()).run();
+			RequestThread.postRequest( new CampgroundRequest() );
 			return;
 
 		case ItemPool.SNOWCONE_BOOK:
@@ -2038,14 +2097,14 @@ public class UseItemRequest
 				ResultProcessor.processResult( item );
 				return;
 			}
-			(new CampgroundRequest()).run();
+			RequestThread.postRequest( new CampgroundRequest() );
 			return;
 		
 		case ItemPool.MAID:
 		case ItemPool.CLOCKWORK_MAID:
 		case ItemPool.SCARECROW:
 		case ItemPool.MEAT_GOLEM:
-			(new CampgroundRequest()).run();
+			RequestThread.postRequest( new CampgroundRequest() );
 			return;
 			
 		case ItemPool.PRETTY_BOUQUET:
@@ -2066,7 +2125,7 @@ public class UseItemRequest
 				ResultProcessor.processResult( item );
 				return;
 			}
-			(new CampgroundRequest()).run();
+			RequestThread.postRequest( new CampgroundRequest() );
 			return;
 
 		case ItemPool.MILKY_POTION:

@@ -59,6 +59,10 @@ public class CampgroundRequest
 
 	private final String action;
 
+	private static int currentDwellingLevel = 0;
+	private static AdventureResult currentDwelling = null;
+	private static AdventureResult currentBed = null;
+
 	/**
 	 * Constructs a new <code>CampgroundRequest</code>.
 	 */
@@ -144,8 +148,10 @@ public class CampgroundRequest
 				return;
 			}
 			KoLConstants.campground.clear();
-			int itemId = 666;
-			switch ( StringUtilities.parseInt( m.group( 1 ) ) )
+			int itemId = -1;
+
+			CampgroundRequest.currentDwellingLevel = StringUtilities.parseInt( m.group( 1 ) );
+			switch ( CampgroundRequest.currentDwellingLevel )
 			{
 			case 0:
 				itemId = ItemPool.BIG_ROCK;	// placeholder for "the ground"
@@ -174,7 +180,12 @@ public class CampgroundRequest
 			default:
 				KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Unrecognized housing type!" );
 			}
-			KoLConstants.campground.add( ItemPool.get( itemId, 1 ) );
+
+			if ( itemId != -1 )
+			{
+				CampgroundRequest.currentDwelling = ItemPool.get( itemId, 1 );
+				KoLConstants.campground.add( CampgroundRequest.currentDwelling );
+			}
 			
 			if ( m.group( 2 ) != null )
 			{
@@ -199,7 +210,13 @@ public class CampgroundRequest
 						name = "Feng Shui for Big Dumb Idiots";
 					}
 
-					KoLConstants.campground.add( ItemPool.get( name, 1 ) );
+					AdventureResult ar = ItemPool.get( name, 1 );
+					if ( CampgroundRequest.isBedding( ar.getItemId() ) )
+					{
+						CampgroundRequest.currentBed = ar;
+					}
+
+					KoLConstants.campground.add( ar );
 				}
 			}
 			
@@ -232,6 +249,75 @@ public class CampgroundRequest
 		{
 			KoLConstants.campground.add( ItemPool.get( itemId, count ) );
 		}
+	}
+
+	public static AdventureResult getCurrentDwelling()
+	{
+                return currentDwelling;
+	}
+
+	public static int getCurrentDwellingLevel()
+	{
+                return currentDwellingLevel;
+	}
+
+	public static AdventureResult getCurrentBed()
+	{
+                return currentBed;
+	}
+
+	public static boolean isDwelling( final int itemId )
+	{
+		switch ( itemId )
+		{
+		case ItemPool.NEWBIESPORT_TENT:
+		case ItemPool.BARSKIN_TENT:
+		case ItemPool.COTTAGE:
+		case ItemPool.HOUSE:
+		case ItemPool.SANDCASTLE:
+		case ItemPool.TWIG_HOUSE:
+		case ItemPool.HOBO_FORTRESS:
+			return true;
+		}
+		return false;
+	}
+
+	public static int dwellingLevel( final int itemId )
+	{
+		switch ( itemId )
+		{
+		case ItemPool.NEWBIESPORT_TENT:
+			return 1;
+		case ItemPool.BARSKIN_TENT:
+			return 2;
+		case ItemPool.COTTAGE:
+			return 3;
+		case ItemPool.HOUSE:
+			return 4;
+		case ItemPool.SANDCASTLE:
+			return 5;
+		case ItemPool.TWIG_HOUSE:
+			return 6;
+		case ItemPool.HOBO_FORTRESS:
+			return 7;
+		}
+		return 0;
+	}
+
+	public static boolean isBedding( final int itemId )
+	{
+		switch ( itemId )
+		{
+		case ItemPool.BEANBAG_CHAIR:
+		case ItemPool.GAUZE_HAMMOCK:
+		case ItemPool.HOT_BEDDING:
+		case ItemPool.COLD_BEDDING:
+		case ItemPool.STENCH_BEDDING:
+		case ItemPool.SPOOKY_BEDDING:
+		case ItemPool.SLEAZE_BEDDING:
+			return true;
+		}
+		return false;
 	}
 
 	private static final String[][] BOOKS =
