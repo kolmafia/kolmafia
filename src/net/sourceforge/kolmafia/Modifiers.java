@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Stack;
 import java.util.TimeZone;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
@@ -162,244 +163,246 @@ public class Modifiers
 	public static final int BONUS_RESTING_MP = 56;
 	public static final int CRITICAL_PCT = 57;
 	public static final int PVP_FIGHTS = 58;
+	
+	public static final String EXPR = "(?:([+-]?[\\d.]+)|\\[([^]]+)\\])";
 
 	private static final Object[][] floatModifiers =
 	{
 		{ "Familiar Weight",
 		  Pattern.compile( "(.*) to Familiar Weight" ),
-		  Pattern.compile( "Familiar Weight: ([+-]\\d+)" )
+		  Pattern.compile( "Familiar Weight: " + EXPR )
 		},
 		{ "Monster Level",
 		  Pattern.compile( "(.*) to Monster Level" ),
-		  Pattern.compile( "Monster Level: ([+-]\\d+)" )
+		  Pattern.compile( "Monster Level: " + EXPR )
 		},
 		{ "Combat Rate",
 		  null,
-		  Pattern.compile( "Combat Rate: ([+-][\\d.]+)" )
+		  Pattern.compile( "Combat Rate: " + EXPR )
 		},
 		{ "Initiative",
 		  Pattern.compile( "Combat Initiative (.*)%" ),
-		  Pattern.compile( "Initiative: ([+-][\\d.]+)" )
+		  Pattern.compile( "Initiative: " + EXPR )
 		},
 		{ "Experience",
 		  Pattern.compile( "(.*) Stat.*Per Fight" ),
-		  Pattern.compile( "Experience: ([+-][\\d.]+)" )
+		  Pattern.compile( "Experience: " + EXPR )
 		},
 		{ "Item Drop",
 		  Pattern.compile( "(.*)% Item Drops? from Monsters" ),
-		  Pattern.compile( "Item Drop: ([+-][\\d.]+)" )
+		  Pattern.compile( "Item Drop: " + EXPR )
 		},
 		{ "Meat Drop",
 		  Pattern.compile( "(.*)% Meat from Monsters" ),
-		  Pattern.compile( "Meat Drop: ([+-][\\d.]+)" )
+		  Pattern.compile( "Meat Drop: " + EXPR )
 		},
 		{ "Damage Absorption",
 		  Pattern.compile( "Damage Absorption (.*)" ),
-		  Pattern.compile( "Damage Absorption: ([+-]\\d+)" )
+		  Pattern.compile( "Damage Absorption: " + EXPR )
 		},
 		{ "Damage Reduction",
 		  Pattern.compile( "Damage Reduction: (\\d+)" ),
-		  Pattern.compile( "Damage Reduction: ([+-]?\\d+)" )
+		  Pattern.compile( "Damage Reduction: " + EXPR )
 		},
 		{ "Cold Resistance",
 		  null,
-		  Pattern.compile( "Cold Resistance: ([+-]\\d+)" )
+		  Pattern.compile( "Cold Resistance: " + EXPR )
 		},
 		{ "Hot Resistance",
 		  null,
-		  Pattern.compile( "Hot Resistance: ([+-]\\d+)" )
+		  Pattern.compile( "Hot Resistance: " + EXPR )
 		},
 		{ "Sleaze Resistance",
 		  null,
-		  Pattern.compile( "Sleaze Resistance: ([+-]\\d+)" )
+		  Pattern.compile( "Sleaze Resistance: " + EXPR )
 		},
 		{ "Spooky Resistance",
 		  null,
-		  Pattern.compile( "Spooky Resistance: ([+-]\\d+)" )
+		  Pattern.compile( "Spooky Resistance: " + EXPR )
 		},
 		{ "Stench Resistance",
 		  null,
-		  Pattern.compile( "Stench Resistance: ([+-]\\d+)" )
+		  Pattern.compile( "Stench Resistance: " + EXPR )
 		},
 		{ "Mana Cost",
 		  Pattern.compile( "(.*) MP to use Skills" ),
-		  Pattern.compile( "Mana Cost: ([+-]\\d+)" )
+		  Pattern.compile( "Mana Cost: " + EXPR )
 		},
 		{ "Moxie",
 		  Pattern.compile( "Moxie ([+-]\\d+)$" ),
-		  Pattern.compile( "Moxie: ([+-]\\d+)" )
+		  Pattern.compile( "Moxie: " + EXPR )
 		},
 		{ "Moxie Percent",
 		  Pattern.compile( "Moxie ([+-]\\d+)%" ),
-		  Pattern.compile( "Moxie Percent: ([+-]\\d+)" )
+		  Pattern.compile( "Moxie Percent: " + EXPR )
 		},
 		{ "Muscle",
 		  Pattern.compile( "Muscle ([+-]\\d+)$" ),
-		  Pattern.compile( "Muscle: ([+-]\\d+)" )
+		  Pattern.compile( "Muscle: " + EXPR )
 		},
 		{ "Muscle Percent",
 		  Pattern.compile( "Muscle ([+-]\\d+)%" ),
-		  Pattern.compile( "Muscle Percent: ([+-]\\d+)" )
+		  Pattern.compile( "Muscle Percent: " + EXPR )
 		},
 		{ "Mysticality",
 		  Pattern.compile( "Mysticality ([+-]\\d+)$" ),
-		  Pattern.compile( "Mysticality: ([+-]\\d+)" )
+		  Pattern.compile( "Mysticality: " + EXPR )
 		},
 		{ "Mysticality Percent",
 		  Pattern.compile( "Mysticality ([+-]\\d+)%" ),
-		  Pattern.compile( "Mysticality Percent: ([+-]\\d+)" )
+		  Pattern.compile( "Mysticality Percent: " + EXPR )
 		},
 		{ "Maximum HP",
 		  Pattern.compile( "Maximum HP ([+-]\\d+)$" ),
-		  Pattern.compile( "Maximum HP: ([+-]\\d+)" )
+		  Pattern.compile( "Maximum HP: " + EXPR )
 		},
 		{ "Maximum HP Percent",
 		  null,
-		  Pattern.compile( "Maximum HP Percent: ([+-]\\d+)" )
+		  Pattern.compile( "Maximum HP Percent: " + EXPR )
 		},
 		{ "Maximum MP",
 		  Pattern.compile( "Maximum MP ([+-]\\d+)$" ),
-		  Pattern.compile( "Maximum MP: ([+-]\\d+)" )
+		  Pattern.compile( "Maximum MP: " + EXPR )
 		},
 		{ "Maximum MP Percent",
 		  null,
-		  Pattern.compile( "Maximum MP Percent: ([+-]\\d+)" )
+		  Pattern.compile( "Maximum MP Percent: " + EXPR )
 		},
 		{ "Weapon Damage",
 		  Pattern.compile( "Weapon Damage ([+-]\\d+)$" ),
-		  Pattern.compile( "Weapon Damage: ([+-]\\d+)" )
+		  Pattern.compile( "Weapon Damage: " + EXPR )
 		},
 		{ "Ranged Damage",
 		  Pattern.compile( "Ranged Damage ([+-]\\d+)$" ),
-		  Pattern.compile( "Ranged Damage: ([+-]\\d+)" )
+		  Pattern.compile( "Ranged Damage: " + EXPR )
 		},
 		{ "Spell Damage",
 		  Pattern.compile( "Spell Damage ([+-]\\d+)$" ),
-		  Pattern.compile( "Spell Damage: ([+-]\\d+)" )
+		  Pattern.compile( "Spell Damage: " + EXPR )
 		},
 		{ "Spell Damage Percent",
 		  Pattern.compile( "Spell Damage ([+-]\\d+)%" ),
-		  Pattern.compile( "Spell Damage Percent: ([+-]\\d+)" )
+		  Pattern.compile( "Spell Damage Percent: " + EXPR )
 		},
 		{ "Cold Damage",
 		  Pattern.compile( "([+-]\\d+) <font color=blue>Cold Damage</font>" ),
-		  Pattern.compile( "Cold Damage: ([+-]\\d+)" )
+		  Pattern.compile( "Cold Damage: " + EXPR )
 		},
 		{ "Hot Damage",
 		  Pattern.compile( "([+-]\\d+) <font color=red>Hot Damage</font>" ),
-		  Pattern.compile( "Hot Damage: ([+-]\\d+)" )
+		  Pattern.compile( "Hot Damage: " + EXPR )
 		},
 		{ "Sleaze Damage",
 		  Pattern.compile( "([+-]\\d+) <font color=blueviolet>Sleaze Damage</font>" ),
-		  Pattern.compile( "Sleaze Damage: ([+-]\\d+)" )
+		  Pattern.compile( "Sleaze Damage: " + EXPR )
 		},
 		{ "Spooky Damage",
 		  Pattern.compile( "([+-]\\d+) <font color=gray>Spooky Damage</font>" ),
-		  Pattern.compile( "Spooky Damage: ([+-]\\d+)" )
+		  Pattern.compile( "Spooky Damage: " + EXPR )
 		},
 		{ "Stench Damage",
 		  Pattern.compile( "([+-]\\d+) <font color=green>Stench Damage</font>" ),
-		  Pattern.compile( "Stench Damage: ([+-]\\d+)" )
+		  Pattern.compile( "Stench Damage: " + EXPR )
 		},
 		{ "Cold Spell Damage",
 		  Pattern.compile( "([+-]\\d+) (Damage )?to <font color=blue>Cold Spells</font>" ),
-		  Pattern.compile( "Cold Spell Damage: ([+-]\\d+)" )
+		  Pattern.compile( "Cold Spell Damage: " + EXPR )
 		},
 		{ "Hot Spell Damage",
 		  Pattern.compile( "([+-]\\d+) (Damage )?to <font color=red>Hot Spells</font>" ),
-		  Pattern.compile( "Hot Spell Damage: ([+-]\\d+)" )
+		  Pattern.compile( "Hot Spell Damage: " + EXPR )
 		},
 		{ "Sleaze Spell Damage",
 		  Pattern.compile( "([+-]\\d+) (Damage )?to <font color=blueviolet>Sleaze Spells</font>" ),
-		  Pattern.compile( "Sleaze Spell Damage: ([+-]\\d+)" )
+		  Pattern.compile( "Sleaze Spell Damage: " + EXPR )
 		},
 		{ "Spooky Spell Damage",
 		  Pattern.compile( "([+-]\\d+) (Damage )?to <font color=gray>Spooky Spells</font>" ),
-		  Pattern.compile( "Spooky Spell Damage: ([+-]\\d+)" )
+		  Pattern.compile( "Spooky Spell Damage: " + EXPR )
 		},
 		{ "Stench Spell Damage",
 		  Pattern.compile( "([+-]\\d+) (Damage )?to <font color=green>Stench Spells</font>" ),
-		  Pattern.compile( "Stench Spell Damage: ([+-]\\d+)" )
+		  Pattern.compile( "Stench Spell Damage: " + EXPR )
 		},
 		{ "Critical",
 		  Pattern.compile( "(\\d+)x chance of Critical Hit" ),
-		  Pattern.compile( "Critical: (\\d+)" )
+		  Pattern.compile( "Critical: " + EXPR )
 		},
 		{ "Fumble",
 		  Pattern.compile( "(\\d+)x chance of Fumble" ),
-		  Pattern.compile( "Fumble: (\\d+)" )
+		  Pattern.compile( "Fumble: " + EXPR )
 		},
 		{ "HP Regen Min",
 		  null,
-		  Pattern.compile( "HP Regen Min: (\\d+)" )
+		  Pattern.compile( "HP Regen Min: " + EXPR )
 		},
 		{ "HP Regen Max",
 		  null,
-		  Pattern.compile( "HP Regen Max: (\\d+)" )
+		  Pattern.compile( "HP Regen Max: " + EXPR )
 		},
 		{ "MP Regen Min",
 		  null,
-		  Pattern.compile( "MP Regen Min: (\\d+)" )
+		  Pattern.compile( "MP Regen Min: " + EXPR )
 		},
 		{ "MP Regen Max",
 		  null,
-		  Pattern.compile( "MP Regen Max: (\\d+)" )
+		  Pattern.compile( "MP Regen Max: " + EXPR )
 		},
 		{ "Adventures",
 		  Pattern.compile( "([+-]\\d+) Adventure\\(s\\) per day when equipped" ),
-		  Pattern.compile( "Adventures: ([+]\\d+)" )
+		  Pattern.compile( "Adventures: " + EXPR )
 		},
 		{ "Familiar Weight Percent",
 		  null,
-		  Pattern.compile( "Familiar Weight Percent: ([+-]\\d+)" )
+		  Pattern.compile( "Familiar Weight Percent: " + EXPR )
 		},
 		{ "Weapon Damage Percent",
 		  Pattern.compile( "Weapon Damage ([+-]\\d+)%" ),
-		  Pattern.compile( "Weapon Damage Percent: ([+-]\\d+)" )
+		  Pattern.compile( "Weapon Damage Percent: " + EXPR )
 		},
 		{ "Ranged Damage Percent",
 		  Pattern.compile( "Ranged Damage ([+-]\\d+)%" ),
-		  Pattern.compile( "Ranged Damage Percent: ([+-]\\d+)" )
+		  Pattern.compile( "Ranged Damage Percent: " + EXPR )
 		},
 		{ "Stackable Mana Cost",
 		  Pattern.compile( "(.*) MP to use Skills" ),
-		  Pattern.compile( "Mana Cost \\(stackable\\): ([+-]\\d+)" )
+		  Pattern.compile( "Mana Cost \\(stackable\\): " + EXPR )
 		},
 		{ "Hobo Power",
 		  Pattern.compile( "(.*) Hobo Power" ),
-		  Pattern.compile( "Hobo Power: ([+-]\\d+)" )
+		  Pattern.compile( "Hobo Power: " + EXPR )
 		},
 		{ "Base Resting HP",
 		  null,
-		  Pattern.compile( "Base Resting HP: ([+-]\\d+)" )
+		  Pattern.compile( "Base Resting HP: " + EXPR )
 		},
 		{ "Resting HP Percent",
 		  null,
-		  Pattern.compile( "Resting HP Percent: ([+-]\\d+)" )
+		  Pattern.compile( "Resting HP Percent: " + EXPR )
 		},
 		{ "Bonus Resting HP",
 		  null,
-		  Pattern.compile( "Bonus Resting HP: ([+-]\\d+)" )
+		  Pattern.compile( "Bonus Resting HP: " + EXPR )
 		},
 		{ "Base Resting MP",
 		  null,
-		  Pattern.compile( "Base Resting MP: ([+-]\\d+)" )
+		  Pattern.compile( "Base Resting MP: " + EXPR )
 		},
 		{ "Resting MP Percent",
 		  null,
-		  Pattern.compile( "Resting MP Percent: ([+-]\\d+)" )
+		  Pattern.compile( "Resting MP Percent: " + EXPR )
 		},
 		{ "Bonus Resting MP",
 		  null,
-		  Pattern.compile( "Bonus Resting MP: ([+-]\\d+)" )
+		  Pattern.compile( "Bonus Resting MP: " + EXPR )
 		},
 		{ "Critical Hit Percent",
 		  Pattern.compile( "([+-]\\d+)% chance of Critical Hit" ),
-		  Pattern.compile( "Critical Hit Percent: ([+-]\\d+)" )
+		  Pattern.compile( "Critical Hit Percent: " + EXPR )
 		},
 		{ "PvP Fights",
 		  Pattern.compile( "([+-]\\d+) PvP fight\\(s\\) per day when equipped" ),
-		  Pattern.compile( "PvP Fights: ([+-]\\d+)" )
+		  Pattern.compile( "PvP Fights: " + EXPR )
 		},
 	};
 
@@ -409,7 +412,6 @@ public class Modifiers
 	public static final int SINGLE = 1;
 	public static final int NEVER_FUMBLE = 2;
 	public static final int WEAKENS = 3;
-	public static final int HOBO_POWERED = 4;
 
 	private static final Object[][] booleanModifiers =
 	{
@@ -428,10 +430,6 @@ public class Modifiers
 		{ "Weakens Monster",
 		  Pattern.compile( "Successful hit weakens opponent" ),
 		  Pattern.compile( "Weakens Monster" )
-		},
-		{ "Hobo Powered",
-		  Pattern.compile( "Converts Hobo Power to" ),
-		  Pattern.compile( "Hobo Powered" )
 		},
 	};
 
@@ -625,7 +623,7 @@ public class Modifiers
 	private final float[] floats;
 	private final boolean[] booleans;
 	private final String[] strings;
-	private float[] hoboFactors;
+	private Expression[] expressions;
 	private int clownosity;
 
 	public Modifiers()
@@ -651,7 +649,7 @@ public class Modifiers
 		{
 			this.strings[ i ] = "";
 		}
-		this.hoboFactors = null;
+		this.expressions = null;
 		this.clownosity = 0;
 	};
 
@@ -961,7 +959,19 @@ public class Modifiers
 				Matcher matcher = pattern.matcher( string );
 				if ( matcher.find() )
 				{
-					newFloats[ i ] = Float.parseFloat( matcher.group( 1 ) );
+					if ( matcher.group( 1 ) != null )
+					{
+						newFloats[ i ] = Float.parseFloat( matcher.group( 1 ) );
+					}
+					else
+					{
+						if ( newMods.expressions == null )
+						{
+							newMods.expressions = new Expression[ Modifiers.FLOAT_MODIFIERS ];
+						}
+						newMods.expressions[ i ] = new Expression( matcher.group( 2 ),
+							name );
+					}
 					continue;
 				}
 			}
@@ -1022,252 +1032,28 @@ public class Modifiers
 		return newMods;
 	};
 
-	// Items that modify based on moon signs
-	private static final int BAIO = 877;
-	private static final int JEKYLLIN = 1291;
-
 	// Items that modify based on day of week
 	private static final int TUESDAYS_RUBY = 2604;
 
-	// Items that modify based on character level
-	private static final int PILGRIM_SHIELD = 2090;
-
-	// Items that modify based on holiday
-	private static final int PARTY_HAT = 2945;
-
-	// Effects that modify based on remaining duration
-	private static final AdventureResult MALLOWED_OUT = new AdventureResult( "Mallowed Out", 0, true );
-	private static final AdventureResult HOT_HOB_O = new AdventureResult( "Fire Down Below", 0, true );
-	private static final AdventureResult COLD_HOB_O = new AdventureResult( "Tundra Mouth", 0, true );
-	private static final AdventureResult STENCH_HOB_O = new AdventureResult( "Refuse Reflux", 0, true );
-	private static final AdventureResult SPOOKY_HOB_O = new AdventureResult( "Scariberi", 0, true );
-	private static final AdventureResult SLEAZE_HOB_O = new AdventureResult( "Cholestoriffic", 0, true );
-
 	private boolean override( final String name )
 	{
-		if ( this.booleans[ HOBO_POWERED ] )
+		if ( this.expressions != null )
 		{
-			if ( this.hoboFactors == null )
+			for ( int i = 0; i < this.expressions.length; ++i )
 			{
-				this.hoboFactors = (float []) this.floats.clone();
-				// Any values >= 200 will be treated as
-				// conversion factors (divided by 1000) from
-				// Hobo Power to the modifier.
-			}
-			float hoboPower = KoLCharacter.getHoboPower();
-			for ( int i = 0; i < this.floats.length; ++i )
-			{
-				float factor = this.hoboFactors[ i ];
-				if ( factor >= 200.0f )
+				Expression expr = this.expressions[ i ];
+				if ( expr != null )
 				{
-					this.floats[ i ] = factor * hoboPower / 1000.0f;
+					this.floats[ i ] = expr.eval();
 				}
 			}
-			return true;
-		}
-		
-		if ( name.equalsIgnoreCase( "Temporary Lycanthropy" ) )
-		{
-			this.set( Modifiers.MUS_PCT, HolidayDatabase.getBloodEffect() );
-			return true;
-		}
-
-		if ( name.equalsIgnoreCase( "Mild Lycanthropy" ) )
-		{
-			int moonlight = HolidayDatabase.getMoonlight();
-			this.set( Modifiers.MUS_PCT, moonlight );
-			this.set( Modifiers.MOX_PCT, -moonlight );
-			return true;
-		}
-
-		if ( name.equalsIgnoreCase( "Lycanthropy, Eh?" ) )
-		{
-			int moonlight = HolidayDatabase.getMoonlight();
-			this.set( Modifiers.MUS_PCT, moonlight * 2 );
-			this.set( Modifiers.MOX_PCT, -moonlight * 2 );
-			return true;
-		}
-
-		if ( name.equalsIgnoreCase( "Ur-Kel's Aria of Annoyance" ) )
-		{
-			this.set( Modifiers.MONSTER_LEVEL, 2 * KoLCharacter.getLevel() );
-			return true;
-		}
-
-		if ( name.equalsIgnoreCase( "Brawnee's Anthem of Absorption" ) )
-		{
-			this.set( Modifiers.DAMAGE_REDUCTION,
-				Math.floor( Math.pow( KoLCharacter.getLevel(), 1.2 ) ) );
-			return true;
-		}
-
-		if ( name.equalsIgnoreCase( "Full of Vinegar" ) )
-		{
-			this.set( Modifiers.WEAPON_DAMAGE, KoLCharacter.getInebriety() );
-			return true;
-		}
-
-		if ( name.equalsIgnoreCase( "Kiss of the Black Fairy" ) )
-		{
-			this.set( Modifiers.SPOOKY_DAMAGE, KoLCharacter.getInebriety() * 2 );
-			return true;
-		}
-
-		if ( name.equalsIgnoreCase( "Warm Belly" ) )
-		{
-			this.set( Modifiers.HOT_DAMAGE, KoLCharacter.getInebriety() * 3 );
-			return true;
-		}
-
-		if ( name.equalsIgnoreCase( "Starry-Eyed" ) )
-		{
-			int mod = 5 * KoLCharacter.getTelescopeUpgrades();
-			this.set( Modifiers.MUS_PCT, mod );
-			this.set( Modifiers.MYS_PCT, mod );
-			this.set( Modifiers.MOX_PCT, mod );
-			return true;
-		}
-
-		if ( name.equalsIgnoreCase( "Mallowed Out" ) )
-		{
-			int mod = 5 * Modifiers.MALLOWED_OUT.getCount( KoLConstants.activeEffects );
-			this.set( Modifiers.MUS_PCT, mod );
-			this.set( Modifiers.MYS_PCT, mod );
-			this.set( Modifiers.MOX_PCT, mod );
-			return true;
-		}
-
-		if ( name.equalsIgnoreCase( "Fire Down Below" ) )
-		{
-			this.set( Modifiers.HOT_DAMAGE, Math.min( 100,
-				Modifiers.HOT_HOB_O.getCount( KoLConstants.activeEffects ) ) );
-			return true;
-		}
-
-		if ( name.equalsIgnoreCase( "Tundra Mouth" ) )
-		{
-			this.set( Modifiers.COLD_DAMAGE, Math.min( 100,
-				Modifiers.COLD_HOB_O.getCount( KoLConstants.activeEffects ) ) );
-			return true;
-		}
-
-		if ( name.equalsIgnoreCase( "Refuse Reflux" ) )
-		{
-			this.set( Modifiers.STENCH_DAMAGE, Math.min( 100,
-				Modifiers.STENCH_HOB_O.getCount( KoLConstants.activeEffects ) ) );
-			return true;
-		}
-
-		if ( name.equalsIgnoreCase( "Scariberi" ) )
-		{
-			this.set( Modifiers.SPOOKY_DAMAGE, Math.min( 100,
-				Modifiers.SPOOKY_HOB_O.getCount( KoLConstants.activeEffects ) ) );
-			return true;
-		}
-
-		if ( name.equalsIgnoreCase( "Cholestoriffic" ) )
-		{
-			this.set( Modifiers.SLEAZE_DAMAGE, Math.min( 100,
-				Modifiers.SLEAZE_HOB_O.getCount( KoLConstants.activeEffects ) ) );
 			return true;
 		}
 
 		int itemId = ItemDatabase.getItemId( name );
 
-                if ( ItemDatabase.isGrimacite( itemId ) )
-                {
-                        int effect = HolidayDatabase.getGrimaciteEffect();
-
-                        switch ( itemId )
-                        {
-			case ItemPool.GRIMACITE_KNEECAPPING_STICK:
-				this.set( Modifiers.CRITICAL_PCT, (effect + 10) / 20 );
-				break;
-
-			case ItemPool.GRIMACITE_HAMMER:
-				this.set( Modifiers.MONSTER_LEVEL, effect / 2 );
-				break;
-
-                        case ItemPool.GRIMACITE_GRAVY_BOAT:
-                                this.set( Modifiers.MYS_PCT, effect / 2 );
-                                this.set( Modifiers.ADVENTURES, effect / 10 );
-                                break;
-
-                        case ItemPool.GRIMACITE_WEIGHTLIFTING_BELT:
-                                this.set( Modifiers.MUS_PCT, effect / 2 );
-                                this.set( Modifiers.ADVENTURES, effect / 10 );
-                                break;
-
-                        case ItemPool.GRIMACITE_GRAPPLING_HOOK:
-                                this.set( Modifiers.MOX_PCT, effect / 2 );
-                                this.set( Modifiers.ADVENTURES, effect / 10 );
-                                break;
-
-                        case ItemPool.GRIMACITE_NINJA_MASK:
-                                this.set( Modifiers.MOX_PCT, effect / 2 );
-                                this.set( Modifiers.PVP_FIGHTS, effect / 10 );
-                                break;
-
-                        case ItemPool.GRIMACITE_SHINGUARDS:
-                                this.set( Modifiers.MUS_PCT, effect / 2 );
-                                this.set( Modifiers.PVP_FIGHTS, effect / 10 );
-                                break;
-
-                        case ItemPool.GRIMACITE_ASTROLABE:
-                                this.set( Modifiers.MYS_PCT, effect / 2 );
-                                this.set( Modifiers.PVP_FIGHTS, effect / 10 );
-                                break;
-
-                        case ItemPool.GRIMACITE_GALOSHES:
-                        case ItemPool.GRIMACITE_GAT:
-                        case ItemPool.GRIMACITE_GO_GO_BOOTS:
-                        case ItemPool.GRIMACITE_GREAVES:
-                                this.set( Modifiers.MOX_PCT, effect );
-                                break;
-
-                        case ItemPool.GRIMACITE_GAITERS:
-                        case ItemPool.GRIMACITE_GARTER:
-                        case ItemPool.GRIMACITE_GIRDLE:
-                        case ItemPool.GRIMACITE_GOGGLES:
-                                this.set( Modifiers.MYS_PCT, effect );
-                                break;
-
-                        case ItemPool.GRIMACITE_GASMASK:
-                        case ItemPool.GRIMACITE_GAUNTLETS:
-                        case ItemPool.GRIMACITE_GLAIVE:
-                        case ItemPool.GRIMACITE_GORGET:
-                                this.set( Modifiers.MUS_PCT, effect );
-                                break;
-
-                        case ItemPool.GRIMACITE_GUAYABERA:
-                        case ItemPool.GRIMACITE_GOWN:
-                                this.set( Modifiers.MONSTER_LEVEL, effect );
-                                break;
-                        }
-
-                        return true;
-                }
-
 		switch ( itemId )
 		{
-		case ItemPool.MINIATURE_ANTLERS:
-			return true;
-
-		case BAIO:
-			int mod = HolidayDatabase.getBaioEffect();
-			this.set( Modifiers.MOX_PCT, mod );
-			this.set( Modifiers.MUS_PCT, mod );
-			this.set( Modifiers.MYS_PCT, mod );
-			return true;
-
-		case JEKYLLIN:
-			int moonlight = HolidayDatabase.getMoonlight();
-			this.set( Modifiers.MOX, 9 - moonlight );
-			this.set( Modifiers.MUS, 9 - moonlight );
-			this.set( Modifiers.MYS, 9 - moonlight );
-			this.set( Modifiers.ITEMDROP, 15 + moonlight * 5 );
-			return true;
-
 		case TUESDAYS_RUBY:
 			// Reset to defaults
 
@@ -1317,23 +1103,6 @@ public class Modifiers
 				this.set( Modifiers.HP_REGEN_MIN, 3 );
 				this.set( Modifiers.HP_REGEN_MAX, 7 );
 				break;
-			}
-			return true;
-
-		case PILGRIM_SHIELD:
-			this.set( Modifiers.DAMAGE_REDUCTION, KoLCharacter.getLevel() );
-			return true;
-
-		case PARTY_HAT:
-			// Reset to defaults
-			this.set( Modifiers.MP_REGEN_MIN, 0 );
-			this.set( Modifiers.MP_REGEN_MAX, 0 );
-
-			// Party hat is special on the Festival of Jarlsberg
-			if ( HolidayDatabase.getHoliday().equals( "Festival of Jarlsberg" ) )
-			{
-				this.set( Modifiers.MP_REGEN_MIN, 3 );
-				this.set( Modifiers.MP_REGEN_MAX, 5 );
 			}
 			return true;
 		}
@@ -1402,13 +1171,6 @@ public class Modifiers
 			{
 				this.add( Modifiers.getModifiers( skill ) );
 			}
-		}
-
-		// Varies according to level, somehow
-
-		if ( KoLCharacter.hasSkill( "Skin of the Leatherback" ) )
-		{
-			this.add( Modifiers.DAMAGE_REDUCTION, Math.max( ( KoLCharacter.getLevel() >> 1 ) - 1, 1 ) );
 		}
 
 		if ( KoLCharacter.getFamiliar().getId() == 38 && KoLCharacter.hasAmphibianSympathy() )
@@ -1876,6 +1638,329 @@ public class Modifiers
 				}
 				RequestLogger.printLine( "Key \"" + name + "\" has unknown modifier: \"" + mod + "\"" );
 			}
+		}
+	}
+	
+	private static class Expression
+	{
+		private float[] stack;	// also holds numeric literals
+		private int sp = 0;
+		private String bytecode;
+		private AdventureResult effect;
+		private String text;
+		private static final Pattern NUM_PATTERN = Pattern.compile( "([+-]?[\\d.]+)(.*)" );
+		
+		public Expression( String text, String name )
+		{
+			if ( text.indexOf( "T" ) != -1 )
+			{
+				this.effect = new AdventureResult( name, 0, true );
+			}
+			this.stack = new float[10];
+			this.text = text;
+			this.bytecode = expr() + "r";
+			if ( this.text.length() > 0 )
+			{
+				KoLmafia.updateDisplay( "Modifier syntax error: expected end, found "
+					+ this.text );
+			}
+			this.text = null;
+		}
+		
+		public float eval()
+		{
+			String bytecode = this.bytecode;
+			float[] s = this.stack;
+			int sp = this.sp;
+			int pc = 0;
+			float v = 0.0f;
+			while ( true )
+			{
+				switch ( bytecode.charAt( pc++ ) )
+				{
+				case 'r':
+					return s[ --sp ];
+				
+				case '^':
+					v = (float) Math.pow( s[ --sp ], s[ --sp ] );
+					break;
+				
+				case '*':
+					v = s[ --sp ] * s[ --sp ];
+					break;
+				case '/':
+					v = s[ --sp ] / s[ --sp ];
+					break;
+				
+				case '+':
+					v = s[ --sp ] + s[ --sp ];
+					break;
+				case '-':
+					v = s[ --sp ] - s[ --sp ];
+					break;
+				
+				case 'c':
+					v = (float) Math.ceil( s[ --sp ] );
+					break;
+				case 'f':
+					v = (float) Math.floor( s[ --sp ] );
+					break;
+				case 's':
+					v = (float) Math.sqrt( s[ --sp ] );
+					break;
+					
+				case 'm':
+					v = Math.min( s[ --sp ], s[ --sp ] );
+					break;
+				case 'x':
+					v = Math.max( s[ --sp ], s[ --sp ] );
+					break;
+				
+				case '0':
+					v = s[ 0 ];
+					break;
+				case '1':
+					v = s[ 1 ];
+					break;
+				case '2':
+					v = s[ 2 ];
+					break;
+				case '3':
+					v = s[ 3 ];
+					break;
+				case '4':
+					v = s[ 4 ];
+					break;
+				
+				case 'A':
+					v = 0;
+					break;
+				case 'B':
+					v = HolidayDatabase.getBloodEffect();
+					break;
+				case 'C':
+					v = 0;
+					break;
+				case 'D':
+					v = KoLCharacter.getInebriety();
+					break;
+				case 'E':
+					v = 0;
+					break;
+				case 'F':
+					v = KoLCharacter.getFullness();
+					break;
+				case 'G':
+					v = HolidayDatabase.getGrimaciteEffect() / 10.0f;
+					break;
+				case 'H':
+					v = KoLCharacter.getHoboPower();
+					break;
+				case 'I':
+					v = 0;
+					break;
+				case 'J':
+					v = HolidayDatabase.getHoliday().equals( "Festival of Jarlsberg" ) ?
+						1.0f : 0.0f;
+					break;
+				case 'K':
+					v = 0;
+					break;
+				case 'L':
+					v = KoLCharacter.getLevel();
+					break;
+				case 'M':
+					v = HolidayDatabase.getMoonlight();
+					break;
+				case 'N':
+					v = 0;
+					break;
+				case 'O':
+					v = 0;
+					break;
+				case 'P':
+					v = 0;
+					break;
+				case 'Q':
+					v = 0;
+					break;
+				case 'R':
+					v = 0;
+					break;
+				case 'S':
+					v = KoLCharacter.getSpleenUse();
+					break;
+				case 'T':
+					v = this.effect.getCount( KoLConstants.activeEffects );
+					break;
+				case 'U':
+					v = KoLCharacter.getTelescopeUpgrades();
+					break;
+				case 'V':
+					v = 0;
+					break;
+				case 'W':
+					v = 0;
+					break;
+				case 'X':
+					v = 0;
+					break;
+				case 'Y':
+					v = 0;
+					break;
+				case 'Z':
+					v = 0;
+					break;
+				default:
+					KoLmafia.updateDisplay( "Modifier bytecode invalid at " + pc + ": "
+						+ this.bytecode );
+				}
+				s[ sp++ ] = v;
+			}
+		}
+		
+		private void expect( String token )
+		{
+			if ( this.text.startsWith( token ) )
+			{
+				this.text = this.text.substring( token.length() );
+				return;
+			}
+			KoLmafia.updateDisplay( "Modifier syntax error: expected " + token +
+				", found " + this.text );
+		}
+		
+		private boolean optional( String token )
+		{
+			if ( this.text.startsWith( token ) )
+			{
+				this.text = this.text.substring( token.length() );
+				return true;
+			}
+			return false;
+		}
+
+		private char optional( String token1, String token2 )
+		{
+			if ( this.text.startsWith( token1 ) )
+			{
+				this.text = this.text.substring( token1.length() );
+				return token1.charAt( 0 );
+			}
+			if ( this.text.startsWith( token2 ) )
+			{
+				this.text = this.text.substring( token2.length() );
+				return token2.charAt( 0 );
+			}
+			return '\0';
+		}
+		
+		private String expr()
+		{
+			String rv = this.term();
+			while ( true ) switch ( this.optional( "+", "-" ) )
+			{
+			case '+':
+				rv = this.term() + rv + "+";
+				break;
+			case '-':
+				rv = this.term() + rv + "-";
+				break;
+			default:
+				return rv;			
+			}
+		}
+		
+		private String term()
+		{
+			String rv = this.factor();
+			while ( true ) switch ( this.optional( "*", "/" ) )
+			{
+			case '*':
+				rv = this.factor() + rv + "*";
+				break;
+			case '/':
+				rv = this.factor() + rv + "/";
+				break;
+			default:
+				return rv;			
+			}
+		}
+		
+		private String factor()
+		{
+			String rv = this.value();
+			while ( this.optional( "^" ) )
+			{
+				rv = this.value() + rv + "^";
+			}
+			return rv;
+		}
+		
+		private String value()
+		{
+			String rv;
+			if ( this.optional( "(" ) )
+			{
+				rv = this.expr();
+				this.expect( ")" );
+				return rv;
+			}
+			if ( this.optional( "ceil(" ) )
+			{
+				rv = this.expr();
+				this.expect( ")" );
+				return rv + "c";
+			}
+			if ( this.optional( "floor(" ) )
+			{
+				rv = this.expr();
+				this.expect( ")" );
+				return rv + "f";
+			}
+			if ( this.optional( "sqrt(" ) )
+			{
+				rv = this.expr();
+				this.expect( ")" );
+				return rv + "s";
+			}
+			if ( this.optional( "min(" ) )
+			{
+				rv = this.expr();
+				this.expect( "," );
+				rv = rv + this.expr() + "m";
+				this.expect( ")" );
+				return rv;
+			}
+			if ( this.optional( "max(" ) )
+			{
+				rv = this.expr();
+				this.expect( "," );
+				rv = rv + this.expr() + "x";
+				this.expect( ")" );
+				return rv;
+			}
+			if ( this.text.length() == 0 )
+			{
+				KoLmafia.updateDisplay( "Modifier syntax error: unexpected end of expr" );
+				return "0";	
+			}
+			rv = this.text.substring( 0, 1 );
+			if ( rv.charAt( 0 ) >= 'A' && rv.charAt( 0 ) <= 'Z' )
+			{
+				this.text = this.text.substring( 1 );
+				return rv;
+			}
+			Matcher m = NUM_PATTERN.matcher( this.text );
+			if ( m.matches() )
+			{
+				this.stack[ this.sp++ ] = Float.parseFloat( m.group( 1 ) );
+				this.text = m.group( 2 );
+				return String.valueOf( (char)( '0' + this.sp - 1 ) );
+			}
+			KoLmafia.updateDisplay( "Modifier syntax error: can't understand " + this.text );
+			this.text = "";
+			return "0";	
 		}
 	}
 }
