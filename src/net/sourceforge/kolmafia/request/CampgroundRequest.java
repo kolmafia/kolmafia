@@ -148,6 +148,9 @@ public class CampgroundRequest
 				return;
 			}
 			KoLConstants.campground.clear();
+			CampgroundRequest.currentDwellingLevel = 0;
+			CampgroundRequest.currentDwelling = null;
+			CampgroundRequest.currentBed = null;
 			int itemId = -1;
 
 			CampgroundRequest.currentDwellingLevel = StringUtilities.parseInt( m.group( 1 ) );

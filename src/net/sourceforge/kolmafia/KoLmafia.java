@@ -813,7 +813,7 @@ public abstract class KoLmafia
 		TurnCounter.loadCounters();
 
 		RequestThread.postRequest( new MoonPhaseRequest() );
-		KoLCharacter.setHoliday( HolidayDatabase.getHoliday( new Date() ) );
+		KoLCharacter.setHoliday( HolidayDatabase.getHoliday() );
 
 		// Retrieve the character sheet first. It's necessary to do
 		// this before concoctions have a chance to get refreshed.

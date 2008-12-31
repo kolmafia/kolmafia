@@ -258,10 +258,10 @@ public class LoginFrame
 			this.autoLoginCheckBox.addActionListener( new AutoLoginListener() );
 			this.savePasswordCheckBox.addActionListener( new RemovePasswordListener() );
 
-			String updateText;
-
-			String holiday = HolidayDatabase.getHoliday( new Date(), true );
+			String holiday = HolidayDatabase.getHoliday( true );
 			String moonEffect = HolidayDatabase.getMoonEffect();
+
+			String updateText;
 
 			if ( holiday.equals( "" ) )
 			{
