@@ -1153,6 +1153,11 @@ public class HolidayDatabase
 		// variables for HOLIDAYS on the KoL JS Almanac
 		// (http://home.cinci.rr.com/jrsiebz/KoL/almanac.html)
 
+		if ( stringDate.endsWith( "0101" ) )
+		{
+			return "Festival of Jarlsberg";
+		}
+
 		if ( stringDate.endsWith( "0214" ) )
 		{
 			return "Valentine's Day";
