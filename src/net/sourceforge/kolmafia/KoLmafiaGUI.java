@@ -412,9 +412,9 @@ public class KoLmafiaGUI
 			}
 			else if ( this.frameClass == ItemManageFrame.class )
 			{
-				// The Crimbo Cafe is open
+				// The Crimbo Cafe is not open
 
-				if ( KoLConstants.cafeItems.isEmpty() )
+				if ( false && KoLConstants.cafeItems.isEmpty() )
 				{
 					CrimboCafeRequest.getMenu();
 				}

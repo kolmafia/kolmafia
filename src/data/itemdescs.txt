@@ -3678,3 +3678,4 @@
 3671	910986160	Uncle Crimbo's Rations	Tins of Uncle Crimbo's Rations
 3672	208004985	can of franks 'n' beans	cans of franks 'n' beans
 3673	310999359	bottle of peppermint schnapps	bottles of peppermint schnapps
+3674	144035564	throbbing rage gland
