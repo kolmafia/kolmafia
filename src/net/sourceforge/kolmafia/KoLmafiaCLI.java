@@ -6372,17 +6372,20 @@ public class KoLmafiaCLI
 	public void executeFriarRequest( final String parameters )
 	{
 		String[] split = parameters.split( " " );
-		String command = split[ 0 ];
+		String command = null;
 
-		if ( command.equals( "blessing" ) )
+		if ( split.length == 2 && split[ 0 ].equals( "blessing" ) )
 		{
-			if ( split.length < 2 )
-			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Syntax: friars [blessing] food|familiar|booze" );
-				return;
-			}
-
 			command = split[ 1 ];
+		}
+		else if (split.length == 1 && !split[ 0 ].equals( "" ) )
+		{
+			command = split[ 0 ];
+		}
+		else
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Syntax: friars [blessing] food|familiar|booze" );
+			return;
 		}
 
 		int action = 0;
