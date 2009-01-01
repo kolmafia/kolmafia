@@ -3672,3 +3672,4 @@
 3671	Uncle Crimbo's Rations	3	all	0
 3672	can of franks 'n' beans	1	all	0
 3673	bottle of peppermint schnapps	2	all	0
+3674	throbbing rage gland	3	all	0

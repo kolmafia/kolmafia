@@ -55,6 +55,7 @@
 43	Creepy Lullaby	5	30	0
 
 44	Rainbow Gravitation	1	30	0
+45	Vent Rage Gland	3	15	0
 
 # Skills available to Clubbers
 
