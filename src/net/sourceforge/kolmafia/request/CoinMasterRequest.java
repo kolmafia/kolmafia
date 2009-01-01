@@ -63,6 +63,7 @@ public class CoinMasterRequest
 	private static final Pattern BB_BUY_PATTERN = Pattern.compile( "whichitem=(\\d+).*?quantity=(\\d+)" );
 	private static final Pattern CAMP_TRADE_PATTERN = Pattern.compile( "whichitem=(\\d+).*?quantity=(\\d+)" );
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You've.*?got (\\d+) (dime|quarter)" );
+	private static final Pattern BOUNTY_PATTERN = Pattern.compile( "I'm still waiting for you to bring me (\\d+) (.*?), Bounty Hunter!" );
 
 	private static final String BHH = "Bounty Hunter Hunter";
 	private static final String HIPPY = "Dimemaster";
@@ -210,6 +211,18 @@ public class CoinMasterRequest
 		Matcher actionMatcher = CoinMasterRequest.ACTION_PATTERN.matcher( location );
 		if ( !actionMatcher.find() )
 		{
+			// I'm still waiting for you to bring me 5 discarded
+			// pacifiers, Bounty Hunter!
+
+			Matcher matcher = CoinMasterRequest.BOUNTY_PATTERN.matcher( responseText );
+			if ( matcher.find() )
+			{
+				int count = StringUtilities.parseInt( matcher.group(1) );
+				String name = matcher.group(2);
+				AdventureResult ar = new AdventureResult( name, count, false );
+				Preferences.setInteger( "currentBountyItem", ar.getItemId() );
+			}
+
 			if ( responseText.indexOf( "You acquire" ) != -1 )
 			{
 				// He turned in a bounty for a lucre

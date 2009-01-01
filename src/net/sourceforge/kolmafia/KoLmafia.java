@@ -1915,18 +1915,18 @@ public abstract class KoLmafia
 		if ( bounties.isEmpty() )
 		{
 			int bounty = Preferences.getInteger( "currentBountyItem" );
-			if ( bounty != 0 )
+			if ( hunterRequest.responseText.indexOf( "already turned in a Bounty today" ) != -1 )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You've already turned in a bounty today." );
+				return;
+			}
+
+			if ( bounty > 0 )
 			{
 				AdventureFrame.updateSelectedAdventure( AdventureDatabase.getBountyLocation( bounty ) );
 			}
-			else if ( hunterRequest.responseText.indexOf( "already turned in a Bounty today" ) != -1 )
-			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You've already turned in a bounty today." );
-			}
-			else
-			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You're already on a bounty hunt." );
-			}
+
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You're already on a bounty hunt." );
 
 			return;
 		}

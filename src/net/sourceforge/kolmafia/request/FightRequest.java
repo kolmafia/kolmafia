@@ -495,13 +495,12 @@ public class FightRequest
 
 		// Summon a ghost if requested.
 
-		if ( FightRequest.action1.indexOf( "summon" ) != -1 )
+		if ( FightRequest.action1.equals( "summon ghost" ) )
 		{
 			if ( FightRequest.canSummon &&
 			     FightRequest.wonInitiative() &&
 			     Preferences.getInteger( "pastamancerGhostSummons" ) < 10 )
 			{
-				FightRequest.action1 = "summon";
 				this.addFormField( "action", "summon" );
 				return;
 			}
@@ -2119,7 +2118,7 @@ public class FightRequest
 		if ( FightRequest.action1.equals( "attack" ) ||
 		     FightRequest.action1.equals( "runaway" ) ||
 		     FightRequest.action1.equals( "steal" ) ||
-		     FightRequest.action1.equals( "summon" )   )
+		     FightRequest.action1.equals( "summon ghost" )   )
 		{
 			return;
 		}
@@ -2336,7 +2335,7 @@ public class FightRequest
 		}
 		else if ( urlString.indexOf( "summon" ) != -1 )
 		{
-			FightRequest.action1 = "summon";
+			FightRequest.action1 = "summon ghost";
 			if ( shouldLogAction )
 			{
 				action.append( "summons a ghost!" );
