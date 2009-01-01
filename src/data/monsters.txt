@@ -188,7 +188,7 @@ Chalkdust Wraith	HP: 10 Def: 20 Atk: 20 ED: spooky	handful of hand chalk (100)
 Chatty Pirate	HP: 90 Def: 90 Atk: 100 Meat: 52-76
 Chester	HP: 8000 E: sleaze	Chester's bag of candy (0)	Chester's Aquarius medallion (0)	Chester's moustache (0)	Chester's muscle shirt (0)	Chester's sunglasses (0)	Chester's cutoffs (0)	extra-greasy slider (0)	extra-greasy slider (0)	Chorale of Companionship (0)
 Chowder Golem	HP: 9 Def: 18 Atk: 18 Meat: 29-46
-Claw-foot Bathtub	HP: 100 Def: 100 Atk: 90	bottle of Monsieur Bubble (25)
+Claw-foot Bathtub	HP: 100 Def: 100 Atk: 90	bottle of Monsieur Bubble (25)	fancy bath salts (35)
 Cleanly Pirate	HP: 90 Def: 100 Atk: 100 Meat: 49-72	Swabbie&trade; swab (20)	Tom's of the Spanish Main Toothpaste (20)	rigging shampoo (0)
 Clingy Pirate	HP: 90 Def: 100 Atk: 100 Meat: 52-78	bit of clingfilm (11)
 Cloaca-Cola Catapult Engineer	HP: 40 Def: 30 Atk: 30	Cloaca-Cola (15)	Cloaca-Cola (15)	Cloaca-Cola c-rations (5)	Cloaca grenade (5)
@@ -373,7 +373,7 @@ Lumberjuan	HP: 35 Def: 35 Atk: 35 Meat: 17-26	los chinos (5)	leaflet (15)	wooden
 Mad Bugbears	HP: 13 Def: 17 Atk: 15
 MagiMechTech MechaMech	HP: 100 Def: 120 Atk: 120	photoprotoneutron torpedo (30)	metallic A (30)	glowing red eye (18)	oversized pizza cutter (7)	burned-out arcanodiode (0)
 Magic Dragonfish	HP: 0	rough fish scale (0)	seaweed (0)	dragonfish caviar (0)
-Malevolent Hair Clog	HP: 85 Def: 90 Atk: 95 ED: spooky
+Malevolent Hair Clog	HP: 85 Def: 90 Atk: 95 ED: spooky	gob of wet hair (40)
 Man-Eating Plant	HP: 10 Def: 9 Atk: 7
 Mariachi Calavera	HP: 30 Def: 22 Atk: 22	bottle of tequila (30)	marzipan skull (30)	callused fingerbone (0)
 Mayonnaise Wasp	HP: 11 Def: 17 Atk: 17
