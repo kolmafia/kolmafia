@@ -290,7 +290,7 @@ public class AdventureResult
 			return;
 		}
 
-		this.itemId = ItemDatabase.getItemId( this.name, 1 );
+		this.itemId = ItemDatabase.getItemId( this.name, this.getCount() );
 
 		if ( this.itemId > 0 )
 		{

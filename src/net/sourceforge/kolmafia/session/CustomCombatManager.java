@@ -657,7 +657,7 @@ public abstract class CustomCombatManager
 			return "jiggle chefstaff";
 		}
 
-		if ( action.startsWith( "summon" ) )
+		if ( action.equals( "summon ghost" ) )
 		{
 			return "summon pastamancer ghost";
 		}
@@ -795,9 +795,9 @@ public abstract class CustomCombatManager
 			return "jiggle";
 		}
 
-		if ( action.startsWith( "summon" ) )
+		if ( action.equals( "summon ghost" ) )
 		{
-			return "summon";
+			return "summon ghost";
 		}
 
 		if ( action.startsWith( "consult" ) )
