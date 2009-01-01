@@ -774,24 +774,16 @@ public class HolidayDatabase
 
 	public static final int getCalendarDay( final Date time )
 	{
-		try
-		{
-			long timeDifference =
-				KoLConstants.DAILY_FORMAT.parse( KoLConstants.DAILY_FORMAT.format( time ) ).getTime() - HolidayDatabase.NEWYEAR;
+		long currentTime = time.getTime();
+		long timeDifference = currentTime - HolidayDatabase.NEWYEAR;
 
-			if ( timeDifference > HolidayDatabase.BOUNDARY )
-			{
-				timeDifference -= MS_PER_DAY;
-			}
-
-			int dayDifference = (int) Math.floor( timeDifference / MS_PER_DAY );
-			return ( dayDifference + 96 ) % 96;
-		}
-		catch ( Exception e )
+		if ( currentTime > HolidayDatabase.BOUNDARY )
 		{
-			StaticEntity.printStackTrace( e );
-			return 0;
+			timeDifference -= MS_PER_DAY;
 		}
+
+		int dayDifference = (int) Math.floor( timeDifference / MS_PER_DAY );
+		return ( dayDifference + 96 ) % 96;
 	}
 
 	/**
