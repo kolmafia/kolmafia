@@ -33,6 +33,7 @@ Scalp of Gorgolok	50	Mus: 10
 Seasonal Beret	100	Mys: 35
 Snow Queen Crown	115	Mox: 42
 Sombrero De Vida	50	Mox: 10
+Spooky Putty mitre	100	none
 Tropical Crimbo Hat	100	Mox: 35
 Zombo's skullcap	200	Mus: 200
 aerated diving helmet	200	Mox: 85
@@ -194,6 +195,7 @@ Orcish cargo shorts	60	Mox: 15
 Oscus's dumpster waders	200	Mys: 200
 Oscus's flypaper pants	200	Mox: 200
 Radio Free Pants	150	Mox: 60
+Spooky Putty leotard	100	none
 Travoltan trousers	100	none
 Tropical Crimbo Shorts	100	Mox: 35
 Zombo's grievous greaves	200	Mus: 200
@@ -394,6 +396,8 @@ Radio Free Foil	150	Mus: 60	2-handed sword
 Rock and Roll Legend	50	Mox: 10	2-handed accordion
 Shagadelic Disco Banjo	90	Mox: 15	2-handed banjo
 Spirit Precipice	135	Mus: 45	2-handed sword
+Spooky Putty ball	100	Mox: 0	1-handed superball
+Spooky Putty snake	100	Mys: 0	1-handed chefstaff
 Squeezebox of the Ages	90	Mox: 15	2-handed accordion
 Staff of Blood and Pudding	10	Mys: 15	1-handed chefstaff
 Staff of the Black Kettle	10	Mys: 75	1-handed chefstaff

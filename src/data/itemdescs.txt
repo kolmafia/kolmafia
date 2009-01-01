@@ -3665,13 +3665,13 @@
 3658	196626222	tiny plastic fat stack of cash	tiny plastic fat stack of cashs
 3659	441811155	tiny plastic strand of DNA	tiny plastic strand of DNAs
 3660	971857735	tiny plastic chunk of depleted Grimacite	tiny plastic chunk of depleted Grimacites
-3661
-3662
-3663
-3664
-3665
-3666
-3667
+3661	303657985	container of Spooky Putty
+3662	571573689	Spooky Putty mitre
+3663	786129685	Spooky Putty leotard
+3664	527456310	Spooky Putty ball
+3665	358004043	Spooky Putty sheet
+3666	265337034	Spooky Putty snake
+3667	324375100	Spooky Putty monster
 3668	277958099	glow-in-the-dark wristwatch	glow-in-the-dark wristwatches
 3669	833264909	glow-in-the-dark dart gun	glow-in-the-dark dart guns
 3670	201697185	glow-in-the-dark stuffed burrowgrub	glow-in-the-dark stuffed burrowgrubs

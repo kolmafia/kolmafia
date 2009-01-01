@@ -3659,13 +3659,13 @@
 3658	tiny plastic fat stack of cash	8	all	0
 3659	tiny plastic strand of DNA	8	all	0
 3660	tiny plastic chunk of depleted Grimacite	8	all	0
-3661
-3662
-3663
-3664
-3665
-3666
-3667
+3661	container of Spooky Putty	0	all	0
+3662	Spooky Putty mitre	9	all	0
+3663	Spooky Putty leotard	10	all	0
+3664	Spooky Putty ball	12	all	0
+3665	Spooky Putty sheet	25	all	0
+3666	Spooky Putty snake	12	all	0
+3667	Spooky Putty monster	0	display	0
 3668	glow-in-the-dark wristwatch	8	all	0
 3669	glow-in-the-dark dart gun	12	all	0
 3670	glow-in-the-dark stuffed burrowgrub	13	all	0

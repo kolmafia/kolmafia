@@ -2088,6 +2088,7 @@ public class FightRequest
 		case ItemPool.PAPER_SHURIKEN:
 		case ItemPool.EMPTY_EYE:
 		case ItemPool.ICEBALL:
+		case ItemPool.SPOOKY_PUTTY_SHEET:
 			return false;
 
 		case ItemPool.ANTIDOTE: // Anti-Anti-Antidote
