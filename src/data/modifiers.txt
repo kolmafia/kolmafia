@@ -75,6 +75,7 @@ Scalp of Gorgolok	Muscle: +7, Class: "Seal Clubber", Familiar Effect: "3xGhuol, 
 Seasonal Beret	Muscle Percent: [+5*G], Mysticality Percent: [+5*G], Moxie Percent: [+5*G], Familiar Effect: "1xPotato, ?xFairy, cap 25"
 Snow Queen Crown	Cold Damage: +5, Cold Resistance: +3, Familiar Effect: "cold atk, 1xGhuol, cap 28"
 # Sombrero De Vida
+Spooky Putty mitre	Experience: +3, Softcore Only
 Tropical Crimbo Hat	Spooky Resistance: +1, Familiar Effect: "1xLep, 1.5xFairy, cap 25"
 Zombo's skullcap	Muscle Percent: +20, Familiar Weight: +10, Class: "Turtle Tamer", Familiar Effect: "spooky atk"
 aerated diving helmet	Stench Resistance: +3, Item Drop: -50, Initiative: -50
@@ -236,6 +237,7 @@ Orcish cargo shorts	Muscle: +3, Mysticality: -3
 Oscus's dumpster waders	Hot Resistance: +3, Spooky Resistance: +3, Class: "Pastamancer"
 Oscus's flypaper pants	Moxie Percent: +20, Damage Absorption: +50
 Radio Free Pants	Intrinsic Effect: "Free Bird"
+Spooky Putty leotard	Initiative: +15, Meat Drop: +15, Softcore Only
 Travoltan trousers	Moxie: +15, Initiative: +30, Ranged Damage: +10, Softcore Only
 Tropical Crimbo Shorts	Initiative: +30
 Zombo's grievous greaves	Cold Resistance: +3, Sleaze Resistance: +3, Class: "Turtle Tamer"
@@ -436,6 +438,8 @@ Radio Free Foil	Intrinsic Effect: "Shiny Happy Weapon"
 Rock and Roll Legend	Moxie: +7, Class: "Accordion Thief"
 Shagadelic Disco Banjo	Moxie: +11, Meat Drop: +10
 Spirit Precipice	Muscle: +7, Mysticality: +5, Critical: 5
+Spooky Putty ball	Spooky Damage: +10, Softcore Only
+Spooky Putty snake	Spell Damage Percent: +50, Spooky Spell Damage: +20, MP Regen Min: 6, MP Regen Max: 8, Softcore Only
 Squeezebox of the Ages	Moxie: +11, Ranged Damage: +15
 Staff of Blood and Pudding	Spell Damage Percent: +25, Maximum HP: +15, MP Regen Min: 2, MP Regen Max: 3
 Staff of the Black Kettle	Spell Damage Percent: +75, Mysticality: +10, MP Regen Min: 5, MP Regen Max: 6
