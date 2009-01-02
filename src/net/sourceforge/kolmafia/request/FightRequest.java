@@ -1283,8 +1283,6 @@ public class FightRequest
 		FightRequest.foundNextRound = true;
 		FightRequest.lastResponseText = responseText;
 
-		// Round tracker should include this data.
-
 		FightRequest.parseBangPotion( responseText );
 		FightRequest.parseStoneSphere( responseText );
 		FightRequest.parsePirateInsult( responseText );
@@ -1293,11 +1291,7 @@ public class FightRequest
 		FightRequest.parseGhostSummoning( location, responseText );
 
 		// Spend MP and consume items
-
-		if ( !KoLConstants.activeEffects.contains( FightRequest.CUNCTATITIS ) || responseText.indexOf( "You decide" ) == -1 )
-		{
-			FightRequest.payActionCost();
-		}
+		FightRequest.payActionCost( responseText );
 
 		++FightRequest.currentRound;
 
@@ -2109,11 +2103,45 @@ public class FightRequest
 		}
 	}
 
-	public static final void payActionCost()
+	private static final void payActionCost( final String responseText )
 	{
+		// If we don't know what we tried, punt now.
 		if ( FightRequest.action1 == null || FightRequest.action1.equals( "" ) )
 		{
 			return;
+		}
+
+		// If we have Cunctatitis and decide to procrastinate, we did
+		// nothing
+		if ( KoLConstants.activeEffects.contains( FightRequest.CUNCTATITIS ) && responseText.indexOf( "You decide to" ) != -1 )
+		{
+			return;
+		}
+
+		// If we are adventuring with a Black Cat, she might prevent
+		// skill and item use during combat.
+
+		if ( KoLCharacter.getFamiliar().getId() == 93 )
+		{
+			// <Name> jumps onto the keyboard and causes you to
+			// accidentally hit the Attack button instead of using
+			// that skill.
+
+			if ( responseText.indexOf( "jumps onto the keyboard" ) != -1 )
+			{
+				FightRequest.action1 = "attack";
+				return;
+			}
+
+			// Just as you're about to use that item, <name> bats
+			// it out of your hand, and you have to spend the next
+			// couple of minutes fishing it out from underneath a
+			// couch. It's as adorable as it is annoying.
+
+			if ( responseText.indexOf( "bats it out of your hand" ) != -1 )
+			{
+				return;
+			}
 		}
 
 		if ( FightRequest.action1.equals( "attack" ) ||
