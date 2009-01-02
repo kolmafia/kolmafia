@@ -2087,7 +2087,8 @@ public class UseItemRequest
 		case ItemPool.FERMENTED_PICKLE_JUICE:
 		case ItemPool.EXTRA_GREASY_SLIDER:
 			Preferences.setInteger( "currentSpleenUse",
-				Math.max( 0, Preferences.getInteger( "currentSpleenUse" ) - 5 ) );
+				Math.max( 0, Preferences.getInteger( "currentSpleenUse" ) - 
+					5 * item.getCount() ) );
 			KoLCharacter.updateStatus();
 			return;
 
