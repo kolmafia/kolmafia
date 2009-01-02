@@ -53,6 +53,7 @@ public class HolidayDatabase
 	private static long COLLISION = 0;
 
 	private static long MS_PER_DAY = 86400000L;
+	private static long MS_UTC_4_OFFSET = -14400000L;
 
 	static
 	{
@@ -61,7 +62,7 @@ public class HolidayDatabase
 			// Change it so that it doesn't recognize daylight
 			// savings to ensure different localizations work.
 
-			Calendar myCalendar = Calendar.getInstance( TimeZone.getTimeZone( "GMT-5" ) );
+			Calendar myCalendar = Calendar.getInstance( TimeZone.getTimeZone( "GMT-4" ) );
 
 			myCalendar.set( 2005, 8, 17, 0, 0, 0 );
 			HolidayDatabase.NEWYEAR = myCalendar.getTimeInMillis();
@@ -366,7 +367,7 @@ public class HolidayDatabase
 
 	public static final int getHamburglarPosition( final Date time )
 	{
-		long timeDifference = time.getTime();
+		long timeDifference = time.getTime() + HolidayDatabase.MS_UTC_4_OFFSET;
 		if ( timeDifference < HolidayDatabase.COLLISION )
 		{
 			return -1;
