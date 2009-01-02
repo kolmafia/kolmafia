@@ -652,17 +652,16 @@ public class UseItemRequest
 		{
 			switch ( this.consumptionType )
 			{
-			case KoLConstants.CONSUME_EAT:
-				// The miracle of "consume some"!
 			case KoLConstants.CONSUME_MULTIPLE:
 			case KoLConstants.HP_RESTORE:
 			case KoLConstants.MP_RESTORE:
 			case KoLConstants.HPMP_RESTORE:
 				break;
 			case KoLConstants.CONSUME_DRINK:
+			case KoLConstants.CONSUME_EAT:
 				// The miracle of "consume some" does not apply
-				// to TPS drinks...
-				if ( !isTPSDrink( itemId ) )
+				// to TPS drinks or black puddings
+				if ( !UseItemRequest.singleConsume( itemId ) )
 				{
 					break;
 				}
@@ -711,7 +710,7 @@ public class UseItemRequest
 		}
 	}
 
-	public static final boolean isTPSDrink( final int itemId )
+	private static final boolean singleConsume( final int itemId )
 	{
 		switch (itemId )
 		{
@@ -721,6 +720,14 @@ public class UseItemRequest
 		case ItemPool.VESPER:
 		case ItemPool.BODYSLAM:
 		case ItemPool.SANGRIA_DEL_DIABLO:
+			// Allow player who owns a single tiny plastic sword to
+			// make and drink multiple drinks in succession.
+			return true;
+
+		case ItemPool.BLACK_PUDDING:
+			// Eating a black pudding can lead to a combat with no
+			// feedback about how many were successfully eaten
+			// before the combat.
 			return true;
 		}
 		return false;

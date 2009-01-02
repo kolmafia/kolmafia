@@ -690,7 +690,7 @@ public class GenericRequest
 
 				if ( message != null )
 				{
-					KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, message );
+					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, message );
 					return;
 				}
 			}
