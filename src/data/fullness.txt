@@ -27,7 +27,7 @@ bat wing stir-fry	3	4	6-14	0	27-45	0
 bat-shaped crimboween cookie	2	7	6-12	0	0	0	10/20 Bells in the Batfry (+10% mox)
 bean burrito	3	1	3-8	10-14	0	0
 beefy fish meat	1	1	2-3	4-8	0	0	5/15 Fishy
-beefy maki	3	1	8-12	8-16	0	0	45/55 Fishy
+beefy maki	3	1	7-12	8-16	0	0	45/55 Fishy
 beefy nigiri	2	1	4-8	8-16	0	0	20/30 Fishy
 beer basted brat	3	11	13-16	31-40	31-40	31-40
 bell-shaped crimbo cookie	2	7	6-12	0	0	0	10/20 Fury of the Bells (+10% mus)
@@ -137,7 +137,7 @@ gingerbread mutant bugbear	1	1	1-5	10-20	10-20	10-20	10 Festive Radiation (+5% a
 gingerbread stir-fry	3	1	3-7	0	0	0	10 Sugar Rush
 glass of goat's milk	1	1	1	0	0	0
 glistening fish meat	1	1	2-3	0	4-8	0	5/15 Fishy
-glistening maki	3	1	8-12	0	8-16	0	45/55 Fishy
+glistening maki	3	1	7-12	0	8-16	0	45/55 Fishy
 glistening nigiri	2	1	4-8	0	8-16	0	20/30 Fishy
 gnat lasagna	3	10	11-18	45-54	0	0
 gnatloaf	2	8	3-9	25-50	0	0
@@ -206,12 +206,12 @@ long pork lasagna	3	10	11-18	0	46-55	0
 lord of the flies-sized fries	3	1	4-6	0	15-20	-15-20
 lucky surprise egg	1	1	1	0	0	0	series 1 tiny plastic
 magical ancient serpent roll	3	1	9-14	0	8-16	20-30	50/60 Fishy
-magical beefy maki	3	1	8-12	8-16	0	0	50/60 Fishy
+magical beefy maki	3	1	7-12	8-16	0	0	50/60 Fishy
 magical giant dragon roll	3	1	9-14	28-46	0	0	50/60 Fishy
-magical glistening maki	3	1	8-12	0	8-16	0	50/60 Fishy
+magical glistening maki	3	1	7-12	0	8-16	0	50/60 Fishy
 magical musclebound rabbit roll	3	1	9-14	8-16	20-30	0
 magical python roll	3	1	9-14	8-16	0	20-30	50/60 Fishy
-magical slick maki	3	1	8-12	0	0	8-16	50/60 Fishy
+magical slick maki	3	1	7-12	0	0	8-16	50/60 Fishy
 magical slippery snake roll	3	1	9-14	0	0	28-46	50/60 Fishy
 magical sneaky rabbit roll	3	1	9-14	0	20-30	8-16	50/60 Fishy
 magical tricky dragon roll	3	1	9-14	20-30	0	8-16	50/60 Fishy
@@ -270,12 +270,12 @@ royal jelly	1	1	1	10-15	0	0
 royal jelly taco	1	1	1-3	4-20	0	0
 s.t.l.t.	4	4	10-15	10-30	10-30	13-27
 salty ancient serpent roll	3	1	9-14	0	8-16	20-30	45/55 Fishy, 10 Salty Dogs
-salty beefy maki	3	1	8-12	8-16	0	0	45/55 Fishy, 10 Salty Dogs
+salty beefy maki	3	1	7-12	8-16	0	0	45/55 Fishy, 10 Salty Dogs
 salty giant dragon roll	3	1	9-14	28-46	0	0	45/55 Fishy, 10 Salty Dogs
-salty glistening maki	3	1	8-12	0	8-16	0	45/55 Fishy, 10 Salty Dogs
+salty glistening maki	3	1	7-12	0	8-16	0	45/55 Fishy, 10 Salty Dogs
 salty musclebound rabbit roll	3	1	9-14	8-16	20-30	0	45/55 Fishy, 10 Salty Dogs
 salty python roll	3	1	9-14	8-16	0	20-30	45/55 Fishy, 10 Salty Dogs
-salty slick maki	3	1	8-12	0	0	8-16	45/55 Fishy, 10 Salty Dogs
+salty slick maki	3	1	7-12	0	0	8-16	45/55 Fishy, 10 Salty Dogs
 salty slippery snake roll	3	1	9-14	0	0	28-46	45/55 Fishy, 10 Salty Dogs
 salty sneaky rabbit roll	3	1	9-14	0	20-30	8-16	45/55 Fishy, 10 Salty Dogs
 salty tricky dragon roll	3	1	9-14	20-30	0	8-16	45/55 Fishy, 10 Salty Dogs
@@ -298,7 +298,7 @@ skewered cat appendix	2	1	2-5	7-17	0	0
 skull-shaped crimboween cookie	2	7	6-12	0	0	0	10/20 Carol of the Bones (+10% mus)
 sleazy hi mein	5	7	21-29	25-28	25-29	71-75	5 Sleazy Breath (combat skill)
 slick fish meat	1	1	2-3	0	0	4-8	5/15 Fishy
-slick maki	3	1	8-12	0	0	8-16	45/55 Fishy
+slick maki	3	1	7-12	0	0	8-16	45/55 Fishy
 slick nigiri	2	1	4-8	0	0	8-16	20/30 Fishy
 slippery snake roll	3	1	9-14	0	0	28-46	45/55 Fishy
 sneaky pete's key lime pie	4	6	13-19	0	0	28-33	Sneaky Pete's key
