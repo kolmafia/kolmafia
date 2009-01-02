@@ -1548,6 +1548,7 @@ Animal Exploiter	Muscle: +40, Familiar Weight Percent: -50
 Antarctic Memories	HP Regen Min: 40, HP Regen Max: 40, MP Regen Min: 40, MP Regen Max: 40
 Antsy in your Pantsy	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5
 Apathy	Muscle Percent: -30, Mysticality Percent: -30, Moxie Percent: -30
+Apoplectic with Rage	Mysticality Percent: -10
 Arabian Knighthood	Muscle Percent: +5
 Arcane in the Brain	Mana Cost (stackable): -3
 Arse-a'fire	Muscle Percent: +10
@@ -1658,6 +1659,7 @@ Disco Concentration	Item Drop: +20
 Disco Inferno	Moxie: +5, Hot Damage: +3
 Disco State of Mind	Moxie: +2
 Disco Nirvana	Meat Drop: +30
+Dizzy with Rage	Moxie Percent: -10
 # Don't Rest Ye, Bold Adventurer	variable stats
 Dreadlocked	Mysticality Percent: +50, Moxie Percent: -50
 Dreams and Lights	Mysticality: +10, Mana Cost: -3
@@ -1885,6 +1887,7 @@ Provocative Perkiness	Initiative: +20
 # Psalm of Pointiness	damages & delevels opponents
 Pumped Up	Muscle: +5
 Purple Tongue	HP Regen Min: 20, HP Regen Max: 20, MP Regen Min: 20, MP Regen Max: 20
+Quivering with Rage	Muscle Percent: -10
 Radiant Personality	Moxie Percent: +30
 Radiating Black Body&trade;	Moxie Percent: +10, Mana Cost: +3
 Radium Radicality	Moxie: +30

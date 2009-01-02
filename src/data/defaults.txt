@@ -315,6 +315,7 @@ user	preBlackbirdFamiliar
 user	prismaticSummons	0
 user	pyramidPosition	0
 user	pyramidBombUsed	false
+user	rageGlandVented	false
 user	reagentSummons	0
 user	recentLocations	5
 user	recoveryScript

@@ -72,6 +72,10 @@ public class DailyDeedsPanel
 		this.add( new FriarsDaily() );
 		this.add( new ConcertDaily() );
 		this.add( new NunsDaily() );
+		if ( KoLCharacter.hasSkill( "Vent Rage Gland" ) )
+		{
+			this.add( new BooleanDaily( "rageGlandVented", "cast Vent Rage Gland" ) );
+		}
 		this.add( new BooleanDaily( "libraryCardUsed", "use library card" ) );
 		this.add( new BooleanDaily( "outrageousSombreroUsed", "use outrageous sombrero" ) );
 		this.add( new BooleanDaily( "oscusSodaUsed", "use Oscus's neverending soda" ) );
