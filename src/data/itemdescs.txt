@@ -1623,7 +1623,7 @@
 1617	724221259	Cerebral Crossbow	Cerebral Crossbowen
 1618	845859794	ice stein	ice steins
 1619	127149792	munchies pill	munchies pills
-1620	210101538	homeopathic healing powder	homeopathic healing powders
+1620	210101538	homeopathic healing powder	packets of homeopathic healing powder
 1621	793011281	astral badger	astral badgers
 1622	536233488	astral mushroom	astral mushrooms
 1623	750793495	badger badge	badger badges
