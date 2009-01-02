@@ -308,6 +308,11 @@ public class UseSkillRequest
 
 		switch ( this.skillId )
 		{
+		
+		// Vent Rage Gland can be used once per day
+		case 45:
+			maximumCast = Preferences.getBoolean( "rageGlandVented" ) ? 0 : 1;
+			break;
 
 		// Tomes can be used three times per day
 
@@ -974,6 +979,10 @@ public class UseSkillRequest
 
 		switch ( skillId )
 		{
+		case 45:
+			Preferences.setBoolean( "rageGlandVented", true );
+			break;
+			
 		case SkillDatabase.RAINBOW:
 
                         // Each cast of Rainbow Gravitation consumes five

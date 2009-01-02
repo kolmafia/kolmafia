@@ -587,3 +587,6 @@
 586	Drunk With Power	moon4.gif	b2a15cf693cf363a637c8af66666db63	drink 1 elven moonshine
 587	Cruisin' for a Bruisin'	beatenup.gif	711efb04706e595abc96fdd2dba9e737	eat 1 knuckle sandwich
 588	Crimbo Nostalgia	scook3.gif	be14674a5367afafdeb370c2d97889dc
+589	Quivering with Rage	angry.gif	c63a6e26c9843c2be0c8833be87a0fe9
+590	Apoplectic with Rage	angry.gif	f3c81d0dd6a00f9a6460d678dccfc72a
+591	Dizzy with Rage	angry.gif	7b330916f0ba1d13c23803b54ddb5776
