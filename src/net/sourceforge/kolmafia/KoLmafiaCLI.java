@@ -2756,6 +2756,13 @@ public class KoLmafiaCLI
 				return;
 			}
 
+			boolean unequip = false;
+			if ( parameters.startsWith( "naked " ) )
+			{
+				unequip = true;
+				parameters = parameters.substring( 6 );
+			}
+
 			List familiarList = KoLCharacter.getFamiliarList();
 
 			String[] familiars = new String[ familiarList.size() ];
@@ -2793,7 +2800,7 @@ public class KoLmafiaCLI
 				}
 				else if ( KoLCharacter.getFamiliar() != null && !KoLCharacter.getFamiliar().equals( change ) )
 				{
-					RequestThread.postRequest( new FamiliarRequest( change ) );
+					RequestThread.postRequest( new FamiliarRequest( change, unequip ) );
 				}
 			}
 			else

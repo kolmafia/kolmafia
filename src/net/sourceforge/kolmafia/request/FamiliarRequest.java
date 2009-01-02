@@ -42,6 +42,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -56,6 +57,7 @@ public class FamiliarRequest
 
 	private final FamiliarData changeTo;
 	private final AdventureResult item;
+	private final boolean unequip;
 	private final boolean locking;
 
 	public FamiliarRequest()
@@ -64,15 +66,22 @@ public class FamiliarRequest
 		this.changeTo = null;
 		this.item = null;
 		this.locking = false;
+		this.unequip = false;
 	}
 
 	public FamiliarRequest( final FamiliarData changeTo )
+	{
+		this( changeTo, false );
+	}
+
+	public FamiliarRequest( final FamiliarData changeTo, final boolean unequip )
 	{
 		super( "familiar.php" );
 
 		this.changeTo = changeTo == null ? FamiliarData.NO_FAMILIAR : changeTo;
 		this.item = null;
 		this.locking = false;
+		this.unequip = unequip;
 
 		if ( this.changeTo == FamiliarData.NO_FAMILIAR )
 		{
@@ -92,6 +101,7 @@ public class FamiliarRequest
 		this.changeTo = familiar;
 		this.item = item;
 		this.locking = false;
+		this.unequip = false;
 
 		this.addFormField( "action", "equip" );
 		this.addFormField( "whichfam", String.valueOf( familiar.getId() ) );
@@ -105,6 +115,7 @@ public class FamiliarRequest
 		this.changeTo = null;
 		this.item = null;
 		this.locking = true;
+		this.unequip = false;
 	}
 
 	public String getFamiliarChange()
@@ -161,6 +172,12 @@ public class FamiliarRequest
 		super.run();
 
 		EquipmentManager.updateEquipmentList( EquipmentManager.FAMILIAR );
+		// If we want the new familiar to be naked, unequip and return
+		if ( unequip )
+		{
+			RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, EquipmentManager.FAMILIAR ) );
+			return;
+		}
 
 		// If we didn't have a familiar before or don't have one now,
 		// leave equipment alone.
