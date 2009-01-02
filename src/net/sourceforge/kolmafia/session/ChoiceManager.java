@@ -1936,6 +1936,12 @@ public abstract class ChoiceManager
 		// The Gong Has Been Bung
 		case 276:
 			Preferences.setInteger( "moleTunnelLevel", 0 );
+			Preferences.setInteger( "birdformCold", 0 );
+			Preferences.setInteger( "birdformHot", 0 );
+			Preferences.setInteger( "birdformRoc", 0 );
+			Preferences.setInteger( "birdformSleaze", 0 );
+			Preferences.setInteger( "birdformSpooky", 0 );
+			Preferences.setInteger( "birdformStench", 0 );			
 			break;
 		}
 	}

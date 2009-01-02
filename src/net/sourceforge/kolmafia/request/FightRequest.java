@@ -2409,6 +2409,31 @@ public class FightRequest
 					{
 						Preferences.increment( "moleTunnelLevel", 1 );
 					}
+					else if ( skill.equalsIgnoreCase( "The Statue Treatment" ) )
+					{
+						Preferences.increment( "birdformStench", 1 );
+					}
+					else if ( skill.equalsIgnoreCase( "Give Your Opponent \"The Bird\"" ) )
+					{
+						Preferences.increment( "birdformSleaze", 1 );
+					}
+					else if ( skill.equalsIgnoreCase( "Antarctic Flap" ) )
+					{
+						Preferences.increment( "birdformCold", 1 );
+					}
+					else if ( skill.equalsIgnoreCase( "Rise From Your Ashes" ) )
+					{
+						Preferences.increment( "birdformHot", 1 );
+					}
+					else if ( skill.equalsIgnoreCase( "Feast on Carrion" ) )
+					{
+						Preferences.increment( "birdformSpooky", 1 );
+					}
+					else if ( skill.equalsIgnoreCase( "Vicious Talon Slash" ) ||
+						skill.equalsIgnoreCase( "All-You-Can-Beat Wing Buffet" ) )
+					{
+						Preferences.increment( "birdformRoc", 1 );
+					}
 					else if ( skill.equalsIgnoreCase( "Tunnel Downwards" ) )
 					{
 						Preferences.increment( "moleTunnelLevel", -1 );

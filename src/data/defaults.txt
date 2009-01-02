@@ -166,6 +166,12 @@ user	barrelGoal	1
 user	barrelLayout	?????????
 user	battleAction	attack with weapon
 user	betweenBattleScript
+user	birdformCold	0
+user	birdformHot	0
+user	birdformRoc	0
+user	birdformSleaze	0
+user	birdformSpooky	0
+user	birdformStench	0
 user	blackPuddingsDefeated	0
 user	breakfastCompleted	false
 user	buffBotCasting
