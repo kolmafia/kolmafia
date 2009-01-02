@@ -63,6 +63,39 @@ public class CharPaneDecorator
 		"onClick='eff\\(.*?(\\d+)(?:</a>)?\\)" );
 	
 	private static final ArrayList recentLocations = new ArrayList();
+	
+	private static final String[][] BIRDFORM_STRINGS = {
+		{
+			"birdformStench",
+			"<span title=\"stinkbug->Statue Treatment->buzzard->+meat\"><font color=green>",
+			"/5</font></span>, "
+		},
+		{
+			"birdformSleaze",
+			"<span title=\"louse->The Bird->great tit->+ML\"><font color=purple>",
+			"/5</font></span>, "
+		},
+		{
+			"birdformCold",
+			"<span title=\"ice ant->Antarctic Flap->penguin->regen\"><font color=blue>",
+			"/5</font></span>, "
+		},
+		{
+			"birdformHot",
+			"<span title=\"fire ant->Rise from Ashes->phoenix->+stats\"><font color=red>",
+			"/5</font></span>, "
+		},
+		{
+			"birdformSpooky",
+			"<span title=\"beetle->Feast on Carrion->raven->+items\"><font color=gray>",
+			"/5</font></span>, "
+		},
+		{
+			"birdformRoc",
+			"<span title=\"Talon Slash/Wing Buffet->roc->adventures\">",
+			"/15</span>, "
+		},
+	};
 
 	public static final void decorate( final StringBuffer buffer )
 	{
@@ -611,6 +644,19 @@ public class CharPaneDecorator
 				int level = Preferences.getInteger( "moleTunnelLevel" );
 				buffer.append( (level >= 0 ? "+" : "") + level );
 				buffer.append( ", " );
+			}
+			else if ( effectName.equalsIgnoreCase( "Form of...Bird!" ) )
+			{
+				for ( int i = 0; i < BIRDFORM_STRINGS.length; ++i )
+				{
+					int count = Preferences.getInteger( BIRDFORM_STRINGS[ i ][ 0 ] );
+					if ( count != 0 )
+					{
+						buffer.append( BIRDFORM_STRINGS[ i ][ 1 ] );
+						buffer.append( count );
+						buffer.append( BIRDFORM_STRINGS[ i ][ 2 ] );
+					}
+				}
 			}
 			if ( !removeAction.equals( "" ) )
 			{
