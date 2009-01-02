@@ -143,7 +143,7 @@ public class KoLmafiaCLI
 	private static final Pattern ASHNAME_PATTERN = Pattern.compile( "\\.ash", Pattern.CASE_INSENSITIVE );
 	private static final Pattern STATDAY_PATTERN = Pattern.compile( "(today|tomorrow) is (.*?) day" );
 	private static final Pattern MEAT_PATTERN = Pattern.compile( "[\\d,]+ meat" );
-	private static final Pattern SCRIPT_PATTERN = Pattern.compile( "<script.*?</script>", Pattern.DOTALL );
+	private static final Pattern HEAD_PATTERN = Pattern.compile( "<head>.*?</head>", Pattern.DOTALL );
 	private static final Pattern COMMENT_PATTERN = Pattern.compile( "<!--.*?-->", Pattern.DOTALL );
 
 	private String previousLine = null;
@@ -3615,11 +3615,15 @@ public class KoLmafiaCLI
 	
 	public void showHTML( final String location, final String text )
 	{
+		// Remove HTML header and comments.
+		String displayText = KoLmafiaCLI.HEAD_PATTERN.matcher( text ).replaceAll( "" );
+		displayText = KoLmafiaCLI.COMMENT_PATTERN.matcher( displayText ).replaceAll( "" );
+
 		// Strip out all the new lines found in the source
 		// so you don't accidentally add more new lines than
 		// necessary.
 
-		String displayText = text.replaceAll( "[\r\n]+", "" );
+		displayText = displayText.replaceAll( "[\r\n]+", "" );
 
 		// Replace all things symbolizing paragraph breaks
 		// with actual new lines.
@@ -3638,8 +3642,6 @@ public class KoLmafiaCLI
 		// that is printed.
 
 		displayText = displayText.replaceAll( "\n\n\n+", "\n\n" );
-		displayText = KoLmafiaCLI.SCRIPT_PATTERN.matcher( displayText ).replaceAll( "" );
-		displayText = KoLmafiaCLI.COMMENT_PATTERN.matcher( displayText ).replaceAll( "" );
 
 		RequestLogger.printLine( displayText.trim() );
 	}

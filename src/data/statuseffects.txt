@@ -478,7 +478,7 @@
 477	Afternoon Insight	snowflakes.gif	8e7a70c89d678195f247989106e68eb2
 478	Fancy Feasted	monocle.gif	c7c091c77690a7e032874840412e3b17
 479	Chock Full o' Nanites	disease.gif	01d86c4d48b69892609d2465725401c3
-480
+480	The Spirit of Crimbo	happy.gif	580764ad51eaf4541322b61d91c5bc74
 481	Mallowed Out	roastmallow.gif	1f7d77ed2bed543ff97b5e539aa490e9
 482	Fitter, Happier	drone1.gif	cbb07636ac67293a88827364a955d84d
 483
