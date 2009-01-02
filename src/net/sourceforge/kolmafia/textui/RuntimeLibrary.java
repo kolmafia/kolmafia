@@ -107,7 +107,7 @@ import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
 import net.sourceforge.kolmafia.swingui.ItemManageFrame;
-// import net.sourceforge.kolmafia.swingui.ScriptUIFrame;
+//import net.sourceforge.kolmafia.swingui.ScriptUIFrame;
 import net.sourceforge.kolmafia.textui.parsetree.AggregateType;
 import net.sourceforge.kolmafia.textui.parsetree.ArrayValue;
 import net.sourceforge.kolmafia.textui.parsetree.CompositeValue;
@@ -1870,9 +1870,13 @@ public abstract class RuntimeLibrary
 		AdventureResult[] data = ConcoctionDatabase.getIngredients( item );
 		for ( int i = 0; i < data.length; ++i )
 		{
-			value.aset(
-				DataTypes.parseItemValue( data[ i ].getName(), true ),
-				DataTypes.parseIntValue( String.valueOf( data[ i ].getCount() ) ) );
+			int count = data[ i ].getCount();
+			Value key = DataTypes.parseItemValue( data[ i ].getName(), true );
+			if ( value.contains( key ) )
+			{
+				count += value.aref( key ).intValue();
+			}
+			value.aset( key, new Value( count ) );
 		}
 
 		return value;
