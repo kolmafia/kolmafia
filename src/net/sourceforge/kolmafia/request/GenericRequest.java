@@ -1258,9 +1258,9 @@ public class GenericRequest
 	private boolean retrieveServerReply( final InputStream istream )
 		throws IOException
 	{
-		// Find an available byte array in order to buffer the data.  Allow
-		// this to scale based on the number of incoming requests in order
-		// to reduce the probability that the program hangs.
+		// Find an available byte array in order to buffer the data.
+		// Allow this to scale based on the number of incoming requests
+		// in order to reduce the probability that the program hangs.
 
 		int desiredIndex = -1;
 
@@ -1300,9 +1300,9 @@ public class GenericRequest
 		this.responseText = stream.toString( "UTF-8" );
 		stream.reset();
 
-		// You are now done with the array.  Go ahead and reset the value
-		// to false to let the program know the objects are available to
-		// be reused.
+		// You are now done with the array.  Go ahead and reset the
+		// value to false to let the program know the objects are
+		// available to be reused.
 
 		GenericRequest.BYTEFLAGS.set( desiredIndex, Boolean.FALSE );
 

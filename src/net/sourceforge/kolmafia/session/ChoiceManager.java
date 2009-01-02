@@ -1950,6 +1950,13 @@ public abstract class ChoiceManager
 	{
 		String text = request.responseText;
 
+		if ( ChoiceManager.lastChoice == 0 )
+		{
+			// We are viewing the choice page for the first time.
+			ChoiceManager.visitChoice( text );
+			return;
+		}
+
 		switch ( ChoiceManager.lastChoice )
 		{
 		case 48: case 49: case 50: case 51: case 52:
@@ -2106,6 +2113,36 @@ public abstract class ChoiceManager
 
 		// Certain choices cost meat or items when selected
 		ChoiceManager.payCost( ChoiceManager.lastChoice, ChoiceManager.lastDecision );
+	}
+
+	public static void visitChoice( final String responseText )
+	{
+		Matcher matcher = ChoiceManager.CHOICE_PATTERN.matcher( responseText );
+
+		if ( !matcher.find() )
+		{
+			// choice.php did not offer us any choices.
+			// This would be a bug in KoL itself.
+			return;
+		}
+
+		ChoiceManager.lastChoice = StringUtilities.parseInt ( matcher.group( 1 ) );
+
+		switch ( ChoiceManager.lastChoice )
+		{
+		// Wheel In the Pyramid, Keep on Turning
+		case 134:
+
+			// Visiting this choice removes the carved wooden wheel
+			// from your inventory.
+
+			if ( InventoryManager.getCount( ItemPool.CARVED_WOODEN_WHEEL ) > 0 )
+			{
+				ResultProcessor.processItem( ItemPool.CARVED_WOODEN_WHEEL, -1 );
+			}
+
+			break;
+		}
 	}
 
 	private static void checkGuyMadeOfBees( final GenericRequest request )
@@ -2356,59 +2393,6 @@ public abstract class ChoiceManager
 
 			return decision;
 
-
-		// One NightStand (simple wooden)
-		case 85:
-
-			// If the player is looking for the ballroom key,
-			// then update their preferences so that KoLmafia
-			// automatically switches things for them.
-
-			if ( !KoLConstants.inventory.contains( ChoiceManager.BALLROOM_KEY ) )
-			{
-				Preferences.setString( option, decision.equals( "1" ) ? "2" : "1" );
-			}
-			else
-			{
-				for ( int i = 0; i < ChoiceManager.MISTRESS_ITEMS.length; ++i )
-				{
-					if ( KoLConstants.conditions.contains( ChoiceManager.MISTRESS_ITEMS[ i ] ) )
-					{
-						return "3";
-					}
-				}
-			}
-
-			return decision;
-
-		// Wheel In the Pyramid, Keep on Turning
-		case 134:
-
-			// Visiting this choice removes the carved wooden wheel
-			// from your inventory.
-
-			if ( InventoryManager.getCount( ItemPool.CARVED_WOODEN_WHEEL ) > 0 )
-			{
-				ResultProcessor.processItem( ItemPool.CARVED_WOODEN_WHEEL, -1 );
-			}
-
-			return decision;
-
-		// Choice 162 is Between a Rock and Some Other Rocks
-		case 162:
-
-			// Auto-skip the goatlet adventure if you're not wearing
-			// the mining outfit so it can be tried again later.
-
-			return EquipmentManager.isWearingOutfit( 8 ) ? decision : "2";
-
-		case 91:
-
-			// Sometimes, the choice adventure for the louvre
-			// loses track of whether to ignore the louvre or not.
-
-			return Preferences.getInteger( "louvreDesiredGoal" ) != 0 ? "1" : "2";
-
 		case 48: case 49: case 50: case 51: case 52:
 		case 53: case 54: case 55: case 56: case 57:
 		case 58: case 59: case 60: case 61: case 62:
@@ -2447,6 +2431,30 @@ public abstract class ChoiceManager
 			}
 			return decision;
 
+		// One NightStand (simple wooden)
+		case 85:
+
+			// If the player is looking for the ballroom key,
+			// then update their preferences so that KoLmafia
+			// automatically switches things for them.
+
+			if ( !KoLConstants.inventory.contains( ChoiceManager.BALLROOM_KEY ) )
+			{
+				Preferences.setString( option, decision.equals( "1" ) ? "2" : "1" );
+			}
+			else
+			{
+				for ( int i = 0; i < ChoiceManager.MISTRESS_ITEMS.length; ++i )
+				{
+					if ( KoLConstants.conditions.contains( ChoiceManager.MISTRESS_ITEMS[ i ] ) )
+					{
+						return "3";
+					}
+				}
+			}
+
+			return decision;
+
 		// Out in the Garden
 		case 89:
 
@@ -2468,6 +2476,13 @@ public abstract class ChoiceManager
 				return KoLConstants.activeEffects.contains( ChoiceManager.MAIDEN_EFFECT ) ? "2" : "3";
 			}
 			return decision;
+
+		case 91:
+
+			// Sometimes, the choice adventure for the louvre
+			// loses track of whether to ignore the louvre or not.
+
+			return Preferences.getInteger( "louvreDesiredGoal" ) != 0 ? "1" : "2";
 
 		case 92: case 93: case 94: case 95: case 96:
 		case 97: case 98: case 99: case 100: case 101:
@@ -2508,6 +2523,14 @@ public abstract class ChoiceManager
 				}
 			}
 			return "1";
+
+		// Choice 162 is Between a Rock and Some Other Rocks
+		case 162:
+
+			// Auto-skip the goatlet adventure if you're not wearing
+			// the mining outfit so it can be tried again later.
+
+			return EquipmentManager.isWearingOutfit( 8 ) ? decision : "2";
 		}
 
 		return decision;
