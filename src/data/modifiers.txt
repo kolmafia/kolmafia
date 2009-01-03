@@ -1580,7 +1580,7 @@ Blackbery Politeness	Meat Drop: +20
 # Blessing of Bulbazinalli	DA/DR?
 Blessing of Charcoatl	Hot Damage: +10
 # Blessing of Pikachutlotal	initiative?
-Blessing of Squirtlcthulli	HP Regen Min: 7, HP Regen Max: 9, MP Regen Min: 7, MP Regen Max: 9
+Blessing of Squirtlcthulli	HP Regen Min: 2, HP Regen Max: 10, MP Regen Min: 2, MP Regen Max: 10
 Bloody Bloody Bloody!	Spooky Damage: +50
 Bloody Hand	Muscle: -1
 Blue Tongue	Item Drop: +30
