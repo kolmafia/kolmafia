@@ -2280,7 +2280,6 @@ public class UseItemRequest
 
 		case ItemPool.OUTRAGEOUS_SOMBRERO:
 			Preferences.setBoolean( "outrageousSombreroUsed", true );
-			ResultProcessor.processResult( item );
 			return;
 
 		case ItemPool.GRUB:
