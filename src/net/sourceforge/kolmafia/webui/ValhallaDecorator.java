@@ -102,7 +102,7 @@ public class ValhallaDecorator
 		reminders.append( FamiliarDatabase.getFamiliarImageLocation( KoLCharacter.getFamiliar().getId() ) );
 		reminders.append( "\"></td><td><select id=\"familiar\" style=\"width: 250px\" onchange=\"var select = document.getElementById('familiar'); " );
 		reminders.append( "var option = select.options[select.selectedIndex]; " );
-		reminders.append( "top.charpane.document.location.href = '/KoLmafia/sideCommand?cmd=familiar+naked+' + option.value + '&pwd=" );
+		reminders.append( "top.charpane.document.location.href = '/KoLmafia/sideCommand?cmd=familiar+' + option.value + '&pwd=" );
 		reminders.append( GenericRequest.passwordHash );
 		reminders.append( "'; document.getElementById('current').src = 'http://images.kingdomofloathing.com/' + option.id; " );
 		reminders.append( "return true;\"><option value=\"none\">- No Familiar -</option>" );
