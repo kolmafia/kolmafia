@@ -1183,13 +1183,25 @@ public class RequestEditorKit
 
 			String ball = RequestEditorKit.altarToBilliardBall( domain );
 			String effect = RequestEditorKit.altarToEffect( domain );
+			String modifiers = RequestEditorKit.altarToModifiers( domain );
 
-			if ( ball != null && effect != null )
+			if ( ball == null || effect == null || modifiers == null )
 			{
-				StringUtilities.globalStringReplace( buffer, ball, ball + " (" + effect + ")" );
+				return;
+			}
+
+
+			StringUtilities.globalStringReplace( buffer, ball, ball + " (" + effect + ")" );
+
+			String test = "</form></center></td></tr>";
+			int index = buffer.indexOf( test );
+			if ( index != -1 )
+			{
+				index += test.length();
+				String hint = "<tr><td><center>A " + ball + " grants the " + effect + " (" + modifiers + ")</center></td></tr>";
+				buffer.insert( index, hint );
 			}
 		}
-
 	}
 
 	private static final String altarToBilliardBall( final String domain )
@@ -1222,7 +1234,7 @@ public class RequestEditorKit
 		}
 		if ( domain.equals( "water" ) )
 		{
-			return "Blessing of Bulbazinalli";
+			return "Blessing of Squirtlcthulli";
 		}
 		if ( domain.equals( "fire" ) )
 		{
@@ -1230,7 +1242,29 @@ public class RequestEditorKit
 		}
 		if ( domain.equals( "nature" ) )
 		{
-			return "Blessing of Squirtlcthulli";
+			return "Blessing of Bulbazinalli";
+		}
+
+		return null;
+	}
+
+	private static final String altarToModifiers( final String domain )
+	{
+		if ( domain.equals( "lightning" ) )
+		{
+			return "Increased Combat Initiative?";
+		}
+		if ( domain.equals( "water" ) )
+		{
+			return "HP and MP regeneration";
+		}
+		if ( domain.equals( "fire" ) )
+		{
+			return "+10 Hot Damage";
+		}
+		if ( domain.equals( "nature" ) )
+		{
+			return "Unknown effect. DA/DR?";
 		}
 
 		return null;
