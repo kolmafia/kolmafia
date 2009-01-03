@@ -1387,6 +1387,7 @@ public class RelayRequest
 			if ( this.getFormField( "action" ) != null )
 			{
 				RequestThread.postRequest( new EquipmentRequest( SpecialOutfit.BIRTHDAY_SUIT ) );
+				RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, EquipmentManager.FAMILIAR ) );
 			}
 		}
 
