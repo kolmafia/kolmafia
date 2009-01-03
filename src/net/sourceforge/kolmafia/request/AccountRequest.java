@@ -47,7 +47,7 @@ public class AccountRequest
 	extends PasswordHashRequest
 {
 	private static final Pattern AUTOSELL_PATTERN =
-		Pattern.compile( "Turn On (\\S*?) Autosale Mode" );
+		Pattern.compile( "<input type=checkbox name=sellstuffugly value=1( checked)?>" );
 	private static final Pattern AUTOATTACK_PATTERN =
 		Pattern.compile( "<select class=small name=whichattack>.*?</select>", Pattern.DOTALL );
 	private static final Pattern AUTOATTACK_AJAX_PATTERN =
@@ -98,7 +98,8 @@ public class AccountRequest
 
 		if ( matcher.find() )
 		{
-			String autosellMode = matcher.group( 1 ).equals( "Compact" ) ? "detailed" : "compact";
+			boolean checked = matcher.group(1) != null && matcher.group(1).equals( " checked" );
+			String autosellMode = checked ? "compact" : "detailed";
 			KoLCharacter.setAutosellMode( autosellMode );
 		}
 
