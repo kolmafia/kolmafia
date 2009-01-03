@@ -984,7 +984,7 @@ public class KoLAdventure
 
 		if ( !( this.request instanceof AdventureRequest ) )
 		{
-			StaticEntity.getClient().registerEncounter( this.getAdventureName(), "Noncombat" );
+			StaticEntity.getClient().registerEncounter( this.getAdventureName(), "Noncombat", null );
 		}
 
 		return true;
