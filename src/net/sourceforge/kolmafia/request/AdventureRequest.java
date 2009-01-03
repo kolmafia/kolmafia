@@ -504,7 +504,7 @@ public class AdventureRequest
 			{
 				encounter = AdventureRequest.translateHoboType( encounter );
 			}
-			StaticEntity.getClient().registerEncounter( encounter, type );
+			StaticEntity.getClient().registerEncounter( encounter, type, responseText );
 		}
 
 		return encounter;
@@ -917,7 +917,7 @@ public class AdventureRequest
 
 	public static final void handleDvoraksRevenge( final GenericRequest request )
 	{
-		StaticEntity.getClient().registerEncounter( "Dvorak's Revenge", "Noncombat" );
+		StaticEntity.getClient().registerEncounter( "Dvorak's Revenge", "Noncombat", null );
 		RequestLogger.printLine( "Encounter: Dvorak's Revenge" );
 		RequestLogger.updateSessionLog( "Encounter: Dvorak's Revenge" );
 

@@ -2742,11 +2742,11 @@ public abstract class KoLmafia
 	 * Utility. The method used to register a given encounter in the running adventure summary.
 	 */
 
-	public static void registerEncounter( String encounterName, final String encounterType )
+	public static void registerEncounter( String encounterName, final String encounterType, final String responseText )
 	{
 		encounterName = encounterName.trim();
 
-		KoLmafia.handleSpecialEncounter( encounterName );
+		KoLmafia.handleSpecialEncounter( encounterName, responseText );
 		KoLmafia.recognizeEncounter( encounterName );
 
 		RegisteredEncounter[] encounters = new RegisteredEncounter[ KoLConstants.encounterList.size() ];
@@ -2767,7 +2767,7 @@ public abstract class KoLmafia
 		KoLConstants.encounterList.add( new RegisteredEncounter( encounterType, encounterName ) );
 	}
 
-	public static void handleSpecialEncounter( String encounterName )
+	public static void handleSpecialEncounter( final String encounterName, final String responseText )
 	{
 		if ( encounterName.equalsIgnoreCase( "Cheetahs Never Lose" ) )
 		{
@@ -2799,6 +2799,26 @@ public abstract class KoLmafia
 				ResultProcessor.processItem( ItemPool.FRATHOUSE_BLUEPRINTS, -1 );
 			}
 			return;
+		}
+
+		if ( encounterName.equalsIgnoreCase( "No Colors Anymore" ) )
+		{
+			if ( InventoryManager.hasItem( ItemPool.STONE_ROSE ) )
+			{
+				ResultProcessor.processItem( ItemPool.STONE_ROSE, -1 );
+			}
+			if ( InventoryManager.hasItem( ItemPool.BLACK_PAINT ) )
+			{
+				ResultProcessor.processItem( ItemPool.BLACK_PAINT, -1 );
+			}
+		}
+
+		if ( encounterName.equalsIgnoreCase( "Still No Colors Anymore" ) )
+		{
+			if ( InventoryManager.hasItem( ItemPool.BLACK_PAINT ) )
+			{
+				ResultProcessor.processItem( ItemPool.BLACK_PAINT, -1 );
+			}
 		}
 	}
 
