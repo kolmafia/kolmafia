@@ -1225,6 +1225,22 @@ public class GenericRequest
 			return true;
 		}
 
+		if ( this.formURLString.startsWith( "sellstuff" ) )
+		{
+			String redirect = this.redirectLocation;
+			String newMode = redirect.startsWith( "sellstuff.php" ) ? "compact" :
+				redirect.startsWith( "sellstuff_ugly.php" ) ? "detailed" :
+				null;
+
+			if ( newMode != null )
+			{
+				String message = "Autosell mode changed to " + newMode;
+				KoLmafia.updateDisplay( message );
+				KoLCharacter.setAutosellMode( newMode );
+				return true;
+			}
+		}
+
 		if ( this instanceof AdventureRequest || this.formURLString.startsWith( "choice.php" ) )
 		{
 			AdventureRequest.handleServerRedirect( this.redirectLocation );
