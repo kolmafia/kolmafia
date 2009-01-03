@@ -100,6 +100,7 @@ import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.request.WineCellarRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
 import net.sourceforge.kolmafia.session.BreakfastManager;
 import net.sourceforge.kolmafia.session.BuffBotManager;
@@ -2453,9 +2454,7 @@ public class KoLmafiaCLI
 				}
 			}
 
-			GenericRequest demonSummon = new GenericRequest( "manor3.php" );
-			demonSummon.addFormField( "action", "summon" );
-			demonSummon.addFormField( "demonname", demon );
+			WineCellarRequest demonSummon = new WineCellarRequest( demon );
 
 			KoLmafia.updateDisplay( "Summoning " + demon + "..." );
 			RequestThread.postRequest( demonSummon );

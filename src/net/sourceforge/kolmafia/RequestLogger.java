@@ -79,6 +79,7 @@ import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.request.WineCellarRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
 
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
@@ -445,20 +446,6 @@ public class RequestLogger
 			return;
 		}
 
-		if ( urlString.startsWith( "manor3.php" ) )
-		{
-			String demon = request.getFormField( "demonname" );
-			if ( demon != null && !demon.equals( "" ) && InventoryManager.retrieveItem( ItemPool.BLACK_CANDLE, 3 ) && InventoryManager.retrieveItem( ItemPool.EVIL_SCROLL ) )
-			{
-				RequestLogger.updateSessionLog( "summon " + demon );
-
-				ResultProcessor.processItem( ItemPool.BLACK_CANDLE, -3 );
-				ResultProcessor.processItem( ItemPool.EVIL_SCROLL, -1 );
-			}
-
-			return;
-		}
-
 		if ( urlString.startsWith( "login" ) || urlString.startsWith( "logout" ) || urlString.startsWith( "charpane" ) )
 		{
 			return;
@@ -698,6 +685,12 @@ public class RequestLogger
 		// This must come AFTER CreateItemRequest, which handles all
 		// "create via use" concoctions
 		if ( ( request instanceof UseItemRequest || isExternal ) && UseItemRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		if ( ( request instanceof WineCellarRequest || isExternal ) && WineCellarRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;

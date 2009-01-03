@@ -70,6 +70,7 @@ import net.sourceforge.kolmafia.request.StarChartRequest;
 import net.sourceforge.kolmafia.request.SushiRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.request.WineCellarRequest;
 
 import net.sourceforge.kolmafia.session.PvpManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
@@ -373,6 +374,11 @@ public abstract class StaticEntity
 		if ( location.startsWith( "hiddencity.php" ) )
 		{
 			HiddenCityRequest.parseResponse( location, responseText );
+		}
+
+		if ( location.startsWith( "manor3" ) )
+		{
+			WineCellarRequest.parseResponse( location, responseText );
 		}
 
 		if ( location.startsWith( "pyramid.php" ) )

@@ -124,10 +124,6 @@ public class CouncilFrame
 		{
 			CoinMasterRequest.parseBigBrotherVisit( location, responseText );
 		}
-		else if ( location.startsWith( "manor3" ) && location.indexOf( "action=summon" ) != -1 )
-		{
-			AdventureRequest.registerDemonName( "Summoning Chamber", responseText );
-		}
 		else if ( location.startsWith( "adventure" ) && KoLCharacter.getInebriety() > 25 )
 		{
 			CouncilFrame.handleSneakyPeteChange( responseText );
