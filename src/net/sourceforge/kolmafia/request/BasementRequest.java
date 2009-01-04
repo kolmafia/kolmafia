@@ -163,7 +163,7 @@ public class BasementRequest
 		new FamiliarData( 50 ), // Wild Hare
 		new FamiliarData( 53 ), // Astral Badger
 		new FamiliarData( 70 ), // Green Pixie
-		new FamiliarData( 93 ), // Disembodied Hand
+		new FamiliarData( 92 ), // Disembodied Hand
 	};
 
 	/**
