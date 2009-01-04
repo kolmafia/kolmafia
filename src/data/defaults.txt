@@ -258,6 +258,7 @@ user	lastGuyMadeOfBeesReset	-1
 user	lastKingLiberation	-1
 user	lastLouvreMap	0
 user	lastMessageId
+user	lastMiningReset	-1
 user	lastPastamancerGhostReset	-1
 user	lastPirateEphemera
 user	lastPirateEphemeraReset	-1
@@ -295,6 +296,8 @@ user	louvreOverride
 user	luckySewerAdventure	stolen accordion
 user	manaBurnSummonThreshold	10
 user	manaBurningThreshold	-0.05
+user	mineLayout1
+user	mineLayout2
 user	moleTunnelLevel	0
 user	mpAutoRecovery	0.0
 user	mpAutoRecoveryItems	phonics down;knob goblin superseltzer;mountain stream soda;magical mystery juice;knob goblin seltzer;cherry cloaca cola;soda water

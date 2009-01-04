@@ -82,6 +82,8 @@ import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
+import net.sourceforge.kolmafia.webui.MineDecorator;
+
 public abstract class StaticEntity
 {
 	private static final Pattern NEWSKILL1_PATTERN = Pattern.compile( "<td>You learn a new skill: <b>(.*?)</b>" );
@@ -379,6 +381,11 @@ public abstract class StaticEntity
 		if ( location.startsWith( "manor3" ) )
 		{
 			WineCellarRequest.parseResponse( location, responseText );
+		}
+
+		if ( location.startsWith( "mining.php" ) )
+		{
+			MineDecorator.parseResponse( location, responseText );
 		}
 
 		if ( location.startsWith( "pyramid.php" ) )

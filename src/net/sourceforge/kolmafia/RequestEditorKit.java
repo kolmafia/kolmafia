@@ -80,6 +80,7 @@ import net.sourceforge.kolmafia.webui.CharPaneDecorator;
 import net.sourceforge.kolmafia.webui.DungeonDecorator;
 import net.sourceforge.kolmafia.webui.HobopolisDecorator;
 import net.sourceforge.kolmafia.webui.IslandDecorator;
+import net.sourceforge.kolmafia.webui.MineDecorator;
 import net.sourceforge.kolmafia.webui.StationaryButtonDecorator;
 import net.sourceforge.kolmafia.webui.UseLinkDecorator;
 import net.sourceforge.kolmafia.webui.ValhallaDecorator;
@@ -580,6 +581,10 @@ public class RequestEditorKit
 		else if ( location.startsWith( "manor3.php" ) )
 		{
 			RequestEditorKit.addWineCellarSpoilers( buffer );
+		}
+		else if ( location.startsWith( "mining.php" ) )
+		{
+			MineDecorator.decorate( location, buffer );;
 		}
 		else if ( location.startsWith( "mountains.php" ) )
 		{
