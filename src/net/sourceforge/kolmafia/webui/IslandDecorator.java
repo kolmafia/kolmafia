@@ -1402,6 +1402,11 @@ public class IslandDecorator
 			return;
 		}
 
+                if ( InventoryManager.hasItem( ItemPool.FILTHWORM_QUEEN_HEART ) )
+                {
+                        ResultProcessor.processItem( ItemPool.FILTHWORM_QUEEN_HEART, -1 );
+                }
+
 		String side = EquipmentManager.isWearingOutfit( 32 ) ? "hippy" : "fratboy";
 		Preferences.setString( "sidequestOrchardCompleted", side );
 	}
