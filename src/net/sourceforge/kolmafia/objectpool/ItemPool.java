@@ -384,6 +384,7 @@ public class ItemPool
 	public static final int CONFETTI = 2329;
 	public static final int HOLY_MACGUFFIN = 2334;
 	public static final int BLACK_PUDDING = 2338;
+	public static final int FILTHWORM_QUEEN_HEART = 2347;
 	public static final int GUNPOWDER = 2403;
 	public static final int JAM_BAND_FLYERS = 2404;
 	public static final int ROCK_BAND_FLYERS = 2405;
