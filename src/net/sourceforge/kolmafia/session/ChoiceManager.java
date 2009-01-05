@@ -1064,12 +1064,7 @@ public abstract class ChoiceManager
 		// Darker Than Dark
 		new ChoiceAdventure(
 			"choiceAdventure6", "Gravy Barrow",
-			new String[] { "fight the fairy queen", "skip adventure" } ),
-
-		// How Depressing -> Self Explanatory
-		new ChoiceAdventure(
-			"choiceAdventure7", "Gravy Barrow",
-			new String[] { "fight the fairy queen", "skip adventure" } ),
+			new String[] { "get Beaten Up", "skip adventure" } ),
 
 		// On the Verge of a Dirge -> Self Explanatory
 		new ChoiceAdventure(
@@ -1640,6 +1635,28 @@ public abstract class ChoiceManager
 		String[] result;
 		switch ( choice )
 		{
+		case 5:
+			// Heart of Very, Very Dark Darkness
+			result = new String[ 2 ];
+
+			boolean rock = KoLCharacter.hasEquipped( ItemPool.get( ItemPool.INEXPLICABLY_GLOWING_ROCK, 1 ) );
+
+			result[ 0 ] = "You " + ( rock ? "" : "DON'T ") + " have an inexplicably glowing rock";
+			result[ 1 ] = "skip adventure";
+
+			return result;
+
+		case 7:
+			// How Depressing
+			result = new String[ 2 ];
+
+			boolean glove = KoLCharacter.hasEquipped( ItemPool.get( ItemPool.SPOOKY_GLOVE, 1 ) );
+
+			result[ 0 ] = "spooky glove " + ( glove ? "" : "NOT ") + "equipped";
+			result[ 1 ] = "skip adventure";
+
+			return result;
+
 		case 184:
 			// That Explains All The Eyepatches
 			result = new String[ 3 ];
@@ -1959,6 +1976,40 @@ public abstract class ChoiceManager
 
 		switch ( ChoiceManager.lastChoice )
 		{
+		case 7:
+			// How Depressing
+
+			if ( ChoiceManager.lastDecision != 1 )
+			{
+				break;
+			}
+
+			AdventureResult glove = ItemPool.get( ItemPool.SPOOKY_GLOVE, 1 );
+			if ( !KoLCharacter.hasEquipped( glove ) )
+			{
+				break;
+			}
+
+			if ( KoLCharacter.hasEquipped( glove, EquipmentManager.ACCESSORY1 ) )
+			{
+				EquipmentManager.setEquipment( EquipmentManager.ACCESSORY1, EquipmentRequest.UNEQUIP );
+			}
+			else if ( KoLCharacter.hasEquipped( glove, EquipmentManager.ACCESSORY2 ) )
+			{
+				EquipmentManager.setEquipment( EquipmentManager.ACCESSORY2, EquipmentRequest.UNEQUIP );
+			}
+			else
+			{
+				EquipmentManager.setEquipment( EquipmentManager.ACCESSORY3, EquipmentRequest.UNEQUIP );
+			}
+
+			// Maintain session tally: "unequip" the glove and
+			// discard it.
+
+			AdventureResult.addResultToList( KoLConstants.inventory, glove );
+			ResultProcessor.processItem( ItemPool.SPOOKY_GLOVE, -1 );
+			break;
+
 		case 48: case 49: case 50: case 51: case 52:
 		case 53: case 54: case 55: case 56: case 57:
 		case 58: case 59: case 60: case 61: case 62:

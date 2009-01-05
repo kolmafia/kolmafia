@@ -182,6 +182,9 @@ public class ItemPool
 	public static final int HEDGE_KEY = 728;
 	public static final int SCUBA_GEAR = 734;
 	public static final int KNOB_FIRECRACKER = 746;
+	public static final int FLAMING_MUSHROOM = 755;
+	public static final int FROZEN_MUSHROOM = 756;
+	public static final int STINKY_MUSHROOM = 757;
 	public static final int CUMMERBUND = 778;
 	public static final int MAFIA_ARIA = 781;
 	public static final int PLUS_SIGN = 818;
@@ -217,6 +220,11 @@ public class ItemPool
 	public static final int CLOCKWORK_CHEF = 1112;
 	public static final int CLOCKWORK_MAID = 1113;
 	public static final int ANNOYING_PITCHFORK = 1116;
+	public static final int PREGNANT_FLAMING_MUSHROOM = 1118;
+	public static final int PREGNANT_FROZEN_MUSHROOM = 1119;
+	public static final int PREGNANT_STINKY_MUSHROOM = 1120;
+	public static final int INEXPLICABLY_GLOWING_ROCK = 1121;
+	public static final int SPOOKY_GLOVE = 1125;
 	public static final int GRAVY_MAYPOLE = 1152;
 	public static final int GIFT1 = 1167;
 	public static final int GIFT2 = 1168;
