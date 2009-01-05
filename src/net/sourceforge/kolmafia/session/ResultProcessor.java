@@ -1094,6 +1094,18 @@ public class ResultProcessor
 				ResultProcessor.processItem( ItemPool.DAMP_OLD_BOOT, -1 );
 			}
 			break;
+
+		case ItemPool.PREGNANT_FLAMING_MUSHROOM:
+			ResultProcessor.processItem( ItemPool.FLAMING_MUSHROOM, -1 );
+			break;
+
+		case ItemPool.PREGNANT_FROZEN_MUSHROOM:
+			ResultProcessor.processItem( ItemPool.FROZEN_MUSHROOM, -1 );
+			break;
+
+		case ItemPool.PREGNANT_STINKY_MUSHROOM:
+			ResultProcessor.processItem( ItemPool.STINKY_MUSHROOM, -1 );
+			break;
 		}
 	}
 	
