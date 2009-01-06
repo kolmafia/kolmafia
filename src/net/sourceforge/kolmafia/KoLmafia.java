@@ -753,6 +753,7 @@ public abstract class KoLmafia
 		Preferences.setBoolean( "rageGlandVented", false );
 		Preferences.setInteger( "reagentSummons", 0 );
 		Preferences.setBoolean( "spiceMelangeUsed", false );
+		Preferences.setInteger( "spookyPuttyCopiesMade", 0 );
 		Preferences.setBoolean( "styxPixieVisited", false );
 		Preferences.setBoolean( "telescopeLookedHigh", false );
 		Preferences.setInteger( "timesRested", 0 );
