@@ -204,6 +204,7 @@ public class ItemPool
 	public static final int TEARS = 869;
 	public static final int ROLLING_PIN = 873;
 	public static final int UNROLLING_PIN = 874;
+	public static final int GOOFBALLS = 879;
 	public static final int PLASTIC_SWORD = 938;
 	public static final int DIRTY_MARTINI = 948;
 	public static final int GROGTINI = 949;
@@ -242,6 +243,7 @@ public class ItemPool
 	public static final int PRETENTIOUS_PAIL = 1258;
 	public static final int WAX_LIPS = 1260;
 	public static final int NOSE_BONE_FETISH = 1264;
+	public static final int GLOOMY_BLACK_MUSHROOM = 1266;
 	public static final int DEAD_MIMIC = 1267;
 	public static final int PINE_WAND = 1268;
 	public static final int EBONY_WAND = 1269;
@@ -266,6 +268,7 @@ public class ItemPool
 	public static final int ICE_BABY = 1425;
 	public static final int ICE_PICK = 1426;
 	public static final int ICE_SKATES = 1427;
+	public static final int OILY_GOLDEN_MUSHROOM = 1432;
 	public static final int USELESS_POWDER = 1437;
 	public static final int TWINKLY_WAD = 1450;
 	public static final int HOT_WAD = 1451;

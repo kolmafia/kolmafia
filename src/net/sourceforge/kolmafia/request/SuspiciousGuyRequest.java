@@ -33,6 +33,9 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -40,29 +43,32 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 
-public class ArtistRequest
+public class SuspiciousGuyRequest
 	extends GenericRequest
 {
-	public static final AdventureResult WHISKER = ItemPool.get( ItemPool.RAT_WHISKER, 1 );
+	private static final Pattern GOOFBALL_PATTERN = Pattern.compile( "Buy some goofballs \\((\\d+),000 Meat\\)" );
 
-	public ArtistRequest()
-	{
-		this(false);
-	}
-
-	public ArtistRequest( boolean whiskers)
+	public SuspiciousGuyRequest( final int itemId )
 	{
 		super( "town_wrong.php" );
-		this.addFormField( "place", "artist" );
-		if ( whiskers )
+		switch (itemId )
 		{
-			this.addFormField( "action", "whisker" );
+		case ItemPool.GOOFBALLS:
+			this.addFormField( "action", "buygoofballs" );
+			break;
+		case ItemPool.OILY_GOLDEN_MUSHROOM:
+			this.addFormField( "sleazy", "1" );
+			break;
+		default:
+			this.addFormField( "place", "goofballs" );
+
+			break;
 		}
 	}
 
 	public void processResults()
 	{
-                ArtistRequest.parseResponse( this.getURLString(), this.responseText );
+		SuspiciousGuyRequest.parseResponse( this.getURLString(), this.responseText );
 	}
 
 	public static final boolean parseResponse( final String location, final String responseText )
@@ -72,34 +78,47 @@ public class ArtistRequest
 			return false;
 		}
 
-		if ( location.indexOf( "place=artist" ) == -1 && location.indexOf( "action=whisker" ) == -1 )
+		if ( location.indexOf( "place=goofballs" ) == -1 && location.indexOf( "action=buygoofballs" ) == -1 && location.indexOf( "sleazy=1" ) == -1 )
 		{
 			return false;
 		}
 
-		String message = "You have unlocked a new tattoo.";
-		if ( responseText.indexOf( message ) != -1 )
+		if ( location.indexOf( "action=buygoofballs" ) != -1 )
 		{
-			RequestLogger.printLine( message );
-			RequestLogger.updateSessionLog( message );
-		}
+			// Here you go, man. If you get caught, you didn't get
+			// these from me, man.
 
-		// The artist pours the pail of paint into a huge barrel, then
-		// says "Oh, hey, umm, do you want this empty pail? I don't
-		// really have room for it, so if you want it, you can have it.
+			if ( responseText.indexOf( "If you get caught" ) == -1 )
+			{
+				return true;
+			}
 
-		if ( responseText.indexOf( "do you want this empty pail" ) != -1 )
-		{
-			ResultProcessor.processItem( ItemPool.PRETENTIOUS_PALETTE, -1 );
-			ResultProcessor.processItem( ItemPool.PRETENTIOUS_PAINTBRUSH, -1 );
-			ResultProcessor.processItem( ItemPool.PRETENTIOUS_PAIL, -1 );
+			Matcher matcher = GOOFBALL_PATTERN.matcher( responseText );
+			if ( !matcher.find() )
+			{
+				return true;
+			}
+
+			int cost = 1000 * Integer.parseInt( matcher.group( 1 ) ) - 1000;
+			if ( cost > 0 )
+			{
+				ResultProcessor.processResult( new AdventureResult( AdventureResult.MEAT, -cost ) );
+			}
+
 			return true;
 		}
 
-		if ( location.indexOf( "action=whisker" ) != -1 )
+		if ( location.indexOf( "sleazy=1" ) != -1 )
 		{
-			int count = ArtistRequest.WHISKER.getCount( KoLConstants.inventory );
-			ResultProcessor.processItem( ItemPool.RAT_WHISKER, -count );
+			// The suspicious-looking guy takes your gloomy black
+			// mushroom and smiles that unsettling little smile
+			// that makes you nervous. "Sweet, man. Here ya go."
+
+			if ( responseText.indexOf ("takes your gloomy black mushroom" ) != -1 )
+			{
+				ResultProcessor.processItem( ItemPool.GLOOMY_BLACK_MUSHROOM, -1 );
+			}
+
 			return true;
 		}
 
@@ -114,16 +133,19 @@ public class ArtistRequest
 		}
 
 		String message;
-		if ( urlString.indexOf( "action=whisker" ) != -1 )
+		if ( urlString.indexOf( "action=buygoofballs" ) != -1 )
 		{
-			int count = ArtistRequest.WHISKER.getCount( KoLConstants.inventory );
-			message = "Selling " + count + " rat whisker" + ( count > 1 ? "s" : "" ) + " to the pretentious artist";
+			message = "Buying goofballs from the suspicious looking guy";
 		}
-		else if ( urlString.indexOf( "place=artist" ) != -1 )
+		else if ( urlString.indexOf( "sleazy=1" ) != -1 )
+		{
+			message = "Trading a gloomy black mushroom for an oily golden mushroom";
+		}
+		else if ( urlString.indexOf( "place=goofballs" ) != -1 )
 		{
 			RequestLogger.printLine( "" );
 			RequestLogger.updateSessionLog();
-			message = "Visiting the pretentious artist";
+			message = "Visiting the suspicious looking guy";
 		}
 		else
 		{
