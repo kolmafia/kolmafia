@@ -755,7 +755,7 @@ Oscus's garbage can lid	Damage Reduction: 15, Stench Damage: +20
 # Raggedy Hippy doll
 Sinful Desires	Spell Damage: +10
 # Spanish fly trap
-# The Spirit of Crimbo
+The Spirit of Crimbo	Free Pull
 Tiki lighter	Experience: +1
 Tuesday's ruby	none
 Wand of Oscus	Spell Damage Percent: +100, Stench Spell Damage: +30, Class: "Pastamancer"
@@ -813,7 +813,7 @@ gnauga hide buckler	Damage Reduction: 5, Moxie: +3, Muscle: +3, Mysticality: +3
 handmade hobby horse	Experience: +2 Muscle
 # heart-shaped balloon
 hippo skin buckler	Damage Reduction: 5, Muscle: +5
-# hobo code binder
+hobo code binder	Free Pull
 hors d'oeuvre tray	Damage Reduction: 7, Initiative: +20
 hypnodisk	Item Drop: +25
 ice baby	Experience: +3, Softcore Only
@@ -2173,6 +2173,19 @@ War Hippy Fatigues	Stench Damage: +15
 Yendorian Finery	Combat Rate: -5
 eXtreme Cold-Weather Gear	Cold Resistance: +3
 
+# Everything Else section of modifiers.txt
+
+Fly-By-Knight Heraldry form	Free Pull
+Valentine	Free Pull
+brick	Free Pull
+can of Binarrrca	Free Pull
+cream pie	Free Pull
+custom avatar form	Free Pull
+heart necklace	Free Pull
+jazz soap	Free Pull
+personalized coffee mug	Free Pull
+roll of toilet paper	Free Pull
+time sleigh	Free Pull
 
 
 

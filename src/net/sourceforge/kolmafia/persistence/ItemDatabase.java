@@ -1581,6 +1581,7 @@ public class ItemDatabase
 	private static final Map accessories = new TreeMap();
 	private static final Map containers = new TreeMap();
 	private static final Map famitems = new TreeMap();
+	private static final Map others = new TreeMap();
 
 	public static final void checkInternalData( final int itemId )
 	{
@@ -1598,6 +1599,7 @@ public class ItemDatabase
 		ItemDatabase.accessories.clear();
 		ItemDatabase.containers.clear();
 		ItemDatabase.famitems.clear();
+		ItemDatabase.others.clear();
 
 		// Check item names, desc ID, consumption type
 
@@ -1754,6 +1756,9 @@ public class ItemDatabase
 			break;
 		case KoLConstants.EQUIP_FAMILIAR:
 			ItemDatabase.famitems.put( name, text );
+			break;
+		default:
+			ItemDatabase.others.put( name, text );
 			break;
 		}
 
@@ -2192,6 +2197,7 @@ public class ItemDatabase
 		ItemDatabase.checkModifierMap( report, ItemDatabase.accessories, "Accessories", unknown );
 		ItemDatabase.checkModifierMap( report, ItemDatabase.containers, "Containers", unknown );
 		ItemDatabase.checkModifierMap( report, ItemDatabase.famitems, "Familiar Items", unknown );
+		ItemDatabase.checkModifierMap( report, ItemDatabase.others, "Everything Else", unknown );
 
 		if ( unknown.size() == 0 )
 		{
@@ -2292,6 +2298,16 @@ public class ItemDatabase
 				known += ", ";
 			}
 			known += softcore;
+		}
+
+		String freepull = Modifiers.parseFreePull( text );
+		if ( freepull != null )
+		{
+			if ( !known.equals( "" ) )
+			{
+				known += ", ";
+			}
+			known += freepull;
 		}
 
 		return known;
