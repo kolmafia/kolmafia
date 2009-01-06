@@ -1131,43 +1131,56 @@ public class FightRequest
 		return desiredSkill == 0 ? "attack" : "skill" + desiredSkill;
 	}
 
-	public static final void checkItemMonster( final String name )
+	public static final void checkItemRedirection( final String location )
 	{
-		int itemId = -1;
-		String itemName = null;
-		boolean consumed = true;
+		FightRequest.checkItemRedirection( UseItemRequest.extractItem( location ) );
+	}
 
-		if ( name.equalsIgnoreCase( "Black Pudding" ) )
+	public static final void checkItemRedirection( final AdventureResult item )
+	{
+		if ( item == null )
 		{
-			itemId = ItemPool.BLACK_PUDDING;
+			return;
+		}
+
+		int itemId = item.getItemId();
+		String itemName = null;
+		boolean consumed = false;
+
+		switch ( itemId )
+		{
+		case ItemPool.BLACK_PUDDING:
 			itemName = "Black Pudding";
 			Preferences.setInteger( "currentFullness", KoLCharacter.getFullness() - 3 );
-		}
-		else if ( name.equalsIgnoreCase( "Giant Sandworm" ) )
-		{
-			itemId = ItemPool.DRUM_MACHINE;
+			consumed = true;
+			break;
+
+		case ItemPool.DRUM_MACHINE:
 			itemName = "Drum Machine";
-		}
-		else if ( name.equalsIgnoreCase( "Booty Crab" ) )
-		{
-			itemId = ItemPool.CARONCH_MAP;
+			consumed = true;
+			break;
+
+		case ItemPool.CARONCH_MAP:
 			itemName = "Cap'm Caronch's Map";
-			consumed = false;
-		}
-		else if ( name.equalsIgnoreCase( "Scary Pirate" ) )
-		{
-			itemId = ItemPool.CURSED_PIECE_OF_THIRTEEN;
+			break;
+
+		case ItemPool.CURSED_PIECE_OF_THIRTEEN:
 			itemName = "Cursed Piece of Thirteen";
-			consumed = false;
-		}
-		else
-		{
+			break;
+
+		case ItemPool.SPOOKY_PUTTY_MONSTER:
+			itemName = "Spooky Putty Monster";
+			ResultProcessor.processResult( ItemPool.get( ItemPool.SPOOKY_PUTTY_SHEET, 1 ) );
+			consumed = true;
+			break;
+
+		default:
 			return;
 		}
 
 		if ( consumed )
 		{
-			ResultProcessor.processResult( ItemPool.get( itemId, -1 ) );
+			ResultProcessor.processResult( item.getInstance( -1 ) );
 		}
 
 		int adventure = KoLAdventure.getAdventureCount();
@@ -2052,7 +2065,7 @@ public class FightRequest
 		KoLCharacter.battleSkillNames.add( "item naughty paper shuriken" );
 	}
 
-	private static final boolean isItemConsumed( final int itemId )
+	private static final boolean isItemConsumed( final int itemId, final String responseText )
 	{
 		switch ( itemId )
 		{
@@ -2082,7 +2095,19 @@ public class FightRequest
 		case ItemPool.PAPER_SHURIKEN:
 		case ItemPool.EMPTY_EYE:
 		case ItemPool.ICEBALL:
+			return false;
+
 		case ItemPool.SPOOKY_PUTTY_SHEET:
+			// You press the sheet of spooky putty against
+			// him/her/it and make a perfect copy, which you shove
+			// into your sack. He doesn't seem to appreciate it too
+			// much...
+
+			if ( responseText.indexOf( "make a perfect copy" ) != -1 )
+			{
+				Preferences.increment( "spookyPuttyCopiesMade", 1 );
+				return true;
+			}
 			return false;
 
 		case ItemPool.ANTIDOTE: // Anti-Anti-Antidote
@@ -2165,14 +2190,14 @@ public class FightRequest
 				return;
 			}
 
-			FightRequest.payItemCost( StringUtilities.parseInt( FightRequest.action1 ) );
+			FightRequest.payItemCost( StringUtilities.parseInt( FightRequest.action1 ), responseText );
 
 			if ( FightRequest.action2 == null || FightRequest.action2.equals( "" ) )
 			{
 				return;
 			}
 
-			FightRequest.payItemCost( StringUtilities.parseInt( FightRequest.action2 ) );
+			FightRequest.payItemCost( StringUtilities.parseInt( FightRequest.action2 ), responseText );
 
 			return;
 		}
@@ -2215,14 +2240,14 @@ public class FightRequest
 		}
 	}
 
-	public static final void payItemCost( final int itemId )
+	public static final void payItemCost( final int itemId, final String responseText )
 	{
 		if ( itemId <= 0 )
 		{
 			return;
 		}
 
-		if ( FightRequest.isItemConsumed( itemId ) )
+		if ( FightRequest.isItemConsumed( itemId, responseText ) )
 		{
 			ResultProcessor.processResult( new AdventureResult( itemId, -1 ) );
 			return;

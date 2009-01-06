@@ -1530,6 +1530,7 @@ public class UseItemRequest
 			// the nasty booty. That's handled elsewhere.
 
 			ResultProcessor.processResult( item );
+			FightRequest.checkItemRedirection( item );
 			return;
 
 		case ItemPool.FRATHOUSE_BLUEPRINTS:
@@ -1929,6 +1930,7 @@ public class UseItemRequest
 			// consumed elsewhere
 
 			ResultProcessor.processResult( item );
+			FightRequest.checkItemRedirection( item );
 
 			return;
 
@@ -1978,6 +1980,7 @@ public class UseItemRequest
 			// consumed elsewhere
 
 			ResultProcessor.processResult( item );
+			FightRequest.checkItemRedirection( item );
 
 			return;
 
@@ -2018,6 +2021,26 @@ public class UseItemRequest
 			// not consumed
 
 			ResultProcessor.processResult( item );
+			FightRequest.checkItemRedirection( item );
+
+			return;
+
+		case ItemPool.SPOOKY_PUTTY_MONSTER:
+
+			// You can't tell what this is supposed to be a copy
+			// of. You squish it back into a sheet.
+
+			if ( responseText.indexOf( "squish it back into a sheet" ) != -1 )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.SPOOKY_PUTTY_SHEET, 1 ) );
+				return;
+			}
+
+			// If we are redirected to a fight, the item is
+			// consumed elsewhere
+
+			ResultProcessor.processResult( item );
+			FightRequest.checkItemRedirection( item );
 
 			return;
 
@@ -2455,7 +2478,7 @@ public class UseItemRequest
 		return text;
 	}
 
-	private static final AdventureResult extractItem( final String urlString )
+	public static final AdventureResult extractItem( final String urlString )
 	{
 		if ( !urlString.startsWith( "inv_eat.php" ) &&
 		     !urlString.startsWith( "inv_booze.php" ) &&

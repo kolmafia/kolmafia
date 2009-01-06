@@ -1152,11 +1152,16 @@ public class GenericRequest
 			return true;
 		}
 
-		if ( this.redirectLocation.startsWith( "fight.php" ) && this instanceof UseItemRequest )
+		if ( this.redirectLocation.startsWith( "fight.php" ) )
 		{
-			FightRequest.INSTANCE.run();
-			CharPaneRequest.getInstance().run();
-			return !LoginRequest.isInstanceRunning();
+			FightRequest.checkItemRedirection( this.getURLString() );
+
+			if ( this instanceof UseItemRequest )
+			{
+				FightRequest.INSTANCE.run();
+				CharPaneRequest.getInstance().run();
+				return !LoginRequest.isInstanceRunning();
+			}
 		}
 
 		if ( this instanceof RelayRequest )

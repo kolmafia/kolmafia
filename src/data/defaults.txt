@@ -346,6 +346,7 @@ user	sidequestOrchardCompleted	none
 user	sortByRoom	true
 user	spadingData
 user	spiceMelangeUsed	false
+user	spookyPuttyCopiesMade	0
 user	stationaryButton1
 user	stationaryButton2
 user	stationaryButton3

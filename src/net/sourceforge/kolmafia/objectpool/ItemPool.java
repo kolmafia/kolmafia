@@ -635,6 +635,7 @@ public class ItemPool
 	public static final int GRIMACITE_KNEECAPPING_STICK = 3644;
 	public static final int MINIATURE_ANTLERS = 3651;
 	public static final int SPOOKY_PUTTY_SHEET = 3665;
+	public static final int SPOOKY_PUTTY_MONSTER = 3667;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
