@@ -412,6 +412,7 @@ public class Modifiers
 	public static final int SINGLE = 1;
 	public static final int NEVER_FUMBLE = 2;
 	public static final int WEAKENS = 3;
+	public static final int FREE_PULL = 4;
 
 	private static final Object[][] booleanModifiers =
 	{
@@ -430,6 +431,10 @@ public class Modifiers
 		{ "Weakens Monster",
 		  Pattern.compile( "Successful hit weakens opponent" ),
 		  Pattern.compile( "Weakens Monster" )
+		},
+		{ "Free Pull",
+		  null,
+		  Pattern.compile( "Free Pull" )
 		},
 	};
 
@@ -462,11 +467,12 @@ public class Modifiers
 
 	public static final int STRING_MODIFIERS = Modifiers.stringModifiers.length;
 	
-	// Clownosity behaves differently from any other current modifiers - multiples of the
-	// same item do not contribute any more towards it, even if their other attributes do
-	// stack.  Treat it as a special case for now, rather than creating a 4th class of
-	// modifier types.  Currently, there are 19 distinct points of Clownosity available,
-	// so bits in an int will work to represent them.
+	// Clownosity behaves differently from any other current modifiers -
+	// multiples of the same item do not contribute any more towards it,
+	// even if their other attributes do stack.  Treat it as a special case
+	// for now, rather than creating a 4th class of modifier types.
+	// Currently, there are 19 distinct points of Clownosity available, so
+	// bits in an int will work to represent them.
 	
 	private static final Pattern CLOWNOSITY_PATTERN =
 		Pattern.compile( "Clownosity: ([+-]\\d+)" );
@@ -1341,6 +1347,20 @@ public class Modifiers
 		return null;
 	}
 
+	private static final Pattern FREE_PULL_PATTERN =
+		Pattern.compile( "Free pull from Hagnk's" );
+
+	public static final String parseFreePull( final String text )
+	{
+		Matcher matcher = Modifiers.FREE_PULL_PATTERN.matcher( text );
+		if ( matcher.find() )
+		{
+			return Modifiers.modifierName( Modifiers.booleanModifiers, Modifiers.FREE_PULL );
+		}
+
+		return null;
+	}
+
 	private static final Pattern ALL_ATTR_PATTERN = Pattern.compile( "^All Attributes ([+-]\\d+)$" );
 	private static final Pattern ALL_ATTR_PCT_PATTERN = Pattern.compile( "^All Attributes ([+-]\\d+)%$" );
 	private static final Pattern CLASS_PATTERN = Pattern.compile( "Bonus&nbsp;for&nbsp;(.*)&nbsp;only" );
@@ -1624,6 +1644,10 @@ public class Modifiers
 			for ( int j = 0; j < strings.length; ++j )
 			{
 				String mod = strings[ j ].trim();
+				if ( mod.equals( "" ) )
+				{
+					continue;
+				}
 				if ( Modifiers.findModifier( Modifiers.floatModifiers, mod ) )
 				{
 					continue;
@@ -1633,6 +1657,10 @@ public class Modifiers
 					continue;
 				}
 				if ( Modifiers.findModifier( Modifiers.stringModifiers, mod ) )
+				{
+					continue;
+				}
+				if ( mod.startsWith( "Clownosity:" ) )
 				{
 					continue;
 				}

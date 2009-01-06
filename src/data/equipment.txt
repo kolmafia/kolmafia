@@ -397,7 +397,7 @@ Rock and Roll Legend	50	Mox: 10	2-handed accordion
 Shagadelic Disco Banjo	90	Mox: 15	2-handed banjo
 Spirit Precipice	135	Mus: 45	2-handed sword
 Spooky Putty ball	100	Mox: 0	1-handed superball
-Spooky Putty snake	100	Mys: 0	1-handed chefstaff
+Spooky Putty snake	10	Mys: 0	1-handed chefstaff
 Squeezebox of the Ages	90	Mox: 15	2-handed accordion
 Staff of Blood and Pudding	10	Mys: 15	1-handed chefstaff
 Staff of the Black Kettle	10	Mys: 75	1-handed chefstaff
@@ -600,7 +600,7 @@ ridiculously overelaborate ninja weapon	100	Mus: 35	3-handed ...weapon
 roboduck-on-a-string	100	Mus: 35	1-handed flail
 rubber axe	40	Mus: 5	2-handed axe
 rusty grave robbing shovel	80	Mus: 25	2-handed polearm
-rusty speargun	200	Mox: 85	1-handed 
+rusty speargun	200	Mox: 85	1-handed pistol
 sabre teeth	60	Mus: 15	1-handed knife
 sack of doorknobs	110	Mox: 40	2-handed sack
 saucepan	10	Mys: 0	1-handed saucepan
