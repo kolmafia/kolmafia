@@ -41,6 +41,7 @@ An Octopus's Garden	-1	Neptune Flytrap	Octopus Gardener	Sponge	Stranglin' Algae
 Astral Mushroom (Bad Trip)	100	Swarm of Country Bats	Trippy Floating Head (Sky)	Trippy Floating Head (Stench)	Trippy Floating Head (Todd)	Zombie Baby
 Astral Mushroom (Great Trip)	100	Angels of Avalon	Bustle in the Hedgerow	Elders of the Gentle Race	Gathering of Angels?	Higher Plane Serpents
 Astral Mushroom (Mediocre Trip)	100	Feeling That You're Being Watched	Really Interesting Wallpaper	The Best Carpet Ever	Urge to Stare at Your Hands	Visible Music
+Atomic Crimbo Toy Factory	100	Mutant Circuit-Soldering Elf	Mutant Cookie-Baking Elf	Mutant Doll-Dressing Elf	Mutant Gift-Wrapping Elf	Mutant Whistle-Carving Elf
 Back 40	100	Fire-Breathing Duck	Scorched Duck
 Barn	100	Generic Duck
 Barrel full of Barrels	-1	Mimic (Bottom 2 Rows)	Mimic (Middle 2 Rows)	Mimic (Top 2 Rows)
@@ -131,6 +132,7 @@ Menagerie 3	100	Booze Giant	Portly Abomination	Spectral Jellyfish
 Mouldering Mansion	70	Bellhop	Black Cat	Ourang-Outang	Raven	An Usher
 Ninja Snowmen	100	Ninja Snowman (Hilt/Mask): 2	Ninja Snowman (Chopsticks)	Ninja Snowman Janitor	Ninja Snowman Weaponmaster
 Oasis in the Desert	100	Blur	Oasis Monster	Rolling Stone	Swarm of Scarab Beatles
+Old Crimbo Town Toy Factory	100	Mob Penguin Goon	Mob Penguin Hitpenguin	Mob Penguin Enforcer	Mob Penguin Psychopath	Mob Penguin Racketeer
 Orc Chasm	100	1335 HaXx0r	Anime Smiley	Flaming Troll	Lamz0r N00b	Me4t BegZ0r	Rampaging Adding Machine	Spam Witch	XXX pr0n	Bad ASCII Art: 0
 Other Back 40	100	Greasy Duck
 Outskirts of Camp	70	Axe Handle	Cloud of Disembodied Whiskers	Poutine Ooze	Forest Spirit
