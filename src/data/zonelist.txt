@@ -60,4 +60,5 @@ Removed	Removed	Removed Areas
 Crimbo05	Removed	Christmas 2005
 Crimbo06	Removed	Christmas 2006
 Crimbo07	Removed	Christmas 2007
+Crimbo08	Removed	Christmas 2008
 WhiteWed	Removed	White Wednesday
