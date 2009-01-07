@@ -58,8 +58,9 @@ public class ClosetRequest
 
 	private static final Pattern PULLS_PATTERN = Pattern.compile( "(\\d+) more" );
 	private static final Pattern STORAGE_PATTERN = Pattern.compile( "name=\"whichitem1\".*?</select>", Pattern.DOTALL );
+	private static final Pattern FREEPULLS_PATTERN = Pattern.compile( "<select name=whichitem>.*?</select>", Pattern.DOTALL );
 	private static final Pattern OPTION_PATTERN =
-		Pattern.compile( "<option[^>]* value='([\\d]+)'>(.*?)\\(([\\d,]+)\\)" );
+		Pattern.compile( "<option[^>]*? value='?([\\d]+)'?>(.*?)( \\(([\\d,]+)\\))?</option>" );
 
 	private int moveType;
 
@@ -70,7 +71,8 @@ public class ClosetRequest
 	public static final int MEAT_TO_CLOSET = 4;
 	public static final int MEAT_TO_INVENTORY = 5;
 	public static final int STORAGE_TO_INVENTORY = 6;
-	public static final int PULL_MEAT_FROM_STORAGE = 7;
+	public static final int FREEPULL_TO_INVENTORY = 7;
+	public static final int PULL_MEAT_FROM_STORAGE = 8;
 
 	public ClosetRequest()
 	{
@@ -123,6 +125,12 @@ public class ClosetRequest
 			this.destination = KoLConstants.inventory;
 			break;
 
+		case FREEPULL_TO_INVENTORY:
+			this.constructURLString( "storage.php?action=freepull" );
+			this.source = KoLConstants.freepulls;
+			this.destination = KoLConstants.inventory;
+			break;
+
 		case INVENTORY_TO_CLOSET:
 			this.constructURLString( "closet.php?action=put" );
 			this.source = KoLConstants.inventory;
@@ -154,7 +162,7 @@ public class ClosetRequest
 
 	public String getQuantityField()
 	{
-		return "howmany";
+		return this.moveType == FREEPULL_TO_INVENTORY ? "quantity" : "howmany";
 	}
 
 	public String getMeatField()
@@ -181,7 +189,7 @@ public class ClosetRequest
 
 	public int getCapacity()
 	{
-		return 11;
+		return this.moveType == FREEPULL_TO_INVENTORY ? 1 : 11;
 	}
 
 	public TransferItemRequest getSubInstance( final Object[] attachments )
@@ -195,6 +203,8 @@ public class ClosetRequest
 		{
 		case STORAGE_TO_INVENTORY:
 			return "moved from storage to inventory";
+		case FREEPULL_TO_INVENTORY:
+			return "You acquire";
 		case INVENTORY_TO_CLOSET:
 			return "moved from inventory to closet";
 		case CLOSET_TO_INVENTORY:
@@ -237,6 +247,10 @@ public class ClosetRequest
 				CharPaneRequest.getInstance().run();
 			}
 
+			break;
+
+		case FREEPULL_TO_INVENTORY:
+			this.parseStorage();
 			break;
 
 		case STORAGE_TO_INVENTORY:
@@ -335,14 +349,45 @@ public class ClosetRequest
 		while ( optionMatcher.find() )
 		{
 			int itemId = StringUtilities.parseInt( optionMatcher.group( 1 ) );
+			if ( itemId == 0 )
+			{
+				continue;
+			}
 
 			if ( ItemDatabase.getItemName( itemId ) == null )
 			{
 				ItemDatabase.registerItem( itemId, optionMatcher.group( 2 ).trim() );
 			}
 
-			AdventureResult result = new AdventureResult( itemId, StringUtilities.parseInt( optionMatcher.group( 3 ) ) );
+			int count = optionMatcher.group(3) == null ? 1 : StringUtilities.parseInt( optionMatcher.group( 4 ) );
+			AdventureResult result = new AdventureResult( itemId, count );
 			AdventureResult.addResultToList( storageContents, result );
+		}
+
+		storageMatcher = ClosetRequest.FREEPULLS_PATTERN.matcher( this.responseText );
+		if ( !storageMatcher.find() )
+		{
+			return;
+		}
+
+		List freepullsContents = KoLConstants.freepulls;
+		optionMatcher = ClosetRequest.OPTION_PATTERN.matcher( storageMatcher.group() );
+		while ( optionMatcher.find() )
+		{
+			int itemId = StringUtilities.parseInt( optionMatcher.group( 1 ) );
+			if ( itemId == 0 )
+			{
+				continue;
+			}
+
+			if ( ItemDatabase.getItemName( itemId ) == null )
+			{
+				ItemDatabase.registerItem( itemId, optionMatcher.group( 2 ).trim() );
+			}
+
+			int count = optionMatcher.group(3) == null ? 1 : StringUtilities.parseInt( optionMatcher.group( 4 ) );
+			AdventureResult result = new AdventureResult( itemId, count );
+			AdventureResult.addResultToList( freepullsContents, result );
 		}
 	}
 
@@ -378,6 +423,12 @@ public class ClosetRequest
 			return true;
 		}
 
+		if ( urlString.indexOf( "freepull" ) != -1 )
+		{
+			return TransferItemRequest.registerRequest(
+				"pull", urlString, TransferItemRequest.ITEMID_PATTERN, TransferItemRequest.QUANTITY_PATTERN, KoLConstants.freepulls, KoLConstants.inventory, "amt", 0 );
+		}
+
 		return TransferItemRequest.registerRequest(
 			"pull", urlString, KoLConstants.storage, KoLConstants.inventory, "amt", 0 );
 	}
@@ -405,6 +456,7 @@ public class ClosetRequest
 			return "Emptying storage";
 
 		case STORAGE_TO_INVENTORY:
+		case FREEPULL_TO_INVENTORY:
 			return "Pulling items from storage";
 
 		case RETRIEVE_STORAGE:

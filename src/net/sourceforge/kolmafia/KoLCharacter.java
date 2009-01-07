@@ -349,6 +349,7 @@ public abstract class KoLCharacter
 
 		KoLConstants.closet.clear();
 		KoLConstants.storage.clear();
+		KoLConstants.freepulls.clear();
 		KoLConstants.collection.clear();
 
 		KoLConstants.usableSkills.clear();

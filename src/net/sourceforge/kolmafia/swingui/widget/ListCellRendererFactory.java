@@ -726,6 +726,42 @@ public class ListCellRendererFactory
 		}
 	}
 
+	public static final DefaultListCellRenderer getFreePullsRenderer()
+	{
+		return new FreePullsRenderer();
+	}
+
+	private static class FreePullsRenderer
+		extends DefaultRenderer
+	{
+		public FreePullsRenderer()
+		{
+			this.setOpaque( true );
+		}
+
+		public boolean allowHighlight()
+		{
+			return true;
+		}
+
+		public Component getRenderer( final Component defaultComponent, final AdventureResult ar )
+		{
+			if ( !ar.isItem() )
+			{
+				return defaultComponent;
+			}
+
+			StringBuffer stringForm = new StringBuffer();
+			stringForm.append( ar.getName() );
+			stringForm.append( " (" );
+			stringForm.append( KoLConstants.COMMA_FORMAT.format( ar.getCount() ) );
+			stringForm.append( ")" );
+
+			( (JLabel) defaultComponent ).setText( stringForm.toString() );
+			return defaultComponent;
+		}
+	}
+
 	public static final DefaultListCellRenderer getPulverizationRenderer()
 	{
 		return new PulverizationRenderer();
