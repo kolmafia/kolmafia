@@ -166,6 +166,7 @@ public class ItemManageFrame
 		selectorPanel.addPanel( " - Recent", new InventoryPanel( KoLConstants.tally, false ) );
 		selectorPanel.addPanel( " - Closet", new InventoryPanel( KoLConstants.closet, false ) );
 		selectorPanel.addPanel( " - Storage", new HagnkStoragePanel( false ) );
+		selectorPanel.addPanel( " - Free Pulls", new FreePullsPanel() );
 
 		selectorPanel.addSeparator();
 
@@ -498,6 +499,57 @@ public class ItemManageFrame
 			{
 				RequestThread.postRequest( new ClosetRequest( ClosetRequest.INVENTORY_TO_CLOSET, items ) );
 			}
+
+			RequestThread.closeRequestSequence();
+		}
+	}
+
+	private class FreePullsPanel
+		extends InventoryPanel
+	{
+		public FreePullsPanel()
+		{
+			super( "pull item", "closet item", KoLConstants.freepulls, false );
+
+			this.addFilters();
+			this.addMovers();
+			this.elementList.setCellRenderer( ListCellRendererFactory.getFreePullsRenderer() );
+		}
+
+		public void addMovers()
+		{
+			super.addMovers();
+		}
+
+		private Object[] pullItems()
+		{
+			Object[] items = this.getDesiredItems( "Pulling" );
+
+			if ( items == null )
+			{
+				return null;
+			}
+
+			RequestThread.openRequestSequence();
+			RequestThread.postRequest( new ClosetRequest( ClosetRequest.FREEPULL_TO_INVENTORY, items ) );
+			return items;
+		}
+
+		public void actionConfirmed()
+		{
+			this.pullItems();
+			RequestThread.closeRequestSequence();
+		}
+
+		public void actionCancelled()
+		{
+			Object[] items = this.pullItems();
+			if ( items == null )
+			{
+				return;
+			}
+
+			RequestThread.postRequest( new ClosetRequest( ClosetRequest.INVENTORY_TO_CLOSET, items ) );
 
 			RequestThread.closeRequestSequence();
 		}

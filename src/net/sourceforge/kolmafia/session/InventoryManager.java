@@ -126,7 +126,7 @@ public abstract class InventoryManager
 			return 0;
 		}
 
-		int count = item.getCount( KoLConstants.inventory ) + item.getCount( KoLConstants.closet );
+		int count = item.getCount( KoLConstants.inventory ) + item.getCount( KoLConstants.closet ) + item.getCount( KoLConstants.freepulls );
 
 		if ( KoLCharacter.canInteract() )
 		{
@@ -267,6 +267,24 @@ public abstract class InventoryManager
 		{
 			RequestThread.postRequest( new ClosetRequest(
 				ClosetRequest.CLOSET_TO_INVENTORY, new AdventureResult[] { item.getInstance( Math.min(
+					itemCount, missingCount ) ) } ) );
+			missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
+
+			if ( missingCount <= 0 )
+			{
+				return true;
+			}
+		}
+
+		// Next, if the item is a free pull from Hagnk's, pull it
+		// If this is successful, return from the method.
+
+		itemCount = item.getCount( KoLConstants.freepulls );
+
+		if ( itemCount > 0 )
+		{
+			RequestThread.postRequest( new ClosetRequest(
+				ClosetRequest.FREEPULL_TO_INVENTORY, new AdventureResult[] { item.getInstance( Math.min(
 					itemCount, missingCount ) ) } ) );
 			missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
 
