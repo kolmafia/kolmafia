@@ -590,6 +590,13 @@ flypaper staff	4	cardboard staff	pine tar
 cardboard sword	4	basic meat sword	cardboard ore
 flaming cardboard sword	4	cardboard sword	hot powder
 
+styrofoam crossbow	4	basic meat crossbow	styrofoam ore
+can cannon	4	styrofoam crossbow	razor-sharp can lid
+styrofoam staff	4	basic meat staff	styrofoam ore
+squeaky staff	4	styrofoam staff	sonar-in-a-biscuit
+styrofoam sword	4	basic meat sword	styrofoam ore
+Frost&trade; brand sword	4	styrofoam sword	cold powder
+
 dripping meat crossbow	4	basic meat crossbow	ketchup
 repeating crossbow	4	dripping meat crossbow	meat engine
 dripping meat staff	4	basic meat staff	ketchup
@@ -599,13 +606,13 @@ muculent machete	4	dripping meat sword	forest tears
 
 eXtreme meat crossbow	4	basic meat crossbow	stone of eXtreme power
 eXtreme meat staff	4	basic meat staff	stone of eXtreme power
-eXtreme meat sword	4	stone of eXtreme power	basic meat sword
+eXtreme meat sword	4	basic meat sword	stone of eXtreme power
 
 Kentucky-fried meat crossbow	4	secret blend of herbs and spices	dense meat crossbow
-Kentucky-fried meat staff	4	secret blend of herbs and spices	dense meat staff
-Kentucky-fried meat sword	4	secret blend of herbs and spices	dense meat sword
 potato pistol	4	Kentucky-fried meat crossbow	t8r tots
+Kentucky-fried meat staff	4	secret blend of herbs and spices	dense meat staff
 giant cheesestick	4	Kentucky-fried meat staff	goat cheese
+Kentucky-fried meat sword	4	secret blend of herbs and spices	dense meat sword
 buffalo blade	4	Kentucky-fried meat sword	hot wing
 
 starchy crossbow	4	basic meat crossbow	dry noodles
@@ -614,13 +621,6 @@ starchy staff	4	basic meat staff	dry noodles
 poutine pole	4	starchy staff	poutine
 starchy sword	4	basic meat sword	dry noodles
 pestoblade	4	starchy sword	spices
-
-styrofoam crossbow	4	basic meat crossbow	styrofoam ore
-can cannon	4	styrofoam crossbow	razor-sharp can lid
-styrofoam staff	4	basic meat staff	styrofoam ore
-squeaky staff	4	styrofoam staff	sonar-in-a-biscuit
-styrofoam sword	4	basic meat sword	styrofoam ore
-Frost&trade; brand sword	4	styrofoam sword	cold powder
 
 ram-battering staff	4	ram horns	ram stick
 icy-hot katana	4	icy katana hilt	hot katana blade
