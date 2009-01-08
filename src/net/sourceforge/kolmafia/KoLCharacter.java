@@ -347,10 +347,13 @@ public abstract class KoLCharacter
 
 		KoLCharacter.currentModifiers.reset();
 
+		KoLConstants.inventory.clear();
 		KoLConstants.closet.clear();
 		KoLConstants.storage.clear();
 		KoLConstants.freepulls.clear();
 		KoLConstants.collection.clear();
+		CampgroundRequest.reset();
+		KoLConstants.pulverizeQueue.clear();
 
 		KoLConstants.usableSkills.clear();
 		KoLConstants.summoningSkills.clear();
@@ -358,11 +361,12 @@ public abstract class KoLCharacter
 		KoLConstants.selfOnlySkills.clear();
 		KoLConstants.buffSkills.clear();
 		KoLConstants.availableSkills.clear();
-		KoLCharacter.battleSkillNames.clear();
+		KoLConstants.combatSkills.clear();
 
 		// All characters get the option to
 		// attack something.
 
+		KoLCharacter.battleSkillNames.clear();
 		KoLCharacter.battleSkillNames.add( "attack with weapon" );
 		KoLCharacter.battleSkillNames.add( "custom combat script" );
 		KoLCharacter.battleSkillNames.add( "delevel and plink" );
@@ -416,6 +420,7 @@ public abstract class KoLCharacter
 
 		InventoryManager.resetInventory();
 		EquipmentManager.resetEquipment();
+		ConcoctionDatabase.refreshConcoctions();
 
 		int battleIndex = KoLCharacter.battleSkillNames.indexOf( Preferences.getString( "battleAction" ) );
 		KoLCharacter.battleSkillNames.setSelectedIndex( battleIndex == -1 ? 0 : battleIndex );
@@ -1773,6 +1778,8 @@ public abstract class KoLCharacter
 		{
 			Preferences.setBoolean( "kingLiberated", true );
 			CharPaneRequest.setInteraction();
+			KoLConstants.storage.addAll( KoLConstants.freepulls );
+			KoLConstants.freepulls.clear();
 		}
 	}
 
