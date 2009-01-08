@@ -63,6 +63,14 @@ public class CampgroundRequest
 	private static AdventureResult currentDwelling = null;
 	private static AdventureResult currentBed = null;
 
+	public static void reset()
+	{
+		KoLConstants.campground.clear();
+		CampgroundRequest.currentDwellingLevel = 0;
+		CampgroundRequest.currentDwelling = null;
+		CampgroundRequest.currentBed = null;
+	}
+
 	/**
 	 * Constructs a new <code>CampgroundRequest</code>.
 	 */
@@ -147,13 +155,11 @@ public class CampgroundRequest
 				KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Unable to parse housing!" );
 				return;
 			}
-			KoLConstants.campground.clear();
-			CampgroundRequest.currentDwellingLevel = 0;
-			CampgroundRequest.currentDwelling = null;
-			CampgroundRequest.currentBed = null;
-			int itemId = -1;
 
+			CampgroundRequest.reset();
 			CampgroundRequest.currentDwellingLevel = StringUtilities.parseInt( m.group( 1 ) );
+
+			int itemId = -1;
 			switch ( CampgroundRequest.currentDwellingLevel )
 			{
 			case 0:

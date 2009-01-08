@@ -42,9 +42,18 @@ import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class ItemPool
 {
+	public static final int SEAL_CLUB = 1;
 	public static final int SEAL_TOOTH = 2;
+	public static final int HELMET_TURTLE = 3;
 	public static final int TURTLE_TOTEM = 4;
+	public static final int PASTA_SPOON = 5;
+	public static final int RAVIOLI_HAT = 6;
+	public static final int SAUCEPAN = 7;
 	public static final int SPICES = 8;
+	public static final int DISCO_BALL = 9;
+	public static final int DISCO_MASK = 10;
+	public static final int STOLEN_ACCORDION = 11;
+	public static final int MARIACHI_PANTS = 12;
 	public static final int ASPARAGUS_KNIFE = 19;
 	public static final int CHEWING_GUM = 23;
 	public static final int TEN_LEAF_CLOVER = 24;
@@ -368,6 +377,7 @@ public class ItemPool
 	public static final int MUS_MANUAL = 2280;
 	public static final int MYS_MANUAL = 2281;
 	public static final int MOX_MANUAL = 2282;
+	public static final int SEAL_HELMET = 2283;
 	public static final int RED_PAPER_CLIP = 2289;
 	public static final int REALLY_BIG_TINY_HOUSE = 2290;
 	public static final int NONESSENTIAL_AMULET = 2291;

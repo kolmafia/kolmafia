@@ -10,14 +10,18 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
+
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
-import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.session.EquipmentManager;
 
 public class ValhallaManager
 {
@@ -70,7 +74,6 @@ public class ValhallaManager
 		ValhallaManager.resetPerAscensionCounters();
 
 		StaticEntity.getClient().resetSession();
-		KoLConstants.conditions.clear();
 	}
 
 	public static void postAscension()
@@ -85,34 +88,37 @@ public class ValhallaManager
 		String type = KoLCharacter.getClassType();
 		if ( type.equals( KoLCharacter.SEAL_CLUBBER ) )
 		{
-			ResultProcessor.tallyResult( new AdventureResult( "seal-skull helmet", 1, false ), false );
-			ResultProcessor.tallyResult( new AdventureResult( "seal-clubbing club", 1, false ), false );
+			ResultProcessor.tallyResult( ItemPool.get( ItemPool.SEAL_CLUB, 1 ), false );
+			ResultProcessor.tallyResult( ItemPool.get( ItemPool.SEAL_HELMET, 1 ), false );
 		}
 		else if ( type.equals( KoLCharacter.TURTLE_TAMER ) )
 		{
-			ResultProcessor.tallyResult( new AdventureResult( "helmet turtle", 1, false ), false );
-			ResultProcessor.tallyResult( new AdventureResult( "turtle totem", 1, false ), false );
+			ResultProcessor.tallyResult( ItemPool.get( ItemPool.HELMET_TURTLE, 1 ), false );
+			ResultProcessor.tallyResult( ItemPool.get( ItemPool.TURTLE_TOTEM, 1 ), false );
 		}
 		else if ( type.equals( KoLCharacter.PASTAMANCER ) )
 		{
-			ResultProcessor.tallyResult( new AdventureResult( "pasta spoon", 1, false ), false );
-			ResultProcessor.tallyResult( new AdventureResult( "ravioli hat", 1, false ), false );
+			ResultProcessor.tallyResult( ItemPool.get( ItemPool.PASTA_SPOON, 1 ), false );
+			ResultProcessor.tallyResult( ItemPool.get( ItemPool.RAVIOLI_HAT, 1 ), false );
 		}
 		else if ( type.equals( KoLCharacter.SAUCEROR ) )
 		{
-			ResultProcessor.tallyResult( new AdventureResult( "saucepan", 1, false ), false );
-			ResultProcessor.tallyResult( new AdventureResult( "spices", 1, false ), false );
+			ResultProcessor.tallyResult( ItemPool.get( ItemPool.SAUCEPAN, 1 ), false );
+			ResultProcessor.tallyResult( ItemPool.get( ItemPool.SPICES, 1 ), false );
 		}
 		else if ( type.equals( KoLCharacter.DISCO_BANDIT ) )
 		{
-			ResultProcessor.tallyResult( new AdventureResult( "disco ball", 1, false ), false );
-			ResultProcessor.tallyResult( new AdventureResult( "disco mask", 1, false ), false );
+			ResultProcessor.tallyResult( ItemPool.get( ItemPool.DISCO_BALL, 1 ), false );
+			ResultProcessor.tallyResult( ItemPool.get( ItemPool.DISCO_MASK, 1 ), false );
 		}
 		else if ( type.equals( KoLCharacter.ACCORDION_THIEF ) )
 		{
-			ResultProcessor.tallyResult( new AdventureResult( "mariachi pants", 1, false ), false );
-			ResultProcessor.tallyResult( new AdventureResult( "stolen accordion", 1, false ), false );
+			ResultProcessor.tallyResult( ItemPool.get( ItemPool.STOLEN_ACCORDION, 1 ), false );
+			ResultProcessor.tallyResult( ItemPool.get( ItemPool.MARIACHI_PANTS, 1 ), false );
 		}
+
+		EquipmentManager.updateEquipmentLists();
+		ConcoctionDatabase.refreshConcoctions();
 
 		// Note the information in the session log
 		// for recording purposes.
