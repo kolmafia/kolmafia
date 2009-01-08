@@ -373,9 +373,7 @@ public class Operator
 
 		if ( this.operator.equals( "^" ) )
 		{
-			Value result =
-				isInt ? new Value( (int) Math.pow( lint, rint ) ) : new Value( (float) Math.pow(
-					lfloat, rfloat ) );
+			Value result = isInt ? new Value( (int) Math.pow( lint, rint ) ) : new Value( (float) Math.pow( lfloat, rfloat ) );
 			interpreter.trace( "<- " + result );
 			interpreter.traceUnindent();
 			return result;
@@ -383,13 +381,11 @@ public class Operator
 
 		if ( this.operator.equals( "/" ) )
 		{
-			float left = isInt ? (float) lint : lfloat;
-			float right = isInt ? (float) rint : rfloat;
-			if ( right == 0.0f )
+			if ( isInt ? rint == 0 : rfloat == 0.0f )
 			{
 				throw interpreter.runtimeException( "Division by zero", this.fileName, this.lineNumber );
 			}
-			Value result = new Value( left / right );
+			Value result = isInt ? new Value( lint / rint ) : new Value( lfloat / rfloat );
 			interpreter.trace( "<- " + result );
 			interpreter.traceUnindent();
 			return result;
@@ -397,13 +393,11 @@ public class Operator
 
 		if ( this.operator.equals( "%" ) )
 		{
-			float left = isInt ? (float) lint : lfloat;
-			float right = isInt ? (float) rint : rfloat;
-			if ( right == 0.0f )
+			if ( isInt ? rint == 0 : rfloat == 0.0f )
 			{
-				throw interpreter.runtimeException( "Mod by zero", this.fileName, this.lineNumber );
+				throw interpreter.runtimeException( "Division by zero", this.fileName, this.lineNumber );
 			}
-			Value result = new Value( left % right );
+			Value result = isInt ? new Value( lint % rint ) : new Value( lfloat % rfloat );
 			interpreter.trace( "<- " + result );
 			interpreter.traceUnindent();
 			return result;
