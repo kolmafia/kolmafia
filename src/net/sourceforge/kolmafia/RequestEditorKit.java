@@ -649,6 +649,7 @@ public class RequestEditorKit
 			// different pages rather than just one or two.
 
 			RequestEditorKit.changePotionImages( buffer );
+			RequestEditorKit.decorateLevelGain( buffer );
 
 			if ( Preferences.getBoolean( "relayAddsUseLinks" ) )
 			{
@@ -681,6 +682,20 @@ public class RequestEditorKit
 			StringUtilities.globalStringReplace( buffer, "bgcolor=blue", "bgcolor=\"" + defaultColor + "\"" );
 			StringUtilities.globalStringReplace( buffer, "border: 1px solid blue", "border: 1px solid " + defaultColor );
 		}
+	}
+
+	private static final void decorateLevelGain( final StringBuffer buffer )
+	{
+		String test = "<b>You gain a Level!</b>";
+		int index = buffer.indexOf( test );
+
+		if ( index == -1 )
+		{
+			return;
+		}
+
+		String link = " <font size=1>[<a href=\"council.php\">council</a>]</font>";
+		buffer.insert( index + test.length(), link );
 	}
 
 	private static final void decorateInventory( final StringBuffer buffer, final boolean addComplexFeatures )
