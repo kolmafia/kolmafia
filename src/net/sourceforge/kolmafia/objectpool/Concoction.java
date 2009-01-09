@@ -823,7 +823,8 @@ public class Concoction
 	{
 		// Avoid mutual recursion.
 
-		if ( this.mixingMethod != KoLConstants.COMBINE || KoLCharacter.inMuscleSign() || quantityNeeded <= this.initial )
+		int create = quantityNeeded - this.initial;
+		if ( this.mixingMethod != KoLConstants.COMBINE || KoLCharacter.inMuscleSign() || create <= 0 )
 		{
 			return 0;
 		}
@@ -831,15 +832,52 @@ public class Concoction
 		// Count all the meat paste from the different
 		// levels in the creation tree.
 
-		int runningTotal = 0;
+		int runningTotal = create;
 		for ( int i = 0; i < this.ingredientArray.length; ++i )
 		{
 			Concoction ingredient = ConcoctionPool.get( this.ingredientArray[ i ] );
 
-			runningTotal += ingredient.getMeatPasteNeeded( quantityNeeded - ingredient.initial );
+			runningTotal += ingredient.getMeatPasteNeeded( create );
 		}
 
-		return runningTotal + quantityNeeded;
+		return runningTotal;
+	}
+
+	public int getAdventuresNeeded( final int quantityNeeded )
+	{
+		int create = quantityNeeded - this.initial;
+		if ( create <= 0 )
+		{
+			return 0;
+		}
+
+		// Heuristic/kludge: don't count making base booze by
+		// fermenting juniper berries, for example.
+
+		if ( concoction.getCount() > 1 )
+		{
+			return 0;
+		}
+
+		int runningTotal = ConcoctionDatabase.ADVENTURE_USAGE[ this.mixingMethod ] * create;
+
+		// If this creation method takes no adventures, no recursion
+
+		if ( runningTotal == 0 )
+		{
+			return 0;
+		}
+
+		// Count adventures from all levels in the creation tree.
+
+		for ( int i = 0; i < this.ingredientArray.length; ++i )
+		{
+			Concoction ingredient = ConcoctionPool.get( this.ingredientArray[ i ] );
+
+			runningTotal += ingredient.getAdventuresNeeded( create );
+		}
+
+		return runningTotal;
 	}
 
 	/**

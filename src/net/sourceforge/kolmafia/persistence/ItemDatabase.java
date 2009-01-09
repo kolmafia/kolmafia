@@ -64,6 +64,8 @@ import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.objectpool.Concoction;
+import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -111,6 +113,11 @@ public class ItemDatabase
 	private static final Map notesByName = new HashMap();
 
 	private static final Map[][][][] advsByName = new HashMap[ 2 ][ 2 ][ 2 ][ 2 ];
+	private static final Map unitCostByName = new HashMap();
+	private static final Map advStartByName = new HashMap();
+	private static final Map advEndByName = new HashMap();
+
+	private static Set advNames = null;
 
 	static
 	{
@@ -374,7 +381,7 @@ public class ItemDatabase
 			return;
 
 		ItemDatabase.levelReqByName.put( name, Integer.valueOf( data[ 2 ] ) );
-		ItemDatabase.addAdventureRange( name, StringUtilities.parseInt( data[ 1 ] ), data[ 3 ] );
+		ItemDatabase.saveAdventureRange( name, StringUtilities.parseInt( data[ 1 ] ), data[ 3 ] );
 		ItemDatabase.muscleByName.put( name, ItemDatabase.extractStatRange( data[ 4 ], ItemDatabase.muscleFactor ) );
 		ItemDatabase.mysticalityByName.put( name, ItemDatabase.extractStatRange( data[ 5 ], ItemDatabase.mysticalityFactor ) );
 		ItemDatabase.moxieByName.put( name, ItemDatabase.extractStatRange( data[ 6 ], ItemDatabase.moxieFactor ) );
@@ -442,13 +449,44 @@ public class ItemDatabase
 		}
 	}
 
-	private static final void addAdventureRange( final String name, final int unitCost, String range )
+	private static final void saveAdventureRange( final String name, final int unitCost, String range )
 	{
 		range = range.trim();
 
 		int dashIndex = range.indexOf( "-" );
 		int start = StringUtilities.parseInt( dashIndex == -1 ? range : range.substring( 0, dashIndex ) );
 		int end = dashIndex == -1 ? start : StringUtilities.parseInt( range.substring( dashIndex + 1 ) );
+
+		ItemDatabase.unitCostByName.put( name, new Integer( unitCost ) );
+		ItemDatabase.advStartByName.put( name, new Integer( start ) );
+		ItemDatabase.advEndByName.put( name, new Integer( end ) );
+		ItemDatabase.advNames = null;
+	}
+
+	public static final void calculateAdventureRanges()
+	{
+		if ( ItemDatabase.advNames == null )
+		{
+			ItemDatabase.advNames = ItemDatabase.unitCostByName.keySet();
+		}
+
+		Iterator it = ItemDatabase.advNames.iterator();
+
+		while ( it.hasNext() )
+		{
+			String name = (String) it.next();
+			ItemDatabase.calculateAdventureRange( name );
+		}
+	}
+
+	private static final void calculateAdventureRange( final String name )
+	{
+		Concoction c = ConcoctionPool.get( name );
+		int advs = ( c == null ) ? 0 : c.getAdventuresNeeded( 1 );
+
+		int unitCost = ( (Integer) ItemDatabase.unitCostByName.get( name ) ).intValue();
+		int start = ( (Integer) ItemDatabase.advStartByName.get( name ) ).intValue();
+		int end = ( (Integer) ItemDatabase.advEndByName.get( name ) ).intValue();
 
 		int gainSum1 = 0;
 		int gainSum2 = 0;
@@ -464,10 +502,10 @@ public class ItemDatabase
 
 		float count = end - start + 1;
 
-		ItemDatabase.addAdventureRange( name, unitCost, false, false, ( start + end ) / 2.0f );
-		ItemDatabase.addAdventureRange( name, unitCost, true, false, gainSum1 / count );
-		ItemDatabase.addAdventureRange( name, unitCost, false, true, gainSum2 / count );
-		ItemDatabase.addAdventureRange( name, unitCost, true, true, gainSum3 / count );
+		ItemDatabase.addAdventureRange( name, unitCost, false, false, ( start + end ) / 2.0f - advs );
+		ItemDatabase.addAdventureRange( name, unitCost, true, false, gainSum1 / count - advs );
+		ItemDatabase.addAdventureRange( name, unitCost, false, true, gainSum2 / count - advs );
+		ItemDatabase.addAdventureRange( name, unitCost, true, true, gainSum3 / count - advs );
 	}
 
 	private static final void addAdventureRange( final String name, final int unitCost, final boolean gainEffect1,
@@ -1213,7 +1251,7 @@ public class ItemDatabase
 	{
 		switch ( itemId )
 		{
-                        // Grimacite Generation 1
+			// Grimacite Generation 1
 		case ItemPool.GRIMACITE_GALOSHES:
 		case ItemPool.GRIMACITE_GARTER:
 		case ItemPool.GRIMACITE_GORGET:
@@ -1221,7 +1259,7 @@ public class ItemDatabase
 		case ItemPool.GRIMACITE_GUAYABERA:
 		case ItemPool.GRIMACITE_GOGGLES:
 		case ItemPool.GRIMACITE_GLAIVE:
-                        // Grimacite Generation 2
+			// Grimacite Generation 2
 		case ItemPool.GRIMACITE_GASMASK:
 		case ItemPool.GRIMACITE_GAT:
 		case ItemPool.GRIMACITE_GIRDLE:
@@ -1229,7 +1267,7 @@ public class ItemDatabase
 		case ItemPool.GRIMACITE_GAUNTLETS:
 		case ItemPool.GRIMACITE_GAITERS:
 		case ItemPool.GRIMACITE_GOWN:
-                        // Depleted Grimacite
+			// Depleted Grimacite
 		case ItemPool.GRIMACITE_HAMMER:
 		case ItemPool.GRIMACITE_GRAVY_BOAT:
 		case ItemPool.GRIMACITE_WEIGHTLIFTING_BELT:
@@ -1538,7 +1576,7 @@ public class ItemDatabase
 			StringUtilities.getCanonicalName( (String) ItemDatabase.dataNameById.get( new Integer( itemId ) ) );
 
 		ItemDatabase.inebrietyByName.put( name, new Integer( inebriety ) );
-		ItemDatabase.addAdventureRange( name, inebriety, adventures );
+		ItemDatabase.saveAdventureRange( name, inebriety, adventures );
 		ItemDatabase.muscleByName.put( name, ItemDatabase.extractStatRange( muscle, ItemDatabase.muscleFactor ) );
 		ItemDatabase.mysticalityByName.put( name, ItemDatabase.extractStatRange( mysticality, ItemDatabase.mysticalityFactor ) );
 		ItemDatabase.moxieByName.put( name, ItemDatabase.extractStatRange( moxie, ItemDatabase.moxieFactor ) );
