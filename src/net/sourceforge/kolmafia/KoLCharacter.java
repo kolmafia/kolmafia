@@ -421,6 +421,7 @@ public abstract class KoLCharacter
 		InventoryManager.resetInventory();
 		EquipmentManager.resetEquipment();
 		ConcoctionDatabase.refreshConcoctions();
+		ItemDatabase.calculateAdventureRanges();
 
 		int battleIndex = KoLCharacter.battleSkillNames.indexOf( Preferences.getString( "battleAction" ) );
 		KoLCharacter.battleSkillNames.setSelectedIndex( battleIndex == -1 ? 0 : battleIndex );
@@ -1640,6 +1641,7 @@ public abstract class KoLCharacter
 		{
 			KoLCharacter.hasBartender = hasBartender;
 			ConcoctionDatabase.refreshConcoctions();
+			ItemDatabase.calculateAdventureRanges();
 		}
 	}
 
@@ -1666,6 +1668,7 @@ public abstract class KoLCharacter
 		{
 			KoLCharacter.hasChef = hasChef;
 			ConcoctionDatabase.refreshConcoctions();
+			ItemDatabase.calculateAdventureRanges();
 		}
 	}
 
