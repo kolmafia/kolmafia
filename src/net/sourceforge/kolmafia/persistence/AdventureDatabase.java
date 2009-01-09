@@ -317,18 +317,6 @@ public class AdventureDatabase
 		AdventureDatabase.adventureLookup.put( url, location );
 	}
 
-	public static final boolean validateZone( final String zoneName, final String locationId )
-	{
-		if ( zoneName == null || locationId == null )
-		{
-			return true;
-		}
-
-		// Special handling of the bat zone.
-
-		return true;
-	}
-
 	public static final LockableListModel getAsLockableListModel()
 	{
 		if ( AdventureDatabase.adventures.isEmpty() )
