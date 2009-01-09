@@ -41,6 +41,8 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -51,7 +53,6 @@ import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
-import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.swingui.CouncilFrame;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -2265,6 +2266,12 @@ public abstract class ChoiceManager
 		String text = request.responseText;
 		int explorations = 0;
 
+		int dumplings = InventoryManager.getAccessibleCount( ItemPool.DUMPLINGS );
+		int wads = InventoryManager.getAccessibleCount( ItemPool.SEWER_WAD );
+		int oozeo = InventoryManager.getAccessibleCount( ItemPool.OOZE_O );
+		int oil = InventoryManager.getAccessibleCount( ItemPool.OIL_OF_OILINESS );
+		int umbrella = InventoryManager.getAccessibleCount( ItemPool.GATORSKIN_UMBRELLA );
+
 		// You steel your nerves and descend into the darkened tunnel.
 		if ( text.indexOf( "You steel your nerves and descend into the darkened tunnel." ) == -1 )
 		{
@@ -2312,10 +2319,10 @@ public abstract class ChoiceManager
 			// Remove unfortunate dumplings from inventory
 			ResultProcessor.processItem( ItemPool.DUMPLINGS, -1 );
 			++explorations;
-			if ( !InventoryManager.hasItem( ItemPool.DUMPLINGS ) )
+			dumplings = InventoryManager.getAccessibleCount( ItemPool.DUMPLINGS );
+			if ( dumplings <= 0 )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE,
-					"That was your last unfortunate dumplings." );
+				RequestLogger.printLine( "That was your last unfortunate dumplings." );
 			}
 		}
 
@@ -2326,10 +2333,10 @@ public abstract class ChoiceManager
 			// Remove sewer wad from inventory
 			ResultProcessor.processItem( ItemPool.SEWER_WAD, -1 );
 			++explorations;
-			if ( !InventoryManager.hasItem( ItemPool.SEWER_WAD ) )
+			wads = InventoryManager.getAccessibleCount( ItemPool.SEWER_WAD );
+			if ( wads <= 0 )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE,
-					"That was your last sewer wad." );
+				RequestLogger.printLine( "That was your last sewer wad." );
 			}
 		}
 
@@ -2340,10 +2347,10 @@ public abstract class ChoiceManager
 			// Remove bottle of Ooze-O from inventory
 			ResultProcessor.processItem( ItemPool.OOZE_O, -1 );
 			++explorations;
-			if ( !InventoryManager.hasItem( ItemPool.OOZE_O ) )
+			oozeo = InventoryManager.getAccessibleCount( ItemPool.OOZE_O );
+			if ( oozeo <= 0 )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE,
-					"That was your last bottle of Ooze-O." );
+				RequestLogger.printLine( "That was your last bottle of Ooze-O." );
 			}
 		}
 
@@ -2359,10 +2366,10 @@ public abstract class ChoiceManager
 			// Remove 3 bottles of oil of oiliness from inventory
 			ResultProcessor.processItem( ItemPool.OIL_OF_OILINESS, -3 );
 			++explorations;
-			if ( InventoryManager.getCount( ItemPool.OIL_OF_OILINESS ) < 3 )
+			oil = InventoryManager.getAccessibleCount( ItemPool.OIL_OF_OILINESS );
+			if ( oil < 3 )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE,
-					"You have less than 3 bottles of oil of oiliness left." );
+				RequestLogger.printLine( "You have less than 3 bottles of oil of oiliness left." );
 			}
 		}
 
@@ -2375,28 +2382,29 @@ public abstract class ChoiceManager
 			// Unequip gatorskin umbrella and discard it.
 
 			++explorations;
-			AdventureResult umbrella = ItemPool.get( ItemPool.GATORSKIN_UMBRELLA, 1 );
+			AdventureResult item = ItemPool.get( ItemPool.GATORSKIN_UMBRELLA, 1 );
 			int slot = EquipmentManager.WEAPON;
-			if ( KoLCharacter.hasEquipped( umbrella, EquipmentManager.WEAPON ) )
+			if ( KoLCharacter.hasEquipped( item, EquipmentManager.WEAPON ) )
 			{
-				EquipmentManager.setEquipment( EquipmentManager.WEAPON, EquipmentRequest.UNEQUIP );
+				slot = EquipmentManager.WEAPON;
 			}
-			else if ( KoLCharacter.hasEquipped( umbrella, EquipmentManager.OFFHAND ) )
+			else if ( KoLCharacter.hasEquipped( item, EquipmentManager.OFFHAND ) )
 			{
-				EquipmentManager.setEquipment( EquipmentManager.OFFHAND, EquipmentRequest.UNEQUIP );
 				slot = EquipmentManager.OFFHAND;
 			}
 
-			AdventureResult.addResultToList( KoLConstants.inventory, umbrella );
+			EquipmentManager.setEquipment( slot, EquipmentRequest.UNEQUIP );
+
+			AdventureResult.addResultToList( KoLConstants.inventory, item );
 			ResultProcessor.processItem( ItemPool.GATORSKIN_UMBRELLA, -1 );
-			if ( InventoryManager.hasItem( ItemPool.GATORSKIN_UMBRELLA ) )
+			umbrella = InventoryManager.getAccessibleCount( item );
+			if ( umbrella > 0 )
 			{
-				RequestThread.postRequest( new EquipmentRequest( umbrella, slot ) );
+				RequestThread.postRequest( new EquipmentRequest( item, slot ) );
 			}
 			else
 			{
-				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE,
-					"That was your last gatorskin umbrella." );
+				RequestLogger.printLine( "That was your last gatorskin umbrella." );
 			}
 		}
 
@@ -2411,7 +2419,52 @@ public abstract class ChoiceManager
 			explorations += 5;
 		}
 		
-		KoLmafia.updateDisplay( "+" + explorations + " Explorations" );
+		// Now figure out how to say what happened. If the player wants
+		// to stop if runs out of test items, generate an ERROR and
+		// list the missing items in the status message. Otherwise,
+		// simply tell how many explorations were accomplished.
+
+		int state = KoLConstants.CONTINUE_STATE;
+		String message = "+" + explorations + " Explorations";
+
+		if ( Preferences.getBoolean( "requireSewerTestItems" ) )
+		{
+			String missing = "";
+			String comma = "";
+
+			if ( dumplings < 1 )
+			{
+				missing = missing + comma + "unfortunate dumplings";
+				comma = ", ";
+			}
+			if ( wads < 1 )
+			{
+				missing = missing + comma + "sewer wad";
+				comma = ", ";
+			}
+			if ( oozeo < 1 )
+			{
+				missing = missing + comma + "bottle of Ooze-O";
+				comma = ", ";
+			}
+			if ( oil < 1 )
+			{
+				missing = missing + comma + "oil of oiliness";
+				comma = ", ";
+			}
+			if ( umbrella < 1 )
+			{
+				missing = missing + comma + "gatorskin umbrella";
+				comma = ", ";
+			}
+			if ( !missing.equals( "" ) )
+			{
+				state = KoLConstants.ERROR_STATE;
+				message += ", NEED: " + missing;
+			}
+		}
+
+		KoLmafia.updateDisplay( state, message );
 	}
 
 	private static final String specialChoiceDecision( final String choice, final String option, final String decision, final int stepCount )

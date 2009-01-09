@@ -2741,8 +2741,7 @@ public abstract class KoLCharacter
 		switch ( ItemDatabase.getConsumptionType( item.getItemId() ) )
 		{
 		case KoLConstants.EQUIP_WEAPON:
-			return KoLCharacter.hasEquipped( item, EquipmentManager.WEAPON ) || KoLCharacter.hasEquipped(
-				item, EquipmentManager.OFFHAND );
+			return KoLCharacter.hasEquipped( item, EquipmentManager.WEAPON ) || KoLCharacter.hasEquipped( item, EquipmentManager.OFFHAND );
 
 		case KoLConstants.EQUIP_OFFHAND:
 			return KoLCharacter.hasEquipped( item, EquipmentManager.OFFHAND );
