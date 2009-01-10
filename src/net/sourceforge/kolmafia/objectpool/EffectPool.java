@@ -44,6 +44,8 @@ public class EffectPool
 	public static final String MILK = "Got Milk";
 
 	public static final String FORM_OF_BIRD = "Form of...Bird!";
+	public static final String SHAPE_OF_MOLE = "Shape of...Mole!";
+	public static final String FORM_OF_ROACH = "Form of...Cockroach!";
 
 	public static final String HAIKU_STATE_OF_MIND = "Haiku State of Mind";
 

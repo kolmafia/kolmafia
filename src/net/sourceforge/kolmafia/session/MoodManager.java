@@ -1296,7 +1296,7 @@ public abstract class MoodManager
 			}
 
 			boolean unstackable =
-				this.action.indexOf( "cupcake" ) != -1 || this.action.indexOf( "snowcone" ) != -1 || this.action.indexOf( "absinthe" ) != -1 || this.action.indexOf( "astral mushroom" ) != -1 || this.action.indexOf( "oasis" ) != -1;
+				this.action.indexOf( "cupcake" ) != -1 || this.action.indexOf( "snowcone" ) != -1 || this.action.indexOf( "absinthe" ) != -1 || this.action.indexOf( "astral mushroom" ) != -1 || this.action.indexOf( "oasis" ) != -1 || this.action.indexOf( "gong" ) != -1;
 
 			return unstackable ? !KoLConstants.activeEffects.contains( this.effect ) : this.effect.getCount( KoLConstants.activeEffects ) <= ( multiplicity == -1 ? 1 : 5 );
 		}

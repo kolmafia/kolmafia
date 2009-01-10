@@ -213,6 +213,7 @@ user	demonName7	Ak'gyxoth
 user	expressCardUsed	false
 user	fratboysDefeated	0
 user	friarsBlessingReceived	false
+user	gongPath	0
 user	gourdItemCount	5
 user	grimoire1Summons	0
 user	grimoire2Summons	0
@@ -381,6 +382,7 @@ user	usableShirts	1
 user	violetFogGoal	0
 user	violetFogLayout
 user	warProgress	unstarted
+user	welcomeBackAdv	0
 
 user	choiceAdventure2	2
 user	choiceAdventure3	3
