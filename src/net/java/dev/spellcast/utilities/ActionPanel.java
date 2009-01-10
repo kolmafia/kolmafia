@@ -51,6 +51,7 @@ public abstract class ActionPanel
 
 	protected boolean contentSet = false;
 	protected JButton confirmedButton, cancelledButton;
+	protected static boolean actionsEnabled = true;
 
 	public void dispose()
 	{
@@ -150,7 +151,10 @@ public abstract class ActionPanel
 	{
 		public void actionPerformed( final ActionEvent e )
 		{
-			( new Thread( this ) ).start();
+			if ( ActionPanel.actionsEnabled )
+			{
+				( new Thread( this, "ConfirmedListener" ) ).start();
+			}
 		}
 
 		public void run()
@@ -167,7 +171,7 @@ public abstract class ActionPanel
 	{
 		public void actionPerformed( final ActionEvent e )
 		{
-			( new Thread( this ) ).start();
+			( new Thread( this, "CancelledListener" ) ).start();
 		}
 
 		public void run()
@@ -177,5 +181,10 @@ public abstract class ActionPanel
 				ActionPanel.this.actionCancelled();
 			}
 		}
+	}
+	
+	public static void enableActions( boolean enable )
+	{
+		ActionPanel.actionsEnabled = enable;
 	}
 }

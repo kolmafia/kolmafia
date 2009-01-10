@@ -507,9 +507,9 @@
 506	It Didn't Kill You	strboost.gif	31c3f8589619686bc3b0dd16f5094dd8
 507	The Sweats	stench.gif	589d1f03440b93d85f80fe6b3b4653d1
 508	Hooked Up	jigawatts.gif	4b571247a84c748457f1542e7869d413
-509
-510	Shape of...Mole!	mole.gif	aa5dbfa1d618e2f5b0e863cca3d03f1f
-511	Form of...Bird!	wings.gif	01d6a588ff3e955170d2a9d6e74cec81
+509	Form of...Cockroach!	cockroach.gif	459de8ac00071b081dd20a98aee7f607	gong roach
+510	Shape of...Mole!	mole.gif	aa5dbfa1d618e2f5b0e863cca3d03f1f	gong mole
+511	Form of...Bird!	wings.gif	01d6a588ff3e955170d2a9d6e74cec81	gong bird
 512	Cravin' for a Ravin'	glowstick.gif	f6ddd199f57ddb8c6c74e4595c96c6d1
 513	Arcane in the Brain	realbrain.gif	31f972b82e758a2cd28d0270070d5bcb
 514	Weather, Man	raincloud.gif	f3a57418f275cfaaa0bc69b24eb3dd61	use 1 Climate Colada
@@ -517,12 +517,12 @@
 516	Liquid Courage	raindrop.gif	f5ed76217a884b3c52c05e6c4484f855
 517	Extra Terrestrial	bigrock.gif	4f44d9eb8922fc512a4b10480e278323
 518	Digitally Converted	10101.gif	a5ce881631fcf7c7d0978b06c4999db8
-519	Radiant Personality	frostshock.gif	be2f929df46d63924049628a0efcb854
-520	Alchemical, Brother	potion2.gif	1dc8613ec51512efb78de20709bb88c0
-521	Ack! Barred!	bars.gif	ce21463be85ec37958385d67bdc71f52
-522	New and Improved	exclam.gif	0e37dd043a3b0b8d82b20dc0dc5899e2
-523	Extra Sensory Perception	eyes.gif	2cca34cf2648600f341dc5e449af1aa4
-524	Unpopular	sad.gif	70a42e022a0fe19477d8b1adeed519b5
+519	Radiant Personality	frostshock.gif	be2f929df46d63924049628a0efcb854	gong roach moxie
+520	Alchemical, Brother	potion2.gif	1dc8613ec51512efb78de20709bb88c0	gong roach mysticality
+521	Ack! Barred!	bars.gif	ce21463be85ec37958385d67bdc71f52	gong roach muscle
+522	New and Improved	exclam.gif	0e37dd043a3b0b8d82b20dc0dc5899e2	gong roach allstats
+523	Extra Sensory Perception	eyes.gif	2cca34cf2648600f341dc5e449af1aa4	gong roach itemdrop
+524	Unpopular	sad.gif	70a42e022a0fe19477d8b1adeed519b5	gong roach ML
 525	Phoenix, Right?	fire.gif	4ccff5c09faa470c287093ff46eac1fd	use 1 glimmering phoenix feather
 526	Antarctic Memories	snowflake.gif	3a2019c428e67db659941f725b51a88a	use 1 glimmering penguin feather
 527	Carrion' On	bonepile.gif	447b7c96f0e5c93fb9a64f92850f0b3e	use 1 glimmering buzzard feather

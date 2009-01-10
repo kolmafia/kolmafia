@@ -509,10 +509,15 @@ public class Preferences
 		}
 		
 		Preferences.firePreferenceChanged( name );
+		if ( name.startsWith( "choiceAdventure" ) )
+		{
+			Preferences.firePreferenceChanged( "choiceAdventure*" );
+		}
 	}
 	
 	public static final void firePreferenceChanged( String name )
 	{
+		// System.out.println( name );
 		if ( Preferences.listenerMap.containsKey( name ) )
 		{
 			Iterator i = ((ArrayList) Preferences.listenerMap.get( name )).iterator();

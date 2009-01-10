@@ -42,19 +42,26 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeMap;
 
+import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.KoLAdventure;
+import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.LouvreManager;
 import net.sourceforge.kolmafia.session.VioletFogManager;
+import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
+import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -64,11 +71,13 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
  */
 
 public class ChoiceOptionsPanel
-	extends JPanel
+	extends JTabbedPane
+	implements Preferences.ChangeListener
 {
 	private final TreeMap choiceMap;
 	private final HashMap selectMap;
 	private final CardLayout choiceCards;
+	private final JPanel choicePanel;
 
 	private final JComboBox[] optionSelects;
 
@@ -84,6 +93,7 @@ public class ChoiceOptionsPanel
 	private final JComboBox riseSelect, fallSelect;
 	private final JComboBox oceanDestSelect, oceanActionSelect;
 	private final JComboBox barrelSelect;
+	private final JComboBox gongSelect;
 
 	/**
 	 * Constructs a new <code>ChoiceOptionsPanel</code>.
@@ -91,13 +101,16 @@ public class ChoiceOptionsPanel
 
 	public ChoiceOptionsPanel()
 	{
+		super( JTabbedPane.LEFT );
 		this.choiceCards = new CardLayout( 10, 10 );
 
 		this.choiceMap = new TreeMap();
 		this.selectMap = new HashMap();
 
-		this.setLayout( this.choiceCards );
-		this.add( new JPanel(), "" );
+		this.choicePanel = new JPanel( this.choiceCards );
+		this.choicePanel.add( new JPanel(), "" );
+		this.addTab( "Zone", new GenericScrollPane( this.choicePanel ) );
+		this.setToolTipTextAt( 0, "Choices specific to the current adventure zone" );
 
 		String[] options;
 
@@ -233,7 +246,14 @@ public class ChoiceOptionsPanel
 		this.barrelSelect.addItem( "top & bottom rows" );
 		this.barrelSelect.addItem( "middle & bottom rows" );
 		this.barrelSelect.addItem( "all available drinks" );
+		
+		this.gongSelect = new JComboBox();
+		for ( int i = 0; i < KoLmafiaCLI.Gong.GONG_PATHS.length; ++i )
+		{
+			this.gongSelect.addItem( KoLmafiaCLI.Gong.GONG_PATHS[ i ] );
+		}
 
+		this.addChoiceSelect( "Item-Driven", "Llama Gong", this.gongSelect );
 		this.addChoiceSelect( "Plains", "Castle Wheel", this.castleWheelSelect );
 		this.addChoiceSelect( "Plains", "Papaya War", this.palindomePapayaSelect );
 		this.addChoiceSelect( "Woods", "Forest Corpses", this.spookyForestSelect );
@@ -247,7 +267,7 @@ public class ChoiceOptionsPanel
 		this.addChoiceSelect( "Island", "Ocean Destination", this.oceanDestSelect );
 		this.addChoiceSelect( "Island", "Ocean Action", this.oceanActionSelect );
 		this.addChoiceSelect( "Mountain", "Barrel full of Barrels", this.barrelSelect );
-
+		
 		this.addChoiceSelect(
 			ChoiceManager.LUCKY_SEWER.getZone(), ChoiceManager.LUCKY_SEWER.getName(), this.sewerSelect );
 
@@ -257,6 +277,21 @@ public class ChoiceOptionsPanel
 				ChoiceManager.CHOICE_ADVS[ i ].getZone(), ChoiceManager.CHOICE_ADVS[ i ].getName(),
 				this.optionSelects[ i ] );
 		}
+		
+		this.addChoiceSelect( "Item-Driven", "Item",
+			new CommandButton( "use 1 llama lama gong" ) );
+		this.addChoiceSelect( "Item-Driven", "Item",
+			new CommandButton( "use 1 tiny bottle of absinthe" ) );
+
+		Preferences.registerListener( "choiceAdventure*", this );
+		Preferences.registerListener( "violetFogGoal", this );
+		Preferences.registerListener( "louvreOverride", this );
+		Preferences.registerListener( "louvreDesiredGoal", this );
+		Preferences.registerListener( "barrelGoal", this );
+		Preferences.registerListener( "gongPath", this );
+		Preferences.registerListener( "luckySewerAdventure", this );
+		Preferences.registerListener( "oceanAction", this );
+		Preferences.registerListener( "oceanDestination", this );
 
 		this.loadSettings();
 
@@ -266,7 +301,16 @@ public class ChoiceOptionsPanel
 		for ( int i = 0; i < keys.length; ++i )
 		{
 			optionsList = (ArrayList) this.choiceMap.get( keys[ i ] );
-			this.add( new ChoicePanel( optionsList ), keys[ i ] );
+			if ( keys[ i ].equals( "Item-Driven" ) )
+			{
+				this.addTab( "Item",
+					new GenericScrollPane( new ChoicePanel( optionsList ) ) );
+				this.setToolTipTextAt( 1, "Choices related to the use of an item" );
+			}
+			else
+			{
+				this.choicePanel.add( new ChoicePanel( optionsList ), keys[ i ] );
+			}
 		}
 	}
 
@@ -288,7 +332,7 @@ public class ChoiceOptionsPanel
 		}
 	}
 
-	private void addChoiceSelect( final String zone, final String name, final JComboBox option )
+	private void addChoiceSelect( final String zone, final String name, final JComponent option )
 	{
 		if ( !this.choiceMap.containsKey( zone ) )
 		{
@@ -326,14 +370,14 @@ public class ChoiceOptionsPanel
 
 				if ( value.size() == 1 )
 				{
-					elementList.add( new VerifiableElement( key + ":  ", (JComboBox) value.get( 0 ) ) );
+					elementList.add( new VerifiableElement( key + ":  ", (JComponent) value.get( 0 ) ) );
 				}
 				else
 				{
 					for ( int j = 0; j < value.size(); ++j )
 					{
 						elementList.add( new VerifiableElement(
-							key + " " + ( j + 1 ) + ":  ", (JComboBox) value.get( j ) ) );
+							key + " " + ( j + 1 ) + ":  ", (JComponent) value.get( j ) ) );
 					}
 				}
 			}
@@ -574,29 +618,60 @@ public class ChoiceOptionsPanel
 			{
 				return;
 			}
-
-			ChoiceOptionsPanel.this.choiceCards.show(
-				ChoiceOptionsPanel.this,
-				ChoiceOptionsPanel.this.choiceMap.containsKey( location.getParentZone() ) ? location.getParentZone() : "" );
+			String zone = location.getParentZone();
+			if ( zone.equals( "Item-Driven" ) )
+			{
+				ChoiceOptionsPanel.this.setSelectedIndex( 1 );
+				ChoiceOptionsPanel.this.choiceCards.show(
+					ChoiceOptionsPanel.this.choicePanel, "" );
+			}
+			else
+			{
+				ChoiceOptionsPanel.this.setSelectedIndex( 0 );
+				ChoiceOptionsPanel.this.choiceCards.show(
+					ChoiceOptionsPanel.this.choicePanel,
+					ChoiceOptionsPanel.this.choiceMap.containsKey( zone ) ? zone : "" );
+			}
+		}
+	}
+	
+	private boolean isAdjusting = false;
+	
+	public synchronized void update()
+	{
+		if ( !this.isAdjusting )
+		{
+			this.loadSettings();
 		}
 	}
 
-	public void saveSettings()
+	public synchronized void saveSettings()
 	{
+		if ( this.isAdjusting )
+		{
+			return;
+		}
+		this.isAdjusting = true;
+
 		Object override = this.manualLouvre.getSelectedItem();
 		int overrideIndex = this.manualLouvre.getSelectedIndex();
-		Preferences.setString(
-			"louvreOverride", overrideIndex == 0 || override == null ? "" : (String) override );
+		Preferences.setString( "louvreOverride",
+			overrideIndex == 0 || override == null ? "" : (String) override );
 
 		Preferences.setInteger( "violetFogGoal", this.violetFogSelect.getSelectedIndex() );
-		Preferences.setString( "luckySewerAdventure", (String) this.sewerSelect.getSelectedItem() );
-		Preferences.setString( "choiceAdventure89", String.valueOf( this.maidenSelect.getSelectedIndex() ) );
-		Preferences.setString( "choiceAdventure127", String.valueOf( this.palindomePapayaSelect.getSelectedIndex() + 1 ) );
-		Preferences.setString( "barrelGoal", String.valueOf( this.barrelSelect.getSelectedIndex() + 1 ) );
+		Preferences.setString( "luckySewerAdventure",
+			(String) this.sewerSelect.getSelectedItem() );
+		Preferences.setString( "choiceAdventure89",
+			String.valueOf( this.maidenSelect.getSelectedIndex() ) );
+		Preferences.setString( "choiceAdventure127", 
+			String.valueOf( this.palindomePapayaSelect.getSelectedIndex() + 1 ) );
+		Preferences.setInteger( "barrelGoal", this.barrelSelect.getSelectedIndex() + 1 );
+		Preferences.setInteger( "gongPath", this.gongSelect.getSelectedIndex() );
+		KoLmafiaCLI.Gong.setPath( this.gongSelect.getSelectedIndex() );
 
 		int louvreGoal = this.louvreSelect.getSelectedIndex();
-		Preferences.setString(
-			"choiceAdventure91", String.valueOf( overrideIndex > 0 || louvreGoal > 0 ? "1" : "2" ) );
+		Preferences.setString( "choiceAdventure91",
+			String.valueOf( overrideIndex > 0 || louvreGoal > 0 ? "1" : "2" ) );
 		Preferences.setInteger( "louvreDesiredGoal", louvreGoal );
 
 		for ( int i = 0; i < this.optionSelects.length; ++i )
@@ -812,10 +887,15 @@ public class ChoiceOptionsPanel
 			Preferences.setString( "oceanAction", "savestop" );
 			break;
 		}
+
+		this.isAdjusting = false;
 	}
 
-	public void loadSettings()
+	public synchronized void loadSettings()
 	{
+		this.isAdjusting = true;
+		ActionPanel.enableActions( false );	// prevents recursive actions from being triggered
+
 		int index = Preferences.getInteger( "violetFogGoal" );
 		if ( index >= 0 )
 		{
@@ -841,6 +921,7 @@ public class ChoiceOptionsPanel
 		this.maidenSelect.setSelectedIndex( Preferences.getInteger( "choiceAdventure89" ) );
 		this.palindomePapayaSelect.setSelectedIndex( Preferences.getInteger( "choiceAdventure127" ) - 1 );
 		this.barrelSelect.setSelectedIndex( Preferences.getInteger( "barrelGoal" ) - 1 );
+		this.gongSelect.setSelectedIndex( Preferences.getInteger( "gongPath" ) );
 
 		boolean foundItem = false;
 		String sewerItem = Preferences.getString( "luckySewerAdventure" );
@@ -1050,6 +1131,26 @@ public class ChoiceOptionsPanel
 		else if ( action.equals( "savestop" ) )
 		{
 			this.oceanActionSelect.setSelectedIndex( 5 );
+		}
+		
+		this.isAdjusting = false;
+		ActionPanel.enableActions( true );
+	}
+	
+	public static class CommandButton
+		extends JButton
+		implements ActionListener
+	{
+		public CommandButton( String cmd )
+		{
+			super( cmd );
+			this.setActionCommand( cmd );
+			this.addActionListener( this );
+		}
+		
+		public void actionPerformed( ActionEvent e )
+		{
+			CommandDisplayFrame.executeCommand( e.getActionCommand() );
 		}
 	}
 }

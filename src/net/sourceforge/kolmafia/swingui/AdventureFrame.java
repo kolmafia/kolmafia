@@ -170,7 +170,7 @@ public class AdventureFrame
 
 		this.tabs.insertTab( "Overview", null, this.getAdventureSummary(), null, 0 );
 		ChoiceOptionsPanel choicePanel = new ChoiceOptionsPanel();
-		this.tabs.insertTab( "Choice Advs", null, new GenericScrollPane( choicePanel ), null, 1 );
+		this.tabs.insertTab( "Choice Advs", null, choicePanel, null, 1 );
 
 		AdventureFrame.adventureSelector.addSelectedLocationListener( choicePanel.getUpdateListener() );
 		return this.tabs;
