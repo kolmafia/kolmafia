@@ -41,37 +41,54 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
-import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
-import net.sourceforge.kolmafia.request.UseItemRequest;
-
+import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
+
+import net.sourceforge.kolmafia.request.UseItemRequest;
+
 import net.sourceforge.kolmafia.session.ResultProcessor;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class SingleUseRequest
 	extends CreateItemRequest
 {
-	private static final Pattern USE_PATTERN = Pattern.compile( "inv_use.php.*whichitem=(\\d+)" );
+	final private AdventureResult[] ingredients;
 
 	public SingleUseRequest( final int itemId )
 	{
 		super( "inv_use.php", itemId );
-
-		AdventureResult[] ingredients = ConcoctionDatabase.getIngredients( itemId );
-
-		if ( ingredients == null )
-		{
-			return;
-		}
-
-		int use = ingredients[ 0 ].getItemId();
-		this.addFormField( "which", "3" );
-		this.addFormField( "whichitem", String.valueOf( use ) );
+		this.ingredients = ConcoctionDatabase.getIngredients( itemId );
 	}
 
 	public void reconstructFields()
 	{
+		if ( this.ingredients == null )
+		{
+			return;
+		}
+
+		int use = this.ingredients[ 0 ].getItemId();
+		int type = ItemDatabase.getConsumptionType( use );
+		int count = this.getQuantityNeeded();
+
+		if ( type == KoLConstants.CONSUME_USE || count == 1 )
+		{
+			this.constructURLString( "inv_use.php" );
+			this.addFormField( "which", "3" );
+			this.addFormField( "whichitem", String.valueOf( use ) );
+		}
+		else if ( type == KoLConstants.CONSUME_MULTIPLE )
+		{
+			this.constructURLString( "multiuse.php" );
+			this.addFormField( "action", "useitem" );
+			this.addFormField( "quantity", String.valueOf( count ) );
+			this.addFormField( "whichitem", String.valueOf( use ) );
+		}
 	}
 
 	public void run()
@@ -84,9 +101,23 @@ public class SingleUseRequest
 			return;
 		}
 
-		for ( int i = 1; i <= this.getQuantityNeeded(); ++i )
+		int use = this.ingredients[ 0 ].getItemId();
+		int type = ItemDatabase.getConsumptionType( use );
+		int count = this.getQuantityNeeded();
+
+		if ( type == KoLConstants.CONSUME_USE && count > 1 )
 		{
-			KoLmafia.updateDisplay( "Creating " + this.getName() + " (" + i + " of " + this.getQuantityNeeded() + ")..." );
+			// We have to create one at a time.
+			for ( int i = 1; i <= count; ++i )
+			{
+				KoLmafia.updateDisplay( "Creating " + this.getName() + " (" + i + " of " + count + ")..." );
+				super.run();
+			}
+		}
+		else
+		{
+			// We create all at once.
+			KoLmafia.updateDisplay( "Creating " + this.getName() + " (" + count + ")..." );
 			super.run();
 		}
 	}
@@ -98,42 +129,66 @@ public class SingleUseRequest
 
 	public static final boolean registerRequest( final String urlString )
 	{
-		Matcher useMatcher = SingleUseRequest.USE_PATTERN.matcher( urlString );
-		if ( !useMatcher.find() )
+		if ( !urlString.startsWith( "multiuse.php") && !urlString.startsWith( "inv_use.php")  )
+		{
+			return false;
+		}
+
+		Matcher itemMatcher = UseItemRequest.ITEMID_PATTERN.matcher( urlString );
+		if ( !itemMatcher.find() )
 		{
 			return false;
 		}
 
 		// Item ID of the base item
-		int baseId = StringUtilities.parseInt( useMatcher.group( 1 ) );
+		int baseId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
+		String name = ItemDatabase.getItemName( baseId );
 
-		// Find result item ID
-		int result = ConcoctionPool.findConcoction( KoLConstants.SINGLE_USE, baseId );
+		// Find result concoction
+		Concoction concoction = ConcoctionDatabase.singleUseCreation( name );
 
 		// If this is not a concoction, let somebody else log this.
-		if ( result == -1 )
+		if ( concoction == null )
 		{
 			return false;
 		}
 
-		UseItemRequest.setLastItemUsed( ItemPool.get( baseId, 1 ) );
-		AdventureResult base = ItemPool.get( baseId, -1 );
+		Matcher quantityMatcher = UseItemRequest.QUANTITY_PATTERN.matcher( urlString );
+		int count = quantityMatcher.find() ? StringUtilities.parseInt( quantityMatcher.group( 1 ) ) : 1;
 
-		AdventureResult[] ingredients = ConcoctionDatabase.getIngredients( result );
+		AdventureResult[] ingredients = concoction.getIngredients();
+
+		// Punt if don't have enough of any ingredient.
+
+		for ( int i = 0; i < ingredients.length; ++i )
+		{
+			AdventureResult ingredient = ingredients[ i ];
+			int have = ingredient.getCount( KoLConstants.inventory );
+			int need = count * ingredient.getCount();
+			if ( have < need )
+			{
+				return true;
+			}
+		}
+
+		UseItemRequest.setLastItemUsed( ItemPool.get( baseId, count ) );
+
 		StringBuffer text = new StringBuffer();
 		text.append( "Use " );
 
 		for ( int i = 0; i < ingredients.length; ++i )
 		{
+			AdventureResult ingredient = ingredients[ i ];
+			int used = count * ingredient.getCount();
 			if ( i > 0 )
 			{
 				text.append( " + " );
 			}
 
-			text.append( ingredients[ i ].getCount() );
+			text.append( used );
 			text.append( " " );
-			text.append( ingredients[ i ].getName() );
-			ResultProcessor.processResult( ingredients[ i ].getInstance( -1 * ingredients[ i ].getCount() ) );
+			text.append( ingredient.getName() );
+			ResultProcessor.processResult( ingredient.getInstance( -1 * used ) );
 		}
 
 		RequestLogger.updateSessionLog();

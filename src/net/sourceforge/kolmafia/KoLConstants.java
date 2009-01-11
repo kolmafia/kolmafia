@@ -248,7 +248,7 @@ public interface KoLConstants
 	public static final int CLASSSKILLS_VERSION = 2;
 	public static final int COINMASTERS_VERSION = 1;
 	public static final int COMBATS_VERSION = 1;
-	public static final int CONCOCTIONS_VERSION = 1;
+	public static final int CONCOCTIONS_VERSION = 2;
 	public static final int DEFAULTS_VERSION = 1;
 	public static final int EQUIPMENT_VERSION = 2;
 	public static final int FAMILIARS_VERSION = 1;
@@ -335,50 +335,70 @@ public interface KoLConstants
 
 	// Item creation types
 
-	public static final int METHOD_COUNT = 31;
+	public static final int METHOD_COUNT = 29;
 	public static final int SUBCLASS = Integer.MAX_VALUE;
 
 	public static final int NOCREATE = 0;
+
+	// Items anybody can create using meat paste
 	public static final int COMBINE = 1;
+	// Items anybody can create with an E-Z Cook Oven
 	public static final int COOK = 2;
+	// Items anybody can create with a cocktailcrafting kit
 	public static final int MIX = 3;
+	// Items anybody can create with a tenderizing hammer
 	public static final int SMITH = 4;
-
+	// Items requiring Advanced Saucecrafting
 	public static final int COOK_REAGENT = 5;
+	// Items requiring Pastamastery
 	public static final int COOK_PASTA = 6;
+	// Items requiring Advanced Cocktailcrafting
 	public static final int MIX_SPECIAL = 7;
-
-	public static final int JEWELRY = 8;
-	public static final int STARCHART = 9;
-	public static final int PIXEL = 10;
-	public static final int ROLLING_PIN = 11;
-
-	public static final int GNOME_TINKER = 12;
-	public static final int SMITH_WEAPON = 13;
-	public static final int SMITH_ARMOR = 14;
-
-	public static final int CRIMBO05 = 15;
-	public static final int CREATE_VIA_USE = 16;
-
-	public static final int STILL_BOOZE = 17;
-	public static final int STILL_MIXER = 18;
-	public static final int MIX_SUPER = 19;
-
-	public static final int CATALYST = 20;
-	public static final int SUPER_REAGENT = 21;
-	public static final int WOK = 22;
-	public static final int MALUS = 23;
-
-	public static final int CRIMBO06 = 24;
-
-	public static final int EXPENSIVE_JEWELRY = 25;
-	public static final int STAFF = 26;
-	public static final int MULTI_USE = 27;
-	public static final int SINGLE_USE = 28;
-
-	public static final int CRIMBO07 = 29;
-
-	public static final int SUSHI = 30;
+	// Items requiring Super-Advanced Meatsmithing
+	public static final int SMITH_WEAPON = 8;
+	// Items requiring Armorcraftiness
+	public static final int SMITH_ARMOR = 9;
+	// Items requiring access to Nash Crosby's Still
+	public static final int STILL_BOOZE = 10;
+	public static final int STILL_MIXER = 11;
+	// Items requiring Superhuman Cocktailcrafting
+	public static final int MIX_SUPER = 12;
+	// Items requiring The Way of Sauce
+	public static final int SUPER_REAGENT = 13;
+	// Items requiring access to the Wok of Ages
+	public static final int WOK = 14;
+	// Items requiring access to the Malus of Forethought
+	public static final int MALUS = 15;
+	// Items anybody can create with jewelry-making pliers
+	public static final int JEWELRY = 16;
+	// Items requiring jewelry-making pliers and Really Expensive Jewelrycrafting
+	public static final int EXPENSIVE_JEWELRY = 17;
+	// Items anybody can create with starcharts, stars, and lines
+	public static final int STARCHART = 18;
+	// Items anybody can create with pixels
+	public static final int PIXEL = 19;
+	// Items created with a rolling pin or and an unrolling pin
+	public static final int ROLLING_PIN = 20;
+	// Items requiring access to the Gnome supertinker
+	public static final int GNOME_TINKER = 21;
+	// Items requiring access to Roderick the Staffmaker
+	public static final int STAFF = 22;
+	// Items anybody can create with a sushi-rolling mat
+	public static final int SUSHI = 23;
+	// Items created by single (or multi) using a single item.
+	// Extra ingredients might also be consumed.
+	// Multi-using more than one of the item creates multiple results.
+	public static final int SINGLE_USE = 24;
+	// Items created by multi-using specific numbers of a single item.
+	// Extra ingredients might also be consumed.
+	// You must create multiple result items one at a time.
+	public static final int MULTI_USE = 25;
+	// Items formerly creatable in Crimbo Town during Crimbo 2005
+	public static final int CRIMBO05 = 26;
+	// Items formerly creatable in Crimbo Town during Crimbo 2006
+	public static final int CRIMBO06 = 27;
+	// Items formerly creatable in Crimbo Town during Crimbo 2007
+	public static final int CRIMBO07 = 28;
 
 	// Colors which are used to handle the various KoLmafia states.
 	// Used when changing the display.
