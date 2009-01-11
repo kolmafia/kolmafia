@@ -46,8 +46,8 @@ import net.sourceforge.kolmafia.persistence.Preferences;
 public class LimitedSizeChatBuffer
 	extends ChatBuffer
 {
-	private static final int RESIZE_SIZE = 12000;
-	private static final int MAXIMUM_SIZE = 20000;
+	private static final int RESIZE_SIZE = 20000;
+	private static final int MAXIMUM_SIZE = 25000;
 	private static final int DELETE_AMOUNT = LimitedSizeChatBuffer.MAXIMUM_SIZE - LimitedSizeChatBuffer.RESIZE_SIZE;
 
 	public static final List colors = new ArrayList();
