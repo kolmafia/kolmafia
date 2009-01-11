@@ -3327,27 +3327,33 @@ public class KoLmafiaCLI
 	public static class Recover
 		extends Command
 	{
-		{ usage = " hp | health | mp | mana - attempt to regain some HP or MP."; }
+		{ usage = " hp | health | mp | mana | both - attempt to regain some HP or MP."; }
 		public void run( String cmd, String parameters )
 		{
 			boolean wasRecoveryActive = KoLmafia.isRunningBetweenBattleChecks();
 			KoLmafia.recoveryActive = true;
 
+			SpecialOutfit.createImplicitCheckpoint();
 			int target;
-			if ( parameters.equalsIgnoreCase( "hp" ) || parameters.equalsIgnoreCase( "health" ) )
+			if ( parameters.equalsIgnoreCase( "hp" ) ||
+				parameters.equalsIgnoreCase( "health" ) || 
+				parameters.equalsIgnoreCase( "both" ) )
 			{
 				target = (int) (Preferences.getFloat( "hpAutoRecoveryTarget" )
 					* (float) KoLCharacter.getMaximumHP());
 				StaticEntity.getClient().recoverHP( Math.max( target,
 					KoLCharacter.getCurrentHP() + 1 ) );
 			}
-			else if ( parameters.equalsIgnoreCase( "mp" ) || parameters.equalsIgnoreCase( "mana" ) )
+			if ( parameters.equalsIgnoreCase( "mp" ) ||
+				parameters.equalsIgnoreCase( "mana" ) || 
+				parameters.equalsIgnoreCase( "both" ) )
 			{
 				target = (int) (Preferences.getFloat( "mpAutoRecoveryTarget" )
 					* (float) KoLCharacter.getMaximumMP());
 				StaticEntity.getClient().recoverMP( Math.max( target,
 					KoLCharacter.getCurrentMP() + 1 ) );
 			}
+			SpecialOutfit.restoreImplicitCheckpoint();
 
 			KoLmafia.recoveryActive = wasRecoveryActive;
 		}

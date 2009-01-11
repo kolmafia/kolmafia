@@ -536,6 +536,7 @@ public class ItemPool
 	public static final int GRIMACITE_GO_GO_BOOTS = 2823;
 	public static final int GRIMACITE_GIRDLE = 2824;
 	public static final int GRIMACITE_GOWN = 2825;
+	public static final int NAVEL_RING = 2844;
 	public static final int PLASTIC_BIB = 2846;
 	public static final int GNOME_DEMODULIZER = 2848;
 	public static final int PIRATE_INSULT_BOOK = 2947;
