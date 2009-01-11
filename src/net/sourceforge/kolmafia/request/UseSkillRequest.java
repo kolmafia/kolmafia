@@ -113,38 +113,38 @@ public class UseSkillRequest
 
 	public static final AdventureResult[] TAMER_WEAPONS = new AdventureResult[]
 	{
-		new AdventureResult( 2558, 1 ),	// Chelonian Morningstar
-		new AdventureResult( 60, 1 ),	// Mace of the Tortoise
-		new AdventureResult( 4, 1 )	// turtle totem
+		ItemPool.get( ItemPool.CHELONIAN_MORNINGSTAR, 1 ),
+		ItemPool.get( ItemPool.MACE_OF_THE_TORTOISE, 1 ),
+		ItemPool.get( ItemPool.TURTLE_TOTEM, 1 )
 	};
 
 	public static final AdventureResult[] SAUCE_WEAPONS = new AdventureResult[]
 	{
-		new AdventureResult( 2560, 1 ),	// 17-Alarm Saucepan
-		new AdventureResult( 57, 1 ),	// 5-Alarm saucepan
-		new AdventureResult( 7, 1 )	// saucepan
+		ItemPool.get( ItemPool.SEVENTEEN_ALARM_SAUCEPAN, 1 ),
+		ItemPool.get( ItemPool.FIVE_ALARM_SAUCEPAN, 1 ),
+		ItemPool.get( ItemPool.SAUCEPAN, 1 )
 	};
 
 	public static final AdventureResult[] THIEF_WEAPONS = new AdventureResult[]
 	{
-		new AdventureResult( 2557, 1 ),	// Squeezebox of the Ages
-		new AdventureResult( 50, 1 ),	// Rock 'n Roll Legend
-		new AdventureResult( 2234, 1 ),	// calavera concertina
-		new AdventureResult( 11, 1 )	// stolen accordion
+		ItemPool.get( ItemPool.SQUEEZEBOX_OF_THE_AGES, 1 ),
+		ItemPool.get( ItemPool.ROCK_N_ROLL_LEGEND, 1 ),
+		ItemPool.get( ItemPool.CALAVERA_CONCERTINA, 1 ),
+		ItemPool.get( ItemPool.STOLEN_ACCORDION, 1 )
 	};
 
-	public static final AdventureResult PLEXI_PENDANT = new AdventureResult( 1235, 1 );
-	public static final AdventureResult BRIM_BERET = new AdventureResult( 2813, 1 );
-	public static final AdventureResult WIZARD_HAT = new AdventureResult( 1653, 1 );
+	public static final AdventureResult PLEXI_PENDANT = ItemPool.get( ItemPool.PLEXIGLASS_PENDANT, 1 );
+	public static final AdventureResult BRIM_BERET = ItemPool.get( ItemPool.BRIMSTONE_BERET, 1 );
+	public static final AdventureResult WIZARD_HAT = ItemPool.get( ItemPool.JEWEL_EYED_WIZARD_HAT, 1 );
 
-	public static final AdventureResult PLEXI_WATCH = new AdventureResult( 1232, 1 );
-	public static final AdventureResult BRIM_BRACELET = new AdventureResult( 2818, 1 );
-	public static final AdventureResult SOLITAIRE = new AdventureResult( 1226, 1 );
+	public static final AdventureResult PLEXI_WATCH = ItemPool.get( ItemPool.PLEXIGLASS_POCKETWATCH, 1 );
+	public static final AdventureResult BRIM_BRACELET = ItemPool.get( ItemPool.BRIMSTONE_BERET, 1 );
+	public static final AdventureResult SOLITAIRE = ItemPool.get( ItemPool.STAINLESS_STEEL_SOLITAIRE, 1 );
 
-	public static final AdventureResult WIRE_BRACELET = new AdventureResult( 2514, 1 );
-	public static final AdventureResult BACON_BRACELET = new AdventureResult( 717, 1 );
-	public static final AdventureResult BACON_EARRING = new AdventureResult( 715, 1 );
-	public static final AdventureResult SOLID_EARRING = new AdventureResult( 2780, 1 );
+	public static final AdventureResult WIRE_BRACELET = ItemPool.get( ItemPool.WOVEN_BALING_WIRE_BRACELETS, 1 );
+	public static final AdventureResult BACON_BRACELET = ItemPool.get( ItemPool.BACONSTONE_BRACELET, 1 );
+	public static final AdventureResult BACON_EARRING = ItemPool.get( ItemPool.BACONSTONE_EARRING, 1 );
+	public static final AdventureResult SOLID_EARRING = ItemPool.get( ItemPool.SOLID_BACONSTONE_EARRING, 1 );
 
 	// The following list must contain only accessories!
 	private static final AdventureResult[] AVOID_REMOVAL = new AdventureResult[]
@@ -865,8 +865,7 @@ public class UseSkillRequest
 			{
 				int mpCost = SkillDatabase.getMPConsumptionById( this.skillId ) * this.buffCount;
 
-				ResultProcessor.processResult(
-					new AdventureResult( AdventureResult.MP, 0 - mpCost ) );
+				ResultProcessor.processResult( new AdventureResult( AdventureResult.MP, 0 - mpCost ) );
 			}
 
 			// Tongue of the Walrus (1010) automatically

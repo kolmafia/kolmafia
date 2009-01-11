@@ -860,7 +860,7 @@ public class RelayRequest
 		warning.append( "\"; } </script>" );
 
 		warning.append( "<link rel=\"stylesheet\" type=\"text/css\" href=\"http://images.kingdomofloathing.com/styles.css\"></head>" );
-		warning.append( "<body><center><table width=95%  cellspacing=0 cellpadding=0><tr><td style=\"color: white;\" align=center bgcolor=blue><b>Results:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid blue;\"><center><table><tr><td><center>" );
+		warning.append( "<body><center><table width=95%	 cellspacing=0 cellpadding=0><tr><td style=\"color: white;\" align=center bgcolor=blue><b>Results:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid blue;\"><center><table><tr><td><center>" );
 
 		warning.append( "<table><tr>" );
 
@@ -904,7 +904,7 @@ public class RelayRequest
 		warning.append( "</tr></table></center><blockquote>The " );
 		warning.append( name );
 
-		warning.append( " drops special rewards based on your mind-control level.  If you'd like a special reward, click on one of the items above to set your mind-control device appropriately.  Click on it again to reset the MCD back to your old setting.  Click on the " );
+		warning.append( " drops special rewards based on your mind-control level.  If you'd like a special reward, click on one of the items above to set your mind-control device appropriately.  Click on it again to reset the MCD back to your old setting.	 Click on the " );
 		warning.append( name );
 
 		warning.append( " once you've decided to proceed.</blockquote></td></tr></table></center></td></tr></table></center></body></html>" );
@@ -944,7 +944,7 @@ public class RelayRequest
 		warning.append( "<html><head><script language=Javascript src=\"/basics.js\"></script>" );
 
 		warning.append( "<link rel=\"stylesheet\" type=\"text/css\" href=\"http://images.kingdomofloathing.com/styles.css\"></head>" );
-		warning.append( "<body><center><table width=95%  cellspacing=0 cellpadding=0><tr><td style=\"color: white;\" align=center bgcolor=blue><b>Results:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid blue;\"><center><table><tr><td><center>" );
+		warning.append( "<body><center><table width=95%	 cellspacing=0 cellpadding=0><tr><td style=\"color: white;\" align=center bgcolor=blue><b>Results:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid blue;\"><center><table><tr><td><center>" );
 
 		warning.append( "<table><tr>" );
 
@@ -965,7 +965,7 @@ public class RelayRequest
 		warning.append( "); void(0);\"><img src=\"http://images.kingdomofloathing.com/itemimages/disclover.gif\" width=30 height=30 border=0>" );
 		warning.append( "</a></div></td>" );
 
-		warning.append( "</tr></table></center><blockquote>KoLmafia has detected a ten-leaf clover in your inventory.  If you are sure you wish to use it, click on the assembled clover on the left.  If this was an accident, please click on the disassembled clover on the right to disassemble your clovers first.  To disable this warning, please check your preferences and disable clover protection.</blockquote></td></tr></table></center></td></tr></table></center></body></html>" );
+		warning.append( "</tr></table></center><blockquote>KoLmafia has detected a ten-leaf clover in your inventory.  If you are sure you wish to use it, click on the assembled clover on the left.  If this was an accident, please click on the disassembled clover on the right to disassemble your clovers first.	 To disable this warning, please check your preferences and disable clover protection.</blockquote></td></tr></table></center></td></tr></table></center></body></html>" );
 
 		this.pseudoResponse( "HTTP/1.1 200 OK", warning.toString() );
 	}
@@ -1019,7 +1019,7 @@ public class RelayRequest
 
 	private void handleCommand()
 	{
-		// None of the above checks wound up happening.  So, do some
+		// None of the above checks wound up happening.	 So, do some
 		// special handling, catching any exceptions that happen to
 		// popup along the way.
 
@@ -1149,7 +1149,7 @@ public class RelayRequest
 			return;
 		}
 
-		// Local files never have form fields.  Remove them, because
+		// Local files never have form fields.	Remove them, because
 		// they're probably just used for data tracking purposes
 		// client-side.
 
@@ -1277,16 +1277,17 @@ public class RelayRequest
 
 		if ( adventureName != null && this.getFormField( "confirm" ) == null )
 		{
-			// Wait until any restoration scripts finish running before
-			// allowing an adventuring request to continue.
+			// Wait until any restoration scripts finish running
+			// before allowing an adventuring request to continue.
 
 			while ( KoLmafia.isRunningBetweenBattleChecks() )
 			{
 				this.pauser.pause( 200 );
 			}
 
-			// Check for clovers as well so that people don't accidentally
-			// use up a clover in the middle of a bad moon run.
+			// Check for clovers as well so that people don't
+			// accidentally use up a clover in the middle of a bad
+			// moon run.
 
 			if ( AdventureDatabase.isPotentialCloverAdventure( adventureName ) && Preferences.getBoolean( "cloverProtectActive" ) )
 			{
@@ -1338,25 +1339,25 @@ public class RelayRequest
 				}
 			}
 
-			// If the person is visiting the sorceress and they forgot
-			// to make the Wand, remind them.
+			// If the person is visiting the sorceress and they
+			// forgot to make the Wand, remind them.
 
 			else if ( path.equals( "lair6.php" ) )
 			{
-				// As of NS 13,they need not have it equipped. In fact,
-				// there are far better weapons to equip for the
-				// battle. But, just in case, check current equipment
-				// as well as inventory.
+				// As of NS 13,they need not have it
+				// equipped. In fact, there are far better
+				// weapons to equip for the battle. But, just
+				// in case, check current equipment as well as
+				// inventory.
 
 				String place = this.getFormField( "place" );
-				if ( place != null )
+				if ( place != null && place.equals( "5" ) &&
+				     !KoLCharacter.hasEquipped( SorceressLairManager.NAGAMAR ) &&
+				     !InventoryManager.retrieveItem( SorceressLairManager.NAGAMAR ) )
 				{
-					if ( place.equals( "5" ) && !KoLCharacter.hasEquipped( SorceressLairManager.NAGAMAR ) && !InventoryManager.retrieveItem( SorceressLairManager.NAGAMAR ) )
-					{
-						this.sendGeneralWarning(
-							"wand.gif", "It's possible there is something very important you're forgetting to do." );
-						return;
-					}
+					this.sendGeneralWarning(
+						"wand.gif", "It's possible there is something very important you're forgetting to do." );
+					return;
 				}
 			}
 		}
@@ -1364,21 +1365,20 @@ public class RelayRequest
 		else if ( path.equals( "lair6.php" ) )
 		{
 			String place = this.getFormField( "place" );
-			if ( place != null )
+			if ( place != null && place.equals( "6" ) &&
+			     KoLCharacter.isHardcore() &&
+			     Preferences.getBoolean( "lucreCoreLeaderboard" ) )
 			{
-				if ( place.equals( "6" ) && KoLCharacter.isHardcore() && Preferences.getBoolean( "lucreCoreLeaderboard" ) )
+				int lucreCount = InventoryManager.getCount( ItemPool.LUCRE );
+				if ( lucreCount > 0 )
 				{
-					int lucreCount = InventoryManager.getCount( ItemPool.LUCRE );
-					if ( lucreCount > 0 )
-					{
-						new DisplayCaseRequest( new Object[] { ItemPool.get( ItemPool.LUCRE, lucreCount ) }, true ).run();
-						new SendMailRequest( "koldbot", "Completed ascension." ).run();
-					}
-
-					this.sendGeneralWarning(
-						"lucre.gif", "Click on the lucre if you've already received koldbot's confirmation message." );
-					return;
+					new DisplayCaseRequest( new Object[] { ItemPool.get( ItemPool.LUCRE, lucreCount ) }, true ).run();
+					new SendMailRequest( "koldbot", "Completed ascension." ).run();
 				}
+
+				this.sendGeneralWarning(
+					"lucre.gif", "Click on the lucre if you've already received koldbot's confirmation message." );
+				return;
 			}
 		}
 
