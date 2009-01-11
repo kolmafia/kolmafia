@@ -47,9 +47,12 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.swingui.CouncilFrame;
-import net.sourceforge.kolmafia.swingui.FamiliarTrainingFrame;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
+
+import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+
+import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
@@ -61,8 +64,10 @@ import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
-import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
-import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.swingui.CouncilFrame;
+import net.sourceforge.kolmafia.swingui.FamiliarTrainingFrame;
+
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class SorceressLairManager
 {
@@ -74,94 +79,86 @@ public abstract class SorceressLairManager
 	private static final Pattern GATE_PATTERN = Pattern.compile( "<p>&quot;Through the (.*?)," );
 
 	// Items for the entryway
-	public static final AdventureResult NAGAMAR = new AdventureResult( 626, 1 );
+	public static final AdventureResult NAGAMAR = ItemPool.get( ItemPool.WAND_OF_NAGAMAR, 1 );
 
-	private static final AdventureResult WUSSINESS = new AdventureResult( "Wussiness", 0 );
-	private static final AdventureResult HARDLY_POISONED = new AdventureResult( "Hardly Poisoned at All", 0 );
-	private static final AdventureResult TELEPORTITIS = new AdventureResult( "Teleportitis", 0 );
+	private static final AdventureResult WUSSINESS = EffectPool.get( EffectPool.WUSSINESS );
+	private static final AdventureResult HARDLY_POISONED = EffectPool.get( EffectPool.HARDLY_POISONED );
+	private static final AdventureResult TELEPORTITIS = EffectPool.get( EffectPool.TELEPORTITIS );
 
-	private static final AdventureResult STAR_SWORD = new AdventureResult( 657, 1 );
-	private static final AdventureResult STAR_CROSSBOW = new AdventureResult( 658, 1 );
-	private static final AdventureResult STAR_STAFF = new AdventureResult( 659, 1 );
-	private static final AdventureResult STAR_HAT = new AdventureResult( 661, 1 );
+	private static final AdventureResult STAR_SWORD = ItemPool.get( ItemPool.STAR_SWORD, 1 );
+	private static final AdventureResult STAR_CROSSBOW = ItemPool.get( ItemPool.STAR_CROSSBOW, 1 );
+	private static final AdventureResult STAR_STAFF = ItemPool.get( ItemPool.STAR_STAFF, 1 );
+	private static final AdventureResult STAR_HAT = ItemPool.get( ItemPool.STAR_HAT, 1 );
 
-	private static final AdventureResult STONE_BANJO = new AdventureResult( 53, 1 );
-	private static final AdventureResult DISCO_BANJO = new AdventureResult( 54, 1 );
-	private static final AdventureResult SHAGADELIC_BANJO = new AdventureResult( 2556, 1 );
-	private static final AdventureResult ACOUSTIC_GUITAR = new AdventureResult( 404, 1 );
-	private static final AdventureResult HEAVY_METAL_GUITAR = new AdventureResult( 507, 1 );
-	private static final AdventureResult UKELELE = new AdventureResult( 2209, 1 );
-	private static final AdventureResult ZIM_MERMANS_GUITAR = new AdventureResult( 2364, 1 );
-	private static final AdventureResult SITAR = new AdventureResult( 2693, 1 );
 	private static final AdventureResult [] STRINGED = new AdventureResult[]
 	{
-		SorceressLairManager.ACOUSTIC_GUITAR,
-		SorceressLairManager.HEAVY_METAL_GUITAR,
-		SorceressLairManager.STONE_BANJO,
-		SorceressLairManager.DISCO_BANJO,
-		SorceressLairManager.SHAGADELIC_BANJO,
-		SorceressLairManager.UKELELE,
-		SorceressLairManager.SITAR,
-		SorceressLairManager.ZIM_MERMANS_GUITAR
+		ItemPool.get( ItemPool.ACOUSTIC_GUITAR, 1 ),
+		ItemPool.get( ItemPool.HEAVY_METAL_GUITAR, 1 ),
+		ItemPool.get( ItemPool.STONE_BANJO, 1 ),
+		ItemPool.get( ItemPool.DISCO_BANJO, 1 ),
+		ItemPool.get( ItemPool.SHAGADELIC_DISCO_BANJO, 1 ),
+		ItemPool.get( ItemPool.CRIMBO_UKELELE, 1 ),
+		ItemPool.get( ItemPool.MASSIVE_SITAR, 1 ),
+		ItemPool.get( ItemPool.ZIM_MERMANS_GUITAR, 1 ),
 	};
 
-	private static final AdventureResult BROKEN_SKULL = new AdventureResult( 741, 1 );
-	private static final AdventureResult BONE_RATTLE = new AdventureResult( 168, 1 );
-	private static final AdventureResult TAMBOURINE = new AdventureResult( 740, 1 );
+	private static final AdventureResult BROKEN_SKULL = ItemPool.get( ItemPool.BROKEN_SKULL, 1 );
+	private static final AdventureResult BONE_RATTLE = ItemPool.get( ItemPool.BONE_RATTLE, 1 );
 	private static final AdventureResult [] PERCUSSION = new AdventureResult[]
 	{
 		SorceressLairManager.BONE_RATTLE,
-		SorceressLairManager.TAMBOURINE,
+		ItemPool.get( ItemPool.TAMBOURINE, 1 ),
 		SorceressLairManager.BROKEN_SKULL
 	};
 
-	private static final AdventureResult ACCORDION = new AdventureResult( 11, 1 );
-	private static final AdventureResult ROCKNROLL_LEGEND = new AdventureResult( 50, 1 );
-	private static final AdventureResult SQUEEZEBOX = new AdventureResult( 2557, 1 );
 	private static final AdventureResult [] ACCORDIONS = new AdventureResult[]
 	{
-		SorceressLairManager.ACCORDION,
-		SorceressLairManager.ROCKNROLL_LEGEND,
-		SorceressLairManager.SQUEEZEBOX
+		ItemPool.get( ItemPool.STOLEN_ACCORDION, 1 ),
+		ItemPool.get( ItemPool.CALAVERA_CONCERTINA, 1 ),
+		ItemPool.get( ItemPool.ROCK_N_ROLL_LEGEND, 1 ),
+		ItemPool.get( ItemPool.SQUEEZEBOX_OF_THE_AGES, 1 ),
 	};
 
-	private static final AdventureResult CLOVER = new AdventureResult( 24, 1 );
+	private static final AdventureResult CLOVER = ItemPool.get( ItemPool.TEN_LEAF_CLOVER, 1 );
 
-	private static final AdventureResult DIGITAL = new AdventureResult( 691, 1 );
-	private static final AdventureResult RICHARD = new AdventureResult( 665, 1 );
-	private static final AdventureResult SKELETON = new AdventureResult( 642, 1 );
-	private static final AdventureResult KEY_RING = new AdventureResult( 643, 1 );
+	private static final AdventureResult DIGITAL = ItemPool.get( ItemPool.DIGITAL_KEY, 1 );
+	private static final AdventureResult RICHARD = ItemPool.get( ItemPool.STAR_KEY, 1 );
+	private static final AdventureResult SKELETON = ItemPool.get( ItemPool.SKELETON_KEY, 1 );
+	private static final AdventureResult KEY_RING = ItemPool.get( ItemPool.SKELETON_KEY_RING, 1 );
 
-	private static final AdventureResult BORIS = new AdventureResult( 282, 1 );
-	private static final AdventureResult JARLSBERG = new AdventureResult( 283, 1 );
-	private static final AdventureResult SNEAKY_PETE = new AdventureResult( 284, 1 );
-	private static final AdventureResult BALLOON = new AdventureResult( 436, 1 );
+	private static final AdventureResult BORIS = ItemPool.get( ItemPool.BORIS_KEY, 1 );
+	private static final AdventureResult JARLSBERG = ItemPool.get( ItemPool.JARLSBERG_KEY, 1 );
+	private static final AdventureResult SNEAKY_PETE = ItemPool.get( ItemPool.SNEAKY_PETE_KEY, 1 );
+	private static final AdventureResult BALLOON = ItemPool.get( ItemPool.BALLOON_MONKEY, 1 );
 
 	// Results of key puzzles
 
-	private static final AdventureResult STRUMMING = new AdventureResult( 736, 1 );
-	private static final AdventureResult SQUEEZINGS = new AdventureResult( 737, 1 );
-	private static final AdventureResult RHYTHM = new AdventureResult( 738, 1 );
+	private static final AdventureResult STRUMMING = ItemPool.get( ItemPool.SINISTER_STRUMMING, 1 );
+	private static final AdventureResult SQUEEZINGS = ItemPool.get( ItemPool.SQUEEZINGS_OF_WOE, 1 );
+	private static final AdventureResult RHYTHM = ItemPool.get( ItemPool.REALLY_EVIL_RHYTHM, 1 );
 
-	private static final AdventureResult BOWL = new AdventureResult( 729, 1 );
-	private static final AdventureResult TANK = new AdventureResult( 730, 1 );
-	private static final AdventureResult HOSE = new AdventureResult( 731, 1 );
-	private static final AdventureResult HOSE_TANK = new AdventureResult( 732, 1 );
-	private static final AdventureResult HOSE_BOWL = new AdventureResult( 733, 1 );
-	private static final AdventureResult SCUBA = new AdventureResult( 734, 1 );
+	private static final AdventureResult BOWL = ItemPool.get( ItemPool.FISHBOWL, 1 );
+	private static final AdventureResult TANK = ItemPool.get( ItemPool.FISHTANK, 1 );
+	private static final AdventureResult HOSE = ItemPool.get( ItemPool.FISH_HOSE, 1 );
+	private static final AdventureResult HOSE_TANK = ItemPool.get( ItemPool.HOSED_TANK, 1 );
+	private static final AdventureResult HOSE_BOWL = ItemPool.get( ItemPool.HOSED_FISHBOWL, 1 );
+	private static final AdventureResult SCUBA = ItemPool.get( ItemPool.SCUBA_GEAR, 1 );
 
 	// Items for the hedge maze
 
-	public static final AdventureResult PUZZLE_PIECE = new AdventureResult( 727, 1 );
-	public static final AdventureResult HEDGE_KEY = new AdventureResult( 728, 1 );
+	public static final AdventureResult PUZZLE_PIECE = ItemPool.get( ItemPool.PUZZLE_PIECE, 1 );
+	public static final AdventureResult HEDGE_KEY = ItemPool.get( ItemPool.HEDGE_KEY, 1 );
 
 	// Items for the shadow battle
 
-	private static final AdventureResult MIRROR_SHARD = new AdventureResult( "huge mirror shard", 1, false );
+	private static final AdventureResult MIRROR_SHARD = ItemPool.get( ItemPool.MIRROR_SHARD, 1 );
 
-	private static final AdventureResult RED_POTION = new AdventureResult( "red pixel potion", 1 );
-	private static final AdventureResult HIPPY_HEAL = new AdventureResult( "filthy poultice", 1 );
-	private static final AdventureResult FRATBOY_HEAL = new AdventureResult( "gauze garter", 1 );
+	private static final AdventureResult [] HEALING_ITEMS = new AdventureResult[]
+	{
+		ItemPool.get( ItemPool.RED_PIXEL_POTION, 1 ),
+		ItemPool.get( ItemPool.FILTHY_POULTICE, 1 ),
+		ItemPool.get( ItemPool.GAUZE_GARTER, 1 ),
+	};
 
 	// Gates, what they look like through the Telescope, the effects you
 	// need to pass them, and where to get it
@@ -534,7 +531,7 @@ public abstract class SorceressLairManager
 	// Items for the Sorceress's Chamber
 
 	private static final FamiliarData STARFISH = new FamiliarData( 17 );
-	private static final AdventureResult STARFISH_ITEM = new AdventureResult( 664, 1 );
+	private static final AdventureResult STARFISH_ITEM = ItemPool.get( ItemPool.STAR_STARFISH, 1 );
 
 	// Familiars and the familiars that defeat them
 	private static final String[][] FAMILIAR_DATA =
@@ -2086,7 +2083,7 @@ public abstract class SorceressLairManager
 		// Shouldn't get here.
 
 		KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Server-side change detected.  Script aborted." );
-		return new AdventureResult( 666, 1 );
+		return ItemPool.get( ItemPool.STEAMING_EVIL, 1 );
 	}
 
 	private static final void findDoorCode()
@@ -2220,12 +2217,10 @@ public abstract class SorceressLairManager
 		}
 
 		int itemCount = 0;
-		AdventureResult[] options =
-			new AdventureResult[] { SorceressLairManager.RED_POTION, SorceressLairManager.HIPPY_HEAL, SorceressLairManager.FRATBOY_HEAL };
 
-		for ( int i = 0; i < options.length; ++i )
+		for ( int i = 0; i < SorceressLairManager.HEALING_ITEMS.length; ++i )
 		{
-			itemCount += options[ i ].getCount( KoLConstants.inventory );
+			itemCount += SorceressLairManager.HEALING_ITEMS[ i ].getCount( KoLConstants.inventory );
 		}
 
 		if ( itemCount < 6 )
@@ -2251,30 +2246,30 @@ public abstract class SorceressLairManager
 		{
 			SorceressLairManager.QUEST_HANDLER.constructURLString( "fight.php" );
 
-			while ( !KoLConstants.inventory.contains( options[ itemIndex ] ) )
+			while ( !KoLConstants.inventory.contains( SorceressLairManager.HEALING_ITEMS[ itemIndex ] ) )
 			{
 				++itemIndex;
 			}
 
 			SorceressLairManager.QUEST_HANDLER.addFormField( "action", "useitem" );
-			SorceressLairManager.QUEST_HANDLER.addFormField( "whichitem", String.valueOf( options[ itemIndex ].getItemId() ) );
+			SorceressLairManager.QUEST_HANDLER.addFormField( "whichitem", String.valueOf( SorceressLairManager.HEALING_ITEMS[ itemIndex ].getItemId() ) );
 
 			if ( KoLCharacter.hasSkill( "Ambidextrous Funkslinging" ) )
 			{
 				boolean needsIncrement =
-					!KoLConstants.inventory.contains( options[ itemIndex ] ) || options[ itemIndex ].getCount( KoLConstants.inventory ) < 2;
+					!KoLConstants.inventory.contains( SorceressLairManager.HEALING_ITEMS[ itemIndex ] ) || SorceressLairManager.HEALING_ITEMS[ itemIndex ].getCount( KoLConstants.inventory ) < 2;
 
 				if ( needsIncrement )
 				{
 					++itemIndex;
-					while ( !KoLConstants.inventory.contains( options[ itemIndex ] ) )
+					while ( !KoLConstants.inventory.contains( SorceressLairManager.HEALING_ITEMS[ itemIndex ] ) )
 					{
 						++itemIndex;
 					}
 				}
 
 				SorceressLairManager.QUEST_HANDLER.addFormField(
-					"whichitem2", String.valueOf( options[ itemIndex ].getItemId() ) );
+					"whichitem2", String.valueOf( SorceressLairManager.HEALING_ITEMS[ itemIndex ].getItemId() ) );
 			}
 
 			RequestThread.postRequest( SorceressLairManager.QUEST_HANDLER );

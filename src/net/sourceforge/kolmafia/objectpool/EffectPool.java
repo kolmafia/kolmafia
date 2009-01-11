@@ -77,6 +77,10 @@ public class EffectPool
 
 	public static final String FISHY = "Fishy";
 
+	public static final String WUSSINESS = "Wussiness";
+	public static final String HARDLY_POISONED = "Hardly Poisoned at All";
+	public static final String TELEPORTITIS = "Teleportitis";
+
 	public static final int GOOFBALL_WITHDRAWAL_ID = 111;
 	public static final int CURSED_BY_RNG_ID = 217;
 	public static final int EAU_DE_TORTUE_ID = 263;
