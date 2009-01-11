@@ -46,6 +46,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Properties;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.TreeMap;
 import java.util.Map.Entry;
 
@@ -63,7 +64,7 @@ import net.sourceforge.kolmafia.session.ChoiceManager.ChoiceAdventure;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-
+import net.sourceforge.kolmafia.webui.CharPaneDecorator;
 
 public class Preferences
 {
@@ -129,7 +130,9 @@ public class Preferences
 		Preferences.ensureUserDefaults();
 
 		AdventureFrame.updateFromPreferences();
+		CharPaneDecorator.updateFromPreferences();
 		MoodManager.restoreDefaults();
+		Preferences.fireAllPreferencesChanged();
 	}
 
 	public static final String baseUserName( final String name )
@@ -538,6 +541,38 @@ public class Preferences
 					// Don't let a botched listener interfere with
 					// the code that modified the preference.
 		
+					StaticEntity.printStackTrace( e );
+				}
+			}
+		}
+	}
+
+	public static final void fireAllPreferencesChanged()
+	{
+		HashSet notified = new HashSet();
+		ArrayList[] lists = (ArrayList[])
+			Preferences.listenerMap.values().toArray( new ArrayList[ 0 ] );
+		for ( int i=0; i < lists.length; ++i )
+		{
+			Iterator j = lists[ i ].iterator();
+			while ( j.hasNext() )
+			{
+				WeakReference reference = (WeakReference) j.next();
+				ChangeListener listener = (ChangeListener) reference.get();
+				if ( listener == null )
+				{
+					j.remove();
+				}
+				else if ( notified.contains( listener ) )
+				{	// already notified this listener
+				}
+				else try
+				{
+					notified.add( listener );
+					listener.update();
+				}
+				catch ( Exception e )
+				{
 					StaticEntity.printStackTrace( e );
 				}
 			}

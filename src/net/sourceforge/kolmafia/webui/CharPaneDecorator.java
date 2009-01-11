@@ -782,4 +782,9 @@ public class CharPaneDecorator
 		buffer.append( "</font>" );
 		buffer.append( text );
 	}
+	
+	public static final void updateFromPreferences()
+	{
+		CharPaneDecorator.recentLocations.clear();
+	}
 }
