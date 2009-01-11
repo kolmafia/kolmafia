@@ -44,6 +44,7 @@ import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -141,6 +142,7 @@ public class UseSkillRequest
 	public static final AdventureResult BRIM_BRACELET = ItemPool.get( ItemPool.BRIMSTONE_BERET, 1 );
 	public static final AdventureResult SOLITAIRE = ItemPool.get( ItemPool.STAINLESS_STEEL_SOLITAIRE, 1 );
 
+	public static final AdventureResult NAVEL_RING = ItemPool.get( ItemPool.NAVEL_RING, 1 );
 	public static final AdventureResult WIRE_BRACELET = ItemPool.get( ItemPool.WOVEN_BALING_WIRE_BRACELETS, 1 );
 	public static final AdventureResult BACON_BRACELET = ItemPool.get( ItemPool.BACONSTONE_BRACELET, 1 );
 	public static final AdventureResult BACON_EARRING = ItemPool.get( ItemPool.BACONSTONE_EARRING, 1 );
@@ -149,16 +151,28 @@ public class UseSkillRequest
 	// The following list must contain only accessories!
 	private static final AdventureResult[] AVOID_REMOVAL = new AdventureResult[]
 	{
-		UseSkillRequest.PLEXI_WATCH,
-		UseSkillRequest.BRIM_BRACELET,
-		UseSkillRequest.SOLITAIRE,
-		UseSkillRequest.WIRE_BRACELET,
-		UseSkillRequest.BACON_BRACELET,
-		UseSkillRequest.BACON_EARRING,
-		UseSkillRequest.SOLID_EARRING,
+		UseSkillRequest.PLEXI_WATCH,	// -3
+		UseSkillRequest.BRIM_BRACELET,	// -3
+		UseSkillRequest.SOLITAIRE,		// -2
+		UseSkillRequest.NAVEL_RING,		// -1
+		UseSkillRequest.WIRE_BRACELET,	// -1
+		UseSkillRequest.BACON_BRACELET,	// -1, discontinued item
+		UseSkillRequest.BACON_EARRING,	// -1
+		UseSkillRequest.SOLID_EARRING,	// -1
 		// Removing the following might drop an AT song
-		UseSkillRequest.PLEXI_PENDANT
+		UseSkillRequest.PLEXI_PENDANT,
 	};
+	// The number of items at the end of AVOID_REMOVAL that are simply there to
+	// avoid removal - there's no point in equipping them temporarily during casting:
+	private static final int AVOID_REMOVAL_ONLY = 1;
+	
+	// Other known MP cost/song count items:
+	// wizard hat (-1) - has to be handled specially since it's not an accessory.
+	// Vile Vagrant Vestments (-5) - unlikely to be equippable during Ronin.
+	// Idol of Ak'gyxoth (-1) - off-hand, would require special handling.
+	// Emblem of Ak'gyxoth (-1) - is going to be equipped at all times, anyway.
+	// Scandalously Skimpy Bikini (4 songs) - custom accessory.
+	// Sombrero de Vida (4 songs) - custom hat.
 
 	private UseSkillRequest( final String skillName )
 	{
@@ -502,9 +516,10 @@ public class UseSkillRequest
 		// Best switch is a PLEXI_WATCH, since it's a guaranteed -3 to
 		// spell cost.
 
-		for ( int i = 0; i < UseSkillRequest.AVOID_REMOVAL.length; ++i )
+		for ( int i = 0; i < UseSkillRequest.AVOID_REMOVAL.length - AVOID_REMOVAL_ONLY; ++i )
 		{
-			if ( SkillDatabase.getMPConsumptionById( skillId ) == 1 || KoLCharacter.getManaCostAdjustment() == -3 )
+			if ( SkillDatabase.getMPConsumptionById( skillId ) == 1 || 
+				KoLCharacter.currentNumericModifier( Modifiers.MANA_COST ) <= -3 )
 			{
 				return;
 			}
@@ -527,6 +542,12 @@ public class UseSkillRequest
 				slot3Allowed = false;
 				break;
 			}
+		}
+		
+		if ( UseSkillRequest.canSwitchToItem( UseSkillRequest.WIZARD_HAT ) &&
+			!KoLCharacter.hasEquipped( UseSkillRequest.BRIM_BERET ) )
+		{
+			( new EquipmentRequest( UseSkillRequest.WIZARD_HAT, EquipmentManager.HAT ) ).run();
 		}
 	}
 
@@ -742,6 +763,7 @@ public class UseSkillRequest
 			return;
 		}
 
+		boolean unequipLesser = false;
 		for ( int i = 0; i < options.length; ++i )
 		{
 			if ( !InventoryManager.hasItem( options[ i ], false ) )
@@ -751,14 +773,22 @@ public class UseSkillRequest
 
 			if ( KoLCharacter.hasEquipped( options[ i ] ) )
 			{
+				if ( unequipLesser )
+				{
+					( new EquipmentRequest( EquipmentRequest.UNEQUIP,
+						EquipmentManager.WEAPON ) ).run();
+				}
 				return;
 			}
 
 			InventoryManager.retrieveItem( options[ i ] );
-			return;
+			unequipLesser = true;
 		}
 
-		InventoryManager.retrieveItem( options[ options.length - 1 ] );
+		if ( !unequipLesser )
+		{
+			InventoryManager.retrieveItem( options[ options.length - 1 ] );
+		}
 	}
 
 	protected boolean retryOnTimeout()
