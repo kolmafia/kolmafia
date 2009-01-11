@@ -41,10 +41,14 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
-import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
-
+import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
+
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
+
 import net.sourceforge.kolmafia.session.ResultProcessor;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ChefStaffRequest
@@ -125,10 +129,11 @@ public class ChefStaffRequest
 
 		// Item ID of the base staff
 		int baseId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
+		String name = ItemDatabase.getItemName( baseId );
 
-		// Find chefstaff item ID
-		int itemId = ConcoctionPool.findConcoction( KoLConstants.STAFF, baseId );
-		return ConcoctionDatabase.getIngredients( itemId );
+		// Find chefstaff recipe
+		Concoction concoction = ConcoctionDatabase.chefStaffCreation( name );
+		return concoction == null ? null : concoction.getIngredients();
 	}
 
 	public static final boolean registerRequest( final String urlString )

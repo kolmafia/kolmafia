@@ -111,7 +111,7 @@ public class ConcoctionPool
 	 * specified ingredient
 	 */
 
-	public static final int findConcoction( final int mixingMethod, final int itemId )
+	public static final Concoction findConcoction( final int mixingMethod, final int itemId, final int used )
 	{
 		int count = ConcoctionPool.cache.size();
 
@@ -131,14 +131,15 @@ public class ConcoctionPool
 
 			for ( int j = 0; j < ingredients.length; ++j )
 			{
-				if ( ingredients[ j ].getItemId() == itemId )
+                                AdventureResult ingredient = ingredients[ j ];
+				if ( ingredient.getItemId() == itemId && ingredient.getCount() == used )
 				{
-					return i;
+					return concoction;
 				}
 			}
 		}
 
-		return -1;
+		return null;
 	}
 
 	/**

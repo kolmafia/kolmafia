@@ -1825,9 +1825,11 @@ public class UseItemRequest
 
 		case ItemPool.RUSTY_BROKEN_DIVING_HELMET:
 		case ItemPool.PIRATE_SKULL:
+			// SingleUseRequest
+		case ItemPool.BOXTOP:
+			// MultiUseRequest
 			UseItemRequest.showItemUsage( showHTML, responseText );
 			// Fall through
-
 		case ItemPool.QUILL_PEN:
 		case ItemPool.JOLLY_CHARRRM:
 		case ItemPool.RUM_CHARRRM:
@@ -1838,61 +1840,38 @@ public class UseItemRequest
 		case ItemPool.COPPER_CHARRRM:
 		case ItemPool.TONGUE_CHARRRM:
 		case ItemPool.DOUBLE_SIDED_TAPE:
-
-			// These all create things via "use" or "multiuse" of a
-			// an ingredient which also consumes other ingredients.
-
-			// CreateItemRequest removed all the ingredients and
-			// this method removed the first one. Correct for that.
-
-			ResultProcessor.processResult( item );
-
-			if ( responseText.indexOf( "You acquire" ) != -1 )
-			{
-				return;
-			}
-
-			UseItemRequest.lastUpdate = "You're missing some parts.";
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
-
-			int concoction = ConcoctionPool.findConcoction( KoLConstants.SINGLE_USE, item.getItemId() );
-
-			// CreateItemRequest already dealt with consuming the
-			// raw materials. None were actually used.
-
-			if ( concoction != -1 )
-			{
-				AdventureResult[] ingredients = ConcoctionDatabase.getIngredients( concoction );
-
-				// Put back the ingredients
-				for ( int i = 0; i < ingredients.length; ++i )
-				{
-					AdventureResult ingredient = ingredients[ i ];
-					ResultProcessor.processItem( ingredient.getItemId(), ingredient.getCount() );
-				}
-			}
-
-			return;
-
+		case ItemPool.BAT_GUANO:
+		case ItemPool.TEN_LEAF_CLOVER:
+		case ItemPool.DISASSEMBLED_CLOVER:
+		case ItemPool.PACK_OF_CHEWING_GUM:
+		case ItemPool.CATALYST:
+		case ItemPool.JAMFISH_JAM:
+			// SingleUseRequest
 		case ItemPool.PALM_FROND:
 		case ItemPool.MUMMY_WRAP:
 		case ItemPool.DUCT_TAPE:
 		case ItemPool.CLINGFILM:
 		case ItemPool.LONG_SKINNY_BALLOON:
-		case ItemPool.TEN_LEAF_CLOVER:
-		case ItemPool.DISASSEMBLED_CLOVER:
-		case ItemPool.BAT_GUANO:
 		case ItemPool.HANDFUL_OF_SAND:
 		case ItemPool.SAND_BRICK:
 		case ItemPool.INTERESTING_TWIG:
 		case ItemPool.LEWD_CARD:
+			// MultiUseRequest
 
 			// These all create things via "use" or "multiuse" of a
-			// single ingredient. CreateItemRequest already dealt
-			// with consuming the raw materials.
+			// an ingredient and perhaps consume other ingredients.
+			// SingleUseRequest or MultiUseRequest removed all the
+			// ingredients and this method removed the first
+			// one. Correct for that.
 
 			ResultProcessor.processResult( item );
 
+			if ( responseText.indexOf( "You acquire" ) == -1 )
+			{
+
+                                UseItemRequest.lastUpdate = "That doesn't make anything interesting.";
+                                KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+			}
 			return;
 
 		case ItemPool.BLACK_PUDDING:

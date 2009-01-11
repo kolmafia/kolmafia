@@ -363,6 +363,7 @@ public class ItemPool
 	public static final int LIBRARY_KEY = 1764;
 	public static final int GALLERY_KEY = 1765;
 	public static final int BALLROOM_KEY = 1766;
+	public static final int PACK_OF_CHEWING_GUM = 1767;
 	public static final int DUSTY_ANIMAL_SKULL = 1799;
 	public static final int TOILET_PAPER = 1923;
 	public static final int TUNING_FORK = 1928;
@@ -674,6 +675,7 @@ public class ItemPool
 	public static final int SPICE_MELANGE = 3433;
 	public static final int BATHYSPHERE = 3470;
 	public static final int DAMP_OLD_BOOT = 3471;
+	public static final int BOXTOP = 3473;
 	public static final int SEA_SALT_CRYSTAL = 3495;
 	public static final int LARP_MEMBERSHIP_CARD = 3506;
 	public static final int STICKER_BOOK = 3507;

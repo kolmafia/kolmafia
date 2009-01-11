@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Stack;
+import java.util.TreeMap;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
@@ -103,6 +104,75 @@ public class ConcoctionDatabase
 
 	private static final AdventureResult[] NO_INGREDIENTS = new AdventureResult[ 0 ];
 
+	private static final TreeMap mixingMethods = new TreeMap();
+
+	static
+	{
+		// Items anybody can create using meat paste
+		ConcoctionDatabase.mixingMethods.put( "COMBINE", new Integer( KoLConstants.COMBINE ));
+		// Items anybody can create with an E-Z Cook Oven
+		ConcoctionDatabase.mixingMethods.put( "COOK", new Integer( KoLConstants.COOK ));
+		// Items anybody can create with a cocktailcrafting kit
+		ConcoctionDatabase.mixingMethods.put( "MIX", new Integer( KoLConstants.MIX ));
+		// Items anybody can create with a tenderizing hammer
+		ConcoctionDatabase.mixingMethods.put( "SMITH", new Integer( KoLConstants.SMITH ));
+		// Items requiring Advanced Saucecrafting
+		ConcoctionDatabase.mixingMethods.put( "SAUCE", new Integer( KoLConstants.COOK_REAGENT ));
+		// Items requiring Pastamastery
+		ConcoctionDatabase.mixingMethods.put( "PASTA", new Integer( KoLConstants.COOK_PASTA ));
+		// Items requiring Advanced Cocktailcrafting
+		ConcoctionDatabase.mixingMethods.put( "ACOCK", new Integer( KoLConstants.MIX_SPECIAL ));
+		// Items requiring Super-Advanced Meatsmithing
+		ConcoctionDatabase.mixingMethods.put( "WSMITH", new Integer( KoLConstants.SMITH_WEAPON ));
+		// Items requiring Armorcraftiness
+		ConcoctionDatabase.mixingMethods.put( "ASMITH", new Integer( KoLConstants.SMITH_ARMOR ));
+		// Items requiring access to Nash Crosby's Still -- booze
+		ConcoctionDatabase.mixingMethods.put( "BSTILL", new Integer( KoLConstants.STILL_BOOZE ));
+		// Items requiring Superhuman Cocktailcrafting -- mixer
+		ConcoctionDatabase.mixingMethods.put( "MSTILL", new Integer( KoLConstants.STILL_MIXER ));
+		// Items requiring Superhuman Cocktailcrafting
+		ConcoctionDatabase.mixingMethods.put( "SCOCK", new Integer( KoLConstants.MIX_SUPER ));
+		// Items requiring The Way of Sauce
+		ConcoctionDatabase.mixingMethods.put( "SSAUCE", new Integer( KoLConstants.SUPER_REAGENT ));
+		// Items requiring access to the Wok of Ages
+		ConcoctionDatabase.mixingMethods.put( "WOK", new Integer( KoLConstants.WOK ));
+		// Items requiring access to the Malus of Forethought
+		ConcoctionDatabase.mixingMethods.put( "MALUS", new Integer( KoLConstants.MALUS ));
+		// Items anybody can create with jewelry-making pliers
+		ConcoctionDatabase.mixingMethods.put( "JEWEL", new Integer( KoLConstants.JEWELRY ));
+		// Items requiring pliers and Really Expensive Jewelrycrafting
+		ConcoctionDatabase.mixingMethods.put( "EJEWEL", new Integer( KoLConstants.EXPENSIVE_JEWELRY ));
+		// Items anybody can create with starcharts, stars, and lines
+		ConcoctionDatabase.mixingMethods.put( "STAR", new Integer( KoLConstants.STARCHART ));
+		// Items anybody can create with pixels
+		ConcoctionDatabase.mixingMethods.put( "PIXEL", new Integer( KoLConstants.PIXEL ));
+		// Items created with a rolling pin or and an unrolling pin
+		ConcoctionDatabase.mixingMethods.put( "ROLL", new Integer( KoLConstants.ROLLING_PIN ));
+		// Items requiring access to the Gnome supertinker
+		ConcoctionDatabase.mixingMethods.put( "TINKER", new Integer( KoLConstants.GNOME_TINKER ));
+		// Items requiring access to Roderick the Staffmaker
+		ConcoctionDatabase.mixingMethods.put( "STAFF", new Integer( KoLConstants.STAFF ));
+		// Items anybody can create with a sushi-rolling mat
+		ConcoctionDatabase.mixingMethods.put( "SUSHI", new Integer( KoLConstants.SUSHI ));
+		// Items created by single (or multi) using a single item.
+		// Extra ingredients might also be consumed.
+		// Multi-using multiple of the item creates multiple results.
+		ConcoctionDatabase.mixingMethods.put( "SUSE", new Integer( KoLConstants.SINGLE_USE ));
+		// Items created by multi-using specific # of a single item.
+		// Extra ingredients might also be consumed.
+		// You must create multiple result items one at a time.
+		ConcoctionDatabase.mixingMethods.put( "MUSE", new Integer( KoLConstants.MULTI_USE ));
+		// Items formerly creatable in Crimbo Town during Crimbo 2005
+		ConcoctionDatabase.mixingMethods.put( "CRIMBO05", new Integer( KoLConstants.CRIMBO05 ));
+		// Items formerly creatable in Crimbo Town during Crimbo 2006
+		ConcoctionDatabase.mixingMethods.put( "CRIMBO06", new Integer( KoLConstants.CRIMBO06 ));
+		// Items formerly creatable in Crimbo Town during Crimbo 2007
+		ConcoctionDatabase.mixingMethods.put( "CRIMBO07", new Integer( KoLConstants.CRIMBO07 ));
+	}
+
+	private static final TreeMap chefStaff = new TreeMap();
+	private static final TreeMap singleUse = new TreeMap();
+
 	static
 	{
 		// This begins by opening up the data file and preparing
@@ -154,16 +224,19 @@ public class ConcoctionDatabase
 		boolean bogus = false;
 
 		String name = data[ 0 ];
-		int mixingMethod = StringUtilities.parseInt( data[ 1 ] );
+		String mix = data[ 1 ];
+
+		Integer val = (Integer) ConcoctionDatabase.mixingMethods.get( mix );
+		int mixingMethod = val == null ? KoLConstants.NOCREATE : val.intValue();
+
+		if ( mixingMethod == KoLConstants.NOCREATE )
+		{
+			RequestLogger.printLine( "Unknown mixing method (" + mix + ") for concoction: " + name );
+			bogus = true;
+		}
 
 		AdventureResult item = AdventureResult.parseItem( name, true );
 		int itemId = item.getItemId();
-
-		if ( mixingMethod <= 0 || mixingMethod >= KoLConstants.METHOD_COUNT )
-		{
-			RequestLogger.printLine( "Unknown mixing method (" + mixingMethod + ") for concoction: " + name );
-			bogus = true;
-		}
 
 		if ( itemId < 0 && !ConcoctionDatabase.pseudoItemMixingMethod( mixingMethod ) )
 		{
@@ -195,7 +268,27 @@ public class ConcoctionDatabase
 			}
 
 			ConcoctionPool.set( concoction );
+
+			switch ( mixingMethod )
+			{
+			case KoLConstants.STAFF:
+				ConcoctionDatabase.chefStaff.put( ingredients[0].getName(), concoction );
+				break;
+			case KoLConstants.SINGLE_USE:
+				ConcoctionDatabase.singleUse.put( ingredients[0].getName(), concoction );
+				break;
+			}
 		}
+	}
+
+	public static Concoction chefStaffCreation( final String name )
+	{
+		return (Concoction) ConcoctionDatabase.chefStaff.get( name );
+	}
+
+	public static Concoction singleUseCreation( final String name )
+	{
+		return (Concoction) ConcoctionDatabase.singleUse.get( name );
 	}
 
 	private static boolean pseudoItemMixingMethod( final int mixingMethod )
@@ -1022,12 +1115,6 @@ public class ConcoctionDatabase
 		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.COMBINE ] = true;
 		ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.COMBINE ] = 0;
 
-		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.CREATE_VIA_USE ] = true;
-		ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.CREATE_VIA_USE ] = 0;
-
-		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.CATALYST ] = true;
-		ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.CATALYST ] = 0;
-
 		// The gnomish tinkerer is available if the person is in a
 		// moxie sign and they have a bitchin' meat car.
 
@@ -1137,13 +1224,6 @@ public class ConcoctionDatabase
 				InventoryManager.hasItem( ItemPool.BAKE_OVEN ) || KoLCharacter.getAvailableMeat() >= 1000;
 			ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.COOK ] = 1;
 		}
-
-		// Since catalysts aren't purchasable, you can only
-		// create items based on them if it's already in your
-		// inventory.
-
-		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.CATALYST ] =
-			KoLCharacter.isMysticalityClass() || KoLCharacter.getClassType().equals(  KoLCharacter.ACCORDION_THIEF );
 
 		// Cooking of reagents and noodles is possible whenever
 		// the person can cook and has the appropriate skill.

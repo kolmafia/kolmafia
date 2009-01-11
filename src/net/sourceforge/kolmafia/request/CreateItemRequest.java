@@ -193,12 +193,6 @@ public class CreateItemRequest
 				formSource = "inv_use.php";
 				break;
 
-			case KoLConstants.CATALYST:
-			case KoLConstants.CREATE_VIA_USE:
-				formSource = "multiuse.php";
-				action = "useitem";
-				break;
-
 			case KoLConstants.WOK:
 				formSource = "guild.php";
 				action = "wokcook";
@@ -289,6 +283,9 @@ public class CreateItemRequest
 
 		switch ( mixingMethod )
 		{
+		case KoLConstants.NOCREATE:
+			return null;
+
 		case KoLConstants.STARCHART:
 			return new StarChartRequest( itemId );
 
@@ -301,17 +298,14 @@ public class CreateItemRequest
 		case KoLConstants.STAFF:
 			return new ChefStaffRequest( itemId );
 
-		case KoLConstants.MULTI_USE:
-			return new MultiUseRequest( itemId );
+		case KoLConstants.SUSHI:
+			return new SushiRequest( name );
 
 		case KoLConstants.SINGLE_USE:
 			return new SingleUseRequest( itemId );
 
-		case KoLConstants.SUSHI:
-			return new SushiRequest( name );
-
-		case KoLConstants.NOCREATE:
-			return null;
+		case KoLConstants.MULTI_USE:
+			return new MultiUseRequest( itemId );
 
 		case KoLConstants.CRIMBO05:
 			return new Crimbo05Request( itemId );
@@ -462,10 +456,9 @@ public class CreateItemRequest
 			return;
 		}
 
-		// If we don't have the correct tool, and the
-		// person wishes to create more than 10 dough,
-		// then notify the person that they should
-		// purchase a tool before continuing.
+		// If we don't have the correct tool, and the person wishes to
+		// create more than 10 dough, then notify the person that they
+		// should purchase a tool before continuing.
 
 		if ( ( this.quantityNeeded >= 10 || InventoryManager.hasItem( tool ) ) && !InventoryManager.retrieveItem( tool ) )
 		{
@@ -507,7 +500,7 @@ public class CreateItemRequest
 
 		AdventureResult[] ingredients = ConcoctionDatabase.getIngredients( this.itemId );
 
-		if ( ingredients.length == 1 || this.mixingMethod == KoLConstants.CREATE_VIA_USE || this.mixingMethod == KoLConstants.CATALYST || this.mixingMethod == KoLConstants.WOK )
+		if ( ingredients.length == 1 || this.mixingMethod == KoLConstants.WOK )
 		{
 			if ( this.getAdventuresUsed() > KoLCharacter.getAdventuresLeft() )
 			{
@@ -1023,13 +1016,11 @@ public class CreateItemRequest
 
 			switch ( whichitem )
 			{
-			case 873:
-				// Rolling Pin
+			case ItemPool.ROLLING_PIN:
 				tool = "rolling pin";
 				ingredient = "wad of dough";
 				break;
-			case 874:
-				// Unrolling Pin
+			case ItemPool.UNROLLING_PIN:
 				tool = "unrolling pin";
 				ingredient = "flat dough";
 				break;
@@ -1049,69 +1040,17 @@ public class CreateItemRequest
 
 		if ( urlString.startsWith( "multiuse.php" ) )
 		{
+			if ( SingleUseRequest.registerRequest( urlString ) )
+			{
+				return true;
+			}
+
 			if ( MultiUseRequest.registerRequest( urlString ) )
 			{
 				return true;
 			}
 
-			Matcher whichMatcher = CreateItemRequest.WHICHITEM_PATTERN.matcher( urlString );
-			if ( !whichMatcher.find() )
-			{
-				return false;
-			}
-
-			int whichitem = StringUtilities.parseInt( whichMatcher.group( 1 ) );
-
-			String method = "Use ";
-			int item1 = -1;
-			int item2 = -1;
-
-			switch ( whichitem )
-			{
-			case 24:
-				// Ten-leaf clover
-				item1 = ItemPool.TEN_LEAF_CLOVER;
-				break;
-			case 196:
-				// Disassembled clover
-				item1 = ItemPool.DISASSEMBLED_CLOVER;
-				break;
-			case 1605:
-				// Delectable Catalyst
-				method = "Mix ";
-				item1 = ItemPool.CATALYST;
-				item2 = ItemPool.REAGENT;
-				break;
-			default:
-				return false;
-			}
-
-			int quantity = 1;
-			Matcher quantityMatcher = CreateItemRequest.QUANTITY_PATTERN.matcher( urlString );
-			if ( quantityMatcher.find() )
-			{
-				quantity = StringUtilities.parseInt( quantityMatcher.group( 2 ) );
-			}
-
-			StringBuffer command = new StringBuffer();
-
-			command.append( method );
-			command.append( quantity );
-			command.append( " " );
-			command.append( ItemDatabase.getItemName( item1 ) );
-			ResultProcessor.processItem( item1, 0 - quantity );
-
-			if ( item2 != -1 )
-			{
-				command.append( " + " );
-				command.append( ItemDatabase.getItemName( item2 ) );
-				ResultProcessor.processItem( item2, 0 - quantity );
-			}
-
-			RequestLogger.updateSessionLog();
-			RequestLogger.updateSessionLog( command.toString() );
-
-			return true;
+			return false;
 		}
 
 		// Now that we know it's not a special subclass instance,
@@ -1329,12 +1268,12 @@ public class CreateItemRequest
 
 		if ( ingredients != null && !urlString.startsWith( "craft.php" ) )
 		{
-                        for ( int i = 0; i < ingredients.length; ++i )
-                        {
-                                AdventureResult item = ingredients[i];
-                                ResultProcessor.processItem( item.getItemId(), 0 - quantity );
-                        }
-                }
+			for ( int i = 0; i < ingredients.length; ++i )
+			{
+				AdventureResult item = ingredients[i];
+				ResultProcessor.processItem( item.getItemId(), 0 - quantity );
+			}
+		}
 
 		if ( urlString.indexOf( "mode=combine" ) != -1 )
 		{

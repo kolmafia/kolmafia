@@ -202,8 +202,8 @@ public abstract class UseLinkDecorator
 			creation = (AdventureResult) creations.get( i );
 			mixingMethod = ConcoctionDatabase.getMixingMethod( creation );
 
-			// Only accept if it's a creation method that the editor kit
-			// currently understands and links.
+			// Only accept if it's a creation method that the
+			// editor kit currently understands and links.
 
 			switch ( mixingMethod )
 			{
@@ -211,13 +211,11 @@ public abstract class UseLinkDecorator
 			case KoLConstants.PIXEL:
 			case KoLConstants.ROLLING_PIN:
 			case KoLConstants.CRIMBO05:
-			case KoLConstants.CREATE_VIA_USE:
 			case KoLConstants.STILL_BOOZE:
 			case KoLConstants.STILL_MIXER:
 			case KoLConstants.SMITH:
 			case KoLConstants.SMITH_WEAPON:
 			case KoLConstants.SMITH_ARMOR:
-			case KoLConstants.CATALYST:
 			case KoLConstants.STARCHART:
 				continue;
 			}

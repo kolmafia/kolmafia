@@ -41,12 +41,16 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
-import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
-import net.sourceforge.kolmafia.request.UseItemRequest;
-
+import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+
+import net.sourceforge.kolmafia.request.UseItemRequest;
+
 import net.sourceforge.kolmafia.session.ResultProcessor;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MultiUseRequest
@@ -96,32 +100,9 @@ public class MultiUseRequest
 		}
 	}
 
-	static final String[] ERRORS =
-	{
-		"You can't figure out what to do with this thing. Maybe you should mess with more than one of them at a time.",
-		"You can't weave anything out of that quantity of palm fronds.",
-		"You tie the mummy wrapping in a bow, but it's not a very good bow, so you untie it and put it back in your pocket.",
-		"You can't figure out how to do anything with that particular number of wrappings.",
-		"You mess with the duct tape for a while, but can't figure out how to make anything interesting",
-		"You can't make anything interesting out of that number of bits of clingfilm.",
-		"Nothing worthwhile can be sculpted out of a single balloon. Trust me on that one.",
-		"You twist the balloons around for a while, but you can't figure out how to make anything interesting",
-	};
-
 	public void processResults()
 	{
 		// Is there a general way to detect a failure?
-
-		String text = this.responseText;
-		for ( int i = 0; i < ERRORS.length; ++i )
-		{
-			String error = ERRORS[i];
-			if ( text.indexOf( error ) != -1 )
-			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, error );
-				return;
-			}
-		}
 	}
 
 	public static final boolean registerRequest( final String urlString )
@@ -147,24 +128,52 @@ public class MultiUseRequest
 		// Item ID of the base item
 		int baseId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
 
-		// Find result item ID
-		int result = ConcoctionPool.findConcoction( KoLConstants.MULTI_USE, baseId );
+		int count = StringUtilities.parseInt( quantityMatcher.group( 1 ) );
+
+		// Find concoction made by multi-using this many of this item
+		Concoction concoction = ConcoctionPool.findConcoction( KoLConstants.MULTI_USE, baseId, count );
 
 		// If this is not a concoction, let somebody else log this.
-		if ( result == -1 )
+		if ( concoction == null )
 		{
 			return false;
 		}
 
-		int count = StringUtilities.parseInt( quantityMatcher.group( 1 ) );
+		AdventureResult[] ingredients = concoction.getIngredients();
 
-		UseItemRequest.setLastItemUsed( ItemPool.get( baseId, count ) );
-		AdventureResult base = ItemPool.get( baseId, 0 - count );
+		// Punt if don't have enough of any ingredient.
+		for ( int i = 0; i < ingredients.length; ++i )
+		{
+			AdventureResult ingredient = ingredients[ i ];
+			int have = ingredient.getCount( KoLConstants.inventory );
+			int need = ingredient.getCount();
+			if ( have < need )
+			{
+				return true;
+			}
+		}
+
+
+		StringBuffer text = new StringBuffer();
+		text.append( "Use " );
+
+		for ( int i = 0; i < ingredients.length; ++i )
+		{
+			AdventureResult ingredient = ingredients[ i ];
+			int used = ingredient.getCount();
+			if ( i > 0 )
+			{
+				text.append( " + " );
+			}
+
+			text.append( used );
+			text.append( " " );
+			text.append( ingredient.getName() );
+			ResultProcessor.processResult( ingredient.getInstance( -1 * used ) );
+		}
 
 		RequestLogger.updateSessionLog();
-		RequestLogger.updateSessionLog( "Use " + count + " " + base.getName() );
-
-		ResultProcessor.processResult( base );
+		RequestLogger.updateSessionLog( text.toString() );
 
 		return true;
 	}
