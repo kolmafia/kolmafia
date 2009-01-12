@@ -279,7 +279,7 @@ public class DataTypes
 			return returnDefault ? DataTypes.LOCATION_INIT : null;
 		}
 
-		return new Value( DataTypes.LOCATION_TYPE, name, (Object) content );
+		return new Value( DataTypes.LOCATION_TYPE, content.getAdventureName(), (Object) content );
 	}
 
 	public static final Value parseLocationValue( final int adv, final boolean returnDefault )
