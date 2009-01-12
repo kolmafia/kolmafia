@@ -54,6 +54,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -107,6 +108,7 @@ public class UseItemRequest
 	private static int queuedFoodHelperCount = 0;
 	private static AdventureResult queuedDrinkHelper = null;
 	private static int queuedDrinkHelperCount = 0;
+	private static boolean retrying = false;
 
 	private final int consumptionType;
 	private AdventureResult itemUsed = null;
@@ -306,6 +308,9 @@ public class UseItemRequest
 
 		switch ( itemId )
 		{
+		case ItemPool.GONG:
+			return 1;
+
 		case ItemPool.TOASTER:
 			return 3;
 
@@ -1249,10 +1254,54 @@ public class UseItemRequest
 			return;
 		
 		case ItemPool.GONG:
-			// You're already in the middle of a journey of reincarnation.
+			// "You try to bang the gong, but the mallet keeps falling
+			// out of your hand. Maybe you should try it later, when 
+			// you've sobered up a little."
+			
+			// "You don't have time to bang a gong. Nor do you have
+			// time to get it on, or to get it on."
+			if ( responseText.indexOf( "sobered up a little" ) != -1  || 
+				responseText.indexOf( "don't have time to bang" ) != -1 )
+			{
+				ResultProcessor.processResult( item );
+				UseItemRequest.lastUpdate = "Insufficient adventures or sobriety to use a gong.";
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				return;
+			}
+			
+			// "You're already in the middle of a journey of reincarnation."
 			if ( responseText.indexOf( "middle of a journey of reincarnation" ) != -1 )
 			{
 				ResultProcessor.processResult( item );
+				
+				if ( UseItemRequest.retrying ||
+					KoLConstants.activeEffects.contains(
+						EffectPool.get( EffectPool.FORM_OF_BIRD ) ) || 
+					KoLConstants.activeEffects.contains(
+						EffectPool.get( EffectPool.SHAPE_OF_MOLE ) ) ||
+					KoLConstants.activeEffects.contains(
+						EffectPool.get( EffectPool.FORM_OF_ROACH ) ) )
+				{
+					UseItemRequest.lastUpdate = "You're still under a gong effect.";
+					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+					return;	// can't use another gong yet
+				}
+				try
+				{
+					UseItemRequest.retrying = true;	// prevent recursing more than once
+					int adv = Preferences.getInteger( "welcomeBackAdv" );
+					if ( adv <= 0 )
+					{
+						adv = 91;	// default to Noob Cave
+					}
+					RequestThread.postRequest( AdventureDatabase.getAdventureByURL(
+						"adventure.php?snarfblat=" + adv ) );
+					(new UseItemRequest( item )).run();
+				}
+				finally
+				{
+					UseItemRequest.retrying = false;
+				}
 			}
 			return;
 
