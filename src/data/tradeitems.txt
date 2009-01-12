@@ -3559,9 +3559,9 @@
 3558	sea lychee	1	all	400
 3559	sea tangelo	1	all	400
 3560	sea honeydew	1	all	400
-3561
-3562
-3563
+3561	pressurized potion of puissance	4	all	500
+3562	pressurized potion of perspicacity	4	all	500
+3563	pressurized potion of pulchritude	4	all	500
 3564	berry-infused sake	2	all	300
 3565	citrus-infused sake	2	all	300
 3566	melon-infused sake	2	all	300
@@ -3673,3 +3673,23 @@
 3672	can of franks 'n' beans	1	all	0
 3673	bottle of peppermint schnapps	2	all	0
 3674	throbbing rage gland	3	all	0
+3675	Mer-kin pressureglobe	0	all	65
+3676	Mer-kin foodbucket	4	all	45
+3677	diving muff	8	all	350
+3678	salinated mint julep	2	all	40
+3679	ink bladder	25	all	30
+3680	glowing esca	13	all	150
+3681	bubbling tempura batter	0	all	0
+3682	globe of Deep Sauce	0	all	0
+3683	map to the Marinara Trench	3	all	0
+3684	tempura carrot	1	all	375
+3685	tempura cucumber	1	all	375
+3686	tempura avocado	1	all	375
+3687	sea broccoli	1	all	70
+3688	sea cauliflower	1	all	60
+3689	tempura broccoli	1	all	90
+3690	tempura cauliflower	1	all	80
+3691	sea blueberry	1	all	75
+3692	sea persimmon	1	all	65
+3693	pressurized potion of perception	4	all	250
+3694	pressurized potion of proficiency	4	all	250

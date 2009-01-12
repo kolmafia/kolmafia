@@ -771,6 +771,7 @@ foon of frigidity	0	Mys: 10
 foon of fulmination	0	Mys: 10
 giant stuffed bugbear	0	none
 glow-in-the-dark stuffed burrowgrub	0	none
+glowing esca	0	Mys: 85
 gnauga hide buckler	95	Mus: 30	shield
 golden sausage	0	none
 green balloon	0	none
@@ -1027,6 +1028,7 @@ diamond necklace	0	none
 dirty hobo gloves	0	none
 disbelief suspenders	0	Mys: 10
 disembodied smile	0	none
+diving muff	0	Mys: 85
 dope gangsta bling-bling	0	Mys: 7
 eXtreme mittens	0	Mys: 40
 eXtreme nose ring	0	Mys: 10

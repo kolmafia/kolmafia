@@ -169,6 +169,7 @@
 4018	The Way of Sauce	0	0	0
 4019	Scarysauce	4	10	5
 4020	Salsaball	5	1	0
+4021	Deep Saucery	0	0	0
 
 # Skills available to Bandits
 

@@ -226,6 +226,7 @@ Dirty Hippy Jewelry Maker	HP: 30 Def: 40 Atk: 40 E: stench	filthy corduroys (5)	
 Dirty Hippy Vegan Chef	HP: 30 Def: 40 Atk: 40 E: stench	carob chunks (30)	filthy knitted dread sack (5)	Uncle Jick's Brownie Mix (30)	reodorant (5)	filthy corduroys (5)
 Dirty Thieving Brigand	HP: 185 Def: 171 Atk: 169 Meat: 822-1157
 Disease-In-The-Box	HP: 14 Def: 18 Atk: 18	box (30)	disease (40)
+Diving Belle	HP: 0	diving muff (0)	salinated mint julep (0)
 Dodecapede	HP: 8 Def: 12 Atk: 12
 Doughbat	HP: 8 Def: 14 Atk: 14 EA: sleaze Meat: 17-27	sonar-in-a-biscuit (20)	wad of dough (30)
 Dr. Awkward	HP: 200 Atk: 170	Drowsy Sword (100)	Staff of Fats (100)
@@ -256,6 +257,7 @@ Filthy Hippy	HP: 30 Def: 39 Atk: 41 E: stench	decorative fountain (30)	filthy co
 Filthy Hippy Jewelry Maker	HP: 30 Def: 39 Atk: 39 E: stench	phat turquoise bead (10)	piercing post (30)	reodorant (5)	filthy corduroys (5)	filthy knitted dread sack (5)	greasy dreadlock (0)
 Filthy Hippy Vegan Chef	HP: 30 Def: 39 Atk: 39 E: stench	tambourine bells (10)	wad of tofu (30)	reodorant (5)	filthy corduroys (5)	filthy knitted dread sack (5)	greasy dreadlock (0)
 Fire-Breathing Duck	HP: 190 Atk: 177 Meat: 142-200 E: heat	flaming feather (10)	duct tape (5)
+Fisherfish	HP: 0	glowing esca (0)	rough fish scale (0)
 Flame-Broiled Meat Blob	HP: 2 Def: 1 Atk: 1 E: heat Meat: 4-7	meat paste (40)	meat paste (40)	meat paste (40)
 Flaming Troll	HP: 73 Def: 83 Atk: 83 Meat: 32-48	flaming talons (10)	Trollhouse cookies (40)
 Flint-Scraping Cave Elf		rock (15)	stick (10)	stick (5)
@@ -286,6 +288,7 @@ Giant Giant Moth	HP: 11 Def: 12 Atk: 11
 Giant Pair of Tweezers	HP: 8 Def: 18 Atk: 16
 Giant Sandworm	HP: 200 Def: 185 Atk: 175 Meat: 200-300	spices (10)	spices (10)	spices (10)	spice melange (0)
 Giant Skeelton	HP: 130 Def: 73 Atk: 77 E: spooky	skeleton bone (0)	skeleton bone (0)	skeleton bone (0)
+Giant Squid	HP: 0	ink bladder (0)
 Giant Zombie Goldfish	HP: 260	decaying goldfish liver (0)	sewer nuggets (0)	sewer nuggets (0)
 Gift-wrapping Vampire		evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
 Glass of Orange Juice	HP: 330 Atk: 220 Meat: 327-500 E: stench	green clay bead (100)	orange peel hat (100)	bullet-proof corduroys (0)	Lockenstock&trade; sandals (0)	round purple sunglasses (0)
@@ -380,6 +383,7 @@ Mayonnaise Wasp	HP: 11 Def: 17 Atk: 17
 Me4t BegZ0r	HP: 77 Def: 87 Atk: 87	meat vortex (100)
 Mean Drunk Duck	HP: 184 Atk: 180 Meat: 174-229	bottle of vodka (20)	bottle of tequila (20)	bottle of whiskey (20)	duct tape (5)
 Menacing Construct	HP: 0	El Vibrato punchcard (115 holes)	El Vibrato punchcard (142 holes)
+Mer-kin Diver	HP: 0	Mer-kin foodbucket (0)	Mer-kin hookspear (0)	Mer-kin pressureglobe (0)	Mer-kin thingpouch (0)
 Mer-kin Scavenger	HP: 600	Mer-kin hookspear (0)	Mer-kin takebag (0)	Mer-kin thingpouch (0)
 Mimic	HP: 50 Def: 45 Atk: 45	dead mimic (100)
 Mimic (Bottom 2 Rows)	HP: 25 Def: 15 Atk: 15

@@ -166,6 +166,7 @@ redrum	3	1	3-6	0	15-30	0
 rockin' wagon	4	4	10-14	0	0	34-36
 roll in the hay	4	4	10-14	0	34-36	0
 rum and cola	3	1	5-6	0	0	10-12	14-16 MP
+salinated mint julep	2	5	4	25	17	22	10 Brined Liver
 salty dog	3	1	5-6	0	8-10	0
 salty slug	3	2	4-8	0	10-12	10-12
 sangria	3	3	5-10	0	8-10	0

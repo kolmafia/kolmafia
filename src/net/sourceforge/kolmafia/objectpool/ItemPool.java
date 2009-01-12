@@ -706,8 +706,13 @@ public class ItemPool
 	public static final int DRAGONFISH_CAVIAR = 3642;
 	public static final int GRIMACITE_KNEECAPPING_STICK = 3644;
 	public static final int MINIATURE_ANTLERS = 3651;
+	public static final int SPOOKY_PUTTY_MITRE = 3662;
+	public static final int SPOOKY_PUTTY_LEOTARD = 3663;
+	public static final int SPOOKY_PUTTY_BALL = 3664;
 	public static final int SPOOKY_PUTTY_SHEET = 3665;
+	public static final int SPOOKY_PUTTY_SNAKE = 3666;
 	public static final int SPOOKY_PUTTY_MONSTER = 3667;
+	public static final int MERKIN_PRESSUREGLOBE = 3675;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

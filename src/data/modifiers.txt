@@ -807,6 +807,7 @@ foon of frigidity	Mysticality: +3, Cold Spell Damage: +8
 foon of fulmination	Mysticality: +3, Hot Spell Damage: +8
 # giant stuffed bugbear
 glow-in-the-dark stuffed burrowgrub	Muscle: [9-M], Weapon Damage: [9-M]
+glowing esca	Item Drop: +20
 gnauga hide buckler	Damage Reduction: 5, Moxie: +3, Muscle: +3, Mysticality: +3
 # golden sausage
 # green balloon
@@ -1059,6 +1060,7 @@ depleted Grimacite weightlifting belt	Muscle Percent: [5*G], Adventures: [G], Si
 dirty hobo gloves	Single Equip, Stench Damage: +2
 disbelief suspenders	Sleaze Resistance: +1
 disembodied smile	Single Equip, Spooky Damage: +2
+diving muff	Meat Drop: +20
 dope gangsta bling-bling	Moxie: +1
 eXtreme mittens	Weapon Damage: +2
 eXtreme nose ring	Moxie: +4, Muscle: +4, Mysticality: +4
@@ -1882,6 +1884,7 @@ Power Ballad of the Arrowsmith	Muscle: +10, Maximum HP: +20
 Prelude of Precision	Critical Hit Percent: +1
 Prestidigysfunction	Mysticality Percent: -95
 Preternatural Greed	Meat Drop: +100
+Proficient Pressure	Experience: +8
 Pronounced Potency	Weapon Damage: +5
 Provocative Perkiness	Initiative: +20
 # Psalm of Pointiness	damages & delevels opponents
@@ -2219,6 +2222,7 @@ time sleigh	Free Pull
 # +15% Muscle
 # +20 damage to Disco Bandit Combat Skills
 # +20% Food Drops from Monsters
+# +20% Item Drops from Monsters (Underwater only)
 # +25% Mysticality
 # +3 damage to Disco Bandit Combat Skills
 # +3% Food Drops from Monsters
@@ -2279,6 +2283,7 @@ time sleigh	Free Pull
 # Makes Llama Lamas friendlier
 # Makes March Hare More Better
 # Makes Origami Towel Crane More Resistant to Wear and Tear
+# Makes you a better diver
 # Makes your ghost better at eating stuff.
 # More likely to use more powerful attacks
 # Moxie used to determine Maximum MP
