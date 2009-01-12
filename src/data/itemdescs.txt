@@ -3565,9 +3565,9 @@
 3558	231916006	sea lychee	sea lychees
 3559	717183259	sea tangelo	sea tangelos
 3560	842309952	sea honeydew	sea honeydews
-3561	519261153	pressurized potion of puissance
-3562	971687571	pressurized potion of perspicacity
-3563	506086645	pressurized potion of pulchritude
+3561	519261153	pressurized potion of puissance	pressurized potions of puissance
+3562	971687571	pressurized potion of perspicacity	pressurized potions of perspicacity
+3563	506086645	pressurized potion of pulchritude	pressurized potions of pulchritude
 3564	700668810	berry-infused sake	cups of berry-infused sake
 3565	732107367	citrus-infused sake	cups of citrus-infused sake
 3566	212542824	melon-infused sake	cups of melon-infused sake
@@ -3697,5 +3697,5 @@
 3690	854578505	tempura cauliflower
 3691	706604984	sea blueberry	sea blueberries
 3692	506573795	sea persimmon	sea persimmons
-3693	788177667	pressurized potion of perception
-3694	905610207	pressurized potion of proficiency
+3693	788177667	pressurized potion of perception	pressurized potions of perception
+3694	905610207	pressurized potion of proficiency	pressurized potions of proficiency

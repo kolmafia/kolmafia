@@ -1623,6 +1623,25 @@ public class UseItemRequest
 
 			return;
 
+		case ItemPool.POTION_OF_PUISSANCE:
+		case ItemPool.POTION_OF_PERSPICACITY:
+		case ItemPool.POTION_OF_PULCHRITUDE:
+		case ItemPool.POTION_OF_PERCEPTION:
+		case ItemPool.POTION_OF_PROFICIENCY:
+
+			// "You're already under the influence of a
+			// high-pressure sauce potion.  If you took this one,
+			// you'd explode.  And not in a good way."
+
+			if ( responseText.indexOf( "you'd explode" ) != -1 )
+			{
+				UseItemRequest.lastUpdate = "You're already under pressure.";
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				ResultProcessor.processResult( item );
+			}
+
+			return;
+
 		case ItemPool.BLUE_CUPCAKE:
 		case ItemPool.GREEN_CUPCAKE:
 		case ItemPool.ORANGE_CUPCAKE:

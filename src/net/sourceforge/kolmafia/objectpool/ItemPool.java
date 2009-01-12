@@ -694,6 +694,9 @@ public class ItemPool
 	public static final int SEA_CARROT = 3555;
 	public static final int SEA_CUCUMBER = 3556;
 	public static final int SEA_AVOCADO = 3557;
+	public static final int POTION_OF_PUISSANCE = 3561;
+	public static final int POTION_OF_PERSPICACITY = 3562;
+	public static final int POTION_OF_PULCHRITUDE = 3563;
 	public static final int SAND_DOLLAR = 3575;
 	public static final int SUSHI_ROLLING_MAT = 3581;
 	public static final int RUSTY_BROKEN_DIVING_HELMET = 3602;
@@ -713,6 +716,8 @@ public class ItemPool
 	public static final int SPOOKY_PUTTY_SNAKE = 3666;
 	public static final int SPOOKY_PUTTY_MONSTER = 3667;
 	public static final int MERKIN_PRESSUREGLOBE = 3675;
+	public static final int POTION_OF_PERCEPTION = 3593;
+	public static final int POTION_OF_PROFICIENCY = 3594;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
