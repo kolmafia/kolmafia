@@ -1039,6 +1039,15 @@ public abstract class ChoiceManager
 			new String[] { "release creatures", "skip adventure" } ),
 
 		// Choice 300 is Merry Crimbo!
+		// Choice 301 is And to All a Good Night
+
+		// Choice 303 is You've Hit Bottom
+
+                // There is Sauce at the Bottom of the Ocean
+		new ChoiceAdventure(
+			"The Sea", "choiceAdventure305", "The Marinara Trench",
+			new String[] { "globe of Deep Sauce", "skip adventure" },
+			new String[] { "3682", null } ),
 	};
 
 	static
@@ -1451,6 +1460,10 @@ public abstract class ChoiceManager
 		// Juicy! - concentrated garbage juice
 		{ new Integer(295), new Integer(1), 
 		  new AdventureResult( "hobo nickel", -5 ) },
+
+                // There is Sauce at the Bottom of the Ocean
+		{ new Integer(305), new Integer(1), 
+		  new AdventureResult( "Mer-kin pressureglobe", -1 ) },
 	};
 
 	private static final AdventureResult getCost( final int choice, final int decision )
@@ -1571,6 +1584,14 @@ public abstract class ChoiceManager
 		String[][] result;
 		switch ( choice )
 		{
+		case 5:
+			// Heart of Very, Very Dark Darkness
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "Spooky Gravy Barrow" );
+
+		case 7:
+			// How Depressing
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "Spooky Gravy Barrow" );
+
 		case 184:
 			// That Explains All The Eyepatches
 
@@ -1602,6 +1623,10 @@ public abstract class ChoiceManager
 		case 298:
 			// In the Shade
 			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "An Octopus's Garden" );
+
+		case 305:
+			// There is Sauce at the Bottom of the Ocean
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "The Marinara Trench" );
 		}
 		return null;
 	}
@@ -1731,6 +1756,17 @@ public abstract class ChoiceManager
 			int slime = InventoryManager.getCount( ItemPool.GREEN_SLIME );
 
 			result[ 0 ] = seeds + " seed packets, " + slime + " globs of green slime";
+			result[ 1 ] = "skip adventure";
+
+			return result;
+
+		case 305:
+			// There is Sauce at the Bottom of the Ocean
+			result = new String[ 2 ];
+
+			int globes = InventoryManager.getCount( ItemPool.MERKIN_PRESSUREGLOBE );
+
+			result[ 0 ] = globes + " Mer-kin pressureglobes";
 			result[ 1 ] = "skip adventure";
 
 			return result;

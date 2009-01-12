@@ -420,9 +420,10 @@ perpendicular hula	ACOCK	strawberry daiquiri	magical ice cubes
 calle de miel	ACOCK	margarita	magical ice cubes
 
 bungle in the jungle	ACOCK	banana daiquiri	little paper umbrella
-berry-infused sake	ACOCK	bottle of Pete's Sake	sea lychee
-citrus-infused sake	ACOCK	bottle of Pete's Sake	sea tangelo
-melon-infused sake	ACOCK	bottle of Pete's Sake	sea honeydew
+
+berry-infused sake	SCOCK	bottle of Pete's Sake	sea lychee
+citrus-infused sake	SCOCK	bottle of Pete's Sake	sea tangelo
+melon-infused sake	SCOCK	bottle of Pete's Sake	sea honeydew
 
 # Beverages which can be made by Superhuman Cocktailcrafting
 
@@ -863,6 +864,13 @@ phial of spookiness	SAUCE	scrumptious reagent	spooky powder
 phial of stench	SAUCE	scrumptious reagent	stench powder
 phial of sleaziness	SAUCE	scrumptious reagent	sleaze powder
 
+# Deep Sauces
+
+pressurized potion of perception	DSAUCE	globe of Deep Sauce	sea blueberry
+pressurized potion of perspicacity	DSAUCE	globe of Deep Sauce	sea honedew
+pressurized potion of proficiency	DSAUCE	globe of Deep Sauce	sea persimmon
+pressurized potion of puissance	DSAUCE	globe of Deep Sauce	sea tangelo
+pressurized potion of pulchritude	DSAUCE	globe of Deep Sauce	sea lychee
 
 # Simple pastamancer recipes.  Available to pastamancers only, and
 # creates pasta if you don't have finer ingredients.
@@ -953,6 +961,14 @@ long pork lasagna	WOK	long pork casserole	dry noodles	MSG
 sausage wonton	WOK	beer basted brat	dry noodles	MSG
 tofu wonton	WOK	super salad	dry noodles	MSG
 
+
+# Tempura foods
+
+tempura avocado	TEMPURA	bubbling tempura batter	sea avocado
+tempura broccoli	TEMPURA	bubbling tempura batter	sea broccoli
+tempura carrot	TEMPURA	bubbling tempura batter	sea carrot
+tempura cauliflower	TEMPURA	bubbling tempura batter	sea cauliflower
+tempura cucumber	TEMPURA	bubbling tempura batter	sea cucumber
 
 # Star Chart items
 

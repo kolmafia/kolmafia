@@ -120,6 +120,8 @@ public class ConcoctionDatabase
 		ConcoctionDatabase.mixingMethods.put( "SAUCE", new Integer( KoLConstants.COOK_REAGENT ));
 		// Items requiring Pastamastery
 		ConcoctionDatabase.mixingMethods.put( "PASTA", new Integer( KoLConstants.COOK_PASTA ));
+		// Items requiring Tempuramancy
+		ConcoctionDatabase.mixingMethods.put( "TEMPURA", new Integer( KoLConstants.COOK_TEMPURA ));
 		// Items requiring Advanced Cocktailcrafting
 		ConcoctionDatabase.mixingMethods.put( "ACOCK", new Integer( KoLConstants.MIX_SPECIAL ));
 		// Items requiring Super-Advanced Meatsmithing
@@ -134,6 +136,8 @@ public class ConcoctionDatabase
 		ConcoctionDatabase.mixingMethods.put( "SCOCK", new Integer( KoLConstants.MIX_SUPER ));
 		// Items requiring The Way of Sauce
 		ConcoctionDatabase.mixingMethods.put( "SSAUCE", new Integer( KoLConstants.SUPER_REAGENT ));
+		// Items requiring Deep Saucery
+		ConcoctionDatabase.mixingMethods.put( "DSAUCE", new Integer( KoLConstants.DEEP_SAUCE ));
 		// Items requiring access to the Wok of Ages
 		ConcoctionDatabase.mixingMethods.put( "WOK", new Integer( KoLConstants.WOK ));
 		// Items requiring access to the Malus of Forethought
@@ -1238,9 +1242,19 @@ public class ConcoctionDatabase
 		ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.SUPER_REAGENT ] =
 			ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.COOK ];
 
+		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.DEEP_SAUCE ] =
+			ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.COOK ] && KoLCharacter.hasSkill( "Deep Saucery" );
+		ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.DEEP_SAUCE ] =
+			ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.COOK ];
+
 		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.COOK_PASTA ] =
 			ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.COOK ] && KoLCharacter.canSummonNoodles();
 		ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.COOK_PASTA ] =
+			ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.COOK ];
+
+		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.COOK_TEMPURA ] =
+			ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.COOK ] && KoLCharacter.hasSkill( "Tempuramancy" );
+		ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.COOK_TEMPURA ] =
 			ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.COOK ];
 
 		// Mixing is possible whenever the person has a bartender

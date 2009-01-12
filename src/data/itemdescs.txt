@@ -3565,9 +3565,9 @@
 3558	231916006	sea lychee	sea lychees
 3559	717183259	sea tangelo	sea tangelos
 3560	842309952	sea honeydew	sea honeydews
-3561
-3562
-3563
+3561	519261153	pressurized potion of puissance
+3562	971687571	pressurized potion of perspicacity
+3563	506086645	pressurized potion of pulchritude
 3564	700668810	berry-infused sake	cups of berry-infused sake
 3565	732107367	citrus-infused sake	cups of citrus-infused sake
 3566	212542824	melon-infused sake	cups of melon-infused sake
@@ -3679,3 +3679,23 @@
 3672	208004985	can of franks 'n' beans	cans of franks 'n' beans
 3673	310999359	bottle of peppermint schnapps	bottles of peppermint schnapps
 3674	144035564	throbbing rage gland
+3675	761723634	Mer-kin pressureglobe
+3676	179464571	Mer-kin foodbucket	Mer-kin foodbuckets
+3677	211479131	diving muff	diving muffs
+3678	916726266	salinated mint julep
+3679	318339973	ink bladder	ink bladders
+3680	576073305	glowing esca	glowing escae
+3681	444166276	bubbling tempura batter
+3682	979149157	globe of Deep Sauce	globes of Deep Sauce
+3683	446203324	map to the Marinara Trench
+3684	763304904	tempura carrot
+3685	747223912	tempura cucumber
+3686	294857873	tempura avocado
+3687	403606686	sea broccoli	bunches of sea broccoli
+3688	586546677	sea cauliflower	pieces of sea cauliflower
+3689	518487280	tempura broccoli
+3690	854578505	tempura cauliflower
+3691	706604984	sea blueberry	sea blueberries
+3692	506573795	sea persimmon	sea persimmons
+3693	788177667	pressurized potion of perception
+3694	905610207	pressurized potion of proficiency

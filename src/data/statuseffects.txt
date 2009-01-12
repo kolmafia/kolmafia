@@ -590,3 +590,5 @@
 589	Quivering with Rage	angry.gif	c63a6e26c9843c2be0c8833be87a0fe9
 590	Apoplectic with Rage	angry.gif	f3c81d0dd6a00f9a6460d678dccfc72a
 591	Dizzy with Rage	angry.gif	7b330916f0ba1d13c23803b54ddb5776
+#	Brined Liver	liver.gif	171f81071d987397e6aae6867f6d0314	drink 1 salinated mint julep
+#	Proficient Pressure	potion10.gif	b94f215c26d85a00fd7ff96c0176d81e	use 1 pressurized potion of proficiency

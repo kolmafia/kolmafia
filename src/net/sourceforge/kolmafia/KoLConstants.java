@@ -335,7 +335,7 @@ public interface KoLConstants
 
 	// Item creation types
 
-	public static final int METHOD_COUNT = 29;
+	public static final int METHOD_COUNT = 31;
 	public static final int SUBCLASS = Integer.MAX_VALUE;
 
 	public static final int NOCREATE = 0;
@@ -352,53 +352,57 @@ public interface KoLConstants
 	public static final int COOK_REAGENT = 5;
 	// Items requiring Pastamastery
 	public static final int COOK_PASTA = 6;
+	// Items requiring Tempuramancy
+	public static final int COOK_TEMPURA = 7;
 	// Items requiring Advanced Cocktailcrafting
-	public static final int MIX_SPECIAL = 7;
+	public static final int MIX_SPECIAL = 8;
 	// Items requiring Super-Advanced Meatsmithing
-	public static final int SMITH_WEAPON = 8;
+	public static final int SMITH_WEAPON = 9;
 	// Items requiring Armorcraftiness
-	public static final int SMITH_ARMOR = 9;
+	public static final int SMITH_ARMOR = 10;
 	// Items requiring access to Nash Crosby's Still
-	public static final int STILL_BOOZE = 10;
-	public static final int STILL_MIXER = 11;
+	public static final int STILL_BOOZE = 11;
+	public static final int STILL_MIXER = 12;
 	// Items requiring Superhuman Cocktailcrafting
-	public static final int MIX_SUPER = 12;
+	public static final int MIX_SUPER = 13;
 	// Items requiring The Way of Sauce
-	public static final int SUPER_REAGENT = 13;
+	public static final int SUPER_REAGENT = 14;
+	// Items requiring Deep Saucery
+	public static final int DEEP_SAUCE = 15;
 	// Items requiring access to the Wok of Ages
-	public static final int WOK = 14;
+	public static final int WOK = 16;
 	// Items requiring access to the Malus of Forethought
-	public static final int MALUS = 15;
+	public static final int MALUS = 17;
 	// Items anybody can create with jewelry-making pliers
-	public static final int JEWELRY = 16;
+	public static final int JEWELRY = 18;
 	// Items requiring jewelry-making pliers and Really Expensive Jewelrycrafting
-	public static final int EXPENSIVE_JEWELRY = 17;
+	public static final int EXPENSIVE_JEWELRY = 19;
 	// Items anybody can create with starcharts, stars, and lines
-	public static final int STARCHART = 18;
+	public static final int STARCHART = 20;
 	// Items anybody can create with pixels
-	public static final int PIXEL = 19;
+	public static final int PIXEL = 21;
 	// Items created with a rolling pin or and an unrolling pin
-	public static final int ROLLING_PIN = 20;
+	public static final int ROLLING_PIN = 22;
 	// Items requiring access to the Gnome supertinker
-	public static final int GNOME_TINKER = 21;
+	public static final int GNOME_TINKER = 23;
 	// Items requiring access to Roderick the Staffmaker
-	public static final int STAFF = 22;
+	public static final int STAFF = 24;
 	// Items anybody can create with a sushi-rolling mat
-	public static final int SUSHI = 23;
+	public static final int SUSHI = 25;
 	// Items created by single (or multi) using a single item.
 	// Extra ingredients might also be consumed.
 	// Multi-using more than one of the item creates multiple results.
-	public static final int SINGLE_USE = 24;
+	public static final int SINGLE_USE = 26;
 	// Items created by multi-using specific numbers of a single item.
 	// Extra ingredients might also be consumed.
 	// You must create multiple result items one at a time.
-	public static final int MULTI_USE = 25;
+	public static final int MULTI_USE = 27;
 	// Items formerly creatable in Crimbo Town during Crimbo 2005
-	public static final int CRIMBO05 = 26;
+	public static final int CRIMBO05 = 28;
 	// Items formerly creatable in Crimbo Town during Crimbo 2006
-	public static final int CRIMBO06 = 27;
+	public static final int CRIMBO06 = 29;
 	// Items formerly creatable in Crimbo Town during Crimbo 2007
-	public static final int CRIMBO07 = 28;
+	public static final int CRIMBO07 = 30;
 
 	// Colors which are used to handle the various KoLmafia states.
 	// Used when changing the display.

@@ -147,6 +147,12 @@ public class UseItemRequest
 		case ItemPool.PAPER_SHURIKEN:
 		case ItemPool.ORIGAMI_PASTIES:
 		case ItemPool.RIDING_CROP:
+			// spooky putty items
+		case ItemPool.SPOOKY_PUTTY_MITRE:
+		case ItemPool.SPOOKY_PUTTY_LEOTARD:
+		case ItemPool.SPOOKY_PUTTY_BALL:
+		case ItemPool.SPOOKY_PUTTY_SHEET:
+		case ItemPool.SPOOKY_PUTTY_SNAKE:
 			return KoLConstants.CONSUME_USE;
 
 			// Crimbo toys
