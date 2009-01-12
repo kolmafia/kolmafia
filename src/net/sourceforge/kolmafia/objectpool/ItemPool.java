@@ -638,6 +638,7 @@ public class ItemPool
 	public static final int MACARONI_FRAGMENTS = 3287;
 	public static final int SHIMMERING_TENDRILS = 3288;
 	public static final int SCINTILLATING_POWDER = 3289;
+	public static final int PERSONAL_MASSAGER = 3279;
 	public static final int PLASMA_BALL = 3281;
 	public static final int EPIC_WAD = 3316;
 	public static final int SCRATCHS_FORK = 3323;

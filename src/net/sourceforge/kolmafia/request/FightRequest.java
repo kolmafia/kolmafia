@@ -1170,7 +1170,7 @@ public class FightRequest
 
 		case ItemPool.SPOOKY_PUTTY_MONSTER:
 			itemName = "Spooky Putty Monster";
-			ResultProcessor.processResult( ItemPool.get( ItemPool.SPOOKY_PUTTY_SHEET, 1 ) );
+			ResultProcessor.processItem( ItemPool.SPOOKY_PUTTY_SHEET, 1 );
 			consumed = true;
 			break;
 
@@ -1518,6 +1518,18 @@ public class FightRequest
 					Preferences.increment( "pastamancerGhostExperience", 1 );
 				}
 			}
+		}
+
+		// "You pull out your personal massager and use it to work the
+		// kinks out of your neck and your back. You stop there,
+		// though, as nothing below that point is feeling particularly
+		// kinky. Unfortunately, it looks like the batteries in the
+		// thing were only good for that one use."
+
+		if ( responseText.indexOf( "You pull out your personal massager" ) != -1 )
+		{
+			ResultProcessor.processItem( ItemPool.PERSONAL_MASSAGER, -1 );
+			KoLConstants.activeEffects.remove( KoLAdventure.BEATEN_UP );
 		}
 
 		FightRequest.clearInstanceData();
