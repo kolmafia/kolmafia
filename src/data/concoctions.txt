@@ -867,7 +867,7 @@ phial of sleaziness	SAUCE	scrumptious reagent	sleaze powder
 # Deep Sauces
 
 pressurized potion of perception	DSAUCE	globe of Deep Sauce	sea blueberry
-pressurized potion of perspicacity	DSAUCE	globe of Deep Sauce	sea honedew
+pressurized potion of perspicacity	DSAUCE	globe of Deep Sauce	sea honeydew
 pressurized potion of proficiency	DSAUCE	globe of Deep Sauce	sea persimmon
 pressurized potion of puissance	DSAUCE	globe of Deep Sauce	sea tangelo
 pressurized potion of pulchritude	DSAUCE	globe of Deep Sauce	sea lychee

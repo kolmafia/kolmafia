@@ -1871,7 +1871,9 @@ Pasta Oneness	Mysticality: +2
 Patience of the Tortoise	Muscle: +1, Maximum HP: +4
 Paw swap	Cold Resistance: +2
 Peeled Eyeballs	Experience: -1, Item Drop: +15, Meat Drop: -16
+# Perceptive Pressure	Item Drop: +?
 Permafrosty	Cold Damage: +50
+Perspicacious Pressure	Mysticality Percent: +300
 Phoenix, Right?	Experience: +6
 Phorcefullness	Muscle Percent: +100
 # Pie in the Face	none
@@ -1888,6 +1890,8 @@ Proficient Pressure	Experience: +8
 Pronounced Potency	Weapon Damage: +5
 Provocative Perkiness	Initiative: +20
 # Psalm of Pointiness	damages & delevels opponents
+Puissant Pressure	Muscle Percent: +300
+Pulchritudinous Pressure	Moxie Percent: +300
 Pumped Up	Muscle: +5
 Purple Tongue	HP Regen Min: 20, HP Regen Max: 20, MP Regen Min: 20, MP Regen Max: 20
 Quivering with Rage	Muscle Percent: -10
