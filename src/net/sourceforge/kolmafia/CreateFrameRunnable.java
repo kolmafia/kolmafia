@@ -158,18 +158,22 @@ public class CreateFrameRunnable
 		boolean appearsInTab = GenericFrame.appearsInTab(
 			searchString.endsWith( "ChatFrame" ) ? "ChatManager" : searchString );
 
+		// Make the whole desktop the first time we create a tab
+		if ( appearsInTab && !KoLDesktop.instanceExists() )
+		{
+			KoLDesktop.getInstance().initializeTabs();
+		}
+
+		// Make the frame for the first time
 		if ( !this.loadPreviousFrame() )
 		{
-			if ( appearsInTab && !KoLDesktop.instanceExists() )
-			{
-				KoLDesktop.getInstance().initializeTabs();
-				KoLDesktop.displayDesktop();
-				this.loadPreviousFrame();
-			}
-			else
-			{
-				this.runConstruction( appearsInTab );
-			}
+			this.runConstruction( appearsInTab );
+		}
+
+		// If previously made desktop has been cleared out, remake it.
+		if ( appearsInTab && !KoLDesktop.containsTab( (GenericFrame) this.creation ) )
+		{
+			KoLDesktop.getInstance().initializeTabs();
 		}
 
 		if ( this.creation == null )
@@ -204,6 +208,10 @@ public class CreateFrameRunnable
 		if ( appearsInTab )
 		{
 			KoLDesktop.addTab( (GenericFrame) this.creation );
+			if ( !KoLDesktop.isInitializing() )
+			{
+				KoLDesktop.displayDesktop();
+			}
 			KoLDesktop.showComponent( (GenericFrame) this.creation );
 		}
 		else
