@@ -1870,7 +1870,7 @@ Papowerful	Experience: +2, Weapon Damage: +10
 Pasta Oneness	Mysticality: +2
 Patience of the Tortoise	Muscle: +1, Maximum HP: +4
 Paw swap	Cold Resistance: +2
-Peeled Eyeballs	Experience: -1, Item Drop: +15, Meat Drop: -16
+Peeled Eyeballs	Experience: -1, Item Drop: +15, Meat Drop: -20
 # Perceptive Pressure	Item Drop: +?
 Permafrosty	Cold Damage: +50
 Perspicacious Pressure	Mysticality Percent: +300
