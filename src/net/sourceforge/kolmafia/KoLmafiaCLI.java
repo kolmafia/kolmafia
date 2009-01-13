@@ -1188,6 +1188,40 @@ public class KoLmafiaCLI
 		
 	}
 
+	static { new CCS().register( "ccs" ); }
+	public static class CCS
+		extends Command
+	{
+		{ usage = " [<script>] - show [or select] Custom Combat Script in use."; }
+		public void run( String command, String parameters )
+		{
+			if ( parameters.length() > 0 )
+			{
+				parameters = parameters.toLowerCase();
+				for ( Iterator i = CustomCombatManager.getAvailableScripts().iterator();
+					i.hasNext(); )
+				{
+					String script = (String) i.next();
+					if ( script.toLowerCase().indexOf( parameters ) != -1 )
+					{
+						Preferences.setString( "customCombatScript", script );
+						Preferences.setString( "battleAction", "custom combat script" );
+						KoLmafia.updateDisplay( "CCS set to " + script );
+						return;
+					}
+				}
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "No matching CCS found!" );
+				return;
+			}
+			KoLmafia.updateDisplay( "CCS is " +
+				Preferences.getString( "customCombatScript" ) );
+			if ( !Preferences.getString( "battleAction" ).startsWith( "custom" ) )
+			{
+				KoLmafia.updateDisplay( "(but isn't currently being used becase a different combat action is specified.)" );
+			}
+		}
+	}
+
 	static { new Holiday().register( "holiday" ); }
 	public static class Holiday
 		extends Command

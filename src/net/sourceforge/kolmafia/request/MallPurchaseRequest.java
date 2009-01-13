@@ -43,6 +43,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
@@ -452,6 +453,10 @@ public class MallPurchaseRequest
 		}
 		else if ( this.npcStoreId.equals( "r" ) )
 		{
+			if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.PIRATE_FLEDGES, 1 ) ) )
+			{
+				return true;
+			}
 			neededOutfit = 9;
 		}
 		else if ( this.npcStoreId.equals( "h" ) )
