@@ -993,6 +993,10 @@ public class ResultProcessor
 			}
 			break;
 
+		case ItemPool.HAROLDS_BELL:
+			ResultProcessor.processItem( ItemPool.HAROLDS_HAMMER, -1 );
+			break;
+
 		 // These update the session results for the item swapping in
 		 // the Gnome's Going Postal quest.
 
