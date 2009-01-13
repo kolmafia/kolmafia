@@ -143,24 +143,28 @@ public class CustomCombatPanel
 
 	public class CombatComboBox
 		extends JComboBox
+		implements ActionListener, Preferences.ChangeListener
 	{
 		public CombatComboBox()
 		{
 			super( CustomCombatManager.getAvailableScripts() );
-			this.addActionListener( new CombatComboBoxListener() );
+			this.addActionListener( this );
+			Preferences.registerListener( "customCombatScript", this );
+		}
+		
+		public void update()
+		{
+			CustomCombatPanel.this.combatCards.show( CustomCombatPanel.this, "tree" );
+			this.setSelectedItem( Preferences.getString( "customCombatScript" ) );
 		}
 
-		public class CombatComboBoxListener
-			implements ActionListener
+		public void actionPerformed( final ActionEvent e )
 		{
-			public void actionPerformed( final ActionEvent e )
+			String script = (String) this.getSelectedItem();
+			if ( script != null )
 			{
-				String script = (String) CombatComboBox.this.getSelectedItem();
-				if ( script != null )
-				{
-					CustomCombatManager.setScript( script );
-					CustomCombatPanel.this.refreshCombatTree();
-				}
+				CustomCombatManager.setScript( script );
+				CustomCombatPanel.this.refreshCombatTree();
 			}
 		}
 	}

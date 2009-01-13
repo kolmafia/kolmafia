@@ -570,6 +570,7 @@ public class ItemPool
 	public static final int ANCIENT_CURSED_FOOTLOCKER = 3016;
 	public static final int ORNATE_CURSED_CHEST = 3017;
 	public static final int GILDED_CURSED_CHEST = 3018;
+	public static final int PIRATE_FLEDGES = 3033;
 	public static final int CURSED_PIECE_OF_THIRTEEN = 3034;
 	public static final int FOIL_BOW = 3043;
 	public static final int FOIL_RADAR = 3044;

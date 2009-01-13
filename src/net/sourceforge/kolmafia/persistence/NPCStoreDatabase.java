@@ -163,7 +163,8 @@ public class NPCStoreDatabase
 					return false;
 				}
 			}
-			return EquipmentManager.hasOutfit( 9 );
+			return EquipmentManager.hasOutfit( 9 ) ||
+				InventoryManager.hasItem( ItemPool.PIRATE_FLEDGES );
 		}
 		else if ( storeId.equals( "4" ) || storeId.equals( "5" ) )
 		{
