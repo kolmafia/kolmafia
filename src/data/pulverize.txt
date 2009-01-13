@@ -120,10 +120,31 @@ tiny plastic sword	nosmash
 wad of Crovacite	wad of Crovacite
 Emblem of Ak'gyxoth	nosmash
 
-# Some equipment from The Sea has special results.
+# Equipment dropped, or made from drops, in The Sea has special results.
 fish scimitar	sea salt crystal
 fish stick	sea salt crystal
 fish bazooka	sea salt crystal
+eelskin buckler	sea salt crystal
+eelskin pants	sea salt crystal
+eelskin hat	sea salt crystal
+shark jumper	sea salt crystal
+shark tooth necklace	sea salt crystal
+ganger bandana	sea salt crystal
+bezoar ring	sea salt crystal
+octopus's spade	sea salt crystal
+straw hat	sea salt crystal
+sponge helmet	sea salt crystal
+spongy shield	sea salt crystal
+square sponge pants	sea salt crystal
+diving muff	sea salt crystal
+glowing esca	sea salt crystal
+Mer-kin hookspear	sea salt crystal
+Mer-kin takebag	sea salt crystal
+moist sailor's cap	sea salt crystal
+rusty compass	sea salt crystal
+rusty speargun	sea salt crystal
+rusty diving helmet	sea salt crystal
+aerated diving helmet	sea salt crystal
 
 # Mr. Store equipment is not pulverizable.
 Mr. Accessory	nosmash
@@ -153,6 +174,10 @@ mayfly bait necklace	nosmash
 haiku katana	nosmash
 scratch 'n' sniff sword	nosmash
 scratch 'n' sniff crossbow	nosmash
+Spooky Putty mitre	nosmash
+Spooky Putty leotard	nosmash
+Spooky Putty ball	nosmash
+Spooky Putty snake	nosmash
 
 # Depleted grimacite items.
 depleted Grimacite hammer	chunk of depleted Grimacite
