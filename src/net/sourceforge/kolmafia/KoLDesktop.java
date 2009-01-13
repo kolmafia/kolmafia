@@ -272,6 +272,31 @@ public class KoLDesktop
 		}
 	}
 
+	public static final boolean containsTab( final GenericFrame content )
+	{
+		if ( KoLDesktop.INSTANCE == null )
+		{
+			return false;
+		}
+
+		return KoLDesktop.INSTANCE.tabListing.indexOf( content ) != -1;
+	}
+
+	public static final void removeTab( final GenericFrame content )
+	{
+		if ( KoLDesktop.INSTANCE == null )
+		{
+			return;
+		}
+
+		int tabIndex = KoLDesktop.INSTANCE.tabListing.indexOf( content );
+		if ( tabIndex != -1 )
+		{
+			KoLDesktop.INSTANCE.tabListing.remove( tabIndex );
+			KoLDesktop.INSTANCE.tabs.removeTabAt( tabIndex );
+		}
+	}
+
 	public static final boolean isInversionExempt( final GenericFrame content )
 	{
 		return content instanceof AdventureFrame || content instanceof FlowerHunterFrame || content instanceof MailboxFrame || content instanceof SendMessageFrame;
@@ -302,21 +327,6 @@ public class KoLDesktop
 		if ( this.tabs.getTabCount() > 0 )
 		{
 			this.tabs.setSelectedIndex( 0 );
-		}
-	}
-
-	public static final void removeTab( final GenericFrame content )
-	{
-		if ( KoLDesktop.INSTANCE == null )
-		{
-			return;
-		}
-
-		int tabIndex = KoLDesktop.INSTANCE.tabListing.indexOf( content );
-		if ( tabIndex != -1 )
-		{
-			KoLDesktop.INSTANCE.tabListing.remove( tabIndex );
-			KoLDesktop.INSTANCE.tabs.removeTabAt( tabIndex );
 		}
 	}
 
