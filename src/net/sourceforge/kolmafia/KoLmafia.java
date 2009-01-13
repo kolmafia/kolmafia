@@ -756,6 +756,7 @@ public abstract class KoLmafia
 		Preferences.setInteger( "spookyPuttyCopiesMade", 0 );
 		Preferences.setBoolean( "styxPixieVisited", false );
 		Preferences.setBoolean( "telescopeLookedHigh", false );
+		Preferences.setInteger( "tempuraSummons", 0 );
 		Preferences.setInteger( "timesRested", 0 );
 		Preferences.setInteger( "tomeSummons", 0 );
 

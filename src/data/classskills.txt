@@ -137,6 +137,7 @@
 3018	Transcendental Noodlecraft	0	0	0
 3019	Fearful Fettucini	5	35	0
 3020	Spaghetti Spear	5	1	0
+3021	Tempuramancy	0	0	0
 
 # The 5 sub-skills of Flavour of Magic usable from the Use Skills page:
 

@@ -365,6 +365,7 @@ user	telescope6
 user	telescope7
 user	telescopeLookedHigh	false
 user	telescopeUpgrades	0
+user	tempuraSummons	0
 user	thanksMessage	Thank you for the donation!
 user	timesRested	99
 user	tomeSummons	0
