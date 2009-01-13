@@ -527,6 +527,7 @@ public class ItemPool
 	public static final int STEEL_STOMACH = 2742;
 	public static final int STEEL_LIVER = 2743;
 	public static final int STEEL_SPLEEN = 2744;
+	public static final int HAROLDS_BELL = 2765;
 	public static final int SOLID_BACONSTONE_EARRING = 2780;
 	public static final int BRIMSTONE_BERET = 2813;
 	public static final int BRIMSTONE_BRACELET = 2818;
