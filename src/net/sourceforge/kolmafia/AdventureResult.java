@@ -386,6 +386,11 @@ public class AdventureResult
 		return this.priority == AdventureResult.MEAT_PRIORITY;
 	}
 
+	public boolean isMP()
+	{
+		return this.name.equals( AdventureResult.MP );
+	}
+
 	/**
 	 * Accessor method to retrieve the name associated with the result.
 	 *

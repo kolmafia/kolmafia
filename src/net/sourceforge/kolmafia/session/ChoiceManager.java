@@ -1043,7 +1043,13 @@ public abstract class ChoiceManager
 
 		// Choice 303 is You've Hit Bottom
 
-                // There is Sauce at the Bottom of the Ocean
+		// A Vent Horizon
+		new ChoiceAdventure(
+			"The Sea", "choiceAdventure304", "The Marinara Trench",
+			new String[] { "bubbling tempura batter", "skip adventure" },
+			new String[] { "3681", null } ),
+
+		// There is Sauce at the Bottom of the Ocean
 		new ChoiceAdventure(
 			"The Sea", "choiceAdventure305", "The Marinara Trench",
 			new String[] { "globe of Deep Sauce", "skip adventure" },
@@ -1461,6 +1467,10 @@ public abstract class ChoiceManager
 		{ new Integer(295), new Integer(1), 
 		  new AdventureResult( "hobo nickel", -5 ) },
 
+                // A Vent Horizon
+		{ new Integer(304), new Integer(1), 
+		  new AdventureResult( AdventureResult.MP, -200 ) },
+
                 // There is Sauce at the Bottom of the Ocean
 		{ new Integer(305), new Integer(1), 
 		  new AdventureResult( "Mer-kin pressureglobe", -1 ) },
@@ -1518,6 +1528,15 @@ public abstract class ChoiceManager
 			int purseCount = KoLCharacter.getAvailableMeat();
 			// Make sure we have enough in inventory
 			if ( costCount + purseCount < 0 )
+			{
+				return;
+			}
+		}
+		else if ( cost.isMP() )
+		{
+			int current = KoLCharacter.getCurrentMP();
+			// Make sure we have enough mana
+			if ( costCount + current < 0 )
 			{
 				return;
 			}
@@ -1623,6 +1642,10 @@ public abstract class ChoiceManager
 		case 298:
 			// In the Shade
 			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "An Octopus's Garden" );
+
+		case 304:
+			// A Vent Horizon
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "The Marinara Trench" );
 
 		case 305:
 			// There is Sauce at the Bottom of the Ocean
@@ -1756,6 +1779,17 @@ public abstract class ChoiceManager
 			int slime = InventoryManager.getCount( ItemPool.GREEN_SLIME );
 
 			result[ 0 ] = seeds + " seed packets, " + slime + " globs of green slime";
+			result[ 1 ] = "skip adventure";
+
+			return result;
+
+		case 304:
+			// A Vent Horizon
+			result = new String[ 2 ];
+
+			int summons = 3 - Preferences.getInteger( "tempuraSummons" );
+
+			result[ 0 ] = summons + " summons left today";
 			result[ 1 ] = "skip adventure";
 
 			return result;
@@ -2196,6 +2230,21 @@ public abstract class ChoiceManager
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SEED_PACKET, -1 ) );
 				ResultProcessor.processResult( ItemPool.get( ItemPool.GREEN_SLIME, -1 ) );
 			}
+			break;
+
+		case 304:
+			// A Vent Horizon
+
+			// "You conjure some delicious batter from the core of
+			// the thermal vent. It pops and sizzles as you stick
+			// it in your sack."
+
+			if ( text.indexOf( "pops and sizzles" ) == -1 )
+			{
+				return;
+			}
+
+			Preferences.increment( "tempuraSummons", 1 );
 			break;
 		}
 
