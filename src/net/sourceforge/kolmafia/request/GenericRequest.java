@@ -1197,7 +1197,6 @@ public class GenericRequest
 			if ( LoginRequest.isInstanceRunning() || this == ChoiceManager.CHOICE_HANDLER || this instanceof AdventureRequest || this instanceof BasementRequest || this instanceof HiddenCityRequest )
 			{
 				FightRequest.INSTANCE.run();
-				CharPaneRequest.getInstance().run();
 				return !LoginRequest.isInstanceRunning();
 			}
 
@@ -1217,10 +1216,12 @@ public class GenericRequest
 		if ( this.redirectLocation.startsWith( "choice.php" ) )
 		{
 			GenericRequest.handlingChoices = true;
-			ChoiceManager.processChoiceAdventure();
+			boolean containsUpdate = ChoiceManager.processChoiceAdventure();
 			GenericRequest.handlingChoices = false;
-
-			CharPaneRequest.getInstance().run();
+			if ( !containsUpdate )
+			{
+				CharPaneRequest.getInstance().run();
+			}
 			return true;
 		}
 
@@ -1423,7 +1424,7 @@ public class GenericRequest
 		}
 		else
 		{
-			this.containsUpdate |= this.responseText.indexOf( "charpane" ) != -1;
+			this.containsUpdate |= this.responseText.indexOf( "<script>parent.charpane.location.href=\"charpane.php\";</script>" ) != -1;
 		}
 
 		if ( this.containsUpdate )
@@ -1542,17 +1543,19 @@ public class GenericRequest
 		}
 
 		if ( this.formURLString.startsWith( "mall.php" ) ||
-			this.formURLString.startsWith( "searchmall.php" ) ||
-			this.formURLString.startsWith( "account.php" ) )
+		     this.formURLString.startsWith( "searchmall.php" ) ||
+		     this.formURLString.startsWith( "account.php" ) )
 		{
-			// These pages cannot possibly contain an actual item drop, but may have
-			// a bogus "You acquire an item:" as part of a store name or profile quote.
+			// These pages cannot possibly contain an actual item
+			// drop, but may have a bogus "You acquire an item:" as
+			// part of a store name or profile quote.
 			this.containsUpdate = false;
 		}
 		else if ( this.formURLString.startsWith( "mallstore.php" ) )
 		{
-			// Mall stores themselves can only contain processable results when actually
-			// buying an item, and then only at the very top of the page.
+			// Mall stores themselves can only contain processable
+			// results when actually buying an item, and then only
+			// at the very top of the page.
 			if ( this.getFormField( "whichitem" ) != null )
 			{
 				this.containsUpdate = ResultProcessor.processResults(

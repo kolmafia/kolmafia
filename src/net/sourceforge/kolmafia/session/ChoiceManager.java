@@ -1467,11 +1467,11 @@ public abstract class ChoiceManager
 		{ new Integer(295), new Integer(1), 
 		  new AdventureResult( "hobo nickel", -5 ) },
 
-                // A Vent Horizon
+		// A Vent Horizon
 		{ new Integer(304), new Integer(1), 
 		  new AdventureResult( AdventureResult.MP, -200 ) },
 
-                // There is Sauce at the Bottom of the Ocean
+		// There is Sauce at the Bottom of the Ocean
 		{ new Integer(305), new Integer(1), 
 		  new AdventureResult( "Mer-kin pressureglobe", -1 ) },
 	};
@@ -1839,9 +1839,10 @@ public abstract class ChoiceManager
 		return spoilers[ decision ];
 	}
 
-	public static final void processChoiceAdventure()
+	public static final boolean processChoiceAdventure()
 	{
 		ChoiceManager.processChoiceAdventure( ChoiceManager.CHOICE_HANDLER );
+		return ChoiceManager.CHOICE_HANDLER.containsUpdate;
 	}
 
 	/**
