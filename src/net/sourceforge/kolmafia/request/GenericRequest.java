@@ -1159,7 +1159,6 @@ public class GenericRequest
 			if ( this instanceof UseItemRequest )
 			{
 				FightRequest.INSTANCE.run();
-				CharPaneRequest.getInstance().run();
 				return !LoginRequest.isInstanceRunning();
 			}
 		}
