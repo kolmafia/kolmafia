@@ -267,11 +267,11 @@ public class LocalRelayAgent
 			if ( initialCount != KoLCharacter.getAdventuresLeft() && !KoLmafia.isRunningBetweenBattleChecks() && FightRequest.getCurrentRound() == 0 )
 			{
 				StaticEntity.getClient().runBetweenBattleChecks(
-					false, Preferences.getBoolean( "relayMaintainsEffects" ),
+					false,
+					Preferences.getBoolean( "relayMaintainsEffects" ),
 					Preferences.getBoolean( "relayMaintainsHealth" ),
 					Preferences.getBoolean( "relayMaintainsMana" ) );
-
-				this.request.run();
+				this.request.responseText = CharPaneRequest.getLastResponse();
 			}
 		}
 		else if ( this.path.equals( "/fight.php?action=custom" ) )
