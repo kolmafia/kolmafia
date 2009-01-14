@@ -613,7 +613,20 @@ public class AdventureResult
 			return this.name;
 		}
 
-		return this.count[ 0 ] == 1 ? this.getName() : this.getName() + " (" + KoLConstants.COMMA_FORMAT.format( this.count[ 0 ] ) + ")";
+		String name = this.getName();
+
+		if ( this.priority == AdventureResult.EFFECT_PRIORITY && name.equals( "On the Trail" ) )
+		{
+			String monster = Preferences.getString( "olfactedMonster" );
+			if ( !monster.equals( "" ) )
+			{
+				name = name + " [" + monster + "]";
+			}
+		}
+
+		int count = this.count[ 0 ];
+
+		return count == 1 ? name : name + " (" + KoLConstants.COMMA_FORMAT.format( count ) + ")";
 	}
 
 	public String toConditionString()
