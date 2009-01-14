@@ -697,6 +697,11 @@ public class ResultProcessor
 		return ResultProcessor.processResult( ItemPool.get( itemId, count ) );
 	}
 
+	public static boolean processMeat( int amount )
+	{
+		return ResultProcessor.processResult( new AdventureResult( AdventureResult.MEAT, amount ) );
+	}
+
 	private static void processCondition( AdventureResult result, String resultName, int conditionIndex )
 	{
 		if ( resultName.equals( AdventureResult.SUBSTATS ) )
@@ -991,6 +996,10 @@ public class ResultProcessor
 			{
 				ResultProcessor.processItem( ItemPool.POWER_SPHERE, -1 );
 			}
+			break;
+
+		case ItemPool.CITADEL_SATCHEL:
+			ResultProcessor.processMeat( -300 );
 			break;
 
 		case ItemPool.HAROLDS_BELL:
