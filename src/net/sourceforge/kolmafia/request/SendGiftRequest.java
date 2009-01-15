@@ -191,7 +191,7 @@ public class SendGiftRequest
 		super.processResults();
 		if ( this.responseText.indexOf( this.getSuccessMessage() ) != -1 && this.materialCost > 0 )
 		{
-			ResultProcessor.processResult( new AdventureResult( AdventureResult.MEAT, 0 - this.materialCost ) );
+			ResultProcessor.processMeat( 0 - this.materialCost );
 		}
 	}
 

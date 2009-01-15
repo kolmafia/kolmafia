@@ -1110,11 +1110,13 @@ public class ConcoctionDatabase
 		ConcoctionDatabase.calculateBasicItems( availableIngredients );
 
 		// It is never possible to create items which are flagged
-		// NOCREATE, and it is always possible to create items
-		// through meat paste combination.
+		// NOCREATE
 
 		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.NOCREATE ] = false;
 		ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.NOCREATE ] = 0;
+
+		// It is always possible to create items through meat paste
+		// combination.
 
 		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.COMBINE ] = true;
 		ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.COMBINE ] = 0;
@@ -1218,8 +1220,7 @@ public class ConcoctionDatabase
 		// or they don't need a box servant and have an oven.
 
 		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.COOK ] =
-			willBuyServant || KoLCharacter.hasChef() || ConcoctionDatabase.isAvailable(
-				ItemPool.CHEF, ItemPool.CLOCKWORK_CHEF );
+			willBuyServant || KoLCharacter.hasChef() || ConcoctionDatabase.isAvailable( ItemPool.CHEF, ItemPool.CLOCKWORK_CHEF );
 		ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.COOK ] = 0;
 
 		if ( !ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.COOK ] && !Preferences.getBoolean( "requireBoxServants" ) )
@@ -1261,8 +1262,7 @@ public class ConcoctionDatabase
 		// or they don't need a box servant and have a kit.
 
 		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.MIX ] =
-			willBuyServant || KoLCharacter.hasBartender() || ConcoctionDatabase.isAvailable(
-				ItemPool.BARTENDER, ItemPool.CLOCKWORK_BARTENDER );
+			willBuyServant || KoLCharacter.hasBartender() || ConcoctionDatabase.isAvailable( ItemPool.BARTENDER, ItemPool.CLOCKWORK_BARTENDER );
 		ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.MIX ] = 0;
 
 		if ( !ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.MIX ] && !Preferences.getBoolean( "requireBoxServants" ) )

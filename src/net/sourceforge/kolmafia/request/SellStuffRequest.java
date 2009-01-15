@@ -349,7 +349,7 @@ public class SellStuffRequest
 			String message = "You gain " + amount + " Meat";
 			RequestLogger.printLine( message );
 			RequestLogger.updateSessionLog( message );
-			ResultProcessor.processResult( new AdventureResult( AdventureResult.MEAT, amount ) );
+			ResultProcessor.processMeat( amount );
 		}
 	}
 

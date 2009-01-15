@@ -347,7 +347,7 @@ public abstract class TransferItemRequest
 			}
 			if ( this.source == KoLConstants.inventory )
 			{
-				ResultProcessor.processResult( new AdventureResult( AdventureResult.MEAT, totalMeat ) );
+				ResultProcessor.processMeat( totalMeat );
 			}
 		}
 	}

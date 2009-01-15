@@ -93,8 +93,8 @@ public class CakeArenaRequest
 
 		if ( this.isCompetition )
 		{
-			ResultProcessor.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
-			ResultProcessor.processResult( new AdventureResult( AdventureResult.MEAT, -100 ) );
+			ResultProcessor.processAdventures( -1 );
+			ResultProcessor.processMeat( -100 );
 
 			// If the familiar won, increment win count
 

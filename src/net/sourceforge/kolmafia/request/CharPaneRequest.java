@@ -323,8 +323,7 @@ public class CharPaneRequest
 
 			if ( oldAdventures != newAdventures )
 			{
-				ResultProcessor.processResult(
-					new AdventureResult( AdventureResult.ADV, newAdventures - oldAdventures ) );
+				ResultProcessor.processAdventures( newAdventures - oldAdventures );
 			}
 		}
 	}

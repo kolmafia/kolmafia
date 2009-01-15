@@ -702,6 +702,11 @@ public class ResultProcessor
 		return ResultProcessor.processResult( new AdventureResult( AdventureResult.MEAT, amount ) );
 	}
 
+	public static boolean processAdventures( int amount )
+	{
+		return ResultProcessor.processResult( new AdventureResult( AdventureResult.ADV, amount ) );
+	}
+
 	private static void processCondition( AdventureResult result, String resultName, int conditionIndex )
 	{
 		if ( resultName.equals( AdventureResult.SUBSTATS ) )

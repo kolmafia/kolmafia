@@ -132,7 +132,7 @@ public class RaffleRequest
 		case RaffleRequest.INVENTORY:
 			if ( cost <= KoLCharacter.getAvailableMeat() )
 			{
-				ResultProcessor.processResult( new AdventureResult( AdventureResult.MEAT, -cost ) );
+				ResultProcessor.processMeat( -cost );
 			}
 			break;
 

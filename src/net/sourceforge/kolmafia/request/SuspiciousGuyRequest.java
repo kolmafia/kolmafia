@@ -102,7 +102,7 @@ public class SuspiciousGuyRequest
 			int cost = 1000 * Integer.parseInt( matcher.group( 1 ) ) - 1000;
 			if ( cost > 0 )
 			{
-				ResultProcessor.processResult( new AdventureResult( AdventureResult.MEAT, -cost ) );
+				ResultProcessor.processMeat( -cost );
 			}
 
 			return true;
