@@ -904,7 +904,9 @@ public class CreateItemRequest
 		case KoLConstants.COOK:
 		case KoLConstants.COOK_REAGENT:
 		case KoLConstants.SUPER_REAGENT:
+		case KoLConstants.DEEP_SAUCE:
 		case KoLConstants.COOK_PASTA:
+		case KoLConstants.COOK_TEMPURA:
 			return KoLCharacter.hasChef() ? 0 : this.quantityNeeded;
 
 		case KoLConstants.MIX:
