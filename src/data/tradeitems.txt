@@ -3471,7 +3471,7 @@
 3470	little bitty bathysphere	7	none	0
 3471	damp old boot	0	none	0
 3472	Seasonal Beret	9	display	0
-3473	Bash-&#332;s boxtop	0	display	0
+3473	Bash-&#332;s boxtop	4	display	0
 3474	cranberry cordial	4	all	36
 3475	blackberry polite	4	all	36
 3476	plum lozenge	4	all	77
