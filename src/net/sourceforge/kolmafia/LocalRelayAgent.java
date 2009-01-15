@@ -271,7 +271,8 @@ public class LocalRelayAgent
 					Preferences.getBoolean( "relayMaintainsEffects" ),
 					Preferences.getBoolean( "relayMaintainsHealth" ),
 					Preferences.getBoolean( "relayMaintainsMana" ) );
-				this.request.responseText = CharPaneRequest.getLastResponse();
+				this.request.responseText = RequestEditorKit.getFeatureRichHTML( "charpane.php", CharPaneRequest.getLastResponse(), true );
+				this.request.rawByteBuffer = null;
 			}
 		}
 		else if ( this.path.equals( "/fight.php?action=custom" ) )
@@ -325,8 +326,7 @@ public class LocalRelayAgent
 		}
 		else if ( this.path.startsWith( "/sidepane.php" ) )
 		{
-			this.request.pseudoResponse( "HTTP/1.1 200 OK", RequestEditorKit.getFeatureRichHTML(
-				"charpane.php", CharPaneRequest.getLastResponse(), true ) );
+			this.request.pseudoResponse( "HTTP/1.1 200 OK", RequestEditorKit.getFeatureRichHTML( "charpane.php", CharPaneRequest.getLastResponse(), true ) );
 		}
 		else if ( this.path.startsWith( "/actionbar.php" ) )
 		{
