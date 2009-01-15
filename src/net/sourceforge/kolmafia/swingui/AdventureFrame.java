@@ -112,7 +112,11 @@ public class AdventureFrame
 			return;
 		}
 
-		AdventureFrame.requestMeter.setString( message );
+		// Avoid flicker
+		if ( !message.equals( AdventureFrame.requestMeter.getString() ) )
+		{
+			AdventureFrame.requestMeter.setString( message );
+		}
 	}
 
 	public static final void updateRequestMeter( final int value, final int maximum )
@@ -122,8 +126,16 @@ public class AdventureFrame
 			return;
 		}
 
-		AdventureFrame.requestMeter.setMaximum( maximum );
-		AdventureFrame.requestMeter.setValue( value );
+		// Avoid flicker
+		if ( value != AdventureFrame.requestMeter.getValue() )
+		{
+			AdventureFrame.requestMeter.setValue( value );
+		}
+
+		if ( maximum != AdventureFrame.requestMeter.getMaximum() )
+		{
+			AdventureFrame.requestMeter.setMaximum( maximum );
+		}
 	}
 
 	public static final void updateSelectedAdventure( final KoLAdventure location )

@@ -324,6 +324,8 @@ public class UseItemRequest
 		case ItemPool.CLOCKWORK_BARTENDER:
 		case ItemPool.MAID:
 		case ItemPool.CLOCKWORK_MAID:
+		case ItemPool.SCARECROW:
+		case ItemPool.MEAT_GOLEM:
 			// Campground equipment
 			return 1;
 
@@ -337,6 +339,7 @@ public class UseItemRequest
 		case ItemPool.BLACK_BLUE_LIGHT:
 		case ItemPool.LOUDMOUTH_LARRY:
 		case ItemPool.PLASMA_BALL:
+		case ItemPool.FENG_SHUI:
 			// Dwelling furnishings
 			return 1;
 
@@ -1899,11 +1902,6 @@ public class UseItemRequest
 
 		case ItemPool.RUSTY_BROKEN_DIVING_HELMET:
 		case ItemPool.PIRATE_SKULL:
-			// SingleUseRequest
-		case ItemPool.BOXTOP:
-			// MultiUseRequest
-			UseItemRequest.showItemUsage( showHTML, responseText );
-			// Fall through
 		case ItemPool.QUILL_PEN:
 		case ItemPool.JOLLY_CHARRRM:
 		case ItemPool.RUM_CHARRRM:
@@ -1930,6 +1928,7 @@ public class UseItemRequest
 		case ItemPool.SAND_BRICK:
 		case ItemPool.INTERESTING_TWIG:
 		case ItemPool.LEWD_CARD:
+		case ItemPool.BOXTOP:
 			// MultiUseRequest
 
 			// These all create things via "use" or "multiuse" of a
