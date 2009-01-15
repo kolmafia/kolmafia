@@ -562,8 +562,8 @@
 561	Crocodile Tear	raindrop.gif	1244fd2f71f838ce95600e79cec2177c	use 1 temporary teardrop tattoo
 562	Swimming with Sharks	sharkfin.gif	a56c246742def1df7013e3941f14a3f0	use 1 shark cartilage
 563	Brined Liver	liver.gif	171f81071d987397e6aae6867f6d0314	drink 1 salinated mint julep
-564
-565
+564	Down with Chow	tempura2.gif	9543bd48d5cc121188fd937512b82bfb	eat 1 tempura broccoli
+565	Low on the Hog	meat.gif	7e8174fcddbf31f4aabc5511eb9064fa	eat 1 tempura cauliflower
 566
 567
 568

@@ -1663,6 +1663,7 @@ Disco State of Mind	Moxie: +2
 Disco Nirvana	Meat Drop: +30
 Dizzy with Rage	Moxie Percent: -10
 # Don't Rest Ye, Bold Adventurer	variable stats
+Down with Chow	Familiar Weight: +10
 Dreadlocked	Mysticality Percent: +50, Moxie Percent: -50
 Dreams and Lights	Mysticality: +10, Mana Cost: -3
 Drenched With Filth	Stench Damage: +75
@@ -1823,6 +1824,7 @@ Liquid Courage	Experience: +3
 Livin' Large	Meat Drop: +10
 Lycanthropy, Eh?	Muscle Percent: [+2*M], Moxie Percent: [-2*M]
 Locks Like the Raven	Moxie: +15
+Low on the Hog	Meat Drop: +100
 Macho Profundo	Muscle Percent: +60, Moxie Percent: +60
 Mad at Science	Muscle: +3
 Maid Disservice	Muscle Percent: -20, Mysticality Percent: -20, Moxie Percent: -20
