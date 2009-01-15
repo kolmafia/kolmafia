@@ -58,6 +58,7 @@ public class CouncilFrame
 	extends RequestFrame
 {
 	public static final GenericRequest COUNCIL_VISIT = new GenericRequest( "council.php" );
+
 	public static final AdventureResult YETI_FUR = new AdventureResult( 388, 1 );
 
 	private static final Pattern QTY_PATTERN = Pattern.compile( "qty=(\\d+)" );
@@ -111,6 +112,10 @@ public class CouncilFrame
 		else if ( location.startsWith( "friars" ) )
 		{
 			CouncilFrame.handleFriarsChange( responseText );
+		}
+		else if ( location.startsWith( "mountains" ) )
+		{
+			CouncilFrame.handleMountainsChange( responseText );
 		}
 		else if ( location.startsWith( "trapper" ) )
 		{
@@ -184,11 +189,23 @@ public class CouncilFrame
 
 		if ( responseText.indexOf( "Thank you" ) != -1 )
 		{
-			ResultProcessor.processResult( AdventureRequest.DODECAGRAM );
-			ResultProcessor.processResult( AdventureRequest.CANDLES );
-			ResultProcessor.processResult( AdventureRequest.BUTTERKNIFE );
-
+			ResultProcessor.processItem( ItemPool.DODECAGRAM, -1 );
+			ResultProcessor.processItem( ItemPool.CANDLES, -1 );
+			ResultProcessor.processItem( ItemPool.BUTTERKNIFE, -1 );
 			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Taint cleansed." );
+		}
+	}
+
+	private static final void handleMountainsChange( final String responseText )
+	{
+		// You approach the Orc Chasm, and whip out your trusty bridge.
+		// You place the bridge across the chasm, and the path to the
+		// Valley is clear.
+
+		if ( responseText.indexOf( "trusty bridge" ) != -1 )
+		{
+			ResultProcessor.processItem( ItemPool.BRIDGE, -1 );
+			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "You have bridged the Orc Chasm." );
 		}
 	}
 

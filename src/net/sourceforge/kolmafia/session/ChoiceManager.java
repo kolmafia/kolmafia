@@ -1365,6 +1365,10 @@ public abstract class ChoiceManager
 		{ new Integer(181), new Integer(1), 
 		  new AdventureResult( "Spanish fly", 5 ) },
 
+		// The Infiltrationist
+		{ new Integer(188), new Integer(3), 
+		  new AdventureResult( "hot wing", -3 ) },
+
 		//  O Cap'm, My Cap'm
 		{ new Integer(189), new Integer(1), 
 		  new AdventureResult( AdventureResult.MEAT, -977 ) },
