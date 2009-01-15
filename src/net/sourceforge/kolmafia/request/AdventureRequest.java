@@ -44,6 +44,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
@@ -75,13 +76,7 @@ public class AdventureRequest
 	private final String formSource;
 	private final String adventureId;
 
-	private static final AdventureResult SKELETON_KEY = new AdventureResult( 642, 1 );
-
-	public static final AdventureResult ABRIDGED = new AdventureResult( 534, -1 );
-	public static final AdventureResult BRIDGE = new AdventureResult( 535, -1 );
-	public static final AdventureResult DODECAGRAM = new AdventureResult( 479, -1 );
-	public static final AdventureResult CANDLES = new AdventureResult( 480, -1 );
-	public static final AdventureResult BUTTERKNIFE = new AdventureResult( 481, -1 );
+	private static final AdventureResult SKELETON_KEY = ItemPool.get( ItemPool.SKELETON_KEY, 1 );
 
 	/**
 	 * Constructs a new <code>AdventureRequest</code> which executes the adventure designated by the given Id by
@@ -174,12 +169,7 @@ public class AdventureRequest
 
 		if ( this.formSource.equals( "mountains.php" ) )
 		{
-			if ( KoLConstants.inventory.contains( AdventureRequest.ABRIDGED ) )
-			{
-				( new UntinkerRequest( AdventureRequest.ABRIDGED.getItemId() ) ).run();
-			}
-
-			if ( !KoLConstants.inventory.contains( AdventureRequest.BRIDGE ) )
+			if ( !InventoryManager.retrieveItem( ItemPool.BRIDGE ) )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't cross the Orc Chasm." );
 				return;
@@ -285,8 +275,7 @@ public class AdventureRequest
 			return;
 		}
 
-		// If you haven't unlocked the orc chasm yet,
-		// try doing so now.
+		// If you haven't unlocked the orc chasm yet, try doing so now.
 
 		if ( this.adventureId.equals( "80" ) && this.responseText.indexOf( "You shouldn't be here." ) != -1 )
 		{
@@ -301,10 +290,13 @@ public class AdventureRequest
 			return;
 		}
 
-		// We're missing an item, haven't been given a quest yet, or otherwise
-		// trying to go somewhere not allowed.
+		// We're missing an item, haven't been given a quest yet, or
+		// otherwise trying to go somewhere not allowed.
 
-		if ( this.responseText.indexOf( "You shouldn't be here" ) != -1 || this.responseText.indexOf( "not yet be accessible" ) != -1 || this.responseText.indexOf( "You can't get there" ) != -1 || this.responseText.indexOf( "Seriously.  It's locked." ) != -1 )
+		if ( this.responseText.indexOf( "You shouldn't be here" ) != -1 ||
+		     this.responseText.indexOf( "not yet be accessible" ) != -1 ||
+		     this.responseText.indexOf( "You can't get there" ) != -1 ||
+		     this.responseText.indexOf( "Seriously.  It's locked." ) != -1 )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't get to that area yet." );
 			return;
@@ -396,15 +388,6 @@ public class AdventureRequest
 				KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Nothing more to do here." );
 			}
 
-			return;
-		}
-
-		// The Orc Chasm (pre-bridge)
-
-		if ( this.formSource.equals( "mountains.php" ) )
-		{
-			KoLmafia.updateDisplay( "You have bridged the Orc Chasm." );
-			ResultProcessor.processResult( AdventureRequest.BRIDGE );
 			return;
 		}
 

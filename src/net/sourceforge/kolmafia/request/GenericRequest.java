@@ -709,6 +709,10 @@ public class GenericRequest
 		{
 			InventoryManager.retrieveItem( HermitRequest.PERMIT.getInstance( 1 ) );
 		}
+		else if ( location.startsWith( "mountains.php?orcs=1" ) )
+		{
+			InventoryManager.retrieveItem( ItemPool.BRIDGE );
+		}
 		else if ( location.startsWith( "casino.php" ) )
 		{
 			InventoryManager.retrieveItem( ItemPool.CASINO_PASS );

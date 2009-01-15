@@ -152,6 +152,9 @@ public class ItemPool
 	public static final int BLUE_PIXEL = 463;
 	public static final int RED_PIXEL_POTION = 464;
 	public static final int HOT_WING = 471;
+	public static final int DODECAGRAM = 479;
+	public static final int CANDLES = 480;
+	public static final int BUTTERKNIFE = 481;
 	public static final int TALISMAN = 486;
 	public static final int KETCHUP_HOUND = 493;
 	public static final int RAFFLE_TICKET = 500;

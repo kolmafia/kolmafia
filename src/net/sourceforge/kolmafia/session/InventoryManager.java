@@ -57,6 +57,7 @@ import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
+import net.sourceforge.kolmafia.request.UntinkerRequest;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
@@ -233,8 +234,8 @@ public abstract class InventoryManager
 			}
 		}
 
-		// First, handle worthless items by traveling to the sewer for
-		// as many adventures as needed.
+		// Handle worthless items by traveling to the sewer for as many
+		// adventures as needed.
 
 		if ( itemId == HermitRequest.WORTHLESS_ITEM.getItemId() )
 		{
@@ -256,6 +257,17 @@ public abstract class InventoryManager
 			KoLConstants.conditions.addAll( temporary );
 
 			return HermitRequest.getWorthlessItemCount() >= item.getCount();
+		}
+
+		// Handle the bridge by untinkering the abridged dictionary
+
+		if ( itemId == ItemPool.BRIDGE )
+		{
+			if ( InventoryManager.hasItem( ItemPool.ABRIDGED ) )
+			{
+				RequestThread.postRequest( new UntinkerRequest( ItemPool.ABRIDGED, 1 ) );
+			}
+			return item.getCount( KoLConstants.inventory ) > 0;
 		}
 
 		// First, attempt to pull the item from the closet.
