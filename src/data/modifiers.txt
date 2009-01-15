@@ -1,10 +1,14 @@
 2
 # Numeric modifiers can now be expressions, enclosed in square brackets.
-# No spaces are allowed within the expression.
+# No spaces are allowed within the expression, except as part of a zone/location name.
 # + - * / ( ) have their usual mathematical meaning and precedence.
 # ^ is exponentiation, with the highest precedence.
 # Functions available:
 #	ceil(x) floor(x) sqrt(x) min(x,y) max(x,y)
+# Location functions: loc(text) zone(text)
+#	These have a value of 1 if the current adventure location or zone contains the
+#	specified text, 0 elsewhere.
+#	There can be at most one location and one zone specified in any single expression.
 # Upper-case letters are varying values:
 #	B - Blood of Wereseal effect
 #	D - drunkenness
@@ -727,7 +731,7 @@ yohohoyo	Critical: 2, Spooky Damage: +1, Stench Damage: +1, Hot Damage: +1, Cold
 7-ball	Meat Drop: +5
 9-ball	Weapon Damage: +5, Ranged Damage: +5, Spell Damage: +5
 Brimstone Bunker	Muscle Percent: +50, Moxie Percent: -20, Damage Reduction: 25
-C. H. U. M. lantern	Stench Damage: +17, Item Drop: +30
+C. H. U. M. lantern	Stench Damage: +17, Item Drop: [30*loc(Sewer Tunnels)]
 Cloaca-Cola shield	Damage Reduction: 4, Mysticality: +1
 Codex of Capsaicin Conjuration	Spell Damage: +10
 Cookbook of the Damned	Spell Damage: +10
@@ -745,7 +749,7 @@ Hodgman's varcolac paw	Weapon Damage: [0.8*H]
 Idol of Ak'gyxoth	Moxie: +43, Mana Cost: -1
 # Kevlar balloon
 KoL Con IV Pole	Maximum HP: +4, Maximum MP: +4, Moxie: +4, Muscle: +4, Mysticality: +4, Hot Damage: +4
-Mer-kin takebag	Item Drop: +5
+Mer-kin takebag	Item Drop: [5+10*zone(The Sea)]
 Mr. Balloon	Moxie: +3, Muscle: +3, Mysticality: +3
 # Mylar balloon
 Necrotelicomnicon	Spell Damage: +10
@@ -807,7 +811,7 @@ foon of frigidity	Mysticality: +3, Cold Spell Damage: +8
 foon of fulmination	Mysticality: +3, Hot Spell Damage: +8
 # giant stuffed bugbear
 glow-in-the-dark stuffed burrowgrub	Muscle: [9-M], Weapon Damage: [9-M]
-glowing esca	Item Drop: +20
+glowing esca	Item Drop: [20*zone(The Sea)]
 gnauga hide buckler	Damage Reduction: 5, Moxie: +3, Muscle: +3, Mysticality: +3
 # golden sausage
 # green balloon
@@ -1060,7 +1064,7 @@ depleted Grimacite weightlifting belt	Muscle Percent: [5*G], Adventures: [G], Si
 dirty hobo gloves	Single Equip, Stench Damage: +2
 disbelief suspenders	Sleaze Resistance: +1
 disembodied smile	Single Equip, Spooky Damage: +2
-diving muff	Meat Drop: +20
+diving muff	Meat Drop Penalty: [20*zone(The Sea)]
 dope gangsta bling-bling	Moxie: +1
 eXtreme mittens	Weapon Damage: +2
 eXtreme nose ring	Moxie: +4, Muscle: +4, Mysticality: +4
@@ -1098,8 +1102,7 @@ headhunter necktie	Single Equip, Muscle: +15, Moxie: -3
 # hemp string
 hippy medical kit	Single Equip, Mysticality: +10, HP Regen Min: 6, HP Regen Max: 10
 hippy protest button	Single Equip
-# hobo stogie	Single Equip, Physical Damage Percent against Hobos: +100
-hobo stogie	Single Equip
+hobo stogie	Single Equip, Weapon Damage Percent: [100*zone(Hobopolis)*(1-loc(Sewer Tunnels))]
 hockey stick of furious angry rage	Monster Level: +30, Muscle Percent: +5
 ice skates	Single Equip, Initiative: +15, Meat Drop: +15, Softcore Only
 imitation nice watch	Single Equip, Adventures: +3
@@ -1122,8 +1125,7 @@ monster bait	Single Equip, Combat Rate: +5
 # mood ring
 natty blue ascot	Meat Drop: +20
 navel ring of navel gazing	Single Equip, Intrinsic Effect: "Omphaloskepsis", Mysticality Percent: +25, Spell Damage Percent: +100, Mana Cost: -1, Softcore Only
-# old soft shoes	+30% Item Drops from Hobos
-old soft shoes	Single Equip, Item Drop: +30
+old soft shoes	Single Equip, Item Drop: [30*zone(Hobopolis)*(1-loc(Sewer Tunnels))]
 orange glowstick	Maximum MP: +5, Moxie: -3
 pat-a-cake pendant	Mysticality: +1
 patent leather shoes	Muscle: +1, Hot Resistance: +1
@@ -1159,8 +1161,7 @@ ring of fire resistance	Hot Resistance: +2
 ring of gain strength	Muscle: +10
 ring of half-assed regeneration	Single Equip
 ring of increase damage	Weapon Damage: +10, Spell Damage: +10
-# rope with some soap on it	+100% Spell Damage against Hobos
-rope with some soap on it	Single Equip
+rope with some soap on it	Single Equip, Spell Damage Percent: [100*zone(Hobopolis)*(1-loc(Sewer Tunnels))]
 rose-colored glasses	Maximum HP: +5, Maximum MP: +5
 round green sunglasses	Single Equip, Moxie: +9, Sleaze Resistance: +2
 round purple sunglasses	Single Equip, Sleaze Resistance: +1
@@ -1636,7 +1637,7 @@ Cranberry Cordiality	Meat Drop: +10
 # Cravin' for a Ravin'	meat drop?
 Crimbo Epiphany	Mysticality Percent: +10
 Crimbo Nostalgia	Experience: +5
-# Crocodile Tear	+10 familiar weight underwater
+Crocodile Tear	Familiar Weight (hidden): [10*zone(The Sea)]
 Crotchety, Pining	Weapon Damage Percent: +300
 Cruisin' for a Bruisin'	Weapon Damage Percent: +100
 Crusty Head	Damage Reduction: 10
@@ -1752,7 +1753,7 @@ Got Your Boots On	Moxie Percent: +10
 Gothy	Muscle: -10, Mysticality: +20, Moxie: -10
 Gr8tness	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Greased	Sleaze Damage: +20
-# Greased-Up Familiar
+Greased-Up Familiar	Familiar Weight (hidden): [5*zone(The Sea)]
 Green Tongue	Familiar Weight: +5
 Grilled	Muscle: -10
 Guanified	Stench Damage: +10
@@ -1914,7 +1915,7 @@ Reptilian Fortitude	Maximum HP: +30
 Ringing Ears	Muscle Percent: +20, Mysticality Percent: -20
 Rushin' Hands	Weapon Damage: +3
 Salamander In Your Stomach	Mysticality: +25
-# Salty Dogs
+Salty Dogs	Meat Drop Penalty: [10*zone(The Sea)]
 Saucemastery	Mysticality: +1, Maximum HP: +4
 Savage Beast Inside	Muscle: +20
 Scared Stiff	Sleaze Resistance: +2
@@ -1991,7 +1992,7 @@ Super-Mega-Ultra-Hyper-Charged	Muscle Percent: +20, Mysticality Percent: +20, Mo
 Sweet and Green	Weapon Damage: +30
 Sweet and Red	Spell Damage: +30
 Sweet and Yellow	Ranged Damage: +30
-Swimming with Sharks	Meat Drop: +15
+Swimming with Sharks	Meat Drop: +20, Meat Drop Penalty: [20*zone(The Sea)]
 Synthesized	Damage Reduction: 7, Weapon Damage: -7
 # Talking Like a Pirate	chat effect
 Tamarind Torment	Muscle: +5, Moxie: -5
@@ -2181,6 +2182,16 @@ Vile Vagrant Vestments	Mana Cost (stackable): -5, Class: "Pastamancer"
 War Hippy Fatigues	Stench Damage: +15
 Yendorian Finery	Combat Rate: -5
 eXtreme Cold-Weather Gear	Cold Resistance: +3
+
+# Zone-specific section of modifiers.txt
+# -100% is the most common penalty in The Sea; use it as the default
+Zone:The Sea	Meat Drop Penalty: -100
+
+# Location-specific section of modifiers.txt
+Loc:The Briny Deeps	Meat Drop Penalty: +75
+Loc:The Brinier Deepers	Meat Drop Penalty: +50
+Loc:The Briniest Deepests	Meat Drop Penalty: +25
+Loc:The Marinara Trench	Meat Drop Penalty: -100
 
 # Everything Else section of modifiers.txt
 

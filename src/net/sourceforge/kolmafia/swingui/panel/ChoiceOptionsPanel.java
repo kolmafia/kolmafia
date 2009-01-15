@@ -54,6 +54,7 @@ import javax.swing.event.ListSelectionListener;
 import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.KoLAdventure;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.session.ChoiceManager;
@@ -632,6 +633,7 @@ public class ChoiceOptionsPanel
 					ChoiceOptionsPanel.this.choicePanel,
 					ChoiceOptionsPanel.this.choiceMap.containsKey( zone ) ? zone : "" );
 			}
+			KoLCharacter.updateSelectedLocation( location );
 		}
 	}
 	

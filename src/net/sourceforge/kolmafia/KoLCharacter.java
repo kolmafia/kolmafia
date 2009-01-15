@@ -1340,7 +1340,8 @@ public abstract class KoLCharacter
 
 	public static final int getFamiliarWeightAdjustment()
 	{
-		return (int) KoLCharacter.currentModifiers.get( Modifiers.FAMILIAR_WEIGHT );
+		return (int) (KoLCharacter.currentModifiers.get( Modifiers.FAMILIAR_WEIGHT ) +
+			KoLCharacter.currentModifiers.get( Modifiers.HIDDEN_FAMILIAR_WEIGHT ));
 	}
 
 	public static final int getFamiliarWeightPercentAdjustment()
@@ -1390,7 +1391,9 @@ public abstract class KoLCharacter
 
 	public static final float getMeatDropPercentAdjustment()
 	{
-		return KoLCharacter.currentModifiers.get( Modifiers.MEATDROP );
+		// Penalty is constrained to be non-positive
+		return KoLCharacter.currentModifiers.get( Modifiers.MEATDROP ) +
+			Math.min( KoLCharacter.currentModifiers.get( Modifiers.MEATDROP_PENALTY ), 0.0f );
 	}
 
 	/**
@@ -2842,12 +2845,24 @@ public abstract class KoLCharacter
 		Preferences.firePreferenceChanged( "(character)" );
 	}
 
+	public static final void updateSelectedLocation( KoLAdventure location )
+	{
+		Modifiers.setLocation( location );
+		recalculateAdjustments();
+		updateStatus();
+		Preferences.firePreferenceChanged( "(location)" );
+	}
+
 	public static final boolean recalculateAdjustments()
 	{
 		int taoFactor = KoLCharacter.hasSkill( "Tao of the Terrapin" ) ? 2 : 1;
 		int brimstoneMonsterLevel = 1;
 
 		Modifiers newModifiers = new Modifiers();
+		
+		// Area-specific adjustments
+		newModifiers.add( Modifiers.getModifiers( "loc:" + Modifiers.currentLocation ) );
+		newModifiers.add( Modifiers.getModifiers( "zone:" + Modifiers.currentZone ) );
 
 		// Look at sign-specific adjustments
 		newModifiers.add( Modifiers.MONSTER_LEVEL, KoLCharacter.getSignedMLAdjustment() );
@@ -2861,7 +2876,8 @@ public abstract class KoLCharacter
 				continue;
 			}
 
-			newModifiers.add( Modifiers.getModifiers( item.getName() ) );
+			String name = item.getName();
+			newModifiers.add( Modifiers.getModifiers( name ) );
 
 			// Wearing multiple brimstone items has a secret effect
 			// on Monster Level, according to this thread:
@@ -2873,11 +2889,10 @@ public abstract class KoLCharacter
 
 			switch ( slot )
 			{
-			case EquipmentManager.WEAPON:
 			case EquipmentManager.FAMILIAR:
-			case EquipmentManager.OFFHAND:
+				newModifiers.add( Modifiers.getModifiers( "fameq:" + name ) );
 				break;
-
+				
 			case EquipmentManager.HAT:
 			case EquipmentManager.PANTS:
 				newModifiers.add(
@@ -3000,13 +3015,6 @@ public abstract class KoLCharacter
 
 		float monsterLevel = newModifiers.get( Modifiers.MONSTER_LEVEL );
 		newModifiers.add( Modifiers.EXPERIENCE, monsterLevel / 4.0f );
-
-		float combatRate = newModifiers.get( Modifiers.COMBAT_RATE );
-		if ( combatRate < 0.0f )
-		{
-			newModifiers.add( Modifiers.COMBAT_RATE, Math.min(
-				( monsterLevel - KoLCharacter.getSignedMLAdjustment() ) / 5.0f, 0 - combatRate ) );
-		}
 
 		// Determine whether or not data has changed
 
