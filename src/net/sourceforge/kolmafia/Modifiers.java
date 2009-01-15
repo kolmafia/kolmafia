@@ -61,9 +61,14 @@ public class Modifiers
 	private static final Map modifiersByName = new TreeMap();
 	private static final HashMap familiarEffectByName = new HashMap();
 	private static final ArrayList passiveSkills = new ArrayList();
+	public static String currentLocation = "";
+	public static String currentZone = "";
 
 	private static final Pattern FAMILIAR_EFFECT_PATTERN =
 		Pattern.compile( "Familiar Effect: \"(.*?)\"" );
+	private static final Pattern FAMILIAR_EFFECT_TRANSLATE_PATTERN =
+		Pattern.compile( "([\\d.]+)\\s+x\\s+(Volley|Somb|Lep|Fairy)" );
+	private static final String FAMILIAR_EFFECT_TRANSLATE_REPLACEMENT = "$2: $1 ";
 
 	static
 	{
@@ -88,6 +93,12 @@ public class Modifiers
 			if ( matcher.find() )
 			{
 				Modifiers.familiarEffectByName.put( name, matcher.group( 1 ) );
+				matcher = FAMILIAR_EFFECT_TRANSLATE_PATTERN.matcher( matcher.group( 1 ) );
+				if ( matcher.find() )
+				{
+					Modifiers.modifiersByName.put( "fameq:" + name,
+						matcher.replaceAll( FAMILIAR_EFFECT_TRANSLATE_REPLACEMENT ) );
+				}
 			}
 		}
 
@@ -163,6 +174,12 @@ public class Modifiers
 	public static final int BONUS_RESTING_MP = 56;
 	public static final int CRITICAL_PCT = 57;
 	public static final int PVP_FIGHTS = 58;
+	public static final int VOLLEYBALL = 59;
+	public static final int SOMBRERO = 60;
+	public static final int LEPRECHAUN = 61;
+	public static final int FAIRY = 62;
+	public static final int MEATDROP_PENALTY = 63;
+	public static final int HIDDEN_FAMILIAR_WEIGHT = 64;
 	
 	public static final String EXPR = "(?:([+-]?[\\d.]+)|\\[([^]]+)\\])";
 
@@ -404,6 +421,30 @@ public class Modifiers
 		  Pattern.compile( "([+-]\\d+) PvP fight\\(s\\) per day when equipped" ),
 		  Pattern.compile( "PvP Fights: " + EXPR )
 		},
+		{ "Volleyball",
+		  null,
+		  Pattern.compile( "Volley(?:ball): " + EXPR )
+		},
+		{ "Sombrero",
+		  null,
+		  Pattern.compile( "Somb(?:rero): " + EXPR )
+		},
+		{ "Leprechaun",
+		  null,
+		  Pattern.compile( "Lep(?:rechaun): " + EXPR )
+		},
+		{ "Fairy",
+		  null,
+		  Pattern.compile( "Fairy: " + EXPR )
+		},
+		{ "Meat Drop Penalty",
+		  null,
+		  Pattern.compile( "Meat Drop Penalty: " + EXPR )
+		},
+		{ "Hidden Familiar Weight",
+		  null,
+		  Pattern.compile( "Familiar Weight \\(hidden\\): " + EXPR )
+		},
 	};
 
 	public static final int FLOAT_MODIFIERS = Modifiers.floatModifiers.length;
@@ -413,6 +454,7 @@ public class Modifiers
 	public static final int NEVER_FUMBLE = 2;
 	public static final int WEAKENS = 3;
 	public static final int FREE_PULL = 4;
+	public static final int VARIABLE = 5;
 
 	private static final Object[][] booleanModifiers =
 	{
@@ -435,6 +477,10 @@ public class Modifiers
 		{ "Free Pull",
 		  null,
 		  Pattern.compile( "Free Pull" )
+		},
+		{ "Variable",
+		  null,
+		  null
 		},
 	};
 
@@ -907,15 +953,9 @@ public class Modifiers
 
 		// OR in certain boolean modifiers
 
-		if ( !this.booleans[ Modifiers.NEVER_FUMBLE ] )
-		{
-			this.booleans[ Modifiers.NEVER_FUMBLE ] = mods.booleans[ Modifiers.NEVER_FUMBLE ];
-		}
-
-		if ( !this.booleans[ Modifiers.WEAKENS ] )
-		{
-			this.booleans[ Modifiers.WEAKENS ] = mods.booleans[ Modifiers.WEAKENS ];
-		}
+		this.booleans[ Modifiers.NEVER_FUMBLE ] |= mods.booleans[ Modifiers.NEVER_FUMBLE ];
+		this.booleans[ Modifiers.WEAKENS ] |= mods.booleans[ Modifiers.WEAKENS ];
+		this.booleans[ Modifiers.VARIABLE ] |= mods.booleans[ Modifiers.VARIABLE ];
 		
 		this.clownosity |= mods.clownosity;
 	}
@@ -1033,6 +1073,8 @@ public class Modifiers
 		}
 
 		newMods.variable = newMods.override( name );
+		newMods.booleans[ VARIABLE ] = newMods.variable || name.startsWith( "loc:" ) ||
+			name.startsWith( "zone:" );
 		Modifiers.modifiersByName.put( name, newMods );
 
 		return newMods;
@@ -1675,6 +1717,7 @@ public class Modifiers
 		private int sp = 0;
 		private String bytecode;
 		private AdventureResult effect;
+		private String loc, zone;
 		private String text;
 		private static final Pattern NUM_PATTERN = Pattern.compile( "([+-]?[\\d.]+)(.*)" );
 		
@@ -1735,6 +1778,13 @@ public class Modifiers
 					break;
 				case 's':
 					v = (float) Math.sqrt( s[ --sp ] );
+					break;
+
+				case 'l':
+					v = Modifiers.currentLocation.indexOf( this.loc ) == -1 ? 0.0f : 1.0f;
+					break;
+				case 'z':
+					v = Modifiers.currentZone.indexOf( this.zone ) == -1 ? 0.0f : 1.0f;
 					break;
 					
 				case 'm':
@@ -1858,6 +1908,20 @@ public class Modifiers
 				", found " + this.text );
 		}
 		
+		private String until( String token )
+		{
+			int pos = this.text.indexOf( token );
+			if ( pos == -1 )
+			{
+				KoLmafia.updateDisplay( "Modifier syntax error: expected " + token +
+					", found " + this.text );
+				return "";
+			}
+			String rv = this.text.substring( 0, pos );
+			this.text = this.text.substring( pos + token.length() );
+			return rv;
+		}
+		
 		private boolean optional( String token )
 		{
 			if ( this.text.startsWith( token ) )
@@ -1968,6 +2032,16 @@ public class Modifiers
 				this.expect( ")" );
 				return rv;
 			}
+			if ( this.optional( "loc(" ) )
+			{
+				this.loc = this.until( ")" ).toLowerCase();
+				return "l";
+			}
+			if ( this.optional( "zone(" ) )
+			{
+				this.zone = this.until( ")" ).toLowerCase();
+				return "z";
+			}
 			if ( this.text.length() == 0 )
 			{
 				KoLmafia.updateDisplay( "Modifier syntax error: unexpected end of expr" );
@@ -1990,5 +2064,11 @@ public class Modifiers
 			this.text = "";
 			return "0";	
 		}
+	}
+	
+	public static void setLocation( KoLAdventure location )
+	{
+		Modifiers.currentLocation = location.getAdventureName().toLowerCase();
+		Modifiers.currentZone = location.getZone().toLowerCase();
 	}
 }
