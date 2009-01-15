@@ -856,7 +856,9 @@ public class ItemManagePanel
 			}
 
 			String name = AutoFilterTextField.getResultName( element );
-			int itemId = ItemDatabase.getItemId( name, 1, false );
+			int itemId = element instanceof AdventureResult ?
+				( (AdventureResult) element ).getItemId() :
+				ItemDatabase.getItemId( name, 1, false );
 
 			if ( itemId < 1 )
 			{

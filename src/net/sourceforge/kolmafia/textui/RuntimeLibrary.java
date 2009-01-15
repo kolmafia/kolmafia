@@ -2239,7 +2239,7 @@ public abstract class RuntimeLibrary
 
 		if ( SkillDatabase.isCombat( skill.intValue() ) )
 		{
-			for ( int i = 0; i < count && FightRequest.INSTANCE.getAdventuresUsed() == 0; ++i )
+			for ( int i = 0; i < count; ++i )
 			{
 				RuntimeLibrary.use_skill( skill );
 			}
