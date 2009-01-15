@@ -415,25 +415,25 @@ public class AdventureRequest
 		{
 			if ( this.adventureId.equals( "1" ) )
 			{
-				ResultProcessor.processResult( new AdventureResult( AdventureResult.MEAT, -5 ) );
+				ResultProcessor.processMeat( -5 );
 			}
 			else if ( this.adventureId.equals( "2" ) )
 			{
-				ResultProcessor.processResult( new AdventureResult( AdventureResult.MEAT, -10 ) );
+				ResultProcessor.processMeat( -10 );
 			}
 			else if ( this.adventureId.equals( "11" ) )
 			{
-				ResultProcessor.processResult( new AdventureResult( AdventureResult.MEAT, -10 ) );
+				ResultProcessor.processMeat( -10 );
 			}
 		}
 
 		if ( this.adventureId.equals( "70" ) )
 		{
-			ResultProcessor.processResult( new AdventureResult( AdventureResult.MEAT, -10 ) );
+			ResultProcessor.processMeat( -10 );
 		}
 		else if ( this.adventureId.equals( "71" ) )
 		{
-			ResultProcessor.processResult( new AdventureResult( AdventureResult.MEAT, -30 ) );
+			ResultProcessor.processMeat( -30 );
 		}
 
 		// Shore Trips cost 500 meat each; handle
@@ -441,7 +441,7 @@ public class AdventureRequest
 
 		if ( this.formSource.equals( "shore.php" ) )
 		{
-			ResultProcessor.processResult( new AdventureResult( AdventureResult.MEAT, -500 ) );
+			ResultProcessor.processMeat( -500 );
 		}
 
 		// Trick-or-treating requires a costume;

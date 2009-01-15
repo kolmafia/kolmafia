@@ -92,11 +92,6 @@ public class SewerRequest
 		{
 			this.runUnluckySewer();
 		}
-
-		if ( KoLmafia.permitsContinue() )
-		{
-			ResultProcessor.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
-		}
 	}
 
 	/**

@@ -486,7 +486,7 @@ public abstract class MushroomManager
 		// Pay for the spore.  At this point, it's guaranteed
 		// that theallows you to continue.
 
-		ResultProcessor.processResult( new AdventureResult( AdventureResult.MEAT, 0 - sporePrice ) );
+		ResultProcessor.processMeat( 0 - sporePrice );
 		KoLmafia.updateDisplay( "Spore successfully planted." );
 		return true;
 	}

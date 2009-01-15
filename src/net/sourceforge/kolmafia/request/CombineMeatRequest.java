@@ -107,7 +107,7 @@ public class CombineMeatRequest
 		int total = cost * quantity;
 		if ( total <= KoLCharacter.getAvailableMeat() )
 		{
-			ResultProcessor.processResult( new AdventureResult( AdventureResult.MEAT, -1 * total ) );
+			ResultProcessor.processMeat( 0 - total );
 		}
 
 		return true;

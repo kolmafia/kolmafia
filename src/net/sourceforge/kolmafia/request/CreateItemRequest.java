@@ -542,8 +542,6 @@ public class CreateItemRequest
 	{
 		CreateItemRequest.parseCrafting( this.getURLString(), this.responseText );
 
-		int createdQuantity = this.createdItem.getCount( KoLConstants.inventory ) - this.beforeQuantity;
-
 		// Check to see if box-servant was overworked and exploded.
 
 		if ( this.responseText.indexOf( "Smoke" ) != -1 )
@@ -567,14 +565,16 @@ public class CreateItemRequest
 			}
 		}
 
-		// Because an explosion might have occurred, the
-		// quantity that has changed might not be accurate.
-		// Therefore, update with the actual value.
+		int createdQuantity = this.createdItem.getCount( KoLConstants.inventory ) - this.beforeQuantity;
 
 		if ( createdQuantity >= this.quantityNeeded )
 		{
 			return;
 		}
+
+		// When an explosion occurs, all the ingredients might not have
+		// been consumed. Put back ingredients for products we didn;t
+		// end up making.
 
 		int undoAmount = this.quantityNeeded - createdQuantity;
 		undoAmount = ( undoAmount + this.yield - 1 ) / this.yield;
@@ -583,61 +583,16 @@ public class CreateItemRequest
 
 		for ( int i = 0; i < ingredients.length; ++i )
 		{
-			ResultProcessor.processItem(
-				ingredients[ i ].getItemId(), undoAmount * ingredients[ i ].getCount() );
+			AdventureResult ingredient = ingredients[ i ];
+			ResultProcessor.processItem( ingredient.getItemId(), undoAmount * ingredient.getCount() );
 		}
 
-		switch ( this.mixingMethod )
+		if ( this.mixingMethod == KoLConstants.COMBINE && !KoLCharacter.inMuscleSign() )
 		{
-		case KoLConstants.COMBINE:
-			if ( !KoLCharacter.inMuscleSign() )
-			{
-				ResultProcessor.processItem( ItemPool.MEAT_PASTE, undoAmount );
-			}
-			break;
-
-		case KoLConstants.SMITH:
-			if ( !KoLCharacter.inMuscleSign() )
-			{
-				ResultProcessor.processResult( new AdventureResult( AdventureResult.ADV, 0 - undoAmount ) );
-			}
-			break;
-
-		case KoLConstants.SMITH_WEAPON:
-		case KoLConstants.SMITH_ARMOR:
-		case KoLConstants.WOK:
-			ResultProcessor.processResult( new AdventureResult( AdventureResult.ADV, 0 - undoAmount ) );
-			break;
-
-		case KoLConstants.JEWELRY:
-		case KoLConstants.EXPENSIVE_JEWELRY:
-			ResultProcessor.processResult( new AdventureResult( AdventureResult.ADV, 0 - 3 * undoAmount ) );
-			break;
-
-		case KoLConstants.COOK:
-		case KoLConstants.COOK_REAGENT:
-		case KoLConstants.SUPER_REAGENT:
-		case KoLConstants.COOK_PASTA:
-			if ( !KoLCharacter.hasChef() )
-			{
-				ResultProcessor.processResult( new AdventureResult( AdventureResult.ADV, 0 - undoAmount ) );
-			}
-			break;
-
-		case KoLConstants.MIX:
-		case KoLConstants.MIX_SPECIAL:
-		case KoLConstants.MIX_SUPER:
-			if ( !KoLCharacter.hasBartender() )
-			{
-				ResultProcessor.processResult( new AdventureResult( AdventureResult.ADV, 0 - undoAmount ) );
-			}
-			break;
-
-		default:
-			break;
+			ResultProcessor.processItem( ItemPool.MEAT_PASTE, undoAmount );
 		}
 	}
-	
+
 	public static void parseCrafting( final String location, final String responseText )
 	{
 		if ( !location.startsWith( "craft.php" ) )

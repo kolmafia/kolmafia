@@ -107,7 +107,7 @@ public class ShrineRequest
 			return;
 		}
 
-		ResultProcessor.processResult( new AdventureResult( AdventureResult.MEAT, 0 - this.amount ) );
+		ResultProcessor.processMeat( 0 - this.amount );
 		KoLmafia.updateDisplay( "Donation complete." );
 	}
 }
