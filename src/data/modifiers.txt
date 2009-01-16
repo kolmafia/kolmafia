@@ -21,6 +21,7 @@
 #	S - spleenness
 #	T - turns remaining of this effect
 #	U - telescope upgrades
+#	W - familiar weight
 
 # Items with non-canonical enchantment descriptions:
 #
@@ -1396,7 +1397,7 @@ meatcar model	Familiar Weight: +5
 menorette	Familiar Weight: +5
 metal mandible	Familiar Weight: +5
 metallic foil bow	Familiar Weight: +5
-metallic foil radar dish	Familiar Weight: +5
+metallic foil radar dish	Familiar Weight: +5, Volleyball: -1, Sombrero: +1
 miniature Jacob's ladder	Familiar Weight: +5
 miniature antlers	Familiar Weight: [1+ceil(M/2)]
 miniature carton of clove cigarettes	Familiar Weight: +5
@@ -1404,7 +1405,7 @@ miniature castagnets	Familiar Weight: +5
 # miniature dormouse
 miniature espresso maker	Familiar Weight: +5
 miniature gravy-covered maypole	Item Drop: +25, Softcore Only
-# mint-condition magic wand
+mint-condition magic wand	Volleyball: 0.3334, Fairy: 0.3334
 # moonglasses
 origami &quot;gentlemen's&quot; magazine	Softcore Only
 overclocked avian microprocessor	Familiar Weight: +5
@@ -1450,6 +1451,17 @@ wax lips	Experience: +3, Softcore Only
 # weegee sqouija
 woolen cravat	Familiar Weight: +5
 # zen motorcycle
+
+# Familiars section of modifiers.txt
+# Familiars with standard abilities don't need to appear here - familiar.txt types
+# of stat0, stat1, item0, meat0 correspond to modifiers Volleyball, Sombrero, Fairy,
+# Leprechaun, with a default value of 1.
+Fam:Crimbo P. R. E. S. S. I. E.	Volleyball: 1
+Fam:Exotic Parrot	Hot Resistance: [floor((W+19)/20)], Cold Resistance: [floor((W+15)/20)], Spooky Resistance: [floor((W+11)/20)], Stench Resistance: [floor((W+7)/20)], Sleaze Resistance: [floor((W+3)/20)]
+Fam:Hobo Monkey	Leprechaun: 1.25
+Fam:Jumpsuited Hound Dog	Fairy: 1.25, Combat Rate: [min(5,floor(W/6))]
+Fam:Llama Lama	Volleyball: 0.5
+Fam:Wizard Action Figure	Volleyball: 0.3333, Fairy: 0.3333
 
 # Bedazzlements section of modifiers.txt
 
@@ -2180,7 +2192,7 @@ Time Trappings	Adventures: +3
 # Tropical Crimbo Duds
 Vile Vagrant Vestments	Mana Cost (stackable): -5, Class: "Pastamancer"
 War Hippy Fatigues	Stench Damage: +15
-Yendorian Finery	Combat Rate: -5
+# Yendorian Finery
 eXtreme Cold-Weather Gear	Cold Resistance: +3
 
 # Zone-specific section of modifiers.txt

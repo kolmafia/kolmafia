@@ -68,7 +68,7 @@
 66	Dandy Lion	item0	2380	woolen cravat	0	3	2	1
 67	O.A.F.	none	2445	hardware upgrade	0	0	0	0
 68	Penguin Goodfella	stat0	2447	tasteful black bow tie	3	2	1	0
-69	Jumpsuited Hound Dog	item1	2466	blue suede shoes	1	3	3	2
+69	Jumpsuited Hound Dog	item0	2466	blue suede shoes	1	3	3	2
 70	Green Pixie	combat,item0	2650	green pixie spog	3	2	0	2
 71	Ragamuffin Imp	combat	2738		3	3	3	3
 72	Exotic Parrot	none	2709	cracker	3	3	2	0
@@ -76,7 +76,7 @@
 74	Gluttonous Green Ghost	combat, stat0	2845	plastic bib	2	3	3	1
 75	Casagnova Gnome	item0,meat0	2937	miniature castagnets	0	1	3	2
 76	Hunchbacked Minion	stat0,meat0	2939	miniature Jacob's ladder	1	3	0	2
-77	Crimbo P. R. E. S. S. I. E.	stat0, stat1	3042	metallic foil bow	3	2	0	1
+77	Crimbo P. R. E. S. S. I. E.	none	3042	metallic foil bow	3	2	0	1
 78	Bulky Buddy Box	none	3079		0	0	0	0
 79	Teddy Borg	none	3080	teddy borg sewing kit	3	2	0	1
 80	RoboGoose	none	3107	overclocked avian microprocessor	2	3	1	0
@@ -101,6 +101,6 @@
 99	Mutant Gila Monster	combat	3530	Jawmaster 2000&trade;	0	0	0	0
 100	Cuddlefish	none	3572	six-armed sweater	0	1	3	3
 101	Sugar Fruit Fairy	stat0,item0	3578	tiny ballet slippers	0	3	3	2
-102	Imitation Crab	none	3598	imitation whetstone	3	1	2	2
-103	Pair of Ragged Claws	none	3628	radioactive chew toy	1	1	1	1
+102	Imitation Crab	combat	3598	imitation whetstone	3	1	2	2
+103	Pair of Ragged Claws	combat	3628	radioactive chew toy	1	1	1	1
 104	Magic Dragonfish	none	3648	fin-bit wax	1	1	2	0
