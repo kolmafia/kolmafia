@@ -2889,10 +2889,6 @@ public abstract class KoLCharacter
 
 			switch ( slot )
 			{
-			case EquipmentManager.FAMILIAR:
-				newModifiers.add( Modifiers.getModifiers( "fameq:" + name ) );
-				break;
-				
 			case EquipmentManager.HAT:
 			case EquipmentManager.PANTS:
 				newModifiers.add(

@@ -52,6 +52,7 @@ import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -63,11 +64,12 @@ public class Modifiers
 	private static final ArrayList passiveSkills = new ArrayList();
 	public static String currentLocation = "";
 	public static String currentZone = "";
+	private static float currentWeight = 0.0f;
 
 	private static final Pattern FAMILIAR_EFFECT_PATTERN =
 		Pattern.compile( "Familiar Effect: \"(.*?)\"" );
 	private static final Pattern FAMILIAR_EFFECT_TRANSLATE_PATTERN =
-		Pattern.compile( "([\\d.]+)\\s+x\\s+(Volley|Somb|Lep|Fairy)" );
+		Pattern.compile( "([\\d.]+)\\s*x\\s*(Volley|Somb|Lep|Fairy)" );
 	private static final String FAMILIAR_EFFECT_TRANSLATE_REPLACEMENT = "$2: $1 ";
 
 	static
@@ -423,15 +425,15 @@ public class Modifiers
 		},
 		{ "Volleyball",
 		  null,
-		  Pattern.compile( "Volley(?:ball): " + EXPR )
+		  Pattern.compile( "Volley(?:ball)?: " + EXPR )
 		},
 		{ "Sombrero",
 		  null,
-		  Pattern.compile( "Somb(?:rero): " + EXPR )
+		  Pattern.compile( "Somb(?:rero)?: " + EXPR )
 		},
 		{ "Leprechaun",
 		  null,
-		  Pattern.compile( "Lep(?:rechaun): " + EXPR )
+		  Pattern.compile( "Lep(?:rechaun)?: " + EXPR )
 		},
 		{ "Fairy",
 		  null,
@@ -1228,13 +1230,13 @@ public class Modifiers
 	}
 
 	private static final double dropFamiliarExponent = 1.0 / Math.sqrt( 2 );
-	private static final double puppyFactor = Math.sqrt( 1.5 );
 	private static final double heavyFamiliarFactor = 10.0 / 300.0;
 
 	public void applyFamiliarModifiers( final FamiliarData familiar )
 	{
 		int familiarId = familiar.getId();
-		int weight = familiar.getWeight() + (int) this.get( Modifiers.FAMILIAR_WEIGHT );
+		int weight = familiar.getWeight() + (int) this.get( Modifiers.FAMILIAR_WEIGHT ) +
+			(int) this.get( Modifiers.HIDDEN_FAMILIAR_WEIGHT );
 		float percent = this.get( Modifiers.FAMILIAR_WEIGHT_PCT ) / 100.0f;
 
 		if ( percent != 0.0f )
@@ -1243,13 +1245,41 @@ public class Modifiers
 		}
 
 		weight = Math.max( 1, weight );
-
-		if ( FamiliarDatabase.isVolleyType( familiarId ) )
+		Modifiers.currentWeight = weight;
+		
+		this.add( Modifiers.getModifiers( "fam:" + familiar.getRace() ) );
+		AdventureResult famItem = EquipmentManager.getEquipment( EquipmentManager.FAMILIAR );
+		if ( famItem != null )
 		{
-			this.add( Modifiers.EXPERIENCE, Math.sqrt( weight ) );
+			this.add( Modifiers.getModifiers( "fameq:" + famItem.getName() ) );
 		}
 
-		if ( FamiliarDatabase.isMeatDropType( familiarId ) )
+		double effective = weight * this.get( Modifiers.VOLLEYBALL );
+		if ( effective == 0.0 && FamiliarDatabase.isVolleyType( familiarId ) )
+		{
+			effective = weight;
+		}
+		if ( effective != 0.0 )
+		{
+			this.add( Modifiers.EXPERIENCE, Math.sqrt( effective ) );
+		}
+
+		effective = weight * this.get( Modifiers.SOMBRERO );
+		if ( effective == 0.0 && FamiliarDatabase.isSombreroType( familiarId ) )
+		{
+			effective = weight;
+		}
+		if ( effective != 0.0 )
+		{	// NIY
+			this.add( Modifiers.EXPERIENCE, 0.0 );
+		}
+
+		effective = weight * this.get( Modifiers.LEPRECHAUN );
+		if ( effective == 0.0 && FamiliarDatabase.isMeatDropType( familiarId ) )
+		{
+			effective = weight;
+		}
+		if ( effective != 0.0 )
 		{
 			// A Leprechaun provides 100% at 20 lbs.
 
@@ -1259,28 +1289,21 @@ public class Modifiers
 			// http://jick-nerfed.us/forums/viewtopic.php?t=3872
 			// ( .05 * x ) ** ( 1 / sqrt(2) )
 
-			double mod = weight >= 20 ? 1.0 : Math.pow( weight * 0.05, Modifiers.dropFamiliarExponent );
-			if ( weight > 20 )
+			double mod = effective >= 20 ? 1.0 : Math.pow( effective * 0.05, Modifiers.dropFamiliarExponent );
+			if ( effective > 20 )
 			{
-				mod += ( weight - 20 ) * Modifiers.heavyFamiliarFactor;
+				mod += ( effective - 20 ) * Modifiers.heavyFamiliarFactor;
 			}
 
 			this.add( Modifiers.MEATDROP, 100.0 * mod );
 		}
 
-		boolean fairy = FamiliarDatabase.isFairyType( familiarId );
-		double itemWeight = weight;
-
-		if ( FamiliarDatabase.isPuppyType( familiarId ) )
+		effective = weight * this.get( Modifiers.FAIRY );
+		if ( effective == 0.0 && FamiliarDatabase.isFairyType( familiarId ) )
 		{
-			// A Jumpsuited Hound dog is a fairy at sqrt( 1.5 )
-			// weight.
-
-			itemWeight = weight * puppyFactor;
-			fairy = true;
+			effective = weight;
 		}
-
-		if ( fairy )
+		if ( effective != 0.0 )
 		{
 			// A Gravy Fairy provides 50% at 20 lbs.
 
@@ -1300,10 +1323,10 @@ public class Modifiers
 			// that a Fairy is exactly half as effective as a
 			// Leprechaun.
 
-			double mod = itemWeight >= 20 ? 1.0 : Math.pow( itemWeight * 0.05, Modifiers.dropFamiliarExponent );
-			if ( itemWeight > 20 )
+			double mod = effective >= 20 ? 1.0 : Math.pow( effective * 0.05, Modifiers.dropFamiliarExponent );
+			if ( effective > 20 )
 			{
-				mod += ( itemWeight - 20 ) * Modifiers.heavyFamiliarFactor;
+				mod += ( effective - 20 ) * Modifiers.heavyFamiliarFactor;
 			}
 
 			this.add( Modifiers.ITEMDROP, 50.0 * mod );
@@ -1311,31 +1334,7 @@ public class Modifiers
 
 		switch ( familiarId )
 		{
-		case 69:
-			// Jumpsuited Hound Dog This is an item drop familiar
-			// but the formula is not spaded yet.
-			// It also increases combat frequency:
-			//   min (5, floor (weight / 6 ) )
-			int combat = weight / 6;
-			if ( combat > 5 )
-				combat = 5;
-			this.add( Modifiers.COMBAT_RATE, combat );
-			break;
-
-		case 72:
-			// Exotic Parrot
-
-			// Gives elemental resistances based on weight.
-			// 1 level for every 4 lbs, applied in the order
-			// Hot, Cold, Spooky, Stench, Sleaze.
-
-			this.add( Modifiers.HOT_RESISTANCE, ( weight + 19 ) / 20 );
-			this.add( Modifiers.COLD_RESISTANCE, ( weight + 15 ) / 20 );
-			this.add( Modifiers.SPOOKY_RESISTANCE, ( weight + 11 ) / 20 );
-			this.add( Modifiers.STENCH_RESISTANCE, ( weight + 7 ) / 20 );
-			this.add( Modifiers.SLEAZE_RESISTANCE, ( weight + 3 ) / 20 );
-
-			break;
+			// no special cases at the moment
 		}
 	}
 	
@@ -1706,6 +1705,10 @@ public class Modifiers
 				{
 					continue;
 				}
+				if ( name.startsWith( "fameq:" ) )
+				{
+					continue;	// these may contain freeform text
+				}
 				RequestLogger.printLine( "Key \"" + name + "\" has unknown modifier: \"" + mod + "\"" );
 			}
 		}
@@ -1878,7 +1881,7 @@ public class Modifiers
 					v = 0;
 					break;
 				case 'W':
-					v = 0;
+					v = Modifiers.currentWeight;
 					break;
 				case 'X':
 					v = 0;
