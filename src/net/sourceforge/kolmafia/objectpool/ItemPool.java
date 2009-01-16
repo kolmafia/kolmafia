@@ -578,6 +578,7 @@ public class ItemPool
 	public static final int FOIL_BOW = 3043;
 	public static final int FOIL_RADAR = 3044;
 	public static final int POWER_SPHERE = 3049;
+	public static final int FOIL_CAT_EARS = 3056;
 	public static final int LASER_CANON = 3069;
 	public static final int CHIN_STRAP = 3070;
 	public static final int GLUTEAL_SHIELD = 3071;
