@@ -856,23 +856,9 @@ public class ItemManagePanel
 			}
 
 			String name = AutoFilterTextField.getResultName( element );
-			int itemId = element instanceof AdventureResult ?
-				( (AdventureResult) element ).getItemId() :
-				ItemDatabase.getItemId( name, 1, false );
-
-			if ( itemId < 1 )
-			{
-				return ItemManagePanel.this.filters == null && super.isVisible( element );
-			}
-
-			if ( !FilterItemField.this.notrade && !ItemDatabase.isTradeable( itemId ) )
-			{
-				return false;
-			}
-
 			boolean isVisibleWithFilter = true;
 
-			switch ( ItemDatabase.getConsumptionType( itemId ) )
+			switch ( ItemDatabase.getConsumptionType( name ) )
 			{
 			case KoLConstants.CONSUME_EAT:
 				isVisibleWithFilter = FilterItemField.this.food;
@@ -896,15 +882,18 @@ public class ItemManagePanel
 
 				if ( element instanceof CreateItemRequest )
 				{
-					switch ( ConcoctionDatabase.getMixingMethod( itemId ) )
+					switch ( ConcoctionDatabase.getMixingMethod( name ) )
 					{
 					case KoLConstants.COOK:
 					case KoLConstants.COOK_REAGENT:
 					case KoLConstants.SUPER_REAGENT:
+					case KoLConstants.DEEP_SAUCE:
+					case KoLConstants.SUSHI:
 						isVisibleWithFilter = FilterItemField.this.food || FilterItemField.this.other;
 						break;
 
 					case KoLConstants.COOK_PASTA:
+					case KoLConstants.COOK_TEMPURA:
 					case KoLConstants.WOK:
 						isVisibleWithFilter = FilterItemField.this.food;
 						break;
@@ -923,8 +912,9 @@ public class ItemManagePanel
 				}
 				else
 				{
-					// Milk of magnesium is marked as food, as are
-					// munchies pills; all others are marked as expected.
+					// Milk of magnesium is marked as food,
+					// as are munchies pills; all others
+					// are marked as expected.
 
 					isVisibleWithFilter = FilterItemField.this.other;
 					if ( name.equalsIgnoreCase( "milk of magnesium" ) || name.equalsIgnoreCase( "munchies pills" ) )
@@ -935,6 +925,20 @@ public class ItemManagePanel
 			}
 
 			if ( !isVisibleWithFilter )
+			{
+				return false;
+			}
+
+			int itemId = element instanceof AdventureResult ?
+				( (AdventureResult) element ).getItemId() :
+				ItemDatabase.getItemId( name, 1, false );
+
+			if ( itemId < 1 )
+			{
+				return ItemManagePanel.this.filters == null && super.isVisible( element );
+			}
+
+			if ( !FilterItemField.this.notrade && !ItemDatabase.isTradeable( itemId ) )
 			{
 				return false;
 			}
