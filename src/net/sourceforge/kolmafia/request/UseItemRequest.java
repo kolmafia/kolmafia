@@ -132,6 +132,16 @@ public class UseItemRequest
 		case ItemPool.CANNONBALL_BRACELET:
 		case ItemPool.COPPER_BRACELET:
 		case ItemPool.TONGUE_BRACELET:
+			// Metallic foil equipment
+		case ItemPool.FOIL_BOW:
+		case ItemPool.FOIL_RADAR:
+		case ItemPool.FOIL_CAT_EARS:
+			// Terrycloth equipment
+		case ItemPool.TOWEL:
+		case ItemPool.MAKESHIFT_TURBAN:
+		case ItemPool.MAKESHIFT_CAPE:
+		case ItemPool.MAKESHIFT_SKIRT:
+		case ItemPool.MAKESHIFT_CRANE:
 			// Iceberglet items
 		case ItemPool.ICE_SICKLE:
 		case ItemPool.ICE_BABY:

@@ -103,10 +103,11 @@ public abstract class UseLinkDecorator
 				continue;
 			}
 
-			// Certain items get use special links to minimize the amount
-			// of scrolling to find the item again.
+			// Certain items get use special links to minimize the
+			// amount of scrolling to find the item again.
 
-			if ( location.startsWith( "inventory.php" ) )
+			if ( location.startsWith( "inventory.php" ) ||
+			     ( location.startsWith( "inv_use.php" ) && location.indexOf( "ajax=1" ) != -1 ) )
 			{
 				switch ( itemId )
 				{
@@ -119,11 +120,32 @@ public abstract class UseLinkDecorator
 					specialLinkText = "squeeze";
 					break;
 
-				case ItemPool.MAKESHIFT_TURBAN:
-				case ItemPool.MAKESHIFT_CAPE:
-				case ItemPool.MAKESHIFT_SKIRT:
-				case ItemPool.MAKESHIFT_CRANE:
-				case ItemPool.TOWEL:
+				case ItemPool.LIARS_PANTS:
+				case ItemPool.JUGGLERS_BALLS:
+				case ItemPool.PINK_SHIRT:
+				case ItemPool.FAMILIAR_DOPPELGANGER:
+				case ItemPool.EYEBALL_PENDANT:
+					specialLinkId = itemId;
+					specialLinkText = "melt";
+					break;
+
+				case ItemPool.SPOOKY_PUTTY_MITRE:
+				case ItemPool.SPOOKY_PUTTY_LEOTARD:
+				case ItemPool.SPOOKY_PUTTY_BALL:
+				case ItemPool.SPOOKY_PUTTY_SHEET:
+				case ItemPool.SPOOKY_PUTTY_SNAKE:
+					specialLinkId = itemId;
+					specialLinkText = "squish";
+					break;
+
+				case ItemPool.FOIL_BOW:
+				case ItemPool.FOIL_RADAR:
+				case ItemPool.FOIL_CAT_EARS:
+				case ItemPool.FORTUNE_TELLER:
+				case ItemPool.ORIGAMI_MAGAZINE:
+				case ItemPool.PAPER_SHURIKEN:
+				case ItemPool.ORIGAMI_PASTIES:
+				case ItemPool.RIDING_CROP:
 					specialLinkId = itemId;
 					specialLinkText = "fold";
 					break;
@@ -449,10 +471,6 @@ public abstract class UseLinkDecorator
 
 				return new UseLink( itemId, "sewer", "sewer.php" );
 
-			case ItemPool.TOWEL:
-
-				return new UseLink( itemId, itemCount, "fold", "inv_use.php?which=3&whichitem=" );
-
 			default:
 
 				return new UseLink( itemId, itemCount, "use", "inv_use.php?which=3&whichitem=" );
@@ -689,6 +707,11 @@ public abstract class UseLinkDecorator
 		case ItemPool.GUNPOWDER:
 			useType = String.valueOf( InventoryManager.getCount( itemId ) );
 			useLocation = PyroRequest.pyroURL();
+			break;
+
+		case ItemPool.TOWEL:
+			useType = "fold";
+			useLocation = "inv_use.php?which=3&whichitem=";
 			break;
 
 		default:
