@@ -111,41 +111,9 @@ public abstract class UseLinkDecorator
 			{
 				switch ( itemId )
 				{
-				case ItemPool.ICEBERGLET:
-				case ItemPool.ICE_SICKLE:
-				case ItemPool.ICE_BABY:
-				case ItemPool.ICE_PICK:
-				case ItemPool.ICE_SKATES:
-					specialLinkId = itemId;
-					specialLinkText = "squeeze";
-					break;
-
-				case ItemPool.LIARS_PANTS:
-				case ItemPool.JUGGLERS_BALLS:
-				case ItemPool.PINK_SHIRT:
-				case ItemPool.FAMILIAR_DOPPELGANGER:
-				case ItemPool.EYEBALL_PENDANT:
-					specialLinkId = itemId;
-					specialLinkText = "melt";
-					break;
-
-				case ItemPool.SPOOKY_PUTTY_MITRE:
-				case ItemPool.SPOOKY_PUTTY_LEOTARD:
-				case ItemPool.SPOOKY_PUTTY_BALL:
-				case ItemPool.SPOOKY_PUTTY_SHEET:
-				case ItemPool.SPOOKY_PUTTY_SNAKE:
-					specialLinkId = itemId;
-					specialLinkText = "squish";
-					break;
-
 				case ItemPool.FOIL_BOW:
 				case ItemPool.FOIL_RADAR:
 				case ItemPool.FOIL_CAT_EARS:
-				case ItemPool.FORTUNE_TELLER:
-				case ItemPool.ORIGAMI_MAGAZINE:
-				case ItemPool.PAPER_SHURIKEN:
-				case ItemPool.ORIGAMI_PASTIES:
-				case ItemPool.RIDING_CROP:
 					specialLinkId = itemId;
 					specialLinkText = "fold";
 					break;
