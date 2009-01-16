@@ -49,6 +49,7 @@ import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 
 import net.sourceforge.kolmafia.request.AccountRequest;
@@ -89,7 +90,7 @@ public abstract class StaticEntity
 {
 	private static final Pattern NEWSKILL1_PATTERN = Pattern.compile( "<td>You learn a new skill: <b>(.*?)</b>" );
 	private static final Pattern NEWSKILL2_PATTERN = Pattern.compile( "whichskill=(\\d+)" );
-	private static final Pattern NEWSKILL3_PATTERN = Pattern.compile( "<td>You acquire a skill: <[bB]>(.*?)</[bB]>" );
+	private static final Pattern NEWSKILL3_PATTERN = Pattern.compile( "You acquire a skill: +<[bB]>(.*?)</[bB]>" );
 
 	private static KoLmafia client;
 	private static int usesSystemTray = 0;
@@ -431,6 +432,7 @@ public abstract class StaticEntity
 			KoLCharacter.addAvailableSkill( skillName );
 			KoLCharacter.addDerivedSkills();
 			KoLConstants.usableSkills.sort();
+			ConcoctionDatabase.refreshConcoctions();
 		}
 
 		learnedMatcher = StaticEntity.NEWSKILL3_PATTERN.matcher( responseText );
@@ -441,6 +443,7 @@ public abstract class StaticEntity
 			KoLCharacter.addAvailableSkill( skillName );
 			KoLCharacter.addDerivedSkills();
 			KoLConstants.usableSkills.sort();
+			ConcoctionDatabase.refreshConcoctions();
 		}
 
 		// Unfortunately, if you learn a new skill from Frank

@@ -606,7 +606,7 @@ public class CharPaneDecorator
 
 			String upkeepAction = MoodManager.getDefaultAction( "lose_effect", effectName );
 
-			if ( upkeepAction.startsWith( "adventure" ) || upkeepAction.endsWith( "snowcone" ) || upkeepAction.endsWith( "mushroom" ) || upkeepAction.endsWith( "cupcake" ) )
+			if ( upkeepAction.startsWith( "adventure" ) || upkeepAction.endsWith( "mushroom" ) )
 			{
 				upkeepAction = "";
 			}

@@ -327,9 +327,6 @@ public class ResultProcessor
 
 		if ( lastToken.indexOf( "You acquire a skill" ) != -1 || lastToken.indexOf( "You gain a skill" ) != -1 )
 		{
-			// We need to update what you can make, but don't need
-			// to refresh the character pane.
-			ConcoctionDatabase.refreshConcoctions();
 			return false;
 		}
 
