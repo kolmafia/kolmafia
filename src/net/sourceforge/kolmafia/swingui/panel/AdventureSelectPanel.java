@@ -184,6 +184,13 @@ public class AdventureSelectPanel
                         int battleIndex = KoLCharacter.getBattleSkillNames().indexOf( battleAction );
                         KoLCharacter.getBattleSkillNames().setSelectedIndex( battleIndex == -1 ? 0 : battleIndex );
                 }
+
+		KoLConstants.conditions.clear();
+
+		String pref = Preferences.getString( "lastAdventure" );
+		KoLAdventure location = AdventureDatabase.getAdventure( pref );
+
+		this.updateSelectedAdventure( location );
 	}
 
 	public void updateSelectedAdventure( final KoLAdventure location )
