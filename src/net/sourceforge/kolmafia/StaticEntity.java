@@ -70,6 +70,7 @@ import net.sourceforge.kolmafia.request.SellStuffRequest;
 import net.sourceforge.kolmafia.request.StarChartRequest;
 import net.sourceforge.kolmafia.request.SushiRequest;
 import net.sourceforge.kolmafia.request.SuspiciousGuyRequest;
+import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.WineCellarRequest;
@@ -404,6 +405,7 @@ public abstract class StaticEntity
 		if ( location.startsWith( "town_right.php" ) )
 		{
 			GourdRequest.parseResponse( location, responseText );
+			UntinkerRequest.parseResponse( location, responseText );
 		}
 
 		if ( location.indexOf( "action=pyro" ) != -1 )

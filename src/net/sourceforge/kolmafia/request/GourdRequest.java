@@ -59,11 +59,7 @@ public class GourdRequest
 	public GourdRequest( boolean trade )
 	{
 		super( "town_right.php");
-		this.addFormField( "place", "gourd" );
-		if ( trade )
-		{
-			this.addFormField( "action", "gourd" );
-		}
+		this.addFormField( trade ? "action" : "place", "gourd" );
 	}
 
 	public void processResults()
@@ -73,7 +69,9 @@ public class GourdRequest
 
 	public static final boolean parseResponse( final String location, final String responseText )
 	{
-		if ( !location.startsWith( "town_right.php" ) )
+		// Either place=gourd or action=gourd
+
+		if ( !location.startsWith( "town_right.php" ) || location.indexOf( "gourd" ) == -1 )
 		{
 			return false;
 		}

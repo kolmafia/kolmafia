@@ -63,7 +63,7 @@ public class UntinkerRequest
 	private static final GenericRequest AVAILABLE_CHECKER = new GenericRequest( "town_right.php?place=untinker" );
 
 	private static boolean canUntinker;
-	private static int lastUserId = 0;
+	private static int lastUserId = -1;
 
 	private static final AdventureResult SCREWDRIVER = ItemPool.get( ItemPool.RUSTY_SCREWDRIVER, -1 );
 
@@ -85,6 +85,7 @@ public class UntinkerRequest
 
 		this.itemId = itemId;
 		this.iterationsNeeded = 1;
+
 		this.item = new AdventureResult( itemId, itemCount );
 
 		if ( itemCount == Integer.MAX_VALUE )
@@ -124,7 +125,7 @@ public class UntinkerRequest
 			return;
 		}
 
-		KoLmafia.updateDisplay( "Untinkering " + ItemDatabase.getItemName( this.itemId ) + "..." );
+		KoLmafia.updateDisplay( "Untinkering " + this.item + "..." );
 
 		super.run();
 
@@ -157,9 +158,55 @@ public class UntinkerRequest
 		KoLmafia.updateDisplay( "Successfully untinkered " + this.item );
 	}
 
+	public void processResults()
+	{
+		UntinkerRequest.parseResponse( this.getURLString(), this.responseText );
+	}
+
+	public static final boolean parseResponse( final String location, final String responseText )
+	{
+		// Either place=untinker or action=untinker
+
+		if ( !location.startsWith( "town_right.php" ) || location.indexOf( "untinker" ) == -1 )
+		{
+			return false;
+		}
+
+		// Visiting the untinker removes screwdriver from inventory.
+
+		if ( KoLConstants.inventory.contains( UntinkerRequest.SCREWDRIVER ) )
+		{
+			ResultProcessor.processResult( UntinkerRequest.SCREWDRIVER );
+		}
+
+		UntinkerRequest.lastUserId = KoLCharacter.getUserId();
+		UntinkerRequest.canUntinker = responseText.indexOf( "you don't have anything like that" ) != -1 || responseText.indexOf( "<select name=whichitem>" ) != -1;
+
+		if ( responseText.indexOf( "You acquire" ) != -1 )
+		{
+			Matcher matcher = TransferItemRequest.ITEMID_PATTERN.matcher( location );
+			if ( !matcher.find() )
+			{
+				return true;
+			}
+
+			int itemId = StringUtilities.parseInt( matcher.group( 1 ) );
+			AdventureResult result = new AdventureResult( itemId, -1 );
+
+			if ( location.indexOf( "untinkerall=on" ) != -1 )
+			{
+				result = result.getInstance( 0 - result.getCount( KoLConstants.inventory ) );
+			}
+
+			ResultProcessor.processResult( result );
+		}
+
+		return true;
+	}
+
 	public static final boolean canUntinker()
 	{
-		if ( UntinkerRequest.lastUserId != KoLCharacter.getUserId() )
+		if ( UntinkerRequest.lastUserId == KoLCharacter.getUserId() )
 		{
 			return UntinkerRequest.canUntinker;
 		}
@@ -249,41 +296,39 @@ public class UntinkerRequest
 
 	public static final boolean registerRequest( final String urlString )
 	{
-		if ( !urlString.startsWith( "town_right.php" ) || urlString.indexOf( "action=untinker" ) == -1 )
+		// Either place=untinker or action=untinker
+
+		if ( !urlString.startsWith( "town_right.php" ) )
 		{
 			return false;
 		}
 
-		// Visiting the untinker removes screwdriver from inventory.
-
-		if ( KoLConstants.inventory.contains( UntinkerRequest.SCREWDRIVER ) )
+		String message;
+		if ( urlString.indexOf( "action=untinker" ) != -1 )
 		{
-			UntinkerRequest.canUntinker = true;
-			ResultProcessor.processResult( UntinkerRequest.SCREWDRIVER );
+			Matcher matcher = TransferItemRequest.ITEMID_PATTERN.matcher( urlString );
+			if ( !matcher.find() )
+			{
+				return true;
+			}
+
+			String name = ItemDatabase.getItemName( StringUtilities.parseInt( matcher.group( 1 ) ) );
+			message = "untinker " + ( urlString.indexOf( "untinkerall=on" ) != -1 ? "*" : "1" ) + " " + name;
 		}
-
-		Matcher itemMatcher = TransferItemRequest.ITEMID_PATTERN.matcher( urlString );
-		if ( !itemMatcher.find() )
+		else if ( urlString.indexOf( "place=untinker" ) != -1 )
 		{
-			return true;
-		}
-
-		int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
-		AdventureResult result = new AdventureResult( itemId, -1 );
-
-		RequestLogger.updateSessionLog();
-
-		if ( urlString.indexOf( "untinkerall=on" ) != -1 )
-		{
-			result = result.getInstance( 0 - result.getCount( KoLConstants.inventory ) );
-			RequestLogger.updateSessionLog( "untinker * " + result.getName() );
+			RequestLogger.printLine( "" );
+			RequestLogger.updateSessionLog();
+			message = "Visiting the Untinker";
 		}
 		else
 		{
-			RequestLogger.updateSessionLog( "untinker 1 " + result.getName() );
+			return false;
 		}
 
-		ResultProcessor.processResult( result );
+		RequestLogger.printLine( message );
+		RequestLogger.updateSessionLog( message );
+
 		return true;
 	}
 }
