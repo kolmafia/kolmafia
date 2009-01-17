@@ -43,6 +43,8 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import java.io.File;
+
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBox;
@@ -61,6 +63,7 @@ import javax.swing.event.ListDataListener;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.LimitedSizeChatBuffer;
@@ -85,12 +88,16 @@ public class OptionsFrame
 	{
 		super( "Preferences" );
 
-		JPanel addonPanel = new JPanel( new GridLayout( 2, 1, 10, 10 ) );
-		addonPanel.add( new ScriptButtonPanel() );
-		addonPanel.add( new BookmarkManagePanel() );
-
 		this.addTab( "General", new GeneralOptionsPanel() );
-		this.addTab( "Browser", new RelayOptionsPanel() );
+
+		JPanel browserPanel = new JPanel();
+		browserPanel.setLayout( new BoxLayout( browserPanel, BoxLayout.Y_AXIS ) );
+		browserPanel.add( new BrowserPanel() );
+		browserPanel.add( new RelayOptionsPanel() );
+		this.addTab( "Browser", browserPanel );
+
+		this.addTab( "Main Tabs", new StartupFramesPanel() );
+		this.addTab( "Look & Feel", new UserInterfacePanel() );
 
 		JPanel breakfastPanel = new JPanel();
 		breakfastPanel.setLayout( new BoxLayout( breakfastPanel, BoxLayout.Y_AXIS ) );
@@ -99,11 +106,13 @@ public class OptionsFrame
 		breakfastPanel.add( new BreakfastPanel( "Ronin-Clear Characters", "Softcore" ) );
 		breakfastPanel.add( new BreakfastPanel( "In-Ronin Characters", "Hardcore" ) );
 
-		this.tabs.addTab( "Main Tabs", new StartupFramesPanel() );
-		this.tabs.addTab( "Look & Feel", new UserInterfacePanel() );
-		this.tabs.addTab( "Breakfast", breakfastPanel );
+		this.addTab( "Breakfast", breakfastPanel );
 
+		JPanel addonPanel = new JPanel( new GridLayout( 2, 1, 10, 10 ) );
+		addonPanel.add( new ScriptButtonPanel() );
+		addonPanel.add( new BookmarkManagePanel() );
 		this.addTab( "Shortcuts", addonPanel );
+
 		this.addTab( "Session Logs", new SessionLogOptionsPanel() );
 		this.addTab( "Chat Options", new ChatOptionsPanel() );
 
@@ -155,21 +164,16 @@ public class OptionsFrame
 			VerifiableElement[] elements = new VerifiableElement[ this.options.length ];
 
 			this.optionBoxes = new JCheckBox[ this.options.length ];
-			for ( int i = 0; i < this.options.length; ++i )
-			{
-				this.optionBoxes[ i ] = new JCheckBox();
-			}
 
 			for ( int i = 0; i < this.options.length; ++i )
 			{
-				if ( this.options[ i ].length == 0 )
-				{
-					elements[ i ] = new VerifiableElement();
-				}
-				else
-				{
-					elements[ i ] = new VerifiableElement( this.options[ i ][ 1 ], JLabel.LEFT, this.optionBoxes[ i ] );
-				}
+				String[] option = this.options[ i ];
+				JCheckBox optionBox = new JCheckBox();
+				this.optionBoxes[ i ] = optionBox;
+				elements[ i ] =
+					option.length == 0 ?
+					new VerifiableElement() :
+					new VerifiableElement( option[ 1 ], JLabel.LEFT, optionBox );
 			}
 
 			this.actionCancelled();
@@ -180,11 +184,13 @@ public class OptionsFrame
 		{
 			for ( int i = 0; i < this.options.length; ++i )
 			{
-				if ( this.options[ i ].length != 0 )
+				String[] option = this.options[ i ];
+				if ( option.length == 0 )
 				{
-					Preferences.setBoolean(
-						this.options[ i ][ 0 ], this.optionBoxes[ i ].isSelected() );
+					continue;
 				}
+				JCheckBox optionBox = this.optionBoxes[ i ];
+				Preferences.setBoolean( option[ 0 ], optionBox.isSelected() );
 			}
 		}
 
@@ -192,10 +198,13 @@ public class OptionsFrame
 		{
 			for ( int i = 0; i < this.options.length; ++i )
 			{
-				if ( this.options[ i ].length != 0 )
+				String[] option = this.options[ i ];
+				if ( option.length == 0 )
 				{
-					this.optionBoxes[ i ].setSelected( Preferences.getBoolean( this.options[ i ][ 0 ] ) );
+					continue;
 				}
+				JCheckBox optionBox = this.optionBoxes[ i ];
+				optionBox.setSelected( Preferences.getBoolean( option[ 0 ] ) );
 			}
 		}
 	}
@@ -209,42 +218,30 @@ public class OptionsFrame
 		{
 			{ "relayAllowsOverrides", "Enable user-scripted relay browser overrides" },
 			{ "relayUsesCachedImages", "Cache KoL images to conserve bandwidth (dialup)" },
-
-			{ "", "" },
-
+			{},
 			{ "relayAddsWikiLinks", "Check wiki for item descriptions (fails for unknowns)" },
 			{ "relayViewsCustomItems", "View items registered with OneTonTomato's Kilt script" },
 			{ "lucreCoreLeaderboard", "Participate in Oxbarn's KoLDB Lucre-core leaderboard" },
 			{ "relayAddsQuickScripts", "Add quick script links to menu bar (see Links tab)" },
-
-			{ "", "" },
-
+			{},
 			{ "relayAddsRestoreLinks", "Add HP/MP restore links to left side pane" },
 			{ "relayAddsUpArrowLinks", "Add buff maintenance links to left side pane" },
 			{ "relayTextualizesEffects", "Textualize effect links in left side pane" },
-
-			{ "", "" },
-
+			{},
 			{ "relayMaintainsEffects", "Run moods during manual adventuring" },
 			{ "relayMaintainsHealth", "Maintain health during manual adventuring" },
 			{ "relayMaintainsMana", "Maintain mana during manual adventuring" },
-
-			{ "", "" },
-
+			{},
 			{ "relayUsesIntegratedChat", "Integrate chat and relay browser gCLI interfaces" },
 			{ "relayFormatsChatText", "Reformat incoming chat HTML to conform to web standards" },
 			{ "relayAddsGraphicalCLI", "Add command-line interface to right side pane" },
 			{ "relayAddsKoLSimulator", "Add Ayvuir's Simulator of Loathing to right side pane" },
-
-			{ "", "" },
-
+			{},
 			{ "relayAddsUseLinks", "Add decorator [use] links when receiving items" },
 			{ "relayUsesInlineLinks", "Force results to reload inline for [use] links" },
 			{ "relayHidesJunkMallItems", "Hide junk and overpriced items in PC stores" },
 			{ "relayTrimsZapList", "Trim zap list to show only known zappable items" },
-
-			{ "", "" },
-
+			{},
 			{ "relayAddsCustomCombat", "Add custom buttons to the top of fight pages" },
 		};
 
@@ -259,16 +256,16 @@ public class OptionsFrame
 			VerifiableElement[] elements = new VerifiableElement[ this.options.length + 1 ];
 
 			this.optionBoxes = new JCheckBox[ this.options.length ];
-			for ( int i = 0; i < this.options.length; ++i )
-			{
-				this.optionBoxes[ i ] = new JCheckBox();
-			}
 
 			for ( int i = 0; i < this.options.length; ++i )
 			{
+				String[] option = this.options[ i ];
+				JCheckBox optionBox = new JCheckBox();
+				this.optionBoxes[ i ] = optionBox;
 				elements[ i ] =
-					this.options[ i ][ 0 ].equals( "" ) ? new VerifiableElement() : new VerifiableElement(
-						this.options[ i ][ 1 ], JLabel.LEFT, this.optionBoxes[ i ] );
+					option.length == 0 ?
+					new VerifiableElement() :
+					new VerifiableElement( option[ 1 ], JLabel.LEFT, optionBox );
 			}
 
 			this.colorChanger = new ColorChooser( "defaultBorderColor" );
@@ -284,11 +281,13 @@ public class OptionsFrame
 		{
 			for ( int i = 0; i < this.options.length; ++i )
 			{
-				if ( !this.options[ i ][ 0 ].equals( "" ) )
+				String[] option = this.options[ i ];
+				if ( option.length == 0 )
 				{
-					Preferences.setBoolean(
-						this.options[ i ][ 0 ], this.optionBoxes[ i ].isSelected() );
+					continue;
 				}
+				JCheckBox optionBox = this.optionBoxes[ i ];
+				Preferences.setBoolean( option[ 0 ], optionBox.isSelected() );
 			}
 		}
 
@@ -306,10 +305,13 @@ public class OptionsFrame
 
 			for ( int i = 0; i < this.options.length; ++i )
 			{
-				if ( !this.options[ i ][ 0 ].equals( "" ) )
+				String[] option = this.options[ i ];
+				if ( option.length == 0 )
 				{
-					this.optionBoxes[ i ].setSelected( Preferences.getBoolean( this.options[ i ][ 0 ] ) );
+					continue;
 				}
+				JCheckBox optionBox = this.optionBoxes[ i ];
+				optionBox.setSelected( Preferences.getBoolean( option[ 0 ] ) );
 			}
 		}
 	}
@@ -326,20 +328,20 @@ public class OptionsFrame
 			{ "cacheMallSearches", "Cache mall search terms in mall search interface" },
 			{ "saveSettingsOnSet", "Save options to disk whenever they change" },
 
-			{ "", "" },
+			{},
 
 			{ "removeMalignantEffects", "Auto-remove malignant status effects" },
 			{ "switchEquipmentForBuffs", "Allow equipment changing when casting buffs" },
 			{ "allowNonMoodBurning", "Cast buffs not defined in moods during buff balancing" },
 
-			{ "", "" },
+			{},
 
 			{ "cloverProtectActive", "Protect against accidental ten-leaf clover usage" },
 			{ "createHackerSummons", "Auto-create 31337 scrolls if no scroll conditions are set" },
 			{ "requireSewerTestItems", "Require appropriate test items to adventure in clan sewers " },
 			{ "mementoListActive", "Prevent accidental destruction of 'memento' items" },
 
-			{ "", "" },
+			{},
 
 			{ "allowNegativeTally", "Allow item counts in session results to go negative" },
 			{ "autoSatisfyWithNPCs", "Buy items from NPC stores whenever needed" },
@@ -358,16 +360,16 @@ public class OptionsFrame
 			VerifiableElement[] elements = new VerifiableElement[ this.options.length ];
 
 			this.optionBoxes = new JCheckBox[ this.options.length ];
-			for ( int i = 0; i < this.options.length; ++i )
-			{
-				this.optionBoxes[ i ] = new JCheckBox();
-			}
 
 			for ( int i = 0; i < this.options.length; ++i )
 			{
+				String[] option = this.options[ i ];
+				JCheckBox optionBox = new JCheckBox();
+				this.optionBoxes[ i ] = optionBox;
 				elements[ i ] =
-					this.options[ i ][ 0 ].equals( "" ) ? new VerifiableElement() : new VerifiableElement(
-						this.options[ i ][ 1 ], JLabel.LEFT, this.optionBoxes[ i ] );
+					option.length == 0 ?
+					new VerifiableElement() :
+					new VerifiableElement( option[ 1 ], JLabel.LEFT, optionBox );
 			}
 
 			this.setContent( elements );
@@ -378,11 +380,13 @@ public class OptionsFrame
 		{
 			for ( int i = 0; i < this.options.length; ++i )
 			{
-				if ( !this.options[ i ][ 0 ].equals( "" ) )
+				String[] option = this.options[ i ];
+				if ( option.length == 0 )
 				{
-					Preferences.setBoolean(
-						this.options[ i ][ 0 ], this.optionBoxes[ i ].isSelected() );
+					continue;
 				}
+				JCheckBox optionBox = this.optionBoxes[ i ];
+				Preferences.setBoolean( option[ 0 ], optionBox.isSelected() );
 			}
 
 			this.actionCancelled();
@@ -393,10 +397,13 @@ public class OptionsFrame
 		{
 			for ( int i = 0; i < this.options.length; ++i )
 			{
-				if ( !this.options[ i ][ 0 ].equals( "" ) )
+				String[] option = this.options[ i ];
+				if ( option.length == 0 )
 				{
-					this.optionBoxes[ i ].setSelected( Preferences.getBoolean( this.options[ i ][ 0 ] ) );
+					continue;
 				}
+				JCheckBox optionBox = this.optionBoxes[ i ];
+				optionBox.setSelected( Preferences.getBoolean( option[ 0 ] ) );
 			}
 		}
 	}
@@ -621,10 +628,6 @@ public class OptionsFrame
 			}
 
 			this.optionBoxes = new JCheckBox[ this.options.length ];
-			for ( int i = 0; i < this.options.length; ++i )
-			{
-				this.optionBoxes[ i ] = new JCheckBox();
-			}
 
 			this.eSoluActiveOption = new JCheckBox();
 			this.eSoluColorlessOption = new JCheckBox();
@@ -641,15 +644,13 @@ public class OptionsFrame
 
 			for ( int i = 0; i < this.options.length; ++i )
 			{
-				if ( this.options[ i ].length > 0 )
-				{
-					elements[ i + 4 ] =
-						new VerifiableElement( this.options[ i ][ 1 ], JLabel.LEFT, this.optionBoxes[ i ] );
-				}
-				else
-				{
-					elements[ i + 4 ] = new VerifiableElement();
-				}
+				String[] option = this.options[ i ];
+				JCheckBox optionBox = new JCheckBox();
+				this.optionBoxes[ i ] = optionBox;
+				elements[ i + 4 ] =
+					option.length == 0 ?
+					new VerifiableElement() :
+					new VerifiableElement( option[ 1 ], JLabel.LEFT, optionBox );
 			}
 
 			int tabCount = this.options.length + 4;
@@ -682,11 +683,13 @@ public class OptionsFrame
 		{
 			for ( int i = 0; i < this.options.length; ++i )
 			{
-				if ( this.options[ i ].length > 0 )
+				String[] option = this.options[ i ];
+				if ( option.length == 0 )
 				{
-					Preferences.setBoolean(
-						this.options[ i ][ 0 ], this.optionBoxes[ i ].isSelected() );
+					continue;
 				}
+				JCheckBox optionBox = this.optionBoxes[ i ];
+				Preferences.setBoolean( option[ 0 ], optionBox.isSelected() );
 			}
 
 			Preferences.setInteger(
@@ -716,10 +719,13 @@ public class OptionsFrame
 		{
 			for ( int i = 0; i < this.options.length; ++i )
 			{
-				if ( this.options[ i ].length > 0 )
+				String[] option = this.options[ i ];
+				if ( option.length == 0 )
 				{
-					this.optionBoxes[ i ].setSelected( Preferences.getBoolean( this.options[ i ][ 0 ] ) );
+					continue;
 				}
+				JCheckBox optionBox = this.optionBoxes[ i ];
+				optionBox.setSelected( Preferences.getBoolean( option[ 0 ] ) );
 			}
 
 			this.eSoluActiveOption.setSelected( Preferences.getInteger( "eSoluScriptType" ) > 0 );
@@ -1156,24 +1162,16 @@ public class OptionsFrame
 				VerifiableElement[] elements = new VerifiableElement[ UserInterfacePanel.this.options.length + 3 ];
 
 				UserInterfacePanel.this.optionBoxes = new JCheckBox[ UserInterfacePanel.this.options.length ];
-				for ( int i = 0; i < UserInterfacePanel.this.options.length; ++i )
-				{
-					UserInterfacePanel.this.optionBoxes[ i ] = new JCheckBox();
-				}
 
 				for ( int i = 0; i < UserInterfacePanel.this.options.length; ++i )
 				{
-					if ( UserInterfacePanel.this.options[ i ].length == 0 )
-					{
-						elements[ i ] = new VerifiableElement();
-					}
-					else
-					{
-						elements[ i ] =
-							new VerifiableElement(
-								UserInterfacePanel.this.options[ i ][ 1 ], JLabel.LEFT,
-								UserInterfacePanel.this.optionBoxes[ i ] );
-					}
+					String[] option = UserInterfacePanel.this.options[ i ];
+					JCheckBox optionBox = new JCheckBox();
+					UserInterfacePanel.this.optionBoxes[ i ] = optionBox;
+					elements[ i ] =
+						option.length == 0 ?
+						new VerifiableElement() :
+						new VerifiableElement( option[ 1 ], JLabel.LEFT, optionBox );
 				}
 
 				elements[ UserInterfacePanel.this.options.length ] = new VerifiableElement();
@@ -1196,12 +1194,13 @@ public class OptionsFrame
 			{
 				for ( int i = 0; i < UserInterfacePanel.this.options.length; ++i )
 				{
-					if ( UserInterfacePanel.this.options[ i ].length > 0 )
+					String[] option = UserInterfacePanel.this.options[ i ];
+					if ( option.length == 0 )
 					{
-						Preferences.setBoolean(
-							UserInterfacePanel.this.options[ i ][ 0 ],
-							UserInterfacePanel.this.optionBoxes[ i ].isSelected() );
+						continue;
 					}
+					JCheckBox optionBox = UserInterfacePanel.this.optionBoxes[ i ];
+					Preferences.setBoolean( option[ 0 ], optionBox.isSelected() );
 				}
 			}
 
@@ -1209,10 +1208,13 @@ public class OptionsFrame
 			{
 				for ( int i = 0; i < UserInterfacePanel.this.options.length; ++i )
 				{
-					if ( UserInterfacePanel.this.options[ i ].length > 0 )
+					String[] option = UserInterfacePanel.this.options[ i ];
+					if ( option.length == 0 )
 					{
-						UserInterfacePanel.this.optionBoxes[ i ].setSelected( Preferences.getBoolean( UserInterfacePanel.this.options[ i ][ 0 ] ) );
+						continue;
 					}
+					JCheckBox optionBox = UserInterfacePanel.this.optionBoxes[ i ];
+					optionBox.setSelected( Preferences.getBoolean( option[ 0 ] ) );
 				}
 
 				this.innerGradient.setBackground( tab.CloseTabPaneEnhancedUI.selectedA );
@@ -1245,6 +1247,74 @@ public class OptionsFrame
 					OptionsFrame.this.tabs.repaint();
 				}
 			}
+		}
+	}
+
+	protected class BrowserPanel
+		extends OptionsPanel
+	{
+		private final FileSelectPanel preferredWebBrowser;
+
+		public BrowserPanel()
+		{
+			super( "Preferred Web Browser" );
+
+			AutoHighlightTextField textField = new AutoHighlightTextField();
+			boolean button = true;
+			String helpText = "";
+			String path = null;
+
+			if ( UtilityConstants.USE_OSX_STYLE_DIRECTORIES )
+			{
+				button = false;
+				path = "/Applications";
+				helpText = "If KoLmafia opens a browser other than your default, enter the name of your preferred browser here. The browser must be in your Applications directory";
+			}
+			else if ( UtilityConstants.USE_LINUX_STYLE_DIRECTORIES )
+			{
+				button = true;
+				path = "/";
+				helpText = "If KoLmafia opens a browser other than your default, enter the name of your preferred browser here. If that doesn't work, click the button and browse to the location of your browser.";
+			}
+			else	// Windows
+			{
+				button = true;
+				path = "";
+				helpText = "If KoLmafia opens a browser other than your default, enter the name of your preferred browser here. If that doesn't work, click the button and browse to the location of your browser.";
+			}
+
+			this.preferredWebBrowser = new FileSelectPanel( textField, button );
+			if ( button )
+			{
+				this.preferredWebBrowser.setPath( new File( path ) );
+			}
+
+			VerifiableElement[] elements = new VerifiableElement[ 1 ];
+			elements[ 0 ] = new VerifiableElement( "Browser: ", this.preferredWebBrowser );
+
+			this.setContent( elements );
+
+			JTextArea message = new JTextArea( helpText );
+			message.setColumns( 40 );
+			message.setLineWrap( true );
+			message.setWrapStyleWord( true );
+			message.setEditable( false );
+			message.setOpaque( false );
+			message.setFont( KoLConstants.DEFAULT_FONT );
+
+			this.container.add( message, BorderLayout.SOUTH );
+
+			this.actionCancelled();
+		}
+
+		public void actionConfirmed()
+		{
+			Preferences.setString( "preferredWebBrowser", this.preferredWebBrowser.getText() );
+		}
+
+		public void actionCancelled()
+		{
+			this.preferredWebBrowser.setText( Preferences.getString( "preferredWebBrowser" ) );
 		}
 	}
 

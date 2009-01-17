@@ -41,6 +41,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
 
@@ -336,45 +337,72 @@ public abstract class GenericPanel
 	}
 
 	/**
-	 * This internal class is used to process the request for selecting a script using the file dialog.
+	 * This internal class is used to process the request for selecting a
+	 * file using the file dialog.
 	 */
 
 	public class ScriptSelectPanel
+		extends FileSelectPanel
+	{
+		public ScriptSelectPanel( final AutoHighlightTextField textField )
+		{
+			super( textField, true );
+			this.setPath( KoLConstants.SCRIPT_LOCATION );
+		}
+	}
+
+	public class FileSelectPanel
 		extends JPanel
 		implements ActionListener, FocusListener
 	{
-		private final AutoHighlightTextField scriptField;
-		private final JButton scriptButton;
+		private final AutoHighlightTextField textField;
+		private final JButton fileButton;
+		private File path = null;
 
-		public ScriptSelectPanel( final AutoHighlightTextField scriptField )
+		public FileSelectPanel( final AutoHighlightTextField textField, final boolean button )
 		{
 			this.setLayout( new BorderLayout( 0, 0 ) );
 
-			scriptField.addFocusListener( this );
-			this.add( scriptField, BorderLayout.CENTER );
-			this.scriptButton = new JButton( "..." );
+			textField.addFocusListener( this );
 
-			JComponentUtilities.setComponentSize( this.scriptButton, 20, 20 );
-			this.scriptButton.addActionListener( this );
-			this.add( this.scriptButton, BorderLayout.EAST );
+			this.textField = textField;
+			this.add( textField, BorderLayout.CENTER );
 
-			this.scriptField = scriptField;
+			if ( button )
+			{
+				this.fileButton = new JButton( "..." );
+				JComponentUtilities.setComponentSize( this.fileButton, 20, 20 );
+				this.fileButton.addActionListener( this );
+				this.add( this.fileButton, BorderLayout.EAST );
+			}
+			else
+			{
+				this.fileButton = null;
+			}
 		}
 
 		public void setEnabled( final boolean isEnabled )
 		{
-			this.scriptField.setEnabled( isEnabled );
-			this.scriptButton.setEnabled( isEnabled );
+			this.textField.setEnabled( isEnabled );
+			if ( this.fileButton != null )
+			{
+				this.fileButton.setEnabled( isEnabled );
+			}
+		}
+
+		public void setPath( final File path )
+		{
+			this.path = path;
 		}
 
 		public String getText()
 		{
-			return this.scriptField.getText();
+			return this.textField.getText();
 		}
 
 		public void setText( final String text )
 		{
-			this.scriptField.setText( text );
+			this.textField.setText( text );
 		}
 
 		public void focusLost( final FocusEvent e )
@@ -388,15 +416,19 @@ public abstract class GenericPanel
 
 		public void actionPerformed( final ActionEvent e )
 		{
-			JFileChooser chooser = new JFileChooser( KoLConstants.SCRIPT_LOCATION.getAbsolutePath() );
-			chooser.showOpenDialog( null );
-
-			if ( chooser.getSelectedFile() == null )
+			if ( this.path != null )
 			{
-				return;
+				JFileChooser chooser = new JFileChooser( this.path.getAbsolutePath() );
+				chooser.showOpenDialog( null );
+
+				if ( chooser.getSelectedFile() == null )
+				{
+					return;
+				}
+
+				this.textField.setText( chooser.getSelectedFile().getAbsolutePath() );
 			}
 
-			this.scriptField.setText( chooser.getSelectedFile().getAbsolutePath() );
 			GenericPanel.this.actionConfirmed();
 		}
 	}
