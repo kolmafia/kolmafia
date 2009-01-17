@@ -160,6 +160,36 @@ public class ValhallaDecorator
 		{
 			reminders.append( "<nobr>blow up your zap wand</nobr><br>" );
 		}
+
+		if ( InventoryManager.hasItem( ItemPool.BORIS_KEY ) )
+		{
+			reminders.append( "<nobr>make a Boris's key lime pie</nobr><br>" );
+		}
+
+		if ( InventoryManager.hasItem( ItemPool.JARLSBERG_KEY ) )
+		{
+			reminders.append( "<nobr>make a Jarlsberg's key lime pie</nobr><br>" );
+		}
+
+		if ( InventoryManager.hasItem( ItemPool.SNEAKY_PETE_KEY ) )
+		{
+			reminders.append( "<nobr>make a Sneaky Pete's key lime pie</nobr><br>" );
+		}
+
+		if ( InventoryManager.hasItem( ItemPool.DIGITAL_KEY ) )
+		{
+			reminders.append( "<nobr>make a digital key lime pie</nobr><br>" );
+		}
+
+		if ( InventoryManager.hasItem( ItemPool.STAR_KEY ) )
+		{
+			reminders.append( "<nobr>make a star key lime pie</nobr><br>" );
+		}
+
+		if ( InventoryManager.hasItem( ItemPool.BUBBLIN_STONE ) )
+		{
+			reminders.append( "<nobr>make an aerated diving helmet</nobr><br>" );
+		}
 		
 		if ( InventoryManager.hasItem( ItemPool.RUBBER_EMO_ROE ) )
 		{
