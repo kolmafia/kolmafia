@@ -851,6 +851,13 @@ public class UseSkillRequest
 			shouldStop = true;
 			UseSkillRequest.lastUpdate = "Selected target is not a valid target.";
 		}
+		// You can't cast that spell on persons who are lower than
+		// level 15, like <name>, who is level 13.
+		else if ( this.responseText.indexOf( "lower than level" ) != -1 )
+		{
+			shouldStop = true;
+			UseSkillRequest.lastUpdate = "Selected target is too low level.";
+		}
 		else if ( this.responseText.indexOf( "busy fighting" ) != -1 )
 		{
 			shouldStop = false;
