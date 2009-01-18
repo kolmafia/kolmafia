@@ -302,12 +302,19 @@ public class AreaCombatData
 
 		for ( int i = 0; i < this.monsters.size(); ++i )
 		{
+			int weighting = this.getWeighting( i );
+			if ( weighting == -2 )
+			{
+				continue;
+			}
+
 			if ( i > 0 )
 			{
 				buffer.append( "<br><br>" );
 			}
+
 			buffer.append( this.getMonsterString(
-				this.getMonster( i ), moxie, hitstat, ml, this.getWeighting( i ), combatFactor, fullString ) );
+				this.getMonster( i ), moxie, hitstat, ml, weighting, combatFactor, fullString ) );
 		}
 	}
 
@@ -397,12 +404,7 @@ public class AreaCombatData
 		buffer.append( monster.getName() );
 		buffer.append( "</b></font> (" );
 
-		if ( weighting == -2 )
-		{
-			buffer.append( "unavailable this ascension)" );
-			return buffer.toString();
-		}
-		else if ( weighting == -1 )
+		if ( weighting == -1 )
 		{
 			buffer.append( "ultra-rare" );
 		}
