@@ -410,6 +410,14 @@ public class CharPaneRequest
 			}
 		}
 
+		if ( duration.equals( "&infin;" ) )
+		{
+			duration = String.valueOf( Integer.MAX_VALUE - 100 );
+			if ( effectName.equalsIgnoreCase( "Temporary Blindness" ) )
+			{
+				effectName = "Temporary Blindness (intrinsic)";
+			}
+		}
 		if ( duration.indexOf( "&" ) != -1 || duration.indexOf( "<" ) != -1 )
 		{
 			return null;

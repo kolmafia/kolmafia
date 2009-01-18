@@ -1532,7 +1532,9 @@ Radio Head	Moxie: +20
 Red Neck	Moxie: -5, Muscle: +15
 Shiny Happy Weapon	Muscle: +20
 # Sleeping with the Fishes
+# Temporary Blindness occurs in both normal and intrinsic forms, and they stack.
 Temporary Blindness	Moxie Percent: -25, Item Drop: -75
+Temporary Blindness (intrinsic)	Moxie Percent: -25, Item Drop: -75
 
 # Status Effects section of modifiers.txt
 
