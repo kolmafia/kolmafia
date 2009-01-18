@@ -120,9 +120,9 @@ Icy Peak	85	Knott Yeti: 2	Snow Queen: 1	Upgraded Ram: 2	Knott Slanding: -1
 Itznotyerzitz Mine	75	7-Foot Dwarf: 2	7-Foot Dwarf Foreman: 1
 King's Chamber	100	The Knob Goblin King
 Knob Goblin Harem	60	Knob Goblin Elite Guardsman: 1	Knob Goblin Harem Girl: 2
-Knob Goblin Kitchens	100	Knob Goblin Chef: 2	Knob Goblin Master Chef: 1
+Knob Goblin Kitchens	100	Knob Goblin Chef: 2	Knob Goblin Master Chef: 1	Knob Goblin Elite Guard Captain: 0
 Knob Goblin Laboratory	100	Knob Goblin Mad Scientist: 3	Knob Goblin Very Mad Scientist: 1
-Knob Goblin Treasury	85	Knob Goblin Bean Counter	Knob Goblin Elite Guardsman	Infinite Meat Bug: -1
+Knob Goblin Treasury	85	Knob Goblin Bean Counter	Knob Goblin Elite Guardsman	Knob Goblin Embezzler: 0	Infinite Meat Bug: -1
 Knob Shaft	85	Ghost Miner
 Madness Reef	100	Jamfish	Magic Dragonfish	Puffer Fish
 McMillicancuddy's Farm	100	Drunk Duck	Figure-Skating Duck	Fire-Breathing Duck	Frozen Duck	Greasy Duck	Mean Drunk Duck	Rattlin' Duck	Rotund Duck	Scorched Duck	Swamp Duck	Vampire Duck	Zombie Duck
