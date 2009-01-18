@@ -673,6 +673,7 @@ public class Modifiers
 		return -1;
 	};
 
+	private String name;
 	private boolean variable;
 	private final float[] floats;
 	private final boolean[] booleans;
@@ -880,7 +881,7 @@ public class Modifiers
 		return changed;
 	}
 
-	public void add( final int index, final double mod )
+	public void add( final int index, final double mod, final String desc )
 	{
 		if ( index < 0 || index >= this.floats.length )
 		{
@@ -940,6 +941,8 @@ public class Modifiers
 		{
 			return;
 		}
+		
+		String name = mods.name;
 
 		// Add in the float modifiers
 
@@ -949,7 +952,7 @@ public class Modifiers
 		{
 			if ( addition[ i ] != 0.0f )
 			{
-				this.add( i, addition[ i ] );
+				this.add( i, addition[ i ], name );
 			}
 		}
 
@@ -995,6 +998,7 @@ public class Modifiers
 		String string = (String) modifier;
 
 		Modifiers newMods = new Modifiers();
+		newMods.name = name;
 		float[] newFloats = newMods.floats;
 		boolean[] newBooleans = newMods.booleans;
 		String[] newStrings = newMods.strings;
@@ -1225,7 +1229,7 @@ public class Modifiers
 
 		if ( KoLCharacter.getFamiliar().getId() == 38 && KoLCharacter.hasAmphibianSympathy() )
 		{
-			this.add( Modifiers.FAMILIAR_WEIGHT, -10 );
+			this.add( Modifiers.FAMILIAR_WEIGHT, -10, "dodecapede sympathy" );
 		}
 	}
 
@@ -1258,7 +1262,7 @@ public class Modifiers
 		}
 		if ( effective != 0.0 )
 		{
-			this.add( Modifiers.EXPERIENCE, Math.sqrt( effective ) );
+			this.add( Modifiers.EXPERIENCE, Math.sqrt( effective ), "Volleyball" );
 		}
 
 		effective = weight * this.get( Modifiers.SOMBRERO );
@@ -1268,7 +1272,7 @@ public class Modifiers
 		}
 		if ( effective != 0.0 )
 		{	// NIY
-			this.add( Modifiers.EXPERIENCE, 0.0 );
+			this.add( Modifiers.EXPERIENCE, 0.0, "Sombrero" );
 		}
 
 		effective = weight * this.get( Modifiers.LEPRECHAUN );
@@ -1278,7 +1282,8 @@ public class Modifiers
 		}
 		if ( effective != 0.0 )
 		{
-			this.add( Modifiers.MEATDROP, Math.sqrt( 220 * effective ) + 2 * effective + 6 );
+			this.add( Modifiers.MEATDROP, Math.sqrt( 220 * effective ) + 2 * effective + 6,
+				"Leprechaun" );
 		}
 
 		effective = weight * this.get( Modifiers.FAIRY );
@@ -1288,7 +1293,8 @@ public class Modifiers
 		}
 		if ( effective != 0.0 )
 		{
-			this.add( Modifiers.ITEMDROP, Math.sqrt( 55 * effective ) + effective + 3 );
+			this.add( Modifiers.ITEMDROP, Math.sqrt( 55 * effective ) + effective + 3,
+				"Fairy" );
 		}
 
 		switch ( familiarId )

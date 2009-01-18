@@ -2855,17 +2855,23 @@ public abstract class KoLCharacter
 
 	public static final boolean recalculateAdjustments()
 	{
+		return KoLCharacter.recalculateAdjustments( false );
+	}
+
+	public static final boolean recalculateAdjustments( boolean debug )
+	{
 		int taoFactor = KoLCharacter.hasSkill( "Tao of the Terrapin" ) ? 2 : 1;
 		int brimstoneMonsterLevel = 1;
 
-		Modifiers newModifiers = new Modifiers();
+		Modifiers newModifiers = debug ? new DebugModifiers() : new Modifiers();
 		
 		// Area-specific adjustments
 		newModifiers.add( Modifiers.getModifiers( "loc:" + Modifiers.currentLocation ) );
 		newModifiers.add( Modifiers.getModifiers( "zone:" + Modifiers.currentZone ) );
 
 		// Look at sign-specific adjustments
-		newModifiers.add( Modifiers.MONSTER_LEVEL, KoLCharacter.getSignedMLAdjustment() );
+		newModifiers.add( Modifiers.MONSTER_LEVEL, KoLCharacter.getSignedMLAdjustment(),
+			"MCD" );
 
 		// Look at items
 		for ( int slot = EquipmentManager.HAT; slot <= EquipmentManager.FAMILIAR; ++slot )
@@ -2891,12 +2897,13 @@ public abstract class KoLCharacter
 			{
 			case EquipmentManager.HAT:
 			case EquipmentManager.PANTS:
-				newModifiers.add(
-					Modifiers.DAMAGE_ABSORPTION, taoFactor * EquipmentDatabase.getPower( item.getItemId() ) );
+				newModifiers.add( Modifiers.DAMAGE_ABSORPTION, taoFactor *
+					EquipmentDatabase.getPower( item.getItemId() ), "hat/pants power" );
 				break;
 
 			case EquipmentManager.SHIRT:
-				newModifiers.add( Modifiers.DAMAGE_ABSORPTION, EquipmentDatabase.getPower( item.getItemId() ) );
+				newModifiers.add( Modifiers.DAMAGE_ABSORPTION,
+					EquipmentDatabase.getPower( item.getItemId() ), "shirt power" );
 				break;
 			}
 		}
@@ -2919,13 +2926,13 @@ public abstract class KoLCharacter
 		// Brimstone only affects monster level if more than one is worn
 		if ( brimstoneMonsterLevel > 2 )
 		{
-			newModifiers.add( Modifiers.MONSTER_LEVEL, brimstoneMonsterLevel );
+			newModifiers.add( Modifiers.MONSTER_LEVEL, brimstoneMonsterLevel, "brimstone" );
 		}
 		// Also affects item/meat drop, but apparently only one is needed
 		if ( brimstoneMonsterLevel > 1 )
 		{
-			newModifiers.add( Modifiers.MEATDROP, brimstoneMonsterLevel );
-			newModifiers.add( Modifiers.ITEMDROP, brimstoneMonsterLevel );
+			newModifiers.add( Modifiers.MEATDROP, brimstoneMonsterLevel, "brimstone" );
+			newModifiers.add( Modifiers.ITEMDROP, brimstoneMonsterLevel, "brimstone" );
 		}
 
 		// Certain outfits give benefits to the character
@@ -2941,7 +2948,7 @@ public abstract class KoLCharacter
 		if ( EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getName().equals( "serpentine sword" ) && EquipmentManager.getEquipment(
 			EquipmentManager.OFFHAND ).getName().equals( "snake shield" ) )
 		{
-			newModifiers.add( Modifiers.MONSTER_LEVEL, 10 );
+			newModifiers.add( Modifiers.MONSTER_LEVEL, 10, "serpent synergy" );
 		}
 
 		// Because there are a limited number of passive skills,
@@ -2976,12 +2983,12 @@ public abstract class KoLCharacter
 		
 		if ( HolidayDatabase.getRonaldPhase() == 5 )
 		{
-			newModifiers.add( Modifiers.RESTING_MP_PCT, 100 );
+			newModifiers.add( Modifiers.RESTING_MP_PCT, 100, "Ronald full" );
 		}
 
 		if ( HolidayDatabase.getGrimacePhase() == 5 )
 		{
-			newModifiers.add( Modifiers.RESTING_HP_PCT, 100 );
+			newModifiers.add( Modifiers.RESTING_HP_PCT, 100, "Grimace full" );
 		}
 
 		// Add familiar effects based on calculated weight adjustment,
@@ -2995,13 +3002,13 @@ public abstract class KoLCharacter
 			switch ( Preferences.getInteger( "lastQuartetRequest" ) )
 			{
 			case 1:
-				newModifiers.add( Modifiers.MONSTER_LEVEL, 5 );
+				newModifiers.add( Modifiers.MONSTER_LEVEL, 5, "quartet" );
 				break;
 			case 2:
-				newModifiers.add( Modifiers.COMBAT_RATE, -5 );
+				newModifiers.add( Modifiers.COMBAT_RATE, -5, "quartet" );
 				break;
 			case 3:
-				newModifiers.add( Modifiers.ITEMDROP, 5 );
+				newModifiers.add( Modifiers.ITEMDROP, 5, "quartet" );
 				break;
 			}
 		}
@@ -3010,9 +3017,14 @@ public abstract class KoLCharacter
 		// monster level.  Add that information.
 
 		float monsterLevel = newModifiers.get( Modifiers.MONSTER_LEVEL );
-		newModifiers.add( Modifiers.EXPERIENCE, monsterLevel / 4.0f );
+		newModifiers.add( Modifiers.EXPERIENCE, monsterLevel / 4.0f, "ML/4" );
 
 		// Determine whether or not data has changed
+		
+		if ( debug )
+		{
+			DebugModifiers.finish();
+		}
 
 		boolean changed = KoLCharacter.currentModifiers.set( newModifiers );
 		return changed;
