@@ -626,7 +626,9 @@ public class AdventureResult
 
 		int count = this.count[ 0 ];
 
-		return count == 1 ? name : name + " (" + KoLConstants.COMMA_FORMAT.format( count ) + ")";
+		return count == 1 ? name : 
+			count > Integer.MAX_VALUE/2 ? name + " (\u221E)" :
+			name + " (" + KoLConstants.COMMA_FORMAT.format( count ) + ")";
 	}
 
 	public String toConditionString()
