@@ -180,7 +180,7 @@ public class CharSheetRequest
 
 		// Drunkenness may or may not exist (in other words,
 		// if the KoLCharacter is not drunk, nothing will show
-		// up).  Therefore, parse it if it exists; otherwise,
+		// up). Therefore, parse it if it exists; otherwise,
 		// parse until the "Adventures remaining:" token.
 
 		while ( !token.startsWith( "Temul" ) && !token.startsWith( "Inebr" ) && !token.startsWith( "Tipsi" ) && !token.startsWith( "Drunk" ) && !token.startsWith( "Adven" ) )
@@ -250,7 +250,7 @@ public class CharSheetRequest
 			KoLCharacter.setCurrentRun( GenericRequest.intToken( cleanContent ) );
 		}
 
-		// Determine the player's zodiac sign, if any.  We
+		// Determine the player's zodiac sign, if any. We
 		// could read the path in next, but it's easier to
 		// read it from the full response text.
 
@@ -312,23 +312,18 @@ public class CharSheetRequest
 		token = cleanContent.nextToken();
 
 		List newSkillSet = new ArrayList();
+		List permedSkillSet = new ArrayList();
 
-		// Loop until we get to Current Familiar, since everything before that
-		// contains the player's skills.
+		// Loop until we get to Current Familiar, since everything
+		// before that contains the player's skills.
 
 		while ( !token.startsWith( "Current" ) && !token.startsWith( "[" ) )
 		{
-			if ( token.startsWith( "(" ) || token.startsWith( " (" ) )
+			if ( SkillDatabase.contains( token ) )
 			{
-				if ( token.length() <= 2 )
-				{
-					GenericRequest.skipTokens( cleanContent, 2 );
-				}
-			}
-			else if ( SkillDatabase.contains( token ) )
-			{
+				String skillName = token;
+				int skillId = SkillDatabase.getSkillId( skillName );
 				boolean shouldAddSkill = true;
-				int skillId = SkillDatabase.getSkillId( token );
 
 				switch ( skillId )
 				{
@@ -341,10 +336,28 @@ public class CharSheetRequest
 					shouldAddSkill = !KoLCharacter.inBadMoon();
 				}
 
+				boolean isPermed = false;
+				if ( cleanContent.hasMoreTokens() )
+				{
+					token = cleanContent.nextToken();
+					if ( token.equals( "(" ) || token.equals( " (" ) )
+					{
+						isPermed = true;
+						GenericRequest.skipTokens( cleanContent, 2 );
+					}
+				}
+
 				if ( shouldAddSkill )
 				{
-					newSkillSet.add( UseSkillRequest.getInstance( token ) );
+					UseSkillRequest skill = UseSkillRequest.getInstance( skillName );
+					newSkillSet.add( skill );
+					if (isPermed )
+					{
+						permedSkillSet.add( skill );
+					}
 				}
+
+				continue;
 			}
 
 			// No more tokens if no familiar equipped
@@ -362,7 +375,7 @@ public class CharSheetRequest
 		KoLCharacter.setClassName( className );
 		
 		KoLCharacter.setAvailableSkills( newSkillSet );
-
+		KoLCharacter.setPermedSkills( permedSkillSet );
 	}
 
 	/**

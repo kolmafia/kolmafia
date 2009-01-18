@@ -2161,6 +2161,17 @@ public abstract class KoLCharacter
 		KoLCharacter.battleSkillNames.setSelectedIndex( battleIndex == -1 ? 0 : battleIndex );
 	}
 
+	public static final void setPermedSkills( final List newSkillSet )
+	{
+		KoLConstants.permedSkills.clear();
+
+		for ( int i = 0; i < newSkillSet.size(); ++i )
+		{
+			UseSkillRequest skill = (UseSkillRequest) newSkillSet.get( i );
+			KoLConstants.permedSkills.add( skill );
+		}
+	}
+
 	/**
 	 * Adds a single skill to the list of known skills possessed by this character.
 	 */

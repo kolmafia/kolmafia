@@ -134,76 +134,33 @@ public class ValhallaDecorator
 		reminders.append( "</table>" );
 
 		reminders.append( "<br><table cellspacing=10 cellpadding=10><tr>" );
-		reminders.append( "<td bgcolor=\"#eeffee\" valign=top><table><tr><th style=\"text-decoration: underline\" align=center>Skills You Didn't Buy</th></tr><tr><td align=center><font size=\"-1\">" );
 
 		ArrayList skillList = new ArrayList();
+		ArrayList unpermedSkills = new ArrayList();
 		for ( int i = 0; i < KoLConstants.availableSkills.size(); ++i )
 		{
-			skillList.add( String.valueOf( ( (UseSkillRequest) KoLConstants.availableSkills.get( i ) ).getSkillId() ) );
+			UseSkillRequest skill = (UseSkillRequest) KoLConstants.availableSkills.get( i );
+			skillList.add( String.valueOf( skill.getSkillId() ) );
+			if ( !KoLConstants.permedSkills.contains( skill ) )
+			{
+				unpermedSkills.add( skill );
+			}
 		}
 
+		reminders.append( "<td bgcolor=\"#eeffee\" valign=top><table><tr><th style=\"text-decoration: underline\" align=center>Skills You Haven't Yet Permed</th></tr><tr><td align=center><font size=\"-1\">" );
+		ValhallaDecorator.listPermableSkills( reminders, unpermedSkills );
+		reminders.append( "</font></td></tr></table></td>" );
+
+		reminders.append( "<td bgcolor=\"#eeffee\" valign=top><table><tr><th style=\"text-decoration: underline\" align=center>Skills You Didn't Buy</th></tr><tr><td align=center><font size=\"-1\">" );
 		ValhallaDecorator.listPermanentSkills( reminders, skillList, startPoint );
 		reminders.append( "</font></td></tr></table></td>" );
+
 		reminders.append( "<td bgcolor=\"#eeeeff\" valign=top><table><tr><th style=\"text-decoration: underline\" align=center>Common Stuff You Didn't Do</th></tr><tr><td align=center><font size=\"-1\">" );
+		ValhallaDecorator.listCommonTasks( reminders );
+		reminders.append( "</font></td></tr></table></td>" );
 
-		if ( KoLCharacter.hasChef() )
-		{
-			reminders.append( "<nobr>blow up your chef</nobr><br>" );
-		}
+                reminders.append( "</tr></table><br><br>" );
 
-		if ( KoLCharacter.hasBartender() )
-		{
-			reminders.append( "<nobr>blow up your bartender</nobr><br>" );
-		}
-
-		if ( KoLCharacter.getZapper() != null )
-		{
-			reminders.append( "<nobr>blow up your zap wand</nobr><br>" );
-		}
-
-		if ( InventoryManager.hasItem( ItemPool.BORIS_KEY ) )
-		{
-			reminders.append( "<nobr>make a Boris's key lime pie</nobr><br>" );
-		}
-
-		if ( InventoryManager.hasItem( ItemPool.JARLSBERG_KEY ) )
-		{
-			reminders.append( "<nobr>make a Jarlsberg's key lime pie</nobr><br>" );
-		}
-
-		if ( InventoryManager.hasItem( ItemPool.SNEAKY_PETE_KEY ) )
-		{
-			reminders.append( "<nobr>make a Sneaky Pete's key lime pie</nobr><br>" );
-		}
-
-		if ( InventoryManager.hasItem( ItemPool.DIGITAL_KEY ) )
-		{
-			reminders.append( "<nobr>make a digital key lime pie</nobr><br>" );
-		}
-
-		if ( InventoryManager.hasItem( ItemPool.STAR_KEY ) )
-		{
-			reminders.append( "<nobr>make a star key lime pie</nobr><br>" );
-		}
-
-		if ( InventoryManager.hasItem( ItemPool.BUBBLIN_STONE ) )
-		{
-			reminders.append( "<nobr>make an aerated diving helmet</nobr><br>" );
-		}
-		
-		if ( InventoryManager.hasItem( ItemPool.RUBBER_EMO_ROE ) )
-		{
-			reminders.append( "<nobr>send your rubber emo roes to Veracity</nobr><br>" );
-		}
-
-		if ( InventoryManager.hasItem( ItemPool.STUFFED_COCOABO ) )
-		{
-			reminders.append( "<nobr>send your stuffed cocoabos to holatuwol</nobr><br>" );
-		}
-
-		reminders.append( "</font></td></tr></table></td></tr></table>" );
-
-		reminders.append( "<br><br>" );
 		StringUtilities.singleStringReplace(
 			buffer,
 			"<input type=submit class=button value=\"Ascend\"> <input type=checkbox name=confirm> (confirm) <input type=checkbox name=confirm2> (seriously)",
@@ -418,13 +375,35 @@ public class ValhallaDecorator
 		buffer.append( "</tr></table>" );
 	}
 
-	private static final void listPermanentSkills( final StringBuffer buffer, final ArrayList skillList,
-		final int startingPoint )
+	private static final void listPermableSkills( final StringBuffer buffer, final ArrayList unpermedSkills )
 	{
-		String skillName;
+		for ( int i = 0; i < unpermedSkills.size(); ++i )
+		{
+			UseSkillRequest skill = (UseSkillRequest)unpermedSkills.get( i );
+			int skillId = skill.getSkillId();
+
+			if ( !SkillDatabase.isPermable( skillId ) )
+			{
+				continue;
+			}
+
+			String skillName = skill.getSkillName();
+
+			buffer.append( "<nobr>" );
+			buffer.append( "<a onClick=\"skill('" );
+			buffer.append( skillId );
+			buffer.append( "');\">" );
+			buffer.append( skillName );
+			buffer.append( "</a>" );
+			buffer.append( "</nobr><br>" );
+		}
+	}
+
+	private static final void listPermanentSkills( final StringBuffer buffer, final ArrayList skillList, final int startingPoint )
+	{
 		for ( int i = 0; i < 100; ++i )
 		{
-			skillName = SkillDatabase.getSkillName( startingPoint + i );
+			String skillName = SkillDatabase.getSkillName( startingPoint + i );
 			if ( skillName == null )
 			{
 				continue;
@@ -449,6 +428,64 @@ public class ValhallaDecorator
 			}
 
 			buffer.append( "</nobr><br>" );
+		}
+	}
+
+	private static final void listCommonTasks( final StringBuffer buffer )
+	{
+		if ( KoLCharacter.hasChef() )
+		{
+			buffer.append( "<nobr>blow up your chef</nobr><br>" );
+		}
+
+		if ( KoLCharacter.hasBartender() )
+		{
+			buffer.append( "<nobr>blow up your bartender</nobr><br>" );
+		}
+
+		if ( KoLCharacter.getZapper() != null )
+		{
+			buffer.append( "<nobr>blow up your zap wand</nobr><br>" );
+		}
+
+		if ( InventoryManager.hasItem( ItemPool.BORIS_KEY ) )
+		{
+			buffer.append( "<nobr>make a Boris's key lime pie</nobr><br>" );
+		}
+
+		if ( InventoryManager.hasItem( ItemPool.JARLSBERG_KEY ) )
+		{
+			buffer.append( "<nobr>make a Jarlsberg's key lime pie</nobr><br>" );
+		}
+
+		if ( InventoryManager.hasItem( ItemPool.SNEAKY_PETE_KEY ) )
+		{
+			buffer.append( "<nobr>make a Sneaky Pete's key lime pie</nobr><br>" );
+		}
+
+		if ( InventoryManager.hasItem( ItemPool.DIGITAL_KEY ) )
+		{
+			buffer.append( "<nobr>make a digital key lime pie</nobr><br>" );
+		}
+
+		if ( InventoryManager.hasItem( ItemPool.STAR_KEY ) )
+		{
+			buffer.append( "<nobr>make a star key lime pie</nobr><br>" );
+		}
+
+		if ( InventoryManager.hasItem( ItemPool.BUBBLIN_STONE ) )
+		{
+			buffer.append( "<nobr>make an aerated diving helmet</nobr><br>" );
+		}
+		
+		if ( InventoryManager.hasItem( ItemPool.RUBBER_EMO_ROE ) )
+		{
+			buffer.append( "<nobr>send your rubber emo roes to Veracity</nobr><br>" );
+		}
+
+		if ( InventoryManager.hasItem( ItemPool.STUFFED_COCOABO ) )
+		{
+			buffer.append( "<nobr>send your stuffed cocoabos to holatuwol</nobr><br>" );
 		}
 	}
 }

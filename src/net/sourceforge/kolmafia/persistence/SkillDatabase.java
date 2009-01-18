@@ -599,6 +599,73 @@ public class SkillDatabase
 	}
 
 	/**
+	 * Utility method used to determine if the given skill can be made permanent
+	 */
+
+	public static final boolean isPermable( final int skillId )
+	{
+		switch ( skillId )
+		{
+		case 1:		// Liver of Steel
+		case 5:		// Stomach of Steel
+		case 6:		// Spleen of Steel
+			// Steel Organs
+			return false;
+
+		case 21:	// Lust
+		case 22:	// Gluttony
+		case 23:	// Greed
+		case 24:	// Sloth
+		case 25:	// Wrath
+		case 26:	// Envy
+		case 27:	// Pride
+			// Bad Moon skills
+			return false;
+
+		case 1022:	// Clobber
+		case 2023:	// Toss
+		case 3020:	// Spaghetti Spear
+		case 4020:	// Salsaball
+		case 5020:	// Suckerpunch
+		case 6025:	// Sing
+			// Class starting combat skills
+			return false;
+
+		case 2103:	// Head + Knee Combo
+		case 2105:	// Head + Shield Combo
+		case 2106:	// Knee + Shield Combo
+		case 2107:	// Head + Knee + Shield Combo
+		case 3101:	// Spirit of Cayenne
+		case 3102:	// Spirit of Peppermint
+		case 3103:	// Spirit of Garlic
+		case 3104:	// Spirit of Wormwood
+		case 3105:	// Spirit of Bacon Grease
+			// Derived skills
+			return false;
+
+		case 7008:	// Moxious Maneuver
+			return false;
+
+		case 8000:	// Summon Snowcones
+		case 8001:	// Summon Stickers
+		case 8100:	// Summon Candy Hearts
+		case 8101:	// Summon Party Favor
+		case 8200:	// Summon Hilarious Objects
+		case 8201:	// Summon Tasteful Items
+			// Bookshelf skills
+			return false;
+		}
+
+		if ( skillId / 1000 == 7 )
+		{
+			// Skills granted by items
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * Returns all skills in the database of the given type.
 	 */
 
