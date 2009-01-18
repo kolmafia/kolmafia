@@ -114,9 +114,11 @@ public class EffectDatabase
 	private static final void addToDatabase( final Integer effectId, final String name, final String image,
 		final String descriptionId, final String defaultAction )
 	{
-		EffectDatabase.nameById.put( effectId, StringUtilities.getDisplayName( name ) );
+		String canonicalName = StringUtilities.getCanonicalName( name );
+		String displayName = StringUtilities.getDisplayName( name );
+		EffectDatabase.nameById.put( effectId, displayName );
 		EffectDatabase.dataNameById.put( effectId, name );
-		EffectDatabase.effectByName.put( StringUtilities.getCanonicalName( name ), effectId );
+		EffectDatabase.effectByName.put( canonicalName, effectId );
 		EffectDatabase.imageById.put( effectId, image );
 
 		if ( descriptionId == null )
@@ -129,13 +131,13 @@ public class EffectDatabase
 
 		if ( defaultAction != null )
 		{
-			EffectDatabase.defaultActions.put( StringUtilities.getDisplayName( name ), defaultAction );
+			EffectDatabase.defaultActions.put( canonicalName, defaultAction );
 		}
 	}
 
 	public static final String getDefaultAction( final String effectName )
 	{
-		return StringUtilities.getDisplayName( (String) EffectDatabase.defaultActions.get( effectName ) );
+		return StringUtilities.getDisplayName( (String) EffectDatabase.defaultActions.get( StringUtilities.getCanonicalName( effectName ) ) );
 	}
 
 	/**

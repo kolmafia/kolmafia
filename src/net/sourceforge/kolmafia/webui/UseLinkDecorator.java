@@ -139,58 +139,57 @@ public abstract class UseLinkDecorator
 			"[<a href=\"bedazzle.php\">bedazzle</a>]</font>" );
 	}
 
-	private static final boolean shouldAddCreateLink( int itemId, String location )
+	private static final int shouldAddCreateLink( int itemId, String location )
 	{
-		if ( location == null || location.indexOf( "combine.php" ) != -1 || location.indexOf( "cocktail.php" ) != -1 || location.indexOf( "cook.php" ) != -1 ||
-			location.indexOf( "paster" ) != -1 || location.indexOf( "smith" ) != -1 )
+		if ( location == null || location.indexOf( "craft.php" ) != -1 || location.indexOf( "paster" ) != -1 || location.indexOf( "smith" ) != -1 )
 		{
-			return false;
+			return KoLConstants.NOCREATE;
 		}
 
 		// Retrieve the known ingredient uses for the item.
 		SortedListModel creations = ConcoctionDatabase.getKnownUses( itemId );
 		if ( creations.isEmpty() )
 		{
-			return false;
+			return KoLConstants.NOCREATE;
 		}
 
 		// Skip items which are multi-use or are mp restores.
 		int consumeMethod = ItemDatabase.getConsumptionType( itemId );
 		if ( consumeMethod == KoLConstants.CONSUME_MULTIPLE || consumeMethod == KoLConstants.MP_RESTORE )
 		{
-			return false;
+			return KoLConstants.NOCREATE;
 		}
 
 		switch ( itemId )
 		{
 		// If you find goat cheese, let the trapper link handle it.
 		case ItemPool.GOAT_CHEESE:
-			return false;
+			return KoLConstants.NOCREATE;
 
 		// If you find ore, let the trapper link handle it.
 		case ItemPool.LINOLEUM_ORE:
 		case ItemPool.ASBESTOS_ORE:
 		case ItemPool.CHROME_ORE:
-			return false;
+			return KoLConstants.NOCREATE;
 
 		// Dictionaries and bridges should link to the chasm quest.
 		case ItemPool.DICTIONARY:
 		case ItemPool.BRIDGE:
-			return false;
+			return KoLConstants.NOCREATE;
 
 		// Enchanted beans are primarily used for the beanstalk quest.
 		case ItemPool.ENCHANTED_BEAN:
-			return KoLCharacter.getLevel() < 10 || InventoryManager.hasItem( ItemPool.SOCK ) || InventoryManager.hasItem( ItemPool.ROWBOAT );
+			if ( KoLCharacter.getLevel() < 10 || InventoryManager.hasItem( ItemPool.SOCK ) || InventoryManager.hasItem( ItemPool.ROWBOAT ) )
+			{
+				return KoLConstants.NOCREATE;
+			}
+			break;
 		}
-
-		AdventureResult creation = null;
-		CreateItemRequest irequest = null;
-		int mixingMethod = KoLConstants.NOCREATE;
 
 		for ( int i = 0; i < creations.size(); ++i )
 		{
-			creation = (AdventureResult) creations.get( i );
-			mixingMethod = ConcoctionDatabase.getMixingMethod( creation );
+			AdventureResult creation = (AdventureResult) creations.get( i );
+			int mixingMethod = ConcoctionDatabase.getMixingMethod( creation );
 
 			// Only accept if it's a creation method that the
 			// editor kit currently understands and links.
@@ -210,25 +209,26 @@ public abstract class UseLinkDecorator
 				continue;
 			}
 
-			irequest = CreateItemRequest.getInstance( creation );
+			CreateItemRequest irequest = CreateItemRequest.getInstance( creation );
 
 			if ( ConcoctionDatabase.isPermittedMethod( mixingMethod ) && irequest != null && irequest.getQuantityPossible() > 0 )
 			{
-				return true;
+				return mixingMethod;
 			}
 		}
 
-		return false;
+		return KoLConstants.NOCREATE;
 	}
 
 	private static final void addUseLink( int itemId, int itemCount, String location, Matcher useLinkMatcher, StringBuffer buffer )
 	{
-		UseLink link;
 		int consumeMethod = ItemDatabase.getConsumptionType( itemId );
+		int mixingMethod = shouldAddCreateLink( itemId, location );
+		UseLink link;
 
-		if ( shouldAddCreateLink( itemId, location ) )
+		if ( mixingMethod != KoLConstants.NOCREATE )
 		{
-			link = getCreateLink( itemId, itemCount );
+			link = getCreateLink( itemId, itemCount, mixingMethod );
 		}
 		else if ( consumeMethod == KoLConstants.NO_CONSUME || consumeMethod == KoLConstants.COMBAT_ITEM )
 		{
@@ -301,9 +301,9 @@ public abstract class UseLinkDecorator
 		buffer.append( "</td>" );
 	}
 
-	private static final UseLink getCreateLink( int itemId, int itemCount )
+	private static final UseLink getCreateLink( final int itemId, final int itemCount, final int mixingMethod )
 	{
-		switch ( ConcoctionDatabase.getMixingMethod( itemId ) )
+		switch ( mixingMethod )
 		{
 		case KoLConstants.COMBINE:
 			return new UseLink( itemId, itemCount, "combine", KoLCharacter.inMuscleSign() ? "knoll.php?place=paster" : "craft.php?mode=combine&a=" );
@@ -316,7 +316,9 @@ public abstract class UseLinkDecorator
 		case KoLConstants.COOK:
 		case KoLConstants.COOK_REAGENT:
 		case KoLConstants.SUPER_REAGENT:
+		case KoLConstants.DEEP_SAUCE:
 		case KoLConstants.COOK_PASTA:
+		case KoLConstants.COOK_TEMPURA:
 			return new UseLink( itemId, itemCount, "cook", "craft.php?mode=cook&a=" );
 
 		case KoLConstants.JEWELRY:

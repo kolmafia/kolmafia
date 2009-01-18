@@ -319,6 +319,7 @@ public class UseItemRequest
 		switch ( itemId )
 		{
 		case ItemPool.GONG:
+		case ItemPool.KETCHUP_HOUND:
 			return 1;
 
 		case ItemPool.TOASTER:

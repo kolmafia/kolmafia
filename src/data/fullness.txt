@@ -209,7 +209,7 @@ magical ancient serpent roll	3	1	9-14	0	8-16	20-30	50/60 Fishy
 magical beefy maki	3	1	7-12	8-16	0	0	50/60 Fishy
 magical giant dragon roll	3	1	9-14	28-46	0	0	50/60 Fishy
 magical glistening maki	3	1	7-12	0	8-16	0	50/60 Fishy
-magical musclebound rabbit roll	3	1	9-14	8-16	20-30	0
+magical musclebound rabbit roll	3	1	9-14	8-16	20-30	0	50/60 Fishy
 magical python roll	3	1	9-14	8-16	0	20-30	50/60 Fishy
 magical slick maki	3	1	7-12	0	0	8-16	50/60 Fishy
 magical slippery snake roll	3	1	9-14	0	0	28-46	50/60 Fishy
