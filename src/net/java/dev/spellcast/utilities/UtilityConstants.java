@@ -57,6 +57,7 @@ public interface UtilityConstants
 	public static final File HOME_LOCATION = new File( System.getProperty( "user.home" ) ).getAbsoluteFile();
 
 	public static final File ROOT_LOCATION =
+		Boolean.getBoolean( "useCWDasROOT" ) ? UtilityConstants.BASE_LOCATION :
 		UtilityConstants.USE_OSX_STYLE_DIRECTORIES ? new File(
 			UtilityConstants.HOME_LOCATION, "Library/Application Support/KoLmafia" ) : UtilityConstants.USE_LINUX_STYLE_DIRECTORIES ? new File(
 			UtilityConstants.HOME_LOCATION, ".kolmafia" ) : UtilityConstants.BASE_LOCATION;
