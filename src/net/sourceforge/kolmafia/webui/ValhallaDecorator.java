@@ -214,6 +214,8 @@ public class ValhallaDecorator
 			}
 		}
 
+		boolean badMoon = buffer.indexOf( "You have unlocked the Bad Moon sign for your next run." ) != -1;
+
 		// Now we begin replacing the standard Valhalla form with one
 		// that is much more compact.
 
@@ -290,8 +292,11 @@ public class ValhallaDecorator
 		buffer.append( "<option value=7>The Wombat (+moxie stats)</option>" );
 		buffer.append( "<option value=8>The Blender (+adv/booze)</option>" );
 		buffer.append( "<option value=9>The Packrat (+drops)</option>" );
-		buffer.append( "<option value=0></option>" );
-		buffer.append( "<option value=10>Bad Moon</option>" );
+		if ( badMoon )
+		{
+			buffer.append( "<option value=0></option>" );
+			buffer.append( "<option value=10>Bad Moon</option>" );
+		}
 		buffer.append( "</select></td></tr>" );
 		buffer.append( KoLConstants.LINE_BREAK );
 
@@ -403,21 +408,28 @@ public class ValhallaDecorator
 	{
 		for ( int i = 0; i < 100; ++i )
 		{
-			String skillName = SkillDatabase.getSkillName( startingPoint + i );
+			int skillId = startingPoint + i;
+
+			String skillName = SkillDatabase.getSkillName( skillId );
 			if ( skillName == null )
 			{
 				continue;
 			}
 
+			if ( !SkillDatabase.isPermable( skillId ) )
+			{
+				continue;
+			}
+
 			buffer.append( "<nobr>" );
-			boolean alreadyPermed = skillList.contains( String.valueOf( startingPoint + i ) );
+			boolean alreadyPermed = skillList.contains( String.valueOf( skillId ) );
 			if ( alreadyPermed )
 			{
 				buffer.append( "<font color=darkgray><s>" );
 			}
 
 			buffer.append( "<a onClick=\"skill('" );
-			buffer.append( startingPoint + i );
+			buffer.append( skillId );
 			buffer.append( "');\">" );
 			buffer.append( skillName );
 			buffer.append( "</a>" );
