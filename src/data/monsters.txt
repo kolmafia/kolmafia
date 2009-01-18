@@ -351,6 +351,8 @@ Knob Goblin Barbecue Team	HP: 2 Def: 2 Atk: 2 E: heat Meat: 8-12	bowl of cottage
 Knob Goblin Bean Counter	HP: 20 Def: 24 Atk: 24 Meat: 48-73	hill of beans (15)	meat stack (15)	Knob Goblin visor (5)	bundle of receipts (0)
 Knob Goblin Chef	HP: 15 Def: 20 Atk: 20	Knob sausage (15)	tomato (15)	wad of dough (15)
 Knob Goblin Elite Guardsman	HP: 30 Def: 28 Atk: 30 Meat: 40-65	Knob Goblin elite helm (5)	Knob Goblin elite pants (5)	Knob Goblin elite polearm (5)	Knob Goblin elite shirt (5)
+Knob Goblin Elite Guard Captain	HP: 34	Knob Goblin elite helm (100)	Knob Goblin elite pants (100)	Knob Goblin elite polearm (100)
+Knob Goblin Embezzler	HP: 0	meat stack (0)	bundle of receipts (0)
 Knob Goblin Harem Girl	HP: 20 Def: 25 Atk: 25 E: sleaze	Knob Goblin perfume (15)	Knob Goblin harem veil (5)	Knob Goblin harem pants (5)	harem girl t-shirt (5)
 Knob Goblin Mad Scientist	HP: 25 Def: 40 Atk: 40 Meat: 32-51	Knob Goblin love potion (10)	Knob Goblin seltzer (20)	Knob Goblin steroids (10)	broken petri dish (0)
 Knob Goblin Master Chef	HP: 20 Def: 22 Atk: 22	dry noodles (15)	Knob mushroom (15)	spices (15)
