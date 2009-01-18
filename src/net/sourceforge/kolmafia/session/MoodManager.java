@@ -292,8 +292,7 @@ public abstract class MoodManager
 			String effectName = UneffectRequest.skillToEffect( skills[ i ].getSkillName() );
 			if ( EffectDatabase.contains( effectName ) )
 			{
-				MoodManager.addTrigger( "lose_effect", effectName, MoodManager.getDefaultAction(
-					"lose_effect", effectName ) );
+				MoodManager.addTrigger( "lose_effect", effectName, MoodManager.getDefaultAction( "lose_effect", effectName ) );
 			}
 		}
 
@@ -305,8 +304,7 @@ public abstract class MoodManager
 			for ( int i = 0; i < skillNames.length; ++i )
 			{
 				String effectName = UneffectRequest.skillToEffect( skillNames[ i ] );
-				MoodManager.addTrigger( "lose_effect", effectName, MoodManager.getDefaultAction(
-					"lose_effect", effectName ) );
+				MoodManager.addTrigger( "lose_effect", effectName, MoodManager.getDefaultAction( "lose_effect", effectName ) );
 			}
 		}
 		else if ( !thiefSkills.isEmpty() )

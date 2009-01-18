@@ -624,9 +624,9 @@ public class CharPaneDecorator
 			String skillName = UneffectRequest.effectToSkill( effectName );
 			int skillType = SkillDatabase.getSkillType( SkillDatabase.getSkillId( skillName ) );
 
-			// Add a removal link to the duration for buffs which can
-			// be removed.  This is either when the buff can be shrugged
-			// or the buff has a default removal method.
+			// Add a removal link to the duration for buffs which
+			// can be removed.  This is either when the buff can be
+			// shrugged or the buff has a default removal method.
 
 			if ( skillType == SkillDatabase.BUFF || InventoryManager.hasItem( UneffectRequest.REMEDY ) )
 			{
