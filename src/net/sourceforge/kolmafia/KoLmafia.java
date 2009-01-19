@@ -2071,56 +2071,57 @@ public abstract class KoLmafia
 
 	public static final void addTavernLocation( final GenericRequest request )
 	{
-		KoLmafia.validateFaucetQuest();
-		if ( KoLCharacter.getAdventuresLeft() == 0 || KoLCharacter.getCurrentHP() == 0 || KoLCharacter.getInebriety() > KoLCharacter.getInebrietyLimit() )
+		if ( KoLCharacter.getAdventuresLeft() == 0 ||
+		     KoLCharacter.getCurrentHP() == 0 ||
+		     KoLCharacter.getInebriety() > KoLCharacter.getInebrietyLimit() ||
+		     request.responseText == null )
 		{
 			return;
 		}
 
-		StringBuffer layout = new StringBuffer( Preferences.getString( "tavernLayout" ) );
+		KoLmafia.validateFaucetQuest();
 
-		if ( request.getURLString().indexOf( "fight" ) != -1 )
+		String urlString = request.getURLString();
+
+		if ( urlString.indexOf( "fight" ) != -1 )
 		{
 			int square = Preferences.getInteger( "lastTavernSquare" );
-			if ( request.responseText != null )
-			{
-				layout.setCharAt( square - 1, request.responseText.indexOf( "Baron" ) != -1 ? '4' : '1' );
-			}
+			char replacement = request.responseText.indexOf( "Baron" ) != -1 ? '4' : '1';
+			KoLmafia.addTavernLocation( square, replacement );
+			return;
 		}
-		else
+
+		if ( urlString.indexOf( "charpane" ) != -1 || urlString.indexOf( "chat" ) != -1 || urlString.equals( "rats.php" ) )
 		{
-			String urlString = request.getURLString();
-			if ( urlString.indexOf( "charpane" ) != -1 || urlString.indexOf( "chat" ) != -1 || urlString.equals( "rats.php" ) )
-			{
-				return;
-			}
-
-			Matcher squareMatcher = KoLmafia.TAVERN_PATTERN.matcher( urlString );
-			if ( !squareMatcher.find() )
-			{
-				return;
-			}
-
-			// Handle fighting rats. If this was done through
-			// the mini-browser, you'll have response text; else,
-			// the response text will be null.
-
-			int square = StringUtilities.parseInt( squareMatcher.group( 1 ) );
-			Preferences.setInteger( "lastTavernSquare", square );
-
-			char replacement = '1';
-			if ( request.responseText != null && request.responseText.indexOf( "faucetoff" ) != -1 )
-			{
-				replacement = '3';
-			}
-			else if ( request.responseText != null && request.responseText.indexOf( "You acquire" ) != -1 )
-			{
-				replacement = '2';
-			}
-
-			layout.setCharAt( square - 1, replacement );
+			return;
 		}
 
+		Matcher squareMatcher = KoLmafia.TAVERN_PATTERN.matcher( urlString );
+		if ( !squareMatcher.find() )
+		{
+			return;
+		}
+
+		int square = StringUtilities.parseInt( squareMatcher.group( 1 ) );
+		Preferences.setInteger( "lastTavernSquare", square );
+
+		char replacement = '1';
+		if ( request.responseText.indexOf( "faucetoff" ) != -1 )
+		{
+			replacement = '3';
+		}
+		else if ( request.responseText.indexOf( "You acquire" ) != -1 )
+		{
+			replacement = '2';
+		}
+
+		KoLmafia.addTavernLocation( square, replacement );
+	}
+
+	private static final void addTavernLocation( final int square, final char value )
+	{
+		StringBuffer layout = new StringBuffer( Preferences.getString( "tavernLayout" ) );
+		layout.setCharAt( square - 1, value );
 		Preferences.setString( "tavernLayout", layout.toString() );
 	}
 
@@ -2136,7 +2137,6 @@ public abstract class KoLmafia
 		// so you don't check through them again.
 
 		ArrayList searchList = new ArrayList();
-		Integer searchIndex = null;
 
 		for ( int i = 1; i <= 25; ++i )
 		{
@@ -2178,9 +2178,6 @@ public abstract class KoLmafia
 		// If the faucet has not yet been found, then go through
 		// the process of trying to locate it.
 
-		KoLAdventure adventure = new KoLAdventure( "Woods", "rats.php", "", "Typical Tavern (Pre-Rat)" );
-		boolean foundFaucet = searchList.size() < 2;
-
 		if ( KoLCharacter.getLevel() < 3 )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You need to level up first." );
@@ -2190,21 +2187,26 @@ public abstract class KoLmafia
 		RequestThread.postRequest( CouncilFrame.COUNCIL_VISIT );
 
 		KoLmafia.updateDisplay( "Searching for faucet..." );
+
+		KoLAdventure adventure = new KoLAdventure( "Woods", "rats.php", "", "Typical Tavern (Pre-Rat)" );
+		GenericRequest request = adventure.getRequest();
+		boolean foundFaucet = searchList.size() < 2;
+
 		RequestThread.postRequest( adventure );
 
 		// Random guess instead of straightforward search
-		// for the location of the faucet (lowers the chance
-		// of bad results if the faucet is near the end).
+		// for the location of the faucet.
 
-		while ( KoLmafia.permitsContinue() && !foundFaucet && KoLCharacter.getCurrentHP() > 0 && KoLCharacter.getAdventuresLeft() > 0 )
+		Integer searchIndex = null;
+
+		while ( !foundFaucet && searchList.size() > 0 && KoLmafia.permitsContinue() && KoLCharacter.getCurrentHP() > 0 && KoLCharacter.getAdventuresLeft() > 0 )
 		{
 			searchIndex = (Integer) searchList.remove( KoLConstants.RNG.nextInt( searchList.size() ) );
-
-			adventure.getRequest().addFormField( "where", searchIndex.toString() );
+			request.addFormField( "where", searchIndex.toString() );
 			RequestThread.postRequest( adventure );
 
-			foundFaucet =
-				adventure.getRequest().responseText != null && adventure.getRequest().responseText.indexOf( "faucetoff" ) != -1;
+			String response = request.responseText;
+			foundFaucet = response != null && response.indexOf( "faucetoff" ) != -1;
 		}
 
 		// If you have not yet found the faucet, be sure
