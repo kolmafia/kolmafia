@@ -57,8 +57,10 @@ public class CharPaneRequest
 
 	private static boolean canInteract = false;
 	private static boolean isRunning = false;
-	private static boolean isProcessing = false;
 	private static String lastResponse = "";
+
+	private static final Pattern TIMESTAMP_PATTERN = Pattern.compile( "var rightnow = (\\d+)" );
+	private static int timestamp = 0;
 
 	private static final CharPaneRequest instance = new CharPaneRequest();
 
@@ -118,15 +120,16 @@ public class CharPaneRequest
 		return CharPaneRequest.lastResponse;
 	}
 
-	public static final void processCharacterPane( final String responseText )
+	public static final synchronized void processCharacterPane( final String responseText )
 	{
-		if ( CharPaneRequest.isProcessing )
+		int timestamp = parseTimestamp( responseText );
+		if ( timestamp <= CharPaneRequest.timestamp )
 		{
 			return;
 		}
 
+		CharPaneRequest.timestamp = timestamp;
 		CharPaneRequest.lastResponse = responseText;
-		CharPaneRequest.isProcessing = true;
 
 		// By refreshing the KoLCharacter pane, you can
 		// determine whether or not you are in compact
@@ -167,7 +170,12 @@ public class CharPaneRequest
 
 		CharPaneRequest.setInteraction( CharPaneRequest.checkInteraction( responseText ) );
 
-		CharPaneRequest.isProcessing = false;
+	}
+
+	private static final int parseTimestamp( final String responseText )
+	{
+		Matcher matcher = TIMESTAMP_PATTERN.matcher( responseText );
+		return matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
 	}
 
 	private static final boolean checkInteraction( final String responseText )
