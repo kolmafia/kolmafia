@@ -525,6 +525,16 @@ public abstract class CustomCombatManager
 
 	public static final String getSetting( final String encounter, final int roundCount )
 	{
+		if ( roundCount < 0 || roundCount >= 100 )
+		{	// prevent hang if the combat is somehow not progressing at all
+			return "abort";
+		}
+		String action = Preferences.getString( "battleAction" );
+		if ( !action.startsWith( "custom" ) )
+		{
+			return roundCount == 0 ? "steal" : action;
+		}
+		
 		String settingKey = CustomCombatManager.getSettingKey( encounter );
 		CombatSettingNode match = (CombatSettingNode) CustomCombatManager.reference.get( settingKey );
 
@@ -561,7 +571,7 @@ public abstract class CustomCombatManager
 			return "attack";
 		}
 
-		return CustomCombatManager.getShortCombatOptionName( setting.getAction() );
+		return setting.getAction();
 	}
 
 	private static class CombatSettingNode

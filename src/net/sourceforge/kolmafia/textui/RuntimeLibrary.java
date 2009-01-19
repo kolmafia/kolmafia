@@ -99,6 +99,7 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.session.ChatManager;
 import net.sourceforge.kolmafia.session.ClanManager;
+import net.sourceforge.kolmafia.session.CustomCombatManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MushroomManager;
@@ -285,6 +286,12 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.LOCATION_TYPE };
 		functions.add( new LibraryFunction( "adventure", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.LOCATION_TYPE , DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "adventure", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "get_ccs_action", DataTypes.STRING_TYPE, params ) );
 
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "add_item_condition", DataTypes.VOID_TYPE, params ) );
@@ -771,12 +778,6 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "set_property", DataTypes.VOID_TYPE, params ) );
-
-		params = new Type[] { DataTypes.STRING_TYPE };
-		functions.add( new LibraryFunction( "get_session", DataTypes.ANY_TYPE, params ) );
-
-		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.ANY_TYPE };
-		functions.add( new LibraryFunction( "set_session", DataTypes.VOID_TYPE, params ) );
 
 		// Functions for aggregates.
 
@@ -1516,7 +1517,27 @@ public abstract class RuntimeLibrary
 		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "adventure", count + " " + loc );
 		return RuntimeLibrary.continueValue();
 	}
+	
+	public static Value adventure( final Value countValue, final Value loc, final Value filterFunc )
+	{
+		try
+		{
+			FightRequest.filterFunction = filterFunc.toString();
+			FightRequest.filterInterp = LibraryFunction.interpreter;
+			return RuntimeLibrary.adventure( countValue, loc );
+		}
+		finally
+		{
+			FightRequest.filterInterp = null;
+		}		
+	}
 
+	public static Value get_ccs_action( final Value index )
+	{
+		return new Value( CustomCombatManager.getSetting( FightRequest.getCurrentKey(),
+			index.intValue() ) );
+	}
+	
 	public static Value add_item_condition( final Value countValue, final Value item )
 	{
 		int count = countValue.intValue();
@@ -2883,22 +2904,6 @@ public abstract class RuntimeLibrary
 		return DataTypes.VOID_VALUE;
 	}
 	
-	public static Value get_session( final Value name )
-	{
-		Value rv = (Value) RuntimeLibrary.sessionVariables.get( name.toString() );
-		if ( rv == null )
-		{
-			rv = DataTypes.VOID_VALUE;
-		}
-		return rv;
-	}
-
-	public static Value set_session( final Value name, final Value value )
-	{
-		RuntimeLibrary.sessionVariables.put( name.toString(), value );
-		return DataTypes.VOID_VALUE;
-	}
-
 	// Functions for aggregates.
 
 	public static Value count( final Value arg )

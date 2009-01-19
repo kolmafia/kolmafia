@@ -96,6 +96,8 @@ public class FightRequest
 
 	private static boolean isAutomatingFight = false;
 	private static boolean isUsingConsultScript = false;
+	public static Interpreter filterInterp;
+	public static String filterFunction;
 
 	private static final Pattern SKILL_PATTERN = Pattern.compile( "whichskill=(\\d+)" );
 	private static final Pattern ITEM1_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
@@ -336,12 +338,7 @@ public class FightRequest
 
 	public void nextRound( String desiredAction )
 	{
-		if ( desiredAction == null )
-		{
-			desiredAction = Preferences.getString( "battleAction" );
-		}
-
-		FightRequest.action1 = CustomCombatManager.getShortCombatOptionName( desiredAction );
+		FightRequest.action1 = null;
 		FightRequest.action2 = null;
 
 		// Adding machine should override custom combat scripts as well,
@@ -358,28 +355,35 @@ public class FightRequest
 		{
 			this.handleHulkingConstruct();
 		}
-
-		// If the user wants a custom combat script, parse the desired
-		// action here.
-
-		if ( FightRequest.action1.equals( "custom" ) )
+		
+		if ( FightRequest.action1 == null )
 		{
+			if ( desiredAction == null )
+			{
+				int index = FightRequest.currentRound - 1 - FightRequest.preparatoryRounds;
+				if ( FightRequest.filterInterp != null )
+				{
+					desiredAction = FightRequest.filterInterp.execute( 
+						FightRequest.filterFunction, new String[]
+							{
+								String.valueOf( index ),
+								FightRequest.encounterLookup,
+								FightRequest.lastResponseText
+							}, false ).toString();
+					if ( KoLmafia.refusesContinue() )
+					{
+						FightRequest.action1 = "abort";
+						return;
+					}
+				}
+				else
+				{
+					desiredAction = CustomCombatManager.getSetting(
+						FightRequest.encounterLookup, index );
+				}
+			}
 			FightRequest.action1 =
-				CustomCombatManager.getSetting(
-					FightRequest.encounterLookup, FightRequest.currentRound - 1 - FightRequest.preparatoryRounds );
-		}
-
-		// If it is appropriate to try pickpocketing, make the attempt
-
-		else if ( FightRequest.canSteal &&
-			  FightRequest.wonInitiative() &&
-			  FightRequest.monsterData != null &&
-			  FightRequest.monsterData.shouldSteal() )
-		{
-			++FightRequest.preparatoryRounds;
-			FightRequest.action1 = "steal";
-			this.addFormField( "action", "steal" );
-			return;
+				CustomCombatManager.getShortCombatOptionName( desiredAction );
 		}
 
 		// If the person wants to use their own script,
