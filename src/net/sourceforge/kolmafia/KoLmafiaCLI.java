@@ -2717,7 +2717,7 @@ public class KoLmafiaCLI
 	public static class Use
 		extends Command
 	{
-		{ usage = " [either] <item> [, <item>]... - use/consume items"; }
+		{ usage = "[?] [either] <item> [, <item>]... - use/consume items"; }
 		public void run( String command, String parameters )
 		{
 			if ( command.equals( "overdrink" ) )
@@ -6228,12 +6228,19 @@ public class KoLmafiaCLI
 					{
 						currentMatch = currentMatch.getInstance( have );
 					}
-					UseItemRequest request =
-						command.equals( "hobo" ) ? new UseItemRequest( KoLConstants.CONSUME_HOBO, currentMatch ) :
-						command.equals( "ghost" ) ? new UseItemRequest( KoLConstants.CONSUME_GHOST, currentMatch ) :
-						new UseItemRequest( currentMatch );
-
-					RequestThread.postRequest( request );
+					if ( KoLmafiaCLI.isExecutingCheckOnlyCommand )
+					{
+						RequestLogger.printLine( currentMatch.toString() );
+					}
+					else
+					{
+						UseItemRequest request =
+							command.equals( "hobo" ) ? new UseItemRequest( KoLConstants.CONSUME_HOBO, currentMatch ) :
+							command.equals( "ghost" ) ? new UseItemRequest( KoLConstants.CONSUME_GHOST, currentMatch ) :
+							new UseItemRequest( currentMatch );
+						RequestThread.postRequest( request );
+					}
+					
 					if ( level < 2 )
 					{
 						return;
