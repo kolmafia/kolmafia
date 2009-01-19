@@ -348,7 +348,7 @@ public class Scope
 			{
 				return functions[ i ];
 			}
-			if ( hasParameters && paramCount == 1 )
+			if ( hasParameters && paramCount >= 1 )
 			{
 				if ( stringCount == 1 )
 				{
