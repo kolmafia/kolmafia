@@ -1577,6 +1577,7 @@ public class ItemDatabase
 
 		ItemDatabase.inebrietyByName.put( name, new Integer( inebriety ) );
 		ItemDatabase.saveAdventureRange( name, inebriety, adventures );
+		ItemDatabase.calculateAdventureRange( name );
 		ItemDatabase.muscleByName.put( name, ItemDatabase.extractStatRange( muscle, ItemDatabase.muscleFactor ) );
 		ItemDatabase.mysticalityByName.put( name, ItemDatabase.extractStatRange( mysticality, ItemDatabase.mysticalityFactor ) );
 		ItemDatabase.moxieByName.put( name, ItemDatabase.extractStatRange( moxie, ItemDatabase.moxieFactor ) );
