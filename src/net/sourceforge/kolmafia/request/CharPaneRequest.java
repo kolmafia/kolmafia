@@ -127,8 +127,26 @@ public class CharPaneRequest
 
 	public static final synchronized void processCharacterPane( final String responseText, final String date )
 	{
+		// The timestamp only has precision to the nearest second.
+		//
+		// On a fast connection, one can get successive charpanes
+		// generated within the same second and thus with the same
+		// timestamp.
+		//
+		// 1) If we accept updates with the same timestamp, we'll catch
+		// fast updates, but be fooled if they arrive out of order.
+		//
+		// 2) If we reject updates unless the timestamp monotonically
+		// increases, we'll skip out-of-order updates, but skip valid
+		// updates sent within the same second.
+		//
+		// We can't have it both ways
+		//
+		// Case 1 (fast updates) seems more common than case 2
+		// (out-of-order updates), so we use <, rather than <=
+
 		long timestamp = parseTimestamp( date );
-		if ( timestamp <= CharPaneRequest.timestamp )
+		if ( timestamp < CharPaneRequest.timestamp )
 		{
 			return;
 		}
