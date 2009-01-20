@@ -1058,18 +1058,26 @@ public class UseSkillRequest
 			return false;
 		}
 
+		Matcher countMatcher = UseSkillRequest.COUNT2_PATTERN.matcher( urlString );
+		int count = 1;
+
+		if ( countMatcher.find() )
+		{
+			count = StringUtilities.parseInt( countMatcher.group( 1 ) );
+		}
+
 		String action = skillMatcher.group( 1 );
 		int skillId = 0;
 
 		if ( action.equals( "snowcone" ) )
 		{
 			skillId = SkillDatabase.SNOWCONE;
-			Preferences.increment( "tomeSummons", 1 );
+			Preferences.increment( "tomeSummons", count );
 		}
 		if ( action.equals( "stickers" ) )
 		{
 			skillId = SkillDatabase.STICKER;
-			Preferences.increment( "tomeSummons", 1 );
+			Preferences.increment( "tomeSummons", count );
 		}
 		else if ( action.equals( "hilariousitems" ) )
 		{
@@ -1092,14 +1100,6 @@ public class UseSkillRequest
 		else
 		{
 			return false;
-		}
-
-		Matcher countMatcher = UseSkillRequest.COUNT2_PATTERN.matcher( urlString );
-		int count = 1;
-
-		if ( countMatcher.find() )
-		{
-			count = StringUtilities.parseInt( countMatcher.group( 1 ) );
 		}
 
 		if ( SkillDatabase.isLibramSkill( skillId ) )
