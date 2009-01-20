@@ -219,7 +219,7 @@ public class RelayRequest
 
 		if ( path.equals( "charpane.php" ) )
 		{
-			CharPaneRequest.processCharacterPane( this.responseText );
+			CharPaneRequest.processCharacterPane( this.responseText, this.date );
 		}
 		else if ( path.equals( "chatlaunch.php" ) )
 		{
@@ -257,8 +257,10 @@ public class RelayRequest
 				responseBuffer = new StringBuffer( emailMatcher.replaceAll( "" ) );
 			}
 		}
-		// If this is a store, you can opt to remove all the min-priced items from view
-		// along with all the items which are priced above affordable levels.
+
+		// If this is a store, you can opt to remove all the min-priced
+		// items from view along with all the items which are priced
+		// above affordable levels.
 
 		else if ( path.equals( "mallstore.php" ) )
 		{

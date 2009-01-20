@@ -33,7 +33,11 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -59,8 +63,9 @@ public class CharPaneRequest
 	private static boolean isRunning = false;
 	private static String lastResponse = "";
 
-	private static final Pattern TIMESTAMP_PATTERN = Pattern.compile( "var rightnow = (\\d+)" );
-	private static int timestamp = 0;
+	private static final SimpleDateFormat TIMESTAMP_FORMAT = new SimpleDateFormat( "EEE, d MMM yyyy HH:mm:ss z", Locale.US );
+
+	private static long timestamp = 0;
 
 	private static final CharPaneRequest instance = new CharPaneRequest();
 
@@ -112,7 +117,7 @@ public class CharPaneRequest
 
 	public void processResults()
 	{
-		CharPaneRequest.processCharacterPane( this.responseText );
+		CharPaneRequest.processCharacterPane( this.responseText, this.date );
 	}
 
 	public static final String getLastResponse()
@@ -120,9 +125,9 @@ public class CharPaneRequest
 		return CharPaneRequest.lastResponse;
 	}
 
-	public static final synchronized void processCharacterPane( final String responseText )
+	public static final synchronized void processCharacterPane( final String responseText, final String date )
 	{
-		int timestamp = parseTimestamp( responseText );
+		long timestamp = parseTimestamp( date );
 		if ( timestamp <= CharPaneRequest.timestamp )
 		{
 			return;
@@ -137,10 +142,10 @@ public class CharPaneRequest
 
 		GenericRequest.isCompactMode = responseText.indexOf( "<br>Lvl. " ) != -1;
 
-		// The easiest way to retrieve the KoLCharacter pane
-		// data is to use regular expressions.  But, the
-		// only data that requires synchronization is the
-		// modified stat values, health and mana.
+		// The easiest way to retrieve the KoLCharacter pane data is to
+		// use regular expressions. But, the only data that requires
+		// synchronization is the modified stat values, health and
+		// mana.
 
 		if ( responseText.indexOf( "<img src=\"http://images.kingdomofloathing.com/otherimages/inf_small.gif\">" ) == -1 )
 		{
@@ -172,10 +177,21 @@ public class CharPaneRequest
 
 	}
 
-	private static final int parseTimestamp( final String responseText )
+	private static final long parseTimestamp( final String date )
 	{
-		Matcher matcher = TIMESTAMP_PATTERN.matcher( responseText );
-		return matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
+		try
+		{
+			if ( date != null )
+			{
+				Date timestamp = CharPaneRequest.TIMESTAMP_FORMAT.parse( date );
+				return timestamp.getTime();
+			}
+		}
+		catch ( ParseException e )
+		{
+		}
+
+		return 0;
 	}
 
 	private static final boolean checkInteraction( final String responseText )
@@ -298,9 +314,9 @@ public class CharPaneRequest
 		final String openTag, final String closeTag )
 		throws Exception
 	{
-		// On the other hand, health and all that good stuff
-		// is complicated, has nested images, and lots of other
-		// weird stuff.  Handle it in a non-modular fashion.
+		// On the other hand, health and all that good stuff is
+		// complicated, has nested images, and lots of other weird
+		// stuff. Handle it in a non-modular fashion.
 
 		Matcher miscMatcher =
 			Pattern.compile(
