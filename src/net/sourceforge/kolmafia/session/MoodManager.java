@@ -475,6 +475,14 @@ public abstract class MoodManager
 				continue;
 			}
 
+			// Don't recast Hobopolis buffs, since they have daily limits
+			// and the player may have other plans for the remaining casts.
+
+			if ( skillId >= 6020 && skillId <= 6024 )
+			{
+				continue;
+			}
+
 			// Encounter rate modifying buffs probably shouldn't be
 			// cast during conditional recast.
 

@@ -513,7 +513,7 @@ public interface KoLConstants
 	public static final LockableListModel cafeItems = new LockableListModel();
 
 	public static final SortedListModel tally = new SortedListModel();
-	public static final SortedListModel conditions = new SortedListModel();
+	public static final LockableListModel conditions = new LockableListModel();
 	public static final LockableListModel adventureList = new LockableListModel();
 	public static final SortedListModel encounterList = new SortedListModel();
 

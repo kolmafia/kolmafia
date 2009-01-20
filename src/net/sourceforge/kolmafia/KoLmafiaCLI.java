@@ -4773,7 +4773,8 @@ public class KoLmafiaCLI
 			return null;
 		}
 
-		return ItemFinder.getFirstMatchingItem( conditionString );
+		AdventureResult rv = AdventureResult.WildcardResult.getInstance( conditionString );
+		return rv != null ? rv : ItemFinder.getFirstMatchingItem( conditionString );
 	}
 
 	/**

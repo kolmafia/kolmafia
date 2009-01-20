@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia;
 import java.text.ParseException;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -159,6 +160,15 @@ public class AdventureResult
 			this.normalizeItemName();
 		}
 
+	}
+
+	protected AdventureResult( final int subType, final String name, final int count )
+	{
+		this.name = name;
+		this.count = new int[ 1 ];
+		this.count[ 0 ] = count;
+
+		this.priority = subType;
 	}
 
 	/**
@@ -714,6 +724,10 @@ public class AdventureResult
 		{
 			return false;
 		}
+		if ( ar instanceof WildcardResult )
+		{
+			return ar.equals( this );
+		}
 
 		return this.count.length == ar.count.length && ( !ar.isItem() || this.itemId == ar.itemId ) && this.name.equalsIgnoreCase( ar.name );
 	}
@@ -966,5 +980,81 @@ public class AdventureResult
 		}
 
 		return ItemDatabase.getItemName( itemId );
+	}
+	
+	public static class WildcardResult
+	extends AdventureResult
+	{
+		// Note that these objects must not be placed in a sorted list, since they
+		// are not meaningfully comparable other than via equals().
+		private String match;
+		private boolean negated;
+		
+		public WildcardResult( String name, int count, String match, boolean negated )
+		{
+			super( AdventureResult.ITEM_PRIORITY, name, count );
+			this.match = match.toLowerCase();
+			this.negated = negated;
+		}
+		
+		public AdventureResult getInstance( int count )
+		{
+			return new WildcardResult( this.getName(), count, this.match, this.negated );
+		}
+
+		public boolean equals( final Object o )
+		{
+			if ( !( o instanceof AdventureResult ) || o == null )
+			{
+				return false;
+			}
+	
+			AdventureResult ar = (AdventureResult) o;
+			return (ar.getName().toLowerCase().indexOf( this.match ) != -1) ^ this.negated;
+		}
+		
+		public int getCount( final List list )
+		{
+			int count = 0;
+			Iterator i = list.iterator();
+			while ( i.hasNext() )
+			{
+				AdventureResult ar = (AdventureResult) i.next();
+				if ( this.equals( ar ) )
+				{
+					count += ar.getCount();
+				}
+			}
+			return count;
+		}
+		
+		public static WildcardResult getInstance( String text )
+		{
+			if ( text.indexOf( "any" ) == -1 )
+			{
+				return null;
+			}
+			
+			String[] pieces = text.split( " ", 2 );
+			int count = StringUtilities.parseInt( pieces[ 0 ] );
+			if ( pieces.length > 1 && count != 0 )
+			{
+				text = pieces[ 1 ];
+			}
+			else
+			{
+				count = 1;
+			}
+			
+			if ( text.startsWith( "any " ) )
+			{
+				return new WildcardResult( text, count, text.substring( 4 ), false );
+			}
+			if ( text.startsWith( "anything but " ) )
+			{
+				return new WildcardResult( text, count, text.substring( 13 ), true );
+			}
+			return null;
+		}
 	}
 }
