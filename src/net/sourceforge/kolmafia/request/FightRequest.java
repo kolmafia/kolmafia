@@ -255,7 +255,7 @@ public class FightRequest
 			return true;
 
 		// Can Has Cyborger
-		if ( text.indexOf( "The Jump: you gets it." ) != -1 )
+		if ( text.indexOf( "The Jump: " ) != -1 )
 			return true;
 
 		// Haiku dungeon
