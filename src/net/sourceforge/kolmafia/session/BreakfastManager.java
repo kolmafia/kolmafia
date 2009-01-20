@@ -346,11 +346,11 @@ public class BreakfastManager
 
 		int castCount = Math.min( casts, maximumCast );
 
-		if ( castCount > 1 && !allowRestore )
+		if ( castCount > 0 && !allowRestore )
 		{
 			int available = KoLCharacter.getCurrentMP() - manaRemaining;
 			int perCast = SkillDatabase.getMPConsumptionById( SkillDatabase.getSkillId( name ) );
-			castCount = Math.min( maximumCast, available / perCast );
+			castCount = Math.min( castCount, available / perCast );
 		}
 
 		if ( castCount == 0 )
