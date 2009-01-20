@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2008, KoLmafia development team
+ * Copyright (c) 2005-2009, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -205,7 +205,7 @@ public abstract class SystemTrayFrame
 
 		public final void actionPerformed( final ActionEvent e )
 		{
-			( new Thread( this ) ).start();
+			( new Thread( this, "ThreadedTrayIconPopupSimpleItem" ) ).start();
 		}
 	}
 

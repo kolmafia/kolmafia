@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2008, KoLmafia development team
+ * Copyright (c) 2005-2009, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -488,6 +488,13 @@ public class ValhallaDecorator
 		if ( InventoryManager.hasItem( ItemPool.BUBBLIN_STONE ) )
 		{
 			buffer.append( "<nobr>make an aerated diving helmet</nobr><br>" );
+		}
+
+		GenericRequest trophyCheck = new GenericRequest( "trophy.php" );
+		trophyCheck.run();
+		if ( trophyCheck.responseText.indexOf( "You're not currently entitled to any trophies" ) == -1 )
+		{
+			buffer.append( "<nobr>buy trophies you're eligible for</nobr><br>" );
 		}
 		
 		if ( InventoryManager.hasItem( ItemPool.RUBBER_EMO_ROE ) )

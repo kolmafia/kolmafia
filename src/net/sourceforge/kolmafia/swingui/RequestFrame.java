@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2008, KoLmafia development team
+ * Copyright (c) 2005-2009, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -597,8 +597,13 @@ public class RequestFrame
 			}
 			else
 			{
-				RequestFrame.this.refresh( RequestEditorKit.extractRequest( location ) );
+				RequestFrame.this.gotoLink( location );
 			}
 		}
+	}
+	
+	public void gotoLink( String location )
+	{
+		this.refresh( RequestEditorKit.extractRequest( location ) );
 	}
 }
