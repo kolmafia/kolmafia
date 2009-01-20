@@ -101,8 +101,7 @@ public class KoLAdventure
 	 * @param adventureName The string form, or name of this adventure
 	 */
 
-	public KoLAdventure( final String zone, final String formSource, final String adventureId,
-		final String adventureName )
+	public KoLAdventure( final String zone, final String formSource, final String adventureId, final String adventureName )
 	{
 		this.formSource = formSource;
 		this.adventureId = adventureId;
