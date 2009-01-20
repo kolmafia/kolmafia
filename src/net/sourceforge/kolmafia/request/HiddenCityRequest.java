@@ -38,6 +38,7 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -98,12 +99,12 @@ public class HiddenCityRequest
 		{
 			int square = this.square;
 
-			if ( !validSquare( square ) )
+			if ( !HiddenCityRequest.validSquare( square ) )
 			{
 				square = Preferences.getInteger( "hiddenCitySquare" );
 			}
 
-			if ( !validSquare( square ) )
+			if ( !HiddenCityRequest.validSquare( square ) )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You must select a square of the Hidden City to visit." );
 				return;
@@ -134,7 +135,31 @@ public class HiddenCityRequest
 		super.run();
 	}
 
-	private boolean validSquare( int square )
+	public static final void validateHiddenCity()
+	{
+		int lastAscension = Preferences.getInteger( "lastHiddenCityAscension" );
+		if ( lastAscension < KoLCharacter.getAscensions() )
+		{
+			Preferences.setInteger( "lastHiddenCityAscension", KoLCharacter.getAscensions() );
+			Preferences.setString( "hiddenCityLayout", "0000000000000000000000000" );
+			Preferences.setInteger( "hiddenCitySquare", 0 );
+			HiddenCityRequest.lastSquare = 0;
+		}
+	}
+
+	public static final String hiddenCityLayout()
+	{
+		HiddenCityRequest.validateHiddenCity();
+		String layout = Preferences.getString( "hiddenCityLayout" );
+		if ( layout.length() != 25 )
+		{
+			layout = "0000000000000000000000000";
+			Preferences.setString( "hiddenCityLayout", layout );
+		}
+		return layout;
+	}
+
+	private static boolean validSquare( int square )
 	{
 		return square >= 1 && square <= 25;
 	}
@@ -169,6 +194,7 @@ public class HiddenCityRequest
 		if ( !matcher.find() )
 		{
 			// We simply visited a square
+			HiddenCityRequest.identifySquare( location, responseText );
 			return false;
 		}
 
@@ -198,7 +224,41 @@ public class HiddenCityRequest
 		return false;
 	}
 
-	public static final int getSquare( final String urlString )
+	private static final void identifySquare( final String location, final String responseText )
+	{
+		int square = HiddenCityRequest.getSquare( location );
+		if ( !HiddenCityRequest.validSquare( square ) )
+		{
+			return;
+		}
+
+		if ( responseText.indexOf( "Mansion House of the Black Friars" ) != -1 )
+		{
+			HiddenCityRequest.addHiddenCityLocation( square, 'T' );
+		}
+		else if ( responseText.indexOf( "An altar with a carving of a god of nature" ) != -1 )
+		{
+			HiddenCityRequest.addHiddenCityLocation( square, 'N' );
+		}
+		else if ( responseText.indexOf( "An altar with a carving of a god of lightning" ) != -1 )
+		{
+			HiddenCityRequest.addHiddenCityLocation( square, 'L' );
+		}
+		else if ( responseText.indexOf( "An altar with a carving of a god of water" ) != -1 )
+		{
+			HiddenCityRequest.addHiddenCityLocation( square, 'W' );
+		}
+		else if ( responseText.indexOf( "An altar with a carving of a god of fire" ) != -1 )
+		{
+			HiddenCityRequest.addHiddenCityLocation( square, 'F' );
+		}
+		else if ( responseText.indexOf( "Dr. Henry \"Dakota\" Fanning, Ph.D., R.I.P." ) != -1 )
+		{
+			HiddenCityRequest.addHiddenCityLocation( square, 'A' );
+		}
+	}
+
+	private static final int getSquare( final String urlString )
 	{
 		Matcher matcher = HiddenCityRequest.WHICH_PATTERN.matcher( urlString );
 		if ( !matcher.find() )
@@ -209,12 +269,87 @@ public class HiddenCityRequest
 		return 1 + StringUtilities.parseInt( matcher.group( 1 ) );
 	}
 
+	private static final String currentAltar()
+	{
+		return HiddenCityRequest.currentAltar( HiddenCityRequest.lastSquare );
+	}
+
+	private static final String currentAltar( final int square )
+	{
+		if ( HiddenCityRequest.validSquare( square ) )
+		{
+			String layout = HiddenCityRequest.hiddenCityLayout();
+			switch ( layout.charAt( square - 1 ) )
+			{
+			case 'N':
+				return "Altar of Bulbazinalli";
+			case 'L':
+				return "Altar of Pikachutlotal";
+			case 'W':
+				return "Altar of Squirtlcthulli";
+			case 'F':
+				return "Altar of Charcoatl";
+			}
+		}
+		return "Altar";
+	}
+
+	public static final void addHiddenCityLocation( final char value )
+	{
+		HiddenCityRequest.addHiddenCityLocation( HiddenCityRequest.lastSquare, value );
+	}
+
+	private static final void addHiddenCityLocation( final int square, final char value )
+	{
+		if ( !HiddenCityRequest.validSquare( square ) )
+		{
+			return;
+		}
+
+		// N (nature) - Altar of Bulbazinalli
+		// L (lightning) - Altar of Pikachutlotal
+		// W (water) - Altar of Squirtlcthulli
+		// F (fire) - Altar of Charcoatl
+		// P - protector spirit
+		// D - defeated protector spirit
+		// T - temple
+		// E - encounter
+		// A - Archaeologist
+		// 0 - unidentified
+
+		StringBuffer layout = new StringBuffer( HiddenCityRequest.hiddenCityLayout() );
+		layout.setCharAt( square - 1, value );
+		Preferences.setString( "hiddenCityLayout", layout.toString() );
+	}
+
+	private static final char getHiddenCityLocation()
+	{
+		return HiddenCityRequest.getHiddenCityLocation( HiddenCityRequest.lastSquare );
+	}
+
+	private static final char getHiddenCityLocation( final int square )
+	{
+		if ( !HiddenCityRequest.validSquare( square ) )
+		{
+			return '0';
+		}
+
+		String layout = HiddenCityRequest.hiddenCityLayout();
+		return layout.charAt( square - 1 );
+	}
+
 	public static final boolean registerRequest( final String urlString )
 	{
 		if ( urlString.indexOf( "snarfblat=118" ) != -1 )
 		{
+			HiddenCityRequest.validateHiddenCity();
+			int square = HiddenCityRequest.lastSquare;
+			if ( HiddenCityRequest.getHiddenCityLocation( square ) == '0' )
+			{
+				HiddenCityRequest.addHiddenCityLocation( square, 'E' );
+			}
 			// Set this square for use in automated adventuring
-			Preferences.setInteger( "hiddenCitySquare", HiddenCityRequest.lastSquare );
+			Preferences.setInteger( "hiddenCitySquare", square );
 			return true;
 		}
 
@@ -223,10 +358,12 @@ public class HiddenCityRequest
 			return false;
 		}
 
+		HiddenCityRequest.validateHiddenCity();
+
 		String message;
 		if ( urlString.indexOf( "action=trisocket" ) != -1 )
 		{
-			message = "[" + KoLAdventure.getAdventureCount() + "] Hidden City (Temple)";
+			message = "[" + KoLAdventure.getAdventureCount() + "] Hidden City (Smallish Temple)" + KoLConstants.LINE_BREAK + "Placing triangular stones into carving";
 		}
 		else if ( urlString.indexOf( "action=roundthing" ) != -1 )
 		{
@@ -240,7 +377,8 @@ public class HiddenCityRequest
 			int itemId = StringUtilities.parseInt( matcher.group( 1 ) );
 			String name = ItemDatabase.getItemName( itemId );
 
-			message = "[" + KoLAdventure.getAdventureCount() + "] Hidden City (Altar)" + KoLConstants.LINE_BREAK + "Offering " + name + " at altar";
+			String altar = HiddenCityRequest.currentAltar();
+			message = "[" + KoLAdventure.getAdventureCount() + "] Hidden City (" + altar + ")" + KoLConstants.LINE_BREAK + "Offering " + name + " at "+ altar;
 		}
 		else
 		{

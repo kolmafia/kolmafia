@@ -219,6 +219,7 @@ user	grimoire1Summons	0
 user	grimoire2Summons	0
 user	guyMadeOfBeesCount	0
 user	guyMadeOfBeesDefeated	false
+user	hiddenCityLayout	0000000000000000000000000
 user	hiddenCitySquare	0
 user	hippiesDefeated	0
 user	hpAutoRecovery	-0.05
@@ -256,6 +257,7 @@ user	lastEmptiedStorage	-1
 user	lastFilthClearance	-1
 user	lastGalleryUnlock	-1
 user	lastGuyMadeOfBeesReset	-1
+user	lastHiddenCityAscension	0
 user	lastKingLiberation	-1
 user	lastLouvreMap	0
 user	lastMessageId

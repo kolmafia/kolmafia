@@ -57,6 +57,7 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Monster;
+import net.sourceforge.kolmafia.request.HiddenCityRequest;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
@@ -1334,6 +1335,11 @@ public class FightRequest
 				encounter = responseText.indexOf( "ninjarice.gif" ) != -1 ?
 					"Ninja Snowman (Chopsticks)" : "Ninja Snowman (Hilt/Mask)";
 			}
+			else if ( encounter.equalsIgnoreCase( "Ancient Protector Spirit" ) )
+			{
+				HiddenCityRequest.addHiddenCityLocation( 'P' );
+
+			}
 
 			FightRequest.encounterLookup = CustomCombatManager.encounterKey( encounter );
 			FightRequest.monsterData = MonsterDatabase.findMonster( FightRequest.encounterLookup, false );
@@ -1501,10 +1507,15 @@ public class FightRequest
 
 		if ( responseText.indexOf( "<!--WINWINWIN-->" ) != -1 )
 		{
-			// Count Black Puddings defeated
-			if ( FightRequest.encounterLookup.equalsIgnoreCase( "Black Pudding" ) )
+			String monster = FightRequest.encounterLookup;
+
+			if ( monster.equalsIgnoreCase( "Black Pudding" ) )
 			{
 				Preferences.increment( "blackPuddingsDefeated", 1 );
+			}
+			else if ( monster.equalsIgnoreCase( "Ancient Protector Spirit" ) )
+			{
+				HiddenCityRequest.addHiddenCityLocation( 'D' );
 			}
 
 			// Give your summoned combat entity some experience
@@ -1831,8 +1842,8 @@ public class FightRequest
 			return;
 		}
 
-                String name = null;
-                String type = null;
+		String name = null;
+		String type = null;
 
 		Matcher matcher1 = FightRequest.GHOST1_PATTERN.matcher( responseText );
 		Matcher matcher2 = FightRequest.GHOST2_PATTERN.matcher( responseText );
@@ -1896,7 +1907,7 @@ public class FightRequest
 			++uses;
 		}
 
-                Preferences.setInteger( "pastamancerGhostSummons", uses );
+		Preferences.setInteger( "pastamancerGhostSummons", uses );
 	}
 
 	private static final void updateMonsterHealth( final String responseText )
