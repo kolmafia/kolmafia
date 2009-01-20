@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2008, KoLmafia development team
+ * Copyright (c) 2005-2009, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -281,6 +281,11 @@ public class CommandDisplayFrame
 	{
 		private String command = "";
 
+		public CommandQueueHandler()
+		{
+			super( "CommandQueueHandler" );
+		}
+		
 		public void run()
 		{
 			while ( true )

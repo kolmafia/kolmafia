@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2008, KoLmafia development team
+ * Copyright (c) 2005-2009, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -56,7 +56,7 @@ public class VersionDataPanel
 	extends JPanel
 {
 	private final String[] versionData =
-		{ StaticEntity.getVersion(), KoLConstants.VERSION_DATE, " ", "Copyright © 2005-2008 KoLmafia development team", "Berkeley Software Development (BSD) License", "http://kolmafia.sourceforge.net/", " ", "Current Running on " + System.getProperty( "os.name" ), "Local Directory is " + System.getProperty( "user.dir" ), "Using Java v" + System.getProperty( "java.runtime.version" ) };
+		{ StaticEntity.getVersion(), KoLConstants.VERSION_DATE, " ", "Copyright © 2005-2009 KoLmafia development team", "Berkeley Software Development (BSD) License", "http://kolmafia.sourceforge.net/", " ", "Current Running on " + System.getProperty( "os.name" ), "Local Directory is " + System.getProperty( "user.dir" ), "Using Java v" + System.getProperty( "java.runtime.version" ) };
 
 	public VersionDataPanel()
 	{

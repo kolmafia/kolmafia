@@ -15,6 +15,7 @@ public class LocalRelayCombatThread
 
 	public LocalRelayCombatThread()
 	{
+		super( "LocalRelayCombatThread" );
 		this.setDaemon( true );
 		this.start();
 	}

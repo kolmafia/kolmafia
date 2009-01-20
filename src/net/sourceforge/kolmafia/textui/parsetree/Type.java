@@ -8,7 +8,7 @@ import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
 
 /**
- * Copyright (c) 2005-2008, KoLmafia development team
+ * Copyright (c) 2005-2009, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *

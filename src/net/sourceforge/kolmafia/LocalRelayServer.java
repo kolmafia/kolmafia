@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2008, KoLmafia development team
+ * Copyright (c) 2005-2009, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -84,7 +84,8 @@ public class LocalRelayServer
 			return;
 		}
 
-		LocalRelayServer.relayThread = new Thread( LocalRelayServer.INSTANCE );
+		LocalRelayServer.relayThread = new Thread( LocalRelayServer.INSTANCE,
+			"LocalRelayServer" );
 		LocalRelayServer.relayThread.start();
 	}
 

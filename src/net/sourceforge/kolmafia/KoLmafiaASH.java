@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2008, KoLmafia development team
+ * Copyright (c) 2005-2009, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -120,6 +120,29 @@ public abstract class KoLmafiaASH
 			RequestThread.enableDisplayIfSequenceComplete();
 
 			return KoLmafiaASH.serverReplyBuffer.length() != 0;
+		}
+	}
+
+	public static final String getScriptHTML( final Interpreter interp, final String serverFunc, final String path )
+	{
+		synchronized ( KoLmafiaASH.serverReplyBuffer )
+		{
+			KoLmafiaASH.relayScript = interp;
+			KoLmafiaASH.serverReplyBuffer.setLength( 0 );
+
+			KoLmafiaASH.relayRequest.constructURLString( path );
+			int slashpos = KoLmafiaASH.relayRequest.getPath().lastIndexOf( "/" );
+			interp.execute( serverFunc, new String[] {
+				KoLmafiaASH.relayRequest.getPath().substring( slashpos + 1 ) }, false );
+
+			if ( KoLmafiaASH.serverReplyBuffer.length() == 0 )
+			{
+				KoLmafiaASH.serverReplyBuffer.append( "<html><body>Script failed to write any output!</body></html>" );
+			}
+
+			KoLmafiaASH.relayScript = null;
+
+			return KoLmafiaASH.serverReplyBuffer.toString();
 		}
 	}
 
