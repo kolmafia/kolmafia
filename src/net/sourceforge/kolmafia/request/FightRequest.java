@@ -1700,7 +1700,7 @@ public class FightRequest
 				KoLCharacter.ensureUpdatedPirateInsults();
 				if ( !Preferences.getBoolean( "lastPirateInsult" + insult ) )
 				{	// it's a new one
-					AdventureResult result = AdventureResult.tallyItem( "pirate insult" );
+					AdventureResult result = AdventureResult.tallyItem( "pirate insult", false );
 					AdventureResult.addResultToList( KoLConstants.tally, result );
 				}
 				Preferences.setBoolean( "lastPirateInsult" + insult, true );
