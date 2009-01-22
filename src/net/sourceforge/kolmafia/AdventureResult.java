@@ -321,17 +321,19 @@ public class AdventureResult
 		}
 
 		// Make a pseudo-item with the required name
-
-		item = new AdventureResult( "(none)", 1, false );
-		item.name = name;
-		return item;
+		return AdventureResult.tallyItem( name, false );
 	}
 
 	public static final AdventureResult tallyItem( final String name )
 	{
+		return AdventureResult.tallyItem( name, true );
+	}
+
+	public static final AdventureResult tallyItem( final String name, final boolean setItemId )
+	{
 		AdventureResult item = new AdventureResult( AdventureResult.NO_PRIORITY, name );
 		item.priority = AdventureResult.ITEM_PRIORITY;
-		item.itemId = ItemDatabase.getItemId( name, 1 );
+		item.itemId = setItemId ? ItemDatabase.getItemId( name, 1 ) : -1;
 		return item;
 	}
 
