@@ -1692,7 +1692,7 @@ public abstract class ChoiceManager
 			// Heart of Very, Very Dark Darkness
 			result = new String[ 2 ];
 
-			boolean rock = KoLCharacter.hasEquipped( ItemPool.get( ItemPool.INEXPLICABLY_GLOWING_ROCK, 1 ) );
+			boolean rock = InventoryManager.getCount( ItemPool.INEXPLICABLY_GLOWING_ROCK ) >= 1;
 
 			result[ 0 ] = "You " + ( rock ? "" : "DON'T ") + " have an inexplicably glowing rock";
 			result[ 1 ] = "skip adventure";
