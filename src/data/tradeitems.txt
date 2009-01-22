@@ -2365,7 +2365,7 @@
 2364	Zim Merman's guitar	12	all	0
 2365	C.A.R.N.I.V.O.R.E. button	8	all	0
 2366	orange peel hat	9	all	0
-2367	carbonated soy milk	4	all	75
+2367	carbonated soy milk	14	all	75
 2368	flowing hippy skirt	10	all	185
 2369	filthy poultice	16	all	85
 2370	natural fennel soda	14	all	75
