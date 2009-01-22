@@ -857,8 +857,8 @@ public class AdventureRequest
 
 	public int getAdventuresUsed()
 	{
-		// Do the following weird check since the zone might be null
-		if ( "The Sea".equals( AdventureDatabase.getZone( this.adventureName ) ) )
+		String zone = AdventureDatabase.getZone( this.adventureName );
+		if ( zone != null && zone.equals( "The Sea" ) )
 		{
 			return KoLConstants.activeEffects.contains(
 				EffectPool.get( EffectPool.FISHY ) ) ? 1 : 2;
