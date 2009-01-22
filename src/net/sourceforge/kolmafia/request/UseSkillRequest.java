@@ -873,6 +873,11 @@ public class UseSkillRequest
 			shouldStop = true;
 			UseSkillRequest.lastUpdate = "You need special equipment to cast that buff.";
 		}
+		else if ( this.responseText.indexOf( "You can't remember how to use that skill" ) != -1 )
+		{
+			shouldStop = true;
+			UseSkillRequest.lastUpdate = "That skill is currently unavailable.";
+		}
 
 		// Now that all the checks are complete, proceed
 		// to determine how to update the user display.
