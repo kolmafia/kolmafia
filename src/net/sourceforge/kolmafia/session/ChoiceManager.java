@@ -2725,6 +2725,19 @@ public abstract class ChoiceManager
 			// the mining outfit so it can be tried again later.
 
 			return EquipmentManager.isWearingOutfit( 8 ) ? decision : "2";
+
+		// In the Shade
+		case 298:
+			if ( decision.equals( "1" ) )
+			{
+				int seeds = InventoryManager.getCount( ItemPool.SEED_PACKET );
+				int slime = InventoryManager.getCount( ItemPool.GREEN_SLIME );
+				if ( seeds < 1 || slime < 1 )
+				{
+					return "2";
+				}
+			}
+			return decision;
 		}
 
 		return decision;
