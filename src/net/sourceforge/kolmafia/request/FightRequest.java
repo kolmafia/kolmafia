@@ -2124,6 +2124,52 @@ public class FightRequest
 		case ItemPool.ICEBALL:
 			return false;
 
+		case ItemPool.COMMUNICATIONS_WINDCHIMES:
+
+			// Only record usage in battle if you got some sort of
+			// response.
+			//
+			// You bang out a series of chimes, (success)
+			//   or
+			// A nearby hippy soldier sees you about to start
+			// ringing your windchimes (failure)
+			if ( responseText.indexOf( "bang out a series of chimes" ) != -1 ||
+			     responseText.indexOf( "ringing your windchimes" ) != -1 )
+			{
+				IslandDecorator.ensureUpdatedBigIsland();
+				Preferences.setInteger( "lastHippyCall", KoLAdventure.getAdventureCount() );
+			}
+
+			// Then he takes your windchimes and wanders off.
+			if ( responseText.indexOf( "he takes your windchimes" ) != -1 )
+			{
+				return true;
+			}
+			return false;
+
+		case ItemPool.PADL_PHONE:
+
+			// Only record usage in battle if you got some sort of
+			// response.
+			//
+			// You punch a few buttons on the phone, (success)
+			//   or
+			// A nearby frat soldier sees you about to send a
+			// message to HQ (failure)
+			if ( responseText.indexOf( "punch a few buttons on the phone" ) != -1 ||
+			     responseText.indexOf( "send a message to HQ" ) != -1 )
+			{
+				IslandDecorator.ensureUpdatedBigIsland();
+				Preferences.setInteger( "lastFratboyCall", KoLAdventure.getAdventureCount() );
+			}
+
+			// Then he takes your phone and wanders off.
+			if ( responseText.indexOf( "he takes your phone" ) != -1 )
+			{
+				return true;
+			}
+			return false;
+
 		case ItemPool.SPOOKY_PUTTY_SHEET:
 			// You press the sheet of spooky putty against
 			// him/her/it and make a perfect copy, which you shove

@@ -387,6 +387,7 @@ public class ItemPool
 	public static final int REASSEMBLED_BLACKBIRD = 2052;
 	public static final int BLACK_MARKET_MAP = 2054;
 	public static final int FORGED_ID_DOCUMENTS = 2064;
+	public static final int PADL_PHONE = 2065;
 	public static final int NOVELTY_BUTTON = 2072;
 	public static final int MAKESHIFT_TURBAN = 2079;
 	public static final int MAKESHIFT_CAPE = 2080;
@@ -453,6 +454,7 @@ public class ItemPool
 	public static final int HOLY_MACGUFFIN = 2334;
 	public static final int BLACK_PUDDING = 2338;
 	public static final int FILTHWORM_QUEEN_HEART = 2347;
+	public static final int COMMUNICATIONS_WINDCHIMES = 2354;
 	public static final int ZIM_MERMANS_GUITAR = 2364;
 	public static final int FILTHY_POULTICE = 2369;
 	public static final int GAUZE_GARTER = 2402;

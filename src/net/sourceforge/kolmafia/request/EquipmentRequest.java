@@ -961,6 +961,7 @@ public class EquipmentRequest
 		{
 			EquipmentManager.updateEquipmentLists();
 			ConcoctionDatabase.refreshConcoctions();
+			ItemDatabase.calculateAdventureRanges();
 		}
 	}
 

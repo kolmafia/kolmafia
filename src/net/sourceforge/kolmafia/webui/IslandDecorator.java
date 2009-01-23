@@ -1486,6 +1486,8 @@ public class IslandDecorator
 			Preferences.setString( "currentJunkyardTool", "" );
 			Preferences.setString( "currentJunkyardLocation", "" );
 			Preferences.setInteger( "currentNunneryMeat", 0 );
+			Preferences.setInteger( "lastFratboyCall", -1 );
+			Preferences.setInteger( "lastHippyCall", -1 );
 			Preferences.setInteger( "availableDimes", 0 );
 			Preferences.setInteger( "availableQuarters", 0 );
 			Preferences.setString( "sideDefeated", "neither" );

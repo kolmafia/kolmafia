@@ -845,6 +845,13 @@ public class Concoction
 
 	public int getAdventuresNeeded( final int quantityNeeded )
 	{
+		// If we can't make this item, it costs no adventures to use
+		// the quantity on hand.
+		if ( !ConcoctionDatabase.PERMIT_METHOD[ this.mixingMethod ] )
+		{
+			return 0;
+		}
+
 		int create = quantityNeeded - this.initial;
 		if ( create <= 0 )
 		{
