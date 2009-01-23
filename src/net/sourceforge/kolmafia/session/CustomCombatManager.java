@@ -313,8 +313,7 @@ public abstract class CustomCombatManager
 		}
 		else if ( key.startsWith( "the " ) )
 		{
-			key = key.substring( 4 );
-			line = line.substring( 4 );
+			// It really is "The Man" or "The Astronomer"
 		}
 		else if ( key.startsWith( "some " ) )
 		{

@@ -775,7 +775,7 @@ public class GenericRequest
 
 		if ( GenericRequest.isRatQuest )
 		{
-			KoLmafia.addTavernLocation( this );
+			KoLmafia.preTavernVisit( this );
 		}
 
 		if ( !this.hasNoResult && GenericRequest.isBarrelSmash )
@@ -1360,7 +1360,7 @@ public class GenericRequest
 
 		if ( GenericRequest.isRatQuest )
 		{
-			KoLmafia.addTavernLocation( this );
+			KoLmafia.postTavernVisit( this );
 		}
 
 		this.encounter = AdventureRequest.registerEncounter( this );
