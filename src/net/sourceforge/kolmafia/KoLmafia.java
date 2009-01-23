@@ -162,7 +162,7 @@ public abstract class KoLmafia
 
 	public static boolean executedLogin = false;
 
-	private static final Pattern TAVERN_PATTERN = Pattern.compile( "where=(\\d+)" );
+	private static final Pattern TAVERN_PATTERN = Pattern.compile( "rats.php.*where=(\\d+)" );
 
 	private static FileLock SESSION_HOLDER = null;
 	private static FileChannel SESSION_CHANNEL = null;
@@ -404,7 +404,7 @@ public abstract class KoLmafia
 		LimitedSizeChatBuffer.updateFontSize();
 
 		// Change the default look and feel to match the player's
-		// preferences.  Always do this.
+		// preferences. Always do this.
 
 		String lookAndFeel = Preferences.getString( "swingLookAndFeel" );
 		boolean foundLookAndFeel = false;
@@ -510,7 +510,7 @@ public abstract class KoLmafia
 
 		// Now, maybe the person wishes to run something
 		// on startup, and they associated KoLmafia with
-		// some non-ASH file extension.  This will run it.
+		// some non-ASH file extension. This will run it.
 
 		StringBuffer initialScript = new StringBuffer();
 
@@ -2069,21 +2069,29 @@ public abstract class KoLmafia
 		}
 	}
 
-	public static final void addTavernLocation( final GenericRequest request )
+	public static final void preTavernVisit( final GenericRequest request )
 	{
-		if ( KoLCharacter.getAdventuresLeft() == 0 ||
-		     KoLCharacter.getCurrentHP() == 0 ||
-		     KoLCharacter.getInebriety() > KoLCharacter.getInebrietyLimit() ||
-		     request.responseText == null )
+		String urlString = request.getURLString();
+		int square = KoLmafia.currentTavernSquare( urlString );
+		if ( square == 0 )
 		{
 			return;
 		}
 
-		KoLmafia.validateFaucetQuest();
+		Preferences.setInteger( "lastTavernSquare", square );
+	}
+
+	public static final void postTavernVisit( final GenericRequest request )
+	{
+		if ( KoLCharacter.getAdventuresLeft() == 0 ||
+		     KoLCharacter.getCurrentHP() == 0 ||
+		     KoLCharacter.getInebriety() > KoLCharacter.getInebrietyLimit() )
+		{
+			return;
+		}
 
 		String urlString = request.getURLString();
-
-		if ( urlString.indexOf( "fight" ) != -1 )
+		if ( urlString.startsWith( "fight.php" ) )
 		{
 			int square = Preferences.getInteger( "lastTavernSquare" );
 			char replacement = request.responseText.indexOf( "Baron" ) != -1 ? '4' : '1';
@@ -2091,19 +2099,11 @@ public abstract class KoLmafia
 			return;
 		}
 
-		if ( urlString.indexOf( "charpane" ) != -1 || urlString.indexOf( "chat" ) != -1 || urlString.equals( "rats.php" ) )
+		int square = KoLmafia.currentTavernSquare( urlString );
+		if ( square == 0 )
 		{
 			return;
 		}
-
-		Matcher squareMatcher = KoLmafia.TAVERN_PATTERN.matcher( urlString );
-		if ( !squareMatcher.find() )
-		{
-			return;
-		}
-
-		int square = StringUtilities.parseInt( squareMatcher.group( 1 ) );
-		Preferences.setInteger( "lastTavernSquare", square );
 
 		char replacement = '1';
 		if ( request.responseText.indexOf( "faucetoff" ) != -1 )
@@ -2116,10 +2116,23 @@ public abstract class KoLmafia
 		}
 
 		KoLmafia.addTavernLocation( square, replacement );
+		Preferences.setInteger( "lastTavernSquare", square );
+	}
+
+	private static final int currentTavernSquare( final String urlString )
+	{
+		Matcher squareMatcher = KoLmafia.TAVERN_PATTERN.matcher( urlString );
+		if ( !squareMatcher.find() )
+		{
+			return 0;
+		}
+
+		return StringUtilities.parseInt( squareMatcher.group( 1 ) );
 	}
 
 	private static final void addTavernLocation( final int square, final char value )
 	{
+		KoLmafia.validateFaucetQuest();
 		StringBuffer layout = new StringBuffer( Preferences.getString( "tavernLayout" ) );
 		layout.setCharAt( square - 1, value );
 		Preferences.setString( "tavernLayout", layout.toString() );
@@ -2131,8 +2144,6 @@ public abstract class KoLmafia
 
 	public int locateTavernFaucet()
 	{
-		KoLmafia.validateFaucetQuest();
-
 		// Determine which elements have already been checked
 		// so you don't check through them again.
 
@@ -2143,6 +2154,7 @@ public abstract class KoLmafia
 			searchList.add( new Integer( i ) );
 		}
 
+		KoLmafia.validateFaucetQuest();
 		String visited = Preferences.getString( "tavernLayout" );
 		for ( int i = visited.length() - 1; i >= 0; --i )
 		{
