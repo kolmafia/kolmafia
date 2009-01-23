@@ -87,6 +87,7 @@ import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+import net.sourceforge.kolmafia.webui.IslandDecorator;
 
 public class RelayRequest
 	extends PasswordHashRequest
@@ -835,6 +836,169 @@ public class RelayRequest
 		this.responseCode = 404;
 	}
 
+	private boolean sendBattlefieldWarning( final String urlString, final KoLAdventure adventure )
+	{
+		// If user has already confirmed he wants to go there, accept it
+		if ( this.getFormField( "confirm" ) != null )
+		{
+			return false;
+		}
+
+		// If visiting big island, see if trying to enter a camp
+		if ( urlString.startsWith( "bigisland.php" ) )
+		{
+			return checkCampVisit( urlString );
+		}
+
+		if ( adventure == null )
+		{
+			return false;
+		}
+
+		String location = adventure.getAdventureId();
+
+		// If he's not going on to the battlefield, no problem
+		if ( !location.equals( "132" ) && !location.equals( "140" ) )
+		{
+			return false;
+		}
+
+		// You can't tell which uniform is being worn from the URL;
+		// the player can adventure in one uniform, change uniform,
+		// and click on the Last Adventure link
+
+		SpecialOutfit outfit = EquipmentManager.currentOutfit();
+
+		// If he's not in a uniform, no battle
+		if ( outfit == null )
+		{
+			return false;
+		}
+
+		int outfitId = outfit.getOutfitId();
+		switch ( outfitId )
+		{
+		case 32:
+			// War Hippy Fatigues
+		case 33:
+			// Frat Warrior Fatigues
+			return checkBattle( outfitId);
+		}
+
+		return false;
+	}
+
+	private boolean checkCampVisit( final String urlString )
+	{
+		String master = CoinMasterRequest.findCampMaster( urlString );
+
+		// If he's not attempting to enter a camp, no problem.
+		if ( master == null )
+		{
+			return false;
+		}
+
+		SpecialOutfit outfit = EquipmentManager.currentOutfit();
+
+		// If he's not in a uniform, no visit
+		if ( outfit == null )
+		{
+			return false;
+		}
+
+		switch ( outfit.getOutfitId() )
+		{
+		case 32:
+			// War Hippy Fatigues
+			if ( master == CoinMasterRequest.HIPPY )
+			{
+				return false;
+			}
+			break;
+
+		case 33:
+			// Frat Warrior Fatigues
+			if ( master == CoinMasterRequest.FRATBOY )
+			{
+				return false;
+			}
+			break;
+
+		default:
+			return false;
+		}
+
+		// He is attempting to visit the opposing camp in uniform.
+		// This will prompt the final confrontation.
+		// Offer a chance to cash in dimes and quarters.
+
+		this.sendCoinMasterWarning( master );
+		return true;
+	}
+
+	private boolean checkBattle( final int outfitId )
+	{
+		int fratboysDefeated = IslandDecorator.fratboysDefeated();
+		int hippiesDefeated = IslandDecorator.hippiesDefeated();
+
+		if ( fratboysDefeated == 999 && hippiesDefeated == 999 )
+		{
+			this.sendCoinMasterWarning( null );
+			return true;
+		}
+
+		if ( fratboysDefeated == 999 && outfitId == 32 )
+		{
+			// In hippy uniform and about to defeat last fratboy.
+			int factor = IslandDecorator.hippiesDefeatedPerBattle();
+			if ( hippiesDefeated < 999 && ( 999 - hippiesDefeated ) % factor == 0 )
+			{
+				this.sendWossnameWarning( CoinMasterRequest.FRATBOY );
+				return true;
+			}
+		}
+
+		if ( hippiesDefeated == 999 && outfitId == 33 )
+		{
+			// In fratboy uniform and about to defeat last hippy.
+			int factor = IslandDecorator.fratboysDefeatedPerBattle();
+			if ( fratboysDefeated < 999 && ( 999 - fratboysDefeated ) % factor == 0 )
+			{
+				this.sendWossnameWarning( CoinMasterRequest.HIPPY );
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	private void sendCoinMasterWarning( final String camp )
+	{
+		String message;
+
+		if ( camp == null )
+		{
+			message = "You are about to enter the final confrontation with the two bosses.";
+		}
+		else
+		{
+			message = "You are about to enter the " + ( camp == CoinMasterRequest.HIPPY ? "hippy" : "fratboy" ) + " camp and confront the boss.";
+		}
+
+		message = message + " Before you do so, you might want to redeem war loot for dimes and quarters and buy equipment. Click on the image to enter battle, once you are ready.";
+
+		this.sendGeneralWarning( "lucre.gif", message );
+	}
+
+	private void sendWossnameWarning( final String camp )
+	{
+		String message;
+
+		message = "You are about to defeat the last " + ( camp == CoinMasterRequest.HIPPY ? "hippy" : "fratboy" ) + " and enter battle with the boss. However, you have not yet finished with the " + ( camp == CoinMasterRequest.HIPPY ? "fratboys" : "hippies" ) + ". If you are sure you don't want the Order of the Silver Wossname, click on the image and proceed.";
+
+		this.sendGeneralWarning( "wossname.gif", message );
+	}
+
 	public void sendBossWarning( final String name, final String image, final int mcd1, final String item1,
 		final int mcd2, final String item2 )
 	{
@@ -1257,7 +1421,6 @@ public class RelayRequest
 		}
 
 		String path = this.getPath();
-		String urlString = this.getURLString();
 
 		if ( path.equals( "desc_effect.php" ) && Preferences.getBoolean( "relayAddsWikiLinks" ) )
 		{
@@ -1273,7 +1436,18 @@ public class RelayRequest
 			}
 		}
 
+		String urlString = this.getURLString();
 		KoLAdventure adventure = AdventureDatabase.getAdventureByURL( urlString );
+
+		// We want to do some checks for the battlefield:
+		// - make sure player doesn't lose a Wossname by accident
+		// - give player chance to cash in dimes and quarters
+
+		if ( this.sendBattlefieldWarning( urlString, adventure ) )
+		{
+			return;
+		}
+
 		String adventureName = adventure != null ? adventure.getAdventureName() :
 			AdventureDatabase.getUnknownName( urlString );
 

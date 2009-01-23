@@ -66,8 +66,8 @@ public class CoinMasterRequest
 	private static final Pattern BOUNTY_PATTERN = Pattern.compile( "I'm still waiting for you to bring me (\\d+) (.*?), Bounty Hunter!" );
 
 	private static final String BHH = "Bounty Hunter Hunter";
-	private static final String HIPPY = "Dimemaster";
-	private static final String FRATBOY = "Quartersmaster";
+	public static final String HIPPY = "Dimemaster";
+	public static final String FRATBOY = "Quartersmaster";
 	private static final String BIGBROTHER = "Big Brother";
 
 	private final String token;

@@ -129,6 +129,16 @@ public class IslandDecorator
 		IslandDecorator.IMAGE_ROOT + "19.gif", // NUNS
 	};
 
+	private static final String[] SIDEQUEST_PREFERENCES =
+	{
+		"sidequestArenaCompleted",
+		"sidequestFarmCompleted",
+		"sidequestJunkyardCompleted",
+		"sidequestLighthouseCompleted",
+		"sidequestNunsCompleted",
+		"sidequestOrchardCompleted",
+	};
+
 	// Here are JHunz's replacement images for Big Island sidequest areas
 	// from his BattlefieldCounter Greasemonkey script:
 	//
@@ -351,14 +361,14 @@ public class IslandDecorator
 		{
 			last = IslandDecorator.lastFratboysDefeated;
 			current = IslandDecorator.fratboysDefeated;
-                }
+		}
 		else
 		{
 			last = IslandDecorator.lastHippiesDefeated;
 			current = IslandDecorator.hippiesDefeated;
-                }
+		}
 
-                if ( last == current )
+		if ( last == current )
 		{
 			return;
 		}
@@ -1402,10 +1412,10 @@ public class IslandDecorator
 			return;
 		}
 
-                if ( InventoryManager.hasItem( ItemPool.FILTHWORM_QUEEN_HEART ) )
-                {
-                        ResultProcessor.processItem( ItemPool.FILTHWORM_QUEEN_HEART, -1 );
-                }
+		if ( InventoryManager.hasItem( ItemPool.FILTHWORM_QUEEN_HEART ) )
+		{
+			ResultProcessor.processItem( ItemPool.FILTHWORM_QUEEN_HEART, -1 );
+		}
 
 		String side = EquipmentManager.isWearingOutfit( 32 ) ? "hippy" : "fratboy";
 		Preferences.setString( "sidequestOrchardCompleted", side );
@@ -1502,6 +1512,42 @@ public class IslandDecorator
 		IslandDecorator.currentJunkyardLocation = Preferences.getString( "currentJunkyardLocation" );
 		IslandDecorator.currentNunneryMeat = Preferences.getInteger( "currentNunneryMeat" );
 		IslandDecorator.lastNunneryMeat = IslandDecorator.currentNunneryMeat;
+	}
+
+	public static final int fratboysDefeated()
+	{
+		IslandDecorator.ensureUpdatedBigIsland();
+		return IslandDecorator.fratboysDefeated;
+	}
+
+	public static final int hippiesDefeated()
+	{
+		IslandDecorator.ensureUpdatedBigIsland();
+		return IslandDecorator.hippiesDefeated;
+	}
+
+	public static final int fratboysDefeatedPerBattle()
+	{
+		return IslandDecorator.sidequestFactor( "hippy" );
+	}
+
+	public static final int hippiesDefeatedPerBattle()
+	{
+		return IslandDecorator.sidequestFactor( "fratboy" );
+	}
+
+	private static final int sidequestFactor( final String completer )
+	{
+		int factor = 1;
+		for ( int i = 0; i < SIDEQUEST_PREFERENCES.length; ++i )
+		{
+			String pref = Preferences.getString( SIDEQUEST_PREFERENCES[i] );
+			if ( pref.equals( completer ) )
+			{
+				factor *= 2;
+			}
+		}
+		return factor;
 	}
 
 	public static final void parsePostwarIsland( final String location, final String responseText )
