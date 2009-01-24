@@ -43,6 +43,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 
@@ -55,20 +56,20 @@ public class WineCellarRequest
 	public WineCellarRequest( final String demon)
 	{
 		super( "manor3.php" );
-                this.addFormField( "action", "summon" );
-                this.addFormField( "demonname", demon );
+		this.addFormField( "action", "summon" );
+		this.addFormField( "demonname", demon );
 	}
 
 	public WineCellarRequest( final int bottle)
 	{
 		super( "manor3.php" );
-                this.addFormField( "action", "pourwine" );
-                this.addFormField( "whichwine", String.valueOf( bottle ) );
+		this.addFormField( "action", "pourwine" );
+		this.addFormField( "whichwine", String.valueOf( bottle ) );
 	}
 
 	public void processResults()
 	{
-                WineCellarRequest.parseResponse( this.getURLString(), this.responseText );
+		WineCellarRequest.parseResponse( this.getURLString(), this.responseText );
 	}
 
 	public static final boolean parseResponse( final String location, final String responseText )
@@ -78,10 +79,23 @@ public class WineCellarRequest
 			return false;
 		}
 
-                if ( location.indexOf( "action=summon" ) != -1 )
-                {
-			AdventureRequest.registerDemonName( "Summoning Chamber", responseText );
-                }
+		if ( location.indexOf( "action=summon" ) != -1 )
+		{
+			if ( responseText.indexOf( "You light three black candles" ) != -1 )
+			{
+				AdventureRequest.registerDemonName( "Summoning Chamber", responseText );
+				ResultProcessor.processItem( ItemPool.BLACK_CANDLE, -3 );
+				ResultProcessor.processItem( ItemPool.EVIL_SCROLL, -1 );
+
+				if ( responseText.indexOf( "some sort of crossed signal" ) == -1 &&
+					responseText.indexOf( "hum, which eventually cuts off" ) == -1 &&
+					responseText.indexOf( "get right back to you" ) == -1 &&
+					responseText.indexOf( "Please check the listing" ) == -1 )
+				{
+					Preferences.setBoolean( "demonSummoned", true );
+				}
+			}
+		}
 
 		return false;
 	}
@@ -120,9 +134,6 @@ public class WineCellarRequest
 			}
 
 			RequestLogger.updateSessionLog( "summon " + demon );
-
-			ResultProcessor.processItem( ItemPool.BLACK_CANDLE, -3 );
-			ResultProcessor.processItem( ItemPool.EVIL_SCROLL, -1 );
 
 			return true;
 		}

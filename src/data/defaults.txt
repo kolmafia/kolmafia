@@ -210,6 +210,7 @@ user	demonName4
 user	demonName5
 user	demonName6	Tatter
 user	demonName7	Ak'gyxoth
+user	demonSummoned	false
 user	expressCardUsed	false
 user	fratboysDefeated	0
 user	friarsBlessingReceived	false
@@ -353,6 +354,7 @@ user	sortByRoom	true
 user	spadingData
 user	spiceMelangeUsed	false
 user	spookyPuttyCopiesMade	0
+user	spookyPuttyMonster
 user	stationaryButton1
 user	stationaryButton2
 user	stationaryButton3

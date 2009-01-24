@@ -46,6 +46,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
+import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
@@ -71,6 +72,9 @@ public class DailyDeedsPanel
 		this.add( new StyxDaily() );
 		this.add( new FriarsDaily() );
 		this.add( new ConcertDaily() );
+		this.add( new DemonDaily( 1, 2 ) );
+		this.add( new DemonDaily( 3, 4 ) );
+		this.add( new DemonDaily( 5, 7 ) );
 		this.add( new NunsDaily() );
 		if ( KoLCharacter.hasSkill( "Vent Rage Gland" ) )
 		{
@@ -83,6 +87,7 @@ public class DailyDeedsPanel
 		this.add( new MojoDaily() );
 		this.add( new MelangeDaily() );
 		this.add( new StillsDaily() );
+		this.add( new PuttyDaily() );
 		if ( Preferences.getInteger( "blackPuddingsDefeated" ) < 240 )
 		{
 			this.add( new PuddingDaily() );
@@ -189,6 +194,11 @@ public class DailyDeedsPanel
 			}
 		}
 		
+		public void setEnabled( int index, boolean enabled )
+		{
+			((JButton) this.buttons.get( index )).setEnabled( enabled );
+		}
+		
 		public void actionPerformed( ActionEvent e )
 		{
 			CommandDisplayFrame.executeCommand( e.getActionCommand() );
@@ -261,6 +271,34 @@ public class DailyDeedsPanel
 			this.setEnabled( nv < 3 &&
 				!Preferences.getString( "sidequestNunsCompleted" ).equals( "none" ) );
 			this.setText( nv + "/3" );
+		}
+	}
+
+	public static class DemonDaily
+		extends Daily
+	{
+		private int demon1, demon2;
+		
+		public DemonDaily( int demon1, int demon2 )
+		{
+			this.demon1 = demon1;
+			this.demon2 = demon2;
+			this.addListener( "(character)" );
+			this.addListener( "demonSummoned" );
+			this.addListener( "demonName" + demon1 );
+			this.addListener( "demonName" + demon2 );
+			this.addButton( "summon " + KoLAdventure.DEMON_TYPES[ demon1 - 1 ][ 1 ] );
+			this.addButton( "summon " + KoLAdventure.DEMON_TYPES[ demon2 - 1 ][ 1 ] );
+		}
+		
+		public void update()
+		{
+			boolean summoned = Preferences.getBoolean( "demonSummoned" );
+			int level = KoLCharacter.getLevel();
+			this.setEnabled( 0, !summoned && level >= 11 &&
+				!Preferences.getString( "demonName" + this.demon1 ).equals( "" ) );
+			this.setEnabled( 1, !summoned && level >= 11 &&
+				!Preferences.getString( "demonName" + this.demon2 ).equals( "" ) );
 		}
 	}
 
@@ -446,6 +484,29 @@ public class DailyDeedsPanel
 		{
 			this.setText( KoLCharacter.getStillsAvailable() +
 				"/10 stills available" );
+		}
+	}
+
+	public static class PuttyDaily
+		extends Daily
+	{
+		public PuttyDaily()
+		{
+			this.addListener( "spookyPuttyCopiesMade" );
+			this.addListener( "spookyPuttyMonster" );
+			this.addLabel( "" );
+		}
+		
+		public void update()
+		{
+			String text = Preferences.getInteger( "spookyPuttyCopiesMade" ) +
+				"/5 putty uses";
+			String monster = Preferences.getString( "spookyPuttyMonster" );
+			if ( !monster.equals( "" ) )
+			{
+				text = text + ", now " + monster;
+			}
+			this.setText( text );
 		}
 	}
 

@@ -1175,6 +1175,7 @@ public class FightRequest
 
 		case ItemPool.SPOOKY_PUTTY_MONSTER:
 			itemName = "Spooky Putty Monster";
+			Preferences.setString( "spookyPuttyMonster", "" );
 			ResultProcessor.processItem( ItemPool.SPOOKY_PUTTY_SHEET, 1 );
 			consumed = true;
 			break;
@@ -2179,6 +2180,7 @@ public class FightRequest
 			if ( responseText.indexOf( "make a perfect copy" ) != -1 )
 			{
 				Preferences.increment( "spookyPuttyCopiesMade", 1 );
+				Preferences.setString( "spookyPuttyMonster", FightRequest.encounterLookup );
 				return true;
 			}
 			return false;
