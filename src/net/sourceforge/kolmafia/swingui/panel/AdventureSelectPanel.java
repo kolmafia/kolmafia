@@ -102,6 +102,7 @@ public class AdventureSelectPanel
 	private final LockableListModel locationConditions = new LockableListModel();
 	private JCheckBox conditionsFieldActive = new JCheckBox();
 	private ConditionsComboBox conditionField = new ConditionsComboBox();
+	private SafetyField safetyField = null;
 
 	public AdventureSelectPanel( final boolean enableAdventures )
 	{
@@ -191,6 +192,14 @@ public class AdventureSelectPanel
 		KoLAdventure location = AdventureDatabase.getAdventure( pref );
 
 		this.updateSelectedAdventure( location );
+	}
+
+	public void updateSafetyDetails()
+	{
+		if ( this.safetyField != null )
+		{
+			this.safetyField.run();
+		}
 	}
 
 	public void updateSelectedAdventure( final KoLAdventure location )
@@ -564,7 +573,8 @@ public class AdventureSelectPanel
 		if ( property.startsWith( "default" ) )
 		{
 			resultSelect.addItem( "Location Details" );
-			resultPanel.add( new SafetyField(), String.valueOf( cardCount++ ) );
+			AdventureSelectPanel.this.safetyField = new SafetyField();
+			resultPanel.add( AdventureSelectPanel.this.safetyField, String.valueOf( cardCount++ ) );
 
 			resultSelect.addItem( "Conditions Left" );
 			resultPanel.add( new GenericScrollPane( KoLConstants.conditions, 4 ), String.valueOf( cardCount++ ) );

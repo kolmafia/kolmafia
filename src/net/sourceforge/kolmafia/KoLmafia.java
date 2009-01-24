@@ -2021,7 +2021,7 @@ public abstract class KoLmafia
 			levelArray[ i ] = "Level " + i;
 		}
 
-		int currentLevel = KoLCharacter.getSignedMLAdjustment();
+		int currentLevel = KoLCharacter.getMindControlLevel();
 
 		String selectedLevel =
 			(String) InputFieldUtilities.input( "Change monster annoyance from " + currentLevel + "?", levelArray );

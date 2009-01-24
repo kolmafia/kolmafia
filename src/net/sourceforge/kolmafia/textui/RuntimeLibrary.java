@@ -2435,7 +2435,7 @@ public abstract class RuntimeLibrary
 
 	public static Value current_mcd()
 	{
-		return new Value( KoLCharacter.getSignedMLAdjustment() );
+		return new Value( KoLCharacter.getMindControlLevel() );
 	}
 
 	public static Value change_mcd( final Value level )

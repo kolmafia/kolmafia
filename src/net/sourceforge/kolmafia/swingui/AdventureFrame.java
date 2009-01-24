@@ -148,6 +148,16 @@ public class AdventureFrame
 		AdventureFrame.adventureSelector.updateSelectedAdventure( location );
 	}
 
+	public static final void updateSafetyDetails()
+	{
+		if ( AdventureFrame.adventureSelector == null )
+		{
+			return;
+		}
+
+		AdventureFrame.adventureSelector.updateSafetyDetails();
+	}
+
 	public static final void updateFromPreferences()
 	{
 		if ( AdventureFrame.adventureSelector != null )

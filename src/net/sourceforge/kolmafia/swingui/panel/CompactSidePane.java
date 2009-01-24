@@ -268,7 +268,7 @@ public class CompactSidePane
 			this.roninLabel.setText( "(Ronin for " + ( 1000 - KoLCharacter.getCurrentRun() ) + ")" );
 		}
 
-		this.mcdLabel.setText( "ML @ " + KoLCharacter.getSignedMLAdjustment() );
+		this.mcdLabel.setText( "ML @ " + KoLCharacter.getMindControlLevel() );
 
 		this.musLabel.setText( this.getStatText( KoLCharacter.getAdjustedMuscle(), KoLCharacter.getBaseMuscle() ) );
 		this.mysLabel.setText( this.getStatText(
