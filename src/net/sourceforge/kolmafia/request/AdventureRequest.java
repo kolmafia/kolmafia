@@ -322,8 +322,8 @@ public class AdventureRequest
 			return;
 		}
 
-		// Cold protection is required for the area.  This only happens at
-		// the peak.  Abort and notify.
+		// Cold protection is required for the area.  This only happens
+		// at the peak.	 Abort and notify.
 
 		if ( this.responseText.indexOf( "need some sort of protection" ) != -1 )
 		{
@@ -376,6 +376,14 @@ public class AdventureRequest
 		if ( this.responseText.indexOf( "already undefiled" ) != -1 )
 		{
 			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Cyrpt area cleared." );
+			return;
+		}
+
+		if ( this.responseText.indexOf( "some way of breathing underwater" ) != -1 )
+		{
+			// "You can't adventure there without some way of
+			// breathing underwater..."
+			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "You can't breathe underwater." );
 			return;
 		}
 

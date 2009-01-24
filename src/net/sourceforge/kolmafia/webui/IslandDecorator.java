@@ -349,7 +349,7 @@ public class IslandDecorator
 
 		// Don't bother showing progress of the war if you've just won
 		String monster = FightRequest.getLastMonsterName();
-		if ( monster.equalsIgnoreCase( "Big Wisniewski" ) || monster.equalsIgnoreCase( "Man" ) )
+		if ( monster.equalsIgnoreCase( "The Big Wisniewski" ) || monster.equalsIgnoreCase( "The Man" ) )
 		{
 			return;
 		}
@@ -1031,6 +1031,25 @@ public class IslandDecorator
 			return;
 		}
 
+		if ( responseText.indexOf( "Giant explosions in slow motion" ) != -1 )
+		{
+			IslandDecorator.handleEndOfWar( "both" );
+			return;
+		}
+
+		String name = monster.getName();
+		if ( name.equalsIgnoreCase( "The Big Wisniewski" ) )
+		{
+			IslandDecorator.handleEndOfWar( "hippies" );
+			return;
+		}
+
+		if ( name.equalsIgnoreCase( "The Man" ) )
+		{
+			IslandDecorator.handleEndOfWar( "fratboys" );
+			return;
+		}
+
 		// Decide whether we defeated a hippy or a fratboy warrior
 		if ( IslandDecorator.fratboyBattlefield.hasMonster( monster ) )
 		{
@@ -1093,6 +1112,44 @@ public class IslandDecorator
 			RequestLogger.updateSessionLog( message );
 			RequestLogger.printLine( message );
 		}
+	}
+
+	private static final void handleEndOfWar( final String loser )
+	{
+		String message;
+
+		if ( loser.equals( "fratboys" ) )
+		{
+			IslandDecorator.fratboysDefeated = 1000;
+			Preferences.setInteger( "fratboysDefeated", 1000 );
+			message = "War finished: fratboys defeated";
+		}
+		else if ( loser.equals( "hippies" ) )
+		{
+			IslandDecorator.hippiesDefeated = 1000;
+			Preferences.setInteger( "hippiesDefeated", 1000 );
+			message = "War finished: hippies defeated";
+		}
+		else if ( loser.equals( "both" ) )
+		{
+			IslandDecorator.fratboysDefeated = 1000;
+			Preferences.setInteger( "fratboysDefeated", 1000 );
+			IslandDecorator.hippiesDefeated = 1000;
+			Preferences.setInteger( "hippiesDefeated", 1000 );
+			message = "War finished: both sides defeated";
+		}
+		else
+		{
+			// Say what?
+			return;
+		}
+
+		RequestLogger.updateSessionLog( message );
+		RequestLogger.printLine( message );
+
+		Preferences.setString( "sideDefeated", loser );
+		Preferences.setString( "warProgress", "finished" );
+		CoinmastersFrame.externalUpdate();
 	}
 
 	// Crowther spaded how many kills it takes to display an image in:
