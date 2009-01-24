@@ -340,10 +340,16 @@ public class CharSheetRequest
 				if ( cleanContent.hasMoreTokens() )
 				{
 					token = cleanContent.nextToken();
+					// (<b>HP</b>)
 					if ( token.equals( "(" ) || token.equals( " (" ) )
 					{
 						isPermed = true;
 						GenericRequest.skipTokens( cleanContent, 2 );
+					}
+					// (P)
+					else if ( token.equals( "(P)" ) || token.equals( " (P)" ) )
+					{
+						isPermed = true;
 					}
 				}
 
