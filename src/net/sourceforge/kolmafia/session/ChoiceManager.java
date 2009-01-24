@@ -763,7 +763,9 @@ public abstract class ChoiceManager
 			new String[] { "Good with the Ladies -> Can-Can skirt", "Feelin' Philosophical -> not-a-pipe", "mysticality substats" },
 			new String[] { "2663", "2660", null } ),
 
-		// Choice 173-176 are unknown
+		// Choice 173 is unknown
+                // Choice 174 is Last Stand, Bra
+                // Choice 175-176 are unknown
 
 		// The Blackberry Cobbler
 		new ChoiceAdventure(
