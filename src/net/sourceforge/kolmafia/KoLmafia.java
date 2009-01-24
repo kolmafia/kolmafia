@@ -2072,6 +2072,8 @@ public abstract class KoLmafia
 
 	public static final void preTavernVisit( final GenericRequest request )
 	{
+		KoLmafia.validateFaucetQuest();
+
 		String urlString = request.getURLString();
 		int square = KoLmafia.currentTavernSquare( urlString );
 		if ( square == 0 )
