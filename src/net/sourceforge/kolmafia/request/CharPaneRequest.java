@@ -184,8 +184,6 @@ public class CharPaneRequest
 			KoLCharacter.setAvailableMeat( 0 );
 			KoLCharacter.setAdventuresLeft( 0 );
 			KoLCharacter.setMindControlLevel( 0 );
-			KoLCharacter.setDetunedRadioVolume( 0 );
-			KoLCharacter.setAnnoyotronLevel( 0 );
 		}
 
 		CharPaneRequest.refreshEffects( responseText );
@@ -263,9 +261,7 @@ public class CharPaneRequest
 		{
 			CharPaneRequest.handleStatPoints( responseText, "Mus", "Mys", "Mox" );
 			CharPaneRequest.handleMiscPoints( responseText, "HP", "MP", "Meat", "Adv", "", "<b>", "</b>" );
-			CharPaneRequest.handleMindControl( responseText, "MC" );
-			CharPaneRequest.handleDetunedRadio( responseText, "Radio" );
-			CharPaneRequest.handleAnnoyotron( responseText, "AOT5K" );
+			CharPaneRequest.handleMindControl( responseText, "MC", "Radio", "AOT5K" );
 		}
 		catch ( Exception e )
 		{
@@ -280,9 +276,7 @@ public class CharPaneRequest
 			CharPaneRequest.handleStatPoints( responseText, "Muscle", "Mysticality", "Moxie" );
 			CharPaneRequest.handleMiscPoints(
 				responseText, "hp\\.gif", "mp\\.gif", "meat\\.gif", "hourglass\\.gif", "&nbsp;", "<span.*?>", "</span>" );
-			CharPaneRequest.handleMindControl( responseText, "Mind Control" );
-			CharPaneRequest.handleDetunedRadio( responseText, "Detuned Radio" );
-			CharPaneRequest.handleAnnoyotron( responseText, "Annoy-o-Tron 5k" );
+			CharPaneRequest.handleMindControl( responseText, "Mind Control", "Detuned Radio", "Annoy-o-Tron 5k" );
 		}
 		catch ( Exception e )
 		{
@@ -370,49 +364,34 @@ public class CharPaneRequest
 		}
 	}
 
-	private static final void handleMindControl( final String responseText, final String mcString )
-		throws Exception
+	private static final void handleMindControl( final String text, final String string1, final String string2, final String string3 )
 	{
-		Matcher matcher = Pattern.compile( mcString + "</a>: ?(</td><td>)?<b>(\\d+)</b>" ).matcher( responseText );
-
-		if ( matcher.find() )
+		int level = CharPaneRequest.handleMindControl( text, string1 );
+		if ( level > 0 )
 		{
-			KoLCharacter.setMindControlLevel( StringUtilities.parseInt( matcher.group( 2 ) ) );
+			KoLCharacter.setMindControlLevel( level );
+			return;
 		}
-		else
+		level = CharPaneRequest.handleMindControl( text, string2 );
+		if ( level > 0 )
 		{
-			KoLCharacter.setMindControlLevel( 0 );
+			KoLCharacter.setMindControlLevel( level );
+			return;
 		}
+		level = CharPaneRequest.handleMindControl( text, string3 );
+		if ( level > 0 )
+		{
+			KoLCharacter.setMindControlLevel( level );
+			return;
+		}
+		KoLCharacter.setMindControlLevel( 0 );
 	}
 
-	private static final void handleDetunedRadio( final String responseText, final String mcString )
-		throws Exception
+	private static final int handleMindControl( final String responseText, final String mcString )
 	{
 		Matcher matcher = Pattern.compile( mcString + "</a>: ?(</td><td>)?<b>(\\d+)</b>" ).matcher( responseText );
 
-		if ( matcher.find() )
-		{
-			KoLCharacter.setDetunedRadioVolume( StringUtilities.parseInt( matcher.group( 2 ) ) );
-		}
-		else
-		{
-			KoLCharacter.setDetunedRadioVolume( 0 );
-		}
-	}
-
-	private static final void handleAnnoyotron( final String responseText, final String mcString )
-		throws Exception
-	{
-		Matcher matcher = Pattern.compile( mcString + "</a>: ?(</td><td>)?<b>(\\d+)</b>" ).matcher( responseText );
-
-		if ( matcher.find() )
-		{
-			KoLCharacter.setAnnoyotronLevel( StringUtilities.parseInt( matcher.group( 2 ) ) );
-		}
-		else
-		{
-			KoLCharacter.setAnnoyotronLevel( 0 );
-		}
+		return matcher.find() ? StringUtilities.parseInt( matcher.group( 2 ) ) : 0;
 	}
 
 	public static final AdventureResult extractEffect( final String responseText, int searchIndex )

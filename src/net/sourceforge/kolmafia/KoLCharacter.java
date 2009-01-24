@@ -74,6 +74,7 @@ import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.swingui.GearChangeFrame;
+import net.sourceforge.kolmafia.swingui.AdventureFrame;
 
 /**
  * A container class representing the <code>KoLCharacter</code>. This class also allows for data listeners that are
@@ -306,8 +307,6 @@ public abstract class KoLCharacter
 	private static int ascensionSignType = KoLConstants.NONE;
 	private static int consumptionRestriction = AscensionSnapshot.NOPATH;
 	private static int mindControlLevel = 0;
-	private static int detunedRadioVolume = 0;
-	private static int annoyotronLevel = 0;
 
 	private static String autosellMode = "";
 
@@ -400,8 +399,6 @@ public abstract class KoLCharacter
 		KoLCharacter.ascensionSignType = KoLConstants.NONE;
 
 		KoLCharacter.mindControlLevel = 0;
-		KoLCharacter.detunedRadioVolume = 0;
-		KoLCharacter.annoyotronLevel = 0;
 
 		KoLCharacter.autosellMode = "";
 
@@ -1955,80 +1952,13 @@ public abstract class KoLCharacter
 
 	public static final void setMindControlLevel( final int level )
 	{
-		KoLCharacter.mindControlLevel = level;
-		KoLCharacter.recalculateAdjustments();
-		KoLCharacter.updateStatus();
-	}
-
-	/**
-	 * Accessor method for the current detuned radio volume
-	 *
-	 * @return int
-	 */
-
-	public static final int getDetunedRadioVolume()
-	{
-		return KoLCharacter.detunedRadioVolume;
-	}
-
-	/**
-	 * Accessor method to set the current detuned radio volume
-	 *
-	 * @param volume the new level
-	 */
-
-	public static final void setDetunedRadioVolume( final int volume )
-	{
-		KoLCharacter.detunedRadioVolume = volume;
-		KoLCharacter.recalculateAdjustments();
-		KoLCharacter.updateStatus();
-	}
-
-	/**
-	 * Accessor method for the current Annoyotron level
-	 *
-	 * @return int
-	 */
-
-	public static final int getAnnoyotronLevel()
-	{
-		return KoLCharacter.annoyotronLevel;
-	}
-
-	/**
-	 * Accessor method to set the current Annoyotron level
-	 *
-	 * @param volume the new level
-	 */
-
-	public static final void setAnnoyotronLevel( final int level )
-	{
-		KoLCharacter.annoyotronLevel = level;
-		KoLCharacter.recalculateAdjustments();
-		KoLCharacter.updateStatus();
-	}
-
-	/**
-	 * Accessor method for the current sign-specific monster level modifier
-	 *
-	 * @return int
-	 */
-
-	public static final int getSignedMLAdjustment()
-	{
-		if ( KoLCharacter.mindControlLevel > 0 )
+		if ( KoLCharacter.mindControlLevel != level )
 		{
-			return KoLCharacter.mindControlLevel;
+			KoLCharacter.mindControlLevel = level;
+			KoLCharacter.recalculateAdjustments();
+			KoLCharacter.updateStatus();
+			AdventureFrame.updateSafetyDetails();
 		}
-		if ( KoLCharacter.detunedRadioVolume > 0 )
-		{
-			return KoLCharacter.detunedRadioVolume;
-		}
-		if ( KoLCharacter.annoyotronLevel > 0 )
-		{
-			return KoLCharacter.annoyotronLevel;
-		}
-		return 0;
 	}
 
 	/**
@@ -2881,8 +2811,7 @@ public abstract class KoLCharacter
 		newModifiers.add( Modifiers.getModifiers( "zone:" + Modifiers.currentZone ) );
 
 		// Look at sign-specific adjustments
-		newModifiers.add( Modifiers.MONSTER_LEVEL, KoLCharacter.getSignedMLAdjustment(),
-			"MCD" );
+		newModifiers.add( Modifiers.MONSTER_LEVEL, KoLCharacter.getMindControlLevel(), "MCD" );
 
 		// Look at items
 		for ( int slot = EquipmentManager.HAT; slot <= EquipmentManager.FAMILIAR; ++slot )

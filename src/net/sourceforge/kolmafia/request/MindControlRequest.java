@@ -81,8 +81,9 @@ public class MindControlRequest
 	}
 
 	public boolean shouldFollowRedirect()
-	{	// Musc sign MCD redirects to a message page, processResults() doesn't
-		// get called if the redirect is ignored.
+	{
+		// Musc sign MCD redirects to a message page, processResults()
+		// doesn't get called if the redirect is ignored.
 		return true;
 	}
 
