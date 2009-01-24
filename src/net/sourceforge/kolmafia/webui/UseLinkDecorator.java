@@ -684,6 +684,12 @@ public abstract class UseLinkDecorator
 			useLocation = "inv_use.php?which=3&whichitem=";
 			break;
 
+		case ItemPool.HOLY_MACGUFFIN:
+
+			useType = "council";
+			useLocation = "council.php";
+			break;
+
 		default:
 
 			// Bounty items get a count and a link to the Bounty
