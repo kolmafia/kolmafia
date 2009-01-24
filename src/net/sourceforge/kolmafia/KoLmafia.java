@@ -737,6 +737,7 @@ public abstract class KoLmafia
 		Preferences.setInteger( "currentSpleenUse", 0 );
 		Preferences.setString( "currentPvpVictories", "" );
 		Preferences.setBoolean( "dailyDungeonDone", false );
+		Preferences.setBoolean( "demonSummoned", false );
 		Preferences.setBoolean( "expressCardUsed", false );
 		Preferences.setBoolean( "friarsBlessingReceived", false );
 		Preferences.setInteger( "grimoire1Summons", 0 );

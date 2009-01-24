@@ -2096,6 +2096,7 @@ public class UseItemRequest
 			if ( responseText.indexOf( "squish it back into a sheet" ) != -1 )
 			{
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SPOOKY_PUTTY_SHEET, 1 ) );
+				Preferences.setString( "spookyPuttyMonster", "" );
 				return;
 			}
 
