@@ -61,20 +61,23 @@ public abstract class UseLinkDecorator
 {
 	private static final Pattern ACQUIRE_PATTERN =
 		Pattern.compile( "(You acquire|O hai, I made dis)([^<]*?)<b>(.*?)</b>(.*?)</td>", Pattern.DOTALL );
+	
+	private static final StringBuffer deferred = new StringBuffer();
 
 	public static final void decorate( final String location, final StringBuffer buffer )
 	{
-		if ( buffer.indexOf( "You acquire" ) == -1 &&
+		boolean inCombat = location.startsWith( "fight.php" );
+		if ( !inCombat && buffer.indexOf( "You acquire" ) == -1 &&
 		     buffer.indexOf( "O hai, I made dis" ) == -1)
 		{
 			return;
 		}
 
-		// No use link if you get the item via pickpocketing; you're still in battle
-		if ( buffer.indexOf( "deftly slip your fingers" ) != -1 )
-		{
-			return;
-		}
+		// Defer use links until later if this isn't the final combat round
+		boolean duringCombat = inCombat &&
+			( Preferences.getBoolean( "serverAddsCustomCombat" ) 
+				? buffer.indexOf( "(show old combat form)" ) != -1
+				: buffer.indexOf( "fight.php" ) != -1 );
 
 		String text = buffer.toString();
 		buffer.setLength( 0 );
@@ -120,12 +123,30 @@ public abstract class UseLinkDecorator
 				}
 			}
 
-			UseLinkDecorator.addUseLink( itemId, itemCount, location, useLinkMatcher, buffer );
+			int pos = buffer.length();
+			if ( UseLinkDecorator.addUseLink( itemId, itemCount, location,
+				useLinkMatcher, buffer ) && duringCombat )
+			{	// Find where the replacement was appended
+				pos = buffer.indexOf( useLinkMatcher.group( 1 ) + useLinkMatcher.group( 2 )
+					+ "<b>" + useLinkMatcher.group( 3 ), pos );
+				if ( pos == -1 )
+				{
+					continue;
+				}
+				// Find start of table row containing it
+				pos = buffer.lastIndexOf( "<tr", pos );
+				if ( pos == -1 )
+				{
+					continue;
+				}
+				UseLinkDecorator.deferred.append( buffer.substring( pos ) );
+				UseLinkDecorator.deferred.append( "</tr>" );
+			}
 		}
 
 		useLinkMatcher.appendTail( buffer );
 
-		if ( specialLinkText != null )
+		if ( !duringCombat && specialLinkText != null )
 		{
 			StringUtilities.singleStringReplace(
 				buffer,
@@ -133,10 +154,31 @@ public abstract class UseLinkDecorator
 				"<p><center><a href=\"inv_use.php?pwd=" + GenericRequest.passwordHash + "&which=2&whichitem=" + specialLinkId + "\">[" + specialLinkText + " it again]</a></center></blockquote>" );
 		}
 		
+		if ( duringCombat )
+		{	// discard all changes, the links aren't usable yet
+			buffer.setLength( 0 );
+			buffer.append( text );
+		}
+		
 		StringUtilities.singleStringReplace( buffer,
 			"A sticker falls off your weapon, faded and torn.",
 			"A sticker falls off your weapon, faded and torn. <font size=1>" +
 			"[<a href=\"bedazzle.php\">bedazzle</a>]</font>" );
+		
+		if ( inCombat && !duringCombat && UseLinkDecorator.deferred.length() > 0 )
+		{
+			int pos = buffer.lastIndexOf( "</table>" );
+			if ( pos == -1 )
+			{
+				return;
+			}
+			text = buffer.substring( pos );
+			buffer.setLength( pos );
+			buffer.append( "</table><table><tr><td colspan=2>Previously seen:</td></tr>" );
+			buffer.append( UseLinkDecorator.deferred );
+			buffer.append( text );
+			UseLinkDecorator.deferred.setLength( 0 );
+		}
 	}
 
 	private static final int shouldAddCreateLink( int itemId, String location )
@@ -220,7 +262,7 @@ public abstract class UseLinkDecorator
 		return KoLConstants.NOCREATE;
 	}
 
-	private static final void addUseLink( int itemId, int itemCount, String location, Matcher useLinkMatcher, StringBuffer buffer )
+	private static final boolean addUseLink( int itemId, int itemCount, String location, Matcher useLinkMatcher, StringBuffer buffer )
 	{
 		int consumeMethod = ItemDatabase.getConsumptionType( itemId );
 		int mixingMethod = shouldAddCreateLink( itemId, location );
@@ -241,7 +283,7 @@ public abstract class UseLinkDecorator
 
 		if ( link == null )
 		{
-			return;
+			return false;
 		}
 
 		itemId = link.getItemId();
@@ -299,6 +341,7 @@ public abstract class UseLinkDecorator
 		}
 
 		buffer.append( "</td>" );
+		return true;
 	}
 
 	private static final UseLink getCreateLink( final int itemId, final int itemCount, final int mixingMethod )
