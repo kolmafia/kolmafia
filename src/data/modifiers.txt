@@ -1065,7 +1065,7 @@ depleted Grimacite weightlifting belt	Muscle Percent: [5*G], Adventures: [G], Si
 dirty hobo gloves	Single Equip, Stench Damage: +2
 disbelief suspenders	Sleaze Resistance: +1
 disembodied smile	Single Equip, Spooky Damage: +2
-diving muff	Meat Drop Penalty: [20*zone(The Sea)]
+diving muff	Meat Drop Penalty: [20*zone(The Sea)], Item Drop Penalty: [20*zone(The Sea)]
 dope gangsta bling-bling	Moxie: +1
 eXtreme mittens	Weapon Damage: +2
 eXtreme nose ring	Moxie: +4, Muscle: +4, Mysticality: +4
@@ -1461,6 +1461,7 @@ Fam:Exotic Parrot	Hot Resistance: [floor((W+19)/20)], Cold Resistance: [floor((W
 Fam:Hobo Monkey	Leprechaun: 1.25
 Fam:Jumpsuited Hound Dog	Fairy: 1.25, Combat Rate: [min(5,floor(W/6))]
 Fam:Llama Lama	Volleyball: 0.5
+Fam:Magic Dragonfish	Spell Damage Percent: [min(2*W,100^zone(The Sea)*100)]
 Fam:Wizard Action Figure	Volleyball: 0.3333, Fairy: 0.3333
 
 # Bedazzlements section of modifiers.txt
@@ -2199,13 +2200,13 @@ eXtreme Cold-Weather Gear	Cold Resistance: +3
 
 # Zone-specific section of modifiers.txt
 # -100% is the most common penalty in The Sea; use it as the default
-Zone:The Sea	Meat Drop Penalty: -100
+Zone:The Sea	Meat Drop Penalty: -100, Item Drop Penalty: -100
 
 # Location-specific section of modifiers.txt
-Loc:The Briny Deeps	Meat Drop Penalty: +75
-Loc:The Brinier Deepers	Meat Drop Penalty: +50
-Loc:The Briniest Deepests	Meat Drop Penalty: +25
-Loc:The Marinara Trench	Meat Drop Penalty: -100
+Loc:The Briny Deeps	Meat Drop Penalty: +75, Item Drop Penalty: +75
+Loc:The Brinier Deepers	Meat Drop Penalty: +50, Item Drop Penalty: +50
+Loc:The Briniest Deepests	Meat Drop Penalty: +25, Item Drop Penalty: +25
+Loc:The Marinara Trench	Meat Drop Penalty: -100, Item Drop Penalty: -100
 
 # Everything Else section of modifiers.txt
 
