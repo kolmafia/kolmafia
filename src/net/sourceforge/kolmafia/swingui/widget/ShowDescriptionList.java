@@ -69,6 +69,7 @@ import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.session.MoodManager;
 import net.sourceforge.kolmafia.session.MoodManager.MoodTrigger;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
+import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 import net.sourceforge.kolmafia.swingui.ProfileFrame;
 import net.sourceforge.kolmafia.swingui.menu.ThreadedMenuItem;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
@@ -120,13 +121,14 @@ public class ShowDescriptionList
 		if ( displayModel == KoLConstants.activeEffects )
 		{
 			this.contextMenu.add( new ShrugOffMenuItem() );
-			this.contextMenu.add( new BoostEffectMenuItem() );
+			this.contextMenu.add( new AddToMoodEffectMenuItem() );
+			this.contextMenu.add( new ExtendEffectMenuItem() );
 		}
 
 		if ( displayModel == KoLConstants.usableSkills || displayModel == KoLConstants.availableSkills )
 		{
 			this.contextMenu.add( new CastSkillMenuItem() );
-			this.contextMenu.add( new BoostSkillMenuItem() );
+			this.contextMenu.add( new AddToMoodSkillMenuItem() );
 		}
 
 		if ( displayModel == KoLConstants.tally )
@@ -498,10 +500,10 @@ public class ShowDescriptionList
 		}
 	}
 
-	private class BoostSkillMenuItem
+	private class AddToMoodSkillMenuItem
 		extends ContextMenuItem
 	{
-		public BoostSkillMenuItem()
+		public AddToMoodSkillMenuItem()
 		{
 			super( "Add to current mood" );
 		}
@@ -531,10 +533,10 @@ public class ShowDescriptionList
 		}
 	}
 
-	private class BoostEffectMenuItem
+	private class AddToMoodEffectMenuItem
 		extends ContextMenuItem
 	{
-		public BoostEffectMenuItem()
+		public AddToMoodEffectMenuItem()
 		{
 			super( "Add to current mood" );
 		}
@@ -566,6 +568,34 @@ public class ShowDescriptionList
 				if ( !action.equals( "" ) )
 				{
 					MoodManager.addTrigger( "gain_effect", name, action );
+				}
+			}
+		}
+	}
+
+	private class ExtendEffectMenuItem
+		extends ContextMenuItem
+	{
+		public ExtendEffectMenuItem()
+		{
+			super( "Extend this effect" );
+		}
+
+		public void executeAction()
+		{
+			Object[] effects = ShowDescriptionList.this.getSelectedValues();
+			ShowDescriptionList.this.clearSelection();
+
+			String name, action;
+
+			for ( int i = 0; i < effects.length; ++i )
+			{
+				name = ( (AdventureResult) effects[ i ] ).getName();
+
+				action = MoodManager.getDefaultAction( "lose_effect", name );
+				if ( !action.equals( "" ) )
+				{
+					CommandDisplayFrame.executeCommand( action );
 				}
 			}
 		}
