@@ -234,9 +234,10 @@ public class CreateFrameRunnable
 
 		for ( int i = 0; i < frames.length; ++i )
 		{
-			if ( frames[ i ].getClass() == this.creationType )
+			Frame frame = frames[ i ];
+			if ( frame.getClass() == this.creationType )
 			{
-				this.creation = (GenericFrame) frames[ i ];
+				this.creation = (JFrame) frame;
 				return true;
 			}
 		}
@@ -288,8 +289,8 @@ public class CreateFrameRunnable
 			}
 			else
 			{
-				// Set a menu bar for anything that doesn't extend
-				// the KoLmafia frame classes.
+				// Set a menu bar for anything that doesn't
+				// extend the KoLmafia frame classes.
 
 				this.creation.setJMenuBar( new GlobalMenuBar() );
 			}
