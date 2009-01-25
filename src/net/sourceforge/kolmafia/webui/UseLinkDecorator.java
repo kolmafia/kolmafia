@@ -470,6 +470,25 @@ public abstract class UseLinkDecorator
 
 				return new UseLink( ItemPool.SPOOKY_MAP, 1, "map", "inv_use.php?which=3&whichitem=" );
 
+			case ItemPool.BLACK_MARKET_MAP:
+
+				if ( !InventoryManager.hasItem( ItemPool.BROKEN_WINGS ) ||
+				     !InventoryManager.hasItem( ItemPool.SUNKEN_EYES ) )
+				{
+					return null;
+				}
+
+				return new UseLink( ItemPool.BLACK_MARKET_MAP, 1, "map", "inv_use.php?which=3&whichitem=" );
+
+			case ItemPool.COBBS_KNOB_MAP:
+
+				if ( !InventoryManager.hasItem( ItemPool.ENCRYPTION_KEY ) )
+				{
+					return null;
+				}
+
+				return new UseLink( ItemPool.COBBS_KNOB_MAP, 1, "map", "inv_use.php?which=3&whichitem=" );
+
 			case ItemPool.DINGHY_PLANS:
 
 				if ( InventoryManager.hasItem( ItemPool.DINGY_PLANKS ) )
@@ -598,8 +617,23 @@ public abstract class UseLinkDecorator
 			useLocation = "trapper.php";
 			break;
 
+		case ItemPool.FRAUDWORT:
+		case ItemPool.SHYSTERWEED:
+		case ItemPool.SWINDLEBLOSSOM:
+
+			if ( InventoryManager.getCount( ItemPool.FRAUDWORT ) < 3 ||
+			     InventoryManager.getCount( ItemPool.SHYSTERWEED ) < 3 ||
+			     InventoryManager.getCount( ItemPool.SWINDLEBLOSSOM ) < 3 )
+			{
+				return null;
+			}
+
+			useType = "galaktik";
+			useLocation = "galaktik.php";
+			break;
+
 		// Disintegrating sheet music gets a link which lets you sing it
-		// to yourself.  We'll call it "sing" for now.
+		// to yourself. We'll call it "sing" for now.
 
 		case ItemPool.SHEET_MUSIC:
 
