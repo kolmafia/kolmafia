@@ -1401,7 +1401,8 @@ public abstract class KoLCharacter
 
 	public static final float getItemDropPercentAdjustment()
 	{
-		return KoLCharacter.currentModifiers.get( Modifiers.ITEMDROP );
+		return KoLCharacter.currentModifiers.get( Modifiers.ITEMDROP ) +
+			Math.min( KoLCharacter.currentModifiers.get( Modifiers.ITEMDROP_PENALTY ), 0.0f );
 	}
 
 	/**

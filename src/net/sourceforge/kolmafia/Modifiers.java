@@ -182,6 +182,7 @@ public class Modifiers
 	public static final int FAIRY = 62;
 	public static final int MEATDROP_PENALTY = 63;
 	public static final int HIDDEN_FAMILIAR_WEIGHT = 64;
+	public static final int ITEMDROP_PENALTY = 65;
 	
 	public static final String EXPR = "(?:([+-]?[\\d.]+)|\\[([^]]+)\\])";
 
@@ -446,6 +447,10 @@ public class Modifiers
 		{ "Hidden Familiar Weight",
 		  null,
 		  Pattern.compile( "Familiar Weight \\(hidden\\): " + EXPR )
+		},
+		{ "Item Drop Penalty",
+		  null,
+		  Pattern.compile( "Item Drop Penalty: " + EXPR )
 		},
 	};
 
