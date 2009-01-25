@@ -45,6 +45,8 @@ import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class AdventureResult
@@ -627,12 +629,27 @@ public class AdventureResult
 
 		String name = this.getName();
 
-		if ( this.priority == AdventureResult.EFFECT_PRIORITY && name.equals( "On the Trail" ) )
+		if ( this.priority == AdventureResult.EFFECT_PRIORITY )
 		{
-			String monster = Preferences.getString( "olfactedMonster" );
-			if ( !monster.equals( "" ) )
+			if ( name.equals( "On the Trail" ) )
 			{
-				name = name + " [" + monster + "]";
+				String monster = Preferences.getString( "olfactedMonster" );
+				if ( !monster.equals( "" ) )
+				{
+					name = name + " [" + monster + "]";
+				}
+			}
+			else 
+			{
+				String skillName = UneffectRequest.effectToSkill( name );
+				if ( SkillDatabase.contains( skillName ) )
+				{
+					int skillId = SkillDatabase.getSkillId( skillName );
+					if ( skillId > 6000 && skillId < 7000 )
+					{
+						name = "\u266B " + name;
+					}
+				}
 			}
 		}
 
