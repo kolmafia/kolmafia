@@ -90,7 +90,7 @@ import net.sourceforge.kolmafia.webui.MineDecorator;
 
 public abstract class StaticEntity
 {
-	private static final Pattern NEWSKILL1_PATTERN = Pattern.compile( "<td>You learn a new skill: <b>(.*?)</b>" );
+	private static final Pattern NEWSKILL1_PATTERN = Pattern.compile( "<td>You (have learned|learn) a new skill: <b>(.*?)</b>" );
 	private static final Pattern NEWSKILL2_PATTERN = Pattern.compile( "whichskill=(\\d+)" );
 	private static final Pattern NEWSKILL3_PATTERN = Pattern.compile( "You acquire a skill: +<[bB]>(.*?)</[bB]>" );
 
@@ -435,7 +435,7 @@ public abstract class StaticEntity
 		Matcher learnedMatcher = StaticEntity.NEWSKILL1_PATTERN.matcher( responseText );
 		if ( learnedMatcher.find() )
 		{
-			String skillName = learnedMatcher.group( 1 );
+			String skillName = learnedMatcher.group( 2 );
 
 			KoLCharacter.addAvailableSkill( skillName );
 			KoLCharacter.addDerivedSkills();
