@@ -54,6 +54,7 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.FriarRequest;
+import net.sourceforge.kolmafia.request.GalaktikRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.GourdRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
@@ -425,6 +426,13 @@ public class RequestLogger
 
 		// We want to register simple visits to the Bounty Hunter Hunter
 		if ( ( request instanceof CoinMasterRequest || isExternal ) && CoinMasterRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		// We want to register simple visits to Doc Galaktik
+		if ( ( request instanceof GalaktikRequest || isExternal ) && GalaktikRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;

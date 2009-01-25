@@ -50,7 +50,6 @@ public class QuestLogRequest
 	private static String started = "";
 	private static String finished = "";
 
-	private static boolean galaktikCuresAvailable = false;
 	private static boolean whiteCitadelAvailable = false;
 	private static boolean blackMarketAvailable = false;
 	private static boolean hippyStoreAvailable = false;
@@ -72,7 +71,7 @@ public class QuestLogRequest
 
 	public static final boolean galaktikCuresAvailable()
 	{
-		return QuestLogRequest.galaktikCuresAvailable;
+		return GalaktikRequest.getDiscount();
 	}
 
 	public static final boolean isWhiteCitadelAvailable()
@@ -146,7 +145,7 @@ public class QuestLogRequest
 		{
 			QuestLogRequest.finished = responseText;
 
-			QuestLogRequest.galaktikCuresAvailable = QuestLogRequest.finishedQuest( QuestLogRequest.GALAKTIK );
+			GalaktikRequest.setDiscount( QuestLogRequest.finishedQuest( QuestLogRequest.GALAKTIK ) );
 			QuestLogRequest.whiteCitadelAvailable = QuestLogRequest.finishedQuest( QuestLogRequest.CITADEL );
 
 			if ( isExternal )

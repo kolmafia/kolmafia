@@ -33,20 +33,38 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class GalaktikRequest
 	extends GenericRequest
 {
+	private static final Pattern TYPE_PATTERN = Pattern.compile( "action=(\\w*)" );
+	private static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity=([\\d,]+)" );
+	private static final Pattern MEAT_PATTERN = Pattern.compile( "You spent ([\\d,]+) Meat" );
+
 	public static final String HP = "curehp";
 	public static final String MP = "curemp";
 
+	private static boolean discount = false;
+
 	private int restoreAmount;
+
+	public GalaktikRequest()
+	{
+		super( "galaktik.php" );
+	}
 
 	public GalaktikRequest( final String type )
 	{
@@ -81,6 +99,62 @@ public class GalaktikRequest
 		this.addFormField( "quantity", String.valueOf( this.restoreAmount ) );
 	}
 
+	public static void setDiscount( final boolean discount )
+	{
+		GalaktikRequest.discount = discount;
+	}
+
+	public static boolean getDiscount()
+	{
+		return GalaktikRequest.discount;
+	}
+
+	public static int costPerHP()
+	{
+		return GalaktikRequest.discount ? 6 : 10;
+	}
+
+	public static int costPerMP()
+	{
+		return GalaktikRequest.discount ? 12 : 17;
+	}
+
+	private static int costPerUnit( final String type )
+	{
+		if ( type == null )
+		{
+			return 0;
+		}
+		if ( type.equals( GalaktikRequest.HP ) || type.equals( "HP" ) )
+		{
+			return GalaktikRequest.costPerHP();
+		}
+		if ( type.equals( GalaktikRequest.MP ) || type.equals( "MP" )  )
+		{
+			return GalaktikRequest.costPerMP();
+		}
+
+		return 0;
+	}
+
+	private static String cureType( final String type )
+	{
+		if ( type == null )
+		{
+			return null;
+		}
+		if ( type.equals( GalaktikRequest.HP ) )
+		{
+			return "HP";
+		}
+		if ( type.equals( GalaktikRequest.MP ) )
+		{
+			return "MP";
+		}
+
+		return null;
+	}
+
 	public void run()
 	{
 		if ( this.restoreAmount == 0 )
@@ -89,17 +163,77 @@ public class GalaktikRequest
 			return;
 		}
 
-		int originalAmount = KoLCharacter.getAvailableMeat();
 		KoLmafia.updateDisplay( "Visiting Doc Galaktik..." );
 
 		super.run();
+	}
 
-		int finalCost = KoLCharacter.getAvailableMeat() - originalAmount;
-		if ( finalCost != 0 )
+	public void processResults()
+	{
+		GalaktikRequest.parseResponse( this.getURLString(), this.responseText );
+
+		if ( this.responseText.indexOf( "You can't afford that" ) != -1 )
 		{
-			AdventureResult.addResultToList( KoLConstants.tally, new AdventureResult( AdventureResult.MEAT, finalCost ) );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't afford that cure." );
+			return;
 		}
 
+		KoLmafia.updateDisplay( "Cure purchased." );
+	}
+
+	public static final boolean parseResponse( final String location, final String responseText )
+	{
+		if ( !location.startsWith( "galaktik.php" ) )
+		{
+			return false;
+		}
+
+		// Ah, my friend! You've found my herbs! These will come in
+		// very, very handy. To show my appreciation, I'd like to offer
+		// you a lifetime discount on Curative Nostrums and Fizzy
+		// Invigorating Tonics. Of course, I'll be taking a loss every
+		// time, but you, my friend, you deserve it!
+
+		if ( responseText.indexOf( "You've found my herbs!" ) != -1 )
+		{
+			ResultProcessor.processItem( ItemPool.FRAUDWORT, -3 );
+			ResultProcessor.processItem( ItemPool.SHYSTERWEED, -3 );
+			ResultProcessor.processItem( ItemPool.SWINDLEBLOSSOM, -3 );
+			GalaktikRequest.discount = true;
+		}
+		else if ( responseText.indexOf( "Restore HP (6 Meat each)" ) != -1 ||
+			  responseText.indexOf( "Restore MP (12 Meat each)" ) != -1 )
+		{
+			GalaktikRequest.discount = true;
+		}
+		else if ( responseText.indexOf( "Restore HP (10 Meat each)" ) != -1 ||
+			  responseText.indexOf( "Restore MP (17 Meat each)" ) != -1 )
+		{
+			GalaktikRequest.discount = false;
+		}
+
+		if ( responseText.indexOf( "You can't afford that" ) != -1 )
+		{
+			return false;
+		}
+
+		Matcher matcher = TYPE_PATTERN.matcher( location );
+		if ( !matcher.find() )
+		{
+			return false;
+		}
+
+		matcher = MEAT_PATTERN.matcher( responseText );
+		if ( !matcher.find() )
+		{
+			return false;
+		}
+
+		int cost = StringUtilities.parseInt( matcher.group( 1 ) );
+
+		ResultProcessor.processMeat( -cost );
+
+		return false;
 	}
 
 	public static final LockableListModel retrieveCures()
@@ -119,19 +253,42 @@ public class GalaktikRequest
 		return cures;
 	}
 
-	public void processResults()
+	public static final boolean registerRequest( final String urlString )
 	{
-		if ( this.responseText.indexOf( "You can't afford that" ) != -1 )
+		if ( !urlString.startsWith( "galaktik.php" ) )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't afford that cure." );
-			return;
+			return false;
 		}
 
-		if ( !this.containsUpdate )
+		String message = "Visiting Doc Galaktik";
+
+		Matcher matcher = TYPE_PATTERN.matcher( urlString );
+		if ( matcher.find() )
 		{
-			CharPaneRequest.getInstance().run();
+			String type = GalaktikRequest.cureType( matcher.group(1) );
+			int quantity = 0;
+
+			matcher = QUANTITY_PATTERN.matcher( urlString );
+			if ( matcher.find() )
+			{
+				quantity = StringUtilities.parseInt( matcher.group( 1 ) );
+			}
+
+			int costperUnit = GalaktikRequest.costPerUnit( type );
+			int cost = quantity * costperUnit;
+
+			if ( cost > 0 && cost <= KoLCharacter.getAvailableMeat() )
+			{
+				 message = "Restore " + quantity + " " + type + " at Doc Galaktik's";
+			}
 		}
 
-		KoLmafia.updateDisplay( "Cure purchased." );
+		RequestLogger.printLine( "" );
+		RequestLogger.printLine( message );
+
+		RequestLogger.updateSessionLog();
+		RequestLogger.updateSessionLog( message );
+
+		return true;
 	}
 }

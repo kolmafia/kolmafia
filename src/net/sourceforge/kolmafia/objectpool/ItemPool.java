@@ -360,6 +360,9 @@ public class ItemPool
 	public static final int MILK_OF_MAGNESIUM = 1650;
 	public static final int JEWEL_EYED_WIZARD_HAT = 1653;
 	public static final int CITADEL_SATCHEL = 1656;
+	public static final int FRAUDWORT = 1670;
+	public static final int SHYSTERWEED = 1671;
+	public static final int SWINDLEBLOSSOM = 1672;
 	public static final int GROUCHO_DISGUISE = 1678;
 	public static final int EXPRESS_CARD = 1687;
 	public static final int SWORD_PREPOSITIONS = 1734;

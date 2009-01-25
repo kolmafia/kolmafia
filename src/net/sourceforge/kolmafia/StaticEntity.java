@@ -59,6 +59,7 @@ import net.sourceforge.kolmafia.request.ChefStaffRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
+import net.sourceforge.kolmafia.request.GalaktikRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.GourdRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
@@ -366,14 +367,14 @@ public abstract class StaticEntity
 			UseItemRequest.parseConsumption( responseText, false );
 		}
 
-		if ( location.startsWith( "sushi.php" ) )
-		{
-			SushiRequest.parseConsumption( location, responseText );
-		}
-
 		if ( location.startsWith( "hermit.php" ) )
 		{
 			HermitRequest.parseHermitTrade( location, responseText );
+		}
+
+		if ( location.startsWith( "galaktik.php" ) )
+		{
+			GalaktikRequest.parseResponse( location, responseText );
 		}
 
 		if ( location.startsWith( "hiddencity.php" ) )
@@ -394,6 +395,11 @@ public abstract class StaticEntity
 		if ( location.startsWith( "pyramid.php" ) )
 		{
 			PyramidRequest.parseResponse( location, responseText );
+		}
+
+		if ( location.startsWith( "sushi.php" ) )
+		{
+			SushiRequest.parseConsumption( location, responseText );
 		}
 
 		if ( location.startsWith( "town_wrong.php" ) )
