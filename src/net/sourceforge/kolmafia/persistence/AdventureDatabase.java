@@ -613,6 +613,10 @@ public class AdventureDatabase
 		}
 		else if ( urlString.startsWith( "mining.php" ) )
 		{
+			if ( urlString.indexOf( "mine=3" ) != -1 )
+			{
+				return "Anemone Mine (Mining)";
+			}
 			return "Mining (In Disguise)";
 		}
 		else if ( urlString.startsWith( "arena.php" ) && urlString.indexOf( "action" ) != -1 )

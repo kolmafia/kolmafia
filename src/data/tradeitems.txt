@@ -3693,3 +3693,28 @@
 3692	sea persimmon	1	all	65
 3693	pressurized potion of perception	4	all	250
 3694	pressurized potion of proficiency	4	all	250
+3695	Mer-kin mining pick	12	all	175
+3696	anemone nematocyst	25	all	85
+3697	high-pressure seltzer bottle	14	all	165
+3698	velcro ore	0	all	75
+3699	teflon ore	0	all	75
+3700	vinyl ore	0	all	75
+3701	map to Anemone Mine	0	all	0
+3702
+3703	rusty valve wheel	0	all	30
+3704	waterlogged bootstraps	0	all	30
+3705	velcro broadsword	12	all	125
+3706	velcro paddle ball	12	all	125
+3707	velcro shield	13	all	125
+3708	velcro boots	8	all	125
+3709	non-stick pugil stick	12	all	125
+3710	teflon spatula	12	all	125
+3711	teflon shield	13	all	125
+3712	teflon swim fins	8	all	125
+3713	7-inch discus	12	all	125
+3714	PVC staff	12	all	125
+3715	vinyl shield	13	all	125
+3716	vinyl boots	8	all	125
+3717	decaying wooden oar	12	all	50
+3718	giant fishhook	12	all	50
+3719	rusty old lantern	13	all	50

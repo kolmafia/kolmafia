@@ -435,6 +435,7 @@ Mace of the Tortoise	Muscle: +7, Class: "Turtle Tamer"
 Mafia violin case	Muscle: +20, Weapon Damage: +30
 Maxwell's Silver Hammer	Mysticality: +10, Weapon Damage: +10
 Mer-kin hookspear	Initiative: +20, Weapon Damage: +40
+Mer-kin mining pick	Weapon Damage: +30
 # Mjolnir Jr.
 Ol' Scratch's infernal pitchfork	Hot Damage: +40, Critical Hit Percent: +2
 Pasta of Peril	Mysticality: +7, Initiative: +15, Class: "Pastamancer"

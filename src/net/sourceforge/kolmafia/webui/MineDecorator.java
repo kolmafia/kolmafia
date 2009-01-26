@@ -124,7 +124,6 @@ public abstract class MineDecorator
 		{
 			return;
 		}
-		Preferences.setString( pref, Preferences.getString( pref ) + "#" + which +
-			m.group( 0 ) );
+		Preferences.setString( pref, Preferences.getString( pref ) + "#" + which + m.group( 0 ) );
 	}
 }

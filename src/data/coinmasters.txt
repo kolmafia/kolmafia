@@ -94,7 +94,13 @@ bl	200	Manual of Transcendent Olfaction
 # Things you can buy with sand dollars
 
 bs	5	sea grease
+bs	10	rusty valve wheel
+bs	10	waterlogged bootstraps
+bs	20	decaying wooden oar
+bs	20	giant fishhook
+bs	20	rusty old lantern
 bs	50	map to Madness Reef
 bs	50	map to the Marinara Trench
+bs	50	map to Anemone Mine
 bs	100	damp old boot
 bs	300	sushi-rolling mat

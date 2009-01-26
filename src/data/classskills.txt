@@ -82,6 +82,7 @@
 1020	Snarl of the Timberwolf	3	10	10
 1021
 1022	Clobber	5	1	0
+1023	Harpoon!	5	30	0
 
 # Skills available to Tamers
 
@@ -109,6 +110,7 @@
 2021	Tao of the Terrapin	0	0	0
 2022	Spectral Snapper	5	20	0
 2023	Toss	5	1	0
+2024	Summon Leviatuga	5	40	0
 2103	Head + Knee Combo	5	8	0
 2105	Head + Shield Combo	5	9	0
 2106	Knee + Shield Combo	5	10	0

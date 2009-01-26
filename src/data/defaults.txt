@@ -569,3 +569,4 @@ user	choiceAdventure299	1
 user	choiceAdventure303	1
 user	choiceAdventure304	1
 user	choiceAdventure305	1
+user	choiceAdventure306	1
