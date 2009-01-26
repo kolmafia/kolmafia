@@ -325,7 +325,9 @@ public class ResultProcessor
 		// Skip skill acquisition - it's followed by a boldface
 		// which makes the parser think it's found an item.
 
-		if ( lastToken.indexOf( "You acquire a skill" ) != -1 || lastToken.indexOf( "You gain a skill" ) != -1 )
+		if ( lastToken.indexOf( "You acquire a skill" ) != -1 ||
+		     lastToken.indexOf( "You learn a skill" ) != -1 ||
+		     lastToken.indexOf( "You have learned a skill" ) != -1)
 		{
 			return false;
 		}
@@ -352,6 +354,16 @@ public class ResultProcessor
 				return false;
 			}
 
+			if ( data == null )
+			{
+				return ResultProcessor.processEffect( parsedResults, acquisition, data );
+			}
+
+			return false;
+		}
+
+		if ( acquisition.startsWith( "You lose an effect" ) )
+		{
 			if ( data == null )
 			{
 				return ResultProcessor.processEffect( parsedResults, acquisition, data );
@@ -443,13 +455,32 @@ public class ResultProcessor
 	private static boolean processEffect( StringTokenizer parsedResults, String acquisition, List data )
 	{
 		String effectName = parsedResults.nextToken();
-		String lastToken = parsedResults.nextToken();
 
-		RequestLogger.printLine( acquisition + " " + effectName + " " + lastToken );
+		if ( acquisition.startsWith( "You lose" ) )
+		{
+			String message = acquisition + " " + effectName;
+
+			RequestLogger.printLine( message );
+			if ( Preferences.getBoolean( "logStatusEffects" ) )
+			{
+				RequestLogger.updateSessionLog( message );
+			}
+
+			AdventureResult result = EffectPool.get( effectName );
+			AdventureResult.removeResultFromList( KoLConstants.recentEffects, result );
+			AdventureResult.removeResultFromList( KoLConstants.activeEffects, result );
+
+			return true;
+		}
+
+		String lastToken = parsedResults.nextToken();
+		String message = acquisition + " " + effectName + " " + lastToken;
+
+		RequestLogger.printLine( message );
 
 		if ( Preferences.getBoolean( "logStatusEffects" ) )
 		{
-			RequestLogger.updateSessionLog( acquisition + " " + effectName + " " + lastToken );
+			RequestLogger.updateSessionLog( message );
 		}
 
 		if ( lastToken.indexOf( "duration" ) == -1 )

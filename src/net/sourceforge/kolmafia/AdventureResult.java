@@ -872,6 +872,15 @@ public class AdventureResult
 		sourceList.set( index, sumResult );
 	}
 
+	public static final void removeResultFromList( final List sourceList, final AdventureResult result )
+	{
+		int index = sourceList.indexOf( result );
+		if ( index != -1 )
+		{
+                        sourceList.remove( index );
+		}
+	}
+
 	public AdventureResult getNegation()
 	{
 		if ( this.isItem() )

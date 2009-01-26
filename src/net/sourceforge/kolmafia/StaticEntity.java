@@ -51,6 +51,7 @@ import net.java.dev.spellcast.utilities.UtilityConstants;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.request.AccountRequest;
 import net.sourceforge.kolmafia.request.ArtistRequest;
@@ -429,43 +430,16 @@ public abstract class StaticEntity
 			StarChartRequest.parseCreation( location, responseText );
 		}
 
-		// See if the person learned a new skill from using a
-		// mini-browser frame.
-
-		Matcher learnedMatcher = StaticEntity.NEWSKILL1_PATTERN.matcher( responseText );
-		if ( learnedMatcher.find() )
+		String skillName = StaticEntity.learnedSkill( location, responseText );
+		if ( skillName != null )
 		{
-			String skillName = learnedMatcher.group( 2 );
-
+			String message = "You learned a new skill: " + skillName;
+			RequestLogger.printLine( message );
+			RequestLogger.updateSessionLog( message );
 			KoLCharacter.addAvailableSkill( skillName );
 			KoLCharacter.addDerivedSkills();
 			KoLConstants.usableSkills.sort();
 			ConcoctionDatabase.refreshConcoctions();
-		}
-
-		learnedMatcher = StaticEntity.NEWSKILL3_PATTERN.matcher( responseText );
-		if ( learnedMatcher.find() )
-		{
-			String skillName = learnedMatcher.group( 1 );
-
-			KoLCharacter.addAvailableSkill( skillName );
-			KoLCharacter.addDerivedSkills();
-			KoLConstants.usableSkills.sort();
-			ConcoctionDatabase.refreshConcoctions();
-		}
-
-		// Unfortunately, if you learn a new skill from Frank
-		// the Regnaissance Gnome at the Gnomish Gnomads
-		// Camp, it doesn't tell you the name of the skill.
-		// It simply says: "You leargn a new skill. Whee!"
-
-		if ( responseText.indexOf( "You leargn a new skill." ) != -1 )
-		{
-			learnedMatcher = StaticEntity.NEWSKILL2_PATTERN.matcher( location );
-			if ( learnedMatcher.find() )
-			{
-				KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( StringUtilities.parseInt( learnedMatcher.group( 1 ) ) ) );
-			}
 		}
 
 		// Player vs. player results should be recorded to the
@@ -500,6 +474,38 @@ public abstract class StaticEntity
 			Preferences.setString( "currentHippyStore", side );
 			Preferences.setString( "sidequestOrchardCompleted", side );
 		}
+	}
+
+	private static String learnedSkill( final String location, final String responseText )
+	{
+		Matcher matcher = StaticEntity.NEWSKILL1_PATTERN.matcher( responseText );
+		if ( matcher.find() )
+		{
+			return matcher.group( 2 );
+		}
+
+		matcher = StaticEntity.NEWSKILL3_PATTERN.matcher( responseText );
+		if ( matcher.find() )
+		{
+			return matcher.group( 1 );
+		}
+
+		// Unfortunately, if you learn a new skill from Frank
+		// the Regnaissance Gnome at the Gnomish Gnomads
+		// Camp, it doesn't tell you the name of the skill.
+		// It simply says: "You leargn a new skill. Whee!"
+
+		if ( responseText.indexOf( "You leargn a new skill." ) != -1 )
+		{
+			matcher = StaticEntity.NEWSKILL2_PATTERN.matcher( location );
+			if ( matcher.find() )
+			{
+				int skillId = StringUtilities.parseInt( matcher.group( 1 ) );
+				return SkillDatabase.getSkillName( skillId );
+			}
+		}
+
+		return null;
 	}
 
 	public static final boolean executeCountdown( final String message, final int seconds )
