@@ -3718,3 +3718,9 @@
 3717	decaying wooden oar	12	all	50
 3718	giant fishhook	12	all	50
 3719	rusty old lantern	13	all	50
+3720	decaying wooden pole	0	all	25
+3721	decaying wooden paddle	0	all	25
+3722	tarnished metal ring	0	all	25
+3723	tarnished metal rod	0	all	25
+3724	brittle plastic handle	0	all	25
+3725	foggy glass globe	0	all	25

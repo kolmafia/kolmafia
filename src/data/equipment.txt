@@ -341,11 +341,11 @@ yak anorak	115	Mus: 42
 
 # Weapons section of equipment.txt
 
-7-inch discus	200	Mox: 85	1-handed boomerang
 17-alarm Saucepan	90	Mys: 15	1-handed saucepan
 25-meat staff	70	Mus: 20	2-handed staff
 5-Alarm Saucepan	50	Mys: 10	1-handed saucepan
 7-Foot Dwarven mattock	80	Mus: 25	2-handed axe
+7-inch discus	200	Mox: 85	1-handed boomerang
 Bigger Bugfinder Blade	200	Mus: 85	2-handed sword
 Bjorn's Hammer	50	Mus: 10	1-handed club
 Brimstone Bludgeon	200	Mus: 30	1-handed club
@@ -392,9 +392,9 @@ Mer-kin hookspear	200	Mus: 85	1-handed spear
 Mer-kin mining pick	200	Mus: 85	2-handed axe
 Mjolnir Jr.	200	Mys: 85	1-handed utensil
 Ol' Scratch's infernal pitchfork	200	Mus: 200	2-handed polearm
+PVC staff	200	Mus: 85	2-handed staff
 Pasta of Peril	50	Mys: 10	1-handed utensil
 Periodical Paintbrush	100	Mus: 0	1-handed artsything
-PVC staff	200	Mus: 85	2-handed staff
 Radio Free Foil	150	Mus: 60	2-handed sword
 Rock and Roll Legend	50	Mox: 10	2-handed accordion
 Shagadelic Disco Banjo	90	Mox: 15	2-handed banjo
@@ -531,7 +531,7 @@ giant cactus quill	160	Mus: 65	1-handed spear
 giant cheesestick	120	Mus: 45	2-handed staff
 giant discarded plastic fork	155	Mus: 62	3-handed staff
 giant driftwood sculpture	190	Mus: 80	2-handed flail
-giant fishhook	200	Mox: 75	2-handed spear
+giant fishhook	200	Mox: 85	2-handed spear
 giant foam finger	170	Mus: 70	1-handed club
 giant needle	150	Mus: 60	2-handed spear
 glistening staff	60	Mus: 15	2-handed staff
@@ -1298,7 +1298,7 @@ toy maglev monorail	0	Mys: 15
 toy train	0	Mys: 15
 tube sock	0	Mys: 45
 velcro boots	0	Mys: 85
-vinyl boots	0	Mys: 85
+vinyl boots	0	Mox: 85
 walrus-tusk earring	0	Mys: 10
 water wings	0	none
 wheel	0	none
