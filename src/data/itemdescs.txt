@@ -3699,3 +3699,28 @@
 3692	506573795	sea persimmon	sea persimmons
 3693	788177667	pressurized potion of perception	pressurized potions of perception
 3694	905610207	pressurized potion of proficiency	pressurized potions of proficiency
+3695	817679069	Mer-kin mining pick
+3696	703635673	anemone nematocyst	anemone nematocysts
+3697	430566014	high-pressure seltzer bottle	high-pressure seltzer bottles
+3698	773082525	velcro ore	chunks of velcro ore
+3699	900934321	teflon ore	chunks of teflon ore
+3700	680710697	vinyl ore	chunks of vinyl ore
+3701	680600410	map to Anemone Mine
+3702
+3703	581289316	rusty valve wheel
+3704	696657364	waterlogged bootstraps
+3705	798460922	velcro broadsword
+3706	250880819	velcro paddle ball
+3707	777472980	velcro shield
+3708	939174986	velcro boots
+3709	739258319	non-stick pugil stick
+3710	389769152	teflon spatula
+3711	157322254	teflon shield
+3712	667590304	teflon swim fins
+3713	620169454	7-inch discus
+3714	954525164	PVC staff
+3715	840080191	vinyl shield
+3716	809051828	vinyl boots
+3717	827016673	decaying wooden oar
+3718	750940122	giant fishhook
+3719	582874358	rusty old lantern

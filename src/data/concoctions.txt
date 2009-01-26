@@ -761,6 +761,17 @@ sebaceous shield	ASMITH	bum cheek	sewer turtle
 eXtreme nose ring	COMBINE	stone of eXtreme power	piercing post
 spooky glove	COOK	spooky fairy gravy	small leather glove
 
+# Things made of ores from the Anemone Mine
+
+teflon shield	ASMITH	rusty valve wheel	teflon ore
+teflon swim fins	ASMITH	waterlogged bootstraps	teflon ore
+
+velcro shield	ASMITH	rusty valve wheel	velcro ore
+velcro boots	ASMITH	waterlogged bootstraps	valcro ore
+
+vinyl shield	ASMITH	rusty valve wheel	vinyl ore
+vinyl boots	ASMITH	waterlogged bootstraps	vinyl ore
+
 
 # Time Trappings, smithable by anyone.
 

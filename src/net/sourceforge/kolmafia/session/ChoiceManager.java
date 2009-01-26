@@ -495,7 +495,7 @@ public abstract class ChoiceManager
 			new String[] { "accept unguent quest", "skip adventure" } ),
 
 		// Choice 118 is When Rocks Attack
-		// Choice 119 is unknown
+		// Choice 119 is Check It Out Now
 
 		// Ennui is Wasted on the Young
 		new ChoiceAdventure(
@@ -763,9 +763,9 @@ public abstract class ChoiceManager
 			new String[] { "Good with the Ladies -> Can-Can skirt", "Feelin' Philosophical -> not-a-pipe", "mysticality substats" },
 			new String[] { "2663", "2660", null } ),
 
-		// Choice 173 is unknown
-                // Choice 174 is Last Stand, Bra
-                // Choice 175-176 are unknown
+		// Choice 173 is The Last Stand, Man
+		// Choice 174 is The Last Stand, Bra
+		// Choice 175-176 are unknown
 
 		// The Blackberry Cobbler
 		new ChoiceAdventure(
@@ -778,6 +778,8 @@ public abstract class ChoiceManager
 			"Beanstalk", "choiceAdventure178", "Airship Shirt",
 			new String[] { "bronze breastplate", "skip adventure" },
 			new String[] { "2126", null } ),
+
+		// Choice 179 is unknown
 
 		// A Pre-War Dresser Drawer, Pa!
 		new ChoiceAdventure(
@@ -823,6 +825,9 @@ public abstract class ChoiceManager
 		new ChoiceAdventure(
 			"Island", "choiceAdventure191", "F'c'le",
 			new String[] { "moxie substats", "lose hp", "muscle substats", "mysticality substats" } ),
+
+		// Choice 192 is unknown
+		// Choice 193 is Modular, Dude
 
 		// Somewhat Higher and Mostly Dry
 		new ChoiceAdventure(
@@ -1042,7 +1047,7 @@ public abstract class ChoiceManager
 
 		// Choice 300 is Merry Crimbo!
 		// Choice 301 is And to All a Good Night
-
+		// Choice 302 is unknown
 		// Choice 303 is You've Hit Bottom
 
 		// A Vent Horizon
@@ -1056,6 +1061,8 @@ public abstract class ChoiceManager
 			"The Sea", "choiceAdventure305", "The Marinara Trench",
 			new String[] { "globe of Deep Sauce", "skip adventure" },
 			new String[] { "3682", null } ),
+
+		// Choice 306 is [Grandpa Mine Choice]
 	};
 
 	static
