@@ -1430,7 +1430,7 @@ public class GenericRequest
 		}
 		else
 		{
-			this.containsUpdate |= this.responseText.indexOf( "<script>parent.charpane.location.href=\"charpane.php\";</script>" ) != -1;
+			this.containsUpdate |= this.responseText.indexOf( "<script.*?charpane.php.*?</script>" ) != -1;
 		}
 
 		if ( this.containsUpdate )
@@ -1562,15 +1562,8 @@ public class GenericRequest
 			// Mall stores themselves can only contain processable
 			// results when actually buying an item, and then only
 			// at the very top of the page.
-			if ( this.getFormField( "whichitem" ) != null )
-			{
-				this.containsUpdate = ResultProcessor.processResults(
-					this.responseText.substring( 0, this.responseText.indexOf( "</table>" ) ) );
-			}
-			else
-			{
-				this.containsUpdate = false;
-			}
+			this.containsUpdate = this.getFormField( "whichitem" ) != null &&
+				ResultProcessor.processResults( this.responseText.substring( 0, this.responseText.indexOf( "</table>" ) ) );
 		}
 		else
 		{
