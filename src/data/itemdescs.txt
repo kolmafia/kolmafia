@@ -3724,3 +3724,9 @@
 3717	827016673	decaying wooden oar
 3718	750940122	giant fishhook
 3719	582874358	rusty old lantern
+3720	192840879	decaying wooden pole
+3721	241970717	decaying wooden paddle
+3722	806748290	tarnished metal ring
+3723	583940591	tarnished metal rod
+3724	992991336	brittle plastic handle
+3725	507946679	foggy glass globe
