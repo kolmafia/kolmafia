@@ -56,6 +56,31 @@ implements Comparable
 		return false;
 	}
 
+	public String imageURL()
+	{
+		// Ideally, this would be part of the counter that is saved in
+		// the preferences, so users could configure their own counters
+		// with linked URLs.
+		//
+		// If I can come up with a backwards compatible way to make
+		// that work, I'll do it. Until then, it works only for
+		// internally generated counter.s
+
+		KoLAdventure adventure = null;
+
+		if ( this.label.equals( "Dance Card" ) )
+		{
+			adventure = AdventureDatabase.getAdventure( "Haunted Ballroom" );
+		}
+
+		if ( adventure != null )
+		{
+			return adventure.getRequest().getURLString();
+		}
+
+		return null;
+	}
+
 	public String getLabel()
 	{
 		return this.label;

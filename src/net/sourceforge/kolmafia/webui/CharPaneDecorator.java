@@ -187,13 +187,25 @@ public class CharPaneDecorator
 	
 	private static final void addOneCounter( StringBuffer buffer, TurnCounter current, boolean compact )
 	{
+		String url = current.imageURL();
+
 		if ( compact )
 		{
-			buffer.append( "<tr><td><img src=\"http://images.kingdomofloathing.com/itemimages/" );
+			buffer.append( "<tr><td>" );
+			if ( url != null )
+			{
+				buffer.append( "<a href=\"" + url + "\" target=\"mainpane\">" );
+			}
+			buffer.append( "<img src=\"http://images.kingdomofloathing.com/itemimages/" );
 			buffer.append( current.getImage() );
 			buffer.append( "\" title=\"" );
 			buffer.append( current.getLabel() );
-			buffer.append( "\"></td><td>(<a href=\"/KoLmafia/sideCommand?cmd=counters+deletehash+" );
+			buffer.append( "\">" );
+			if ( url != null )
+			{
+				buffer.append( "</a>" );
+			}
+			buffer.append ("</td><td>(<a href=\"/KoLmafia/sideCommand?cmd=counters+deletehash+" );
 			buffer.append( System.identityHashCode( current ) );
 			buffer.append( "&pwd=" );
 			buffer.append( GenericRequest.passwordHash );
@@ -203,9 +215,19 @@ public class CharPaneDecorator
 		}
 		else	// !compact
 		{
-			buffer.append( "<tr><td><img src=\"http://images.kingdomofloathing.com/itemimages/" );
+			buffer.append( "<tr><td>" );
+			if ( url != null )
+			{
+				buffer.append( "<a href=\"" + url + "\" target=\"mainpane\">" );
+			}
+			buffer.append( "<img src=\"http://images.kingdomofloathing.com/itemimages/" );
 			buffer.append( current.getImage() );
-			buffer.append( "\"></td><td valign=center><font size=2>" );
+			buffer.append( "\">" );
+			if ( url != null )
+			{
+				buffer.append( "</a>" );
+			}
+			buffer.append( "</td><td valign=center><font size=2>" );
 			buffer.append( current.getLabel() );
 			buffer.append( " (<a href=\"/KoLmafia/sideCommand?cmd=counters+deletehash+" );
 			buffer.append( System.identityHashCode( current ) );
