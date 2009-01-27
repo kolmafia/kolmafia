@@ -871,7 +871,8 @@ public class GenericRequest
 
 			if ( this.formURL == null || !this.currentHost.equals( GenericRequest.KOL_HOST ) )
 			{
-				if ( Preferences.getBoolean( "allowSocketTimeout" ) )
+				if ( Preferences.getBoolean( "allowSocketTimeout" ) &&
+					!this.formURLString.startsWith( "valhalla.php" ) )
 				{
 					if ( this.formURLString.startsWith( "http:" ) )
 						this.formURL = new URL( null, this.formURLString, HttpTimeoutHandler.getInstance() );

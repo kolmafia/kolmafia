@@ -338,6 +338,13 @@ public class AdventureResult
 		item.itemId = setItemId ? ItemDatabase.getItemId( name, 1 ) : -1;
 		return item;
 	}
+	
+	public static final AdventureResult tallyItem( final String name, final int count, final boolean setItemId )
+	{
+		AdventureResult item = AdventureResult.tallyItem( name, setItemId );
+		item.count[ 0 ] = count;
+		return item;
+	}
 
 	/**
 	 * Accessor method to determine if this result is a status effect.

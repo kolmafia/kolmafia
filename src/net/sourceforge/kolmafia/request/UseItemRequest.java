@@ -715,7 +715,10 @@ public class UseItemRequest
 		{
 			this.constructURLString( originalURLString );
 
-			if ( this.consumptionType == KoLConstants.CONSUME_DRINK && !UseItemRequest.allowBoozeConsumption( ItemDatabase.getInebriety( this.itemUsed.getName() ) ) )
+			if ( this.consumptionType == KoLConstants.CONSUME_DRINK &&
+				itemId != ItemPool.STEEL_LIVER &&
+				!UseItemRequest.allowBoozeConsumption(
+					ItemDatabase.getInebriety( this.itemUsed.getName() ) ) )
 			{
 				return;
 			}

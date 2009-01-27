@@ -2523,6 +2523,10 @@ public abstract class ChoiceManager
 		// list the missing items in the status message. Otherwise,
 		// simply tell how many explorations were accomplished.
 
+		AdventureResult result = AdventureResult.tallyItem(
+			"sewer tunnel explorations", explorations, false );
+		AdventureResult.addResultToList( KoLConstants.tally, result );
+
 		int state = KoLConstants.CONTINUE_STATE;
 		String message = "+" + explorations + " Explorations";
 

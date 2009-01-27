@@ -402,6 +402,7 @@ public class DailyDeedsPanel
 		public FriarsDaily()
 		{
 			this.addListener( "friarsBlessingReceived" );
+			this.addListener( "(character)" );
 			this.addButton( "friars food" );
 			this.addButton( "friars familiar" );
 			this.addButton( "friars booze" );
@@ -409,7 +410,8 @@ public class DailyDeedsPanel
 		
 		public void update()
 		{
-			this.setEnabled( !Preferences.getBoolean( "friarsBlessingReceived" ) );
+			this.setEnabled( KoLCharacter.getLevel() >= 6 &&
+				!Preferences.getBoolean( "friarsBlessingReceived" ) );
 		}
 	}
 

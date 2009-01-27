@@ -1559,6 +1559,7 @@ public class IslandDecorator
 			Preferences.setInteger( "availableQuarters", 0 );
 			Preferences.setString( "sideDefeated", "neither" );
 			Preferences.setString( "warProgress", "unstarted" );
+			Preferences.setInteger( "flyeredML", 0 );
 		}
 
 		// Set variables from user settings
