@@ -1241,7 +1241,8 @@ public class GenericRequest
 		if ( this.formURLString.startsWith( "sellstuff" ) )
 		{
 			String redirect = this.redirectLocation;
-			String newMode = redirect.startsWith( "sellstuff.php" ) ? "compact" :
+			String newMode = 
+				redirect.startsWith( "sellstuff.php" ) ? "compact" :
 				redirect.startsWith( "sellstuff_ugly.php" ) ? "detailed" :
 				null;
 
