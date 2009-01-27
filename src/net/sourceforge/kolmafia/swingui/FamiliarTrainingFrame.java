@@ -815,6 +815,7 @@ public class FamiliarTrainingFrame
 
 		// Permit training session to proceed
 		FamiliarTrainingFrame.stop = false;
+		KoLmafia.forceContinue();
 
 		// Get current familiar
 		FamiliarData familiar = KoLCharacter.getFamiliar();
@@ -1224,7 +1225,12 @@ public class FamiliarTrainingFrame
 			return true;
 		}
 
-		if ( !InventoryManager.hasItem( FamiliarTrainingFrame.PUMPKIN_BUCKET ) && !InventoryManager.hasItem( FamiliarTrainingFrame.FLOWER_BOUQUET )  && !InventoryManager.hasItem( FamiliarTrainingFrame.FIREWORKS ) && status.familiarItemWeight != 0 && !InventoryManager.hasItem( status.familiarItem ) && KoLCharacter.canInteract() )
+		if ( !InventoryManager.hasItem( FamiliarTrainingFrame.PUMPKIN_BUCKET ) &&
+		     !InventoryManager.hasItem( FamiliarTrainingFrame.FLOWER_BOUQUET ) &&
+		     !InventoryManager.hasItem( FamiliarTrainingFrame.FIREWORKS ) &&
+		     status.familiarItemWeight != 0 &&
+		     !InventoryManager.hasItem( status.familiarItem ) &&
+		     KoLCharacter.canInteract() )
 		{
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "buy 1 " + status.familiarItem.getName() );
 			RequestThread.postRequest( new EquipmentRequest( status.familiarItem ) );
@@ -1235,7 +1241,8 @@ public class FamiliarTrainingFrame
 			}
 		}
 
-		if ( FamiliarTrainingFrame.leashAvailable && FamiliarTrainingFrame.leashActive == 0 )
+		if ( FamiliarTrainingFrame.leashAvailable &&
+		     FamiliarTrainingFrame.leashActive == 0 )
 		{
 			RequestThread.postRequest( UseSkillRequest.getInstance( "leash of linguini", 1 ) );
 			if ( familiar.getModifiedWeight() >= weight )
@@ -1244,7 +1251,8 @@ public class FamiliarTrainingFrame
 			}
 		}
 
-		if ( FamiliarTrainingFrame.empathyAvailable && FamiliarTrainingFrame.empathyActive == 0 )
+		if ( FamiliarTrainingFrame.empathyAvailable &&
+		     FamiliarTrainingFrame.empathyActive == 0 )
 		{
 			RequestThread.postRequest( UseSkillRequest.getInstance( "empathy of the newt", 1 ) );
 			if ( familiar.getModifiedWeight() >= weight )
@@ -1256,7 +1264,9 @@ public class FamiliarTrainingFrame
 		// Add on a green heart first, if you know the difference is
 		// less than three.
 
-		if ( FamiliarTrainingFrame.greenHeartAvailable && FamiliarTrainingFrame.greenHeartActive == 0 )
+		if ( FamiliarTrainingFrame.greenHeartAvailable &&
+		     FamiliarTrainingFrame.greenHeartActive == 0 &&
+		     familiar.getModifiedWeight() + 3 >= weight )
 		{
 			RequestThread.postRequest( new UseItemRequest( FamiliarTrainingFrame.GREEN_CANDY ) );
 			if ( familiar.getModifiedWeight() >= weight )
@@ -1265,7 +1275,8 @@ public class FamiliarTrainingFrame
 			}
 		}
 
-		if ( FamiliarTrainingFrame.bestialAvailable && FamiliarTrainingFrame.bestialActive == 0 )
+		if ( FamiliarTrainingFrame.bestialAvailable &&
+		     FamiliarTrainingFrame.bestialActive == 0 )
 		{
 			RequestThread.postRequest( new UseItemRequest( FamiliarTrainingFrame.HALF_ORCHID ) );
 			if ( familiar.getModifiedWeight() >= weight )
@@ -1274,7 +1285,8 @@ public class FamiliarTrainingFrame
 			}
 		}
 
-		if ( FamiliarTrainingFrame.greenConeAvailable && FamiliarTrainingFrame.greenTongueActive == 0 )
+		if ( FamiliarTrainingFrame.greenConeAvailable &&
+		     FamiliarTrainingFrame.greenTongueActive == 0 )
 		{
 			RequestThread.postRequest( new UseItemRequest( FamiliarTrainingFrame.GREEN_SNOWCONE ) );
 			if ( familiar.getModifiedWeight() >= weight )
@@ -1283,7 +1295,10 @@ public class FamiliarTrainingFrame
 			}
 		}
 
-		if ( !FamiliarTrainingFrame.greenConeAvailable && FamiliarTrainingFrame.greenTongueActive == 0 && FamiliarTrainingFrame.blackConeAvailable && FamiliarTrainingFrame.blackTongueActive == 0 )
+		if ( !FamiliarTrainingFrame.greenConeAvailable &&
+		     FamiliarTrainingFrame.greenTongueActive == 0 &&
+		     FamiliarTrainingFrame.blackConeAvailable &&
+		     FamiliarTrainingFrame.blackTongueActive == 0 )
 		{
 			RequestThread.postRequest( new UseItemRequest( FamiliarTrainingFrame.BLACK_SNOWCONE ) );
 			if ( familiar.getModifiedWeight() >= weight )
@@ -1292,7 +1307,8 @@ public class FamiliarTrainingFrame
 			}
 		}
 
-		if ( FamiliarTrainingFrame.heavyPettingAvailable && FamiliarTrainingFrame.heavyPettingActive == 0 )
+		if ( FamiliarTrainingFrame.heavyPettingAvailable &&
+		     FamiliarTrainingFrame.heavyPettingActive == 0 )
 		{
 			RequestThread.postRequest( new UseItemRequest( FamiliarTrainingFrame.BUFFING_SPRAY ) );
 			if ( familiar.getModifiedWeight() >= weight )
@@ -1609,7 +1625,7 @@ public class FamiliarTrainingFrame
 		{
 			// Look at skills to decide which ones are possible
 			FamiliarTrainingFrame.sympathyAvailable = KoLCharacter.hasAmphibianSympathy();
-			FamiliarTrainingFrame.empathyAvailable = KoLCharacter.hasSkill( "Empathy of the Newt" );
+			FamiliarTrainingFrame.empathyAvailable = KoLCharacter.hasSkill( "Empathy of the Newt" ) && UseSkillRequest.hasTotem();
 			FamiliarTrainingFrame.leashAvailable = KoLCharacter.hasSkill( "Leash of Linguini" );
 
 			FamiliarTrainingFrame.bestialAvailable =
@@ -1619,7 +1635,7 @@ public class FamiliarTrainingFrame
 			FamiliarTrainingFrame.greenConeAvailable =
 				KoLCharacter.canInteract() || InventoryManager.hasItem( FamiliarTrainingFrame.GREEN_SNOWCONE );
 			FamiliarTrainingFrame.greenHeartAvailable =
-				KoLCharacter.canInteract() || InventoryManager.hasItem( FamiliarTrainingFrame.GREEN_CANDY );
+				InventoryManager.hasItem( FamiliarTrainingFrame.GREEN_CANDY );
 			FamiliarTrainingFrame.heavyPettingAvailable =
 				KoLCharacter.canInteract() || InventoryManager.hasItem( FamiliarTrainingFrame.BUFFING_SPRAY ) || NPCStoreDatabase.contains( "Knob Goblin pet-buffing spray" );
 

@@ -1237,7 +1237,7 @@ public abstract class SorceressLairManager
 			// Error check the possibilities
 
 			// "You beat on the cage with your weapon, but
-			// to no avail.	 It doesn't appear to be made
+			// to no avail. It doesn't appear to be made
 			// out of the right stuff."
 
 			if ( SorceressLairManager.QUEST_HANDLER.responseText.indexOf( "right stuff" ) != -1 )
@@ -1934,7 +1934,6 @@ public abstract class SorceressLairManager
 		}
 
 		int n = -1;
-		FamiliarData originalFamiliar = KoLCharacter.getFamiliar();
 
 		Matcher placeMatcher = SorceressLairManager.LAIR6_PATTERN.matcher( SorceressLairManager.QUEST_HANDLER.responseText );
 		if ( placeMatcher.find() )
@@ -1954,7 +1953,7 @@ public abstract class SorceressLairManager
 			RequestThread.postRequest( CharPaneRequest.getInstance() );
 		}
 
-		for ( ; n < 5 && KoLmafia.permitsContinue(); ++n )
+		for ( ; n < 2 && KoLmafia.permitsContinue(); ++n )
 		{
 			switch ( n )
 			{
@@ -1964,39 +1963,35 @@ public abstract class SorceressLairManager
 			case 1:
 				SorceressLairManager.reflectEnergyBolt();
 				break;
+			}
+
+			if ( !KoLmafia.permitsContinue() )
+			{
+				KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=" + previousAutoAttack );
+				return -1;
+			}
+		}
+
+		if ( !fightFamiliarGuardians )
+		{
+			KoLmafia.updateDisplay( "Path to shadow cleared." );
+			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=" + previousAutoAttack );
+			return -1;
+		}
+
+		FamiliarData originalFamiliar = KoLCharacter.getFamiliar();
+
+		for ( ; n < 5 && KoLmafia.permitsContinue(); ++n )
+		{
+			switch ( n )
+			{
 			case 2:
-
-				if ( !fightFamiliarGuardians )
-				{
-					KoLmafia.updateDisplay( "Path to shadow cleared." );
-					KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=" + previousAutoAttack );
-					return -1;
-				}
-
 				SorceressLairManager.fightShadow();
 				break;
-
 			case 3:
-
-				if ( !fightFamiliarGuardians )
-				{
-					KoLmafia.updateDisplay( "Path to shadow cleared." );
-					KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=" + previousAutoAttack );
-					return -1;
-				}
-
 				SorceressLairManager.familiarBattle( 3 );
 				break;
-
 			case 4:
-
-				if ( !fightFamiliarGuardians )
-				{
-					KoLmafia.updateDisplay( "Path to shadow cleared." );
-					KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=" + previousAutoAttack );
-					return -1;
-				}
-
 				SorceressLairManager.familiarBattle( 4 );
 				break;
 			}
@@ -2395,13 +2390,10 @@ public abstract class SorceressLairManager
 		RequestThread.postRequest( new FamiliarRequest( familiar ) );
 
 		// If we can buff it to 20 pounds, try again.
-		if ( !FamiliarTrainingFrame.buffFamiliar( 20 ) )
+		if ( !FamiliarTrainingFrame.buffFamiliar( 20 ) &&
+		     !FamiliarTrainingFrame.levelFamiliar( 20, FamiliarTrainingFrame.BUFFED, false ) )
 		{
-			// We can't buff it high enough. Train it.
-			if ( !FamiliarTrainingFrame.levelFamiliar( 20, FamiliarTrainingFrame.BUFFED, false ) )
-			{
-				return;
-			}
+			return;
 		}
 
 		// We're good to go. Fight!

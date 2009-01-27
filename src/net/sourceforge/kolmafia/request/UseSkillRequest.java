@@ -421,8 +421,9 @@ public class UseSkillRequest
 
 	private static final boolean canSwitchToItem( final AdventureResult item )
 	{
-		return !KoLCharacter.hasEquipped( item ) && EquipmentManager.canEquip( item.getName() ) && InventoryManager.hasItem(
-			item, false );
+		return !KoLCharacter.hasEquipped( item ) &&
+			EquipmentManager.canEquip( item.getName() ) &&
+			InventoryManager.hasItem( item, false );
 	}
 
 	public static final void optimizeEquipment( final int skillId )
@@ -742,6 +743,42 @@ public class UseSkillRequest
 		for ( int i = 0; i < UseSkillRequest.THIEF_WEAPONS.length; ++i )
 		{
 			if ( InventoryManager.hasItem( UseSkillRequest.THIEF_WEAPONS[ i ], true ) )
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	public static final boolean hasTotem()
+	{
+		if ( KoLCharacter.canInteract() )
+		{
+			return true;
+		}
+
+		for ( int i = 0; i < UseSkillRequest.TAMER_WEAPONS.length; ++i )
+		{
+			if ( InventoryManager.hasItem( UseSkillRequest.TAMER_WEAPONS[ i ], true ) )
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	public static final boolean hasSaucepan()
+	{
+		if ( KoLCharacter.canInteract() )
+		{
+			return true;
+		}
+
+		for ( int i = 0; i < UseSkillRequest.SAUCE_WEAPONS.length; ++i )
+		{
+			if ( InventoryManager.hasItem( UseSkillRequest.SAUCE_WEAPONS[ i ], true ) )
 			{
 				return true;
 			}
