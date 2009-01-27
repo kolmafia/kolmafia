@@ -398,7 +398,7 @@ public abstract class SorceressLairManager
 			"Knob Goblin firecracker"
 		},
 		{
-			"darkness",
+			"the darkness",
 			"strange shadow",
 			"inkwell"
 		},
@@ -428,7 +428,7 @@ public abstract class SorceressLairManager
 			"fancy bath salts"
 		},
 		{
-			"fickle finger of f8",
+			"the fickle finger of f8",
 			"giant cuticle",
 			"razor-sharp can lid"
 		},
