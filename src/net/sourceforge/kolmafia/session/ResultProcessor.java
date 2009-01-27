@@ -735,6 +735,11 @@ public class ResultProcessor
 
 	public static boolean processAdventures( int amount )
 	{
+		if ( amount == 0 )
+		{
+			return false;
+		}
+
 		return ResultProcessor.processResult( new AdventureResult( AdventureResult.ADV, amount ) );
 	}
 

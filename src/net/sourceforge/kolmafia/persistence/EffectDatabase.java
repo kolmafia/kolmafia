@@ -82,15 +82,26 @@ public class EffectDatabase
 		{
 			if ( data.length >= 3 )
 			{
+				Integer effectId = Integer.valueOf( data[ 0 ] );
+				String name = data[ 1 ];
+				String image = data[ 2 ];
+				String descId = data.length > 3 ? data[ 3 ] : null;
+				String defaultAction = data.length > 4 ? data[ 4 ] : null;
+
 				EffectDatabase.addToDatabase(
-					Integer.valueOf( data[ 0 ] ), data[ 1 ], data[ 2 ], data.length > 3 ? data[ 3 ] : null,
-					data.length > 4 ? data[ 4 ] : null );
-				if ( data[ 1 ].equalsIgnoreCase( "Temporary Blindness" ) )
-				{	// it has to be possible to have two copies of this effect in
-					// activeEffects, since the intrinsic & normal versions stack.
+					effectId,
+					name,
+					image, descId, defaultAction );
+
+				if ( name.equalsIgnoreCase( "Temporary Blindness" ) )
+				{
+					// We need two copies of this effect in
+					// activeEffects, since the intrinsic &
+					// normal versions stack.
 					EffectDatabase.addToDatabase(
-						Integer.valueOf( -2 ), "Temporary Blindness (intrinsic)", data[ 2 ], data.length > 3 ? data[ 3 ] : null,
-						data.length > 4 ? data[ 4 ] : null );
+						new Integer( -2 ),
+						"Temporary Blindness (intrinsic)",
+						image, descId, defaultAction );
 				}
 			}
 		}

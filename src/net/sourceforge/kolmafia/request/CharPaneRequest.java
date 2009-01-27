@@ -356,11 +356,7 @@ public class CharPaneRequest
 			String adventuresLeft = miscMatcher.group( 6 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
 			int oldAdventures = KoLCharacter.getAdventuresLeft();
 			int newAdventures = StringUtilities.parseInt( adventuresLeft );
-
-			if ( oldAdventures != newAdventures )
-			{
-				ResultProcessor.processAdventures( newAdventures - oldAdventures );
-			}
+			ResultProcessor.processAdventures( newAdventures - oldAdventures );
 		}
 	}
 

@@ -71,7 +71,7 @@ public class CharSheetRequest
 	}
 
 	/**
-	 * Runs the request. Note that only the KoLCharacter's statistics are retrieved via this retrieval.
+	 * Runs the request. Note that only the character's statistics are retrieved via this retrieval.
 	 */
 
 	protected boolean retryOnTimeout()
@@ -179,7 +179,7 @@ public class CharSheetRequest
 		KoLCharacter.setStatPoints( mus[ 0 ], mus[ 1 ], mys[ 0 ], mys[ 1 ], mox[ 0 ], mox[ 1 ] );
 
 		// Drunkenness may or may not exist (in other words,
-		// if the KoLCharacter is not drunk, nothing will show
+		// if the character is not drunk, nothing will show
 		// up). Therefore, parse it if it exists; otherwise,
 		// parse until the "Adventures remaining:" token.
 
@@ -202,7 +202,7 @@ public class CharSheetRequest
 		}
 
 		// Now parse the number of adventures remaining,
-		// the monetary value in the KoLCharacter's pocket,
+		// the monetary value in the character's pocket,
 		// and the number of turns accumulated.
 
 		int oldAdventures = KoLCharacter.getAdventuresLeft();
