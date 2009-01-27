@@ -775,7 +775,7 @@ teflon swim fins	ASMITH	waterlogged bootstraps	teflon ore
 velcro broadsword	SMITH	brittle plastic handle	velcro ore
 velcro paddle ball	SMITH	decaying wooden paddle	velcro ore
 velcro shield	ASMITH	rusty valve wheel	velcro ore
-velcro boots	ASMITH	waterlogged bootstraps	valcro ore
+velcro boots	ASMITH	waterlogged bootstraps	velcro ore
 
 7-inch discus	SMITH	tarnished metal ring	vinyl ore
 PVC staff	SMITH	foggy glass globe	vinyl ore

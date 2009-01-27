@@ -93,6 +93,7 @@ public class RequestEditorKit
 	private static final Pattern BOOKSHELF_PATTERN =
 		Pattern.compile( "onClick=\"location.href='(.*?)';\"", Pattern.DOTALL );
 	private static final Pattern ALTAR_PATTERN = Pattern.compile( "'An altar with a carving of a god of ([^']*)'" );
+	private static final Pattern CLOVER_PATTERN = Pattern.compile( "(<b>(\\d+ )?)ten-leaf clover((s)?</b>)" );
 
 	private static final RequestViewFactory DEFAULT_FACTORY = new RequestViewFactory();
 
@@ -461,9 +462,15 @@ public class RequestEditorKit
 
 		if ( ResultProcessor.shouldDisassembleClovers( location ) )
 		{
-			StringUtilities.singleStringReplace( buffer, "<b>ten-leaf clover</b>", "<b>disassembled clover</b>" );
-			StringUtilities.singleStringReplace( buffer, "clover.gif", "disclover.gif" );
-			StringUtilities.singleStringReplace( buffer, "370834526", "328909735" );
+			Matcher matcher = CLOVER_PATTERN.matcher( buffer );
+			if ( matcher.find() )
+			{
+				StringUtilities.singleStringReplace( buffer,
+					matcher.group(1) + "ten-leaf clover" + matcher.group(3),
+					matcher.group(1) + "disassembled clover" + matcher.group(3) );
+				StringUtilities.singleStringReplace( buffer, "clover.gif", "disclover.gif" );
+				StringUtilities.singleStringReplace( buffer, "370834526", "328909735" );
+			}
 		}
 
 		// Change El Vibrato punchcard names wherever they are found

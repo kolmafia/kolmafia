@@ -91,7 +91,7 @@ public class ResultProcessor
 			formURLString.startsWith( "hermit.php" ) ||
 			formURLString.startsWith( "mallstore.php" ) ||
 			formURLString.startsWith( "barrel.php" ) ||
-			UseItemRequest.currentItemId() == ItemPool.ELITE_SCROLL;
+			formURLString.indexOf( "whichitem=553" ) != -1;
 	}
 	
 	public static boolean receivedClover()
