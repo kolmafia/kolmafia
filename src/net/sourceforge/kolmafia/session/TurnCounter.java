@@ -43,6 +43,15 @@ implements Comparable
 		{
 			return adventureId.equals( "109" );
 		}
+		else if ( this.label.equals( "Communications Windchimes" ) ||
+			  this.label.equals( "PADL Phone" ) )
+		{
+			// These counters just tell you when it is safe to use
+			// the device again. There's nothing wrong with not
+			// adventuring on the battlefield when they expire.
+
+			return true;
+		}
 
 		return false;
 	}
