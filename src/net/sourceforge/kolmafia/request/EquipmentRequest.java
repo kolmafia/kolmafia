@@ -390,7 +390,8 @@ public class EquipmentRequest
 				return "equip";
 			}
 
-			if ( this.equipmentType == KoLConstants.EQUIP_WEAPON )
+			if ( this.equipmentType == KoLConstants.EQUIP_WEAPON &&
+			     EquipmentDatabase.getHands( this.itemId ) == 1 )
 			{
 				return "dualwield";
 			}
@@ -686,23 +687,46 @@ public class EquipmentRequest
 				return;
 			}
 
-			// If we are equipping a new weapon, a two-handed weapon will unequip any pair of
-			// weapons. But a one-handed weapon much match the type of the off-hand weapon. If it
-			// doesn't, unequip the off-hand weapon first
+			// If we are equipping a new weapon, a two-handed
+			// weapon will unequip any pair of weapons. But a
+			// one-handed weapon much match the type of the
+			// off-hand weapon. If it doesn't, unequip the off-hand
+			// weapon first
 
-			if ( this.equipmentSlot == EquipmentManager.WEAPON )
+			int itemId = this.changeItem.getItemId();
+
+			if ( this.equipmentSlot == EquipmentManager.WEAPON &&
+			     EquipmentDatabase.getHands( itemId ) == 1 )
 			{
-				AdventureResult offhand = EquipmentManager.getEquipment( EquipmentManager.OFFHAND );
+				int offhand = EquipmentManager.getEquipment( EquipmentManager.OFFHAND ).getItemId();
 
-				if ( ItemDatabase.getConsumptionType( offhand.getItemId() ) == KoLConstants.EQUIP_WEAPON )
+				if ( ItemDatabase.getConsumptionType( offhand ) == KoLConstants.EQUIP_WEAPON &&
+				     EquipmentDatabase.getWeaponType( itemId ) != EquipmentDatabase.getWeaponType( offhand ) )
 				{
-					int desiredType = EquipmentDatabase.getWeaponType( this.changeItem.getItemId() );
-					int currentType = EquipmentDatabase.getWeaponType( offhand.getName() );
+					( new EquipmentRequest( EquipmentRequest.UNEQUIP, EquipmentManager.OFFHAND ) ).run();
+				}
+			}
 
-					if ( EquipmentDatabase.getHands( this.changeItem.getItemId() ) == 1 && desiredType != currentType )
-					{
-						( new EquipmentRequest( EquipmentRequest.UNEQUIP, EquipmentManager.OFFHAND ) ).run();
-					}
+			// If you are equipping an off-hand weapon, don't
+			// bother trying if unless it is compatible with the
+			// main weapon.
+
+			if ( this.equipmentSlot == EquipmentManager.OFFHAND &&
+			     ItemDatabase.getConsumptionType( itemId ) == KoLConstants.EQUIP_WEAPON )
+			{
+				AdventureResult weapon = EquipmentManager.getEquipment( EquipmentManager.WEAPON );
+				int weaponItemId = weapon.getItemId();
+
+				if ( EquipmentDatabase.getHands( weaponItemId ) > 1 )
+				{
+					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't dual wield while wielding a 2-handed weapon." );
+					return;
+				}
+
+				if ( EquipmentDatabase.getWeaponType( itemId ) != EquipmentDatabase.getWeaponType( weaponItemId ) )
+				{
+					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't hold a " + this.changeItem.getName() + " in your off-hand when wielding a " + weapon.getName() );
+					return;
 				}
 			}
 
@@ -712,16 +736,15 @@ public class EquipmentRequest
 			}
 			
 			if ( this.equipmentSlot >= EquipmentManager.STICKER1 &&
-				this.equipmentSlot <= EquipmentManager.STICKER3 &&
-				!EquipmentManager.getEquipment( this.equipmentSlot )
-					.equals( EquipmentRequest.UNEQUIP ) )
+			     this.equipmentSlot <= EquipmentManager.STICKER3 &&
+			     !EquipmentManager.getEquipment( this.equipmentSlot ).equals( EquipmentRequest.UNEQUIP ) )
 			{
 				( new EquipmentRequest( EquipmentRequest.UNEQUIP, this.equipmentSlot ) ).run();	
 			}
 		}
 
-		if ( this.requestType == EquipmentRequest.REMOVE_ITEM && EquipmentManager.getEquipment( this.equipmentSlot ).equals(
-			EquipmentRequest.UNEQUIP ) )
+		if ( this.requestType == EquipmentRequest.REMOVE_ITEM &&
+		     EquipmentManager.getEquipment( this.equipmentSlot ).equals( EquipmentRequest.UNEQUIP ) )
 		{
 			return;
 		}
@@ -1241,7 +1264,7 @@ public class EquipmentRequest
 			EquipmentManager.setFakeHands( fakeHands );
 		}
 
-                // Look for custom outfits
+		// Look for custom outfits
 
 		Matcher outfitsMatcher = EquipmentRequest.OUTFITLIST_PATTERN.matcher( responseText );
 		LockableListModel outfits = outfitsMatcher.find() ? SpecialOutfit.parseOutfits( outfitsMatcher.group() ) : null;
@@ -1295,7 +1318,7 @@ public class EquipmentRequest
 
 		EquipmentManager.setEquipment( newEquipment );
 
-                return refresh;
+		return refresh;
 	}
 
 	private static final boolean switchItem( final int type, final AdventureResult newItem )
@@ -1458,9 +1481,9 @@ public class EquipmentRequest
 		int itemId = item.getItemId();
 		int slot = EquipmentManager.itemIdToEquipmentType( itemId );
 
-                switch ( slot )
-                {
-                case EquipmentManager.ACCESSORY1:
+		switch ( slot )
+		{
+		case EquipmentManager.ACCESSORY1:
 			// Heuristic: KoL seems to fill the last slots first.
 			if ( equipment[ EquipmentManager.ACCESSORY3 ] == EquipmentRequest.UNEQUIP )
 			{
@@ -1474,7 +1497,7 @@ public class EquipmentRequest
 			{
 				slot = EquipmentManager.ACCESSORY1;
 			}
-                        break;
+			break;
 
 		case EquipmentManager.WEAPON:
 			if ( equipment[ EquipmentManager.WEAPON ] != EquipmentRequest.UNEQUIP )
