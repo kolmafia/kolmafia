@@ -1913,7 +1913,6 @@ public class UseItemRequest
 
 			return;
 
-
 		case ItemPool.RUSTY_BROKEN_DIVING_HELMET:
 		case ItemPool.PIRATE_SKULL:
 		case ItemPool.QUILL_PEN:

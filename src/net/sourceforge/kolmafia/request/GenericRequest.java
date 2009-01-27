@@ -1397,7 +1397,7 @@ public class GenericRequest
 
 		// Let clover protection kick in if needed
 
-		if ( ResultProcessor.shouldDisassembleClovers( this.formURLString ) )
+		if ( ResultProcessor.shouldDisassembleClovers( this.getURLString() ) )
 		{
 			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "use", "* ten-leaf clover" );
 		}
