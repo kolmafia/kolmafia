@@ -177,9 +177,36 @@ public class CouncilFrame
 
 	private static final void handleGuildChange( final String location, final String responseText )
 	{
-		if ( location.indexOf( "paco" ) != -1 && InventoryManager.hasItem( ItemPool.CITADEL_SATCHEL ) )
+		if ( location.indexOf( "paco" ) != -1 )
 		{
-			ResultProcessor.processItem( ItemPool.CITADEL_SATCHEL, -1 );
+			// "paco" assigns the meat car and white citadel quests
+			if ( InventoryManager.hasItem( ItemPool.CITADEL_SATCHEL ) )
+			{
+				ResultProcessor.processItem( ItemPool.CITADEL_SATCHEL, -1 );
+			}
+                        return;
+		}
+
+		if ( location.indexOf( "ocg" ) != -1 )
+		{
+			// "ocg" (Other Class in Guild) assigns Fernswarthy quest
+
+			// <Muscle class> looks surprised as you hand over
+			// Fernswarthy's key.
+
+			// "So, have you returned with Fernswarthy's key?"
+			// <Mysticality class> nods approvingly as you hand the
+			// key to him.
+
+			// <Moxie class> grins and takes Fernswarthy's key from
+			// you.
+
+			if ( responseText.indexOf( "hand over Fernswarthy's key" ) != -1 ||
+			     responseText.indexOf( "returned with Fernswarthy's key" ) != -1 ||
+			     responseText.indexOf( "takes Fernswarthy's key" ) != -1 )
+			{
+				ResultProcessor.processItem( ItemPool.FERNSWARTHYS_KEY, -1 );
+			}
 		}
 	}
 
