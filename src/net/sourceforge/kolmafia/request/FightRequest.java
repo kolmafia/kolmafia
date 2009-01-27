@@ -1309,6 +1309,7 @@ public class FightRequest
 
 		FightRequest.parseGrubUsage( location, responseText );
 		FightRequest.parseGhostSummoning( location, responseText );
+		FightRequest.parseFlyerUsage( location, responseText );
 
 		// Spend MP and consume items
 		FightRequest.payActionCost( responseText );
@@ -1518,6 +1519,13 @@ public class FightRequest
 			else if ( monster.equalsIgnoreCase( "Ancient Protector Spirit" ) )
 			{
 				HiddenCityRequest.addHiddenCityLocation( 'D' );
+			}
+			else if ( Preferences.getString( "lastAdventure" ).equalsIgnoreCase(
+				"A Maze of Sewer Tunnels" ) )
+			{
+				AdventureResult result = AdventureResult.tallyItem(
+					"sewer tunnel explorations", false );
+				AdventureResult.addResultToList( KoLConstants.tally, result );
 			}
 
 			// Give your summoned combat entity some experience
@@ -1836,6 +1844,26 @@ public class FightRequest
 			Preferences.setInteger( "burrowgrubSummonsRemaining", uses );
 		}
 	}
+	
+	private static final void parseFlyerUsage( final String location, final String responseText )
+	{
+		if ( location.indexOf( "240" ) == -1 )
+		{	// jam band flyers=2404, rock band flyers=2405
+			return;
+		}
+
+		// You slap a flyer up on your opponent. It enrages it.
+
+		if ( responseText.indexOf( "You slap a flyer up on your opponent" ) != -1 )
+		{
+			int ML = Math.max( 0, FightRequest.getMonsterDefense() );
+			Preferences.increment( "flyeredML", ML );
+			AdventureResult result = AdventureResult.tallyItem(
+				"Arena flyer ML", ML, false );
+			AdventureResult.addResultToList( KoLConstants.tally, result );
+		}
+	}
+
 
 	private static final void parseGhostSummoning( final String location, final String responseText )
 	{
