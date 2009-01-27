@@ -1095,6 +1095,7 @@ public class ResultProcessor
 		case ItemPool.MYS_MANUAL:
 		case ItemPool.MOX_MANUAL:
 			ResultProcessor.processItem( ItemPool.DUSTY_BOOK, -1 );
+			ResultProcessor.processItem( ItemPool.FERNSWARTHYS_KEY, -1 );
 			break;
 
 		case ItemPool.FRATHOUSE_BLUEPRINTS:
