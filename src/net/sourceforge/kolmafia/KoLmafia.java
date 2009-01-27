@@ -3602,11 +3602,19 @@ public abstract class KoLmafia
 					contents.append( line );
 				}
 
+				String string = contents.toString();
+
+				if ( string.indexOf( "<title>SourceForge.net: Inactive feed (group: 126572)</title>" ) != -1 )
+				{
+					System.out.println( "Update check failed: inactive feed" );
+					return;
+				}
+
 				Matcher updateMatcher =
-					Pattern.compile( "<title>(KoLmafia [^<]*?) released [^<]*?</title>" ).matcher( contents.toString() );
+					Pattern.compile( "<title>(KoLmafia [^<]*?) released [^<]*?</title>" ).matcher( string );
 				if ( !updateMatcher.find() )
 				{
-					System.out.println( contents );
+					System.out.println( string );
 					return;
 				}
 
