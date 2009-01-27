@@ -157,8 +157,11 @@ public class CharPaneDecorator
 				while ( duration >= current.getTurnsRemaining() );
 			}
 		}
-		// If we've gotten this far, there are counters that are higher than
-		// any effect duration.  Insert them at the very end, but before any intrinsics.
+
+		// If we've gotten this far, there are counters that are higher
+		// than any effect duration.  Insert them at the very end, but
+		// before any intrinsics.
+
 		insPos = text.lastIndexOf( "(&infin;)" );
 		if ( insPos != -1 )
 		{

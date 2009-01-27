@@ -61,6 +61,7 @@ import net.sourceforge.kolmafia.request.HiddenCityRequest;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -2139,6 +2140,10 @@ public class FightRequest
 			{
 				IslandDecorator.ensureUpdatedBigIsland();
 				Preferences.setInteger( "lastHippyCall", KoLAdventure.getAdventureCount() );
+				// "Safe" interval between uses is 10 turns
+				// http://alliancefromhell.com/forum/viewtopic.php?t=1398
+				TurnCounter.stopCounting( "Communications Windchimes" );
+				TurnCounter.startCounting( 10, "Communications Windchimes", "chimes.gif", true );
 			}
 
 			// Then he takes your windchimes and wanders off.
@@ -2162,6 +2167,10 @@ public class FightRequest
 			{
 				IslandDecorator.ensureUpdatedBigIsland();
 				Preferences.setInteger( "lastFratboyCall", KoLAdventure.getAdventureCount() );
+				// "Safe" interval between uses is 10 turns
+				// http://alliancefromhell.com/forum/viewtopic.php?t=1398
+				TurnCounter.stopCounting( "PADL Phone" );
+				TurnCounter.startCounting( 10, "PADL Phone", "padl.gif", true );
 			}
 
 			// Then he takes your phone and wanders off.
