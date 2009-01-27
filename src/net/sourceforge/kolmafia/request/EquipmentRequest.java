@@ -711,19 +711,29 @@ public class EquipmentRequest
 			// bother trying if unless it is compatible with the
 			// main weapon.
 
-			if ( this.equipmentSlot == EquipmentManager.OFFHAND &&
-			     ItemDatabase.getConsumptionType( itemId ) == KoLConstants.EQUIP_WEAPON )
+			if ( this.equipmentSlot == EquipmentManager.OFFHAND )
 			{
+				int itemType = ItemDatabase.getConsumptionType( itemId );
 				AdventureResult weapon = EquipmentManager.getEquipment( EquipmentManager.WEAPON );
 				int weaponItemId = weapon.getItemId();
 
-				if ( EquipmentDatabase.getHands( weaponItemId ) > 1 )
+				if ( itemType == KoLConstants.EQUIP_WEAPON && weaponItemId <= 0 )
 				{
-					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't dual wield while wielding a 2-handed weapon." );
+					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't dual wield unless you already have a main weapon." );
 					return;
 				}
 
-				if ( EquipmentDatabase.getWeaponType( itemId ) != EquipmentDatabase.getWeaponType( weaponItemId ) )
+				if ( EquipmentDatabase.getHands( weaponItemId ) > 1 )
+				{
+					String message = itemType == KoLConstants.EQUIP_WEAPON ?
+						"You can't dual wield while wielding a 2-handed weapon." :
+						"You can't equip an off-hand item while wielding a 2-handed weapon.";
+					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, message );
+					return;
+				}
+
+				if ( itemType == KoLConstants.EQUIP_WEAPON &&
+				     EquipmentDatabase.getWeaponType( itemId ) != EquipmentDatabase.getWeaponType( weaponItemId ) )
 				{
 					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't hold a " + this.changeItem.getName() + " in your off-hand when wielding a " + weapon.getName() );
 					return;
