@@ -1635,7 +1635,7 @@ public class FamiliarTrainingFrame
 			FamiliarTrainingFrame.greenConeAvailable =
 				KoLCharacter.canInteract() || InventoryManager.hasItem( FamiliarTrainingFrame.GREEN_SNOWCONE );
 			FamiliarTrainingFrame.greenHeartAvailable =
-				InventoryManager.hasItem( FamiliarTrainingFrame.GREEN_CANDY );
+				KoLCharacter.canInteract() || InventoryManager.hasItem( FamiliarTrainingFrame.GREEN_CANDY );
 			FamiliarTrainingFrame.heavyPettingAvailable =
 				KoLCharacter.canInteract() || InventoryManager.hasItem( FamiliarTrainingFrame.BUFFING_SPRAY ) || NPCStoreDatabase.contains( "Knob Goblin pet-buffing spray" );
 
