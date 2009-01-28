@@ -460,6 +460,11 @@ public class ValhallaDecorator
 			buffer.append( "<nobr>blow up your zap wand</nobr><br>" );
 		}
 
+		if ( InventoryManager.hasItem( ItemPool.DEAD_MIMIC ) )
+		{
+			buffer.append( "<nobr>use your dead mimic</nobr><br>" );
+		}
+
 		if ( InventoryManager.hasItem( ItemPool.BORIS_KEY ) )
 		{
 			buffer.append( "<nobr>make a Boris's key lime pie</nobr><br>" );

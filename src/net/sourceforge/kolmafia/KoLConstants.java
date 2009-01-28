@@ -223,6 +223,7 @@ public interface KoLConstants
 		"defaults.txt",
 		"equipment.txt",
 		"familiars.txt",
+		"foldgroups.txt",
 		"fullness.txt",
 		"inebriety.txt",
 		"itemdescs.txt",
@@ -252,6 +253,7 @@ public interface KoLConstants
 	public static final int DEFAULTS_VERSION = 1;
 	public static final int EQUIPMENT_VERSION = 2;
 	public static final int FAMILIARS_VERSION = 1;
+	public static final int FOLDGROUPS_VERSION = 1;
 	public static final int FULLNESS_VERSION = 1;
 	public static final int INEBRIETY_VERSION = 1;
 	public static final int ITEMDESCS_VERSION = 1;
