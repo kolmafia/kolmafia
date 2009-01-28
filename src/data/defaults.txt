@@ -156,6 +156,7 @@ global	visitRumpusHardcore	true
 global	visitRumpusSoftcore	true
 
 user	autoAbortThreshold	-0.05
+user	autoBuyPriceLimit	20000
 user	autoRepairBoxServants	true
 user	autostartGalaktikQuest	true
 user	availableDimes	0

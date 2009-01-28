@@ -117,7 +117,7 @@ public class BuffBotDatabase
 		name = KoLmafia.getPlayerName( name ).toLowerCase();
 		if ( !BuffBotDatabase.nameList.contains( name ) )
 		{
-			return 0;
+			return amount;
 		}
 
 		// Otherwise, retrieve the information for the buffbot

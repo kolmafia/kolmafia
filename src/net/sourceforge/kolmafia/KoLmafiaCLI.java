@@ -3190,7 +3190,7 @@ public class KoLmafiaCLI
 	public static class Buy
 		extends Command
 	{
-		{ usage = " <item> [, <item>]... - buy from NPC store or the Mall."; }
+		{ usage = " <item> [@ <limit>] [, <another>]... - buy from NPC store or the Mall."; }
 		public void run( String cmd, String parameters )
 		{
 			SpecialOutfit.createImplicitCheckpoint();
@@ -6087,11 +6087,17 @@ public class KoLmafiaCLI
 
 	private void executeBuyCommand( final String parameters )
 	{
-		Object[] itemList = ItemFinder.getMatchingItemList( KoLConstants.inventory, parameters );
+		String[] itemNames = parameters.split( "\\s*,\\s*" );
 
-		for ( int i = 0; i < itemList.length; ++i )
+		for ( int i = 0; i < itemNames.length; ++i )
 		{
-			AdventureResult match = (AdventureResult) itemList[ i ];
+			String[] pieces = itemNames[ i ].split( "@" );
+			AdventureResult match = ItemFinder.getFirstMatchingItem( pieces[ 0 ] );
+			if ( match == null )
+			{
+				return;
+			}
+			int priceLimit = pieces.length < 2 ? 0 : StringUtilities.parseInt( pieces[ 1 ] );
 
 			if ( !KoLCharacter.canInteract() && !NPCStoreDatabase.contains( match.getName() ) )
 			{
@@ -6102,7 +6108,7 @@ public class KoLmafiaCLI
 			ArrayList results = new ArrayList();
 
 			StoreManager.searchMall( '\"' + ItemDatabase.getItemName( match.getItemId() ) + '\"', results, 10, false );
-			StaticEntity.getClient().makePurchases( results, results.toArray(), match.getCount(), false );
+			StaticEntity.getClient().makePurchases( results, results.toArray(), match.getCount(), false, priceLimit );
 		}
 	}
 
