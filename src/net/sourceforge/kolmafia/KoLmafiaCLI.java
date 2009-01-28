@@ -2512,6 +2512,60 @@ public class KoLmafiaCLI
 		}
 	}
 	
+	static { new Fold().register( "fold" ).register( "squeeze" ); }
+	public static class Fold
+		extends Command
+	{
+		{ usage = "[?] <item> - produce item by using another form, repeated as needed."; }
+		public void run( String cmd, String parameters )
+		{
+			AdventureResult item = ItemFinder.getFirstMatchingItem( parameters, ItemFinder.ANY_MATCH );
+			if ( item == null )
+			{
+				return;
+			}
+			ArrayList group = ItemDatabase.getFoldGroup( item.getName() );
+			if ( group == null )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+					"That's not a transformable item!" );
+				return;
+			}
+			int damage = ((Integer) group.get( 0 )).intValue();
+			damage = damage == 0 ? 0 : KoLCharacter.getMaximumHP() * damage / 100 + 2;
+			int tries = 0;
+			SpecialOutfit.createImplicitCheckpoint();
+		try1:
+			while ( ++tries <= 20 && KoLmafia.permitsContinue() &&
+				!InventoryManager.hasItem( item ) )
+			{
+				for ( int i = 1; i < group.size(); ++i )
+				{
+					AdventureResult otherForm = new AdventureResult(
+						(String) group.get( i ), 1 );
+					if ( InventoryManager.hasItem( otherForm ) )
+					{
+						if ( KoLmafiaCLI.isExecutingCheckOnlyCommand )
+						{
+							RequestLogger.printLine( otherForm + " => " + item );
+							break try1;
+						}
+						if ( KoLCharacter.getCurrentHP() < damage )
+						{
+							StaticEntity.getClient().recoverHP( damage );
+						}
+						RequestThread.postRequest( new UseItemRequest( otherForm ) );
+						continue try1;
+					}
+				}
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+					"You don't have anything transformable into that item!" );
+				break;
+			}
+			SpecialOutfit.restoreImplicitCheckpoint();
+		}
+	}
+	
 	static { new Clan().register( "clan" ); }
 	public static class Clan
 		extends Command

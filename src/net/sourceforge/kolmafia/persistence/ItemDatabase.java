@@ -111,6 +111,7 @@ public class ItemDatabase
 	private static final Map inebrietyByName = new HashMap();
 	private static final Map spleenHitByName = new HashMap();
 	private static final Map notesByName = new HashMap();
+	private static final Map foldGroupsByName = new HashMap();
 
 	private static final Map[][][][] advsByName = new HashMap[ 2 ][ 2 ][ 2 ][ 2 ];
 	private static final Map unitCostByName = new HashMap();
@@ -334,6 +335,43 @@ public class ItemDatabase
 			while ( ( data = FileUtilities.readData( reader ) ) != null )
 			{
 				ItemDatabase.saveItemValues( data, ItemDatabase.spleenHitByName );
+			}
+
+			try
+			{
+				reader.close();
+			}
+			catch ( Exception e )
+			{
+				// This should not happen.  Therefore, print
+				// a stack trace for debug purposes.
+
+				StaticEntity.printStackTrace( e );
+			}
+
+			// Retrieve fold groups
+
+			reader = FileUtilities.getVersionedReader( "foldgroups.txt", KoLConstants.FOLDGROUPS_VERSION );
+
+			while ( ( data = FileUtilities.readData( reader ) ) != null )
+			{
+				if ( data.length > 2 )
+				{
+					ArrayList group = new ArrayList();
+					group.add( new Integer( StringUtilities.parseInt( data[ 0 ] ) ) );
+					for ( int i = 1; i < data.length; ++i )
+					{
+						String name = StringUtilities.getCanonicalName( data[ i ] );
+						if ( ItemDatabase.itemIdByName.get( name ) == null )
+						{
+							RequestLogger.printLine( "Unknown foldable item: " + name );
+							continue;
+						}
+						ItemDatabase.foldGroupsByName.put( name, group );
+						group.add( name );
+					}
+					group.trimToSize();
+				}
 			}
 
 			try
@@ -1016,6 +1054,16 @@ public class ItemDatabase
 		}
 
 		return (String) ItemDatabase.notesByName.get( StringUtilities.getCanonicalName( name ) );
+	}
+
+	public static final ArrayList getFoldGroup( final String name )
+	{
+		if ( name == null )
+		{
+			return null;
+		}
+
+		return (ArrayList) ItemDatabase.foldGroupsByName.get( StringUtilities.getCanonicalName( name ) );
 	}
 
 	public static final String getAdventureRange( final String name )
