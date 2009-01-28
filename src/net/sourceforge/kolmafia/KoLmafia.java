@@ -2559,6 +2559,12 @@ public abstract class KoLmafia
 	public void makePurchases( final List results, final Object[] purchases, final int maxPurchases,
 		final boolean isAutomated )
 	{
+		this.makePurchases( results, purchases, maxPurchases, isAutomated, 0 );
+	}
+
+	public void makePurchases( final List results, final Object[] purchases, final int maxPurchases,
+		final boolean isAutomated, final int priceLimit )
+	{
 		if ( purchases.length == 0 )
 		{
 			return;
@@ -2607,16 +2613,14 @@ public abstract class KoLmafia
 				}
 			}
 
-			if ( isAutomated )
+			if ( ( priceLimit > 0 && currentPrice > priceLimit ) ||
+				( isAutomated && currentPrice > Preferences.getInteger( "autoBuyPriceLimit" ) ) )
 			{
-				if ( currentPrice >= 20000 )
-				{
-					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
-						"Stopped purchasing " + currentRequest.getItemName() + " @ " + KoLConstants.COMMA_FORMAT.format( currentPrice ) + "." );
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+					"Stopped purchasing " + currentRequest.getItemName() + " @ " + KoLConstants.COMMA_FORMAT.format( currentPrice ) + "." );
 
-					RequestThread.closeRequestSequence();
-					return;
-				}
+				RequestThread.closeRequestSequence();
+				return;
 			}
 
 			// Keep track of how many of the item you had before

@@ -299,6 +299,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "buy", DataTypes.BOOLEAN_TYPE, params ) );
 
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE, DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "buy", DataTypes.INT_TYPE, params ) );
+
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "create", DataTypes.BOOLEAN_TYPE, params ) );
 
@@ -1562,6 +1565,21 @@ public abstract class RuntimeLibrary
 		int initialAmount = itemToBuy.getCount( KoLConstants.inventory );
 		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "buy", count + " " + itemToBuy.getName() );
 		return DataTypes.makeBooleanValue( initialAmount + count == itemToBuy.getCount( KoLConstants.inventory ) );
+	}
+
+	public static Value buy( final Value countValue, final Value item, final Value limit )
+	{
+		int count = countValue.intValue();
+		if ( count <= 0 )
+		{
+			return DataTypes.ZERO_VALUE;
+		}
+
+		AdventureResult itemToBuy = new AdventureResult( item.intValue(), 1 );
+		int initialAmount = itemToBuy.getCount( KoLConstants.inventory );
+		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "buy", count + " " + itemToBuy.getName() +
+			"@" + limit.intValue() );
+		return new Value( itemToBuy.getCount( KoLConstants.inventory ) - initialAmount );
 	}
 
 	public static Value create( final Value countValue, final Value item )
