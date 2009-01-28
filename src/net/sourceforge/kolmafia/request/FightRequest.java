@@ -1259,9 +1259,6 @@ public class FightRequest
 
 		StringBuffer action = new StringBuffer();
 
-		++FightRequest.currentRound;
-		++FightRequest.preparatoryRounds;
-
 		if ( shouldLogAction )
 		{
 			action.append( "Round 1: " + KoLCharacter.getUserName() + " " );
@@ -1296,6 +1293,9 @@ public class FightRequest
 			RequestLogger.printLine( action.toString() );
 			RequestLogger.updateSessionLog( action.toString() );
 		}
+
+		++FightRequest.currentRound;
+		++FightRequest.preparatoryRounds;
 	}
 
 	public static final void updateCombatData( final String location, String encounter, final String responseText )
@@ -1401,8 +1401,7 @@ public class FightRequest
 			while ( familiarActMatcher.find() )
 			{
 				String action =
-					"Round " + FightRequest.currentRound + ": " + KoLConstants.ANYTAG_PATTERN.matcher(
-						familiarActMatcher.group() ).replaceAll( "" );
+					"Round " + ( FightRequest.currentRound - 1 ) + ": " + KoLConstants.ANYTAG_PATTERN.matcher( familiarActMatcher.group() ).replaceAll( "" );
 				RequestLogger.printLine( action );
 				RequestLogger.updateSessionLog( action );
 			}

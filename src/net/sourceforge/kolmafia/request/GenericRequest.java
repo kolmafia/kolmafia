@@ -1432,7 +1432,7 @@ public class GenericRequest
 		}
 		else
 		{
-			this.containsUpdate |= this.responseText.indexOf( "<script.*?charpane.php.*?</script>" ) != -1;
+			this.containsUpdate |= this.responseText.indexOf( "charpane.php" ) != -1;
 		}
 
 		if ( this.containsUpdate )
