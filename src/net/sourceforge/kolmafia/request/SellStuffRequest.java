@@ -311,8 +311,6 @@ public class SellStuffRequest
 		if ( this.sellType == SellStuffRequest.AUTOMALL )
 		{
 			// We placed stuff in the mall.
-			StoreManager.update( this.responseText, false );
-
 			if ( this.responseText.indexOf( "You don't have a store." ) != -1 )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have a store." );
@@ -323,21 +321,82 @@ public class SellStuffRequest
 			return;
 		}
 
-		SellStuffRequest.parseAutosell( this.getURLString(), this.responseText );
-
-		// Move out of inventory. Process meat gains, if old autosell
-		// interface.
-
 		KoLmafia.updateDisplay( "Items sold." );
-		KoLCharacter.updateStatus();
 	}
 
-	public static final void parseAutosell( final String location, final String responseText )
+	public boolean parseTransfer()
 	{
-		if ( !location.startsWith( "sellstuff_ugly.php" ) )
+		return SellStuffRequest.parseTransfer( this.getURLString(), this.responseText );
+        }
+
+	public static final boolean parseTransfer( final String urlString, final String responseText )
+	{
+		if ( urlString.startsWith( "sellstuff.php" ) )
 		{
-			return;
+			return SellStuffRequest.parseCompactAutoSell( urlString, responseText );
 		}
+		if ( urlString.startsWith( "sellstuff_ugly.php" ) )
+		{
+			return SellStuffRequest.parseDetailedAutoSell( urlString, responseText );
+		}
+		if ( urlString.startsWith( "managestore.php" ) )
+		{
+			return SellStuffRequest.parseMallSell( urlString, responseText );
+		}
+		return false;
+	}
+
+	public static final boolean parseCompactAutoSell( final String urlString, final String responseText )
+	{
+		int quantity = 1;
+
+		Matcher quantityMatcher = TransferItemRequest.HOWMANY_PATTERN.matcher( urlString );
+		if ( quantityMatcher.find() )
+		{
+			quantity = StringUtilities.parseInt( quantityMatcher.group( 1 ) );
+		}
+
+		if ( urlString.indexOf( "type=allbutone" ) != -1 )
+		{
+			quantity = -1;
+		}
+		else if ( urlString.indexOf( "type=all" ) != -1 )
+		{
+			quantity = 0;
+		}
+
+		TransferItemRequest.transferItems( urlString, 
+			TransferItemRequest.ITEMID_PATTERN,
+			null,
+			KoLConstants.inventory, null, quantity );
+
+		KoLCharacter.updateStatus();
+		return true;
+	}
+
+	public static final boolean parseDetailedAutoSell( final String urlString, final String responseText )
+	{
+		int quantity = 1;
+
+		Matcher quantityMatcher = TransferItemRequest.QUANTITY_PATTERN.matcher( urlString );
+		if ( quantityMatcher.find() )
+		{
+			quantity = StringUtilities.parseInt( quantityMatcher.group( 1 ) );
+		}
+
+		if ( urlString.indexOf( "mode=1" ) != -1 )
+		{
+			quantity = 0;
+		}
+		else if ( urlString.indexOf( "mode=2" ) != -1 )
+		{
+			quantity = -1;
+		}
+
+		TransferItemRequest.transferItems( urlString, 
+			SellStuffRequest.EMBEDDED_ID_PATTERN,
+			null,
+			KoLConstants.inventory, null, quantity );
 
 		// "You sell your 2 disturbing fanfics to an organ
 		// grinder's monkey for 264 Meat."
@@ -346,11 +405,31 @@ public class SellStuffRequest
 		if ( matcher.find() )
 		{
 			int amount = StringUtilities.parseInt( matcher.group( 1 ) );
+			ResultProcessor.processMeat( amount );
+
 			String message = "You gain " + amount + " Meat";
 			RequestLogger.printLine( message );
 			RequestLogger.updateSessionLog( message );
-			ResultProcessor.processMeat( amount );
 		}
+
+		KoLCharacter.updateStatus();
+		return true;
+	}
+
+	public static final boolean parseMallSell( final String urlString, final String responseText )
+	{
+		if ( responseText.indexOf( "You don't have a store." ) != -1 )
+		{
+			return false;
+		}
+
+		TransferItemRequest.transferItems( urlString, 
+			TransferItemRequest.ITEMID_PATTERN,
+			TransferItemRequest.QTY_PATTERN,
+			KoLConstants.inventory, null, 1 );
+
+		StoreManager.update( responseText, false );
+		return true;
 	}
 
 	public static final boolean registerRequest( final String urlString )
@@ -408,19 +487,13 @@ public class SellStuffRequest
 			quantityPattern = TransferItemRequest.QTY_PATTERN;
 			sellType = "mallsell";
 		}
-
-		if ( itemPattern == null )
+		else
 		{
 			return false;
 		}
 
 		return TransferItemRequest.registerRequest(
-			sellType, urlString, itemPattern, quantityPattern, KoLConstants.inventory, null, null, quantity );
-	}
-
-	public String getSuccessMessage()
-	{
-		return "";
+			sellType, urlString, itemPattern, quantityPattern, KoLConstants.inventory, quantity );
 	}
 
 	public boolean allowMementoTransfer()

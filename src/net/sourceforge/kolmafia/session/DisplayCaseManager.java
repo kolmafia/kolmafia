@@ -65,11 +65,17 @@ public abstract class DisplayCaseManager
 	private static final LockableListModel headers = new LockableListModel();
 	private static final LockableListModel shelves = new LockableListModel();
 
+	static
+	{
+		DisplayCaseManager.shelves.add( new SortedListModel() );
+	}
+
 	public static final void clearCache()
 	{
 		KoLConstants.collection.clear();
 		DisplayCaseManager.headers.clear();
 		DisplayCaseManager.shelves.clear();
+		DisplayCaseManager.shelves.add( new SortedListModel() );
 	}
 
 	public static final LockableListModel getHeaders()

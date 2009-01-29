@@ -128,8 +128,6 @@ public abstract class TransferItemRequest
 
 	public abstract TransferItemRequest getSubInstance( Object[] attachments );
 
-	public abstract String getSuccessMessage();
-
 	public abstract String getStatusMessage();
 
 	private void runSubInstances()
@@ -299,58 +297,33 @@ public abstract class TransferItemRequest
 
 	public void processResults()
 	{
-		// Make sure that the message was actually sent -
-		// the person could have input an invalid player Id
-
-		if ( this.getSuccessMessage().equals( "" ) || this.responseText.indexOf( this.getSuccessMessage() ) != -1 )
+		if ( this.parseTransfer() )
+		{
 			return;
+		}
 
 		TransferItemRequest.hadSendMessageFailure = true;
-		boolean shouldUpdateDisplay = TransferItemRequest.willUpdateDisplayOnFailure();
-		AdventureResult item;
+		if ( !TransferItemRequest.updateDisplayOnFailure )
+		{
+			return;
+		}
 
 		for ( int i = 0; i < this.attachments.length; ++i )
 		{
-			item = (AdventureResult) this.attachments[ i ];
-
-			if ( shouldUpdateDisplay )
-			{
-				KoLmafia.updateDisplay(
-					KoLConstants.ERROR_STATE, "Transfer failed for " + item.toString() );
-			}
-
-			if ( this.source == KoLConstants.inventory )
-			{
-				ResultProcessor.processResult( item );
-			}
-			else
-			{
-				AdventureResult.addResultToList( this.source, item );
-			}
-
-			if ( this.destination == KoLConstants.inventory )
-			{
-				ResultProcessor.processResult( item.getNegation() );
-			}
-			else
-			{
-				AdventureResult.addResultToList( this.destination, item.getNegation() );
-			}
+			AdventureResult item = (AdventureResult) this.attachments[ i ];
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+						"Transfer failed for " + item.toString() );
 		}
 
 		int totalMeat = StringUtilities.parseInt( this.getFormField( this.getMeatField() ) );
 		if ( totalMeat != 0 )
 		{
-			if ( shouldUpdateDisplay )
-			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Transfer failed for " + totalMeat + " meat" );
-			}
-			if ( this.source == KoLConstants.inventory )
-			{
-				ResultProcessor.processMeat( totalMeat );
-			}
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+						"Transfer failed for " + totalMeat + " meat" );
 		}
 	}
+
+	public abstract boolean parseTransfer();
 
 	public static final boolean hadSendMessageFailure()
 	{
@@ -381,23 +354,150 @@ public abstract class TransferItemRequest
 		return false;
 	}
 
-	public static final boolean registerRequest( final String command, final String urlString, final List source,
-		final List destination, final String meatField, final int defaultQuantity )
+	public static final void transferItems( final String urlString,
+		final List source, final List destination,
+		final int defaultQuantity )
 	{
-		return TransferItemRequest.registerRequest(
-			command, urlString, TransferItemRequest.ITEMID_PATTERN, TransferItemRequest.HOWMANY_PATTERN, source,
-			destination, meatField, defaultQuantity );
+		TransferItemRequest.transferItems(
+			urlString,
+			TransferItemRequest.ITEMID_PATTERN,
+			TransferItemRequest.HOWMANY_PATTERN,
+			source, destination, defaultQuantity );
 	}
 
-	public static final boolean registerRequest( final String command, final String urlString,
-		final Pattern itemPattern, final Pattern quantityPattern, final List source, final List destination,
-		final String meatField, final int defaultQuantity )
+	public static final void transferItems( final String urlString,
+		final Pattern itemPattern, final Pattern quantityPattern,
+		final List source, final List destination,
+ 		final int defaultQuantity )
+	{
+		ArrayList itemList = getItemList( urlString, itemPattern, quantityPattern, source, defaultQuantity );
+
+		if ( itemList.isEmpty() )
+		{
+			return;
+		}
+
+                for ( int i = 0; i < itemList.size(); ++i )
+                {
+                        AdventureResult item = ( (AdventureResult) itemList.get( i ) );
+                        if ( source != null )
+                        {
+                                AdventureResult remove = item.getNegation();
+                                if ( source == KoLConstants.inventory )
+                                {
+                                        ResultProcessor.processResult( remove );
+                                }
+                                else
+                                {
+                                        AdventureResult.addResultToList( source, remove );
+                                }
+                        }
+
+                        if ( destination == KoLConstants.collection )
+                        {
+				if ( !KoLConstants.collection.contains( item ) )
+				{
+                                        List shelf = (List) DisplayCaseManager.getShelves().get( 0 );
+					if ( shelf != null )
+					{
+						shelf.add( item );
+					}
+				}
+
+				AdventureResult.addResultToList( KoLConstants.collection, item );
+			}
+                        else if ( destination == KoLConstants.inventory )
+                        {
+                                ResultProcessor.processResult( item );
+                        }
+                        else if ( destination != null )
+                        {
+                                AdventureResult.addResultToList( destination, item );
+                        }
+		}
+	}
+
+	public static final ArrayList getItemList( final String urlString,
+		final Pattern itemPattern, final Pattern quantityPattern,
+		final List source, final int defaultQuantity )
 	{
 		ArrayList itemList = new ArrayList();
-		StringBuffer itemListBuffer = new StringBuffer();
 
 		Matcher itemMatcher = itemPattern.matcher( urlString );
 		Matcher quantityMatcher = quantityPattern == null ? null : quantityPattern.matcher( urlString );
+
+		while ( itemMatcher.find() )
+		{
+			int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
+			String name = ItemDatabase.getItemName( itemId );
+
+			// One of the "select" options is a zero value for the
+			// item id field.  Trying to parse it generates an
+			// exception, so skip it for now.
+
+			if ( name == null )
+			{
+				continue;
+			}
+
+			int quantity = defaultQuantity;
+			if ( quantityMatcher != null && quantityMatcher.find() )
+			{
+				quantity = StringUtilities.parseInt( quantityMatcher.group( 1 ) );
+			}
+
+			AdventureResult item = new AdventureResult( itemId, quantity );
+
+			if ( quantity < 1 )
+			{
+				quantity = quantity + item.getCount( source );
+			}
+
+			itemList.add( item.getInstance( quantity ) );
+		}
+
+		return itemList;
+        }
+
+	public static final int transferredMeat( final String urlString, final String field )
+	{
+		if ( field == null )
+		{
+			return 0;
+		}
+
+		Pattern pattern = Pattern.compile( field + "=([\\d,]+)" );
+		Matcher matcher = pattern.matcher( urlString );
+		if ( !matcher.find() )
+		{
+			return 0;
+		}
+
+		return StringUtilities.parseInt( matcher.group(1) );
+	}
+
+	public static final boolean registerRequest( final String command, final String urlString,
+		final List source, final int defaultQuantity )
+	{
+		return TransferItemRequest.registerRequest(
+			command, urlString,
+			TransferItemRequest.ITEMID_PATTERN,
+			TransferItemRequest.HOWMANY_PATTERN,
+			source, defaultQuantity );
+	}
+
+	public static final boolean registerRequest( final String command, final String urlString,
+		final Pattern itemPattern, final Pattern quantityPattern,
+		final List source, final int defaultQuantity )
+	{
+		ArrayList itemList = getItemList( urlString, itemPattern, quantityPattern, source, defaultQuantity );
+
+		if ( itemList.isEmpty() )
+		{
+			return false;
+		}
+
+		StringBuffer itemListBuffer = new StringBuffer();
 
 		itemListBuffer.append( command );
 
@@ -409,109 +509,30 @@ public abstract class TransferItemRequest
 		}
 
 		itemListBuffer.append( ": " );
+
 		boolean addedItem = false;
-
-		while ( itemMatcher.find() && ( quantityMatcher == null || quantityMatcher.find() ) )
-		{
-			int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
-			String name = ItemDatabase.getItemName( itemId );
-
-			// One of the "select" options is a zero value for the item id field.
-			// Trying to parse it generates an exception, so skip it for now.
-
-			if ( name == null )
-			{
-				continue;
-			}
-
-			String quantityString = quantityMatcher == null ? "" :
-				quantityMatcher.group( 1 ).trim();
-
-			int quantity = quantityPattern == null ? defaultQuantity :
-				quantityString.length() == 0 ? 1 : StringUtilities.parseInt( quantityString );
-
-			AdventureResult item = new AdventureResult( itemId, quantity );
-
-			if ( quantity < 1 )
-			{
-				quantity = quantity + item.getCount( source );
-			}
+                for ( int i = 0; i < itemList.size(); ++i )
+                {
+                        AdventureResult item = ( (AdventureResult) itemList.get( i ) );
+			String name = item.getName();
+                        int quantity = item.getCount();
 
 			if ( addedItem )
 			{
 				itemListBuffer.append( ", " );
 			}
-
-			itemList.add( item.getInstance( quantity ) );
-			addedItem = true;
+			else
+			{
+				addedItem = true;
+			}
 
 			itemListBuffer.append( quantity );
 			itemListBuffer.append( " " );
 			itemListBuffer.append( name );
 		}
 
-		if ( itemList.isEmpty() )
-		{
-			return true;
-		}
-
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( itemListBuffer.toString() );
-
-		if ( source != null )
-		{
-			AdventureResult item;
-
-			for ( int i = 0; i < itemList.size(); ++i )
-			{
-				item = ( (AdventureResult) itemList.get( i ) ).getNegation();
-
-				if ( source == KoLConstants.inventory )
-				{
-					ResultProcessor.processResult( item );
-				}
-				else
-				{
-					AdventureResult.addResultToList( source, item );
-				}
-			}
-		}
-
-		if ( destination == KoLConstants.collection )
-		{
-			if ( !KoLConstants.collection.isEmpty() )
-			{
-				AdventureResult current;
-				for ( int i = 0; i < itemList.size(); ++i )
-				{
-					current = (AdventureResult) itemList.get( i );
-					if ( !KoLConstants.collection.contains( current ) )
-					{
-						( (List) DisplayCaseManager.getShelves().get( 0 ) ).add( current );
-					}
-
-					AdventureResult.addResultToList( KoLConstants.collection, current );
-				}
-			}
-		}
-		else if ( destination != null )
-		{
-			AdventureResult item;
-
-			for ( int i = 0; i < itemList.size(); ++i )
-			{
-				item = (AdventureResult) itemList.get( i );
-
-				if ( destination == KoLConstants.inventory )
-				{
-					ResultProcessor.processResult( item );
-				}
-				else
-				{
-					AdventureResult.addResultToList( destination, item );
-				}
-			}
-		}
 
 		return true;
 	}

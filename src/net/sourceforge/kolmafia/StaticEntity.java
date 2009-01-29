@@ -57,7 +57,10 @@ import net.sourceforge.kolmafia.request.AccountRequest;
 import net.sourceforge.kolmafia.request.ArtistRequest;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
 import net.sourceforge.kolmafia.request.ChefStaffRequest;
+import net.sourceforge.kolmafia.request.ClanStashRequest;
+import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
+import net.sourceforge.kolmafia.request.DisplayCaseRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.GalaktikRequest;
@@ -69,6 +72,7 @@ import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.PyroRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.SellStuffRequest;
+import net.sourceforge.kolmafia.request.SendGiftRequest;
 import net.sourceforge.kolmafia.request.StarChartRequest;
 import net.sourceforge.kolmafia.request.SushiRequest;
 import net.sourceforge.kolmafia.request.SuspiciousGuyRequest;
@@ -274,11 +278,6 @@ public abstract class StaticEntity
 
 	public static final void externalUpdate( final String location, final String responseText )
 	{
-		if ( location.startsWith( "craft.php" ) )
-		{
-			CreateItemRequest.parseCrafting( location, responseText );
-		}
-
 		if ( location.startsWith( "account.php" ) )
 		{
 			if ( location.indexOf( "&ajax" ) != -1 )
@@ -307,153 +306,148 @@ public abstract class StaticEntity
 				}
 			}
 		}
-
-		if ( location.startsWith( "questlog.php" ) )
+		
+		else if ( location.startsWith( "bedazzle.php" ) )
 		{
-			QuestLogRequest.registerQuests( true, location, responseText );
+			EquipmentRequest.parseBedazzlements( responseText );
+		}
+
+		else if ( location.startsWith( "charsheet.php" ) )
+		{
+			CharSheetRequest.parseStatus( responseText );
+		}
+
+		else if ( location.startsWith( "clan_stash.php" ) )
+		{
+			ClanStashRequest.parseTransfer( location, responseText );
+		}
+
+		else if ( location.startsWith( "closet.php" ) )
+		{
+			ClosetRequest.parseClosetTransfer( location, responseText );
+		}
+
+		else if ( location.startsWith( "craft.php" ) )
+		{
+			CreateItemRequest.parseCrafting( location, responseText );
+		}
+
+		else if ( location.startsWith( "familiar.php" ) && location.indexOf( "ajax=1" ) == -1)
+		{
+			FamiliarData.registerFamiliarData( responseText );
+		}
+
+		else if ( location.startsWith( "galaktik.php" ) )
+		{
+			GalaktikRequest.parseResponse( location, responseText );
+		}
+
+		else if ( location.startsWith( "hermit.php" ) )
+		{
+			HermitRequest.parseHermitTrade( location, responseText );
+		}
+
+		else if ( location.startsWith( "hiddencity.php" ) )
+		{
+			HiddenCityRequest.parseResponse( location, responseText );
+		}
+
+		else if ( location.indexOf( "inventory.php" ) != -1 && location.indexOf( "action=message" ) != -1 )
+		{
+			UseItemRequest.parseConsumption( responseText, false );
 		}
 
 		// Keep your current equipment and familiars updated, if you
 		// visit the appropriate pages.
 
-		if ( location.startsWith( "inventory.php" ) &&
-		     ( location.indexOf( "which=2" ) != -1 || location.indexOf( "curequip=1" ) != -1 ) )
+		else if ( location.startsWith( "inventory.php" ) &&
+			  ( location.indexOf( "which=2" ) != -1 || location.indexOf( "curequip=1" ) != -1 ) )
 		{
 			// If KoL is showing us our current equipment, parse it.
 			EquipmentRequest.parseEquipment( location, responseText );
 		}
 
-		if ( location.startsWith( "inv_equip.php" ) &&
-		     location.indexOf( "ajax=1" ) != -1 )
+		else if ( location.startsWith( "inv_equip.php" ) &&
+			  location.indexOf( "ajax=1" ) != -1 )
 		{
 			// If we are changing equipment via a chat command,
 			// try to deduce what changed.
 			EquipmentRequest.parseEquipmentChange( location, responseText );
 		}
-		
-		if ( location.startsWith( "bedazzle.php" ) )
-		{
-			EquipmentRequest.parseBedazzlements( responseText );
-		}
 
-		if ( location.startsWith( "familiar.php" ) && location.indexOf( "ajax=1" ) == -1)
-		{
-			FamiliarData.registerFamiliarData( responseText );
-		}
-
-		if ( location.indexOf( "charsheet.php" ) != -1 )
-		{
-			CharSheetRequest.parseStatus( responseText );
-		}
-
-		if ( location.startsWith( "sellstuff_ugly.php" ) )
-		{
-			SellStuffRequest.parseAutosell( location, responseText );
-		}
-
-		// See if the request would have used up an item.
-
-		if ( location.indexOf( "inventory.php" ) != -1 && location.indexOf( "action=message" ) != -1 )
+		else if ( ( location.indexOf( "inv_eat.php" ) != -1 || location.indexOf( "inv_booze.php" ) != -1 || location.indexOf( "inv_use.php" ) != -1 || location.indexOf( "inv_familiar.php" ) != -1 ) && location.indexOf( "whichitem" ) != -1 )
 		{
 			UseItemRequest.parseConsumption( responseText, false );
 		}
 
-		if ( ( location.indexOf( "inv_eat.php" ) != -1 || location.indexOf( "inv_booze.php" ) != -1 || location.indexOf( "inv_use.php" ) != -1 || location.indexOf( "inv_familiar.php" ) != -1 ) && location.indexOf( "whichitem" ) != -1 )
+		else if ( location.startsWith( "managecollection.php" ) )
 		{
-			UseItemRequest.parseConsumption( responseText, false );
+			DisplayCaseRequest.parseDisplayTransfer( location, responseText );
+		}
+		else if ( location.startsWith( "managecollectionshelves.php" ) )
+		{
+			DisplayCaseRequest.parseDisplayArrangement( location, responseText );
 		}
 
-		if ( ( location.indexOf( "multiuse.php" ) != -1 || location.indexOf( "skills.php" ) != -1 ) && location.indexOf( "useitem" ) != -1 )
+		else if ( location.startsWith( "managestore.php" ) )
 		{
-			UseItemRequest.parseConsumption( responseText, false );
+			SellStuffRequest.parseMallSell( location, responseText );
 		}
 
-		if ( location.startsWith( "hermit.php" ) )
-		{
-			HermitRequest.parseHermitTrade( location, responseText );
-		}
-
-		if ( location.startsWith( "galaktik.php" ) )
-		{
-			GalaktikRequest.parseResponse( location, responseText );
-		}
-
-		if ( location.startsWith( "hiddencity.php" ) )
-		{
-			HiddenCityRequest.parseResponse( location, responseText );
-		}
-
-		if ( location.startsWith( "manor3" ) )
+		else if ( location.startsWith( "manor3" ) )
 		{
 			WineCellarRequest.parseResponse( location, responseText );
 		}
 
-		if ( location.startsWith( "mining.php" ) )
+		else if ( location.startsWith( "mining.php" ) )
 		{
 			MineDecorator.parseResponse( location, responseText );
 		}
 
-		if ( location.startsWith( "pyramid.php" ) )
+		else if ( ( location.indexOf( "multiuse.php" ) != -1 || location.indexOf( "skills.php" ) != -1 ) && location.indexOf( "useitem" ) != -1 )
+		{
+			UseItemRequest.parseConsumption( responseText, false );
+		}
+
+		else if ( location.startsWith( "pvp.php" ) && location.indexOf( "action" ) != -1 )
+		{
+			PvpManager.processOffenseContests( responseText );
+		}
+
+		else if ( location.startsWith( "pyramid.php" ) )
 		{
 			PyramidRequest.parseResponse( location, responseText );
 		}
 
-		if ( location.startsWith( "sushi.php" ) )
+		else if ( location.startsWith( "questlog.php" ) )
 		{
-			SushiRequest.parseConsumption( location, responseText );
+			QuestLogRequest.registerQuests( true, location, responseText );
 		}
 
-		if ( location.startsWith( "town_wrong.php" ) )
+		else if ( location.startsWith( "sellstuff.php" ) )
 		{
-			ArtistRequest.parseResponse( location, responseText );
-			SuspiciousGuyRequest.parseResponse( location, responseText );
+			SellStuffRequest.parseCompactAutoSell( location, responseText );
 		}
 
-		if ( location.startsWith( "town_right.php" ) )
+		else if ( location.startsWith( "sellstuff_ugly.php" ) )
 		{
-			GourdRequest.parseResponse( location, responseText );
-			UntinkerRequest.parseResponse( location, responseText );
+			SellStuffRequest.parseDetailedAutoSell( location, responseText );
 		}
 
-		if ( location.indexOf( "action=pyro" ) != -1 )
-		{
-			PyroRequest.parseResponse( location, responseText );
-		}
-
-		if ( location.indexOf( "action=makestaff" ) != -1 )
-		{
-			ChefStaffRequest.parseCreation( location, responseText );
-		}
-
-		if ( location.startsWith( "starchart.php" ) )
+		else if ( location.startsWith( "starchart.php" ) )
 		{
 			StarChartRequest.parseCreation( location, responseText );
 		}
 
-		String skillName = StaticEntity.learnedSkill( location, responseText );
-		if ( skillName != null )
+		else if ( location.startsWith( "storage.php" ) )
 		{
-			String message = "You learned a new skill: " + skillName;
-			RequestLogger.printLine( message );
-			RequestLogger.updateSessionLog( message );
-			KoLCharacter.addAvailableSkill( skillName );
-			KoLCharacter.addDerivedSkills();
-			KoLConstants.usableSkills.sort();
-			ConcoctionDatabase.refreshConcoctions();
-		}
-
-		// Player vs. player results should be recorded to the
-		// KoLmafia log.
-
-		if ( location.startsWith( "pvp.php" ) && location.indexOf( "action" ) != -1 )
-		{
-			PvpManager.processOffenseContests( responseText );
+			ClosetRequest.parseStorageTransfer( location, responseText );
 		}
 
 		// If this is the hippy store, check to see if any of the
 		// items offered in the hippy store are special.
 
-		if ( location.startsWith( "store.php" ) && location.indexOf( "whichstore=h" ) != -1 && Preferences.getInteger( "lastFilthClearance" ) != KoLCharacter.getAscensions() )
+		else if ( location.startsWith( "store.php" ) && location.indexOf( "whichstore=h" ) != -1 && Preferences.getInteger( "lastFilthClearance" ) != KoLCharacter.getAscensions() )
 		{
 			String side = "none";
 
@@ -473,6 +467,52 @@ public abstract class StaticEntity
 			}
 			Preferences.setString( "currentHippyStore", side );
 			Preferences.setString( "sidequestOrchardCompleted", side );
+		}
+
+		else if ( location.startsWith( "sushi.php" ) )
+		{
+			SushiRequest.parseConsumption( location, responseText );
+		}
+
+		else if ( location.startsWith( "town_right.php" ) )
+		{
+			GourdRequest.parseResponse( location, responseText );
+			UntinkerRequest.parseResponse( location, responseText );
+		}
+
+		else if ( location.startsWith( "town_sendgift.php" ) )
+		{
+			SendGiftRequest.parseTransfer( location, responseText );
+		}
+
+		else if ( location.startsWith( "town_wrong.php" ) )
+		{
+			ArtistRequest.parseResponse( location, responseText );
+			SuspiciousGuyRequest.parseResponse( location, responseText );
+		}
+
+		else if ( location.indexOf( "action=pyro" ) != -1 )
+		{
+			PyroRequest.parseResponse( location, responseText );
+		}
+
+		else if ( location.indexOf( "action=makestaff" ) != -1 )
+		{
+			ChefStaffRequest.parseCreation( location, responseText );
+		}
+
+		// You can learn a skill on many pages.
+
+		String skillName = StaticEntity.learnedSkill( location, responseText );
+		if ( skillName != null )
+		{
+			String message = "You learned a new skill: " + skillName;
+			RequestLogger.printLine( message );
+			RequestLogger.updateSessionLog( message );
+			KoLCharacter.addAvailableSkill( skillName );
+			KoLCharacter.addDerivedSkills();
+			KoLConstants.usableSkills.sort();
+			ConcoctionDatabase.refreshConcoctions();
 		}
 	}
 

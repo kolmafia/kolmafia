@@ -338,7 +338,7 @@ user	recentLocations	5
 user	recoveryScript
 user	relayCounters
 user	requireBoxServants	false
-user	requireSewerTestItems	true
+user	requireSewerTestItems	false
 user	retrieveContacts	true
 user	semirareCounter	0
 user	semirareLocation

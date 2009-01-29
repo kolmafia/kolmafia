@@ -42,6 +42,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
@@ -197,23 +198,6 @@ public class ClosetRequest
 		return new ClosetRequest( this.moveType, attachments );
 	}
 
-	public String getSuccessMessage()
-	{
-		switch ( this.moveType )
-		{
-		case STORAGE_TO_INVENTORY:
-			return "moved from storage to inventory";
-		case FREEPULL_TO_INVENTORY:
-			return "You acquire";
-		case INVENTORY_TO_CLOSET:
-			return "moved from inventory to closet";
-		case CLOSET_TO_INVENTORY:
-			return "moved from closet to inventory";
-		}
-
-		return "";
-	}
-
 	public final void run()
 	{
 		if ( KoLCharacter.inBadMoon() && !KoLCharacter.canInteract() )
@@ -235,87 +219,167 @@ public class ClosetRequest
 	{
 		super.processResults();
 
-		switch ( this.moveType )
+		if ( this.moveType == EMPTY_STORAGE && !this.containsUpdate )
 		{
-		case EMPTY_STORAGE:
-			Object[] items = KoLConstants.storage.toArray();
-			KoLConstants.storage.clear();
-			ResultProcessor.processBulkItems( items );
+			CharPaneRequest.getInstance().run();
+		}
+	}
 
-			if ( !this.containsUpdate )
+	public boolean parseTransfer()
+	{
+		return ClosetRequest.parseTransfer( this.getURLString(), this.responseText );
+	}
+
+	public static final boolean parseTransfer( final String urlString, final String responseText )
+	{
+		if ( urlString.startsWith( "closet.php" ) )
+		{
+			return ClosetRequest.parseClosetTransfer( urlString, responseText );
+		}
+
+		if ( urlString.startsWith( "storage.php" ) )
+		{
+			return ClosetRequest.parseStorageTransfer( urlString, responseText );
+		}
+
+		return true;
+	}
+
+	public static final boolean parseClosetTransfer( final String urlString, final String responseText )
+	{
+		boolean success = true;
+
+		if ( urlString.indexOf( "action=takemeat" ) != -1 )
+		{
+			if ( responseText.indexOf( "xyzzy" ) != -1 )
 			{
-				CharPaneRequest.getInstance().run();
+				success = false;
+			}
+		}
+		else if ( urlString.indexOf( "action=take" ) != -1 )
+		{
+			if ( responseText.indexOf( "moved from closet to inventory" ) != -1 )
+			{
+				TransferItemRequest.transferItems( urlString, 
+					KoLConstants.closet,
+					KoLConstants.inventory, 0 );
+				KoLCharacter.updateStatus();
+			}
+			else
+			{
+				success = false;
+			}
+		}
+		else if ( urlString.indexOf( "action=put" ) != -1 )
+		{
+			if ( responseText.indexOf( "moved from inventory to closet" ) != -1 )
+			{
+				TransferItemRequest.transferItems( urlString, 
+					KoLConstants.inventory,
+					KoLConstants.closet, 0 );
+				KoLCharacter.updateStatus();
+			}
+			else
+			{
+				success = false;
+			}
+		}
+
+		// Now, determine how much is left in your closet by locating
+		// "Your closet contains x meat" and update the display with
+		// that information.
+
+		Matcher matcher = ClosetRequest.CLOSETMEAT_PATTERN.matcher( responseText );
+		int before = KoLCharacter.getClosetMeat();
+		int after = matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
+
+		KoLCharacter.setClosetMeat( after );
+		ResultProcessor.processMeat( before - after );
+
+		return success;
+	}
+
+	public static final boolean parseStorageTransfer( final String urlString, final String responseText )
+	{
+		boolean success = true;
+
+		if ( urlString.indexOf( "freepull" ) != -1 )
+		{
+			if ( responseText.indexOf( "You acquire" ) != -1 )
+			{
+				// Since "you acquire" items, they have already
+				// been added to inventory
+				TransferItemRequest.transferItems( urlString, 
+					TransferItemRequest.ITEMID_PATTERN,
+					TransferItemRequest.QUANTITY_PATTERN,
+					KoLConstants.freepulls,
+					null, 0 );
+				KoLCharacter.updateStatus();
+			}
+			else
+			{
+				success = false;
+			}
+		}
+
+		else if ( urlString.indexOf( "take" ) != -1 )
+		{
+			if ( responseText.indexOf( "moved from storage to inventory" ) != -1 )
+			{
+				TransferItemRequest.transferItems( urlString, 
+					KoLConstants.storage,
+					KoLConstants.inventory, 0 );
+				KoLCharacter.updateStatus();
+			}
+			else
+			{
+				success = false;
+			}
+		}
+
+		else if ( urlString.indexOf( "action=takeall" ) != -1 )
+		{
+			// Hagnk leans back and yells something
+			// ugnigntelligible to a group of Knob Goblin teegnage
+			// delignquegnts, who go and grab all of your stuff
+			// from storage and bring it to you.
+
+			if ( responseText.indexOf( "go and grab all of your stuff" ) != -1 )
+			{
+				Object[] items = KoLConstants.storage.toArray();
+				KoLConstants.storage.clear();
+				ResultProcessor.processBulkItems( items );
+				return true;
 			}
 
-			break;
-
-		case FREEPULL_TO_INVENTORY:
-			this.parseStorage();
-			break;
-
-		case STORAGE_TO_INVENTORY:
-		case RETRIEVE_STORAGE:
-			this.parseStorage();
-			this.handleMeat();
-			break;
-
-		case PULL_MEAT_FROM_STORAGE:
-			this.parseStorage();
-			this.handleMeat();
-			break;
-
-		case MEAT_TO_CLOSET:
-		case MEAT_TO_INVENTORY:
-			this.handleMeat();
-			break;
+			return false;
 		}
+
+		else if ( urlString.indexOf( "action=takemeat" ) != -1 )
+		{
+		}
+
+		ClosetRequest.parseStorage( responseText );
+
+		Matcher matcher = ClosetRequest.STORAGEMEAT_PATTERN.matcher( responseText );
+		int meat = matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
+		KoLCharacter.setStorageMeat( meat );
+
+		return true;
 	}
 
 	private void handleMeat()
 	{
-		if ( this.moveType == ClosetRequest.PULL_MEAT_FROM_STORAGE || this.moveType == ClosetRequest.RETRIEVE_STORAGE || this.moveType == ClosetRequest.STORAGE_TO_INVENTORY )
-		{
-			Matcher meatInStorageMatcher = ClosetRequest.STORAGEMEAT_PATTERN.matcher( this.responseText );
-
-			if ( meatInStorageMatcher.find() )
-			{
-				KoLCharacter.setStorageMeat( StringUtilities.parseInt( meatInStorageMatcher.group( 1 ) ) );
-			}
-			else
-			{
-				KoLCharacter.setStorageMeat( 0 );
-			}
-
-			return;
-		}
-
-		// Now, determine how much is left in your closet
-		// by locating "Your closet contains x meat" and
-		// update the display with that information.
-
-		int beforeMeatInCloset = KoLCharacter.getClosetMeat();
-		int afterMeatInCloset = 0;
-
-		Matcher meatInClosetMatcher = ClosetRequest.CLOSETMEAT_PATTERN.matcher( this.responseText );
-
-		if ( meatInClosetMatcher.find() )
-		{
-			afterMeatInCloset = StringUtilities.parseInt( meatInClosetMatcher.group( 1 ) );
-		}
-
-		KoLCharacter.setClosetMeat( afterMeatInCloset );
-		ResultProcessor.processResult(
-			new AdventureResult( AdventureResult.MEAT, beforeMeatInCloset - afterMeatInCloset ) );
 	}
 
-	private void parseStorage()
+	private static void parseStorage( final String responseText )
 	{
 		List storageContents = KoLConstants.storage;
 
 		// Compute the number of pulls remaining based
 		// on the response text.
 
-		Matcher storageMatcher = ClosetRequest.PULLS_PATTERN.matcher( this.responseText );
+		Matcher storageMatcher = ClosetRequest.PULLS_PATTERN.matcher( responseText );
 		if ( storageMatcher.find() )
 		{
 			ItemManageFrame.setPullsRemaining( StringUtilities.parseInt( storageMatcher.group( 1 ) ) );
@@ -339,7 +403,7 @@ public class ClosetRequest
 		// If there's nothing inside storage, return
 		// because there's nothing to parse.
 
-		storageMatcher = ClosetRequest.STORAGE_PATTERN.matcher( this.responseText );
+		storageMatcher = ClosetRequest.STORAGE_PATTERN.matcher( responseText );
 		if ( !storageMatcher.find() )
 		{
 			return;
@@ -364,7 +428,7 @@ public class ClosetRequest
 			AdventureResult.addResultToList( storageContents, result );
 		}
 
-		storageMatcher = ClosetRequest.FREEPULLS_PATTERN.matcher( this.responseText );
+		storageMatcher = ClosetRequest.FREEPULLS_PATTERN.matcher( responseText );
 		if ( !storageMatcher.find() )
 		{
 			return;
@@ -393,44 +457,94 @@ public class ClosetRequest
 
 	public static final boolean registerRequest( final String urlString )
 	{
-		if ( urlString.startsWith( "closet.php" ) && urlString.indexOf( "action=take" ) != -1 )
+		if ( urlString.startsWith( "closet.php" ) )
 		{
-			return TransferItemRequest.registerRequest(
-				"take from closet", urlString, KoLConstants.closet, KoLConstants.inventory, "amt", 0 );
+			return ClosetRequest.registerClosetRequest( urlString );
 		}
 
-		if ( urlString.startsWith( "closet.php" ) && urlString.indexOf( "action=put" ) != -1 )
+		if ( urlString.startsWith( "storage.php" ) )
 		{
-			return TransferItemRequest.registerRequest(
-				"add to closet", urlString, KoLConstants.inventory, KoLConstants.closet, "amt", 0 );
+			return ClosetRequest.registerStorageRequest( urlString );
 		}
 
-		// Only other option is storage transfers.  Therefore,
-		// if it's clearly not handling of item transfers in
-		// storage, return.
+		return false;
+	}
 
-		if ( !urlString.startsWith( "storage.php" ) || urlString.indexOf( "action=takemeat" ) != -1 )
+	private static final boolean registerClosetRequest( final String urlString )
+	{
+		if ( urlString.indexOf( "action=take&" ) != -1 )
 		{
-			return false;
+			return TransferItemRequest.registerRequest(
+				"take from closet", urlString, KoLConstants.closet, 0 );
+		}
+
+		if ( urlString.indexOf( "action=put" ) != -1 )
+		{
+			return TransferItemRequest.registerRequest(
+				"add to closet", urlString, KoLConstants.inventory, 0 );
+		}
+
+		int meat = TransferItemRequest.transferredMeat( urlString, "amt" );
+		String message = null;
+
+		if ( urlString.indexOf( "action=addmeat" ) != -1 )
+		{
+			message = "add to closet: " + meat + " Meat";
+		}
+
+		if ( urlString.indexOf( "action=takemeat" ) != -1 )
+		{
+			message = "take from closet " + meat + " Meat";
+		}
+
+		if ( meat > 0 && message != null )
+		{
+			RequestLogger.updateSessionLog();
+			RequestLogger.updateSessionLog( message );
+		}
+
+		return true;
+	}
+
+	private static final boolean registerStorageRequest( final String urlString )
+	{
+		if ( urlString.indexOf( "freepull" ) != -1 )
+		{
+			return TransferItemRequest.registerRequest(
+				"pull", urlString,
+				TransferItemRequest.ITEMID_PATTERN,
+				TransferItemRequest.QUANTITY_PATTERN,
+				KoLConstants.freepulls, 0 );
 		}
 
 		if ( urlString.indexOf( "action=takeall" ) != -1 )
 		{
-			Object[] items = KoLConstants.storage.toArray();
-			KoLConstants.storage.clear();
-			ResultProcessor.processBulkItems( items );
+			RequestLogger.updateSessionLog();
+			RequestLogger.updateSessionLog( "Emptying storage" );
+			return true;
+		}
+
+		if ( urlString.indexOf( "action=takemeat" ) != -1 )
+		{
+			int meat = TransferItemRequest.transferredMeat( urlString, "amt" ); 
+			String message = "pull: " + meat + " Meat";
+
+			if ( meat > 0 )
+			{
+				RequestLogger.updateSessionLog();
+				RequestLogger.updateSessionLog( message );
+			}
 
 			return true;
 		}
 
-		if ( urlString.indexOf( "freepull" ) != -1 )
+		if ( urlString.indexOf( "take" ) != -1 )
 		{
 			return TransferItemRequest.registerRequest(
-				"pull", urlString, TransferItemRequest.ITEMID_PATTERN, TransferItemRequest.QUANTITY_PATTERN, KoLConstants.freepulls, KoLConstants.inventory, "amt", 0 );
+				"pull", urlString, KoLConstants.storage, 0 );
 		}
 
-		return TransferItemRequest.registerRequest(
-			"pull", urlString, KoLConstants.storage, KoLConstants.inventory, "amt", 0 );
+		return true;
 	}
 
 	public boolean allowMementoTransfer()

@@ -41,12 +41,14 @@ import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.session.ClanManager;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
-
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.session.ClanManager;
+import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ClanStashRequest
 	extends TransferItemRequest
@@ -162,26 +164,17 @@ public class ClanStashRequest
 		return new ClanStashRequest( attachments, this.moveType );
 	}
 
-	public String getSuccessMessage()
-	{
-		return this.moveType == ClanStashRequest.STASH_TO_ITEMS ? "You acquire" : "to the Goodies Hoard";
-	}
-
 	public void processResults()
 	{
-		ClanManager.setStashRetrieved();
-
 		super.processResults();
 
 		switch ( this.moveType )
 		{
 		case REFRESH_ONLY:
-			this.parseStash();
 			KoLmafia.updateDisplay( "Stash list retrieved." );
 			return;
 
 		case MEAT_TO_STASH:
-			this.parseStash();
 			KoLmafia.updateDisplay( "Clan donation attempt complete." );
 			break;
 
@@ -193,17 +186,71 @@ public class ClanStashRequest
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Movement of items failed." );
 			}
 
-			this.parseStash();
 			break;
 		}
 	}
 
-	private void parseStash()
+	public boolean parseTransfer()
 	{
-		// In the event that the request was broken up into pieces, there's nothing to look
-		// at.  Return from the function call.
+		return ClanStashRequest.parseTransfer( this.getURLString(), this.responseText );
+	}
 
-		if ( this.responseText == null || this.responseText.length() == 0 )
+	public static final boolean parseTransfer( final String urlString, final String responseText )
+	{
+                boolean success = true;
+
+		if ( urlString.indexOf( "takegoodies" ) != -1 )
+		{
+                        if ( responseText.indexOf( "You acquire" ) != -1 )
+			{
+				// Since "you acquire" items, they have already
+				// been added to inventory
+				TransferItemRequest.transferItems( urlString, 
+					TransferItemRequest.ITEMID_PATTERN,
+					TransferItemRequest.QUANTITY_PATTERN,
+ 					ClanManager.getStash(),
+					null, 0 );
+                                KoLCharacter.updateStatus();
+                        }
+			else
+			{
+				success = false;
+			}
+		}
+		else if ( urlString.indexOf( "addgoodies" ) != -1 )
+		{
+                        if ( responseText.indexOf( "to the Goodies Hoard" ) != -1 )
+                        {
+                                TransferItemRequest.transferItems( urlString, 
+					TransferItemRequest.ITEMID_PATTERN,
+					TransferItemRequest.QTY_PATTERN,
+					KoLConstants.inventory,
+					ClanManager.getStash(), 0 );
+				KoLCharacter.updateStatus();
+                        }
+			else
+			{
+				success = false;
+			}
+		}
+		else if ( urlString.indexOf( "action=contribute" ) != -1 )
+		{
+			int meat = TransferItemRequest.transferredMeat( urlString, "howmuch" );
+			ResultProcessor.processMeat( 0 - meat );
+		}
+
+		ClanManager.setStashRetrieved();
+		ClanStashRequest.parseStash( responseText );
+
+		return success;
+	}
+
+	private static void parseStash( final String responseText )
+	{
+		// In the event that the request was broken up into pieces,
+		// there's nothing to look at. Return from the function call.
+
+		if ( responseText == null || responseText.length() == 0 )
 		{
 			return;
 		}
@@ -211,7 +258,7 @@ public class ClanStashRequest
 		// Start with an empty list
 
 		SortedListModel stashContents = ClanManager.getStash();
-		Matcher stashMatcher = ClanStashRequest.LIST_PATTERN.matcher( this.responseText );
+		Matcher stashMatcher = ClanStashRequest.LIST_PATTERN.matcher( responseText );
 
 		// If there's nothing inside the goodies hoard,
 		// return because there's nothing to parse
@@ -284,24 +331,46 @@ public class ClanStashRequest
 			return false;
 		}
 
-		if ( urlString.indexOf( "take" ) != -1 )
+		if ( urlString.indexOf( "takegoodies" ) != -1 )
 		{
 			return TransferItemRequest.registerRequest(
 				"remove from stash", urlString,
-				TransferItemRequest.ITEMID_PATTERN, TransferItemRequest.QUANTITY_PATTERN,
-				ClanManager.getStash(), null,
-				"howmuch", 0 );
+				TransferItemRequest.ITEMID_PATTERN,
+				TransferItemRequest.QUANTITY_PATTERN,
+				ClanManager.getStash(), 0 );
 		}
 
-		return TransferItemRequest.registerRequest(
-			"add to stash", urlString,
-			TransferItemRequest.ITEMID_PATTERN, TransferItemRequest.QTY_PATTERN,
-			KoLConstants.inventory, ClanManager.getStash(),
-			"howmuch", 0 );
+		if ( urlString.indexOf( "addgoodies" ) != -1 )
+		{
+			return TransferItemRequest.registerRequest(
+				"add to stash", urlString,
+				TransferItemRequest.ITEMID_PATTERN,
+				TransferItemRequest.QTY_PATTERN,
+				KoLConstants.inventory, 0 );
+		}
+
+		if ( urlString.indexOf( "action=contribute" ) != -1 )
+		{
+			int meat = TransferItemRequest.transferredMeat( urlString, "howmuch" );
+			String message = "add to stash: " + meat + " Meat";
+			RequestLogger.updateSessionLog();
+			RequestLogger.updateSessionLog( message );
+		}
+
+		return true;
 	}
 
 	public String getStatusMessage()
 	{
-		return this.moveType == ClanStashRequest.ITEMS_TO_STASH ? "Dropping items into stash" : this.moveType == ClanStashRequest.STASH_TO_ITEMS ? "Pulling items from stash" : this.moveType == ClanStashRequest.MEAT_TO_STASH ? "Donating meat to stash" : "Refreshing stash contents";
+		switch ( this.moveType )
+		{
+		case ClanStashRequest.ITEMS_TO_STASH:
+			return "Dropping items into stash";
+		case ClanStashRequest.STASH_TO_ITEMS:
+			return "Pulling items from stash";
+		case ClanStashRequest.MEAT_TO_STASH:
+			return "Donating meat to stash";
+		}
+		return "Refreshing stash contents";
 	}
 }

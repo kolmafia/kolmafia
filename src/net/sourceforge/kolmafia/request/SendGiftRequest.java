@@ -34,7 +34,12 @@
 package net.sourceforge.kolmafia.request;
 
 import java.io.BufferedReader;
+
 import java.util.ArrayList;
+import java.util.List;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 
@@ -55,6 +60,8 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class SendGiftRequest
 	extends TransferItemRequest
 {
+	private static final Pattern PACKAGE_PATTERN = Pattern.compile( "whichpackage=([\\d]+)" );
+
 	private final int desiredCapacity;
 	private final String recipient, message;
 	private final GiftWrapper wrappingType;
@@ -153,11 +160,6 @@ public class SendGiftRequest
 			this.recipient, this.message, this.desiredCapacity, attachments, this.source == KoLConstants.storage );
 	}
 
-	public String getSuccessMessage()
-	{
-		return "<td>Package sent.</td>";
-	}
-
 	public String getItemField()
 	{
 		return this.source == KoLConstants.storage ? "hagnks_whichitem" : "whichitem";
@@ -186,13 +188,69 @@ public class SendGiftRequest
 		return packages;
 	}
 
-	public void processResults()
+	private static boolean getSuccessMessage( final String responseText )
 	{
-		super.processResults();
-		if ( this.responseText.indexOf( this.getSuccessMessage() ) != -1 && this.materialCost > 0 )
+		return responseText.indexOf( "<td>Package sent.</td>" ) != -1;
+	}
+
+	private static final List source( final String urlString )
+	{
+		return urlString.indexOf( "fromwhere=1" ) != -1 ? KoLConstants.storage : KoLConstants.inventory;
+	}
+
+	private static int getMaterialCost( final String urlString )
+	{
+		Matcher matcher = SendGiftRequest.PACKAGE_PATTERN.matcher( urlString );
+		if ( !matcher.find() )
 		{
-			ResultProcessor.processMeat( 0 - this.materialCost );
+			return 0;
 		}
+
+		int type = StringUtilities.parseInt( matcher.group(1) );
+
+		for ( int i = 0; i < SendGiftRequest.PACKAGES.size(); ++i )
+		{
+			GiftWrapper wrappingType = (GiftWrapper) SendGiftRequest.PACKAGES.get( i );
+			if ( wrappingType.radio == type )
+			{
+				return wrappingType.materialCost;
+			}
+		}
+
+		return 0;
+	}
+
+	public boolean parseTransfer()
+	{
+		return SendGiftRequest.parseTransfer( this.getURLString(), this.responseText );
+	}
+
+	public static boolean parseTransfer( final String urlString, final String responseText )
+	{
+		if ( !getSuccessMessage( responseText ) )
+		{
+			return false;
+		}
+
+		List source = SendGiftRequest.source( urlString );
+		TransferItemRequest.transferItems( urlString, source, null, 0 );
+
+		int cost = SendGiftRequest.getMaterialCost( urlString );
+		int meat = TransferItemRequest.transferredMeat( urlString, "sendmeat" );
+		if ( cost > 0 || meat > 0 )
+		{
+			if ( source == KoLConstants.inventory )
+			{
+				ResultProcessor.processMeat( 0 - cost - meat );
+			}
+			else if ( source == KoLConstants.storage )
+			{
+				int storageMeat = KoLCharacter.getStorageMeat();
+				KoLCharacter.setStorageMeat( storageMeat - cost - meat );
+			}
+		}
+
+		return true;
 	}
 
 	public static final boolean registerRequest( final String urlString )
@@ -204,8 +262,7 @@ public class SendGiftRequest
 
 		return TransferItemRequest.registerRequest(
 			"send a gift", urlString,
-			urlString.indexOf( "fromwhere=1" ) != -1 ? KoLConstants.storage : KoLConstants.inventory, null, "sendmeat",
-			0 );
+			SendGiftRequest.source( urlString ), 0 );
 	}
 
 	public boolean allowMementoTransfer()
