@@ -33,16 +33,20 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.session.DisplayCaseManager;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class DisplayCaseRequest
 	extends TransferItemRequest
 {
+	public static final Pattern HOWMANY_PATTERN = Pattern.compile( "howmany\\d*=(\\d+)?" );
 	private boolean isDeposit;
 	private boolean isWithdrawal;
-	private boolean isManagement;
 
 	public DisplayCaseRequest()
 	{
@@ -50,7 +54,6 @@ public class DisplayCaseRequest
 
 		this.isDeposit = false;
 		this.isWithdrawal = false;
-		this.isManagement = false;
 	}
 
 	public DisplayCaseRequest( final Object[] attachments, boolean isDeposit )
@@ -58,7 +61,6 @@ public class DisplayCaseRequest
 		super( "managecollection.php", attachments );
 		this.addFormField( "action", isDeposit ? "put" : "take" );
 
-		this.isManagement = true;
 		this.isDeposit = isDeposit;
 		this.isWithdrawal = !isDeposit;
 
@@ -78,7 +80,6 @@ public class DisplayCaseRequest
 
 		this.isDeposit = false;
 		this.isWithdrawal = false;
-		this.isManagement = true;
 	}
 
 	public DisplayCaseRequest( final AdventureResult[] items, final int shelf )
@@ -94,7 +95,6 @@ public class DisplayCaseRequest
 
 		this.isDeposit = false;
 		this.isWithdrawal = false;
-		this.isManagement = true;
 	}
 
 	protected boolean retryOnTimeout()
@@ -132,13 +132,59 @@ public class DisplayCaseRequest
 		return "";
 	}
 
-	public void processResults()
+	public boolean parseTransfer()
 	{
-		super.processResults();
-		if ( !this.isManagement )
+		return DisplayCaseRequest.parseTransfer( this.getURLString(), this.responseText );
+	}
+
+	public static final boolean parseTransfer( final String urlString, final String responseText )
+	{
+		if ( urlString.startsWith( "managecollection.php" ) )
 		{
-			DisplayCaseManager.update( this.responseText );
+			return DisplayCaseRequest.parseDisplayTransfer( urlString, responseText );
 		}
+
+		if ( urlString.startsWith( "managecollectionshelves.php" ) )
+		{
+			return DisplayCaseRequest.parseDisplayArrangement( urlString, responseText );
+		}
+
+		return false;
+	}
+
+	public static final boolean parseDisplayTransfer( final String urlString, final String responseText )
+	{
+		if ( urlString.indexOf( "put" ) != -1 )
+		{
+			TransferItemRequest.transferItems( urlString,
+				TransferItemRequest.ITEMID_PATTERN,
+				TransferItemRequest.HOWMANY_PATTERN,
+				KoLConstants.inventory,
+				KoLConstants.collection, 0 );
+			return true;
+		}
+
+		if ( urlString.indexOf( "take" ) != -1 )
+		{
+			TransferItemRequest.transferItems( urlString,
+				TransferItemRequest.ITEMID_PATTERN,
+				TransferItemRequest.HOWMANY_PATTERN,
+				KoLConstants.collection,
+				KoLConstants.inventory, 0 );
+			return true;
+		}
+
+		return false;
+	}
+
+	public static final boolean parseDisplayArrangement( final String urlString, final String responseText )
+	{
+		if ( urlString.indexOf( "action=arrange" ) == -1 )
+		{
+			DisplayCaseManager.update( responseText );
+		}
+
+		return true;
 	}
 
 	public boolean allowMementoTransfer()
@@ -171,13 +217,19 @@ public class DisplayCaseRequest
 		if ( urlString.indexOf( "action=take" ) != -1 )
 		{
 			return TransferItemRequest.registerRequest(
-				"remove from display case", urlString, KoLConstants.collection, KoLConstants.inventory, null, 0 );
+				"remove from display case", urlString,
+				TransferItemRequest.ITEMID_PATTERN,
+				TransferItemRequest.HOWMANY_PATTERN,
+                                KoLConstants.collection, 0 );
 		}
 
 		if ( urlString.indexOf( "action=put" ) != -1 )
 		{
 			return TransferItemRequest.registerRequest(
-				"put in display case", urlString, KoLConstants.inventory, KoLConstants.collection, null, 0 );
+				"put in display case", urlString,
+				TransferItemRequest.ITEMID_PATTERN,
+				TransferItemRequest.HOWMANY_PATTERN,
+                                KoLConstants.inventory, 0 );
 		}
 
 		return true;

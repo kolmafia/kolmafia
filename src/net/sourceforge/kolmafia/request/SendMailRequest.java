@@ -123,11 +123,6 @@ public class SendMailRequest
 		return new SendMailRequest( this.recipient, this.message, attachments, this.isInternal );
 	}
 
-	public String getSuccessMessage()
-	{
-		return "<center>Message ";
-	}
-
 	public String getStatusMessage()
 	{
 		return "Sending kmail to " + KoLmafia.getPlayerName( this.recipient );
@@ -158,6 +153,22 @@ public class SendMailRequest
 		return true;
 	}
 
+        public boolean parseTransfer()
+	{
+                return SendMailRequest.parseTransfer( this.getURLString(), this.responseText );
+        }
+
+        public static boolean parseTransfer( final String location, final String responseText )
+	{
+		if ( responseText.indexOf( "<center>Message " ) == -1 )
+		{
+			return false;
+		}
+
+		TransferItemRequest.transferItems( location, KoLConstants.inventory, null, 0 );
+		return true;
+        }
+
 	public static final boolean registerRequest( final String urlString )
 	{
 		if ( !urlString.startsWith( "sendmessage.php" ) )
@@ -166,6 +177,6 @@ public class SendMailRequest
 		}
 
 		return TransferItemRequest.registerRequest(
-			"send a kmail", urlString, KoLConstants.inventory, null, "sendmeat", 0 );
+			"send a kmail", urlString, KoLConstants.inventory, 0 );
 	}
 }
