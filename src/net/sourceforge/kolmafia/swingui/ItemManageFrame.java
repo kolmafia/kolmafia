@@ -75,6 +75,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.StorageRequest;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
@@ -462,11 +463,11 @@ public class ItemManageFrame
 
 			if ( items.length == KoLConstants.storage.size() )
 			{
-				RequestThread.postRequest( new ClosetRequest( ClosetRequest.EMPTY_STORAGE ) );
+				RequestThread.postRequest( new StorageRequest( StorageRequest.EMPTY_STORAGE ) );
 			}
 			else
 			{
-				RequestThread.postRequest( new ClosetRequest( ClosetRequest.STORAGE_TO_INVENTORY, items ) );
+				RequestThread.postRequest( new StorageRequest( StorageRequest.STORAGE_TO_INVENTORY, items ) );
 			}
 
 			RequestThread.closeRequestSequence();
@@ -531,7 +532,7 @@ public class ItemManageFrame
 			}
 
 			RequestThread.openRequestSequence();
-			RequestThread.postRequest( new ClosetRequest( ClosetRequest.FREEPULL_TO_INVENTORY, items ) );
+			RequestThread.postRequest( new StorageRequest( StorageRequest.FREEPULL_TO_INVENTORY, items ) );
 			return items;
 		}
 

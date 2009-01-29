@@ -93,6 +93,7 @@ import net.sourceforge.kolmafia.request.SellStuffRequest;
 import net.sourceforge.kolmafia.request.SendGiftRequest;
 import net.sourceforge.kolmafia.request.SendMailRequest;
 import net.sourceforge.kolmafia.request.ShrineRequest;
+import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.StyxPixieRequest;
 import net.sourceforge.kolmafia.request.TelescopeRequest;
 import net.sourceforge.kolmafia.request.TransferItemRequest;
@@ -2296,7 +2297,7 @@ public class KoLmafiaCLI
 			}
 			else if ( parameters.equals( "storage" ) )
 			{
-				RequestThread.postRequest( new ClosetRequest() );
+				RequestThread.postRequest( new StorageRequest() );
 				return;
 			}
 			else if ( parameters.startsWith( "familiar" ) || parameters.equals( "terrarium" ) )
@@ -5843,8 +5844,8 @@ public class KoLmafiaCLI
 	}
 
 	/**
-	 * A special module used specifically for properly instantiating ClosetRequests which pulls things from
-	 * Hagnk's.
+	 * A special module used specifically for properly instantiating
+	 * StorageRequests which pulls things from Hagnk's.
 	 */
 
 	private void executeHagnkRequest( final String parameters )
@@ -5892,8 +5893,8 @@ public class KoLmafiaCLI
 		{
 			if ( ( (AdventureResult) items[ i ] ).getName().equals( AdventureResult.MEAT ) )
 			{
-				RequestThread.postRequest( new ClosetRequest(
-					ClosetRequest.PULL_MEAT_FROM_STORAGE,
+				RequestThread.postRequest( new StorageRequest(
+					StorageRequest.PULL_MEAT_FROM_STORAGE,
 					( (AdventureResult) items[ i ] ).getCount() ) );
 
 				items[ i ] = null;
@@ -5925,7 +5926,7 @@ public class KoLmafiaCLI
 			}
 		}
 
-		RequestThread.postRequest( new ClosetRequest( ClosetRequest.STORAGE_TO_INVENTORY, items ) );
+		RequestThread.postRequest( new StorageRequest( StorageRequest.STORAGE_TO_INVENTORY, items ) );
 	}
 
 	/**

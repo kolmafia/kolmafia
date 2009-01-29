@@ -75,6 +75,7 @@ import net.sourceforge.kolmafia.request.SellStuffRequest;
 import net.sourceforge.kolmafia.request.SendGiftRequest;
 import net.sourceforge.kolmafia.request.SendMailRequest;
 import net.sourceforge.kolmafia.request.StarChartRequest;
+import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.SushiRequest;
 import net.sourceforge.kolmafia.request.SuspiciousGuyRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
@@ -325,7 +326,7 @@ public abstract class StaticEntity
 
 		else if ( location.startsWith( "closet.php" ) )
 		{
-			ClosetRequest.parseClosetTransfer( location, responseText );
+			ClosetRequest.parseTransfer( location, responseText );
 		}
 
 		else if ( location.startsWith( "craft.php" ) )
@@ -447,7 +448,7 @@ public abstract class StaticEntity
 
 		else if ( location.startsWith( "storage.php" ) )
 		{
-			ClosetRequest.parseStorageTransfer( location, responseText );
+			StorageRequest.parseTransfer( location, responseText );
 		}
 
 		// If this is the hippy store, check to see if any of the

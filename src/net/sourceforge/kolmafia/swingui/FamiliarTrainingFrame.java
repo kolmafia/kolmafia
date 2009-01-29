@@ -78,6 +78,7 @@ import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -676,7 +677,7 @@ public class FamiliarTrainingFrame
 					{
 						AdventureResult[] array = new AdventureResult[ this.storageItems.size() ];
 						this.storageItems.toArray( array );
-						RequestThread.postRequest( new ClosetRequest( ClosetRequest.STORAGE_TO_INVENTORY, array ) );
+						RequestThread.postRequest( new StorageRequest( StorageRequest.STORAGE_TO_INVENTORY, array ) );
 					}
 
 					FamiliarRequest[] array = new FamiliarRequest[ this.requests.size() ];

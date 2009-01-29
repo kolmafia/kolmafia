@@ -62,7 +62,7 @@ public class CafeRequest
 	protected static final Pattern ITEM_PATTERN = Pattern.compile( "whichitem=(-?\\d*)", Pattern.DOTALL );
 	private static final LockableListModel existing = new LockableListModel();
 	private static final AdventureResult LARP = ItemPool.get( ItemPool.LARP_MEMBERSHIP_CARD, 1 );
-	private static final GenericRequest LARP_REQUEST = new ClosetRequest( ClosetRequest.STORAGE_TO_INVENTORY, new AdventureResult[] { CafeRequest.LARP } );
+	private static final GenericRequest LARP_REQUEST = new StorageRequest( StorageRequest.STORAGE_TO_INVENTORY, new AdventureResult[] { CafeRequest.LARP } );
 
 	protected String name = "";
 	protected String itemName = null;

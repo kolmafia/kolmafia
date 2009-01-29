@@ -45,6 +45,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.ShrineRequest;
+import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.swingui.panel.LabeledPanel;
 import net.sourceforge.kolmafia.swingui.panel.MeatTransferPanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
@@ -61,7 +62,7 @@ public class MeatManageFrame
 		container.add( new HeroDonationPanel() );
 		container.add( new MeatTransferPanel( ClosetRequest.MEAT_TO_CLOSET ) );
 		container.add( new MeatTransferPanel( ClosetRequest.MEAT_TO_INVENTORY ) );
-		container.add( new MeatTransferPanel( ClosetRequest.PULL_MEAT_FROM_STORAGE ) );
+		container.add( new MeatTransferPanel( StorageRequest.PULL_MEAT_FROM_STORAGE ) );
 
 		this.framePanel.setLayout( new CardLayout( 10, 10 ) );
 		this.framePanel.add( container, "" );
