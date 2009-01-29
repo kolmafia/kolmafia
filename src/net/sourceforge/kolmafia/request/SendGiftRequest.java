@@ -47,6 +47,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
@@ -249,6 +250,9 @@ public class SendGiftRequest
 				KoLCharacter.setStorageMeat( storageMeat - cost - meat );
 			}
 		}
+
+		KoLCharacter.updateStatus();
+		ConcoctionDatabase.refreshConcoctions();
 
 		return true;
 	}

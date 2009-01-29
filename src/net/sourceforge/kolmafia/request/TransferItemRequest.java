@@ -370,7 +370,7 @@ public abstract class TransferItemRequest
 		final List source, final List destination,
  		final int defaultQuantity )
 	{
-		ArrayList itemList = getItemList( urlString, itemPattern, quantityPattern, source, defaultQuantity );
+		ArrayList itemList = TransferItemRequest.getItemList( urlString, itemPattern, quantityPattern, source, defaultQuantity );
 
 		if ( itemList.isEmpty() )
 		{
@@ -490,7 +490,7 @@ public abstract class TransferItemRequest
 		final Pattern itemPattern, final Pattern quantityPattern,
 		final List source, final int defaultQuantity )
 	{
-		ArrayList itemList = getItemList( urlString, itemPattern, quantityPattern, source, defaultQuantity );
+		ArrayList itemList = TransferItemRequest.getItemList( urlString, itemPattern, quantityPattern, source, defaultQuantity );
 
 		if ( itemList.isEmpty() )
 		{

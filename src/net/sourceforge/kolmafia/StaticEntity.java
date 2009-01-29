@@ -73,6 +73,7 @@ import net.sourceforge.kolmafia.request.PyroRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.SellStuffRequest;
 import net.sourceforge.kolmafia.request.SendGiftRequest;
+import net.sourceforge.kolmafia.request.SendMailRequest;
 import net.sourceforge.kolmafia.request.StarChartRequest;
 import net.sourceforge.kolmafia.request.SushiRequest;
 import net.sourceforge.kolmafia.request.SuspiciousGuyRequest;
@@ -432,6 +433,11 @@ public abstract class StaticEntity
 		else if ( location.startsWith( "sellstuff_ugly.php" ) )
 		{
 			SellStuffRequest.parseDetailedAutoSell( location, responseText );
+		}
+
+		else if ( location.startsWith( "sendmessage.php" ) )
+		{
+			SendMailRequest.parseTransfer( location, responseText );
 		}
 
 		else if ( location.startsWith( "starchart.php" ) )

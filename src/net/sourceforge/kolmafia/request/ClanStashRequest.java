@@ -45,6 +45,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
@@ -197,21 +198,20 @@ public class ClanStashRequest
 
 	public static final boolean parseTransfer( final String urlString, final String responseText )
 	{
-                boolean success = true;
+		boolean success = true;
 
 		if ( urlString.indexOf( "takegoodies" ) != -1 )
 		{
-                        if ( responseText.indexOf( "You acquire" ) != -1 )
+			if ( responseText.indexOf( "You acquire" ) != -1 )
 			{
 				// Since "you acquire" items, they have already
 				// been added to inventory
 				TransferItemRequest.transferItems( urlString, 
 					TransferItemRequest.ITEMID_PATTERN,
 					TransferItemRequest.QUANTITY_PATTERN,
- 					ClanManager.getStash(),
+					ClanManager.getStash(),
 					null, 0 );
-                                KoLCharacter.updateStatus();
-                        }
+			}
 			else
 			{
 				success = false;
@@ -219,15 +219,14 @@ public class ClanStashRequest
 		}
 		else if ( urlString.indexOf( "addgoodies" ) != -1 )
 		{
-                        if ( responseText.indexOf( "to the Goodies Hoard" ) != -1 )
-                        {
-                                TransferItemRequest.transferItems( urlString, 
+			if ( responseText.indexOf( "to the Goodies Hoard" ) != -1 )
+			{
+				TransferItemRequest.transferItems( urlString, 
 					TransferItemRequest.ITEMID_PATTERN,
 					TransferItemRequest.QTY_PATTERN,
 					KoLConstants.inventory,
 					ClanManager.getStash(), 0 );
-				KoLCharacter.updateStatus();
-                        }
+			}
 			else
 			{
 				success = false;
@@ -238,6 +237,9 @@ public class ClanStashRequest
 			int meat = TransferItemRequest.transferredMeat( urlString, "howmuch" );
 			ResultProcessor.processMeat( 0 - meat );
 		}
+
+		KoLCharacter.updateStatus();
+		ConcoctionDatabase.refreshConcoctions();
 
 		ClanManager.setStashRetrieved();
 		ClanStashRequest.parseStash( responseText );

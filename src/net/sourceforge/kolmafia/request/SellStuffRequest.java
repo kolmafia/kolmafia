@@ -42,6 +42,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -371,6 +372,7 @@ public class SellStuffRequest
 			KoLConstants.inventory, null, quantity );
 
 		KoLCharacter.updateStatus();
+		ConcoctionDatabase.refreshConcoctions();
 		return true;
 	}
 
@@ -413,11 +415,17 @@ public class SellStuffRequest
 		}
 
 		KoLCharacter.updateStatus();
+		ConcoctionDatabase.refreshConcoctions();
 		return true;
 	}
 
 	public static final boolean parseMallSell( final String urlString, final String responseText )
 	{
+		if ( urlString.indexOf( "action=additem" ) == -1 )
+		{
+			return false;
+		}
+
 		if ( responseText.indexOf( "You don't have a store." ) != -1 )
 		{
 			return false;
@@ -428,6 +436,7 @@ public class SellStuffRequest
 			TransferItemRequest.QTY_PATTERN,
 			KoLConstants.inventory, null, 1 );
 
+		ConcoctionDatabase.refreshConcoctions();
 		StoreManager.update( responseText, false );
 		return true;
 	}
