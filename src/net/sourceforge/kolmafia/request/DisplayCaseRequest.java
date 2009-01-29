@@ -38,6 +38,7 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.session.DisplayCaseManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -161,6 +162,7 @@ public class DisplayCaseRequest
 				TransferItemRequest.HOWMANY_PATTERN,
 				KoLConstants.inventory,
 				KoLConstants.collection, 0 );
+			ConcoctionDatabase.refreshConcoctions();
 			return true;
 		}
 
@@ -171,6 +173,7 @@ public class DisplayCaseRequest
 				TransferItemRequest.HOWMANY_PATTERN,
 				KoLConstants.collection,
 				KoLConstants.inventory, 0 );
+			ConcoctionDatabase.refreshConcoctions();
 			return true;
 		}
 

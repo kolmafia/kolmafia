@@ -2791,7 +2791,7 @@ public abstract class KoLCharacter
 	{
 		Modifiers.setLocation( location );
 		recalculateAdjustments();
-		updateStatus();
+		KoLCharacter.updateStatus();
 		Preferences.firePreferenceChanged( "(location)" );
 	}
 

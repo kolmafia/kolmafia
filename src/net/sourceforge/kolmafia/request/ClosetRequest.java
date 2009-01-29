@@ -44,6 +44,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.session.ResultProcessor;
@@ -253,6 +254,11 @@ public class ClosetRequest
 		{
 			if ( responseText.indexOf( "xyzzy" ) != -1 )
 			{
+				KoLCharacter.updateStatus();
+				ConcoctionDatabase.refreshConcoctions();
+			}
+                        else
+                        {
 				success = false;
 			}
 		}
@@ -264,6 +270,7 @@ public class ClosetRequest
 					KoLConstants.closet,
 					KoLConstants.inventory, 0 );
 				KoLCharacter.updateStatus();
+				ConcoctionDatabase.refreshConcoctions();
 			}
 			else
 			{
@@ -278,6 +285,7 @@ public class ClosetRequest
 					KoLConstants.inventory,
 					KoLConstants.closet, 0 );
 				KoLCharacter.updateStatus();
+				ConcoctionDatabase.refreshConcoctions();
 			}
 			else
 			{
@@ -315,6 +323,7 @@ public class ClosetRequest
 					KoLConstants.freepulls,
 					null, 0 );
 				KoLCharacter.updateStatus();
+				ConcoctionDatabase.refreshConcoctions();
 			}
 			else
 			{
@@ -330,6 +339,7 @@ public class ClosetRequest
 					KoLConstants.storage,
 					KoLConstants.inventory, 0 );
 				KoLCharacter.updateStatus();
+				ConcoctionDatabase.refreshConcoctions();
 			}
 			else
 			{
@@ -533,6 +543,7 @@ public class ClosetRequest
 			{
 				RequestLogger.updateSessionLog();
 				RequestLogger.updateSessionLog( message );
+				ConcoctionDatabase.refreshConcoctions();
 			}
 
 			return true;

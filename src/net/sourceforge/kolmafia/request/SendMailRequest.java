@@ -34,8 +34,11 @@
 package net.sourceforge.kolmafia.request;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
 
@@ -158,14 +161,23 @@ public class SendMailRequest
                 return SendMailRequest.parseTransfer( this.getURLString(), this.responseText );
         }
 
-        public static boolean parseTransfer( final String location, final String responseText )
+        public static boolean parseTransfer( final String urlString, final String responseText )
 	{
 		if ( responseText.indexOf( "<center>Message " ) == -1 )
 		{
 			return false;
 		}
 
-		TransferItemRequest.transferItems( location, KoLConstants.inventory, null, 0 );
+		TransferItemRequest.transferItems( urlString, KoLConstants.inventory, null, 0 );
+
+		int meat = TransferItemRequest.transferredMeat( urlString, "sendmeat" );
+		if ( meat > 0 )
+		{
+			ResultProcessor.processMeat( 0 - meat );
+		}
+
+		KoLCharacter.updateStatus();
+		ConcoctionDatabase.refreshConcoctions();
 		return true;
         }
 
