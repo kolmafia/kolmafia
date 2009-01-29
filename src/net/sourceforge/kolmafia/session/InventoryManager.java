@@ -57,6 +57,7 @@ import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
+import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -295,8 +296,8 @@ public abstract class InventoryManager
 
 		if ( itemCount > 0 )
 		{
-			RequestThread.postRequest( new ClosetRequest(
-				ClosetRequest.FREEPULL_TO_INVENTORY, new AdventureResult[] { item.getInstance( Math.min(
+			RequestThread.postRequest( new StorageRequest(
+				StorageRequest.FREEPULL_TO_INVENTORY, new AdventureResult[] { item.getInstance( Math.min(
 					itemCount, missingCount ) ) } ) );
 			missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
 
@@ -315,8 +316,8 @@ public abstract class InventoryManager
 
 			if ( itemCount > 0 )
 			{
-				RequestThread.postRequest( new ClosetRequest(
-					ClosetRequest.STORAGE_TO_INVENTORY, new AdventureResult[] { item.getInstance( itemCount ) } ) );
+				RequestThread.postRequest( new StorageRequest(
+					StorageRequest.STORAGE_TO_INVENTORY, new AdventureResult[] { item.getInstance( itemCount ) } ) );
 
 				missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
 				if ( missingCount <= 0 )
@@ -468,8 +469,8 @@ public abstract class InventoryManager
 			{
 				pullCount = Math.min( pullCount, item.getCount() );
 				int newbudget = ItemManageFrame.getPullsBudgeted() - pullCount;
-				RequestThread.postRequest( new ClosetRequest(
-					ClosetRequest.STORAGE_TO_INVENTORY,
+				RequestThread.postRequest( new StorageRequest(
+					StorageRequest.STORAGE_TO_INVENTORY,
 					new AdventureResult[] { item.getInstance( pullCount ) } ) );
 				ItemManageFrame.setPullsBudgeted( newbudget );
 

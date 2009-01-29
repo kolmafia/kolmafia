@@ -49,6 +49,7 @@ import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
+import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
@@ -134,8 +135,8 @@ public class CreateItemPanel
 			if ( pulled > 0 && KoLmafia.permitsContinue() )
 			{
 				int newbudget = ItemManageFrame.getPullsBudgeted() - pulled;
-				RequestThread.postRequest( new ClosetRequest(
-					ClosetRequest.STORAGE_TO_INVENTORY,
+				RequestThread.postRequest( new StorageRequest(
+					StorageRequest.STORAGE_TO_INVENTORY,
 					new AdventureResult[] { ItemPool.get( selection.getItemId(), pulled ) } ) );
 				ItemManageFrame.setPullsBudgeted( newbudget );
 			}		
@@ -174,8 +175,8 @@ public class CreateItemPanel
 			if ( pulled > 0 && KoLmafia.permitsContinue() )
 			{
 				int newbudget = ItemManageFrame.getPullsBudgeted() - pulled;
-				RequestThread.postRequest( new ClosetRequest(
-					ClosetRequest.STORAGE_TO_INVENTORY,
+				RequestThread.postRequest( new StorageRequest(
+					StorageRequest.STORAGE_TO_INVENTORY,
 					new AdventureResult[] { ItemPool.get( selection.getItemId(), pulled ) } ) );
 				ItemManageFrame.setPullsBudgeted( newbudget );
 			}		

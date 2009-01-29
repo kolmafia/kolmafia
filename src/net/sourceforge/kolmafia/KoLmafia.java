@@ -99,6 +99,7 @@ import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.RichardRequest;
 import net.sourceforge.kolmafia.request.SellStuffRequest;
 import net.sourceforge.kolmafia.request.SewerRequest;
+import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
@@ -879,11 +880,7 @@ public abstract class KoLmafia
 
 		if ( Preferences.getInteger( "lastEmptiedStorage" ) != KoLCharacter.getAscensions() )
 		{
-			RequestThread.postRequest( new ClosetRequest() );
-			if ( KoLConstants.storage.isEmpty() )
-			{
-				Preferences.setInteger( "lastEmptiedStorage", KoLCharacter.getAscensions() );
-			}
+			RequestThread.postRequest( new StorageRequest() );
 		}
 
 		RequestThread.postRequest( CharPaneRequest.getInstance() );

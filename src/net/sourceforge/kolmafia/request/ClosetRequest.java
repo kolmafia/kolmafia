@@ -55,32 +55,15 @@ public class ClosetRequest
 	extends TransferItemRequest
 {
 	private static final Pattern CLOSETMEAT_PATTERN = Pattern.compile( "<b>Your closet contains ([\\d,]+) meat\\.</b>" );
-	private static final Pattern STORAGEMEAT_PATTERN =
-		Pattern.compile( "<b>You have ([\\d,]+) meat in long-term storage.</b>" );
-
-	private static final Pattern PULLS_PATTERN = Pattern.compile( "(\\d+) more" );
-	private static final Pattern STORAGE_PATTERN = Pattern.compile( "name=\"whichitem1\".*?</select>", Pattern.DOTALL );
-	private static final Pattern FREEPULLS_PATTERN = Pattern.compile( "<select name=whichitem>.*?</select>", Pattern.DOTALL );
 	private static final Pattern OPTION_PATTERN =
 		Pattern.compile( "<option[^>]*? value='?([\\d]+)'?>(.*?)( \\(([\\d,]+)\\))?</option>" );
 
 	private int moveType;
 
-	public static final int EMPTY_STORAGE = -1;
-	public static final int RETRIEVE_STORAGE = 0;
 	public static final int INVENTORY_TO_CLOSET = 1;
 	public static final int CLOSET_TO_INVENTORY = 2;
-	public static final int MEAT_TO_CLOSET = 4;
-	public static final int MEAT_TO_INVENTORY = 5;
-	public static final int STORAGE_TO_INVENTORY = 6;
-	public static final int FREEPULL_TO_INVENTORY = 7;
-	public static final int PULL_MEAT_FROM_STORAGE = 8;
-
-	public ClosetRequest()
-	{
-		super( "storage.php" );
-		this.moveType = ClosetRequest.RETRIEVE_STORAGE;
-	}
+	public static final int MEAT_TO_CLOSET = 3;
+	public static final int MEAT_TO_INVENTORY = 4;
 
 	public ClosetRequest( final int moveType )
 	{
@@ -104,43 +87,21 @@ public class ClosetRequest
 		switch ( moveType )
 		{
 		case MEAT_TO_CLOSET:
-			this.constructURLString( "closet.php?action=addmeat" );
+                        this.addFormField( "action", "addmeat" );
 			break;
 
 		case MEAT_TO_INVENTORY:
-			this.constructURLString( "closet.php?action=takemeat" );
-			break;
-
-		case PULL_MEAT_FROM_STORAGE:
-			this.constructURLString( "storage.php?action=takemeat" );
-			break;
-
-		case EMPTY_STORAGE:
-			this.constructURLString( "storage.php?action=takeall" );
-			this.source = KoLConstants.storage;
-			this.destination = KoLConstants.inventory;
-			break;
-
-		case STORAGE_TO_INVENTORY:
-			this.constructURLString( "storage.php?action=take" );
-			this.source = KoLConstants.storage;
-			this.destination = KoLConstants.inventory;
-			break;
-
-		case FREEPULL_TO_INVENTORY:
-			this.constructURLString( "storage.php?action=freepull" );
-			this.source = KoLConstants.freepulls;
-			this.destination = KoLConstants.inventory;
+                        this.addFormField( "action", "takemeat" );
 			break;
 
 		case INVENTORY_TO_CLOSET:
-			this.constructURLString( "closet.php?action=put" );
+                        this.addFormField( "action", "put" );
 			this.source = KoLConstants.inventory;
 			this.destination = KoLConstants.closet;
 			break;
 
 		case CLOSET_TO_INVENTORY:
-			this.constructURLString( "closet.php?action=take" );
+                        this.addFormField( "action", "take" );
 			this.source = KoLConstants.closet;
 			this.destination = KoLConstants.inventory;
 			break;
@@ -149,7 +110,7 @@ public class ClosetRequest
 
 	protected boolean retryOnTimeout()
 	{
-		return this.moveType == ClosetRequest.RETRIEVE_STORAGE;
+		return true;
 	}
 
 	public int getMoveType()
@@ -164,7 +125,7 @@ public class ClosetRequest
 
 	public String getQuantityField()
 	{
-		return this.moveType == FREEPULL_TO_INVENTORY ? "quantity" : "howmany";
+		return "howmany";
 	}
 
 	public String getMeatField()
@@ -191,39 +152,12 @@ public class ClosetRequest
 
 	public int getCapacity()
 	{
-		return this.moveType == FREEPULL_TO_INVENTORY ? 1 : 11;
+		return 11;
 	}
 
 	public TransferItemRequest getSubInstance( final Object[] attachments )
 	{
 		return new ClosetRequest( this.moveType, attachments );
-	}
-
-	public final void run()
-	{
-		if ( KoLCharacter.inBadMoon() && !KoLCharacter.canInteract() )
-		{
-			switch ( this.moveType )
-			{
-			case EMPTY_STORAGE:
-			case STORAGE_TO_INVENTORY:
-			case PULL_MEAT_FROM_STORAGE:
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Hagnk's Storage is not available in Bad Moon until you free King Ralph." );
-				return;
-			}
-		}
-
-		super.run();
-	}
-
-	public void processResults()
-	{
-		super.processResults();
-
-		if ( this.moveType == EMPTY_STORAGE && !this.containsUpdate )
-		{
-			CharPaneRequest.getInstance().run();
-		}
 	}
 
 	public boolean parseTransfer()
@@ -233,67 +167,9 @@ public class ClosetRequest
 
 	public static final boolean parseTransfer( final String urlString, final String responseText )
 	{
-		if ( urlString.startsWith( "closet.php" ) )
-		{
-			return ClosetRequest.parseClosetTransfer( urlString, responseText );
-		}
+		boolean success = false;
 
-		if ( urlString.startsWith( "storage.php" ) )
-		{
-			return ClosetRequest.parseStorageTransfer( urlString, responseText );
-		}
-
-		return true;
-	}
-
-	public static final boolean parseClosetTransfer( final String urlString, final String responseText )
-	{
-		boolean success = true;
-
-		if ( urlString.indexOf( "action=takemeat" ) != -1 )
-		{
-			if ( responseText.indexOf( "xyzzy" ) != -1 )
-			{
-				KoLCharacter.updateStatus();
-				ConcoctionDatabase.refreshConcoctions();
-			}
-                        else
-                        {
-				success = false;
-			}
-		}
-		else if ( urlString.indexOf( "action=take" ) != -1 )
-		{
-			if ( responseText.indexOf( "moved from closet to inventory" ) != -1 )
-			{
-				TransferItemRequest.transferItems( urlString, 
-					KoLConstants.closet,
-					KoLConstants.inventory, 0 );
-				KoLCharacter.updateStatus();
-				ConcoctionDatabase.refreshConcoctions();
-			}
-			else
-			{
-				success = false;
-			}
-		}
-		else if ( urlString.indexOf( "action=put" ) != -1 )
-		{
-			if ( responseText.indexOf( "moved from inventory to closet" ) != -1 )
-			{
-				TransferItemRequest.transferItems( urlString, 
-					KoLConstants.inventory,
-					KoLConstants.closet, 0 );
-				KoLCharacter.updateStatus();
-				ConcoctionDatabase.refreshConcoctions();
-			}
-			else
-			{
-				success = false;
-			}
-		}
-
-		// Now, determine how much is left in your closet by locating
+		// Determine how much meat is left in your closet by locating
 		// "Your closet contains x meat" and update the display with
 		// that information.
 
@@ -304,184 +180,51 @@ public class ClosetRequest
 		KoLCharacter.setClosetMeat( after );
 		ResultProcessor.processMeat( before - after );
 
-		return success;
-	}
-
-	public static final boolean parseStorageTransfer( final String urlString, final String responseText )
-	{
-		boolean success = true;
-
-		if ( urlString.indexOf( "freepull" ) != -1 )
+		if ( urlString.indexOf( "action=takemeat" ) != -1 )
 		{
-			if ( responseText.indexOf( "You acquire" ) != -1 )
-			{
-				// Since "you acquire" items, they have already
-				// been added to inventory
-				TransferItemRequest.transferItems( urlString, 
-					TransferItemRequest.ITEMID_PATTERN,
-					TransferItemRequest.QUANTITY_PATTERN,
-					KoLConstants.freepulls,
-					null, 0 );
-				KoLCharacter.updateStatus();
-				ConcoctionDatabase.refreshConcoctions();
-			}
-			else
-			{
-				success = false;
-			}
+			success = before != after;
 		}
-
-		else if ( urlString.indexOf( "take" ) != -1 )
+		else if ( urlString.indexOf( "action=addmeat" ) != -1 )
 		{
-			if ( responseText.indexOf( "moved from storage to inventory" ) != -1 )
+			success = before != after;
+		}
+		else if ( urlString.indexOf( "action=take" ) != -1 )
+		{
+			if ( responseText.indexOf( "moved from closet to inventory" ) != -1 )
 			{
 				TransferItemRequest.transferItems( urlString, 
-					KoLConstants.storage,
+					KoLConstants.closet,
 					KoLConstants.inventory, 0 );
-				KoLCharacter.updateStatus();
-				ConcoctionDatabase.refreshConcoctions();
+				success = true;
 			}
-			else
+		}
+		else if ( urlString.indexOf( "action=put" ) != -1 )
+		{
+			if ( responseText.indexOf( "moved from inventory to closet" ) != -1 )
 			{
-				success = false;
+				TransferItemRequest.transferItems( urlString, 
+					KoLConstants.inventory,
+					KoLConstants.closet, 0 );
+				success = true;
 			}
 		}
 
-		else if ( urlString.indexOf( "action=takeall" ) != -1 )
+		if ( success )
 		{
-			// Hagnk leans back and yells something
-			// ugnigntelligible to a group of Knob Goblin teegnage
-			// delignquegnts, who go and grab all of your stuff
-			// from storage and bring it to you.
-
-			if ( responseText.indexOf( "go and grab all of your stuff" ) != -1 )
-			{
-				Object[] items = KoLConstants.storage.toArray();
-				KoLConstants.storage.clear();
-				ResultProcessor.processBulkItems( items );
-				return true;
-			}
-
-			return false;
+			KoLCharacter.updateStatus();
+			ConcoctionDatabase.refreshConcoctions();
 		}
 
-		else if ( urlString.indexOf( "action=takemeat" ) != -1 )
-		{
-		}
-
-		ClosetRequest.parseStorage( responseText );
-
-		Matcher matcher = ClosetRequest.STORAGEMEAT_PATTERN.matcher( responseText );
-		int meat = matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
-		KoLCharacter.setStorageMeat( meat );
-
-		return true;
-	}
-
-	private void handleMeat()
-	{
-	}
-
-	private static void parseStorage( final String responseText )
-	{
-		List storageContents = KoLConstants.storage;
-
-		// Compute the number of pulls remaining based
-		// on the response text.
-
-		Matcher storageMatcher = ClosetRequest.PULLS_PATTERN.matcher( responseText );
-		if ( storageMatcher.find() )
-		{
-			ItemManageFrame.setPullsRemaining( StringUtilities.parseInt( storageMatcher.group( 1 ) ) );
-		}
-		else if ( KoLCharacter.isHardcore() || !KoLCharacter.canInteract() )
-		{
-			ItemManageFrame.setPullsRemaining( 0 );
-		}
-		else
-		{
-			ItemManageFrame.setPullsRemaining( -1 );
-		}
-
-		// Start with an empty list
-
-		if ( !storageContents.isEmpty() )
-		{
-			return;
-		}
-
-		// If there's nothing inside storage, return
-		// because there's nothing to parse.
-
-		storageMatcher = ClosetRequest.STORAGE_PATTERN.matcher( responseText );
-		if ( !storageMatcher.find() )
-		{
-			return;
-		}
-
-		Matcher optionMatcher = ClosetRequest.OPTION_PATTERN.matcher( storageMatcher.group() );
-		while ( optionMatcher.find() )
-		{
-			int itemId = StringUtilities.parseInt( optionMatcher.group( 1 ) );
-			if ( itemId == 0 )
-			{
-				continue;
-			}
-
-			if ( ItemDatabase.getItemName( itemId ) == null )
-			{
-				ItemDatabase.registerItem( itemId, optionMatcher.group( 2 ).trim() );
-			}
-
-			int count = optionMatcher.group(3) == null ? 1 : StringUtilities.parseInt( optionMatcher.group( 4 ) );
-			AdventureResult result = new AdventureResult( itemId, count );
-			AdventureResult.addResultToList( storageContents, result );
-		}
-
-		storageMatcher = ClosetRequest.FREEPULLS_PATTERN.matcher( responseText );
-		if ( !storageMatcher.find() )
-		{
-			return;
-		}
-
-		List freepullsContents = KoLConstants.freepulls;
-		optionMatcher = ClosetRequest.OPTION_PATTERN.matcher( storageMatcher.group() );
-		while ( optionMatcher.find() )
-		{
-			int itemId = StringUtilities.parseInt( optionMatcher.group( 1 ) );
-			if ( itemId == 0 )
-			{
-				continue;
-			}
-
-			if ( ItemDatabase.getItemName( itemId ) == null )
-			{
-				ItemDatabase.registerItem( itemId, optionMatcher.group( 2 ).trim() );
-			}
-
-			int count = optionMatcher.group(3) == null ? 1 : StringUtilities.parseInt( optionMatcher.group( 4 ) );
-			AdventureResult result = new AdventureResult( itemId, count );
-			AdventureResult.addResultToList( freepullsContents, result );
-		}
+		return success;
 	}
 
 	public static final boolean registerRequest( final String urlString )
 	{
-		if ( urlString.startsWith( "closet.php" ) )
+		if ( !urlString.startsWith( "closet.php" ) )
 		{
-			return ClosetRequest.registerClosetRequest( urlString );
+			return false;
 		}
 
-		if ( urlString.startsWith( "storage.php" ) )
-		{
-			return ClosetRequest.registerStorageRequest( urlString );
-		}
-
-		return false;
-	}
-
-	private static final boolean registerClosetRequest( final String urlString )
-	{
 		if ( urlString.indexOf( "action=take&" ) != -1 )
 		{
 			return TransferItemRequest.registerRequest(
@@ -516,48 +259,6 @@ public class ClosetRequest
 		return true;
 	}
 
-	private static final boolean registerStorageRequest( final String urlString )
-	{
-		if ( urlString.indexOf( "freepull" ) != -1 )
-		{
-			return TransferItemRequest.registerRequest(
-				"pull", urlString,
-				TransferItemRequest.ITEMID_PATTERN,
-				TransferItemRequest.QUANTITY_PATTERN,
-				KoLConstants.freepulls, 0 );
-		}
-
-		if ( urlString.indexOf( "action=takeall" ) != -1 )
-		{
-			RequestLogger.updateSessionLog();
-			RequestLogger.updateSessionLog( "Emptying storage" );
-			return true;
-		}
-
-		if ( urlString.indexOf( "action=takemeat" ) != -1 )
-		{
-			int meat = TransferItemRequest.transferredMeat( urlString, "amt" ); 
-			String message = "pull: " + meat + " Meat";
-
-			if ( meat > 0 )
-			{
-				RequestLogger.updateSessionLog();
-				RequestLogger.updateSessionLog( message );
-				ConcoctionDatabase.refreshConcoctions();
-			}
-
-			return true;
-		}
-
-		if ( urlString.indexOf( "take" ) != -1 )
-		{
-			return TransferItemRequest.registerRequest(
-				"pull", urlString, KoLConstants.storage, 0 );
-		}
-
-		return true;
-	}
-
 	public boolean allowMementoTransfer()
 	{
 		return true;
@@ -577,16 +278,6 @@ public class ClosetRequest
 	{
 		switch ( this.moveType )
 		{
-		case EMPTY_STORAGE:
-			return "Emptying storage";
-
-		case STORAGE_TO_INVENTORY:
-		case FREEPULL_TO_INVENTORY:
-			return "Pulling items from storage";
-
-		case RETRIEVE_STORAGE:
-			return "Retrieving storage list";
-
 		case INVENTORY_TO_CLOSET:
 			return "Placing items into closet";
 
@@ -598,9 +289,6 @@ public class ClosetRequest
 
 		case MEAT_TO_INVENTORY:
 			return "Removing meat from closet";
-
-		case PULL_MEAT_FROM_STORAGE:
-			return "Pulling meat from storage";
 
 		default:
 			return "Unknown request type";

@@ -43,6 +43,8 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.request.ClosetRequest;
+import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
@@ -55,8 +57,7 @@ public class MeatTransferPanel
 
 	public MeatTransferPanel( final int transferType )
 	{
-		super(
-			transferType == ClosetRequest.MEAT_TO_CLOSET ? "Put Meat in Your Closet" : transferType == ClosetRequest.MEAT_TO_INVENTORY ? "Take Meat from Your Closet" : transferType == ClosetRequest.PULL_MEAT_FROM_STORAGE ? "Pull Meat from Hagnk's" : "Unknown Transfer Type",
+		super( MeatTransferPanel.getTitle( transferType ),
 			"transfer", "transfer all", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
 
 		this.amountField = new AutoHighlightTextField();
@@ -74,17 +75,42 @@ public class MeatTransferPanel
 		KoLCharacter.addCharacterListener( new KoLCharacterAdapter( new AmountRefresher() ) );
 	}
 
+	private static String getTitle( final int transferType )
+	{
+		switch ( transferType )
+		{
+		case ClosetRequest.MEAT_TO_CLOSET:
+			return "Put Meat in Your Closet";
+		case ClosetRequest.MEAT_TO_INVENTORY:
+			return "Take Meat from Your Closet";
+		case StorageRequest.PULL_MEAT_FROM_STORAGE:
+			return "Pull Meat from Hagnk's";
+		}
+		return "Unknown Transfer Type";
+	}
+
+	private GenericRequest getRequest( final int amount )
+	{
+		switch ( transferType )
+		{
+		case ClosetRequest.MEAT_TO_CLOSET:
+		case ClosetRequest.MEAT_TO_INVENTORY:
+			return new ClosetRequest( this.transferType, amount );
+		case StorageRequest.PULL_MEAT_FROM_STORAGE:
+			return new StorageRequest( this.transferType, amount );
+		}
+		return null;
+	}
+
 	private int currentAvailable()
 	{
 		switch ( this.transferType )
 		{
 		case ClosetRequest.MEAT_TO_CLOSET:
 			return KoLCharacter.getAvailableMeat();
-
 		case ClosetRequest.MEAT_TO_INVENTORY:
 			return KoLCharacter.getClosetMeat();
-
-		case ClosetRequest.PULL_MEAT_FROM_STORAGE:
+		case StorageRequest.PULL_MEAT_FROM_STORAGE:
 			return KoLCharacter.getStorageMeat();
 		}
 
@@ -97,7 +123,7 @@ public class MeatTransferPanel
 		{
 		case ClosetRequest.MEAT_TO_CLOSET:
 		case ClosetRequest.MEAT_TO_INVENTORY:
-		case ClosetRequest.PULL_MEAT_FROM_STORAGE:
+		case StorageRequest.PULL_MEAT_FROM_STORAGE:
 			int amount = this.currentAvailable();
 			this.closetField.setText( KoLConstants.COMMA_FORMAT.format( amount ) + " meat" );
 			break;
@@ -113,14 +139,14 @@ public class MeatTransferPanel
 		int amountToTransfer = InputFieldUtilities.getValue( this.amountField );
 
 		RequestThread.openRequestSequence();
-		RequestThread.postRequest( new ClosetRequest( this.transferType, amountToTransfer ) );
+		RequestThread.postRequest( this.getRequest( amountToTransfer ) );
 		RequestThread.closeRequestSequence();
 	}
 
 	public void actionCancelled()
 	{
 		RequestThread.openRequestSequence();
-		RequestThread.postRequest( new ClosetRequest( this.transferType, this.currentAvailable() ) );
+		RequestThread.postRequest( this.getRequest( this.currentAvailable() ) );
 		RequestThread.closeRequestSequence();
 	}
 

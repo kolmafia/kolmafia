@@ -1174,31 +1174,38 @@ public class ResultProcessor
 		{
 			return;
 		}
+
 		RequestLogger.updateDebugLog( "Processing bulk items" );
 		KoLmafia.updateDisplay( "Processing, this may take a while..." );
 		for ( int i = 0; i < items.length; ++i )
 		{
 			AdventureResult result = (AdventureResult) items[ i ];
-			
-			// Skip adding to tally, since you haven't really gained these items -
-			// merely moved them around.
+
+			// Skip adding to tally, since you haven't really
+			// gained these items - merely moved them around.
+
 			//AdventureResult.addResultToList( KoLConstants.tally, result );
-			
-			// Skip gainItem's processing, which is mostly concerned with quest items
-			// that couldn't be in Hangk's anyway.
+
+			// Skip gainItem's processing, which is mostly
+			// concerned with quest items that couldn't be in
+			// Hangk's anyway.
+
 			//ResultProcessor.gainItem( result );
-			
+
 			AdventureResult.addResultToList( KoLConstants.inventory, result );
 			EquipmentManager.processResult( result );
-			
-			// Skip conditions handling, since this can't happen during an adventure
-			// request, and therefore the conditions will be rechecked.
+
+			// Skip conditions handling, since this can't happen
+			// during an adventure request, and therefore the
+			// conditions will be rechecked.
 		}
-		
-		// Assume that at least one item in the list required each of these updates:
+
+		// Assume that at least one item in the list required each of
+		// these updates:
+
 		CoinmastersFrame.externalUpdate();
 		ConcoctionDatabase.refreshConcoctions();
-		
+
 		KoLmafia.updateDisplay( "Processing complete." );
 	}
 }
