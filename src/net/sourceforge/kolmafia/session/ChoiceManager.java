@@ -425,7 +425,7 @@ public abstract class ChoiceManager
 		// Having a Medicine Ball
 		new ChoiceAdventure(
 			"Manor2", "choiceAdventure105", "Haunted Bathroom",
-			new String[] { "moxie substats", "other options", "guy made of bees" } ),
+			new String[] { "myst (w/hand mirror) or moxie substats", "other options", "guy made of bees" } ),
 
 		// Strung-Up Quartet
 		new ChoiceAdventure(
