@@ -595,3 +595,10 @@
 594	Pulchritudinous Pressure	potion14.gif	fa7497adb007a9437432b2bd3a56e9d2	use 1 pressurized potion of pulchritude
 595	Perceptive Pressure	potion11.gif	eefc27b7fcdeceaa28554221aa54cfad	use 1 pressurized potion of perception
 596	Proficient Pressure	potion10.gif	b94f215c26d85a00fd7ff96c0176d81e	use 1 pressurized potion of proficiency
+597
+598
+599
+600
+601
+602
+603	Snobby	record.gif	e2ba309cc4593ddeadda88b994368876

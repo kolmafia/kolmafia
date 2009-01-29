@@ -1078,7 +1078,7 @@ depleted Grimacite weightlifting belt	Muscle Percent: [5*G], Adventures: [G], Si
 dirty hobo gloves	Single Equip, Stench Damage: +2
 disbelief suspenders	Sleaze Resistance: +1
 disembodied smile	Single Equip, Spooky Damage: +2
-diving muff	Meat Drop Penalty: [20*zone(The Sea)], Item Drop Penalty: [20*zone(The Sea)], Single Equip
+diving muff	Meat Drop Penalty: [10*zone(The Sea)], Item Drop Penalty: [10*zone(The Sea)], Single Equip
 dope gangsta bling-bling	Moxie: +1
 eXtreme mittens	Weapon Damage: +2
 eXtreme nose ring	Moxie: +4, Muscle: +4, Mysticality: +4
@@ -1213,7 +1213,7 @@ stuffed shoulder parrot	Maximum MP: +5
 support cummerbund	Maximum HP: +20
 tap shoes	Single Equip, Moxie: +11, Initiative: -20
 tarrrnished charrrm bracelet	Single Equip, Stench Damage: +10, Stench Spell Damage: +10
-teflon swim fins	Single Equip, Moxie Percent: -5, Initiative: +25
+teflon swim fins	Moxie Percent: -5, Initiative: +25, Meat Drop Penalty: [10*zone(The Sea)], Item Drop Penalty: [10*zone(The Sea)], Single Equip
 tin star	Monster Level: +5, Moxie: +3
 tiny plastic 7-foot dwarf	Monster Level: +1
 tiny plastic Axe Wound	Monster Level: +1
@@ -1976,6 +1976,7 @@ Smooth Movements	Combat Rate: -5
 Smugness	Moxie: +5
 Snarl of the Timberwolf	Spooky Damage: +10
 Sneaky Serpentine Subtlety	Moxie Percent: +100
+Snobby		Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 Socialismydia	Item Drop: -50
 Solar Flair	Hot Damage: +20
 Somewhat Poisoned	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50, Muscle: -7, Mysticality: -7, Moxie: -7
