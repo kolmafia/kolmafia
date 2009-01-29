@@ -37,8 +37,11 @@ import java.io.BufferedReader;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.HashMap;
+import java.util.List;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -64,6 +67,7 @@ import net.sourceforge.kolmafia.webui.DungeonDecorator;
 public class AdventureDatabase
 	extends KoLDatabase
 {
+	private static final Pattern MINE_PATTERN = Pattern.compile( "mine=(\\d+)" );
 	private static final LockableListModel adventures = new LockableListModel();
 	private static final AdventureDatabase.AdventureArray allAdventures = new AdventureDatabase.AdventureArray();
 
@@ -613,11 +617,25 @@ public class AdventureDatabase
 		}
 		else if ( urlString.startsWith( "mining.php" ) )
 		{
+			if ( urlString.indexOf( "intro=1" ) != -1 )
+			{
+				return null;
+			}
+			if ( urlString.indexOf( "mine=1" ) != -1 )
+			{
+				return "Itznotyerzitz Mine (in Disguise)";
+			}
+			if ( urlString.indexOf( "mine=2" ) != -1 )
+			{
+				return "The Knob Shaft (Mining)";
+			}
 			if ( urlString.indexOf( "mine=3" ) != -1 )
 			{
 				return "Anemone Mine (Mining)";
 			}
-			return "Mining (In Disguise)";
+
+			Matcher matcher = AdventureDatabase.MINE_PATTERN.matcher( urlString );
+			return matcher.find() ? "Unknown Mine #" + matcher.group(1) : null;
 		}
 		else if ( urlString.startsWith( "arena.php" ) && urlString.indexOf( "action" ) != -1 )
 		{

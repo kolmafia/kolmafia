@@ -199,7 +199,8 @@ public class FightRequest
 	
 	// Skills which cannot be used with a ranged weapon
 	private static final HashSet INVALID_WITH_RANGED_ATTACK = new HashSet();
-	static {
+	static
+	{
 		INVALID_WITH_RANGED_ATTACK.add( "1003" );
 		INVALID_WITH_RANGED_ATTACK.add( "skill thrust-smack" );
 		INVALID_WITH_RANGED_ATTACK.add( "1005" );
@@ -218,6 +219,15 @@ public class FightRequest
 		INVALID_WITH_RANGED_ATTACK.add( "skill knee + shield combo" );
 		INVALID_WITH_RANGED_ATTACK.add( "2107" );
 		INVALID_WITH_RANGED_ATTACK.add( "skill head + knee + shield combo" );
+	}
+
+	private static final HashSet INVALID_OUT_OF_WATER = new HashSet();
+	static
+	{
+		INVALID_OUT_OF_WATER.add( "1023" );
+		INVALID_OUT_OF_WATER.add( "skill harpoon!" );
+		INVALID_OUT_OF_WATER.add( "2024" );
+		INVALID_OUT_OF_WATER.add( "skill summon leviatuga" );
 	}
 
 	/**
@@ -734,7 +744,8 @@ public class FightRequest
 			FightRequest.castCleesh = true;
 		}
 
-		if ( FightRequest.isInvalidRangedAttack( FightRequest.action1 ) )
+		if ( FightRequest.isInvalidRangedAttack( FightRequest.action1 ) ||
+		     FightRequest.isInvalidLocationAttack( FightRequest.action1 )   )
 		{
 			FightRequest.action1 = "abort";
 			return;
@@ -780,6 +791,25 @@ public class FightRequest
 		if ( EquipmentDatabase.getWeaponType( weaponId ) == KoLConstants.RANGED )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "This skill is useless with ranged weapons." );
+			return true;
+		}
+
+		return false;
+	}
+
+	public static final boolean isInvalidLocationAttack( final String action )
+	{
+		if ( !INVALID_OUT_OF_WATER.contains( action.toLowerCase() ) )
+		{
+			return false;
+		}
+
+		KoLAdventure location = KoLAdventure.lastVisitedLocation();
+		String zone = location != null ? location.getZone() : null;
+
+		if ( zone != null && !zone.equals( "The Sea" ) )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "This skill is useless out of water." );
 			return true;
 		}
 

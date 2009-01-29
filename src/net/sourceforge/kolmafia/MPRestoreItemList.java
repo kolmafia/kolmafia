@@ -90,6 +90,7 @@ public abstract class MPRestoreItemList
 		MPRestoreItemList.GALAKTIK,
 		MPRestoreItemList.NUNS,
 		MPRestoreItemList.OSCUS,
+		new MPRestoreItem( "high-pressure seltzer bottle", 175, true ),
 		new MPRestoreItem( "natural fennel soda", 100, false ),
 		new MPRestoreItem( "bottle of Vangoghbitussin", 100, false ),
 		new MPRestoreItem( "Monstar energy beverage", 75, false ),
@@ -175,8 +176,7 @@ public abstract class MPRestoreItemList
 			this( itemName, manaPerUse, 0, isCombatUsable );
 		}
 
-		public MPRestoreItem( final String itemName, final int manaPerUse, final int purchaseCost,
-			final boolean isCombatUsable )
+		public MPRestoreItem( final String itemName, final int manaPerUse, final int purchaseCost, final boolean isCombatUsable )
 		{
 			this.itemName = itemName;
 			this.manaPerUse = manaPerUse;
