@@ -685,6 +685,7 @@ public class ItemPool
 	public static final int FIREWORKS = 3421;
 	public static final int GIFTH = 3430;
 	public static final int SPICE_MELANGE = 3433;
+	public static final int RAINBOWS_GRAVITY = 3439;
 	public static final int BATHYSPHERE = 3470;
 	public static final int DAMP_OLD_BOOT = 3471;
 	public static final int BOXTOP = 3473;
@@ -726,6 +727,7 @@ public class ItemPool
 	public static final int SPOOKY_PUTTY_SHEET = 3665;
 	public static final int SPOOKY_PUTTY_SNAKE = 3666;
 	public static final int SPOOKY_PUTTY_MONSTER = 3667;
+	public static final int RAGE_GLAND = 3674;
 	public static final int MERKIN_PRESSUREGLOBE = 3675;
 	public static final int POTION_OF_PERCEPTION = 3593;
 	public static final int POTION_OF_PROFICIENCY = 3594;

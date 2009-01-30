@@ -1798,22 +1798,22 @@ public class UseItemRequest
 			switch ( item.getItemId() )
 			{
 			case ItemPool.SNOWCONE_BOOK:
-				KoLCharacter.addAvailableSkill( "Summon Snowcones" );
+				StaticEntity.learnSkill( "Summon Snowcones" );
 				break;
 			case ItemPool.HILARIOUS_BOOK:
-				KoLCharacter.addAvailableSkill( "Summon Hilarious Objects" );
+				StaticEntity.learnSkill( "Summon Hilarious Objects" );
 				break;
 			case ItemPool.TASTEFUL_BOOK:
-				KoLCharacter.addAvailableSkill( "Summon Tasteful Items" );
+				StaticEntity.learnSkill( "Summon Tasteful Items" );
 				break;
 			case ItemPool.CANDY_BOOK:
-				KoLCharacter.addAvailableSkill( "Summon Candy Hearts" );
+				StaticEntity.learnSkill( "Summon Candy Hearts" );
 				break;
 			case ItemPool.DIVINE_BOOK:
-				KoLCharacter.addAvailableSkill( "Summon Party Favor" );
+				StaticEntity.learnSkill( "Summon Party Favor" );
 				break;
 			case ItemPool.STICKER_BOOK:
-				KoLCharacter.addAvailableSkill( "Summon Stickers" );
+				StaticEntity.learnSkill( "Summon Stickers" );
 				break;
 			}
 
@@ -1830,7 +1830,7 @@ public class UseItemRequest
 				return;
 			}
 
-			KoLCharacter.addAvailableSkill( "Really Expensive Jewelrycrafting" );
+			StaticEntity.learnSkill( "Really Expensive Jewelrycrafting" );
 
 			return;
 
@@ -1842,7 +1842,31 @@ public class UseItemRequest
 				return;
 			}
 
-			KoLCharacter.addAvailableSkill( "Transcendent Olfaction" );
+			StaticEntity.learnSkill( "Transcendent Olfaction" );
+
+			return;
+
+		case ItemPool.RAINBOWS_GRAVITY:
+
+			if ( responseText.indexOf( "Once was more than enough" ) != -1 )
+			{
+				ResultProcessor.processResult( item );
+				return;
+			}
+
+			StaticEntity.learnSkill( "Rainbow Gravitation" );
+
+			return;
+
+		case ItemPool.RAGE_GLAND:
+
+			if ( responseText.indexOf( "You don't think" ) != -1 )
+			{
+				ResultProcessor.processResult( item );
+				return;
+			}
+
+			StaticEntity.learnSkill( "Vent Rage Gland" );
 
 			return;
 
@@ -2114,7 +2138,7 @@ public class UseItemRequest
 
 			if ( responseText.indexOf( "You acquire a skill" ) != -1 )
 			{
-				UseItemRequest.addSkill( "Stomach of Steel" );
+				StaticEntity.learnSkill( "Stomach of Steel" );
 			}
 			return;
 
@@ -2122,7 +2146,7 @@ public class UseItemRequest
 
 			if ( responseText.indexOf( "You acquire a skill" ) != -1 )
 			{
-				UseItemRequest.addSkill( "Liver of Steel" );
+				StaticEntity.learnSkill( "Liver of Steel" );
 			}
 			return;
 
@@ -2130,7 +2154,7 @@ public class UseItemRequest
 
 			if ( responseText.indexOf( "You acquire a skill" ) != -1 )
 			{
-				UseItemRequest.addSkill( "Spleen of Steel" );
+				StaticEntity.learnSkill( "Spleen of Steel" );
 			}
 			return;
 
@@ -2514,15 +2538,6 @@ public class UseItemRequest
 				TurnCounter.startCounting( number, "Fortune Cookie", "fortune.gif" );
 			}
 		}
-	}
-
-	private static final void addSkill( final String skillName )
-	{
-		String message = "You learned a new skill: " + skillName;
-		RequestLogger.printLine( message );
-		RequestLogger.updateSessionLog( message );
-		KoLCharacter.addAvailableSkill( skillName );
-		KoLCharacter.updateStatus();
 	}
 
 	private static final void showItemUsage( final boolean showHTML, final String text )
