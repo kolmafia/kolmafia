@@ -40,6 +40,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.swingui.CouncilFrame;
@@ -59,13 +60,6 @@ public abstract class LeafletManager
 	// earlier actions: lighting the fireplace precludes recovering the
 	// parchment, and entering the forest maze precludes doing anything
 	// from the first half of the map, for example.
-
-	// Things to be checked/confirmed:
-	//
-	// 1) The brass bowling trophy, model ship, white house, and carved
-	//    driftwood bird have all been seen and confirmed by me. The brick
-	//    building has been reported, but not actually successfully used,
-	//    yet, by this script.
 
 	// There are ten locations within the Strange Leaflet:
 
@@ -489,7 +483,7 @@ public abstract class LeafletManager
 		if ( LeafletManager.parchment && !KoLCharacter.hasSkill( "CLEESH" ) )
 		{
 			LeafletManager.executeCommand( "GNUSTO CLEESH" );
-			KoLCharacter.addAvailableSkill( "CLEESH" );
+			StaticEntity.learnSkill( "CLEESH" );
 			LeafletManager.parchment = false;
 			LeafletManager.scroll = false;
 		}

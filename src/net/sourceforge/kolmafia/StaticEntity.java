@@ -509,32 +509,23 @@ public abstract class StaticEntity
 		}
 
 		// You can learn a skill on many pages.
-
-		String skillName = StaticEntity.learnedSkill( location, responseText );
-		if ( skillName != null )
-		{
-			String message = "You learned a new skill: " + skillName;
-			RequestLogger.printLine( message );
-			RequestLogger.updateSessionLog( message );
-			KoLCharacter.addAvailableSkill( skillName );
-			KoLCharacter.addDerivedSkills();
-			KoLConstants.usableSkills.sort();
-			ConcoctionDatabase.refreshConcoctions();
-		}
+		StaticEntity.learnSkill( location, responseText );
 	}
 
-	private static String learnedSkill( final String location, final String responseText )
+	private static void learnSkill( final String location, final String responseText )
 	{
 		Matcher matcher = StaticEntity.NEWSKILL1_PATTERN.matcher( responseText );
 		if ( matcher.find() )
 		{
-			return matcher.group( 2 );
+			StaticEntity.learnSkill( matcher.group( 2 ) );
+			return;
 		}
 
 		matcher = StaticEntity.NEWSKILL3_PATTERN.matcher( responseText );
 		if ( matcher.find() )
 		{
-			return matcher.group( 1 );
+			StaticEntity.learnSkill( matcher.group( 1 ) );
+			return;
 		}
 
 		// Unfortunately, if you learn a new skill from Frank
@@ -548,11 +539,23 @@ public abstract class StaticEntity
 			if ( matcher.find() )
 			{
 				int skillId = StringUtilities.parseInt( matcher.group( 1 ) );
-				return SkillDatabase.getSkillName( skillId );
+                                String skillName = SkillDatabase.getSkillName( skillId );
+				StaticEntity.learnSkill( skillName );
+				return;
 			}
 		}
+	}
 
-		return null;
+	public static final void learnSkill( final String skillName )
+	{
+		String message = "You learned a new skill: " + skillName;
+		RequestLogger.printLine( message );
+		RequestLogger.updateSessionLog( message );
+		KoLCharacter.addAvailableSkill( skillName );
+		KoLCharacter.updateStatus();
+		KoLCharacter.addDerivedSkills();
+		KoLConstants.usableSkills.sort();
+		ConcoctionDatabase.refreshConcoctions();
 	}
 
 	public static final boolean executeCountdown( final String message, final int seconds )
