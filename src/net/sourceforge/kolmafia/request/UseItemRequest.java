@@ -2114,7 +2114,7 @@ public class UseItemRequest
 
 			if ( responseText.indexOf( "You acquire a skill" ) != -1 )
 			{
-				KoLCharacter.addAvailableSkill( "Stomach of Steel" );
+				UseItemRequest.addSkill( "Stomach of Steel" );
 			}
 			return;
 
@@ -2122,7 +2122,7 @@ public class UseItemRequest
 
 			if ( responseText.indexOf( "You acquire a skill" ) != -1 )
 			{
-				KoLCharacter.addAvailableSkill( "Liver of Steel" );
+				UseItemRequest.addSkill( "Liver of Steel" );
 			}
 			return;
 
@@ -2130,7 +2130,7 @@ public class UseItemRequest
 
 			if ( responseText.indexOf( "You acquire a skill" ) != -1 )
 			{
-				KoLCharacter.addAvailableSkill( "Spleen of Steel" );
+				UseItemRequest.addSkill( "Spleen of Steel" );
 			}
 			return;
 
@@ -2514,6 +2514,15 @@ public class UseItemRequest
 				TurnCounter.startCounting( number, "Fortune Cookie", "fortune.gif" );
 			}
 		}
+	}
+
+	private static final void addSkill( final String skillName )
+	{
+		String message = "You learned a new skill: " + skillName;
+		RequestLogger.printLine( message );
+		RequestLogger.updateSessionLog( message );
+		KoLCharacter.addAvailableSkill( skillName );
+		KoLCharacter.updateStatus();
 	}
 
 	private static final void showItemUsage( final boolean showHTML, final String text )
