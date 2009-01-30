@@ -371,6 +371,7 @@ public class ItemPool
 	public static final int BALLROOM_KEY = 1766;
 	public static final int PACK_OF_CHEWING_GUM = 1767;
 	public static final int DUSTY_ANIMAL_SKULL = 1799;
+	public static final int SPOOKYRAVEN_SPECTACLES = 1916;
 	public static final int TOILET_PAPER = 1923;
 	public static final int TUNING_FORK = 1928;
 	public static final int ANTIQUE_GREAVES = 1929;

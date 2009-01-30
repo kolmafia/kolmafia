@@ -968,8 +968,8 @@ public class ResultProcessor
 			break;
 
 		case ItemPool.PALINDROME_BOOK:
-			// If you get "I Love Me, Vol. I", you lose the items
-			// you put on the shelves
+			// If you get "I Love Me, Vol. I", you lose (some of)
+			// the items you put on the shelves
 			ResultProcessor.processItem( ItemPool.PHOTOGRAPH_OF_GOD, -1 );
 			ResultProcessor.processItem( ItemPool.HARD_ROCK_CANDY, -1 );
 			ResultProcessor.processItem( ItemPool.OSTRICH_EGG, -1 );
@@ -996,6 +996,17 @@ public class ResultProcessor
 			ResultProcessor.processItem( ItemPool.AZAZELS_UNICORN, -1 );
 			ResultProcessor.processItem( ItemPool.AZAZELS_LOLLYPOP, -1 );
 			ResultProcessor.processItem( ItemPool.AZAZELS_TUTU, -1 );
+			break;
+
+		case ItemPool.SPOOKYRAVEN_SPECTACLES:
+			// When you get the spectacles, identify dusty bottles.
+			// If you have not ascended, you need to put them on -
+			// which we leave to the player - but otherwise, they
+			// work from inventory.
+			if ( KoLCharacter.getAscensions() > 0 )
+			{
+				ItemDatabase.identifyDustyBottles();
+			}
 			break;
 
 		case ItemPool.MOLYBDENUM_MAGNET:

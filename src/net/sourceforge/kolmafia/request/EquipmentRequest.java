@@ -103,7 +103,7 @@ public class EquipmentRequest
 	private static final Pattern UNEQUIPPED_PATTERN = Pattern.compile( "<td[^>]*>Item unequipped:</td><td>.*?<b>(.*?)</b></td>" );
 
 	public static final AdventureResult UNEQUIP = new AdventureResult( "(none)", 1, false );
-	private static final AdventureResult SPECTACLES = new AdventureResult( 1916, 1 );
+	private static final AdventureResult SPECTACLES = ItemPool.get( ItemPool.SPOOKYRAVEN_SPECTACLES, 1 );
 
 	private static final int FAKE_HAND = 1511;
 
