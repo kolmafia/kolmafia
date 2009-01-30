@@ -1549,8 +1549,9 @@ public class FightRequest
 			{
 				HiddenCityRequest.addHiddenCityLocation( 'D' );
 			}
-			else if ( Preferences.getString( "lastAdventure" ).equalsIgnoreCase(
-				"A Maze of Sewer Tunnels" ) )
+			else if ( !FightRequest.castCleesh &&
+				Preferences.getString( "lastAdventure" ).equalsIgnoreCase(
+					"A Maze of Sewer Tunnels" ) )
 			{
 				AdventureResult result = AdventureResult.tallyItem(
 					"sewer tunnel explorations", false );
