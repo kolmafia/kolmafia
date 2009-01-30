@@ -70,6 +70,7 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.BooleanArray;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.IntegerArray;
@@ -1546,11 +1547,18 @@ public class ItemDatabase
 	public static final void getDustyBottles()
 	{
 		int lastAscension = Preferences.getInteger( "lastDustyBottleReset" );
-		if ( lastAscension < KoLCharacter.getAscensions() )
+		int current = KoLCharacter.getAscensions();
+		if ( lastAscension < current )
 		{
 			for ( int i = 2271; i <= 2276; ++i )
 			{
 				Preferences.setString( "lastDustyBottle" + i, "" );
+			}
+
+			if ( current > 0 && InventoryManager.hasItem( ItemPool.SPOOKYRAVEN_SPECTACLES ) )
+			{
+				ItemDatabase.identifyDustyBottles();
+				return;
 			}
 		}
 

@@ -2653,6 +2653,7 @@ public class KoLmafiaCLI
 		{ usage = " - list the dusty bottles of wine you've identified."; }
 		public void run( String cmd )
 		{
+			ItemDatabase.getDustyBottles();
 			for ( int i = 2271; i <= 2276; ++i )
 			{
 				String bottle = ItemDatabase.getItemName( i );
