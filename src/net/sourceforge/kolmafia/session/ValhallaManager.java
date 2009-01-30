@@ -80,43 +80,7 @@ public class ValhallaManager
 	{
 		RequestThread.openRequestSequence();
 
-		StaticEntity.getClient().refreshSession( false );
-
-		// Based on your class, you get some basic
-		// items once you ascend.
-
-		String type = KoLCharacter.getClassType();
-		if ( type.equals( KoLCharacter.SEAL_CLUBBER ) )
-		{
-			ResultProcessor.tallyResult( ItemPool.get( ItemPool.SEAL_CLUB, 1 ), false );
-			ResultProcessor.tallyResult( ItemPool.get( ItemPool.SEAL_HELMET, 1 ), false );
-		}
-		else if ( type.equals( KoLCharacter.TURTLE_TAMER ) )
-		{
-			ResultProcessor.tallyResult( ItemPool.get( ItemPool.HELMET_TURTLE, 1 ), false );
-			ResultProcessor.tallyResult( ItemPool.get( ItemPool.TURTLE_TOTEM, 1 ), false );
-		}
-		else if ( type.equals( KoLCharacter.PASTAMANCER ) )
-		{
-			ResultProcessor.tallyResult( ItemPool.get( ItemPool.PASTA_SPOON, 1 ), false );
-			ResultProcessor.tallyResult( ItemPool.get( ItemPool.RAVIOLI_HAT, 1 ), false );
-		}
-		else if ( type.equals( KoLCharacter.SAUCEROR ) )
-		{
-			ResultProcessor.tallyResult( ItemPool.get( ItemPool.SAUCEPAN, 1 ), false );
-			ResultProcessor.tallyResult( ItemPool.get( ItemPool.SPICES, 1 ), false );
-		}
-		else if ( type.equals( KoLCharacter.DISCO_BANDIT ) )
-		{
-			ResultProcessor.tallyResult( ItemPool.get( ItemPool.DISCO_BALL, 1 ), false );
-			ResultProcessor.tallyResult( ItemPool.get( ItemPool.DISCO_MASK, 1 ), false );
-		}
-		else if ( type.equals( KoLCharacter.ACCORDION_THIEF ) )
-		{
-			ResultProcessor.tallyResult( ItemPool.get( ItemPool.STOLEN_ACCORDION, 1 ), false );
-			ResultProcessor.tallyResult( ItemPool.get( ItemPool.MARIACHI_PANTS, 1 ), false );
-		}
-
+		StaticEntity.getClient().refreshSession();
 		EquipmentManager.updateEquipmentLists();
 		ConcoctionDatabase.refreshConcoctions();
 
