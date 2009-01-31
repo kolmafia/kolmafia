@@ -515,8 +515,9 @@ public class AdventureResult
 	{
 		if ( s.startsWith( "You gain" ) || s.startsWith( "You lose" ) )
 		{
-			// A stat has been modified - now you figure out which one it was,
-			// how much it's been modified by, and return the appropriate value
+			// A stat has been modified - now you figure out which
+			// one it was, how much it's been modified by, and
+			// return the appropriate value
 
 			StringTokenizer parsedGain = new StringTokenizer( s, " ." );
 			parsedGain.nextToken();
@@ -525,8 +526,8 @@ public class AdventureResult
 				StringUtilities.parseInt( ( parsedGain.nextToken().startsWith( "gain" ) ? "" : "-" ) + parsedGain.nextToken() );
 			String statname = parsedGain.nextToken();
 
-			// Stats actually fall into one of four categories - simply pick the
-			// correct one and return the result.
+			// Stats actually fall into one of four categories -
+			// simply pick the correct one and return the result.
 
 			if ( parsedGain.hasMoreTokens() )
 			{
