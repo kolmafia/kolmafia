@@ -146,7 +146,7 @@ Post-Cyrpt Cemetary	100	Corpulent Zobmie	Grave Rober Zmobie	Senile Lihc	Slick Li
 Post-War Junkyard	100	A.M.C. Gremlin	Batwinged Gremlin	Erudite Gremlin	Spider Gremlin	Vegetable Gremlin
 Post-War Sonofa Beach	-1	Lobsterfrogman
 Pre-Cyrpt Cemetary	100	Ghoul	Grave Rober	Lihc	Skleleton	Smart Skelton	Zmobie	Zobmie
-Queen's Chamber	100	Queen Filthworm
+Queen's Chamber	100	The Queen Filthworm
 Rogue Windmill	70	Can-can Dancer	Courtesan	Master of Ceremonies	Sensitive Poet-type	Voyeuristic Artist
 Shady Thicket	100	Drunk Duck	Mean Drunk Duck
 Simple Tool-Making Cave	100	Flint-Scraping Cave Elf	Hunter-Gatherer Cave Elf	Rock-Banging Cave Elf	Sinew-Stretching Cave Elf

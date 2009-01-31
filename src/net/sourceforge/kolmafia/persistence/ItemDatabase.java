@@ -1550,15 +1550,15 @@ public class ItemDatabase
 		int current = KoLCharacter.getAscensions();
 		if ( lastAscension < current )
 		{
-			for ( int i = 2271; i <= 2276; ++i )
-			{
-				Preferences.setString( "lastDustyBottle" + i, "" );
-			}
-
 			if ( current > 0 && InventoryManager.hasItem( ItemPool.SPOOKYRAVEN_SPECTACLES ) )
 			{
 				ItemDatabase.identifyDustyBottles();
 				return;
+			}
+
+			for ( int i = 2271; i <= 2276; ++i )
+			{
+				Preferences.setString( "lastDustyBottle" + i, "" );
 			}
 		}
 

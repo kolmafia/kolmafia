@@ -56,6 +56,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.request.AccountRequest;
 import net.sourceforge.kolmafia.request.ArtistRequest;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
+import net.sourceforge.kolmafia.request.CakeArenaRequest;
 import net.sourceforge.kolmafia.request.ChefStaffRequest;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
@@ -307,6 +308,11 @@ public abstract class StaticEntity
 					RequestLogger.updateSessionLog();
 				}
 			}
+		}
+		
+		else if ( location.startsWith( "arena.php" ) )
+		{
+			CakeArenaRequest.parseResponse( location, responseText );
 		}
 		
 		else if ( location.startsWith( "bedazzle.php" ) )

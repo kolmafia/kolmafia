@@ -637,10 +637,6 @@ public class AdventureDatabase
 			Matcher matcher = AdventureDatabase.MINE_PATTERN.matcher( urlString );
 			return matcher.find() ? "Unknown Mine #" + matcher.group(1) : null;
 		}
-		else if ( urlString.startsWith( "arena.php" ) && urlString.indexOf( "action" ) != -1 )
-		{
-			return "Cake-Shaped Arena";
-		}
 		else if ( urlString.startsWith( "lair4.php?action=level1" ) )
 		{
 			return "Sorceress Tower: Level 1";
