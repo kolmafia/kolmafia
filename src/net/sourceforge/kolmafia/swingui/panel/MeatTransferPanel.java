@@ -55,6 +55,10 @@ public class MeatTransferPanel
 	private final AutoHighlightTextField amountField;
 	private final JLabel closetField;
 
+	public static final int MEAT_TO_CLOSET = 1;
+	public static final int MEAT_TO_INVENTORY = 2;
+	public static final int PULL_MEAT_FROM_STORAGE = 3;
+
 	public MeatTransferPanel( final int transferType )
 	{
 		super( MeatTransferPanel.getTitle( transferType ),
@@ -79,11 +83,11 @@ public class MeatTransferPanel
 	{
 		switch ( transferType )
 		{
-		case ClosetRequest.MEAT_TO_CLOSET:
+		case MeatTransferPanel.MEAT_TO_CLOSET:
 			return "Put Meat in Your Closet";
-		case ClosetRequest.MEAT_TO_INVENTORY:
+		case MeatTransferPanel.MEAT_TO_INVENTORY:
 			return "Take Meat from Your Closet";
-		case StorageRequest.PULL_MEAT_FROM_STORAGE:
+		case MeatTransferPanel.PULL_MEAT_FROM_STORAGE:
 			return "Pull Meat from Hagnk's";
 		}
 		return "Unknown Transfer Type";
@@ -93,11 +97,12 @@ public class MeatTransferPanel
 	{
 		switch ( transferType )
 		{
-		case ClosetRequest.MEAT_TO_CLOSET:
-		case ClosetRequest.MEAT_TO_INVENTORY:
-			return new ClosetRequest( this.transferType, amount );
-		case StorageRequest.PULL_MEAT_FROM_STORAGE:
-			return new StorageRequest( this.transferType, amount );
+		case MeatTransferPanel.MEAT_TO_CLOSET:
+			return new ClosetRequest( ClosetRequest.MEAT_TO_CLOSET, amount );
+		case MeatTransferPanel.MEAT_TO_INVENTORY:
+			return new ClosetRequest( ClosetRequest.MEAT_TO_INVENTORY, amount );
+		case MeatTransferPanel.PULL_MEAT_FROM_STORAGE:
+			return new StorageRequest( StorageRequest.PULL_MEAT_FROM_STORAGE, amount );
 		}
 		return null;
 	}
@@ -106,11 +111,11 @@ public class MeatTransferPanel
 	{
 		switch ( this.transferType )
 		{
-		case ClosetRequest.MEAT_TO_CLOSET:
+		case MeatTransferPanel.MEAT_TO_CLOSET:
 			return KoLCharacter.getAvailableMeat();
-		case ClosetRequest.MEAT_TO_INVENTORY:
+		case MeatTransferPanel.MEAT_TO_INVENTORY:
 			return KoLCharacter.getClosetMeat();
-		case StorageRequest.PULL_MEAT_FROM_STORAGE:
+		case MeatTransferPanel.PULL_MEAT_FROM_STORAGE:
 			return KoLCharacter.getStorageMeat();
 		}
 
@@ -121,9 +126,9 @@ public class MeatTransferPanel
 	{
 		switch ( this.transferType )
 		{
-		case ClosetRequest.MEAT_TO_CLOSET:
-		case ClosetRequest.MEAT_TO_INVENTORY:
-		case StorageRequest.PULL_MEAT_FROM_STORAGE:
+		case MeatTransferPanel.MEAT_TO_CLOSET:
+		case MeatTransferPanel.MEAT_TO_INVENTORY:
+		case MeatTransferPanel.PULL_MEAT_FROM_STORAGE:
 			int amount = this.currentAvailable();
 			this.closetField.setText( KoLConstants.COMMA_FORMAT.format( amount ) + " meat" );
 			break;
