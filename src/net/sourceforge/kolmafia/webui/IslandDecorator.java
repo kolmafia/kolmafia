@@ -100,7 +100,7 @@ public class IslandDecorator
 
 	private static final Pattern MAP_PATTERN = Pattern.compile( "bfleft(\\d*).*bfright(\\d*)", Pattern.DOTALL );
 	private static final Pattern JUNKYARD_PATTERN =
-		Pattern.compile( "The last time I saw my (.*?), (it was|they were) (.*?)\\.", Pattern.DOTALL );
+		Pattern.compile( "(?:The last time I saw my|muttering something about a) (.*?)(?:, it was|, they were| and) (.*?)\\.", Pattern.DOTALL );
 
 	public static final int NONE = 0;
 	public static final int JUNKYARD = 1;
@@ -1401,6 +1401,8 @@ public class IslandDecorator
 		boolean done = false;
 
 		// The last time I saw my <tool> it was <location>.
+		// (or, if not in uniform:)
+		// He wanders off, muttering something about a <tool> and <location>
 		//
 		//	next to that barrel with something burning in it
 		//	near an abandoned refrigerator
@@ -1412,7 +1414,7 @@ public class IslandDecorator
 		{
 			tool = matcher.group( 1 );
 			tool = "molybdenum " + ( tool.equals( "wrench" ) ? "crescent " : "" ) + tool;
-			location = matcher.group( 3 );
+			location = matcher.group( 2 );
 		}
 
 		// As you turn to walk away, he taps you on the shoulder. "I
