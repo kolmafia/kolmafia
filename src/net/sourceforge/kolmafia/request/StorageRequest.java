@@ -66,14 +66,11 @@ public class StorageRequest
 
 	private int moveType;
 
-	// MeatTransferPanel depends on Closet and Storage meat transfer
-	// constants being disjoint
-	public static final int PULL_MEAT_FROM_STORAGE = -2;
-
 	public static final int EMPTY_STORAGE = -1;
 	public static final int RETRIEVE_STORAGE = 0;
 	public static final int STORAGE_TO_INVENTORY = 1;
 	public static final int FREEPULL_TO_INVENTORY = 2;
+	public static final int PULL_MEAT_FROM_STORAGE = 3;
 
 	public StorageRequest()
 	{
