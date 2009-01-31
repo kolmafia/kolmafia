@@ -1287,7 +1287,7 @@ public class Modifiers
 		}
 		if ( effective != 0.0 )
 		{
-			this.add( Modifiers.MEATDROP, Math.sqrt( 220 * effective ) + 2 * effective + 6,
+			this.add( Modifiers.MEATDROP, Math.sqrt( 220 * effective ) + 2 * effective - 6,
 				"Leprechaun" );
 		}
 
@@ -1298,7 +1298,7 @@ public class Modifiers
 		}
 		if ( effective != 0.0 )
 		{
-			this.add( Modifiers.ITEMDROP, Math.sqrt( 55 * effective ) + effective + 3,
+			this.add( Modifiers.ITEMDROP, Math.sqrt( 55 * effective ) + effective - 3,
 				"Fairy" );
 		}
 
