@@ -132,6 +132,22 @@ public class CakeArenaManager
 		return CakeArenaManager.opponentList;
 	}
 
+	public static final ArenaOpponent getOpponent( final int opponentId )
+	{
+		int count = CakeArenaManager.opponentList.size();
+
+		for ( int i = 0; i < count; ++i )
+		{
+			ArenaOpponent ao = (ArenaOpponent) CakeArenaManager.opponentList.get(i);
+			if ( ao.getId() == opponentId )
+			{
+				return ao;
+			}
+		}
+
+		return null;
+	}
+
 	public static final String getEvent( final int eventId )
 	{
 		switch ( eventId )

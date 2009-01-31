@@ -39,6 +39,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -76,9 +77,16 @@ public class ResultProcessor
 	private static AdventureResult haikuEffect = EffectPool.get( EffectPool.HAIKU_STATE_OF_MIND );
 	private static boolean receivedClover = false;
 	
-	// This number will change every time an item is processed, and can be used by other code
-	// to tell if an item is received, without necessarily knowing which item it was.
+	// This number changes every time an item is processed, and can be used
+	// by other code to tell if an item is received, without necessarily
+	// knowing which item it was.
+
 	public static int itemSequenceCount = 0;
+	
+	public static boolean receivedClover()
+	{
+		return ResultProcessor.receivedClover;
+	}
 	
 	public static boolean shouldDisassembleClovers( String formURLString )
 	{
@@ -92,11 +100,6 @@ public class ResultProcessor
 			formURLString.startsWith( "mallstore.php" ) ||
 			formURLString.startsWith( "barrel.php" ) ||
 			formURLString.indexOf( "whichitem=553" ) != -1;
-	}
-	
-	public static boolean receivedClover()
-	{
-		return ResultProcessor.receivedClover;
 	}
 	
 	public static boolean processResults( String results )
@@ -125,21 +128,19 @@ public class ResultProcessor
 		return requiresRefresh;
 	}
 
+	private static boolean haveHaikuResults()
+	{
+		return KoLAdventure.lastAdventureId() == 138 ||
+			KoLConstants.activeEffects.contains( ResultProcessor.haikuEffect );
+	}
+
 	private static boolean processNormalResults( String results, List data )
 	{
-		if ( data == null && results.indexOf( "gains a pound" ) != -1 )
-		{
-			KoLCharacter.incrementFamilarWeight();
-
-			RequestLogger.updateSessionLog();
-			RequestLogger.updateSessionLog( "familiar " + KoLCharacter.getFamiliar() );
-			RequestLogger.updateSessionLog();
-		}
-
 		String plainTextResult = KoLConstants.ANYTAG_PATTERN.matcher( results ).replaceAll( KoLConstants.LINE_BREAK );
 
 		if ( data == null )
 		{
+			ResultProcessor.processFamiliarWeightGain( plainTextResult );
 			ResultProcessor.processFumble( plainTextResult );
 		}
 
@@ -152,12 +153,6 @@ public class ResultProcessor
 		}
 
 		return shouldRefresh;
-	}
-
-	private static boolean haveHaikuResults()
-	{
-		return KoLAdventure.lastAdventureId() == 138 ||
-			KoLConstants.activeEffects.contains( haikuEffect );
 	}
 
 	private static boolean processHaikuResults( String results, List data )
@@ -189,14 +184,7 @@ public class ResultProcessor
 
 			if ( data == null && image.equals( familiar ) )
 			{
-				if ( haiku.indexOf( "gains a pound" ) != -1 )
-				{
-					KoLCharacter.incrementFamilarWeight();
-
-					RequestLogger.updateSessionLog();
-					RequestLogger.updateSessionLog( "familiar " + KoLCharacter.getFamiliar() );
-					RequestLogger.updateSessionLog();
-				}
+				ResultProcessor.processFamiliarWeightGain( haiku );
 				continue;
 			}
 
@@ -211,7 +199,7 @@ public class ResultProcessor
 			if ( image.equals( "meat.gif" ) )
 			{
 				String message = "You gain " + points + " Meat";
-				ResultProcessor.processStatGain( message, data );
+				ResultProcessor.processMeat( message, data );
 				shouldRefresh = true;
 				continue;
 			}
@@ -233,7 +221,7 @@ public class ResultProcessor
 					RequestLogger.updateSessionLog( message );
 				}
 
-				parseResult( message );
+				ResultProcessor.parseResult( message );
 				continue;
 			}
 
@@ -262,6 +250,21 @@ public class ResultProcessor
 		return shouldRefresh;
 	}
 
+	private static void processFamiliarWeightGain( final String results )
+	{
+		if ( results.indexOf( "gains a pound" ) != -1 )
+		{
+			KoLCharacter.incrementFamilarWeight();
+
+			FamiliarData familiar = KoLCharacter.getFamiliar();
+			String fam1 = familiar.getName() + ", the " + familiar.getWeight() + " lb. " + familiar.getRace();
+			
+			String message = "Your familiar gains a pound: " + fam1;
+			RequestLogger.printLine( message );
+			RequestLogger.updateSessionLog( message	 );
+		}
+	}
+
 	private static void processFumble( String plainTextResult )
 	{
 		Matcher damageMatcher = ResultProcessor.FUMBLE_PATTERN.matcher( plainTextResult );
@@ -277,7 +280,7 @@ public class ResultProcessor
 				RequestLogger.updateSessionLog( message );
 			}
 
-			parseResult( message );
+			ResultProcessor.parseResult( message );
 		}
 
 		if ( !KoLCharacter.isUsingStabBat() )
@@ -298,7 +301,7 @@ public class ResultProcessor
 				RequestLogger.updateSessionLog( message );
 			}
 
-			parseResult( message );
+			ResultProcessor.parseResult( message );
 		}
 
 		damageMatcher = ResultProcessor.CARBS_PATTERN.matcher( plainTextResult );
@@ -314,7 +317,7 @@ public class ResultProcessor
 				RequestLogger.updateSessionLog( message );
 			}
 
-			parseResult( message );
+			ResultProcessor.parseResult( message );
 		}
 	}
 
@@ -354,22 +357,12 @@ public class ResultProcessor
 				return false;
 			}
 
-			if ( data == null )
-			{
-				return ResultProcessor.processEffect( parsedResults, acquisition, data );
-			}
-
-			return false;
+			return ResultProcessor.processEffect( parsedResults, acquisition, data );
 		}
 
 		if ( acquisition.startsWith( "You lose an effect" ) )
 		{
-			if ( data == null )
-			{
-				return ResultProcessor.processEffect( parsedResults, acquisition, data );
-			}
-
-			return false;
+			return ResultProcessor.processEffect( parsedResults, acquisition, data );
 		}
 
 		// The following only under Can Has Cyborger
@@ -385,7 +378,7 @@ public class ResultProcessor
 
 		if ( lastToken.startsWith( "You gain" ) || lastToken.startsWith( "You lose " ) )
 		{
-			return ResultProcessor.processStatGain( lastToken, data );
+			return ResultProcessor.processGainLoss( lastToken, data );
 		}
 
 		if ( lastToken.startsWith( "You discard" ) )
@@ -407,8 +400,8 @@ public class ResultProcessor
 			return;
 		}
 
-		// The name of the item follows the number
-		// that appears after the first index.
+		// The name of the item follows the number that appears after
+		// the first index.
 
 		String countString = item.split( " " )[ 0 ];
 		int spaceIndex = item.indexOf( " " );
@@ -448,12 +441,18 @@ public class ResultProcessor
 			RequestLogger.updateSessionLog( message );
 		}
 
-		processResult( result );
+		ResultProcessor.processResult( result );
+
 		++ResultProcessor.itemSequenceCount;
 	}
 
 	private static boolean processEffect( StringTokenizer parsedResults, String acquisition, List data )
 	{
+		if ( data != null )
+		{
+			return false;
+		}
+
 		String effectName = parsedResults.nextToken();
 
 		if ( acquisition.startsWith( "You lose" ) )
@@ -493,26 +492,7 @@ public class ResultProcessor
 		return parseEffect( effectName + " (" + duration + ")" );
 	}
 
-	private static AdventureResult parseResult( String result )
-	{
-		String trimResult = result.trim();
-		RequestLogger.updateDebugLog( "Parsing result: " + trimResult );
-
-		try
-		{
-			return AdventureResult.parseResult( trimResult );
-		}
-		catch ( Exception e )
-		{
-			// This should not happen. Therefore, print
-			// a stack trace for debug purposes.
-
-			StaticEntity.printStackTrace( e );
-			return null;
-		}
-	}
-
-	private static boolean processStatGain( String lastToken, List data )
+	private static boolean processGainLoss( String lastToken, final List data )
 	{
 		int periodIndex = lastToken.indexOf( "." );
 		if ( periodIndex != -1 )
@@ -528,7 +508,7 @@ public class ResultProcessor
 
 		lastToken = lastToken.trim();
 
-		if ( data == null && lastToken.indexOf( "level" ) == -1 )
+		if ( data == null )
 		{
 			RequestLogger.printLine( lastToken );
 		}
@@ -538,32 +518,82 @@ public class ResultProcessor
 			return true;
 		}
 
-		AdventureResult result = ResultProcessor.parseResult( lastToken );
+		if ( lastToken.indexOf( "Meat" ) != -1 )
+		{
+			return ResultProcessor.processMeat( lastToken, data );
+		}
+
 		if ( data != null )
 		{
-			if ( result.getName().equals( AdventureResult.MEAT ) )
-			{
-				AdventureResult.addResultToList( data, result );
-			}
-
 			return false;
 		}
 
-		boolean shouldRefresh =	 processResult( result );
+		return ResultProcessor.processStatGain( lastToken, data );
+	}
 
-		if ( result.getName().equals( AdventureResult.SUBSTATS ) )
+	private static boolean processMeat( String lastToken, List data )
+	{
+		AdventureResult result = ResultProcessor.parseResult( lastToken );
+
+		if ( data == null && ResultProcessor.isNunneryMeat() )
 		{
-			if ( Preferences.getBoolean( "logStatGains" ) )
-			{
-				RequestLogger.updateSessionLog( lastToken );
-			}
+			IslandDecorator.addNunneryMeat( result );
+			return false;
 		}
-		else if ( Preferences.getBoolean( "logGainMessages" ) )
+
+		if ( data != null )
+		{
+			AdventureResult.addResultToList( data, result );
+			return false;
+		}
+
+		if ( Preferences.getBoolean( "logGainMessages" ) )
 		{
 			RequestLogger.updateSessionLog( lastToken );
 		}
 
-		return shouldRefresh;
+		return ResultProcessor.processResult( result );
+	}
+
+	private static boolean isNunneryMeat()
+	{
+		KoLAdventure location = KoLAdventure.lastVisitedLocation();
+
+		// If we are not in the Themthar Hills, this is real meat
+		if ( location == null || !location.getAdventureId().equals( "126" ) )
+		{
+			return false;
+		}
+
+		// If we didn't just complete a fight, this is real meat stolen
+		// in the middle of the battle
+		if ( !RequestLogger.getLastURLString().startsWith( "fight.php" ) ||
+		     FightRequest.getCurrentRound() != 0 )
+		     
+		{
+			return false;
+		}
+
+		// This is meat gained during the last round of the battle.
+		// What to do about meat vortex or familiar stolen meat?
+		return true;
+	}
+
+	private static boolean processStatGain( String lastToken, List data )
+	{
+		if ( data != null )
+		{
+			return false;
+		}
+
+		AdventureResult result = ResultProcessor.parseResult( lastToken );
+		if ( result.getName().equals( AdventureResult.SUBSTATS ) &&
+		     Preferences.getBoolean( "logStatGains" ) )
+		{
+			RequestLogger.updateSessionLog( lastToken );
+		}
+
+		return ResultProcessor.processResult( result );
 	}
 
 	private static void processDiscard( String lastToken )
@@ -577,21 +607,41 @@ public class ResultProcessor
 		}
 	}
 
+	private static AdventureResult parseResult( String result )
+	{
+		result = result.trim();
+
+		RequestLogger.updateDebugLog( "Parsing result: " + result );
+
+		try
+		{
+			return AdventureResult.parseResult( result );
+		}
+		catch ( Exception e )
+		{
+			// This should not happen. Therefore, print
+			// a stack trace for debug purposes.
+
+			StaticEntity.printStackTrace( e );
+			return null;
+		}
+	}
+
 	private static boolean parseEffect( String result )
 	{
 		RequestLogger.updateDebugLog( "Parsing effect: " + result );
 
 		StringTokenizer parsedEffect = new StringTokenizer( result, "()" );
-		String parsedEffectName = parsedEffect.nextToken().trim();
-		String parsedDuration = parsedEffect.hasMoreTokens() ? parsedEffect.nextToken() : "1";
+		String name = parsedEffect.nextToken().trim();
+		int count = parsedEffect.hasMoreTokens() ? StringUtilities.parseInt( parsedEffect.nextToken() ) : 1;
 
-		return ResultProcessor.processResult( new AdventureResult( parsedEffectName, StringUtilities.parseInt( parsedDuration ), true ) );
+		return ResultProcessor.processResult( new AdventureResult( name, count, true ) );
 	}
 
 	/**
-	 * Utility. The method used to process a result. By default, this method will also add an adventure result to the
-	 * tally directly. This is used whenever the nature of the result is already known and no additional parsing is
-	 * needed.
+	 * Utility. The method used to process a result. By default, this will
+	 * also add an adventure result to the tally. Use this whenever the
+	 * result is already known and no additional parsing is needed.
 	 *
 	 * @param result Result to add to the running tally of adventure results
 	 */
@@ -614,10 +664,23 @@ public class ResultProcessor
 		// it's a status effect, then add it to the recent
 		// effect list. Otherwise, add it to the tally.
 
-		if ( result.isStatusEffect() )
+		if ( result.isItem() )
+		{
+			AdventureResult.addResultToList( KoLConstants.tally, result );
+		}
+		else if ( result.isStatusEffect() )
 		{
 			shouldRefresh |= !KoLConstants.activeEffects.contains( result );
 			AdventureResult.addResultToList( KoLConstants.recentEffects, result );
+		}
+		else if ( resultName.equals( AdventureResult.SUBSTATS ) )
+		{
+			AdventureResult.addResultToList( KoLConstants.tally, result );
+		}
+		else if ( resultName.equals( AdventureResult.MEAT ) )
+		{
+			AdventureResult.addResultToList( KoLConstants.tally, result );
+			shouldRefresh = true;
 		}
 		else if ( resultName.equals( AdventureResult.ADV ) )
 		{
@@ -636,27 +699,6 @@ public class ResultProcessor
 		{
 			// Don't let ignored choices delay iteration
 			KoLmafia.tookChoice = true;
-		}
-		else if ( result.isItem() )
-		{
-			AdventureResult.addResultToList( KoLConstants.tally, result );
-		}
-		else if ( resultName.equals( AdventureResult.SUBSTATS ) )
-		{
-			AdventureResult.addResultToList( KoLConstants.tally, result );
-		}
-		else if ( resultName.equals( AdventureResult.MEAT ) )
-		{
-			KoLAdventure location = KoLAdventure.lastVisitedLocation();
-
-			if ( RequestLogger.getLastURLString().startsWith( "fight.php" ) && location != null && location.getAdventureId().equals( "126" ) && FightRequest.getCurrentRound() == 0 )
-			{
-				IslandDecorator.addNunneryMeat( result );
-				return false;
-			}
-
-			AdventureResult.addResultToList( KoLConstants.tally, result );
-			shouldRefresh = true;
 		}
 
 		ResultProcessor.tallyResult( result, true );

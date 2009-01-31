@@ -38,9 +38,12 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CakeArenaManager;
+import net.sourceforge.kolmafia.FamiliarData;
+import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -50,6 +53,8 @@ public class CakeArenaRequest
 	private static final Pattern WINCOUNT_PATTERN = Pattern.compile( "You have won (\\d*) time" );
 	private static final Pattern OPPONENT_PATTERN =
 		Pattern.compile( "<tr><td valign=center><input type=radio .*? name=whichopp value=(\\d+)>.*?<b>(.*?)</b> the (.*?)<br/?>(\\d*).*?</tr>" );
+	private static final Pattern OPP_PATTERN = Pattern.compile( "whichopp=(\\d*)" );
+	private static final Pattern EVENT_PATTERN = Pattern.compile( "event=(\\d*)" );
 
 	private boolean isCompetition;
 
@@ -80,21 +85,33 @@ public class CakeArenaRequest
 
 	public void processResults()
 	{
-		if ( this.responseText.indexOf( "You can't" ) != -1 || this.responseText.indexOf( "You shouldn't" ) != -1 || this.responseText.indexOf( "You don't" ) != -1 || this.responseText.indexOf( "You need" ) != -1 || this.responseText.indexOf( "You're way too beaten" ) != -1 || this.responseText.indexOf( "You're too drunk" ) != -1 )
+		if ( this.responseText.indexOf( "You can't" ) != -1 ||
+		     this.responseText.indexOf( "You shouldn't" ) != -1 ||
+		     this.responseText.indexOf( "You don't" ) != -1 ||
+		     this.responseText.indexOf( "You need" ) != -1 ||
+		     this.responseText.indexOf( "You're way too beaten" ) != -1 ||
+		     this.responseText.indexOf( "You're too drunk" ) != -1 )
 		{
-			// Notify theof failure by telling it that
-			// the adventure did not take place and the client
-			// should not continue with the next iteration.
-			// Friendly error messages to come later.
-
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Arena battles aborted!" );
 			return;
 		}
 
-		if ( this.isCompetition )
+		CakeArenaRequest.parseResponse( this.getURLString(), this.responseText );
+
+		if ( !this.isCompetition )
 		{
-			ResultProcessor.processAdventures( -1 );
-			ResultProcessor.processMeat( -100 );
+			KoLmafia.updateDisplay( "Opponent list retrieved." );
+		}
+	}
+
+	public static final boolean parseResponse( final String urlString, final String responseText )
+	{
+		if ( urlString.indexOf( "action=go" ) != -1 )
+		{
+			if ( responseText.indexOf( "You don't have enough Meat" ) == -1 )
+			{
+				ResultProcessor.processMeat( -100 );
+			}
 
 			// If the familiar won, increment win count
 
@@ -106,11 +123,12 @@ public class CakeArenaRequest
 
 			// "Copycat Grrl is the winner, and gains 5 experience!"
 
-			if ( this.responseText.indexOf( "Congratulations" ) != -1 || this.responseText.indexOf( "is the winner" ) != -1 )
+			if ( responseText.indexOf( "Congratulations" ) != -1 || responseText.indexOf( "is the winner" ) != -1 )
 			{
 				KoLCharacter.setArenaWins( KoLCharacter.getArenaWins() + 1 );
 			}
-			return;
+
+			return true;
 		}
 
 		// Retrieve arena wins count
@@ -118,7 +136,7 @@ public class CakeArenaRequest
 		// "You have won 722 times. Only 8 wins left until your next
 		// prize!"
 
-		Matcher winMatcher = CakeArenaRequest.WINCOUNT_PATTERN.matcher( this.responseText );
+		Matcher winMatcher = CakeArenaRequest.WINCOUNT_PATTERN.matcher( responseText );
 
 		if ( winMatcher.find() )
 		{
@@ -126,8 +144,9 @@ public class CakeArenaRequest
 		}
 
 		// Retrieve list of opponents
+
+		Matcher opponentMatcher = CakeArenaRequest.OPPONENT_PATTERN.matcher( responseText );
 		int lastMatchIndex = 0;
-		Matcher opponentMatcher = CakeArenaRequest.OPPONENT_PATTERN.matcher( this.responseText );
 
 		while ( opponentMatcher.find( lastMatchIndex ) )
 		{
@@ -139,7 +158,82 @@ public class CakeArenaRequest
 			CakeArenaManager.registerOpponent( id, name, race, weight );
 		}
 
-		KoLmafia.updateDisplay( "Opponent list retrieved." );
+		return true;
+	}
+
+	public static final boolean registerRequest( final String urlString )
+	{
+		if ( !urlString.startsWith( "arena.php" ) )
+		{
+			return false;
+		}
+
+		if ( urlString.indexOf( "action=go" ) == -1 )
+		{
+			return true;
+		}
+
+		FamiliarData familiar = KoLCharacter.getFamiliar();
+
+		if ( familiar == FamiliarData.NO_FAMILIAR )
+		{
+			return true;
+		}
+
+		if ( KoLCharacter.getAvailableMeat() < 100 )
+		{
+			return true;
+		}
+
+		int opponent = CakeArenaRequest.getOpponent( urlString );
+		if ( opponent < 0 )
+		{
+			return true;
+		}
+
+		int event = CakeArenaRequest.getEvent( urlString );
+		if ( event < 0 )
+		{
+			return true;
+		}
+
+		CakeArenaManager.ArenaOpponent ao = CakeArenaManager.getOpponent( opponent );
+		String eventName = CakeArenaManager.getEvent( event );
+
+		String message1 = "[" + KoLAdventure.getAdventureCount() + "] Cake-Shaped Arena";
+
+		String fam1 = familiar.getName() + ", the " + familiar.getModifiedWeight() + " lb. " + familiar.getRace();
+		String fam2 = ao == null ? ( "opponent #" + opponent ) : ao.getName() + ", the " + ao.getWeight() + " lb. " + ao.getRace();
+
+		String message2 = "Familiar: " + fam1;
+		String message3 = "Opponent: " + fam2;
+		String message4 = "Contest: " + eventName;
+
+		RequestLogger.printLine( "" );
+		RequestLogger.printLine( message1 );
+		RequestLogger.printLine( message2 );
+		RequestLogger.printLine( message3 );
+		RequestLogger.printLine( message4 );
+
+		RequestLogger.updateSessionLog();
+		RequestLogger.updateSessionLog( message1 );
+		RequestLogger.updateSessionLog( message2 );
+		RequestLogger.updateSessionLog( message3 );
+		RequestLogger.updateSessionLog( message4 );
+
+		return true;
+	}
+
+	private static int getOpponent( final String urlString )
+	{
+		Matcher matcher = OPP_PATTERN.matcher( urlString );
+		return matcher.find() ? StringUtilities.parseInt( matcher.group(1) ) : -1;
+	}
+
+	private static int getEvent( final String urlString )
+	{
+		Matcher matcher = EVENT_PATTERN.matcher( urlString );
+		return matcher.find() ? StringUtilities.parseInt( matcher.group(1) ) : -1;
 	}
 
 	public String toString()
