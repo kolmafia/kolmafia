@@ -215,7 +215,6 @@ public class ResultProcessor
 				String message = "You lose " + points + " hit points";
 
 				RequestLogger.printLine( message );
-
 				if ( Preferences.getBoolean( "logGainMessages" ) )
 				{
 					RequestLogger.updateSessionLog( message );
@@ -274,7 +273,6 @@ public class ResultProcessor
 			String message = "You lose " + damageMatcher.group( 1 ) + " hit points";
 
 			RequestLogger.printLine( message );
-
 			if ( Preferences.getBoolean( "logGainMessages" ) )
 			{
 				RequestLogger.updateSessionLog( message );
@@ -295,7 +293,6 @@ public class ResultProcessor
 			String message = "You lose " + damageMatcher.group( 1 ) + " hit points";
 
 			RequestLogger.printLine( message );
-
 			if ( Preferences.getBoolean( "logGainMessages" ) )
 			{
 				RequestLogger.updateSessionLog( message );
@@ -311,7 +308,6 @@ public class ResultProcessor
 			String message = "You lose " + damageMatcher.group( 1 ) + " hit points";
 
 			RequestLogger.printLine( message );
-
 			if ( Preferences.getBoolean( "logGainMessages" ) )
 			{
 				RequestLogger.updateSessionLog( message );
@@ -476,7 +472,6 @@ public class ResultProcessor
 		String message = acquisition + " " + effectName + " " + lastToken;
 
 		RequestLogger.printLine( message );
-
 		if ( Preferences.getBoolean( "logStatusEffects" ) )
 		{
 			RequestLogger.updateSessionLog( message );
@@ -508,21 +503,6 @@ public class ResultProcessor
 
 		lastToken = lastToken.trim();
 
-		if ( data == null )
-		{
-			RequestLogger.printLine( lastToken );
-		}
-
-		if ( lastToken.startsWith( "You gain a" ) || lastToken.startsWith( "You gain some" ) )
-		{
-			if ( Preferences.getBoolean( "logStatGains" ) )
-			{
-				RequestLogger.updateSessionLog( lastToken );
-			}
-
-			return true;
-		}
-
 		if ( lastToken.indexOf( "Meat" ) != -1 )
 		{
 			return ResultProcessor.processMeat( lastToken, data );
@@ -531,6 +511,17 @@ public class ResultProcessor
 		if ( data != null )
 		{
 			return false;
+		}
+
+		if ( lastToken.startsWith( "You gain a" ) || lastToken.startsWith( "You gain some" ) )
+		{
+			RequestLogger.printLine( lastToken );
+			if ( Preferences.getBoolean( "logStatGains" ) )
+			{
+				RequestLogger.updateSessionLog( lastToken );
+			}
+
+			return true;
 		}
 
 		return ResultProcessor.processStatGain( lastToken, data );
@@ -552,6 +543,26 @@ public class ResultProcessor
 			return false;
 		}
 
+		// KoL can tell you that you lose meat - Leprechaun theft,
+		// chewing bug vendors, etc. - but you can only lose as much
+		// meat as you actually have in inventory.
+
+		int amount = result.getCount();
+		int available = KoLCharacter.getAvailableMeat();
+
+		if ( amount < 0 && -amount > available )
+		{
+			amount = -available;
+			lastToken = "You lose " + String.valueOf( -amount ) + " Meat";
+			result = new AdventureResult( AdventureResult.MEAT, amount );
+		}
+
+		if ( amount == 0 )
+		{
+			return false;
+		}
+
+		RequestLogger.printLine( lastToken );
 		if ( Preferences.getBoolean( "logGainMessages" ) )
 		{
 			RequestLogger.updateSessionLog( lastToken );
@@ -592,6 +603,8 @@ public class ResultProcessor
 		}
 
 		AdventureResult result = ResultProcessor.parseResult( lastToken );
+
+		RequestLogger.printLine( lastToken );
 		if ( Preferences.getBoolean( "logStatGains" ) )
 		{
 			RequestLogger.updateSessionLog( lastToken );
