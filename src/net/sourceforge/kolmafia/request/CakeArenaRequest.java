@@ -108,22 +108,17 @@ public class CakeArenaRequest
 	{
 		if ( urlString.indexOf( "action=go" ) != -1 )
 		{
-			if ( responseText.indexOf( "You don't have enough Meat" ) == -1 )
+			if ( responseText.indexOf( "You don't have enough Meat" ) != -1 )
 			{
-				ResultProcessor.processMeat( -100 );
+				return false;
 			}
 
-			// If the familiar won, increment win count
+			ResultProcessor.processMeat( -100 );
 
-			// "Congratulations!  Only 1 more win until you get a
-			// prize from the Arena Goodies Sack!"
+			String message = CakeArenaRequest.resultMessage( responseText );
+			RequestLogger.updateSessionLog( message );
 
-			// "Congratulations on your 590th arena win.  You've
-			// earned a prize from the Arena Goodies Sack!"
-
-			// "Copycat Grrl is the winner, and gains 5 experience!"
-
-			if ( responseText.indexOf( "Congratulations" ) != -1 || responseText.indexOf( "is the winner" ) != -1 )
+			if ( message.indexOf( "lost" ) == -1 )
 			{
 				KoLCharacter.setArenaWins( KoLCharacter.getArenaWins() + 1 );
 			}
@@ -159,6 +154,21 @@ public class CakeArenaRequest
 		}
 
 		return true;
+	}
+
+	private static String resultMessage( final String responseText )
+	{
+		FamiliarData familiar = KoLCharacter.getFamiliar();
+		int xp = CakeArenaManager.earnedXP( responseText );
+		boolean gain = responseText.indexOf( "gains a pound" ) != -1;
+		if ( xp > 0 )
+		{
+			return familiar.getName() + " gains " + xp + " experience" + ( gain ? " and a pound." : "." );
+		}
+		else
+		{
+			 return familiar.getName() + " lost.";
+		}
 	}
 
 	public static final boolean registerRequest( final String urlString )
@@ -211,9 +221,6 @@ public class CakeArenaRequest
 
 		RequestLogger.printLine( "" );
 		RequestLogger.printLine( message1 );
-		RequestLogger.printLine( message2 );
-		RequestLogger.printLine( message3 );
-		RequestLogger.printLine( message4 );
 
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( message1 );
@@ -240,13 +247,6 @@ public class CakeArenaRequest
 	{
 		return "Arena Battle";
 	}
-
-	/**
-	 * An alternative method to doing adventure calculation is determining how many adventures are used by the given
-	 * request, and subtract them after the request is done.
-	 *
-	 * @return The number of adventures used by this request.
-	 */
 
 	public int getAdventuresUsed()
 	{
