@@ -2347,6 +2347,21 @@ public class FightRequest
 		int skillId = StringUtilities.parseInt( FightRequest.action1.substring( 5 ) );
 		int mpCost = SkillDatabase.getMPConsumptionById( skillId );
 
+		if ( mpCost > 0 )
+		{
+			ResultProcessor.processResult( new AdventureResult( AdventureResult.MP, 0 - mpCost ) );
+		}
+
+		// As you're preparing to use that skill, The Bonerdagon
+		// suddenly starts furiously beating its wings. You're knocked
+		// over by the gust of wind it creates, and lose track of what
+		// you're doing.
+
+		if ( responseText.indexOf( "Bonerdagon suddenly starts furiously beating its wings" ) != -1 )
+		{
+			return;
+		}
+
 		switch ( skillId )
 		{
 		case 2005: // Shieldbutt
@@ -2374,11 +2389,40 @@ public class FightRequest
 
 		case 5019: // Tango of Terror
 			FightRequest.levelModifier -= 6;
-		}
+			break;
 
-		if ( mpCost > 0 )
-		{
-			ResultProcessor.processResult( new AdventureResult( AdventureResult.MP, 0 - mpCost ) );
+		case 7038: // Vicious Talon Slash
+		case 7039: // All-You-Can-Beat Wing Buffet
+			Preferences.increment( "birdformRoc", 1 );
+			break;
+
+		case 7040: // Tunnel Upwards
+			Preferences.increment( "moleTunnelLevel", 1 );
+			break;
+
+		case 7041: // Tunnel Downwards
+			Preferences.increment( "moleTunnelLevel", -1 );
+			break;
+
+		case 7042: // Rise From Your Ashes
+			Preferences.increment( "birdformHot", 1 );
+			break;
+
+		case 7043: // Antarctic Flap
+			Preferences.increment( "birdformCold", 1 );
+			break;
+
+		case 7044: // The Statue Treatment
+			Preferences.increment( "birdformStench", 1 );
+			break;
+
+		case 7045: // Feast on Carrion
+			Preferences.increment( "birdformSpooky", 1 );
+			break;
+
+		case 7046: // Give Your Opponent "The Bird"
+			Preferences.increment( "birdformSleaze", 1 );
+			break;
 		}
 	}
 
@@ -2572,39 +2616,7 @@ public class FightRequest
 						Preferences.setString( "olfactedMonster",
 							FightRequest.encounterLookup );
 					}
-					else if ( skill.equalsIgnoreCase( "Tunnel Upwards" ) )
-					{
-						Preferences.increment( "moleTunnelLevel", 1 );
-					}
-					else if ( skill.equalsIgnoreCase( "The Statue Treatment" ) )
-					{
-						Preferences.increment( "birdformStench", 1 );
-					}
-					else if ( skill.equalsIgnoreCase( "Give Your Opponent \"The Bird\"" ) )
-					{
-						Preferences.increment( "birdformSleaze", 1 );
-					}
-					else if ( skill.equalsIgnoreCase( "Antarctic Flap" ) )
-					{
-						Preferences.increment( "birdformCold", 1 );
-					}
-					else if ( skill.equalsIgnoreCase( "Rise From Your Ashes" ) )
-					{
-						Preferences.increment( "birdformHot", 1 );
-					}
-					else if ( skill.equalsIgnoreCase( "Feast on Carrion" ) )
-					{
-						Preferences.increment( "birdformSpooky", 1 );
-					}
-					else if ( skill.equalsIgnoreCase( "Vicious Talon Slash" ) ||
-						skill.equalsIgnoreCase( "All-You-Can-Beat Wing Buffet" ) )
-					{
-						Preferences.increment( "birdformRoc", 1 );
-					}
-					else if ( skill.equalsIgnoreCase( "Tunnel Downwards" ) )
-					{
-						Preferences.increment( "moleTunnelLevel", -1 );
-					}
+
 					FightRequest.action1 = CustomCombatManager.getShortCombatOptionName( "skill " + skill );
 					if ( shouldLogAction )
 					{
