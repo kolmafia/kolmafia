@@ -118,6 +118,12 @@ public class CakeArenaManager
 		}
 	}
 
+	public static final int earnedXP( final String response )
+	{
+		Matcher matcher = CakeArenaManager.WIN_PATTERN.matcher( response );
+		return matcher.find() ? Integer.valueOf( matcher.group( 1 ) ).intValue() : 0;
+	}
+
 	/**
 	 * Returns a list of opponents are available today at the cake-shaped arena.
 	 */

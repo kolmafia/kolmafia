@@ -515,6 +515,11 @@ public class ResultProcessor
 
 		if ( lastToken.startsWith( "You gain a" ) || lastToken.startsWith( "You gain some" ) )
 		{
+			if ( Preferences.getBoolean( "logStatGains" ) )
+			{
+				RequestLogger.updateSessionLog( lastToken );
+			}
+
 			return true;
 		}
 
@@ -587,8 +592,7 @@ public class ResultProcessor
 		}
 
 		AdventureResult result = ResultProcessor.parseResult( lastToken );
-		if ( result.getName().equals( AdventureResult.SUBSTATS ) &&
-		     Preferences.getBoolean( "logStatGains" ) )
+		if ( Preferences.getBoolean( "logStatGains" ) )
 		{
 			RequestLogger.updateSessionLog( lastToken );
 		}

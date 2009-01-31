@@ -1482,17 +1482,11 @@ public class FamiliarTrainingFrame
 
 		// Pass the response text to the FamiliarStatus to
 		// add familiar items and deduct a turn.
-		int xp = FamiliarTrainingFrame.earnedXP( request.responseText );
+		int xp = CakeArenaManager.earnedXP( request.responseText );
 		status.processMatchResult( request.responseText, xp );
 
 		// Return the amount of XP the familiar earned
 		return FamiliarTrainingFrame.badContest( request.responseText, match ) ? -1 : xp;
-	}
-
-	private static final int earnedXP( final String response )
-	{
-		Matcher matcher = CakeArenaManager.WIN_PATTERN.matcher( response );
-		return matcher.find() ? Integer.valueOf( matcher.group( 1 ) ).intValue() : 0;
 	}
 
 	private static final boolean badContest( final String response, final int match )

@@ -409,7 +409,7 @@ public class SellStuffRequest
 			int amount = StringUtilities.parseInt( matcher.group( 1 ) );
 			ResultProcessor.processMeat( amount );
 
-			String message = "You gain " + amount + " Meat";
+			String message = "You gain " + KoLConstants.COMMA_FORMAT.format( amount ) + " Meat";
 			RequestLogger.printLine( message );
 			RequestLogger.updateSessionLog( message );
 		}
