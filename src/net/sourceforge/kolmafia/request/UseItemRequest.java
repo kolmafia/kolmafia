@@ -2385,11 +2385,7 @@ public class UseItemRequest
 			return;
 
 		case ItemPool.EL_VIBRATO_HELMET:
-
-			// Certain pieces of equipment can also be "used" and
-			// are not consumed.
-
-			ResultProcessor.processResult( item );
+			// whichcard=xxx consumes - maybe - the punchcard
 			return;
 
 		case ItemPool.OUTRAGEOUS_SOMBRERO:
