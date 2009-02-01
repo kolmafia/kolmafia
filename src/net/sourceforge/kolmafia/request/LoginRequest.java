@@ -48,9 +48,6 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
-import net.sourceforge.kolmafia.session.ActionBarManager;
-import net.sourceforge.kolmafia.session.BreakfastManager;
-import net.sourceforge.kolmafia.session.MushroomManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class LoginRequest
@@ -69,6 +66,7 @@ public class LoginRequest
 	private static long lastLoginAttempt = 0;
 	
 	private static boolean isLoggingIn;
+	private static boolean isTimingIn = false;
 
 	private final String username;
 	private final String password;
@@ -339,8 +337,16 @@ public class LoginRequest
 			System.exit( -1 );
 		}
 
+		LoginRequest.isTimingIn = true;
 		RequestThread.postRequest( LoginRequest.lastRequest );
+		LoginRequest.isTimingIn = false;
+
 		return true;
+	}
+
+	public static final void isLoggingIn( final boolean isLoggingIn )
+	{
+		LoginRequest.isLoggingIn = isLoggingIn;
 	}
 
 	public static final boolean isInstanceRunning()
@@ -379,14 +385,13 @@ public class LoginRequest
 		// happens, then validate here.
 
 		LoginRequest.completedLogin = true;
+
 		if ( request.redirectLocation.equals( "main_c.html" ) )
 		{
 			GenericRequest.isCompactMode = true;
 		}
 
-		// If the login is successful, you notify the client
-		// of success.  But first, if there was a desire to
-		// save the password, do so here.
+		// If login is successful, notify client of success.
 
 		String name = request.getFormField( "loginname" );
 		if ( name.endsWith( "/q" ) )
@@ -394,41 +399,13 @@ public class LoginRequest
 			name = name.substring( 0, name.length() - 2 ).trim();
 		}
 
-		RequestThread.openRequestSequence();
-		LoginRequest.isLoggingIn = true;
-
-		KoLCharacter.reset( name );
-
-		ActionBarManager.loadJSONString();
-		StaticEntity.getClient().initialize( name );
-
-		LoginRequest.isLoggingIn = false;
-
-		if ( Preferences.getString( name, "getBreakfast" ).equals( "true" ) )
+		if ( LoginRequest.isTimingIn )
 		{
-			int today = HolidayDatabase.getPhaseStep();
-			BreakfastManager.getBreakfast( true, Preferences.getInteger( "lastBreakfast" ) != today );
-			Preferences.setInteger( "lastBreakfast", today );
+			StaticEntity.getClient().timein( name );
 		}
-
-		// Also, do mushrooms, if a mushroom script has already
-		// been setup by the user.
-
-		if ( Preferences.getBoolean( "autoPlant" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ) )
+		else
 		{
-			String currentLayout = Preferences.getString( "plantingScript" );
-			if ( !currentLayout.equals( "" ) && KoLCharacter.inMuscleSign() && MushroomManager.ownsPlot() )
-			{
-				KoLmafiaCLI.DEFAULT_SHELL.executeLine( "call " + KoLConstants.PLOTS_DIRECTORY + currentLayout + ".ash" );
-			}
+			StaticEntity.getClient().login( name );
 		}
-
-		String scriptSetting = Preferences.getString( "loginScript" );
-		if ( !scriptSetting.equals( "" ) )
-		{
-			KoLmafiaCLI.DEFAULT_SHELL.executeLine( scriptSetting );
-		}
-
-		RequestThread.closeRequestSequence();
 	}
 }
