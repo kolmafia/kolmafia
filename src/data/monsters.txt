@@ -151,7 +151,6 @@ Beer Bongadier	HP: 210 Def: 195 Atk: 180 E: sleaze	    beer bong (20)	beer helme
 Big Creepy Spider	HP: 1 Def: 1 Atk: 1 Meat: 4-7	spider web (30)	spider web (20)
 Bizarre Construct	HP: 300 Atk: 300	El Vibrato punchcard (97 holes)	El Vibrato punchcard (216 holes)
 Black Adder	HP: 124 Def: 127 Atk: 129 Meat: 80-120	adder bladder (30)	black snake skin (15)	sunken eyes (0)
-Black Knight	HP: 135 Def: 135 Atk: 123 Meat: 73-105	black greaves (15)	black helmet (15)	black shield (15)	black sword (15)
 Black Panther	HP: 128 Def: 125 Atk: 133 Meat: 120-180	Black No. 2 (20)	broken wings (0)
 Black Pudding	HP: 40 Atk: 50	black pudding (100)	black pudding (100)
 Black Widow	HP: 120 Def: 123 Atk: 132 Meat: 40-60	black pension check (30)	black picnic basket (15)
@@ -546,6 +545,7 @@ The Astronomer	HP: 150 Def: 168 Atk: 168	star chart (100)	sticky stardust (0)
 The Axe Wound	HP: 150 Def: 162 Atk: 162 E: sleaze	line (30)	line (30)	star (30)
 The Beaver	HP: 150 Def: 162 Atk: 162 E: sleaze	line (30)	star (30)	star (30)
 The Big Wisniewski	HP: 2000
+The Black Knight	HP: 135 Def: 135 Atk: 123 Meat: 73-105	black greaves (15)	black helmet (15)	black shield (15)	black sword (15)
 The Bonerdagon	HP: 120 Def: 90 Atk: 90 E: spooky
 The Boss Bat	HP: 40 Def: 33 Atk: 37
 The Box	HP: 150 Def: 150 Atk: 150 E: sleaze	line (30)	line (30)	line (30)
