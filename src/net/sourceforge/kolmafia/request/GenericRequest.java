@@ -1216,8 +1216,18 @@ public class GenericRequest
 
 		if ( this.redirectLocation.startsWith( "login.php" ) )
 		{
-			return this instanceof LogoutRequest ||
-				!LoginRequest.executeTimeInRequest( this.getURLString(), this.redirectLocation );
+			if ( this instanceof LogoutRequest )
+			{
+				return true;
+			}
+
+			if ( LoginRequest.executeTimeInRequest( this.getURLString(), this.redirectLocation ) )
+			{
+				this.dataChanged = true;
+				return false;
+			}
+
+			return true;
 		}
 
 		if ( this.redirectLocation.startsWith( "choice.php" ) )

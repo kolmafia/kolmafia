@@ -87,6 +87,7 @@ import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.GourdRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
+import net.sourceforge.kolmafia.request.LoginRequest;
 import net.sourceforge.kolmafia.request.LogoutRequest;
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
 import net.sourceforge.kolmafia.request.ManageStoreRequest;
@@ -103,6 +104,8 @@ import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
+import net.sourceforge.kolmafia.session.ActionBarManager;
+import net.sourceforge.kolmafia.session.BreakfastManager;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.DisplayCaseManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -662,14 +665,80 @@ public abstract class KoLmafia
 		KoLmafia.continuationState = KoLConstants.CONTINUE_STATE;
 	}
 
+	public final void login( final String name )
+	{
+		RequestThread.openRequestSequence();
+
+		LoginRequest.isLoggingIn( true );
+
+		KoLCharacter.reset( name );
+		ActionBarManager.loadJSONString();
+		this.initialize( name );
+
+		LoginRequest.isLoggingIn( false );
+
+		if ( Preferences.getBoolean( name, "getBreakfast" ) )
+		{
+			int today = HolidayDatabase.getPhaseStep();
+			BreakfastManager.getBreakfast( true, Preferences.getInteger( "lastBreakfast" ) != today );
+			Preferences.setInteger( "lastBreakfast", today );
+		}
+
+		// Also, do mushrooms, if a mushroom script has already
+		// been setup by the user.
+
+		if ( Preferences.getBoolean( "autoPlant" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ) )
+		{
+			String currentLayout = Preferences.getString( "plantingScript" );
+			if ( !currentLayout.equals( "" ) && KoLCharacter.inMuscleSign() && MushroomManager.ownsPlot() )
+			{
+				KoLmafiaCLI.DEFAULT_SHELL.executeLine( "call " + KoLConstants.PLOTS_DIRECTORY + currentLayout + ".ash" );
+			}
+		}
+
+		String scriptSetting = Preferences.getString( "loginScript" );
+		if ( !scriptSetting.equals( "" ) )
+		{
+			KoLmafiaCLI.DEFAULT_SHELL.executeLine( scriptSetting );
+		}
+
+		RequestThread.closeRequestSequence();
+	}
+
+	public final void timein( final String name )
+	{
+		// Save and reload current user's preferences
+		Preferences.reset( null );
+		Preferences.reset( name );
+
+		// Password hash changes for each session
+		PasswordHashRequest request = new PasswordHashRequest( "lchat.php" );
+		RequestThread.postRequest(  request );
+
+		// Is this necessary?
+		ActionBarManager.loadJSONString();
+
+		// Just in case it's a new day...
+
+		// Close existing session log and reopen it
+		RequestLogger.closeSessionLog();
+		RequestLogger.openSessionLog();
+
+		// Get current moon phases
+		RequestThread.postRequest( new MoonPhaseRequest() );
+		KoLCharacter.setHoliday( HolidayDatabase.getHoliday() );
+	}
+
 	public static final boolean executedLogin()
 	{
 		return KoLmafia.executedLogin;
 	}
 
 	/**
-	 * Initializes the <code>KoLmafia</code> session. Called after the login has been confirmed to notify thethat the
-	 * login was successful, the user-specific settings should be loaded, and the user can begin adventuring.
+	 * Initializes the <code>KoLmafia</code> session. Called after the
+	 * login has been confirmed to notify that the login was successful,
+	 * the user-specific settings should be loaded, and the user can begin
+	 * adventuring.
 	 */
 
 	public void initialize( final String username )
@@ -696,6 +765,7 @@ public abstract class KoLmafia
 		// Now actually reset the session.
 
 		this.refreshSession();
+
 		RequestLogger.openSessionLog();
 		this.resetSession();
 
@@ -806,8 +876,6 @@ public abstract class KoLmafia
 	{
 		KoLmafia.isRefreshing = true;
 
-		// Get current moon phases
-
 		KoLmafia.updateDisplay( "Refreshing session data..." );
 		RuntimeLibrary.sessionVariables.clear();
 
@@ -816,6 +884,8 @@ public abstract class KoLmafia
 
 		KoLCharacter.setCurrentRun( 0 );
 		TurnCounter.loadCounters();
+
+		// Get current moon phases
 
 		RequestThread.postRequest( new MoonPhaseRequest() );
 		KoLCharacter.setHoliday( HolidayDatabase.getHoliday() );
