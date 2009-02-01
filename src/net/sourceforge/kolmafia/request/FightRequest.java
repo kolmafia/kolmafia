@@ -1886,7 +1886,7 @@ public class FightRequest
 
 		if ( responseText.indexOf( "You slap a flyer up on your opponent" ) != -1 )
 		{
-			int ML = Math.max( 0, FightRequest.getMonsterDefense() );
+			int ML = Math.max( 0, FightRequest.getMonsterAttack() );
 			Preferences.increment( "flyeredML", ML );
 			AdventureResult result = AdventureResult.tallyItem(
 				"Arena flyer ML", ML, false );
