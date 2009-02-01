@@ -71,11 +71,6 @@ public class MeatManageFrame
 		return null;
 	}
 
-	public boolean useSidePane()
-	{
-		return true;
-	}
-
 	/**
 	 * An internal class which represents the panel used for donations to the statues in the shrine.
 	 */
