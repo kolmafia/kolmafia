@@ -274,18 +274,24 @@ public abstract class InventoryManager
 		// First, attempt to pull the item from the closet.
 		// If this is successful, return from the method.
 
-		int itemCount = item.getCount( KoLConstants.closet );
+		boolean shouldUseCloset = Preferences.getBoolean( "autoSatisfyWithCloset" );
+		int itemCount = 0;
 
-		if ( itemCount > 0 )
+		if ( shouldUseCloset )
 		{
-			RequestThread.postRequest( new ClosetRequest(
-				ClosetRequest.CLOSET_TO_INVENTORY, new AdventureResult[] { item.getInstance( Math.min(
-					itemCount, missingCount ) ) } ) );
-			missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
+			itemCount = item.getCount( KoLConstants.closet );
 
-			if ( missingCount <= 0 )
+			if ( itemCount > 0 )
 			{
-				return true;
+				RequestThread.postRequest( new ClosetRequest(
+								   ClosetRequest.CLOSET_TO_INVENTORY, new AdventureResult[] { item.getInstance( Math.min(
+																			itemCount, missingCount ) ) } ) );
+				missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
+
+				if ( missingCount <= 0 )
+				{
+					return true;
+				}
 			}
 		}
 
