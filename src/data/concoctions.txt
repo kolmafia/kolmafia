@@ -1148,6 +1148,7 @@ rum barrel charrrm bracelet	SUSE	rum barrel charrrm	charrrm bracelet
 silver tongue charrrm bracelet	SUSE	silver tongue charrrm	charrrm bracelet
 tarrrnished charrrm bracelet	SUSE	tarrrnish charrrm	charrrm bracelet
 
+charrrm bracelet	SUSE	Jolly Roger charrrm bracelet
 
 # Familiars.  These are familiars which are only available after
 # ascension (not including the ones which are available through

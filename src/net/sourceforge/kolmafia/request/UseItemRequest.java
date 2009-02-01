@@ -1941,6 +1941,7 @@ public class UseItemRequest
 		case ItemPool.PIRATE_SKULL:
 		case ItemPool.QUILL_PEN:
 		case ItemPool.JOLLY_CHARRRM:
+		case ItemPool.JOLLY_BRACELET:
 		case ItemPool.RUM_CHARRRM:
 		case ItemPool.GRUMPY_CHARRRM:
 		case ItemPool.TARRRNISH_CHARRRM:
