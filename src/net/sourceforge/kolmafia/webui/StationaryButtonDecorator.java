@@ -108,7 +108,7 @@ public class StationaryButtonDecorator
 			if ( KoLCharacter.isMoxieClass() )
 			{
 				StationaryButtonDecorator.addFightButton(
-					urlString, buffer, actionBuffer, "steal", FightRequest.getCurrentRound() == 1 );
+					urlString, buffer, actionBuffer, "steal", FightRequest.wonInitiative() );
 			}
 
 			if ( EquipmentManager.usingChefstaff() )

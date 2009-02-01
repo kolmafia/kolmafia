@@ -86,7 +86,6 @@ public class MoonPhaseRequest
 			parseText = parseText.replaceAll( "minimoon", "" );
 		}
 
-		HolidayDatabase.logMoonStatus( "Before" );
 		Matcher moonMatcher = MoonPhaseRequest.MOONS_PATTERN.matcher( parseText );
 		if ( moonMatcher.find() )
 		{
@@ -94,7 +93,6 @@ public class MoonPhaseRequest
 				StringUtilities.parseInt( moonMatcher.group( 1 ) ) - 1,
 				StringUtilities.parseInt( moonMatcher.group( 2 ) ) - 1 );
 		}
-		HolidayDatabase.logMoonStatus( "After" );
 
 		KoLCharacter.setClan( this.responseText.indexOf( "clan_hall.php" ) != -1 );
 	}
