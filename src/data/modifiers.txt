@@ -1623,6 +1623,7 @@ Bootyliciousness	Item Drop: +10
 Braaains	Meat Drop: +100
 Brawnee's Anthem of Absorption	Damage Reduction: [L^1.2]
 Broken Fast	Item Drop: +30
+Broken Heart	Muscle: [min(T,20)], HP Regen Min: [min(T,20)], HP Regen Max: [min(T,20)]
 Broken Knees	Muscle Percent: -30
 # Brother Corsican's Blessing
 # Brother Flying Burrito's Blessing
@@ -1654,6 +1655,7 @@ Cock of the Walk	Moxie Percent: +200
 Cold Blooded	Cold Damage: +10, Muscle Percent: +30, Mysticality Percent: +20, Moxie Percent: +10, Cold Resistance: +2
 # Cold Breath	grants combat skill
 # Coldform
+Cold Hearted	Moxie: [min(T,20)], Familiar Weight: [ceil(min(T,10)/2)]
 # Comic Violence	attacks can't miss
 Compensatory Cruelness	Weapon Damage: +5
 Concentrated Concentration	Spell Damage Percent: +20
@@ -1740,6 +1742,7 @@ Feet of Strawberry	Experience: +3
 Feet of Watermelon	Experience: +3
 Festive Radiation	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, HP Regen Min: 10, HP Regen Max: 10, MP Regen Min: 10, MP Regen Max: 10
 Fever From the Flavor	Cold Resistance: +9
+Fiery Heart	Mysticality: [min(T,20)], MP Regen Min: [ceil(min(T,20)/2)], MP Regen Max: [ceil(min(T,20)/2)]
 # Filthworm Drone Stench
 # Filthworm Guard Stench
 # Filthworm Larva Stench
@@ -1854,6 +1857,7 @@ Light-Headed	Mysticality Percent: -30
 # Light!	unobtainable
 Liquid Courage	Experience: +3
 Livin' Large	Meat Drop: +10
+Lustful Heart	Moxie: [min(T,20)]
 Lycanthropy, Eh?	Muscle Percent: [+2*M], Moxie Percent: [-2*M]
 Locks Like the Raven	Moxie: +15
 Low on the Hog	Meat Drop: +100
@@ -2024,6 +2028,7 @@ Super-Mega-Ultra-Hyper-Charged	Muscle Percent: +20, Mysticality Percent: +20, Mo
 Sweet and Green	Weapon Damage: +30
 Sweet and Red	Spell Damage: +30
 Sweet and Yellow	Ranged Damage: +30
+Sweet Heart	Muscle: [min(T,20)], Meat Drop: [2*min(T,20)]
 Swimming with Sharks	Meat Drop: +20, Meat Drop Penalty: [20*zone(The Sea)]
 Synthesized	Damage Reduction: 7, Weapon Damage: -7
 # Talking Like a Pirate	chat effect
@@ -2093,6 +2098,7 @@ Whitened Teeth	Moxie Percent: +10
 Winklered	Meat Drop: +40
 Wintergreen Warmongery	Muscle: +30
 Wistfully Nostalgic	Experience: +3
+Withered Heart	Mysticality: [min(T,20)], Item Drop: [min(T,20)]
 Woad Warrior	Muscle: +25
 Wreathed in Merriment	Moxie Percent: +10
 Wussiness	Muscle: -3

@@ -3730,3 +3730,37 @@
 3723	583940591	tarnished metal rod
 3724	992991336	brittle plastic handle
 3725	507946679	foggy glass globe
+3726
+3727
+3728
+3729
+3730
+3731
+3732
+3733
+3734
+3735
+3736
+3737
+3738
+3739
+3740
+3741
+3742
+3743
+3744
+3745
+3746
+3747
+3748
+3749
+3750
+3751
+3752
+3753	119587121	Libram of Love Songs	Librams of Love Songs
+3754	773249473	love song of vague ambiguity	love songs of vague ambiguity
+3755	989892255	love song of smoldering passion	love songs of smoldering passion
+3756	812178826	love song of icy revenge	love songs of icy revenge
+3757	415816361	love song of sugary cuteness	love songs of sugary cuteness
+3758	914302407	love song of disturbing obsession	love songs of disturbing obsession
+3759	148379468	love song of naughty innuendo	loves song of naughty innuendo

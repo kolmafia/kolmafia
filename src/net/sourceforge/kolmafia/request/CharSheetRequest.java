@@ -333,6 +333,7 @@ public class CharSheetRequest
 				case SkillDatabase.TASTEFUL:
 				case SkillDatabase.CANDY_HEART:
 				case SkillDatabase.PARTY_FAVOR:
+				case SkillDatabase.LOVE_SONG:
 					shouldAddSkill = !KoLCharacter.inBadMoon();
 				}
 

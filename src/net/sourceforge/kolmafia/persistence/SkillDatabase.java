@@ -80,6 +80,7 @@ public class SkillDatabase
 	public static final int STICKER = 8001;
 	public static final int CANDY_HEART = 8100;
 	public static final int PARTY_FAVOR = 8101;
+	public static final int LOVE_SONG = 8102;
 	public static final int HILARIOUS = 8200;
 	public static final int TASTEFUL = 8201;
 
@@ -164,11 +165,12 @@ public class SkillDatabase
 		{
 		case 3:			// Smile of Mr. A
 		case SNOWCONE:		// Summon Snowcones
+		case STICKER:		// Summon Stickers
 		case HILARIOUS:		// Summon Hilarious Objects
 		case TASTEFUL:		// Summon Tasteful Items
 		case CANDY_HEART:	// Summon Candy Hearts
 		case PARTY_FAVOR:	// Summon Party Favor
-		case STICKER:		// Summon Stickers
+		case LOVE_SONG:		// Summon Love Song
 
 			category = SkillDatabase.MR_SKILLS;
 			break;
@@ -339,7 +341,7 @@ public class SkillDatabase
 
 	public static final boolean isLibramSkill( final int skillId )
 	{
-		return skillId == CANDY_HEART || skillId == PARTY_FAVOR;
+		return skillId == CANDY_HEART || skillId == PARTY_FAVOR || skillId == LOVE_SONG;
 	}
 
 	/**

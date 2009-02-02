@@ -187,6 +187,7 @@ public class CharPaneRequest
 		}
 
 		CharPaneRequest.refreshEffects( responseText );
+		KoLCharacter.recalculateAdjustments();
 		KoLCharacter.updateStatus();
 
 		CharPaneRequest.setInteraction( CharPaneRequest.checkInteraction( responseText ) );
