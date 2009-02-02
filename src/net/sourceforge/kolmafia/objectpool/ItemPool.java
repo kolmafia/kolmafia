@@ -732,6 +732,13 @@ public class ItemPool
 	public static final int MERKIN_PRESSUREGLOBE = 3675;
 	public static final int POTION_OF_PERCEPTION = 3593;
 	public static final int POTION_OF_PROFICIENCY = 3594;
+	public static final int LOVE_BOOK = 3753;
+	public static final int VAGUE_AMBIGUITY = 3754;
+	public static final int SMOLDERING_PASSION = 3755;
+	public static final int ICY_REVENGE = 3756;
+	public static final int SUGARY_CUTENESS = 3757;
+	public static final int DISTURBING_OBSESSION = 3758;
+	public static final int NAUGHTY_INNUENDO = 3759;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

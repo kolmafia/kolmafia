@@ -1728,6 +1728,26 @@ public class UseItemRequest
 
 			return;
 
+		case ItemPool.VAGUE_AMBIGUITY:
+		case ItemPool.SMOLDERING_PASSION:
+		case ItemPool.ICY_REVENGE:
+		case ItemPool.SUGARY_CUTENESS:
+		case ItemPool.DISTURBING_OBSESSION:
+		case ItemPool.NAUGHTY_INNUENDO:
+
+			// "Your heart can't take another love song so soon
+			// after the last one. The conflicting emotions would
+			// drive you totally mad."
+
+			if ( responseText.indexOf( "conflicting emotions" ) != -1 )
+			{
+				UseItemRequest.lastUpdate = "Your heart is already filled with emotions.";
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				ResultProcessor.processResult( item );
+			}
+
+			return;
+
 		case ItemPool.ROLLING_PIN:
 
 			// Rolling pins remove dough from your inventory.
@@ -1773,11 +1793,15 @@ public class UseItemRequest
 			return;
 
 		case ItemPool.SNOWCONE_BOOK:
+		case ItemPool.STICKER_BOOK:
+			// Tomes
 		case ItemPool.HILARIOUS_BOOK:
 		case ItemPool.TASTEFUL_BOOK:
+			// Grimoires
 		case ItemPool.CANDY_BOOK:
 		case ItemPool.DIVINE_BOOK:
-		case ItemPool.STICKER_BOOK:
+		case ItemPool.LOVE_BOOK:
+			// Librams
 
 			// "You've already got a Libram of Divine Favors on
 			// your bookshelf."
@@ -1800,6 +1824,9 @@ public class UseItemRequest
 			case ItemPool.SNOWCONE_BOOK:
 				StaticEntity.learnSkill( "Summon Snowcones" );
 				break;
+			case ItemPool.STICKER_BOOK:
+				StaticEntity.learnSkill( "Summon Stickers" );
+				break;
 			case ItemPool.HILARIOUS_BOOK:
 				StaticEntity.learnSkill( "Summon Hilarious Objects" );
 				break;
@@ -1812,8 +1839,8 @@ public class UseItemRequest
 			case ItemPool.DIVINE_BOOK:
 				StaticEntity.learnSkill( "Summon Party Favor" );
 				break;
-			case ItemPool.STICKER_BOOK:
-				StaticEntity.learnSkill( "Summon Stickers" );
+			case ItemPool.LOVE_BOOK:
+				StaticEntity.learnSkill( "Summon Love Song" );
 				break;
 			}
 

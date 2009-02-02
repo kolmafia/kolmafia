@@ -3724,3 +3724,37 @@
 3723	tarnished metal rod	0	all	25
 3724	brittle plastic handle	0	all	25
 3725	foggy glass globe	0	all	25
+3726
+3727
+3728
+3729
+3730
+3731
+3732
+3733
+3734
+3735
+3736
+3737
+3738
+3739
+3740
+3741
+3742
+3743
+3744
+3745
+3746
+3747
+3748
+3749
+3750
+3751
+3752
+3753	Libram of Love Songs	3	all	0
+3754	love song of vague ambiguity	4	all	0
+3755	love song of smoldering passion	4	all	0
+3756	love song of icy revenge	4	all	0
+3757	love song of sugary cuteness	4	all	0
+3758	love song of disturbing obsession	4	all	0
+3759	love song of naughty innuendo	4	all	0

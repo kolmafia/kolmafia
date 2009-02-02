@@ -85,13 +85,14 @@ public class UseSkillRequest
 	public static final String[] LIBRAM_SKILLS =
 	{
 		"Summon Candy Hearts",
-		"Summon Party Favor"
+		"Summon Party Favor",
+		"Summon Love Song",
 	};
 
 	public static final String[] GRIMOIRE_SKILLS =
 	{
 		"Summon Hilarious Objects",
-		"Summon Tasteful Items"
+		"Summon Tasteful Items",
 	};
 
 	private static final int OTTER_TONGUE = 1007;
@@ -195,6 +196,7 @@ public class UseSkillRequest
 		case SkillDatabase.TASTEFUL:
 		case SkillDatabase.CANDY_HEART:
 		case SkillDatabase.PARTY_FAVOR:
+		case SkillDatabase.LOVE_SONG:
 			return "campground.php";
 		}
 
@@ -227,6 +229,10 @@ public class UseSkillRequest
 
 		case SkillDatabase.PARTY_FAVOR:
 			this.addFormField( "preaction", "summonpartyfavor" );
+			break;
+
+		case SkillDatabase.LOVE_SONG:
+			this.addFormField( "preaction", "summonlovesongs" );
 			break;
 
 		default:
@@ -1138,6 +1144,10 @@ public class UseSkillRequest
 		else if ( action.equals( "partyfavor" ) )
 		{
 			skillId = SkillDatabase.PARTY_FAVOR;
+		}
+		else if ( action.equals( "lovesongs" ) )
+		{
+			skillId = SkillDatabase.LOVE_SONG;
 		}
 		else
 		{
