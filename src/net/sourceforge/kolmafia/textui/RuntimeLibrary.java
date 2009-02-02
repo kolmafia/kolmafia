@@ -1263,7 +1263,15 @@ public abstract class RuntimeLibrary
 	{
 		if ( value.getType().equals( DataTypes.TYPE_STRING ) )
 		{
-			return DataTypes.parseIntValue( value.toString() );
+			String string = value.toString();
+			try
+			{
+				return DataTypes.parseIntValue( string );
+			}
+			catch ( NumberFormatException e )
+			{
+				throw LibraryFunction.interpreter.runtimeException( "Cannot convert \"" + string + "\" to an integer" );
+			}
 		}
 
 		return new Value( value.intValue() );
