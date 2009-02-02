@@ -1096,10 +1096,10 @@ public class UseItemRequest
 				return;
 			}
 
-			// Pop up a window showing the result
-
 			KoLCharacter.addFamiliar( FamiliarDatabase.growFamiliarLarva( item.getItemId() ) );
-			UseItemRequest.showItemUsage( showHTML, responseText );
+
+			// Don't bother showing the result
+			// UseItemRequest.showItemUsage( showHTML, responseText );
 			return;
 		}
 
@@ -1209,8 +1209,6 @@ public class UseItemRequest
 			// If it's a fortune cookie, get the fortune
 
 		case ItemPool.FORTUNE_COOKIE:
-
-			UseItemRequest.showItemUsage( showHTML, responseText );
 
 			matcher = UseItemRequest.FORTUNE_PATTERN.matcher( responseText );
 			while ( matcher.find() )

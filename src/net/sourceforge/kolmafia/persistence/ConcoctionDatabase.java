@@ -287,12 +287,12 @@ public class ConcoctionDatabase
 
 	public static Concoction chefStaffCreation( final String name )
 	{
-		return (Concoction) ConcoctionDatabase.chefStaff.get( name );
+		return name == null ? null : (Concoction) ConcoctionDatabase.chefStaff.get( name );
 	}
 
 	public static Concoction singleUseCreation( final String name )
 	{
-		return (Concoction) ConcoctionDatabase.singleUse.get( name );
+		return name == null ? null : (Concoction) ConcoctionDatabase.singleUse.get( name );
 	}
 
 	private static boolean pseudoItemMixingMethod( final int mixingMethod )
