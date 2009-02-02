@@ -5552,6 +5552,7 @@ public class KoLmafiaCLI
 	private void executeStashRequest( String parameters )
 	{
 		boolean isWithdraw = false;
+		List list = null;
 
 		int space = parameters.indexOf( " " );
 		if ( space != -1 )
@@ -5561,22 +5562,28 @@ public class KoLmafiaCLI
 			{
 				isWithdraw = true;
 				parameters = parameters.substring( 4 ).trim();
+				list = ClanManager.getStash();
+				if ( list.isEmpty() )
+				{
+					RequestThread.postRequest( new ClanStashRequest() );
+				}
 			}
 			else if ( command.equals( "put" ) )
 			{
 				parameters = parameters.substring( 3 ).trim();
+				list = KoLConstants.inventory;
 			}
 		}
 
-		Object[] itemList = ItemFinder.getMatchingItemList( ClanManager.getStash(), parameters );
-		if ( itemList.length == 0 )
+		if ( list == null )
 		{
 			return;
 		}
 
-		if ( ClanManager.getStash().isEmpty() && isWithdraw )
+		Object[] itemList = ItemFinder.getMatchingItemList( list, parameters );
+		if ( itemList.length == 0 )
 		{
-			RequestThread.postRequest( new ClanStashRequest() );
+			return;
 		}
 
 		RequestThread.postRequest( new ClanStashRequest(
