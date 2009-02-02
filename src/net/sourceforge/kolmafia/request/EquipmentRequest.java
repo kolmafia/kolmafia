@@ -44,6 +44,7 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
@@ -93,7 +94,10 @@ public class EquipmentRequest
 	private static final Pattern STICKER_PATTERN = Pattern.compile(
 		"<td>\\s*(shiny|dull)?\\s*([^<]+)<a [^>]+action=peel|<td>\\s*<img [^>]+magnify" );
 
-	private static final Pattern OUTFIT_PATTERN = Pattern.compile( "whichoutfit=(\\d+)" );
+	private static final Pattern OUTFIT_ACTION_PATTERN = Pattern.compile(
+		"([a-zA-Z])=([^=]+)(?!=)" );
+
+	private static final Pattern OUTFIT_PATTERN = Pattern.compile( "whichoutfit=(-?\\d+)" );
 	private static final Pattern SLOT_PATTERN = Pattern.compile( "type=([a-z123]+)" );
 	private static final Pattern ITEMID_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
 	private static final Pattern STICKERITEM_PATTERN = Pattern.compile( "sticker=(\\d+)" );
@@ -1583,7 +1587,35 @@ public class EquipmentRequest
 			}
 			else
 			{
-				RequestLogger.updateSessionLog( "outfit [custom]" );
+				SpecialOutfit outfit = EquipmentManager.getCustomOutfit( outfitId );
+				if ( outfit != null )
+				{
+					Matcher m = EquipmentRequest.OUTFIT_ACTION_PATTERN.matcher(
+						outfit.getName() );
+					while ( m.find() )
+					{
+						String text = m.group( 2 ).trim();
+						switch ( m.group( 1 ).toLowerCase().charAt( 0 ) )
+						{
+						case 'c':
+							KoLmafiaCLI.DEFAULT_SHELL.executeLine( text );
+							break;
+						case 'e':
+							KoLmafiaCLI.DEFAULT_SHELL.executeCommand(
+								"equip", "familiar " + text );
+							break;
+						case 'f':
+							KoLmafiaCLI.DEFAULT_SHELL.executeCommand(
+								"familiar", text );
+							break;
+						case 'm':
+							KoLmafiaCLI.DEFAULT_SHELL.executeCommand(
+								"mood", text );
+							break;
+						}
+					}
+				}
+				RequestLogger.updateSessionLog( "custom outfit " + outfit );
 				return true;
 			}
 		}
