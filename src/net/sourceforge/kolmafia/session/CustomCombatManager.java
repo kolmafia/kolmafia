@@ -909,6 +909,11 @@ public abstract class CustomCombatManager
 		{
 			String name = (String) matchingNames.get( i );
 			int id = ItemDatabase.getItemId( name );
+			switch ( id )
+			{
+			case ItemPool.ANTIDOTE:
+				return id;
+			}
 			switch ( ItemDatabase.getConsumptionType( id ) )
 			{
 			case KoLConstants.COMBAT_ITEM:
