@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.session;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -666,6 +667,20 @@ public class EquipmentManager
 	public static final LockableListModel getCustomOutfits()
 	{
 		return customOutfits;
+	}
+
+	public static SpecialOutfit getCustomOutfit( int id )
+	{
+		Iterator i = customOutfits.iterator();
+		while ( i.hasNext() )
+		{
+			SpecialOutfit outfit = (SpecialOutfit) i.next();
+			if ( outfit.getOutfitId() == id )
+			{
+				return outfit;
+			}
+		}
+		return null;
 	}
 
 	/**
