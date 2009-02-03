@@ -360,11 +360,6 @@ public abstract class StaticEntity
 			HiddenCityRequest.parseResponse( location, responseText );
 		}
 
-		else if ( location.indexOf( "inventory.php" ) != -1 && location.indexOf( "action=message" ) != -1 )
-		{
-			UseItemRequest.parseConsumption( responseText, false );
-		}
-
 		// Keep your current equipment and familiars updated, if you
 		// visit the appropriate pages.
 
@@ -373,6 +368,11 @@ public abstract class StaticEntity
 		{
 			// If KoL is showing us our current equipment, parse it.
 			EquipmentRequest.parseEquipment( location, responseText );
+		}
+
+		else if ( location.startsWith( "inventory.php" ) && location.indexOf( "action=message" ) != -1 )
+		{
+			UseItemRequest.parseConsumption( responseText, false );
 		}
 
 		else if ( location.startsWith( "inv_equip.php" ) &&
