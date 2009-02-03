@@ -652,6 +652,7 @@ public class SkillDatabase
 		case 8001:	// Summon Stickers
 		case 8100:	// Summon Candy Hearts
 		case 8101:	// Summon Party Favor
+		case 8102:	// Summon Love Song
 		case 8200:	// Summon Hilarious Objects
 		case 8201:	// Summon Tasteful Items
 			// Bookshelf skills
