@@ -3577,10 +3577,9 @@ public class KoLmafiaCLI
 				String previousMood = Preferences.getString( "currentMood" );
 				MoodManager.setMood( parameters );
 
-				CLI.executeCommand( "mood", "repeat " + multiplicity );
-
 				if ( multiplicity > 0 )
 				{
+					CLI.executeCommand( "mood", "repeat " + multiplicity );
 					MoodManager.setMood( previousMood );
 				}
 			}
