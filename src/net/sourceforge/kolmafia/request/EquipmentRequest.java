@@ -177,6 +177,7 @@ public class EquipmentRequest
 	private String error;
 
 	private static boolean shouldSavePreviousOutfit = false;
+	private static int customOutfitId = 0;
 
 	public EquipmentRequest( final int requestType )
 	{
@@ -593,14 +594,15 @@ public class EquipmentRequest
 			// If this is not a custom outfit...
 			if ( id > 0 )
 			{
-				// Return immediately if the character is already wearing the outfit
+				// Return immediately if the character is
+				// already wearing the outfit
 				if ( EquipmentManager.isWearingOutfit( id ) )
 				{
 					return;
 				}
 
-				// Next, ensure that you have all the pieces for the
-				// given outfit.
+				// Next, ensure that you have all the pieces
+				// for the given outfit.
 
 				EquipmentManager.retrieveOutfit( id );
 
@@ -622,7 +624,8 @@ public class EquipmentRequest
 			}
 			else if ( id == 0 )
 			{
-				// Return immediately if the character is already wearing the outfit
+				// Return immediately if the character is
+				// already wearing the outfit
 				if ( EquipmentManager.isWearingOutfit( this.outfit ) )
 				{
 					return;
@@ -1296,6 +1299,9 @@ public class EquipmentRequest
 			ItemDatabase.identifyDustyBottles();
 		}
 
+		// If he's wearing a custom outfit, do additional processing
+		EquipmentRequest.wearCustomOutfit( location );
+
 		// If you need to update your creatables list, do so at
 		// the end of the processing.
 
@@ -1467,7 +1473,45 @@ public class EquipmentRequest
 				ConcoctionDatabase.refreshConcoctions();
 			}
 
+                        EquipmentRequest.wearCustomOutfit( location );
+
 			return;
+		}
+	}
+
+	private static final void wearCustomOutfit( final String urlString )
+	{
+		int outfitId = EquipmentRequest.customOutfitId;
+		EquipmentRequest.customOutfitId = 0;
+
+		SpecialOutfit outfit = EquipmentManager.getCustomOutfit( outfitId );
+		if ( outfit == null )
+		{
+			return;
+		}
+
+		Matcher m = EquipmentRequest.OUTFIT_ACTION_PATTERN.matcher( outfit.getName() );
+		while ( m.find() )
+		{
+			String text = m.group( 2 ).trim();
+			switch ( m.group( 1 ).toLowerCase().charAt( 0 ) )
+			{
+			case 'c':
+				KoLmafiaCLI.DEFAULT_SHELL.executeLine( text );
+				break;
+			case 'e':
+				KoLmafiaCLI.DEFAULT_SHELL.executeCommand(
+					"equip", "familiar " + text );
+				break;
+			case 'f':
+				KoLmafiaCLI.DEFAULT_SHELL.executeCommand(
+					"familiar", text );
+				break;
+			case 'm':
+				KoLmafiaCLI.DEFAULT_SHELL.executeCommand(
+					"mood", text );
+				break;
+			}
 		}
 	}
 
@@ -1576,6 +1620,8 @@ public class EquipmentRequest
 			return false;
 		}
 
+		EquipmentRequest.customOutfitId = 0;
+
 		Matcher outfitMatcher = EquipmentRequest.OUTFIT_PATTERN.matcher( urlString );
 		if ( outfitMatcher.find() )
 		{
@@ -1585,39 +1631,13 @@ public class EquipmentRequest
 				RequestLogger.updateSessionLog( "outfit " + EquipmentDatabase.getOutfit( outfitId ) );
 				return true;
 			}
-			else
-			{
-				SpecialOutfit outfit = EquipmentManager.getCustomOutfit( outfitId );
-				if ( outfit != null )
-				{
-					Matcher m = EquipmentRequest.OUTFIT_ACTION_PATTERN.matcher(
-						outfit.getName() );
-					while ( m.find() )
-					{
-						String text = m.group( 2 ).trim();
-						switch ( m.group( 1 ).toLowerCase().charAt( 0 ) )
-						{
-						case 'c':
-							KoLmafiaCLI.DEFAULT_SHELL.executeLine( text );
-							break;
-						case 'e':
-							KoLmafiaCLI.DEFAULT_SHELL.executeCommand(
-								"equip", "familiar " + text );
-							break;
-						case 'f':
-							KoLmafiaCLI.DEFAULT_SHELL.executeCommand(
-								"familiar", text );
-							break;
-						case 'm':
-							KoLmafiaCLI.DEFAULT_SHELL.executeCommand(
-								"mood", text );
-							break;
-						}
-					}
-				}
-				RequestLogger.updateSessionLog( "custom outfit " + outfit );
-				return true;
-			}
+
+			SpecialOutfit outfit = EquipmentManager.getCustomOutfit( outfitId );
+			String name = outfit == null ? String.valueOf( outfitId ) : outfit.getName();
+
+			RequestLogger.updateSessionLog( "custom outfit " + name );
+			EquipmentRequest.customOutfitId = outfitId;
+			return true;
 		}
 
 		if ( urlString.indexOf( "action=unequip" ) != -1 )
