@@ -3493,7 +3493,7 @@
 3492	fish scimitar	12	all	220
 3493	fish stick	12	all	190
 3494	fish bazooka	12	all	250
-3495	sea salt crystal	3	all	100
+3495	sea salt crystal	4	all	100
 3496	bazookafish bubble gum	3	all	5
 3497	bottle of Pete's Sake	2	all	70
 3498	invisible bag	9	all	5
