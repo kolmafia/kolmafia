@@ -2822,6 +2822,12 @@ public abstract class KoLCharacter
 			{
 				continue;
 			}
+			int id = item.getItemId();
+			if ( slot == EquipmentManager.FAMILIAR &&
+				ItemDatabase.getConsumptionType( id ) == KoLConstants.EQUIP_HAT )
+			{	// Hatrack hats don't get their normal enchantments
+				continue;
+			}
 
 			String name = item.getName();
 			newModifiers.add( Modifiers.getModifiers( name ) );
@@ -2829,7 +2835,7 @@ public abstract class KoLCharacter
 			// Wearing multiple brimstone items has a secret effect
 			// on Monster Level, according to this thread:
 			// http://forums.kingdomofloathing.com:8080/vb/showthread.php?t=144250
-			if ( item.getItemId() >= 2813 && item.getItemId() <= 2818 )
+			if ( id >= 2813 && id <= 2818 )
 			{
 				brimstoneMonsterLevel *= 2;
 			}
