@@ -48,7 +48,12 @@ public class StatusEffectPanel
 
 	public StatusEffectPanel()
 	{
-		super( "Active Effects", "uneffect", "add to mood", new ShowDescriptionList( KoLConstants.activeEffects ) );
+		this(new ShowDescriptionList( KoLConstants.activeEffects ) );
+	}
+
+	public StatusEffectPanel( final ShowDescriptionList list )
+	{
+		super( "Active Effects", "uneffect", "add to mood", list );
 		this.elementList = (ShowDescriptionList) this.scrollComponent;
 	}
 

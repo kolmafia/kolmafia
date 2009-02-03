@@ -86,7 +86,7 @@ public class SkillBuffFrame
 		this.effectList = new ShowDescriptionList( KoLConstants.activeEffects, 12 );
 		this.effectList.addListSelectionListener( new SkillReselector() );
 
-		this.tabs.addTab( "Active Effects", new StatusEffectPanel() );
+		this.tabs.addTab( "Active Effects", new StatusEffectPanel( this.effectList ) );
 		this.tabs.addTab( "Recovery Items", new RestorativeItemPanel() );
 
 		this.framePanel.add( this.tabs, BorderLayout.CENTER );
