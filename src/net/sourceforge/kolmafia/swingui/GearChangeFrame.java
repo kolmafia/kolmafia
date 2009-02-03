@@ -219,7 +219,7 @@ public class GearChangeFrame
 
 		public void actionConfirmed()
 		{
-			synchronized ( SpecialOutfit.class )
+			synchronized ( GearChangeFrame.class )
 			{
 				RequestThread.openRequestSequence();
 				GearChangeFrame.this.changeItems();
@@ -229,7 +229,7 @@ public class GearChangeFrame
 
 		public void actionCancelled()
 		{
-			synchronized ( SpecialOutfit.class )
+			synchronized ( GearChangeFrame.class )
 			{
 				RequestThread.openRequestSequence();
 				GearChangeFrame.this.changeItems();
@@ -374,7 +374,7 @@ public class GearChangeFrame
 						return;
 					}
 
-					synchronized ( SpecialOutfit.class )
+					synchronized ( GearChangeFrame.class )
 					{
 						RequestThread.postRequest( new EquipmentRequest( (SpecialOutfit) outfit ) );
 						RequestThread.enableDisplayIfSequenceComplete();
@@ -390,7 +390,7 @@ public class GearChangeFrame
 
 				if ( ChangeComboBox.this == GearChangeFrame.this.familiarSelect )
 				{
-					synchronized ( SpecialOutfit.class )
+					synchronized ( GearChangeFrame.class )
 					{
 						RequestThread.openRequestSequence();
 						GearChangeFrame.this.changeItems();
