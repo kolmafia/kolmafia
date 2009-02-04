@@ -80,7 +80,7 @@ public class UseItemRequest
 
 	private static final Pattern ROW_PATTERN = Pattern.compile( "<tr>.*?</tr>" );
 	private static final Pattern INVENTORY_PATTERN = Pattern.compile( "</blockquote></td></tr></table>.*?</body>" );
-	private static final Pattern HELPER_PATTERN = Pattern.compile( "utensil=(\\d+)" );
+	private static final Pattern HELPER_PATTERN = Pattern.compile( "(utensil|whichcard)=(\\d+)" );
 	private static final Pattern FORTUNE_PATTERN =
 		Pattern.compile( "<font size=1>(Lucky numbers: (\\d+), (\\d+), (\\d+))</td>" );
 
@@ -165,6 +165,12 @@ public class UseItemRequest
 		case ItemPool.SPOOKY_PUTTY_BALL:
 		case ItemPool.SPOOKY_PUTTY_SHEET:
 		case ItemPool.SPOOKY_PUTTY_SNAKE:
+			// El Vibrato punchcards
+		case ItemPool.PUNCHCARD_ATTACK:
+		case ItemPool.PUNCHCARD_REPAIR:
+		case ItemPool.PUNCHCARD_BUFF:
+		case ItemPool.PUNCHCARD_MODIFY:
+		case ItemPool.PUNCHCARD_BUILD:
 			return KoLConstants.CONSUME_USE;
 
 			// Crimbo toys
@@ -1022,22 +1028,71 @@ public class UseItemRequest
 		{
 			// Check for success message, since there are multiple
 			// ways these could fail:
-			//
-			// "You pour the <drink> into your divine champagne
-			// flute, and it immediately begins fizzing over. You
-			// drink it quickly, then throw the flute in front of a
-			// plastic fireplace and break it."
-			//
-			// "You eat the now piping-hot <food> -- it's
-			// sizzlicious! The salad fork cools, and you discard
-			// it."
-			//
-			// "Brisk! Refreshing! You drink the frigid <drink> and
-			// discard the no-longer-frosty mug."
 
-			if ( responseText.indexOf( "a plastic fireplace" ) == -1 &&
-			     responseText.indexOf( "The salad fork cools" ) == -1 &&
-			     responseText.indexOf( "discard the no-longer-frosty" ) == -1 )
+			boolean success = true;
+
+			switch ( helper.getItemId() )
+			{
+			case ItemPool.DIVINE_FLUTE:
+				// "You pour the <drink> into your divine
+				// champagne flute, and it immediately begins
+				// fizzing over. You drink it quickly, then
+				// throw the flute in front of a plastic
+				// fireplace and break it."
+
+				if ( responseText.indexOf( "a plastic fireplace" ) == -1 )
+				{
+					success = false;
+				}
+				break;
+
+			case ItemPool.SCRATCHS_FORK:
+
+				// "You eat the now piping-hot <food> -- it's
+				// sizzlicious! The salad fork cools, and you
+				// discard it."
+
+				if ( responseText.indexOf( "The salad fork cools" ) == -1 )
+				{
+					success = false;
+				}
+				break;
+
+			case ItemPool.FROSTYS_MUG:
+
+				// "Brisk! Refreshing! You drink the frigid
+				// <drink> and discard the no-longer-frosty
+				// mug."
+
+				if ( responseText.indexOf( "discard the no-longer-frosty" ) == -1 )
+				{
+					success = false;
+				}
+				break;
+
+			case ItemPool.PUNCHCARD_ATTACK:
+			case ItemPool.PUNCHCARD_REPAIR:
+			case ItemPool.PUNCHCARD_BUFF:
+			case ItemPool.PUNCHCARD_MODIFY:
+			case ItemPool.PUNCHCARD_BUILD:
+			case ItemPool.PUNCHCARD_TARGET:
+			case ItemPool.PUNCHCARD_SELF:
+			case ItemPool.PUNCHCARD_FLOOR:
+			case ItemPool.PUNCHCARD_DRONE:
+			case ItemPool.PUNCHCARD_WALL:
+			case ItemPool.PUNCHCARD_SPHERE:
+
+				// A voice speaks (for a long time) from the
+				// helmet:
+
+				if ( responseText.indexOf( "(for a long time)" ) == -1 )
+				{
+					success = false;
+				}
+				break;
+			}
+
+			if ( !success )
 			{
 				UseItemRequest.lastUpdate = "Consumption helper failed.";
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
@@ -2410,7 +2465,25 @@ public class UseItemRequest
 			return;
 
 		case ItemPool.EL_VIBRATO_HELMET:
-			// whichcard=xxx consumes - maybe - the punchcard
+			// We should parse the result and save the current
+			// state of the conduits
+			return;
+
+		case ItemPool.PUNCHCARD_ATTACK:
+		case ItemPool.PUNCHCARD_REPAIR:
+		case ItemPool.PUNCHCARD_BUFF:
+		case ItemPool.PUNCHCARD_MODIFY:
+		case ItemPool.PUNCHCARD_BUILD:
+			if ( responseText.indexOf( "A voice emerges" ) != -1 )
+			{
+				// We should save the state of the Megadrone
+			}
+			else
+			{
+				// You try to stick the punchcard into <name>
+				// and fail.
+				ResultProcessor.processResult( item );
+			}
 			return;
 
 		case ItemPool.OUTRAGEOUS_SOMBRERO:
@@ -2634,7 +2707,8 @@ public class UseItemRequest
 	private static final AdventureResult extractHelper( final String urlString )
 	{
 		if ( !urlString.startsWith( "inv_eat.php" ) &&
-		     !urlString.startsWith( "inv_booze.php" ) )
+		     !urlString.startsWith( "inv_booze.php" ) &&
+		     !urlString.startsWith( "inv_use.php" ) )
 		{
 			return null;
 		}
@@ -2645,7 +2719,7 @@ public class UseItemRequest
 			return null;
 		}
 
-		int itemId = StringUtilities.parseInt( helperMatcher.group( 1 ) );
+		int itemId = StringUtilities.parseInt( helperMatcher.group( 2 ) );
 		if ( ItemDatabase.getItemName( itemId ) == null )
 		{
 			return null;
@@ -2667,11 +2741,11 @@ public class UseItemRequest
 		int count = UseItemRequest.lastItemUsed.getCount();
 		String name = UseItemRequest.lastItemUsed.getName();
 		int consumptionType = ItemDatabase.getConsumptionType( itemId );
+		String useString = null;
 
 		switch ( consumptionType )
 		{
 		case KoLConstants.NO_CONSUME:
-		case KoLConstants.COMBAT_ITEM:
 			return false;
 
 		case KoLConstants.CONSUME_USE:
@@ -2730,6 +2804,26 @@ public class UseItemRequest
 				( new FamiliarRequest( blackbird ) ).run();
 			}
 			break;
+
+                case ItemPool.EL_VIBRATO_HELMET:
+                        if ( UseItemRequest.lastHelperUsed == null )
+                        {
+                                return true;
+                        }
+			useString = "insert " + UseItemRequest.lastHelperUsed + " into " + UseItemRequest.lastItemUsed;
+                        break;
+
+		case ItemPool.PUNCHCARD_ATTACK:
+		case ItemPool.PUNCHCARD_REPAIR:
+		case ItemPool.PUNCHCARD_BUFF:
+		case ItemPool.PUNCHCARD_MODIFY:
+		case ItemPool.PUNCHCARD_BUILD:
+			if ( KoLCharacter.getFamiliar().getId() != 81 )
+			{
+				return true;
+			}
+			useString = "insert " + UseItemRequest.lastItemUsed + " into El Vibrato Megadrone";
+			break;
 		}
 
 		int spleenHit = ItemDatabase.getSpleenHit( name ) * count;
@@ -2738,11 +2832,13 @@ public class UseItemRequest
 			Preferences.increment( "currentSpleenUse", spleenHit );
 		}
 
-		String useTypeAsString =
-			consumptionType == KoLConstants.CONSUME_EAT ? "eat " : consumptionType == KoLConstants.CONSUME_DRINK ? "drink " : "use ";
+		if ( useString == null )
+		{
+			useString = ( consumptionType == KoLConstants.CONSUME_EAT ? "eat " : consumptionType == KoLConstants.CONSUME_DRINK ? "drink " : "use " ) + count + " " + name ;
+		}
 
 		RequestLogger.updateSessionLog();
-		RequestLogger.updateSessionLog( useTypeAsString + count + " " + name );
+		RequestLogger.updateSessionLog( useString );
 		return true;
 	}
 }

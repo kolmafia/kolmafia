@@ -363,16 +363,19 @@ public abstract class StaticEntity
 		// Keep your current equipment and familiars updated, if you
 		// visit the appropriate pages.
 
-		else if ( location.startsWith( "inventory.php" ) &&
-			  ( location.indexOf( "which=2" ) != -1 || location.indexOf( "curequip=1" ) != -1 ) )
+		else if ( location.startsWith( "inventory.php" ) )
 		{
 			// If KoL is showing us our current equipment, parse it.
-			EquipmentRequest.parseEquipment( location, responseText );
-		}
+			if  ( location.indexOf( "which=2" ) != -1 || location.indexOf( "curequip=1" ) != -1 )
+			{
+				EquipmentRequest.parseEquipment( location, responseText );
+			}
 
-		else if ( location.startsWith( "inventory.php" ) && location.indexOf( "action=message" ) != -1 )
-		{
-			UseItemRequest.parseConsumption( responseText, false );
+			// If there is a consumption message, parse it
+			if ( location.indexOf( "action=message" ) != -1 )
+			{
+				UseItemRequest.parseConsumption( responseText, false );
+			}
 		}
 
 		else if ( location.startsWith( "inv_equip.php" ) &&
