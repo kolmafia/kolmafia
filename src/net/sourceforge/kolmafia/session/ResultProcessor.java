@@ -99,6 +99,7 @@ public class ResultProcessor
 			formURLString.startsWith( "hermit.php" ) ||
 			formURLString.startsWith( "mallstore.php" ) ||
 			formURLString.startsWith( "barrel.php" ) ||
+			formURLString.startsWith( "shore.php" ) ||
 			formURLString.indexOf( "whichitem=553" ) != -1;
 	}
 	
