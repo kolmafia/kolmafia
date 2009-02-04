@@ -115,6 +115,7 @@ import net.sourceforge.kolmafia.session.MoodManager;
 import net.sourceforge.kolmafia.session.MushroomManager;
 import net.sourceforge.kolmafia.session.NemesisManager;
 import net.sourceforge.kolmafia.session.PvpManager;
+import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
@@ -1649,6 +1650,21 @@ public class KoLmafiaCLI
 		public void run( String cmd )
 		{
 			CLI.downloadAdventureOverride();
+		}
+	}
+	
+	static { new FakeItem().register( "fakeitem" ); }
+	public static class FakeItem
+		extends Command
+	{
+		{ usage = null; }
+		public void run( String cmd, String parameters )
+		{
+			AdventureResult item = ItemFinder.getFirstMatchingItem( parameters, ItemFinder.ANY_MATCH );
+			if ( item != null )
+			{
+				ResultProcessor.processResult( item );
+			}
 		}
 	}
 	
