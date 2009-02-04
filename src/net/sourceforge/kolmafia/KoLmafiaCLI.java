@@ -6076,13 +6076,9 @@ public class KoLmafiaCLI
 
 			int inventoryCount = items[ i ].getCount( KoLConstants.inventory );
 
-			if ( items[ i ].getCount() == 1 && !itemNames[ i ].startsWith( "1" ) )
+			if ( items[ i ].getCount() > inventoryCount )
 			{
 				items[ i ] = items[ i ].getInstance( inventoryCount );
-			}
-			else if ( items[ i ].getCount() != inventoryCount )
-			{
-				items[ i ] = items[ i ].getInstance( Math.min( items[ i ].getCount(), inventoryCount ) );
 			}
 		}
 
