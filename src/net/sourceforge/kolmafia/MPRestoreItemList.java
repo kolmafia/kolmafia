@@ -96,6 +96,7 @@ public abstract class MPRestoreItemList
 		new MPRestoreItem( "Monstar energy beverage", 75, false ),
 		new MPRestoreItem( "carbonated soy milk", 75, false ),
 		new MPRestoreItem( "carbonated water lily", 65, false ),
+		new MPRestoreItem( "Nardz energy beverage", 65, false ),
 		new MPRestoreItem( "blue pixel potion", 65, true ),
 		new MPRestoreItem( "bottle of Monsieur Bubble", 56, true ),
 		new MPRestoreItem( "ancient Magi-Wipes", 55, false ),
