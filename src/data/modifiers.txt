@@ -1951,6 +1951,7 @@ Ringing Ears	Muscle Percent: +20, Mysticality Percent: -20
 Rushin' Hands	Weapon Damage: +3
 Salamander In Your Stomach	Mysticality: +25
 Salty Dogs	Meat Drop Penalty: [10*zone(The Sea)]
+# Salty Mouth	changes msg when drinking beer?
 Saucemastery	Mysticality: +1, Maximum HP: +4
 Savage Beast Inside	Muscle: +20
 Scared Stiff	Sleaze Resistance: +2
@@ -1976,6 +1977,7 @@ Sleepy	Muscle Percent: -30
 Slimed	Spooky Damage: +20
 Slippery Oiliness	Equalize: "Moxie"
 Smelly Pants	Stench Resistance: +1
+# Smokin'	passive damage
 Smooth Movements	Combat Rate: -5
 Smugness	Moxie: +5
 Snarl of the Timberwolf	Spooky Damage: +10
