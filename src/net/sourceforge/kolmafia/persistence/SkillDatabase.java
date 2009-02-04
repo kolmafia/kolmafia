@@ -63,6 +63,7 @@ public class SkillDatabase
 	private static final Map mpConsumptionById = new HashMap();
 	private static final Map skillTypeById = new TreeMap();
 	private static final Map durationById = new HashMap();
+	private static final Map levelById = new HashMap();
 
 	private static final Map skillsByCategory = new HashMap();
 	private static final Map skillCategoryById = new HashMap();
@@ -123,12 +124,18 @@ public class SkillDatabase
 
 		while ( ( data = FileUtilities.readData( reader ) ) != null )
 		{
-			if ( data.length == 5 )
+			if ( data.length < 5 )
 			{
-				SkillDatabase.addSkill(
-					Integer.valueOf( data[ 0 ] ), StringUtilities.getDisplayName( data[ 1 ] ),
-					Integer.valueOf( data[ 2 ] ), Integer.valueOf( data[ 3 ] ), Integer.valueOf( data[ 4 ] ) );
+				continue;
 			}
+
+			Integer id = Integer.valueOf( data[ 0 ] );
+			String name = StringUtilities.getDisplayName( data[ 1 ] );
+			Integer type = Integer.valueOf( data[ 2 ] );
+			Integer mp = Integer.valueOf( data[ 3 ] );
+			Integer duration = Integer.valueOf( data[ 4 ] );
+			Integer level = ( data.length > 5 ) ? Integer.valueOf( data[ 5 ] ) : null;
+			SkillDatabase.addSkill( id, name, type, mp, duration, level );
 		}
 
 		try
@@ -147,8 +154,7 @@ public class SkillDatabase
 		SkillDatabase.skillByName.keySet().toArray( SkillDatabase.canonicalNames );
 	}
 
-	private static final void addSkill( final Integer skillId, final String skillName, final Integer skillType,
-		final Integer mpConsumption, final Integer duration )
+	private static final void addSkill( final Integer skillId, final String skillName, final Integer skillType, final Integer mpConsumption, final Integer duration, final Integer level )
 	{
 		SkillDatabase.skillById.put( skillId, skillName );
 		SkillDatabase.skillByName.put( StringUtilities.getCanonicalName( skillName ), skillId );
@@ -157,6 +163,10 @@ public class SkillDatabase
 
 		SkillDatabase.mpConsumptionById.put( skillId, mpConsumption );
 		SkillDatabase.durationById.put( skillId, duration );
+		if ( level != null )
+		{
+			SkillDatabase.levelById.put( skillId, level );
+		}
 
 		String category;
 		int categoryId = skillId.intValue() / 1000;
@@ -260,6 +270,45 @@ public class SkillDatabase
 	public static final String getSkillName( final int skillId )
 	{
 		return (String) SkillDatabase.skillById.get( new Integer( skillId ) );
+	}
+
+	/**
+	 * Returns the level for an skill, given its Id.
+	 *
+	 * @param skillId The Id of the skill to lookup
+	 * @return The level of the corresponding skill
+	 */
+
+	public static final int getSkillLevel( final int skillId )
+	{
+		Object level = SkillDatabase.levelById.get( new Integer( skillId ) );
+		return level == null ? -1 : ( (Integer) level ).intValue();
+	}
+
+	public static final int getSkillPurchaseCost( final int skillId )
+	{
+		int level = SkillDatabase.getSkillLevel( skillId );
+		if ( level < 1 )
+		{
+			return 0;
+		}
+		if ( level == 1 )
+		{
+			return 200;
+		}
+		if ( level == 2 )
+		{
+			return 800;
+		}
+		if ( level == 3 )
+		{
+			return 1800;
+		}
+		if ( level == 4 )
+		{
+			return 3200;
+		}
+		return level * 1000;
 	}
 
 	/**
@@ -456,17 +505,17 @@ public class SkillDatabase
 
 	public static final int libramSkillCasts( int cast, int availableMP )
 	{
-                int mpCost = SkillDatabase.libramSkillMPConsumption( cast );
-                int count = 0;
+		int mpCost = SkillDatabase.libramSkillMPConsumption( cast );
+		int count = 0;
 
-                while ( mpCost <= availableMP )
-                {
-                        count++;
-                        availableMP -= mpCost;
-                        mpCost = SkillDatabase.libramSkillMPConsumption( ++cast );
-                }
+		while ( mpCost <= availableMP )
+		{
+			count++;
+			availableMP -= mpCost;
+			mpCost = SkillDatabase.libramSkillMPConsumption( ++cast );
+		}
 
-                return count;
+		return count;
 	}
 
 	/**
