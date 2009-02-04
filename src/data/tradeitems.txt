@@ -3724,20 +3724,20 @@
 3723	tarnished metal rod	0	all	25
 3724	brittle plastic handle	0	all	25
 3725	foggy glass globe	0	all	25
-3726
-3727
-3728
-3729
-3730
-3731
-3732
+3726	possessed tomato	25	all	20
+3727	Nardz energy beverage	14	all	47
+3728	pile of gold coins	0	all	300
+3729	hand grenegg	25	all	6
+3730	caret	25	all	65
+3731	glass gnoll eye	13	all	33
+3732	cheap cigar butt	4	all	244
 3733
-3734
-3735
+3734	Colon Annihilation Hot Sauce	25	all	27
+3735	fat wallet	4	all	50
 3736
 3737
-3738
-3739
+3738	packet of beer nuts	1	all	12
+3739	Boozehounds Anonymous token	4	all	43
 3740
 3741
 3742
