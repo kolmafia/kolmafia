@@ -248,6 +248,7 @@ leotarrrd	90	Mox: 30
 liar's pants	100	none
 los chinos	55	Mox: 12
 makeshift skirt	100	Mox: 35
+manly bloomers	55	Mox: 12
 mariachi pants	10	none
 miner's pants	80	Mox: 25
 mostly rat-hide leggings	200	Mox: 200
@@ -779,6 +780,7 @@ foon of foulness	0	Mys: 10
 foon of frigidity	0	Mys: 10
 foon of fulmination	0	Mys: 10
 giant stuffed bugbear	0	none
+glass gnoll eye	0	Mys: 2
 glow-in-the-dark stuffed burrowgrub	0	none
 glowing esca	0	Mys: 85
 gnauga hide buckler	95	Mus: 30	shield
@@ -798,6 +800,7 @@ kickback cookbook	0	Mys: 5
 killer rag doll	0	Mys: 40
 left-handed melodica	0	Mox: 150
 little round pebble	0	Mys: 7
+lucky lighter	0	Mys: 2
 mad scientist's sock monkey	0	Mys: 40
 magic lamp	0	none
 magical ice cubes	0	none
@@ -1049,6 +1052,7 @@ dope gangsta bling-bling	0	Mys: 7
 eXtreme mittens	0	Mys: 40
 eXtreme nose ring	0	Mys: 10
 elven socks	0	none
+enchanted handwarmer	0	Mys: 15
 enchanted toothpick	0	Mys: 25
 encoder ring	0	none
 energy drink IV	0	Mys: 75
