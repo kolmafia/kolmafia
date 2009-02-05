@@ -58,6 +58,7 @@ import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.GuildRequest;
 import net.sourceforge.kolmafia.request.HellKitchenRequest;
 import net.sourceforge.kolmafia.request.MicroBreweryRequest;
 import net.sourceforge.kolmafia.request.TelescopeRequest;
@@ -87,8 +88,6 @@ import net.sourceforge.kolmafia.swingui.AdventureFrame;
 public abstract class KoLCharacter
 	extends StaticEntity
 {
-	private static final Pattern STILLS_PATTERN = Pattern.compile( "with (\\d+) bright" );
-
 	public static final String ASTRAL_SPIRIT = "Astral Spirit";
 
 	public static final String SEAL_CLUBBER = "Seal Clubber";
@@ -2395,29 +2394,26 @@ public abstract class KoLCharacter
 
 		if ( KoLCharacter.stillsAvailable == -1 )
 		{
-			GenericRequest stillChecker = new GenericRequest( "guild.php?place=still" );
-			RequestThread.postRequest( stillChecker );
-
-			Matcher stillMatcher = KoLCharacter.STILLS_PATTERN.matcher( stillChecker.responseText );
-			if ( stillMatcher.find() )
-			{
-				KoLCharacter.stillsAvailable = StringUtilities.parseInt( stillMatcher.group( 1 ) );
-			}
-			else
-			{
-				KoLCharacter.stillsAvailable = 0;
-			}
+			RequestThread.postRequest( new GuildRequest( "still" ) );
 		}
 
 		return KoLCharacter.stillsAvailable;
 	}
 
+	public static final void setStillsAvailable( final int stillsAvailable )
+	{
+		if ( KoLCharacter.stillsAvailable != stillsAvailable )
+		{
+			KoLCharacter.stillsAvailable = stillsAvailable;
+			ConcoctionDatabase.refreshConcoctions();
+			// Allow Daily Deeds to update when the number of stills changes
+			Preferences.firePreferenceChanged( "(stills)" );
+		}
+	}
+
 	public static final void decrementStillsAvailable( final int decrementAmount )
 	{
-		KoLCharacter.stillsAvailable -= decrementAmount;
-		ConcoctionDatabase.refreshConcoctions();
-		// Allow Daily Deeds to update when the number of stills changes
-		Preferences.firePreferenceChanged( "(stills)" );
+		KoLCharacter.setStillsAvailable( KoLCharacter.stillsAvailable - decrementAmount );
 	}
 
 	public static final boolean canUseWok()

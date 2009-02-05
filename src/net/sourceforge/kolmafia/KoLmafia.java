@@ -86,6 +86,7 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.GourdRequest;
+import net.sourceforge.kolmafia.request.GuildRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.LoginRequest;
 import net.sourceforge.kolmafia.request.LogoutRequest;
@@ -2346,7 +2347,7 @@ public abstract class KoLmafia
 
 	public void unlockGuildStore( final boolean stopAtPaco )
 	{
-		GenericRequest guildVisit = new GenericRequest( "guild.php" );
+		GenericRequest guildVisit = new GuildRequest();
 
 		// The wiki claims that your prime stats are somehow connected,
 		// but the exact procedure is uncertain. Therefore, just allow
