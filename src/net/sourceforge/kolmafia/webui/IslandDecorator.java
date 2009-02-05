@@ -116,7 +116,7 @@ public class IslandDecorator
 	// KoLmafia images showing each quest area on bigisland.php
 
 	private static final String IMAGE_ROOT = "http://images.kingdomofloathing.com/otherimages/bigisland/";
-	private static final String LOCAL_ROOT = "images/otherimages/bigisland/";
+	private static final String LOCAL_ROOT = "/images/otherimages/bigisland/";
 
 	private static final String[] SIDEQUEST_IMAGES =
 	{
