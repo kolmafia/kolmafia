@@ -540,6 +540,11 @@ public class CreateItemRequest
 
 	public void processResults()
 	{
+		if ( CreateItemRequest.parseGuildCreation( this.getURLString(), this.responseText ) )
+		{
+			return;
+		}
+
 		CreateItemRequest.parseCrafting( this.getURLString(), this.responseText );
 
 		// Check to see if box-servant was overworked and exploded.
@@ -573,7 +578,7 @@ public class CreateItemRequest
 		}
 
 		// When an explosion occurs, all the ingredients might not have
-		// been consumed. Put back ingredients for products we didn;t
+		// been consumed. Put back ingredients for products we didn't
 		// end up making.
 
 		int undoAmount = this.quantityNeeded - createdQuantity;
@@ -611,6 +616,58 @@ public class CreateItemRequest
 			RequestLogger.updateSessionLog( "Crafting used " + qty + " each of " +
 				ItemDatabase.getItemName( item1 ) + " and " + ItemDatabase.getItemName( item2 ) );		
 		}
+	}
+
+	public static boolean parseGuildCreation( final String urlString, final String responseText )
+	{
+		if ( !urlString.startsWith( "guild.php" ) )
+		{
+			return false;
+		}
+
+		// If nothing was created, don't deal with ingredients
+
+		if ( responseText.indexOf( "You acquire" ) == -1 )
+		{
+			return true;
+		}
+
+		int multiplier = 1;
+		boolean stills = false;
+
+		// Using the Still decrements available daily uses
+		if ( urlString.indexOf( "action=stillbooze" ) != -1 || urlString.indexOf( "action=stillfruit" ) != -1 )
+		{
+			stills = true;
+		}
+
+		// Using the Malus uses 5 ingredients at a time
+		else if ( urlString.indexOf( "action=malussmash" ) != -1 )
+		{
+			multiplier = 5;
+		}
+
+		// The only other guild creation uses the Wok
+		else if ( urlString.indexOf( "action=wokcook" ) == -1 )
+		{
+			return true;
+		}
+
+		AdventureResult [] ingredients = CreateItemRequest.findIngredients( urlString );
+		int quantity = CreateItemRequest.getQuantity( urlString, ingredients ) * multiplier;
+
+		for ( int i = 0; i < ingredients.length; ++i )
+		{
+			AdventureResult item = ingredients[i];
+			ResultProcessor.processItem( item.getItemId(), -quantity );
+		}
+
+		if ( stills )
+		{
+			KoLCharacter.decrementStillsAvailable( quantity );
+		}
+
+		return true;
 	}
 
 	private boolean autoRepairBoxServant()
@@ -1087,7 +1144,6 @@ public class CreateItemRequest
 			{
 				isCreationURL = true;
 				command.append( "Distill " );
-				usesTurns = false;
 			}
 			else if ( urlString.indexOf( "action=wokcook" ) != -1 )
 			{
@@ -1099,7 +1155,6 @@ public class CreateItemRequest
 			{
 				isCreationURL = true;
 				command.append( "Pulverize " );
-				usesTurns = false;
 				multiplier = 5;
 			}
 		}
@@ -1107,7 +1162,6 @@ public class CreateItemRequest
 		{
 			isCreationURL = true;
 			command.append( "Tinker " );
-			usesTurns = false;
 		}
 
 		if ( !isCreationURL )
@@ -1117,46 +1171,20 @@ public class CreateItemRequest
 
 		AdventureResult [] ingredients = CreateItemRequest.findIngredients( urlString );
 
-		int quantity = 1;
+		int quantity = CreateItemRequest.getQuantity( urlString, ingredients ) * multiplier;
 
-		if ( urlString.indexOf( "makemax=on" ) != -1 )
-		{
-			quantity = Integer.MAX_VALUE;
-
-			for ( int i = 0; i < ingredients.length; ++i )
-			{
-				AdventureResult item = ingredients[i];
-				quantity = Math.min( item.getCount( KoLConstants.inventory ), quantity );
-			}
-		}
-		else
-		{
-			Matcher quantityMatcher = CreateItemRequest.QUANTITY_PATTERN.matcher( urlString );
-			if ( quantityMatcher.find() )
-			{
-				quantity = StringUtilities.parseInt( quantityMatcher.group( 2 ) );
-			}
-		}
-
-		quantity *= multiplier;
-
-		boolean needsPlus = false;
 		for ( int i = 0; i < ingredients.length; ++i )
 		{
-			AdventureResult item = ingredients[i];
-			int itemId = item.getItemId();
-			String name = item.getName();
-
-			if ( needsPlus )
+			if ( i > 0 )
 			{
 				command.append( " + " );
 			}
 
+			AdventureResult item = ingredients[i];
+
 			command.append( quantity );
 			command.append( ' ' );
-			command.append( name );
-
-			needsPlus = true;
+			command.append( item.getName() );
 		}
 
 		if ( usesTurns )
@@ -1168,11 +1196,6 @@ public class CreateItemRequest
 		RequestLogger.updateSessionLog( command.toString() );
 
 		CreateItemRequest.useIngredients( urlString, ingredients, quantity );
-
-		if ( urlString.indexOf( "action=stillbooze" ) != -1 || urlString.indexOf( "action=stillfruit" ) != -1 )
-		{
-			KoLCharacter.decrementStillsAvailable( quantity );
-		}
 
 		return true;
 	}
@@ -1220,23 +1243,55 @@ public class CreateItemRequest
 		return ingredientArray;
 	}
 
-	private static final void useIngredients( final String urlString, AdventureResult [] ingredients, int quantity )
+	private static final int getQuantity(  final String urlString, final AdventureResult [] ingredients )
 	{
-		// Let crafting tell us which ingredients it used and remove
-		// them from inventory after the fact.
-
-		if ( ingredients != null && !urlString.startsWith( "craft.php" ) )
+		if ( urlString.indexOf( "makemax=on" ) == -1 )
 		{
-			for ( int i = 0; i < ingredients.length; ++i )
-			{
-				AdventureResult item = ingredients[i];
-				ResultProcessor.processItem( item.getItemId(), 0 - quantity );
-			}
+			Matcher matcher = CreateItemRequest.QUANTITY_PATTERN.matcher( urlString );
+			return matcher.find() ? StringUtilities.parseInt( matcher.group( 2 ) ) : 1;
 		}
 
+		int quantity = Integer.MAX_VALUE;
+
+		for ( int i = 0; i < ingredients.length; ++i )
+		{
+			AdventureResult item = ingredients[i];
+			quantity = Math.min( item.getCount( KoLConstants.inventory ), quantity );
+		}
+
+		return quantity;
+	}
+
+	private static final void useIngredients( final String urlString, AdventureResult [] ingredients, int quantity )
+	{
 		if ( urlString.indexOf( "mode=combine" ) != -1 )
 		{
 			ResultProcessor.processItem( ItemPool.MEAT_PASTE, 0 - quantity );
+		}
+
+		// If we have no ingredients, nothing to do
+		if ( ingredients == null )
+		{
+			return;
+		}
+
+		// Let crafting tell us which ingredients it used and remove
+		// them from inventory after the fact.
+		if ( urlString.startsWith( "craft.php" ) )
+		{
+			return;
+		}
+
+		// Similarly,.we deal with ingredients from guild tools later
+		if ( urlString.startsWith( "guild.php" ) )
+		{
+			return;
+		}
+
+		for ( int i = 0; i < ingredients.length; ++i )
+		{
+			AdventureResult item = ingredients[i];
+			ResultProcessor.processItem( item.getItemId(), 0 - quantity );
 		}
 	}
 

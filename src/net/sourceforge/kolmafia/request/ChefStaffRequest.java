@@ -138,6 +138,11 @@ public class ChefStaffRequest
 
 	public static final boolean registerRequest( final String urlString )
 	{
+		if ( !urlString.startsWith( "guild.php" ) || urlString.indexOf( "action=makestaff" ) == -1 )
+		{
+			return false;
+		}
+
 		AdventureResult[] ingredients = ChefStaffRequest.staffIngredients( urlString );
 		if ( ingredients == null )
 		{

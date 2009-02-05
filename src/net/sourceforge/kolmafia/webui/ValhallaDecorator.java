@@ -68,32 +68,7 @@ public class ValhallaDecorator
 
 		StringUtilities.singleStringReplace( buffer, "</center><p>", predictions.toString() );
 
-		int startPoint = 0;
-
-		if ( KoLCharacter.getClassType().equals( KoLCharacter.SEAL_CLUBBER ) )
-		{
-			startPoint = 1000;
-		}
-		else if ( KoLCharacter.getClassType().equals( KoLCharacter.TURTLE_TAMER ) )
-		{
-			startPoint = 2000;
-		}
-		else if ( KoLCharacter.getClassType().equals( KoLCharacter.PASTAMANCER ) )
-		{
-			startPoint = 3000;
-		}
-		else if ( KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR ) )
-		{
-			startPoint = 4000;
-		}
-		else if ( KoLCharacter.getClassType().equals( KoLCharacter.DISCO_BANDIT ) )
-		{
-			startPoint = 5000;
-		}
-		else if ( KoLCharacter.getClassType().equals( KoLCharacter.ACCORDION_THIEF ) )
-		{
-			startPoint = 6000;
-		}
+		int startPoint = SkillDatabase.classSkillsBase();
 
 		StringBuffer reminders = new StringBuffer();
 		reminders.append( "<br><table>" );

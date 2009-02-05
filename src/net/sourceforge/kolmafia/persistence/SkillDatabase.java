@@ -311,6 +311,38 @@ public class SkillDatabase
 		return level * 1000;
 	}
 
+	public static final int classSkillsBase()
+	{
+		String name = KoLCharacter.getClassType();
+
+		if ( name.equals( KoLCharacter.SEAL_CLUBBER ) )
+		{
+			return 1000;
+		}
+		if ( name.equals( KoLCharacter.TURTLE_TAMER ) )
+		{
+			return 2000;
+		}
+		if ( name.equals( KoLCharacter.PASTAMANCER ) )
+		{
+			return 3000;
+		}
+		if ( name.equals( KoLCharacter.SAUCEROR ) )
+		{
+			return 4000;
+		}
+		if ( name.equals( KoLCharacter.DISCO_BANDIT ) )
+		{
+			return 5000;
+		}
+		if ( name.equals( KoLCharacter.ACCORDION_THIEF ) )
+		{
+			return 6000;
+		}
+
+		return 0;
+	}
+
 	/**
 	 * Returns the type for an skill, given its Id.
 	 *

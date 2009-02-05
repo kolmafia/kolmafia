@@ -67,6 +67,7 @@ import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.GalaktikRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.GourdRequest;
+import net.sourceforge.kolmafia.request.GuildRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.HiddenCityRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
@@ -350,6 +351,11 @@ public abstract class StaticEntity
 			GalaktikRequest.parseResponse( location, responseText );
 		}
 
+		else if ( location.startsWith( "guild.php" ) )
+		{
+			GuildRequest.parseResponse( location, responseText );
+		}
+
 		else if ( location.startsWith( "hermit.php" ) )
 		{
 			HermitRequest.parseHermitTrade( location, responseText );
@@ -510,11 +516,6 @@ public abstract class StaticEntity
 		else if ( location.indexOf( "action=pyro" ) != -1 )
 		{
 			PyroRequest.parseResponse( location, responseText );
-		}
-
-		else if ( location.indexOf( "action=makestaff" ) != -1 )
-		{
-			ChefStaffRequest.parseCreation( location, responseText );
 		}
 
 		// You can learn a skill on many pages.
