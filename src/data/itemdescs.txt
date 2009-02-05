@@ -3737,25 +3737,25 @@
 3730	479750225	caret	carets
 3731	857150079	glass gnoll eye
 3732	375332132	cheap cigar butt	cheap cigar butts
-3733
+3733	612745525	manly bloomers
 3734	746773043	Colon Annihilation Hot Sauce
 3735	931038317	fat wallet	fat wallets
-3736
-3737
+3736	884058875	enchanted handwarmer
+3737	729682231	lucky lighter
 3738	487975834	packet of beer nuts	packets of beer nuts
 3739	952348991	Boozehounds Anonymous token	Boozehounds Anonymous tokens
 3740
 3741
 3742
-3743
-3744
+3743	258693786	unstable quark	unstable quarks
+3744	249918458	software glitch	software glitches
 3745
 3746
-3747
+3747	243072420	mother's secret recipe	copies of mother's secret recipe
 3748
 3749
 3750
-3751
+3751	609461468	white chocolate chip brownies	piles of white chocolate chip brownies
 3752
 3753	119587121	Libram of Love Songs	Librams of Love Songs
 3754	773249473	love song of vague ambiguity	love songs of vague ambiguity
@@ -3763,4 +3763,5 @@
 3756	812178826	love song of icy revenge	love songs of icy revenge
 3757	415816361	love song of sugary cuteness	love songs of sugary cuteness
 3758	914302407	love song of disturbing obsession	love songs of disturbing obsession
-3759	148379468	love song of naughty innuendo	loves song of naughty innuendo
+3759	148379468	love song of naughty innuendo	love songs of naughty innuendo
+3760	732294709	breath mint	breath mints

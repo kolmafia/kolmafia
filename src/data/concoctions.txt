@@ -255,6 +255,7 @@ stuffed spooky mushroom	COOK	spooky mushroom	goat cheese
 tofu casserole	COOK	wad of tofu	Gnollish casserole dish
 tofu taco	COOK	wad of tofu	taco shell
 white chocolate chip cookies	COOK	white chocolate chips	wad of dough
+white chocolate chip brownies	COOK	white chocolate chips	Uncle Jick's Brownie Mix
 
 
 # Food requiring access to L11 or L12 quest areas
