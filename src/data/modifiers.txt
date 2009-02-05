@@ -295,6 +295,7 @@ leotarrrd	Initiative: +15
 liar's pants	Moxie: +5, Muscle: +5, Mysticality: +5, Hot Damage: +10, Softcore Only
 los chinos	Damage Absorption: +20
 makeshift skirt	Initiative: +15
+manly bloomers	Muscle: +6, Moxie: -3
 # mariachi pants
 miner's pants	Damage Absorption: +20
 mostly rat-hide leggings	Initiative: +40, Moxie Percent: +5
@@ -839,6 +840,7 @@ kickback cookbook	Spell Damage: +20
 killer rag doll	Muscle: +3
 left-handed melodica	Ranged Damage: +25, Class: "Accordion Thief"
 little round pebble	Initiative: +50
+lucky lighter	Hot Damage: +6, Critical: 2
 mad scientist's sock monkey	Moxie: +3
 magic lamp	Mysticality: +5
 magical ice cubes	Cold Damage: +1
@@ -1083,6 +1085,7 @@ dope gangsta bling-bling	Moxie: +1
 eXtreme mittens	Weapon Damage: +2
 eXtreme nose ring	Moxie: +4, Muscle: +4, Mysticality: +4
 elven socks	Muscle: +1, Cold Resistance: +1
+enchanted handwarmer	Cold Resistance: +2, Hot Damage: +4
 enchanted toothpick	Single Equip, Spell Damage: +12
 encoder ring	Single Equip
 energy drink IV	Single Equip, MP Regen Min: 5, MP Regen Max: 7

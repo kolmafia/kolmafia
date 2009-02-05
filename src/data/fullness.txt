@@ -376,6 +376,7 @@ warm mushroom	2	1	2-3	12-14	0	0
 wedge of gray cheese	1	9	7-13	50-61	50-61	50-61
 wet stew	6	1	12-15	16-19	0	0
 white chocolate and tomato pizza	3	2	3-9	0	0	0
+white chocolate chip brownies	2	5	5-8	0	41-58	0
 white chocolate chip cookies	2	1	2-5	0	11-13	0
 white chocolate chips	1	1	1-2	0	0	0
 white citadel burger	2	1	2-8	0	0	0
