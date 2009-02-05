@@ -219,6 +219,16 @@ public abstract class UseLinkDecorator
 		case ItemPool.BRIDGE:
 			return KoLConstants.NOCREATE;
 
+		// Blackbird components link to the black market map
+		case ItemPool.BROKEN_WINGS:
+		case ItemPool.SUNKEN_EYES:
+			return KoLConstants.NOCREATE;
+
+		// Spooky Fertilizer CAN be cooked, but almost always is used
+		// for with the spooky temple map.
+		case ItemPool.SPOOKY_FERTILIZER:
+			return KoLConstants.NOCREATE;
+
 		// Enchanted beans are primarily used for the beanstalk quest.
 		case ItemPool.ENCHANTED_BEAN:
 			if ( KoLCharacter.getLevel() >= 10 && !InventoryManager.hasItem( ItemPool.SOCK ) && !InventoryManager.hasItem( ItemPool.ROWBOAT ) )
