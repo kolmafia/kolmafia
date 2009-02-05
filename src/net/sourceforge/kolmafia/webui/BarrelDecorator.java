@@ -213,7 +213,7 @@ public abstract class BarrelDecorator
 			}
 			
 			m.appendReplacement( buffer, "smash=$1&pwd=$2'>" +
-				"<img src='images/otherimages/barrels/" + filename + ".gif' " +
+				"<img src='/images/otherimages/barrels/" + filename + ".gif' " +
 				"border=0 alt=\"" + tooltip + "\" title=\"" + tooltip + "\">" );		
 		}
 		m.appendTail( buffer );
