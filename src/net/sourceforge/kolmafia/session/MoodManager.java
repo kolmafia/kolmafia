@@ -1120,7 +1120,8 @@ public abstract class MoodManager
 			this.effect = effect;
 			this.name = effect == null ? null : effect.getName();
 
-			if ( action.startsWith( "use " ) || action.startsWith( "cast " ) )
+			if ( (action.startsWith( "use " ) || action.startsWith( "cast " ))
+				&& action.indexOf( ";" ) == -1 )
 			{
 				// Determine the command, the count amount,
 				// and the parameter's unambiguous form.
