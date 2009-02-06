@@ -63,6 +63,7 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.swingui.panel.AdventureSelectPanel;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.HobopolisDecorator;
@@ -81,6 +82,7 @@ public class FightRequest
 	private static final AdventureResult AMNESIA = new AdventureResult( "Amnesia", 1, true );
 	private static final AdventureResult CUNCTATITIS = new AdventureResult( "Cunctatitis", 1, true );
 	private static final AdventureResult ONTHETRAIL = new AdventureResult( "On the Trail", 1, true );
+	private static final AdventureResult BIRDFORM = new AdventureResult( "Form of...Bird!", 1, true );
 
 	public static final AdventureResult DICTIONARY1 = ItemPool.get( ItemPool.DICTIONARY, 1 );
 	public static final AdventureResult DICTIONARY2 = ItemPool.get( ItemPool.FACSIMILE_DICTIONARY, 1 );
@@ -146,6 +148,7 @@ public class FightRequest
 	private static final AdventureResult LASER = ItemPool.get( ItemPool.MINIBORG_LASER, 1);
 	private static final AdventureResult DESTROYER = ItemPool.get( ItemPool.MINIBORG_DESTROYOBOT, 1);
 	private static final AdventureResult SHURIKEN = ItemPool.get( ItemPool.PAPER_SHURIKEN, 1);
+	private static final AdventureResult ANTIDOTE = ItemPool.get( ItemPool.ANTIDOTE, 1);
 
 	private static final String TOOTH_ACTION = "item" + ItemPool.SEAL_TOOTH;
 	private static final String TURTLE_ACTION = "item" + ItemPool.TURTLE_TOTEM;
@@ -155,12 +158,14 @@ public class FightRequest
 	private static final String LASER_ACTION = "item" + ItemPool.MINIBORG_LASER;
 	private static final String DESTROYER_ACTION = "item" + ItemPool.MINIBORG_DESTROYOBOT;
 	private static final String SHURIKEN_ACTION = "item" + ItemPool.PAPER_SHURIKEN;
+	private static final String ANTIDOTE_ACTION = "item" + ItemPool.ANTIDOTE;
 
 	private static final AdventureResult BROKEN_GREAVES = ItemPool.get( ItemPool.ANTIQUE_GREAVES, -1 );
 	private static final AdventureResult BROKEN_HELMET = ItemPool.get( ItemPool.ANTIQUE_HELMET, -1 );
 	private static final AdventureResult BROKEN_SPEAR = ItemPool.get( ItemPool.ANTIQUE_SPEAR, -1 );
 	private static final AdventureResult BROKEN_SHIELD = ItemPool.get( ItemPool.ANTIQUE_SHIELD, -1 );
 
+	private static boolean castNoodles = false;
 	private static boolean castCleesh = false;
 	private static boolean jiggledChefstaff = false;
 	private static boolean summonedGhost = false;
@@ -448,10 +453,35 @@ public class FightRequest
 
 	private void updateCurrentAction()
 	{
+		if ( FightRequest.shouldUseAntidote() )
+		{
+			FightRequest.action1 = String.valueOf( ItemPool.ANTIDOTE );
+			++FightRequest.preparatoryRounds;
+		}
+		
+		if ( FightRequest.action1.equals( "special" ) )
+		{
+			if ( GenericRequest.passwordHash != null )
+			{
+
+			}
+
+			--FightRequest.preparatoryRounds;
+			this.nextRound();
+			return;
+		}
+		
 		if ( FightRequest.action1.equals( "abort" ) )
 		{
 			// If the user has chosen to abort combat, flag it.
 			FightRequest.action1 = "abort";
+			return;
+		}
+
+		if ( FightRequest.action1.equals( "skip" ) )
+		{
+			--FightRequest.preparatoryRounds;
+			this.nextRound();
 			return;
 		}
 
@@ -494,7 +524,7 @@ public class FightRequest
 
 		if ( FightRequest.action1.indexOf( "steal" ) != -1 )
 		{
-			if ( FightRequest.canSteal &&
+			if ( (FightRequest.canSteal || KoLConstants.activeEffects.contains( FightRequest.BIRDFORM )) &&
 			     FightRequest.wonInitiative() &&
 			     FightRequest.monsterData != null &&
 			     FightRequest.monsterData.shouldSteal() )
@@ -712,10 +742,28 @@ public class FightRequest
 				return;
 			}
 		}
+		else if ( skillName.equals( "Entangling Noodles" ) )
+		{
+			// You can only use this skill once per combat
+
+			if ( FightRequest.castNoodles )
+			{
+				--FightRequest.preparatoryRounds;
+				this.nextRound();
+				return;
+			}
+			FightRequest.castNoodles = true;
+		}
 
 		// Skills use MP. Make sure the character has enough
 		if ( KoLCharacter.getCurrentMP() < FightRequest.getActionCost() && GenericRequest.passwordHash != null )
 		{
+			if ( !Preferences.getBoolean( "autoManaRestore" ) )
+			{
+				--FightRequest.preparatoryRounds;
+				this.nextRound();
+				return;
+			}
 			for ( int i = 0; i < MPRestoreItemList.CONFIGURES.length; ++i )
 			{
 				if ( MPRestoreItemList.CONFIGURES[ i ].isCombatUsable() && KoLConstants.inventory.contains( MPRestoreItemList.CONFIGURES[ i ].getItem() ) )
@@ -1322,6 +1370,10 @@ public class FightRequest
 			action.append( " (auto-attack)" );
 			RequestLogger.printLine( action.toString() );
 			RequestLogger.updateSessionLog( action.toString() );
+		}
+		if ( FightRequest.action1.equals( "3004" ) )
+		{
+			FightRequest.castNoodles = true;
 		}
 
 		++FightRequest.currentRound;
@@ -2102,6 +2154,7 @@ public class FightRequest
 	private static final void clearInstanceData()
 	{
 		IslandDecorator.startFight();
+		FightRequest.castNoodles = false;
 		FightRequest.castCleesh = false;
 		FightRequest.jiggledChefstaff = false;
 		FightRequest.summonedGhost = false;
@@ -2268,6 +2321,23 @@ public class FightRequest
 
 			return true;
 		}
+	}
+	
+	private static final boolean shouldUseAntidote()
+	{
+		if ( !KoLConstants.inventory.contains( FightRequest.ANTIDOTE ) )
+		{
+			return false;
+		}
+		int minLevel = Preferences.getInteger( "autoAntidote" );
+		for ( int i = 0; i < KoLConstants.activeEffects.size(); ++i )
+		{
+			if ( AdventureSelectPanel.getPoisonLevel( ( (AdventureResult) KoLConstants.activeEffects.get( i ) ).getName() ) <= minLevel )
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private static final void payActionCost( final String responseText )

@@ -40,11 +40,6 @@ public class LocalRelayCombatThread
 
 			if ( this.desiredAction == null )
 			{
-				if ( !Preferences.getString( "battleAction" ).startsWith( "custom" ) )
-				{
-					KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", "battleAction=custom" );
-				}
-
 				FightRequest.INSTANCE.run();
 			}
 			else

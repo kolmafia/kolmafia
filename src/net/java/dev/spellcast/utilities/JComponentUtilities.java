@@ -78,7 +78,16 @@ public class JComponentUtilities
 		{
 			height = component.getPreferredSize().height;
 		}
-		JComponentUtilities.setComponentSize( component, new Dimension( width, height ) );
+		Dimension d = new Dimension( width, height );
+		component.setPreferredSize( d );
+		component.setMinimumSize( d );
+		component.setSize( d );
+
+		if ( component instanceof JTextField || component instanceof JList || component instanceof JComboBox )
+		{
+			d = new Dimension( Integer.MAX_VALUE, d.height );
+		}
+		component.setMaximumSize( d );
 	}
 
 	/**
@@ -92,18 +101,7 @@ public class JComponentUtilities
 
 	public static void setComponentSize( final JComponent component, final Dimension d )
 	{
-		component.setPreferredSize( d );
-		component.setMinimumSize( d );
-		component.setSize( d );
-
-		if ( component instanceof JTextField || component instanceof JList || component instanceof JComboBox )
-		{
-			component.setMaximumSize( new Dimension( Integer.MAX_VALUE, (int) d.getHeight() ) );
-		}
-		else
-		{
-			component.setMaximumSize( d );
-		}
+		JComponentUtilities.setComponentSize( component, d.width, d.height );
 	}
 
 	/**

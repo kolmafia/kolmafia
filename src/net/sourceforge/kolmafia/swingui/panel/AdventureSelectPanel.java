@@ -35,18 +35,36 @@ package net.sourceforge.kolmafia.swingui.panel;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
+import java.util.Arrays;
 import java.util.TreeMap;
 
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -82,6 +100,7 @@ import net.sourceforge.kolmafia.swingui.widget.AutoHighlightSpinner;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
+import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class AdventureSelectPanel
@@ -104,6 +123,20 @@ public class AdventureSelectPanel
 	private ConditionsComboBox conditionField = new ConditionsComboBox();
 	private SafetyField safetyField = null;
 
+	private static ImageIcon stealImg, entangleImg;
+	private static ImageIcon potionImg, sphereImg, olfactImg, puttyImg;
+	private static ImageIcon antidoteImg, restoreImg;
+	static {
+		stealImg = getImage( "knobsack.gif" );
+		entangleImg = getImage( "entnoodles.gif" );
+		potionImg = getImage( "exclam.gif" );
+		sphereImg = getImage( "spherecrack.gif" );
+		olfactImg = getImage( "footprints.gif" );
+		puttyImg = getImage( "sputtycopy.gif" );
+		antidoteImg = getImage( "poisoncup.gif" );
+		restoreImg = getImage( "mp.gif" );
+	}
+	
 	public AdventureSelectPanel( final boolean enableAdventures )
 	{
 		super( new BorderLayout( 10, 10 ) );
@@ -179,12 +212,12 @@ public class AdventureSelectPanel
 
 	public void updateFromPreferences()
 	{
-                if ( AdventureSelectPanel.this.actionSelect != null )
-                {
-                        String battleAction = Preferences.getString( "battleAction" );
-                        int battleIndex = KoLCharacter.getBattleSkillNames().indexOf( battleAction );
-                        KoLCharacter.getBattleSkillNames().setSelectedIndex( battleIndex == -1 ? 0 : battleIndex );
-                }
+		if ( AdventureSelectPanel.this.actionSelect != null )
+		{
+			String battleAction = Preferences.getString( "battleAction" );
+			int battleIndex = KoLCharacter.getBattleSkillNames().indexOf( battleAction );
+			KoLCharacter.getBattleSkillNames().setSelectedIndex( battleIndex == -1 ? 0 : battleIndex );
+		}
 
 		KoLConstants.conditions.clear();
 
@@ -237,6 +270,13 @@ public class AdventureSelectPanel
 		this.locationSelect.addListSelectionListener( listener );
 	}
 
+	private static ImageIcon getImage( String filename )
+	{
+		FileUtilities.downloadImage( "http://images.kingdomofloathing.com/itemimages/"
+			+ filename );
+		return JComponentUtilities.getImage( "itemimages/" + filename );
+	}
+
 	private class FilterAdventureComboBox
 		extends JComboBox
 		implements ListElementFilter
@@ -255,13 +295,60 @@ public class AdventureSelectPanel
 			return ( (KoLAdventure) element ).getParentZoneDescription().equals( this.selectedZone );
 		}
 	}
+	
+	public static int getPoisonLevel( String text )
+	{
+		text = text.toLowerCase();
+		if ( text.indexOf( "toad in the hole" ) != -1 )
+		{
+			return 1;
+		}
+		if ( text.indexOf( "poisoned" ) == -1 )
+		{
+			return Integer.MAX_VALUE;
+		}
+		if ( text.indexOf( "majorly poisoned" ) != -1 )
+		{
+			return 2;
+		}
+		if ( text.indexOf( "really quite poisoned" ) != -1 )
+		{
+			return 3;
+		}
+		if ( text.indexOf( "somewhat poisoned" ) != -1 )
+		{
+			return 4;
+		}
+		if ( text.indexOf( "a little bit poisoned" ) != -1 )
+		{
+			return 5;
+		}
+		if ( text.indexOf( "hardly poisoned at all" ) != -1 )
+		{
+			return 6;
+		}
+		return Integer.MAX_VALUE;
+	}
 
 	private class ObjectivesPanel
 		extends GenericPanel
+		implements Preferences.ChangeListener
 	{
+		private JPanel special;
+		private JPopupMenu specialPopup;
+
+		private JLabel stealLabel, entangleLabel;
+		private JLabel potionLabel, sphereLabel, olfactLabel, puttyLabel;
+		private JLabel antidoteLabel, restoreLabel;
+		
+		private JCheckBoxMenuItem stealItem, entangleItem;
+		private JCheckBoxMenuItem potionItem, sphereItem, olfactItem, puttyItem;
+		private JCheckBoxMenuItem restoreItem;
+		private JMenu poisonItem;
+		
 		public ObjectivesPanel()
 		{
-			super( new Dimension( 70, 20 ), new Dimension( 200, 20 ) );
+			super( new Dimension( 70, -1 ), new Dimension( 200, -1 ) );
 
 			AdventureSelectPanel.this.actionSelect = new AutoFilterComboBox( KoLCharacter.getBattleSkillNames(), false );
 
@@ -279,15 +366,168 @@ public class AdventureSelectPanel
 			JPanel buttonWrapper = new JPanel();
 			buttonWrapper.add( AdventureSelectPanel.this.begin = new ExecuteButton() );
 			buttonWrapper.add( new InvocationButton( "stop", RequestThread.class, "declareWorldPeace" ) );
+			
+			JPanel special = new JPanel( new FlowLayout( FlowLayout.LEADING, 0, 0 ) );
+			this.special = special;
+			special.setBackground( Color.WHITE );
+			special.setBorder( BorderFactory.createLoweredBevelBorder() );
+			MouseListener listener = new SpecialPopListener();
+			special.addMouseListener( listener );
+			
+			this.stealLabel = this.label( special, listener,
+				AdventureSelectPanel.stealImg,
+				"Pickpocketing will be tried (if appropriate) with non-CCS actions." );
+			this.entangleLabel = this.label( special, listener,
+				AdventureSelectPanel.entangleImg,
+				"Entangling Noodles will be cast before non-CCS actions." );
+			this.olfactLabel = this.label( special, listener,
+				AdventureSelectPanel.olfactImg, null );
+			this.puttyLabel = this.label( special, listener,
+				AdventureSelectPanel.puttyImg, null );
+			this.sphereLabel = this.label( special, listener,
+				AdventureSelectPanel.sphereImg,
+				"<html>Hidden City spheres will be identified by using them in combat.<br>Requires 'special' action if a CCS is used.</html>" );
+			this.potionLabel = this.label( special, listener,
+				AdventureSelectPanel.potionImg,
+				"<html>Bang potions will be identified by using them in combat.<br>Requires 'special' action if a CCS is used.</html>" );
+			this.antidoteLabel = this.label( special, listener,
+				AdventureSelectPanel.antidoteImg, null );
+			this.restoreLabel = this.label( special, listener,
+				AdventureSelectPanel.restoreImg,
+				"MP restores will be used in combat if needed." );
+			
+			this.specialPopup = new JPopupMenu( "Special Actions" );
+			this.stealItem = this.checkbox( this.specialPopup, listener,
+				"Pickpocket before simple actions" );
+			this.entangleItem = this.checkbox( this.specialPopup, listener,
+				"Cast Noodles before simple actions" );
+			this.specialPopup.addSeparator();
+JPopupMenu NIY = new JPopupMenu( "These aren't implemented yet" );
+			this.olfactItem = this.checkbox( NIY, listener,
+				"One-time automatic Olfaction..." );
+			this.puttyItem = this.checkbox( NIY, listener,
+				"One-time automatic Spooky Putty..." );
+			this.sphereItem = this.checkbox( NIY, listener,
+				"Identify stone spheres" );
+			this.potionItem = this.checkbox( NIY, listener,
+				"Identify bang potions" );
+/*			this.specialPopup.addSeparator();	*/
+			this.poisonItem = new JMenu( "Minimum poison level for antidote use" );
+			ButtonGroup group = new ButtonGroup();
+			this.poison( this.poisonItem, group, listener, "No automatic use" );
+			this.poison( this.poisonItem, group, listener, "Toad In The Hole (-\u00BDHP/round)" );
+			this.poison( this.poisonItem, group, listener, "Majorly Poisoned (-90%, -11)" );
+			this.poison( this.poisonItem, group, listener, "Really Quite Poisoned (-70%, -9)" );
+			this.poison( this.poisonItem, group, listener, "Somewhat Poisoned (-50%, -7)" );
+			this.poison( this.poisonItem, group, listener, "A Little Bit Poisoned (-30%, -5)" );
+			this.poison( this.poisonItem, group, listener, "Hardly Poisoned at All (-10%, -3)" );
+			this.specialPopup.add( this.poisonItem );
+			this.restoreItem = this.checkbox( this.specialPopup, listener,
+				"Restore MP in combat" );
 
-			VerifiableElement[] elements = new VerifiableElement[ 2 ];
+			VerifiableElement[] elements = new VerifiableElement[ 3 ];
 			elements[ 0 ] = new VerifiableElement( "Action:  ", AdventureSelectPanel.this.actionSelect );
-			elements[ 1 ] = new VerifiableElement( "Goals:  ", conditionPanel );
+			elements[ 1 ] = new VerifiableElement( "Special:  ", special );
+			elements[ 2 ] = new VerifiableElement( "Goals:  ", conditionPanel );
 
 			this.setContent( elements );
+			( (BorderLayout) this.container.getLayout() ).setHgap( 0 );
+			( (BorderLayout) this.container.getLayout() ).setVgap( 0 );
 			this.container.add( buttonWrapper, BorderLayout.SOUTH );
 
 			JComponentUtilities.addHotKey( this, KeyEvent.VK_ENTER, AdventureSelectPanel.this.begin );
+			
+			Preferences.registerListener( "autoSteal", this );
+			Preferences.registerListener( "autoEntangle", this );
+			Preferences.registerListener( "autoOlfact", this );
+			Preferences.registerListener( "autoPutty", this );
+			Preferences.registerListener( "autoSphereID", this );
+			Preferences.registerListener( "autoPotionID", this );
+			Preferences.registerListener( "autoAntidote", this );
+			Preferences.registerListener( "autoManaRestore", this );
+			Preferences.registerListener( "(skill)", this );
+			this.update();
+		}
+		
+		public void update()
+		{
+			if ( KoLCharacter.hasSkill( "Entangling Noodles" ) )
+			{
+				this.entangleItem.setEnabled( true );
+			}
+			else
+			{
+				this.entangleItem.setEnabled( false );
+				Preferences.setBoolean( "autoEntangle", false );
+			}
+			
+			String text;
+			boolean pref;
+			pref = Preferences.getBoolean( "autoSteal" );
+			this.stealLabel.setVisible( pref );
+			this.stealItem.setSelected( pref );
+			pref = Preferences.getBoolean( "autoEntangle" );
+			this.entangleLabel.setVisible( pref );
+			this.entangleItem.setSelected( pref );
+			text = Preferences.getString( "autoOlfact" );
+			pref = text.length() > 0;
+			this.olfactLabel.setVisible( pref );
+			this.olfactItem.setSelected( pref );
+			this.olfactLabel.setToolTipText(
+				"<html>Automatic Olfaction or odor extractor use: " + text +
+				"<br>Requires 'special' action if a CCS is used.</html>" );
+			text = Preferences.getString( "autoPutty" );
+			pref = text.length() > 0;
+			this.puttyLabel.setVisible( pref );
+			this.puttyItem.setSelected( pref );
+			this.puttyLabel.setToolTipText(
+				"<html>Automatic Spooky Putty sheet use: " + text +
+				"<br>Requires 'special' action if a CCS is used.</html>" );
+			pref = Preferences.getBoolean( "autoSphereID" );
+			this.sphereLabel.setVisible( pref );
+			this.sphereItem.setSelected( pref );
+			pref = Preferences.getBoolean( "autoPotionID" );
+			this.potionLabel.setVisible( pref );
+			this.potionItem.setSelected( pref );
+			int antidote = Preferences.getInteger( "autoAntidote" );
+			this.antidoteLabel.setVisible( antidote > 0 );
+			if ( antidote >= 0 && antidote < this.poisonItem.getMenuComponentCount() )
+			{
+				JRadioButtonMenuItem option =
+					(JRadioButtonMenuItem) this.poisonItem.getMenuComponent( antidote );
+				option.setSelected( true );
+				this.antidoteLabel.setToolTipText(
+					"Anti-anti-antidote will be used in combat if you get " +
+					option.getText() + " or worse." );
+			}
+			pref = Preferences.getBoolean( "autoManaRestore" );
+			this.restoreLabel.setVisible( pref );
+			this.restoreItem.setSelected( pref );
+		}
+		
+		private JLabel label( JPanel special, MouseListener listener, ImageIcon img, String toolTip )
+		{
+			JLabel rv = new JLabel( img );
+			rv.setToolTipText( toolTip );
+			rv.addMouseListener( listener );
+			special.add( rv );
+			return rv;
+		}
+		
+		private JCheckBoxMenuItem checkbox( JPopupMenu menu, Object listener, String text )
+		{
+			JCheckBoxMenuItem rv = new JCheckBoxMenuItem( text );
+			menu.add( rv );
+			rv.addItemListener( (ItemListener) listener );
+			return rv;
+		}
+
+		private void poison( JMenu menu, ButtonGroup group, Object listener, String text )
+		{
+			JRadioButtonMenuItem rb = new JRadioButtonMenuItem( text );
+			menu.add( rb );
+			group.add( rb );
+			rb.addItemListener( (ItemListener) listener );
 		}
 
 		public void actionConfirmed()
@@ -324,6 +564,56 @@ public class AdventureSelectPanel
 					"autoSetConditions", AdventureSelectPanel.this.conditionsFieldActive.isSelected() );
 
 				AdventureSelectPanel.this.conditionField.setEnabled( AdventureSelectPanel.this.conditionsFieldActive.isSelected() && !KoLmafia.isAdventuring() );
+			}
+		}
+		
+		private class SpecialPopListener
+			extends MouseAdapter
+			implements ItemListener
+		{
+			public void mousePressed( MouseEvent e )
+			{
+				ObjectivesPanel.this.specialPopup.show(
+					ObjectivesPanel.this.special, 0, 32 );
+			}
+			
+			public void itemStateChanged( ItemEvent e )
+			{
+				boolean state = e.getStateChange() == ItemEvent.SELECTED;
+				JMenuItem source = (JMenuItem) e.getItemSelectable();
+				if ( source == ObjectivesPanel.this.stealItem )
+				{
+					Preferences.setBoolean( "autoSteal", state );
+				}
+				else if ( source == ObjectivesPanel.this.entangleItem )
+				{
+					Preferences.setBoolean( "autoEntangle", state );
+				}
+				else if ( source == ObjectivesPanel.this.olfactItem )
+				{
+					Preferences.setString( "autoOlfact", state ? "blah" : "" );
+				}
+				else if ( source == ObjectivesPanel.this.puttyItem )
+				{
+					Preferences.setString( "autoPutty", state ? "blah" : "" );
+				}
+				else if ( source == ObjectivesPanel.this.sphereItem )
+				{
+					Preferences.setBoolean( "autoSphereID", state );
+				}
+				else if ( source == ObjectivesPanel.this.potionItem )
+				{
+					Preferences.setBoolean( "autoPotionID", state );
+				}
+				else if ( source == ObjectivesPanel.this.restoreItem )
+				{
+					Preferences.setBoolean( "autoManaRestore", state );
+				}
+				else if ( source instanceof JRadioButtonMenuItem )
+				{
+					Preferences.setInteger( "autoAntidote",
+						Arrays.asList( ObjectivesPanel.this.poisonItem.getMenuComponents() ).indexOf( source ) );
+				}
 			}
 		}
 	}

@@ -903,7 +903,20 @@ public class KoLAdventure
 
 		String attack = Preferences.getString( "battleAction" );
 
-		if ( attack.startsWith( "custom" ) || attack.startsWith( "delevel" ) || attack.startsWith( "item" ) )
+		if ( attack.startsWith( "custom" ) ||
+			KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.FORM_OF_BIRD ) ) )
+		{
+			KoLAdventure.resetAutoAttack();
+			return;
+		}
+		
+		if ( Preferences.getBoolean( "autoEntangle" ) )
+		{
+			CustomCombatManager.setAutoAttack( "Entangling Noodles" );
+			return;
+		}
+
+		if ( attack.startsWith( "delevel" ) || attack.startsWith( "item" ) )
 		{
 			KoLAdventure.resetAutoAttack();
 			return;
