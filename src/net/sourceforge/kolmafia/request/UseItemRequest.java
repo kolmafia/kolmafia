@@ -181,6 +181,7 @@ public class UseItemRequest
 		case ItemPool.OUTRAGEOUS_SOMBRERO:
 			// free candy
 		case ItemPool.BAG_OF_CANDY:
+		case ItemPool.GNOLL_EYE:
 			// free booze
 		case ItemPool.EMBLEM_AKGYXOTH:
 		case ItemPool.IDOL_AKGYXOTH:
