@@ -156,8 +156,16 @@ global	visitRumpusHardcore	true
 global	visitRumpusSoftcore	true
 
 user	autoAbortThreshold	-0.05
+user	autoAntidote	0
 user	autoBuyPriceLimit	20000
+user	autoEntangle	false
+user	autoManaRestore	true
+user	autoOlfact
+user	autoPotionID	false
+user	autoPutty
 user	autoRepairBoxServants	true
+user	autoSphereID	false
+user	autoSteal	true
 user	autostartGalaktikQuest	true
 user	availableDimes	0
 user	availableLucre	0

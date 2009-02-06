@@ -239,7 +239,7 @@ Empty Suit of Armor	HP: 120 Def: 115 Atk: 115 ED: spooky	antique greaves (10)	an
 Erudite Gremlin	HP: 170 Def: 169 Atk: 171 Meat: 40-60	gremlin juice (3)	molybdenum crescent wrench (0)
 Evil Olive	HP: 140 Def: 145 Atk: 145	bottle of gin (30)	olive (40)	jumbo olive (10)
 eXtreme Cross-Country Hippy	HP: 65 Def: 73 Atk: 73 E: stench	eXtreme mittens (5)	eXtreme scarf (10)	Mountain Stream soda (30)	enchanted handwarmer (0)
-eXtreme Orcish Snowboarder	HP: 65 Def: 74 Atk: 74 Meat: 32-48 E: sleaze	eXtreme mittens (5)	Mountain Stream soda (30)	snowboarder pants (10)
+eXtreme Orcish Snowboarder	HP: 65 Def: 74 Atk: 74 Meat: 32-48 E: sleaze	eXtreme mittens (5)	Mountain Stream soda (30)	snowboarder pants (10)	enchanted handwarmer (0)
 eXtreme Sports Orcs	HP: 30 Def: 38 Atk: 39	Orcish baseball cap (0)	Orcish cargo shorts (0)	Mountain Stream soda (0)	eXtreme mittens (0)	hang glider (0)
 Fallen Archfiend	HP: 50 Def: 50 Atk: 50 E: heat Meat: 36-54	evil golden arch (30)	infernal insoles (10)
 Felonia, Queen of the Spooky Gravy Fairies	HP: 82 Def: 75 Atk: 75 E: spooky

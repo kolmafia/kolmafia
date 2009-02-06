@@ -566,6 +566,7 @@ public abstract class StaticEntity
 		KoLCharacter.addDerivedSkills();
 		KoLConstants.usableSkills.sort();
 		ConcoctionDatabase.refreshConcoctions();
+		Preferences.firePreferenceChanged( "(skill)" );
 	}
 
 	public static final boolean executeCountdown( final String message, final int seconds )

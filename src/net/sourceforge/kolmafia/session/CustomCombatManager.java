@@ -204,7 +204,8 @@ public abstract class CustomCombatManager
 		{
 			PrintStream ostream = LogStream.openStream( CustomCombatManager.settingsFile, true );
 			ostream.println( "[ default ]" );
-			ostream.println( "1: attack with weapon" );
+			ostream.println( "1: special action" );
+			ostream.println( "2: attack with weapon" );
 			ostream.close();
 
 			CustomCombatManager.readSettings();
@@ -531,7 +532,19 @@ public abstract class CustomCombatManager
 		String action = Preferences.getString( "battleAction" );
 		if ( !action.startsWith( "custom" ) )
 		{
-			return roundCount == 0 ? "steal" : action;
+			switch ( roundCount )
+			{
+			case 0:
+				return Preferences.getBoolean( "autoSteal" ) ?
+					"try to steal an item" : "skip";
+			case 1:
+				return Preferences.getBoolean( "autoEntangle" ) ?
+					"skill Entangling Noodles" : "skip";
+			case 2:
+				return "special action";
+			default:
+				return action;
+			}
 		}
 		
 		String settingKey = CustomCombatManager.getSettingKey( encounter );
@@ -664,6 +677,16 @@ public abstract class CustomCombatManager
 		if ( action.startsWith( "jiggle" ) )
 		{
 			return "jiggle chefstaff";
+		}
+
+		if ( action.startsWith( "special" ) )
+		{
+			return "special action";
+		}
+
+		if ( action.equals( "skip" ) )
+		{
+			return "skip";
 		}
 
 		if ( action.equals( "summon ghost" ) )
@@ -802,6 +825,16 @@ public abstract class CustomCombatManager
 		if ( action.startsWith( "jiggle" ) )
 		{
 			return "jiggle";
+		}
+
+		if ( action.startsWith( "special" ) )
+		{
+			return "special";
+		}
+
+		if ( action.equals( "skip" ) )
+		{
+			return "skip";
 		}
 
 		if ( action.equals( "summon ghost" ) )
