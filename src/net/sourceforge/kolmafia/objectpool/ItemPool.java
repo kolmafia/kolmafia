@@ -334,6 +334,7 @@ public class ItemPool
 	public static final int MINIATURE_DORMOUSE = 1489;
 	public static final int HILARIOUS_BOOK = 1498;
 	public static final int RUBBER_EMO_ROE = 1503;
+	public static final int BAKULA = 1519;
 	public static final int SNOOTY_DISGUISE = 1526;
 	public static final int GIFTR = 1534;
 	public static final int WEEGEE_SQOUIJA = 1537;
@@ -547,6 +548,7 @@ public class ItemPool
 	public static final int GRIMACITE_GO_GO_BOOTS = 2823;
 	public static final int GRIMACITE_GIRDLE = 2824;
 	public static final int GRIMACITE_GOWN = 2825;
+	public static final int BOTTLE_ROCKET = 2834;
 	public static final int NAVEL_RING = 2844;
 	public static final int PLASTIC_BIB = 2846;
 	public static final int GNOME_DEMODULIZER = 2848;
@@ -687,6 +689,7 @@ public class ItemPool
 	public static final int GIFTH = 3430;
 	public static final int SPICE_MELANGE = 3433;
 	public static final int RAINBOWS_GRAVITY = 3439;
+	public static final int HAIKU_KATANA = 3466;
 	public static final int BATHYSPHERE = 3470;
 	public static final int DAMP_OLD_BOOT = 3471;
 	public static final int BOXTOP = 3473;

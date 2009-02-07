@@ -361,6 +361,7 @@ public class StationaryButtonDecorator
 		case 3009: // Lasagna Bandages
 		case 3019: // Fearful Fettucini
 		case 19: // Transcendent Olfaction
+		case 7063: // Falling Leaf Whirlwind
 			name = name.substring( name.lastIndexOf( " " ) + 1 );
 			break;
 
@@ -372,6 +373,9 @@ public class StationaryButtonDecorator
 		case 4003: // Stream of Sauce
 		case 4009: // Wave of Sauce
 		case 5019: // Tango of Terror
+		case 7061: // Spring Raindrop Attack
+		case 7062: // Summer Siesta
+		case 7064: // Winter's Bite Technique
 			name = name.substring( 0, name.indexOf( " " ) );
 			break;
 

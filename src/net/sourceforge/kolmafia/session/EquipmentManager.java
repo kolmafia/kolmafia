@@ -299,18 +299,25 @@ public class EquipmentManager
 
 		switch ( item.getItemId() )
 		{
-		case KoLCharacter.BOTTLE_ROCKET:
+		case ItemPool.BOTTLE_ROCKET:
 			KoLCharacter.addAvailableSkill( "Fire red bottle-rocket" );
 			KoLCharacter.addAvailableSkill( "Fire blue bottle-rocket" );
 			KoLCharacter.addAvailableSkill( "Fire orange bottle-rocket" );
 			KoLCharacter.addAvailableSkill( "Fire purple bottle-rocket" );
 			KoLCharacter.addAvailableSkill( "Fire black bottle-rocket" );
 			break;
-		case KoLCharacter.WIZARD_HAT:
+		case ItemPool.JEWEL_EYED_WIZARD_HAT:
 			KoLCharacter.addAvailableSkill( "Magic Missile" );
 			break;
-		case KoLCharacter.BAKULA:
+		case ItemPool.BAKULA:
 			KoLCharacter.addAvailableSkill( "Give In To Your Vampiric Urges" );
+			break;
+		case ItemPool.HAIKU_KATANA:
+			KoLCharacter.addAvailableSkill( "Spring Raindrop Attack" );
+			KoLCharacter.addAvailableSkill( "Summer Siesta" );
+			KoLCharacter.addAvailableSkill( "Falling Leaf Whirlwind" );
+			KoLCharacter.addAvailableSkill( "Winter's Bite Technique" );
+			KoLCharacter.addAvailableSkill( "The 17 Cuts" );
 			break;
 		}
 	}
