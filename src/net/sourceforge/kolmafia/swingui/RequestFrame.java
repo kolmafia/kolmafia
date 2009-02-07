@@ -343,7 +343,7 @@ public class RequestFrame
 
 	public String getDisplayHTML( final String responseText )
 	{
-		return RequestEditorKit.getDisplayHTML( this.currentLocation, responseText );
+		return RequestEditorKit.getDisplayHTML( this.currentLocation, responseText, true );
 	}
 
 	/**
@@ -427,7 +427,7 @@ public class RequestFrame
 	public static final void refreshStatus()
 	{
 		RequestFrame current;
-		String displayHTML = RequestEditorKit.getDisplayHTML( "charpane.php", CharPaneRequest.getLastResponse() );
+		String displayHTML = RequestEditorKit.getDisplayHTML( "charpane.php", CharPaneRequest.getLastResponse(), false );
 
 		for ( int i = 0; i < RequestFrame.sideBarFrames.size(); ++i )
 		{

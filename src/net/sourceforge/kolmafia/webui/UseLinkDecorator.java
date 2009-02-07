@@ -347,7 +347,7 @@ public abstract class UseLinkDecorator
 
 			useLinkMatcher.appendReplacement(
 				buffer,
-				"$1$2<b>$3</b> <font size=1>[<a href=\"javascript: " + "singleUse('" + pieces[ 0 ].trim() + "','" + pieces[ 1 ].trim() + "'); void(0);\">" + useType + "</a>]</font>" );
+				"$1$2<b>$3</b> <font size=1>[<a href=\"javascript:" + "singleUse('" + pieces[ 0 ].trim() + "','" + pieces[ 1 ].trim() + "&ajax=1');void(0);\">" + useType + "</a>]</font>" );
 		}
 
 		buffer.append( "</td>" );
