@@ -35,8 +35,12 @@ package net.sourceforge.kolmafia.objectpool;
 
 import net.sourceforge.kolmafia.AdventureResult;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.HashSet;
 
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 
@@ -489,6 +493,7 @@ public class ItemPool
 	public static final int POLTERGEIST = 2439;
 	public static final int ENCRYPTION_KEY = 2441;
 	public static final int COBBS_KNOB_MAP = 2442;
+	public static final int ODOR_EXTRACTOR = 2462;
 	public static final int OLFACTION_BOOK = 2463;
 	public static final int SHIRT_KIT = 2491;
 	public static final int MOLYBDENUM_MAGNET = 2497;
@@ -843,5 +848,52 @@ public class ItemPool
 		testPlural = name + "s of " + effect;
 		ItemDatabase.registerItemAlias( missing, testName, testPlural );
 		return true;	
+	}
+	
+	// Suggest one or two items from a permutation group that need to be identified.
+	// Strategy: identify the items the player has the most of first,
+	// to maximize the usefulness of having identified them.
+	// If two items remain unidentified, only identify one, since
+	// eliminationProcessor will handle the other.
+	
+	public static final void suggestIdentify( final List items,
+		final int minId, final int maxId, final String baseName )
+	{
+		ArrayList possible = new ArrayList();
+		int count;
+		int unknown = 0;
+		for ( int i = minId; i <= maxId; ++i ) 
+		{
+			if ( !Preferences.getString( baseName + i ).equals( "" ) )
+			{
+				continue;	// already identified;
+			}
+			++unknown;
+			AdventureResult item = new AdventureResult( i, 1 );
+			count = item.getCount( KoLConstants.inventory );
+			if ( count <= 0 )
+			{
+				continue;	// can't identify yet
+			}
+			possible.add( new Integer( i | Math.min( count, 127 ) << 24 ) );
+		}
+		count = possible.size();
+		if ( count == 0 )
+		{
+			return;
+		}
+		Collections.sort( possible, Collections.reverseOrder() );
+		count = possible.size();
+		if ( unknown == 2 && count == 2 )
+		{
+			possible.remove( --count );
+		}
+		items.add( String.valueOf( ((Integer) possible.get( 0 )).intValue()
+			& 0x00FFFFFF ) );
+		if ( count > 1 )
+		{
+			items.add( String.valueOf( ((Integer) possible.get( 1 )).intValue()
+				& 0x00FFFFFF ) );
+		}
 	}
 }
