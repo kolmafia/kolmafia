@@ -3765,3 +3765,23 @@
 3758	914302407	love song of disturbing obsession	love songs of disturbing obsession
 3759	148379468	love song of naughty innuendo	love songs of naughty innuendo
 3760	732294709	breath mint	breath mints
+3761
+3762
+3763	223443099	slug of vodka	slugs of vodka
+3764	297181259	slug of rum	slugs of rum
+3765	786855294	slug of shochu	slugs of shochu
+3766	240705540	screwdiver	screwdivers
+3767	637859602	dew yoana lei	dew yoana leii
+3768	983511537	lychee chuhai	lychee chuhaii
+3769	614659845	salacious screwdiver	salacious screwdivers
+3770	315178248	dew yoana salacious lei	dew yoana salacious leii
+3771	832186108	salacious lychee chuhai	salacious lychee chuhaii
+3772	641864207	Alewife&trade; Ale	bottles of Alewife&trade; Ale
+3773	979001983	seaode
+3774
+3775	988891809	Mer-kin pinkslip
+3776	872146103	map to the Dive Bar
+3777	501620697	sea salt scrubs
+3778	467428130	amber aviator shades
+3779
+3780	371678812	nurse's hat

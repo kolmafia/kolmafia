@@ -6178,6 +6178,7 @@ public class KoLmafiaCLI
 				case KoLConstants.MIX:
 				case KoLConstants.MIX_SPECIAL:
 				case KoLConstants.MIX_SUPER:
+				case KoLConstants.MIX_SALACIOUS:
 
 					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You cannot mix without a bartender-in-the-box." );
 					return;
