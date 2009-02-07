@@ -225,10 +225,6 @@ public abstract class KoLCharacter
 		ItemPool.get( ItemPool.MARBLE_WAND, 1 )
 	};
 
-	public static final int BAKULA = 1519;
-	public static final int BOTTLE_ROCKET = 2834;
-	public static final int WIZARD_HAT = 1653;
-
 	private static String username = "";
 	private static String avatar = "otherimages/discobandit_f.gif";
 	private static int userId = 0;
