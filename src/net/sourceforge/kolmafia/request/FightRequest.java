@@ -33,6 +33,7 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -461,14 +462,13 @@ public class FightRequest
 		
 		if ( FightRequest.action1.equals( "special" ) )
 		{
-			if ( GenericRequest.passwordHash != null )
+			if ( GenericRequest.passwordHash == null ||
+				!FightRequest.getSpecialAction() )
 			{
-
+				--FightRequest.preparatoryRounds;
+				this.nextRound();
+				return;
 			}
-
-			--FightRequest.preparatoryRounds;
-			this.nextRound();
-			return;
 		}
 		
 		if ( FightRequest.action1.equals( "abort" ) )
@@ -810,6 +810,16 @@ public class FightRequest
 		case ItemPool.ANTIDOTE:
 		case ItemPool.DICTIONARY:
 		case ItemPool.FACSIMILE_DICTIONARY:
+		case ItemPool.MILKY_POTION:
+		case ItemPool.SWIRLY_POTION:
+		case ItemPool.BUBBLY_POTION:
+		case ItemPool.SMOKY_POTION:
+		case ItemPool.CLOUDY_POTION:
+		case ItemPool.EFFERVESCENT_POTION:
+		case ItemPool.FIZZY_POTION:
+		case ItemPool.DARK_POTION:
+		case ItemPool.MURKY_POTION:
+		case ItemPool.ODOR_EXTRACTOR:
 			return true;
 		}
 		return false;
@@ -1640,6 +1650,33 @@ public class FightRequest
 		}
 
 		FightRequest.clearInstanceData();
+	}
+	
+	private static final boolean getSpecialAction()
+	{
+		ArrayList items = new ArrayList();
+		
+		if ( Preferences.getBoolean( "autoSphereID" ) )
+		{
+			ItemPool.suggestIdentify( items, 2174, 2177, "lastStoneSphere" );
+		}
+		if ( Preferences.getBoolean( "autoPotionID" ) )
+		{
+			ItemPool.suggestIdentify( items, 819, 827, "lastBangPotion" );
+		}
+	
+		switch ( items.size() )
+		{
+		case 0:
+			return false;
+		case 1:
+			FightRequest.action1 = (String) items.get( 0 );
+			return true;
+		default:
+			FightRequest.action1 = (String) items.get( 0 ) + "," +
+				(String) items.get( 1 );
+			return true;
+		}
 	}
 
 	private static final Pattern BANG_POTION_PATTERN =

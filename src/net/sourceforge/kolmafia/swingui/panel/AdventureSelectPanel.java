@@ -389,7 +389,7 @@ public class AdventureSelectPanel
 				"<html>Hidden City spheres will be identified by using them in combat.<br>Requires 'special' action if a CCS is used.</html>" );
 			this.potionLabel = this.label( special, listener,
 				AdventureSelectPanel.potionImg,
-				"<html>Bang potions will be identified by using them in combat.<br>Requires 'special' action if a CCS is used.</html>" );
+				"<html>Dungeons of Doom potions will be identified by using them in combat.<br>Requires 'special' action if a CCS is used.</html>" );
 			this.antidoteLabel = this.label( special, listener,
 				AdventureSelectPanel.antidoteImg, null );
 			this.restoreLabel = this.label( special, listener,
@@ -407,11 +407,11 @@ JPopupMenu NIY = new JPopupMenu( "These aren't implemented yet" );
 				"One-time automatic Olfaction..." );
 			this.puttyItem = this.checkbox( NIY, listener,
 				"One-time automatic Spooky Putty..." );
-			this.sphereItem = this.checkbox( NIY, listener,
+			this.sphereItem = this.checkbox( this.specialPopup, listener,
 				"Identify stone spheres" );
-			this.potionItem = this.checkbox( NIY, listener,
+			this.potionItem = this.checkbox( this.specialPopup, listener,
 				"Identify bang potions" );
-/*			this.specialPopup.addSeparator();	*/
+			this.specialPopup.addSeparator();
 			this.poisonItem = new JMenu( "Minimum poison level for antidote use" );
 			ButtonGroup group = new ButtonGroup();
 			this.poison( this.poisonItem, group, listener, "No automatic use" );
