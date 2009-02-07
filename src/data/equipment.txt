@@ -263,6 +263,7 @@ parasitic tentacles	30	none
 penguin shorts	120	Mox: 45
 penguinskin mini-kilt	120	Mox: 45
 penguinskin mini-skirt	120	Mox: 45
+pink pinkslip slip	200	Mox: 85
 pixel pants	50	Mox: 10
 plexiglass pants	180	Mox: 75
 snowboarder pants	100	Mox: 35
