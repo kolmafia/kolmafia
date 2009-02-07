@@ -3774,7 +3774,7 @@
 3773	seaode	0	all	155
 3774	map to the Dive Bar	0	all	0
 3775	Mer-kin pinkslip	25	all	85
-3776
+3776	pink pinkslip slip	10	all	111
 3777	sea salt scrubs	11	all	140
 3778	amber aviator shades	8	all	222
 3779

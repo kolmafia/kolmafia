@@ -310,6 +310,7 @@ parasitic tentacles	Initiative: +30
 penguin shorts	Initiative: +20
 penguinskin mini-kilt	Initiative: +20
 penguinskin mini-skirt	Initiative: +20
+pink pinkslip slip	Initiative: +35, Damage Reduction: 4
 pixel pants	Maximum HP: +10, Maximum MP: +10
 plexiglass pants	Initiative: +25, Item Drop: +20, Moxie Percent: +30
 snowboarder pants	Damage Absorption: +20
@@ -1628,6 +1629,7 @@ Bootyliciousness	Item Drop: +10
 # Braaains	Meat Drop: +100, Initiative: -x
 Braaains	Meat Drop: +100
 Brawnee's Anthem of Absorption	Damage Reduction: [L^1.2]
+Brined Liver	Meat Drop Penalty: [20*zone(The Sea)]
 Broken Fast	Item Drop: +30
 Broken Heart	Muscle: [min(T,20)], HP Regen Min: [min(T,20)], HP Regen Max: [min(T,20)]
 Broken Knees	Muscle Percent: -30

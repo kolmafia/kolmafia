@@ -3778,9 +3778,9 @@
 3771	832186108	salacious lychee chuhai	salacious lychee chuhaii
 3772	641864207	Alewife&trade; Ale	bottles of Alewife&trade; Ale
 3773	979001983	seaode
-3774
+3774	872146103	map to the Dive Bar
 3775	988891809	Mer-kin pinkslip
-3776	872146103	map to the Dive Bar
+3776	177903260	pink pinkslip slip	pink pinkslip slips
 3777	501620697	sea salt scrubs
 3778	467428130	amber aviator shades
 3779
