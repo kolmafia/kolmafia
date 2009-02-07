@@ -158,7 +158,7 @@ public class RequestEditorKit
 	 * be properly rendered by post-3.2 browsers.
 	 */
 
-	public static final String getDisplayHTML( final String location, final String responseText )
+	public static final String getDisplayHTML( final String location, final String responseText, final boolean logIt )
 	{
 		if ( responseText == null || responseText.length() == 0 )
 		{
@@ -169,7 +169,10 @@ public class RequestEditorKit
 		// by the default Java browser to an understood form,
 		// and remove all <HR> tags.
 
-		RequestLogger.updateDebugLog( "Rendering hypertext..." );
+		if ( logIt )
+		{
+			RequestLogger.updateDebugLog( "Rendering hypertext..." );
+		}
 		String displayHTML = RequestEditorKit.getFeatureRichHTML( location, responseText, false );
 
 		displayHTML =
@@ -353,11 +356,14 @@ public class RequestEditorKit
 
 		displayHTML = RequestEditorKit.BOOKSHELF_PATTERN.matcher( displayHTML ).replaceAll( "href=\"$1\"" );
 
-		// All HTML is now properly rendered!  Return the
-		// compiled string.  Print it to the debug log for
-		// reference purposes.
+                if ( logIt )
+                {
+                        // Print it to the debug log for reference purposes.
+                        RequestLogger.updateDebugLog( displayHTML );
+                }
 
-		RequestLogger.updateDebugLog( displayHTML );
+		// All HTML is now properly rendered!  Return compiled string.
+
 		return displayHTML;
 	}
 
