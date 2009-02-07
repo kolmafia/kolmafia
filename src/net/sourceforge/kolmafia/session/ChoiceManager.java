@@ -1063,6 +1063,7 @@ public abstract class ChoiceManager
 			new String[] { "3682", null } ),
 
 		// Choice 306 is [Grandpa Mine Choice]
+		// Choice 308 is Boxing the Juke
 	};
 
 	static

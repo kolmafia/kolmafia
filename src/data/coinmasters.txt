@@ -102,5 +102,6 @@ bs	20	rusty old lantern
 bs	50	map to Madness Reef
 bs	50	map to the Marinara Trench
 bs	50	map to Anemone Mine
+bs	50	map to the Dive Bar
 bs	100	damp old boot
 bs	300	sushi-rolling mat

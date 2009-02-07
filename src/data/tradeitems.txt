@@ -3759,3 +3759,23 @@
 3758	love song of disturbing obsession	4	all	0
 3759	love song of naughty innuendo	4	all	0
 3760	breath mint	4	all	0
+3761
+3762
+3763	slug of vodka	2	all	70
+3764	slug of rum	2	all	70
+3765	slug of shochu	2	all	70
+3766	screwdiver	2	all	130
+3767	dew yoana lei	2	all	130
+3768	lychee chuhai	2	all	130
+3769	salacious screwdiver	2	all	215
+3770	dew yoana salacious lei	2	all	215
+3771	salacious lychee chuhai	2	all	215
+3772	Alewife&trade; Ale	2	all	95
+3773	seaode	0	all	155
+3774	map to the Dive Bar	0	all	0
+3775	Mer-kin pinkslip	25	all	85
+3776
+3777	sea salt scrubs	11	all	140
+3778	amber aviator shades	8	all	222
+3779
+3780	nurse's hat	9	all	135

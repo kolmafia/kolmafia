@@ -364,6 +364,7 @@ public abstract class UseLinkDecorator
 		case KoLConstants.MIX:
 		case KoLConstants.MIX_SPECIAL:
 		case KoLConstants.MIX_SUPER:
+		case KoLConstants.MIX_SALACIOUS:
 			return new UseLink( itemId, itemCount, "mix", "craft.php?mode=cocktail&a=" );
 
 		case KoLConstants.COOK:

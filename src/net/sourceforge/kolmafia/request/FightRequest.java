@@ -2317,6 +2317,18 @@ public class FightRequest
 
 			return false;
 
+		case ItemPool.MERKIN_PINKSLIP:
+
+			// You hand him the pinkslip. He reads it, frowns, and
+			// swims sulkily away.
+
+			if ( responseText.indexOf( "swims sulkily away" ) != -1 )
+			{
+				return true;
+			}
+
+			return false;
+
 		default:
 
 			return true;

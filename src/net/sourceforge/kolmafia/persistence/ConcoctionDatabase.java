@@ -134,6 +134,8 @@ public class ConcoctionDatabase
 		ConcoctionDatabase.mixingMethods.put( "MSTILL", new Integer( KoLConstants.STILL_MIXER ));
 		// Items requiring Superhuman Cocktailcrafting
 		ConcoctionDatabase.mixingMethods.put( "SCOCK", new Integer( KoLConstants.MIX_SUPER ));
+		// Items requiring Salacious Cocktailcrafting
+		ConcoctionDatabase.mixingMethods.put( "SACOCK", new Integer( KoLConstants.MIX_SALACIOUS ));
 		// Items requiring The Way of Sauce
 		ConcoctionDatabase.mixingMethods.put( "SSAUCE", new Integer( KoLConstants.SUPER_REAGENT ));
 		// Items requiring Deep Saucery
@@ -1286,6 +1288,14 @@ public class ConcoctionDatabase
 		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.MIX_SUPER ] =
 			ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.MIX ] && KoLCharacter.hasSkill( "Superhuman Cocktailcrafting" );
 		ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.MIX_SUPER ] =
+			ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.MIX ];
+
+		// Mixing of salacious drinks is possible whenever the
+		// person can mix drinks and has the appropriate skill.
+
+		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.MIX_SALACIOUS ] =
+			ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.MIX ] && KoLCharacter.hasSkill( "Salacious Cocktailcrafting" );
+		ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.MIX_SALACIOUS ] =
 			ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.MIX ];
 
 		// Using Crosby Nash's Still is possible if the person has

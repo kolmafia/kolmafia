@@ -196,7 +196,8 @@
 5017	Smooth Movement	3	10	10	14
 5018	Superhuman Cocktailcrafting	0	0	0	15
 5019	Tango of Terror	5	8	0
-5020	Suckerpunch	5	1	0	0
+5021	Suckerpunch	5	1	0	0
+5022	Salacious Cocktailcrafting	0	0	0
 
 # Skills available to Thieves
 
@@ -226,6 +227,7 @@
 6023	Chorale of Companionship	4	50	5
 6024	Prelude of Precision	4	50	5
 6025	Sing	5	1	0	0
+6026	Donho's Bubbly Ballad	4	75	5
 
 # Skills granted conditionally
 

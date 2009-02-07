@@ -169,6 +169,7 @@ moist sailor's cap	Muscle Percent: +10, Stench Damage: +20, Hot Resistance: +4
 mullet wig	Sleaze Damage: +2, Familiar Effect: "3xPotato, 2xGhuol, cap 10"
 mummy mask	Spooky Damage: +12, Familiar Effect: "1xBarrr, 1xFairy, cap 42"
 nasty rat mask	Moxie: +9, Monster Level: -5, Familiar Effect: "sleaze atk, 1xBarrr, cap 45"
+nurse's hat	Maximum HP: +300, HP Regen Min: 30, HP Regen Max: 60, MP Regen Min: 10, MP Regen Max: 15
 opera mask	Moxie: -5, Familiar Effect: "spooky atk, 1xBarrr, cap 2"
 orange peel hat	Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, Familiar Effect: "atk, 1xVolley"
 orange traffic cone	Moxie: +3, Spooky Resistance: +2
@@ -376,6 +377,7 @@ pirate shirt	Moxie: +3
 psycho sweater	Weapon Damage Percent: +20, Spell Damage Percent: +20
 rhinestone cowboy shirt	Muscle: +5
 safety vest	Damage Reduction: 3, Moxie: +5
+sea salt scrubs	Maximum HP: +400, Maximum MP: +400, Mysticality Percent: +15
 shark jumper	Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, HP Regen Min: 20, HP Regen Max: 40
 soggy wofl t-shirt	Muscle: +3
 souvenir ski t-shirt	Moxie: +5
@@ -1027,6 +1029,7 @@ Zinc Delta of Tranquility	Single Equip, Moxie: +8, Muscle: +8, Mysticality: +8, 
 Zombo's skull ring	Single Equip, Moxie Percent: +15, PvP Fights: +5
 acid-squirting flower	Single Equip
 albatross necklace	Single Equip, Mysticality Percent: +10
+amber aviator shades	Mysticality Percent: +5, Moxie Percent: +5, Sleaze Damage: +30
 amulet of extreme plot significance	Maximum MP: +30
 arrrgyle socks	Mysticality: +6
 baconstone bracelet	Single Equip, Mysticality: +2, Mana Cost: -1
@@ -1128,7 +1131,7 @@ infernal insoles	Hot Resistance: +1, Initiative: +10
 # inflatable duck
 intergalactic pom poms	Moxie: +20, Initiative: +30
 jar of anniversary jam	Moxie: +1, Muscle: +1, Mysticality: +1
-kick-ass kicks	Single Equip, Sleaze Damage: +10, Moxie: +3
+kick-ass kicks	Single Equip, fSleaze Damage: +10, Moxie: +3
 knobby kneepads	Weapon Damage: +3
 ladle of mystery	Maximum HP: +20, Maximum MP: +20, Class: "Sauceror"
 # left half of a heart necklace

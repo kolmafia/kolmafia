@@ -122,6 +122,7 @@ moist sailor's cap	200	Mox: 85
 mullet wig	40	Mox: 5
 mummy mask	170	Mox: 70
 nasty rat mask	180	Mox: 75
+nurse's hat	200	Mox: 85
 opera mask	10	none
 orange peel hat	200	Mox: 85
 orange traffic cone	60	Mox: 15
@@ -329,6 +330,7 @@ pirate shirt	50	Mus: 10
 psycho sweater	100	Mus: 35
 rhinestone cowboy shirt	100	Mus: 35
 safety vest	70	Mus: 20
+sea salt scrubs	200	Mus: 85
 shark jumper	200	Mus: 85
 soggy wofl t-shirt	45	Mus: 7
 souvenir ski t-shirt	100	Mus: 35
@@ -994,6 +996,7 @@ Zinc Delta of Tranquility	0	Mys: 85
 Zombo's skull ring	0	Mys: 200
 acid-squirting flower	0	Mys: 10
 albatross necklace	0	Mys: 15
+amber aviator shades	0	none
 amulet of extreme plot significance	0	Mys: 35
 arrrgyle socks	0	Mys: 20
 baconstone bracelet	0	Mys: 10

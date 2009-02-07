@@ -902,6 +902,7 @@ public class ItemManagePanel
 					case KoLConstants.MIX_SPECIAL:
 					case KoLConstants.STILL_BOOZE:
 					case KoLConstants.MIX_SUPER:
+					case KoLConstants.MIX_SALACIOUS:
 						isVisibleWithFilter = FilterItemField.this.booze;
 						break;
 

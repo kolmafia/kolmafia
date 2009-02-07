@@ -168,6 +168,7 @@ public class CreateItemRequest
 			case KoLConstants.MIX:
 			case KoLConstants.MIX_SPECIAL:
 			case KoLConstants.MIX_SUPER:
+			case KoLConstants.MIX_SALACIOUS:
 				mode = "cocktail";
 				break;
 
@@ -565,6 +566,7 @@ public class CreateItemRequest
 			case KoLConstants.MIX:
 			case KoLConstants.MIX_SPECIAL:
 			case KoLConstants.MIX_SUPER:
+			case KoLConstants.MIX_SALACIOUS:
 				KoLCharacter.setBartender( false );
 				break;
 			}
@@ -696,6 +698,7 @@ public class CreateItemRequest
 		case KoLConstants.MIX:
 		case KoLConstants.MIX_SPECIAL:
 		case KoLConstants.MIX_SUPER:
+		case KoLConstants.MIX_SALACIOUS:
 
 			if ( KoLCharacter.hasBartender() )
 			{
@@ -734,6 +737,7 @@ public class CreateItemRequest
 		case KoLConstants.MIX:
 		case KoLConstants.MIX_SPECIAL:
 		case KoLConstants.MIX_SUPER:
+		case KoLConstants.MIX_SALACIOUS:
 			autoRepairSuccessful =
 				this.useBoxServant( ItemPool.BARTENDER, ItemPool.CLOCKWORK_BARTENDER, ItemPool.COCKTAIL_KIT );
 			break;
@@ -969,6 +973,7 @@ public class CreateItemRequest
 		case KoLConstants.MIX:
 		case KoLConstants.MIX_SPECIAL:
 		case KoLConstants.MIX_SUPER:
+		case KoLConstants.MIX_SALACIOUS:
 			return KoLCharacter.hasBartender() ? 0 : this.quantityNeeded;
 
 		case KoLConstants.WOK:
