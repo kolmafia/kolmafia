@@ -800,6 +800,17 @@ public class RequestEditorKit
 		// Add monster data HP/Atk/Def and item drop data
 		RequestEditorKit.annotateMonster( buffer );
 
+		// You slap a flyer up on your opponent.  It enrages
+		// it.</td></tr>
+
+		int flyerIndex = buffer.indexOf( "You slap a flyer up on your opponent" );
+		if ( flyerIndex != -1 )
+		{
+			String message = "<tr><td colspan=2>" + RequestEditorKit.advertisingMessage() + "</td></tr>";
+			flyerIndex = buffer.indexOf( "</tr>", flyerIndex );
+			buffer.insert( flyerIndex + 5, message );
+		}
+
 		switch ( KoLAdventure.lastAdventureId() )
 		{
 		case 126: // The Themthar Hills
@@ -819,6 +830,15 @@ public class RequestEditorKit
 			IslandDecorator.decorateBattlefieldFight( buffer );
 			break;
 		}
+	}
+
+	public static final String advertisingMessage()
+	{
+		int ML = Preferences.getInteger( "flyeredML" );
+		float percent = 100.0f * (float)ML/10000.0f;
+		return "You have completed " +
+			KoLConstants.FLOAT_FORMAT.format( percent ) +
+			"% of the necessary advertising.";
 	}
 
 	private static final void annotateMonster( final StringBuffer buffer )
