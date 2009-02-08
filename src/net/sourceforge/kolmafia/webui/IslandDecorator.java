@@ -214,26 +214,10 @@ public class IslandDecorator
 			return;
 		}
 
-		int current = IslandDecorator.currentNunneryMeat;
-		if ( current < 100000 )
+		String meat = IslandDecorator.meatMessage();
+		if ( meat != null )
 		{
-			float left = 100000 - current;
-			float mod = ( KoLCharacter.currentNumericModifier( Modifiers.MEATDROP ) + 100.0f ) / 100.0f;
-			float min = BRIGAND_MIN * mod;
-			float max = BRIGAND_MAX * mod;
-
-			int minTurns = (int) Math.ceil( left / max );
-			int maxTurns = (int) Math.ceil( left / min );
-
-			String turns = String.valueOf( minTurns );
-			if ( minTurns != maxTurns )
-			{
-				turns += "-" + String.valueOf( maxTurns );
-			}
-
-			String message =
-				"<p><center>" + KoLConstants.COMMA_FORMAT.format( current ) + " meat recovered, " + KoLConstants.COMMA_FORMAT.format( left ) + " left (" + turns + " turns).<br>";
-
+			String message = "<p><center>" + meat + "<br>";
 			buffer.insert( index, message );
 		}
 
@@ -248,6 +232,31 @@ public class IslandDecorator
 		{
 			Preferences.setString( "sidequestNunsCompleted", "fratboy" );
 		}
+	}
+
+	private static final String meatMessage()
+	{
+		int current = IslandDecorator.currentNunneryMeat;
+		if ( current >= 100000 )
+		{
+			return null;
+		}
+
+		float left = 100000 - current;
+		float mod = ( KoLCharacter.currentNumericModifier( Modifiers.MEATDROP ) + 100.0f ) / 100.0f;
+		float min = BRIGAND_MIN * mod;
+		float max = BRIGAND_MAX * mod;
+
+		int minTurns = (int) Math.ceil( left / max );
+		int maxTurns = (int) Math.ceil( left / min );
+
+		String turns = String.valueOf( minTurns );
+		if ( minTurns != maxTurns )
+		{
+			turns += "-" + String.valueOf( maxTurns );
+		}
+
+		return KoLConstants.COMMA_FORMAT.format( current ) + " meat recovered, " + KoLConstants.COMMA_FORMAT.format( left ) + " left (" + turns + " turns).";
 	}
 
 	private static final String[] GREMLIN_TOOLS =
@@ -407,6 +416,7 @@ public class IslandDecorator
 		// Quest-specific page decorations
 		IslandDecorator.decorateJunkyard( buffer );
 		IslandDecorator.decorateArena( url, buffer );
+		IslandDecorator.decorateNunnery( url, buffer );
 
 		// Find the table that contains the map.
 		String fratboyMessage =
@@ -558,6 +568,34 @@ public class IslandDecorator
 
 		// Append remainder of buffer
 		buffer.append( text.substring( index1 ) );
+	}
+
+	public static final void decorateNunnery( final String urlString, final StringBuffer buffer )
+	{
+		// If he's not visiting the nunnery, punt
+		if ( urlString.indexOf( "place=nunnery" ) == -1 )
+		{
+			return;
+		}
+
+		// See if quest is in progress
+		if ( Preferences.getString( "warProgress" ).equals( "finished" ) ||
+		     !Preferences.getString( "sidequestNunsCompleted" ).equals( "none" ) )
+		{
+			// Either the war or quest is over. Punt
+			return;
+		}
+
+		int tableIndex =
+			buffer.indexOf( "<tr><td style=\"color: white;\" align=center bgcolor=blue><b>Our Lady of Perpetual Indecision</b></td>" );
+		if ( tableIndex == -1 )
+		{
+			return;
+		}
+
+		String message = IslandDecorator.meatMessage();
+		String row = "<tr><td><center><table width=100%><tr>" + IslandDecorator.progressLineStyle + message + "</td></tr></table></td></tr>";
+		buffer.insert( tableIndex, row );
 	}
 
 	public static final void startFight()
