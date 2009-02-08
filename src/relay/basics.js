@@ -152,6 +152,11 @@ function multiUse( location, id, quantity )
 		qfield = "itemquantity";
 
 	var qvalue = quantity ? quantity : getObject( "quantity" + id ).value;
+        var num = parseInt(prompt('How many?', qvalue));
+        if (num < 1 || isNaN(num))
+        {
+            return false;
+        }
 	return inlineLoad( location, "MAFIAHIT&action=useitem&whichitem=" + id + "&" + qfield + "=" + qvalue, id );
 }
 
