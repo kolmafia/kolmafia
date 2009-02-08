@@ -321,7 +321,7 @@ public abstract class UseLinkDecorator
 			buffer.append( itemId );
 			buffer.append( "," );
 			buffer.append( itemCount );
-			buffer.append( ");void(0);\">use</a>]</font>" );
+			buffer.append( ");void(0);\">use multiple</a>]</font>" );
 		}
 		else if ( !Preferences.getBoolean( "relayUsesInlineLinks" ) || !useLocation.startsWith( "inv" ) )
 		{
@@ -650,7 +650,7 @@ public abstract class UseLinkDecorator
 			}
 
 			useType = "plans";
-			useLocation = "inv_use.php?pwd=" + GenericRequest.passwordHash + "&which=3&whichitem=";
+			useLocation = "inv_use.php?which=3&whichitem=";
 			itemId = ItemPool.DINGHY_PLANS;
 			break;
 
@@ -664,7 +664,7 @@ public abstract class UseLinkDecorator
 			}
 
 			useType = "use map";
-			useLocation = "inv_use.php?pwd=" + GenericRequest.passwordHash + "&which=3&whichitem=";
+			useLocation = "inv_use.php?which=3&whichitem=";
 			itemId = ItemPool.COBBS_KNOB_MAP;
 			break;
 
@@ -730,7 +730,7 @@ public abstract class UseLinkDecorator
 		case ItemPool.FRATHOUSE_BLUEPRINTS:
 			
 			useType = "use";
-			useLocation = "inv_use.php?pwd=" + GenericRequest.passwordHash + "&which=3&whichitem=";
+			useLocation = "inv_use.php?which=3&whichitem=";
 			break;
 
 		// Link to use the Black Market Map if you get blackbird parts
@@ -746,7 +746,7 @@ public abstract class UseLinkDecorator
 			}
 
 			useType = "use map";
-			useLocation = "inv_use.php?pwd=" + GenericRequest.passwordHash + "&which=3&whichitem=";
+			useLocation = "inv_use.php?which=3&whichitem=";
 			itemId = ItemPool.BLACK_MARKET_MAP;
 			break;
 
