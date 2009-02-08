@@ -103,6 +103,7 @@ public abstract class UseLinkDecorator
 			if ( itemId == -1 )
 			{
 				// It's an effect or an unknown item
+				UseLinkDecorator.addEffectLink( location, useLinkMatcher, buffer );
 				continue;
 			}
 
@@ -124,8 +125,7 @@ public abstract class UseLinkDecorator
 			}
 
 			int pos = buffer.length();
-			if ( UseLinkDecorator.addUseLink( itemId, itemCount, location,
-				useLinkMatcher, buffer ) && duringCombat )
+			if ( UseLinkDecorator.addUseLink( itemId, itemCount, location, useLinkMatcher, buffer ) && duringCombat )
 			{	// Find where the replacement was appended
 				pos = buffer.indexOf( useLinkMatcher.group( 1 ) + useLinkMatcher.group( 2 )
 					+ "<b>" + useLinkMatcher.group( 3 ), pos );
@@ -270,6 +270,43 @@ public abstract class UseLinkDecorator
 		}
 
 		return KoLConstants.NOCREATE;
+	}
+
+	private static final boolean addEffectLink( String location, Matcher useLinkMatcher, StringBuffer buffer )
+	{
+		String message = useLinkMatcher.group(0);
+		if ( message.indexOf( "You acquire an effect" ) == -1 )
+		{
+			return false;
+		}
+
+		String effect = useLinkMatcher.group(3);
+		UseLink link = null;
+
+		if ( effect.equals( "Filthworm Larva Stench" ) )
+		{
+			link = new UseLink( 0, "feeding chamber", "adventure.php?snarfblat=128" );
+		}
+		else if ( effect.equals( "Filthworm Drone Stench" ) )
+		{
+			link = new UseLink( 0, "guards' chamber", "adventure.php?snarfblat=129" );
+		}
+		else if ( effect.equals( "Filthworm Guard Stench" ) )
+		{
+			link = new UseLink(0, "queen's chamber", "adventure.php?snarfblat=130" );
+		}
+		else
+		{
+			return false;
+		}
+
+		String useType = link.getUseType();
+		String useLocation = link.getUseLocation();
+
+		useLinkMatcher.appendReplacement(
+			buffer,
+			"$1$2<b>$3</b>$4 <font size=1>[<a href=\"" + useLocation + "\">" + useType + "</a>]</font></td>" );
+		return true;
 	}
 
 	private static final boolean addUseLink( int itemId, int itemCount, String location, Matcher useLinkMatcher, StringBuffer buffer )
