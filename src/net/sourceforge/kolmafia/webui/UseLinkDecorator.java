@@ -307,21 +307,7 @@ public abstract class UseLinkDecorator
 
 		if ( useLocation.equals( "#" ) )
 		{
-			useLinkMatcher.appendReplacement( buffer, "$1$2<b>$3</b>$4" );
-
-			// Append a multi-use field rather than forcing
-			// an additional page load.
-
-			buffer.append( "</td></tr><tr><td colspan=2 align=center><div id=\"multiuse" );
-			buffer.append( itemId );
-			buffer.append( "\">" );
-
-			buffer.append( "<form><input type=text size=3 id=\"quantity" );
-			buffer.append( itemId );
-			buffer.append( "\" value=" );
-			buffer.append( Math.min( itemCount, UseItemRequest.maximumUses( itemId ) ) );
-			buffer.append( ">&nbsp;<input type=button class=button value=\"Use\" onClick=\"multiUse('" );
-
+			useLinkMatcher.appendReplacement( buffer, "$1$2<b>$3</b> <font size=1>[<a href=\"javascript:" + "multiUse('" );
 			if ( ItemDatabase.getConsumptionType( itemId ) == KoLConstants.MP_RESTORE )
 			{
 				buffer.append( "skills.php" );
@@ -333,7 +319,9 @@ public abstract class UseLinkDecorator
 
 			buffer.append( "'," );
 			buffer.append( itemId );
-			buffer.append( "); void(0);\"></form></div>" );
+			buffer.append( "," );
+			buffer.append( itemCount );
+			buffer.append( ");void(0);\">use</a>]</font>" );
 		}
 		else if ( !Preferences.getBoolean( "relayUsesInlineLinks" ) || !useLocation.startsWith( "inv" ) )
 		{
