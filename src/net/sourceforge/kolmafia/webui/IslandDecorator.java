@@ -42,6 +42,7 @@ import net.sourceforge.kolmafia.AreaCombatData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -405,7 +406,7 @@ public class IslandDecorator
 	{
 		// Quest-specific page decorations
 		IslandDecorator.decorateJunkyard( buffer );
-		IslandDecorator.decorateArena( buffer );
+		IslandDecorator.decorateArena( url, buffer );
 
 		// Find the table that contains the map.
 		String fratboyMessage =
@@ -498,15 +499,33 @@ public class IslandDecorator
 		buffer.insert( tableIndex, row );
 	}
 
-	public static final void decorateArena( final StringBuffer buffer )
+	public static final void decorateArena( final String urlString, final StringBuffer buffer )
 	{
 		// If he's not visiting the arena, punt
-		if ( buffer.indexOf( "Mysterious Island Arena" ) == -1 )
+		if ( urlString.indexOf( "place=concert" ) == -1 )
+		{
 			return;
+		}
 
-		// If there's no concert available, punt
+		// If there's no concert available, see if quest is in progress
 		if ( buffer.indexOf( "value=\"concert\"" ) == -1 )
+		{
+			if ( Preferences.getString( "warProgress" ).equals( "finished" ) )
+			{
+				// War is over and arena unavailable. Punt.
+				return;
+			}
+
+			int tableIndex =
+				buffer.indexOf( "<tr><td style=\"color: white;\" align=center bgcolor=blue><b>Mysterious Island Arena</b></td>" );
+			if ( tableIndex != -1 )
+			{
+				String message = RequestEditorKit.advertisingMessage();
+				String row = "<tr><td><center><table width=100%><tr>" + IslandDecorator.progressLineStyle + message + "</td></tr></table></td></tr>";
+				buffer.insert( tableIndex, row );
+			}
 			return;
+		}
 
 		String quest = Preferences.getString( "sidequestArenaCompleted" );
 		String [][] array = quest.equals( "hippy" ) ? IslandArenaRequest.HIPPY_CONCERTS : IslandArenaRequest.FRATBOY_CONCERTS;
@@ -1667,7 +1686,7 @@ public class IslandDecorator
 	public static final void decoratePostwarIsland( final String url, final StringBuffer buffer )
 	{
 		// Quest-specific page decorations
-		IslandDecorator.decorateArena( buffer );
+		IslandDecorator.decorateArena( url, buffer );
 
 		// Replace sidequest location images for completed quests
 
