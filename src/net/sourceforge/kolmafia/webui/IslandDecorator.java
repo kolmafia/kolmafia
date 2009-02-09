@@ -520,9 +520,10 @@ public class IslandDecorator
 		// If there's no concert available, see if quest is in progress
 		if ( buffer.indexOf( "value=\"concert\"" ) == -1 )
 		{
-			if ( Preferences.getString( "warProgress" ).equals( "finished" ) )
+			if ( Preferences.getString( "warProgress" ).equals( "finished" ) ||
+			     !Preferences.getString( "sidequestArenaCompleted" ).equals( "none" ) )
 			{
-				// War is over and arena unavailable. Punt.
+				// War is over or quest is finished. Punt.
 				return;
 			}
 
