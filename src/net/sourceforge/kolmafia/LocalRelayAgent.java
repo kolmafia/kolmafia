@@ -200,8 +200,7 @@ public class LocalRelayAgent
 				remaining -= current;
 			}
 
-			this.request.clearDataFields();;
-			this.request.addEncodedFormFields( this.buffer.toString() );
+			this.request.addFormFields( this.buffer.toString(), true );
 			this.buffer.setLength( 0 );
 		}
 
