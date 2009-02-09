@@ -67,6 +67,7 @@ public class CreateItemRequest
 	public static final Pattern QUANTITY_PATTERN = Pattern.compile( "(quantity|qty)=(\\d+)" );
 
 	public static final Pattern TARGET_PATTERN = Pattern.compile( "target=(\\d+)" );
+	public static final Pattern MODE_PATTERN = Pattern.compile( "mode=([^&]+)" );
 	public static final Pattern CRAFT_PATTERN_1 = Pattern.compile( "[\\&\\?](?:a|b)=(\\d+)" );
 	public static final Pattern CRAFT_PATTERN_2 = Pattern.compile( "steps\\[\\]=(\\d+),(\\d+)" );
 	
@@ -607,7 +608,11 @@ public class CreateItemRequest
 			return;
 		}
 
-		Matcher m = CRAFT_COMMENT_PATTERN.matcher( responseText );
+		Matcher m = MODE_PATTERN.matcher( location );
+		String mode = m.find() ? m.group(1) : "";
+		boolean paste = mode.equals( "combine" ) && !KoLCharacter.inMuscleSign();
+
+		m = CRAFT_COMMENT_PATTERN.matcher( responseText );
 		while ( m.find() )
 		{
 			int qty = StringUtilities.parseInt( m.group( 1 ) );
@@ -615,6 +620,10 @@ public class CreateItemRequest
 			int item2 = StringUtilities.parseInt( m.group( 3 ) );
 			ResultProcessor.processItem( item1, -qty );
 			ResultProcessor.processItem( item2, -qty );
+			if ( paste )
+			{
+				ResultProcessor.processItem( ItemPool.MEAT_PASTE, -qty );
+			}
 			RequestLogger.updateSessionLog( "Crafting used " + qty + " each of " +
 				ItemDatabase.getItemName( item1 ) + " and " + ItemDatabase.getItemName( item2 ) );		
 		}
@@ -1222,18 +1231,24 @@ public class CreateItemRequest
 			return ConcoctionDatabase.getIngredients( itemId );
 		}
 
-		Matcher itemMatcher = urlString.startsWith( "craft.php" ) ?
-			CreateItemRequest.CRAFT_PATTERN_1.matcher( urlString ) :
-			CreateItemRequest.ITEMID_PATTERN.matcher( urlString );
-
 		ArrayList ingredients = new ArrayList();
+		Matcher matcher;
 
-		while ( itemMatcher.find() )
+		if ( urlString.startsWith( "craft.php" ) )
 		{
-			int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
-			AdventureResult result = ItemPool.get( itemId, 1 );
-
-			ingredients.add( result );
+			matcher = CreateItemRequest.CRAFT_PATTERN_1.matcher( urlString );
+			while ( matcher.find() )
+			{
+				ingredients.add( CreateItemRequest.getIngredient( matcher.group(1) ) );
+			}
+		}
+		else
+		{
+			matcher = CreateItemRequest.ITEMID_PATTERN.matcher( urlString );
+			while ( matcher.find() )
+			{
+				ingredients.add( CreateItemRequest.getIngredient( matcher.group(1) ) );
+			}
 		}
 
 		if ( urlString.indexOf( "action=wokcook" ) != -1 )
@@ -1246,6 +1261,11 @@ public class CreateItemRequest
 		ingredients.toArray( ingredientArray );
 
 		return ingredientArray;
+	}
+
+	private static final AdventureResult getIngredient( final String itemId )
+	{
+		return ItemPool.get( StringUtilities.parseInt( itemId ), 1 );
 	}
 
 	private static final int getQuantity(  final String urlString, final AdventureResult [] ingredients )
@@ -1269,17 +1289,6 @@ public class CreateItemRequest
 
 	private static final void useIngredients( final String urlString, AdventureResult [] ingredients, int quantity )
 	{
-		if ( urlString.indexOf( "mode=combine" ) != -1 )
-		{
-			ResultProcessor.processItem( ItemPool.MEAT_PASTE, 0 - quantity );
-		}
-
-		// If we have no ingredients, nothing to do
-		if ( ingredients == null )
-		{
-			return;
-		}
-
 		// Let crafting tell us which ingredients it used and remove
 		// them from inventory after the fact.
 		if ( urlString.startsWith( "craft.php" ) )
@@ -1293,10 +1302,21 @@ public class CreateItemRequest
 			return;
 		}
 
+		// If we have no ingredients, nothing to do
+		if ( ingredients == null )
+		{
+			return;
+		}
+
 		for ( int i = 0; i < ingredients.length; ++i )
 		{
 			AdventureResult item = ingredients[i];
 			ResultProcessor.processItem( item.getItemId(), 0 - quantity );
+		}
+
+		if ( urlString.indexOf( "mode=combine" ) != -1 )
+		{
+			ResultProcessor.processItem( ItemPool.MEAT_PASTE, 0 - quantity );
 		}
 	}
 
