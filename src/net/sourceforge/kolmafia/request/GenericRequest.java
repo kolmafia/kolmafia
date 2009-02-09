@@ -263,9 +263,9 @@ public class GenericRequest
 	private static final void setLoginServer( final int serverIndex )
 	{
 		GenericRequest.KOL_HOST = GenericRequest.SERVERS[ serverIndex ][ 0 ];
-                String root = Preferences.getBoolean( "connectViaAddress" ) ?
-                        GenericRequest.SERVERS[ serverIndex ][ 1 ] :
-                        GenericRequest.KOL_HOST;
+		String root = Preferences.getBoolean( "connectViaAddress" ) ?
+			GenericRequest.SERVERS[ serverIndex ][ 1 ] :
+			GenericRequest.KOL_HOST;
 
 		try
 		{
@@ -357,7 +357,7 @@ public class GenericRequest
 		else
 		{
 			this.formURLString = newURLString.substring( 0, formSplitIndex );
-			this.addEncodedFormFields( newURLString.substring( formSplitIndex + 1 ) );
+			this.addFormFields( newURLString.substring( formSplitIndex + 1 ), false );
 		}
 
 		this.isChatRequest =
@@ -404,6 +404,33 @@ public class GenericRequest
 	public void clearDataFields()
 	{
 		this.data.clear();
+	}
+
+	public void addFormFields( final String fields, final boolean encoded )
+	{
+		if ( fields.indexOf( "&" ) == -1 )
+		{
+			this.addFormField( fields, encoded );
+			return;
+		}
+
+		String[] tokens = fields.split( "&" );
+		for ( int i = 0; i < tokens.length; ++i )
+		{
+			this.addFormField( tokens[ i ], encoded );
+		}
+	}
+
+	public void addFormField( final String element, final boolean encoded )
+	{
+		if ( encoded )
+		{
+			this.addEncodedFormField( element );
+		}
+		else
+		{
+			this.addFormField( element );
+		}
 	}
 
 	/**
@@ -483,36 +510,38 @@ public class GenericRequest
 	 * @param element The field to be added
 	 */
 
-	public void addEncodedFormField( final String element )
+	public void addEncodedFormField( String element )
 	{
 		if ( element == null )
 		{
 			return;
 		}
 
+		int equalIndex = element.indexOf( "=" );
+		if ( equalIndex != -1 )
+		{
+			String name = element.substring( 0, equalIndex ).trim();
+			String value = element.substring( equalIndex + 1 ).trim();
+			try
+			{
+				name = URLDecoder.decode( name, "UTF-8" );
+			}
+			catch ( IOException e )
+			{
+			}
+			element = name + "=" + value;
+		}
+
+		Iterator it = this.data.iterator();
+		while ( it.hasNext() )
+		{
+			if ( ( (String) it.next() ).equals( element ) )
+			{
+				return;
+			}
+		}
+
 		this.data.add( element );
-	}
-
-	public void addEncodedFormFields( final String fields )
-	{
-		if ( fields.indexOf( "&" ) == -1 )
-		{
-			this.addEncodedFormField( fields );
-			return;
-		}
-
-		String[] tokens = fields.split( "&" );
-		for ( int i = 0; i < tokens.length; ++i )
-		{
-			if ( tokens[ i ].indexOf( " " ) != -1 )
-			{
-				this.addFormField( tokens[ i ] );
-			}
-			else
-			{
-				this.addEncodedFormField( tokens[ i ] );
-			}
-		}
 	}
 
 	public String getFormField( final String key )
