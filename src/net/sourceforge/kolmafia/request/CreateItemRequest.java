@@ -1270,7 +1270,7 @@ public class CreateItemRequest
 
 	private static final int getQuantity(  final String urlString, final AdventureResult [] ingredients )
 	{
-		if ( urlString.indexOf( "makemax=on" ) == -1 )
+		if ( urlString.indexOf( "max=on" ) == -1 )
 		{
 			Matcher matcher = CreateItemRequest.QUANTITY_PATTERN.matcher( urlString );
 			return matcher.find() ? StringUtilities.parseInt( matcher.group( 2 ) ) : 1;
