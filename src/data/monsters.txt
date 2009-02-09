@@ -110,7 +110,7 @@ A Revolting Bugbear	HP: 10 Def: 13 Atk: 13 E: stench
 A Revolving Bugbear	HP: 11 Def: 15 Atk: 14
 A.M.C. Gremlin	HP: 170 Def: 170 Atk: 172 Meat: 40-60	gremlin juice (3)
 Acid Blob	HP: 40 Def: 38 Atk: 38
-Acoustic Electric Eel	HP: 500 Atk: 405 Meat: 192-288	dull fish scale (0)	eel battery (0)	eel skin (0)
+Acoustic Electric Eel	HP: 500 Atk: 405 Meat: 192-288	dull fish scale (0) eel battery (0) eel skin (0)
 Albino Bat	HP: 8 Def: 14 Atk: 12 Meat: 16-26	batgut (10)	bat guano (10)	pink bat eye (0)
 Alphabet Giant	HP: 150 Def: 145 Atk: 145 Meat: 120-180	heavy D (40)	original G (40)
 Amateur Ninja	HP: 5 Meat: 18-22	bargain flash powder	third-hand nunchaku
