@@ -357,7 +357,7 @@ public class GenericRequest
 		else
 		{
 			this.formURLString = newURLString.substring( 0, formSplitIndex );
-			this.addFormFields( newURLString.substring( formSplitIndex + 1 ), false );
+			this.addFormFields( newURLString.substring( formSplitIndex + 1 ), true );
 		}
 
 		this.isChatRequest =
