@@ -129,6 +129,7 @@ import net.sourceforge.kolmafia.swingui.listener.LicenseDisplayListener;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.textui.RuntimeLibrary;
+import net.sourceforge.kolmafia.textui.parsetree.Value;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.PauseObject;
@@ -1420,9 +1421,11 @@ public abstract class KoLmafia
 				MoodManager.removeMalignantEffects();
 			}
 
-			this.invokeRecoveryScript( "HP", recover );
-
 			HPRestoreItemList.updateHealthRestored();
+			if ( this.invokeRecoveryScript( "HP", recover ) )
+			{
+				return true;
+			}
 			return this.recover(
 				recover, "hpAutoRecovery", "getCurrentHP", "getMaximumHP", HPRestoreItemList.CONFIGURES );
 		}
@@ -1501,9 +1504,11 @@ public abstract class KoLmafia
 	{
 		try
 		{
-			this.invokeRecoveryScript( "MP", mpNeeded );
-			
 			MPRestoreItemList.updateManaRestored();
+			if ( this.invokeRecoveryScript( "MP", mpNeeded ) )
+			{
+				return true;
+			}
 			return this.recover(
 				mpNeeded, "mpAutoRecovery", "getCurrentMP", "getMaximumMP", MPRestoreItemList.CONFIGURES );
 		}
@@ -1517,23 +1522,25 @@ public abstract class KoLmafia
 		}
 	}
 	
-	private void invokeRecoveryScript( String type, int needed )
+	private boolean invokeRecoveryScript( String type, int needed )
 	{
 		String scriptName = Preferences.getString( "recoveryScript" );
 		if ( scriptName.length() == 0 )
 		{
-			return;
+			return false;
 		}
 		Interpreter interpreter = KoLmafiaASH.getInterpreter(
 			KoLmafiaCLI.findScriptFile( scriptName ) );
 		if ( interpreter != null )
 		{
-			interpreter.execute( "main", new String[]
+			Value v = interpreter.execute( "main", new String[]
 			{
 				type,
 				String.valueOf( needed )
 			} );
+			return v != null && v.intValue() != 0;
 		}
+		return false;
 	}
 
 	public void makeRequest( final Runnable request )
