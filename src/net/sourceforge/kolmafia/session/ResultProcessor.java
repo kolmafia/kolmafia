@@ -532,7 +532,7 @@ public class ResultProcessor
 	{
 		AdventureResult result = ResultProcessor.parseResult( lastToken );
 
-		if ( data == null && ResultProcessor.isNunneryMeat() )
+		if ( data == null && ResultProcessor.isNunneryMeat( result ) )
 		{
 			IslandDecorator.addNunneryMeat( result );
 			return false;
@@ -572,7 +572,7 @@ public class ResultProcessor
 		return ResultProcessor.processResult( result );
 	}
 
-	private static boolean isNunneryMeat()
+	private static boolean isNunneryMeat( final AdventureResult result )
 	{
 		KoLAdventure location = KoLAdventure.lastVisitedLocation();
 
@@ -593,6 +593,16 @@ public class ResultProcessor
 
 		// This is meat gained during the last round of the battle.
 		// What to do about meat vortex or familiar stolen meat?
+
+		// Heuristic: if the quantity of meat gained is less than the
+		// minimum we expect, given current Meat Drop modifier, assume
+		// it's from a familiar or combat item.
+
+		if ( result.getCount() < IslandDecorator.minimumBrigandMeat() )
+		{
+			return false;
+		}
+
 		return true;
 	}
 

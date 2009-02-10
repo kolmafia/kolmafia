@@ -259,6 +259,12 @@ public class IslandDecorator
 		return KoLConstants.COMMA_FORMAT.format( current ) + " meat recovered, " + KoLConstants.COMMA_FORMAT.format( left ) + " left (" + turns + " turns).";
 	}
 
+	public static final int minimumBrigandMeat()
+	{
+		float mod = ( KoLCharacter.currentNumericModifier( Modifiers.MEATDROP ) + 100.0f ) / 100.0f;
+		return (int) Math.floor( BRIGAND_MIN * mod );
+	}
+
 	private static final String[] GREMLIN_TOOLS =
 	{
 		"It whips out a hammer",
