@@ -85,6 +85,7 @@ public class SkillDatabase
 	public static final int HILARIOUS = 8200;
 	public static final int TASTEFUL = 8201;
 
+	public static final int OLFACTION = 19;
 	public static final int RAINBOW = 44;
 
 	private static final String UNCATEGORIZED = "uncategorized";

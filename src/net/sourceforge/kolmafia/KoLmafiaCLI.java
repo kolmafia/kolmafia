@@ -1630,12 +1630,97 @@ public class KoLmafiaCLI
 		}
 	}
 	
+	static { new Olfact().registerPrefix( "olfact" ).register( "putty" ); }
+	public static class Olfact
+		extends Command
+	{
+		{ usage = " ( none | monster <name> | [item] <list> | goals ) [abort] - tag next monster [that drops all items in list, or your goals]."; }
+		public void run( String cmd, String parameters )
+		{
+			String pref = cmd.equals( "putty" ) ? "autoPutty" : "autoOlfact";
+			parameters = parameters.toLowerCase();
+			if ( parameters.equals( "none" ) )
+			{
+				Preferences.setString( pref, "" );
+			}
+			else if ( !parameters.equals( "" ) )
+			{
+				boolean isAbort = false, isItem = false, isMonster = false;
+				boolean isGoals = false;
+				if ( parameters.endsWith( " abort" ) )
+				{
+					isAbort = true;
+					parameters = parameters.substring( 0, parameters.length() - 6 ).trim();
+				}
+				if ( parameters.startsWith( "item " ) )
+				{
+					parameters = parameters.substring( 5 ).trim();
+				}
+				else if ( parameters.startsWith( "monster " ) )
+				{
+					isMonster = true;
+					parameters = parameters.substring( 8 ).trim();
+				}
+				else if ( parameters.equals( "goals" ) )
+				{
+					isGoals = true;
+				}
+				StringBuffer result = new StringBuffer();
+				if ( isGoals )
+				{
+					result.append( "goals" );
+				}
+				if ( !isGoals && !isMonster )
+				{
+					Object[] items = ItemFinder.getMatchingItemList(
+						KoLConstants.inventory, parameters );
+					if ( items != null && items.length > 0 )
+					{
+						result.append( "item " );
+						for ( int i = 0; i < items.length; ++i )
+						{
+							if ( i != 0 ) result.append( ", " );
+							result.append( ((AdventureResult) items[ i ]).getName() );
+						}
+						isItem = true;
+					}
+				}
+				if ( !isGoals && !isItem && parameters.length() >= 1 )
+				{
+					result.append( "monster " );
+					result.append( parameters );
+					isMonster = true;
+				}
+				if ( !isGoals && !isItem && !isMonster )
+				{
+					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+						"Unable to interpret your conditions!" );
+					return;
+				}
+			
+				if ( isAbort ) result.append( " abort" );
+				Preferences.setString( pref, result.toString() );
+			}
+			String option = Preferences.getString( pref );
+			if ( option.equals( "" ) )
+			{
+				KoLmafia.updateDisplay( pref + " is disabled." );
+			}
+			else
+			{
+				KoLmafia.updateDisplay( pref + ": " + option.replaceFirst(
+					"^goals", "first monster that can drop your remaining goals" )
+					.replaceFirst( " abort$", ", and then abort adventuring" ) );
+			}
+		}
+	}
+	
 	static { new Conditions().registerPrefix( "goal" ).registerPrefix( "condition" )
 		.registerPrefix( "objective" ); }
 	public static class Conditions
 		extends Command
 	{
-		{ usage = " clear | check | add <condition> | set <condition> - modify your adventuring goals"; }
+		{ usage = " clear | check | add <condition> | set <condition> - modify your adventuring goals."; }
 		public void run( String cmd, String parameters )
 		{
 			CLI.executeConditionsCommand( parameters );
