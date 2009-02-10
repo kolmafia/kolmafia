@@ -425,10 +425,9 @@ public class ItemManageFrame
 			}
 		}
 
-		protected int getDesiredItemAmount( final Object item, final String itemName, final int itemCount,
-			final String message, final int quantityType )
+		protected int getDesiredItemAmount( final Object item, final String itemName, final int itemCount, final String message, final int quantityType )
 		{
-			if ( !this.isPullingForUse && !this.isEquipmentOnly || quantityType != ItemManagePanel.TAKE_MULTIPLE )
+			if ( !this.isPullingForUse || quantityType != ItemManagePanel.TAKE_MULTIPLE )
 			{
 				return super.getDesiredItemAmount( item, itemName, itemCount, message, quantityType );
 			}
@@ -448,11 +447,10 @@ public class ItemManageFrame
 			}
 		}
 
-		private Object[] pullItems()
+		private Object[] pullItems( final boolean isPullingForUse )
 		{
-			this.isPullingForUse = true;
+			this.isPullingForUse = isPullingForUse;
 			Object[] items = this.getDesiredItems( "Pulling" );
-			this.isPullingForUse = false;
 
 			if ( items == null )
 			{
@@ -476,12 +474,12 @@ public class ItemManageFrame
 
 		public void actionConfirmed()
 		{
-			this.pullItems();
+			this.pullItems( false );
 		}
 
 		public void actionCancelled()
 		{
-			Object[] items = this.pullItems();
+			Object[] items = this.pullItems( this.isEquipmentOnly );
 			if ( items == null )
 			{
 				return;
