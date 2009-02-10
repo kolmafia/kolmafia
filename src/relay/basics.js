@@ -157,7 +157,7 @@ function multiUse( location, id, quantity )
         {
             return false;
         }
-	return inlineLoad( location, "MAFIAHIT&action=useitem&whichitem=" + id + "&" + qfield + "=" + qvalue, id );
+	return inlineLoad( location, "MAFIAHIT&action=useitem&whichitem=" + id + "&" + qfield + "=" + num, id );
 }
 
 
