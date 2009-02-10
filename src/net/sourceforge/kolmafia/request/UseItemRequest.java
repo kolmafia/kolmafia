@@ -2058,12 +2058,25 @@ public class UseItemRequest
 
 			ResultProcessor.processResult( item );
 
-			if ( responseText.indexOf( "You acquire" ) == -1 )
+			if ( responseText.indexOf( "You acquire" ) != -1 )
 			{
-
-                                UseItemRequest.lastUpdate = "That doesn't make anything interesting.";
-                                KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				return;
 			}
+
+			int count = item.getCount();
+			String name = item.getName();
+			String plural = ItemDatabase.getPluralName( item.getItemId() );
+
+			if ( responseText.indexOf( "You don't have that many" ) != -1 )
+			{
+				UseItemRequest.lastUpdate = "You don't have that many " + plural;
+			}
+			else
+			{
+				UseItemRequest.lastUpdate = "Using " + count + " " + ( count == 1 ? name : plural ) + " doesn't make anything interesting.";
+			}
+
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
 			return;
 
 		case ItemPool.BLACK_PUDDING:
