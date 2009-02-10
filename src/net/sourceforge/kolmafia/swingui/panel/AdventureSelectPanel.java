@@ -54,6 +54,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComboBox;
@@ -365,7 +366,8 @@ public class AdventureSelectPanel
 
 			JPanel buttonWrapper = new JPanel();
 			buttonWrapper.add( AdventureSelectPanel.this.begin = new ExecuteButton() );
-			buttonWrapper.add( new InvocationButton( "stop", RequestThread.class, "declareWorldPeace" ) );
+			buttonWrapper.add( new InvocationButton( "stop now", RequestThread.class, "declareWorldPeace" ) );
+			buttonWrapper.add( new StopButton() );
 			
 			JPanel special = new JPanel( new FlowLayout( FlowLayout.LEADING, 0, 0 ) );
 			this.special = special;
@@ -402,16 +404,17 @@ public class AdventureSelectPanel
 			this.entangleItem = this.checkbox( this.specialPopup, listener,
 				"Cast Noodles before simple actions" );
 			this.specialPopup.addSeparator();
-JPopupMenu NIY = new JPopupMenu( "These aren't implemented yet" );
-			this.olfactItem = this.checkbox( NIY, listener,
+
+			this.olfactItem = this.checkbox( this.specialPopup, listener,
 				"One-time automatic Olfaction..." );
-			this.puttyItem = this.checkbox( NIY, listener,
+			this.puttyItem = this.checkbox( this.specialPopup, listener,
 				"One-time automatic Spooky Putty..." );
 			this.sphereItem = this.checkbox( this.specialPopup, listener,
 				"Identify stone spheres" );
 			this.potionItem = this.checkbox( this.specialPopup, listener,
 				"Identify bang potions" );
 			this.specialPopup.addSeparator();
+			
 			this.poisonItem = new JMenu( "Minimum poison level for antidote use" );
 			ButtonGroup group = new ButtonGroup();
 			this.poison( this.poisonItem, group, listener, "No automatic use" );
@@ -591,11 +594,29 @@ JPopupMenu NIY = new JPopupMenu( "These aren't implemented yet" );
 				}
 				else if ( source == ObjectivesPanel.this.olfactItem )
 				{
-					Preferences.setString( "autoOlfact", state ? "blah" : "" );
+					if ( state == !Preferences.getString( "autoOlfact" ).equals( "" ) )
+					{	// pref already set externally, don't prompt
+						return;
+					}
+					String option = !state ? null : InputFieldUtilities.input(
+						"Use Transcendent Olfaction or odor extractor when? (item, \"goals\", or \"monster\" plus name; add \"abort\" to stop adventuring)", "goals" );
+					RequestThread.openRequestSequence();
+					KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "olfact",
+						option == null ? "none" : option );
+					RequestThread.closeRequestSequence();
 				}
 				else if ( source == ObjectivesPanel.this.puttyItem )
 				{
-					Preferences.setString( "autoPutty", state ? "blah" : "" );
+					if ( state == !Preferences.getString( "autoPutty" ).equals( "" ) )
+					{	// pref already set externally, don't prompt
+						return;
+					}
+					String option = !state ? null : InputFieldUtilities.input(
+						"Use Spooky Putty sheet when? (item, \"goals\", or \"monster\" plus name; add \"abort\" to stop adventuring)", "goals abort" );
+					RequestThread.openRequestSequence();
+					KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "putty",
+						option == null ? "none" : option );
+					RequestThread.closeRequestSequence();
 				}
 				else if ( source == ObjectivesPanel.this.sphereItem )
 				{
@@ -670,6 +691,23 @@ JPopupMenu NIY = new JPopupMenu( "These aren't implemented yet" );
 			}
 
 			AdventureSelectPanel.this.fillCurrentConditions();
+		}
+	}
+
+	private class StopButton
+		extends JButton
+		implements ActionListener
+	{
+		public StopButton()
+		{
+			super( "stop after" );
+			this.addActionListener( this );
+			this.setToolTipText( "Stop after current adventure" );
+		}
+
+		public void actionPerformed( final ActionEvent e )
+		{
+			KoLmafia.abortAfter( "Manual stop requested." );
 		}
 	}
 

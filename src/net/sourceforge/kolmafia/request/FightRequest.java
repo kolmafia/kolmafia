@@ -33,8 +33,10 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -54,6 +56,7 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
@@ -150,6 +153,8 @@ public class FightRequest
 	private static final AdventureResult DESTROYER = ItemPool.get( ItemPool.MINIBORG_DESTROYOBOT, 1);
 	private static final AdventureResult SHURIKEN = ItemPool.get( ItemPool.PAPER_SHURIKEN, 1);
 	private static final AdventureResult ANTIDOTE = ItemPool.get( ItemPool.ANTIDOTE, 1);
+	private static final AdventureResult EXTRACTOR = ItemPool.get( ItemPool.ODOR_EXTRACTOR, 1);
+	private static final AdventureResult PUTTY_SHEET = ItemPool.get( ItemPool.SPOOKY_PUTTY_SHEET, 1);
 
 	private static final String TOOTH_ACTION = "item" + ItemPool.SEAL_TOOTH;
 	private static final String TURTLE_ACTION = "item" + ItemPool.TURTLE_TOTEM;
@@ -160,6 +165,7 @@ public class FightRequest
 	private static final String DESTROYER_ACTION = "item" + ItemPool.MINIBORG_DESTROYOBOT;
 	private static final String SHURIKEN_ACTION = "item" + ItemPool.PAPER_SHURIKEN;
 	private static final String ANTIDOTE_ACTION = "item" + ItemPool.ANTIDOTE;
+	private static final String OLFACTION_ACTION = "skill" + SkillDatabase.OLFACTION;
 
 	private static final AdventureResult BROKEN_GREAVES = ItemPool.get( ItemPool.ANTIQUE_GREAVES, -1 );
 	private static final AdventureResult BROKEN_HELMET = ItemPool.get( ItemPool.ANTIQUE_HELMET, -1 );
@@ -1657,6 +1663,36 @@ public class FightRequest
 	{
 		ArrayList items = new ArrayList();
 		
+		boolean haveSkill, haveItem;
+		String pref = Preferences.getString( "autoOlfact" );
+		if ( !pref.equals( "" ) && !KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.ON_THE_TRAIL ) ) )
+		{
+			haveSkill = KoLCharacter.hasSkill( "Transcendent Olfaction" ) &&
+				!KoLCharacter.inBadMoon() &&
+				( Preferences.getBoolean( "autoManaRestore" ) || KoLCharacter.getCurrentMP() >= SkillDatabase.getMPConsumptionById( SkillDatabase.OLFACTION ) );
+			haveItem = KoLConstants.inventory.contains( FightRequest.EXTRACTOR );
+			if ( (haveSkill | haveItem) && shouldTag( pref, "autoOlfact triggered" ) )
+			{
+				if ( haveSkill )
+				{
+					FightRequest.action1 = OLFACTION_ACTION;
+					return true;
+				}
+				items.add( String.valueOf( ItemPool.ODOR_EXTRACTOR ) );
+			}
+		}
+		
+		pref = Preferences.getString( "autoPutty" );
+		if ( !pref.equals( "" ) )
+		{
+			haveItem = KoLConstants.inventory.contains( FightRequest.PUTTY_SHEET ) &&
+				Preferences.getInteger( "spookyPuttyCopiesMade" ) < 5;
+			if ( haveItem && shouldTag( pref, "autoPutty triggered" ) )
+			{
+				items.add( String.valueOf( ItemPool.SPOOKY_PUTTY_SHEET ) );
+			}
+		}
+		
 		if ( Preferences.getBoolean( "autoSphereID" ) )
 		{
 			ItemPool.suggestIdentify( items, 2174, 2177, "lastStoneSphere" );
@@ -1678,6 +1714,60 @@ public class FightRequest
 				(String) items.get( 1 );
 			return true;
 		}
+	}
+	
+	private static final boolean shouldTag( String pref, String msg )
+	{
+		boolean isAbort = false, isMonster = false, rv;
+		List items = null;
+
+		if ( pref.endsWith( " abort" ) )
+		{
+			isAbort = true;
+			pref = pref.substring( 0, pref.length() - 6 ).trim();
+		}
+		
+		if ( pref.equals( "goals" ) )
+		{
+			items = KoLConstants.conditions;
+		}
+		else if ( pref.startsWith( "monster " ) )
+		{
+			isMonster = true;
+			pref = pref.substring( 8 ).trim();
+		}
+		else {
+			if ( pref.startsWith( "item " ) )
+			{
+				pref = pref.substring( 5 );
+			}
+			Object[] temp = ItemFinder.getMatchingItemList(
+				KoLConstants.inventory, pref );
+			if ( temp == null )
+			{
+				return false;
+			}
+			items = Arrays.asList( temp );
+		}
+		
+		if ( isMonster )
+		{
+			rv = FightRequest.encounterLookup.indexOf( pref ) != -1;
+		}
+		else if ( items.size() < 1 || FightRequest.monsterData == null )
+		{
+			rv = false;
+		}
+		else
+		{
+			rv = FightRequest.monsterData.getItems().containsAll( items );
+		}
+	
+		if ( rv && isAbort )
+		{
+			KoLmafia.abortAfter( msg );
+		}
+		return rv;
 	}
 
 	private static final Pattern BANG_POTION_PATTERN =

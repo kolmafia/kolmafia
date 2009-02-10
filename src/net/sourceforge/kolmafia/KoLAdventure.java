@@ -916,7 +916,9 @@ public class KoLAdventure
 			return;
 		}
 
-		if ( attack.startsWith( "delevel" ) || attack.startsWith( "item" ) )
+		if ( attack.startsWith( "delevel" ) || attack.startsWith( "item" ) ||
+			!Preferences.getString( "autoOlfact" ).equals( "" ) ||
+			!Preferences.getString( "autoPutty" ).equals( "" ) )
 		{
 			KoLAdventure.resetAutoAttack();
 			return;
