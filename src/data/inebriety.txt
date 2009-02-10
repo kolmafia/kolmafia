@@ -67,7 +67,7 @@ cursed bottle of black-label rum	3	3	5-10	0	0	0	10 Curse Magnet
 cursed bottle of rum	1	1	1	0	0	0
 cyder	3	5	5	0	0	0
 dew yoana lei	3	4	5	0	35	0	10 Brined Liver
-dew yoana salacious lei	4	8	0	0	0	0	10 Brined Liver
+dew yoana salacious lei	4	8	0	0	0	0	30 Brined Liver
 dirty martini	6	6	22-26	0	0	16-20	tiny plastic sword
 distilled fortified wine	1	1	5-6	5-6	5-6	5-6
 divine	4	6	14-18	16-20	25-27	0
@@ -170,8 +170,8 @@ redrum	3	1	3-6	0	15-30	0
 rockin' wagon	4	4	10-14	0	0	34-36
 roll in the hay	4	4	10-14	0	34-36	0
 rum and cola	3	1	5-6	0	0	10-12	14-16 MP
-salacious lychee chuhai	4	8	0	0	0	0	10 Brined Liver
-salacious screwdiver	4	8	0	0	0	0	10 Brined Liver
+salacious lychee chuhai	4	8	0	0	0	0	30 Brined Liver
+salacious screwdiver	4	8	0	0	0	0	30 Brined Liver
 salinated mint julep	2	5	4	25	17	22	10 Brined Liver
 salty dog	3	1	5-6	0	8-10	0
 salty slug	3	2	4-8	0	10-12	10-12
