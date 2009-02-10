@@ -2652,7 +2652,8 @@ public class KoLmafiaCLI
 							RequestLogger.printLine( otherForm + " => " + item );
 							break try1;
 						}
-						if ( KoLCharacter.getCurrentHP() < damage )
+						int hp = KoLCharacter.getCurrentHP();
+						if ( hp > 0 && hp < damage )
 						{
 							StaticEntity.getClient().recoverHP( damage );
 						}
