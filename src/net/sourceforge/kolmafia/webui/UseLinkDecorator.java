@@ -204,6 +204,10 @@ public abstract class UseLinkDecorator
 
 		switch ( itemId )
 		{
+		// If you find the wooden stakes, you want to equip them
+		case ItemPool.WOODEN_STAKES:
+			return KoLConstants.NOCREATE;
+
 		// If you find goat cheese, let the trapper link handle it.
 		case ItemPool.GOAT_CHEESE:
 			return KoLConstants.NOCREATE;

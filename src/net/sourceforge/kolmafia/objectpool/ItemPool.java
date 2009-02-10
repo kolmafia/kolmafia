@@ -78,6 +78,7 @@ public class ItemPool
 	public static final int MACE_OF_THE_TORTOISE = 60;
 	public static final int FORTUNE_COOKIE = 61;
 	public static final int NEWBIESPORT_TENT = 69;
+	public static final int WOODEN_STAKES = 71;
 	public static final int BARSKIN_TENT = 73;
 	public static final int SPOOKY_MAP = 74;
 	public static final int SPOOKY_SAPLING = 75;
