@@ -59,6 +59,10 @@ public class CharPaneDecorator
 	private static final Pattern COLOR_PATTERN = Pattern.compile( "(color|class)=\"?\'?([^\"\'>]*)" );
 	private static final Pattern LASTADV_PATTERN = Pattern.compile(
 		">Last Adventure.*?<font[^>]*>(.*?)<br></font>.*?</table>" );
+	private static final Pattern COMPACT_LASTADV_PATTERN = Pattern.compile(
+		"(<a onclick=[^<]+ title=\"Last Adventure: ([^\"]+)\".*?>).*?</tr>" );
+	private static final Pattern COMPACTIFY_PATTERN = Pattern.compile(
+		"\\(|\\)|\\b[A-Za-z]" );
 	private static final Pattern EFFECT_PATTERN = Pattern.compile(
 		"onClick='eff\\(.*?(\\d+)(?:</a>)?\\)" );
 	
@@ -120,10 +124,9 @@ public class CharPaneDecorator
 			CharPaneDecorator.addCounters( buffer, it );
 		}
 		
-		if ( !GenericRequest.isCompactMode &&
-			Preferences.getInteger( "recentLocations" ) >= 1 )
+		if ( Preferences.getInteger( "recentLocations" ) >= 1 )
 		{
-			CharPaneDecorator.addRecentLocations( buffer );
+			CharPaneDecorator.addRecentLocations( buffer, GenericRequest.isCompactMode );
 		}
 	}
 
@@ -763,15 +766,26 @@ public class CharPaneDecorator
 		buffer.append( text.substring( lastAppendIndex ) );
 	}
 
-	private static final void addRecentLocations( final StringBuffer buffer )
+	private static final void addRecentLocations( final StringBuffer buffer, final boolean compact )
 	{
-		Matcher m = LASTADV_PATTERN.matcher( buffer );
+		Matcher m = ( compact ? COMPACT_LASTADV_PATTERN : LASTADV_PATTERN).matcher( buffer );
 		if ( !m.find() )
 		{
 			return;
 		}
 		// group(1) is the link itself, end() is the insertion point for the recent list
 		String link = m.group( 1 );
+		if ( compact )
+		{
+			StringBuffer temp = new StringBuffer( link );
+			Matcher initials = COMPACTIFY_PATTERN.matcher( m.group( 2 ) );
+			while ( initials.find() )
+			{
+				temp.append( initials.group() );
+			}
+			temp.append( "</a>" );
+			link = temp.toString();
+		}
 		int nLinks = Preferences.getInteger( "recentLocations" );
 		if ( CharPaneDecorator.recentLocations.size() == 0 )
 		{	// initialize
@@ -795,7 +809,7 @@ public class CharPaneDecorator
 		
 		String text = buffer.substring( m.end() );
 		buffer.setLength( m.end() );
-		buffer.append( "<font size=1>" );
+		buffer.append( compact ? "<tr><td colspan=2><font size=1>" : "<font size=1>" );
 		for ( int i = 1; i < CharPaneDecorator.recentLocations.size(); ++i )
 		{
 			if ( i > 1 )
@@ -804,7 +818,7 @@ public class CharPaneDecorator
 			}
 			buffer.append( CharPaneDecorator.recentLocations.get( i ) );		
 		}
-		buffer.append( "</font>" );
+		buffer.append( compact? "</font></td></tr>" : "</font>" );
 		buffer.append( text );
 	}
 	

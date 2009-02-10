@@ -1267,6 +1267,7 @@ public class FightRequest
 			Preferences.setString( "spookyPuttyMonster", "" );
 			ResultProcessor.processItem( ItemPool.SPOOKY_PUTTY_SHEET, 1 );
 			consumed = true;
+			KoLmafia.ignoreSemirare();
 			break;
 
 		default:
@@ -2338,6 +2339,7 @@ public class FightRequest
 			{
 				Preferences.increment( "spookyPuttyCopiesMade", 1 );
 				Preferences.setString( "spookyPuttyMonster", FightRequest.encounterLookup );
+				Preferences.setString( "autoPutty", "" );
 				return true;
 			}
 			return false;
@@ -2734,6 +2736,7 @@ public class FightRequest
 					{
 						Preferences.setString( "olfactedMonster",
 							FightRequest.encounterLookup );
+						Preferences.setString( "autoOlfact", "" );
 					}
 
 					FightRequest.action1 = CustomCombatManager.getShortCombatOptionName( "skill " + skill );
@@ -2764,6 +2767,7 @@ public class FightRequest
 						{
 							Preferences.setString( "olfactedMonster",
 								FightRequest.encounterLookup );
+							Preferences.setString( "autoOlfact", "" );
 						}
 						FightRequest.action1 = String.valueOf( itemId );
 						if ( shouldLogAction )
@@ -2784,6 +2788,7 @@ public class FightRequest
 							{
 								Preferences.setString( "olfactedMonster",
 									FightRequest.encounterLookup );
+								Preferences.setString( "autoOlfact", "" );
 							}
 							FightRequest.action2 = String.valueOf( itemId );
 							if ( shouldLogAction )

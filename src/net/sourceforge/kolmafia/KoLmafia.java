@@ -138,6 +138,7 @@ public abstract class KoLmafia
 {
 	private static boolean isRefreshing = false;
 	private static boolean isAdventuring = false;
+	private static volatile String abortAfter = null;
 
 	public static String lastMessage = "";
 
@@ -1663,6 +1664,11 @@ public abstract class KoLmafia
 
 		return KoLConstants.conditions.isEmpty();
 	}
+	
+	public static void abortAfter( String msg )
+	{
+		KoLmafia.abortAfter = msg;
+	}
 
 	private void executeRequest( final Runnable request, final int totalIterations, final boolean wasAdventuring )
 	{
@@ -1685,6 +1691,7 @@ public abstract class KoLmafia
 		// player isn't using custom combat.
 
 		KoLmafia.forceContinue();
+		KoLmafia.abortAfter = null;
 
 		int adventuresBeforeRequest;
 		int currentIteration = 0;
@@ -1762,6 +1769,12 @@ public abstract class KoLmafia
 		if ( KoLCharacter.isFallingDown() && KoLCharacter.getInebriety() <= 25 )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You are too drunk to continue." );
+			return;
+		}
+
+		if ( KoLmafia.abortAfter != null )
+		{
+			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, KoLmafia.abortAfter );
 			return;
 		}
 
@@ -2794,6 +2807,14 @@ public abstract class KoLmafia
 		String encounterType = KoLmafia.encounterType( encounterName );
 		return encounterType == KoLmafia.STOP || encounterType == KoLmafia.GLYPH;
 	}
+	
+	// Used to igore semirare monsters re-encountered via Spooky Putty
+	private static boolean ignoreSemirare = false;
+	
+	public static void ignoreSemirare()
+	{
+		KoLmafia.ignoreSemirare = true;
+	}
 
 	public static void recognizeEncounter( final String encounterName )
 	{
@@ -2804,11 +2825,12 @@ public abstract class KoLmafia
 			return;
 		}
 
-		if ( encounterType == KoLmafia.SEMIRARE )
+		if ( encounterType == KoLmafia.SEMIRARE && !KoLmafia.ignoreSemirare )
 		{
 			KoLCharacter.registerSemirare();
 			return;
 		}
+		KoLmafia.ignoreSemirare = false;
 
 		if ( encounterType == KoLmafia.STOP || encounterType == KoLmafia.GLYPH )
 		{
