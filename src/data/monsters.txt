@@ -141,8 +141,11 @@ Batwinged Gremlin	HP: 170 Def: 171 Atk: 169	gremlin juice (3)	molybdenum hammer 
 Bazookafish	HP: 500 Atk: 375 Meat: 176-264	bazookafish bubble gum (42)	bazookafish bubble gum (8)	dull fish scale (15)	fish bazooka (2)
 Beanbat	HP: 18 Def: 21 Atk: 21 Meat: 28-43	enchanted bean (50)
 Beefy Bodyguard Bat	HP: 36 Atk: 26 Meat: 200-300
+Beer Batter	HP: 100000
 Beer Bongadier	HP: 210 Def: 195 Atk: 180 E: sleaze	    beer bong (20)	beer helmet (1)	bejeweled pledge pin (1)	distressed denim pants (1)	kick-ass kicks (2)	PADL Phone (2)
+Best-Selling Novelist	HP: 100000
 Big Creepy Spider	HP: 1 Def: 1 Atk: 1 Meat: 4-7 "Hardly Poisoned at All"	spider web (30)	spider web (20)
+Big Meat Golem	HP: 100000
 Bizarre Construct	HP: 300 Atk: 300	El Vibrato punchcard (97 holes)	El Vibrato punchcard (216 holes)
 Black Adder	HP: 124 Def: 127 Atk: 129 Meat: 80-120 "Really Quite Poisoned"	adder bladder (30)	black snake skin (15)	sunken eyes (0)
 Black Panther	HP: 128 Def: 125 Atk: 133 Meat: 120-180	Black No. 2 (20)	broken wings (0)
@@ -156,10 +159,12 @@ Bob Racecar	HP: 139 Def: 145 Atk: 138 Meat: 96-138	ketchup hound (35)	leather ch
 Bookbat	HP: 55 Def: 49 Atk: 51	tattered scrap of paper (30)
 Booty Crab	HP: 69 Atk: 102 Meat: 286-334 E: sleaze	Cap'm Caronch's nasty booty (0)
 Booze Giant	HP: 66 Def: 76 Atk: 76	bottle of gin (15)	bottle of rum (15)	bottle of tequila (15)	bottle of vodka (15)	bottle of whiskey (15)	boxed wine (15)
+Bowling Cricket	HP: 100000
 Bow-making Mummy		evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
 Brainsweeper	HP: 9 Def: 18 Atk: 18 Meat: 29-47	disembodied brain (30)
 Bread Golem	HP: 8 Def: 16 Atk: 24 Meat: 26-41	wad of dough (30)
 Briefcase Bat	HP: 11 Def: 17 Atk: 17 Meat: 25-37	bat guano (10)	briefcase (40)	sonar-in-a-biscuit (20)
+Bronze Chef	HP: 100000
 Brutus, the Toga-Clad Lout	HP: 280	    kick-ass kicks (0)	wreath of laurels (100)	white class ring (0)
 Bugbear-In-The-Box	HP: 11 Def: 18 Atk: 16 Meat: 12-18	box (20)	bugbear beanie (10)	bugbear bungguard (10)
 Bullet Bill	HP: 15 Def: 25 Atk: 25	black pixel (70)	black pixel (70)	black pixel (70)
@@ -192,7 +197,9 @@ Cloud of Disembodied Whiskers	HP: 3 Def: 3 Atk: 1	shaving cream (20)
 Clownlord Beelzebozo	HP: 40 Def: 27 Atk: 28	empty greasepaint tube (0)
 Clubfish	HP: 600 Atk: 350 Meat: 176-264	dull fish scale (15)	fish stick (2)
 Cold Hobo	HP: 500	hobo nickel (0)	freezin' bindle (0)	Maxing, Relaxing (0)	Blizzards I Have Died In (0)	frigid air mattress (0)
+Collapsed Mineshaft Golem	HP: 100000
 Completely Different Spider	HP: 1 Def: 1 Atk: 1 Meat: 4-7 "Hardly Poisoned at All"	spider web (25)	spider web (25)
+Concert Pianist	HP: 100000
 Confused Goth Music Student	HP: 9 Def: 9 Atk: 9
 Conjoined Zmombie	HP: 124 Def: 71 Atk: 79 E: spooky Meat: 224-338	cranberries (0)	cranberries (0)	loose teeth (0)
 Cookie-baking Thing from Beyond Time		evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
@@ -210,6 +217,7 @@ Curmudgeonly Pirate	HP: 90 Def: 100 Atk: 100	all-purpose cleaner (25)	curmudgel 
 Dairy Goat	HP: 50 Def: 68 Atk: 68 Meat: 40-64	glass of goat's milk (20)	goat cheese (40)	billy idol (0)
 Dairy Ooze	HP: 8 Def: 13 Atk: 13 Meat: 11-15
 Danglin' Chad	HP: 300 Meat: 297-342 E: sleaze	Danglin' Chad's loincloth (100)	beer helmet (0)	bejeweled pledge pin (0)	distressed denim pants (0)	kick-ass kicks (0)	white class ring (0)
+The Darkness	HP: 100000
 Decal-applying Elfborg		iGoogly (10)	LED block (10)	nanofiber cloth (10)	synthetic stuffing (10)	theoretical string (10)	toy hoverpad (10)
 Decent Lumberjack	HP: 35 Def: 35 Atk: 35 Meat: 16-24	poutine (30)	disbelief suspenders (10)	manly bloomers (0)
 Decent White Shark	HP: 600 Atk: 425 Meat: 192-288	dull fish scale (0)	shark cartilage (0)	shark jumper (0)	shark tooth (0)	shark tooth (0)
@@ -234,16 +242,22 @@ Dyspepsi-Cola General	HP: 40 Def: 30 Atk: 30	Dyspepsi-Cola (15)	Dyspepsi-Cola (1
 Dyspepsi-Cola Knight	HP: 35 Def: 30 Atk: 30	Dyspepsi-Cola (15)	Dyspepsi-Cola (15)	Dyspepsi grenade (5)
 Dyspepsi-Cola Soldier	HP: 30 Def: 30 Atk: 30	Dyspepsi-Cola (15)	Dyspepsi-Cola (15)	Dyspepsi grenade (5)	lucky lighter (0)
 Ed the Undying	HP: 256 Atk: 300	Holy MacGuffin (0)
+El Diablo	HP: 100000
+Electron Submarine	HP: 100000
 Elite Beer Bongadier	HP: 230 Def: 205 Atk: 190 E: sleaze	beer bong (30)	beer helmet (1)	bejeweled pledge pin (1)	distressed denim pants (1)	kick-ass kicks (4)	PADL Phone (3)
 Empty Suit of Armor	HP: 120 Def: 115 Atk: 115 ED: spooky	antique greaves (10)	antique helmet (10)	antique spear (10)	antique shield (10)
+Endangered Inflatable White Tiger	HP: 100000
+Enraged Cow	HP: 100000
 Erudite Gremlin	HP: 170 Def: 169 Atk: 171 Meat: 40-60	gremlin juice (3)	molybdenum crescent wrench (0)
 Evil Olive	HP: 140 Def: 145 Atk: 145	bottle of gin (30)	olive (40)	jumbo olive (10)
 eXtreme Cross-Country Hippy	HP: 65 Def: 73 Atk: 73 E: stench	eXtreme mittens (5)	eXtreme scarf (10)	Mountain Stream soda (30)	enchanted handwarmer (0)
 eXtreme Orcish Snowboarder	HP: 65 Def: 74 Atk: 74 Meat: 32-48 E: sleaze	eXtreme mittens (5)	Mountain Stream soda (30)	snowboarder pants (10)	enchanted handwarmer (0)
 eXtreme Sports Orcs	HP: 30 Def: 38 Atk: 39	Orcish baseball cap (0)	Orcish cargo shorts (0)	Mountain Stream soda (0)	eXtreme mittens (0)	hang glider (0)
 Fallen Archfiend	HP: 50 Def: 50 Atk: 50 E: heat Meat: 36-54	evil golden arch (30)	infernal insoles (10)
+Fancy Bath Slug	HP: 100000
 Felonia, Queen of the Spooky Gravy Fairies	HP: 82 Def: 75 Atk: 75 E: spooky
 Ferocious Bugbear	HP: 5 Meat: 17-23	bugbear beanie (0)	bugbear bungguard (0)
+The Fickle Finger of F8	HP: 100000
 Fiendish Can of Asparagus	HP: 1 Def: 1 Atk: 1 E: stench Meat: 4-6	asparagus knife (20)	stalk of asparagus (40)	razor-sharp can lid (40)	shredded can label (0)
 Figure-Skating Duck	HP: 186 Atk: 179 Meat: 139-171 E: cold	frozen feather (10)	duct tape (5)
 Filthworm Drone	HP: 185 Atk: 167 Meat: 56-85 E: stench	filthworm drone scent gland (10)
@@ -254,6 +268,7 @@ Filthy Hippy Vegan Chef	HP: 30 Def: 39 Atk: 39 E: stench	tambourine bells (10)	w
 Fire-Breathing Duck	HP: 190 Atk: 177 Meat: 142-200 E: heat	flaming feather (10)	duct tape (5)
 Fisherfish	HP: 650 Atk: 550 Meat: 240-360	glowing esca (0)	rough fish scale (0)
 Flame-Broiled Meat Blob	HP: 2 Def: 1 Atk: 1 E: heat Meat: 4-7	meat paste (40)	meat paste (40)	meat paste (40)
+Flaming Samurai	HP: 100000
 Flaming Troll	HP: 73 Def: 83 Atk: 83 Meat: 32-48	flaming talons (10)	Trollhouse cookies (40)
 Flint-Scraping Cave Elf		rock (15)	stick (10)	stick (5)
 Floating Platter of Hors D'Oeuvres	HP: 120 Def: 110 Atk: 110 ED: spooky	desiccated apricot (30)	flute of flat champagne (30)	dehydrated caviar (30)
@@ -278,6 +293,9 @@ Ghastly Organist	HP: 120 Def: 110 Atk: 100	opera mask (20)
 Ghost Miner	HP: 31 Def: 30 Atk: 30 E: spooky	bubblewrap ore (10)	bubblewrap ore (10)	cardboard ore (10)	cardboard ore (10)	styrofoam ore (10)	styrofoam ore (10)
 Ghostly Pickle Factory Worker	HP: 180 Def: 200 Atk: 200	ghost cucumber (30)	ghost cucumber (30)
 Ghuol	HP: 10 Def: 19 Atk: 19 E: spooky Meat: 30-36	ghuol egg (25)	ghuol ears (25)
+Giant Bee	HP: 100000
+Giant Desktop Globe	HP: 100000
+Giant Fried Egg	HP: 100000
 Giant Giant Giant Centipede	HP: 142 Def: 138 Atk: 142 Meat: 120-180	centipede eggs (20)	handful of sand (25)	handful of sand (15)
 Giant Giant Moth	HP: 11 Def: 12 Atk: 11
 Giant Pair of Tweezers	HP: 8 Def: 18 Atk: 16
@@ -327,6 +345,7 @@ Hulking Construct	HP: 0	El Vibrato punchcard (104 holes)
 Hung-over Half-Orc Hobo	HP: 1 Def: 1 Atk: 1 E: stench	dirty hobo gloves (30)	Mad Train wine (60)	moxie weed (15)	hobo gristle (0)
 Hunter-Gatherer Cave Elf		tooth (15)	tooth (5)
 Hypnotist of Hey Deze	HP: 80 Def: 50 Atk: 50	hypnodisk (100)
+Ice Cube	HP: 100000
 Iiti Kitty	HP: 150 Def: 165 Atk: 165	leathery cat skin (30)	unidentified jerky (10)	ancient Magi-Wipes (50)	ancient vinyl coin purse (20)	mummy wrapping (20)	Iiti Kitty phone charm (10)
 Industrious Construct	HP: 0	El Vibrato punchcard (129 holes)	El Vibrato punchcard (88 holes)
 Infinite Meat Bug	HP: 50 Def: 45 Atk: 45	incredibly dense meat gem (100)
@@ -375,6 +394,7 @@ Lumberjuan	HP: 35 Def: 35 Atk: 35 Meat: 17-26	los chinos (5)	leaflet (15)	wooden
 Mad Bugbears	HP: 13 Def: 17 Atk: 15
 MagiMechTech MechaMech	HP: 100 Def: 120 Atk: 120	photoprotoneutron torpedo (30)	metallic A (30)	glowing red eye (18)	oversized pizza cutter (7)	burned-out arcanodiode (0)
 Magic Dragonfish	HP: 750 Atk: 500 Meat: 160-240	rough fish scale (0)	seaweed (0)	dragonfish caviar (0)
+Malevolent Crop Circle	HP: 100000
 Malevolent Hair Clog	HP: 85 Def: 90 Atk: 95 ED: spooky	gob of wet hair (40)
 Man-Eating Plant	HP: 10 Def: 9 Atk: 7
 Mariachi Calavera	HP: 30 Def: 22 Atk: 22	bottle of tequila (30)	marzipan skull (30)	callused fingerbone (0)
@@ -440,10 +460,12 @@ Plaque of Locusts	HP: 140 Def: 138 Atk: 134	bronzed locust (20)	honey-dipped loc
 Pooltergeist	HP: 25 Def: 20 Atk: 20	1-ball (3)	2-ball (3)	3-ball (3)	4-ball (3)	5-ball (3)	6-ball (3)	7-ball (3)	8-ball (15)
 Portly Abomination	HP: 63 Def: 73 Atk: 73 Meat: 61-91
 Possessed Can of Tomatoes	HP: 1 Def: 1 Atk: 1 Meat: 2-4	razor-sharp can lid (45)	tomato (60)	possessed tomato (0)	shredded can label (0)
+Possessed Pipe-Organ	HP: 100000
 Possessed Silverware Drawer	HP: 6 Def: 4 Atk: 5	antique packet of ketchup (0)	corn holder (15)	eggbeater (4)
 Possessed Wine Rack	HP: 165 Def: 163 Atk: 158 E: spooky	dusty bottle of Marsala (20)	dusty bottle of Merlot (20)	dusty bottle of Muscat (20)	dusty bottle of Pinot Noir (20)	dusty bottle of Port (20)	dusty bottle of Zinfandel (20)
 Possibility Giant	HP: 150 Def: 130 Atk: 130 Meat: 120-180	chaos butterfly (20)	plot hole (20)	probability potion (30)
 Poutine Ooze	HP: 3 Def: 3 Atk: 3	poutine (40)
+Pretty Fly	HP: 100000
 Procrastination Giant	HP: 150 Def: 125 Atk: 125 Meat: 120-180	procrastination potion (30)
 Protagonist	HP: 80 Def: 100 Atk: 100 Meat: 58-129	phonics down (40)	ridiculously huge sword (10)	super-spikey hair gel (20)
 Protector Spectre	HP: 116	ancient amulet (100)	spectre scepter (100)
@@ -578,6 +600,7 @@ Topiary Golem	HP: 250 Def: 232 Atk: 232	hedge maze puzzle (60)
 Towering Construct	HP: 0	El Vibrato punchcard (165 holes)	El Vibrato punchcard (176 holes)
 Toy-making creature from the Gray Lagoon		evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
 Triffid	HP: 6 Def: 5 Atk: 1	moxie weed (30)	spooky stick (30)	triffid bark (0)
+Tyrannosaurus Tex	HP: 100000
 Undead Elbow Macaroni	HP: 1 Def: 2 Atk: 1 E: spooky Meat: 4-6	magicalness-in-a-can (25)
 Unholy Diver	HP: 1000 Atk: 700	rusty broken diving helmet (0)	rusty porthole (0)	rusty rivet (0)	rusty rivet (0)	rusty rivet (0)
 Upgraded Ram	HP: 95 Def: 105 Atk: 106 Meat: 83-118 ED: cold	ram horns (5)	ram stick (5)	Ram's Face Lager (30)
@@ -585,6 +608,7 @@ Vampire Bat	HP: 10 Def: 16 Atk: 17 Meat: 34-54	bat wing (15)	batgut (15)	sonar-i
 Vampire Clam	HP: 14 Def: 19 Atk: 21
 Vampire Duck	HP: 198 Atk: 175 Meat: 131-165 E: spooky	frightful feather (10)	duct tape (5)
 Vegetable Gremlin	HP: 170 Def: 172 Atk: 168 Meat: 40-60	gremlin juice (3)	molybdenum screwdriver (0)
+Vicious Easel	HP: 100000
 Vicious Gnauga	HP: 40 Def: 40 Atk: 45	gnauga hide (10)
 Vine Gar	HP: 180 Def: 200 Atk: 200	vinegar (30)	vinegar (30)
 W Imp	HP: 40 Def: 40 Atk: 40 E: heat Meat: 24-36	Imp Ale (30)	ruby W (30)	wussiness potion (30)

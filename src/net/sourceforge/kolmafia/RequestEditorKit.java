@@ -58,6 +58,7 @@ import javax.swing.text.html.ImageView;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase.Monster;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.request.ChatRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
@@ -67,6 +68,7 @@ import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.RequestFrame;
@@ -843,13 +845,15 @@ public class RequestEditorKit
 
 	private static final void annotateMonster( final StringBuffer buffer )
 	{
-		if ( FightRequest.getLastMonster() == null )
+		Monster monster = FightRequest.getLastMonster();
+
+		if ( monster == null )
 		{
 			return;
 		}
 
 		// Don't show monster unless we know combat stats or items
-		if ( FightRequest.getLastMonster().getHP() == 0 && FightRequest.getLastMonster().getItems().isEmpty() )
+		if ( monster.getHP() == 0 && monster.getItems().isEmpty() )
 		{
 			return;
 		}
@@ -890,12 +894,15 @@ public class RequestEditorKit
 		}
 
 		StringBuffer monsterData = new StringBuffer();
+		String monsterName = FightRequest.getLastMonsterName();
+
 		monsterData.append( "<font size=2 color=gray>" );
 		if ( haiku )
 		{
 			monsterData.append( "<br><br>Pretend that the line<br>below has five syllables:" );
 		}
-		if ( FightRequest.getLastMonster().getHP() != 0 )
+
+		if ( monster.getHP() != 0 )
 		{
 			monsterData.append( "<br />HP: " );
 			monsterData.append( FightRequest.getMonsterHealth() );
@@ -904,8 +911,7 @@ public class RequestEditorKit
 			monsterData.append( ", Def: " );
 			monsterData.append( FightRequest.getMonsterDefense() );
 
-			String monster = FightRequest.getLastMonsterName();
-			if ( monster.indexOf( "pirate" ) != -1 )
+			if ( monsterName.indexOf( "pirate" ) != -1 )
 			{
 				int count = FightRequest.countPirateInsults();
 				monsterData.append( ", Insults: ");
@@ -915,12 +921,19 @@ public class RequestEditorKit
 				monsterData.append( KoLConstants.FLOAT_FORMAT.format( odds ) );
 				monsterData.append( "%)");
 			}
-			else if ( monster.equalsIgnoreCase( "Black Pudding" ) )
+			else if ( monsterName.equalsIgnoreCase( "Black Pudding" ) )
 			{
 				int count = Preferences.getInteger( "blackPuddingsDefeated" );
 				monsterData.append( ", Defeated: ");
 				monsterData.append( count );
 			}
+		}
+
+		String[] guardianData = SorceressLairManager.findGuardianByName( monsterName );
+		if ( guardianData != null )
+		{
+			String item = SorceressLairManager.guardianItem( guardianData );
+			monsterData.append( "<br />Defeated by a " + item );
 		}
 
 		List items = FightRequest.getLastMonster().getItems();

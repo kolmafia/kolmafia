@@ -430,7 +430,7 @@ public abstract class ChoiceManager
 		// Strung-Up Quartet
 		new ChoiceAdventure(
 			"Manor2", "choiceAdventure106", "Haunted Ballroom",
-			new String[] { "increase monster level", "decrease combat frequency", "increase item drops", "skip adventure" } ),
+			new String[] { "increase monster level", "decrease combat frequency", "increase item drops", "disable song" } ),
 
 		// Bad Medicine is What You Need
 		new ChoiceAdventure(
