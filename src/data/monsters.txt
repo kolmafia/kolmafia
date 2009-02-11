@@ -580,7 +580,8 @@ The Man	HP: 2000
 The Master of Thieves		Platinum Yendorian Express Card (100)
 The Muff	HP: 150 Def: 153 Atk: 153 E: sleaze	line (30)	line (30)	star (30)
 The Naughty Sorceress
-The Naughty Sorceress (second form)
+The Naughty Sorceress (2)
+The Naughty Sorceress (3)
 The Pork Sword	HP: 150 Def: 162 Atk: 162 E: sleaze	line (30)	star (30)	star (30)
 The Queen Filthworm	HP: 200 Atk: 173 Meat: 1000 E: stench	heart of the filthworm queen (100)
 The Skinflute	HP: 150 Def: 158 Atk: 158 E: sleaze	star (30)	star (30)	line (30)	line (30)
