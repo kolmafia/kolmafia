@@ -720,6 +720,7 @@ public class ItemPool
 	public static final int POTION_OF_PERSPICACITY = 3562;
 	public static final int POTION_OF_PULCHRITUDE = 3563;
 	public static final int SAND_DOLLAR = 3575;
+	public static final int BEZOAR_RING = 3577;
 	public static final int SUSHI_ROLLING_MAT = 3581;
 	public static final int RUSTY_BROKEN_DIVING_HELMET = 3602;
 	public static final int BUBBLIN_STONE = 3605;

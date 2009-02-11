@@ -668,9 +668,10 @@ public abstract class InventoryManager
 
 		switch ( itemId )
 		{
-		case 588: // soft green echo eyedrop antidote
-		case 592: // tiny house
-		case 595: // scroll of drastic healing
+		case ItemPool.REMEDY: // soft green echo eyedrop antidote
+		case ItemPool.TINY_HOUSE:
+		case ItemPool.DRASTIC_HEALING:
+		case ItemPool.ANTIDOTE:
 			return true;
 		}
 
@@ -714,8 +715,8 @@ public abstract class InventoryManager
 
 		switch ( itemId )
 		{
-		case 24:	// ten-leaf clover
-		case 196:	// disassembled clover
+		case ItemPool.TEN_LEAF_CLOVER:
+		case ItemPool.DISASSEMBLED_CLOVER:
 		case 1637:	// phial of hotness
 		case 1638:	// phial of coldness
 		case 1639:	// phial of spookiness

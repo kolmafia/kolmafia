@@ -769,6 +769,13 @@ public class KoLAdventure
 				return;
 			}
 		}
+		
+		if ( this.areaSummary != null &&
+			this.areaSummary.poison() <= Preferences.getInteger( "autoAntidote" ) &&
+			!KoLCharacter.hasEquipped( ItemPool.get( ItemPool.BEZOAR_RING, 1 ) ) )
+		{
+			InventoryManager.retrieveItem( ItemPool.ANTIDOTE );
+		}
 
 		if ( !KoLmafia.permitsContinue() )
 		{

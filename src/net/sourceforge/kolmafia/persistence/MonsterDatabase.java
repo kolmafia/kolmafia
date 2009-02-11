@@ -50,6 +50,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.swingui.panel.AdventureSelectPanel;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -223,6 +224,7 @@ public class MonsterDatabase
 		int maxMeat = 0;
 		int attackElement = MonsterDatabase.NONE;
 		int defenseElement = MonsterDatabase.NONE;
+		int poison = Integer.MAX_VALUE;
 
 		StringTokenizer tokens = new StringTokenizer( s, " " );
 		while ( tokens.hasMoreTokens() )
@@ -333,6 +335,22 @@ public class MonsterDatabase
 						continue;
 					}
 				}
+				else if ( option.startsWith( "\"" ) )
+				{
+					StringBuffer temp = new StringBuffer( option );
+					while ( !option.endsWith( "\"" ) && tokens.hasMoreTokens() )
+					{
+						option = tokens.nextToken();
+						temp.append( ' ' );
+						temp.append( option );
+					}
+					poison = AdventureSelectPanel.getPoisonLevel( temp.toString() );
+					if ( poison == Integer.MAX_VALUE )
+					{
+						RequestLogger.printLine( "Monster: \"" + name + "\": unknown poison type: " + temp );
+					}
+					continue;
+				}
 
 				RequestLogger.printLine( "Monster: \"" + name + "\": unknown option: " + option );
 			}
@@ -347,7 +365,7 @@ public class MonsterDatabase
 			return null;
 		}
 
-		return new Monster( name, health, attack, defense, initiative, attackElement, defenseElement, minMeat, maxMeat );
+		return new Monster( name, health, attack, defense, initiative, attackElement, defenseElement, minMeat, maxMeat, poison );
 	}
 
 	private static final int parseElement( final String s )
@@ -387,12 +405,13 @@ public class MonsterDatabase
 		private final int defenseElement;
 		private final int minMeat;
 		private final int maxMeat;
+		private final int poison;
 
 		private final List items;
 		private final List pocketRates;
 
 		public Monster( final String name, final int health, final int attack, final int defense, final int initiative,
-			final int attackElement, final int defenseElement, final int minMeat, final int maxMeat )
+			final int attackElement, final int defenseElement, final int minMeat, final int maxMeat, final int poison )
 		{
 			super( AdventureResult.MONSTER_PRIORITY, name );
 
@@ -405,6 +424,7 @@ public class MonsterDatabase
 			this.defenseElement = defenseElement;
 			this.minMeat = minMeat;
 			this.maxMeat = maxMeat;
+			this.poison = poison;
 
 			this.items = new ArrayList();
 			this.pocketRates = new ArrayList();
@@ -453,6 +473,11 @@ public class MonsterDatabase
 		public int getMaxMeat()
 		{
 			return this.maxMeat;
+		}
+
+		public int getPoison()
+		{
+			return this.poison;
 		}
 
 		public List getItems()
