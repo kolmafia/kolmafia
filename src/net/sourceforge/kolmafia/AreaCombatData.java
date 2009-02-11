@@ -50,6 +50,7 @@ public class AreaCombatData
 	private int maxHit;
 	private int minEvade;
 	private int maxEvade;
+	private int poison;
 
 	private final int combats;
 	private int weights;
@@ -73,6 +74,7 @@ public class AreaCombatData
 		this.maxHit = 0;
 		this.minEvade = Integer.MAX_VALUE;
 		this.maxEvade = 0;
+		this.poison = Integer.MAX_VALUE;
 	}
 
 	public boolean addMonster( String name )
@@ -104,6 +106,7 @@ public class AreaCombatData
 		}
 
 		this.monsters.add( monster );
+		this.poison = Math.min( this.poison, monster.getPoison() );
 		this.weightings.add( new Integer( (weighting << WEIGHT_SHIFT) | flags ) );
 
 		// Don't let ultra-rare monsters skew hit and evade numbers -
@@ -198,6 +201,11 @@ public class AreaCombatData
 	public int maxEvade()
 	{
 		return this.maxEvade;
+	}
+
+	public int poison()
+	{
+		return this.poison;
 	}
 
 	public boolean willHitSomething()
@@ -401,6 +409,10 @@ public class AreaCombatData
 
 		// Color the monster name according to its element
 		buffer.append( " <font color=" + AreaCombatData.elementColor( element ) + "><b>" );
+		if ( monster.getPoison() < Integer.MAX_VALUE )
+		{
+			buffer.append( "\u2620 " );
+		}
 		buffer.append( monster.getName() );
 		buffer.append( "</b></font> (" );
 
