@@ -443,14 +443,14 @@ public abstract class SorceressLairManager
 			"tropical orchid"
 		},
 		{
-			"giant fried egg",
-			"flash of albumen",
-			"black pepper"
-		},
-		{
 			"giant desktop globe",
 			"the North Pole",
 			"NG"
+		},
+		{
+			"giant fried egg",
+			"flash of albumen",
+			"black pepper"
 		},
 		{
 			"ice cube",
