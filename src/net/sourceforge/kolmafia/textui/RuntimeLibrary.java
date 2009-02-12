@@ -3129,7 +3129,7 @@ public abstract class RuntimeLibrary
 
 		float damageAbsorb =
 			1.0f - ( (float) Math.sqrt( Math.min( 1000, KoLCharacter.getDamageAbsorption() ) / 10.0f ) - 1.0f ) / 10.0f;
-		float elementAbsorb = 1.0f - KoLCharacter.getElementalResistance( monster.getAttackElement() );
+		float elementAbsorb = 1.0f - KoLCharacter.getElementalResistance( monster.getAttackElement() ) / 100.0f;
 		return new Value( (int) Math.ceil( baseValue * damageAbsorb * elementAbsorb ) );
 	}
 

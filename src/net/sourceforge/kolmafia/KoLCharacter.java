@@ -1524,6 +1524,10 @@ public abstract class KoLCharacter
 
 	public static final float getElementalResistance( final int element )
 	{
+		if ( element == MonsterDatabase.NONE )
+		{
+			return 0.0f;
+		}
 		int levels = KoLCharacter.getElementalResistanceLevels( element );
 		return KoLCharacter.elementalResistanceByLevel( levels );
 	}
