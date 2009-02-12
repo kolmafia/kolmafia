@@ -3048,7 +3048,6 @@
 3042	622329601	Crimbo P. R. E. S. S. I. E.
 3043	637200318	metallic foil bow	metallic foil bows
 3044	501377601	metallic foil radar dish	metallic foil radar dishs
-3045	967669535	nanite-infested gingerbread bugbear
 3045	967669535	nanite-infested gingerbread bugbear	nanite-infested gingerbread bugbears
 3046	190558951	nanite-infested candy cane	nanite-infested candy canes
 3047	203826503	nanite-infested fruitcake	nanite-infested fruitcakes
@@ -3432,7 +3431,7 @@
 3425	586708288	garbage-juice-flavored Hob-O
 3426	951203806	strawberry-flavored Hob-O
 3427	965215365	roll of Hob-Os	rolls of Hob-Os
-3428
+3428	133927592	Everlasting Deckswabber
 3429
 3430	656438917	bindle of joy
 3431	960452345	cotton candy cocoon

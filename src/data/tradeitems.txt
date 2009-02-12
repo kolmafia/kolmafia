@@ -3426,7 +3426,7 @@
 3425	garbage-juice-flavored Hob-O	4	all	5
 3426	strawberry-flavored Hob-O	4	all	5
 3427	roll of Hob-Os	4	all	25
-3428
+3428	Everlasting Deckswabber	4	all	50\
 3429
 3430	bindle of joy	3	gift	0
 3431	cotton candy cocoon	5	all	0
@@ -3593,7 +3593,7 @@
 3592	Mer-kin takebag	13	all	400
 3593	Mer-kin thingpouch	4	all	250
 3594	Mer-kin killscroll	25	all	100
-3595	Mer-kin fastjuice	4	all	150
+3595	Mer-kin fastjuice	3	all	150
 3596	imitation crab crate	4	all	330
 3597	imitation crab meat	25	all	50
 3598	imitation crab zoea	5	all	0

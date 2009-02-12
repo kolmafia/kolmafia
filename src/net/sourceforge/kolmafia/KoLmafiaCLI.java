@@ -6269,6 +6269,10 @@ public class KoLmafiaCLI
 					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You cannot mix without a bartender-in-the-box." );
 					return;
 
+				case KoLConstants.SUSHI:
+					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You cannot make sushi without a sushi-rolling mat." );
+					return;
+
 				default:
 
 					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "That item cannot be created." );
@@ -6320,8 +6324,6 @@ public class KoLmafiaCLI
 		// Now, handle the instance where the first item is actually
 		// the quantity desired, and the next is the amount to use
 
-		AdventureResult currentMatch;
-
 		if ( command.equals( "eat" ) || command.equals( "ghost" ) )
 		{
 			ItemFinder.setMatchType( ItemFinder.FOOD_MATCH );
@@ -6345,7 +6347,7 @@ public class KoLmafiaCLI
 			// level=2: use all items in list, buy/make as needed
 			for ( int i = 0; i < itemList.length; ++i )
 			{
-				currentMatch = (AdventureResult) itemList[ i ];
+				AdventureResult currentMatch = (AdventureResult) itemList[ i ];
 				int consumpt = ItemDatabase.getConsumptionType( currentMatch.getItemId() );
 
 				if ( command.equals( "eat" ) && consumpt == KoLConstants.CONSUME_FOOD_HELPER )

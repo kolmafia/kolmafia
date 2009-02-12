@@ -557,7 +557,7 @@
 556	Warm Belly	stomach.gif	78f695c8688a47aa520f24f0108ff573	drink 1 bottle of Pete's Sake
 557	Fishbreath	breath.gif	ddc1e7f70dcc1442f42c5720c9196c12	use 1 bazookafish bubble gum
 558	Salty Dogs	feet.gif	10d0d4b9af1a2982ced17d627f2b3e43	use 1 sea salt crystal
-559
+559	Chain Chain Chains	cuffs.gif	dcf808768ab660d05b9b6a8f4e8e13f4	use 1 Everlasting Deckswabber
 560	It's Electric!	electric.gif	769be7a70eab7e99640316f78c7d7c33	use 1 eel battery
 561	Crocodile Tear	raindrop.gif	1244fd2f71f838ce95600e79cec2177c	use 1 temporary teardrop tattoo
 562	Swimming with Sharks	sharkfin.gif	a56c246742def1df7013e3941f14a3f0	use 1 shark cartilage
