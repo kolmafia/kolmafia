@@ -454,7 +454,7 @@ public class AreaCombatData
 			return;
 		}
 
-		float modifier = ( KoLCharacter.getMeatDropPercentAdjustment() + 100.0f ) / 100.0f;
+		float modifier = Math.max( 0.0f, ( KoLCharacter.getMeatDropPercentAdjustment() + 100.0f ) / 100.0f );
 		buffer.append( "<br>Meat: " + this.format( minMeat * modifier ) + "-" + this.format( maxMeat * modifier ) + " (" + this.format( ( minMeat + maxMeat ) * modifier / 2.0f ) + " average)" );
 	}
 
@@ -520,7 +520,7 @@ public class AreaCombatData
 		}
 
 		AreaCombatData.lastDropModifier = KoLCharacter.getItemDropPercentAdjustment();
-		AreaCombatData.lastDropMultiplier = ( 100.0f + AreaCombatData.lastDropModifier ) / 100.0f;
+		AreaCombatData.lastDropMultiplier = Math.max( 0.0f, ( 100.0f + AreaCombatData.lastDropModifier ) / 100.0f );
 
 		return AreaCombatData.lastDropMultiplier;
 	}
