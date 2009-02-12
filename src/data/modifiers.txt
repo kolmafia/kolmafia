@@ -1629,7 +1629,7 @@ Bootyliciousness	Item Drop: +10
 # Braaains	Meat Drop: +100, Initiative: -x
 Braaains	Meat Drop: +100
 Brawnee's Anthem of Absorption	Damage Reduction: [L^1.2]
-Brined Liver	Meat Drop Penalty: [20*zone(The Sea)]
+Brined Liver	Meat Drop Penalty: [20*zone(The Sea)], Item Drop Penalty: [20*zone(The Sea)]
 Broken Fast	Item Drop: +30
 Broken Heart	Muscle: [min(T,20)], HP Regen Min: [min(T,20)], HP Regen Max: [min(T,20)]
 Broken Knees	Muscle Percent: -30
@@ -1706,6 +1706,7 @@ Disco State of Mind	Moxie: +2
 Disco Nirvana	Meat Drop: +30
 Dizzy with Rage	Moxie Percent: -10
 # Don't Rest Ye, Bold Adventurer	variable stats
+Donho's Bubbly Ballad	Meat Drop Penalty: [20*zone(The Sea)], Item Drop Penalty: [20*zone(The Sea)]
 Down with Chow	Familiar Weight: +10
 Dreadlocked	Mysticality Percent: +50, Moxie Percent: -50
 Dreams and Lights	Mysticality: +10, Mana Cost: -3
@@ -1813,7 +1814,7 @@ Heart of Green	Muscle: +3, Mysticality: +3, Moxie: +3, Familiar Weight: +3
 Heart of Lavender	Muscle: +3, Mysticality: +3, Moxie: +3, Item Drop: +10
 Heart of Orange	Muscle: +3, Mysticality: +3, Moxie: +3, Hot Damage: +5, Hot Spell Damage: +5, HP Regen Min: 5, HP Regen Max: 6, MP Regen Min: 5, MP Regen Max: 6
 Heart of Pink	Muscle: +3, Mysticality: +3, Moxie: +3, Meat Drop: +20
-Heart of White	Muscle: +1, Mysticality: +1, Moxie: +1, Experience: +1
+Heart of White	Muscle: +3, Mysticality: +3, Moxie: +3, Experience: +1
 Heart of Yellow	Muscle: +3, Mysticality: +3, Moxie: +3, Initiative: +20
 # Heavily Breathing	extra muscle substats equal to level
 Heavy Petting	Familiar Weight: +5, Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10
@@ -1854,7 +1855,7 @@ Jackasses' Symphony of Destruction	Weapon Damage: +12, Spell Damage: +12
 # Jammin'
 # Jazz Hands	chat effect
 Je Ne Sais Porquoise	Moxie Percent: +50
-# Juiced Up
+Juiced Up	Meat Drop Penalty: [10*zone(The Sea)], Item Drop Penalty: [10*zone(The Sea)]
 Kiss of the Black Fairy	Spooky Damage: [+2*D]
 Knob Goblin Lust Frenzy	Moxie: +2
 # Knob Goblin Perfume	zone unlock
@@ -1959,7 +1960,7 @@ Reptilian Fortitude	Maximum HP: +30
 Ringing Ears	Muscle Percent: +20, Mysticality Percent: -20
 Rushin' Hands	Weapon Damage: +3
 Salamander In Your Stomach	Mysticality: +25
-Salty Dogs	Meat Drop Penalty: [10*zone(The Sea)]
+Salty Dogs	Meat Drop Penalty: [10*zone(The Sea)], Item Drop Penalty: [10*zone(The Sea)]
 # Salty Mouth	changes msg when drinking beer?
 Saucemastery	Mysticality: +1, Maximum HP: +4
 Savage Beast Inside	Muscle: +20
@@ -2040,7 +2041,7 @@ Sweet and Green	Weapon Damage: +30
 Sweet and Red	Spell Damage: +30
 Sweet and Yellow	Ranged Damage: +30
 Sweet Heart	Muscle: [min(T,20)], Meat Drop: [2*min(T,20)]
-Swimming with Sharks	Meat Drop: +20, Meat Drop Penalty: [20*zone(The Sea)]
+Swimming with Sharks	Meat Drop: +20, Meat Drop Penalty: [20*zone(The Sea)], Item Drop Penalty: [20*zone(The Sea)]
 Synthesized	Damage Reduction: 7, Weapon Damage: -7
 # Talking Like a Pirate	chat effect
 Tamarind Torment	Muscle: +5, Moxie: -5
