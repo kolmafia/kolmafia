@@ -554,50 +554,6 @@ public class CreateItemRequest
 		if ( this.responseText.indexOf( "Smoke" ) != -1 )
 		{
 			KoLmafia.updateDisplay( "Your box servant has escaped!" );
-
-			switch ( this.mixingMethod )
-			{
-			case KoLConstants.COOK:
-			case KoLConstants.COOK_REAGENT:
-			case KoLConstants.SUPER_REAGENT:
-			case KoLConstants.COOK_PASTA:
-				KoLCharacter.setChef( false );
-				break;
-
-			case KoLConstants.MIX:
-			case KoLConstants.MIX_SPECIAL:
-			case KoLConstants.MIX_SUPER:
-			case KoLConstants.MIX_SALACIOUS:
-				KoLCharacter.setBartender( false );
-				break;
-			}
-		}
-
-		int createdQuantity = this.createdItem.getCount( KoLConstants.inventory ) - this.beforeQuantity;
-
-		if ( createdQuantity >= this.quantityNeeded )
-		{
-			return;
-		}
-
-		// When an explosion occurs, all the ingredients might not have
-		// been consumed. Put back ingredients for products we didn't
-		// end up making.
-
-		int undoAmount = this.quantityNeeded - createdQuantity;
-		undoAmount = ( undoAmount + this.yield - 1 ) / this.yield;
-
-		AdventureResult[] ingredients = ConcoctionDatabase.getIngredients( this.itemId );
-
-		for ( int i = 0; i < ingredients.length; ++i )
-		{
-			AdventureResult ingredient = ingredients[ i ];
-			ResultProcessor.processItem( ingredient.getItemId(), undoAmount * ingredient.getCount() );
-		}
-
-		if ( this.mixingMethod == KoLConstants.COMBINE && !KoLCharacter.inMuscleSign() )
-		{
-			ResultProcessor.processItem( ItemPool.MEAT_PASTE, undoAmount );
 		}
 	}
 
@@ -626,6 +582,22 @@ public class CreateItemRequest
 			}
 			RequestLogger.updateSessionLog( "Crafting used " + qty + " each of " +
 				ItemDatabase.getItemName( item1 ) + " and " + ItemDatabase.getItemName( item2 ) );		
+		}
+
+		if ( responseText.indexOf( "Smoke" ) != -1 )
+		{
+			String servant = "servant";
+			if ( mode.equals( "cook" ) )
+			{
+				servant = "chef";
+				KoLCharacter.setChef( false );
+			}
+			else if ( mode.equals( "cocktail" ) )
+			{
+				servant = "bartender";
+				KoLCharacter.setBartender( false );
+			}
+			RequestLogger.updateSessionLog( "Your " + servant + " blew up" );
 		}
 	}
 
