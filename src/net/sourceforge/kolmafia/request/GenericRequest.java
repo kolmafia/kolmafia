@@ -517,6 +517,41 @@ public class GenericRequest
 			return;
 		}
 
+		// Browsers are inconsistent about what, exactly, they supply.
+		// 
+		// When you visit the crafting "Discoveries" page and select a
+		// multi-step recipe, you the following as the path:
+		//
+		// craft.php?mode=cook&steps[]=2262,2263&steps[]=2264,2265
+		//
+		// If you then confirm that you want to make that recipe, you
+		// get the following as your path:
+		//
+		// craft.php?mode=cook&steps[]=2262,2263&steps[]=2264,2265
+		//
+		// and the following as your POST data:
+		//
+		// action=craft&steps%5B%5D=2262%2C2263&steps5B%5D=2264%2C2265&qty=1&pwd
+		//
+		// URL decoding the latter gives:
+		// 
+		// action=craft&steps[]=2262,2263&steps[]=2264,2265&qty=1&pwd
+		//
+		// We have to recognize that the following are identical:
+		//
+		// steps%5B%5D=2262%2C2263
+		// steps[]=2262,2263
+		//
+		// and not submit duplicates when we post the request. For the
+		// above example, when we submit path + form fields, we want to
+		// end up with:
+		//
+		// craft.php?mode=cook&steps[]=2262,2263&steps[]=2264,2265&action=craft&qty=1&pwd
+		//
+		// or, more correctly, with the data URLencoded:
+		//
+		// craft.php?mode=cook&steps[]=2262%2C2263&steps[]=2264%2C2265&action=craft&qty=1&pwd
+
 		int equalIndex = element.indexOf( "=" );
 		if ( equalIndex != -1 )
 		{
@@ -524,7 +559,14 @@ public class GenericRequest
 			String value = element.substring( equalIndex + 1 ).trim();
 			try
 			{
+				// The name may or may not be encoded.
 				name = URLDecoder.decode( name, "UTF-8" );
+
+				// The value may or may not be encoded.
+				value = URLDecoder.decode( value, "UTF-8" );
+
+				// But we want to always submit it encoded.
+				value = URLEncoder.encode( value, "UTF-8" );
 			}
 			catch ( IOException e )
 			{
@@ -749,10 +791,10 @@ public class GenericRequest
 		}
 
 		// To avoid wasting turns, buy a can of hair spray before
-		// climbing the tower.  Also, if the person has an NG,
-		// make sure to construct it first.  If there are any
-		// tower items sitting in the closet or that have not
-		// been constructed, pull them out.
+		// climbing the tower. Also, if the person has an NG, make sure
+		// to construct it first.  If there are any tower items sitting
+		// in the closet or that have not been constructed, pull them
+		// out.
 
 		if ( location.startsWith( "lair4.php" ) || location.startsWith( "lair5.php" ) )
 		{
@@ -928,7 +970,7 @@ public class GenericRequest
 		{
 			if ( this.shouldUpdateDebugLog() )
 			{
-				RequestLogger.updateDebugLog( "Error opening connection (" + this.getURLString() + ").  Retrying..." );
+				RequestLogger.updateDebugLog( "Error opening connection (" + this.getURLString() + "). Retrying..." );
 			}
 
 			if ( this instanceof LoginRequest )
@@ -1084,8 +1126,8 @@ public class GenericRequest
 			}
 			catch ( IOException e2 )
 			{
-				// The input stream was already closed.  Ignore this
-				// error and continue.
+				// The input stream was already closed. Ignore
+				// this error and continue.
 			}
 
 			if ( this instanceof LoginRequest )
@@ -1160,7 +1202,7 @@ public class GenericRequest
 			// If the system is down for maintenance, the user must be
 			// notified that they should try again later.
 
-			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Nightly maintenance.  Please restart KoLmafia." );
+			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Nightly maintenance. Please restart KoLmafia." );
 			GenericRequest.serverCookie = null;
 			return true;
 		}
@@ -1227,10 +1269,14 @@ public class GenericRequest
 
 		if ( this.redirectLocation.startsWith( "fight.php" ) )
 		{
-			// You have been redirected to a fight!  Here, you need
+			// You have been redirected to a fight! Here, you need
 			// to complete the fight before you can continue.
 
-			if ( LoginRequest.isInstanceRunning() || this == ChoiceManager.CHOICE_HANDLER || this instanceof AdventureRequest || this instanceof BasementRequest || this instanceof HiddenCityRequest )
+			if ( LoginRequest.isInstanceRunning() ||
+			     this == ChoiceManager.CHOICE_HANDLER ||
+			     this instanceof AdventureRequest ||
+			     this instanceof BasementRequest ||
+			     this instanceof HiddenCityRequest )
 			{
 				FightRequest.INSTANCE.run();
 				return !LoginRequest.isInstanceRunning();
