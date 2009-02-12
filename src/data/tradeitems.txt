@@ -827,7 +827,7 @@
 826	dark potion	4	all	60
 827	murky potion	4	all	60
 828	baby killer bee	5	all	76
-829	anti-anti-antidote	3	all	20
+829	anti-anti-antidote	3	all	15
 830	royal jelly	1	all	77
 831	small box	4	all	65
 832	large box	4	all	85
