@@ -27,6 +27,7 @@ Bugbear Bakery	b	Gnollish casserole dish	150
 Bugbear Bakery	b	rolling pin	500
 Bugbear Bakery	b	unrolling pin	500
 
+Doc Galaktik's Medicine Show	galaktik.php	anti-anti-antidote	30
 Doc Galaktik's Medicine Show	galaktik.php	Doc Galaktik's Pungent Unguent	30
 Doc Galaktik's Medicine Show	galaktik.php	Doc Galaktik's Ailment Ointment	60
 Doc Galaktik's Medicine Show	galaktik.php	Doc Galaktik's Restorative Balm	120
@@ -73,7 +74,6 @@ Market Demon	m	Ben-Gal&trade; Balm	24
 Market Demon	m	glittery mascara	24
 Market Demon	m	hair spray	24
 Market Demon	m	chewing gum on a string	30
-Market Demon	m	anti-anti-antidote	40
 Market Demon	m	fortune cookie	40
 Market Demon	m	Newbiesport&trade; tent	40
 Market Demon	m	beer cartilage	50
