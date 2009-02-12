@@ -101,6 +101,13 @@ public abstract class MushroomManager
 	// Special mushrooms
 	public static final int GLOOMY = 1266;
 
+	private static final int[][] SPORE_DATA =
+	{
+		{ SPOOKY, 30, 1 },
+		{ KNOB, 40, 2 },
+		{ KNOLL, 50, 3 }
+	};
+
 	// Assocations between the mushroom Ids
 	// and the mushroom image.
 
@@ -145,12 +152,6 @@ public abstract class MushroomManager
 		{  EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   STINKY,  EMPTY  },  // STINKY
 		{  EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY  }   // GLOOMY
 	};
-
-
-	// Spore data - includes price of the spore
-	// and the item Id associated with the spore.
-
-	private static final int[][] SPORE_DATA = { { SPOOKY, 30 }, { KNOB, 40 }, { KNOLL, 50 } };
 
 	/**
 	 * static final method which resets the state of the mushroom plot. This should be used whenever the login process
@@ -403,6 +404,52 @@ public abstract class MushroomManager
 		return MushroomManager.EMPTY;
 	}
 
+	public static final int[] getSporeDataByType( final int spore )
+	{
+		for ( int i = 0; i < MushroomManager.SPORE_DATA.length; ++i )
+		{
+                        int [] data = MushroomManager.SPORE_DATA[ i ];
+			if ( data[ 0 ] == spore )
+			{
+                                return data;
+			}
+		}
+                return null;
+	}
+
+	public static final int[] getSporeDataByIndex( final int index )
+	{
+		for ( int i = 0; i < MushroomManager.SPORE_DATA.length; ++i )
+		{
+                        int [] data = MushroomManager.SPORE_DATA[ i ];
+			if ( data[ 2 ] == index )
+			{
+                                return data;
+			}
+		}
+                return null;
+	}
+
+	public static final int getSporeType( final int[] data )
+	{
+                return data[0];
+	}
+
+	public static final String getSporeName( final int[] data )
+	{
+		return ItemDatabase.getItemName( data[0] );
+	}
+
+	public static final int getSporePrice( final int[] data )
+	{
+                return data[1];
+	}
+
+	public static final int getSporeIndex( final int[] data )
+	{
+                return data[2];
+	}
+
 	/**
 	 * One of the major functions of the mushroom plot handler, this method plants the given spore into the given
 	 * position (or square) of the mushroom plot.
@@ -419,29 +466,20 @@ public abstract class MushroomManager
 			return false;
 		}
 
-		// Determine the spore that the user wishes to
-		// plant and the price for that spore.  Place
-		// those into holder variables.
+		// Find the spore that the user wishes to plant
 
-		int sporeIndex = -1, sporePrice = -1;
-		for ( int i = 0; i < MushroomManager.SPORE_DATA.length; ++i )
-		{
-			if ( MushroomManager.SPORE_DATA[ i ][ 0 ] == spore )
-			{
-				sporeIndex = i + 1;
-				sporePrice = MushroomManager.SPORE_DATA[ i ][ 1 ];
-			}
-		}
+                int [] data = MushroomManager.getSporeDataByType( spore );
 
-		// If nothing was reset, then return from this
-		// method after notifying the user that the spore
-		// they provided is not plantable.
-
-		if ( sporeIndex == -1 )
+		if ( data == null )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't plant that." );
 			return false;
 		}
+
+                // Find KoL's internal spore index and the price
+
+		int sporeIndex = MushroomManager.getSporeIndex( data );
+                int sporePrice = MushroomManager.getSporePrice( data );
 
 		// Make sure we have enough meat to pay for the spore.
 		// Rather than using requirements validation, check the
@@ -449,6 +487,7 @@ public abstract class MushroomManager
 
 		if ( KoLCharacter.getAvailableMeat() < sporePrice )
 		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't afford that spore." );
 			return false;
 		}
 
@@ -483,10 +522,6 @@ public abstract class MushroomManager
 			return false;
 		}
 
-		// Pay for the spore.  At this point, it's guaranteed
-		// that theallows you to continue.
-
-		ResultProcessor.processMeat( 0 - sporePrice );
 		KoLmafia.updateDisplay( "Spore successfully planted." );
 		return true;
 	}

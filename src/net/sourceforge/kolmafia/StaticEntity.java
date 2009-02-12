@@ -70,6 +70,7 @@ import net.sourceforge.kolmafia.request.GourdRequest;
 import net.sourceforge.kolmafia.request.GuildRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.HiddenCityRequest;
+import net.sourceforge.kolmafia.request.MushroomRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.PyroRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
@@ -395,6 +396,11 @@ public abstract class StaticEntity
 		else if ( ( location.indexOf( "inv_eat.php" ) != -1 || location.indexOf( "inv_booze.php" ) != -1 || location.indexOf( "inv_use.php" ) != -1 || location.indexOf( "inv_familiar.php" ) != -1 ) && location.indexOf( "whichitem" ) != -1 )
 		{
 			UseItemRequest.parseConsumption( responseText, false );
+		}
+
+		else if ( location.startsWith( "knoll_mushrooms.php" ) )
+		{
+			MushroomRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "managecollection.php" ) )
