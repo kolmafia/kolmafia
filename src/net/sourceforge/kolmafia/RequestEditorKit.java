@@ -932,8 +932,16 @@ public class RequestEditorKit
 		String[] guardianData = SorceressLairManager.findGuardianByName( monsterName );
 		if ( guardianData != null )
 		{
-			String item = SorceressLairManager.guardianItem( guardianData );
-			monsterData.append( "<br />Defeated by a " + item );
+			String itemName = SorceressLairManager.guardianItem( guardianData );
+			monsterData.append( "<br />Defeated by a " + itemName );
+
+			// Auto-select the correct item in the dropdown, which
+			// must be later in the buffer than insertionPoint
+			// where we annotate the monster.
+
+			int itemId = ItemDatabase.getItemId( itemName );
+			String find = "value=" + itemId;
+			StringUtilities.insertAfter( buffer, find, " selected" );
 		}
 
 		List items = FightRequest.getLastMonster().getItems();

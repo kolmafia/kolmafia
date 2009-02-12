@@ -1451,20 +1451,27 @@ public class ItemDatabase
 		while ( it.hasNext() )
 		{
 			Integer nextInteger = (Integer) it.next();
-			for ( int i = lastInteger; i < nextInteger.intValue(); ++i )
+			int id = nextInteger.intValue();
+
+			for ( int i = lastInteger; i < id; ++i )
 			{
 				writer.println( i );
 			}
 
-			lastInteger = nextInteger.intValue() + 1;
+			lastInteger = id + 1;
+
+			String name = (String) ItemDatabase.dataNameById.get( nextInteger );
 
 			if ( ItemDatabase.accessById.containsKey( nextInteger ) )
 			{
-				writer.println( nextInteger + "\t" + ItemDatabase.dataNameById.get( nextInteger ) + "\t" + ItemDatabase.useTypeById.get( nextInteger.intValue() ) + "\t" + ItemDatabase.accessById.get( nextInteger ) + "\t" + ItemDatabase.priceById.get( nextInteger.intValue() ) );
+				int type = ItemDatabase.useTypeById.get( id );
+				String access = (String) ItemDatabase.accessById.get( nextInteger );
+				int price = ItemDatabase.priceById.get( id );
+				writer.println( id + "\t" + name + "\t" + type + "\t" + access + "\t" + price );
 			}
 			else
 			{
-				writer.println( nextInteger + "\t" + ItemDatabase.dataNameById.get( nextInteger ) + "\t0\tunknown\t-1" );
+				writer.println( id + "\t" + name + "\t0\tunknown\t-1" );
 			}
 		}
 
@@ -1474,26 +1481,26 @@ public class ItemDatabase
 		writer = LogStream.openStream( output, true );
 		writer.println( KoLConstants.ITEMDESCS_VERSION );
 
+		lastInteger = 1;
 		it = ItemDatabase.descriptionById.entrySet().iterator();
 
 		while ( it.hasNext() )
 		{
 			Entry entry = (Entry) it.next();
+			Integer nextInteger = (Integer) entry.getKey();
+			int id = nextInteger.intValue();
 
-			Integer id = (Integer) entry.getKey();
-			int i = id.intValue();
-
-			if ( i < 0 )
+			for ( int i = lastInteger; i < id; ++i )
 			{
-				continue;
+				writer.println( i );
 			}
 
-			if ( entry.getValue().equals( "" ) )
-			{
-				continue;
-			}
+			lastInteger = id + 1;
 
-			writer.println( i + "\t" + entry.getValue() + "\t" + ItemDatabase.nameById.get( id ) + "\t" + ItemDatabase.pluralById.get( i ) );
+			String descId = (String) entry.getValue();
+			String name = (String) ItemDatabase.dataNameById.get( nextInteger );
+			String plural = (String) ItemDatabase.pluralById.get( id );
+			writer.println( id + "\t" + descId + "\t" + name + ( plural.equals( "" ) ? "" : "\t" + plural ) );
 		}
 
 		writer.close();

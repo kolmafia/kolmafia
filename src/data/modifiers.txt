@@ -1651,6 +1651,7 @@ Carlweather's Cantata of Confrontation	Combat Rate: +5
 Carol of the Bones	Muscle Percent: +10
 Carrion' On	Meat Drop: +60
 Carrrsmic	Mysticality Percent: +10
+Chain Chain Chains	Spooky Damage: +10
 Chalky Hand	Weapon Damage: +3, Never Fumble
 Charrrming	Moxie Percent: +10
 Chauve-Souris Merde Fou	Stench Damage: +50

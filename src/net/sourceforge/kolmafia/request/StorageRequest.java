@@ -221,6 +221,31 @@ public class StorageRequest
 			}
 		}
 
+		else if ( urlString.indexOf( "action=takeall" ) != -1 )
+		{
+			// Hagnk leans back and yells something
+			// ugnigntelligible to a group of Knob Goblin teegnage
+			// delignquegnts, who go and grab all of your stuff
+			// from storage and bring it to you.
+
+			if ( responseText.indexOf( "go and grab all of your stuff" ) != -1 )
+			{
+				Object[] items = KoLConstants.storage.toArray();
+				ResultProcessor.processBulkItems( items );
+				KoLConstants.storage.clear();	 
+				transfer = true;
+			}
+			else
+			{
+				success = false;
+			}
+		}
+
+		else if ( urlString.indexOf( "action=takemeat" ) != -1 )
+		{
+			transfer = true;
+		}
+
 		else if ( urlString.indexOf( "take" ) != -1 )
 		{
 			if ( responseText.indexOf( "moved from storage to inventory" ) != -1 )
@@ -234,29 +259,6 @@ public class StorageRequest
 			{
 				success = false;
 			}
-		}
-
-		else if ( urlString.indexOf( "action=takeall" ) != -1 )
-		{
-			// Hagnk leans back and yells something
-			// ugnigntelligible to a group of Knob Goblin teegnage
-			// delignquegnts, who go and grab all of your stuff
-			// from storage and bring it to you.
-
-			if ( responseText.indexOf( "go and grab all of your stuff" ) != -1 )
-			{
-				Object[] items = KoLConstants.storage.toArray();
-				transfer = true;
-			}
-			else
-			{
-				success = false;
-			}
-		}
-
-		else if ( urlString.indexOf( "action=takemeat" ) != -1 )
-		{
-			transfer = true;
 		}
 
 		StorageRequest.parseStorage( responseText );
