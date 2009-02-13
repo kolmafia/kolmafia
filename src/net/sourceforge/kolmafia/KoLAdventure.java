@@ -373,15 +373,15 @@ public class KoLAdventure
 
 		if ( this.adventureId.equals( "166" ) )
 		{
-                        // Don't auto-adventure unprepared in Hobopolis sewers
+			// Don't auto-adventure unprepared in Hobopolis sewers
 
-                        this.isValidAdventure =
-                                 !Preferences.getBoolean( "requireSewerTestItems" ) ||
-                                ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.GATORSKIN_UMBRELLA, 1 ) ) &&
-                                  InventoryManager.retrieveItem( ItemPool.SEWER_WAD ) &&
-                                  InventoryManager.retrieveItem( ItemPool.OOZE_O ) &&
-                                  InventoryManager.retrieveItem( ItemPool.DUMPLINGS ) &&
-                                  InventoryManager.retrieveItem( ItemPool.OIL_OF_OILINESS, 3 ) );
+			this.isValidAdventure =
+				 !Preferences.getBoolean( "requireSewerTestItems" ) ||
+				( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.GATORSKIN_UMBRELLA, 1 ) ) &&
+				  InventoryManager.retrieveItem( ItemPool.SEWER_WAD ) &&
+				  InventoryManager.retrieveItem( ItemPool.OOZE_O ) &&
+				  InventoryManager.retrieveItem( ItemPool.DUMPLINGS ) &&
+				  InventoryManager.retrieveItem( ItemPool.OIL_OF_OILINESS, 3 ) );
 			return;
 		}
 
@@ -950,7 +950,6 @@ public class KoLAdventure
 
 	private boolean recordToSession()
 	{
-		KoLAdventure.lastVisitedLocation = this;
 		this.updateAutoAttack();
 
 		if ( this.adventureId.equals( "118" ) )
@@ -1000,25 +999,39 @@ public class KoLAdventure
 
 	public static final boolean recordToSession( final String urlString )
 	{
-		// Pyramid is an adventure, but is handled elsewhere
-		if ( urlString.startsWith( "pyramid.php" ) )
-		{
-			return false;
-		}
-
 		// In the event that this is an adventure, assume "snarfblat"
 		// instead of "adv" in order to determine the location.
 
 		KoLAdventure matchingLocation = AdventureDatabase.getAdventureByURL( urlString );
 
+		// If you will be in a drunken stupor, St. Sneaky Pete's day or
+		// otherwise, switch to appropriate adventure so logging is
+		// correct.
+
+		matchingLocation = KoLAdventure.checkDrunkenness( matchingLocation );
+
+		// Save where we are adventuring currently
+
+		KoLAdventure.lastVisitedLocation = matchingLocation;
+
+		// If we are in a drunken stupor, record it to the session and
+		// return now.
+
+		if ( matchingLocation != null && KoLCharacter.isFallingDown() )
+		{
+			return matchingLocation.recordToSession();
+		}
+
+		// We are not drunk. The pyramid's lower chamber is an
+		// adventure, but is handled elsewhere
+
+		if ( urlString.startsWith( "pyramid.php" ) )
+		{
+			return false;
+		}
+
 		if ( matchingLocation != null )
 		{
-			// If you will be in a drunken stupor, St. Sneaky
-			// Pete's day or otherwise, switch to appropriate
-			// adventure so logging is correct.
-
-			matchingLocation = KoLAdventure.checkDrunkenness( matchingLocation );
-
 			if ( !matchingLocation.recordToSession() )
 			{
 				return false;
@@ -1031,7 +1044,7 @@ public class KoLAdventure
 
 			String locationId = matchingLocation.adventureId;
 
-			// Make sure to visit the untinkerer before adventuring
+			// Make sure to visit the untinker before adventuring
 			// at Degrassi Knoll.
 
 			if ( locationId.equals( "18" ) )
@@ -1039,19 +1052,10 @@ public class KoLAdventure
 				UntinkerRequest.canUntinker();
 			}
 
-			// Check the council before you adventure at the pirates
-			// in disguise, if your last council visit was a long
-			// time ago.
-
-			if ( locationId.equals( "67" ) && Preferences.getInteger( "lastCouncilVisit" ) < 9 )
-			{
-				RequestThread.postRequest( CouncilFrame.COUNCIL_VISIT );
-			}
-
 			matchingLocation.isValidAdventure = true;
 
-			// Make sure you're wearing the appropriate equipment for
-			// the King's chamber in Cobb's knob.
+			// Make sure you're wearing the appropriate equipment
+			// for the King's chamber in Cobb's knob.
 
 			if ( matchingLocation.formSource.equals( "knob.php" ) )
 			{
@@ -1084,7 +1088,6 @@ public class KoLAdventure
 
 		if ( shouldReset )
 		{
-			KoLAdventure.lastVisitedLocation = null;
 			KoLAdventure.resetAutoAttack();
 		}
 
@@ -1118,9 +1121,15 @@ public class KoLAdventure
 
 	private static final KoLAdventure checkDrunkenness( KoLAdventure location )
 	{
-		int inebriety = KoLCharacter.getInebriety();
+		if ( location == null )
+		{
+			return null;
+		}
 
-		if ( inebriety < 20 )
+		int inebriety = KoLCharacter.getInebriety();
+                int limit = KoLCharacter.getInebrietyLimit();
+
+		if ( inebriety <= limit )
 		{
 			return location;
 		}
