@@ -1363,7 +1363,9 @@ public abstract class KoLCharacter
 
 	public static final float getInitiativeAdjustment()
 	{
-		return KoLCharacter.currentModifiers.get( Modifiers.INITIATIVE );
+		// Penalty is constrained to be non-positive
+		return KoLCharacter.currentModifiers.get( Modifiers.INITIATIVE ) +
+			Math.min( KoLCharacter.currentModifiers.get( Modifiers.INITIATIVE_PENALTY ), 0.0f );
 	}
 
 	/**
