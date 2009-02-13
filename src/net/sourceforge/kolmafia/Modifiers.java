@@ -183,6 +183,7 @@ public class Modifiers
 	public static final int MEATDROP_PENALTY = 63;
 	public static final int HIDDEN_FAMILIAR_WEIGHT = 64;
 	public static final int ITEMDROP_PENALTY = 65;
+	public static final int INITIATIVE_PENALTY = 66;
 	
 	public static final String EXPR = "(?:([+-]?[\\d.]+)|\\[([^]]+)\\])";
 
@@ -451,6 +452,10 @@ public class Modifiers
 		{ "Item Drop Penalty",
 		  null,
 		  Pattern.compile( "Item Drop Penalty: " + EXPR )
+		},
+		{ "Initiative Penalty",
+		  null,
+		  Pattern.compile( "Initiative Penalty: " + EXPR )
 		},
 	};
 
