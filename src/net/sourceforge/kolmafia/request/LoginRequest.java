@@ -278,6 +278,12 @@ public class LoginRequest
 
 		LoginRequest.lastLoginAttempt = 0;
 
+		if ( this.responseText.indexOf( "Bad password" ) != -1 )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Bad password." );
+			return;
+		}
+
 		if ( this.responseText.indexOf( "wait fifteen minutes" ) != -1 )
 		{
 			StaticEntity.executeCountdown( "Login reattempt in ", 15 * 60 );
@@ -285,7 +291,11 @@ public class LoginRequest
 			return;
 		}
 
-		if ( this.responseText.indexOf( "wait" ) != -1 )
+		// Too many login attempts in too short a span of time.	 Please
+		// wait a minute (Literally, like, one minute.	Sixty seconds.)
+		// and try again.
+
+		if ( this.responseText.indexOf( "Please wait a minute" ) != -1 )
 		{
 			StaticEntity.executeCountdown( "Login reattempt in ", 75 );
 			this.run();
