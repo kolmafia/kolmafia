@@ -891,7 +891,7 @@ public class AdventureResult
 
 	public AdventureResult getNegation()
 	{
-		if ( this.isItem() )
+		if ( this.isItem() && this.itemId != -1 )
 		{
 			return this.count[ 0 ] == 0 ? this : new AdventureResult( this.itemId, 0 - this.count[ 0 ] );
 		}

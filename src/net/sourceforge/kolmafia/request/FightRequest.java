@@ -1920,10 +1920,15 @@ public class FightRequest
 				KoLCharacter.ensureUpdatedPirateInsults();
 				if ( !Preferences.getBoolean( "lastPirateInsult" + insult ) )
 				{	// it's a new one
+					Preferences.setBoolean( "lastPirateInsult" + insult, true );
 					AdventureResult result = AdventureResult.tallyItem( "pirate insult", false );
 					AdventureResult.addResultToList( KoLConstants.tally, result );
+					int count = FightRequest.countPirateInsults();
+					float odds = FightRequest.pirateInsultOdds( count ) * 100.0f;
+					RequestLogger.printLine( "Pirate insults known: " +
+						count + " (" + KoLConstants.FLOAT_FORMAT.format( odds ) +
+						"%)" );
 				}
-				Preferences.setBoolean( "lastPirateInsult" + insult, true );
 			}
 		}
 	}
