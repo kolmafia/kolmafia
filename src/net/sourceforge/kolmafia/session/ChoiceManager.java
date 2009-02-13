@@ -1453,14 +1453,6 @@ public abstract class ChoiceManager
 		{ new Integer(275), new Integer(1), 
 		  new AdventureResult( "hobo nickel", -10 ) },
 
-		// The Gong Has Been Bung
-		{ new Integer(276), new Integer(1), 
-		  new AdventureResult( "llama gong", -1 ) },
-		{ new Integer(276), new Integer(2), 
-		  new AdventureResult( "llama gong", -1 ) },
-		{ new Integer(276), new Integer(3), 
-		  new AdventureResult( "llama gong", -1 ) },
-		
 		// A Tight Squeeze - jar of squeeze
 		{ new Integer(291), new Integer(1), 
 		  new AdventureResult( "hobo nickel", -5 ) },
