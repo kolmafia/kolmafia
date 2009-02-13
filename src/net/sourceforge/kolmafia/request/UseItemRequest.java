@@ -972,11 +972,20 @@ public class UseItemRequest
 
 		super.run();
 
-		if ( this.responseCode == 302 && this.redirectLocation.startsWith( "inventory" ) )
+		if ( this.responseCode == 302 )
 		{
-			UseItemRequest.REDIRECT_REQUEST.constructURLString( this.redirectLocation ).run();
-			UseItemRequest.lastItemUsed = this.itemUsed;
-			UseItemRequest.parseConsumption( UseItemRequest.REDIRECT_REQUEST.responseText, true );
+			if ( this.redirectLocation.startsWith( "inventory" ) )
+			{
+				UseItemRequest.REDIRECT_REQUEST.constructURLString( this.redirectLocation ).run();
+				UseItemRequest.lastItemUsed = this.itemUsed;
+				UseItemRequest.parseConsumption( UseItemRequest.REDIRECT_REQUEST.responseText, true );
+			}
+			else if ( this.redirectLocation.startsWith( "choice.php" ) )
+			{
+				// The choice has already been handled by GenericRequest,
+				// but we still need to account for the item used.
+				UseItemRequest.parseConsumption( "", true );
+			}
 		}
 	}
 	
