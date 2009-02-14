@@ -71,7 +71,8 @@ public interface KoLConstants
 	public static final String LINE_BREAK = System.getProperty( "line.separator" );
 	public static final Pattern LINE_BREAK_PATTERN = Pattern.compile( "\\s*[\r\n]+\\s*" );
 
-	public static final Pattern ANYTAG_PATTERN = Pattern.compile( "<.*?>" );
+	public static final Pattern ANYTAG_PATTERN =
+		Pattern.compile( "(?<!limbos)<(?!i>limbos).*?>" );
 	public static final Pattern SCRIPT_PATTERN = Pattern.compile( "<script.*?</script>", Pattern.DOTALL );
 	public static final Pattern STYLE_PATTERN = Pattern.compile( "<style.*?</style>", Pattern.DOTALL );
 	public static final Pattern COMMENT_PATTERN = Pattern.compile( "<!--.*?-->", Pattern.DOTALL );
