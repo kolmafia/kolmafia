@@ -1004,34 +1004,34 @@ public class KoLAdventure
 
 		KoLAdventure matchingLocation = AdventureDatabase.getAdventureByURL( urlString );
 
-		// If you will be in a drunken stupor, St. Sneaky Pete's day or
-		// otherwise, switch to appropriate adventure so logging is
-		// correct.
-
-		matchingLocation = KoLAdventure.checkDrunkenness( matchingLocation );
-
-		// Save where we are adventuring currently
-
-		KoLAdventure.lastVisitedLocation = matchingLocation;
-
-		// If we are in a drunken stupor, record it to the session and
-		// return now.
-
-		if ( matchingLocation != null && KoLCharacter.isFallingDown() )
-		{
-			return matchingLocation.recordToSession();
-		}
-
-		// We are not drunk. The pyramid's lower chamber is an
-		// adventure, but is handled elsewhere
-
-		if ( urlString.startsWith( "pyramid.php" ) )
-		{
-			return false;
-		}
-
 		if ( matchingLocation != null )
 		{
+			// If you will be in a drunken stupor, St. Sneaky
+			// Pete's day or otherwise, switch to appropriate
+			// adventure so logging is correct.
+
+			matchingLocation = KoLAdventure.checkDrunkenness( matchingLocation );
+
+			// Save where we are adventuring currently
+
+			KoLAdventure.lastVisitedLocation = matchingLocation;
+
+			// If we are in a drunken stupor, record it to the
+			// session and return now.
+
+			if ( KoLCharacter.isFallingDown() )
+			{
+				return matchingLocation.recordToSession();
+			}
+
+			// We are not drunk. The pyramid's lower chamber is an
+			// adventure, but is handled elsewhere
+
+			if ( urlString.startsWith( "pyramid.php" ) )
+			{
+				return false;
+			}
+
 			if ( !matchingLocation.recordToSession() )
 			{
 				return false;
