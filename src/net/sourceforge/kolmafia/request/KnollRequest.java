@@ -1,0 +1,163 @@
+/**
+ * Copyright (c) 2005-2009, KoLmafia development team
+ * http://kolmafia.sourceforge.net/
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ *  [1] Redistributions of source code must retain the above copyright
+ *      notice, this list of conditions and the following disclaimer.
+ *  [2] Redistributions in binary form must reproduce the above copyright
+ *      notice, this list of conditions and the following disclaimer in
+ *      the documentation and/or other materials provided with the
+ *      distribution.
+ *  [3] Neither the name "KoLmafia" nor the names of its contributors may
+ *      be used to endorse or promote products derived from this software
+ *      without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+ * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package net.sourceforge.kolmafia.request;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.session.ResultProcessor;
+
+public class KnollRequest
+	extends GenericRequest
+{
+	private static final Pattern PLACE_PATTERN = Pattern.compile( "place=([^&]*)" );
+	public static final Pattern ACTION_PATTERN = Pattern.compile( "action=([^&]*)" );
+
+	public KnollRequest()
+	{
+		super( "knoll.php" );
+	}
+
+	public KnollRequest( final String place)
+	{
+		this();
+		this.addFormField( "place", place );
+	}
+
+	public static String getNPCName( final String place )
+	{
+		if ( place == null )
+		{
+			return null;
+		}
+
+		if ( place.equals( "mayor" ) )
+		{
+			return "Mayor Zapruder";
+		}
+
+		if ( place.equals( "smith" ) )
+		{
+			return "Innabox";
+		}
+
+		if ( place.equals( "paster" ) )
+		{
+			return "The Plunger";
+		}
+
+		return null;
+	}
+
+	public void processResults()
+	{
+		KnollRequest.parseResponse( this.getURLString(), this.responseText );
+	}
+
+	public static final boolean parseResponse( final String urlString, final String responseText )
+	{
+		if ( !urlString.startsWith( "knoll.php" ) )
+		{
+			return false;
+		}
+
+		Matcher matcher = PLACE_PATTERN.matcher( urlString );
+		String place = matcher.find() ? matcher.group(1) : null;
+
+		if ( place == null )
+		{
+			return false;
+		}
+
+		if ( place.equals( "mayor" ) )
+		{
+			// Mayor Zapruder assigns quests and gives you an
+			// elemental fairy or equipment.
+
+			if ( responseText.indexOf( "flaming glowsticks" ) != -1 )
+			{
+				ResultProcessor.processItem( ItemPool.FLAMING_MUSHROOM, -1 );
+			}
+			else if ( responseText.indexOf( "iced-out bling" ) != -1 )
+			{
+				ResultProcessor.processItem( ItemPool.FROZEN_MUSHROOM, -1 );
+			}
+			else if ( responseText.indexOf( "limburger biker boots" ) != -1 )
+			{
+				ResultProcessor.processItem( ItemPool.STINKY_MUSHROOM, -1 );
+			}
+			return true;
+		}
+
+		return false;
+	}
+
+	public static final boolean registerRequest( final String urlString )
+	{
+		if ( !urlString.startsWith( "knoll.php" ) )
+		{
+			return false;
+		}
+
+		Matcher matcher = PLACE_PATTERN.matcher( urlString );
+		String place = matcher.find() ? matcher.group(1) : null;
+		String npc = getNPCName( place );
+
+		if ( npc != null )
+		{
+			RequestLogger.updateSessionLog();
+			RequestLogger.updateSessionLog( "Visiting " + npc );
+			return true;
+		}
+
+		matcher = ACTION_PATTERN.matcher( urlString );
+		String action = matcher.find() ? matcher.group(1) : null;
+
+		// We have nothing special to do for other simple visits.
+
+		if ( action == null )
+		{
+			return true;
+		}
+
+		// Other requests handle other actions in the Knoll
+
+		// action = combine
+		// action = smith
+
+		return false;
+	}
+}
