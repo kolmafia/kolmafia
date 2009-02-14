@@ -73,6 +73,7 @@ import net.sourceforge.kolmafia.textui.parsetree.RecordType;
 import net.sourceforge.kolmafia.textui.parsetree.RepeatUntilLoop;
 import net.sourceforge.kolmafia.textui.parsetree.Scope;
 import net.sourceforge.kolmafia.textui.parsetree.ScriptExit;
+import net.sourceforge.kolmafia.textui.parsetree.SortBy;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.TypeDef;
 import net.sourceforge.kolmafia.textui.parsetree.UserDefinedFunction;
@@ -844,6 +845,10 @@ public class Parser
 			// loop doesn't have a ; token
 			return result;
 		}
+		else if ( ( result = this.parseSort( scope ) ) != null )
+		{
+			;
+		}
 		else if ( ( result = this.parseInvoke( scope ) ) != null )
 		{
 			;
@@ -1303,6 +1308,59 @@ public class Parser
 		this.readToken(); // )
 
 		return new RepeatUntilLoop( scope, condition );
+	}
+
+	private SortBy parseSort( final Scope parentScope )
+	{
+		// sort aggregate by expr
+
+		if ( this.currentToken() == null )
+		{
+			return null;
+		}
+
+		if ( !this.currentToken().equalsIgnoreCase( "sort" ) )
+		{
+			return null;
+		}
+		
+		if ( this.nextToken() == null || this.nextToken().equals( "(" )
+			|| this.nextToken().equals( "=" ) )
+		{	// it's a call to a function named sort(), or an assigment to
+			// a variable named sort, not the sort statement.
+			return null;
+		}
+
+		this.readToken(); // sort
+
+		// Get an aggregate reference
+		Value aggregate = this.parseVariableReference( parentScope );
+
+		if ( aggregate == null || !( aggregate instanceof VariableReference ) || !( aggregate.getType().getBaseType() instanceof AggregateType ) )
+		{
+			throw this.parseException( "Aggregate reference expected" );
+		}
+
+		if ( this.currentToken() == null ||
+			!this.currentToken().equalsIgnoreCase( "by" ) )
+		{
+			throw this.parseException( "by", this.currentToken() );
+		}
+		this.readToken();	// by
+
+		// Define key variables of appropriate type
+		VariableList varList = new VariableList();
+		AggregateType type = (AggregateType) aggregate.getType().getBaseType();
+		Variable valuevar = new Variable( "value", type.getDataType() );
+		varList.add( valuevar );
+		Variable indexvar = new Variable( "index", type.getIndexType() );
+		varList.add( indexvar );
+
+		// Parse the key expression in a new scope containing 'index' and 'value'
+		Scope scope = new Scope( varList, parentScope );
+		Value expr = this.parseExpression( scope );
+		
+		return new SortBy( (VariableReference) aggregate, indexvar, valuevar, expr );
 	}
 
 	private ForEachLoop parseForeach( final Type functionType, final Scope parentScope )
