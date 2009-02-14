@@ -34,7 +34,7 @@ public class HttpTimeoutClient extends HttpClient
 
 		if ( client == null )
 		{
-			if ( System.getProperty( "proxySet" ) != null && System.getProperty( "proxySet" ).equals( "true" ) )
+			if ( System.getProperty( "proxyHost" ) != null && !System.getProperty( "proxyHost" ).equals( "" ) )
 				client = new HttpTimeoutClient( location, System.getProperty( "http.proxyHost" ), Integer.parseInt( System.getProperty( "http.proxyPort" ) ) );
 			else
 				client = new HttpTimeoutClient( location ); // CTOR called openServer()
