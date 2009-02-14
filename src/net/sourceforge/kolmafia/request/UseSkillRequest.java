@@ -163,11 +163,15 @@ public class UseSkillRequest
 		// Removing the following might drop an AT song
 		UseSkillRequest.PLEXI_PENDANT,
 	};
-	// The number of items at the end of AVOID_REMOVAL that are simply there to
-	// avoid removal - there's no point in equipping them temporarily during casting:
+
+	// The number of items at the end of AVOID_REMOVAL that are simply
+	// there to avoid removal - there's no point in equipping them
+	// temporarily during casting:
+
 	private static final int AVOID_REMOVAL_ONLY = 1;
 	
 	// Other known MP cost/song count items:
+	//
 	// wizard hat (-1) - has to be handled specially since it's not an accessory.
 	// Vile Vagrant Vestments (-5) - unlikely to be equippable during Ronin.
 	// Idol of Ak'gyxoth (-1) - off-hand, would require special handling.
@@ -180,10 +184,18 @@ public class UseSkillRequest
 		super( UseSkillRequest.chooseURL( skillName ) );
 
 		this.skillId = SkillDatabase.getSkillId( skillName );
-		this.skillName = SkillDatabase.getSkillName( this.skillId );
+		if ( this.skillId == -1 )
+		{
+			RequestLogger.printLine( "Unrecognized skill: " + skillName );
+			this.skillName = skillName;
+		}
+		else
+		{
+			this.skillName = SkillDatabase.getSkillName( this.skillId );
+		}
 		this.target = "yourself";
 
-                this.addFormFields();
+		this.addFormFields();
 	}
 
 	private static String chooseURL( final String skillName )
