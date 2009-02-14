@@ -41,6 +41,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
@@ -55,24 +56,19 @@ public class HermitRequest
 	private static final Pattern TRADE_PATTERN = Pattern.compile( "whichitem=([\\d,]+).*quantity=(\\d+)" );
 
 	private static boolean checkedForClovers = false;
-	private static int usedWorthless1 = 0;
-	private static int usedWorthless2 = 0;
-	private static int usedWorthless3 = 0;
-	private static int usedPermit = 0;
 
+	public static final AdventureResult CLOVER = ItemPool.get( ItemPool.TEN_LEAF_CLOVER, 1 );
 	public static final AdventureResult WORTHLESS_ITEM = new AdventureResult( 13, 1 );
-
 	public static final AdventureResult PERMIT = ItemPool.get( ItemPool.HERMIT_PERMIT, 1 );
 
 	public static final AdventureResult TRINKET = ItemPool.get( ItemPool.WORTHLESS_TRINKET, 1 );
 	public static final AdventureResult GEWGAW = ItemPool.get( ItemPool.WORTHLESS_GEWGAW, 1 );
 	public static final AdventureResult KNICK_KNACK = ItemPool.get( ItemPool.WORTHLESS_KNICK_KNACK, 1 );
 
-	private static final AdventureResult HACK_SCROLL = ItemPool.get( 567, 1 );
-	private static final AdventureResult SUMMON_SCROLL = ItemPool.get( 553, 1 );
+	public static final AdventureResult HACK_SCROLL = ItemPool.get( 567, 1 );
+	public static final AdventureResult SUMMON_SCROLL = ItemPool.get( 553, 1 );
 
 	private final int itemId;
-
 	private int quantity;
 
 	/**
@@ -123,21 +119,10 @@ public class HermitRequest
 			return;
 		}
 
+		// If we have a hermit script, read it now
 		if ( InventoryManager.hasItem( HermitRequest.HACK_SCROLL ) )
 		{
-			( new UseItemRequest( HermitRequest.HACK_SCROLL ) ).run();
-		}
-
-		if ( KoLCharacter.getLevel() >= 9 && InventoryManager.hasItem( HermitRequest.SUMMON_SCROLL ) )
-		{
-			int itemCount = HermitRequest.SUMMON_SCROLL.getCount( KoLConstants.inventory );
-			( new UseItemRequest( HermitRequest.SUMMON_SCROLL.getInstance( itemCount ) ) ).run();
-
-			if ( InventoryManager.hasItem( HermitRequest.HACK_SCROLL ) )
-			{
-				( new UseItemRequest( HermitRequest.HACK_SCROLL ) ).run();
-				( new UseItemRequest( HermitRequest.SUMMON_SCROLL.getInstance( itemCount - 1 ) ) ).run();
-			}
+			RequestThread.postRequest( new UseItemRequest( HermitRequest.HACK_SCROLL ) );
 		}
 
 		if ( HermitRequest.getWorthlessItemCount() < this.quantity )
@@ -164,13 +149,10 @@ public class HermitRequest
 	{
 		if ( !HermitRequest.parseHermitTrade( this.getURLString(), this.responseText ) )
 		{
-			if ( !InventoryManager.hasItem( HermitRequest.PERMIT ) )
+			// If we got here, the hermit wouldn't talk to us.
+			if ( InventoryManager.retrieveItem( HermitRequest.PERMIT ) )
 			{
-				if ( InventoryManager.retrieveItem( HermitRequest.PERMIT ) )
-				{
-					this.run();
-				}
-
+				this.run();
 				return;
 			}
 
@@ -230,15 +212,13 @@ public class HermitRequest
 		if ( responseText.indexOf( "You don't have enough Hermit Permits" ) != -1 )
 		{
 			HermitRequest.checkedForClovers = false;
-                        HermitRequest.restoreInventory();
 			return true;
 		}
 
 		// Only check for clovers.  All other items at the hermit
 		// are assumed to be static final.
 
-		AdventureResult clover = ItemPool.get( ItemPool.TEN_LEAF_CLOVER, 1 );
-		KoLConstants.hermitItems.remove( clover );
+		KoLConstants.hermitItems.remove( CLOVER );
 
 		if ( responseText.indexOf( "he sends you packing" ) != -1 )
 		{
@@ -258,6 +238,15 @@ public class HermitRequest
 			HermitRequest.checkedForClovers = true;
 		}
 
+		// If the item is unavailable, assume he was asking for clover
+		// If asked for too many, you get no items
+
+		if ( responseText.indexOf( "doesn't have that item." ) != -1 ||
+		     responseText.indexOf( "You acquire" ) == -1 )
+		{
+			return true;
+		}
+
 		Matcher matcher = HermitRequest.TRADE_PATTERN.matcher( urlString );
 		if ( !matcher.find() )
 		{
@@ -268,54 +257,32 @@ public class HermitRequest
 		int itemId = StringUtilities.parseInt( matcher.group( 1 ) );
 		int quantity = StringUtilities.parseInt( matcher.group( 2 ) );
 
-		if ( responseText.indexOf( "looks confused for a moment" ) != -1 )
+		// If he is NOT confused, he took Hermit permits
+		if ( responseText.indexOf( "looks confused for a moment" ) == -1 )
 		{
-			// Put back Hermit Permits deducted by registerRequest
-			ResultProcessor.processResult( HermitRequest.PERMIT.getInstance( HermitRequest.usedPermit ) );
+                        ResultProcessor.processResult( HermitRequest.PERMIT.getInstance( 0 - quantity ) );
 		}
 
-		// If the item is unavailable, assume he was asking for clover
-		// If asked for too many, you get no items
+		// Subtract the worthless items in order of their priority;
+		// as far as we know, the priority is the item Id.
 
-		if ( responseText.indexOf( "doesn't have that item." ) != -1 ||
-		     responseText.indexOf( "You acquire" ) == -1 )
-		{
-                        HermitRequest.restoreInventory();
-			return true;
-		}
+                int used = HermitRequest.subtractWorthlessItems( HermitRequest.TRINKET, quantity );
+                if ( used > 0 )
+                {
+                        quantity -= used;
+                }
+		used = HermitRequest.subtractWorthlessItems( HermitRequest.GEWGAW, quantity );
+                if ( used > 0 )
+                {
+                        quantity -= used;
+                }
+		used = HermitRequest.subtractWorthlessItems( HermitRequest.KNICK_KNACK, quantity );
+                if ( used > 0 )
+                {
+                        quantity -= used;
+                }
 
 		return true;
-	}
-
-	public static final void restoreInventory()
-	{
-		// Restore hermit permits and worthless items deducted by
-		// registerRequest
-
-		int quantity = 0;
-
-		if ( HermitRequest.usedWorthless1 > 0 )
-		{
-			ResultProcessor.processResult( HermitRequest.TRINKET.getInstance( HermitRequest.usedWorthless1 ) );
-			quantity += HermitRequest.usedWorthless1;
-		}
-
-		if ( HermitRequest.usedWorthless2 > 0 )
-		{
-			ResultProcessor.processResult( HermitRequest.GEWGAW.getInstance( HermitRequest.usedWorthless2 ) );
-			quantity += HermitRequest.usedWorthless2;
-		}
-
-		if ( HermitRequest.usedWorthless3 > 0 )
-		{
-			ResultProcessor.processResult( HermitRequest.KNICK_KNACK.getInstance( HermitRequest.usedWorthless3 ) );
-			quantity += HermitRequest.usedWorthless3;
-		}
-
-		if ( HermitRequest.usedPermit > 0 )
-		{
-			ResultProcessor.processResult( HermitRequest.PERMIT.getInstance( HermitRequest.usedPermit ) );
-		}
 	}
 
 	public static final boolean isWorthlessItem( final int itemId )
@@ -342,8 +309,7 @@ public class HermitRequest
 			new HermitRequest().run();
 		}
 
-		AdventureResult clover = ItemPool.get( ItemPool.TEN_LEAF_CLOVER, 1 );
-		return KoLConstants.hermitItems.contains( clover );
+		return KoLConstants.hermitItems.contains( CLOVER );
 	}
 
 	public static final boolean registerRequest( final String urlString )
@@ -352,11 +318,6 @@ public class HermitRequest
 		{
 			return false;
 		}
-
-		HermitRequest.usedWorthless1 = 0;
-		HermitRequest.usedWorthless2 = 0;
-		HermitRequest.usedWorthless3 = 0;
-		HermitRequest.usedPermit = 0;
 
 		RequestLogger.updateSessionLog();
 
@@ -370,26 +331,13 @@ public class HermitRequest
 		int itemId = StringUtilities.parseInt( matcher.group( 1 ) );
 		int quantity = StringUtilities.parseInt( matcher.group( 2 ) );
 
-		RequestLogger.updateSessionLog( "hermit " + quantity + " " + ItemDatabase.getItemName( itemId ) );
-
 		if ( quantity > HermitRequest.getWorthlessItemCount() )
 		{
 			// Asking for too many. Request will fail.
 			return true;
 		}
 
-		// Assume hermit permits are consumed. Fix later, if not.
-		HermitRequest.usedPermit = Math.min( quantity, HermitRequest.PERMIT.getCount( KoLConstants.inventory ) );
-		ResultProcessor.processResult( HermitRequest.PERMIT.getInstance( 0 - HermitRequest.usedPermit ) );
-
-		// Subtract the worthless items in order of their priority;
-		// as far as we know, the priority is the item Id.
-
-		HermitRequest.usedWorthless1 = HermitRequest.subtractWorthlessItems( HermitRequest.TRINKET, quantity );
-		quantity -= HermitRequest.usedWorthless1;
-		HermitRequest.usedWorthless2 = HermitRequest.subtractWorthlessItems( HermitRequest.GEWGAW, quantity );
-		quantity -= HermitRequest.usedWorthless2;
-		HermitRequest.usedWorthless3 = HermitRequest.subtractWorthlessItems( HermitRequest.KNICK_KNACK, quantity );
+		RequestLogger.updateSessionLog( "hermit " + quantity + " " + ItemDatabase.getItemName( itemId ) );
 
 		return true;
 	}

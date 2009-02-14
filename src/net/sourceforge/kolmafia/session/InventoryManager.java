@@ -59,6 +59,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
+import net.sourceforge.kolmafia.request.UseItemRequest;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
@@ -235,29 +236,12 @@ public abstract class InventoryManager
 			}
 		}
 
-		// Handle worthless items by traveling to the sewer for as many
-		// adventures as needed.
+		// Retrieve worthless items either by reading scrolls or
+		// adventuring in the sewer.
 
 		if ( itemId == HermitRequest.WORTHLESS_ITEM.getItemId() )
 		{
-			ArrayList temporary = new ArrayList();
-			temporary.addAll( KoLConstants.conditions );
-			KoLConstants.conditions.clear();
-
-			KoLConstants.conditions.add( item.getInstance( missingCount ) );
-			StaticEntity.getClient().makeRequest(
-				AdventureDatabase.getAdventureByURL( "sewer.php" ), KoLCharacter.getAdventuresLeft() );
-
-			if ( !KoLConstants.conditions.isEmpty() )
-			{
-				KoLmafia.updateDisplay(
-					KoLConstants.ABORT_STATE, "Unable to acquire " + item.getCount() + " worthless items." );
-			}
-
-			KoLConstants.conditions.clear();
-			KoLConstants.conditions.addAll( temporary );
-
-			return HermitRequest.getWorthlessItemCount() >= item.getCount();
+			return InventoryManager.retrieveWorthlessItems( item );
 		}
 
 		// Handle the bridge by untinkering the abridged dictionary
@@ -562,6 +546,54 @@ public abstract class InventoryManager
 			KoLConstants.ERROR_STATE, "You need " + missingCount + " more " + item.getName() + " to continue." );
 
 		return false;
+	}
+	
+	private static boolean retrieveWorthlessItems( final AdventureResult item )
+	{
+		int count = HermitRequest.getWorthlessItemCount();
+		int needed = item.getCount();
+
+		while ( count < needed && InventoryManager.hasItem( HermitRequest.SUMMON_SCROLL ) )
+		{
+			// Read a single 31337 scroll
+			RequestThread.postRequest( new UseItemRequest( HermitRequest.SUMMON_SCROLL ) );
+
+			// If we now have a hermit script in inventory, read it
+			if ( InventoryManager.hasItem( HermitRequest.HACK_SCROLL ) )
+			{
+				RequestThread.postRequest( new UseItemRequest( HermitRequest.HACK_SCROLL ) );
+			}
+
+			count = HermitRequest.getWorthlessItemCount();
+		}
+
+		if ( count >= needed )
+		{
+			return true;
+		}
+
+		// Handle worthless items by traveling to the sewer for as many
+		// adventures as needed.
+
+		ArrayList temporary = new ArrayList();
+		temporary.addAll( KoLConstants.conditions );
+		KoLConstants.conditions.clear();
+
+		KoLConstants.conditions.add( item.getInstance( needed - count ) );
+		StaticEntity.getClient().makeRequest(
+			AdventureDatabase.getAdventureByURL( "sewer.php" ), KoLCharacter.getAdventuresLeft() );
+
+		if ( !KoLConstants.conditions.isEmpty() )
+		{
+			KoLmafia.updateDisplay(
+				KoLConstants.ABORT_STATE, "Unable to acquire " + item.getCount() + " worthless items." );
+		}
+
+		KoLConstants.conditions.clear();
+		KoLConstants.conditions.addAll( temporary );
+
+		count = HermitRequest.getWorthlessItemCount();
+		return count >= needed;
 	}
 	
 	private static boolean invokeBuyScript( AdventureResult item, int qty,
