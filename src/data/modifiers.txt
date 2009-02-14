@@ -1680,7 +1680,7 @@ Cranberry Cordiality	Meat Drop: +10
 Crimbo Epiphany	Mysticality Percent: +10
 Crimbo Nostalgia	Experience: +5
 Crocodile Tear	Familiar Weight (hidden): [10*zone(The Sea)]
-Crotchety, Pining	Weapon Damage Percent: +300
+Crotchety, Pining	Muscle Percent: +100
 Cruisin' for a Bruisin'	Weapon Damage Percent: +100
 Crusty Head	Damage Reduction: 10
 # Cunctatitis
