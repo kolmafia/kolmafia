@@ -2815,7 +2815,7 @@ public abstract class KoLmafia
 		return encounterType == KoLmafia.STOP || encounterType == KoLmafia.GLYPH;
 	}
 	
-	// Used to igore semirare monsters re-encountered via Spooky Putty
+	// Used to ignore semirare monsters re-encountered via Spooky Putty
 	private static boolean ignoreSemirare = false;
 	
 	public static void ignoreSemirare()
