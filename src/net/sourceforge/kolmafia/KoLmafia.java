@@ -2827,17 +2827,17 @@ public abstract class KoLmafia
 	{
 		String encounterType = KoLmafia.encounterType( encounterName );
 
-		if ( encounterType == KoLmafia.NONE )
-		{
-			return;
-		}
-
 		if ( encounterType == KoLmafia.SEMIRARE && !KoLmafia.ignoreSemirare )
 		{
 			KoLCharacter.registerSemirare();
 			return;
 		}
 		KoLmafia.ignoreSemirare = false;
+
+		if ( encounterType == KoLmafia.NONE )
+		{
+			return;
+		}
 
 		if ( encounterType == KoLmafia.STOP || encounterType == KoLmafia.GLYPH )
 		{
