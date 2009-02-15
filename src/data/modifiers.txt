@@ -1664,7 +1664,7 @@ Cock of the Walk	Moxie Percent: +200
 Cold Blooded	Cold Damage: +10, Muscle Percent: +30, Mysticality Percent: +20, Moxie Percent: +10, Cold Resistance: +2
 # Cold Breath	grants combat skill
 # Coldform
-Cold Hearted	Moxie: [min(T,20)], Familiar Weight: [ceil(min(T,10)/2)]
+Cold Hearted	Moxie: [min(T,20)], Familiar Weight: [ceil(min(T,20)/2)]
 # Comic Violence	attacks can't miss
 Compensatory Cruelness	Weapon Damage: +5
 Concentrated Concentration	Spell Damage Percent: +20
