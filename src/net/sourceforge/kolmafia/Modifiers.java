@@ -190,11 +190,11 @@ public class Modifiers
 	private static final Object[][] floatModifiers =
 	{
 		{ "Familiar Weight",
-		  Pattern.compile( "(.*) to Familiar Weight" ),
+		  Pattern.compile( "([+-]\\d+) to Familiar Weight" ),
 		  Pattern.compile( "Familiar Weight: " + EXPR )
 		},
 		{ "Monster Level",
-		  Pattern.compile( "(.*) to Monster Level" ),
+		  Pattern.compile( "([+-]\\d+) to Monster Level" ),
 		  Pattern.compile( "Monster Level: " + EXPR )
 		},
 		{ "Combat Rate",
@@ -202,23 +202,23 @@ public class Modifiers
 		  Pattern.compile( "Combat Rate: " + EXPR )
 		},
 		{ "Initiative",
-		  Pattern.compile( "Combat Initiative (.*)%" ),
+		  Pattern.compile( "Combat Initiative ([+-]\\d+)%" ),
 		  Pattern.compile( "Initiative: " + EXPR )
 		},
 		{ "Experience",
-		  Pattern.compile( "(.*) Stat.*Per Fight" ),
+		  Pattern.compile( "([+-]\\d+) Stat.*Per Fight" ),
 		  Pattern.compile( "Experience: " + EXPR )
 		},
 		{ "Item Drop",
-		  Pattern.compile( "(.*)% Item Drops? from Monsters" ),
+		  Pattern.compile( "([+-]\\d+)% Item Drops? from Monsters" ),
 		  Pattern.compile( "Item Drop: " + EXPR )
 		},
 		{ "Meat Drop",
-		  Pattern.compile( "(.*)% Meat from Monsters" ),
+		  Pattern.compile( "([+-]\\d+)% Meat from Monsters" ),
 		  Pattern.compile( "Meat Drop: " + EXPR )
 		},
 		{ "Damage Absorption",
-		  Pattern.compile( "Damage Absorption (.*)" ),
+		  Pattern.compile( "Damage Absorption ([+-]\\d+)" ),
 		  Pattern.compile( "Damage Absorption: " + EXPR )
 		},
 		{ "Damage Reduction",
@@ -246,7 +246,7 @@ public class Modifiers
 		  Pattern.compile( "Stench Resistance: " + EXPR )
 		},
 		{ "Mana Cost",
-		  Pattern.compile( "(.*) MP to use Skills" ),
+		  Pattern.compile( "([+-]\\d+) MP to use Skills" ),
 		  Pattern.compile( "Mana Cost: " + EXPR )
 		},
 		{ "Moxie",
@@ -374,7 +374,7 @@ public class Modifiers
 		  Pattern.compile( "Adventures: " + EXPR )
 		},
 		{ "Familiar Weight Percent",
-		  null,
+		  Pattern.compile( "([+-]\\d+)% Familiar Weight" ),
 		  Pattern.compile( "Familiar Weight Percent: " + EXPR )
 		},
 		{ "Weapon Damage Percent",
@@ -386,11 +386,11 @@ public class Modifiers
 		  Pattern.compile( "Ranged Damage Percent: " + EXPR )
 		},
 		{ "Stackable Mana Cost",
-		  Pattern.compile( "(.*) MP to use Skills" ),
+		  Pattern.compile( "([+-]\\d+) MP to use Skills" ),
 		  Pattern.compile( "Mana Cost \\(stackable\\): " + EXPR )
 		},
 		{ "Hobo Power",
-		  Pattern.compile( "(.*) Hobo Power" ),
+		  Pattern.compile( "([+-]\\d+) Hobo Power" ),
 		  Pattern.compile( "Hobo Power: " + EXPR )
 		},
 		{ "Base Resting HP",
@@ -1419,14 +1419,14 @@ public class Modifiers
 		if ( matcher.find() )
 		{
 			String mod = matcher.group( 1 );
-			return Modifiers.MOXIE + mod + ", " + Modifiers.MUSCLE + mod + ", " + Modifiers.MYSTICALITY + mod;
+			return Modifiers.MUSCLE + mod + ", " + Modifiers.MYSTICALITY + mod + ", " + Modifiers.MOXIE + mod;
 		}
 
 		matcher = Modifiers.ALL_ATTR_PCT_PATTERN.matcher( enchantment );
 		if ( matcher.find() )
 		{
 			String mod = matcher.group( 1 );
-			return Modifiers.MOXIE_PCT + mod + ", " + Modifiers.MUSCLE_PCT + mod + ", " + Modifiers.MYSTICALITY_PCT + mod;
+			return Modifiers.MUSCLE_PCT + mod + ", " + Modifiers.MYSTICALITY_PCT + mod + ", " + Modifiers.MOXIE_PCT + mod;
 		}
 
 		matcher = Modifiers.CLASS_PATTERN.matcher( enchantment );
