@@ -41,110 +41,120 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ClanRumpusRequest
 	extends GenericRequest
 {
-	private static final int BREAKFAST = -1;
-	public static final int SEARCH = 0;
+	private static final Pattern SPOT_PATTERN = Pattern.compile( "spot=(\\d*)" );
+	private static final Pattern FURNI_PATTERN = Pattern.compile( "furni=(\\d*)" );
+
+	private static final int SEARCH = 0;
 
 	public static final int MUSCLE = 1;
 	public static final int MYSTICALITY = 2;
 	public static final int MOXIE = 3;
 	public static final int SOFA = 4;
+	public static final int CHIPS = 5;
 
 	private static final Pattern TURN_PATTERN = Pattern.compile( "numturns=(\\d+)" );
 
-	public static final int[][] MAXIMUM_USAGE = new int[ 10 ][];
-	static
+	public static final String[][] EQUIPMENT = 
 	{
-		ClanRumpusRequest.MAXIMUM_USAGE[ 0 ] = new int[ 0 ];
-		ClanRumpusRequest.MAXIMUM_USAGE[ 1 ] = new int[] { 0, 0, 0, 0, 1 };
-		ClanRumpusRequest.MAXIMUM_USAGE[ 2 ] = new int[] { 0, 0, 0, 0 };
-		ClanRumpusRequest.MAXIMUM_USAGE[ 3 ] = new int[] { 0, 3, 0, 3 };
-		ClanRumpusRequest.MAXIMUM_USAGE[ 4 ] = new int[] { 0, 1, 1, 0 };
-		ClanRumpusRequest.MAXIMUM_USAGE[ 5 ] = new int[] { 0, 0, 0, 0 };
-		ClanRumpusRequest.MAXIMUM_USAGE[ 6 ] = new int[ 0 ];
-		ClanRumpusRequest.MAXIMUM_USAGE[ 7 ] = new int[ 0 ];
-		ClanRumpusRequest.MAXIMUM_USAGE[ 8 ] = new int[ 0 ];
-		ClanRumpusRequest.MAXIMUM_USAGE[ 9 ] = new int[] { 0, 0, 0, 1 };
-	}
+		// Row 1, Column 1: Spot 1
+		{
+			"Girls of Loathing Calendar",
+			"Boys of Loathing Calendar",
+			"Infuriating Painting",
+			"Exotic Hanging Meat Orchid",
+		},
+		// Row 1, Column 2: Spot 2
+		{ 
+			"Collection of Arcane Tomes and Whatnot",
+			"Collection of Sports Memorabilia",
+			"Collection of Self-Help Books"
+		},
+		// Row 1, Column 3: Spot 3
+		{
+			"Soda Machine",
+			"Jukebox",
+			"Mr. Klaw \"Skill\" Crane Game",
+		},
+		// Row 2, Column 1: Spot 4
+		{
+			"Old-Timey Radio",
+			"Potted Meat Bush",
+			"Inspirational Desk Calendar",
+		},
+		// Row 2, Column 2: Spot 5
+		{
+			"Wrestling Mat",
+			"Tan-U-Lots Tanning Bed",
+			"Comfy Sofa",
+		},
+		// Row 2, Column 3: Spot 6
+		{},
+		// Row 3, Column 1: Spot 7
+		{},
+		// Row 3, Column 2: Spot 8
+		{},
+		// Row 3, Column 3: Spot 9
+		{
+			"Hobo-Flex Workout System",
+			"Snack Machine",
+			"Potted Meat Tree",
+		},
+	};
 
+	public static final int[][] MAXIMUM_USAGE = 
+	{
+		// Row 1, Column 1: Spot 1
+		{ 0, 0, 0, 1 },
+		// Row 1, Column 2: Spot 2
+		{ 0, 0, 0 },
+		// Row 1, Column 3: Spot 3
+		{ 3, 0, 3 },
+		// Row 2, Column 1: Spot 4
+		{ 1, 1, 0 },
+		// Row 2, Column 2: Spot 5
+		{ 0, 0, 0 },
+		// Row 2, Column 3: Spot 6
+		{},
+		// Row 3, Column 1: Spot 7
+		{},
+		// Row 3, Column 2: Spot 8
+		{},
+		// Row 3, Column 3: Spot 9
+		{ 0, 0, 1 },
+	};
+
+	private int action;
+	private int option;
 	private int turnCount;
-	private int equipmentId;
 
 	/**
 	 * Constructs a new <code>ClanRumpusRequest</code>.
 	 *
-	 * @param equipmentId The identifier for the equipment you're using
+	 * @param action The identifier for the action you're requesting
 	 */
 
-	public ClanRumpusRequest( final int equipmentId )
+	private ClanRumpusRequest()
+	{
+		this( SEARCH );
+	}
+
+	public ClanRumpusRequest( final int action )
 	{
 		super( "clan_rumpus.php" );
-		this.equipmentId = equipmentId;
+		this.action = action;
 	}
 
-	private static final String chooseGym( final int equipmentId )
+	public ClanRumpusRequest( final int action, final int option )
 	{
-		switch ( equipmentId )
-		{
-		case MUSCLE:
-			// If we are in a Muscle sign, Degrassi Knoll has a gym.
-			if ( KoLCharacter.inMuscleSign() )
-			{
-				return "knoll.php";
-			}
-
-			// Otherwise, use the one in our clan - if we're in one.
-			return "clan_rumpus.php";
-
-		case MYSTICALITY:
-			// If we are in a Mysticality sign, Canadia has a gym.
-			if ( KoLCharacter.inMysticalitySign() )
-			{
-				return "canadia.php";
-			}
-
-			// Otherwise, use the one in our clan - if we're in one.
-			return "clan_rumpus.php";
-
-		case MOXIE:
-			// If we are in a Moxie sign, the Gnomish Gnomads has a gym.
-			if ( KoLCharacter.inMoxieSign() )
-			{
-				return "gnomes.php";
-			}
-
-			// Otherwise, use the one in our clan - if we're in one.
-			return "clan_rumpus.php";
-
-		default:
-			return "clan_rumpus.php";
-		}
-	}
-
-	private static final String chooseAction( final int equipmentId )
-	{
-		switch ( equipmentId )
-		{
-		case MUSCLE:
-			// If we are in a Muscle sign, Degrassi Knoll has a gym.
-			return KoLCharacter.inMuscleSign() ? "gym" : "3";
-
-		case MYSTICALITY:
-			// If we are in a Mysticality sign, Canadia has a gym.
-			return KoLCharacter.inMysticalitySign() ? "institute" : "1";
-
-		case MOXIE:
-			// If we are in a Moxie sign, the Gnomish Gnomads has a gym.
-			return KoLCharacter.inMoxieSign() ? "train" : "2";
-
-		case SOFA:
-			return "5";
-		}
-
-		return null;
+		super( "clan_rumpus.php" );
+		this.action = action;
+		this.option = option;
 	}
 
 	/**
@@ -158,37 +168,118 @@ public class ClanRumpusRequest
 		return this;
 	}
 
+	private void visitEquipment( final int spot, final int furniture )
+	{
+		this.clearDataFields();
+		this.addFormField( "action", "click" );
+		this.addFormField( "spot", String.valueOf( spot ) );
+		this.addFormField( "furni", String.valueOf( furniture ) );
+	}
+
+	public static String equipmentName( final int spot, final int furniture )
+	{
+		if ( spot < 1 || spot > 9 )
+		{
+			return null;
+		}
+
+		String [] equipment = EQUIPMENT[ spot - 1];
+		if ( furniture < 1 || furniture > equipment.length )
+		{
+			return null;
+		}
+
+		return equipment[ furniture - 1 ];
+	}
+
+	public static int dailyUses( final int spot, final int furniture )
+	{
+		if ( spot < 1 || spot > 9 )
+		{
+			return 0;
+		}
+
+		int [] usage = MAXIMUM_USAGE[ spot - 1];
+		if ( furniture < 1 || furniture > usage.length )
+		{
+			return 0;
+		}
+
+		return usage[ furniture - 1 ];
+	}
+
+	public int getAdventuresUsed()
+	{
+		return this.turnCount;
+	}
+
 	public void run()
 	{
-		this.constructURLString( ClanRumpusRequest.chooseGym( this.equipmentId ) );
-
-		switch ( this.equipmentId )
+		switch ( this.action )
 		{
 		case SEARCH:
-		case BREAKFAST:
+			break;
+
+		case MUSCLE:
+			// If we are in a Muscle sign, Degrassi Knoll has a gym.
+			if ( KoLCharacter.inMuscleSign() )
+			{
+				this.constructURLString( "knoll.php" );
+				this.addFormField( "action", "gym" );
+			}
+			// Otherwise, use the one in our clan - if we're in one.
+			else
+			{
+				this.constructURLString( "clan_rumpus.php" );
+				this.addFormField( "preaction", "gym" );
+				this.addFormField( "whichgym", "3" );
+			}
+			break;
+
+		case MYSTICALITY:
+			// If we are in a Mysticality sign, Canadia has a gym.
+			if ( KoLCharacter.inMysticalitySign() )
+			{
+				this.constructURLString( "canadia.php" );
+				this.addFormField( "action", "institute" );
+			}
+			// Otherwise, use the one in our clan - if we're in one.
+			else
+			{
+				this.constructURLString( "clan_rumpus.php" );
+				this.addFormField( "preaction", "gym" );
+				this.addFormField( "whichgym", "1" );
+			}
+			break;
+
+		case MOXIE:
+			// If we are in a Moxie sign, the Gnomish Gnomads has a gym.
+			if ( KoLCharacter.inMysticalitySign() )
+			{
+				this.constructURLString( "gnomes.php" );
+				this.addFormField( "action", "train" );
+			}
+			// Otherwise, use the one in our clan - if we're in one.
+			else
+			{
+				this.constructURLString( "clan_rumpus.php" );
+				this.addFormField( "preaction", "gym" );
+				this.addFormField( "whichgym", "2" );
+			}
 			break;
 
 		case SOFA:
+			this.constructURLString( "clan_rumpus.php" );
 			this.addFormField( "preaction", "nap" );
 			break;
 
+		case CHIPS:
+			this.constructURLString( "clan_rumpus.php" );
+			this.addFormField( "preaction", "buychips" );
+			this.addFormField( "whichbag", String.valueOf( this.option ) );
+			break;
+
 		default:
-			String equipment = ClanRumpusRequest.chooseAction( this.equipmentId );
-			if ( equipment == null )
-			{
-				return;
-			}
-
-			if ( equipment.length() > 1 )
-			{
-				this.addFormField( "action", equipment );
-			}
-			else
-			{
-				this.addFormField( "preaction", "gym" );
-				this.addFormField( "whichgym", equipment );
-			}
-
 			break;
 		}
 
@@ -203,7 +294,7 @@ public class ClanRumpusRequest
 			}
 		}
 
-		if ( this.equipmentId != ClanRumpusRequest.SEARCH )
+		if ( this.action != ClanRumpusRequest.SEARCH )
 		{
 			KoLmafia.updateDisplay( "Executing request..." );
 		}
@@ -213,35 +304,37 @@ public class ClanRumpusRequest
 
 	public void processResults()
 	{
-		if ( this.equipmentId != ClanRumpusRequest.SEARCH )
+		switch ( this.action )
 		{
-			if ( this.equipmentId != ClanRumpusRequest.BREAKFAST )
-			{
-				KoLmafia.updateDisplay( "Workout completed." );
-			}
+		case MUSCLE:
+		case MYSTICALITY:
+		case MOXIE:
+			KoLmafia.updateDisplay( "Workout completed." );
+			return;
 
+		case SOFA:
+			KoLmafia.updateDisplay( "Resting completed." );
 			return;
 		}
+	}
 
-		this.equipmentId = ClanRumpusRequest.BREAKFAST;
+	public static void getBreakfast()
+	{
+		ClanRumpusRequest request = new ClanRumpusRequest();
+
+		// Search for available equipment
+		RequestThread.postRequest( request );
 
 		// The Klaw can be accessed regardless of whether or not
 		// you are in hardcore, so handle it first.
 
-		if ( this.responseText.indexOf( "rump3_3.gif" ) != -1 )
+		if ( request.responseText.indexOf( "rump3_3.gif" ) != -1 )
 		{
-			this.clearDataFields();
-			this.addFormField( "action", "click" );
-			this.addFormField( "spot", "3" );
-			this.addFormField( "furni", "3" );
+			request.visitEquipment( 3, 3 );
 
-			for ( int i = 0; i < 3; ++i )
+			while ( request.responseText.indexOf( "wisp of smoke" ) == -1 && request.responseText.indexOf( "broken down" ) == -1 )
 			{
-				KoLmafia.updateDisplay( "Attempting to win a prize (" + ( i + 1 ) + " of 3)..." );
-				if ( this.responseText.indexOf( "wisp of smoke" ) == -1 && this.responseText.indexOf( "broken down" ) == -1 )
-				{
-					super.run();
-				}
+				request.run();
 			}
 		}
 
@@ -250,102 +343,148 @@ public class ClanRumpusRequest
 			return;
 		}
 
-		for ( int i = 0; i < ClanRumpusRequest.MAXIMUM_USAGE.length; ++i )
+		for ( int i = 1; i <= ClanRumpusRequest.MAXIMUM_USAGE.length; ++i )
 		{
-			for ( int j = 0; j < ClanRumpusRequest.MAXIMUM_USAGE[ i ].length; ++j )
+			int [] usage = ClanRumpusRequest.MAXIMUM_USAGE[ i - 1 ];
+			for ( int j = 1; j <= usage.length; ++j )
 			{
 				if ( i == 3 && j == 3 )
 				{
 					continue;
 				}
 
-				// If the equipment is not present, then go ahead and
-				// skip this check.
+				int maximum = usage[ j - 1 ];
 
-				if ( ClanRumpusRequest.MAXIMUM_USAGE[ i ][ j ] == 0 || this.responseText.indexOf( "rump" + i + "_" + j + ".gif" ) == -1 )
+				// If the equipment is not usable, skip it
+				if ( maximum == 0 )
 				{
 					continue;
 				}
 
-				this.clearDataFields();
-
-				this.addFormField( "action", "click" );
-				this.addFormField( "spot", String.valueOf( i ) );
-				this.addFormField( "furni", String.valueOf( j ) );
-
-				for ( int k = 0; k < ClanRumpusRequest.MAXIMUM_USAGE[ i ][ j ]; ++k )
+				
+				// If the equipment is not present, skip it
+				if ( request.responseText.indexOf( "rump" + i + "_" + j + ".gif" ) == -1 )
 				{
-					super.run();
+					continue;
+				}
+
+				request.visitEquipment( i, j );
+
+				for ( int k = 0; k < maximum; ++k )
+				{
+					request.run();
 				}
 			}
 		}
 	}
 
-	/**
-	 * An alternative method to doing adventure calculation is determining how many adventures are used by the given
-	 * request, and subtract them after the request is done. This number defaults to <code>zero</code>; overriding
-	 * classes should change this value to the appropriate amount.
-	 *
-	 * @return The number of adventures used by this request.
-	 */
-
-	public int getAdventuresUsed()
-	{
-		return this.turnCount;
-	}
-
 	public static boolean registerRequest( final String urlString )
 	{
-		String gymType = null;
+		String action = null;
 
 		if ( urlString.startsWith( "knoll.php" ) && urlString.indexOf( "action=gym" ) != -1 )
 		{
-			gymType = "Pump Up Muscle";
+			action = "Pump Up Muscle";
 		}
-
-		if ( urlString.startsWith( "canadia.php" ) && urlString.indexOf( "action=institute" ) != -1 )
+		else if ( urlString.startsWith( "canadia.php" ) && urlString.indexOf( "action=institute" ) != -1 )
 		{
-			gymType = "Pump Up Mysticality";
+			action = "Pump Up Mysticality";
 		}
-
-		if ( urlString.startsWith( "gnomes.php" ) && urlString.indexOf( "action=train" ) != -1 )
+		else if ( urlString.startsWith( "gnomes.php" ) && urlString.indexOf( "action=train" ) != -1 )
 		{
-			gymType = "Pump Up Moxie";
+			action = "Pump Up Moxie";
 		}
-
-		if ( urlString.startsWith( "clan_rumpus.php" ) && urlString.indexOf( "action=3" ) != -1 )
+		else if ( urlString.startsWith( "clan_rumpus.php" ) && urlString.indexOf( "whichgym=3" ) != -1 )
 		{
-			gymType = "Pump Up Muscle";
+			action = "Pump Up Muscle";
 		}
-
-		if ( urlString.startsWith( "clan_rumpus.php" ) && urlString.indexOf( "action=1" ) != -1 )
+		else if ( urlString.startsWith( "clan_rumpus.php" ) && urlString.indexOf( "whichgym=1" ) != -1 )
 		{
-			gymType = "Pump Up Mysticality";
+			action = "Pump Up Mysticality";
 		}
-
-		if ( urlString.startsWith( "clan_rumpus.php" ) && urlString.indexOf( "action=2" ) != -1 )
+		else if ( urlString.startsWith( "clan_rumpus.php" ) && urlString.indexOf( "whichgym=2" ) != -1 )
 		{
-			gymType = "Pump Up Moxie";
+			action = "Pump Up Moxie";
 		}
-
-		if ( urlString.startsWith( "clan_rumpus.php" ) && urlString.indexOf( "action=5" ) != -1 )
+		else if ( urlString.startsWith( "clan_rumpus.php" ) && urlString.indexOf( "preaction=nap" ) != -1 )
 		{
-			gymType = "Rest in Clan Sofa";
+			action = "Rest in Clan Sofa";
 		}
 
-		if ( gymType == null )
+		if ( action != null )
+		{
+			Matcher matcher = ClanRumpusRequest.TURN_PATTERN.matcher( urlString );
+			if ( !matcher.find() )
+			{
+				return true;
+			}
+
+			// If not enough turns available, nothing will happen.
+			int turns = StringUtilities.parseInt( matcher.group( 1 ) );
+			int available = KoLCharacter.getAdventuresLeft();
+			if ( turns > available )
+			{
+				return true;
+			}
+
+			String message = "[" + KoLAdventure.getAdventureCount() + "] " + action + " (" + turns + " turns)";
+
+			RequestLogger.printLine();
+			RequestLogger.updateSessionLog();
+
+			RequestLogger.printLine( message );
+			RequestLogger.updateSessionLog( message );
+			return true;
+		}
+
+		if ( !urlString.startsWith( "clan_rumpus.php" ) )
 		{
 			return false;
 		}
 
-		Matcher turnMatcher = ClanRumpusRequest.TURN_PATTERN.matcher( urlString );
-		if ( !turnMatcher.find() )
+		if ( urlString.indexOf( "action=buychips" ) != -1 )
+		{
+			String message = "Buying chips from Snack Machine in clan rumpus room";
+			RequestLogger.printLine( message );
+			RequestLogger.updateSessionLog( message );
+			return true;
+		}
+
+		// The only other actions we handle here are clicking on clan
+		// furniture
+
+		if ( urlString.indexOf( "action=click" ) == -1 )
 		{
 			return false;
 		}
 
-		RequestLogger.printLine( "[" + KoLAdventure.getAdventureCount() + "] " + gymType + " (" + turnMatcher.group( 1 ) + " turns)" );
-		RequestLogger.updateSessionLog( "[" + KoLAdventure.getAdventureCount() + "] " + gymType + " (" + turnMatcher.group( 1 ) + " turns)" );
+		Matcher matcher = SPOT_PATTERN.matcher( urlString );
+		if ( !matcher.find() )
+		{
+			return true;
+		}
+
+		int spot = StringUtilities.parseInt( matcher.group( 1 ) );
+
+		matcher = FURNI_PATTERN.matcher( urlString );
+		if ( !matcher.find() )
+		{
+			return true;
+		}
+
+		int furniture = StringUtilities.parseInt( matcher.group( 1 ) );
+
+		String equipment = ClanRumpusRequest.equipmentName( spot, furniture );
+
+		if ( equipment == null )
+		{
+			return false;
+		}
+
+		String message = "Visiting " + equipment + " in clan rumpus room";
+		RequestLogger.printLine( message );
+		RequestLogger.updateSessionLog( message );
+
 		return true;
 	}
 }

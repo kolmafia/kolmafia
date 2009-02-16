@@ -83,7 +83,7 @@ public class BreakfastManager
 	{
 		if ( Preferences.getBoolean( "visitRumpus" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ) )
 		{
-			RequestThread.postRequest( new ClanRumpusRequest( ClanRumpusRequest.SEARCH ) );
+			ClanRumpusRequest.getBreakfast();
 			KoLmafia.forceContinue();
 		}
 	}

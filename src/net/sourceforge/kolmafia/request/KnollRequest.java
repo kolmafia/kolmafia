@@ -157,6 +157,7 @@ public class KnollRequest
 
 		// action = combine
 		// action = smith
+		// action = gym
 
 		return false;
 	}
