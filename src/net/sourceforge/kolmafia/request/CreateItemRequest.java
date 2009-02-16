@@ -1146,8 +1146,11 @@ public class CreateItemRequest
 		}
 		else if ( urlString.startsWith( "gnomes.php" ) )
 		{
-			isCreationURL = true;
-			command.append( "Tinker " );
+			if ( urlString.indexOf( "action=tinksomething" ) != -1 )
+			{
+				isCreationURL = true;
+				command.append( "Tinker " );
+			}
 		}
 
 		if ( !isCreationURL )
