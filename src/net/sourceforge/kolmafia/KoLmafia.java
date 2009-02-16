@@ -2687,6 +2687,12 @@ public abstract class KoLmafia
 		int desiredCount = maxPurchases == Integer.MAX_VALUE ? Integer.MAX_VALUE : initialCount + maxPurchases;
 
 		int previousLimit = 0;
+		
+		if ( Preferences.getInteger( "autoBuyPriceLimit" ) == 0 )
+		{
+			// this is probably due to an out-of-date defaults.txt
+			Preferences.setInteger( "autoBuyPriceLimit", 20000 );
+		}
 
 		for ( int i = 0; i < purchases.length && currentCount < desiredCount && KoLmafia.permitsContinue(); ++i )
 		{
