@@ -253,8 +253,8 @@ public class ClanRumpusRequest
 			break;
 
 		case MOXIE:
-			// If we are in a Moxie sign, the Gnomish Gnomads has a gym.
-			if ( KoLCharacter.inMysticalitySign() )
+			// If we are in a Moxie sign, the Gnomish Gnomads have a gym.
+			if ( KoLCharacter.inMoxieSign() )
 			{
 				this.constructURLString( "gnomes.php" );
 				this.addFormField( "action", "train" );

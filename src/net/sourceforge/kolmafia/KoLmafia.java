@@ -323,7 +323,7 @@ public abstract class KoLmafia
 	public static final void main( final String[] args )
 	{
 		boolean useGUI = true;
-		System.setProperty( "http.agent", GenericRequest.getUserAgent() );
+		GenericRequest.setUserAgent();
 
 		for ( int i = 0; i < args.length; ++i )
 		{

@@ -1732,10 +1732,26 @@ public class GenericRequest
 		return this.getURLString();
 	}
 
+	private static String userAgent = "";
+
 	public static final String getUserAgent()
 	{
-		String userAgent = Preferences.getString( "userAgent" );
-		return userAgent.equals( "" ) ? KoLConstants.VERSION_NAME : userAgent;
+		return GenericRequest.userAgent;
+	}
+
+	public static final void setUserAgent( final String agent )
+	{
+		if ( !agent.equals( GenericRequest.userAgent ) )
+		{
+			GenericRequest.userAgent = agent;
+			System.setProperty( "http.agent", GenericRequest.userAgent );
+		}
+	}
+
+	public static final void setUserAgent()
+	{
+		String agent = Preferences.getString( "userAgent" );
+		GenericRequest.setUserAgent( agent.equals( "" ) ? KoLConstants.VERSION_NAME : agent );
 	}
 
 	public void printRequestProperties()
