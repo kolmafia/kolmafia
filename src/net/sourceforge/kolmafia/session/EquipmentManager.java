@@ -48,6 +48,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -1026,6 +1027,15 @@ public class EquipmentManager
 		if ( itemId == -1 )
 		{
 			return false;
+		}
+		
+		if ( KoLCharacter.isHardcore() )
+		{
+			Modifiers mods = Modifiers.getModifiers( ItemDatabase.getItemName( itemId ) );
+			if ( mods != null && mods.getBoolean( Modifiers.SOFTCORE ) )
+			{
+				return false;
+			}
 		}
 
 		String requirement = EquipmentDatabase.getEquipRequirement( itemId );
