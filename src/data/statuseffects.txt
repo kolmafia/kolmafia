@@ -546,7 +546,7 @@
 545	Refuse Reflux	hob-o.gif	3d5c6b7bd5ab7dc8dc4efc85f8d20548	use 1 garbage-juice-flavored Hob-O
 546	Scariberi	hob-o.gif	20d098090ca8f63f8243f081d3e085e6	use 1 strawberry-flavored Hob-O
 547
-548	Haiku State of Mind	nopic2.gif	
+548	Haiku State of Mind	nopic2.gif	664ce35d26fbd678641624e892feb31d
 549	Fishy	fish.gif	17c22c50b2943cf6162d2c001e01cad3
 550	Cranberry Cordiality	cran.gif	f3f908946ea0a80e40d92e7db920e77d	use 1 cranberry cordial
 551	Blackbery Politeness	blackberry.gif	192d4ba46ffe2402b2ff321bafa2db43	use 1 blackberry polite

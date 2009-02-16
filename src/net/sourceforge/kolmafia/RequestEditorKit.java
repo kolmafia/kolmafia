@@ -1326,7 +1326,7 @@ public class RequestEditorKit
 	{
 		if ( domain.equals( "lightning" ) )
 		{
-			return "Increased Combat Initiative?";
+			return "+30% Combat Initiative";
 		}
 		if ( domain.equals( "water" ) )
 		{
@@ -1334,11 +1334,11 @@ public class RequestEditorKit
 		}
 		if ( domain.equals( "fire" ) )
 		{
-			return "+10 Hot Damage";
+			return "+10 Hot [Spell] Damage";
 		}
 		if ( domain.equals( "nature" ) )
 		{
-			return "Unknown effect. DA/DR?";
+			return "+10 Damage Reduction";
 		}
 
 		return null;
