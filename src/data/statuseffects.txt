@@ -215,7 +215,7 @@
 214	Salamander In Your Stomach	liver.gif	1c2325ff89b6a58b386e5563da098e46	use 1 salamander slurry
 215	Newt Gets In Your Eyes	eyes.gif	46a5628ca44d03f0f26bdf3467f1c0c2	use 1 eyedrops of newt
 216	Blessed by the RNG	fence2.gif	e449f82b68903398fc800a02cf2aa318
-217	Cursed by the RNG	tinycow.gif	619bf55052f4270389dd24d68a029246
+217	Cursed by The RNG	tinycow.gif	619bf55052f4270389dd24d68a029246
 218	Amorous	lips.gif	e8430f88372ba98df5e361f0b091fe65	use 1 roofie
 219	Bubble, Bubble	sphere.gif	6ede1a75e47f82c98a429c9a50d067b4	use 1 alphabet gum
 220	Sticky Fingers	glove.gif	4becdf2ac82c2bf30dd433dd54465918	use 1 bag of Cheat-Os
@@ -436,7 +436,7 @@
 435	Beer in Your Shoes	footprints.gif	fb06ebe1f825ce046930e2630203969a
 436	Toad In The Hole	squashfrog.gif	b17642b2ee44782a692b2d7861b50ac0
 437	Strangulated	sad.gif	65e393732d2282a4a698417581c1e899
-438	Ham-fisted	ham.gif	a71e21c4a39a13558719fef8980422d4	use 1 jug of hamethyst juice
+438	Ham-Fisted	ham.gif	a71e21c4a39a13558719fef8980422d4	use 1 jug of hamethyst juice
 439	Baconstoned	bacon.gif	8a3686b9ef4909ca99587bc6489008c4	use 1 jug of baconstone juice
 440	Je Ne Sais Porquoise	confused.gif	7a1d33bd3c697d55c26eb70a1845a5d5	use 1 jug of porquoise juice
 441	Fit To Be Tide	waves.gif	938dde0221273af2e2cefeafacddf498
@@ -459,7 +459,7 @@
 458	Super-Mega-Ultra-Hyper-Charged	frostshock.gif	af3d29996b0337fbf12e264d5cac21b4
 459	Brother Flying Burrito's Blessing	monkhead.gif	2b0cbdef1a8d80421d3e8a11de7276fd
 460	Brother Corsican's Blessing	monkhead.gif	b7d75d553a9181dff7dc88d0ab556628
-461	Brother Smother's Blessing	monkhead.gif	d75aaa2cc6a8dcfa7cdddef658968e26
+461	Brother Smothers's Blessing	monkhead.gif	d75aaa2cc6a8dcfa7cdddef658968e26
 462	Well-Swabbed Ear	shinyear.gif	80c60457c476244ab31f21377fec1b27	use 1 Swabbie&trade; swab
 463	Well-Oiled	balm.gif	60036c9c3bbf193e3f3fc7051ec66aa7	use 1 Oil of Parrrlay
 464	Truly Gritty	disease.gif	8247e2389bb1ad99d1c5d12db1ed8f8f	use 1 true grit
@@ -549,8 +549,8 @@
 548	Haiku State of Mind	nopic2.gif	664ce35d26fbd678641624e892feb31d
 549	Fishy	fish.gif	17c22c50b2943cf6162d2c001e01cad3
 550	Cranberry Cordiality	cran.gif	f3f908946ea0a80e40d92e7db920e77d	use 1 cranberry cordial
-551	Blackbery Politeness	blackberry.gif	192d4ba46ffe2402b2ff321bafa2db43	use 1 blackberry polite
-552	The Halls of Muscularity	candy.gif	5ae8ae820ae42b7ef7fc66d9db0aa403	use 1 plum lozenge
+551	Blackberry Politeness	blackberry.gif	192d4ba46ffe2402b2ff321bafa2db43	use 1 blackberry polite
+552	The Halls of Muscularity	candy.gif	6353bc586daa8659628f66fb772dd8ea	use 1 plum lozenge
 553	The Halls of Mysticality	candy.gif	445ce68a580764aee2290ed14feac1ba	use 1 pear lozenge
 554	The Halls of Moxiousness	candy.gif	5ae8ae820ae42b7ef7fc66d9db0aa403	use 1 peach lozenge
 555	Glittering Eyelashes	eyelashes.gif	fc50db33358ccef36aae08cc54387702	use 5 glittery mascara
@@ -562,7 +562,7 @@
 561	Crocodile Tear	raindrop.gif	1244fd2f71f838ce95600e79cec2177c	use 1 temporary teardrop tattoo
 562	Swimming with Sharks	sharkfin.gif	a56c246742def1df7013e3941f14a3f0	use 1 shark cartilage
 563	Brined Liver	liver.gif	171f81071d987397e6aae6867f6d0314	drink 1 salinated mint julep
-564	Down with Chow	tempura2.gif	9543bd48d5cc121188fd937512b82bfb	eat 1 tempura broccoli
+564	Down With Chow	tempura2.gif	9543bd48d5cc121188fd937512b82bfb	eat 1 tempura broccoli
 565	Low on the Hog	meat.gif	7e8174fcddbf31f4aabc5511eb9064fa	eat 1 tempura cauliflower
 566
 567

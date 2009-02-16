@@ -69,7 +69,7 @@ public class EffectDatabase
 	private static final HashMap defaultActions = new HashMap();
 
 	private static final Map imageById = new HashMap();
-	private static final Map descriptionById = new HashMap();
+	private static final Map descriptionById = new TreeMap();
 	private static final Map effectByDescription = new HashMap();
 
 	static
@@ -165,6 +165,13 @@ public class EffectDatabase
 			StringUtilities.getDisplayName( (String) EffectDatabase.nameById.get( new Integer( effectId ) ) );
 	}
 
+	public static final String getEffectDataName( final int effectId )
+	{
+		return effectId == -1 ?
+			null:
+			(String) EffectDatabase.dataNameById.get( new Integer( effectId ) );
+	}
+
 	public static final String getEffectName( final String descriptionId )
 	{
 		Object effectId = EffectDatabase.effectByDescription.get( descriptionId );
@@ -180,6 +187,11 @@ public class EffectDatabase
 	public static final String getDescriptionId( final int effectId )
 	{
 		return (String) EffectDatabase.descriptionById.get( new Integer( effectId ) );
+	}
+
+	public static final Set descriptionIdKeySet()
+	{
+		return EffectDatabase.descriptionById.keySet();
 	}
 
 	/**

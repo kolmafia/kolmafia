@@ -427,7 +427,7 @@ Zim Merman's guitar	200	Mox: 85	2-handed guitar
 Zombo's shoulder blade	200	Mus: 200	2-handed sword
 acoustic guitarrr	140	Mox: 55	2-handed guitar
 antique spear	200	Mus: 85	1-handed polearm
-armed gun	140	Mox: 55	2-handed rifle
+armgun	140	Mox: 55	2-handed rifle
 arse-shooting crossbow	160	Mox: 65	2-handed crossbow
 asbestos crossbow	110	Mox: 40	2-handed crossbow
 asbestos staff	100	Mus: 35	2-handed staff
@@ -997,7 +997,7 @@ Zinc Delta of Tranquility	0	Mys: 85
 Zombo's skull ring	0	Mys: 200
 acid-squirting flower	0	Mys: 10
 albatross necklace	0	Mys: 15
-amber aviator shades	0	none
+amber aviator shades	0	Mys: 85
 amulet of extreme plot significance	0	Mys: 35
 arrrgyle socks	0	Mys: 20
 baconstone bracelet	0	Mys: 10

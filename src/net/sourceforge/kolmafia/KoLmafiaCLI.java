@@ -55,6 +55,7 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.Aliases;
 import net.sourceforge.kolmafia.persistence.BuffBotDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.DebugDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
@@ -1765,7 +1766,7 @@ public class KoLmafiaCLI
 		{
 			if ( command.equals( "newdata" ) )
 			{
-				ItemDatabase.findItemDescriptions();
+				DebugDatabase.findItemDescriptions();
 				EffectDatabase.findStatusEffects();
 				RequestLogger.printLine( "Data tables updated." );
 				return;
@@ -1774,7 +1775,7 @@ public class KoLmafiaCLI
 			if ( command.equals( "checkdata" ) )
 			{
 				int itemId = StringUtilities.parseInt( parameters );
-				ItemDatabase.checkInternalData( itemId );
+				DebugDatabase.checkInternalData( itemId );
 				RequestLogger.printLine( "Internal data checked." );
 				return;
 			}
@@ -1782,7 +1783,7 @@ public class KoLmafiaCLI
 			if ( command.equals( "checkplurals" ) )
 			{
 				int itemId = StringUtilities.parseInt( parameters );
-				ItemDatabase.checkPlurals( itemId );
+				DebugDatabase.checkPlurals( itemId );
 				RequestLogger.printLine( "Plurals checked." );
 				return;
 			}
@@ -1796,14 +1797,14 @@ public class KoLmafiaCLI
 	
 			if ( command.equals( "checkconsumption" ) )
 			{
-				ItemDatabase.checkConsumptionData();
+				DebugDatabase.checkConsumptionData();
 				RequestLogger.printLine( "Consumption data checked." );
 				return;
 			}
 
 			if ( command.equals( "checkpulverization" ) )
 			{
-				ItemDatabase.checkPulverizationData();
+				DebugDatabase.checkPulverizationData();
 				RequestLogger.printLine( "Pulverization data checked." );
 				return;
 			}

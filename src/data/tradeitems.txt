@@ -2682,7 +2682,7 @@
 2681	M-242	3	all	150
 2682	detuned radio	15	none	0
 2683	Warehouse 23 crate	3	gift	0
-2684	armed gun	12	all	75
+2684	armgun	12	all	75
 2685	fancy seashell necklace	0	all	1000
 2686	commemorative war stein	0	all	1000
 2687	stone frisbee	25	all	200
@@ -3426,7 +3426,7 @@
 3425	garbage-juice-flavored Hob-O	4	all	5
 3426	strawberry-flavored Hob-O	4	all	5
 3427	roll of Hob-Os	4	all	25
-3428	Everlasting Deckswabber	4	all	50\
+3428	Everlasting Deckswabber	4	all	50
 3429
 3430	bindle of joy	3	gift	0
 3431	cotton candy cocoon	5	all	0
