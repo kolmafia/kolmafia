@@ -1732,11 +1732,18 @@ public class GenericRequest
 		return this.getURLString();
 	}
 
+	private static String savedUserAgent = "";
 	private static String userAgent = "";
 
 	public static final String getUserAgent()
 	{
 		return GenericRequest.userAgent;
+	}
+
+	public static final void setUserAgent()
+	{
+		GenericRequest.savedUserAgent = Preferences.getString( "userAgent" );
+		GenericRequest.setUserAgent( GenericRequest.savedUserAgent.equals( "" ) ? KoLConstants.VERSION_NAME : GenericRequest.savedUserAgent );
 	}
 
 	public static final void setUserAgent( final String agent )
@@ -1748,10 +1755,13 @@ public class GenericRequest
 		}
 	}
 
-	public static final void setUserAgent()
+	public static final void saveUserAgent( final String agent )
 	{
-		String agent = Preferences.getString( "userAgent" );
-		GenericRequest.setUserAgent( agent.equals( "" ) ? KoLConstants.VERSION_NAME : agent );
+		if ( !agent.equals( GenericRequest.savedUserAgent ) )
+		{
+			GenericRequest.savedUserAgent = agent;
+			Preferences.setString( "userAgent", agent );
+		}
 	}
 
 	public void printRequestProperties()

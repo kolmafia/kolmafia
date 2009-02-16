@@ -175,6 +175,11 @@ public class LocalRelayAgent
 				contentLength = StringUtilities.parseInt( currentLine.substring( 16 ) );
 			}
 
+			if ( currentLine.startsWith( "User-Agent" ) )
+			{
+				GenericRequest.saveUserAgent( currentLine.substring( 12 ) );
+			}
+
 			if ( currentLine.startsWith( "Cookie" ) && this.path.startsWith( "/inventory" ) )
 			{
 				String[] cookieList = currentLine.substring( 8 ).split( "\\s*;\\s*" );
