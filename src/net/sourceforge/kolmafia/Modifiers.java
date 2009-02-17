@@ -202,7 +202,10 @@ public class Modifiers
 		  Pattern.compile( "Combat Rate: " + EXPR )
 		},
 		{ "Initiative",
-		  Pattern.compile( "Combat Initiative ([+-]\\d+)%" ),
+		  new Object[] {
+			Pattern.compile( "Combat Initiative ([+-]\\d+)%" ),
+			Pattern.compile( "([+-]\\d+)% Combat Initiative" ),
+		  },
 		  Pattern.compile( "Initiative: " + EXPR )
 		},
 		{ "Experience",
@@ -210,7 +213,7 @@ public class Modifiers
 		  Pattern.compile( "Experience: " + EXPR )
 		},
 		{ "Item Drop",
-		  Pattern.compile( "([+-]\\d+)% Item Drops? from Monsters" ),
+		  Pattern.compile( "([+-]\\d+)% Item Drops? [Ff]rom Monsters$" ),
 		  Pattern.compile( "Item Drop: " + EXPR )
 		},
 		{ "Meat Drop",
@@ -222,7 +225,7 @@ public class Modifiers
 		  Pattern.compile( "Damage Absorption: " + EXPR )
 		},
 		{ "Damage Reduction",
-		  Pattern.compile( "Damage Reduction: (\\d+)" ),
+		  Pattern.compile( "Damage Reduction: ([+-]?\\d+)" ),
 		  Pattern.compile( "Damage Reduction: " + EXPR )
 		},
 		{ "Cold Resistance",
@@ -250,27 +253,45 @@ public class Modifiers
 		  Pattern.compile( "Mana Cost: " + EXPR )
 		},
 		{ "Moxie",
-		  Pattern.compile( "Moxie ([+-]\\d+)$" ),
+		  new Object[] {
+			Pattern.compile( "Moxie ([+-]\\d+)$" ),
+			Pattern.compile( "([+-]\\d+) Moxie$" ),
+		  },
 		  Pattern.compile( "Moxie: " + EXPR )
 		},
 		{ "Moxie Percent",
-		  Pattern.compile( "Moxie ([+-]\\d+)%" ),
+		  new Object[] {
+			Pattern.compile( "Moxie ([+-]\\d+)%" ),
+			Pattern.compile( "([+-]\\d+)% Moxie" ),
+		  },
 		  Pattern.compile( "Moxie Percent: " + EXPR )
 		},
 		{ "Muscle",
-		  Pattern.compile( "Muscle ([+-]\\d+)$" ),
+		  new Object[] {
+			Pattern.compile( "Muscle ([+-]\\d+)$" ),
+			Pattern.compile( "([+-]\\d+) Muscle$" ),
+		  },
 		  Pattern.compile( "Muscle: " + EXPR )
 		},
 		{ "Muscle Percent",
-		  Pattern.compile( "Muscle ([+-]\\d+)%" ),
+		  new Object[] {
+			Pattern.compile( "Muscle ([+-]\\d+)%" ),
+			Pattern.compile( "([+-]\\d+)% Muscle" ),
+		  },
 		  Pattern.compile( "Muscle Percent: " + EXPR )
 		},
 		{ "Mysticality",
-		  Pattern.compile( "Mysticality ([+-]\\d+)$" ),
+		  new Object[] {
+			Pattern.compile( "Mysticality ([+-]\\d+)$" ),
+			Pattern.compile( "([+-]\\d+) Mysticality$" ),
+		  },
 		  Pattern.compile( "Mysticality: " + EXPR )
 		},
 		{ "Mysticality Percent",
-		  Pattern.compile( "Mysticality ([+-]\\d+)%" ),
+		  new Object[] {
+			Pattern.compile( "Mysticality ([+-]\\d+)%" ),
+			Pattern.compile( "([+-]\\d+)% Mysticality" ),
+		  },
 		  Pattern.compile( "Mysticality Percent: " + EXPR )
 		},
 		{ "Maximum HP",
@@ -290,59 +311,71 @@ public class Modifiers
 		  Pattern.compile( "Maximum MP Percent: " + EXPR )
 		},
 		{ "Weapon Damage",
-		  Pattern.compile( "Weapon Damage ([+-]\\d+)$" ),
+		  new Object[] {
+			Pattern.compile( "Weapon Damage ([+-]\\d+)$" ),
+			Pattern.compile( "([+-]\\d+) Weapon Damage" ),
+		  },
 		  Pattern.compile( "Weapon Damage: " + EXPR )
 		},
 		{ "Ranged Damage",
-		  Pattern.compile( "Ranged Damage ([+-]\\d+)$" ),
+		  new Object[] {
+			Pattern.compile( "Ranged Damage ([+-]\\d+)$" ),
+			Pattern.compile( "([+-]\\d+) Ranged Damage" ),
+		  },
 		  Pattern.compile( "Ranged Damage: " + EXPR )
 		},
 		{ "Spell Damage",
-		  Pattern.compile( "Spell Damage ([+-]\\d+)$" ),
+		  new Object[] {
+			Pattern.compile( "Spell Damage ([+-]\\d+)$" ),
+			Pattern.compile( "([+-]\\d+) Spell Damage" ),
+		  },
 		  Pattern.compile( "Spell Damage: " + EXPR )
 		},
 		{ "Spell Damage Percent",
-		  Pattern.compile( "Spell Damage ([+-]\\d+)%" ),
+		  new Object[] {
+			Pattern.compile( "Spell Damage ([+-]\\d+)%" ),
+			Pattern.compile( "([+-]\\d+)% Spell Damage" ),
+		  },
 		  Pattern.compile( "Spell Damage Percent: " + EXPR )
 		},
 		{ "Cold Damage",
-		  Pattern.compile( "([+-]\\d+) <font color=blue>Cold Damage</font>" ),
+		  Pattern.compile( "^([+-]\\d+) <font color=blue>Cold Damage</font>" ),
 		  Pattern.compile( "Cold Damage: " + EXPR )
 		},
 		{ "Hot Damage",
-		  Pattern.compile( "([+-]\\d+) <font color=red>Hot Damage</font>" ),
+		  Pattern.compile( "^([+-]\\d+) <font color=red>Hot Damage</font>" ),
 		  Pattern.compile( "Hot Damage: " + EXPR )
 		},
 		{ "Sleaze Damage",
-		  Pattern.compile( "([+-]\\d+) <font color=blueviolet>Sleaze Damage</font>" ),
+		  Pattern.compile( "^([+-]\\d+) <font color=blueviolet>Sleaze Damage</font>" ),
 		  Pattern.compile( "Sleaze Damage: " + EXPR )
 		},
 		{ "Spooky Damage",
-		  Pattern.compile( "([+-]\\d+) <font color=gray>Spooky Damage</font>" ),
+		  Pattern.compile( "^([+-]\\d+) <font color=gray>Spooky Damage</font>" ),
 		  Pattern.compile( "Spooky Damage: " + EXPR )
 		},
 		{ "Stench Damage",
-		  Pattern.compile( "([+-]\\d+) <font color=green>Stench Damage</font>" ),
+		  Pattern.compile( "^([+-]\\d+) <font color=green>Stench Damage</font>" ),
 		  Pattern.compile( "Stench Damage: " + EXPR )
 		},
 		{ "Cold Spell Damage",
-		  Pattern.compile( "([+-]\\d+) (Damage )?to <font color=blue>Cold Spells</font>" ),
+		  Pattern.compile( "^([+-]\\d+) (Damage )?to <font color=blue>Cold Spells</font>" ),
 		  Pattern.compile( "Cold Spell Damage: " + EXPR )
 		},
 		{ "Hot Spell Damage",
-		  Pattern.compile( "([+-]\\d+) (Damage )?to <font color=red>Hot Spells</font>" ),
+		  Pattern.compile( "^([+-]\\d+) (Damage )?to <font color=red>Hot Spells</font>" ),
 		  Pattern.compile( "Hot Spell Damage: " + EXPR )
 		},
 		{ "Sleaze Spell Damage",
-		  Pattern.compile( "([+-]\\d+) (Damage )?to <font color=blueviolet>Sleaze Spells</font>" ),
+		  Pattern.compile( "^([+-]\\d+) (Damage )?to <font color=blueviolet>Sleaze Spells</font>" ),
 		  Pattern.compile( "Sleaze Spell Damage: " + EXPR )
 		},
 		{ "Spooky Spell Damage",
-		  Pattern.compile( "([+-]\\d+) (Damage )?to <font color=gray>Spooky Spells</font>" ),
+		  Pattern.compile( "^([+-]\\d+) (Damage )?to <font color=gray>Spooky Spells</font>" ),
 		  Pattern.compile( "Spooky Spell Damage: " + EXPR )
 		},
 		{ "Stench Spell Damage",
-		  Pattern.compile( "([+-]\\d+) (Damage )?to <font color=green>Stench Spells</font>" ),
+		  Pattern.compile( "^([+-]\\d+) (Damage )?to <font color=green>Stench Spells</font>" ),
 		  Pattern.compile( "Stench Spell Damage: " + EXPR )
 		},
 		{ "Critical",
@@ -560,13 +593,13 @@ public class Modifiers
 		return (String) table[ index ][ 0 ];
 	};
 
-	private static final Pattern modifierDescPattern( final Object[][] table, final int index )
+	private static final Object modifierDescPattern( final Object[][] table, final int index )
 	{
 		if ( index < 0 || index >= table.length )
 		{
 			return null;
 		}
-		return (Pattern) table[ index ][ 1 ];
+		return table[ index ][ 1 ];
 	};
 
 	private static final Pattern modifierTagPattern( final Object[][] table, final int index )
@@ -1016,56 +1049,66 @@ public class Modifiers
 		for ( int i = 0; i < newFloats.length; ++i )
 		{
 			Pattern pattern = Modifiers.modifierTagPattern( Modifiers.floatModifiers, i );
-			if ( pattern != null )
+			if ( pattern == null )
 			{
-				Matcher matcher = pattern.matcher( string );
-				if ( matcher.find() )
+				continue;
+			}
+
+			Matcher matcher = pattern.matcher( string );
+			if ( !matcher.find() )
+			{
+				continue;
+			}
+
+			if ( matcher.group( 1 ) != null )
+			{
+				newFloats[ i ] = Float.parseFloat( matcher.group( 1 ) );
+			}
+			else
+			{
+				if ( newMods.expressions == null )
 				{
-					if ( matcher.group( 1 ) != null )
-					{
-						newFloats[ i ] = Float.parseFloat( matcher.group( 1 ) );
-					}
-					else
-					{
-						if ( newMods.expressions == null )
-						{
-							newMods.expressions = new Expression[ Modifiers.FLOAT_MODIFIERS ];
-						}
-						newMods.expressions[ i ] = new Expression( matcher.group( 2 ),
-							name );
-					}
-					continue;
+					newMods.expressions = new Expression[ Modifiers.FLOAT_MODIFIERS ];
 				}
+				newMods.expressions[ i ] = new Expression( matcher.group( 2 ),
+									   name );
 			}
 		}
 
 		for ( int i = 0; i < newBooleans.length; ++i )
 		{
 			Pattern pattern = Modifiers.modifierTagPattern( Modifiers.booleanModifiers, i );
-			if ( pattern != null )
+			if ( pattern == null )
 			{
-				Matcher matcher = pattern.matcher( string );
-				if ( matcher.find() )
-				{
-					newBooleans[ i ] = true;
-					continue;
-				}
+				continue;
 			}
+
+			Matcher matcher = pattern.matcher( string );
+			if ( !matcher.find() )
+			{
+				continue;
+			}
+
+			newBooleans[ i ] = true;
 		}
 
 		for ( int i = 0; i < newStrings.length; ++i )
 		{
 			Pattern pattern = Modifiers.modifierTagPattern( Modifiers.stringModifiers, i );
-			if ( pattern != null )
+			if ( pattern == null )
 			{
-				Matcher matcher = pattern.matcher( string );
-				if ( matcher.find() )
-				{
-					newStrings[ i ] = matcher.group( 1 );
-					continue;
-				}
+				continue;
 			}
+
+			Matcher matcher = pattern.matcher( string );
+			if ( !matcher.find() )
+			{
+				continue;
+			}
+
+			newStrings[ i ] = matcher.group( 1 );
 		}
+
 		newStrings[ Modifiers.MODIFIERS ] = string;
 		
 		Matcher matcher = CLOWNOSITY_PATTERN.matcher( string );
@@ -1322,14 +1365,14 @@ public class Modifiers
 
 	// Parsing item enchantments into KoLmafia modifiers
 
-	private static final Pattern DR_PATTERN = Pattern.compile( "Damage Reduction: <b>(\\d+)</b>" );
+	private static final Pattern DR_PATTERN = Pattern.compile( "Damage Reduction: (<b>)?([+-]?\\d+)(</b>)?" );
 
 	public static final String parseDamageReduction( final String text )
 	{
 		Matcher matcher = Modifiers.DR_PATTERN.matcher( text );
 		if ( matcher.find() )
 		{
-			return Modifiers.modifierName( Modifiers.floatModifiers, Modifiers.DAMAGE_REDUCTION ) + ": " + matcher.group( 1 );
+			return Modifiers.modifierName( Modifiers.floatModifiers, Modifiers.DAMAGE_REDUCTION ) + ": " + matcher.group( 2 );
 		}
 
 		return null;
@@ -1380,7 +1423,7 @@ public class Modifiers
 	private static final Pattern ALL_ATTR_PATTERN = Pattern.compile( "^All Attributes ([+-]\\d+)$" );
 	private static final Pattern ALL_ATTR_PCT_PATTERN = Pattern.compile( "^All Attributes ([+-]\\d+)%$" );
 	private static final Pattern CLASS_PATTERN = Pattern.compile( "Bonus&nbsp;for&nbsp;(.*)&nbsp;only" );
-	private static final Pattern COMBAT_PATTERN = Pattern.compile( "Monsters will be (.*) attracted to you." );
+	private static final Pattern COMBAT_PATTERN = Pattern.compile( "Monsters will be (.*) attracted to you" );
 	private static final Pattern HP_MP_PATTERN = Pattern.compile( "^Maximum HP/MP ([+-]\\d+)$" );
 
 	public static final String parseModifier( final String enchantment )
@@ -1464,8 +1507,7 @@ public class Modifiers
 		matcher = Modifiers.COMBAT_PATTERN.matcher( enchantment );
 		if ( matcher.find() )
 		{
-			return Modifiers.modifierName( Modifiers.floatModifiers, Modifiers.COMBAT_RATE ) + ": " + ( matcher.group(
-				1 ).equals( "more" ) ? "+5" : "-5" );
+			return Modifiers.modifierName( Modifiers.floatModifiers, Modifiers.COMBAT_RATE ) + ": " + ( matcher.group( 1 ).equals( "more" ) ? "+5" : "-5" );
 		}
 
 		matcher = Modifiers.HP_MP_PATTERN.matcher( enchantment );
@@ -1493,15 +1535,33 @@ public class Modifiers
 		String quote = quoted ? "\"" : "";
 		for ( int i = 0; i < table.length; ++i )
 		{
-			Pattern pattern = Modifiers.modifierDescPattern( table, i );
-			if ( pattern == null )
+			Object object = Modifiers.modifierDescPattern( table, i );
+			if ( object == null )
 			{
 				continue;
 			}
 
-			Matcher matcher = pattern.matcher( enchantment );
-			if ( matcher.find() )
+			Object [] patterns;
+
+			if ( object instanceof Pattern )
 			{
+				patterns = new Pattern[1];
+				patterns[0] = (Pattern) object;
+			}
+			else
+			{
+				patterns = (Object[]) object;
+			}
+
+			for ( int j = 0; j < patterns.length; ++j )
+			{
+				Pattern pattern = (Pattern) patterns[ j ];
+				Matcher matcher = pattern.matcher( enchantment );
+				if ( !matcher.find() )
+				{
+					continue;
+				}
+
 				if ( matcher.groupCount() == 0 )
 				{
 					return Modifiers.modifierName( table, i );
