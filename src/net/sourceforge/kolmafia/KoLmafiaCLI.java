@@ -1754,7 +1754,8 @@ public class KoLmafiaCLI
 		}
 	}
 	
-	static { new Developer().register( "newdata" ).register( "checkdata" )
+	static { new Developer().register( "newdata" )
+                .register( "checkitems" ).register( "checkeffects" )
 		.register( "checkplurals" ).register( "checkmodifiers" )
 		.register( "checkconsumption" ).register( "checkprofile" )
 		.register( "checkpulverization" ); }
@@ -1772,11 +1773,18 @@ public class KoLmafiaCLI
 				return;
 			}
 	
-			if ( command.equals( "checkdata" ) )
+			if ( command.equals( "checkitems" ) )
 			{
 				int itemId = StringUtilities.parseInt( parameters );
-				DebugDatabase.checkInternalData( itemId );
-				RequestLogger.printLine( "Internal data checked." );
+				DebugDatabase.checkItems( itemId );
+				RequestLogger.printLine( "Internal item data checked." );
+				return;
+			}
+	
+			if ( command.equals( "checkeffects" ) )
+			{
+				DebugDatabase.checkEffects();
+				RequestLogger.printLine( "Internal status effect data checked." );
 				return;
 			}
 	

@@ -276,11 +276,14 @@ public class DebugDatabase
 		writer.close();
 	}
 
-	// Support for the "checkdata" command, which compares KoLmafia's
+	// **********************************************************
+
+	// Support for the "checkitems" command, which compares KoLmafia's
 	// internal item data from what can be mined from the item description.
 
-	private static final String ITEM_HTML_FILENAME = "itemhtml.txt";
-	private static final StringArray rawItemDescriptions = new StringArray();
+	private static final String ITEM_HTML = "itemhtml.txt";
+	private static final String ITEM_DATA = "itemdata.txt";
+	private static final StringArray rawItems = new StringArray();
 
 	private static final Map foods = new TreeMap();
 	private static final Map boozes = new TreeMap();
@@ -294,18 +297,14 @@ public class DebugDatabase
 	private static final Map famitems = new TreeMap();
 	private static final Map others = new TreeMap();
 
-	private static final String EFFECT_HTML_FILENAME = "effecthtml.txt";
-	private static final StringArray rawEffectDescriptions = new StringArray();
-	private static final Map effects = new TreeMap();
-
-	public static final void checkInternalData( final int itemId )
+	public static final void checkItems( final int itemId )
 	{
 		RequestLogger.printLine( "Loading previous data..." );
-		DebugDatabase.loadScrapeData( rawItemDescriptions, ITEM_HTML_FILENAME );
-		DebugDatabase.loadScrapeData( rawEffectDescriptions, EFFECT_HTML_FILENAME );
+		DebugDatabase.loadScrapeData( rawItems, ITEM_HTML );
 
 		RequestLogger.printLine( "Checking internal data..." );
-		PrintStream report = LogStream.openStream( new File( UtilityConstants.DATA_LOCATION, "itemdata.txt" ), true );
+
+		PrintStream report = DebugDatabase.openReport( ITEM_DATA );
 
 		DebugDatabase.foods.clear();
 		DebugDatabase.boozes.clear();
@@ -324,7 +323,6 @@ public class DebugDatabase
 		if ( itemId == 0 )
 		{
 			DebugDatabase.checkItems( report );
-			DebugDatabase.checkEffects( report );
 		}
 		else
 		{
@@ -335,7 +333,7 @@ public class DebugDatabase
 
 		DebugDatabase.checkLevels( report );
 		DebugDatabase.checkEquipment( report );
-		DebugDatabase.checkModifiers( report );
+		DebugDatabase.checkItemModifiers( report );
 
 		report.close();
 	}
@@ -362,7 +360,7 @@ public class DebugDatabase
 			DebugDatabase.checkItem( id, report );
 		}
 
-		DebugDatabase.saveScrapeData( keys.iterator(), rawItemDescriptions, ITEM_HTML_FILENAME );
+		DebugDatabase.saveScrapeData( keys.iterator(), rawItems, ITEM_HTML );
 	}
 
 	private static final void checkItem( final int itemId, final PrintStream report )
@@ -468,59 +466,6 @@ public class DebugDatabase
 		report.println( itemId + "\t" + name + "\t" + type + "\t" + descAccess + "\t" + descPrice );
 	}
 
-	private static final void checkEffects(final PrintStream report )
-	{
-		Set keys = EffectDatabase.descriptionIdKeySet();
-		Iterator it = keys.iterator();
-
-		while ( it.hasNext() )
-		{
-			int id = ( (Integer) it.next() ).intValue();
-			if ( id < 1 )
-			{
-				continue;
-			}
-
-			DebugDatabase.checkEffect( id, report );
-		}
-
-		DebugDatabase.saveScrapeData( keys.iterator(), rawEffectDescriptions, EFFECT_HTML_FILENAME );
-	}
-
-	private static final void checkEffect( final int effectId, final PrintStream report )
-	{
-		String name = EffectDatabase.getEffectDataName( effectId );
-		if ( name == null )
-		{
-			return;
-		}
-
-		String rawText = DebugDatabase.rawEffectDescriptionText( effectId );
-
-		if ( rawText == null )
-		{
-			report.println( "# *** " + name + " (" + effectId + ") has no description." );
-			return;
-		}
-
-		String text = DebugDatabase.effectDescriptionText( rawText );
-		if ( text == null )
-		{
-			report.println( "# *** " + name + " (" + effectId + ") has malformed description text." );
-			return;
-		}
-
-		String descriptionName = DebugDatabase.parseName( text );
-		if ( !name.equalsIgnoreCase( StringUtilities.getCanonicalName( descriptionName ) ) )
-		{
-			report.println( "# *** " + name + " (" + effectId + ") has description of " + descriptionName + "." );
-			return;
-
-		}
-
-                DebugDatabase.effects.put( name, text );
-	}
-
 	private static final GenericRequest DESC_ITEM_REQUEST = new GenericRequest( "desc_item.php" );
 
 	public static final String rawItemDescriptionText( final int itemId )
@@ -532,7 +477,7 @@ public class DebugDatabase
 			return null;
 		}
 
-		String previous = DebugDatabase.rawItemDescriptions.get( itemId );
+		String previous = DebugDatabase.rawItems.get( itemId );
 		if ( previous != null && !previous.equals( "" ) )
 		{
 			return previous;
@@ -541,102 +486,9 @@ public class DebugDatabase
 		DebugDatabase.DESC_ITEM_REQUEST.clearDataFields();
 		DebugDatabase.DESC_ITEM_REQUEST.addFormField( "whichitem", descId );
 		RequestThread.postRequest( DebugDatabase.DESC_ITEM_REQUEST );
-		DebugDatabase.rawItemDescriptions.set( itemId, DebugDatabase.DESC_ITEM_REQUEST.responseText );
+		DebugDatabase.rawItems.set( itemId, DebugDatabase.DESC_ITEM_REQUEST.responseText );
 
 		return DebugDatabase.DESC_ITEM_REQUEST.responseText;
-	}
-
-	private static final GenericRequest DESC_EFFECT_REQUEST = new GenericRequest( "desc_effect.php" );
-
-	private static final String rawEffectDescriptionText( final int effectId )
-	{
-		String descId = EffectDatabase.getDescriptionId( effectId );
-		if ( descId == null || descId.equals( "" ) )
-		{
-			return null;
-		}
-
-		String previous = DebugDatabase.rawEffectDescriptions.get( effectId );
-		if ( previous != null && !previous.equals( "" ) )
-		{
-			return previous;
-		}
-
-		DebugDatabase.DESC_EFFECT_REQUEST.clearDataFields();
-		DebugDatabase.DESC_EFFECT_REQUEST.addFormField( "whicheffect", descId );
-		RequestThread.postRequest( DebugDatabase.DESC_EFFECT_REQUEST );
-		DebugDatabase.rawEffectDescriptions.set( effectId, DebugDatabase.DESC_EFFECT_REQUEST.responseText );
-
-		return DebugDatabase.DESC_EFFECT_REQUEST.responseText;
-	}
-
-	private static final void loadScrapeData( final StringArray array, final String fileName )
-	{
-		if ( array.size() > 0 )
-		{
-			return;
-		}
-
-		try
-		{
-			File saveData = new File( UtilityConstants.DATA_LOCATION, fileName );
-			if ( !saveData.exists() )
-			{
-				return;
-			}
-
-			String currentLine;
-			StringBuffer currentHTML = new StringBuffer();
-			BufferedReader reader = FileUtilities.getReader( saveData );
-
-			while ( !( currentLine = reader.readLine() ).equals( "" ) )
-			{
-				currentHTML.setLength( 0 );
-				int currentId = StringUtilities.parseInt( currentLine );
-
-				do
-				{
-					currentLine = reader.readLine();
-					currentHTML.append( currentLine );
-					currentHTML.append( KoLConstants.LINE_BREAK );
-				}
-				while ( !currentLine.equals( "</html>" ) );
-
-				array.set( currentId, currentHTML.toString() );
-				reader.readLine();
-			}
-
-			reader.close();
-		}
-		catch ( Exception e )
-		{
-			// This shouldn't happen, but if it does, go ahead and
-			// fall through.  You're done parsing.
-		}
-	}
-
-	private static final void saveScrapeData( final Iterator it, final StringArray array, final String fileName )
-	{
-		File file = new File( UtilityConstants.DATA_LOCATION, fileName );
-		PrintStream livedata = LogStream.openStream( file, true );
-
-		while ( it.hasNext() )
-		{
-			int id = ( (Integer) it.next() ).intValue();
-			if ( id < 1 )
-			{
-				continue;
-			}
-
-			String description = array.get( id );
-			if ( !description.equals( "" ) )
-			{
-				livedata.println( id );
-				livedata.println( description );
-			}
-		}
-
-		livedata.close();
 	}
 
 	private static final Pattern ITEM_DATA_PATTERN = Pattern.compile( "<img.*?><(br|blockquote)>(.*?)<script", Pattern.DOTALL );
@@ -650,19 +502,6 @@ public class DebugDatabase
 		}
 
 		return matcher.group( 2 );
-	}
-
-	private static final Pattern EFFECT_DATA_PATTERN = Pattern.compile( "<div id=\"description\">(.*?)</div>", Pattern.DOTALL );
-
-	private static final String effectDescriptionText( final String rawText )
-	{
-		Matcher matcher = DebugDatabase.EFFECT_DATA_PATTERN.matcher( rawText );
-		if ( !matcher.find() )
-		{
-			return null;
-		}
-
-		return matcher.group( 1 );
 	}
 
 	private static final Pattern NAME_PATTERN = Pattern.compile( "<b>(.*?)</b>" );
@@ -1000,21 +839,20 @@ public class DebugDatabase
 		}
 	}
 
-	private static final void checkModifiers( final PrintStream report )
+	private static final void checkItemModifiers( final PrintStream report )
 	{
 		RequestLogger.printLine( "Checking modifiers..." );
 		ArrayList unknown = new ArrayList();
 
-		DebugDatabase.checkModifierMap( report, DebugDatabase.hats, "Hats", unknown );
-		DebugDatabase.checkModifierMap( report, DebugDatabase.pants, "Pants", unknown );
-		DebugDatabase.checkModifierMap( report, DebugDatabase.shirts, "Shirts", unknown );
-		DebugDatabase.checkModifierMap( report, DebugDatabase.weapons, "Weapons", unknown );
-		DebugDatabase.checkModifierMap( report, DebugDatabase.offhands, "Off-hand", unknown );
-		DebugDatabase.checkModifierMap( report, DebugDatabase.accessories, "Accessories", unknown );
-		DebugDatabase.checkModifierMap( report, DebugDatabase.containers, "Containers", unknown );
-		DebugDatabase.checkModifierMap( report, DebugDatabase.famitems, "Familiar Items", unknown );
-		DebugDatabase.checkModifierMap( report, DebugDatabase.others, "Everything Else", unknown );
-		DebugDatabase.checkModifierMap( report, DebugDatabase.effects, "Status Effects", unknown );
+		DebugDatabase.checkItemModifierMap( report, DebugDatabase.hats, "Hats", unknown );
+		DebugDatabase.checkItemModifierMap( report, DebugDatabase.pants, "Pants", unknown );
+		DebugDatabase.checkItemModifierMap( report, DebugDatabase.shirts, "Shirts", unknown );
+		DebugDatabase.checkItemModifierMap( report, DebugDatabase.weapons, "Weapons", unknown );
+		DebugDatabase.checkItemModifierMap( report, DebugDatabase.offhands, "Off-hand", unknown );
+		DebugDatabase.checkItemModifierMap( report, DebugDatabase.accessories, "Accessories", unknown );
+		DebugDatabase.checkItemModifierMap( report, DebugDatabase.containers, "Containers", unknown );
+		DebugDatabase.checkItemModifierMap( report, DebugDatabase.famitems, "Familiar Items", unknown );
+		DebugDatabase.checkItemModifierMap( report, DebugDatabase.others, "Everything Else", unknown );
 
 		if ( unknown.size() == 0 )
 		{
@@ -1037,7 +875,7 @@ public class DebugDatabase
 		}
 	}
 
-	private static final void checkModifierMap( final PrintStream report, final Map map, final String tag, final ArrayList unknown )
+	private static final void checkItemModifierMap( final PrintStream report, final Map map, final String tag, final ArrayList unknown )
 	{
 		if ( map.size() == 0 )
 		{
@@ -1055,13 +893,13 @@ public class DebugDatabase
 		{
 			String name = (String) keys[ i ];
 			String text = (String) map.get( name );
-			DebugDatabase.checkModifierDatum( name, text, report, unknown );
+			DebugDatabase.checkItemModifierDatum( name, text, report, unknown );
 		}
 	}
 
-	private static final void checkModifierDatum( final String name, final String text, final PrintStream report, final ArrayList unknown )
+	private static final void checkItemModifierDatum( final String name, final String text, final PrintStream report, final ArrayList unknown )
 	{
-		String known = DebugDatabase.parseEnchantments( text, unknown );
+		String known = DebugDatabase.parseItemEnchantments( text, unknown );
 
 		if ( known.equals( "" ) )
 		{
@@ -1075,10 +913,8 @@ public class DebugDatabase
 
 	private static final Pattern ITEM_ENCHANTMENT_PATTERN =
 		Pattern.compile( "Enchantment:.*?<font color=blue>(.*)</font>", Pattern.DOTALL );
-	private static final Pattern EFFECT_ENCHANTMENT_PATTERN =
-		Pattern.compile( "<font color=blue><b>(.*)</b></font>", Pattern.DOTALL );
 
-	private static final String parseEnchantments( final String text, final ArrayList unknown )
+	private static final String parseItemEnchantments( final String text, final ArrayList unknown )
 	{
 		String known = "";
 
@@ -1105,7 +941,7 @@ public class DebugDatabase
 			known += single;
 		}
 
-		known = parseStandardEnchantments( text, known, unknown );
+		known = parseStandardEnchantments( text, known, unknown, DebugDatabase.ITEM_ENCHANTMENT_PATTERN );
 
 		String softcore = Modifiers.parseSoftcoreOnly( text );
 		if ( softcore != null )
@@ -1130,16 +966,12 @@ public class DebugDatabase
 		return known;
 	}
 
-	private static final String parseStandardEnchantments( final String text, String known, final ArrayList unknown )
+	private static final String parseStandardEnchantments( final String text, String known, final ArrayList unknown, final Pattern pattern )
 	{
-		Matcher matcher = DebugDatabase.ITEM_ENCHANTMENT_PATTERN.matcher( text );
+		Matcher matcher = pattern.matcher( text );
 		if ( !matcher.find() )
 		{
-			matcher = DebugDatabase.EFFECT_ENCHANTMENT_PATTERN.matcher( text );
-			if ( !matcher.find() )
-			{
-				return known;
-			}
+			return known;
 		}
 
 		StringBuffer enchantments = new StringBuffer( matcher.group(1) );
@@ -1181,6 +1013,256 @@ public class DebugDatabase
 
 		return known;
 	}
+
+	// **********************************************************
+
+	// Support for the "checkeffects" command, which compares KoLmafia's
+	// internal status effect data from what can be mined from the effect
+	// description.
+
+	private static final String EFFECT_HTML = "effecthtml.txt";
+	private static final String EFFECT_DATA = "effectdata.txt";
+	private static final StringArray rawEffects = new StringArray();
+	private static final Map effects = new TreeMap();
+
+	public static final void checkEffects()
+	{
+		RequestLogger.printLine( "Loading previous data..." );
+		DebugDatabase.loadScrapeData( rawEffects, EFFECT_HTML );
+
+		RequestLogger.printLine( "Checking internal data..." );
+
+		PrintStream report = DebugDatabase.openReport( EFFECT_DATA );
+
+		DebugDatabase.effects.clear();
+                DebugDatabase.checkEffects( report );
+		DebugDatabase.checkEffectModifiers( report );
+
+		report.close();
+	}
+
+	private static final void checkEffects(final PrintStream report )
+	{
+		Set keys = EffectDatabase.descriptionIdKeySet();
+		Iterator it = keys.iterator();
+
+		while ( it.hasNext() )
+		{
+			int id = ( (Integer) it.next() ).intValue();
+			if ( id < 1 )
+			{
+				continue;
+			}
+
+			DebugDatabase.checkEffect( id, report );
+		}
+
+		DebugDatabase.saveScrapeData( keys.iterator(), rawEffects, EFFECT_HTML );
+	}
+
+	private static final void checkEffect( final int effectId, final PrintStream report )
+	{
+		String name = EffectDatabase.getEffectDataName( effectId );
+		if ( name == null )
+		{
+			return;
+		}
+
+		String rawText = DebugDatabase.rawEffectDescriptionText( effectId );
+
+		if ( rawText == null )
+		{
+			report.println( "# *** " + name + " (" + effectId + ") has no description." );
+			return;
+		}
+
+		String text = DebugDatabase.effectDescriptionText( rawText );
+		if ( text == null )
+		{
+			report.println( "# *** " + name + " (" + effectId + ") has malformed description text." );
+			return;
+		}
+
+		String descriptionName = DebugDatabase.parseName( text );
+		if ( !name.equalsIgnoreCase( StringUtilities.getCanonicalName( descriptionName ) ) )
+		{
+			report.println( "# *** " + name + " (" + effectId + ") has description of " + descriptionName + "." );
+			return;
+
+		}
+
+                DebugDatabase.effects.put( name, text );
+	}
+
+	private static final GenericRequest DESC_EFFECT_REQUEST = new GenericRequest( "desc_effect.php" );
+
+	private static final String rawEffectDescriptionText( final int effectId )
+	{
+		String descId = EffectDatabase.getDescriptionId( effectId );
+		if ( descId == null || descId.equals( "" ) )
+		{
+			return null;
+		}
+
+		String previous = DebugDatabase.rawEffects.get( effectId );
+		if ( previous != null && !previous.equals( "" ) )
+		{
+			return previous;
+		}
+
+		DebugDatabase.DESC_EFFECT_REQUEST.clearDataFields();
+		DebugDatabase.DESC_EFFECT_REQUEST.addFormField( "whicheffect", descId );
+		RequestThread.postRequest( DebugDatabase.DESC_EFFECT_REQUEST );
+		DebugDatabase.rawEffects.set( effectId, DebugDatabase.DESC_EFFECT_REQUEST.responseText );
+
+		return DebugDatabase.DESC_EFFECT_REQUEST.responseText;
+	}
+
+	private static final Pattern EFFECT_DATA_PATTERN = Pattern.compile( "<div id=\"description\">(.*?)</div>", Pattern.DOTALL );
+
+	private static final String effectDescriptionText( final String rawText )
+	{
+		Matcher matcher = DebugDatabase.EFFECT_DATA_PATTERN.matcher( rawText );
+		if ( !matcher.find() )
+		{
+			return null;
+		}
+
+		return matcher.group( 1 );
+	}
+
+	private static final void checkEffectModifiers( final PrintStream report )
+	{
+		RequestLogger.printLine( "Checking modifiers..." );
+
+		DebugDatabase.checkEffectModifierMap( report, DebugDatabase.effects, "Status Effects" );
+	}
+
+	private static final void checkEffectModifierMap( final PrintStream report, final Map map, final String tag )
+	{
+		if ( map.size() == 0 )
+		{
+			return;
+		}
+
+		report.println();
+		report.println( "# " + tag + " section of modifiers.txt" );
+		report.println();
+
+		Object[] keys = map.keySet().toArray();
+		for ( int i = 0; i < keys.length; ++i )
+		{
+			String name = (String) keys[ i ];
+			String text = (String) map.get( name );
+			DebugDatabase.checkEffectModifierDatum( name, text, report );
+		}
+	}
+
+	private static final Pattern EFFECT_ENCHANTMENT_PATTERN =
+		Pattern.compile( "<font color=blue><b>(.*)</b></font>", Pattern.DOTALL );
+
+	private static final void checkEffectModifierDatum( final String name, final String text, final PrintStream report )
+	{
+		ArrayList unknown = new ArrayList();
+		String known = DebugDatabase.parseStandardEnchantments( text, "", unknown, DebugDatabase.EFFECT_ENCHANTMENT_PATTERN );
+
+		for ( int i = 0; i < unknown.size(); ++i )
+		{
+			report.println( "# " + name + ": " + (String) unknown.get( i ) );
+		}
+
+		if ( known.equals( "" ) )
+		{
+			if ( unknown.size() == 0 )
+			{
+				report.println( "# " + name );
+			}
+		}
+		else
+		{
+			report.println( name + "\t" + known );
+		}
+	}
+
+	// **********************************************************
+
+        // Utilities for dealing with KoL description data
+
+	private static final PrintStream openReport( final String fileName )
+	{
+		return LogStream.openStream( new File( UtilityConstants.DATA_LOCATION, fileName ), true );
+	}
+
+	private static final void loadScrapeData( final StringArray array, final String fileName )
+	{
+		if ( array.size() > 0 )
+		{
+			return;
+		}
+
+		try
+		{
+			File saveData = new File( UtilityConstants.DATA_LOCATION, fileName );
+			if ( !saveData.exists() )
+			{
+				return;
+			}
+
+			String currentLine;
+			StringBuffer currentHTML = new StringBuffer();
+			BufferedReader reader = FileUtilities.getReader( saveData );
+
+			while ( !( currentLine = reader.readLine() ).equals( "" ) )
+			{
+				currentHTML.setLength( 0 );
+				int currentId = StringUtilities.parseInt( currentLine );
+
+				do
+				{
+					currentLine = reader.readLine();
+					currentHTML.append( currentLine );
+					currentHTML.append( KoLConstants.LINE_BREAK );
+				}
+				while ( !currentLine.equals( "</html>" ) );
+
+				array.set( currentId, currentHTML.toString() );
+				reader.readLine();
+			}
+
+			reader.close();
+		}
+		catch ( Exception e )
+		{
+			// This shouldn't happen, but if it does, go ahead and
+			// fall through.  You're done parsing.
+		}
+	}
+
+	private static final void saveScrapeData( final Iterator it, final StringArray array, final String fileName )
+	{
+		File file = new File( UtilityConstants.DATA_LOCATION, fileName );
+		PrintStream livedata = LogStream.openStream( file, true );
+
+		while ( it.hasNext() )
+		{
+			int id = ( (Integer) it.next() ).intValue();
+			if ( id < 1 )
+			{
+				continue;
+			}
+
+			String description = array.get( id );
+			if ( !description.equals( "" ) )
+			{
+				livedata.println( id );
+				livedata.println( description );
+			}
+		}
+
+		livedata.close();
+	}
+
+	// **********************************************************
 
 	public static final void checkPlurals( final int itemId )
 	{

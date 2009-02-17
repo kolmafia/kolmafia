@@ -1552,14 +1552,17 @@ Temporary Blindness (intrinsic)	Moxie Percent: -25, Item Drop: -75
 1337p4n7Z	Muscle: +6, Moxie: -3
 A Little Bit Poisoned	Muscle Percent: -30, Mysticality Percent: -30, Moxie Percent: -30, Muscle: -5, Mysticality: -5, Moxie: -5
 A Revolution in Your Mouth	Moxie Percent: -10
-# Absinthe-Minded	zone unlock
+# Absinthe-Minded: You are aware of The Worm Wood
 Ack! Barred!	Muscle Percent: +30
 Adrenaline Rush	Muscle Percent: +100
 Affronted Decency	Moxie: -20
 Afternoon Insight	Mysticality Percent: +20
 Alchemical, Brother	Mysticality Percent: +30
-# All Covered In Whatsit	more likely to fumble, take damage in combat
+# All Covered In Whatsit: More likely to fumble
+# All Covered In Whatsit: Continually take damage
+# All Fired Up: +30% Combat Initiative
 All Fired Up	Initiative: +30
+# Aloysius' Antiphon of Aptitude: +1 Muscle, Mysticality and Moxie Stat Per Fight
 Aloysius' Antiphon of Aptitude	Experience: +3
 Also Schmeckt Zarathustra	Mysticality: +30
 Amorous	Moxie: +5, Sleaze Damage: +5
@@ -1567,67 +1570,82 @@ Amorphous Cheer	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +5
 Ancestral Disapproval	Mysticality Percent: +10
 And Your Family, Too	Familiar Weight: -10
 Animal Exploiter	Muscle: +40, Familiar Weight Percent: -50
+# Antarctic Memories: Recover HP and MP after battle
 Antarctic Memories	HP Regen Min: 40, HP Regen Max: 40, MP Regen Min: 40, MP Regen Max: 40
 Antsy in your Pantsy	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5
 Apathy	Muscle Percent: -30, Mysticality Percent: -30, Moxie Percent: -30
 Apoplectic with Rage	Mysticality Percent: -10
 Arabian Knighthood	Muscle Percent: +5
 Arcane in the Brain	Mana Cost (stackable): -3
-Arse-a'fire	Muscle Percent: +10
+# Arse-a'fire: +25% Combat Initiative
+Arse-a'fire	Initiative: +25, Muscle Percent: +10
 Artificially Sweet	Moxie Percent: +100
 Aspect of the GravyPlum Fairy	Item Drop: +10
 Aspect of the Twinklefairy	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Weapon Damage: +5, Spell Damage: +5
+# Ass Over Teakettle: +50% Combat Initiative
 Ass Over Teakettle	Initiative: +50
 Astral Shell	Damage Absorption: +80, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 Axe Wound	Muscle: -5
 Baconstoned	Mysticality Percent: +50, Spell Damage: +11
-# Bad Luck	text effect
+# Bad Luck: Uh Oh...
 Bananas!	Muscle: +40, Mysticality: +40, Moxie: +40
-Barking Dogs	Muscle Percent: -50
+# Barking Dogs: -50% Combat Initiative
+Barking Dogs	Initiative: -50, Muscle Percent: -50
 Barking Mad	Mysticality Percent: +100
-Basted	Sleaze Damage: +10
+# Basted: Damage Reduction: -2
+Basted	Damage Reduction: -2, Sleaze Damage: +10
 Batigue	Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 Bats in the Belfry	Mysticality Percent: +10
 Beaten Up	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50
-# Beer in Your Shoes	sleaze damage during combat, fumble+
+# Beer in Your Shoes: More likely to fumble
+# Beer in Your Shoes: Continually take damage
 Bells in the Batfry	Moxie Percent: +10
 Benetton's Medley of Diversity	Hot Damage: +15, Cold Damage: +15, Stench Damage: +15, Spooky Damage: +15, Sleaze Damage: +15
 Bestial Sympathy	Familiar Weight: +3
 Big Flaming Whip	Hot Damage: +20, Damage Reduction: 5
 Big Veiny Brain	Experience: +2, Meat Drop: -20, Item Drop: -10
+# Black Face: -40% Combat Initiative
 Black Face	Muscle Percent: +10, Weapon Damage: +15, Initiative: -40
+# Black Tongue: Recover HP and MP after battle
 Black Tongue	Familiar Weight: +5, Experience: +3, Meat Drop: +30, Item Drop: +30
 Blackberry Politeness	Meat Drop: +20
-# Blessed by the RNG
+# Blessed by the RNG: ???
 Blessing of Bulbazinalli	Damage Reduction: 10
 Blessing of Charcoatl	Hot Damage: +10, Hot Spell Damage: +10
+# Blessing of Pikachutlotal: +30% Combat Initiative
 Blessing of Pikachutlotal	Initiative: +30
+# Blessing of Squirtlcthulli: Recover HP and MP after battle
 Blessing of Squirtlcthulli	HP Regen Min: 2, HP Regen Max: 10, MP Regen Min: 2, MP Regen Max: 10
 Bloody Bloody Bloody!	Spooky Damage: +50
 Bloody Hand	Muscle: -1
 Blue Tongue	Item Drop: +30
 Bootyliciousness	Item Drop: +10
 Braaaaaains	Meat Drop: +200, Item Drop: -50
+# Braaains: -50% Combat Initiative
 Braaains	Meat Drop: +50, Initiative: -50
 Brawnee's Anthem of Absorption	Damage Reduction: [L^1.2]
+# Brined Liver: Makes you a better diver
 Brined Liver	Initiative Penalty: [20*zone(The Sea)], Item Drop Penalty: [20*zone(The Sea)], Meat Drop Penalty: [20*zone(The Sea)]
 Broken Fast	Item Drop: +30
+# Broken Heart: Muscle +
 Broken Heart	Muscle: [min(T,20)], HP Regen Min: [min(T,20)], HP Regen Max: [min(T,20)]
 Broken Knees	Muscle Percent: -30
-# Brother Corsican's Blessing
-# Brother Flying Burrito's Blessing	Food Drop: +30
-# Brother Smothers's Blessing	Booze Drop: +30
+# Brother Corsican's Blessing: +2 Familiar Experience Per Fight
+# Brother Flying Burrito's Blessing: +30% Food Drops from Monsters
+# Brother Smothers's Blessing: +30% Booze Drops from Monsters
 Bubble, Bubble	Moxie: -5, Muscle: +5
 Bureaucratized	Familiar Weight: +10
-Burning Ears	Cold Resistance: +3
+Burning Ears	Hot Spell Damage: +11, Cold Resistance: +3
 Burning Hands	Hot Damage: +11
-Burning Heart	Hot Damage: +10
-# Burning Soul	hot spell damage => MP
+# Burning Heart: Damage Reduction: -2
+Burning Heart	Damage Reduction: -2, Hot Damage: +10
+# Burning Soul: Sizzle!
 Butt-Rock Hair	Moxie Percent: +15
 Can Has Cyborger	Moxie Percent: +10
 Can't Be a Chooser	Meat Drop: +30
 Can't Smell Nothin'	Stench Resistance: +9
-# Canadianity	chat effect
+# Canadianity: Make you feel more Canadian
+# Carlweather's Cantata of Confrontation: Monsters will be more attracted to you
 Carlweather's Cantata of Confrontation	Combat Rate: +5
 Carol of the Bones	Muscle Percent: +10
 Carrion' On	Meat Drop: +60
@@ -1637,18 +1655,20 @@ Chalky Hand	Never Fumble, Weapon Damage: +3
 Chapped Legs	Muscle: -4, Moxie: +8
 Charrrming	Moxie Percent: +10
 Chauve-Souris Merde Fou	Stench Damage: +50
-Chock Full o' Nanites	HP Regen Min: 10, HP Regen Max: 10, MP Regen Min: 10, MP Regen Max: 10, Weapon Damage: +20, Ranged Damage: +20
+Chock Full o' Nanites	Damage Absorption: +50, Weapon Damage: +20
+# Cholestoriffic
 Cholestoriffic	Sleaze Damage: [min(100,T)]
 Chorale of Companionship	Familiar Weight: +10
-Chronologically Pummeled	Muscle: -5, Mysticality: -5, Moxie: +20
+Chronologically Pummeled	Moxie: +20, Muscle: -5, Mysticality: -5
 Clean-Shaven	Moxie: +5
+# Cletus's Canticle of Celerity: +20% Combat Initiative
 Cletus's Canticle of Celerity	Initiative: +30
 Cock of the Walk	Moxie Percent: +200
 Cold Blooded	Muscle Percent: +30, Mysticality Percent: +20, Moxie Percent: +10, Cold Damage: +10, Cold Resistance: +2
-# Cold Breath	grants combat skill
-# Coldform
+# Cold Breath: Can breathe frigid air in combat
+# Cold Hearted
 Cold Hearted	Moxie: [min(T,20)], Familiar Weight: [ceil(min(T,20)/2)]
-# Comic Violence	attacks can't miss
+# Comic Violence: Regular Attacks Can't Miss
 Compensatory Cruelness	Weapon Damage: +5
 Complete Delusion	Muscle: +4, Moxie: +5
 Concentrated Concentration	Spell Damage Percent: +20
@@ -1666,18 +1686,20 @@ Crocodile Tear	Familiar Weight (hidden): [10*zone(The Sea)]
 Crotchety, Pining	Muscle Percent: +100
 Cruisin' for a Bruisin'	Weapon Damage Percent: +100
 Crusty Head	Damage Reduction: 10
-# Cunctatitis
+# Cunctatitis: Eh.  You'll figure out what this effect does later...
 Cupcake of Choice	Item Drop: +30
 Cupshotten	Muscle Percent: -20, Mysticality Percent: -20, Moxie Percent: -20, Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
-# Curse Magnet	increase frequency of scary pirates
-# Curse of the Black Pearl Onion	20-30 stench/spooky damage
-# Cursed by the RNG
+# Curse Magnet: Curses!
+# Curse of the Black Pearl Onion: Nasty belches during combat
+# Cursed by The RNG: ???
 Cuts Like a Buttered Knife	Sleaze Damage: +50
 Cybernetic Muscles	Muscle Percent: +10
 Dancing Prowess	Item Drop: +15
 Dang Near Cut In Half	Muscle Percent: -50
 Deadly Flashing Blade	Weapon Damage: +10
+# Deadly Lampblade: 100% chance of poisoning opponent
 Deadly Lampblade	Spooky Damage: +75
+# Deep-Fried: Extra-Vulnerable to Stench and Sleaze
 Deep-Fried	Hot Resistance: +2
 Demonic Taint	Stench Damage: +30
 Digitally Converted	Monster Level: +30
@@ -1689,6 +1711,7 @@ Disco Nirvana	Meat Drop: +30
 Disco State of Mind	Moxie: +2
 Dizzy with Rage	Moxie Percent: -10
 # Don't Rest Ye, Bold Adventurer	variable stats
+# Donho's Bubbly Ballad: Makes you a better diver
 Donho's Bubbly Ballad	Initiative Penalty: [20*zone(The Sea)], Item Drop Penalty: [20*zone(The Sea)], Meat Drop Penalty: [20*zone(The Sea)]
 Down With Chow	Familiar Weight: +10
 Draggin' Balls	Moxie: +6, Muscle: -3
@@ -1699,9 +1722,9 @@ Drummed Out	Mysticality Percent: +50, Muscle Percent: -50
 Drunk With Power	Spell Damage Percent: +100
 Duhhh	Mysticality: -20
 Dwarven Hardiness	Muscle Percent: +5
-# Easily Embarrassed	increases sleaze damage received
+# Easily Embarrassed: Extra-Vulnerable to Sleaze
 Eau D'enmity	Monster Level: +5
-# Eau de Tortue	turtlefinding
+# Eau de Tortue: You smell like turtle pheromones
 Educated (Kinda)	Spooky Resistance: +5
 Educated (Sorta)	Sleaze Resistance: +5
 Egg-cellent Vocabulary	Moxie Percent: +10
@@ -1715,13 +1738,16 @@ Elvish	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 Embarrassed	Moxie Percent: -30
 Empathy	Familiar Weight: +5
 Engorged Weapon	Weapon Damage: +10
-Enhanced Archaeologist	Muscle: -5, Mysticality: +20, Moxie: -5
+Enhanced Archaeologist	Mysticality: +20, Muscle: -5, Moxie: -5
 Enraged	Muscle Percent: +10
 Ermine Eyes	Item Drop: +5
-Erudite	Mysticality Percent: +10, Spell Damage: +15
+# Erudite: Damage Reduction: -10
+Erudite	Damage Reduction: -10, Mysticality Percent: +10, Spell Damage: +15
+# Expert Oiliness: Makes your Muscle and Moxie equal to your Mysticality
 Expert Oiliness	Equalize: "Mysticality"
 Extra Sensory Perception	Item Drop: +50
 Extra Terrestrial	HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20
+# Extreme Muscle Relaxation: -50% Combat Initiative
 Extreme Muscle Relaxation	Initiative: -50, Muscle Percent: +25
 Extremely Poor Taste	Monster Level: +10
 Eye of the Lihc	Spooky Resistance: +1
@@ -1731,46 +1757,55 @@ Fastbreaker	Muscle Percent: +20
 Fat Leon's Phat Loot Lyric	Item Drop: +20
 Fearless	Monster Level: -10
 Feelin' Philosophical	MP Regen Min: 8, MP Regen Max: 10
+# Feet of Grapefruit: +3 Mysticality Stats Per Fight
 Feet of Grapefruit	Experience: +3
+# Feet of Strawberry: +3 Moxie Stats Per Fight
 Feet of Strawberry	Experience: +3
+# Feet of Watermelon: +3 Muscle Stats Per Fight
 Feet of Watermelon	Experience: +3
 Festive Radiation	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, HP Regen Min: 10, HP Regen Max: 10, MP Regen Min: 10, MP Regen Max: 10
 Fever From the Flavor	Cold Resistance: +9
+# Fiery Heart: Mysticality +
 Fiery Heart	Mysticality: [min(T,20)], MP Regen Min: [ceil(min(T,20)/2)], MP Regen Max: [ceil(min(T,20)/2)]
 # Filthworm Drone Stench
 # Filthworm Guard Stench
 # Filthworm Larva Stench
+# Fire Down Below
 Fire Down Below	Hot Damage: [min(100,T)]
 Fireproof Lips	Hot Resistance: +9
 Fishbreath	Stench Damage: +15
-# Fishy
+# Fishy: -1 Adventure cost underwater
 Fishy Fortification	Maximum HP: +50, Muscle Percent: +10
 Fit To Be Tide	HP Regen Min: 5, HP Regen Max: 16, MP Regen Min: 5, MP Regen Max: 16
 Fitter, Happier	Muscle Percent: +100, Mysticality Percent: +100
 Flame-Retardant Trousers	Hot Resistance: +1
 Flaming Weapon	Hot Damage: +3
 Flamingly Floral	Hot Damage: +50
-# Flared Nostrils	increased damage from stench
+# Flared Nostrils: Extra-Vulnerable to Stench
 Flashing Eyes	Meat Drop: +30
 Florid Cheeks	MP Regen Min: 25, MP Regen Max: 30
 Flower Power	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
-# Form of...Bird!
-# Form of...Cockroach!
-Freaked Out	Spooky Damage: +10
+# Form of...Bird!: You're a Bird
+# Form of...Cockroach!: You're a Cockroach
+# Freaked Out: Damage Reduction: -2
+Freaked Out	Damage Reduction: -2, Spooky Damage: +10
 Free Bird	Mysticality: +20
+# Fresh Scent: Monsters will be less attracted to you
 Fresh Scent	Combat Rate: -5
 Frigid Weapon	Cold Damage: +3
 Frog In Your Throat	Muscle: +25
-Frostbitten	Cold Damage: +10
+# Frostbitten: Damage Reduction: -2
+Frostbitten	Damage Reduction: -2, Cold Damage: +10
 # Frosty the Hitman	variable prismatic damage
 Frozen Hands	Cold Damage: +11
 Frozen Shoulders	Cold Spell Damage: +11, Hot Resistance: +3
 Full of Vinegar	Weapon Damage: [+1*D]
+# Full-Body Tan: +18 Moxie Stats Per Fight
 Full-Body Tan	Experience: [L]
 Fury of the Bells	Muscle Percent: +10
 Fustulent	Stench Damage: +15, Stench Spell Damage: +15
 Gelded	Monster Level: +5
-# Get Me Off This Crazy Thing!
+# Get Me Off This Crazy Thing!: Jane!
 Ghostly Shell	Damage Absorption: +80
 Glittering Eyelashes	Mysticality Percent: +15
 Gnawed-Off Arm	Muscle: -5
@@ -1778,31 +1813,37 @@ Go Get 'Em, Tiger!	Muscle Percent: +15
 Good Karma	Mysticality: +5
 Good with the Ladies	Experience: +3
 Goofball Withdrawal	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50
-# Got Milk
+# Got Milk: You like food; food tastes good.
 Got Your Boots On	Moxie Percent: +10
 Gothy	Mysticality: +20, Muscle: -10, Moxie: -10
 Gr8tness	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
+# Greased: Continually take damage
 Greased	Sleaze Damage: +20
 Greased-Up Familiar	Familiar Weight (hidden): [5*zone(The Sea)]
 Green Tongue	Familiar Weight: +5
 Grilled	Muscle: -10
-Guanified	Stench Damage: +10
+# Guanified: Damage Reduction: -2
+Guanified	Damage Reduction: -2, Stench Damage: +10
 # Haiku State of Mind	large penalty to result parsing
-# Half-Astral	zone unlock
+# Half-Astral: Like, Wow, Man
 Half-Eaten Brain	Mysticality Percent: -20
 Ham-Fisted	Muscle Percent: +50, Weapon Damage: +11
 Happy Salamander	Familiar Weight: +3
 Happy Trails	Mysticality: +100
 Hardly Poisoned at All	Muscle: -3, Mysticality: -3, Moxie: -3, Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10
-# Head on Fire, Ass Catching
+# Head on Fire, Ass Catching: +10% Combat Initiative
+Head on Fire, Ass Catching	Initiative: +10
 Healthy Green Glow	Familiar Weight: +10
-# Heart of Black	none
+# Heart of Black: Damn, Gina
 Heart of Green	Muscle: +3, Mysticality: +3, Moxie: +3, Familiar Weight: +3
 Heart of Lavender	Muscle: +3, Mysticality: +3, Moxie: +3, Item Drop: +10
 Heart of Orange	Muscle: +3, Mysticality: +3, Moxie: +3, Hot Damage: +5, Hot Spell Damage: +5, HP Regen Min: 5, HP Regen Max: 6, MP Regen Min: 5, MP Regen Max: 6
 Heart of Pink	Muscle: +3, Mysticality: +3, Moxie: +3, Meat Drop: +20
+# Heart of White: +1 Familiar Experience Per Fight
 Heart of White	Muscle: +3, Mysticality: +3, Moxie: +3, Experience: +1
+# Heart of Yellow: +20% Combat Initiative
 Heart of Yellow	Muscle: +3, Mysticality: +3, Moxie: +3, Initiative: +20
+# Heavily Breathing: +18 Muscle Stats Per Fight
 Heavily Breathing	Experience: [L]
 Heavy Petting	Familiar Weight: +5, Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10
 Hella Smart	Mysticality Percent: +25, Spell Damage: +15, MP Regen Min: 10, MP Regen Max: 15
@@ -1810,18 +1851,23 @@ Hella Smooth	Moxie Percent: +25, Meat Drop: +40, Item Drop: +20
 Hella Tough	Muscle Percent: +25, Weapon Damage: +10, Damage Reduction: 5
 Hennaliciousness	Mysticality: +3
 Hernia!	Muscle Percent: -70
+# Hiding in Plain Sight: +100% Combat Initiative
 Hiding in Plain Sight	Initiative: +100
 Hip to Be Square Dancin'	Item Drop: +10
+# Hippy Stench: Monsters will be more attracted to you
 Hippy Stench	Combat Rate: +5
 Hobonic	Hobo Power: +5
 Hoity Toity	Item Drop: +30
-Hombre Muerto Caminando	Spooky Resistance: +1, Maximum MP: +20
+# Hombre Muerto Caminando: +20% Combat Initiative
+Hombre Muerto Caminando	Initiative: +20, Spooky Resistance: +1, Maximum MP: +20
+# Hooked Up: Continually gain MP
 Hooked Up	Moxie Percent: -10, MP Regen Min: 10, MP Regen Max: 15
 Hopped Up on Goofballs	Muscle Percent: +20, Moxie Percent: +20
 Hornswaggled	Moxie Percent: +50, Muscle Percent: -50
 Hot Blooded	Muscle Percent: +30, Mysticality Percent: +10, Moxie Percent: +20, Hot Damage: +10, Hot Resistance: +2
-# Hot Breath	grants combat skill
-# Hotform
+# Hot Breath: Can breathe fire in combat
+# Hotform: Hot, Hot, Hot!
+# Hyperbolic Hypothermia: Continually take damage
 Hyperbolic Hypothermia	Cold Damage: +20
 Hyperoffended	Sleaze Resistance: +9
 Hyphemariffic	Spooky Resistance: +9
@@ -1829,29 +1875,32 @@ Impregnably Delicious	Damage Reduction: 30
 In Tuna	MP Regen Min: 3, MP Regen Max: 5
 In Vino Vires	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 Incredibly Hulking	Muscle Percent: +200
-# Infinite Loop	unobtainable?
 Inscrutable exoskeleton	Damage Absorption: +300
 Inspired!	Mysticality Percent: +20, Moxie Percent: -20
 Insulated Trousers	Cold Resistance: +1
 It Didn't Kill You	Muscle Percent: +50
-# It's Electric!	damages opponent
+# It's Electric!: Damages Attacking Opponents
 Izchak's Blessing	Moxie Percent: +25
+# Jaba&ntilde;ero Saucesphere: Damages Attacking Opponent
 Jaba&ntilde;ero Saucesphere	Damage Reduction: 5
 Jackasses' Symphony of Destruction	Weapon Damage: +12, Spell Damage: +12
+# Jalape&ntilde;o Saucesphere: Damages Attacking Opponent
 Jalape&ntilde;o Saucesphere	Damage Reduction: 3
-# Jammin'
-# Jazz Hands	chat effect
+# Jammin': Deal extra damage as the fight goes on
+# Jammin': and on...
+# Jazz Hands
 Je Ne Sais Porquoise	Moxie Percent: +50, Meat Drop: +6, Item Drop: +5
+# Juiced Up: Makes you a better diver
 Juiced Up	Initiative Penalty: [10*zone(The Sea)], Item Drop Penalty: [10*zone(The Sea)], Meat Drop Penalty: [10*zone(The Sea)]
 Kiss of the Black Fairy	Spooky Damage: [+2*D]
 Knob Goblin Lust Frenzy	Moxie: +2
-# Knob Goblin Perfume	zone unlock
+# Knob Goblin Perfume: You smell like a Knob Goblin harem girl!
 La Bamba	Item Drop: +3
 Leash of Linguini	Familiar Weight: +5
 Lemon Enlightenment	Mysticality Percent: +10, Spell Damage Percent: +15
 Less Vincible	HP Regen Min: 2, HP Regen Max: 5
+# Light-Headed: Increased chance of fumbling
 Light-Headed	Mysticality Percent: -30
-# Light!	unobtainable
 Liquid Courage	Experience: +3
 Livin' Large	Meat Drop: +10
 Locks Like the Raven	Moxie: +15
@@ -1865,37 +1914,41 @@ Majorly Poisoned	Muscle Percent: -90, Mysticality Percent: -90, Moxie Percent: -
 Make Meat FA$T!	Meat Drop: +20
 Mallowed Out	Moxie Percent: [min(500,+5*T)], Muscle Percent: [min(500,+5*T)], Mysticality Percent: [min(500,+5*T)]
 Man's Worst Enemy	Familiar Weight: +5
+# Marco Polarity: +18 Mysticality Stats Per Fight
 Marco Polarity	Experience: [L]
 Mariachi Mood	Maximum HP: +3, Moxie: +1
 Material Witness	Meat Drop: +10
 Melancholy Burden	Item Drop: +60
 Memento Moir&eacute;	Experience: +3
+# Metal Speed: +20% Combat Initiative
 Metal Speed	Initiative: +20
 Midgetized	Damage Reduction: 4, Weapon Damage: -8
 Mild Lycanthropy	Muscle Percent: [+1*M], Moxie Percent: [-1*M]
 Minioned	Muscle: +20, Mysticality: -5, Moxie: -5
 Missing Eyebrows	Moxie: -3
 Missing Fingers	Muscle: -3
-# Missing Kidney
+# Missing Kidney: Call 911 Immediately
 Mmmmmelon	Item Drop: +30
 Moon June Spooned	Moxie Percent: +20, Muscle Percent: -20
 Moon'd	Experience: +5
 Muscularrr	Muscle Percent: +10
+# Musk of the Moose: Monsters will be more attracted to you
 Musk of the Moose	Combat Rate: +5
 Mutated	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25
 Mysteriously Handsome	Moxie Percent: +5, Monster Level: +6
 Mystic Pickleness	Mysticality: +5, Muscle: -5
 Mystically Oiled	Mysticality Percent: +100
-# Nerf'd	text effect
+# Nerf'd: Less powerful than you were before
 Neuromancy	Mysticality Percent: +10
 New and Improved	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 Newt Gets In Your Eyes	Moxie: +25
 Night Vision	Meat Drop: +30
+# No Vertigo: +20% Combat Initiative
 No Vertigo	Initiative: +20
 No Worries	Experience: +3
 Object Detection	Item Drop: +5
 Ocelot Eyes	Item Drop: +10
-# Ode to Booze
+# Ode to Booze: Booze tastes even more delicious!
 Omphaloskepsis	Damage Reduction: 18
 On the Shoulders of Giants	Mysticality Percent: +200
 # On the Trail
@@ -1907,6 +1960,7 @@ Oriental Mysticism	Mysticality Percent: +5
 Papowerful	Weapon Damage: +10, Spell Damage: +10, Experience: +2
 Pasta Oneness	Mysticality: +2
 Patience of the Tortoise	Maximum HP: +3, Muscle: +1
+# Paw swap: Extra-Vulnerable to Hot and Spooky
 Paw swap	Cold Resistance: +2
 Peeled Eyeballs	Experience: -1, Meat Drop: -20, Item Drop: +15
 Perceptive Pressure	Item Drop: +50
@@ -1914,23 +1968,25 @@ Permafrosty	Cold Damage: +50
 Perspicacious Pressure	Mysticality Percent: +300
 Phoenix, Right?	Experience: +6
 Phorcefullness	Muscle Percent: +100
-# Pie in the Face	none
+# Pie in the Face: Hilarious!
 Piratastic	Moxie: +100
 Polka of Plenty	Meat Drop: +50
 Ponderous Potency	Weapon Damage: +20
 Pop-eyed	Weapon Damage: +30
-# Popping Stomach	none
+# Popping Stomach: Tee-hee!
 Power Ballad of the Arrowsmith	Muscle: +10, Maximum HP: +20
 Prelude of Precision	Critical Hit Percent: +2
 Prestidigysfunction	Mysticality Percent: -95
 Preternatural Greed	Meat Drop: +100
 Proficient Pressure	Experience: +8
 Pronounced Potency	Weapon Damage: +5
+# Provocative Perkiness: +20% Combat Initiative
 Provocative Perkiness	Initiative: +20
-# Psalm of Pointiness	damages & delevels opponents
+# Psalm of Pointiness: Damages Attacking Opponents
 Puissant Pressure	Muscle Percent: +300
 Pulchritudinous Pressure	Moxie Percent: +300
 Pumped Up	Muscle: +5
+# Purple Tongue: Recover HP and MP after battle
 Purple Tongue	HP Regen Min: 20, HP Regen Max: 20, MP Regen Min: 20, MP Regen Max: 20
 Quivering with Rage	Muscle Percent: -10
 Radiant Personality	Moxie Percent: +30
@@ -1942,7 +1998,8 @@ Rainbow Bright	Muscle Percent: +30, Mysticality Percent: +30, Moxie Percent: +30
 Rainy Soul Miasma	Muscle: +10, Mysticality: +10, Moxie: -5
 Rat-Faced	Moxie Percent: +10
 Raving Lunatic	Weapon Damage: +20
-Re-Possessed	Weapon Damage: +10, Damage Reduction: -2
+# Re-Possessed: Damage Reduction: -2
+Re-Possessed	Damage Reduction: -2, Weapon Damage: +10
 Really Quite Poisoned	Muscle Percent: -70, Mysticality Percent: -70, Moxie Percent: -70, Muscle: -9, Mysticality: -9, Moxie: -9
 Red Door Syndrome	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
 Red Neck	Muscle: +15, Moxie: -5
@@ -1953,36 +2010,44 @@ Reptilian Fortitude	Maximum HP: +30
 Ringing Ears	Muscle Percent: +20, Mysticality Percent: -20
 Rushin' Hands	Weapon Damage: +3
 Salamander In Your Stomach	Mysticality: +25
+# Salty Dogs: Makes you a better diver
 Salty Dogs	Initiative Penalty: [10*zone(The Sea)], Item Drop Penalty: [10*zone(The Sea)], Meat Drop Penalty: [10*zone(The Sea)]
-# Salty Mouth	changes msg when drinking beer?
+# Salty Mouth: You really need a beer...
 Saucemastery	Maximum HP: +3, Mysticality: +1
 Savage Beast Inside	Muscle: +20
+# Scared Stiff: Extra-Vulnerable to Cold and Spooky
 Scared Stiff	Sleaze Resistance: +2
 Scariberi	Spooky Damage: [min(100,T)]
+# Scarysauce: Damages Attacking Opponents
 Scarysauce	Sleaze Resistance: +2, Cold Resistance: +2
 Scent of a Kitchen Elf	Mysticality: +40, Familiar Weight Percent: -50
 Seal Clubbing Frenzy	Muscle: +2
 Seeing Colors	Mysticality Percent: +50
 Seriously Mutated	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 Shamed &amp; Manipulated	Muscle Percent: +50, Moxie Percent: -50
-# Shape of...Mole!
-# Sharp Weapon	+3-5 weapon damage
+# Shape of...Mole!: You're a Mole
+# Sharp Weapon: +3-5 Weapon Damage
 Shiny Happy Cupcake	Experience: +3
 Shiny Happy Weapon	Muscle: +20
+# Shirtless in Seattle: Extra-Vulnerable to Cold and Sleaze
 Shirtless in Seattle	Stench Resistance: +2
 Shot in the Arse	Muscle: +15, Mysticality: +15, Moxie: +15
+# Side Affectation: Extra-Vulnerable to Hot and Stench
 Side Affectation	Spooky Resistance: +2
 Sinuses For Miles	Meat Drop: +200
 Sleaze-Resistant Trousers	Sleaze Resistance: +1
-# Sleazeform
-# Sleazy Breath	grants combat skill
+# Sleazeform: Wink Wink, Nudge Nudge
+# Sleazy Breath: Can breathe cologne in combat
 Sleazy Weapon	Sleaze Damage: +3
-# Sleeping with the Fishes
+# Sleeping with the Fishes: Makes you sleep like the dead
 Sleepy	Muscle Percent: -30
+# Slimed: Continually take damage
 Slimed	Spooky Damage: +20
+# Slippery Oiliness: Makes your Muscle and Mysticality equal to your Moxie
 Slippery Oiliness	Equalize: "Moxie"
 Smelly Pants	Stench Resistance: +1
-# Smokin'	passive damage
+# Smokin': Damages Attacking Opponents
+# Smooth Movements: Monsters will be less attracted to you
 Smooth Movements	Combat Rate: -5
 Smugness	Moxie: +5
 Snarl of the Timberwolf	Spooky Damage: +10
@@ -1991,39 +2056,47 @@ Snobby	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 Socialismydia	Item Drop: -50
 Solar Flair	Hot Damage: +20
 Somewhat Poisoned	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50, Muscle: -7, Mysticality: -7, Moxie: -7
-# Soul Freeze	cold spell damage => MP
+# Soul Freeze: Brrrrrrr...
 Soul-Crushing Headache	Muscle Percent: -20, Mysticality Percent: -20, Moxie Percent: -20
 Sparkling Consciousness	Mysticality Percent: +100
 Spicy Limeness	Muscle: -5, Moxie: +5
 Spicy Mouth	Mysticality: +5, Moxie: -5
 Spiky Hair	Muscle: +6, Moxie: +6
 Spirit of Alph	Muscle Percent: +10
+# Spirit of Bacon Grease: All Spells Cast Are Sleazy
 Spirit of Bacon Grease	Spell Damage: +10
+# Spirit of Cayenne: All Spells Cast Are Hot
 Spirit of Cayenne	Spell Damage: +10
+# Spirit of Garlic: All Spells Cast Are Stinky
 Spirit of Garlic	Spell Damage: +10
+# Spirit of Peppermint: All Spells Cast Are Cold
 Spirit of Peppermint	Spell Damage: +10
+# Spirit of Wormwood: All Spells Cast Are Spooky
 Spirit of Wormwood	Spell Damage: +10
-# Spooky Breath	grants combat skill
+# Spooky Breath: Can breathe terrifying air in combat
 Spooky Demeanor	Muscle Percent: +10, Mysticality Percent: +30, Moxie Percent: +20, Spooky Damage: +10, Spooky Resistance: +2
 Spooky Weapon	Spooky Damage: +3
-# Spookyform
+# Spookyform: Ooooooooooooooooh
 Spookypants	Spooky Resistance: +1
+# Springy Fusilli: +40% Combat Initiative
 Springy Fusilli	Initiative: +40
-Squirming Like a Toad	Familiar Weight: +5, Moxie Percent: +10
+Squirming Like a Toad	Moxie Percent: +10, Familiar Weight: +5
+# Stabilizing Oiliness: Makes your Mysticality and Moxie equal to your Muscle
 Stabilizing Oiliness	Equalize: "Muscle"
 Starry-Eyed	Muscle Percent: [+5*U], Mysticality Percent: [+5*U], Moxie Percent: [+5*U]
-# Stenchform
+# Stenchform: P. U.
 Stenchtastic	Muscle Percent: +20, Mysticality Percent: +30, Moxie Percent: +10, Stench Damage: +10, Stench Resistance: +2
 Steroid Boost	Muscle: +2
 Stevedave's Shanty of Superiority	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 Sticky Fingers	Meat Drop: +20
-# Sticky Hands	reduced chance of fumble
-# Stinky Breath	grants combat skill
+# Sticky Hands: Reduced chance of fumbling
+# Stinky Breath: Can breathe stench in combat
 Stinky Weapon	Stench Damage: +3
 Strange Mental Acuity	Mysticality Percent: +25
-# Strangulated	lose 25% HP each combat round
+# Strangulated: Continually take damage
 Strength of Ten Ettins	Muscle Percent: +25
-# Stuck-Up Hair	damages opponent
+# Stuck-Up Hair: Damages Attacking Opponents
+# Sugar Rush: +20% Combat Initiative
 Sugar Rush	Initiative: +20, Muscle Percent: +5, Mysticality Percent: -10, Moxie Percent: +5
 Sunburned	Muscle: -2, Moxie: -2
 Supafly	Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +30, Sleaze Damage: +10, Sleaze Resistance: +2
@@ -2035,77 +2108,93 @@ Superhuman Sarcasm	Moxie Percent: +100
 Sweet Heart	Muscle: [min(T,20)], Meat Drop: [2*min(T,20)]
 Sweet and Green	Weapon Damage: +15, Weapon Damage Percent: +15
 Sweet and Red	Spell Damage: +10, Spell Damage Percent: +10
-Sweet and Yellow	Ranged Damage: +30
+# Sweet and Yellow: +10% Combat Initiative
+Sweet and Yellow	Initiative: +10, Ranged Damage: +30
+# Swimming with Sharks: Makes you a better diver
 Swimming with Sharks	Initiative Penalty: [20*zone(The Sea)], Item Drop Penalty: [20*zone(The Sea)], Meat Drop: +20, Meat Drop Penalty: [20*zone(The Sea)]
 Synthesized	Damage Reduction: 8, Weapon Damage: -8
-# Talking Like a Pirate	chat effect
+# Talking Like a Pirate: Arrr.
 Tamarind Torment	Muscle: +5, Moxie: -5
 Tangled Up	Moxie Percent: -20
+# Tar-Struck: Continually take damage
 Tar-Struck	Stench Damage: +20
 Techno Bliss	Item Drop: +10
-# Teleportitis
-# Temporary Amnesia
-Temporary Blindness	Item Drop: -75, Moxie Percent: -25
+# Teleportitis: Your position seems uncertain...
+# Temporary Amnesia: Who am I?
+# Temporary Blindness: -30% Combat Initiative
+Temporary Blindness	Initiative: -30, Item Drop: -75, Moxie Percent: -25
 Temporary Lycanthropy	Muscle Percent: [B]
 Tenacity of the Snapper	Weapon Damage: +8
 Tenuous Grip on Reality	Moxie Percent: -95
 Tetanus	Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10
-# The 'Tussin
+# The 'Tussin: Wait, What?
 The Ballad of Richie Thingfinder	Meat Drop: +50, Item Drop: +20
+# The Colors...: Extra-Vulnerable to All Elements
 The Colors...	Cold Resistance: -5, Hot Resistance: -5, Sleaze Resistance: -5, Spooky Resistance: -5, Stench Resistance: -5
 The Cupcake of Wrath	Monster Level: +10
 The Great Tit's Blessing	Monster Level: +20, Moxie Percent: +5
+# The Halls of Moxiousness: +3 Moxie Stats Per Fight
 The Halls of Moxiousness	Experience: +3
+# The Halls of Muscularity: +3 Muscle Stats Per Fight
 The Halls of Muscularity	Experience: +3
+# The Halls of Mysticality: +3 Mysticality Stats Per Fight
 The Halls of Mysticality	Experience: +3
 The Magical Mojomuscular Melody	Maximum MP: +20, Mysticality: +10
 The Moxious Madrigal	Moxie: +10
 The Q Is Talking To You	Mysticality Percent: +10
 The Rage	Muscle Percent: +50, Mysticality Percent: -50
+# The Real Deal: Recover HP and MP after battle
 The Real Deal	HP Regen Min: 20, HP Regen Max: 20, MP Regen Min: 20, MP Regen Max: 20
 The Smile of Mr. A.	Muscle: +15, Mysticality: +15, Moxie: +15
+# The Sonata of Sneakiness: Monsters will be less attracted to you
 The Sonata of Sneakiness	Combat Rate: -5
 # The Spirit of Crimbo
 The Sweats	Stench Resistance: +5
 The Vitus Virus	Item Drop: +50, Experience: -5
 Third Eye Blind	Moxie Percent: +50, Mysticality Percent: -50
+# Ticking Clock: +30% Combat Initiative
 Ticking Clock	Initiative: +30
 Tin, Man	Damage Reduction: 5
 Tingly Biceps	Muscle: +5
 Tingly Elbows	Moxie: +5
 Tingly Wrists	Mysticality: +5
-# Tinnitus	chat effect
+# Tinnitus
+# Tiny Bubbles in the Cupcake: Recover HP and MP after battle
 Tiny Bubbles in the Cupcake	HP Regen Min: 20, HP Regen Max: 20, MP Regen Min: 20, MP Regen Max: 20
-# Toad In The Hole	lose 50% HP every round of combat
+# Toad In The Hole: Continually take damage
 Tomato Power	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
-Tranquilized Mind	Damage Absorption: +50, Damage Reduction: 10
-# Trepandation	continually lose MP
+# Tranquilized Mind: -1000% Combat Initiative
+Tranquilized Mind	Initiative: -1000, Damage Absorption: +50, Damage Reduction: 10
+# Trepandation: Continually lose MP
 Trepandation	Spell Damage Percent: +50, Spell Damage: +50
 Truly Gritty	Weapon Damage: +20, Muscle: +20
 Tundra Mouth	Cold Damage: [min(100,T)]
 Turned Into a Skeleton	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50
 Twinklebritches	Damage Reduction: 3
 Twinkly Weapon	Weapon Damage: +3
-# Ultrahydrated	zone unlock
-# Uncertain	randomize musc & moxie
+# Ultrahydrated: Glug, Glug
+# Uncertain: Muscle and Moxie +/- ???
 Unpopular	Monster Level: +30
 Unusual Fashion Sense	Damage Absorption: +50
 Ur-Kel's Aria of Annoyance	Monster Level: [+2*L]
 Very Clean Teeth	Moxie: +1
 Violent Night	Critical: 2
 Vitamin-Maxed	Muscle Percent: +10
-# Wanged	chat effect
+# Wanged: Unable to use obnoxious abbreviations
+# Warm Belly: Makes sushi taste better
 Warm Belly	Hot Damage: [+3*D]
 Wasabi Sinuses	Experience: -1, Meat Drop: +30, Item Drop: -10
 Weather, Man	Muscle Percent: +30, Mysticality Percent: +30, Moxie Percent: +30
 Well-Oiled	Damage Absorption: +30, Damage Reduction: 10, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
+# Well-Swabbed Ear: +30% Combat Initiative
 Well-Swabbed Ear	Initiative: +30
 Well-preserved	HP Regen Min: 150, HP Regen Max: 200
 What's That Smell?	Stench Damage: +3
 White Knuckles	Never Fumble
+# White-boy Angst: +50% Combat Initiative
 White-boy Angst	Initiative: +50
 Whitened Teeth	Moxie Percent: +10
-# Wings	apparently none
+# Wings: You believe you can fly!
 Winklered	Meat Drop: +40
 Wintergreen Warmongery	Muscle: +30
 Wistfully Nostalgic	Experience: +3
@@ -2113,7 +2202,7 @@ Withered Heart	Mysticality: [min(T,20)], Item Drop: [min(T,20)]
 Woad Warrior	Muscle: +25
 Wreathed in Merriment	Moxie Percent: +10
 Wussiness	Muscle: -3
-# Yellow Tongue	text effect
+# Yellow Tongue: Eww.
 Your #1 Problem	Muscle: -20, Mysticality: -20, Moxie: -20, Item Drop: +100
 Your Cupcake Senses Are Tingling	Meat Drop: +30
 Yuletide Industry	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
@@ -2275,15 +2364,11 @@ time sleigh	Free Pull
 # + 10 lbs. of Ghuol Whelp
 # + ???
 # + Some Stats Per Fight
-# +1 Familiar Experience Per Fight
-# +1 Muscle, Mysticality and Moxie Stat Per Fight
 # +1-3 Stat(s) per Fight
 # +10 Damage vs. Lions
 # +10 Ranged Damage
 # +10 damage to Disco Bandit Combat Skills
-# +10% Combat Initiative
 # +10% Food Drops from Monsters
-# +100% Combat Initiative
 # +100% Physical Damage against Hobos
 # +100% Spell Damage
 # +100% Spell Damage against Hobos
@@ -2294,40 +2379,28 @@ time sleigh	Free Pull
 # +15% Moxie
 # +15% Muscle
 # +16 Ranged Damage
-# +18 Moxie Stats Per Fight
-# +18 Muscle Stats Per Fight
-# +18 Mysticality Stats Per Fight
-# +2 Familiar Experience Per Fight
 # +2 Familiar Weight
 # +2 Moxie Stat(s) Per Fight
 # +2 Muscle Stat(s) Per Fight
 # +2 Mysticality Stat(s) Per Fight
 # +20 damage to Disco Bandit Combat Skills
 # +20% Accessory Drops from Monsters
-# +20% Combat Initiative
 # +20% Food Drops from Monsters
 # +20% Hat/Pants Drops from Monsters
-# +25% Combat Initiative
 # +25% Mysticality
 # +25% Weapon Drops from Monsters
-# +3 Moxie Stats Per Fight
-# +3 Muscle Stats Per Fight
-# +3 Mysticality Stats Per Fight
 # +3 damage to Disco Bandit Combat Skills
 # +3% Food Drops from Monsters
-# +3-5 Weapon Damage
 # +30 to All Attributes.  Yeah, +30.  That's the ticket.
 # +30% Booze Drops from Monsters
 # +30% Combat Initiative
 # +30% Food Drops from Monsters
 # +30% Item Drops from Hobos
-# +40% Combat Initiative
 # +5 Duration to Buffs You Cast
 # +5 to Familiar Damage
 # +5% Booze Drops from Monsters
 # +5% Item Drops From Monsters
 # +5% Muscle
-# +50% Combat Initiative
 # +50% Weapon Drops from Monsters
 # +7 damage to Disco Bandit Combat Skills
 # +8 Moxie
@@ -2335,17 +2408,10 @@ time sleigh	Free Pull
 # +8 Mysticality
 # +8 Spell Damage
 # +8 Weapon Damage
-# -1 Adventure cost underwater
-# -1000% Combat Initiative
-# -30% Combat Initiative
-# -40% Combat Initiative
-# -50% Combat Initiative
-# 100% chance of poisoning opponent
 # 5-Finger Discount
 # 50% Discount on Gift Packages
 # 50% chance of poisoning opponent.
 # 75% Chance of Preventing Negative Status Attacks
-# ???
 # All Attributes Increase with Moonlight
 # All Spells Cast Are Cold
 # All Spells Cast Are Hot
@@ -2359,23 +2425,10 @@ time sleigh	Free Pull
 # Allows use of seasonal attacks
 # Allows you to equip Chefstaves
 # Allows you to keep 4 songs in your head instead of 3.
-# Arrr.
 # Attacks Monsters During Combat
-# Booze tastes even more delicious!
 # Brings Good Luck!
-# Brrrrrrr...
-# Call 911 Immediately
-# Can breathe cologne in combat
-# Can breathe fire in combat
-# Can breathe frigid air in combat
-# Can breathe stench in combat
-# Can breathe terrifying air in combat
 # Causes the Ancient Yuletide Troll to drop carol pages more frequently.
-# Cold, Cold, Cold!
 # Combat items do more damage
-# Continually gain MP
-# Continually lose MP
-# Continually take damage
 # Converts Hobo Power to + Item Drops
 # Converts Hobo Power to + Meat Drops
 # Converts Hobo Power to + Meat Drops, + Item Drops, and HP and MP Regeneration
@@ -2384,69 +2437,33 @@ time sleigh	Free Pull
 # Converts Hobo Power to Spell Damage
 # Converts Hobo Power to Weapon Damage
 # Critical Hits are extra-explosive
-# Curses!
-# Damage Reduction: -10
-# Damage Reduction: -2
 # Damages Attacking Opponent
 # Damages Attacking Opponent (Underwater Only)
-# Damages Attacking Opponents
-# Damn, Gina
-# Deal extra damage as the fight goes on
 # Deals 2-3 damage to attackers
 # Deals 30-45 damage to attackers
 # Deals a rainbow of damage to attackers
 # Disco Bandit Combat Skills weaken enemies by an additional 50%
 # Drains MP on Successful Hit
-# Eh.  You'll figure out what this effect does later...
-# Eww.
 # Explosively hilarious
-# Extra-Vulnerable to All Elements
-# Extra-Vulnerable to Cold and Sleaze
-# Extra-Vulnerable to Cold and Spooky
-# Extra-Vulnerable to Hot and Spooky
-# Extra-Vulnerable to Hot and Stench
-# Extra-Vulnerable to Sleaze
-# Extra-Vulnerable to Stench
-# Extra-Vulnerable to Stench and Sleaze
 # Extracts Meat on Critical Hits
 # Familiar Will Attack You Less Often
 # Familiar gains 1-2 extra experience per Adventure
 # Gives Extra Offhand Equipment Slot
-# Glug, Glug
 # Grants &quot;Shake Hands&quot; Combat Skill
 # Heals 3-24 HP on Critical Hit
 # Hemophilia
-# Hilarious!
 # Hobo's Booze Is More Effective
-# Hot, Hot, Hot!
-# Increased chance of fumbling
 # Increases Astral Mushroom Drop Rate
-# Jane!
 # Jellyfish Vision
-# Less powerful than you were before
-# Like, Wow, Man
-# Make you feel more Canadian
 # Makes Familiar Less Sensitive to Light
 # Makes Imitation Crab claws sharper
 # Makes Llama Lamas friendlier
 # Makes March Hare More Better
 # Makes Origami Towel Crane More Resistant to Wear and Tear
-# Makes sushi taste better
 # Makes you a better diver
-# Makes you sleep like the dead
-# Makes your Muscle and Moxie equal to your Mysticality
-# Makes your Muscle and Mysticality equal to your Moxie
-# Makes your Mysticality and Moxie equal to your Muscle
 # Makes your ghost better at eating stuff.
-# Monsters will be less attracted to you
-# Monsters will be more attracted to you
-# More likely to fumble
 # More likely to use more powerful attacks
 # Moxie used to determine Maximum MP
-# Muscle +
-# Muscle and Moxie +/- ???
-# Mysticality +
-# Nasty belches during combat
 # Needed for depleted Grimacite smithing
 # Never runs out of pencils!
 # On Critical:  Deals 50-60 additional damage
@@ -2454,43 +2471,19 @@ time sleigh	Free Pull
 # On Critical:  Stuns Opponent
 # On Critical:  Whittles enemy down
 # On Critical: Insanity!
-# Only Pastamancers may use this item.
-# Ooooooooooooooooh
-# P. U.
 # Prevents Level Teleporting
 # Protects the wearer from poison
 # Provides Mostly Accurate Battle Statistics During Fights
-# Recover HP and MP after battle
 # Reduce enemy defense by 15%
-# Reduced chance of fumbling
 # Reduces familiar's MP expenditure by 2-4.
 # Regenerate 1 MP per adventure (sometimes)
 # Regenerate MP Based on Level
-# Regular Attacks Can't Miss
 # Restores 3-24 MP on Critical Hit
 # Shoots Bottle-Rockets!
-# Sizzle!
 # Sporadic HP Regeneration
 # Squeaky!
 # Super Accurate!
 # Teddy Bear loses less stuffing when hit.
-# Tee-hee!
 # They Do Nothing!
-# Uh Oh...
-# Unable to use obnoxious abbreviations
-# Wait, What?
 # Weakens Monster on Critical Hit
-# Who am I?
-# Wink Wink, Nudge Nudge
-# You are aware of The Worm Wood
-# You believe you can fly!
-# You like food; food tastes good.
-# You really need a beer...
-# You smell like a Knob Goblin harem girl!
-# You smell like turtle pheromones
-# You're a Bird
-# You're a Cockroach
-# You're a Mole
 # Your familiar will sow pain and reap Meat.
-# Your position seems uncertain...
-# and on...
