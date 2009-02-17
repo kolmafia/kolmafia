@@ -842,40 +842,19 @@ public class DebugDatabase
 	private static final void checkItemModifiers( final PrintStream report )
 	{
 		RequestLogger.printLine( "Checking modifiers..." );
-		ArrayList unknown = new ArrayList();
 
-		DebugDatabase.checkItemModifierMap( report, DebugDatabase.hats, "Hats", unknown );
-		DebugDatabase.checkItemModifierMap( report, DebugDatabase.pants, "Pants", unknown );
-		DebugDatabase.checkItemModifierMap( report, DebugDatabase.shirts, "Shirts", unknown );
-		DebugDatabase.checkItemModifierMap( report, DebugDatabase.weapons, "Weapons", unknown );
-		DebugDatabase.checkItemModifierMap( report, DebugDatabase.offhands, "Off-hand", unknown );
-		DebugDatabase.checkItemModifierMap( report, DebugDatabase.accessories, "Accessories", unknown );
-		DebugDatabase.checkItemModifierMap( report, DebugDatabase.containers, "Containers", unknown );
-		DebugDatabase.checkItemModifierMap( report, DebugDatabase.famitems, "Familiar Items", unknown );
-		DebugDatabase.checkItemModifierMap( report, DebugDatabase.others, "Everything Else", unknown );
-
-		if ( unknown.size() == 0 )
-		{
-			return;
-		}
-
-		Collections.sort( unknown );
-
-		for ( int i = 0; i < 10; ++i )
-		{
-			report.println();
-		}
-
-		report.println( "# Unknown Modifiers section of modifiers.txt" );
-		report.println();
-
-		for ( int i = 0; i < unknown.size(); ++i )
-		{
-			report.println( "# " + (String) unknown.get( i ) );
-		}
+		DebugDatabase.checkItemModifierMap( report, DebugDatabase.hats, "Hats" );
+		DebugDatabase.checkItemModifierMap( report, DebugDatabase.pants, "Pants" );
+		DebugDatabase.checkItemModifierMap( report, DebugDatabase.shirts, "Shirts" );
+		DebugDatabase.checkItemModifierMap( report, DebugDatabase.weapons, "Weapons" );
+		DebugDatabase.checkItemModifierMap( report, DebugDatabase.offhands, "Off-hand" );
+		DebugDatabase.checkItemModifierMap( report, DebugDatabase.accessories, "Accessories" );
+		DebugDatabase.checkItemModifierMap( report, DebugDatabase.containers, "Containers" );
+		DebugDatabase.checkItemModifierMap( report, DebugDatabase.famitems, "Familiar Items" );
+		DebugDatabase.checkItemModifierMap( report, DebugDatabase.others, "Everything Else" );
 	}
 
-	private static final void checkItemModifierMap( final PrintStream report, final Map map, final String tag, final ArrayList unknown )
+	private static final void checkItemModifierMap( final PrintStream report, final Map map, final String tag )
 	{
 		if ( map.size() == 0 )
 		{
@@ -893,17 +872,26 @@ public class DebugDatabase
 		{
 			String name = (String) keys[ i ];
 			String text = (String) map.get( name );
-			DebugDatabase.checkItemModifierDatum( name, text, report, unknown );
+			DebugDatabase.checkItemModifierDatum( name, text, report );
 		}
 	}
 
-	private static final void checkItemModifierDatum( final String name, final String text, final PrintStream report, final ArrayList unknown )
+	private static final void checkItemModifierDatum( final String name, final String text, final PrintStream report )
 	{
+		ArrayList unknown = new ArrayList();
 		String known = DebugDatabase.parseItemEnchantments( text, unknown );
+
+		for ( int i = 0; i < unknown.size(); ++i )
+		{
+			report.println( "# " + name + ": " + (String) unknown.get( i ) );
+		}
 
 		if ( known.equals( "" ) )
 		{
-			report.println( "# " + name );
+			if ( unknown.size() == 0 )
+			{
+				report.println( "# " + name );
+			}
 		}
 		else
 		{
@@ -916,19 +904,23 @@ public class DebugDatabase
 
 	private static final String parseItemEnchantments( final String text, final ArrayList unknown )
 	{
-		String known = "";
+		String known = parseStandardEnchantments( text, unknown, DebugDatabase.ITEM_ENCHANTMENT_PATTERN );
 
 		// Several modifiers can appear outside the "Enchantments"
 		// section of the item description.
 
-		String dr = Modifiers.parseDamageReduction( text );
-		if ( dr != null )
+		// Damage Reduction can appear in either place
+		if ( known.indexOf( "Damage Reduction" ) == -1 )
 		{
-			if ( !known.equals( "" ) )
+			String dr = Modifiers.parseDamageReduction( text );
+			if ( dr != null )
 			{
-				known += ", ";
+				if ( !known.equals( "" ) )
+				{
+					known += ", ";
+				}
+				known += dr;
 			}
-			known += dr;
 		}
 
 		String single = Modifiers.parseSingleEquip( text );
@@ -940,8 +932,6 @@ public class DebugDatabase
 			}
 			known += single;
 		}
-
-		known = parseStandardEnchantments( text, known, unknown, DebugDatabase.ITEM_ENCHANTMENT_PATTERN );
 
 		String softcore = Modifiers.parseSoftcoreOnly( text );
 		if ( softcore != null )
@@ -966,8 +956,10 @@ public class DebugDatabase
 		return known;
 	}
 
-	private static final String parseStandardEnchantments( final String text, String known, final ArrayList unknown, final Pattern pattern )
+	private static final String parseStandardEnchantments( final String text, final ArrayList unknown, final Pattern pattern )
 	{
+		String known = "";
+
 		Matcher matcher = pattern.matcher( text );
 		if ( !matcher.find() )
 		{
@@ -1035,7 +1027,7 @@ public class DebugDatabase
 		PrintStream report = DebugDatabase.openReport( EFFECT_DATA );
 
 		DebugDatabase.effects.clear();
-                DebugDatabase.checkEffects( report );
+		DebugDatabase.checkEffects( report );
 		DebugDatabase.checkEffectModifiers( report );
 
 		report.close();
@@ -1091,7 +1083,7 @@ public class DebugDatabase
 
 		}
 
-                DebugDatabase.effects.put( name, text );
+		DebugDatabase.effects.put( name, text );
 	}
 
 	private static final GenericRequest DESC_EFFECT_REQUEST = new GenericRequest( "desc_effect.php" );
@@ -1164,7 +1156,7 @@ public class DebugDatabase
 	private static final void checkEffectModifierDatum( final String name, final String text, final PrintStream report )
 	{
 		ArrayList unknown = new ArrayList();
-		String known = DebugDatabase.parseStandardEnchantments( text, "", unknown, DebugDatabase.EFFECT_ENCHANTMENT_PATTERN );
+		String known = DebugDatabase.parseStandardEnchantments( text, unknown, DebugDatabase.EFFECT_ENCHANTMENT_PATTERN );
 
 		for ( int i = 0; i < unknown.size(); ++i )
 		{
@@ -1186,7 +1178,7 @@ public class DebugDatabase
 
 	// **********************************************************
 
-        // Utilities for dealing with KoL description data
+	// Utilities for dealing with KoL description data
 
 	private static final PrintStream openReport( final String fileName )
 	{
@@ -1252,7 +1244,7 @@ public class DebugDatabase
 			}
 
 			String description = array.get( id );
-			if ( !description.equals( "" ) )
+			if ( description != null && !description.equals( "" ) )
 			{
 				livedata.println( id );
 				livedata.println( description );
