@@ -1374,8 +1374,15 @@ public class UseItemRequest
 					{
 						adv = 91;	// default to Noob Cave
 					}
-					RequestThread.postRequest( AdventureDatabase.getAdventureByURL(
-						"adventure.php?snarfblat=" + adv ) );
+					KoLAdventure req = AdventureDatabase.getAdventureByURL(
+						"adventure.php?snarfblat=" + adv );
+					// Must do some trickery here to prevent the adventure
+					// location from being changed, and the conditions reset.
+					String la = Preferences.getString( "lastAdventure" );
+					Preferences.setString( "lastAdventure",
+						req.getAdventureName() );
+					RequestThread.postRequest( req );
+					Preferences.setString( "lastAdventure", la );
 					(new UseItemRequest( item )).run();
 				}
 				finally

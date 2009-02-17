@@ -583,6 +583,12 @@ public class FightRequest
 		// If the player wants to use an item, make sure he has one
 		if ( !FightRequest.action1.startsWith( "skill" ) )
 		{
+			if ( KoLConstants.activeEffects.contains( FightRequest.BIRDFORM ) )
+			{	// Can't use items in Birdform
+				--FightRequest.preparatoryRounds;
+				this.nextRound();
+				return;
+			}
 			int item1, item2;
 
 			int commaIndex = FightRequest.action1.indexOf( "," );
@@ -2474,6 +2480,10 @@ public class FightRequest
 		if ( !KoLConstants.inventory.contains( FightRequest.ANTIDOTE ) )
 		{
 			return false;
+		}
+		if ( KoLConstants.activeEffects.contains( FightRequest.BIRDFORM ) )
+		{
+			return false;	// can't use items!
 		}
 		int minLevel = Preferences.getInteger( "autoAntidote" );
 		for ( int i = 0; i < KoLConstants.activeEffects.size(); ++i )
