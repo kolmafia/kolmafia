@@ -1877,7 +1877,11 @@ Fresh Scent	Combat Rate: -5
 Frigid Weapon	Cold Damage: +3
 Frog In Your Throat	Muscle: +25
 Frostbitten	Cold Damage: +10, Damage Reduction: -2
-# Frosty the Hitman	variable prismatic damage
+# Frosty the Hitman: +0-2 <font color=red>Hot Damage</font>
+# Frosty the Hitman: +0-2 <font color=blue>Cold Damage</font>
+# Frosty the Hitman: +0-2 <font color=gray>Spooky Damage</font>
+# Frosty the Hitman: +0-2 <font color=green>Stench Damage</font>
+# Frosty the Hitman: +0-2 <font color=blueviolet>Sleaze Damage</font>
 Frozen Hands	Cold Damage: +11
 Frozen Shoulders	Cold Spell Damage: +11, Hot Resistance: +3
 Full of Vinegar	Weapon Damage: [+1*D]
@@ -2021,7 +2025,7 @@ No Worries	Experience: +3
 Object Detection	Item Drop: +5
 Ocelot Eyes	Item Drop: +10
 # Ode to Booze: Booze tastes even more delicious!
-Omphaloskepsis	Damage Reduction: 18
+Omphaloskepsis	Damage Reduction: [L]
 On the Shoulders of Giants	Mysticality Percent: +200
 # On the Trail
 Once Bitten, Twice Shy	Moxie: +40, Familiar Weight Percent: -50
