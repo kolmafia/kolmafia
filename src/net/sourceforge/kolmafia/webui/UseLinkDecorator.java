@@ -695,7 +695,7 @@ public abstract class UseLinkDecorator
 			itemId = ItemPool.DINGHY_PLANS;
 			break;
 
-		// Link which use the Knob map when you get the encryption key.
+		// Link which uses the Knob map when you get the encryption key.
 
 		case ItemPool.ENCRYPTION_KEY:
 
@@ -805,6 +805,23 @@ public abstract class UseLinkDecorator
 
 			useType = "council";
 			useLocation = "council.php";
+			break;
+
+		// Link to the Pretentious Artist when you find his last tool
+
+		case ItemPool.PRETENTIOUS_PAINTBRUSH:
+		case ItemPool.PRETENTIOUS_PALETTE:
+		case ItemPool.PRETENTIOUS_PAIL:
+
+			if ( !InventoryManager.hasItem( ItemPool.PRETENTIOUS_PAINTBRUSH ) ||
+			     !InventoryManager.hasItem( ItemPool.PRETENTIOUS_PALETTE ) ||
+			     !InventoryManager.hasItem( ItemPool.PRETENTIOUS_PAIL ) )
+			{
+				return null;
+			}
+
+			useType = "artist";
+			useLocation = "town_wrong.php?place=artist";
 			break;
 
 		default:

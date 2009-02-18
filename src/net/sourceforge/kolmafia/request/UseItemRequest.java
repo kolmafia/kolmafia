@@ -2607,6 +2607,18 @@ public class UseItemRequest
 				ResultProcessor.processResult( item );
 			}
 			return;
+
+		case ItemPool.BOOZEHOUND_TOKEN:
+
+			// You'd take this thing to a bar and see what you can
+			// trade it in for, but you don't know where any bars
+			// are.
+
+			if ( responseText.indexOf( "don't know where any bars are" ) != -1 )
+			{
+				ResultProcessor.processResult( item );
+			}
+			return;
 		}
 	}
 
