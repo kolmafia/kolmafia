@@ -895,7 +895,7 @@ public class BasementRequest
 			return true;
 		}
 
-		if ( responseText.indexOf( "Fernswarthy's Basement, Level 500" ) != -1 )
+		if ( responseText.indexOf( "<b>Fernswarthy's Basement, Level 500</b>" ) != -1 )
 		{
 			BasementRequest.basementTestString = "Encounter: Fernswarthy's Basement, Level 500";
 			return true;
