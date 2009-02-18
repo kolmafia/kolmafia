@@ -1491,10 +1491,6 @@ flaming familiar doppelg&auml;nger	Monster Level: +5, Softcore Only
 flaming glowsticks	Familiar Weight: +5
 funky brass fez	Familiar Weight: +5
 gazing shoes	Familiar Weight: +5
-# giant book of ancient carolsflaming familiar doppelg&auml;nger	Monster Level: +5, Softcore Only
-flaming glowsticks	Familiar Weight: +5
-funky brass fez	Familiar Weight: +5
-gazing shoes	Familiar Weight: +5
 # giant book of ancient carols: Causes the Ancient Yuletide Troll to drop carol pages more frequently.
 green pixie spog	Familiar Weight: +5
 hardware upgrade	Familiar Weight: +5
@@ -1554,15 +1550,6 @@ sucky decal	Familiar Weight: +5
 tasteful black bow tie	Familiar Weight: +5
 # teddy bear sewing kit: Teddy Bear loses less stuffing when hit.
 # teddy borg sewing kit: Teddy Bear loses less stuffing when hit.
-tiny Mountie hat	Familiar Weight: +5
-tiny ballet slippers	Familiar Weight: +5
-tiny balloon knife	Familiar Weight: +5
-tiny bindle	Familiar Weight: +5
-tiny bust of Pallas	Familiar Weight: +5
-tiny knife and fork	Familiar Weight: +5
-tiny makeup kit	Familiar Weight: +15
-tiny maracas	Familiar Weight: +5
-# tiny nose-bone fetish
 tiny Mountie hat	Familiar Weight: +5
 tiny ballet slippers	Familiar Weight: +5
 tiny balloon knife	Familiar Weight: +5
