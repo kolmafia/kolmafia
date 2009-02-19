@@ -72,11 +72,11 @@ public class WineCellarRequest
 		WineCellarRequest.parseResponse( this.getURLString(), this.responseText );
 	}
 
-	public static final boolean parseResponse( final String location, final String responseText )
+	public static final void parseResponse( final String location, final String responseText )
 	{
 		if ( !location.startsWith( "manor3.php" ) )
 		{
-			return false;
+			return;
 		}
 
 		if ( location.indexOf( "action=summon" ) != -1 )
@@ -96,8 +96,6 @@ public class WineCellarRequest
 				}
 			}
 		}
-
-		return false;
 	}
 
 	public static final boolean registerRequest( final String urlString )

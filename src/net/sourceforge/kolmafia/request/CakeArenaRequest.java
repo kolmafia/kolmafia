@@ -104,13 +104,13 @@ public class CakeArenaRequest
 		}
 	}
 
-	public static final boolean parseResponse( final String urlString, final String responseText )
+	public static final void parseResponse( final String urlString, final String responseText )
 	{
 		if ( urlString.indexOf( "action=go" ) != -1 )
 		{
 			if ( responseText.indexOf( "You don't have enough Meat" ) != -1 )
 			{
-				return false;
+				return;
 			}
 
 			ResultProcessor.processMeat( -100 );
@@ -123,7 +123,7 @@ public class CakeArenaRequest
 				KoLCharacter.setArenaWins( KoLCharacter.getArenaWins() + 1 );
 			}
 
-			return true;
+			return;
 		}
 
 		// Retrieve arena wins count
@@ -152,8 +152,6 @@ public class CakeArenaRequest
 			int weight = StringUtilities.parseInt( opponentMatcher.group( 4 ) );
 			CakeArenaManager.registerOpponent( id, name, race, weight );
 		}
-
-		return true;
 	}
 
 	private static String resultMessage( final String responseText )

@@ -266,11 +266,11 @@ public class GuildRequest
 		return SkillDatabase.classSkillsBase() + StringUtilities.parseInt( matcher.group( 1 ) );
 	}
 
-	public static final boolean parseResponse( final String urlString, final String responseText )
+	public static final void parseResponse( final String urlString, final String responseText )
 	{
 		if ( !urlString.startsWith( "guild.php" ) )
 		{
-			return false;
+			return;
 		}
 
 		Matcher matcher = PLACE_PATTERN.matcher( urlString );
@@ -281,7 +281,7 @@ public class GuildRequest
 			matcher = GuildRequest.STILLS_PATTERN.matcher( responseText );
 			int count =  matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
 			KoLCharacter.setStillsAvailable( count );
-			return true;
+			return;
 		}
 
 		if ( place != null && place.equals( "paco" ) )
@@ -292,7 +292,7 @@ public class GuildRequest
 				ResultProcessor.processItem( ItemPool.CITADEL_SATCHEL, -1 );
 			}
 
-			return true;
+			return;
 		}
 
 		if ( place != null && place.equals( "ocg" ) )
@@ -317,7 +317,7 @@ public class GuildRequest
 				ResultProcessor.processItem( ItemPool.FERNSWARTHYS_KEY, -1 );
 			}
 
-			return true;
+			return;
 		}
 
 		matcher = ACTION_PATTERN.matcher( urlString );
@@ -327,7 +327,7 @@ public class GuildRequest
 
 		if ( action == null )
 		{
-			return false;
+			return;
 		}
 
 		if ( action.equals( "train" ) )
@@ -341,13 +341,13 @@ public class GuildRequest
 					ResultProcessor.processMeat( -cost );
 				}
 			}
-			return true;
+			return;
 		}
 
 		if ( action.equals( "makestaff" ) )
 		{
 			ChefStaffRequest.parseCreation( urlString, responseText );
-			return true;
+			return;
 		}
 
 		if ( action.equals( "stillbooze" ) ||
@@ -356,10 +356,8 @@ public class GuildRequest
 		     action.equals( "malussmash" ) )
 		{
 			CreateItemRequest.parseGuildCreation( urlString, responseText );
-			return true;
+			return;
 		}
-
-		return true;
 	}
 
 	public static final boolean registerRequest( final String urlString )

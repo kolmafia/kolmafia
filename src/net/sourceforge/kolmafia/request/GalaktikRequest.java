@@ -181,11 +181,11 @@ public class GalaktikRequest
 		KoLmafia.updateDisplay( "Cure purchased." );
 	}
 
-	public static final boolean parseResponse( final String location, final String responseText )
+	public static final void parseResponse( final String location, final String responseText )
 	{
 		if ( !location.startsWith( "galaktik.php" ) )
 		{
-			return false;
+			return;
 		}
 
 		// Ah, my friend! You've found my herbs! These will come in
@@ -214,26 +214,24 @@ public class GalaktikRequest
 
 		if ( responseText.indexOf( "You can't afford that" ) != -1 )
 		{
-			return false;
+			return;
 		}
 
 		Matcher matcher = TYPE_PATTERN.matcher( location );
 		if ( !matcher.find() )
 		{
-			return false;
+			return;
 		}
 
 		matcher = MEAT_PATTERN.matcher( responseText );
 		if ( !matcher.find() )
 		{
-			return false;
+			return;
 		}
 
 		int cost = StringUtilities.parseInt( matcher.group( 1 ) );
 
 		ResultProcessor.processMeat( -cost );
-
-		return false;
 	}
 
 	public static final LockableListModel retrieveCures()

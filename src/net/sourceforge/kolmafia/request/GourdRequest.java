@@ -67,13 +67,13 @@ public class GourdRequest
 		GourdRequest.parseResponse( this.getURLString(), this.responseText );
 	}
 
-	public static final boolean parseResponse( final String location, final String responseText )
+	public static final void parseResponse( final String location, final String responseText )
 	{
 		// Either place=gourd or action=gourd
 
 		if ( !location.startsWith( "town_right.php" ) || location.indexOf( "gourd" ) == -1 )
 		{
-			return false;
+			return;
 		}
 
 		// Bring back 5 of their... erp... lids, and you'll
@@ -83,7 +83,6 @@ public class GourdRequest
 		int count =  matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 26;
 
 		Preferences.setInteger( "gourdItemCount", count );
-		return true;
 	}
 
 	public static final AdventureResult gourdItem( final int count )

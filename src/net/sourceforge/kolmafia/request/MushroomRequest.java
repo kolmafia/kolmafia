@@ -73,11 +73,11 @@ public class MushroomRequest
 		MushroomRequest.parseResponse( this.getURLString(), this.responseText );
 	}
 
-	public static final boolean parseResponse( final String urlString, final String responseText )
+	public static final void parseResponse( final String urlString, final String responseText )
 	{
 		if ( !urlString.startsWith( "knoll_mushrooms.php" ) )
 		{
-			return false;
+			return;
 		}
 
 		if ( urlString.indexOf( "action=plant" ) != -1 )
@@ -104,8 +104,6 @@ public class MushroomRequest
 		}
 
 		MushroomManager.parsePlot( responseText );
-
-		return false;
 	}
 
 	private static boolean validSquare( int square )

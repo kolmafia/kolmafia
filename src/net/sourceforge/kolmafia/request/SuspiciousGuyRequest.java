@@ -71,16 +71,16 @@ public class SuspiciousGuyRequest
 		SuspiciousGuyRequest.parseResponse( this.getURLString(), this.responseText );
 	}
 
-	public static final boolean parseResponse( final String location, final String responseText )
+	public static final void parseResponse( final String location, final String responseText )
 	{
 		if ( !location.startsWith( "town_wrong.php" ) )
 		{
-			return false;
+			return;
 		}
 
 		if ( location.indexOf( "place=goofballs" ) == -1 && location.indexOf( "action=buygoofballs" ) == -1 && location.indexOf( "sleazy=1" ) == -1 )
 		{
-			return false;
+			return;
 		}
 
 		if ( location.indexOf( "action=buygoofballs" ) != -1 )
@@ -90,13 +90,13 @@ public class SuspiciousGuyRequest
 
 			if ( responseText.indexOf( "If you get caught" ) == -1 )
 			{
-				return true;
+				return;
 			}
 
 			Matcher matcher = GOOFBALL_PATTERN.matcher( responseText );
 			if ( !matcher.find() )
 			{
-				return true;
+				return;
 			}
 
 			int cost = 1000 * Integer.parseInt( matcher.group( 1 ) ) - 1000;
@@ -105,7 +105,7 @@ public class SuspiciousGuyRequest
 				ResultProcessor.processMeat( -cost );
 			}
 
-			return true;
+			return;
 		}
 
 		if ( location.indexOf( "sleazy=1" ) != -1 )
@@ -119,10 +119,8 @@ public class SuspiciousGuyRequest
 				ResultProcessor.processItem( ItemPool.GLOOMY_BLACK_MUSHROOM, -1 );
 			}
 
-			return true;
+			return;
 		}
-
-		return true;
 	}
 
 	public static final boolean registerRequest( final String urlString )
