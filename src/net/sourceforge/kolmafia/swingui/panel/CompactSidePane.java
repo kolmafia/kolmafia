@@ -392,7 +392,70 @@ public class CompactSidePane
 				KoLCharacter.currentNumericModifier( Modifiers.FUMBLE ) ) );
 			buf.append( " X" );
 		}
-		buf.append( "</td></tr></table></html>" );
+		buf.append( "</td></tr>" );
+		float food = KoLCharacter.currentNumericModifier( Modifiers.FOODDROP );
+		float booze = KoLCharacter.currentNumericModifier( Modifiers.BOOZEDROP );
+		float hat = KoLCharacter.currentNumericModifier( Modifiers.HATDROP );
+		float weapon = KoLCharacter.currentNumericModifier( Modifiers.WEAPONDROP );
+		float offhand = KoLCharacter.currentNumericModifier( Modifiers.OFFHANDDROP );
+		float shirt = KoLCharacter.currentNumericModifier( Modifiers.SHIRTDROP );
+		float pants = KoLCharacter.currentNumericModifier( Modifiers.PANTSDROP );
+		float acc = KoLCharacter.currentNumericModifier( Modifiers.ACCESSORYDROP );
+		if ( food != 0f || booze != 0f || hat != 0f || weapon != 0f ||
+			offhand != 0f || shirt != 0f || pants != 0f || acc != 0f )
+		{
+			buf.append( "<tr><td colspan=4>Special drops:" );
+			if ( food != 0f )
+			{
+				buf.append( " Food " );
+				buf.append( KoLConstants.MODIFIER_FORMAT.format( food ) );
+				buf.append( '%' );
+			}
+			if ( booze != 0f )
+			{
+				buf.append( " Booze " );
+				buf.append( KoLConstants.MODIFIER_FORMAT.format( booze ) );
+				buf.append( '%' );
+			}
+			if ( hat != 0f )
+			{
+				buf.append( " Hat " );
+				buf.append( KoLConstants.MODIFIER_FORMAT.format( hat ) );
+				buf.append( '%' );
+			}
+			if ( weapon != 0f )
+			{
+				buf.append( " Weapon " );
+				buf.append( KoLConstants.MODIFIER_FORMAT.format( weapon ) );
+				buf.append( '%' );
+			}
+			if ( offhand != 0f )
+			{
+				buf.append( " Offhand " );
+				buf.append( KoLConstants.MODIFIER_FORMAT.format( offhand ) );
+				buf.append( '%' );
+			}
+			if ( shirt != 0f )
+			{
+				buf.append( " Shirt " );
+				buf.append( KoLConstants.MODIFIER_FORMAT.format( shirt ) );
+				buf.append( '%' );
+			}
+			if ( pants != 0f )
+			{
+				buf.append( " Pants " );
+				buf.append( KoLConstants.MODIFIER_FORMAT.format( pants ) );
+				buf.append( '%' );
+			}
+			if ( acc != 0f )
+			{
+				buf.append( " Accessory " );
+				buf.append( KoLConstants.MODIFIER_FORMAT.format( acc ) );
+				buf.append( '%' );
+			}
+			buf.append( "</td></tr>" );
+		}
+		buf.append( "</table></html>" );
 		this.modPopLabel.setText( buf.toString() );
 
 		int currentLevel = KoLCharacter.calculateLastLevel();

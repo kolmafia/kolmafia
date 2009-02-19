@@ -52,6 +52,7 @@ import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -184,6 +185,14 @@ public class Modifiers
 	public static final int HIDDEN_FAMILIAR_WEIGHT = 64;
 	public static final int ITEMDROP_PENALTY = 65;
 	public static final int INITIATIVE_PENALTY = 66;
+	public static final int FOODDROP = 67;
+	public static final int BOOZEDROP = 68;
+	public static final int HATDROP = 69;
+	public static final int WEAPONDROP = 70;
+	public static final int OFFHANDDROP = 71;
+	public static final int SHIRTDROP = 72;
+	public static final int PANTSDROP = 73;
+	public static final int ACCESSORYDROP = 74;
 	
 	public static final String EXPR = "(?:([+-]?[\\d.]+)|\\[([^]]+)\\])";
 
@@ -489,6 +498,38 @@ public class Modifiers
 		{ "Initiative Penalty",
 		  null,
 		  Pattern.compile( "Initiative Penalty: " + EXPR )
+		},
+		{ "Food Drop",
+		  Pattern.compile( "([+-]\\d+)% Food Drops? [Ff]rom Monsters$" ),
+		  Pattern.compile( "Food Drop: " + EXPR )
+		},
+		{ "Booze Drop",
+		  Pattern.compile( "([+-]\\d+)% Booze Drops? [Ff]rom Monsters$" ),
+		  Pattern.compile( "Booze Drop: " + EXPR )
+		},
+		{ "Hat Drop",
+		  Pattern.compile( "([+-]\\d+)% Hat(?:/Pants)? Drops? [Ff]rom Monsters$" ),
+		  Pattern.compile( "Hat Drop: " + EXPR )
+		},
+		{ "Weapon Drop",
+		  Pattern.compile( "([+-]\\d+)% Weapon Drops? [Ff]rom Monsters$" ),
+		  Pattern.compile( "Weapon Drop: " + EXPR )
+		},
+		{ "Offhand Drop",
+		  Pattern.compile( "([+-]\\d+)% Off-[Hh]and Drops? [Ff]rom Monsters$" ),
+		  Pattern.compile( "Offhand Drop: " + EXPR )
+		},
+		{ "Shirt Drop",
+		  Pattern.compile( "([+-]\\d+)% Shirt Drops? [Ff]rom Monsters$" ),
+		  Pattern.compile( "Shirt Drop: " + EXPR )
+		},
+		{ "Pants Drop",
+		  Pattern.compile( "([+-]\\d+)% (?:Hat/)?Pants Drops? [Ff]rom Monsters$" ),
+		  Pattern.compile( "Pants Drop: " + EXPR )
+		},
+		{ "Accessory Drop",
+		  Pattern.compile( "([+-]\\d+)% Accessory Drops? [Ff]rom Monsters$" ),
+		  Pattern.compile( "Accessory Drop: " + EXPR )
 		},
 	};
 
@@ -1352,7 +1393,12 @@ public class Modifiers
 
 		switch ( familiarId )
 		{
-			// no special cases at the moment
+		case 82:	// Mad Hatrack
+			if ( famItem == EquipmentRequest.UNEQUIP )
+			{
+				this.add( Modifiers.HATDROP, 50.0, "naked hatrack" );
+			}
+			break;
 		}
 	}
 	
@@ -1919,7 +1965,7 @@ public class Modifiers
 					v = Modifiers.currentWeight;
 					break;
 				case 'X':
-					v = 0;
+					v = KoLCharacter.getGender();
 					break;
 				case 'Y':
 					v = 0;

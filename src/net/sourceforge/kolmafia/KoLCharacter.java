@@ -224,6 +224,9 @@ public abstract class KoLCharacter
 		ItemPool.get( ItemPool.ALUMINUM_WAND, 1 ),
 		ItemPool.get( ItemPool.MARBLE_WAND, 1 )
 	};
+	
+	public static final int MALE = -1;
+	public static final int FEMALE = 1;
 
 	private static String username = "";
 	private static String avatar = "otherimages/discobandit_f.gif";
@@ -234,6 +237,7 @@ public abstract class KoLCharacter
 	private static int currentLevel = 1;
 	private static int decrementPrime = 0;
 	private static int incrementPrime = 25;
+	private static int gender = 0;
 
 	private static int currentHP, maximumHP, baseMaxHP;
 	private static int currentMP, maximumMP, baseMaxMP;
@@ -329,6 +333,7 @@ public abstract class KoLCharacter
 		KoLCharacter.classname = "";
 		KoLCharacter.classtype = "";
 
+		KoLCharacter.gender = 0;
 		KoLCharacter.currentLevel = 1;
 		KoLCharacter.decrementPrime = 0;
 		KoLCharacter.incrementPrime = 25;
@@ -525,6 +530,13 @@ public abstract class KoLCharacter
 	public static final void setAvatar( final String avatar )
 	{
 		KoLCharacter.avatar = avatar;
+		if ( avatar.endsWith( "_f.gif" ) )
+		{
+			KoLCharacter.setGender( KoLCharacter.FEMALE );
+		}
+		// Unfortunately, lack of '_f' in the avatar doesn't necessarily
+		// indicate a male character - it could be a custom avatar, or a
+		// special avatar such as Birdform that's unisex.
 	}
 
 	/**
@@ -537,6 +549,24 @@ public abstract class KoLCharacter
 	{
 		FileUtilities.downloadImage( "http://images.kingdomofloathing.com/" + KoLCharacter.avatar );
 		return KoLCharacter.avatar;
+	}
+	
+	public static final void setGender( final int gender )
+	{
+		KoLCharacter.gender = gender;
+	}
+	
+	public static final int getGender()
+	{
+		if ( KoLCharacter.gender == 0 )
+		{	// Can't tell?  Look at their vinyl boots!
+			GenericRequest req = new GenericRequest(
+				"desc_item.php?whichitem=809051828" );
+			RequestThread.postRequest( req );
+			KoLCharacter.setGender( req.responseText.indexOf( "+15%" ) != -1 ?
+				KoLCharacter.FEMALE : KoLCharacter.MALE );
+		}
+		return KoLCharacter.gender;
 	}
 
 	/**
