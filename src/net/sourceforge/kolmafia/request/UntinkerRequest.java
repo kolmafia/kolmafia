@@ -163,13 +163,13 @@ public class UntinkerRequest
 		UntinkerRequest.parseResponse( this.getURLString(), this.responseText );
 	}
 
-	public static final boolean parseResponse( final String location, final String responseText )
+	public static final void parseResponse( final String location, final String responseText )
 	{
 		// Either place=untinker or action=untinker
 
 		if ( !location.startsWith( "town_right.php" ) || location.indexOf( "untinker" ) == -1 )
 		{
-			return false;
+			return;
 		}
 
 		// Visiting the untinker removes screwdriver from inventory.
@@ -187,7 +187,7 @@ public class UntinkerRequest
 			Matcher matcher = TransferItemRequest.ITEMID_PATTERN.matcher( location );
 			if ( !matcher.find() )
 			{
-				return true;
+				return;
 			}
 
 			int itemId = StringUtilities.parseInt( matcher.group( 1 ) );
@@ -200,8 +200,6 @@ public class UntinkerRequest
 
 			ResultProcessor.processResult( result );
 		}
-
-		return true;
 	}
 
 	public static final boolean canUntinker()

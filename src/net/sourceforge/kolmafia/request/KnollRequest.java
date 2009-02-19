@@ -87,11 +87,11 @@ public class KnollRequest
 		KnollRequest.parseResponse( this.getURLString(), this.responseText );
 	}
 
-	public static final boolean parseResponse( final String urlString, final String responseText )
+	public static final void parseResponse( final String urlString, final String responseText )
 	{
 		if ( !urlString.startsWith( "knoll.php" ) )
 		{
-			return false;
+			return;
 		}
 
 		Matcher matcher = PLACE_PATTERN.matcher( urlString );
@@ -99,7 +99,7 @@ public class KnollRequest
 
 		if ( place == null )
 		{
-			return false;
+			return;
 		}
 
 		if ( place.equals( "mayor" ) )
@@ -119,10 +119,8 @@ public class KnollRequest
 			{
 				ResultProcessor.processItem( ItemPool.STINKY_MUSHROOM, -1 );
 			}
-			return true;
+			return;
 		}
-
-		return false;
 	}
 
 	public static final boolean registerRequest( final String urlString )

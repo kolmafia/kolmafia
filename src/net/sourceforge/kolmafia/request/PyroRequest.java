@@ -58,11 +58,11 @@ public class PyroRequest
                 PyroRequest.parseResponse( this.getURLString(), this.responseText );
 	}
 
-	public static final boolean parseResponse( final String location, final String responseText )
+	public static final void parseResponse( final String location, final String responseText )
 	{
 		if ( !location.startsWith( IslandDecorator.currentIsland() ) )
 		{
-			return false;
+			return;
 		}
 
                 // "The Lighthouse Keeper's eyes light up as he sees your
@@ -75,10 +75,8 @@ public class PyroRequest
 		{
 			int count = PyroRequest.GUNPOWDER.getCount( KoLConstants.inventory );
 			ResultProcessor.processItem( ItemPool.GUNPOWDER, -count );
-			return true;
+			return;
 		}
-
-		return false;
 	}
 
 	public static final String pyroURL()

@@ -65,16 +65,16 @@ public class ArtistRequest
                 ArtistRequest.parseResponse( this.getURLString(), this.responseText );
 	}
 
-	public static final boolean parseResponse( final String location, final String responseText )
+	public static final void parseResponse( final String location, final String responseText )
 	{
 		if ( !location.startsWith( "town_wrong.php" ) )
 		{
-			return false;
+			return;
 		}
 
 		if ( location.indexOf( "place=artist" ) == -1 && location.indexOf( "action=whisker" ) == -1 )
 		{
-			return false;
+			return;
 		}
 
 		String message = "You have unlocked a new tattoo.";
@@ -93,17 +93,15 @@ public class ArtistRequest
 			ResultProcessor.processItem( ItemPool.PRETENTIOUS_PALETTE, -1 );
 			ResultProcessor.processItem( ItemPool.PRETENTIOUS_PAINTBRUSH, -1 );
 			ResultProcessor.processItem( ItemPool.PRETENTIOUS_PAIL, -1 );
-			return true;
+			return;
 		}
 
 		if ( location.indexOf( "action=whisker" ) != -1 )
 		{
 			int count = ArtistRequest.WHISKER.getCount( KoLConstants.inventory );
 			ResultProcessor.processItem( ItemPool.RAT_WHISKER, -count );
-			return true;
+			return;
 		}
-
-		return true;
 	}
 
 	public static final boolean registerRequest( final String urlString )
