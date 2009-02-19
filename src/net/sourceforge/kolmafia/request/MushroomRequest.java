@@ -93,9 +93,11 @@ public class MushroomRequest
 		}
 		else if ( urlString.indexOf( "action=buyplot" ) != -1 )
 		{
-			// We should check for positive result, not lack of
-			// negative result
-			if ( responseText.indexOf( "You can't afford" ) == -1 )
+			// Thanks!  It's all yours.  You can buy spores from us
+			// to get your mushroom garden started.  Click a spot
+			// in your plot to buy a spore there.
+
+			if ( responseText.indexOf( "It's all yours." ) != -1 )
 			{
 				ResultProcessor.processMeat( -5000 );
 			}

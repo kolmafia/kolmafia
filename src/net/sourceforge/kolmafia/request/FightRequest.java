@@ -1237,68 +1237,6 @@ public class FightRequest
 		return desiredSkill == 0 ? "attack" : "skill" + desiredSkill;
 	}
 
-	public static final void checkItemRedirection( final String location )
-	{
-		FightRequest.checkItemRedirection( UseItemRequest.extractItem( location ) );
-	}
-
-	public static final void checkItemRedirection( final AdventureResult item )
-	{
-		if ( item == null )
-		{
-			return;
-		}
-
-		int itemId = item.getItemId();
-		String itemName = null;
-		boolean consumed = false;
-
-		switch ( itemId )
-		{
-		case ItemPool.BLACK_PUDDING:
-			itemName = "Black Pudding";
-			Preferences.setInteger( "currentFullness", KoLCharacter.getFullness() - 3 );
-			consumed = true;
-			break;
-
-		case ItemPool.DRUM_MACHINE:
-			itemName = "Drum Machine";
-			consumed = true;
-			break;
-
-		case ItemPool.CARONCH_MAP:
-			itemName = "Cap'm Caronch's Map";
-			break;
-
-		case ItemPool.CURSED_PIECE_OF_THIRTEEN:
-			itemName = "Cursed Piece of Thirteen";
-			break;
-
-		case ItemPool.SPOOKY_PUTTY_MONSTER:
-			itemName = "Spooky Putty Monster";
-			Preferences.setString( "spookyPuttyMonster", "" );
-			ResultProcessor.processItem( ItemPool.SPOOKY_PUTTY_SHEET, 1 );
-			consumed = true;
-			KoLmafia.ignoreSemirare();
-			break;
-
-		default:
-			return;
-		}
-
-		if ( consumed )
-		{
-			ResultProcessor.processResult( item.getInstance( -1 ) );
-		}
-
-		int adventure = KoLAdventure.getAdventureCount();
-		RequestLogger.printLine();
-		RequestLogger.printLine( "[" + adventure + "] " + itemName );
-
-		RequestLogger.updateSessionLog();
-		RequestLogger.updateSessionLog( "[" + adventure + "] " + itemName );
-	}
-
 	private static final void checkForInitiative( final String responseText )
 	{
 		if ( FightRequest.isAutomatingFight )

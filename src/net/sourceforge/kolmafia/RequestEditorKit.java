@@ -409,6 +409,7 @@ public class RequestEditorKit
 		RequestEditorKit.maps.add( "mountains.php" );
 		RequestEditorKit.maps.add( "mclargehuge.php" );
 		RequestEditorKit.maps.add( "island.php" );
+		RequestEditorKit.maps.add( "cove.php" );
 		RequestEditorKit.maps.add( "bigisland.php" );
 		RequestEditorKit.maps.add( "postwarisland.php" );
 		RequestEditorKit.maps.add( "beach.php" );

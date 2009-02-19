@@ -1082,11 +1082,6 @@ public class GenericRequest
 	{
 		InputStream istream = null;
 
-		// In the event of redirects, the appropriate flags should be set
-		// indicating whether or not the direct is a normal redirect (ie:
-		// one that results in something happening), or an error-type one
-		// (ie: maintenance).
-
 		if ( this.shouldUpdateDebugLog() )
 		{
 			RequestLogger.updateDebugLog( "Retrieving server reply..." );
@@ -1199,8 +1194,8 @@ public class GenericRequest
 
 		if ( this.redirectLocation.startsWith( "maint.php" ) )
 		{
-			// If the system is down for maintenance, the user must be
-			// notified that they should try again later.
+			// If the system is down for maintenance, the user must
+			// be notified that they should try again later.
 
 			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Nightly maintenance. Please restart KoLmafia." );
 			GenericRequest.serverCookie = null;
@@ -1233,13 +1228,17 @@ public class GenericRequest
 
 		if ( this.redirectLocation.startsWith( "fight.php" ) )
 		{
-			FightRequest.checkItemRedirection( this.getURLString() );
-
+			GenericRequest.checkItemRedirection( this.getURLString() );
 			if ( this instanceof UseItemRequest )
 			{
 				FightRequest.INSTANCE.run();
 				return !LoginRequest.isInstanceRunning();
 			}
+		}
+
+		if ( this.redirectLocation.startsWith( "choice.php" ) )
+		{
+			GenericRequest.checkItemRedirection( this.getURLString() );
 		}
 
 		if ( this instanceof RelayRequest )
@@ -1687,6 +1686,72 @@ public class GenericRequest
 		// 200 (not a redirect or error).
 
 		RequestSynchFrame.showRequest( this );
+	}
+
+	public static final void checkItemRedirection( final String location )
+	{
+		GenericRequest.checkItemRedirection( UseItemRequest.extractItem( location ) );
+	}
+
+	public static final void checkItemRedirection( final AdventureResult item )
+	{
+		if ( item == null )
+		{
+			return;
+		}
+
+		int itemId = item.getItemId();
+		String itemName = null;
+		boolean consumed = false;
+
+		switch ( itemId )
+		{
+		case ItemPool.BLACK_PUDDING:
+			itemName = "Black Pudding";
+			Preferences.setInteger( "currentFullness", KoLCharacter.getFullness() - 3 );
+			consumed = true;
+			break;
+
+		case ItemPool.DRUM_MACHINE:
+			itemName = "Drum Machine";
+			consumed = true;
+			break;
+
+		case ItemPool.CARONCH_MAP:
+			itemName = "Cap'm Caronch's Map";
+			break;
+
+		case ItemPool.FRATHOUSE_BLUEPRINTS:
+			itemName = "Orcish Frathouse Blueprints";
+			break;
+
+		case ItemPool.CURSED_PIECE_OF_THIRTEEN:
+			itemName = "Cursed Piece of Thirteen";
+			break;
+
+		case ItemPool.SPOOKY_PUTTY_MONSTER:
+			itemName = "Spooky Putty Monster";
+			Preferences.setString( "spookyPuttyMonster", "" );
+			ResultProcessor.processItem( ItemPool.SPOOKY_PUTTY_SHEET, 1 );
+			consumed = true;
+			KoLmafia.ignoreSemirare();
+			break;
+
+		default:
+			return;
+		}
+
+		if ( consumed )
+		{
+			ResultProcessor.processResult( item.getInstance( -1 ) );
+		}
+
+		int adventure = KoLAdventure.getAdventureCount();
+		RequestLogger.printLine();
+		RequestLogger.printLine( "[" + adventure + "] " + itemName );
+
+		RequestLogger.updateSessionLog();
+		RequestLogger.updateSessionLog( "[" + adventure + "] " + itemName );
 	}
 
 	public final void loadResponseFromFile( final String filename )
