@@ -2949,7 +2949,7 @@
 2948	shot of rotgut	2	all	50
 2949	jar of &quot;Creole Lady&quot; marrrmalade	4	all	45
 2950	Cap'm Caronch's Map	3	none	0
-2951	Orcish Frat House blueprints	0	none	0
+2951	Orcish Frat House blueprints	3	none	0
 2952	blue glowstick	8	display	0
 2953	charrrm bracelet	0	all	30
 2954	tip jar	13	all	140
