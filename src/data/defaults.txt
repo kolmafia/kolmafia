@@ -524,6 +524,7 @@ user	choiceAdventure182	1
 user	choiceAdventure184	1
 user	choiceAdventure185	3
 user	choiceAdventure186	1
+user	choiceAdventure188	0
 user	choiceAdventure189	1
 user	choiceAdventure191	1
 user	choiceAdventure197	1

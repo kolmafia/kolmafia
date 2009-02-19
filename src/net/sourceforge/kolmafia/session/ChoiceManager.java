@@ -816,9 +816,13 @@ public abstract class ChoiceManager
 			new String[] { "stats", "drunkenness and stats", "moxie" } ),
 
 		// Choice 187 is Arrr You Man Enough?
-		// Choice 188 is The Infiltrationist
-		// Choice 189 is O Cap'm, My Cap'm
 
+		// The Infiltrationist
+		new ChoiceAdventure(
+			"Item-Driven", "choiceAdventure188", "Frathouse Blueprints",
+			new String[] { "frat boy ensemble", "mullet wig and briefcase", "frilly skirt and hot wings" } ),
+
+		// Choice 189 is O Cap'm, My Cap'm
 		// Choice 190 is unknown
 
 		// Chatterboxing
