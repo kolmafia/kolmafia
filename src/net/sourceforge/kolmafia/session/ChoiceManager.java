@@ -2087,6 +2087,16 @@ public abstract class ChoiceManager
 			AdventureResult.addResultToList( KoLConstants.inventory, glove );
 			ResultProcessor.processItem( ItemPool.SPOOKY_GLOVE, -1 );
 			break;
+		
+		case 21:
+			// Under the Knife
+			if ( ChoiceManager.lastDecision == 1 &&
+				text.indexOf( "anaesthetizes you" ) != -1 )
+			{
+				KoLCharacter.setGender( text.indexOf( "in more ways than one" ) != -1 ?
+					KoLCharacter.FEMALE : KoLCharacter.MALE );
+			}
+			break;
 
 		case 48: case 49: case 50: case 51: case 52:
 		case 53: case 54: case 55: case 56: case 57:

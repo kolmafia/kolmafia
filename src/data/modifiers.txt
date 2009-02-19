@@ -22,6 +22,7 @@
 #	T - turns remaining of this effect
 #	U - telescope upgrades
 #	W - familiar weight
+#	X - gender (-1=male, 1=female)
 #
 # Items which "change with every new day":
 #
@@ -171,8 +172,7 @@ orange traffic cone	Moxie: +3, Spooky Resistance: +2
 oriole-feather headdress	Maximum HP: +1, Maximum MP: +1, Familiar Effect: "atk, 3xVolley, cap 3"
 outrageous sombrero	Moxie: +5, Muscle: +5, Mysticality: +5, Initiative: -20, Familiar Effect: "1.5xLep, 1.5xFairy, cap 25"
 pail	Damage Absorption: +10, Familiar Effect: "2xFairy, cap 7"
-# panhandle panhandling hat: +30% Food Drops from Monsters
-panhandle panhandling hat	Familiar Effect: "1xLep, cap 37"
+panhandle panhandling hat	Food Drop: +30, Familiar Effect: "1xLep, cap 37"
 # parasitic headgnawer: Deals 30-45 damage to attackers
 # party hat: (On the Festival of Jarlsberg only)
 party hat	MP Regen Min: [3*J], MP Regen Max: [5*J], Mysticality: +3, Familiar Effect: "4xLep, cap 7"
@@ -198,9 +198,7 @@ spooky hockey mask	Spooky Resistance: +2, Spooky Damage: +3, Familiar Effect: "1
 stainless steel skullcap	Maximum HP: +30, Damage Absorption: +60, Muscle Percent: +15, Familiar Effect: "1xLep, 1xFairy, cap 22"
 star hat	Maximum MP: +30, Familiar Effect: "0.5xVolley, 0.5xPotato, cap 41"
 stone baseball cap	Damage Reduction: 10, Weapon Damage: +15, Muscle: -10, Familiar Effect: "1xVolley, cap 48"
-# straw hat: +15% Food Drops from Monsters
-# straw hat: +15% Booze Drops from Monsters
-straw hat	Item Drop: +10, Familiar Effect: "??"
+straw hat	Item Drop: +10, Food Drop: +15, Booze Drop: +15, Familiar Effect: "??"
 superhero mask	Moxie: +5, Muscle: +5, Mysticality: +5, Softcore Only, Familiar Effect: "?xLep, ?xFairy, cap 2"
 tattered paper crown	Muscle: +3, Familiar Effect: "1xSombrero, cap 15"
 time helmet	Adventures: +3, Familiar Effect: "0.5xPotato, 1xFairy, cap 25"
@@ -429,8 +427,7 @@ Gnollish autoplunger	Mysticality: +3
 Gnollish pie server	Spell Damage: +3
 # Gnollish plunger
 Gnollish slotted spoon	Spell Damage: +3
-# Greek Pasta of Peril: +10% Food Drops from Monsters
-Greek Pasta of Peril	Mysticality: +11, Initiative: +25
+Greek Pasta of Peril	Mysticality: +11, Initiative: +25, Food Drop: +10
 Grimacite gat	Initiative: +20, Moxie Percent: [10*G]
 Grimacite glaive	Weapon Damage: +15, Muscle Percent: [10*G]
 Hammer of Smiting	Muscle: +16, Critical: 3
@@ -736,10 +733,8 @@ toy ray gun	Hot Damage: +5, Critical: 2
 trusty torch	Hot Damage: +3
 # two-handed depthsword
 vampire duck-on-a-string	Weapon Damage: +5, Item Drop: +5
-# velcro broadsword: +20% Hat/Pants Drops from Monsters
-velcro broadsword	Muscle Percent: +5, MP Regen Min: 6, MP Regen Max: 12
-# velcro paddle ball: +20% Accessory Drops from Monsters
-velcro paddle ball	Moxie Percent: +5, MP Regen Min: 6, MP Regen Max: 12
+velcro broadsword	Muscle Percent: +5, MP Regen Min: 6, MP Regen Max: 12, Hat Drop: +20, Pants Drop: +20
+velcro paddle ball	Moxie Percent: +5, MP Regen Min: 6, MP Regen Max: 12, Accessory Drop: +20
 vibrating cyborg knife	Weapon Damage: +20, Fumble: 3
 vorpal blade	Critical: 2
 war tongs	Hot Damage: +10, Hot Spell Damage: +10
@@ -757,7 +752,7 @@ yohohoyo	Critical: 2, Spooky Damage: +1, Stench Damage: +1, Hot Damage: +1, Cold
 
 # Off-hand section of modifiers.txt
 
-# &quot;WILL WORK FOR BOOZE&quot; sign: +30% Booze Drops from Monsters
+&quot;WILL WORK FOR BOOZE&quot; sign	Booze Drop: +30
 1-ball	Initiative: +5
 17-ball	Spooky Damage: +20, Stench Damage: +20, Hot Damage: +20, Cold Damage: +20, Sleaze Damage: +20
 2-ball	Cold Damage: +5, Cold Spell Damage: +5
@@ -912,14 +907,13 @@ off-hand balloon	Muscle: +1, Mysticality: +1, Moxie: +1
 parasitic strangleworm	Damage Reduction: 15
 penguin skin buckler	Moxie: +5, Damage Reduction: 5
 penguin thesaurus	Mysticality: +1, Maximum HP: +5, Maximum MP: +5
-# pilgrim shield: +50% Weapon Drops from Monsters
-pilgrim shield	Maximum HP: +30, Weapon Damage: +15, Experience: +3, HP Regen Min: 10, HP Regen Max: 12, Damage Reduction: [L], Softcore Only
+pilgrim shield	Maximum HP: +30, Weapon Damage: +15, Experience: +3, HP Regen Min: 10, HP Regen Max: 12, Damage Reduction: [L], Weapon Drop: +50, Softcore Only
 pirate hook	Weapon Damage: +3
 pixel shield	Muscle: +5, Damage Reduction: 3
 polyalloy shield	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1, Muscle: +10, Damage Reduction: 9
 rag doll	Muscle: +3
 # red balloon
-# rice bowl: +20% Food Drops from Monsters
+rice bowl	Food Drop: +20
 rusty compass	Initiative: +30
 # rusty old lantern
 sawblade shield	Weapon Damage: +11, Damage Reduction: 11
@@ -965,8 +959,7 @@ teflon shield	Muscle Percent: +10, Damage Reduction: 10, Damage Absorption: +50
 # thought balloon
 tip jar	Meat Drop: +5
 tropical paperweight	Experience: +1
-# velcro shield: +25% Weapon Drops from Monsters
-velcro shield	Mysticality Percent: +10, Damage Reduction: 10
+velcro shield	Mysticality Percent: +10, Damage Reduction: 10, Weapon Drop: +25
 vinyl shield	Moxie Percent: +10, Damage Reduction: 10, Monster Level: +25
 voodoo doll	Mysticality: +1
 wad of Crovacite	Muscle: +5, Mysticality: +5, Moxie: +5, Spooky Damage: +5
@@ -1274,7 +1267,7 @@ round purple sunglasses	Sleaze Resistance: +1, Single Equip
 # rubber WWJD? bracelet
 # rubber WWSPD? bracelet
 # rubber WWtNSD? bracelet
-# rum barrel charrrm bracelet: +5% Booze Drops from Monsters
+rum barrel charrrm bracelet	Booze Drop: +5
 rusty chain necklace	Muscle: +9, Maximum HP: +25
 second-hand knockoff engagement ring	Muscle: +1, Mysticality: +1, Moxie: +1, Single Equip
 severed rocking horse head	Muscle: +3, Mysticality: +3, Moxie: +3
@@ -1344,7 +1337,7 @@ tiny plastic Sneaky Pete	Moxie: +5, Muscle: +3, Mysticality: +3
 tiny plastic Spam Witch	Monster Level: +1
 tiny plastic Spunky Princess	Monster Level: +1
 tiny plastic Susie	Muscle: +5, Mysticality: +5, Moxie: +5
-# tiny plastic The Big Wisniewski: +3% Food Drops from Monsters
+tiny plastic The Big Wisniewski	Food Drop: +3
 tiny plastic The Man	Meat Drop: +3
 tiny plastic Trouser Snake	Monster Level: +1
 tiny plastic Uncle Crimbo	Muscle: +1, Mysticality: +1, Moxie: +1
@@ -1424,7 +1417,7 @@ toy maglev monorail	Meat Drop: +10, Single Equip
 toy train	Meat Drop: +10, Single Equip
 tube sock	Moxie: +20, Single Equip
 velcro boots	Mysticality Percent: +10, MP Regen Min: 12, MP Regen Max: 24, Initiative: -50, Single Equip
-vinyl boots	Moxie Percent: +15, HP Regen Min: 15, HP Regen Max: 30, Weapon Damage Percent: +10, Single Equip
+vinyl boots	Moxie Percent: [15*X], HP Regen Min: 15, HP Regen Max: 30, Weapon Damage Percent: +10, Single Equip
 walrus-tusk earring	Maximum HP: +10
 # water wings
 wheel	Initiative: +10
@@ -1719,8 +1712,8 @@ Broken Fast	Item Drop: +30
 Broken Heart	Muscle: [min(T,20)], HP Regen Min: [min(T,20)], HP Regen Max: [min(T,20)]
 Broken Knees	Muscle Percent: -30
 # Brother Corsican's Blessing: +2 Familiar Experience Per Fight
-# Brother Flying Burrito's Blessing: +30% Food Drops from Monsters
-# Brother Smothers's Blessing: +30% Booze Drops from Monsters
+Brother Flying Burrito's Blessing	Food Drop: +30
+Brother Smothers's Blessing	Booze Drop: +30
 Bubble, Bubble	Moxie: -5, Muscle: +5
 Bureaucratized	Familiar Weight: +10
 Burning Ears	Hot Spell Damage: +11, Cold Resistance: +3
