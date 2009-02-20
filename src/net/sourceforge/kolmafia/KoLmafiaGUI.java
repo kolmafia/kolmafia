@@ -153,13 +153,10 @@ public class KoLmafiaGUI
 	{
 		super.initialize( username );
 
-		if ( GenericRequest.passwordHash != null )
+		if ( !GenericRequest.passwordHash.equals( "" ) && Preferences.getBoolean( "retrieveContacts" ) )
 		{
-			if ( Preferences.getBoolean( "retrieveContacts" ) )
-			{
-				RequestThread.postRequest( new ContactListRequest() );
-				Preferences.setString( "retrieveContacts", String.valueOf( !KoLConstants.contactList.isEmpty() ) );
-			}
+			RequestThread.postRequest( new ContactListRequest() );
+			Preferences.setString( "retrieveContacts", String.valueOf( !KoLConstants.contactList.isEmpty() ) );
 		}
 
 		LoginFrame.hideInstance();

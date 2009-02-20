@@ -120,8 +120,7 @@ public class LoginRequest
 
 		KoLmafia.updateDisplay( "Validating login server (" + GenericRequest.KOL_HOST + ")..." );
 
-		GenericRequest.serverCookie = null;
-		GenericRequest.passwordHash = "";
+		GenericRequest.reset();
 
 		this.clearDataFields();
 
@@ -242,7 +241,7 @@ public class LoginRequest
 
 	public void run()
 	{
-		GenericRequest.serverCookie = null;
+		GenericRequest.reset();
 		LocalRelayAgent.reset();
 
 		if ( Preferences.getBoolean( "saveStateActive" ) )

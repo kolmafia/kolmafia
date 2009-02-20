@@ -323,7 +323,6 @@ public abstract class KoLmafia
 	public static final void main( final String[] args )
 	{
 		boolean useGUI = true;
-		GenericRequest.setUserAgent();
 
 		for ( int i = 0; i < args.length; ++i )
 		{
@@ -929,10 +928,10 @@ public abstract class KoLmafia
 			RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.CLOSET ) );
 		}
 
-		// If the password hash is non-null, but is not available,
-		// then that means you might be mid-transition.
+		// If the password hash is not available, then that means you
+		// might be mid-transition.
 
-		if ( GenericRequest.passwordHash != null && GenericRequest.passwordHash.equals( "" ) )
+		if ( GenericRequest.passwordHash.equals( "" ) )
 		{
 			return;
 		}
