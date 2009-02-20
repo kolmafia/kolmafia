@@ -866,7 +866,7 @@ eyedrops of newt	SAUCE	scrumptious reagent	eye of newt
 Frogade	SAUCE	scrumptious reagent	squashed frog
 
 papotion of papower	SAUCE	scrumptious reagent	papaya
-
+concoction of clumsiness	SAUCE	scrumptious reagent	lion oil
 
 # Advanced Sauces
 

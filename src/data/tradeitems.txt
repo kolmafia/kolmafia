@@ -3743,11 +3743,11 @@
 3742
 3743	unstable quark	0	all	1
 3744	software glitch	25	all	13
-3745
+3745	fumble formula	3	all 0
 3746
 3747	mother's secret recipe	3	all	0
 3748
-3749
+3749	concoction of clumsiness	4	all	66
 3750
 3751	white chocolate chip brownies	1	all	45
 3752

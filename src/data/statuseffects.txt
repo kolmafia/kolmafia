@@ -610,6 +610,6 @@
 609	Sweet Heart	heart.gif	22802c16d2d88db8e1c0aa6594c34c06	use 1 love song of sugary cuteness
 610	Withered Heart	heart.gif	7721eaaa3f6b3dd257f38045cddc24ed	use 1 love song of disturbing obsession
 611	Lustful Heart	heart.gif	35a0e93898e18f500d1d0c7eec8e8ef1	use 1 love song of naughty innuendo
-612
-613
+612	Clumsy	sad.gif	63fa9abd19f2d77636e52d591b54f589	use 1 concoction of clumsiness
+613	Spectral	specjelly.gif	810bbc77f3ef220d9d77ed395b9cc70c
 614	Donho's Bubbly Ballad	notes.gif	3337ba138b0e4d48f070bca9711139b5	cast 1 Donho's Bubbly Ballad
