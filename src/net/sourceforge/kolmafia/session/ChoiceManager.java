@@ -1068,6 +1068,12 @@ public abstract class ChoiceManager
 
 		// Choice 306 is [Grandpa Mine Choice]
 		// Choice 308 is Boxing the Juke
+
+		// Barback
+		new ChoiceAdventure(
+			"The Sea", "choiceAdventure309", "The Dive Bar",
+			new String[] { "seaode", "skip adventure" },
+			new String[] { "3773", null } ),
 	};
 
 	static
@@ -1660,6 +1666,10 @@ public abstract class ChoiceManager
 		case 305:
 			// There is Sauce at the Bottom of the Ocean
 			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "The Marinara Trench" );
+
+		case 309:
+			// Barback
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "The Dive Bar" );
 		}
 		return null;
 	}
@@ -1814,6 +1824,17 @@ public abstract class ChoiceManager
 			result[ 1 ] = "skip adventure";
 
 			return result;
+
+		case 309:
+			// Barback
+			result = new String[ 2 ];
+
+			int seaodes = 3 - Preferences.getInteger( "seaodesFound" );
+
+			result[ 0 ] = seaodes + " more seodes available today";
+			result[ 1 ] = "skip adventure";
+
+			return result;
 		}
 		return null;
 	}
@@ -1890,6 +1911,7 @@ public abstract class ChoiceManager
 				// Bail now and let the user finish by hand.
 
 				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Encountered choice adventure with no choices." );
+				RequestThread.enableDisplayIfSequenceComplete();
 				request.showInBrowser( true );
 				return;
 			}
@@ -1908,8 +1930,9 @@ public abstract class ChoiceManager
 			if ( decision.equals( "0" ) )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Manual control requested for choice #" + choice );
-				request.showInBrowser( true );
+				RequestThread.enableDisplayIfSequenceComplete();
 				StaticEntity.printRequestData( request );
+				request.showInBrowser( true );
 				return;
 			}
 
@@ -1918,8 +1941,9 @@ public abstract class ChoiceManager
 			if ( decision.equals( "" ) )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Unsupported choice adventure #" + choice );
-				request.showInBrowser( true );
+				RequestThread.enableDisplayIfSequenceComplete();
 				StaticEntity.printRequestData( request );
+				request.showInBrowser( true );
 				return;
 			}
 
@@ -2186,6 +2210,7 @@ public abstract class ChoiceManager
 			if ( ChoiceManager.lastDecision == 2 && KoLmafia.isAdventuring() )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, ChoiceManager.hobopolisBossName( ChoiceManager.lastChoice) + " waits for you." );
+				RequestThread.enableDisplayIfSequenceComplete();
 			}
 			break;
 
@@ -2266,6 +2291,20 @@ public abstract class ChoiceManager
 			}
 
 			Preferences.increment( "tempuraSummons", 1 );
+			break;
+
+		case 309:
+			// Barback
+
+			// "You head down the tunnel into the cave, and manage
+			// to find another seaode. Sweet! I mean... salty!"
+
+			if ( text.indexOf( "salty!" ) == -1 )
+			{
+				return;
+			}
+
+			Preferences.increment( "seaodesFound", 1 );
 			break;
 		}
 
@@ -2575,6 +2614,7 @@ public abstract class ChoiceManager
 		}
 
 		KoLmafia.updateDisplay( state, message );
+		RequestThread.enableDisplayIfSequenceComplete();
 	}
 
 	private static final String specialChoiceDecision( final String choice, final String option, final String decision, final int stepCount )

@@ -348,6 +348,7 @@ user	relayCounters
 user	requireBoxServants	false
 user	requireSewerTestItems	false
 user	retrieveContacts	true
+user	seaodesFound	0
 user	semirareCounter	0
 user	semirareLocation
 user	serverAddsCustomCombat	false
@@ -582,3 +583,4 @@ user	choiceAdventure304	1
 user	choiceAdventure305	1
 user	choiceAdventure306	1
 user	choiceAdventure308	1
+user	choiceAdventure309	1
