@@ -116,7 +116,7 @@ public class FightRequest
 	private static final Pattern FUMBLE_PATTERN =
 		Pattern.compile( "You drop your .*? on your .*?, doing [\\d,]+ damage" );
 	private static final Pattern ELEMENTAL_PATTERN =
-		Pattern.compile( "<font color=[\"]?\\w+[\"]?><b>\\+?([\\d,]+)</b></font> (?:damage|points|HP worth)" );
+		Pattern.compile( "<font color=[\"]?\\w+[\"]?><b>\\+?([\\d,]+)</b></font> (\\([^.]*\\) |)(?:damage|points|HP worth)" );
 	private static final Pattern CLEESH_PATTERN =
 		Pattern.compile( "You cast CLEESH at your opponent.*?turns into a (\\w*)", Pattern.DOTALL );
 	private static final Pattern WORN_STICKER_PATTERN =
@@ -2113,31 +2113,39 @@ public class FightRequest
 		while ( damageMatcher.find() )
 		{
 			damageThisRound += StringUtilities.parseInt( damageMatcher.group( 1 ) );
+
+			Matcher secondaryMatcher = FightRequest.SECONDARY_PATTERN.matcher( damageMatcher.group( 2 ) );
+			while ( secondaryMatcher.find() )
+			{
+				damageThisRound += StringUtilities.parseInt( secondaryMatcher.group( 1 ) );
+			}
 		}
 
 		damageMatcher = FightRequest.PHYSICAL_PATTERN.matcher( responseText );
 
 		for ( int i = 0; damageMatcher.find(); ++i )
 		{
-			// In a fumble, the first set of text indicates that there is
-			// no actual damage done to the monster.
+			// In a fumble, the first set of text indicates that
+			// there is no actual damage done to the monster.
 
 			if ( i == 0 && fumbled )
 			{
 				continue;
 			}
 
-			// Currently, all of the explicit attack messages that preceed
-			// the number all imply that this is not damage against the
-			// monster or is damage that should not count (reap/sow X damage.)
+			// Currently, all of the explicit attack messages that
+			// preceed the number all imply that this is not damage
+			// against the monster or is damage that should not
+			// count (reap/sow X damage.)
 
 			if ( !damageMatcher.group( 1 ).equals( "" ) )
 			{
 				continue;
 			}
 
-			// "shambles up to your opponent" following a number is most
-			// likely a familiar naming problem, so it should not count.
+			// "shambles up to your opponent" following a number is
+			// most likely a familiar naming problem, so it should
+			// not count.
 
 			if ( damageMatcher.group( 4 ).equals( "shambles up " ) )
 			{
@@ -2147,7 +2155,8 @@ public class FightRequest
 			damageThisRound += StringUtilities.parseInt( damageMatcher.group( 2 ) );
 
 			// The last string contains all of the extra damage
-			// from dual-wielding or elemental damage, e.g. "(+3) (+10)".
+			// from dual-wielding or elemental damage, e.g. "(+3)
+			// (+10)".
 
 			Matcher secondaryMatcher = FightRequest.SECONDARY_PATTERN.matcher( damageMatcher.group( 3 ) );
 			while ( secondaryMatcher.find() )
