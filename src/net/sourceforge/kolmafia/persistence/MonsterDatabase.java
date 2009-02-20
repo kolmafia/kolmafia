@@ -125,19 +125,25 @@ public class MonsterDatabase
 				for ( int i = 2; i < data.length; ++i )
 				{
 					String name = data[ i ];
-					int left = name.indexOf( " (" );
 					AdventureResult item = null;
 
-					if ( left == -1 || ItemDatabase.getItemId( name, 1 ) != -1 )
+					if ( !name.endsWith( ")" ) )
 					{
 						item = new AdventureResult( name, 0 );
 					}
 					else
 					{
-						int right = name.indexOf( ")", left );
-						int count = StringUtilities.parseInt( name.substring( left +2, right ) );
+						int left = name.lastIndexOf( " (" );
+						int count = StringUtilities.parseInt( name.substring( left + 2 ) );
 						name = name.substring( 0, left );
-						item = new AdventureResult( name, count );
+						if ( ItemDatabase.getItemId( name, 1 ) != -1 )
+						{
+							item = new AdventureResult( name, count );
+						}
+						else
+						{
+							item = new AdventureResult( data[ i ], 0 );
+						}
 					}
 
 					if ( item != null )
