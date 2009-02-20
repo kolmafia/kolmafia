@@ -294,7 +294,13 @@ public class LoginRequest
 		// wait a minute (Literally, like, one minute.	Sixty seconds.)
 		// and try again.
 
-		if ( this.responseText.indexOf( "Please wait a minute" ) != -1 )
+		// Whoops -- it looks like you had a recent session open that
+		// didn't get logged out of properly.  We apologize for the
+		// inconvenience, but you'll need to wait a couple of minutes
+		// before you can log in again.
+
+		if ( this.responseText.indexOf( "wait a minute" ) != -1 ||
+                     this.responseText.indexOf( "wait a couple of minutes" ) != -1 )
 		{
 			StaticEntity.executeCountdown( "Login reattempt in ", 75 );
 			this.run();

@@ -1572,6 +1572,11 @@ public class RelayRequest
 
 		super.run();
 
+		// The request might have printed to the status line, so enable
+		// the GUI
+
+		KoLmafia.enableDisplay();
+
 		if ( this.responseCode == 302 )
 		{
 			this.pseudoResponse( "HTTP/1.1 302 Found", this.redirectLocation );
