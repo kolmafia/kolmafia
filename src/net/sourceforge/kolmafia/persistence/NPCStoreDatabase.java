@@ -91,7 +91,7 @@ public class NPCStoreDatabase
 
 	public static final MallPurchaseRequest getPurchaseRequest( final String itemName )
 	{
-		int itemId = ItemDatabase.getItemId( itemName );
+		int itemId = ItemDatabase.getItemId( itemName, 1, false );
 
 		MallPurchaseRequest foundItem = null;
 

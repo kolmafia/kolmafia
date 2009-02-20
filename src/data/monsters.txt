@@ -624,7 +624,7 @@ War Frat Elite Wartender	HP: 220 Def: 185 Atk: 195 E: sleaze	beer bomb (20)	beer
 War Frat Grill Sergeant	HP: 100 Def: 165 Atk: 190 E: sleaze	Frat Army FGF (5)	kick-ass kicks (10)	Monstar energy beverage (20)	PADL Phone (3)	war tongs (17)
 War Frat Kegrider	HP: 300 Atk: 170 E: sleaze	beer bong (5)	beer helmet (1)	bejeweled pledge pin (1)	distressed denim pants (1)	furniture dolly (15)	PADL Phone (5)
 War Frat Mobile Grill Unit	HP: 215 Atk: 195 E: sleaze	beer helmet (2)	bejeweled pledge pin (1)	distressed denim pants (2)	Frat Army FGF (5)	PADL Phone (11)	sausage bomb (41)	shiny hood ornament (25)	white class ring (31)
-War Frat Senior Grill Sergeant	HP: 120 Def: 170 Atk: 210 E: sleaze	asbestos apron (0)	Frat Army FGF (20)kick-ass kicks (15)	Monstar energy beverage (31)	PADL Phone (4)	war tongs (19)
+War Frat Senior Grill Sergeant	HP: 120 Def: 170 Atk: 210 E: sleaze	asbestos apron (0)	Frat Army FGF (20)	kick-ass kicks (15)	Monstar energy beverage (31)	PADL Phone (4)	war tongs (19)
 War Frat Streaker	HP: 0 Meat: 400-418 E: sleaze	white class ring (0)	tube sock (100)	distressed denim pants (0)
 War Frat Wartender	HP: 200 Def: 175 Atk: 185 E: sleaze	beer bomb (14)	beer bomb (7)	beer helmet (1)	bejeweled pledge pin (1)	distressed denim pants (1)	kick-ass kicks (3)	molotov cocktail cocktail (0)	PADL Phone (2)	red class ring (30)	sake bomb (22)	sake bomb (22)	tequila grenade (0)
 War Hippy (Space) Cadet	HP: 180 Atk: 165	round purple sunglasses (5)	reinforced beaded headband (5)	bullet-proof corduroys (5)
