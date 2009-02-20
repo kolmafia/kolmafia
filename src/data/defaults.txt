@@ -71,6 +71,7 @@ global	lastBuffRequestType	0
 global	lastRelayUpdate
 global	lastRssUpdate	0
 global	lastRssVersion
+global	lastUserAgent
 global	lastUsername
 global	libramSkillsHardcore	none
 global	libramSkillsSoftcore	none

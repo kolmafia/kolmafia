@@ -468,8 +468,7 @@ public class FightRequest
 		
 		if ( FightRequest.action1.equals( "special" ) )
 		{
-			if ( GenericRequest.passwordHash == null ||
-				!FightRequest.getSpecialAction() )
+			if ( GenericRequest.passwordHash.equals( "" ) || !FightRequest.getSpecialAction() )
 			{
 				--FightRequest.preparatoryRounds;
 				this.nextRound();
@@ -768,7 +767,7 @@ public class FightRequest
 		}
 
 		// Skills use MP. Make sure the character has enough
-		if ( KoLCharacter.getCurrentMP() < FightRequest.getActionCost() && GenericRequest.passwordHash != null )
+		if ( KoLCharacter.getCurrentMP() < FightRequest.getActionCost() && !GenericRequest.passwordHash.equals( "" ) )
 		{
 			if ( !Preferences.getBoolean( "autoManaRestore" ) )
 			{

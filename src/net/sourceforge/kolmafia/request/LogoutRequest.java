@@ -92,7 +92,7 @@ public class LogoutRequest
 		RequestLogger.closeMirror();
 
 		KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Logout request submitted." );
-		GenericRequest.serverCookie = null;
+		GenericRequest.reset();
 		LogoutRequest.isRunning = false;
 	}
 }

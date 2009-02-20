@@ -109,10 +109,6 @@ public class GenericRequest
 
 	public static final Pattern REDIRECT_PATTERN = Pattern.compile( "([^\\/]+)\\/login\\.php", Pattern.DOTALL );
 
-	public static String inventoryCookie = null;
-	public static String serverCookie = null;
-
-	public static String passwordHash = "";
 	public static boolean isRatQuest = false;
 	public static boolean isBarrelSmash = false;
 	public static boolean handlingChoices = false;
@@ -156,6 +152,21 @@ public class GenericRequest
 	public HttpURLConnection formConnection;
 	public String redirectLocation;
 	public String date;
+
+        // Per-login data
+
+	private static String userAgent = "";
+	public static String serverCookie = null;
+	public static String inventoryCookie = null;
+	public static String passwordHash = "";
+
+	public static void reset()
+	{
+                GenericRequest.setUserAgent();
+		GenericRequest.serverCookie = null;
+		GenericRequest.inventoryCookie = null;
+		GenericRequest.passwordHash = "";
+	}
 
 	/**
 	 * static final method called when <code>GenericRequest</code> is first instantiated or whenever the settings have
@@ -693,7 +704,7 @@ public class GenericRequest
 			}
 		}
 
-		if ( GenericRequest.passwordHash != null )
+		if ( !GenericRequest.passwordHash.equals( "" ) )
 		{
 			if ( dataBuffer.length() > 0 )
 			{
@@ -999,7 +1010,7 @@ public class GenericRequest
 			}
 		}
 
-		this.formConnection.setRequestProperty( "User-Agent", GenericRequest.getUserAgent() );
+		this.formConnection.setRequestProperty( "User-Agent", GenericRequest.userAgent );
 
 		if ( this.dataChanged )
 		{
@@ -1198,7 +1209,7 @@ public class GenericRequest
 			// be notified that they should try again later.
 
 			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Nightly maintenance. Please restart KoLmafia." );
-			GenericRequest.serverCookie = null;
+			GenericRequest.reset();
 			return true;
 		}
 
@@ -1797,18 +1808,20 @@ public class GenericRequest
 		return this.getURLString();
 	}
 
-	private static String savedUserAgent = "";
-	private static String userAgent = "";
+	private static String lastUserAgent = "";
 
-	public static final String getUserAgent()
+	public static final void saveUserAgent( final String agent )
 	{
-		return GenericRequest.userAgent;
+		if ( !agent.equals( GenericRequest.lastUserAgent ) )
+		{
+			GenericRequest.lastUserAgent = agent;
+			Preferences.setString( "lastUserAgent", agent );
+		}
 	}
 
 	public static final void setUserAgent()
 	{
-		GenericRequest.savedUserAgent = Preferences.getString( "userAgent" );
-		GenericRequest.setUserAgent( GenericRequest.savedUserAgent.equals( "" ) ? KoLConstants.VERSION_NAME : GenericRequest.savedUserAgent );
+		GenericRequest.setUserAgent( KoLConstants.VERSION_NAME );
 	}
 
 	public static final void setUserAgent( final String agent )
@@ -1817,15 +1830,6 @@ public class GenericRequest
 		{
 			GenericRequest.userAgent = agent;
 			System.setProperty( "http.agent", GenericRequest.userAgent );
-		}
-	}
-
-	public static final void saveUserAgent( final String agent )
-	{
-		if ( !agent.equals( GenericRequest.savedUserAgent ) )
-		{
-			GenericRequest.savedUserAgent = agent;
-			Preferences.setString( "userAgent", agent );
 		}
 	}
 
