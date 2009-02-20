@@ -231,7 +231,7 @@ Disease-In-The-Box	HP: 14 Def: 18 Atk: 18	box (30)	disease (40)
 Diving Belle	HP: 750 Def: 500 Atk: 400 E: spooky	diving muff (0)	salinated mint julep (0)
 Dodecapede	HP: 8 Def: 12 Atk: 12 "A Little Bit Poisoned"
 Doughbat	HP: 8 Def: 14 Atk: 14 EA: sleaze Meat: 17-27	sonar-in-a-biscuit (20)	wad of dough (30)
-Dr. Awkward	HP: 200 Atk: 170	Drowsy Sword (100)	Staff of Fats (100)
+Dr. Awkward	HP: 200 Atk: 170	Drowsy Sword (100)	Staff of Fats (100)	fumble formula (0)
 Drab Bard	HP: 170 Def: 138 Atk: 136 Meat: 34-54	drab sonata (30)	guitar pick (15)	olive (40)
 Drowned Sailor	HP: 700 Def: 450 Atk: 400 Meat: 120-180	moist sailor's cap (0)	rusty compass (0)	rusty speargun (0)
 Drunk Duck	HP: 173 Atk: 165 Meat: 188-216	bottle of gin (0)	bottle of rum (0)	bottle of tequila (0)	bottle of vodka (0)	bottle of whiskey (0)	boxed wine (0)	duct tape (0)
