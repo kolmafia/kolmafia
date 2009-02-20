@@ -2798,6 +2798,30 @@ public abstract class ChoiceManager
 				}
 			}
 			return decision;
+
+		// A Vent Horizon
+		case 304:
+
+			// If we've already summoned three batters today,
+			// ignore this choice adventure.
+
+			if ( decision.equals( "1" ) && Preferences.getInteger( "tempuraSummons" ) == 3 )
+			{
+				return "2";
+			}
+			return decision;
+
+		// Barback
+		case 309:
+
+			// If we've already found three seaodes today,
+			// ignore this choice adventure.
+
+			if ( decision.equals( "1" ) && Preferences.getInteger( "seaodesFound" ) == 3 )
+			{
+				return "2";
+			}
+			return decision;
 		}
 
 		return decision;
