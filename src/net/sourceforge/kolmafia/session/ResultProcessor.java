@@ -417,7 +417,7 @@ public class ResultProcessor
 		}
 
 		int itemCount = StringUtilities.parseInt( countString );
-		AdventureResult result = ItemPool.get( ItemDatabase.getItemId( itemName, itemCount ), itemCount );
+		AdventureResult result = ItemPool.get( ItemDatabase.getItemId( itemName, itemCount, false ), itemCount );
 
 		ResultProcessor.processItem( acquisition, result, data );
 	}

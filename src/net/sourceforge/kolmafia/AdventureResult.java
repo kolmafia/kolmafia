@@ -186,7 +186,7 @@ public class AdventureResult
 		this.name = ItemDatabase.getItemName( itemId );
 		this.itemId = itemId;
 		this.count = new int[] { count };
-		this.normalizeItemName();
+		this.priority = AdventureResult.ITEM_PRIORITY;
 	}
 
 	/**
@@ -335,7 +335,7 @@ public class AdventureResult
 	{
 		AdventureResult item = new AdventureResult( AdventureResult.NO_PRIORITY, name );
 		item.priority = AdventureResult.ITEM_PRIORITY;
-		item.itemId = setItemId ? ItemDatabase.getItemId( name, 1 ) : -1;
+		item.itemId = setItemId ? ItemDatabase.getItemId( name, 1, false ) : -1;
 		return item;
 	}
 	
@@ -580,7 +580,7 @@ public class AdventureResult
                 // Hand craft an item Adventure Result, regardless of the name
 		AdventureResult item = new AdventureResult( AdventureResult.NO_PRIORITY, name );
 		item.priority = AdventureResult.ITEM_PRIORITY;
-		item.itemId = ItemDatabase.getItemId( name, 1 );
+		item.itemId = ItemDatabase.getItemId( name, 1, false );
 		item.count[0] = count;
 
 		return item;
