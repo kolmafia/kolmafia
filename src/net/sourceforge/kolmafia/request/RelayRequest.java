@@ -366,6 +366,13 @@ public class RelayRequest
 		StringUtilities.globalStringReplace( responseBuffer, " name=adv ", " name=snarfblat " );
 
 		this.responseText = responseBuffer.toString();
+
+		if ( Preferences.getBoolean( "logDecoratedResponses" ) )
+		{
+			RequestLogger.updateDebugLog( "Rendering hypertext..." );
+			RequestLogger.updateDebugLog( KoLConstants.LINE_BREAK_PATTERN.matcher( this.responseText ).replaceAll( "" ) );
+		}
+
 		CustomItemDatabase.linkCustomItem( this );
 	}
 

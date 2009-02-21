@@ -1672,7 +1672,6 @@ public class UseItemRequest
 			// the nasty booty. That's handled elsewhere.
 
 			ResultProcessor.processResult( item );
-			GenericRequest.checkItemRedirection( item );
 			return;
 
 		case ItemPool.FRATHOUSE_BLUEPRINTS:
@@ -1681,7 +1680,6 @@ public class UseItemRequest
 			// dentures. That's handled elsewhere.
 
 			ResultProcessor.processResult( item );
-			GenericRequest.checkItemRedirection( item );
 			return;
 
 		case ItemPool.DINGHY_PLANS:
@@ -2131,7 +2129,6 @@ public class UseItemRequest
 			// consumed elsewhere
 
 			ResultProcessor.processResult( item );
-			GenericRequest.checkItemRedirection( item );
 
 			return;
 
@@ -2181,7 +2178,6 @@ public class UseItemRequest
 			// consumed elsewhere
 
 			ResultProcessor.processResult( item );
-			GenericRequest.checkItemRedirection( item );
 
 			return;
 
@@ -2222,7 +2218,6 @@ public class UseItemRequest
 			// not consumed
 
 			ResultProcessor.processResult( item );
-			GenericRequest.checkItemRedirection( item );
 
 			return;
 
@@ -2242,7 +2237,6 @@ public class UseItemRequest
 			// consumed elsewhere
 
 			ResultProcessor.processResult( item );
-			GenericRequest.checkItemRedirection( item );
 
 			return;
 

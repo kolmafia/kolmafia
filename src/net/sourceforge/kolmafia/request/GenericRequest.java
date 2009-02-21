@@ -1821,7 +1821,16 @@ public class GenericRequest
 
 	public static final void setUserAgent()
 	{
-		GenericRequest.setUserAgent( KoLConstants.VERSION_NAME );
+		String agent = "";
+		if ( Preferences.getBoolean( "useLastUserAgent" ) )
+		{
+			agent = Preferences.getString( "lastUserAgent" );
+		}
+		if ( agent.equals( "" ) )
+		{
+			agent = KoLConstants.VERSION_NAME;
+		}
+		GenericRequest.setUserAgent( agent );
 	}
 
 	public static final void setUserAgent( final String agent )
@@ -1831,6 +1840,9 @@ public class GenericRequest
 			GenericRequest.userAgent = agent;
 			System.setProperty( "http.agent", GenericRequest.userAgent );
 		}
+
+		// Get rid of obsolete setting
+		Preferences.setString( "userAgent", "" );
 	}
 
 	public void printRequestProperties()
