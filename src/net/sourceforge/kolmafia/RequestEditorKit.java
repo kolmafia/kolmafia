@@ -175,6 +175,7 @@ public class RequestEditorKit
 		{
 			RequestLogger.updateDebugLog( "Rendering hypertext..." );
 		}
+
 		String displayHTML = RequestEditorKit.getFeatureRichHTML( location, responseText, false );
 
 		displayHTML =
@@ -369,8 +370,7 @@ public class RequestEditorKit
 		return displayHTML;
 	}
 
-	public static final String getFeatureRichHTML( final String location, final String text,
-		final boolean addComplexFeatures )
+	public static final String getFeatureRichHTML( final String location, final String text, final boolean addComplexFeatures )
 	{
 		if ( text == null || text.length() == 0 )
 		{
@@ -425,8 +425,7 @@ public class RequestEditorKit
 		RequestEditorKit.maps.add( "heydeze.php" );
 	}
 
-	public static final void getFeatureRichHTML( final String location, final StringBuffer buffer,
-		final boolean addComplexFeatures )
+	public static final void getFeatureRichHTML( final String location, final StringBuffer buffer, final boolean addComplexFeatures )
 	{
 		if ( buffer.length() == 0 )
 		{

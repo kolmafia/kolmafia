@@ -78,6 +78,7 @@ global	libramSkillsSoftcore	none
 global	logAcquiredItems	true
 global	logBattleAction	true
 global	logChatMessages	true
+global	logDecoratedResponses	false
 global	logFamiliarActions	false
 global	logGainMessages	true
 global	loginRecoveryHardcore	false
@@ -146,6 +147,7 @@ global	useContactsFrame	true
 global	useCrimboToysHardcore	false
 global	useCrimboToysSoftcore	true
 global	useDecoratedTabs
+global	useLastUserAgent	false
 global	useSeparateChannels	true
 global	useShinyTabbedChat	true
 global	useSystemTrayIcon	false
