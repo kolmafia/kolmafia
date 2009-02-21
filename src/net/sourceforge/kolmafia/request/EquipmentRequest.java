@@ -1022,10 +1022,10 @@ public class EquipmentRequest
 				continue;
 			}
 
+			// The inventory never has the plural name.
+			int itemId = ItemDatabase.getItemId( realName, 1, false );
 			int quantityValue =
 				quantity.length() == 0 ? 1 : StringUtilities.parseInt( quantity.substring( 1, quantity.length() - 1 ) );
-			int itemId = ItemDatabase.getItemId( realName );
-
 			AdventureResult item = new AdventureResult( itemId, quantityValue );
 			int inventoryCount = item.getCount( KoLConstants.inventory );
 
