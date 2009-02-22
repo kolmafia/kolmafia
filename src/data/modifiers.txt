@@ -146,7 +146,7 @@ invisible bag	Familiar Effect: "8xVolley, 8xLep, cap 2"
 irate sombrero	Weapon Damage: +3, Familiar Effect: "1xPotato, 3xLep, cap 11"
 # jewel-eyed wizard hat: +5 Duration to Buffs You Cast
 # jewel-eyed wizard hat: Allows casting of Magic Missile
-jewel-eyed wizard hat	Maximum MP: +30, Mana Cost: -1, MP Regen Min: [L/2+1], MP Regen Max: [L/2+3], Softcore Only, Familiar Effect: "atk, 5xVolley, 5xLep, cap 2"
+jewel-eyed wizard hat	Maximum MP: +30, Mana Cost: -1, MP Regen Min: [floor(L/2)+1], MP Regen Max: [floor(L/2)+3], Softcore Only, Familiar Effect: "atk, 5xVolley, 5xLep, cap 2"
 knobby helmet turtle	Weapon Damage: +1, Familiar Effect: "atk, 2xFairy, cap 5"
 leather mask	Muscle: +3, Moxie: -3, Familiar Effect: "sleaze atk, 1xBarrr, cap 15"
 lihc face	Spooky Resistance: +2, Familiar Effect: "spooky atk, 1xBarrr, cap 22"

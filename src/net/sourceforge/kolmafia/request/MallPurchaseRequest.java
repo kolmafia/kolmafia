@@ -82,6 +82,7 @@ public class MallPurchaseRequest
 	private boolean canPurchase;
 	public static final int MAX_QUANTITY = 16777215;
 	private int itemSequenceCount = 0;	// for detecting renamed items
+	private long timestamp;
 
 	/**
 	 * Constructs a new <code>MallPurchaseRequest</code> which retrieves things from NPC stores.
@@ -124,6 +125,7 @@ public class MallPurchaseRequest
 		this.isNPCStore = true;
 		this.npcStoreId = storeId;
 		this.canPurchase = true;
+		this.timestamp = 0L;
 	}
 
 	public String getHashField()
@@ -179,6 +181,7 @@ public class MallPurchaseRequest
 		this.addFormField( "whichitem", MallPurchaseRequest.getStoreString( itemId, price ) );
 
 		this.item = new AdventureResult( this.itemId, 1 );
+		this.timestamp = new Date().getTime();
 	}
 
 	public static final String getStoreString( final int itemId, final int price )
@@ -217,6 +220,11 @@ public class MallPurchaseRequest
 	public String getShopName()
 	{
 		return this.shopName;
+	}
+
+	public long getTimestamp()
+	{
+		return this.timestamp;
 	}
 
 	/**

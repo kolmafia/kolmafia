@@ -437,9 +437,10 @@ public abstract class InventoryManager
 
 		if ( shouldUseNPCStore || scriptSaysBuy )
 		{
-			List results = StoreManager.searchMall( item.getName() );
+			ArrayList results = StoreManager.searchMall( item );
 			StaticEntity.getClient().makePurchases(
 				results, results.toArray(), getPurchaseCount( itemId, missingCount ), isAutomated );
+			StoreManager.updateMallPrice( item, results );
 
 			missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
 
@@ -526,9 +527,10 @@ public abstract class InventoryManager
 
 		if ( shouldUseMall )
 		{
-			List results = StoreManager.searchMall( item.getName() );
+			ArrayList results = StoreManager.searchMall( item );
 			StaticEntity.getClient().makePurchases(
 				results, results.toArray(), getPurchaseCount( itemId, missingCount ), isAutomated );
+			StoreManager.updateMallPrice( item, results );
 
 			missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
 

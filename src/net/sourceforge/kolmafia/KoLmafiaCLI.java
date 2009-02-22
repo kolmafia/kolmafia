@@ -40,11 +40,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -3344,6 +3348,98 @@ public class KoLmafiaCLI
 			RequestLogger.printList( results );
 		}
 	}
+
+	static { new ComparisonShop().register( "cheapest" ).register( "expensive" ); }
+	public static class ComparisonShop
+		extends Command
+		implements Comparator
+	{
+		{ usage = "[?] <item> [,[-]item]... [; <cmds>] - compare prices, do cmds with \"it\" replaced with best."; }
+		{ flags = KoLmafiaCLI.FULL_LINE_CMD; }
+		public void run( String cmd, String parameters )
+		{
+			boolean expensive = cmd.equals( "expensive" );
+			String commands = null;
+			int pos = parameters.indexOf( ";" );
+			if ( pos != -1 )
+			{
+				commands = parameters.substring( pos + 1 ).trim();
+				parameters = parameters.substring( 0, pos ).trim();
+			}
+			String[] pieces = parameters.split( "\\s*,\\s*" );
+			TreeSet names = new TreeSet();
+			for ( int i = 0; i < pieces.length ; ++i )
+			{
+				String piece = pieces[ i ];
+				if ( piece.startsWith( "-" ) )
+				{
+					names.removeAll( ItemDatabase.getMatchingNames(
+						piece.substring( 1 ).trim() ) );
+				}
+				else
+				{
+					names.addAll( ItemDatabase.getMatchingNames( piece ) );
+				}
+			}
+			if ( names.size() == 0 )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+					"No matching items!" );
+				return;
+			}
+			if ( KoLmafiaCLI.isExecutingCheckOnlyCommand )
+			{
+				RequestLogger.printList( Arrays.asList( names.toArray() ) );
+				return;
+			}
+			ArrayList results = new ArrayList();
+			Iterator i = names.iterator();
+			while ( i.hasNext() )
+			{
+				AdventureResult item = new AdventureResult( (String) i.next() );
+				if ( !ItemDatabase.isTradeable( item.getItemId() ) ||
+					StoreManager.getMallPrice( item ) <= 0 )
+				{
+					continue;
+				}
+				if ( !KoLmafia.permitsContinue() )
+				{
+					return;
+				}
+				results.add( item );
+			}
+			if ( results.size() == 0 )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+					"No tradeable items!" );
+				return;
+			}
+			Collections.sort( results, (Comparator) this );
+			if ( expensive )
+			{
+				Collections.reverse( results );
+			}
+			if ( commands != null )
+			{
+				CLI.executeLine( commands.replaceAll( "\\bit\\b",
+					((AdventureResult) results.get( 0 )).getName() ) );
+				return;
+			}
+			i = results.iterator();
+			while ( i.hasNext() )
+			{
+				AdventureResult item = (AdventureResult) i.next();
+				RequestLogger.printLine( item.getName() + " @ " +
+					StoreManager.getMallPrice( item ) );
+			}
+		}
+		
+		public int compare( Object o1, Object o2 )
+		{
+			return StoreManager.getMallPrice( (AdventureResult) o1 ) -
+				StoreManager.getMallPrice( (AdventureResult) o2 );
+		}
+	}
 	
 	static { new Attack().register( "pvp" ).register( "attack" ); }
 	public static class Attack
@@ -6220,10 +6316,9 @@ public class KoLmafiaCLI
 				return;
 			}
 
-			ArrayList results = new ArrayList();
-
-			StoreManager.searchMall( '\"' + ItemDatabase.getItemName( match.getItemId() ) + '\"', results, 10, false );
+			ArrayList results = StoreManager.searchMall( match );
 			StaticEntity.getClient().makePurchases( results, results.toArray(), match.getCount(), false, priceLimit );
+			StoreManager.updateMallPrice( match, results );
 		}
 	}
 
