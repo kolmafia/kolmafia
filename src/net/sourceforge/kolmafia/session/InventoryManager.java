@@ -422,7 +422,7 @@ public abstract class InventoryManager
 
 		if ( !scriptSaysBuy && shouldUseMall && !hasAnyIngredient( itemId ) )
 		{
-			scriptSaysBuy = mixingMethod == KoLConstants.NOCREATE ||
+			scriptSaysBuy = creator == null ||
 				invokeBuyScript( item, missingCount, 0, true );
 			missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
 
@@ -489,13 +489,15 @@ public abstract class InventoryManager
 			break;
 
 		default:
-			scriptSaysBuy =
-				itemId == ItemPool.DOUGH || itemId == ItemPool.DISASSEMBLED_CLOVER;
+			scriptSaysBuy = itemId == ItemPool.DOUGH ||
+				itemId == ItemPool.DISASSEMBLED_CLOVER ||
+				creator == null;
 		}
 		
-		if (creator != null && mixingMethod != KoLConstants.NOCREATE )
+		if ( creator != null && mixingMethod != KoLConstants.NOCREATE )
 		{
-			scriptSaysBuy = invokeBuyScript( item, missingCount, 1, scriptSaysBuy );
+			scriptSaysBuy = invokeBuyScript( item, missingCount, 1,
+				scriptSaysBuy || ( shouldUseMall && cheaperToBuy( item, missingCount ) ) );
 			missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
 
 			if ( missingCount <= 0 )
@@ -619,6 +621,44 @@ public abstract class InventoryManager
 			} ).intValue() != 0;
 		}
 		return defaultBuy;
+	}
+	
+	private static boolean cheaperToBuy( AdventureResult item, int qty )
+	{
+		int price = StoreManager.getMallPrice( item );
+		if ( price <= 0 )
+		{
+			return false;
+		}
+		int yield = ConcoctionDatabase.getYield( item.getItemId() );
+		qty = (qty + yield - 1) / yield;
+		price = price * qty * yield - 100;
+		AdventureResult ingrs[] = ConcoctionDatabase.getIngredients( item.getItemId() );
+		for ( int i = 0; i < ingrs.length; ++i )
+		{
+			AdventureResult ingr = ingrs[ i ];
+			int needed = ingr.getCount() * qty;
+			CreateItemRequest creator = CreateItemRequest.getInstance( ingr );
+			int count = Math.min( needed, creator == null ?
+				ingr.getCount( KoLConstants.inventory ) :
+				creator.getQuantityPossible() );
+			price -= ItemDatabase.getPriceById( ingr.getItemId() ) * count;
+			if ( price <= 0 )
+			{
+				return true;
+			}
+			needed -= count;
+			if ( needed > 0 )
+			{
+				int ingrprice = StoreManager.getMallPrice( ingr );
+				price -= ingrprice * needed;
+				if ( ingrprice <= 0 || price <= 0 )
+				{
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	private static int getPurchaseCount( final int itemId, final int missingCount )
