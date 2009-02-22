@@ -34,6 +34,9 @@
 package net.sourceforge.kolmafia.session;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
@@ -45,11 +48,13 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
 import net.sourceforge.kolmafia.request.MallSearchRequest;
 import net.sourceforge.kolmafia.swingui.StoreManageFrame;
+import net.sourceforge.kolmafia.utilities.IntegerArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -73,6 +78,9 @@ public abstract class StoreManager
 	private static final LockableListModel storeLog = new LockableListModel();
 	private static final LockableListModel soldItemList = new LockableListModel();
 	private static final LockableListModel sortedSoldItemList = new LockableListModel();
+	
+	private static final IntegerArray mallPrices = new IntegerArray();
+	private static final LinkedHashMap mallSearches = new LinkedHashMap();
 
 	public static final void clearCache()
 	{
@@ -344,12 +352,89 @@ public abstract class StoreManager
 			}
 		}
 	}
-
-	public static final ArrayList searchMall( final String itemName )
+	
+	public static final void flushCache()
 	{
-		ArrayList results = new ArrayList();
-		StoreManager.searchMall( itemName, results, 10, false );
+		long t0, t1;
+		t1 = new Date().getTime();
+		t0 = t1 - 15 * 1000;
+	
+		Iterator i = StoreManager.mallSearches.values().iterator();
+		while ( i.hasNext() )
+		{
+			ArrayList search = (ArrayList) i.next();
+			if ( search == null || search.size() == 0 )
+			{
+				i.remove();
+				continue;
+			}
+			long t = ((MallPurchaseRequest) search.get( 0 )).getTimestamp();
+			if ( t < t0 || t > t1 )
+			{
+				i.remove();
+				continue;
+			}
+			break;
+		}
+	}
+	
+	public static final ArrayList searchMall( final AdventureResult item )
+	{
+		StoreManager.flushCache();
+		ArrayList results;
+		if ( item.getItemId() > 0 )
+		{
+			results = (ArrayList) StoreManager.mallSearches.get(
+				new Integer( item.getItemId() ) );
+			if ( results != null && results.size() > 0 )
+			{
+				KoLmafia.updateDisplay( "Using cached search results for " +
+					item.getName() + "..." );
+				return results;
+			}
+		}
+		results = new ArrayList();
+		StoreManager.searchMall( item.getName(), results, 10, false );
+		StoreManager.mallSearches.put( new Integer( item.getItemId() ), results );
 		return results;
+	}
+	
+	public static final void updateMallPrice( final AdventureResult item,
+		final ArrayList results )
+	{
+		if ( item.getItemId() < 1 || !KoLmafia.permitsContinue() )
+		{
+			return;
+		}
+		int price = -1;
+		int qty = 5;
+		Iterator i = results.iterator();
+		while ( i.hasNext() )
+		{
+			MallPurchaseRequest req = (MallPurchaseRequest) i.next();
+			price = req.getPrice();
+			qty -= req.getLimit();
+			if ( qty <= 0 )
+			{
+				break;
+			}
+		}
+		StoreManager.mallPrices.set( item.getItemId(), price );
+	}
+	
+	public static final int getMallPrice( final AdventureResult item )
+	{
+		StoreManager.flushCache();
+		if ( item.getItemId() < 1 )
+		{
+			return 0;
+		}
+		if ( StoreManager.mallPrices.get( item.getItemId() ) == 0 )
+		{
+			ArrayList results = StoreManager.searchMall( item );
+			StoreManager.updateMallPrice( item, results );
+		}
+		return StoreManager.mallPrices.get( item.getItemId() );
 	}
 
 	/**
