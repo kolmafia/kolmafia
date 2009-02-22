@@ -383,12 +383,7 @@ public class UseSkillRequest
 
 		case 3006:
 
-			maximumCast = 3;
-			if ( KoLCharacter.hasSkill( "Transcendental Noodlecraft" ) )
-			{
-				maximumCast = 5;
-			}
-
+			maximumCast = KoLCharacter.hasSkill( "Transcendental Noodlecraft" ) ? 5 : 3;
 			maximumCast = Math.max( maximumCast - Preferences.getInteger( "noodleSummons" ), 0 );
 			break;
 
@@ -397,11 +392,7 @@ public class UseSkillRequest
 
 		case 4006:
 
-			maximumCast = 3;
-			if ( KoLCharacter.hasSkill( "The Way of Sauce" ) )
-			{
-				maximumCast = 5;
-			}
+			maximumCast = KoLCharacter.hasSkill( "The Way of Sauce" ) ? 5 : 3;
 
 			maximumCast = Math.max( maximumCast - Preferences.getInteger( "reagentSummons" ), 0 );
 			break;
@@ -411,12 +402,7 @@ public class UseSkillRequest
 
 		case 5014:
 
-			maximumCast = 3;
-			if ( KoLCharacter.hasSkill( "Superhuman Cocktailcrafting" ) )
-			{
-				maximumCast = 5;
-			}
-
+			maximumCast = KoLCharacter.hasSkill( "Superhuman Cocktailcrafting" ) ? 5 : 3;
 			maximumCast = Math.max( maximumCast - Preferences.getInteger( "cocktailSummons" ), 0 );
 			break;
 
@@ -858,125 +844,29 @@ public class UseSkillRequest
 
 	public void processResults()
 	{
-		boolean shouldStop = false;
 		UseSkillRequest.lastUpdate = "";
-
-		// If a reply was obtained, check to see if it was a success message
-		// Otherwise, try to figure out why it was unsuccessful.
-
-		if ( this.responseText == null || this.responseText.trim().length() == 0 )
-		{
-			int initialMP = KoLCharacter.getCurrentMP();
-			CharPaneRequest.getInstance().run();
-
-			if ( initialMP == KoLCharacter.getCurrentMP() )
-			{
-				shouldStop = false;
-				UseSkillRequest.lastUpdate = "Encountered lag problems.";
-			}
-		}
-		else if ( this.responseText.indexOf( "You don't have that skill" ) != -1 )
-		{
-			shouldStop = true;
-			UseSkillRequest.lastUpdate = "That skill is unavailable.";
-		}
-		else if ( this.responseText.indexOf( "You don't have enough" ) != -1 )
-		{
-			shouldStop = false;
-			CharPaneRequest.getInstance().run();
-			UseSkillRequest.lastUpdate = "Not enough mana to cast " + this.skillName + ".";
-		}
-		else if ( this.responseText.indexOf( "You can only conjure" ) != -1 || this.responseText.indexOf( "You can only scrounge up" ) != -1 || this.responseText.indexOf( "You can only summon" ) != -1 )
-		{
-			shouldStop = false;
-			UseSkillRequest.lastUpdate = "Summon limit exceeded.";
-		}
-		else if ( this.responseText.indexOf( "too many songs" ) != -1 )
-		{
-			shouldStop = false;
-			UseSkillRequest.lastUpdate = "Selected target has 3 AT buffs already.";
-		}
-		else if ( this.responseText.indexOf( "casts left of the Smile of Mr. A" ) != -1 )
-		{
-			shouldStop = false;
-			UseSkillRequest.lastUpdate = "You cannot cast that many smiles.";
-		}
-		else if ( this.responseText.indexOf( "Invalid target player" ) != -1 )
-		{
-			shouldStop = true;
-			UseSkillRequest.lastUpdate = "Selected target is not a valid target.";
-		}
-		// You can't cast that spell on persons who are lower than
-		// level 15, like <name>, who is level 13.
-		else if ( this.responseText.indexOf( "lower than level" ) != -1 )
-		{
-			shouldStop = false;
-			UseSkillRequest.lastUpdate = "Selected target is too low level.";
-		}
-		else if ( this.responseText.indexOf( "busy fighting" ) != -1 )
-		{
-			shouldStop = false;
-			UseSkillRequest.lastUpdate = "Selected target is busy fighting.";
-		}
-		else if ( this.responseText.indexOf( "receive buffs" ) != -1 )
-		{
-			shouldStop = false;
-			UseSkillRequest.lastUpdate = "Selected target cannot receive buffs.";
-		}
-		else if ( this.responseText.indexOf( "You need" ) != -1 )
-		{
-			shouldStop = true;
-			UseSkillRequest.lastUpdate = "You need special equipment to cast that buff.";
-		}
-		else if ( this.responseText.indexOf( "You can't remember how to use that skill" ) != -1 )
-		{
-			shouldStop = true;
-			UseSkillRequest.lastUpdate = "That skill is currently unavailable.";
-		}
-
-		// Now that all the checks are complete, proceed
-		// to determine how to update the user display.
+		boolean shouldStop = UseSkillRequest.parseResponse( this.getURLString(), this.responseText );
 
 		if ( !UseSkillRequest.lastUpdate.equals( "" ) )
 		{
-			KoLmafia.updateDisplay(
-				shouldStop ? KoLConstants.ABORT_STATE : KoLConstants.CONTINUE_STATE, UseSkillRequest.lastUpdate );
+			int state = shouldStop ? KoLConstants.ABORT_STATE : KoLConstants.CONTINUE_STATE;
+			KoLmafia.updateDisplay( state, UseSkillRequest.lastUpdate );
 
 			if ( BuffBotHome.isBuffBotActive() )
 			{
 				BuffBotHome.timeStampedLogEntry( BuffBotHome.ERRORCOLOR, UseSkillRequest.lastUpdate );
 			}
+
+			return;
+		}
+
+		if ( this.target == null )
+		{
+			KoLmafia.updateDisplay( this.skillName + " was successfully cast." );
 		}
 		else
 		{
-			if ( this.target == null )
-			{
-				KoLmafia.updateDisplay( this.skillName + " was successfully cast." );
-			}
-			else
-			{
-				KoLmafia.updateDisplay( this.skillName + " was successfully cast on " + this.target + "." );
-			}
-			
-			if ( !SkillDatabase.isLibramSkill( this.skillId ) )
-			{
-				int mpCost = SkillDatabase.getMPConsumptionById( this.skillId ) * this.buffCount;
-
-				ResultProcessor.processResult( new AdventureResult( AdventureResult.MP, 0 - mpCost ) );
-			}
-
-			// Tongue of the Walrus (1010) automatically
-			// removes any beaten up.
-
-			if ( this.skillId == UseSkillRequest.OTTER_TONGUE || this.skillId == UseSkillRequest.WALRUS_TONGUE )
-			{
-				KoLConstants.activeEffects.remove( KoLAdventure.BEATEN_UP );
-			}
-
-			if ( this.skillId == UseSkillRequest.DISCO_NAP || this.skillId == UseSkillRequest.POWER_NAP )
-			{
-				KoLConstants.activeEffects.clear();
-			}
+			KoLmafia.updateDisplay( this.skillName + " was successfully cast on " + this.target + "." );
 		}
 	}
 
@@ -1028,61 +918,118 @@ public class UseSkillRequest
 		return request;
 	}
 
-	public static final boolean registerRequest( final String urlString )
+	public static final boolean parseResponse( final String urlString, final String responseText )
 	{
-		if ( urlString.startsWith( "skills.php" ) )
+		if ( responseText == null || responseText.trim().length() == 0 )
 		{
-			return registerSkillRequest( urlString );
+			int initialMP = KoLCharacter.getCurrentMP();
+			CharPaneRequest.getInstance().run();
+
+			if ( initialMP == KoLCharacter.getCurrentMP() )
+			{
+				UseSkillRequest.lastUpdate = "Encountered lag problems.";
+				return false;
+			}
+
+			return true;
 		}
 
-		if ( urlString.startsWith( "campground.php" ) )
+		if ( responseText.indexOf( "You don't have that skill" ) != -1 )
 		{
-			return registerBookRequest( urlString );
+			UseSkillRequest.lastUpdate = "That skill is unavailable.";
+			return true;
 		}
 
-		return false;
-	}
-
-	private static final boolean registerSkillRequest( final String urlString )
-	{
-		Matcher skillMatcher = UseSkillRequest.SKILLID_PATTERN.matcher( urlString );
-		if ( !skillMatcher.find() )
+		if ( responseText.indexOf( "You can only conjure" ) != -1 || responseText.indexOf( "You can only scrounge up" ) != -1 || responseText.indexOf( "You can only summon" ) != -1 )
 		{
+			UseSkillRequest.lastUpdate = "Summon limit exceeded.";
 			return false;
 		}
 
-		int skillId = StringUtilities.parseInt( skillMatcher.group( 1 ) );
+		if ( responseText.indexOf( "too many songs" ) != -1 )
+		{
+			UseSkillRequest.lastUpdate = "Selected target has 3 AT buffs already.";	
+			return false;
+		}
+
+		if ( responseText.indexOf( "casts left of the Smile of Mr. A" ) != -1 )
+		{
+			UseSkillRequest.lastUpdate = "You cannot cast that many smiles.";
+			return false;
+		}
+
+		if ( responseText.indexOf( "Invalid target player" ) != -1 )
+		{
+			UseSkillRequest.lastUpdate = "Selected target is not a valid target.";
+			return true;
+		}
+
+		// You can't cast that spell on persons who are lower than
+		// level 15, like <name>, who is level 13.
+		if ( responseText.indexOf( "lower than level" ) != -1 )
+		{
+			UseSkillRequest.lastUpdate = "Selected target is too low level.";
+			return false;
+		}
+
+		if ( responseText.indexOf( "busy fighting" ) != -1 )
+		{
+			UseSkillRequest.lastUpdate = "Selected target is busy fighting.";
+			return false;
+		}
+
+		if ( responseText.indexOf( "receive buffs" ) != -1 )
+		{
+			UseSkillRequest.lastUpdate = "Selected target cannot receive buffs.";
+			return false;
+		}
+
+		if ( responseText.indexOf( "You need" ) != -1 )
+		{
+			UseSkillRequest.lastUpdate = "You need special equipment to cast that buff.";
+			return true;
+		}
+
+		if ( responseText.indexOf( "You can't remember how to use that skill" ) != -1 )
+		{
+			UseSkillRequest.lastUpdate = "That skill is currently unavailable.";
+			return true;
+		}
+
+		int skillId = UseSkillRequest.getSkillId( urlString );
 		String skillName = SkillDatabase.getSkillName( skillId );
 
-		int count = 1;
-		Matcher countMatcher = UseSkillRequest.COUNT1_PATTERN.matcher( urlString );
-
-		if ( countMatcher.find() )
+		if ( responseText.indexOf( "You don't have enough" ) != -1 )
 		{
-			count = StringUtilities.parseInt( countMatcher.group( 1 ) );
+			UseSkillRequest.lastUpdate = "Not enough mana to cast " + skillName + ".";
+			CharPaneRequest.getInstance().run();
+			return true;
 		}
-		else
-		{
-			countMatcher = UseSkillRequest.COUNT2_PATTERN.matcher( urlString );
-			if ( countMatcher.find() )
-			{
-				count = StringUtilities.parseInt( countMatcher.group( 1 ) );
-			}
-		}
-
-		RequestLogger.updateSessionLog();
-		RequestLogger.updateSessionLog( "cast " + count + " " + skillName );
+			
+		// The skill was successfully cast. Deal with its effects.
+		int count = UseSkillRequest.getCount( urlString );
+		int mpCost = SkillDatabase.getMPConsumptionById( skillId ) * count;
 
 		switch ( skillId )
 		{
+		case UseSkillRequest.OTTER_TONGUE:
+		case UseSkillRequest.WALRUS_TONGUE:
+			KoLConstants.activeEffects.remove( KoLAdventure.BEATEN_UP );
+			break;
+
+		case UseSkillRequest.DISCO_NAP:
+		case UseSkillRequest.POWER_NAP:
+			KoLConstants.activeEffects.clear();
+			break;
+
 		case 45:
 			Preferences.setBoolean( "rageGlandVented", true );
 			break;
 			
 		case SkillDatabase.RAINBOW:
 
-                        // Each cast of Rainbow Gravitation consumes five
-                        // elemental wads and a twinkly wad
+			// Each cast of Rainbow Gravitation consumes five
+			// elemental wads and a twinkly wad
 
 			ResultProcessor.processResult( ItemPool.get( ItemPool.COLD_WAD, -count ) );
 			ResultProcessor.processResult( ItemPool.get( ItemPool.HOT_WAD, -count ) );
@@ -1105,84 +1052,122 @@ public class UseSkillRequest
 		case 5014:
 			Preferences.increment( "cocktailSummons", count );
 			break;
-		}
 
-		return true;
-	}
-
-	private static final boolean registerBookRequest( final String urlString )
-	{
-		Matcher skillMatcher = UseSkillRequest.BOOKID_PATTERN.matcher( urlString );
-		if ( !skillMatcher.find() )
-		{
-			return false;
-		}
-
-		Matcher countMatcher = UseSkillRequest.COUNT2_PATTERN.matcher( urlString );
-		int count = 1;
-
-		if ( countMatcher.find() )
-		{
-			count = StringUtilities.parseInt( countMatcher.group( 1 ) );
-		}
-
-		String action = skillMatcher.group( 1 );
-		int skillId = 0;
-
-		if ( action.equals( "snowcone" ) )
-		{
-			skillId = SkillDatabase.SNOWCONE;
+		case SkillDatabase.SNOWCONE:
+		case SkillDatabase.STICKER:
 			Preferences.increment( "tomeSummons", count );
-		}
-		if ( action.equals( "stickers" ) )
-		{
-			skillId = SkillDatabase.STICKER;
-			Preferences.increment( "tomeSummons", count );
-		}
-		else if ( action.equals( "hilariousitems" ) )
-		{
-			skillId = SkillDatabase.HILARIOUS;
+			break;
+
+		case SkillDatabase.HILARIOUS:
 			Preferences.increment( "grimoire1Summons", 1 );
-		}
-		else if ( action.equals( "spencersitems" ) )
-		{
-			skillId = SkillDatabase.TASTEFUL;
+			break;
+
+		case SkillDatabase.TASTEFUL:
 			Preferences.increment( "grimoire2Summons", 1 );
-		}
-		else if ( action.equals( "candyheart" ) )
-		{
-			skillId = SkillDatabase.CANDY_HEART;
-		}
-		else if ( action.equals( "partyfavor" ) )
-		{
-			skillId = SkillDatabase.PARTY_FAVOR;
-		}
-		else if ( action.equals( "lovesongs" ) )
-		{
-			skillId = SkillDatabase.LOVE_SONG;
-		}
-		else
-		{
-			return false;
-		}
+			break;
 
-		if ( SkillDatabase.isLibramSkill( skillId ) )
-		{
+		case SkillDatabase.CANDY_HEART:
+		case SkillDatabase.PARTY_FAVOR:
+		case SkillDatabase.LOVE_SONG:
 			int cast = Preferences.getInteger( "libramSummons" );
-			int mpCost = SkillDatabase.libramSkillMPConsumption( cast, count );
-
-			if ( mpCost > KoLCharacter.getCurrentMP() )
-			{
-				return true;
-			}
-
-			ResultProcessor.processResult( new AdventureResult( AdventureResult.MP, 0 - mpCost ) );
-
+			mpCost = SkillDatabase.libramSkillMPConsumption( cast, count );
 			Preferences.increment( "libramSummons", count );
 			KoLConstants.summoningSkills.sort();
 			KoLConstants.usableSkills.sort();
+			break;
 		}
 
+		ResultProcessor.processResult( new AdventureResult( AdventureResult.MP, 0 - mpCost ) );
+
+		return false;
+	}
+
+	private static int getSkillId( final String urlString )
+	{
+		Matcher skillMatcher = UseSkillRequest.SKILLID_PATTERN.matcher( urlString );
+		if ( skillMatcher.find() )
+		{
+			return StringUtilities.parseInt( skillMatcher.group( 1 ) );
+		}
+
+		skillMatcher = UseSkillRequest.BOOKID_PATTERN.matcher( urlString );
+		if ( !skillMatcher.find() )
+		{
+			return -1;
+		}
+
+		String action = skillMatcher.group( 1 );
+
+		if ( action.equals( "snowcone" ) )
+		{
+			return SkillDatabase.SNOWCONE;
+		}
+
+		if ( action.equals( "stickers" ) )
+		{
+			return SkillDatabase.STICKER;
+		}
+
+		if ( action.equals( "hilariousitems" ) )
+		{
+			return SkillDatabase.HILARIOUS;
+		}
+
+		if ( action.equals( "spencersitems" ) )
+		{
+			return	SkillDatabase.TASTEFUL;
+		}
+
+		if ( action.equals( "candyheart" ) )
+		{
+			return SkillDatabase.CANDY_HEART;
+		}
+
+		if ( action.equals( "partyfavor" ) )
+		{
+			return SkillDatabase.PARTY_FAVOR;
+		}
+
+		if ( action.equals( "lovesongs" ) )
+		{
+			return SkillDatabase.LOVE_SONG;
+		}
+
+		return -1;
+	}
+
+	private static final int getCount( final String urlString )
+	{
+		Matcher countMatcher = UseSkillRequest.COUNT1_PATTERN.matcher( urlString );
+
+		if ( countMatcher.find() )
+		{
+			return StringUtilities.parseInt( countMatcher.group( 1 ) );
+		}
+
+		countMatcher = UseSkillRequest.COUNT2_PATTERN.matcher( urlString );
+		if ( countMatcher.find() )
+		{
+			return StringUtilities.parseInt( countMatcher.group( 1 ) );
+		}
+
+		return 1;
+	}
+
+	public static final boolean registerRequest( final String urlString )
+	{
+		if ( !urlString.startsWith( "campground.php" ) && !urlString.startsWith( "skills.php" ) )
+		{
+			return false;
+		}
+
+		int skillId = UseSkillRequest.getSkillId( urlString );
+		if ( skillId == -1 )
+		{
+			return false;
+		}
+
+		int count = UseSkillRequest.getCount( urlString );
 		String skillName = SkillDatabase.getSkillName( skillId );
 
 		RequestLogger.updateSessionLog();

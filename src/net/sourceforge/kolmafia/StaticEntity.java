@@ -55,6 +55,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.request.AccountRequest;
 import net.sourceforge.kolmafia.request.ArtistRequest;
+import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
 import net.sourceforge.kolmafia.request.CakeArenaRequest;
 import net.sourceforge.kolmafia.request.ChefStaffRequest;
@@ -312,15 +313,20 @@ public abstract class StaticEntity
 				}
 			}
 		}
-		
+
 		else if ( location.startsWith( "arena.php" ) )
 		{
 			CakeArenaRequest.parseResponse( location, responseText );
 		}
-		
+
 		else if ( location.startsWith( "bedazzle.php" ) )
 		{
 			EquipmentRequest.parseBedazzlements( responseText );
+		}
+
+		else if ( location.startsWith( "campground.php" ) )
+		{
+			CampgroundRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "charsheet.php" ) )
@@ -466,6 +472,11 @@ public abstract class StaticEntity
 		else if ( location.startsWith( "sendmessage.php" ) )
 		{
 			SendMailRequest.parseTransfer( location, responseText );
+		}
+
+		else if ( location.startsWith( "skills.php" ) )
+		{
+			UseSkillRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "starchart.php" ) )

@@ -1584,7 +1584,7 @@ public abstract class KoLmafia
 					return;
 				}
 
-				if ( !( KoLmafia.currentAdventure.getRequest() instanceof CampgroundRequest ) && KoLCharacter.getCurrentHP() == 0 )
+				if ( KoLCharacter.getCurrentHP() == 0 )
 				{
 					this.recoverHP();
 				}

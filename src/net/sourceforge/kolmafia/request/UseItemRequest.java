@@ -1886,8 +1886,6 @@ public class UseItemRequest
 				return;
 			}
 
-			KoLCharacter.setBookshelf( true );
-
 			switch ( item.getItemId() )
 			{
 			case ItemPool.SNOWCONE_BOOK:
@@ -1912,6 +1910,8 @@ public class UseItemRequest
 				StaticEntity.learnSkill( "Summon Love Song" );
 				break;
 			}
+
+			KoLCharacter.setBookshelf( true );
 
 			return;
 
