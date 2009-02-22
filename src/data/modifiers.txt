@@ -2004,7 +2004,7 @@ Moon'd	Experience: +5
 Muscularrr	Muscle Percent: +10
 Musk of the Moose	Combat Rate: +5
 Mutated	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25
-Mysteriously Handsome	Moxie Percent: +5, Monster Level: +6
+Mysteriously Handsome	Moxie Percent: +5, Monster Level: [4.5+1.5*X]
 Mystic Pickleness	Mysticality: +5, Muscle: -5
 Mystically Oiled	Mysticality Percent: +100
 # Nerf'd: Less powerful than you were before

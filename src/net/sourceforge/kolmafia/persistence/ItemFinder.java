@@ -343,10 +343,12 @@ public class ItemFinder
 
 		if ( filterType == ItemFinder.CREATE_MATCH )
 		{
-			boolean includeNPCs = Preferences.getBoolean( "autoSatisfyWithNPCs" );
+			boolean skipNPCs = Preferences.getBoolean( "autoSatisfyWithNPCs" )
+				&& itemCount <= 0;
 
-			if ( includeNPCs )
-			{
+			if ( skipNPCs )
+			{	// Let '*' and negative counts be interpreted relative to
+				// the quantity that can be created with on-hand ingredients.
 				Preferences.setBoolean( "autoSatisfyWithNPCs", false );
 				ConcoctionDatabase.refreshConcoctions();
 			}
@@ -354,7 +356,7 @@ public class ItemFinder
 			CreateItemRequest instance = CreateItemRequest.getInstance( firstMatch );
 			matchCount = instance == null ? 0 : instance.getQuantityPossible();
 
-			if ( includeNPCs )
+			if ( skipNPCs )
 			{
 				Preferences.setBoolean( "autoSatisfyWithNPCs", true );
 			}
