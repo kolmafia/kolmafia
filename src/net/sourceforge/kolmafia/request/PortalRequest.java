@@ -96,31 +96,55 @@ public class PortalRequest
 		}
 	}
 
-	public static final boolean registerRequest( final String urlString )
+	private static final AdventureResult getSphere( final String urlString )
 	{
 		Matcher matcher = PortalRequest.WHERE_PATTERN.matcher( urlString );
 		if ( !matcher.find() )
 		{
-			return false;
+			return null;
 		}
 
 		String action = matcher.group(1);
-		AdventureResult item;
-
 		if ( action.equals( "power" ) )
 		{
-			item = ItemPool.get( ItemPool.POWER_SPHERE, -1 );
+			return ItemPool.get( ItemPool.POWER_SPHERE, -1 );
 		}
-		else if ( action.equals( "overpower" ) )
+		if ( action.equals( "overpower" ) )
 		{
-			item = ItemPool.get( ItemPool.OVERCHARGED_POWER_SPHERE, -1 );
+			return ItemPool.get( ItemPool.OVERCHARGED_POWER_SPHERE, -1 );
 		}
-		else
+		return null;
+	}
+
+	public static final void parseResponse( final String urlString, final String responseText )
+	{
+		if ( !urlString.startsWith( "campground.php" ) )
 		{
-			return true;
+			return;
+		}
+
+		AdventureResult item = PortalRequest.getSphere( urlString );
+
+		if ( item == null )
+		{
+			return;
 		}
 
 		ResultProcessor.processResult( item );
+	}
+
+	public static final boolean registerRequest( final String urlString )
+	{
+		if ( !urlString.startsWith( "campground.php" ) )
+		{
+			return false;
+		}
+
+		AdventureResult item = PortalRequest.getSphere( urlString );
+		if ( item == null )
+		{
+			return false;
+		}
 
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( "use 1 " + item.getName() );

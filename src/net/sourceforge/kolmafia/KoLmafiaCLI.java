@@ -3829,7 +3829,7 @@ public class KoLmafiaCLI
 	public static class Camp
 		extends Command
 	{
-		{ usage = " rest | toast | <etc.> [<numTimes>] - perform campground actions."; }
+		{ usage = " rest | <etc.> [<numTimes>] - perform campground actions."; }
 		public void run( String cmd, String[] parameters )
 		{
 			StaticEntity.getClient().makeRequest(

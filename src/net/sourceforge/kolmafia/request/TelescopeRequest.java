@@ -46,9 +46,10 @@ import net.sourceforge.kolmafia.persistence.Preferences;
 public class TelescopeRequest
 	extends GenericRequest
 {
+	private static final Pattern WHERE_PATTERN = Pattern.compile( "campground.php.*action=telescope([^&]*)" );
+
 	public static final int HIGH = 1;
 	public static final int LOW = 2;
-	private static final Pattern WHERE_PATTERN = Pattern.compile( "action=telescope([^&]*)" );
 
 	private final int where;
 
@@ -97,37 +98,6 @@ public class TelescopeRequest
 		super.run();
 	}
 
-	private static final Pattern[] PATTERNS = {
-	// "You focus the telescope on the entrance of the cave, and
-	// see a wooden gate with an elaborate carving of <description>
-	// on it."
-	Pattern.compile( "carving of (.*?) on it." ),
-
-	// "You raise the telescope a little higher, and see a window
-	// at the base of a tall brick tower. Through the window, you
-	// <description>."
-	Pattern.compile( "Through the window, you (.*?)\\." ),
-
-	// "Further up, you see a second window. Through this one, you
-	// <description>."
-	Pattern.compile( "Through this one, you (.*?)\\." ),
-
-	// "Even further up, you see a third window. Through it you
-	// <description>."
-	Pattern.compile( "Through it you (.*?)\\." ),
-
-	// "Looking still higher, you see another window. Through the
-	// fourth window you <description>."
-	Pattern.compile( "Through the fourth window you (.*?)\\." ),
-
-	// "Even further up, you see a fifth window. Through that one
-	// you <description>."
-	Pattern.compile( "Through that one you (.*?)\\." ),
-
-	// "Near the top of the tower, you see a sixth and final
-	// window. Through it you <description>."
-	Pattern.compile( "final window. *Through it you (.*?)\\." ), };
-
 	public void processResults()
 	{
 		if ( this.where == TelescopeRequest.HIGH )
@@ -146,8 +116,26 @@ public class TelescopeRequest
 			return;
 		}
 
-		// We looked low. Deduce how many upgrades our telescope has
-		// and save what we spied in the tower.
+		TelescopeRequest.parseResponse( this.getURLString(), this.responseText );
+	}
+
+	public static final void parseResponse( final String urlString, final String responseText )
+	{
+		if ( !urlString.startsWith( "campground.php" ) )
+		{
+			return;
+		}
+
+		if ( urlString.indexOf( "action=telescopehigh" ) != -1 )
+		{
+			Preferences.setBoolean( "telescopeLookedHigh", true );
+			return;
+		}
+
+		if ( urlString.indexOf( "action=telescopelow" ) == -1 )
+		{
+			return;
+		}
 
 		Preferences.setInteger( "lastTelescopeReset", KoLCharacter.getAscensions() );
 
@@ -155,7 +143,7 @@ public class TelescopeRequest
 
 		for ( int i = 0; i < TelescopeRequest.PATTERNS.length; ++i )
 		{
-			Matcher matcher = TelescopeRequest.PATTERNS[ i ].matcher( this.responseText );
+			Matcher matcher = TelescopeRequest.PATTERNS[ i ].matcher( responseText );
 			if ( !matcher.find() )
 			{
 				break;
@@ -169,6 +157,39 @@ public class TelescopeRequest
 		Preferences.setInteger( "telescopeUpgrades", upgrades );
 	}
 
+	private static final Pattern[] PATTERNS =
+	{
+		// "You focus the telescope on the entrance of the cave, and
+		// see a wooden gate with an elaborate carving of <description>
+		// on it."
+		Pattern.compile( "carving of (.*?) on it." ),
+
+		// "You raise the telescope a little higher, and see a window
+		// at the base of a tall brick tower. Through the window, you
+		// <description>."
+		Pattern.compile( "Through the window, you (.*?)\\." ),
+
+		// "Further up, you see a second window. Through this one, you
+		// <description>."
+		Pattern.compile( "Through this one, you (.*?)\\." ),
+
+		// "Even further up, you see a third window. Through it you
+		// <description>."
+		Pattern.compile( "Through it you (.*?)\\." ),
+
+		// "Looking still higher, you see another window. Through the
+		// fourth window you <description>."
+		Pattern.compile( "Through the fourth window you (.*?)\\." ),
+
+		// "Even further up, you see a fifth window. Through that one
+		// you <description>."
+		Pattern.compile( "Through that one you (.*?)\\." ),
+
+		// "Near the top of the tower, you see a sixth and final
+		// window. Through it you <description>."
+		Pattern.compile( "final window. *Through it you (.*?)\\." ),
+	};
+
 	public static final boolean registerRequest( final String urlString )
 	{
 		Matcher matcher = TelescopeRequest.WHERE_PATTERN.matcher( urlString );
@@ -179,10 +200,6 @@ public class TelescopeRequest
 
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( "telescope look " + matcher.group( 1 ) );
-		if ( matcher.group( 1 ).equals( "high" ) )
-		{
-			Preferences.setBoolean( "telescopeLookedHigh", true );
-		}
 
 		return true;
 	}

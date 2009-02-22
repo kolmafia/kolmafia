@@ -123,10 +123,6 @@ public class KoLAdventure
 		{
 			this.request = new SewerRequest( true );
 		}
-		else if ( formSource.equals( "campground.php" ) )
-		{
-			this.request = new CampgroundRequest( adventureId );
-		}
 		else if ( formSource.equals( "clan_gym.php" ) )
 		{
 			this.request = new ClanRumpusRequest( StringUtilities.parseInt( adventureId ) );
@@ -726,7 +722,7 @@ public class KoLAdventure
 
 	public void run()
 	{
-		if ( !KoLmafia.isRunningBetweenBattleChecks() && !( this.request instanceof CampgroundRequest ) )
+		if ( !KoLmafia.isRunningBetweenBattleChecks() )
 		{
 			if ( !StaticEntity.getClient().runThresholdChecks() )
 			{
