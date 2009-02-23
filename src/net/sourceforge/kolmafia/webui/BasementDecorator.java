@@ -143,7 +143,7 @@ public class BasementDecorator
 
 		StringBuffer changes = new StringBuffer();
 		changes.append( "<table>" );
-		changes.append( "<tr><td><select id=\"gear\" style=\"width: 400px\"><option value=\"none\">- change your equipment -</option>" );
+		changes.append( "<tr><td><select id=\"gear\" style=\"width: 100%\"><option value=\"none\">- change your equipment -</option>" );
 
 		// Add outfits
 
@@ -189,7 +189,7 @@ public class BasementDecorator
 
 			changes.append( "<tr><td><select onchange=\"" );
 			changes.append( computeFunction );
-			changes.append( "\" id=\"potion\" style=\"width: 400px\" multiple size=5>" );
+			changes.append( "\" id=\"potion\" style=\"width: 100%\" multiple size=5>" );
 
 			if ( KoLCharacter.getCurrentHP() < KoLCharacter.getMaximumHP() )
 			{
@@ -334,6 +334,7 @@ public class BasementDecorator
 		private final int effectiveBoost;
 		private AdventureResult item;
 		private boolean itemAvailable;
+		private int fullness;
 		private int spleen;
 		private int inebriety;
 		private boolean isDamageAbsorption;
@@ -364,19 +365,24 @@ public class BasementDecorator
 
 			this.item = null;
 			this.itemAvailable = true;
+			this.fullness = 0;
 			this.spleen = 0;
 			this.inebriety = 0;
 			this.isDamageAbsorption = this.name.equals( EffectPool.ASTRAL_SHELL) || this.name.equals( EffectPool.GHOSTLY_SHELL);
 			this.isElementalImmunity = BasementRequest.isElementalImmunity( this.name );
 			this.isStatEqualizer = this.name.equals( EffectPool.EXPERT_OILINESS) || this.name.equals( EffectPool.SLIPPERY_OILINESS) || this.name.equals( EffectPool.STABILIZING_OILINESS);
 
-			if ( this.action.startsWith( "use" ) || this.action.startsWith( "chew" ) || this.action.startsWith( "drink" ) )
+			if ( this.action.startsWith( "use" ) ||
+				this.action.startsWith( "chew" ) ||
+				this.action.startsWith( "drink" ) ||
+				this.action.startsWith( "eat" ) )
 			{
 				int index = this.action.indexOf( " " ) + 1;
 				this.item = ItemFinder.getFirstMatchingItem( this.action.substring( index ).trim(), false );
 				if ( this.item != null )
 				{
 					this.itemAvailable = InventoryManager.hasItem( this.item );
+					this.fullness = ItemDatabase.getFullness( item.getName() );
 					this.spleen = ItemDatabase.getSpleenHit( item.getName() );
 					this.inebriety = ItemDatabase.getInebriety( item.getName() );
 				}
@@ -481,6 +487,11 @@ public class BasementDecorator
 			return itemAvailable;
 		}
 
+		public int getFullness()
+		{
+			return spleen;
+		}
+
 		public int getSpleen()
 		{
 			return spleen;
@@ -508,6 +519,11 @@ public class BasementDecorator
 				}
 	
 				return false;
+			}
+
+			if ( this.fullness > 0 && ( KoLCharacter.getFullness() + this.fullness ) > KoLCharacter.getFullnessLimit() )
+			{
+				return true;
 			}
 
 			if ( this.spleen > 0 && ( KoLCharacter.getSpleenUse() + this.spleen ) > KoLCharacter.getSpleenLimit() )
