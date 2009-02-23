@@ -277,7 +277,7 @@ public class EquipmentManager
 			break;
 		}
 
-		equipment.set( slot, item );
+		EquipmentManager.equipment.set( slot, item );
 		EquipmentManager.equipmentLists[ slot ].setSelectedItem( item );
 
 		// Certain equipment slots require special update handling
@@ -287,10 +287,16 @@ public class EquipmentManager
 		{
 		case EquipmentManager.WEAPON:
 		case EquipmentManager.OFFHAND:
+			EquipmentManager.checkFamiliar( slot, item );
 			GearChangeFrame.updateWeapons();
 			break;
 
+		case EquipmentManager.HAT:
+			EquipmentManager.checkFamiliar( slot, item );
+			break;
+
 		case EquipmentManager.FAMILIAR:
+			EquipmentManager.checkFamiliar( slot, item );
 			KoLCharacter.currentFamiliar.setItem( item );
 			break;
 		}
@@ -319,6 +325,37 @@ public class EquipmentManager
 			KoLCharacter.addAvailableSkill( "Falling Leaf Whirlwind" );
 			KoLCharacter.addAvailableSkill( "Winter's Bite Technique" );
 			KoLCharacter.addAvailableSkill( "The 17 Cuts" );
+			break;
+		}
+	}
+
+	public static final void checkFamiliar( final int slot, AdventureResult item )
+	{
+		switch ( KoLCharacter.getFamiliar().getId() )
+		{
+		case 82:
+			// Mad Hatrack
+			if ( slot == EquipmentManager.HAT )
+			{
+				EquipmentManager.updateEquipmentList( EquipmentManager.FAMILIAR );
+			}
+			else if ( slot == EquipmentManager.FAMILIAR )
+			{
+				EquipmentManager.updateEquipmentList( EquipmentManager.HAT );
+			}
+			break;
+
+		case 92:
+			// Disembodied Hand
+			if ( slot == EquipmentManager.WEAPON || slot == EquipmentManager.OFFHAND )
+			{
+				EquipmentManager.updateEquipmentList( EquipmentManager.FAMILIAR );
+			}
+			else if ( slot == EquipmentManager.FAMILIAR )
+			{
+				EquipmentManager.updateEquipmentList( EquipmentManager.WEAPON );
+				EquipmentManager.updateEquipmentList( EquipmentManager.OFFHAND );
+			}
 			break;
 		}
 	}

@@ -1066,8 +1066,9 @@ public class EquipmentRequest
 				if ( !oldItem.equals( EquipmentRequest.UNEQUIP ) &&
 					!KoLConstants.inventory.contains( oldItem ) )
 				{
-					// Item was in the list for this slot only so that it could be
-					// displayed as the current item.  Remove it.
+					// Item was in the list for this slot
+					// only so that it could be displayed
+					// as the current item.  Remove it.
 					EquipmentManager.getEquipmentLists()[ slot ].remove( oldItem );					
 				}
 				if ( !newItem.equals( EquipmentRequest.UNEQUIP ) )
@@ -1345,12 +1346,24 @@ public class EquipmentRequest
 	{
 		boolean refresh = false;
 
-		if ( type != EquipmentManager.FAMILIAR )
+		switch ( type )
 		{
+		case EquipmentManager.FAMILIAR:
 			// Inventory is handled by familiar.setItem()
-			AdventureResult[] oldEquipment = EquipmentManager.currentEquipment();
-			AdventureResult oldItem = oldEquipment[ type ];
-			refresh = EquipmentRequest.switchItem( oldItem, newItem );
+			break;
+
+		case EquipmentManager.WEAPON:
+			// Wielding a two-handed weapon automatically unequips
+			// anything in the off-hand
+			if ( EquipmentDatabase.getHands( newItem.getItemId() ) > 1 )
+			{
+				refresh |= EquipmentRequest.switchItem( EquipmentManager.OFFHAND, EquipmentRequest.UNEQUIP );
+			}
+			// fall through
+		default:
+			AdventureResult oldItem = EquipmentManager.getEquipment( type );
+			refresh |= EquipmentRequest.switchItem( oldItem, newItem );
+			break;
 		}
 
 		// Now update your equipment to make sure that selected

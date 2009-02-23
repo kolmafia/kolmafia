@@ -207,7 +207,24 @@ public class FamiliarData
 
 		if ( !KoLmafia.isRefreshing() )
 		{
-			EquipmentManager.updateEquipmentList( EquipmentManager.FAMILIAR );
+			switch ( this.id )
+			{
+			case 82:
+				// Mad Hatrack
+				EquipmentManager.updateEquipmentList( EquipmentManager.HAT );
+				break;
+
+			case 92:
+				// Disembodied Hand
+				EquipmentManager.updateEquipmentList( EquipmentManager.WEAPON );
+				EquipmentManager.updateEquipmentList( EquipmentManager.OFFHAND );
+				break;
+
+			default:
+				// Everything else
+				EquipmentManager.updateEquipmentList( EquipmentManager.FAMILIAR );
+				break;
+			}
 			EquipmentManager.lockFamiliarItem();
 		}
 	}
