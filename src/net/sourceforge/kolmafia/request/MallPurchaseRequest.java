@@ -46,6 +46,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
@@ -60,6 +61,10 @@ public class MallPurchaseRequest
 		Pattern.compile( "You may only buy ([\\d,]+) of this item per day from this store\\.You have already purchased ([\\d,]+)" );
 	public static final Pattern PIRATE_EPHEMERA_PATTERN =
 		Pattern.compile( "pirate (?:brochure|pamphlet|tract)" );
+
+	private static Pattern MALLSTOREID_PATTERN = Pattern.compile( "whichstore\\d?=(\\d+)" );
+	private static Pattern NPCSTOREID_PATTERN = Pattern.compile( "whichstore=([^&]*)" );
+
 	private static boolean usePriceComparison;
 
 	// In order to prevent overflows from happening, make
@@ -461,11 +466,10 @@ public class MallPurchaseRequest
 		}
 		else if ( this.npcStoreId.equals( "r" ) )
 		{
-			if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.PIRATE_FLEDGES, 1 ) ) )
+			if ( !KoLCharacter.hasEquipped( ItemPool.get( ItemPool.PIRATE_FLEDGES, 1 ) ) )
 			{
-				return true;
+				neededOutfit = 9;
 			}
-			neededOutfit = 9;
 		}
 		else if ( this.npcStoreId.equals( "h" ) )
 		{
@@ -473,21 +477,28 @@ public class MallPurchaseRequest
 			{
 				neededOutfit = 2;
 			}
-			else if ( !QuestLogRequest.isHippyStoreAvailable() )
+			else if ( QuestLogRequest.isHippyStoreAvailable() )
+			{
+				neededOutfit = 0;
+			}
+			else if ( this.shopName.equals( "Hippy Store (Hippy)" ) )
 			{
 				neededOutfit = 32;
 			}
-			else
+			else if ( this.shopName.equals( "Hippy Store (Fratboy)" ) )
 			{
-				return true;
+				neededOutfit = 33;
 			}
 		}
-		else
-		{
-			// Maybe you can put on some Travoltan Trousers to decrease the
-			// cost of the purchase.
 
-			if ( !KoLCharacter.canInteract() && !KoLCharacter.isHardcore() && KoLConstants.inventory.contains( MallPurchaseRequest.TROUSERS ) )
+		if ( neededOutfit == 0 )
+		{
+			// Maybe you can put on some Travoltan Trousers to
+			// decrease the cost of the purchase.
+
+			if ( !KoLCharacter.canInteract() &&
+			     !KoLCharacter.isHardcore() &&
+			     KoLConstants.inventory.contains( MallPurchaseRequest.TROUSERS ) )
 			{
 				( new EquipmentRequest( MallPurchaseRequest.TROUSERS, EquipmentManager.PANTS ) ).run();
 			}
@@ -514,15 +525,8 @@ public class MallPurchaseRequest
 
 	public void processResults()
 	{
-		if ( this.isNPCStore && this.npcStoreId.equals( "r" ) )
-		{
-			Matcher m = PIRATE_EPHEMERA_PATTERN.matcher( this.responseText );
-			if ( m.find() )
-			{
-				Preferences.setInteger( "lastPirateEphemeraReset", KoLCharacter.getAscensions() );
-				Preferences.setString( "lastPirateEphemera", m.group( 0 ) );
-			}
-		}
+		MallPurchaseRequest.parseResponse( this.getURLString(), this.responseText );
+
 		int quantityAcquired = this.item.getCount( KoLConstants.inventory ) - this.initialCount;
 		if ( quantityAcquired > 0 )
 		{
@@ -553,7 +557,7 @@ public class MallPurchaseRequest
 
 		// One error is that the item price changed, or the item
 		// is no longer available because someone was faster at
-		// purchasing the item.  If that's the case, just return
+		// purchasing the item.	 If that's the case, just return
 		// without doing anything; nothing left to do.
 
 		if ( this.responseText.indexOf( "You can't afford" ) != -1 )
@@ -592,7 +596,7 @@ public class MallPurchaseRequest
 				}
 				else
 				{
-					KoLmafia.updateDisplay( "Price switch detected (#" + this.shopId + ").  Skipping..." );
+					KoLmafia.updateDisplay( "Price switch detected (#" + this.shopId + ").	Skipping..." );
 				}
 			}
 			else
@@ -628,6 +632,32 @@ public class MallPurchaseRequest
 		}
 	}
 
+	public static final void parseResponse( final String urlString, final String responseText )
+	{
+		if ( !urlString.startsWith( "store.php" ) )
+		{
+			return;
+		}
+
+		Matcher m = MallPurchaseRequest.NPCSTOREID_PATTERN.matcher(urlString);
+		if ( !m.find() )
+		{
+			return;
+		}
+
+		String storeId = m.group(1);
+
+		if ( storeId.equals( "r" ) )
+		{
+			m = PIRATE_EPHEMERA_PATTERN.matcher( responseText );
+			if ( m.find() )
+			{
+				Preferences.setInteger( "lastPirateEphemeraReset", KoLCharacter.getAscensions() );
+				Preferences.setString( "lastPirateEphemera", m.group( 0 ) );
+			}
+		}
+	}
+
 	public boolean equals( final Object o )
 	{
 		return o == null || !( o instanceof MallPurchaseRequest ) ? false : this.shopName.equals( ( (MallPurchaseRequest) o ).shopName ) && this.itemId == ( (MallPurchaseRequest) o ).itemId;
@@ -640,7 +670,6 @@ public class MallPurchaseRequest
 			return false;
 		}
 
-		String itemName = null;
 		String priceString = null;
 		int priceVal = 0;
 		boolean isMall = false;
@@ -682,39 +711,46 @@ public class MallPurchaseRequest
 		}
 
 		String idString = itemMatcher.group( 1 );
-                String storeName = "an NPC Store";
+		String storeName;
+
 		if ( isMall )
 		{
-			/* the last 9 characters of idString are the price, with leading zeros */
+			// the last 9 characters of idString are the price,
+			// with leading zeros
 			int idStringLength = idString.length();
 			priceString = idString.substring(idStringLength - 9, idStringLength);
 			idString = idString.substring( 0, idStringLength - 9 );
-			/* store ID is embedded in the URL.  Extract it and get the store name for logging */
-			Pattern STOREID_PATTERN = Pattern.compile("whichstore\\d?=(\\d+)");
-			Matcher m = STOREID_PATTERN.matcher(urlString);
-			if (m.find())
-			{
-				String storeID = m.group(1);
-				/* int intID = StringUtilities.parseInt(storeID); */
-				storeName = storeID;
-			}
 
+			// store ID is embedded in the URL.  Extract it and get
+			// the store name for logging
+
+			Matcher m = MallPurchaseRequest.MALLSTOREID_PATTERN.matcher(urlString);
+			storeName = m.find() ? m.group(1) : "a PC store";
 		}
-		/* in a perfect world where I was not so lazy, I'd verify that the price string
-		 * was really an int and might find another way to effectively strip leading
-		 * zeros from the display */
+		else
+		{
+			Matcher m = MallPurchaseRequest.NPCSTOREID_PATTERN.matcher(urlString);
+			String storeId = m.find() ? NPCStoreDatabase.getStoreName( m.group(1) ) : null;
+			storeName = storeId != null ? storeId : "an NPC Store";
+		}
+
+		// in a perfect world where I was not so lazy, I'd verify that
+		// the price string was really an int and might find another
+		// way to effectively strip leading zeros from the display
+
 		priceVal = StringUtilities.parseInt( priceString);
 		int itemId = StringUtilities.parseInt( idString );
-		itemName = ItemDatabase.getItemName( itemId );
+		String itemName = ItemDatabase.getItemName( itemId );
 
 		RequestLogger.updateSessionLog();
 		if (isMall)
 		{
 			RequestLogger.updateSessionLog( "buy " + quantity + " " + itemName + " for " + priceVal +
 			" each from " + storeName + " on " + KoLConstants.DAILY_FORMAT.format( new Date() ) );
-		} else {
-			RequestLogger.updateSessionLog( "buy " + quantity + " " + itemName +
-                       " at market price from " + storeName);
+		}
+		else
+		{
+			RequestLogger.updateSessionLog( "buy " + quantity + " " + itemName + " at market price from " + storeName);
 		}
 		return true;
 	}
