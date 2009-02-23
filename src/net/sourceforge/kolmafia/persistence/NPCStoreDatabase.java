@@ -36,6 +36,8 @@ package net.sourceforge.kolmafia.persistence;
 import java.io.BufferedReader;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.TreeMap;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -58,6 +60,7 @@ public class NPCStoreDatabase
 {
 	private static final HashMultimap NPC_ITEMS = new HashMultimap();
 	private static final AdventureResult LAB_KEY = new AdventureResult( 339, 1 );
+	private static final Map storeNameById = new TreeMap();
 
 	static
 	{
@@ -67,13 +70,18 @@ public class NPCStoreDatabase
 
 		while ( ( data = FileUtilities.readData( reader ) ) != null )
 		{
-			if ( data.length == 4 )
+			if ( data.length != 4 )
 			{
-				int id = ItemDatabase.getItemId( data[ 2 ] );
-				NPCStoreDatabase.NPC_ITEMS.put( id,
-					new MallPurchaseRequest( data[ 0 ], data[ 1 ], id,
-					StringUtilities.parseInt( data[ 3 ] ) ) );
+				continue;
 			}
+
+			String storeName = data[0];
+			String storeId = data[1];
+			String itemName = data[ 2 ];
+			int itemId = ItemDatabase.getItemId( itemName );
+			int price = StringUtilities.parseInt( data[ 3 ] );
+			NPCStoreDatabase.storeNameById.put( storeId, storeName );
+			NPCStoreDatabase.NPC_ITEMS.put( itemId, new MallPurchaseRequest( storeName, storeId, itemId, price ) );
 		}
 
 		try
@@ -87,6 +95,11 @@ public class NPCStoreDatabase
 
 			StaticEntity.printStackTrace( e );
 		}
+	}
+
+	public static final String getStoreName( final String storeId )
+	{
+		return (String) NPCStoreDatabase.storeNameById.get( storeId );
 	}
 
 	public static final MallPurchaseRequest getPurchaseRequest( final String itemName )
@@ -202,32 +215,43 @@ public class NPCStoreDatabase
 				return QuestLogRequest.isHippyStoreAvailable();
 			}
 
-			// Here, you insert any logic which is able to detect the
-			// completion of the filthworm infestation and which outfit
-			// was used to complete it.
+			// Here, you insert any logic which is able to detect
+			// the completion of the filthworm infestation and
+			// which outfit was used to complete it.
 
 			if ( level < 12 || Preferences.getInteger( "lastFilthClearance" ) != KoLCharacter.getAscensions() )
 			{
 				return false;
 			}
 
+			int outfit = 0;
 			if ( shopName.equals( "Hippy Store (Hippy)" ) )
 			{
 				if ( !Preferences.getString( "currentHippyStore" ).equals( "hippy" ) )
 				{
 					return false;
 				}
+
+				outfit = 32;	// War Hippy Fatigues
 			}
 
-			if ( shopName.equals( "Hippy Store (Fratboy)" ) )
+			else if ( shopName.equals( "Hippy Store (Fratboy)" ) )
 			{
 				if ( !Preferences.getString( "currentHippyStore" ).equals( "fratboy" ) )
 				{
 					return false;
 				}
+
+				outfit = 33;	// Frat Warrior Fatigues
 			}
 
-			return QuestLogRequest.isHippyStoreAvailable() || EquipmentManager.hasOutfit( 32 );
+			else
+			{
+				// What is this?
+				return false;
+			}
+
+			return QuestLogRequest.isHippyStoreAvailable() || EquipmentManager.hasOutfit( outfit );
 		}
 
 		// Check the quest log when determining if you've used the

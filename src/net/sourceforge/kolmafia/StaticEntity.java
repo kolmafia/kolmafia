@@ -72,6 +72,7 @@ import net.sourceforge.kolmafia.request.GuildRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.HiddenCityRequest;
 import net.sourceforge.kolmafia.request.KnollRequest;
+import net.sourceforge.kolmafia.request.MallPurchaseRequest;
 import net.sourceforge.kolmafia.request.MushroomRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.PyroRequest;
@@ -489,29 +490,35 @@ public abstract class StaticEntity
 			StorageRequest.parseTransfer( location, responseText );
 		}
 
-		// If this is the hippy store, check to see if any of the
-		// items offered in the hippy store are special.
-
-		else if ( location.startsWith( "store.php" ) && location.indexOf( "whichstore=h" ) != -1 && Preferences.getInteger( "lastFilthClearance" ) != KoLCharacter.getAscensions() )
+		else if ( location.startsWith( "store.php" ) )
 		{
-			String side = "none";
+			MallPurchaseRequest.parseResponse( location, responseText );
 
-			if ( responseText.indexOf( "peach" ) != -1 &&
-			     responseText.indexOf( "pear" ) != -1 &&
-			     responseText.indexOf( "plum" ) != -1 )
+			// If this is the hippy store, check to see if any of
+			// the items offered in the hippy store are special.
+
+			if ( location.indexOf( "whichstore=h" ) != -1 && Preferences.getInteger( "lastFilthClearance" ) != KoLCharacter.getAscensions() )
 			{
-				Preferences.setInteger( "lastFilthClearance", KoLCharacter.getAscensions() );
-				side = "hippy";
+				String side = "none";
+
+				if ( responseText.indexOf( "peach" ) != -1 &&
+				     responseText.indexOf( "pear" ) != -1 &&
+				     responseText.indexOf( "plum" ) != -1 )
+				{
+					Preferences.setInteger( "lastFilthClearance", KoLCharacter.getAscensions() );
+					side = "hippy";
+				}
+				else if ( responseText.indexOf( "bowl of rye sprouts" ) != -1 &&
+					  responseText.indexOf( "cob of corn" ) != -1 &&
+					  responseText.indexOf( "juniper berries" ) != -1 )
+				{
+					Preferences.setInteger( "lastFilthClearance", KoLCharacter.getAscensions() );
+					side = "fratboy";
+				}
+
+				Preferences.setString( "currentHippyStore", side );
+				Preferences.setString( "sidequestOrchardCompleted", side );
 			}
-			else if ( responseText.indexOf( "bowl of rye sprouts" ) != -1 &&
-				  responseText.indexOf( "cob of corn" ) != -1 &&
-				  responseText.indexOf( "juniper berries" ) != -1 )
-			{
-				Preferences.setInteger( "lastFilthClearance", KoLCharacter.getAscensions() );
-				side = "fratboy";
-			}
-			Preferences.setString( "currentHippyStore", side );
-			Preferences.setString( "sidequestOrchardCompleted", side );
 		}
 
 		else if ( location.startsWith( "sushi.php" ) )
