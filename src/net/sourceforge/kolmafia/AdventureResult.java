@@ -128,114 +128,39 @@ public class AdventureResult
 
 	public AdventureResult( final String name )
 	{
-		this.name = name;
-		this.count = new int[ 1 ];
+		this( AdventureResult.choosePriority( name ), name, 0 );
+	}
 
-		this.priority =
-			name.equals( AdventureResult.ADV ) ? AdventureResult.ADV_PRIORITY : name.equals( AdventureResult.MEAT ) ? AdventureResult.MEAT_PRIORITY : name.equals( AdventureResult.HP ) || name.equals( AdventureResult.MP ) || name.equals( AdventureResult.DRUNK ) ? AdventureResult.NO_PRIORITY : name.equals( AdventureResult.SUBSTATS ) ? AdventureResult.SUBSTAT_PRIORITY : name.equals( AdventureResult.FULLSTATS ) ? AdventureResult.FULLSTAT_PRIORITY : EffectDatabase.contains( name ) ? AdventureResult.EFFECT_PRIORITY : AdventureResult.ITEM_PRIORITY;
+	public AdventureResult( final String name, final int count )
+	{
+		this( AdventureResult.choosePriority( name ), name, count );
+	}
 
-		if ( this.priority == AdventureResult.EFFECT_PRIORITY )
-		{
-			this.normalizeEffectName();
-		}
-		else if ( this.priority == AdventureResult.ITEM_PRIORITY )
-		{
-			this.normalizeItemName();
-		}
+	public AdventureResult( final String name, final int[] count )
+	{
+		this( AdventureResult.choosePriority( name ), name, count );
+	}
 
+	public AdventureResult( final String name, final int count, final boolean isStatusEffect )
+	{
+		this( isStatusEffect ? EFFECT_PRIORITY : ITEM_PRIORITY, name, count );
 	}
 
 	protected AdventureResult( final int subType, final String name )
 	{
-		this.name = name;
-		this.count = new int[ 1 ];
-		this.count[ 0 ] = 1;
-
-		this.priority = subType;
-
-		if ( this.priority == AdventureResult.EFFECT_PRIORITY )
-		{
-			this.normalizeEffectName();
-		}
-		else if ( this.priority == AdventureResult.ITEM_PRIORITY )
-		{
-			this.normalizeItemName();
-		}
-
+		this( subType, name, 1 );
 	}
 
 	protected AdventureResult( final int subType, final String name, final int count )
 	{
-		this.name = name;
-		this.count = new int[ 1 ];
-		this.count[ 0 ] = count;
-
-		this.priority = subType;
+		this( subType, name, new int[] { count } );
 	}
 
-	/**
-	 * Constructs a new <code>AdventureResult</code> with the given item Id. which increased/decreased by the given
-	 * value. This constructor should be used for item-related results.
-	 *
-	 * @param itemId The itemId of the result
-	 * @param count How many of the noted result were gained
-	 */
-
-	public AdventureResult( final int itemId, final int count )
-	{
-		this.name = ItemDatabase.getItemName( itemId );
-		this.itemId = itemId;
-		this.count = new int[] { count };
-		this.priority = AdventureResult.ITEM_PRIORITY;
-	}
-
-	/**
-	 * Constructs a new <code>AdventureResult</code> with the given name which increased/decreased by the given value.
-	 * This constructor should be used for most results.
-	 *
-	 * @param name The name of the result
-	 * @param count How many of the noted result were gained
-	 */
-
-	public AdventureResult( final String name, final int count )
-	{
-		this.name = name;
-		this.count = new int[] { count };
-
-		if ( name.equals( AdventureResult.ADV ) || name.equals( AdventureResult.CHOICE ) )
-		{
-			this.priority = AdventureResult.ADV_PRIORITY;
-		}
-		else if ( name.equals( AdventureResult.MEAT ) )
-		{
-			this.priority = AdventureResult.MEAT_PRIORITY;
-		}
-		else if ( name.equals( AdventureResult.HP ) || name.equals( AdventureResult.MP ) || name.equals( AdventureResult.DRUNK ) || name.equals( AdventureResult.PULL ) )
-		{
-			this.priority = AdventureResult.NO_PRIORITY;
-		}
-		else if ( EffectDatabase.contains( name ) )
-		{
-			this.normalizeEffectName();
-		}
-		else
-		{
-			this.normalizeItemName();
-		}
-	}
-
-	/**
-	 * Constructs a new <code>AdventureResult</code> with the given name and increase in stat gains.
-	 */
-
-	public AdventureResult( final String name, final int[] count )
+	protected AdventureResult( final int subType, final String name, final int[] count )
 	{
 		this.name = name;
 		this.count = count;
-
-		this.priority =
-			name.equals( AdventureResult.ADV ) ? AdventureResult.ADV_PRIORITY : name.equals( AdventureResult.MEAT ) ? AdventureResult.MEAT_PRIORITY : name.equals( AdventureResult.HP ) || name.equals( AdventureResult.MP ) || name.equals( AdventureResult.DRUNK ) ? AdventureResult.NO_PRIORITY : name.equals( AdventureResult.SUBSTATS ) ? AdventureResult.SUBSTAT_PRIORITY : name.equals( AdventureResult.FULLSTATS ) ? AdventureResult.FULLSTAT_PRIORITY : EffectDatabase.contains( name ) ? AdventureResult.EFFECT_PRIORITY : AdventureResult.ITEM_PRIORITY;
-
+		this.priority = subType;
 		if ( this.priority == AdventureResult.EFFECT_PRIORITY )
 		{
 			this.normalizeEffectName();
@@ -246,28 +171,42 @@ public class AdventureResult
 		}
 	}
 
-	/**
-	 * Constructs a new <code>AdventureResult</code> with the given name and given gains. Note that this should only
-	 * be used if you know whether or not this is an item or a status effect.
-	 *
-	 * @param name The name of the result
-	 * @param count How many of the noted result were gained
-	 * @param isStatusEffect <code>true</code> if this is a status effect, <code>false</code> if this is an item
-	 */
-
-	public AdventureResult( final String name, final int count, final boolean isStatusEffect )
+	private static int choosePriority( final String name )
 	{
-		this.name = name;
-		this.count = new int[] { count };
+		if ( name.equals( AdventureResult.ADV ) )
+		{
+			return AdventureResult.ADV_PRIORITY;
+		}
+		if ( name.equals( AdventureResult.MEAT ) )
+		{
+			return AdventureResult.MEAT_PRIORITY;
+		}
+		if ( name.equals( AdventureResult.HP ) || name.equals( AdventureResult.MP ) || name.equals( AdventureResult.DRUNK ) )
+		{
+			return AdventureResult.NO_PRIORITY;
+		}
+		if ( name.equals( AdventureResult.SUBSTATS ) )
+		{
+			return AdventureResult.SUBSTAT_PRIORITY;
+		}
+		if ( name.equals( AdventureResult.FULLSTATS ) )
+		{
+			return AdventureResult.FULLSTAT_PRIORITY;
+		}
+		if ( EffectDatabase.contains( name ) )
+		{
+			return AdventureResult.EFFECT_PRIORITY;
+		}
+		return AdventureResult.ITEM_PRIORITY;
+	}
 
-		if ( isStatusEffect )
-		{
-			this.normalizeEffectName();
-		}
-		else
-		{
-			this.normalizeItemName();
-		}
+	public AdventureResult( final int itemId, final int count )
+	{
+		String name = ItemDatabase.getItemName( itemId );
+		this.name = name != null ? name : "(unknown item " + String.valueOf( this.itemId ) + ")";
+		this.itemId = itemId;
+		this.count = new int[] { count };
+		this.priority = AdventureResult.ITEM_PRIORITY;
 	}
 
 	public void normalizeEffectName()
@@ -577,7 +516,7 @@ public class AdventureResult
 			return new AdventureResult( name, count );
 		}
 
-                // Hand craft an item Adventure Result, regardless of the name
+		// Hand craft an item Adventure Result, regardless of the name
 		AdventureResult item = new AdventureResult( AdventureResult.NO_PRIORITY, name );
 		item.priority = AdventureResult.ITEM_PRIORITY;
 		item.itemId = ItemDatabase.getItemId( name, 1, false );
@@ -736,7 +675,7 @@ public class AdventureResult
 	 *
 	 * @param o The <code>Object</code> to be compared with this <code>AdventureResult</code>
 	 * @return <code>true</code> if the <code>Object</code> is an <code>AdventureResult</code> and has the same
-	 *         name as this one
+	 *	   name as this one
 	 */
 
 	public boolean equals( final Object o )
@@ -885,7 +824,7 @@ public class AdventureResult
 		int index = sourceList.indexOf( result );
 		if ( index != -1 )
 		{
-                        sourceList.remove( index );
+			sourceList.remove( index );
 		}
 	}
 
