@@ -2623,8 +2623,20 @@ public abstract class ChoiceManager
 
 		switch ( choiceValue )
 		{
+		// Heart of Very, Very Dark Darkness
+		case 5:
+			if ( InventoryManager.getCount( ItemPool.INEXPLICABLY_GLOWING_ROCK ) < 1 )
+			{
+				return "2";
+			}
+			return "1";
+
 		// How Depressing
 		case 7:
+			if ( !KoLCharacter.hasEquipped( ItemPool.get( ItemPool.SPOOKY_GLOVE, 1 ) ) )
+			{
+				return "2";
+			}
 			return "1";
 
 		// A Three-Tined Fork
@@ -2802,10 +2814,22 @@ public abstract class ChoiceManager
 		// A Vent Horizon
 		case 304:
 
-			// If we've already summoned three batters today,
-			// ignore this choice adventure.
+			// If we've already summoned three batters today or we
+			// don't have enough MP, ignore this choice adventure.
 
-			if ( decision.equals( "1" ) && Preferences.getInteger( "tempuraSummons" ) == 3 )
+			if ( decision.equals( "1" ) && ( Preferences.getInteger( "tempuraSummons" ) == 3 || KoLCharacter.getCurrentMP() < 200 ) )
+			{
+				return "2";
+			}
+			return decision;
+
+		// There is Sauce at the Bottom of the Ocean
+		case 305:
+
+			// If we don't have a Mer-kin pressureglobe, ignore
+			// this choice adventure.
+
+			if ( decision.equals( "1" ) && InventoryManager.getCount( ItemPool.MERKIN_PRESSUREGLOBE ) < 1 )
 			{
 				return "2";
 			}
