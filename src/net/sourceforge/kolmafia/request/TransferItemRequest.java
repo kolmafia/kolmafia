@@ -215,10 +215,11 @@ public abstract class TransferItemRequest
 		{
 			if ( meatAttachment > 0 )
 			{
-				KoLmafia.updateDisplay( this.getStatusMessage() + "..." );
 				this.addFormField( this.getMeatField(), String.valueOf( meatAttachment ) );
-				super.run();
 			}
+
+			KoLmafia.updateDisplay( this.getStatusMessage() + "..." );
+			super.run();
 
 			return;
 		}
