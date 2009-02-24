@@ -1458,6 +1458,26 @@ public class IslandDecorator
 		}
 	}
 
+	private static final String[][] JUNKYARD_AREAS =
+	{
+		{
+                        "a barrel",
+                        "next to that barrel with something burning in it",
+                },
+		{
+                        "a refrigerator",
+                        "near an abandoned refrigerator",
+                },
+		{
+                        "some tires",
+                        "over where the old tires are",
+                },
+		{
+                        "a car",
+                        "out by that rusted-out car",
+                },
+	};
+
 	private static final void parseJunkyard( final String responseText )
 	{
 		String tool = IslandDecorator.currentJunkyardTool;
@@ -1479,10 +1499,17 @@ public class IslandDecorator
 			tool = matcher.group( 1 );
 			tool = "molybdenum " + ( tool.equals( "wrench" ) ? "crescent " : "" ) + tool;
 			location = matcher.group( 2 );
-			if ( location.length() < 20 )
-			{	// out-of-uniform version
-				location = "near " + location;
-			}
+
+                        // Convert out-of-uniform locations to standard location
+                        for ( int i = 0; i < JUNKYARD_AREAS.length; ++i )
+                        {
+                                String [] locations = JUNKYARD_AREAS[i];
+                                if ( location.equals( locations[0] ) )
+                                {
+                                        location = locations[1];
+                                        break;
+                                }
+                        }
 		}
 
 		// As you turn to walk away, he taps you on the shoulder. "I
