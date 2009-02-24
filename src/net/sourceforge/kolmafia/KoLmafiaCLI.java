@@ -6237,7 +6237,8 @@ public class KoLmafiaCLI
 				int spaceIndex = itemNames[ i ].lastIndexOf( " " );
 				if ( spaceIndex == -1 )
 				{
-					continue;
+					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "[" + itemNames[ i ] + "] has no matches." );
+					return;
 				}
 
 				prices[ i ] = StringUtilities.parseInt( parameters.substring( spaceIndex + 1 ) );
@@ -6245,11 +6246,12 @@ public class KoLmafiaCLI
 				items[ i ] = ItemFinder.getFirstMatchingItem( itemNames[ i ], false );
 			}
 
-			if ( itemNames[ i ] == null )
+			if ( items[ i ] == null )
 			{
 				int spaceIndex = itemNames[ i ].lastIndexOf( " " );
 				if ( spaceIndex == -1 )
 				{
+					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "[" + itemNames[ i ] + "] has no matches." );
 					return;
 				}
 
@@ -6262,7 +6264,8 @@ public class KoLmafiaCLI
 
 			if ( items[ i ] == null )
 			{
-				continue;
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "[" + itemNames[ i ] + "] has no matches." );
+				return;
 			}
 
 			int inventoryCount = items[ i ].getCount( KoLConstants.inventory );
