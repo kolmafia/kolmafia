@@ -132,22 +132,17 @@ public abstract class TransferItemRequest
 
 	private void runSubInstances()
 	{
-		int capacity = this.getCapacity();
-		ArrayList subinstances = new ArrayList();
-
-		int index1 = 0;
-
-		AdventureResult item = null;
-		int availableCount;
-		int meatAttachment = 0;
-
-		ArrayList nextAttachments = new ArrayList();
-		TransferItemRequest subinstance = null;
-
 		boolean allowNoGift = this.allowUngiftableTransfer();
 		boolean allowSingleton = this.allowSingletonTransfer();
 		boolean allowNoTrade = this.allowUntradeableTransfer();
 		boolean allowMemento = !Preferences.getBoolean( "mementoListActive" ) || this.allowMementoTransfer();
+		int capacity = this.getCapacity();
+
+		ArrayList subinstances = new ArrayList();
+		int meatAttachment = 0;
+
+		ArrayList nextAttachments = new ArrayList();
+		int index1 = 0;
 
 		while ( index1 < this.attachments.length )
 		{
@@ -155,7 +150,12 @@ public abstract class TransferItemRequest
 
 			do
 			{
-				item = (AdventureResult) this.attachments[ index1++ ];
+				AdventureResult item = (AdventureResult) this.attachments[ index1++ ];
+
+				if ( item == null )
+				{
+					continue;
+				}
 
 				if ( item.getName().equals( AdventureResult.MEAT ) )
 				{
@@ -188,7 +188,7 @@ public abstract class TransferItemRequest
 					continue;
 				}
 
-				availableCount = item.getCount( this.source );
+				int availableCount = item.getCount( this.source );
 				if ( availableCount > 0 )
 				{
 					nextAttachments.add( item.getInstance( Math.min( item.getCount(), availableCount ) ) );
@@ -196,12 +196,13 @@ public abstract class TransferItemRequest
 			}
 			while ( index1 < this.attachments.length && nextAttachments.size() < capacity );
 
-			// For each broken-up request, you create a new sending request
-			// which will create the appropriate data to post.
+			// For each broken-up request, you create a new sending
+			// request which will create the appropriate data to
+			// post.
 
 			if ( !KoLmafia.refusesContinue() && !nextAttachments.isEmpty() )
 			{
-				subinstance = this.getSubInstance( nextAttachments.toArray() );
+				TransferItemRequest subinstance = this.getSubInstance( nextAttachments.toArray() );
 				subinstance.isSubInstance = true;
 				subinstances.add( subinstance );
 			}
@@ -210,21 +211,20 @@ public abstract class TransferItemRequest
 		// Now that you've determined all the sub instances, run
 		// all of them.
 
-		TransferItemRequest[] requests = new TransferItemRequest[ subinstances.size() ];
-		subinstances.toArray( requests );
-
-		if ( requests.length == 0 )
+		if ( subinstances.size() == 0 )
 		{
-			KoLmafia.updateDisplay( this.getStatusMessage() + "..." );
-
 			if ( meatAttachment > 0 )
 			{
+				KoLmafia.updateDisplay( this.getStatusMessage() + "..." );
 				this.addFormField( this.getMeatField(), String.valueOf( meatAttachment ) );
+				super.run();
 			}
 
-			super.run();
 			return;
 		}
+
+		TransferItemRequest[] requests = new TransferItemRequest[ subinstances.size() ];
+		subinstances.toArray( requests );
 
 		RequestThread.openRequestSequence();
 
