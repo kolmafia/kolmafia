@@ -115,8 +115,6 @@ public class FightRequest
 		Pattern.compile( "<table><tr><td align=center.*?</table>", Pattern.DOTALL );
 	private static final Pattern FUMBLE_PATTERN =
 		Pattern.compile( "You drop your .*? on your .*?, doing [\\d,]+ damage" );
-	private static final Pattern ELEMENTAL_PATTERN =
-		Pattern.compile( "<font color=[\"]?\\w+[\"]?><b>\\+?([\\d,]+)</b></font> (\\([^.]*\\) |)(?:damage|points|HP worth)" );
 	private static final Pattern CLEESH_PATTERN =
 		Pattern.compile( "You cast CLEESH at your opponent.*?turns into a (\\w*)", Pattern.DOTALL );
 	private static final Pattern WORN_STICKER_PATTERN =
@@ -130,6 +128,9 @@ public class FightRequest
 
 	private static final Pattern PHYSICAL_PATTERN =
 		Pattern.compile( "(your blood, to the tune of|stabs you for|sown|You lose|You gain|strain your neck|) (\\d[\\d,]*) (\\([^.]*\\) |)((?:\\w+ ){0,2})(?:damage|points?|notch(?:es)?|to your opponent|force damage|tiny holes)" );
+
+	private static final Pattern ELEMENTAL_PATTERN =
+		Pattern.compile( "(sown|) <font color=[\"]?\\w+[\"]?><b>\\+?([\\d,]+)</b></font> (\\([^.]*\\) |)(?:damage|points|HP worth)" );
 
 	private static final Pattern SECONDARY_PATTERN = Pattern.compile( "<b>\\+([\\d,]+)</b>" );
 	private static final Pattern MOSQUITO_PATTERN =
@@ -2112,9 +2113,14 @@ public class FightRequest
 		Matcher damageMatcher = FightRequest.ELEMENTAL_PATTERN.matcher( responseText );
 		while ( damageMatcher.find() )
 		{
-			damageThisRound += StringUtilities.parseInt( damageMatcher.group( 1 ) );
+			if ( !damageMatcher.group( 1 ).equals( "" ) )
+			{
+				continue;
+			}
 
-			Matcher secondaryMatcher = FightRequest.SECONDARY_PATTERN.matcher( damageMatcher.group( 2 ) );
+			damageThisRound += StringUtilities.parseInt( damageMatcher.group( 2 ) );
+
+			Matcher secondaryMatcher = FightRequest.SECONDARY_PATTERN.matcher( damageMatcher.group( 3 ) );
 			while ( secondaryMatcher.find() )
 			{
 				damageThisRound += StringUtilities.parseInt( secondaryMatcher.group( 1 ) );
