@@ -19,14 +19,6 @@ Smacketeria	3	cheap wind-up clock	200
 Smacketeria	3	blood of Wereseal	500
 Smacketeria	3	enchanted brass knuckles	1000
 
-Bugbear Bakery	b	Gnollish pie tin	30
-Bugbear Bakery	b	wad of dough	50
-Bugbear Bakery	b	taco shell	80
-Bugbear Bakery	b	skewer	80
-Bugbear Bakery	b	Gnollish casserole dish	150
-Bugbear Bakery	b	rolling pin	500
-Bugbear Bakery	b	unrolling pin	500
-
 Doc Galaktik's Medicine Show	galaktik.php	anti-anti-antidote	30
 Doc Galaktik's Medicine Show	galaktik.php	Doc Galaktik's Pungent Unguent	30
 Doc Galaktik's Medicine Show	galaktik.php	Doc Galaktik's Ailment Ointment	60
@@ -175,6 +167,14 @@ Degrassi Knoll Bakery	4	flat dough	70
 Degrassi Knoll Bakery	4	skewer	80
 Degrassi Knoll Bakery	4	taco shell	80
 Degrassi Knoll Bakery	4	Gnollish casserole dish	150
+
+Bugbear Bakery	b	Gnollish pie tin	30
+Bugbear Bakery	b	wad of dough	50
+Bugbear Bakery	b	taco shell	80
+Bugbear Bakery	b	skewer	80
+Bugbear Bakery	b	Gnollish casserole dish	150
+Bugbear Bakery	b	rolling pin	500
+Bugbear Bakery	b	unrolling pin	500
 
 Degrassi Knoll General Store	5	spring	20
 Degrassi Knoll General Store	5	sprocket	20
