@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.request;
 
 import java.io.BufferedReader;
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -61,6 +62,7 @@ public class ZapRequest
 
 	private static final BooleanArray isZappable = new BooleanArray();
 	private static final SortedListModel zappableItems = new SortedListModel();
+	private static final HashMap zapGroups = new HashMap();
 
 	private AdventureResult item;
 
@@ -102,6 +104,7 @@ public class ZapRequest
 					int itemId = ItemDatabase.getItemId( list[ i ] );
 					ZapRequest.zappableItems.add( new AdventureResult( itemId, 1 ) );
 					ZapRequest.isZappable.set( itemId, true );
+					ZapRequest.zapGroups.put( new Integer( itemId ), list );
 				}
 			}
 		}
@@ -120,6 +123,15 @@ public class ZapRequest
 		if ( Preferences.getBoolean( "relayTrimsZapList" ) )
 			matchingItems.retainAll( ZapRequest.zappableItems );
 		return matchingItems;
+	}
+	
+	public static final String[] getZapGroup( int itemId )
+	{
+		ZapRequest.initializeList();
+
+		String[] rv = (String[]) ZapRequest.zapGroups.get( new Integer( itemId ) );
+		if ( rv == null ) return new String[ 0 ];
+		return rv;
 	}
 
 	public void run()

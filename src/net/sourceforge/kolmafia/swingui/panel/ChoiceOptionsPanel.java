@@ -95,6 +95,7 @@ public class ChoiceOptionsPanel
 	private final JComboBox oceanDestSelect, oceanActionSelect;
 	private final JComboBox barrelSelect;
 	private final JComboBox gongSelect;
+	private final JComboBox basementMallSelect;
 
 	/**
 	 * Constructs a new <code>ChoiceOptionsPanel</code>.
@@ -254,9 +255,15 @@ public class ChoiceOptionsPanel
 			this.gongSelect.addItem( KoLmafiaCLI.Gong.GONG_PATHS[ i ] );
 		}
 
+		this.basementMallSelect = new JComboBox();
+		this.basementMallSelect.addItem( "do not show Mall prices" );
+		this.basementMallSelect.addItem( "show Mall prices for items you don't have" );
+		this.basementMallSelect.addItem( "show Mall prices for all items" );
+		
 		this.addChoiceSelect( "Item-Driven", "Llama Gong", this.gongSelect );
 		this.addChoiceSelect( "Plains", "Castle Wheel", this.castleWheelSelect );
 		this.addChoiceSelect( "Plains", "Papaya War", this.palindomePapayaSelect );
+		this.addChoiceSelect( "Plains", "Ferny's Basement", this.basementMallSelect );
 		this.addChoiceSelect( "Woods", "Forest Corpses", this.spookyForestSelect );
 		this.addChoiceSelect( "Item-Driven", "Violet Fog", this.violetFogSelect );
 		this.addChoiceSelect( "Manor1", "Billiard Room", this.billiardRoomSelect );
@@ -293,6 +300,7 @@ public class ChoiceOptionsPanel
 		Preferences.registerListener( "luckySewerAdventure", this );
 		Preferences.registerListener( "oceanAction", this );
 		Preferences.registerListener( "oceanDestination", this );
+		Preferences.registerListener( "basementMallSelect", this );
 
 		this.loadSettings();
 
@@ -668,6 +676,7 @@ public class ChoiceOptionsPanel
 		Preferences.setString( "choiceAdventure127", 
 			String.valueOf( this.palindomePapayaSelect.getSelectedIndex() + 1 ) );
 		Preferences.setInteger( "barrelGoal", this.barrelSelect.getSelectedIndex() + 1 );
+		Preferences.setInteger( "basementMallPrices", this.basementMallSelect.getSelectedIndex() );
 		Preferences.setInteger( "gongPath", this.gongSelect.getSelectedIndex() );
 		KoLmafiaCLI.Gong.setPath( this.gongSelect.getSelectedIndex() );
 
@@ -923,6 +932,7 @@ public class ChoiceOptionsPanel
 		this.maidenSelect.setSelectedIndex( Preferences.getInteger( "choiceAdventure89" ) );
 		this.palindomePapayaSelect.setSelectedIndex( Preferences.getInteger( "choiceAdventure127" ) - 1 );
 		this.barrelSelect.setSelectedIndex( Preferences.getInteger( "barrelGoal" ) - 1 );
+		this.basementMallSelect.setSelectedIndex( Preferences.getInteger( "basementMallPrices" ) );
 		this.gongSelect.setSelectedIndex( Preferences.getInteger( "gongPath" ) );
 
 		boolean foundItem = false;

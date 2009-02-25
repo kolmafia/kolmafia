@@ -176,6 +176,7 @@ user	availableQuarters	0
 user	availableSandDollars	0
 user	barrelGoal	1
 user	barrelLayout	?????????
+user	basementMallPrices	1
 user	battleAction	attack with weapon
 user	betweenBattleScript
 user	birdformCold	0
