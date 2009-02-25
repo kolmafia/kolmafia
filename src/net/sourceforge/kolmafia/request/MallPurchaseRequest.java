@@ -181,8 +181,8 @@ public class MallPurchaseRequest
 
 		this.addFormField( "pwd" );
 		this.addFormField( "whichstore", String.valueOf( shopId ) );
-		this.addFormField( "buying", "Yep." );
-
+		this.addFormField( "buying", "1" );
+		this.addFormField( "ajax", "1" );
 		this.addFormField( "whichitem", MallPurchaseRequest.getStoreString( itemId, price ) );
 
 		this.item = new AdventureResult( this.itemId, 1 );

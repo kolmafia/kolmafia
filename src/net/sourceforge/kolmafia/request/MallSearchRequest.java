@@ -52,12 +52,12 @@ public class MallSearchRequest
 	private static final Pattern STORELIMIT_PATTERN = Pattern.compile( "Limit ([\\d,]+) /" );
 	private static final Pattern STOREPRICE_PATTERN =
 		Pattern.compile( "radio value=(\\d+).*?<b>(.*?)</b> \\(([\\d,]+)\\)(.*?)</td>" );
-	private static final Pattern STOREDETAIL_PATTERN = Pattern.compile( "<tr>.*?</a>" );
+	private static final Pattern STOREDETAIL_PATTERN = Pattern.compile( "<tr class=\"graybelow.+?</tr>" );
 
-	private static final Pattern LISTQUANTITY_PATTERN = Pattern.compile( "\\([\\d,]+\\)" );
+	private static final Pattern LISTQUANTITY_PATTERN = Pattern.compile( "stock\">([\\d,]+)<" );
 	private static final Pattern LISTLIMIT_PATTERN = Pattern.compile( "([\\d,]+)\\&nbsp;\\/\\&nbsp;day" );
 	private static final Pattern LISTDETAIL_PATTERN =
-		Pattern.compile( "whichstore=(\\d+)\\&searchitem=(\\d+)\\&searchprice=(\\d+)\">(.*?)</a>" );
+		Pattern.compile( "whichstore=(\\d+)\\&searchitem=(\\d+)\\&searchprice=(\\d+)\"><b>(.*?)</b>" );
 
 	private List results;
 	private final boolean retainAll;
@@ -104,13 +104,14 @@ public class MallSearchRequest
 		super( searchString == null || searchString.trim().length() == 0 ? "mall.php" : "searchmall.php" );
 
 		this.searchString = searchString;
-		this.addFormField( "whichitem", this.searchString );
+		this.addFormField( "pudnuggler", this.searchString );
+		this.addFormField( "justitems", "0" );
 
-		if ( cheapestCount > 0 )
-		{
-			this.addFormField( "cheaponly", "on" );
-			this.addFormField( "shownum", "" + cheapestCount );
-		}
+		//if ( cheapestCount > 0 )
+		//{
+		//	this.addFormField( "cheaponly", "on" );
+		//	this.addFormField( "shownum", "" + cheapestCount );
+		//}
 
 		this.results = results;
 		this.retainAll = retainAll;
@@ -208,7 +209,7 @@ public class MallSearchRequest
 			if ( itemNames.size() == 1 )
 			{
 				this.searchString = MallSearchRequest.getSearchString( (String) itemNames.get( 0 ) );
-				this.addFormField( "whichitem", this.searchString );
+				this.addFormField( "pudnuggler", this.searchString );
 			}
 
 			KoLmafia.updateDisplay( "Searching for " + this.searchString + "..." );
@@ -308,11 +309,13 @@ public class MallSearchRequest
 			}
 
 			int limit = quantity;
+			boolean canPurchase = true;
 
 			Matcher limitMatcher = MallSearchRequest.LISTLIMIT_PATTERN.matcher( linkText );
 			if ( limitMatcher.find() )
 			{
 				limit = StringUtilities.parseInt( limitMatcher.group( 1 ) );
+				canPurchase = linkText.indexOf( "graybelow limited" ) == -1;
 			}
 
 			// The next token contains data which identifies the shop
@@ -331,7 +334,6 @@ public class MallSearchRequest
 
 			String shopName = detailsMatcher.group( 4 ).replaceAll( "<br>", " " );
 			String itemName = ItemDatabase.getItemName( itemId );
-			boolean canPurchase = linkText.indexOf( "<td style=" ) == -1;
 
 			if ( previousItemId != itemId )
 			{
