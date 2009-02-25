@@ -824,6 +824,12 @@ public abstract class UseLinkDecorator
 			useLocation = "town_wrong.php?place=artist";
 			break;
 
+		case ItemPool.FILTHWORM_QUEEN_HEART:
+
+			useType = "stand";
+			useLocation = "bigisland.php?place=orchard&action=stand";
+			break;
+
 		default:
 
 			// Bounty items get a count and a link to the Bounty
