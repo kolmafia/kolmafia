@@ -436,7 +436,7 @@ Ninja Snowman (Hilt/Mask)	HP: 70 Def: 85 Atk: 85 E: cold	cold ninja mask (10)	fr
 Ninja Snowman (Chopsticks)	HP: 70 Def: 85 Atk: 85 ED: cold	frigid ninja stars (20)	rice bowl (5)	chopsticks (5)	coal button (0)
 Ninja Snowman Janitor	HP: 70 Def: 90 Atk: 80 ED: cold	frigid ninja stars (20)	ninja mop (5)	pail (10)	coal button (0)
 Ninja Snowman Weaponmaster	HP: 80 Def: 90 Atk: 90 ED: cold	ridiculously overelaborate ninja weapon (5)	frigid ninja stars (20)	frozen nunchaku (5)	frigid mote (0)	coal button (0)
-Normal Hobo	HP: 380	hobo nickel (15)	Mr. Joe's bangles (0)	corncob pipe (0)	panhandle panhandling hat (0)	frayed rope belt (0)	cup of infinite pencils (0)	"WILL WORK FOR BOOZE" sign (0)	lucky bottlecap (0)
+Normal Hobo	HP: 380	hobo nickel (15)	Mr. Joe's bangles (0)	corncob pipe (0)	panhandle panhandling hat (0)	frayed rope belt (0)	cup of infinite pencils (0)	'WILL WORK FOR BOOZE' sign (0)	lucky bottlecap (0)
 Nurse Shark	HP: 800 Def: 450 Atk: 450 Meat: 160-240	nurse's hat (0)	sea salt scrubs (0)	slug of rum (0)
 Oasis Monster	HP: 139 Def: 137 Atk: 132 Meat: 80-120	displaced fish (20)	palm frond (10)	Supernova Champagne (20)	wonderwall shield (4)	carbonated water lily (10)	hot date (5)
 Octopus Gardener	HP: 600 Def: 400 Atk: 425 Meat: 80-120	octopus's spade (0)	soggy seed packet (0)	straw hat (0)
