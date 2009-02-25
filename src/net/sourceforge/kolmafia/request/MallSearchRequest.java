@@ -131,14 +131,18 @@ public class MallSearchRequest
 			return itemName;
 		}
 
-		String canonicalName = StringUtilities.getCanonicalName( ItemDatabase.getItemName( itemId ) );
+		String canonicalName = "\"" + StringUtilities.getCanonicalName( ItemDatabase.getItemName( itemId ) ) + "\"";
 		int entityIndex = canonicalName.indexOf( "&" );
 
 		if ( entityIndex == -1 )
 		{
-			return "\"" + canonicalName + "\"";
+			return canonicalName;
 		}
 
+		canonicalName = StringUtilities.globalStringReplace(
+			canonicalName, "&lt;", "<" );
+		canonicalName = StringUtilities.globalStringReplace(
+			canonicalName, "&gt;", ">" );
 		return StringUtilities.globalStringReplace( canonicalName, "&amp;", "&" );
 	}
 

@@ -283,10 +283,25 @@ public class BasementDecorator
 
 		if ( !effect.itemAvailable() )
 		{
-			changes.append( "acquire (~" );
+			if ( Preferences.getInteger( "basementMallPrices" ) > 0 )
+			{
+				changes.append( "acquire (~" );
+				changes.append( KoLConstants.COMMA_FORMAT.format(
+					effect.getItemPrice() * effect.getItem().getCount() ) );
+				changes.append( " meat) &amp; " );
+			}
+			else
+			{
+				changes.append( "acquire &amp; " );
+			}
+		}
+		else if ( effect.getItem() != null && 
+			Preferences.getInteger( "basementMallPrices" ) > 1 )
+		{
+			changes.append( "(~" );
 			changes.append( KoLConstants.COMMA_FORMAT.format(
 				effect.getItemPrice() * effect.getItem().getCount() ) );
-			changes.append( " meat) &amp; " );
+			changes.append( " meat) " );
 		}
 
 		changes.append( effect.getAction() );

@@ -3354,7 +3354,7 @@ public class KoLmafiaCLI
 		extends Command
 		implements Comparator
 	{
-		{ usage = "[?] <item> [,[-]item]... [; <cmds>] - compare prices, do cmds with \"it\" replaced with best."; }
+		{ usage = "[?] [+]<item> [,[-]item]... [; <cmds>] - compare prices, do cmds with \"it\" replaced with best."; }
 		{ flags = KoLmafiaCLI.FULL_LINE_CMD; }
 		public void run( String cmd, String parameters )
 		{
@@ -3371,7 +3371,18 @@ public class KoLmafiaCLI
 			for ( int i = 0; i < pieces.length ; ++i )
 			{
 				String piece = pieces[ i ];
-				if ( piece.startsWith( "-" ) )
+				if ( piece.startsWith( "+" ) )
+				{
+					AdventureResult item = ItemFinder.getFirstMatchingItem(
+						piece.substring( 1 ).trim() );
+					if ( item == null )
+					{
+						return;
+					}
+					names.addAll( Arrays.asList(
+						ZapRequest.getZapGroup( item.getItemId() ) ) );
+				}
+				else if ( piece.startsWith( "-" ) )
 				{
 					names.removeAll( ItemDatabase.getMatchingNames(
 						piece.substring( 1 ).trim() ) );

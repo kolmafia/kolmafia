@@ -59,7 +59,9 @@ function changeBasementEffects()
 			current = current.substring( 0, current.lastIndexOf( " (" ) );
 
 			if ( current.indexOf( "acquire " ) == 0 )
-				current = current.substring( current.indexOf( ")" ) + 8 );
+				current = current.substring( current.indexOf( "&amp; " ) + 6 );
+			else if ( current.indexOf( "(~" ) == 0 )
+				current = current.substring( current.indexOf( ") " ) + 2 );
 
 			command += current + "; ";
 		}
