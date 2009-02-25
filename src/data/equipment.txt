@@ -687,8 +687,7 @@ yak whip	20	Mus: 0	1-handed whip
 yohohoyo	160	Mox: 65	1-handed yoyo
 
 # Off-hand section of equipment.txt
-
-&quot;WILL WORK FOR BOOZE&quot; sign	0	Mus: 175
+'WILL WORK FOR BOOZE' sign	0	Mus: 175
 1-ball	0	none
 17-ball	0	none
 2-ball	0	none

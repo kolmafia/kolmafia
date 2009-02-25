@@ -3140,7 +3140,7 @@
 3134	125255229	stinkin' bindle
 3135	116664322	spooky bindle
 3136	999673147	sleazy bindle
-3137	828428600	&quot;WILL WORK FOR BOOZE&quot; sign
+3137	828428600	'WILL WORK FOR BOOZE'; sign
 3138	118492859	Hodgman's whackin' stick
 3139	648809275	Hodgman's imaginary hamster
 3140	114249239	old soft shoes

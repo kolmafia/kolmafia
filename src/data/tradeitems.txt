@@ -3135,7 +3135,7 @@
 3134	stinkin' bindle	12	all	150
 3135	spooky bindle	12	all	150
 3136	sleazy bindle	12	all	150
-3137	&quot;WILL WORK FOR BOOZE&quot; sign	13	all	110
+3137	'WILL WORK FOR BOOZE' sign	13	all	110
 3138	Hodgman's whackin' stick	12	display	0
 3139	Hodgman's imaginary hamster	13	display	0
 3140	old soft shoes	8	display	250

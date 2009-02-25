@@ -751,7 +751,7 @@ yohohoyo	Critical: 2, Spooky Damage: +1, Stench Damage: +1, Hot Damage: +1, Cold
 
 # Off-hand section of modifiers.txt
 
-&quot;WILL WORK FOR BOOZE&quot; sign	Booze Drop: +30
+'WILL WORK FOR BOOZE' sign	Booze Drop: +30
 1-ball	Initiative: +5
 17-ball	Spooky Damage: +20, Stench Damage: +20, Hot Damage: +20, Cold Damage: +20, Sleaze Damage: +20
 2-ball	Cold Damage: +5, Cold Spell Damage: +5
