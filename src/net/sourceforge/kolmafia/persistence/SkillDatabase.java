@@ -710,7 +710,7 @@ public class SkillDatabase
 		case 2023:	// Toss
 		case 3020:	// Spaghetti Spear
 		case 4020:	// Salsaball
-		case 5020:	// Suckerpunch
+		case 5021:	// Suckerpunch
 		case 6025:	// Sing
 			// Class starting combat skills
 			return false;
