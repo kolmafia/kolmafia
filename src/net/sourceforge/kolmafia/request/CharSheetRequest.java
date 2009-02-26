@@ -305,8 +305,8 @@ public class CharSheetRequest
 			token = cleanContent.nextToken();
 		}
 
-		// The first token says "(click the skill name for more information)"
-		// which is not really a skill.
+		// The first token says "(click the skill name for more
+		// information)" which is not really a skill.
 
 		GenericRequest.skipTokens( cleanContent, 1 );
 		token = cleanContent.nextToken();
@@ -322,6 +322,7 @@ public class CharSheetRequest
 			if ( SkillDatabase.contains( token ) )
 			{
 				String skillName = token;
+				UseSkillRequest skill = UseSkillRequest.getInstance( skillName );
 				int skillId = SkillDatabase.getSkillId( skillName );
 				boolean shouldAddSkill = true;
 
@@ -337,34 +338,30 @@ public class CharSheetRequest
 					shouldAddSkill = !KoLCharacter.inBadMoon();
 				}
 
-				boolean isPermed = false;
+				if ( shouldAddSkill )
+				{
+					newSkillSet.add( skill );
+				}
+
 				if ( cleanContent.hasMoreTokens() )
 				{
 					token = cleanContent.nextToken();
 					// (<b>HP</b>)
 					if ( token.equals( "(" ) || token.equals( " (" ) )
 					{
-						isPermed = true;
 						GenericRequest.skipTokens( cleanContent, 2 );
+						permedSkillSet.add( skill );
 					}
 					// (P)
 					else if ( token.equals( "(P)" ) || token.equals( " (P)" ) )
 					{
-						isPermed = true;
-					}
-				}
-
-				if ( shouldAddSkill )
-				{
-					UseSkillRequest skill = UseSkillRequest.getInstance( skillName );
-					newSkillSet.add( skill );
-					if (isPermed )
-					{
 						permedSkillSet.add( skill );
 					}
+					else
+					{
+						continue;
+					}
 				}
-
-				continue;
 			}
 
 			// No more tokens if no familiar equipped
