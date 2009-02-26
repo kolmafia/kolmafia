@@ -2293,13 +2293,13 @@ public abstract class KoLmafia
 
 		KoLAdventure adventure = new KoLAdventure( "Woods", "rats.php", "", "Typical Tavern (Pre-Rat)" );
 		GenericRequest request = adventure.getRequest();
-		boolean foundFaucet = searchList.size() < 2;
 
 		RequestThread.postRequest( adventure );
 
 		// Random guess instead of straightforward search
 		// for the location of the faucet.
 
+		boolean foundFaucet = false;
 		Integer searchIndex = null;
 
 		while ( !foundFaucet && searchList.size() > 0 && KoLmafia.permitsContinue() && KoLCharacter.getCurrentHP() > 0 && KoLCharacter.getAdventuresLeft() > 0 )
@@ -2311,10 +2311,6 @@ public abstract class KoLmafia
 			String response = request.responseText;
 			foundFaucet = response != null && response.indexOf( "faucetoff" ) != -1;
 		}
-
-		// If you have not yet found the faucet, be sure
-		// to set the settings so that your next attempt
-		// does not repeat located squares.
 
 		if ( !foundFaucet )
 		{
