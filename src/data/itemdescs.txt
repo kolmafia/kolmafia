@@ -132,7 +132,7 @@
 126	465274324	meat engine	meat engines
 127	792002723	Gnollish autoplunger	Gnollish autoplungers
 128	752035846	sticky meat pants	pairs of sticky meat pants
-129	546223279	third-hand nunchaku	third-hand  nunchaku
+129	546223279	third-hand nunchaku	third-hand nunchaku
 130	548096889	enchanted eyepatch	enchanted eyepatches
 131	805801465	frilly skirt	frilly skirts
 132	185286006	Meat maid body	Meat maid bodies
@@ -200,7 +200,7 @@
 194	373954459	Mr. Accessory	Mr. Accessories
 195	872602834	eXtreme nose ring	eXtreme nose rings
 196	328909735	disassembled clover	disassembled clovers
-197	522248617	rat whisker
+197	522248617	rat whisker	rat whiskers
 198	692680387	rat appendix	rat appendices
 199	702786809	shiny ring	shiny rings
 200	498411634	rat appendix kabob	rat appendix kabobs
@@ -390,7 +390,7 @@
 384	834797074	chrome sword	chrome swords
 385	637033474	chrome staff	chrome staves
 386	152287571	chrome crossbow	chrome crossbows
-387	832984520	fuzzy dice
+387	832984520	fuzzy dice	pairs of fuzzy dice
 388	696768936	yeti fur	yeti furs
 389	915680566	meaty helmet turtle	meaty helmet turtles
 390	395437933	asbestos helmet turtle	asbestos helmet turtles
@@ -528,7 +528,7 @@
 522	912976257	one-winged stab bat	one-winged stab bats
 523	587179830	rewinged stab bat	rewinged stab bats
 524	537404035	papaya sling	papaya slings
-525	901443551	grue egg
+525	901443551	grue egg	grue eggs
 526	538314813	Frobozz Real-Estate Company Instant House (TM)
 527	630554300	volleyball	volleyballs
 528	952613923	blood-faced volleyball	blood-faced volleyballs
@@ -640,7 +640,7 @@
 634	353896186	cool whip	cool whips
 635	635249410	little paper umbrella	little paper umbrellas
 636	126219215	meat globe
-637	305442740	cheap toaster
+637	305442740	cheap toaster	cheap toasters
 638	969983593	asshat	asshats
 639	119050756	abominable snowcone	abominable snowcones
 640	493785311	Ent cider	Ent ciders
@@ -710,7 +710,7 @@
 704	114382648	hamethyst	hamethysts
 705	584530295	baconstone	baconstones
 706	142164644	porquoise	porquoises
-707	168181838	pork elf goodies sack
+707	168181838	pork elf goodies sack	pork elf goodies sacks
 708	495202910	ring setting	ring settings
 709	199923803	jewelry-making pliers	pairs of jewelry-making pliers
 710
@@ -841,7 +841,7 @@
 835	155533321	ring of aggravate monster	rings of aggravate monster
 836	1885853222	mind flayer corpse	mind flayer corpses
 837	354166778	Uovo Marcio Shiraz	bottles of Uovo Marcio Shiraz
-838	1004538181	Mafia stogie
+838	1004538181	Mafia stogie	Mafia stogies
 839	897666778	Maiali Sifilitici Pinot Noir	bottles of Maiali Sifilitici Pinot Noir
 840	54538181	Mafia violin case
 841	824739977	tomato daiquiri	tomato daiquiris
@@ -875,14 +875,14 @@
 869	764985213	forest tears	vials of forest tears
 870	869858134	fetus-smashing club
 871	777055201	meatcar model	meatcar models
-872	16431643	Time Juice
+872	16431643	Time Juice	bottles of Time Juice
 873	76494676	rolling pin	rolling pins
 874	12394676	unrolling pin	unrolling pins
 875	762223212	crazy bastard sword	crazy bastard swords
 876	245686542	incredibly dense meat gem	incredibly dense meat gems
 877	731512144	Talisman of Baio	Talismen of Baio
 878	842662481	hypnodisk	hypnodisks
-879	185274556	goofballs
+879	185274556	goofballs	bottles of goofballs
 880	199952990	disbelief suspenders	pairs of disbelief suspenders
 881	368279831	supportive bra	supportive bras
 882	381677222	Blatantly Canadian	bottles of Blatantly Canadian
@@ -1112,7 +1112,7 @@
 1106	296055914	clockwork chef head	clockwork chef heads
 1107	313409688	clockwork maid head	clockwork maid heads
 1108	402948759	clockwork detective skull	clockwork detective skulls
-1109	385711522	clockwork bartender-head-in-the-box	clockwork bartender-heads-in-the-boxes
+1109	385711522	clockwork bartender-head-in-the-box	clockwork bartender-heads-in-the-box
 1110	617735256	clockwork chef-head-in-the-box	clockwork chef-heads-in-the-boxes
 1111	724965641	clockwork bartender-in-the-box	clockwork bartenders-in-the-boxes
 1112	805166107	clockwork chef-in-the-box	clockwork chefs-in-the-boxes
@@ -1135,7 +1135,7 @@
 1129	658229577	sequined fez	sequined feces
 1130	602702042	blank white card	blank white cards
 1131	398486949	beet	beets
-1132	257096949	Totally Gay Claymore
+1132	257096949	Totally Gay Claymore	Totally Gay Claymores
 1133	947229505	star shirt	star shirts
 1134	590801881	spooky cosmetics bag	spooky cosmetics bags
 1135	126179968	spooky eyeliner	spooky eyeliner pencils
@@ -1170,17 +1170,17 @@
 1164	295145140	poultrygeist	poultrygeists
 1165	203163475	hovering sombrero	hovering sombreros
 1166	642237204	tiny maracas	pairs of tiny maracas
-1167	546961999	plain brown wrapper
-1168	938194457	less-than-three-shaped box
-1169	558617858	exactly-three-shaped box
-1170	288094597	chocolate box
-1171	620396812	miniature coffin
-1172	572164409	solid asbestos box
-1173	512858222	solid linoleum box
-1174	589369829	solid chrome box
+1167	546961999	plain brown wrapper	plain brown wrappers
+1168	938194457	less-than-three-shaped box	less-than-three-shaped boxes
+1169	558617858	exactly-three-shaped box	exactly-three-shaped boxes
+1170	288094597	chocolate box	chocolate boxs
+1171	620396812	miniature coffin	miniature coffins
+1172	572164409	solid asbestos box	solid asbestos boxes
+1173	512858222	solid linoleum box	solid linoleum boxes
+1174	589369829	solid chrome box	solid chrome boxes
 1175	755107532	cryptic puzzle box	cryptic puzzle boxes
-1176	980209654	refrigerated biohazard container
-1177	206018702	magnetic field
+1176	980209654	refrigerated biohazard container	refrigerated biohazard containers
+1177	206018702	magnetic field	magnetic fields
 1178	964067424	potted cactus	potted cacti
 1179	146801132	daisy	daisies
 1180	523298616	potted fern	potted ferns
@@ -1269,7 +1269,7 @@
 1263	728686242	pygmy bugbear shaman	pygmy bugbear shamen
 1264	397212048	tiny nose-bone fetish	tiny nose-bone fetishes
 1265	151059179	box of sunshine	boxes of sunshine
-1266	142099004	gloomy black mushroom
+1266	142099004	gloomy black mushroom	gloomy black mushrooms
 1267	668445632	dead mimic
 1268	183375623	pine wand
 1269	997985875	ebony wand
@@ -1318,7 +1318,7 @@
 1312	442211696	Baron von Ratsworth's monocle	Baron von Ratsworth's monocles
 1313	147167320	Baron von Ratsworth's money clip	Baron von Ratsworth's money clips
 1314	828584278	Baron von Ratsworth's tophat	Baron von Ratsworth's tophats
-1315	902660681	rose-colored glasses
+1315	902660681	rose-colored glasses	pairs of rose-colored glasses
 1316	347944209	facsimile dictionary	facsimile dictionaries
 1317	960128590	blood flower	blood flowers
 1318	926885042	lovecat tail	lovecat tails
@@ -1412,7 +1412,7 @@
 1406	542679578	wreath-shaped Crimbo cookie	wreath-shaped Crimbo cookies
 1407	122884726	bell-shaped Crimbo cookie	bell-shaped Crimbo cookies
 1408	512653322	tree-shaped Crimbo cookie	tree-shaped Crimbo cookies
-1409	652518773	Unionize The Elves sign
+1409	652518773	Unionize The Elves sign	Unionize The Elves signs
 1410	699173079	sleeping snowy owl	sleeping snowy owls
 1411	349463372	Tome of Snowcone Summoning	Tomes of Snowcone Summoning
 1412	478583189	purple snowcone	snowcones purple
@@ -1435,7 +1435,7 @@
 1429	114581568	roll of drink tickets	rolls of drink tickets
 1430	590939155	pregnant gloomy black mushroom	pregnant gloomy black mushrooms
 1431	266780479	pregnant oily golden mushroom	pregnant oily golden mushrooms
-1432	857416597	oily golden mushroom
+1432	857416597	oily golden mushroom	oily golden mushrooms
 1433	160382985	fruit bowl	bowls of fruit
 1434	593246625	fruit basket	fruits basket
 1435	398407608	hot pink lipstick	tubes of hot pink lipstick
@@ -1537,7 +1537,7 @@
 1531	761419701	grass skirt	grass skirts
 1532	173784115	grass hat	grass hats
 1533	562599473	grass blade	grass blades
-1534	588738049	raffle prize box
+1534	588738049	raffle prize box	raffle prize boxen
 1535
 1536	228156172	homeless hobo spirit	homeless oboe hspirits
 1537	659845184	weegee sqouija	squeeja ouigees
@@ -2033,7 +2033,7 @@
 2027	949035644	super salad	bowls of super salad
 2028	232446099	tofu wonton	tofu wontons
 2029	922408101	hippy protest button	hippy protest mindys
-2030	951408155	Lockenstock&trade; sandals
+2030	951408155	Lockenstock&trade; sandals	Lockenstocken Sandals
 2031	855347661	didgeridooka	didgeridookas
 2032	516499807	bullet-proof corduroys	bullet-proof corduroyses, preciousss
 2033	144082186	round purple sunglasses	round purple sunglasses
@@ -2265,7 +2265,7 @@
 2259	447128250	photograph of God
 2260	827058631	hard rock candy
 2261	406582855	hard-boiled ostrich egg
-2262	313522450	bird rib
+2262	313522450	bird rib	bird ribs
 2263	697550097	lion oil	vials of lion oil
 2264	809178685	stunt nuts	bags of stunt nuts
 2265	478803907	wet stew	bowls of wet stew
@@ -2313,12 +2313,12 @@
 2307	627903592	lavender candy heart	lavender candy hearts
 2308	382862191	yellow candy heart	yellow candy hearts
 2309	937993740	green candy heart	green candy hearts
-2310	641781556	white candygram
-2311	900821807	pink candygram
-2312	411906758	orange candygram
-2313	434753247	lavender candygram
-2314	862173261	yellow candygram
-2315	112246014	green candygram
+2310	641781556	white candygram	white candygrams
+2311	900821807	pink candygram	pink candygrams
+2312	411906758	orange candygram	orange candygrams
+2313	434753247	lavender candygram	lavender candygrams
+2314	862173261	yellow candygram	yellow candygrams
+2315	112246014	green candygram	green candygrams
 2316	909037304	broken carburetor	broken carburetors
 2317	791009073	ancient bronze token
 2318	487030570	ancient bomb
@@ -2342,7 +2342,7 @@
 2336	209797948	lead pipe	lead pipes
 2337	213151374	reinforced beaded headband	reinforced beaded headbands
 2338	716388011	black pudding	black puddings
-2339	459189919	Blackfly Chardonnay	bottles of Blackfly Chardonnay
+2339	459189919	Blackfly Chardonnay	bottles of blackfly chardonnay
 2340	851939683	black & tan	blacks & tans
 2341	386692175	black pepper	shakers of black pepper
 2342	233137570	black forest cake	slices of black forest cake
@@ -2456,7 +2456,7 @@
 2450	404489596	empty Cloaca-Cola bottle	empty Cloaca-Cola bottles
 2451	289037416	goatskin umbrella	goatskin umbrellas
 2452	160247422	wool hat	wool hats
-2453	892445942	Goodfella contract
+2453	892445942	Goodfella contract	Goodfella contracts
 2454	867262722	white belt	white belts
 2455	263821595	bar whip	bar whips
 2456	564951346	barskin buckler	barskin bucklers
@@ -2488,7 +2488,7 @@
 2482	556599497	demon whip	demon whips
 2483	664765960	barskin cloak	barskin cloaks
 2484	692684674	white snakeskin duster	white snakeskin dusters
-2485	878692388	clownskin harness	clownskin harnesses
+2485	878692388	clownskin harness	clownskin harnesseses
 2486	980305999	demonskin jacket	demonskin jackets
 2487	758622764	hipposkin poncho	hipposkin ponchos
 2488	721587896	yak anorak	yak anoraks
@@ -2518,7 +2518,7 @@
 2512	322746900	Hippy Army MPE	Hippy Army MPEs
 2513	592022577	spark plug earring	spark plug earrings
 2514	491779381	woven baling wire bracelets	pairs of woven baling wire bracelets
-2515	302909159	gearbox necklace
+2515	302909159	gearbox necklace	gearbox necklaces
 2516	691488398	wrench bracelet	wrench bracelets
 2517	152836438	rusty chain necklace	rusty chain necklaces
 2518	772560168	sawblade shield	sawblade shields
@@ -2606,7 +2606,7 @@
 2600	496663617	carbonated water lily	carbonated water lilys
 2601	338816180	Staff of the Midnight Snack	Staves of the Midnight Snack
 2602	572669193	Staff of Blood and Pudding	Staves of Blood and Pudding
-2603	852684951	smoldering box
+2603	852684951	smoldering box	smoldering boxes
 2604	616843400	Tuesday's ruby	Tuesday's rubies
 2605	636774876	palm frond	palm fronds
 2606	621440067	palm-frond fan	palm-frond fans
@@ -2681,13 +2681,13 @@
 2675	111587963	handful of moss	handfuls of moss
 2676	594509761	bit-o-cactus	bits-o-cactus
 2677	700846387	ancient protein powder	handfuls of ancient protein powder
-2678	864782925	spectre scepter
+2678	864782925	spectre scepter		spectres' scepters
 2679	531024665	sparkler	sparklies
 2680	397831150	snake	sssnakess
 2681	160414339	M-242	M-242s
 2682	692188284	detuned radio	detuned radios
 2683	425159430	Warehouse 23 crate	Warehouse 23 crates
-2684	582302917	armed gun
+2684	582302917	armgun
 2685	831641508	fancy seashell necklace	fancy seashell necklaces
 2686	780091889	commemorative war stein	commemorative war steins
 2687	168728940	stone frisbee	stone frisbees
@@ -2823,14 +2823,14 @@
 2817	809754170	Brimstone Brooch	Brimstone Brooches
 2818	139800942	Brimstone Bracelet	Brimstone Bracelets
 2819	702263845	Grimacite gasmask
-2820	430222360	Grimacite gat
+2820	430222360	Grimacite gat	Grimacite gats
 2821	220999042	Grimacite gaiters
 2822	621668246	Grimacite gauntlets
 2823	169340033	Grimacite go-go boots
 2824	170497569	Grimacite girdle	Grimacite girdles
 2825	528443762	Grimacite gown
 2826	716016442	Staff of the Kitchen Floor	Staves of the Kitchen Floor
-2827	277422118	anniversary gift box
+2827	277422118	anniversary gift box	anniversary gift boxes
 2828	448561043	loaded dice
 2829	714527088	really dense meat stack	really dense meat stacks
 2830	608726347	digital key lime	digital key limes
@@ -2850,7 +2850,7 @@
 2844	908656927	navel ring of navel gazing	navel ring of navel gazings
 2845	840974863	class five ecto-larva	class five ecto-larvae
 2846	654355112	plastic bib	plastic bibs
-2847	406198903	Dallas Dynasty Falcon Crest shield
+2847	406198903	Dallas Dynasty Falcon Crest shield	Dallas Dynasty Falcon Crest shields
 2848	601549776	Gnomitronic Hyperspatial Demodulizer	Gnomitronic Hyperspatial Demodulizers
 2849
 2850
@@ -2885,7 +2885,7 @@
 2879	751634526	tiny plastic Knob Goblin King	tiny plastic Knob Goblin Kings
 2880	397311095	tiny plastic Bonerdagon	tiny plastic Bonerdagons
 2881	432191891	tiny plastic The Man	tiny plastic The Men
-2882	926215010	tiny plastic The Big Wisniewski
+2882	926215010	tiny plastic The Big Wisniewski	tiny plastic plastic The Big Wisniewski
 2883	147843406	tiny plastic Felonia	tiny plastic Feloniae
 2884	463746964	tiny plastic Beelzebozo	tiny plastic Beelzebozoz
 2885	813778155	tiny plastic conservationist hippy	tiny plastic conservationist hippies
@@ -2970,7 +2970,7 @@
 2964	426626520	ball polish
 2965	350586538	mizzenmast mop
 2966	617968819	Tom's of the Spanish Main Toothpaste	tubes of TSM toothpaste
-2967	981906398	Swabbie&trade; swab
+2967	981906398	Swabbie&trade; swab	Swabbie&trade; swabs
 2968	641422046	Oil of Parrrlay	tubs of Oil of Parrrlay
 2969	971196776	creamsicle	creamsicles
 2970	411448208	cream stout	bottles of cream stout
@@ -2995,7 +2995,7 @@
 2989	469451960	clingfilm trousers	pairs of clingfilm trousers
 2990	694192113	clingfilm cap	clingfilm caps
 2991	341276647	clingfilm slippers	clingfilm slipperss
-2992	317790457	clingfilm tangle
+2992	317790457	clingfilm tangle	clingfilm tangles
 2993	462198783	vinegar-soaked lemon slice	vinegar-soaked lemon slices
 2994	788941481	true grit	true grits
 2995	833226772	buoybottoms	pairs of buoybottoms
@@ -3011,9 +3011,9 @@
 3005	350201827	rainbow pearl	rainbow pearls
 3006	281007103	rainbow pearl earring
 3007	137836419	rainbow pearl necklace
-3008	555630676	rainbow pearl ring
+3008	555630676	rainbow pearl ring	rainbow pearl rings
 3009	466991608	Idol of Ak'gyxoth	Idols of Ak'gyxoth
-3010	364047670	Emblem of Ak'gyxoth
+3010	364047670	Emblem of Ak'gyxoth	Emblems of Ak'gyxoth, you dirty exploiter
 3011	761288804	sinister altar fragment	sinister altar fragments
 3012	147003205	shimmering rainbow sand	shimmering rainbow sands
 3013	555978098	simple ancient cursed key	simple ancient cursed keys
@@ -3035,7 +3035,7 @@
 3029	356963492	red-headed corpse	red-headed corpses
 3030	706044279	kamicorpse-ee	kamicorpse-ae
 3031	365780933	purple corpsel	purple corpsels
-3032	316114182	corpsebite
+3032	316114182	corpsebite	corpsebites
 3033	642596336	pirate fledges
 3034	654772088	cursed piece of thirteen	cursed pieces of thirteen
 3035	767383110	cursed black pearl onion	cursed black pearl onions
@@ -3053,13 +3053,13 @@
 3047	203826503	nanite-infested fruitcake	nanite-infested fruitcakes
 3048	820385035	nanite-infested eggnog	cups of nanite-infested eggnog
 3049	517851076	El Vibrato power sphere	El Vibrato power spheres
-3050	331604248	cursed eyepatch
-3051	321086673	cursed cutlass
-3052	797230378	cursed breeches
+3050	331604248	cursed eyepatch	cursed eyepatches
+3051	321086673	cursed cutlass	cursed cutlasss
+3052	797230378	cursed breeches	cursed breechess
 3053	878474444	mood ring	mood rings
 3054	127960670	black candy heart	black candy hearts
 3055	342327364	cymbal syrup	bottles of cymbal syrup
-3056	835251732	metallic foil cat ears
+3056	835251732	metallic foil cat ears	metallic foil cat ears
 3057	990761540	nanofiber cloth	squares of nanofiber cloth
 3058	767627450	iGoogly	iGooglies
 3059	358580860	theoretical string	pieces of theoretical string
@@ -3129,48 +3129,48 @@
 3123	192429115	divine champagne flute	divine champagne flutes
 3124	480977247	fruitfilm	fruitfilms
 3125	653012160	piece of after eight	pieces of after eight
-3126	972721571	hobo nickel
+3126	972721571	hobo nickel	hobo nickels
 3127	445850699	sandcastle	sandcastles
 3128	555622888	marshmallow	marshmallows
 3129	498235185	roasted marshmallow	roasted marshmallows
 3130	722107846	strange shiny disc	strange shiny discs
 3131	334311392	tin cup of mulligan stew	tin cups of mulligan stew
-3132	556659510	flamin' bindle
-3133	338028007	freezin' bindle
-3134	125255229	stinkin' bindle
-3135	116664322	spooky bindle
-3136	999673147	sleazy bindle
-3137	828428600	'WILL WORK FOR BOOZE' sign
-3138	118492859	Hodgman's whackin' stick
-3139	648809275	Hodgman's imaginary hamster
+3132	556659510	flamin' bindle	flamin' bindles
+3133	338028007	freezin' bindle	freezin' bindles
+3134	125255229	stinkin' bindle	stinkin' bindles
+3135	116664322	spooky bindle	spooky bindles
+3136	999673147	sleazy bindle	sleazy bindles
+3137	828428600	'WILL WORK FOR BOOZE' sign	'WILL WORK FOR BOOZE' signs
+3138	118492859	Hodgman's whackin' stick	Hodgman's whackin' sticks
+3139	648809275	Hodgman's imaginary hamster	Hodgman's imaginary hamsters
 3140	114249239	old soft shoes
-3141	678352310	panhandle panhandling hat
-3142	772668061	cup of infinite pencils
+3141	678352310	panhandle panhandling hat	panhandle panhandling hats
+3142	772668061	cup of infinite pencils	cups of infinite pencils
 3143	727586163	Hodgman's disgusting technicolor overcoat
 3144
-3145	778803106	El Vibrato translator
+3145	778803106	El Vibrato translator	El Vibrato translators
 3146	190950432	El Vibrato punchcard (115 holes)	El Vibrato punchcards (115 holes)
 3147	819422442	El Vibrato punchcard (97 holes)	El Vibrato punchcards (97 holes)
 3148	425524497	El Vibrato punchcard (129 holes)	El Vibrato punchcards (129 holes)
 3149	214908812	El Vibrato punchcard (213 holes)	El Vibrato punchcards (213 holes)
-3150	492236630	El Vibrato punchcard (165 holes)
+3150	492236630	El Vibrato punchcard (165 holes)	El Vibrato punchcards (165 holes)
 3151	146100460	El Vibrato punchcard (142 holes)	El Vibrato punchcards (142 holes)
-3152	146473377	El Vibrato punchcard (216 holes)
+3152	146473377	El Vibrato punchcard (216 holes)	El Vibrato punchcards (216 holes)
 3153	405841752	El Vibrato punchcard (88 holes)	El Vibrato punchcards (88 holes)
 3154	782895675	El Vibrato punchcard (182 holes)	El Vibrato punchcards (182 holes)
 3155	691201629	El Vibrato punchcard (176 holes)	El Vibrato punchcards (176 holes)
 3156	831927049	El Vibrato punchcard (104 holes)	El Vibrato punchcards (104 holes)
-3157	118658618	El Vibrato drone
-3158	628758189	sparking El Vibrato drone
-3159	808191546	warm El Vibrato drone
-3160	629633136	humming El Vibrato drone
-3161	585181402	glowing El Vibrato drone
-3162	290864430	El Vibrato helmet
-3163	628467983	El Vibrato energy spear
-3164	579036744	El Vibrato leg guards
-3165	260907255	broken El Vibrato drone
-3166	379323932	repaired El Vibrato drone
-3167	390534062	augmented El Vibrato drone
+3157	118658618	El Vibrato drone	El Vibrato drones
+3158	628758189	sparking El Vibrato drone	sparkling El Vibrato drones
+3159	808191546	warm El Vibrato drone	warm El Vibrato drones
+3160	629633136	humming El Vibrato drone	humming El Vibrato drones
+3161	585181402	glowing El Vibrato drone	glowing El Vibrato drones
+3162	290864430	El Vibrato helmet	El Vibrato helmets
+3163	628467983	El Vibrato energy spear	El Vibrato energy spears
+3164	579036744	El Vibrato leg guards	El Vibrato leg guardss
+3165	260907255	broken El Vibrato drone	broken El Vibrato drones
+3166	379323932	repaired El Vibrato drone	repaired El Vibrato drones
+3167	390534062	augmented El Vibrato drone	augmented El Vibrato drones
 3168
 3169
 3170
@@ -3201,7 +3201,7 @@
 3195	697068629	naughty paper shuriken	naughty paper shurikens
 3196	353333224	origami pasties	origami pastiess
 3197	232940208	origami riding crop	origami riding crops
-3198	361752510	El Vibrato trapezoid
+3198	361752510	El Vibrato trapezoid	El Vibrato trapezoids
 3199
 3200
 3201
@@ -3223,49 +3223,49 @@
 3217	193025375	El Vibrato Megadrone
 3218	180768335	purple glowstick	purple glowstyx
 3219	652434605	sane hatrack	sane hatrackers
-3220	608608209	hobo code binder
-3221	417149275	gator skin
-3222	607654468	gatorskin umbrella
+3220	608608209	hobo code binder	hobo code binders
+3221	417149275	gator skin	gator skins
+3222	607654468	gatorskin umbrella	gatorskin umbrellas
 3223	748371286	sewer nuggets	clusters of sewer nuggets
-3224	843818484	sewer wad
+3224	843818484	sewer wad	sewer wads
 3225	985553213	bottle of sewage schnapps	bottles of sewage schnapps
 3226	708971479	bottle of Ooze-O	bottles of Ooze-O
 3227	603451254	C. H. U. M. chum	handfuls of C. H. U. M. chum
 3228	815060531	unfortunate dumplings	bowls of unfortunate dumplings
-3229	194632954	decaying goldfish liver
+3229	194632954	decaying goldfish liver	decaying goldfish livers
 3230	133463686	oil of oiliness	flasks of oil of oiliness
-3231	380893218	tattered paper crown
-3232	787163245	vanilla-frosted king cake
-3233	199932706	inflatable duck
-3234	190515908	water wings
-3235	265675713	foam noodle
+3231	380893218	tattered paper crown	decaying goldfish livers
+3232	787163245	vanilla-frosted king cake	vanilla-frosted king cakes
+3233	199932706	inflatable duck	inflatable ducks
+3234	190515908	water wings	water wingss
+3235	265675713	foam noodle	foam noodles
 3236	831722443	Kissin' Cousins	copies of Kissin' Cousins
-3237	186707798	Tales from the Fireside
+3237	186707798	Tales from the Fireside	copies of Tales from the Fireside
 3238	374672848	Blizzards I Have Died In	copies of Blizzards I Have Died In
-3239	664515385	Maxing, Relaxing
-3240	136121854	Biddy Cracker's Old-Fashioned Cookbook
+3239	664515385	Maxing, Relaxing	copies of Maxing, Relaxing
+3240	136121854	Biddy Cracker's Old-Fashioned Cookbook	copies of Biddy Cracker's Old-Fashioned Cookbook
 3241	499215664	Travels with Jerry	copies of Travels with Jerry
 3242	183602575	Let Me Be!	copies of Let Me Be!
 3243	801300658	Asleep in the Cemetery	copies of Asleep in the Cemetery
-3244	682348153	Summer Nights
-3245	543030767	Sensual Massage for Creeps
-3246	175959334	Ol' Scratch's ol' britches
-3247	288475507	Ol' Scratch's stovepipe hat
-3248	878278248	Ol' Scratch's ash can
-3249	865689800	pink plastic baby
+3244	682348153	Summer Nights	copies of Summer Nights
+3245	543030767	Sensual Massage for Creeps	copies of Sensual Massage for Creeps
+3246	175959334	Ol' Scratch's ol' britches	ol' pairs of Ol' Scratch's ol' britches
+3247	288475507	Ol' Scratch's stovepipe hat	Ol' Scratch's stovepipe hats
+3248	878278248	Ol' Scratch's ash can	Ol' Scratch's ash cans
+3249	865689800	pink plastic baby	pink plastic babies
 3250	115200303	silver sausage
-3251	535393288	Frosty's old silk hat
-3252	418045597	Frosty's carrot
-3253	208890943	Frosty's nailbat
+3251	535393288	Frosty's old silk hat	Frosty's old silk hats
+3252	418045597	Frosty's carrot	Frosty's carrots
+3253	208890943	Frosty's nailbat	Frosty's nailbats
 3254	586085772	Oscus's pelt
-3255	872696571	Wand of Oscus
-3256	878350523	Oscus's dumpster waders
-3257	970898531	Zombo's skullcap
-3258	935290105	Zombo's shield
-3259	587267531	Zombo's grievous greaves
-3260	519707440	Chester's moustache
-3261	628538543	Chester's bag of candy
-3262	505652258	Chester's cutoffs
+3255	872696571	Wand of Oscus	Wands of Oscus
+3256	878350523	Oscus's dumpster waders	pairs of Oscus's dumpster waders
+3257	970898531	Zombo's skullcap	Zombo's skullcaps
+3258	935290105	Zombo's shield	Zombo's shields
+3259	587267531	Zombo's grievous greaves	pairs of Zombo's grievous greaves
+3260	519707440	Chester's moustache	Chester's moustaches
+3261	628538543	Chester's bag of candy	Chester's bags of candy
+3262	505652258	Chester's cutoffs	pairs of Chester's cutoffs
 3263	558318053	Sp'n-Zor's Grimoire of &quot;Tasteful&quot; Gifts	Sp'n-Zor's Grimoires of &quot;Tasteful&quot; Gifts
 3264	647531205	black candygram	black candygrams
 3265	983680869	bag of Crotchety Pine saplings
@@ -3277,23 +3277,23 @@
 3271	577653594	crotchety pants
 3272	533229935	Saccharine Maple pendant
 3273	604596957	willowy bonnet
-3274	362025868	flavored foot massage oil
-3275	790759909	foam dart
-3276	183153779	black-and-blue light
-3277	758286827	Loudmouth Larry Lamprey
-3278	895842590	cheap studded belt
-3279	912129024	personal massager
-3280	720462328	personalized coffee mug
-3281	670556086	blue plasma ball
-3282	162403258	stick-on eyebrow piercing
+3274	362025868	flavored foot massage oil	vials of flavored foot massage oil
+3275	790759909	foam dart	foam darts
+3276	183153779	black-and-blue light	black-and-blue lights
+3277	758286827	Loudmouth Larry Lamprey	Loudmouth Larry Lampreys
+3278	895842590	cheap studded belt	cheap studded belts
+3279	912129024	personal massager	personal massagers
+3280	720462328	personalized coffee mug	personalized coffee mugs
+3281	670556086	blue plasma ball	blue plasma balls
+3282	162403258	stick-on eyebrow piercing	stick-on eyebrow piercings
 3283	599355193	delicious salad	bowls of delicious salad
-3284	787484881	C. H. U. M. lantern
+3284	787484881	C. H. U. M. lantern	C. H. U. M. lanterns
 3285	253069991	C. H. U. M. knife	C. H. U. M. knives
-3286	858648754	Frosty's snowball sack
-3287	806903125	quasi-ethereal macaroni fragments
-3288	221770723	shimmering tendrils
-3289	712356699	scintillating powder
-3290	189526641	abandoned candy
+3286	858648754	Frosty's snowball sack	Frosty's snowball sacks
+3287	806903125	quasi-ethereal macaroni fragments	quasi-ethereal macaroni fragmentss
+3288	221770723	shimmering tendrils	shimmering tendrilss
+3289	712356699	scintillating powder	scintillating powders
+3290	189526641	abandoned candy	abandoned candys
 3291
 3292
 3293
@@ -3319,18 +3319,18 @@
 3313	402193751	marinara jug
 3314	527093822	makeshift castanets
 3315	193779227	left-handed melodica
-3316	987134809	epic wad
-3317	436834470	lucky bottlecap
-3318	425482016	corncob pipe
+3316	987134809	epic wad	epic wads
+3317	436834470	lucky bottlecap	lucky bottlecaps
+3318	425482016	corncob pipe	corncob pipes
 3319	419047697	Mr. Joe's bangles	sets of Mr. Joe's bangles
-3320	398731027	frayed rope belt
+3320	398731027	frayed rope belt	frayed rope belts
 3321	876664237	packet of mayfly bait	packets of mayfly bait
 3322	454243766	mayfly bait necklace
-3323	113028478	Ol' Scratch's salad fork
-3324	636162743	Frosty's frosty mug
+3323	113028478	Ol' Scratch's salad fork	Ol' Scratch's salad forks
+3324	636162743	Frosty's frosty mug	Frosty's frosty mugs
 3325	779834964	jar of fermented pickle juice	jars of fermented pickle juice
 3326	349482650	voodoo snuff	cans of voodoo snuff
-3327	549862155	extra-greasy slider
+3327	549862155	extra-greasy slider	extra-greasy sliders
 3328	732914439	crumpled felt fedora
 3329	151934208	battered old top-hat
 3330	393800790	shapeless wide-brimmed hat
@@ -3339,109 +3339,109 @@
 3333	457093585	old patched suit-pants
 3334	278044943	hobo stogie
 3335	815191941	rope with some soap on it
-3336	687594503	dead guy's piece of double-sided tape
-3337	226969528	dead guy's memento
-3338	380450499	frozen banquet
-3339	194177152	sharpened hubcap
-3340	777599179	very large caltrop
-3341	212225141	The Six-Pack of Pain
+3336	687594503	dead guy's piece of double-sided tape	dead guy's pieces of double-sided tape
+3337	226969528	dead guy's memento	dead guy's mementos
+3338	380450499	frozen banquet	frozen banquets
+3339	194177152	sharpened hubcap	sharpened hubcaps
+3340	777599179	very large caltrop	very large caltrops
+3341	212225141	The Six-Pack of Pain	Six-Packs of Pain
 3342	873673563	hobo monkey
-3343	661779077	tiny bindle
+3343	661779077	tiny bindle	tiny bindles
 3344	437736715	bed of coals	beds of coals
 3345	527732082	frigid air mattress	frigid air mattresses
-3346	776771033	filth-encrusted futon
-3347	324466516	comfy coffin
+3346	776771033	filth-encrusted futon	filth-encrusted futons
+3347	324466516	comfy coffin	comfy coffins
 3348	736849781	stained mattress	stained mattresses
-3349	787722904	dinged-up triangle
-3350	831950641	Ralph IX cognac
+3349	787722904	dinged-up triangle	dinged-up triangles
+3350	831950641	Ralph IX cognac	bottles of Ralph IX cognac
 3351	821134174	llama lama cria	llama lama criae
-3352	915431949	zen motorcycle
-3353	450667217	llama lama gong
-3354	560001000	banana-frosted king cake
-3355	843815341	brown plastic baby
-3356	285773925	plump juicy grub
-3357	125853708	delicious shimmering moth
-3358	515099636	delectable fire ant
-3359	477615124	scrumptious ice ant
-3360	700282942	delicious stinkbug
-3361	649856281	yummy death watch beetle
-3362	889678946	tasty louse
+3352	915431949	zen motorcycle	zen motorcycles
+3353	450667217	llama lama gong	llama lama gongs
+3354	560001000	banana-frosted king cake	banana-frosted king cakes
+3355	843815341	brown plastic baby	brown plastic babies
+3356	285773925	plump juicy grub	plump juicy grubs
+3357	125853708	delicious shimmering moth	delicious shimmering moths
+3358	515099636	delectable fire ant	delectable fire ants
+3359	477615124	scrumptious ice ant	scrumptious ice ants
+3360	700282942	delicious stinkbug	delicious stinkbugs
+3361	649856281	yummy death watch beetle	yummy death watch beetles
+3362	889678946	tasty louse	tasty louses
 3363	205635187	mole mol&eacute;	mole mol&eacute; mol&eacute;
 3364	136432731	Morlock's Mark Bourbon	jugs of Morlock's Mark Bourbon
-3365	232791709	Climate Colada
-3366	435286247	digital underground potion
-3367	941765437	interesting-looking twig
-3368	165379582	glimmering roc feather
-3369	859835974	glimmering phoenix feather
-3370	287900396	glimmering penguin feather
-3371	986251233	glimmering buzzard feather
-3372	819133201	glimmering raven feather
-3373	634790806	glimmering great tit feather
-3374	745177190	house of twigs and spit
+3365	232791709	Climate Colada	Climate Coladas
+3366	435286247	digital underground potion	bottles of digital underground potion
+3367	941765437	interesting-looking twig	interesting-looking twigs
+3368	165379582	glimmering roc feather	glimmering roc feathers
+3369	859835974	glimmering phoenix feather	glimmering phoenix feathers
+3370	287900396	glimmering penguin feather	glimmering penguin feathers
+3371	986251233	glimmering buzzard feather	glimmering buzzard feathers
+3372	819133201	glimmering raven feather	glimmering raven feathers
+3373	634790806	glimmering great tit feather	glimmering great tit feathers
+3374	745177190	house of twigs and spit	houses of twigs and spit
 3375	141228944	The Ballad of Richie Thingfinder	copies of The Ballad of Richie Thingfinder
 3376	258185206	Benetton's Medley of Diversity	copies of Benetton's Medley of Diversity
 3377	220021939	Elron's Explosive Etude	copies of Elron's Explosive Etude
 3378	701686239	Chorale of Companionship	copies of Chorale of Companionship
 3379	243581726	Prelude of Precision	copies of Prelude of Precision
 3380	576715255	Ol' Scratch's infernal pitchfork
-3381	355068482	Ol' Scratch's stove door
-3382	877578886	Ol' Scratch's manacles
+3381	355068482	Ol' Scratch's stove door	Ol' Scratch's stove doors
+3382	877578886	Ol' Scratch's manacles	pairs of Ol' Scratch's manacles
 3383	898058153	Chester's sunglasses
-3384	803397279	Chester's muscle shirt
-3385	795271370	Chester's Aquarius medallion
+3384	803397279	Chester's muscle shirt	Chester's muscle shirts
+3385	795271370	Chester's Aquarius medallion	Chester's Aquarius medallions
 3386	909940484	Zombo's shoulder blade
 3387	202391134	Zombo's skull ring
 3388	166850527	Zombo's empty eye
 3389	968257348	Frosty's arm
 3390	233793961	Staff of the Deepest Freeze	Staves of the Deepest Freeze
 3391	380631575	Frosty's iceball
-3392	203629025	Oscus's garbage can lid
-3393	445347637	Oscus's neverending soda
-3394	138953077	Oscus's flypaper pants
-3395	667103288	Hodgman's porkpie hat
-3396	159000068	Hodgman's lobsterskin pants
-3397	377044137	Hodgman's bow tie
+3392	203629025	Oscus's garbage can lid	Oscus's garbage can lids
+3393	445347637	Oscus's neverending soda	Oscus's neverending sodas
+3394	138953077	Oscus's flypaper pants	pairs of Oscus's flypaper pants
+3395	667103288	Hodgman's porkpie hat	Hodgman's porkpie hats
+3396	159000068	Hodgman's lobsterskin pants	pairs of Hodgman's lobsterskin pants
+3397	377044137	Hodgman's bow tie	Hodgman's bow ties
 3398	211737724	Hodgman's blanket	flasks of Hodgman's blanket
 3399	462827145	jar of squeeze	jars of squeeze
 3400	807905263	bowl of fishysoisse	bowls of fishysoisse
-3401	663239943	deadly lampshade
-3402	637820129	concentrated garbage juice
+3401	663239943	deadly lampshade	deadly lampshades
+3402	637820129	concentrated garbage juice	vials of concentrated garbage juice
 3403	683821625	lewd playing card	lewd playing cards
 3404	861763537	deck of lewd playing cards
 3405	494251681	Hodgman's lucky sock
-3406	307397478	Hodgman's varcolac paw
-3407	326308790	Hodgman's almanac
-3408	607932819	Hodgman's harmonica
-3409	874739671	Hodgman's garbage sticker
-3410	986607676	Hodgman's metal detector
+3406	307397478	Hodgman's varcolac paw	Hodgman's varcolac paws
+3407	326308790	Hodgman's almanac	Hodgman's almanacs
+3408	607932819	Hodgman's harmonica	Hodgman's harmonicas
+3409	874739671	Hodgman's garbage sticker	Hodgman's garbage stickers
+3410	986607676	Hodgman's metal detector	Hodgman's metal detectors
 3411	753829066	Hodgman's cane
 3412	443125100	Hodgman's journal #1: The Lean Times
 3413	359048124	Hodgman's journal #2: Entrepreneurythmics
 3414	456659256	Hodgman's journal #3: Pumping Tin
 3415	435985770	Hodgman's journal #4: View From The Big Top
-3416	128693993	hobo fortress blueprints
+3416	128693993	hobo fortress blueprints	sets of hobo fortress blueprints
 3417
 3418
 3419
 3420
-3421	306172112	little box of fireworks
-3422	800001289	sterno-flavored Hob-O
-3423	117092853	frostbite-flavored Hob-O
-3424	650853419	fry-oil-flavored Hob-O
-3425	586708288	garbage-juice-flavored Hob-O
-3426	951203806	strawberry-flavored Hob-O
+3421	306172112	little box of fireworks	little box of fireworkss
+3422	800001289	sterno-flavored Hob-O	sterno-flavored Hob-Os
+3423	117092853	frostbite-flavored Hob-O	frostbite-flavored Hob-Os
+3424	650853419	fry-oil-flavored Hob-O	fry-oil-flavored Hob-Os
+3425	586708288	garbage-juice-flavored Hob-O	garbage-juice-flavored Hob-Os
+3426	951203806	strawberry-flavored Hob-O	strawberry-flavored Hob-Os
 3427	965215365	roll of Hob-Os	rolls of Hob-Os
-3428	133927592	Everlasting Deckswabber
+3428	133927592	Everlasting Deckswabber	Everlasting Deckswabbers
 3429
-3430	656438917	bindle of joy
-3431	960452345	cotton candy cocoon
-3432	723689501	cotton candy cordial
+3430	656438917	bindle of joy	bindles of joy
+3431	960452345	cotton candy cocoon	cotton candy cocoons
+3432	723689501	cotton candy cordial	bottles of cotton candy cordial
 3433	569771218	spice melange	quantities of spice melange
-3434	756933632	spooky rattling cigar box
-3435	768622816	big stirring stick
-3436	812870240	Staff of the Teapot Tempest
-3437	707454044	Staff of the Black Kettle
-3438	452734240	Staff of the Well-Tempered Cauldron
+3434	756933632	spooky rattling cigar box	spooky rattling cigar boxen
+3435	768622816	big stirring stick	big stirring sticks
+3436	812870240	Staff of the Teapot Tempest	Staves of the Teapot Tempest
+3437	707454044	Staff of the Black Kettle	Staves of the Black Kettle
+3438	452734240	Staff of the Well-Tempered Cauldron	Staves of the Well-Tempered Cauldron
 3439	983657975	Rainbow's Gravity	copies of Rainbow's Gravity
 3440	267408834	prismatic wad	prismatic wads
 3441	219029462	club of the five seasons	clubs of the five seasons
@@ -3452,18 +3452,18 @@
 3446	912335435	groovy prism necklace	groovy prism necklaces
 3447	535499742	six-rainbow shield	six-rainbow shields
 3448	243986741	rainbow bomb	rainbow bombs
-3449	517488450	cotton candy cone
-3450	927647574	cotton candy pinch
-3451	648613761	cotton candy smidgen
-3452	317488982	cotton candy skoshe
-3453	677974144	cotton candy plug
-3454	749266408	cotton candy pillow
-3455	533359462	cotton candy bale
-3456	196038026	trusty torch
-3457	450664062	Junior Adventurer's merit badge
-3458	448110334	STYX deodorant body spray
+3449	517488450	cotton candy cone	cotton candy cones
+3450	927647574	cotton candy pinch	cotton candy pinchs
+3451	648613761	cotton candy smidgen	cotton candy smidgens
+3452	317488982	cotton candy skoshe	cotton candy skoshes
+3453	677974144	cotton candy plug	cotton candy plugs
+3454	749266408	cotton candy pillow	cotton candy pillows
+3455	533359462	cotton candy bale	cotton candy bales
+3456	196038026	trusty torch	trusty torches
+3457	450664062	Junior Adventurer's merit badge	Junior Adventurer's merit badges
+3458	448110334	STYX deodorant body spray	cans of STYX deodorant body spray
 3459	198896588	white-label gin	bottles of white-label gin
-3460	808723295	tin rations
+3460	808723295	tin rations	bags of tin rations
 3461	611048875	haiku challenge map
 3462	376514717	terrible poem	terrible poetries
 3463	293461627	bottle of sake	bottles of sake
@@ -3471,23 +3471,23 @@
 3465	303006655	Bash-&#332;s cereal
 3466	261469707	haiku katana	haiku katana
 3467	114774654	bargain flash powder	bags of bargain flash powder
-3468	734986269	blue plastic baby
-3469	811123211	blueberry-frosted king cake
+3468	734986269	blue plastic baby	blue plastic babies
+3469	811123211	blueberry-frosted king cake	blueberry-frosted king cakes
 3470	149442346	little bitty bathysphere
 3471	242928980	damp old boot
 3472	909119591	Seasonal Beret
 3473	524041290	Bash-&#332;s boxtop
 3474	517550983	cranberry cordial	cranberry cordials
-3475	202269894	blackberry polite
-3476	984579541	plum lozenge
-3477	785592343	pear lozenge
-3478	853223528	peach lozenge
-3479	562865362	balloon shield
+3475	202269894	blackberry polite	blackberry polites
+3476	984579541	plum lozenge	plum lozenges
+3477	785592343	pear lozenge	pear lozenges
+3478	853223528	peach lozenge	peach lozenges
+3479	562865362	balloon shield	balloon shields
 3480	591209933	black spot	black spots
 3481	708700964	uniclops egg
 3482	523994193	passed-out psychedelic bear
-3483	512021127	psychedelic bubble wand
-3484	558562693	eye 'n' horn shampoo
+3483	512021127	psychedelic bubble wand	psychedelic bubble wands
+3484	558562693	eye 'n' horn shampoo	bottles of eye 'n' horn shampoo
 3485	247764107	glittery mascara	tubes of glittery mascara
 3486	433811634	dull fish scale	dull fish scales
 3487	912006135	rough fish scale	rough fish scales
@@ -3495,9 +3495,9 @@
 3489	946050609	beefy fish meat	filets of beefy fish meat
 3490	493009120	glistening fish meat	filets of glistening fish meat
 3491	930651591	slick fish meat	filets of slick fish meat
-3492	710553035	fish scimitar
-3493	293762096	fish stick
-3494	860667475	fish bazooka
+3492	710553035	fish scimitar	fish scimitars
+3493	293762096	fish stick	fish sticks
+3494	860667475	fish bazooka	fish bazookas
 3495	832935553	sea salt crystal	sea salt crystals
 3496	540293802	bazookafish bubble gum	bazookafish bubble gums
 3497	316828573	bottle of Pete's Sake	bottles of Pete's Sake
@@ -3510,7 +3510,7 @@
 3504	998896442	French slippers
 3505	616784691	LWA ring
 3506	589734444	LARP membership card
-3507	125077165	Scratch 'n' Sniff Sticker Tome
+3507	125077165	Scratch 'n' Sniff Sticker Tome	Scratch 'n' Sniff Sticker Tomes
 3508	357198453	scratch 'n' sniff sword
 3509	770830221	scratch 'n' sniff unicorn sticker	scratch 'n' sniff unicorn stickers
 3510	198703778	scratch 'n' sniff apple sticker	scratch 'n' sniff apple stickers
@@ -3524,34 +3524,34 @@
 3518	605906373	eelskin pants	pairs of eelskin pants
 3519	767266958	eelskin buckler	eelskin bucklers
 3520	906200885	shark tooth	shark teeth
-3521	999591089	shark tooth necklace
+3521	999591089	shark tooth necklace	shark tooth necklaces
 3522	168628928	shark jumper	shark jumpers
 3523	752008573	shark cartilage	bits of shark cartilage
 3524	886718236	eel battery	eel batteries
 3525	700314352	temporary teardrop tattoo	temporary teardrop tattoos
 3526	954957871	scratch 'n' sniff crossbow
 3527	351701182	mutant rattlesnake egg
-3528	891738778	mutant fire ant egg
+3528	891738778	mutant fire ant egg	mutant fire ant eggs
 3529	968330921	mutant cactus bud
 3530	992356573	mutant gila monster egg
-3531	364676045	rattlesnake enrager
-3532	389238235	ant antidepressant
-3533	409013542	cactus monocle
+3531	364676045	rattlesnake enrager	rattlesnake enragers
+3532	389238235	ant antidepressant	bottles of ant antidepressant
+3533	409013542	cactus monocle	cactus monocles
 3534	768366195	Jawmaster 2000&trade;
 3535	820037367	plans for depleted Grimacite hammer
 3536	927505126	plans for depleted Grimacite gravy boat
 3537	798308680	plans for depleted Grimacite weightlifting belt
-3538	152348854	plans for depleted Grimacite grappling hook
-3539	636894517	plans for depleted Grimacite ninja mask
+3538	152348854	plans for depleted Grimacite grappling hook	plans for depleted Grimacite grappling hooks
+3539	636894517	plans for depleted Grimacite ninja mask	plans for depleted Grimacite ninja masks
 3540	293209260	plans for depleted Grimacite shinguards
-3541	895732318	plans for depleted Grimacite astrolabe
+3541	895732318	plans for depleted Grimacite astrolabe	plans for depleted Grimacite astrolabes
 3542	126476278	depleted Grimacite hammer	depleted Grimacite hammers
 3543	642914247	depleted Grimacite gravy boat	depleted Grimacite gravy boats
-3544	672543421	depleted Grimacite weightlifting belt
-3545	865042094	depleted Grimacite grappling hook
-3546	858745735	depleted Grimacite ninja mask
-3547	572568246	depleted Grimacite shinguards
-3548	494543142	depleted Grimacite astrolabe
+3544	672543421	depleted Grimacite weightlifting belt	depleted Grimacite weightlifting belts
+3545	865042094	depleted Grimacite grappling hook	depleted Grimacite grappling hooks
+3546	858745735	depleted Grimacite ninja mask	depleted Grimacite ninja masks
+3547	572568246	depleted Grimacite shinguards	depleted grimacite shinguardss
+3548	494543142	depleted Grimacite astrolabe	depleted Grimacite astrolabes
 3549	439009204	KoL Con Cinco Pi&ntilde;ata Bat
 3550	723192821	propeller beanie
 3551	620730491	straw hat	straw hats
@@ -3584,7 +3584,7 @@
 3578	846538926	candy cornucopia	candy cornucopias
 3579	929088085	tiny ballet slippers	pairs of tiny ballet slippers
 3580	653887123	wriggling flytrap pellet
-3581	345932481	sushi-rolling mat
+3581	345932481	sushi-rolling mat	sushi-rolling mats
 3582	788629105	white rice	white rices
 3583
 3584	991734610	irradiated candy cane	irradiated candy canes
@@ -3605,14 +3605,14 @@
 3599	473366824	moist sailor's cap	moist sailor's caps
 3600	918387441	rusty speargun	rusty spearguns
 3601	658706699	rusty compass	rusty compasss
-3602	993248155	rusty broken diving helmet
+3602	993248155	rusty broken diving helmet	rusty broken diving helmets
 3603	581706506	rusty porthole	rusty portholes
 3604	976845849	rusty rivet	rusty rivets
 3605	310741567	bubblin' stone
 3606	887322976	rusty diving helmet	rusty diving helmets
-3607	784913887	aerated diving helmet
-3608	398933232	live nautical mine
-3609	279675364	das boot
+3607	784913887	aerated diving helmet	aerated diving helmets
+3608	398933232	live nautical mine	live nautical mine
+3609	279675364	das boot	das boots
 3610	510671971	imitation whetstone	imitation whetstones
 3611	285153209	sea grease	tubs of sea grease
 3612	791293538	sturdy Crimbo crate	sturdy Crimbo crates
@@ -3634,7 +3634,7 @@
 3628	675006664	pair of ragged claws	pair of ragged clawss
 3629	325140798	burrowgrub hive	burrowgrub hives
 3630	863133643	dusty Crimbo crate	dusty Crimbo crates
-3631	280911764	Gummi-DNA
+3631	280911764	Gummi-DNA	Gummi-DNAs
 3632	811567210	radioactive chew toy	radioactive chew toys
 3633	237976715	elven socks	pairs of elven socks
 3634	797319795	cheap elven gloves	pairs of cheap elven gloves
@@ -3664,41 +3664,41 @@
 3658	196626222	tiny plastic fat stack of cash	tiny plastic fat stack of cashs
 3659	441811155	tiny plastic strand of DNA	tiny plastic strand of DNAs
 3660	971857735	tiny plastic chunk of depleted Grimacite	tiny plastic chunk of depleted Grimacites
-3661	303657985	container of Spooky Putty
-3662	571573689	Spooky Putty mitre
-3663	786129685	Spooky Putty leotard
-3664	527456310	Spooky Putty ball
-3665	358004043	Spooky Putty sheet
-3666	265337034	Spooky Putty snake
-3667	324375100	Spooky Putty monster
+3661	303657985	container of Spooky Putty	containers of Spooky Putty
+3662	571573689	Spooky Putty mitre	Spooky Putty mitres
+3663	786129685	Spooky Putty leotard	Spooky Putty leotards
+3664	527456310	Spooky Putty ball	Spooky Putty balls
+3665	358004043	Spooky Putty sheet	Spooky Putty sheets
+3666	265337034	Spooky Putty snake	Spooky Putty snakes
+3667	324375100	Spooky Putty monster	Spooky Putty monsters
 3668	277958099	glow-in-the-dark wristwatch	glow-in-the-dark wristwatches
 3669	833264909	glow-in-the-dark dart gun	glow-in-the-dark dart guns
 3670	201697185	glow-in-the-dark stuffed burrowgrub	glow-in-the-dark stuffed burrowgrubs
 3671	910986160	Uncle Crimbo's Rations	Tins of Uncle Crimbo's Rations
 3672	208004985	can of franks 'n' beans	cans of franks 'n' beans
 3673	310999359	bottle of peppermint schnapps	bottles of peppermint schnapps
-3674	144035564	throbbing rage gland
-3675	761723634	Mer-kin pressureglobe
+3674	144035564	throbbing rage gland	throbbing rage glands
+3675	761723634	Mer-kin pressureglobe	Mer-kin pressureglobes
 3676	179464571	Mer-kin foodbucket	Mer-kin foodbuckets
 3677	211479131	diving muff	diving muffs
-3678	916726266	salinated mint julep
+3678	916726266	salinated mint julep	salinated mint juleps
 3679	318339973	ink bladder	ink bladders
 3680	576073305	glowing esca	glowing escae
-3681	444166276	bubbling tempura batter
+3681	444166276	bubbling tempura batter	blobs of bubbling tempura batter
 3682	979149157	globe of Deep Sauce	globes of Deep Sauce
 3683	446203324	map to the Marinara Trench
-3684	763304904	tempura carrot
-3685	747223912	tempura cucumber
-3686	294857873	tempura avocado
+3684	763304904	tempura carrot	tempura carrots
+3685	747223912	tempura cucumber	tempura cucumbers
+3686	294857873	tempura avocado	tempura avocados
 3687	403606686	sea broccoli	bunches of sea broccoli
 3688	586546677	sea cauliflower	pieces of sea cauliflower
-3689	518487280	tempura broccoli
-3690	854578505	tempura cauliflower
+3689	518487280	tempura broccoli	tempura broccolis
+3690	854578505	tempura cauliflower	tempura cauliflowers
 3691	706604984	sea blueberry	sea blueberries
 3692	506573795	sea persimmon	sea persimmons
 3693	788177667	pressurized potion of perception	pressurized potions of perception
 3694	905610207	pressurized potion of proficiency	pressurized potions of proficiency
-3695	817679069	Mer-kin mining pick
+3695	817679069	Mer-kin mining pick	Mer-kin mining picks
 3696	703635673	anemone nematocyst	anemone nematocysts
 3697	430566014	high-pressure seltzer bottle	high-pressure seltzer bottles
 3698	773082525	velcro ore	chunks of velcro ore
@@ -3706,40 +3706,40 @@
 3700	680710697	vinyl ore	chunks of vinyl ore
 3701	680600410	map to Anemone Mine
 3702
-3703	581289316	rusty valve wheel
-3704	696657364	waterlogged bootstraps
-3705	798460922	velcro broadsword
-3706	250880819	velcro paddle ball
-3707	777472980	velcro shield
-3708	939174986	velcro boots
-3709	739258319	non-stick pugil stick
-3710	389769152	teflon spatula
-3711	157322254	teflon shield
-3712	667590304	teflon swim fins
-3713	620169454	7-inch discus
-3714	954525164	PVC staff
-3715	840080191	vinyl shield
-3716	809051828	vinyl boots
-3717	827016673	decaying wooden oar
-3718	750940122	giant fishhook
-3719	582874358	rusty old lantern
-3720	192840879	decaying wooden pole
-3721	241970717	decaying wooden paddle
-3722	806748290	tarnished metal ring
-3723	583940591	tarnished metal rod
-3724	992991336	brittle plastic handle
-3725	507946679	foggy glass globe
-3726	936078905	possessed tomato
-3727	816020004	Nardz energy beverage
-3728	651187529	pile of gold coins
-3729	768461087	hand grenegg
+3703	581289316	rusty valve wheel	rusty valve wheels
+3704	696657364	waterlogged bootstraps	set of waterlogged bootstraps
+3705	798460922	velcro broadsword	velcro broadswords
+3706	250880819	velcro paddle ball	velcro paddle balls
+3707	777472980	velcro shield	velcro shields
+3708	939174986	velcro boots	velcro bootss
+3709	739258319	non-stick pugil stick	non-stick pugil sticks
+3710	389769152	teflon spatula	teflon spatulas
+3711	157322254	teflon shield	teflon shields
+3712	667590304	teflon swim fins	teflon swim finss
+3713	620169454	7-inch discus	7-inch discuss
+3714	954525164	PVC staff	PVC staffs
+3715	840080191	vinyl shield	vinyl shields
+3716	809051828	vinyl boots	vinyl bootss
+3717	827016673	decaying wooden oar	decaying wooden oars
+3718	750940122	giant fishhook	giant fishhooks
+3719	582874358	rusty old lantern	rusty old lanterns
+3720	192840879	decaying wooden pole	decaying wooden poles
+3721	241970717	decaying wooden paddle	decaying wooden paddles
+3722	806748290	tarnished metal ring	tarnished metal rings
+3723	583940591	tarnished metal rod	tarnished metal rods
+3724	992991336	brittle plastic handle	brittle plastic handles
+3725	507946679	foggy glass globe	foggy glass globes
+3726	936078905	possessed tomato	possessed tomatoes
+3727	816020004	Nardz energy beverage	bottles of Nardz energy beverage
+3728	651187529	pile of gold coins	piles of gold coins
+3729	768461087	hand grenegg	hand greneggs
 3730	479750225	caret	carets
-3731	857150079	glass gnoll eye
+3731	857150079	glass gnoll eye	glass gnoll eyes
 3732	375332132	cheap cigar butt	cheap cigar butts
-3733	612745525	manly bloomers
-3734	746773043	Colon Annihilation Hot Sauce
+3733	612745525	manly bloomers	pairs of manly bloomers
+3734	746773043	Colon Annihilation Hot Sauce	bottles of Colon Annihilation Hot Sauce
 3735	931038317	fat wallet	fat wallets
-3736	884058875	enchanted handwarmer
+3736	884058875	enchanted handwarmer	enchanted handwarmers
 3737	729682231	lucky lighter
 3738	487975834	packet of beer nuts	packets of beer nuts
 3739	952348991	Boozehounds Anonymous token	Boozehounds Anonymous tokens
@@ -3748,11 +3748,11 @@
 3742
 3743	258693786	unstable quark	unstable quarks
 3744	249918458	software glitch	software glitches
-3745	882058553	fumble formula
+3745	882058553	fumble formula	fumble formulae
 3746
 3747	243072420	mother's secret recipe	copies of mother's secret recipe
 3748
-3749	631866824	concoction of clumsiness
+3749	631866824	concoction of clumsiness	concoctions of clumsiness
 3750
 3751	609461468	white chocolate chip brownies	piles of white chocolate chip brownies
 3752
@@ -3774,13 +3774,13 @@
 3768	983511537	lychee chuhai	lychee chuhaii
 3769	614659845	salacious screwdiver	salacious screwdivers
 3770	315178248	dew yoana salacious lei	dew yoana salacious leii
-3771	832186108	salacious lychee chuhai	salacious lychee chuhaii
+3771	832186108	salacious lychee chuhai	salacious lychee chuhai
 3772	641864207	Alewife&trade; Ale	bottles of Alewife&trade; Ale
-3773	979001983	seaode
+3773	979001983	seaode	seaodes
 3774	872146103	map to the Dive Bar
-3775	988891809	Mer-kin pinkslip
+3775	988891809	Mer-kin pinkslip	Mer-kin pinkslips
 3776	177903260	pink pinkslip slip	pink pinkslip slips
-3777	501620697	sea salt scrubs
-3778	467428130	amber aviator shades
+3777	501620697	sea salt scrubs	sea salt scrubs
+3778	467428130	amber aviator shades	pairs of amber aviator shades
 3779
-3780	371678812	nurse's hat
+3780	371678812	nurse's hat	nurse's hats
