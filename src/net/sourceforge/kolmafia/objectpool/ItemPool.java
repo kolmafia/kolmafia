@@ -763,7 +763,7 @@ public class ItemPool
 			return ItemPool.get( itemId, count );
 		}
 
-		return new AdventureResult( itemName, count, false );
+		return AdventureResult.tallyItem( itemName, count, false );
 	}
 
 	public static final AdventureResult get( int itemId, int count )

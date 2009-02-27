@@ -574,7 +574,7 @@ public class KoLmafiaCLI
 		//	final command is not itself flagged as FLOW_CONTROL_CMD, are made available to
 		//	this command via its 'continuation' field, rather than being executed.  The
 		//	command can examine and modify the continuation, and execute it zero or more
-		// 	times by calling CLI.executeLine(continuation).
+		//	times by calling CLI.executeLine(continuation).
 		public int flags = 0;
 		
 		// Assign 'usage' in an instance initializer to set the help usage text.
@@ -1759,7 +1759,7 @@ public class KoLmafiaCLI
 	}
 	
 	static { new Developer().register( "newdata" )
-                .register( "checkitems" ).register( "checkeffects" )
+		.register( "checkitems" ).register( "checkeffects" )
 		.register( "checkplurals" ).register( "checkmodifiers" )
 		.register( "checkconsumption" ).register( "checkprofile" )
 		.register( "checkpulverization" ); }
@@ -3159,7 +3159,7 @@ public class KoLmafiaCLI
 					return;
 				}
 				RequestThread.postRequest( new FamiliarRequest( true ) );
-                                return;
+				return;
 			}
 			else if ( parameters.equalsIgnoreCase( "unlock" ) )
 			{
@@ -3169,7 +3169,7 @@ public class KoLmafiaCLI
 					return;
 				}
 				RequestThread.postRequest( new FamiliarRequest( true ) );
-                                return;
+				return;
 			}
 			else if ( parameters.indexOf( "(no change)" ) != -1 )
 			{
@@ -5013,7 +5013,7 @@ public class KoLmafiaCLI
 			return new AdventureResult( AdventureResult.MEAT, amount );
 		}
 
-                if ( conditionString.endsWith( "choiceadv" ) || conditionString.endsWith( "choices" ) || conditionString.endsWith( "choice" ) )
+		if ( conditionString.endsWith( "choiceadv" ) || conditionString.endsWith( "choices" ) || conditionString.endsWith( "choice" ) )
 		{
 			// If it's a choice adventure condition, parse out the
 			// number of choice adventures the user wishes to do.
@@ -6452,7 +6452,7 @@ public class KoLmafiaCLI
 		}
 
 		ItemFinder.setMatchType( ItemFinder.CREATE_MATCH );
-		Object[] itemList = ItemFinder.getMatchingItemList( KoLConstants.inventory, parameters );
+		Object[] itemList = ItemFinder.getMatchingItemList( null, parameters );
 		ItemFinder.setMatchType( ItemFinder.ANY_MATCH );
 
 		AdventureResult currentMatch;
@@ -7107,7 +7107,7 @@ public class KoLmafiaCLI
 	}
 
 	/**
-	 * Makes a request to Doc Galaktik to purchase a cure.	If the
+	 * Makes a request to Doc Galaktik to purchase a cure.  If the
 	 * cure is not available, this method does not report an error.
 	 */
 
