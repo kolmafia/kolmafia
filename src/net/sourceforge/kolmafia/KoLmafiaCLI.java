@@ -3452,6 +3452,107 @@ public class KoLmafiaCLI
 		}
 	}
 	
+	static { new Quark().register( "quark" ); }
+	public static class Quark
+		extends Command
+		implements Comparator
+	{
+		{ usage = "[?] [<itemList>...] - gain MP by pasting unstable quark with best item from itemList (or your junk list)."; }
+		public void run( String cmd, String parameters )
+		{
+			if ( ItemPool.get( ItemPool.UNSTABLE_QUARK, 1 ).getCount(
+				KoLConstants.inventory ) < 1 )
+			{
+				KoLmafia.updateDisplay( "You have no unstable quarks." );
+				return;
+			}
+			if ( !KoLCharacter.inMuscleSign() )
+			{
+				AdventureResult paste = ItemPool.get( ItemPool.MEAT_PASTE, 1 );
+	
+				if ( !InventoryManager.retrieveItem( paste ) )
+				{
+					KoLmafia.updateDisplay( "Can't afford gluons." );
+					return;
+				}
+			}			
+			
+			List items = KoLConstants.junkList;
+			if ( !parameters.equals( "" ) )
+			{
+				items = Arrays.asList( ItemFinder.getMatchingItemList(
+					KoLConstants.inventory, parameters ) );
+				if ( items.size() == 0 )
+				{
+					return;
+				}
+			}
+
+			ArrayList usables = new ArrayList();
+			Iterator i = items.iterator();
+			while ( i.hasNext() )
+			{
+				AdventureResult item = (AdventureResult) i.next();
+				if ( item.getCount( KoLConstants.inventory ) < 
+					( KoLConstants.singletonList.contains( item ) ? 2 : 1 ) )
+				{
+					continue;
+				}
+				int price = ItemDatabase.getPriceById( item.getItemId() );
+				if ( price < 20 || KoLCharacter.getCurrentMP() + price > KoLCharacter.getMaximumMP() )
+				{
+					continue;
+				}
+				if ( this.isPasteable( item ) )
+				{
+					usables.add( item.getInstance( price ) );
+				}
+			}
+			if ( usables.size() == 0 )
+			{
+				KoLmafia.updateDisplay( "No suitable quark-pasteable items found." );
+				return;
+			}
+
+			Collections.sort( usables, (Comparator) this );
+			if ( KoLmafiaCLI.isExecutingCheckOnlyCommand )
+			{
+				RequestLogger.printLine( usables.get( 0 ).toString() );
+				return;
+			}
+			
+			AdventureResult item = (AdventureResult) usables.get( 0 );
+			RequestLogger.printLine( "Pasting unstable quark with " + item );
+			GenericRequest visitor = new GenericRequest( 
+				"craft.php?action=craft&mode=combine&ajax=1&pwd&qty=1&a=3743&b="
+				+ item.getItemId() );
+			RequestThread.postRequest( visitor );
+			StaticEntity.externalUpdate( visitor.getURLString(),
+				visitor.responseText );
+		}
+		
+		private boolean isPasteable( AdventureResult item )
+		{
+			Iterator i = ConcoctionDatabase.getKnownUses( item ).iterator();
+			while ( i.hasNext() )
+			{
+				AdventureResult use = (AdventureResult) i.next();
+				if ( ConcoctionDatabase.getMixingMethod( use.getItemId() )
+					== KoLConstants.COMBINE )
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+		
+		public int compare( Object o1, Object o2 )
+		{
+			return ( (AdventureResult) o2 ).getCount() -
+				( (AdventureResult) o1 ).getCount();
+		}
+	}
+	
 	static { new Attack().register( "pvp" ).register( "attack" ); }
 	public static class Attack
 		extends Command

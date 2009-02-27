@@ -73,6 +73,8 @@ public abstract class MPRestoreItemList
 		new MPRestoreItem( "visit the nuns", 1000, false);
 	private static final MPRestoreItem OSCUS =
 		new MPRestoreItem( "Oscus's neverending soda", 250, false);
+	private static final MPRestoreItem QUARK =
+		new MPRestoreItem( "unstable quark + junk item", 100, false);
 	private static final MPRestoreItem GALAKTIK =
 		new MPRestoreItem( "Galaktik's Fizzy Invigorating Tonic", 1, 17, false );
 	public static final MPRestoreItem MYSTERY_JUICE =
@@ -90,6 +92,7 @@ public abstract class MPRestoreItemList
 		MPRestoreItemList.GALAKTIK,
 		MPRestoreItemList.NUNS,
 		MPRestoreItemList.OSCUS,
+		MPRestoreItemList.QUARK,
 		new MPRestoreItem( "high-pressure seltzer bottle", 175, true ),
 		new MPRestoreItem( "natural fennel soda", 100, false ),
 		new MPRestoreItem( "bottle of Vangoghbitussin", 100, false ),
@@ -336,6 +339,18 @@ public abstract class MPRestoreItemList
 				}
 				
 				KoLmafiaCLI.executeNunsRequest( "mp" );
+				return;
+			}
+			
+			if ( this == MPRestoreItemList.QUARK )
+			{
+				if ( ItemPool.get( ItemPool.UNSTABLE_QUARK, 1 ).getCount(
+					KoLConstants.inventory ) < 1 )
+				{
+					return;
+				}
+			
+				KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "quark", "" );
 				return;
 			}
 
