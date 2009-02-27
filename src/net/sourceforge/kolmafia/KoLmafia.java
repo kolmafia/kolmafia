@@ -84,6 +84,7 @@ import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
+import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.GourdRequest;
 import net.sourceforge.kolmafia.request.GuildRequest;
@@ -3230,6 +3231,8 @@ public abstract class KoLmafia
 			KoLmafia.updateDisplay( KoLmafia.currentIterationString );
 			KoLmafia.currentIterationString = "";
 		}
+		
+		FightRequest.haveFought();	// reset flag
 	}
 
 	public void startRelayServer()

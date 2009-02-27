@@ -269,7 +269,10 @@ public class LocalRelayAgent
 			int initialCount = KoLCharacter.getAdventuresLeft();
 			this.request.run();
 
-			if ( initialCount != KoLCharacter.getAdventuresLeft() && !KoLmafia.isRunningBetweenBattleChecks() && FightRequest.getCurrentRound() == 0 )
+			if (  !KoLmafia.isRunningBetweenBattleChecks() &&
+				FightRequest.getCurrentRound() == 0 &&
+				( FightRequest.haveFought() ||
+					initialCount != KoLCharacter.getAdventuresLeft() ) )
 			{
 				StaticEntity.getClient().runBetweenBattleChecks(
 					false,
