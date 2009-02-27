@@ -395,7 +395,10 @@ public abstract class StoreManager
 		}
 		results = new ArrayList();
 		StoreManager.searchMall( item.getName(), results, 10, false );
-		StoreManager.mallSearches.put( new Integer( item.getItemId() ), results );
+		if ( KoLmafia.permitsContinue() )
+		{
+			StoreManager.mallSearches.put( new Integer( item.getItemId() ), results );
+		}
 		return results;
 	}
 	
