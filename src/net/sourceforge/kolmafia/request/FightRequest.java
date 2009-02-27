@@ -101,6 +101,7 @@ public class FightRequest
 	public static String lastResponseText = "";
 	private static boolean isTrackingFights = false;
 	private static boolean foundNextRound = false;
+	private static boolean haveFought = false;
 
 	private static boolean isAutomatingFight = false;
 	private static boolean isUsingConsultScript = false;
@@ -832,6 +833,7 @@ public class FightRequest
 		case ItemPool.DARK_POTION:
 		case ItemPool.MURKY_POTION:
 		case ItemPool.ODOR_EXTRACTOR:
+		case ItemPool.SPOOKY_PUTTY_SHEET:
 			return true;
 		}
 		return false;
@@ -1361,6 +1363,7 @@ public class FightRequest
 
 		if ( FightRequest.currentRound == 1 )
 		{
+			FightRequest.haveFought = true;
 			// If this is the first round, then register the
 			// opponent you are fighting against.
 
@@ -2689,6 +2692,13 @@ public class FightRequest
 	public static final boolean isTrackingFights()
 	{
 		return FightRequest.isTrackingFights;
+	}
+
+	public static final boolean haveFought()
+	{
+		boolean rv = FightRequest.haveFought;
+		FightRequest.haveFought = false;
+		return rv;
 	}
 
 	public static final String getLastMonsterName()

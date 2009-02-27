@@ -540,7 +540,7 @@ public class MallPurchaseRequest
 		if ( this.itemSequenceCount != ResultProcessor.itemSequenceCount )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
-				"Wrong item received - possibly its name has changed." );
+				"Wrong item received - possibly its name or plural has changed." );
 			return;
 		}
 
