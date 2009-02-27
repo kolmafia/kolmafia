@@ -61,7 +61,50 @@ public class SushiRequest
 
 	private static final Pattern CONSUME_PATTERN = Pattern.compile( "You eat the ([^.]*)\\." );
 
-	private static final Object[][] SUSHI =
+	public static final String [] SUSHI =
+	{
+		"beefy nigiri",
+		"glistening nigiri",
+		"slick nigiri",
+		"beefy maki",
+		"glistening maki",
+		"slick maki",
+		"ancient serpent roll",
+		"giant dragon roll",
+		"musclebound rabbit roll",
+		"python roll",
+		"slippery snake roll",
+		"sneaky rabbit roll",
+		"tricky dragon roll",
+		"white rabbit roll",
+		"wise dragon roll",
+		"magical ancient serpent roll",
+		"magical beefy maki",
+		"magical giant dragon roll",
+		"magical glistening maki",
+		"magical musclebound rabbit roll",
+		"magical python roll",
+		"magical slick maki",
+		"magical slippery snake roll",
+		"magical sneaky rabbit roll",
+		"magical tricky dragon roll",
+		"magical white rabbit roll",
+		"magical wise dragon roll",
+		"salty ancient serpent roll",
+		"salty beefy maki",
+		"salty giant dragon roll",
+		"salty glistening maki",
+		"salty musclebound rabbit roll",
+		"salty python roll",
+		"salty slick maki",
+		"salty slippery snake roll",
+		"salty sneaky rabbit roll",
+		"salty tricky dragon roll",
+		"salty white rabbit roll",
+		"salty wise dragon roll",
+	};
+
+	private static final Object[][] BASE_SUSHI =
 	{
 		{ new Integer(1), "beefy nigiri" },
 		{ new Integer(2), "glistening nigiri" },
@@ -73,9 +116,9 @@ public class SushiRequest
 
 	private static String idToName( final int id )
 	{
-		for ( int i = 0; i < SUSHI.length; ++i )
+		for ( int i = 0; i < BASE_SUSHI.length; ++i )
 		{
-			Object [] sushi = SUSHI[i];
+			Object [] sushi = BASE_SUSHI[i];
 			if ( ((Integer)sushi[0]).intValue() == id )
 			{
 				return (String)sushi[1];
@@ -88,9 +131,9 @@ public class SushiRequest
 	private static int nameToId( final String name )
 	{
 		// Check for base sushi
-		for ( int i = 0; i < SUSHI.length; ++i )
+		for ( int i = 0; i < BASE_SUSHI.length; ++i )
 		{
-			Object [] sushi = SUSHI[i];
+			Object [] sushi = BASE_SUSHI[i];
 			if ( name.equals( (String)sushi[1] ) )
 			{
 				return ((Integer)sushi[0]).intValue();

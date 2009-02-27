@@ -343,24 +343,27 @@ public class CharSheetRequest
 					newSkillSet.add( skill );
 				}
 
-				if ( cleanContent.hasMoreTokens() )
+				if ( !cleanContent.hasMoreTokens() )
 				{
-					token = cleanContent.nextToken();
-					// (<b>HP</b>)
-					if ( token.equals( "(" ) || token.equals( " (" ) )
-					{
-						GenericRequest.skipTokens( cleanContent, 2 );
-						permedSkillSet.add( skill );
-					}
-					// (P)
-					else if ( token.equals( "(P)" ) || token.equals( " (P)" ) )
-					{
-						permedSkillSet.add( skill );
-					}
-					else
-					{
-						continue;
-					}
+					break;
+				}
+
+				token = cleanContent.nextToken();
+
+				// (<b>HP</b>)
+				if ( token.equals( "(" ) || token.equals( " (" ) )
+				{
+					GenericRequest.skipTokens( cleanContent, 2 );
+					permedSkillSet.add( skill );
+				}
+				// (P)
+				else if ( token.equals( "(P)" ) || token.equals( " (P)" ) )
+				{
+					permedSkillSet.add( skill );
+				}
+				else
+				{
+					continue;
 				}
 			}
 

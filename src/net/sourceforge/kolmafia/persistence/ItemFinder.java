@@ -68,21 +68,23 @@ public class ItemFinder
 		return ItemDatabase.getMatchingNames( searchString );
 	}
 
-	public static final int getFirstMatchingItemId( List nameList, String searchString )
+	public static final String getFirstMatchingItemName( List nameList, String searchString )
 	{
-		return ItemFinder.getFirstMatchingItemId( nameList, searchString, ItemFinder.matchType );
+		return ItemFinder.getFirstMatchingItemName( nameList, searchString, ItemFinder.matchType );
 	}
 
-	public static final int getFirstMatchingItemId( List nameList, String searchString, int filterType )
+	public static final String getFirstMatchingItemName( List nameList, String searchString, int filterType )
 	{
 		if ( nameList == null || nameList.isEmpty() )
 		{
-			return -1;
+			return null;
 		}
 
 		if ( nameList.size() == 1 )
 		{
-			return ItemDatabase.getItemId( (String) nameList.get( 0 ) );
+
+			String name = (String)nameList.get(0);
+			return ItemDatabase.getCanonicalName( (String) nameList.get( 0 ) );
 		}
 
 		ItemFinder.filterNameList( nameList, filterType );
@@ -92,7 +94,8 @@ public class ItemFinder
 
 		if ( nameList.size() == 1 )
 		{
-			return ItemDatabase.getItemId( (String) nameList.get( 0 ) );
+			String name = (String)nameList.get(0);
+			return ItemDatabase.getCanonicalName( (String) nameList.get( 0 ) );
 		}
 
 		String itemName;
@@ -105,7 +108,7 @@ public class ItemFinder
 			itemName = (String) nameList.get( i );
 			if ( !itemName.startsWith( "pix" ) && itemName.endsWith( "candy heart" ) )
 			{
-				return ItemDatabase.getItemId( itemName );
+				return ItemDatabase.getCanonicalName( itemName );
 			}
 		}
 
@@ -114,7 +117,7 @@ public class ItemFinder
 			itemName = (String) nameList.get( i );
 			if ( !itemName.startsWith( "abo" ) && !itemName.startsWith( "yel" ) && itemName.endsWith( "snowcone" ) )
 			{
-				return ItemDatabase.getItemId( itemName );
+				return ItemDatabase.getCanonicalName( itemName );
 			}
 		}
 
@@ -123,11 +126,11 @@ public class ItemFinder
 			itemName = (String) nameList.get( i );
 			if ( itemName.endsWith( "cupcake" ) )
 			{
-				return ItemDatabase.getItemId( itemName );
+				return ItemDatabase.getCanonicalName( itemName );
 			}
 		}
 
-		return 0;
+		return "";
 	}
 
 	private static final void filterNameList( List nameList, int filterType )
@@ -191,7 +194,7 @@ public class ItemFinder
 					&& useType != KoLConstants.CONSUME_DRINK_HELPER );
 				break;
 			case ItemFinder.CREATE_MATCH:
-				ItemFinder.conditionalRemove( nameIterator, ConcoctionDatabase.getMixingMethod( itemId ) == KoLConstants.NOCREATE );
+				ItemFinder.conditionalRemove( nameIterator, ConcoctionDatabase.getMixingMethod( itemName ) == KoLConstants.NOCREATE );
 				break;
 			case ItemFinder.UNTINKER_MATCH:
 				ItemFinder.conditionalRemove( nameIterator, ConcoctionDatabase.getMixingMethod( itemId ) != KoLConstants.COMBINE );
@@ -234,7 +237,7 @@ public class ItemFinder
 			itemId = ItemDatabase.getItemId( itemName );
 
 			conditionalRemove( nameIterator,
-				!ItemDatabase.isTradeable( itemId ) && !NPCStoreDatabase.contains( itemName ) );
+				itemId != -1 && !ItemDatabase.isTradeable( itemId ) && !NPCStoreDatabase.contains( itemName ) );
 		}
 	}
 
@@ -309,9 +312,20 @@ public class ItemFinder
 		}
 
 		List matchList = ItemFinder.getMatchingNames( parameters );
-		itemId = ItemFinder.getFirstMatchingItemId( matchList, parameters, filterType );
 
-		if ( itemId == 0 )
+		String itemName = ItemFinder.getFirstMatchingItemName( matchList, parameters, filterType );
+
+		if ( itemName == null )
+		{
+			if ( errorOnFailure )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "[" + parameters + "] has no matches." );
+			}
+
+			return null;
+		}
+
+		if ( itemName.equals( "" ) )
 		{
 			if ( errorOnFailure )
 			{
@@ -324,17 +338,7 @@ public class ItemFinder
 			return null;
 		}
 
-		if ( itemId == -1 )
-		{
-			if ( errorOnFailure )
-			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "[" + parameters + "] has no matches." );
-			}
-
-			return null;
-		}
-
-		AdventureResult firstMatch = ItemPool.get( itemId, itemCount );
+		AdventureResult firstMatch = ItemPool.get( itemName, itemCount );
 
 		// The result also depends on the number of items which
 		// are available in the given match area.
@@ -347,8 +351,11 @@ public class ItemFinder
 				&& itemCount <= 0;
 
 			if ( skipNPCs )
-			{	// Let '*' and negative counts be interpreted relative to
-				// the quantity that can be created with on-hand ingredients.
+			{
+				// Let '*' and negative counts be interpreted
+				// relative to the quantity that can be created
+				// with on-hand ingredients.
+
 				Preferences.setBoolean( "autoSatisfyWithNPCs", false );
 				ConcoctionDatabase.refreshConcoctions();
 			}
