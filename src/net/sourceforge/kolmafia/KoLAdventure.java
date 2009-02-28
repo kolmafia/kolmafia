@@ -860,14 +860,6 @@ public class KoLAdventure
 
 	private void updateAutoAttack()
 	{
-		// If the player is pickpocketing, they probably do not want
-		// their auto-attack reset to an attack.
-
-		if ( KoLCharacter.isMoxieClass() )
-		{
-			return;
-		}
-
 		// If the user has already configured their own auto-attacks,
 		// then KoLmafia should not interfere.
 
@@ -899,6 +891,15 @@ public class KoLAdventure
 		// changed, because these users probably are micro-managing.
 
 		if ( !KoLmafia.isAdventuring() || this.formSource.equals( "dungeon.php" ) )
+		{
+			KoLAdventure.resetAutoAttack();
+			return;
+		}
+
+		// If the player is pickpocketing, they probably do not want
+		// their auto-attack reset to an attack.
+
+		if ( KoLCharacter.isMoxieClass() && Preferences.getBoolean( "autoSteal" ) )
 		{
 			KoLAdventure.resetAutoAttack();
 			return;
