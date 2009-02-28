@@ -815,7 +815,8 @@ public abstract class LouvreManager
 	// Gemelli has a tool that accepts a code and displays the map
 	// corresponding to it:
 	//
-	//     http://www.feesher.com/louvre_mapper.php
+	// originally: http://www.feesher.com/louvre_mapper.php
+	// now: http://louvre.bewarethefgc.com
 	//
 	// Gemelli says:
 	//
@@ -942,6 +943,6 @@ public abstract class LouvreManager
 
 	public static final void showGemelliMap()
 	{
-		StaticEntity.openSystemBrowser( "http://www.feesher.com/louvre_mapper.php?mapstring=" + LouvreManager.gemelliCode() );
+		StaticEntity.openSystemBrowser( "http://louvre.bewarethefgc.com/index.php?mapstring=" + LouvreManager.gemelliCode() );
 	}
 }

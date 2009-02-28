@@ -670,7 +670,8 @@ public abstract class VioletFogManager
 	// Gemelli has a tool that accepts a code and displays the map
 	// corresponding to it:
 	//
-	//     http://www.feesher.com/fog_mapper.php
+	// originally: http://www.feesher.com/fog_mapper.php
+	// now: http://fog.bewarethefgc.com
 	//
 	// To get the code, examine the 22 nodes in Wiki order
 	// Examine each of the three destinations from each node, again in Wiki order.
@@ -729,6 +730,6 @@ public abstract class VioletFogManager
 
 	public static final void showGemelliMap()
 	{
-		StaticEntity.openSystemBrowser( "http://www.feesher.com/fog_mapper.php?mapstring=" + VioletFogManager.gemelliCode() );
+		StaticEntity.openSystemBrowser( "http://fog.bewarethefgc.com/index.php?mapstring=" + VioletFogManager.gemelliCode() );
 	}
 }
