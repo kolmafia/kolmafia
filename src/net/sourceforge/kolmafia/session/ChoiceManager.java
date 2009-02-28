@@ -1067,6 +1067,7 @@ public abstract class ChoiceManager
 			new String[] { "3682", null } ),
 
 		// Choice 306 is [Grandpa Mine Choice]
+		// Choice 307 is Ode to the Sea
 		// Choice 308 is Boxing the Juke
 
 		// Barback

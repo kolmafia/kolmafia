@@ -346,6 +346,7 @@ public abstract class InventoryManager
 
 		// Next, attempt to create the item from existing ingredients
 		// (if possible).
+
 		boolean scriptSaysBuy = false;
 
 		CreateItemRequest creator = CreateItemRequest.getInstance( item );
@@ -418,7 +419,6 @@ public abstract class InventoryManager
 		// creatable through combines.
 		
 		boolean shouldUseMall = shouldUseMall( item );
-		int mixingMethod = ConcoctionDatabase.getMixingMethod( item );
 
 		if ( !scriptSaysBuy && shouldUseMall && !hasAnyIngredient( itemId ) )
 		{
@@ -473,11 +473,12 @@ public abstract class InventoryManager
 			}		
 		}
 
+		int mixingMethod = ConcoctionDatabase.getMixingMethod( item );
 		switch ( mixingMethod )
 		{
-		// Subingredients for star charts, pixels and malus ingredients
-		// can get very expensive. Therefore, skip over them in this
-		// step.
+		// Sub-ingredients for star charts, pixels and malus
+		// ingredients can get very expensive. Therefore, skip over
+		// them in this step.
 
 		case KoLConstants.NOCREATE:
 		case KoLConstants.STARCHART:
@@ -699,13 +700,20 @@ public abstract class InventoryManager
 		}
 
 		AdventureResult[] ingredients = ConcoctionDatabase.getStandardIngredients( itemId );
+		boolean shouldUseCloset = Preferences.getBoolean( "autoSatisfyWithCloset" );
 
 		for ( int i = 0; i < ingredients.length; ++i )
 		{
-			// An item is immediately available if it is in your inventory,
-			// or in your closet.
+			AdventureResult ingredient = ingredients[ i ];
+			// An item is immediately available if it is in your
+			// inventory, or in your closet.
 
-			if ( KoLConstants.inventory.contains( ingredients[ i ] ) || KoLConstants.closet.contains( ingredients[ i ] ) )
+			if ( KoLConstants.inventory.contains( ingredient ) )
+			{
+				return true;
+			}
+
+			if ( shouldUseCloset && KoLConstants.closet.contains( ingredient ) )
 			{
 				return true;
 			}
@@ -724,8 +732,8 @@ public abstract class InventoryManager
 
 		for ( int i = 0; i < ingredients.length; ++i )
 		{
-			// An item is immediately available if 
-			// you have the ingredients for a substep.
+			// An item is immediately available if you have the
+			// ingredients for a substep.
 
 			if ( InventoryManager.hasAnyIngredient( ingredients[ i ].getItemId(), seen ) )
 			{
@@ -772,30 +780,39 @@ public abstract class InventoryManager
 	private static boolean shouldUseMall( final AdventureResult item )
 	{
 		if ( !KoLCharacter.canInteract() )
+		{
 			return false;
+		}
 
 		int itemId = item.getItemId();
 
 		if ( !ItemDatabase.isTradeable( itemId ) )
+		{
 			return false;
+		}
 
 		if ( !Preferences.getBoolean( "autoSatisfyWithMall" ) )
+		{
 			return false;
+		}
 
 		int price = ItemDatabase.getPriceById( itemId );
 
 		if ( price > 0 )
+		{
 			return true;
+		}
 
 		switch ( itemId )
 		{
 		case ItemPool.TEN_LEAF_CLOVER:
 		case ItemPool.DISASSEMBLED_CLOVER:
-		case 1637:	// phial of hotness
-		case 1638:	// phial of coldness
-		case 1639:	// phial of spookiness
-		case 1640:	// phial of stench
-		case 1641:	// phial of sleaziness
+		case ItemPool.PHIAL_OF_HOTNESS:
+		case ItemPool.PHIAL_OF_COLDNESS:
+		case ItemPool.PHIAL_OF_SPOOKINESS:
+		case ItemPool.PHIAL_OF_STENCH:
+		case ItemPool.PHIAL_OF_SLEAZINESS:
+		case ItemPool.WHITE_RICE:
 			return true;
 		}
 		return false;
