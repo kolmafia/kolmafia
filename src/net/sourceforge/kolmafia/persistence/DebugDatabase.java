@@ -1338,7 +1338,7 @@ public class DebugDatabase
 		writer.close();
 	}
 
-	private static final String EPICURE = "http://www.feesher.com/epicure/export_data.php";
+	private static final String EPICURE = "http://epicure.bewarethefgc.com/export_data.php";
 
 	private static final void checkEpicure( final PrintStream writer )
 	{
@@ -1432,7 +1432,7 @@ public class DebugDatabase
 		writer.println( line );
 	}
 
-	private static final String MIXOLOGIST = "http://www.feesher.com/mixology/export_data.php";
+	private static final String MIXOLOGIST = "http://mixology.bewarethefgc.com/export_data.php";
 
 	private static final void checkMixologist( final PrintStream writer )
 	{
@@ -1580,7 +1580,7 @@ public class DebugDatabase
 		writer.close();
 	}
 
-	private static final String ANVIL = "http://www.feesher.com/anvil/export_data.php";
+	private static final String ANVIL = "http://anvil.bewarethefgc.com/export_data.php";
 
 	private static final void checkAnvil( final PrintStream writer )
 	{
