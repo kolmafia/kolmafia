@@ -967,6 +967,14 @@ public class KoLAdventure
 			{
 				( new AdventureRequest( "Oasis in the Desert", "adventure.php", "122" ) ).run();
 			}
+			if ( !KoLConstants.activeEffects.contains( hydrated ) )
+			{
+				( new AdventureRequest( "Oasis in the Desert", "adventure.php", "122" ) ).run();
+			}
+			if ( !KoLConstants.activeEffects.contains( hydrated ) )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Ultrahydration failed!" );
+			}
 		}
 
 		// Update selected adventure information in order to
