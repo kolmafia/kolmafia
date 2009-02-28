@@ -502,7 +502,7 @@ public class CreateItemRequest
 		String path = this.getPath();
 		String quantityField = "quantity";
 
-		AdventureResult[] ingredients = ConcoctionDatabase.getIngredients( this.itemId );
+		AdventureResult[] ingredients = ConcoctionDatabase.getIngredients( this.name );
 
 		if ( ingredients.length == 1 || this.mixingMethod == KoLConstants.WOK )
 		{
@@ -793,7 +793,7 @@ public class CreateItemRequest
 			}
 		}
 
-		AdventureResult[] ingredients = ConcoctionDatabase.getIngredients( this.itemId );
+		AdventureResult[] ingredients = ConcoctionDatabase.getIngredients( this.name );
 		int yield = ConcoctionDatabase.getYield( this.itemId );
 
 		for ( int i = 0; i < ingredients.length; ++i )

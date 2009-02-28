@@ -363,6 +363,11 @@ public class ItemPool
 	public static final int PURPLE_CUPCAKE = 1627;
 	public static final int PINK_CUPCAKE = 1628;
 	public static final int SPANISH_FLY = 1633;
+	public static final int PHIAL_OF_HOTNESS = 1637;
+	public static final int PHIAL_OF_COLDNESS = 1638;
+	public static final int PHIAL_OF_SPOOKINESS = 1639;
+	public static final int PHIAL_OF_STENCH = 1640;
+	public static final int PHIAL_OF_SLEAZINESS = 1641;
 	public static final int MILK_OF_MAGNESIUM = 1650;
 	public static final int JEWEL_EYED_WIZARD_HAT = 1653;
 	public static final int CITADEL_SATCHEL = 1656;
@@ -722,6 +727,7 @@ public class ItemPool
 	public static final int SAND_DOLLAR = 3575;
 	public static final int BEZOAR_RING = 3577;
 	public static final int SUSHI_ROLLING_MAT = 3581;
+	public static final int WHITE_RICE = 3582;
 	public static final int RUSTY_BROKEN_DIVING_HELMET = 3602;
 	public static final int BUBBLIN_STONE = 3605;
 	public static final int AERATED_DIVING_HELMET = 3607;
