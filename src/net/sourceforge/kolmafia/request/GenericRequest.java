@@ -377,21 +377,21 @@ public class GenericRequest
 		this.hasNoResult =
 			this.isChatRequest ||
 			this.formURLString.startsWith( "http://" ) ||
-			this.formURLString.startsWith( "charpane" ) ||
-			this.formURLString.startsWith( "quest" ) ||
 			this.formURLString.endsWith( "menu.php" ) ||
 			this.formURLString.startsWith( "actionbar" ) ||
+			this.formURLString.startsWith( "charpane" ) ||
 			this.formURLString.startsWith( "desc" ) ||
 			this.formURLString.startsWith( "display" ) ||
+			this.formURLString.startsWith( "makeoffer" ) ||
+			this.formURLString.startsWith( "message" ) ||
+			this.formURLString.startsWith( "quest" ) ||
 			this.formURLString.startsWith( "search" ) ||
 			this.formURLString.startsWith( "show" ) ||
-			this.formURLString.startsWith( "search" ) ||
 			this.formURLString.startsWith( "valhalla" ) ||
-			this.formURLString.startsWith( "message" ) ||
-			this.formURLString.startsWith( "makeoffer" ) ||
 			( this.formURLString.startsWith( "clan" ) &&
-				!this.formURLString.startsWith( "clan_stash" ) && !this.formURLString.startsWith( "clan_rumpus" ) &&
-				!this.formURLString.startsWith( "clan_hobopolis" ) ) ||
+			  !this.formURLString.startsWith( "clan_stash" ) &&
+			  !this.formURLString.startsWith( "clan_rumpus" ) &&
+			  !this.formURLString.startsWith( "clan_hobopolis" ) ) ||
 			this instanceof LoginRequest ||
 			this instanceof LogoutRequest;
 

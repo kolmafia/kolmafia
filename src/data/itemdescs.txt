@@ -1113,9 +1113,9 @@
 1107	313409688	clockwork maid head	clockwork maid heads
 1108	402948759	clockwork detective skull	clockwork detective skulls
 1109	385711522	clockwork bartender-head-in-the-box	clockwork bartender-heads-in-the-box
-1110	617735256	clockwork chef-head-in-the-box	clockwork chef-heads-in-the-boxes
-1111	724965641	clockwork bartender-in-the-box	clockwork bartenders-in-the-boxes
-1112	805166107	clockwork chef-in-the-box	clockwork chefs-in-the-boxes
+1110	617735256	clockwork chef-head-in-the-box	clockwork chef-heads-in-the-box
+1111	724965641	clockwork bartender-in-the-box	clockwork bartenders-in-the-box
+1112	805166107	clockwork chef-in-the-box	clockwork chefs-in-the-box
 1113	119881312	clockwork maid	clockwork maids
 1114	566765807	tisket	tiskets
 1115	598623036	tasket	taskets
