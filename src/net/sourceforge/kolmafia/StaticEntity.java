@@ -401,7 +401,11 @@ public abstract class StaticEntity
 			EquipmentRequest.parseEquipmentChange( location, responseText );
 		}
 
-		else if ( ( location.indexOf( "inv_eat.php" ) != -1 || location.indexOf( "inv_booze.php" ) != -1 || location.indexOf( "inv_use.php" ) != -1 || location.indexOf( "inv_familiar.php" ) != -1 ) && location.indexOf( "whichitem" ) != -1 )
+		else if ( ( location.startsWith( "inv_eat.php" ) ||
+			    location.startsWith( "inv_booze.php" ) ||
+			    location.startsWith( "inv_use.php" ) ||
+			    location.startsWith( "inv_familiar.php" ) ) &&
+			  location.indexOf( "whichitem" ) != -1 )
 		{
 			UseItemRequest.parseConsumption( responseText, false );
 		}
@@ -440,12 +444,15 @@ public abstract class StaticEntity
 			MineDecorator.parseResponse( location, responseText );
 		}
 
-		else if ( ( location.indexOf( "multiuse.php" ) != -1 || location.indexOf( "skills.php" ) != -1 ) && location.indexOf( "useitem" ) != -1 )
+		else if ( ( location.startsWith( "multiuse.php" ) ||
+			    location.startsWith( "skills.php" ) ) &&
+			  location.indexOf( "useitem" ) != -1 )
 		{
 			UseItemRequest.parseConsumption( responseText, false );
 		}
 
-		else if ( location.startsWith( "pvp.php" ) && location.indexOf( "action" ) != -1 )
+		else if ( location.startsWith( "pvp.php" ) &&
+			  location.indexOf( "action" ) != -1 )
 		{
 			PvpManager.processOffenseContests( responseText );
 		}
@@ -493,32 +500,6 @@ public abstract class StaticEntity
 		else if ( location.startsWith( "store.php" ) )
 		{
 			MallPurchaseRequest.parseResponse( location, responseText );
-
-			// If this is the hippy store, check to see if any of
-			// the items offered in the hippy store are special.
-
-			if ( location.indexOf( "whichstore=h" ) != -1 && Preferences.getInteger( "lastFilthClearance" ) != KoLCharacter.getAscensions() )
-			{
-				String side = "none";
-
-				if ( responseText.indexOf( "peach" ) != -1 &&
-				     responseText.indexOf( "pear" ) != -1 &&
-				     responseText.indexOf( "plum" ) != -1 )
-				{
-					Preferences.setInteger( "lastFilthClearance", KoLCharacter.getAscensions() );
-					side = "hippy";
-				}
-				else if ( responseText.indexOf( "bowl of rye sprouts" ) != -1 &&
-					  responseText.indexOf( "cob of corn" ) != -1 &&
-					  responseText.indexOf( "juniper berries" ) != -1 )
-				{
-					Preferences.setInteger( "lastFilthClearance", KoLCharacter.getAscensions() );
-					side = "fratboy";
-				}
-
-				Preferences.setString( "currentHippyStore", side );
-				Preferences.setString( "sidequestOrchardCompleted", side );
-			}
 		}
 
 		else if ( location.startsWith( "sushi.php" ) )
