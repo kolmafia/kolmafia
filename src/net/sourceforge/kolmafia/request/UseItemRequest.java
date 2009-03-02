@@ -77,6 +77,7 @@ public class UseItemRequest
 
 	public static final Pattern ITEMID_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
 	public static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity=(\\d+)" );
+	public static final Pattern QTY_PATTERN = Pattern.compile( "qty=(\\d+)" );
 
 	private static final Pattern ROW_PATTERN = Pattern.compile( "<tr>.*?</tr>" );
 	private static final Pattern INVENTORY_PATTERN = Pattern.compile( "</blockquote></td></tr></table>.*?</body>" );
@@ -218,7 +219,7 @@ public class UseItemRequest
 			return "skills.php";
 		case KoLConstants.CONSUME_HOBO:
 		case KoLConstants.CONSUME_GHOST:
-			return "inventory.php";
+			return "familiarbinger.php";
 		case KoLConstants.CONSUME_MULTIPLE:
 			return "multiuse.php";
 		case KoLConstants.CONSUME_SPHERE:
@@ -688,6 +689,8 @@ public class UseItemRequest
 			case KoLConstants.HP_RESTORE:
 			case KoLConstants.MP_RESTORE:
 			case KoLConstants.HPMP_RESTORE:
+			case KoLConstants.CONSUME_HOBO:
+			case KoLConstants.CONSUME_GHOST:
 				break;
 			case KoLConstants.CONSUME_DRINK:
 			case KoLConstants.CONSUME_EAT:
@@ -877,7 +880,7 @@ public class UseItemRequest
 			{
 				this.addFormField( "which", "3" );
 			}
-                        break;
+			break;
 
 		case KoLConstants.CONSUME_MULTIPLE:
 			this.addFormField( "action", "useitem" );
@@ -891,16 +894,26 @@ public class UseItemRequest
 			break;
 
 		case KoLConstants.CONSUME_HOBO:
+			if ( KoLCharacter.getFamiliar().getId() != 52 )
+			{ 
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have a Spirit Hobo equipped" );
+				return;
+			}
 			this.queuedFoodHelper = null;
-			this.addFormField( "action", "hobo" );
-			this.addFormField( "which", "1" );
+			this.addFormField( "action", "binge" );
+			this.addFormField( "qty", String.valueOf( this.itemUsed.getCount() ) );
 			useTypeAsString = "Boozing hobo with";
 			break;
 
 		case KoLConstants.CONSUME_GHOST:
+			if ( KoLCharacter.getFamiliar().getId() != 74 )
+			{ 
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have a Gluttonous Green Ghost equipped" );
+				return;
+			}
 			this.queuedDrinkHelper = null;
-			this.addFormField( "action", "ghost" );
-			this.addFormField( "which", "1" );
+			this.addFormField( "action", "binge" );
+			this.addFormField( "qty", String.valueOf( this.itemUsed.getCount() ) );
 			useTypeAsString = "Feeding ghost with";
 			break;
 
@@ -1017,8 +1030,44 @@ public class UseItemRequest
 
 	public void processResults()
 	{
+		switch ( this.consumptionType )
+		{
+		case KoLConstants.CONSUME_GHOST:
+		case KoLConstants.CONSUME_HOBO:
+			if ( !UseItemRequest.parseBinge( this.getURLString(), this.responseText ) )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Your current familiar can't use that." );
+			}
+			return;
+		}
+
 		UseItemRequest.lastItemUsed = this.itemUsed;
 		UseItemRequest.parseConsumption( this.responseText, true );
+	}
+
+	public static final boolean parseBinge( final String urlString, final String responseText )
+	{
+		AdventureResult item = UseItemRequest.extractBingedItem( urlString );
+
+		if ( item == null )
+		{
+			return true;
+		}
+
+		// Looks like you don't currently have a familiar capable of
+		// binging.
+		//
+		// You're not currently using a Gluttonous Green Ghost.
+
+		if ( responseText.indexOf( "don't currently have" ) != -1 ||
+		     responseText.indexOf( "not currently using" ) != -1 )
+		{
+			return false;
+		}
+
+		ResultProcessor.processResult( item.getNegation() );
+
+		return true;
 	}
 
 	public static final void parseConsumption( final String responseText, final boolean showHTML )
@@ -1747,7 +1796,7 @@ public class UseItemRequest
 		case ItemPool.BLACK_SNOWCONE:
 
 			// "Your mouth is still cold from the last snowcone you
-			// ate.	 Try again later."
+			// ate.  Try again later."
 
 			if ( responseText.indexOf( "still cold" ) != -1 )
 			{
@@ -2545,7 +2594,7 @@ public class UseItemRequest
 			// You pick up the burrowgrub hive to look inside it,
 			// and a bunch of the grubs crawl out of it and burrow
 			// under your skin.  It's horrifying.  You can still
-			// feel them in there.	Gah.
+			// feel them in there.  Gah.
 
 			if ( responseText.indexOf( "It's horrifying." ) != -1 )
 			{
@@ -2741,6 +2790,32 @@ public class UseItemRequest
 		return new AdventureResult( itemId, itemCount );
 	}
 
+	public static final AdventureResult extractBingedItem( final String urlString )
+	{
+		if ( !urlString.startsWith( "inventory.php" ) &&
+		     !urlString.startsWith( "familiarbinger.php" ) )
+		{
+			return null;
+		}
+
+		Matcher itemMatcher = UseItemRequest.ITEMID_PATTERN.matcher( urlString );
+		if ( !itemMatcher.find() )
+		{
+			return null;
+		}
+
+		int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
+		int itemCount = 1;
+
+		Matcher quantityMatcher = UseItemRequest.QTY_PATTERN.matcher( urlString );
+		if ( quantityMatcher.find() )
+		{
+			itemCount = StringUtilities.parseInt( quantityMatcher.group( 1 ) );
+		}
+
+		return new AdventureResult( itemId, itemCount );
+	}
+
 	private static final AdventureResult extractHelper( final String urlString )
 	{
 		if ( !urlString.startsWith( "inv_eat.php" ) &&
@@ -2765,14 +2840,42 @@ public class UseItemRequest
 		return new AdventureResult( itemId, 1 );
 	}
 
-	public static final boolean registerRequest( final String urlString )
+	public static final boolean registerBingeRequest( final String urlString )
 	{
-		UseItemRequest.lastItemUsed = UseItemRequest.extractItem( urlString );
-		UseItemRequest.lastHelperUsed = UseItemRequest.extractHelper( urlString );
-		if ( UseItemRequest.lastItemUsed == null )
+		AdventureResult item = UseItemRequest.extractBingedItem( urlString );
+
+		if ( item == null )
 		{
 			return false;
 		}
+
+		FamiliarData familiar = KoLCharacter.getFamiliar();
+		int id = familiar.getId();
+
+		if ( id != 52 && id != 74 )
+		{
+			return false;
+		}
+
+		int count = item.getCount();
+		String name = item.getName();
+		String useString = "feed " + count + " " + name + " to " + familiar.getRace();
+
+		RequestLogger.updateSessionLog();
+		RequestLogger.updateSessionLog( useString );
+		
+		return true;
+	}
+
+	public static final boolean registerRequest( final String urlString )
+	{
+		UseItemRequest.lastItemUsed = UseItemRequest.extractItem( urlString );
+		if ( UseItemRequest.lastItemUsed == null )
+		{
+			return UseItemRequest.registerBingeRequest( urlString );
+		}
+
+		UseItemRequest.lastHelperUsed = UseItemRequest.extractHelper( urlString );
 
 		int itemId = UseItemRequest.lastItemUsed.getItemId();
 		int count = UseItemRequest.lastItemUsed.getCount();
@@ -2805,7 +2908,7 @@ public class UseItemRequest
 				Preferences.setInteger( "munchiesPillsUsed", Math.max( Preferences.getInteger( "munchiesPillsUsed" ) - 1, 0 ) );
 			}
 			break;
-                }
+		}
 
 		switch ( itemId )
 		{
@@ -2842,13 +2945,13 @@ public class UseItemRequest
 			}
 			break;
 
-                case ItemPool.EL_VIBRATO_HELMET:
-                        if ( UseItemRequest.lastHelperUsed == null )
-                        {
-                                return true;
-                        }
+		case ItemPool.EL_VIBRATO_HELMET:
+			if ( UseItemRequest.lastHelperUsed == null )
+			{
+				return true;
+			}
 			useString = "insert " + UseItemRequest.lastHelperUsed + " into " + UseItemRequest.lastItemUsed;
-                        break;
+			break;
 
 		case ItemPool.PUNCHCARD_ATTACK:
 		case ItemPool.PUNCHCARD_REPAIR:
