@@ -355,6 +355,11 @@ public abstract class StaticEntity
 			FamiliarData.registerFamiliarData( responseText );
 		}
 
+		else if ( location.startsWith( "familiarbinger.php" ))
+		{
+			UseItemRequest.parseBinge( location, responseText );
+		}
+
 		else if ( location.startsWith( "galaktik.php" ) )
 		{
 			GalaktikRequest.parseResponse( location, responseText );
@@ -390,6 +395,13 @@ public abstract class StaticEntity
 			if ( location.indexOf( "action=message" ) != -1 )
 			{
 				UseItemRequest.parseConsumption( responseText, false );
+			}
+
+			// If there is a binge message, parse it
+			if ( location.indexOf( "action=ghost" ) != -1 ||
+			     location.indexOf( "action=hobo" ) != -1)
+			{
+				UseItemRequest.parseBinge( location, responseText );
 			}
 		}
 
@@ -560,7 +572,7 @@ public abstract class StaticEntity
 			if ( matcher.find() )
 			{
 				int skillId = StringUtilities.parseInt( matcher.group( 1 ) );
-                                String skillName = SkillDatabase.getSkillName( skillId );
+				String skillName = SkillDatabase.getSkillName( skillId );
 				StaticEntity.learnSkill( skillName );
 				return;
 			}
