@@ -2059,6 +2059,7 @@ public abstract class ChoiceManager
 
 		// The Gong Has Been Bung
 		case 276:
+			ResultProcessor.processItem( ItemPool.GONG, -1 );
 			Preferences.setInteger( "moleTunnelLevel", 0 );
 			Preferences.setInteger( "birdformCold", 0 );
 			Preferences.setInteger( "birdformHot", 0 );
