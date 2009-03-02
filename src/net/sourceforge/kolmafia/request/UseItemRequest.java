@@ -1383,14 +1383,14 @@ public class UseItemRequest
 			return;
 		
 		case ItemPool.GONG:
-			// "You try to bang the gong, but the mallet keeps falling
-			// out of your hand. Maybe you should try it later, when 
-			// you've sobered up a little."
+			// "You try to bang the gong, but the mallet keeps
+			// falling out of your hand. Maybe you should try it
+			// later, when you've sobered up a little."
 			
 			// "You don't have time to bang a gong. Nor do you have
 			// time to get it on, or to get it on."
 			if ( responseText.indexOf( "sobered up a little" ) != -1  || 
-				responseText.indexOf( "don't have time to bang" ) != -1 )
+			     responseText.indexOf( "don't have time to bang" ) != -1 )
 			{
 				ResultProcessor.processResult( item );
 				UseItemRequest.lastUpdate = "Insufficient adventures or sobriety to use a gong.";
@@ -1425,8 +1425,10 @@ public class UseItemRequest
 					}
 					KoLAdventure req = AdventureDatabase.getAdventureByURL(
 						"adventure.php?snarfblat=" + adv );
-					// Must do some trickery here to prevent the adventure
-					// location from being changed, and the conditions reset.
+					// Must do some trickery here to
+					// prevent the adventure location from
+					// being changed, and the conditions
+					// reset.
 					String la = Preferences.getString( "lastAdventure" );
 					Preferences.setString( "lastAdventure",
 						req.getAdventureName() );
@@ -1439,6 +1441,7 @@ public class UseItemRequest
 					UseItemRequest.retrying = false;
 				}
 			}
+
 			return;
 
 		case ItemPool.ENCHANTED_BEAN:
