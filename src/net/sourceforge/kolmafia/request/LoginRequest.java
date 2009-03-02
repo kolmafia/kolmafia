@@ -326,11 +326,6 @@ public class LoginRequest
 		KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Encountered error in login." );
 	}
 
-	public static final boolean executeTimeInRequest()
-	{
-		return LoginRequest.executeTimeInRequest( "main.php", "login.php" );
-	}
-
 	public static final boolean executeTimeInRequest( final String requestLocation, final String redirectLocation )
 	{
 		if ( LoginRequest.lastRequest == null )

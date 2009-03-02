@@ -2069,17 +2069,6 @@ public class KoLmafiaCLI
 		}
 	}
 	
-	static { new Timein().register( "timein" ); }
-	public static class Timein
-		extends Command
-	{
-		{ usage = " - relogin if your session has timed out."; }
-		public void run( String cmd )
-		{
-			LoginRequest.executeTimeInRequest();
-		}
-	}
-	
 	static { new Login().register( "login" ); }
 	public static class Login
 		extends Command
