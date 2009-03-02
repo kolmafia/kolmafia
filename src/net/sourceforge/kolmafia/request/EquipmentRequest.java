@@ -1056,7 +1056,7 @@ public class EquipmentRequest
 			}
 			else
 			{
-				newItem = ItemPool.get( matcher.group( 2 ), 1 );
+				newItem = ItemPool.get( matcher.group( 2 ).trim(), 1 );
 			}
 			AdventureResult oldItem = EquipmentManager.getEquipment( slot );
 			EquipmentManager.setEquipment( slot, newItem );
