@@ -1065,6 +1065,13 @@ public class UseItemRequest
 			return false;
 		}
 
+		// You don't have that many of those.
+
+		if ( responseText.indexOf( "don't have that many" ) != -1 )
+		{
+			return true;
+		}
+
 		ResultProcessor.processResult( item.getNegation() );
 
 		return true;
