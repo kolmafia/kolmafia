@@ -759,6 +759,9 @@ public class ItemPool
 	public static final int DISTURBING_OBSESSION = 3758;
 	public static final int NAUGHTY_INNUENDO = 3759;
 	public static final int MERKIN_PINKSLIP = 3775;
+	public static final int AQUAVIOLET_JUBJUB_BIRD = 3800;
+	public static final int CRIMSILION_JUBJUB_BIRD = 3801;
+	public static final int CHARPUCE_JUBJUB_BIRD = 3802;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

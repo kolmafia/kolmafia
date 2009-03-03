@@ -1457,6 +1457,7 @@ ant pitchfork	Familiar Effect: "stench damage, meat"
 ant rake	Familiar Effect: "hot damage, meat"
 # ant sickle: Your familiar will sow pain and reap Meat.
 ant sickle	Familiar Effect: "spooky damage, meat"
+aquaviolet jub-jub bird	Familiar Weight: +5
 attention spanner	Familiar Weight: +5
 # badger badge: Increases Astral Mushroom Drop Rate
 blue suede shoes	Familiar Weight: +5
@@ -1467,9 +1468,11 @@ brass stinger	Familiar Weight: +5
 cactus monocle	Familiar Weight: +5
 # can of starch: Makes Origami Towel Crane More Resistant to Wear and Tear
 candied yam pinky ring	Familiar Weight: +5
+charpuce jub-jub bird	Familiar Weight: +5
 chocolate spurs	Familiar Weight: +5
 cotton candy cordial	Familiar Weight: +5
 cracker	Familiar Weight: +15
+crimsilion jub-jub bird	Familiar Weight: +5
 das boot	Familiar Weight: -10, Familiar Effect: "adventure underwater"
 dental pliers	Familiar Weight: +5
 diamond-studded fronts	Familiar Weight: +5

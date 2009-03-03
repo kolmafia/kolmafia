@@ -3784,3 +3784,25 @@
 3778	467428130	amber aviator shades	pairs of amber aviator shades
 3779
 3780	371678812	nurse's hat	nurse's hats
+3781
+3782
+3783
+3784
+3785
+3786
+3787
+3788
+3789
+3790
+3791
+3792
+3793
+3794
+3795
+3796
+3797
+3798
+3799	912081563	Apathargic Bandersnatch	Apathargic Bandersnatches
+3800	634215974	aquaviolet jub-jub bird
+3801	884937684	crimsilion jub-jub bird
+3802	687961653	charpuce jub-jub bird

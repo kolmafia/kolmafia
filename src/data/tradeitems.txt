@@ -3779,3 +3779,25 @@
 3778	amber aviator shades	8	all	222
 3779
 3780	nurse's hat	9	all	135
+3781
+3782
+3783
+3784
+3785
+3786
+3787
+3788
+3789
+3790
+3791
+3792
+3793
+3794
+3795
+3796
+3797
+3798
+3799	Apathargic Bandersnatch	5	all	0
+3800	aquaviolet jub-jub bird	7	all	75
+3801	crimsilion jub-jub bird	7	all	75
+3802	charpuce jub-jub bird	7	all	75
