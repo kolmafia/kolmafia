@@ -111,7 +111,6 @@ import net.sourceforge.kolmafia.session.BreakfastManager;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.DisplayCaseManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.LouvreManager;
 import net.sourceforge.kolmafia.session.MailManager;
 import net.sourceforge.kolmafia.session.MoodManager;
 import net.sourceforge.kolmafia.session.MushroomManager;
@@ -119,7 +118,6 @@ import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.ValhallaManager;
-import net.sourceforge.kolmafia.session.VioletFogManager;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.CouncilFrame;
@@ -167,8 +165,6 @@ public abstract class KoLmafia
 	public static int continuationState = KoLConstants.CONTINUE_STATE;
 
 	public static final int[] initialStats = new int[ 3 ];
-
-	public static boolean executedLogin = false;
 
 	private static final Pattern TAVERN_PATTERN = Pattern.compile( "rats.php.*where=(\\d+)" );
 
@@ -576,8 +572,9 @@ public abstract class KoLmafia
 	}
 
 	/**
-	 * Constructs a new <code>KoLmafia</code> object. All data fields are initialized to their default values, the
-	 * global settings are loaded from disk.
+	 * Constructs a new <code>KoLmafia</code> object. All data fields are
+	 * initialized to their default values, the global settings are loaded
+	 * from disk.
 	 */
 
 	public KoLmafia()
@@ -673,11 +670,7 @@ public abstract class KoLmafia
 		RequestThread.openRequestSequence();
 
 		LoginRequest.isLoggingIn( true );
-
-		KoLCharacter.reset( name );
-		ActionBarManager.loadJSONString();
 		this.initialize( name );
-
 		LoginRequest.isLoggingIn( false );
 
 		if ( Preferences.getBoolean( name, "getBreakfast" ) )
@@ -710,16 +703,18 @@ public abstract class KoLmafia
 
 	public final void timein( final String name )
 	{
-		// Save and reload current user's preferences
+		// Save the current user settings to disk
 		Preferences.reset( null );
+
+                // Load the JSON string first, so we can use it, if necessary.
+		ActionBarManager.loadJSONString();
+
+                // Reload the current user's preferences
 		Preferences.reset( name );
 
-		// Password hash changes for each session
+		// The password hash changes for each session
 		PasswordHashRequest request = new PasswordHashRequest( "lchat.php" );
 		RequestThread.postRequest(  request );
-
-		// Is this necessary?
-		ActionBarManager.loadJSONString();
 
 		// Just in case it's a new day...
 
@@ -732,11 +727,6 @@ public abstract class KoLmafia
 		KoLCharacter.setHoliday( HolidayDatabase.getHoliday() );
 	}
 
-	public static final boolean executedLogin()
-	{
-		return KoLmafia.executedLogin;
-	}
-
 	/**
 	 * Initializes the <code>KoLmafia</code> session. Called after the
 	 * login has been confirmed to notify that the login was successful,
@@ -746,31 +736,40 @@ public abstract class KoLmafia
 
 	public void initialize( final String username )
 	{
-		// Initialize the variables to their initial
-		// states to avoid null pointers getting thrown
-		// all over the place
+                // Load the JSON string first, so we can use it, if necessary.
+		ActionBarManager.loadJSONString();
 
-		KoLmafia.executedLogin = true;
+		// Initialize the variables to their initial states to avoid
+		// null pointers getting thrown all over the place
 
-		KoLmafia.updateDisplay( "Initializing session for " + username + "..." );
-		Preferences.setString( "lastUsername", username );
+		KoLCharacter.reset( username );
 
-		// Reset all per-player information when refreshing
-		// your session via login.
+		// Reset all per-player information
 
 		MailManager.clearMailboxes();
 		StoreManager.clearCache();
 		DisplayCaseManager.clearCache();
 		ClanManager.clearCache();
-
 		ItemDatabase.reset();
 
-		// Now actually reset the session.
+		CampgroundRequest.reset();
+		MushroomManager.reset();
+		HermitRequest.reset();
+
+		KoLmafia.updateDisplay( "Initializing session for " + username + "..." );
+		Preferences.setString( "lastUsername", username );
+
+		// Perform requests to read current character's data
 
 		this.refreshSession();
 
-		RequestLogger.openSessionLog();
+		// Reset the session tally and encounter list
+
 		this.resetSession();
+
+		// Open the session log and indicate that we've logged in.
+
+		RequestLogger.openSessionLog();
 
 		if ( Preferences.getBoolean( "logStatusOnLogin" ) )
 		{
@@ -843,7 +842,7 @@ public abstract class KoLmafia
 
 	public void refreshSession()
 	{
-		this.refreshSession( true );
+		this.refreshSessionData();
 
 		// Check to see if you need to reset the counters.
 
@@ -876,12 +875,11 @@ public abstract class KoLmafia
 		}
 	}
 
-	public void refreshSession( final boolean refreshAll )
+	private void refreshSessionData()
 	{
 		KoLmafia.isRefreshing = true;
 
 		KoLmafia.updateDisplay( "Refreshing session data..." );
-		RuntimeLibrary.sessionVariables.clear();
 
 		// Load saved counters before any requests are made, since both
 		// charpane and charsheet requests can set them.
@@ -899,35 +897,18 @@ public abstract class KoLmafia
 
 		RequestThread.postRequest( new CharSheetRequest() );
 
-		if ( refreshAll )
-		{
-			RequestThread.postRequest( new AccountRequest() );
-			RequestThread.postRequest( new QuestLogRequest() );
-		}
+                // Now that we know the character's ascension count, reset
+                // anything that depends on that.
 
-		// Clear the violet fog path table and everything
-		// else that changes on the player.
+                KoLCharacter.resetPerAscensionData();
 
-		VioletFogManager.reset();
-		LouvreManager.reset();
-		MushroomManager.reset();
-		HermitRequest.resetClovers();
-
-		ItemDatabase.getDustyBottles();
-		KoLCharacter.ensureUpdatedGuyMadeOfBees();
-		KoLCharacter.ensureUpdatedPirateInsults();
-		KoLCharacter.ensureUpdatedPotionEffects();
-		KoLCharacter.ensureUpdatedSemirareCounter();
-		KoLCharacter.ensureUpdatedSphereEffects();
-		KoLCharacter.ensureUpdatedCellar();
+		RequestThread.postRequest( new AccountRequest() );
+		RequestThread.postRequest( new QuestLogRequest() );
 
 		// Retrieve the items which are available for consumption
 		// and item creation.
 
-		if ( refreshAll )
-		{
-			RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.CLOSET ) );
-		}
+		RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.CLOSET ) );
 
 		// If the password hash is not available, then that means you
 		// might be mid-transition.
@@ -943,14 +924,11 @@ public abstract class KoLmafia
 		RequestThread.postRequest( new FamiliarRequest() );
 
 		// Retrieve campground data to see if the user is able to
-		// cook, make drinks or make toast.
+		// cook or make drinks
 
-		if ( refreshAll )
-		{
-			KoLmafia.updateDisplay( "Retrieving campground data..." );
-			RequestThread.postRequest( new CampgroundRequest() );
-			KoLCharacter.checkTelescope();
-		}
+		KoLmafia.updateDisplay( "Retrieving campground data..." );
+		RequestThread.postRequest( new CampgroundRequest() );
+		KoLCharacter.checkTelescope();
 
 		if ( Preferences.getInteger( "lastEmptiedStorage" ) != KoLCharacter.getAscensions() )
 		{

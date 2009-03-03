@@ -100,7 +100,7 @@ public class HermitRequest
 		this.addFormField( "quantity", String.valueOf( quantity ) );
 	}
 
-	public static final void resetClovers()
+	public static final void reset()
 	{
 		checkedForClovers = false;
 	}
