@@ -154,8 +154,8 @@ public abstract class MushroomManager
 	};
 
 	/**
-	 * static final method which resets the state of the mushroom plot. This should be used whenever the login process
-	 * is restarted.
+	 * static final method which resets the state of the mushroom
+	 * plot. This should be used whenever the login process is restarted.
 	 */
 
 	public static final void reset()

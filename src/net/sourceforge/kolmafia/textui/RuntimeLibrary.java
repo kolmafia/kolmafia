@@ -125,7 +125,6 @@ public abstract class RuntimeLibrary
 {
 	private static final GenericRequest VISITOR = new GenericRequest( "" );
 	private static final RelayRequest RELAYER = new RelayRequest( false );
-	public static final HashMap sessionVariables = new HashMap();
 
 	public static final FunctionList functions = new FunctionList();
 

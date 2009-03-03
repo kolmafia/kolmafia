@@ -74,6 +74,9 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
+import net.sourceforge.kolmafia.session.LouvreManager;
+import net.sourceforge.kolmafia.session.VioletFogManager;
+
 import net.sourceforge.kolmafia.swingui.GearChangeFrame;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 
@@ -351,7 +354,6 @@ public abstract class KoLCharacter
 		KoLConstants.storage.clear();
 		KoLConstants.freepulls.clear();
 		KoLConstants.collection.clear();
-		CampgroundRequest.reset();
 		KoLConstants.pulverizeQueue.clear();
 
 		KoLConstants.usableSkills.clear();
@@ -422,6 +424,24 @@ public abstract class KoLCharacter
 
 		int battleIndex = KoLCharacter.battleSkillNames.indexOf( Preferences.getString( "battleAction" ) );
 		KoLCharacter.battleSkillNames.setSelectedIndex( battleIndex == -1 ? 0 : battleIndex );
+	}
+
+	public static final void resetPerAscensionData()
+	{
+		// This is called after we have read the Charsheet and know how
+		// many ascensions the character has completed.
+
+		// Update all data which changes each ascension
+
+		VioletFogManager.reset();
+		LouvreManager.reset();
+		ItemDatabase.getDustyBottles();
+		KoLCharacter.ensureUpdatedGuyMadeOfBees();
+		KoLCharacter.ensureUpdatedPirateInsults();
+		KoLCharacter.ensureUpdatedPotionEffects();
+		KoLCharacter.ensureUpdatedSemirareCounter();
+		KoLCharacter.ensureUpdatedSphereEffects();
+		KoLCharacter.ensureUpdatedCellar();
 	}
 
 	public static final void setHoliday( final String holiday )
