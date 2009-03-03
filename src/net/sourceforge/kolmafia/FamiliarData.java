@@ -444,6 +444,11 @@ public class FamiliarData
 		case ItemPool.FOIL_RADAR:
 			return this.id == 77;
 
+		case ItemPool.AQUAVIOLET_JUBJUB_BIRD:
+		case ItemPool.CHARPUCE_JUBJUB_BIRD:
+		case ItemPool.CRIMSILION_JUBJUB_BIRD:
+			return this.id == 105;
+
 		default:
 			if ( this.id == 82 )
 			{
