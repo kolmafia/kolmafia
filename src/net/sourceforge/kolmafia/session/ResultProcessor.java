@@ -417,7 +417,10 @@ public class ResultProcessor
 		}
 
 		int itemCount = StringUtilities.parseInt( countString );
-		AdventureResult result = ItemPool.get( ItemDatabase.getItemId( itemName, itemCount, false ), itemCount );
+
+		// If we got more than one, do substring matching. This might
+		// allow recognition of an unknown (or changed) plural form.
+		AdventureResult result = ItemPool.get( ItemDatabase.getItemId( itemName, itemCount, itemCount > 1 ), itemCount );
 
 		ResultProcessor.processItem( acquisition, result, data );
 	}
