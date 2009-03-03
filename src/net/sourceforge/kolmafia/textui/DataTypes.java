@@ -247,13 +247,13 @@ public class DataTypes
 			{
 				AdventureResult item = ItemFinder.getFirstMatchingItem( name, false );
 
-				if ( item == null )
+				if ( item == null || item.getItemId() == -1 )
 				{
 					return returnDefault ? DataTypes.ITEM_INIT : null;
 				}
 
 				itemId = item.getItemId();
-				name = ItemDatabase.getItemName( itemId );
+				name = item.getName();
 				return new Value( DataTypes.ITEM_TYPE, itemId, name );
 			}
 		}
