@@ -1050,6 +1050,10 @@ rainbow pearl earring	JEWEL	rainbow pearl	piercing post
 rainbow pearl necklace	JEWEL	rainbow pearl	necklace chain
 rainbow pearl ring	JEWEL	rainbow pearl	ring setting
 
+vampire pearl earring	JEWEL	vampire pearl	piercing post
+vampire pearl necklace	JEWEL	vampire pearl	necklace chain
+vampire pearl ring	JEWEL	vampire pearl	ring setting
+
 # Expensive Jewelry making recipes.  These require jewelry-making pliers
 # and the Really Expensive Jewelrycrafting skill
 

@@ -3744,11 +3744,11 @@
 3743	unstable quark	0	all	1
 3744	software glitch	25	all	13
 3745	fumble formula	3	all	0
-3746
+3746	vampire pearl	0	all	105
 3747	mother's secret recipe	3	all	0
 3748
 3749	concoction of clumsiness	4	all	66
-3750
+3750	vampire pearl earring	8	all	150
 3751	white chocolate chip brownies	1	all	45
 3752
 3753	Libram of Love Songs	3	all	0
@@ -3759,8 +3759,8 @@
 3758	love song of disturbing obsession	4	all	0
 3759	love song of naughty innuendo	4	all	0
 3760	breath mint	4	all	0
-3761
-3762
+3761	vampire pearl necklace	8	all	150
+3762	vampire pearl ring	8	all	150
 3763	slug of vodka	2	all	70
 3764	slug of rum	2	all	70
 3765	slug of shochu	2	all	70

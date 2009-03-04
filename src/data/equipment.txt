@@ -1304,6 +1304,9 @@ toy jet pack	0	Mys: 72
 toy maglev monorail	0	Mys: 15
 toy train	0	Mys: 15
 tube sock	0	Mys: 45
+vampire pearl earring	0	Mys: 47
+vampire pearl necklace	0	Mys: 35
+vampire pearl ring	0	Mys: 35
 velcro boots	0	Mys: 85
 vinyl boots	0	Mox: 85
 walrus-tusk earring	0	Mys: 10

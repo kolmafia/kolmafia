@@ -958,6 +958,9 @@ teflon shield	Muscle Percent: +10, Damage Reduction: 10, Damage Absorption: +50
 # thought balloon
 tip jar	Meat Drop: +5
 tropical paperweight	Experience: +1
+vampire pearl earring	MP Regen Min: 4, MP Regen Max: 14
+vampire pearl necklace	HP Regen Min: 6, HP Regen Max: 18
+vampire pearl ring	HP Regen Min: 2, HP Regen Max: 10, MP Regen Min: 2, MP Regen Max: 10
 velcro shield	Mysticality Percent: +10, Damage Reduction: 10, Weapon Drop: +25
 vinyl shield	Moxie Percent: +10, Damage Reduction: 10, Monster Level: +25
 voodoo doll	Mysticality: +1
