@@ -1736,10 +1736,17 @@ public class KoLmafiaCLI
 	public static class Update
 		extends Command
 	{
-		{ usage = " - download most recent data files."; }
-		public void run( String cmd )
+		{ usage = " [clear] - download most recent data files [or revert to built-in data]."; }
+		public void run( String cmd, String parameters )
 		{
-			CLI.downloadAdventureOverride();
+			if ( parameters.equalsIgnoreCase( "clear" ) )
+			{
+				CLI.deleteAdventureOverride();
+			}
+			else
+			{
+				CLI.downloadAdventureOverride();
+			}
 		}
 	}
 	

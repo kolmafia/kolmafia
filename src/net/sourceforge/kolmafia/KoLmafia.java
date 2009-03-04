@@ -3115,6 +3115,22 @@ public abstract class KoLmafia
 		return true;
 	}
 
+	public final void deleteAdventureOverride()
+	{
+		for ( int i = 0; i < KoLConstants.OVERRIDE_DATA.length; ++i )
+		{
+			File dest = new File( UtilityConstants.DATA_LOCATION,
+				KoLConstants.OVERRIDE_DATA[ i ] );
+			if ( dest.exists() )
+			{
+				dest.delete();
+			}
+		}
+
+		KoLmafia.updateDisplay( "Please restart KoLmafia to complete the update." );
+		RequestThread.enableDisplayIfSequenceComplete();
+	}
+
 	public static final boolean isRunningBetweenBattleChecks()
 	{
 		return KoLmafia.recoveryActive || MoodManager.isExecuting();
