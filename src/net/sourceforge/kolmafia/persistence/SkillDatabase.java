@@ -750,6 +750,23 @@ public class SkillDatabase
 		return true;
 	}
 
+	public static final boolean isBookshelfSkill( final String skillName )
+	{
+		switch ( SkillDatabase.getSkillId( skillName ) )
+		{
+		case 8000:	// Summon Snowcones
+		case 8001:	// Summon Stickers
+		case 8100:	// Summon Candy Hearts
+		case 8101:	// Summon Party Favor
+		case 8102:	// Summon Love Song
+		case 8200:	// Summon Hilarious Objects
+		case 8201:	// Summon Tasteful Items
+			return true;
+		}
+
+		return false;
+	}
+
 	/**
 	 * Returns all skills in the database of the given type.
 	 */

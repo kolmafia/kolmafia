@@ -1934,98 +1934,38 @@ public class UseItemRequest
 		case ItemPool.DIVINE_BOOK:
 		case ItemPool.LOVE_BOOK:
 			// Librams
-
-			// "You've already got a Libram of Divine Favors on
-			// your bookshelf."
-			//
-			// old message:
-			//
-			// "You already know how to summon snowcones."
-
-			if ( responseText.indexOf( "You've already got" ) != -1 ||
-			     responseText.indexOf( "You already" ) != -1)
-			{
-				ResultProcessor.processResult( item );
-				return;
-			}
-
-			switch ( item.getItemId() )
-			{
-			case ItemPool.SNOWCONE_BOOK:
-				StaticEntity.learnSkill( "Summon Snowcones" );
-				break;
-			case ItemPool.STICKER_BOOK:
-				StaticEntity.learnSkill( "Summon Stickers" );
-				break;
-			case ItemPool.HILARIOUS_BOOK:
-				StaticEntity.learnSkill( "Summon Hilarious Objects" );
-				break;
-			case ItemPool.TASTEFUL_BOOK:
-				StaticEntity.learnSkill( "Summon Tasteful Items" );
-				break;
-			case ItemPool.CANDY_BOOK:
-				StaticEntity.learnSkill( "Summon Candy Hearts" );
-				break;
-			case ItemPool.DIVINE_BOOK:
-				StaticEntity.learnSkill( "Summon Party Favor" );
-				break;
-			case ItemPool.LOVE_BOOK:
-				StaticEntity.learnSkill( "Summon Love Song" );
-				break;
-			}
-
-			KoLCharacter.setBookshelf( true );
-
-			return;
-
 		case ItemPool.JEWELRY_BOOK:
-
-			// "You already know how to make fancy jewelry, so this
-			// book contains nothing exciting for you."
-
-			if ( responseText.indexOf( "You already" ) != -1 )
-			{
-				ResultProcessor.processResult( item );
-				return;
-			}
-
-			StaticEntity.learnSkill( "Really Expensive Jewelrycrafting" );
-
-			return;
-
 		case ItemPool.OLFACTION_BOOK:
-
-			if ( responseText.indexOf( "You already" ) != -1 )
-			{
-				ResultProcessor.processResult( item );
-				return;
-			}
-
-			StaticEntity.learnSkill( "Transcendent Olfaction" );
-
-			return;
-
 		case ItemPool.RAINBOWS_GRAVITY:
-
-			if ( responseText.indexOf( "Once was more than enough" ) != -1 )
-			{
-				ResultProcessor.processResult( item );
-				return;
-			}
-
-			StaticEntity.learnSkill( "Rainbow Gravitation" );
-
-			return;
-
 		case ItemPool.RAGE_GLAND:
+		case ItemPool.KISSIN_COUSINS:
+		case ItemPool.TALES_FROM_THE_FIRESIDE:
+		case ItemPool.BLIZZARDS_I_HAVE_DIED_IN:
+		case ItemPool.MAXING_RELAXING:
+		case ItemPool.BIDDY_CRACKERS_COOKBOOK:
+		case ItemPool.TRAVELS_WITH_JERRY:
+		case ItemPool.LET_ME_BE:
+		case ItemPool.ASLEEP_IN_THE_CEMETERY:
+		case ItemPool.SUMMER_NIGHTS:
+		case ItemPool.SENSUAL_MASSAGE_FOR_CREEPS:
+		case ItemPool.RICHIE_THINGFINDER:
+		case ItemPool.MEDLEY_OF_DIVERSITY:
+		case ItemPool.EXPLOSIVE_ETUDE:
+		case ItemPool.CHORALE_OF_COMPANIONSHIP:
+		case ItemPool.PRELUDE_OF_PRECISION:
+		case ItemPool.HODGMAN_JOURNAL_1:
+		case ItemPool.HODGMAN_JOURNAL_2:
+		case ItemPool.HODGMAN_JOURNAL_3:
+		case ItemPool.HODGMAN_JOURNAL_4:
 
-			if ( responseText.indexOf( "You don't think" ) != -1 )
+			String skill = UseItemRequest.itemToSkill( item.getItemId() );
+			if ( skill == null || KoLCharacter.hasSkill( skill ) )
 			{
 				ResultProcessor.processResult( item );
 				return;
 			}
 
-			StaticEntity.learnSkill( "Vent Rage Gland" );
+			StaticEntity.learnSkill( skill );
 
 			return;
 
@@ -2678,6 +2618,75 @@ public class UseItemRequest
 			}
 			return;
 		}
+	}
+
+	private static final String itemToSkill( final int itemId )
+	{
+		switch ( itemId )
+		{
+		case ItemPool.SNOWCONE_BOOK:
+			return "Summon Snowcones";
+		case ItemPool.STICKER_BOOK:
+			return "Summon Stickers";
+		case ItemPool.HILARIOUS_BOOK:
+			return "Summon Hilarious Objects";
+		case ItemPool.TASTEFUL_BOOK:
+			return "Summon Tasteful Items";
+		case ItemPool.CANDY_BOOK:
+			return "Summon Candy Hearts";
+		case ItemPool.DIVINE_BOOK:
+			return "Summon Party Favor";
+		case ItemPool.LOVE_BOOK:
+			return "Summon Love Song";
+		case ItemPool.JEWELRY_BOOK:
+			return "Really Expensive Jewelrycrafting";
+		case ItemPool.OLFACTION_BOOK:
+                        return "Transcendent Olfaction";
+		case ItemPool.RAINBOWS_GRAVITY:
+			return "Rainbow Gravitation";
+		case ItemPool.RAGE_GLAND:
+			return "Vent Rage Gland";
+		case ItemPool.KISSIN_COUSINS:
+                        return "Awesome Balls of Fire";
+		case ItemPool.TALES_FROM_THE_FIRESIDE:
+                        return "Conjure Relaxing Campfire";
+		case ItemPool.BLIZZARDS_I_HAVE_DIED_IN:
+                        return "Snowclone";
+		case ItemPool.MAXING_RELAXING:
+                        return "Maximum Chill";
+		case ItemPool.BIDDY_CRACKERS_COOKBOOK:
+                        return "Eggsplosion";
+		case ItemPool.TRAVELS_WITH_JERRY:
+                        return "Mudbath";
+		case ItemPool.LET_ME_BE:
+                        return "Raise Backup Dancer";
+		case ItemPool.ASLEEP_IN_THE_CEMETERY:
+                        return "Creepy Lullaby";
+		case ItemPool.SUMMER_NIGHTS:
+                        return "Grease Lightning";
+		case ItemPool.SENSUAL_MASSAGE_FOR_CREEPS:
+                        return "Inappropriate Backrub";
+		case ItemPool.RICHIE_THINGFINDER:
+                        return "The Ballad of Richie Thingfinder";
+		case ItemPool.MEDLEY_OF_DIVERSITY:
+                        return "Benetton's Medley of Diversity";
+		case ItemPool.EXPLOSIVE_ETUDE:
+                        return "Elron's Explosive Etude";
+		case ItemPool.CHORALE_OF_COMPANIONSHIP:
+                        return "Chorale of Companionship";
+		case ItemPool.PRELUDE_OF_PRECISION:
+                        return "Prelude of Precision";
+		case ItemPool.HODGMAN_JOURNAL_1:
+                        return "Natural Born Scrabbler";
+		case ItemPool.HODGMAN_JOURNAL_2:
+                        return "Thrift and Grift";
+		case ItemPool.HODGMAN_JOURNAL_3:
+                        return "Abs of Tin";
+		case ItemPool.HODGMAN_JOURNAL_4:
+                        return "Marginally Insane";
+		}
+
+		return null;
 	}
 
 	private static final void handleFortuneCookie( final Matcher matcher )
