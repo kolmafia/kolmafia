@@ -392,7 +392,14 @@ public class ResultProcessor
 
 		if ( acquisition.indexOf( "an item" ) != -1 )
 		{
-			AdventureResult result = ItemPool.get( item, 1 );
+			int itemId = ItemDatabase.getItemId( item, 1 );
+			if ( itemId < 0 )
+			{
+				RequestLogger.printLine( "Unrecognized item found: " + item );
+				return;
+			}
+
+			AdventureResult result = ItemPool.get( itemId, 1 );
 			ResultProcessor.processItem( acquisition, result, data );
 			return;
 		}
@@ -420,8 +427,15 @@ public class ResultProcessor
 
 		// If we got more than one, do substring matching. This might
 		// allow recognition of an unknown (or changed) plural form.
-		AdventureResult result = ItemPool.get( ItemDatabase.getItemId( itemName, itemCount, itemCount > 1 ), itemCount );
 
+		int itemId = ItemDatabase.getItemId( itemName, itemCount, itemCount > 1 );
+		if ( itemId < 0 )
+		{
+			RequestLogger.printLine( "Unrecognized item found: " + item );
+			return;
+		}
+
+		AdventureResult result = ItemPool.get( itemId, itemCount );
 		ResultProcessor.processItem( acquisition, result, data );
 	}
 

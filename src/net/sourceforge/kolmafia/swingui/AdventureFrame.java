@@ -58,6 +58,7 @@ public class AdventureFrame
 	extends GenericFrame
 {
 	private static AdventureSelectPanel adventureSelector = null;
+	private static ChoiceOptionsPanel choiceOptionsPanel;
 	private static CustomCombatPanel customCombatPanel;
 	private static RestoreOptionsPanel restoreOptionsPanel;
 	private static JProgressBar requestMeter = null;
@@ -166,6 +167,11 @@ public class AdventureFrame
 			AdventureFrame.adventureSelector.updateFromPreferences();
 		}
 
+		if ( AdventureFrame.choiceOptionsPanel != null )
+		{
+			AdventureFrame.choiceOptionsPanel.loadSettings();
+		}
+
 		if ( AdventureFrame.customCombatPanel != null )
 		{
 			AdventureFrame.customCombatPanel.updateFromPreferences();
@@ -198,10 +204,10 @@ public class AdventureFrame
 		this.tabs.addTab( "Custom Combat", AdventureFrame.customCombatPanel );
 
 		this.tabs.insertTab( "Overview", null, this.getAdventureSummary(), null, 0 );
-		ChoiceOptionsPanel choicePanel = new ChoiceOptionsPanel();
-		this.tabs.insertTab( "Choice Advs", null, choicePanel, null, 1 );
+		AdventureFrame.choiceOptionsPanel = new ChoiceOptionsPanel();
+		this.tabs.insertTab( "Choice Advs", null, AdventureFrame.choiceOptionsPanel, null, 1 );
 
-		AdventureFrame.adventureSelector.addSelectedLocationListener( choicePanel.getUpdateListener() );
+		AdventureFrame.adventureSelector.addSelectedLocationListener( AdventureFrame.choiceOptionsPanel.getUpdateListener() );
 		return this.tabs;
 	}
 
