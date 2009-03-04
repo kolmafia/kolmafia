@@ -606,7 +606,7 @@ Undead Elbow Macaroni	HP: 1 Def: 2 Atk: 1 E: spooky Meat: 4-6	magicalness-in-a-c
 Unholy Diver	HP: 1000 Def: 600 Atk: 700	rusty broken diving helmet (0)	rusty porthole (0)	rusty rivet (0)	rusty rivet (0)	rusty rivet (0)
 Upgraded Ram	HP: 95 Def: 105 Atk: 106 Meat: 83-118 ED: cold	ram horns (5)	ram stick (5)	Ram's Face Lager (30)
 Vampire Bat	HP: 10 Def: 16 Atk: 17 Meat: 34-54	bat wing (15)	batgut (15)	sonar-in-a-biscuit (20)
-Vampire Clam	HP: 14 Def: 19 Atk: 21
+Vampire Clam	HP: 14 Def: 19 Atk: 21	vampire pearl
 Vampire Duck	HP: 198 Atk: 175 Meat: 131-165 E: spooky	frightful feather (10)	duct tape (5)
 Vegetable Gremlin	HP: 170 Def: 172 Atk: 168 Meat: 40-60	gremlin juice (3)	molybdenum screwdriver (0)
 Vicious Easel	HP: 100000

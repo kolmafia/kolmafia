@@ -3749,11 +3749,11 @@
 3743	258693786	unstable quark	unstable quarks
 3744	249918458	software glitch	software glitches
 3745	882058553	fumble formula	fumble formulae
-3746
+3746	480161288	vampire pearl	vampire pearls
 3747	243072420	mother's secret recipe	copies of mother's secret recipe
 3748
 3749	631866824	concoction of clumsiness	concoctions of clumsiness
-3750
+3750	383154547	vampire pearl earring	vampire pearl earrings
 3751	609461468	white chocolate chip brownies	piles of white chocolate chip brownies
 3752
 3753	119587121	Libram of Love Songs	Librams of Love Songs
@@ -3764,8 +3764,8 @@
 3758	914302407	love song of disturbing obsession	love songs of disturbing obsession
 3759	148379468	love song of naughty innuendo	love songs of naughty innuendo
 3760	732294709	breath mint	breath mints
-3761
-3762
+3761	882017435	vampire pearl ring	vampire pearl rings
+3762	220290527	vampire pearl necklace	vampire pearl necklaces
 3763	223443099	slug of vodka	slugs of vodka
 3764	297181259	slug of rum	slugs of rum
 3765	786855294	slug of shochu	slugs of shochu

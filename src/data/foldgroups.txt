@@ -5,6 +5,7 @@
 0	scratch 'n' sniff sword	scratch 'n' sniff crossbow
 0	metallic foil bow	metallic foil radar dish	metallic foil cat ears
 0	makeshift cape	makeshift skirt	makeshift turban	makeshift crane
+0	aquaviolet jub-jub bird	crimsilion jub-jub bird	charpuce jub-jub bird
 5	ice baby	ice pick	ice sickle	ice skates
 5	liar's pants	flaming juggler's balls	flaming pink shirt	flaming familiar doppelg&auml;nger	evil flaming eyeball pendant
 5	naughty fortune teller	origami &quot;gentlemen's&quot; magazine	naughty paper shuriken	origami pasties	origami riding crop

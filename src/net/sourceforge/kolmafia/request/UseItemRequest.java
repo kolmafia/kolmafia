@@ -172,6 +172,10 @@ public class UseItemRequest
 		case ItemPool.PUNCHCARD_BUFF:
 		case ItemPool.PUNCHCARD_MODIFY:
 		case ItemPool.PUNCHCARD_BUILD:
+			// Bandersnatch equipcessories
+		case ItemPool.AQUAVIOLET_JUBJUB_BIRD:
+		case ItemPool.CHARPUCE_JUBJUB_BIRD:
+		case ItemPool.CRIMSILION_JUBJUB_BIRD:
 			return KoLConstants.CONSUME_USE;
 
 			// Crimbo toys
