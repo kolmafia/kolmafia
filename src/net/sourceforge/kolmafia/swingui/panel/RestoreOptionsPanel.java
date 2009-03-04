@@ -61,6 +61,8 @@ public class RestoreOptionsPanel
 	protected JComboBox mpAutoRecoverSelect, mpAutoRecoverTargetSelect, mpBalanceSelect;
 	protected JCheckBox[] mpRestoreCheckbox;
 
+	private boolean restoring = false;
+
 	public RestoreOptionsPanel()
 	{
 		super( new GridLayout( 1, 2, 10, 10 ) );
@@ -83,6 +85,11 @@ public class RestoreOptionsPanel
 		{
 			this.mpRestoreCheckbox[ i ].addActionListener( listener );
 		}
+	}
+
+	public void updateFromPreferences()
+	{
+		this.restoreRestoreSettings();
 	}
 
 	private GenericScrollPane constructScroller( final JCheckBox[] restoreCheckbox )
@@ -139,6 +146,11 @@ public class RestoreOptionsPanel
 
 	private void saveRestoreSettings()
 	{
+		if ( this.restoring )
+		{
+			return;
+		}
+
 		Preferences.setFloat(
 			"autoAbortThreshold", this.getPercentage( this.hpHaltCombatSelect ) );
 		Preferences.setFloat( "hpAutoRecovery", this.getPercentage( this.hpAutoRecoverSelect ) );
@@ -176,6 +188,22 @@ public class RestoreOptionsPanel
 	private float getPercentage( final JComboBox option )
 	{
 		return ( option.getSelectedIndex() - 1 ) / 20.0f;
+	}
+
+	private void restoreRestoreSettings()
+	{
+		this.restoring = true;
+		this.setSelectedIndex( this.hpHaltCombatSelect, "autoAbortThreshold" );
+		this.setSelectedIndex( this.hpAutoRecoverSelect, "hpAutoRecovery" );
+		this.setSelectedIndex( this.hpAutoRecoverTargetSelect, "hpAutoRecoveryTarget" );
+
+		HPRestoreItemList.updateCheckboxes( this.hpRestoreCheckbox );
+
+		this.setSelectedIndex( this.mpBalanceSelect, "manaBurningThreshold" );
+		this.setSelectedIndex( this.mpAutoRecoverSelect, "mpAutoRecovery" );
+		this.setSelectedIndex( this.mpAutoRecoverTargetSelect, "mpAutoRecoveryTarget" );
+		MPRestoreItemList.updateCheckboxes( this.mpRestoreCheckbox );
+		this.restoring = false;
 	}
 
 	private void setSelectedIndex( final JComboBox option, final String property )
@@ -236,8 +264,7 @@ public class RestoreOptionsPanel
 
 			this.add( RestoreOptionsPanel.this.constructLabelPair(
 				"Use these restores: ",
-				RestoreOptionsPanel.this.constructScroller( RestoreOptionsPanel.this.hpRestoreCheckbox =
-					HPRestoreItemList.getCheckboxes() ) ) );
+				RestoreOptionsPanel.this.constructScroller( RestoreOptionsPanel.this.hpRestoreCheckbox = HPRestoreItemList.getCheckboxes() ) ) );
 
 			RestoreOptionsPanel.this.setSelectedIndex( RestoreOptionsPanel.this.hpHaltCombatSelect, "autoAbortThreshold" );
 			RestoreOptionsPanel.this.setSelectedIndex( RestoreOptionsPanel.this.hpAutoRecoverSelect, "hpAutoRecovery" );
@@ -302,8 +329,7 @@ public class RestoreOptionsPanel
 
 			this.add( RestoreOptionsPanel.this.constructLabelPair(
 				"Use these restores: ",
-				RestoreOptionsPanel.this.constructScroller( RestoreOptionsPanel.this.mpRestoreCheckbox =
-					MPRestoreItemList.getCheckboxes() ) ) );
+				RestoreOptionsPanel.this.constructScroller( RestoreOptionsPanel.this.mpRestoreCheckbox = MPRestoreItemList.getCheckboxes() ) ) );
 
 			RestoreOptionsPanel.this.setSelectedIndex( RestoreOptionsPanel.this.mpBalanceSelect, "manaBurningThreshold" );
 			RestoreOptionsPanel.this.setSelectedIndex( RestoreOptionsPanel.this.mpAutoRecoverSelect, "mpAutoRecovery" );

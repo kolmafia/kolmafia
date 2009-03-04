@@ -162,6 +162,16 @@ public abstract class HPRestoreItemList
 		return restoreCheckbox;
 	}
 
+	public static final void updateCheckboxes( final JCheckBox[] restoreCheckbox )
+	{
+		String hpRestoreSetting = Preferences.getString( "hpAutoRecoveryItems" );
+
+		for ( int i = 0; i < HPRestoreItemList.CONFIGURES.length; ++i )
+		{
+			restoreCheckbox[ i ].setSelected( hpRestoreSetting.indexOf( HPRestoreItemList.CONFIGURES[ i ].toString().toLowerCase() ) != -1 );
+		}
+	}
+
 	public static class HPRestoreItem
 		implements Comparable
 	{
