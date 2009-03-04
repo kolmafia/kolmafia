@@ -545,8 +545,16 @@ public abstract class StaticEntity
 		StaticEntity.learnSkill( location, responseText );
 	}
 
-	private static void learnSkill( final String location, final String responseText )
+	public static void learnSkill( final String location, final String responseText )
 	{
+		// Don't parse skill acquisition via item use here, since
+		// UseItemRequest will detect it.
+
+		if ( location.startsWith( "inv_use.php" ) )
+		{
+			return;
+		}
+
 		Matcher matcher = StaticEntity.NEWSKILL1_PATTERN.matcher( responseText );
 		if ( matcher.find() )
 		{
@@ -589,6 +597,10 @@ public abstract class StaticEntity
 		KoLCharacter.addDerivedSkills();
 		KoLConstants.usableSkills.sort();
 		ConcoctionDatabase.refreshConcoctions();
+		if ( SkillDatabase.isBookshelfSkill( skillName ) )
+		{
+			KoLCharacter.setBookshelf( true );
+		}
 		Preferences.firePreferenceChanged( "(skill)" );
 	}
 
