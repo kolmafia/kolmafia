@@ -50,7 +50,6 @@ public class CombineMeatRequest
 	extends CreateItemRequest
 {
 	private final int meatType;
-	private final int costToMake;
 
 	public CombineMeatRequest( final int meatType )
 	{
@@ -61,8 +60,20 @@ public class CombineMeatRequest
 		this.addFormField( "ajax", "1" );
 
 		this.meatType = meatType;
-		this.costToMake =
-			meatType == ItemPool.MEAT_PASTE ? -10 : meatType == ItemPool.MEAT_STACK ? -100 : -1000;
+	}
+
+	private static int getCost( int itemId )
+	{
+		switch ( itemId )
+		{
+		case ItemPool.MEAT_PASTE:
+			return 10;
+		case ItemPool.MEAT_STACK:
+			return 100;
+		case ItemPool.DENSE_STACK:
+			return 1000;
+		}
+		return 0;
 	}
 
 	public void reconstructFields()
@@ -71,20 +82,19 @@ public class CombineMeatRequest
 
 	public void run()
 	{
-		if ( this.costToMake * this.getQuantityNeeded() > KoLCharacter.getAvailableMeat() )
+		String name = ItemDatabase.getItemName( this.meatType );
+		int count = this.getQuantityNeeded();
+		int cost = CombineMeatRequest.getCost( this.meatType );
+
+		if ( cost * count > KoLCharacter.getAvailableMeat() )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Insufficient funds to make meat paste." );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Insufficient funds to make " + count + " " + name );
 			return;
 		}
 
-		KoLmafia.updateDisplay( "Creating " + this.getQuantityNeeded() + " " + ItemDatabase.getItemName( this.meatType ) + "..." );
+		KoLmafia.updateDisplay( "Creating " + count + " " + name + "..." );
 		this.addFormField( "qty", String.valueOf( this.getQuantityNeeded() ) );
 		super.run();
-	}
-
-	public void processResults()
-	{
-		super.processResults();
 	}
 
 	public static final boolean registerRequest( final String urlString )
@@ -96,19 +106,33 @@ public class CombineMeatRequest
 		}
 
 		int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
+		int cost = CombineMeatRequest.getCost( itemId );
+
+		if ( cost == 0 )
+		{
+			return false;
+		}
 
 		Matcher quantityMatcher = CreateItemRequest.QUANTITY_PATTERN.matcher( urlString );
 		int quantity = quantityMatcher.find() ? StringUtilities.parseInt( quantityMatcher.group( 2 ) ) : 1;
-
-		RequestLogger.updateSessionLog();
-		RequestLogger.updateSessionLog( "Create " + quantity + " " + ItemDatabase.getItemName( itemId ) );
-
-		int cost = itemId == ItemPool.MEAT_PASTE ? 10 : itemId == ItemPool.MEAT_STACK ? 100 : 1000;
 		int total = cost * quantity;
-		if ( total <= KoLCharacter.getAvailableMeat() )
+
+		if ( total > KoLCharacter.getAvailableMeat() )
+		{
+			return true;
+		}
+
+		// We can combine meat either through crafting or via the
+		// inventory. The former tells you how much meat you lost when
+		// it delivers your items, the latter does not.
+
+		if ( urlString.startsWith( "inventory.php" ) )
 		{
 			ResultProcessor.processMeat( 0 - total );
 		}
+
+		RequestLogger.updateSessionLog();
+		RequestLogger.updateSessionLog( "Create " + quantity + " " + ItemDatabase.getItemName( itemId ) );
 
 		return true;
 	}
