@@ -173,6 +173,16 @@ public abstract class MPRestoreItemList
 		return restoreCheckbox;
 	}
 
+	public static final void updateCheckboxes( final JCheckBox[] restoreCheckbox )
+	{
+		String mpRestoreSetting = Preferences.getString( "mpAutoRecoveryItems" );
+
+		for ( int i = 0; i < MPRestoreItemList.CONFIGURES.length; ++i )
+		{
+			restoreCheckbox[ i ].setSelected( mpRestoreSetting.indexOf( MPRestoreItemList.CONFIGURES[ i ].toString().toLowerCase() ) != -1 );
+		}
+	}
+
 	public static class MPRestoreItem
 		implements Comparable
 	{

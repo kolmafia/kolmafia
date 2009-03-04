@@ -59,6 +59,7 @@ public class AdventureFrame
 {
 	private static AdventureSelectPanel adventureSelector = null;
 	private static CustomCombatPanel customCombatPanel;
+	private static RestoreOptionsPanel restoreOptionsPanel;
 	private static JProgressBar requestMeter = null;
 	private static JSplitPane sessionGrid;
 
@@ -169,6 +170,11 @@ public class AdventureFrame
 		{
 			AdventureFrame.customCombatPanel.updateFromPreferences();
 		}
+
+		if ( AdventureFrame.restoreOptionsPanel != null )
+		{
+			AdventureFrame.restoreOptionsPanel.updateFromPreferences();
+		}
 	}
 
 	public boolean useSidePane()
@@ -181,7 +187,8 @@ public class AdventureFrame
 		// Components of custom combat and choice adventuring,
 		// combined into one friendly panel.
 
-		GenericScrollPane restoreScroller = new GenericScrollPane( new RestoreOptionsPanel() );
+		AdventureFrame.restoreOptionsPanel = new RestoreOptionsPanel();
+		GenericScrollPane restoreScroller = new GenericScrollPane( AdventureFrame.restoreOptionsPanel );
 		JComponentUtilities.setComponentSize( restoreScroller, 560, 400 );
 
 		this.tabs.addTab( "HP/MP Usage", restoreScroller );
