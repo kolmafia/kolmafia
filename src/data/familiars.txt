@@ -104,4 +104,4 @@
 102	Imitation Crab	combat	3598	imitation whetstone	3	1	2	2
 103	Pair of Ragged Claws	combat	3628	radioactive chew toy	1	1	1	1
 104	Magic Dragonfish	none	3648	fin-bit wax	1	1	2	0
-105	Frumious Bandersnatch	none	3799		0	0	0	0
+105	Frumious Bandersnatch	none	3799	aquaviolet jub-jub bird	3	2	2	0

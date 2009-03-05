@@ -318,6 +318,7 @@ user	manaBurnSummonThreshold	10
 user	manaBurningThreshold	-0.05
 user	mineLayout1
 user	mineLayout2
+user	mineLayout3
 user	moleTunnelLevel	0
 user	mpAutoRecovery	0.0
 user	mpAutoRecoveryItems	phonics down;knob goblin superseltzer;mountain stream soda;magical mystery juice;knob goblin seltzer;cherry cloaca cola;soda water
