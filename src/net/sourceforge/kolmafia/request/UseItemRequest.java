@@ -3010,4 +3010,28 @@ public class UseItemRequest
 		RequestLogger.updateSessionLog( useString );
 		return true;
 	}
+
+	public int getAdventuresUsed()
+	{
+		int turns = 0;
+		switch ( this.itemUsed.getItemId() )
+		{
+		case ItemPool.BLACK_PUDDING:
+		case ItemPool.DRUM_MACHINE:
+		case ItemPool.CARONCH_MAP:
+		case ItemPool.FRATHOUSE_BLUEPRINTS:
+		case ItemPool.CURSED_PIECE_OF_THIRTEEN:
+		case ItemPool.SPOOKY_PUTTY_MONSTER:
+			// Items that can redirect to a fight
+			turns = 1;
+			break;
+		
+		case ItemPool.GONG:
+			// Roachform is three uninterruptible turns
+			turns = Preferences.getInteger( "choiceAdventure276" ) == 1 ? 3 : 0;
+			break;
+		}
+		
+		return turns * this.itemUsed.getCount();
+	}
 }

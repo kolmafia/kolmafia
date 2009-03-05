@@ -1105,16 +1105,16 @@ public class HolidayDatabase
 
 			int y = StringUtilities.parseInt( currentYear );
 			int c = y / 100;
-			int n = y - 19 * y / 19;
+			int n = y - 19 * ( y / 19 );
 			int k = ( c - 17 ) / 25;
 			int i = c - c / 4 - ( c - k ) / 3 + 19 * n + 15;
-			i = i - 30 * i / 30;
-			i = i - i / 28 * ( 1 - i / 28 * 29 / ( i + 1 ) * ( 21 - n ) / 11 );
+			i = i - 30 * ( i / 30 );
+			i = i - ( i / 28 ) * ( 1 - ( i / 28 ) * ( 29 / ( i + 1 ) ) * ( ( 21 - n ) / 11 ) );
 			int j = y + y / 4 + i + 2 - c + c / 4;
-			j = j - 7 * j / 7;
+			j = j - 7 * ( j / 7 );
 			int l = i - j;
 			int m = 3 + ( l + 40 ) / 44;
-			int d = l + 28 - 31 * m / 4;
+			int d = l + 28 - 31 * ( m / 4 );
 
 			holidayFinder.set( Calendar.YEAR, y );
 			holidayFinder.set( Calendar.MONTH, m - 1 );
