@@ -1394,6 +1394,12 @@ public class UseItemRequest
 			return;
 		
 		case ItemPool.GONG:
+
+			// We deduct the gong when we get the intro choice
+			// adventure: The Gong Has Been Bung
+
+			ResultProcessor.processResult( item );
+				
 			// "You try to bang the gong, but the mallet keeps
 			// falling out of your hand. Maybe you should try it
 			// later, when you've sobered up a little."
@@ -1403,17 +1409,16 @@ public class UseItemRequest
 			if ( responseText.indexOf( "sobered up a little" ) != -1  || 
 			     responseText.indexOf( "don't have time to bang" ) != -1 )
 			{
-				ResultProcessor.processResult( item );
 				UseItemRequest.lastUpdate = "Insufficient adventures or sobriety to use a gong.";
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
 				return;
 			}
 			
-			// "You're already in the middle of a journey of reincarnation."
+			// "You're already in the middle of a journey of
+			// reincarnation."
+
 			if ( responseText.indexOf( "middle of a journey of reincarnation" ) != -1 )
 			{
-				ResultProcessor.processResult( item );
-				
 				if ( UseItemRequest.retrying ||
 					KoLConstants.activeEffects.contains(
 						EffectPool.get( EffectPool.FORM_OF_BIRD ) ) || 
@@ -1426,6 +1431,7 @@ public class UseItemRequest
 					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
 					return;	// can't use another gong yet
 				}
+
 				try
 				{
 					UseItemRequest.retrying = true;	// prevent recursing more than once
