@@ -11,6 +11,7 @@ import java.util.StringTokenizer;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -25,12 +26,14 @@ implements Comparable
 	private final int value;
 	private final String image;
 	private final String label;
+	private int lastWarned;
 
 	public TurnCounter( final int value, final String label, final String image )
 	{
 		this.value = KoLCharacter.getCurrentRun() + value;
 		this.label = label;
 		this.image = image;
+		this.lastWarned = -1;
 	}
 
 	public boolean isExempt( final String adventureId )
@@ -204,7 +207,8 @@ implements Comparable
 		}
 
 		TurnCounter current;
-		int currentTurns = KoLCharacter.getCurrentRun() + turnsUsed - 1;
+		int thisTurn = KoLCharacter.getCurrentRun();
+		int currentTurns = thisTurn + turnsUsed - 1;
 
 		TurnCounter expired = null;
 		Iterator it = relayCounters.iterator();
@@ -218,11 +222,22 @@ implements Comparable
 				continue;
 			}
 
-			it.remove();
-			if ( !current.isExempt( adventureId ) )
+			if ( current.value < thisTurn + 3 )
 			{
+				it.remove();
+			}
+			
+			if ( current.value >= thisTurn && !current.isExempt( adventureId )
+				&& current.lastWarned != thisTurn )
+			{
+				if ( expired != null )
+				{
+					KoLmafia.updateDisplay( "Also expiring: " + expired.label +
+						" (" + (expired.value - thisTurn) + ")" );
+				}
 				expired = current;
 			}
+			current.lastWarned = thisTurn;
 		}
 
 		return expired;
