@@ -776,18 +776,18 @@ decaying wooden oar	COMBINE	decaying wooden pole	decaying wooden paddle
 giant fishhook	COMBINE	tarnished metal ring	tarnished metal rod
 rusty old lantern	COMBINE	brittle plastic handle	foggy glass globe
 
-non-stick pugil stick	SMITH	decaying wooden pole	teflon ore
-teflon spatula	SMITH	tarnished metal rod	teflon ore
+non-stick pugil stick	WSMITH	decaying wooden pole	teflon ore
+teflon spatula	WSMITH	tarnished metal rod	teflon ore
 teflon shield	ASMITH	rusty valve wheel	teflon ore
 teflon swim fins	ASMITH	waterlogged bootstraps	teflon ore
 
-velcro broadsword	SMITH	brittle plastic handle	velcro ore
-velcro paddle ball	SMITH	decaying wooden paddle	velcro ore
+velcro broadsword	WSMITH	brittle plastic handle	velcro ore
+velcro paddle ball	WSMITH	decaying wooden paddle	velcro ore
 velcro shield	ASMITH	rusty valve wheel	velcro ore
 velcro boots	ASMITH	waterlogged bootstraps	velcro ore
 
-7-inch discus	SMITH	tarnished metal ring	vinyl ore
-PVC staff	SMITH	foggy glass globe	vinyl ore
+7-inch discus	WSMITH	tarnished metal ring	vinyl ore
+PVC staff	WSMITH	foggy glass globe	vinyl ore
 vinyl shield	ASMITH	rusty valve wheel	vinyl ore
 vinyl boots	ASMITH	waterlogged bootstraps	vinyl ore
 
