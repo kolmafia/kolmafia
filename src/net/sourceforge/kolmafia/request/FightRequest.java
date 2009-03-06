@@ -130,6 +130,9 @@ public class FightRequest
 	private static final Pattern PHYSICAL_PATTERN =
 		Pattern.compile( "(your blood, to the tune of|stabs you for|sown|You lose|You gain|strain your neck|) (\\d[\\d,]*) (\\([^.]*\\) |)((?:\\w+ ){0,2})(?:damage|points?|notch(?:es)?|to your opponent|force damage|tiny holes)" );
 
+	private static final Pattern HAIKU_DAMAGE_PATTERN =
+		Pattern.compile( "title=\"Damage: ([^\"]+)\"" );
+
 	private static final Pattern ELEMENTAL_PATTERN =
 		Pattern.compile( "(sown|) <font color=[\"]?\\w+[\"]?><b>\\+?([\\d,]+)</b></font> (\\([^.]*\\) |)(?:damage|points|HP worth)" );
 
@@ -2127,6 +2130,16 @@ public class FightRequest
 			while ( secondaryMatcher.find() )
 			{
 				damageThisRound += StringUtilities.parseInt( secondaryMatcher.group( 1 ) );
+			}
+		}
+		
+		damageMatcher = FightRequest.HAIKU_DAMAGE_PATTERN.matcher( responseText );
+		while ( damageMatcher.find() )
+		{
+			String[] pieces = damageMatcher.group( 1 ).split( "[^\\d,]+" );
+			for ( int i = 0; i < pieces.length; ++i )
+			{
+				damageThisRound += StringUtilities.parseInt( pieces[ i ] );
 			}
 		}
 
