@@ -325,7 +325,7 @@ public abstract class UseLinkDecorator
 		}
 		else if ( consumeMethod == KoLConstants.NO_CONSUME || consumeMethod == KoLConstants.COMBAT_ITEM )
 		{
-			link = getNavigationLink( itemId );
+			link = getNavigationLink( itemId, location );
 		}
 		else
 		{
@@ -573,7 +573,7 @@ public abstract class UseLinkDecorator
 		return null;
 	}
 
-	private static final UseLink getNavigationLink( int itemId )
+	private static final UseLink getNavigationLink( int itemId, String location )
 	{
 		String useType = null;
 		String useLocation = null;
@@ -720,6 +720,14 @@ public abstract class UseLinkDecorator
 		// Link to the guild when receiving guild quest items.
 		
 		case ItemPool.FERNSWARTHYS_KEY:
+			// ...except that the guild gives you the key again
+			if ( location.startsWith( "guild.php" ) )
+			{
+				useType = "ruins";
+				useLocation = "fernruin.php";
+				break;
+			}
+			/*FALLTHRU*/
 		case ItemPool.DUSTY_BOOK:
 			useType = "guild";
 			useLocation = "guild.php?place=ocg";
