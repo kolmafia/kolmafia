@@ -1249,6 +1249,7 @@ rainbow pearl earring	Muscle: +15, Mysticality: +15, Moxie: +15, Cold Resistance
 rainbow pearl necklace	Muscle: +15, Mysticality: +15, Moxie: +15, Spell Damage: +200, Single Equip
 rainbow pearl ring	Muscle: +15, Mysticality: +15, Moxie: +15, Spooky Damage: +40, Stench Damage: +40, Hot Damage: +40, Cold Damage: +40, Sleaze Damage: +40, Single Equip
 ratskin belt	Moxie: +8, Meat Drop: +10, Single Equip
+red plastic baby	Maximum HP: +5, Maximum MP: +5, Single Equip
 reinforced furry underpants	Mysticality: +2, Sleaze Damage: +2
 # right half of a heart necklace
 ring of adornment	Moxie: +10

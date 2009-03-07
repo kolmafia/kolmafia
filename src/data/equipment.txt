@@ -1138,6 +1138,7 @@ rainbow pearl earring	0	Mys: 200
 rainbow pearl necklace	0	Mys: 200
 rainbow pearl ring	0	Mys: 200
 ratskin belt	0	Mys: 75
+red plastic baby	0	none
 reinforced furry underpants	0	none
 right half of a heart necklace	0	none
 ring of adornment	0	Mys: 25
