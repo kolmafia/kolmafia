@@ -3801,3 +3801,14 @@
 3800	aquaviolet jub-jub bird	7	all	75
 3801	crimsilion jub-jub bird	7	all	75
 3802	charpuce jub-jub bird	7	all	75
+3803
+3804
+3805
+3806
+3807
+3808
+3809
+3810
+3811
+3812	chocolate-frosted king cake	1	display	0
+3813	red plastic baby	8	all	0
