@@ -3738,7 +3738,7 @@
 3737	lucky lighter	13	all	55
 3738	packet of beer nuts	1	all	12
 3739	Boozehounds Anonymous token	4	all	43
-3740
+3740	handful of bees	25	all	88
 3741	spectral jelly	25	all	62
 3742
 3743	unstable quark	0	all	1
