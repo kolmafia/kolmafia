@@ -103,12 +103,12 @@ public class ResultProcessor
 			formURLString.indexOf( "whichitem=553" ) != -1;
 	}
 	
-	public static boolean processResults( String results )
+	public static boolean processResults( boolean canBeHaiku, String results )
 	{
-		return ResultProcessor.processResults( results, null );
+		return ResultProcessor.processResults( canBeHaiku, results, null );
 	}
 
-	public static boolean processResults( String results, List data )
+	public static boolean processResults( boolean canBeHaiku, String results, List data )
 	{
 		ResultProcessor.receivedClover = false;
 		
@@ -117,7 +117,7 @@ public class ResultProcessor
 			RequestLogger.updateDebugLog( "Processing results..." );
 		}
 
-		boolean requiresRefresh = haveHaikuResults() ?
+		boolean requiresRefresh = canBeHaiku && haveHaikuResults() ?
 			processHaikuResults( results, data ) :
 			processNormalResults( results, data );
 
