@@ -1660,11 +1660,11 @@ public class GenericRequest
 			// results when actually buying an item, and then only
 			// at the very top of the page.
 			this.containsUpdate = this.getFormField( "whichitem" ) != null &&
-				ResultProcessor.processResults( this.responseText.substring( 0, this.responseText.indexOf( "</table>" ) ) );
+				ResultProcessor.processResults( false, this.responseText.substring( 0, this.responseText.indexOf( "</table>" ) ) );
 		}
 		else
 		{
-			this.containsUpdate = ResultProcessor.processResults( this.responseText );
+			this.containsUpdate = ResultProcessor.processResults( true, this.responseText );
 		}
 	}
 

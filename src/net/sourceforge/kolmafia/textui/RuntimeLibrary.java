@@ -2516,7 +2516,7 @@ public abstract class RuntimeLibrary
 	public static Value extract_meat( final Value string )
 	{
 		ArrayList data = new ArrayList();
-		ResultProcessor.processResults( string.toString(), data );
+		ResultProcessor.processResults( false, string.toString(), data );
 
 		AdventureResult result;
 
@@ -2535,7 +2535,7 @@ public abstract class RuntimeLibrary
 	public static Value extract_items( final Value string )
 	{
 		ArrayList data = new ArrayList();
-		ResultProcessor.processResults( string.toString(), data );
+		ResultProcessor.processResults( false, string.toString(), data );
 		MapValue value = new MapValue( DataTypes.RESULT_TYPE );
 
 		AdventureResult result;
