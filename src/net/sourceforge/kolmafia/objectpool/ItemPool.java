@@ -569,6 +569,9 @@ public class ItemPool
 	public static final int CHARRRM_BRACELET = 2953;
 	public static final int RUM_CHARRRM = 2957;
 	public static final int RUM_BRACELET = 2959;
+	public static final int RIGGING_SHAMPOO = 2963;
+	public static final int BALL_POLISH = 2964;
+	public static final int MIZZENMAST_MOP = 2965;
 	public static final int GRUMPY_CHARRRM = 2972;
 	public static final int GRUMPY_BRACELET = 2973;
 	public static final int TARRRNISH_CHARRRM = 2974;
