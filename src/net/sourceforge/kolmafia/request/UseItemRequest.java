@@ -871,6 +871,11 @@ public class UseItemRequest
 			UseItemRequest.lastUpdate = "Insufficient items to use.";
 			return;
 		}
+		
+		if ( this.getAdventuresUsed() > 0 )
+		{
+			StaticEntity.getClient().runBetweenBattleChecks( true );
+		}
 
 		switch ( this.consumptionType )
 		{
