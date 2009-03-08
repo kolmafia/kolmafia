@@ -976,6 +976,20 @@ public class KoLAdventure
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Ultrahydration failed!" );
 			}
 		}
+		else if ( this.adventureId.equals( "158" ) )
+		{
+			AdventureResult mop = ItemPool.get( ItemPool.MIZZENMAST_MOP, 1 );
+			AdventureResult polish = ItemPool.get( ItemPool.BALL_POLISH, 1 );
+			AdventureResult sham = ItemPool.get( ItemPool.RIGGING_SHAMPOO, 1 );
+			if ( InventoryManager.hasItem( mop ) &&
+				InventoryManager.hasItem( polish ) &&
+				InventoryManager.hasItem( sham ) )
+			{
+				RequestThread.postRequest( new UseItemRequest( mop ) );
+				RequestThread.postRequest( new UseItemRequest( polish ) );
+				RequestThread.postRequest( new UseItemRequest( sham ) );
+			}
+		}
 
 		// Update selected adventure information in order to
 		// keep the GUI synchronized.
