@@ -75,6 +75,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.request.AccountRequest;
+import net.sourceforge.kolmafia.request.CafeRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
@@ -933,6 +934,7 @@ public abstract class KoLmafia
 		if ( Preferences.getInteger( "lastEmptiedStorage" ) != KoLCharacter.getAscensions() )
 		{
 			RequestThread.postRequest( new StorageRequest() );
+			CafeRequest.pullLARPCard();
 		}
 
 		RequestThread.postRequest( CharPaneRequest.getInstance() );
