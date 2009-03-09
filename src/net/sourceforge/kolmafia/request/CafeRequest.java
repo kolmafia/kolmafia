@@ -78,6 +78,27 @@ public class CafeRequest
 		this.name = name;
 	}
 
+	public static void pullLARPCard()
+	{
+		// You can only ever have a single LARP card.
+
+		if ( LARP.getCount( KoLConstants.inventory ) > 0 )
+		{
+			return;
+		}
+
+		if ( LARP.getCount( KoLConstants.closet ) > 0 )
+		{
+			return;
+		}
+
+		// If you have a LARP card in storage, pull it.
+		if ( KoLCharacter.canInteract() && LARP.getCount( KoLConstants.storage ) > 0 )
+		{
+			RequestThread.postRequest( LARP_REQUEST );
+		}
+	}
+
 	public void setItem( final String itemName, final int itemId, final int price )
 	{
 		this.isPurchase = true;
@@ -92,13 +113,6 @@ public class CafeRequest
 	public static int discountedPrice( int price )
 	{
 		int count = LARP.getCount( KoLConstants.inventory ) + LARP.getCount( KoLConstants.closet );
-
-		// If you have a LARP card in storage, pull it.
-		if ( count == 0 && KoLCharacter.canInteract() && LARP.getCount( KoLConstants.storage ) > 0 )
-		{
-			RequestThread.postRequest( LARP_REQUEST );
-			count = LARP.getCount( KoLConstants.inventory );
-		}
 
 		if ( count > 0 )
 		{
