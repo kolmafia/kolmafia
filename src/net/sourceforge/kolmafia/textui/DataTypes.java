@@ -232,7 +232,7 @@ public class DataTypes
 
 	public static final Value parseItemValue( String name, final boolean returnDefault )
 	{
-		if ( name == null || name.equalsIgnoreCase( "none" ) )
+		if ( name == null || name.equals( "" ) || name.equalsIgnoreCase( "none" ) )
 		{
 			return DataTypes.ITEM_INIT;
 		}
@@ -263,6 +263,10 @@ public class DataTypes
 
 		itemId = StringUtilities.parseInt( name );
 		name = ItemDatabase.getItemName( itemId );
+		if ( name == null  )
+		{
+			return returnDefault ? DataTypes.ITEM_INIT : null;
+		}
 		return new Value( DataTypes.ITEM_TYPE, itemId, name );
 	}
 
