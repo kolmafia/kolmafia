@@ -655,9 +655,6 @@ public class RequestEditorKit
 			ZapRequest.decorate( buffer );
 		}
 
-		// Always select the contents of text fields when you click on them
-		// to make for easy editing.
-
 		if ( addComplexFeatures )
 		{
 			// Now handle all the changes which happen on a lot of
@@ -675,6 +672,9 @@ public class RequestEditorKit
 			{
 				RequestEditorKit.addChatFeatures( buffer );
 			}
+
+			// Always select the contents of text fields when you
+			// click on them to make for easy editing.
 
 			if ( Preferences.getBoolean( "autoHighlightOnFocus" ) )
 			{

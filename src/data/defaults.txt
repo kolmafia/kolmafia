@@ -81,6 +81,7 @@ global	logChatMessages	true
 global	logDecoratedResponses	false
 global	logFamiliarActions	false
 global	logGainMessages	true
+global	logReadableHTML	false
 global	loginRecoveryHardcore	false
 global	loginRecoverySoftcore	true
 global	loginScript

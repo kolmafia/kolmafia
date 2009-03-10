@@ -1447,7 +1447,12 @@ public class GenericRequest
 	{
 		if ( this.shouldUpdateDebugLog() )
 		{
-			RequestLogger.updateDebugLog( KoLConstants.LINE_BREAK_PATTERN.matcher( this.responseText ).replaceAll( "" ) );
+			String text = this.responseText;
+			if ( !Preferences.getBoolean( "logReadableHTML" ) )
+			{
+				text = KoLConstants.LINE_BREAK_PATTERN.matcher( text ).replaceAll( "" );
+			}
+			RequestLogger.updateDebugLog( text );
 		}
 
 		if ( !this.isChatRequest && !this.formURLString.startsWith( "fight.php" ) )
