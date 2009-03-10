@@ -1742,6 +1742,11 @@ public class UseItemRequest
 
 		case ItemPool.CARONCH_MAP:
 
+			if ( responseText.indexOf( "fight.php" ) != -1 )
+			{
+				GenericRequest.checkItemRedirection( item );
+			}
+
 			// The item is only consumed once you turn in
 			// the nasty booty. That's handled elsewhere.
 
@@ -1821,7 +1826,7 @@ public class UseItemRequest
 		case ItemPool.BLACK_SNOWCONE:
 
 			// "Your mouth is still cold from the last snowcone you
-			// ate.  Try again later."
+			// ate.   Try again later."
 
 			if ( responseText.indexOf( "still cold" ) != -1 )
 			{
@@ -2139,7 +2144,18 @@ public class UseItemRequest
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
 			}
 
-			// If we are redirected to a fight, the item is
+			// Eating a black pudding via the in-line ajax support
+			// no longer redirects to a fight. Instead, the fight
+			// is forced by a script:
+
+			// <script type="text/javascript">top.mainpane.document.location="fight.php";</script>
+
+			if ( responseText.indexOf( "fight.php" ) != -1 )
+			{
+				GenericRequest.checkItemRedirection( item );
+			}
+
+			// Even if we are redirected to a fight, the item is
 			// consumed elsewhere
 
 			ResultProcessor.processResult( item );
@@ -2188,7 +2204,12 @@ public class UseItemRequest
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
 			}
 
-			// If we are redirected to a fight, the item is
+			if ( responseText.indexOf( "fight.php" ) != -1 )
+			{
+				GenericRequest.checkItemRedirection( item );
+			}
+
+			// Even if we are redirected to a fight, the item is
 			// consumed elsewhere
 
 			ResultProcessor.processResult( item );
@@ -2228,6 +2249,11 @@ public class UseItemRequest
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
 			}
 
+			if ( responseText.indexOf( "fight.php" ) != -1 )
+			{
+				GenericRequest.checkItemRedirection( item );
+			}
+
 			// Even if we are redirected to a fight, the item is
 			// not consumed
 
@@ -2250,6 +2276,7 @@ public class UseItemRequest
 			// If we are redirected to a fight, the item is
 			// consumed elsewhere
 
+			GenericRequest.checkItemRedirection( item );
 			ResultProcessor.processResult( item );
 
 			return;
@@ -2652,49 +2679,49 @@ public class UseItemRequest
 		case ItemPool.JEWELRY_BOOK:
 			return "Really Expensive Jewelrycrafting";
 		case ItemPool.OLFACTION_BOOK:
-                        return "Transcendent Olfaction";
+			return "Transcendent Olfaction";
 		case ItemPool.RAINBOWS_GRAVITY:
 			return "Rainbow Gravitation";
 		case ItemPool.RAGE_GLAND:
 			return "Vent Rage Gland";
 		case ItemPool.KISSIN_COUSINS:
-                        return "Awesome Balls of Fire";
+			return "Awesome Balls of Fire";
 		case ItemPool.TALES_FROM_THE_FIRESIDE:
-                        return "Conjure Relaxing Campfire";
+			return "Conjure Relaxing Campfire";
 		case ItemPool.BLIZZARDS_I_HAVE_DIED_IN:
-                        return "Snowclone";
+			return "Snowclone";
 		case ItemPool.MAXING_RELAXING:
-                        return "Maximum Chill";
+			return "Maximum Chill";
 		case ItemPool.BIDDY_CRACKERS_COOKBOOK:
-                        return "Eggsplosion";
+			return "Eggsplosion";
 		case ItemPool.TRAVELS_WITH_JERRY:
-                        return "Mudbath";
+			return "Mudbath";
 		case ItemPool.LET_ME_BE:
-                        return "Raise Backup Dancer";
+			return "Raise Backup Dancer";
 		case ItemPool.ASLEEP_IN_THE_CEMETERY:
-                        return "Creepy Lullaby";
+			return "Creepy Lullaby";
 		case ItemPool.SUMMER_NIGHTS:
-                        return "Grease Lightning";
+			return "Grease Lightning";
 		case ItemPool.SENSUAL_MASSAGE_FOR_CREEPS:
-                        return "Inappropriate Backrub";
+			return "Inappropriate Backrub";
 		case ItemPool.RICHIE_THINGFINDER:
-                        return "The Ballad of Richie Thingfinder";
+			return "The Ballad of Richie Thingfinder";
 		case ItemPool.MEDLEY_OF_DIVERSITY:
-                        return "Benetton's Medley of Diversity";
+			return "Benetton's Medley of Diversity";
 		case ItemPool.EXPLOSIVE_ETUDE:
-                        return "Elron's Explosive Etude";
+			return "Elron's Explosive Etude";
 		case ItemPool.CHORALE_OF_COMPANIONSHIP:
-                        return "Chorale of Companionship";
+			return "Chorale of Companionship";
 		case ItemPool.PRELUDE_OF_PRECISION:
-                        return "Prelude of Precision";
+			return "Prelude of Precision";
 		case ItemPool.HODGMAN_JOURNAL_1:
-                        return "Natural Born Scrabbler";
+			return "Natural Born Scrabbler";
 		case ItemPool.HODGMAN_JOURNAL_2:
-                        return "Thrift and Grift";
+			return "Thrift and Grift";
 		case ItemPool.HODGMAN_JOURNAL_3:
-                        return "Abs of Tin";
+			return "Abs of Tin";
 		case ItemPool.HODGMAN_JOURNAL_4:
-                        return "Marginally Insane";
+			return "Marginally Insane";
 		}
 
 		return null;

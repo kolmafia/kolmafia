@@ -758,8 +758,9 @@ public class ItemDatabase
 			return canonicalName;
 		}
 
-		// Work around a specific KoL bug: the "less-than-three-shaped
-		// box" is sometimes listed as a "less-than-three- shaped box"
+		// Work around specific KoL bugs:
+
+		// "less-than-three- shaped box" -> "less-than-three-shaped box"
 		if ( canonicalName.equals( "less-than-three- shaped box" ) )
 		{
 			return "less-than-three-shaped box";
