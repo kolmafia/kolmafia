@@ -597,6 +597,15 @@ public abstract class UseLinkDecorator
 			useLocation = "leaflet.php?action=auto";
 			break;
 
+		// You want to give the rusty screwdriver to the Untinker, so
+		// make it easy.
+
+		case ItemPool.RUSTY_SCREWDRIVER:
+
+			useType = "visit untinker";
+			useLocation = "town_right.php?place=untinker";
+			break;
+
 		// Hedge maze puzzle and hedge maze key have a link to the maze
 		// for easy access.
 
