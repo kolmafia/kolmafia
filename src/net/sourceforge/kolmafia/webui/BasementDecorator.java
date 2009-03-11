@@ -143,7 +143,7 @@ public class BasementDecorator
 
 		StringBuffer changes = new StringBuffer();
 		changes.append( "<table>" );
-		changes.append( "<tr><td><select id=\"gear\" style=\"width: 100%\"><option value=\"none\">- change your equipment -</option>" );
+		changes.append( "<tr><td><select id=\"gear\" style=\"width: auto\"><option value=\"none\">- change your equipment -</option>" );
 
 		// Add outfits
 
@@ -189,7 +189,7 @@ public class BasementDecorator
 
 			changes.append( "<tr><td><select onchange=\"" );
 			changes.append( computeFunction );
-			changes.append( "\" id=\"potion\" style=\"width: 100%\" multiple size=5>" );
+			changes.append( "\" id=\"potion\" style=\"width: auto\" multiple size=5>" );
 
 			if ( KoLCharacter.getCurrentHP() < KoLCharacter.getMaximumHP() )
 			{
