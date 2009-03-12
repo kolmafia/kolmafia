@@ -626,42 +626,76 @@ public abstract class InventoryManager
 	
 	private static boolean cheaperToBuy( AdventureResult item, int qty )
 	{
-		int price = StoreManager.getMallPrice( item );
-		if ( price <= 0 )
+		int mallprice = StoreManager.getMallPrice( item ) * qty;
+		if ( mallprice <= 0 )
 		{
 			return false;
 		}
+		int makeprice = priceToMake( item, qty, 0 );
+		if ( makeprice == Integer.MAX_VALUE )
+		{
+			return true;
+		}
+		return mallprice < makeprice;
+	}
+	
+	private static int priceToAcquire( AdventureResult item, int qty, int level )
+	{
+		int price = 0;
+		int onhand = Math.min( qty, item.getCount( KoLConstants.inventory ) );
+		if ( onhand > 0 )
+		{
+			price = onhand * ItemDatabase.getPriceById( item.getItemId() );
+			qty -= onhand;
+			if ( qty == 0 )
+			{
+				return price;
+			}
+		}
+		int mallprice = StoreManager.getMallPrice( item ) * qty;
+		if ( mallprice <= 0 )
+		{
+			mallprice = Integer.MAX_VALUE;
+		}
+		else
+		{
+			mallprice += price;
+		}
+		int makeprice = priceToMake( item, qty, level );
+		if ( makeprice != Integer.MAX_VALUE )
+		{
+			makeprice += price;
+		}
+		return Math.min( mallprice, makeprice );
+	}
+
+	private static int priceToMake( AdventureResult item, int qty, int level )
+	{
+		int id = item.getItemId();
+		int price = 0;
+		if ( level > 10 || !ConcoctionDatabase.isPermittedMethod(
+			ConcoctionDatabase.getMixingMethod( item ) ) )
+		{
+			return Integer.MAX_VALUE;
+		}
 		int yield = ConcoctionDatabase.getYield( item.getItemId() );
 		qty = (qty + yield - 1) / yield;
-		price = price * qty * yield - 100;
-		AdventureResult ingrs[] = ConcoctionDatabase.getIngredients( item.getItemId() );
+		AdventureResult ingrs[] = ConcoctionDatabase.getIngredients( id );
+		if ( ingrs.length == 0 )
+		{
+			return Integer.MAX_VALUE;
+		}
 		for ( int i = 0; i < ingrs.length; ++i )
 		{
 			AdventureResult ingr = ingrs[ i ];
 			int needed = ingr.getCount() * qty;
-			CreateItemRequest creator = CreateItemRequest.getInstance( ingr );
-			int count = Math.min( needed, creator == null ?
-				ingr.getCount( KoLConstants.inventory ) :
-				creator.getQuantityPossible() );
-			price -= ItemDatabase.getPriceById( ingr.getItemId() ) * count;
-			if ( price <= 0 )
-			{
-				return true;
-			}
-			needed -= count;
-			if ( needed > 0 )
-			{
-				int ingrprice = StoreManager.getMallPrice( ingr );
-				price -= ingrprice * needed;
-				if ( ingrprice <= 0 || price <= 0 )
-				{
-					return true;
-				}
-			}
+			int ingrprice = priceToAcquire( ingr, needed, level + 1 );
+			if ( ingrprice == Integer.MAX_VALUE ) return ingrprice;
+			price += ingrprice;
 		}
-		return false;
+		return price;
 	}
-
+	
 	private static int getPurchaseCount( final int itemId, final int missingCount )
 	{
 		if ( missingCount >= InventoryManager.BULK_PURCHASE_AMOUNT || !KoLCharacter.canInteract() )
