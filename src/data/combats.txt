@@ -145,9 +145,9 @@ Poop Deck	100	Wacky Pirate	Warty Pirate	Wealthy Pirate	Whiny Pirate	Witty Pirate
 Post-Cyrpt Cemetary	100	Corpulent Zobmie	Grave Rober Zmobie	Senile Lihc	Slick Lihc	Gluttonous Ghuol	Gaunt Ghuol	Spiny Skelelton	Toothy Sklelton	Skelter Butleton, the Butler Skeleton: 0	Count Bakula: -1
 Post-War Junkyard	100	A.M.C. Gremlin	Batwinged Gremlin	Erudite Gremlin	Spider Gremlin	Vegetable Gremlin
 Post-War Sonofa Beach	-1	Lobsterfrogman
-Pre-Cyrpt Cemetary	100	Ghoul	Grave Rober	Lihc	Skleleton	Smart Skelton	Zmobie	Zobmie
+Pre-Cyrpt Cemetary	100	Ghuol	Grave Rober	Lihc	Skleleton	Smart Skelton	Zmobie	Zobmie
 Queen's Chamber	100	The Queen Filthworm
-Rogue Windmill	70	Can-can Dancer	Courtesan	Master of Ceremonies	Sensitive Poet-type	Voyeuristic Artist
+Rogue Windmill	70	Can-can Dancer	Courtesan	Sensitive Poet-type	The Master of Ceremonies	Voyeuristic Artist
 Shady Thicket	100	Drunk Duck	Mean Drunk Duck
 Simple Tool-Making Cave	100	Flint-Scraping Cave Elf	Hunter-Gatherer Cave Elf	Rock-Banging Cave Elf	Sinew-Stretching Cave Elf
 Sleazy Back Alley	50	Big Creepy Spider	Completely Different Spider	Rushing Bum	Drunken Half-Orc Hobo	Crazy Bastard: -1

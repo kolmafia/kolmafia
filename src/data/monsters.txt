@@ -701,8 +701,8 @@ Raven	HP: 0	shot of nepenthe schnapps (20)
 # Rogue Windmill
 Can-can Dancer	HP: 0	can-can-in-a-can (20)
 Courtesan	HP: 0	bottle of realpagne (20)
-Master of Ceremonies	HP: 0	escargotsicle (20)
 Sensitive Poet-type	HP: 0	sensitive poetry journal (20)
+The Master of Ceremonies	HP: 0	escargotsicle (20)
 Voyeuristic Artist	HP: 0	Bohemian rhapsody (20)
 
 # Stately Pleasure Dome
