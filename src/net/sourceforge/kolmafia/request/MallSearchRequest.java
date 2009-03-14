@@ -107,11 +107,10 @@ public class MallSearchRequest
 		this.addFormField( "pudnuggler", this.searchString );
 		this.addFormField( "justitems", "0" );
 
-		//if ( cheapestCount > 0 )
-		//{
-		//	this.addFormField( "cheaponly", "on" );
-		//	this.addFormField( "shownum", "" + cheapestCount );
-		//}
+		if ( cheapestCount > 0 )
+		{
+			this.addFormField( "x_cheapest", String.valueOf( cheapestCount ) );
+		}
 
 		this.results = results;
 		this.retainAll = retainAll;
@@ -288,10 +287,11 @@ public class MallSearchRequest
 	{
 		List itemNames = ItemDatabase.getMatchingNames( this.searchString );
 
-		// Change all multi-line store names into single line store names so that the
-		// parser doesn't get confused; remove all stores where limits have already
-		// been reached (which have been greyed out), and then remove all non-anchor
-		// tags to make everything easy to parse.
+		// Change all multi-line store names into single line store
+		// names so that the parser doesn't get confused; remove all
+		// stores where limits have already been reached (which have
+		// been greyed out), and then remove all non-anchor tags to
+		// make everything easy to parse.
 
 		int startIndex = this.responseText.indexOf( "Search Results:" );
 		String storeListResult = this.responseText.substring( startIndex < 0 ? 0 : startIndex );
