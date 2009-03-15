@@ -70,6 +70,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.CakeArenaManager.ArenaOpponent;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
@@ -138,6 +139,8 @@ public class FamiliarTrainingFrame
 	private static final AdventureResult CRUMPLED_FEDORA = new AdventureResult( 3328, 1 );
 	private static final AdventureResult LEAD_NECKLACE = new AdventureResult( 865, 1 );
 	private static final AdventureResult RAT_HEAD_BALLOON = new AdventureResult( 1218, 1 );
+	private static final AdventureResult BATHYSPHERE = ItemPool.get( ItemPool.BATHYSPHERE, 1 );
+	private static final AdventureResult DAS_BOOT = ItemPool.get( ItemPool.DAS_BOOT, 1 );
 
 	private static final AdventureResult PUMPKIN_BUCKET = new AdventureResult( 1971, 1 );
 	private static final AdventureResult FLOWER_BOUQUET = new AdventureResult( 2541, 1 );
@@ -1566,6 +1569,8 @@ public class FamiliarTrainingFrame
 		boolean crumpledFedora;
 		boolean leadNecklace;
 		boolean ratHeadBalloon;
+		boolean bathysphere;
+		boolean dasBoot;
 		boolean pumpkinBucket;
 		boolean flowerBouquet;
 		boolean boxFireworks;
@@ -1678,6 +1683,8 @@ public class FamiliarTrainingFrame
 			this.crumpledFedora = false;
 			this.leadNecklace = false;
 			this.ratHeadBalloon = false;
+			this.bathysphere = false;
+			this.dasBoot = false;
 			this.pumpkinBucket = false;
 			this.flowerBouquet = false;
 			this.boxFireworks = false;
@@ -1750,6 +1757,18 @@ public class FamiliarTrainingFrame
 				{
 					this.ratHeadBalloon = true;
 					this.item = FamiliarTrainingFrame.RAT_HEAD_BALLOON;
+				}
+
+				if ( itemId == ItemPool.BATHYSPHERE )
+				{
+					this.bathysphere = true;
+					this.item = FamiliarTrainingFrame.BATHYSPHERE;
+				}
+
+				if ( itemId == ItemPool.DAS_BOOT )
+				{
+					this.dasBoot = true;
+					this.item = FamiliarTrainingFrame.DAS_BOOT;
 				}
 
 				if ( itemId == FamiliarTrainingFrame.DOPPELGANGER.getItemId() )
@@ -1843,6 +1862,14 @@ public class FamiliarTrainingFrame
 			// balloon, search inventory
 			this.ratHeadBalloon |= FamiliarTrainingFrame.RAT_HEAD_BALLOON.getCount( inventory ) > 0;
 
+			// If current familiar is not wearing a bathysphere,
+			// search inventory
+			this.bathysphere |= FamiliarTrainingFrame.BATHYSPHERE.getCount( inventory ) > 0;
+
+			// If current familiar is not wearing das boot
+			// search inventory
+			this.dasBoot |= FamiliarTrainingFrame.DAS_BOOT.getCount( inventory ) > 0;
+
 			// If current familiar is not wearing a doppel,
 			// search inventory
 			this.doppelganger |= FamiliarTrainingFrame.DOPPELGANGER.getCount( inventory ) > 0;
@@ -1869,7 +1896,7 @@ public class FamiliarTrainingFrame
 			// a lead necklace or a rat head balloon, search other
 			// familiars; we'll steal it from them if necessary
 
-			if ( this.familiar.getId() == FamiliarTrainingFrame.CHAMELEON || this.leadNecklace && this.ratHeadBalloon && this.pumpkinBucket && this.flowerBouquet )
+			if ( this.familiar.getId() == FamiliarTrainingFrame.CHAMELEON || this.leadNecklace && this.ratHeadBalloon && this.pumpkinBucket && this.flowerBouquet && this.bathysphere && this.dasBoot )
 			{
 				return;
 			}
@@ -1889,6 +1916,8 @@ public class FamiliarTrainingFrame
 
 				this.leadNecklace |= item.getItemId() == FamiliarTrainingFrame.LEAD_NECKLACE.getItemId();
 				this.ratHeadBalloon |= item.getItemId() == FamiliarTrainingFrame.RAT_HEAD_BALLOON.getItemId();
+				this.bathysphere |= item.getItemId() == ItemPool.BATHYSPHERE;
+				this.dasBoot |= item.getItemId() == ItemPool.DAS_BOOT;
 				this.pumpkinBucket |= item.getItemId() == FamiliarTrainingFrame.PUMPKIN_BUCKET.getItemId();
 				this.flowerBouquet |= item.getItemId() == FamiliarTrainingFrame.FLOWER_BOUQUET.getItemId();
 				this.doppelganger |= item.getItemId() == FamiliarTrainingFrame.DOPPELGANGER.getItemId();
@@ -2022,6 +2051,18 @@ public class FamiliarTrainingFrame
 			if ( this.ratHeadBalloon )
 			{
 				this.getAccessoryWeights( weight - 3 );
+			}
+
+			// If we have das boot, use it
+			if ( this.dasBoot )
+			{
+				this.getAccessoryWeights( weight - 10 );
+			}
+
+			// If we have a bathysphere, use it
+			if ( this.bathysphere )
+			{
+				this.getAccessoryWeights( weight - 20 );
 			}
 		}
 
@@ -2279,6 +2320,14 @@ public class FamiliarTrainingFrame
 			{
 				this.getAccessoryGearSets( weight, FamiliarTrainingFrame.RAT_HEAD_BALLOON, hat );
 			}
+			if ( this.bathysphere )
+			{
+				this.getAccessoryGearSets( weight, FamiliarTrainingFrame.BATHYSPHERE, hat );
+			}
+			if ( this.dasBoot )
+			{
+				this.getAccessoryGearSets( weight, FamiliarTrainingFrame.DAS_BOOT, hat );
+			}
 
 			this.getAccessoryGearSets( weight, null, hat );
 		}
@@ -2446,6 +2495,14 @@ public class FamiliarTrainingFrame
 			else if ( item == FamiliarTrainingFrame.RAT_HEAD_BALLOON )
 			{
 				weight -= 3;
+			}
+			else if ( item == FamiliarTrainingFrame.BATHYSPHERE )
+			{
+				weight -= 20;
+			}
+			else if ( item == FamiliarTrainingFrame.DAS_BOOT )
+			{
+				weight -= 10;
 			}
 
 			if ( weapon == FamiliarTrainingFrame.BAR_WHIP )
@@ -2823,6 +2880,14 @@ public class FamiliarTrainingFrame
 			{
 				text.append( " " + FamiliarTrainingFrame.RAT_HEAD_BALLOON.getName() + " (-3)" );
 			}
+			else if ( this.item == FamiliarTrainingFrame.BATHYSPHERE )
+			{
+				text.append( " " + FamiliarTrainingFrame.BATHYSPHERE.getName() + " (-20)" );
+			}
+			else if ( this.item == FamiliarTrainingFrame.DAS_BOOT )
+			{
+				text.append( " " + FamiliarTrainingFrame.DAS_BOOT.getName() + " (-10)" );
+			}
 			else if ( this.item != null )
 			{
 				text.append( " " + this.specItem.getName() + " (+" + this.specWeight + ")" );
@@ -2898,6 +2963,14 @@ public class FamiliarTrainingFrame
 				if ( this.ratHeadBalloon )
 				{
 					text.append( " rat head balloon (-3)" );
+				}
+				if ( this.bathysphere )
+				{
+					text.append( " little bitty bathysphere (-20)" );
+				}
+				if ( this.dasBoot )
+				{
+					text.append( " das boot (-10)" );
 				}
 			}
 
