@@ -624,7 +624,7 @@ public abstract class UseLinkDecorator
 		case ItemPool.GREEN_PIXEL:
 		case ItemPool.BLUE_PIXEL:
 
-			int whiteCount = CreateItemRequest.getInstance( ItemPool.WHITE_PIXEL ).getQuantityPossible();
+			int whiteCount = CreateItemRequest.getInstance( ItemPool.WHITE_PIXEL ).getQuantityPossible() + InventoryManager.getCount( ItemPool.WHITE_PIXEL );
 			useType = whiteCount + " white";
 			useLocation = "mystic.php";
 			break;
