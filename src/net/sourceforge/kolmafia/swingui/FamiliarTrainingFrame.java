@@ -1015,7 +1015,7 @@ public class FamiliarTrainingFrame
 		FamiliarStatus status = new FamiliarStatus();
 
 		// Identify the familiar we are training
-		FamiliarTrainingFrame.printFamiliar( status, 0, FamiliarTrainingFrame.LEARN );
+		FamiliarTrainingFrame.printFamiliar( status, trials, FamiliarTrainingFrame.LEARN );
 		FamiliarTrainingFrame.results.append( "<br>" );
 
 		// Print available buffs and items and current buffs
@@ -1076,8 +1076,7 @@ public class FamiliarTrainingFrame
 			// Iterate through the ranks
 			for ( int rank = 0; rank < 3; ++rank )
 			{
-				// Skip contests in which the familiar
-				// sucks
+				// Skip contests in which the familiar sucks
 				if ( suckage[ contest ] )
 				{
 					continue;
@@ -1086,6 +1085,7 @@ public class FamiliarTrainingFrame
 				// If user canceled, bail now
 				if ( FamiliarTrainingFrame.stop || !KoLmafia.permitsContinue() )
 				{
+					FamiliarTrainingFrame.printTrainingResults( trial, status, xp, suckage );
 					FamiliarTrainingFrame.statusMessage( KoLConstants.ERROR_STATE, "Training session aborted.", true );
 					return null;
 				}
@@ -1105,6 +1105,7 @@ public class FamiliarTrainingFrame
 
 				if ( opponent == null )
 				{
+					FamiliarTrainingFrame.printTrainingResults( trial, status, xp, suckage );
 					FamiliarTrainingFrame.statusMessage(
 						KoLConstants.ERROR_STATE, "Couldn't choose a suitable opponent.", true );
 					return null;
@@ -1125,6 +1126,7 @@ public class FamiliarTrainingFrame
 				status.changeGear( tool.bestWeight() );
 				if ( !KoLmafia.permitsContinue() )
 				{
+					FamiliarTrainingFrame.printTrainingResults( trial, status, xp, suckage );
 					FamiliarTrainingFrame.statusMessage( KoLConstants.ERROR_STATE, "Training stopped: internal error.", true );
 					return null;
 				}
@@ -1143,6 +1145,11 @@ public class FamiliarTrainingFrame
 			}
 		}
 
+		return FamiliarTrainingFrame.printTrainingResults( trial, status, xp, suckage );
+	}
+
+	private static int [] printTrainingResults( final int trial, final FamiliarStatus status, final int[][] xp, final boolean[] suckage )
+	{
 		// Original skill rankings
 		int[] original = FamiliarDatabase.getFamiliarSkills( KoLCharacter.getFamiliar().getId() );
 
@@ -1150,6 +1157,8 @@ public class FamiliarTrainingFrame
 		int skills[] = new int[ 4 ];
 
 		StringBuffer text = new StringBuffer();
+
+		text.append( "<br>Results for " + KoLCharacter.getFamiliar().getRace() + " after " + trial + " trials using " + status.turnsUsed() + " turns:<br><br>" );
 
 		// Open the table
 		text.append( "<table>" );
@@ -1181,18 +1190,19 @@ public class FamiliarTrainingFrame
 					bestRank = rank + 1;
 				}
 			}
+
+			skills[ contest ] = bestRank;
+
 			text.append( "<td align=center>" + original[ contest ] + "</td>" );
 			text.append( "<td align=center>" + bestRank + "</td>" );
-			skills[ contest ] = bestRank;
 			text.append( "</tr>" );
 		}
 
 		// Close the table
 		text.append( "</table>" );
 
-		FamiliarTrainingFrame.results.append( "<br>Results for " + KoLCharacter.getFamiliar().getRace() + " after " + trial + " trials using " + status.turnsUsed() + " turns:<br><br>" );
+		FamiliarTrainingFrame.results.append ( text.toString() );
 
-		FamiliarTrainingFrame.results.append( text.toString() );
 		return skills;
 	}
 
@@ -1327,7 +1337,7 @@ public class FamiliarTrainingFrame
 
 	private static final void statusMessage( final int state, final String message )
 	{
-		statusMessage( state, message, false );
+		FamiliarTrainingFrame.statusMessage( state, message, false );
 	}
 
 	private static final void statusMessage( final int state, final String message, boolean restoreOutfit )
@@ -1379,7 +1389,7 @@ public class FamiliarTrainingFrame
 		}
 		else if ( type == FamiliarTrainingFrame.LEARN )
 		{
-			hope = " to learn arena strengths";
+			hope =	" for " + goal + " iterations to learn arena strengths";
 		}
 
 		FamiliarTrainingFrame.results.append( "Training " + name + " the " + weight + " lb. " + race + hope + ".<br>" );
@@ -3026,7 +3036,7 @@ public class FamiliarTrainingFrame
 			{
 				// Keep in mind that all unequips are considered
 				// better than equips, so unequips have a change
-				// weight of 1.  All others vary from that.
+				// weight of 1.	 All others vary from that.
 
 				GearSet that = (GearSet) o;
 				int changes = 0;
