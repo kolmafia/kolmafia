@@ -70,5 +70,5 @@ ultimate wad	15	6	0	0	0	0	+1 level
 voodoo snuff	3	13	8	0	100-150	0
 yellow paisley oyster egg	1	1	0	0	11-15	0	20 Egg-headedness (+10% mys)
 yellow polka-dot oyster egg	1	1	0	0	0	11-15	20 Egg-cellent Vocabulary (+10% mox)
-yellow striped oyster egg	1	1	0	11-15	0	0	20	Egg-stra Arm (+10% mus)
+yellow striped oyster egg	1	1	0	11-15	0	0	20 Egg-stra Arm (+10% mus)
 
