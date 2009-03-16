@@ -1492,6 +1492,7 @@ funky brass fez	Familiar Weight: +5
 gazing shoes	Familiar Weight: +5
 # giant book of ancient carols: Causes the Ancient Yuletide Troll to drop carol pages more frequently.
 green pixie spog	Familiar Weight: +5
+half-height unicycle	Familiar Weight: +5
 hardware upgrade	Familiar Weight: +5
 hot pink lipstick	Familiar Weight: +5
 hypodermic needle	Familiar Weight: +5
