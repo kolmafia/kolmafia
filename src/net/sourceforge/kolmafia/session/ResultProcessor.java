@@ -392,14 +392,13 @@ public class ResultProcessor
 
 		if ( acquisition.indexOf( "an item" ) != -1 )
 		{
-			int itemId = ItemDatabase.getItemId( item, 1 );
-			if ( itemId < 0 )
+			AdventureResult result = ItemPool.get( item, 1 );
+
+			if ( result.getItemId() == -1 )
 			{
 				RequestLogger.printLine( "Unrecognized item found: " + item );
-				return;
 			}
 
-			AdventureResult result = ItemPool.get( itemId, 1 );
 			ResultProcessor.processItem( acquisition, result, data );
 			return;
 		}
@@ -429,13 +428,18 @@ public class ResultProcessor
 		// allow recognition of an unknown (or changed) plural form.
 
 		int itemId = ItemDatabase.getItemId( itemName, itemCount, itemCount > 1 );
+		AdventureResult result;
+
 		if ( itemId < 0 )
 		{
 			RequestLogger.printLine( "Unrecognized item found: " + item );
-			return;
+			result = AdventureResult.tallyItem( itemName, itemCount, false );
+		}
+		else
+		{
+			result = new AdventureResult( itemId, itemCount );
 		}
 
-		AdventureResult result = ItemPool.get( itemId, itemCount );
 		ResultProcessor.processItem( acquisition, result, data );
 	}
 
