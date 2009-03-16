@@ -3812,3 +3812,6 @@
 3811
 3812	chocolate-frosted king cake	1	display	0
 3813	red plastic baby	8	all	0
+3814
+3815	midget clownfish	5	all	150
+3816	half-height unicycle	7	all	75
