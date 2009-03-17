@@ -132,25 +132,27 @@ public class FamiliarTrainingFrame
 	private static final AdventureResult GREEN_HEART = new AdventureResult( "Heart of Green", 0, true );
 	private static final AdventureResult GREEN_TONGUE = new AdventureResult( "Green Tongue", 0, true );
 	private static final AdventureResult HEAVY_PETTING = new AdventureResult( "Heavy Petting", 0, true );
+	private static final AdventureResult WORST_ENEMY = new AdventureResult( "Man's Worst Enemy", 0, true );
 
 	// Familiar buffing items
-	private static final AdventureResult BUFFING_SPRAY = new AdventureResult( 1512, 1 );
 	private static final AdventureResult PITH_HELMET = new AdventureResult( 1231, 1 );
 	private static final AdventureResult CRUMPLED_FEDORA = new AdventureResult( 3328, 1 );
-	private static final AdventureResult LEAD_NECKLACE = new AdventureResult( 865, 1 );
-	private static final AdventureResult RAT_HEAD_BALLOON = new AdventureResult( 1218, 1 );
+	private static final AdventureResult LEAD_NECKLACE = ItemPool.get( ItemPool.LEAD_NECKLACE, 1 );
+	private static final AdventureResult RAT_HEAD_BALLOON = ItemPool.get( ItemPool.RAT_BALLOON, 1 );
 	private static final AdventureResult BATHYSPHERE = ItemPool.get( ItemPool.BATHYSPHERE, 1 );
 	private static final AdventureResult DAS_BOOT = ItemPool.get( ItemPool.DAS_BOOT, 1 );
 
-	private static final AdventureResult PUMPKIN_BUCKET = new AdventureResult( 1971, 1 );
-	private static final AdventureResult FLOWER_BOUQUET = new AdventureResult( 2541, 1 );
-	private static final AdventureResult FIREWORKS = new AdventureResult( 3421, 1 );
-	private static final AdventureResult DOPPELGANGER = new AdventureResult( 2225, 1 );
+	private static final AdventureResult PUMPKIN_BUCKET = ItemPool.get( ItemPool.PUMPKIN_BUCKET, 1 );
+	private static final AdventureResult FLOWER_BOUQUET = ItemPool.get( ItemPool.MAYFLOWER_BOUQUET, 1 );
+	private static final AdventureResult FIREWORKS = ItemPool.get( ItemPool.FIREWORKS, 1 );
+	private static final AdventureResult DOPPELGANGER = ItemPool.get( ItemPool.FAMILIAR_DOPPELGANGER, 1 );
 
-	private static final AdventureResult GREEN_SNOWCONE = new AdventureResult( 1413, 1 );
-	private static final AdventureResult BLACK_SNOWCONE = new AdventureResult( 1417, 1 );
+	private static final AdventureResult BUFFING_SPRAY = new AdventureResult( 1512, 1 );
+	private static final AdventureResult GREEN_SNOWCONE = ItemPool.get( ItemPool.GREEN_SNOWCONE, 1 );
+	private static final AdventureResult BLACK_SNOWCONE = ItemPool.get( ItemPool.BLACK_SNOWCONE, 1 );
 	private static final AdventureResult GREEN_CANDY = new AdventureResult( 2309, 1 );
 	private static final AdventureResult HALF_ORCHID = new AdventureResult( 2546, 1 );
+	private static final AdventureResult SPIKY_COLLAR = new AdventureResult( 2667, 1 );
 
 	private static final AdventureResult BAR_WHIP = new AdventureResult( 2455, 1 );
 	private static final int[] tinyPlasticNormal = new int[]
@@ -195,6 +197,7 @@ public class FamiliarTrainingFrame
 	private static boolean greenConeAvailable;
 	private static boolean greenHeartAvailable;
 	private static boolean heavyPettingAvailable;
+	private static boolean worstEnemyAvailable;
 
 	// Active effects which affect weight
 	private static int leashActive;
@@ -205,6 +208,7 @@ public class FamiliarTrainingFrame
 	private static int greenHeartActive;
 	private static int greenTongueActive;
 	private static int heavyPettingActive;
+	private static int worstEnemyActive;
 
 	public FamiliarTrainingFrame()
 	{
@@ -1298,7 +1302,17 @@ public class FamiliarTrainingFrame
 				return true;
 			}
 		}
-
+ 
+		if ( FamiliarTrainingFrame.heavyPettingAvailable &&
+		     FamiliarTrainingFrame.heavyPettingActive == 0 )
+		{
+			RequestThread.postRequest( new UseItemRequest( FamiliarTrainingFrame.BUFFING_SPRAY ) );
+			if ( familiar.getModifiedWeight() >= weight )
+			{
+				return true;
+			}
+		}
+ 
 		if ( FamiliarTrainingFrame.greenConeAvailable &&
 		     FamiliarTrainingFrame.greenTongueActive == 0 )
 		{
@@ -1321,10 +1335,10 @@ public class FamiliarTrainingFrame
 			}
 		}
 
-		if ( FamiliarTrainingFrame.heavyPettingAvailable &&
-		     FamiliarTrainingFrame.heavyPettingActive == 0 )
+		if ( FamiliarTrainingFrame.worstEnemyAvailable &&
+		     FamiliarTrainingFrame.worstEnemyActive == 0 )
 		{
-			RequestThread.postRequest( new UseItemRequest( FamiliarTrainingFrame.BUFFING_SPRAY ) );
+			RequestThread.postRequest( new UseItemRequest( FamiliarTrainingFrame.SPIKY_COLLAR ) );
 			if ( familiar.getModifiedWeight() >= weight )
 			{
 				return true;
@@ -1648,6 +1662,8 @@ public class FamiliarTrainingFrame
 				KoLCharacter.canInteract() || InventoryManager.hasItem( FamiliarTrainingFrame.GREEN_CANDY );
 			FamiliarTrainingFrame.heavyPettingAvailable =
 				KoLCharacter.canInteract() || InventoryManager.hasItem( FamiliarTrainingFrame.BUFFING_SPRAY ) || NPCStoreDatabase.contains( "Knob Goblin pet-buffing spray" );
+			FamiliarTrainingFrame.worstEnemyAvailable =
+				KoLCharacter.canInteract() || InventoryManager.hasItem( FamiliarTrainingFrame.SPIKY_COLLAR );
 
 			// Look at effects to decide which ones are active;
 			FamiliarTrainingFrame.empathyActive = FamiliarTrainingFrame.EMPATHY.getCount( KoLConstants.activeEffects );
@@ -1664,6 +1680,8 @@ public class FamiliarTrainingFrame
 				FamiliarTrainingFrame.GREEN_TONGUE.getCount( KoLConstants.activeEffects );
 			FamiliarTrainingFrame.heavyPettingActive =
 				FamiliarTrainingFrame.HEAVY_PETTING.getCount( KoLConstants.activeEffects );
+			FamiliarTrainingFrame.worstEnemyActive =
+				FamiliarTrainingFrame.WORST_ENEMY.getCount( KoLConstants.activeEffects );
 		}
 
 		private void checkCurrentEquipment()
@@ -1999,6 +2017,11 @@ public class FamiliarTrainingFrame
 			}
 
 			if ( FamiliarTrainingFrame.heavyPettingActive > 0 )
+			{
+				weight += 5;
+			}
+
+			if ( FamiliarTrainingFrame.worstEnemyActive > 0 )
 			{
 				weight += 5;
 			}
@@ -2477,6 +2500,10 @@ public class FamiliarTrainingFrame
 			{
 				weight += 5;
 			}
+			if ( FamiliarTrainingFrame.worstEnemyActive > 0 )
+			{
+				weight += 5;
+			}
 
 			if ( item == FamiliarTrainingFrame.DOPPELGANGER )
 			{
@@ -2633,6 +2660,10 @@ public class FamiliarTrainingFrame
 			{
 				FamiliarTrainingFrame.heavyPettingActive-- ;
 			}
+			if ( FamiliarTrainingFrame.worstEnemyActive > 0 )
+			{
+				FamiliarTrainingFrame.worstEnemyActive-- ;
+			}
 		}
 
 		public FamiliarData getFamiliar()
@@ -2691,6 +2722,10 @@ public class FamiliarTrainingFrame
 				{
 					weight += 5;
 				}
+				if ( FamiliarTrainingFrame.worstEnemyAvailable || FamiliarTrainingFrame.worstEnemyActive > 0 )
+				{
+					weight += 5;
+				}
 			}
 			else
 			{
@@ -2719,6 +2754,10 @@ public class FamiliarTrainingFrame
 					weight += 5;
 				}
 				if ( FamiliarTrainingFrame.heavyPettingActive > 0 )
+				{
+					weight += 5;
+				}
+				if ( FamiliarTrainingFrame.worstEnemyActive > 0 )
 				{
 					weight += 5;
 				}
@@ -2822,6 +2861,10 @@ public class FamiliarTrainingFrame
 			{
 				text.append( " Heavy Petting (+5 for " + FamiliarTrainingFrame.heavyPettingActive + " turns)" );
 			}
+			if ( FamiliarTrainingFrame.worstEnemyActive > 0 )
+			{
+				text.append( " Man's Worst Enemy (+5 for " + FamiliarTrainingFrame.worstEnemyActive + " turns)" );
+			}
 
 			if ( !FamiliarTrainingFrame.sympathyAvailable &&
 			     FamiliarTrainingFrame.empathyActive == 0 &&
@@ -2831,7 +2874,8 @@ public class FamiliarTrainingFrame
 			     FamiliarTrainingFrame.greenGlowActive == 0 &&
 			     FamiliarTrainingFrame.greenHeartActive == 0 &&
 			     FamiliarTrainingFrame.greenTongueActive == 0 &&
-			     FamiliarTrainingFrame.heavyPettingActive == 0 )
+			     FamiliarTrainingFrame.heavyPettingActive == 0 &&
+			     FamiliarTrainingFrame.worstEnemyActive == 0 )
 			{
 				text.append( " None" );
 			}
