@@ -195,7 +195,8 @@ public class CoinmastersFrame
 			       CoinmastersDatabase.lucreBuyPrices(),
 			       "availableLucre",
 			       "lucre",
-			       "bounty hunter hunter");
+			       "bounty hunter hunter",
+				null );
 			buyAction = "buy";
 		}
 
@@ -219,7 +220,8 @@ public class CoinmastersFrame
 			       CoinmastersDatabase.sandDollarBuyPrices(),
 			       "availableSandDollars",
 			       "sand dollar",
-			       "big brother");
+			       "big brother",
+				null );
 			buyAction = "buyitem";
 		}
 
@@ -303,15 +305,13 @@ public class CoinmastersFrame
 		extends CoinmasterPanel
 	{
 		private final int outfit;
-		private final String side;
 
 		private boolean hasOutfit = false;
 
 		public WarMasterPanel( LockableListModel purchases, Map sellPrices, Map buyPrices, int outfit, String property, String token, String master, String side )
 		{
-			super( purchases, sellPrices, buyPrices, property, token, master);
+			super( purchases, sellPrices, buyPrices, property, token, master, side);
 			this.outfit = outfit;
-			this.side = side;
 			buyAction = "getgear";
 			sellAction = "turnin";
 		}
@@ -348,16 +348,11 @@ public class CoinmastersFrame
 			if ( !EquipmentManager.isWearingOutfit( this.outfit ) )
 			{
 
+				EquipmentManager.retrieveOutfit( this.outfit );
 				SpecialOutfit outfit = EquipmentDatabase.getOutfit( this.outfit );
 				EquipmentRequest request = new EquipmentRequest( outfit );
-				EquipmentManager.retrieveOutfit( this.outfit );
 				RequestThread.postRequest( request );
 			}
-		}
-
-		public boolean showLighthouse()
-		{
-			return Preferences.getString( "sidequestLighthouseCompleted" ).equals( side );
 		}
 	}
 
@@ -370,6 +365,7 @@ public class CoinmastersFrame
 		private final String property;
 		private final String token;
 		private final String master;
+		private final String side;
 
 		protected String buyAction;
 		protected String sellAction;
@@ -377,7 +373,7 @@ public class CoinmastersFrame
 		private SellPanel sellPanel = null;
 		private BuyPanel buyPanel = null;
 
-		public CoinmasterPanel( LockableListModel purchases, Map sellPrices, Map buyPrices, String property, String token, String master )
+		public CoinmasterPanel( LockableListModel purchases, Map sellPrices, Map buyPrices, String property, String token, String master, String side )
 		{
 			super( new BorderLayout() );
 
@@ -387,6 +383,7 @@ public class CoinmastersFrame
 			this.property = property;
 			this.token = token;
 			this.master = master;
+			this.side = side;
 
 			if ( sellPrices != null )
 			{
@@ -423,9 +420,9 @@ public class CoinmastersFrame
 		{
 		}
 
-		public boolean showLighthouse()
+		public String lighthouseSide()
 		{
-			return false;
+			return this.side;
 		}
 
 		public void update()
@@ -568,7 +565,7 @@ public class CoinmastersFrame
 
 				this.eastPanel.add( new InvocationButton( "check", CoinmasterPanel.this, "check" ), BorderLayout.SOUTH );
 
-				this.elementList.setCellRenderer( getCoinmasterRenderer( buyPrices, token, property, showLighthouse() ) );
+				this.elementList.setCellRenderer( getCoinmasterRenderer( buyPrices, token, property, CoinmasterPanel.this.lighthouseSide() ) );
 				this.elementList.setVisibleRowCount( 6 );
 				this.setEnabled( true );
 			}
@@ -689,9 +686,9 @@ public class CoinmastersFrame
 		return new CoinmasterRenderer( prices, token );
 	}
 
-	public static final DefaultListCellRenderer getCoinmasterRenderer( Map prices, String token, String property, boolean lighthouse )
+	public static final DefaultListCellRenderer getCoinmasterRenderer( Map prices, String token, String property, String side )
 	{
-		return new CoinmasterRenderer( prices, token, property, lighthouse );
+		return new CoinmasterRenderer( prices, token, property, side );
 	}
 
 	private static class CoinmasterRenderer
@@ -700,7 +697,7 @@ public class CoinmastersFrame
 		private Map prices;
 		private String token;
 		private String property;
-		private boolean lighthouse;
+		private String side;
 
 		public CoinmasterRenderer( final Map prices, final String token )
 		{
@@ -708,16 +705,16 @@ public class CoinmastersFrame
 			this.prices = prices;
 			this.token = token;
 			this.property = null;
-			this.lighthouse = true;
+			this.side = null;
 		}
 
-		public CoinmasterRenderer( final Map prices, final String token, String property, boolean lighthouse )
+		public CoinmasterRenderer( final Map prices, final String token, String property, String side )
 		{
 			this.setOpaque( true );
 			this.prices = prices;
 			this.token = token;
 			this.property = property;
-			this.lighthouse = lighthouse;
+			this.side = side;
 		}
 
 		public boolean allowHighlight()
@@ -753,7 +750,9 @@ public class CoinmastersFrame
 			String name = ar.getName();
 			String canonicalName = StringUtilities.getCanonicalName( name );
 
-			if ( !lighthouse && CoinmastersDatabase.lighthouseItems().get( canonicalName ) != null )
+			if ( this.side != null &&
+			     CoinmastersDatabase.lighthouseItems().get( canonicalName ) != null &&
+			     !Preferences.getString( "sidequestLighthouseCompleted" ).equals( this.side ) )
 			{
 				return null;
 			}
