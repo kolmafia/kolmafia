@@ -1263,6 +1263,11 @@ public class ResultProcessor
 		case ItemPool.PREGNANT_STINKY_MUSHROOM:
 			ResultProcessor.processItem( ItemPool.STINKY_MUSHROOM, -1 );
 			break;
+
+		case ItemPool.GRANDMAS_MAP:
+			ResultProcessor.processItem( ItemPool.FUSCHIA_YARN, -1 );
+			ResultProcessor.processItem( ItemPool.CHARTREUSE_YARN, -1 );
+			break;
 		}
 	}
 	

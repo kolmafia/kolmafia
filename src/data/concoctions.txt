@@ -999,6 +999,7 @@ tempura broccoli	TEMPURA	bubbling tempura batter	sea broccoli
 tempura carrot	TEMPURA	bubbling tempura batter	sea carrot
 tempura cauliflower	TEMPURA	bubbling tempura batter	sea cauliflower
 tempura cucumber	TEMPURA	bubbling tempura batter	sea cucumber
+tempura radish	TEMPURA	bubbling tempura batter	sea radish
 
 # Star Chart items
 

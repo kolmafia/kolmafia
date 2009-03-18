@@ -784,6 +784,10 @@ public class ItemPool
 	public static final int AQUAVIOLET_JUBJUB_BIRD = 3800;
 	public static final int CRIMSILION_JUBJUB_BIRD = 3801;
 	public static final int CHARPUCE_JUBJUB_BIRD = 3802;
+	public static final int FISHY_WAND = 3822;
+	public static final int FUSCHIA_YARN = 3825;
+	public static final int CHARTREUSE_YARN = 3826;
+	public static final int GRANDMAS_MAP = 3828;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

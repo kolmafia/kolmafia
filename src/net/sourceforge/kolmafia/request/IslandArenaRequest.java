@@ -52,7 +52,7 @@ public class IslandArenaRequest
 	public static final String[][] HIPPY_CONCERTS =
 	{
 		{ "Moon'd", "+5 Stat(s) Per Fight" },
-		{ "Dilated Pupils", "Item Drop +?" },
+		{ "Dilated Pupils", "Item Drop +20%" },
 		{ "Optimist Primal", "Familiar Weight +5" },
 	};
 
@@ -60,7 +60,7 @@ public class IslandArenaRequest
 	{
 		{ "Elvish", "All Attributes +10%" },
 		{ "Winklered", "Meat Drop +40%" },
-		{ "White-boy Angst", "Initiative +?" },
+		{ "White-boy Angst", "Initiative +50" },
 	};
 
 	private static String quest = "";

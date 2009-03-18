@@ -3700,7 +3700,7 @@
 3699	teflon ore	0	all	75
 3700	vinyl ore	0	all	75
 3701	map to Anemone Mine	0	all	0
-3702
+3702	marine aquamarine	0	all	350
 3703	rusty valve wheel	0	all	30
 3704	waterlogged bootstraps	0	all	30
 3705	velcro broadsword	12	all	125
@@ -3740,7 +3740,7 @@
 3739	Boozehounds Anonymous token	4	all	43
 3740	handful of bees	25	all	88
 3741	spectral jelly	25	all	62
-3742
+3742	jellyfish gel	4	all	27
 3743	unstable quark	0	all	1
 3744	software glitch	25	all	13
 3745	fumble formula	3	all	0
@@ -3777,10 +3777,10 @@
 3776	pink pinkslip slip	10	all	111
 3777	sea salt scrubs	11	all	140
 3778	amber aviator shades	8	all	222
-3779
+3779	hair of the fish	4	all	86
 3780	nurse's hat	9	all	135
-3781
-3782
+3781	blank prescription sheet	4	all	75
+3782	bottle of melodramamine	4	all	45
 3783
 3784
 3785
@@ -3801,13 +3801,13 @@
 3800	aquaviolet jub-jub bird	7	all	75
 3801	crimsilion jub-jub bird	7	all	75
 3802	charpuce jub-jub bird	7	all	75
-3803
-3804
-3805
-3806
-3807
+3803	Mer-kin roundshield	13	all	196
+3804	Mer-kin breastplate	11	all	224
+3805	Mer-kin sneakmask	9	all	178
+3806	Mer-kin prayerbeads	8	all	5
+3807	Mer-kin hidepaint	4	all	63
 3808
-3809
+3809	Mer-kin healscroll	25	all	77
 3810
 3811
 3812	chocolate-frosted king cake	1	display	0
@@ -3815,3 +3815,17 @@
 3814
 3815	midget clownfish	5	all	150
 3816	half-height unicycle	7	all	75
+3817	sea radish	1	all	350
+3818	halibut	12	all	350
+3819	eel sauce	0	all	84
+3820	water-polo mitt	8	display	800
+3821	glowing syringe	4	all	175
+3822	fishy wand	7	all	150
+3823
+3824	Grandma's Note	0	none	0
+3825	Grandma's Fuschia Yarn	0	none	0
+3826	Grandma's Chartreuse Yarn	0	none	0
+3827
+3828	Grandma's Map	0	none	0
+3829	tempura radish	1	all	475
+3830	water-polo cap	9	display	800

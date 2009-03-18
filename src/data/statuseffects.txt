@@ -611,5 +611,12 @@
 610	Withered Heart	heart.gif	7721eaaa3f6b3dd257f38045cddc24ed	use 1 love song of disturbing obsession
 611	Lustful Heart	heart.gif	35a0e93898e18f500d1d0c7eec8e8ef1	use 1 love song of naughty innuendo
 612	Clumsy	sad.gif	63fa9abd19f2d77636e52d591b54f589	use 1 concoction of clumsiness
-613	Spectral	specjelly.gif	810bbc77f3ef220d9d77ed395b9cc70c
+613	Spectral	specjelly.gif	810bbc77f3ef220d9d77ed395b9cc70c	use 1 spectral jelly
 614	Donho's Bubbly Ballad	notes.gif	3337ba138b0e4d48f070bca9711139b5	cast 1 Donho's Bubbly Ballad
+615	Antihangover	martini.gif	eadafbbe6d035eb5a36408dfbb1c85cc	use 1 hair of the fish
+616
+617	Old School Pompadour	pompadour.gif	aff568fdc12724deb962ebcb00e81fb9	use 1 jellyfish gel
+618
+619	Colorfully Concealed	pieface.gif	140ef800c87baab4dc32a288f7c503e5	use 1 Mer-kin hidepaint
+620	Emotion Sickness	goofballs.gif	cf2cb301c6f542b1fdc59b0a3e8ebed5	use 1 bottle of melodramamine
+621	Biologically Shocked	dna.gif		f81d7473f0a24503c9ab73be50bbc664	use 1 glowing syringe
