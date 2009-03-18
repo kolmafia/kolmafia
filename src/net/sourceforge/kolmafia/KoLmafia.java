@@ -196,6 +196,7 @@ public abstract class KoLmafia
 		{ "You and the Cap'm Make it Hap'm", STOP },
 		{ "This Adventure Bites", STOP },
 		{ "It's Always Swordfish", STOP },
+		{ "Granny, Does Your Dogfish Bite?", STOP },
 
 		// Adventures that start the Around the World Quest
 
@@ -2914,6 +2915,7 @@ public abstract class KoLmafia
 			{
 				ResultProcessor.processItem( ItemPool.BLACK_PAINT, -1 );
 			}
+			return;
 		}
 
 		if ( encounterName.equalsIgnoreCase( "Still No Colors Anymore" ) )
@@ -2922,6 +2924,16 @@ public abstract class KoLmafia
 			{
 				ResultProcessor.processItem( ItemPool.BLACK_PAINT, -1 );
 			}
+			return;
+		}
+
+		if ( encounterName.equalsIgnoreCase( "Granny, Does Your Dogfish Bite?" ) )
+		{
+			if ( InventoryManager.hasItem( ItemPool.GRANDMAS_MAP ) )
+			{
+				ResultProcessor.processItem( ItemPool.GRANDMAS_MAP, -1 );
+			}
+			return;
 		}
 	}
 

@@ -13,6 +13,7 @@ black striped oyster egg	1	1	0	11-15	0	0	20 Egg-stortionary Tactics (+50% meat d
 blue paisley oyster egg	1	1	0	0	11-15	0	31-35 MP
 blue polka-dot oyster egg	1	1	0	0	0	11-15	31-35 MP
 blue striped oyster egg	1	1	0	11-15	0	0	31-35 MP
+bottle of melodramamine	1	1	0	0	0	0	5 Emotion Sickness (+ Meat and Items underwater)
 bottle of ultravitamins	1	6	0	18-20	0	0	10 Vitamin-Maxed (+10% mus)
 Breathetastic&trade; Premium Canned Air	5	9	20-25	60-70	60-70	60-70
 can of Red Minotaur	3	1	0	0	0	0	+1 PvP fight, 5 Wings

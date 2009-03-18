@@ -25,6 +25,7 @@ Knob Goblin harem veil	10	none
 Knob Goblin visor	50	Mox: 10
 KoL Con 3-D Glasses	10	none
 MAHI fez	200	Mox: 85
+Mer-kin sneakmask	200	Mox: 85
 Mohawk wig	140	Mox: 55
 Ol' Scratch's stovepipe hat	200	Mys: 200
 Orcish baseball cap	60	Mox: 15
@@ -159,6 +160,7 @@ tattered paper crown	60	Mus: 15
 time helmet	100	Mox: 35
 toy space helmet	175	Mox: 72
 viking helmet	20	none
+water-polo cap	200	Mox: 85
 webbed comic mask	10	none
 willowy bonnet	75	Mox: 22
 witch hat	10	none
@@ -300,6 +302,7 @@ Grimacite guayabera	125	Mus: 47
 Hodgman's disgusting technicolor overcoat	200	Mus: 200
 Kiss the Knob apron	10	none
 Knob Goblin elite shirt	35	Mus: 2
+Mer-kin breastplate	200	Mus: 85
 Mr. Shirt	30	none
 Private Pepper's Lonely Hearts Club Jacket	130	Mus: 50
 Radio Free Jersey	0	none
@@ -550,6 +553,7 @@ grease gun	65	Mox: 17	1-handed pistol
 haiku katana	100	Mus: 0	1-handed sword
 hairy staff	135	Mus: 45	2-handed staff
 halfberd	30	Mus: 0	1-handed polearm
+halibut	200	Mus: 85	2-handed x
 happiness	165	Mox: 67	1-handed pistol
 heavy metal thunderrr guitarrr	120	Mox: 45	2-handed axe
 heteroerotic frat-paddle	150	Mus: 60	1-handed club
@@ -717,6 +721,8 @@ Hodgman's varcolac paw	0	Mus: 200
 Idol of Ak'gyxoth	0	none
 Kevlar balloon	0	none
 KoL Con IV Pole	0	Mys: 10
+Mer-kin roundshield	0	Mus: 85	shield
+# *** Mer-kin roundshield is a shield of unknown power.
 Mer-kin takebag	0	Mys: 85
 Mr. Balloon	0	none
 Mylar balloon	0	none
@@ -948,6 +954,7 @@ Mafia bow tie	0	Mys: 35
 Mafia stogie	0	Mys: 35
 MagiMechTech NanoMechaMech	0	Mys: 15
 Mega Gem	0	none
+Mer-kin prayerbeads	0	Mys: 85
 Mr. Accessory	0	none
 Mr. Accessory Jr.	0	none
 Mr. Eh?	0	none
@@ -1311,6 +1318,7 @@ vampire pearl ring	0	Mys: 35
 velcro boots	0	Mys: 85
 vinyl boots	0	Mox: 85
 walrus-tusk earring	0	Mys: 10
+water-polo mitt	0	Mys: 85
 water wings	0	none
 wheel	0	none
 white belt	0	Mys: 5

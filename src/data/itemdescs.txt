@@ -3705,7 +3705,7 @@
 3699	900934321	teflon ore	chunks of teflon ore
 3700	680710697	vinyl ore	chunks of vinyl ore
 3701	680600410	map to Anemone Mine
-3702
+3702	374383060	marine aquamarine	marine aquamarines
 3703	581289316	rusty valve wheel	rusty valve wheels
 3704	696657364	waterlogged bootstraps	set of waterlogged bootstraps
 3705	798460922	velcro broadsword	velcro broadswords
@@ -3745,7 +3745,7 @@
 3739	952348991	Boozehounds Anonymous token	Boozehounds Anonymous tokens
 3740	589884707	handful of bees
 3741	460649718	spectral jelly	globs of spectral jelly
-3742
+3742	709794334	jellyfish gel	globs of jellyfish gel
 3743	258693786	unstable quark	unstable quarks
 3744	249918458	software glitch	software glitches
 3745	882058553	fumble formula	fumble formulae
@@ -3782,10 +3782,10 @@
 3776	177903260	pink pinkslip slip	pink pinkslip slips
 3777	501620697	sea salt scrubs	sea salt scrubs
 3778	467428130	amber aviator shades	pairs of amber aviator shades
-3779
+3779	986541420	hair of the fish	wads of hair of the fish
 3780	371678812	nurse's hat	nurse's hats
-3781
-3782
+3781	197071496	blank prescription sheet	blank prescription sheets
+3782	747117614	bottle of melodramamine
 3783
 3784
 3785
@@ -3806,17 +3806,31 @@
 3800	634215974	aquaviolet jub-jub bird
 3801	884937684	crimsilion jub-jub bird
 3802	687961653	charpuce jub-jub bird
-3803
-3804
-3805
-3806
-3807
+3803	606330925	Mer-kin roundshield	Mer-kin roundshields
+3804	220249342	Mer-kin breastplate	Mer-kin breastplates
+3805	239306055	Mer-kin sneakmask	Mer-kin sneakmasks
+3806	279534988	Mer-kin prayerbeads	strings of Mer-kin prayerbeads
+3807	652935567	Mer-kin hidepaint	tubs of Mer-kin hidepaint
 3808
-3809
+3809	528222942	Mer-kin healscroll
 3810
 3811
 3812	561895660	chocolate-frosted king cake
 3813	998177653	red plastic baby
 3814
-3815	635619042	midget clownfish
+3815	635619042	midget clownfish	midget clownfish
 3816	422899811	half-height unicycle
+3817	663137394	sea radish	sea radishes
+3818	504280560	halibut	halibut
+3819	816191127	eel sauce	ramekins of eel sauce
+3820	194815300	water-polo mitt
+3821	988414588	glowing syringe	glowing syringes
+3822	994220879	fishy wand
+3823
+3824		Grandma's Note
+3825	492404505	Grandma's Fuschia Yarn
+3826	418019826	Grandma's Chartreuse Yarn
+3827
+3828	382148482	Grandma's Map
+3829	191472664	tempura radish	tempura radishes
+3830	896990073	water-polo cap
