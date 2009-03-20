@@ -6,6 +6,7 @@ tamarind-flavored chewing gum	SUSE	pack of chewing gum
 lime-and-chile-flavored chewing gum	SUSE	pack of chewing gum
 pickle-flavored chewing gum	SUSE	pack of chewing gum
 jaba&ntilde;ero-flavored chewing gum	SUSE	pack of chewing gum
+bottle of melodramamine	SUSE	blank prescription sheet
 
 # Christmas-specific items which can be created through combination or
 # smithing.
@@ -286,45 +287,54 @@ slick nigiri	SUSHI	slick fish meat	white rice
 
 beefy maki	SUSHI	beefy fish meat	white rice	seaweed
 giant dragon roll	SUSHI	beefy fish meat	white rice	seaweed	sea cucumber
+Jack LaLanne roll	SUSHI	beefy fish meat	white rice	seaweed	sea radish
 musclebound rabbit roll	SUSHI	beefy fish meat	white rice	seaweed	sea carrot
 python roll	SUSHI	beefy fish meat	white rice	seaweed	sea avocado
 
 magical beefy maki	SUSHI	beefy fish meat	white rice	seaweed	dragonfish caviar
 magical giant dragon roll	SUSHI	beefy fish meat	white rice	seaweed	sea cucumber	dragonfish caviar
+magical Jack LaLanne roll	SUSHI	beefy fish meat	white rice	seaweed	sea radish	dragonfish caviar
 magical musclebound rabbit roll	SUSHI	beefy fish meat	white rice	seaweed	sea carrot	dragonfish caviar
 magical python roll	SUSHI	beefy fish meat	white rice	seaweed	sea avocado	dragonfish caviar
 
 salty beefy maki	SUSHI	beefy fish meat	white rice	seaweed	sea salt crystal
 salty giant dragon roll	SUSHI	beefy fish meat	white rice	seaweed	sea cucumber	sea salt crystal
+salty Jack LaLanne roll	SUSHI	beefy fish meat	white rice	seaweed	sea radish	sea salt crystal
 salty musclebound rabbit roll	SUSHI	beefy fish meat	white rice	seaweed	sea carrot	sea salt crystal
 salty python roll	SUSHI	beefy fish meat	white rice	seaweed	sea avocado	sea salt crystal
 
 glistening maki	SUSHI	glistening fish meat	white rice	seaweed
 wise dragon roll	SUSHI	glistening fish meat	white rice	seaweed	sea cucumber
+wizened master roll	SUSHI	glistening fish meat	white rice	seaweed	sea radish
 white rabbit roll	SUSHI	glistening fish meat	white rice	seaweed	sea carrot
 ancient serpent roll	SUSHI	glistening fish meat	white rice	seaweed	sea avocado
 
 magical glistening maki	SUSHI	glistening fish meat	white rice	seaweed	dragonfish caviar
 magical wise dragon roll	SUSHI	glistening fish meat	white rice	seaweed	sea cucumber	dragonfish caviar
+magical wizened master roll	SUSHI	glistening fish meat	white rice	seaweed	sea radish	dragonfish caviar
 magical white rabbit roll	SUSHI	glistening fish meat	white rice	seaweed	sea carrot	dragonfish caviar
 magical ancient serpent roll	SUSHI	glistening fish meat	white rice	seaweed	sea avocado	dragonfish caviar
 
 salty glistening maki	SUSHI	glistening fish meat	white rice	seaweed	sea salt crystal
 salty wise dragon roll	SUSHI	glistening fish meat	white rice	seaweed	sea cucumber	sea salt crystal
+salty wizened master roll	SUSHI	glistening fish meat	white rice	seaweed	sea radish	sea salt crystal
 salty white rabbit roll	SUSHI	glistening fish meat	white rice	seaweed	sea carrot	sea salt crystal
 salty ancient serpent roll	SUSHI	glistening fish meat	white rice	seaweed	sea avocado	sea salt crystal
 
 slick maki	SUSHI	slick fish meat	white rice	seaweed
+eleven oceans roll	SUSHI	slick fish meat	white rice	seaweed	sea radish
 tricky dragon roll	SUSHI	slick fish meat	white rice	seaweed	sea cucumber
 sneaky rabbit roll	SUSHI	slick fish meat	white rice	seaweed	sea carrot
 slippery snake roll	SUSHI	slick fish meat	white rice	seaweed	sea avocado
 
 magical slick maki	SUSHI	slick fish meat	white rice	seaweed	dragonfish caviar
+magical eleven oceans roll	SUSHI	slick fish meat	white rice	seaweed	sea radish	dragonfish caviar
 magical tricky dragon roll	SUSHI	slick fish meat	white rice	seaweed	sea cucumber	dragonfish caviar
 magical sneaky rabbit roll	SUSHI	slick fish meat	white rice	seaweed	sea carrot	dragonfish caviar
 magical slippery snake roll	SUSHI	slick fish meat	white rice	seaweed	sea avocado	dragonfish caviar
 
 salty slick maki	SUSHI	slick fish meat	white rice	seaweed	sea salt crystal
+salty eleven oceans roll	SUSHI	slick fish meat	white rice	seaweed	sea radish	sea salt crystal
 salty tricky dragon roll	SUSHI	slick fish meat	white rice	seaweed	sea cucumber	sea salt crystal
 salty sneaky rabbit roll	SUSHI	slick fish meat	white rice	seaweed	sea carrot	sea salt crystal
 salty slippery snake roll	SUSHI	slick fish meat	white rice	seaweed	sea avocado	sea salt crystal

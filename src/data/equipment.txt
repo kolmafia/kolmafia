@@ -1320,6 +1320,7 @@ vinyl boots	0	Mox: 85
 walrus-tusk earring	0	Mys: 10
 water-polo mitt	0	Mys: 85
 water wings	0	none
+water-polo mitt	0	Mys: 85
 wheel	0	none
 white belt	0	Mys: 5
 white collar	0	none

@@ -1428,7 +1428,7 @@ tube sock	Moxie: +20, Single Equip
 velcro boots	Mysticality Percent: +10, MP Regen Min: 12, MP Regen Max: 24, Initiative: -50, Single Equip
 vinyl boots	Moxie Percent: [15*X], HP Regen Min: 15, HP Regen Max: 30, Weapon Damage Percent: +10, Single Equip
 walrus-tusk earring	Maximum HP: +10
-water-polo mitt	Weapon Damage: +30
+water-polo mitt	Weapon Damage: +30, Single Equip
 # water wings
 wheel	Initiative: +10
 white belt	Muscle: +3, Weapon Damage: +3, Single Equip
@@ -1676,6 +1676,7 @@ And Your Family, Too	Familiar Weight: -10
 Animal Exploiter	Muscle: +40, Familiar Weight Percent: -50
 # Antarctic Memories: Recover HP and MP after battle
 Antarctic Memories	HP Regen Min: 40, HP Regen Max: 40, MP Regen Min: 40, MP Regen Max: 40
+# Antihangover	Experience: +3
 Antsy in your Pantsy	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5
 Apathy	Muscle Percent: -30, Mysticality Percent: -30, Moxie Percent: -30
 Apoplectic with Rage	Mysticality Percent: -10
@@ -1833,10 +1834,7 @@ Elemental Saucesphere	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance
 Elron's Explosive Etude	Spell Damage Percent: +50
 Elvish	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 Embarrassed	Moxie Percent: -30
-# Emotion Sickness: +X% Item drops from Monsters
-# Emotion Sickness: +2X% Meat drops from Monsters
-# Emotion Sickness: (Underwater only)
-Empathy	Familiar Weight: +5
+Emotion Sickness	Item Drop: [(+25-D)*zone(The Sea)], Meat Drop: [2*(+25-D)*zone(The Sea)]Empathy	Familiar Weight: +5
 Engorged Weapon	Weapon Damage: +10
 Enhanced Archaeologist	Mysticality: +20, Muscle: -5, Moxie: -5
 Enraged	Muscle Percent: +10
