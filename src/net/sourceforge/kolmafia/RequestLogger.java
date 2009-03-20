@@ -59,6 +59,7 @@ import net.sourceforge.kolmafia.request.FriarRequest;
 import net.sourceforge.kolmafia.request.GalaktikRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.GourdRequest;
+import net.sourceforge.kolmafia.request.GrandpaRequest;
 import net.sourceforge.kolmafia.request.GuildRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.HiddenCityRequest;
@@ -606,6 +607,12 @@ public class RequestLogger
 		}
 
 		if ( ( request instanceof GourdRequest || isExternal ) && GourdRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		if ( ( request instanceof GrandpaRequest || isExternal ) && GrandpaRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;

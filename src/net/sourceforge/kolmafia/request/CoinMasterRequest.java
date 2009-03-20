@@ -527,19 +527,22 @@ public class CoinMasterRequest
 
 	private static final boolean registerSeaRequest( final String urlString )
 	{
+		// We only claim monkeycastle.php?action=buyitem
+
 		Matcher actionMatcher = CoinMasterRequest.ACTION_PATTERN.matcher( urlString );
 		if ( !actionMatcher.find() )
 		{
-			return true;
+			return false;
 		}
 
 		String action = actionMatcher.group(1);
 
-		if ( action.equals( "buyitem" ) )
+		if ( !action.equals( "buyitem" ) )
 		{
-			CoinMasterRequest.buyStuff( urlString, BIGBROTHER );
+			return false;
 		}
 
+		CoinMasterRequest.buyStuff( urlString, BIGBROTHER );
 		return true;
 	}
 
