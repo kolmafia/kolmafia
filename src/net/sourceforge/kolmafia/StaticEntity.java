@@ -88,6 +88,7 @@ import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.WineCellarRequest;
+import net.sourceforge.kolmafia.request.ZapRequest;
 
 import net.sourceforge.kolmafia.session.PvpManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
@@ -534,6 +535,11 @@ public abstract class StaticEntity
 		{
 			ArtistRequest.parseResponse( location, responseText );
 			SuspiciousGuyRequest.parseResponse( location, responseText );
+		}
+
+		else if ( location.startsWith( "wand.php" ) )
+		{
+			ZapRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.indexOf( "action=pyro" ) != -1 )
