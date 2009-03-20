@@ -1265,6 +1265,7 @@ public class ResultProcessor
 			break;
 
 		case ItemPool.GRANDMAS_MAP:
+			ResultProcessor.processItem( ItemPool.GRANDMAS_NOTE, -1 );
 			ResultProcessor.processItem( ItemPool.FUSCHIA_YARN, -1 );
 			ResultProcessor.processItem( ItemPool.CHARTREUSE_YARN, -1 );
 			break;

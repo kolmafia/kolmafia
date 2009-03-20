@@ -3827,7 +3827,7 @@
 3821	988414588	glowing syringe	glowing syringes
 3822	994220879	fishy wand	fishy wands
 3823
-3824		Grandma's Note
+3824	624587585	Grandma's Note
 3825	492404505	Grandma's Fuschia Yarn
 3826	418019826	Grandma's Chartreuse Yarn
 3827
