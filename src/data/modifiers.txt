@@ -1834,7 +1834,8 @@ Elemental Saucesphere	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance
 Elron's Explosive Etude	Spell Damage Percent: +50
 Elvish	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 Embarrassed	Moxie Percent: -30
-Emotion Sickness	Item Drop: [(+25-D)*zone(The Sea)], Meat Drop: [2*(+25-D)*zone(The Sea)]Empathy	Familiar Weight: +5
+Emotion Sickness	Item Drop: [(+25-D)*zone(The Sea)], Meat Drop: [2*(+25-D)*zone(The Sea)]
+Empathy	Familiar Weight: +5
 Engorged Weapon	Weapon Damage: +10
 Enhanced Archaeologist	Mysticality: +20, Muscle: -5, Moxie: -5
 Enraged	Muscle Percent: +10
