@@ -42,102 +42,55 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
-public class GrandpaRequest
+public class LeafletRequest
 	extends GenericRequest
 {
-	private static final Pattern WHO_PATTERN = Pattern.compile( "who=(\\d*)" );
-	private static final Pattern ACTION_PATTERN = Pattern.compile( "action=([^&]+)" );
-	private static final Pattern QUERY_PATTERN = Pattern.compile( "topic=([^&]*)" );
+	private static final Pattern COMMAND_PATTERN = Pattern.compile( "command=([^&]*)" );
 
-	public GrandpaRequest()
+	public LeafletRequest()
 	{
 		this(null);
 	}
 
-	public GrandpaRequest( final String story)
+	public LeafletRequest( final String command )
 	{
-		super( "monkeycastle.php" );
-		this.addFormField( "action", "grandpastory" );
-		if ( story != null )
+		super( "leaflet.php" );
+		if ( command != null )
 		{
-			this.addFormField( "topic", story );
+			this.addFormField( "command", command );
 		}
 	}
 
-	public void processResults()
+	public void setCommand( final String command )
 	{
-		// You can't visit the Sea Monkees without some way of
-		// breathing underwater.
-
-		if ( this.responseText.indexOf( "can't visit the Sea Monkees" ) != -1 )
-		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You're not equipped to visit the Sea Monkees." );
-		}
-	}
-
-	public static final String findNPC( final int npc )
-	{
-		switch ( npc )
-		{
-		case 1:
-			return "Little Brother";
-		case 2:
-			return "Big Brother";
-		case 3:
-			return "Grandpa";
-		case 4:
-			return "Grandma";
-		}
-
-		return "Unknown Sea Monkey";
+		this.clearDataFields();
+		this.addFormField( "command", command );
 	}
 
 	public static final boolean registerRequest( final String urlString )
 	{
-		if ( !urlString.startsWith( "monkeycastle.php" ) )
+		if ( !urlString.startsWith( "leaflet.php" ) )
 		{
 			return false;
 		}
 
-		Matcher matcher = WHO_PATTERN.matcher( urlString );
-		if ( matcher.find() )
-		{
-			// Simple visit
-			String NPC = GrandpaRequest.findNPC( Integer.parseInt( matcher.group(1) ) );
-			RequestLogger.updateSessionLog( "Visiting " + NPC );
-			return true;
-		}
-
-		matcher = GrandpaRequest.ACTION_PATTERN.matcher( urlString );
-		if ( !matcher.find() )
-		{
-			return false;
-		}
-
-		String action = matcher.group(1);
-
-		if ( !action.equals( "grandpastory" ) )
-		{
-			return false;
-		}
-
-		matcher = QUERY_PATTERN.matcher( urlString );
+		Matcher matcher = COMMAND_PATTERN.matcher( urlString );
 		if ( !matcher.find() )
 		{
 			return true;
 		}
 
-		String query = matcher.group( 1 );
+		String command = matcher.group( 1 );
 		try
 		{
-			query = URLDecoder.decode( query, "UTF-8" );
+			command = URLDecoder.decode( command, "UTF-8" );
 		}
 		catch ( IOException e )
 		{
 		}
 
 		RequestLogger.updateSessionLog();
-		RequestLogger.updateSessionLog( "grandpa " + query );
+		RequestLogger.updateSessionLog( "Leaflet " + command );
 
 		return true;
 	}

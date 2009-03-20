@@ -2492,10 +2492,25 @@ public class KoLmafiaCLI
 	public static class Leaflet
 		extends Command
 	{
-		{ usage = " [nomagic] - complete leaflet quest [without using magic words]."; }
+		{ usage = " [nomagic] | location | command  - complete leaflet quest [without using magic words]."; }
 		public void run( String cmd, String parameters )
 		{
-			LeafletManager.robStrangeLeaflet( !parameters.equals( "nomagic" ) );
+			if ( parameters.equals( "" ) )
+			{
+				LeafletManager.robStrangeLeaflet( true );
+				return;
+			}
+			if ( parameters.equals( "nomagic" ) )
+			{
+				LeafletManager.robStrangeLeaflet( false );
+				return;
+			}
+			if ( parameters.equals( "location" ) )
+			{
+				String location = LeafletManager.locationName();
+				KoLmafia.updateDisplay( "Current leaflet location: " + location );
+				return;
+			}
 		}
 	}
 	

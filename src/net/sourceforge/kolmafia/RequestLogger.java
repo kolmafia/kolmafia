@@ -65,6 +65,7 @@ import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.HiddenCityRequest;
 import net.sourceforge.kolmafia.request.IslandArenaRequest;
 import net.sourceforge.kolmafia.request.KnollRequest;
+import net.sourceforge.kolmafia.request.LeafletRequest;
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
 import net.sourceforge.kolmafia.request.MicroBreweryRequest;
 import net.sourceforge.kolmafia.request.MindControlRequest;
@@ -505,7 +506,6 @@ public class RequestLogger
 		     urlString.startsWith( "inventory.php?action=message" ) ||
 		     urlString.equals( "knoll.php?place=paster" ) ||
 		     urlString.startsWith( "lair" ) ||
-		     urlString.startsWith( "leaflet" ) ||
 		     urlString.startsWith( "mining" ) ||
 		     urlString.equals( "town_right.php?place=untinker" ) )
 		{
@@ -643,6 +643,12 @@ public class RequestLogger
 		}
 
 		if ( ( request instanceof KnollRequest || isExternal ) && KnollRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		if ( ( request instanceof LeafletRequest || isExternal ) && LeafletRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;
