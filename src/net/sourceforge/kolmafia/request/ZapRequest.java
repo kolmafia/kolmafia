@@ -164,24 +164,49 @@ public class ZapRequest
 
 	public void processResults()
 	{
+		// Remove item if zap succeeded. Remove wand if it blew up.
+		ZapRequest.parseResponse( this.getURLString(), this.responseText );
+
 		// "The Crown of the Goblin King shudders for a moment, but
 		// nothing happens."
-
 		if ( this.responseText.indexOf( "nothing happens" ) != -1 )
 		{
-			ResultProcessor.processResult( this.item );
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "The " + this.item.getName() + " is not zappable." );
 			return;
 		}
 
+		// Notify the user of success.
+		KoLmafia.updateDisplay( this.item.getName() + " has been transformed." );
+	}
+
+	public static final void parseResponse( final String urlString, final String responseText )
+	{
+		if ( !urlString.startsWith( "wand.php" ) )
+		{
+			return;
+		}
+
+		if ( responseText.indexOf( "nothing happens" ) != -1 )
+		{
+			return;
+		}
+
 		// If it blew up, remove wand
-		if ( this.responseText.indexOf( "abruptly explodes" ) != -1 )
+		if ( responseText.indexOf( "abruptly explodes" ) != -1 )
 		{
 			ResultProcessor.processResult( KoLCharacter.getZapper().getNegation() );
 		}
 
-		// Remove old item and notify the user of success.
-		KoLmafia.updateDisplay( this.item.getName() + " has been transformed." );
+		Matcher itemMatcher = ZapRequest.ZAP_PATTERN.matcher( urlString );
+		if ( !itemMatcher.find() )
+		{
+			return;
+		}
+
+		// Remove the item which was transformed.
+		int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
+		AdventureResult item = new AdventureResult( itemId, -1 );
+		ResultProcessor.processResult( item );
 	}
 
 	public static final void decorate( final StringBuffer buffer )
@@ -232,7 +257,6 @@ public class ZapRequest
 
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( "zap " + item.getName() );
-		ResultProcessor.processResult( item );
 
 		return true;
 	}
