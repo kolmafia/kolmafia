@@ -1075,6 +1075,13 @@ public abstract class ChoiceManager
 			"The Sea", "choiceAdventure309", "The Dive Bar",
 			new String[] { "seaode", "skip adventure" },
 			new String[] { "3773", null } ),
+
+		// Choice 310 is The Economist of Scales
+
+		// Heavily Invested in Pun Futures
+		new ChoiceAdventure(
+			"The Sea", "choiceAdventure311", "Madness Reef",
+			new String[] { "The Economist of Scales", "skip adventure" } ),
 	};
 
 	static
@@ -1491,6 +1498,13 @@ public abstract class ChoiceManager
 		// There is Sauce at the Bottom of the Ocean
 		{ new Integer(305), new Integer(1), 
 		  new AdventureResult( "Mer-kin pressureglobe", -1 ) },
+
+		// The Economist of Scales
+		// This trades 10 dull fish scales in.
+		{ new Integer(310), new Integer(1),
+		  new AdventureResult( "dull fish scale", -10 ) },
+		{ new Integer(310), new Integer(2),
+		  new AdventureResult( "rough fish scale", -10 ) },
 	};
 
 	private static final AdventureResult getCost( final int choice, final int decision )

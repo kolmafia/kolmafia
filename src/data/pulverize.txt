@@ -121,30 +121,54 @@ wad of Crovacite	wad of Crovacite
 Emblem of Ak'gyxoth	nosmash
 
 # Equipment dropped, or made from drops, in The Sea has special results.
+7-inch discus	sea salt crystal
+aerated diving helmet	sea salt crystal
+amber aviator shades	sea salt crystal
+bezoar ring	sea salt crystal
+diving muff	sea salt crystal
+eelskin buckler	sea salt crystal
+eelskin hat	sea salt crystal
+eelskin pants	sea salt crystal
 fish scimitar	sea salt crystal
 fish stick	sea salt crystal
 fish bazooka	sea salt crystal
-eelskin buckler	sea salt crystal
-eelskin pants	sea salt crystal
-eelskin hat	sea salt crystal
-shark jumper	sea salt crystal
-shark tooth necklace	sea salt crystal
 ganger bandana	sea salt crystal
-bezoar ring	sea salt crystal
-octopus's spade	sea salt crystal
-straw hat	sea salt crystal
-sponge helmet	sea salt crystal
-spongy shield	sea salt crystal
-square sponge pants	sea salt crystal
-diving muff	sea salt crystal
 glowing esca	sea salt crystal
+halibut	sea salt crystal
+Mer-kin breastplate	sea salt crystal
 Mer-kin hookspear	sea salt crystal
+Mer-kin mining pick	sea salt crystal
+Mer-kin prayerbeads	sea salt crystal
+Mer-kin roundshield	sea salt crystal
+Mer-kin sneakmask	sea salt crystal
 Mer-kin takebag	sea salt crystal
 moist sailor's cap	sea salt crystal
+non-stick pugil stick	sea salt crystal
+nurse's hat	sea salt crystal
+octopus's spade	sea salt crystal
+pink pinkslip slip	sea salt crystal
+PVC staff	sea salt crystal
 rusty compass	sea salt crystal
 rusty speargun	sea salt crystal
 rusty diving helmet	sea salt crystal
-aerated diving helmet	sea salt crystal
+sea salt scrubs	sea salt crystal
+shark jumper	sea salt crystal
+shark tooth necklace	sea salt crystal
+sponge helmet	sea salt crystal
+spongy shield	sea salt crystal
+square sponge pants	sea salt crystal
+straw hat	sea salt crystal
+teflon shield	sea salt crystal
+teflon spatula	sea salt crystal
+teflon swim fins	sea salt crystal
+velcro boots	sea salt crystal
+velcro broadsword	sea salt crystal
+velcro paddle ball	sea salt crystal
+velcro shield	sea salt crystal
+vinyl boots	sea salt crystal
+vinyl shield	sea salt crystal
+water-polo cap	sea salt crystal
+water-polo mitt	sea salt crystal
 
 # Mr. Store equipment is not pulverizable.
 Mr. Accessory	nosmash

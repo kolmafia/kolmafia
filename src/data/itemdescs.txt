@@ -3491,7 +3491,7 @@
 3485	247764107	glittery mascara	tubes of glittery mascara
 3486	433811634	dull fish scale	dull fish scales
 3487	912006135	rough fish scale	rough fish scales
-3488
+3488	922469052	pristine fish scale	pristine fish scales
 3489	946050609	beefy fish meat	filets of beefy fish meat
 3490	493009120	glistening fish meat	filets of glistening fish meat
 3491	930651591	slick fish meat	filets of slick fish meat
@@ -3786,7 +3786,7 @@
 3780	371678812	nurse's hat	nurse's hats
 3781	197071496	blank prescription sheet	blank prescription sheets
 3782	747117614	bottle of melodramamine
-3783
+3783	903097386	bottle of extra-strength melodramamine
 3784
 3785
 3786
@@ -3819,13 +3819,13 @@
 3813	998177653	red plastic baby
 3814
 3815	635619042	midget clownfish	midget clownfish
-3816	422899811	half-height unicycle
+3816	422899811	half-height unicycle	half-height unicycles
 3817	663137394	sea radish	sea radishes
 3818	504280560	halibut	halibut
 3819	816191127	eel sauce	ramekins of eel sauce
 3820	194815300	water-polo mitt
 3821	988414588	glowing syringe	glowing syringes
-3822	994220879	fishy wand
+3822	994220879	fishy wand	fishy wands
 3823
 3824		Grandma's Note
 3825	492404505	Grandma's Fuschia Yarn
@@ -3834,3 +3834,6 @@
 3828	382148482	Grandma's Map
 3829	191472664	tempura radish	tempura radishes
 3830	896990073	water-polo cap
+3831
+3832
+3833

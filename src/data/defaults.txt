@@ -591,3 +591,5 @@ user	choiceAdventure306	1
 user	choiceAdventure307	1
 user	choiceAdventure308	1
 user	choiceAdventure309	1
+user	choiceAdventure310	0
+user	choiceAdventure311	0
