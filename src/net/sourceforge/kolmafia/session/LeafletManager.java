@@ -42,12 +42,12 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.LeafletRequest;
 import net.sourceforge.kolmafia.swingui.CouncilFrame;
 
 public abstract class LeafletManager
 {
-	private static final GenericRequest LEAFLET_REQUEST = new GenericRequest( "leaflet.php" );
+	private static final LeafletRequest LEAFLET_REQUEST = new LeafletRequest();
 
 	private static final Pattern FOREST_PATTERN = Pattern.compile( "Gaps in the dense, forbidding foliage lead (.*?)," );
 
@@ -98,8 +98,49 @@ public abstract class LeafletManager
 
 	// Strings that unambiguously identify current location
 
-	private static final String[] LOCATIONS =
-		{ "<b>In the House</b>", "<b>West of House</b>", "<b>North of the Field</b>", "<b>Forest Clearing</b>", "<b>Cave</b>", "<b>South Bank</b>", "<b>Forest</b>", "<b>On the other side of the forest maze...</b>", "<b>Halfway Up The Tree</b>", "<b>Tabletop</b>", };
+	private static final String[][] LOCATIONS =
+	{
+		{
+			"<b>In the House</b>",
+			"in the house",
+		},
+		{
+			"<b>West of House</b>",
+			"west of the house",
+		},
+		{
+			"<b>North of the Field</b>",
+			"north of the field",
+		},
+		{
+			"<b>Forest Clearing</b>",
+			"in the forest clearing",
+		},
+		{
+			"<b>Cave</b>",
+			"in the cave",
+		},
+		{
+			"<b>South Bank</b>",
+			"on the south bank",
+		},
+		{
+			"<b>Forest</b>",
+			"in the forest",
+		},
+		{
+			"<b>On the other side of the forest maze...</b>",
+			"past maze",
+		},
+		{
+			"<b>Halfway Up The Tree</b>",
+			"halfway up the tree",
+		},
+		{
+			"<b>Tabletop</b>",
+			"on the tabletop",
+		}
+	};
 
 	// Current location
 
@@ -244,15 +285,45 @@ public abstract class LeafletManager
 		LeafletManager.trophy = response.indexOf( "A shiny bowling trophy" ) != -1;
 	}
 
-	private static final void parseLocation( final String response )
+	public static final int getLocation( final String response )
 	{
-		for ( LeafletManager.location = 0; LeafletManager.location < LeafletManager.LOCATIONS.length; ++LeafletManager.location )
+		for ( int location = 0; location < LeafletManager.LOCATIONS.length; ++location )
 		{
-			if ( response.indexOf( LeafletManager.LOCATIONS[ LeafletManager.location ] ) != -1 )
+			String [] names = LeafletManager.LOCATIONS[ location ];
+			if ( response.indexOf( names[0] ) != -1 )
 			{
-				break;
+				return location;
 			}
 		}
+
+		return -1;
+	}
+
+	public static final String locationName()
+	{
+		String response = LeafletManager.executeCommand( "inv" );
+		return LeafletManager.locationName( response );
+	}
+
+	public static final String locationName( final String response )
+	{
+                return LeafletManager.locationName( LeafletManager.getLocation( response ) );
+	}
+
+	public static final String locationName( final int location )
+	{
+                if ( location < 0 || location >= LeafletManager.LOCATIONS.length )
+                {
+                        return "Unknown";
+                }
+
+		return LeafletManager.LOCATIONS[ location ][ 1 ];
+	}
+
+	private static final void parseLocation( final String response )
+	{
+                // Find out where we are in the leaflet
+		LeafletManager.location = LeafletManager.getLocation( response );
 
 		// Assume no maze exit
 		LeafletManager.exit = null;
@@ -842,9 +913,7 @@ public abstract class LeafletManager
 
 	private static final String executeCommand( final String command )
 	{
-		LeafletManager.LEAFLET_REQUEST.clearDataFields();
-		LeafletManager.LEAFLET_REQUEST.addFormField( "pwd" );
-		LeafletManager.LEAFLET_REQUEST.addFormField( "command", command );
+		LeafletManager.LEAFLET_REQUEST.setCommand( command );
 		RequestThread.postRequest( LeafletManager.LEAFLET_REQUEST );
 
 		// Figure out where we are
