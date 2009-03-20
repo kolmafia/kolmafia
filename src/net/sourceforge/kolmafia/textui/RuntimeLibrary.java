@@ -2572,6 +2572,10 @@ public abstract class RuntimeLibrary
 		String string = source.toString();
 		String substring = search.toString();
 		int begin = start.intValue();
+		if ( begin < 0 || begin >= string.length() )
+		{
+			throw LibraryFunction.interpreter.runtimeException( "Begin index " + begin + " out of bounds" );
+		}
 		return new Value( string.indexOf( substring, begin ) );
 	}
 
@@ -2588,6 +2592,10 @@ public abstract class RuntimeLibrary
 		String string = source.toString();
 		String substring = search.toString();
 		int begin = start.intValue();
+		if ( begin < 0 || begin >= string.length() )
+		{
+			throw LibraryFunction.interpreter.runtimeException( "Begin index " + begin + " out of bounds" );
+		}
 		return new Value( string.lastIndexOf( substring, begin ) );
 	}
 
@@ -2595,6 +2603,10 @@ public abstract class RuntimeLibrary
 	{
 		String string = source.toString();
 		int begin = start.intValue();
+		if ( begin < 0 || begin >= string.length() )
+		{
+			throw LibraryFunction.interpreter.runtimeException( "Begin index " + begin + " out of bounds" );
+		}
 		return new Value( string.substring( begin ) );
 	}
 
@@ -2603,7 +2615,19 @@ public abstract class RuntimeLibrary
 	{
 		String string = source.toString();
 		int begin = start.intValue();
+		if ( begin < 0 )
+		{
+			throw LibraryFunction.interpreter.runtimeException( "Begin index " + begin + " out of bounds" );
+		}
 		int end = finish.intValue();
+		if ( end >= string.length() )
+		{
+			throw LibraryFunction.interpreter.runtimeException( "End index " + end + " out of bounds" );
+		}
+		if ( begin > end )
+		{
+			throw LibraryFunction.interpreter.runtimeException( "Begin index " + begin + " greater than end index " + end );
+		}
 		return new Value( string.substring( begin, end ) );
 	}
 

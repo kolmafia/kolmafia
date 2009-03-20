@@ -83,6 +83,7 @@ import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.FriarRequest;
 import net.sourceforge.kolmafia.request.GalaktikRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.GrandpaRequest;
 import net.sourceforge.kolmafia.request.HellKitchenRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.HiddenCityRequest;
@@ -3662,6 +3663,17 @@ public class KoLmafiaCLI
 		}
 	}
 	
+	static { new Grandpa().register( "grandpa" ); }
+	public static class Grandpa
+		extends Command
+	{
+		{ usage = " <query> - Ask Grandpa about something."; }
+		public void run( String cmd, String parameters )
+		{
+			CLI.executeGrandpaRequest( parameters );
+		}
+	}
+	
 	static { new Hermit().register( "hermit" ); }
 	public static class Hermit
 		extends Command
@@ -7129,6 +7141,15 @@ public class KoLmafiaCLI
 		int amount = split.length == 1 ? 0 : StringUtilities.parseInt( split[ 1 ] );
 
 		RequestThread.postRequest( new GalaktikRequest( type, amount ) );
+	}
+
+	/**
+	 * Makes a request to Grandpa to ask him a question about something.
+	 */
+
+	public void executeGrandpaRequest( String parameters )
+	{
+		RequestThread.postRequest( new GrandpaRequest( parameters ) );
 	}
 
 	/**
