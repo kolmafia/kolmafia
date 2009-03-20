@@ -1089,7 +1089,9 @@ public class ConcoctionDatabase
 	{
 		ConcoctionDatabase.tripleReagent = KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR );
 		boolean willBuyServant = KoLCharacter.canInteract() &&
-			( Preferences.getBoolean( "autoSatisfyWithMall" ) || Preferences.getBoolean( "autoSatisfyWithStash" ) );
+			Preferences.getBoolean( "autoRepairBoxServants" ) &&
+			( Preferences.getBoolean( "autoSatisfyWithMall" ) ||
+				Preferences.getBoolean( "autoSatisfyWithStash" ) );
 
 		// Adventures are considered Item #0 in the event that the
 		// concoction will use ADVs.
@@ -1347,7 +1349,9 @@ public class ConcoctionDatabase
 		// the given box servants is non-zero.	This works because
 		// cooking tests are made after item creation tests.
 
-		return Preferences.getBoolean( "autoRepairBoxServants" ) && ConcoctionPool.get( servantId ).total > 0 || ConcoctionPool.get( clockworkId ).total > 0;
+		return Preferences.getBoolean( "autoRepairBoxServants" ) &&
+			( ConcoctionPool.get( servantId ).total > 0 ||
+				ConcoctionPool.get( clockworkId ).total > 0 );
 	}
 
 	/**
