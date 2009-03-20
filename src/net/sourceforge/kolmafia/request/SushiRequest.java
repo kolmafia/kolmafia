@@ -78,6 +78,9 @@ public class SushiRequest
 		"tricky dragon roll",
 		"white rabbit roll",
 		"wise dragon roll",
+		"Jack LaLanne roll",
+		"wizened master roll",
+		"eleven oceans roll",
 		"magical ancient serpent roll",
 		"magical beefy maki",
 		"magical giant dragon roll",
@@ -90,6 +93,9 @@ public class SushiRequest
 		"magical tricky dragon roll",
 		"magical white rabbit roll",
 		"magical wise dragon roll",
+		"magical Jack LaLanne roll",
+		"magical wizened master roll",
+		"magical eleven oceans roll",
 		"salty ancient serpent roll",
 		"salty beefy maki",
 		"salty giant dragon roll",
@@ -102,6 +108,24 @@ public class SushiRequest
 		"salty tricky dragon roll",
 		"salty white rabbit roll",
 		"salty wise dragon roll",
+		"salty Jack LaLanne roll",
+		"salty wizened master roll",
+		"salty eleven oceans roll",
+		"eel sauced ancient serpent roll",
+		"eel sauced beefy maki",
+		"eel sauced giant dragon roll",
+		"eel sauced glistening maki",
+		"eel sauced musclebound rabbit roll",
+		"eel sauced python roll",
+		"eel sauced slick maki",
+		"eel sauced slippery snake roll",
+		"eel sauced sneaky rabbit roll",
+		"eel sauced tricky dragon roll",
+		"eel sauced white rabbit roll",
+		"eel sauced wise dragon roll",
+		"eel sauced Jack LaLanne roll",
+		"eel sauced wizened master roll",
+		"eel sauced eleven oceans roll",
 	};
 
 	private static final Object[][] BASE_SUSHI =
@@ -157,6 +181,7 @@ public class SushiRequest
 	{
 		{ "salty", new Integer( ItemPool.SEA_SALT_CRYSTAL ) },
 		{ "magical", new Integer( ItemPool.DRAGONFISH_CAVIAR ) },
+		{ "eel sauced", new Integer( ItemPool.EEL_SAUCE ) },
 	};
 
 	private static String toppingToName( final String baseName, final int topping )
@@ -195,6 +220,8 @@ public class SushiRequest
 		  "beefy maki", new Integer( ItemPool.SEA_CARROT ) },
 		{ "python roll",
 		  "beefy maki", new Integer( ItemPool.SEA_AVOCADO ) },
+		{ "Jack LaLanne roll",
+		  "beefy maki", new Integer( ItemPool.SEA_RADISH ) },
 
 		{ "wise dragon roll",
 		  "glistening maki", new Integer( ItemPool.SEA_CUCUMBER ) },
@@ -202,6 +229,8 @@ public class SushiRequest
 		  "glistening maki", new Integer( ItemPool.SEA_CARROT ) },
 		{ "ancient serpent roll",
 		  "glistening maki", new Integer( ItemPool.SEA_AVOCADO ) },
+		{ "wizened master roll",
+		  "glistening maki", new Integer( ItemPool.SEA_RADISH ) },
 
 		{ "tricky dragon roll",
 		  "slick maki", new Integer( ItemPool.SEA_CUCUMBER ) },
@@ -209,6 +238,8 @@ public class SushiRequest
 		  "slick maki", new Integer( ItemPool.SEA_CARROT ) },
 		{ "slippery snake roll",
 		  "slick maki", new Integer( ItemPool.SEA_AVOCADO ) },
+		{ "eleven oceans roll",
+		  "slick maki", new Integer( ItemPool.SEA_RADISH ) },
 	};
 
 	private static String filling1ToName( final String baseName, final int filling1 )
