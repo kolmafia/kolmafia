@@ -38,13 +38,20 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.Date;
+import javax.swing.SwingUtilities;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 
+import net.sourceforge.kolmafia.KoLDesktop;
+import net.sourceforge.kolmafia.StaticEntity;
+
 public class LogStream
 	extends PrintStream
+	implements Runnable
 {
+	private File proxy;
+	
 	public static final PrintStream openStream( final String filename, final boolean forceNewFile )
 	{
 		return LogStream.openStream( new File( UtilityConstants.ROOT_LOCATION, filename ), forceNewFile );
@@ -67,6 +74,11 @@ public class LogStream
 
 		if ( file.getName().startsWith( "DEBUG" ) )
 		{
+			if ( !StaticEntity.isHeadless() && KoLDesktop.instanceExists() )
+			{
+				newStream.proxy = file;
+				SwingUtilities.invokeLater( newStream );
+			}
 			newStream.println();
 			newStream.println();
 			newStream.println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
@@ -98,6 +110,12 @@ public class LogStream
 		}
 
 		return newStream;
+	}
+	
+	public void run()
+	{
+		KoLDesktop.getInstance().getRootPane().putClientProperty(
+			"Window.documentFile", this.proxy );
 	}
 
 	private LogStream( final OutputStream ostream )
