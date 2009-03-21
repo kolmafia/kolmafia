@@ -55,6 +55,7 @@ import net.sourceforge.kolmafia.session.MoodManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
@@ -1012,6 +1013,10 @@ public class UseSkillRequest
 
 		switch ( skillId )
 		{
+		case 6014:	// Ode
+			ConcoctionDatabase.getUsables().sort();
+			break;
+			
 		case UseSkillRequest.OTTER_TONGUE:
 		case UseSkillRequest.WALRUS_TONGUE:
 			KoLConstants.activeEffects.remove( KoLAdventure.BEATEN_UP );
