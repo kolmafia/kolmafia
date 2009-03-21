@@ -820,8 +820,9 @@ public class UseItemRequest
 				ode.setBuffCount( 1 );
 				RequestThread.postRequest( ode );
 			}
-			else if ( knowsOde && UseItemRequest.askedAboutOde != KoLCharacter.getUserId()
-				&& UseItemRequest.permittedOverdrink != KoLCharacter.getUserId() )
+			if ( !KoLConstants.activeEffects.contains( ItemDatabase.ODE ) &&
+				knowsOde && UseItemRequest.askedAboutOde != KoLCharacter.getUserId() &&
+				UseItemRequest.permittedOverdrink != KoLCharacter.getUserId() )
 			{
 				if ( !InputFieldUtilities.confirm( "Are you sure you want to drink without ode?" ) )
 				{
