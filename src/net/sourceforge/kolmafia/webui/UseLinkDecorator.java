@@ -337,8 +337,6 @@ public abstract class UseLinkDecorator
 			return false;
 		}
 
-		itemId = link.getItemId();
-		itemCount = link.getItemCount();
 		String useType = link.getUseType();
 		String useLocation = link.getUseLocation();
 
@@ -348,6 +346,9 @@ public abstract class UseLinkDecorator
 
 		if ( useLocation.equals( "#" ) )
 		{
+			itemId = link.getItemId();
+			itemCount = link.getItemCount();
+
 			useLinkMatcher.appendReplacement( buffer, "$1$2<b>$3</b> <font size=1>[<a href=\"javascript:" + "multiUse('" );
 			if ( ItemDatabase.getConsumptionType( itemId ) == KoLConstants.MP_RESTORE )
 			{
@@ -364,7 +365,7 @@ public abstract class UseLinkDecorator
 			buffer.append( itemCount );
 			buffer.append( ");void(0);\">use multiple</a>]</font>" );
 		}
-		else if ( !Preferences.getBoolean( "relayUsesInlineLinks" ) || !useLocation.startsWith( "inv" ) )
+		else if ( !link.showInline() )
 		{
 			useLinkMatcher.appendReplacement(
 				buffer,
@@ -435,6 +436,11 @@ public abstract class UseLinkDecorator
 			if ( !KoLCharacter.canEat() )
 			{
 				return null;
+			}
+
+			if ( itemId == ItemPool.BLACK_PUDDING )
+			{
+				return new UseLink( itemId, itemCount, "eat", "inv_eat.php?which=1&whichitem=", false );
 			}
 
 			return new UseLink( itemId, itemCount, "eat", "inv_eat.php?which=1&whichitem=" );
@@ -542,6 +548,12 @@ public abstract class UseLinkDecorator
 				}
 
 				return new UseLink( itemId, "sewer", "sewer.php" );
+
+			case ItemPool.DRUM_MACHINE:
+			case ItemPool.CARONCH_MAP:
+			case ItemPool.SPOOKY_PUTTY_MONSTER:
+			case ItemPool.CURSED_PIECE_OF_THIRTEEN:
+				return new UseLink( itemId, itemCount, "use", "inv_use.php?which=3&whichitem=", false );
 
 			default:
 
@@ -877,6 +889,7 @@ public abstract class UseLinkDecorator
 		private int itemCount;
 		private String useType;
 		private String useLocation;
+		private boolean inline;
 
 		public UseLink( int itemId, String useType, String useLocation )
 		{
@@ -890,10 +903,16 @@ public abstract class UseLinkDecorator
 
 		public UseLink( int itemId, int itemCount, String useType, String useLocation )
 		{
+			this( itemId, itemCount, useType, useLocation, useLocation.startsWith( "inv" ) );
+		}
+
+		public UseLink( int itemId, int itemCount, String useType, String useLocation, boolean inline )
+		{
 			this.itemId = itemId;
 			this.itemCount = itemCount;
 			this.useType = useType;
 			this.useLocation = useLocation;
+			this.inline = inline;
 
 			if ( this.useLocation.endsWith( "=" ) )
 			{
@@ -926,6 +945,11 @@ public abstract class UseLinkDecorator
 		public String getUseLocation()
 		{
 			return this.useLocation;
+		}
+
+		public boolean showInline()
+		{
+			return this.inline && Preferences.getBoolean( "relayUsesInlineLinks" );
 		}
 	}
 }
