@@ -1289,6 +1289,24 @@ public class UseItemRequest
 			ResultProcessor.processResult( item );
 			return;
 		}
+		
+		// Re-sort consumables list if needed
+		switch ( consumptionType )
+		{
+		case KoLConstants.CONSUME_USE:
+		case KoLConstants.CONSUME_MULTIPLE:
+			if ( ItemDatabase.getSpleenHit( item.getName() ) == 0 )
+			{
+				break;
+			}
+			/*FALLTHRU*/
+		case KoLConstants.CONSUME_EAT:
+		case KoLConstants.CONSUME_DRINK:
+			if ( Preferences.getBoolean( "sortByRoom" ) )
+			{
+				ConcoctionDatabase.getUsables().sort();
+			}
+		}
 
 		Matcher matcher;
 
@@ -2325,6 +2343,7 @@ public class UseItemRequest
 				Math.max( 0, Preferences.getInteger( "currentSpleenUse" ) - item.getCount() ) );
 
 			KoLCharacter.updateStatus();
+			ConcoctionDatabase.getUsables().sort();
 			return;
 
 		case ItemPool.SPICE_MELANGE:
@@ -2341,7 +2360,13 @@ public class UseItemRequest
 				KoLCharacter.setInebriety( Math.max( 0, KoLCharacter.getInebriety() - 3 ) );
 				Preferences.setBoolean( "spiceMelangeUsed", true );
 				KoLCharacter.updateStatus();
+				ConcoctionDatabase.getUsables().sort();
 			}
+			return;
+		
+		case ItemPool.MILK_OF_MAGNESIUM:
+		
+			ConcoctionDatabase.getUsables().sort();
 			return;
 		
 		case ItemPool.FERMENTED_PICKLE_JUICE:
