@@ -331,7 +331,8 @@ public class ShowDescriptionList
 		
 		name = StringUtilities.globalStringReplace( name, " ", "_" );
 		name = Character.toUpperCase( name.charAt( 0 ) ) + name.substring( 1 );
-		return "http://kol.coldfront.net/thekolwiki/index.php/" + name;
+		return "http://kol.coldfront.net/thekolwiki/index.php/" + 
+			StringUtilities.getURLEncode( name );
 	}
 
 	public static final void showWikiDescription( final Object item )
