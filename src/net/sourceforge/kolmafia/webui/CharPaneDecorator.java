@@ -165,7 +165,7 @@ public class CharPaneDecorator
 		// than any effect duration.  Insert them at the very end, but
 		// before any intrinsics.
 
-		insPos = text.lastIndexOf( "(&infin;)" );
+		insPos = text.lastIndexOf( "&infin;" );
 		if ( insPos != -1 )
 		{
 			insPos = text.lastIndexOf( "</table>", insPos );
