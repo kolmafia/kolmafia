@@ -145,10 +145,6 @@ public class FightRequest
 	private static final Pattern NS_HEAL =
 		Pattern.compile( "The Sorceress pulls a tiny red vial out of the folds of her dress and quickly drinks it" );
 
-	private static final Pattern GHOST1_PATTERN = Pattern.compile( "You focus your thoughts and call out to (.*?)\\." );
-	private static final Pattern GHOST2_PATTERN = Pattern.compile( "crackle of psychokinetic energy as (.*?) possesses it\\." );
-	private static final Pattern GHOST3_PATTERN = Pattern.compile( "A chill permeates the air as (.*?)'s spirit enters it.\\." );
-
 	private static final AdventureResult TOOTH = ItemPool.get( ItemPool.SEAL_TOOTH, 1);
 	private static final AdventureResult TURTLE = ItemPool.get( ItemPool.TURTLE_TOTEM, 1);
 	private static final AdventureResult SPICES = ItemPool.get( ItemPool.SPICES, 1);
@@ -2029,7 +2025,6 @@ public class FightRequest
 		}
 	}
 
-
 	private static final void parseGhostSummoning( final String location, final String responseText )
 	{
 		if ( location.indexOf( "summon" ) == -1 )
@@ -2040,36 +2035,21 @@ public class FightRequest
 		String name = null;
 		String type = null;
 
-		Matcher matcher1 = FightRequest.GHOST1_PATTERN.matcher( responseText );
-		Matcher matcher2 = FightRequest.GHOST2_PATTERN.matcher( responseText );
-		Matcher matcher3 = FightRequest.GHOST3_PATTERN.matcher( responseText );
-
-		// You focus your thoughts and call out to <name>. He claws his
-		// way up from beneath the ground at your feet.
-		if ( matcher1.find() )
+		KoLCharacter.ensureUpdatedPastamancerGhost();
+		for ( int i = 0; i < KoLCharacter.COMBAT_ENTITIES.length; ++ i )
 		{
-			name = matcher1.group(1);
-			type = KoLConstants.MACARONI_GHOST;
+			Object [] entity = KoLCharacter.COMBAT_ENTITIES[i];
+			Pattern pattern = (Pattern)entity[3];
+			Matcher matcher = pattern.matcher( responseText );
+			if ( matcher.find() )
+			{
+				name = matcher.group(1);
+				type = (String)entity[0];
+				break;
+			}
 		}
 
-		// You conjure up a swirling cloud of spicy dried couscous, and
-		// there is a crackle of psychokinetic energy as <name>
-		// possesses it.
-		else if ( matcher2.find() )
-		{
-			name = matcher2.group(1);
-			type = KoLConstants.SPICE_GHOST;
-		}
-
-		// You concentrate, and summon a mass of writhing angel hair. A
-		// chill permeates the air as <name>'s spirit enters it.
-		else if ( matcher3.find() )
-		{
-			name = matcher3.group(1);
-			type = KoLConstants.ANGEL_HAIR_WISP;
-		}
-
-		else
+		if ( name == null )
 		{
 			return;
 		}
