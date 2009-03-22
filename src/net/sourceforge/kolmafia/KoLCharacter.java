@@ -383,8 +383,10 @@ public abstract class KoLCharacter
 			new Integer( ItemPool.TWITCHING_TRIGGER_FINGER ),
 			// You decide to name it <name>.
 			Pattern.compile( "You decide to name it ([^.]*)\\." ),
-			// ???
-			Pattern.compile( "<unknown>" ),
+			// <i>pew pew pew!&quot;</i> <name> shouts excitedly,
+			// drawing a laser pistol from some spiritual dimension
+			// of necessity.
+			Pattern.compile( "</i> (.*) shouts excitedly" ),
 			"bobafett.gif",
 		},
 		{
