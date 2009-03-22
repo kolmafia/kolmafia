@@ -314,25 +314,33 @@ public abstract class KoLCharacter
 
 	public static final Object[][] COMBAT_ENTITIES =
 	{
+		// Entity type
+		// Item that summons it
+		// Pattern to find name when first summoned
+		// Pattern to find name when summoned in battle
+		// .gif file name when in battle
+		// (Haiku summoning)
 		{
 			"Undead Elbow Macaroni",
 			new Integer( ItemPool.MACARONI_FRAGMENTS ),
-                        // "<name>. My name is <name>."
-			Pattern.compile( "My name is ([^.]*)" ),
+			// "<name>. My name is <name>."
+			Pattern.compile( "My name is ([^.]*)\\." ),
 			// You focus your thoughts and call out to <name>. He
 			// claws his way up from beneath the ground at your
 			// feet.
 			Pattern.compile( "You focus your thoughts and call out to (.*?)\\." ),
+			"macaroni.gif",
 		},
 		{
 			"Spice Ghost",
 			new Integer( ItemPool.SCINTILLATING_POWDER ),
-                        // My name is <name>, and I am in your debt.
+			// My name is <name>, and I am in your debt.
 			Pattern.compile( "My name is ([^,]*), and I am in your debt\\." ),
 			// You conjure up a swirling cloud of spicy dried
 			// couscous, and there is a crackle of psychokinetic
 			// energy as <name> possesses it.
 			Pattern.compile( "crackle of psychokinetic energy as (.*?) possesses it\\." ),
+			"spiceghost.gif",
 			// You enlist some aid,
 			// from a powerful ally.
 			// Powerful tasty.
@@ -340,13 +348,14 @@ public abstract class KoLCharacter
 		{
 			"Angel Hair Wisp",
 			new Integer( ItemPool.SHIMMERING_TENDRILS ),
-                        // "You must call me <name>. You must give me form. I
-                        // must live."
-			Pattern.compile( "You must call me ([^.]*])" ),
+			// "You must call me <name>. You must give me form. I
+			// must live."
+			Pattern.compile( "You must call me ([^.]*])\\." ),
 			// You concentrate, and summon a mass of writhing angel
 			// hair. A chill permeates the air as <name>'s spirit
 			// enters it. "I live..."
 			Pattern.compile( "A chill permeates the air as (.*?)'s spirit enters it\\." ),
+			"angelwisp.gif",
 		},
 
 		{
@@ -357,6 +366,7 @@ public abstract class KoLCharacter
 			// You conjure up a good-sized sheet of lasagna, and
 			// there is a wet thud as <name>'s spirit lands in it.
 			Pattern.compile( "a wet thud as ([^']*)'s spirit lands in it" ),
+			"lasagmbie.gif",
 		},
 		{
 			"Vermincelli",
@@ -366,48 +376,53 @@ public abstract class KoLCharacter
 			// rustling sound as <name> chews his way into the
 			// world to occupy his new body.
 			Pattern.compile( "as (.*?) chews his way into the world" ),
+			"vermincelli.gif",
 		},
 		{
 			"Boba Fettucini",
 			new Integer( ItemPool.TWITCHING_TRIGGER_FINGER ),
-                        // You decide to name it <name>.
+			// You decide to name it <name>.
 			Pattern.compile( "You decide to name it ([^.]*)\\." ),
-                        // ???
+			// ???
 			Pattern.compile( "<unknown>" ),
+			"bobafett.gif",
 		},
 		{
 			"Penne Dreadful",
 			new Integer( ItemPool.WINE_SOAKED_BONE_CHIPS ),
-                        // "All right, palookah," the private eye says, opening
-                        // his mouth for the first time, "the name's
-                        // <name>. I'm a gumshoe. You know, a shamus, a
-                        // flatfoot, a sleuth.
-			Pattern.compile( "the name's (.*?)\\." ),
-                        // You calm your mind, and imagine a skeletal assembly
-                        // of penne. A lone saxophone breaks the night's
-                        // stillness as it appears and <name> possesses it.
+			// "All right, palookah," the private eye says, opening
+			// his mouth for the first time, "the name's
+			// <name>. I'm a gumshoe. You know, a shamus, a
+			// flatfoot, a sleuth.
+			Pattern.compile( "the name's ([^.]*)\\." ),
+			// You calm your mind, and imagine a skeletal assembly
+			// of penne. A lone saxophone breaks the night's
+			// stillness as it appears and <name> possesses it.
 			Pattern.compile( "and (.*?) possesses it" ),
+			"pennedreadful.gif",
 		},
 		{
 			"Vampieroghi",
 			new Integer( ItemPool.VAMPIRE_GLITTER ),
-                        // My name is written in blood across the history of
-                        // time . . . but you can call me <name>.
+			// My name is written in blood across the history of
+			// time . . . but you can call me <name>.
 			Pattern.compile( "but you can call me ([^.]*)\\." ),
-                        // ???
+			// ???
 			Pattern.compile( "<unknown>" ),
+			"vampieroghi.gif",
 		},
 		{
 			"Bow Tie Bat",
 			new Integer( ItemPool.SMOKING_TALON ),
-                        // Ugh. I'll take that guano as a yes? You'll need a
-                        // name. Let's call you..." You glance around, hoping
-                        // for some inspiration. "How about... <name>
+			// Ugh. I'll take that guano as a yes? You'll need a
+			// name. Let's call you..." You glance around, hoping
+			// for some inspiration. "How about... <name>
 			Pattern.compile( "How about... (.*?)" ),
-                        // You call out to <name> with your mind, summoning his
-                        // spirit even as you create a body for him. He lets
-                        // loose an ear-splitting screech.
+			// You call out to <name> with your mind, summoning his
+			// spirit even as you create a body for him. He lets
+			// loose an ear-splitting screech.
 			Pattern.compile( "You call out to (.*?) with your mind" ),
+			"bowtiebat.gif",
 		},
 	};
 

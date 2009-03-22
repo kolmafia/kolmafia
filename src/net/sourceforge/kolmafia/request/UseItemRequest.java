@@ -2641,18 +2641,27 @@ public class UseItemRequest
 		case ItemPool.TWITCHING_TRIGGER_FINGER:
 
 			KoLCharacter.ensureUpdatedPastamancerGhost();
+			int itemId = item.getItemId();
 			for ( int i = 0; i < KoLCharacter.COMBAT_ENTITIES.length; ++ i )
 			{
 				Object [] entity = KoLCharacter.COMBAT_ENTITIES[i];
+				int summonItem = ((Integer)entity[1]).intValue();
+				if ( itemId != summonItem )
+				{
+					continue;
+				}
+
 				Pattern pattern = (Pattern)entity[2];
 				matcher = pattern.matcher( responseText );
-				if ( matcher.find() )
+				if ( !matcher.find() )
 				{
-					Preferences.setString( "pastamancerGhostType", (String)entity[0] );
-					Preferences.setString( "pastamancerGhostName", matcher.group(1) );
-					Preferences.setInteger( "pastamancerGhostExperience", 0 );
-					return;
+					break;
 				}
+
+				Preferences.setString( "pastamancerGhostType", (String)entity[0] );
+				Preferences.setString( "pastamancerGhostName", matcher.group(1) );
+				Preferences.setInteger( "pastamancerGhostExperience", 0 );
+				return;
 			}
 
 			ResultProcessor.processResult( item );

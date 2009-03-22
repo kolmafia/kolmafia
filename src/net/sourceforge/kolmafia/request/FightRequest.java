@@ -1581,11 +1581,15 @@ public class FightRequest
 				// entity is still present by looking for its
 				// image.
 
-				if ( responseText.indexOf( "angelwisp.gif" ) != -1 ||
-				     responseText.indexOf( "spiceghost.gif" ) != -1 ||
-				     responseText.indexOf( "macaroni.gif" ) != -1 )
+				for ( int i = 0; i < KoLCharacter.COMBAT_ENTITIES.length; ++ i )
 				{
-					Preferences.increment( "pastamancerGhostExperience", 1 );
+					Object [] entity = KoLCharacter.COMBAT_ENTITIES[i];
+					String gif = (String)entity[4];
+					if ( responseText.indexOf( gif ) != -1 )
+					{
+						Preferences.increment( "pastamancerGhostExperience", 1 );
+						break;
+					}
 				}
 			}
 		}
