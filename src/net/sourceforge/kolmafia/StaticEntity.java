@@ -106,7 +106,7 @@ public abstract class StaticEntity
 {
 	private static final Pattern NEWSKILL1_PATTERN = Pattern.compile( "<td>You (have learned|learn) a new skill: <b>(.*?)</b>" );
 	private static final Pattern NEWSKILL2_PATTERN = Pattern.compile( "whichskill=(\\d+)" );
-	private static final Pattern NEWSKILL3_PATTERN = Pattern.compile( "You acquire a skill: +<[bB]>(.*?)</[bB]>" );
+	private static final Pattern NEWSKILL3_PATTERN = Pattern.compile( "You (?:gain|acquire) a skill: +<[bB]>(.*?)</[bB]>" );
 
 	private static KoLmafia client;
 	private static int usesSystemTray = 0;
