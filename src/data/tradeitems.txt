@@ -3782,12 +3782,12 @@
 3781	blank prescription sheet	3	all	75
 3782	bottle of melodramamine	3	all	45
 3783	bottle of extra-strength melodramamine	3	all	450
-3784
-3785
-3786
-3787
-3788
-3789
+3784	paranormal ricotta	3	display	300
+3785	smoking talon	3	display	200
+3786	vampire glitter	3	display	600
+3787	wine-soaked bone chips	3	display	500
+3788	crumbling rat skull	3	display	500
+3789	twitching trigger finger	3	display	600
 3790
 3791
 3792

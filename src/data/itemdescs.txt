@@ -3787,12 +3787,12 @@
 3781	197071496	blank prescription sheet	blank prescription sheets
 3782	747117614	bottle of melodramamine
 3783	903097386	bottle of extra-strength melodramamine
-3784
-3785
-3786
-3787
-3788
-3789
+3784	891376534	paranormal ricotta	blobs of paranormal ricotta
+3785	153336927	smoking talon	smoking talons
+3786		vampire glitter
+3787	336428187	wine-soaked bone chips	handfuls of wine-soaked bone chips
+3788	935150557	crumbling rat skull	crumbling rat skulls
+3789	253647602	twitching trigger finger	twitching trigger fingers
 3790
 3791
 3792

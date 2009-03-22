@@ -781,6 +781,12 @@ public class ItemPool
 	public static final int DISTURBING_OBSESSION = 3758;
 	public static final int NAUGHTY_INNUENDO = 3759;
 	public static final int MERKIN_PINKSLIP = 3775;
+	public static final int PARANORMAL_RICOTTA = 3784;
+	public static final int SMOKING_TALON = 3785;
+	public static final int VAMPIRE_GLITTER = 3786;
+	public static final int WINE_SOAKED_BONE_CHIPS = 3787;
+	public static final int CRUMBLING_RAT_SKULL = 3788;
+	public static final int TWITCHING_TRIGGER_FINGER = 3789;
 	public static final int AQUAVIOLET_JUBJUB_BIRD = 3800;
 	public static final int CRIMSILION_JUBJUB_BIRD = 3801;
 	public static final int CHARPUCE_JUBJUB_BIRD = 3802;
