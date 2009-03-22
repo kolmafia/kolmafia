@@ -817,37 +817,12 @@ public class FightRequest
 
 	private boolean singleUseCombatItem( int itemId )
 	{
-		switch ( itemId )
-		{
-		case ItemPool.ANTIDOTE:
-		case ItemPool.DICTIONARY:
-		case ItemPool.FACSIMILE_DICTIONARY:
-		case ItemPool.MILKY_POTION:
-		case ItemPool.SWIRLY_POTION:
-		case ItemPool.BUBBLY_POTION:
-		case ItemPool.SMOKY_POTION:
-		case ItemPool.CLOUDY_POTION:
-		case ItemPool.EFFERVESCENT_POTION:
-		case ItemPool.FIZZY_POTION:
-		case ItemPool.DARK_POTION:
-		case ItemPool.MURKY_POTION:
-		case ItemPool.ODOR_EXTRACTOR:
-		case ItemPool.SPOOKY_PUTTY_SHEET:
-			return true;
-		}
-		return false;
+		return ItemDatabase.getAttribute( itemId, ItemDatabase.ATTR_SINGLE );
 	}
 
 	private boolean soloUseCombatItem( int itemId )
 	{
-		switch ( itemId )
-		{
-		case ItemPool.FAT_STACKS_OF_CASH:
-		case ItemPool.SCRAP_OF_PAPER:
-		case ItemPool.DIVINE_CHAMPAGNE_POPPER:
-			return true;
-		}
-		return false;
+		return ItemDatabase.getAttribute( itemId, ItemDatabase.ATTR_SOLO );
 	}
 
 	public static final boolean isInvalidRangedAttack( final String action )
@@ -2298,36 +2273,13 @@ public class FightRequest
 
 	private static final boolean isItemConsumed( final int itemId, final String responseText )
 	{
+		if ( ItemDatabase.getAttribute( itemId, ItemDatabase.ATTR_COMBAT_REUSABLE ) )
+		{
+			return false;
+		}
+
 		switch ( itemId )
 		{
-		case ItemPool.SEAL_TOOTH:
-		case ItemPool.TURTLE_TOTEM:
-		case ItemPool.SPICES:
-		case ItemPool.DICTIONARY:
-		case ItemPool.FACSIMILE_DICTIONARY:
-		case ItemPool.TOY_SOLDIER:
-		case ItemPool.TOY_MERCENARY:
-		case ItemPool.MOSSY_STONE_SPHERE:
-		case ItemPool.SMOOTH_STONE_SPHERE:
-		case ItemPool.CRACKED_STONE_SPHERE:
-		case ItemPool.ROUGH_STONE_SPHERE:
-		case ItemPool.JAM_BAND_FLYERS:
-		case ItemPool.ROCK_BAND_FLYERS:
-		case ItemPool.MOLYBDENUM_MAGNET:
-		case ItemPool.SPECTRE_SCEPTER:
-		case ItemPool.GNOME_DEMODULIZER:
-		case ItemPool.PIRATE_INSULT_BOOK:
-		case ItemPool.MINIBORG_STOMPER:
-		case ItemPool.MINIBORG_STRANGLER:
-		case ItemPool.MINIBORG_LASER:
-		case ItemPool.MINIBORG_BEEPER:
-		case ItemPool.MINIBORG_HIVEMINDER:
-		case ItemPool.MINIBORG_DESTROYOBOT:
-		case ItemPool.PAPER_SHURIKEN:
-		case ItemPool.EMPTY_EYE:
-		case ItemPool.ICEBALL:
-			return false;
-
 		case ItemPool.COMMUNICATIONS_WINDCHIMES:
 
 			// Only record usage in battle if you got some sort of
