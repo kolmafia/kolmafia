@@ -2958,7 +2958,7 @@
 2957	rum barrel charrrm	usable	all	60
 2958	tube of cranberry Go-Goo	food	all	40
 2959	rum barrel charrrm bracelet	accessory, usable	all	90
-2960	usable-serving herbal stuffing	food	all	30
+2960	single-serving herbal stuffing	food	all	30
 2961	packet of tofurkey gravy	food	all	20
 2962	tofurkey nugget	food	all	50
 2963	rigging shampoo	usable	none	0
