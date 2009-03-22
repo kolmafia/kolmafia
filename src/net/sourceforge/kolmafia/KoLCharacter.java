@@ -375,7 +375,7 @@ public abstract class KoLCharacter
 			// You summon a tangled mass of noodles. There is a
 			// rustling sound as <name> chews his way into the
 			// world to occupy his new body.
-			Pattern.compile( "as (.*?) chews his way into the world" ),
+			Pattern.compile( "rustling sound as (.*?) chews his way into the world" ),
 			"vermincelli.gif",
 		},
 		{
@@ -398,7 +398,7 @@ public abstract class KoLCharacter
 			// You calm your mind, and imagine a skeletal assembly
 			// of penne. A lone saxophone breaks the night's
 			// stillness as it appears and <name> possesses it.
-			Pattern.compile( "and (.*?) possesses it" ),
+			Pattern.compile( "it appears and (.*?) possesses it" ),
 			"pennedreadful.gif",
 		},
 		{
@@ -416,8 +416,8 @@ public abstract class KoLCharacter
 			new Integer( ItemPool.SMOKING_TALON ),
 			// Ugh. I'll take that guano as a yes? You'll need a
 			// name. Let's call you..." You glance around, hoping
-			// for some inspiration. "How about... <name>
-			Pattern.compile( "How about... (.*?)" ),
+			// for some inspiration. "How about... <name>."
+			Pattern.compile( "How about... ([^.]*)\\." ),
 			// You call out to <name> with your mind, summoning his
 			// spirit even as you create a body for him. He lets
 			// loose an ear-splitting screech.
