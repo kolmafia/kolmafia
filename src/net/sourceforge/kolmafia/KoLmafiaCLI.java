@@ -2816,7 +2816,7 @@ public class KoLmafiaCLI
 			String type = Preferences.getString( "pastamancerGhostType" );
 			int experience = Preferences.getInteger( "pastamancerGhostExperience" );
 			int summons = Preferences.getInteger( "pastamancerGhostSummons" );
-			RequestLogger.printLine( "You've summoned " + name + " the " + type + " ( " + experience + " exp) " + summons + " time" + ( summons != 1 ? "s" : "" ) + " today." );
+			RequestLogger.printLine( "You've summoned " + name + " the " + type + " (" + experience + " exp) " + summons + " time" + ( summons != 1 ? "s" : "" ) + " today." );
 		}
 	}
 	
