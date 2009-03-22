@@ -91,6 +91,7 @@ public class ItemDatabase
 
 	private static String [] canonicalNames = new String[0];
 	private static final IntegerArray useTypeById = new IntegerArray();
+	private static final IntegerArray attributesById = new IntegerArray();
 	private static final IntegerArray priceById = new IntegerArray();
 	private static final StringArray pluralById = new StringArray();
 
@@ -144,13 +145,61 @@ public class ItemDatabase
 	private static final Map moxieByName = new HashMap();
 
 	private static final Map accessById = new HashMap();
-	private static final BooleanArray tradeableById = new BooleanArray();
-	private static final BooleanArray giftableById = new BooleanArray();
-	private static final BooleanArray displayableById = new BooleanArray();
 
 	private static float muscleFactor = 1.0f;
 	private static float mysticalityFactor = 1.0f;
 	private static float moxieFactor = 1.0f;
+	
+	public static final int ATTR_TRADEABLE = 0x00000001;
+	public static final int ATTR_GIFTABLE = 0x00000002;
+	public static final int ATTR_DISPLAYABLE = 0x00000004;
+	public static final int ATTR_USABLE = 0x00000008;
+	public static final int ATTR_REUSABLE = 0x00000010;
+	public static final int ATTR_COMBAT = 0x00000020;
+	public static final int ATTR_COMBAT_REUSABLE = 0x00000040;
+	public static final int ATTR_SINGLE = 0x00000080;
+	public static final int ATTR_SOLO = 0x00000100;
+	public static final int ATTR_CURSE = 0x00000200;
+	public static final int ATTR_BOUNTY = 0x00000400;
+	
+	private static final HashMap PRIMARY_USE = new HashMap();
+	private static final HashMap SECONDARY_USE = new HashMap();
+	static
+	{
+		PRIMARY_USE.put( "none", new Integer( KoLConstants.NO_CONSUME ) );
+		PRIMARY_USE.put( "food", new Integer( KoLConstants.CONSUME_EAT ) );
+		PRIMARY_USE.put( "drink", new Integer( KoLConstants.CONSUME_DRINK ) );
+		PRIMARY_USE.put( "usable", new Integer( KoLConstants.CONSUME_USE ) );
+		PRIMARY_USE.put( "multiple", new Integer( KoLConstants.CONSUME_MULTIPLE ) );
+		PRIMARY_USE.put( "grow", new Integer( KoLConstants.GROW_FAMILIAR ) );
+		PRIMARY_USE.put( "zap", new Integer( KoLConstants.CONSUME_ZAP ) );
+		PRIMARY_USE.put( "familiar", new Integer( KoLConstants.EQUIP_FAMILIAR ) );
+		PRIMARY_USE.put( "accessory", new Integer( KoLConstants.EQUIP_ACCESSORY ) );
+		PRIMARY_USE.put( "hat", new Integer( KoLConstants.EQUIP_HAT ) );
+		PRIMARY_USE.put( "pants", new Integer( KoLConstants.EQUIP_PANTS ) );
+		PRIMARY_USE.put( "shirt", new Integer( KoLConstants.EQUIP_SHIRT ) );
+		PRIMARY_USE.put( "weapon", new Integer( KoLConstants.EQUIP_WEAPON ) );
+		PRIMARY_USE.put( "offhand", new Integer( KoLConstants.EQUIP_OFFHAND ) );
+		PRIMARY_USE.put( "mp", new Integer( KoLConstants.MP_RESTORE ) );
+		PRIMARY_USE.put( "message", new Integer( KoLConstants.MESSAGE_DISPLAY ) );
+		PRIMARY_USE.put( "hp", new Integer( KoLConstants.HP_RESTORE ) );
+		PRIMARY_USE.put( "hpmp", new Integer( KoLConstants.HPMP_RESTORE ) );
+		PRIMARY_USE.put( "reusable", new Integer( KoLConstants.INFINITE_USES ) );
+		PRIMARY_USE.put( "container", new Integer( KoLConstants.EQUIP_CONTAINER ) );
+		PRIMARY_USE.put( "sphere", new Integer( KoLConstants.CONSUME_SPHERE ) );
+		PRIMARY_USE.put( "food helper", new Integer( KoLConstants.CONSUME_FOOD_HELPER ) );
+		PRIMARY_USE.put( "drink helper", new Integer( KoLConstants.CONSUME_DRINK_HELPER ) );
+		PRIMARY_USE.put( "sticker", new Integer( KoLConstants.CONSUME_STICKER ) );
+		
+		SECONDARY_USE.put( "usable", new Integer( ItemDatabase.ATTR_USABLE ) );
+		SECONDARY_USE.put( "reusable", new Integer( ItemDatabase.ATTR_REUSABLE ) );
+		SECONDARY_USE.put( "combat", new Integer( ItemDatabase.ATTR_COMBAT ) );
+		SECONDARY_USE.put( "combat reusable", new Integer( ItemDatabase.ATTR_COMBAT_REUSABLE ) );
+		SECONDARY_USE.put( "single", new Integer( ItemDatabase.ATTR_SINGLE ) );
+		SECONDARY_USE.put( "solo", new Integer( ItemDatabase.ATTR_SOLO ) );
+		SECONDARY_USE.put( "curse", new Integer( ItemDatabase.ATTR_CURSE ) );
+		SECONDARY_USE.put( "bounty", new Integer( ItemDatabase.ATTR_BOUNTY ) );
+	}
 
 	static
 	{
@@ -237,24 +286,51 @@ public class ItemDatabase
 
 			int itemId = StringUtilities.parseInt( data[ 0 ] );
 			String name = data[ 1 ];
-			int useType = StringUtilities.parseInt( data[ 2 ] );
+			String[] usages = data[ 2 ].split( "\\s*,\\s*" );
 			String access = data[ 3 ];
 			int price = StringUtilities.parseInt( data[ 4 ] );
 
 			Integer id = new Integer( itemId );
 			String displayName = StringUtilities.getDisplayName( name );
 			String canonicalName = StringUtilities.getCanonicalName( name );
-
-			ItemDatabase.useTypeById.set( itemId, useType );
+			
+			int attrs = 0;
+			String usage = usages[ 0 ];
+			Integer useType = (Integer) ItemDatabase.PRIMARY_USE.get( usage );
+			if ( useType == null )
+			{
+				RequestLogger.printLine( "Unknown usage for " + name + ": " + usage );
+				ItemDatabase.PRIMARY_USE.put( usage, new Integer( 0 ) );
+			}
+			else
+			{
+				ItemDatabase.useTypeById.set( itemId, useType.intValue() );
+			}
+			for ( int i = 1; i < usages.length; ++i )
+			{
+				usage = usages[ i ];
+				useType = (Integer) ItemDatabase.SECONDARY_USE.get( usage );
+				if ( useType == null )
+				{
+					RequestLogger.printLine( "Unknown usage for " + name + ": " + usage );
+					ItemDatabase.SECONDARY_USE.put( usage, new Integer( 0 ) );
+				}
+				else
+				{
+					attrs |= useType.intValue();
+				}
+			}
+			
 			ItemDatabase.priceById.set( itemId, price );
 
 			ItemDatabase.dataNameById.put( id, name );
 			ItemDatabase.nameById.put( id, displayName );
 
 			ItemDatabase.accessById.put( id, access );
-			ItemDatabase.tradeableById.set( itemId, access.equals( "all" ) );
-			ItemDatabase.giftableById.set( itemId, access.equals( "all" ) || access.equals( "gift" ) );
-			ItemDatabase.displayableById.set( itemId, access.equals( "all" ) || access.equals( "gift" ) || access.equals( "display" ) );
+			attrs |= access.equals( "all" ) ? ItemDatabase.ATTR_TRADEABLE : 0;
+			attrs |= access.equals( "all" ) || access.equals( "gift" ) ? ItemDatabase.ATTR_GIFTABLE : 0;
+			attrs |= access.equals( "all" ) || access.equals( "gift" ) || access.equals( "display" ) ? ItemDatabase.ATTR_DISPLAYABLE : 0;
+			ItemDatabase.attributesById.set( itemId, attrs );
 
 			if ( itemId > ItemDatabase.maxItemId )
 			{
@@ -1148,6 +1224,16 @@ public class ItemDatabase
 	{
 		return (String) ItemDatabase.accessById.get( itemId );
 	}
+	
+	public static final int getAttributes( int itemId )
+	{
+		return ItemDatabase.attributesById.get( itemId );
+	}
+
+	public static final boolean getAttribute( int itemId, int mask )
+	{
+		return (ItemDatabase.attributesById.get( itemId ) & mask) != 0;
+	}
 
 	/**
 	 * Returns true if the item is tradeable, otherwise false
@@ -1157,7 +1243,7 @@ public class ItemDatabase
 
 	public static final boolean isTradeable( final int itemId )
 	{
-		return ItemDatabase.tradeableById.get( itemId );
+		return ItemDatabase.getAttribute( itemId, ItemDatabase.ATTR_TRADEABLE );
 	}
 
 	/**
@@ -1168,7 +1254,7 @@ public class ItemDatabase
 
 	public static final boolean isGiftable( final int itemId )
 	{
-		return ItemDatabase.giftableById.get( itemId );
+		return ItemDatabase.getAttribute( itemId, ItemDatabase.ATTR_GIFTABLE );
 	}
 
 	/**
@@ -1179,7 +1265,7 @@ public class ItemDatabase
 
 	public static final boolean isDisplayable( final int itemId )
 	{
-		return ItemDatabase.displayableById.get( itemId );
+		return ItemDatabase.getAttribute( itemId, ItemDatabase.ATTR_DISPLAYABLE );
 	}
 
 	/**
@@ -1190,7 +1276,7 @@ public class ItemDatabase
 
 	public static final boolean isBountyItem( final int itemId )
 	{
-		return itemId >= 2099 && itemId <= 2107 || itemId >= 2407 && itemId <= 2415 || itemId >= 2468 && itemId <= 2473;
+		return ItemDatabase.getAttribute( itemId, ItemDatabase.ATTR_BOUNTY );
 	}
 
 	/**

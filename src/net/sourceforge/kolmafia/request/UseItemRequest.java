@@ -118,76 +118,18 @@ public class UseItemRequest
 	public static final int getConsumptionType( final AdventureResult item )
 	{
 		int itemId = item.getItemId();
+		int attrs = ItemDatabase.getAttributes( itemId );
+		if ( (attrs & ItemDatabase.ATTR_USABLE) != 0 )
+		{
+			return KoLConstants.CONSUME_USE;
+		}
+		if ( (attrs & ItemDatabase.ATTR_REUSABLE) != 0 )
+		{
+			return KoLConstants.INFINITE_USES;
+		}
+
 		switch ( itemId )
 		{
-			// Charrrm bracelets
-		case ItemPool.JOLLY_BRACELET:
-		case ItemPool.RUM_BRACELET:
-		case ItemPool.GRUMPY_BRACELET:
-		case ItemPool.TARRRNISH_BRACELET:
-		case ItemPool.BOOTY_BRACELET:
-		case ItemPool.CANNONBALL_BRACELET:
-		case ItemPool.COPPER_BRACELET:
-		case ItemPool.TONGUE_BRACELET:
-			// Metallic foil equipment
-		case ItemPool.FOIL_BOW:
-		case ItemPool.FOIL_RADAR:
-		case ItemPool.FOIL_CAT_EARS:
-			// Terrycloth equipment
-		case ItemPool.TOWEL:
-		case ItemPool.MAKESHIFT_TURBAN:
-		case ItemPool.MAKESHIFT_CAPE:
-		case ItemPool.MAKESHIFT_SKIRT:
-		case ItemPool.MAKESHIFT_CRANE:
-			// Iceberglet items
-		case ItemPool.ICE_SICKLE:
-		case ItemPool.ICE_BABY:
-		case ItemPool.ICE_PICK:
-		case ItemPool.ICE_SKATES:
-			// Great Ball of Frozen Fire items
-		case ItemPool.LIARS_PANTS:
-		case ItemPool.JUGGLERS_BALLS:
-		case ItemPool.PINK_SHIRT:
-		case ItemPool.FAMILIAR_DOPPELGANGER:
-		case ItemPool.EYEBALL_PENDANT:
-			// naughty origami kit items
-		case ItemPool.FORTUNE_TELLER:
-		case ItemPool.ORIGAMI_MAGAZINE:
-		case ItemPool.PAPER_SHURIKEN:
-		case ItemPool.ORIGAMI_PASTIES:
-		case ItemPool.RIDING_CROP:
-			// spooky putty items
-		case ItemPool.SPOOKY_PUTTY_MITRE:
-		case ItemPool.SPOOKY_PUTTY_LEOTARD:
-		case ItemPool.SPOOKY_PUTTY_BALL:
-		case ItemPool.SPOOKY_PUTTY_SHEET:
-		case ItemPool.SPOOKY_PUTTY_SNAKE:
-			// El Vibrato punchcards
-		case ItemPool.PUNCHCARD_ATTACK:
-		case ItemPool.PUNCHCARD_REPAIR:
-		case ItemPool.PUNCHCARD_BUFF:
-		case ItemPool.PUNCHCARD_MODIFY:
-		case ItemPool.PUNCHCARD_BUILD:
-			// Bandersnatch equipcessories
-		case ItemPool.AQUAVIOLET_JUBJUB_BIRD:
-		case ItemPool.CHARPUCE_JUBJUB_BIRD:
-		case ItemPool.CRIMSILION_JUBJUB_BIRD:
-			return KoLConstants.CONSUME_USE;
-
-			// Crimbo toys
-		case ItemPool.HOBBY_HORSE:
-		case ItemPool.BALL_IN_A_CUP:
-		case ItemPool.SET_OF_JACKS:
-			// La Bamba
-		case ItemPool.OUTRAGEOUS_SOMBRERO:
-			// free candy
-		case ItemPool.BAG_OF_CANDY:
-		case ItemPool.GNOLL_EYE:
-			// free booze
-		case ItemPool.EMBLEM_AKGYXOTH:
-		case ItemPool.IDOL_AKGYXOTH:
-			return KoLConstants.INFINITE_USES;
-
 		case ItemPool.HOBO_CODE_BINDER:
 			return KoLConstants.MESSAGE_DISPLAY;
 		}

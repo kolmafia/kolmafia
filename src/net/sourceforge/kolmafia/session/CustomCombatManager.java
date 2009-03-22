@@ -936,28 +936,18 @@ public abstract class CustomCombatManager
 	{
 		List matchingNames = ItemDatabase.getMatchingNames( action );
 		int count = matchingNames.size();
-		int itemId = -1;
 
 		for ( int i = 0; i < count; ++i )
 		{
 			String name = (String) matchingNames.get( i );
 			int id = ItemDatabase.getItemId( name );
-			switch ( id )
+			if ( ItemDatabase.getAttribute( id,
+				ItemDatabase.ATTR_COMBAT | ItemDatabase.ATTR_COMBAT_REUSABLE ) )
 			{
-			case ItemPool.ANTIDOTE:
 				return id;
-			}
-			switch ( ItemDatabase.getConsumptionType( id ) )
-			{
-			case KoLConstants.COMBAT_ITEM:
-				itemId = id;
-				break;
-			default:
-				// Equipment, food, etc.
-				continue;
 			}
 		}
 
-		return itemId;
+		return -1;
 	}
 }
