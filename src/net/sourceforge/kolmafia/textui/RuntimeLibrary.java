@@ -3341,7 +3341,7 @@ public abstract class RuntimeLibrary
 			result = (AdventureResult) data.get( i );
 			value.aset(
 				DataTypes.parseItemValue( result.getName(), true ),
-				DataTypes.parseIntValue( String.valueOf( result.getCount() ) ) );
+				DataTypes.parseIntValue( String.valueOf( result.getCount() >> 16 ) ) );
 		}
 
 		return value;
@@ -3360,7 +3360,7 @@ public abstract class RuntimeLibrary
 			result = (AdventureResult) data.get( i );
 			value.aset(
 				DataTypes.parseItemValue( result.getName(), true ),
-				DataTypes.parseIntValue( String.valueOf( result.getCount() ) ) );
+				DataTypes.parseIntValue( String.valueOf( result.getCount() >> 16 ) ) );
 		}
 
 		return value;

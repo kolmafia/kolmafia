@@ -129,20 +129,21 @@ public class MonsterDatabase
 
 					if ( !name.endsWith( ")" ) )
 					{
-						item = new AdventureResult( name, 0 );
+						item = new AdventureResult( name, (int) '0' );
 					}
 					else
 					{
 						int left = name.lastIndexOf( " (" );
 						int count = StringUtilities.parseInt( name.substring( left + 2 ) );
+						char prefix = name.charAt( left + 2 );
 						name = name.substring( 0, left );
 						if ( ItemDatabase.getItemId( name, 1 ) != -1 )
 						{
-							item = new AdventureResult( name, count );
+							item = new AdventureResult( name, (count << 16) | prefix );
 						}
 						else
 						{
-							item = new AdventureResult( data[ i ], 0 );
+							item = new AdventureResult( data[ i ], (int) '0' );
 						}
 					}
 
@@ -413,8 +414,8 @@ public class MonsterDatabase
 		private final int maxMeat;
 		private final int poison;
 
-		private final List items;
-		private final List pocketRates;
+		private final ArrayList items;
+		private final ArrayList pocketRates;
 
 		public Monster( final String name, final int health, final int attack, final int defense, final int initiative,
 			final int attackElement, final int defenseElement, final int minMeat, final int maxMeat, final int poison )
@@ -549,7 +550,17 @@ public class MonsterDatabase
 			if ( itemIndex != -1 )
 			{
 				item = (AdventureResult) this.items.get( itemIndex );
-				return item.getCount() * dropModifier < 100.0f;
+				switch ( (char) item.getCount() & 0xFFFF )
+				{
+				case 'p':
+					return true;
+				case 'n':
+				case 'c':
+				case 'b':
+					return false;
+				default:
+					return (item.getCount() >> 16) * dropModifier < 100.0f;
+				}
 			}
 
 			// If the item does not drop, check to see if maybe
@@ -582,6 +593,8 @@ public class MonsterDatabase
 
 		public void doneWithItems()
 		{
+			this.items.trimToSize();
+			
 			// Calculate the probability that an item will be yoinked
 			// based on the integral provided by Buttons on the HCO forums.
 			// http://forums.hardcoreoxygenation.com/viewtopic.php?t=3396
@@ -599,7 +612,18 @@ public class MonsterDatabase
 
 				for ( int j = 0; j < this.items.size(); ++j )
 				{
-					probability = ( (AdventureResult) this.items.get( j ) ).getCount() / 100.0f;
+					AdventureResult item = (AdventureResult) this.items.get( j );
+					probability = (item.getCount() >> 16) / 100.0f;
+					switch ( (char) item.getCount() & 0xFFFF )
+					{
+					case 'p':
+						probability = 0.05f;
+						break;
+					case 'n':
+					case 'c':
+					case 'b':
+						probability = 0.0f;
+					}
 
 					if ( i == j )
 					{
