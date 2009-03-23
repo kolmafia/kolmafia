@@ -122,10 +122,15 @@ public class Switch
 		{
 			this.scope.setOffset( offset );
 			this.scope.execute( interpreter );
+
+			if ( interpreter.getState() == Interpreter.STATE_BREAK )
+			{
+				interpreter.setState( Interpreter.STATE_NORMAL );
+			}
 		}
 
 		interpreter.traceUnindent();
-		return DataTypes.TRUE_VALUE;
+		return DataTypes.VOID_VALUE;
 	}
 
 	public String toString()
