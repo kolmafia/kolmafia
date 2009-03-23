@@ -849,7 +849,7 @@ public class Parser
 		{
 			;
 		}
-		else if ( ( result = this.parseSwitch( functionType, scope ) ) != null )
+		else if ( ( result = this.parseSwitch( functionType, scope, allowContinue ) ) != null )
 		{
 			// switch doesn't have a ; token
 			return result;
@@ -1327,7 +1327,7 @@ public class Parser
 		return new RepeatUntilLoop( scope, condition );
 	}
 
-	private Switch parseSwitch( final Type functionType, final BasicScope parentScope )
+	private Switch parseSwitch( final Type functionType, final BasicScope parentScope, final boolean allowContinue )
 	{
 		if ( this.currentToken() == null ||
 		     !this.currentToken().equalsIgnoreCase( "switch" ) )
@@ -1432,7 +1432,7 @@ public class Parser
 			if ( t == null )
 			{
 				// See if it's a regular command
-				ParseTreeNode c = this.parseCommand( functionType, scope, false, true, false );
+				ParseTreeNode c = this.parseCommand( functionType, scope, false, true, allowContinue );
 				if ( c != null )
 				{
 					scope.addCommand( c );
