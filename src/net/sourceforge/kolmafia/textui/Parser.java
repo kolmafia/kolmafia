@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.textui.parsetree.AggregateType;
 import net.sourceforge.kolmafia.textui.parsetree.Assignment;
+import net.sourceforge.kolmafia.textui.parsetree.BasicScope;
 import net.sourceforge.kolmafia.textui.parsetree.BasicScript;
 import net.sourceforge.kolmafia.textui.parsetree.CompositeReference;
 import net.sourceforge.kolmafia.textui.parsetree.Conditional;
@@ -74,6 +75,8 @@ import net.sourceforge.kolmafia.textui.parsetree.RepeatUntilLoop;
 import net.sourceforge.kolmafia.textui.parsetree.Scope;
 import net.sourceforge.kolmafia.textui.parsetree.ScriptExit;
 import net.sourceforge.kolmafia.textui.parsetree.SortBy;
+import net.sourceforge.kolmafia.textui.parsetree.Switch;
+import net.sourceforge.kolmafia.textui.parsetree.SwitchScope;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.TypeDef;
 import net.sourceforge.kolmafia.textui.parsetree.UserDefinedFunction;
@@ -171,7 +174,7 @@ public class Parser
 
 		try
 		{
-			scope = this.parseScope( null, null, new VariableList(), Parser.getExistingFunctionScope(), false );
+			scope = this.parseScope( null, null, new VariableList(), Parser.getExistingFunctionScope(), false, false );
 
 			if ( this.currentLine != null )
 			{
@@ -224,7 +227,7 @@ public class Parser
 	// **************** Parser *****************
 
 	public static final char[] tokenList =
-		{ ' ', '.', ',', '{', '}', '(', ')', '$', '!', '+', '-', '=', '"', '\'', '*', '^', '/', '%', '[', ']', '!', ';', '<', '>' };
+        { ' ', '.', ',', '{', '}', '(', ')', '$', '!', '+', '-', '=', '"', '\'', '*', '^', '/', '%', '[', ']', '!', ';', '<', '>', ':' };
 	public static final String[] multiCharTokenList = { "==", "!=", "<=", ">=", "||", "&&", "/*", "*/" };
 
 	private static final ArrayList reservedWords = new ArrayList();
@@ -257,6 +260,9 @@ public class Parser
 		reservedWords.add( "continue" );
 		reservedWords.add( "return" );
 		reservedWords.add( "exit" );
+		reservedWords.add( "switch" );
+		reservedWords.add( "case" );
+		reservedWords.add( "default" );
 
 		// Data types
 		reservedWords.add( "void" );
@@ -306,7 +312,7 @@ public class Parser
 		try
 		{
 			parser = new Parser( scriptFile, null, this.imports );
-			result = parser.parseScope( scope, null, new VariableList(), scope.getParentScope(), false );
+			result = parser.parseScope( scope, null, new VariableList(), scope.getParentScope(), false, false );
 			if ( parser.currentLine != null )
 			{
 				throw this.parseException( "Script parsing error" );
@@ -326,8 +332,12 @@ public class Parser
 		return result;
 	}
 
-	private Scope parseScope( final Scope startScope, final Type expectedType,
-		final VariableList variables, final Scope parentScope, final boolean whileLoop )
+	private Scope parseScope( final Scope startScope,
+				  final Type expectedType,
+				  final VariableList variables,
+				  final BasicScope parentScope,
+				  final boolean allowBreak,
+				  final boolean allowContinue )
 	{
 		Scope result;
 		String importString;
@@ -359,7 +369,7 @@ public class Parser
 			if ( t == null )
 			{
 				// See if it's a regular command
-				ParseTreeNode c = this.parseCommand( expectedType, result, false, whileLoop );
+				ParseTreeNode c = this.parseCommand( expectedType, result, false, allowBreak, allowContinue );
 				if ( c != null )
 				{
 					result.addCommand( c );
@@ -412,7 +422,7 @@ public class Parser
 		return result;
 	}
 
-	private Type parseRecord( final Scope parentScope )
+	private Type parseRecord( final BasicScope parentScope )
 	{
 		if ( this.currentToken() == null || !this.currentToken().equalsIgnoreCase( "record" ) )
 		{
@@ -625,7 +635,7 @@ public class Parser
 
 			this.readToken(); // {
 
-			scope = this.parseScope( null, functionType, paramList, parentScope, false );
+			scope = this.parseScope( null, functionType, paramList, parentScope, false, false );
 			if ( this.currentToken() == null || !this.currentToken().equals( "}" ) )
 			{
 				throw this.parseException( "}", this.currentToken() );
@@ -637,7 +647,7 @@ public class Parser
 		{
 			// Scope is a single command
 			scope = new Scope( paramList, parentScope );
-			scope.addCommand( this.parseCommand( functionType, parentScope, false, false ) );
+			scope.addCommand( this.parseCommand( functionType, parentScope, false, false, false ) );
 		}
 
 		result.setScope( scope );
@@ -654,7 +664,7 @@ public class Parser
 		return result;
 	}
 
-	private boolean parseVariables( final Type t, final Scope parentScope )
+	private boolean parseVariables( final Type t, final BasicScope parentScope )
 	{
 		while ( true )
 		{
@@ -674,7 +684,7 @@ public class Parser
 		}
 	}
 
-	private Variable parseVariable( final Type t, final Scope scope )
+	private Variable parseVariable( final Type t, final BasicScope scope )
 	{
 		if ( !this.parseIdentifier( this.currentToken() ) )
 		{
@@ -774,8 +784,7 @@ public class Parser
 		return true;
 	}
 
-	private ParseTreeNode parseCommand( final Type functionType, final Scope scope, final boolean noElse,
-		boolean whileLoop )
+	private ParseTreeNode parseCommand( final Type functionType, final BasicScope scope, final boolean noElse, boolean allowBreak, boolean allowContinue )
 	{
 		ParseTreeNode result;
 
@@ -786,7 +795,7 @@ public class Parser
 
 		if ( this.currentToken().equalsIgnoreCase( "break" ) )
 		{
-			if ( !whileLoop )
+			if ( !allowBreak )
 			{
 				throw this.parseException( "Encountered 'break' outside of loop" );
 			}
@@ -797,7 +806,7 @@ public class Parser
 
 		else if ( this.currentToken().equalsIgnoreCase( "continue" ) )
 		{
-			if ( !whileLoop )
+			if ( !allowContinue )
 			{
 				throw this.parseException( "Encountered 'continue' outside of loop" );
 			}
@@ -840,7 +849,12 @@ public class Parser
 		{
 			;
 		}
-		else if ( ( result = this.parseConditional( functionType, scope, noElse, whileLoop ) ) != null )
+		else if ( ( result = this.parseSwitch( functionType, scope ) ) != null )
+		{
+			// switch doesn't have a ; token
+			return result;
+		}
+		else if ( ( result = this.parseConditional( functionType, scope, noElse, allowBreak, allowContinue ) ) != null )
 		{
 			// loop doesn't have a ; token
 			return result;
@@ -883,7 +897,7 @@ public class Parser
 		return result;
 	}
 
-	private Type parseType( final Scope scope, final boolean aggregates, final boolean records )
+	private Type parseType( final BasicScope scope, final boolean aggregates, final boolean records )
 	{
 		if ( this.currentToken() == null )
 		{
@@ -923,7 +937,7 @@ public class Parser
 		return valType;
 	}
 
-	private Type parseAggregateType( final Type dataType, final Scope scope )
+	private Type parseAggregateType( final Type dataType, final BasicScope scope )
 	{
 		this.readToken(); // [ or ,
 		if ( this.currentToken() == null )
@@ -1016,7 +1030,7 @@ public class Parser
 		return true;
 	}
 
-	private FunctionReturn parseReturn( final Type expectedType, final Scope parentScope )
+	private FunctionReturn parseReturn( final Type expectedType, final BasicScope parentScope )
 	{
 		if ( this.currentToken() == null || !this.currentToken().equalsIgnoreCase( "return" ) )
 		{
@@ -1058,8 +1072,11 @@ public class Parser
 		}
 	}
 
-	private Conditional parseConditional( final Type functionType, final Scope parentScope,
-		boolean noElse, final boolean loop )
+	private Conditional parseConditional( final Type functionType,
+					      final BasicScope parentScope,
+					      boolean noElse,
+					      final boolean allowBreak,
+					      final boolean allowContinue )
 	{
 		if ( this.currentToken() == null || !this.currentToken().equalsIgnoreCase( "if" ) )
 		{
@@ -1097,13 +1114,13 @@ public class Parser
 
 			if ( this.currentToken() == null || !this.currentToken().equals( "{" ) ) //Scope is a single call
 			{
-				ParseTreeNode command = this.parseCommand( functionType, parentScope, !elseFound, loop );
+				ParseTreeNode command = this.parseCommand( functionType, parentScope, !elseFound, allowBreak, allowContinue );
 				scope = new Scope( command, parentScope );
 			}
 			else
 			{
 				this.readToken(); //read {
-				scope = this.parseScope( null, functionType, null, parentScope, loop );
+				scope = this.parseScope( null, functionType, null, parentScope, allowBreak, allowContinue );
 
 				if ( this.currentToken() == null || !this.currentToken().equals( "}" ) )
 				{
@@ -1228,7 +1245,7 @@ public class Parser
 		return new BasicScript( ostream );
 	}
 
-	private WhileLoop parseWhile( final Type functionType, final Scope parentScope )
+	private WhileLoop parseWhile( final Type functionType, final BasicScope parentScope )
 	{
 		if ( this.currentToken() == null )
 		{
@@ -1266,7 +1283,7 @@ public class Parser
 		return new WhileLoop( scope, condition );
 	}
 
-	private RepeatUntilLoop parseRepeat( final Type functionType, final Scope parentScope )
+	private RepeatUntilLoop parseRepeat( final Type functionType, final BasicScope parentScope )
 	{
 		if ( this.currentToken() == null )
 		{
@@ -1310,7 +1327,152 @@ public class Parser
 		return new RepeatUntilLoop( scope, condition );
 	}
 
-	private SortBy parseSort( final Scope parentScope )
+	private Switch parseSwitch( final Type functionType, final BasicScope parentScope )
+	{
+		if ( this.currentToken() == null ||
+		     !this.currentToken().equalsIgnoreCase( "switch" ) )
+		{
+			return null;
+		}
+
+		if ( this.nextToken() == null ||
+		     ( !this.nextToken().equals( "(" ) && !this.nextToken().equals( "{" ) ) )
+		{
+			throw this.parseException( "( or {", this.nextToken() );
+		}
+
+		this.readToken(); // switch
+
+		Value condition = DataTypes.TRUE_VALUE;
+		if ( this.currentToken().equals( "(" ) )
+		{
+			this.readToken(); // (
+
+			condition = this.parseExpression( parentScope );
+			if ( this.currentToken() == null || !this.currentToken().equals( ")" ) )
+			{
+				throw this.parseException( ")", this.currentToken() );
+			}
+
+			this.readToken(); // )
+		}
+
+		Type type = condition.getType();
+
+		if ( this.currentToken() == null || !this.currentToken().equals( "{" ) )
+		{
+			throw this.parseException( "{", this.currentToken() );
+		}
+
+		this.readToken(); // {
+
+		ArrayList tests = new ArrayList();
+		ArrayList indices = new ArrayList();
+		int defaultIndex = -1;
+
+		SwitchScope scope = new SwitchScope( parentScope );
+		int currentIndex = 0;
+		Integer currentInteger = null;
+
+		while ( true )
+		{
+			if ( this.currentToken().equals( "case" ) )
+			{
+				this.readToken(); // case
+
+				Value test = this.parseExpression( parentScope );
+
+				if ( this.currentToken() == null || !this.currentToken().equals( ":" ) )
+				{
+					throw this.parseException( ":", this.currentToken() );
+				}
+
+				if ( !test.getType().equals( type ) )
+				{
+					throw this.parseException( "Switch conditional has type " + type + " but label expression has type " + test.getType() );
+				}
+
+				this.readToken(); // :
+
+				if ( currentInteger == null )
+				{
+					currentInteger = new Integer( currentIndex );
+				}
+
+				tests.add( test );
+				indices.add( currentInteger );
+
+				continue;
+			}
+
+			if ( this.currentToken().equals( "default" ) )
+			{
+				this.readToken(); // default
+
+				if ( this.currentToken() == null || !this.currentToken().equals( ":" ) )
+				{
+					throw this.parseException( ":", this.currentToken() );
+				}
+
+				if ( defaultIndex != -1 )
+				{
+					throw this.parseException( "Only one default label allowed in a switch statement" );
+				}
+
+				this.readToken(); // :
+
+				defaultIndex = currentIndex;
+
+				continue;
+			}
+
+			Type t = this.parseType( scope, true, true );
+
+			// If there is no data type, it's a command of some sort
+			if ( t == null )
+			{
+				// See if it's a regular command
+				ParseTreeNode c = this.parseCommand( functionType, scope, false, true, false );
+				if ( c != null )
+				{
+					scope.addCommand( c );
+					currentIndex = scope.commandCount();
+					currentInteger = null;
+					continue;
+				}
+
+				// No type and no command -> done.
+				break;
+			}
+
+			if ( this.parseVariables( t, scope ) )
+			{
+				if ( !this.currentToken().equals( ";" ) )
+				{
+					throw this.parseException( ";", this.currentToken() );
+				}
+
+				this.readToken(); //read ;
+                                currentIndex = scope.commandCount();
+                                currentInteger = null;
+				continue;
+			}
+
+			//Found a type but no function or variable to tie it to
+			throw this.parseException( "Script parse error" );
+		}
+
+		if ( this.currentToken() == null || !this.currentToken().equals( "}" ) )
+		{
+			throw this.parseException( "}", this.currentToken() );
+		}
+
+		this.readToken(); // }
+
+		return new Switch( condition, tests, indices, defaultIndex, scope );
+	}
+
+	private SortBy parseSort( final BasicScope parentScope )
 	{
 		// sort aggregate by expr
 
@@ -1363,7 +1525,7 @@ public class Parser
 		return new SortBy( (VariableReference) aggregate, indexvar, valuevar, expr );
 	}
 
-	private ForEachLoop parseForeach( final Type functionType, final Scope parentScope )
+	private ForEachLoop parseForeach( final Type functionType, final BasicScope parentScope )
 	{
 		// foreach key [, key ... ] in aggregate { scope }
 
@@ -1450,7 +1612,7 @@ public class Parser
 		return new ForEachLoop( scope, variableReferences, (VariableReference) aggregate );
 	}
 
-	private ForLoop parseFor( final Type functionType, final Scope parentScope )
+	private ForLoop parseFor( final Type functionType, final BasicScope parentScope )
 	{
 		// foreach key in aggregate {scope }
 
@@ -1530,8 +1692,7 @@ public class Parser
 		return new ForLoop( scope, new VariableReference( indexvar ), initial, last, increment, direction, this );
 	}
 
-	private Scope parseLoopScope( final Type functionType, final VariableList varList,
-		final Scope parentScope )
+	private Scope parseLoopScope( final Type functionType, final VariableList varList, final BasicScope parentScope )
 	{
 		Scope scope;
 
@@ -1541,7 +1702,7 @@ public class Parser
 
 			this.readToken(); // {
 
-			scope = this.parseScope( null, functionType, varList, parentScope, true );
+			scope = this.parseScope( null, functionType, varList, parentScope, true, true );
 			if ( this.currentToken() == null || !this.currentToken().equals( "}" ) )
 			{
 				throw this.parseException( "}", this.currentToken() );
@@ -1553,13 +1714,13 @@ public class Parser
 		{
 			// Scope is a single command
 			scope = new Scope( varList, parentScope );
-			scope.addCommand( this.parseCommand( functionType, scope, false, true ) );
+			scope.addCommand( this.parseCommand( functionType, scope, false, true, true ) );
 		}
 
 		return scope;
 	}
 
-	private Value parseNewRecord( final Scope scope )
+	private Value parseNewRecord( final BasicScope scope )
 	{
 		if ( !this.parseIdentifier( this.currentToken() ) )
 		{
@@ -1641,12 +1802,12 @@ public class Parser
 		return target.initialValueExpression( params );
 	}
 
-	private Value parseCall( final Scope scope )
+	private Value parseCall( final BasicScope scope )
 	{
 		return this.parseCall( scope, null );
 	}
 
-	private Value parseCall( final Scope scope, final Value firstParam )
+	private Value parseCall( final BasicScope scope, final Value firstParam )
 	{
 		if ( this.nextToken() == null || !this.nextToken().equals( "(" ) )
 		{
@@ -1674,7 +1835,7 @@ public class Parser
 		return parsePostCall( scope, call );
 	}
 
-	private ValueList parseParameters( final Scope scope, final Value firstParam )
+	private ValueList parseParameters( final BasicScope scope, final Value firstParam )
 	{
 		if ( !this.currentToken().equals( "(" ) )
 		{
@@ -1724,7 +1885,7 @@ public class Parser
 		return params;
 	}
 
-	private Value parsePostCall( final Scope scope, FunctionCall call )
+	private Value parsePostCall( final BasicScope scope, FunctionCall call )
 	{
 		Value result = call;
 		while ( result != null && this.currentToken() != null && this.currentToken().equals( "." ) )
@@ -1738,7 +1899,7 @@ public class Parser
 		return result;
 	}
 
-	private Value parseInvoke( final Scope scope )
+	private Value parseInvoke( final BasicScope scope )
 	{
 		if ( this.currentToken() == null || !this.currentToken().equalsIgnoreCase( "call" ) )
 		{
@@ -1778,7 +1939,7 @@ public class Parser
 		return parsePostCall( scope, call );
 	}
 
-        private final Function findFunction( final Scope scope, final String name, final ValueList params )
+        private final Function findFunction( final BasicScope scope, final String name, final ValueList params )
 	{
                 Function result = this.findFunction( scope, scope.getFunctionList(), name, params, true );
 
@@ -1862,7 +2023,7 @@ public class Parser
 		return result;
         }
 
-	private final Function findFunction( final Scope scope, final FunctionList source,
+	private final Function findFunction( final BasicScope scope, final FunctionList source,
 					     final String name, final ValueList params,
 					     boolean isExactMatch )
 	{
@@ -1936,7 +2097,7 @@ public class Parser
 		return null;
 	}
 
-	private ParseTreeNode parseAssignment( final Scope scope )
+	private ParseTreeNode parseAssignment( final BasicScope scope )
 	{
 		if ( this.nextToken() == null )
 		{
@@ -1987,7 +2148,7 @@ public class Parser
 		return new Assignment( (VariableReference) lhs, rhs );
 	}
 
-	private Value parseRemove( final Scope scope )
+	private Value parseRemove( final BasicScope scope )
 	{
 		if ( this.currentToken() == null || !this.currentToken().equals( "remove" ) )
 		{
@@ -2004,12 +2165,12 @@ public class Parser
 		return lhs;
 	}
 
-	private Value parseExpression( final Scope scope )
+	private Value parseExpression( final BasicScope scope )
 	{
 		return this.parseExpression( scope, null );
 	}
 
-	private Value parseExpression( final Scope scope, final Operator previousOper )
+	private Value parseExpression( final BasicScope scope, final Operator previousOper )
 	{
 		if ( this.currentToken() == null )
 		{
@@ -2103,7 +2264,7 @@ public class Parser
 		while ( true );
 	}
 
-	private Value parseValue( final Scope scope )
+	private Value parseValue( final BasicScope scope )
 	{
 		if ( this.currentToken() == null )
 		{
@@ -2347,7 +2508,7 @@ public class Parser
 		}
 	}
 
-	private Value parseTypedConstant( final Scope scope )
+	private Value parseTypedConstant( final BasicScope scope )
 	{
 		this.readToken(); // read $
 
@@ -2425,7 +2586,7 @@ public class Parser
 			oper.equals( "remove" );
 	}
 
-	private Value parseVariableReference( final Scope scope )
+	private Value parseVariableReference( final BasicScope scope )
 	{
 		if ( this.currentToken() == null || !this.parseIdentifier( this.currentToken() ) )
 		{
@@ -2450,7 +2611,7 @@ public class Parser
 		return this.parseVariableReference( scope, var );
 	}
 
-	private Value parseVariableReference( final Scope scope, final Variable var )
+	private Value parseVariableReference( final BasicScope scope, final Variable var )
 	{
 		Type type = var.getType();
 		ValueList indices = new ValueList();

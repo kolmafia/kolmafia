@@ -35,76 +35,92 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import java.io.PrintStream;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import net.sourceforge.kolmafia.textui.Interpreter;
 
-public class VariableReference
-	extends Value
+public class SwitchScope
+	extends BasicScope
 {
-	public Variable target;
+	private ArrayList commands = new ArrayList();
+	private int offset = -1;
 
-	public VariableReference( final Variable target )
+	public SwitchScope( final BasicScope parentScope )
 	{
-		this.target = target;
+                super( parentScope );
 	}
 
-	public VariableReference( final String varName, final BasicScope scope )
+	public void addCommand( final ParseTreeNode c )
 	{
-		this.target = scope.findVariable( varName, true );
+		this.commands.add( c );
 	}
 
-	public boolean valid()
+	public Iterator getCommands()
 	{
-		return this.target != null;
+		return this.commands.listIterator( this.offset );
 	}
 
-	public Type getType()
+	public int commandCount()
 	{
-		return this.target.getType();
+		return this.commands.size();
 	}
 
-	public String getName()
+	public void setOffset( final int offset )
 	{
-		return this.target.getName();
+		this.offset = offset;
 	}
 
-	public ValueList getIndices()
+	public void print( final PrintStream stream, final int indent, Value [] tests, Integer [] offsets, int defaultIndex )
 	{
-		return null;
-	}
+		Iterator it;
 
-	public int compareTo( final Object o )
-	{
-		return this.target.getName().compareTo( ( (VariableReference) o ).target.getName() );
-	}
-
-	public Value execute( final Interpreter interpreter )
-	{
-		return this.target.getValue( interpreter );
-	}
-
-	public Value getValue( Interpreter interpreter )
-	{
-		return this.target.getValue( interpreter );
-	}
-
-	public void forceValue( final Value targetValue )
-	{
-		this.target.forceValue( targetValue );
-	}
-
-	public void setValue( Interpreter interpreter, final Value targetValue )
-	{
-		this.target.setValue( interpreter, targetValue );
-	}
-
-	public String toString()
-	{
-		return this.target.getName();
-	}
-
-	public void print( final PrintStream stream, final int indent )
-	{
 		Interpreter.indentLine( stream, indent );
-		stream.println( "<VARREF> " + this.getName() );
+		stream.println( "<SCOPE>" );
+
+		Interpreter.indentLine( stream, indent + 1 );
+		stream.println( "<VARIABLES>" );
+
+		it = this.getVariables();
+		while ( it.hasNext() )
+		{
+			Variable currentVar = (Variable) it.next();
+			currentVar.print( stream, indent + 2 );
+		}
+
+		Interpreter.indentLine( stream, indent + 1 );
+		stream.println( "<COMMANDS>" );
+
+		int commandCount = this.commands.size();
+		int testIndex = 0;
+		int testCount = tests.length;
+
+		for ( int index = 0; index < commandCount; ++index )
+		{
+			while ( testIndex < testCount )
+			{
+				Value test = tests[testIndex];
+				Integer offset = offsets[testIndex];
+				if ( offset.intValue() != index )
+				{
+					break;
+				}
+
+				Interpreter.indentLine( stream, indent + 1 );
+				stream.println( "<CASE>" );
+				test.print( stream, indent + 2 );
+				testIndex++;
+			}
+
+                        if ( defaultIndex == index )
+                        {
+                                Interpreter.indentLine( stream, indent + 1 );
+                                stream.println( "<DEFAULT>" );
+                        }
+
+			ParseTreeNode command = (ParseTreeNode)commands.get( index );
+			command.print( stream, indent + 2 );
+		}
 	}
 }
+

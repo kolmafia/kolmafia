@@ -35,31 +35,38 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import java.io.PrintStream;
 
-import java.util.Iterator;
+import java.util.ArrayList;
 
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
-import net.sourceforge.kolmafia.textui.Parser;
 
-public class FunctionInvocation
-	extends FunctionCall
+public class Switch
+	implements ParseTreeNode
 {
-	private BasicScope scope;
-	private Value name;
-	private Type type;
+	private final Value condition;
+	private Value [] tests;
+	private Integer [] offsets;
+	private int defaultIndex;
+	private final SwitchScope scope;
 
-	public FunctionInvocation( final BasicScope scope, final Type type, final Value name, final ValueList params, final Parser parser )
+	public Switch( final Value condition, final ArrayList tests, final ArrayList offsets, final int defaultIndex, final SwitchScope scope  )
 	{
-		super( null, params, parser);
+		this.condition = condition;
+		this.tests = (Value[])tests.toArray( new Value[tests.size()] );
+		this.offsets = (Integer[])offsets.toArray(new Integer[offsets.size()] );
+		this.defaultIndex = defaultIndex;
 		this.scope = scope;
-		this.type = type;
-		this.name = name;
 	}
 
-	public Type getType()
+	public Value getCondition()
 	{
-		return this.type;
+		return this.condition;
+	}
+
+	public SwitchScope getScope()
+	{
+		return this.scope;
 	}
 
 	public Value execute( final Interpreter interpreter )
@@ -71,60 +78,66 @@ public class FunctionInvocation
 		}
 
 		interpreter.traceIndent();
-		interpreter.trace( "Invoke: " + this );
+		interpreter.trace( this.toString() );
 
-		// Get the function name
-		interpreter.trace( "Function name: " + this.name );
+		interpreter.trace( "Value: " + this.condition );
 
-		Value funcValue = this.name.execute( interpreter );
+		Value value = this.condition.execute( interpreter );
+		interpreter.captureValue( value );
 
-		interpreter.trace( "[" + interpreter.getState() + "] <- " + funcValue );
+		interpreter.trace( "[" + interpreter.getState() + "] <- " + value );
 
-		if ( funcValue == null )
+		if ( value == null )
 		{
 			interpreter.traceUnindent();
 			return null;
 		}
 
-		interpreter.setLineAndFile( this.fileName, this.lineNumber );
+		int offset = this.defaultIndex;
 
-		String func = funcValue.toString();
-		Function function = this.scope.findFunction( func, this.params );
-		if ( function == null )
+		for ( int index = 0; index < tests.length; ++index )
 		{
-			throw interpreter.runtimeException( "Could not find function named \"" + func + "\" to call" );
+			Value test = tests[ index ];
+			interpreter.trace( "test: " + test );
+
+			Value result = test.execute( interpreter );
+			interpreter.captureValue( result );
+
+			interpreter.trace( "[" + interpreter.getState() + "] <- " + result );
+
+			if ( result == null )
+			{
+				interpreter.traceUnindent();
+				return null;
+			}
+
+			if ( result.equals( value ) )
+			{
+				offset = offsets[ index ].intValue();
+				break;
+			}
 		}
 
-		if ( !Parser.validCoercion( this.type, function.getType(), "return" ) )
+		if ( offset != -1 )
 		{
-			throw interpreter.runtimeException( "Calling \"" + func + "\", which returns " + function.getType() + " but " + this.type + " expected" );
+			this.scope.setOffset( offset );
+			this.scope.execute( interpreter );
 		}
 
-		this.target = function;
-
-		// Invoke it.
-		Value result = super.execute( interpreter );
 		interpreter.traceUnindent();
-
-		return result;
+		return DataTypes.TRUE_VALUE;
 	}
 
 	public String toString()
 	{
-		return "call " + this.type.toString() + " " + this.name.toString() + "()";
+		return "switch";
 	}
 
 	public void print( final PrintStream stream, final int indent )
 	{
 		Interpreter.indentLine( stream, indent );
-		stream.println( "<INVOKE " + this.name.toString() + ">" );
-		this.type.print( stream, indent + 1 );
-
-		Iterator it = this.getValues();
-		while ( it.hasNext() )
-		{
-			Value current = (Value) it.next();
-			current.print( stream, indent + 1 );
-		}
+		stream.println( "<SWITCH>" );
+		this.getCondition().print( stream, indent + 1 );
+		this.getScope().print( stream, indent + 1, tests, offsets, defaultIndex );
 	}
 }
