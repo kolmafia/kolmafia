@@ -409,8 +409,9 @@ public abstract class KoLCharacter
 			// My name is written in blood across the history of
 			// time . . . but you can call me <name>.
 			Pattern.compile( "but you can call me ([^.]*)\\." ),
-			// ???
-			Pattern.compile( "<unknown>" ),
+			// You conjure a pieroghi, and there is a hiss as it
+			// becomes inflated with <name>'s presence.
+			Pattern.compile( "inflated with ([^']*)'s presence" ),
 			"vampieroghi.gif",
 		},
 		{
