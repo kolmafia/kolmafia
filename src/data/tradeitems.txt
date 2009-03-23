@@ -3759,8 +3759,8 @@
 3758	love song of disturbing obsession	multiple	all	0
 3759	love song of naughty innuendo	multiple	all	0
 3760	breath mint	multiple	all	0
-3761	vampire pearl necklace	accessory	all	150
-3762	vampire pearl ring	accessory	all	150
+3761	vampire pearl ring	accessory	all	150
+3762	vampire pearl necklace	accessory	all	150
 3763	slug of vodka	drink	all	70
 3764	slug of rum	drink	all	70
 3765	slug of shochu	drink	all	70

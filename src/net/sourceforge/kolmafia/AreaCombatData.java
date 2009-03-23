@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Monster;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -466,6 +467,8 @@ public class AreaCombatData
 		}
 
 		float itemModifier = AreaCombatData.getDropRateModifier();
+		boolean stealing = KoLCharacter.isMoxieClass() || 
+			KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.FORM_OF_BIRD ) );
 
 		for ( int i = 0; i < items.size(); ++i )
 		{
@@ -488,27 +491,65 @@ public class AreaCombatData
 
 			buffer.append( "<br>" );
 
-			float stealRate =
-				KoLCharacter.isMoxieClass() && !KoLCharacter.canInteract() ? ( (Float) pocketRates.get( i ) ).floatValue() : 0.0f;
-			float dropRate = Math.min( item.getCount() * itemModifier, 100.0f );
+			float stealRate = ( (Float) pocketRates.get( i ) ).floatValue();
+			float dropRate = Math.min( (item.getCount() >> 16) * itemModifier, 100.0f );
 			float effectiveDropRate = stealRate * 100.0f + ( 1.0f - stealRate ) * dropRate;
 
 			String rate1 = this.format( dropRate );
 			String rate2 = this.format( effectiveDropRate );
 
 			buffer.append( item.getName() );
-			buffer.append( " (" );
-			buffer.append( rate2 );
-
-			if ( !rate1.equals( rate2 ) )
+			switch ( (char) item.getCount() & 0xFFFF )
 			{
-				buffer.append( "%, " );
+			case '0':
+				buffer.append( " (unknown drop rate)" );
+				break;
+				
+			case 'b':
+				buffer.append( " (bounty)" );
+				break;
+				
+			case 'n':
+				buffer.append( " " );
 				buffer.append( rate1 );
-				buffer.append( "%, " );
-				buffer.append( this.format( stealRate * 100.0f ) );
+				buffer.append( "% (no pickpocket)" );
+				break;
+				
+			case 'c':
+				buffer.append( " " );
+				buffer.append( rate1 );
+				buffer.append( "% (conditional)" );
+				break;
+				
+			case 'p':
+				if ( stealing )
+				{
+					buffer.append( " 5% (pickpocket only)" );
+				}
+				else
+				{
+					buffer.append( " (pickpocket only)" );
+				}
+				break;
+				
+			default:
+				if ( stealing )
+				{
+					buffer.append( " " );
+					buffer.append( rate2 );
+					buffer.append( "% (" );
+					buffer.append( this.format( stealRate * 100.0f ) );
+					buffer.append( "% steal, " );
+					buffer.append( rate1 );
+					buffer.append( "% drop)" );
+				}
+				else
+				{
+					buffer.append( " " );
+					buffer.append( rate1 );
+					buffer.append( "%" );
+				}
 			}
-
-			buffer.append( "%)" );
 		}
 	}
 

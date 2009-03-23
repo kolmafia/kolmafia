@@ -954,7 +954,32 @@ public class RequestEditorKit
 				{
 					monsterData.append( ", " );
 				}
-				monsterData.append( items.get( i ) );
+				AdventureResult item = (AdventureResult) items.get( i );
+				int rate = item.getCount() >> 16;
+				monsterData.append( item.getName() );
+				switch ( (char) item.getCount() & 0xFFFF )
+				{
+				case 'p':
+					monsterData.append( " (pp only)" );
+					break;
+				case 'b':
+					monsterData.append( " (bounty)" );
+					break;
+				case 'n':
+					monsterData.append( " (" );
+					monsterData.append( rate );
+					monsterData.append( " no pp)" );
+					break;
+				case 'c':
+					monsterData.append( " (" );
+					monsterData.append( rate );
+					monsterData.append( " cond)" );
+					break;
+				default:
+					monsterData.append( " (" );
+					monsterData.append( rate );
+					monsterData.append( ")" );
+				}
 			}
 		}
 
