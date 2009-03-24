@@ -202,7 +202,6 @@ Cloaca-Cola Catapult Engineer	HP: 40 Def: 30 Atk: 30	Cloaca-Cola (15)	Cloaca-Col
 Cloaca-Cola Footsoldier	HP: 35 Def: 30 Atk: 30	Cloaca-Cola (15)	Cloaca-Cola (15)	Cloaca grenade (5)
 Cloaca-Cola Soldier	HP: 30 Def: 30 Atk: 30	Cloaca-Cola (15)	Cloaca-Cola (15)	Cloaca grenade (5)	lucky lighter (p0)
 Cloud of Disembodied Whiskers	HP: 3 Def: 3 Atk: 1	shaving cream (20)
-Clownlord Beelzebozo	HP: 40 Def: 27 Atk: 28	empty greasepaint tube (b0)
 Clubfish	HP: 600 Def: 400 Atk: 350 Meat: 176-264	dull fish scale (15)	fish stick (2)
 Cold Hobo	HP: 500	hobo nickel (0)	freezin' bindle (0)	Maxing, Relaxing (0)	Blizzards I Have Died In (0)	frigid air mattress (0)
 Collapsed Mineshaft Golem	HP: 100000
@@ -225,7 +224,6 @@ Curmudgeonly Pirate	HP: 90 Def: 100 Atk: 100	all-purpose cleaner (25)	curmudgel 
 Dairy Goat	HP: 50 Def: 68 Atk: 68 Meat: 40-64	glass of goat's milk (20)	goat cheese (40)	billy idol (b0)
 Dairy Ooze	HP: 8 Def: 13 Atk: 13 Meat: 11-15
 Danglin' Chad	HP: 300 Meat: 297-342 E: sleaze	Danglin' Chad's loincloth (100)	beer helmet (0)	bejeweled pledge pin (0)	distressed denim pants (0)	kick-ass kicks (0)	white class ring (0)
-The Darkness	HP: 100000
 Decal-applying Elfborg		iGoogly (10)	LED block (10)	nanofiber cloth (10)	synthetic stuffing (10)	theoretical string (10)	toy hoverpad (10)
 Decent Lumberjack	HP: 35 Def: 35 Atk: 35 Meat: 16-24	poutine (30)	disbelief suspenders (10)	manly bloomers (p0)
 Decent White Shark	HP: 600 Def: 375 Atk: 425 Meat: 192-288	dull fish scale (15)	shark cartilage (10)	shark jumper (n3)	shark tooth (2)	shark tooth (1)
@@ -265,7 +263,6 @@ Fallen Archfiend	HP: 50 Def: 50 Atk: 50 E: heat Meat: 36-54	evil golden arch (30
 Fancy Bath Slug	HP: 100000
 Felonia, Queen of the Spooky Gravy Fairies	HP: 82 Def: 75 Atk: 75 E: spooky
 Ferocious Bugbear	HP: 5 Meat: 17-23	bugbear beanie (0)	bugbear bungguard (0)
-The Fickle Finger of F8	HP: 100000
 Fiendish Can of Asparagus	HP: 1 Def: 1 Atk: 1 E: stench Meat: 4-6	asparagus knife (20)	stalk of asparagus (40)	razor-sharp can lid (40)	shredded can label (b0)
 Figure-Skating Duck	HP: 186 Atk: 179 Meat: 139-171 E: cold	frozen feather (10)	duct tape (5)
 Filthworm Drone	HP: 185 Atk: 167 Meat: 56-85 E: stench	filthworm drone scent gland (10)
@@ -579,7 +576,10 @@ The Box	HP: 150 Def: 150 Atk: 150 E: sleaze	line (30)	line (30)	line (30)
 The Burrowing Bishop	HP: 150 Def: 163 Atk: 163 E: sleaze	line (30)	line (30)	star (30)
 The Bush	HP: 150 Def: 156 Atk: 156 E: sleaze	star (30)	star (30)	star (30)
 The Camel's Toe	HP: 150 Def: 158 Atk: 158 E: sleaze	line (30)	line (30)	star (30)	star (30)
+The Clownlord Beelzebozo	HP: 40 Def: 27 Atk: 28	empty greasepaint tube (b0)
+The Darkness	HP: 100000
 The Family Jewels	HP: 150 Def: 156 Atk: 156 E: sleaze	star (30)	star (30)	star (30)
+The Fickle Finger of F8	HP: 100000
 The Flange	HP: 150 Def: 160 Atk: 160 E: sleaze	line (30)	line (30)	star (30)
 The Guy Made Of Bees	HP: 100000	guy made of bee pollen (100)	handful of bees (p0)
 The Honey Pot	HP: 150 Def: 152 Atk: 152 E: sleaze	line (30)	star (30)	star (30)
