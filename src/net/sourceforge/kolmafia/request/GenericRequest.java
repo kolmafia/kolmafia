@@ -60,6 +60,7 @@ import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.LocalRelayServer;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -81,6 +82,8 @@ import net.sourceforge.kolmafia.session.VioletFogManager;
 import net.sourceforge.kolmafia.swingui.CouncilFrame;
 import net.sourceforge.kolmafia.swingui.RequestFrame;
 import net.sourceforge.kolmafia.swingui.RequestSynchFrame;
+import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.parsetree.Value;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.BarrelDecorator;
@@ -728,6 +731,27 @@ public class GenericRequest
 		return RequestLogger.isDebugging() && !this.isChatRequest;
 	}
 
+	private boolean invokeCounterScript( TurnCounter expired )
+	{
+		String scriptName = Preferences.getString( "counterScript" );
+		if ( scriptName.length() == 0 )
+		{
+			return false;
+		}
+		Interpreter interpreter = KoLmafiaASH.getInterpreter(
+			KoLmafiaCLI.findScriptFile( scriptName ) );
+		if ( interpreter != null )
+		{
+			Value v = interpreter.execute( "main", new String[]
+			{
+				expired.getLabel(),
+				String.valueOf( expired.getTurnsRemaining() )
+			} );
+			return v != null && v.intValue() != 0;
+		}
+		return false;
+	}
+
 	/**
 	 * Runs the thread, which prepares the connection for output, posts the data to the Kingdom of Loathing, and
 	 * prepares the input for reading. Because the Kingdom of Loathing has identical page layouts, all page reading and
@@ -760,6 +784,10 @@ public class GenericRequest
 			if ( expired != null )
 			{
 				int remain = expired.getTurnsRemaining();
+				if ( this.invokeCounterScript( expired ) )
+				{
+					remain = -1;
+				}
 				String message = null;
 
 				if ( remain == 0 )
