@@ -118,14 +118,22 @@ public class Switch
 			}
 		}
 
-		if ( offset != -1 )
+		if ( offset >= 0 && offset < this.scope.commandCount() )
 		{
 			this.scope.setOffset( offset );
-			this.scope.execute( interpreter );
+			Value result = this.scope.execute( interpreter );
 
 			if ( interpreter.getState() == Interpreter.STATE_BREAK )
 			{
 				interpreter.setState( Interpreter.STATE_NORMAL );
+				interpreter.traceUnindent();
+				return DataTypes.VOID_VALUE;
+			}
+
+			if ( interpreter.getState() != Interpreter.STATE_NORMAL )
+			{
+				interpreter.traceUnindent();
+				return result;
 			}
 		}
 
