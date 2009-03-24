@@ -50,6 +50,7 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
@@ -107,6 +108,7 @@ public abstract class StaticEntity
 	private static final Pattern NEWSKILL1_PATTERN = Pattern.compile( "<td>You (have learned|learn) a new skill: <b>(.*?)</b>" );
 	private static final Pattern NEWSKILL2_PATTERN = Pattern.compile( "whichskill=(\\d+)" );
 	private static final Pattern NEWSKILL3_PATTERN = Pattern.compile( "You (?:gain|acquire) a skill: +<[bB]>(.*?)</[bB]>" );
+	private static final Pattern RECIPE_PATTERN = Pattern.compile( "You learn to craft a new item: <b>(.*?)</b>" );
 
 	private static KoLmafia client;
 	private static int usesSystemTray = 0;
@@ -549,6 +551,27 @@ public abstract class StaticEntity
 
 		// You can learn a skill on many pages.
 		StaticEntity.learnSkill( location, responseText );
+		
+		// Currently, required recipes can only be learned via using an item, but
+		// that's probably not guaranteed to be true forever.
+		StaticEntity.learnRecipe( responseText );
+	}
+	
+	public static void learnRecipe( String responseText )
+	{
+		Matcher matcher = StaticEntity.RECIPE_PATTERN.matcher( responseText );
+		if ( !matcher.find() )
+		{
+			return;
+		}
+		int id = ItemDatabase.getItemId( matcher.group( 1 ), 1, false );
+		if ( id > 0 )
+		{
+			Preferences.setBoolean( "unknownRecipe" + id, false );
+			RequestLogger.printLine( "Learned recipe: " + matcher.group( 1 ) );
+			RequestLogger.updateSessionLog( "learned recipe: " + matcher.group( 1 ) );
+			ConcoctionDatabase.refreshConcoctions();
+		}
 	}
 
 	public static void learnSkill( final String location, final String responseText )

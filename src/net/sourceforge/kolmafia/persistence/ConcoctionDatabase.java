@@ -894,7 +894,9 @@ public class ConcoctionDatabase
 				continue;
 			}
 
-			if ( !ConcoctionDatabase.isPermittedMethod( item.getMixingMethod() ) && item.initial == -1 )
+			if ( item.initial == -1 &&
+				( Preferences.getBoolean( "unknownRecipe" + item.getItemId() ) ||
+					!ConcoctionDatabase.isPermittedMethod( item.getMixingMethod() ) ) )
 			{
 				item.initial = concoction.getCount( availableIngredients );
 				item.creatable = 0;

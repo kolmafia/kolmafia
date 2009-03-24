@@ -74,6 +74,7 @@ public class CreateItemRequest
 	public static final Pattern CRAFT_COMMENT_PATTERN =
 		Pattern.compile( "<!-- ?cr:(\\d+)x(\\d+),(\\d+)=(\\d+) ?-->" );
 	// 1=quantity, 2,3=items used, 4=result (redundant)
+	public static final Pattern DISCOVERY_PATTERN = Pattern.compile( "descitem\\((\\d+)\\);" );
 
 	public AdventureResult createdItem;
 
@@ -262,7 +263,9 @@ public class CreateItemRequest
 		// null to indicate that it is not possible to create the item.
 
 		if ( returnNullIfNotPermitted &&
-		     !ConcoctionDatabase.isPermittedMethod( ConcoctionDatabase.getMixingMethod( item ) ) )
+		     ( Preferences.getBoolean( "unknownRecipe" + item.getItemId() ) ||
+		     	!ConcoctionDatabase.isPermittedMethod(
+		     		ConcoctionDatabase.getMixingMethod( item ) ) ) )
 		{
 			return null;
 		}
@@ -566,6 +569,25 @@ public class CreateItemRequest
 
 		Matcher m = MODE_PATTERN.matcher( location );
 		String mode = m.find() ? m.group(1) : "";
+		if ( mode.equals( "discoveries" ) )
+		{
+			m = DISCOVERY_PATTERN.matcher( responseText );
+			while ( m.find() )
+			{		
+				int id = ItemDatabase.getItemIdFromDescription( m.group( 1 ) );
+				String pref = "unknownRecipe" + id;
+				if ( id > 0 && Preferences.getBoolean( pref ) )
+				{
+					KoLmafia.updateDisplay( "You know the recipe for " +
+						ItemDatabase.getItemName( id ) );
+					Preferences.setBoolean( pref, false );
+					ConcoctionDatabase.refreshConcoctions();
+				}
+			}
+		
+			return;
+		}
+		
 		boolean paste = mode.equals( "combine" ) && !KoLCharacter.inMuscleSign();
 
 		m = CRAFT_COMMENT_PATTERN.matcher( responseText );
@@ -581,7 +603,14 @@ public class CreateItemRequest
 				ResultProcessor.processItem( ItemPool.MEAT_PASTE, -qty );
 			}
 			RequestLogger.updateSessionLog( "Crafting used " + qty + " each of " +
-				ItemDatabase.getItemName( item1 ) + " and " + ItemDatabase.getItemName( item2 ) );		
+				ItemDatabase.getItemName( item1 ) + " and " + ItemDatabase.getItemName( item2 ) );	
+			String pref = "unknownRecipe" + m.group( 4 );
+			if ( Preferences.getBoolean( pref ) )
+			{
+				KoLmafia.updateDisplay( "(You apparently already knew this recipe.)" );
+				Preferences.setBoolean( pref, false );
+				ConcoctionDatabase.refreshConcoctions();
+			}
 		}
 
 		if ( responseText.indexOf( "Smoke" ) != -1 )
