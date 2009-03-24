@@ -6493,6 +6493,12 @@ public class KoLmafiaCLI
 
 			if ( irequest == null )
 			{
+				if ( Preferences.getBoolean( "unknownRecipe" + currentMatch.getItemId() ) )
+				{
+					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "That item requires a recipe.  If you've already learned it, visit the crafting discoveries page in the relay browser to let KoLmafia know about it." );
+					return;
+				}
+				
 				switch ( ConcoctionDatabase.getMixingMethod( currentMatch ) )
 				{
 				case KoLConstants.COOK:
