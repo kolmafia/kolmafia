@@ -53,6 +53,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
 import net.sourceforge.kolmafia.swingui.button.RequestButton;
 import net.sourceforge.kolmafia.swingui.widget.UnanimatedLabel;
@@ -373,7 +374,8 @@ public class CompactSidePane
 		}
 		buf.append( "</td><td rowspan=2>Rollover:<br>Adv " );
 		buf.append( KoLConstants.MODIFIER_FORMAT.format(
-			KoLCharacter.currentNumericModifier( Modifiers.ADVENTURES ) ) );
+			KoLCharacter.currentNumericModifier( Modifiers.ADVENTURES ) +
+			Preferences.getInteger( "extraRolloverAdventures" ) ) );
 		buf.append( "<br>PvP " );
 		buf.append( KoLConstants.MODIFIER_FORMAT.format(
 			KoLCharacter.currentNumericModifier( Modifiers.PVP_FIGHTS ) ) );

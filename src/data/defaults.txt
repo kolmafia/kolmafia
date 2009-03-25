@@ -226,6 +226,7 @@ user	demonName6	Tatter
 user	demonName7	Ak'gyxoth
 user	demonSummoned	false
 user	expressCardUsed	false
+user	extraRolloverAdventures	0
 user	flyeredML	0
 user	fratboysDefeated	0
 user	friarsBlessingReceived	false

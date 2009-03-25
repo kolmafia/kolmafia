@@ -814,6 +814,7 @@ public abstract class KoLmafia
 		Preferences.setBoolean( "dailyDungeonDone", false );
 		Preferences.setBoolean( "demonSummoned", false );
 		Preferences.setBoolean( "expressCardUsed", false );
+		Preferences.setInteger( "extraRolloverAdventures", 0 );
 		Preferences.setBoolean( "friarsBlessingReceived", false );
 		Preferences.setInteger( "grimoire1Summons", 0 );
 		Preferences.setInteger( "grimoire2Summons", 0 );

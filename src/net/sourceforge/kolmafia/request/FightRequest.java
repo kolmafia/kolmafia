@@ -1410,8 +1410,6 @@ public class FightRequest
 			break;
 		}
 
-		int blindIndex = responseText.indexOf( "... something.</div>" );
-
 		// Log familiar actions, if the player wishes to include this
 		// information in their session logs.
 
@@ -1460,6 +1458,7 @@ public class FightRequest
 
 		FightRequest.updateMonsterHealth( responseText );
 
+		int blindIndex = responseText.indexOf( "... something.</div>" );
 		while ( blindIndex != -1 )
 		{
 			RequestLogger.printLine( "You acquire... something." );
@@ -1525,6 +1524,23 @@ public class FightRequest
 			Preferences.setInteger( "lastQuartetAscension", KoLCharacter.getAscensions() );
 			Preferences.setInteger( "lastQuartetRequest", m.start( 1 ) != -1 ? 1 :
 				m.start( 2 ) != -1 ? 2 : 3 );
+		}
+
+		// Check for extra rollover adventures from your Wild Hare
+		if ( KoLCharacter.getFamiliar().getId() == 50 )
+		{
+			// <name> pulls an oversized pocketwatch out of his
+			// waistcoat and winds it. "Two days slow, that's what
+			// it is," he says.
+			if ( responseText.indexOf( "oversized pocketwatch" ) != -1 )
+			{
+				Preferences.increment( "extraRolloverAdventures", 1 );
+			}
+
+			// The dormouse emerges groggily from <names>'s
+			// waistcoat and gives the watch another turn. He
+			// vanishes back into the pocket with a sleepy 'feed
+			// your head.'
 		}
 
 		if ( responseText.indexOf( "<!--WINWINWIN-->" ) != -1 )
