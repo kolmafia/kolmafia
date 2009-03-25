@@ -573,14 +573,15 @@ public class GenericRequest
 			String value = element.substring( equalIndex + 1 ).trim();
 			try
 			{
+				String charset = this.isChatRequest ? "ISO-8859-1" : "UTF-8";
 				// The name may or may not be encoded.
 				name = URLDecoder.decode( name, "UTF-8" );
 
 				// The value may or may not be encoded.
-				value = URLDecoder.decode( value, "UTF-8" );
+				value = URLDecoder.decode( value, charset );
 
 				// But we want to always submit it encoded.
-				value = URLEncoder.encode( value, "UTF-8" );
+				value = URLEncoder.encode( value, charset );
 			}
 			catch ( IOException e )
 			{
