@@ -449,6 +449,10 @@ calle de miel	ACOCK	margarita	magical ice cubes
 
 bungle in the jungle	ACOCK	banana daiquiri	little paper umbrella
 
+tropical swill	ACOCK	Typical Tavern swill	coconut shell
+fruity girl swill	ACOCK	Typical Tavern swill	little paper umbrella
+blended frozen swill	ACOCK	Typical Tavern swill	magical ice cubes
+
 berry-infused sake	SCOCK	bottle of Pete's Sake	sea lychee
 citrus-infused sake	SCOCK	bottle of Pete's Sake	sea tangelo
 melon-infused sake	SCOCK	bottle of Pete's Sake	sea honeydew
