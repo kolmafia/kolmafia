@@ -3829,6 +3829,7 @@
 3828	Grandma's Map	none	none	0
 3829	tempura radish	food	all	475
 3830	water-polo cap	hat	display	800
-3831
-3832
-3833
+3831	Typical Tavern swill	drink	all	65
+3832	tropical swill	drink	all	105
+3833	fruity girl swill	drink	all	105
+3834	blended frozen swill	drink	all	105
