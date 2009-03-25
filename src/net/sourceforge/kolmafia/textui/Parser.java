@@ -1374,6 +1374,9 @@ public class Parser
 		int currentIndex = 0;
 		Integer currentInteger = null;
 
+		TreeMap labels = new TreeMap();
+		boolean constantLabels = true;
+
 		while ( true )
 		{
 			if ( this.currentToken().equals( "case" ) )
@@ -1397,6 +1400,19 @@ public class Parser
 				if ( currentInteger == null )
 				{
 					currentInteger = new Integer( currentIndex );
+				}
+
+				if ( test instanceof Expression )
+				{
+					constantLabels = false;
+				}
+				else
+				{
+					if ( labels.get( test ) != null )
+					{
+						throw this.parseException( "Duplicate case label: " + test );
+					}
+					labels.put( test, currentInteger );
 				}
 
 				tests.add( test );
@@ -1469,7 +1485,8 @@ public class Parser
 
 		this.readToken(); // }
 
-		return new Switch( condition, tests, indices, defaultIndex, scope );
+		return new Switch( condition, tests, indices, defaultIndex, scope,
+				   constantLabels ? labels : null );
 	}
 
 	private SortBy parseSort( final BasicScope parentScope )

@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.textui.parsetree;
 import java.io.PrintStream;
 
 import java.util.ArrayList;
+import java.util.TreeMap;
 
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.textui.DataTypes;
@@ -45,18 +46,20 @@ public class Switch
 	implements ParseTreeNode
 {
 	private final Value condition;
-	private Value [] tests;
-	private Integer [] offsets;
-	private int defaultIndex;
+	private final Value [] tests;
+	private final Integer [] offsets;
+	private final int defaultIndex;
 	private final SwitchScope scope;
+	private final TreeMap labels;
 
-	public Switch( final Value condition, final ArrayList tests, final ArrayList offsets, final int defaultIndex, final SwitchScope scope  )
+	public Switch( final Value condition, final ArrayList tests, final ArrayList offsets, final int defaultIndex, final SwitchScope scope, final TreeMap labels )
 	{
 		this.condition = condition;
 		this.tests = (Value[])tests.toArray( new Value[tests.size()] );
 		this.offsets = (Integer[])offsets.toArray(new Integer[offsets.size()] );
 		this.defaultIndex = defaultIndex;
 		this.scope = scope;
+		this.labels = labels;
 	}
 
 	public Value getCondition()
@@ -95,26 +98,37 @@ public class Switch
 
 		int offset = this.defaultIndex;
 
-		for ( int index = 0; index < tests.length; ++index )
+		if ( labels != null )
 		{
-			Value test = tests[ index ];
-			interpreter.trace( "test: " + test );
-
-			Value result = test.execute( interpreter );
-			interpreter.captureValue( result );
-
-			interpreter.trace( "[" + interpreter.getState() + "] <- " + result );
-
-			if ( result == null )
+			Integer mapped = (Integer)labels.get( value );
+			if ( mapped != null )
 			{
-				interpreter.traceUnindent();
-				return null;
+				offset = mapped.intValue();
 			}
-
-			if ( result.equals( value ) )
+		}
+		else
+		{
+			for ( int index = 0; index < tests.length; ++index )
 			{
-				offset = offsets[ index ].intValue();
-				break;
+				Value test = tests[ index ];
+				interpreter.trace( "test: " + test );
+
+				Value result = test.execute( interpreter );
+				interpreter.captureValue( result );
+
+				interpreter.trace( "[" + interpreter.getState() + "] <- " + result );
+
+				if ( result == null )
+				{
+					interpreter.traceUnindent();
+					return null;
+				}
+
+				if ( result.equals( value ) )
+				{
+					offset = offsets[ index ].intValue();
+					break;
+				}
 			}
 		}
 
@@ -149,7 +163,7 @@ public class Switch
 	public void print( final PrintStream stream, final int indent )
 	{
 		Interpreter.indentLine( stream, indent );
-		stream.println( "<SWITCH>" );
+		stream.println( "<SWITCH" + (labels != null ? " (OPTIMIZED)" : "" ) + ">" );
 		this.getCondition().print( stream, indent + 1 );
 		this.getScope().print( stream, indent + 1, tests, offsets, defaultIndex );
 	}
