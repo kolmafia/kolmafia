@@ -62,7 +62,7 @@ public class ConcoctionPool
 			// Skip non-existent items
 			if ( name != null )
 			{
-				AdventureResult ar =  ItemPool.get( i, 1 );
+				AdventureResult ar = ItemPool.get( i, 1 );
 				Concoction c = new Concoction( ar, KoLConstants.NOCREATE );
 				ConcoctionPool.set( c );
 			}
