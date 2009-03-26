@@ -79,9 +79,9 @@ public class NamespaceInterpreter
 			while ( it.hasNext() && !shouldRefresh )
 			{
 				Entry entry = (Entry) it.next();
-
-				File file = (File) entry.getValue();
-				shouldRefresh = ( (Long) entry.getValue() ).longValue() != file.lastModified();
+				File file = (File) entry.getKey();
+				Long date = (Long) entry.getValue();
+				shouldRefresh = date.longValue() != file.lastModified();
 			}
 		}
 
