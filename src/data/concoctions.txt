@@ -85,6 +85,7 @@ peace-sign necklace	COMBINE	clay peace-sign bead	hemp string
 phat turquoise bracelet	COMBINE	phat turquoise bead	hemp string
 spooky staff	COMBINE	spooky shrunken head	spooky stick
 Talisman o' Nam	COMBINE	snakehead charrrm	snakehead charrrm
+office-supply crossbow	COMBINE	stolen office supplies	stolen office supplies
 
 
 # Clover weapons and their subcomponents.  These can be made by all
@@ -161,6 +162,7 @@ chef-skull-in-the-box	COMBINE	nothing-in-the-box	chef skull
 nothing-in-the-box	COMBINE	box	spring
 nothing-in-the-box-in-the-box	COMBINE	box-in-the-box	spring
 sprocket assembly	COMBINE	sprocket	spring
+boxing glove on a spring	COMBINE	nothing-in-the-box	boxing glove
 
 
 # Items created by combining letters.
@@ -1063,6 +1065,7 @@ pixel pants	PIXEL	black pixel (10)	red pixel (20)
 pixel sword	PIXEL	white pixel (20)	black pixel (10)	blue pixel (10)
 pixel shield	PIXEL	red pixel (20)	black pixel (10)	white pixel (10)
 digital key	PIXEL	white pixel (30)
+pixel boomerang	PIXEL	black pixel (10)	white pixel (10)	blue pixel (20)
 
 
 # Jewelry making recipes.  These are recipes which are only available

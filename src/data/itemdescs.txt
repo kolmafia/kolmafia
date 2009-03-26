@@ -3838,3 +3838,42 @@
 3832	219381574	tropical swill	coconuts of tropical swill
 3833	913726874	fruity girl swill
 3834	663681212	blended frozen swill
+3835
+3836
+3837
+3838
+3839
+3840
+3841
+3842	629789423	out-of-tune biwa
+3843	295683337	dented harmonica
+3844	444105885	magic whistle
+3845	559077524	cheap plastic blowgun
+3846	138800320	jungle drum
+3847	787966526	hippy bongo
+3848	434094354	knob bugle	knob bugles
+3849	134808407	4-dimensional guitar
+3850	709413792	boxing glove
+3851	691486344	boxing glove on a spring
+3852	919571245	half-sized guitar
+3853	781164110	big bass drum
+3854	501734182	pixel boomerang	pixel boomerangs
+3855	255146728	world's smallest violin
+3856	661064725	ocarina of space
+3857	156866094	a butt tuba
+3858	151983382	bone flute
+3859	397830391	infernal fife	infernal fifes
+3860	839256177	charming flute
+3861
+3862
+3863	350296101	plastic guitar
+3864	143681765	finger cymbals
+3865	673197779	black kettle drum
+3866	311842717	double-barreled sling
+3867	757328138	magilaser blastercannon	magilaser blastercannons
+3868	884475284	frigid hanky&#363;
+3869	705943768	ultimate ultimate frisbee
+3870	674183283	stolen office supplies	piles of stolen office supplies
+3871	239668406	office-supply crossbow
+3872	658375124	pocket theremin
+3873	583533695	rave whistle	rave whistles
