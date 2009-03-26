@@ -1094,6 +1094,11 @@ public class ResultProcessor
 			// If you have not ascended, you need to put them on -
 			// which we leave to the player - but otherwise, they
 			// work from inventory.
+
+			// Temporary bandaid until we figure out how this gets
+			// out of synch. Not that it's harmful to do this.
+			Preferences.setInteger( "lastDustyBottleReset", -1 );
+
 			if ( KoLCharacter.getAscensions() > 0 )
 			{
 				ItemDatabase.identifyDustyBottles();
