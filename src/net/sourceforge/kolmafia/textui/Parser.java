@@ -1402,11 +1402,7 @@ public class Parser
 					currentInteger = new Integer( currentIndex );
 				}
 
-				if ( test instanceof Expression )
-				{
-					constantLabels = false;
-				}
-				else
+				if ( test.getClass() == Value.class )
 				{
 					if ( labels.get( test ) != null )
 					{
@@ -1414,6 +1410,11 @@ public class Parser
 					}
 					labels.put( test, currentInteger );
 				}
+				else
+				{
+					constantLabels = false;
+				}
+
 
 				tests.add( test );
 				indices.add( currentInteger );
