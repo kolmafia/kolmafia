@@ -1679,6 +1679,15 @@ public class GenericRequest
 			}
 		}
 
+		if ( this.formURLString.startsWith( "dungeon.php" ) )
+		{
+			// Unfortunately, the key breaks off in the lock.
+			if ( this.responseText.indexOf( "key breaks off in the lock" ) != -1 )
+			{
+				ResultProcessor.processItem( ItemPool.SKELETON_KEY, -1 );
+			}
+		}
+
 		if ( this.formURLString.startsWith( "mall.php" ) ||
 		     this.formURLString.startsWith( "searchmall.php" ) ||
 		     this.formURLString.startsWith( "account.php" ) )
