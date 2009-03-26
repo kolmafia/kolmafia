@@ -679,7 +679,7 @@ public abstract class InventoryManager
 			return Integer.MAX_VALUE;
 		}
 		int yield = ConcoctionDatabase.getYield( item.getItemId() );
-		qty = (qty + yield - 1) / yield;
+		int madeqty = (qty + yield - 1) / yield;
 		AdventureResult ingrs[] = ConcoctionDatabase.getIngredients( id );
 		if ( ingrs.length == 0 )
 		{
@@ -688,12 +688,12 @@ public abstract class InventoryManager
 		for ( int i = 0; i < ingrs.length; ++i )
 		{
 			AdventureResult ingr = ingrs[ i ];
-			int needed = ingr.getCount() * qty;
+			int needed = ingr.getCount() * madeqty;
 			int ingrprice = priceToAcquire( ingr, needed, level + 1 );
 			if ( ingrprice == Integer.MAX_VALUE ) return ingrprice;
 			price += ingrprice;
 		}
-		return price;
+		return price * qty / (yield * madeqty);
 	}
 	
 	private static int getPurchaseCount( final int itemId, final int missingCount )
