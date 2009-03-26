@@ -575,7 +575,8 @@ public class Modifiers
 	public static final int CLASS = 0;
 	public static final int INTRINSIC_EFFECT = 1;
 	public static final int EQUALIZE = 2;
-	public static final int MODIFIERS = 3;
+	public static final int WIKI_NAME = 3;
+	public static final int MODIFIERS = 4;
 
 	private static final Object[][] stringModifiers =
 	{
@@ -590,6 +591,10 @@ public class Modifiers
 		{ "Equalize",
 		  null,
 		  Pattern.compile( "Equalize: \"(.*?)\"" )
+		},
+		{ "Wiki Name",
+		  null,
+		  Pattern.compile( "Wiki Name: \"(.*?)\"" )
 		},
 		{ "Modifiers",
 		  null,

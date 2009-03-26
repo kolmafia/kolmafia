@@ -601,7 +601,7 @@ flaming crutch	Hot Damage: +3
 flaming juggler's balls	Hot Damage: +10, Experience: +2, Softcore Only
 flypaper staff	Mysticality: +3, Weapon Damage: +3, Spooky Damage: +3
 freezin' bindle	Item Drop: +10, Cold Damage: +25
-frigid hanky&#363;	Cold Damage: +6, Moxie: +2
+frigid hanky&#363;	Cold Damage: +6, Moxie: +2, Wiki Name: "frigid hankyu"
 frozen nunchaku	Weapon Damage: +3, Cold Damage: +3
 ga-ga radio	Experience: +1, Weapon Damage: +5, Maximum MP: +20
 gatorskin umbrella	Stench Resistance: +3, Weapon Damage: +15
@@ -2455,3 +2455,5 @@ jazz soap	Free Pull
 personalized coffee mug	Free Pull
 roll of toilet paper	Free Pull
 time sleigh	Free Pull
+Bash-&#332;s cereal	Wiki Name: "Bash-Os cereal"
+Bash-&#332;s boxtop	Wiki Name: "Bash-Os boxtop"
