@@ -52,6 +52,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CreateFrameRunnable;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.Concoction;
@@ -311,10 +312,20 @@ public class ShowDescriptionList
 		{
 			return null;
 		}
-
+		
 		boolean inItemTable = ItemDatabase.contains( name );
 		boolean inEffectTable = EffectDatabase.contains( name );
 		boolean inSkillTable = SkillDatabase.contains( name );
+
+		Modifiers mods = Modifiers.getModifiers( name );
+		if ( mods != null )
+		{
+			String wikiname = mods.getString( "Wiki Name" );
+			if ( wikiname != null )
+			{
+				name = wikiname;
+			}
+		}
 
 		if ( isItem && ( inEffectTable || inSkillTable ) )
 		{

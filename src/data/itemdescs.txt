@@ -3855,7 +3855,7 @@
 3849	134808407	4-dimensional guitar
 3850	709413792	boxing glove
 3851	691486344	boxing glove on a spring
-3852	919571245	half-sized guitar
+3852	919571245	half-sized guitar	half-sized guitars
 3853	781164110	big bass drum
 3854	501734182	pixel boomerang	pixel boomerangs
 3855	255146728	world's smallest violin
