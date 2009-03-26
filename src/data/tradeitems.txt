@@ -2103,7 +2103,7 @@
 2102	greasy dreadlock	none, bounty	none	0
 2103	vial of pirate sweat	none, bounty	none	0
 2104	empty aftershave bottle	none, bounty	none	0
-2105	coal button	none	none, bounty	0
+2105	coal button	none, bounty	none	0
 2106	burned-out arcanodiode	none, bounty	none	0
 2107	non-Euclidean hoof	none, bounty	none	0
 2108	rock	none	all	10
@@ -3862,7 +3862,7 @@
 3861
 3862
 3863	plastic guitar	weapon	all	74
-3864	finger cymbals	weapon	al	82
+3864	finger cymbals	weapon	all	82
 3865	black kettle drum	weapon	all	123
 3866	double-barreled sling	weapon	all	53
 3867	magilaser blastercannon	weapon	all	170

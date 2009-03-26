@@ -461,7 +461,7 @@ bone rattle	30	Mox: 0	1-handed rattle
 bottle-rocket crossbow	100	Mox: 0	1-handed crossbow
 bounty-hunting rifle	100	Mox: 25	2-handed rifle
 bow staff	100	Mus: 35	2-handed staff
-boxing glove on a spring	55	Mox: 15	1-handed club
+boxing glove on a spring	55	Mox: 12	1-handed club
 broken sword	135	Mus: 52	1-handed sword
 bubble bauble bow	80	Mox: 25	2-handed bow
 bubblewrap crossbow	60	Mox: 15	2-handed crossbow
@@ -567,7 +567,7 @@ haiku katana	100	Mus: 0	1-handed sword
 hairy staff	135	Mus: 45	2-handed staff
 half-sized guitar	40	Mox: 5	2-handed guitar
 halfberd	30	Mus: 0	1-handed polearm
-halibut	200	Mus: 85	2-handed x
+halibut	200	Mus: 85	2-handed fish
 happiness	165	Mox: 67	1-handed pistol
 heavy metal thunderrr guitarrr	120	Mox: 45	2-handed axe
 heteroerotic frat-paddle	150	Mus: 60	1-handed club
@@ -583,7 +583,7 @@ immense cyborg hand	150	Mus: 60	1-handed club
 infernal fife	55	Mox: 12	2-handed flute
 iron pasta spoon	110	Mys: 40	1-handed utensil
 jack flapper	35	Mys: 2	1-handed utensil
-jungle drum	160	Moxie: 65	2-handed drum
+jungle drum	160	Mox: 65	2-handed drum
 kneecapping stick	90	Mus: 30	1-handed club
 knob bugle	60	Mox: 15	1-handed horn
 lead pipe	175	Mus: 72	1-handed club
@@ -606,7 +606,7 @@ ocarina of space	120	Mox: 45	2-handed flute
 octopus's spade	200	Mus: 85	1-handed knife
 office-supply crossbow	50	Mox: 10	2-handed crossbow
 origami riding crop	100	Mus: 0	1-handed crop
-out-of-tune biwa	30	Mys: 0	2-handed guitar
+out-of-tune biwa	30	Mox: 0	2-handed guitar
 oversized pizza cutter	100	Mys: 35	1-handed utensil
 palm-frond whip	25	Mus: 0	1-handed whip
 parasitic claw	30	Mus: 0	1-handed club
@@ -750,8 +750,8 @@ Hodgman's varcolac paw	0	Mus: 200
 Idol of Ak'gyxoth	0	none
 Kevlar balloon	0	none
 KoL Con IV Pole	0	Mys: 10
-Mer-kin roundshield	0	Mus: 85	shield
 # *** Mer-kin roundshield is a shield of unknown power.
+Mer-kin roundshield	0	Mus: 85	shield
 Mer-kin takebag	0	Mys: 85
 Mr. Balloon	0	none
 Mylar balloon	0	none
@@ -1348,7 +1348,6 @@ vampire pearl ring	0	Mys: 35
 velcro boots	0	Mys: 85
 vinyl boots	0	Mox: 85
 walrus-tusk earring	0	Mys: 10
-water-polo mitt	0	Mys: 85
 water wings	0	none
 water-polo mitt	0	Mys: 85
 wheel	0	none
