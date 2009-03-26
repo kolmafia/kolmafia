@@ -430,7 +430,7 @@ Gnollish autoplunger	Mysticality: +3
 Gnollish pie server	Spell Damage: +3
 # Gnollish plunger
 Gnollish slotted spoon	Spell Damage: +3
-Greek Pasta of Peril	Mysticality: +11, Initiative: +25, Food Drop: +10
+Greek Pasta of Peril	Mysticality: +11, Food Drop: +10, Initiative: +25
 Grimacite gat	Initiative: +20, Moxie Percent: [10*G]
 Grimacite glaive	Weapon Damage: +15, Muscle Percent: [10*G]
 Hammer of Smiting	Muscle: +16, Critical: 3
@@ -511,6 +511,7 @@ big stirring stick	Mysticality: +5, Spell Damage: +5
 black kettle drum	Moxie: +5, Maximum HP: +30, Maximum MP: +30
 black sword	Critical: 3, Weapon Damage: +7
 bone flute	Spooky Damage: +11
+bone rattle	Spooky Damage: +4
 # bottle-rocket crossbow: Shoots Bottle-Rockets!
 bottle-rocket crossbow	Moxie Percent: +15, Meat Drop: +15, Item Drop: +10, Softcore Only
 bounty-hunting rifle	Item Drop: +15
@@ -537,6 +538,7 @@ carob cannon	Moxie: +7, Adventures: +3, Stench Damage: +5
 cast-iron legacy paddle	Muscle: +15, Weapon Damage: +10
 # charming flute: +20 Damage vs. Snakes
 charming flute	Moxie: +8
+# cheap plastic blowgun: 50% chance of poisoning opponent.
 cheap plastic bottle opener	Sleaze Damage: +2
 # chisel
 chopsticks	Initiative: +20, Spell Damage: +12
@@ -653,7 +655,7 @@ linoleum sword	Muscle: +7, Spell Damage: +7
 little paper umbrella	Spell Damage: +1
 # lucky ball-and-chain
 lupine sword	Spooky Damage: +9
-magic whistle	Monster Level: +4, Familiar Weight: +4
+magic whistle	Monster Level: +4, Familiar Weight: +1
 magilaser blastercannon	Ranged Damage: +15, Hot Damage: +5
 massive sitar	Mysticality: +12, Spell Damage: +20
 meatspout staff	Mysticality: +7, Adventures: +3, Meat Drop: +15
@@ -989,9 +991,6 @@ teflon shield	Muscle Percent: +10, Damage Reduction: 10, Damage Absorption: +50
 # thought balloon
 tip jar	Meat Drop: +5
 tropical paperweight	Experience: +1
-vampire pearl earring	MP Regen Min: 4, MP Regen Max: 14
-vampire pearl necklace	HP Regen Min: 6, HP Regen Max: 18
-vampire pearl ring	HP Regen Min: 2, HP Regen Max: 10, MP Regen Min: 2, MP Regen Max: 10
 velcro shield	Mysticality Percent: +10, Damage Reduction: 10, Weapon Drop: +25
 vinyl shield	Moxie Percent: +10, Damage Reduction: 10, Monster Level: +25
 voodoo doll	Mysticality: +1
@@ -1071,6 +1070,7 @@ Mafia stogie	Muscle: +20, Mysticality: +20
 MagiMechTech NanoMechaMech	Single Equip
 # Mega Gem
 # Mer-kin prayerbeads: Makes you feel uneasy...
+Mer-kin prayerbeads	Single Equip
 Mr. Accessory	Muscle: +15, Mysticality: +15, Moxie: +15, Softcore Only
 Mr. Accessory Jr.	Muscle: +5, Mysticality: +5, Moxie: +5, Item Drop: +25, Softcore Only
 Mr. Eh?	Muscle: +13, Mysticality: +13, Moxie: +13, Softcore Only
@@ -1452,11 +1452,14 @@ toy jet pack	Intrinsic Effect: "Get Me Off This Crazy Thing!", Single Equip
 toy maglev monorail	Meat Drop: +10, Single Equip
 toy train	Meat Drop: +10, Single Equip
 tube sock	Moxie: +20, Single Equip
+vampire pearl earring	MP Regen Min: 4, MP Regen Max: 14, Single Equip
+vampire pearl necklace	HP Regen Min: 6, HP Regen Max: 18, Single Equip
+vampire pearl ring	HP Regen Min: 2, HP Regen Max: 10, MP Regen Min: 2, MP Regen Max: 10, Single Equip
 velcro boots	Mysticality Percent: +10, MP Regen Min: 12, MP Regen Max: 24, Initiative: -50, Single Equip
 vinyl boots	Moxie Percent: [15*X], HP Regen Min: 15, HP Regen Max: 30, Weapon Damage Percent: +10, Single Equip
 walrus-tusk earring	Maximum HP: +10
-water-polo mitt	Weapon Damage: +30, Single Equip
 # water wings
+water-polo mitt	Weapon Damage: +30, Single Equip
 wheel	Initiative: +10
 white belt	Muscle: +3, Weapon Damage: +3, Single Equip
 white collar	Meat Drop: +3, Moxie: +1
