@@ -63,8 +63,7 @@ Knob Goblin harem veil	Stench Resistance: +1, Familiar Effect: "5xLep, cap 2"
 Knob Goblin visor	Moxie: +3, Familiar Effect: "2xVolley, 1xPotato, cap 12"
 KoL Con 3-D Glasses	Familiar Effect: "8xLep, ?xFairy, cap 2"
 MAHI fez	Moxie: +30
-# Mer-kin sneakmask: Monsters will be less attracted to you. (Underwater only)
-Mer-kin sneakmask	Moxie Percent: +5, Initiative: +30
+Mer-kin sneakmask	Moxie Percent: +5, Initiative: +30, Combat Rate: [-5*zone(The Sea)]
 Mohawk wig	Weapon Damage: +10, Familiar Effect: "1xPotato, 1xGhuol, cap 35"
 Ol' Scratch's stovepipe hat	Mysticality Percent: +20, Hot Spell Damage: +30, Class: "Sauceror", Familiar Effect: "hot atk"
 Orcish baseball cap	Muscle: +3, Mysticality: -3, Familiar Effect: "1xVolley, 1xBarrr, cap 15"
@@ -899,7 +898,6 @@ foon of fulmination	Mysticality: +3, Hot Spell Damage: +8
 # giant stuffed bugbear
 glass gnoll eye	Mysticality: +3
 glow-in-the-dark stuffed burrowgrub	Muscle: [9-M], Weapon Damage: [9-M]
-# glowing esca: +20% Item Drops from Monsters (Underwater only)
 glowing esca	Item Drop: [20*zone(The Sea)]
 gnauga hide buckler	Muscle: +3, Mysticality: +3, Moxie: +3, Damage Reduction: 5
 # golden sausage
@@ -1794,7 +1792,7 @@ Cold Blooded	Muscle Percent: +30, Mysticality Percent: +20, Moxie Percent: +10, 
 # Cold Hearted
 Cold Hearted	Moxie: [min(T,20)], Familiar Weight: [ceil(min(T,20)/2)]
 # Coldform: Cold, Cold, Cold!
-# Colorfully Concealed: Monsters will be less attracted to you. (Underwater only
+Colorfully Concealed	Combat Rate: [-5*zone(The Sea)]
 # Comic Violence: Regular Attacks Can't Miss
 Compensatory Cruelness	Weapon Damage: +5
 Complete Delusion	Muscle: +4, Moxie: +5
