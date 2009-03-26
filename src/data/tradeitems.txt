@@ -166,7 +166,7 @@
 165	skewer	none	all	40
 166	ghuol ears	none	all	16
 167	ghuol-ear kabob	food	all	52
-168	bone rattle	none	all	23
+168	bone rattle	weapon	all	23
 169	bugbear beanie	hat	all	35
 170	lihc eye	none	all	19
 171	lihc eye pie	food	all	45
@@ -3833,3 +3833,42 @@
 3832	tropical swill	drink	all	105
 3833	fruity girl swill	drink	all	105
 3834	blended frozen swill	drink	all	105
+3835
+3836
+3837
+3838
+3839
+3840
+3841
+3842	out-of-tune biwa	weapon	all	24
+3843	dented harmonica	weapon	all	12
+3844	magic whistle	weapon	all	92
+3845	cheap plastic blowgun	weapon	all	28
+3846	jungle drum	weapon	all	186
+3847	hippy bongo	weapon	all	48
+3848	knob bugle	weapon	all	75
+3849	4-dimensional guitar	weapon	all	168
+3850	boxing glove	accessory	all	30
+3851	boxing glove on a spring	weapon	all	65
+3852	half-sized guitar	weapon	all	23
+3853	big bass drum	weapon	all	22
+3854	pixel boomerang	weapon	all	65
+3855	world's smallest violin	weapon	all	210
+3856	ocarina of space	weapon	all	145
+3857	a butt tuba	weapon	all	50
+3858	bone flute	weapon	all	125
+3859	infernal fife	weapon	all	60
+3860	charming flute	weapon	all	190
+3861
+3862
+3863	plastic guitar	weapon	all	74
+3864	finger cymbals	weapon	al	82
+3865	black kettle drum	weapon	all	123
+3866	double-barreled sling	weapon	all	53
+3867	magilaser blastercannon	weapon	all	170
+3868	frigid hanky&#363;	weapon	all	65
+3869	ultimate ultimate frisbee	weapon	all	43
+3870	stolen office supplies	none	all	99
+3871	office-supply crossbow	weapon	all	99
+3872	pocket theremin	weapon	all	55
+3873	rave whistle	weapon	all	60
