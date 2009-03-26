@@ -542,6 +542,7 @@ public class ShowDescriptionList
 					MoodManager.addTrigger( "lose_effect", name, action );
 				}
 			}
+			MoodManager.saveSettings();
 		}
 	}
 
@@ -582,6 +583,7 @@ public class ShowDescriptionList
 					MoodManager.addTrigger( "gain_effect", name, action );
 				}
 			}
+			MoodManager.saveSettings();
 		}
 	}
 
