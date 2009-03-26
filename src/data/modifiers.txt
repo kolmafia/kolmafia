@@ -2455,3 +2455,15 @@ roll of toilet paper	Free Pull
 time sleigh	Free Pull
 Bash-&#332;s cereal	Wiki Name: "Bash-Os cereal"
 Bash-&#332;s boxtop	Wiki Name: "Bash-Os boxtop"
+El Vibrato punchcard (ATTACK)	Wiki Name: "El Vibrato punchcard (115 holes)"
+El Vibrato punchcard (REPAIR)	Wiki Name: "El Vibrato punchcard (97 holes)"
+El Vibrato punchcard (BUFF)	Wiki Name: "El Vibrato punchcard (129 holes)"
+El Vibrato punchcard (MODIFY)	Wiki Name: "El Vibrato punchcard (213 holes)"
+El Vibrato punchcard (BUILD)	Wiki Name: "El Vibrato punchcard (165 holes)"
+El Vibrato punchcard (TARGET)	Wiki Name: "El Vibrato punchcard (142 holes)"
+El Vibrato punchcard (SELF)	Wiki Name: "El Vibrato punchcard (216 holes)"
+El Vibrato punchcard (FLOOR)	Wiki Name: "El Vibrato punchcard (88 holes)"
+El Vibrato punchcard (DRONE)	Wiki Name: "El Vibrato punchcard (182 holes)"
+El Vibrato punchcard (WALL)	Wiki Name: "El Vibrato punchcard (176 holes)"
+El Vibrato punchcard (SPHERE)	Wiki Name: "El Vibrato punchcard (104 holes)"
+

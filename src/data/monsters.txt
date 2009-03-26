@@ -121,7 +121,7 @@ Acid Blob	HP: 40 Def: 38 Atk: 38	magic whistle (0)
 Acoustic Electric Eel	HP: 500 Def: 400 Atk: 405 Meat: 192-288	dull fish scale (15)	eel battery (9)	eel sauce (c10)	eel skin (4)
 Albino Bat	HP: 8 Def: 14 Atk: 12 Meat: 16-26	batgut (10)	bat guano (10)	pink bat eye (b0)
 Alphabet Giant	HP: 150 Def: 145 Atk: 145 Meat: 120-180	heavy D (40)	original G (40)
-Amateur Ninja	HP: 5 Meat: 18-22	bargain flash powder (0)	third-hand nunchaku (0)
+Amateur Ninja	HP: 5 Meat: 18-22	bargain flash powder (0)	third-hand nunchaku (0)	cheap plastic blowgun (0)
 An Angry Bugbear	HP: 12 Def: 15 Atk: 15
 An Annoying Spooky Gravy Fairy	HP: 20 Def: 20 Atk: 20 E: spooky	annoying pitchfork (100)
 Ancient Insane Monk	HP: 6	little round pebble (p0)	bottle of sake (0)	Bash-&#332;s cereal (0)	haiku challenge map (0)
