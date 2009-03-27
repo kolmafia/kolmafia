@@ -332,6 +332,24 @@ public class UseItemRequest
 			return Preferences.getBoolean( "burrowgrubHiveUsed" ) ? 0 : 1;
 		}
 
+		switch ( consumptionType )
+		{
+		case KoLConstants.GROW_FAMILIAR:
+		case KoLConstants.EQUIP_FAMILIAR:
+		case KoLConstants.EQUIP_HAT:
+		case KoLConstants.EQUIP_PANTS:
+		case KoLConstants.EQUIP_SHIRT:
+		case KoLConstants.EQUIP_OFFHAND:
+			return 1;
+		case KoLConstants.EQUIP_WEAPON:
+			// Even if you can dual-wield, if we attempt to "use" a
+			// weapon, it will become an "equip", which always goes
+			// in the main hand.
+			return 1;
+		case KoLConstants.EQUIP_ACCESSORY:
+			return 3;
+		}
+
 		Integer key = new Integer( itemId );
 
 		if ( UseItemRequest.LIMITED_USES.containsKey( key ) )
