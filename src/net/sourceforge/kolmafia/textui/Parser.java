@@ -1936,18 +1936,30 @@ public class Parser
 			type = DataTypes.VOID_TYPE;
 		}
 
-		String identifier = this.currentToken();
+		String current = this.currentToken();
+		Value name = null;
 
-		if ( !this.parseIdentifier( identifier ) )
+		if ( current.equals( "(" ) )
 		{
-			throw this.parseException( "Variable reference expected for function name" );
+			name = this.parseExpression( scope );
+			if ( name == null || !name.getType().equals( DataTypes.STRING_TYPE ) )
+			{
+				throw this.parseException( "String expression expected for function name" );
+			}
 		}
-
-		Value name = this.parseVariableReference( scope );
-
-		if ( name == null || !( name instanceof VariableReference ) )
+		else
 		{
-			throw this.parseException( "Variable reference expected for function name" );
+			if ( !this.parseIdentifier( current ) )
+			{
+				throw this.parseException( "Variable reference expected for function name" );
+			}
+
+			name = this.parseVariableReference( scope );
+
+			if ( name == null || !( name instanceof VariableReference ) )
+			{
+				throw this.parseException( "Variable reference expected for function name" );
+			}
 		}
 
 		ValueList params = parseParameters( scope, null );
