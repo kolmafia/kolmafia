@@ -46,6 +46,7 @@ public class LeafletRequest
 	extends GenericRequest
 {
 	private static final Pattern COMMAND_PATTERN = Pattern.compile( "command=([^&]*)" );
+	private static final Pattern TCHOTCHKE_PATTERN = Pattern.compile( "A ([a-z ]*?) sits on the mantlepiece" );
 
 	public LeafletRequest()
 	{
@@ -67,17 +68,26 @@ public class LeafletRequest
 		this.addFormField( "command", command );
 	}
 
-	public static final boolean registerRequest( final String urlString )
+	public void processResults()
 	{
-		if ( !urlString.startsWith( "leaflet.php" ) )
-		{
-			return false;
-		}
+		LeafletRequest.parseResponse( this.getURLString(), this.responseText );
+	}
 
+	public static final void parseResponse( final String urlString, final String responseText )
+	{
+		Matcher matcher = TCHOTCHKE_PATTERN.matcher( responseText );
+		if ( matcher.find() )
+		{
+			RequestLogger.updateSessionLog( "(You see a " + matcher.group(1) + ")" );
+		}
+	}
+
+	private static final String getCommand( final String urlString )
+	{
 		Matcher matcher = COMMAND_PATTERN.matcher( urlString );
 		if ( !matcher.find() )
 		{
-			return true;
+			return null;
 		}
 
 		String command = matcher.group( 1 );
@@ -87,6 +97,22 @@ public class LeafletRequest
 		}
 		catch ( IOException e )
 		{
+		}
+
+		return command;
+	}
+
+	public static final boolean registerRequest( final String urlString )
+	{
+		if ( !urlString.startsWith( "leaflet.php" ) )
+		{
+			return false;
+		}
+
+		String command = LeafletRequest.getCommand( urlString );
+		if ( command == null )
+		{
+			return true;
 		}
 
 		RequestLogger.updateSessionLog();
