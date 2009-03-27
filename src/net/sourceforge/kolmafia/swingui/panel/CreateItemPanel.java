@@ -53,6 +53,7 @@ import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 
 import net.sourceforge.kolmafia.swingui.ItemManageFrame;
@@ -152,10 +153,11 @@ public class CreateItemPanel
 		{
 			CreateItemRequest selection = (CreateItemRequest) items[ i ];
 	
-			int maximum = UseItemRequest.maximumUses( selection.getItemId() );
+			int itemId = selection.getItemId();
+			int maximum = UseItemRequest.maximumUses( itemId, ItemDatabase.getConsumptionType( itemId ) );
 			int quantityDesired =
 				maximum < 2 ? maximum : InputFieldUtilities.getQuantity(
-					"Creating multiple " + selection.getName() + " for immediate use...", Math.min( maximum,
+					"Creating " + selection.getName() + " for immediate use...", Math.min( maximum,
 						selection.getQuantityPossible() + selection.getQuantityPullable() ) );
 	
 			if ( quantityDesired < 1 )
