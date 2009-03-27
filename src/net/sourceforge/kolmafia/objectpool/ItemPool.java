@@ -115,6 +115,7 @@ public class ItemPool
 	public static final int FENG_SHUI = 210;
 	public static final int FOUNTAIN = 211;
 	public static final int WINDCHIMES = 212;
+	public static final int EYEPATCH = 224;
 	public static final int COCKTAIL_KIT = 236;
 	public static final int TOMATO = 246;
 	public static final int DENSE_STACK = 258;
