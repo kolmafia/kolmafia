@@ -635,7 +635,7 @@ public class Concoction
 		// The total available for other creations is
 		// equal to the total, less the initial.
 
-		this.creatable = ( this.total - this.initial ) * this.getYield();
+		this.creatable = Math.max( ( this.total - this.initial ) * this.getYield(), 0 );
 		this.total = this.initial + this.creatable;
 
 		// Now that all the calculations are complete, unmark
