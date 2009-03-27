@@ -228,6 +228,10 @@ public abstract class UseLinkDecorator
 		case ItemPool.SUNKEN_EYES:
 			return KoLConstants.NOCREATE;
 
+		// The eyepatch can be combined, but is usually an outfit piece
+		case ItemPool.EYEPATCH:
+			return KoLConstants.NOCREATE;
+
 		// Spooky Fertilizer CAN be cooked, but almost always is used
 		// for with the spooky temple map.
 		case ItemPool.SPOOKY_FERTILIZER:
