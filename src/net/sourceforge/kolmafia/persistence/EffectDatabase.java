@@ -132,13 +132,11 @@ public class EffectDatabase
 		EffectDatabase.effectByName.put( canonicalName, effectId );
 		EffectDatabase.imageById.put( effectId, image );
 
-		if ( descriptionId == null )
+		if ( descriptionId != null )
 		{
-			return;
+			EffectDatabase.descriptionById.put( effectId, descriptionId );
+			EffectDatabase.effectByDescription.put( descriptionId, effectId );
 		}
-
-		EffectDatabase.descriptionById.put( effectId, descriptionId );
-		EffectDatabase.effectByDescription.put( descriptionId, effectId );
 
 		if ( defaultAction != null )
 		{
