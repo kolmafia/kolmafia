@@ -350,7 +350,7 @@ yak anorak	115	Mus: 42
 
 17-alarm Saucepan	90	Mys: 15	1-handed saucepan
 25-meat staff	70	Mus: 20	2-handed staff
-4-dimensional guitar	130	Mox: 0	2-handed guitar
+4-dimensional guitar	130	Mox: 50	2-handed guitar
 5-Alarm Saucepan	50	Mys: 10	1-handed saucepan
 7-Foot Dwarven mattock	80	Mus: 25	2-handed axe
 7-inch discus	200	Mox: 85	1-handed boomerang
