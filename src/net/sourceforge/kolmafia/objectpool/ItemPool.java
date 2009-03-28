@@ -798,6 +798,16 @@ public class ItemPool
 	public static final int FUSCHIA_YARN = 3825;
 	public static final int CHARTREUSE_YARN = 3826;
 	public static final int GRANDMAS_MAP = 3828;
+	public static final int OOT_BIWA = 3842;
+	public static final int JUNGLE_DRUM = 3846;
+	public static final int HIPPY_BONGO = 3847;
+	public static final int GUITAR_4D = 3849;
+	public static final int HALF_GUITAR = 3852;
+	public static final int BASS_DRUM = 3853;
+	public static final int SMALLEST_VIOLIN = 3855;
+	public static final int PLASTIC_GUITAR = 3863;
+	public static final int FINGER_CYMBALS = 3864;
+	public static final int KETTLE_DRUM = 3865;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

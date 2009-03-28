@@ -100,6 +100,11 @@ public abstract class SorceressLairManager
 		ItemPool.get( ItemPool.CRIMBO_UKELELE, 1 ),
 		ItemPool.get( ItemPool.MASSIVE_SITAR, 1 ),
 		ItemPool.get( ItemPool.ZIM_MERMANS_GUITAR, 1 ),
+		ItemPool.get( ItemPool.GUITAR_4D, 1 ),
+		ItemPool.get( ItemPool.HALF_GUITAR, 1 ),
+		ItemPool.get( ItemPool.SMALLEST_VIOLIN, 1 ),
+		ItemPool.get( ItemPool.OOT_BIWA, 1 ),
+		ItemPool.get( ItemPool.PLASTIC_GUITAR, 1 ),
 	};
 
 	private static final AdventureResult BROKEN_SKULL = ItemPool.get( ItemPool.BROKEN_SKULL, 1 );
@@ -108,6 +113,11 @@ public abstract class SorceressLairManager
 	{
 		SorceressLairManager.BONE_RATTLE,
 		ItemPool.get( ItemPool.TAMBOURINE, 1 ),
+		ItemPool.get( ItemPool.JUNGLE_DRUM, 1 ),
+		ItemPool.get( ItemPool.HIPPY_BONGO, 1 ),
+		ItemPool.get( ItemPool.BASS_DRUM, 1 ),
+		ItemPool.get( ItemPool.KETTLE_DRUM, 1 ),
+		ItemPool.get( ItemPool.FINGER_CYMBALS, 1 ),
 		SorceressLairManager.BROKEN_SKULL
 	};
 
