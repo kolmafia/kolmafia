@@ -620,6 +620,7 @@ gnauga hide whip	Item Drop: +3
 goatskin umbrella	Stench Damage: +15
 goulauncher	Moxie: +4, Spooky Damage: +5
 grass blade	Weapon Damage: +5
+grass whistle	Moxie: +6, MP Regen Min: 4, MP Regen Max: 6
 grassy cutlass	Weapon Damage: +11
 grave robbing shovel	Spooky Damage: +3, Initiative: -10
 grease gun	Moxie: +3, Weapon Damage: +3, Sleaze Damage: +3
