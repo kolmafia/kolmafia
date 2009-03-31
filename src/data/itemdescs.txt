@@ -3864,8 +3864,8 @@
 3858	151983382	bone flute
 3859	397830391	infernal fife	infernal fifes
 3860	839256177	charming flute	charming flutes
-3861
-3862
+3861	268087099	leaf of grass	leaves of grass
+3862	472105647	grass whistle	grass whistles
 3863	350296101	plastic guitar	plastic guitars
 3864	143681765	finger cymbals	pairs of finger cymbals
 3865	673197779	black kettle drum

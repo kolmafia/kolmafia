@@ -79,14 +79,16 @@ detective skull	COMBINE	gnoll lips	brainy skull
 disembodied smile	COMBINE	gnoll lips	gnoll teeth
 enchanted eyepatch	COMBINE	eyepatch	lihc eye
 gnatwing earring	COMBINE	gnatwing	piercing post
-gnoll-tooth necklace	COMBINE	gnoll teeth	hemp string
 Gnollish autoplunger	COMBINE	Gnollish plunger	meat engine
+gnoll-tooth necklace	COMBINE	gnoll teeth	hemp string
 peace-sign necklace	COMBINE	clay peace-sign bead	hemp string
 phat turquoise bracelet	COMBINE	phat turquoise bead	hemp string
 spooky staff	COMBINE	spooky shrunken head	spooky stick
 Talisman o' Nam	COMBINE	snakehead charrrm	snakehead charrrm
-office-supply crossbow	COMBINE	stolen office supplies	stolen office supplies
 
+boxing glove on a spring	COMBINE	nothing-in-the-box	boxing glove
+grass whistle	COMBINE	leaf of grass	leaf of grass
+office-supply crossbow	COMBINE	stolen office supplies	stolen office supplies
 
 # Clover weapons and their subcomponents.  These can be made by all
 # classes by meatsmithing

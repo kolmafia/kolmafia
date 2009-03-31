@@ -560,6 +560,7 @@ gnauga hide whip	20	Mus: 0	1-handed whip
 goatskin umbrella	180	Mus: 75	1-handed umbrella
 goulauncher	100	Mox: 35	2-handed crossbow
 grass blade	80	Mus: 25	1-handed sword
+grass whistle	90	Mox: 35	1-handed whistle
 grassy cutlass	150	Mus: 60	1-handed sword
 grave robbing shovel	30	Mus: 0	2-handed polearm
 grease gun	65	Mox: 17	1-handed pistol

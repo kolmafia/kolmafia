@@ -3859,8 +3859,8 @@
 3858	bone flute	weapon	all	125
 3859	infernal fife	weapon	all	60
 3860	charming flute	weapon	all	190
-3861
-3862
+3861	leaf of grass	none	all	45
+3862	grass whistle	weapon	all	85
 3863	plastic guitar	weapon	all	74
 3864	finger cymbals	weapon	all	82
 3865	black kettle drum	weapon	all	123
