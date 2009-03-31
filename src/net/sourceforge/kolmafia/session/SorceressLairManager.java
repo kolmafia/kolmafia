@@ -1494,6 +1494,7 @@ public abstract class SorceressLairManager
 			if ( SorceressLairManager.QUEST_HANDLER.responseText.indexOf( "Topiary Golem" ) != -1 )
 			{
 				ResultProcessor.processResult( SorceressLairManager.PUZZLE_PIECE.getNegation() );
+				return false;
 			}
 		}
 

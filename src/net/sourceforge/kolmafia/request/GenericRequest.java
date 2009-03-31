@@ -1656,6 +1656,8 @@ public class GenericRequest
 
 	private final void parseResults()
 	{
+		String urlString = this.getURLString();
+
 		// If this is a lucky adventure, then remove a clover
 		// from the player's inventory -- this will occur when
 		// you see either "Your ten-leaf clover" or "your
@@ -1667,19 +1669,17 @@ public class GenericRequest
 			ResultProcessor.processItem( ItemPool.TEN_LEAF_CLOVER, -1 );
 		}
 
-		if ( this.formURLString.startsWith( "sewer.php" ) )
+		if ( urlString.startsWith( "sewer.php" ) &&
+		     this.responseText.indexOf( "You acquire" ) != -1 )
 		{
-			if ( this.responseText.indexOf( "You acquire" ) != -1 )
-			{
-				ResultProcessor.processItem( ItemPool.CHEWING_GUM, -1 );
-			}
-			if ( this.responseText.indexOf( "it's time for you to leave" ) != -1 )
+			ResultProcessor.processItem( ItemPool.CHEWING_GUM, -1 );
+			if ( urlString.indexOf( "doodit=1" ) != -1 ) 
 			{
 				ResultProcessor.processItem( ItemPool.TEN_LEAF_CLOVER, -1 );
 			}
 		}
 
-		if ( this.formURLString.startsWith( "dungeon.php" ) )
+		if ( urlString.startsWith( "dungeon.php" ) )
 		{
 			// Unfortunately, the key breaks off in the lock.
 			if ( this.responseText.indexOf( "key breaks off in the lock" ) != -1 )
@@ -1688,16 +1688,16 @@ public class GenericRequest
 			}
 		}
 
-		if ( this.formURLString.startsWith( "mall.php" ) ||
-		     this.formURLString.startsWith( "searchmall.php" ) ||
-		     this.formURLString.startsWith( "account.php" ) )
+		if ( urlString.startsWith( "mall.php" ) ||
+		     urlString.startsWith( "searchmall.php" ) ||
+		     urlString.startsWith( "account.php" ) )
 		{
 			// These pages cannot possibly contain an actual item
 			// drop, but may have a bogus "You acquire an item:" as
 			// part of a store name or profile quote.
 			this.containsUpdate = false;
 		}
-		else if ( this.formURLString.startsWith( "mallstore.php" ) )
+		else if ( urlString.startsWith( "mallstore.php" ) )
 		{
 			// Mall stores themselves can only contain processable
 			// results when actually buying an item, and then only
