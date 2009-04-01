@@ -1035,6 +1035,9 @@ Dyspepsi-Cola-issue canteen	Maximum MP: +5, Single Equip
 Earring of Fire	Cold Resistance: +3, Spooky Resistance: +3, Single Equip
 # El Vibrato translator
 Elmley shades	Muscle: +12, Critical: 2, Single Equip
+# Elvish sunglasses: +25% Pickpocket Chance
+# Elvish sunglasses: Lets you Rock Out
+Elvish sunglasses	Moxie: +10, Moxie Percent: +10, Ranged Damage: +15, Softcore Only, Single Equip
 Emblem of Ak'gyxoth	Moxie: +43, Mana Cost: -1
 # French slippers
 Frosty's carrot	Stench Resistance: +3, Sleaze Resistance: +3, Class: "Seal Clubber", Single Equip
@@ -1595,6 +1598,8 @@ tiny ballet slippers	Familiar Weight: +5
 tiny balloon knife	Familiar Weight: +5
 tiny bindle	Familiar Weight: +5
 tiny bust of Pallas	Familiar Weight: +5
+# tiny costume wardrobe: Contains Many Adorable Costumes
+tiny costume wardrobe	Softcore Only
 tiny knife and fork	Familiar Weight: +5
 tiny makeup kit	Familiar Weight: +15
 tiny maracas	Familiar Weight: +5
