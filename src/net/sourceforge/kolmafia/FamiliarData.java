@@ -294,8 +294,10 @@ public class FamiliarData
 		case ItemPool.ZEN_MOTORCYCLE:
 		case ItemPool.IMITATION_WHETSTONE:
 		case ItemPool.FISHY_WAND:
-		case ItemPool.TINY_COSTUME_WARDROBE:
 			return 0;
+
+		case ItemPool.TINY_COSTUME_WARDROBE:
+			return KoLCharacter.getFamiliar().getId() == 40 ? 25 : 0;
 
 		case ItemPool.LEAD_NECKLACE:
 			return 3;
