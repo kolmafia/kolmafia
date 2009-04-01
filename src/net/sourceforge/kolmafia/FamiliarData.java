@@ -294,6 +294,7 @@ public class FamiliarData
 		case ItemPool.ZEN_MOTORCYCLE:
 		case ItemPool.IMITATION_WHETSTONE:
 		case ItemPool.FISHY_WAND:
+		case ItemPool.TINY_COSTUME_WARDROBE:
 			return 0;
 
 		case ItemPool.LEAD_NECKLACE:
@@ -436,6 +437,7 @@ public class FamiliarData
 		case ItemPool.DAS_BOOT:
 		case ItemPool.MINIATURE_ANTLERS:
 		case ItemPool.FISHY_WAND:
+		case ItemPool.TINY_COSTUME_WARDROBE:
 			return this.id != 54 && this.id != 82;
 
 		case ItemPool.SNOOTY_DISGUISE:

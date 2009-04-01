@@ -3833,8 +3833,8 @@
 3832	tropical swill	drink	all	105
 3833	fruity girl swill	drink	all	105
 3834	blended frozen swill	drink	all	105
-3835
-3836
+3835	tiny costume wardrobe	familiar	all	0
+3836	Elvish sunglasses	accessory	all	0
 3837
 3838
 3839

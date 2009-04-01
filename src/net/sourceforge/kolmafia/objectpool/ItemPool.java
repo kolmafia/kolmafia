@@ -798,6 +798,7 @@ public class ItemPool
 	public static final int FUSCHIA_YARN = 3825;
 	public static final int CHARTREUSE_YARN = 3826;
 	public static final int GRANDMAS_MAP = 3828;
+	public static final int TINY_COSTUME_WARDROBE = 3835;
 	public static final int OOT_BIWA = 3842;
 	public static final int JUNGLE_DRUM = 3846;
 	public static final int HIPPY_BONGO = 3847;

@@ -3838,8 +3838,8 @@
 3832	219381574	tropical swill	coconuts of tropical swill
 3833	913726874	fruity girl swill
 3834	663681212	blended frozen swill
-3835
-3836
+3835	939924795	tiny costume wardrobe
+3836	424231419	Elvish sunglasses
 3837
 3838
 3839
