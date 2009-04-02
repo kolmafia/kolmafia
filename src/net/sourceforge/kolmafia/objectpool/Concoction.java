@@ -560,8 +560,7 @@ public class Concoction
 			return;
 		}
 
-		// Initialize creatable item count to 0.  This way,
-		// you ensure that you're not always off by one.
+		// Initialize creatable item count to 0.
 
 		this.creatable = 0;
 

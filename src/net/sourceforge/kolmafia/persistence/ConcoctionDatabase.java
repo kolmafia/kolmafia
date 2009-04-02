@@ -848,12 +848,39 @@ public class ConcoctionDatabase
 			item.resetCalculations();
 		}
 
+		if ( Preferences.getBoolean( "autoSatisfyWithNPCs" ) )
+		{
+			it = ConcoctionPool.iterator();
+
+			while ( it.hasNext() )
+			{
+				Concoction item = (Concoction) it.next();
+
+				AdventureResult concoction = item.concoction;
+				if ( concoction == null )
+				{
+					continue;
+				}
+
+				if ( !NPCStoreDatabase.contains( concoction.getName(), true ) )
+				{
+					continue;
+				}
+
+				int price = NPCStoreDatabase.price( concoction.getName() );
+				item.initial = concoction.getCount( availableIngredients ) + KoLCharacter.getAvailableMeat() / price;
+				item.creatable = 0;
+				item.total = item.initial;
+				item.visibleTotal = item.total;
+			}
+		}
+
 		// Make assessment of availability of mixing methods.
 		// This method will also calculate the availability of
 		// chefs and bartenders automatically so a second call
 		// is not needed.
 
-		boolean includeNPCs = Preferences.getBoolean( "autoSatisfyWithNPCs" );
+		ConcoctionDatabase.cachePermitted( availableIngredients );
 
 		// Next, do calculations on all mixing methods which cannot
 		// be created at this time.
@@ -863,6 +890,10 @@ public class ConcoctionDatabase
 		while ( it.hasNext() )
 		{
 			Concoction item = (Concoction) it.next();
+			if ( item.initial != -1 )
+			{
+				continue;
+			}
 
 			AdventureResult concoction = item.concoction;
 			if ( concoction == null )
@@ -870,39 +901,16 @@ public class ConcoctionDatabase
 				continue;
 			}
 
-			if ( includeNPCs && NPCStoreDatabase.contains( concoction.getName(), true ) )
-			{
-				int price = NPCStoreDatabase.price( concoction.getName() );
-				item.initial = concoction.getCount( availableIngredients ) + KoLCharacter.getAvailableMeat() / price;
-				item.creatable = 0;
-				item.total = item.initial;
-				item.visibleTotal = item.total;
-			}
-		}
-
-		ConcoctionDatabase.cachePermitted( availableIngredients );
-
-		it = ConcoctionPool.iterator();
-
-		while ( it.hasNext() )
-		{
-			Concoction item = (Concoction) it.next();
-
-			AdventureResult concoction = item.concoction;
-			if ( concoction == null )
+			if ( !Preferences.getBoolean( "unknownRecipe" + item.getItemId() ) &&
+			     ConcoctionDatabase.isPermittedMethod( item.getMixingMethod() ) )
 			{
 				continue;
 			}
 
-			if ( item.initial == -1 &&
-				( Preferences.getBoolean( "unknownRecipe" + item.getItemId() ) ||
-					!ConcoctionDatabase.isPermittedMethod( item.getMixingMethod() ) ) )
-			{
-				item.initial = concoction.getCount( availableIngredients );
-				item.creatable = 0;
-				item.total = item.initial;
-				item.visibleTotal = item.total;
-			}
+			item.initial = concoction.getCount( availableIngredients );
+			item.creatable = -1;
+			item.total = item.initial;
+			item.visibleTotal = item.total;
 		}
 
 		ConcoctionDatabase.calculateBasicItems( availableIngredients );
@@ -938,9 +946,9 @@ public class ConcoctionDatabase
 		// all creatable items.	 We do this by determining the
 		// number of items inside of the old list.
 
-		CreateItemRequest instance;
 		boolean changeDetected = false;
-		boolean considerPulls = !KoLCharacter.canInteract() && !KoLCharacter.isHardcore() &&
+		boolean considerPulls = !KoLCharacter.canInteract() &&
+			!KoLCharacter.isHardcore() &&
 			ItemManageFrame.getPullsBudgeted() - ConcoctionDatabase.queuedPullsUsed > 0;
 
 		it = ConcoctionPool.iterator();
@@ -955,35 +963,33 @@ public class ConcoctionDatabase
 				continue;
 			}
 
-			int itemId = ar.getItemId();
-
-			int pullable = 0;
-
-			if ( considerPulls && itemId > 0 && item.getPrice() <= 0 &&
-			     ItemDatabase.meetsLevelRequirement( item.getName() ) )
-			{
-				pullable = Math.min ( ar.getCount( KoLConstants.storage ) - item.queuedPulls,
-					ItemManageFrame.getPullsBudgeted() - ConcoctionDatabase.queuedPullsUsed );
-				if ( pullable > 0 )
-				{
-					item.setPullable( pullable );
-				}
-			}
-
-			instance = CreateItemRequest.getInstance( ar );
+			CreateItemRequest instance = CreateItemRequest.getInstance( ar, false );
 
 			if ( instance == null )
 			{
 				continue;
 			}
 
-			instance.setQuantityPossible( item.creatable );
+			if ( considerPulls &&
+                             ar.getItemId() > 0 &&
+                             item.getPrice() <= 0 &&
+			     ItemDatabase.meetsLevelRequirement( item.getName() ) )
+			{
+				item.setPullable( Math.min ( ar.getCount( KoLConstants.storage ) - item.queuedPulls, ItemManageFrame.getPullsBudgeted() - ConcoctionDatabase.queuedPullsUsed ) );
+			}
+                        else
+			{
+				item.setPullable( 0 );
+			}
+
+			int creatable = Math.max( item.creatable, 0 );
+			int pullable = Math.max( item.pullable, 0 );
+
+			instance.setQuantityPossible( creatable );
 			instance.setQuantityPullable( pullable );
 			
-			if ( instance.getQuantityPossible() + pullable == 0 )
+			if ( creatable + pullable == 0 )
 			{
-				// We can't make this concoction now
-
 				if ( item.wasPossible() )
 				{
 					ConcoctionDatabase.creatableList.remove( instance );
@@ -1109,7 +1115,7 @@ public class ConcoctionDatabase
 
 		ConcoctionDatabase.stillsLimit.total = KoLCharacter.getStillsAvailable();
 		ConcoctionDatabase.stillsLimit.initial =
-			ConcoctionDatabase.stillsLimit.total - KoLCharacter.getStillsAvailable() - ConcoctionDatabase.queuedStillsUsed;
+			ConcoctionDatabase.stillsLimit.total - ConcoctionDatabase.queuedStillsUsed;
 		ConcoctionDatabase.stillsLimit.creatable = 0;
 		ConcoctionDatabase.stillsLimit.visibleTotal = ConcoctionDatabase.stillsLimit.total;
 

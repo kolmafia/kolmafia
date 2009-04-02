@@ -330,9 +330,9 @@ public class CreateItemRequest
 
 	public boolean equals( final Object o )
 	{
-		return o != null && o instanceof CreateItemRequest && this.itemId == ( (CreateItemRequest) o ).itemId;
+		return this.compareTo( o ) == 0;
 	}
-
+                
 	public int compareTo( final Object o )
 	{
 		return o == null ? -1 : this.getName().compareToIgnoreCase( ( (CreateItemRequest) o ).getName() );
