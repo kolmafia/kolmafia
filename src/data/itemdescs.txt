@@ -3836,8 +3836,8 @@
 3830	896990073	water-polo cap
 3831	182199050	Typical Tavern swill	flagons of Typical Tavern swill
 3832	219381574	tropical swill	coconuts of tropical swill
-3833	913726874	fruity girl swill
-3834	663681212	blended frozen swill
+3833	913726874	fruity girl swill	glasses of fruity girl swill
+3834	663681212	blended frozen swill	glasses of blended frozen swill
 3835	939924795	tiny costume wardrobe
 3836	424231419	Elvish sunglasses
 3837
