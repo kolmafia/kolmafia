@@ -470,9 +470,14 @@ public class ConcoctionDatabase
 		c.queue( queuedIngredients, ingredientChange, quantity );
 
 		adventureChange = ConcoctionDatabase.queuedAdventuresUsed - adventureChange;
-		AdventureResult.addResultToList(
-			queuedIngredients, new AdventureResult( AdventureResult.ADV, adventureChange ) );
+		if ( adventureChange != 0 )
+		{
+			AdventureResult.addResultToList(
+				queuedIngredients, new AdventureResult( AdventureResult.ADV, adventureChange ) );
+		}
+
 		stillChange = ConcoctionDatabase.queuedStillsUsed - stillChange;
+
 		pullChange = ConcoctionDatabase.queuedPullsUsed - pullChange;
 		if ( pullChange != 0 )
 		{
@@ -908,7 +913,7 @@ public class ConcoctionDatabase
 			}
 
 			item.initial = concoction.getCount( availableIngredients );
-			item.creatable = -1;
+			item.creatable = 0;
 			item.total = item.initial;
 			item.visibleTotal = item.total;
 		}
@@ -949,7 +954,7 @@ public class ConcoctionDatabase
 		boolean changeDetected = false;
 		boolean considerPulls = !KoLCharacter.canInteract() &&
 			!KoLCharacter.isHardcore() &&
-			ItemManageFrame.getPullsBudgeted() - ConcoctionDatabase.queuedPullsUsed > 0;
+			ItemManageFrame.getPullsBudgeted() > ConcoctionDatabase.queuedPullsUsed;
 
 		it = ConcoctionPool.iterator();
 
