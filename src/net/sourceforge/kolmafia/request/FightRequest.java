@@ -1456,6 +1456,13 @@ public class FightRequest
 			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Your antique greaves broke." );
 		}
 
+		// "You sigh and discard the belt in a nearby trash can."
+		if ( responseText.indexOf( "You sigh and discard the belt in a nearby trash can." ) != -1 )
+		{
+			EquipmentManager.discardEquipment( ItemPool.CHEAP_STUDDED_BELT );
+			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Your cheap studded belt broke." );
+		}
+
 		FightRequest.updateMonsterHealth( responseText );
 
 		int blindIndex = responseText.indexOf( "... something.</div>" );

@@ -674,6 +674,7 @@ public class ItemPool
 	public static final int TASTEFUL_BOOK = 3263;
 	public static final int BLACK_BLUE_LIGHT = 3276;
 	public static final int LOUDMOUTH_LARRY = 3277;
+	public static final int CHEAP_STUDDED_BELT = 3278;
 	public static final int MACARONI_FRAGMENTS = 3287;
 	public static final int SHIMMERING_TENDRILS = 3288;
 	public static final int SCINTILLATING_POWDER = 3289;
