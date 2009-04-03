@@ -46,7 +46,8 @@ public class LeafletRequest
 	extends GenericRequest
 {
 	private static final Pattern COMMAND_PATTERN = Pattern.compile( "command=([^&]*)" );
-	private static final Pattern TCHOTCHKE_PATTERN = Pattern.compile( "A ([a-z ]*?) sits on the mantlepiece" );
+	private static final Pattern RESPONSE_PATTERN = Pattern.compile( "<td><b>(.*?)</b>" );
+	private static final Pattern TCHOTCHKE_PATTERN = Pattern.compile( "A ([a-z ]*?) sits on the mantelpiece" );
 
 	public LeafletRequest()
 	{
@@ -75,7 +76,13 @@ public class LeafletRequest
 
 	public static final void parseResponse( final String urlString, final String responseText )
 	{
-		Matcher matcher = TCHOTCHKE_PATTERN.matcher( responseText );
+		Matcher matcher = RESPONSE_PATTERN.matcher( responseText );
+		if ( !matcher.find() )
+		{
+			return;
+		}
+
+                matcher = TCHOTCHKE_PATTERN.matcher( matcher.group(1) );
 		if ( matcher.find() )
 		{
 			RequestLogger.updateSessionLog( "(You see a " + matcher.group(1) + ")" );
