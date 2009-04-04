@@ -348,7 +348,7 @@ public class GenericRequest
 
 	public GenericRequest constructURLString( final String newURLString )
 	{
-		return this.constructURLString( newURLString, this.requestMethod.equals( "POST" ) );
+		return this.constructURLString( newURLString, true );
 	}
 
 	public GenericRequest constructURLString( String newURLString, boolean usePostMethod )
