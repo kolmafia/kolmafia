@@ -147,7 +147,11 @@ public class LocalRelayAgent
 
 		int spaceIndex = requestLine.indexOf( " " );
 
-		this.path = requestLine.substring( spaceIndex, requestLine.lastIndexOf( " " ) ).trim();
+		String requestMethod = requestLine.substring( 0, spaceIndex );
+		String path = requestLine.substring( spaceIndex + 1, requestLine.lastIndexOf( " " ) );
+
+		this.request.setRequestMethod( requestMethod );
+		this.path = path;
 		this.request.constructURLString( this.path );
 
 		String currentLine;
@@ -157,8 +161,8 @@ public class LocalRelayAgent
 		{
 			if ( currentLine.startsWith( "Referer: " ) )
 			{
-				String path = currentLine.substring( 9 );
-				if ( !path.equals( "" ) && !path.startsWith( "http://127.0.0.1" ) )
+				String referer = currentLine.substring( 9 );
+				if ( !referer.equals( "" ) && !referer.startsWith( "http://127.0.0.1" ) )
 				{
 					RequestLogger.printLine( "Request from bogus referer ignored: " + path );
 					return false;
@@ -195,12 +199,11 @@ public class LocalRelayAgent
 
 		if ( requestLine.startsWith( "POST" ) )
 		{
-			int current;
 			int remaining = contentLength;
 
 			while ( remaining > 0 )
 			{
-				current = this.reader.read( this.data );
+				int current = this.reader.read( this.data );
 				this.buffer.append( this.data, 0, current );
 				remaining -= current;
 			}

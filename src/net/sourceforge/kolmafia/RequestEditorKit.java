@@ -668,7 +668,7 @@ public class RequestEditorKit
 				UseLinkDecorator.decorate( location, buffer );
 			}
 
-			if ( buffer.indexOf( "showplayer.php" ) != -1 && buffer.indexOf( "rcm.js" ) == -1 && buffer.indexOf( "rcm.2.js" ) == -1 )
+			if ( buffer.indexOf( "showplayer.php" ) != -1 && buffer.indexOf( "rcm.js" ) == -1 && buffer.indexOf( "rcm.2.js" ) == -1 && buffer.indexOf( "rcm.3.js" ) == -1 )
 			{
 				RequestEditorKit.addChatFeatures( buffer );
 			}

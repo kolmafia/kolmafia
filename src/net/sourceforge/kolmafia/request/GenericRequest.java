@@ -140,6 +140,7 @@ public class GenericRequest
 	private URL formURL;
 	private String currentHost;
 	private String formURLString;
+	private String requestMethod;
 
 	public boolean isChatRequest = false;
 
@@ -328,10 +329,16 @@ public class GenericRequest
 	public GenericRequest( final String newURLString )
 	{
 		this.data = new ArrayList();
+		this.requestMethod = "POST";
 		if ( !newURLString.equals( "" ) )
 		{
 			this.constructURLString( newURLString );
 		}
+	}
+
+	public void setRequestMethod( final String requestMethod )
+	{
+		this.requestMethod = requestMethod;
 	}
 
 	public boolean hasNoResult()
@@ -341,7 +348,7 @@ public class GenericRequest
 
 	public GenericRequest constructURLString( final String newURLString )
 	{
-		return this.constructURLString( newURLString, true );
+		return this.constructURLString( newURLString, this.requestMethod.equals( "POST" ) );
 	}
 
 	public GenericRequest constructURLString( String newURLString, boolean usePostMethod )
@@ -977,8 +984,9 @@ public class GenericRequest
 
 		try
 		{
-			// For now, because there isn't HTTPS support, just open the
-			// connection and directly cast it into an HttpURLConnection
+			// For now, because there isn't HTTPS support, just
+			// open the connection and directly cast it into an
+			// HttpURLConnection
 
 			if ( this.formURL == null || !this.currentHost.equals( GenericRequest.KOL_HOST ) )
 			{
@@ -1005,6 +1013,7 @@ public class GenericRequest
 			}
 
 			this.formConnection = (HttpURLConnection) this.formURL.openConnection();
+			this.formConnection.setRequestMethod( this.requestMethod );
 		}
 		catch ( IOException e )
 		{
@@ -1070,9 +1079,8 @@ public class GenericRequest
 			this.printRequestProperties();
 		}
 
-		// Only attempt to post something if there's actually
-		// data to post - otherwise, opening an input stream
-		// should be enough
+		// Only attempt to post something if there's actually data to
+		// post - otherwise, opening an input stream should be enough
 
 		if ( this.data.isEmpty() )
 		{
@@ -1081,8 +1089,6 @@ public class GenericRequest
 
 		try
 		{
-			this.formConnection.setRequestMethod( "POST" );
-
 			OutputStream ostream = this.formConnection.getOutputStream();
 			ostream.write( this.dataString );
 
