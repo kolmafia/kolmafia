@@ -127,6 +127,11 @@ public class RelayRequest
 		this.headers.clear();
 
 		String path = this.getPath();
+		int quest = path.indexOf( "?" );
+		if ( quest != -1 )
+		{
+			path = path.substring( 0, quest );
+		}
 
 		if ( path.endsWith( ".css" ) )
 		{
@@ -1337,13 +1342,15 @@ public class RelayRequest
 
 	public void run()
 	{
-		if ( this.getPath().startsWith( "http" ) )
+		String path = this.getPath();
+
+		if ( path.startsWith( "http" ) )
 		{
 			super.run();
 			return;
 		}
 
-		if ( !this.getPath().endsWith( ".php" ) )
+		if ( path.indexOf( "?" ) == -1 && !path.endsWith( ".php" ) )
 		{
 			this.handleSimple();
 			return;
@@ -1366,7 +1373,7 @@ public class RelayRequest
 			return;
 		}
 
-		if ( this.getPath().equals( "lchat.php" ) )
+		if ( path.startsWith( "lchat.php" ) )
 		{
 			if ( Preferences.getBoolean( "relayUsesIntegratedChat" ) )
 			{
@@ -1386,7 +1393,7 @@ public class RelayRequest
 		// Load custom items from OneTonTomato's script if they
 		// are currently being requested.
 
-		if ( this.getPath().equals( "desc_item.php" ) )
+		if ( path.startsWith( "desc_item.php" ) )
 		{
 			String item = this.getFormField( "whichitem" );
 			if ( item != null && item.startsWith( "custom" ) )
@@ -1432,9 +1439,7 @@ public class RelayRequest
 			}
 		}
 
-		String path = this.getPath();
-
-		if ( path.equals( "desc_effect.php" ) && Preferences.getBoolean( "relayAddsWikiLinks" ) )
+		if ( path.startsWith( "desc_effect.php" ) && Preferences.getBoolean( "relayAddsWikiLinks" ) )
 		{
 			String effect = this.getFormField( "whicheffect" );
 			String location =
