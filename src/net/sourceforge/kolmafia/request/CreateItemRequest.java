@@ -128,7 +128,7 @@ public class CreateItemRequest
 		super( "" );
 
 		this.itemId = itemId;
-		this.name = ItemDatabase.getItemName( itemId );
+		this.name = ItemDatabase.getItemDataName( itemId );
 		this.mixingMethod = ConcoctionDatabase.getMixingMethod( this.itemId );
 		this.calculateYield();
 	}
@@ -273,7 +273,7 @@ public class CreateItemRequest
 		return instance;
 	}
 
-	public static final CreateItemRequest constructInstance( final String name )
+	private static final CreateItemRequest constructInstance( final String name )
 	{
 		AdventureResult item = AdventureResult.tallyItem( name );
 		int itemId = item.getItemId();
@@ -1331,13 +1331,15 @@ public class CreateItemRequest
 		public CreateItemRequest get( final String name )
 		{
 			CreateItemRequest value = (CreateItemRequest) this.internalMap.get( name );
-			if ( value == null )
+			if ( value != null )
 			{
-				value = CreateItemRequest.constructInstance( name );
-				this.internalMap.put( name, value );
-				
+				return value;
 			}
-
+			value = CreateItemRequest.constructInstance( name );
+			if ( value != null )
+			{
+				this.internalMap.put( name, value );
+			}
 			return value;
 		}
 	}

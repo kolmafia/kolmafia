@@ -1291,6 +1291,11 @@ public class ItemDatabase
 		return (String) ItemDatabase.nameById.get( new Integer( itemId ) );
 	}
 
+	public static final String getItemDataName( final int itemId )
+	{
+		return (String) ItemDatabase.dataNameById.get( new Integer( itemId ) );
+	}
+
 	public static final String getItemDataName( final Integer itemId )
 	{
 		return (String) ItemDatabase.dataNameById.get( itemId );
