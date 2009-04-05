@@ -41,6 +41,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.InetAddress;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -406,6 +407,11 @@ public class GenericRequest
 			this instanceof LogoutRequest;
 
 		return this;
+	}
+
+	private boolean postDataFields()
+	{
+		return !this.data.isEmpty() && this.requestMethod.equals( "POST" );
 	}
 
 	/**
@@ -988,30 +994,7 @@ public class GenericRequest
 			// open the connection and directly cast it into an
 			// HttpURLConnection
 
-			if ( this.formURL == null || !this.currentHost.equals( GenericRequest.KOL_HOST ) )
-			{
-				if ( Preferences.getBoolean( "allowSocketTimeout" ) &&
-					!this.formURLString.startsWith( "valhalla.php" ) )
-				{
-					if ( this.formURLString.startsWith( "http:" ) )
-						this.formURL = new URL( null, this.formURLString, HttpTimeoutHandler.getInstance() );
-					else
-						this.formURL = new URL( GenericRequest.KOL_ROOT, this.formURLString, HttpTimeoutHandler.getInstance() );
-				}
-				else
-				{
-					if ( this.formURLString.startsWith( "http:" ) )
-					{
-						this.formURL = new URL( this.formURLString );
-					}
-					else
-					{
-						this.formURL = new URL( GenericRequest.KOL_ROOT, this.formURLString );
-					}
-				}
-
-			}
-
+			this.formURL = this.buildURL();
 			this.formConnection = (HttpURLConnection) this.formURL.openConnection();
 			this.formConnection.setRequestMethod( this.requestMethod );
 		}
@@ -1031,7 +1014,7 @@ public class GenericRequest
 		}
 
 		this.formConnection.setDoInput( true );
-		this.formConnection.setDoOutput( !this.data.isEmpty() );
+		this.formConnection.setDoOutput( this.postDataFields() );
 		this.formConnection.setUseCaches( false );
 		this.formConnection.setInstanceFollowRedirects( false );
 
@@ -1050,20 +1033,43 @@ public class GenericRequest
 
 		this.formConnection.setRequestProperty( "User-Agent", GenericRequest.userAgent );
 
-		if ( this.dataChanged )
+		if ( this.postDataFields() )
 		{
-			this.dataChanged = false;
-			this.dataString = this.getDataString( true ).getBytes();
-		}
+			if ( this.dataChanged )
+			{
+				this.dataChanged = false;
+				this.dataString = this.getDataString( true ).getBytes();
+			}
 
-		if ( !this.data.isEmpty() )
-		{
 			this.formConnection.setRequestProperty( "Content-Type", "application/x-www-form-urlencoded" );
 			this.formConnection.setRequestProperty( "Content-Length", String.valueOf( this.dataString.length ) );
 		}
 
 		return true;
 	}
+
+	private URL buildURL()
+                throws MalformedURLException
+	{
+                if ( this.formURL != null && this.currentHost.equals( GenericRequest.KOL_HOST ) )
+                {
+                        return this.formURL;
+                }
+
+                // If we are not submitting data via POST, we must generate a
+                // URL that includes all the data fields.
+
+                String urlString = this.postDataFields() ? this.formURLString :  this.formURLString + "?" + this.getDataString( false );
+
+                URL context = urlString.startsWith( "http:" ) ? null : GenericRequest.KOL_ROOT;
+
+                if ( Preferences.getBoolean( "allowSocketTimeout" ) && !urlString.startsWith( "valhalla.php" ) )
+                {
+                        return new URL( context, urlString, HttpTimeoutHandler.getInstance() );
+                }
+
+                return new URL( context, urlString );
+        }
 
 	/**
 	 * Utility method used to post the client's data to the Kingdom of Loathing server. The method grabs all form fields
@@ -1082,7 +1088,7 @@ public class GenericRequest
 		// Only attempt to post something if there's actually data to
 		// post - otherwise, opening an input stream should be enough
 
-		if ( this.data.isEmpty() )
+		if ( !this.postDataFields() )
 		{
 			return false;
 		}
