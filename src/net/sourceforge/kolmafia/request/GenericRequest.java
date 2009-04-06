@@ -141,7 +141,6 @@ public class GenericRequest
 	private URL formURL;
 	private String currentHost;
 	private String formURLString;
-	private String requestMethod;
 
 	public boolean isChatRequest = false;
 
@@ -330,16 +329,10 @@ public class GenericRequest
 	public GenericRequest( final String newURLString )
 	{
 		this.data = new ArrayList();
-		this.requestMethod = "POST";
 		if ( !newURLString.equals( "" ) )
 		{
 			this.constructURLString( newURLString );
 		}
-	}
-
-	public void setRequestMethod( final String requestMethod )
-	{
-		this.requestMethod = requestMethod;
 	}
 
 	public boolean hasNoResult()
@@ -349,7 +342,7 @@ public class GenericRequest
 
 	public GenericRequest constructURLString( final String newURLString )
 	{
-		return this.constructURLString( newURLString, this.requestMethod.equals( "POST" ) );
+		return this.constructURLString( newURLString, true );
 	}
 
 	public GenericRequest constructURLString( String newURLString, boolean usePostMethod )
@@ -370,15 +363,13 @@ public class GenericRequest
 
 		int formSplitIndex = newURLString.indexOf( "?" );
 
-		if ( formSplitIndex == -1 )
+		if ( formSplitIndex == -1 || !usePostMethod )
 		{
 			this.formURLString = newURLString;
 		}
 		else
 		{
-			this.formURLString = !usePostMethod ?
-				newURLString :
-				newURLString.substring( 0, formSplitIndex );
+			this.formURLString = newURLString.substring( 0, formSplitIndex );
 			this.addFormFields( newURLString.substring( formSplitIndex + 1 ), true );
 		}
 
@@ -409,18 +400,13 @@ public class GenericRequest
 		return this;
 	}
 
-	private boolean postDataFields()
-	{
-		return !this.data.isEmpty() && this.requestMethod.equals( "POST" );
-	}
-
 	/**
 	 * Returns the location of the form being used for this URL, in case it's ever needed/forgotten.
 	 */
 
 	public String getURLString()
 	{
-		return ( this.data.isEmpty() || !this.requestMethod.equals( "POST" ) ) ? this.formURLString : this.formURLString + "?" + this.getDataString( false );
+		return this.data.isEmpty() ? this.formURLString : this.formURLString + "?" + this.getDataString( false );
 	}
 
 	/**
@@ -616,16 +602,31 @@ public class GenericRequest
 
 	public String getFormField( final String key )
 	{
-		if ( this.data.isEmpty() )
+		if ( !this.data.isEmpty() )
+		{
+			return this.findField( this.data, key );
+		}
+
+		int index = this.formURLString.indexOf( "?" );
+		if ( index == -1 )
 		{
 			return null;
 		}
 
-		String datum;
-
-		for ( int i = 0; i < this.data.size(); ++i )
+		String[] tokens = this.formURLString.substring( index + 1 ).split( "&" );
+		List fields = new ArrayList();
+		for ( int i = 0; i < tokens.length; ++i )
 		{
-			datum = (String) this.data.get( i );
+			fields.add( tokens[ i ] );
+		}
+		return this.findField( fields, key );
+	}
+
+	private String findField( final List data, final String key )
+	{
+		for ( int i = 0; i < data.size(); ++i )
+		{
+			String datum = (String) data.get( i );
 
 			int splitIndex = datum.indexOf( "=" );
 			if ( splitIndex == -1 )
@@ -1003,7 +1004,6 @@ public class GenericRequest
 
 			this.formURL = this.buildURL();
 			this.formConnection = (HttpURLConnection) this.formURL.openConnection();
-			this.formConnection.setRequestMethod( this.requestMethod );
 		}
 		catch ( IOException e )
 		{
@@ -1021,7 +1021,8 @@ public class GenericRequest
 		}
 
 		this.formConnection.setDoInput( true );
-		this.formConnection.setDoOutput( this.postDataFields() );
+
+		this.formConnection.setDoOutput( !this.data.isEmpty() );
 		this.formConnection.setUseCaches( false );
 		this.formConnection.setInstanceFollowRedirects( false );
 
@@ -1040,7 +1041,7 @@ public class GenericRequest
 
 		this.formConnection.setRequestProperty( "User-Agent", GenericRequest.userAgent );
 
-		if ( this.postDataFields() )
+		if ( !this.data.isEmpty() )
 		{
 			if ( this.dataChanged )
 			{
@@ -1091,13 +1092,14 @@ public class GenericRequest
 		// Only attempt to post something if there's actually data to
 		// post - otherwise, opening an input stream should be enough
 
-		if ( !this.postDataFields() )
+		if ( this.data.isEmpty() )
 		{
 			return false;
 		}
 
 		try
 		{
+			this.formConnection.setRequestMethod( "POST" );
 			OutputStream ostream = this.formConnection.getOutputStream();
 			ostream.write( this.dataString );
 

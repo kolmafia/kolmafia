@@ -119,9 +119,9 @@ public class RelayRequest
 		this.allowOverride = allowOverride && Preferences.getBoolean( "relayAllowsOverrides" );
 	}
 
-	public GenericRequest constructURLString( final String newURLString )
+	public GenericRequest constructURLString( final String newURLString, final boolean usePostMethod )
 	{
-		super.constructURLString( newURLString );
+		super.constructURLString( newURLString, usePostMethod );
 
 		this.rawByteBuffer = null;
 		this.headers.clear();

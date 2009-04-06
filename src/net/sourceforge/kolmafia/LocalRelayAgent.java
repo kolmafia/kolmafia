@@ -73,6 +73,7 @@ public class LocalRelayAgent
 	private PrintStream writer;
 
 	private String path;
+	private String requestMethod;
 	private boolean isCheckingModified;
 	private final RelayRequest request;
 
@@ -147,12 +148,10 @@ public class LocalRelayAgent
 
 		int spaceIndex = requestLine.indexOf( " " );
 
-		String requestMethod = requestLine.substring( 0, spaceIndex );
-		String path = requestLine.substring( spaceIndex + 1, requestLine.lastIndexOf( " " ) );
+		this.requestMethod = requestLine.substring( 0, spaceIndex );
+		this.path = requestLine.substring( spaceIndex + 1, requestLine.lastIndexOf( " " ) );
 
-		this.request.setRequestMethod( requestMethod );
-		this.path = path;
-		this.request.constructURLString( this.path );
+		this.request.constructURLString( this.path, this.requestMethod.equals( "POST" ) );
 
 		String currentLine;
 		int contentLength = 0;
@@ -214,10 +213,10 @@ public class LocalRelayAgent
 
 		// Validate supplied password hashes
 		String pwd = this.request.getFormField( "pwd" );
-
-		// Other KoL pages might also use "phash"
 		if ( pwd == null )
+		{
 			pwd = this.request.getFormField( "phash" );
+		}
 
 		// KoLmafia internal pages use only "pwd"
 		if ( this.path.startsWith( "/KoLmafia" ) )
