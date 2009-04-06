@@ -349,7 +349,7 @@ public class GenericRequest
 
 	public GenericRequest constructURLString( final String newURLString )
 	{
-		return this.constructURLString( newURLString, true );
+		return this.constructURLString( newURLString, this.requestMethod.equals( "POST" ) );
 	}
 
 	public GenericRequest constructURLString( String newURLString, boolean usePostMethod )
@@ -372,13 +372,15 @@ public class GenericRequest
 
 		int formSplitIndex = newURLString.indexOf( "?" );
 
-		if ( formSplitIndex == -1 || !usePostMethod )
+		if ( formSplitIndex == -1 )
 		{
 			this.formURLString = newURLString;
 		}
 		else
 		{
-			this.formURLString = newURLString.substring( 0, formSplitIndex );
+			this.formURLString = !usePostMethod ?
+				newURLString :
+				newURLString.substring( 0, formSplitIndex );
 			this.addFormFields( newURLString.substring( formSplitIndex + 1 ), true );
 		}
 
@@ -684,6 +686,13 @@ public class GenericRequest
 	public String getPath()
 	{
 		return this.formURLString;
+	}
+
+	public String getBasePath()
+	{
+		String path =  this.formURLString;
+		int quest = path.indexOf( "?" );
+		return quest != -1 ? path.substring( 0, quest ) : path;
 	}
 
 	public String getHashField()
@@ -1056,11 +1065,7 @@ public class GenericRequest
                         return this.formURL;
                 }
 
-                // If we are not submitting data via POST, we must generate a
-                // URL that includes all the data fields.
-
-                String urlString = this.postDataFields() ? this.formURLString :  this.formURLString + "?" + this.getDataString( false );
-
+                String urlString = this.formURLString;
                 URL context = urlString.startsWith( "http:" ) ? null : GenericRequest.KOL_ROOT;
 
                 if ( Preferences.getBoolean( "allowSocketTimeout" ) && !urlString.startsWith( "valhalla.php" ) )

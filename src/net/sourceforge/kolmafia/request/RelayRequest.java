@@ -126,12 +126,7 @@ public class RelayRequest
 		this.rawByteBuffer = null;
 		this.headers.clear();
 
-		String path = this.getPath();
-		int quest = path.indexOf( "?" );
-		if ( quest != -1 )
-		{
-			path = path.substring( 0, quest );
-		}
+		String path = this.getBasePath();
 
 		if ( path.endsWith( ".css" ) )
 		{
@@ -207,7 +202,7 @@ public class RelayRequest
 
 	public void processResults()
 	{
-		if ( !this.hasNoResult() && !this.getPath().equals( "fight.php" ) )
+		if ( !this.hasNoResult() && !this.getBasePath().equals( "fight.php" ) )
 		{
 			StaticEntity.externalUpdate( this.getURLString(), this.responseText );
 		}
@@ -216,8 +211,7 @@ public class RelayRequest
 	public void formatResponse()
 	{
 		this.statusLine = "HTTP/1.1 200 OK";
-		String path = this.getPath();
-
+		String path = this.getBasePath();
 		StringBuffer responseBuffer = new StringBuffer( this.responseText );
 
 		// Fix KoLmafia getting outdated by events happening
@@ -1206,33 +1200,34 @@ public class RelayRequest
 		// special handling, catching any exceptions that happen to
 		// popup along the way.
 
-		if ( this.getPath().endsWith( "submitCommand" ) )
+		String path = this.getBasePath();
+		if ( path.endsWith( "submitCommand" ) )
 		{
 			submitCommand( this.getFormField( "cmd" ) );
 			this.pseudoResponse( "HTTP/1.1 200 OK", "" );
 		}
-		else if ( this.getPath().endsWith( "executeCommand" ) )
+		else if ( path.endsWith( "executeCommand" ) )
 		{
 			submitCommand( this.getFormField( "cmd" ) );
 			this.pseudoResponse( "HTTP/1.1 200 OK", "" );
 		}
-		else if ( this.getPath().endsWith( "sideCommand" ) )
+		else if ( path.endsWith( "sideCommand" ) )
 		{
 			submitCommand( this.getFormField( "cmd" ) );
 			this.pseudoResponse( "HTTP/1.1 302 Found", "/charpane.php" );
 		}
-		else if ( this.getPath().endsWith( "messageUpdate" ) )
+		else if ( path.endsWith( "messageUpdate" ) )
 		{
 			this.pseudoResponse( "HTTP/1.1 200 OK", LocalRelayServer.getNewStatusMessages() );
 		}
-		else if ( this.getPath().endsWith( "lookupLocation" ) )
+		else if ( path.endsWith( "lookupLocation" ) )
 		{
 			RelayRequest.lastSafety =
 				AdventureDatabase.getAdventureByURL( "adventure.php?snarfblat=" + this.getFormField( "snarfblat" ) );
 			AdventureFrame.updateSelectedAdventure( RelayRequest.lastSafety );
 			this.handleSafety();
 		}
-		else if ( this.getPath().endsWith( "updateLocation" ) )
+		else if ( path.endsWith( "updateLocation" ) )
 		{
 			this.handleSafety();
 		}
@@ -1285,7 +1280,9 @@ public class RelayRequest
 		// there is an attempt to view the robots file, neither
 		// are available on KoL, so return.
 
-		if ( this.getPath().equals( "missingimage.gif" ) || this.getPath().endsWith( "robots.txt" ) || this.getPath().endsWith(
+		String path = this.getBasePath();
+
+		if ( path.equals( "missingimage.gif" ) || path.endsWith( "robots.txt" ) || path.endsWith(
 			"favicon.ico" ) )
 		{
 			this.sendNotFound();
@@ -1295,7 +1292,7 @@ public class RelayRequest
 		// If this is a command from the browser, handle it before
 		// moving on to anything else.
 
-		if ( this.getPath().startsWith( "KoLmafia/" ) )
+		if ( path.startsWith( "KoLmafia/" ) )
 		{
 			this.handleCommand();
 			return;
@@ -1304,25 +1301,25 @@ public class RelayRequest
 		// Check to see if it's a request from the local images folder.
 		// If it is, go ahead and send it.
 
-		if ( this.getPath().startsWith( "images/playerpics/" ) )
+		if ( path.startsWith( "images/playerpics/" ) )
 		{
-			FileUtilities.downloadImage( "http://pics.communityofloathing.com/albums/" + this.getPath().substring(
-				this.getPath().indexOf( "playerpics" ) ) );
+			FileUtilities.downloadImage( "http://pics.communityofloathing.com/albums/" + path.substring(
+				path.indexOf( "playerpics" ) ) );
 
-			this.sendLocalImage( this.getPath() );
+			this.sendLocalImage( path );
 			return;
 		}
 
-		if ( this.getPath().startsWith( "images/" ) )
+		if ( path.startsWith( "images/" ) )
 		{
-			this.sendLocalImage( this.getPath() );
+			this.sendLocalImage( path );
 			return;
 		}
 
 		// If it's an ASH override script, make sure to handle it
 		// exactly as it should.
 
-		if ( this.getPath().endsWith( ".ash" ) )
+		if ( path.endsWith( ".ash" ) )
 		{
 			if ( !KoLmafiaASH.getClientHTML( this ) )
 			{
@@ -1337,12 +1334,12 @@ public class RelayRequest
 		// client-side.
 
 		this.data.clear();
-		this.sendLocalFile( this.getPath() );
+		this.sendLocalFile( path );
 	}
 
 	public void run()
 	{
-		String path = this.getPath();
+		String path = this.getBasePath();
 
 		if ( path.startsWith( "http" ) )
 		{
