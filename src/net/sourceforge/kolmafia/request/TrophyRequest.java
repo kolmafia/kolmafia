@@ -95,9 +95,7 @@ public class TrophyRequest
 		this.addFormField( "pwd" );
 		super.run();
 		
-		// The multiple trophy moving command works only via GET, not POST.
-		super.constructURLString( "blah" );	// clears private formURL field
-		this.clearDataFields(); 
+		// Multiple trophy moving only works via GET, not POST.
 		StringBuffer buf = new StringBuffer( "trophies.php?moveall=yes" );
 		i = this.trophies.iterator();
 		int pos = 1;
@@ -109,7 +107,9 @@ public class TrophyRequest
 			buf.append( "=" );
 			buf.append( pos++ );
 		}
-		super.constructURLString( buf.toString(), false );
+
+		this.constructURLString( buf.toString(), false );
+
 		super.run();
 	}
 

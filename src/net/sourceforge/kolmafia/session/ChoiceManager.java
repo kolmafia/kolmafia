@@ -1967,9 +1967,7 @@ public abstract class ChoiceManager
 
 			decision = ChoiceManager.pickOutfitChoice( option, decision );
 
-			request.setRequestMethod( "POST" );
 			request.clearDataFields();
-
 			request.addFormField( "pwd" );
 			request.addFormField( "whichchoice", choice );
 			request.addFormField( "option", decision );
