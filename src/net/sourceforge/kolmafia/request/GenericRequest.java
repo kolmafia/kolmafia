@@ -422,7 +422,7 @@ public class GenericRequest
 
 	public String getURLString()
 	{
-		return this.data.isEmpty() ? this.formURLString : this.formURLString + "?" + this.getDataString( false );
+		return ( this.data.isEmpty() || !this.requestMethod.equals( "POST" ) ) ? this.formURLString : this.formURLString + "?" + this.getDataString( false );
 	}
 
 	/**
@@ -1263,7 +1263,7 @@ public class GenericRequest
 		// then construct the URL string and notify the browser that it
 		// should change everything.
 
-		if ( this.formURLString.equals( "login.php" ) )
+		if ( this.formURLString.startsWith( "login.php" ) )
 		{
 			if ( this.redirectLocation.startsWith( "login.php" ) )
 			{
@@ -1513,7 +1513,7 @@ public class GenericRequest
 
 		this.encounter = AdventureRequest.registerEncounter( this );
 
-		if ( this.formURLString.equals( "fight.php" ) )
+		if ( this.formURLString.startsWith( "fight.php" ) )
 		{
 			FightRequest.updateCombatData( this.getURLString(), this.encounter, this.responseText );
 		}
@@ -1565,7 +1565,7 @@ public class GenericRequest
 
 		if ( this instanceof RelayRequest )
 		{
-			if ( !this.formURLString.equals( "basement.php" ) )
+			if ( !this.formURLString.startsWith( "basement.php" ) )
 			{
 				return;
 			}
