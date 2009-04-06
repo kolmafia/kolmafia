@@ -1803,6 +1803,9 @@ public abstract class SorceressLairManager
 
 		KoLmafia.updateDisplay( "Executing final rotations..." );
 
+		// Look at the puzzle again, in case we just retrieved the key
+		RequestThread.postRequest( SorceressLairManager.QUEST_HANDLER.constructURLString( "hedgepuzzle.php" ) );
+
 		for ( int x = 0; x < 3 && KoLmafia.permitsContinue(); ++x )
 		{
 			for ( int y = 0; y < 3 && KoLmafia.permitsContinue(); ++y )
