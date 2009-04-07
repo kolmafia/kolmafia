@@ -63,7 +63,7 @@ public abstract class KoLmafiaASH
 
 	public static final boolean getClientHTML( final RelayRequest request )
 	{
-		String script = request.getPath();
+		String script = request.getBasePath();
 
 		if ( KoLmafiaASH.relayScriptMap.containsKey( script ) )
 		{
@@ -82,7 +82,7 @@ public abstract class KoLmafiaASH
 		}
 
 		File toExecute = new File( KoLConstants.RELAY_LOCATION, script );
-		KoLmafiaASH.relayScriptMap.put( request.getPath(), toExecute );
+		KoLmafiaASH.relayScriptMap.put( script, toExecute );
 		return toExecute.exists() && KoLmafiaASH.getClientHTML( request, toExecute );
 	}
 
@@ -131,9 +131,10 @@ public abstract class KoLmafiaASH
 			KoLmafiaASH.serverReplyBuffer.setLength( 0 );
 
 			KoLmafiaASH.relayRequest.constructURLString( path );
-			int slashpos = KoLmafiaASH.relayRequest.getPath().lastIndexOf( "/" );
+                        String script = KoLmafiaASH.relayRequest.getBasePath();
+			int slashpos = script.lastIndexOf( "/" );
 			interp.execute( serverFunc, new String[] {
-				KoLmafiaASH.relayRequest.getPath().substring( slashpos + 1 ) }, false );
+				script.substring( slashpos + 1 ) }, false );
 
 			if ( KoLmafiaASH.serverReplyBuffer.length() == 0 )
 			{

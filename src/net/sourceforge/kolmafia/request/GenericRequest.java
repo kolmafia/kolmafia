@@ -353,6 +353,7 @@ public class GenericRequest
 			this.formURL = null;
 		}
 
+		this.responseText = null;
 		this.dataChanged = true;
 		this.data.clear();
 

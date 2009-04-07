@@ -119,6 +119,11 @@ public class RelayRequest
 		this.allowOverride = allowOverride && Preferences.getBoolean( "relayAllowsOverrides" );
 	}
 
+	public GenericRequest constructURLString( final String newURLString )
+	{
+		return this.constructURLString( newURLString, true );
+	}
+
 	public GenericRequest constructURLString( final String newURLString, final boolean usePostMethod )
 	{
 		super.constructURLString( newURLString, usePostMethod );
@@ -202,7 +207,7 @@ public class RelayRequest
 
 	public void processResults()
 	{
-		if ( !this.hasNoResult() && !this.getBasePath().equals( "fight.php" ) )
+		if ( !this.hasNoResult() && !this.getPath().startsWith( "fight.php" ) )
 		{
 			StaticEntity.externalUpdate( this.getURLString(), this.responseText );
 		}
@@ -1262,7 +1267,7 @@ public class RelayRequest
 
 		super.run();
 
-		if ( !ChatManager.isRunning() || this.getPath().indexOf( "submitnewchat.php" ) != -1 )
+		if ( !ChatManager.isRunning() || this.getPath().startsWith( "submitnewchat.php" ) )
 		{
 			ChatManager.updateChat( this.responseText );
 		}
@@ -1282,8 +1287,7 @@ public class RelayRequest
 
 		String path = this.getBasePath();
 
-		if ( path.equals( "missingimage.gif" ) || path.endsWith( "robots.txt" ) || path.endsWith(
-			"favicon.ico" ) )
+		if ( path.equals( "missingimage.gif" ) || path.endsWith( "robots.txt" ) || path.endsWith( "favicon.ico" ) )
 		{
 			this.sendNotFound();
 			return;

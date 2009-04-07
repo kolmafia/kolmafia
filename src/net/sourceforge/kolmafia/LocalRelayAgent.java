@@ -234,7 +234,7 @@ public class LocalRelayAgent
 			return true;
 		}
 
-		if ( this.path.indexOf( "?" ) == -1 )
+		if ( this.path.indexOf( "?" ) != -1 )
 		{
 			return false;
 		}
