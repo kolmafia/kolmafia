@@ -926,8 +926,7 @@ public abstract class UseLinkDecorator
 			int formIndex = this.useLocation.indexOf( "?" );
 			if ( formIndex != -1 )
 			{
-				this.useLocation = this.useLocation.substring( 0, formIndex ) + "?pwd=" + GenericRequest.passwordHash + "&" +
-					this.useLocation.substring( formIndex + 1 );
+				this.useLocation += "&pwd=" + GenericRequest.passwordHash;
 			}
 		}
 

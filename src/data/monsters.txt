@@ -176,7 +176,7 @@ Bronze Chef	HP: 100000
 Brutus, the Toga-Clad Lout	HP: 280	kick-ass kicks (0)	wreath of laurels (100)	white class ring (0)
 Bugbear-In-The-Box	HP: 11 Def: 18 Atk: 16 Meat: 12-18	box (20)	bugbear beanie (10)	bugbear bungguard (10)
 Bullet Bill	HP: 15 Def: 25 Atk: 25	black pixel (70)	black pixel (70)	black pixel (70)
-Burly Sidekick	HP: 100 Def: 100 Atk: 100 Meat: 79-168	cocoa eggshell fragment (30)	mohawk wig (10)	tiny house (30)
+Burly Sidekick	HP: 100 Def: 100 Atk: 100 Meat: 79-168	armgun (0)	cocoa eggshell fragment (30)	mohawk wig (10)	tiny house (30)
 Business Hippy	HP: 25 Def: 38 Atk: 38	filthy corduroys (20)	filthy knitted dread sack (30)	herbs (25)	reodorant (5)	massive bag of catnip (c100)
 Buzzy Beetle	HP: 15 Def: 20 Atk: 20	black pixel (50)	white pixel (50)	red pixel (65)
 C.A.R.N.I.V.O.R.E. Operative	HP: 330 Atk: 220 Meat: 258-500	C.A.R.N.I.V.O.R.E. button (100)	Lockenstock&trade; sandals (0)	green clay bead (0)
