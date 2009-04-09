@@ -432,7 +432,7 @@ Zombo's shoulder blade	200	Mus: 200	2-handed sword
 a butt tuba	145	Mox: 57	2-handed horn
 acoustic guitarrr	140	Mox: 55	2-handed guitar
 antique spear	200	Mus: 85	1-handed polearm
-armgun	140	Mox: 55	2-handed rifle
+armgun	140	Mox: 55	2-handed machine gun
 arse-shooting crossbow	160	Mox: 65	2-handed crossbow
 asbestos crossbow	110	Mox: 40	2-handed crossbow
 asbestos staff	100	Mus: 35	2-handed staff
