@@ -484,7 +484,7 @@ Unionize The Elves sign	Weakens Monster
 Zim Merman's guitar	Ranged Damage: +20
 Zombo's shoulder blade	Muscle Percent: +30, Weapon Damage Percent: +30
 a butt tuba	Sleaze Damage: +15
-acoustic guitarrr	Meat Drop: +2
+acoustic guitarrr	Meat Drop: +8
 antique spear	Initiative: -30, Weakens Monster
 armgun	Weapon Damage: +10, Critical: 2
 arse-shooting crossbow	Muscle: +15, Mysticality: +15, Moxie: +15
@@ -755,6 +755,7 @@ styrofoam sword	Muscle: +3, Monster Level: +3
 sword behind inappropriate prepositions	Muscle: +7, Adventures: +5
 sword of static	Muscle: +3, Moxie: +2, MP Regen Min: 2, MP Regen Max: 3
 tail o' nine cats	Initiative: +15, Monster Level: +5
+tambourine	Maximum HP: +20, Maximum MP: +20
 teflon spatula	Mysticality Percent: +10, Sleaze Resistance: +3, Spell Damage: +40
 third-hand nunchaku	Weapon Damage: +3
 time sword	Adventures: +3
@@ -940,7 +941,7 @@ off-hand balloon	Muscle: +1, Mysticality: +1, Moxie: +1
 parasitic strangleworm	Damage Reduction: 15
 penguin skin buckler	Moxie: +5, Damage Reduction: 5
 penguin thesaurus	Mysticality: +1, Maximum HP: +5, Maximum MP: +5
-pilgrim shield	Maximum HP: +30, Weapon Damage: +15, Experience: +3, HP Regen Min: 10, HP Regen Max: 12, Damage Reduction: [L], Weapon Drop: +50, Softcore Only
+pilgrim shield	Maximum HP: +30, Weapon Damage: +15, Experience: +3, HP Regen Min: 10, HP Regen Max: 12, Weapon Drop: +50, Damage Reduction: [L], Softcore Only
 pirate hook	Weapon Damage: +3
 pixel shield	Muscle: +5, Damage Reduction: 3
 polyalloy shield	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1, Muscle: +10, Damage Reduction: 9
@@ -1037,7 +1038,7 @@ Earring of Fire	Cold Resistance: +3, Spooky Resistance: +3, Single Equip
 Elmley shades	Muscle: +12, Critical: 2, Single Equip
 # Elvish sunglasses: +25% Pickpocket Chance
 # Elvish sunglasses: Lets you Rock Out
-Elvish sunglasses	Moxie: +10, Moxie Percent: +10, Ranged Damage: +15, Softcore Only, Single Equip
+Elvish sunglasses	Moxie: +10, Moxie Percent: +10, Ranged Damage: +15, Single Equip, Softcore Only
 Emblem of Ak'gyxoth	Moxie: +43, Mana Cost: -1
 # French slippers
 Frosty's carrot	Stench Resistance: +3, Sleaze Resistance: +3, Class: "Seal Clubber", Single Equip
@@ -1077,7 +1078,7 @@ MagiMechTech NanoMechaMech	Single Equip
 Mer-kin prayerbeads	Single Equip
 Mr. Accessory	Muscle: +15, Mysticality: +15, Moxie: +15, Softcore Only
 Mr. Accessory Jr.	Muscle: +5, Mysticality: +5, Moxie: +5, Item Drop: +25, Softcore Only
-Mr. Eh?	Muscle: +13, Mysticality: +13, Moxie: +13, Softcore Only
+Mr. Eh?	Muscle: +12, Mysticality: +12, Moxie: +12, Softcore Only
 # Mr. Exploiter
 Mr. Joe's bangles	Mysticality Percent: +10, Single Equip
 Ms. Accessory	Muscle: +15, Mysticality: +15, Moxie: +15, Softcore Only
@@ -1192,7 +1193,7 @@ disembodied smile	Spooky Damage: +2, Single Equip
 # diving muff: Makes you a better diver
 diving muff	Initiative Penalty: [10*zone(The Sea)], Item Drop Penalty: [10*zone(The Sea)], Meat Drop Penalty: [10*zone(The Sea)], Single Equip
 dope gangsta bling-bling	Moxie: +1
-eXtreme mittens	Weapon Damage: +2
+eXtreme mittens	Weapon Damage: +6
 eXtreme nose ring	Muscle: +4, Mysticality: +4, Moxie: +4
 elven socks	Muscle: +1, Cold Resistance: +1
 enchanted handwarmer	Cold Resistance: +2, Hot Damage: +4, Single Equip

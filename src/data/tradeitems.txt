@@ -738,7 +738,7 @@
 737	stone tablet (Squeezings of Woe)	none	none	0
 738	stone tablet (Really Evil Rhythm)	none	none	0
 739	tambourine bells	none	all	50
-740	tambourine	none	all	65
+740	tambourine	weapon	all	65
 741	broken skull	none	all	15
 742	Knoll shroomkabob	food	all	30
 743	stuffed spooky mushroom	food	all	35
