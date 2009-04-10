@@ -6376,7 +6376,7 @@ public class KoLmafiaCLI
 					return;
 				}
 
-				prices[ i ] = StringUtilities.parseInt( parameters.substring( spaceIndex + 1 ) );
+				prices[ i ] = StringUtilities.parseInt( itemNames[ i ].substring( spaceIndex + 1 ) );
 				itemNames[ i ] = itemNames[ i ].substring( 0, spaceIndex ).trim();
 				items[ i ] = ItemFinder.getFirstMatchingItem( itemNames[ i ], false );
 			}
