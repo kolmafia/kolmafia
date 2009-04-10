@@ -698,7 +698,9 @@ public abstract class InventoryManager
 	
 	private static int getPurchaseCount( final int itemId, final int missingCount )
 	{
-		if ( missingCount >= InventoryManager.BULK_PURCHASE_AMOUNT || !KoLCharacter.canInteract() )
+		if ( missingCount >= InventoryManager.BULK_PURCHASE_AMOUNT ||
+			!KoLCharacter.canInteract() ||
+			KoLCharacter.getAvailableMeat() < 5000 )
 		{
 			return missingCount;
 		}

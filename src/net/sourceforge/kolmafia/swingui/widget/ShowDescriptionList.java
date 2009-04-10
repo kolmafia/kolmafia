@@ -321,7 +321,7 @@ public class ShowDescriptionList
 		if ( mods != null )
 		{
 			String wikiname = mods.getString( "Wiki Name" );
-			if ( wikiname != null )
+			if ( wikiname != null && wikiname.length() > 0 )
 			{
 				name = wikiname;
 			}
