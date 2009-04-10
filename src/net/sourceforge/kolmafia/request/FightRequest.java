@@ -369,7 +369,8 @@ public class FightRequest
 		// Adding machine should override custom combat scripts as well,
 		// since it's conditions-driven.
 
-		if ( FightRequest.encounterLookup.equals( "rampaging adding machine" ) )
+		if ( FightRequest.encounterLookup.equals( "rampaging adding machine" )
+			&& !KoLConstants.activeEffects.contains( FightRequest.BIRDFORM ) )
 		{
 			this.handleAddingMachine();
 		}
