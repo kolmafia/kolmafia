@@ -2634,7 +2634,9 @@ public class KoLmafiaCLI
 			AdventureResult item = ItemFinder.getFirstMatchingItem( parameters, ItemFinder.ANY_MATCH );
 			if ( item != null )
 			{
+				SpecialOutfit.createImplicitCheckpoint();
 				InventoryManager.retrieveItem( item, false );
+				SpecialOutfit.restoreImplicitCheckpoint();
 			}
 		}
 	}
