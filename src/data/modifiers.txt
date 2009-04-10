@@ -2337,7 +2337,7 @@ Claws of the Walrus	Weapon Damage: +4
 Cold-Blooded Fearlessness	Spooky Resistance: +2
 Cosmic Ugnderstanding	Maximum MP Percent: +5
 Diminished Gag Reflex	Stench Resistance: +2
-# Disco Fever	+1 ranged damage per player level
+Disco Fever	Ranged Damage: [L]
 # Double-Fisted Skull Smashing
 Expert Panhandling	Meat Drop: +10
 # Eye of the Stoat	+0.5X critical hits, improve smacks
