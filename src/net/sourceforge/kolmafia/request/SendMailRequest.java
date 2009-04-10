@@ -68,7 +68,7 @@ public class SendMailRequest
 
 		this.recipient = recipient;
 		this.message =
-			"I have opted to let you know that I have chosen to run <" + script.getFileName() + ">.  Thanks for writing this script!";
+			"I have opted to let you know that I have chosen to run <" + script.getParser().getShortFileName() + ">.  Thanks for writing this script!";
 
 		this.addFormField( "action", "send" );
 		this.addFormField( "towho", KoLmafia.getPlayerId( this.recipient ) );
