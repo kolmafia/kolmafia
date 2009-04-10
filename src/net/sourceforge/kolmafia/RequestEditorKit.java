@@ -837,7 +837,7 @@ public class RequestEditorKit
 	public static final String advertisingMessage()
 	{
 		int ML = Preferences.getInteger( "flyeredML" );
-		float percent = 100.0f * (float)ML/10000.0f;
+		float percent = Math.min( 100.0f * (float)ML/10000.0f, 100.0f );
 		return "You have completed " +
 			KoLConstants.FLOAT_FORMAT.format( percent ) +
 			"% of the necessary advertising.";

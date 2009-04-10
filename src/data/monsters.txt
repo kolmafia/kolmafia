@@ -581,7 +581,7 @@ The Darkness	HP: 100000
 The Family Jewels	HP: 150 Def: 156 Atk: 156 E: sleaze	star (30)	star (30)	star (30)
 The Fickle Finger of F8	HP: 100000
 The Flange	HP: 150 Def: 160 Atk: 160 E: sleaze	line (30)	line (30)	star (30)
-The Guy Made Of Bees	HP: 100000	guy made of bee pollen (100)	handful of bees (p0)
+The Guy Made Of Bees	HP: 100000 Atk: 10000	guy made of bee pollen (100)	handful of bees (p0)
 The Honey Pot	HP: 150 Def: 152 Atk: 152 E: sleaze	line (30)	star (30)	star (30)
 The Hooded Warrior	HP: 150 Def: 165 Atk: 165 E: sleaze	line (30)	star (30)	star (30)
 The Junk	HP: 150 Def: 159 Atk: 159 E: sleaze	line (30)	line (30)	star (30)

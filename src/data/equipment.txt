@@ -692,6 +692,7 @@ sweet ninja sword	20	Mus: 0	1-handed sword
 sword behind inappropriate prepositions	130	Mus: 45	2-handed sword
 sword of static	75	Mus: 22	1-handed sword
 tail o' nine cats	30	Mus: 0	1-handed whip
+tambourine	50	Mox: 10	1-handed drum
 teflon spatula	200	Mys: 85	1-handed utensil
 third-hand nunchaku	30	Mus: 7	2-handed flail
 time sword	100	Mus: 35	1-handed sword
