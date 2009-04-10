@@ -6178,11 +6178,19 @@ public class KoLmafiaCLI
 	private String locateItem( String name )
 	{
 		AdventureResult item = ItemPool.get( name, 1 );
+		boolean closet = KoLConstants.closet.contains( item );
 		if ( KoLConstants.inventory.contains( item ) )
 		{
-			return name + " - have";
+			if ( closet )
+			{
+				return name + " - have &amp; in closet";
+			}
+			else
+			{
+				return name + " - have";
+			}
 		}
-		else if ( KoLConstants.closet.contains( item ) )
+		else if ( closet )
 		{
 			return name + " - in closet";
 		}
