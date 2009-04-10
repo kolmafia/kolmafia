@@ -3823,7 +3823,7 @@
 3817	663137394	sea radish	sea radishes
 3818	504280560	halibut	halibut
 3819	816191127	eel sauce	ramekins of eel sauce
-3820	194815300	water-polo mitt
+3820	194815300	water-polo mitt	water-polo mitts
 3821	988414588	glowing syringe	glowing syringes
 3822	994220879	fishy wand	fishy wands
 3823
@@ -3875,5 +3875,5 @@
 3869	705943768	ultimate ultimate frisbee	ultimate ultimate frisbees
 3870	674183283	stolen office supplies	piles of stolen office supplies
 3871	239668406	office-supply crossbow
-3872	658375124	pocket theremin
+3872	658375124	pocket theremin	pocket theremins
 3873	583533695	rave whistle	rave whistles
