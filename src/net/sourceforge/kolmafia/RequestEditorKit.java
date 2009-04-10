@@ -1214,8 +1214,11 @@ public class RequestEditorKit
 				if ( glyph == glyphs[ j ] )
 				{
 					wines[ j ] = i;
-					AdventureResult.addResultToList( KoLConstants.conditions,
-						ItemPool.get( i, 1 ) );
+					AdventureResult wine = ItemPool.get( i, 1 );
+					if ( !KoLConstants.inventory.contains( wine ) )
+					{
+						AdventureResult.addResultToList( KoLConstants.conditions, wine );
+					}
 					break;
 				}
 			}
