@@ -1082,6 +1082,17 @@ public abstract class ChoiceManager
 		new ChoiceAdventure(
 			"The Sea", "choiceAdventure311", "Madness Reef",
 			new String[] { "The Economist of Scales", "skip adventure" } ),
+
+		// Choice 312 is unknown
+		// Choice 313 is unknown
+		// Choice 314 is unknown
+		// Choice 315 is unknown
+		// Choice 316 is unknown
+		// Choice 317 is No Man, No Hole
+		// Choice 318 is C'mere, Little Fella
+		// Choice 319 is Turtles of the Universe
+		// Choice 320 is A Rolling Turtle Gathers No Moss
+		// Choice 321 is Boxed In
 	};
 
 	static
