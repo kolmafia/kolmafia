@@ -1414,18 +1414,19 @@ public abstract class SorceressLairManager
 			return;
 		}
 
-		// Otherwise, check their current state relative
-		// to the hedge maze, and begin!
+		// Current state of the puzzle
 
 		int[][] interest = new int[ 3 ][ 2 ];
 		boolean[][][][] exits = new boolean[ 3 ][ 3 ][ 4 ][ 4 ];
+
+		// Check state relative to the hedge maze, and begin!
 
 		SorceressLairManager.initializeMaze( exits, interest );
 		SorceressLairManager.generateMazeConfigurations( exits, interest );
 
 		// First mission -- retrieve the key from the hedge maze
 
-		SorceressLairManager.retrieveHedgeKey( exits, interest[ 0 ], interest[ 1 ] );
+		boolean changed = SorceressLairManager.retrieveHedgeKey( exits, interest[ 0 ], interest[ 1 ] );
 
 		// Retrieving the key after rotating the puzzle pieces uses an
 		// adventure. If we ran out of puzzle pieces or adventures, we
@@ -1438,6 +1439,14 @@ public abstract class SorceressLairManager
 
 		// Second mission -- rotate the hedge maze until the hedge path
 		// leads to the hedge door.
+
+		// Look at the puzzle again if we just retrieved the key
+
+		if ( changed )
+		{
+			SorceressLairManager.initializeMaze( exits, interest );
+			SorceressLairManager.generateMazeConfigurations( exits, interest );
+		}
 
 		SorceressLairManager.finalizeHedgeMaze( exits, interest[ 0 ], interest[ 2 ] );
 
@@ -1453,9 +1462,10 @@ public abstract class SorceressLairManager
 		KoLmafia.updateDisplay( "Hedge maze quest complete." );
 	}
 
-	private static final void rotateHedgePiece( final int x, final int y, final int rotations )
+	private static final boolean rotateHedgePiece( final int x, final int y, final int rotations )
 	{
 		String url = "hedgepuzzle.php?action=" + ( 1 + y * 3 + x );
+		boolean rotated = false;
 
 		for ( int i = 0; i < rotations && KoLmafia.permitsContinue(); ++i )
 		{
@@ -1465,10 +1475,11 @@ public abstract class SorceressLairManager
 
 			if ( SorceressLairManager.QUEST_HANDLER.responseText.indexOf( "Click one" ) == -1 )
 			{
-				return;
+				return rotated;
 			}
 
 			RequestThread.postRequest( SorceressLairManager.QUEST_HANDLER.constructURLString( url ) );
+			rotated = true;
 
 			// If the topiary golem stole one of your hedge
 			// pieces, take it away.
@@ -1478,12 +1489,13 @@ public abstract class SorceressLairManager
 				ResultProcessor.processResult( SorceressLairManager.PUZZLE_PIECE.getNegation() );
 			}
 		}
+
+		return rotated;
 	}
 
 	private static final void initializeMaze( final boolean[][][][] exits, final int[][] interest )
 	{
 		KoLmafia.updateDisplay( "Retrieving maze status..." );
-
 		RequestThread.postRequest( SorceressLairManager.QUEST_HANDLER.constructURLString( "hedgepuzzle.php" ) );
 
 		for ( int x = 0; x < 3; ++x )
@@ -1535,8 +1547,6 @@ public abstract class SorceressLairManager
 
 	private static final void generateMazeConfigurations( final boolean[][][][] exits, final int[][] interest )
 	{
-		boolean allowConfig;
-
 		for ( int x = 0; x < 3; ++x )
 		{
 			for ( int y = 0; y < 3; ++y )
@@ -1548,14 +1558,15 @@ public abstract class SorceressLairManager
 						exits[ x ][ y ][ config ][ ( direction + config ) % 4 ] = exits[ x ][ y ][ 0 ][ direction ];
 					}
 
-					allowConfig = true;
+					boolean allowConfig = true;
 
 					for ( int direction = 0; direction < 4; ++direction )
 					{
-						if ( exits[ x ][ y ][ config ][ direction ] && !SorceressLairManager.isExitPermitted(
-							direction, x, y, interest ) )
+						if ( exits[ x ][ y ][ config ][ direction ] &&
+						     !SorceressLairManager.isExitPermitted( direction, x, y, interest ) )
 						{
 							allowConfig = false;
+							break;
 						}
 					}
 
@@ -1588,8 +1599,7 @@ public abstract class SorceressLairManager
 		}
 	}
 
-	private static final int[][] computeSolution( final boolean[][][][] exits, final int[] start,
-		final int[] destination )
+	private static final int[][] computeSolution( final boolean[][][][] exits, final int[] start, final int[] destination )
 	{
 		KoLmafia.updateDisplay( "Computing maze solution..." );
 
@@ -1606,8 +1616,10 @@ public abstract class SorceressLairManager
 		}
 
 		SorceressLairManager.computeSolution(
-			visited, currentSolution, optimalSolution, exits, start[ 0 ], start[ 1 ], destination[ 0 ],
-			destination[ 1 ], SorceressLairManager.SOUTH );
+			visited, currentSolution, optimalSolution, exits,
+			start[ 0 ], start[ 1 ],
+			destination[ 0 ], destination[ 1 ],
+			SorceressLairManager.SOUTH );
 
 		for ( int i = 0; i < 3; ++i )
 		{
@@ -1746,7 +1758,7 @@ public abstract class SorceressLairManager
 		visited[ currentX ][ currentY ] = false;
 	}
 
-	private static final void retrieveHedgeKey( final boolean[][][][] exits, final int[] start, final int[] destination )
+	private static final boolean retrieveHedgeKey( final boolean[][][][] exits, final int[] start, final int[] destination )
 	{
 		// Before doing anything, check to see if the hedge maze has
 		// already been solved for the key.
@@ -1754,7 +1766,7 @@ public abstract class SorceressLairManager
 		if ( KoLConstants.inventory.contains( SorceressLairManager.HEDGE_KEY ) ||
 		     SorceressLairManager.QUEST_HANDLER.responseText.indexOf( "There is a key here." ) == -1 )
 		{
-			return;
+			return false;
 		}
 
 		int[][] solution = SorceressLairManager.computeSolution( exits, start, destination );
@@ -1762,20 +1774,21 @@ public abstract class SorceressLairManager
 		if ( solution == null )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Unable to compute maze solution." );
-			return;
+			return false;
 		}
 
 		KoLmafia.updateDisplay( "Retrieving hedge key..." );
 
+		boolean rotated = false;
 		for ( int x = 0; x < 3 && KoLmafia.permitsContinue(); ++x )
 		{
 			for ( int y = 0; y < 3 && KoLmafia.permitsContinue(); ++y )
 			{
-				SorceressLairManager.rotateHedgePiece( x, y, solution[ x ][ y ] );
+				rotated |= SorceressLairManager.rotateHedgePiece( x, y, solution[ x ][ y ] );
 				if ( SorceressLairManager.PUZZLE_PIECE.getCount( KoLConstants.inventory ) == 0 )
 				{
 					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Ran out of puzzle pieces." );
-					return;
+					return rotated;
 				}
 			}
 		}
@@ -1789,6 +1802,8 @@ public abstract class SorceressLairManager
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Ran out of adventures." );
 		}
+
+		return rotated;
 	}
 
 	private static final void finalizeHedgeMaze( final boolean[][][][] exits, final int[] start, final int[] destination )
@@ -1802,9 +1817,6 @@ public abstract class SorceressLairManager
 		}
 
 		KoLmafia.updateDisplay( "Executing final rotations..." );
-
-		// Look at the puzzle again, in case we just retrieved the key
-		RequestThread.postRequest( SorceressLairManager.QUEST_HANDLER.constructURLString( "hedgepuzzle.php" ) );
 
 		for ( int x = 0; x < 3 && KoLmafia.permitsContinue(); ++x )
 		{
