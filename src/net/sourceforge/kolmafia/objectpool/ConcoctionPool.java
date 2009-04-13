@@ -40,9 +40,9 @@ import java.util.TreeMap;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
-
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ConcoctionPool
 {
@@ -76,7 +76,8 @@ public class ConcoctionPool
 
 	public static Concoction get( final String name )
 	{
-		return (Concoction) ConcoctionPool.map.get( name );
+		String cname = StringUtilities.getCanonicalName( name );
+		return (Concoction) ConcoctionPool.map.get( cname );
 	}
 
 	public static Concoction get( final AdventureResult ar )
@@ -87,7 +88,8 @@ public class ConcoctionPool
 
 	public static void set( final Concoction c )
 	{
-		ConcoctionPool.map.put( c.getName(), c );
+		String cname = StringUtilities.getCanonicalName( c.getName() );
+		ConcoctionPool.map.put( cname, c );
 		ConcoctionPool.values = null;
 
 		int itemId = c.getItemId();
