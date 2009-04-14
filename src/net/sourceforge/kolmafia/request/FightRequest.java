@@ -1391,26 +1391,6 @@ public class FightRequest
 			}
 		}
 
-		switch ( KoLAdventure.lastAdventureId() )
-		{
-		case 182: // Barrel with Something Burning in it
-		case 183: // Near an Abandoned Refrigerator
-		case 184: // Over Where the Old Tires Are
-		case 185: // Out by that Rusted-Out Car
-			// Quest gremlins might have a tool.
-			IslandDecorator.handleGremlin( responseText );
-			break;
-
-		case 132: // Battlefield (Frat Uniform)
-		case 140: // Battlefield (Hippy Uniform)
-			IslandDecorator.handleBattlefield( responseText );
-			break;
-
-		case 167: // Hobopolis Town Square
-			HobopolisDecorator.handleTownSquare( responseText );
-			break;
-		}
-
 		// Log familiar actions, if the player wishes to include this
 		// information in their session logs.
 
@@ -1476,6 +1456,26 @@ public class FightRequest
 			}
 
 			blindIndex = responseText.indexOf( "... something.</div>", blindIndex + 1 );
+		}
+
+		switch ( KoLAdventure.lastAdventureId() )
+		{
+		case 182: // Barrel with Something Burning in it
+		case 183: // Near an Abandoned Refrigerator
+		case 184: // Over Where the Old Tires Are
+		case 185: // Out by that Rusted-Out Car
+			// Quest gremlins might have a tool.
+			IslandDecorator.handleGremlin( responseText );
+			break;
+
+		case 132: // Battlefield (Frat Uniform)
+		case 140: // Battlefield (Hippy Uniform)
+			IslandDecorator.handleBattlefield( responseText );
+			break;
+
+		case 167: // Hobopolis Town Square
+			HobopolisDecorator.handleTownSquare( responseText );
+			break;
 		}
 
 		// Reset round information if the battle is complete.
