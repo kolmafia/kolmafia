@@ -322,7 +322,7 @@ public class IslandDecorator
 	private static final String[] HIPPY_AREA_UNLOCK =
 	{
 		"Lighthouse",
-		"Junkyard",
+ 		"Junkyard",
 		"Arena"
 	};
 
