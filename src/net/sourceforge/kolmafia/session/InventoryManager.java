@@ -849,6 +849,13 @@ public abstract class InventoryManager
 		case ItemPool.PHIAL_OF_STENCH:
 		case ItemPool.PHIAL_OF_SLEAZINESS:
 		case ItemPool.WHITE_RICE:
+			// Love songs
+		case ItemPool.VAGUE_AMBIGUITY:
+		case ItemPool.SMOLDERING_PASSION:
+		case ItemPool.ICY_REVENGE:
+		case ItemPool.SUGARY_CUTENESS:
+		case ItemPool.DISTURBING_OBSESSION:
+		case ItemPool.NAUGHTY_INNUENDO:
 			return true;
 		}
 		return false;
