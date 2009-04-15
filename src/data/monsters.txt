@@ -474,7 +474,7 @@ Possibility Giant	HP: 150 Def: 130 Atk: 130 Meat: 120-180	chaos butterfly (20)	p
 Poutine Ooze	HP: 3 Def: 3 Atk: 3	poutine (40)
 Pretty Fly	HP: 100000
 Procrastination Giant	HP: 150 Def: 125 Atk: 125 Meat: 120-180	procrastination potion (30)
-Protagonist	HP: 80 Def: 100 Atk: 100 Meat: 58-129	phonics down (40)	ridiculously huge sword (10)	super-spikey hair gel (20)	ocarina of space (0)
+Protagonist	HP: 80 Def: 100 Atk: 100 Meat: 58-129	phonics down (40)	ridiculously huge sword (10)	super-spiky hair gel (20)	ocarina of space (0)
 Protector Spectre	HP: 116	ancient amulet (100)	spectre scepter (100)
 Pufferfish	HP: 750 Def: 500 Atk: 400 Meat: 160-240	pufferfish spine (5)	rough fish scale (4)	seaweed (5)
 Pumped-up Bass	HP: 500 Def: 300 Atk: 330 Meat: 160-240	dull fish scale (15)	beefy fish meat (5)
