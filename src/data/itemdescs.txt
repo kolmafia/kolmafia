@@ -590,7 +590,7 @@
 584	710010567	spaghetti with Skullheads	bowls of spaghetti with Skullheads
 585	866439200	gnocchetti di Nietzsche	bowls of gnocchetti di Nietzsche
 586	762459396	ridiculously huge sword	ridiculously huge swords
-587	629447779	super-spikey hair gel	super-spikey hair gels
+587	629447779	super-spiky hair gel	super-spiky hair gels
 588	516563740	soft green echo eyedrop antidote	soft green echo eyedrop antidotes
 589	395963455	cocoa eggshell fragment	cocoa eggshell fragments
 590	732184689	large cocoa eggshell fragment	large cocoa eggshell fragments

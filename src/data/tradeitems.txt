@@ -585,7 +585,7 @@
 584	spaghetti with Skullheads	food	all	61
 585	gnocchetti di Nietzsche	food	all	61
 586	ridiculously huge sword	weapon	all	155
-587	super-spikey hair gel	multiple	all	112
+587	super-spiky hair gel	multiple	all	112
 588	soft green echo eyedrop antidote	none	all	118
 589	cocoa eggshell fragment	food	all	114
 590	large cocoa eggshell fragment	food	all	214

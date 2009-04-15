@@ -44,7 +44,7 @@
 43	Wussiness	sad.gif	84e619e8ff038d639085cbe8ea74752b	use 1 wussiness potion
 44	Draggin' Balls	ballhat.gif	cf78b055a699cad5e45443be2345a354
 45	1337p4n7Z	whitepants.gif	70679877d6ac73627d6576ca7cb72f62
-46	Spiky Hair	spikyhair.gif	89acaef20b7c355d36fdf0990bf6a5ec	use 1 super-spikey hair gel
+46	Spiky Hair	spikyhair.gif	89acaef20b7c355d36fdf0990bf6a5ec	use 1 super-spiky hair gel
 47	Complete Delusion	wolfmask.gif	b00a05823151fd7e6c8fe7697c0420ca
 48	The Smile of Mr. A.	gma.gif	59e9f58e87d531b3ef613515a3417210	use 1 box of sunshine
 49	Macho Profundo	notes.gif	a02c6fb27a3f9f4bf2c48d59584adc56	use 1 mafia aria
