@@ -201,10 +201,14 @@ public class IslandDecorator
 	public static final void addNunneryMeat( final AdventureResult result )
 	{
 		int delta = result.getCount();
-
 		IslandDecorator.lastNunneryMeat = IslandDecorator.currentNunneryMeat;
 		IslandDecorator.currentNunneryMeat =
 			Preferences.increment( "currentNunneryMeat", delta, 100000, false );
+
+		int recovered = IslandDecorator.currentNunneryMeat;
+		int remaining = 100000 - recovered;
+		String message = "The nuns take " + KoLConstants.COMMA_FORMAT.format( delta ) + " Meat; " + KoLConstants.COMMA_FORMAT.format( recovered ) + " recovered, " + KoLConstants.COMMA_FORMAT.format( remaining ) + " left to recover.";
+		RequestLogger.updateSessionLog( message );
 	}
 
 	public static final void decorateThemtharFight( final StringBuffer buffer )
@@ -262,8 +266,9 @@ public class IslandDecorator
 
 	public static final int minimumBrigandMeat()
 	{
-		float mod = ( KoLCharacter.currentNumericModifier( Modifiers.MEATDROP ) + 100.0f ) / 100.0f;
-		return (int) Math.floor( BRIGAND_MIN * mod );
+		// Return the minimum without additional meat drop modifiers
+		int remaining = 100000 - Preferences.getInteger( "currentNunneryMeat" );
+		return Math.min( BRIGAND_MIN, remaining );
 	}
 
 	private static final String[] GREMLIN_TOOLS =

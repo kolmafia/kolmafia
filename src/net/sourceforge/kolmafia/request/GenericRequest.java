@@ -375,7 +375,7 @@ public class GenericRequest
 		}
 
 		this.isChatRequest =
-			this.formURLString.equals( "newchatmessages.php" ) || this.formURLString.equals( "submitnewchat.php" );
+			this.formURLString.startsWith( "newchatmessages.php" ) || this.formURLString.startsWith( "submitnewchat.php" );
 
 		this.hasNoResult =
 			this.isChatRequest ||
