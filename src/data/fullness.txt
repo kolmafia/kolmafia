@@ -103,21 +103,21 @@ dire fudgesicle	2	1	2-4	0	8-10	0	lose 2 HP
 disc-shaped nutrition unit	4	5	6-9	0	0	0
 double bacon beelzeburger	3	1	4-6	15-20	-15-20	0
 dwarf bread	3	1	3-4	0	0	0	lose 10-13 HP
-eel sauced ancient serpent roll	3	1	12-17	0	8-16	20-30	45/55 Fishy
-eel sauced beefy maki	3	1	10-15	8-16	0	0	45/55 Fishy
-eel sauced giant dragon roll	3	1	12-17	28-46	0	0	45/55 Fishy
-eel sauced glistening maki	3	1	10-15	0	8-16	0	45/55 Fishy
-eel sauced musclebound rabbit roll	3	1	12-17	8-16	20-30	0	45/55 Fishy
-eel sauced eleven oceans roll	3	1	12-17	20-30	20-30	28-46	45/55 Fishy
-eel sauced jack lalanne roll	3	1	12-17	28-46	20-30	20-30	45/55 Fishy
-eel sauced python roll	3	1	12-17	8-16	0	20-30	45/55 Fishy
-eel sauced slick maki	3	1	10-15	0	0	8-16	45/55 Fishy
-eel sauced slippery snake roll	3	1	12-17	0	0	28-46	45/55 Fishy
-eel sauced sneaky rabbit roll	3	1	12-17	0	20-30	8-16	45/55 Fishy
-eel sauced tricky dragon roll	3	1	12-17	20-30	0	8-16	45/55 Fishy
-eel sauced white rabbit roll	3	1	12-17	0	28-46	0	45/55 Fishy
-eel sauced wise dragon roll	3	1	12-17	20-30	8-16	0	45/55 Fishy
-eel sauced wizened master roll	3	1	12-17	20-30	28-46	20-30	45/55 Fishy
+electric ancient serpent roll	3	1	12-17	0	8-16	20-30	45/55 Fishy
+electric beefy maki	3	1	10-15	8-16	0	0	45/55 Fishy
+electric giant dragon roll	3	1	12-17	28-46	0	0	45/55 Fishy
+electric glistening maki	3	1	10-15	0	8-16	0	45/55 Fishy
+electric musclebound rabbit roll	3	1	12-17	8-16	20-30	0	45/55 Fishy
+electric eleven oceans roll	3	1	12-17	20-30	20-30	28-46	45/55 Fishy
+electric jack lalanne roll	3	1	12-17	28-46	20-30	20-30	45/55 Fishy
+electric python roll	3	1	12-17	8-16	0	20-30	45/55 Fishy
+electric slick maki	3	1	10-15	0	0	8-16	45/55 Fishy
+electric slippery snake roll	3	1	12-17	0	0	28-46	45/55 Fishy
+electric sneaky rabbit roll	3	1	12-17	0	20-30	8-16	45/55 Fishy
+electric tricky dragon roll	3	1	12-17	20-30	0	8-16	45/55 Fishy
+electric white rabbit roll	3	1	12-17	0	28-46	0	45/55 Fishy
+electric wise dragon roll	3	1	12-17	20-30	8-16	0	45/55 Fishy
+electric wizened master roll	3	1	12-17	20-30	28-46	20-30	45/55 Fishy
 elfin shortbread	3	2	3-9	4-6	4-6	4-6
 eleven oceans roll	3	1	9-14	20-30	20-30	28-46	45/55 Fishy
 elven <i>limbos</i> gingerbread	3	5	5-15	22-40	22-40	22-40	20 Yuletide Industry (+50% all)

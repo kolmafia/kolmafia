@@ -54,6 +54,7 @@ import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.IslandArenaRequest;
+import net.sourceforge.kolmafia.request.QuestLogRequest;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -1213,6 +1214,7 @@ public class IslandDecorator
 
 		Preferences.setString( "sideDefeated", loser );
 		Preferences.setString( "warProgress", "finished" );
+		QuestLogRequest.setHippyStoreAvailability( true );
 		CoinmastersFrame.externalUpdate();
 	}
 

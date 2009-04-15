@@ -2077,7 +2077,7 @@ public abstract class ChoiceManager
 		case 146:
 			if ( ChoiceManager.lastDecision == 3 )
 			{
-				QuestLogRequest.setHippyStoreUnavailable();
+				QuestLogRequest.setHippyStoreAvailability( false );
 			}
 			break;
 

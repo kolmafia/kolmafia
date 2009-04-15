@@ -111,21 +111,21 @@ public class SushiRequest
 		"salty Jack LaLanne roll",
 		"salty wizened master roll",
 		"salty eleven oceans roll",
-		"eel sauced ancient serpent roll",
-		"eel sauced beefy maki",
-		"eel sauced giant dragon roll",
-		"eel sauced glistening maki",
-		"eel sauced musclebound rabbit roll",
-		"eel sauced python roll",
-		"eel sauced slick maki",
-		"eel sauced slippery snake roll",
-		"eel sauced sneaky rabbit roll",
-		"eel sauced tricky dragon roll",
-		"eel sauced white rabbit roll",
-		"eel sauced wise dragon roll",
-		"eel sauced Jack LaLanne roll",
-		"eel sauced wizened master roll",
-		"eel sauced eleven oceans roll",
+		"electric ancient serpent roll",
+		"electric beefy maki",
+		"electric giant dragon roll",
+		"electric glistening maki",
+		"electric musclebound rabbit roll",
+		"electric python roll",
+		"electric slick maki",
+		"electric slippery snake roll",
+		"electric sneaky rabbit roll",
+		"electric tricky dragon roll",
+		"electric white rabbit roll",
+		"electric wise dragon roll",
+		"electric Jack LaLanne roll",
+		"electric wizened master roll",
+		"electric eleven oceans roll",
 	};
 
 	private static final Object[][] BASE_SUSHI =
@@ -181,7 +181,7 @@ public class SushiRequest
 	{
 		{ "salty", new Integer( ItemPool.SEA_SALT_CRYSTAL ) },
 		{ "magical", new Integer( ItemPool.DRAGONFISH_CAVIAR ) },
-		{ "eel sauced", new Integer( ItemPool.EEL_SAUCE ) },
+		{ "electric", new Integer( ItemPool.EEL_SAUCE ) },
 	};
 
 	private static String toppingToName( final String baseName, final int topping )

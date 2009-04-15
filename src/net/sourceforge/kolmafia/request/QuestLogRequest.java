@@ -94,9 +94,9 @@ public class QuestLogRequest
 		return QuestLogRequest.hippyStoreAvailable;
 	}
 
-	public static final void setHippyStoreUnavailable()
+	public static final void setHippyStoreAvailability( final boolean available )
 	{
-		QuestLogRequest.hippyStoreAvailable = false;
+		QuestLogRequest.hippyStoreAvailable = available;
 	}
 
 	public void run()
