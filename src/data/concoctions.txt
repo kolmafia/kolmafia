@@ -307,11 +307,11 @@ salty Jack LaLanne roll	SUSHI	beefy fish meat	white rice	seaweed	sea radish	sea 
 salty musclebound rabbit roll	SUSHI	beefy fish meat	white rice	seaweed	sea carrot	sea salt crystal
 salty python roll	SUSHI	beefy fish meat	white rice	seaweed	sea avocado	sea salt crystal
 
-eel sauced beefy maki	SUSHI	beefy fish meat	white rice	seaweed	eel sauce
-eel sauced giant dragon roll	SUSHI	beefy fish meat	white rice	seaweed	sea cucumber	eel sauce
-eel sauced Jack LaLanne roll	SUSHI	beefy fish meat	white rice	seaweed	sea radish	eel sauce
-eel sauced musclebound rabbit roll	SUSHI	beefy fish meat	white rice	seaweed	sea carrot	eel sauce
-eel sauced python roll	SUSHI	beefy fish meat	white rice	seaweed	sea avocado	eel sauce
+electric beefy maki	SUSHI	beefy fish meat	white rice	seaweed	eel sauce
+electric giant dragon roll	SUSHI	beefy fish meat	white rice	seaweed	sea cucumber	eel sauce
+electric Jack LaLanne roll	SUSHI	beefy fish meat	white rice	seaweed	sea radish	eel sauce
+electric musclebound rabbit roll	SUSHI	beefy fish meat	white rice	seaweed	sea carrot	eel sauce
+electric python roll	SUSHI	beefy fish meat	white rice	seaweed	sea avocado	eel sauce
 
 glistening maki	SUSHI	glistening fish meat	white rice	seaweed
 wise dragon roll	SUSHI	glistening fish meat	white rice	seaweed	sea cucumber
@@ -331,11 +331,11 @@ salty wizened master roll	SUSHI	glistening fish meat	white rice	seaweed	sea radi
 salty white rabbit roll	SUSHI	glistening fish meat	white rice	seaweed	sea carrot	sea salt crystal
 salty ancient serpent roll	SUSHI	glistening fish meat	white rice	seaweed	sea avocado	sea salt crystal
 
-eel sauced glistening maki	SUSHI	glistening fish meat	white rice	seaweed	eel sauce
-eel sauced wise dragon roll	SUSHI	glistening fish meat	white rice	seaweed	sea cucumber	eel sauce
-eel sauced wizened master roll	SUSHI	glistening fish meat	white rice	seaweed	sea radish	eel sauce
-eel sauced white rabbit roll	SUSHI	glistening fish meat	white rice	seaweed	sea carrot	eel sauce
-eel sauced ancient serpent roll	SUSHI	glistening fish meat	white rice	seaweed	sea avocado	eel sauce
+electric glistening maki	SUSHI	glistening fish meat	white rice	seaweed	eel sauce
+electric wise dragon roll	SUSHI	glistening fish meat	white rice	seaweed	sea cucumber	eel sauce
+electric wizened master roll	SUSHI	glistening fish meat	white rice	seaweed	sea radish	eel sauce
+electric white rabbit roll	SUSHI	glistening fish meat	white rice	seaweed	sea carrot	eel sauce
+electric ancient serpent roll	SUSHI	glistening fish meat	white rice	seaweed	sea avocado	eel sauce
 
 slick maki	SUSHI	slick fish meat	white rice	seaweed
 eleven oceans roll	SUSHI	slick fish meat	white rice	seaweed	sea radish
@@ -355,11 +355,11 @@ salty tricky dragon roll	SUSHI	slick fish meat	white rice	seaweed	sea cucumber	s
 salty sneaky rabbit roll	SUSHI	slick fish meat	white rice	seaweed	sea carrot	sea salt crystal
 salty slippery snake roll	SUSHI	slick fish meat	white rice	seaweed	sea avocado	sea salt crystal
 
-eel sauced slick maki	SUSHI	slick fish meat	white rice	seaweed	eel sauce
-eel sauced eleven oceans roll	SUSHI	slick fish meat	white rice	seaweed	sea radish	eel sauce
-eel sauced tricky dragon roll	SUSHI	slick fish meat	white rice	seaweed	sea cucumber	eel sauce
-eel sauced sneaky rabbit roll	SUSHI	slick fish meat	white rice	seaweed	sea carrot	eel sauce
-eel sauced slippery snake roll	SUSHI	slick fish meat	white rice	seaweed	sea avocado	eel sauce
+electric slick maki	SUSHI	slick fish meat	white rice	seaweed	eel sauce
+electric eleven oceans roll	SUSHI	slick fish meat	white rice	seaweed	sea radish	eel sauce
+electric tricky dragon roll	SUSHI	slick fish meat	white rice	seaweed	sea cucumber	eel sauce
+electric sneaky rabbit roll	SUSHI	slick fish meat	white rice	seaweed	sea carrot	eel sauce
+electric slippery snake roll	SUSHI	slick fish meat	white rice	seaweed	sea avocado	eel sauce
 
 # Booze requiring access to L11 or L12 quest areas
 
