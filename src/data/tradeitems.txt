@@ -3872,3 +3872,43 @@
 3871	office-supply crossbow	weapon	all	99
 3872	pocket theremin	weapon	all	55
 3873	rave whistle	weapon	all	60
+3874
+3875
+3876
+3877
+3878
+3879
+3880
+3881
+3882
+3883
+3884
+3885
+3886
+3887
+3888
+3889
+3890
+3891
+3892
+3893
+3894
+3895
+3896
+3897
+3898
+3899
+3900
+3901
+3902
+3903
+3904
+3905
+3906
+3907
+3908
+3909
+3910
+3911
+3912
+3913	blended frozen swill with a fly in it	message	gift	5

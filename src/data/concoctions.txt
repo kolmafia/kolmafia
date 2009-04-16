@@ -430,6 +430,7 @@ Mae West with a fly in it	MIX	rabbit punch	magical ice cube with a fly in it
 mandarina colada with a fly in it	MIX	zmobie	magical ice cube with a fly in it
 tangarita with a fly in it	MIX	tequila sunset	magical ice cube with a fly in it
 prussian cathouse with a fly in it	MIX	parisian cathouse	magical ice cube with a fly in it
+blended frozen swill with a fly in it	MIX	Typical Tavern swill	magical ice cube with a fly in it
 
 
 # Tier 3, 4 and 5 beverages which can only be made by someone with
