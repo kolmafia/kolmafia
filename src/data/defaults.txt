@@ -137,6 +137,7 @@ global	saveStateActive
 global	scriptButtonPosition	0
 global	scriptList	restore hp | restore mp
 global	showAllRequests	false
+global	stealthLogin	true
 global	swingLookAndFeel
 global	switchEquipmentForBuffs	true
 global	tomeSkillsHardcore	Summon Snowcone

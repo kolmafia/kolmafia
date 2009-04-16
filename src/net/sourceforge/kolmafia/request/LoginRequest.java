@@ -254,14 +254,15 @@ public class LoginRequest
 		
 		KoLmafia.forceContinue();
 
+		String loginName = Preferences.getBoolean( "stealthLogin" ) ? this.username + "/q" : this.username;
 		if ( this.detectChallenge() )
 		{
-			this.addFormField( "loginname", this.username + "/q" );
+			this.addFormField( "loginname", loginName );
 		}
 		else
 		{
 			this.clearDataFields();
-			this.addFormField( "loginname", this.username + "/q" );
+			this.addFormField( "loginname", loginName );
 			this.addFormField( "password", this.password );
 		}
 

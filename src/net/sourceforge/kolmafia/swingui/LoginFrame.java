@@ -472,7 +472,8 @@ public class LoginFrame
 		{
 			{ "proxySet", "Use a proxy to connect to the Kingdom of Loathing" },
 			{ "allowSocketTimeout", "Improve handling of semi-random lag spikes" },
-			{ "connectViaAddress", "Connect to servers using IP address rather than name" }
+			{ "connectViaAddress", "Connect to servers using IP address rather than name" },
+			{ "stealthLogin", "Log in with /q to suppress your login announcement" },
 		};
 
 		public ConnectionOptionsPanel()
