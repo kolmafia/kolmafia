@@ -211,7 +211,7 @@ public abstract class SorceressLairManager
 			"gate of the porcupine",
 			"a hedgehog",
 			"Spiky Hair",
-			"super-spikey hair gel"
+			"super-spiky hair gel"
 		},
 		{
 			"twitching gates of the suc rose",
