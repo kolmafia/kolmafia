@@ -700,7 +700,7 @@ public class UseItemRequest
 			if ( this.consumptionType == KoLConstants.CONSUME_DRINK &&
 				itemId != ItemPool.STEEL_LIVER &&
 				!UseItemRequest.allowBoozeConsumption(
-					ItemDatabase.getInebriety( this.itemUsed.getName() ) ) )
+					ItemDatabase.getInebriety( this.itemUsed.getName() ) * this.itemUsed.getCount() ) )
 			{
 				return;
 			}
