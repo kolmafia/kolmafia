@@ -177,10 +177,10 @@ public class Modifiers
 	public static final int BONUS_RESTING_MP = 56;
 	public static final int CRITICAL_PCT = 57;
 	public static final int PVP_FIGHTS = 58;
-	public static final int VOLLEYBALL = 59;
-	public static final int SOMBRERO = 60;
-	public static final int LEPRECHAUN = 61;
-	public static final int FAIRY = 62;
+	public static final int VOLLEYBALL_WEIGHT = 59;
+	public static final int SOMBRERO_WEIGHT = 60;
+	public static final int LEPRECHAUN_WEIGHT = 61;
+	public static final int FAIRY_WEIGHT = 62;
 	public static final int MEATDROP_PENALTY = 63;
 	public static final int HIDDEN_FAMILIAR_WEIGHT = 64;
 	public static final int ITEMDROP_PENALTY = 65;
@@ -193,6 +193,10 @@ public class Modifiers
 	public static final int SHIRTDROP = 72;
 	public static final int PANTSDROP = 73;
 	public static final int ACCESSORYDROP = 74;
+	public static final int VOLLEYBALL_EFFECTIVENESS = 75;
+	public static final int SOMBRERO_EFFECTIVENESS = 76;
+	public static final int LEPRECHAUN_EFFECTIVENESS = 77;
+	public static final int FAIRY_EFFECTIVENESS = 78;
 	
 	public static final String EXPR = "(?:([+-]?[\\d.]+)|\\[([^]]+)\\])";
 
@@ -530,6 +534,22 @@ public class Modifiers
 		{ "Accessory Drop",
 		  Pattern.compile( "([+-]\\d+)% Accessory Drops? [Ff]rom Monsters$" ),
 		  Pattern.compile( "Accessory Drop: " + EXPR )
+		},
+		{ "Volleyball Effectiveness",
+		  null,
+		  Pattern.compile( "Volleyball Effectiveness: " + EXPR )
+		},
+		{ "Sombrero Effectiveness",
+		  null,
+		  Pattern.compile( "Sombrero Effectiveness: " + EXPR )
+		},
+		{ "Leprechaun Effectiveness",
+		  null,
+		  Pattern.compile( "Leprechaun Effectiveness: " + EXPR )
+		},
+		{ "Fairy Effectiveness",
+		  null,
+		  Pattern.compile( "Fairy Effectiveness: " + EXPR )
 		},
 	};
 
@@ -1354,45 +1374,53 @@ public class Modifiers
 			this.add( Modifiers.getModifiers( "fameq:" + famItem.getName() ) );
 		}
 
-		double effective = weight * this.get( Modifiers.VOLLEYBALL );
+		double effective = weight * this.get( Modifiers.VOLLEYBALL_WEIGHT );
 		if ( effective == 0.0 && FamiliarDatabase.isVolleyType( familiarId ) )
 		{
 			effective = weight;
 		}
 		if ( effective != 0.0 )
 		{
-			this.add( Modifiers.EXPERIENCE, Math.sqrt( effective ), "Volleyball" );
+			double factor = this.get( Modifiers.VOLLEYBALL_EFFECTIVENESS );
+			if ( factor == 0.0 ) factor = 1.0;
+			this.add( Modifiers.EXPERIENCE, factor * Math.sqrt( effective ), "Volleyball" );
 		}
 
-		effective = weight * this.get( Modifiers.SOMBRERO );
+		effective = weight * this.get( Modifiers.SOMBRERO_WEIGHT );
 		if ( effective == 0.0 && FamiliarDatabase.isSombreroType( familiarId ) )
 		{
 			effective = weight;
 		}
 		if ( effective != 0.0 )
 		{	// NIY
-			this.add( Modifiers.EXPERIENCE, 0.0, "Sombrero" );
+			double factor = this.get( Modifiers.SOMBRERO_EFFECTIVENESS );
+			if ( factor == 0.0 ) factor = 1.0;
+			this.add( Modifiers.EXPERIENCE, factor * 0.0, "Sombrero" );
 		}
 
-		effective = weight * this.get( Modifiers.LEPRECHAUN );
+		effective = weight * this.get( Modifiers.LEPRECHAUN_WEIGHT );
 		if ( effective == 0.0 && FamiliarDatabase.isMeatDropType( familiarId ) )
 		{
 			effective = weight;
 		}
 		if ( effective != 0.0 )
 		{
-			this.add( Modifiers.MEATDROP, Math.sqrt( 220 * effective ) + 2 * effective - 6,
+			double factor = this.get( Modifiers.LEPRECHAUN_EFFECTIVENESS );
+			if ( factor == 0.0 ) factor = 1.0;
+			this.add( Modifiers.MEATDROP, factor * (Math.sqrt( 220 * effective ) + 2 * effective - 6),
 				"Leprechaun" );
 		}
 
-		effective = weight * this.get( Modifiers.FAIRY );
+		effective = weight * this.get( Modifiers.FAIRY_WEIGHT );
 		if ( effective == 0.0 && FamiliarDatabase.isFairyType( familiarId ) )
 		{
 			effective = weight;
 		}
 		if ( effective != 0.0 )
 		{
-			this.add( Modifiers.ITEMDROP, Math.sqrt( 55 * effective ) + effective - 3,
+			double factor = this.get( Modifiers.FAIRY_EFFECTIVENESS );
+			if ( factor == 0.0 ) factor = 1.0;
+			this.add( Modifiers.ITEMDROP, factor * (Math.sqrt( 55 * effective ) + effective - 3),
 				"Fairy" );
 		}
 
