@@ -715,14 +715,14 @@ public class BrowserLauncher
 
 	public static void openURL( String url )
 	{
-		if ( url.indexOf( " " ) != -1 )
+		if ( !url.startsWith( "http" ) && !url.startsWith( "file" ) )
 		{
-			url = StringUtilities.globalStringReplace( url, " ", "+" );
+			url = "file://" + url;
 		}
 
-		if ( !url.startsWith( "http" ) )
+		if ( url.indexOf( " " ) != -1 && !url.startsWith( "file" ) )
 		{
-			url = "file:///" + url;
+			url = StringUtilities.globalStringReplace( url, " ", "+" );
 		}
 
 		if ( BrowserLauncher.openOverrideBrowser( url ) )
