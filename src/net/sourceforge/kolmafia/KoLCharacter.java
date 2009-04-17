@@ -1949,7 +1949,7 @@ public abstract class KoLCharacter
 		if ( !KoLCharacter.kingLiberated() )
 		{
 			Preferences.setBoolean( "kingLiberated", true );
-			CharPaneRequest.setInteraction();
+			CharPaneRequest.setInteraction( true );
 			KoLConstants.storage.addAll( KoLConstants.freepulls );
 			KoLConstants.freepulls.clear();
 		}
