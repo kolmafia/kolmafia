@@ -267,7 +267,7 @@ public class RelayRequest
 		// items from view along with all the items which are priced
 		// above affordable levels.
 
-		else if ( path.equals( "mallstore.php" ) )
+		else if ( path.startsWith( "mallstore.php" ) )
 		{
 			int searchItemId = -1;
 			int searchPrice = -1;
@@ -290,8 +290,8 @@ public class RelayRequest
 				}
 			}
 
-			// Also make sure the item that the person selected when coming into the
-			// store is pre-selected.
+			// Also make sure the item that the person selected
+			// when coming into the store is pre-selected.
 
 			if ( searchItemId != -1 )
 			{
@@ -300,7 +300,7 @@ public class RelayRequest
 					responseBuffer, "value=" + searchString, "checked value=" + searchString );
 			}
 		}
-		else if ( path.equals( "fight.php" ) )
+		else if ( path.startsWith( "fight.php" ) )
 		{
 			String action = this.getFormField( "action" );
 			if ( action != null && action.equals( "skill" ) )
@@ -1343,7 +1343,7 @@ public class RelayRequest
 
 	public void run()
 	{
-		String path = this.getBasePath();
+		String path = this.getPath();
 
 		if ( path.startsWith( "http" ) )
 		{
@@ -1495,7 +1495,7 @@ public class RelayRequest
 			// Sometimes, people want the MCD rewards from various
 			// boss monsters.  Let's help out.
 
-			if ( path.equals( "adventure.php" ) )
+			if ( path.startsWith( "adventure.php" ) )
 			{
 				String location = adventure == null ? null : adventure.getAdventureId();
 
@@ -1512,7 +1512,7 @@ public class RelayRequest
 			// More MCD rewards.  This one is for the Knob Goblin
 			// King, who has special items at 3 and 7.
 
-			else if ( path.equals( "knob.php" ) )
+			else if ( path.startsWith( "knob.php" ) )
 			{
 				if ( this.getFormField( "king" ) != null && KoLCharacter.mcdAvailable() )
 				{
@@ -1524,7 +1524,7 @@ public class RelayRequest
 			// More MCD rewards.  This one is for the Bonerdagon,
 			// who has special items at 5 and 10.
 
-			else if ( path.equals( "cyrpt.php" ) )
+			else if ( path.startsWith( "cyrpt.php" ) )
 			{
 				if ( this.getFormField( "action" ) != null && KoLCharacter.mcdAvailable() )
 				{
@@ -1536,7 +1536,7 @@ public class RelayRequest
 			// If the person is visiting the sorceress and they
 			// forgot to make the Wand, remind them.
 
-			else if ( path.equals( "lair6.php" ) )
+			else if ( path.startsWith( "lair6.php" ) )
 			{
 				// As of NS 13,they need not have it
 				// equipped. In fact, there are far better
@@ -1556,7 +1556,7 @@ public class RelayRequest
 			}
 		}
 
-		else if ( path.equals( "lair6.php" ) )
+		else if ( path.startsWith( "lair6.php" ) )
 		{
 			String place = this.getFormField( "place" );
 			if ( place != null && place.equals( "6" ) &&
@@ -1576,7 +1576,7 @@ public class RelayRequest
 			}
 		}
 
-		else if ( path.equals( "ascend.php" ) )
+		else if ( path.startsWith( "ascend.php" ) )
 		{
 			if ( this.getFormField( "action" ) != null )
 			{
