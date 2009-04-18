@@ -561,6 +561,7 @@ public class Modifiers
 	public static final int WEAKENS = 3;
 	public static final int FREE_PULL = 4;
 	public static final int VARIABLE = 5;
+	public static final int NONSTACKABLE_WATCH = 6;
 
 	private static final Object[][] booleanModifiers =
 	{
@@ -587,6 +588,10 @@ public class Modifiers
 		{ "Variable",
 		  null,
 		  null
+		},
+		{ "Nonstackable Watch",
+		  null,
+		  Pattern.compile( "Nonstackable Watch" )
 		},
 	};
 
@@ -1061,6 +1066,12 @@ public class Modifiers
 		{
 			if ( addition[ i ] != 0.0f )
 			{
+				if ( i == Modifiers.ADVENTURES &&
+					mods.booleans[ Modifiers.NONSTACKABLE_WATCH ] &&
+					this.booleans[ Modifiers.NONSTACKABLE_WATCH ] )
+				{
+					continue;
+				}
 				this.add( i, addition[ i ], name );
 			}
 		}
@@ -1070,6 +1081,7 @@ public class Modifiers
 		this.booleans[ Modifiers.NEVER_FUMBLE ] |= mods.booleans[ Modifiers.NEVER_FUMBLE ];
 		this.booleans[ Modifiers.WEAKENS ] |= mods.booleans[ Modifiers.WEAKENS ];
 		this.booleans[ Modifiers.VARIABLE ] |= mods.booleans[ Modifiers.VARIABLE ];
+		this.booleans[ Modifiers.NONSTACKABLE_WATCH ] |= mods.booleans[ Modifiers.NONSTACKABLE_WATCH ];
 		
 		this.clownosity |= mods.clownosity;
 	}
