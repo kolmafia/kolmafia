@@ -1031,7 +1031,7 @@ Chester's moustache	Sleaze Damage: +20, Class: "Disco Bandit", Single Equip
 Chester's sunglasses	Moxie Percent: +15, Sleaze Damage: +20, Single Equip
 Choker of the Ultragoth	Muscle: +3, Mysticality: +3, Moxie: +3, Spooky Spell Damage: +40, Single Equip
 Copper Alpha of Sincerity	Muscle: +11, Mysticality: +11, Moxie: +11, Item Drop: +5, Single Equip
-Counterclockwise Watch	Adventures: +10, Single Equip
+Counterclockwise Watch	Adventures: +10, Single Equip, Nonstackable Watch
 Dyspepsi-Cola-issue canteen	Maximum MP: +5, Single Equip
 Earring of Fire	Cold Resistance: +3, Spooky Resistance: +3, Single Equip
 # El Vibrato translator
@@ -1181,8 +1181,8 @@ consolation ribbon	Muscle: +1, Mysticality: +1, Moxie: +1
 copper ha'penny charrrm bracelet	Maximum HP: +20, Maximum MP: +20
 corncob pipe	Muscle Percent: +10, Single Equip
 cyborg stompin' boot	Damage Reduction: 8, Weapon Damage: +20, Initiative: +30, Single Equip
-dead guy's memento	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Adventures: +5, Single Equip
-dead guy's watch	Adventures: +1, Single Equip
+dead guy's memento	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Adventures: +5, Single Equip, Nonstackable Watch
+dead guy's watch	Adventures: +1, Single Equip, Nonstackable Watch
 depleted Grimacite astrolabe	Mysticality Percent: [5*G], PvP Fights: [G], Single Equip
 depleted Grimacite grappling hook	Moxie Percent: [5*G], Adventures: [G], Single Equip
 depleted Grimacite weightlifting belt	Muscle Percent: [5*G], Adventures: [G], Single Equip
@@ -1215,7 +1215,7 @@ fuzzy bracelets	Muscle: +15, Mysticality: +15, Moxie: +15
 gearbox necklace	Mysticality: +11, Maximum MP: +50
 # giant pinky ring: 75% Chance of Preventing Negative Status Attacks
 giant pinky ring	Single Equip
-glow-in-the-dark wristwatch	Mysticality: [9-M], Spell Damage: [9-M], Adventures: +3, Single Equip
+glow-in-the-dark wristwatch	Mysticality: [9-M], Spell Damage: [9-M], Adventures: +3, Single Equip, Nonstackable Watch
 glowing red eye	Spooky Resistance: +2
 gnatwing earring	Initiative: +15, Mysticality: +6
 gnoll-tooth necklace	Muscle: +5
@@ -1237,7 +1237,7 @@ hippy protest button	Single Equip
 hobo stogie	Single Equip, Weapon Damage Percent: [100*zone(Hobopolis)*(1-loc(Sewer Tunnels))]
 hockey stick of furious angry rage	Monster Level: +30, Muscle Percent: +5
 ice skates	Initiative: +15, Meat Drop: +15, Single Equip, Softcore Only
-imitation nice watch	Adventures: +3, Single Equip
+imitation nice watch	Adventures: +3, Single Equip, Nonstackable Watch
 incredibly dense meat gem	Meat Drop: +25, Moxie: +5, Maximum MP: +10
 infernal insoles	Hot Resistance: +1, Initiative: +10
 # inflatable duck
