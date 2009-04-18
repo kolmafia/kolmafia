@@ -35,6 +35,8 @@ package net.sourceforge.kolmafia.swingui.listener;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -45,7 +47,7 @@ import javax.swing.event.PopupMenuListener;
 import net.sourceforge.kolmafia.RequestThread;
 
 public abstract class ThreadedListener
-	implements ActionListener, KeyListener, PopupMenuListener, Runnable
+	implements ActionListener, ItemListener, KeyListener, PopupMenuListener, Runnable
 {
 	public void actionPerformed( final ActionEvent e )
 	{
@@ -67,10 +69,19 @@ public abstract class ThreadedListener
 
 		if ( e.getSource() instanceof JComboBox )
 		{
-			return ( (JComboBox) e.getSource() ).isPopupVisible();
+			JComboBox control = (JComboBox) e.getSource();
+			return control.isPopupVisible();
 		}
 
 		return true;
+	}
+
+	public void itemStateChanged( ItemEvent e )
+	{
+		if ( e.getStateChange() == ItemEvent.SELECTED )
+		{
+			this.run();
+		}
 	}
 
 	public void keyPressed( final KeyEvent e )
@@ -99,10 +110,12 @@ public abstract class ThreadedListener
 
 	public void popupMenuCanceled( PopupMenuEvent e )
 	{
+		this.run();
 	}
 
 	public void popupMenuWillBecomeInvisible( PopupMenuEvent e )
 	{
+		this.run();
 	}
 
 	public void popupMenuWillBecomeVisible( PopupMenuEvent e )

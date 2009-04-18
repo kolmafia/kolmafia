@@ -359,20 +359,6 @@ public class GearChangeFrame
 		{
 			public void run()
 			{
-			}
-
-			public void popupMenuCanceled( PopupMenuEvent e )
-			{
-				this.validateSelectionChange();
-			}
-
-			public void popupMenuWillBecomeInvisible( PopupMenuEvent e )
-			{
-				this.validateSelectionChange();
-			}
-
-			public void validateSelectionChange()
-			{
 				LockableListModel model = (LockableListModel) ChangeComboBox.this.getModel();
 				if ( model.isEmpty() )
 				{
@@ -406,17 +392,17 @@ public class GearChangeFrame
 
 				if ( ChangeComboBox.this == GearChangeFrame.this.familiarSelect )
 				{
+					FamiliarData familiar = (FamiliarData) GearChangeFrame.this.familiarSelect.getSelectedItem();
+					if ( familiar == null || familiar.equals( KoLCharacter.getFamiliar() ) )
+					{
+						return;
+					}
+
 					synchronized ( GearChangeFrame.class )
 					{
 						RequestThread.openRequestSequence();
 						GearChangeFrame.this.changeItems();
-
-						FamiliarData familiar = (FamiliarData) GearChangeFrame.this.familiarSelect.getSelectedItem();
-						if ( familiar != null && !familiar.equals( KoLCharacter.getFamiliar() ) )
-						{
-							RequestThread.postRequest( new FamiliarRequest( familiar ) );
-						}
-
+						RequestThread.postRequest( new FamiliarRequest( familiar ) );
 						RequestThread.closeRequestSequence();
 					}
 
