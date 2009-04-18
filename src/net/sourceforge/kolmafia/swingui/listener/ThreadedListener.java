@@ -39,11 +39,13 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import javax.swing.JComboBox;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.PopupMenuListener;
 
 import net.sourceforge.kolmafia.RequestThread;
 
 public abstract class ThreadedListener
-	implements ActionListener, KeyListener, Runnable
+	implements ActionListener, KeyListener, PopupMenuListener, Runnable
 {
 	public void actionPerformed( final ActionEvent e )
 	{
@@ -92,6 +94,18 @@ public abstract class ThreadedListener
 	}
 
 	public void keyTyped( final KeyEvent e )
+	{
+	}
+
+	public void popupMenuCanceled( PopupMenuEvent e )
+	{
+	}
+
+	public void popupMenuWillBecomeInvisible( PopupMenuEvent e )
+	{
+	}
+
+	public void popupMenuWillBecomeVisible( PopupMenuEvent e )
 	{
 	}
 }

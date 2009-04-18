@@ -51,6 +51,8 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.PopupMenuListener;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
@@ -349,7 +351,7 @@ public class GearChangeFrame
 			{
 				this.setRenderer( ListCellRendererFactory.getUsableEquipmentRenderer() );
 			}
-			this.addActionListener( new ChangeItemListener() );
+			this.addPopupMenuListener( new ChangeItemListener() );
 		}
 
 		private class ChangeItemListener
@@ -357,14 +359,28 @@ public class GearChangeFrame
 		{
 			public void run()
 			{
+			}
+
+			public void popupMenuCanceled( PopupMenuEvent e )
+			{
+				this.validateSelectionChange();
+			}
+
+			public void popupMenuWillBecomeInvisible( PopupMenuEvent e )
+			{
+				this.validateSelectionChange();
+			}
+
+			public void validateSelectionChange()
+			{
 				LockableListModel model = (LockableListModel) ChangeComboBox.this.getModel();
 				if ( model.isEmpty() )
 				{
 					return;
 				}
 
-				// If you're changing an outfit, then the change must
-				// occur right away.
+				// If you're changing an outfit, then the
+				// change must occur right away.
 
 				if ( ChangeComboBox.this == GearChangeFrame.this.outfitSelect || ChangeComboBox.this == GearChangeFrame.this.customSelect )
 				{
@@ -384,9 +400,9 @@ public class GearChangeFrame
 					return;
 				}
 
-				// If you're changing your familiar, then make sure all
-				// the equipment pieces get changed and the familiar
-				// gets changed right after.
+				// If you're changing your familiar, then make
+				// sure all the equipment pieces get changed
+				// and the familiar gets changed right after.
 
 				if ( ChangeComboBox.this == GearChangeFrame.this.familiarSelect )
 				{
@@ -407,8 +423,8 @@ public class GearChangeFrame
 					return;
 				}
 
-				// In all other cases, simply re-validate what it is
-				// you need to equip.
+				// In all other cases, simply re-validate what
+				// it is you need to equip.
 
 				GearChangeFrame.this.ensureValidSelections();
 			}
