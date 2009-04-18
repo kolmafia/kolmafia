@@ -428,6 +428,7 @@ public class EquipmentManager
 		if ( newOutfits != null )
 		{
 			customOutfits.clear();
+			customOutfits.add( SpecialOutfit.NO_CHANGE );
 			customOutfits.addAll( newOutfits );
 		}
 
@@ -747,7 +748,12 @@ public class EquipmentManager
 		Iterator i = customOutfits.iterator();
 		while ( i.hasNext() )
 		{
-			SpecialOutfit outfit = (SpecialOutfit) i.next();
+			Object object = i.next();
+			if ( !( object instanceof SpecialOutfit ) )
+			{
+				continue;
+			}
+			SpecialOutfit outfit = (SpecialOutfit) object;
 			if ( outfit.getOutfitId() == id )
 			{
 				return outfit;
