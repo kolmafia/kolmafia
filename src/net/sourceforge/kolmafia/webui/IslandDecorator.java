@@ -648,7 +648,7 @@ public class IslandDecorator
 		{
 			IslandDecorator.missingGremlinTool = "molybdenum pliers";
 		}
-		else if ( text.indexOf( "off of itself" ) != -1 )
+		else if ( text.indexOf( "beats you with it" ) != -1 )
 		{
 			IslandDecorator.missingGremlinTool = "molybdenum screwdriver";
 		}
