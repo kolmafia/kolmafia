@@ -6825,7 +6825,7 @@ public class KoLmafiaCLI
 
 		// Check for substring matches.
 
-		for ( int i = 0; i < customOutfitCount; ++i )
+		for ( int i = 1; i < customOutfitCount; ++i )
 		{
 			SpecialOutfit outfit = (SpecialOutfit) customOutfitList.get( i );
 
