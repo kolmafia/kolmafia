@@ -441,7 +441,10 @@ public class ItemManagePanel
 
 			int standard = itemCount;
 
-			if ( item instanceof Concoction )
+			if ( message.equals( "Feed" ) )
+			{
+			}
+			else if ( item instanceof Concoction )
 			{
 				int previous = 0, capacity = itemCount, unit = 0;
 
@@ -469,7 +472,7 @@ public class ItemManagePanel
 					standard = previous >= capacity ? itemCount : Math.min( ( capacity - previous ) / unit, itemCount );
 				}
 			}
-			else if ( !message.equals( "Feed" ) )
+			else
 			{
 				standard = UseItemRequest.maximumUses( ItemDatabase.getItemId( itemName ), false );
 			}
