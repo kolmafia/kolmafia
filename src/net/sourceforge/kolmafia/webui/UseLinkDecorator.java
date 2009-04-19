@@ -89,6 +89,12 @@ public abstract class UseLinkDecorator
 
 		while ( useLinkMatcher.find() )
 		{
+			// See if it's an effect
+			if ( UseLinkDecorator.addEffectLink( location, useLinkMatcher, buffer ) )
+			{
+				continue;
+			}
+				
 			int itemCount = 1;
 			String itemName = useLinkMatcher.group( 3 );
 
@@ -102,8 +108,6 @@ public abstract class UseLinkDecorator
 			int itemId = ItemDatabase.getItemId( itemName, itemCount, false );
 			if ( itemId == -1 )
 			{
-				// It's an effect or an unknown item
-				UseLinkDecorator.addEffectLink( location, useLinkMatcher, buffer );
 				continue;
 			}
 
@@ -302,6 +306,10 @@ public abstract class UseLinkDecorator
 		else if ( effect.equals( "Filthworm Guard Stench" ) )
 		{
 			link = new UseLink(0, "queen's chamber", "adventure.php?snarfblat=130" );
+		}
+		else if ( effect.equals( "Knob Goblin Perfume" ) )
+		{
+			link = new UseLink(0, "king's chamber", "knob.php?king=1" );
 		}
 		else
 		{
