@@ -453,22 +453,20 @@ public class ItemManagePanel
 					previous = KoLCharacter.getFullness() + ConcoctionDatabase.getQueuedFullness();
 					capacity = KoLCharacter.getFullnessLimit();
 					unit = ( (Concoction) item ).getFullness();
+					standard = previous >= capacity ? itemCount : Math.min( ( capacity - previous ) / unit, itemCount );
 				}
 				else if ( ( (Concoction) item ).getInebriety() > 0 )
 				{
 					previous = KoLCharacter.getInebriety() + ConcoctionDatabase.getQueuedInebriety();
 					capacity = KoLCharacter.getInebrietyLimit();
 					unit = ( (Concoction) item ).getInebriety();
+					standard = previous >= capacity ? itemCount : Math.min( ( capacity - previous ) / unit, itemCount );
 				}
 				else if ( ( (Concoction) item ).getSpleenHit() > 0 )
 				{
 					previous = KoLCharacter.getSpleenUse() + ConcoctionDatabase.getQueuedSpleenHit();
 					capacity = KoLCharacter.getSpleenLimit();
 					unit = ( (Concoction) item ).getSpleenHit();
-				}
-
-				if ( unit > 0 )
-				{
 					standard = previous >= capacity ? itemCount : Math.min( ( capacity - previous ) / unit, itemCount );
 				}
 			}
