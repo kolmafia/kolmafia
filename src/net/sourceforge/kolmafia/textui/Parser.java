@@ -2607,7 +2607,6 @@ public class Parser
 			oper.equals( ">" ) ||
 			oper.equals( "<=" ) ||
 			oper.equals( ">=" ) ||
-			oper.equals( "=" ) ||
 			oper.equals( "==" ) ||
 			oper.equals( "!=" ) ||
 			oper.equals( "||" ) ||
