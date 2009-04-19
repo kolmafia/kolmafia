@@ -54,6 +54,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.request.BasementRequest;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
 import net.sourceforge.kolmafia.swingui.button.RequestButton;
 import net.sourceforge.kolmafia.swingui.widget.UnanimatedLabel;
@@ -309,7 +310,46 @@ public class CompactSidePane
 			this.hoboPowerLabel.setText( "" );
 		}
 		
-		StringBuffer buf = new StringBuffer( "<html><table border=1><tr><td></td><td>Damage</td><td>Spell dmg</td><td>Resistance</td></tr>" );
+		StringBuffer buf = new StringBuffer( "<html><table border=1>" );
+		int mus = KoLCharacter.getBaseMuscle();
+		int mys = KoLCharacter.getBaseMysticality();
+		int mox = KoLCharacter.getBaseMoxie();
+		if ( KoLConstants.activeEffects.contains( BasementRequest.MUS_EQUAL ) )
+		{
+			mys = mox = mus;
+		}
+		else if ( KoLConstants.activeEffects.contains( BasementRequest.MYS_EQUAL ) )
+		{
+			mus = mox = mys;
+		}
+		else if ( KoLConstants.activeEffects.contains( BasementRequest.MOX_EQUAL ) )
+		{
+			mus = mys = mox;
+		}
+		mus = this.predictStat( mus, Modifiers.MUS_PCT, Modifiers.MUS );
+		mys = this.predictStat( mys, Modifiers.MYS_PCT, Modifiers.MYS );
+		mox = this.predictStat( mox, Modifiers.MOX_PCT, Modifiers.MOX );
+		int dmus = KoLCharacter.getAdjustedMuscle() - mus;
+		int dmys = KoLCharacter.getAdjustedMysticality() - mys;
+		int dmox = KoLCharacter.getAdjustedMoxie() - mox;
+		if ( dmus != 0 || dmys != 0 || dmox != 0 )
+		{
+			buf.append( "<tr><td colspan=4>Predicted: Mus " );
+			buf.append( mus );
+			buf.append( " (" );
+			buf.append( KoLConstants.MODIFIER_FORMAT.format( dmus ) );
+			buf.append( "), Mys " );
+			buf.append( mys );
+			buf.append( " (" );
+			buf.append( KoLConstants.MODIFIER_FORMAT.format( dmys ) );
+			buf.append( "), Mox " );
+			buf.append( mox );
+			buf.append( " (" );
+			buf.append( KoLConstants.MODIFIER_FORMAT.format( dmox ) );
+			buf.append( ")</td></tr>" );
+		}
+	
+		buf.append( "<tr><td></td><td>Damage</td><td>Spell dmg</td><td>Resistance</td></tr>" );
 		this.addElement( buf, "Hot", Modifiers.HOT_DAMAGE );
 		this.addElement( buf, "Cold", Modifiers.COLD_DAMAGE );
 		this.addElement( buf, "Stench", Modifiers.STENCH_DAMAGE );
@@ -485,6 +525,12 @@ public class CompactSidePane
 		}
 		this.familiarLabel.setVerticalTextPosition( JLabel.BOTTOM );
 		this.familiarLabel.setHorizontalTextPosition( JLabel.CENTER );
+	}
+	
+	private int predictStat( int base, int stat_pct, int stat )
+	{
+		int rv = (int) (Math.ceil( base * (100.0 + KoLCharacter.currentNumericModifier( stat_pct )) / 100.0 ) + KoLCharacter.currentNumericModifier( stat ));
+		return Math.max( 1, rv );
 	}
 	
 	private void addElement( StringBuffer buf, String name, int dmgModifier )

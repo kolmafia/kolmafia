@@ -1019,9 +1019,6 @@ public class Modifiers
 				this.floats[ index ] = -3;
 			}
 			break;
-		case MOX_PCT:
-		case MUS_PCT:
-		case MYS_PCT:
 		case HP_PCT:
 		case MP_PCT:
 		case SPELL_DAMAGE_PCT:
