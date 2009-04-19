@@ -443,36 +443,33 @@ public class ItemManagePanel
 
 			if ( item instanceof Concoction )
 			{
-				int previous = 0, capacity = itemCount, unit = 1;
+				int previous = 0, capacity = itemCount, unit = 0;
 
 				if ( ( (Concoction) item ).getFullness() > 0 )
 				{
 					previous = KoLCharacter.getFullness() + ConcoctionDatabase.getQueuedFullness();
 					capacity = KoLCharacter.getFullnessLimit();
 					unit = ( (Concoction) item ).getFullness();
-
-					standard = previous >= capacity ? itemCount : Math.min( ( capacity - previous ) / unit, itemCount );
 				}
 				else if ( ( (Concoction) item ).getInebriety() > 0 )
 				{
 					previous = KoLCharacter.getInebriety() + ConcoctionDatabase.getQueuedInebriety();
 					capacity = KoLCharacter.getInebrietyLimit();
 					unit = ( (Concoction) item ).getInebriety();
-
-					standard =
-						previous > capacity ? itemCount : Math.max( 1, Math.min(
-							( capacity - previous ) / unit, itemCount ) );
 				}
 				else if ( ( (Concoction) item ).getSpleenHit() > 0 )
 				{
 					previous = KoLCharacter.getSpleenUse() + ConcoctionDatabase.getQueuedSpleenHit();
 					capacity = KoLCharacter.getSpleenLimit();
 					unit = ( (Concoction) item ).getSpleenHit();
+				}
 
+				if ( unit > 0 )
+				{
 					standard = previous >= capacity ? itemCount : Math.min( ( capacity - previous ) / unit, itemCount );
 				}
 			}
-			else
+			else if ( !message.equals( "Feed" ) )
 			{
 				standard = UseItemRequest.maximumUses( ItemDatabase.getItemId( itemName ), false );
 			}
