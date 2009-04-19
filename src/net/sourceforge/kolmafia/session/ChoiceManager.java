@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.PasswordHashRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -66,7 +67,7 @@ public abstract class ChoiceManager
 	private static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice value=(\\d+)" );
 	private static final Pattern TATTOO_PATTERN = Pattern.compile( "otherimages/sigils/hobotat(\\d+).gif" );
 
-	public static final GenericRequest CHOICE_HANDLER = new GenericRequest( "choice.php" );
+	public static final GenericRequest CHOICE_HANDLER = new PasswordHashRequest( "choice.php" );
 
 	private static final AdventureResult MAIDEN_EFFECT = new AdventureResult( "Dreams and Lights", 1, true );
 	private static final AdventureResult BALLROOM_KEY = new AdventureResult( 1766, 1 );
@@ -1909,11 +1910,6 @@ public abstract class ChoiceManager
 
 	public static final void processChoiceAdventure( final GenericRequest request )
 	{
-		if ( GenericRequest.passwordHash.equals( "" ) )
-		{
-			return;
-		}
-
 		// You can no longer simply ignore a choice adventure.	One of
 		// the options may have that effect, but we must at least run
 		// choice.php to find out which choice it is.
@@ -1923,6 +1919,11 @@ public abstract class ChoiceManager
 		request.run();
 
 		if ( request.responseCode == 302 )
+		{
+			return;
+		}
+
+		if ( GenericRequest.passwordHash.equals( "" ) )
 		{
 			return;
 		}

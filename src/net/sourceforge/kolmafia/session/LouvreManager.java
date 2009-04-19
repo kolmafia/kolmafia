@@ -254,7 +254,9 @@ public abstract class LouvreManager
 		{
 			for ( int j = 0; j < LouvreManager.LouvreChoiceTable[ i ].length; ++j )
 			{
-				LouvreManager.LouvreChoiceTable[ i ][ j ] = StringUtilities.parseInt( layoutSplit[ currentIndex++ ] );
+				int val = ( currentIndex < layoutSplit.length ) ?
+					StringUtilities.parseInt( layoutSplit[ currentIndex++ ] ) : 0;
+				LouvreManager.LouvreChoiceTable[ i ][ j ] = val;
 			}
 		}
 	}

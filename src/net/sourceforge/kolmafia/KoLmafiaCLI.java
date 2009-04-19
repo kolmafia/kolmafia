@@ -6801,9 +6801,9 @@ public class KoLmafiaCLI
 		int customOutfitCount = customOutfitList.size();
 		int normalOutfitCount = EquipmentDatabase.getOutfitCount();
 
-		// Check for exact matches.
+		// Check for exact matches. Skip "No Change" entry at index 0.
 
-		for ( int i = 0; i < customOutfitCount; ++i )
+		for ( int i = 1; i < customOutfitCount; ++i )
 		{
 			SpecialOutfit outfit = (SpecialOutfit) customOutfitList.get( i );
 
