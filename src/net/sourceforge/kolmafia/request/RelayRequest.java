@@ -1343,7 +1343,7 @@ public class RelayRequest
 
 	public void run()
 	{
-		String path = this.getPath();
+		String path = this.getBasePath();
 
 		if ( path.startsWith( "http" ) )
 		{
