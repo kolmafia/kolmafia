@@ -1217,8 +1217,9 @@ public class GenericRequest
 			}
 			else
 			{
-				// If the response code is not 200, then you've read all
-				// the information you need.  Close the input stream.
+				// If the response code is not 200, then you've
+				// read all the information you need.  Close
+				// the input stream.
 
 				istream.close();
 				shouldStop = this.responseCode == 302 ? this.handleServerRedirect() : true;
@@ -1371,7 +1372,7 @@ public class GenericRequest
 			{
 				CharPaneRequest.getInstance().run();
 			}
-			return true;
+			return !LoginRequest.isInstanceRunning();
 		}
 
 		if ( this.redirectLocation.startsWith( "ocean.php" ) )

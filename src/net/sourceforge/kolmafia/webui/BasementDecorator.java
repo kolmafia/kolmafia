@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.webui;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -145,12 +146,13 @@ public class BasementDecorator
 		changes.append( "<table>" );
 		changes.append( "<tr><td><select id=\"gear\" style=\"width: auto\"><option value=\"none\">- change your equipment -</option>" );
 
-		// Add outfits
+		// Add outfits. Skip the "No Change" entry at index 0.
 
-		SpecialOutfit outfit;
-		for ( int i = 0; i < EquipmentManager.getCustomOutfits().size(); ++i )
+		List outfits = EquipmentManager.getCustomOutfits();
+		int count = outfits.size();
+		for ( int i = 1; i < count; ++i )
 		{
-			outfit = (SpecialOutfit) EquipmentManager.getCustomOutfits().get( i );
+			SpecialOutfit outfit = (SpecialOutfit) outfits.get( i );
 
 			changes.append( "<option value=\"outfit " );
 			changes.append( outfit.getName() );

@@ -313,8 +313,10 @@ public class BasementRequest
 		Object currentTest;
 		String currentTestString;
 
+		// Find desired outfit. Skip "No Change" entry at index 0.
 		List available = EquipmentManager.getCustomOutfits();
-		for ( int i = 0; i < available.size(); ++i )
+		int count = available.size();
+		for ( int i = 1; i < count; ++i )
 		{
 			currentTest = available.get( i );
 			currentTestString = currentTest.toString().toLowerCase();
