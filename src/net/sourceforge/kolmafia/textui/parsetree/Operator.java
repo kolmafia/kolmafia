@@ -92,7 +92,7 @@ public class Operator
 			return 3;
 		}
 
-		if ( this.operator.equals( "=" ) || this.operator.equals( "==" ) || this.operator.equals( "!=" ) )
+		if ( this.operator.equals( "==" ) || this.operator.equals( "!=" ) )
 		{
 			return 2;
 		}
@@ -303,7 +303,7 @@ public class Operator
 			}
 		}
 
-		if ( this.operator.equals( "=" ) || this.operator.equals( "==" ) )
+		if ( this.operator.equals( "==" ) )
 		{
 			if ( lhs.getType().equals( DataTypes.TYPE_STRING ) || lhs.getType().equals( DataTypes.TYPE_LOCATION ) || lhs.getType().equals(
 				DataTypes.TYPE_MONSTER ) )
@@ -435,7 +435,7 @@ public class Operator
 			return result;
 		}
 
-		if ( this.operator.equals( "=" ) || this.operator.equals( "==" ) )
+		if ( this.operator.equals( "==" ) )
 		{
 			Value result = isInt ? new Value( lint == rint ) : new Value( lfloat == rfloat );
 			interpreter.trace( "<- " + result );
