@@ -460,7 +460,7 @@ public class ItemManagePanel
 					previous = KoLCharacter.getInebriety() + ConcoctionDatabase.getQueuedInebriety();
 					capacity = KoLCharacter.getInebrietyLimit();
 					unit = ( (Concoction) item ).getInebriety();
-					standard = previous >= capacity ? itemCount : Math.min( ( capacity - previous ) / unit, itemCount );
+					standard = previous > capacity ? itemCount : Math.max( 1, Math.min( ( capacity - previous ) / unit, itemCount ) );
 				}
 				else if ( ( (Concoction) item ).getSpleenHit() > 0 )
 				{
