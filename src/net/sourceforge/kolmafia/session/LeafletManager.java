@@ -497,6 +497,7 @@ public abstract class LeafletManager
 
 		// We can't tell if we've already done this. But, there's no
 		// harm in doing it twice.
+		LeafletManager.goTo( LeafletManager.CAVE );
 		LeafletManager.executeCommand( "look behind chest" );
 		LeafletManager.executeCommand( "look in hole" );
 	}
