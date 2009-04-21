@@ -60,14 +60,12 @@ public class CharPaneDecorator
 	private static final Pattern LASTADV_PATTERN = Pattern.compile(
 		">Last Adventure.*?<font[^>]*>(.*?)<br></font>.*?</table>" );
 	private static final Pattern COMPACT_LASTADV_PATTERN = Pattern.compile(
-		"(<a onclick=[^<]+ title=\"Last Adventure: ([^\"]+)\".*?>).*?</tr>" );
-	private static final Pattern COMPACTIFY_PATTERN = Pattern.compile(
-		"\\(|\\)|\\b[A-Za-z]" );
+		"<td align=right>(<a onclick=[^<]+ title=\"Last Adventure: ([^\"]+)\" target=mainpane href=\"([^\"]+)\">.*?</a>:)</td>" );
 	private static final Pattern EFFECT_PATTERN = Pattern.compile(
 		"onClick='eff\\(.*?(\\d+)(?:</a>)?\\)" );
-	
+
 	private static final ArrayList recentLocations = new ArrayList();
-	
+
 	private static final String[][] BIRDFORM_STRINGS = {
 		{
 			"birdformStench",
@@ -117,13 +115,13 @@ public class CharPaneDecorator
 		{
 			CharPaneDecorator.addUpArrowLinks( buffer );
 		}
-		
+
 		Iterator it = TurnCounter.iterator();
 		if ( it.hasNext() )
 		{
 			CharPaneDecorator.addCounters( buffer, it );
 		}
-		
+
 		if ( Preferences.getInteger( "recentLocations" ) >= 1 )
 		{
 			CharPaneDecorator.addRecentLocations( buffer, GenericRequest.isCompactMode );
@@ -187,7 +185,7 @@ public class CharPaneDecorator
 			current = (TurnCounter) it.next();
 		}
 	}
-	
+
 	private static final void addOneCounter( StringBuffer buffer, TurnCounter current, boolean compact )
 	{
 		String url = current.imageURL();
@@ -768,60 +766,119 @@ public class CharPaneDecorator
 
 	private static final void addRecentLocations( final StringBuffer buffer, final boolean compact )
 	{
-		Matcher m = ( compact ? COMPACT_LASTADV_PATTERN : LASTADV_PATTERN).matcher( buffer );
-		if ( !m.find() )
+		int nLinks = Preferences.getInteger( "recentLocations" );
+
+		if ( nLinks <= 1 )
 		{
 			return;
 		}
+
+		Matcher matcher = (compact ? COMPACT_LASTADV_PATTERN : LASTADV_PATTERN).matcher( buffer );
+
+		if ( !matcher.find() )
+		{
+			return;
+		}
+
 		// group(1) is the link itself, end() is the insertion point for the recent list
-		String link = m.group( 1 );
+
+		String link;
+
 		if ( compact )
 		{
-			StringBuffer temp = new StringBuffer( link );
-			Matcher initials = COMPACTIFY_PATTERN.matcher( m.group( 2 ) );
-			while ( initials.find() )
-			{
-				temp.append( initials.group() );
-			}
-			temp.append( "</a>" );
-			link = temp.toString();
+			link = "<a onclick='if (top.mainpane.focus) top.mainpane.focus();' target=mainpane href=\"" + matcher.group( 3 ) + "\">" + matcher.group( 2 ) + "</a>";
 		}
-		int nLinks = Preferences.getInteger( "recentLocations" );
+		else
+		{
+			link = matcher.group( 1 );
+		}
+
 		if ( CharPaneDecorator.recentLocations.size() == 0 )
-		{	// initialize
+		{
 			CharPaneDecorator.recentLocations.add( link );
 			return;
 		}
+
 		if ( !CharPaneDecorator.recentLocations.get( 0 ).equals( link ) )
 		{
 			CharPaneDecorator.recentLocations.remove( link );
 			CharPaneDecorator.recentLocations.add( 0, link );
-			if ( CharPaneDecorator.recentLocations.size() > nLinks + 1 )
+
+			while ( CharPaneDecorator.recentLocations.size() > nLinks )
 			{
-				CharPaneDecorator.recentLocations.subList( nLinks + 1,
-					CharPaneDecorator.recentLocations.size() ).clear();
+				CharPaneDecorator.recentLocations.remove( nLinks );
 			}
+
 		}
+
 		if ( CharPaneDecorator.recentLocations.size() <= 1 )
 		{
 			return;
 		}
-		
-		String text = buffer.substring( m.end() );
-		buffer.setLength( m.end() );
-		buffer.append( compact ? "<tr><td colspan=2><font size=1>" : "<font size=1>" );
-		for ( int i = 1; i < CharPaneDecorator.recentLocations.size(); ++i )
+
+		if ( compact )
 		{
-			if ( i > 1 )
+			StringBuffer linkBuffer = new StringBuffer();
+
+			linkBuffer.append( "<td>" );
+
+			linkBuffer.append( "<span onmouseover=\"document.getElementById('lastadvmenu').style.display = 'inline';\" onmouseout=\"document.getElementById('lastadvmenu').style.display = 'none';\">" );
+
+			linkBuffer.append( "<div style=\"text-align: right\">" );
+
+			linkBuffer.append( matcher.group( 1 ) );
+
+			linkBuffer.append( "</div>" );
+
+			linkBuffer.append( "<span id=\"lastadvmenu\"" );
+			linkBuffer.append( " style=\"position: absolute; padding: 5px 5px 5px 5px; background: #f5f5f5; display: none\">" );
+
+			linkBuffer.append( "<font size=1>" );
+
+			for ( int i = 0; i < CharPaneDecorator.recentLocations.size(); ++i )
 			{
-				buffer.append( ", " );
+				if ( i > 1 )
+				{
+					linkBuffer.append( "<br/>" );
+				}
+
+				linkBuffer.append( "<nobr>" );
+				linkBuffer.append( CharPaneDecorator.recentLocations.get( i ) );
+				linkBuffer.append( "</nobr>" );
 			}
-			buffer.append( CharPaneDecorator.recentLocations.get( i ) );		
+
+			linkBuffer.append( "</font>" );
+
+			linkBuffer.append( "</span>" );
+			linkBuffer.append( "</span>" );
+			linkBuffer.append( "</td>" );
+
+			buffer.delete( matcher.start(), matcher.end() );
+			buffer.insert( matcher.start(), linkBuffer.toString() );
 		}
-		buffer.append( compact? "</font></td></tr>" : "</font>" );
-		buffer.append( text );
+		else
+		{
+			StringBuffer linkBuffer = new StringBuffer();
+
+			linkBuffer.append( "<font size=1>" );
+
+			for ( int i = 1; i < CharPaneDecorator.recentLocations.size(); ++i )
+			{
+				if ( i > 1 )
+				{
+					linkBuffer.append( "<br/>" );
+				}
+
+				linkBuffer.append( "<nobr>" );
+				linkBuffer.append( CharPaneDecorator.recentLocations.get( i ) );
+				linkBuffer.append( "</nobr>" );
+			}
+
+			linkBuffer.append( "</font>" );
+			buffer.insert( matcher.end(), linkBuffer.toString() );
+		}
 	}
-	
+
 	public static final void updateFromPreferences()
 	{
 		CharPaneDecorator.recentLocations.clear();
