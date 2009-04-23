@@ -441,15 +441,11 @@ public class PyramidRequest
 	public static final int advancePyramidPosition()
 	{
 		int position = PyramidRequest.getPyramidPosition();
-		if ( position != 0 )
+		if ( ++position > 5 )
 		{
-			position++;
-			if ( position > 5 )
-			{
-				position = 1;
-			}
-			Preferences.setInteger( "pyramidPosition", position );
+			position = 1;
 		}
+		Preferences.setInteger( "pyramidPosition", position );
 		return position;
 	}
 
