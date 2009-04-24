@@ -209,6 +209,7 @@ public class IslandDecorator
 		int remaining = 100000 - recovered;
 		String message = "The nuns take " + KoLConstants.COMMA_FORMAT.format( delta ) + " Meat; " + KoLConstants.COMMA_FORMAT.format( recovered ) + " recovered, " + KoLConstants.COMMA_FORMAT.format( remaining ) + " left to recover.";
 		RequestLogger.updateSessionLog( message );
+		RequestLogger.printLine( message );
 	}
 
 	public static final void decorateThemtharFight( final StringBuffer buffer )
