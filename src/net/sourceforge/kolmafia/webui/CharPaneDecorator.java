@@ -837,7 +837,7 @@ public class CharPaneDecorator
 
 			for ( int i = 0; i < CharPaneDecorator.recentLocations.size(); ++i )
 			{
-				if ( i > 1 )
+				if ( i > 0 )
 				{
 					linkBuffer.append( "<br/>" );
 				}
