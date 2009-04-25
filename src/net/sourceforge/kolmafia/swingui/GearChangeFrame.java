@@ -43,6 +43,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ButtonGroup;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -84,10 +85,11 @@ public class GearChangeFrame
 	private JButton outfitButton;
 
 	private JRadioButton[] weaponTypes;
-	private final ChangeComboBox[] equipment;
+	private final EquipmentComboBox[] equipment;
 	private final SortedListModel weapons = new SortedListModel();
 	private final SortedListModel offhands = new SortedListModel();
-	private final ChangeComboBox outfitSelect, customSelect, familiarSelect;
+	private final OutfitComboBox outfitSelect, customSelect;
+	private final FamiliarComboBox familiarSelect;
 	private JLabel sticker1Label, sticker2Label, sticker3Label;
 	private FamLockCheckbox	famLockCheckbox;
 
@@ -96,7 +98,7 @@ public class GearChangeFrame
 		super( "Gear Changer" );
 		GearChangeFrame.INSTANCE = this;
 
-		this.equipment = new ChangeComboBox[ EquipmentManager.ALL_SLOTS ];
+		this.equipment = new EquipmentComboBox[ EquipmentManager.ALL_SLOTS ];
 
 		LockableListModel[] lists = EquipmentManager.getEquipmentLists();
 		// We maintain our own lists of valid weapons and offhand items
@@ -116,12 +118,12 @@ public class GearChangeFrame
 				list = lists[ i ];
 			}
 
-			this.equipment[ i ] = new ChangeComboBox( list );
+			this.equipment[ i ] = new EquipmentComboBox( list, i == EquipmentManager.FAMILIAR );
 		}
 
-		this.familiarSelect = new ChangeComboBox( KoLCharacter.getFamiliarList() );
-		this.outfitSelect = new ChangeComboBox( EquipmentManager.getOutfits() );
-		this.customSelect = new ChangeComboBox( EquipmentManager.getCustomOutfits() );
+		this.familiarSelect = new FamiliarComboBox( KoLCharacter.getFamiliarList() );
+		this.outfitSelect = new OutfitComboBox( EquipmentManager.getOutfits() );
+		this.customSelect = new OutfitComboBox( EquipmentManager.getCustomOutfits() );
 
 		this.framePanel.setLayout( new CardLayout( 10, 10 ) );
 		this.framePanel.add( new JScrollPane( new EquipPanel() ), "" );
@@ -337,20 +339,18 @@ public class GearChangeFrame
 		GearChangeFrame.INSTANCE.offhands.clear();
 	}
 
-	private class ChangeComboBox
+	private class EquipmentComboBox
 		extends JComboBox
 	{
-		public ChangeComboBox( final LockableListModel slot )
+		public EquipmentComboBox( final LockableListModel slot, boolean familiarItems )
 		{
 			super( slot );
-			if ( slot == EquipmentManager.getEquipmentLists()[ EquipmentManager.FAMILIAR ] )
-			{
-				this.setRenderer( ListCellRendererFactory.getFamiliarEquipmentRenderer() );
-			}
-			else
-			{
-				this.setRenderer( ListCellRendererFactory.getUsableEquipmentRenderer() );
-			}
+
+			DefaultListCellRenderer renderer = familiarItems ?
+				ListCellRendererFactory.getFamiliarEquipmentRenderer() :
+				ListCellRendererFactory.getUsableEquipmentRenderer();
+
+			this.setRenderer( renderer );
 			this.addPopupMenuListener( new ChangeItemListener() );
 		}
 
@@ -359,7 +359,35 @@ public class GearChangeFrame
 		{
 			public void run()
 			{
-				LockableListModel model = (LockableListModel) ChangeComboBox.this.getModel();
+				LockableListModel model = (LockableListModel) EquipmentComboBox.this.getModel();
+				if ( model.isEmpty() )
+				{
+					return;
+				}
+
+				// Simply re-validate what it is you need to
+				// equip.
+
+				GearChangeFrame.this.ensureValidSelections();
+			}
+		}
+	}
+
+	private class OutfitComboBox
+		extends JComboBox
+	{
+		public OutfitComboBox( final LockableListModel slot )
+		{
+			super( slot );
+			this.addActionListener( new ChangeOutfitListener() );
+		}
+
+		private class ChangeOutfitListener
+			extends ThreadedListener
+		{
+			public void run()
+			{
+				LockableListModel model = (LockableListModel) OutfitComboBox.this.getModel();
 				if ( model.isEmpty() )
 				{
 					return;
@@ -368,21 +396,40 @@ public class GearChangeFrame
 				// If you're changing an outfit, then the
 				// change must occur right away.
 
-				if ( ChangeComboBox.this == GearChangeFrame.this.outfitSelect || ChangeComboBox.this == GearChangeFrame.this.customSelect )
+				Object outfit = OutfitComboBox.this.getSelectedItem();
+				if ( outfit == null || !( outfit instanceof SpecialOutfit ) )
 				{
-					Object outfit = ChangeComboBox.this.getSelectedItem();
-					if ( outfit == null || !( outfit instanceof SpecialOutfit ) )
-					{
-						return;
-					}
+					return;
+				}
 
-					synchronized ( GearChangeFrame.class )
-					{
-						RequestThread.postRequest( new EquipmentRequest( (SpecialOutfit) outfit ) );
-						RequestThread.enableDisplayIfSequenceComplete();
-					}
+				synchronized ( GearChangeFrame.class )
+				{
+					RequestThread.postRequest( new EquipmentRequest( (SpecialOutfit) outfit ) );
+					RequestThread.enableDisplayIfSequenceComplete();
+				}
 
-					ChangeComboBox.this.setSelectedItem( null );
+				OutfitComboBox.this.setSelectedItem( null );
+			}
+		}
+	}
+
+	private class FamiliarComboBox
+		extends JComboBox
+	{
+		public FamiliarComboBox( final LockableListModel slot )
+		{
+			super( slot );
+			this.addActionListener( new ChangeFamiliarListener() );
+		}
+
+		private class ChangeFamiliarListener
+			extends ThreadedListener
+		{
+			public void run()
+			{
+				LockableListModel model = (LockableListModel) FamiliarComboBox.this.getModel();
+				if ( model.isEmpty() )
+				{
 					return;
 				}
 
@@ -390,29 +437,19 @@ public class GearChangeFrame
 				// sure all the equipment pieces get changed
 				// and the familiar gets changed right after.
 
-				if ( ChangeComboBox.this == GearChangeFrame.this.familiarSelect )
+				FamiliarData familiar = (FamiliarData) FamiliarComboBox.this.getSelectedItem();
+				if ( familiar == null || familiar.equals( KoLCharacter.getFamiliar() ) )
 				{
-					FamiliarData familiar = (FamiliarData) GearChangeFrame.this.familiarSelect.getSelectedItem();
-					if ( familiar == null || familiar.equals( KoLCharacter.getFamiliar() ) )
-					{
-						return;
-					}
-
-					synchronized ( GearChangeFrame.class )
-					{
-						RequestThread.openRequestSequence();
-						GearChangeFrame.this.changeItems();
-						RequestThread.postRequest( new FamiliarRequest( familiar ) );
-						RequestThread.closeRequestSequence();
-					}
-
 					return;
 				}
 
-				// In all other cases, simply re-validate what
-				// it is you need to equip.
-
-				GearChangeFrame.this.ensureValidSelections();
+				synchronized ( GearChangeFrame.class )
+				{
+					RequestThread.openRequestSequence();
+					GearChangeFrame.this.changeItems();
+					RequestThread.postRequest( new FamiliarRequest( familiar ) );
+					RequestThread.closeRequestSequence();
+				}
 			}
 		}
 	}
