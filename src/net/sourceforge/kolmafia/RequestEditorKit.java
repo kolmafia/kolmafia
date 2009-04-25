@@ -178,13 +178,13 @@ public class RequestEditorKit
 
 		String displayHTML = RequestEditorKit.getFeatureRichHTML( location, responseText, false );
 
-		displayHTML =
-			KoLConstants.LINE_BREAK_PATTERN.matcher(
-				KoLConstants.COMMENT_PATTERN.matcher(
-					KoLConstants.STYLE_PATTERN.matcher(
-						KoLConstants.SCRIPT_PATTERN.matcher( displayHTML ).replaceAll( "" ) ).replaceAll( "" ) ).replaceAll(
-					"" ) ).replaceAll( "" ).replaceAll( "<[Bb][Rr]( ?/)?>", "<br>" ).replaceAll(
-				"<[Hh][Rr].*?>", "<br>" );
+		displayHTML = KoLConstants.SCRIPT_PATTERN.matcher( displayHTML ).replaceAll( "" );
+		displayHTML = KoLConstants.STYLE_PATTERN.matcher( displayHTML ).replaceAll( "" );
+		displayHTML = KoLConstants.COMMENT_PATTERN.matcher( displayHTML ).replaceAll( "" );
+		displayHTML = KoLConstants.LINE_BREAK_PATTERN.matcher( displayHTML ).replaceAll( "" );
+
+		displayHTML = displayHTML.replaceAll( "<[Bb][Rr]( ?/)?>", "<br>" );
+		displayHTML = displayHTML.replaceAll( "<[Hh][Rr].*?>", "<br>" );
 
 		// The default Java browser doesn't display blank lines correctly
 
@@ -198,9 +198,10 @@ public class RequestEditorKit
 		// Fix all the super-small font displays used in the
 		// various KoL panes.
 
-		displayHTML =
-			displayHTML.replaceAll( "font-size: .8em;", "" ).replaceAll( "<font size=[12]>", "" ).replaceAll(
-				" class=small", "" ).replaceAll( " class=tiny", "" );
+		displayHTML = displayHTML.replaceAll( "font-size: .8em;", "" );
+		displayHTML = displayHTML.replaceAll( "<font size=[12]>", "" );
+		displayHTML = displayHTML.replaceAll( " class=small", "" );
+		displayHTML = displayHTML.replaceAll( " class=tiny", "" );
 
 		// This is to replace all the rows with a black background
 		// because they are not properly rendered.
@@ -208,6 +209,7 @@ public class RequestEditorKit
 		displayHTML =
 			displayHTML.replaceAll(
 				"<td valign=center><table[^>]*?><tr><td([^>]*?) bgcolor=black([^>]*?)>.*?</table></td>", "" );
+
 		displayHTML = displayHTML.replaceAll( "<tr[^>]*?><td[^>]*bgcolor=\'?\"?black(.*?)</tr>", "" );
 		displayHTML = displayHTML.replaceAll( "<table[^>]*title=.*?</table>", "" );
 
@@ -257,6 +259,7 @@ public class RequestEditorKit
 
 		displayHTML =
 			displayHTML.replaceFirst( "<input class=button type=submit value=\"Take this one with you\">", "" );
+
 		displayHTML =
 			displayHTML.replaceFirst(
 				"</td></tr><tr><td align=center>(<input class=button type=submit value='Take Items'>)", "$1" );
@@ -359,11 +362,11 @@ public class RequestEditorKit
 
 		displayHTML = RequestEditorKit.BOOKSHELF_PATTERN.matcher( displayHTML ).replaceAll( "href=\"$1\"" );
 
-                if ( logIt )
-                {
-                        // Print it to the debug log for reference purposes.
-                        RequestLogger.updateDebugLog( displayHTML );
-                }
+		if ( logIt )
+		{
+				// Print it to the debug log for reference purposes.
+				RequestLogger.updateDebugLog( displayHTML );
+		}
 
 		// All HTML is now properly rendered!  Return compiled string.
 
@@ -1002,7 +1005,7 @@ public class RequestEditorKit
 		{
 			spoiler.append( "GMoB: dead<br>" );
 		}
-		else 
+		else
 		{
 			int count = Preferences.getInteger( "guyMadeOfBeesCount" );
 			if ( count > 0 )
@@ -1028,7 +1031,7 @@ public class RequestEditorKit
 				break;
 			}
 		}
-		
+
 		if ( spoiler.length() > 0 )
 		{
 			spoiler.insert( 0, "<small><center>" );
