@@ -6,7 +6,6 @@ tamarind-flavored chewing gum	SUSE	pack of chewing gum
 lime-and-chile-flavored chewing gum	SUSE	pack of chewing gum
 pickle-flavored chewing gum	SUSE	pack of chewing gum
 jaba&ntilde;ero-flavored chewing gum	SUSE	pack of chewing gum
-bottle of melodramamine	SUSE	blank prescription sheet
 
 # Christmas-specific items which can be created through combination or
 # smithing.
