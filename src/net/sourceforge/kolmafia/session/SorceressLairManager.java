@@ -1426,7 +1426,7 @@ public abstract class SorceressLairManager
 
 		// First mission -- retrieve the key from the hedge maze
 
-		boolean changed = SorceressLairManager.retrieveHedgeKey( exits, interest[ 0 ], interest[ 1 ] );
+		SorceressLairManager.retrieveHedgeKey( exits, interest[ 0 ], interest[ 1 ] );
 
 		// Retrieving the key after rotating the puzzle pieces uses an
 		// adventure. If we ran out of puzzle pieces or adventures, we
@@ -1442,11 +1442,8 @@ public abstract class SorceressLairManager
 
 		// Look at the puzzle again if we just retrieved the key
 
-		if ( changed )
-		{
-			SorceressLairManager.initializeMaze( exits, interest );
-			SorceressLairManager.generateMazeConfigurations( exits, interest );
-		}
+		SorceressLairManager.initializeMaze( exits, interest );
+		SorceressLairManager.generateMazeConfigurations( exits, interest );
 
 		SorceressLairManager.finalizeHedgeMaze( exits, interest[ 0 ], interest[ 2 ] );
 
@@ -1462,10 +1459,9 @@ public abstract class SorceressLairManager
 		KoLmafia.updateDisplay( "Hedge maze quest complete." );
 	}
 
-	private static final boolean rotateHedgePiece( final int x, final int y, final int rotations )
+	private static final void rotateHedgePiece( final int x, final int y, final int rotations )
 	{
 		String url = "hedgepuzzle.php?action=" + ( 1 + y * 3 + x );
-		boolean rotated = false;
 
 		for ( int i = 0; i < rotations && KoLmafia.permitsContinue(); ++i )
 		{
@@ -1475,11 +1471,10 @@ public abstract class SorceressLairManager
 
 			if ( SorceressLairManager.QUEST_HANDLER.responseText.indexOf( "Click one" ) == -1 )
 			{
-				return rotated;
+				return;
 			}
 
 			RequestThread.postRequest( SorceressLairManager.QUEST_HANDLER.constructURLString( url ) );
-			rotated = true;
 
 			// If the topiary golem stole one of your hedge
 			// pieces, take it away.
@@ -1489,8 +1484,6 @@ public abstract class SorceressLairManager
 				ResultProcessor.processResult( SorceressLairManager.PUZZLE_PIECE.getNegation() );
 			}
 		}
-
-		return rotated;
 	}
 
 	private static final void initializeMaze( final boolean[][][][] exits, final int[][] interest )
@@ -1758,7 +1751,7 @@ public abstract class SorceressLairManager
 		visited[ currentX ][ currentY ] = false;
 	}
 
-	private static final boolean retrieveHedgeKey( final boolean[][][][] exits, final int[] start, final int[] destination )
+	private static final void retrieveHedgeKey( final boolean[][][][] exits, final int[] start, final int[] destination )
 	{
 		// Before doing anything, check to see if the hedge maze has
 		// already been solved for the key.
@@ -1766,7 +1759,7 @@ public abstract class SorceressLairManager
 		if ( KoLConstants.inventory.contains( SorceressLairManager.HEDGE_KEY ) ||
 		     SorceressLairManager.QUEST_HANDLER.responseText.indexOf( "There is a key here." ) == -1 )
 		{
-			return false;
+			return;
 		}
 
 		int[][] solution = SorceressLairManager.computeSolution( exits, start, destination );
@@ -1774,21 +1767,20 @@ public abstract class SorceressLairManager
 		if ( solution == null )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Unable to compute maze solution." );
-			return false;
+			return;
 		}
 
 		KoLmafia.updateDisplay( "Retrieving hedge key..." );
 
-		boolean rotated = false;
 		for ( int x = 0; x < 3 && KoLmafia.permitsContinue(); ++x )
 		{
 			for ( int y = 0; y < 3 && KoLmafia.permitsContinue(); ++y )
 			{
-				rotated |= SorceressLairManager.rotateHedgePiece( x, y, solution[ x ][ y ] );
+				SorceressLairManager.rotateHedgePiece( x, y, solution[ x ][ y ] );
 				if ( SorceressLairManager.PUZZLE_PIECE.getCount( KoLConstants.inventory ) == 0 )
 				{
 					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Ran out of puzzle pieces." );
-					return rotated;
+					return;
 				}
 			}
 		}
@@ -1802,8 +1794,6 @@ public abstract class SorceressLairManager
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Ran out of adventures." );
 		}
-
-		return rotated;
 	}
 
 	private static final void finalizeHedgeMaze( final boolean[][][][] exits, final int[] start, final int[] destination )
