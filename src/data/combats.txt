@@ -165,7 +165,7 @@ The Briniest Deepests	100	Acoustic Electric Eel	Decent White Shark	Ganger
 The Dive Bar	100	Lounge Lizardfish	Mer-kin tippler	Nurse Shark
 The Heap	-1	Stench Hobo	Oscus: 0
 The Marinara Trench	-1	Diving Belle	Fisherfish	Giant Squid	Mer-kin Diver
-The Mer-Kin Outpost	-1	Mer-kin Burglar	Mer-kin Healer	Mer-kin Raider
+The Mer-Kin Outpost	100	Mer-kin Burglar	Mer-kin Healer	Mer-kin Raider
 The Middle Chamber	100	Iiti Kitty	Tomb Bat	Tomb Servant
 The Purple Light District	-1	Sleaze Hobo	Chester: 0
 The Upper Chamber	100	Tomb Asp	Tomb Rat	Tomb Servant
