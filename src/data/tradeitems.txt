@@ -3225,7 +3225,7 @@
 3224	sewer wad	usable	all	253
 3225	bottle of sewage schnapps	drink	all	34
 3226	bottle of Ooze-O	drink	all	75
-3227	C. H. U. M. chum	food	all	45
+3227	C.H.U.M. chum	food	all	45
 3228	unfortunate dumplings	food	all	15
 3229	decaying goldfish liver	none	all	48
 3230	oil of oiliness	usable	all	85
@@ -3282,8 +3282,8 @@
 3281	blue plasma ball	usable	gift	5
 3282	stick-on eyebrow piercing	accessory	gift	5
 3283	delicious salad	food	all	1
-3284	C. H. U. M. lantern	offhand	all	125
-3285	C. H. U. M. knife	weapon	all	75
+3284	C.H.U.M. lantern	offhand	all	125
+3285	C.H.U.M. knife	weapon	all	75
 3286	Frosty's snowball sack	weapon	display	0
 3287	quasi-ethereal macaroni fragments	usable	display	200
 3288	shimmering tendrils	usable	display	500
