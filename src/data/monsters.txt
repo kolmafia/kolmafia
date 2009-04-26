@@ -391,7 +391,7 @@ Lihc	HP: 11 Def: 20 Atk: 20 ED: spooky EA: spooky EA: sleaze Meat: 29-43	lihc ey
 Lobsterfrogman	HP: 190 Def: 169 Atk: 171 Meat: 78	barrel of gunpowder (100)
 Lonely Construct	HP: 350 Atk: 300	El Vibrato punchcard (213 holes)	El Vibrato punchcard (182 holes)
 Lord Spookyraven	HP: 200 Atk: 170	Eye of Ed (100)	Lord Spookyraven's ear trumpet ( 100)
-Lounge Lizardfish	HP: 500 Def: 700 Atk: 400 Meat: 160-240	amber aviator shades (0)	hair of the fish (c0)	rough fish scale (0)	slug of shochu (0)
+Lounge Lizardfish	HP: 550 Def: 700 Atk: 400 Meat: 160-240	amber aviator shades (5)	hair of the fish (c7)	rough fish scale (4)	slug of shochu (21)
 Lumberjack Supervisor	HP: 40 Def: 40 Atk: 40 Meat: 25-38	balaclava (5)	balaclava baklava (25)
 Lumberjill	HP: 36 Def: 36 Atk: 36 Meat: 17-26	Blatantly Canadian (30)	maple syrup (30)
 Lumberjuan	HP: 35 Def: 35 Atk: 35 Meat: 17-26	los chinos (5)	leaflet (15)	wooden axe (5)
@@ -412,7 +412,7 @@ Mer-kin Healer	HP: 600 Def: 650 Atk: 650 Meat: 120-180	Mer-kin foodbucket (5)	Me
 Mer-kin Miner	HP: 750 Def: 450 Atk: 450 Meat: 160-240	Mer-kin food bucket (5)	Mer-kin mining pick (10)	Mer-kin thingpouch (25)
 Mer-kin Raider	HP: 800 Def: 650 Atk: 750 Meat: 200-300	Mer-kin breastplate (c2)	Mer-kin foodbucket (10)	Mer-kin hookspear (2)	Mer-kin roundshield (2)
 Mer-kin Scavenger	HP: 600 Def: 450 Atk: 450 Meat: 160-240	Mer-kin hookspear (2)	Mer-kin takebag (4)	Mer-kin thingpouch (25)
-Mer-kin Tippler	HP: 750 Def: 400 Atk: 600 Meat: 160-240	Alewife&trade; Ale (0)	Mer-kin foodbucket (0)	Mer-kin pinkslip (0)	slug of vodka (0)
+Mer-kin Tippler	HP: 750 Def: 400 Atk: 600 Meat: 160-240	Alewife&trade; Ale (40)	Mer-kin foodbucket (5)	Mer-kin pinkslip (5)	slug of vodka (21)
 Mimic	HP: 50 Def: 45 Atk: 45	dead mimic (n100)
 Mimic (Bottom 2 Rows)	HP: 25 Def: 15 Atk: 15
 Mimic (Middle 2 Rows)	HP: 35 Def: 25 Atk: 25
@@ -444,7 +444,7 @@ Ninja Snowman (Chopsticks)	HP: 70 Def: 85 Atk: 85 ED: cold	frigid ninja stars (2
 Ninja Snowman Janitor	HP: 70 Def: 90 Atk: 80 ED: cold	frigid ninja stars (20)	ninja mop (5)	pail (10)	coal button (b0)
 Ninja Snowman Weaponmaster	HP: 80 Def: 90 Atk: 90 ED: cold	ridiculously overelaborate ninja weapon (5)	frigid ninja stars (20)	frozen nunchaku (5)	frigid hanky&#363; (0)	frigid mote (p0)	coal button (b0)
 Normal Hobo	HP: 380	hobo nickel (c15)	Mr. Joe's bangles (0)	corncob pipe (0)	panhandle panhandling hat (0)	frayed rope belt (0)	cup of infinite pencils (0)	'WILL WORK FOR BOOZE' sign (0)	lucky bottlecap (0)
-Nurse Shark	HP: 800 Def: 450 Atk: 450 Meat: 160-240	nurse's hat (0)	sea salt scrubs (c0)	slug of rum (0)	blank prescription sheet (c0)
+Nurse Shark	HP: 800 Def: 450 Atk: 450 Meat: 160-240	blank prescription sheet (c11)	nurse's hat (5)	sea salt scrubs (c5)	slug of rum (21)
 Oasis Monster	HP: 139 Def: 137 Atk: 132 Meat: 80-120	displaced fish (20)	palm frond (10)	Supernova Champagne (20)	wonderwall shield (4)	carbonated water lily (10)	hot date (5)
 Octopus Gardener	HP: 600 Def: 400 Atk: 425 Meat: 80-120	octopus's spade (2)	sea radish (c3)	soggy seed packet (30)	straw hat (2)
 Octorok	HP: 15 Def: 25 Atk: 25	red pixel (70)	red pixel (70)	red pixel (70)
