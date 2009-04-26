@@ -128,7 +128,7 @@ public class FightRequest
 	// and this is not the case, then correct the use of this Pattern below.
 
 	private static final Pattern PHYSICAL_PATTERN =
-		Pattern.compile( "(your blood, to the tune of|stabs you for|sown|You lose|You gain|strain your neck|) (\\d[\\d,]*) (\\([^.]*\\) |)((?:\\w+ ){0,2})(?:damage|points?|notch(?:es)?|to your opponent|force damage|tiny holes)" );
+		Pattern.compile( "(your blood, to the tune of|stabs you for|sown|You lose|You gain|strain your neck|approximately|) (\\d[\\d,]*) (\\([^.]*\\) |)((?:\\w+ ){0,2})(?:damage|points?|notch(?:es)?|to your opponent|force damage|tiny holes)" );
 
 	private static final Pattern HAIKU_DAMAGE_PATTERN =
 		Pattern.compile( "title=\"Damage: ([^\"]+)\"" );
@@ -144,6 +144,10 @@ public class FightRequest
 	private static final Pattern GHUOL_HEAL = Pattern.compile( "feasts on a nearby corpse, and looks refreshed\\." );
 	private static final Pattern NS_HEAL =
 		Pattern.compile( "The Sorceress pulls a tiny red vial out of the folds of her dress and quickly drinks it" );
+	private static final Pattern DETECTIVE_PATTERN =
+		Pattern.compile( "I deduce that this monster has approximately (\\d+) hit points");
+	private static final Pattern SPACE_HELMET_PATTERN =
+		Pattern.compile( "Opponent HP: (\\d+)");
 
 	private static final AdventureResult TOOTH = ItemPool.get( ItemPool.SEAL_TOOTH, 1);
 	private static final AdventureResult TURTLE = ItemPool.get( ItemPool.TURTLE_TOTEM, 1);
@@ -2200,6 +2204,7 @@ public class FightRequest
 
 		if ( damageThisRound != 0 )
 		{
+			action.setLength( 0 );
 			action.append( "Round " );
 			action.append( FightRequest.currentRound - 1 );
 			action.append( ": " );
@@ -2218,8 +2223,9 @@ public class FightRequest
 				action.append( " hit points." );
 			}
 
-			RequestLogger.printLine( action.toString() );
-			RequestLogger.updateSessionLog( action.toString() );
+			String message = action.toString();
+			RequestLogger.printLine( message );
+			RequestLogger.updateSessionLog( message );
 		}
 
 		// Even though we don't have an exact value, at least try to
@@ -2233,11 +2239,43 @@ public class FightRequest
 			action.append( FightRequest.currentRound - 1 );
 			action.append( ": " );
 			action.append( FightRequest.encounterLookup );
-
 			action.append( " heals an unspaded amount of hit points." );
 
-			RequestLogger.printLine( action.toString() );
-			RequestLogger.updateSessionLog( action.toString() );
+			String message = action.toString();
+			RequestLogger.printLine( message );
+			RequestLogger.updateSessionLog( message );
+		}
+
+		Matcher detectiveMatcher = FightRequest.DETECTIVE_PATTERN.matcher( responseText );
+		if ( detectiveMatcher.find() )
+		{
+			action.setLength( 0 );
+			action.append( "Round " );
+			action.append( FightRequest.currentRound - 1 );
+			action.append( ": " );
+			action.append( FightRequest.encounterLookup );
+			action.append( " shows detective skull health estimate of " );
+			action.append( detectiveMatcher.group( 1 ) );
+
+			String message = action.toString();
+			RequestLogger.printLine( message );
+			RequestLogger.updateSessionLog( message );
+		}
+
+		Matcher helmetMatcher = FightRequest.SPACE_HELMET_PATTERN.matcher( responseText );
+		if ( helmetMatcher.find() )
+		{
+			action.setLength( 0 );
+			action.append( "Round " );
+			action.append( FightRequest.currentRound - 1 );
+			action.append( ": " );
+			action.append( FightRequest.encounterLookup );
+			action.append( " shows toy space helmet health estimate of " );
+			action.append( helmetMatcher.group( 1 ) );
+
+			String message = action.toString();
+			RequestLogger.printLine( message );
+			RequestLogger.updateSessionLog( message );
 		}
 	}
 
