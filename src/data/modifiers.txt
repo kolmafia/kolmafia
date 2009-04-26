@@ -408,8 +408,8 @@ Bigger Bugfinder Blade	Muscle: +11, Mysticality: +11, Moxie: +11
 Bjorn's Hammer	Muscle: +10, Class: "Seal Clubber"
 Brimstone Bludgeon	Muscle Percent: +50, Mysticality Percent: -20, Weapon Damage: +30
 Bugfinder Blade	Muscle: +7, Mysticality: +7, Moxie: +7
-C. H. U. M. knife	Stench Damage: +30
 C.B.F.G.	Hot Damage: +10, Stench Damage: +10
+C.H.U.M. knife	Stench Damage: +30
 Cerebral Crossbow	Cold Damage: +3, Spooky Damage: +3, Sleaze Damage: +3
 Chelonian Morningstar	Muscle: +11, Never Fumble
 Chester's bag of candy	Sleaze Damage: +30, Moxie Percent: +10, Class: "Disco Bandit"
@@ -798,8 +798,8 @@ yohohoyo	Critical: 2, Spooky Damage: +1, Stench Damage: +1, Hot Damage: +1, Cold
 7-ball	Meat Drop: +5
 9-ball	Weapon Damage: +5, Ranged Damage: +5, Spell Damage: +5
 Brimstone Bunker	Muscle Percent: +50, Moxie Percent: -20, Damage Reduction: 25
-# C. H. U. M. lantern: (In Sewers)
-C. H. U. M. lantern	Stench Damage: +17, Item Drop: [30*loc(Sewer Tunnels)]
+# C.H.U.M. lantern: (In Sewers)
+C.H.U.M. lantern	Stench Damage: +17, Item Drop: [30*loc(Sewer Tunnels)]
 Cloaca-Cola shield	Mysticality: +1, Damage Reduction: 4
 # Codex of Capsaicin Conjuration: All Spells Cast Are Hot
 Codex of Capsaicin Conjuration	Spell Damage: +10

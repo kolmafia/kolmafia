@@ -358,8 +358,8 @@ Bigger Bugfinder Blade	200	Mus: 85	2-handed sword
 Bjorn's Hammer	50	Mus: 10	1-handed club
 Brimstone Bludgeon	200	Mus: 30	1-handed club
 Bugfinder Blade	180	Mus: 75	2-handed sword
-C. H. U. M. knife	150	Mus: 175	1-handed knife
 C.B.F.G.	150	Mox: 60	2-handed rifle
+C.H.U.M. knife	150	Mus: 175	1-handed knife
 Cerebral Crossbow	90	Mox: 30	1-handed crossbow
 Chelonian Morningstar	90	Mus: 15	1-handed flail
 Chester's bag of candy	200	Mox: 200	2-handed bag
@@ -733,7 +733,7 @@ yohohoyo	160	Mox: 65	1-handed yoyo
 7-ball	0	none
 9-ball	0	none
 Brimstone Bunker	240	Mus: 30	shield
-C. H. U. M. lantern	0	Mus: 150
+C.H.U.M. lantern	0	Mus: 150
 Cloaca-Cola shield	75	none	shield
 Codex of Capsaicin Conjuration	0	none
 Cookbook of the Damned	0	none

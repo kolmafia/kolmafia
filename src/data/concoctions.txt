@@ -1000,7 +1000,7 @@ pr0n chow mein	WOK	pr0n stir-fry	dry noodles	MSG
 rat appendix chow mein	WOK	rat appendix stir-fry	dry noodles	MSG
 tofu chow mein	WOK	tofu stir-fry	dry noodles	MSG
 
-unfortunate dumplings	WOK	C. H. U. M. chum	dry noodles	MSG
+unfortunate dumplings	WOK	C.H.U.M. chum	dry noodles	MSG
 
 cold and sour sauce	SSAUCE	scrumdiddlyumptious solution	cold nuggets
 hot and sour sauce	SSAUCE	scrumdiddlyumptious solution	hot nuggets

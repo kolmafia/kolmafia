@@ -1006,16 +1006,29 @@ public abstract class MoodManager
 			return "use anti-anti-antidote";
 		}
 
+		boolean otterTongueClearable =
+			name.equals( "Beaten Up" );
+
+		if ( otterTongueClearable && KoLCharacter.hasSkill( "Tongue of the Otter" ) )
+		{
+                        return "cast Tongue of the Otter";
+		}
+
+		boolean walrusTongueClearable =
+			name.equals( "Axe Wound" ) ||
+			name.equals( "Beaten Up" ) ||
+			name.equals( "Grilled" ) ||
+			name.equals( "Half Eaten Brain" ) ||
+			name.equals( "Missing Fingers" ) ||
+			name.equals( "Sunburned" );
+
+		if ( walrusTongueClearable && KoLCharacter.hasSkill( "Tongue of the Walrus" ) )
+		{
+                        return "cast Tongue of the Walrus";
+		}
+
 		if ( name.equals( "Beaten Up" ) )
 		{
-			if ( KoLCharacter.hasSkill( "Tongue of the Walrus" ) )
-			{
-				return "cast Tongue of the Walrus";
-			}
-			if ( KoLCharacter.hasSkill( "Tongue of the Otter" ) )
-			{
-				return "cast Tongue of the Otter";
-			}
 			if ( InventoryManager.hasItem( UneffectRequest.FOREST_TEARS ) )
 			{
 				return "use 1 forest tears";
