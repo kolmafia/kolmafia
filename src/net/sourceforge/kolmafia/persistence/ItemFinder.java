@@ -99,16 +99,19 @@ public class ItemFinder
 		}
 
 		String itemName;
+		String rv = null;
 
 		// Candy hearts, snowcones and cupcakes take precedence over
-		// all the other items in the game.
+		// all the other items in the game, IF exactly one such item
+		// matches.
 
 		for ( int i = 0; i < nameList.size(); ++i )
 		{
 			itemName = (String) nameList.get( i );
 			if ( !itemName.startsWith( "pix" ) && itemName.endsWith( "candy heart" ) )
 			{
-				return ItemDatabase.getCanonicalName( itemName );
+				if ( rv != null ) return "";
+				rv = ItemDatabase.getCanonicalName( itemName );
 			}
 		}
 
@@ -117,7 +120,8 @@ public class ItemFinder
 			itemName = (String) nameList.get( i );
 			if ( !itemName.startsWith( "abo" ) && !itemName.startsWith( "yel" ) && itemName.endsWith( "snowcone" ) )
 			{
-				return ItemDatabase.getCanonicalName( itemName );
+				if ( rv != null ) return "";
+				rv = ItemDatabase.getCanonicalName( itemName );
 			}
 		}
 
@@ -126,10 +130,12 @@ public class ItemFinder
 			itemName = (String) nameList.get( i );
 			if ( itemName.endsWith( "cupcake" ) )
 			{
-				return ItemDatabase.getCanonicalName( itemName );
+				if ( rv != null ) return "";
+				rv = ItemDatabase.getCanonicalName( itemName );
 			}
 		}
 
+		if ( rv != null ) return rv;
 		return "";
 	}
 
