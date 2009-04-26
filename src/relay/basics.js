@@ -104,11 +104,14 @@ function inlineLoad( location, fields, id )
 		if ( httpObject.readyState != 4 )
 			return;
 
+		var prefix = httpObject.responseText.substring(
+			0, httpObject.responseText.indexOf( "<table" ) );
+
 		var text = httpObject.responseText.substring(
 			httpObject.responseText.indexOf( "<table" ),
 			httpObject.responseText.lastIndexOf( "</table>" ) + 8 );
 
-		var text = "<center>" + text + "</center>";
+		var text = prefix + "<center>" + text + "</center>";
 
 		// <tinyskills.js>
 
