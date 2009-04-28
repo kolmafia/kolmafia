@@ -941,6 +941,7 @@ marionette collective	Mysticality: +3
 naughty fortune teller	Softcore Only
 off-hand balloon	Muscle: +1, Mysticality: +1, Moxie: +1
 # oyster basket
+oyster egg balloon	Muscle: +5, Mysticality: +5, Moxie: +5
 parasitic strangleworm	Damage Reduction: 15
 penguin skin buckler	Moxie: +5, Damage Reduction: 5
 penguin thesaurus	Mysticality: +1, Maximum HP: +5, Maximum MP: +5

@@ -856,6 +856,7 @@ moxie magnet	0	none
 naughty fortune teller	0	none
 off-hand balloon	0	none
 oyster basket	0	none
+oyster egg balloon	0	Mys: 35
 parasitic strangleworm	0	none
 penguin skin buckler	95	Mus: 30	shield
 penguin thesaurus	0	none
