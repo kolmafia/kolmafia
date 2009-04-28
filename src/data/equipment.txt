@@ -77,6 +77,7 @@ depleted Grimacite ninja mask	100	Mox: 35
 disco mask	10	none
 draggin' ball hat	100	Mox: 35
 duct tape fedora	195	Mox: 82
+dwarvish war helmet	165	Mox: 67
 eXtreme scarf	100	Mox: 35
 eelskin hat	200	Mys: 85
 enchanted eyepatch	35	Mox: 2
@@ -227,6 +228,7 @@ depleted Grimacite shinguards	100	Mox: 35
 distressed denim pants	170	Mox: 70
 duct tape dockers	195	Mox: 82
 dungeoneer's dungarees	30	none
+dwarvish war kilt	165	Mox: 67
 eelskin pants	200	Mox: 85
 filthy corduroys	60	Mox: 15
 flowing hippy skirt	180	Mox: 75
@@ -524,6 +526,7 @@ dripping meat sword	50	Mus: 10	1-handed sword
 drywall axe	150	Mus: 60	2-handed axe
 duck-on-a-string	100	Mus: 35	1-handed flail
 duct tape sword	195	Mus: 82	1-handed sword
+dwarvish war mattock	165	Mus: 67	1-handed axe
 eXtreme meat crossbow	60	Mox: 15	2-handed crossbow
 eXtreme meat staff	60	Mus: 15	2-handed staff
 eXtreme meat sword	60	Mus: 15	2-handed sword

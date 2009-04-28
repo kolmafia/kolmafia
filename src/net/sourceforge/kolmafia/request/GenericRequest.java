@@ -117,6 +117,7 @@ public class GenericRequest
 	public static boolean isBarrelSmash = false;
 	public static boolean handlingChoices = false;
 	private static boolean choiceHandled = true;
+	private static boolean suppressUpdate = false;
 
 	protected String encounter = "";
 	public static boolean isCompactMode = false;
@@ -340,6 +341,11 @@ public class GenericRequest
 		return this.hasNoResult;
 	}
 
+	public static void suppressUpdate( final boolean suppressUpdate )
+	{
+		GenericRequest.suppressUpdate = suppressUpdate;
+	}
+
 	public GenericRequest constructURLString( final String newURLString )
 	{
 		return this.constructURLString( newURLString, true );
@@ -431,7 +437,10 @@ public class GenericRequest
 		String[] tokens = fields.split( "&" );
 		for ( int i = 0; i < tokens.length; ++i )
 		{
-			this.addFormField( tokens[ i ], encoded );
+			if ( tokens[ i ].length() > 0 )
+			{
+				this.addFormField( tokens[ i ], encoded );
+			}
 		}
 	}
 
@@ -526,7 +535,7 @@ public class GenericRequest
 
 	public void addEncodedFormField( String element )
 	{
-		if ( element == null )
+		if ( element == null || element.equals( "" ) )
 		{
 			return;
 		}
@@ -700,19 +709,23 @@ public class GenericRequest
 		return "pwd";
 	}
 
-	public String getDataString( final boolean includeHash )
+	private String getDataString( final boolean includeHash )
 	{
 		StringBuffer dataBuffer = new StringBuffer();
 		String hashField = getHashField();
 
-		String element;
 		for ( int i = 0; i < this.data.size(); ++i )
 		{
-			element = (String) this.data.get( i );
+			String element = (String) this.data.get( i );
+
+			if ( element.equals( "" ) )
+			{
+				continue;
+			}
 
 			if ( element.startsWith( "pwd" ) || element.startsWith( "phash" ) )
 			{
-				int index = element.indexOf( "=" );
+				int index = element.indexOf( '=' );
 				if ( index != -1 )
 				{
 					element = element.substring( 0, index );
@@ -734,14 +747,14 @@ public class GenericRequest
 		{
 			if ( dataBuffer.length() > 0 )
 			{
-				dataBuffer.append( "&" );
+				dataBuffer.append( '&' );
 			}
 
 			dataBuffer.append( hashField );
 
 			if ( includeHash )
 			{
-				dataBuffer.append( "=" );
+				dataBuffer.append( '=' );
 				dataBuffer.append( GenericRequest.passwordHash );
 			}
 		}
@@ -1560,7 +1573,7 @@ public class GenericRequest
 		// Once everything is complete, decide whether or not
 		// you should refresh your status.
 
-		if ( this.hasNoResult )
+		if ( this.hasNoResult || GenericRequest.suppressUpdate )
 		{
 			return;
 		}

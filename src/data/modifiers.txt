@@ -116,6 +116,7 @@ depleted Grimacite ninja mask	Moxie Percent: [5*G], PvP Fights: [G], Familiar Ef
 disco mask	Familiar Effect: "atk, cap 2"
 draggin' ball hat	Intrinsic Effect: "Draggin' Balls", Familiar Effect: "atk, 1xVolley, cap 25"
 duct tape fedora	Mysticality: +12, Maximum MP: +40, Familiar Effect: "1xBarrr, 1xLep, cap 48"
+# dwarvish war helmet: Heads Up!
 eXtreme scarf	Mysticality: +5, Familiar Effect: "atk, 1xBarrr, cap 25"
 # eelskin hat: Damages Attacking Opponent (Underwater Only)
 eelskin hat	Spell Damage Percent: +15, Familiar Effect: "1xLep"
@@ -274,6 +275,7 @@ depleted Grimacite shinguards	Muscle Percent: [5*G], PvP Fights: [G]
 distressed denim pants	Stench Resistance: +1, Damage Reduction: 2
 duct tape dockers	Muscle: +6, Mysticality: +6, Moxie: +6, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 dungeoneer's dungarees	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
+# dwarvish war kilt: Blinky Lights
 # eelskin pants: Damages Attacking Opponent (Underwater Only)
 eelskin pants	Mysticality Percent: +5
 filthy corduroys	Mysticality: +3, Moxie: -3
@@ -584,6 +586,7 @@ dripping meat sword	Muscle: +2
 drywall axe	Muscle: +2, Mysticality: +2, Moxie: +2, Muscle Percent: +3, Mysticality Percent: +3, Moxie Percent: +3
 duck-on-a-string	Weapon Damage: +5, Item Drop: +5
 duct tape sword	Damage Absorption: +40, Item Drop: +5
+# dwarvish war mattock: Magical Blue Glow
 eXtreme meat crossbow	Moxie: +7
 eXtreme meat staff	Mysticality: +7
 eXtreme meat sword	Muscle: +7

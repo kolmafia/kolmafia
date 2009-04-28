@@ -141,6 +141,11 @@ public class LocalRelayAgent
 
 		String requestLine = this.reader.readLine();
 
+		if ( RequestLogger.isDebugging() )
+		{
+			RequestLogger.updateDebugLog( requestLine );
+		}
+
 		if ( requestLine == null )
 		{
 			return false;
@@ -196,7 +201,7 @@ public class LocalRelayAgent
 			}
 		}
 
-		if ( requestLine.startsWith( "POST" ) )
+		if ( requestMethod.equals( "POST" ) )
 		{
 			int remaining = contentLength;
 

@@ -41,7 +41,7 @@ function refreshSidebar( desiredRefresh )
 {
 	var httpObject = getHttpObject();
 	if ( !httpObject )
-	return true;
+		return true;
 
 	isRefreshing = true;
 	httpObject.onreadystatechange = function()
@@ -61,8 +61,8 @@ function refreshSidebar( desiredRefresh )
 		isRefreshing = false;
 	}
 
-	httpObject.open( "POST", desiredRefresh, true );
-	httpObject.send( "" );
+	httpObject.open( "GET", desiredRefresh, true );
+	httpObject.send( null );
 }
 
 
@@ -137,10 +137,13 @@ function inlineLoad( location, fields, id )
 		if ( httpObject.responseText.indexOf( "charpane" ) != -1 )
 			refreshSidebar( "/charpane.php" );
 
+		if ( httpObject.responseText.indexOf( "topmenu" ) != -1 )
+			refreshSidebar( "/topmenu.php" );
+
 	};
 
-	httpObject.open( "POST", "/" + location + "?" + fields, true );
-	httpObject.send( "" );
+	httpObject.open( "GET", "/" + location + "?" + fields, true );
+	httpObject.send( null );
 	return true;
 }
 
@@ -221,8 +224,8 @@ function updateSafetyText()
 		safety.innerHTML = httpObject.responseText;
 	}
 
-	httpObject.open( "POST", "/KoLmafia/updateLocation?MAFIAHIT", true );
-	httpObject.send( "" );
+	httpObject.open( "GET", "/KoLmafia/updateLocation?MAFIAHIT", true );
+	httpObject.send( null );
 	return true;
 }
 
@@ -292,8 +295,8 @@ function showSafetyText( location )
 		safety.innerHTML = httpObject.responseText;
 	}
 
-	httpObject.open( "POST", "/KoLmafia/lookupLocation?" + adventureId + "&MAFIAHIT", true );
-	httpObject.send( "" );
+	httpObject.open( "GET", "/KoLmafia/lookupLocation?" + adventureId + "&MAFIAHIT", true );
+	httpObject.send( null );
 	return true;
 }
 

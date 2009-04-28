@@ -312,13 +312,22 @@ public class AdventureDatabase
 		int index = url.indexOf( "&pwd" );
 		if ( index != -1 )
 		{
-			url = url.substring( 0, index ) +
-				url.substring( index + 4 );
+			url = url.substring( 0, index ) + url.substring( index + 4 );
 		}
 
 		AdventureDatabase.adventureLookup.put( url, location );
-		url = StringUtilities.singleStringReplace( url, "snarfblat=", "adv=" );
-		AdventureDatabase.adventureLookup.put( url, location );
+
+		if ( url.indexOf( "snarfblat=" ) != -1 )
+		{
+			// The map of the Bat Hole has a bogus URL for the Boss Bat's lair
+			if ( url.indexOf( "snarfblat=34" ) != -1 )
+			{
+				AdventureDatabase.adventureLookup.put( url + ";", location );
+			}
+
+			url = StringUtilities.singleStringReplace( url, "snarfblat=", "adv=" );
+			AdventureDatabase.adventureLookup.put( url, location );
+		}
 	}
 
 	public static final LockableListModel getAsLockableListModel()
@@ -366,11 +375,36 @@ public class AdventureDatabase
 			adventureURL = adventureURL.substring( 0, index ) +
 				adventureURL.substring( index + 11 );
 		}
+
+		// Relay requests can have the entire password hash
+		index = adventureURL.indexOf( "pwd=" );
+		if ( index != -1 )
+		{
+			adventureURL = adventureURL.substring( 0, index ) +
+				adventureURL.substring( index + 36 );
+		}
+
+		// Internal requests can have simply the field name
 		index = adventureURL.indexOf( "&pwd" );
 		if ( index != -1 )
 		{
 			adventureURL = adventureURL.substring( 0, index ) +
 				adventureURL.substring( index + 4 );
+		}
+
+		// Removing the password hash can leave us with either "?&" or "&&"
+		index = adventureURL.indexOf( "?&" );
+		if ( index != -1 )
+		{
+			adventureURL = adventureURL.substring( 0, index + 1 ) +
+				adventureURL.substring( index + 2 );
+		}
+
+		index = adventureURL.indexOf( "&&" );
+		if ( index != -1 )
+		{
+			adventureURL = adventureURL.substring( 0, index + 1 ) +
+				adventureURL.substring( index + 2 );
 		}
 
 		KoLAdventure location = (KoLAdventure) AdventureDatabase.adventureLookup.get( adventureURL );

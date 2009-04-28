@@ -3202,22 +3202,22 @@
 3196	353333224	origami pasties	origami pastiess
 3197	232940208	origami riding crop	origami riding crops
 3198	361752510	El Vibrato trapezoid	El Vibrato trapezoids
-3199
-3200
-3201
+3199	915218428	lump of coal	lumps of coal
+3200	496172764	lump of diamond	lumps of diamond
+3201	654260638	thick padded envelope
 3202	947532941	KoL Con IV Pole
-3203
-3204
-3205
-3206
-3207
-3208
-3209
-3210
-3211
-3212
-3213
-3214
+3203	390759489	dwarvish magazine	dwarvish magazines
+3204	796642231	dwarvish war helmet
+3205	393442661	dwarvish war mattock
+3206	859450844	dwarvish war kilt
+3207	442610491	dwarvish punchcard
+3208	824780825	small laminated card
+3209	702658783	little laminated card
+3210	211185422	notbig laminated card
+3211	884087646	unlarge laminated card
+3212	548249193	dwarvish document
+3213	253381547	dwarvish paper
+3214	328029577	dwarvish parchment
 3215	480795503	overcharged El Vibrato power sphere
 3216	925591992	Fly-By-Knight Heraldry form	Fly-By-Knight Heraldry forms
 3217	193025375	El Vibrato Megadrone
