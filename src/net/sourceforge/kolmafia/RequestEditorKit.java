@@ -426,6 +426,7 @@ public class RequestEditorKit
 		RequestEditorKit.maps.add( "canadia.php" );
 		RequestEditorKit.maps.add( "gnomes.php" );
 		RequestEditorKit.maps.add( "heydeze.php" );
+		RequestEditorKit.maps.add( "dwarffactory.php" );
 	}
 
 	public static final void getFeatureRichHTML( final String location, final StringBuffer buffer, final boolean addComplexFeatures )

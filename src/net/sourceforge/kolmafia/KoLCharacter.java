@@ -553,6 +553,7 @@ public abstract class KoLCharacter
 		VioletFogManager.reset();
 		LouvreManager.reset();
 		ItemDatabase.getDustyBottles();
+		KoLCharacter.ensureUpdatedDwarfFactory();
 		KoLCharacter.ensureUpdatedGuyMadeOfBees();
 		KoLCharacter.ensureUpdatedPirateInsults();
 		KoLCharacter.ensureUpdatedPotionEffects();
@@ -3144,14 +3145,46 @@ public abstract class KoLCharacter
 
         // Per-character settings that change each ascension
 
+	public static final void ensureUpdatedDwarfFactory()
+	{
+		int lastAscension = Preferences.getInteger( "lastDwarfFactoryReset" );
+		if ( lastAscension < KoLCharacter.getAscensions() )
+		{
+			Preferences.setInteger( "lastDwarfFactoryReset", KoLCharacter.getAscensions() );
+			Preferences.setString( "lastDwarfHopper1", "" );
+			Preferences.setString( "lastDwarfHopper2", "" );
+			Preferences.setString( "lastDwarfHopper3", "" );
+			Preferences.setString( "lastDwarfHopper4", "" );
+			Preferences.setString( "lastDwarfGauges", "" );
+			Preferences.setString( "lastDwarfFactoryItem118", "" );
+			Preferences.setString( "lastDwarfFactoryItem119", "" );
+			Preferences.setString( "lastDwarfFactoryItem120", "" );
+			Preferences.setString( "lastDwarfFactoryItem360", "" );
+			Preferences.setString( "lastDwarfFactoryItem361", "" );
+			Preferences.setString( "lastDwarfFactoryItem362", "" );
+			Preferences.setString( "lastDwarfFactoryItem363", "" );
+			Preferences.setString( "lastDwarfFactoryItem364", "" );
+			Preferences.setString( "lastDwarfFactoryItem365", "" );
+			Preferences.setString( "lastDwarfFactoryItem910", "" );
+			Preferences.setString( "lastDwarfFactoryItem3199", "" );
+			Preferences.setString( "lastDwarfOfficeItem3208", "" );
+			Preferences.setString( "lastDwarfOfficeItem3209", "" );
+			Preferences.setString( "lastDwarfOfficeItem3210", "" );
+			Preferences.setString( "lastDwarfOfficeItem3211", "" );
+			Preferences.setString( "lastDwarfOfficeItem3212", "" );
+			Preferences.setString( "lastDwarfOfficeItem3213", "" );
+			Preferences.setString( "lastDwarfOfficeItem3214", "" );
+		}
+	}
+
 	public static final void ensureUpdatedGuyMadeOfBees()
 	{
 		int lastAscension = Preferences.getInteger( "lastGuyMadeOfBeesReset" );
 		if ( lastAscension < KoLCharacter.getAscensions() )
 		{
 			Preferences.setInteger( "lastGuyMadeOfBeesReset", KoLCharacter.getAscensions() );
-				Preferences.setInteger( "guyMadeOfBeesCount", 0 );
-				Preferences.setBoolean( "guyMadeOfBeesDefeated", false );
+			Preferences.setInteger( "guyMadeOfBeesCount", 0 );
+			Preferences.setBoolean( "guyMadeOfBeesDefeated", false );
 		}
 	}
 

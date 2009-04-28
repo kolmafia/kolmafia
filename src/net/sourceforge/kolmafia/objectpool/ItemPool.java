@@ -653,6 +653,13 @@ public class ItemPool
 	public static final int RIDING_CROP = 3197;
 	public static final int TRAPEZOID = 3198;
 	public static final int THICK_PADDED_ENVELOPE = 3201;
+	public static final int SMALL_LAMINATED_CARD = 3208;
+	public static final int LITTLE_LAMINATED_CARD = 3209;
+	public static final int NOTBIG_LAMINATED_CARD = 3210;
+	public static final int UNLARGE_LAMINATED_CARD = 3211;
+	public static final int DWARVISH_DOCUMENT = 3212;
+	public static final int DWARVISH_PAPER = 3213;
+	public static final int DWARVISH_PARCHMENT = 3214;
 	public static final int OVERCHARGED_POWER_SPHERE = 3215;
 	public static final int HOBO_CODE_BINDER = 3220;
 	public static final int GATORSKIN_UMBRELLA = 3222;

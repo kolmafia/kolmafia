@@ -641,6 +641,14 @@ public class AdventureDatabase
 		{
 			return "Daily Dungeon (Room " + DungeonDecorator.getDungeonRoom() + ")";
 		}
+		else if ( urlString.startsWith( "dwarffactory.php" ) )
+		{
+			if ( urlString.indexOf( "action=ware" ) != -1 )
+			{
+				return "Dwarven Factory Warehouse";
+			}
+			return null;
+		}
 		else if ( urlString.startsWith( "rats.php" ) )
 		{
 			return "Typical Tavern Quest";

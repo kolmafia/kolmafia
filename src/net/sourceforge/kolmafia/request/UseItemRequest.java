@@ -61,6 +61,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -2640,6 +2641,21 @@ public class UseItemRequest
 				ResultProcessor.processResult( item );
 			}
 			return;
+			
+		case ItemPool.SMALL_LAMINATED_CARD:
+		case ItemPool.LITTLE_LAMINATED_CARD:
+		case ItemPool.NOTBIG_LAMINATED_CARD:
+		case ItemPool.UNLARGE_LAMINATED_CARD:
+			ResultProcessor.processResult( item );
+			DwarfFactoryRequest.useLaminatedItem( item.getItemId(), responseText );
+			break;
+
+		case ItemPool.DWARVISH_DOCUMENT:
+		case ItemPool.DWARVISH_PAPER:
+		case ItemPool.DWARVISH_PARCHMENT:
+			ResultProcessor.processResult( item );
+			DwarfFactoryRequest.useUnlaminatedItem( item.getItemId(), responseText );
+			break;
 		}
 	}
 

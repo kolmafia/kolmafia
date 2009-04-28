@@ -203,6 +203,7 @@ Hidden Temple	0
 Hippy Camp In Disguise	0
 Lemon Party	0
 Limerick Dungeon	0
+Mine Foremens' Office	0
 Moxie Vacation	0
 Muscle Vacation	0
 Mysticality Vacation	0
