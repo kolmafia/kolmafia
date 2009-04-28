@@ -286,10 +286,15 @@ public class GuildRequest
 
 		if ( place != null && place.equals( "paco" ) )
 		{
-			// "paco" assigns the meat car and white citadel quests
+			// "paco" assigns the meat car, white citadel, and dwarven factory quests
 			if ( InventoryManager.hasItem( ItemPool.CITADEL_SATCHEL ) )
 			{
 				ResultProcessor.processItem( ItemPool.CITADEL_SATCHEL, -1 );
+			}
+
+			if ( InventoryManager.hasItem( ItemPool.THICK_PADDED_ENVELOPE ) )
+			{
+				ResultProcessor.processItem( ItemPool.THICK_PADDED_ENVELOPE, -1 );
 			}
 
 			return;
