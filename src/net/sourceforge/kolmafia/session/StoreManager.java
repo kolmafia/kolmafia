@@ -243,16 +243,16 @@ public abstract class StoreManager
 
 			while ( itemMatcher.find() )
 			{
-				String name = itemMatcher.group( 1 );
 				itemId = StringUtilities.parseInt( itemMatcher.group( 6 ) );
 				if ( ItemDatabase.getItemName( itemId ) == null )
 				{
-					ItemDatabase.registerItem( itemId, name );
+					ItemDatabase.registerItem( itemId, itemMatcher.group( 1 ) );
 				}
 
 				int count = itemMatcher.group(2) == null ? 1 : StringUtilities.parseInt( itemMatcher.group(3) );
 
-				item = new AdventureResult( name, count, false );
+				// Register using item ID, since the name might have changed
+				item = new AdventureResult( itemId, count );
 				price = StringUtilities.parseInt( itemMatcher.group( 4 ) );
 
 				// In this case, the limit could appear as
