@@ -3197,22 +3197,22 @@
 3196	origami pasties	shirt, usable	all	0
 3197	origami riding crop	weapon, usable	all	0
 3198	El Vibrato trapezoid	usable	display	0
-3199
-3200
-3201
+3199	lump of coal	none	all	50
+3200	lump of diamond	none	all	5
+3201	thick padded envelope	none	none	0
 3202	KoL Con IV Pole	offhand	display	0
-3203
-3204
-3205
-3206
-3207
-3208
-3209
-3210
-3211
-3212
-3213
-3214
+3203	dwarvish magazine	none	all	173
+3204	dwarvish war helmet	hat	display	0
+3205	dwarvish war mattock	weapon	display	0
+3206	dwarvish war kilt	pants	display	0
+3207	dwarvish punchcard	none	none	0
+3208	small laminated card	usable	none	49
+3209	little laminated card	usable	none	49
+3210	notbig laminated card	usable	none	49
+3211	unlarge laminated card	usable	none	49
+3212	dwarvish document	usable	none	49
+3213	dwarvish paper	usable	none	49
+3214	dwarvish parchment	usable	none	49
 3215	overcharged El Vibrato power sphere	sphere	display	0
 3216	Fly-By-Knight Heraldry form	none	all	0
 3217	El Vibrato Megadrone	grow	display	500

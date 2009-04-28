@@ -1218,7 +1218,7 @@ public class RelayRequest
 		}
 		else if ( path.endsWith( "sideCommand" ) )
 		{
-			submitCommand( this.getFormField( "cmd" ) );
+			submitCommand( this.getFormField( "cmd" ), true );
 			this.pseudoResponse( "HTTP/1.1 302 Found", "/charpane.php" );
 		}
 		else if ( path.endsWith( "messageUpdate" ) )
@@ -1244,12 +1244,19 @@ public class RelayRequest
 
 	private void submitCommand( String command )
 	{
+		submitCommand( command, false );
+	}
+
+	private void submitCommand( String command, boolean suppressUpdate )
+	{
+		GenericRequest.suppressUpdate( suppressUpdate );
 		CommandDisplayFrame.executeCommand( command );
 
 		while ( CommandDisplayFrame.hasQueuedCommands() )
 		{
 			this.pauser.pause( 500 );
 		}
+		GenericRequest.suppressUpdate( false );
 	}
 
 	private void handleChat()
