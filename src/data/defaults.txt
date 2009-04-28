@@ -271,6 +271,30 @@ user	lastDustyBottle2274
 user	lastDustyBottle2275
 user	lastDustyBottle2276
 user	lastDustyBottleReset	-1
+user	lastDwarfFactoryItem118
+user	lastDwarfFactoryItem119
+user	lastDwarfFactoryItem120
+user	lastDwarfFactoryItem360
+user	lastDwarfFactoryItem361
+user	lastDwarfFactoryItem362
+user	lastDwarfFactoryItem363
+user	lastDwarfFactoryItem364
+user	lastDwarfFactoryItem365
+user	lastDwarfFactoryItem910
+user	lastDwarfFactoryItem3199
+user	lastDwarfOfficeItem3208
+user	lastDwarfOfficeItem3209
+user	lastDwarfOfficeItem3210
+user	lastDwarfOfficeItem3211
+user	lastDwarfOfficeItem3212
+user	lastDwarfOfficeItem3213
+user	lastDwarfOfficeItem3214
+user	lastDwarfFactoryReset	-1
+user	lastDwarfHopper1
+user	lastDwarfHopper2
+user	lastDwarfHopper3
+user	lastDwarfHopper4
+user	lastDwarfGauges
 user	lastEmptiedStorage	-1
 user	lastFilthClearance	-1
 user	lastGalleryUnlock	-1

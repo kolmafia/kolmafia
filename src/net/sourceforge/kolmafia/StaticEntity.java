@@ -64,6 +64,8 @@ import net.sourceforge.kolmafia.request.ClanStashRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.DisplayCaseRequest;
+import net.sourceforge.kolmafia.request.DwarfContraptionRequest;
+import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.GalaktikRequest;
@@ -382,6 +384,16 @@ public abstract class StaticEntity
 		else if ( location.startsWith( "hiddencity.php" ) )
 		{
 			HiddenCityRequest.parseResponse( location, responseText );
+		}
+
+		else if ( location.startsWith( "dwarfcontraption.php" ) )
+		{
+			DwarfContraptionRequest.parseResponse( location, responseText );
+		}
+
+		else if ( location.startsWith( "dwarffactory.php" ) )
+		{
+			DwarfFactoryRequest.parseResponse( location, responseText );
 		}
 
 		// Keep your current equipment and familiars updated, if you
