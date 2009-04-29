@@ -94,6 +94,9 @@ public class ItemPool
 	public static final int SCARECROW = 104;
 	public static final int KETCHUP = 106;
 	public static final int CATSUP = 107;
+	public static final int SPRING = 118;
+	public static final int SPROCKET = 119;
+	public static final int COG = 120;
 	public static final int FRILLY_SKIRT = 131;
 	public static final int BITCHIN_MEATCAR = 134;
 	public static final int DINGY_PLANKS = 140;
@@ -133,6 +136,9 @@ public class ItemPool
 	public static final int SELTZER = 344;
 	public static final int REAGENT = 346;
 	public static final int DYSPEPSI_COLA = 347;
+	public static final int MINERS_HELMET = 360;
+	public static final int MINERS_PANTS = 361;
+	public static final int MATTOCK = 362;
 	public static final int LINOLEUM_ORE = 363;
 	public static final int ASBESTOS_ORE = 364;
 	public static final int CHROME_ORE = 365;
@@ -260,6 +266,7 @@ public class ItemPool
 	public static final int ROLLING_PIN = 873;
 	public static final int UNROLLING_PIN = 874;
 	public static final int GOOFBALLS = 879;
+	public static final int DWARF_BREAD = 910;
 	public static final int PLASTIC_SWORD = 938;
 	public static final int DIRTY_MARTINI = 948;
 	public static final int GROGTINI = 949;
@@ -652,6 +659,7 @@ public class ItemPool
 	public static final int ORIGAMI_PASTIES = 3196;
 	public static final int RIDING_CROP = 3197;
 	public static final int TRAPEZOID = 3198;
+	public static final int LUMP_OF_COAL = 3199;
 	public static final int THICK_PADDED_ENVELOPE = 3201;
 	public static final int SMALL_LAMINATED_CARD = 3208;
 	public static final int LITTLE_LAMINATED_CARD = 3209;
