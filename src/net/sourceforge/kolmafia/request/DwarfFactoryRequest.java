@@ -39,6 +39,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -49,6 +50,22 @@ public class DwarfFactoryRequest
 	public static final Pattern ACTION_PATTERN = Pattern.compile( "action=([^&]*)" );
 	public static final Pattern RUNE_PATTERN = Pattern.compile( "title=\"Dwarf (Digit|Word) Rune (.)\"" );
 	public static final Pattern ITEMDESC_PATTERN = Pattern.compile( "descitem\\((\\d*)\\)" );
+	public static final Pattern MEAT_PATTERN = Pattern.compile( "You (gain|lose) (\\d*) Meat" );
+
+	private static final int [] ITEMS = new int[]
+	{
+		ItemPool.SPRING,
+		ItemPool.SPROCKET,
+		ItemPool.COG,
+		ItemPool.MINERS_HELMET,
+		ItemPool.MINERS_PANTS,
+		ItemPool.MATTOCK,
+		ItemPool.LINOLEUM_ORE,
+		ItemPool.ASBESTOS_ORE,
+		ItemPool.CHROME_ORE,
+		ItemPool.DWARF_BREAD,
+		ItemPool.LUMP_OF_COAL,
+	};
 
 	public DwarfFactoryRequest()
 	{
@@ -90,36 +107,104 @@ public class DwarfFactoryRequest
 			String rune2 = DwarfFactoryRequest.getRune( runeMatcher );
 			String rune3 = DwarfFactoryRequest.getRune( runeMatcher );
 			int itemId = DwarfFactoryRequest.getItemId( responseText );
+			DwarfFactoryRequest.setItemRunes( itemId, rune1, rune2, rune3 );
+			return;
+		}
 
-			KoLCharacter.ensureUpdatedDwarfFactory();
-			String setting = "lastDwarfFactoryItem" + itemId;
-			String oldRunes = Preferences.getString( setting );
-			String newRunes = "";
-			if ( oldRunes.equals( "" ) )
+		if ( action.equals( "dodice" ) )
+		{
+			Matcher meatMatcher = MEAT_PATTERN.matcher( responseText );
+			if ( !meatMatcher.find() )
 			{
-				newRunes = rune1 + rune2 + rune3;
+				return;
 			}
-			else
-			{
-				if ( oldRunes.indexOf( rune1) != -1 )
-				{
-					newRunes += rune1;
-				}
-				if ( oldRunes.indexOf( rune2) != -1 )
-				{
-					newRunes += rune2;
-				}
-				if ( oldRunes.indexOf( rune3) != -1 )
-				{
-					newRunes += rune3;
-				}
-			}
-			Preferences.setString( setting, newRunes );
+
+			boolean won = meatMatcher.group(1).equals( "gain" );
+			int meat = StringUtilities.parseInt( meatMatcher.group( 2 ) );
+
+			Matcher runeMatcher = DwarfFactoryRequest.getRuneMatcher( responseText );
+			String first = DwarfFactoryRequest.getRune( runeMatcher ) + DwarfFactoryRequest.getRune( runeMatcher );
+			String second = DwarfFactoryRequest.getRune( runeMatcher ) + DwarfFactoryRequest.getRune( runeMatcher );
+			String message = ( won ? second : first ) + "-" + ( won ? first : second ) + "=" + ( meat / 7 );
+
+			RequestLogger.printLine( message );
+			RequestLogger.updateSessionLog( message );
+
 			return;
 		}
 	}
 
-	public static Matcher getRuneMatcher( final String responseText )
+	private static void setItemRunes( final int itemId, final String rune1, final String rune2, final String rune3 )
+	{
+		KoLCharacter.ensureUpdatedDwarfFactory();
+		String setting = "lastDwarfFactoryItem" + itemId;
+		String oldRunes = Preferences.getString( setting );
+		String newRunes = "";
+
+		if ( oldRunes.equals( "" ) )
+		{
+			newRunes = rune1 + rune2 + rune3;
+		}
+		else
+		{
+			if ( oldRunes.indexOf( rune1) != -1 )
+			{
+				newRunes += rune1;
+			}
+			if ( oldRunes.indexOf( rune2) != -1 )
+			{
+				newRunes += rune2;
+			}
+			if ( oldRunes.indexOf( rune3) != -1 )
+			{
+				newRunes += rune3;
+			}
+		}
+		Preferences.setString( setting, newRunes );
+
+		if ( newRunes.length() > 1 )
+		{
+			return;
+		}
+
+		// If the length is 1, that rune has been matched with an
+		// item. Therefore, if it appears in the list of runes for
+		// another item, it can't be the match for that item, too, and
+		// can be removed from that list.
+
+		DwarfFactoryRequest.pruneItemRunes( itemId, newRunes );
+	}
+
+	private static void pruneItemRunes( final int id, final String rune )
+	{
+		for ( int i = 0; i < ITEMS.length; ++i )
+		{
+			int itemId = ITEMS[i];
+			if ( id == itemId )
+			{
+				continue;
+			}
+
+			String setting = "lastDwarfFactoryItem" + itemId;
+			String value = Preferences.getString( setting );
+
+			if ( value.indexOf( rune ) == -1 )
+			{
+				continue;
+			}
+
+			value = value.replace( rune, "" );
+			Preferences.setString( setting, value );
+
+			if ( value.length() == 1 )
+			{
+				// We've identified another item. Recurse!
+				DwarfFactoryRequest.pruneItemRunes( itemId, value );
+			}
+		}
+	}
+
+	private static Matcher getRuneMatcher( final String responseText )
 	{
 		return RUNE_PATTERN.matcher( responseText );
 	}
@@ -130,7 +215,7 @@ public class DwarfFactoryRequest
 		return DwarfFactoryRequest.getRune( matcher );
 	}
 
-	public static String getRune( final Matcher matcher )
+	private static String getRune( final Matcher matcher )
 	{
 		if ( !matcher.find() )
 		{
@@ -155,7 +240,7 @@ public class DwarfFactoryRequest
 		Matcher matcher = DwarfFactoryRequest.getRuneMatcher( responseText );
 		String runes = "";
 		boolean digit = false;
-                int count = 0;
+		int count = 0;
 		while ( matcher.find() )
 		{
 			if ( ++count == offset )
@@ -180,7 +265,7 @@ public class DwarfFactoryRequest
 		Preferences.setString( "lastDwarfOfficeItem" + itemId, runes );
 	}
 
-	public static int getItemId( final String responseText )
+	private static int getItemId( final String responseText )
 	{
 		Matcher matcher = ITEMDESC_PATTERN.matcher( responseText );
 		if ( !matcher.find() )
@@ -221,11 +306,22 @@ public class DwarfFactoryRequest
 			return true;
 		}
 
-		// Other actions in the DwarfFactory
+		if ( action.equals( "dorm" ) )
+		{
+			String message = "Visiting the Dwarven Factory Dormitory";
 
-		// action=dorm
-		// action=dodice
-		// action=nonodice
+			RequestLogger.printLine( "" );
+			RequestLogger.printLine( message );
+
+			RequestLogger.updateSessionLog();
+			RequestLogger.updateSessionLog( message );
+			return true;
+		}
+
+		if ( action.equals( "dodice" ) || action.equals( "nodice" ) || action.equals( "nonodice" ) )
+		{
+			return true;
+		}
 
 		return false;
 	}
