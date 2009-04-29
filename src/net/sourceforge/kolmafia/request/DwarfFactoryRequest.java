@@ -120,12 +120,12 @@ public class DwarfFactoryRequest
 			}
 
 			boolean won = meatMatcher.group(1).equals( "gain" );
-			int meat = StringUtilities.parseInt( meatMatcher.group( 2 ) );
+			int meat = StringUtilities.parseInt( meatMatcher.group( 2 ) ) / 7;
 
 			Matcher runeMatcher = DwarfFactoryRequest.getRuneMatcher( responseText );
 			String first = DwarfFactoryRequest.getRune( runeMatcher ) + DwarfFactoryRequest.getRune( runeMatcher );
 			String second = DwarfFactoryRequest.getRune( runeMatcher ) + DwarfFactoryRequest.getRune( runeMatcher );
-			String message = ( won ? second : first ) + "-" + ( won ? first : second ) + "=" + ( meat / 7 );
+			String message = ( won ? second : first ) + "-" + ( won ? first : second ) + "=" + ( meat / 7 ) + ( meat % 7 );
 
 			RequestLogger.printLine( message );
 			RequestLogger.updateSessionLog( message );
