@@ -678,7 +678,7 @@ public class KoLAdventure
 			return;
 		}
 
-		if ( this.zone.equals( "McLarge" ) )
+		if ( this.zone.equals( "McLarge" ) && !this.adventureId.equals( "176" ))
 		{
 			RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString( "mclargehuge.php" ) );
 			if ( KoLAdventure.ZONE_UNLOCK.responseText.indexOf( this.adventureId ) != -1 )
