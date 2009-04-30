@@ -237,14 +237,6 @@ public class DwarfContraptionRequest
 			return;
 		}
 
-		if ( action.equals( "gauges" ) )
-		{
-			String rune = DwarfFactoryRequest.getRune( responseText );
-			KoLCharacter.ensureUpdatedDwarfFactory();
-			Preferences.setString( "lastDwarfGauges", rune );
-			return;
-		}
-
 		if ( action.startsWith( "dohopper" ) )
 		{
 			if ( urlString.indexOf( "addtake=take" ) != -1 )

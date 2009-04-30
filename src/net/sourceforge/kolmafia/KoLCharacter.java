@@ -3155,7 +3155,6 @@ public abstract class KoLCharacter
 			Preferences.setString( "lastDwarfHopper2", "" );
 			Preferences.setString( "lastDwarfHopper3", "" );
 			Preferences.setString( "lastDwarfHopper4", "" );
-			Preferences.setString( "lastDwarfGauges", "" );
 			Preferences.setString( "lastDwarfFactoryItem118", "" );
 			Preferences.setString( "lastDwarfFactoryItem119", "" );
 			Preferences.setString( "lastDwarfFactoryItem120", "" );
