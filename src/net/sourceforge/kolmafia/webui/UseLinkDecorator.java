@@ -680,6 +680,14 @@ public abstract class UseLinkDecorator
 		case ItemPool.LINOLEUM_ORE:
 		case ItemPool.ASBESTOS_ORE:
 		case ItemPool.CHROME_ORE:
+		case ItemPool.LUMP_OF_COAL:
+
+			if ( location.startsWith( "dwarffactory.php" ) )
+			{
+				useType = String.valueOf( InventoryManager.getCount( itemId ) );
+				useLocation = "dwarfcontraption.php";
+				break;
+			}
 
 			if ( itemId != ItemDatabase.getItemId( Preferences.getString( "trapperOre" ) ) )
 			{
