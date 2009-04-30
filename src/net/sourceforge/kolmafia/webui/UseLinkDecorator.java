@@ -753,6 +753,7 @@ public abstract class UseLinkDecorator
 		// Link to the guild upon completion of the Citadel quest.
 
 		case ItemPool.CITADEL_SATCHEL:
+		case ItemPool.THICK_PADDED_ENVELOPE:
 
 			useType = "guild";
 			useLocation = "guild.php?place=paco";
