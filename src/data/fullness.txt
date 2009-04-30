@@ -56,7 +56,7 @@ brains casserole	5	1	6-14	0	8-10	0
 brimstone chicken sandwich	3	1	4-6	-15-20	0	15-20
 brown sugar cane	2	7	6-7	1-5	1-5	5-20	3 Sugar Rush
 bunch of square grapes	2	7	6-7	1-5	5-20	1-5
-c. h. u. m. chum	3	1	1	0	0	0	20 Majorly Poisoned
+c.h.u.m. chum	3	1	1	0	0	0	20 Majorly Poisoned
 cactus fruit	2	7	6-7	6-20	1-5	1-5	lose 8-10 HP
 can-shaped gelatinous cranberry sauce	3	6	9-17	0	0	71-74
 can of franks 'n' beans	3	1	8-10	20-40	20-40	20-40	50 Crimbo Nostalgia (+5 exp)
