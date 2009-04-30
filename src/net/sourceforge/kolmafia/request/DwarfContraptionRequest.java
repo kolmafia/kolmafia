@@ -37,14 +37,18 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class DwarfContraptionRequest
 	extends GenericRequest
 {
 	public static final Pattern ACTION_PATTERN = Pattern.compile( "action=([^&]*)" );
+	public static final Pattern GAUGES_PATTERN = Pattern.compile( "temp0=(\\d*)&temp1=(\\d*)&temp2=(\\d*)&temp3=(\\d*)" );
+	public static final Pattern HOPPER_PATTERN = Pattern.compile( "action=dohopper(\\d*).*howmany=(\\d*).*whichore=([^&]*)" );
 
 	public DwarfContraptionRequest()
 	{
@@ -107,6 +111,75 @@ public class DwarfContraptionRequest
 		return null;
 	}
 
+	private static String getCommand(  final String action, final String urlString )
+	{
+		if ( action.equals( "doleftpanel" ) )
+		{
+			if ( urlString.indexOf( "which1" ) != -1 )
+			{
+				return "Selecting pants";
+			}
+			if ( urlString.indexOf( "which2" ) != -1 )
+			{
+				return "Selecting weapon";
+			}
+			if ( urlString.indexOf( "which3" ) != -1 )
+			{
+				return "Selecting helmet";
+			}
+			return null;
+		}
+
+		if ( action.equals( "dorightpanel" ) )
+		{
+			return "Feeding punchcard into slot";
+		}
+
+		if ( action.equals( "doredbutton" ) )
+		{
+			return "Pushing the red button";
+		}
+
+		if ( action.equals( "dogauges" ) )
+		{
+			Matcher matcher = GAUGES_PATTERN.matcher( urlString );
+			if ( matcher.find() )
+			{
+				return "Setting gauges to " +
+					matcher.group(1) + ", " +
+					matcher.group(2) + ", " +
+					matcher.group(3) + ", " +
+					matcher.group(4);
+			}
+
+			return null;
+		}
+
+		if ( action.startsWith( "dohopper" ) )
+		{
+			Matcher matcher = HOPPER_PATTERN.matcher( urlString );
+			if ( matcher.find() )
+			{
+				int hopper = StringUtilities.parseInt( matcher.group(1) );
+				String count = matcher.group(2);
+				String ore = matcher.group(3);
+				if ( urlString.indexOf( "addtake=take" ) != -1 )
+				{
+					return "Taking " + count + " " + ore + " ore from hopper #" + (hopper + 1);
+				}
+				else
+				{
+					return "Adding " + count + " " + ore + " ore to hopper #" + (hopper + 1);
+				}
+			}
+
+			return null;
+		}
+
+		// action=dochamber
+		return null;
+	}
+
 	public void processResults()
 	{
 		DwarfContraptionRequest.parseResponse( this.getURLString(), this.responseText );
@@ -119,8 +192,13 @@ public class DwarfContraptionRequest
 			return;
 		}
 
-		Matcher matcher = ACTION_PATTERN.matcher( urlString );
-		String action = matcher.find() ? matcher.group(1) : null;
+		Matcher actionMatcher = ACTION_PATTERN.matcher( urlString );
+		String action = null;
+
+		while ( actionMatcher.find() )
+		{
+			action = actionMatcher.group(1);
+		}
 
 		if ( action == null )
 		{
@@ -167,6 +245,30 @@ public class DwarfContraptionRequest
 			return;
 		}
 
+		if ( action.startsWith( "dohopper" ) )
+		{
+			if ( urlString.indexOf( "addtake=take" ) != -1 )
+			{
+				return;
+			}
+
+			if ( responseText.indexOf( "You don't have" ) != -1 )
+			{
+				return;
+			}
+
+			Matcher hopperMatcher = HOPPER_PATTERN.matcher( urlString );
+			if ( !hopperMatcher.find() )
+			{
+				return;
+			}
+
+			int count = StringUtilities.parseInt( hopperMatcher.group(2) );
+			String ore = hopperMatcher.group(3) + " ore";
+			ResultProcessor.processResult( ItemPool.get( ore, -count ) );
+			return;
+		}
+
 		if ( action.equals( "dochamber" ) )
 		{
 			// parse url to find out itemId and quantity.
@@ -183,7 +285,17 @@ public class DwarfContraptionRequest
 		}
 
 		Matcher matcher = ACTION_PATTERN.matcher( urlString );
-		String action = matcher.find() ? matcher.group(1) : null;
+		String action = null;
+
+		// The contraption can have URLs with multiple actions. The
+		// first is part of the path, and the second is a field
+		// submitted via POST.	For example:
+		//
+		// dwarfcontraption.php?action=panelleft&action=doleftpanel&activatewhich3=%C2%A0%C2%A0%C2%A0%C2%A0
+		while ( matcher.find() )
+		{
+			action = matcher.group(1);
+		}
 
 		if ( action == null )
 		{
@@ -201,13 +313,12 @@ public class DwarfContraptionRequest
 
 		// Other actions in the Machine Room
 
-		// action=dohopper0
-		// action=dohopper1
-		// action=dohopper2
-		// action=dohopper3
-		// action=dogauges
-		// action=doredbutton
-		// action=dochamber
+		String command = getCommand( action, urlString );
+		if ( command != null )
+		{
+			RequestLogger.updateSessionLog( command );
+			return true;
+		}
 
 		return false;
 	}
