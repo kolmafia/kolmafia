@@ -33,9 +33,12 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.HashMap;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -324,5 +327,353 @@ public class DwarfFactoryRequest
 		}
 
 		return false;
+	}
+
+	// Module to report on what we've gleaned about the factory quest
+
+	public static void report( final String digits )
+	{
+		if ( digits.length() != 7 )
+		{
+			RequestLogger.printLine( "Digit string must have 7 characters" );
+			return;
+		}
+
+		FactoryData data = new FactoryData( digits );
+
+		StringBuffer output = new StringBuffer();
+
+		output.append( "<table border=2 cols=6>" );
+
+		// Put in a header
+		output.append( "<tr>" );
+		output.append( "<td rowspan=2 colspan=2></td>" );
+		output.append( "<td align=center>Hopper #1</td>" );
+		output.append( "<td align=center>Hopper #2</td>" );
+		output.append( "<td align=center>Hopper #3</td>" );
+		output.append( "<td align=center>Hopper #4</td>" );
+		output.append( "</tr>" );
+		output.append( "<tr>" );
+		output.append( "<td align=center>" + data.getHopperOre( 0 ) + "</td>" );
+		output.append( "<td align=center>" + data.getHopperOre( 1 ) + "</td>" );
+		output.append( "<td align=center>" + data.getHopperOre( 2 ) + "</td>" );
+		output.append( "<td align=center>" + data.getHopperOre( 3 ) + "</td>" );
+		output.append( "</tr>" );
+
+		// Add HAT
+		output.append( "<tr>" );
+		output.append( "<td align=center rowspan=2>Hat</td>" );
+		output.append( "<td align=center>Gauges</td>" );
+		output.append( "<td align=center>" + data.getGaugeSetting( FactoryData.HAT, 0 ) + "</td>" );
+		output.append( "<td align=center>" + data.getGaugeSetting( FactoryData.HAT, 1 ) + "</td>" );
+		output.append( "<td align=center>" + data.getGaugeSetting( FactoryData.HAT, 2 ) + "</td>" );
+		output.append( "<td align=center>" + data.getGaugeSetting( FactoryData.HAT, 3 ) + "</td>" );
+		output.append( "</tr>" );
+		output.append( "<tr>" );
+		output.append( "<td align=center>Ores</td>" );
+		output.append( "<td align=center>" + data.getOreQuantity( FactoryData.HAT, 0 ) + "</td>" );
+		output.append( "<td align=center>" + data.getOreQuantity( FactoryData.HAT, 1 ) + "</td>" );
+		output.append( "<td align=center>" + data.getOreQuantity( FactoryData.HAT, 2 ) + "</td>" );
+		output.append( "<td align=center>" + data.getOreQuantity( FactoryData.HAT, 3 ) + "</td>" );
+		output.append( "</tr>" );
+
+		// Add PANTS
+		output.append( "<tr>" );
+		output.append( "<td align=center rowspan=2>Pants</td>" );
+		output.append( "<td align=center>Gauges</td>" );
+		output.append( "<td align=center>" + data.getGaugeSetting( FactoryData.PANTS, 0 ) + "</td>" );
+		output.append( "<td align=center>" + data.getGaugeSetting( FactoryData.PANTS, 1 ) + "</td>" );
+		output.append( "<td align=center>" + data.getGaugeSetting( FactoryData.PANTS, 2 ) + "</td>" );
+		output.append( "<td align=center>" + data.getGaugeSetting( FactoryData.PANTS, 3 ) + "</td>" );
+		output.append( "</tr>" );
+		output.append( "<tr>" );
+		output.append( "<td align=center>Ores</td>" );
+		output.append( "<td align=center>" + data.getOreQuantity( FactoryData.PANTS, 0 ) + "</td>" );
+		output.append( "<td align=center>" + data.getOreQuantity( FactoryData.PANTS, 1 ) + "</td>" );
+		output.append( "<td align=center>" + data.getOreQuantity( FactoryData.PANTS, 2 ) + "</td>" );
+		output.append( "<td align=center>" + data.getOreQuantity( FactoryData.PANTS, 3 ) + "</td>" );
+		output.append( "</tr>" );
+
+		// Add WEAPON
+		output.append( "<tr>" );
+		output.append( "<td align=center rowspan=2>Weapon</td>" );
+		output.append( "<td align=center>Gauges</td>" );
+		output.append( "<td align=center>" + data.getGaugeSetting( FactoryData.WEAPON, 0 ) + "</td>" );
+		output.append( "<td align=center>" + data.getGaugeSetting( FactoryData.WEAPON, 1 ) + "</td>" );
+		output.append( "<td align=center>" + data.getGaugeSetting( FactoryData.WEAPON, 2 ) + "</td>" );
+		output.append( "<td align=center>" + data.getGaugeSetting( FactoryData.WEAPON, 3 ) + "</td>" );
+		output.append( "</tr>" );
+		output.append( "<tr>" );
+		output.append( "<td align=center>Ores</td>" );
+		output.append( "<td align=center>" + data.getOreQuantity( FactoryData.WEAPON, 0 ) + "</td>" );
+		output.append( "<td align=center>" + data.getOreQuantity( FactoryData.WEAPON, 1 ) + "</td>" );
+		output.append( "<td align=center>" + data.getOreQuantity( FactoryData.WEAPON, 2 ) + "</td>" );
+		output.append( "<td align=center>" + data.getOreQuantity( FactoryData.WEAPON, 3 ) + "</td>" );
+		output.append( "</tr>" );
+
+		output.append( "</table>" );
+
+		RequestLogger.printLine( output.toString() );
+	}
+
+	public static class FactoryData
+	{
+		public static final int HAT = 0;
+		public static final int PANTS = 1;
+		public static final int WEAPON = 2;
+
+		private HashMap digitMap = new HashMap();
+		private HashMap itemMap = new HashMap();
+		private HashMap runeMap = new HashMap();
+
+		// Indexed by [item]
+		private char [] equipment = new char[3];
+
+		// Indexed by [hopper]
+		private int [] ores = new int[4];
+
+		// Indexed by [item][hopper]
+		private int [][] oreQuantities = new int[3][4];
+		private int [][] gaugeSettings = new int[3][4];
+
+		public FactoryData( final String digits )
+		{
+			// Make a map from dwarf digit rune to base 7 digit
+			for ( int i = 0; i < 7; ++i )
+			{
+				char digit = digits.charAt( i );
+				this.digitMap.put( new Character( digit ), new Integer( i ) );
+			}
+
+			// Make maps from dwarf word rune to itemId and vice versa
+			for ( int i = 0; i < DwarfFactoryRequest.ITEMS.length; ++i )
+			{
+				int itemId = DwarfFactoryRequest.ITEMS[i];
+				String setting = "lastDwarfFactoryItem" + itemId;
+				String value = Preferences.getString( setting );
+				if ( value.length() == 1 )
+				{
+					Character rune = new Character( value.charAt( 0 ) );
+					Integer id = new Integer( itemId );
+					this.itemMap.put( rune, id );
+					this.runeMap.put( id, rune );
+				}
+			}
+
+			// Get the 3 pieces of equipment
+			this.equipment[ HAT ] = this.findRune( ItemPool.MINERS_HELMET );
+			this.equipment[ PANTS ] = this.findRune( ItemPool.MINERS_PANTS );
+			this.equipment[ WEAPON ] = this.findRune( ItemPool.MATTOCK );
+
+			// Get the 4 ores in hopper order
+			this.ores[0] = this.findItem( Preferences.getString( "lastDwarfHopper1" ) );
+			this.ores[1] = this.findItem( Preferences.getString( "lastDwarfHopper2" ) );
+			this.ores[2] = this.findItem( Preferences.getString( "lastDwarfHopper3" ) );
+			this.ores[3] = this.findItem( Preferences.getString( "lastDwarfHopper4" ) );
+
+			// Translate the unlaminated items into ore quantities
+			this.getOreQuantities();
+
+			// Translate the laminated items into gauge settings
+			this.getGaugeSettings();
+		}
+
+		public String getHopperOre( final int hopper )
+		{
+			if ( hopper < 0 || hopper > 3 )
+			{
+				return null;
+			}
+			return ItemDatabase.getItemName( this.ores[ hopper ] );
+		}
+
+		public AdventureResult getOre( final int item, final int hopper )
+		{
+			if ( item < 0 || item > 2 || hopper < 0 || hopper > 3 )
+			{
+				return null;
+			}
+			int itemId = this.ores[ hopper ];
+			if ( itemId == -1 )
+			{
+				return null;
+			}
+			int count = this.oreQuantities[ item ][ hopper ];
+			return new AdventureResult( itemId, count );
+		}
+
+		public int getOreQuantity( final int item, final int hopper )
+		{
+			if ( item < 0 || item > 2 || hopper < 0 || hopper > 3 )
+			{
+				return 0;
+			}
+			return this.oreQuantities[ item ][ hopper ];
+		}
+
+		private void setOreQuantity( final int item, final int hopper, final int value )
+		{
+			this.oreQuantities[ item ][ hopper ] = value;
+		}
+
+		public int getGaugeSetting( final int item, final int hopper )
+		{
+			if ( item < 0 || item > 2 || hopper < 0 || hopper > 3 )
+			{
+				return -1;
+			}
+			return this.gaugeSettings[ item ][ hopper ];
+		}
+
+		private void setGaugeSetting( final int item, final int hopper, final int value )
+		{
+			this.gaugeSettings[ item ][ hopper ] = value;
+		}
+
+		private int findItem( final String rune )
+		{
+			if ( rune.length() != 1 )
+			{
+				return -1;
+			}
+			return this.findItem( rune.charAt(0) );
+		}
+
+		private int findItem( final char rune )
+		{
+			Integer val = (Integer) this.itemMap.get( new Character( rune ) );
+			return val == null ? -1 : val.intValue();
+		}
+
+		private char findRune( final int itemId )
+		{
+			Character val = (Character) this.runeMap.get( new Integer( itemId ) );
+			return val == null ? 0 : val.charValue();
+		}
+
+		private int findHopper( final char rune )
+		{
+			int item = this.findItem( rune );
+
+			if ( item == -1 )
+			{
+				return -1;
+			}
+
+			for ( int i = 0; i < 4; ++i )
+			{
+				if ( item == this.ores[i] )
+				{
+					return i;
+				}
+			}
+
+			return -1;
+		}
+
+		private int findEquipment( final char rune )
+		{
+			for ( int i = 0; i < 3; ++i )
+			{
+				if ( rune == this.equipment[i] )
+				{
+					return i;
+				}
+			}
+			return -1;
+		}
+
+		private void getGaugeSettings()
+		{
+			this.getGaugeSetting( Preferences.getString( "lastDwarfOfficeItem3208" ) );
+			this.getGaugeSetting( Preferences.getString( "lastDwarfOfficeItem3209" ) );
+			this.getGaugeSetting( Preferences.getString( "lastDwarfOfficeItem3210" ) );
+			this.getGaugeSetting( Preferences.getString( "lastDwarfOfficeItem3211" ) );
+		}
+
+		private void getGaugeSetting( final String setting )
+		{
+			// lastDwarfOfficeItem3208=BD,HGIG,MGDE,PJD
+			// lastDwarfOfficeItem3209=OD,HGAA,MGAG,PGEA
+			// lastDwarfOfficeItem3210=JD,HFJ,MGED,PGAG
+			// lastDwarfOfficeItem3211=QD,HGE,MGGI,PGG
+
+			String[] splits = setting.split( "," );
+			if ( splits.length != 4 )
+			{
+				return;
+			}
+
+			int hopper = this.findHopper( splits[0].charAt(0) );
+			if ( hopper < 0 )
+			{
+				return;
+			}
+
+			for ( int i = 1; i <= 3; ++i )
+			{
+				int item = this.findEquipment( splits[i].charAt(0) );
+				if ( item < 0 )
+				{
+					continue;
+				}
+
+				int number = this.parseNumber( splits[i].substring(1) );
+				this.setGaugeSetting( item, hopper, number );
+			}
+		}
+
+		private void getOreQuantities(	)
+		{
+			this.getOreQuantity( Preferences.getString( "lastDwarfOfficeItem3212" ) );
+			this.getOreQuantity( Preferences.getString( "lastDwarfOfficeItem3213" ) );
+			this.getOreQuantity( Preferences.getString( "lastDwarfOfficeItem3214" ) );
+		}
+
+		private void getOreQuantity( final String setting )
+		{
+			// lastDwarfOfficeItem3212=H,QEG,BFD,OJI,JED
+			// lastDwarfOfficeItem3213=M,OGD,BGD,QJI,JGJ
+			// lastDwarfOfficeItem3214=P,JFJ,OJE,BGA,QEG
+
+			String[] splits = setting.split( "," );
+			if ( splits.length != 5 )
+			{
+				return;
+			}
+
+			int item = this.findEquipment( splits[0].charAt(0) );
+			if ( item < 0 )
+			{
+				return;
+			}
+
+			for ( int i = 1; i <= 4; ++i )
+			{
+				int hopper = this.findHopper( splits[i].charAt(0) );
+				if ( hopper < 0 )
+				{
+					continue;
+				}
+
+				int number = this.parseNumber( splits[i].substring(1) );
+				this.setOreQuantity( item, hopper, number );
+			}
+		}
+
+		private int parseNumber( final String string )
+		{
+			int number = 0;
+			for ( int i = 0; i < string.length(); ++i )
+			{
+				Integer val = (Integer) this.digitMap.get( new Character( string.charAt( i ) ) );
+				if ( val == null )
+				{
+					return -1;
+				}
+				number = ( number * 7 ) + val.intValue();
+			}
+			return number;
+		}
 	}
 }
