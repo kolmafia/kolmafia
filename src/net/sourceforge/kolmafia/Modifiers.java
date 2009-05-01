@@ -72,6 +72,9 @@ public class Modifiers
 	private static final Pattern FAMILIAR_EFFECT_TRANSLATE_PATTERN =
 		Pattern.compile( "([\\d.]+)\\s*x\\s*(Volley|Somb|Lep|Fairy)" );
 	private static final String FAMILIAR_EFFECT_TRANSLATE_REPLACEMENT = "$2: $1 ";
+	private static final Pattern FAMILIAR_EFFECT_TRANSLATE_PATTERN2 =
+		Pattern.compile( "cap ([\\d.]+)" );
+	private static final String FAMILIAR_EFFECT_TRANSLATE_REPLACEMENT2 = "Familiar Weight Cap: $1 ";
 
 	static
 	{
@@ -96,12 +99,18 @@ public class Modifiers
 			if ( matcher.find() )
 			{
 				Modifiers.familiarEffectByName.put( name, matcher.group( 1 ) );
-				matcher = FAMILIAR_EFFECT_TRANSLATE_PATTERN.matcher( matcher.group( 1 ) );
+				String effect = matcher.group( 1 );
+				matcher = FAMILIAR_EFFECT_TRANSLATE_PATTERN.matcher( effect );
 				if ( matcher.find() )
 				{
-					Modifiers.modifiersByName.put( "fameq:" + name,
-						matcher.replaceAll( FAMILIAR_EFFECT_TRANSLATE_REPLACEMENT ) );
+					effect = matcher.replaceAll( FAMILIAR_EFFECT_TRANSLATE_REPLACEMENT );
 				}
+				matcher = FAMILIAR_EFFECT_TRANSLATE_PATTERN2.matcher( effect );
+				if ( matcher.find() )
+				{
+					effect = matcher.replaceAll( FAMILIAR_EFFECT_TRANSLATE_REPLACEMENT2 );
+				}
+                                Modifiers.modifiersByName.put( "fameq:" + name, effect );
 			}
 		}
 
@@ -197,6 +206,7 @@ public class Modifiers
 	public static final int SOMBRERO_EFFECTIVENESS = 76;
 	public static final int LEPRECHAUN_EFFECTIVENESS = 77;
 	public static final int FAIRY_EFFECTIVENESS = 78;
+	public static final int FAMILIAR_WEIGHT_CAP = 79;
 	
 	public static final String EXPR = "(?:([+-]?[\\d.]+)|\\[([^]]+)\\])";
 
@@ -550,6 +560,10 @@ public class Modifiers
 		{ "Fairy Effectiveness",
 		  null,
 		  Pattern.compile( "Fairy Effectiveness: " + EXPR )
+		},
+		{ "Familiar Weight Cap",
+		  null,
+		  Pattern.compile( "Familiar Weight Cap: " + EXPR )
 		},
 	};
 
@@ -1383,7 +1397,10 @@ public class Modifiers
 			this.add( Modifiers.getModifiers( "fameq:" + famItem.getName() ) );
 		}
 
-		double effective = weight * this.get( Modifiers.VOLLEYBALL_WEIGHT );
+		int cap = (int)this.get( Modifiers.FAMILIAR_WEIGHT_CAP );
+		int cappedWeight = ( cap == 0 ) ? weight : Math.min( weight, cap );
+
+		double effective = cappedWeight * this.get( Modifiers.VOLLEYBALL_WEIGHT );
 		if ( effective == 0.0 && FamiliarDatabase.isVolleyType( familiarId ) )
 		{
 			effective = weight;
@@ -1395,7 +1412,7 @@ public class Modifiers
 			this.add( Modifiers.EXPERIENCE, factor * Math.sqrt( effective ), "Volleyball" );
 		}
 
-		effective = weight * this.get( Modifiers.SOMBRERO_WEIGHT );
+		effective = cappedWeight * this.get( Modifiers.SOMBRERO_WEIGHT );
 		if ( effective == 0.0 && FamiliarDatabase.isSombreroType( familiarId ) )
 		{
 			effective = weight;
@@ -1407,7 +1424,7 @@ public class Modifiers
 			this.add( Modifiers.EXPERIENCE, factor * 0.0, "Sombrero" );
 		}
 
-		effective = weight * this.get( Modifiers.LEPRECHAUN_WEIGHT );
+		effective = cappedWeight * this.get( Modifiers.LEPRECHAUN_WEIGHT );
 		if ( effective == 0.0 && FamiliarDatabase.isMeatDropType( familiarId ) )
 		{
 			effective = weight;
@@ -1420,7 +1437,7 @@ public class Modifiers
 				"Leprechaun" );
 		}
 
-		effective = weight * this.get( Modifiers.FAIRY_WEIGHT );
+		effective = cappedWeight * this.get( Modifiers.FAIRY_WEIGHT );
 		if ( effective == 0.0 && FamiliarDatabase.isFairyType( familiarId ) )
 		{
 			effective = weight;
