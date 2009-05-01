@@ -620,3 +620,10 @@
 619	Colorfully Concealed	pieface.gif	140ef800c87baab4dc32a288f7c503e5	use 1 Mer-kin hidepaint
 620	Emotion Sickness	goofballs.gif	cf2cb301c6f542b1fdc59b0a3e8ebed5	use 1 bottle of melodramamine
 621	Biologically Shocked	dna.gif	f81d7473f0a24503c9ab73be50bbc664	use 1 glowing syringe
+622
+623
+624
+625
+626	Billiards Belligerence	2ball.gif	0bc328cead1daf748aeee4b4d5d4545a
+627	Mental A-cue-ity	9ball.gif	1829f131d831dace601cd8b5c98263f3
+628	Hustlin'	8ball.gif	e0d75ad666dc7129cde81073d073baef

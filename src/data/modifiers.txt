@@ -895,6 +895,7 @@ eelskin buckler	Maximum HP: +55, Maximum MP: +55, Damage Reduction: 13
 enchanted brass knuckles	Critical: 2
 # fake hand: Gives Extra Offhand Equipment Slot
 fake hand	Weapon Damage: -1
+fancy opera glasses	Item Drop: +5, Meat Drop: +5
 flaming talons	Weapon Damage: +5, Hot Damage: +5
 foon	Mysticality: +2
 foon of fearfulness	Mysticality: +3, Spooky Spell Damage: +8
@@ -969,8 +970,10 @@ spaghetti-box banjo	MP Regen Min: 5, MP Regen Max: 10, Class: "Pastamancer"
 spongy shield	Muscle Percent: +10, HP Regen Min: 20, HP Regen Max: 50, Damage Absorption: +50, Damage Reduction: 14
 star buckler	Muscle: +2, Mysticality: +2, Moxie: +2, Damage Reduction: 10
 steaming evil	Hot Damage: +6, Sleaze Damage: +6, Spooky Damage: +6
+# stuffed Baron von Ratsworth
 # stuffed Cheshire bitten
 # stuffed MagiMechTech MicroMechaMech
+# stuffed Meat
 # stuffed Mob Penguin
 # stuffed astral badger
 # stuffed baby gravy fairy
@@ -981,7 +984,9 @@ steaming evil	Hot Damage: +6, Sleaze Damage: +6, Spooky Damage: +6
 # stuffed frozen gravy fairy
 # stuffed ghuol whelp
 # stuffed hand turkey
+# stuffed key
 # stuffed mind flayer
+# stuffed mink
 # stuffed sabre-toothed lime
 # stuffed scary death orb
 # stuffed sleazy gravy fairy
@@ -989,6 +994,7 @@ steaming evil	Hot Damage: +6, Sleaze Damage: +6, Spooky Damage: +6
 # stuffed spooky gravy fairy
 # stuffed stab bat
 # stuffed stinky gravy fairy
+# stuffed tin of caviar
 # stuffed undead elbow macaroni
 # stuffed yeti
 # stuffed yo-yo
@@ -1149,6 +1155,7 @@ beach glass necklace	Muscle: +5
 beaten-up Chucks	Initiative: +40
 # beer goggles: They Do Nothing!
 bejeweled accordion strap	Maximum HP: +25, Maximum MP: +25, Class: "Accordion Thief"
+bejeweled cufflinks	Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3, Single Equip
 bejeweled pledge pin	Maximum HP: +40, Single Equip
 # bezoar ring: Protects the wearer from poison
 big red clown nose	Maximum HP: +7, Clownosity: +1
@@ -1749,6 +1756,7 @@ Benetton's Medley of Diversity	Hot Damage: +15, Cold Damage: +15, Stench Damage:
 Bestial Sympathy	Familiar Weight: +3
 Big Flaming Whip	Hot Damage: +20, Damage Reduction: 5
 Big Veiny Brain	Experience: +2, Meat Drop: -20, Item Drop: -10
+Billiards Belligerence	Weapon Damage Percent: +50, Familiar Weight: +5
 # Biologically Shocked: Unleash strange forces in combat
 Black Face	Muscle Percent: +10, Weapon Damage: +15, Initiative: -40
 # Black Tongue: Recover HP and MP after battle
@@ -2004,6 +2012,7 @@ Hornswaggled	Moxie Percent: +50, Muscle Percent: -50
 Hot Blooded	Muscle Percent: +30, Mysticality Percent: +10, Moxie Percent: +20, Hot Damage: +10, Hot Resistance: +2
 # Hot Breath: Can breathe fire in combat
 # Hotform: Hot, Hot, Hot!
+Hustlin'	Initiative: +50, Item Drop: +10
 # Hyperbolic Hypothermia: Continually take damage
 Hyperbolic Hypothermia	Cold Damage: +20
 Hyperoffended	Sleaze Resistance: +9
@@ -2057,6 +2066,7 @@ Mariachi Mood	Maximum HP: +3, Moxie: +1
 Material Witness	Meat Drop: +10
 Melancholy Burden	Item Drop: +60
 Memento Moir&eacute;	Experience: +3
+Mental A-cue-ity	Spell Damage Percent: +50, MP Regen Min: 10, MP Regen Max: 10
 Metal Speed	Initiative: +20
 Midgetized	Damage Reduction: 4, Weapon Damage: -8
 Mild Lycanthropy	Muscle Percent: [+1*M], Moxie Percent: [-1*M]
@@ -2459,6 +2469,7 @@ Loc:The Dive Bar	Initiative Penalty: -100, Item Drop Penalty: -100, Meat Drop Pe
 
 # Everything Else section of modifiers.txt
 
+Clan VIP Lounge key	Free Pull
 Fly-By-Knight Heraldry form	Free Pull
 Valentine	Free Pull
 brick	Free Pull

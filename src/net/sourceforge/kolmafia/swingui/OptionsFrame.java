@@ -1372,6 +1372,7 @@ public class OptionsFrame
 		private final JCheckBox loginRecovery;
 		private final JCheckBox pathedSummons;
 		private final JCheckBox rumpusRoom;
+		private final JCheckBox clanLounge;
 
 		private final JCheckBox mushroomPlot;
 		private final JCheckBox grabClovers;
@@ -1402,6 +1403,10 @@ public class OptionsFrame
 			this.rumpusRoom = new JCheckBox( "visit clan rumpus room" );
 			this.rumpusRoom.addActionListener( this );
 			centerPanel.add( this.rumpusRoom );
+
+			this.clanLounge = new JCheckBox( "visit clan VIP lounge" );
+			this.clanLounge.addActionListener( this );
+			centerPanel.add( this.clanLounge );
 
 			this.breakfastType = breakfastType;
 			this.skillOptions = new JCheckBox[ UseSkillRequest.BREAKFAST_SKILLS.length ];
@@ -1485,6 +1490,8 @@ public class OptionsFrame
 			Preferences.setBoolean(
 				"visitRumpus" + this.breakfastType, this.rumpusRoom.isSelected() );
 			Preferences.setBoolean(
+				"visitLounge" + this.breakfastType, this.clanLounge.isSelected() );
+			Preferences.setBoolean(
 				"autoPlant" + this.breakfastType, this.mushroomPlot.isSelected() );
 			Preferences.setBoolean(
 				"grabClovers" + this.breakfastType, this.grabClovers.isSelected() );
@@ -1509,6 +1516,7 @@ public class OptionsFrame
 			this.loginRecovery.setSelected( Preferences.getBoolean( "loginRecovery" + this.breakfastType ) );
 			this.pathedSummons.setSelected( Preferences.getBoolean( "pathedSummons" + this.breakfastType ) );
 			this.rumpusRoom.setSelected( Preferences.getBoolean( "visitRumpus" + this.breakfastType ) );
+			this.clanLounge.setSelected( Preferences.getBoolean( "visitLounge" + this.breakfastType ) );
 			this.mushroomPlot.setSelected( Preferences.getBoolean( "autoPlant" + this.breakfastType ) );
 			this.grabClovers.setSelected( Preferences.getBoolean( "grabClovers" + this.breakfastType ) );
 			this.readManual.setSelected( Preferences.getBoolean( "readManual" + this.breakfastType ) );
