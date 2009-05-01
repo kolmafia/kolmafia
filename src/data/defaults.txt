@@ -157,6 +157,8 @@ global	useTabbedChatFrame	true
 global	useToolbars	true
 global	useZoneComboBox	false
 global	userAgent
+global	visitLoungeHardcore	true
+global	visitLoungeSoftcore	true
 global	visitRumpusHardcore	true
 global	visitRumpusSoftcore	true
 

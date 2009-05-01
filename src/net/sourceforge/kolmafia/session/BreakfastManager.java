@@ -11,6 +11,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 
 import net.sourceforge.kolmafia.request.CampgroundRequest;
+import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -38,6 +39,7 @@ public class BreakfastManager
 	};
 
 	private static final AdventureResult toaster = ItemPool.get( ItemPool.TOASTER, 1 );
+	private static final AdventureResult key = ItemPool.get( ItemPool.VIP_LOUNGE_KEY, 1 );
 
 	public static void getBreakfast( final boolean checkSettings, final boolean runComplete )
 	{
@@ -47,6 +49,7 @@ public class BreakfastManager
 		{
 			checkToaster();
 			checkRumpusRoom();
+			checkVIPLounge();
 			readGuildManual();
 			useCrimboToys();
 			getHermitClovers();
@@ -84,6 +87,16 @@ public class BreakfastManager
 		if ( Preferences.getBoolean( "visitRumpus" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ) )
 		{
 			ClanRumpusRequest.getBreakfast();
+			KoLmafia.forceContinue();
+		}
+	}
+
+	public static void checkVIPLounge()
+	{
+		if ( InventoryManager.hasItem( key ) && Preferences.getBoolean( "visitRumpus" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ) )
+		{
+			InventoryManager.retrieveItem( key );
+			ClanLoungeRequest.getBreakfast();
 			KoLmafia.forceContinue();
 		}
 	}

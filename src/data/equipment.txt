@@ -814,6 +814,7 @@ easter egg balloon	0	Mys: 35
 eelskin buckler	200	Mus: 85	shield
 enchanted brass knuckles	0	Mys: 10
 fake hand	0	none
+fancy opera glasses	0	Mys: 10
 flaming talons	0	Mys: 30
 foon	0	none
 foon of fearfulness	0	Mys: 10
@@ -886,8 +887,10 @@ spaghetti-box banjo	0	Mys: 150
 spongy shield	0	Mus: 95	shield
 star buckler	165	Mus: 67	shield
 steaming evil	0	Mys: 75
+stuffed Baron von Ratsworth	0	none
 stuffed Cheshire bitten	0	none
 stuffed MagiMechTech MicroMechaMech	0	none
+stuffed Meat	0	none
 stuffed Mob Penguin	0	none
 stuffed astral badger	0	none
 stuffed baby gravy fairy	0	none
@@ -898,7 +901,9 @@ stuffed flaming gravy fairy	0	none
 stuffed frozen gravy fairy	0	none
 stuffed ghuol whelp	0	none
 stuffed hand turkey	0	none
+stuffed key	0	none
 stuffed mind flayer	0	none
+stuffed mink	0	none
 stuffed sabre-toothed lime	0	none
 stuffed scary death orb	0	none
 stuffed sleazy gravy fairy	0	none
@@ -906,6 +911,7 @@ stuffed snowy owl	0	none
 stuffed spooky gravy fairy	0	none
 stuffed stab bat	0	none
 stuffed stinky gravy fairy	0	none
+stuffed tin of caviar	0	none
 stuffed undead elbow macaroni	0	none
 stuffed yeti	0	none
 stuffed yo-yo	0	none
@@ -1051,6 +1057,7 @@ beach glass necklace	0	Mys: 20
 beaten-up Chucks	0	Mys: 45
 beer goggles	0	none
 bejeweled accordion strap	0	Mox: 5
+bejeweled cufflinks	0	Mys: 45
 bejeweled pledge pin	0	Mys: 70
 bezoar ring	0	Mys: 35
 big red clown nose	0	Mys: 10
