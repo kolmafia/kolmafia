@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.request;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -160,16 +161,16 @@ public class DwarfContraptionRequest
 			Matcher matcher = HOPPER_PATTERN.matcher( urlString );
 			if ( matcher.find() )
 			{
-				int hopper = StringUtilities.parseInt( matcher.group(1) );
+				int hopper = StringUtilities.parseInt( matcher.group(1) ) + 1;
 				String count = matcher.group(2);
 				String ore = matcher.group(3);
 				if ( urlString.indexOf( "addtake=take" ) != -1 )
 				{
-					return "Taking " + count + " " + ore + " ore from hopper #" + (hopper + 1);
+					return "Taking " + count + " " + ore + " ore from hopper #" + hopper;
 				}
 				else
 				{
-					return "Adding " + count + " " + ore + " ore to hopper #" + (hopper + 1);
+					return "Adding " + count + " " + ore + " ore to hopper #" + hopper;
 				}
 			}
 
@@ -255,9 +256,19 @@ public class DwarfContraptionRequest
 				return;
 			}
 
+			int hopper = StringUtilities.parseInt( hopperMatcher.group(1) ) + 1;
 			int count = StringUtilities.parseInt( hopperMatcher.group(2) );
-			String ore = hopperMatcher.group(3) + " ore";
-			ResultProcessor.processResult( ItemPool.get( ore, -count ) );
+			AdventureResult ore = ItemPool.get( hopperMatcher.group(3) + " ore", -count );
+			ResultProcessor.processResult( ore );
+
+			// If it accepts this ore, we've identified the ore's rune
+			KoLCharacter.ensureUpdatedDwarfFactory();
+			String rune = Preferences.getString( "lastDwarfHopper" + hopper );
+			if ( !rune.equals( "" ) )
+			{
+				Preferences.setString( "lastDwarfFactoryItem" + ore.getItemId(), rune );
+			}
+
 			return;
 		}
 

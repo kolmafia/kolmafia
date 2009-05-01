@@ -77,6 +77,7 @@ import net.sourceforge.kolmafia.request.ClanStashRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.DisplayCaseRequest;
+import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
@@ -1517,6 +1518,35 @@ public class KoLmafiaCLI
 		public void run( String cmd )
 		{
 			CLI.makeJunkRemovalRequest();
+		}
+	}
+	
+	static { new Factory().register( "factory" ); }
+	public static class Factory
+		extends Command
+	{
+		{ usage = " report <digits> - Given a string of 7 dwarven digits, report on factory."; }
+		public void run( String cmd, String parameters )
+		{
+			String[] tokens = parameters.split( "\\s+" );
+			if ( tokens.length < 1 )
+			{
+				return;
+			}
+
+			String option = tokens[0];
+			if ( option.equals( "report" ) )
+			{
+				String digits = tokens.length >= 2 ? tokens[1].trim().toUpperCase() : "";
+				if ( digits.length() != 7 )
+				{
+					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+								"Must supply a 7 character digit string" );
+					return;
+				}
+
+				DwarfFactoryRequest.report( digits );
+			}
 		}
 	}
 	
