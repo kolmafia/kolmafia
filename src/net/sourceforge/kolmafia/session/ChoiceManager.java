@@ -1099,7 +1099,7 @@ public abstract class ChoiceManager
 		// A Shark's Chum
 		new ChoiceAdventure(
 			"Manor1", "choiceAdventure330", "Haunted Billiards Room",
-			new String[] { "stats", "cube of billiard chalk" }
+			new String[] { "stats", "cube of billiard chalk" },
 			new String[] { null, "3965" } ),
 	};
 
