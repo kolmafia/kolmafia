@@ -53,7 +53,7 @@ public class ClanLoungeRequest
 	public static final int HOTTUB = 2;
 	public static final int POOL_TABLE = 3;
 
-        // Pool options
+	// Pool options
 	public static final int AGGRESSIVE_STANCE = 1;
 	public static final int STRATEGIC_STANCE = 2;
 	public static final int STYLISH_STANCE = 3;
@@ -125,20 +125,20 @@ public class ClanLoungeRequest
 	{
 		switch ( this.action )
 		{
-		case SEARCH:
+		case ClanLoungeRequest.SEARCH:
 			break;
 
-		case KLAW:
+		case ClanLoungeRequest.KLAW:
 			this.constructURLString( "clan_viplounge.php" );
 			this.addFormField( "action", "klaw" );
 			break;
 
-		case HOTTUB:
+		case ClanLoungeRequest.HOTTUB:
 			this.constructURLString( "clan_viplounge.php" );
 			this.addFormField( "action", "hottub" );
 			break;
 
-		case POOL_TABLE:
+		case ClanLoungeRequest.POOL_TABLE:
 			this.constructURLString( "clan_viplounge.php" );
 			if ( option != 0 )
 			{
@@ -160,16 +160,15 @@ public class ClanLoungeRequest
 
 	public static void getBreakfast()
 	{
-		ClanLoungeRequest request = new ClanLoungeRequest();
-
 		// The Klaw can be accessed regardless of whether or not
 		// you are in hardcore, so handle it first.
 
-		request.addFormField( "action", "klaw" );
+		ClanLoungeRequest request = new ClanLoungeRequest( ClanLoungeRequest.KLAW );
+		RequestThread.postRequest( request );
 
-                // You probably shouldn't play with this machine any more today
-                // -- you wouldn't want to look greedy in front of the other
-                // VIPs, would you?
+		// You probably shouldn't play with this machine any more today
+		// -- you wouldn't want to look greedy in front of the other
+		// VIPs, would you?
 
 		while ( request.responseText.indexOf( "want to look greedy" ) == -1 )
 		{
