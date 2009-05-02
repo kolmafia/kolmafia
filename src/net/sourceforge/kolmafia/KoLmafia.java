@@ -264,6 +264,7 @@ public abstract class KoLmafia
 		{ "Two Sizes Too Small", SEMIRARE },
 		{ "Yo Ho Ho and a Bottle of Whatever This Is", SEMIRARE },
 		{ "You Can Top Our Desserts, But You Can't Beat Our Meats", SEMIRARE },
+		{ "A Shark's Chum", SEMIRARE },
 
 		// Adventuring with the hobo code binder equipped - Glyph Adventures
 		{ "A Funny Thing Happened On the Way", GLYPH },

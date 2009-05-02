@@ -1095,6 +1095,12 @@ public abstract class ChoiceManager
 		// Choice 320 is A Rolling Turtle Gathers No Moss
 		// Choice 321 is Boxed In
 		// Choice 322 is Capital!
+
+		// A Shark's Chum
+		new ChoiceAdventure(
+			"Manor1", "choiceAdventure330", "Haunted Billiards Room",
+			new String[] { "stats", "cube of billiard chalk" }
+			new String[] { null, "3965" } ),
 	};
 
 	static
