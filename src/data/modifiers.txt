@@ -994,7 +994,9 @@ steaming evil	Hot Damage: +6, Sleaze Damage: +6, Spooky Damage: +6
 # stuffed spooky gravy fairy
 # stuffed stab bat
 # stuffed stinky gravy fairy
+# stuffed teddy butler
 # stuffed tin of caviar
+# stuffed treasure chest
 # stuffed undead elbow macaroni
 # stuffed yeti
 # stuffed yo-yo
@@ -1223,6 +1225,7 @@ frayed rope belt	Moxie Percent: +10, Single Equip
 furniture dolly	Initiative: +30, Single Equip
 furry green earmuffs	Cold Resistance: +1
 fuzzy bracelets	Muscle: +15, Mysticality: +15, Moxie: +15
+garish pinky ring	Maximum HP: +10, Maximum MP: +10
 gearbox necklace	Mysticality: +11, Maximum MP: +50
 # giant pinky ring: 75% Chance of Preventing Negative Status Attacks
 giant pinky ring	Single Equip
@@ -1610,6 +1613,7 @@ tiny ballet slippers	Familiar Weight: +5
 tiny balloon knife	Familiar Weight: +5
 tiny bindle	Familiar Weight: +5
 tiny bust of Pallas	Familiar Weight: +5
+tiny cell phone	Familiar Weight: +10
 # tiny costume wardrobe: Contains Many Adorable Costumes
 tiny costume wardrobe	Softcore Only
 tiny knife and fork	Familiar Weight: +5

@@ -3952,19 +3952,20 @@
 3946	114089836	Clan VIP Lounge invitation	Clan VIP Lounge invitations
 3947	889601925	Clan VIP Lounge key
 3948	386950655	stuffed Meat
-3949
+3949	445881354	stuffed treasure chest
 3950	488267313	stuffed key
 3951	693223723	stuffed Baron von Ratsworth
 3952
 3953	919228942	stuffed mink
-3954
+3954	523824465	stuffed teddy butler
 3955
 3956
 3957	272822309	stuffed tin of caviar
 3958	761471211	bejeweled cufflinks
-3959
+3959	247877283	garish pinky ring
 3960
 3961	582155489	fancy opera glasses
 3962
 3963	582063926	Clan pool table
-3964		tiny cell phone
+3964	699946727	tiny cell phone
+3965	161914494	cube of billiard chalk

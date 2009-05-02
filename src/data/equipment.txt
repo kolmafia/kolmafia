@@ -911,7 +911,9 @@ stuffed snowy owl	0	none
 stuffed spooky gravy fairy	0	none
 stuffed stab bat	0	none
 stuffed stinky gravy fairy	0	none
+stuffed teddy butler	0	none
 stuffed tin of caviar	0	none
+stuffed treasure chest	0	none
 stuffed undead elbow macaroni	0	none
 stuffed yeti	0	none
 stuffed yo-yo	0	none
@@ -1122,6 +1124,7 @@ frayed rope belt	0	Mys: 200
 furniture dolly	0	Mys: 75
 furry green earmuffs	0	Mys: 7
 fuzzy bracelets	0	none
+garish pinky ring	none	Mys: 10
 gearbox necklace	0	Mys: 75
 giant pinky ring	0	Mys: 35
 glow-in-the-dark wristwatch	0	none
