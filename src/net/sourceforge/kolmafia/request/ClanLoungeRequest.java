@@ -160,6 +160,12 @@ public class ClanLoungeRequest
 
 	public static void getBreakfast()
 	{
+		// No Clan Lounge in Bad Moon
+		if ( KoLCharacter.inBadMoon() )
+		{
+			return;
+		}
+
 		// The Klaw can be accessed regardless of whether or not
 		// you are in hardcore, so handle it first.
 
