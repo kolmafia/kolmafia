@@ -3950,17 +3950,17 @@
 3949	stuffed treasure chest	offhand	gift	20
 3950	stuffed key	offhand	gift	20
 3951	stuffed Baron von Ratsworth	offhand	gift	20
-3952
+3952	stuffed monocle	offhand	gift	20
 3953	stuffed mink	offhand	gift	20
 3954	stuffed teddy butler	offhand	gift	20
-3955
-3956
+3955	stuffed martini	offhand	gift	0
+3956	stuffed crazy bastard sword	weapon	gift	0
 3957	stuffed tin of caviar	offhand	gift	20
 3958	bejeweled cufflinks	accessory	gift	20
 3959	garish pinky ring	accessory	gift	20
-3960
+3960	giant designer sunglasses	accessory	gift	20
 3961	fancy opera glasses	offhand	gift	20
-3962
+3962	designer handbag	grow	gift	0
 3963	Clan pool table	message	all	0
 3964	tiny cell phone	familiar	all	0
 3965	cube of billiard chalk	multiple	all	0
