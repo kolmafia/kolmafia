@@ -1796,8 +1796,7 @@ public abstract class RuntimeLibrary
 			return RuntimeLibrary.continueValue();
 		}
 
-		InventoryManager.retrieveItem( new AdventureResult( item.intValue(), count ) );
-		return RuntimeLibrary.continueValue();
+		return DataTypes.makeBooleanValue( InventoryManager.retrieveItem( new AdventureResult( item.intValue(), count ) ) );
 	}
 
 	// Major functions which provide item-related
