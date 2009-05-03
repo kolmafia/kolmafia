@@ -61,6 +61,7 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Monster;
+import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
 import net.sourceforge.kolmafia.request.HiddenCityRequest;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -148,6 +149,13 @@ public class FightRequest
 		Pattern.compile( "I deduce that this monster has approximately (\\d+) hit points");
 	private static final Pattern SPACE_HELMET_PATTERN =
 		Pattern.compile( "Opponent HP: (\\d+)");
+	private static final Pattern DWARF_MATTOCK_PATTERN =
+		Pattern.compile( "Your mattock glows (really\\s+)*bright blue.");
+	private static final Pattern REALLY_PATTERN = Pattern.compile( "really" );
+	private static final Pattern DWARF_HELMET_PATTERN =
+		Pattern.compile( "<p>A small crystal lens flips down.*?</p>" );
+	private static final Pattern DWARF_KILT_PATTERN =
+		Pattern.compile( "lights.*? on your sporran" );
 
 	private static final AdventureResult TOOTH = ItemPool.get( ItemPool.SEAL_TOOTH, 1);
 	private static final AdventureResult TURTLE = ItemPool.get( ItemPool.TURTLE_TOTEM, 1);
@@ -2272,6 +2280,63 @@ public class FightRequest
 			action.append( FightRequest.encounterLookup );
 			action.append( " shows toy space helmet health estimate of " );
 			action.append( helmetMatcher.group( 1 ) );
+
+			String message = action.toString();
+			RequestLogger.printLine( message );
+			RequestLogger.updateSessionLog( message );
+		}
+
+		Matcher mattockMatcher = FightRequest.DWARF_MATTOCK_PATTERN.matcher( responseText );
+		if ( mattockMatcher.find() )
+		{
+			Matcher reallyMatcher = REALLY_PATTERN.matcher( mattockMatcher.group( 0 ) );
+			int count = 0;
+			while ( reallyMatcher.find() )
+			{
+				++count;
+			}
+			action.setLength( 0 );
+			action.append( "Round " );
+			action.append( FightRequest.currentRound - 1 );
+			action.append( ": " );
+			action.append( FightRequest.encounterLookup );
+			action.append( " shows dwarvish war mattock health estimate of " );
+			action.append( count * 7 );
+
+			String message = action.toString();
+			RequestLogger.printLine( message );
+			RequestLogger.updateSessionLog( message );
+		}
+
+		helmetMatcher = FightRequest.DWARF_HELMET_PATTERN.matcher( responseText );
+		if ( helmetMatcher.find() )
+		{
+			String runes = DwarfFactoryRequest.getRunes( helmetMatcher.group(0) );
+			int attack = DwarfFactoryRequest.parseNumber( runes );
+			action.setLength( 0 );
+			action.append( "Round " );
+			action.append( FightRequest.currentRound - 1 );
+			action.append( ": " );
+			action.append( FightRequest.encounterLookup );
+			action.append( " shows dwarvish war helmet attack rating of " );
+			action.append( attack );
+
+			String message = action.toString();
+			RequestLogger.printLine( message );
+			RequestLogger.updateSessionLog( message );
+		}
+
+		Matcher kiltMatcher = FightRequest.DWARF_KILT_PATTERN.matcher( responseText );
+		if ( kiltMatcher.find() )
+		{
+			int defense = DwarfFactoryRequest.parseSporranLights( kiltMatcher.group(0) );
+			action.setLength( 0 );
+			action.append( "Round " );
+			action.append( FightRequest.currentRound - 1 );
+			action.append( ": " );
+			action.append( FightRequest.encounterLookup );
+			action.append( " shows dwarvish war kilt defense rating of " );
+			action.append( defense );
 
 			String message = action.toString();
 			RequestLogger.printLine( message );

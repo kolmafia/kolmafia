@@ -1539,20 +1539,39 @@ public class KoLmafiaCLI
 			if ( option.equals( "check" ) )
 			{
 				DwarfFactoryRequest.check( false );
+				return;
 			}
 
 			if ( option.equals( "report" ) )
 			{
-				String digits = tokens.length >= 2 ? tokens[1].trim().toUpperCase() : "";
+				if ( tokens.length >= 2 )
+				{
+					String digits = tokens[1].trim().toUpperCase();
+					DwarfFactoryRequest.report( digits );
+				}
+				else
+				{
+					DwarfFactoryRequest.report();
+				}
+				return;
+			}
+
+			if ( option.equals( "setdigits" ) )
+			{
+				String digits = "";
+				if ( tokens.length >= 2 )
+				{
+					digits = tokens[1].trim().toUpperCase();
+				}
+
 				if ( digits.length() != 7 )
 				{
 					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
 								"Must supply a 7 character digit string" );
 					return;
 				}
-
-				DwarfFactoryRequest.report( digits );
-                                return;
+				DwarfFactoryRequest.setDigits( digits );
+				return;
 			}
 		}
 	}

@@ -3151,6 +3151,7 @@ public abstract class KoLCharacter
 		if ( lastAscension < KoLCharacter.getAscensions() )
 		{
 			Preferences.setInteger( "lastDwarfFactoryReset", KoLCharacter.getAscensions() );
+			Preferences.setString( "lastDwarfDigitRunes", "" );
 			Preferences.setString( "lastDwarfEquipmentRunes", "" );
 			Preferences.setString( "lastDwarfHopper1", "" );
 			Preferences.setString( "lastDwarfHopper2", "" );

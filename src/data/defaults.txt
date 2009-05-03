@@ -273,6 +273,7 @@ user	lastDustyBottle2274
 user	lastDustyBottle2275
 user	lastDustyBottle2276
 user	lastDustyBottleReset	-1
+user	lastDwarfDigitRunes
 user	lastDwarfEquipmentRunes
 user	lastDwarfFactoryItem118
 user	lastDwarfFactoryItem119

@@ -58,6 +58,7 @@ public class DwarfFactoryRequest
 	public static final Pattern RUNE_PATTERN = Pattern.compile( "title=\"Dwarf (Digit|Word) Rune (.)\"" );
 	public static final Pattern ITEMDESC_PATTERN = Pattern.compile( "descitem\\((\\d*)\\)" );
 	public static final Pattern MEAT_PATTERN = Pattern.compile( "You (gain|lose) (\\d*) Meat" );
+	public static final Pattern COLOR_PATTERN = Pattern.compile( "(red|orange|yellow|green|blue|indigo|violet)" );
 
 	private static final int [] ITEMS = new int[]
 	{
@@ -445,6 +446,18 @@ public class DwarfFactoryRequest
 		return DwarfFactoryRequest.getRune( matcher );
 	}
 
+	public static String getRunes( final String responseText )
+	{
+		Matcher matcher = DwarfFactoryRequest.getRuneMatcher( responseText );
+		String result = "";
+		while ( matcher.find() )
+		{
+			result += matcher.group( 2 );
+		}
+
+		return result;
+	}
+
 	private static String getRune( final Matcher matcher )
 	{
 		if ( !matcher.find() )
@@ -453,6 +466,90 @@ public class DwarfFactoryRequest
 		}
 
 		return matcher.group( 2 );
+	}
+
+	public static String getDigits()
+	{
+		return Preferences.getString( "lastDwarfDigitRunes" );
+	}
+
+	public static void setDigits( final String digits )
+	{
+		Preferences.setString( "lastDwarfDigitRunes", digits );
+	}
+
+	public static int parseNumber( final String runes )
+	{
+		return DwarfFactoryRequest.parseNumber( runes, Preferences.getString( "lastDwarfDigitRunes" ) );
+	}
+
+	public static int parseNumber( final String runes, final String digits )
+	{
+		HashMap digitMap = new HashMap();
+
+		// Make a map from dwarf digit rune to base 7 digit
+		for ( int i = 0; i < 7; ++i )
+		{
+			char digit = digits.charAt( i );
+			digitMap.put( new Character( digit ), new Integer( i ) );
+		}
+
+		int number = 0;
+		for ( int i = 0; i < runes.length(); ++i )
+		{
+			Integer val = (Integer) digitMap.get( new Character( runes.charAt( i ) ) );
+			if ( val == null )
+			{
+				return -1;
+			}
+			number = ( number * 7 ) + val.intValue();
+		}
+		return number;
+	}
+
+	public static int parseSporranLights( final String text )
+	{
+		int number = 0;
+		Matcher matcher= DwarfFactoryRequest.COLOR_PATTERN.matcher( text );
+		while ( matcher.find() )
+		{
+			String color = matcher.group(1);
+			int digit = -1;
+			if ( color.equals( "red" ) )
+			{
+				digit = 0;
+			}
+			else if ( color.equals( "orange" ) )
+			{
+				digit = 1;
+			}
+			else if ( color.equals( "yellow" ) )
+			{
+				digit = 2;
+			}
+			else if ( color.equals( "green" ) )
+			{
+				digit = 3;
+			}
+			else if ( color.equals( "blue" ) )
+			{
+				digit = 4;
+			}
+			else if ( color.equals( "indigo" ) )
+			{
+				digit = 5;
+			}
+			else if ( color.equals( "violet" ) )
+			{
+				digit = 6;
+			}
+			else
+			{
+				return -1;
+			}
+			number = ( number * 7 ) + digit;
+		}
+		return number;
 	}
 
 	public static void useUnlaminatedItem( final int itemId, final String responseText )
@@ -654,6 +751,11 @@ public class DwarfFactoryRequest
 	}
 
 	// Module to report on what we've gleaned about the factory quest
+
+	public static void report()
+	{
+		DwarfFactoryRequest.report( Preferences.getString( "lastDwarfDigitRunes" ) );
+	}
 
 	public static void report( final String digits )
 	{
