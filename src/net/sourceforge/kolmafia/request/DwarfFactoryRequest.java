@@ -243,7 +243,6 @@ public class DwarfFactoryRequest
 
 	private static void checkForLastRune( String runes, int [] items )
 	{
-                System.out.println( "Checking for last rune: " + runes + " and " + items );
 		if ( items == null )
 		{
 			return;
@@ -742,6 +741,7 @@ public class DwarfFactoryRequest
 		output.append( "</tr>" );
 
 		output.append( "</table>" );
+		output.append( KoLConstants.LINE_BREAK );
 
 		RequestLogger.printLine( output.toString() );
 	}

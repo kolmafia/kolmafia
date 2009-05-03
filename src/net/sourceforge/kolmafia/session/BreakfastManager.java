@@ -93,7 +93,7 @@ public class BreakfastManager
 
 	public static void checkVIPLounge()
 	{
-		if ( InventoryManager.hasItem( key ) && Preferences.getBoolean( "visitRumpus" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ) )
+		if ( InventoryManager.hasItem( key ) && Preferences.getBoolean( "visitLounge" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ) )
 		{
 			InventoryManager.retrieveItem( key );
 			ClanLoungeRequest.getBreakfast();
