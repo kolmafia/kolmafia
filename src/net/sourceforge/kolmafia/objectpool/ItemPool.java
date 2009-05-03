@@ -661,6 +661,7 @@ public class ItemPool
 	public static final int TRAPEZOID = 3198;
 	public static final int LUMP_OF_COAL = 3199;
 	public static final int THICK_PADDED_ENVELOPE = 3201;
+	public static final int DWARVISH_PUNCHCARD = 3207;
 	public static final int SMALL_LAMINATED_CARD = 3208;
 	public static final int LITTLE_LAMINATED_CARD = 3209;
 	public static final int NOTBIG_LAMINATED_CARD = 3210;

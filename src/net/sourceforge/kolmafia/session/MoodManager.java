@@ -486,7 +486,7 @@ public abstract class MoodManager
 			// Encounter rate modifying buffs probably shouldn't be
 			// cast during conditional recast.
 
-			if ( skillId == 1019 || skillId == 5017 || skillId == 6015 || skillId == 6016 || skillId == 6017 )
+			if ( skillId == 1019 || skillId == 5017 || skillId == 6015 || skillId == 6016 )
 			{
 				continue;
 			}

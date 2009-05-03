@@ -163,14 +163,14 @@ public class DwarfContraptionRequest
 			{
 				int hopper = StringUtilities.parseInt( matcher.group(1) ) + 1;
 				String count = matcher.group(2);
-				String ore = matcher.group(3);
+				String ore = DwarfContraptionRequest.oreName( matcher.group(3) );
 				if ( urlString.indexOf( "addtake=take" ) != -1 )
 				{
-					return "Taking " + count + " " + ore + " ore from hopper #" + hopper;
+					return "Taking " + count + " " + ore + " from hopper #" + hopper;
 				}
 				else
 				{
-					return "Adding " + count + " " + ore + " ore to hopper #" + hopper;
+					return "Adding " + count + " " + ore + " to hopper #" + hopper;
 				}
 			}
 
@@ -179,6 +179,11 @@ public class DwarfContraptionRequest
 
 		// action=dochamber
 		return null;
+	}
+
+	private static String oreName( String token )
+	{
+		return token.equals( "coal" ) ? "lump of coal" : token + " ore";
 	}
 
 	public void processResults()
@@ -208,33 +213,25 @@ public class DwarfContraptionRequest
 
 		if ( action.equals( "hopper0" ) )
 		{
-			String rune = DwarfFactoryRequest.getRune( responseText );
-			KoLCharacter.ensureUpdatedDwarfFactory();
-			Preferences.setString( "lastDwarfHopper1", rune );
+			DwarfFactoryRequest.setHopperRune( 1, responseText );
 			return;
 		}
 
 		if ( action.equals( "hopper1" ) )
 		{
-			String rune = DwarfFactoryRequest.getRune( responseText );
-			KoLCharacter.ensureUpdatedDwarfFactory();
-			Preferences.setString( "lastDwarfHopper2", rune );
+			DwarfFactoryRequest.setHopperRune( 2, responseText );
 			return;
 		}
 
 		if ( action.equals( "hopper2" ) )
 		{
-			String rune = DwarfFactoryRequest.getRune( responseText );
-			KoLCharacter.ensureUpdatedDwarfFactory();
-			Preferences.setString( "lastDwarfHopper3", rune );
+			DwarfFactoryRequest.setHopperRune( 3, responseText );
 			return;
 		}
 
 		if ( action.equals( "hopper3" ) )
 		{
-			String rune = DwarfFactoryRequest.getRune( responseText );
-			KoLCharacter.ensureUpdatedDwarfFactory();
-			Preferences.setString( "lastDwarfHopper4", rune );
+			DwarfFactoryRequest.setHopperRune( 4, responseText );
 			return;
 		}
 
@@ -250,6 +247,12 @@ public class DwarfContraptionRequest
 				return;
 			}
 
+			// It doesn't seem like that is the right material for this hopper.
+			if ( responseText.indexOf( "right material" ) != -1 )
+			{
+				return;
+			}
+
 			Matcher hopperMatcher = HOPPER_PATTERN.matcher( urlString );
 			if ( !hopperMatcher.find() )
 			{
@@ -258,7 +261,7 @@ public class DwarfContraptionRequest
 
 			int hopper = StringUtilities.parseInt( hopperMatcher.group(1) ) + 1;
 			int count = StringUtilities.parseInt( hopperMatcher.group(2) );
-			AdventureResult ore = ItemPool.get( hopperMatcher.group(3) + " ore", -count );
+			AdventureResult ore = ItemPool.get( DwarfContraptionRequest.oreName( hopperMatcher.group(3) ), -count );
 			ResultProcessor.processResult( ore );
 
 			// If it accepts this ore, we've identified the ore's rune
@@ -266,7 +269,7 @@ public class DwarfContraptionRequest
 			String rune = Preferences.getString( "lastDwarfHopper" + hopper );
 			if ( !rune.equals( "" ) )
 			{
-				Preferences.setString( "lastDwarfFactoryItem" + ore.getItemId(), rune );
+				DwarfFactoryRequest.setItemRunes( ore.getItemId(), rune );
 			}
 
 			return;
