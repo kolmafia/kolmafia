@@ -1535,6 +1535,12 @@ public class KoLmafiaCLI
 			}
 
 			String option = tokens[0];
+
+			if ( option.equals( "check" ) )
+			{
+				DwarfFactoryRequest.check( false );
+			}
+
 			if ( option.equals( "report" ) )
 			{
 				String digits = tokens.length >= 2 ? tokens[1].trim().toUpperCase() : "";
@@ -1546,6 +1552,7 @@ public class KoLmafiaCLI
 				}
 
 				DwarfFactoryRequest.report( digits );
+                                return;
 			}
 		}
 	}

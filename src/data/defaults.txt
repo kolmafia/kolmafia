@@ -273,6 +273,7 @@ user	lastDustyBottle2274
 user	lastDustyBottle2275
 user	lastDustyBottle2276
 user	lastDustyBottleReset	-1
+user	lastDwarfEquipmentRunes
 user	lastDwarfFactoryItem118
 user	lastDwarfFactoryItem119
 user	lastDwarfFactoryItem120
@@ -291,6 +292,7 @@ user	lastDwarfOfficeItem3211
 user	lastDwarfOfficeItem3212
 user	lastDwarfOfficeItem3213
 user	lastDwarfOfficeItem3214
+user	lastDwarfOreRunes
 user	lastDwarfFactoryReset	-1
 user	lastDwarfHopper1
 user	lastDwarfHopper2

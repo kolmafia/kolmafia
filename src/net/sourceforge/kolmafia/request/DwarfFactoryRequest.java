@@ -41,10 +41,14 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.request.UseItemRequest;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class DwarfFactoryRequest
@@ -68,6 +72,21 @@ public class DwarfFactoryRequest
 		ItemPool.CHROME_ORE,
 		ItemPool.DWARF_BREAD,
 		ItemPool.LUMP_OF_COAL,
+	};
+
+	private static final int [] ORES = new int[]
+	{
+		ItemPool.LINOLEUM_ORE,
+		ItemPool.ASBESTOS_ORE,
+		ItemPool.CHROME_ORE,
+		ItemPool.LUMP_OF_COAL,
+	};
+
+	private static final int [] EQUIPMENT = new int[]
+	{
+		ItemPool.MINERS_HELMET,
+		ItemPool.MINERS_PANTS,
+		ItemPool.MATTOCK,
 	};
 
 	public DwarfFactoryRequest()
@@ -140,34 +159,160 @@ public class DwarfFactoryRequest
 	private static void setItemRunes( final int itemId, final String rune1, final String rune2, final String rune3 )
 	{
 		KoLCharacter.ensureUpdatedDwarfFactory();
+
+		// If we are looking at runes for ore or equipment and we know
+		// the complete list of ore runes or equipment runes because
+		// we've looked at an office item, we can eliminate runes not
+		// on the appropriate list.
+
+		String typeRunes = "";
+		String ores = null;
+		String equipment = null;
+			
+		switch ( itemId )
+		{
+		case ItemPool.LINOLEUM_ORE:
+		case ItemPool.ASBESTOS_ORE:
+		case ItemPool.CHROME_ORE:
+		case ItemPool.LUMP_OF_COAL:
+			ores = Preferences.getString( "lastDwarfOreRunes" );
+			if ( ores.length() == 4 )
+			{
+				typeRunes = ores;
+			}
+			break;
+		case ItemPool.MINERS_HELMET:
+		case ItemPool.MINERS_PANTS:
+		case ItemPool.MATTOCK:
+			equipment = Preferences.getString( "lastDwarfEquipmentRunes" );
+			if ( equipment.length() == 3 )
+			{
+				typeRunes = equipment;
+			}
+			break;
+		}
+
 		String setting = "lastDwarfFactoryItem" + itemId;
 		String oldRunes = Preferences.getString( setting );
 		String newRunes = "";
 
-		if ( oldRunes.equals( "" ) )
+		if ( typeRunes.equals( "" ) || typeRunes.indexOf( rune1 ) != -1 )
 		{
-			newRunes = rune1 + rune2 + rune3;
-		}
-		else
-		{
-			if ( oldRunes.indexOf( rune1) != -1 )
+			if ( oldRunes.equals( "" ) || oldRunes.indexOf( rune1 ) != -1 )
 			{
 				newRunes += rune1;
 			}
-			if ( oldRunes.indexOf( rune2) != -1 )
+		}
+
+		if ( typeRunes.equals( "" ) || typeRunes.indexOf( rune2 ) != -1 )
+		{
+			if ( oldRunes.equals( "" ) || oldRunes.indexOf( rune2 ) != -1 )
 			{
 				newRunes += rune2;
 			}
-			if ( oldRunes.indexOf( rune3) != -1 )
+		}
+
+		if ( typeRunes.equals( "" ) || typeRunes.indexOf( rune3 ) != -1 )
+		{
+			if ( oldRunes.equals( "" ) || oldRunes.indexOf( rune3) != -1 )
 			{
 				newRunes += rune3;
 			}
 		}
-		Preferences.setString( setting, newRunes );
 
-		if ( newRunes.length() > 1 )
+		// Eliminate any runes which definitively belong to another item.
+		for ( int i = 0; i < ITEMS.length; ++i )
+		{
+			int id = ITEMS[i];
+			if ( id == itemId )
+			{
+				continue;
+			}
+
+			String value = Preferences.getString( "lastDwarfFactoryItem" + id );
+
+			if ( value.length() == 1 && newRunes.indexOf( value ) != -1 )
+			{
+				newRunes = newRunes.replace( value, "" );
+
+			}
+		}
+
+		DwarfFactoryRequest.setItemRunes( itemId, newRunes );
+	}
+
+	private static void checkForLastRune( String runes, int [] items )
+	{
+                System.out.println( "Checking for last rune: " + runes + " and " + items );
+		if ( items == null )
 		{
 			return;
+		}
+
+		int candidate = 0;
+
+		for ( int i = 0; i < items.length; ++i )
+		{
+			int itemId = items[i];
+			String setting = "lastDwarfFactoryItem" + itemId;
+			String value = Preferences.getString( setting );
+
+			if ( value.length() != 1 )
+			{
+				// Unidentified item
+				if ( candidate != 0 )
+				{
+					// Already another
+					return;
+				}
+				candidate = itemId;
+			}
+
+			// This is an identified rune. Remove from master list.
+			runes = runes.replace( value, "" );
+		}
+
+		// If we get here, there is at most one item on the list we've
+		// not identified.
+		if ( candidate != 0 )
+		{
+			DwarfFactoryRequest.setItemRunes( candidate, runes );
+		}
+	}
+
+	public static void setItemRunes( final int itemId, final String runes )
+	{
+		String setting = "lastDwarfFactoryItem" + itemId;
+		Preferences.setString( setting, runes );
+
+		if ( runes.length() > 1 )
+		{
+			return;
+		}
+
+		// See if we've identified the penultimate item and can thus
+		// deduce the final item.
+		switch ( itemId )
+		{
+		case ItemPool.LINOLEUM_ORE:
+		case ItemPool.ASBESTOS_ORE:
+		case ItemPool.CHROME_ORE:
+		case ItemPool.LUMP_OF_COAL:
+			String ores = Preferences.getString( "lastDwarfOreRunes" );
+			if ( ores.length() == 4 )
+			{
+				DwarfFactoryRequest.checkForLastRune( ores, DwarfFactoryRequest.ORES );
+			}
+			break;
+		case ItemPool.MINERS_HELMET:
+		case ItemPool.MINERS_PANTS:
+		case ItemPool.MATTOCK:
+			String equipment = Preferences.getString( "lastDwarfEquipmentRunes" );
+			if ( equipment.length() == 3 )
+			{
+				DwarfFactoryRequest.checkForLastRune( equipment, DwarfFactoryRequest.EQUIPMENT );
+			}
+			break;
 		}
 
 		// If the length is 1, that rune has been matched with an
@@ -175,7 +320,7 @@ public class DwarfFactoryRequest
 		// another item, it can't be the match for that item, too, and
 		// can be removed from that list.
 
-		DwarfFactoryRequest.pruneItemRunes( itemId, newRunes );
+		DwarfFactoryRequest.pruneItemRunes( itemId, runes );
 	}
 
 	private static void pruneItemRunes( final int id, final String rune )
@@ -188,22 +333,105 @@ public class DwarfFactoryRequest
 				continue;
 			}
 
-			String setting = "lastDwarfFactoryItem" + itemId;
-			String value = Preferences.getString( setting );
+			DwarfFactoryRequest.eliminateItemRune( itemId, rune );
+		}
+	}
 
-			if ( value.indexOf( rune ) == -1 )
+	private static void eliminateItemRune( final int itemId, final String rune )
+	{
+		String setting = "lastDwarfFactoryItem" + itemId;
+		String value = Preferences.getString( setting );
+
+		if ( value.length() == 1 )
+		{
+			return;
+		}
+
+		if ( value.indexOf( rune ) == -1 )
+		{
+			return;
+		}
+
+		value = value.replace( rune, "" );
+		Preferences.setString( setting, value );
+
+		if ( value.length() > 1 )
+		{
+			return;
+		}
+
+		// We've identified another item. Recurse!
+		DwarfFactoryRequest.pruneItemRunes( itemId, value );
+	}
+
+	public static final void setHopperRune( final int hopper, final String responseText )
+	{
+		KoLCharacter.ensureUpdatedDwarfFactory();
+
+		// Parse the rune from the response text
+		String rune = DwarfFactoryRequest.getRune( responseText );
+
+		// Associate this rune with this hopper
+		Preferences.setString( "lastDwarfHopper" + hopper, rune );
+
+		// Add to list of known ore runes
+		DwarfFactoryRequest.setOreRune( rune );
+	}
+
+	public static void setOreRune( final String rune )
+	{
+		String runes = Preferences.getString( "lastDwarfOreRunes" );
+		if ( runes.indexOf( rune) != -1 )
+		{
+			return;
+		}
+
+		// It's a new ore. Add it to the list of ores.
+		Preferences.setString( "lastDwarfOreRunes", runes + rune );
+
+		// Prune this rune from any non-ores
+		for ( int i = 0; i < ITEMS.length; ++i )
+		{
+			int itemId = ITEMS[i];
+
+			switch ( itemId )
 			{
+			case ItemPool.LINOLEUM_ORE:
+			case ItemPool.ASBESTOS_ORE:
+			case ItemPool.CHROME_ORE:
+			case ItemPool.LUMP_OF_COAL:
 				continue;
 			}
 
-			value = value.replace( rune, "" );
-			Preferences.setString( setting, value );
+			DwarfFactoryRequest.eliminateItemRune( itemId, rune );
+		}
+	}
 
-			if ( value.length() == 1 )
+	private static void setEquipmentRune( final String rune )
+	{
+		String runes = Preferences.getString( "lastDwarfEquipmentRunes" );
+		if ( runes.indexOf( rune) != -1 )
+		{
+			return;
+		}
+
+		// It's a new piece of equipment. Add it to the list of equipment.
+		Preferences.setString( "lastDwarfEquipmentRunes", runes + rune );
+
+		// Prune this rune from any non-equipment
+		for ( int i = 0; i < ITEMS.length; ++i )
+		{
+			int itemId = ITEMS[i];
+
+			switch ( itemId )
 			{
-				// We've identified another item. Recurse!
-				DwarfFactoryRequest.pruneItemRunes( itemId, value );
+			case ItemPool.MINERS_HELMET:
+			case ItemPool.MINERS_PANTS:
+			case ItemPool.MATTOCK:
+				continue;
 			}
+
+			DwarfFactoryRequest.eliminateItemRune( itemId, rune );
 		}
 	}
 
@@ -230,40 +458,62 @@ public class DwarfFactoryRequest
 
 	public static void useUnlaminatedItem( final int itemId, final String responseText )
 	{
-		DwarfFactoryRequest.useItem( itemId, responseText, 2 );
+		Matcher matcher = DwarfFactoryRequest.getRuneMatcher( responseText );
+		String runes = "";
+		int count = 0;
+
+		while ( matcher.find() )
+		{
+			String rune = matcher.group( 2 );
+
+			if ( count++ == 0 )
+			{
+				DwarfFactoryRequest.setEquipmentRune( rune );
+				runes += rune;
+				continue;
+			}
+
+			String type = matcher.group(1);
+			if ( type.equals( "Word" ) )
+			{
+				DwarfFactoryRequest.setOreRune( rune );
+				runes += ',';
+			}
+			runes += rune;
+		}
+		Preferences.setString( "lastDwarfOfficeItem" + itemId, runes );
 	}
 
 	public static void useLaminatedItem( final int itemId, final String responseText )
 	{
-		DwarfFactoryRequest.useItem( itemId, responseText, 3 );
-	}
-
-	private static void useItem( final int itemId, final String responseText, final int offset )
-	{
 		Matcher matcher = DwarfFactoryRequest.getRuneMatcher( responseText );
 		String runes = "";
-		boolean digit = false;
 		int count = 0;
+
 		while ( matcher.find() )
 		{
-			if ( ++count == offset )
+			String rune = matcher.group( 2 );
+
+			if ( count++ == 0 )
 			{
+				DwarfFactoryRequest.setOreRune( rune );
+				runes += rune;
+				continue;
+			}
+
+			if ( count == 2 )
+			{
+				// Skip rune for "gauges"
+				continue;
+			}
+
+			String type = matcher.group(1);
+			if ( type.equals( "Word" ) )
+			{
+				DwarfFactoryRequest.setEquipmentRune( rune );
 				runes += ',';
 			}
-			String type = matcher.group(1);
-			if ( type.equals( "Digit" ) )
-			{
-				digit = true;
-			}
-			else
-			{
-				if ( digit )
-				{
-					runes += ',';
-				}
-				digit = false;
-			}
-			runes += matcher.group( 2 );
+			runes += rune;
 		}
 		Preferences.setString( "lastDwarfOfficeItem" + itemId, runes );
 	}
@@ -329,6 +579,81 @@ public class DwarfFactoryRequest
 		return false;
 	}
 
+	// Module to check whether you've found everything you need
+
+	public static boolean check( final boolean use )
+	{
+		StringBuffer output = new StringBuffer();
+
+		// Check the office items
+		DwarfFactoryRequest.checkOrUse( ItemPool.SMALL_LAMINATED_CARD, use, output );
+		DwarfFactoryRequest.checkOrUse( ItemPool.LITTLE_LAMINATED_CARD, use, output );
+		DwarfFactoryRequest.checkOrUse( ItemPool.NOTBIG_LAMINATED_CARD, use, output );
+		DwarfFactoryRequest.checkOrUse( ItemPool.UNLARGE_LAMINATED_CARD, use, output );
+		DwarfFactoryRequest.checkOrUse( ItemPool.DWARVISH_DOCUMENT, use, output );
+		DwarfFactoryRequest.checkOrUse( ItemPool.DWARVISH_PAPER, use, output );
+		DwarfFactoryRequest.checkOrUse( ItemPool.DWARVISH_PARCHMENT, use, output );
+
+		// Check the hoppers
+		DwarfFactoryRequest.checkHopper( 1, use, output );
+		DwarfFactoryRequest.checkHopper( 2, use, output );
+		DwarfFactoryRequest.checkHopper( 3, use, output );
+		DwarfFactoryRequest.checkHopper( 4, use, output );
+
+		// Check the ores and equipment
+		DwarfFactoryRequest.checkItem( ItemPool.MINERS_HELMET, use, output );
+		DwarfFactoryRequest.checkItem( ItemPool.MINERS_PANTS, use, output );
+		DwarfFactoryRequest.checkItem( ItemPool.MATTOCK, use, output );
+		DwarfFactoryRequest.checkItem( ItemPool.LINOLEUM_ORE, use, output );
+		DwarfFactoryRequest.checkItem( ItemPool.ASBESTOS_ORE, use, output );
+		DwarfFactoryRequest.checkItem( ItemPool.CHROME_ORE, use, output );
+		DwarfFactoryRequest.checkItem( ItemPool.LUMP_OF_COAL, use, output );
+
+		String text = output.toString();
+		if ( text.length() > 0 )
+		{
+			RequestLogger.printLine( text );
+			return false;
+		}
+
+		return true;
+	}
+
+	public static void checkOrUse( final int itemId, final boolean use, final StringBuffer output )
+	{
+		if ( !InventoryManager.hasItem( itemId	) )
+		{
+			output.append( "You do not have the " + ItemDatabase.getItemName( itemId ) + KoLConstants.LINE_BREAK );
+			return;
+		}
+
+		if ( !use || !Preferences.getString( "lastDwarfOfficeItem" + itemId ).equals( "" ) )
+		{
+			return;
+		}
+
+		RequestThread.postRequest( new UseItemRequest( ItemPool.get( itemId, 1 ) ) );
+	}
+
+	public static void checkHopper( final int hopper, final boolean use, final StringBuffer output )
+	{
+		if ( !use || !Preferences.getString( "lastDwarfHopper" + hopper ).equals( "" ) )
+		{
+			return;
+		}
+
+		RequestThread.postRequest( new DwarfContraptionRequest( "hopper" + ( hopper - 1) ) );
+	}
+
+	public static void checkItem( final int itemId, final boolean use, final StringBuffer output )
+	{
+		if ( Preferences.getString( "lastDwarfFactoryItem" + itemId ).length() != 1 )
+		{
+			output.append( "You not yet identified the " + ItemDatabase.getItemName( itemId ) + KoLConstants.LINE_BREAK );
+			return;
+		}
+	}
+
 	// Module to report on what we've gleaned about the factory quest
 
 	public static void report( final String digits )
@@ -336,6 +661,11 @@ public class DwarfFactoryRequest
 		if ( digits.length() != 7 )
 		{
 			RequestLogger.printLine( "Digit string must have 7 characters" );
+			return;
+		}
+
+		if ( !DwarfFactoryRequest.check( true ) )
+		{
 			return;
 		}
 
@@ -593,10 +923,10 @@ public class DwarfFactoryRequest
 
 		private void getGaugeSetting( final String setting )
 		{
-			// lastDwarfOfficeItem3208=BD,HGIG,MGDE,PJD
-			// lastDwarfOfficeItem3209=OD,HGAA,MGAG,PGEA
-			// lastDwarfOfficeItem3210=JD,HFJ,MGED,PGAG
-			// lastDwarfOfficeItem3211=QD,HGE,MGGI,PGG
+			// lastDwarfOfficeItem3208=B,HGIG,MGDE,PJD
+			// lastDwarfOfficeItem3209=O,HGAA,MGAG,PGEA
+			// lastDwarfOfficeItem3210=J,HFJ,MGED,PGAG
+			// lastDwarfOfficeItem3211=Q,HGE,MGGI,PGG
 
 			String[] splits = setting.split( "," );
 			if ( splits.length != 4 )
