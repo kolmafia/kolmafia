@@ -42,6 +42,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -242,7 +243,7 @@ public class DwarfFactoryRequest
 		DwarfFactoryRequest.setItemRunes( itemId, newRunes );
 	}
 
-	private static void checkForLastRune( String runes, int [] items )
+	private static void checkForLastRune( String runes, int [] items, String type )
 	{
 		if ( items == null )
 		{
@@ -277,6 +278,7 @@ public class DwarfFactoryRequest
 		if ( candidate != 0 )
 		{
 			DwarfFactoryRequest.setItemRunes( candidate, runes );
+			KoLmafia.updateDisplay( "All " + type + " have been identified!" );
 		}
 	}
 
@@ -301,7 +303,7 @@ public class DwarfFactoryRequest
 			String ores = Preferences.getString( "lastDwarfOreRunes" );
 			if ( ores.length() == 4 )
 			{
-				DwarfFactoryRequest.checkForLastRune( ores, DwarfFactoryRequest.ORES );
+				DwarfFactoryRequest.checkForLastRune( ores, DwarfFactoryRequest.ORES, "ores" );
 			}
 			break;
 		case ItemPool.MINERS_HELMET:
@@ -310,7 +312,7 @@ public class DwarfFactoryRequest
 			String equipment = Preferences.getString( "lastDwarfEquipmentRunes" );
 			if ( equipment.length() == 3 )
 			{
-				DwarfFactoryRequest.checkForLastRune( equipment, DwarfFactoryRequest.EQUIPMENT );
+				DwarfFactoryRequest.checkForLastRune( equipment, DwarfFactoryRequest.EQUIPMENT, "pieces	 of requipment");
 			}
 			break;
 		}
