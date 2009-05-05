@@ -285,6 +285,21 @@ public class FightRequest
 		return FightRequest.wonInitiative( FightRequest.lastResponseText );
 	}
 
+	private static final boolean canSteal()
+	{
+		if ( FightRequest.canSteal )
+		{
+			return true;
+		}
+
+		if ( KoLConstants.activeEffects.contains( FightRequest.BIRDFORM ) )
+		{
+			return true;
+		}
+
+		return false;
+	}
+
 	public static final boolean wonInitiative( String text )
 	{
 		// Regular encounter
@@ -543,7 +558,7 @@ public class FightRequest
 
 		if ( FightRequest.action1.indexOf( "steal" ) != -1 )
 		{
-			if ( (FightRequest.canSteal || KoLConstants.activeEffects.contains( FightRequest.BIRDFORM )) &&
+			if ( FightRequest.canSteal() &&
 			     FightRequest.wonInitiative() &&
 			     FightRequest.monsterData != null &&
 			     FightRequest.monsterData.shouldSteal() )
