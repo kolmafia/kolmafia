@@ -349,48 +349,7 @@ public abstract class UseLinkDecorator
 			return false;
 		}
 
-		String useType = link.getUseType();
-		String useLocation = link.getUseLocation();
-
-		// If you can add a creation link, then add one instead.
-		// That way, the player can click and KoLmafia will save
-		// the player a click or two (well, if they trust it).
-
-		if ( useLocation.equals( "#" ) )
-		{
-			itemId = link.getItemId();
-			itemCount = link.getItemCount();
-
-			useLinkMatcher.appendReplacement( buffer, "$1$2<b>$3</b> <font size=1>[<a href=\"javascript:" + "multiUse('" );
-			if ( ItemDatabase.getConsumptionType( itemId ) == KoLConstants.MP_RESTORE )
-			{
-				buffer.append( "skills.php" );
-			}
-			else
-			{
-				buffer.append( "multiuse.php" );
-			}
-
-			buffer.append( "'," );
-			buffer.append( itemId );
-			buffer.append( "," );
-			buffer.append( itemCount );
-			buffer.append( ");void(0);\">use multiple</a>]</font>" );
-		}
-		else if ( !link.showInline() )
-		{
-			useLinkMatcher.appendReplacement(
-				buffer,
-				"$1$2<b>$3</b> <font size=1>[<a href=\"" + useLocation + "\">" + useType + "</a>]</font>" );
-		}
-		else
-		{
-			String[] pieces = useLocation.toString().split( "\\?" );
-
-			useLinkMatcher.appendReplacement(
-				buffer,
-				"$1$2<b>$3</b> <font size=1>[<a href=\"javascript:" + "singleUse('" + pieces[ 0 ].trim() + "','" + pieces[ 1 ].trim() + "&ajax=1');void(0);\">" + useType + "</a>]</font>" );
-		}
+		useLinkMatcher.appendReplacement( buffer, "$1$2<b>$3</b> "+ link.getItemHTML() );
 
 		buffer.append( "</td>" );
 		return true;
@@ -904,7 +863,7 @@ public abstract class UseLinkDecorator
 		return new UseLink( itemId, useType, useLocation );
 	}
 
-	private static class UseLink
+	public static class UseLink
 	{
 		private int itemId;
 		private int itemCount;
@@ -970,6 +929,25 @@ public abstract class UseLinkDecorator
 		public boolean showInline()
 		{
 			return this.inline && Preferences.getBoolean( "relayUsesInlineLinks" );
+		}
+
+		public String getItemHTML()
+		{
+			if ( this.useLocation.equals( "#" ) )
+			{
+				String path = ItemDatabase.getConsumptionType( this.itemId ) == KoLConstants.MP_RESTORE ?
+					"skills.php" : "multiuse.php";
+				return "<font size=1>[<a href=\"javascript:" + "multiUse('" + path + "'," + this.itemId + "," + this.itemCount + ");void(0);\">use multiple</a>]</font>";
+			}
+
+			if ( !this.showInline() )
+			{
+				return "<font size=1>[<a href=\"" + this.useLocation + "\">" + this.useType + "</a>]</font>";
+			}
+
+			String[] pieces = this.useLocation.toString().split( "\\?" );
+
+			return "<font size=1>[<a href=\"javascript:" + "singleUse('" + pieces[ 0 ].trim() + "','" + pieces[ 1 ].trim() + "&ajax=1');void(0);\">" + this.useType + "</a>]</font>";
 		}
 	}
 }

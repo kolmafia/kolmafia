@@ -499,13 +499,6 @@ public class MonsterDatabase
 
 		public boolean shouldSteal()
 		{
-			AdventureResult formOfBird = EffectPool.get( EffectPool.FORM_OF_BIRD );
-
-			if ( !KoLCharacter.isMoxieClass() && !KoLConstants.activeEffects.contains( formOfBird ) )
-			{
-				return false;
-			}
-
 			// If the player has an acceptable dodge rate or
 			// then steal anything.
 

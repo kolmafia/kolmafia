@@ -520,7 +520,6 @@ public class Preferences
 	
 	public static final void firePreferenceChanged( String name )
 	{
-		// System.out.println( name );
 		if ( Preferences.listenerMap.containsKey( name ) )
 		{
 			Iterator i = ((ArrayList) Preferences.listenerMap.get( name )).iterator();

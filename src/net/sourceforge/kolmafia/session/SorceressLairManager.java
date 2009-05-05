@@ -69,6 +69,8 @@ import net.sourceforge.kolmafia.swingui.FamiliarTrainingFrame;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
+import net.sourceforge.kolmafia.webui.UseLinkDecorator.UseLink;
+
 public abstract class SorceressLairManager
 {
 	private static final GenericRequest QUEST_HANDLER = new GenericRequest( "" );
@@ -76,7 +78,7 @@ public abstract class SorceressLairManager
 	// Patterns for repeated usage.
 	private static final Pattern MAP_PATTERN = Pattern.compile( "usemap=\"#(\\w+)\"" );
 	private static final Pattern LAIR6_PATTERN = Pattern.compile( "lair6.php\\?place=(\\d+)" );
-	private static final Pattern GATE_PATTERN = Pattern.compile( "<p>&quot;Through the (.*?)," );
+	private static final Pattern GATE_PATTERN = Pattern.compile( "<p>&quot;Through the (.*?),.*?&quot;" );
 
 	// Items for the entryway
 	public static final AdventureResult NAGAMAR = ItemPool.get( ItemPool.WAND_OF_NAGAMAR, 1 );
@@ -365,6 +367,75 @@ public abstract class SorceressLairManager
 			}
 		}
 		return null;
+	}
+
+	public static final void decorateGates( final StringBuffer buffer )
+	{
+		Matcher gateMatcher = SorceressLairManager.GATE_PATTERN.matcher( buffer );
+		SorceressLairManager.decorateGate( buffer, gateMatcher );
+		SorceressLairManager.decorateGate( buffer, gateMatcher );
+		SorceressLairManager.decorateGate( buffer, gateMatcher );
+	}
+
+	public static final void decorateGate( final StringBuffer buffer, final Matcher gateMatcher )
+	{
+		if ( !gateMatcher.find() )
+		{
+			return;
+		}
+
+		String gateName = gateMatcher.group( 1 );
+		if ( gateName == null )
+		{
+			return;
+		}
+
+		// Find the gate in our data
+
+		String[] gateData = SorceressLairManager.findGateByName( gateName );
+
+		if ( gateData == null )
+		{
+			return;
+		}
+
+		// See if we have the needed effect already
+		AdventureResult effect = new AdventureResult( SorceressLairManager.gateEffect( gateData ), 1, true );
+		boolean effectActive = KoLConstants.activeEffects.contains( effect );
+
+		// Pick an item that grants the effect
+		AdventureResult[] items = new AdventureResult[ gateData.length - 3 ];
+		for ( int i = 3; i < gateData.length; ++i )
+		{
+			String name = gateData[ i ];
+			AdventureResult item = AdventureResult.pseudoItem( name );
+			items[ i - 3 ] = item;
+		}
+
+		AdventureResult item = SorceressLairManager.pickOne( items );
+		if ( item == null )
+		{
+			return;
+		}
+
+		String spoiler = "";
+		if ( effectActive )
+		{
+			spoiler = "<br>(" + effect + " - ACTIVE)";
+		}
+		else if ( KoLConstants.inventory.contains( item ) )
+		{
+			UseLink link = new UseLink( item.getItemId(), "use", "inv_use.php?which=3&whichitem=" );
+			spoiler = "<br>(" + effect + " - " + item + " " + link.getItemHTML() + " )";
+		}
+		else
+		{
+			spoiler = "<br>(" + effect + " - " + item + " NONE IN INVENTORY)";
+		}
+
+		String orig = gateMatcher.group(0);
+		int index = buffer.indexOf( orig ) + orig.length();
+		buffer.insert( index, spoiler );
 	}
 
 	// Guardians, what they look like through the Telescope, and the items

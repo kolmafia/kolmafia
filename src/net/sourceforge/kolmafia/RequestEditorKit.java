@@ -568,6 +568,10 @@ public class RequestEditorKit
 		{
 			RequestEditorKit.decorateInventory( buffer, addComplexFeatures );
 		}
+		else if ( location.startsWith( "lair1.php?action=gates" ) )
+		{
+			SorceressLairManager.decorateGates( buffer );
+		}
 		else if ( location.startsWith( "lair6.php" ) )
 		{
 			if ( buffer.indexOf( "ascend.php" ) != -1 )
