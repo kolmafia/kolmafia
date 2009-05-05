@@ -65,6 +65,34 @@ function refreshSidebar( desiredRefresh )
 	httpObject.send( null );
 }
 
+function refreshTopmenu( desiredRefresh )
+{
+	var httpObject = getHttpObject();
+	if ( !httpObject )
+		return true;
+
+	isRefreshing = true;
+	httpObject.onreadystatechange = function()
+	{
+		if ( httpObject.readyState != 4 )
+			return;
+
+		var bodyBegin = httpObject.responseText.indexOf( ">", httpObject.responseText.indexOf( "<body" ) ) + 1;
+		var bodyEnd = httpObject.responseText.indexOf( "</body>" );
+
+		if ( bodyBegin > 0 && bodyEnd > 0 )
+		{
+			top.menupane.document.getElementsByTagName( "body" )[0].innerHTML =
+				httpObject.responseText.substring( bodyBegin, bodyEnd );
+		}
+
+		isRefreshing = false;
+	}
+
+	httpObject.open( "GET", desiredRefresh, true );
+	httpObject.send( null );
+}
+
 
 function updateDisplay( display, responseText )
 {
@@ -138,7 +166,7 @@ function inlineLoad( location, fields, id )
 			refreshSidebar( "/charpane.php" );
 
 		if ( httpObject.responseText.indexOf( "topmenu" ) != -1 )
-			refreshSidebar( "/topmenu.php" );
+			refreshTopmenu( "/topmenu.php" );
 
 	};
 
