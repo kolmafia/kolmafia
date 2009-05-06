@@ -3951,7 +3951,7 @@
 3950	stuffed key	offhand	gift	20
 3951	stuffed Baron von Ratsworth	offhand	gift	20
 3952	stuffed monocle	offhand	gift	20
-3953	stuffed mink	offhand	gift	20
+3953	stuffed mink	accessory	gift	20
 3954	stuffed teddy butler	offhand	gift	20
 3955	stuffed martini	offhand	gift	0
 3956	stuffed crazy bastard sword	weapon	gift	0

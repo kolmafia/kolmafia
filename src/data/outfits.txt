@@ -48,6 +48,7 @@
 47	Hodgman's Regal Frippery	Hodgman's porkpie hat, Hodgman's lobsterskin pants, Hodgman's bow tie
 48	Arrrbor Day Aparrrrrel	willowy bonnet, crotchety pants, Saccharine Maple pendant
 49	Mutant Couture	parasitic claw, parasitic tentacles, parasitic headgnawer, parasitic strangleworm
+50	Dwarvish War Uniform	dwarvish war helmet, dwarvish war mattock, dwarvish war kilt
 
 # Outfits for which KoL does not provide an outfit id, and thus are
 # given id #0 to tell KoLmafia to treat it in a special way.

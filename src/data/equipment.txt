@@ -915,7 +915,6 @@ stuffed hand turkey	0	none
 stuffed key	0	none
 stuffed martini	0	none
 stuffed mind flayer	0	none
-stuffed mink	0	none
 stuffed monocle	0	none
 stuffed sabre-toothed lime	0	none
 stuffed scary death orb	0	none
@@ -1251,6 +1250,7 @@ stick-on eyebrow piercing	0	none
 string of blue beads	0	none
 string of green beads	0	none
 string of red beads	0	none
+stuffed mink	0	none
 stuffed shoulder parrot	0	Mys: 25
 support cummerbund	0	Mys: 35
 tap shoes	0	Mys: 30
