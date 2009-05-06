@@ -77,6 +77,7 @@ import net.sourceforge.kolmafia.request.ClanStashRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.DisplayCaseRequest;
+import net.sourceforge.kolmafia.request.DwarfContraptionRequest;
 import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
@@ -1535,6 +1536,23 @@ public class KoLmafiaCLI
 			}
 
 			String option = tokens[0];
+
+			if ( option.equals( "vacuum" ) )
+			{
+				String itemString = parameters.substring( 6 ).trim();
+				AdventureResult item = ItemFinder.getFirstMatchingItem( itemString, ItemFinder.ANY_MATCH, true );
+				if ( item == null )
+				{
+					return;
+				}
+
+				DwarfContraptionRequest request = new DwarfContraptionRequest( "dochamber" );
+				request.addFormField( "howmany", String.valueOf( item.getCount() ) );
+				request.addFormField( "whichitem", String.valueOf( item.getItemId() ) );
+				RequestThread.postRequest( request );
+
+				return;
+			}
 
 			if ( option.equals( "check" ) )
 			{
