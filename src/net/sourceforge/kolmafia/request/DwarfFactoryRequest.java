@@ -312,7 +312,7 @@ public class DwarfFactoryRequest
 			String equipment = Preferences.getString( "lastDwarfEquipmentRunes" );
 			if ( equipment.length() == 3 )
 			{
-				DwarfFactoryRequest.checkForLastRune( equipment, DwarfFactoryRequest.EQUIPMENT, "pieces	 of requipment");
+				DwarfFactoryRequest.checkForLastRune( equipment, DwarfFactoryRequest.EQUIPMENT, "pieces of equipment");
 			}
 			break;
 		}
@@ -845,9 +845,9 @@ public class DwarfFactoryRequest
 		output.append( "</tr>" );
 
 		output.append( "</table>" );
-		output.append( KoLConstants.LINE_BREAK );
 
 		RequestLogger.printLine( output.toString() );
+		RequestLogger.printLine();
 	}
 
 	public static class FactoryData
