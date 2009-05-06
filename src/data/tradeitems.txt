@@ -3752,12 +3752,12 @@
 3751	white chocolate chip brownies	food	all	45
 3752
 3753	Libram of Love Songs	usable	all	0
-3754	love song of vague ambiguity	multiple	all	0
-3755	love song of smoldering passion	multiple	all	0
-3756	love song of icy revenge	multiple	all	0
-3757	love song of sugary cuteness	multiple	all	0
-3758	love song of disturbing obsession	multiple	all	0
-3759	love song of naughty innuendo	multiple	all	0
+3754	love song of vague ambiguity	multiple, combat	all	0
+3755	love song of smoldering passion	multiple, combat	all	0
+3756	love song of icy revenge	multiple, combat	all	0
+3757	love song of sugary cuteness	multiple, combat	all	0
+3758	love song of disturbing obsession	multiple, combat	all	0
+3759	love song of naughty innuendo	multiple, combat	all	0
 3760	breath mint	multiple	all	0
 3761	vampire pearl ring	accessory	all	150
 3762	vampire pearl necklace	accessory	all	150
