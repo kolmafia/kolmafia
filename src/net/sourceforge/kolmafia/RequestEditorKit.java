@@ -947,9 +947,11 @@ public class RequestEditorKit
 			// must be later in the buffer than insertionPoint
 			// where we annotate the monster.
 
+			// We must remove any other selected item, since the
+			// last one in the select list wins.
+
 			int itemId = ItemDatabase.getItemId( itemName );
-			String find = "value=" + itemId;
-			StringUtilities.insertAfter( buffer, find, " selected" );
+			RequestEditorKit.selectOption( buffer, "whichitem", String.valueOf( itemId ) );
 		}
 
 		List items = FightRequest.getLastMonster().getItems();
@@ -1803,5 +1805,48 @@ public class RequestEditorKit
 		}
 
 		return new GenericRequest( location );
+	}
+
+	/**
+	 * Utility method used to deselect current selection and select a new
+	 * one
+	 */
+
+	public static final void selectOption( final StringBuffer buffer, final String select, final String option )
+	{
+		// Find the correct select within the html
+		int start = buffer.indexOf( "<select name=" + select + ">" );
+		if ( start < 0)
+		{
+			return;
+		}
+		int end = buffer.indexOf( "</select>", start );
+		if ( end < 0)
+		{
+			return;
+		}
+
+		// Delete currently selected items
+		int index = start;
+		while (true)
+		{
+			index = buffer.indexOf( " selected", index );
+			if ( index == -1 || index >= end )
+			{
+				break;
+			}
+			buffer.delete( index, index + 9 );  
+		}
+
+		// Select desired item
+		String selector = "value=" + option;
+		end = buffer.indexOf( "</select>", start );
+		index = buffer.indexOf( selector + ">", start );
+		if ( index == -1  || index >= end )
+		{
+			return;
+		}
+
+		buffer.insert( index + selector.length(), " selected" );
 	}
 }
