@@ -327,6 +327,11 @@ public abstract class CustomCombatManager
 
 	public static final void setAutoAttack( String attackName )
 	{
+		if ( attackName.equals( "" ) )
+		{
+			return;
+		}
+
 		int skillId;
 
 		if ( attackName.indexOf( "disabled" ) != -1 )
