@@ -495,6 +495,7 @@ asbestos staff	Mysticality: +7, Moxie: +5
 asbestos sword	Muscle: +7, Mysticality: +5
 asparagus knife	Stench Damage: +1
 # automatic catapult
+bad-ass club	Weapon Damage: +15, Monster Level: +10, Class: "Seal Clubber"
 balloon sword	Never Fumble, Weapon Damage: -2, Clownosity: +2
 # bamboo bokuto
 bar whip	Familiar Weight: +2
@@ -560,6 +561,7 @@ club of the five seasons	Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, C
 corn holder	Spell Damage: +1
 costume sword	Weapon Damage: -10, Initiative: +30
 crazy bastard sword	Weapon Damage: +30, Critical Hit Percent: +2, PvP Fights: +7
+creepy-ass club	Weapon Damage: +25, Monster Level: +15, Sleaze Damage: 15, Class: "Seal Clubber"
 crowbarrr	Initiative: +15
 curdflinger	Moxie: +3, Weakens Monster
 curmudgel	Monster Level: +8, Weapon Damage: +10
@@ -605,8 +607,10 @@ flaming crutch	Hot Damage: +3
 flaming juggler's balls	Hot Damage: +10, Experience: +2, Softcore Only
 flypaper staff	Mysticality: +3, Weapon Damage: +3, Spooky Damage: +3
 freezin' bindle	Item Drop: +10, Cold Damage: +25
+frigid-ass club	Weapon Damage: +25, Monster Level: +15, Cold Damage: 15, Class: "Seal Clubber"
 frigid hanky&#363;	Cold Damage: +6, Moxie: +2, Wiki Name: "frigid hankyu"
 frozen nunchaku	Weapon Damage: +3, Cold Damage: +3
+frozen seal spine	Cold Damage: +20, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10, Class: "Seal Clubber"
 ga-ga radio	Experience: +1, Weapon Damage: +5, Maximum MP: +20
 gatorskin umbrella	Stench Resistance: +3, Weapon Damage: +15
 giant cactus quill	Critical: 3, Maximum HP: +30
@@ -639,6 +643,7 @@ heavy metal thunderrr guitarrr	Weapon Damage: +11
 hippo whip	Monster Level: +10
 hippy bongo	Stench Damage: +5
 homoerotic frat-paddle	Sleaze Damage: +4
+hot-ass club	Weapon Damage: +25, Monster Level: +15, Hot Damage: 15, Class: "Seal Clubber"
 hot cross bow	Moxie: +7, Muscle: +5, Hot Damage: +5
 huge mirror shard	Weapon Damage: +5
 huge spoon	Spell Damage: +10
@@ -646,6 +651,7 @@ ice sickle	Monster Level: +15, Cold Damage: +5, Softcore Only
 icy-hot katana	Hot Damage: +3, Cold Damage: +3
 immense cyborg hand	Weapon Damage: +5, Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3
 infernal fife	Hot Damage: +7
+infernal toilet brush	Stench Damage: +20, Maximum HP: +20, Maximum MP: +20, Class: "Seal Clubber"
 iron pasta spoon	Spell Damage: +10
 jack flapper	Spell Damage: +5
 jungle drum	Spooky Damage: +10, Spooky Resistance: +2, Initiative: -20
@@ -661,6 +667,7 @@ little paper umbrella	Spell Damage: +1
 lupine sword	Spooky Damage: +9
 magic whistle	Monster Level: +4, Familiar Weight: +1
 magilaser blastercannon	Ranged Damage: +15, Hot Damage: +5
+mannequin leg	Sleaze Damage: +20, Moxie: +5, Class: "Seal Clubber"
 massive sitar	Mysticality: +12, Spell Damage: +20
 meatspout staff	Mysticality: +7, Adventures: +3, Meat Drop: +15
 muculent machete	Muscle: +2, Meat Drop: +5
@@ -721,6 +728,7 @@ scorpion whip	Weapon Damage: +13
 # scratch 'n' sniff sword
 # seal-clubbing club
 serpentine sword	Monster Level: +10
+severed flipper	Muscle: +5, Weapon Damage: +5, Class: "Seal Clubber"
 shiny butcherknife	Spell Damage: +5
 shuddersword	Muscle: +7, Spell Damage: +7, Spooky Damage: +5
 silver shrimp fork	Spell Damage: +14, Weapon Damage: +5
@@ -801,6 +809,7 @@ yohohoyo	Critical: 2, Spooky Damage: +1, Stench Damage: +1, Hot Damage: +1, Cold
 6-ball	Stench Damage: +5, Stench Spell Damage: +5
 7-ball	Meat Drop: +5
 9-ball	Weapon Damage: +5, Ranged Damage: +5, Spell Damage: +5
+Abyssal ember	Hot Damage: +20, Weapon Drop: +25, Class: "Seal Clubber"
 Brimstone Bunker	Muscle Percent: +50, Moxie Percent: -20, Damage Reduction: 25
 # C.H.U.M. lantern: (In Sewers)
 C.H.U.M. lantern	Stench Damage: +17, Item Drop: [30*loc(Sewer Tunnels)]
@@ -962,6 +971,7 @@ sebaceous shield	Stench Damage: +1, Sleaze Damage: +1, Damage Reduction: 2
 # set of jacks: +2 Moxie Stat(s) Per Fight
 set of jacks	Experience: +2
 sewer turtle	Stench Damage: +1, Damage Reduction: 1
+shadowy seal eye	Spooky Damage: +20, Monster Level: 15, Class: "Seal Clubber"
 # silver sausage
 six-rainbow shield	Maximum HP: +50, Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, Damage Reduction: 12
 snake shield	Muscle: +6, Damage Reduction: 7
@@ -1823,6 +1833,7 @@ Cletus's Canticle of Celerity	Initiative: +20
 Cock of the Walk	Moxie Percent: +200
 Cold Blooded	Muscle Percent: +30, Mysticality Percent: +20, Moxie Percent: +10, Cold Damage: +10, Cold Resistance: +2
 # Cold Breath: Can breathe frigid air in combat
+Cold Hard Skin	Cold Damage: +25, Maximum HP: +200
 # Cold Hearted
 Cold Hearted	Moxie: [min(T,20)], Familiar Weight: [ceil(min(T,20)/2)]
 # Coldform: Cold, Cold, Cold!
@@ -1835,6 +1846,7 @@ Concentration	Spell Damage Percent: +10
 Confused	Mysticality Percent: -30
 Contagious Bad Luck	Mysticality Percent: -20
 Contemptible Emanations	Monster Level: +20
+Corruption of Wretched Wally	Muscle: +3, Weapon Damage: +3, HP Regen Min: 3, HP Regen Max: 5
 Corroded Weapon	Weapon Damage: -5
 # Coy to the Hurled	variable DR
 Cranberry Cordiality	Meat Drop: +10
@@ -1981,6 +1993,7 @@ Greased	Sleaze Damage: +20
 Greased-Up Familiar	Familiar Weight (hidden): [5*zone(The Sea)]
 Green Tongue	Familiar Weight: +5
 Grilled	Muscle: -10
+Grulched	Stench Damage: +25, Monster Level: +20
 Guanified	Stench Damage: +10, Damage Reduction: -2
 # Haiku State of Mind	large penalty to result parsing
 # Hair of the Fish: Muscle: +X, Mysticality: +X, Moxie: +X
@@ -2060,6 +2073,7 @@ Liquid Courage	Experience: +3
 Livin' Large	Meat Drop: +10
 Locks Like the Raven	Moxie: +15
 Low on the Hog	Meat Drop: +100
+Lubed	Sleaze Damage: +25, Moxie Percent: +10
 Lustful Heart	Moxie: [min(T,20)]
 Lycanthropy, Eh?	Muscle Percent: [+2*M], Moxie Percent: [-2*M]
 Macho Profundo	Muscle Percent: +60, Moxie Percent: +60
@@ -2152,6 +2166,7 @@ Rainy Soul Miasma	Muscle: +10, Mysticality: +10, Moxie: -5
 Rat-Faced	Moxie Percent: +10
 Raving Lunatic	Weapon Damage: +20
 Re-Possessed	Weapon Damage: +10, Damage Reduction: -2
+# Really Deep Breath: Lets you breathe underwater
 Really Quite Poisoned	Muscle Percent: -70, Mysticality Percent: -70, Moxie Percent: -70, Muscle: -9, Mysticality: -9, Moxie: -9
 Red Door Syndrome	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
 Red Neck	Muscle: +15, Moxie: -5
@@ -2173,6 +2188,7 @@ Scariberi	Spooky Damage: [min(100,T)]
 # Scarysauce: Damages Attacking Opponents
 Scarysauce	Sleaze Resistance: +2, Cold Resistance: +2
 Scent of a Kitchen Elf	Mysticality: +40, Familiar Weight Percent: -50
+Scrappy, Shadowy	Spooky Damage: +25, Damage Reduction: 25
 Seal Clubbing Frenzy	Muscle: +2
 Seeing Colors	Mysticality Percent: +50
 Seriously Mutated	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
@@ -2187,6 +2203,7 @@ Shot in the Arse	Muscle: +15, Mysticality: +15, Moxie: +15
 # Side Affectation: Extra-Vulnerable to Hot and Stench
 Side Affectation	Spooky Resistance: +2
 Sinuses For Miles	Meat Drop: +200
+Sizzling with Fury	Hot Damage: +25, Initiative: +60
 Sleaze-Resistant Trousers	Sleaze Resistance: +1
 # Sleazeform: Wink Wink, Nudge Nudge
 # Sleazy Breath: Can breathe cologne in combat

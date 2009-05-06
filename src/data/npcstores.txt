@@ -13,11 +13,15 @@ Gouda's Grimoire and Grocery	2	Codex of Capsaicin Conjuration	4000
 Gouda's Grimoire and Grocery	2	Gazpacho's Glacial Grimoire	4000
 Gouda's Grimoire and Grocery	2	special sauce glove	5000
 
-Smacketeria	3	turtle pheromones	50
 Smacketeria	3	Medicinal Herb's medicinal herbs	100
 Smacketeria	3	cheap wind-up clock	200
 Smacketeria	3	blood of Wereseal	500
 Smacketeria	3	enchanted brass knuckles	1000
+Smacketeria	3	seal-blubber candle	100
+Smacketeria	3	figurine of a wretched-looking seal	150
+Smacketeria	3	figurine of a cute baby seal	250
+Smacketeria	3	figurine of an armored seal	500
+Smacketeria	3	turtle pheromones	50
 
 Doc Galaktik's Medicine Show	galaktik.php	anti-anti-antidote	30
 Doc Galaktik's Medicine Show	galaktik.php	Doc Galaktik's Pungent Unguent	30
