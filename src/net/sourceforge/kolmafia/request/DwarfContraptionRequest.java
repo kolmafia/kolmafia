@@ -50,6 +50,7 @@ public class DwarfContraptionRequest
 	public static final Pattern ACTION_PATTERN = Pattern.compile( "action=([^&]*)" );
 	public static final Pattern GAUGES_PATTERN = Pattern.compile( "temp0=(\\d*)&temp1=(\\d*)&temp2=(\\d*)&temp3=(\\d*)" );
 	public static final Pattern HOPPER_PATTERN = Pattern.compile( "action=dohopper(\\d*).*howmany=(\\d*).*whichore=([^&]*)" );
+	public static final Pattern CHAMBER_PATTERN = Pattern.compile( "howmany=(\\d*).*whichitem=([^&]*)" );
 
 	public DwarfContraptionRequest()
 	{
@@ -277,9 +278,24 @@ public class DwarfContraptionRequest
 
 		if ( action.equals( "dochamber" ) )
 		{
-			// parse url to find out itemId and quantity.
-			// parse results to decide if it was consumed.
-			return;
+			// There's a loud wooooshing noise, then a *ping!* You
+			// open the box and discover that nothing much has
+			// happened.
+
+			if ( responseText.indexOf( "nothing much has happened" ) != -1 )
+			{
+				return;
+			}
+
+			Matcher itemMatcher = CHAMBER_PATTERN.matcher( urlString );
+			if ( !itemMatcher.find() )
+			{
+				return;
+			}
+
+			int count = StringUtilities.parseInt( itemMatcher.group(1) );
+			int itemId = StringUtilities.parseInt( itemMatcher.group(2) );
+			ResultProcessor.processResult( new AdventureResult( itemId, -count ) );
 		}
 	}
 
@@ -305,6 +321,22 @@ public class DwarfContraptionRequest
 
 		if ( action == null )
 		{
+			return true;
+		}
+
+		if ( action.equals( "dochamber" ) )
+		{
+			Matcher itemMatcher = CHAMBER_PATTERN.matcher( urlString );
+			if ( !itemMatcher.find() )
+			{
+				return false;
+			}
+
+			int count = StringUtilities.parseInt( itemMatcher.group(1) );
+			int itemId = StringUtilities.parseInt( itemMatcher.group(2) );
+			AdventureResult item = new AdventureResult( itemId, count );
+			RequestLogger.updateSessionLog();
+			RequestLogger.updateSessionLog( "Putting " + item + " into the vacuum chamber." );
 			return true;
 		}
 
