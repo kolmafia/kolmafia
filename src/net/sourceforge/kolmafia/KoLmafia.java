@@ -340,6 +340,7 @@ public abstract class KoLmafia
 		KoLConstants.hermitItems.add( new AdventureResult( "catsup", 1, false ) );
 		KoLConstants.hermitItems.add( new AdventureResult( "chisel", 1, false ) );
 		KoLConstants.hermitItems.add( new AdventureResult( "dingy planks", 1, false ) );
+		KoLConstants.hermitItems.add( new AdventureResult( "figurine of an ancient seal", 1, false ) );
 		KoLConstants.hermitItems.add( new AdventureResult( "golden twig", 1, false ) );
 		KoLConstants.hermitItems.add( new AdventureResult( "hot buttered roll", 1, false ) );
 		KoLConstants.hermitItems.add( new AdventureResult( "jaba\u00f1ero pepper", 1, false ) );

@@ -3899,18 +3899,18 @@
 3898
 3899
 3900
-3901
-3902
-3903
-3904
-3905
-3906
-3907
-3908
-3909
-3910
-3911
-3912
+3901	seal-blubber candle	none	all	50
+3902	figurine of a wretched-looking seal	none	all	75
+3903	figurine of a cute baby seal	none	all	125
+3904	figurine of an armored seal	none	all	250
+3905	figurine of an ancient seal	none	all	100
+3906	figurine of a sleek seal	none	all	100
+3907	figurine of a shadowy seal	none	all	150
+3908	figurine of a stinking seal	none	all	150
+3909	figurine of a charred seal	none	all	150
+3910	figurine of a cold seal	none	all	150
+3911	figurine of a slippery seal	none	all	150
+3912	imbued seal-blubber candle	none	all	50
 3913	blended frozen swill with a fly in it	message	gift	5
 3914
 3915
@@ -3928,21 +3928,21 @@
 3927
 3928
 3929
-3930
-3931
-3932
-3933
-3934
-3935
-3936
-3937
+3930	tainted seal's blood	multiple	all     35
+3931	severed flipper	weapon	display	105
+3932	ingot of seal-iron	usable	display	10
+3933	bad-ass club	weapon	display	100
+3934	powdered sealbone	none	display	50
+3935	hyperinflated seal lung	multiple	display	75
+3936	scrap of shadow	multiple	display	100
+3937	fustulent seal grulch	multiple	display	100
 3938
 3939
 3940
 3941
 3942
-3943
-3944
+3943	infernal toilet brush	weapon	all	155
+3944	shadowy seal eye	offhand	all	200
 3945	oyster egg balloon	offhand	display	50
 3946	Clan VIP Lounge invitation	usable	all	0
 3947	Clan VIP Lounge key	none	display	0
@@ -3964,3 +3964,12 @@
 3963	Clan pool table	message	all	0
 3964	tiny cell phone	familiar	all	0
 3965	cube of billiard chalk	multiple	all	0
+3966	hot-ass club	weapon	display	100
+3967	frigid-ass club	weapon	display	100
+3968	creepy-ass club	weapon	display	100
+3969	sizzling seal fat	multiple	display	100
+3970	Abyssal ember	offhand	all	150
+3971	frost-rimed seal hide	multiple	display	100
+3972	frozen seal spine	weapon	all	250
+3973	seal lube	multiple	display	100
+3974	mannequin leg	weapon	all	145

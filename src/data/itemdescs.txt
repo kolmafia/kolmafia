@@ -3904,18 +3904,18 @@
 3898
 3899
 3900
-3901
-3902
-3903
-3904
-3905
-3906
-3907
-3908
-3909
-3910
-3911
-3912
+3901	851290259	seal-blubber candle	seal-blubber candles
+3902	239121823	figurine of a wretched-looking seal	figurines of wretched-looking seals
+3903	543169080	figurine of a cute baby seal	figurines of cute baby seals
+3904	877503554	figurine of an armored seal	figurines of armored seals
+3905	956027175	figurine of an ancient seal	figurines of ancient seals
+3906	149913053	figurine of a sleek seal	figurines of sleek seals
+3907	507805347	figurine of a shadowy seal	figurines of shadowy seals
+3908	181891006	figurine of a stinking seal	figurines of stinking seals
+3909	351615341	figurine of a charred seal	figurines of charred seals
+3910	325101579	figurine of a cold seal	figurines of cold seals
+3911	623716453	figurine of a slippery seal	figurines of slippery seals
+3912	920030991	imbued seal-blubber candle	imbued seal-blubber candles
 3913	395554500	blended frozen swill with a fly in it	glasses of blended frozen swill with flies in them
 3914
 3915
@@ -3933,21 +3933,21 @@
 3927
 3928
 3929
-3930
-3931
-3932
-3933
-3934
-3935
-3936
-3937
+3930	776348320	tainted seal's blood	vials of tainted seal's blood
+3931	653586887	severed flipper	severed flippers
+3932	536044038	ingot of seal-iron	ingots of seal-iron
+3933	632758146	bad-ass club	bad-ass clubs
+3934	791518211	powdered sealbone	piles of powdered sealbone
+3935	608346700	hyperinflated seal lung
+3936	957359410	scrap of shadow
+3937	437391098	fustulent seal grulch
 3938
 3939
 3940
 3941
 3942
-3943
-3944
+3943	326325786	infernal toilet brush
+3944	492331399	shadowy seal eye	shadowy seal eyes
 3945	975224635	oyster egg balloon
 3946	114089836	Clan VIP Lounge invitation	Clan VIP Lounge invitations
 3947	889601925	Clan VIP Lounge key
@@ -3969,3 +3969,12 @@
 3963	582063926	Clan pool table
 3964	699946727	tiny cell phone
 3965	161914494	cube of billiard chalk
+3966	698087110	hot-ass club
+3967	583037762	frigid-ass club
+3968	199690260	creepy-ass club
+3969	491500767	sizzling seal fat	flasks of sizzling seal fat
+3970	297261554	Abyssal ember
+3971	652800824	frost-rimed seal hide	frost-rimed seal hides
+3972	991635862	frozen seal spine
+3973	789581959	seal lube	tubes of seal lube
+3974	331945292	mannequin leg

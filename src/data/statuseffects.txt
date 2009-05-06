@@ -620,10 +620,13 @@
 619	Colorfully Concealed	pieface.gif	140ef800c87baab4dc32a288f7c503e5	use 1 Mer-kin hidepaint
 620	Emotion Sickness	goofballs.gif	cf2cb301c6f542b1fdc59b0a3e8ebed5	use 1 bottle of melodramamine
 621	Biologically Shocked	dna.gif	f81d7473f0a24503c9ab73be50bbc664	use 1 glowing syringe
-622
-623
-624
-625
+622	Corruption of Wretched Wally	blooddrops.gif	10c7e6bb2787019f4ac2815c0bfdf356	use 1 tainted seal's blood
+623	Really Deep Breath	lung.gif	9b9dee30c980dce984ac9fe98836aaa8	use 1 hyperinflated seal lung
+624	Scrappy, Shadowy	lmask.gif	989ff1379e0d7f1f8f3452770fd6e48e	use 1 scrap of shadow
+625	Grulched	grulch.gif	912eba457b36763732a38a50f8299ba8	use 1 fustulent seal grulch
 626	Billiards Belligerence	2ball.gif	0bc328cead1daf748aeee4b4d5d4545a
 627	Mental A-cue-ity	9ball.gif	1829f131d831dace601cd8b5c98263f3
 628	Hustlin'	8ball.gif	e0d75ad666dc7129cde81073d073baef
+630	Sizzling with Fury	angry.gif	849b3898a4f06be783b66570f515de50	use 1 sizzling seal fat
+631	Cold Hard Skin	hskin.gif	23235e424a824750da885f9d1f624a28	use 1 frost-rimed seal hide
+632	Lubed	sebashield.gif	084149535b6e6a9bc44030f94fe49f8f	use 1 seal lube

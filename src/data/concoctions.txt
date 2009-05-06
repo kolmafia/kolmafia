@@ -38,6 +38,7 @@ heavy metal sonata	COMBINE	chrome ore	drab sonata
 heavy metal thunderrr guitarrr	COMBINE	acoustic guitarrr	chrome ore
 hosed fishbowl	COMBINE	fishbowl	fish hose
 hosed tank	COMBINE	fishtank	fish hose
+imbued seal-blubber candle	COMBINE	powdered sealbone	seal-blubber candle
 intragalactic rowboat	COMBINE	S.O.C.K.	quantum egg
 makeshift SCUBA gear	COMBINE	hosed tank	fishbowl
 Mighty Bjorn action figure	COMBINE	action figure head	action figure body
@@ -591,6 +592,10 @@ yak whip	WSMITH	whip kit	yak skin
 club of the five seasons	WSMITH	bigger stick	prismatic wad
 rainbow crossbow	WSMITH	dense meat crossbow	prismatic wad
 six-rainbow shield	ASMITH	wonderwall shield	prismatic wad
+
+hot-ass club	ASMITH	bad-ass club	sizzling seal fat
+frigid-ass club	ASMITH	bad-ass club	frost-rimed seal hide
+creepy-ass club	ASMITH	bad-ass club	seal lube
 
 rainbow bomb	COMBINE	stick of dynamite	prismatic wad
 
