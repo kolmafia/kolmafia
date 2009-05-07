@@ -818,7 +818,7 @@ public class GenericRequest
 		if ( !this.hasNoResult )
 		{
 			TurnCounter expired = TurnCounter.getExpiredCounter( this );
-			if ( expired != null )
+			while ( expired != null )
 			{
 				int remain = expired.getTurnsRemaining();
 				if ( this.invokeCounterScript( expired ) )
@@ -841,6 +841,10 @@ public class GenericRequest
 					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, message );
 					return;
 				}
+				
+				// In case the counterScript spent some turns, and there is now
+				// a different expired counter to deal with:
+				expired = TurnCounter.getExpiredCounter( this );
 			}
 		}
 
