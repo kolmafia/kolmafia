@@ -1358,7 +1358,7 @@ public class RelayRequest
 			return;
 		}
 
-		if ( path.indexOf( "?" ) == -1 && !path.endsWith( ".php" ) )
+		if ( !path.endsWith( ".php" ) )
 		{
 			this.handleSimple();
 			return;

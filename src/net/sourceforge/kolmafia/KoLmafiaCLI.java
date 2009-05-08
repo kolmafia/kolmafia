@@ -30,7 +30,7 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-	
+
 package net.sourceforge.kolmafia;
 
 import java.io.BufferedReader;
@@ -164,7 +164,7 @@ public class KoLmafiaCLI
 	private boolean elseRuns = false;
 
 	public static boolean isExecutingCheckOnlyCommand = false;
-	
+
 	// Flag values for Commands:
 	public static int FULL_LINE_CMD = 1;
 	public static int FLOW_CONTROL_CMD = 2;
@@ -460,7 +460,7 @@ public class KoLmafiaCLI
 			Preferences.firePreferenceChanged( origLine );
 		}
 	}
-	
+
 	private String getContinuation( String line )
 	{
 		StringBuffer block = new StringBuffer( line );
@@ -566,7 +566,7 @@ public class KoLmafiaCLI
 
 		this.executeScript( command + " " + parameters );
 	}
-	
+
 	public static class Command
 	{
 		// Assign 'flags' in an instance initializer if the command needs one of these:
@@ -685,7 +685,7 @@ public class KoLmafiaCLI
 			return null;
 		}
 	}
-	
+
 	/**
 	 *	Sets whether a following "else" command should be executed.
 	 */
@@ -724,7 +724,7 @@ public class KoLmafiaCLI
 	{
 		{ flags = KoLmafiaCLI.FLOW_CONTROL_CMD; }
 	}
-	
+
 	static { new Try().register( "try" ); }
 	public static class Try
 		extends ConditionalCommand
@@ -848,7 +848,7 @@ public class KoLmafiaCLI
 				"</tr></table>" );
 		}
 	}
-	
+
 	// Command names with embedded spaces can only match the full line, and cannot currently
 	// use the isExecutingCheckOnlyCommand, FULL_LINE_CMD, or FLOW_CONTROL_CMD features.
 
@@ -875,7 +875,7 @@ public class KoLmafiaCLI
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, messages[ messages.length - 1 ] );
 		}
 	}
-	
+
 	static { new SaveAsMood().register( "save as mood" ); }
 	public static class SaveAsMood
 		extends Command
@@ -887,7 +887,7 @@ public class KoLmafiaCLI
 			MoodManager.saveSettings();
 		}
 	}
-	
+
 	static { new BurnExtraMP().register( "burn extra mp" ); }
 	public static class BurnExtraMP
 		extends Command
@@ -902,7 +902,7 @@ public class KoLmafiaCLI
 			SpecialOutfit.restoreImplicitCheckpoint();
 		}
 	}
-	
+
 	static { new ASH().register( "ash" ); }
 	public static class ASH
 		extends Command
@@ -942,7 +942,7 @@ public class KoLmafiaCLI
 			}
 		}
 	}
-	
+
 	static { new InlineASHScript().register( "<inline-ash-script>" ); }
 	public static class InlineASHScript
 		extends Command
@@ -983,7 +983,7 @@ public class KoLmafiaCLI
 			interpreter.execute( "main", null );
 		}
 	}
-	
+
 	static { new GC().register( "gc" ); }
 	public static class GC
 		extends Command
@@ -994,7 +994,7 @@ public class KoLmafiaCLI
 			System.gc();
 		}
 	}
-	
+
 	static { new Version().register( "version" ); }
 	public static class Version
 		extends Command
@@ -1005,7 +1005,7 @@ public class KoLmafiaCLI
 			RequestLogger.printLine( StaticEntity.getVersion() );
 		}
 	}
-	
+
 	static { new Gong().register( "gong" ); }
 	public static class Gong
 		extends Command
@@ -1256,7 +1256,7 @@ public class KoLmafiaCLI
 				StaticEntity.enable( parameters.toLowerCase() );
 				return;
 			}
-	
+
 			if ( command.equals( "disable" ) )
 			{
 				StaticEntity.disable( parameters.toLowerCase() );
@@ -1264,7 +1264,7 @@ public class KoLmafiaCLI
 			}
 		}
 	}
-	
+
 	static { new Log().register( "log" ); }
 	public static class Log
 		extends Command
@@ -1321,7 +1321,7 @@ public class KoLmafiaCLI
 			RequestLogger.getDebugStream().println();
 		}
 	}
-	
+
 	static { new Alias().register( "alias" ); }
 	public static class Alias
 		extends Command
@@ -1351,7 +1351,7 @@ public class KoLmafiaCLI
 			RequestLogger.printLine( aliasString + " => " + aliasCommand );
 		}
 	}
-	
+
 	static { new Unalias().register( "unalias" ); }
 	public static class Unalias
 		extends Command
@@ -1362,7 +1362,7 @@ public class KoLmafiaCLI
 			Aliases.remove( parameters );
 		}
 	}
-	
+
 	static { new Priphea().register( "priphea" ); }
 	public static class Priphea
 		extends Command
@@ -1379,7 +1379,7 @@ public class KoLmafiaCLI
 			KoLDesktop.displayDesktop();
 		}
 	}
-	
+
 	static { new Basement().register( "basement" ); }
 	public static class Basement
 		extends Command
@@ -1390,7 +1390,7 @@ public class KoLmafiaCLI
 			BasementRequest.checkBasement();
 		}
 	}
-	
+
 	static { new Window().register( "chat" ).register( "mail" ).registerPrefix( "opt" )
 		.register( "item" ).register( "gear" ).register( "radio" ); }
 	public static class Window
@@ -1436,7 +1436,7 @@ public class KoLmafiaCLI
 			}
 		}
 	}
-	
+
 	static { new HTTP().registerPrefix( "http:" ).registerSubstring( ".php" ); }
 	public static class HTTP
 		extends Command
@@ -1454,7 +1454,7 @@ public class KoLmafiaCLI
 			StaticEntity.externalUpdate( visitor.getURLString(), visitor.responseText );
 		}
 	}
-	
+
 	static { new Text().register( "text" ); }
 	public static class Text
 		extends Command
@@ -1474,7 +1474,7 @@ public class KoLmafiaCLI
 			CLI.showHTML( visitor.getURLString(), visitor.responseText );
 		}
 	}
-	
+
 	static { new Relay().register( "relay" ); }
 	public static class Relay
 		extends Command
@@ -1485,7 +1485,7 @@ public class KoLmafiaCLI
 			StaticEntity.getClient().openRelayBrowser();
 		}
 	}
-	
+
 	static { new Forum().registerPrefix( "forum" ); }
 	public static class Forum
 		extends Command
@@ -1496,7 +1496,7 @@ public class KoLmafiaCLI
 			StaticEntity.openSystemBrowser( "http://forums.kingdomofloathing.com/" );
 		}
 	}
-	
+
 	static { new Wait().register( "wait" ).register( "pause" ) ; }
 	public static class Wait
 		extends Command
@@ -1510,7 +1510,7 @@ public class KoLmafiaCLI
 			KoLmafia.updateDisplay( "Waiting completed." );
 		}
 	}
-	
+
 	static { new Junk().register( "junk" ).register( "cleanup" ); }
 	public static class Junk
 		extends Command
@@ -1521,7 +1521,7 @@ public class KoLmafiaCLI
 			CLI.makeJunkRemovalRequest();
 		}
 	}
-	
+
 	static { new Factory().register( "factory" ); }
 	public static class Factory
 		extends Command
@@ -1593,7 +1593,7 @@ public class KoLmafiaCLI
 			}
 		}
 	}
-	
+
 	static { new ModTrace().register( "modtrace" ); }
 	public static class ModTrace
 		extends Command
@@ -1678,7 +1678,7 @@ public class KoLmafiaCLI
 			RequestLogger.printLine( buf.toString() );
 		}
 	}
-	
+
 	static { new MoleRef().register( "moleref" ); }
 	public static class MoleRef
 		extends Command
@@ -1709,7 +1709,7 @@ public class KoLmafiaCLI
 			"</table>" );
 		}
 	}
-	
+
 	static { new Olfact().registerPrefix( "olfact" ).register( "putty" ); }
 	public static class Olfact
 		extends Command
@@ -1794,7 +1794,7 @@ public class KoLmafiaCLI
 			}
 		}
 	}
-	
+
 	static { new Conditions().registerPrefix( "goal" ).registerPrefix( "condition" )
 		.registerPrefix( "objective" ); }
 	public static class Conditions
@@ -1806,7 +1806,7 @@ public class KoLmafiaCLI
 			CLI.executeConditionsCommand( parameters );
 		}
 	}
-	
+
 	static { new Update().register( "update" ); }
 	public static class Update
 		extends Command
@@ -1824,7 +1824,7 @@ public class KoLmafiaCLI
 			}
 		}
 	}
-	
+
 	static { new FakeItem().register( "fakeitem" ); }
 	public static class FakeItem
 		extends Command
@@ -1839,7 +1839,7 @@ public class KoLmafiaCLI
 			}
 		}
 	}
-	
+
 	static { new Developer().register( "newdata" )
 		.register( "checkitems" ).register( "checkeffects" )
 		.register( "checkplurals" ).register( "checkmodifiers" )
@@ -1858,7 +1858,7 @@ public class KoLmafiaCLI
 				RequestLogger.printLine( "Data tables updated." );
 				return;
 			}
-	
+
 			if ( command.equals( "checkitems" ) )
 			{
 				int itemId = StringUtilities.parseInt( parameters );
@@ -1866,14 +1866,14 @@ public class KoLmafiaCLI
 				RequestLogger.printLine( "Internal item data checked." );
 				return;
 			}
-	
+
 			if ( command.equals( "checkeffects" ) )
 			{
 				DebugDatabase.checkEffects();
 				RequestLogger.printLine( "Internal status effect data checked." );
 				return;
 			}
-	
+
 			if ( command.equals( "checkplurals" ) )
 			{
 				int itemId = StringUtilities.parseInt( parameters );
@@ -1881,14 +1881,14 @@ public class KoLmafiaCLI
 				RequestLogger.printLine( "Plurals checked." );
 				return;
 			}
-	
+
 			if ( command.equals( "checkmodifiers" ) )
 			{
 				Modifiers.checkModifiers();
 				RequestLogger.printLine( "Modifiers checked." );
 				return;
 			}
-	
+
 			if ( command.equals( "checkconsumption" ) )
 			{
 				DebugDatabase.checkConsumptionData();
@@ -1911,11 +1911,11 @@ public class KoLmafiaCLI
 					BuffRequestFrame.ONLINE_VALIDATOR.addFormField( "playerid", String.valueOf( KoLCharacter.getUserId() ) );
 					BuffRequestFrame.ONLINE_VALIDATOR.addFormField( "pwd" );
 					BuffRequestFrame.ONLINE_VALIDATOR.addFormField( "graf", "/whois " + parameters );
-	
+
 					RequestThread.postRequest( BuffRequestFrame.ONLINE_VALIDATOR );
 					Matcher idMatcher =
 						Pattern.compile( "\\(#(\\d+)\\)" ).matcher( BuffRequestFrame.ONLINE_VALIDATOR.responseText );
-	
+
 					if ( idMatcher.find() )
 					{
 						KoLmafia.registerPlayer( parameters, idMatcher.group( 1 ) );
@@ -1938,7 +1938,7 @@ public class KoLmafiaCLI
 			}
 		}
 	}
-	
+
 	static { new Clear().register( "clear" ).register( "cls" ); }
 	public static class Clear
 		extends Command
@@ -1949,7 +1949,7 @@ public class KoLmafiaCLI
 			KoLConstants.commandBuffer.clearBuffer();
 		}
 	}
-	
+
 	static { new Abort().register( "abort" ); }
 	public static class Abort
 		extends Command
@@ -1960,7 +1960,7 @@ public class KoLmafiaCLI
 			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, parameters.length() == 0 ? "Script abort." : parameters );
 		}
 	}
-	
+
 	static { new Events().register( "events" ); }
 	public static class Events
 		extends Command
@@ -1978,7 +1978,7 @@ public class KoLmafiaCLI
 			}
 		}
 	}
-	
+
 	static { new ColorEcho().register( "colorecho" ).register( "cecho" ); }
 	public static class ColorEcho
 		extends Command
@@ -1999,7 +1999,7 @@ public class KoLmafiaCLI
 				parameters, "<", "&lt;" ) + "</font>" );
 		}
 	}
-	
+
 	static { new LogEcho().register( "logecho" ).register( "logprint" ); }
 	public static class LogEcho
 		extends Command
@@ -2018,7 +2018,7 @@ public class KoLmafiaCLI
 			RequestLogger.getSessionStream().println( " > " + parameters );
 		}
 	}
-	
+
 	static { new Echo().register( "echo" ).register( "print" ); }
 	public static class Echo
 		extends Command
@@ -2039,7 +2039,7 @@ public class KoLmafiaCLI
 		}
 
 	}
-	
+
 	static { new Autoattack().register( "aa" ).register( "autoattack" ); }
 	public static class Autoattack
 		extends Command
@@ -2051,7 +2051,7 @@ public class KoLmafiaCLI
 		}
 
 	}
-	
+
 	static { new Get().register( "get" ).register( "set" ); }
 	public static class Get
 		extends Command
@@ -2150,7 +2150,7 @@ public class KoLmafiaCLI
 			}
 		}
 	}
-	
+
 	static { new Login().register( "login" ); }
 	public static class Login
 		extends Command
@@ -2162,7 +2162,7 @@ public class KoLmafiaCLI
 			CLI.attemptLogin( parameters );
 		}
 	}
-	
+
 	static { new Logout().register( "logout" ); }
 	public static class Logout
 		extends Command
@@ -2173,7 +2173,7 @@ public class KoLmafiaCLI
 			KoLmafia.logout();
 		}
 	}
-	
+
 	static { new Exit().register( "exit" ).register( "quit" ); }
 	public static class Exit
 		extends Command
@@ -2184,7 +2184,7 @@ public class KoLmafiaCLI
 			KoLmafia.quit();
 		}
 	}
-	
+
 	static { new Namespace().register( "namespace" ); }
 	public static class Namespace
 		extends Command
@@ -2212,7 +2212,7 @@ public class KoLmafiaCLI
 			}
 		}
 	}
-	
+
 	static { new ASHref().register( "ashref" ); }
 	public static class ASHref
 		extends Command
@@ -2223,7 +2223,7 @@ public class KoLmafiaCLI
 			KoLmafiaASH.showExistingFunctions( parameters );
 		}
 	}
-	
+
 	static { new Using().register( "using" ); }
 	public static class Using
 		extends Command
@@ -2257,7 +2257,7 @@ public class KoLmafiaCLI
 			Preferences.setString( "commandLineNamespace", namespace.toString() );
 		}
 	}
-	
+
 	static { new Call().register( "verify" ).register( "validate" ).register( "check" )
 		.register( "call" ).register( "run" ).registerPrefix( "exec" )
 		.register( "load" ).register( "start" ); }
@@ -2270,7 +2270,7 @@ public class KoLmafiaCLI
 			CLI.executeScriptCommand( command, parameters );
 		}
 	}
-	
+
 	static { new Repeat().register( "repeat" ); }
 	public static class Repeat
 		extends Command
@@ -2291,7 +2291,7 @@ public class KoLmafiaCLI
 			}
 		}
 	}
-	
+
 	static { new Debug().register( "debug" ); }
 	public static class Debug
 		extends Command
@@ -2309,7 +2309,7 @@ public class KoLmafiaCLI
 			}
 		}
 	}
-	
+
 	static { new Mirror().registerSubstring( "mirror" ); }
 	public static class Mirror
 		extends Command
@@ -2333,7 +2333,7 @@ public class KoLmafiaCLI
 			}
 		}
 	}
-	
+
 	static { new Wiki().register( "wiki" ); }
 	public static class Wiki
 		extends Command
@@ -2345,7 +2345,7 @@ public class KoLmafiaCLI
 				StringUtilities.getURLEncode( parameters ) + "&go=Go" );
 		}
 	}
-	
+
 	static { new Lookup().register( "lookup" ); }
 	public static class Lookup
 		extends Command
@@ -2375,7 +2375,7 @@ public class KoLmafiaCLI
 				StringUtilities.getURLEncode( parameters ) + "&go=Go" );
 		}
 	}
-	
+
 	static { new Safe().register( "safe" ); }
 	public static class Safe
 		extends Command
@@ -2404,7 +2404,7 @@ public class KoLmafiaCLI
 			CLI.showHTML( "", buffer.toString() );
 		}
 	}
-	
+
 	static { new Monsters().register( "monsters" ); }
 	public static class Monsters
 		extends Command
@@ -2433,7 +2433,7 @@ public class KoLmafiaCLI
 			CLI.showHTML( "", buffer.toString() );
 		}
 	}
-	
+
 	static { new Breakfast().register( "breakfast" ); }
 	public static class Breakfast
 		extends Command
@@ -2444,7 +2444,7 @@ public class KoLmafiaCLI
 			BreakfastManager.getBreakfast( false, true );
 		}
 	}
-	
+
 	static { new Refresh().register( "refresh" ); }
 	public static class Refresh
 		extends Command
@@ -2494,7 +2494,7 @@ public class KoLmafiaCLI
 			CLI.showData( parameters );
 		}
 	}
-	
+
 	static { new Entryway().register( "entryway" ); }
 	public static class Entryway
 		extends Command
@@ -2512,7 +2512,7 @@ public class KoLmafiaCLI
 			}
 		}
 	}
-	
+
 	static { new Quest().register( "maze" ).registerPrefix( "hedge" )
 		.register( "tower" ).register( "guardians" ).register( "chamber" )
 		.register( "nemesis" )
@@ -2528,31 +2528,31 @@ public class KoLmafiaCLI
 				SorceressLairManager.completeHedgeMaze();
 				return;
 			}
-	
+
 			if ( command.equals( "tower" ) || command.equals( "guardians" ) || command.equals( "chamber" ) )
 			{
 				SorceressLairManager.fightAllTowerGuardians();
 				return;
 			}
-	
+
 			if ( command.equals( "nemesis" ) )
 			{
 				NemesisManager.faceNemesis();
 				return;
 			}
-	
+
 			if ( command.equals( "guild" ) )
 			{
 				StaticEntity.getClient().unlockGuildStore();
 				return;
 			}
-	
+
 			if ( command.equals( "gourd" ) )
 			{
 				StaticEntity.getClient().tradeGourdItems();
 				return;
 			}
-	
+
 			if ( command.equals( "tavern" ) )
 			{
 				StaticEntity.getClient().locateTavernFaucet();
@@ -2561,7 +2561,7 @@ public class KoLmafiaCLI
 			KoLmafia.updateDisplay( "What... is your quest?  [internal error]" );
 		}
 	}
-	
+
 	static { new Leaflet().register( "leaflet" ); }
 	public static class Leaflet
 		extends Command
@@ -2587,7 +2587,7 @@ public class KoLmafiaCLI
 			}
 		}
 	}
-	
+
 	static { new Train().register( "train" ); }
 	public static class Train
 		extends Command
@@ -2598,7 +2598,7 @@ public class KoLmafiaCLI
 			CLI.trainFamiliar( parameters );
 		}
 	}
-	
+
 	static { new Council().register( "council" ); }
 	public static class Council
 		extends Command
@@ -2612,7 +2612,7 @@ public class KoLmafiaCLI
 				CouncilFrame.COUNCIL_VISIT.responseText, "<a href=\"town.php\">Back to Seaside Town</a>", "" ) );
 		}
 	}
-	
+
 	static { new Cast().register( "cast" ).register( "skill" ); }
 	public static class Cast
 		extends Command
@@ -2630,7 +2630,7 @@ public class KoLmafiaCLI
 			CLI.showData( "skills" + (command.equals( "cast" ) ? " cast" : "") );
 		}
 	}
-	
+
 	static { new Up().register( "up" ); }
 	public static class Up
 		extends Command
@@ -2675,7 +2675,7 @@ public class KoLmafiaCLI
 			RequestLogger.printList( names );
 		}
 	}
-	
+
 	static { new Shrug().register( "shrug" ).register( "uneffect" ).register( "remedy" ); }
 	public static class Shrug
 		extends Command
@@ -2697,7 +2697,7 @@ public class KoLmafiaCLI
 			CLI.executeUneffectRequest( parameters );
 		}
 	}
-	
+
 	static { new Acquire().register( "find" ).register( "acquire" ).register( "retrieve" ); }
 	public static class Acquire
 		extends Command
@@ -2714,7 +2714,7 @@ public class KoLmafiaCLI
 			}
 		}
 	}
-	
+
 	static { new Fold().register( "fold" ).register( "squeeze" ); }
 	public static class Fold
 		extends Command
@@ -2769,7 +2769,7 @@ public class KoLmafiaCLI
 			SpecialOutfit.restoreImplicitCheckpoint();
 		}
 	}
-	
+
 	static { new Clan().register( "clan" ); }
 	public static class Clan
 		extends Command
@@ -2792,7 +2792,7 @@ public class KoLmafiaCLI
 			}
 		}
 	}
-	
+
 	static { new Bang().register( "!" ).register( "bang" ); }
 	public static class Bang
 		extends Command
@@ -2808,7 +2808,7 @@ public class KoLmafiaCLI
 			}
 		}
 	}
-	
+
 	static { new Insults().register( "insults" ); }
 	public static class Insults
 		extends Command
@@ -2848,7 +2848,7 @@ public class KoLmafiaCLI
 			RequestLogger.printLine( "Since you know " + count + " insult" + ( count == 1 ? "" : "s" ) + ", you have a " + KoLConstants.FLOAT_FORMAT.format( odds ) + "% chance of winning at Insult Beer Pong." );
 		}
 	}
-	
+
 	static { new Dusty().register( "dusty" ); }
 	public static class Dusty
 		extends Command
@@ -2865,7 +2865,7 @@ public class KoLmafiaCLI
 			}
 		}
 	}
-	
+
 	static { new Entity().register( "entity" ); }
 	public static class Entity
 		extends Command
@@ -2895,7 +2895,7 @@ public class KoLmafiaCLI
 			RequestLogger.printLine( "You've summoned " + name + " the " + type + " (" + experience + " exp) " + summons + " time" + ( summons != 1 ? "s" : "" ) + " today." );
 		}
 	}
-	
+
 	static { new Demons().register( "demons" ); }
 	public static class Demons
 		extends Command
@@ -2916,7 +2916,7 @@ public class KoLmafiaCLI
 			}
 		}
 	}
-	
+
 	static { new Summon().register( "summon" ); }
 	public static class Summon
 		extends Command
@@ -2970,7 +2970,7 @@ public class KoLmafiaCLI
 			RequestThread.enableDisplayIfSequenceComplete();
 		}
 	}
-	
+
 	static { new Use().register( "eat" ).register( "drink" ).register( "use" )
 		.register( "chew" ).register( "hobo" ).register( "ghost" ).register( "overdrink" ); }
 	public static class Use
@@ -2989,7 +2989,7 @@ public class KoLmafiaCLI
 			SpecialOutfit.restoreImplicitCheckpoint();
 		}
 	}
-	
+
 	static { new Zap().register( "zap" ); }
 	public static class Zap
 		extends Command
@@ -3001,7 +3001,7 @@ public class KoLmafiaCLI
 			CLI.makeZapRequest();
 		}
 	}
-	
+
 	static { new Smash().register( "smash" ).register( "pulverize" ); }
 	public static class Smash
 		extends Command
@@ -3012,7 +3012,7 @@ public class KoLmafiaCLI
 			CLI.makePulverizeRequest( parameters );
 		}
 	}
-	
+
 	static { new Create().register( "create" ).register( "make" ).register( "bake" )
 		.register( "mix" ).register( "smith" ).register( "tinker" ).register( "ply" ); }
 	public static class Create
@@ -3024,7 +3024,7 @@ public class KoLmafiaCLI
 			CLI.executeItemCreationRequest( parameters );
 		}
 	}
-	
+
 	static { new Untinker().register( "untinker" ); }
 	public static class Untinker
 		extends Command
@@ -3035,7 +3035,7 @@ public class KoLmafiaCLI
 			CLI.executeUntinkerRequest( parameters );
 		}
 	}
-	
+
 	static { new Automall().register( "automall" ); }
 	public static class Automall
 		extends Command
@@ -3046,7 +3046,7 @@ public class KoLmafiaCLI
 			CLI.makeAutoMallRequest();
 		}
 	}
-	
+
 	static { new Mallsell().register( "mallsell" ); }
 	public static class Mallsell
 		extends Command
@@ -3057,7 +3057,7 @@ public class KoLmafiaCLI
 			CLI.executeMallSellRequest( parameters );
 		}
 	}
-	
+
 	static { new Stash().register( "stash" ); }
 	public static class Stash
 		extends Command
@@ -3068,7 +3068,7 @@ public class KoLmafiaCLI
 			CLI.executeStashRequest( parameters );
 		}
 	}
-	
+
 	static { new Pull().register( "hagnk" ).register( "pull" ); }
 	public static class Pull
 		extends Command
@@ -3079,7 +3079,7 @@ public class KoLmafiaCLI
 			CLI.executeHagnkRequest( parameters );
 		}
 	}
-	
+
 	static { new Sell().register( "sell" ).register( "autosell" ); }
 	public static class Sell
 		extends Command
@@ -3090,7 +3090,7 @@ public class KoLmafiaCLI
 			CLI.executeSellStuffRequest( parameters );
 		}
 	}
-	
+
 	static { new Reprice().register( "reprice" ).register( "undercut" ); }
 	public static class Reprice
 		extends Command
@@ -3101,7 +3101,7 @@ public class KoLmafiaCLI
 			StaticEntity.getClient().priceItemsAtLowestPrice( true );
 		}
 	}
-	
+
 	static { new MCD().register( "mind-control" ).register( "mcd" ); }
 	public static class MCD
 		extends Command
@@ -3112,7 +3112,7 @@ public class KoLmafiaCLI
 			CLI.executeMindControlRequest( parameters );
 		}
 	}
-	
+
 	static { new Mushroom().register( "field" ); }
 	public static class Mushroom
 		extends Command
@@ -3123,7 +3123,7 @@ public class KoLmafiaCLI
 			CLI.executeMushroomCommand( parameters );
 		}
 	}
-	
+
 	static { new Telescope().register( "telescope" ); }
 	public static class Telescope
 		extends Command
@@ -3134,7 +3134,7 @@ public class KoLmafiaCLI
 			CLI.executeTelescopeRequest( parameters );
 		}
 	}
-	
+
 	static { new Adv().registerPrefix( "adv" ); }
 	public static class Adv
 		extends Command
@@ -3145,7 +3145,7 @@ public class KoLmafiaCLI
 			CLI.executeAdventureRequest( parameters );
 		}
 	}
-	
+
 	static { new Donate().register( "donate" ); }
 	public static class Donate
 		extends Command
@@ -3156,7 +3156,7 @@ public class KoLmafiaCLI
 			CLI.executeDonateCommand( parameters );
 		}
 	}
-	
+
 	static { new Stickers().registerPrefix( "sticker" ); }
 	public static class Stickers
 		extends Command
@@ -3180,7 +3180,7 @@ public class KoLmafiaCLI
 			}
 		}
 	}
-	
+
 	static {
 		new Equip().register( "equip" ).register( "wear" ).register( "wield" );
 		new AliasCmd( "equip", "off-hand" ).register( "second" ).register( "hold" )
@@ -3195,7 +3195,7 @@ public class KoLmafiaCLI
 			CLI.executeEquipCommand( parameters );
 		}
 	}
-	
+
 	static { new Unequip().register( "unequip" ).register( "remove" ); }
 	public static class Unequip
 		extends Command
@@ -3206,7 +3206,7 @@ public class KoLmafiaCLI
 			CLI.executeUnequipCommand( parameters );
 		}
 	}
-	
+
 	static { new Familiar().register( "familiar" ); }
 	public static class Familiar
 		extends Command
@@ -3317,7 +3317,7 @@ public class KoLmafiaCLI
 			}
 		}
 	}
-	
+
 	static { new Closet().register( "closet" ); }
 	public static class Closet
 		extends Command
@@ -3339,7 +3339,7 @@ public class KoLmafiaCLI
 			CLI.executeClosetManageRequest( parameters );
 		}
 	}
-	
+
 	static { new Display().register( "display" ); }
 	public static class Display
 		extends Command
@@ -3350,7 +3350,7 @@ public class KoLmafiaCLI
 			CLI.executeDisplayCaseRequest( parameters );
 		}
 	}
-	
+
 	static { new Checkpoint().register( "checkpoint" ); }
 	public static class Checkpoint
 		extends Command
@@ -3363,7 +3363,7 @@ public class KoLmafiaCLI
 			RequestThread.enableDisplayIfSequenceComplete();
 		}
 	}
-	
+
 	static { new Outfit().register( "outfit" ); }
 	public static class Outfit
 		extends Command
@@ -3390,7 +3390,7 @@ public class KoLmafiaCLI
 			CLI.executeChangeOutfitCommand( parameters );
 		}
 	}
-	
+
 	static { new Buy().register( "buy" ).register( "mallbuy"); }
 	public static class Buy
 		extends Command
@@ -3403,7 +3403,7 @@ public class KoLmafiaCLI
 			SpecialOutfit.restoreImplicitCheckpoint();
 		}
 	}
-	
+
 	static { new Buffbot().register( "buffbot" ); }
 	public static class Buffbot
 		extends Command
@@ -3414,7 +3414,7 @@ public class KoLmafiaCLI
 			CLI.executeBuffBotCommand( parameters );
 		}
 	}
-	
+
 	static { new SearchMall().register( "searchmall" ); }
 	public static class SearchMall
 		extends Command
@@ -3539,7 +3539,7 @@ public class KoLmafiaCLI
 				StoreManager.getMallPrice( (AdventureResult) o2 );
 		}
 	}
-	
+
 	static { new Quark().register( "quark" ); }
 	public static class Quark
 		extends Command
@@ -3557,7 +3557,7 @@ public class KoLmafiaCLI
 			if ( !KoLCharacter.inMuscleSign() )
 			{
 				AdventureResult paste = ItemPool.get( ItemPool.MEAT_PASTE, 1 );
-	
+
 				if ( !InventoryManager.retrieveItem( paste ) )
 				{
 					KoLmafia.updateDisplay( "Can't afford gluons." );
@@ -3640,7 +3640,7 @@ public class KoLmafiaCLI
 				( (AdventureResult) o1 ).getCount();
 		}
 	}
-	
+
 	static { new Attack().register( "pvp" ).register( "attack" ); }
 	public static class Attack
 		extends Command
@@ -3720,7 +3720,7 @@ public class KoLmafiaCLI
 			RequestThread.closeRequestSequence();
 		}
 	}
-	
+
 	static { new Flowers().register( "flowers" ); }
 	public static class Flowers
 		extends Command
@@ -3731,7 +3731,7 @@ public class KoLmafiaCLI
 			PvpManager.executeFlowerHuntRequest();
 		}
 	}
-	
+
 	static { new PvPLog().registerPrefix( "pvplog" ); }
 	public static class PvPLog
 		extends Command
@@ -3742,7 +3742,7 @@ public class KoLmafiaCLI
 			PvpManager.summarizeFlowerHunterData();
 		}
 	}
-	
+
 	static { new Galaktik().register( "galaktik" ); }
 	public static class Galaktik
 		extends Command
@@ -3753,7 +3753,7 @@ public class KoLmafiaCLI
 			CLI.executeGalaktikRequest( parameters );
 		}
 	}
-	
+
 	static { new Grandpa().register( "grandpa" ); }
 	public static class Grandpa
 		extends Command
@@ -3764,7 +3764,7 @@ public class KoLmafiaCLI
 			CLI.executeGrandpaRequest( parameters );
 		}
 	}
-	
+
 	static { new Hermit().register( "hermit" ); }
 	public static class Hermit
 		extends Command
@@ -3775,7 +3775,7 @@ public class KoLmafiaCLI
 			CLI.executeHermitRequest( parameters );
 		}
 	}
-	
+
 	static { new HiddenCity().register( "hiddencity" ); }
 	public static class HiddenCity
 		extends Command
@@ -3786,7 +3786,7 @@ public class KoLmafiaCLI
 			CLI.executeHiddenCityRequest( parameters );
 		}
 	}
-	
+
 	static { new Raffle().register( "raffle" ); }
 	public static class Raffle
 		extends Command
@@ -3797,7 +3797,7 @@ public class KoLmafiaCLI
 			CLI.executeRaffleRequest( parameters );
 		}
 	}
-	
+
 	static { new Styx().register( "styx" ); }
 	public static class Styx
 		extends Command
@@ -3808,7 +3808,7 @@ public class KoLmafiaCLI
 			CLI.executeStyxRequest( parameters );
 		}
 	}
-	
+
 	static { new Concert().register( "concert" ); }
 	public static class Concert
 		extends Command
@@ -3819,7 +3819,7 @@ public class KoLmafiaCLI
 			CLI.executeArenaRequest( parameters );
 		}
 	}
-	
+
 	static { new Friars().register( "friars" ); }
 	public static class Friars
 		extends Command
@@ -3830,7 +3830,7 @@ public class KoLmafiaCLI
 			CLI.executeFriarRequest( parameters );
 		}
 	}
-	
+
 	static { new Nuns().register( "nuns" ); }
 	public static class Nuns
 		extends Command
@@ -3841,7 +3841,7 @@ public class KoLmafiaCLI
 			CLI.executeNunsRequest( parameters );
 		}
 	}
-	
+
 	static { new MPItems().register( "mpitems" ); }
 	public static class MPItems
 		extends Command
@@ -3853,7 +3853,7 @@ public class KoLmafiaCLI
 			RequestLogger.printLine( restores + " mana restores remaining." );
 		}
 	}
-	
+
 	static { new Recover().registerPrefix( "restore" ).registerPrefix( "recover" )
 		.registerPrefix( "check" ); }
 	public static class Recover
@@ -3890,7 +3890,7 @@ public class KoLmafiaCLI
 			KoLmafia.recoveryActive = wasRecoveryActive;
 		}
 	}
-	
+
 	static { new Trigger().registerPrefix( "trigger" ); }
 	public static class Trigger
 		extends Command
@@ -3930,7 +3930,7 @@ public class KoLmafiaCLI
 			RequestLogger.printList( MoodManager.getTriggers() );
 		}
 	}
-	
+
 	static { new Mood().registerPrefix( "mood" ); }
 	public static class Mood
 		extends Command
@@ -4003,7 +4003,7 @@ public class KoLmafiaCLI
 			}
 		}
 	}
-	
+
 	static { new Restaurant().register( "restaurant" ).registerSubstring( "brewery" ); }
 	public static class Restaurant
 		extends Command
@@ -4021,7 +4021,7 @@ public class KoLmafiaCLI
 			}
 		}
 	}
-	
+
 	static { new Kitchen().registerSubstring( "kitchen" ); }
 	public static class Kitchen
 		extends Command
@@ -4032,7 +4032,7 @@ public class KoLmafiaCLI
 			CLI.makeHellKitchenRequest( parameters );
 		}
 	}
-	
+
 	static {
 		new Camp().registerPrefix( "camp" ); 
 		new AliasCmd( "campground", "rest" ).register( "rest" );
@@ -4048,7 +4048,7 @@ public class KoLmafiaCLI
 				parameters.length == 1 ? 1 : StringUtilities.parseInt( parameters[ 1 ] ) );
 		}
 	}
-	
+
 	static { new Sofa().register( "sofa" ).register( "sleep" ); }
 	public static class Sofa
 		extends Command
@@ -4059,7 +4059,7 @@ public class KoLmafiaCLI
 			RequestThread.postRequest( ( new ClanRumpusRequest( ClanRumpusRequest.SOFA ) ).setTurnCount( StringUtilities.parseInt( parameters ) ) );
 		}
 	}
-	
+
 	static { new Send().register( "send" ).register( "kmail" ).register( "csend" ); }
 	public static class Send
 		extends Command
@@ -4076,7 +4076,7 @@ public class KoLmafiaCLI
 			CLI.executeSendRequest( parameters, cmd.equals( "csend" ) );
 		}
 	}
-	
+
 	static {
 		new AliasCmd( "skills", "buff" ).registerPrefix( "buff" );
 		new AliasCmd( "skills", "passive" ).registerPrefix( "pass" );
@@ -4100,7 +4100,7 @@ public class KoLmafiaCLI
 			CLI.executeCommand( this.actualCmd, (this.actualParams + " " + parameters).trim() );
 		}
 	}
-	
+
 	static { new Counters().register( "counters" ); }
 	public static class Counters
 		extends Command
@@ -4146,7 +4146,7 @@ public class KoLmafiaCLI
 			CLI.showData( "counters" );
 		}
 	}
-	
+
 	static { new ShowData().registerPrefix( "inv" ).register( "storage" )
 		.register( "session" ).register( "summary" ).register( "effects" ).register( "status" )
 		.register( "skills" ).register( "locations" ).register( "encounters" )
@@ -4160,7 +4160,7 @@ public class KoLmafiaCLI
 			CLI.showData( cmd + " " + parameters );
 		}
 	}
-	
+
 	static { new Location().register( "location" ); }
 	public static class Location
 		extends Command
@@ -4182,7 +4182,7 @@ public class KoLmafiaCLI
 			AdventureDatabase.addAdventure( adventure );
 		}
 	}
-	
+
 	static { new Help().register( "help" ); }
 	public static class Help
 		extends Command
@@ -4293,7 +4293,7 @@ public class KoLmafiaCLI
 			}
 		}
 	}
-	
+
 	static { new Spade().register( "spade" ); }
 	public static class Spade
 		extends Command
@@ -4323,7 +4323,7 @@ public class KoLmafiaCLI
 			Preferences.setString( "spadingData", "" );
 		}
 	}
-	
+
 	static { new Budget().register( "budget" ); }
 	public static class Budget
 		extends Command
@@ -4340,7 +4340,7 @@ public class KoLmafiaCLI
 				+ " pulls remaining." );
 		}
 	}
-	
+
 	public void showHTML( final String location, final String text )
 	{
 		// Remove HTML header and comments.
@@ -5886,7 +5886,7 @@ public class KoLmafiaCLI
 			}
 		}
 	}
-	
+
 	private static final String getStickerText( AdventureResult item, int turns )
 	{
 		if ( !item.equals( EquipmentRequest.UNEQUIP ) )
@@ -6250,7 +6250,7 @@ public class KoLmafiaCLI
 			}
 		}
 	}
-	
+
 	private String locateItem( String name )
 	{
 		AdventureResult item = ItemPool.get( name, 1 );

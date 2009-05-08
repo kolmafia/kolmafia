@@ -3936,11 +3936,11 @@
 3935	hyperinflated seal lung	multiple	display	75
 3936	scrap of shadow	multiple	display	100
 3937	fustulent seal grulch	multiple	display	100
-3938
-3939
-3940
-3941
-3942
+3938	club of corruption	weapon	display	25
+3939	corrupt club of corruption	weapon	display	45
+3940	corrupt club of corrupt corruption	weapon	display	85
+3941	evil-ass club	weapon	all	100
+3942	nasty-ass club	weapon	all	100
 3943	infernal toilet brush	weapon	all	155
 3944	shadowy seal eye	offhand	all	200
 3945	oyster egg balloon	offhand	display	50

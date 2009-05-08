@@ -33,6 +33,8 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.lang.CharSequence;
+
 import java.util.HashMap;
 
 import java.util.regex.Matcher;
@@ -509,51 +511,6 @@ public class DwarfFactoryRequest
 		return number;
 	}
 
-	public static int parseSporranLights( final String text )
-	{
-		int number = 0;
-		Matcher matcher= DwarfFactoryRequest.COLOR_PATTERN.matcher( text );
-		while ( matcher.find() )
-		{
-			String color = matcher.group(1);
-			int digit = -1;
-			if ( color.equals( "red" ) )
-			{
-				digit = 0;
-			}
-			else if ( color.equals( "orange" ) )
-			{
-				digit = 1;
-			}
-			else if ( color.equals( "yellow" ) )
-			{
-				digit = 2;
-			}
-			else if ( color.equals( "green" ) )
-			{
-				digit = 3;
-			}
-			else if ( color.equals( "blue" ) )
-			{
-				digit = 4;
-			}
-			else if ( color.equals( "indigo" ) )
-			{
-				digit = 5;
-			}
-			else if ( color.equals( "violet" ) )
-			{
-				digit = 6;
-			}
-			else
-			{
-				return -1;
-			}
-			number = ( number * 7 ) + digit;
-		}
-		return number;
-	}
-
 	public static void useUnlaminatedItem( final int itemId, final String responseText )
 	{
 		Matcher matcher = DwarfFactoryRequest.getRuneMatcher( responseText );
@@ -675,6 +632,130 @@ public class DwarfFactoryRequest
 		}
 
 		return false;
+	}
+
+	// Module to parse special messages from Dwarvish War Uniform items
+
+	private static final Pattern DWARF_MATTOCK_PATTERN =
+		Pattern.compile( "<p>Your mattock glows (really\\s+)*bright blue.</p>");
+	private static final Pattern REALLY_PATTERN = Pattern.compile( "really" );
+
+	public static Matcher hpMessage( final CharSequence responseText )
+	{
+		Matcher mattockMatcher = DwarfFactoryRequest.DWARF_MATTOCK_PATTERN.matcher( responseText );
+		return mattockMatcher.find() ? mattockMatcher : null;
+	}
+
+	public static int deduceHP( final CharSequence responseText )
+	{
+		Matcher mattockMatcher = DwarfFactoryRequest.hpMessage( responseText );
+		if ( mattockMatcher == null )
+		{
+			return 0;
+		}
+		return DwarfFactoryRequest.deduceHP( mattockMatcher );
+	}
+
+	public static int deduceHP( final Matcher mattockMatcher )
+	{
+		Matcher reallyMatcher = REALLY_PATTERN.matcher( mattockMatcher.group( 0 ) );
+		int count = 0;
+		while ( reallyMatcher.find() )
+		{
+			++count;
+		}
+
+		return 0;
+	}
+
+	private static final Pattern DWARF_HELMET_PATTERN =
+		Pattern.compile( "<p>A small crystal lens flips down.*?</p>" );
+
+	public static Matcher attackMessage( final CharSequence responseText )
+	{
+		Matcher helmetMatcher = DwarfFactoryRequest.DWARF_HELMET_PATTERN.matcher( responseText );
+		return helmetMatcher.find() ? helmetMatcher : null;
+	}
+
+	public static int deduceAttack( final CharSequence responseText )
+	{
+		Matcher helmetMatcher = DwarfFactoryRequest.attackMessage( responseText );
+		if ( helmetMatcher == null )
+		{
+			return 0;
+		}
+		return DwarfFactoryRequest.deduceAttack( helmetMatcher );
+	}
+
+	public static int deduceAttack( final Matcher helmetMatcher )
+	{
+		String runes = DwarfFactoryRequest.getRunes( helmetMatcher.group(0) );
+		return DwarfFactoryRequest.parseNumber( runes );
+	}
+
+	public static final Pattern DWARF_KILT_PATTERN =
+		Pattern.compile( "<p>.*?our sporran.*?</p>" );
+
+	public static Matcher defenseMessage( final CharSequence responseText )
+	{
+		Matcher kiltMatcher = DwarfFactoryRequest.DWARF_KILT_PATTERN.matcher( responseText );
+		return kiltMatcher.find() ? kiltMatcher : null;
+	}
+
+	public static int deduceDefense( final CharSequence responseText )
+	{
+		Matcher kiltMatcher = DwarfFactoryRequest.defenseMessage( responseText );
+		if ( kiltMatcher == null )
+		{
+			return 0;
+		}
+		return DwarfFactoryRequest.deduceDefense( kiltMatcher );
+	}
+
+	public static int deduceDefense( final Matcher kiltMatcher )
+	{
+		Matcher matcher= DwarfFactoryRequest.COLOR_PATTERN.matcher( kiltMatcher.group(0) );
+		int number = 0;
+
+		while ( matcher.find() )
+		{
+			String color = matcher.group(1);
+			int digit = -1;
+			if ( color.equals( "red" ) )
+			{
+				digit = 0;
+			}
+			else if ( color.equals( "orange" ) )
+			{
+				digit = 1;
+			}
+			else if ( color.equals( "yellow" ) )
+			{
+				digit = 2;
+			}
+			else if ( color.equals( "green" ) )
+			{
+				digit = 3;
+			}
+			else if ( color.equals( "blue" ) )
+			{
+				digit = 4;
+			}
+			else if ( color.equals( "indigo" ) )
+			{
+				digit = 5;
+			}
+			else if ( color.equals( "violet" ) )
+			{
+				digit = 6;
+			}
+			else
+			{
+				return -1;
+			}
+			number = ( number * 7 ) + digit;
+		}
+		return number;
 	}
 
 	// Module to check whether you've found everything you need

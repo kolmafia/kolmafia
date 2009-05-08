@@ -3941,11 +3941,11 @@
 3935	608346700	hyperinflated seal lung
 3936	957359410	scrap of shadow
 3937	437391098	fustulent seal grulch
-3938
-3939
-3940
-3941
-3942
+3938	369414311	club of corruption	clubs of corruption
+3939	224434534	corrupt club of corruption
+3940	271242868	corrupt club of corrupt corruption
+3941	928232713	evil-ass club
+3942	122463231	nasty-ass club
 3943	326325786	infernal toilet brush
 3944	492331399	shadowy seal eye	shadowy seal eyes
 3945	975224635	oyster egg balloon

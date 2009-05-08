@@ -3505,7 +3505,10 @@ public abstract class KoLmafia
 			}
 		}
 
-		RequestThread.postRequest( new ClosetRequest( ClosetRequest.INVENTORY_TO_CLOSET, closetList.toArray() ) );
+		if ( closetList.size() > 0 )
+		{
+			RequestThread.postRequest( new ClosetRequest( ClosetRequest.INVENTORY_TO_CLOSET, closetList.toArray() ) );
+		}
 
 		do
 		{
