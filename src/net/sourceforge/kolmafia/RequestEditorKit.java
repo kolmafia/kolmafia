@@ -62,6 +62,7 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase.Monster;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.request.ChatRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
+import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.MoonPhaseRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
@@ -465,6 +466,7 @@ public class RequestEditorKit
 
 		if ( location.indexOf( "menu.php" ) != -1 )
 		{
+			StringUtilities.singleStringReplace( buffer, "logout.php", "/KoLmafia/executeCommand?cmd=logout&pwd=" + GenericRequest.passwordHash );
 			MoonPhaseRequest.decorate( buffer );
 			return;
 		}
@@ -819,6 +821,33 @@ public class RequestEditorKit
 			String message = "<tr><td colspan=2>" + RequestEditorKit.advertisingMessage() + "</td></tr>";
 			flyerIndex = buffer.indexOf( "</tr>", flyerIndex );
 			buffer.insert( flyerIndex + 5, message );
+		}
+
+		Matcher matcher = DwarfFactoryRequest.attackMessage( buffer );
+		if ( matcher != null )
+		{
+			String message = matcher.group( 0 );
+			int attack = DwarfFactoryRequest.deduceAttack( matcher );
+			int index = buffer.indexOf( message ) + message.length();
+			buffer.insert( index, "<p>(Attack rating = " + attack + ")</p>" );
+		}
+
+		matcher = DwarfFactoryRequest.defenseMessage( buffer );
+		if ( matcher != null )
+		{
+			String message = matcher.group( 0 );
+			int defense = DwarfFactoryRequest.deduceDefense( matcher );
+			int index = buffer.indexOf( message ) + message.length();
+			buffer.insert( index, "<p>(Defense rating = " + defense + ")</p>" );
+		}
+
+		matcher = DwarfFactoryRequest.hpMessage( buffer );
+		if ( matcher != null )
+		{
+			String message = matcher.group( 0 );
+			int hp = DwarfFactoryRequest.deduceHP( matcher );
+			int index = buffer.indexOf( message ) + message.length();
+			buffer.insert( index, "<p>(Hit Points = " + hp + ")</p>" );
 		}
 
 		switch ( KoLAdventure.lastAdventureId() )

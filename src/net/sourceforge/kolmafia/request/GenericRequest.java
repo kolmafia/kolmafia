@@ -1328,6 +1328,22 @@ public class GenericRequest
 			return true;
 		}
 
+		if ( this.redirectLocation.startsWith( "login.php" ) )
+		{
+			if ( this.formURLString.startsWith( "logout.php" ) )
+			{
+				return true;
+			}
+
+			if ( LoginRequest.executeTimeInRequest( this.getURLString(), this.redirectLocation ) )
+			{
+				this.dataChanged = true;
+				return false;
+			}
+
+			return true;
+		}
+
 		if ( this.shouldFollowRedirect() )
 		{
 			// Re-setup this request to follow the redirect
@@ -1362,22 +1378,6 @@ public class GenericRequest
 			// fight, but it did.  Notify the user.
 
 			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Redirected to a fight page." );
-			return true;
-		}
-
-		if ( this.redirectLocation.startsWith( "login.php" ) )
-		{
-			if ( this instanceof LogoutRequest )
-			{
-				return true;
-			}
-
-			if ( LoginRequest.executeTimeInRequest( this.getURLString(), this.redirectLocation ) )
-			{
-				this.dataChanged = true;
-				return false;
-			}
-
 			return true;
 		}
 

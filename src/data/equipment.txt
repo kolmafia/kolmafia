@@ -497,9 +497,12 @@ clockwork staff	80	Mys: 25	2-handed staff
 clockwork sword	80	Mus: 25	2-handed sword
 clown hammer	10	Mus: 0	1-handed club
 clown whip	10	Mus: 0	1-handed whip
+club of corruption	20	Mus: 0	1-handed club
 club of the five seasons	150	Mus: 60	1-handed club
 cool whip	10	Mus: 0	1-handed whip
 corn holder	20	Mys: 0	1-handed utensil
+corrupt club of corruption	40	Mus: 0	1-handed club
+corrupt club of corrupt corruption	80	Mus: 0	1-handed club
 costume sword	10	Mus: 0	1-handed sword
 crazy bastard sword	125	Mus: 25	1-handed sword
 creepy-ass club	160	Mus: 65	2-handed club
@@ -535,6 +538,7 @@ eXtreme meat sword	60	Mus: 15	2-handed sword
 eggbeater	25	Mys: 0	1-handed utensil
 elven whittling knife	100	Mus: 35	1-handed knife
 especially homoerotic frat-paddle	150	Mus: 60	1-handed club
+evil-ass club	160	Mus: 65	2-handed club
 fetus-smashing club	200	Mus: 85	2-handed club
 filthy pestle	60	Mys: 15	1-handed utensil
 finger cymbals	65	Mox: 17	1-handed cymbals
@@ -610,6 +614,7 @@ mannequin leg	110	Mus: 40	1-handed club
 massive sitar	190	Mox: 80	2-handed sitar
 meatspout staff	125	Mus: 45	2-handed staff
 muculent machete	60	Mus: 15	1-handed sword
+nasty-ass club	160	Mus: 65	2-handed club
 ninja mop	90	Mus: 30	2-handed polearm
 non-stick pugil stick	200	Mus: 85	2-handed club
 obsidian dagger	30	Mus: 10	1-handed knife
