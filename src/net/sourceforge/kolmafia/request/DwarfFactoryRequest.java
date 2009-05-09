@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.request;
 
 import java.lang.CharSequence;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import java.util.regex.Matcher;
@@ -154,7 +155,7 @@ public class DwarfFactoryRequest
 
 			boolean won = meatMatcher.group(1).equals( "gain" );
 			int meat = StringUtilities.parseInt( meatMatcher.group( 2 ) ) / 7;
-                        String meat7 = String.valueOf( meat / 7 ) + String.valueOf( meat % 7 );
+			String meat7 = String.valueOf( meat / 7 ) + String.valueOf( meat % 7 );
 
 			Matcher runeMatcher = DwarfFactoryRequest.getRuneMatcher( responseText );
 			String first = DwarfFactoryRequest.getRune( runeMatcher ) + DwarfFactoryRequest.getRune( runeMatcher );
@@ -844,16 +845,73 @@ public class DwarfFactoryRequest
 
 	public static void solve()
 	{
+		// If we've already set the digits this session, we're golden
+		if ( DwarfFactoryRequest.digits != null )
+		{
+			if ( DwarfFactoryRequest.digits.valid() )
+			{
+				return;
+			}
+
+			DwarfFactoryRequest.digits = null;
+		}
+
+		// Read the digits from the preference, if any
 		String digits = DwarfFactoryRequest.getDigits();
 		DwarfNumberTranslator translator = new DwarfNumberTranslator( digits );
-		if ( !translator.valid() )
+		if ( translator.valid() )
 		{
-			DwarfFactoryRequest.digits = null;
-			RequestLogger.printLine( "Unable to determine digits" );
+			DwarfFactoryRequest.digits = translator;
 			return;
 		}
 
-		DwarfFactoryRequest.digits = translator;
+		// Here's where we solve it.
+
+		// Step 1: try to deduce what we can from the laminated items
+		String[] laminated = getLaminatedNumbers();
+
+		// Step 2: iterate over saved dice rules, deducing what we can
+		String[] rolls = getDiceRolls();
+
+		// No digits available
+		DwarfFactoryRequest.digits = null;
+		RequestLogger.printLine( "Unable to determine digits" );
+	}
+
+	private static String[] getLaminatedNumbers()
+	{
+		ArrayList numbers = new ArrayList();
+		DwarfFactoryRequest.getLaminatedNumbers( numbers, "lastDwarfOfficeItem3208" );
+		DwarfFactoryRequest.getLaminatedNumbers( numbers, "lastDwarfOfficeItem3209" );
+		DwarfFactoryRequest.getLaminatedNumbers( numbers, "lastDwarfOfficeItem3210" );
+		DwarfFactoryRequest.getLaminatedNumbers( numbers, "lastDwarfOfficeItem3211" );
+		return (String[])numbers.toArray( new String[ numbers.size() ] );
+	}
+
+	private static void getLaminatedNumbers( ArrayList list, String settingName )
+	{
+		// lastDwarfOfficeItem3208=B,HGIG,MGDE,PJD
+		// lastDwarfOfficeItem3209=O,HGAA,MGAG,PGEA
+		// lastDwarfOfficeItem3210=J,HFJ,MGED,PGAG
+		// lastDwarfOfficeItem3211=Q,HGE,MGGI,PGG
+
+		String setting = Preferences.getString( settingName );
+		String[] splits = setting.split( "," );
+		if ( splits.length != 4 )
+		{
+			return;
+		}
+
+		for ( int i = 1; i <= 3; ++i )
+		{
+			list.add( splits[i].substring(1) );
+		}
+	}
+
+	private static String[] getDiceRolls()
+	{
+		String rolls = Preferences.getString( "lastDwarfDiceRolls" );
+		return rolls.split( ":" );
 	}
 
 	// Module to report on what we've gleaned about the factory quest
@@ -982,7 +1040,7 @@ public class DwarfFactoryRequest
 		public DwarfNumberTranslator( final String digits )
 		{
 			// Make a map from dwarf digit rune to base 7 digit
-			for ( int i = 0; i < 7; ++i )
+			for ( int i = 0; i < digits.length(); ++i )
 			{
 				char digit = digits.charAt( i );
 				this.digitMap.put( new Character( digit ), new Integer( i ) );
@@ -1032,8 +1090,8 @@ public class DwarfFactoryRequest
 
 		public FactoryData( final DwarfNumberTranslator digits )
 		{
-                        // Get a Dwarf Number Translator
-                        this.digits = digits;
+			// Get a Dwarf Number Translator
+			this.digits = digits;
 
 			// Make maps from dwarf word rune to itemId and vice versa
 			for ( int i = 0; i < DwarfFactoryRequest.ITEMS.length; ++i )
