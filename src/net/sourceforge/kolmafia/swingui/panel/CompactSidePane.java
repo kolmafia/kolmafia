@@ -48,6 +48,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JProgressBar;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -75,6 +76,8 @@ public class CompactSidePane
 	private JLabel hoboLabel, hoboPowerLabel;
 	private JPopupMenu modPopup;
 	private JLabel modPopLabel;
+	
+	private static final AdventureResult CLUMSY = new AdventureResult( "Clumsy", 1, true );
 
 	public CompactSidePane()
 	{
@@ -424,7 +427,11 @@ public class CompactSidePane
 		buf.append( "<br>MP " );
 		buf.append( KoLCharacter.getRestingMP() );
 		buf.append( "</td></tr><tr><td>Fumble</td><td>" );
-		if ( KoLCharacter.currentBooleanModifier( Modifiers.NEVER_FUMBLE ) )
+		if ( KoLConstants.activeEffects.contains( CompactSidePane.CLUMSY ) )
+		{
+			buf.append( "always" );
+		}
+		else if ( KoLCharacter.currentBooleanModifier( Modifiers.NEVER_FUMBLE ) )
 		{
 			buf.append( "never" );
 		}
