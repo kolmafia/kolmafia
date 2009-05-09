@@ -98,6 +98,7 @@ public class FightRequest
 	private static String lostInitiative = "";
 	private static String wonInitiative = "";
 	private static int preparatoryRounds = 0;
+	private static String consultScriptThatDidNothing = null;
 
 	public static String lastResponseText = "";
 	private static boolean isTrackingFights = false;
@@ -451,9 +452,21 @@ public class FightRequest
 					FightRequest.lastResponseText
 				} );
 
-				if ( KoLmafia.refusesContinue() || initialRound == FightRequest.currentRound )
+				if ( KoLmafia.refusesContinue() )
 				{
 					FightRequest.action1 = "abort";
+				}
+				else if ( initialRound == FightRequest.currentRound )
+				{
+					if ( FightRequest.action1.equals( FightRequest.consultScriptThatDidNothing ) )
+					{
+						FightRequest.action1 = "abort";
+					}
+					else
+					{
+						FightRequest.consultScriptThatDidNothing = FightRequest.action1;
+						--FightRequest.preparatoryRounds;
+					}
 				}
 
 				return;
@@ -2360,6 +2373,7 @@ public class FightRequest
 
 		FightRequest.currentRound = 0;
 		FightRequest.preparatoryRounds = 0;
+		FightRequest.consultScriptThatDidNothing = null;
 	}
 
 	private static final int getActionCost()
