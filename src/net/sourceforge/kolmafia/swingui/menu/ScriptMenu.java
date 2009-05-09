@@ -144,12 +144,12 @@ public class ScriptMenu
 	
 		for ( int i = 0; i < scriptList.length; ++i )
 		{
-			if ( !ScriptMenu.shouldAddScript( scriptList[ i ] ) )
+			if ( ScriptMenu.shouldAddScript( scriptList[ i ] ) )
 			{
-				return false;
+				return true;
 			}
 		}
 	
-		return true;
+		return false;
 	}
 }
