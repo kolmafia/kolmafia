@@ -1591,6 +1591,12 @@ public class KoLmafiaCLI
 				DwarfFactoryRequest.setDigits( digits );
 				return;
 			}
+
+			if ( option.equals( "solve" ) )
+			{
+				DwarfFactoryRequest.solve();
+				return;
+			}
 		}
 	}
 
