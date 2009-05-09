@@ -1696,12 +1696,16 @@ public class GenericRequest
 		String urlString = this.getURLString();
 
 		// If this is a lucky adventure, then remove a clover
-		// from the player's inventory -- this will occur when
-		// you see either "Your ten-leaf clover" or "your
-		// ten-leaf clover" (shorten to "our ten-leaf clover"
-		// for substring matching)
+		// from the player's inventory,
+		//
+		// Most places, this is signaled by the message "Your (or your)
+		// ten-leaf clover disappears in a puff of smoke."
+		//
+		// In the Sorceress's entryway, the message is "You see a puff
+		// of smoke come from your sack, and catch a whiff of burnt
+		// clover"
 
-		if ( this.responseText.indexOf( "our ten-leaf clover" ) != -1 && this.responseText.indexOf( "puff of smoke" ) != -1 )
+		if ( this.responseText.indexOf( "clover" ) != -1 && this.responseText.indexOf( "puff of smoke" ) != -1 )
 		{
 			ResultProcessor.processItem( ItemPool.TEN_LEAF_CLOVER, -1 );
 		}
