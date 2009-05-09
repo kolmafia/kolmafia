@@ -369,48 +369,33 @@ public class AdventureDatabase
 				(KoLAdventure) AdventureDatabase.adventureLookup.get( "sewer.php?doodit=1" );
 		}
 
-		int index = adventureURL.indexOf( "&confirm=on" );
-		if ( index != -1 )
-		{
-			adventureURL = adventureURL.substring( 0, index ) +
-				adventureURL.substring( index + 11 );
-		}
-
-		// Relay requests can have the entire password hash
-		index = adventureURL.indexOf( "pwd=" );
-		if ( index != -1 )
-		{
-			adventureURL = adventureURL.substring( 0, index ) +
-				adventureURL.substring( index + 36 );
-		}
-
-		// Internal requests can have simply the field name
-		index = adventureURL.indexOf( "&pwd" );
-		if ( index != -1 )
-		{
-			adventureURL = adventureURL.substring( 0, index ) +
-				adventureURL.substring( index + 4 );
-		}
-
-		// Removing the password hash can leave us with either "?&" or "&&"
-		index = adventureURL.indexOf( "?&" );
-		if ( index != -1 )
-		{
-			adventureURL = adventureURL.substring( 0, index + 1 ) +
-				adventureURL.substring( index + 2 );
-		}
-
-		index = adventureURL.indexOf( "&&" );
-		if ( index != -1 )
-		{
-			adventureURL = adventureURL.substring( 0, index + 1 ) +
-				adventureURL.substring( index + 2 );
-		}
+		adventureURL = AdventureDatabase.removeField( adventureURL, "confirm=on" );
+		adventureURL = AdventureDatabase.removeField( adventureURL, "pwd" );
 
 		KoLAdventure location = (KoLAdventure) AdventureDatabase.adventureLookup.get( adventureURL );
 		return location == null ||
 			location.getRequest() instanceof ClanRumpusRequest ||
 			location.getRequest() instanceof RichardRequest ? null : location;
+	}
+
+	public static final String removeField( final String urlString, final String field )
+	{
+		int start = urlString.indexOf( field );
+		if ( start == -1 )
+		{
+			return urlString;
+		}
+
+		int end = urlString.indexOf( "&", start );
+		if ( end == -1 )
+		{
+			String prefix = urlString.substring( 0, start - 1 );
+			return prefix;
+		}
+
+		String prefix = urlString.substring( 0, start );
+		String suffix = urlString.substring( end + 1 );
+		return prefix + suffix;
 	}
 
 	public static final KoLAdventure getAdventure( final String adventureName )
