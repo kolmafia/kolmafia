@@ -93,6 +93,13 @@ public class DwarfFactoryRequest
 		ItemPool.MATTOCK,
 	};
 
+	private static DwarfNumberTranslator digits = null;
+
+	public static void reset()
+	{
+		DwarfFactoryRequest.digits = null;
+	}
+
 	public DwarfFactoryRequest()
 	{
 		super( "dwarffactory.php" );
@@ -147,14 +154,28 @@ public class DwarfFactoryRequest
 
 			boolean won = meatMatcher.group(1).equals( "gain" );
 			int meat = StringUtilities.parseInt( meatMatcher.group( 2 ) ) / 7;
+                        String meat7 = String.valueOf( meat / 7 ) + String.valueOf( meat % 7 );
 
 			Matcher runeMatcher = DwarfFactoryRequest.getRuneMatcher( responseText );
 			String first = DwarfFactoryRequest.getRune( runeMatcher ) + DwarfFactoryRequest.getRune( runeMatcher );
 			String second = DwarfFactoryRequest.getRune( runeMatcher ) + DwarfFactoryRequest.getRune( runeMatcher );
-			String message = ( won ? second : first ) + "-" + ( won ? first : second ) + "=" + ( meat / 7 ) + ( meat % 7 );
+
+			String message;
+			if ( won )
+			{
+				message = second + "-" + first + "=" + meat7;
+			}
+			else
+			{
+				message = first + "-" +	 second + "=" + meat7;
+			}
 
 			RequestLogger.printLine( message );
 			RequestLogger.updateSessionLog( message );
+
+			KoLCharacter.ensureUpdatedDwarfFactory();
+			String dice = Preferences.getString( "lastDwarfDiceRolls" );
+			Preferences.setString( "lastDwarfDiceRolls", dice + message + ":" );
 
 			return;
 		}
@@ -484,31 +505,17 @@ public class DwarfFactoryRequest
 
 	public static int parseNumber( final String runes )
 	{
-		return DwarfFactoryRequest.parseNumber( runes, Preferences.getString( "lastDwarfDigitRunes" ) );
+		if ( DwarfFactoryRequest.digits == null )
+		{
+			DwarfFactoryRequest.digits = new DwarfNumberTranslator();
+		}
+		return DwarfFactoryRequest.digits.parseNumber( runes );
 	}
 
 	public static int parseNumber( final String runes, final String digits )
 	{
-		HashMap digitMap = new HashMap();
-
-		// Make a map from dwarf digit rune to base 7 digit
-		for ( int i = 0; i < 7; ++i )
-		{
-			char digit = digits.charAt( i );
-			digitMap.put( new Character( digit ), new Integer( i ) );
-		}
-
-		int number = 0;
-		for ( int i = 0; i < runes.length(); ++i )
-		{
-			Integer val = (Integer) digitMap.get( new Character( runes.charAt( i ) ) );
-			if ( val == null )
-			{
-				return -1;
-			}
-			number = ( number * 7 ) + val.intValue();
-		}
-		return number;
+		DwarfNumberTranslator translator = new DwarfNumberTranslator( digits );
+		return translator.parseNumber( runes );
 	}
 
 	public static void useUnlaminatedItem( final int itemId, final String responseText )
@@ -833,11 +840,32 @@ public class DwarfFactoryRequest
 		}
 	}
 
+	// Module to solve the digit code
+
+	public static void solve()
+	{
+		String digits = DwarfFactoryRequest.getDigits();
+		DwarfNumberTranslator translator = new DwarfNumberTranslator( digits );
+		if ( !translator.valid() )
+		{
+			DwarfFactoryRequest.digits = null;
+			RequestLogger.printLine( "Unable to determine digits" );
+			return;
+		}
+
+		DwarfFactoryRequest.digits = translator;
+	}
+
 	// Module to report on what we've gleaned about the factory quest
 
 	public static void report()
 	{
-		DwarfFactoryRequest.report( Preferences.getString( "lastDwarfDigitRunes" ) );
+		DwarfFactoryRequest.solve();
+		if ( DwarfFactoryRequest.digits == null )
+		{
+			return;
+		}
+		DwarfFactoryRequest.report( DwarfFactoryRequest.digits );
 	}
 
 	public static void report( final String digits )
@@ -845,6 +873,17 @@ public class DwarfFactoryRequest
 		if ( digits.length() != 7 )
 		{
 			RequestLogger.printLine( "Digit string must have 7 characters" );
+			return;
+		}
+		DwarfNumberTranslator translator = new DwarfNumberTranslator( digits );
+		DwarfFactoryRequest.report( translator );
+	}
+
+	private static void report( final DwarfNumberTranslator digits )
+	{
+		if ( !digits.valid() )
+		{
+			RequestLogger.printLine( "Invalid or incomplete digit set" );
 			return;
 		}
 
@@ -931,13 +970,53 @@ public class DwarfFactoryRequest
 		RequestLogger.printLine();
 	}
 
+	public static class DwarfNumberTranslator
+	{
+		private final HashMap digitMap = new HashMap();
+
+		public DwarfNumberTranslator()
+		{
+			this( DwarfFactoryRequest.getDigits() );
+		}
+
+		public DwarfNumberTranslator( final String digits )
+		{
+			// Make a map from dwarf digit rune to base 7 digit
+			for ( int i = 0; i < 7; ++i )
+			{
+				char digit = digits.charAt( i );
+				this.digitMap.put( new Character( digit ), new Integer( i ) );
+			}
+		}
+
+		public boolean valid()
+		{
+			return this.digitMap.size() == 7;
+		}
+
+		public int parseNumber( final String string )
+		{
+			int number = 0;
+			for ( int i = 0; i < string.length(); ++i )
+			{
+				Integer val = (Integer) this.digitMap.get( new Character( string.charAt( i ) ) );
+				if ( val == null )
+				{
+					return -1;
+				}
+				number = ( number * 7 ) + val.intValue();
+			}
+			return number;
+		}
+	}
+
 	public static class FactoryData
 	{
 		public static final int HAT = 0;
 		public static final int PANTS = 1;
 		public static final int WEAPON = 2;
 
-		private HashMap digitMap = new HashMap();
+		private DwarfNumberTranslator digits;
 		private HashMap itemMap = new HashMap();
 		private HashMap runeMap = new HashMap();
 
@@ -951,14 +1030,10 @@ public class DwarfFactoryRequest
 		private int [][] oreQuantities = new int[3][4];
 		private int [][] gaugeSettings = new int[3][4];
 
-		public FactoryData( final String digits )
+		public FactoryData( final DwarfNumberTranslator digits )
 		{
-			// Make a map from dwarf digit rune to base 7 digit
-			for ( int i = 0; i < 7; ++i )
-			{
-				char digit = digits.charAt( i );
-				this.digitMap.put( new Character( digit ), new Integer( i ) );
-			}
+                        // Get a Dwarf Number Translator
+                        this.digits = digits;
 
 			// Make maps from dwarf word rune to itemId and vice versa
 			for ( int i = 0; i < DwarfFactoryRequest.ITEMS.length; ++i )
@@ -1133,7 +1208,7 @@ public class DwarfFactoryRequest
 					continue;
 				}
 
-				int number = this.parseNumber( splits[i].substring(1) );
+				int number = this.digits.parseNumber( splits[i].substring(1) );
 				this.setGaugeSetting( item, hopper, number );
 			}
 		}
@@ -1171,24 +1246,9 @@ public class DwarfFactoryRequest
 					continue;
 				}
 
-				int number = this.parseNumber( splits[i].substring(1) );
+				int number = this.digits.parseNumber( splits[i].substring(1) );
 				this.setOreQuantity( item, hopper, number );
 			}
-		}
-
-		private int parseNumber( final String string )
-		{
-			int number = 0;
-			for ( int i = 0; i < string.length(); ++i )
-			{
-				Integer val = (Integer) this.digitMap.get( new Character( string.charAt( i ) ) );
-				if ( val == null )
-				{
-					return -1;
-				}
-				number = ( number * 7 ) + val.intValue();
-			}
-			return number;
 		}
 	}
 }

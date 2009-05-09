@@ -55,6 +55,7 @@ import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
+import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -534,6 +535,7 @@ public abstract class KoLCharacter
 		MicroBreweryRequest.reset();
 		HellKitchenRequest.reset();
 
+		DwarfFactoryRequest.reset();
 		InventoryManager.resetInventory();
 		EquipmentManager.resetEquipment();
 		ConcoctionDatabase.refreshConcoctions();
@@ -3151,6 +3153,7 @@ public abstract class KoLCharacter
 		if ( lastAscension < KoLCharacter.getAscensions() )
 		{
 			Preferences.setInteger( "lastDwarfFactoryReset", KoLCharacter.getAscensions() );
+			Preferences.setString( "lastDwarfDiceRolls", "" );
 			Preferences.setString( "lastDwarfDigitRunes", "" );
 			Preferences.setString( "lastDwarfEquipmentRunes", "" );
 			Preferences.setString( "lastDwarfHopper1", "" );
@@ -3176,6 +3179,7 @@ public abstract class KoLCharacter
 			Preferences.setString( "lastDwarfOfficeItem3213", "" );
 			Preferences.setString( "lastDwarfOfficeItem3214", "" );
 			Preferences.setString( "lastDwarfOreRunes", "" );
+			DwarfFactoryRequest.reset();
 		}
 	}
 
