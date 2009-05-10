@@ -907,7 +907,7 @@ public class DwarfFactoryRequest
 	private static String[] getUnlaminatedNumbers()
 	{
 		ArrayList numbers = new ArrayList();
-                // lastDwarfOfficeItem3212=H,QEG,BFD,OJI,JED
+		// lastDwarfOfficeItem3212=H,QEG,BFD,OJI,JED
 		DwarfFactoryRequest.getItemNumbers( numbers, ItemPool.DWARVISH_DOCUMENT, 4 );
 		DwarfFactoryRequest.getItemNumbers( numbers, ItemPool.DWARVISH_PAPER, 4 );
 		DwarfFactoryRequest.getItemNumbers( numbers, ItemPool.DWARVISH_PARCHMENT, 4 );
@@ -1114,6 +1114,16 @@ public class DwarfFactoryRequest
 		{
 			this.digitMap.put( code, val );
 			this.charMap.put( val, code );
+		}
+
+		public Integer getDigit( final Character code )
+		{
+			return (Integer) this.digitMap.get( code );
+		}
+
+		public Integer getDigit( final char c )
+		{
+			return this.getDigit( new Character( c ) );
 		}
 
 		public String digitString()
@@ -1336,31 +1346,16 @@ public class DwarfFactoryRequest
 			// Save current size of array
 			rollCount = this.rolls.size();
 
-			// Determine how many variables we need to solve for
-			int known = this.digitMap.size();
-
-			// If we already know all the digits, nothing to do
-			if ( known == 7 )
-			{
-				return;
-			}
-
-			// See if we currently know the digit for zero, since
-			// that's a special case: a roll of "00" equals 49
-			Character z = (Character)this.charMap.get( new Integer( 0 ) );
-
 			while ( true )
 			{
-				// Analyze the rolls
-				this.analyzeRolls( z ); 
+				// Find how many variables are known
+				int known = this.digitMap.size();
 
-				// If we deduced nothing new, we are done
-				if ( known == this.digitMap.size() )
+				// If we know all the digits, nothing to do
+				if ( known == 7 )
 				{
 					return;
 				}
-
-				known = this.digitMap.size();
 
 				// If we have learned all but one, we can
 				// deduce the last one
@@ -1371,24 +1366,74 @@ public class DwarfFactoryRequest
 					return;
 				}
 
-				// We learned something! But if we already knew
-				// zero, that's all we can do right now
-				if ( z != null )
+				// Make a linear system to analyze the rolls
+				LinearSystem system = this.makeSystem();
+
+				// Solve it
+				system.calculate();
+
+				// If we deduced nothing new, we are done
+				if ( known == this.digitMap.size() )
 				{
 					return;
 				}
 
-				// If we learned zero, we need to try again,
-				// since we can now use the doubles.
-				z = (Character)this.charMap.get( new Integer( 0 ) );
-				if ( z == null )
+				// We learned something! Try again; if we
+				// learned zero, we can now use doubles.
+			}
+		}
+
+		private void deduceLastDigit()
+		{
+			// Only do this if we know all but one of the digits
+			// and all the characters which are used as digits.
+			if ( this.digitMap.size() != 6 || this.digits.size() != 7 )
+			{
+				return;
+			}
+
+			// Find the character we have not used for a digit
+			Character code = null;
+			for ( int i = 0; i < 7; ++i )
+			{
+				Character c = (Character)this.digits.get( i );
+				if ( !this.digitMap.containsKey( c ) )
 				{
+					code = c;
+					break;
+				}
+			}
+
+			// Find the digit we have not identified
+			for ( int i = 0; i < 7; ++i )
+			{
+				Integer val = new Integer( i );
+				if ( this.charMap.get( val ) == null )
+				{
+					this.mapCharacter( code, val );
 					return;
 				}
 			}
 		}
 
-		private void analyzeRolls( final Character zero)
+		private LinearSystem makeSystem()
+		{
+			// Iterate until we stop learning variables by simple
+			// substitution.
+			while ( true )
+			{
+				// The digit for zero is special: a roll of
+				// "00" equals 49
+				Character z = (Character)this.charMap.get( new Integer( 0 ) );
+				LinearSystem system = this.makeSystem( z );
+				if ( system != null )
+				{
+					return system;
+				}
+			}
+		}
+
+		private LinearSystem makeSystem( final Character zero)
 		{
 			// Make a list of variables
 			ArrayList variables = new ArrayList();
@@ -1427,60 +1472,50 @@ public class DwarfFactoryRequest
 				// zero is, we can't make that conversion, so
 				// skip all doubles until we learn 0.
 
-				if ( zero == null && d1 == d2 )
+				if ( d1 == d2 )
 				{
-					continue;
+					if ( zero == null )
+					{
+						continue;
+					}
+
+					// The linear equation solver doesn't
+					// know that 00 is 49. Adjust sum.
+					if ( d1 == zero.charValue() )
+					{
+						val -= 49;
+					}
 				}
 
+				int known = this.digitMap.size();
 				system.addEquation( 7, d1, 1, d2, -7, d3, -1, d4, val );
-			}
 
-			// We've added the equations to the linear system.
-			// Calculate!
-			system.calculate();
-		}
+				// If adding an equation found a variable by
+				// substitution, punt, since that could make
+				// already added equations simpler.
 
-		private void deduceLastDigit()
-		{
-			// Only do this if we know all but one of the digits
-			// and all the characters which are used as digits.
-			if ( this.digitMap.size() != 6 || this.digits.size() != 7 )
-			{
-				return;
-			}
-
-			// Find the character we have not used for a digit
-			Character code = null;;
-			for ( int i = 0; i < 7; ++i )
-			{
-				Character c = (Character)this.digits.get( i );
-				if ( !this.digitMap.containsKey( c ) )
+				if ( known != this.digitMap.size() )
 				{
-					code = c;
-					break;
+					return null;
 				}
 			}
 
-			// Find the digit we have not identified
-			for ( int i = 0; i < 7; ++i )
-			{
-				Integer val = new Integer( i );
-				if ( this.charMap.get( val ) == null )
-				{
-					this.mapCharacter( code, val );
-					return;
-				}
-			}
+			return system;
 		}
 
 		private class LinearSystem
 		{
+			private final int vcount;
 			private final Character[] variables;
+			private final int[] counts;
+			private final ArrayList equations;
 
 			public LinearSystem( final ArrayList variables )
 			{
-				int vcount = variables.size();
-				this.variables = (Character[]) variables.toArray( new Character[ vcount ] );
+				this.vcount = variables.size();
+				this.variables = (Character[]) variables.toArray( new Character[ this.vcount ] );
+				this.counts = new int[ this.vcount ];
+				this.equations = new ArrayList();
 			}
 
 			public void addEquation( final int c1, final char v1,
@@ -1489,10 +1524,135 @@ public class DwarfFactoryRequest
 						 final int c4, final char v4,
 						 final int val )
 			{
+				int[] equation = new int[ this.vcount + 1];
+
+				// Store the sum first, since we will adjust it.
+				equation[ this.vcount ] = val;
+
+				// Store or substitute all the variables
+				this.addVariable( equation, c1, v1 );
+				this.addVariable( equation, c2, v2 );
+				this.addVariable( equation, c3, v3 );
+				this.addVariable( equation, c4, v4 );
+
+				// If we only have one variable unsubstituted
+				// in this equation, we've discovered a new
+				// digit.
+
+				int offset = -1;
+				for ( int i = 0; i < this.vcount; ++i )
+				{
+					// Skip unused variables
+					if ( equation[i] == 0 )
+					{
+						continue;
+					}
+
+					// At least two unknown variables.
+					// Register equation.
+					if ( offset != -1 )
+					{
+						this.equations.add( equation );
+						return;
+					}
+
+					// This variable is unknown
+					offset = i;
+				}
+
+				// If there is only one unsubstituted variable,
+				// register the new digit.
+				if ( offset != -1 )
+				{
+					char code = this.variables[ offset ].charValue();
+					int i = equation[ this.vcount ] / equation [ offset ];
+
+					DwarfNumberTranslator.this.mapCharacter( code, i );
+				}
+
+				// All the variables in this equation are
+				// already known. Ignore it.
+			}
+
+			public void addVariable( final int[] equation, final int c1, final char v1 )
+			{
+				Integer digit = DwarfNumberTranslator.this.getDigit( v1 );
+				// If this is a known variable, substitute
+				if ( digit != null )
+				{
+					int val = c1 * digit.intValue();
+					equation[ this.vcount ] -= val;
+					return;
+				}
+
+				// This is an unknown variable. Find it in the
+				// list.
+
+				for ( int i = 0; i < this.vcount; ++i )
+				{
+					if ( v1 == this.variables[ i ].charValue() )
+					{
+						equation[ i ] += c1;
+						return;
+					}
+				}
 			}
 
 			public void calculate()
 			{
+				if ( vcount == 0 || equations.size() == 0 )
+				{
+					return;
+				}
+
+				// Count rows that use each variable
+				for ( int col = 0; col < this.vcount; ++col )
+				{
+					this.counts[col] = this.countRows( col );
+				}
+			}
+
+			private int countRows( final int column )
+			{
+				int count = 0;
+				for ( int i = 0; i < this.equations.size(); ++i )
+				{
+					int [] equation = (int[])this.equations.get( i );
+					if ( equation[ column ] != 0 )
+					{
+						count++;
+					}
+				}
+				return count;
+			}
+
+			private void swapRows( final int row1, final int row2 )
+			{
+				Object temp = this.equations.get( row1 );
+				this.equations.set( row1, this.equations.get( row2 ) );
+				this.equations.set( row2, temp );
+			}
+
+			private void swapColumns( final int col1, final int col2 )
+			{
+				// Swap columns in all equations
+				for ( int i = 0; i < this.equations.size(); ++i )
+				{
+					int[] equation = (int[]) this.equations.get( i );
+					int temp = equation[ col1 ];
+					equation[ col1 ] = equation[ col2 ];
+					equation[ col2 ] = temp;
+				}
+
+				// Swap columns in equation counts
+				int count = this.counts[ col1 ];
+				this.counts[ col1 ] = this.counts[ col2 ];
+				this.counts[ col2 ] = count;
+					
+				// Swap columns in variables
+				Character var =	 this.variables[ col1 ];
+				this.variables[ col1 ] = this.variables[ col2 ];
+				this.variables[ col2 ] = var;
 			}
 		}
 	}
