@@ -1155,10 +1155,6 @@ public abstract class SorceressLairManager
 			if ( SorceressLairManager.QUEST_HANDLER.responseText.indexOf( "prepreaction" ) != -1 )
 			{
 				RequestThread.postRequest( SorceressLairManager.QUEST_HANDLER.constructURLString( "lair2.php?prepreaction=skel" ) );
-				if ( useCloverForSkeleton && SorceressLairManager.isItemAvailable( SorceressLairManager.CLOVER ) )
-				{
-					ResultProcessor.processResult( SorceressLairManager.CLOVER.getNegation() );
-				}
 			}
 		}
 		while ( SorceressLairManager.QUEST_HANDLER.responseText.indexOf( "looks like I owe you a beating" ) != -1 );
