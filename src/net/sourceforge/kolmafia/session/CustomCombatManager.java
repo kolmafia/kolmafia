@@ -694,6 +694,11 @@ public abstract class CustomCombatManager
 			return "skip";
 		}
 
+		if ( action.startsWith( "note" ) )
+		{
+			return action;
+		}
+
 		if ( action.equals( "summon ghost" ) )
 		{
 			return "summon pastamancer ghost";
@@ -837,7 +842,7 @@ public abstract class CustomCombatManager
 			return "special";
 		}
 
-		if ( action.equals( "skip" ) )
+		if ( action.equals( "skip" ) || action.startsWith( "note" ) )
 		{
 			return "skip";
 		}
