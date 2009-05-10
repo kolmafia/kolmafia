@@ -49,7 +49,7 @@
 48	The Smile of Mr. A.	gma.gif	59e9f58e87d531b3ef613515a3417210	use 1 box of sunshine
 49	Macho Profundo	notes.gif	a02c6fb27a3f9f4bf2c48d59584adc56	use 1 mafia aria
 50	Empathy	empathy.gif	ac32e95f470a7e0999863fa0db58d808	cast 1 Empathy of the Newt
-51	Tenacity of the Snapper	turtle.gif	c05dc4b01f6f2826be599f07620979f7	cast 1 Tenacity of the Snapper
+51	Tenacity of the Snapper	snapper.gif	c05dc4b01f6f2826be599f07620979f7	cast 1 Tenacity of the Snapper
 52	Astral Shell	blackshell.gif	4e66acac6b908fb6f70b49092dcff375	cast 1 Astral Shell
 53	Elemental Saucesphere	elesphere.gif	e3d1d1099648703e192a55a9aea17a1e	cast 1 Elemental Saucesphere
 54	Jalape&ntilde;o Saucesphere	pepsphere.gif	432fc725db5720e9237438147bc6516e	cast 1 Jalape&ntilde;o Saucesphere
@@ -58,18 +58,18 @@
 57	Rainy Soul Miasma	raincloud.gif	a47ef21c02a4b8ba3b1da929f4566934	use 1 thin black candle
 58	Teleportitis	confused.gif	cb5404472a27b435aa6fad1ba528b1b8	use 1 potion of teleportitis
 59	Wanged	wang.gif	0f35dcc9f22cd0ee2e6ef690c3512a01
-60	Aloysius' Antiphon of Aptitude	notes.gif	3f875f7c9c4cc7b64f4c7d7b7eea1ef6	cast 1 Aloysius' Antiphon of Aptitude
-61	The Moxious Madrigal	notes.gif	c77eb3298c1bcba5e0147eba77a5a802	cast 1 The Moxious Madrigal
-62	Cletus's Canticle of Celerity	notes.gif	fe25963fb651fc5d81ed5a098b509030	cast 1 Cletus's Canticle of Celerity
-63	Polka of Plenty	notes.gif	c26a911b8ec2c57f7eef57f9ff5fdc24	cast 1 The Polka of Plenty
-64	The Magical Mojomuscular Melody	notes.gif	80224f21d262123e7e370d440ce36937	cast 1 The Magical Mojomuscular Melody
-65	Power Ballad of the Arrowsmith	notes.gif	695f24467176d2e76738e7c5e1148a42	cast 1 The Power Ballad of the Arrowsmith
-66	Brawnee's Anthem of Absorption	notes.gif	bcbbb5a02c92d158e45fd9c736950380	cast 1 Brawnee's Anthem of Absorption
-67	Fat Leon's Phat Loot Lyric	notes.gif	63e73adb3ecfb0cbf544db435eeeaf00	cast 1 Fat Leon's Phat Loot Lyric
-68	Psalm of Pointiness	notes.gif	5abc19b33b53e0cb7749472a07311c6a	cast 1 The Psalm of Pointiness
-69	Jackasses' Symphony of Destruction	notes.gif	fca62260f2f750e32f104f868ed1a3a5	cast 1 Jackasses' Symphony of Destruction
-70	Stevedave's Shanty of Superiority	notes.gif	2e5a803cf1be5b3d2aaa897e60f29138	cast 1 Stevedave's Shanty of Superiority
-71	Ode to Booze	notes.gif	626c8ef76cfc003c6ac2e65e9af5fd7a	cast 1 The Ode to Booze
+60	Aloysius' Antiphon of Aptitude	antiphon.gif	3f875f7c9c4cc7b64f4c7d7b7eea1ef6	cast 1 Aloysius' Antiphon of Aptitude
+61	The Moxious Madrigal	madrigal.gif	c77eb3298c1bcba5e0147eba77a5a802	cast 1 The Moxious Madrigal
+62	Cletus's Canticle of Celerity	celerity.gif	fe25963fb651fc5d81ed5a098b509030	cast 1 Cletus's Canticle of Celerity
+63	Polka of Plenty	plenty.gif	c26a911b8ec2c57f7eef57f9ff5fdc24	cast 1 The Polka of Plenty
+64	The Magical Mojomuscular Melody	mojomusc.gif	80224f21d262123e7e370d440ce36937	cast 1 The Magical Mojomuscular Melody
+65	Power Ballad of the Arrowsmith	arrowsmith.gif	695f24467176d2e76738e7c5e1148a42	cast 1 The Power Ballad of the Arrowsmith
+66	Brawnee's Anthem of Absorption	brawnees.gif	bcbbb5a02c92d158e45fd9c736950380	cast 1 Brawnee's Anthem of Absorption
+67	Fat Leon's Phat Loot Lyric	fatleons.gif	63e73adb3ecfb0cbf544db435eeeaf00	cast 1 Fat Leon's Phat Loot Lyric
+68	Psalm of Pointiness	psalm.gif	5abc19b33b53e0cb7749472a07311c6a	cast 1 The Psalm of Pointiness
+69	Jackasses' Symphony of Destruction	jackasses.gif	fca62260f2f750e32f104f868ed1a3a5	cast 1 Jackasses' Symphony of Destruction
+70	Stevedave's Shanty of Superiority	superiority.gif	2e5a803cf1be5b3d2aaa897e60f29138	cast 1 Stevedave's Shanty of Superiority
+71	Ode to Booze	odetobooze.gif	626c8ef76cfc003c6ac2e65e9af5fd7a	cast 1 The Ode to Booze
 72	Sleeping with the Fishes	sleepy.gif	5285075ac41f4e239008e57f0b11e193
 73	Ticking Clock	clock.gif	6e54ea1584f2410c94c93032c5a038f0	use 1 cheap wind-up clock
 74	Fresh Scent	happy.gif	a12c86c626c44ecd48540d1e55bf1204	use either 1 chunk of rock salt, 1 deodorant
@@ -160,9 +160,9 @@
 159	Spooky Weapon	skull.gif	d774d576335ec8cc8c061e6891ff41c5	use 1 spooky nugget
 160	Stinky Weapon	stench.gif	c927edbace02490d4c66ee8271c64e2e	use 1 stench nugget
 161	Sleazy Weapon	dripsword.gif	fe75c03d60169594193a0733c513a853	use 1 sleaze nugget
-162	The Sonata of Sneakiness	notes.gif	b757f23feb7f08bd250f63586e03cf4a	cast 1 The Sonata of Sneakiness
-163	Carlweather's Cantata of Confrontation	notes.gif	06e123f9b46d3d180c97efc5ab0ad150	cast 1 Carlweather's Cantata of Confrontation
-164	Ur-Kel's Aria of Annoyance	notes.gif	59a1ac48440e1ea1f869f2b37753f9cc	cast 1 Ur-Kel's Aria of Annoyance
+162	The Sonata of Sneakiness	sonata.gif	b757f23feb7f08bd250f63586e03cf4a	cast 1 The Sonata of Sneakiness
+163	Carlweather's Cantata of Confrontation	cantata.gif	06e123f9b46d3d180c97efc5ab0ad150	cast 1 Carlweather's Cantata of Confrontation
+164	Ur-Kel's Aria of Annoyance	urkels.gif	59a1ac48440e1ea1f869f2b37753f9cc	cast 1 Ur-Kel's Aria of Annoyance
 165	Smooth Movements	footprints.gif	173a9c4b4bbef78643fe4ec1a93b1cfc	cast 1 Smooth Movement
 166	Musk of the Moose	stench.gif	5e788aac76c7451c42ce19d2acf6de18	cast 1 Musk of the Moose
 167	Spirit of Cayenne	flame.gif	050dd88888b1ac9a2192cd71fd175a45	cast 1 Spirit of Cayenne
@@ -223,7 +223,7 @@
 222	Snarl of the Timberwolf	wolfmask.gif	2968e9397d3aa977b8cb3e9817ad8cdd	cast 1 Snarl of the Timberwolf
 223	Dreams and Lights	snowflakes.gif	360467118bd69ef869a1af2002117e63
 224	Scarysauce	skullshld.gif	f7551a889b9c61510fc3f73f96ecc98e	cast 1 Scarysauce
-225	Dirge of Dreadfulness	notes.gif	6121ba486d7ad86165d117ea62794d09	cast 1 Dirge of Dreadfulness
+225	Dirge of Dreadfulness	dirge.gif	6121ba486d7ad86165d117ea62794d09	cast 1 Dirge of Dreadfulness
 226	Talking Like a Pirate	piratehead.gif	defbfe64c65b2d495dc0133506223c1f	use 1 can of Binarrrca
 227	The 'Tussin	happy.gif	295f414c903d22c44ec2f92f789cad71	use 1 bottle of Vangoghbitussin
 228	Pie in the Face	pieface.gif	9c9794f2ff9a0fcb1090c281c2c442f1
@@ -528,11 +528,11 @@
 527	Carrion' On	bonepile.gif	447b7c96f0e5c93fb9a64f92850f0b3e	use 1 glimmering buzzard feather
 528	Melancholy Burden	blackbird1.gif	99d1d6de637d4289842cba0ffc2aec19	use 1 glimmering raven feather
 529	The Great Tit's Blessing	wink.gif	429a69b3cdc061390828454dd06b6825	use 1 glimmering great tit feather
-530	The Ballad of Richie Thingfinder	notes.gif	ff0e9ff0189cea375f60b5860463518d	cast 1 The Ballad of Richie Thingfinder
-531	Benetton's Medley of Diversity	notes.gif	c8d08f07fdafe4308601d97322ca69dd	cast 1 Benetton's Medley of Diversity
-532	Elron's Explosive Etude	notes.gif	26318ef7c75a6bf1fa80584e2e8941b3	cast 1 Elron's Explosive Etude
-533	Chorale of Companionship	notes.gif	e9227c476b197f54d5fe6be5e52995b5	cast 1 Chorale of Companionship
-534	Prelude of Precision	notes.gif	3f442b411c8d73c4116db7b89669b852	cast 1 Prelude of Precision
+530	The Ballad of Richie Thingfinder	richie.gif	ff0e9ff0189cea375f60b5860463518d	cast 1 The Ballad of Richie Thingfinder
+531	Benetton's Medley of Diversity	medley.gif	c8d08f07fdafe4308601d97322ca69dd	cast 1 Benetton's Medley of Diversity
+532	Elron's Explosive Etude	etude.gif	26318ef7c75a6bf1fa80584e2e8941b3	cast 1 Elron's Explosive Etude
+533	Chorale of Companionship	chorale.gif	e9227c476b197f54d5fe6be5e52995b5	cast 1 Chorale of Companionship
+534	Prelude of Precision	prelude.gif	3f442b411c8d73c4116db7b89669b852	cast 1 Prelude of Precision
 535	Deadly Lampblade	blacksword.gif	32cfd91b38e4cfd44a05d368aec7cf48	use 1 deadly lampshade
 536	Drenched With Filth	blooddrops.gif	0bae503909ac0e2a21763466adf33d29	use 1 concentrated garbage juice
 537	Hobonic	hobohead.gif	1a4b9db2f98937c155609f54c14cdf7c
@@ -612,7 +612,7 @@
 611	Lustful Heart	heart.gif	35a0e93898e18f500d1d0c7eec8e8ef1	use 1 love song of naughty innuendo
 612	Clumsy	sad.gif	63fa9abd19f2d77636e52d591b54f589	use 1 concoction of clumsiness
 613	Spectral	specjelly.gif	810bbc77f3ef220d9d77ed395b9cc70c	use 1 spectral jelly
-614	Donho's Bubbly Ballad	notes.gif	3337ba138b0e4d48f070bca9711139b5	cast 1 Donho's Bubbly Ballad
+614	Donho's Bubbly Ballad	bubblyballad.gif	3337ba138b0e4d48f070bca9711139b5	cast 1 Donho's Bubbly Ballad
 615	Antihangover	martini.gif	eadafbbe6d035eb5a36408dfbb1c85cc	use 1 hair of the fish
 616
 617	Old School Pompadour	pompadour.gif	aff568fdc12724deb962ebcb00e81fb9	use 1 jellyfish gel
