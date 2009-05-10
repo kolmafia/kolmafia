@@ -178,6 +178,9 @@ public class DwarfFactoryRequest
 			String dice = Preferences.getString( "lastDwarfDiceRolls" );
 			Preferences.setString( "lastDwarfDiceRolls", dice + message + ":" );
 
+			// Crack the digit code!~
+			DwarfFactoryRequest.solve();
+
 			return;
 		}
 	}
@@ -494,13 +497,18 @@ public class DwarfFactoryRequest
 		return matcher.group( 2 );
 	}
 
-	public static String getDigits()
+	private static String getDigits()
 	{
 		return Preferences.getString( "lastDwarfDigitRunes" );
 	}
 
-	public static void setDigits( final String digits )
+	private static void setDigits()
 	{
+		if ( DwarfFactoryRequest.digits == null )
+		{
+			return;
+		}
+		String digits = DwarfFactoryRequest.digits.digitString();
 		Preferences.setString( "lastDwarfDigitRunes", digits );
 	}
 
@@ -845,67 +853,108 @@ public class DwarfFactoryRequest
 
 	public static void solve()
 	{
-		// If we've already set the digits this session, we're golden
-		if ( DwarfFactoryRequest.digits != null )
+		// If we don't currently have a digit translator, create one
+		// from the preference
+		if ( DwarfFactoryRequest.digits == null )
 		{
-			if ( DwarfFactoryRequest.digits.valid() )
-			{
-				return;
-			}
-
-			DwarfFactoryRequest.digits = null;
+			DwarfFactoryRequest.digits = new DwarfNumberTranslator();
 		}
 
-		// Read the digits from the preference, if any
-		String digits = DwarfFactoryRequest.getDigits();
-		DwarfNumberTranslator translator = new DwarfNumberTranslator( digits );
-		if ( translator.valid() )
+		// If it's valid, we're golden
+		if ( DwarfFactoryRequest.digits.valid() )
 		{
-			DwarfFactoryRequest.digits = translator;
 			return;
 		}
 
 		// Here's where we solve it.
 
+		// Step 0: get the unlaminated numbers
+		String[] unlaminated = getUnlaminatedNumbers();
+		for ( int i = 0; i < unlaminated.length; ++i )
+		{
+			DwarfFactoryRequest.digits.addNumber( unlaminated[i] );
+		}
+
 		// Step 1: try to deduce what we can from the laminated items
 		String[] laminated = getLaminatedNumbers();
+		for ( int i = 0; i < laminated.length; ++i )
+		{
+			DwarfFactoryRequest.digits.addNumber( laminated[i] );
+		}
+		DwarfFactoryRequest.digits.analyzeNumbers();
 
 		// Step 2: iterate over saved dice rules, deducing what we can
 		String[] rolls = getDiceRolls();
+		for ( int i = 0; i < rolls.length; ++i )
+		{
+			DwarfFactoryRequest.digits.addRoll( rolls[i] );
+		}
+		DwarfFactoryRequest.digits.analyzeRolls();
 
-		// No digits available
-		DwarfFactoryRequest.digits = null;
-		RequestLogger.printLine( "Unable to determine digits" );
+		// Save the current digit string, complete or not
+		DwarfFactoryRequest.setDigits();
+
+		if ( DwarfFactoryRequest.digits.valid() )
+		{
+			KoLmafia.updateDisplay( "Dwarf digit code solved!" );
+		}
+		else
+		{
+			RequestLogger.printLine( "Unable to solve digit code. Get more data!" );
+		}
+	}
+
+	private static String[] getUnlaminatedNumbers()
+	{
+		ArrayList numbers = new ArrayList();
+                // lastDwarfOfficeItem3212=H,QEG,BFD,OJI,JED
+		DwarfFactoryRequest.getItemNumbers( numbers, ItemPool.DWARVISH_DOCUMENT, 4 );
+		DwarfFactoryRequest.getItemNumbers( numbers, ItemPool.DWARVISH_PAPER, 4 );
+		DwarfFactoryRequest.getItemNumbers( numbers, ItemPool.DWARVISH_PARCHMENT, 4 );
+		return (String[])numbers.toArray( new String[ numbers.size() ] );
 	}
 
 	private static String[] getLaminatedNumbers()
 	{
 		ArrayList numbers = new ArrayList();
-		DwarfFactoryRequest.getLaminatedNumbers( numbers, "lastDwarfOfficeItem3208" );
-		DwarfFactoryRequest.getLaminatedNumbers( numbers, "lastDwarfOfficeItem3209" );
-		DwarfFactoryRequest.getLaminatedNumbers( numbers, "lastDwarfOfficeItem3210" );
-		DwarfFactoryRequest.getLaminatedNumbers( numbers, "lastDwarfOfficeItem3211" );
+		// lastDwarfOfficeItem3208=B,HGIG,MGDE,PJD
+		DwarfFactoryRequest.getItemNumbers( numbers, ItemPool.SMALL_LAMINATED_CARD, 3 );
+		DwarfFactoryRequest.getItemNumbers( numbers, ItemPool.LITTLE_LAMINATED_CARD, 3 );
+		DwarfFactoryRequest.getItemNumbers( numbers, ItemPool.NOTBIG_LAMINATED_CARD, 3 );
+		DwarfFactoryRequest.getItemNumbers( numbers, ItemPool.UNLARGE_LAMINATED_CARD, 3 );
 		return (String[])numbers.toArray( new String[ numbers.size() ] );
 	}
 
-	private static void getLaminatedNumbers( ArrayList list, String settingName )
+	private static void getItemNumbers( final ArrayList list, final int itemId, final int count )
 	{
-		// lastDwarfOfficeItem3208=B,HGIG,MGDE,PJD
-		// lastDwarfOfficeItem3209=O,HGAA,MGAG,PGEA
-		// lastDwarfOfficeItem3210=J,HFJ,MGED,PGAG
-		// lastDwarfOfficeItem3211=Q,HGE,MGGI,PGG
-
-		String setting = Preferences.getString( settingName );
+		String setting = DwarfFactoryRequest.getItemSetting( itemId );
 		String[] splits = setting.split( "," );
-		if ( splits.length != 4 )
+		if ( splits.length != count + 1 )
 		{
 			return;
 		}
 
-		for ( int i = 1; i <= 3; ++i )
+		for ( int i = 1; i <= count; ++i )
 		{
 			list.add( splits[i].substring(1) );
 		}
+	}
+
+	private static String getItemSetting( int itemId )
+	{
+		String settingName = "lastDwarfOfficeItem" + itemId;
+		String setting = Preferences.getString( settingName );
+		if ( !setting.equals( "" ) )
+		{
+			return setting;
+		}
+
+		if ( InventoryManager.hasItem( itemId ) )
+		{
+			RequestThread.postRequest( new UseItemRequest( ItemPool.get( itemId, 1 ) ) );
+		}
+
+		return Preferences.getString( settingName );
 	}
 
 	private static String[] getDiceRolls()
@@ -1031,6 +1080,7 @@ public class DwarfFactoryRequest
 	public static class DwarfNumberTranslator
 	{
 		private final HashMap digitMap = new HashMap();
+		private final HashMap charMap = new HashMap();
 
 		public DwarfNumberTranslator()
 		{
@@ -1039,12 +1089,42 @@ public class DwarfFactoryRequest
 
 		public DwarfNumberTranslator( final String digits )
 		{
-			// Make a map from dwarf digit rune to base 7 digit
-			for ( int i = 0; i < digits.length(); ++i )
+			// Make maps from dwarf digit rune to base 7 digit and
+			// vice versa
+			for ( int i = 0; i < digits.length() && i < 7 ; ++i )
 			{
 				char digit = digits.charAt( i );
-				this.digitMap.put( new Character( digit ), new Integer( i ) );
+				if ( !Character.isLetter( digit ) )
+				{
+					continue;
+				}
+
+				this.mapCharacter( digit, i );
 			}
+		}
+
+		private void mapCharacter( final char c, final int i )
+		{
+			Character code = new Character( Character.toUpperCase( c ) );
+			Integer val = new Integer( i );
+			this.mapCharacter( code, val );
+		}
+
+		private void mapCharacter( final Character code, final Integer val )
+		{
+			this.digitMap.put( code, val );
+			this.charMap.put( val, code );
+		}
+
+		public String digitString()
+		{
+			String val = "";
+			for ( int i = 0; i < 7; ++i )
+			{
+				Character code = (Character)this.charMap.get( new Integer( i ) );
+				val += code == null ? '-' : code.charValue();
+			}
+			return val;
 		}
 
 		public boolean valid()
@@ -1065,6 +1145,355 @@ public class DwarfFactoryRequest
 				number = ( number * 7 ) + val.intValue();
 			}
 			return number;
+		}
+
+		// Methods for solving the digit code
+
+		private final ArrayList numbers = new ArrayList();
+		private final ArrayList digits = new ArrayList();
+
+		public void addNumber( final String number )
+		{
+			// See if it's a new number
+			for ( int i = 0; i < this.numbers.size(); ++i )
+			{
+				String old = (String)this.numbers.get(i);
+				if ( old.equals( number) )
+				{
+					return;
+				}
+			}
+
+			// Add the new number to the list
+			this.numbers.add( number );
+
+			// Add all the digits to the set of digits
+			for ( int i = 0; i < number.length(); ++i )
+			{
+				Character digit = new Character( number.charAt( i ) );
+				if ( !this.digits.contains( digit ) )
+				{
+					this.digits.add( digit );
+				}
+			}
+		}
+
+		// Step 1: Deduce initial digit of three digit numbers from
+		// laminated items
+
+		private int numberCount = 0;
+
+		public void analyzeNumbers()
+		{
+			// If we've already looked at all the numbers in the
+			// array, it's pointless to do it again.
+
+			if ( this.numbers.size() == numberCount )
+			{
+				return;
+			}
+
+			// Save current size of array
+			numberCount = this.numbers.size();
+
+			// Gauge numbers encode base-10 numbers from 00 - 99 in
+			// base-7. In base 7, numbers greater than 48 take 3
+			// digits with the first digit equal to 1. Numbers
+			// greater than 97 take 3 digits with the first digit
+			// equal to 2. In particular, 98 is 200 and 99 is 201.
+
+			// Therefore, when we have a three digit number, 50
+			// times out of 52, it will encode "1", and 2 times out
+			// of 52 it will encode "2". If it encodes "1", the
+			// following two digits can be any of the 7 digits.
+
+			// Make an array to save each initial digit and the set
+			// of all digits that appear after each initial digit
+
+			char [][] matches = new char[2][8];
+			int [] counts = new int[2];
+
+			for ( int i = 0; i < this.numbers.size(); ++i )
+			{
+				String val = (String)this.numbers.get(i);
+
+				// We only deduce digits from 3-digit numbers.
+				if ( val.length() < 3 )
+				{
+					continue;
+				}
+
+				char d1 = val.charAt(0);
+				char d2 = val.charAt(1);
+				char d3 = val.charAt(2);
+
+				int off = 0;
+				for ( int j = 0; j < matches.length; ++ j )
+				{
+					char match = matches[j][0];
+					if ( match == 0 || match == d1 )
+					{
+						off = j;
+						break;
+					}
+				}
+
+				char [] digits = matches[off];
+				digits[0] = d1;
+
+				for ( int k = 1; k < digits.length; ++k )
+				{
+					char match = digits[k];
+					if ( match == d2 )
+					{
+						break;
+					}
+					if ( match == 0 )
+					{
+						digits[k] = d2;
+						counts[off]++;
+						break;
+					}
+				}
+
+				for ( int k = 1; k < digits.length; ++k )
+				{
+					char match = digits[k];
+					if ( match == d3 )
+					{
+						break;
+					}
+					if ( match == 0 )
+					{
+						digits[k] = d3;
+						counts[off]++;
+						break;
+					}
+				}
+			}
+
+			// We've now saved all the digits. If any initial
+			// character has 3 or more different digits that follow
+			// it, it must be 1.
+
+			int oneOffset = counts[0] >= 3 ? 0 : counts[1] >= 3 ? 1 : -1;
+
+			// In the unlikely event that no initial digit has more
+			// than 2 digits that follow it, we can deduce nothing.
+			if ( oneOffset == -1 )
+			{
+				return;
+			}
+
+			this.mapCharacter( matches[oneOffset][0], 1 );
+
+			// If we have identified 1, if we have another initial
+			// digit, it must be 2.
+
+			int twoOffset = 1 - oneOffset;
+			if ( counts[ twoOffset ] == 0 )
+			{
+				return;
+			}
+
+			this.mapCharacter( matches[twoOffset][0], 2 );
+
+			// 2 is always followed by 0
+			this.mapCharacter( matches[twoOffset][1], 0 );
+		}
+
+		// Step 2: Deduce digits from the dice game
+
+		private final ArrayList rolls = new ArrayList();
+
+		public void addRoll( final String roll )
+		{
+			// See if it's a new roll
+			for ( int i = 0; i < this.rolls.size(); ++i )
+			{
+				String old = (String)this.rolls.get(i);
+				if ( old.equals( roll) )
+				{
+					return;
+				}
+			}
+
+			// Add the new roll to the list
+			this.rolls.add( roll );
+		}
+
+		private int rollCount = 0;
+
+		public void analyzeRolls()
+		{
+			// If we've already looked at all the rolls in the
+			// array, it's pointless to do it again.
+			if ( this.rolls.size() == rollCount )
+			{
+				return;
+			}
+
+			// Save current size of array
+			rollCount = this.rolls.size();
+
+			// Determine how many variables we need to solve for
+			int known = this.digitMap.size();
+
+			// If we already know all the digits, nothing to do
+			if ( known == 7 )
+			{
+				return;
+			}
+
+			// See if we currently know the digit for zero, since
+			// that's a special case: a roll of "00" equals 49
+			Character z = (Character)this.charMap.get( new Integer( 0 ) );
+
+			while ( true )
+			{
+				// Analyze the rolls
+				this.analyzeRolls( z ); 
+
+				// If we deduced nothing new, we are done
+				if ( known == this.digitMap.size() )
+				{
+					return;
+				}
+
+				known = this.digitMap.size();
+
+				// If we have learned all but one, we can
+				// deduce the last one
+
+				if ( known == 6 )
+				{
+					this.deduceLastDigit();
+					return;
+				}
+
+				// We learned something! But if we already knew
+				// zero, that's all we can do right now
+				if ( z != null )
+				{
+					return;
+				}
+
+				// If we learned zero, we need to try again,
+				// since we can now use the doubles.
+				z = (Character)this.charMap.get( new Integer( 0 ) );
+				if ( z == null )
+				{
+					return;
+				}
+			}
+		}
+
+		private void analyzeRolls( final Character zero)
+		{
+			// Make a list of variables
+			ArrayList variables = new ArrayList();
+			for ( int i = 0; i < this.digits.size(); ++i )
+			{
+				Character c = (Character)this.digits.get( i );
+				if ( !this.digitMap.containsKey( c ) )
+				{
+					variables.add( c );
+				}
+			}
+
+			// Make a linear system containing these variables
+			LinearSystem system = new LinearSystem( variables );
+
+			// Give it equations
+			for ( int i = 0; i < this.rolls.size(); ++i )
+			{
+				String roll = (String) this.rolls.get( i );
+
+				// AB-CD=xx
+				if ( roll.length() != 8 )
+				{
+					continue;
+				}
+
+				char d1 = roll.charAt( 0 );
+				char d2 = roll.charAt( 1 );
+				char d3 = roll.charAt( 3 );
+				char d4 = roll.charAt( 4 );
+				int high = roll.charAt( 6 ) - '0';
+				int low = roll.charAt( 7 ) - '0';
+				int val = ( high * 7) + low;
+
+				// Double zero = 49, not 0. Unless we know what
+				// zero is, we can't make that conversion, so
+				// skip all doubles until we learn 0.
+
+				if ( zero == null && d1 == d2 )
+				{
+					continue;
+				}
+
+				system.addEquation( 7, d1, 1, d2, -7, d3, -1, d4, val );
+			}
+
+			// We've added the equations to the linear system.
+			// Calculate!
+			system.calculate();
+		}
+
+		private void deduceLastDigit()
+		{
+			// Only do this if we know all but one of the digits
+			// and all the characters which are used as digits.
+			if ( this.digitMap.size() != 6 || this.digits.size() != 7 )
+			{
+				return;
+			}
+
+			// Find the character we have not used for a digit
+			Character code = null;;
+			for ( int i = 0; i < 7; ++i )
+			{
+				Character c = (Character)this.digits.get( i );
+				if ( !this.digitMap.containsKey( c ) )
+				{
+					code = c;
+					break;
+				}
+			}
+
+			// Find the digit we have not identified
+			for ( int i = 0; i < 7; ++i )
+			{
+				Integer val = new Integer( i );
+				if ( this.charMap.get( val ) == null )
+				{
+					this.mapCharacter( code, val );
+					return;
+				}
+			}
+		}
+
+		private class LinearSystem
+		{
+			private final Character[] variables;
+
+			public LinearSystem( final ArrayList variables )
+			{
+				int vcount = variables.size();
+				this.variables = (Character[]) variables.toArray( new Character[ vcount ] );
+			}
+
+			public void addEquation( final int c1, final char v1,
+						 final int c2, final char v2,
+						 final int c3, final char v3,
+						 final int c4, final char v4,
+						 final int val )
+			{
+			}
+
+			public void calculate()
+			{
+			}
 		}
 	}
 
