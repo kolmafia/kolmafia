@@ -44,6 +44,7 @@ import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.LogoutRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.SendMailRequest;
 import net.sourceforge.kolmafia.session.ActionBarManager;
@@ -225,7 +226,9 @@ public class LocalRelayAgent
 
 		// KoLmafia internal pages use only "pwd"
 		if ( this.path.startsWith( "/KoLmafia" ) )
+		{
 			return pwd != null;
+		}
 
 		// All other pages need either no password hash
 		// or a valid password hash.
@@ -342,6 +345,10 @@ public class LocalRelayAgent
 		else if ( this.path.startsWith( "/sidepane.php" ) )
 		{
 			this.request.pseudoResponse( "HTTP/1.1 200 OK", RequestEditorKit.getFeatureRichHTML( "charpane.php", CharPaneRequest.getLastResponse(), true ) );
+		}
+		else if ( this.path.startsWith( "/loggedout.php" ) )
+		{
+			this.request.pseudoResponse( "HTTP/1.1 200 OK", LogoutRequest.getLastResponse() );
 		}
 		else if ( this.path.startsWith( "/actionbar.php" ) )
 		{

@@ -1221,6 +1221,11 @@ public class RelayRequest
 			submitCommand( this.getFormField( "cmd" ), true );
 			this.pseudoResponse( "HTTP/1.1 302 Found", "/charpane.php" );
 		}
+		else if ( path.endsWith( "logout" ) )
+		{
+			submitCommand( "logout" );
+			this.pseudoResponse( "HTTP/1.1 302 Found", "/loggedout.php" );
+		}
 		else if ( path.endsWith( "messageUpdate" ) )
 		{
 			this.pseudoResponse( "HTTP/1.1 200 OK", LocalRelayServer.getNewStatusMessages() );

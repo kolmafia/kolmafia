@@ -466,7 +466,7 @@ public class RequestEditorKit
 
 		if ( location.indexOf( "menu.php" ) != -1 )
 		{
-			StringUtilities.singleStringReplace( buffer, "logout.php", "/KoLmafia/executeCommand?cmd=logout&pwd=" + GenericRequest.passwordHash );
+			StringUtilities.singleStringReplace( buffer, "logout.php", "/KoLmafia/logout?pwd=" + GenericRequest.passwordHash );
 			MoonPhaseRequest.decorate( buffer );
 			return;
 		}
