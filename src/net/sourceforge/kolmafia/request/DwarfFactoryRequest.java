@@ -1513,14 +1513,12 @@ public class DwarfFactoryRequest
 		{
 			private final int vcount;
 			private final Character[] variables;
-			private final int[] counts;
 			private final ArrayList equations;
 
 			public LinearSystem( final ArrayList variables )
 			{
 				this.vcount = variables.size();
 				this.variables = (Character[]) variables.toArray( new Character[ this.vcount ] );
-				this.counts = new int[ this.vcount ];
 				this.equations = new ArrayList();
 			}
 
@@ -1604,61 +1602,160 @@ public class DwarfFactoryRequest
 				}
 			}
 
+			private int [][] eqs = null;
+
 			public void calculate()
 			{
-				if ( vcount == 0 || equations.size() == 0 )
+				int rows = this.equations.size();
+				int cols = this.vcount;
+				if ( rows == 0 || cols == 0 )
 				{
 					return;
 				}
 
-				// Count rows that use each variable
-				for ( int col = 0; col < this.vcount; ++col )
+				// Make temporary array out of ArrayList
+				this.eqs = (int[][])this.equations.toArray( new int[rows][cols+1]);
+
+				// Start examining matrix at upper left corner
+				int row = 0;
+				int col = 0;
+
+				// Iterate over the columns, going down the rows
+				while ( col < cols )
 				{
-					this.counts[col] = this.countRows( col );
+					// Find row which contains this variable
+					int newRow = this.findRow( row, col );
+
+					// If we found one, work with it.
+					if ( newRow != -1 )
+					{
+						this.swapRows( row, newRow );
+
+						// Eliminate this variable in
+						// all rows below this one.
+						this.eliminate( row, col );
+
+						// Move to next row
+						row++;
+					}
+
+					// Move to next column
+					col++;
 				}
+
+				// Go back up the rows, substituting variables
+				while ( --row >= 0 )
+				{
+					this.substitute( row );
+				}
+
+				// Clear temporary array
+				this.eqs = null;
 			}
 
-			private int countRows( final int column )
+			private int findRow( int row, final int col )
 			{
-				int count = 0;
-				for ( int i = 0; i < this.equations.size(); ++i )
+				int nrows = this.eqs.length;
+				while ( row < nrows )
 				{
-					int [] equation = (int[])this.equations.get( i );
-					if ( equation[ column ] != 0 )
+					if ( this.eqs[ row ][ col ] != 0 )
 					{
-						count++;
+						return row;
 					}
+					row++;
 				}
-				return count;
+				return -1;
 			}
 
 			private void swapRows( final int row1, final int row2 )
 			{
-				Object temp = this.equations.get( row1 );
-				this.equations.set( row1, this.equations.get( row2 ) );
-				this.equations.set( row2, temp );
+				if ( row1 != row2 )
+				{
+					int[] temp = this.eqs[ row1 ];
+					this.eqs[ row1 ] = this.eqs[ row2 ];
+					this.eqs[ row2 ] = temp;
+				}
 			}
 
-			private void swapColumns( final int col1, final int col2 )
+			private void eliminate( final int row, final int col )
 			{
-				// Swap columns in all equations
-				for ( int i = 0; i < this.equations.size(); ++i )
+				// We will subtract row from all lower rows.
+				// Its value for the specified column is a
+				// constant we will use frequently.
+				int[] row1 = this.eqs[ row ];
+				int c1 = row1[ col ];
+
+				int nrows = this.eqs.length;
+				int ncols = this.vcount + 1;
+				int current = row + 1;
+
+				// Iterate over all rows below the specified row
+				while ( current < nrows )
 				{
-					int[] equation = (int[]) this.equations.get( i );
-					int temp = equation[ col1 ];
-					equation[ col1 ] = equation[ col2 ];
-					equation[ col2 ] = temp;
+					int[] row2 = this.eqs[ current++ ];
+					int c2 = row2[ col ];
+					if ( c2 == 0 )
+					{
+						continue;
+					}
+
+					// row2 = ( c1 * row2 ) - (c2 * row1)
+					for ( int i = col; i < ncols; ++i )
+					{
+						row2[i] = c1 * row2[i] - c2 * row1[i] ;
+					}
+				}
+			}
+
+			private void substitute( final int row )
+			{
+				int[] row1 = this.eqs[ row ];
+
+				// Iterate over the variables
+				int ncols = this.vcount;
+				int index = -1;
+				boolean valid = true;
+
+				for ( int col = 0; col < ncols; ++col )
+				{
+					int c1 = row1[col];
+					if ( c1 == 0 )
+					{
+						continue;
+					}
+
+					Integer digit = DwarfNumberTranslator.this.getDigit( this.variables[col] );
+					// If this variable is known, substitute
+					if ( digit != null )
+					{
+						int val = c1 * digit.intValue();
+						
+						row1[col] = 0;
+						row1[ ncols ] -= val;
+						continue;
+					}
+
+					// If this variable is unknown, it's a
+					// candidate for discover.
+
+					if ( index != -1 )
+					{
+						// Oops. More than one unknown
+						valid = false;
+					}
+
+					// Save index of unknown variable
+					index = col;
 				}
 
-				// Swap columns in equation counts
-				int count = this.counts[ col1 ];
-				this.counts[ col1 ] = this.counts[ col2 ];
-				this.counts[ col2 ] = count;
-					
-				// Swap columns in variables
-				Character var =	 this.variables[ col1 ];
-				this.variables[ col1 ] = this.variables[ col2 ];
-				this.variables[ col2 ] = var;
+				// If we discovered a single unknown variable,
+				// we can now solve for it.
+				if ( valid && index != -1 )
+				{
+					Character digit = this.variables[index];
+					Integer val = new Integer( row1[ncols] / row1[index] );
+					DwarfNumberTranslator.this.mapCharacter( digit, val );
+				}
 			}
 		}
 	}
