@@ -512,6 +512,12 @@ public class DwarfFactoryRequest
 		Preferences.setString( "lastDwarfDigitRunes", digits );
 	}
 
+	public static void setDigits( String digits )
+	{
+		Preferences.setString( "lastDwarfDigitRunes", digits );
+		DwarfFactoryRequest.digits = new DwarfNumberTranslator();
+	}
+
 	public static int parseNumber( final String runes )
 	{
 		if ( DwarfFactoryRequest.digits == null )

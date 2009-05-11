@@ -1574,6 +1574,24 @@ public class KoLmafiaCLI
 				return;
 			}
 
+			if ( option.equals( "setdigits" ) )
+			{
+				String digits = "";
+				if ( tokens.length >= 2 )
+				{
+					digits = tokens[1].trim().toUpperCase();
+				}
+
+				if ( digits.length() != 7 )
+				{
+					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+								"Must supply a 7 character digit string" );
+					return;
+				}
+				DwarfFactoryRequest.setDigits( digits );
+				return;
+			}
+
 			if ( option.equals( "solve" ) )
 			{
 				DwarfFactoryRequest.solve();
