@@ -1330,6 +1330,12 @@ public class GenericRequest
 
 		if ( this.redirectLocation.startsWith( "login.php" ) )
 		{
+			if ( this instanceof LoginRequest )
+			{
+				this.constructURLString( this.redirectLocation, false );
+				return false;
+			}
+
 			if ( this.formURLString.startsWith( "logout.php" ) )
 			{
 				return true;
