@@ -52,10 +52,16 @@ public class LogoutRequest
 	extends GenericRequest
 {
 	private static boolean isRunning = false;
+	private static String lastResponse = "";
 
 	public LogoutRequest()
 	{
 		super( "logout.php" );
+	}
+
+	protected boolean shouldFollowRedirect()
+	{
+		return true;
 	}
 
 	protected boolean retryOnTimeout()
@@ -94,5 +100,15 @@ public class LogoutRequest
 		KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Logout request submitted." );
 		GenericRequest.reset();
 		LogoutRequest.isRunning = false;
+	}
+
+	public void processResults()
+	{
+		LogoutRequest.lastResponse = this.responseText;
+	}
+
+	public static final String getLastResponse()
+	{
+		return LogoutRequest.lastResponse;
 	}
 }
