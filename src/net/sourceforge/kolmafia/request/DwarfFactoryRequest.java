@@ -101,6 +101,11 @@ public class DwarfFactoryRequest
 		DwarfFactoryRequest.digits = null;
 	}
 
+	public static boolean valid()
+	{
+		return DwarfFactoryRequest.digits != null && DwarfFactoryRequest.digits.valid();
+	}
+
 	public DwarfFactoryRequest()
 	{
 		super( "dwarffactory.php" );
@@ -182,6 +187,36 @@ public class DwarfFactoryRequest
 			DwarfFactoryRequest.solve();
 
 			return;
+		}
+	}
+
+	public static final void decorate( final String urlString, final StringBuffer buffer )
+	{
+		if ( !urlString.startsWith( "dwarffactory.php" ) )
+		{
+			return;
+		}
+
+		Matcher matcher = ACTION_PATTERN.matcher( urlString );
+		String action = matcher.find() ? matcher.group(1) : null;
+
+		if ( action == null )
+		{
+			return;
+		}
+
+		if ( action.equals( "dodice" ) )
+		{
+			if ( !DwarfFactoryRequest.valid() )
+			{
+				return;
+			}
+
+			// Find the end of the table following the "you
+			// win/lose xx meat" message.
+			int index = buffer.indexOf( "meat.gif" );
+			index = buffer.indexOf( "</center>", index );
+			buffer.insert( index, "The dwarf digit code has been solved!" );
 		}
 	}
 
