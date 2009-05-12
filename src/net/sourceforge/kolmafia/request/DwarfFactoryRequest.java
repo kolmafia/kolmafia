@@ -451,7 +451,14 @@ public class DwarfFactoryRequest
 		}
 
 		// It's a new ore. Add it to the list of ores.
-		Preferences.setString( "lastDwarfOreRunes", runes + rune );
+		runes += rune;
+		Preferences.setString( "lastDwarfOreRunes", runes );
+
+		// See if we can auto-identify an ore
+		if ( runes.length() == 4 )
+		{
+			DwarfFactoryRequest.checkForLastRune( runes, DwarfFactoryRequest.ORES, "ores" );
+		}
 
 		// Prune this rune from any non-ores
 		for ( int i = 0; i < ITEMS.length; ++i )
@@ -480,7 +487,14 @@ public class DwarfFactoryRequest
 		}
 
 		// It's a new piece of equipment. Add it to the list of equipment.
-		Preferences.setString( "lastDwarfEquipmentRunes", runes + rune );
+		runes += rune;
+		Preferences.setString( "lastDwarfEquipmentRunes", runes );
+
+		// See if we can auto-identify some equipment
+		if ( runes.length() == 3 )
+		{
+			DwarfFactoryRequest.checkForLastRune( runes, DwarfFactoryRequest.EQUIPMENT, "pieces of equipment");
+		}
 
 		// Prune this rune from any non-equipment
 		for ( int i = 0; i < ITEMS.length; ++i )
