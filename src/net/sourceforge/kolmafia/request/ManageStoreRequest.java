@@ -122,18 +122,28 @@ public class ManageStoreRequest
 	private void viewStoreLogs()
 	{
 		KoLmafia.updateDisplay( "Examining store logs..." );
+
 		super.run();
 
-		StoreManager.parseLog( this.responseText );
+		if ( this.responseText != null )
+		{
+			StoreManager.parseLog( this.responseText );
+		}
+
 		KoLmafia.updateDisplay( "Store purchase logs retrieved." );
 	}
 
 	private void managePrices()
 	{
 		KoLmafia.updateDisplay( "Requesting store inventory..." );
+
 		super.run();
 
-		StoreManager.update( this.responseText, true );
+		if ( this.responseText != null )
+		{
+			StoreManager.update( this.responseText, true );
+		}
+
 		KoLmafia.updateDisplay( "Store inventory request complete." );
 	}
 

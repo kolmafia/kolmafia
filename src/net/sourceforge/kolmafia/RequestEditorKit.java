@@ -61,6 +61,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Monster;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.request.ChatRequest;
+import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -552,6 +553,10 @@ public class RequestEditorKit
 		else if ( location.startsWith( "dungeon.php" ) )
 		{
 			DungeonDecorator.decorate( buffer );
+		}
+		else if ( location.startsWith( "dwarffactory.php" ) )
+		{
+			DwarfFactoryRequest.decorate( location, buffer );
 		}
 		else if ( location.startsWith( "fight.php" ) )
 		{
