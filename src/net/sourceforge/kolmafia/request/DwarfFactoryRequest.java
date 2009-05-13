@@ -63,6 +63,7 @@ public class DwarfFactoryRequest
 	public static final Pattern ITEMDESC_PATTERN = Pattern.compile( "descitem\\((\\d*)\\)" );
 	public static final Pattern MEAT_PATTERN = Pattern.compile( "You (gain|lose) (\\d*) Meat" );
 	public static final Pattern COLOR_PATTERN = Pattern.compile( "(red|orange|yellow|green|blue|indigo|violet)" );
+	public static final Pattern HOPPER_PATTERN = Pattern.compile( "<p>It currently contains (\\d+) ([^.]*)\\.</p>" );
 
 	private static final int [] ITEMS = new int[]
 	{
@@ -95,10 +96,16 @@ public class DwarfFactoryRequest
 	};
 
 	private static DwarfNumberTranslator digits = null;
+	private static int[] hopperCount = new int[4];
+	private static int[] inventoryCount = new int[4];
 
 	public static void reset()
 	{
 		DwarfFactoryRequest.digits = null;
+		DwarfFactoryRequest.hopperCount[0] = -1;
+		DwarfFactoryRequest.hopperCount[1] = -1;
+		DwarfFactoryRequest.hopperCount[2] = -1;
+		DwarfFactoryRequest.hopperCount[3] = -1;
 	}
 
 	public static boolean valid()
@@ -188,6 +195,14 @@ public class DwarfFactoryRequest
 
 			return;
 		}
+	}
+
+	public static void clearHoppers()
+	{
+		DwarfFactoryRequest.hopperCount[0] = 0;
+		DwarfFactoryRequest.hopperCount[1] = 0;
+		DwarfFactoryRequest.hopperCount[2] = 0;
+		DwarfFactoryRequest.hopperCount[3] = 0;
 	}
 
 	public static final void decorate( final String urlString, final StringBuffer buffer )
@@ -440,6 +455,22 @@ public class DwarfFactoryRequest
 
 		// Add to list of known ore runes
 		DwarfFactoryRequest.setOreRune( rune );
+
+		// See how much ore is currently in the hopper
+		if ( responseText.indexOf( "It is currently empty" ) != -1 )
+		{
+			hopperCount[ hopper - 1 ] = 0;
+			return;
+		}
+
+		Matcher matcher = DwarfFactoryRequest.HOPPER_PATTERN.matcher( responseText );
+		if ( !matcher.find() )
+		{
+			return;
+		}
+
+		int count = StringUtilities.parseInt( matcher.group(1) );
+		hopperCount[ hopper - 1 ] = count;
 	}
 
 	public static void setOreRune( final String rune )
@@ -871,7 +902,7 @@ public class DwarfFactoryRequest
 
 	public static void checkOrUse( final int itemId, final boolean use, final StringBuffer output )
 	{
-		if ( !InventoryManager.hasItem( itemId	) )
+		if ( !InventoryManager.hasItem( itemId ) )
 		{
 			output.append( "You do not have the " + ItemDatabase.getItemName( itemId ) + KoLConstants.LINE_BREAK );
 			return;
@@ -887,11 +918,12 @@ public class DwarfFactoryRequest
 
 	public static void checkHopper( final int hopper, final boolean use, final StringBuffer output )
 	{
-		if ( !use || !Preferences.getString( "lastDwarfHopper" + hopper ).equals( "" ) )
+		if ( !use || DwarfFactoryRequest.hopperCount[ hopper - 1 ] != -1 )
 		{
 			return;
 		}
 
+		RequestLogger.printLine( "Visiting hopper #" + hopper + " to check ore level" );
 		RequestThread.postRequest( new DwarfContraptionRequest( "hopper" + ( hopper - 1) ) );
 	}
 
@@ -1055,6 +1087,7 @@ public class DwarfFactoryRequest
 		}
 
 		FactoryData data = new FactoryData( digits );
+		data.setInventoryCounts();
 
 		StringBuffer output = new StringBuffer();
 
@@ -1062,7 +1095,7 @@ public class DwarfFactoryRequest
 
 		// Put in a header
 		output.append( "<tr>" );
-		output.append( "<td rowspan=2 colspan=2></td>" );
+		output.append( "<td rowspan=3 colspan=2></td>" );
 		output.append( "<td align=center>Hopper #1</td>" );
 		output.append( "<td align=center>Hopper #2</td>" );
 		output.append( "<td align=center>Hopper #3</td>" );
@@ -1073,6 +1106,12 @@ public class DwarfFactoryRequest
 		output.append( "<td align=center>" + data.getHopperOre( 1 ) + "</td>" );
 		output.append( "<td align=center>" + data.getHopperOre( 2 ) + "</td>" );
 		output.append( "<td align=center>" + data.getHopperOre( 3 ) + "</td>" );
+		output.append( "</tr>" );
+		output.append( "<tr>" );
+		output.append( "<td align=center>" + data.getHopperOreCounts( 0 ) + "</td>" );
+		output.append( "<td align=center>" + data.getHopperOreCounts( 1 ) + "</td>" );
+		output.append( "<td align=center>" + data.getHopperOreCounts( 2 ) + "</td>" );
+		output.append( "<td align=center>" + data.getHopperOreCounts( 3 ) + "</td>" );
 		output.append( "</tr>" );
 
 		// Add HAT
@@ -1086,10 +1125,10 @@ public class DwarfFactoryRequest
 		output.append( "</tr>" );
 		output.append( "<tr>" );
 		output.append( "<td align=center>Ores</td>" );
-		output.append( "<td align=center>" + data.getOreQuantity( FactoryData.HAT, 0 ) + "</td>" );
-		output.append( "<td align=center>" + data.getOreQuantity( FactoryData.HAT, 1 ) + "</td>" );
-		output.append( "<td align=center>" + data.getOreQuantity( FactoryData.HAT, 2 ) + "</td>" );
-		output.append( "<td align=center>" + data.getOreQuantity( FactoryData.HAT, 3 ) + "</td>" );
+		output.append( "<td align=center>" + data.getOreQuantityString( FactoryData.HAT, 0 ) + "</td>" );
+		output.append( "<td align=center>" + data.getOreQuantityString( FactoryData.HAT, 1 ) + "</td>" );
+		output.append( "<td align=center>" + data.getOreQuantityString( FactoryData.HAT, 2 ) + "</td>" );
+		output.append( "<td align=center>" + data.getOreQuantityString( FactoryData.HAT, 3 ) + "</td>" );
 		output.append( "</tr>" );
 
 		// Add PANTS
@@ -1103,10 +1142,10 @@ public class DwarfFactoryRequest
 		output.append( "</tr>" );
 		output.append( "<tr>" );
 		output.append( "<td align=center>Ores</td>" );
-		output.append( "<td align=center>" + data.getOreQuantity( FactoryData.PANTS, 0 ) + "</td>" );
-		output.append( "<td align=center>" + data.getOreQuantity( FactoryData.PANTS, 1 ) + "</td>" );
-		output.append( "<td align=center>" + data.getOreQuantity( FactoryData.PANTS, 2 ) + "</td>" );
-		output.append( "<td align=center>" + data.getOreQuantity( FactoryData.PANTS, 3 ) + "</td>" );
+		output.append( "<td align=center>" + data.getOreQuantityString( FactoryData.PANTS, 0 ) + "</td>" );
+		output.append( "<td align=center>" + data.getOreQuantityString( FactoryData.PANTS, 1 ) + "</td>" );
+		output.append( "<td align=center>" + data.getOreQuantityString( FactoryData.PANTS, 2 ) + "</td>" );
+		output.append( "<td align=center>" + data.getOreQuantityString( FactoryData.PANTS, 3 ) + "</td>" );
 		output.append( "</tr>" );
 
 		// Add WEAPON
@@ -1120,10 +1159,10 @@ public class DwarfFactoryRequest
 		output.append( "</tr>" );
 		output.append( "<tr>" );
 		output.append( "<td align=center>Ores</td>" );
-		output.append( "<td align=center>" + data.getOreQuantity( FactoryData.WEAPON, 0 ) + "</td>" );
-		output.append( "<td align=center>" + data.getOreQuantity( FactoryData.WEAPON, 1 ) + "</td>" );
-		output.append( "<td align=center>" + data.getOreQuantity( FactoryData.WEAPON, 2 ) + "</td>" );
-		output.append( "<td align=center>" + data.getOreQuantity( FactoryData.WEAPON, 3 ) + "</td>" );
+		output.append( "<td align=center>" + data.getOreQuantityString( FactoryData.WEAPON, 0 ) + "</td>" );
+		output.append( "<td align=center>" + data.getOreQuantityString( FactoryData.WEAPON, 1 ) + "</td>" );
+		output.append( "<td align=center>" + data.getOreQuantityString( FactoryData.WEAPON, 2 ) + "</td>" );
+		output.append( "<td align=center>" + data.getOreQuantityString( FactoryData.WEAPON, 3 ) + "</td>" );
 		output.append( "</tr>" );
 
 		output.append( "</table>" );
@@ -1871,9 +1910,40 @@ public class DwarfFactoryRequest
 		{
 			if ( hopper < 0 || hopper > 3 )
 			{
-				return null;
+				return "";
 			}
 			return ItemDatabase.getItemName( this.ores[ hopper ] );
+		}
+
+		public void setInventoryCounts()
+		{
+			// Get the current count of ore in inventory
+			for ( int i = 0; i < 4; ++i )
+			{
+				int itemId = this.ores[ i ];
+				if ( itemId != -1 )
+				{
+					DwarfFactoryRequest.inventoryCount[i ] = InventoryManager.getCount( itemId );
+				}
+			}
+		}
+
+		public String getHopperOreCounts( final int hopper )
+		{
+			if ( hopper < 0 || hopper > 3 )
+			{
+				return "";
+			}
+			String hcount = String.valueOf( DwarfFactoryRequest.hopperCount[ hopper ] );
+			String icount = String.valueOf( DwarfFactoryRequest.inventoryCount[ hopper ] );
+			return hcount + " (H)/" + icount + " (I)";
+		}
+
+		public int getOreOnHand( final int hopper )
+		{
+			int hcount = DwarfFactoryRequest.hopperCount[ hopper ];
+			int icount = DwarfFactoryRequest.inventoryCount[ hopper ];
+			return hcount + icount;
 		}
 
 		public AdventureResult getOre( final int item, final int hopper )
@@ -1898,6 +1968,14 @@ public class DwarfFactoryRequest
 				return 0;
 			}
 			return this.oreQuantities[ item ][ hopper ];
+		}
+
+		public String getOreQuantityString( final int item, final int hopper )
+		{
+			int needed = this.getOreQuantity( item, hopper );
+			int have = this.getOreOnHand( hopper );
+			String color = ( have >= needed ) ? "green" : "red";
+			return "<font color=" + color + ">" + needed + "</font>";
 		}
 
 		private void setOreQuantity( final int item, final int hopper, final int value )

@@ -238,11 +238,6 @@ public class DwarfContraptionRequest
 
 		if ( action.startsWith( "dohopper" ) )
 		{
-			if ( urlString.indexOf( "addtake=take" ) != -1 )
-			{
-				return;
-			}
-
 			if ( responseText.indexOf( "You don't have" ) != -1 )
 			{
 				return;
@@ -261,18 +256,30 @@ public class DwarfContraptionRequest
 			}
 
 			int hopper = StringUtilities.parseInt( hopperMatcher.group(1) ) + 1;
+
+			// Validate the hopper rune and adjust quantity of ore
+			// in this hopper.
+			DwarfFactoryRequest.setHopperRune( hopper, responseText );
+
+			// Adjust inventory
 			int count = StringUtilities.parseInt( hopperMatcher.group(2) );
 			AdventureResult ore = ItemPool.get( DwarfContraptionRequest.oreName( hopperMatcher.group(3) ), -count );
 			ResultProcessor.processResult( ore );
 
-			// If it accepts this ore, we've identified the ore's rune
-			KoLCharacter.ensureUpdatedDwarfFactory();
+			// If it accepts this ore, we've identified the ore's
+			// rune
 			String rune = Preferences.getString( "lastDwarfHopper" + hopper );
-			if ( !rune.equals( "" ) )
-			{
-				DwarfFactoryRequest.setItemRunes( ore.getItemId(), rune );
-			}
+			DwarfFactoryRequest.setItemRunes( ore.getItemId(), rune );
 
+			return;
+		}
+
+		if ( action.startsWith( "doredbutton" ) )
+		{
+			if ( responseText.indexOf( "something falls into the bin" ) != -1 )
+			{
+				DwarfFactoryRequest.clearHoppers();
+			}
 			return;
 		}
 
