@@ -158,7 +158,7 @@ public class GenericRequest
 	public String redirectLocation;
 	public String date;
 
-        // Per-login data
+	// Per-login data
 
 	private static String userAgent = "";
 	public static String serverCookie = null;
@@ -167,7 +167,7 @@ public class GenericRequest
 
 	public static void reset()
 	{
-                GenericRequest.setUserAgent();
+		GenericRequest.setUserAgent();
 		GenericRequest.serverCookie = null;
 		GenericRequest.inventoryCookie = null;
 		GenericRequest.passwordHash = "";
@@ -1076,23 +1076,24 @@ public class GenericRequest
 	}
 
 	private URL buildURL()
-                throws MalformedURLException
+		throws MalformedURLException
 	{
-                if ( this.formURL != null && this.currentHost.equals( GenericRequest.KOL_HOST ) )
-                {
-                        return this.formURL;
-                }
+		if ( this.formURL != null && this.currentHost.equals( GenericRequest.KOL_HOST ) )
+		{
+			return this.formURL;
+		}
 
-                String urlString = this.formURLString;
-                URL context = urlString.startsWith( "http:" ) ? null : GenericRequest.KOL_ROOT;
+		this.currentHost = GenericRequest.KOL_HOST;
+		String urlString = this.formURLString;
+		URL context = urlString.startsWith( "http:" ) ? null : GenericRequest.KOL_ROOT;
 
-                if ( Preferences.getBoolean( "allowSocketTimeout" ) && !urlString.startsWith( "valhalla.php" ) )
-                {
-                        return new URL( context, urlString, HttpTimeoutHandler.getInstance() );
-                }
+		if ( Preferences.getBoolean( "allowSocketTimeout" ) && !urlString.startsWith( "valhalla.php" ) )
+		{
+			return new URL( context, urlString, HttpTimeoutHandler.getInstance() );
+		}
 
-                return new URL( context, urlString );
-        }
+		return new URL( context, urlString );
+	}
 
 	/**
 	 * Utility method used to post the client's data to the Kingdom of Loathing server. The method grabs all form fields
