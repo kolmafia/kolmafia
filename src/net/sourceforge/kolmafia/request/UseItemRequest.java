@@ -320,7 +320,10 @@ public class UseItemRequest
 		case ItemPool.GILDED_CURSED_CHEST:
 			return InventoryManager.getCount( ItemPool.GILDED_CURSED_KEY );
 
-		case ItemPool.MOJO_FILTER:
+		case ItemPool.STUFFED_CHEST:
+			return InventoryManager.getCount( ItemPool.STUFFED_KEY );
+
+		    case ItemPool.MOJO_FILTER:
 			return Math.max( 0, 3 - Preferences.getInteger( "currentMojoFilters" ) );
 
 		case ItemPool.EXPRESS_CARD:
@@ -2448,6 +2451,17 @@ public class UseItemRequest
 			if ( InventoryManager.hasItem( ItemPool.GILDED_CURSED_KEY ) )
 			{
 				ResultProcessor.processItem( ItemPool.GILDED_CURSED_KEY, -1 );
+			}
+			else
+			{
+				ResultProcessor.processResult( item );
+			}
+			return;
+
+		case ItemPool.STUFFED_CHEST:
+			if ( InventoryManager.hasItem( ItemPool.STUFFED_KEY ) )
+			{
+				ResultProcessor.processItem( ItemPool.STUFFED_KEY, -1 );
 			}
 			else
 			{
