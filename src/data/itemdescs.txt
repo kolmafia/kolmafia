@@ -3958,17 +3958,17 @@
 3952	687577413	stuffed monocle
 3953	919228942	stuffed mink
 3954	523824465	stuffed teddy butler
-3955	264497783	stuffed martini
+3955	264497783	stuffed martini	stuffed martinuses
 3956	213507666	stuffed crazy bastard sword
-3957	272822309	stuffed tin of caviar
-3958	761471211	bejeweled cufflinks
+3957	272822309	stuffed tin of caviar	stuffed tins of caviar
+3958	761471211	bejeweled cufflinks	pairs of bejeweled cufflinks
 3959	247877283	garish pinky ring
-3960	469192555	giant designer sunglasses
-3961	582155489	fancy opera glasses
+3960	469192555	giant designer sunglasses	pairs of giant designer sunglasses
+3961	582155489	fancy opera glasses	pairs of fancy opera glasses
 3962	743823714	designer handbag
 3963	582063926	Clan pool table
 3964	699946727	tiny cell phone
-3965	161914494	cube of billiard chalk
+3965	161914494	cube of billiard chalk	cubes of billiard chalk
 3966	698087110	hot-ass club
 3967	583037762	frigid-ass club
 3968	199690260	creepy-ass club

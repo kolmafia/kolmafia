@@ -3947,7 +3947,7 @@
 3946	Clan VIP Lounge invitation	usable	all	0
 3947	Clan VIP Lounge key	none	display	0
 3948	stuffed Meat	offhand	gift	60
-3949	stuffed treasure chest	offhand	gift	20
+3949	stuffed treasure chest	offhand, usable	gift	20
 3950	stuffed key	offhand	gift	20
 3951	stuffed Baron von Ratsworth	offhand	gift	20
 3952	stuffed monocle	offhand	gift	20
