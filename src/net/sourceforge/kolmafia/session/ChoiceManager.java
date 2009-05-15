@@ -1089,6 +1089,7 @@ public abstract class ChoiceManager
 		// Choice 314 is unknown
 		// Choice 315 is unknown
 		// Choice 316 is unknown
+
 		// Choice 317 is No Man, No Hole
 		// Choice 318 is C'mere, Little Fella
 		// Choice 319 is Turtles of the Universe
@@ -1096,11 +1097,36 @@ public abstract class ChoiceManager
 		// Choice 321 is Boxed In
 		// Choice 322 is Capital!
 
+		// Choice 323 is unknown
+		// Choice 324 is unknown
+		// Choice 325 is unknown
+		// Choice 326 is unknown
+
+		// Choice 327 is Puttin' it on Wax
+		// Choice 328 is Never Break the Chain
+		// Choice 329 is Don't Be Alarmed, Now
+
 		// A Shark's Chum
 		new ChoiceAdventure(
 			"Manor1", "choiceAdventure330", "Haunted Billiards Room",
 			new String[] { "stats", "cube of billiard chalk" },
 			new String[] { null, "3965" } ),
+
+		// Choice 331 is Like That Time in Tortuga
+		// Choice 332 is More eXtreme Than Usual
+		// Choice 333 is Cleansing your Palette
+		// Choice 334 is O Turtle Were Art Thou
+		// Choice 335 is Blue Monday
+		// Choice 336 is Jewel in the Rough
+		// Choice 337 is unknown
+		// Choice 338 is Duel Nature
+		// Choice 339 is Kick the Can
+		// Choice 340 is Turtle in peril
+		// Choice 341 is Nantucket Snapper
+		// Choice 342 is The Horror...
+		// Choice 343 is Turtles All The Way Around
+		// Choice 344 is unknown
+		// Choice 345 is Training Day
 	};
 
 	static

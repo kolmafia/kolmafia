@@ -22,6 +22,7 @@ Smacketeria	3	figurine of a wretched-looking seal	150
 Smacketeria	3	figurine of a cute baby seal	250
 Smacketeria	3	figurine of an armored seal	500
 Smacketeria	3	turtle pheromones	50
+Smacketeria	3	turtling rod	500
 
 Doc Galaktik's Medicine Show	galaktik.php	anti-anti-antidote	30
 Doc Galaktik's Medicine Show	galaktik.php	Doc Galaktik's Pungent Unguent	30

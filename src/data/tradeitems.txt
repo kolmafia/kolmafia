@@ -3517,7 +3517,7 @@
 3516	eel skin	none	all	100
 3517	eelskin hat	hat	all	175
 3518	eelskin pants	pants	all	180
-3519	eelskin buckler	offhand	all	185
+3519	eelskin shield	offhand	all	185
 3520	shark tooth	none	all	150
 3521	shark tooth necklace	accessory	all	350
 3522	shark jumper	shirt	all	245
@@ -3916,7 +3916,7 @@
 3915
 3916
 3917
-3918
+3918	meat shield	offhand	all	65
 3919
 3920
 3921
@@ -3925,9 +3925,9 @@
 3924
 3925
 3926
-3927
-3928
-3929
+3927	turtling rod	offhand	display	250
+3928	syncopated turtle	grow	all	50
+3929	grinning turtle	grow	all	50
 3930	tainted seal's blood	multiple	all	35
 3931	severed flipper	weapon	display	105
 3932	ingot of seal-iron	usable	display	10
@@ -3973,3 +3973,28 @@
 3972	frozen seal spine	weapon	all	250
 3973	seal lube	multiple	display	100
 3974	mannequin leg	weapon	all	145
+3975
+3976
+3977
+3978
+3979
+3980
+3981
+3982
+3983
+3984
+3985
+3986
+3987
+3988
+3989
+3990
+3991
+3992
+3993
+3994	security blankie	familiar	all	75
+3995
+3996
+3997
+3998	metrognome	familiar	all	75
+3999

@@ -106,6 +106,6 @@
 104	Magic Dragonfish	none	3648	fin-bit wax	1	1	2	0
 105	Frumious Bandersnatch	none	3799	aquaviolet jub-jub bird	3	2	2	0
 106	Midget Clownfish	combat	3815	half-height unicycle	0	1	2	2
-107
-108
+107	Syncopated Turtle	none	3928	metrognome	0	0	0	0
+108	Grinning Turtle	none	3929	security blankie	0	0	0	0
 109	Purse Rat	none	3962	tiny cell phone	0	0	0	0

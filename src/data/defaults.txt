@@ -630,6 +630,23 @@ user	choiceAdventure319	1
 user	choiceAdventure320	1
 user	choiceAdventure321	1
 user	choiceAdventure322	1
+user	choiceAdventure327	1
+user	choiceAdventure328	1
+user	choiceAdventure329	1
+user	choiceAdventure330	2
+user	choiceAdventure331	1
+user	choiceAdventure332	1
+user	choiceAdventure333	1
+user	choiceAdventure334	1
+user	choiceAdventure335	1
+user	choiceAdventure336	1
+user	choiceAdventure338	1
+user	choiceAdventure339	1
+user	choiceAdventure340	1
+user	choiceAdventure341	1
+user	choiceAdventure342	1
+user	choiceAdventure343	1
+user	choiceAdventure345	1
 
 user	unknownRecipe3542	true
 user	unknownRecipe3543	true

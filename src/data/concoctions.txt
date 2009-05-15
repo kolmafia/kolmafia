@@ -782,13 +782,16 @@ barskin buckler	ASMITH	buckler buckle	bar skin
 catskin buckler	ASMITH	buckler buckle	leathery cat skin
 clownskin buckler	ASMITH	buckler buckle	clown skin
 demon buckler	ASMITH	buckler buckle	demon skin
-eelskin buckler	ASMITH	buckler buckle	eel skin
 gnauga hide buckler	ASMITH	buckler buckle	gnauga hide
 hippo skin buckler	ASMITH	buckler buckle	hippopotamus skin
 penguin skin buckler	ASMITH	buckler buckle	penguin skin
-spongy shield	ASMITH	buckler buckle	slab of sponge
 yakskin buckler	ASMITH	buckler buckle	yak skin
 
+# Advanced Shields
+
+meat shield	ASMITH	buckler buckle	dense meat stack
+eelskin shield	ASMITH	meat shield	eel skin
+spongy shield	ASMITH	meat shield	slab of sponge
 
 # Shirts made of hides of various sorts.
 

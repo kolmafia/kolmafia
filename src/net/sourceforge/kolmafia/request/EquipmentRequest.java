@@ -1013,8 +1013,7 @@ public class EquipmentRequest
 			String quantity = itemMatcher.group( 4 ).trim();
 			String realName = itemMatcher.group( 2 ).trim();
 
-			// We have encountered a brand new item, the person
-			// has no meat paste, and we're in trouble.  Do not
+			// We have encountered a brand new item.  Do not
 			// continue if this is the case.
 
 			if ( !ItemDatabase.contains( realName ) )
