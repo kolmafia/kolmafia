@@ -238,6 +238,12 @@ public abstract class MoodManager
 
 	public static final void minimalSet()
 	{
+		String currentMood = Preferences.getString( "currentMood" );
+		if ( currentMood.equals( "apathetic" ) )
+		{
+			return;
+		}
+
 		// If there's any effects the player currently has and there
 		// is a known way to re-acquire it (internally known, anyway),
 		// make sure to add those as well.
@@ -261,6 +267,12 @@ public abstract class MoodManager
 
 	public static final void maximalSet()
 	{
+		String currentMood = Preferences.getString( "currentMood" );
+		if ( currentMood.equals( "apathetic" ) )
+		{
+			return;
+		}
+
 		UseSkillRequest[] skills = new UseSkillRequest[ KoLConstants.availableSkills.size() ];
 		KoLConstants.availableSkills.toArray( skills );
 
