@@ -826,7 +826,7 @@ depleted Grimacite gravy boat	0	Mus: 35
 detective skull	0	none
 duct tape buckler	200	Mus: 82	shield
 easter egg balloon	0	Mys: 35
-eelskin buckler	200	Mus: 85	shield
+eelskin shield	200	Mus: 85	shield
 enchanted brass knuckles	0	Mys: 10
 fake hand	0	none
 fancy opera glasses	0	Mys: 10
@@ -866,6 +866,8 @@ makeshift castanets	0	Mox: 150
 marinara jug	0	Mys: 150
 marionette	0	Mys: 40
 marionette collective	0	Mys: 40
+# *** meat shield is a shield of unknown power.
+meat shield	0	Mus: 15	shield
 mini-zeppelin	0	none
 miniature stuffed Goth Giant	0	none
 moxie magnet	0	none
@@ -940,6 +942,7 @@ teflon shield	0	Mus: 85	shield
 thought balloon	0	none
 tip jar	0	Mys: 52
 tropical paperweight	0	none
+turtling rod	0	none
 # *** velcro shield is a shield of unknown power.
 velcro shield	0	Mus: 85	shield
 # *** vinyl shield is a shield of unknown power.

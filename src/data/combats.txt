@@ -139,7 +139,7 @@ Other Back 40	100	Greasy Duck
 Outskirts of Camp	70	Axe Handle	Cloud of Disembodied Whiskers	Poutine Ooze	Forest Spirit
 Outskirts of The Knob	50	Knob Goblin Assistant Chef	Sleeping Knob Goblin Guard	Sub-Assistant Knob Mad Scientist	Knob Goblin Barbecue Team
 Palindome	50	Bob Racecar	Drab Bard	Evil Olive	Flock of Stab-Bats	Racecar Bob	Taco Cat	Tan Gnat	Dr. Awkward: 0
-Pirate Cove	60	Sassy Pirate	Shady Pirate	Shifty Pirate	Swarthy Pirate	Smarmy Pirate
+Pirate Cove	60	Sassy Pirate	Smarmy Pirate	Shady Pirate	Shifty Pirate	Swarthy Pirate
 Pond	100	Figure Skating Duck	Frozen Duck
 Poop Deck	100	Wacky Pirate	Warty Pirate	Wealthy Pirate	Whiny Pirate	Witty Pirate
 Post-Cyrpt Cemetary	100	Corpulent Zobmie	Grave Rober Zmobie	Senile Lihc	Slick Lihc	Gluttonous Ghuol	Gaunt Ghuol	Spiny Skelelton	Toothy Sklelton	Skelter Butleton, the Butler Skeleton: 0	Count Bakula: -1

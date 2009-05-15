@@ -905,8 +905,8 @@ depleted Grimacite gravy boat	Mysticality Percent: [5*G], Adventures: [G]
 # detective skull
 duct tape buckler	Maximum HP: +65, Maximum MP: +65, Damage Reduction: 12
 easter egg balloon	Muscle: +5, Mysticality: +5, Moxie: +5
-# eelskin buckler: Damages Attacking Opponent (Underwater Only)
-eelskin buckler	Maximum HP: +55, Maximum MP: +55, Damage Reduction: 13
+# eelskin shield: Damages Attacking Opponent (Underwater Only)
+eelskin shield	Maximum HP: +55, Maximum MP: +55, Damage Reduction: 13
 enchanted brass knuckles	Critical: 2
 # fake hand: Gives Extra Offhand Equipment Slot
 fake hand	Weapon Damage: -1
@@ -950,6 +950,7 @@ makeshift castanets	Class: "Disco Bandit"
 marinara jug	Spell Damage: +30, Class: "Sauceror"
 marionette	Mysticality: +3
 marionette collective	Mysticality: +3
+meat shield	Damage Reduction: 3, Meat Drop: +3
 # mini-zeppelin
 # miniature stuffed Goth Giant
 # moxie magnet
@@ -1022,6 +1023,8 @@ teflon shield	Muscle Percent: +10, Damage Reduction: 10, Damage Absorption: +50
 # thought balloon
 tip jar	Meat Drop: +5
 tropical paperweight	Experience: +1
+# turtling rod: Helps You Tame Turtles
+turtling rod	Class: "Turtle Tamer"
 velcro shield	Mysticality Percent: +10, Damage Reduction: 10, Weapon Drop: +25
 vinyl shield	Moxie Percent: +10, Damage Reduction: 10, Monster Level: +25
 voodoo doll	Mysticality: +1
@@ -1589,6 +1592,7 @@ menorette	Familiar Weight: +5
 metal mandible	Familiar Weight: +5
 metallic foil bow	Familiar Weight: +5
 metallic foil radar dish	Familiar Weight: +5, Volleyball: -1, Sombrero: +1
+metrognome	Familiar Weight: +5
 miniature Jacob's ladder	Familiar Weight: +5
 miniature antlers	Familiar Weight: [1+ceil(M/2)]
 miniature carton of clove cigarettes	Familiar Weight: +5
@@ -1616,6 +1620,7 @@ rainbow tie	Familiar Weight: +5
 rat head balloon	Familiar Weight: -3
 rattlesnake enrager	Familiar Weight: +5
 rhesus monkey	Familiar Weight: +5
+security blankie	Familiar Weight: +5
 serrated proboscis extension	Familiar Weight: +20
 # shock collar: Familiar Will Attack You Less Often
 six-armed sweater	Familiar Weight: +5

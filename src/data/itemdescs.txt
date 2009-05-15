@@ -3522,7 +3522,7 @@
 3516	432435978	eel skin	pieces of eel skin
 3517	785586926	eelskin hat	eelskin hats
 3518	605906373	eelskin pants	pairs of eelskin pants
-3519	767266958	eelskin buckler	eelskin bucklers
+3519	767266958	eelskin shield	eelskin shields
 3520	906200885	shark tooth	shark teeth
 3521	999591089	shark tooth necklace	shark tooth necklaces
 3522	168628928	shark jumper	shark jumpers
@@ -3921,8 +3921,8 @@
 3915
 3916
 3917
-3918
-3919
+3918	560077148	meat shield	meat shields
+3919	767266958	eelskin shield	eelskin shields
 3920
 3921
 3922
@@ -3930,9 +3930,9 @@
 3924
 3925
 3926
-3927
-3928
-3929
+3927	908830164	turtling rod	turtling rods
+3928	724812926	syncopated turtle
+3929	265122511	grinning turtle
 3930	776348320	tainted seal's blood	vials of tainted seal's blood
 3931	653586887	severed flipper	severed flippers
 3932	536044038	ingot of seal-iron	ingots of seal-iron
@@ -3978,3 +3978,28 @@
 3972	991635862	frozen seal spine
 3973	789581959	seal lube	tubes of seal lube
 3974	331945292	mannequin leg
+3975
+3976
+3977
+3978
+3979
+3980
+3981
+3982
+3983
+3984
+3985
+3986
+3987
+3988
+3989
+3990
+3991
+3992
+3993
+3994	967440626	security blankie
+3995
+3996
+3997
+3998	760915709	metrognome
+3999
