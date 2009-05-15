@@ -410,9 +410,9 @@ public class CharPaneDecorator
 
 		if ( moodText == null )
 		{
-			// In this case, do nothing, since there aren't any effects
-			// that will get saved to a mood, and there's nothing that
-			// can be maintained.
+			// In this case, do nothing, since there aren't any
+			// effects that will get saved to a mood, and there's
+			// nothing that can be maintained.
 		}
 		else if ( GenericRequest.isCompactMode )
 		{
