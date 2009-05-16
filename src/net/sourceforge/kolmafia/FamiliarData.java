@@ -294,6 +294,7 @@ public class FamiliarData
 		case ItemPool.ZEN_MOTORCYCLE:
 		case ItemPool.IMITATION_WHETSTONE:
 		case ItemPool.FISHY_WAND:
+		case ItemPool.MOONTAN_LOTION:
 			return 0;
 
 		case ItemPool.TINY_COSTUME_WARDROBE:

@@ -1199,6 +1199,9 @@ deck of lewd playing cards	MUSE	lewd playing card (52)
 
 propeller beanie	MUSE	Bash-&#332;s boxtop (20)
 
+turtlemail coif	MUSE	turtlemail bits (3)
+turtlemail breeches	MUSE	turtlemail bits (5)
+turtlemail hauberk	MUSE	turtlemail bits (8)
 
 # Recipes that involve single-using one of the ingredients
 

@@ -109,3 +109,4 @@
 107	Syncopated Turtle	none	3928	metrognome	0	0	0	0
 108	Grinning Turtle	none	3929	security blankie	0	0	0	0
 109	Purse Rat	none	3962	tiny cell phone	0	0	0	0
+110	Wereturtle	combat	3979	bottle of moontan lotion	0	0	0	0

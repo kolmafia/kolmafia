@@ -160,6 +160,7 @@ superhero mask	10	none
 tattered paper crown	60	Mus: 15
 time helmet	100	Mox: 35
 toy space helmet	175	Mox: 72
+turtlemail coif	80	Mox: 25
 viking helmet	20	none
 water-polo cap	200	Mox: 85
 webbed comic mask	10	none
@@ -284,6 +285,7 @@ tighty whiteys	40	Mox: 5
 time trousers	100	Mox: 35
 tree skirt	100	Mox: 35
 troutpiece	110	Mox: 40
+turtlemail breeches	170	Mox: 70
 white satin pants	40	Mox: 5
 yakskin kilt	140	Mox: 55
 yakskin pants	140	Mox: 55
@@ -342,6 +344,7 @@ soggy wofl t-shirt	45	Mus: 7
 souvenir ski t-shirt	100	Mus: 35
 star shirt	165	Mus: 67
 supportive bra	50	Mox: 10
+turtlemail hauberk	80	Mus: 25
 tuxedo shirt	100	Mus: 35
 vampire cape	20	none
 white hat hacker T-shirt	65	Mus: 17
