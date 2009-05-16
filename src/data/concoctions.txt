@@ -1,6 +1,7 @@
 2
-# Items which can be obtained by simply using another item.  There are lots more of these,
-# but this appears to be the only one that guarantees that each item drops exactly once.
+# Items which can be obtained by simply using another item.  There are
+# lots more of these, but this appears to be the only one that
+# guarantees that each item drops exactly once.
 
 tamarind-flavored chewing gum	SUSE	pack of chewing gum
 lime-and-chile-flavored chewing gum	SUSE	pack of chewing gum
@@ -123,6 +124,7 @@ heart of rock and roll	SMITH	hot buttered roll	big rock
 Rock and Roll Legend	SMITH	heart of rock and roll	stolen accordion
 Squeezebox of the Ages	SMITH	Rock and Roll Legend	golden reeds
 
+dueling banjo	SMITH	dueling turtle	banjo strings
 
 # Familiar items and their subcomponents which do not serve any other
 # recalled purpose.
@@ -602,6 +604,8 @@ frigid-ass club	WSMITH	bad-ass club	frost-rimed seal hide
 hot-ass club	WSMITH	bad-ass club	sizzling seal fat
 nasty-ass club	WSMITH	bad-ass club	fustulent seal grulch
 
+soup-chucks	WSMITH	soup turtle	soup turtle
+
 rainbow bomb	COMBINE	stick of dynamite	prismatic wad
 
 # Meat-smithing weapons.  These items are grouped based on the
@@ -791,7 +795,10 @@ yakskin buckler	ASMITH	buckler buckle	yak skin
 
 meat shield	ASMITH	buckler buckle	dense meat stack
 eelskin shield	ASMITH	meat shield	eel skin
+painted shield	ASMITH	meat shield	painted turtle
+spiky turtle shield	ASMITH	meat shield	hedgeturtle
 spongy shield	ASMITH	meat shield	slab of sponge
+tortoboggan shield	ASMITH	tortoboggan	tortoboggan
 
 # Shirts made of hides of various sorts.
 
@@ -808,12 +815,16 @@ yak anorak	ASMITH	shirt kit	yak skin
 
 # Things made of special turtles
 
+ancient turtle shell helmet	ASMITH	basic meat helmet	ancient turtle shell
+bubblewrap bottlecap turtleban	ASMITH	bubblewrap ore	bottlecap turtle
 cardboard box turtle	ASMITH	cardboard ore	box turtle
 furry green earmuffs	ASMITH	furry green turtle	furry green turtle
 knobby kneepads	ASMITH	knobby helmet turtle	knobby helmet turtle
 reinforced furry underpants	ASMITH	bar skin	skeletortoise
-bubblewrap bottlecap turtleban	ASMITH	bubblewrap ore	bottlecap turtle
+samurai turtle helmet	ASMITH	basic meat helmet	samurai turtle
 sebaceous shield	ASMITH	bum cheek	sewer turtle
+spiky turtle helmet	ASMITH	basic meat helmet	hedgeturtle
+spiky turtle shoulderpads	ASMITH	hedgeturtle	hedgeturtle
 
 eXtreme nose ring	COMBINE	stone of eXtreme power	piercing post
 spooky glove	COOK	spooky fairy gravy	small leather glove
@@ -1104,6 +1115,8 @@ vampire pearl earring	JEWEL	vampire pearl	piercing post
 vampire pearl necklace	JEWEL	vampire pearl	necklace chain
 vampire pearl ring	JEWEL	vampire pearl	ring setting
 
+torquoise ring	JEWEL	torquoise	ring setting
+
 # Expensive Jewelry making recipes.  These require jewelry-making pliers
 # and the Really Expensive Jewelrycrafting skill
 
@@ -1217,6 +1230,7 @@ tarrrnished charrrm bracelet	SUSE	tarrrnish charrrm	charrrm bracelet
 charrrm bracelet	SUSE	Jolly Roger charrrm bracelet
 
 turtle wax shield	SUSE	turtle wax
+ancient turtle shell powder	SUSE	ancient turtle shell
 
 # Familiars.  These are familiars which are only available after
 # ascension (not including the ones which are available through

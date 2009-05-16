@@ -3926,10 +3926,10 @@
 3920	727243275	turtlemail coif	turtlemail coifs
 3921	595791066	turtlemail breeches	pairs of turtlemail breeches
 3922	147210293	turtlemail hauberk
-3923
-3924
-3925
-3926
+3923	742388692	hedgeturtle	hedgeturtles
+3924	533234208	spiky turtle helmet
+3925	991479543	spiky turtle shoulderpads	pairs of spiky turtle shoulderpads
+3926	617210839	spiky turtle shield	spiky turtle shields
 3927	908830164	turtling rod	turtling rods
 3928	724812926	syncopated turtle
 3929	265122511	grinning turtle
@@ -3978,34 +3978,34 @@
 3972	991635862	frozen seal spine
 3973	789581959	seal lube	tubes of seal lube
 3974	331945292	mannequin leg
-3975
-3976
-3977
-3978
+3975	216538295	padded tortoise	padded tortoises
+3976	237200117	tortoboggan	tortoboggans
+3977	919740152	painted turtle	painted turtles
+3978	769359181	painted shield	painted shields
 3979	344666278	sleeping wereturtle	sleeping wereturtles
-3980
-3981
-3982
-3983
-3984
-3985
-3986
-3987
-3988
-3989
-3990
+3980	634096845	blue shell	blue shells
+3981	213560716	torquoise	torquoises
+3982	950988019	torquoise ring	torquoise rings
+3983	817089556	dueling turtle	dueling turtles
+3984	212059963	dueling banjo	dueling banjos
+3985	571788123	soup turtle	soup turtles
+3986	239325614	samurai turtle	samurai turtles
+3987	364580079	samurai turtle helmet	samurai turtle helmets
+3988	254573219	ancient turtle shell	ancient turtle shells
+3989	334366675	ancient turtle shell powder	piles of ancient turtle shell powder
+3990	666719587	ancient turtle shell helmet	ancient turtle shell helmets
 3991
 3992
 3993
 3994	967440626	security blankie
 3995
-3996
+3996	526611623	boxcar turtle
 3997
 3998	760915709	metrognome
 3999
 4000
 4001
-4002
+4002	423581654	tortoboggan shield
 4003	525598834	bottle of moontan lotion	bottles of moontan lotion
-4004
+4004	578558200	soup-chucks
 4005	682425424	ballast turtle	ballast turtles

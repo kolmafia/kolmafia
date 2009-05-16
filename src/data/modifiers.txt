@@ -77,6 +77,7 @@ Spooky Putty mitre	Experience: +3, Softcore Only
 Tropical Crimbo Hat	Spooky Resistance: +1, Familiar Effect: "1xLep, 1.5xFairy, cap 25"
 Zombo's skullcap	Muscle Percent: +20, Familiar Weight: +10, Class: "Turtle Tamer", Familiar Effect: "spooky atk"
 aerated diving helmet	Stench Resistance: +3, Item Drop: -50, Initiative: -50
+ancient turtle shell helmet	Meat Drop: +10
 anniversary concrete fedora	Moxie: +1, Muscle: +1, Mysticality: +1, Familiar Effect: "?xVolley, ?xLep, cap 2"
 antique helmet	Initiative: -10, Spooky Resistance: +3, Familiar Effect: "0.5xPotato, 0.5xFairy"
 asbestos helmet turtle	Hot Resistance: +1, Familiar Effect: "hot atk, 1xFairy, cap 20"
@@ -189,11 +190,13 @@ reinforced beaded headband	Maximum HP: +40, Familiar Effect: "0.5xBarrr, 1xFairy
 rusty diving helmet	Stench Resistance: +1, Item Drop: -50, Initiative: -50
 # safarrri hat: +10 Damage vs. Lions
 safarrri hat	Maximum HP: +15, Familiar Effect: "2xVolley, cap 22"
+samurai turtle helmet	Muscle: +1, Weapon Damage: +2
 seal-skull helmet	Familiar Effect: "atk, cap 2"
 sequined fez	Moxie: +3, Familiar Effect: "1.75xLep, cap 20"
 shapeless wide-brimmed hat	HP Regen Min: 15, HP Regen Max: 20, MP Regen Min: 15, MP Regen Max: 20, Mysticality Percent: +5, Familiar Effect: "0.75xLep, 0x75xFairy"
 skeletortoise	Mysticality: +2, Familiar Effect: "spooky atk, 2xFairy, cap 7"
 snorkel	Familiar Effect: "atk, cap 2"
+spiky turtle helmet	Weapon Damage: +8, Monster Level: +8
 sponge helmet	Mysticality Percent: +10, MP Regen Min: 15, MP Regen Max: 20, Damage Absorption: +40, Familiar Effect: "none"
 spooky hockey mask	Spooky Resistance: +2, Spooky Damage: +3, Familiar Effect: "1xBarrr, 1.5xGhuol, cap 25"
 stainless steel skullcap	Maximum HP: +30, Damage Absorption: +60, Muscle Percent: +15, Familiar Effect: "1xLep, 1xFairy, cap 22"
@@ -594,6 +597,7 @@ dripping meat crossbow	Moxie: +2
 dripping meat staff	Mysticality: +2
 dripping meat sword	Muscle: +2
 drywall axe	Muscle: +2, Mysticality: +2, Moxie: +2, Muscle Percent: +3, Mysticality Percent: +3, Moxie Percent: +3
+dueling banjo	Moxie: +4, Monster Level: +5
 duck-on-a-string	Weapon Damage: +5, Item Drop: +5
 duct tape sword	Damage Absorption: +40, Item Drop: +5
 # dwarvish war mattock: Magical Blue Glow
@@ -747,6 +751,7 @@ sleazy bindle	Item Drop: +10, Sleaze Damage: +25
 # slightly peevedbow
 # slingshot
 smoldering staff	Mysticality: +7, Moxie: +5, Stench Spell Damage: +11
+soup-chucks	Hot Damage: +3
 soylent staff	Mysticality: +4, Spell Damage: +10
 spiked femur	Spooky Damage: +6
 spooky bicycle chain	Spooky Damage: +5, Critical: 2
@@ -965,6 +970,8 @@ naughty fortune teller	Softcore Only
 off-hand balloon	Muscle: +1, Mysticality: +1, Moxie: +1
 # oyster basket
 oyster egg balloon	Muscle: +5, Mysticality: +5, Moxie: +5
+padded tortoise	Damage Absorption: +20, HP Regen Min: 4, HP Regen Max: 8, Damage Reduction: 6
+painted shield	Muscle: +3, Mysticality: +3, Moxie: +3, Spooky Damage: +2, Stench Damage: +2, Hot Damage: +2, Cold Damage: +2, Sleaze Damage: +2, Damage Reduction: 7
 parasitic strangleworm	Damage Reduction: 15
 penguin skin buckler	Moxie: +5, Damage Reduction: 5
 penguin thesaurus	Mysticality: +1, Maximum HP: +5, Maximum MP: +5
@@ -990,6 +997,7 @@ snake shield	Muscle: +6, Damage Reduction: 7
 snarling wolf shield	Maximum HP: +40, Damage Reduction: 7
 sock monkey	Moxie: +3
 spaghetti-box banjo	MP Regen Min: 5, MP Regen Max: 10, Class: "Pastamancer"
+spiky turtle shield	Waepon Damage: +8, Item Drop: +10, Damage Reduction: 8
 spongy shield	Muscle Percent: +10, HP Regen Min: 20, HP Regen Max: 50, Damage Absorption: +50, Damage Reduction: 14
 star buckler	Muscle: +2, Mysticality: +2, Moxie: +2, Damage Reduction: 10
 steaming evil	Hot Damage: +6, Sleaze Damage: +6, Spooky Damage: +6
@@ -1028,6 +1036,7 @@ steaming evil	Hot Damage: +6, Sleaze Damage: +6, Spooky Damage: +6
 teflon shield	Muscle Percent: +10, Damage Reduction: 10, Damage Absorption: +50
 # thought balloon
 tip jar	Meat Drop: +5
+tortoboggan shield	Initiative: +30, Cold Resistance: +2
 tropical paperweight	Experience: +1
 turtle wax shield	Maximum HP: +10, Damage Reduction: 2
 # turtling rod: Helps You Tame Turtles
@@ -1368,6 +1377,8 @@ spark plug earring	MP Regen Min: 3, MP Regen Max: 4, Spooky Resistance: +2
 sparkly engagement ring	Muscle: +15, Mysticality: +15, Moxie: +15, Single Equip
 # special sauce glove: Allows you to equip Chefstaves
 special sauce glove	Class: "Sauceror", Single Equip
+# spiky turtle shoulderpads: Damages Attacking Opponent
+spiky turtle shoulderpads	Damage Absorption: +75, Single Equip
 spooky glove	Never Fumble, Moxie: +5, Spooky Damage: +5
 stainless steel scarf	Spell Damage: +20, Monster Level: +20, Mysticality Percent: +15, Single Equip
 stainless steel solitaire	Mana Cost: -2, Adventures: +2, Mysticality Percent: +15, Single Equip
@@ -1495,6 +1506,8 @@ tiny plastic undead elbow macaroni	Monster Level: +1
 tiny plastic warwelf	Monster Level: +1
 tiny plastic whitesnake	Monster Level: +1
 tiny plastic zmobie	Monster Level: +1
+torquoise ring	Moxie: +3, MP Regen Min: 2, MP Regen Max: 2, Single Equip
+tortoboggan	Moxie: +4, Initiative: +20
 toy crazy train	Meat Drop: +10, Single Equip
 toy jet pack	Intrinsic Effect: "Get Me Off This Crazy Thing!", Single Equip
 toy maglev monorail	Meat Drop: +10, Single Equip
