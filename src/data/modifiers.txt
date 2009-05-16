@@ -205,6 +205,7 @@ tattered paper crown	Muscle: +3, Familiar Effect: "1xSombrero, cap 15"
 time helmet	Adventures: +3, Familiar Effect: "0.5xPotato, 1xFairy, cap 25"
 # toy space helmet: Provides Mostly Accurate Battle Statistics During Fights
 toy space helmet	Stench Resistance: +3, Spooky Resistance: +3, Familiar Effect: "0.5xPotato, 1xFairy, cap 43"
+turtle wax helmet	Hot Resistance: +1
 turtlemail coif	Muscle: +5, Damage Reduction: 4
 viking helmet	Muscle: +1, Familiar Effect: "atk, cap 5"
 water-polo cap	Weapon Damage: +30
@@ -334,6 +335,7 @@ tighty whiteys	Spooky Resistance: +2
 time trousers	Adventures: +3
 tree skirt	Moxie: +5
 # troutpiece
+turtle wax greaves	Muscle: +2
 turtlemail breeches	Maximum MP: +30, Sleaze Resistance: +2
 white satin pants	Sleaze Resistance: +2
 yakskin kilt	Maximum MP: +25
@@ -1027,6 +1029,7 @@ teflon shield	Muscle Percent: +10, Damage Reduction: 10, Damage Absorption: +50
 # thought balloon
 tip jar	Meat Drop: +5
 tropical paperweight	Experience: +1
+turtle wax shield	Maximum HP: +10, Damage Reduction: 2
 # turtling rod: Helps You Tame Turtles
 turtling rod	Class: "Turtle Tamer"
 velcro shield	Mysticality Percent: +10, Damage Reduction: 10, Weapon Drop: +25

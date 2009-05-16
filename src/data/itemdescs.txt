@@ -3917,10 +3917,10 @@
 3911	623716453	figurine of a slippery seal	figurines of slippery seals
 3912	920030991	imbued seal-blubber candle	imbued seal-blubber candles
 3913	395554500	blended frozen swill with a fly in it	glasses of blended frozen swill with flies in them
-3914
-3915
-3916
-3917
+3914	688744545	turtle wax	globs of turtle wax
+3915	490908351	turtle wax shield	turtle wax shields
+3916	760962787	turtle wax helmet	turtle wax helmets
+3917	649657203	turtle wax greaves	pairs of turtle wax greaves
 3918	560077148	meat shield	meat shields
 3919	210969814	turtlemail bits	piles of turtlemail bits
 3920	727243275	turtlemail coif	turtlemail coifs

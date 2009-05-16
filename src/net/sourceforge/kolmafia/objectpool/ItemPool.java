@@ -827,6 +827,8 @@ public class ItemPool
 	public static final int PLASTIC_GUITAR = 3863;
 	public static final int FINGER_CYMBALS = 3864;
 	public static final int KETTLE_DRUM = 3865;
+	public static final int TURTLE_WAX = 3914;
+	public static final int TURTLEMAIL_BITS = 3919;
 	public static final int VIP_LOUNGE_KEY = 3947;
 	public static final int STUFFED_CHEST = 3949;
 	public static final int STUFFED_KEY = 3950;

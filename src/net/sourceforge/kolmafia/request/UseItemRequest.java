@@ -323,7 +323,7 @@ public class UseItemRequest
 		case ItemPool.STUFFED_CHEST:
 			return InventoryManager.getCount( ItemPool.STUFFED_KEY );
 
-		    case ItemPool.MOJO_FILTER:
+		case ItemPool.MOJO_FILTER:
 			return Math.max( 0, 3 - Preferences.getInteger( "currentMojoFilters" ) );
 
 		case ItemPool.EXPRESS_CARD:
@@ -2064,6 +2064,7 @@ public class UseItemRequest
 		case ItemPool.PACK_OF_CHEWING_GUM:
 		case ItemPool.CATALYST:
 		case ItemPool.JAMFISH_JAM:
+		case ItemPool.TURTLE_WAX:
 			// SingleUseRequest
 		case ItemPool.PALM_FROND:
 		case ItemPool.MUMMY_WRAP:
@@ -2075,6 +2076,7 @@ public class UseItemRequest
 		case ItemPool.INTERESTING_TWIG:
 		case ItemPool.LEWD_CARD:
 		case ItemPool.BOXTOP:
+		case ItemPool.TURTLEMAIL_BITS:
 			// MultiUseRequest
 
 			// These all create things via "use" or "multiuse" of a

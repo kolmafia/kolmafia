@@ -3912,10 +3912,10 @@
 3911	figurine of a slippery seal	none	all	150
 3912	imbued seal-blubber candle	none	all	50
 3913	blended frozen swill with a fly in it	message	gift	5
-3914
-3915
-3916
-3917
+3914	turtle wax	usable	all	7
+3915	turtle wax shield	offhand, usable	all	7
+3916	turtle wax helmet	hat, usable	all	7
+3917	turtle wax greaves	pants, usable	all	7
 3918	meat shield	offhand	all	65
 3919	turtlemail bits	multiple	all	28
 3920	turtlemail coif	hat	all	28
