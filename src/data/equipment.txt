@@ -160,6 +160,7 @@ superhero mask	10	none
 tattered paper crown	60	Mus: 15
 time helmet	100	Mox: 35
 toy space helmet	175	Mox: 72
+turtle wax helmet	40	Mox: 5
 turtlemail coif	80	Mox: 25
 viking helmet	20	none
 water-polo cap	200	Mox: 85
@@ -285,6 +286,7 @@ tighty whiteys	40	Mox: 5
 time trousers	100	Mox: 35
 tree skirt	100	Mox: 35
 troutpiece	110	Mox: 40
+turtle wax greaves	50	Mox: 5
 turtlemail breeches	170	Mox: 70
 white satin pants	40	Mox: 5
 yakskin kilt	140	Mox: 55
@@ -945,6 +947,8 @@ teflon shield	0	Mus: 85	shield
 thought balloon	0	none
 tip jar	0	Mys: 52
 tropical paperweight	0	none
+# *** turtle wax shield is a shield of unknown power.
+turtle wax shield	0	Mus: 5	shield
 turtling rod	0	none
 # *** velcro shield is a shield of unknown power.
 velcro shield	0	Mus: 85	shield

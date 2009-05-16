@@ -201,7 +201,8 @@ public abstract class UseLinkDecorator
 
 		// Skip items which are multi-use or are mp restores.
 		int consumeMethod = ItemDatabase.getConsumptionType( itemId );
-		if ( consumeMethod == KoLConstants.CONSUME_MULTIPLE || consumeMethod == KoLConstants.MP_RESTORE )
+		if ( consumeMethod == KoLConstants.CONSUME_MULTIPLE ||
+		     consumeMethod == KoLConstants.MP_RESTORE )
 		{
 			return KoLConstants.NOCREATE;
 		}
@@ -260,16 +261,20 @@ public abstract class UseLinkDecorator
 
 			switch ( mixingMethod )
 			{
-			case KoLConstants.NOCREATE:
-			case KoLConstants.PIXEL:
-			case KoLConstants.ROLLING_PIN:
-			case KoLConstants.CRIMBO05:
-			case KoLConstants.STILL_BOOZE:
-			case KoLConstants.STILL_MIXER:
-			case KoLConstants.SMITH:
-			case KoLConstants.SMITH_WEAPON:
-			case KoLConstants.SMITH_ARMOR:
-			case KoLConstants.STARCHART:
+			case KoLConstants.COMBINE:
+			case KoLConstants.MIX:
+			case KoLConstants.MIX_SPECIAL:
+			case KoLConstants.MIX_SUPER:
+			case KoLConstants.MIX_SALACIOUS:
+			case KoLConstants.COOK:
+			case KoLConstants.COOK_REAGENT:
+			case KoLConstants.SUPER_REAGENT:
+			case KoLConstants.DEEP_SAUCE:
+			case KoLConstants.COOK_PASTA:
+			case KoLConstants.JEWELRY:
+			case KoLConstants.EXPENSIVE_JEWELRY:
+				break;
+			default:
 				continue;
 			}
 

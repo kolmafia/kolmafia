@@ -1216,6 +1216,8 @@ tarrrnished charrrm bracelet	SUSE	tarrrnish charrrm	charrrm bracelet
 
 charrrm bracelet	SUSE	Jolly Roger charrrm bracelet
 
+turtle wax shield	SUSE	turtle wax
+
 # Familiars.  These are familiars which are only available after
 # ascension (not including the ones which are available through
 # post-ascension methods, like supertinkering).
