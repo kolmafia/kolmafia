@@ -3921,10 +3921,10 @@
 3920	turtlemail coif	hat	all	28
 3921	turtlemail breeches	pants	all	28
 3922	turtlemail hauberk	shirt	all	28
-3923
-3924
-3925
-3926
+3923	hedgeturtle	combat	all	0
+3924	spiky turtle helmet	hat	all	96
+3925	spiky turtle shoulderpads	accessory	all	96
+3926	spiky turtle shield	offhand	all	96
 3927	turtling rod	offhand	display	250
 3928	syncopated turtle	grow	all	50
 3929	grinning turtle	grow	all	50
@@ -3973,34 +3973,34 @@
 3972	frozen seal spine	weapon	all	250
 3973	seal lube	multiple	display	100
 3974	mannequin leg	weapon	all	145
-3975
-3976
-3977
-3978
+3975	padded tortoise	offhand	all	75
+3976	tortoboggan	accessory	all	105
+3977	painted turtle	combat	all	350
+3978	painted shield	offhand	all	300
 3979	sleeping wereturtle	grow	all	37
-3980
-3981
-3982
-3983
-3984
-3985
-3986
-3987
-3988
-3989
-3990
+3980	blue shell	combat	all	22
+3981	torquoise	none	all	400
+3982	torquoise ring	accessory	all	400
+3983	dueling turtle	hpmp	all	50
+3984	dueling banjo	weapon	all	50
+3985	soup turtle	combat	all	14
+3986	samurai turtle	combat	all	5
+3987	samurai turtle helmet	hat	all	7
+3988	ancient turtle shell	multiple	all	35
+3989	ancient turtle shell powder	hp	all	24
+3990	ancient turtle shell helmet	hat	all	40
 3991
 3992
 3993
 3994	security blankie	familiar	all	75
 3995
-3996
+3996	boxcar turtle	usable	display	0
 3997
 3998	metrognome	familiar	all	75
 3999
 4000
 4001
-4002
+4002	tortoboggan shield	offhand	all	110
 4003	bottle of moontan lotion	familiar	all	75
-4004
+4004	soup-chucks	weapon	all	21
 4005	ballast turtle	multiple	display	75

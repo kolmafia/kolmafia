@@ -38,6 +38,7 @@ Spooky Putty mitre	100	none
 Tropical Crimbo Hat	100	Mox: 35
 Zombo's skullcap	200	Mus: 200
 aerated diving helmet	200	Mox: 85
+ancient turtle shell helmet	35	Mox: 2
 anniversary concrete fedora	10	none
 antique helmet	200	Mus: 85
 asbestos helmet turtle	80	Mox: 25
@@ -145,11 +146,13 @@ red traffic cone	60	Mox: 15
 reinforced beaded headband	170	Mox: 70
 rusty diving helmet	200	Mox: 85
 safarrri hat	90	Mox: 30
+samurai turtle helmet	25	none
 seal-skull helmet	10	none
 sequined fez	80	Mox: 25
 shapeless wide-brimmed hat	200	Mox: 200
 skeletortoise	30	none
 snorkel	10	none
+spiky turtle helmet	130	Mox: 50
 sponge helmet	200	Mox: 85
 spooky hockey mask	100	Mox: 35
 stainless steel skullcap	90	Mox: 30
@@ -534,6 +537,7 @@ dripping meat crossbow	50	Mox: 10	2-handed crossbow
 dripping meat staff	50	Mus: 10	2-handed staff
 dripping meat sword	50	Mus: 10	1-handed sword
 drywall axe	150	Mus: 60	2-handed axe
+dueling banjo	40	Mox: 5	2-handed banjo
 duck-on-a-string	100	Mus: 35	1-handed flail
 duct tape sword	195	Mus: 82	1-handed sword
 dwarvish war mattock	165	Mus: 67	1-handed axe
@@ -684,6 +688,7 @@ sleazy bindle	200	Mus: 200	2-handed polearm
 slightly peevedbow	60	Mox: 15	2-handed bow
 slingshot	20	Mox: 0	2-handed slingshot
 smoldering staff	125	Mus: 45	2-handed staff
+soup-chucks	15	none	2-handed flail
 soylent staff	100	Mus: 35	2-handed staff
 spiked femur	100	Mus: 35	1-handed club
 spooky bicycle chain	80	Mus: 25	1-handed flail
@@ -880,6 +885,10 @@ naughty fortune teller	0	none
 off-hand balloon	0	none
 oyster basket	0	none
 oyster egg balloon	0	Mys: 35
+# *** padded tortoise is a shield of unknown power.
+padded tortoise	0	Mus: 35
+# *** painted shield is a shield of unknown power.
+painted shield	0	Mus: 45
 parasitic strangleworm	0	none
 penguin skin buckler	95	Mus: 30	shield
 penguin thesaurus	0	none
@@ -906,6 +915,8 @@ snake shield	117	Mus: 42	shield
 snarling wolf shield	117	Mus: 42	shield
 sock monkey	0	Mys: 40
 spaghetti-box banjo	0	Mys: 150
+# *** spiky turtle shield is a shield of unknown power.
+spiky turtle shield	0	Mus: 50	shield
 # *** spongy shield is a shield of unknown power.
 spongy shield	0	Mus: 95	shield
 star buckler	165	Mus: 67	shield
@@ -946,6 +957,8 @@ stuffed zmobie	0	none
 teflon shield	0	Mus: 85	shield
 thought balloon	0	none
 tip jar	0	Mys: 52
+# *** tortoboggan shield is a shield of unknown power.
+tortoboggan shield	0	Mus: 35	shield
 tropical paperweight	0	none
 # *** turtle wax shield is a shield of unknown power.
 turtle wax shield	0	Mus: 5	shield
@@ -1257,6 +1270,7 @@ spade necklace	0	none
 spark plug earring	0	Mys: 75
 sparkly engagement ring	0	none
 special sauce glove	0	none
+spiky turtle shoulderpads	0	Mus: 50
 spooky glove	0	Mys: 15
 stainless steel scarf	0	Mys: 30
 stainless steel solitaire	0	Mys: 30
@@ -1383,6 +1397,8 @@ tiny plastic undead elbow macaroni	0	none
 tiny plastic warwelf	0	none
 tiny plastic whitesnake	0	none
 tiny plastic zmobie	0	none
+torquoise ring	0	none
+tortoboggan	0	Mox: 30
 toy crazy train	0	Mys: 15
 toy jet pack	0	Mys: 72
 toy maglev monorail	0	Mys: 15
