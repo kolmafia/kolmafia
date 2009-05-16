@@ -830,6 +830,7 @@ public class ItemPool
 	public static final int VIP_LOUNGE_KEY = 3947;
 	public static final int STUFFED_CHEST = 3949;
 	public static final int STUFFED_KEY = 3950;
+	public static final int MOONTAN_LOTION = 4003;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

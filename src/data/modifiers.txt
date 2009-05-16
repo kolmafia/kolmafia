@@ -205,6 +205,7 @@ tattered paper crown	Muscle: +3, Familiar Effect: "1xSombrero, cap 15"
 time helmet	Adventures: +3, Familiar Effect: "0.5xPotato, 1xFairy, cap 25"
 # toy space helmet: Provides Mostly Accurate Battle Statistics During Fights
 toy space helmet	Stench Resistance: +3, Spooky Resistance: +3, Familiar Effect: "0.5xPotato, 1xFairy, cap 43"
+turtlemail coif	Muscle: +5, Damage Reduction: 4
 viking helmet	Muscle: +1, Familiar Effect: "atk, cap 5"
 water-polo cap	Weapon Damage: +30
 webbed comic mask	Moxie: +5, Muscle: +5, Mysticality: +5, Softcore Only
@@ -333,6 +334,7 @@ tighty whiteys	Spooky Resistance: +2
 time trousers	Adventures: +3
 tree skirt	Moxie: +5
 # troutpiece
+turtlemail breeches	Maximum MP: +30, Sleaze Resistance: +2
 white satin pants	Sleaze Resistance: +2
 yakskin kilt	Maximum MP: +25
 yakskin pants	Maximum MP: +25
@@ -391,6 +393,7 @@ soggy wofl t-shirt	Muscle: +3
 souvenir ski t-shirt	Moxie: +5
 star shirt	Muscle: +5, Mysticality: +5, Moxie: +5
 supportive bra	Moxie: +3
+turtlemail hauberk	Damage Absorption: +30, HP Regen Min: 6, HP Regen Max: 12
 tuxedo shirt	Moxie: +7
 # vampire cape
 white hat hacker T-shirt	Critical: 2, Muscle: +2, Mysticality: +2, Moxie: +2
@@ -884,6 +887,7 @@ battered hubcap	Muscle: +15, Maximum HP: +100, Cold Resistance: +2, Hot Resistan
 black shield	Muscle: +5, Maximum HP: +20, Damage Reduction: 10
 bobble-hip hula elf doll	Muscle: +5, Mysticality: +5, Moxie: +5, Meat Drop: +15
 borg sock monkey	Moxie: +3
+# bottle of moontan lotion: Makes Familiar Less Sensitive to Light
 box	Meat Drop: +1
 box turtle	Muscle: +1, Damage Reduction: 3
 box-in-the-box	Meat Drop: +2

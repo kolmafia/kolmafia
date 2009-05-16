@@ -3922,10 +3922,10 @@
 3916
 3917
 3918	560077148	meat shield	meat shields
-3919	767266958	eelskin shield	eelskin shields
-3920
-3921
-3922
+3919	210969814	turtlemail bits	piles of turtlemail bits
+3920	727243275	turtlemail coif	turtlemail coifs
+3921	595791066	turtlemail breeches	pairs of turtlemail breeches
+3922	147210293	turtlemail hauberk
 3923
 3924
 3925
@@ -3982,7 +3982,7 @@
 3976
 3977
 3978
-3979
+3979	344666278	sleeping wereturtle	sleeping wereturtles
 3980
 3981
 3982
@@ -4003,3 +4003,9 @@
 3997
 3998	760915709	metrognome
 3999
+4000
+4001
+4002
+4003	525598834	bottle of moontan lotion	bottles of moontan lotion
+4004
+4005	682425424	ballast turtle	ballast turtles

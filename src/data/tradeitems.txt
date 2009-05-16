@@ -3917,10 +3917,10 @@
 3916
 3917
 3918	meat shield	offhand	all	65
-3919
-3920
-3921
-3922
+3919	turtlemail bits	multiple	all	28
+3920	turtlemail coif	hat	all	28
+3921	turtlemail breeches	pants	all	28
+3922	turtlemail hauberk	shirt	all	28
 3923
 3924
 3925
@@ -3977,7 +3977,7 @@
 3976
 3977
 3978
-3979
+3979	sleeping wereturtle	grow	all	37
 3980
 3981
 3982
@@ -3998,3 +3998,9 @@
 3997
 3998	metrognome	familiar	all	75
 3999
+4000
+4001
+4002
+4003	bottle of moontan lotion	familiar	all	75
+4004
+4005	ballast turtle	multiple	display	75
