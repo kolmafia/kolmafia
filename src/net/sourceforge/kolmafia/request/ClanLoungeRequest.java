@@ -172,11 +172,13 @@ public class ClanLoungeRequest
 		ClanLoungeRequest request = new ClanLoungeRequest( ClanLoungeRequest.KLAW );
 		RequestThread.postRequest( request );
 
-		// You probably shouldn't play with this machine any more today
-		// -- you wouldn't want to look greedy in front of the other
-		// VIPs, would you?
+		// Unlike the regular Klaw, there is no message to tell you
+		// that you are done for the day except when you try one too
+		// many times: "You probably shouldn't play with this machine
+		// any more today -- you wouldn't want to look greedy in front
+		// of the other VIPs, would you?"
 
-		while ( request.responseText.indexOf( "want to look greedy" ) == -1 )
+		for ( int i = 0; i < 3 && request.responseText.indexOf( "want to look greedy" ) == -1; ++i )
 		{
 			request.run();
 		}
