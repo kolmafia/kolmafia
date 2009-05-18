@@ -202,7 +202,7 @@ public class RelayRequest
 
 	protected boolean retryOnTimeout()
 	{
-		return true;
+		return false;
 	}
 
 	public void processResults()
