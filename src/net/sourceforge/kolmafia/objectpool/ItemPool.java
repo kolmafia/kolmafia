@@ -437,6 +437,7 @@ public class ItemPool
 	public static final int FAMILIAR_DOPPELGANGER = 2225;
 	public static final int EYEBALL_PENDANT = 2226;
 	public static final int CALAVERA_CONCERTINA = 2234;
+	public static final int TURTLE_PHEROMONES = 2236;
 	public static final int PALINDROME_BOOK = 2258;
 	public static final int PHOTOGRAPH_OF_GOD = 2259;
 	public static final int HARD_ROCK_CANDY = 2260;
@@ -829,6 +830,7 @@ public class ItemPool
 	public static final int KETTLE_DRUM = 3865;
 	public static final int TURTLE_WAX = 3914;
 	public static final int TURTLEMAIL_BITS = 3919;
+	public static final int TURTLING_ROD = 3927;
 	public static final int VIP_LOUNGE_KEY = 3947;
 	public static final int STUFFED_CHEST = 3949;
 	public static final int STUFFED_KEY = 3950;

@@ -372,8 +372,8 @@ public class CharPaneDecorator
 		int startingIndex = 0;
 		int lastAppendIndex = 0;
 
-		// First, add in a link to the sidepane which matches the player's
-		// current situation.
+		// First, add in a link to the sidepane which matches the
+		// player's current situation.
 
 		String fontColor = null;
 		String moodText = null;

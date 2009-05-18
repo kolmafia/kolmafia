@@ -39,6 +39,7 @@ import net.sourceforge.kolmafia.persistence.EffectDatabase;
 public class EffectPool
 {
 	public static final String ON_THE_TRAIL = "On the Trail";
+	public static final String EAU_DE_TORTUE= "Eau de Tortue";
 
 	public static final String ODE = "Ode to Booze";
 	public static final String MILK = "Got Milk";

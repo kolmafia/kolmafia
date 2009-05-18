@@ -50,6 +50,8 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.Preferences;
@@ -74,6 +76,9 @@ public abstract class MoodManager
 		new AdventureResult( "Somewhat Poisoned", 1, true ),
 		new AdventureResult( "Really Quite Poisoned", 1, true ),
 	};
+
+        public static final AdventureResult TURTLING_ROD = ItemPool.get( ItemPool.TURTLING_ROD, 1 );
+        public static final AdventureResult EAU_DE_TORTUE= EffectPool.get( EffectPool.EAU_DE_TORTUE );
 
 	private static final TreeMap reference = new TreeMap();
 	private static final SortedListModel displayList = new SortedListModel();
@@ -769,6 +774,15 @@ public abstract class MoodManager
 			{
 				missing.add( current.effect );
 			}
+		}
+
+		// Special case: if the character has a turtling rod equipped,
+		// assume the Eau de Tortue is a possibility
+
+		if ( KoLCharacter.hasEquipped( MoodManager.TURTLING_ROD, EquipmentManager.OFFHAND ) &&
+		     !KoLConstants.activeEffects.contains( MoodManager.EAU_DE_TORTUE ) )
+		{
+			missing.add( MoodManager.EAU_DE_TORTUE );
 		}
 
 		return missing;

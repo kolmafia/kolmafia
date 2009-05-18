@@ -95,6 +95,8 @@ public class UseItemRequest
 		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.MILK_OF_MAGNESIUM ), ItemDatabase.MILK );
 
 		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.ABSINTHE ), EffectPool.get( EffectPool.ABSINTHE ) );
+
+		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.TURTLE_PHEROMONES ), EffectPool.get( EffectPool.EAU_DE_TORTUE ) );
 	}
 
 	public static String lastUpdate = "";
