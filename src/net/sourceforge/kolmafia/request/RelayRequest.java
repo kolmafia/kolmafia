@@ -371,17 +371,6 @@ public class RelayRequest
 
 		this.responseText = responseBuffer.toString();
 
-		if ( Preferences.getBoolean( "logDecoratedResponses" ) )
-		{
-			RequestLogger.updateDebugLog( "Rendering hypertext..." );
-			String text = this.responseText;
-			if ( !Preferences.getBoolean( "logReadableHTML" ) )
-			{
-				text = KoLConstants.LINE_BREAK_PATTERN.matcher( text ).replaceAll( "" );
-			}
-			RequestLogger.updateDebugLog( text );
-		}
-
 		CustomItemDatabase.linkCustomItem( this );
 	}
 

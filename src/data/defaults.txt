@@ -77,6 +77,7 @@ global	libramSkillsHardcore	none
 global	libramSkillsSoftcore	none
 global	logAcquiredItems	true
 global	logBattleAction	true
+global	logBrowserInteractions	false
 global	logChatMessages	true
 global	logDecoratedResponses	false
 global	logFamiliarActions	false
