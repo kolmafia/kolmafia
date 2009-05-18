@@ -1568,7 +1568,7 @@ public class DwarfFactoryRequest
 
 				if ( d1 == d2 )
 				{
-					if ( zero == null )
+					if ( !this.digitMap.containsKey( new Character( d1 ) ) && zero == null )
 					{
 						continue;
 					}
