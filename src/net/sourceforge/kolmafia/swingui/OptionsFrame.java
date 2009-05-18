@@ -350,6 +350,7 @@ public class OptionsFrame
 			{},
 
 			{ "useLastUserAgent", "(Debug) Use last browser's userAgent" },
+			{ "logBrowserInteractions", "(Debug) Verbosely log communication between KoLmafia and browser" },
 			{ "logDecoratedResponses", "(Debug) Log decorated responses in debug log" },
 			{ "logReadableHTML", "(Debug) Include line breaks in logged HTML" },
 		};

@@ -138,14 +138,18 @@ public class LocalRelayAgent
 	public boolean readBrowserRequest()
 		throws IOException
 	{
+		boolean debugging = RequestLogger.isDebugging() && Preferences.getBoolean( "logBrowserInteractions" );
+
 		this.reader = new BufferedReader( new InputStreamReader( this.socket.getInputStream() ) );
 
 		String requestLine = this.reader.readLine();
 
-		if ( RequestLogger.isDebugging() )
+		if ( debugging )
 		{
-			RequestLogger.updateDebugLog( requestLine );
+			RequestLogger.updateDebugLog( "-----From Browser-----" );
 		}
+
+		RequestLogger.updateDebugLog( requestLine );
 
 		if ( requestLine == null )
 		{
@@ -164,6 +168,11 @@ public class LocalRelayAgent
 
 		while ( ( currentLine = this.reader.readLine() ) != null && !currentLine.equals( "" ) )
 		{
+			if ( debugging )
+			{
+				RequestLogger.updateDebugLog( currentLine );
+			}
+
 			if ( currentLine.startsWith( "Referer: " ) )
 			{
 				String referer = currentLine.substring( 9 );
@@ -173,30 +182,30 @@ public class LocalRelayAgent
 					return false;
 				}
 			}
-
-			if ( currentLine.startsWith( "If-Modified-Since" ) )
+			else if ( currentLine.startsWith( "If-Modified-Since" ) )
 			{
 				this.isCheckingModified = true;
+				continue;
 			}
-
-			if ( currentLine.startsWith( "Content-Length" ) )
+			else if ( currentLine.startsWith( "Content-Length" ) )
 			{
 				contentLength = StringUtilities.parseInt( currentLine.substring( 16 ) );
 			}
-
-			if ( currentLine.startsWith( "User-Agent" ) )
+			else if ( currentLine.startsWith( "User-Agent" ) )
 			{
 				GenericRequest.saveUserAgent( currentLine.substring( 12 ) );
 			}
-
-			if ( currentLine.startsWith( "Cookie" ) && this.path.startsWith( "/inventory" ) )
+			else if ( currentLine.startsWith( "Cookie" ) )
 			{
-				String[] cookieList = currentLine.substring( 8 ).split( "\\s*;\\s*" );
-				for ( int i = 0; i < cookieList.length; ++i )
+				if ( this.path.startsWith( "/inventory" ) )
 				{
-					if ( cookieList[ i ].startsWith( "inventory" ) )
+					String[] cookieList = currentLine.substring( 8 ).split( "\\s*;\\s*" );
+					for ( int i = 0; i < cookieList.length; ++i )
 					{
-						GenericRequest.inventoryCookie = cookieList[ i ];
+						if ( cookieList[ i ].startsWith( "inventory" ) )
+						{
+							GenericRequest.inventoryCookie = cookieList[ i ];
+						}
 					}
 				}
 			}
@@ -213,8 +222,20 @@ public class LocalRelayAgent
 				remaining -= current;
 			}
 
-			this.request.addFormFields( this.buffer.toString(), true );
+			String fields = this.buffer.toString();
 			this.buffer.setLength( 0 );
+
+			if ( debugging )
+			{
+				RequestLogger.updateDebugLog( fields );
+			}
+
+			this.request.addFormFields( fields, true );
+		}
+
+		if ( debugging )
+		{
+			RequestLogger.updateDebugLog( "----------" );
 		}
 
 		// Validate supplied password hashes
@@ -387,15 +408,40 @@ public class LocalRelayAgent
 	private void sendServerResponse()
 		throws IOException
 	{
-		if ( this.request.rawByteBuffer != null )
+		if ( this.request.rawByteBuffer == null )
 		{
-			this.writer = new PrintStream( this.socket.getOutputStream(), false );
-			this.writer.println( this.request.statusLine );
-			this.request.printHeaders( this.writer );
+			return;
+		}
 
-			this.writer.println();
-			this.writer.write( this.request.rawByteBuffer );
-			this.writer.flush();
+		this.writer = new PrintStream( this.socket.getOutputStream(), false );
+		this.writer.println( this.request.statusLine );
+		this.request.printHeaders( this.writer );
+		this.writer.println();
+		this.writer.write( this.request.rawByteBuffer );
+		this.writer.flush();
+
+		boolean debugging = RequestLogger.isDebugging() && Preferences.getBoolean( "logBrowserInteractions" );
+
+		if ( debugging )
+		{
+			RequestLogger.updateDebugLog( "-----To Browser-----" );
+			RequestLogger.updateDebugLog( this.request.statusLine );
+			this.request.printHeaders( RequestLogger.getDebugStream() );
+		}
+
+		if ( debugging || Preferences.getBoolean( "logDecoratedResponses" ) )
+		{
+			String text = this.request.responseText;
+			if ( !Preferences.getBoolean( "logReadableHTML" ) )
+			{
+				text = KoLConstants.LINE_BREAK_PATTERN.matcher( text ).replaceAll( "" );
+			}
+			RequestLogger.updateDebugLog( text );
+		}
+
+		if ( debugging )
+		{
+			RequestLogger.updateDebugLog( "----------" );
 		}
 	}
 
