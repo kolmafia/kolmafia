@@ -742,7 +742,7 @@ public class CharPaneDecorator
 				buffer.append( imageAction );
 				buffer.append( "\"><img src=\"/images/browser.gif\" width=14 height=14 border=0></a>" );
 			}
-			else if ( !upkeepAction.equals( "" ) )
+			else if ( !upkeepAction.equals( "" ) && MoodManager.currentlyExecutable( effect, upkeepAction ))
 			{
 				buffer.append( "&nbsp;<a href=\"/KoLmafia/sideCommand?cmd=" );
 				buffer.append( StringUtilities.getURLEncode( upkeepAction ) );

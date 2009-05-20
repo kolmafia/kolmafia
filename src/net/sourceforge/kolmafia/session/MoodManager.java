@@ -1116,6 +1116,22 @@ public abstract class MoodManager
 		return strictAction;
 	}
 
+	public static final boolean currentlyExecutable( final AdventureResult effect, final String action )
+	{
+		// It's always OK to boost a stackable effect.
+		// Otherwise, it's only OK if it's not active.
+		return !MoodManager.unstackableAction( action ) || !KoLConstants.activeEffects.contains( effect );
+	}
+
+	public static final boolean unstackableAction( final String action )
+	{
+		return action.indexOf( "absinthe" ) != -1 ||
+		       action.indexOf( "astral mushroom" ) != -1 ||
+		       action.indexOf( "oasis" ) != -1 ||
+		       action.indexOf( "turtle pheromones" ) != -1 ||
+		       action.indexOf( "gong" ) != -1;
+	}
+
 	/**
 	 * Ensures that the given property exists, and if it does not exist, initializes it to the given value.
 	 */
@@ -1341,14 +1357,9 @@ public abstract class MoodManager
 				return KoLConstants.activeEffects.contains( this.effect );
 			}
 
-			boolean unstackable =
-				this.action.indexOf( "absinthe" ) != -1 ||
-				this.action.indexOf( "astral mushroom" ) != -1 ||
-				this.action.indexOf( "oasis" ) != -1 ||
-				this.action.indexOf( "turtle pheromones" ) != -1 ||
-				this.action.indexOf( "gong" ) != -1;
-
-			return unstackable ? !KoLConstants.activeEffects.contains( this.effect ) : this.effect.getCount( KoLConstants.activeEffects ) <= ( multiplicity == -1 ? 1 : 5 );
+			return MoodManager.unstackableAction( action ) ?
+                               !KoLConstants.activeEffects.contains( this.effect ) :
+                               this.effect.getCount( KoLConstants.activeEffects ) <= ( multiplicity == -1 ? 1 : 5 );
 		}
 
 		public boolean isThiefTrigger()
