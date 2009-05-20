@@ -60,11 +60,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class EquipmentRequest
 	extends PasswordHashRequest
 {
-	private static final EquipmentRequest REFRESH1 = new EquipmentRequest( EquipmentRequest.CONSUMABLES );
-	private static final EquipmentRequest REFRESH2 = new EquipmentRequest( EquipmentRequest.ALL_EQUIPMENT );
-	private static final EquipmentRequest REFRESH3 = new EquipmentRequest( EquipmentRequest.MISCELLANEOUS );
-	private static final EquipmentRequest REFRESH4 = new EquipmentRequest( EquipmentRequest.BEDAZZLEMENTS );
-
 	private static final Pattern CELL_PATTERN = Pattern.compile( "<td>(.*?)</td>" );
 	private static final Pattern MEAT_PATTERN = Pattern.compile( "[\\d,]+ meat\\.</b>" );
 	private static final Pattern OUTSIDECLOSET_PATTERN = Pattern.compile( "<b>Put:.*?</select>", Pattern.DOTALL );
@@ -882,10 +877,10 @@ public class EquipmentRequest
 
 			this.parseCloset();
 
-			EquipmentRequest.REFRESH1.run();
-			EquipmentRequest.REFRESH2.run();
-			EquipmentRequest.REFRESH3.run();
-			EquipmentRequest.REFRESH4.run();
+			(new EquipmentRequest( EquipmentRequest.CONSUMABLES )).run();
+			(new EquipmentRequest( EquipmentRequest.ALL_EQUIPMENT )).run();
+			(new EquipmentRequest( EquipmentRequest.MISCELLANEOUS )).run();
+			(new EquipmentRequest( EquipmentRequest.BEDAZZLEMENTS )).run();
 
 			KoLmafia.setIsRefreshing( false );
 

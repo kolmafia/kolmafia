@@ -894,7 +894,7 @@ battered hubcap	Muscle: +15, Maximum HP: +100, Cold Resistance: +2, Hot Resistan
 black shield	Muscle: +5, Maximum HP: +20, Damage Reduction: 10
 bobble-hip hula elf doll	Muscle: +5, Mysticality: +5, Moxie: +5, Meat Drop: +15
 borg sock monkey	Moxie: +3
-# bottle of moontan lotion: Makes Familiar Less Sensitive to Light
+# bottle of moontan lotion: Makes Familiar More Sensitive to Light
 box	Meat Drop: +1
 box turtle	Muscle: +1, Damage Reduction: 3
 box-in-the-box	Meat Drop: +2

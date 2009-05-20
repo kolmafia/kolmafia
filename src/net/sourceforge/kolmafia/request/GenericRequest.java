@@ -111,7 +111,7 @@ public class GenericRequest
 		}
 	}
 
-	public static final Pattern REDIRECT_PATTERN = Pattern.compile( "([^\\/]+)\\/login\\.php", Pattern.DOTALL );
+	public static final Pattern REDIRECT_PATTERN = Pattern.compile( "([^\\/]+)\\/(login\\.php.*)", Pattern.DOTALL );
 
 	public static boolean isRatQuest = false;
 	public static boolean isBarrelSmash = false;
@@ -1297,6 +1297,7 @@ public class GenericRequest
 			{
 				RequestLogger.printLine( "Redirected to " + matcher.group(1) + "..." );
 				GenericRequest.setLoginServer( matcher.group( 1 ) );
+				this.constructURLString( matcher.group(2), false );
 				return false;
 			}
 
