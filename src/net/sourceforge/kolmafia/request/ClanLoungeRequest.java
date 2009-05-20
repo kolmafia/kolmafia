@@ -178,7 +178,8 @@ public class ClanLoungeRequest
 		// any more today -- you wouldn't want to look greedy in front
 		// of the other VIPs, would you?"
 
-		for ( int i = 0; i < 3 && request.responseText.indexOf( "want to look greedy" ) == -1; ++i )
+		// Do it at most two more times.
+		for ( int i = 0; i < 2 && request.responseText.indexOf( "want to look greedy" ) == -1; ++i )
 		{
 			request.run();
 		}
