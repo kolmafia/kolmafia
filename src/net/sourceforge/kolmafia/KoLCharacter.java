@@ -735,6 +735,10 @@ public abstract class KoLCharacter
 			KoLCharacter.currentLevel = KoLCharacter.calculateSubpointLevels( totalPrime );
 			KoLCharacter.decrementPrime = KoLCharacter.calculateLastLevel();
 			KoLCharacter.incrementPrime = KoLCharacter.calculateNextLevel();
+			if ( KoLCharacter.incrementPrime < 0 )
+			{	// this will overflow at level 216
+				KoLCharacter.incrementPrime = Integer.MAX_VALUE;
+			}
 
 			HPRestoreItemList.updateHealthRestored();
 			MPRestoreItemList.updateManaRestored();
