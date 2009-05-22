@@ -1316,6 +1316,24 @@ public class Modifiers
 		return mods.get( mod );
 	}
 
+	public static final float getNumericModifier( final FamiliarData fam, final String mod, final int passedWeight, final AdventureResult item ) {
+		int familiarId = fam != null ? fam.getId() : -1;
+		if ( familiarId == -1 ) { return 0.0f; }
+		Modifiers tempMods = new Modifiers();
+		if ( familiarId != 82 )
+		{ // Mad Hatrack ... hats do not give their normal modifiers (should i be checking the item is a hat?)
+			tempMods.add( Modifiers.getModifiers( item.getName() ) );
+		}
+		int weight = passedWeight + (int) tempMods.get( Modifiers.FAMILIAR_WEIGHT ) + (int) tempMods.get( Modifiers.HIDDEN_FAMILIAR_WEIGHT );
+		float percent = tempMods.get( Modifiers.FAMILIAR_WEIGHT_PCT ) / 100.0f;
+		if ( percent != 0.0f )
+		{
+			weight = (int) Math.floor( weight + weight * percent );
+		}
+		tempMods.lookupFamiliarModifiers( fam, weight, item );
+		return tempMods.get( mod );
+	}
+
 	public static final boolean getBooleanModifier( final String name, final String mod )
 	{
 		Modifiers mods = Modifiers.getModifiers( name );
@@ -1377,11 +1395,9 @@ public class Modifiers
 
 	public void applyFamiliarModifiers( final FamiliarData familiar )
 	{
-		int familiarId = familiar.getId();
 		int weight = familiar.getWeight() + (int) this.get( Modifiers.FAMILIAR_WEIGHT ) +
 			(int) this.get( Modifiers.HIDDEN_FAMILIAR_WEIGHT );
 		float percent = this.get( Modifiers.FAMILIAR_WEIGHT_PCT ) / 100.0f;
-
 		if ( percent != 0.0f )
 		{
 			weight = (int) Math.floor( weight + weight * percent );
@@ -1389,9 +1405,15 @@ public class Modifiers
 
 		weight = Math.max( 1, weight );
 		Modifiers.currentWeight = weight;
+		AdventureResult famItem = EquipmentManager.getEquipment( EquipmentManager.FAMILIAR );
+		this.lookupFamiliarModifiers( familiar, weight, famItem );
+	}
+
+	public void lookupFamiliarModifiers( final FamiliarData familiar, int weight, final AdventureResult famItem ) {
+		int familiarId = familiar.getId();
+		weight = Math.max( 1, weight );
 		
 		this.add( Modifiers.getModifiers( "fam:" + familiar.getRace() ) );
-		AdventureResult famItem = EquipmentManager.getEquipment( EquipmentManager.FAMILIAR );
 		if ( famItem != null )
 		{
 			this.add( Modifiers.getModifiers( "fameq:" + famItem.getName() ) );
