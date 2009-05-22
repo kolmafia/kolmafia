@@ -1033,20 +1033,6 @@ public class Modifiers
 				this.floats[ index ] = -3;
 			}
 			break;
-		case HP_PCT:
-		case MP_PCT:
-		case SPELL_DAMAGE_PCT:
-		case FAMILIAR_WEIGHT_PCT:
-			double a = this.floats[ index ];
-			double b = mod;
-			double sum = a + b;
-			// Negative percents are multiplicative
-			if ( b < 0 )
-			{
-				sum = ( a + 100.0 ) * ( b + 100.0 ) / 100.0 - 100.0;
-			}
-			this.floats[ index ] = (float) sum;
-			break;
 		default:
 			this.floats[ index ] += mod;
 			break;
