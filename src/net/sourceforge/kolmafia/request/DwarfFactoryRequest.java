@@ -37,6 +37,8 @@ import java.lang.CharSequence;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -186,13 +188,7 @@ public class DwarfFactoryRequest
 			RequestLogger.printLine( message );
 			RequestLogger.updateSessionLog( message );
 
-			KoLCharacter.ensureUpdatedDwarfFactory();
-			String dice = Preferences.getString( "lastDwarfDiceRolls" );
-			Preferences.setString( "lastDwarfDiceRolls", dice + message + ":" );
-
-			// Crack the digit code!~
-			DwarfFactoryRequest.solve();
-
+			DwarfFactoryRequest.addDieRoll( message );
 			return;
 		}
 	}
@@ -595,7 +591,7 @@ public class DwarfFactoryRequest
 	public static void setDigits( String digits )
 	{
 		Preferences.setString( "lastDwarfDigitRunes", digits );
-		DwarfFactoryRequest.digits = new DwarfNumberTranslator();
+		DwarfFactoryRequest.digits = new DwarfNumberTranslator( digits );
 	}
 
 	public static int parseNumber( final String runes )
@@ -971,7 +967,7 @@ public class DwarfFactoryRequest
 		DwarfFactoryRequest.digits.analyzeNumbers();
 
 		// Step 2: iterate over saved dice rules, deducing what we can
-		String[] rolls = getDiceRolls();
+		String[] rolls = DwarfFactoryRequest.getDiceRolls();
 		for ( int i = 0; i < rolls.length; ++i )
 		{
 			DwarfFactoryRequest.digits.addRoll( rolls[i] );
@@ -1042,6 +1038,18 @@ public class DwarfFactoryRequest
 		}
 
 		return Preferences.getString( settingName );
+	}
+
+	private static void addDieRoll( final String message )
+	{
+		// Add the die roll to the list of saved rolls
+
+		KoLCharacter.ensureUpdatedDwarfFactory();
+		String dice = Preferences.getString( "lastDwarfDiceRolls" );
+		Preferences.setString( "lastDwarfDiceRolls", dice + message + ":" );
+
+		// Try to crack the digit code
+		DwarfFactoryRequest.solve();
 	}
 
 	private static String[] getDiceRolls()
@@ -1256,6 +1264,15 @@ public class DwarfFactoryRequest
 		private final ArrayList numbers = new ArrayList();
 		private final ArrayList digits = new ArrayList();
 
+		private void addNewDigit( final char ch )
+		{
+			Character digit = new Character( ch );
+			if ( !this.digits.contains( digit ) )
+			{
+				this.digits.add( digit );
+			}
+		}
+
 		public void addNumber( final String number )
 		{
 			// See if it's a new number
@@ -1274,11 +1291,7 @@ public class DwarfFactoryRequest
 			// Add all the digits to the set of digits
 			for ( int i = 0; i < number.length(); ++i )
 			{
-				Character digit = new Character( number.charAt( i ) );
-				if ( !this.digits.contains( digit ) )
-				{
-					this.digits.add( digit );
-				}
+				this.addNewDigit( number.charAt( i ) );
 			}
 		}
 
@@ -1422,6 +1435,13 @@ public class DwarfFactoryRequest
 				}
 			}
 
+			// We can work even without the laminated items if we
+			// deduce digits from the die rolls.
+			this.addNewDigit( roll.charAt( 0 ) );
+			this.addNewDigit( roll.charAt( 1 ) );
+			this.addNewDigit( roll.charAt( 3 ) );
+			this.addNewDigit( roll.charAt( 4 ) );
+
 			// Add the new roll to the list
 			this.rolls.add( roll );
 		}
@@ -1432,13 +1452,17 @@ public class DwarfFactoryRequest
 		{
 			// If we've already looked at all the rolls in the
 			// array, it's pointless to do it again.
-			if ( this.rolls.size() == rollCount )
+			if ( this.rolls.size() == this.rollCount )
 			{
 				return;
 			}
 
 			// Save current size of array
-			rollCount = this.rolls.size();
+			this.rollCount = this.rolls.size();
+
+			// Match rolls against set of all possible combinations
+			// and eliminate any which are inconsistent
+			this.matchDigitPermutations();
 
 			while ( true )
 			{
@@ -1474,6 +1498,145 @@ public class DwarfFactoryRequest
 
 				// We learned something! Try again; if we
 				// learned zero, we can now use doubles.
+			}
+		}
+
+		private HashSet permutations = new HashSet();
+
+		private void matchDigitPermutations()
+		{
+			// We can't do this unless we know all 7 runes that are
+			// used for digits.
+			if ( this.digits.size() != 7 )
+			{
+				return;
+			}
+
+			// Nothing to do if we have identified all the digits
+			if ( this.digitMap.size() == 7 )
+			{
+				return;
+			}
+
+			// Load up the set with 5040 permutations of 7 runes.
+			if ( this.permutations.size() == 0 )
+			{
+				this.generatePermutations();
+			}
+
+			// Iterate over all the rolls and eliminate any
+			// permutation which is inconsistent
+			for ( int i = 0; i < this.rolls.size(); ++i )
+			{
+				this.checkPermutations( (String) this.rolls.get( i ) );
+				// If only a single permutation remains in the
+				// set, we have cracked the digit code.
+				if ( this.permutations.size() == 1 )
+				{
+					this.saveSoloPermutation();
+					return;
+				}
+			}
+		}
+
+		private void generatePermutations()
+		{
+			if ( this.digits.size() != 7 )
+			{
+				return;
+			}
+
+			this.generatePermutations( "" );
+		}
+
+		private void generatePermutations( final String prefix )
+		{
+			int index = prefix.length();
+
+			if ( index == 7 )
+			{
+				this.permutations.add( prefix );
+				return;
+			}
+
+			Character val = (Character) this.charMap.get( new Integer( index ) );
+			if ( val != null )
+			{
+				this.generatePermutations( prefix + val.charValue() );
+				return;
+			}
+
+			for ( int i = 0; i < 7; ++i )
+			{
+				char ch = ((Character) this.digits.get( i )).charValue();
+				if ( prefix.indexOf( ch ) != -1 )
+				{
+					continue;
+				}
+				this.generatePermutations( prefix + ch );
+			}
+		}
+
+		private void checkPermutations( final String roll )
+		{
+			// AB-CD=xx
+			if ( roll.length() != 8 )
+			{
+				return;
+			}
+
+			char d1 = roll.charAt( 0 );
+			char d2 = roll.charAt( 1 );
+			char d3 = roll.charAt( 3 );
+			char d4 = roll.charAt( 4 );
+			int high = roll.charAt( 6 ) - '0';
+			int low = roll.charAt( 7 ) - '0';
+			int val = ( high * 7) + low;
+
+			Iterator it = this.permutations.iterator();
+			while ( it.hasNext() )
+			{
+				String permutation = (String) it.next();
+				if ( !this.validPermutation( permutation, d1, d2, d3, d4, val ) )
+				{
+					it.remove();
+				}
+			}
+		}
+
+		private boolean validPermutation( final String permutation, final char d1, final char d2, final char d3, final char d4, final int val )
+		{
+			int total;
+			int i1 = permutation.indexOf( d1 );
+			int i2 = permutation.indexOf( d2 );
+			if ( d1 == d2 && i1 == 0 )
+			{
+				total = 49;
+			}
+			else
+			{
+				total = i1  * 7 + i2;
+			}
+
+			int i3 = permutation.indexOf( d3 );
+			int i4 = permutation.indexOf( d4 );
+			total += i3 * -7;
+			total += i4 * -1;
+			return total == val;
+		}
+
+		private void saveSoloPermutation()
+		{
+			if ( this.permutations.size() != 1 )
+			{
+				return;
+			}
+
+			String [] strings = (String []) this.permutations.toArray( new String [ 1 ] );
+			String digits = strings[0];
+			for ( int i = 0; i < 7; ++i )
+			{
+				this.mapCharacter( digits.charAt( i ), i );
 			}
 		}
 
