@@ -55,6 +55,7 @@ public class ItemFinder
 	public static final int USE_MATCH = 4;
 	public static final int CREATE_MATCH = 5;
 	public static final int UNTINKER_MATCH = 6;
+	public static final int EQUIP_MATCH = 7;
 
 	private static int matchType = ANY_MATCH;
 
@@ -83,19 +84,42 @@ public class ItemFinder
 		if ( nameList.size() == 1 )
 		{
 
-			String name = (String)nameList.get(0);
-			return ItemDatabase.getCanonicalName( (String) nameList.get( 0 ) );
+			String name = (String) nameList.get( 0 );
+			return ItemDatabase.getCanonicalName( name );
 		}
 
 		ItemFinder.filterNameList( nameList, filterType );
+		if ( nameList.isEmpty() )
+		{
+			return null;
+		}
 
 		// If there were no matches, or there was an exact match,
 		// then return from this method.
 
 		if ( nameList.size() == 1 )
 		{
-			String name = (String)nameList.get(0);
-			return ItemDatabase.getCanonicalName( (String) nameList.get( 0 ) );
+			String name = (String) nameList.get( 0 );
+			return ItemDatabase.getCanonicalName( name );
+		}
+
+		// If there were exactly two matches, and one was a substring of the
+		// other, choose the shorter one, on the grounds that the user would
+		// have included part of the unique section of the longer name if that
+		// was the item they actually intended.  This makes it easier to refer
+		// to non-clockwork in-a-boxes, and DoD potions by flavor.
+		if ( nameList.size() == 2 )
+		{
+			String name1 = (String) nameList.get( 0 );
+			String name2 = (String) nameList.get( 1 );
+			if ( name1.indexOf( name2 ) != -1 )
+			{
+				return ItemDatabase.getCanonicalName( name2 );
+			}
+			if ( name2.indexOf( name1 ) != -1 )
+			{
+				return ItemDatabase.getCanonicalName( name1 );
+			}
 		}
 
 		String itemName;
@@ -204,6 +228,25 @@ public class ItemFinder
 				break;
 			case ItemFinder.UNTINKER_MATCH:
 				ItemFinder.conditionalRemove( nameIterator, ConcoctionDatabase.getMixingMethod( itemId ) != KoLConstants.COMBINE );
+				break;
+			case ItemFinder.EQUIP_MATCH:
+				switch ( useType )
+				{
+				case KoLConstants.EQUIP_FAMILIAR:
+				case KoLConstants.EQUIP_ACCESSORY:
+				case KoLConstants.EQUIP_HAT:
+				case KoLConstants.EQUIP_PANTS:
+				case KoLConstants.EQUIP_SHIRT:
+				case KoLConstants.EQUIP_WEAPON:
+				case KoLConstants.EQUIP_OFFHAND:
+				case KoLConstants.EQUIP_CONTAINER:
+				case KoLConstants.CONSUME_STICKER:
+					break;
+
+				default:
+					nameIterator.remove();
+				}
+
 				break;
 
 			case ItemFinder.USE_MATCH:

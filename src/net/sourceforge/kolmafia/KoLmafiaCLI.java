@@ -5468,7 +5468,8 @@ public class KoLmafiaCLI
 			parameters = parameters.substring( command.length() ).trim();
 		}
 
-		AdventureResult match = ItemFinder.getFirstMatchingItem( parameters );
+		AdventureResult match = ItemFinder.getFirstMatchingItem( parameters,
+			ItemFinder.EQUIP_MATCH );
 		if ( match == null )
 		{
 			return;
