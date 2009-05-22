@@ -264,10 +264,8 @@ public class Concoction
 			return thisCantConsume ? 1 : -1;
 		}
 
-		float adventures1 =
-			StringUtilities.parseFloat( ItemDatabase.getAdventureRange( this.name ) );
-		float adventures2 =
-			StringUtilities.parseFloat( ItemDatabase.getAdventureRange( o.name ) );
+		float adventures1 = ItemDatabase.getAdventureRange( this.name );
+		float adventures2 = ItemDatabase.getAdventureRange( o.name );
 
 		if ( adventures1 != adventures2 )
 		{

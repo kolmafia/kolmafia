@@ -355,6 +355,12 @@ public class ListCellRendererFactory
 			return item.initial + item.creatable <= 0;
 		}
 
+		protected void appendRange( final StringBuffer stringForm, final float range, final String suffix )
+		{
+			String val = ( range == 0.0f ) ? "+0.0f" : KoLConstants.SINGLE_PRECISION_FORMAT.format( range );
+			this.appendRange( stringForm, val, suffix );
+		}
+
 		protected void appendRange( final StringBuffer stringForm, final String range, final String suffix )
 		{
 			if ( range.equals( "+0.0" ) && !suffix.equals( "adv" ) )
