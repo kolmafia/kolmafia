@@ -1425,6 +1425,12 @@ public class DwarfFactoryRequest
 
 		public void addRoll( final String roll )
 		{
+			// AB-CD=xx
+			if ( roll.length() != 8 )
+			{
+				return;
+			}
+
 			// See if it's a new roll
 			for ( int i = 0; i < this.rolls.size(); ++i )
 			{
@@ -1522,20 +1528,30 @@ public class DwarfFactoryRequest
 			if ( this.permutations.size() == 0 )
 			{
 				this.generatePermutations();
+				RequestLogger.printLine( "Initialized " + KoLConstants.COMMA_FORMAT.format( this.permutations.size() ) + " permutations" );
 			}
 
 			// Iterate over all the rolls and eliminate any
 			// permutation which is inconsistent
-			for ( int i = 0; i < this.rolls.size(); ++i )
+			int old_perms = this.permutations.size();
+			for ( int i = 0; i < this.rolls.size() && this.permutations.size() > 1; ++i )
 			{
 				this.checkPermutations( (String) this.rolls.get( i ) );
-				// If only a single permutation remains in the
-				// set, we have cracked the digit code.
-				if ( this.permutations.size() == 1 )
+				int new_perms = this.permutations.size();
+
+				if ( old_perms > new_perms )
 				{
-					this.saveSoloPermutation();
-					return;
+					int gone = old_perms - new_perms;
+					RequestLogger.printLine( "Eliminated " + KoLConstants.COMMA_FORMAT.format( gone ) + " permutations; " + KoLConstants.COMMA_FORMAT.format( new_perms ) + " left" );
+					old_perms = new_perms;
 				}
+			}
+
+			// If only a single permutation remains in the set, we
+			// have cracked the digit code.
+			if ( this.permutations.size() == 1 )
+			{
+				this.saveSoloPermutation();
 			}
 		}
 
@@ -1577,13 +1593,13 @@ public class DwarfFactoryRequest
 					continue;
 				}
 
-                                // If we know this rune, only use it in the
-                                // correct position.
-                                Integer j = (Integer) this.digitMap.get( rune );
-                                if ( j != null && j.intValue() != index )
-                                {
-                                        continue;
-                                }
+				// If we know this rune, only use it in the
+				// correct position.
+				Integer j = (Integer) this.digitMap.get( rune );
+				if ( j != null && j.intValue() != index )
+				{
+					continue;
+				}
 
 				// Otherwise, put this character into position
 				// and recurse.

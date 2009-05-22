@@ -44,6 +44,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -157,6 +158,13 @@ public class SellStuffRequest
 		}
 
 		// Autosell: "compact" or "detailed" mode
+
+		// Verify that item actually is autosellable
+		int price = ItemDatabase.getPriceById( item.getItemId() );
+		if ( price <= 0 )
+		{
+			return;
+		}
 
 		this.addFormField( "action", "sell" );
 
@@ -519,6 +527,11 @@ public class SellStuffRequest
 	}
 
 	public boolean allowUntradeableTransfer()
+	{
+		return this.sellType == SellStuffRequest.AUTOSELL;
+	}
+
+	public boolean allowUndisplayableTransfer()
 	{
 		return this.sellType == SellStuffRequest.AUTOSELL;
 	}

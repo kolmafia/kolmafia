@@ -132,6 +132,7 @@ public abstract class TransferItemRequest
 
 	private void runSubInstances()
 	{
+		boolean allowNoDisplay = this.allowUndisplayableTransfer();
 		boolean allowNoGift = this.allowUngiftableTransfer();
 		boolean allowSingleton = this.allowSingletonTransfer();
 		boolean allowNoTrade = this.allowUntradeableTransfer();
@@ -163,7 +164,7 @@ public abstract class TransferItemRequest
 					continue;
 				}
 
-				if ( !ItemDatabase.isDisplayable( item.getItemId() ) )
+				if ( !allowNoDisplay && !ItemDatabase.isDisplayable( item.getItemId() ) )
 				{
 					continue;
 				}
@@ -349,6 +350,11 @@ public abstract class TransferItemRequest
 	}
 
 	public abstract boolean allowUntradeableTransfer();
+
+	public boolean allowUndisplayableTransfer()
+	{
+		return false;
+	}
 
 	public boolean allowUngiftableTransfer()
 	{
