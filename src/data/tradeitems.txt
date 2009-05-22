@@ -179,7 +179,7 @@
 178	detective skull	offhand	all	50
 179	chorizo taco	food	all	52
 180	ice-cold fotie	drink	all	40
-181	baseball	none, combat	all	11
+181	baseball	usable, combat	all	11
 182	batgut	none	all	12
 183	bat wing	none	all	14
 184	briefcase	multiple	all	15
@@ -2436,7 +2436,7 @@
 2435	Dogsgotnonoz pills	multiple	all	0
 2436	donkey flipbook	multiple	all	0
 2437	New Cloaca-Cola	mp	all	0
-2438	scented massage oil	usable	all	0
+2438	scented massage oil	usable, combat	all	0
 2439	poltergeist-in-the-jar-o	none, combat	all	0
 2440
 2441	Knob Goblin encryption key	none	none	0
@@ -3921,7 +3921,7 @@
 3920	turtlemail coif	hat	all	28
 3921	turtlemail breeches	pants	all	28
 3922	turtlemail hauberk	shirt	all	28
-3923	hedgeturtle	none, combat	all	0
+3923	hedgeturtle	none, combat	all	96
 3924	spiky turtle helmet	hat	all	96
 3925	spiky turtle shoulderpads	accessory	all	96
 3926	spiky turtle shield	offhand	all	96
@@ -3994,7 +3994,7 @@
 3993
 3994	security blankie	familiar	all	75
 3995
-3996	boxcar turtle	usable	display	0
+3996	boxcar turtle	usable	display	100
 3997
 3998	metrognome	familiar	all	75
 3999
