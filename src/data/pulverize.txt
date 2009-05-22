@@ -126,7 +126,7 @@ aerated diving helmet	sea salt crystal
 amber aviator shades	sea salt crystal
 bezoar ring	sea salt crystal
 diving muff	sea salt crystal
-eelskin buckler	sea salt crystal
+eelskin shield	sea salt crystal
 eelskin hat	sea salt crystal
 eelskin pants	sea salt crystal
 fish scimitar	sea salt crystal
