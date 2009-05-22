@@ -1568,11 +1568,25 @@ public class DwarfFactoryRequest
 
 			for ( int i = 0; i < 7; ++i )
 			{
-				char ch = ((Character) this.digits.get( i )).charValue();
+				Character rune = (Character) this.digits.get( i );
+
+				// If we're already using this character, skip
+				char ch = rune.charValue();
 				if ( prefix.indexOf( ch ) != -1 )
 				{
 					continue;
 				}
+
+                                // If we know this rune, only use it in the
+                                // correct position.
+                                Integer j = (Integer) this.digitMap.get( rune );
+                                if ( j != null && j.intValue() != index )
+                                {
+                                        continue;
+                                }
+
+				// Otherwise, put this character into position
+				// and recurse.
 				this.generatePermutations( prefix + ch );
 			}
 		}
