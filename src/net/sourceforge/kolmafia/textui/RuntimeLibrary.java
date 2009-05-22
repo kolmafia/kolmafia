@@ -371,6 +371,12 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "is_tradeable", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "is_giftable", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "is_displayable", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "autosell_price", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] { DataTypes.ITEM_TYPE };
@@ -1851,6 +1857,16 @@ public abstract class RuntimeLibrary
 	public static Value is_tradeable( final Value item )
 	{
 		return DataTypes.makeBooleanValue( ItemDatabase.isTradeable( item.intValue() ) );
+	}
+
+	public static Value is_giftable( final Value item )
+	{
+		return DataTypes.makeBooleanValue( ItemDatabase.isGiftable( item.intValue() ) );
+	}
+
+	public static Value is_displayable( final Value item )
+	{
+		return DataTypes.makeBooleanValue( ItemDatabase.isDisplayable( item.intValue() ) );
 	}
 
 	public static Value is_npc_item( final Value item )

@@ -2369,7 +2369,7 @@ Twinkly Weapon	Weapon Damage: +3
 # Uncertain: Muscle and Moxie +/- ???
 Unpopular	Monster Level: +30
 Unusual Fashion Sense	Damage Absorption: +50
-Ur-Kel's Aria of Annoyance	Monster Level: [+2*L]
+Ur-Kel's Aria of Annoyance	Monster Level: [min(60,2*L)]
 Very Clean Teeth	Moxie: +1
 Violent Night	Critical: 2
 Vitamin-Maxed	Muscle Percent: +10
