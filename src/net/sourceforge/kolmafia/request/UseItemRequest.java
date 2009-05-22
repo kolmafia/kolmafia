@@ -592,6 +592,8 @@ public class UseItemRequest
 		int maximumUses = UseItemRequest.maximumUses( itemId, this.consumptionType );
 		if ( maximumUses < this.itemUsed.getCount() )
 		{
+			KoLmafia.updateDisplay( "(usable quantity of " + this.itemUsed +
+				" is currently limited to " + maximumUses + ")" );
 			this.itemUsed = this.itemUsed.getInstance( maximumUses );
 		}
 
