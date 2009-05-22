@@ -1469,48 +1469,18 @@ public class DwarfFactoryRequest
 			// Match rolls against set of all possible combinations
 			// and eliminate any which are inconsistent
 			this.matchDigitPermutations();
-
-			while ( true )
-			{
-				// Find how many variables are known
-				int known = this.digitMap.size();
-
-				// If we know all the digits, nothing to do
-				if ( known == 7 )
-				{
-					return;
-				}
-
-				// If we have learned all but one, we can
-				// deduce the last one
-
-				if ( known == 6 )
-				{
-					this.deduceLastDigit();
-					return;
-				}
-
-				// Make a linear system to analyze the rolls
-				LinearSystem system = this.makeSystem();
-
-				// Solve it
-				system.calculate();
-
-				// If we deduced nothing new, we are done
-				if ( known == this.digitMap.size() )
-				{
-					return;
-				}
-
-				// We learned something! Try again; if we
-				// learned zero, we can now use doubles.
-			}
 		}
 
 		private HashSet permutations = new HashSet();
 
 		private void matchDigitPermutations()
 		{
+			// Nothing to do if we have identified all the digits
+			if ( this.digitMap.size() == 7 )
+			{
+				return;
+			}
+
 			// We can't do this unless we know all 7 runes that are
 			// used for digits.
 			if ( this.digits.size() != 7 )
@@ -1518,16 +1488,10 @@ public class DwarfFactoryRequest
 				return;
 			}
 
-			// Nothing to do if we have identified all the digits
-			if ( this.digitMap.size() == 7 )
-			{
-				return;
-			}
-
-			// Load up the set with 5040 permutations of 7 runes.
+			// Initialize the set with 5040 permutations of 7 runes.
 			if ( this.permutations.size() == 0 )
 			{
-				this.generatePermutations();
+				this.generatePermutations( "" );
 				RequestLogger.printLine( "Initialized " + KoLConstants.COMMA_FORMAT.format( this.permutations.size() ) + " permutations" );
 			}
 
@@ -1555,16 +1519,6 @@ public class DwarfFactoryRequest
 			}
 		}
 
-		private void generatePermutations()
-		{
-			if ( this.digits.size() != 7 )
-			{
-				return;
-			}
-
-			this.generatePermutations( "" );
-		}
-
 		private void generatePermutations( final String prefix )
 		{
 			int index = prefix.length();
@@ -1575,6 +1529,9 @@ public class DwarfFactoryRequest
 				return;
 			}
 
+			// If we know the character that goes in this position,
+			// generate only the permutations that have that
+			// character in that position.
 			Character val = (Character) this.charMap.get( new Integer( index ) );
 			if ( val != null )
 			{
@@ -1637,21 +1594,22 @@ public class DwarfFactoryRequest
 		private boolean validPermutation( final String permutation, final char d1, final char d2, final char d3, final char d4, final int val )
 		{
 			int total;
+
 			int i1 = permutation.indexOf( d1 );
-			int i2 = permutation.indexOf( d2 );
 			if ( d1 == d2 && i1 == 0 )
 			{
 				total = 49;
 			}
 			else
 			{
+				int i2 = permutation.indexOf( d2 );
 				total = i1  * 7 + i2;
 			}
 
 			int i3 = permutation.indexOf( d3 );
 			int i4 = permutation.indexOf( d4 );
-			total += i3 * -7;
-			total += i4 * -1;
+			total -= i3 * 7 + i4;
+
 			return total == val;
 		}
 
@@ -1669,6 +1627,9 @@ public class DwarfFactoryRequest
 				this.mapCharacter( digits.charAt( i ), i );
 			}
 		}
+
+		/*
+		 * Start of obsolete code
 
 		private void deduceLastDigit()
 		{
@@ -1702,6 +1663,10 @@ public class DwarfFactoryRequest
 				}
 			}
 		}
+
+		// The following technique is no longer used; solving via
+		// permutation elimination allows us to all rolls, including
+		// doubles, even if the digit for 0 is not yet known.
 
 		private LinearSystem makeSystem()
 		{
@@ -2039,6 +2004,9 @@ public class DwarfFactoryRequest
 				}
 			}
 		}
+
+		* End of obsolete code
+		*/
 	}
 
 	public static class FactoryData
