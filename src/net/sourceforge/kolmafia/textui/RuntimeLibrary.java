@@ -251,6 +251,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "to_slot", DataTypes.SLOT_TYPE, params ) );
 
+		params = new Type[] { DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "to_plural", DataTypes.STRING_TYPE, params ) );
+
 		params = new Type[] { DataTypes.LOCATION_TYPE };
 		functions.add( new LibraryFunction( "to_url", DataTypes.STRING_TYPE, params ) );
 
@@ -929,6 +932,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.SKILL_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "numeric_modifier", DataTypes.FLOAT_TYPE, params ) );
 
+		params = new Type[] { DataTypes.FAMILIAR_TYPE, DataTypes.STRING_TYPE, DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "numeric_modifier", DataTypes.FLOAT_TYPE, params ) );
+
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "boolean_modifier", DataTypes.BOOLEAN_TYPE, params ) );
 
@@ -1395,6 +1401,10 @@ public abstract class RuntimeLibrary
 		default:
 			return DataTypes.parseSlotValue( "none", true );
 		}
+	}
+	
+	public static Value to_plural( final Value item ) {
+		return new Value( ItemDatabase.getPluralName( item.intValue() ) );
 	}
 
 	public static Value to_url( final Value value )
@@ -3408,6 +3418,16 @@ public abstract class RuntimeLibrary
 		String name = arg.toString();
 		String mod = modifier.toString();
 		return new Value( Modifiers.getNumericModifier( name, mod ) );
+	}
+
+	public static Value numeric_modifier( final Value familiar, final Value modifier, final Value weight, final Value item )
+	{
+		FamiliarData fam = new FamiliarData( familiar.intValue() );
+		String mod = modifier.toString();
+		int w = Math.max( 1, weight.intValue() );
+		AdventureResult it = new AdventureResult( item.intValue(), 1 );
+		
+		return new Value( Modifiers.getNumericModifier( fam, mod, w, it ) );
 	}
 
 	public static Value boolean_modifier( final Value modifier )

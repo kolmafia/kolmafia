@@ -647,7 +647,12 @@ public class Parser
 		{
 			// Scope is a single command
 			scope = new Scope( paramList, parentScope );
-			scope.addCommand( this.parseCommand( functionType, parentScope, false, false, false ) );
+			ParseTreeNode cmd = this.parseCommand( functionType, parentScope, false, false, false );
+			if ( cmd == null )
+			{
+				throw this.parseException( "Function with no body" );
+			}
+			scope.addCommand( cmd );
 		}
 
 		result.setScope( scope );

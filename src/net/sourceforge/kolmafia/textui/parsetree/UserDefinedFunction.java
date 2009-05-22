@@ -140,6 +140,9 @@ public class UserDefinedFunction
 	public void print( final PrintStream stream, final int indent )
 	{
 		super.print( stream, indent );
-		this.scope.print( stream, indent + 1 );
+		if ( this.scope != null )
+		{
+			this.scope.print( stream, indent + 1 );
+		}
 	}
 }
