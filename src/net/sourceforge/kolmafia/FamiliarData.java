@@ -328,6 +328,9 @@ public class FamiliarData
 		case ItemPool.GROUCHO_DISGUISE:
 			return 11;
 
+		case ItemPool.TINY_CELL_PHONE:
+			return 10;
+
 		case ItemPool.MINIATURE_ANTLERS:
 			// Depends on moon phases, somehow. Not yet spaded.
 			return 0;
