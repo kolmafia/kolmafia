@@ -648,15 +648,11 @@ public class ItemDatabase
 		// provided on the Iocaine Powder forums.
 		// http://www.iocainepowder.org/forums/viewtopic.php?t=2742
 
-		ItemDatabase.getAdventureMap( false, false, gainEffect1, gainEffect2 ).put(
-			name, KoLConstants.SINGLE_PRECISION_FORMAT.format( result ) );
-		ItemDatabase.getAdventureMap( false, true, gainEffect1, gainEffect2 ).put(
-			name, KoLConstants.SINGLE_PRECISION_FORMAT.format( result * 1.1f ) );
+		ItemDatabase.getAdventureMap( false, false, gainEffect1, gainEffect2 ).put( name, new Float( result ) );
+		ItemDatabase.getAdventureMap( false, true, gainEffect1, gainEffect2 ).put( name, new Float( result * 1.1f ) );
 
-		ItemDatabase.getAdventureMap( true, false, gainEffect1, gainEffect2 ).put(
-			name, KoLConstants.SINGLE_PRECISION_FORMAT.format( result / unitCost ) );
-		ItemDatabase.getAdventureMap( true, true, gainEffect1, gainEffect2 ).put(
-			name, KoLConstants.SINGLE_PRECISION_FORMAT.format( result * 1.1f / unitCost ) );
+		ItemDatabase.getAdventureMap( true, false, gainEffect1, gainEffect2 ).put( name, new Float( result / unitCost ) );
+		ItemDatabase.getAdventureMap( true, true, gainEffect1, gainEffect2 ).put( name, new Float( result * 1.1f / unitCost ) );
 	}
 
 	private static final Map getAdventureMap( final boolean perUnit, final boolean gainZodiac,
@@ -1129,16 +1125,16 @@ public class ItemDatabase
 		return (ArrayList) ItemDatabase.foldGroupsByName.get( StringUtilities.getCanonicalName( name ) );
 	}
 
-	public static final String getAdventureRange( final String name )
+	public static final float getAdventureRange( final String name )
 	{
 		if ( name == null )
 		{
-			return "+0.0";
+			return 0.0f;
 		}
 
 		String cname = StringUtilities.getCanonicalName( name );
 		boolean perUnit = Preferences.getBoolean( "showGainsPerUnit" );
-		String range = null;
+		Float range = null;
 
 		if ( ItemDatabase.getFullness( name ) > 0 )
 		{
@@ -1146,28 +1142,28 @@ public class ItemDatabase
 			boolean zodiacEffect = !sushi && KoLCharacter.getSign().indexOf( "Opossum" ) != -1;
 			boolean milkEffect = !sushi && KoLConstants.activeEffects.contains( ItemDatabase.MILK );
 			boolean munchiesEffect = !sushi && Preferences.getInteger( "munchiesPillsUsed" ) > 0;
-			range = (String) ItemDatabase.getAdventureMap(
+			range = (Float) ItemDatabase.getAdventureMap(
 				perUnit, zodiacEffect, milkEffect, munchiesEffect ).get( cname );
 		}
 		else if ( ItemDatabase.getInebriety( name ) > 0 )
 		{
 			boolean zodiacEffect = KoLCharacter.getSign().indexOf( "Blender" ) != -1;
 			boolean odeEffect = KoLConstants.activeEffects.contains( ItemDatabase.ODE );
-			range = (String) ItemDatabase.getAdventureMap(
+			range = (Float) ItemDatabase.getAdventureMap(
 				perUnit, zodiacEffect, odeEffect, false ).get( cname );
 		}
 		else if ( ItemDatabase.getSpleenHit( name ) > 0 )
 		{
-			range = (String) ItemDatabase.getAdventureMap(
+			range = (Float) ItemDatabase.getAdventureMap(
 				perUnit, false, false, false ).get( cname );
 		}
 
 		if ( range == null )
 		{
-			return "+0.0";
+			return 0.0f;
 		}
 
-		return range;
+		return range.floatValue();
 	}
 
 	public static final String getMuscleRange( final String name )
