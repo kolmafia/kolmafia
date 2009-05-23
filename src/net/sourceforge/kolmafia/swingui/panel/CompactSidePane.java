@@ -507,12 +507,12 @@ public class CompactSidePane
 		buf.append( "</table></html>" );
 		this.modPopLabel.setText( buf.toString() );
 
-		int currentLevel = KoLCharacter.calculateLastLevel();
-		int nextLevel = KoLCharacter.calculateNextLevel();
-		int totalPrime = KoLCharacter.getTotalPrime();
+		long currentLevel = KoLCharacter.calculateLastLevel();
+		long nextLevel = KoLCharacter.calculateNextLevel();
+		long totalPrime = KoLCharacter.getTotalPrime();
 
-		this.levelMeter.setMaximum( nextLevel - currentLevel );
-		this.levelMeter.setValue( totalPrime - currentLevel );
+		this.levelMeter.setMaximum( (int) (nextLevel - currentLevel) );
+		this.levelMeter.setValue( (int) (totalPrime - currentLevel) );
 		this.levelMeter.setString( " " );
 
 		this.levelPanel.setToolTipText( "<html>&nbsp;&nbsp;" + KoLCharacter.getAdvancement() + "&nbsp;&nbsp;<br>&nbsp;&nbsp;(" + KoLConstants.COMMA_FORMAT.format( nextLevel - totalPrime ) + " subpoints needed)&nbsp;&nbsp;</html>" );

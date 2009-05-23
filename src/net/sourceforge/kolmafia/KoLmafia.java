@@ -905,7 +905,7 @@ public abstract class KoLmafia
                 // Now that we know the character's ascension count, reset
                 // anything that depends on that.
 
-                KoLCharacter.resetPerAscensionData();
+		KoLCharacter.resetPerAscensionData();
 
 		RequestThread.postRequest( new AccountRequest() );
 		RequestThread.postRequest( new QuestLogRequest() );
@@ -2160,8 +2160,8 @@ public abstract class KoLmafia
 	public static final void postTavernVisit( final GenericRequest request )
 	{
 		if ( KoLCharacter.getAdventuresLeft() == 0 ||
-		     KoLCharacter.getCurrentHP() == 0 ||
-		     KoLCharacter.getInebriety() > KoLCharacter.getInebrietyLimit() )
+			KoLCharacter.getCurrentHP() == 0 ||
+			KoLCharacter.getInebriety() > KoLCharacter.getInebrietyLimit() )
 		{
 			return;
 		}

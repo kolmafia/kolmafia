@@ -239,16 +239,16 @@ public abstract class KoLCharacter
 	private static String classname = "";
 	private static String classtype = "";
 	private static int currentLevel = 1;
-	private static int decrementPrime = 0;
-	private static int incrementPrime = 25;
+	private static long decrementPrime = 0;
+	private static long incrementPrime = 25;
 	private static int gender = 0;
 
 	private static int currentHP, maximumHP, baseMaxHP;
 	private static int currentMP, maximumMP, baseMaxMP;
 
 	private static int[] adjustedStats = new int[ 3 ];
-	private static int[] totalSubpoints = new int[ 3 ];
-	private static int[] triggerSubpoints = new int[ 3 ];
+	private static long[] totalSubpoints = new long[ 3 ];
+	private static long[] triggerSubpoints = new long[ 3 ];
 	private static int[] triggerItem = new int[ 3 ];
 	static { resetTriggers(); }
 
@@ -456,13 +456,13 @@ public abstract class KoLCharacter
 
 		KoLCharacter.gender = 0;
 		KoLCharacter.currentLevel = 1;
-		KoLCharacter.decrementPrime = 0;
-		KoLCharacter.incrementPrime = 25;
+		KoLCharacter.decrementPrime = 0L;
+		KoLCharacter.incrementPrime = 25L;
 
 		KoLCharacter.pvpRank = 0;
 		KoLCharacter.attacksLeft = 0;
 		KoLCharacter.adjustedStats = new int[ 3 ];
-		KoLCharacter.totalSubpoints = new int[ 3 ];
+		KoLCharacter.totalSubpoints = new long[ 3 ];
 		KoLCharacter.resetTriggers();
 
 		KoLCharacter.currentModifiers.reset();
@@ -728,7 +728,7 @@ public abstract class KoLCharacter
 
 	public static final int getLevel()
 	{
-		int totalPrime = KoLCharacter.getTotalPrime();
+		long totalPrime = KoLCharacter.getTotalPrime();
 
 		if ( totalPrime < KoLCharacter.decrementPrime || totalPrime >= KoLCharacter.incrementPrime )
 		{
@@ -1032,8 +1032,8 @@ public abstract class KoLCharacter
 	 * @param totalMoxie The total number of moxie subpoints acquired thus far
 	 */
 
-	public static final void setStatPoints( final int adjustedMuscle, final int totalMuscle,
-		final int adjustedMysticality, final int totalMysticality, final int adjustedMoxie, final int totalMoxie )
+	public static final void setStatPoints( final int adjustedMuscle, final long totalMuscle,
+		final int adjustedMysticality, final long totalMysticality, final int adjustedMoxie, final long totalMoxie )
 	{
 		KoLCharacter.adjustedStats[ 0 ] = adjustedMuscle;
 		KoLCharacter.adjustedStats[ 1 ] = adjustedMysticality;
@@ -1059,9 +1059,9 @@ public abstract class KoLCharacter
 	
 	public static final void resetTriggers()
 	{
-		KoLCharacter.triggerSubpoints[ 0 ] = Integer.MAX_VALUE;
-		KoLCharacter.triggerSubpoints[ 1 ] = Integer.MAX_VALUE;
-		KoLCharacter.triggerSubpoints[ 2 ] = Integer.MAX_VALUE;
+		KoLCharacter.triggerSubpoints[ 0 ] = Long.MAX_VALUE;
+		KoLCharacter.triggerSubpoints[ 1 ] = Long.MAX_VALUE;
+		KoLCharacter.triggerSubpoints[ 2 ] = Long.MAX_VALUE;
 	}
 	
 	public static final void handleTrigger( int itemId )
@@ -1080,9 +1080,9 @@ public abstract class KoLCharacter
 	 * @return The calculated subpoints
 	 */
 
-	public static final int calculatePointSubpoints( final int basePoints )
+	public static final long calculatePointSubpoints( final int basePoints )
 	{
-		return basePoints * basePoints;
+		return basePoints * (long) basePoints;
 	}
 
 	/**
@@ -1093,7 +1093,7 @@ public abstract class KoLCharacter
 	 * @return The base points associated with the subpoint value
 	 */
 
-	public static final int calculateBasePoints( final int subpoints )
+	public static final int calculateBasePoints( final long subpoints )
 	{
 		return (int)Math.sqrt( subpoints );
 	}
@@ -1120,7 +1120,7 @@ public abstract class KoLCharacter
 	 * @return The calculated subpoints
 	 */
 
-	public static final int calculateLevelSubpoints( final int level )
+	public static final long calculateLevelSubpoints( final int level )
 	{
 		return KoLCharacter.calculatePointSubpoints( KoLCharacter.calculateLevelPoints( level ) );
 	}
@@ -1146,7 +1146,7 @@ public abstract class KoLCharacter
 	 * @return The calculated level
 	 */
 
-	public static final int calculateSubpointLevels( final int subpoints )
+	public static final int calculateSubpointLevels( final long subpoints )
 	{
 		return KoLCharacter.calculatePointLevels( KoLCharacter.calculateBasePoints( subpoints ) );
 	}
@@ -1161,9 +1161,9 @@ public abstract class KoLCharacter
 	 * @return The total number of subpoints acquired since creation
 	 */
 
-	public static final int calculateSubpoints( final int baseValue, final int sinceLastBase )
+	public static final long calculateSubpoints( final int baseValue, final int sinceLastBase )
 	{
-		return KoLCharacter.calculatePointSubpoints( baseValue) + sinceLastBase;
+		return KoLCharacter.calculatePointSubpoints( baseValue ) + sinceLastBase;
 	}
 
 	/**
@@ -1172,7 +1172,7 @@ public abstract class KoLCharacter
 	 * @return The total subpoints to the current level
 	 */
 
-	public static final int calculateLastLevel()
+	public static final long calculateLastLevel()
 	{
 		return KoLCharacter.calculateLevelSubpoints( KoLCharacter.currentLevel );
 	}
@@ -1183,9 +1183,9 @@ public abstract class KoLCharacter
 	 * @return The total subpoints to the next level
 	 */
 
-	public static final int calculateNextLevel()
+	public static final long calculateNextLevel()
 	{
-		return KoLCharacter.calculateLevelSubpoints( KoLCharacter.currentLevel + 1);
+		return KoLCharacter.calculateLevelSubpoints( KoLCharacter.currentLevel + 1 );
 	}
 
 	/**
@@ -1194,7 +1194,7 @@ public abstract class KoLCharacter
 	 * @return The total subpoints in the prime stat
 	 */
 
-	public static final int getTotalPrime()
+	public static final long getTotalPrime()
 	{
 		return KoLCharacter.totalSubpoints[ KoLCharacter.getPrimeIndex() ];
 	}
@@ -1203,9 +1203,9 @@ public abstract class KoLCharacter
 	 * Utility method to calculate the "till next point" value, given the total number of subpoints accumulated.
 	 */
 
-	private static final int calculateTillNextPoint( final int subpoints )
+	private static final int calculateTillNextPoint( final long subpoints )
 	{
-		return KoLCharacter.calculatePointSubpoints( KoLCharacter.calculateBasePoints( subpoints ) + 1 ) - subpoints;
+		return (int) (KoLCharacter.calculatePointSubpoints( KoLCharacter.calculateBasePoints( subpoints ) + 1 ) - subpoints);
 	}
 
 	/**
@@ -1225,7 +1225,7 @@ public abstract class KoLCharacter
 	 * @return The total muscle subpoints so far
 	 */
 
-	public static final int getTotalMuscle()
+	public static final long getTotalMuscle()
 	{
 		return KoLCharacter.totalSubpoints[ 0 ];
 	}
@@ -1239,9 +1239,9 @@ public abstract class KoLCharacter
 		}
 	}
 	
-	public static final boolean muscleTrigger( int points, int itemId )
+	public static final boolean muscleTrigger( int basepoints, int itemId )
 	{
-		points = calculatePointSubpoints( points );
+		long points = calculatePointSubpoints( basepoints );
 		if ( points < KoLCharacter.triggerSubpoints[ 0 ] )
 		{
 			KoLCharacter.triggerSubpoints[ 0 ] = points;
@@ -1288,7 +1288,7 @@ public abstract class KoLCharacter
 	 * @return The total mysticality subpoints so far
 	 */
 
-	public static final int getTotalMysticality()
+	public static final long getTotalMysticality()
 	{
 		return KoLCharacter.totalSubpoints[ 1 ];
 	}
@@ -1302,9 +1302,9 @@ public abstract class KoLCharacter
 		}
 	}
 
-	public static final boolean mysticalityTrigger( int points, int itemId )
+	public static final boolean mysticalityTrigger( int basepoints, int itemId )
 	{
-		points = calculatePointSubpoints( points );
+		long points = calculatePointSubpoints( basepoints );
 		if ( points < KoLCharacter.triggerSubpoints[ 1 ] )
 		{
 			KoLCharacter.triggerSubpoints[ 1 ] = points;
@@ -1351,7 +1351,7 @@ public abstract class KoLCharacter
 	 * @return The total moxie subpoints so far
 	 */
 
-	public static final int getTotalMoxie()
+	public static final long getTotalMoxie()
 	{
 		return KoLCharacter.totalSubpoints[ 2 ];
 	}
@@ -1365,9 +1365,9 @@ public abstract class KoLCharacter
 		}
 	}
 
-	public static final boolean moxieTrigger( int points, int itemId )
+	public static final boolean moxieTrigger( int basepoints, int itemId )
 	{
-		points = calculatePointSubpoints( points );
+		long points = calculatePointSubpoints( basepoints );
 		if ( points < KoLCharacter.triggerSubpoints[ 2 ] )
 		{
 			KoLCharacter.triggerSubpoints[ 2 ] = points;
@@ -1462,9 +1462,9 @@ public abstract class KoLCharacter
 
 	public static final int turnsSinceLastSemirare()
 	{
-                KoLCharacter.ensureUpdatedSemirareCounter();
-                int last = Preferences.getInteger( "semirareCounter" );
-                return KoLCharacter.currentRun - last;
+		KoLCharacter.ensureUpdatedSemirareCounter();
+		int last = Preferences.getInteger( "semirareCounter" );
+		return KoLCharacter.currentRun - last;
 	}
 
 	/**

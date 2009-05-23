@@ -172,11 +172,11 @@ public class CharSheetRequest
 		// skipping the appropriate number of tokens, and then
 		// reading in the numbers.
 
-		int[] mus = CharSheetRequest.findStatPoints( cleanContent, token, "Mus" );
-		int[] mys = CharSheetRequest.findStatPoints( cleanContent, token, "Mys" );
-		int[] mox = CharSheetRequest.findStatPoints( cleanContent, token, "Mox" );
+		long[] mus = CharSheetRequest.findStatPoints( cleanContent, token, "Mus" );
+		long[] mys = CharSheetRequest.findStatPoints( cleanContent, token, "Mys" );
+		long[] mox = CharSheetRequest.findStatPoints( cleanContent, token, "Mox" );
 
-		KoLCharacter.setStatPoints( mus[ 0 ], mus[ 1 ], mys[ 0 ], mys[ 1 ], mox[ 0 ], mox[ 1 ] );
+		KoLCharacter.setStatPoints( (int)mus[ 0 ], mus[ 1 ], (int)mys[ 0 ], mys[ 1 ], (int)mox[ 0 ], mox[ 1 ] );
 
 		// Drunkenness may or may not exist (in other words,
 		// if the character is not drunk, nothing will show
@@ -394,9 +394,9 @@ public class CharSheetRequest
 	 * @return The 2-element array containing the parsed statistics
 	 */
 
-	private static final int[] findStatPoints( final StringTokenizer tokenizer, String token, final String searchString )
+	private static final long[] findStatPoints( final StringTokenizer tokenizer, String token, final String searchString )
 	{
-		int[] stats = new int[ 2 ];
+		long[] stats = new long[ 2 ];
 
 		while ( !token.startsWith( searchString ) )
 		{
@@ -405,7 +405,7 @@ public class CharSheetRequest
 
 		stats[ 0 ] = GenericRequest.intToken( tokenizer );
 		token = tokenizer.nextToken();
-		int base = CharSheetRequest.retrieveBase( token, stats[ 0 ] );
+		int base = CharSheetRequest.retrieveBase( token, (int) stats[ 0 ] );
 
 		while ( !token.startsWith( "(" ) )
 		{

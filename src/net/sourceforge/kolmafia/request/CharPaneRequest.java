@@ -178,7 +178,7 @@ public class CharPaneRequest
 		}
 		else
 		{
-			KoLCharacter.setStatPoints( 1, 0, 1, 0, 1, 0 );
+			KoLCharacter.setStatPoints( 1, 0L, 1, 0L, 1, 0L );
 			KoLCharacter.setHP( 1, 1, 1 );
 			KoLCharacter.setMP( 1, 1, 1 );
 			KoLCharacter.setAvailableMeat( 0 );
