@@ -3899,18 +3899,18 @@
 3898
 3899
 3900
-3901	seal-blubber candle	none	all	50
-3902	figurine of a wretched-looking seal	none	all	75
-3903	figurine of a cute baby seal	none	all	125
-3904	figurine of an armored seal	none	all	250
-3905	figurine of an ancient seal	none	all	100
-3906	figurine of a sleek seal	none	all	100
-3907	figurine of a shadowy seal	none	all	150
-3908	figurine of a stinking seal	none	all	150
-3909	figurine of a charred seal	none	all	150
-3910	figurine of a cold seal	none	all	150
-3911	figurine of a slippery seal	none	all	150
-3912	imbued seal-blubber candle	none	all	50
+3901	seal-blubber candle	none	display	50
+3902	figurine of a wretched-looking seal	none	display	75
+3903	figurine of a cute baby seal	none	display	125
+3904	figurine of an armored seal	none	display	250
+3905	figurine of an ancient seal	none	display	100
+3906	figurine of a sleek seal	none	display	100
+3907	figurine of a shadowy seal	none	display	150
+3908	figurine of a stinking seal	none	display	150
+3909	figurine of a charred seal	none	display	150
+3910	figurine of a cold seal	none	display	150
+3911	figurine of a slippery seal	none	display	150
+3912	imbued seal-blubber candle	none	display	50
 3913	blended frozen swill with a fly in it	message	gift	5
 3914	turtle wax	usable	all	7
 3915	turtle wax shield	offhand, usable	all	7
@@ -3939,8 +3939,8 @@
 3938	club of corruption	weapon	display	25
 3939	corrupt club of corruption	weapon	display	45
 3940	corrupt club of corrupt corruption	weapon	display	85
-3941	evil-ass club	weapon	all	100
-3942	nasty-ass club	weapon	all	100
+3941	evil-ass club	weapon	display	100
+3942	nasty-ass club	weapon	display	100
 3943	infernal toilet brush	weapon	all	155
 3944	shadowy seal eye	offhand	all	200
 3945	oyster egg balloon	offhand	display	50
