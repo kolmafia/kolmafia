@@ -311,9 +311,9 @@ public abstract class LouvreManager
 			// non-raw, calculated value for comparing which stat
 			// should be chosen next.
 
-			int mus = KoLCharacter.getTotalMuscle();
-			int mys = KoLCharacter.getTotalMysticality();
-			int mox = KoLCharacter.getTotalMoxie();
+			long mus = KoLCharacter.getTotalMuscle();
+			long mys = KoLCharacter.getTotalMysticality();
+			long mox = KoLCharacter.getTotalMoxie();
 
 			if ( mus <= mys && mus <= mox )
 			{

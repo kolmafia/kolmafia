@@ -326,8 +326,8 @@ public class ResultProcessor
 		// which makes the parser think it's found an item.
 
 		if ( lastToken.indexOf( "You acquire a skill" ) != -1 ||
-		     lastToken.indexOf( "You learn a skill" ) != -1 ||
-		     lastToken.indexOf( "You have learned a skill" ) != -1)
+			lastToken.indexOf( "You learn a skill" ) != -1 ||
+			lastToken.indexOf( "You have learned a skill" ) != -1)
 		{
 			return false;
 		}
@@ -606,8 +606,7 @@ public class ResultProcessor
 		// If we didn't just complete a fight, this is real meat stolen
 		// in the middle of the battle
 		if ( !RequestLogger.getLastURLString().startsWith( "fight.php" ) ||
-		     FightRequest.getCurrentRound() != 0 )
-		     
+			FightRequest.getCurrentRound() != 0 )
 		{
 			return false;
 		}

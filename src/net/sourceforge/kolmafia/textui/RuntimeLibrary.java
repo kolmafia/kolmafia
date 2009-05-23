@@ -2155,15 +2155,15 @@ public abstract class RuntimeLibrary
 
 		if ( stat == KoLConstants.MUSCLE + 3 )
 		{
-			return new Value( KoLCharacter.getTotalMuscle() );
+			return new Value( (int) KoLCharacter.getTotalMuscle() );
 		}
 		if ( stat == KoLConstants.MYSTICALITY + 3 )
 		{
-			return new Value( KoLCharacter.getTotalMysticality() );
+			return new Value( (int) KoLCharacter.getTotalMysticality() );
 		}
 		if ( stat == KoLConstants.MOXIE + 3 )
 		{
-			return new Value( KoLCharacter.getTotalMoxie() );
+			return new Value( (int) KoLCharacter.getTotalMoxie() );
 		}
 
 		return DataTypes.ZERO_VALUE;

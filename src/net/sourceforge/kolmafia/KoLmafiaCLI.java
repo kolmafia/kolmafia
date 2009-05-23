@@ -5141,8 +5141,8 @@ public class KoLmafiaCLI
 
 			int primeIndex = KoLCharacter.getPrimeIndex();
 
-			AdventureResult.CONDITION_SUBSTATS[ primeIndex ] =
-				KoLCharacter.calculateSubpoints( ( level - 1 ) * ( level - 1 ) + 4, 0 ) - KoLCharacter.getTotalPrime();
+			AdventureResult.CONDITION_SUBSTATS[ primeIndex ] = (int)
+				(KoLCharacter.calculateSubpoints( ( level - 1 ) * ( level - 1 ) + 4, 0 ) - KoLCharacter.getTotalPrime());
 
 			return AdventureResult.CONDITION_SUBSTATS_RESULT;
 		}
@@ -5154,11 +5154,11 @@ public class KoLmafiaCLI
 			int points = StringUtilities.parseInt( splitCondition[ 0 ] );
 			int statIndex = conditionString.indexOf( "mus" ) != -1 ? 0 : conditionString.indexOf( "mys" ) != -1 ? 1 : 2;
 
-			AdventureResult.CONDITION_SUBSTATS[ statIndex ] = KoLCharacter.calculateSubpoints( points, 0 );
+			AdventureResult.CONDITION_SUBSTATS[ statIndex ] = (int) KoLCharacter.calculateSubpoints( points, 0 );
 			AdventureResult.CONDITION_SUBSTATS[ statIndex ] =
 				Math.max(
 					0,
-					AdventureResult.CONDITION_SUBSTATS[ statIndex ] - ( conditionString.indexOf( "mus" ) != -1 ? KoLCharacter.getTotalMuscle() : conditionString.indexOf( "mys" ) != -1 ? KoLCharacter.getTotalMysticality() : KoLCharacter.getTotalMoxie() ) );
+					AdventureResult.CONDITION_SUBSTATS[ statIndex ] - (int) ( conditionString.indexOf( "mus" ) != -1 ? KoLCharacter.getTotalMuscle() : conditionString.indexOf( "mys" ) != -1 ? KoLCharacter.getTotalMysticality() : KoLCharacter.getTotalMoxie() ) );
 
 			return AdventureResult.CONDITION_SUBSTATS_RESULT;
 		}
