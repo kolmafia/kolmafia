@@ -372,7 +372,7 @@ Knob Goblin Chef	HP: 15 Def: 20 Atk: 20	Knob sausage (15)	tomato (15)	wad of dou
 Knob Goblin Elite Guardsman	HP: 30 Def: 28 Atk: 30 Meat: 40-65	Knob Goblin elite helm (4)	Knob Goblin elite pants (4)	Knob Goblin elite polearm (4)	Knob Goblin elite shirt (c7)	knob bugle (4)
 Knob Goblin Elite Guard Captain	HP: 34	Knob Goblin elite helm (100)	Knob Goblin elite pants (100)	Knob Goblin elite polearm (100)
 Knob Goblin Embezzler	HP: 20 Def: 24 Atk: 57 Meat: 455-1213	meat stack (0)	bundle of receipts (b0)
-Knob Goblin Harem Girl	HP: 20 Def: 25 Atk: 25 E: sleaze	disease (10)	Knob Goblin perfume (15)	Knob Goblin harem veil (5)	Knob Goblin harem pants (5)	finger cymbals (5)	harem girl t-shirt (c2)	swindleblossom (c0)
+Knob Goblin Harem Girl	HP: 20 Def: 25 Atk: 25 E: sleaze	disease (10)	Knob Goblin perfume (15)	Knob Goblin harem veil (4)	Knob Goblin harem pants (4)	finger cymbals (5)	harem girl t-shirt (c2)	swindleblossom (c0)
 Knob Goblin Mad Scientist	HP: 25 Def: 40 Atk: 40 Meat: 32-51	Knob Goblin love potion (10)	Knob Goblin seltzer (20)	Knob Goblin steroids (10)	broken petri dish (b0)
 Knob Goblin Master Chef	HP: 20 Def: 22 Atk: 22	dry noodles (15)	Knob mushroom (15)	spices (15)
 Knob Goblin Mutant	HP: 43 Def: 53 Atk: 53 Meat: 46-50
