@@ -108,6 +108,7 @@ public class TrophyRequest
 			buf.append( pos++ );
 		}
 
+		this.constructURLString( "blah", false );	// clear out cached URL data
 		this.constructURLString( buf.toString(), false );
 
 		super.run();
