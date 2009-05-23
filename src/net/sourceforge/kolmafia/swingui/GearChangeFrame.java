@@ -85,6 +85,7 @@ public class GearChangeFrame
 	private JButton outfitButton;
 
 	private JRadioButton[] weaponTypes;
+	private JCheckBox weapon1H;
 	private final EquipmentComboBox[] equipment;
 	private final SortedListModel weapons = new SortedListModel();
 	private final SortedListModel offhands = new SortedListModel();
@@ -152,21 +153,19 @@ public class GearChangeFrame
 			GearChangeFrame.this.weaponTypes = new JRadioButton[ 3 ];
 
 			GearChangeFrame.this.weaponTypes[ 0 ] = new JRadioButton( "all", true );
-
 			GearChangeFrame.this.weaponTypes[ 1 ] = new JRadioButton( "melee" );
 			GearChangeFrame.this.weaponTypes[ 2 ] = new JRadioButton( "ranged" );
 
 			for ( int i = 0; i < weaponTypes.length; ++i )
 			{
-				if ( i == 1 )
-				{
-					radioPanel.add( new JLabel( " " ) );
-				}
-
 				radioGroup.add( GearChangeFrame.this.weaponTypes[ i ] );
 				radioPanel.add( GearChangeFrame.this.weaponTypes[ i ] );
 				GearChangeFrame.this.weaponTypes[ i ].addActionListener( new RefilterListener() );
 			}
+			
+			GearChangeFrame.this.weapon1H = new JCheckBox( "1-hand" );
+			radioPanel.add( GearChangeFrame.this.weapon1H );
+			GearChangeFrame.this.weapon1H.addActionListener( new RefilterListener() );
 
 			elements[ 2 ] = new VerifiableElement( "", radioPanel );
 
@@ -565,6 +564,12 @@ public class GearChangeFrame
 
 	private boolean filterWeapon( final AdventureResult weapon )
 	{
+		if ( this.weapon1H.isSelected() &&
+			EquipmentDatabase.getHands( weapon.getName() ) > 1 )
+		{
+			return false;
+		}
+		
 		if ( this.weaponTypes[ 0 ].isSelected() )
 		{
 			return true;
