@@ -4382,7 +4382,7 @@ public class KoLmafiaCLI
 
 	private void executeSendRequest( final String parameters, boolean isConvertible )
 	{
-		String[] splitParameters = parameters.replaceFirst( " [tT][oO] ", " => " ).split( " => " );
+		String[] splitParameters = parameters.replaceFirst( "(?:^| )[tT][oO] ", " => " ).split( " => " );
 
 		if ( splitParameters.length != 2 )
 		{
@@ -4399,14 +4399,16 @@ public class KoLmafiaCLI
 			splitParameters[ 1 ] = splitParameters[ 1 ].substring( 0, separatorIndex );
 		}
 
-		splitParameters[ 0 ] = splitParameters[ 0 ].trim();
+		// String.split() is weird!  An empty string, split on commas, produces
+		// a 1-element array containing an empty string.  However, a string
+		// containing just one or more commas produces a 0-element array???!!!
+		splitParameters[ 0 ] = splitParameters[ 0 ].trim() + ",";
 		splitParameters[ 1 ] = splitParameters[ 1 ].trim();
-
-		System.out.println( splitParameters[ 0 ] );
 
 		Object[] attachments = ItemFinder.getMatchingItemList( KoLConstants.inventory, splitParameters[ 0 ] );
 
-		if ( attachments.length == 0 )
+		if ( attachments.length == 0 && ( splitParameters[ 0 ].length() > 1 ||
+			message == KoLConstants.DEFAULT_KMAIL ) )
 		{
 			return;
 		}
