@@ -528,7 +528,14 @@ public class FightRequest
 		// User wants to run away
 		if ( FightRequest.action1.indexOf( "run" ) != -1 && FightRequest.action1.indexOf( "away" ) != -1 )
 		{
+			int runaway = StringUtilities.parseInt( FightRequest.action1 );
 			FightRequest.action1 = "runaway";
+			if ( runaway > FightRequest.freeRunawayChance() )
+			{
+				--FightRequest.preparatoryRounds;
+				this.nextRound();
+				return;
+			}
 			this.addFormField( "action", FightRequest.action1 );
 			return;
 		}
@@ -1476,6 +1483,22 @@ public class FightRequest
 			EquipmentManager.discardEquipment( ItemPool.CHEAP_STUDDED_BELT );
 			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Your cheap studded belt broke." );
 		}
+		
+		// Check for familiar item drops
+		if ( responseText.indexOf( "too preoccupied with the woes of this world" ) != -1 )
+		{
+			Preferences.increment( "_gongDrops", 1 );
+		}
+
+		if ( responseText.indexOf( "He tosses you a bottle of absinthe" ) != -1 )
+		{
+			Preferences.increment( "_absintheDrops", 1 );
+		}
+
+		if ( responseText.indexOf( "produces a rainbow-colored mushroom from" ) != -1 )
+		{
+			Preferences.increment( "_astralDrops", 1 );
+		}
 
 		FightRequest.updateMonsterHealth( responseText );
 
@@ -1542,6 +1565,18 @@ public class FightRequest
 			{
 				KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Bounty item failed to drop from expected monster." );
 			}
+		}
+		
+		// Check for free runaways
+		if ( responseText.indexOf( "shimmers as you quickly float away" ) != -1 ||
+			responseText.indexOf( "float away at a leisurely, relaxed pace" ) != -1 )
+		{
+			Preferences.increment( "_navelRunaways", 1 );
+		}
+		
+		if ( responseText.indexOf( "tosses you onto his back, and flooms away" ) != -1 )
+		{
+			Preferences.increment( "_banderRunaways", 1 );
 		}
 		
 		// Check for worn-out stickers
@@ -2798,6 +2833,27 @@ public class FightRequest
 	public static final Monster getLastMonster()
 	{
 		return FightRequest.monsterData;
+	}
+	
+	public static final int freeRunawayChance()
+	{
+		// Bandersnatch + Ode = weight/5 free runaways
+		if ( KoLCharacter.getFamiliar().getId() == 105 &&
+			KoLConstants.activeEffects.contains( ItemDatabase.ODE ) )
+		{
+			if ( !FightRequest.castCleesh &&
+				KoLCharacter.getFamiliar().getModifiedWeight() / 5 >
+				Preferences.getInteger( "_banderRunaways" ) )
+			{
+				return 100;
+			}
+		}
+		else if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.NAVEL_RING, 1 ) ) )
+		{
+			return Math.max( 20, 120 - 10 *
+				Preferences.getInteger( "_navelRunaways" ) );
+		}
+		return 0;
 	}
 
 	public static final boolean registerRequest( final boolean isExternal, final String urlString )

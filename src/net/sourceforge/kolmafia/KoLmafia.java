@@ -839,6 +839,8 @@ public abstract class KoLmafia
 		Preferences.setInteger( "tempuraSummons", 0 );
 		Preferences.setInteger( "timesRested", 0 );
 		Preferences.setInteger( "tomeSummons", 0 );
+		
+		Preferences.resetDailies();
 
 		// Libram summoning skills now costs 1 MP again
 		KoLConstants.summoningSkills.sort();
