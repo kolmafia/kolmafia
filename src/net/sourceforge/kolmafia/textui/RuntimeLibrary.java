@@ -107,6 +107,7 @@ import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
+import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.ItemManageFrame;
 //import net.sourceforge.kolmafia.swingui.ScriptUIFrame;
 import net.sourceforge.kolmafia.textui.parsetree.AggregateType;
@@ -285,6 +286,9 @@ public abstract class RuntimeLibrary
 
 		// Major functions related to adventuring and
 		// item management.
+
+		params = new Type[] { DataTypes.LOCATION_TYPE };
+		functions.add( new LibraryFunction( "set_location", DataTypes.VOID_TYPE, params ) );
 
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.LOCATION_TYPE };
 		functions.add( new LibraryFunction( "adventure", DataTypes.BOOLEAN_TYPE, params ) );
@@ -3131,6 +3135,18 @@ public abstract class RuntimeLibrary
 	{
 		String location = Preferences.getString( "lastAdventure" );
 		return location.equals( "" ) ? DataTypes.parseLocationValue( "Rest", true ) : DataTypes.parseLocationValue( location, true );
+	}
+
+	public static Value set_location( final Value location )
+	{
+		KoLAdventure adventure = (KoLAdventure) location.rawValue();
+		if ( adventure != null &&
+			!Preferences.getString( "lastAdventure" ).equals( adventure.getAdventureName() ) )
+		{
+			Preferences.setString( "lastAdventure", adventure.getAdventureName() );
+			AdventureFrame.updateSelectedAdventure( adventure );
+		}
+		return DataTypes.VOID_VALUE;
 	}
 
 	public static Value get_monsters( final Value location )
