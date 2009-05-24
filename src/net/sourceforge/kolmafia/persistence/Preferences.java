@@ -816,4 +816,19 @@ public class Preferences
 			Preferences.setString( name, (String) Preferences.globalNames.get( name ) );
 		}
 	}
+	
+	public static void resetDailies()
+	{
+		Iterator i = Preferences.userValues.keySet().iterator();
+		while ( i.hasNext() )
+		{
+			String name = (String) i.next();
+			if ( name.startsWith( "_" ) )
+			{
+				String val = (String) Preferences.userNames.get( name );
+				if ( val == null ) val = "";
+				Preferences.setString( name, val );
+			}
+		}
+	}
 }

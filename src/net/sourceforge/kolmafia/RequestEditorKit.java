@@ -813,6 +813,16 @@ public class RequestEditorKit
 		{
 			buffer.insert( combatIndex, ": Round " + FightRequest.getCurrentRound() );
 		}
+		
+		int runaway = FightRequest.freeRunawayChance();
+		if ( runaway > 0 )
+		{
+			int pos = buffer.indexOf( "type=submit value=\"Run Away\"" );
+			if ( pos != -1 )
+			{
+				buffer.insert( pos + 27, " (" + runaway + "% chance of being free)" );
+			}
+		}
 
 		// Add monster data HP/Atk/Def and item drop data
 		RequestEditorKit.annotateMonster( buffer );

@@ -66,6 +66,8 @@ public class DailyDeedsPanel
 		DailyDeedsPanel.allPanels.add( new WeakReference( this ) );
 		
 		this.add( new BooleanDaily( "breakfastCompleted", "breakfast" ) );
+		this.add( new RunawaysDaily() );
+		this.add( new DropsDaily() );
 		this.add( new RestsDaily() );
 		this.add( new BooleanDaily( "dailyDungeonDone", "adv * Daily Dungeon" ) );
 		this.add( new TelescopeDaily() );
@@ -486,6 +488,44 @@ public class DailyDeedsPanel
 		{
 			this.setText( KoLCharacter.getStillsAvailable() +
 				"/10 stills available" );
+		}
+	}
+
+	public static class RunawaysDaily
+		extends Daily
+	{
+		public RunawaysDaily()
+		{
+			this.addListener( "_navelRunaways" );
+			this.addListener( "_banderRunaways" );
+			this.addLabel( "" );
+		}
+		
+		public void update()
+		{
+			this.setText( "Runaways: " + Preferences.getInteger( "_navelRunaways" )
+				+ " navel ring, " + Preferences.getInteger( "_banderRunaways" )
+				+ " bandersnatch" );
+		}
+	}
+
+	public static class DropsDaily
+		extends Daily
+	{
+		public DropsDaily()
+		{
+			this.addListener( "_gongDrops" );
+			this.addListener( "_absintheDrops" );
+			this.addListener( "_astralDrops" );
+			this.addLabel( "" );
+		}
+		
+		public void update()
+		{
+			this.setText( "Drops: " + Preferences.getInteger( "_gongDrops" )
+				+ " gong, " + Preferences.getInteger( "_absintheDrops" )
+				+ " absinthe, " + Preferences.getInteger( "_astralDrops" )
+				+ " astral mushroom" );
 		}
 	}
 

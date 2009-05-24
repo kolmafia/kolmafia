@@ -726,7 +726,9 @@ public abstract class CustomCombatManager
 
 		if ( action.indexOf( "run" ) != -1 && action.indexOf( "away" ) != -1 )
 		{
-			return "try to run away";
+			int runaway = StringUtilities.parseInt( action );
+			if ( runaway <= 0 ) return "try to run away";
+			return "run away if " + runaway + "% chance of being free";
 		}
 
 		if ( action.startsWith( "item" ) )
@@ -874,7 +876,8 @@ public abstract class CustomCombatManager
 
 		if ( action.indexOf( "run" ) != -1 && action.indexOf( "away" ) != -1 )
 		{
-			return "runaway";
+			int runaway = StringUtilities.parseInt( action );
+			return runaway <= 0 ? "runaway" : ("runaway" + runaway);
 		}
 
 		if ( action.startsWith( "item" ) )
