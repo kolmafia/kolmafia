@@ -2443,7 +2443,7 @@ public class KoLmafiaCLI
 		{ usage = " - perform start-of-day activities."; }
 		public void run( String cmd )
 		{
-			BreakfastManager.getBreakfast( false, true );
+			BreakfastManager.getBreakfast( true );
 		}
 	}
 
