@@ -443,6 +443,7 @@ user	_absintheDrops	0
 user	_astralDrops	0
 user	_banderRunaways	0
 user	_gongDrops	0
+user	_hotTubSoaks	0
 user	_navelRunaways	0
 
 user	choiceAdventure2	2

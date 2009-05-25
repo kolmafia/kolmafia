@@ -42,11 +42,14 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ClanLoungeRequest
 	extends GenericRequest
 {
+	public static final Pattern ACTION_PATTERN = Pattern.compile( "action=([^&]*)" );
+
 	private static final int SEARCH = 0;
 
 	public static final int KLAW = 1;
@@ -156,6 +159,38 @@ public class ClanLoungeRequest
 		}
 
 		super.run();
+
+		ClanLoungeRequest.parseResponse( this.getURLString(), this.responseText );
+	}
+
+	public static void parseResponse( final String urlString, final String responseText )
+	{
+		if ( !urlString.startsWith( "clan_viplounge.php" ) )
+		{
+			return;
+		}
+
+		Matcher matcher = ACTION_PATTERN.matcher( urlString );
+		String action = matcher.find() ? matcher.group(1) : null;
+
+		// We have nothing special to do for simple visits.
+
+		if ( action == null )
+		{
+			return;
+		}
+
+		if ( action.equals( "hottub" ) )
+		{
+			// You relax in the hot tub, feeling all of your
+			// troubles drift away as the bubbles massage your
+			// weary muscles.
+
+			if ( responseText.indexOf( "bubbles massage your weary muscles" ) != -1 )
+			{
+				Preferences.increment( "_hotTubSoaks", 1 );
+			}
+		}
 	}
 
 	public static void getBreakfast()
