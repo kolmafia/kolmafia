@@ -1206,6 +1206,14 @@ public class UseItemRequest
 				return;
 			}
 
+			if ( responseText.indexOf( "you glance fearfully at the moons" ) != -1 )
+			{
+				UseItemRequest.lastUpdate = "Can't hatch that familiar in Bad Moon.";
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				ResultProcessor.processResult( item );
+				return;
+			}
+
 			KoLCharacter.addFamiliar( FamiliarDatabase.growFamiliarLarva( item.getItemId() ) );
 
 			// Don't bother showing the result
