@@ -60,6 +60,7 @@ import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
 import net.sourceforge.kolmafia.request.CakeArenaRequest;
 import net.sourceforge.kolmafia.request.ChefStaffRequest;
+import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
@@ -344,6 +345,11 @@ public abstract class StaticEntity
 		else if ( location.startsWith( "clan_stash.php" ) )
 		{
 			ClanStashRequest.parseTransfer( location, responseText );
+		}
+
+		else if ( location.startsWith( "clan_viplounge.php" ) )
+		{
+			ClanLoungeRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "closet.php" ) )
