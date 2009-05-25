@@ -972,6 +972,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.EFFECT_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "stat_modifier", DataTypes.STAT_TYPE, params ) );
 		
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "is_online", DataTypes.BOOLEAN_TYPE, params ) );
+		
 		// Quest status inquiries
 		
 		params = new Type[] {};
@@ -3501,6 +3504,12 @@ public abstract class RuntimeLibrary
 		String name = arg.toString();
 		String mod = modifier.toString();
 		return new Value( DataTypes.parseStatValue( Modifiers.getStringModifier( name, mod ), true ) );
+	}
+
+	public static Value is_online( final Value arg )
+	{
+		String name = arg.toString();
+		return DataTypes.makeBooleanValue( KoLmafia.isPlayerOnline( name ) );
 	}
 	
 	public static Value galaktik_cures_discounted()

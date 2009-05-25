@@ -1914,13 +1914,9 @@ public class KoLmafiaCLI
 				String playerId = KoLmafia.getPlayerId( parameters );
 				if ( playerId.equals( parameters ) )
 				{
-					BuffRequestFrame.ONLINE_VALIDATOR.addFormField( "playerid", String.valueOf( KoLCharacter.getUserId() ) );
-					BuffRequestFrame.ONLINE_VALIDATOR.addFormField( "pwd" );
-					BuffRequestFrame.ONLINE_VALIDATOR.addFormField( "graf", "/whois " + parameters );
-
-					RequestThread.postRequest( BuffRequestFrame.ONLINE_VALIDATOR );
+                                        String text = KoLmafia.whoisPlayer( playerId );
 					Matcher idMatcher =
-						Pattern.compile( "\\(#(\\d+)\\)" ).matcher( BuffRequestFrame.ONLINE_VALIDATOR.responseText );
+						Pattern.compile( "\\(#(\\d+)\\)" ).matcher( text );
 
 					if ( idMatcher.find() )
 					{
@@ -3687,13 +3683,9 @@ public class KoLmafiaCLI
 					continue;
 				}
 
-				BuffRequestFrame.ONLINE_VALIDATOR.addFormField( "playerid", String.valueOf( KoLCharacter.getUserId() ) );
-				BuffRequestFrame.ONLINE_VALIDATOR.addFormField( "pwd" );
-				BuffRequestFrame.ONLINE_VALIDATOR.addFormField( "graf", "/whois " + names[ i ] );
-
-				RequestThread.postRequest( BuffRequestFrame.ONLINE_VALIDATOR );
+				String text = KoLmafia.whoisPlayer( playerId );
 				Matcher idMatcher =
-					Pattern.compile( "\\(#(\\d+)\\)" ).matcher( BuffRequestFrame.ONLINE_VALIDATOR.responseText );
+					Pattern.compile( "\\(#(\\d+)\\)" ).matcher( text );
 
 				if ( idMatcher.find() )
 				{

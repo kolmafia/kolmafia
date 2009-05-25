@@ -57,6 +57,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
@@ -364,14 +365,8 @@ public class PulverizePanel
 				return;
 			}
 			
-			BuffRequestFrame.ONLINE_VALIDATOR.addFormField( "playerid", String.valueOf( KoLCharacter.getUserId() ) );
-			BuffRequestFrame.ONLINE_VALIDATOR.addFormField( "pwd" );
-			BuffRequestFrame.ONLINE_VALIDATOR.addFormField( "graf", "/whois wadbot" );
-	
-			RequestThread.postRequest( BuffRequestFrame.ONLINE_VALIDATOR );
-	
 			String message;
-			if ( BuffRequestFrame.ONLINE_VALIDATOR.responseText != null && BuffRequestFrame.ONLINE_VALIDATOR.responseText.indexOf( "online" ) != -1 )
+                        if ( KoLmafia.isPlayerOnline( "wadbot" ) )
 			{	// bot online
 				if ( KoLCharacter.canInteract() )
 				{

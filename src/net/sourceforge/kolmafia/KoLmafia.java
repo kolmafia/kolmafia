@@ -3329,6 +3329,23 @@ public abstract class KoLmafia
 		return KoLmafia.isAdventuring;
 	}
 
+	public static String whoisPlayer( final String player )
+	{
+		GenericRequest request = new GenericRequest( "submitnewchat.php" );
+		request.addFormField( "playerid", String.valueOf( KoLCharacter.getUserId() ) );
+		request.addFormField( "pwd" );
+		request.addFormField( "graf", "/whois " + player );
+
+		RequestThread.postRequest( request );
+		return request.responseText;
+	}
+
+	public static boolean isPlayerOnline( final String player )
+	{
+		String text = KoLmafia.whoisPlayer( player );
+		return text != null && text.indexOf( "online" ) != -1;
+	}
+
 	public void removeAllItemsFromStore()
 	{
 		RequestThread.openRequestSequence();
