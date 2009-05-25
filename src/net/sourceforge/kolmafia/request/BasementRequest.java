@@ -52,6 +52,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.MoodManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -156,14 +157,15 @@ public class BasementRequest
 	public static final FamiliarData[] POSSIBLE_FAMILIARS =
 		new FamiliarData[]
 	{
-		new FamiliarData( 18 ), // Hovering Sombrero
-		new FamiliarData( 72 ), // Exotic Parrot
-		new FamiliarData( 77 ), // Crimbo P. R. E. S. S. I. E.
-		new FamiliarData( 43 ), // Temporal Riftlet
-		new FamiliarData( 50 ), // Wild Hare
-		new FamiliarData( 53 ), // Astral Badger
-		new FamiliarData( 70 ), // Green Pixie
-		new FamiliarData( 92 ), // Disembodied Hand
+		new FamiliarData( FamiliarPool.SOMBRERO ),
+		new FamiliarData( FamiliarPool.PARROT ),
+		new FamiliarData( FamiliarPool.PRESSIE ),
+		new FamiliarData( FamiliarPool.RIFTLET ),
+		new FamiliarData( FamiliarPool.HARE ),
+		new FamiliarData( FamiliarPool.BADGER ),
+		new FamiliarData( FamiliarPool.PIXIE ),
+		new FamiliarData( FamiliarPool.LLAMA ),
+		new FamiliarData( FamiliarPool.HAND ),
 	};
 
 	/**

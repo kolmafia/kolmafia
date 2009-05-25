@@ -39,8 +39,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
@@ -125,6 +127,46 @@ public class CharPaneDecorator
 		if ( Preferences.getInteger( "recentLocations" ) >= 1 )
 		{
 			CharPaneDecorator.addRecentLocations( buffer, GenericRequest.isCompactMode );
+		}
+		
+		CharPaneDecorator.addFamiliarAnnotation( buffer,
+			CharPaneDecorator.getFamiliarAnnotation(),
+			GenericRequest.isCompactMode );
+	}
+	
+	private static final String getFamiliarAnnotation()
+	{
+		FamiliarData fam = KoLCharacter.getFamiliar();
+		switch ( fam != null ? fam.getId() : -1 )
+		{
+		case FamiliarPool.LLAMA:
+			return Preferences.getInteger( "_gongDrops" ) + "/5";
+		case FamiliarPool.PIXIE:
+			return Preferences.getInteger( "_absintheDrops" ) + "/5";
+		case FamiliarPool.BADGER:
+			return Preferences.getInteger( "_astralDrops" ) + "/5";
+		case FamiliarPool.BANDER:
+			return Preferences.getInteger( "_banderRunaways" ) + "/" +
+				fam.getModifiedWeight() / 5;
+		}
+		return null;
+	}
+	
+	private static final void addFamiliarAnnotation( StringBuffer buffer, String text, boolean compact )
+	{
+		if ( text == null ) return;
+		int pos;
+		if ( compact )
+		{
+			pos = buffer.indexOf( "<a target=mainpane href=\"familiar.php\">" );
+			if ( pos == -1 ) return;
+			buffer.insert( pos, text );
+		}
+		else
+		{
+			pos = buffer.indexOf( "<b>Familiar:</b>" );
+			if ( pos == -1 ) return;
+			buffer.insert( pos + 16, " (" + text + ")" );
 		}
 	}
 
