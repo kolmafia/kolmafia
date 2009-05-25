@@ -44,6 +44,7 @@ import javax.swing.SwingConstants;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -298,7 +299,7 @@ public class FamiliarData
 			return 0;
 
 		case ItemPool.TINY_COSTUME_WARDROBE:
-			return KoLCharacter.getFamiliar().getId() == 40 ? 25 : 0;
+			return KoLCharacter.getFamiliar().getId() == FamiliarPool.DOPPEL ? 25 : 0;
 
 		case ItemPool.LEAD_NECKLACE:
 			return 3;
@@ -444,29 +445,32 @@ public class FamiliarData
 		case ItemPool.MINIATURE_ANTLERS:
 		case ItemPool.FISHY_WAND:
 		case ItemPool.TINY_COSTUME_WARDROBE:
-			return this.id != 54 && this.id != 82;
+			return this.id != FamiliarPool.CHAMELEON &&
+				this.id != FamiliarPool.HATRACK;
 
 		case ItemPool.SNOOTY_DISGUISE:
 		case ItemPool.GROUCHO_DISGUISE:
-			return this.id == 45 || this.id == 63 || this.id == 78;
+			return this.id == FamiliarPool.PET_ROCK ||
+			this.id == FamiliarPool.TOOTHSOME_ROCK ||
+			this.id == FamiliarPool.BUDDY_BOX;
 
 		case ItemPool.FOIL_BOW:
 		case ItemPool.FOIL_RADAR:
-			return this.id == 77;
+			return this.id == FamiliarPool.PRESSIE;
 
 		case ItemPool.AQUAVIOLET_JUBJUB_BIRD:
 		case ItemPool.CHARPUCE_JUBJUB_BIRD:
 		case ItemPool.CRIMSILION_JUBJUB_BIRD:
-			return this.id == 105;
+			return this.id == FamiliarPool.BANDER;
 
 		default:
-			if ( this.id == 82 )
+			if ( this.id == FamiliarPool.HATRACK )
 			{
 				// Mad Hatrack can wear hats
 				return ItemDatabase.getConsumptionType( item.getItemId() ) == KoLConstants.EQUIP_HAT;
 			}
 
-			if ( this.id == 92 )
+			if ( this.id == FamiliarPool.HAND )
 			{
 				// Disembodied Hand can equip one-handed weapons
 				// Disembodied Hand cannot equip chefstaves

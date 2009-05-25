@@ -45,6 +45,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
@@ -1373,7 +1374,7 @@ public class Modifiers
 			}
 		}
 
-		if ( KoLCharacter.getFamiliar().getId() == 38 && KoLCharacter.hasAmphibianSympathy() )
+		if ( KoLCharacter.getFamiliar().getId() == FamiliarPool.DODECAPEDE && KoLCharacter.hasAmphibianSympathy() )
 		{
 			this.add( Modifiers.FAMILIAR_WEIGHT, -10, "dodecapede sympathy" );
 		}
@@ -1460,7 +1461,7 @@ public class Modifiers
 
 		switch ( familiarId )
 		{
-		case 82:	// Mad Hatrack
+		case FamiliarPool.HATRACK:
 			if ( famItem == EquipmentRequest.UNEQUIP )
 			{
 				this.add( Modifiers.HATDROP, 50.0, "naked hatrack" );

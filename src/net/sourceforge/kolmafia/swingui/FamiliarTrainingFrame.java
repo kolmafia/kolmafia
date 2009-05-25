@@ -70,6 +70,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.CakeArenaManager.ArenaOpponent;
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
@@ -118,10 +119,6 @@ public class FamiliarTrainingFrame
 	public static final int BUFFED = 2;
 	public static final int TURNS = 3;
 	public static final int LEARN = 4;
-
-	// Familiars
-	private static final int DODECAPEDE = 38;
-	private static final int CHAMELEON = 54;
 
 	// Familiar buffing skills and effects
 	public static final AdventureResult EMPATHY = new AdventureResult( "Empathy", 0, true );
@@ -941,7 +938,7 @@ public class FamiliarTrainingFrame
 		// Done training. Restore original outfit
 		SpecialOutfit.restoreImplicitCheckpoint();
 
-		if ( familiar.getId() != FamiliarTrainingFrame.CHAMELEON )
+		if ( familiar.getId() != FamiliarPool.CHAMELEON )
 		{
 			if ( InventoryManager.hasItem( FamiliarTrainingFrame.PUMPKIN_BUCKET ) )
 			{
@@ -1924,7 +1921,7 @@ public class FamiliarTrainingFrame
 			// a lead necklace or a rat head balloon, search other
 			// familiars; we'll steal it from them if necessary
 
-			if ( this.familiar.getId() == FamiliarTrainingFrame.CHAMELEON || this.leadNecklace && this.ratHeadBalloon && this.pumpkinBucket && this.flowerBouquet && this.bathysphere && this.dasBoot )
+			if ( this.familiar.getId() == FamiliarPool.CHAMELEON || this.leadNecklace && this.ratHeadBalloon && this.pumpkinBucket && this.flowerBouquet && this.bathysphere && this.dasBoot )
 			{
 				return;
 			}
@@ -1984,7 +1981,7 @@ public class FamiliarTrainingFrame
 			// which it subtracts 5 lbs.
 			if ( FamiliarTrainingFrame.sympathyAvailable )
 			{
-				weight += this.familiar.getId() == FamiliarTrainingFrame.DODECAPEDE ? -5 : 5;
+				weight += this.familiar.getId() == FamiliarPool.DODECAPEDE ? -5 : 5;
 			}
 			if ( FamiliarTrainingFrame.empathyActive > 0 )
 			{
@@ -2051,7 +2048,7 @@ public class FamiliarTrainingFrame
 
 			// Only consider familiar items if current familiar is
 			// not a chameleon and you have no doppelganger
-			if ( familiar.getId() == FamiliarTrainingFrame.CHAMELEON || this.doppelganger )
+			if ( familiar.getId() == FamiliarPool.CHAMELEON || this.doppelganger )
 			{
 				return;
 			}
@@ -2317,7 +2314,7 @@ public class FamiliarTrainingFrame
 			// If it's a comma chameleon or we have a doppelganger,
 			// don't look at familiar items.
 
-			if ( KoLCharacter.getFamiliar().getId() == FamiliarTrainingFrame.CHAMELEON )
+			if ( KoLCharacter.getFamiliar().getId() == FamiliarPool.CHAMELEON )
 			{
 				this.getAccessoryGearSets( weight, null, hat );
 				return;
@@ -2469,7 +2466,7 @@ public class FamiliarTrainingFrame
 
 			if ( FamiliarTrainingFrame.sympathyAvailable )
 			{
-				weight += this.familiar.getId() == FamiliarTrainingFrame.DODECAPEDE ? -5 : 5;
+				weight += this.familiar.getId() == FamiliarPool.DODECAPEDE ? -5 : 5;
 			}
 
 			if ( FamiliarTrainingFrame.leashActive > 0 )
@@ -2689,7 +2686,7 @@ public class FamiliarTrainingFrame
 			// Add possible skills
 			if ( FamiliarTrainingFrame.sympathyAvailable )
 			{
-				weight += this.familiar.getId() == FamiliarTrainingFrame.DODECAPEDE ? -5 : 5;
+				weight += this.familiar.getId() == FamiliarPool.DODECAPEDE ? -5 : 5;
 			}
 
 			if ( buffs )
@@ -2827,7 +2824,7 @@ public class FamiliarTrainingFrame
 			text.append( "Current buffs:" );
 			if ( FamiliarTrainingFrame.sympathyAvailable )
 			{
-				text.append( " Sympathy (" + ( this.familiar.getId() == FamiliarTrainingFrame.DODECAPEDE ? "-" : "+" ) + "5 permanent)" );
+				text.append( " Sympathy (" + ( this.familiar.getId() == FamiliarPool.DODECAPEDE ? "-" : "+" ) + "5 permanent)" );
 			}
 			if ( FamiliarTrainingFrame.empathyActive > 0 )
 			{

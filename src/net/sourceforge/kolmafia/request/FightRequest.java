@@ -53,6 +53,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -1603,7 +1604,7 @@ public class FightRequest
 		}
 
 		// Check for extra rollover adventures from your Wild Hare
-		if ( KoLCharacter.getFamiliar().getId() == 50 )
+		if ( KoLCharacter.getFamiliar().getId() == FamiliarPool.HARE )
 		{
 			// <name> pulls an oversized pocketwatch out of his
 			// waistcoat and winds it. "Two days slow, that's what
@@ -2241,7 +2242,7 @@ public class FightRequest
 		// Mosquito and Boss Bat can muck with the monster's HP, but
 		// they don't have normal text.
 
-		if ( KoLCharacter.getFamiliar().getRace().equals( "Mosquito" ) )
+		if ( KoLCharacter.getFamiliar().getId() == FamiliarPool.MOSQUITO )
 		{
 			damageMatcher = FightRequest.MOSQUITO_PATTERN.matcher( responseText );
 			if ( damageMatcher.find() )
@@ -2593,7 +2594,7 @@ public class FightRequest
 		// If we are adventuring with a Black Cat, she might prevent
 		// skill and item use during combat.
 
-		if ( KoLCharacter.getFamiliar().getId() == 93 )
+		if ( KoLCharacter.getFamiliar().getId() == FamiliarPool.BLACK_CAT )
 		{
 			// <Name> jumps onto the keyboard and causes you to
 			// accidentally hit the Attack button instead of using
@@ -2838,7 +2839,7 @@ public class FightRequest
 	public static final int freeRunawayChance()
 	{
 		// Bandersnatch + Ode = weight/5 free runaways
-		if ( KoLCharacter.getFamiliar().getId() == 105 &&
+		if ( KoLCharacter.getFamiliar().getId() == FamiliarPool.BANDER &&
 			KoLConstants.activeEffects.contains( ItemDatabase.ODE ) )
 		{
 			if ( !FightRequest.castCleesh &&

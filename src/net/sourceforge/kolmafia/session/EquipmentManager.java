@@ -53,6 +53,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
 
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
@@ -361,8 +362,7 @@ public class EquipmentManager
 	{
 		switch ( KoLCharacter.getFamiliar().getId() )
 		{
-		case 82:
-			// Mad Hatrack
+		case FamiliarPool.HATRACK:
 			if ( slot == EquipmentManager.HAT )
 			{
 				EquipmentManager.updateEquipmentList( EquipmentManager.FAMILIAR );
@@ -373,8 +373,7 @@ public class EquipmentManager
 			}
 			break;
 
-		case 92:
-			// Disembodied Hand
+		case FamiliarPool.HAND:
 			if ( slot == EquipmentManager.WEAPON || slot == EquipmentManager.OFFHAND )
 			{
 				EquipmentManager.updateEquipmentList( EquipmentManager.FAMILIAR );

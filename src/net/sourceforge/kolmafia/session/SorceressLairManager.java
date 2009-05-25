@@ -49,6 +49,7 @@ import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
@@ -611,7 +612,7 @@ public abstract class SorceressLairManager
 
 	// Items for the Sorceress's Chamber
 
-	private static final FamiliarData STARFISH = new FamiliarData( 17 );
+	private static final FamiliarData STARFISH = new FamiliarData( FamiliarPool.STARFISH );
 	private static final AdventureResult STARFISH_ITEM = ItemPool.get( ItemPool.STAR_STARFISH, 1 );
 
 	// Familiars and the familiars that defeat them

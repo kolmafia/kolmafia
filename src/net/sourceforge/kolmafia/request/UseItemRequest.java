@@ -53,6 +53,7 @@ import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
@@ -880,7 +881,7 @@ public class UseItemRequest
 			break;
 
 		case KoLConstants.CONSUME_HOBO:
-			if ( KoLCharacter.getFamiliar().getId() != 52 )
+			if ( KoLCharacter.getFamiliar().getId() != FamiliarPool.HOBO )
 			{ 
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have a Spirit Hobo equipped" );
 				return;
@@ -892,7 +893,7 @@ public class UseItemRequest
 			break;
 
 		case KoLConstants.CONSUME_GHOST:
-			if ( KoLCharacter.getFamiliar().getId() != 74 )
+			if ( KoLCharacter.getFamiliar().getId() != FamiliarPool.GHOST )
 			{ 
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have a Gluttonous Green Ghost equipped" );
 				return;
@@ -2934,7 +2935,7 @@ public class UseItemRequest
 		FamiliarData familiar = KoLCharacter.getFamiliar();
 		int id = familiar.getId();
 
-		if ( id != 52 && id != 74 )
+		if ( id != FamiliarPool.HOBO && id != FamiliarPool.GHOST )
 		{
 			return false;
 		}
@@ -3007,10 +3008,10 @@ public class UseItemRequest
 			break;
 
 		case ItemPool.BLACK_MARKET_MAP:
-			if ( KoLCharacter.getFamiliar().getId() != 59 )
+			if ( KoLCharacter.getFamiliar().getId() != FamiliarPool.BLACKBIRD )
 			{
 				AdventureResult map = UseItemRequest.lastItemUsed;
-				FamiliarData blackbird = new FamiliarData( 59 );
+				FamiliarData blackbird = new FamiliarData( FamiliarPool.BLACKBIRD );
 
 				if ( !KoLCharacter.getFamiliarList().contains( blackbird ) )
 				{
@@ -3040,7 +3041,7 @@ public class UseItemRequest
 		case ItemPool.PUNCHCARD_BUFF:
 		case ItemPool.PUNCHCARD_MODIFY:
 		case ItemPool.PUNCHCARD_BUILD:
-			if ( KoLCharacter.getFamiliar().getId() != 81 )
+			if ( KoLCharacter.getFamiliar().getId() != FamiliarPool.MEGADRONE )
 			{
 				return true;
 			}
