@@ -72,6 +72,7 @@ import net.sourceforge.kolmafia.request.BasementRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
+import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
@@ -4055,6 +4056,17 @@ public class KoLmafiaCLI
 		public void run( String cmd, String parameters )
 		{
 			RequestThread.postRequest( ( new ClanRumpusRequest( ClanRumpusRequest.SOFA ) ).setTurnCount( StringUtilities.parseInt( parameters ) ) );
+		}
+	}
+
+	static { new HotTub().register( "hottub" ).register( "soak" ); }
+	public static class HotTub
+		extends Command
+	{
+		{ usage = " - soak in your clan's hot tub"; }
+		public void run( String cmd, String parameters )
+		{
+			RequestThread.postRequest( new ClanLoungeRequest( ClanLoungeRequest.HOTTUB ) );
 		}
 	}
 
