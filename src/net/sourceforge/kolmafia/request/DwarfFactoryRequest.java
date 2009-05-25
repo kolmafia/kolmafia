@@ -735,7 +735,7 @@ public class DwarfFactoryRequest
 	// Module to parse special messages from Dwarvish War Uniform items
 
 	private static final Pattern DWARF_MATTOCK_PATTERN =
-		Pattern.compile( "<p>Your mattock glows (really\\s+)*bright blue.</p>");
+		Pattern.compile( "<p>Your mattock glows.*bright blue\\.</p>");
 	private static final Pattern REALLY_PATTERN = Pattern.compile( "really" );
 
 	public static Matcher hpMessage( final CharSequence responseText )
@@ -763,7 +763,7 @@ public class DwarfFactoryRequest
 			++count;
 		}
 
-		return 0;
+		return 7 * count;
 	}
 
 	private static final Pattern DWARF_HELMET_PATTERN =
