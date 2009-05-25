@@ -496,7 +496,7 @@ Rock-Banging Cave Elf		rock (8)	stick (7)	stick (15)
 Rolling Stone	HP: 135 Def: 140 Atk: 137	palm frond (10)	handful of moss (20)	brown sugar cane (20)	mother's little helper (10)	Tuesday's ruby (5)	hot date (5)
 Rotund Duck	HP: 225 Atk: 175 Meat: 271-369	duct tape (6)
 Rudolphus of Crimborg		capacitor relay (8)	carbon nanotube frame (8)	ion grid (8)	Feynman gate (8)	logic synthesizer (8)	high-resistance ultrapolymer plating (4)
-Rushing Bum	HP: 1 Def: 1 Atk: 1	bum cheek (30)	Mad Train wine (30)	moxie weed (15)	dented harmonica (0)	cheap cigar butt (p0)
+Rushing Bum	HP: 1 Def: 1 Atk: 1	bum cheek (30)	Mad Train wine (30)	moxie weed (15)	dented harmonica (15)	cheap cigar butt (p0)
 Sabre-Toothed Ferret	HP: 200 Atk: 250 Meat: 160-240 E: stench	sabre teeth (25)
 Sabre-Toothed Goat	HP: 50 Def: 68 Atk: 68 Meat: 44-66	goat beard (5)	Sabre teeth (5)	billy idol (b0)
 Sabre-Toothed Lime	HP: 8 Def: 14 Atk: 14

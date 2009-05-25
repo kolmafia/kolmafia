@@ -908,7 +908,7 @@
 907	Mr. Mediocrebar	multiple	all	50
 908	Cold Hots candy	multiple	all	0
 909	Wint-O-Fresh mint	multiple	all	0
-910	dwarf bread	food	all	0
+910	dwarf bread	food	all	21
 911	Senior Mints	multiple	all	0
 912	pixellated candy heart	multiple	all	0
 913	candied kobold	multiple	all	0

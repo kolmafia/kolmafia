@@ -76,8 +76,6 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 public class BuffRequestFrame
 	extends GenericFrame
 {
-	public static final GenericRequest ONLINE_VALIDATOR = new GenericRequest( "submitnewchat.php" );
-
 	private static final String NO_REQUEST_TEXT =
 		"\nTo whom it may concern:\n\n" + "At the frequent request of individuals wanting to see the name 'BOT_NAME' listed in KoLmafia's buff purchase interface, " + "BOT_NAME has been added to our internal buffbot database.\n\n" + "However, at the request of the individuals responsible for maintaining BOT_NAME, " + "BOT_NAME's formal price list and buff offerings are not available directly through KoLmafia.\n\n" + "You are welcome to use this interface to check whether or not BOT_NAME is currently logged in to KoL.  " + "However, we hope this message helps you understand why additional support was not added.\n\n\n" + "Respectfully yours,\nThe KoLmafia development team";
 
@@ -148,13 +146,7 @@ public class BuffRequestFrame
 
 	private void isBotOnline( final String botName )
 	{
-		BuffRequestFrame.ONLINE_VALIDATOR.addFormField( "playerid", String.valueOf( KoLCharacter.getUserId() ) );
-		BuffRequestFrame.ONLINE_VALIDATOR.addFormField( "pwd" );
-		BuffRequestFrame.ONLINE_VALIDATOR.addFormField( "graf", "/whois " + botName );
-
-		RequestThread.postRequest( BuffRequestFrame.ONLINE_VALIDATOR );
-
-		if ( BuffRequestFrame.ONLINE_VALIDATOR.responseText != null && BuffRequestFrame.ONLINE_VALIDATOR.responseText.indexOf( "online" ) != -1 )
+		if ( KoLmafia.isPlayerOnline( botName ) )
 		{
 			InputFieldUtilities.alert( botName + " is online." );
 		}
