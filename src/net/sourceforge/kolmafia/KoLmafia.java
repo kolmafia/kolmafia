@@ -680,7 +680,7 @@ public abstract class KoLmafia
 		if ( Preferences.getBoolean( name, "getBreakfast" ) )
 		{
 			int today = HolidayDatabase.getPhaseStep();
-			BreakfastManager.getBreakfast( true, Preferences.getInteger( "lastBreakfast" ) != today );
+			BreakfastManager.getBreakfast( Preferences.getInteger( "lastBreakfast" ) != today );
 			Preferences.setInteger( "lastBreakfast", today );
 		}
 

@@ -41,7 +41,7 @@ public class BreakfastManager
 	private static final AdventureResult toaster = ItemPool.get( ItemPool.TOASTER, 1 );
 	private static final AdventureResult key = ItemPool.get( ItemPool.VIP_LOUNGE_KEY, 1 );
 
-	public static void getBreakfast( final boolean checkSettings, final boolean runComplete )
+	public static void getBreakfast( final boolean runComplete )
 	{
 		SpecialOutfit.createImplicitCheckpoint();
 
@@ -60,7 +60,7 @@ public class BreakfastManager
 
 		boolean done = true;
 
-		done &= castSkills( checkSettings, recoverMana, 0 );
+		done &= castSkills( recoverMana, 0 );
 		done &= castBookSkills( recoverMana, 0 );
 
 		Preferences.setBoolean( "breakfastCompleted", done );
@@ -154,7 +154,7 @@ public class BreakfastManager
 		}
 	}
 
-	public static boolean castSkills( boolean checkSettings, final boolean allowRestore, final int manaRemaining )
+	public static boolean castSkills( final boolean allowRestore, final int manaRemaining )
 	{
 		if ( Preferences.getBoolean( "breakfastCompleted" ) )
 		{
@@ -178,7 +178,7 @@ public class BreakfastManager
 		{
 			String skill = UseSkillRequest.BREAKFAST_SKILLS[ i ];
 
-			if ( checkSettings && skillSetting.indexOf( skill ) == -1 )
+			if ( skillSetting.indexOf( skill ) == -1 )
 			{
 				continue;
 			}
@@ -188,7 +188,7 @@ public class BreakfastManager
 				continue;
 			}
 
-			if ( checkSettings && pathedSummons )
+			if ( pathedSummons )
 			{
 				if ( skill.equals( "Pastamastery" ) && !KoLCharacter.canEat() )
 				{
