@@ -3277,7 +3277,7 @@
 3276	black-and-blue light	usable	gift	5
 3277	Loudmouth Larry Lamprey	usable	gift	5
 3278	cheap studded belt	accessory	gift	5
-3279	personal massager	message	gift	5
+3279	personal massager	usable	gift	5
 3280	personalized coffee mug	none	gift	0
 3281	blue plasma ball	usable	gift	5
 3282	stick-on eyebrow piercing	accessory	gift	5
