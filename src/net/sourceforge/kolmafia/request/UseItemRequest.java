@@ -2695,6 +2695,77 @@ public class UseItemRequest
 			ResultProcessor.processResult( item );
 			DwarfFactoryRequest.useUnlaminatedItem( item.getItemId(), responseText );
 			break;
+
+		case ItemPool.WRETCHED_SEAL:
+		case ItemPool.CUTE_BABY_SEAL:
+		case ItemPool.ARMORED_SEAL:
+		case ItemPool.ANCIENT_SEAL:
+		case ItemPool.SLEEK_SEAL:
+		case ItemPool.SHADOWY_SEAL:
+		case ItemPool.STINKING_SEAL:
+		case ItemPool.CHARRED_SEAL:
+		case ItemPool.COLD_SEAL:
+		case ItemPool.SLIPPERY_SEAL:
+
+			// Even if we are redirected to a fight, the item is
+			// consumed elsewhere
+			ResultProcessor.processResult( item );
+
+			// You've summoned too many Infernal seals today. Any
+			// more and you're afraid the corruption will be too
+			// much for you to bear.
+
+			if ( responseText.indexOf( "too many Infernal seals" ) != -1 )
+			{
+				UseItemRequest.lastUpdate = "Summoning limit reached.";
+			}
+
+			// In order to perform this summoning ritual, you need
+			// 1 seal-blubber candle. You can pick them up at the
+			// store in the Brotherhood of the Smackdown.
+
+			else if ( responseText.indexOf( "Brotherhood of the Smackdown" ) != -1 )
+			{
+				UseItemRequest.lastUpdate = "You need more seal-blubber candles.";
+			}
+
+			// In order to perform this summoning ritual, you need
+			// 1 imbued seal-blubber candle.
+
+			else if ( responseText.indexOf( "you need 1 imbued seal-blubber candle" ) != -1 )
+			{
+				UseItemRequest.lastUpdate = "You need an imbued seal-blubber candle.";
+			}
+
+			// Only Seal Clubbers may use this item.
+
+			else if ( responseText.indexOf( "Only Seal Clubbers may use this item." ) != -1 )
+			{
+				UseItemRequest.lastUpdate = "Only Seal Clubbers may use this item.";
+			}
+
+			if ( !UseItemRequest.lastUpdate.equals( "" ) )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				return;
+			}
+
+			// You feel your clubbing muscles begin to twitch with
+			// anticipation... Begin the Ritual
+
+			if ( responseText.indexOf( "Begin the Ritual" ) != -1 )
+			{
+				return;
+			}
+
+			// Pressing "Begin the Ritual" reissues the request
+			// with an additional field: check=1
+			//
+			// inv_use.php?which=3&whichitem=3902&pwd
+			// inv_use.php?whichitem=3902&checked=1&pwd
+
+			GenericRequest.checkItemRedirection( item );
+			return;
 		}
 	}
 
@@ -3064,6 +3135,24 @@ public class UseItemRequest
 				return true;
 			}
 			useString = "insert " + UseItemRequest.lastItemUsed + " into El Vibrato Megadrone";
+			break;
+
+		case ItemPool.WRETCHED_SEAL:
+		case ItemPool.CUTE_BABY_SEAL:
+		case ItemPool.ARMORED_SEAL:
+		case ItemPool.ANCIENT_SEAL:
+		case ItemPool.SLEEK_SEAL:
+		case ItemPool.SHADOWY_SEAL:
+		case ItemPool.STINKING_SEAL:
+		case ItemPool.CHARRED_SEAL:
+		case ItemPool.COLD_SEAL:
+		case ItemPool.SLIPPERY_SEAL:
+			// You only actually use a seal figurine when you
+			// "Begin the Ritual"
+			if ( urlString.indexOf( "checked" ) == -1 )
+			{
+				return true;
+			}
 			break;
 		}
 
