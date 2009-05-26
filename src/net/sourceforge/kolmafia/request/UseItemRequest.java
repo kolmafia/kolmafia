@@ -2599,6 +2599,16 @@ public class UseItemRequest
 
 			return;
 
+		case ItemPool.PERSONAL_MASSAGER:
+
+			// You don't really need a massage right now, as your
+			// neck and back aren't feeling particularly kinky.
+			if ( responseText.indexOf( "don't really need a massage" ) != -1 )
+			{
+				ResultProcessor.processResult( item );
+			}
+			return;
+
 		case ItemPool.TOMB_RATCHET:
 
 			PyramidRequest.advancePyramidPosition();
