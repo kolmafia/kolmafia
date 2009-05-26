@@ -1840,6 +1840,22 @@ public class GenericRequest
 			KoLmafia.ignoreSemirare();
 			break;
 
+		case ItemPool.WRETCHED_SEAL:
+		case ItemPool.CUTE_BABY_SEAL:
+		case ItemPool.ARMORED_SEAL:
+		case ItemPool.ANCIENT_SEAL:
+		case ItemPool.SLEEK_SEAL:
+		case ItemPool.SHADOWY_SEAL:
+		case ItemPool.STINKING_SEAL:
+		case ItemPool.CHARRED_SEAL:
+		case ItemPool.COLD_SEAL:
+		case ItemPool.SLIPPERY_SEAL:
+			itemName = "Infernal Seal Ritual";
+			consumed = true;
+			Preferences.increment( "_sealsSummoned", 1 );
+			ResultProcessor.processResult( sealRitualCandles( itemId ) );
+			break;
+
 		default:
 			return;
 		}
@@ -1855,6 +1871,29 @@ public class GenericRequest
 
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( "[" + adventure + "] " + itemName );
+	}
+
+	private static final AdventureResult sealRitualCandles( final int itemId )
+	{
+		switch ( itemId )
+		{
+		case ItemPool.WRETCHED_SEAL:
+			return ItemPool.get( ItemPool.SEAL_BLUBBER_CANDLE, -1 );
+		case ItemPool.CUTE_BABY_SEAL:
+			return ItemPool.get( ItemPool.SEAL_BLUBBER_CANDLE, -5 );
+		case ItemPool.ARMORED_SEAL:
+			return ItemPool.get( ItemPool.SEAL_BLUBBER_CANDLE, -10 );
+		case ItemPool.ANCIENT_SEAL:
+			return ItemPool.get( ItemPool.SEAL_BLUBBER_CANDLE, -3 );
+		case ItemPool.SLEEK_SEAL:
+		case ItemPool.SHADOWY_SEAL:
+		case ItemPool.STINKING_SEAL:
+		case ItemPool.CHARRED_SEAL:
+		case ItemPool.COLD_SEAL:
+		case ItemPool.SLIPPERY_SEAL:
+			return ItemPool.get( ItemPool.IMBUED_SEAL_BLUBBER_CANDLE, -1 );
+		}
+		return null;
 	}
 
 	public final void loadResponseFromFile( final String filename )

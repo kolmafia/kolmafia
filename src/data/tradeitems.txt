@@ -3900,16 +3900,16 @@
 3899
 3900
 3901	seal-blubber candle	none	display	50
-3902	figurine of a wretched-looking seal	none	display	75
-3903	figurine of a cute baby seal	none	display	125
-3904	figurine of an armored seal	none	display	250
-3905	figurine of an ancient seal	none	display	100
-3906	figurine of a sleek seal	none	display	100
-3907	figurine of a shadowy seal	none	display	150
-3908	figurine of a stinking seal	none	display	150
-3909	figurine of a charred seal	none	display	150
-3910	figurine of a cold seal	none	display	150
-3911	figurine of a slippery seal	none	display	150
+3902	figurine of a wretched-looking seal	usable	display	75
+3903	figurine of a cute baby seal	usable	display	125
+3904	figurine of an armored seal	usable	display	250
+3905	figurine of an ancient seal	usable	display	100
+3906	figurine of a sleek seal	usable	display	100
+3907	figurine of a shadowy seal	usable	display	150
+3908	figurine of a stinking seal	usable	display	150
+3909	figurine of a charred seal	usable	display	150
+3910	figurine of a cold seal	usable	display	150
+3911	figurine of a slippery seal	usable	display	150
 3912	imbued seal-blubber candle	none	display	50
 3913	blended frozen swill with a fly in it	message	gift	5
 3914	turtle wax	usable	all	7
