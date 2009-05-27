@@ -326,6 +326,10 @@ public class BasementRequest
 			if ( currentTestString.indexOf( name ) != -1 )
 			{
 				RequestThread.postRequest( new EquipmentRequest( (SpecialOutfit) currentTest ) );
+				// Restoring to the original outfit after Basement auto-adventuring is
+				// slow and pointless - you're going to want something related to the
+				// current outfit to continue, not the original one.
+				SpecialOutfit.forgetCheckpoints();
 				return;
 			}
 		}

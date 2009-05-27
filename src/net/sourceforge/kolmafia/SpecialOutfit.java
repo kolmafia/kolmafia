@@ -345,4 +345,15 @@ public class SpecialOutfit
 			}
 		}
 	}
+	
+	/**
+	 * Method to remove all active checkpoints, in cases where restoring the original
+	 * outfit is undesirable (currently, Fernswarthy's Basement).
+	 */
+
+	public static final void forgetCheckpoints()
+	{
+		SpecialOutfit.implicitPoints.clear();
+		SpecialOutfit.explicitPoints.clear();
+	}
 }

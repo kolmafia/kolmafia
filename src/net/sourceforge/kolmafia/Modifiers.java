@@ -794,7 +794,7 @@ public class Modifiers
 	{
 		for ( int i = 0; i < table.length; ++i )
 		{
-			if ( name.equals( (String) table[ i ][ 0 ] ) )
+			if ( name.equalsIgnoreCase( (String) table[ i ][ 0 ] ) )
 			{
 				return i;
 			}
