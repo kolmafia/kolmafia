@@ -68,7 +68,9 @@ public class DailyDeedsPanel
 		this.add( new BooleanDaily( "breakfastCompleted", "breakfast" ) );
 		this.add( new RunawaysDaily() );
 		this.add( new DropsDaily() );
+		this.add( new SealsDaily() );
 		this.add( new RestsDaily() );
+		this.add( new HotTubDaily() );
 		this.add( new BooleanDaily( "dailyDungeonDone", "adv * Daily Dungeon" ) );
 		this.add( new TelescopeDaily() );
 		this.add( new StyxDaily() );
@@ -453,6 +455,24 @@ public class DailyDeedsPanel
 		}
 	}
 
+	public static class HotTubDaily
+		extends Daily
+	{
+		public HotTubDaily()
+		{
+			this.addListener( "_hotTubSoaks" );
+			this.addButton( "hottub" );
+			this.addLabel( "" );
+		}
+		
+		public void update()
+		{
+			int nf = Preferences.getInteger( "_hotTubSoaks" );
+			this.setEnabled( nf < 5 );
+			this.setText( nf + "/5" );
+		}
+	}
+
 	public static class MelangeDaily
 		extends Daily
 	{
@@ -488,6 +508,22 @@ public class DailyDeedsPanel
 		{
 			this.setText( KoLCharacter.getStillsAvailable() +
 				"/10 stills available" );
+		}
+	}
+
+	public static class SealsDaily
+		extends Daily
+	{
+		public SealsDaily()
+		{
+			this.addListener( "_sealsSummoned" );
+			this.addLabel( "" );
+		}
+		
+		public void update()
+		{
+			this.setText( Preferences.getInteger( "_sealsSummoned" ) +
+				"/5 seals summoned" );
 		}
 	}
 
