@@ -1073,6 +1073,8 @@ public class UseItemRequest
 			return;
 		}
 
+		UseItemRequest.lastUpdate = "";
+
 		AdventureResult item = UseItemRequest.lastItemUsed;
 		AdventureResult helper = UseItemRequest.lastHelperUsed;
 		
@@ -2744,6 +2746,13 @@ public class UseItemRequest
 				UseItemRequest.lastUpdate = "Only Seal Clubbers may use this item.";
 			}
 
+			// You need to be at least level 6 to use that item
+
+			else if ( responseText.indexOf( "need to be at least level" ) != -1 )
+			{
+				UseItemRequest.lastUpdate = "You are not high enough level.";
+			}
+
 			if ( !UseItemRequest.lastUpdate.equals( "" ) )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
@@ -2752,19 +2761,18 @@ public class UseItemRequest
 
 			// You feel your clubbing muscles begin to twitch with
 			// anticipation... Begin the Ritual
-
-			if ( responseText.indexOf( "Begin the Ritual" ) != -1 )
-			{
-				return;
-			}
-
+			//
 			// Pressing "Begin the Ritual" reissues the request
 			// with an additional field: check=1
 			//
 			// inv_use.php?which=3&whichitem=3902&pwd
 			// inv_use.php?whichitem=3902&checked=1&pwd
 
-			GenericRequest.checkItemRedirection( item );
+			if ( responseText.indexOf( "fight.php" ) != -1 )
+			{
+                                GenericRequest.checkItemRedirection( item );
+                        }
+
 			return;
 		}
 	}
@@ -3149,7 +3157,7 @@ public class UseItemRequest
 		case ItemPool.SLIPPERY_SEAL:
 			// You only actually use a seal figurine when you
 			// "Begin the Ritual"
-			if ( urlString.indexOf( "checked" ) == -1 )
+			if ( urlString.indexOf( "checked" ) != -1 )
 			{
 				return true;
 			}

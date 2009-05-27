@@ -3928,7 +3928,7 @@
 3927	turtling rod	offhand	display	250
 3928	syncopated turtle	grow	all	50
 3929	grinning turtle	grow	all	50
-3930	tainted seal's blood	multiple	all	35
+3930	tainted seal's blood	multiple	display	35
 3931	severed flipper	weapon	display	105
 3932	ingot of seal-iron	usable	display	10
 3933	bad-ass club	weapon	display	100
