@@ -997,7 +997,7 @@ snake shield	Muscle: +6, Damage Reduction: 7
 snarling wolf shield	Maximum HP: +40, Damage Reduction: 7
 sock monkey	Moxie: +3
 spaghetti-box banjo	MP Regen Min: 5, MP Regen Max: 10, Class: "Pastamancer"
-spiky turtle shield	Waepon Damage: +8, Item Drop: +10, Damage Reduction: 8
+spiky turtle shield	Weapon Damage: +8, Item Drop: +10, Damage Reduction: 8
 spongy shield	Muscle Percent: +10, HP Regen Min: 20, HP Regen Max: 50, Damage Absorption: +50, Damage Reduction: 14
 star buckler	Muscle: +2, Mysticality: +2, Moxie: +2, Damage Reduction: 10
 steaming evil	Hot Damage: +6, Sleaze Damage: +6, Spooky Damage: +6

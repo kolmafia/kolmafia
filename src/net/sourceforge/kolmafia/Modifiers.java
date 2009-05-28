@@ -353,7 +353,7 @@ public class Modifiers
 			Pattern.compile( "Spell Damage ([+-]\\d+)$" ),
 			Pattern.compile( "([+-]\\d+) Spell Damage" ),
 		  },
-		  Pattern.compile( "Spell Damage: " + EXPR )
+		  Pattern.compile( "(?:^|, )Spell Damage: " + EXPR )
 		},
 		{ "Spell Damage Percent",
 		  new Object[] {
