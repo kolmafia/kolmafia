@@ -2335,7 +2335,7 @@ public abstract class SorceressLairManager
 		}
 		while ( SorceressLairManager.QUEST_HANDLER.responseText.indexOf( "fight.php" ) != -1 );
 
-		if ( KoLCharacter.getCurrentHP() > 0 )
+		if ( SorceressLairManager.QUEST_HANDLER.responseText.indexOf( "a veritable volcano of fey force" ) != -1 )
 		{
 			KoLmafia.updateDisplay( "Your shadow has been defeated." );
 		}
