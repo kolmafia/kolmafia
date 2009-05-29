@@ -8,7 +8,10 @@
 # Location functions: loc(text) zone(text)
 #	These have a value of 1 if the current adventure location or zone contains the
 #	specified text, 0 elsewhere.
-#	There can be at most one location and one zone specified in any single expression.
+# Familiar function: fam(text)
+#	This has a value of 1 if the player's familiar type contains the text, else 0.
+# There can be at most one location, one zone, and one familiar specified in any
+# single expression.
 # Upper-case letters are varying values:
 #	B - Blood of Wereseal effect
 #	D - drunkenness
@@ -1659,7 +1662,7 @@ tiny bindle	Familiar Weight: +5
 tiny bust of Pallas	Familiar Weight: +5
 tiny cell phone	Familiar Weight: +10
 # tiny costume wardrobe: Contains Many Adorable Costumes
-tiny costume wardrobe	Softcore Only
+tiny costume wardrobe	Familiar Weight: [25*fam(doppelshifter)], Softcore Only
 tiny knife and fork	Familiar Weight: +5
 tiny makeup kit	Familiar Weight: +15
 tiny maracas	Familiar Weight: +5

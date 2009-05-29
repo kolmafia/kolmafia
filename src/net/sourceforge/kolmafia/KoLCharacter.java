@@ -2978,6 +2978,7 @@ public abstract class KoLCharacter
 		int brimstoneMonsterLevel = 1;
 
 		Modifiers newModifiers = debug ? new DebugModifiers() : new Modifiers();
+		newModifiers.setFamiliar( KoLCharacter.currentFamiliar );
 		
 		// Area-specific adjustments
 		newModifiers.add( Modifiers.getModifiers( "loc:" + Modifiers.currentLocation ) );
