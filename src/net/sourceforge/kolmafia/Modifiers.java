@@ -66,6 +66,7 @@ public class Modifiers
 	private static final ArrayList passiveSkills = new ArrayList();
 	public static String currentLocation = "";
 	public static String currentZone = "";
+	public static String currentFamiliar = "";
 	private static float currentWeight = 0.0f;
 
 	private static final Pattern FAMILIAR_EFFECT_PATTERN =
@@ -1307,6 +1308,7 @@ public class Modifiers
 		int familiarId = fam != null ? fam.getId() : -1;
 		if ( familiarId == -1 ) { return 0.0f; }
 		Modifiers tempMods = new Modifiers();
+		tempMods.setFamiliar( fam );
 		if ( familiarId != 82 )
 		{ // Mad Hatrack ... hats do not give their normal modifiers (should i be checking the item is a hat?)
 			tempMods.add( Modifiers.getModifiers( item.getName() ) );
@@ -1391,7 +1393,6 @@ public class Modifiers
 		}
 
 		weight = Math.max( 1, weight );
-		Modifiers.currentWeight = weight;
 		AdventureResult famItem = EquipmentManager.getEquipment( EquipmentManager.FAMILIAR );
 		this.lookupFamiliarModifiers( familiar, weight, famItem );
 	}
@@ -1399,6 +1400,7 @@ public class Modifiers
 	public void lookupFamiliarModifiers( final FamiliarData familiar, int weight, final AdventureResult famItem ) {
 		int familiarId = familiar.getId();
 		weight = Math.max( 1, weight );
+		Modifiers.currentWeight = weight;
 		
 		this.add( Modifiers.getModifiers( "fam:" + familiar.getRace() ) );
 		if ( famItem != null )
@@ -1869,7 +1871,7 @@ public class Modifiers
 		private int sp = 0;
 		private String bytecode;
 		private AdventureResult effect;
-		private String loc, zone;
+		private String loc, zone, fam;
 		private String text;
 		private static final Pattern NUM_PATTERN = Pattern.compile( "([+-]?[\\d.]+)(.*)" );
 		
@@ -1937,6 +1939,9 @@ public class Modifiers
 					break;
 				case 'z':
 					v = Modifiers.currentZone.indexOf( this.zone ) == -1 ? 0.0f : 1.0f;
+					break;
+				case 'w':
+					v = Modifiers.currentFamiliar.indexOf( this.fam ) == -1 ? 0.0f : 1.0f;
 					break;
 					
 				case 'm':
@@ -2194,6 +2199,11 @@ public class Modifiers
 				this.zone = this.until( ")" ).toLowerCase();
 				return "z";
 			}
+			if ( this.optional( "fam(" ) )
+			{
+				this.fam = this.until( ")" ).toLowerCase();
+				return "w";
+			}
 			if ( this.text.length() == 0 )
 			{
 				KoLmafia.updateDisplay( "Modifier syntax error: unexpected end of expr" );
@@ -2222,5 +2232,10 @@ public class Modifiers
 	{
 		Modifiers.currentLocation = location.getAdventureName().toLowerCase();
 		Modifiers.currentZone = location.getZone().toLowerCase();
+	}
+
+	public static void setFamiliar( FamiliarData fam )
+	{
+		Modifiers.currentFamiliar = fam == null ? "" : fam.getRace().toLowerCase();
 	}
 }
