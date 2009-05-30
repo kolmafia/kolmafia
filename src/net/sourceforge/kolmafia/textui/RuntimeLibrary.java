@@ -302,6 +302,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "add_item_condition", DataTypes.VOID_TYPE, params ) );
 
+		params = new Type[] { DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "is_goal", DataTypes.BOOLEAN_TYPE, params ) );
+
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "buy", DataTypes.BOOLEAN_TYPE, params ) );
 
@@ -1587,6 +1590,12 @@ public abstract class RuntimeLibrary
 
 		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "conditions", "add " + count + " " + item );
 		return DataTypes.VOID_VALUE;
+	}
+
+	public static Value is_goal( final Value item )
+	{
+		return new Value( KoLConstants.conditions.contains(
+			new AdventureResult( item.intValue(), 0 ) ) );
 	}
 
 	public static Value buy( final Value countValue, final Value item )
