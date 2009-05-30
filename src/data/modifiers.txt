@@ -80,7 +80,7 @@ Spooky Putty mitre	Experience: +3, Softcore Only
 Tropical Crimbo Hat	Spooky Resistance: +1, Familiar Effect: "1xLep, 1.5xFairy, cap 25"
 Zombo's skullcap	Muscle Percent: +20, Familiar Weight: +10, Class: "Turtle Tamer", Familiar Effect: "spooky atk"
 aerated diving helmet	Stench Resistance: +3, Item Drop: -50, Initiative: -50
-ancient turtle shell helmet	Meat Drop: +10
+ancient turtle shell helmet	Meat Drop: +10, Familiar Effect: "atk, cap 8"
 anniversary concrete fedora	Moxie: +1, Muscle: +1, Mysticality: +1, Familiar Effect: "?xVolley, ?xLep, cap 2"
 antique helmet	Initiative: -10, Spooky Resistance: +3, Familiar Effect: "0.5xPotato, 0.5xFairy"
 asbestos helmet turtle	Hot Resistance: +1, Familiar Effect: "hot atk, 1xFairy, cap 20"
@@ -185,7 +185,7 @@ pentacorn hat	Familiar Effect: "atk, cap 10"
 pimpin' meat hat	Muscle: +2, Moxie: +2, Familiar Effect: "sleaze atk, 1xVolley, cap 13"
 pixel hat	Moxie: +2, Muscle: +2, Mysticality: +2, Familiar Effect: "atk, 2xVolley, cap 12"
 plexiglass pith helmet	Familiar Weight: +5, HP Regen Min: 10, HP Regen Max: 12, MP Regen Min: 10, MP Regen Max: 12, Muscle Percent: +30, Familiar Effect: "1xVolley, 1xLep, cap 45"
-propeller beanie	Initiative: +10, Familiar Effect: "none, cap 7"
+propeller beanie	Initiative: +10, Familiar Effect: "atk, cap 7"
 raspberry beret	Hot Resistance: +2, Familiar Effect: "2xPotato, 2xLep, cap 12"
 ravioli hat	Familiar Effect: "atk, cap 2"
 red traffic cone	Moxie: +3, Cold Resistance: +2, Familiar Effect: "2xVolley, 2xLep, cap 15"
@@ -193,14 +193,14 @@ reinforced beaded headband	Maximum HP: +40, Familiar Effect: "0.5xBarrr, 1xFairy
 rusty diving helmet	Stench Resistance: +1, Item Drop: -50, Initiative: -50
 # safarrri hat: +10 Damage vs. Lions
 safarrri hat	Maximum HP: +15, Familiar Effect: "2xVolley, cap 22"
-samurai turtle helmet	Muscle: +1, Weapon Damage: +2
+samurai turtle helmet	Muscle: +1, Weapon Damage: +2, Familiar Effect: "?xBarrr, cap 6"
 seal-skull helmet	Familiar Effect: "atk, cap 2"
 sequined fez	Moxie: +3, Familiar Effect: "1.75xLep, cap 20"
 shapeless wide-brimmed hat	HP Regen Min: 15, HP Regen Max: 20, MP Regen Min: 15, MP Regen Max: 20, Mysticality Percent: +5, Familiar Effect: "0.75xLep, 0x75xFairy"
 skeletortoise	Mysticality: +2, Familiar Effect: "spooky atk, 2xFairy, cap 7"
 snorkel	Familiar Effect: "atk, cap 2"
-spiky turtle helmet	Weapon Damage: +8, Monster Level: +8
-sponge helmet	Mysticality Percent: +10, MP Regen Min: 15, MP Regen Max: 20, Damage Absorption: +40, Familiar Effect: "none"
+spiky turtle helmet	Weapon Damage: +8, Monster Level: +8, Familiar Effect: "atk, 1xFairy, cap 32"
+sponge helmet	Mysticality Percent: +10, MP Regen Min: 15, MP Regen Max: 20, Damage Absorption: +40, Familiar Effect: "atk, 1xFairy"
 spooky hockey mask	Spooky Resistance: +2, Spooky Damage: +3, Familiar Effect: "1xBarrr, 1.5xGhuol, cap 25"
 stainless steel skullcap	Maximum HP: +30, Damage Absorption: +60, Muscle Percent: +15, Familiar Effect: "1xLep, 1xFairy, cap 22"
 star hat	Maximum MP: +30, Familiar Effect: "0.5xVolley, 0.5xPotato, cap 41"
@@ -211,8 +211,8 @@ tattered paper crown	Muscle: +3, Familiar Effect: "1xSombrero, cap 15"
 time helmet	Adventures: +3, Familiar Effect: "0.5xPotato, 1xFairy, cap 25"
 # toy space helmet: Provides Mostly Accurate Battle Statistics During Fights
 toy space helmet	Stench Resistance: +3, Spooky Resistance: +3, Familiar Effect: "0.5xPotato, 1xFairy, cap 43"
-turtle wax helmet	Hot Resistance: +1
-turtlemail coif	Muscle: +5, Damage Reduction: 4
+turtle wax helmet	Hot Resistance: +1, Familiar Effect: "stun, ?xFairy, cap 10"
+turtlemail coif	Muscle: +5, Damage Reduction: 4, Familiar Effect: "stun, cap 20"
 viking helmet	Muscle: +1, Familiar Effect: "atk, cap 5"
 water-polo cap	Weapon Damage: +30
 webbed comic mask	Moxie: +5, Muscle: +5, Mysticality: +5, Softcore Only
@@ -897,7 +897,6 @@ battered hubcap	Muscle: +15, Maximum HP: +100, Cold Resistance: +2, Hot Resistan
 black shield	Muscle: +5, Maximum HP: +20, Damage Reduction: 10
 bobble-hip hula elf doll	Muscle: +5, Mysticality: +5, Moxie: +5, Meat Drop: +15
 borg sock monkey	Moxie: +3
-# bottle of moontan lotion: Makes Familiar More Sensitive to Light
 box	Meat Drop: +1
 box turtle	Muscle: +1, Damage Reduction: 3
 box-in-the-box	Meat Drop: +2
@@ -917,6 +916,7 @@ deck of tropical cards	Experience: +1
 demon buckler	Hot Damage: +3, Damage Reduction: 5
 depleted Grimacite gravy boat	Mysticality Percent: [5*G], Adventures: [G]
 # detective skull
+disturbing fanfic	Sleaze Spell Damage: +30
 duct tape buckler	Maximum HP: +65, Maximum MP: +65, Damage Reduction: 12
 easter egg balloon	Muscle: +5, Mysticality: +5, Moxie: +5
 # eelskin shield: Damages Attacking Opponent (Underwater Only)
@@ -1039,7 +1039,7 @@ steaming evil	Hot Damage: +6, Sleaze Damage: +6, Spooky Damage: +6
 teflon shield	Muscle Percent: +10, Damage Reduction: 10, Damage Absorption: +50
 # thought balloon
 tip jar	Meat Drop: +5
-tortoboggan shield	Initiative: +30, Cold Resistance: +2
+tortoboggan shield	Damage Reduction: 6, Initiative: +30, Cold Resistance: +2
 tropical paperweight	Experience: +1
 turtle wax shield	Maximum HP: +10, Damage Reduction: 2
 # turtling rod: Helps You Tame Turtles
@@ -1509,8 +1509,8 @@ tiny plastic undead elbow macaroni	Monster Level: +1
 tiny plastic warwelf	Monster Level: +1
 tiny plastic whitesnake	Monster Level: +1
 tiny plastic zmobie	Monster Level: +1
-torquoise ring	Moxie: +3, MP Regen Min: 2, MP Regen Max: 2, Single Equip
-tortoboggan	Moxie: +4, Initiative: +20
+torquoise ring	Moxie: +3, MP Regen Min: 2, MP Regen Max: 3, Single Equip
+tortoboggan	Moxie: +4, Initiative: +20, Single Equip
 toy crazy train	Meat Drop: +10, Single Equip
 toy jet pack	Intrinsic Effect: "Get Me Off This Crazy Thing!", Single Equip
 toy maglev monorail	Meat Drop: +10, Single Equip
@@ -1569,6 +1569,7 @@ blue suede shoes	Familiar Weight: +5
 blundarrrbus	Familiar Weight: +5
 bone collar	Familiar Weight: +5
 bottle of perfume	Familiar Weight: +5
+# bottle of moontan lotion	Makes Familiar More Sensitive to Light
 brass stinger	Familiar Weight: +5
 cactus monocle	Familiar Weight: +5
 # can of starch: Makes Origami Towel Crane More Resistant to Wear and Tear
@@ -2159,6 +2160,7 @@ One Very Clear Eye	Item Drop: +100
 Optimist Primal	Familiar Weight: +5
 Orange Tongue	Experience: +3
 Oriental Mysticism	Mysticality Percent: +5
+# Oxygenated Blood	Lets you breathe underwater
 Papowerful	Weapon Damage: +10, Spell Damage: +10, Experience: +2
 Pasta Oneness	Mysticality: +2
 Patience of the Tortoise	Maximum HP: +3, Muscle: +1
