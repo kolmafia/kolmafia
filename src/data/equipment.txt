@@ -289,7 +289,7 @@ tighty whiteys	40	Mox: 5
 time trousers	100	Mox: 35
 tree skirt	100	Mox: 35
 troutpiece	110	Mox: 40
-turtle wax greaves	50	Mox: 5
+turtle wax greaves	40	Mox: 5
 turtlemail breeches	170	Mox: 70
 white satin pants	40	Mox: 5
 yakskin kilt	140	Mox: 55
@@ -540,6 +540,7 @@ drywall axe	150	Mus: 60	2-handed axe
 dueling banjo	40	Mox: 5	2-handed banjo
 duck-on-a-string	100	Mus: 35	1-handed flail
 duct tape sword	195	Mus: 82	1-handed sword
+dueling banjo	40	Mox: 5	2-handed banjo
 dwarvish war mattock	165	Mus: 67	1-handed axe
 eXtreme meat crossbow	60	Mox: 15	2-handed crossbow
 eXtreme meat staff	60	Mus: 15	2-handed staff
@@ -834,6 +835,7 @@ defective skull	0	none
 demon buckler	77	Mus: 25	shield
 depleted Grimacite gravy boat	0	Mus: 35
 detective skull	0	none
+disturbing fanfic	0	Mys: 15
 duct tape buckler	200	Mus: 82	shield
 easter egg balloon	0	Mys: 35
 eelskin shield	200	Mus: 85	shield
@@ -886,9 +888,9 @@ off-hand balloon	0	none
 oyster basket	0	none
 oyster egg balloon	0	Mys: 35
 # *** padded tortoise is a shield of unknown power.
-padded tortoise	0	Mus: 35
+padded tortoise	0	Mus: 35	shield
 # *** painted shield is a shield of unknown power.
-painted shield	0	Mus: 45
+painted shield	0	Mus: 45	shield
 parasitic strangleworm	0	none
 penguin skin buckler	95	Mus: 30	shield
 penguin thesaurus	0	none

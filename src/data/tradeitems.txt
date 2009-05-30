@@ -1,4 +1,8 @@
 3
+#	PRIMARY_USE: none,food,drink,usable,multiple,grow,zap,familiar,accessory,
+#	hat,pants,shirt,weapon,offhand,mp,message,hp,hpmp,reusable,container,
+#	sphere,food helper,drink helper,sticker
+#	SECONDARY_USE: usable,reusable,combat,combat reusable,single,solo,curse,bounty
 1	seal-clubbing club	weapon	all	1
 2	seal tooth	message, combat reusable	all	1
 3	helmet turtle	hat	all	1
@@ -630,7 +634,7 @@
 629	glowing red eye	accessory	all	165
 630	photoprotoneutron torpedo	none, combat	all	144
 631	furry pants	pants	all	165
-632	disturbing fanfic	message	all	132
+632	disturbing fanfic	offhand	all	132
 633	wolf mask	hat	all	165
 634	cool whip	weapon	all	15
 635	little paper umbrella	weapon	all	35
@@ -3949,7 +3953,7 @@
 3948	stuffed Meat	offhand	gift	60
 3949	stuffed treasure chest	offhand, usable	gift	20
 3950	stuffed key	offhand	gift	20
-3951	stuffed Baron von Ratsworth	offhand	gift	20
+3951	stuffed Baron von Ratsworth	offhand, usable	gift	20
 3952	stuffed monocle	offhand	gift	20
 3953	stuffed mink	accessory	gift	20
 3954	stuffed teddy butler	offhand	gift	20
