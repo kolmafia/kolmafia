@@ -1847,6 +1847,21 @@ public class KoLmafiaCLI
 		}
 	}
 
+	static { new RemoveItem().register( "removeitem" ); }
+	public static class RemoveItem
+		extends Command
+	{
+		{ usage = null; }
+		public void run( String cmd, String parameters )
+		{
+			AdventureResult item = ItemFinder.getFirstMatchingItem( parameters, ItemFinder.ANY_MATCH );
+			if ( item != null )
+			{
+				ResultProcessor.processResult( item.getNegation() );
+			}
+		}
+	}
+
 	static { new Developer().register( "newdata" )
 		.register( "checkitems" ).register( "checkeffects" )
 		.register( "checkplurals" ).register( "checkmodifiers" )

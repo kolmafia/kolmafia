@@ -457,10 +457,11 @@ public class ItemFinder
 		{
 			isMeatMatch = false;
 
-			if ( itemNames[ i ].endsWith( "meat" ) )
+			if ( itemNames[ i ].endsWith( " meat" ) )
 			{
-				String amountString = itemNames[ i ].split( " " )[ 0 ];
-				char first = amountString.charAt( 0 );
+				String amountString = itemNames[ i ].substring( 0, itemNames[ i ].length() - 5 ).trim();
+				char first = amountString.length() > 0 ? amountString.charAt( 0 )
+					: 'x';
 				isMeatMatch = first == '-' || first == '*' || Character.isDigit( first );
 
 				for ( int j = 1; j < amountString.length() && isMeatMatch; ++j )
