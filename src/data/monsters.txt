@@ -348,6 +348,7 @@ Huge Ghuol	HP: 129 Def: 71 Atk: 79 E: spooky Meat: 258-344	ghuol ears (0)	ghuol 
 Hulking Construct	HP: 100000	El Vibrato punchcard (104 holes)
 Hung-over Half-Orc Hobo	HP: 1 Def: 1 Atk: 1 E: stench	dirty hobo gloves (30)	Mad Train wine (60)	moxie weed (15)	Boozehounds Anonymous token (p0)	hobo gristle (b0)
 Hunter-Gatherer Cave Elf		tooth (15)	tooth (5)
+Hustled Spectre	HP: 35 Atk: 25	cube of billiard chalk (100)
 Hypnotist of Hey Deze	HP: 80 Def: 50 Atk: 50	hypnodisk (100)
 Ice Cube	HP: 100000
 Iiti Kitty	HP: 150 Def: 165 Atk: 165	leathery cat skin (30)	unidentified jerky (10)	ancient Magi-Wipes (50)	ancient vinyl coin purse (20)	mummy wrapping (20)	Iiti Kitty phone charm (10)
@@ -530,7 +531,7 @@ Slow Talkin' Elliot	HP: 200 Meat: 130-154 E: stench	bullet-proof corduroys (0)	g
 Smarmy Pirate	HP: 55 Def: 65 Atk: 65 E: sleaze Meat: 22-34	bottle of rum (50)	eyepatch (10)	Jolly Roger charrrm bracelet (20)	vial of pirate sweat (b0)
 Smart Skelton	HP: 11 Def: 20 Atk: 20 E: spooky	smart skull (50)
 Snow Queen	HP: 70 Def: 105 Atk: 107 E: cold	crazy little Turkish delight (25)	ga-ga radio (5)	Snow Queen Crown (5)
-Some Zombie Waltzers	HP: 120 Def: 110 Atk: 110 Meat: 80-120 E: spooky	dance card (15)
+Some Zombie Waltzers	HP: 120 Def: 110 Atk: 110 Meat: 80-120 E: spooky	ballroom blintz (15)	dance card (15)
 Sorority Nurse	HP: 200 Def: 175 Atk: 170 E: sleaze	energy drink IV (18)	gauze garter (20)	gauze garter (7)	kick-ass kicks (2)	PADL Phone (3)
 Sorority Operator	HP: 200 Def: 180 Atk: 185 E: sleaze	beer helmet (1)	bejeweled pledge pin (1)	distressed denim pants (1)	kick-ass kicks (2)	PADL Phone (18)	PADL Phone (18)	PADL Phone (18)	white class ring (31)
 Spam Witch	HP: 75 Def: 85 Atk: 85 EA: sleaze Meat: 24-38	30669 scroll (30)	Spam Witch sammich (50)	sammich crust (b0)
@@ -543,7 +544,7 @@ Spooky Gravy Fairy Ninja	HP: 55 Def: 65 Atk: 65 E: spooky	spooky mushroom (40)	t
 Spooky Gravy Fairy Warlock	HP: 50 Def: 60 Atk: 60 E: spooky	spooky mushroom (40)	enchanted toothpick (5)
 Spooky Hobo	HP: 500	hobo nickel (0)	spooky bindle (0)	Asleep in the Cemetery (0)	Let Me Be! (0)	comfy coffin (0)
 Spooky Mummy	HP: 3 Def: 4 Atk: 1 E: spooky Meat: 8-13	dried face (10)	spooky shrunken head (20)
-Spooky Vampire	HP: 2 Def: 4 Atk: 1 E: spooky Meat: 4-7
+Spooky Vampire	HP: 2 Def: 4 Atk: 1 E: spooky Meat: 4-7	vampire heart (c100)	vampire cape (c4)
 Spunky Princess	HP: 75 Def: 90 Atk: 90 Meat: 62-141	cocoa eggshell fragment (30)	tiny house (30)	titanium assault umbrella (10)
 Stench Hobo	HP: 500	hobo nickel (0)	stinkin' bindle (0)	Biddy Cracker's Old-Fashioned Cookbook (0)	Travels with Jerry (0)	filth-encrusted futon (0)
 Stocking-stuffing Zombie		evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
