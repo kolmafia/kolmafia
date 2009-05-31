@@ -67,6 +67,7 @@ public class HermitRequest
 
 	public static final AdventureResult HACK_SCROLL = ItemPool.get( 567, 1 );
 	public static final AdventureResult SUMMON_SCROLL = ItemPool.get( 553, 1 );
+	public static final AdventureResult ANCIENT_SEAL = ItemPool.get( ItemPool.ANCIENT_SEAL, 1 );
 
 	private final int itemId;
 	private int quantity;
@@ -100,9 +101,36 @@ public class HermitRequest
 		this.addFormField( "quantity", String.valueOf( quantity ) );
 	}
 
+	public static final void initialize()
+	{
+		KoLConstants.hermitItems.clear();
+		KoLConstants.hermitItems.add( ItemPool.get( ItemPool.BANJO_STRINGS, 1 ) );
+		KoLConstants.hermitItems.add( ItemPool.get( ItemPool.CATSUP, 1 ) );
+		KoLConstants.hermitItems.add( ItemPool.get( ItemPool.CHISEL, 1 ) );
+		KoLConstants.hermitItems.add( ItemPool.get( ItemPool.DINGY_PLANKS, 1 ) );
+		KoLConstants.hermitItems.add( ItemPool.get( ItemPool.GOLDEN_TWIG, 1 ) );
+		KoLConstants.hermitItems.add( ItemPool.get( ItemPool.BUTTERED_ROLL, 1 ) );
+		KoLConstants.hermitItems.add( ItemPool.get( ItemPool.JABANERO_PEPPER, 1 ) );
+		KoLConstants.hermitItems.add( ItemPool.get( ItemPool.KETCHUP, 1 ) );
+		KoLConstants.hermitItems.add( ItemPool.get( ItemPool.PETRIFIED_NOODLES, 1 ) );
+		KoLConstants.hermitItems.add( ItemPool.get( ItemPool.SEAL_TOOTH, 1 ) );
+		KoLConstants.hermitItems.add( ItemPool.get( ItemPool.SWEET_RIMS, 1 ) );
+		KoLConstants.hermitItems.add( ItemPool.get( ItemPool.VOLLEYBALL, 1 ) );
+		KoLConstants.hermitItems.add( ItemPool.get( ItemPool.WOODEN_FIGURINE, 1 ) );
+
+	}
+
 	public static final void reset()
 	{
-		checkedForClovers = false;
+		HermitRequest.checkedForClovers = false;
+		if ( KoLCharacter.getClassType().equals( KoLCharacter.SEAL_CLUBBER ) )
+		{
+			KoLConstants.hermitItems.add( ANCIENT_SEAL );
+		}
+		else
+		{
+			KoLConstants.hermitItems.remove( ANCIENT_SEAL );
+		}
 	}
 
 	/**

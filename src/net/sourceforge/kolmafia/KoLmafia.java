@@ -336,21 +336,6 @@ public abstract class KoLmafia
 			}
 		}
 
-		KoLConstants.hermitItems.add( new AdventureResult( "banjo strings", 1, false ) );
-		KoLConstants.hermitItems.add( new AdventureResult( "catsup", 1, false ) );
-		KoLConstants.hermitItems.add( new AdventureResult( "chisel", 1, false ) );
-		KoLConstants.hermitItems.add( new AdventureResult( "dingy planks", 1, false ) );
-		KoLConstants.hermitItems.add( new AdventureResult( "figurine of an ancient seal", 1, false ) );
-		KoLConstants.hermitItems.add( new AdventureResult( "golden twig", 1, false ) );
-		KoLConstants.hermitItems.add( new AdventureResult( "hot buttered roll", 1, false ) );
-		KoLConstants.hermitItems.add( new AdventureResult( "jaba\u00f1ero pepper", 1, false ) );
-		KoLConstants.hermitItems.add( new AdventureResult( "ketchup", 1, false ) );
-		KoLConstants.hermitItems.add( new AdventureResult( "petrified noodles", 1, false ) );
-		KoLConstants.hermitItems.add( new AdventureResult( "seal tooth", 1, false ) );
-		KoLConstants.hermitItems.add( new AdventureResult( "sweet rims", 1, false ) );
-		KoLConstants.hermitItems.add( new AdventureResult( "volleyball", 1, false ) );
-		KoLConstants.hermitItems.add( new AdventureResult( "wooden figurine", 1, false ) );
-
 		KoLConstants.trapperItems.add( new AdventureResult( 394, 1 ) );
 		KoLConstants.trapperItems.add( new AdventureResult( 393, 1 ) );
 		KoLConstants.trapperItems.add( new AdventureResult( 395, 1 ) );
@@ -758,7 +743,7 @@ public abstract class KoLmafia
 
 		CampgroundRequest.reset();
 		MushroomManager.reset();
-		HermitRequest.reset();
+		HermitRequest.initialize();
 
 		KoLmafia.updateDisplay( "Initializing session for " + username + "..." );
 		Preferences.setString( "lastUsername", username );
@@ -908,6 +893,9 @@ public abstract class KoLmafia
                 // anything that depends on that.
 
 		KoLCharacter.resetPerAscensionData();
+
+		// Hermit items depend on character class
+		HermitRequest.reset();
 
 		RequestThread.postRequest( new AccountRequest() );
 		RequestThread.postRequest( new QuestLogRequest() );
