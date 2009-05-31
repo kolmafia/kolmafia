@@ -731,6 +731,7 @@ ridiculously overelaborate ninja weapon	Critical: 3, Fumble: 3
 roboduck-on-a-string	Weapon Damage: +5, Item Drop: +5
 rubber axe	Sleaze Damage: +2
 rusty grave robbing shovel	Spooky Damage: +5, Initiative: -10
+rusty piece of rebar	Weapon Damage: +25, Critical: 3
 # rusty speargun: On Critical:  Deals 50-60 additional damage
 rusty speargun	Weapon Damage: +25, Critical: 3
 sabre teeth	Weapon Damage: +4
@@ -894,6 +895,10 @@ balloon shield	Damage Reduction: 3
 barskin buckler	Muscle: +2, Damage Reduction: 1
 basic meat foon	Mysticality: +3, Spell Damage: +3
 battered hubcap	Muscle: +15, Maximum HP: +100, Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2, Damage Reduction: 14
+beach ball marble	Hot Spell Damage: +35, Cold Spell Damage: +35
+beige clambroth marble	Spell Damage: +30, Hot Spell Damage: +30
+big bumboozer marble	Spell Damage: +80
+black catseye marble	Spooky Spell Damage: +75
 black shield	Muscle: +5, Maximum HP: +20, Damage Reduction: 10
 bobble-hip hula elf doll	Muscle: +5, Mysticality: +5, Moxie: +5, Meat Drop: +15
 borg sock monkey	Moxie: +3
@@ -901,6 +906,8 @@ box	Meat Drop: +1
 box turtle	Muscle: +1, Damage Reduction: 3
 box-in-the-box	Meat Drop: +2
 box-in-the-box-in-the-box	Meat Drop: +3
+brown crock marble	Stench Spell Damage: +35
+bumblebee marble	Spell Damage: +50
 cardboard box turtle	Muscle: +3, Damage Reduction: 4
 catskin buckler	Muscle: +10, Damage Absorption: +50, Damage Reduction: 11
 # clockwork detective skull
@@ -939,6 +946,7 @@ glowing esca	Item Drop: [20*zone(The Sea)]
 gnauga hide buckler	Muscle: +3, Mysticality: +3, Moxie: +3, Damage Reduction: 5
 # golden sausage
 # green balloon
+green peawee marble	Stench Spell Damage: +30
 # handmade hobby horse: +2 Muscle Stat(s) Per Fight
 handmade hobby horse	Experience: +2
 # heart-shaped balloon
@@ -948,12 +956,14 @@ hors d'oeuvre tray	Initiative: +20, Damage Reduction: 7
 hypnodisk	Item Drop: +25
 ice baby	Experience: +3, Softcore Only
 incredibly creepy marionette	Mysticality: +3
+jet bennie marble	Spooky Spell Damage: +55
 # joybuzzer: Grants &quot;Shake Hands&quot; Combat Skill
 # joybuzzer: (31-50 damage per successful handshake)
 keg shield	Damage Absorption: +50, Mysticality: +5, Damage Reduction: 11
 kickback cookbook	Spell Damage: +20
 killer rag doll	Muscle: +3
 left-handed melodica	Ranged Damage: +25, Class: "Accordion Thief"
+lemonade marble	Cold Spell Damage: +45
 little round pebble	Initiative: +50
 lucky lighter	Hot Damage: +6, Critical: 2
 mad scientist's sock monkey	Moxie: +3
@@ -983,6 +993,7 @@ pirate hook	Weapon Damage: +3
 pixel shield	Muscle: +5, Damage Reduction: 3
 polyalloy shield	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1, Muscle: +10, Damage Reduction: 9
 rag doll	Muscle: +3
+red China marble	Hot Spell Damage: +40
 # red balloon
 rice bowl	Food Drop: +20
 rusty compass	Initiative: +30
@@ -1004,6 +1015,7 @@ spiky turtle shield	Weapon Damage: +8, Item Drop: +10, Damage Reduction: 8
 spongy shield	Muscle Percent: +10, HP Regen Min: 20, HP Regen Max: 50, Damage Absorption: +50, Damage Reduction: 14
 star buckler	Muscle: +2, Mysticality: +2, Moxie: +2, Damage Reduction: 10
 steaming evil	Hot Damage: +6, Sleaze Damage: +6, Spooky Damage: +6
+steely marble	Sleaze Spell Damage: +65
 # stuffed Baron von Ratsworth
 # stuffed Cheshire bitten
 # stuffed MagiMechTech MicroMechaMech
@@ -1810,6 +1822,7 @@ Benetton's Medley of Diversity	Hot Damage: +15, Cold Damage: +15, Stench Damage:
 Bestial Sympathy	Familiar Weight: +3
 Big Flaming Whip	Hot Damage: +20, Damage Reduction: 5
 Big Veiny Brain	Experience: +2, Meat Drop: -20, Item Drop: -10
+Bilious	Monster Level: +25, Slime Resistance: +1
 Billiards Belligerence	Weapon Damage Percent: +50, Familiar Weight: +5
 # Biologically Shocked: Unleash strange forces in combat
 Black Face	Muscle Percent: +10, Weapon Damage: +15, Initiative: -40
@@ -1866,6 +1879,7 @@ Chorale of Companionship	Familiar Weight: +10
 Chronologically Pummeled	Moxie: +20, Muscle: -5, Mysticality: -5
 Clean-Shaven	Moxie: +5
 Cletus's Canticle of Celerity	Initiative: +20
+# Coated in Slime
 Cock of the Walk	Moxie Percent: +200
 Cold Blooded	Muscle Percent: +30, Mysticality Percent: +20, Moxie Percent: +10, Cold Damage: +10, Cold Resistance: +2
 # Cold Breath: Can breathe frigid air in combat
@@ -2029,6 +2043,7 @@ Greased	Sleaze Damage: +20
 Greased-Up Familiar	Familiar Weight (hidden): [5*zone(The Sea)]
 Green Tongue	Familiar Weight: +5
 Grilled	Muscle: -10
+Grimace	Monster Level: +25, Slime Resistance: +1
 Grulched	Stench Damage: +25, Monster Level: +20
 Guanified	Stench Damage: +10, Damage Reduction: -2
 # Haiku State of Mind	large penalty to result parsing

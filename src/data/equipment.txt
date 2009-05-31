@@ -667,6 +667,7 @@ ridiculously overelaborate ninja weapon	100	Mus: 35	3-handed ...weapon
 roboduck-on-a-string	100	Mus: 35	1-handed flail
 rubber axe	40	Mus: 5	2-handed axe
 rusty grave robbing shovel	80	Mus: 25	2-handed polearm
+rusty piece of rebar	200	Mus: 85	1-handed club
 rusty speargun	200	Mox: 85	1-handed pistol
 sabre teeth	60	Mus: 15	1-handed knife
 sack of doorknobs	110	Mox: 40	2-handed sack
@@ -814,6 +815,10 @@ balloon shield	0	Mus: 10	shield
 barskin buckler	27	none	shield
 basic meat foon	0	Mys: 10
 battered hubcap	220	Mus: 65	shield
+beach ball marble	0	Mys: 85
+beige clambroth marble	0	Mys: 85
+big bumboozer marble	0	Mys: 85
+black catseye marble	0	Mys: 85
 black shield	160	Mus: 65	shield
 bobble-hip hula elf doll	0	Mys: 5
 borg sock monkey	0	Mys: 40
@@ -821,6 +826,8 @@ box	0	none
 box turtle	50	Mus: 10	shield
 box-in-the-box	0	none
 box-in-the-box-in-the-box	0	none
+brown crock marble	0	Mys: 85
+bumblebee marble	0	Mys: 85
 cardboard box turtle	70	Mus: 20	shield
 catskin buckler	177	Mus: 75	shield
 clockwork detective skull	0	Mox: 25
@@ -856,6 +863,7 @@ glowing esca	0	Mys: 85
 gnauga hide buckler	95	Mus: 30	shield
 golden sausage	0	none
 green balloon	0	none
+green peawee marble	0	Mys: 85
 handmade hobby horse	0	none
 heart-shaped balloon	0	none
 hippo skin buckler	95	Mus: 30	shield
@@ -864,11 +872,13 @@ hors d'oeuvre tray	115	Mus: 40	shield
 hypnodisk	0	none
 ice baby	0	none
 incredibly creepy marionette	0	Mys: 40
+jet bennie marble	0	Mys: 85
 joybuzzer	0	none
 keg shield	175	Mus: 70	shield
 kickback cookbook	0	Mys: 5
 killer rag doll	0	Mys: 40
 left-handed melodica	0	Mox: 150
+lemonade marble	0	Mys: 85
 little round pebble	0	Mys: 7
 lucky lighter	0	Mys: 2
 mad scientist's sock monkey	0	Mys: 40
@@ -900,6 +910,7 @@ pixel shield	55	Mus: 10	shield
 # *** polyalloy shield is a shield of unknown power.
 polyalloy shield	0	Mus: 55	shield
 rag doll	0	Mys: 40
+red China marble	0	Mys: 85
 red balloon	0	none
 rice bowl	0	none
 rusty compass	0	Mys: 15
@@ -923,6 +934,7 @@ spiky turtle shield	0	Mus: 50	shield
 spongy shield	0	Mus: 95	shield
 star buckler	165	Mus: 67	shield
 steaming evil	0	Mys: 75
+steely marble	0	Mys: 85
 stuffed Baron von Ratsworth	0	none
 stuffed Cheshire bitten	0	none
 stuffed MagiMechTech MicroMechaMech	0	none

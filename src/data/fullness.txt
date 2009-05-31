@@ -330,6 +330,7 @@ sleazy hi mein	5	7	21-29	25-28	25-29	71-75	5 Sleazy Breath (combat skill)
 slick fish meat	1	1	2-3	0	0	4-8	5/15 Fishy
 slick maki	3	1	7-12	0	0	8-16	45/55 Fishy
 slick nigiri	2	1	4-8	0	0	8-16	20/30 Fishy
+slimy sweetbreads	1	6	2-3	0	0	0	20 Grimace (+25 ML, slime res)
 slippery snake roll	3	1	9-14	0	0	28-46	45/55 Fishy
 sneaky pete's key lime pie	4	6	13-19	0	0	28-33	Sneaky Pete's key
 sneaky rabbit roll	3	1	9-14	0	20-30	8-16	45/55 Fishy

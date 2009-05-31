@@ -4023,7 +4023,7 @@
 4017
 4018
 4019
-4020
+4020	224342315	rusty piece of rebar	rusty pieces of rebar
 4021
 4022
 4023
@@ -4040,8 +4040,8 @@
 4034
 4035
 4036
-4037
-4038
+4037	320343694	slimy sweetbreads	clusters of slimy sweetbreads
+4038	154656302	slimy fermented bile bladder	slimy fermented bile bladders
 4039
 4040
 4041
@@ -4055,3 +4055,57 @@
 4049
 4050
 4051	768452883	ring of teleportation
+4052
+4053
+4054
+4055
+4056
+4057
+4058
+4059
+4060
+4061
+4062
+4063
+4064
+4065
+4066
+4067
+4068
+4069
+4070
+4071
+4072
+4073
+4074
+4075
+4076
+4077
+4078
+4079
+4080
+4081
+4082
+4083
+4084
+4085
+4086
+4087
+4088
+4089
+4090
+4091	180051286	tiny slimy cyst	tiny slimy cysts
+4092
+4093
+4094
+4095	483733074	green peawee marble	green peawee marbles
+4096	206158086	brown crock marble
+4097	591750771	red China marble	red China marbles
+4098	830785961	lemonade marble	lemonade marbles
+4099	252416070	bumblebee marble
+4100	747521290	jet bennie marble
+4101	985248128	beige clambroth marble
+4102	436245679	steely marble
+4103	689739845	beach ball marble
+4104	171423522	black catseye marble
+4105	561342079	big bumboozer marble

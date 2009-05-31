@@ -4022,7 +4022,7 @@
 4017
 4018
 4019
-4020
+4020	rusty piece of rebar	weapon	all	140
 4021
 4022
 4023
@@ -4039,8 +4039,8 @@
 4034
 4035
 4036
-4037
-4038
+4037	slimy sweetbreads	food	all	200
+4038	slimy fermented bile bladder	drink	all	200
 4039
 4040
 4041
@@ -4054,3 +4054,57 @@
 4049
 4050
 4051	ring of teleportation	accessory	all	90
+4052
+4053
+4054
+4055
+4056
+4057
+4058
+4059
+4060
+4061
+4062
+4063
+4064
+4065
+4066
+4067
+4068
+4069
+4070
+4071
+4072
+4073
+4074
+4075
+4076
+4077
+4078
+4079
+4080
+4081
+4082
+4083
+4084
+4085
+4086
+4087
+4088
+4089
+4090
+4091	tiny slimy cyst	multiple	all	0
+4092
+4093
+4094
+4095	green peawee marble	offhand, usable	all	1
+4096	brown crock marble	offhand, usable	all	2
+4097	red China marble	offhand, usable	all	4
+4098	lemonade marble	offhand, usable	all	8
+4099	bumblebee marble	offhand, usable	all	16
+4100	jet bennie marble	offhand, usable	all	32
+4101	beige clambroth marble	offhand, usable	all	64
+4102	steely marble	offhand, usable	all	128
+4103	beach ball marble	offhand, usable	all	256
+4104	black catseye marble	offhand, usable	all	512
+4105	big bumboozer marble	offhand	all	1024
