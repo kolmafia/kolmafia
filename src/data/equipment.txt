@@ -1246,6 +1246,7 @@ ring of fire resistance	0	Mys: 25
 ring of gain strength	0	Mys: 25
 ring of half-assed regeneration	0	none
 ring of increase damage	0	Mys: 25
+ring of teleportation	0	Mys: 25
 rope with some soap on it	0	Mys: 200
 rose-colored glasses	0	none
 round green sunglasses	0	Mys: 80

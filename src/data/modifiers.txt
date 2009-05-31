@@ -1353,6 +1353,7 @@ ring of gain strength	Muscle: +10
 # ring of half-assed regeneration: Sporadic HP Regeneration
 ring of half-assed regeneration	Single Equip
 ring of increase damage	Weapon Damage: +10, Spell Damage: +10
+ring of teleportation	Intrinsic Effect: "Teleportitis"
 rope with some soap on it	Spell Damage Percent: [100*zone(Hobopolis)*(1-loc(Sewer Tunnels))], Single Equip
 rose-colored glasses	Maximum HP: +5, Maximum MP: +5
 round green sunglasses	Moxie: +9, Sleaze Resistance: +2, Single Equip
@@ -1562,7 +1563,7 @@ ant pitchfork	Familiar Effect: "stench damage, meat"
 ant rake	Familiar Effect: "hot damage, meat"
 # ant sickle: Your familiar will sow pain and reap Meat.
 ant sickle	Familiar Effect: "spooky damage, meat"
-aquaviolet jub-jub bird	Familiar Weight: +5
+aquaviolet jub-jub bird	Familiar Weight: +5, Familiar Effect: "mys stats"
 attention spanner	Familiar Weight: +5
 # badger badge: Increases Astral Mushroom Drop Rate
 blue suede shoes	Familiar Weight: +5
@@ -1574,11 +1575,11 @@ brass stinger	Familiar Weight: +5
 cactus monocle	Familiar Weight: +5
 # can of starch: Makes Origami Towel Crane More Resistant to Wear and Tear
 candied yam pinky ring	Familiar Weight: +5
-charpuce jub-jub bird	Familiar Weight: +5
+charpuce jub-jub bird	Familiar Weight: +5, Familiar Effect: "mox stats"
 chocolate spurs	Familiar Weight: +5
 cotton candy cordial	Familiar Weight: +5
 cracker	Familiar Weight: +15
-crimsilion jub-jub bird	Familiar Weight: +5
+crimsilion jub-jub bird	Familiar Weight: +5, Familiar Effect: "mus stats"
 das boot	Familiar Weight: -10, Familiar Effect: "adventure underwater"
 dental pliers	Familiar Weight: +5
 diamond-studded fronts	Familiar Weight: +5
