@@ -631,3 +631,13 @@
 630	Sizzling with Fury	angry.gif	849b3898a4f06be783b66570f515de50	use 1 sizzling seal fat
 631	Cold Hard Skin	hskin.gif	23235e424a824750da885f9d1f624a28	use 1 frost-rimed seal hide
 632	Lubed	sebashield.gif	084149535b6e6a9bc44030f94fe49f8f	use 1 seal lube
+633	Coated in Slime	slimecovered.gif	15f23d1ef123679d49e02d67b43e5e81
+634	Oxygenated Blood	oxyblood.gif	7847689754dd113e2c566c7a786a66e5
+635
+636
+637
+638
+639
+640
+641	Grimace	hernia.gif	e4f1112898cf840ef868a6833fde9f69	eat 1 slimy sweetbreads
+642	Bilious	angry.gif	abe97593a0f3b79395f10a45d782d6fd	drink 1 slimy fermented bile bladder

@@ -209,6 +209,7 @@ public class Modifiers
 	public static final int LEPRECHAUN_EFFECTIVENESS = 77;
 	public static final int FAIRY_EFFECTIVENESS = 78;
 	public static final int FAMILIAR_WEIGHT_CAP = 79;
+	public static final int SLIME_RESISTANCE = 80;
 	
 	public static final String EXPR = "(?:([+-]?[\\d.]+)|\\[([^]]+)\\])";
 
@@ -566,6 +567,10 @@ public class Modifiers
 		{ "Familiar Weight Cap",
 		  null,
 		  Pattern.compile( "Familiar Weight Cap: " + EXPR )
+		},
+		{ "Slime Resistance",
+		  null,
+		  Pattern.compile( "Slime Resistance: " + EXPR )
 		},
 	};
 
