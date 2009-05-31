@@ -322,17 +322,12 @@ public class LocalRelayAgent
 		else if ( this.path.equals( "/fight.php?action=script" ) )
 		{
 			String fightResponse = FightRequest.getNextTrackedRound();
-
 			if ( FightRequest.isTrackingFights() )
 			{
 				fightResponse = KoLConstants.SCRIPT_PATTERN.matcher( fightResponse ).replaceAll( "" );
-				this.request.pseudoResponse( "HTTP/1.1 200 OK", fightResponse );
 				this.request.headers.add( "Refresh: 1" );
 			}
-			else
-			{
-				this.request.pseudoResponse( "HTTP/1.1 200 OK", fightResponse );
-			}
+			this.request.pseudoResponse( "HTTP/1.1 200 OK", fightResponse );
 		}
 		else if ( this.path.equals( "/fight.php?action=abort" ) )
 		{
