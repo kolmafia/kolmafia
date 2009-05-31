@@ -62,6 +62,7 @@ public abstract class ChoiceManager
 {
 	public static int lastChoice = 0;
 	public static int lastDecision = 0;
+	public static String lastResponseText = "";
 
 	private static final AdventureResult PAPAYA = new AdventureResult( 498, 1 );
 	private static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice value=(\\d+)" );
@@ -1942,17 +1943,29 @@ public abstract class ChoiceManager
 
 	public static final void processChoiceAdventure( final GenericRequest request )
 	{
+		ChoiceManager.processChoiceAdventure( request, null );
+	}
+
+        public static final void processChoiceAdventure( final GenericRequest request, final String responseText )
+	{
 		// You can no longer simply ignore a choice adventure.	One of
 		// the options may have that effect, but we must at least run
 		// choice.php to find out which choice it is.
 
-		ResultProcessor.processResult( new AdventureResult( AdventureResult.CHOICE, 1 ) );
-		request.constructURLString( "choice.php" );
-		request.run();
-
-		if ( request.responseCode == 302 )
+		if ( responseText == null )
 		{
-			return;
+			ResultProcessor.processResult( new AdventureResult( AdventureResult.CHOICE, 1 ) );
+			request.constructURLString( "choice.php" );
+			request.run();
+
+			if ( request.responseCode == 302 )
+			{
+				return;
+			}
+		}
+		else
+		{
+			request.responseText = responseText;
 		}
 
 		if ( GenericRequest.passwordHash.equals( "" ) )
@@ -2041,6 +2054,7 @@ public abstract class ChoiceManager
 			// Visiting a choice page but not yet making a decision
 			ChoiceManager.lastChoice = 0;
 			ChoiceManager.lastDecision = 0;
+                        ChoiceManager.lastResponseText = null;
 			return;
 		}
 
@@ -2384,6 +2398,7 @@ public abstract class ChoiceManager
 		}
 
 		ChoiceManager.lastChoice = StringUtilities.parseInt ( matcher.group( 1 ) );
+		ChoiceManager.lastResponseText = responseText;
 
 		switch ( ChoiceManager.lastChoice )
 		{

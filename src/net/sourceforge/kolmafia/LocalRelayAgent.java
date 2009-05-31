@@ -351,7 +351,7 @@ public class LocalRelayAgent
 		}
 		else if ( this.path.equals( "/choice.php?action=auto" ) )
 		{
-			ChoiceManager.processChoiceAdventure( this.request );
+			ChoiceManager.processChoiceAdventure( this.request, ChoiceManager.lastResponseText );
 		}
 		else if ( this.path.equals( "/leaflet.php?action=auto" ) )
 		{
