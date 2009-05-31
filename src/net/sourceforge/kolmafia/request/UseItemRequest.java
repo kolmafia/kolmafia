@@ -701,6 +701,7 @@ public class UseItemRequest
 			this.consumptionType == KoLConstants.CONSUME_EAT ? "Eating" : this.consumptionType == KoLConstants.CONSUME_DRINK ? "Drinking" : "Using";
 
 		String originalURLString = this.getURLString();
+		boolean isSealFigurine = UseItemRequest.isSealFigurine( itemId );
 
 		for ( int i = 1; i <= iterations && KoLmafia.permitsContinue(); ++i )
 		{
@@ -715,6 +716,12 @@ public class UseItemRequest
 			}
 
 			this.useOnce( i, iterations, useTypeAsString );
+
+			if ( isSealFigurine && KoLmafia.permitsContinue() )
+			{
+				this.addFormField( "checked", "1" );
+				super.run();
+			}
 		}
 
 		if ( itemId == ItemPool.MAFIA_ARIA )
@@ -727,6 +734,25 @@ public class UseItemRequest
 			KoLmafia.updateDisplay( "Finished " + useTypeAsString.toLowerCase() + " " + Math.max(
 				iterations, this.itemUsed.getCount() ) + " " + this.itemUsed.getName() + "." );
 		}
+	}
+
+	private static final boolean isSealFigurine( final int itemId )
+	{
+		switch (itemId )
+		{
+		case ItemPool.WRETCHED_SEAL:
+		case ItemPool.CUTE_BABY_SEAL:
+		case ItemPool.ARMORED_SEAL:
+		case ItemPool.ANCIENT_SEAL:
+		case ItemPool.SLEEK_SEAL:
+		case ItemPool.SHADOWY_SEAL:
+		case ItemPool.STINKING_SEAL:
+		case ItemPool.CHARRED_SEAL:
+		case ItemPool.COLD_SEAL:
+		case ItemPool.SLIPPERY_SEAL:
+			return true;
+		}
+		return false;
 	}
 
 	private static final boolean singleConsume( final int itemId )
