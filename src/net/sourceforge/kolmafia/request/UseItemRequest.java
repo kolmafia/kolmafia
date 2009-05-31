@@ -2774,6 +2774,16 @@ public class UseItemRequest
                         }
 
 			return;
+
+		case ItemPool.SEAL_IRON_INGOT:
+
+			// You beat the seal-iron into a formidable club.
+			if ( responseText.indexOf( "formidable club" ) == -1 )
+			{
+				ResultProcessor.processResult( item );
+			}
+
+			return;
 		}
 	}
 

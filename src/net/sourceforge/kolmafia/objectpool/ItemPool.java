@@ -71,12 +71,17 @@ public class ItemPool
 	public static final int WORTHLESS_TRINKET = 43;
 	public static final int WORTHLESS_GEWGAW = 44;
 	public static final int WORTHLESS_KNICK_KNACK = 45;
+	public static final int WOODEN_FIGURINE = 46;
+	public static final int BUTTERED_ROLL = 47;
 	public static final int ROCK_N_ROLL_LEGEND = 50;
+	public static final int BANJO_STRINGS = 52;
 	public static final int STONE_BANJO = 53;
 	public static final int DISCO_BANJO = 54;
+	public static final int JABANERO_PEPPER = 55;
 	public static final int FIVE_ALARM_SAUCEPAN = 57;
 	public static final int MACE_OF_THE_TORTOISE = 60;
 	public static final int FORTUNE_COOKIE = 61;
+	public static final int GOLDEN_TWIG = 66;
 	public static final int NEWBIESPORT_TENT = 69;
 	public static final int WOODEN_STAKES = 71;
 	public static final int BARSKIN_TENT = 73;
@@ -99,6 +104,7 @@ public class ItemPool
 	public static final int COG = 120;
 	public static final int FRILLY_SKIRT = 131;
 	public static final int BITCHIN_MEATCAR = 134;
+	public static final int SWEET_RIMS = 135;
 	public static final int DINGY_PLANKS = 140;
 	public static final int DINGHY_DINGY = 141;
 	public static final int COTTAGE = 143;
@@ -176,6 +182,7 @@ public class ItemPool
 	public static final int HEY_DEZE_MAP = 516;
 	public static final int STRANGE_LEAFLET = 520;
 	public static final int HOUSE = 526;
+	public static final int VOLLEYBALL = 527;
 	public static final int ABRIDGED = 534;
 	public static final int BRIDGE = 535;
 	public static final int DICTIONARY = 536;
@@ -450,6 +457,8 @@ public class ItemPool
 	public static final int MYS_MANUAL = 2281;
 	public static final int MOX_MANUAL = 2282;
 	public static final int SEAL_HELMET = 2283;
+	public static final int PETRIFIED_NOODLES = 2284;
+	public static final int CHISEL = 2285;
 	public static final int RED_PAPER_CLIP = 2289;
 	public static final int REALLY_BIG_TINY_HOUSE = 2290;
 	public static final int NONESSENTIAL_AMULET = 2291;
@@ -843,6 +852,7 @@ public class ItemPool
 	public static final int TURTLE_WAX = 3914;
 	public static final int TURTLEMAIL_BITS = 3919;
 	public static final int TURTLING_ROD = 3927;
+	public static final int SEAL_IRON_INGOT = 3932;
 	public static final int VIP_LOUNGE_KEY = 3947;
 	public static final int STUFFED_CHEST = 3949;
 	public static final int STUFFED_KEY = 3950;
