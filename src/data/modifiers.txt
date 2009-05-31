@@ -353,7 +353,7 @@ yakskin skirt	Maximum MP: +25
 &quot;Humorous&quot; T-shirt	Muscle: +4, Mysticality: +4, Moxie: +4, Fumble: 2
 ASCII shirt	Mysticality: +7
 # Ascension Souvenir T-Shirt
-Chester's muscle shirt	Muscle Percent: +10, Damage Reduction: 10
+Chester's muscle shirt	Muscle Percent: +20, Damage Reduction: 10
 # Colonel Mustard's Lonely Spades Club Jacket: + ???
 Corporal Fennel's Lonely Clubs Club Jacket	PvP Fights: +3
 General Sage's Lonely Diamonds Club Jacket	Adventures: +3
