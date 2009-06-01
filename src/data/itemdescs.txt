@@ -4024,11 +4024,11 @@
 4018
 4019
 4020	224342315	rusty piece of rebar	rusty pieces of rebar
-4021
-4022
-4023
+4021	662987826	slime-covered shovel
+4022	212250418	slime-covered necklace
+4023	433811450	slime-covered speargun
 4024
-4025
+4025	764929004	slime-covered helmet
 4026
 4027
 4028
@@ -4042,7 +4042,7 @@
 4036
 4037	320343694	slimy sweetbreads	clusters of slimy sweetbreads
 4038	154656302	slimy fermented bile bladder	slimy fermented bile bladders
-4039
+4039	388191568	slimy alveolus	slimy alveoli
 4040
 4041
 4042
@@ -4095,7 +4095,7 @@
 4089
 4090
 4091	180051286	tiny slimy cyst	tiny slimy cysts
-4092
+4092	727301894	small slimy cyst
 4093
 4094
 4095	483733074	green peawee marble	green peawee marbles
@@ -4109,3 +4109,26 @@
 4103	689739845	beach ball marble
 4104	171423522	black catseye marble
 4105	561342079	big bumboozer marble
+4106	423567434	chamoisole
+4107
+4108
+4109
+4110
+4111
+4112
+4113
+4114
+4115
+4116
+4117
+4118
+4119
+4120
+4121
+4122	330802495	wad of slimy rags	wads of slimy rags
+4123	180528779	crown-shaped beanie
+4124	581030345	hopping socks
+4125	200038599	poodle skirt
+4126	562684613	letterman's jacket
+4127
+4128	255854067	hardened slime pants

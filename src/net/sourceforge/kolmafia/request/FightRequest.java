@@ -148,9 +148,11 @@ public class FightRequest
 	private static final Pattern NS_HEAL =
 		Pattern.compile( "The Sorceress pulls a tiny red vial out of the folds of her dress and quickly drinks it" );
 	private static final Pattern DETECTIVE_PATTERN =
-		Pattern.compile( "I deduce that this monster has approximately (\\d+) hit points");
+		Pattern.compile( "I deduce that this monster has approximately (\\d+) hit points" );
 	private static final Pattern SPACE_HELMET_PATTERN =
-		Pattern.compile( "Opponent HP: (\\d+)");
+		Pattern.compile( "Opponent HP: (\\d+)" );
+	private static final Pattern SLIMED_PATTERN =
+		Pattern.compile( "it blasts you with a massive loogie that sticks to your (.*?), pulls it off of you" );
 
 	private static final AdventureResult TOOTH = ItemPool.get( ItemPool.SEAL_TOOTH, 1);
 	private static final AdventureResult TURTLE = ItemPool.get( ItemPool.TURTLE_TOTEM, 1);
@@ -1477,6 +1479,23 @@ public class FightRequest
 			ResultProcessor.tallyResult( FightRequest.BROKEN_GREAVES, true );
 			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Your antique greaves broke." );
 		}
+		
+		// "The Slime draws back and shudders, as if it's about to sneeze.  
+		// Then it blasts you with a massive loogie that sticks to your 
+		// rusty grave robbing shovel, pulls it off of you, and absorbs 
+		// it back into the mass."
+		
+		Matcher m = FightRequest.SLIMED_PATTERN.matcher( responseText );
+		if ( m.find() )
+		{
+			int id = ItemDatabase.getItemId( m.group( 1 ) );
+			if ( id > 0 )
+			{
+				EquipmentManager.discardEquipment( id );
+				KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Your " +
+					m.group( 1 ) + " got slimed." );
+			}
+		}
 
 		// "You sigh and discard the belt in a nearby trash can."
 		if ( responseText.indexOf( "You sigh and discard the belt in a nearby trash can." ) != -1 )
@@ -1582,7 +1601,7 @@ public class FightRequest
 		
 		// Check for worn-out stickers
 		int count = 0;
-		Matcher m = WORN_STICKER_PATTERN.matcher( responseText );
+		m = WORN_STICKER_PATTERN.matcher( responseText );
 		while ( m.find() )
 		{
 			++count;

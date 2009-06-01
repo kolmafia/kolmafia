@@ -154,13 +154,14 @@ public class ItemDatabase
 	public static final int ATTR_GIFTABLE = 0x00000002;
 	public static final int ATTR_DISPLAYABLE = 0x00000004;
 	public static final int ATTR_USABLE = 0x00000008;
-	public static final int ATTR_REUSABLE = 0x00000010;
-	public static final int ATTR_COMBAT = 0x00000020;
-	public static final int ATTR_COMBAT_REUSABLE = 0x00000040;
-	public static final int ATTR_SINGLE = 0x00000080;
-	public static final int ATTR_SOLO = 0x00000100;
-	public static final int ATTR_CURSE = 0x00000200;
-	public static final int ATTR_BOUNTY = 0x00000400;
+	public static final int ATTR_MULTIPLE = 0x00000010;
+	public static final int ATTR_REUSABLE = 0x00000020;
+	public static final int ATTR_COMBAT = 0x00000040;
+	public static final int ATTR_COMBAT_REUSABLE = 0x00000080;
+	public static final int ATTR_SINGLE = 0x00000100;
+	public static final int ATTR_SOLO = 0x00000200;
+	public static final int ATTR_CURSE = 0x00000400;
+	public static final int ATTR_BOUNTY = 0x00000800;
 	
 	private static final HashMap PRIMARY_USE = new HashMap();
 	private static final HashMap SECONDARY_USE = new HashMap();
@@ -192,6 +193,7 @@ public class ItemDatabase
 		PRIMARY_USE.put( "sticker", new Integer( KoLConstants.CONSUME_STICKER ) );
 		
 		SECONDARY_USE.put( "usable", new Integer( ItemDatabase.ATTR_USABLE ) );
+		SECONDARY_USE.put( "multiple", new Integer( ItemDatabase.ATTR_MULTIPLE ) );
 		SECONDARY_USE.put( "reusable", new Integer( ItemDatabase.ATTR_REUSABLE ) );
 		SECONDARY_USE.put( "combat", new Integer( ItemDatabase.ATTR_COMBAT ) );
 		SECONDARY_USE.put( "combat reusable", new Integer( ItemDatabase.ATTR_COMBAT_REUSABLE ) );
@@ -299,7 +301,7 @@ public class ItemDatabase
 			Integer useType = (Integer) ItemDatabase.PRIMARY_USE.get( usage );
 			if ( useType == null )
 			{
-				RequestLogger.printLine( "Unknown usage for " + name + ": " + usage );
+				RequestLogger.printLine( "Unknown primary usage for " + name + ": " + usage );
 				ItemDatabase.PRIMARY_USE.put( usage, new Integer( 0 ) );
 			}
 			else
@@ -312,7 +314,7 @@ public class ItemDatabase
 				useType = (Integer) ItemDatabase.SECONDARY_USE.get( usage );
 				if ( useType == null )
 				{
-					RequestLogger.printLine( "Unknown usage for " + name + ": " + usage );
+					RequestLogger.printLine( "Unknown secondary usage for " + name + ": " + usage );
 					ItemDatabase.SECONDARY_USE.put( usage, new Integer( 0 ) );
 				}
 				else
