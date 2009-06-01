@@ -858,6 +858,17 @@ public class ItemPool
 	public static final int STUFFED_KEY = 3950;
 	public static final int TINY_CELL_PHONE = 3964;
 	public static final int MOONTAN_LOTION = 4003;
+	public static final int GREEN_PEAWEE_MARBLE = 4095;
+	public static final int BROWN_CROCK_MARBLE = 4096;
+	public static final int RED_CHINA_MARBLE = 4097;
+	public static final int LEMONADE_MARBLE = 4098;
+	public static final int BUMBLEBEE_MARBLE = 4099;
+	public static final int JET_BENNIE_MARBLE = 4100;
+	public static final int BEIGE_CLAMBROTH_MARBLE = 4101;
+	public static final int STEELY_MARBLE = 4102;
+	public static final int BEACH_BALL_MARBLE = 4103;
+	public static final int BLACK_CATSEYE_MARBLE = 4104;
+	public static final int BIG_BUMBOOZER_MARBLE = 4105;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
