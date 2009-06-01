@@ -34,6 +34,8 @@
 package net.sourceforge.kolmafia.request;
 
 import java.lang.Math;
+import java.util.Arrays;
+import java.util.List;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -1175,6 +1177,10 @@ public class UseItemRequest
 				if ( responseText.indexOf( "(for a long time)" ) == -1 )
 				{
 					success = false;
+				}
+				else
+				{
+					UseItemRequest.parseEVHelmet( responseText );
 				}
 				break;
 			}
@@ -3252,5 +3258,42 @@ public class UseItemRequest
 		}
 		
 		return turns * this.itemUsed.getCount();
+	}
+	
+	static private void parseEVHelmet( String responseText )
+	{
+		List pieces = Arrays.asList( responseText.split( "(<.*?>)+" ) );
+		int start = pieces.indexOf( "KROKRO LAZAK FULA:" );
+		if ( start == -1 )
+		{
+			start = pieces.indexOf( "SPEAR POWER CONDUIT:" );
+		}
+		if ( start == -1 || pieces.size() - start < 20 )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+				"Unable to parse conduit levels: " + responseText );
+			return;
+		}
+				
+		int data = 0;
+		// We have 9 conduits, with a value from 0 to 10 each.
+		// A 9-digit base-11 number won't quite fit in an int, but not all
+		// values are possible - the total of all the conduits cannot be
+		// larger than 10 itself.  The largest possible value is therefore
+		// A00000000(11), which is just slightly under 2**31.
+		for ( int i = 0; i < 9; ++i )
+		{
+			String piece = (String) pieces.get( start + i * 2 + 1 );
+			int value = ItemPool.EV_HELMET_LEVELS.indexOf( piece );
+			if ( value == -1 )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+					"Unable to parse conduit level: " + piece );
+				return;
+			}
+			data = data * 11 + value / 2;
+		}
+		Preferences.setInteger( "lastEVHelmetValue", data );
+		Preferences.setInteger( "lastEVHelmetReset", KoLCharacter.getAscensions() );
 	}
 }

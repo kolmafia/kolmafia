@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.objectpool;
 
 import net.sourceforge.kolmafia.AdventureResult;
 
+import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -888,6 +889,34 @@ public class ItemPool
 	}
 
 	// Support for various classes of items:
+	
+	// El Vibrato helmet
+	
+	public static final String[] EV_HELMET_CONDUITS = new String[] {
+		"ATTACK",
+		"BUILD",
+		"BUFF",
+		"MODIFY",
+		"REPAIR",
+		"TARGET",
+		"SELF",
+		"DRONE",
+		"WALL"
+	};
+
+	public static final List EV_HELMET_LEVELS = Arrays.asList( new String[] {
+		"PA", "ZERO",
+		"NOKGAGA", "NEGLIGIBLE",
+		"GABUHO NO", "EXTREMELY LOW",
+		"GA NO", "VERY LOW",
+		"NO", "LOW",
+		"FUZEVENI", "MODERATE",
+		"PAPACHA", "ELEVATED",
+		"FU", "HIGH",
+		"GA FU", "VERY HIGH",
+		"GABUHO FU", "EXTREMELY HIGH",
+		"CHOSOM", "MAXIMAL"
+	} );
 
 	// BANG POTIONS and STONE SPHERES
 
