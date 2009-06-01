@@ -329,12 +329,18 @@ public abstract class ChatManager
 
 		String contactName = contact.toLowerCase();
 
-		if ( ChatManager.mergeHobopolis && contactName.equals( "/hobopolis" ) )
+		if ( ChatManager.mergeHobopolis && ChatManager.isDungeonChannel( contactName ) )
 		{
 			return "/clan";
 		}
 
 		return contactName;
+	}
+
+	private static final boolean isDungeonChannel( String contactName )
+	{
+		return contactName.equals( "/hobopolis" ) ||
+		       contactName.equals( "/slimetube" );
 	}
 
 	/**
