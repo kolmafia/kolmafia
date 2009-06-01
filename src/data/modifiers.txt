@@ -113,6 +113,7 @@ clown wig	Mysticality: +3, Spell Damage: +3, Clownosity: +2, Familiar Effect: "c
 coconut shell	Damage Absorption: +1, Familiar Effect: "1xFairy, cap 7"
 cold ninja mask	Initiative: +15, Familiar Effect: "cold atk, 1xBarrr, cap 20"
 cornuthaum	Mysticality: +3, Moxie: +3, Familiar Effect: "1.5xPotato, 1.25xFairy, cap 21"
+crown-shaped beanie	Slime Resistance: +1, Food Drop: +20, Initiative: +20
 crumpled felt fedora	Familiar Weight: +10, Muscle Percent: +5, Familiar Effect: "0.75xVolley, 0.75xLep"
 cursed eyepatch	Mysticality: +15, Familiar Effect: "spooky atk, 1xBarrr"
 demon-horned hat	Moxie: +4, Familiar Effect: "hot atk, 1xLep, cap 17"
@@ -198,6 +199,7 @@ seal-skull helmet	Familiar Effect: "atk, cap 2"
 sequined fez	Moxie: +3, Familiar Effect: "1.75xLep, cap 20"
 shapeless wide-brimmed hat	HP Regen Min: 15, HP Regen Max: 20, MP Regen Min: 15, MP Regen Max: 20, Mysticality Percent: +5, Familiar Effect: "0.75xLep, 0x75xFairy"
 skeletortoise	Mysticality: +2, Familiar Effect: "spooky atk, 2xFairy, cap 7"
+slime-covered helmet	Slime Resistance: +2, Stench Resistance: +2, Cold Resistance: +2
 snorkel	Familiar Effect: "atk, cap 2"
 spiky turtle helmet	Weapon Damage: +8, Monster Level: +8, Familiar Effect: "atk, 1xFairy, cap 32"
 sponge helmet	Mysticality Percent: +10, MP Regen Min: 15, MP Regen Max: 20, Damage Absorption: +40, Familiar Effect: "atk, 1xFairy"
@@ -299,6 +301,7 @@ gnauga hide kilt	Damage Absorption: +30
 gnauga hide skirt	Damage Absorption: +30
 gold lam&eacute; pants	Moxie: -8
 grass skirt	Moxie: +5
+hardened slime pants	Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3,	Slime Resistance: +3, Never Fumble, Moxie Percent: +20
 hippopotamus kilt	Maximum HP: +25
 hippopotamus pants	Maximum HP: +25
 hippopotamus skirt	Maximum HP: +25
@@ -327,6 +330,7 @@ penguinskin mini-skirt	Initiative: +20
 pink pinkslip slip	Initiative: +35, Damage Reduction: 4
 pixel pants	Maximum HP: +10, Maximum MP: +10
 plexiglass pants	Initiative: +25, Item Drop: +20, Moxie Percent: +30
+poodle skirt	Slime Resistance: +1, Meat Drop: +25, Hot Damage: +25
 snowboarder pants	Damage Absorption: +20
 spandex anniversary shorts	Muscle: +1, Mysticality: +1, Moxie: +1
 square sponge pants	Moxie Percent: +10, HP Regen Min: 10, HP Regen Max: 15, MP Regen Min: 10, MP Regen Max: 15, Damage Absorption: +30
@@ -372,6 +376,7 @@ asbestos apron	Hot Resistance: +3
 barskin cloak	Muscle: +2
 bat-ass leather jacket	Mysticality: +10, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 bronze breastplate	Damage Absorption: +20, Damage Reduction: 4
+chamoisole	Slime Resistance: +3
 clockwork trench coat	Damage Absorption: +15
 clownskin harness	Spooky Damage: +2, Sleaze Damage: +2, Clownosity: +2
 coconut bikini top	Mysticality: +5
@@ -388,6 +393,7 @@ goth kid t-shirt	Monster Level: +5
 grungy flannel shirt	Moxie: +11
 harem girl t-shirt	Moxie: +3
 hipposkin poncho	Monster Level: +10
+letterman's jacket	Slime Resistance: +1, Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, HP Regen Min: 10, HP Regen Max: 20
 loathing eagle baby-doll shirt	Moxie: +3
 origami pasties	Meat Drop: +30, Softcore Only
 palm-frond cloak	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
@@ -753,6 +759,8 @@ silver shrimp fork	Spell Damage: +14, Weapon Damage: +5
 skeleton bone	Spooky Damage: +1
 sleazy bindle	Item Drop: +10, Sleaze Damage: +25
 # slightly peevedbow
+slime-covered shovel	Weapon Damage: [100*zone(The Slime Tube)+60], Initiative: -10
+slime-covered speargun	Weapon Damage: [50*zone(The Slime Tube)+25], Critical: 3
 # slingshot
 smoldering staff	Mysticality: +7, Moxie: +5, Stench Spell Damage: +11
 soup-chucks	Hot Damage: +3
@@ -1302,6 +1310,7 @@ hippy protest button	Single Equip
 # hobo stogie: +100% Physical Damage against Hobos
 hobo stogie	Single Equip, Weapon Damage Percent: [100*zone(Hobopolis)*(1-loc(Sewer Tunnels))]
 hockey stick of furious angry rage	Monster Level: +30, Muscle Percent: +5
+hopping socks	Slime Resistance: +1, Accessory Drop: +20, Maximum HP: +200, Maximum MP: +200
 ice skates	Initiative: +15, Meat Drop: +15, Single Equip, Softcore Only
 imitation nice watch	Adventures: +3, Single Equip, Nonstackable Watch
 incredibly dense meat gem	Meat Drop: +25, Moxie: +5, Maximum MP: +10
@@ -1384,6 +1393,7 @@ shiny hood ornament	Muscle: +5, Mysticality: +5, Moxie: +5, Maximum HP: +30, Max
 shiny ring	Muscle: +3, Mysticality: +3, Moxie: +3
 silver tongue charrrm bracelet	Moxie: +5, Spell Damage: +10, Single Equip
 sk8board	Initiative: +15
+slime-covered necklace	Weapon Damage: [50*zone(The Slime Tube)], Muscle: +6, Mysticality: +6, Moxie: +6, Maximum HP: +200
 solid baconstone earring	Mysticality: +8, Maximum MP: +15, Mana Cost: -1, Single Equip
 solid baconstone necklace	Mysticality: +10, Spell Damage: +15, Single Equip
 solid baconstone ring	Mysticality: +12, Maximum MP: +30, MP Regen Min: 2, MP Regen Max: 4, Single Equip
@@ -2262,6 +2272,7 @@ Sleaze-Resistant Trousers	Sleaze Resistance: +1
 Sleazy Weapon	Sleaze Damage: +3
 # Sleeping with the Fishes: Makes you sleep like the dead
 Sleepy	Muscle Percent: -30
+Slimebreath	Monster Level: +50, Slime Resistance: +1
 # Slimed: Continually take damage
 Slimed	Spooky Damage: +20
 # Slippery Oiliness: Makes your Muscle and Mysticality equal to your Moxie

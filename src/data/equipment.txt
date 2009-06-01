@@ -71,6 +71,7 @@ clown wig	50	Mox: 10
 coconut shell	30	none
 cold ninja mask	80	Mox: 25
 cornuthaum	85	Mox: 27
+crown-shaped beanie	200	Mox: 200
 crumpled felt fedora	200	Mox: 200
 cursed eyepatch	200	Mus: 85
 demon-horned hat	70	Mox: 20
@@ -151,6 +152,7 @@ seal-skull helmet	10	none
 sequined fez	80	Mox: 25
 shapeless wide-brimmed hat	200	Mox: 200
 skeletortoise	30	none
+slime-covered helmet	200	Mox: 200
 snorkel	10	none
 spiky turtle helmet	130	Mox: 50
 sponge helmet	200	Mox: 85
@@ -248,6 +250,7 @@ gnauga hide kilt	80	Mox: 25
 gnauga hide skirt	80	Mox: 25
 gold lam&eacute; pants	100	Mox: 35
 grass skirt	80	Mox: 25
+hardened slime pants	200	Mox: 200
 hippopotamus kilt	130	Mox: 50
 hippopotamus pants	130	Mox: 50
 hippopotamus skirt	130	Mox: 50
@@ -275,6 +278,7 @@ penguinskin mini-skirt	120	Mox: 45
 pink pinkslip slip	200	Mox: 85
 pixel pants	50	Mox: 10
 plexiglass pants	180	Mox: 75
+poodle skirt	200	Mox: 200
 snowboarder pants	100	Mox: 35
 spandex anniversary shorts	10	none
 square sponge pants	200	Mox: 85
@@ -320,6 +324,7 @@ asbestos apron	170	Mus: 70
 barskin cloak	25	none
 bat-ass leather jacket	180	Mus: 77
 bronze breastplate	105	Mus: 37
+chamoisole	200	Mus: 200
 clockwork trench coat	80	Mus: 25
 clownskin harness	60	Mus: 15
 coconut bikini top	100	Mus: 35
@@ -336,6 +341,7 @@ goth kid t-shirt	100	Mus: 35
 grungy flannel shirt	150	Mox: 60
 harem girl t-shirt	25	none
 hipposkin poncho	120	Mus: 45
+letterman's jacket	200	Mus: 200
 loathing eagle baby-doll shirt	45	Mus: 7
 origami pasties	100	none
 palm-frond cloak	140	Mus: 55
@@ -688,6 +694,8 @@ silver shrimp fork	120	Mys: 45	1-handed utensil
 skeleton bone	30	Mus: 0	1-handed club
 sleazy bindle	200	Mus: 200	2-handed polearm
 slightly peevedbow	60	Mox: 15	2-handed bow
+slime-covered shovel	200	Mus: 200	2-handed polearm
+slime-covered speargun	200	Mox: 200	1-handed pistol
 slingshot	20	Mox: 0	2-handed slingshot
 smoldering staff	125	Mus: 45	2-handed staff
 soup-chucks	15	none	2-handed flail
@@ -1200,6 +1208,7 @@ hippy medical kit	0	Mys: 72
 hippy protest button	0	Mys: 65
 hobo stogie	0	Mys: 200
 hockey stick of furious angry rage	0	Mys: 35
+hopping socks	0	Mys: 200
 ice skates	0	none
 imitation nice watch	0	Mys: 35
 incredibly dense meat gem	0	none
@@ -1277,6 +1286,7 @@ shiny hood ornament	0	Mys: 80
 shiny ring	0	Mys: 10
 silver tongue charrrm bracelet	0	Mys: 80
 sk8board	0	Mys: 20
+slime-covered necklace	0	Mys: 200
 solid baconstone earring	0	Mys: 40
 solid baconstone necklace	0	Mys: 40
 solid baconstone ring	0	Mys: 40

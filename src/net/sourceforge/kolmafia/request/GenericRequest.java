@@ -401,6 +401,7 @@ public class GenericRequest
 			  !this.formURLString.startsWith( "clan_stash" ) &&
 			  !this.formURLString.startsWith( "clan_rumpus" ) &&
 			  !this.formURLString.startsWith( "clan_viplounge" ) &&
+			  !this.formURLString.startsWith( "clan_slimetube" ) &&
 			  !this.formURLString.startsWith( "clan_hobopolis" ) ) ||
 			this instanceof LoginRequest ||
 			this instanceof LogoutRequest;

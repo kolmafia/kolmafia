@@ -641,3 +641,4 @@
 640
 641	Grimace	hernia.gif	e4f1112898cf840ef868a6833fde9f69	eat 1 slimy sweetbreads
 642	Bilious	angry.gif	abe97593a0f3b79395f10a45d782d6fd	drink 1 slimy fermented bile bladder
+643	Slimebreath	breath.gif	02cbec5ae667b2b427d86363b7b7cc63	use 1 slimy alveolus

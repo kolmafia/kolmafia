@@ -1216,16 +1216,6 @@ turtlemail coif	MUSE	turtlemail bits (3)
 turtlemail breeches	MUSE	turtlemail bits (5)
 turtlemail hauberk	MUSE	turtlemail bits (8)
 
-brown crock marble	MUSE	green peawee marble (2)
-red China marble	MUSE	brown crock marble (2)
-lemonade marble	MUSE	red China marble (2)
-bumblebee marble	MUSE	lemonade marble (2)
-jet bennie marble	MUSE	bumblebee marble (2)
-beige clambroth marble	MUSE	jet bennie marble (2)
-steely marble	MUSE	beige clambroth marble (2)
-beach ball marble	MUSE	steely marble (2)
-black catseye marble	MUSE	beach ball marble (2)
-big bumboozer marble	MUSE	black catseye marble (2)
 
 # Recipes that involve single-using one of the ingredients
 
@@ -1242,6 +1232,18 @@ charrrm bracelet	SUSE	Jolly Roger charrrm bracelet
 
 turtle wax shield	SUSE	turtle wax
 ancient turtle shell powder	SUSE	ancient turtle shell
+
+brown crock marble	SUSE	green peawee marble (2)
+red China marble	SUSE	brown crock marble (2)
+lemonade marble	SUSE	red China marble (2)
+bumblebee marble	SUSE	lemonade marble (2)
+jet bennie marble	SUSE	bumblebee marble (2)
+beige clambroth marble	SUSE	jet bennie marble (2)
+steely marble	SUSE	beige clambroth marble (2)
+beach ball marble	SUSE	steely marble (2)
+black catseye marble	SUSE	beach ball marble (2)
+big bumboozer marble	SUSE	black catseye marble (2)
+
 
 # Familiars.  These are familiars which are only available after
 # ascension (not including the ones which are available through

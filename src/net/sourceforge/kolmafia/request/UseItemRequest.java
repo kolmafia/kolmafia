@@ -127,6 +127,10 @@ public class UseItemRequest
 		{
 			return KoLConstants.CONSUME_USE;
 		}
+		if ( (attrs & ItemDatabase.ATTR_MULTIPLE) != 0 )
+		{
+			return KoLConstants.CONSUME_MULTIPLE;
+		}
 		if ( (attrs & ItemDatabase.ATTR_REUSABLE) != 0 )
 		{
 			return KoLConstants.INFINITE_USES;
