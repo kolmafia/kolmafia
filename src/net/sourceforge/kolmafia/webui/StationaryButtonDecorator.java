@@ -95,92 +95,95 @@ public class StationaryButtonDecorator
 			return;
 		}
 
-		int insertionPoint = buffer.indexOf( "<tr" );
-		if ( insertionPoint != -1 )
+		int insertionPoint = buffer.indexOf( "<body" );
+		if ( insertionPoint == -1 )
 		{
-			StringBuffer actionBuffer = new StringBuffer();
-
-			actionBuffer.append( "<tr><td>" );
-			actionBuffer.append( "<table width=\"100%\"><tr><td align=left>" );
-
-			StationaryButtonDecorator.addFightButton( urlString, buffer, actionBuffer, "attack", true );
-
-			if ( KoLCharacter.isMoxieClass() )
-			{
-				StationaryButtonDecorator.addFightButton(
-					urlString, buffer, actionBuffer, "steal", FightRequest.wonInitiative() );
-			}
-
-			if ( EquipmentManager.usingChefstaff() )
-			{
-				StationaryButtonDecorator.addFightButton(
-					urlString, buffer, actionBuffer, "jiggle", FightRequest.getCurrentRound() > 0 );
-			}
-
-			if ( KoLCharacter.hasSkill( "Entangling Noodles" ) )
-			{
-				StationaryButtonDecorator.addFightButton(
-					urlString, buffer, actionBuffer, "3004", FightRequest.getCurrentRound() > 0 );
-			}
-
-			StationaryButtonDecorator.addFightButton(
-				urlString, buffer, actionBuffer, "script", FightRequest.getCurrentRound() > 0 );
-
-			for ( int i = 1; i <= KoLConstants.STATIONARY_BUTTON_COUNT; ++i )
-			{
-				String action = Preferences.getString( "stationaryButton" + i );
-				if ( action.equals( "" ) || action.equals( "none" ) )
-				{
-					continue;
-				}
-
-				String name = SkillDatabase.getSkillName( Integer.parseInt( action ) );
-
-				if ( !KoLCharacter.hasSkill( name ) )
-				{
-					for ( int j = i; j < 5; ++j )
-					{
-						Preferences.setString(
-							"stationaryButton" + j, Preferences.getString( "stationaryButton" + ( j + 1 ) ) );
-					}
-
-					Preferences.setString( "stationaryButton5", "" );
-					continue;
-				}
-
-				StationaryButtonDecorator.addFightButton(
-					urlString, buffer, actionBuffer, action, FightRequest.getCurrentRound() > 0 );
-			}
-
-			if ( StationaryButtonDecorator.combatHotkeys.isEmpty() )
-			{
-				StationaryButtonDecorator.reloadCombatHotkeyMap();
-			}
-
-			actionBuffer.append( "</td><td align=right>" );
-			actionBuffer.append( "<select id=\"hotkeyViewer\" onchange=\"updateCombatHotkey();\">" );
-
-			actionBuffer.append( "<option>- update hotkeys -</option>" );
-
-			for ( int i = 0; i < StationaryButtonDecorator.combatHotkeys.size(); ++i )
-			{
-				actionBuffer.append( "<option>" );
-				actionBuffer.append( i );
-				actionBuffer.append( ": " );
-
-				actionBuffer.append( StationaryButtonDecorator.combatHotkeys.get( i ) );
-				actionBuffer.append( "</option>" );
-			}
-
-			actionBuffer.append( "</select>" );
-
-			actionBuffer.append( "</td></tr></table>" );
-			actionBuffer.append( "</td></tr>" );
-			buffer.insert( insertionPoint, actionBuffer.toString() );
-
-			StringUtilities.insertBefore( buffer, "</html>", "<script src=\"/hotkeys.js\"></script>" );
-			StringUtilities.insertAfter( buffer, "<body", " onkeyup=\"handleCombatHotkey(event,false);\" onkeydown=\"handleCombatHotkey(event,true);\" " );
+			return;
 		}
+		insertionPoint = buffer.indexOf( ">", insertionPoint ) + 1;
+
+                StringBuffer actionBuffer = new StringBuffer();
+
+                actionBuffer.append( "<div id=\"mafiabuttons\"><center>" );
+                actionBuffer.append( "<table width=\"95%\"><tr><td align=left>" );
+
+                StationaryButtonDecorator.addFightButton( urlString, buffer, actionBuffer, "attack", true );
+
+                if ( KoLCharacter.isMoxieClass() )
+                {
+                        StationaryButtonDecorator.addFightButton(
+                                urlString, buffer, actionBuffer, "steal", FightRequest.wonInitiative() );
+                }
+
+                if ( EquipmentManager.usingChefstaff() )
+                {
+                        StationaryButtonDecorator.addFightButton(
+                                urlString, buffer, actionBuffer, "jiggle", FightRequest.getCurrentRound() > 0 );
+                }
+
+                if ( KoLCharacter.hasSkill( "Entangling Noodles" ) )
+                {
+                        StationaryButtonDecorator.addFightButton(
+                                urlString, buffer, actionBuffer, "3004", FightRequest.getCurrentRound() > 0 );
+                }
+
+                StationaryButtonDecorator.addFightButton(
+                        urlString, buffer, actionBuffer, "script", FightRequest.getCurrentRound() > 0 );
+
+                for ( int i = 1; i <= KoLConstants.STATIONARY_BUTTON_COUNT; ++i )
+                {
+                        String action = Preferences.getString( "stationaryButton" + i );
+                        if ( action.equals( "" ) || action.equals( "none" ) )
+                        {
+                                continue;
+                        }
+
+                        String name = SkillDatabase.getSkillName( Integer.parseInt( action ) );
+
+                        if ( !KoLCharacter.hasSkill( name ) )
+                        {
+                                for ( int j = i; j < 5; ++j )
+                                {
+                                        Preferences.setString(
+                                                "stationaryButton" + j, Preferences.getString( "stationaryButton" + ( j + 1 ) ) );
+                                }
+
+                                Preferences.setString( "stationaryButton5", "" );
+                                continue;
+                        }
+
+                        StationaryButtonDecorator.addFightButton(
+                                urlString, buffer, actionBuffer, action, FightRequest.getCurrentRound() > 0 );
+                }
+
+                if ( StationaryButtonDecorator.combatHotkeys.isEmpty() )
+                {
+                        StationaryButtonDecorator.reloadCombatHotkeyMap();
+                }
+
+                actionBuffer.append( "</td><td align=right>" );
+                actionBuffer.append( "<select id=\"hotkeyViewer\" onchange=\"updateCombatHotkey();\">" );
+
+                actionBuffer.append( "<option>- update hotkeys -</option>" );
+
+                for ( int i = 0; i < StationaryButtonDecorator.combatHotkeys.size(); ++i )
+                {
+                        actionBuffer.append( "<option>" );
+                        actionBuffer.append( i );
+                        actionBuffer.append( ": " );
+
+                        actionBuffer.append( StationaryButtonDecorator.combatHotkeys.get( i ) );
+                        actionBuffer.append( "</option>" );
+                }
+
+                actionBuffer.append( "</select>" );
+
+                actionBuffer.append( "</td></tr></table>" );
+                actionBuffer.append( "</center></div>" );
+                buffer.insert( insertionPoint, actionBuffer.toString() );
+
+                StringUtilities.insertBefore( buffer, "</html>", "<script src=\"/hotkeys.js\"></script>" );
+                StringUtilities.insertAfter( buffer, "<body", " onkeyup=\"handleCombatHotkey(event,false);\" onkeydown=\"handleCombatHotkey(event,true);\" " );
 	}
 
 	private static final void addFightButton( final String urlString, final StringBuffer response,

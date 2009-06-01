@@ -149,7 +149,16 @@ function inlineLoad( location, fields, id )
 			var container = top.mainpane.document.createElement('DIV');
 			container.id = 'effdiv';
 			container.innerHTML = text;
-			top.mainpane.document.body.insertBefore(container, top.mainpane.document.body.firstChild);
+
+			var buttons = top.mainpane.document.getElementById('mafiabuttons');
+			if ( buttons )
+			{
+				top.mainpane.document.body.insertBefore(container, buttons.nextSibling);
+			}
+			else
+			{
+				top.mainpane.document.body.insertBefore(container, top.mainpane.document.body.firstChild);
+			}
 			div = container;
 		}
 		else
