@@ -103,6 +103,7 @@ goofily-plumed helmet	70	Mox: 20
 grass hat	80	Mox: 25
 green traffic cone	60	Mox: 15
 grungy bandana	150	Mox: 60
+hardened slime hat	200	Mox: 200
 helmet turtle	10	none
 ice pick	100	none
 indie comic hipster glasses	10	none
@@ -1202,6 +1203,7 @@ hamethyst bracelet	0	Mys: 10
 hamethyst earring	0	Mys: 10
 hamethyst necklace	0	Mys: 10
 hamethyst ring	0	Mys: 10
+hardened slime belt	0	Mys: 200
 headhunter necktie	0	Mys: 65
 hemp string	0	Mys: 20
 hippy medical kit	0	Mys: 72

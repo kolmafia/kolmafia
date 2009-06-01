@@ -3996,9 +3996,9 @@
 3990	666719587	ancient turtle shell helmet	ancient turtle shell helmets
 3991
 3992
-3993
+3993	337083735	slime-soaked sweat gland	slime-soaked sweat glands
 3994	967440626	security blankie
-3995
+3995	492568679	big bundle of chamoix	big bundles of chamoix
 3996	526611623	boxcar turtle	boxcar turtles
 3997
 3998	760915709	metrognome	metrognomes
@@ -4130,5 +4130,6 @@
 4124	581030345	hopping socks
 4125	200038599	poodle skirt	poodle skirts
 4126	562684613	letterman's jacket
-4127
+4127	721459450	hardened slime hat
 4128	255854067	hardened slime pants
+4129	663508936	hardened slime belt

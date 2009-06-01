@@ -146,6 +146,7 @@ goofily-plumed helmet	Familiar Effect: "atk, cap 17"
 grass hat	Maximum MP: +10, Familiar Effect: "2xVolley, 1xBarrr, cap 20"
 green traffic cone	Moxie: +3, Stench Resistance: +2, Familiar Effect: "2xLep, 2xFairy, cap 15"
 grungy bandana	Stench Damage: +10, Sleaze Damage: +10, Familiar Effect: "1xVolley, 0.5xPotato, cap 37"
+hardened slime hat	Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, Slime Resistance: +3, Damage Reduction: 10, Muscle Percent: +20
 helmet turtle	Familiar Effect: "atk, cap 2"
 ice pick	Item Drop: +15, Softcore Only, Familiar Effect: "1.5xLep, 1.5xFairy, cap 25"
 indie comic hipster glasses	Moxie: +5, Muscle: +5, Mysticality: +5, Familiar Effect: "?xVolley, 8xLep, cap 2"
@@ -301,7 +302,7 @@ gnauga hide kilt	Damage Absorption: +30
 gnauga hide skirt	Damage Absorption: +30
 gold lam&eacute; pants	Moxie: -8
 grass skirt	Moxie: +5
-hardened slime pants	Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3,	Slime Resistance: +3, Never Fumble, Moxie Percent: +20
+hardened slime pants	Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, Slime Resistance: +3, Never Fumble, Moxie Percent: +20
 hippopotamus kilt	Maximum HP: +25
 hippopotamus pants	Maximum HP: +25
 hippopotamus skirt	Maximum HP: +25
@@ -1302,6 +1303,7 @@ hamethyst bracelet	Muscle: +3, Critical: 3, Single Equip
 hamethyst earring	Muscle: +3, Critical: 3
 hamethyst necklace	Muscle: +4, Weapon Damage: +5, PvP Fights: +3, Single Equip
 hamethyst ring	Muscle: +5, Maximum HP: +10, HP Regen Min: 2, HP Regen Max: 4, Single Equip
+hardened slime belt	Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, Slime Resistance: +3, HP Regen Min: 10, HP Regen Max: 30, MP Regen Min: 10, MP Regen Max: 30, Mysticality Percent: +20
 headhunter necktie	Muscle: +15, Moxie: -3, Single Equip
 # hemp string
 hippy medical kit	Mysticality: +10, HP Regen Min: 6, HP Regen Max: 10, Single Equip
@@ -2467,6 +2469,9 @@ Powers of Observatiogn	Item Drop: +10
 # Pulverize
 # Really Expensive Jewelrycrafting
 Skin of the Leatherback	Damage Reduction: [max(1,floor((L-2)/2))]
+# Slimy Shoulders
+# Slimy Sinews
+# Slimy Synapses
 Spirit of Ravioli	Maximum HP Percent: +25
 # Spirit of Rigatoni	allows wielding of chefstaves
 # Spleen of Steel

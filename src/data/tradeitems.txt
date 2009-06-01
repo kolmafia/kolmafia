@@ -3996,9 +3996,9 @@
 3990	ancient turtle shell helmet	hat	all	40
 3991
 3992
-3993
+3993	slime-soaked sweat gland	usable	display	5000
 3994	security blankie	familiar	all	75
-3995
+3995	big bundle of chamoix	usable	all	0
 3996	boxcar turtle	usable	display	100
 3997
 3998	metrognome	familiar	all	75
@@ -4130,5 +4130,6 @@
 4124	hopping socks	accessory	all	500
 4125	poodle skirt	pants	all	500
 4126	letterman's jacket	shirt	all	600
-4127
+4127	hardened slime hat	hat	display	5000
 4128	hardened slime pants	pants	display	5000
+4129	hardened slime belt	accessory	display	5000

@@ -56,6 +56,9 @@
 
 44	Rainbow Gravitation	1	30	0
 45	Vent Rage Gland	3	15	0
+46	Slimy Sinews	0	0	0
+47	Slimy Synapses	0	0	0
+48	Slimy Shoulders	0	0	0
 
 # Skills available to Clubbers
 
