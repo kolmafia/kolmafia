@@ -3060,6 +3060,52 @@ public abstract class KoLCharacter
 		if ( outfit != null )
 		{
 			newModifiers.add( Modifiers.getModifiers( outfit.getName() ) );
+			// El Vibrato Relics may have additional benefits based on
+			// punchcards inserted into the helmet:
+			if ( outfit.getOutfitId() == 41 &&
+				Preferences.getInteger( "lastEVHelmetReset" ) == KoLCharacter.getAscensions() )
+			{
+				int data = Preferences.getInteger( "lastEVHelmetValue" );
+				for ( int i = 9; i > 0; --i )
+				{
+					int level = data % 11;
+					data /= 11;
+					if ( level > 0 ) switch ( i )
+					{
+					case 1:
+						newModifiers.add( Modifiers.WEAPON_DAMAGE, level * 20, "ATTACK" );
+						break;
+					case 2:
+						newModifiers.add( Modifiers.HP, level * 100, "BUILD" );
+						break;
+					case 3:
+						newModifiers.add( Modifiers.MP, level * 100, "BUFF" );
+						break;
+					case 4:
+						newModifiers.add( Modifiers.MONSTER_LEVEL, level * 10, "MODIFY" );
+						break;
+					case 5:
+						newModifiers.add( Modifiers.HP_REGEN_MIN, level * 16, "REPAIR" );
+						newModifiers.add( Modifiers.HP_REGEN_MAX, level * 20, "REPAIR" );
+						break;
+					case 6:
+						newModifiers.add( Modifiers.SPELL_DAMAGE_PCT, level * 10, "TARGET" );
+						break;
+					case 7:
+						newModifiers.add( Modifiers.INITIATIVE, level * 20, "SELF" );
+						break;
+					case 8:
+						if ( Modifiers.currentFamiliar.indexOf( "megadrone" ) != -1 )
+						{
+							newModifiers.add( Modifiers.FAMILIAR_WEIGHT, level * 10, "DRONE" );
+						}
+						break;
+					case 9:
+						newModifiers.add( Modifiers.DAMAGE_REDUCTION, level * 3, "WALL" );
+						break;
+					}				
+				}
+			}
 		}
 
 		// Wearing a serpentine sword and a serpentine shield doubles

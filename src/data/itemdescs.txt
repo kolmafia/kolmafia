@@ -4095,7 +4095,7 @@
 4089
 4090
 4091	180051286	tiny slimy cyst	tiny slimy cysts
-4092	727301894	small slimy cyst
+4092	727301894	small slimy cyst	small slimy cysts
 4093
 4094
 4095	483733074	green peawee marble	green peawee marbles
@@ -4128,7 +4128,7 @@
 4122	330802495	wad of slimy rags	wads of slimy rags
 4123	180528779	crown-shaped beanie
 4124	581030345	hopping socks
-4125	200038599	poodle skirt
+4125	200038599	poodle skirt	poodle skirts
 4126	562684613	letterman's jacket
 4127
 4128	255854067	hardened slime pants

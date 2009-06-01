@@ -301,6 +301,8 @@ user	lastDwarfHopper1
 user	lastDwarfHopper2
 user	lastDwarfHopper3
 user	lastDwarfHopper4
+user	lastEVHelmetValue	0
+user	lastEVHelmetReset	-1
 user	lastEmptiedStorage	-1
 user	lastFilthClearance	-1
 user	lastGalleryUnlock	-1
