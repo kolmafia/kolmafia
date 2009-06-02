@@ -617,6 +617,7 @@ jack flapper	35	Mys: 2	1-handed utensil
 jungle drum	160	Mox: 65	2-handed drum
 kneecapping stick	90	Mus: 30	1-handed club
 knob bugle	60	Mox: 15	1-handed horn
+lawn dart	200	Mus: 200	1-handed club
 lead pipe	175	Mus: 72	1-handed club
 lead yo-yo	80	Mox: 25	1-handed yoyo
 linoleum crossbow	100	Mox: 35	2-handed crossbow
@@ -905,6 +906,7 @@ miniature stuffed Goth Giant	0	none
 moxie magnet	0	none
 naughty fortune teller	0	none
 off-hand balloon	0	none
+old-school flying disc	0	Mus: 200	shield
 oyster basket	0	none
 oyster egg balloon	0	Mys: 35
 # *** padded tortoise is a shield of unknown power.
@@ -934,6 +936,7 @@ shadowy seal eye	0	Mus: 35
 silver sausage	0	none
 # *** six-rainbow shield is a shield of unknown power.
 six-rainbow shield	0	Mus: 70	shield
+slime-covered lantern	0	Mys: 200
 snake shield	117	Mus: 42	shield
 snarling wolf shield	117	Mus: 42	shield
 sock monkey	0	Mys: 40
