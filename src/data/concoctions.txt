@@ -598,6 +598,8 @@ club of the five seasons	WSMITH	bigger stick	prismatic wad
 rainbow crossbow	WSMITH	dense meat crossbow	prismatic wad
 six-rainbow shield	ASMITH	wonderwall shield	prismatic wad
 
+bad-ass club	SUSE	ingot of seal-iron
+
 creepy-ass club	WSMITH	bad-ass club	seal lube
 evil-ass club	WSMITH	bad-ass club	scrap of shadow
 frigid-ass club	WSMITH	bad-ass club	frost-rimed seal hide
