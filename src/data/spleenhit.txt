@@ -59,7 +59,7 @@ red paisley oyster egg	1	1	0	0	11-15	0	31-35 HP
 red polka-dot oyster egg	1	1	0	0	0	11-15	31-35 HP
 red striped oyster egg	1	1	0	11-15	0	0	31-35 HP
 sleaze wad	1	6	1	12-15	12-15	24-30	10 Supafly (+30% mox, +15% mus, +15% mys, sleaze dmg/res)
-slimy alveolus	2	5	2	0	0	0	40 Slimebreath (+50 ML, slime res)
+slimy alveolus	1	5	1-2	0	0	0	40 Slimebreath (+50 ML, slime res)
 spooky wad	1	6	1	8-10	24-30	16-20	10 Spooky Demeanor (+30% mys, +20% mox, +10% mus, spooky dmg/res)
 steel-scented air freshener	5	5	0	0	0	0	Spleen of Steel skill
 stench wad	1	6	1	16-20	24-30	8-10	10 Stenchtastic (+30% mys, +20% mus, +10% mox, stench dmg/res)

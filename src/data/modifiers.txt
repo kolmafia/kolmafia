@@ -760,6 +760,7 @@ silver shrimp fork	Spell Damage: +14, Weapon Damage: +5
 skeleton bone	Spooky Damage: +1
 sleazy bindle	Item Drop: +10, Sleaze Damage: +25
 # slightly peevedbow
+slime-covered club	Weapon Damage: [50*zone(The Slime Tube)+25], Critical: 3
 slime-covered shovel	Weapon Damage: [100*zone(The Slime Tube)+60], Initiative: -10
 slime-covered speargun	Weapon Damage: [50*zone(The Slime Tube)+25], Critical: 3
 # slingshot
@@ -1395,6 +1396,7 @@ shiny hood ornament	Muscle: +5, Mysticality: +5, Moxie: +5, Maximum HP: +30, Max
 shiny ring	Muscle: +3, Mysticality: +3, Moxie: +3
 silver tongue charrrm bracelet	Moxie: +5, Spell Damage: +10, Single Equip
 sk8board	Initiative: +15
+slime-covered compass	Slime Resistance: +2, Initiative: +40
 slime-covered necklace	Weapon Damage: [50*zone(The Slime Tube)], Muscle: +6, Mysticality: +6, Moxie: +6, Maximum HP: +200
 solid baconstone earring	Mysticality: +8, Maximum MP: +15, Mana Cost: -1, Single Equip
 solid baconstone necklace	Mysticality: +10, Spell Damage: +15, Single Equip

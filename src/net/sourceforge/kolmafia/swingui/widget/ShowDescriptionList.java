@@ -240,7 +240,7 @@ public class ShowDescriptionList
 		}
 		else if ( item instanceof UseSkillRequest )
 		{
-			StaticEntity.openRequestFrame( "desc_skill.php?whichskill=" + ( (UseSkillRequest) item ).getSkillId() );
+			StaticEntity.openRequestFrame( "desc_skill.php?whichskill=" + ( (UseSkillRequest) item ).getSkillId() + "&self=true" );
 		}
 		else if ( item instanceof String )
 		{
