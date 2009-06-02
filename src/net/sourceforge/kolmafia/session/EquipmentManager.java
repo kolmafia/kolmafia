@@ -332,30 +332,17 @@ public class EquipmentManager
 
 	public static final void discardEquipment( final int itemId )
 	{
-                AdventureResult item = ItemPool.get( itemId, 1 );
-                if ( KoLCharacter.hasEquipped( item, EquipmentManager.ACCESSORY1 ) )
-                {
-                        EquipmentManager.setEquipment( EquipmentManager.ACCESSORY1, EquipmentRequest.UNEQUIP );
-                }
-                else if ( KoLCharacter.hasEquipped( item, EquipmentManager.ACCESSORY2 ) )
-                {
-                        EquipmentManager.setEquipment( EquipmentManager.ACCESSORY2, EquipmentRequest.UNEQUIP );
-                }
-                else if ( KoLCharacter.hasEquipped( item, EquipmentManager.ACCESSORY3 ) )
-                {
-                        EquipmentManager.setEquipment( EquipmentManager.ACCESSORY3, EquipmentRequest.UNEQUIP );
-                }
-                else if ( KoLCharacter.hasEquipped( item, EquipmentManager.HAT ) )
-                {
-                        EquipmentManager.setEquipment( EquipmentManager.HAT, EquipmentRequest.UNEQUIP );
-                }
-                else
-                {
-                        return;
-                }
-
-                AdventureResult.addResultToList( KoLConstants.inventory, item );
-                ResultProcessor.processItem( itemId, -1 );
+		AdventureResult item = ItemPool.get( itemId, 1 );
+		for ( int slot = 0 ; slot <= EquipmentManager.ACCESSORY3 ; ++slot )
+		{
+			if ( KoLCharacter.hasEquipped( item, slot ) )
+			{
+				EquipmentManager.setEquipment( slot, EquipmentRequest.UNEQUIP );
+				AdventureResult.addResultToList( KoLConstants.inventory, item );
+				ResultProcessor.processItem( itemId, -1 );
+				return;
+			}
+		}
 	}
 
 	public static final void checkFamiliar( final int slot, AdventureResult item )
