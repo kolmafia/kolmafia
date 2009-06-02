@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.MPRestoreItemList;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -1492,6 +1493,7 @@ public class FightRequest
 			if ( id > 0 )
 			{
 				EquipmentManager.discardEquipment( id );
+				SpecialOutfit.forgetEquipment( ItemPool.get( id, 1 ) );
 				KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Your " +
 					m.group( 1 ) + " got slimed." );
 			}
