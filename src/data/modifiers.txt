@@ -680,6 +680,7 @@ jack flapper	Spell Damage: +5
 jungle drum	Spooky Damage: +10, Spooky Resistance: +2, Initiative: -20
 kneecapping stick	Critical: 3
 knob bugle	Weakens Monster
+lawn dart	Muscle Percent: +15, Weapon Damage Percent: +20, Maximum HP: +300
 lead pipe	Muscle: +6, Mysticality: +6
 # lead yo-yo
 linoleum crossbow	Moxie: +7, Spell Damage: +7
@@ -991,6 +992,7 @@ meat shield	Damage Reduction: 3, Meat Drop: +3
 # naughty fortune teller: + Some Stats Per Fight
 naughty fortune teller	Softcore Only
 off-hand balloon	Muscle: +1, Mysticality: +1, Moxie: +1
+old-school flying disc	Muscle Percent: +15, Damage Reduction: 10, Familiar Weight: +5
 # oyster basket
 oyster egg balloon	Muscle: +5, Mysticality: +5, Moxie: +5
 padded tortoise	Damage Absorption: +20, HP Regen Min: 4, HP Regen Max: 8, Damage Reduction: 6
@@ -1017,6 +1019,7 @@ sewer turtle	Stench Damage: +1, Damage Reduction: 1
 shadowy seal eye	Spooky Damage: +20, Monster Level: 15, Class: "Seal Clubber"
 # silver sausage
 six-rainbow shield	Maximum HP: +50, Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, Damage Reduction: 12
+slime-covered lantern	Slime Resistance: +2, Maximum HP: +50, Maximum MP: +50, HP Regen Min: 10, HP Regen Max: 15, MP Regen Min: 10, MP Regen Max: 15
 snake shield	Muscle: +6, Damage Reduction: 7
 snarling wolf shield	Maximum HP: +40, Damage Reduction: 7
 sock monkey	Moxie: +3

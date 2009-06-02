@@ -3369,7 +3369,7 @@
 3363	mole mol&eacute;	food	all	100
 3364	Morlock's Mark Bourbon	drink	all	100
 3365	Climate Colada	usable	all	75
-3366	digital underground potion	multiple	all	75
+3366	digital underground potion	usable	all	75
 3367	interesting-looking twig	multiple	all	3
 3368	glimmering roc feather	multiple	all	100
 3369	glimmering phoenix feather	multiple	all	100
@@ -4029,7 +4029,7 @@
 4023	slime-covered speargun	weapon	display	500
 4024	slime-covered compass	accessory	display	500
 4025	slime-covered helmet	hat	display	500
-4026
+4026	slime-covered lantern	offhand	display	500
 4027
 4028	slime-covered club	weapon	display	500
 4029
@@ -4096,7 +4096,7 @@
 4090
 4091	tiny slimy cyst	multiple	all	0
 4092	small slimy cyst	multiple	all	0
-4093
+4093	medium slimy cyst	multiple	all	0
 4094
 4095	green peawee marble	offhand, multiple	all	1
 4096	brown crock marble	offhand, multiple	all	2
@@ -4122,8 +4122,8 @@
 4116
 4117
 4118
-4119
-4120
+4119	old-school flying disc	offhand, combat	display	800
+4120	lawn dart	weapon, combat	display	800
 4121
 4122	wad of slimy rags	usable	all	0
 4123	crown-shaped beanie	hat	all	500

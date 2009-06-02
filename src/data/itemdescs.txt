@@ -4029,7 +4029,7 @@
 4023	433811450	slime-covered speargun
 4024	816841149	slime-covered compass
 4025	764929004	slime-covered helmet
-4026
+4026	920320382	slime-covered lantern
 4027
 4028	823709783	slime-covered club
 4029
@@ -4096,7 +4096,7 @@
 4090
 4091	180051286	tiny slimy cyst	tiny slimy cysts
 4092	727301894	small slimy cyst	small slimy cysts
-4093
+4093	131901538	medium slimy cyst	medium slimy cysts
 4094
 4095	483733074	green peawee marble	green peawee marbles
 4096	206158086	brown crock marble
@@ -4122,8 +4122,8 @@
 4116
 4117
 4118
-4119
-4120
+4119	940588617	old-school flying disc
+4120	147072484	lawn dart	lawn darts
 4121
 4122	330802495	wad of slimy rags	wads of slimy rags
 4123	180528779	crown-shaped beanie
