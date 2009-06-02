@@ -3994,8 +3994,8 @@
 3988	254573219	ancient turtle shell	ancient turtle shells
 3989	334366675	ancient turtle shell powder	piles of ancient turtle shell powder
 3990	666719587	ancient turtle shell helmet	ancient turtle shell helmets
-3991
-3992
+3991	515479025	slime-soaked hypophysis
+3992	523709792	slime-soaked brain
 3993	337083735	slime-soaked sweat gland	slime-soaked sweat glands
 3994	967440626	security blankie
 3995	492568679	big bundle of chamoix	big bundles of chamoix
@@ -4027,11 +4027,11 @@
 4021	662987826	slime-covered shovel
 4022	212250418	slime-covered necklace
 4023	433811450	slime-covered speargun
-4024
+4024	816841149	slime-covered compass
 4025	764929004	slime-covered helmet
 4026
 4027
-4028
+4028	823709783	slime-covered club
 4029
 4030
 4031

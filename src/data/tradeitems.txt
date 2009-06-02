@@ -3994,8 +3994,8 @@
 3988	ancient turtle shell	multiple	all	35
 3989	ancient turtle shell powder	hp	all	24
 3990	ancient turtle shell helmet	hat	all	40
-3991
-3992
+3991	slime-soaked hypophysis	usable	display	5000
+3992	slime-soaked brain	usable	display	5000
 3993	slime-soaked sweat gland	usable	display	5000
 3994	security blankie	familiar	all	75
 3995	big bundle of chamoix	usable	all	0
@@ -4027,11 +4027,11 @@
 4021	slime-covered shovel	weapon	display	500
 4022	slime-covered necklace	accessory	display	500
 4023	slime-covered speargun	weapon	display	500
-4024
+4024	slime-covered compass	accessory	display	500
 4025	slime-covered helmet	hat	display	500
 4026
 4027
-4028
+4028	slime-covered club	weapon	display	500
 4029
 4030
 4031
