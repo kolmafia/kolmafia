@@ -76,18 +76,26 @@ public class SingleUseRequest
 		int type = ItemDatabase.getConsumptionType( use );
 		int count = this.getQuantityNeeded();
 
-		if ( type == KoLConstants.CONSUME_USE || count == 1 )
+		if ( type == KoLConstants.CONSUME_USE ||
+			ItemDatabase.getAttribute( use, ItemDatabase.ATTR_USABLE ) ||
+			count == 1 )
 		{
 			this.constructURLString( "inv_use.php" );
 			this.addFormField( "which", "3" );
 			this.addFormField( "whichitem", String.valueOf( use ) );
 		}
-		else if ( type == KoLConstants.CONSUME_MULTIPLE )
+		else if ( type == KoLConstants.CONSUME_MULTIPLE ||
+			ItemDatabase.getAttribute( use, ItemDatabase.ATTR_MULTIPLE ) )
 		{
 			this.constructURLString( "multiuse.php" );
 			this.addFormField( "action", "useitem" );
 			this.addFormField( "quantity", String.valueOf( count ) );
 			this.addFormField( "whichitem", String.valueOf( use ) );
+		}
+		else
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+				"SingleUseRequest of item marked neither USABLE nor MULTIPLE" );
 		}
 	}
 
@@ -105,7 +113,8 @@ public class SingleUseRequest
 		int type = ItemDatabase.getConsumptionType( use );
 		int count = this.getQuantityNeeded();
 
-		if ( type == KoLConstants.CONSUME_USE && count > 1 )
+		if ( count > 1 && (type == KoLConstants.CONSUME_USE ||
+			ItemDatabase.getAttribute( use, ItemDatabase.ATTR_USABLE )) )
 		{
 			// We have to create one at a time.
 			for ( int i = 1; i <= count; ++i )
