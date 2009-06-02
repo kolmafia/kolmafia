@@ -1919,7 +1919,9 @@ public abstract class RuntimeLibrary
 	{
 		AdventureResult item = new AdventureResult( arg.intValue(), 0 );
 
-		int runningTotal = item.getCount( KoLConstants.inventory ) + item.getCount( KoLConstants.closet );
+		int runningTotal = item.getCount( KoLConstants.inventory ) +
+			item.getCount( KoLConstants.closet ) +
+			item.getCount( KoLConstants.freepulls );
 
 		for ( int i = 0; i <= EquipmentManager.FAMILIAR; ++i )
 		{
