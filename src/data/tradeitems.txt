@@ -4014,12 +4014,12 @@
 4008	memory of an A	none	display	10
 4009	memory of a G	none	display	10
 4010	memory of a T	none	display	10
-4011
-4012
-4013
-4014
-4015
-4016
+4011	memory of a CA base pair	none, combat	display	10
+4012	memory of a CG base pair	none, combat	display	10
+4013	memory of a CT base pair	none, combat	display	10
+4014	memory of an AG base pair	none, combat	display	10
+4015	memory of an AT base pair	none, combat	display	10
+4016	memory of a GT base pair	none, combat	display	10
 4017
 4018
 4019
