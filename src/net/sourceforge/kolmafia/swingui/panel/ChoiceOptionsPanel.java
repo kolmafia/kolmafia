@@ -343,6 +343,11 @@ public class ChoiceOptionsPanel
 
 	private void addChoiceSelect( final String zone, final String name, final JComponent option )
 	{
+		if ( zone == null )
+		{
+			return;
+		}
+
 		if ( !this.choiceMap.containsKey( zone ) )
 		{
 			this.choiceMap.put( zone, new ArrayList() );
