@@ -4014,12 +4014,12 @@
 4008	312825464	memory of an A
 4009	653030278	memory of a G
 4010	295028092	memory of a T
-4011
-4012
-4013
-4014
-4015
-4016
+4011	402553893	memory of a CA base pair
+4012	385332479	memory of a CG base pair
+4013	361475350	memory of a CT base pair
+4014	458392723	memory of an AG base pair
+4015	849598694	memory of an AT base pair
+4016	422948472	memory of a GT base pair
 4017
 4018
 4019
