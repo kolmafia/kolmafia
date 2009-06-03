@@ -1135,7 +1135,7 @@ public abstract class ChoiceManager
 		// Choice 341 is Nantucket Snapper
 		// Choice 342 is The Horror...
 		// Choice 343 is Turtles All The Way Around
-		// Choice 344 is unknown
+		// Choice 344 is Silent Strolling
 		// Choice 345 is Training Day
 	};
 
