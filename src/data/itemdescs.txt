@@ -4003,8 +4003,8 @@
 3997
 3998	760915709	metrognome	metrognomes
 3999	933342458	infant sandworm	infant sandworms
-4000
-4001
+4000	266729274	string of dingle balls
+4001	236391368	agua de vida	bottles of agua de vida
 4002	423581654	tortoboggan shield
 4003	525598834	bottle of moontan lotion	bottles of moontan lotion
 4004	578558200	soup-chucks
@@ -4133,3 +4133,4 @@
 4127	721459450	hardened slime hat
 4128	255854067	hardened slime pants
 4129	663508936	hardened slime belt
+4130	917576836	empty agua de vida bottle	empty agua de vida bottles
