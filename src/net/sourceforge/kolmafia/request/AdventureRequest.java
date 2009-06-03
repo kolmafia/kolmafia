@@ -304,10 +304,21 @@ public class AdventureRequest
 			return;
 		}
 
+                // "You can't take it any more. The confusion, the nostalgia,
+                // the inconsistent grammar. You break the bottle on the
+                // ground, and stomp it to powder."
+
+		if ( this.responseText.indexOf( "stomp it into powder" ) != -1 )
+		{
+			ResultProcessor.processItem( ItemPool.EMPTY_AGUA_DE_VIDA_BOTTLE, -1 );
+			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "You are no longer gazing into the bottle." );
+			return;
+		}
+
+                // "You're in the regular dimension now, and don't remember how
+                // to get back there."
 		if ( this.responseText.indexOf( "in the regular dimension now" ) != -1 )
 		{
-			// "You're in the regular dimension now, and don't
-			// remember how to get back there."
 			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "You are no longer Half-Astral." );
 			return;
 		}

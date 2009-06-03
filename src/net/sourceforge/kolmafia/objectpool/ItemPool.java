@@ -870,6 +870,7 @@ public class ItemPool
 	public static final int BEACH_BALL_MARBLE = 4103;
 	public static final int BLACK_CATSEYE_MARBLE = 4104;
 	public static final int BIG_BUMBOOZER_MARBLE = 4105;
+	public static final int EMPTY_AGUA_DE_VIDA_BOTTLE = 4130;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

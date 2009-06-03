@@ -52,6 +52,7 @@ Item-Driven	Item-Driven	Item-Driven Zones
 Astral	Item-Driven	Astral Plane
 Portal	Item-Driven	El Vibrato Island
 Wormwood	Item-Driven	Worm Wood
+Memories	Item-Driven	Memories
 
 Unsorted	Unsorted	No Category
 Sorceress	Unsorted	Sorceress Lair
