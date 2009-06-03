@@ -4004,16 +4004,16 @@
 3998	metrognome	familiar	all	75
 3999	infant sandworm	grow	all	0
 4000	string of dingle balls	familiar	all	75
-4001	agua de vida	usable	all	50
+4001	agua de vida	multiple	all	50
 4002	tortoboggan shield	offhand	all	110
 4003	bottle of moontan lotion	familiar	all	75
 4004	soup-chucks	weapon	all	21
 4005	ballast turtle	multiple	display	75
-4006
-4007
-4008
-4009
-4010
+4006	memory of some delicious amino acids	usable	display	10
+4007	memory of a C	none	display	10
+4008	memory of an A	none	display	10
+4009	memory of a G	none	display	10
+4010	memory of a T	none	display	10
 4011
 4012
 4013
@@ -4037,7 +4037,7 @@
 4031
 4032
 4033
-4034
+4034	memory of an iron key	none	none	0
 4035
 4036
 4037	slimy sweetbreads	food	all	200
@@ -4055,14 +4055,14 @@
 4049
 4050
 4051	ring of teleportation	accessory	all	90
-4052
+4052	glass of baboon milk	food	all	32
 4053
 4054
-4055
-4056
-4057
-4058
-4059
+4055	goblin hunting spear	weapon	all	74
+4056	goblin autoblowgun	weapon	all	86
+4057	shiny tribal beads	accessory	all	123
+4058	ancient stone fist	weapon	all	54
+4059	ancient stone head	offhand	all	93
 4060
 4061
 4062
@@ -4133,4 +4133,4 @@
 4127	hardened slime hat	hat	display	5000
 4128	hardened slime pants	pants	display	5000
 4129	hardened slime belt	accessory	display	5000
-4130	empty agua de vida bottle	usable	display	0
+4130	empty agua de vida bottle	none	display	0

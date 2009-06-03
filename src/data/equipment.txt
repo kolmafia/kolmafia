@@ -448,6 +448,7 @@ Zim Merman's guitar	200	Mox: 85	2-handed guitar
 Zombo's shoulder blade	200	Mus: 200	2-handed sword
 a butt tuba	145	Mox: 57	2-handed horn
 acoustic guitarrr	140	Mox: 55	2-handed guitar
+ancient stone fist	85	Mus: 27	1-handed club
 antique spear	200	Mus: 85	1-handed polearm
 armgun	140	Mox: 55	2-handed machine gun
 arse-shooting crossbow	160	Mox: 65	2-handed crossbow
@@ -586,6 +587,8 @@ glistening staff	60	Mus: 15	2-handed staff
 glow-in-the-dark dart gun	50	Mox: 0	1-handed pistol
 gnauga hide whip	20	Mus: 0	1-handed whip
 goatskin umbrella	180	Mus: 75	1-handed umbrella
+goblin autoblowgun	80	Mox: 25	2-handed blowgun
+goblin hunting spear	80	Mus: 25	2-handed spear
 goulauncher	100	Mox: 35	2-handed crossbow
 grass blade	80	Mus: 25	1-handed sword
 grass whistle	90	Mox: 35	1-handed whistle
@@ -815,6 +818,8 @@ Wand of Oscus	0	Mys: 200
 Zombo's shield	0	Mus: 200	shield
 anniversary balloon	0	none
 anniversary chutney sculpture	0	none
+# *** ancient stone head is a shield of unknown power.
+ancient stone head	0	Mus: 27	shield
 antique shield	230	Mus: 85	shield
 arrow'd heart balloon	0	none
 bag of Crotchety Pine saplings	0	none
@@ -1290,6 +1295,7 @@ severed rocking horse head	0	Mys: 10
 shark tooth necklace	0	Mys: 85
 shiny hood ornament	0	Mys: 80
 shiny ring	0	Mys: 10
+shiny tribal beads	0	Mys: 25
 silver tongue charrrm bracelet	0	Mys: 80
 sk8board	0	Mys: 20
 slime-covered compass	0	Mys: 200

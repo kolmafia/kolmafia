@@ -1137,6 +1137,26 @@ public abstract class ChoiceManager
 		// Choice 343 is Turtles All The Way Around
 		// Choice 344 is Silent Strolling
 		// Choice 345 is Training Day
+		// Choice 346 is Soup For You
+		// Choice 347 is Yes, Soup For You
+		// Choice 348 is Souped Up
+
+		// Choice 349 is The Primordial Directive
+
+		// Choice 360 is Cavern Entrance
+
+		// Choice 366 is Entrance to the Forgotten City
+		// Choice 368 is City Center
+		// Choice 369 is North Side of the City
+		// Choice 370 is East Side of the City
+		// Choice 371 is West Side of the City
+		// Choice 372 is An Ancient Well
+		// Choice 373 is Northern Gate
+		// Choice 374 is An Ancient Tower
+		// Choice 375 is Northern Abandoned Building
+		// Choice 377 is Southern Abandoned Building
+		// Choice 378 is Storehouse
+		// Choice 379 is Northern Building (Basement)
 	};
 
 	static

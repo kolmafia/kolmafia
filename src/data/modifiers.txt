@@ -505,6 +505,7 @@ Zim Merman's guitar	Ranged Damage: +20
 Zombo's shoulder blade	Muscle Percent: +30, Weapon Damage Percent: +30
 a butt tuba	Sleaze Damage: +15
 acoustic guitarrr	Meat Drop: +8
+ancient stone fist	Damage Reduction: 2, Maximum HP: +20
 antique spear	Initiative: -30, Weakens Monster
 armgun	Weapon Damage: +10, Critical: 2
 arse-shooting crossbow	Muscle: +15, Mysticality: +15, Moxie: +15
@@ -648,6 +649,10 @@ glistening staff	Mysticality: +2, Sleaze Damage: +3
 glow-in-the-dark dart gun	Moxie: [9-M], Ranged Damage: [2*(9-M)]
 gnauga hide whip	Item Drop: +3
 goatskin umbrella	Stench Damage: +15
+# goblin autoblowgun: 50% chance of poisoning opponent.
+goblin autoblowgun	Ranged Damage: +5
+# goblin hunting spear: +15 Damage vs. Jungle Beasts
+goblin hunting spear	Weapon Damage: +5
 goulauncher	Moxie: +4, Spooky Damage: +5
 grass blade	Weapon Damage: +5
 grass whistle	Moxie: +6, MP Regen Min: 4, MP Regen Max: 6
@@ -893,6 +898,8 @@ Tuesday's ruby	none
 Wand of Oscus	Spell Damage Percent: +100, Stench Spell Damage: +30, Class: "Pastamancer"
 Zombo's shield	Damage Absorption: +50, Spooky Damage: +30, Muscle Percent: +20, Class: "Turtle Tamer", Damage Reduction: 15
 # anniversary balloon
+# ancient stone head: 75% Chance of Preventing Negative Status Attacks
+ancient stone head	Damage Reduction: 5
 anniversary chutney sculpture	Muscle: +1, Mysticality: +1, Moxie: +1
 antique shield	Initiative: -10, Damage Reduction: 15
 # arrow'd heart balloon
@@ -1397,6 +1404,7 @@ severed rocking horse head	Muscle: +3, Mysticality: +3, Moxie: +3
 shark tooth necklace	Moxie Percent: +5, Initiative: +35, Single Equip
 shiny hood ornament	Muscle: +5, Mysticality: +5, Moxie: +5, Maximum HP: +30, Maximum MP: +30, Initiative: +10
 shiny ring	Muscle: +3, Mysticality: +3, Moxie: +3
+shiny tribal beads	Mysticality: +6
 silver tongue charrrm bracelet	Moxie: +5, Spell Damage: +10, Single Equip
 sk8board	Initiative: +15
 slime-covered compass	Slime Resistance: +2, Initiative: +40

@@ -737,6 +737,19 @@ Spelunking Astronaut	HP: 0
 Velvet Underground Dweller	HP: 0
 Weather Underground Dweller	HP: 0
 
+# The Jungles of Ancient Loathing
+Ancient Guardian Statue	HP: 0
+Giant Spider	HP: 0
+Jungle Baboon	HP: 0
+Tribal Goblin	HP: 0
+
+# The Primordial Soup
+Cluster of Angry Bacteria	HP: 0
+Corrosive Algae	HP: 0
+Hostile Amoeba	HP: 0
+Mad Flagellate	HP: 0
+Violent Fungus	HP: 0
+
 # Feast of Boris
 Candied Yam Golem	HP: 0
 Malevolent Tofurkey	HP: 0

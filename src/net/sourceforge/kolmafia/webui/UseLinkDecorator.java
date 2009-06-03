@@ -844,6 +844,12 @@ public abstract class UseLinkDecorator
 			useLocation = "bigisland.php?place=orchard&action=stand";
 			break;
 
+		case ItemPool.EMPTY_AGUA_DE_VIDA_BOTTLE:
+
+			useType = "gaze";
+			useLocation = "memories.php";
+			break;
+
 		default:
 
 			// Bounty items get a count and a link to the Bounty

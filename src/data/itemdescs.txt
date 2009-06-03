@@ -4009,11 +4009,11 @@
 4003	525598834	bottle of moontan lotion	bottles of moontan lotion
 4004	578558200	soup-chucks
 4005	682425424	ballast turtle	ballast turtles
-4006
-4007
-4008
-4009
-4010
+4006	609890806	memory of some delicious amino acids
+4007	330636128	memory of a C
+4008	312825464	memory of an A
+4009	653030278	memory of a G
+4010	295028092	memory of a T
 4011
 4012
 4013
@@ -4037,7 +4037,7 @@
 4031
 4032
 4033
-4034
+4034	628400331	memory of an iron key
 4035
 4036
 4037	320343694	slimy sweetbreads	clusters of slimy sweetbreads
@@ -4055,14 +4055,14 @@
 4049
 4050
 4051	768452883	ring of teleportation
-4052
+4052	575582192	glass of baboon milk
 4053
 4054
-4055
-4056
-4057
-4058
-4059
+4055	379892841	goblin hunting spear
+4056	735325131	goblin autoblowgun
+4057	987751970	shiny tribal beads
+4058	158275016	ancient stone fist
+4059	516274004	ancient stone head
 4060
 4061
 4062
