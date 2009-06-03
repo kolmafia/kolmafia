@@ -889,6 +889,12 @@ public class GenericRequest
 			return;
 		}
 
+		if ( this.responseText == null || this.responseText.length() == 0 )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Server returned empty response from " + this.getBasePath() );
+			return;
+		}
+
 		// Call central dispatch method for locations that require
 		// special handling
 
