@@ -169,6 +169,7 @@ The Marinara Trench	95	Diving Belle	Fisherfish	Giant Squid	Mer-kin Diver
 The Mer-Kin Outpost	100	Mer-kin Burglar	Mer-kin Healer	Mer-kin Raider
 The Middle Chamber	100	Iiti Kitty	Tomb Bat	Tomb Servant
 The Purple Light District	-1	Sleaze Hobo	Chester: 0
+The Slime Tube	-1	Slime1	Slime2	Slime3	Slime4	Slime5	Mother Slime: 0
 The Upper Chamber	100	Tomb Asp	Tomb Rat	Tomb Servant
 The Wreck of the Edgar Fitzsimmons	100	Cargo Crab	Drowned Sailor	Mer-kin Scavenger	Mine Crab	Unholy Diver
 Themthar Hills	100	Dirty Thieving Brigand

@@ -1662,12 +1662,20 @@ public abstract class KoLCharacter
 			return (int) KoLCharacter.currentModifiers.get( Modifiers.SPOOKY_RESISTANCE );
 		case MonsterDatabase.STENCH:
 			return (int) KoLCharacter.currentModifiers.get( Modifiers.STENCH_RESISTANCE );
+		case MonsterDatabase.SLIME:
+			return (int) KoLCharacter.currentModifiers.get( Modifiers.SLIME_RESISTANCE );
 		default:
 			return 0;
 		}
 	}
 
+
 	public static final float elementalResistanceByLevel( final int levels )
+	{
+		return KoLCharacter.elementalResistanceByLevel( levels, true );
+	}
+
+	public static final float elementalResistanceByLevel( final int levels, final boolean mystBonus )
 	{
 		// salien has a formula which matches my data very nicely:
 		// http://jick-nerfed.us/forums/viewtopic.php?t=4526
@@ -1684,7 +1692,7 @@ public abstract class KoLCharacter
 			value = levels * 10.0;
 		}
 
-		if ( KoLCharacter.isMysticalityClass() )
+		if ( mystBonus && KoLCharacter.isMysticalityClass() )
 		{
 			value += 5.0;
 		}
@@ -1705,7 +1713,7 @@ public abstract class KoLCharacter
 			return 0.0f;
 		}
 		int levels = KoLCharacter.getElementalResistanceLevels( element );
-		return KoLCharacter.elementalResistanceByLevel( levels );
+		return KoLCharacter.elementalResistanceByLevel( levels, element != MonsterDatabase.SLIME );
 	}
 
 	/**

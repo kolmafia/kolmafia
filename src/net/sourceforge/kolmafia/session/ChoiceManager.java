@@ -1101,7 +1101,11 @@ public abstract class ChoiceManager
 		// Choice 323 is unknown
 		// Choice 324 is unknown
 		// Choice 325 is unknown
-		// Choice 326 is unknown
+		
+		// Showdown
+		new ChoiceAdventure(
+			"The Slime Tube", "choiceAdventure326", "The Slime Tube",
+			new String[] { "enter combat with Mother Slime", "skip adventure" } ),
 
 		// Choice 327 is Puttin' it on Wax
 		// Choice 328 is Never Break the Chain
@@ -1119,7 +1123,12 @@ public abstract class ChoiceManager
 		// Choice 334 is O Turtle Were Art Thou
 		// Choice 335 is Blue Monday
 		// Choice 336 is Jewel in the Rough
-		// Choice 337 is unknown
+
+		// Engulfed!
+		new ChoiceAdventure(
+			"The Slime Tube", "choiceAdventure337", "The Slime Tube",
+			new String[] { "+1 rusty -> slime-covered item conversion", "raise area ML", "skip adventure" } ),
+
 		// Choice 338 is Duel Nature
 		// Choice 339 is Kick the Can
 		// Choice 340 is Turtle in peril
@@ -2283,7 +2292,7 @@ public abstract class ChoiceManager
 			// Abort for Hobopolis bosses
 			if ( ChoiceManager.lastDecision == 2 && KoLmafia.isAdventuring() )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, ChoiceManager.hobopolisBossName( ChoiceManager.lastChoice) + " waits for you." );
+				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, ChoiceManager.hobopolisBossName( ChoiceManager.lastChoice ) + " waits for you." );
 				RequestThread.enableDisplayIfSequenceComplete();
 			}
 			break;
@@ -2379,6 +2388,17 @@ public abstract class ChoiceManager
 			}
 
 			Preferences.increment( "seaodesFound", 1 );
+			break;
+
+		case 326:
+			// Showdown
+
+			if ( ChoiceManager.lastDecision == 2 && KoLmafia.isAdventuring() )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE,
+					"Mother Slime waits for you." );
+				RequestThread.enableDisplayIfSequenceComplete();
+			}
 			break;
 		}
 

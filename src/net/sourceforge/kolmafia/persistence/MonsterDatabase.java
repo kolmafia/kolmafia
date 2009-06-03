@@ -66,8 +66,9 @@ public class MonsterDatabase
 	public static final int SLEAZE = 3;
 	public static final int SPOOKY = 4;
 	public static final int STENCH = 5;
+	public static final int SLIME = 6;
 
-	public static final String[] elementNames = { "none", "cold", "hot", "sleaze", "spooky", "stench" };
+	public static final String[] elementNames = { "none", "cold", "hot", "sleaze", "spooky", "stench", "slime" };
 
 	public static final int elementNumber( final String name )
 	{
@@ -396,6 +397,10 @@ public class MonsterDatabase
 		if ( s.equals( "sleaze" ) )
 		{
 			return MonsterDatabase.SLEAZE;
+		}
+		if ( s.equals( "slime" ) )
+		{
+			return MonsterDatabase.SLIME;
 		}
 		return MonsterDatabase.NONE;
 	}

@@ -69,6 +69,8 @@ public class AdventureRequest
 	private static final Pattern MONSTER_NAME = Pattern.compile( "<span id='monname'(>| title=\")([^<\"]*?)(</span>|\">)", Pattern.DOTALL );
 	private static final Pattern HAIKU_MONSTER_NAME = Pattern.compile(
 		"<b>.*?<b>([^<]+)<", Pattern.DOTALL );
+	private static final Pattern SLIME_MONSTER_IMG = Pattern.compile(
+		"slime(\\d)_\\d\\.gif" );
 
 	private static final GenericRequest ZONE_UNLOCK = new GenericRequest( "" );
 
@@ -493,7 +495,7 @@ public class AdventureRequest
 		{
 			if ( type.equals( "Combat" ) )
 			{
-				encounter = AdventureRequest.translateHoboType( encounter );
+				encounter = AdventureRequest.translateGenericType( encounter, responseText );
 			}
 			StaticEntity.getClient().registerEncounter( encounter, type, responseText );
 		}
@@ -538,7 +540,7 @@ public class AdventureRequest
 		return name;
 	}
 
-	private static final String translateHoboType( final String encounter )
+	private static final String translateGenericType( final String encounter, final String responseText )
 	{
 		String override = null;
 		switch ( KoLAdventure.lastAdventureId() )
@@ -566,6 +568,19 @@ public class AdventureRequest
 		case 172:
 			// The Purple Light District
 			override = "Sleaze Hobo";
+			break;
+			
+		case 203:
+			// The Slime Tube
+			Matcher m = AdventureRequest.SLIME_MONSTER_IMG.matcher( responseText );
+			if ( m.find() )
+			{
+				override = "Slime" + m.group( 1 );
+			}
+			else
+			{
+				override = "Slime Monster";	// unable to identify exact type
+			}
 			break;
 		}
 		

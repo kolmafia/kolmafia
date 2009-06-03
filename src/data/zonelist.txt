@@ -4,6 +4,7 @@ Casino	Town	Seaside Casino
 Dungeon	Town	Seaside Dungeon
 
 Hobopolis	Hobopolis	Hobopolis
+The Slime Tube	The Slime Tube	The Slime Tube
 
 The Sea	The Sea	The Sea
 
