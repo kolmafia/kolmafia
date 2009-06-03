@@ -246,7 +246,7 @@ public class StationaryButtonDecorator
 			}
 		}
 
-		buffer.append( "'; void(0);\" value=\"" );
+		buffer.append( "';void(0);\" value=\"" );
 		buffer.append( name );
 
 		buffer.append( "\"" );
@@ -256,14 +256,12 @@ public class StationaryButtonDecorator
 			buffer.append( " id=\"defaultButton\"" );
 		}
 
-		if ( isEnabled )
+		if ( !isEnabled )
 		{
-			buffer.append( ">&nbsp;" );
+			buffer.append( " disabled" );
 		}
-		else
-		{
-			buffer.append( " disabled>&nbsp;" );
-		}
+
+		buffer.append( ">&nbsp;" );
 	}
 
 	private static final String getAdventureAgainLocation( StringBuffer response )
