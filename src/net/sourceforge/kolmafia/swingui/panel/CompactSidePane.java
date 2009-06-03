@@ -78,6 +78,7 @@ public class CompactSidePane
 	private JLabel modPopLabel;
 	
 	private static final AdventureResult CLUMSY = new AdventureResult( "Clumsy", 1, true );
+	private static final AdventureResult SLIMED = new AdventureResult( "Coated in Slime", 1, true );
 
 	public CompactSidePane()
 	{
@@ -358,6 +359,7 @@ public class CompactSidePane
 		this.addElement( buf, "Stench", Modifiers.STENCH_DAMAGE );
 		this.addElement( buf, "Spooky", Modifiers.SPOOKY_DAMAGE );
 		this.addElement( buf, "Sleaze", Modifiers.SLEAZE_DAMAGE );
+		this.addSlime( buf );
 		buf.append( "<tr><td>Weapon</td><td>" );
 		buf.append( KoLConstants.MODIFIER_FORMAT.format(
 			KoLCharacter.currentNumericModifier( Modifiers.WEAPON_DAMAGE ) ) );
@@ -562,6 +564,29 @@ public class CompactSidePane
 		buf.append( " (" );
 		buf.append( KoLConstants.ROUNDED_MODIFIER_FORMAT.format(
 			KoLCharacter.elementalResistanceByLevel( resist ) ) );
+		buf.append( "%)</td></tr>" );
+	}
+
+	private void addSlime( StringBuffer buf )
+	{
+		int resist = (int) KoLCharacter.currentNumericModifier(
+			Modifiers.SLIME_RESISTANCE );
+		float percent = KoLCharacter.elementalResistanceByLevel( resist, false );
+		int turns = CompactSidePane.SLIMED.getCount( KoLConstants.activeEffects );
+		if ( resist == 0 && turns == 0 )
+		{
+			return;	// skip this row entirely, it's all zeros
+		}
+		buf.append( "<tr><td>Slime</td><td colspan=2>" );
+		if ( turns > 0 )
+		{
+			buf.append( "Expected dmg " );
+			buf.append( KoLConstants.COMMA_FORMAT.format( Math.ceil( Math.pow( Math.max( 0, 11 - turns ), 2.727 ) * ( 100.0 - percent ) * KoLCharacter.getMaximumHP() / 10000.0 ) ) );
+		}
+		buf.append( "</td><td>" );
+		buf.append( KoLConstants.MODIFIER_FORMAT.format( resist ) );
+		buf.append( " (" );
+		buf.append( KoLConstants.ROUNDED_MODIFIER_FORMAT.format( percent ) );
 		buf.append( "%)</td></tr>" );
 	}
 }

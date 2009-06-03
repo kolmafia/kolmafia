@@ -640,6 +640,7 @@ user	choiceAdventure319	1
 user	choiceAdventure320	1
 user	choiceAdventure321	1
 user	choiceAdventure322	1
+user	choiceAdventure326	0
 user	choiceAdventure327	1
 user	choiceAdventure328	1
 user	choiceAdventure329	1
@@ -650,6 +651,7 @@ user	choiceAdventure333	1
 user	choiceAdventure334	1
 user	choiceAdventure335	1
 user	choiceAdventure336	1
+user	choiceAdventure337	0
 user	choiceAdventure338	1
 user	choiceAdventure339	1
 user	choiceAdventure340	1

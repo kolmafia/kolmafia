@@ -33,6 +33,7 @@ Hobopolis	adventure=169	true	Exposure Esplanade	+1 bowl of fishysoisse
 Hobopolis	adventure=170	true	The Heap	+1 concentrated garbage juice
 Hobopolis	adventure=171	true	The Ancient Hobo Burial Ground	+1 deadly lampshade
 Hobopolis	adventure=172	true	The Purple Light District	+1 lewd playing card
+The Slime Tube	adventure=203	true	The Slime Tube
 The Sea	adventure=186	true	The Briny Deeps	14 any fish meat
 The Sea	adventure=187	true	The Brinier Deepers
 The Sea	adventure=189	true	The Briniest Deepests

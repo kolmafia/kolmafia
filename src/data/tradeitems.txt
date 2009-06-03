@@ -4002,7 +4002,7 @@
 3996	boxcar turtle	usable	display	100
 3997
 3998	metrognome	familiar	all	75
-3999
+3999	infant sandworm	grow	all	0
 4000
 4001
 4002	tortoboggan shield	offhand	all	110

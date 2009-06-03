@@ -588,6 +588,10 @@ public class AreaCombatData
 		{
 			return "#8a2be2";
 		}
+		if ( element == MonsterDatabase.SLIME )
+		{
+			return "#006400";
+		}
 
 		return "#000000";
 	}
