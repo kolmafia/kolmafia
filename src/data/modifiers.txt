@@ -1681,6 +1681,7 @@ six-armed sweater	Familiar Weight: +5
 skewer-mounted razor blade	Familiar Weight: +5
 smile-sharpening stone	Familiar Weight: +5
 spoon!	Familiar Weight: +5
+string of dingle balls	Familiar Weight: +5
 sucky decal	Familiar Weight: +5
 # targeting chip: More likely to use more powerful attacks
 tasteful black bow tie	Familiar Weight: +5

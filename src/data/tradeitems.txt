@@ -4003,8 +4003,8 @@
 3997
 3998	metrognome	familiar	all	75
 3999	infant sandworm	grow	all	0
-4000
-4001
+4000	string of dingle balls	familiar	all	75
+4001	agua de vida	usable	all	50
 4002	tortoboggan shield	offhand	all	110
 4003	bottle of moontan lotion	familiar	all	75
 4004	soup-chucks	weapon	all	21
@@ -4133,3 +4133,4 @@
 4127	hardened slime hat	hat	display	5000
 4128	hardened slime pants	pants	display	5000
 4129	hardened slime belt	accessory	display	5000
+4130	empty agua de vida bottle	usable	display	0
