@@ -3234,7 +3234,7 @@
 3228	815060531	unfortunate dumplings	bowls of unfortunate dumplings
 3229	194632954	decaying goldfish liver	decaying goldfish livers
 3230	133463686	oil of oiliness	flasks of oil of oiliness
-3231	380893218	tattered paper crown	decaying goldfish livers
+3231	380893218	tattered paper crown	tattered paper crowns
 3232	787163245	vanilla-frosted king cake	vanilla-frosted king cakes
 3233	199932706	inflatable duck	inflatable ducks
 3234	190515908	water wings	water wingss
