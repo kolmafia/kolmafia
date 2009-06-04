@@ -98,8 +98,8 @@ memory of a CA base pair	COMBINE	memory of a C	memory of an A
 memory of a CG base pair	COMBINE	memory of a C	memory of a G
 memory of a CT base pair	COMBINE	memory of a C	memory of a T
 memory of an AG base pair	COMBINE	memory of an A	memory of a G
-memory of an AT base pair	COMBINE	memory of an A	memory of an T
-memory of a GT base pair	COMBINE	memory of a G	memory of an T
+memory of an AT base pair	COMBINE	memory of an A	memory of a T
+memory of a GT base pair	COMBINE	memory of a G	memory of a T
 
 
 # Clover weapons and their subcomponents.  These can be made by all

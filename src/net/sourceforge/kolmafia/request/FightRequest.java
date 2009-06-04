@@ -1522,6 +1522,11 @@ public class FightRequest
 			Preferences.increment( "_astralDrops", 1 );
 		}
 
+		if ( responseText.indexOf( "belches some murky fluid back into the bottle" ) != -1 )
+		{
+			Preferences.increment( "_aguaDrops", 1 );
+		}
+
 		FightRequest.updateMonsterHealth( responseText );
 
 		int blindIndex = responseText.indexOf( "... something.</div>" );

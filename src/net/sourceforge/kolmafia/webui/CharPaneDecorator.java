@@ -139,6 +139,8 @@ public class CharPaneDecorator
 		FamiliarData fam = KoLCharacter.getFamiliar();
 		switch ( fam != null ? fam.getId() : -1 )
 		{
+		case FamiliarPool.SANDWORM:
+			return Preferences.getInteger( "_aguaDrops" ) + "/5";
 		case FamiliarPool.LLAMA:
 			return Preferences.getInteger( "_gongDrops" ) + "/5";
 		case FamiliarPool.PIXIE:

@@ -442,6 +442,7 @@ user	violetFogLayout
 user	warProgress	unstarted
 user	welcomeBackAdv	0
 user	_absintheDrops	0
+user	_aguaDrops	0
 user	_astralDrops	0
 user	_banderRunaways	0
 user	_gongDrops	0
