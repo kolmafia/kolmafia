@@ -49,6 +49,8 @@
 48	Arrrbor Day Aparrrrrel	willowy bonnet, crotchety pants, Saccharine Maple pendant
 49	Mutant Couture	parasitic claw, parasitic tentacles, parasitic headgnawer, parasitic strangleworm
 50	Dwarvish War Uniform	dwarvish war helmet, dwarvish war mattock, dwarvish war kilt
+51	Wumpus-Hair Wardrobe	wumpus-hair wig, wumpus-hair whip
+52	Pork Elf Prizes	pig-iron helm, pig-iron shinguards, pig-iron bracers
 54	Slimesuit	hardened slime hat, hardened slime pants, hardened slime belt
 
 # Outfits for which KoL does not provide an outfit id, and thus are

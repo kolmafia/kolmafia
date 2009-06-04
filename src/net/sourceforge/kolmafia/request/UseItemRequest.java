@@ -2116,6 +2116,16 @@ public class UseItemRequest
 		case ItemPool.CATALYST:
 		case ItemPool.JAMFISH_JAM:
 		case ItemPool.TURTLE_WAX:
+		case ItemPool.GREEN_PEAWEE_MARBLE:
+		case ItemPool.BROWN_CROCK_MARBLE:
+		case ItemPool.RED_CHINA_MARBLE:
+		case ItemPool.LEMONADE_MARBLE:
+		case ItemPool.BUMBLEBEE_MARBLE:
+		case ItemPool.JET_BENNIE_MARBLE:
+		case ItemPool.BEIGE_CLAMBROTH_MARBLE:
+		case ItemPool.STEELY_MARBLE:
+		case ItemPool.BEACH_BALL_MARBLE:
+		case ItemPool.BLACK_CATSEYE_MARBLE:
 			// SingleUseRequest
 		case ItemPool.PALM_FROND:
 		case ItemPool.MUMMY_WRAP:
@@ -2128,16 +2138,7 @@ public class UseItemRequest
 		case ItemPool.LEWD_CARD:
 		case ItemPool.BOXTOP:
 		case ItemPool.TURTLEMAIL_BITS:
-		case ItemPool.GREEN_PEAWEE_MARBLE:
-		case ItemPool.BROWN_CROCK_MARBLE:
-		case ItemPool.RED_CHINA_MARBLE:
-		case ItemPool.LEMONADE_MARBLE:
-		case ItemPool.BUMBLEBEE_MARBLE:
-		case ItemPool.JET_BENNIE_MARBLE:
-		case ItemPool.BEIGE_CLAMBROTH_MARBLE:
-		case ItemPool.STEELY_MARBLE:
-		case ItemPool.BEACH_BALL_MARBLE:
-		case ItemPool.BLACK_CATSEYE_MARBLE:
+		case ItemPool.WUMPUS_HAIR:
 			// MultiUseRequest
 
 			// These all create things via "use" or "multiuse" of a

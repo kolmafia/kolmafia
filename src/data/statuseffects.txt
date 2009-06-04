@@ -633,12 +633,20 @@
 632	Lubed	sebashield.gif	084149535b6e6a9bc44030f94fe49f8f	use 1 seal lube
 633	Coated in Slime	slimecovered.gif	15f23d1ef123679d49e02d67b43e5e81
 634	Oxygenated Blood	oxyblood.gif	7847689754dd113e2c566c7a786a66e5
-635
-636
-637
-638
-639
-640
+635	Memory of Strength	mem_str.gif	3ccea0fe19108dcb6cdb1d00f2737889
+636	Memory of Smarts	mem_mag.gif	87283d37db5eb8df54d3300b90e2f720
+637	Memory of Attractiveness	mem_mox.gif	30e1b787bf2be595b322a1ea31b4dd34
+638	Memory of Speed	mem_spd.gif	810541ab9f739508014e82cbed33b36c
+639	Memory of Aggressiveness	mem_agg.gif	f31645a713dd22c332a9ba90da9d60f1
+640	Memory of Resilience	mem_res.gif	226bdb08cd448b56097b87754a4c543d
 641	Grimace	hernia.gif	e4f1112898cf840ef868a6833fde9f69	eat 1 slimy sweetbreads
 642	Bilious	angry.gif	abe97593a0f3b79395f10a45d782d6fd	drink 1 slimy fermented bile bladder
 643	Slimebreath	breath.gif	02cbec5ae667b2b427d86363b7b7cc63	use 1 slimy alveolus
+644
+645	Phairly Pheromonal	stench.gif	6e0ad7f808c7e80f85b1920c7e94b3e2
+646
+647
+648	Meatwise	meat.gif	1d35d527ffeb6a8be406cd7878efed00
+649
+650	Stimulated Brain	realbrain.gif	1c0167101ac3939ac0bca1d271f07262	use 1 neurostim pill
+651	Stimulated Body	swarmer.gif	b9c435f279d09dbe1719bd935cf85020	use 1 physiostim pill

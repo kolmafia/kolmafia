@@ -138,6 +138,7 @@ panhandle panhandling hat	150	Mus: 175
 parasitic headgnawer	30	none
 party hat	30	none
 pentacorn hat	40	Mox: 5
+pig-iron helm	90	Mox: 30
 pimpin' meat hat	55	Mox: 12
 pixel hat	50	Mox: 10
 plexiglass pith helmet	180	Mox: 75
@@ -178,6 +179,7 @@ wooden salad bowl	120	Mox: 45
 wool hat	175	Mox: 72
 worn tophat	125	Mox: 47
 wreath of laurels	200	Mox: 85
+wumpus-hair wig	100	Mox: 35
 yak toupee	100	Mox: 35
 yellow plastic hard hat	90	Mox: 30
 yellow traffic cone	60	Mox: 15
@@ -276,6 +278,7 @@ parasitic tentacles	30	none
 penguin shorts	120	Mox: 45
 penguinskin mini-kilt	120	Mox: 45
 penguinskin mini-skirt	120	Mox: 45
+pig-iron shinguards	90	Mox: 30
 pink pinkslip slip	200	Mox: 85
 pixel pants	50	Mox: 10
 plexiglass pants	180	Mox: 75
@@ -423,6 +426,7 @@ Pasta of Peril	50	Mys: 10	1-handed utensil
 Periodical Paintbrush	100	Mus: 0	1-handed artsything
 Radio Free Foil	150	Mus: 60	2-handed sword
 Rock and Roll Legend	50	Mox: 10	2-handed accordion
+Ruby Rod	120	Mus: 40	1-handed rod
 Shagadelic Disco Banjo	90	Mox: 15	2-handed banjo
 Spirit Precipice	135	Mus: 45	2-handed sword
 Spooky Putty ball	100	Mox: 0	1-handed superball
@@ -445,6 +449,7 @@ Totally Gay Claymore	69	Mus: 19	2-handed sword
 Tropical Crimbo Sword	100	Mus: 35	1-handed sword
 Unionize The Elves sign	50	Mus: 10	1-handed club
 Wand of Nagamar	30	Mus: 0	1-handed wand
+X-37 gun	160	Mox: 65	1-handed pistol
 Zim Merman's guitar	200	Mox: 85	2-handed guitar
 Zombo's shoulder blade	200	Mus: 200	2-handed sword
 a butt tuba	145	Mox: 57	2-handed horn
@@ -527,6 +532,7 @@ crowbarrr	80	Mus: 25	2-handed staff
 curdflinger	45	Mox: 7	1-handed crossbow
 curmudgel	125	Mus: 47	1-handed club
 cursed cutlass	200	Mus: 85	1-handed sword
+cyber-mattock	160	Mus: 65	2-handed axe
 decaying wooden oar	200	Mus: 85	2-handed club
 demon whip	10	Mus: 0	1-handed whip
 denim axe	170	Mus: 70	2-handed axe
@@ -762,6 +768,7 @@ wooden axe	60	Mus: 15	2-handed axe
 wooden stakes	25	Mus: 0	2-handed spear
 world's smallest violin	150	Mox: 60	1-handed violin
 worm-riding hooks	50	Mus: 0	2-handed club
+wumpus-hair whip	15	none	1-handed whip
 yak whip	20	Mus: 0	1-handed whip
 yohohoyo	160	Mox: 65	1-handed yoyo
 
@@ -1134,6 +1141,7 @@ beer goggles	0	none
 bejeweled accordion strap	0	Mox: 5
 bejeweled cufflinks	0	Mys: 45
 bejeweled pledge pin	0	Mys: 70
+bewitching boots	0	Mys: 65
 bezoar ring	0	Mys: 35
 big red clown nose	0	Mys: 10
 black belt	0	Mys: 60
@@ -1238,6 +1246,7 @@ lucky rabbit's foot	0	Mys: 15
 makeshift SCUBA gear	0	none
 makeshift cape	0	Mys: 35
 mayfly bait necklace	0	none
+memory of a cultist's robe	0	none
 monster bait	0	none
 mood ring	0	none
 natty blue ascot	0	Mys: 10
@@ -1248,6 +1257,7 @@ pat-a-cake pendant	0	none
 patent leather shoes	0	none
 peace-sign necklace	0	Mys: 20
 phat turquoise bracelet	0	Mys: 20
+pig-iron bracers	0	Mys: 30
 pink glowstick	0	none
 pink plastic baby	0	none
 pirate fledges	0	Mys: 60
