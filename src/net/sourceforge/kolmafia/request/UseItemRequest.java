@@ -286,6 +286,7 @@ public class UseItemRequest
 		{
 		case ItemPool.GONG:
 		case ItemPool.KETCHUP_HOUND:
+		case ItemPool.AMINO_ACIDS:
 			return 1;
 
 		case ItemPool.TOASTER:

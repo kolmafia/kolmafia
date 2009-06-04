@@ -859,6 +859,7 @@ public class ItemPool
 	public static final int STUFFED_KEY = 3950;
 	public static final int TINY_CELL_PHONE = 3964;
 	public static final int MOONTAN_LOTION = 4003;
+	public static final int AMINO_ACIDS = 4006;
 	public static final int WUMPUS_HAIR = 4044;
 	public static final int GREEN_PEAWEE_MARBLE = 4095;
 	public static final int BROWN_CROCK_MARBLE = 4096;

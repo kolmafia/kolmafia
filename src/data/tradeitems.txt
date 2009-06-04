@@ -4079,16 +4079,18 @@
 4073
 4074	multi-pass	none	none	0
 4075
-4076
+#	caustic slime nodule	none	display	1
+4076	baneful bandolier	accessory	display	4000
 4077
 4078
-4079
+4079	corrosive cowl	hat	display	4000
 4080
+#	villainous scythe	weapon	display	4000
 4081
-4082
-4083
+4082	pernicious cudgel	weapon	display	4000
+4083	cupcake-in-a-cup	food	all	130
 4084	pool of liquid metal	none, combat	all	107
-4085
+4085	protein paste	food	all	145
 4086	cyber-mattock	weapon	all	170
 4087	facehugging alien	none, combat	all	66
 4088	X-37 gun	weapon	all	195
@@ -4110,13 +4112,13 @@
 4104	black catseye marble	offhand, multiple	all	512
 4105	big bumboozer marble	offhand	all	1024
 4106	chamoisole	shirt	all	2000
-4107
+4107	bitter pill	multiple	all	1000
 4108
 4109
-4110
+4110	molten medallion	accessory	display	250
 4111
 4112
-4113	bewitching boots	accessory	all	250
+4113	bewitching boots	accessory	display	250
 4114
 4115
 4116

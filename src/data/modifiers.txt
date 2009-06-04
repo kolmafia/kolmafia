@@ -113,6 +113,8 @@ clown wig	Mysticality: +3, Spell Damage: +3, Clownosity: +2, Familiar Effect: "c
 coconut shell	Damage Absorption: +1, Familiar Effect: "1xFairy, cap 7"
 cold ninja mask	Initiative: +15, Familiar Effect: "cold atk, 1xBarrr, cap 20"
 cornuthaum	Mysticality: +3, Moxie: +3, Familiar Effect: "1.5xPotato, 1.25xFairy, cap 21"
+# corrosive cowl: Slime Hates It
+corrosive cowl	Spooky Damage: +30, Spooky Resistance: +4
 crown-shaped beanie	Slime Resistance: +1, Food Drop: +20, Initiative: +20
 crumpled felt fedora	Familiar Weight: +10, Muscle Percent: +5, Familiar Effect: "0.75xVolley, 0.75xLep"
 cursed eyepatch	Mysticality: +15, Familiar Effect: "spooky atk, 1xBarrr"
@@ -723,6 +725,8 @@ parasitic claw	Weapon Damage: +15
 # pasta spoon
 penguin whip	Meat Drop: +3
 perforated battle paddle	Weapon Damage: +10
+# pernicious cudgel: Slime Hates It
+pernicious cudgel	Sleaze Damage: +30, Critical: 2
 pestoblade	Muscle: +3, Stench Damage: +3
 pitchfork	Weapon Damage: +9
 pixel boomerang	Item Drop: +5
@@ -824,6 +828,8 @@ vampire duck-on-a-string	Weapon Damage: +5, Item Drop: +5
 velcro broadsword	Muscle Percent: +5, MP Regen Min: 6, MP Regen Max: 12, Hat Drop: +20, Pants Drop: +20
 velcro paddle ball	Moxie Percent: +5, MP Regen Min: 6, MP Regen Max: 12, Accessory Drop: +20
 vibrating cyborg knife	Weapon Damage: +20, Fumble: 3
+# villainous scythe: Slime Really Hates It
+villainous scythe	Weapon Damage Percent: +20, Critical: 4
 vorpal blade	Critical: 2
 war tongs	Hot Damage: +10, Hot Spell Damage: +10
 white sword	Muscle: +2
@@ -1232,6 +1238,8 @@ baconstone earring	Mysticality: +2, Mana Cost: -1, Single Equip
 baconstone pendant	Mysticality: +4, Spell Damage: +10
 baconstone ring	Mysticality: +5, Maximum MP: +10, MP Regen Min: 2, MP Regen Max: 4, Single Equip
 badass belt	Muscle: +5, Mysticality: +5, Moxie: +5
+# baneful bandolier: Slime Hates It
+baneful bandolier	Ranged Damage: +30, Hat Drop: +30, Pants Drop: +30
 beach glass necklace	Muscle: +5
 beaten-up Chucks	Initiative: +40
 # beer goggles: They Do Nothing!
@@ -1352,6 +1360,7 @@ makeshift cape	Item Drop: +5
 # mayfly bait necklace: Allows Summoning of Mayflies in Combat
 mayfly bait necklace	Meat Drop: +10, Item Drop: +10, Single Equip, Softcore Only
 memory of a cultist's robe	Single Equip
+molten medallion	Hot Resistance: +1, Meat Drop: +5
 monster bait	Combat Rate: +5, Single Equip
 # mood ring
 natty blue ascot	Meat Drop: +20
