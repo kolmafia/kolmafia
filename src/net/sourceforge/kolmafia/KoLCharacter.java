@@ -2814,15 +2814,15 @@ public abstract class KoLCharacter
 	{
 		// Look for wand
 
-		AdventureResult wand = findWand();
+		AdventureResult wand = KoLCharacter.findWand();
 
 		if ( wand != null )
 		{
 			return wand;
 		}
 
-		// None found.  If you've already had a zapper wand this ascension,
-		// assume they don't want to use their mimic.
+		// None found.  If you've already had a zapper wand this
+		// ascension, assume they don't want to use their mimic.
 
 		if ( KoLCharacter.getAscensions() == Preferences.getInteger( "lastZapperWand" ) )
 		{
@@ -2842,7 +2842,7 @@ public abstract class KoLCharacter
 
 		// Look for wand again
 
-		return findWand();
+		return KoLCharacter.findWand();
 	}
 
 	public static final AdventureResult findWand()
