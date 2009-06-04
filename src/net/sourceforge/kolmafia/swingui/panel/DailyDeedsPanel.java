@@ -550,6 +550,7 @@ public class DailyDeedsPanel
 	{
 		public DropsDaily()
 		{
+			this.addListener( "_aguaDrops" );
 			this.addListener( "_gongDrops" );
 			this.addListener( "_absintheDrops" );
 			this.addListener( "_astralDrops" );
@@ -558,7 +559,8 @@ public class DailyDeedsPanel
 		
 		public void update()
 		{
-			this.setText( "Drops: " + Preferences.getInteger( "_gongDrops" )
+			this.setText( "Drops: " + Preferences.getInteger( "_aguaDrops" )
+				+ " agua, " + Preferences.getInteger( "_gongDrops" )
 				+ " gong, " + Preferences.getInteger( "_absintheDrops" )
 				+ " absinthe, " + Preferences.getInteger( "_astralDrops" )
 				+ " astral mushroom" );

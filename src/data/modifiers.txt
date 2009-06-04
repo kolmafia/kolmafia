@@ -1324,7 +1324,7 @@ hippy protest button	Single Equip
 # hobo stogie: +100% Physical Damage against Hobos
 hobo stogie	Single Equip, Weapon Damage Percent: [100*zone(Hobopolis)*(1-loc(Sewer Tunnels))]
 hockey stick of furious angry rage	Monster Level: +30, Muscle Percent: +5
-hopping socks	Slime Resistance: +1, Accessory Drop: +20, Maximum HP: +200, Maximum MP: +200
+hopping socks	Slime Resistance: +1, Accessory Drop: +20, Maximum HP: +200, Maximum MP: +200, Single Equip
 ice skates	Initiative: +15, Meat Drop: +15, Single Equip, Softcore Only
 imitation nice watch	Adventures: +3, Single Equip, Nonstackable Watch
 incredibly dense meat gem	Meat Drop: +25, Moxie: +5, Maximum MP: +10

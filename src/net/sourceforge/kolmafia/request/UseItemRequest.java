@@ -1297,7 +1297,7 @@ public class UseItemRequest
 			int fullness = ItemDatabase.getFullness( item.getName() ) * item.getCount();
 			int estimatedFullness = KoLCharacter.getFullnessLimit() - fullness + 1;
 
-			if ( estimatedFullness > KoLCharacter.getFullness() )
+			if ( fullness > 0 && estimatedFullness > KoLCharacter.getFullness() )
 			{
 				Preferences.setInteger( "currentFullness", estimatedFullness );
 			}
