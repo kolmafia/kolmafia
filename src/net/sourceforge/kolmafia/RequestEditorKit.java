@@ -740,8 +740,8 @@ public class RequestEditorKit
 		{
 			StringUtilities.singleStringReplace(
 				buffer,
-				"]</a></font></td></tr></table></center>",
-				"]</a>&nbsp;&nbsp;<a href=\"sushi.php\">[roll sushi]</a></font></td></tr></table></center>" );
+				"]</a>&nbsp;&nbsp;</font></td></tr></table></center>",
+				"]</a>&nbsp;&nbsp;<a href=\"sushi.php\">[roll sushi]</a>&nbsp;&nbsp;</font></td></tr></table></center>" );
 		}
 
 		AdventureResult wand = KoLCharacter.getZapper();
@@ -749,8 +749,8 @@ public class RequestEditorKit
 		{
 			StringUtilities.singleStringReplace(
 				buffer,
-				"]</a></font></td></tr></table></center>",
-				"]</a>&nbsp;&nbsp;<a href=\"wand.php?whichwand=" + wand.getItemId() + "\">[zap items]</a></font></td></tr></table></center>" );
+				"]</a>&nbsp;&nbsp;</font></td></tr></table></center>",
+				"]</a>&nbsp;&nbsp;<a href=\"wand.php?whichwand=" + wand.getItemId() + "\">[zap items]</a>&nbsp;&nbsp;</font></td></tr></table></center>" );
 		}
 
 		RequestEditorKit.changeSphereImages( buffer );
