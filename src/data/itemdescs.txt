@@ -4014,12 +4014,12 @@
 4008	312825464	memory of an A
 4009	653030278	memory of a G
 4010	295028092	memory of a T
-4011	402553893	memory of a CA base pair
-4012	385332479	memory of a CG base pair
-4013	361475350	memory of a CT base pair
-4014	458392723	memory of an AG base pair
-4015	849598694	memory of an AT base pair
-4016	422948472	memory of a GT base pair
+4011	402553893	memory of a CA base pair	memories of CA base pairs
+4012	385332479	memory of a CG base pair	memories of CG base pairs
+4013	361475350	memory of a CT base pair	memories of CT base pairs
+4014	458392723	memory of an AG base pair	memories of AG base pairs
+4015	849598694	memory of an AT base pair	memories of AT base pairs
+4016	422948472	memory of a GT base pair	memories of GT base pairs
 4017
 4018
 4019
@@ -4032,44 +4032,44 @@
 4026	920320382	slime-covered lantern
 4027
 4028	823709783	slime-covered club
-4029
-4030
-4031
-4032
-4033
+4029	502206013	memory of a grappling hook
+4030		memory of a small stone block
+4031	995053215	memory of a little stone block
+4032	771011776	memory of half a stone circle
+4033	836396108	memory of a stone half-circle
 4034	628400331	memory of an iron key
-4035
+4035	580145095	memory of a glowing crystal
 4036
 4037	320343694	slimy sweetbreads	clusters of slimy sweetbreads
 4038	154656302	slimy fermented bile bladder	slimy fermented bile bladders
 4039	388191568	slimy alveolus	slimy alveoli
-4040
-4041
-4042
-4043
-4044
-4045
-4046
-4047
-4048
+4040	242018093	memory of a cultist's robe
+4041	846852926	pig-iron helm
+4042	564106355	pig-iron shinguards
+4043	497900052	pig-iron bracers
+4044	428760948	wumpus hair	tufts of wumpus hair
+4045	473198712	wumpus-hair bolo
+4046		wumpus-hair net
+4047	615750910	wumpus-hair whip
+4048		wumpus-hair wig
 4049
 4050
 4051	768452883	ring of teleportation
 4052	575582192	glass of baboon milk
-4053
-4054
+4053	438971267	banana milkshake	banana milkshakes
+4054	190759717	White Hyborian	White Hyborians
 4055	379892841	goblin hunting spear
 4056	735325131	goblin autoblowgun
 4057	987751970	shiny tribal beads
 4058	158275016	ancient stone fist
 4059	516274004	ancient stone head
 4060
-4061
+4061	296866991	Violet Hunt Invitation
 4062
-4063
+4063	455247433	Mecha Mayhem Club Card
 4064
 4065
-4066
+4066	615750910	Ruby Rod
 4067
 4068
 4069
@@ -4077,7 +4077,7 @@
 4071
 4072
 4073
-4074
+4074	212838845	multi-pass
 4075
 4076
 4077
@@ -4087,13 +4087,13 @@
 4081
 4082
 4083
-4084
+4084	289499503	pool of liquid metal	pools of liquid metal
 4085
-4086
-4087
-4088
-4089
-4090
+4086	737396101	cyber-mattock	cyber-mattox
+4087	619137574	facehugging alien	facehugging aliens
+4088	864678921	X-37 gun
+4089	588904018	neurostim pill	neurostim pills
+4090	348037250	physiostim pill	physiostim pills
 4091	180051286	tiny slimy cyst	tiny slimy cysts
 4092	727301894	small slimy cyst	small slimy cysts
 4093	131901538	medium slimy cyst	medium slimy cysts
@@ -4116,7 +4116,7 @@
 4110
 4111
 4112
-4113
+4113	288369149	bewitching boots
 4114
 4115
 4116
@@ -4134,3 +4134,5 @@
 4128	255854067	hardened slime pants
 4129	663508936	hardened slime belt
 4130	917576836	empty agua de vida bottle	empty agua de vida bottles
+4131
+4132	319658078	sham champagne	glasses of sham champagne

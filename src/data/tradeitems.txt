@@ -4032,44 +4032,44 @@
 4026	slime-covered lantern	offhand	display	500
 4027
 4028	slime-covered club	weapon	display	500
-4029
-4030
-4031
-4032
-4033
+4029	memory of a grappling hook	none	none	0
+4030	memory of a small stone block	none	none	0
+4031	memory of a little stone block	none	none	0
+4032	memory of half a stone circle	none	none	0
+4033	memory of a stone half-circle	none	none	0
 4034	memory of an iron key	none	none	0
-4035
+4035	memory of a glowing crystal	none	none	0
 4036
 4037	slimy sweetbreads	food	all	200
 4038	slimy fermented bile bladder	drink	all	200
 4039	slimy alveolus	multiple	all	400
-4040
-4041
-4042
-4043
-4044
-4045
-4046
-4047
-4048
+4040	memory of a cultist's robe	accessory	none	31
+4041	pig-iron helm	hat	all	110
+4042	pig-iron shinguards	pants	all	110
+4043	pig-iron bracers	accessory	all	110
+4044	wumpus hair	multiple	display	0
+4045	wumpus-hair bolo	none, combat	all	144
+4046	wumpus-hair net	none, combat	display	360
+4047	wumpus-hair whip	weapon	display	720
+4048	wumpus-hair wig	hat	display	1152
 4049
 4050
 4051	ring of teleportation	accessory	all	90
 4052	glass of baboon milk	food	all	32
-4053
-4054
+4053	banana milkshake	food	all	75
+4054	White Hyborian	booze	all	54
 4055	goblin hunting spear	weapon	all	74
 4056	goblin autoblowgun	weapon	all	86
 4057	shiny tribal beads	accessory	all	123
 4058	ancient stone fist	weapon	all	54
 4059	ancient stone head	offhand	all	93
 4060
-4061
+4061	Violet Hunt Invitation	none	none	0
 4062
-4063
+4063	Mecha Mayhem Club Card	none	none	0
 4064
 4065
-4066
+4066	Ruby Rod	weapon	none	0
 4067
 4068
 4069
@@ -4077,7 +4077,7 @@
 4071
 4072
 4073
-4074
+4074	multi-pass	none	none	0
 4075
 4076
 4077
@@ -4087,13 +4087,13 @@
 4081
 4082
 4083
-4084
+4084	pool of liquid metal	none, combat	all	107
 4085
-4086
-4087
-4088
-4089
-4090
+4086	cyber-mattock	weapon	all	170
+4087	facehugging alien	none, combat	all	66
+4088	X-37 gun	weapon	all	195
+4089	neurostim pill	multiple	all	100
+4090	physiostim pill	multiple	all	100
 4091	tiny slimy cyst	multiple	all	0
 4092	small slimy cyst	multiple	all	0
 4093	medium slimy cyst	multiple	all	0
@@ -4116,7 +4116,7 @@
 4110
 4111
 4112
-4113
+4113	bewitching boots	accessory	all	250
 4114
 4115
 4116
@@ -4134,3 +4134,5 @@
 4128	hardened slime pants	pants	display	5000
 4129	hardened slime belt	accessory	display	5000
 4130	empty agua de vida bottle	none	display	0
+4131
+4132	sham champagne	booze	all	133

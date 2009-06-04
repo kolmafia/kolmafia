@@ -194,6 +194,7 @@ wang	COMBINE	WA	NG
 # pickles, are also included.
 
 banana cream pie	COOK	pie crust	banana
+banana milkshake	COOK	glass of baboon milk	banana
 banana spritzer	COOK	banana	soda water
 bean burrito	COOK	flat dough	hill of beans
 cherry pie	COOK	pie crust	cherry
@@ -430,6 +431,7 @@ whiskey and cola	MIX	bottle of whiskey	Dyspepsi-Cola
 whiskey and soda	MIX	bottle of whiskey	soda water
 whiskey sour	MIX	bottle of whiskey	lemon
 white Canadian	MIX	bottle of vodka	glass of goat's milk
+White Hyborian	MIX	bottle of vodka	glass of baboon milk
 wine spritzer	MIX	boxed wine	soda water
 
 
@@ -1225,6 +1227,11 @@ propeller beanie	MUSE	Bash-&#332;s boxtop (20)
 turtlemail coif	MUSE	turtlemail bits (3)
 turtlemail breeches	MUSE	turtlemail bits (5)
 turtlemail hauberk	MUSE	turtlemail bits (8)
+
+wumpus-hair bolo	MUSE	wumpus hair (2)
+wumpus-hair net	MUSE	wumpus hair (5)
+wumpus-hair whip	MUSE	wumpus hair (11)
+wumpus-hair wig	MUSE	wumpus hair (16)
 
 
 # Recipes that involve single-using one of the ingredients

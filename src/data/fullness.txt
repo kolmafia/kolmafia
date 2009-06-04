@@ -19,6 +19,7 @@ ballroom blintz	3	1	3-8	0	0	10-12
 banana	1	1	1	1	1	1	banana peel
 banana cream pie	3	7	6-12	1-100	1-100	1-100
 banana-frosted king cake	3	1	3	0	0	0	brown plastic baby
+banana milkshake	2	8	5-8	31-88	42-134	11-97
 bash-&#332;s cereal	3	1	3	0	3-5	0	Bash-&#332;s boxtop
 bat haggis	2	2	2-7	0	10-12	0
 bat wing chow mein	5	7	21-29	0	70-75	0

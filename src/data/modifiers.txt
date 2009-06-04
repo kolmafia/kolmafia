@@ -184,6 +184,7 @@ panhandle panhandling hat	Food Drop: +30, Familiar Effect: "1xLep, cap 37"
 # party hat: (On the Festival of Jarlsberg only)
 party hat	MP Regen Min: [3*J], MP Regen Max: [5*J], Mysticality: +3, Familiar Effect: "4xLep, cap 7"
 pentacorn hat	Familiar Effect: "atk, cap 10"
+pig-iron helm	Muscle: +7, Weapon Damage: +10
 pimpin' meat hat	Muscle: +2, Moxie: +2, Familiar Effect: "sleaze atk, 1xVolley, cap 13"
 pixel hat	Moxie: +2, Muscle: +2, Mysticality: +2, Familiar Effect: "atk, 2xVolley, cap 12"
 plexiglass pith helmet	Familiar Weight: +5, HP Regen Min: 10, HP Regen Max: 12, MP Regen Min: 10, MP Regen Max: 12, Muscle Percent: +30, Familiar Effect: "1xVolley, 1xLep, cap 45"
@@ -225,6 +226,7 @@ wooden salad bowl	Familiar Effect: "atk, cap 30"
 wool hat	Damage Absorption: +20, Cold Resistance: +2, Familiar Effect: "1xLep, cap 43"
 worn tophat	Moxie: +7, Initiative: +20, Familiar Effect: "1xBarrr, 1xLep, cap 31"
 wreath of laurels	Muscle: +25, Maximum HP: +25, Maximum MP: +25, Familiar Effect: "0.5xLep, 0.5xFairy"
+wumpus-hair wig	Moxie: -5, Stench Damage: +20, Stench Spell Damage: +20
 yak toupee	MP Regen Min: 3, MP Regen Max: 4, Familiar Effect: "atk, 1xPotato, cap 25"
 yellow plastic hard hat	Familiar Effect: "atk, cap 22"
 yellow traffic cone	Moxie: +3, Sleaze Resistance: +2, Familiar Effect: "?xVolley, ?xLep, cap 15"
@@ -328,6 +330,7 @@ parasitic tentacles	Initiative: +30
 penguin shorts	Initiative: +20
 penguinskin mini-kilt	Initiative: +20
 penguinskin mini-skirt	Initiative: +20
+pig-iron shinguards	Moxie: +6, Initiative: +10
 pink pinkslip slip	Initiative: +35, Damage Reduction: 4
 pixel pants	Maximum HP: +10, Maximum MP: +10
 plexiglass pants	Initiative: +25, Item Drop: +20, Moxie Percent: +30
@@ -479,6 +482,7 @@ Pasta of Peril	Mysticality: +7, Initiative: +15, Class: "Pastamancer"
 Periodical Paintbrush	Muscle Percent: [+5*G], Mysticality Percent: [+5*G], Moxie Percent: [+5*G], Softcore Only
 Radio Free Foil	Intrinsic Effect: "Shiny Happy Weapon"
 Rock and Roll Legend	Moxie: +7, Class: "Accordion Thief"
+# Ruby Rod
 # Shagadelic Disco Banjo: +7 damage to Disco Bandit Combat Skills
 Shagadelic Disco Banjo	Moxie: +11, Meat Drop: +10
 Spirit Precipice	Muscle: +7, Mysticality: +5, Critical: 5
@@ -502,6 +506,7 @@ Super Magic Power Sword X	Muscle: +4, Initiative: +20, Critical: 2
 Tropical Crimbo Sword	Weapon Damage: +5
 Unionize The Elves sign	Weakens Monster
 # Wand of Nagamar
+# X-37 gun: Shoots Elemental Blasts
 Zim Merman's guitar	Ranged Damage: +20
 Zombo's shoulder blade	Muscle Percent: +30, Weapon Damage Percent: +30
 a butt tuba	Sleaze Damage: +15
@@ -589,6 +594,7 @@ crowbarrr	Initiative: +15
 curdflinger	Moxie: +3, Weakens Monster
 curmudgel	Monster Level: +8, Weapon Damage: +10
 cursed cutlass	Muscle: +15
+cyber-mattock	Item Drop: +5, Meat Drop: +10
 # decaying wooden oar
 demon whip	Hot Damage: +3, Sleaze Damage: +3, Stench Damage: +3
 denim axe	Muscle: +10, Weapon Damage: +10
@@ -830,6 +836,7 @@ wooden axe	Muscle: +3
 wooden stakes	Weapon Damage: +1
 world's smallest violin	Ranged Damage: +5, Meat Drop: +5, Monster Level: +5
 # worm-riding hooks
+wumpus-hair whip	Spooky Damage: +2, Stench Damage: +2, Hot Damage: +2, Cold Damage: +2, Sleaze Damage: +2
 yak whip	Weakens Monster
 yohohoyo	Critical: 2, Spooky Damage: +1, Stench Damage: +1, Hot Damage: +1, Cold Damage: +1, Sleaze Damage: +1
 
@@ -1231,6 +1238,7 @@ beaten-up Chucks	Initiative: +40
 bejeweled accordion strap	Maximum HP: +25, Maximum MP: +25, Class: "Accordion Thief"
 bejeweled cufflinks	Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3, Single Equip
 bejeweled pledge pin	Maximum HP: +40, Single Equip
+bewitching boots	Meat Drop: +10
 # bezoar ring: Protects the wearer from poison
 big red clown nose	Maximum HP: +7, Clownosity: +1
 black belt	Muscle: +7, Weapon Damage: +7, Single Equip
@@ -1343,6 +1351,7 @@ makeshift SCUBA gear	Stench Resistance: +2, Item Drop: -100, Initiative: -100
 makeshift cape	Item Drop: +5
 # mayfly bait necklace: Allows Summoning of Mayflies in Combat
 mayfly bait necklace	Meat Drop: +10, Item Drop: +10, Single Equip, Softcore Only
+memory of a cultist's robe	Single Equip
 monster bait	Combat Rate: +5, Single Equip
 # mood ring
 natty blue ascot	Meat Drop: +20
@@ -1355,6 +1364,7 @@ pat-a-cake pendant	Mysticality: +1
 patent leather shoes	Muscle: +1, Hot Resistance: +1
 peace-sign necklace	Damage Reduction: 3
 phat turquoise bracelet	Mysticality: +5
+pig-iron bracers	Mysticality: +8, Spell Damage: +10
 pink glowstick	Maximum MP: +5, Moxie: -3
 pink plastic baby	Maximum HP: +5, Maximum MP: +5, Single Equip
 pirate fledges	Muscle: +7, Mysticality: +7, Moxie: +7
@@ -2165,8 +2175,15 @@ Man's Worst Enemy	Familiar Weight: +5
 Marco Polarity	Experience: [L]
 Mariachi Mood	Maximum HP: +3, Moxie: +1
 Material Witness	Meat Drop: +10
+Meatwise	Meat Drop: +35
 Melancholy Burden	Item Drop: +60
 Memento Moir&eacute;	Experience: +3
+Memory of Aggressiveness	Monster Level: +30
+Memory of Attractiveness	Moxie Percent: +100
+Memory of Resilience	Damage Absorption: +200
+Memory of Smarts	Mysticality Percent: +100
+Memory of Speed	Initiative: +200
+Memory of Strength	Muscle Percent: +100
 Mental A-cue-ity	Spell Damage Percent: +50, MP Regen Min: 10, MP Regen Max: 10
 Metal Speed	Initiative: +20
 Midgetized	Damage Reduction: 4, Weapon Damage: -8
@@ -2213,6 +2230,7 @@ Peeled Eyeballs	Experience: -1, Meat Drop: -20, Item Drop: +15
 Perceptive Pressure	Item Drop: +50
 Permafrosty	Cold Damage: +50
 Perspicacious Pressure	Mysticality Percent: +300
+Phairly Pheromonal	Familiar Weight: +4
 Phoenix, Right?	Experience: +6
 Phorcefullness	Muscle Percent: +100
 # Pie in the Face: Hilarious!
@@ -2338,6 +2356,8 @@ Steroid Boost	Muscle: +2
 Stevedave's Shanty of Superiority	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 Sticky Fingers	Meat Drop: +20
 # Sticky Hands: Reduced chance of fumbling
+Stimulated Brain	MP Regen Min: 10, MP Regen Max: 20
+Stimulated Body	HP Regen Min: 10, HP Regen Max: 20
 # Stinky Breath: Can breathe stench in combat
 Stinky Weapon	Stench Damage: +3
 Strange Mental Acuity	Mysticality Percent: +25
