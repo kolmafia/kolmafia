@@ -4021,7 +4021,7 @@
 4015	849598694	memory of an AT base pair	memories of AT base pairs
 4016	422948472	memory of a GT base pair	memories of GT base pairs
 4017
-4018
+4018	479813520	rusty metal greaves
 4019
 4020	224342315	rusty piece of rebar	rusty pieces of rebar
 4021	662987826	slime-covered shovel
@@ -4030,7 +4030,7 @@
 4024	816841149	slime-covered compass
 4025	764929004	slime-covered helmet
 4026	920320382	slime-covered lantern
-4027
+4027	780419564	slime-covered greaves
 4028	823709783	slime-covered club
 4029	502206013	memory of a grappling hook
 4030		memory of a small stone block

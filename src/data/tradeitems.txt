@@ -4021,7 +4021,7 @@
 4015	memory of an AT base pair	none, combat	display	10
 4016	memory of a GT base pair	none, combat	display	10
 4017
-4018
+4018	rusty metal greaves	pants	display	155
 4019
 4020	rusty piece of rebar	weapon	all	140
 4021	slime-covered shovel	weapon	display	500
@@ -4030,7 +4030,7 @@
 4024	slime-covered compass	accessory	display	500
 4025	slime-covered helmet	hat	display	500
 4026	slime-covered lantern	offhand	display	500
-4027
+4027	slime-covered greaves	pants	display	500
 4028	slime-covered club	weapon	display	500
 4029	memory of a grappling hook	none	none	0
 4030	memory of a small stone block	none	none	0
