@@ -284,6 +284,8 @@ pink pinkslip slip	200	Mox: 85
 pixel pants	50	Mox: 10
 plexiglass pants	180	Mox: 75
 poodle skirt	200	Mox: 200
+rusty metal greaves	150	Mus: 60
+slime-covered greaves	200	Mox: 200
 snowboarder pants	100	Mox: 35
 spandex anniversary shorts	10	none
 square sponge pants	200	Mox: 85

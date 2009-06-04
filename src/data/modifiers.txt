@@ -337,6 +337,8 @@ pink pinkslip slip	Initiative: +35, Damage Reduction: 4
 pixel pants	Maximum HP: +10, Maximum MP: +10
 plexiglass pants	Initiative: +25, Item Drop: +20, Moxie Percent: +30
 poodle skirt	Slime Resistance: +1, Meat Drop: +25, Hot Damage: +25
+rusty metal greaves	Initiative: -10
+slime-covered greaves	Slime Resistance: +2, HP Regen Min: 20, HP Regen Max: 40, Initiative: -10
 snowboarder pants	Damage Absorption: +20
 spandex anniversary shorts	Muscle: +1, Mysticality: +1, Moxie: +1
 square sponge pants	Moxie Percent: +10, HP Regen Min: 10, HP Regen Max: 15, MP Regen Min: 10, MP Regen Max: 15, Damage Absorption: +30
