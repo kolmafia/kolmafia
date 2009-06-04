@@ -687,8 +687,6 @@ public class CharPaneDecorator
 				upkeepAction = "wormwood.php";
 			}
 
-			String removeAction = MoodManager.getDefaultAction( "gain_effect", effectName );
-
 			String skillName = UneffectRequest.effectToSkill( effectName );
 			int skillType = SkillDatabase.getSkillType( SkillDatabase.getSkillId( skillName ) );
 
@@ -696,10 +694,7 @@ public class CharPaneDecorator
 			// can be removed.  This is either when the buff can be
 			// shrugged or the buff has a default removal method.
 
-			if ( skillType == SkillDatabase.BUFF || InventoryManager.hasItem( UneffectRequest.REMEDY ) )
-			{
-				removeAction = "uneffect " + effectName;
-			}
+			String removeAction = MoodManager.getDefaultAction( "gain_effect", effectName );
 
 			if ( effectName.equalsIgnoreCase( "On the Trail" ) )
 			{

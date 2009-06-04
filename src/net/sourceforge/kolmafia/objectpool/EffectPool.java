@@ -86,6 +86,7 @@ public class EffectPool
 	public static final int CURSED_BY_RNG_ID = 217;
 	public static final int EAU_DE_TORTUE_ID = 263;
 	public static final int FORM_OF_BIRD_ID = 511;
+	public static final int COVERED_IN_SLIME_ID = 633;
 
 	public static final AdventureResult get( final int effectId )
 	{

@@ -4121,7 +4121,7 @@
 4115
 4116
 4117
-4118
+4118	Coily&trade;	weapon	display	1200
 4119	old-school flying disc	offhand, combat	display	800
 4120	lawn dart	weapon, combat	display	800
 4121

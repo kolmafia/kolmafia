@@ -109,6 +109,12 @@ public class UneffectRequest
 		return id != -1 && SkillDatabase.isBuff( id );
 	}
 
+	public static final boolean isRemovable( final String effectName )
+	{
+		int id = EffectDatabase.getEffectId( effectName );
+		return id != -1 && UneffectRequest.isRemovable( id );
+	}
+
 	public static final boolean isRemovable( final int id )
 	{
 		switch ( id )
@@ -117,6 +123,7 @@ public class UneffectRequest
 		case EffectPool.EAU_DE_TORTUE_ID:
 		case EffectPool.CURSED_BY_RNG_ID:
 		case EffectPool.FORM_OF_BIRD_ID:
+		case EffectPool.COVERED_IN_SLIME_ID:
 			return false;
 		}
 		return true;

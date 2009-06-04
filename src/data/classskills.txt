@@ -308,6 +308,8 @@
 7072
 7073	Strangle	5	15	0
 7074	Consume Burrowgrub	5	0	0
+7079	Furious Cleave	5	5	0
+7079	Mighty Shout	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 
