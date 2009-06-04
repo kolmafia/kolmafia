@@ -4125,7 +4125,7 @@
 4119	old-school flying disc	offhand, combat	display	800
 4120	lawn dart	weapon, combat	display	800
 4121
-4122	wad of slimy rags	usable	all	0
+4122	wad of slimy rags	multiple	all	0
 4123	crown-shaped beanie	hat	all	500
 4124	hopping socks	accessory	all	500
 4125	poodle skirt	pants	all	500
