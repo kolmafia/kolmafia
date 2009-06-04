@@ -161,6 +161,12 @@ ninja pirate zombie robot head	COMBINE	pirate zombie robot head	cold ninja mask
 wet stew	COOK	bird rib	lion oil
 wet stunt nut stew	COOK	wet stew	stunt nuts
 
+# baneful bandolier	SMITH	caustic slime nodule	slime-covered necklace
+# bitter pill	COOK	caustic slime nodule	scrumptious reagent
+# corrosive cowl	SMITH	caustic slime nodule	slime-covered helmet
+# pernicious cudgel	SMITH	caustic slime nodule	slime-covered club
+# villainous scythe	SMITH	caustic slime nodule	slime-covered shovel
+
 # Box parts and things that go into boxes or become boxes or are involved
 # in some way with boxes and the things that become/go into them.
 

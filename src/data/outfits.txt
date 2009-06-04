@@ -51,6 +51,7 @@
 50	Dwarvish War Uniform	dwarvish war helmet, dwarvish war mattock, dwarvish war kilt
 51	Wumpus-Hair Wardrobe	wumpus-hair wig, wumpus-hair whip
 52	Pork Elf Prizes	pig-iron helm, pig-iron shinguards, pig-iron bracers
+53	Grimy Reaper's Vestments	corrosive cowl, villainous scythe
 54	Slimesuit	hardened slime hat, hardened slime pants, hardened slime belt
 
 # Outfits for which KoL does not provide an outfit id, and thus are

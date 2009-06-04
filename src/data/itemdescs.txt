@@ -4079,16 +4079,18 @@
 4073
 4074	212838845	multi-pass
 4075
-4076
+#	416994074	caustic slime nodule
+4076	606754471	baneful bandolier
 4077
 4078
-4079
+4079	904156487	corrosive cowl
 4080
+#	270978316	villainous scythe
 4081
-4082
-4083
+4082	728374904	pernicious cudgel
+4083	840782535	cupcake-in-a-cup
 4084	289499503	pool of liquid metal	pools of liquid metal
-4085
+4085	176155931	protein paste
 4086	737396101	cyber-mattock	cyber-mattox
 4087	619137574	facehugging alien	facehugging aliens
 4088	864678921	X-37 gun
@@ -4110,10 +4112,10 @@
 4104	171423522	black catseye marble
 4105	561342079	big bumboozer marble
 4106	423567434	chamoisole
-4107
+4107	467253853	bitter pill
 4108
 4109
-4110
+4110	583815096	molten medallion
 4111
 4112
 4113	288369149	bewitching boots

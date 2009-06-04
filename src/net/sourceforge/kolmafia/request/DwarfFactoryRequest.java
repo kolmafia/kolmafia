@@ -64,7 +64,6 @@ public class DwarfFactoryRequest
 	public static final Pattern RUNE_PATTERN = Pattern.compile( "title=\"Dwarf (Digit|Word) Rune (.)\"" );
 	public static final Pattern ITEMDESC_PATTERN = Pattern.compile( "descitem\\((\\d*)\\)" );
 	public static final Pattern MEAT_PATTERN = Pattern.compile( "You (gain|lose) (\\d*) Meat" );
-	public static final Pattern COLOR_PATTERN = Pattern.compile( "(red|orange|yellow|green|blue|indigo|violet)" );
 	public static final Pattern HOPPER_PATTERN = Pattern.compile( "<p>It currently contains (\\d+) ([^.]*)\\.</p>" );
 
 	private static final int [] ITEMS = new int[]
@@ -810,8 +809,18 @@ public class DwarfFactoryRequest
 		return DwarfFactoryRequest.deduceDefense( kiltMatcher );
 	}
 
+	public static final Pattern COLOR_PATTERN = Pattern.compile( "(red|orange|yellow|green|blue|indigo|violet)" );
+
 	public static int deduceDefense( final Matcher kiltMatcher )
 	{
+		// A bunch of little lights on your sporran start flashing
+		// random colors like there's a rave on your crotch.
+
+		if ( kiltMatcher.group(0).indexOf( "rave on your crotch" ) != -1 )
+		{
+			return 99999;
+		}
+
 		Matcher matcher= DwarfFactoryRequest.COLOR_PATTERN.matcher( kiltMatcher.group(0) );
 		int number = 0;
 
