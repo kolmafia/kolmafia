@@ -1022,6 +1022,8 @@ public abstract class MoodManager
 			return strictAction;
 		}
 
+		// gain_effect from here on
+
 		if ( UneffectRequest.isShruggable( name ) )
 		{
 			return "uneffect " + name;
@@ -1051,14 +1053,6 @@ public abstract class MoodManager
 		if ( walrusTongueClearable && KoLCharacter.hasSkill( "Tongue of the Walrus" ) )
 		{
                         return "cast Tongue of the Walrus";
-		}
-
-		if ( name.equals( "Beaten Up" ) )
-		{
-			if ( InventoryManager.hasItem( UneffectRequest.FOREST_TEARS ) )
-			{
-				return "use 1 forest tears";
-			}
 		}
 
 		boolean powerNapClearable =
@@ -1092,7 +1086,16 @@ public abstract class MoodManager
 			return "cast Disco Nap";
 		}
 
-		if ( InventoryManager.hasItem( UneffectRequest.REMEDY ) )
+		boolean forestTearsClearable =
+			name.equals( "Beaten Up" );
+
+		if ( forestTearsClearable && InventoryManager.hasItem( UneffectRequest.FOREST_TEARS ) )
+		{
+			return "use 1 forest tears";
+		}
+
+		boolean isRemovable = UneffectRequest.isRemovable( name );
+		if ( isRemovable && InventoryManager.hasItem( UneffectRequest.REMEDY ) )
 		{
 			return "uneffect " + name;
 		}
@@ -1108,7 +1111,7 @@ public abstract class MoodManager
 			return "use 1 tiny house";
 		}
 
-		if ( KoLCharacter.canInteract() )
+		if ( isRemovable && KoLCharacter.canInteract() )
 		{
 			return "uneffect " + name;
 		}
