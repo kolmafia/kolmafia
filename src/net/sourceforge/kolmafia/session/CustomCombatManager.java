@@ -711,7 +711,7 @@ public abstract class CustomCombatManager
 
 		if ( action.startsWith( "custom" ) )
 		{
-			return action.indexOf( ": " ) == -1 ? "custom: " + CustomCombatManager.settingsFileName() : action;
+			return "custom combat script";
 		}
 
 		if ( action.startsWith( "delevel" ) )
