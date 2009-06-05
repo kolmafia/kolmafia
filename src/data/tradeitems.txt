@@ -3119,7 +3119,7 @@
 3113	Miniborg hiveminder	none, combat reusable	all	0
 3114	Miniborg Destroy-O-Bot	none, combat reusable	all	0
 3115	old-fashioned Crimbo Pressie	usable	display	0
-3116	stuffed Hodgman	usable	gift	0
+3116	stuffed Hodgman	message	gift	0
 3117	Libram of Divine Favors	usable	all	0
 3118	divine noisemaker	none, combat	all	0
 3119	divine can of silly string	none, combat	all	0
@@ -4057,7 +4057,7 @@
 4051	ring of teleportation	accessory	all	90
 4052	glass of baboon milk	food	all	32
 4053	banana milkshake	food	all	75
-4054	White Hyborian	booze	all	54
+4054	White Hyborian	drink	all	54
 4055	goblin hunting spear	weapon	all	74
 4056	goblin autoblowgun	weapon	all	86
 4057	shiny tribal beads	accessory	all	123
@@ -4137,4 +4137,4 @@
 4129	hardened slime belt	accessory	display	5000
 4130	empty agua de vida bottle	none	display	0
 4131
-4132	sham champagne	booze	all	133
+4132	sham champagne	drink	all	133

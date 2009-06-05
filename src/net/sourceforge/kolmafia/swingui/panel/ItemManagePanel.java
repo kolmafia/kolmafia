@@ -850,7 +850,7 @@ public class ItemManagePanel
 		{
 			if ( element instanceof AdventureResult && ( (AdventureResult) element ).getCount() < 0 )
 			{
-				return false;
+				// return false;
 			}
 
 			String name = AutoFilterTextField.getResultName( element );

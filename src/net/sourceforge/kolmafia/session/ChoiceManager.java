@@ -55,6 +55,7 @@ import net.sourceforge.kolmafia.request.PasswordHashRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.WumpusManager;
 import net.sourceforge.kolmafia.swingui.CouncilFrame;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -1760,6 +1761,10 @@ public abstract class ChoiceManager
 		case 309:
 			// Barback
 			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "The Dive Bar" );
+
+		case 360:
+			// Wumpus Hunt
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "The Jungles of Ancient Loathing" );
 		}
 		return null;
 	}
@@ -1925,6 +1930,11 @@ public abstract class ChoiceManager
 			result[ 1 ] = "skip adventure";
 
 			return result;
+			
+		case 360:
+			// Wumpus Hunt
+			return WumpusManager.dynamicChoiceOptions(
+				ChoiceManager.lastResponseText );
 		}
 		return null;
 	}
