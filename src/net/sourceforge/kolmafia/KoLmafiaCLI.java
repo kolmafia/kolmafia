@@ -1818,16 +1818,21 @@ public class KoLmafiaCLI
 	public static class Update
 		extends Command
 	{
-		{ usage = " [clear] - download most recent data files [or revert to built-in data]."; }
+		{ usage = " data | clear - download most recent data files, or revert to built-in data."; }
 		public void run( String cmd, String parameters )
 		{
 			if ( parameters.equalsIgnoreCase( "clear" ) )
 			{
 				CLI.deleteAdventureOverride();
 			}
-			else
+			else if ( parameters.equalsIgnoreCase( "data" ) )
 			{
 				CLI.downloadAdventureOverride();
+			}
+			else
+			{
+				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, 
+					"\"update\" doesn't do what you think it does.  Please visit kolmafia.us and download a daily build if you'd like to keep KoLmafia up-to-date between major releases." );
 			}
 		}
 	}

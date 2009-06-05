@@ -1499,6 +1499,16 @@ public class FightRequest
 			}
 		}
 
+		// "As you're trying to get away, you sink in the silty muck on
+		// the sea floor. You manage to get yourself unmired, but your 
+		// greaves seem to have gotten instantly rusty in the process..."
+		if ( responseText.indexOf( "greaves seem to have gotten instantly rusty" ) != -1 )
+		{
+			EquipmentManager.discardEquipment( ItemPool.ANTIQUE_GREAVES );
+			SpecialOutfit.forgetEquipment( FightRequest.BROKEN_GREAVES );
+			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Your antique greaves got rusted." );
+		}
+		
 		// "You sigh and discard the belt in a nearby trash can."
 		if ( responseText.indexOf( "You sigh and discard the belt in a nearby trash can." ) != -1 )
 		{
