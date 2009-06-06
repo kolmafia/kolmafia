@@ -357,6 +357,11 @@ public class MallPurchaseRequest
 		return this.canPurchase && KoLCharacter.getAvailableMeat() >= this.price;
 	}
 
+	public boolean canPurchaseIgnoringMeat()
+	{
+		return this.canPurchase;
+	}
+
 	/**
 	 * Executes the purchase request. This calculates the number of items which will be purchased and adds it to the
 	 * list. Note that it marks whether or not it's already been run to avoid problems with repeating the request.

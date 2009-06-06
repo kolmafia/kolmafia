@@ -214,6 +214,8 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "to_item", DataTypes.ITEM_TYPE, params ) );
 		params = new Type[] { DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "to_item", DataTypes.ITEM_TYPE, params ) );
+		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "to_item", DataTypes.ITEM_TYPE, params ) );
 
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "to_class", DataTypes.CLASS_TYPE, params ) );
@@ -1327,6 +1329,12 @@ public abstract class RuntimeLibrary
 		}
 
 		return DataTypes.parseItemValue( value.toString(), true );
+	}
+
+	public static Value to_item( final Value name, final Value count )
+	{
+		return DataTypes.makeItemValue( ItemDatabase.getItemId(
+			name.toString(), count.intValue() ) );
 	}
 
 	public static Value to_class( final Value value )

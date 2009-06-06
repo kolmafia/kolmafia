@@ -547,6 +547,7 @@ dense meat sword	60	Mus: 15	2-handed sword
 dented harmonica	20	Mox: 0	1-handed horn
 depleted Grimacite hammer	100	Mus: 35	2-handed club
 depleted Grimacite kneecapping stick	90	Mus: 30	1-handed club
+diabolical crossbow	200	Mox: 200	1-handed crossbow
 diamond-studded cane	60	Mus: 15	1-handed club
 didgeridooka	180	Mox: 75	2-handed heavy blowgun
 disco ball	10	Mox: 0	1-handed disco ball
@@ -944,6 +945,7 @@ polyalloy shield	0	Mus: 55	shield
 rag doll	0	Mys: 40
 red China marble	0	Mys: 85
 red balloon	0	none
+red wagon	0	Mys: 200
 rice bowl	0	none
 rusty compass	0	Mys: 15
 rusty old lantern	0	Mys: 85
@@ -1183,6 +1185,7 @@ colored-light &quot;necklace&quot;	0	Mys: 35
 consolation ribbon	0	none
 copper ha'penny charrrm bracelet	0	Mys: 80
 corncob pipe	0	Mys: 200
+crusty hula hoop	0	Mys: 200
 cyborg stompin' boot	0	Mus: 60
 dead guy's memento	0	Mys: 200
 dead guy's watch	0	Mys: 10
@@ -1258,6 +1261,7 @@ mayfly bait necklace	0	none
 memory of a cultist's robe	0	none
 molten medallion	0	Mys: 65
 monster bait	0	none
+monstrous monocle	0	Mus: 65
 mood ring	0	none
 natty blue ascot	0	Mys: 10
 navel ring of navel gazing	0	none
@@ -1290,6 +1294,7 @@ rainbow pearl ring	0	Mys: 200
 ratskin belt	0	Mys: 75
 red plastic baby	0	none
 reinforced furry underpants	0	none
+rickety old unicycle	0	Mox: 200
 right half of a heart necklace	0	none
 ring of adornment	0	Mys: 25
 ring of aggravate monster	0	Mys: 25
