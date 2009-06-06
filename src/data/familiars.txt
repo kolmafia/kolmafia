@@ -112,4 +112,4 @@
 108	Grinning Turtle	none	3929	security blankie	1	0	0	3
 109	Purse Rat	none	3962	tiny cell phone	0	0	0	0
 110	Wereturtle	combat	3979	bottle of moontan lotion	3	1	0	2
-111	Baby Sandworm	stat1	3999	string of dingle balls	0	0	0	0
+111	Baby Sandworm	stat1	3999	string of dingle balls	1	2	2	3
