@@ -415,6 +415,7 @@ public abstract class StoreManager
 		while ( i.hasNext() )
 		{
 			MallPurchaseRequest req = (MallPurchaseRequest) i.next();
+			if ( !req.canPurchaseIgnoringMeat() ) continue;
 			price = req.getPrice();
 			qty -= req.getLimit();
 			if ( qty <= 0 )
