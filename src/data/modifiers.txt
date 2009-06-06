@@ -283,6 +283,8 @@ buoybottoms	Moxie: +11, Monster Level: +7, Initiative: -30
 # chain-mail monokini
 clingfilm trousers	Mysticality: +9
 clockwork pants	Initiative: +10
+# corroded breeches: Slime Hates It
+corroded breeches	Damage Absorption: +50, Critical: 3
 crotchety pants	Maximum HP: +40
 cursed breeches	Moxie: +15
 demonskin trousers	Hot Resistance: +2
@@ -356,6 +358,7 @@ tree skirt	Moxie: +5
 turtle wax greaves	Muscle: +2
 turtlemail breeches	Maximum MP: +30, Sleaze Resistance: +2
 white satin pants	Sleaze Resistance: +2
+wumpus-hair loincloth	Initiative: -10, HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8, Cold Resistance: +2
 yakskin kilt	Maximum MP: +25
 yakskin pants	Maximum MP: +25
 yakskin skirt	Maximum MP: +25
@@ -1263,6 +1266,7 @@ booty chest charrrm bracelet	Meat Drop: +10, Single Equip
 bottle opener belt buckle	Single Equip
 bottlecap turtle	Mysticality: +1, Maximum MP: +3
 boxing glove	Weapon Damage: +4
+brazen bracelet	Sleaze Resistance: +1, Meat Drop: +10
 brown plastic baby	Maximum HP: +5, Maximum MP: +5, Single Equip
 # cannonball charrrm bracelet: Explosively hilarious
 cannonball charrrm bracelet	Single Equip

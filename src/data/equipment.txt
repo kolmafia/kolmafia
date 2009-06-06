@@ -232,6 +232,7 @@ buoybottoms	150	Mox: 60
 chain-mail monokini	30	none
 clingfilm trousers	150	Mox: 60
 clockwork pants	80	Mox: 25
+corroded breeches	200	Mox: 200
 crotchety pants	75	Mox: 22
 cursed breeches	200	Mox: 85
 demonskin trousers	70	Mox: 20
@@ -303,6 +304,7 @@ troutpiece	110	Mox: 40
 turtle wax greaves	40	Mox: 5
 turtlemail breeches	170	Mox: 70
 white satin pants	40	Mox: 5
+wumpus-hair loincloth	100	Mox: 35
 yakskin kilt	140	Mox: 55
 yakskin pants	140	Mox: 55
 yakskin skirt	140	Mox: 55
@@ -1161,6 +1163,7 @@ booty chest charrrm bracelet	0	Mys: 80
 bottle opener belt buckle	0	Mys: 65
 bottlecap turtle	0	Mys: 12
 boxing glove	0	Mys: 7
+brazen bracelet	0	Mys: 65
 brown plastic baby	0	none
 cannonball charrrm bracelet	0	Mys: 80
 cement shoes	0	Mys: 35

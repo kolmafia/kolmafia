@@ -1238,7 +1238,7 @@ wumpus-hair bolo	MUSE	wumpus hair (2)
 wumpus-hair net	MUSE	wumpus hair (5)
 wumpus-hair whip	MUSE	wumpus hair (11)
 wumpus-hair wig	MUSE	wumpus hair (16)
-
+wumpus-hair loincloth	MUSE	wumpus hair (23)
 
 # Recipes that involve single-using one of the ingredients
 

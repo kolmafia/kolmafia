@@ -4021,6 +4021,7 @@
 4015	849598694	memory of an AT base pair	memories of AT base pairs
 4016	422948472	memory of a GT base pair	memories of GT base pairs
 4017
+#	416994074	caustic slime nodule
 4018	479813520	rusty metal greaves
 4019
 4020	224342315	rusty piece of rebar	rusty pieces of rebar
@@ -4051,8 +4052,8 @@
 4045	473198712	wumpus-hair bolo
 4046		wumpus-hair net
 4047	615750910	wumpus-hair whip
-4048		wumpus-hair wig
-4049
+4048	767425845	wumpus-hair wig
+4049	263172150	wumpus-hair loincloth
 4050
 4051	768452883	ring of teleportation
 4052	575582192	glass of baboon milk
@@ -4070,23 +4071,21 @@
 4064
 4065
 4066	615750910	Ruby Rod
-4067
-4068
-4069
-4070
-4071
-4072
-4073
+4067	339012390	essence of heat
+4068	879650227	essence of kink
+4069	861565431	essence of cold
+4070	704930921	essence of stench
+4071	475678326	essence of fright
+4072	226858619	essence of cute
+4073	528300671	Supreme Being Glossary
 4074	212838845	multi-pass
-4075
-#	416994074	caustic slime nodule
+4075	270978316	villainous scythe
 4076	606754471	baneful bandolier
 4077
 4078
 4079	904156487	corrosive cowl
 4080
-#	270978316	villainous scythe
-4081
+4081	956208229	corroded breeches
 4082	728374904	pernicious cudgel
 4083	840782535	cupcake-in-a-cup
 4084	289499503	pool of liquid metal	pools of liquid metal
@@ -4099,7 +4098,7 @@
 4091	180051286	tiny slimy cyst	tiny slimy cysts
 4092	727301894	small slimy cyst	small slimy cysts
 4093	131901538	medium slimy cyst	medium slimy cysts
-4094
+4094	875116700	big slimy cyst	big slimy cysts
 4095	483733074	green peawee marble	green peawee marbles
 4096	206158086	brown crock marble
 4097	591750771	red China marble	red China marbles
@@ -4116,7 +4115,7 @@
 4108
 4109
 4110	583815096	molten medallion
-4111
+4111	327314107	brazen bracelet
 4112
 4113	288369149	bewitching boots
 4114
