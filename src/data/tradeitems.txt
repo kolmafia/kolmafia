@@ -4023,6 +4023,7 @@
 4017
 4018	rusty metal greaves	pants	display	155
 4019
+#	caustic slime nodule	none	display	1
 4020	rusty piece of rebar	weapon	all	140
 4021	slime-covered shovel	weapon	display	500
 4022	slime-covered necklace	accessory	display	500
@@ -4052,7 +4053,7 @@
 4046	wumpus-hair net	none, combat	display	360
 4047	wumpus-hair whip	weapon	display	720
 4048	wumpus-hair wig	hat	display	1152
-4049
+4049	wumpus-hair loincloth	pants	display	1656
 4050
 4051	ring of teleportation	accessory	all	90
 4052	glass of baboon milk	food	all	32
@@ -4070,22 +4071,20 @@
 4064
 4065
 4066	Ruby Rod	weapon	none	0
-4067
-4068
-4069
-4070
-4071
-4072
-4073
+4067	essence of heat	none	none	0
+4068	essence of kink	none	none	0
+4069	essence of cold	none	none	0
+4070	essence of stench	none	none	0
+4071	essence of fright	none	none	0
+4072	essence of cute	none	none	0
+4073	Supreme Being Glossary	none	none	0
 4074	multi-pass	none	none	0
-4075
-#	caustic slime nodule	none	display	1
+4075	villainous scythe	weapon	display	4000
 4076	baneful bandolier	accessory	display	4000
 4077
 4078
 4079	corrosive cowl	hat	display	4000
 4080
-#	villainous scythe	weapon	display	4000
 4081
 4082	pernicious cudgel	weapon	display	4000
 4083	cupcake-in-a-cup	food	all	130
@@ -4099,7 +4098,7 @@
 4091	tiny slimy cyst	multiple	all	0
 4092	small slimy cyst	multiple	all	0
 4093	medium slimy cyst	multiple	all	0
-4094
+4094	big slimy cyst	multiple	all	0
 4095	green peawee marble	offhand, multiple	all	1
 4096	brown crock marble	offhand, multiple	all	2
 4097	red China marble	offhand, multiple	all	4
@@ -4116,7 +4115,7 @@
 4108
 4109
 4110	molten medallion	accessory	display	250
-4111
+4111	brazen bracelet	accessory	display	250
 4112
 4113	bewitching boots	accessory	display	250
 4114
