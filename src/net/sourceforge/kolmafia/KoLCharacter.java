@@ -48,6 +48,7 @@ import net.sourceforge.kolmafia.session.EventManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.TurnCounter;
+import net.sourceforge.kolmafia.session.WumpusManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -536,6 +537,7 @@ public abstract class KoLCharacter
 		HellKitchenRequest.reset();
 
 		DwarfFactoryRequest.reset();
+		WumpusManager.reset();
 		InventoryManager.resetInventory();
 		EquipmentManager.resetEquipment();
 		ConcoctionDatabase.refreshConcoctions();

@@ -69,6 +69,7 @@ import net.sourceforge.kolmafia.session.CustomCombatManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.TurnCounter;
+import net.sourceforge.kolmafia.session.WumpusManager;
 import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.swingui.panel.AdventureSelectPanel;
 import net.sourceforge.kolmafia.utilities.PauseObject;
@@ -1675,6 +1676,10 @@ public class FightRequest
 				AdventureResult result = AdventureResult.tallyItem(
 					"sewer tunnel explorations", false );
 				AdventureResult.addResultToList( KoLConstants.tally, result );
+			}
+			else if ( monster.equalsIgnoreCase( "Wumpus" ) )
+			{
+				WumpusManager.reset();
 			}
 
 			// Give your summoned combat entity some experience
