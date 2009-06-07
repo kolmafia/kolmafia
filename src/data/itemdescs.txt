@@ -4021,7 +4021,7 @@
 4015	849598694	memory of an AT base pair	memories of AT base pairs
 4016	422948472	memory of a GT base pair	memories of GT base pairs
 4017	326825207	squirming Slime larva
-#	416994074	caustic slime nodule
+#	416994074	caustic slime nodule	caustic slime nodules
 4018	479813520	rusty metal greaves
 4019
 4020	224342315	rusty piece of rebar	rusty pieces of rebar
@@ -4054,7 +4054,7 @@
 4047	615750910	wumpus-hair whip
 4048	767425845	wumpus-hair wig
 4049	263172150	wumpus-hair loincloth
-4050
+4050	966602382	wumpus-hair sweater
 4051	768452883	ring of teleportation	rings of teleportation
 4052	575582192	glass of baboon milk	glasses of baboon milk
 4053	438971267	banana milkshake	banana milkshakes
@@ -4068,7 +4068,7 @@
 4061	296866991	Violet Hunt Invitation
 4062
 4063	455247433	Mecha Mayhem Club Card
-4064
+4064	222586103	'Smuggler Shot First' Button
 4065	263607656	Spacefleet Communicator Badge
 4066	615750910	Ruby Rod
 4067	339012390	essence of heat
@@ -4082,9 +4082,9 @@
 4075	270978316	villainous scythe
 4076	606754471	baneful bandolier
 4077	828398092	diabolical crossbow
-4078
+4078	189762372	malevolent medallion
 4079	904156487	corrosive cowl
-4080
+4080	924434870	grisly shield
 4081	956208229	corroded breeches
 4082	728374904	pernicious cudgel
 4083	840782535	cupcake-in-a-cup
@@ -4113,10 +4113,10 @@
 4106	423567434	chamoisole	chamoixole
 4107	467253853	bitter pill
 4108	123902094	monstrous monocle
-4109
+4109	383889441	musty moccasins
 4110	583815096	molten medallion
 4111	327314107	brazen bracelet
-4112
+4112	604555910	bitter bowtie
 4113	288369149	bewitching boots
 4114	502821529	secret from the future
 4115

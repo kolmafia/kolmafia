@@ -369,6 +369,7 @@ tuxedo shirt	100	Mus: 35
 vampire cape	20	none
 white hat hacker T-shirt	65	Mus: 17
 white snakeskin duster	45	Mus: 7
+wumpus-hair sweater	110	Mus: 40
 yak anorak	115	Mus: 42
 
 # Weapons section of equipment.txt
@@ -896,6 +897,7 @@ gnauga hide buckler	95	Mus: 30	shield
 golden sausage	0	none
 green balloon	0	none
 green peawee marble	0	Mys: 85
+grisly shield	0	Mus: 200
 handmade hobby horse	0	none
 heart-shaped balloon	0	none
 hippo skin buckler	95	Mus: 30	shield
@@ -1154,6 +1156,7 @@ bejeweled pledge pin	0	Mys: 70
 bewitching boots	0	Mys: 65
 bezoar ring	0	Mys: 35
 big red clown nose	0	Mys: 10
+bitter bowtie	0	Mox: 65
 black belt	0	Mys: 60
 blackberry combat boots	0	Mus: 75
 blackberry moccasins	0	Mys: 75
@@ -1257,12 +1260,14 @@ lucky bottlecap	0	Mys: 200
 lucky rabbit's foot	0	Mys: 15
 makeshift SCUBA gear	0	none
 makeshift cape	0	Mys: 35
+malevolent medallion	200	Mys: 200
 mayfly bait necklace	0	none
 memory of a cultist's robe	0	none
 molten medallion	0	Mys: 65
 monster bait	0	none
 monstrous monocle	0	Mus: 65
 mood ring	0	none
+musty moccasins	0	Mus: 65
 natty blue ascot	0	Mys: 10
 navel ring of navel gazing	0	none
 old soft shoes	0	Mys: 200
