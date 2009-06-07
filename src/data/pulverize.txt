@@ -119,6 +119,17 @@ anniversary concrete fedora	nosmash
 tiny plastic sword	nosmash
 wad of Crovacite	wad of Crovacite
 Emblem of Ak'gyxoth	nosmash
+green peawee marble	useless powder
+brown crock marble	useless powder
+red China marble	useless powder
+lemonade marble	useless powder
+bumblebee marble	useless powder
+jet bennie marble	useless powder
+beige clambroth marble	useless powder
+steely marble	useless powder
+beach ball marble	useless powder
+black catseye marble	useless powder
+big bumboozer marble	useless powder
 
 # Equipment dropped, or made from drops, in The Sea has special results.
 7-inch discus	sea salt crystal

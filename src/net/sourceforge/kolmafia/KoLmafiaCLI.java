@@ -2158,6 +2158,13 @@ public class KoLmafiaCLI
 					value = desiredValue;
 				}
 			}
+			
+			if ( name.equals( "_userMods" ) )
+			{
+				Modifiers.overrideModifier( "_userMods", value );
+				KoLCharacter.recalculateAdjustments();
+				KoLCharacter.updateStatus();
+			}
 
 			if ( Preferences.getString( name ).equals( value ) )
 			{
@@ -3552,7 +3559,8 @@ public class KoLmafiaCLI
 			{
 				AdventureResult item = (AdventureResult) i.next();
 				RequestLogger.printLine( item.getName() + " @ " +
-					StoreManager.getMallPrice( item ) );
+					KoLConstants.COMMA_FORMAT.format(
+						StoreManager.getMallPrice( item ) ) );
 			}
 		}
 		

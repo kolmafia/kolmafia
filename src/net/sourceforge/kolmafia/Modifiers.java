@@ -210,6 +210,7 @@ public class Modifiers
 	public static final int FAIRY_EFFECTIVENESS = 78;
 	public static final int FAMILIAR_WEIGHT_CAP = 79;
 	public static final int SLIME_RESISTANCE = 80;
+	public static final int SLIME_HATES_IT = 81;
 	
 	public static final String EXPR = "(?:([+-]?[\\d.]+)|\\[([^]]+)\\])";
 
@@ -572,6 +573,10 @@ public class Modifiers
 		  null,
 		  Pattern.compile( "Slime Resistance: " + EXPR )
 		},
+		{ "Slime Hates It",
+		  Pattern.compile( "Slime( Really)? Hates (It|You)" ),
+		  Pattern.compile( "Slime Hates It: " + EXPR )
+		},
 	};
 
 	public static final int FLOAT_MODIFIERS = Modifiers.floatModifiers.length;
@@ -660,6 +665,12 @@ public class Modifiers
 	private static final Pattern CLOWNOSITY_PATTERN =
 		Pattern.compile( "Clownosity: ([+-]\\d+)" );
 	private static int clownosityMask = 1;
+	
+	public static final void overrideModifier( String name, String value )
+	{
+		name = StringUtilities.getCanonicalName( name );
+		Modifiers.modifiersByName.put( name, value );
+	}
 
 	public static final String getModifierName( final int index )
 	{
@@ -2031,7 +2042,7 @@ public class Modifiers
 					v = KoLCharacter.getSpleenUse();
 					break;
 				case 'T':
-					v = this.effect.getCount( KoLConstants.activeEffects );
+					v = Math.max( 1, this.effect.getCount( KoLConstants.activeEffects ) );
 					break;
 				case 'U':
 					v = KoLCharacter.getTelescopeUpgrades();
