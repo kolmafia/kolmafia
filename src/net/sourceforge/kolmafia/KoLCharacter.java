@@ -543,6 +543,8 @@ public abstract class KoLCharacter
 
 		int battleIndex = KoLCharacter.battleSkillNames.indexOf( Preferences.getString( "battleAction" ) );
 		KoLCharacter.battleSkillNames.setSelectedIndex( battleIndex == -1 ? 0 : battleIndex );
+		
+		Modifiers.overrideModifier( "_userMods", Preferences.getString( "_userMods" ) );
 	}
 
 	public static final void resetPerAscensionData()
@@ -3184,6 +3186,20 @@ public abstract class KoLCharacter
 			case 3:
 				newModifiers.add( Modifiers.ITEMDROP, 5, "quartet" );
 				break;
+			}
+		}
+		
+		// Miscellaneous
+		
+		newModifiers.add( Modifiers.getModifiers( "_userMods" ) );
+		
+		if ( Modifiers.currentZone.equals( "the slime tube" ) )
+		{
+			int hatred = (int) newModifiers.get( Modifiers.SLIME_HATES_IT );
+			if ( hatred > 0 )
+			{
+				newModifiers.add( Modifiers.MONSTER_LEVEL, 
+					15 * hatred * (hatred + 2), "slime hatred" );
 			}
 		}
 

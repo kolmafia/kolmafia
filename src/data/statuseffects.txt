@@ -642,11 +642,13 @@
 641	Grimace	hernia.gif	e4f1112898cf840ef868a6833fde9f69	eat 1 slimy sweetbreads
 642	Bilious	angry.gif	abe97593a0f3b79395f10a45d782d6fd	drink 1 slimy fermented bile bladder
 643	Slimebreath	breath.gif	02cbec5ae667b2b427d86363b7b7cc63	use 1 slimy alveolus
-644
+644	Serenity	snowflakes.gif	f76cecbb61243d7dd7425fec99082980
 645	Phairly Pheromonal	stench.gif	6e0ad7f808c7e80f85b1920c7e94b3e2
-646
+646	Nano-juiced	strboost.gif	21f5a7cc7499b3e93f8da7c8e7bb2746
 647
 648	Meatwise	meat.gif	1d35d527ffeb6a8be406cd7878efed00
 649
 650	Stimulated Brain	realbrain.gif	1c0167101ac3939ac0bca1d271f07262	use 1 neurostim pill
 651	Stimulated Body	swarmer.gif	b9c435f279d09dbe1719bd935cf85020	use 1 physiostim pill
+652
+653	Bitterskin	bitterskin.gif	d94d955ab2d6b053c25ca2e567b6bbfa

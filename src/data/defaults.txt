@@ -449,6 +449,7 @@ user	_gongDrops	0
 user	_hotTubSoaks	0
 user	_navelRunaways	0
 user	_sealsSummoned	0
+user	_userMods
 
 user	choiceAdventure2	2
 user	choiceAdventure3	3
