@@ -4021,9 +4021,9 @@
 4015	849598694	memory of an AT base pair	memories of AT base pairs
 4016	422948472	memory of a GT base pair	memories of GT base pairs
 4017	326825207	squirming Slime larva
-#	416994074	caustic slime nodule	caustic slime nodules
 4018	479813520	rusty metal greaves
 4019
+#	416994074	caustic slime nodule	caustic slime nodules
 4020	224342315	rusty piece of rebar	rusty pieces of rebar
 4021	662987826	slime-covered shovel
 4022	212250418	slime-covered necklace	slime-covered necklaces
@@ -4034,7 +4034,7 @@
 4027	780419564	slime-covered greaves
 4028	823709783	slime-covered club
 4029	502206013	memory of a grappling hook
-4030		memory of a small stone block
+4030	379102139	memory of a small stone block
 4031	995053215	memory of a little stone block
 4032	771011776	memory of half a stone circle
 4033	836396108	memory of a stone half-circle
@@ -4050,7 +4050,7 @@
 4043	497900052	pig-iron bracers
 4044	428760948	wumpus hair	tufts of wumpus hair
 4045	473198712	wumpus-hair bolo
-4046		wumpus-hair net
+4046	357589301	wumpus-hair net
 4047	615750910	wumpus-hair whip
 4048	767425845	wumpus-hair wig
 4049	263172150	wumpus-hair loincloth

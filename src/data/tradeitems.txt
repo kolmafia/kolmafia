@@ -4045,7 +4045,7 @@
 4038	slimy fermented bile bladder	drink	all	200
 4039	slimy alveolus	multiple	all	400
 4040	memory of a cultist's robe	accessory	none	31
-4041	pig-iron helm	hat	display	110
+4041	pig-iron helm	hat	display	1710
 4042	pig-iron shinguards	pants	display	110
 4043	pig-iron bracers	accessory	display	110
 4044	wumpus hair	multiple	display	0

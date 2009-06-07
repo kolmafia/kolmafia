@@ -164,6 +164,10 @@ wet stunt nut stew	COOK	wet stew	stunt nuts
 # bitter pill	COOK	caustic slime nodule	scrumptious reagent
 # baneful bandolier	SMITH	caustic slime nodule	slime-covered necklace
 # corrosive cowl	SMITH	caustic slime nodule	slime-covered helmet
+# corroded breeches	SMITH	caustic slime nodule	slime-covered greaves
+# diabolical crossbow	SMITH	caustic slime nodule	slime-covered speargun
+# grisly shield	SMITH	caustic slime nodule	slime-covered lantern
+# malevolent medallion	SMITH	caustic slime nodule	slime-covered compass
 # pernicious cudgel	SMITH	caustic slime nodule	slime-covered club
 # villainous scythe	SMITH	caustic slime nodule	slime-covered shovel
 # diabolical crossbow	SMITH	caustic slime nodule	slime-covered speargun

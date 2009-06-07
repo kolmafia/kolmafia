@@ -897,7 +897,8 @@ gnauga hide buckler	95	Mus: 30	shield
 golden sausage	0	none
 green balloon	0	none
 green peawee marble	0	Mys: 85
-grisly shield	0	Mus: 200
+# *** grisly shield is a shield of unknown power.
+grisly shield	0	Mus: 200	shield
 handmade hobby horse	0	none
 heart-shaped balloon	0	none
 hippo skin buckler	95	Mus: 30	shield

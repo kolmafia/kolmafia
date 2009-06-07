@@ -42,12 +42,14 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public abstract class WumpusManager
 {
 	public static HashMap warnings = new HashMap();
+
 	public static final int WARN_SAFE = 0;
 	public static final int WARN_BATS = 1;
 	public static final int WARN_PIT = 2;
 	public static final int WARN_WUMPUS = 4;
 	public static final int WARN_INDEFINITE = 8;
 	public static final int WARN_ALL = 15;
+
 	public static String[] WARN_STRINGS = new String[] {
 		"safe",
 		"definite bats",
@@ -70,6 +72,11 @@ public abstract class WumpusManager
 
 	private static final Pattern ROOM_PATTERN = Pattern.compile( ">The (\\w+) Chamber<" );
 	private static final Pattern LINK_PATTERN = Pattern.compile( "Enter the (\\w+) chamber" );
+
+	public static void reset()
+	{
+		WumpusManager.warnings.clear();
+	}
 
 	private static int get( String room )
 	{
@@ -101,6 +108,14 @@ public abstract class WumpusManager
 			WumpusManager.put( current, WARN_BATS );
 			return new String[ 0 ];
 		}
+
+		if ( text.indexOf( "Thump" ) != -1 )
+		{
+			WumpusManager.put( current, WARN_PIT );
+			return new String[ 0 ];
+		}
+
+		WumpusManager.put( current, WARN_SAFE );
 
 		int warn = WARN_INDEFINITE;
 		if ( text.indexOf( "squeaking coming from somewhere nearby" ) != -1 )

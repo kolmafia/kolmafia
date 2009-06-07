@@ -1933,8 +1933,7 @@ public abstract class ChoiceManager
 			
 		case 360:
 			// Wumpus Hunt
-			return WumpusManager.dynamicChoiceOptions(
-				ChoiceManager.lastResponseText );
+			return WumpusManager.dynamicChoiceOptions( ChoiceManager.lastResponseText );
 		}
 		return null;
 	}

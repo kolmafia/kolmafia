@@ -421,7 +421,7 @@ tuxedo shirt	Moxie: +7
 # vampire cape
 white hat hacker T-shirt	Critical: 2, Muscle: +2, Mysticality: +2, Moxie: +2
 white snakeskin duster	Muscle: +2, Maximum HP: +10
-wumpus-hair sweater	Muscle: +3, Mysticality: +3, Maximum HP: +30, Maximum MP: +30
+wumpus-hair sweater	Muscle: +3, Mysticality: +3, Moxie: +3, Maximum MP: +30, Maximum MP: +30
 yak anorak	MP Regen Min: 3, MP Regen Max: 4
 
 # Weapons section of modifiers.txt
@@ -982,7 +982,7 @@ gnauga hide buckler	Muscle: +3, Mysticality: +3, Moxie: +3, Damage Reduction: 5
 # golden sausage
 # green balloon
 green peawee marble	Stench Spell Damage: +30
-grisly shield	Slime Hates It: +1, Weapon Damage: +50, PvP Fights: +6
+grisly shield	Damage Reduction: 13, Slime Hates It: +1, Weapon Damage: +50, PvP Fights: +6
 # handmade hobby horse: +2 Muscle Stat(s) Per Fight
 handmade hobby horse	Experience: +2
 # heart-shaped balloon
@@ -1365,7 +1365,7 @@ lucky bottlecap	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, 
 lucky rabbit's foot	Item Drop: +7, Meat Drop: +7
 makeshift SCUBA gear	Stench Resistance: +2, Item Drop: -100, Initiative: -100
 makeshift cape	Item Drop: +5
-malevolent medallion	Slime Hates It: +1, Hot Damage: +10, Cold Damage: +10, Stench Damage: +10, Spooky Damage: +10, Sleaze Damage: +10, MP Regen Min: 10, MP Regen Max: 30
+malevolent medallion	Slime Hates It: +1, Spooky Damage: +10, Stench Damage: +10, Hot Damage: +10, Cold Damage: +10, Sleaze Damage: +10, MP Regen Min: 10, MP Regen Max: 30
 # mayfly bait necklace: Allows Summoning of Mayflies in Combat
 mayfly bait necklace	Meat Drop: +10, Item Drop: +10, Single Equip, Softcore Only
 memory of a cultist's robe	Single Equip
@@ -2655,4 +2655,3 @@ El Vibrato punchcard (FLOOR)	Wiki Name: "El Vibrato punchcard (88 holes)"
 El Vibrato punchcard (DRONE)	Wiki Name: "El Vibrato punchcard (182 holes)"
 El Vibrato punchcard (WALL)	Wiki Name: "El Vibrato punchcard (176 holes)"
 El Vibrato punchcard (SPHERE)	Wiki Name: "El Vibrato punchcard (104 holes)"
-
