@@ -4064,9 +4064,9 @@
 4057	987751970	shiny tribal beads	shiny tribal beadss
 4058	158275016	ancient stone fist	ancient stone fists
 4059	516274004	ancient stone head	ancient stone heads
-4060
+4060	296866991	Indigo Party Invitation
 4061	296866991	Violet Hunt Invitation
-4062
+4062	319161030	Blue Milk Club Card
 4063	455247433	Mecha Mayhem Club Card
 4064	222586103	'Smuggler Shot First' Button
 4065	263607656	Spacefleet Communicator Badge

@@ -46,8 +46,18 @@ public abstract class WumpusManager
 	public static final int WARN_BATS = 1;
 	public static final int WARN_PIT = 2;
 	public static final int WARN_WUMPUS = 4;
-	public static final int WARN_ALL = 1 + 2 + 4;
+	public static final int WARN_INDEFINITE = 8;
+	public static final int WARN_ALL = 15;
 	public static String[] WARN_STRINGS = new String[] {
+		"safe",
+		"definite bats",
+		"definite pit",
+		"ERROR: BATS AND PIT???",
+		"definite Wumpus",
+		"ERROR: BATS AND WUMPUS???",
+		"ERROR: PIT AND WUMPUS???",
+		"TOTAL ALGORITHM FAILURE!!!",
+
 		"safe",
 		"possible bats",
 		"possible pit",
@@ -74,7 +84,10 @@ public abstract class WumpusManager
 	
 	public static String[] dynamicChoiceOptions( String text )
 	{
-		if ( text == null ) text = "";
+		if ( text == null )
+		{
+			return new String[] { "you're clicking too fast - lost a page update" };
+		}
 		Matcher m = WumpusManager.ROOM_PATTERN.matcher( text );
 		if ( !m.find() )
 		{	// Must be at the entryway, or perhaps died
@@ -83,7 +96,13 @@ public abstract class WumpusManager
 		}
 		
 		String current = m.group( 1 ).toLowerCase();
-		int warn = 0;
+		if ( text.indexOf( "Wait for the bats to drop you" ) != -1 )
+		{
+			WumpusManager.put( current, WARN_BATS );
+			return new String[ 0 ];
+		}
+
+		int warn = WARN_INDEFINITE;
 		if ( text.indexOf( "squeaking coming from somewhere nearby" ) != -1 )
 		{
 			warn |= WARN_BATS;
@@ -99,6 +118,9 @@ public abstract class WumpusManager
 		
 		String[] results = new String[ 3 ];
 		m = WumpusManager.LINK_PATTERN.matcher( text );
+		// Basic logic: assume all rooms have all warnings initially.
+		// Remove any warnings from linked rooms that aren't present
+		// in the current room.
 		for ( int i = 0; i < 3; ++i )
 		{
 			if ( !m.find() )
@@ -107,9 +129,44 @@ public abstract class WumpusManager
 			}
 			String link = m.group( 1 ).toLowerCase();
 			WumpusManager.put( link, warn );
-			results[ i ] = WumpusManager.WARN_STRINGS[ WumpusManager.get( link ) ];
+			results[ i ] = link;
 		}
+		
+		// Advanced logic: if only one of the linked rooms has a given
+		// warning, promote that to a definite danger, and remove any
+		// other warnings from that room.
+		WumpusManager.deduce( results );
+		// Doing this may make further deductions possible.
+		WumpusManager.deduce( results );
+		// I'm not sure if a 3rd deduction is actually possible, but it
+		// doesn't hurt to try.
+		WumpusManager.deduce( results );
+
 		WumpusManager.put( current, WARN_SAFE );
+		for ( int i = 0; i < 3; ++i )
+		{
+			results[ i ] = WumpusManager.WARN_STRINGS[ WumpusManager.get( results[ i ] ) ];
+		}
 		return results;
+	}
+	
+	private static void deduce( String[] links )
+	{
+		WumpusManager.deduce( links, WARN_BATS );
+		WumpusManager.deduce( links, WARN_PIT );
+		WumpusManager.deduce( links, WARN_WUMPUS );
+	}
+
+	private static void deduce( String[] links, int mask )
+	{
+		int which = -1;
+		for ( int i = 0; i < 3; ++i )
+		{
+			if ( (WumpusManager.get( links[ i ] ) & mask) == 0 ) continue;
+			if ( which != -1 ) return;	// warning not unique
+			which = i;
+		}
+		if ( which == -1 ) return;	// no unique warning
+		WumpusManager.put( links[ which ], mask );
 	}
 }
