@@ -4064,9 +4064,9 @@
 4057	shiny tribal beads	accessory	all	123
 4058	ancient stone fist	weapon	all	54
 4059	ancient stone head	offhand	all	93
-4060
+4060	Indigo Party Invitation	none	none	0
 4061	Violet Hunt Invitation	none	none	0
-4062
+4062	Blue Milk Club Card	none	none	0
 4063	Mecha Mayhem Club Card	none	none	0
 4064	'Smuggler Shot First' Button	none	none	0
 4065	Spacefleet Communicator Badge	none	none	0

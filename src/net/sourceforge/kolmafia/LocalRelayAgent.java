@@ -65,7 +65,7 @@ public class LocalRelayAgent
 		LocalRelayAgent.lastModified.clear();
 	}
 
-	private final char[] data = new char[ 8096 ];
+	private final char[] data = new char[ 8192 ];
 	private final StringBuffer buffer = new StringBuffer();
 	private final PauseObject pauser = new PauseObject();
 
@@ -80,7 +80,7 @@ public class LocalRelayAgent
 
 	public LocalRelayAgent( final int id )
 	{
-		super( "LocalRelayAgent" );
+		super( "LocalRelayAgent" + id );
 		this.request = new RelayRequest( true );
 	}
 
