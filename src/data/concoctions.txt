@@ -161,11 +161,15 @@ ninja pirate zombie robot head	COMBINE	pirate zombie robot head	cold ninja mask
 wet stew	COOK	bird rib	lion oil
 wet stunt nut stew	COOK	wet stew	stunt nuts
 
-# baneful bandolier	SMITH	caustic slime nodule	slime-covered necklace
 # bitter pill	COOK	caustic slime nodule	scrumptious reagent
+# baneful bandolier	SMITH	caustic slime nodule	slime-covered necklace
 # corrosive cowl	SMITH	caustic slime nodule	slime-covered helmet
 # pernicious cudgel	SMITH	caustic slime nodule	slime-covered club
 # villainous scythe	SMITH	caustic slime nodule	slime-covered shovel
+# diabolical crossbow	SMITH	caustic slime nodule	slime-covered speargun
+# malevolent medallion	SMITH	caustic slime nodule	slime-covered compass
+# grisly shield	SMITH	caustic slime nodule	slime-covered lantern
+# corroded breeches	SMITH	caustic slime nodule	slime-covered greaves
 
 # Box parts and things that go into boxes or become boxes or are involved
 # in some way with boxes and the things that become/go into them.
@@ -1239,6 +1243,7 @@ wumpus-hair net	MUSE	wumpus hair (5)
 wumpus-hair whip	MUSE	wumpus hair (11)
 wumpus-hair wig	MUSE	wumpus hair (16)
 wumpus-hair loincloth	MUSE	wumpus hair (23)
+wumpus-hair sweater	MUSE	wumpus hair (30)
 
 # Recipes that involve single-using one of the ingredients
 

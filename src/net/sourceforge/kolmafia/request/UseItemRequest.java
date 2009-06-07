@@ -596,6 +596,12 @@ public class UseItemRequest
 		}
 
 		UseItemRequest.lastUpdate = "";
+		if ( !ItemDatabase.meetsLevelRequirement( this.itemUsed.getName() ) )
+		{
+			UseItemRequest.lastUpdate = "Insufficient level to consume " + this.itemUsed;
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+			return;
+		}		
 
 		int maximumUses = UseItemRequest.maximumUses( itemId, this.consumptionType );
 		if ( maximumUses < this.itemUsed.getCount() )
