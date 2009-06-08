@@ -690,9 +690,9 @@ Zombo	HP: 10000 E: spooky	Prelude of Precision (0)	voodoo snuff (0)	voodoo snuff
 
 # Bad Trip
 Swarm of Country Bats	HP: 20 Def: 20 Atk: 20	orange-frosted astral cupcake (15)
-Trippy Floating Head (Sky)	HP: 20 Def: 20 Atk: 20	blue-frosted astral cupcake (15)
-Trippy Floating Head (Stench)	HP: 20 Def: 20 Atk: 20	pink-frosted astral cupcake (15)
-Trippy Floating Head (Todd)	HP: 20 Def: 20 Atk: 20	green-frosted astral cupcake (15)
+Trippy Floating Head (Casey Kasem)	HP: 20 Def: 20 Atk: 20	green-frosted astral cupcake (15)
+Trippy Floating Head (Grand Moff Tarkin)	HP: 20 Def: 20 Atk: 20	pink-frosted astral cupcake (15)
+Trippy Floating Head (Mona Lisa)	HP: 20 Def: 20 Atk: 20	blue-frosted astral cupcake (15)
 Zombie Baby	HP: 20 Def: 20 Atk: 20	purple-frosted astral cupcake (15)
 
 # Mediocre Trip

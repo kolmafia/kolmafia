@@ -236,6 +236,8 @@ public abstract class VioletFogManager
 		"ice stein",			// 68
 		"munchies pill",		// 69
 		"homeopathic healing powder",	// 70
+		"Boost Prime Stat",
+		"Boost Lowest Stat"
 	};
 
 	// The choice table.
@@ -330,6 +332,30 @@ public abstract class VioletFogManager
 		if ( goal == 0 )
 		{
 			return "4";
+		}
+		
+		if ( goal == 10 )	// Boost Prime Stat
+		{
+			goal = KoLCharacter.getPrimeIndex() + 4;
+		}
+		else if ( goal == 11 )	// Boost Lowest Stat
+		{
+			long mus = KoLCharacter.getTotalMuscle();
+			long mys = KoLCharacter.getTotalMysticality();
+			long mox = KoLCharacter.getTotalMoxie();
+
+			if ( mus <= mys && mus <= mox )
+			{
+				goal = 4;
+			}
+			else if ( mys <= mus && mys <= mox )
+			{
+				goal = 5;
+			}
+			else
+			{
+				goal = 6;
+			}
 		}
 
 		// Find the location we must get to to achieve the goal
