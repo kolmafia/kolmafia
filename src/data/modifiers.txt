@@ -2313,6 +2313,7 @@ Seal Clubbing Frenzy	Muscle: +2
 Seeing Colors	Mysticality Percent: +50
 Serenity	Moxie Percent: +15
 Seriously Mutated	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
+Shamboozled	Moxie Percent: +50
 Shamed &amp; Manipulated	Muscle Percent: +50, Moxie Percent: -50
 # Shape of...Mole!: You're a Mole
 # Sharp Weapon: +3-5 Weapon Damage
