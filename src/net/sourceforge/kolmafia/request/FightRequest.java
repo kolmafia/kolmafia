@@ -1399,6 +1399,13 @@ public class FightRequest
 					responseText.indexOf( "rectify" ) != -1 ? "Orcish Frat Boy (Music Lover)" :
 						"Orcish Frat Boy (Paddler)";
 			}
+			else if ( encounter.equalsIgnoreCase( "Trippy Floating Head" ) )
+			{
+				encounter =
+					responseText.indexOf( "kasemhead.gif" ) != -1 ? "Trippy Floating Head (Casey Kasem)" :
+					responseText.indexOf( "tarkinhead.gif" ) != -1 ? "Trippy Floating Head (Grand Moff Tarkin)" :
+						"Trippy Floating Head (Mona Lisa)";
+			}
 			else if ( encounter.equalsIgnoreCase( "Ninja Snowman" ) )
 			{
 				encounter = responseText.indexOf( "ninjarice.gif" ) != -1 ?
