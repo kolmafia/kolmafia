@@ -861,6 +861,7 @@ public class ItemPool
 	public static final int MOONTAN_LOTION = 4003;
 	public static final int AMINO_ACIDS = 4006;
 	public static final int WUMPUS_HAIR = 4044;
+	public static final int RUBY_ROD = 4066;
 	public static final int GREEN_PEAWEE_MARBLE = 4095;
 	public static final int BROWN_CROCK_MARBLE = 4096;
 	public static final int RED_CHINA_MARBLE = 4097;
