@@ -4121,11 +4121,11 @@
 4114	502821529	secret from the future
 4115
 4116	453371698	rickety old unicycle	rickety old unicycles
-4117	832063847	crusty hula hoop
+4117	832063847	crusty hula hoop	crusty hula hoops
 4118	998607445	Coily&trade;	Coilies&trade;
 4119	940588617	old-school flying disc	old-school flying discs
 4120	147072484	lawn dart	lawn darts
-4121	341047975	red wagon
+4121	341047975	red wagon	red wagons
 4122	330802495	wad of slimy rags	wads of slimy rags
 4123	180528779	crown-shaped beanie	crown-shaped beanies
 4124	581030345	hopping socks	pairs of hopping socks
