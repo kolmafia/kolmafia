@@ -427,6 +427,7 @@ public abstract class MoodManager
 	{
 		String nextBurnCast;
 
+		boolean was = MoodManager.isExecuting;
 		MoodManager.isExecuting = true;
 
 		int currentMP = -1;
@@ -437,7 +438,26 @@ public abstract class MoodManager
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( nextBurnCast );
 		}
 
-		MoodManager.isExecuting = false;
+		MoodManager.isExecuting = was;
+	}
+
+	public static final void burnMana( int minimum )
+	{
+		String nextBurnCast;
+
+		boolean was = MoodManager.isExecuting;
+		MoodManager.isExecuting = true;
+
+		minimum = Math.max( 0, minimum );
+		int currentMP = -1;
+
+		while ( currentMP != KoLCharacter.getCurrentMP() && ( nextBurnCast = MoodManager.getNextBurnCast( minimum ) ) != null )
+		{
+			currentMP = KoLCharacter.getCurrentMP();
+			KoLmafiaCLI.DEFAULT_SHELL.executeLine( nextBurnCast );
+		}
+
+		MoodManager.isExecuting = was;
 	}
 
 	public static final String getNextBurnCast()
@@ -452,7 +472,11 @@ public abstract class MoodManager
 
 		float manaRecoverPreference = Preferences.getFloat( "mpAutoRecovery" );
 		int minimum = (int)( Math.max( manaBurnPreference, manaRecoverPreference ) * (float) KoLCharacter.getMaximumMP() ) + 1;
+		return MoodManager.getNextBurnCast( minimum );
+	}
 
+	public static final String getNextBurnCast( int minimum )
+	{
 		// Punt immediately if already burned enough or must recover MP
 
 		if ( KoLCharacter.getCurrentMP() <= minimum )
@@ -465,6 +489,7 @@ public abstract class MoodManager
 		boolean onlyMood = !Preferences.getBoolean( "allowNonMoodBurning" );
 		int summonThreshold = Preferences.getInteger( "manaBurnSummonThreshold" );
 		String breakfast = onlyMood ? null : MoodManager.considerBreakfastSkill( minimum );
+		int durationLimit = KoLCharacter.getAdventuresLeft() + 1000;
 
 		// Rather than maintain mood-related buffs only, maintain any
 		// active effect that the character can auto-cast. Examine all
@@ -512,8 +537,11 @@ public abstract class MoodManager
 
 			// If we already have 1000 turns more than the number
 			// of turns the player has available, that's enough.
+			// Also, if we have more than twice the turns of some
+			// more expensive buff, save up for that one instead
+			// of extending this one.
 
-			if ( currentDuration >= KoLCharacter.getAdventuresLeft() + 1000 )
+			if ( currentDuration >= durationLimit )
 			{
 				continue;
 			}
@@ -545,10 +573,10 @@ public abstract class MoodManager
 			if ( i + 1 < KoLConstants.activeEffects.size() )
 			{
 				AdventureResult nextEffect = (AdventureResult) KoLConstants.activeEffects.get( i + 1 );
-				desiredDuration = nextEffect.getCount();
+				desiredDuration = nextEffect.getCount() - currentDuration;
 			}
 
-			// Limit cast count to two in order to ensure that
+			// Limit cast count in order to ensure that
 			// KoLmafia doesn't make the buff counts too far out of
 			// balance.
 
@@ -559,13 +587,16 @@ public abstract class MoodManager
 
 			if ( duration * castCount > desiredDuration )
 			{
-				castCount = Math.min( 2, castCount );
+				castCount = Math.min( castCount, Math.max( castCount / 10,
+					Math.max( 2, desiredDuration / duration + 1 ) ) );
 			}
 
 			if ( castCount > 0 )
 			{
 				return "cast " + castCount + " " + skillName;
 			}
+			durationLimit = Math.max( 10,
+				Math.min( currentDuration * 2, durationLimit ) );
 		}
 
 		// No buff found. Return possible breakfast/libram skill

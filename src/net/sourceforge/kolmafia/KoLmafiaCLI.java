@@ -889,17 +889,29 @@ public class KoLmafiaCLI
 		}
 	}
 
-	static { new BurnExtraMP().register( "burn extra mp" ); }
+	static { new BurnExtraMP().register( "burn" ); }
 	public static class BurnExtraMP
 		extends Command
 	{
-		{ usage = " - use some MP for buff extension and summons."; }
-		public void run( String cmd )
+		{ usage = " extra | * | <num> | -num - use excess/all/specified/all but specified MP for buff extension and summons."; }
+		public void run( String cmd, String parameters )
 		{
-			CLI.recoverHP();
-
 			SpecialOutfit.createImplicitCheckpoint();
-			MoodManager.burnExtraMana( true );
+			CLI.recoverHP();
+			if ( parameters.startsWith( "extra" ) )
+			{
+				MoodManager.burnExtraMana( true );
+			}
+			else if ( parameters.startsWith( "*" ) )
+			{
+				MoodManager.burnMana( 0 );
+			}
+			else
+			{
+				int amount = StringUtilities.parseInt( parameters );
+				if ( amount > 0 ) amount -= KoLCharacter.getCurrentMP();
+				MoodManager.burnMana( -amount );
+			}
 			SpecialOutfit.restoreImplicitCheckpoint();
 		}
 	}
@@ -7252,6 +7264,10 @@ public class KoLmafiaCLI
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
 				"Only HP restoration is available from the nuns." );
 			return;
+		}
+		else if ( side.equals( "fratboy" ) )
+		{
+			MoodManager.burnMana( KoLCharacter.getMaximumMP() - 1000 );
 		}
 		String url = Preferences.getString( "warProgress" ).equals( "finished" ) ?
 			"postwarisland.php" : "bigisland.php";
