@@ -68,6 +68,7 @@ public abstract class ChoiceManager
 	private static final AdventureResult PAPAYA = new AdventureResult( 498, 1 );
 	private static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice value=(\\d+)" );
 	private static final Pattern TATTOO_PATTERN = Pattern.compile( "otherimages/sigils/hobotat(\\d+).gif" );
+	private static final Pattern ELEMENT_PATTERN = Pattern.compile( "<select name=\"slot[12345]\">.*?</select>", Pattern.DOTALL );
 
 	public static final GenericRequest CHOICE_HANDLER = new PasswordHashRequest( "choice.php" );
 
@@ -1158,6 +1159,8 @@ public abstract class ChoiceManager
 		// Choice 377 is Southern Abandoned Building
 		// Choice 378 is Storehouse
 		// Choice 379 is Northern Building (Basement)
+
+		// Choice 392 is The Elements of Surprise . . .
 	};
 
 	static
@@ -1654,6 +1657,39 @@ public abstract class ChoiceManager
 		}
 
 		ResultProcessor.processResult( cost );
+	}
+
+	public static final void decorateChoice( final int choice, final StringBuffer buffer )
+	{
+		switch ( choice )
+		{
+		case 134:
+		case 135:
+			// Add special decoration for Pyramid choices
+			PyramidRequest.decorateChoice( choice, buffer );
+			break;
+		case 392:
+			// Prefill the element dropdowns correctly
+			Matcher matcher = ELEMENT_PATTERN.matcher( buffer );
+			ChoiceManager.selectElement( matcher, buffer, "sleaze" );
+			ChoiceManager.selectElement( matcher, buffer, "spooky" );
+			ChoiceManager.selectElement( matcher, buffer, "stench" );
+			ChoiceManager.selectElement( matcher, buffer, "cold" );
+			ChoiceManager.selectElement( matcher, buffer, "hot" );
+			break;
+		}
+	}
+
+	private static final void selectElement( final Matcher matcher, final StringBuffer buffer, final String element )
+	{
+		if ( !matcher.find() )
+		{
+			return;
+		}
+		String oldSelect = matcher.group(0);
+		String newSelect = oldSelect.replace( ">" + element, " selected>" + element );
+		int index = buffer.indexOf( oldSelect );
+		buffer.replace( index, index + oldSelect.length(), newSelect );
 	}
 
 	public static final String[][] choiceSpoilers( final int choice )
