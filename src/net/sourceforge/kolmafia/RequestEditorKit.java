@@ -84,6 +84,7 @@ import net.sourceforge.kolmafia.webui.CharPaneDecorator;
 import net.sourceforge.kolmafia.webui.DungeonDecorator;
 import net.sourceforge.kolmafia.webui.HobopolisDecorator;
 import net.sourceforge.kolmafia.webui.IslandDecorator;
+import net.sourceforge.kolmafia.webui.MemoriesDecorator;
 import net.sourceforge.kolmafia.webui.MineDecorator;
 import net.sourceforge.kolmafia.webui.StationaryButtonDecorator;
 import net.sourceforge.kolmafia.webui.UseLinkDecorator;
@@ -882,6 +883,10 @@ public class RequestEditorKit
 		case 132: // Battlefield (Frat Uniform)
 		case 140: // Battlefield (Hippy Uniform)
 			IslandDecorator.decorateBattlefieldFight( buffer );
+			break;
+
+		case 206: // Seaside Megalopolis
+			MemoriesDecorator.decorateMegalopolisFight( buffer );
 			break;
 		}
 	}

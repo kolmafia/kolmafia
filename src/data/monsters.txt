@@ -113,6 +113,7 @@
 1335 HaXx0r	HP: 71 Def: 81 Atk: 81 Meat: 24-36	334 scroll (20)	Dyspepsi-Cola (70)	1337 7r0uZ0RZ (15)
 7-Foot Dwarf	HP: 40 Def: 53 Atk: 53 Meat: 32-51	miner's helmet (3)	miner's pants (3)	7-Foot Dwarven mattock (3)
 7-Foot Dwarf Foreman	HP: 50 Def: 57 Atk: 57 Meat: 48-77	7-Foot Dwarven mattock (3)	miner's helmet (3)	miner's pants (3)
+7-Foot Dwarf Replicant	HP: 0	cyber-mattock (0)	neurostim pill (0)	essence of stench (100c)
 A Bugged Bugbear	HP: 14 Def: 18 Atk: 14	gnoll teeth (30)	gnoll lips (30)	software glitch (p0)
 A Revolting Bugbear	HP: 10 Def: 13 Atk: 13 E: stench
 A Revolving Bugbear	HP: 11 Def: 15 Atk: 14
@@ -140,6 +141,7 @@ Bad ASCII Art	HP: 1	ASCII shirt (c100)	 30669 scroll (100)	33398 scroll (100)	33
 BASIC Elemental	HP: 40 Def: 50 Atk: 50
 Bailey's Beetle	HP: 215 Def: 195 Atk: 195	green clay bead (0)	floorboard cruft (0)	battered hubcap (0)	communications windchimes (0)	reinforced beaded headband (0)	round purple sunglasses (0)	bullet-proof corduroys (0)
 Baiowulf	HP: 40 Def: 25 Atk: 25	Talisman of Baio (100)
+Bangyomaman Warrior	HP: 0	essence of heat (100c)	neurostim pill (0)	X-37 gun (0)
 Banshee Librarian	HP: 69 Def: 52 Atk: 57 ED: spooky	disintegrating quill pen (20)
 Bar	HP: 5 Def: 3 Atk: 1 Meat: 12-20	bar skin (25)
 Baron Von Ratsworth
@@ -221,6 +223,7 @@ Crusty Hippy Vegan Chef	HP: 30 Def: 41 Atk: 41 E: stench	filthy corduroys (5)	fi
 Crusty Pirate	HP: 90 Def: 100 Atk: 100	barrrnacle (15)	tarrrnish charrrm (10)
 Cubist Bull	HP: 110 Def: 105 Atk: 105 Meat: 160-240	broken sword (5)	4-dimensional guitar (5)	non-Euclidean hoof (b0)
 Curmudgeonly Pirate	HP: 90 Def: 100 Atk: 100	all-purpose cleaner (25)	curmudgel (5)	grumpy old man charrrm (10)	handful of sawdust (30)	mizzenmast mop (0)
+Cyborg Policeman	HP: 0	physiostim pill (0)	protein paste (0)
 Dairy Goat	HP: 50 Def: 68 Atk: 68 Meat: 40-64	glass of goat's milk (20)	goat cheese (40)	billy idol (b0)
 Dairy Ooze	HP: 8 Def: 13 Atk: 13 Meat: 11-15
 Danglin' Chad	HP: 300 Meat: 297-342 E: sleaze	Danglin' Chad's loincloth (100)	beer helmet (0)	bejeweled pledge pin (0)	distressed denim pants (0)	kick-ass kicks (0)	white class ring (0)
@@ -339,6 +342,7 @@ Grungy Pirate	HP: 120 Def: 140 Atk: 140	acoustic guitarrr (20)	grungy bandana (1
 Guard Bugbear	HP: 6 Def: 12 Atk: 12 Meat: 21-30	bugbear beanie (25)	bugbear bungguard (0)
 Guy with a Pitchfork, and his Wife	HP: 120 Def: 110 Atk: 110 Meat: 80-120	pitchfork (5)
 Handsome Mariachi	HP: 15 Def: 27 Atk: 17 Meat: 4-6	bottle of tequila (30)	chorizo taco (20)	handsomeness potion (20)
+"Handyman" Jay Android	HP: 0	essence of kink (100c)	neurostim pill (0)	physiostim pill (0)	sham champagne (0)
 Heavy Kegtank	HP: 300 Atk: 180 E: sleaze	meat engine (6)	PADL Phone (5)	sake bomb (12)	sake bomb (3)
 Hellion	HP: 52 Def: 52 Atk: 52 E: heat	Hellion cube (30)	unstable quark (p0)
 Hockey Elemental	HP: 40 Def: 65 Atk: 65	hockey stick of furious angry rage (100)
@@ -389,6 +393,7 @@ Larval Filthworm	HP: 180 Atk: 165 Meat: 41-60 E: stench	filthworm hatchling scen
 Lemon-In-The-Box	HP: 12 Def: 17 Atk: 17	box (20)	lemon (50)
 Lesser Fruit Golem	HP: 9 Def: 17 Atk: 23	grapefruit (15)	grapes (15)	lemon (15)	orange (15)	strawberry (15)
 Lihc	HP: 11 Def: 20 Atk: 20 ED: spooky EA: spooky EA: sleaze Meat: 29-43	lihc eye (30)
+Liquid Metal Robot	HP: 0	essence of cold (100c)	physiostim pill (0)	pool of liquid metal (0)
 Lobsterfrogman	HP: 190 Def: 169 Atk: 171 Meat: 78	barrel of gunpowder (100)
 Lonely Construct	HP: 350 Atk: 300	El Vibrato punchcard (213 holes)	El Vibrato punchcard (182 holes)
 Lord Spookyraven	HP: 200 Atk: 170	Eye of Ed (100)	Lord Spookyraven's ear trumpet ( 100)
@@ -448,6 +453,7 @@ Ninja Snowman Weaponmaster	HP: 80 Def: 90 Atk: 90 ED: cold	ridiculously overelab
 Normal Hobo	HP: 380	hobo nickel (c15)	Mr. Joe's bangles (0)	corncob pipe (0)	panhandle panhandling hat (0)	frayed rope belt (0)	cup of infinite pencils (0)	'WILL WORK FOR BOOZE' sign (0)	lucky bottlecap (0)	rusty piece of rebar (0)
 Nurse Shark	HP: 800 Def: 450 Atk: 450 Meat: 160-240	blank prescription sheet (c11)	nurse's hat (5)	sea salt scrubs (c5)	slug of rum (21)
 Oasis Monster	HP: 139 Def: 137 Atk: 132 Meat: 80-120	displaced fish (20)	palm frond (10)	Supernova Champagne (20)	wonderwall shield (4)	carbonated water lily (10)	hot date (5)
+Obese Tourist	HP: 0	cupcake-in-a-cup (0)	neurostim pill (0)
 Octopus Gardener	HP: 600 Def: 400 Atk: 425 Meat: 80-120	octopus's spade (2)	sea radish (c3)	soggy seed packet (30)	straw hat (2)
 Octorok	HP: 15 Def: 25 Atk: 25	red pixel (70)	red pixel (70)	red pixel (70)
 Ol' Scratch	HP: 8000
@@ -540,6 +546,7 @@ Snow Queen	HP: 70 Def: 105 Atk: 107 E: cold	crazy little Turkish delight (25)	ga
 Some Zombie Waltzers	HP: 120 Def: 110 Atk: 110 Meat: 80-120 E: spooky	ballroom blintz (15)	dance card (15)
 Sorority Nurse	HP: 200 Def: 175 Atk: 170 E: sleaze	energy drink IV (18)	gauze garter (20)	gauze garter (7)	kick-ass kicks (2)	PADL Phone (3)
 Sorority Operator	HP: 200 Def: 180 Atk: 185 E: sleaze	beer helmet (1)	bejeweled pledge pin (1)	distressed denim pants (1)	kick-ass kicks (2)	PADL Phone (18)	PADL Phone (18)	PADL Phone (18)	white class ring (31)
+Space Marine	HP: 0	essence of fright (100c)	facehugging alien (0)	physiostim pill (0)
 Spam Witch	HP: 75 Def: 85 Atk: 85 EA: sleaze Meat: 24-38	30669 scroll (30)	Spam Witch sammich (50)	sammich crust (b0)
 Spectral Jellyfish	HP: 60 Def: 70 Atk: 70 "Somewhat Poisoned"	spectral jelly (p0)
 Spider Gremlin	HP: 170 Def: 168 Atk: 172 Meat: 40-60	gremlin juice (3)	molybdenum pliers (0)
@@ -570,6 +577,7 @@ Taco Cat	HP: 145 Def: 146 Atk: 139 Meat: 32-49	cat appendix (30)	catgut (30)	tac
 Tan Gnat	HP: 128 Def: 142 Atk: 136	gnatwing (40)	suntan lotion of moxiousness (50)
 Tapdancing Skeleton	HP: 120 Def: 110 Atk: 110 ED: spooky	tap shoes (5)	worn tophat (5)
 Tektite	HP: 15 Def: 20 Atk: 20	black pixel (50)	blue pixel (80)	white pixel (50)
+Terrifying Robot	HP: 0	neurostim pill (0)	physiostim pill (0)
 Tetchy Pirate	HP: 72 Def: 84 Atk: 83 Meat: 32-48	bottle of rum (20)	cocktail napkin (10)
 The Astronomer	HP: 150 Def: 168 Atk: 168	star chart (100)	sticky stardust (b0)
 The Axe Wound	HP: 150 Def: 162 Atk: 162 E: sleaze	line (30)	line (30)	star (30)
