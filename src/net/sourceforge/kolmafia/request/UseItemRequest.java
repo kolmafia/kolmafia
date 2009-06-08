@@ -68,6 +68,7 @@ import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.MoodManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
@@ -614,6 +615,12 @@ public class UseItemRequest
 		if ( this.itemUsed.getCount() < 1 )
 		{
 			return;
+		}
+		
+		if ( itemId == ItemPool.LUCIFER )
+		{	// Burn any existing MP that would otherwise be wasted.
+			MoodManager.burnMana( KoLCharacter.getMaximumMP() -
+				9 * (KoLCharacter.getCurrentHP() - 1) );
 		}
 
 		// If it's an elemental phial, remove other elemental effects

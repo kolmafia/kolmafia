@@ -311,6 +311,18 @@ public class LocalRelayAgent
 					Preferences.getBoolean( "relayMaintainsHealth" ),
 					Preferences.getBoolean( "relayMaintainsMana" ) );
 				this.request.responseText = RequestEditorKit.getFeatureRichHTML( "charpane.php", CharPaneRequest.getLastResponse(), true );
+				// Load image files locally to reduce bandwidth
+				// and improve mini-browser performance.
+		
+				if ( Preferences.getBoolean( "relayUsesCachedImages" ) )
+				{
+					this.request.responseText = StringUtilities.globalStringReplace( this.request.responseText, "http://images.kingdomofloathing.com", "/images" );
+				}
+				else
+				{
+					this.request.responseText = StringUtilities.globalStringReplace(
+						this.request.responseText, "http://images.kingdomofloathing.com/scripts", "/images/scripts" );
+				}
 				this.request.rawByteBuffer = null;
 			}
 		}
