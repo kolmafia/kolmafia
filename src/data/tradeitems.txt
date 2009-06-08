@@ -4119,7 +4119,7 @@
 4112	bitter bowtie	accessory	display	250
 4113	bewitching boots	accessory	display	250
 4114	secret from the future	usable	display	0
-4115
+4115	moist sack	usable	gift	0
 4116	rickety old unicycle	accessory, combat	display	2000
 4117	crusty hula hoop	accessory, combat	display	1600
 4118	Coily&trade;	weapon	display	1200

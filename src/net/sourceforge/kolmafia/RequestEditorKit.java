@@ -1454,8 +1454,8 @@ public class RequestEditorKit
 		// Find the options for the choice we've encountered
 		int choice = StringUtilities.parseInt( choiceMatcher.group( 1 ) );
 
-		// Add special decoration for Pyramid choices
-		PyramidRequest.decorateChoice( choice, buffer );
+		// Do any choice-specific decorations
+		ChoiceManager.decorateChoice( choice, buffer );
 
 		String[][] possibleDecisions = ChoiceManager.choiceSpoilers( choice );
 

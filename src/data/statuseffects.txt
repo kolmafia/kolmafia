@@ -645,7 +645,7 @@
 644	Serenity	snowflakes.gif	f76cecbb61243d7dd7425fec99082980
 645	Phairly Pheromonal	stench.gif	6e0ad7f808c7e80f85b1920c7e94b3e2
 646	Nano-juiced	strboost.gif	21f5a7cc7499b3e93f8da7c8e7bb2746
-647
+647	Dance Interpreter	dance1.gif	a696da11c9bbfe03bf186e0971b58941
 648	Meatwise	meat.gif	1d35d527ffeb6a8be406cd7878efed00
 649
 650	Stimulated Brain	realbrain.gif	1c0167101ac3939ac0bca1d271f07262	use 1 neurostim pill
