@@ -167,9 +167,6 @@ public class UseItemRequest
 			return "inv_booze.php";
 		case KoLConstants.GROW_FAMILIAR:
 			return "inv_familiar.php";
-		case KoLConstants.HPMP_RESTORE:
-		case KoLConstants.MP_RESTORE:
-			return "skills.php";
 		case KoLConstants.CONSUME_HOBO:
 		case KoLConstants.CONSUME_GHOST:
 			return "familiarbinger.php";
@@ -912,18 +909,13 @@ public class UseItemRequest
 			else
 			{
 				this.addFormField( "which", "3" );
+				this.addFormField( "ajax", "1" );
 			}
 			break;
 
 		case KoLConstants.CONSUME_MULTIPLE:
 			this.addFormField( "action", "useitem" );
 			this.addFormField( "quantity", String.valueOf( this.itemUsed.getCount() ) );
-			break;
-
-		case KoLConstants.HPMP_RESTORE:
-		case KoLConstants.MP_RESTORE:
-			this.addFormField( "action", "useitem" );
-			this.addFormField( "itemquantity", String.valueOf( this.itemUsed.getCount() ) );
 			break;
 
 		case KoLConstants.CONSUME_HOBO:
@@ -1004,6 +996,7 @@ public class UseItemRequest
 
 		default:
 			this.addFormField( "which", "3" );
+			this.addFormField( "ajax", "1" );
 			break;
 		}
 

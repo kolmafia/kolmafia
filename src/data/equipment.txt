@@ -1268,7 +1268,7 @@ molten medallion	0	Mys: 65
 monster bait	0	none
 monstrous monocle	0	Mus: 65
 mood ring	0	none
-musty moccasins	0	Mus: 65
+musty moccasins	0	Mox: 65
 natty blue ascot	0	Mys: 10
 navel ring of navel gazing	0	none
 old soft shoes	0	Mys: 200
