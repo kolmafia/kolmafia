@@ -253,7 +253,7 @@ public class DataTypes
 				}
 
 				itemId = item.getItemId();
-				name = item.getName();
+				name = ItemDatabase.getItemName( itemId );
 				return new Value( DataTypes.ITEM_TYPE, itemId, name );
 			}
 		}
@@ -496,7 +496,7 @@ public class DataTypes
 		return new Value( DataTypes.ITEM_TYPE, num, name );
 	}
 
-	public static final Value makeItemValue( final String name )
+	public static final Value makeItemValue( String name )
 	{
 		int num = ItemDatabase.getItemId( name );
 
@@ -505,6 +505,7 @@ public class DataTypes
 			return DataTypes.ITEM_INIT;
 		}
 
+		name = ItemDatabase.getItemName( num );
 		return new Value( DataTypes.ITEM_TYPE, num, name );
 	}
 

@@ -946,9 +946,7 @@ public abstract class UseLinkDecorator
 		{
 			if ( this.useLocation.equals( "#" ) )
 			{
-				String path = ItemDatabase.getConsumptionType( this.itemId ) == KoLConstants.MP_RESTORE ?
-					"skills.php" : "multiuse.php";
-				return "<font size=1>[<a href=\"javascript:" + "multiUse('" + path + "'," + this.itemId + "," + this.itemCount + ");void(0);\">use multiple</a>]</font>";
+				return "<font size=1>[<a href=\"javascript:" + "multiUse('multiuse.php'," + this.itemId + "," + this.itemCount + ");void(0);\">use multiple</a>]</font>";
 			}
 
 			if ( !this.showInline() )

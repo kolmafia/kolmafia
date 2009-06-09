@@ -523,7 +523,14 @@ public abstract class StaticEntity
 
 		else if ( location.startsWith( "skills.php" ) )
 		{
-			UseSkillRequest.parseResponse( location, responseText );
+			if ( location.indexOf( "action=useditem" ) != -1 )
+			{
+				UseItemRequest.parseConsumption( responseText, false );
+			}
+			else
+			{
+				UseSkillRequest.parseResponse( location, responseText );
+			}
 		}
 
 		else if ( location.startsWith( "starchart.php" ) )
