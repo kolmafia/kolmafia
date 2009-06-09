@@ -930,7 +930,7 @@ balloon shield	Damage Reduction: 3
 barskin buckler	Muscle: +2, Damage Reduction: 1
 basic meat foon	Mysticality: +3, Spell Damage: +3
 battered hubcap	Muscle: +15, Maximum HP: +100, Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2, Damage Reduction: 14
-beach ball marble	Hot Spell Damage: +35, Cold Spell Damage: +35
+beach ball marble	Spell Damage: +35, Hot Spell Damage: +35, Cold Spell Damage: +35
 beige clambroth marble	Spell Damage: +30, Hot Spell Damage: +30
 big bumboozer marble	Spell Damage: +80
 black catseye marble	Spooky Spell Damage: +75
@@ -1045,6 +1045,7 @@ sewer turtle	Stench Damage: +1, Damage Reduction: 1
 shadowy seal eye	Spooky Damage: +20, Monster Level: 15, Class: "Seal Clubber"
 # silver sausage
 six-rainbow shield	Maximum HP: +50, Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, Damage Reduction: 12
+slime-covered compass	Slime Resistance: +2, Initiative: +40
 slime-covered lantern	Slime Resistance: +2, Maximum HP: +50, Maximum MP: +50, HP Regen Min: 10, HP Regen Max: 15, MP Regen Min: 10, MP Regen Max: 15
 snake shield	Muscle: +6, Damage Reduction: 7
 snarling wolf shield	Maximum HP: +40, Damage Reduction: 7
@@ -1439,7 +1440,6 @@ shiny ring	Muscle: +3, Mysticality: +3, Moxie: +3
 shiny tribal beads	Mysticality: +6
 silver tongue charrrm bracelet	Moxie: +5, Spell Damage: +10, Single Equip
 sk8board	Initiative: +15
-slime-covered compass	Slime Resistance: +2, Initiative: +40
 slime-covered necklace	Weapon Damage: [50*zone(The Slime Tube)], Muscle: +6, Mysticality: +6, Moxie: +6, Maximum HP: +200
 solid baconstone earring	Mysticality: +8, Maximum MP: +15, Mana Cost: -1, Single Equip
 solid baconstone necklace	Mysticality: +10, Spell Damage: +15, Single Equip
@@ -2209,6 +2209,7 @@ Memory of Strength	Muscle Percent: +100
 Mental A-cue-ity	Spell Damage Percent: +50, MP Regen Min: 10, MP Regen Max: 10
 Metal Speed	Initiative: +20
 Midgetized	Damage Reduction: 4, Weapon Damage: -8
+Mighty Shout	Muscle Percent: +100, Moxie Percent: +100
 Mild Lycanthropy	Muscle Percent: [+1*M], Moxie Percent: [-1*M]
 Minioned	Muscle: +20, Mysticality: -5, Moxie: -5
 Missing Eyebrows	Moxie: -3

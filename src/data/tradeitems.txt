@@ -4028,7 +4028,7 @@
 4021	slime-covered shovel	weapon	display	500
 4022	slime-covered necklace	accessory	display	500
 4023	slime-covered speargun	weapon	display	500
-4024	slime-covered compass	accessory	display	500
+4024	slime-covered compass	offhand	display	500
 4025	slime-covered helmet	hat	display	500
 4026	slime-covered lantern	offhand	display	500
 4027	slime-covered greaves	pants	display	500
