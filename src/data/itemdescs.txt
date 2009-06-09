@@ -4023,7 +4023,6 @@
 4017	326825207	squirming Slime larva
 4018	479813520	rusty metal greaves
 4019
-#	416994074	caustic slime nodule	caustic slime nodules
 4020	224342315	rusty piece of rebar	rusty pieces of rebar
 4021	662987826	slime-covered shovel
 4022	212250418	slime-covered necklace	slime-covered necklaces
@@ -4040,7 +4039,7 @@
 4033	836396108	memory of a stone half-circle
 4034	628400331	memory of an iron key
 4035	580145095	memory of a glowing crystal
-4036
+4036	416994074	caustic slime nodule	caustic slime nodules
 4037	320343694	slimy sweetbreads	clusters of slimy sweetbreads
 4038	154656302	slimy fermented bile bladder	slimy fermented bile bladders
 4039	388191568	slimy alveolus	slimy alveoli
