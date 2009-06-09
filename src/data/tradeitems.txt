@@ -4023,7 +4023,6 @@
 4017	squirming Slime larva	none	display	0
 4018	rusty metal greaves	pants	display	155
 4019
-#	caustic slime nodule	none	display	1
 4020	rusty piece of rebar	weapon	all	140
 4021	slime-covered shovel	weapon	display	500
 4022	slime-covered necklace	accessory	display	500
@@ -4040,7 +4039,7 @@
 4033	memory of a stone half-circle	none	none	0
 4034	memory of an iron key	none	none	0
 4035	memory of a glowing crystal	none	none	0
-4036
+4036	caustic slime nodule	none	display	1
 4037	slimy sweetbreads	food	all	200
 4038	slimy fermented bile bladder	drink	all	200
 4039	slimy alveolus	multiple	all	400
