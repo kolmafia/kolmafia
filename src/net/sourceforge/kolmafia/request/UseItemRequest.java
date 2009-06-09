@@ -171,6 +171,8 @@ public class UseItemRequest
 		case KoLConstants.CONSUME_GHOST:
 			return "familiarbinger.php";
 		case KoLConstants.CONSUME_MULTIPLE:
+		case KoLConstants.MP_RESTORE:
+		case KoLConstants.HPMP_RESTORE:
 			return "multiuse.php";
 		case KoLConstants.CONSUME_SPHERE:
 			return "campground.php";
@@ -914,6 +916,8 @@ public class UseItemRequest
 			break;
 
 		case KoLConstants.CONSUME_MULTIPLE:
+		case KoLConstants.MP_RESTORE:
+		case KoLConstants.HPMP_RESTORE:
 			this.addFormField( "action", "useitem" );
 			this.addFormField( "quantity", String.valueOf( this.itemUsed.getCount() ) );
 			break;
@@ -2998,7 +3002,6 @@ public class UseItemRequest
 		if ( !urlString.startsWith( "inv_eat.php" ) &&
 		     !urlString.startsWith( "inv_booze.php" ) &&
 		     !urlString.startsWith( "multiuse.php" ) &&
-		     !urlString.startsWith( "skills.php" ) &&
 		     !urlString.startsWith( "inv_familiar.php" ) &&
 		     !urlString.startsWith( "inv_use.php" ) )
 		{
@@ -3020,9 +3023,9 @@ public class UseItemRequest
 		int itemCount = 1;
 
 		if ( urlString.indexOf( "multiuse.php" ) != -1 ||
-		     urlString.indexOf( "skills.php" ) != -1 ||
 		     urlString.indexOf( "inv_eat.php" ) != -1 ||
-		     urlString.indexOf( "inv_booze.php" ) != -1 )
+		     urlString.indexOf( "inv_booze.php" ) != -1 ||
+		     urlString.indexOf( "inv_use.php" ) != -1)
 		{
 			Matcher quantityMatcher = UseItemRequest.QUANTITY_PATTERN.matcher( urlString );
 			if ( quantityMatcher.find() )
@@ -3113,6 +3116,15 @@ public class UseItemRequest
 
 	public static final boolean registerRequest( final String urlString )
 	{
+		if ( urlString.startsWith( "skills.php" ) )
+		{
+			// Don't overwrite lastItemUsed when restoratives are used from
+			// the Skills page or quickskills menu.  The request was
+			// initially made to inv_use.php (and lastItemUsed was set at
+			// that time), which redirects to skills.php - but without
+			// enough information in the URL to determine exactly what was used.
+			return true;
+		}
 		UseItemRequest.lastItemUsed = UseItemRequest.extractItem( urlString );
 		if ( UseItemRequest.lastItemUsed == null )
 		{
