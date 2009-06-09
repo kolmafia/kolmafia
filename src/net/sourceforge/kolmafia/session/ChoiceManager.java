@@ -2195,7 +2195,7 @@ public abstract class ChoiceManager
 			Preferences.setInteger( "birdformSpooky", 0 );
 			Preferences.setInteger( "birdformStench", 0 );			
 			break;
-		}
+                }
 	}
 
 	public static void postChoice( final GenericRequest request )
@@ -2446,6 +2446,10 @@ public abstract class ChoiceManager
 				RequestThread.enableDisplayIfSequenceComplete();
 			}
 			break;
+
+		case 360:
+			WumpusManager.takeChoice( ChoiceManager.lastDecision, text );
+			break;
 		}
 
 		// Certain choices cost meat or items when selected
@@ -2479,6 +2483,11 @@ public abstract class ChoiceManager
 				ResultProcessor.processItem( ItemPool.CARVED_WOODEN_WHEEL, -1 );
 			}
 
+			break;
+
+		// Wumpus Hunt
+		case 360:
+			WumpusManager.visitChoice( responseText );
 			break;
 		}
 	}

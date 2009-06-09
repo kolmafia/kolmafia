@@ -88,34 +88,61 @@ public abstract class WumpusManager
 	{
 		WumpusManager.warnings.put( room, new Integer( WumpusManager.get( room ) & value ) );
 	}
+
+	public static String[] links = null;
 	
-	public static String[] dynamicChoiceOptions( String text )
+	public static void visitChoice( String text )
 	{
+		WumpusManager.links = null;
+
 		if ( text == null )
 		{
-			return new String[] { "you're clicking too fast - lost a page update" };
+			return;
 		}
+
 		Matcher m = WumpusManager.ROOM_PATTERN.matcher( text );
 		if ( !m.find() )
-		{	// Must be at the entryway, or perhaps died
-			WumpusManager.warnings.clear();
-			return new String[ 0 ];
+		{
+			// Shouldn't happen: if there is a choice option to
+			// take, there must be a room name.
+			return;
 		}
 		
 		String current = m.group( 1 ).toLowerCase();
+
 		if ( text.indexOf( "Wait for the bats to drop you" ) != -1 )
 		{
 			WumpusManager.put( current, WARN_BATS );
-			return new String[ 0 ];
+			return;
 		}
 
 		if ( text.indexOf( "Thump" ) != -1 )
 		{
 			WumpusManager.put( current, WARN_PIT );
-			return new String[ 0 ];
+			return;
 		}
 
 		WumpusManager.put( current, WARN_SAFE );
+
+		// Initialize the array of rooms accessible from here
+
+		WumpusManager.links = new String[ 3 ];
+		m = WumpusManager.LINK_PATTERN.matcher( text );
+		for ( int i = 0; i < 3; ++i )
+		{
+			if ( !m.find() )
+			{
+				// Should not happen; there are always three
+				// exits from a room.
+				links = null;
+				return;
+			}
+			links[ i ] = m.group( 1 ).toLowerCase();
+		}
+
+		// Basic logic: assume all rooms have all warnings initially.
+		// Remove any warnings from linked rooms that aren't present
+		// in the current room.
 
 		int warn = WARN_INDEFINITE;
 		if ( text.indexOf( "squeaking coming from somewhere nearby" ) != -1 )
@@ -130,58 +157,108 @@ public abstract class WumpusManager
 		{
 			warn |= WARN_WUMPUS;
 		}
-		
-		String[] results = new String[ 3 ];
-		m = WumpusManager.LINK_PATTERN.matcher( text );
-		// Basic logic: assume all rooms have all warnings initially.
-		// Remove any warnings from linked rooms that aren't present
-		// in the current room.
+
 		for ( int i = 0; i < 3; ++i )
 		{
-			if ( !m.find() )
-			{
-				return new String[ 0 ];
-			}
-			String link = m.group( 1 ).toLowerCase();
-			WumpusManager.put( link, warn );
-			results[ i ] = link;
+			WumpusManager.put( links[ i ], warn );
 		}
 		
 		// Advanced logic: if only one of the linked rooms has a given
 		// warning, promote that to a definite danger, and remove any
 		// other warnings from that room.
-		WumpusManager.deduce( results );
+
+		WumpusManager.deduce();
+
 		// Doing this may make further deductions possible.
-		WumpusManager.deduce( results );
+
+		WumpusManager.deduce();
+
 		// I'm not sure if a 3rd deduction is actually possible, but it
 		// doesn't hurt to try.
-		WumpusManager.deduce( results );
 
-		WumpusManager.put( current, WARN_SAFE );
-		for ( int i = 0; i < 3; ++i )
-		{
-			results[ i ] = WumpusManager.WARN_STRINGS[ WumpusManager.get( results[ i ] ) ];
-		}
-		return results;
+		WumpusManager.deduce();
 	}
 	
-	private static void deduce( String[] links )
+	private static void deduce()
 	{
-		WumpusManager.deduce( links, WARN_BATS );
-		WumpusManager.deduce( links, WARN_PIT );
-		WumpusManager.deduce( links, WARN_WUMPUS );
+		WumpusManager.deduce( WARN_BATS );
+		WumpusManager.deduce( WARN_PIT );
+		WumpusManager.deduce( WARN_WUMPUS );
 	}
 
-	private static void deduce( String[] links, int mask )
+	private static void deduce( int mask )
 	{
 		int which = -1;
 		for ( int i = 0; i < 3; ++i )
 		{
-			if ( (WumpusManager.get( links[ i ] ) & mask) == 0 ) continue;
-			if ( which != -1 ) return;	// warning not unique
-			which = i;
+			if ( (WumpusManager.get( WumpusManager.links[ i ] ) & mask) != 0 )
+			{
+				if ( which != -1 )
+				{
+					return;	// warning not unique
+				}
+				which = i;
+			}
 		}
-		if ( which == -1 ) return;	// no unique warning
-		WumpusManager.put( links[ which ], mask );
+
+		if ( which != -1 )
+		{
+			WumpusManager.put( WumpusManager.links[ which ], mask );
+		}
+	}
+	
+	public static void takeChoice( int decision, String text )
+	{
+		if ( WumpusManager.links == null )
+		{
+			return;
+		}
+
+		// There can be 6 decisions - stroll into 3 rooms or charge
+		// into 3 rooms.
+		if ( decision > 3 )
+		{
+			decision -= 3;
+		}
+
+		String room = WumpusManager.links[ decision - 1 ];
+
+		// Unfortunately, the wumpus was nowhere to be seen.
+		if ( text.indexOf( "wumpus was nowhere to be seen" ) != -1  )
+		{
+			WumpusManager.put( room, WARN_SAFE );
+			return;
+		}
+
+		// You stroll nonchalantly into the cavern chamber and find,
+		// unexpectedly, a wumpus.
+		//  or
+		// Now that you have successfully snuck up and surprised the
+		// wumpus, it doesn't seem to really know how to react.
+
+		if ( text.indexOf( "unexpectedly, a wumpus" ) != -1 ||
+		     text.indexOf( "surprised the wumpus" ) != -1 )
+		{
+			WumpusManager.put( room, WARN_WUMPUS );
+			return;
+		}
+	}
+	
+	public static String[] dynamicChoiceOptions( String text )
+	{
+		if ( links == null )
+		{
+			return new String[ 0 ];
+		}
+
+		String[] results = new String[ 6 ];
+		for ( int i = 0; i < 3; ++i )
+		{
+			String warning = WumpusManager.WARN_STRINGS[ WumpusManager.get( links[i] ) ];
+			results[ i ] = warning;
+			results[ i + 3 ] = warning;
+		}
+
+		return results;
 	}
 }
