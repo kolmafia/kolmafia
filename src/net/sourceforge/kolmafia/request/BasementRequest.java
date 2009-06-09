@@ -154,19 +154,8 @@ public class BasementRequest
 		BasementRequest.SLEAZE_PHIAL
 	};
 
-	public static final FamiliarData[] POSSIBLE_FAMILIARS =
-		new FamiliarData[]
-	{
-		new FamiliarData( FamiliarPool.SOMBRERO ),
-		new FamiliarData( FamiliarPool.PARROT ),
-		new FamiliarData( FamiliarPool.PRESSIE ),
-		new FamiliarData( FamiliarPool.RIFTLET ),
-		new FamiliarData( FamiliarPool.HARE ),
-		new FamiliarData( FamiliarPool.BADGER ),
-		new FamiliarData( FamiliarPool.PIXIE ),
-		new FamiliarData( FamiliarPool.LLAMA ),
-		new FamiliarData( FamiliarPool.HAND ),
-	};
+	public static final FamiliarData SANDWORM =
+		new FamiliarData( FamiliarPool.SANDWORM );
 
 	/**
 	 * Constructs a new <code>/code> which executes an
