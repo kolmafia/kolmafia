@@ -34,15 +34,18 @@
 package net.sourceforge.kolmafia.webui;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.SpecialOutfit;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -161,17 +164,39 @@ public class BasementDecorator
 			changes.append( "</option>" );
 		}
 
-		for ( int i = 0; i < BasementRequest.POSSIBLE_FAMILIARS.length; ++i )
+		for ( Iterator i = KoLCharacter.getFamiliarList().iterator(); i.hasNext(); )
 		{
-			if ( !KoLCharacter.getFamiliarList().contains( BasementRequest.POSSIBLE_FAMILIARS[ i ] ) )
+			FamiliarData fam = (FamiliarData) i.next();
+			boolean useful = false;
+			switch ( fam.getId() )
 			{
-				continue;
+			case FamiliarPool.HAND:			
+			case FamiliarPool.SANDWORM:
+			case FamiliarPool.PARROT:
+			case FamiliarPool.PRESSIE:
+			case FamiliarPool.RIFTLET:
+			case FamiliarPool.HARE:
+				useful = true;
+				break;
+			case FamiliarPool.SOMBRERO:
+				useful = !KoLCharacter.getFamiliarList().contains( BasementRequest.SANDWORM );
+				break;
+			case FamiliarPool.BADGER:
+				useful = Preferences.getInteger( "_astralDrops" ) < 5;
+				break;
+			case FamiliarPool.PIXIE:
+				useful = Preferences.getInteger( "_absintheDrops" ) < 5;
+				break;
+			case FamiliarPool.LLAMA:
+				useful = Preferences.getInteger( "_gongDrops" ) < 5;
+				break;
 			}
+			if ( !useful ) continue;
 
 			changes.append( "<option value=\"familiar " );
-			changes.append( BasementRequest.POSSIBLE_FAMILIARS[ i ].getRace() );
+			changes.append( fam.getRace() );
 			changes.append( "\">familiar " );
-			changes.append( BasementRequest.POSSIBLE_FAMILIARS[ i ].getRace() );
+			changes.append( fam.getRace() );
 			changes.append( "</option>" );
 		}
 
