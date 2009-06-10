@@ -1883,7 +1883,7 @@ public class KoLmafiaCLI
 		.register( "checkitems" ).register( "checkeffects" )
 		.register( "checkplurals" ).register( "checkmodifiers" )
 		.register( "checkconsumption" ).register( "checkprofile" )
-		.register( "checkpulverization" ); }
+		.register( "checkpulverization" ).register( "checkzapgroups" ); }
 	public static class Developer
 		extends Command
 	{
@@ -1939,6 +1939,13 @@ public class KoLmafiaCLI
 			{
 				DebugDatabase.checkPulverizationData();
 				RequestLogger.printLine( "Pulverization data checked." );
+				return;
+			}
+
+			if ( command.equals( "checkzapgroups" ) )
+			{
+				DebugDatabase.checkZapGroups();
+				RequestLogger.printLine( "Zap groups checked." );
 				return;
 			}
 
