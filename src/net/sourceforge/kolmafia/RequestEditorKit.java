@@ -666,7 +666,8 @@ public class RequestEditorKit
 		{
 			ValhallaDecorator.decorateAfterLife( location, buffer );
 		}
-		else if ( location.startsWith( "wand.php" ) )
+		else if ( location.startsWith( "wand.php" ) &&
+			location.indexOf( "notrim=1" ) == -1 )
 		{
 			ZapRequest.decorate( buffer );
 		}

@@ -237,6 +237,8 @@ public class ZapRequest
 		}
 
 		buffer.insert( selectIndex, zappableOptions.toString() );
+		int pos = buffer.lastIndexOf( "</center>" );
+		buffer.insert( pos, "KoLmafia trimmed this list to the items it knows to be zappable, which may not include recently discovered or modified items.  <a href=\"wand.php?whichwand=" + KoLCharacter.getZapper().getItemId() + "&notrim=1\">Click here</a> for the full list." );
 	}
 
 	public static final boolean registerRequest( final String urlString )

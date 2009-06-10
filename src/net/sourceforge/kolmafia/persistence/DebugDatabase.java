@@ -62,6 +62,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.ZapRequest;
 import net.sourceforge.kolmafia.utilities.BooleanArray;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.IntegerArray;
@@ -1859,5 +1860,88 @@ public class DebugDatabase
 			writer.println( name + ": anvil said yield is " + yield + ", not " + myyield );
 			return;
 		}
+	}
+
+	private static final Pattern ZAPGROUP_PATTERN = Pattern.compile( "Template:ZAP .*?</a>.*?<td>.*?<td>" );
+	private static final Pattern ZAPITEM_PATTERN = Pattern.compile( ">([^<]+)</a>" );
+	
+	public static final void checkZapGroups()
+	{
+		RequestLogger.printLine( "Checking zap groups..." );
+		PrintStream report = LogStream.openStream( new File( UtilityConstants.DATA_LOCATION, "zapreport.txt" ), true );
+		
+		String[] groups = DebugDatabase.ZAPGROUP_PATTERN.split(
+			DebugDatabase.readWikiData( "Zapping" ) );
+		for ( int i = 1; i < groups.length; ++i )
+		{
+			String group = groups[ i ];
+			int pos = group.indexOf( "</td>" );
+			if ( pos != -1 )
+			{
+				group = group.substring( 0, pos );
+			}
+			Matcher m = DebugDatabase.ZAPITEM_PATTERN.matcher( group );
+			ArrayList items = new ArrayList();
+			while ( m.find() )
+			{
+				items.add( m.group( 1 ) );
+			}
+			if ( items.size() > 1 )
+			{
+				DebugDatabase.checkZapGroup( items, report );
+			}
+		}
+		report.close();
+	}
+	
+	private static void checkZapGroup( ArrayList items, PrintStream report )
+	{
+		String firstItem = (String) items.get( 0 );
+		int itemId = ItemDatabase.getItemId( firstItem );
+
+		if ( itemId == -1 )
+		{
+			report.println( "Group with unrecognized item: " + firstItem );
+			return;
+		}
+		String[] zapgroup = ZapRequest.getZapGroup( itemId );
+		if ( zapgroup.length == 0 )
+		{
+			report.println( "New group:" );
+			Iterator i = items.iterator();
+			while ( i.hasNext() )
+			{
+				report.print( (String) i.next() );
+				report.print( ", " );
+			}
+			report.println( "" );
+			return;
+		}
+		ArrayList existing = new ArrayList();
+		existing.addAll( Arrays.asList( zapgroup ) );
+		existing.removeAll( items );
+		items.removeAll( Arrays.asList( zapgroup ) );
+		if ( items.size() == 0 && existing.size() == 0 )
+		{
+			report.println( "Group OK: " + firstItem );
+			return;
+		}
+		report.println( "Modified group: " + firstItem );
+		report.println( "Added:" );
+		Iterator i = items.iterator();
+		while ( i.hasNext() )
+		{
+			report.print( (String) i.next() );
+			report.print( ", " );
+		}
+		report.println( "" );
+		report.println( "Removed:" );
+		i = existing.iterator();
+		while ( i.hasNext() )
+		{
+			report.print( (String) i.next() );
+			report.print( ", " );
+		}
+		report.println( "" );
 	}
 }
