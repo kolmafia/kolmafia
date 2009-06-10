@@ -66,6 +66,7 @@ import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
+import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MoodManager;
@@ -1799,7 +1800,7 @@ public class UseItemRequest
 
 			if ( responseText.indexOf( "fight.php" ) != -1 )
 			{
-				GenericRequest.checkItemRedirection( item );
+				// GenericRequest.checkItemRedirection( item );
 			}
 
 			// The item is only consumed once you turn in
@@ -2220,7 +2221,7 @@ public class UseItemRequest
 
 			if ( responseText.indexOf( "fight.php" ) != -1 )
 			{
-				GenericRequest.checkItemRedirection( item );
+				// GenericRequest.checkItemRedirection( item );
 			}
 
 			// Even if we are redirected to a fight, the item is
@@ -2274,7 +2275,7 @@ public class UseItemRequest
 
 			if ( responseText.indexOf( "fight.php" ) != -1 )
 			{
-				GenericRequest.checkItemRedirection( item );
+				// GenericRequest.checkItemRedirection( item );
 			}
 
 			// Even if we are redirected to a fight, the item is
@@ -2319,7 +2320,7 @@ public class UseItemRequest
 
 			if ( responseText.indexOf( "fight.php" ) != -1 )
 			{
-				GenericRequest.checkItemRedirection( item );
+				// GenericRequest.checkItemRedirection( item );
 			}
 
 			// Even if we are redirected to a fight, the item is
@@ -2344,7 +2345,7 @@ public class UseItemRequest
 			// If we are redirected to a fight, the item is
 			// consumed elsewhere
 
-			GenericRequest.checkItemRedirection( item );
+			// GenericRequest.checkItemRedirection( item );
 			ResultProcessor.processResult( item );
 
 			return;
@@ -2828,8 +2829,8 @@ public class UseItemRequest
 
 			if ( responseText.indexOf( "fight.php" ) != -1 )
 			{
-                                GenericRequest.checkItemRedirection( item );
-                        }
+				// GenericRequest.checkItemRedirection( item );
+			}
 
 			return;
 

@@ -112,6 +112,7 @@ public class GenericRequest
 	}
 
 	public static final Pattern REDIRECT_PATTERN = Pattern.compile( "([^\\/]+)\\/(login\\.php.*)", Pattern.DOTALL );
+	public static final Pattern JS_REDIRECT_PATTERN = Pattern.compile( ">\\s*top.mainpane.document.location\\s*=\\s*\"(.*?)\";" );
 
 	public static boolean isRatQuest = false;
 	public static boolean isBarrelSmash = false;
@@ -1240,6 +1241,19 @@ public class GenericRequest
 			{
 				shouldStop = this.retrieveServerReply( istream );
 				istream.close();
+				if ( shouldStop && this.responseText != null &&
+					this.responseText.length() < 100 )
+				{
+					// This may be a JavaScript redirect.
+					Matcher m = GenericRequest.JS_REDIRECT_PATTERN.matcher(
+						this.responseText );
+					if ( m.find() )
+					{
+						this.responseCode = 302;
+						this.redirectLocation = m.group( 1 );
+						shouldStop = this.handleServerRedirect();
+					}
+				}
 			}
 			else
 			{
