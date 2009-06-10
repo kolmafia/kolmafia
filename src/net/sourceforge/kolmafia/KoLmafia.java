@@ -1343,7 +1343,7 @@ public abstract class KoLmafia
 					maximum = ( (Number) maximumMethod.invoke( null, empty ) ).intValue();
 					desired = Math.min( maximum, desired );
 
-					if ( last == current )
+					if ( last >= current )
 					{
 						++indexToTry;
 					}

@@ -507,7 +507,7 @@
 501	Elfin shortbread	food	all	49
 502	pagoda plans	none	none	0
 503	skewered cat appendix	food	all	81
-504	evil golden arches	usable	all	68
+504	evil golden arches	multiple	all	68
 505	gnatwing earring	accessory	all	107
 506	Hell broth	food	all	38
 507	heavy metal thunderrr guitarrr	weapon	all	125
