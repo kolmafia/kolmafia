@@ -2684,7 +2684,7 @@ public class KoLmafiaCLI
 	public static class Up
 		extends Command
 	{
-		{ usage = " <effect> [, <effect>]... - extend duration of effects."; }
+		{ usage = "? <effect> [, <effect>]... - extend duration of effects."; }
 		public void run( String cmd, String parameters )
 		{
 			if ( parameters.indexOf( "," ) != -1 )
@@ -2692,7 +2692,7 @@ public class KoLmafiaCLI
 				String[] effects = parameters.split( "\\s*,\\s*" );
 				for ( int i = 0; i < effects.length; ++i )
 				{
-					KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "up", effects[ i ] );
+					KoLmafiaCLI.DEFAULT_SHELL.executeCommand( cmd, effects[ i ] );
 				}
 
 				return;
@@ -2709,7 +2709,14 @@ public class KoLmafiaCLI
 					return;
 				}
 
-				KoLmafiaCLI.DEFAULT_SHELL.executeLine( action );
+				if ( KoLmafiaCLI.isExecutingCheckOnlyCommand )
+				{
+					KoLmafia.updateDisplay( effect + " &lt;= " + action );
+				}
+				else
+				{
+					KoLmafiaCLI.DEFAULT_SHELL.executeLine( action );
+				}
 				return;
 			}
 

@@ -769,3 +769,15 @@ El Novio Cad&aacute;ver	HP: 0
 El Padre Cad&aacute;ver	HP: 0
 La Novia Cad&aacute;ver	HP: 0
 La Persona Inocente Cad&aacute;ver	HP: 0
+
+# Infernal Seals
+broodling seal	HP: 95 Def: 103 Atk: 80	severed flipper (0)
+Centurion of Sparky	HP: 201 Def: 195 Atk: 150	ingot of seal-iron (0)
+hermetic seal	HP: 153 Def: 200 Atk: 112	powdered sealbone (100)
+Spawn of Wally	HP: 15 Def: 10 Atk: 10	tainted seal's blood (0)
+heat seal	HP: 208 Def: 176 Atk: 178	Abyssal ember (0)	sizzling seal fat (0)
+navy seal	HP: 200 Def: 172 Atk: 175	frost-rimed seal hide (0)	frozen seal spine (0)
+Servant of Grodstank	HP: 201 Def: 173 Atk: 174	fustulent seal grulch (0)	infernal toilet brush (0)
+shadow of Black Bubbles	HP: 208 Def: 176 Atk: 174	scrap of shadow (0)	shadowy seal eye (0)
+watertight seal	HP: 404 Def: 350 Atk: 351	hyperinflated seal lung (100)
+wet seal	HP: 201 Def: 175 Atk: 178	mannequin leg (0)	seal lube (0)
