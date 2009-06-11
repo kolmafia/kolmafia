@@ -999,7 +999,13 @@ public abstract class ChatManager
 
 			if ( displayHTML.indexOf( " has " ) != -1 )
 			{
-				RequestThread.postRequest( CharPaneRequest.getInstance() );
+				switch ( KoLmafia.displayState )
+				{
+				case KoLConstants.ABORT_STATE:
+				case KoLConstants.ERROR_STATE:
+				case KoLConstants.ENABLE_STATE:
+					RequestThread.postRequest( CharPaneRequest.getInstance() );
+				}
 			}
 
 			String plainTextEvent = KoLConstants.ANYTAG_PATTERN.matcher( displayHTML ).replaceAll( "" );

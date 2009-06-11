@@ -1249,7 +1249,6 @@ public class GenericRequest
 						this.responseText );
 					if ( m.find() )
 					{
-						this.responseCode = 302;
 						this.redirectLocation = m.group( 1 );
 						shouldStop = this.handleServerRedirect();
 					}
