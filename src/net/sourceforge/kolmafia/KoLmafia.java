@@ -164,6 +164,7 @@ public abstract class KoLmafia
 
 	public static boolean isMakingRequest = false;
 	public static int continuationState = KoLConstants.CONTINUE_STATE;
+	public static int displayState = KoLConstants.ENABLE_STATE;
 
 	public static final int[] initialStats = new int[ 3 ];
 
@@ -644,6 +645,8 @@ public abstract class KoLmafia
 		{
 			KoLDesktop.getInstance().updateDisplayState( state );
 		}
+		
+		KoLmafia.displayState = state;
 	}
 
 	public static final void enableDisplay()
