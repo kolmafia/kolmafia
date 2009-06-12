@@ -38,7 +38,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Stack;
-import java.util.TreeMap;
+import java.util.HashMap;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
@@ -104,7 +104,7 @@ public class ConcoctionDatabase
 
 	private static final AdventureResult[] NO_INGREDIENTS = new AdventureResult[ 0 ];
 
-	private static final TreeMap mixingMethods = new TreeMap();
+	private static final HashMap mixingMethods = new HashMap();
 
 	static
 	{
@@ -176,8 +176,9 @@ public class ConcoctionDatabase
 		ConcoctionDatabase.mixingMethods.put( "CRIMBO07", new Integer( KoLConstants.CRIMBO07 ));
 	}
 
-	private static final TreeMap chefStaff = new TreeMap();
-	private static final TreeMap singleUse = new TreeMap();
+	private static final HashMap chefStaff = new HashMap();
+	private static final HashMap singleUse = new HashMap();
+	private static final HashMap multiUse = new HashMap();
 
 	static
 	{
@@ -278,10 +279,13 @@ public class ConcoctionDatabase
 			switch ( mixingMethod )
 			{
 			case KoLConstants.STAFF:
-				ConcoctionDatabase.chefStaff.put( ingredients[0].getName(), concoction );
+				ConcoctionDatabase.chefStaff.put( ingredients[ 0 ].getName(), concoction );
 				break;
 			case KoLConstants.SINGLE_USE:
-				ConcoctionDatabase.singleUse.put( ingredients[0].getName(), concoction );
+				ConcoctionDatabase.singleUse.put( ingredients[ 0 ].getName(), concoction );
+				break;
+			case KoLConstants.MULTI_USE:
+				ConcoctionDatabase.multiUse.put( ingredients[ 0 ].getName(), concoction );
 				break;
 			}
 		}
@@ -295,6 +299,11 @@ public class ConcoctionDatabase
 	public static Concoction singleUseCreation( final String name )
 	{
 		return name == null ? null : (Concoction) ConcoctionDatabase.singleUse.get( name );
+	}
+
+	public static Concoction multiUseCreation( final String name )
+	{
+		return name == null ? null : (Concoction) ConcoctionDatabase.multiUse.get( name );
 	}
 
 	private static boolean pseudoItemMixingMethod( final int mixingMethod )
