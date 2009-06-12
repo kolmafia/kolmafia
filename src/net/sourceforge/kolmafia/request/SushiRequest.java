@@ -220,7 +220,7 @@ public class SushiRequest
 		  "beefy maki", new Integer( ItemPool.SEA_CARROT ) },
 		{ "python roll",
 		  "beefy maki", new Integer( ItemPool.SEA_AVOCADO ) },
-		{ "Jack LaLanne roll",
+		{ "jack lalanne roll",
 		  "beefy maki", new Integer( ItemPool.SEA_RADISH ) },
 
 		{ "wise dragon roll",
@@ -293,10 +293,13 @@ public class SushiRequest
 		return name;
 	}
 
-	public SushiRequest( final String name )
+	public SushiRequest( String name )
 	{
 		super( "sushi.php", name );
 		this.addFormField( "action", "Yep." );
+
+		// Lower-case it
+		name = StringUtilities.getCanonicalName( name );
 
 		int sushi = SushiRequest.nameToId( name );
 		if ( sushi > 0 )

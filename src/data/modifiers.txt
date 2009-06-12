@@ -1042,7 +1042,7 @@ sebaceous shield	Stench Damage: +1, Sleaze Damage: +1, Damage Reduction: 2
 # set of jacks: +2 Moxie Stat(s) Per Fight
 set of jacks	Experience: +2
 sewer turtle	Stench Damage: +1, Damage Reduction: 1
-shadowy seal eye	Spooky Damage: +20, Monster Level: 15, Class: "Seal Clubber"
+shadowy seal eye	Spooky Damage: +20, Monster Level: +15, Class: "Seal Clubber"
 # silver sausage
 six-rainbow shield	Maximum HP: +50, Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, Damage Reduction: 12
 slime-covered compass	Slime Resistance: +2, Initiative: +40
