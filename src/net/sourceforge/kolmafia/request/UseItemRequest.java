@@ -1207,6 +1207,36 @@ public class UseItemRequest
 			// Remove the consumption helper from inventory.
 			ResultProcessor.processResult( helper.getNegation() );
 		}
+		
+		if ( ConcoctionDatabase.singleUseCreation( item.getName() ) != null ||
+			ConcoctionDatabase.multiUseCreation( item.getName() ) != null )
+		{
+			// These all create things via "use" or "multiuse" of a
+			// an ingredient and perhaps consume other ingredients.
+			// SingleUseRequest or MultiUseRequest removed all the
+			// ingredients.
+
+			if ( responseText.indexOf( "You acquire" ) != -1 )
+			{
+				return;
+			}
+
+			int count = item.getCount();
+			String name = item.getName();
+			String plural = ItemDatabase.getPluralName( item.getItemId() );
+
+			if ( responseText.indexOf( "You don't have that many" ) != -1 )
+			{
+				UseItemRequest.lastUpdate = "You don't have that many " + plural;
+			}
+			else
+			{
+				UseItemRequest.lastUpdate = "Using " + count + " " + ( count == 1 ? name : plural ) + " doesn't make anything interesting.";
+			}
+
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+			return;
+		}
 
 		int consumptionType = UseItemRequest.getConsumptionType( item );
 
@@ -2106,80 +2136,6 @@ public class UseItemRequest
 				ResultProcessor.processResult( new AdventureResult( i, -1 ) );
 			}
 
-			return;
-
-		case ItemPool.RUSTY_BROKEN_DIVING_HELMET:
-		case ItemPool.PIRATE_SKULL:
-		case ItemPool.QUILL_PEN:
-		case ItemPool.JOLLY_CHARRRM:
-		case ItemPool.JOLLY_BRACELET:
-		case ItemPool.RUM_CHARRRM:
-		case ItemPool.GRUMPY_CHARRRM:
-		case ItemPool.TARRRNISH_CHARRRM:
-		case ItemPool.BOOTY_CHARRRM:
-		case ItemPool.CANNONBALL_CHARRRM:
-		case ItemPool.COPPER_CHARRRM:
-		case ItemPool.TONGUE_CHARRRM:
-		case ItemPool.DOUBLE_SIDED_TAPE:
-		case ItemPool.BAT_GUANO:
-		case ItemPool.TEN_LEAF_CLOVER:
-		case ItemPool.DISASSEMBLED_CLOVER:
-		case ItemPool.PACK_OF_CHEWING_GUM:
-		case ItemPool.CATALYST:
-		case ItemPool.JAMFISH_JAM:
-		case ItemPool.TURTLE_WAX:
-		case ItemPool.GREEN_PEAWEE_MARBLE:
-		case ItemPool.BROWN_CROCK_MARBLE:
-		case ItemPool.RED_CHINA_MARBLE:
-		case ItemPool.LEMONADE_MARBLE:
-		case ItemPool.BUMBLEBEE_MARBLE:
-		case ItemPool.JET_BENNIE_MARBLE:
-		case ItemPool.BEIGE_CLAMBROTH_MARBLE:
-		case ItemPool.STEELY_MARBLE:
-		case ItemPool.BEACH_BALL_MARBLE:
-		case ItemPool.BLACK_CATSEYE_MARBLE:
-			// SingleUseRequest
-		case ItemPool.PALM_FROND:
-		case ItemPool.MUMMY_WRAP:
-		case ItemPool.DUCT_TAPE:
-		case ItemPool.CLINGFILM:
-		case ItemPool.LONG_SKINNY_BALLOON:
-		case ItemPool.HANDFUL_OF_SAND:
-		case ItemPool.SAND_BRICK:
-		case ItemPool.INTERESTING_TWIG:
-		case ItemPool.LEWD_CARD:
-		case ItemPool.BOXTOP:
-		case ItemPool.TURTLEMAIL_BITS:
-		case ItemPool.WUMPUS_HAIR:
-			// MultiUseRequest
-
-			// These all create things via "use" or "multiuse" of a
-			// an ingredient and perhaps consume other ingredients.
-			// SingleUseRequest or MultiUseRequest removed all the
-			// ingredients and this method removed the first
-			// one. Correct for that.
-
-			ResultProcessor.processResult( item );
-
-			if ( responseText.indexOf( "You acquire" ) != -1 )
-			{
-				return;
-			}
-
-			int count = item.getCount();
-			String name = item.getName();
-			String plural = ItemDatabase.getPluralName( item.getItemId() );
-
-			if ( responseText.indexOf( "You don't have that many" ) != -1 )
-			{
-				UseItemRequest.lastUpdate = "You don't have that many " + plural;
-			}
-			else
-			{
-				UseItemRequest.lastUpdate = "Using " + count + " " + ( count == 1 ? name : plural ) + " doesn't make anything interesting.";
-			}
-
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
 			return;
 
 		case ItemPool.BLACK_PUDDING:
