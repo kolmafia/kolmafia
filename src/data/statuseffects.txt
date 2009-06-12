@@ -516,7 +516,7 @@
 515	Bureaucratized	documents.gif	f3082aab058258f4c69f38b1336c93f8
 516	Liquid Courage	raindrop.gif	f5ed76217a884b3c52c05e6c4484f855
 517	Extra Terrestrial	bigrock.gif	4f44d9eb8922fc512a4b10480e278323
-518	Digitally Converted	10101.gif	a5ce881631fcf7c7d0978b06c4999db8
+518	Digitally Converted	10101.gif	a5ce881631fcf7c7d0978b06c4999db8	use 1 digital underground potion
 519	Radiant Personality	frostshock.gif	be2f929df46d63924049628a0efcb854	gong roach moxie
 520	Alchemical, Brother	potion2.gif	1dc8613ec51512efb78de20709bb88c0	gong roach mysticality
 521	Ack! Barred!	bars.gif	ce21463be85ec37958385d67bdc71f52	gong roach muscle
