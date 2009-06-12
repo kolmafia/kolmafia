@@ -100,6 +100,8 @@ public class TelescopeRequest
 
 	public void processResults()
 	{
+		TelescopeRequest.parseResponse( this.getURLString(), this.responseText );
+
 		if ( this.where == TelescopeRequest.HIGH )
 		{
 			// "You've already peered into the Heavens
@@ -115,8 +117,6 @@ public class TelescopeRequest
 			super.processResults();
 			return;
 		}
-
-		TelescopeRequest.parseResponse( this.getURLString(), this.responseText );
 	}
 
 	public static final void parseResponse( final String urlString, final String responseText )

@@ -6427,6 +6427,12 @@ public class KoLmafiaCLI
 		}
 
 		RequestThread.postRequest( new StorageRequest( StorageRequest.STORAGE_TO_INVENTORY, items ) );
+		int pulls = ItemManageFrame.getPullsRemaining();
+		if ( pulls >= 0 ) {
+			KoLmafia.updateDisplay( pulls + (pulls == 1 ? " pull" : " pulls")
+				+ " remaining," + ItemManageFrame.getPullsBudgeted() +
+				" budgeted for automatic use." );
+		}
 	}
 
 	/**

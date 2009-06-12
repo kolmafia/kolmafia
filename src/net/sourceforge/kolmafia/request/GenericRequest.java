@@ -1776,7 +1776,10 @@ public class GenericRequest
 		}
 		else
 		{
-			this.containsUpdate = ResultProcessor.processResults( true, this.responseText );
+			this.containsUpdate = ResultProcessor.processResults( 
+				urlString.startsWith( "fight.php" ) ||
+				urlString.startsWith( "adventure.php" ) ||
+				urlString.startsWith( "choice.php" ), this.responseText );
 		}
 	}
 
