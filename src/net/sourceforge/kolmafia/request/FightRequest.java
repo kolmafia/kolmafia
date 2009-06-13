@@ -114,6 +114,8 @@ public class FightRequest
 	public static Interpreter filterInterp;
 	public static String filterFunction;
 
+	private static final Pattern COMBATITEM_PATTERN = Pattern.compile( "<option.*?value=(\\d+).*?\\((\\d+)\\)</option>" );
+
 	private static final Pattern SKILL_PATTERN = Pattern.compile( "whichskill=(\\d+)" );
 	private static final Pattern ITEM1_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
 	private static final Pattern ITEM2_PATTERN = Pattern.compile( "whichitem2=(\\d+)" );
@@ -1579,6 +1581,8 @@ public class FightRequest
 			HobopolisDecorator.handleTownSquare( responseText );
 			break;
 		}
+		
+		FightRequest.parseCombatItems( responseText );
 
 		// Reset round information if the battle is complete.
 		// This is recognized when fight.php has no data.
@@ -2204,6 +2208,30 @@ public class FightRequest
 		}
 
 		Preferences.setInteger( "pastamancerGhostSummons", uses );
+	}
+	
+	private static final void parseCombatItems( String responseText )
+	{
+		int startIndex = responseText.indexOf( "<select name=whichitem>" );
+		if ( startIndex == -1 ) return;
+		int endIndex = responseText.indexOf( "</select>", startIndex );
+		if ( endIndex == -1 ) return;
+		Matcher m = FightRequest.COMBATITEM_PATTERN.matcher(
+			responseText.substring( startIndex, endIndex ) );
+		while ( m.find() )
+		{
+			int itemId = StringUtilities.parseInt( m.group( 1 ) );
+			if ( itemId <= 0 ) continue;
+			int actualQty = StringUtilities.parseInt( m.group( 2 ) );
+			AdventureResult ar = ItemPool.get( itemId, 1 );
+			int currentQty = ar.getCount( KoLConstants.inventory );
+			if ( actualQty != currentQty )
+			{
+				ar = ar.getInstance( actualQty - currentQty );
+				ResultProcessor.processResult( ar );
+				RequestLogger.updateSessionLog( "Adjusted combat item count: " + ar );
+			}
+		}
 	}
 
 	private static final void updateMonsterHealth( final String responseText )

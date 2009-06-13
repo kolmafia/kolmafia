@@ -3201,7 +3201,7 @@ public abstract class KoLCharacter
 			if ( hatred > 0 )
 			{
 				newModifiers.add( Modifiers.MONSTER_LEVEL, 
-					15 * hatred * (hatred + 2), "slime hatred" );
+					Math.min( 1000, 15 * hatred * (hatred + 2) ), "slime hatred" );
 			}
 		}
 
