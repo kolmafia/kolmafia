@@ -205,11 +205,14 @@ public class ProfileRequest
 			this.restriction = "No-Path";
 		}
 
-		while ( !st.nextToken().startsWith( "Meat" ) )
+		if ( cleanHTML.indexOf( "\nMeat:" ) != -1 )
 		{
-			;
+			while ( !st.nextToken().startsWith( "Meat" ) )
+			{
+				;
+			}
+			this.currentMeat = new Integer( StringUtilities.parseInt( st.nextToken().trim() ) );
 		}
-		this.currentMeat = new Integer( StringUtilities.parseInt( st.nextToken().trim() ) );
 
 		if ( cleanHTML.indexOf( "\nAscensions" ) != -1 )
 		{

@@ -194,7 +194,7 @@ shot of rotgut	1	1	2-3	10-12	10-12	10-12	lose 20-28 HP
 shot of tomato schnapps	1	1	1-3	1-2	1-2	1-2
 slap and tickle	4	4	10-14	0	8-10	25-27
 slick nigiri sushi	2	1	4-8	0	0	8-16
-slimy fermented bile bladder	1	6	3-4	0	0	0	20 Bilious (+25 ML, slime res)
+slimy fermented bile bladder	1	6	2-3	0	0	0	20 Bilious (+25 ML, slime res)
 slip 'n' slide	4	4	10-14	34-36	0	0
 slug of rum	3	2	3	0	0	0	10 Brined Liver
 slug of shochu	3	2	3	0	0	0	10 Brined Liver

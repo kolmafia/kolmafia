@@ -2614,7 +2614,7 @@ Time Trappings	Adventures: +3
 # Tropical Crimbo Duds
 Vile Vagrant Vestments	Mana Cost (stackable): -5, Class: "Pastamancer"
 War Hippy Fatigues	Stench Damage: +15
-# Wumpus-Hair Wardrobe
+Wumpus-Hair Wardrobe	Spooky Damage: +10, Stench Damage: +10, Hot Damage: +10, Cold Damage: +10, Sleaze Damage: +10
 # Yendorian Finery
 eXtreme Cold-Weather Gear	Cold Resistance: +3
 
