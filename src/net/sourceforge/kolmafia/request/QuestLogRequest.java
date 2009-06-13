@@ -39,8 +39,10 @@ public class QuestLogRequest
 	private static final String GALAKTIK = "What's Up, Doc?";
 	private static final String CITADEL = "White Citadel";
 
-	private static final String BLACK_MARKET_STRING =
-		"You've picked up your father's diary, and things just got a whole lot more complicated. Oh dear.";
+	private static final String BLACK_MARKET_STRING_1 =
+		"now to hit the Travel Agency and get yourself on a slow boat to China";
+	private static final String BLACK_MARKET_STRING_2 =
+		"You've picked up your father's diary, and things just got a whole lot more complicated";
 	private static final String MACGUFFIN = "Quest for the Holy MacGuffin";
 
 	private static final String ISLAND_WAR = "Make War, Not...";
@@ -116,7 +118,7 @@ public class QuestLogRequest
 		QuestLogRequest.registerQuests( false, this.getURLString(), this.responseText );
 
 		QuestLogRequest.blackMarketAvailable =
-			QuestLogRequest.startedQuest( QuestLogRequest.BLACK_MARKET_STRING ) || QuestLogRequest.finishedQuest( QuestLogRequest.MACGUFFIN );
+			QuestLogRequest.startedQuest( QuestLogRequest.BLACK_MARKET_STRING_1 ) || 			QuestLogRequest.startedQuest( QuestLogRequest.BLACK_MARKET_STRING_2 ) || QuestLogRequest.finishedQuest( QuestLogRequest.MACGUFFIN );
 		QuestLogRequest.hippyStoreAvailable =
 			!QuestLogRequest.startedQuest( QuestLogRequest.ISLAND_WAR_STRING ) || QuestLogRequest.finishedQuest( QuestLogRequest.ISLAND_WAR );
 	}
@@ -135,7 +137,8 @@ public class QuestLogRequest
 			if ( isExternal )
 			{
 				QuestLogRequest.blackMarketAvailable |=
-					QuestLogRequest.startedQuest( QuestLogRequest.BLACK_MARKET_STRING );
+					QuestLogRequest.startedQuest( QuestLogRequest.BLACK_MARKET_STRING_1 ) ||
+					QuestLogRequest.startedQuest( QuestLogRequest.BLACK_MARKET_STRING_2 );
 				QuestLogRequest.hippyStoreAvailable &=
 					!QuestLogRequest.startedQuest( QuestLogRequest.ISLAND_WAR_STRING );
 			}
@@ -151,7 +154,7 @@ public class QuestLogRequest
 			if ( isExternal )
 			{
 				QuestLogRequest.blackMarketAvailable |=
-					QuestLogRequest.finishedQuest( QuestLogRequest.BLACK_MARKET_STRING );
+					QuestLogRequest.finishedQuest( QuestLogRequest.MACGUFFIN );
 				QuestLogRequest.hippyStoreAvailable |= QuestLogRequest.finishedQuest( QuestLogRequest.ISLAND_WAR );
 			}
 		}
