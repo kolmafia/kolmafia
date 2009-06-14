@@ -1667,6 +1667,9 @@ public abstract class ChoiceManager
 		case 135:
 			PyramidRequest.decorateChoice( choice, buffer );
 			break;
+		case 360:
+			WumpusManager.decorate( buffer );
+			break;
 		case 392:
 			MemoriesDecorator.decorateElements( choice, buffer );
 			break;

@@ -37,11 +37,18 @@ import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class WumpusManager
 {
 	public static HashMap warnings = new HashMap();
+	public static String bats1 = null;
+	public static String bats2 = null;
+	public static String pit1 = null;
+	public static String pit2 = null;
+	public static String wumpus = null;
 
 	public static final int WARN_SAFE = 0;
 	public static final int WARN_BATS = 1;
@@ -50,15 +57,46 @@ public abstract class WumpusManager
 	public static final int WARN_INDEFINITE = 8;
 	public static final int WARN_ALL = 15;
 
-	public static String[] WARN_STRINGS = new String[] {
+	public static final String[] CHAMBERS =
+	{
+		"acrid",
+		"breezy",
+		"creepy",
+		"dripping",
+		"echoing",
+		"fetid",
+		"gloomy",
+		"howling",
+		"immense",
+		null,	// j
+		null,	// k
+		"long",
+		"moaning",
+		"narrow",
+		"ordinary",
+		"pillared",
+		"quiet",
+		"round",
+		"sparkling",
+		null,	// t
+		"underground",
+		"vaulted",
+		"windy",
+		null,	// x
+		null,	// y
+		null,	// z
+	};
+
+	public static String[] WARN_STRINGS = new String[]
+	{
 		"safe",
 		"definite bats",
 		"definite pit",
-		"ERROR: BATS AND PIT???",
+		"ERROR: BATS AND PIT",
 		"definite Wumpus",
-		"ERROR: BATS AND WUMPUS???",
-		"ERROR: PIT AND WUMPUS???",
-		"TOTAL ALGORITHM FAILURE!!!",
+		"ERROR: BATS AND WUMPUS",
+		"ERROR: PIT AND WUMPUS",
+		"ERROR: BATS, PIT, AND WUMPUS",
 
 		"safe",
 		"possible bats",
@@ -67,7 +105,7 @@ public abstract class WumpusManager
 		"possible Wumpus",
 		"possible bats or Wumpus",
 		"possible pit or Wumpus",
-		"idunno, could be anything",
+		"possible bats, pit, or Wumpus",
 	};
 
 	private static final Pattern ROOM_PATTERN = Pattern.compile( ">The (\\w+) Chamber<" );
@@ -76,6 +114,11 @@ public abstract class WumpusManager
 	public static void reset()
 	{
 		WumpusManager.warnings.clear();
+		WumpusManager.bats1 = null;
+		WumpusManager.bats2 = null;
+		WumpusManager.pit1 = null;
+		WumpusManager.pit2 = null;
+		WumpusManager.wumpus = null;
 	}
 
 	private static int get( String room )
@@ -84,16 +127,39 @@ public abstract class WumpusManager
 		return i == null ? WARN_ALL : i.intValue();
 	}
 	
-	private static void put( String room, int value )
+	private static int put( String room, int value )
 	{
-		WumpusManager.warnings.put( room, new Integer( WumpusManager.get( room ) & value ) );
+		int old = WumpusManager.get( room );
+		WumpusManager.warnings.put( room, new Integer( old & value ) );
+		return old;
 	}
 
+	// Links from current room
 	public static String[] links = null;
-	
+
+	// Deductions we made from visiting this room
+	public static final StringBuffer deductions = new StringBuffer();
+
+	// Types of deductions
+	public static final int NONE = 0;
+	public static final int VISIT = 1;
+	public static final int LISTEN = 2;
+	public static final int ELIMINATION = 3;
+	public static final int DEDUCTION = 4;
+
+	public static String[] DEDUCTION_STRINGS = new String[]
+	{
+		"None",
+		"Visit",
+		"Listen",
+		"Elimination",
+		"Deduction"
+	};
+
 	public static void visitChoice( String text )
 	{
 		WumpusManager.links = null;
+		WumpusManager.deductions.setLength( 0 );
 
 		if ( text == null )
 		{
@@ -112,17 +178,17 @@ public abstract class WumpusManager
 
 		if ( text.indexOf( "Wait for the bats to drop you" ) != -1 )
 		{
-			WumpusManager.put( current, WARN_BATS );
+			WumpusManager.deduceBats( current, VISIT );
 			return;
 		}
 
 		if ( text.indexOf( "Thump" ) != -1 )
 		{
-			WumpusManager.put( current, WARN_PIT );
+			WumpusManager.deducePit( current, VISIT );
 			return;
 		}
 
-		WumpusManager.put( current, WARN_SAFE );
+		WumpusManager.deduce( current, WARN_SAFE, VISIT );
 
 		// Initialize the array of rooms accessible from here
 
@@ -160,7 +226,7 @@ public abstract class WumpusManager
 
 		for ( int i = 0; i < 3; ++i )
 		{
-			WumpusManager.put( links[ i ], warn );
+			WumpusManager.deduce( links[ i ], warn, LISTEN );
 		}
 		
 		// Advanced logic: if only one of the linked rooms has a given
@@ -177,6 +243,128 @@ public abstract class WumpusManager
 		// doesn't hurt to try.
 
 		WumpusManager.deduce();
+	}
+
+	private static void deduceBats( final String room, final int type  )
+	{
+		WumpusManager.deduce( room, WARN_BATS, type );
+
+		// There are exactly two bat rooms per cave
+		if ( WumpusManager.bats1 == null )
+		{
+			// We've just identified the first bat room
+			WumpusManager.bats1 = room;
+			return;
+		}
+
+		if ( WumpusManager.bats1.equals( room ) || WumpusManager.bats2 != null )
+		{
+			return;
+		}
+
+		// We've just identified the second bat room
+		WumpusManager.bats2 = room;
+
+		// Eliminate bats from all rooms that have only "possible" bats
+		for ( int i = 0; i < CHAMBERS.length; ++i )
+		{
+			String chamber = CHAMBERS[ i ];
+			if ( chamber == null ||
+			     chamber.equals( WumpusManager.bats1 ) ||
+			     chamber.equals( WumpusManager.bats2 ) )
+			{
+				continue;
+			}
+			int old = WumpusManager.get( chamber );
+			WumpusManager.deduce( chamber, old & ~WARN_BATS, DEDUCTION );
+		}
+	}
+
+	private static void deducePit( final String room, final int type )
+	{
+		WumpusManager.deduce( room, WARN_PIT, type );
+
+		// There are exactly two pit rooms per cave
+		if ( WumpusManager.pit1 == null )
+		{
+			// We've just identified the first pit room
+			WumpusManager.pit1 = room;
+			return;
+		}
+
+		if ( WumpusManager.pit1.equals( room ) || WumpusManager.pit2 != null )
+		{
+			return;
+		}
+
+		// We've just identified the second pit room
+		WumpusManager.pit2 = room;
+
+		// Eliminate pits from all rooms that have only "possible" pit
+		for ( int i = 0; i < CHAMBERS.length; ++i )
+		{
+			String chamber = CHAMBERS[ i ];
+			if ( chamber == null ||
+			     chamber.equals( WumpusManager.pit1 ) ||
+			     chamber.equals( WumpusManager.pit2 ) )
+			{
+				continue;
+			}
+			int old = WumpusManager.get( chamber );
+			WumpusManager.deduce( chamber, old & ~WARN_PIT, DEDUCTION );
+		}
+	}
+
+	private static void deduceWumpus( final String room, final int type )
+	{
+		WumpusManager.deduce( room, WARN_WUMPUS, type );
+
+		// There is exactly one wumpus rooms per cave
+		if ( WumpusManager.wumpus != null )
+		{
+			return;
+		}
+
+		// We've just identified the wumpus room
+		WumpusManager.wumpus = room;
+
+		// Eliminate wumpus from all rooms that have only "possible" wumpus
+		for ( int i = 0; i < CHAMBERS.length; ++i )
+		{
+			String chamber = CHAMBERS[ i ];
+			if ( chamber == null || chamber.equals( WumpusManager.wumpus ) )
+			{
+				continue;
+			}
+			int old = WumpusManager.get( chamber );
+			WumpusManager.deduce( chamber, old & ~WARN_WUMPUS, DEDUCTION );
+		}
+	}
+	
+	private static void deduce( final String room, int warn, final int type )
+	{
+		if ( warn == WARN_INDEFINITE )
+		{
+			warn = WARN_SAFE;
+		}
+
+		int oldStatus = WumpusManager.put( room, warn );
+		int newStatus = WumpusManager.get( room );
+		if ( oldStatus == newStatus )
+		{
+			return;
+		}
+
+		// New deduction
+		String idString = WumpusManager.DEDUCTION_STRINGS[ type ];
+		String warnString = WumpusManager.WARN_STRINGS[ newStatus ];
+
+		if ( WumpusManager.deductions.length() != 0 )
+		{
+			WumpusManager.deductions.append( KoLConstants.LINE_BREAK );
+		}
+
+		WumpusManager.deductions.append( idString + ": " + warnString + " in " + room + " chamber." ); 
 	}
 	
 	private static void deduce()
@@ -201,9 +389,23 @@ public abstract class WumpusManager
 			}
 		}
 
-		if ( which != -1 )
+		if ( which == -1 )
 		{
-			WumpusManager.put( WumpusManager.links[ which ], mask );
+			return;
+		}
+
+		String room = WumpusManager.links[ which ];
+		switch ( mask )
+		{
+		case WARN_BATS:
+			WumpusManager.deduceBats( room, ELIMINATION );
+			break;
+		case WARN_PIT:
+			WumpusManager.deducePit( room, ELIMINATION );
+			break;
+		case WARN_WUMPUS:
+			WumpusManager.deduceWumpus( room, ELIMINATION );
+			break;
 		}
 	}
 	
@@ -223,10 +425,22 @@ public abstract class WumpusManager
 
 		String room = WumpusManager.links[ decision - 1 ];
 
+		if ( text.indexOf( "Wait for the bats to drop you" ) != -1 )
+		{
+			WumpusManager.deduceBats( room, VISIT );
+			return;
+		}
+
+		if ( text.indexOf( "Thump" ) != -1 )
+		{
+			WumpusManager.deducePit( room, VISIT );
+			return;
+		}
+
 		// Unfortunately, the wumpus was nowhere to be seen.
 		if ( text.indexOf( "wumpus was nowhere to be seen" ) != -1  )
 		{
-			WumpusManager.put( room, WARN_SAFE );
+			WumpusManager.deduce( room, WARN_SAFE, VISIT );
 			return;
 		}
 
@@ -239,11 +453,11 @@ public abstract class WumpusManager
 		if ( text.indexOf( "unexpectedly, a wumpus" ) != -1 ||
 		     text.indexOf( "surprised the wumpus" ) != -1 )
 		{
-			WumpusManager.put( room, WARN_WUMPUS );
+			WumpusManager.deduceWumpus( room, VISIT );
 			return;
 		}
 	}
-	
+
 	public static String[] dynamicChoiceOptions( String text )
 	{
 		if ( links == null )
@@ -261,4 +475,30 @@ public abstract class WumpusManager
 
 		return results;
 	}
+
+	public static final void decorate( final StringBuffer buffer )
+	{
+		if ( WumpusManager.deductions.length() == 0 )
+		{
+			return;
+		}
+
+		int index = buffer.indexOf( "<center><form name=choiceform1" );
+		if ( index == -1 )
+		{
+			return;
+		}
+
+                String text = WumpusManager.deductions.toString();
+		RequestLogger.printLine( text );
+		RequestLogger.updateSessionLog( text );
+
+		WumpusManager.deductions.insert( 0, "<center>" );
+		WumpusManager.deductions.append( "</center>>" );
+		text = StringUtilities.globalStringReplace( WumpusManager.deductions.toString(), KoLConstants.LINE_BREAK, "<br>" );
+		WumpusManager.deductions.setLength( 0 );
+
+		buffer.insert( index, text );
+	}
 }
+
