@@ -46,6 +46,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -77,6 +79,8 @@ public class ChatFrame
 
 	protected static final String MSGS_TAB = "/msgs";
 	protected static final String GCLI_TAB = "/gcli";
+	
+	private static final Pattern SPLITCOMMAND_PATTERN = Pattern.compile( "/(?:(?:msg|whisper|w|tell)\\s+\\S+|\\S+)\\s+", Pattern.CASE_INSENSITIVE );
 
 	private static final SimpleDateFormat MARK_TIMESTAMP = new SimpleDateFormat( "HH:mm:ss", Locale.US );
 
@@ -392,46 +396,43 @@ public class ChatFrame
 				{
 					// If the message is too long for one message, then
 					// divide it into its component pieces.
-
-					String trimmedMessage;
-					List splitMessages = new ArrayList();
-					int prevSpaceIndex = 0, nextSpaceIndex = 0;
-
-					while ( nextSpaceIndex < message.length() )
-					{
-						nextSpaceIndex =
-							prevSpaceIndex + 240 >= message.length() ? message.length() : message.lastIndexOf(
-								" ", Math.min( prevSpaceIndex + 240, message.length() ) );
-
-						if ( nextSpaceIndex == -1 )
-						{
-							nextSpaceIndex = Math.min( prevSpaceIndex + 240, message.length() );
-						}
-
-						trimmedMessage = message.substring( prevSpaceIndex, nextSpaceIndex ).trim();
-
-						if ( prevSpaceIndex != 0 )
-						{
-							trimmedMessage = "... " + trimmedMessage;
-						}
-						if ( nextSpaceIndex != message.length() )
-						{
-							trimmedMessage = trimmedMessage + " ...";
-						}
-						if ( message.startsWith( "/" ) )
-						{
-							trimmedMessage = "/me " + trimmedMessage.replaceFirst( "/[^\\s]*\\s+", "" );
-						}
-
-						splitMessages.add( trimmedMessage );
-						prevSpaceIndex = nextSpaceIndex;
+					String command = "";
+					String splitter = " ";
+					String prefix = "... ";
+					String suffix = " ...";
+					
+					if ( message.indexOf( " && " ) != -1 )
+					{	// Assume chained commands, must handle differently
+						splitter = " && ";
+						prefix = "";
+						suffix = "";
 					}
-
-					for ( int i = 0; i < splitMessages.size(); ++i )
+					else if ( message.startsWith( "/" ) )
 					{
+						Matcher m = ChatFrame.SPLITCOMMAND_PATTERN.matcher(
+							message );
+						if ( m.lookingAt() )
+						{
+							command = m.group();
+							message = message.substring( m.end() );
+						}
+					}
+					int maxPiece = 255 - command.length() - suffix.length();
+					
+					while ( message.length() > maxPiece )
+					{
+						int splitPos = message.lastIndexOf( splitter, maxPiece );
+						if ( splitPos <= prefix.length() )
+						{	// oops!
+							splitPos = maxPiece;
+						}
 						RequestThread.postRequest( new ChatRequest(
-							ChatPanel.this.associatedContact, (String) splitMessages.get( i ) ) );
+							ChatPanel.this.associatedContact, command + message.substring( 0, splitPos ) + suffix ) );
+						message = prefix + message.substring( splitPos + splitter.length() );
 					}
+
+					RequestThread.postRequest( new ChatRequest(
+						ChatPanel.this.associatedContact, command + message ) );
 				}
 				else
 				{
