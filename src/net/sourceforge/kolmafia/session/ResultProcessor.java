@@ -105,10 +105,20 @@ public class ResultProcessor
 	
 	public static boolean processResults( boolean canBeHaiku, String results )
 	{
-		return ResultProcessor.processResults( canBeHaiku, results, null );
+		return ResultProcessor.processResults( false, canBeHaiku, results, null );
+	}
+
+	public static boolean processResults( boolean combatResults, boolean canBeHaiku, String results )
+	{
+		return ResultProcessor.processResults( combatResults, canBeHaiku, results, null );
 	}
 
 	public static boolean processResults( boolean canBeHaiku, String results, List data )
+	{
+		return ResultProcessor.processResults( false, canBeHaiku, results, data );
+	}
+
+	public static boolean processResults( boolean combatResults, boolean canBeHaiku, String results, List data )
 	{
 		ResultProcessor.receivedClover = false;
 		
@@ -118,8 +128,8 @@ public class ResultProcessor
 		}
 
 		boolean requiresRefresh = canBeHaiku && haveHaikuResults() ?
-			processHaikuResults( results, data ) :
-			processNormalResults( results, data );
+			processHaikuResults( combatResults, results, data ) :
+			processNormalResults( combatResults, results, data );
 
 		if ( data == null )
 		{
@@ -135,7 +145,7 @@ public class ResultProcessor
 			KoLConstants.activeEffects.contains( ResultProcessor.haikuEffect );
 	}
 
-	private static boolean processNormalResults( String results, List data )
+	private static boolean processNormalResults( boolean combatResults, String results, List data )
 	{
 		String plainTextResult = KoLConstants.ANYTAG_PATTERN.matcher( results ).replaceAll( KoLConstants.LINE_BREAK );
 
@@ -150,13 +160,13 @@ public class ResultProcessor
 
 		while ( parsedResults.hasMoreTokens() )
 		{
-			shouldRefresh |= ResultProcessor.processNextResult( parsedResults, data );
+			shouldRefresh |= ResultProcessor.processNextResult( combatResults, parsedResults, data );
 		}
 
 		return shouldRefresh;
 	}
 
-	private static boolean processHaikuResults( String results, List data )
+	private static boolean processHaikuResults( boolean combatResults, String results, List data )
 	{
 		Matcher matcher = HAIKU_PATTERN.matcher( results );
 		if ( !matcher.find() )
@@ -178,7 +188,7 @@ public class ResultProcessor
 				// Found an item
 				int itemId = ItemDatabase.getItemIdFromDescription( descid );
 				AdventureResult result = ItemPool.get( itemId, 1 );
-				ResultProcessor.processItem( "You acquire an item:", result, data );
+				ResultProcessor.processItem( combatResults, "You acquire an item:", result, data );
 
 				continue;
 			}
@@ -318,7 +328,7 @@ public class ResultProcessor
 		}
 	}
 
-	private static boolean processNextResult( StringTokenizer parsedResults, List data )
+	private static boolean processNextResult( boolean combatResults, StringTokenizer parsedResults, List data )
 	{
 		String lastToken = parsedResults.nextToken();
 
@@ -350,7 +360,7 @@ public class ResultProcessor
 
 			if ( acquisition.indexOf( "effect" ) == -1 )
 			{
-				ResultProcessor.processItem( parsedResults, acquisition, data );
+				ResultProcessor.processItem( combatResults, parsedResults, acquisition, data );
 				return false;
 			}
 
@@ -386,7 +396,7 @@ public class ResultProcessor
 		return false;
 	}
 
-	private static void processItem( StringTokenizer parsedResults, String acquisition, List data )
+	private static void processItem( boolean combatResults, StringTokenizer parsedResults, String acquisition, List data )
 	{
 		String item = parsedResults.nextToken();
 
@@ -399,7 +409,7 @@ public class ResultProcessor
 				RequestLogger.printLine( "Unrecognized item found: " + item );
 			}
 
-			ResultProcessor.processItem( acquisition, result, data );
+			ResultProcessor.processItem( combatResults, acquisition, result, data );
 			return;
 		}
 
@@ -440,10 +450,10 @@ public class ResultProcessor
 			result = new AdventureResult( itemId, itemCount );
 		}
 
-		ResultProcessor.processItem( acquisition, result, data );
+		ResultProcessor.processItem( combatResults, acquisition, result, data );
 	}
 
-	private static void processItem( String acquisition, AdventureResult result, List data )
+	private static void processItem( boolean combatResults, String acquisition, AdventureResult result, List data )
 	{
 		if ( data != null )
 		{
@@ -459,7 +469,7 @@ public class ResultProcessor
 			RequestLogger.updateSessionLog( message );
 		}
 
-		ResultProcessor.processResult( result );
+		ResultProcessor.processResult( combatResults, result );
 
 		++ResultProcessor.itemSequenceCount;
 	}
@@ -696,6 +706,11 @@ public class ResultProcessor
 
 	public static boolean processResult( AdventureResult result )
 	{
+		return ResultProcessor.processResult( false, result );
+	}
+
+	public static boolean processResult( boolean combatResults, AdventureResult result )
+	{
 		// This should not happen, but punt if the result was null.
 
 		if ( result == null )
@@ -754,7 +769,7 @@ public class ResultProcessor
 		if ( result.isItem() )
 		{
 			// Do special processing when you get certain items
-			ResultProcessor.gainItem( result );
+			ResultProcessor.gainItem( combatResults, result );
 
 			if ( GenericRequest.isBarrelSmash )
 			{
@@ -996,7 +1011,7 @@ public class ResultProcessor
 		}
 	}
 
-	private static void gainItem( AdventureResult result )
+	private static void gainItem( boolean combatDrop, AdventureResult result )
 	{
 		// All results, whether positive or negative, are
 		// handled here.
@@ -1017,30 +1032,25 @@ public class ResultProcessor
 			return;
 		}
 		
+		int taken = -1;
+		
 		switch ( result.getItemId() )
 		{
 		case ItemPool.ROASTED_MARSHMALLOW:
 			// Special Yuletide adventures
-			if ( KoLAdventure.lastAdventureId() == 163 &&
-				KoLConstants.inventory.contains( ItemPool.get( ItemPool.MARSHMALLOW, 1 ) ) )
+			if ( KoLAdventure.lastAdventureId() == 163 )
 			{
-				ResultProcessor.processItem( ItemPool.MARSHMALLOW, -1 );
+				taken = ItemPool.MARSHMALLOW;
 			}
 			break;
 		
 		// Sticker weapons may have been folded from the other form
 		case ItemPool.STICKER_SWORD:
-			if ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.STICKER_CROSSBOW, 1 ) ) )
-			{
-				ResultProcessor.processItem( ItemPool.STICKER_CROSSBOW, -1 );
-			}
+			taken = ItemPool.STICKER_CROSSBOW;
 			break;
 			
 		case ItemPool.STICKER_CROSSBOW:
-			if ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.STICKER_SWORD, 1 ) ) )
-			{
-				ResultProcessor.processItem( ItemPool.STICKER_SWORD, -1 );
-			}
+			taken = ItemPool.STICKER_SWORD;
 			break;
 			
 		case ItemPool.SOCK:
@@ -1117,32 +1127,27 @@ public class ResultProcessor
 			IslandDecorator.resetGremlinTool();
 			break;
 
+		case ItemPool.OVERCHARGED_POWER_SPHERE:
+		case ItemPool.EL_VIBRATO_HELMET:
+		case ItemPool.EL_VIBRATO_SPEAR:
+		case ItemPool.EL_VIBRATO_PANTS:
+			if ( combatDrop ) taken = ItemPool.POWER_SPHERE;
+			break;
+
 		case ItemPool.BROKEN_DRONE:
-			if ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.DRONE, 1 ) ) )
-			{
-				ResultProcessor.processItem( ItemPool.DRONE, -1 );
-			}
+			if ( combatDrop ) taken = ItemPool.DRONE;
 			break;
 
 		case ItemPool.REPAIRED_DRONE:
-			if ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.BROKEN_DRONE, 1 ) ) )
-			{
-				ResultProcessor.processItem( ItemPool.BROKEN_DRONE, -1 );
-			}
+			if ( combatDrop ) taken = ItemPool.BROKEN_DRONE;
 			break;
 
 		case ItemPool.AUGMENTED_DRONE:
-			if ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.REPAIRED_DRONE, 1 ) ) )
-			{
-				ResultProcessor.processItem( ItemPool.REPAIRED_DRONE, -1 );
-			}
+			if ( combatDrop ) taken = ItemPool.REPAIRED_DRONE;
 			break;
 
 		case ItemPool.TRAPEZOID:
-			if ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.POWER_SPHERE, 1 ) ) )
-			{
-				ResultProcessor.processItem( ItemPool.POWER_SPHERE, -1 );
-			}
+			taken = ItemPool.POWER_SPHERE;
 			break;
 
 		case ItemPool.CITADEL_SATCHEL:
@@ -1196,10 +1201,7 @@ public class ResultProcessor
 			break;
 
 		case ItemPool.GNOME_DEMODULIZER:
-			if ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.CHOMSKYS_COMICS, 1 ) ) )
-			{
-				ResultProcessor.processItem( ItemPool.CHOMSKYS_COMICS, -1 );
-			}
+			taken = ItemPool.CHOMSKYS_COMICS;
 			break;
 
 		case ItemPool.MUS_MANUAL:
@@ -1250,10 +1252,7 @@ public class ResultProcessor
 			break;
 
 		case ItemPool.DAS_BOOT:
-			if ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.DAMP_OLD_BOOT, 1 ) ) )
-			{
-				ResultProcessor.processItem( ItemPool.DAMP_OLD_BOOT, -1 );
-			}
+			taken = ItemPool.DAMP_OLD_BOOT;
 			break;
 
 		case ItemPool.PREGNANT_FLAMING_MUSHROOM:
@@ -1273,6 +1272,16 @@ public class ResultProcessor
 			ResultProcessor.processItem( ItemPool.FUSCHIA_YARN, -1 );
 			ResultProcessor.processItem( ItemPool.CHARTREUSE_YARN, -1 );
 			break;
+		}
+		
+		if ( taken != -1 )
+		{
+			AdventureResult ar = ItemPool.get( taken, -1 );
+			if ( KoLConstants.inventory.contains( ar ) )
+			{
+				ResultProcessor.processResult( ar );
+			}
+
 		}
 	}
 	

@@ -661,6 +661,8 @@ public class ItemPool
 	public static final int PUNCHCARD_SPHERE = 3156;
 	public static final int DRONE = 3157;
 	public static final int EL_VIBRATO_HELMET = 3162;
+	public static final int EL_VIBRATO_SPEAR = 3163;
+	public static final int EL_VIBRATO_PANTS = 3164;
 	public static final int BROKEN_DRONE = 3165;
 	public static final int REPAIRED_DRONE = 3166;
 	public static final int AUGMENTED_DRONE = 3167;
