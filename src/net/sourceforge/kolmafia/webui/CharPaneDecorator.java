@@ -134,7 +134,7 @@ public class CharPaneDecorator
 			GenericRequest.isCompactMode );
 	}
 	
-	private static final String getFamiliarAnnotation()
+	public static final String getFamiliarAnnotation()
 	{
 		FamiliarData fam = KoLCharacter.getFamiliar();
 		switch ( fam != null ? fam.getId() : -1 )
@@ -150,6 +150,8 @@ public class CharPaneDecorator
 		case FamiliarPool.BANDER:
 			return Preferences.getInteger( "_banderRunaways" ) + "/" +
 				fam.getModifiedWeight() / 5;
+		case FamiliarPool.HARE:
+			return Preferences.getInteger( "extraRolloverAdventures" ) + " adv";
 		}
 		return null;
 	}
