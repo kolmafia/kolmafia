@@ -4108,7 +4108,7 @@
 4102	steely marble	offhand, multiple	all	128
 4103	beach ball marble	offhand, multiple	all	256
 4104	black catseye marble	offhand, multiple	all	512
-4105	big bumboozer marble	offhand	all	1024
+4105	big bumboozer marble	offhand, reusable	all	1024
 4106	chamoisole	shirt	all	2000
 4107	bitter pill	multiple	all	1000
 4108	monstrous monocle	accessory	display	250

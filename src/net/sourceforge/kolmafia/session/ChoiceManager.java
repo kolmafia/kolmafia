@@ -1161,6 +1161,12 @@ public abstract class ChoiceManager
 		// Choice 379 is Northern Building (Basement)
 
 		// Choice 392 is The Elements of Surprise . . .
+
+		// The Collector
+		new ChoiceAdventure(
+			"Item-Driven", "choiceAdventure393", "big bumboozer marble",
+			new String[] { "1 of each marble -> 32768 Meat", "skip adventure" } ),
+
 	};
 
 	static
@@ -2453,6 +2459,16 @@ public abstract class ChoiceManager
 		case 360:
 			WumpusManager.takeChoice( ChoiceManager.lastDecision, text );
 			break;
+		
+		case 393:
+			// The Collector
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				for ( int i = ItemPool.GREEN_PEAWEE_MARBLE; i <= ItemPool.BIG_BUMBOOZER_MARBLE; ++i )
+				{
+					ResultProcessor.processResult( ItemPool.get( i, -1 ) );
+				}
+			}
 		}
 
 		// Certain choices cost meat or items when selected

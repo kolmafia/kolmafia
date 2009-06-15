@@ -1186,7 +1186,11 @@ public class UseItemRequest
 				// A voice speaks (for a long time) from the
 				// helmet:
 
-				if ( responseText.indexOf( "(for a long time)" ) == -1 )
+				if ( responseText.indexOf( "A tinny voice emerges from the drone" ) != -1 )
+				{
+					// produces sparking, etc. drones - no special handling needed
+				}
+				else if ( responseText.indexOf( "(for a long time)" ) == -1 )
 				{
 					success = false;
 				}
@@ -3159,6 +3163,7 @@ public class UseItemRequest
 			break;
 
 		case ItemPool.EL_VIBRATO_HELMET:
+		case ItemPool.DRONE:
 			if ( UseItemRequest.lastHelperUsed == null )
 			{
 				return true;
