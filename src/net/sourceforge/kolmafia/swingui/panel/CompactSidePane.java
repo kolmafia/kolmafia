@@ -59,6 +59,7 @@ import net.sourceforge.kolmafia.request.BasementRequest;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
 import net.sourceforge.kolmafia.swingui.button.RequestButton;
 import net.sourceforge.kolmafia.swingui.widget.UnanimatedLabel;
+import net.sourceforge.kolmafia.webui.CharPaneDecorator;
 
 public class CompactSidePane
 	extends JPanel
@@ -529,8 +530,11 @@ public class CompactSidePane
 		}
 		else
 		{
+			String anno = CharPaneDecorator.getFamiliarAnnotation();
 			this.familiarLabel.setIcon( FamiliarDatabase.getFamiliarImage( id ) );
-			this.familiarLabel.setText( familiar.getModifiedWeight() + ( familiar.getModifiedWeight() == 1 ? " lb." : " lbs." ) );
+			this.familiarLabel.setText( familiar.getModifiedWeight() +
+				( familiar.getModifiedWeight() == 1 ? " lb." : " lbs." ) +
+				( anno == null ? "" : ", " + anno ) );
 		}
 		this.familiarLabel.setVerticalTextPosition( JLabel.BOTTOM );
 		this.familiarLabel.setHorizontalTextPosition( JLabel.CENTER );
