@@ -206,6 +206,8 @@ public abstract class WumpusManager
 			links[ i ] = m.group( 1 ).toLowerCase();
 		}
 
+		WumpusManager.addDeduction( "Links: " + links[0] + ", " + links[1] + ", " + links[2] );
+
 		// Basic logic: assume all rooms have all warnings initially.
 		// Remove any warnings from linked rooms that aren't present
 		// in the current room.
@@ -265,19 +267,8 @@ public abstract class WumpusManager
 		// We've just identified the second bat room
 		WumpusManager.bats2 = room;
 
-		// Eliminate bats from all rooms that have only "possible" bats
-		for ( int i = 0; i < CHAMBERS.length; ++i )
-		{
-			String chamber = CHAMBERS[ i ];
-			if ( chamber == null ||
-			     chamber.equals( WumpusManager.bats1 ) ||
-			     chamber.equals( WumpusManager.bats2 ) )
-			{
-				continue;
-			}
-			int old = WumpusManager.get( chamber );
-			WumpusManager.deduce( chamber, old & ~WARN_BATS, DEDUCTION );
-		}
+		// Eliminate bats from rooms that have only "possible" bats
+		WumpusManager.eliminateHazard( WARN_BATS, WumpusManager.bats1, WumpusManager.bats2 );
 	}
 
 	private static void deducePit( final String room, final int type )
@@ -300,19 +291,8 @@ public abstract class WumpusManager
 		// We've just identified the second pit room
 		WumpusManager.pit2 = room;
 
-		// Eliminate pits from all rooms that have only "possible" pit
-		for ( int i = 0; i < CHAMBERS.length; ++i )
-		{
-			String chamber = CHAMBERS[ i ];
-			if ( chamber == null ||
-			     chamber.equals( WumpusManager.pit1 ) ||
-			     chamber.equals( WumpusManager.pit2 ) )
-			{
-				continue;
-			}
-			int old = WumpusManager.get( chamber );
-			WumpusManager.deduce( chamber, old & ~WARN_PIT, DEDUCTION );
-		}
+		// Eliminate pits from rooms that have only "possible" pit
+		WumpusManager.eliminateHazard( WARN_PIT, WumpusManager.pit1, WumpusManager.pit2 );
 	}
 
 	private static void deduceWumpus( final String room, final int type )
@@ -328,16 +308,26 @@ public abstract class WumpusManager
 		// We've just identified the wumpus room
 		WumpusManager.wumpus = room;
 
-		// Eliminate wumpus from all rooms that have only "possible" wumpus
+		// Eliminate wumpus from rooms that have only "possible" wumpus
+		WumpusManager.eliminateHazard( WARN_WUMPUS, WumpusManager.wumpus, null );
+	}
+	
+	private static void eliminateHazard( final int hazard, final String room1, final String room2 )
+	{
 		for ( int i = 0; i < CHAMBERS.length; ++i )
 		{
 			String chamber = CHAMBERS[ i ];
-			if ( chamber == null || chamber.equals( WumpusManager.wumpus ) )
+			if ( chamber == null || chamber.equals( room1 ) || chamber.equals( room2 ) )
 			{
 				continue;
 			}
-			int old = WumpusManager.get( chamber );
-			WumpusManager.deduce( chamber, old & ~WARN_WUMPUS, DEDUCTION );
+
+			Integer old = (Integer) WumpusManager.warnings.get( chamber );
+			if ( old == null )
+			{
+				continue;
+			}
+			WumpusManager.deduce( chamber, old.intValue() & ~hazard, DEDUCTION );
 		}
 	}
 	
@@ -359,12 +349,17 @@ public abstract class WumpusManager
 		String idString = WumpusManager.DEDUCTION_STRINGS[ type ];
 		String warnString = WumpusManager.WARN_STRINGS[ newStatus ];
 
+		WumpusManager.addDeduction( idString + ": " + warnString + " in " + room + " chamber." );
+	}
+
+	private static void addDeduction( final String string )
+	{
 		if ( WumpusManager.deductions.length() != 0 )
 		{
 			WumpusManager.deductions.append( KoLConstants.LINE_BREAK );
 		}
 
-		WumpusManager.deductions.append( idString + ": " + warnString + " in " + room + " chamber." ); 
+		WumpusManager.deductions.append( string ); 
 	}
 	
 	private static void deduce()
@@ -425,18 +420,6 @@ public abstract class WumpusManager
 
 		String room = WumpusManager.links[ decision - 1 ];
 
-		if ( text.indexOf( "Wait for the bats to drop you" ) != -1 )
-		{
-			WumpusManager.deduceBats( room, VISIT );
-			return;
-		}
-
-		if ( text.indexOf( "Thump" ) != -1 )
-		{
-			WumpusManager.deducePit( room, VISIT );
-			return;
-		}
-
 		// Unfortunately, the wumpus was nowhere to be seen.
 		if ( text.indexOf( "wumpus was nowhere to be seen" ) != -1  )
 		{
@@ -489,12 +472,12 @@ public abstract class WumpusManager
 			return;
 		}
 
-                String text = WumpusManager.deductions.toString();
+		String text = WumpusManager.deductions.toString();
 		RequestLogger.printLine( text );
 		RequestLogger.updateSessionLog( text );
 
 		WumpusManager.deductions.insert( 0, "<center>" );
-		WumpusManager.deductions.append( "</center>>" );
+		WumpusManager.deductions.append( "</center>" );
 		text = StringUtilities.globalStringReplace( WumpusManager.deductions.toString(), KoLConstants.LINE_BREAK, "<br>" );
 		WumpusManager.deductions.setLength( 0 );
 
