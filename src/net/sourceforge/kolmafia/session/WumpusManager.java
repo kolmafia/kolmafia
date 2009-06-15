@@ -188,8 +188,6 @@ public abstract class WumpusManager
 			return;
 		}
 
-		WumpusManager.deduce( current, WARN_SAFE, VISIT );
-
 		// Initialize the array of rooms accessible from here
 
 		WumpusManager.links = new String[ 3 ];
@@ -206,7 +204,9 @@ public abstract class WumpusManager
 			links[ i ] = m.group( 1 ).toLowerCase();
 		}
 
-		WumpusManager.addDeduction( "Links: " + links[0] + ", " + links[1] + ", " + links[2] );
+		WumpusManager.printDeduction( "Exits: " + links[0] + ", " + links[1] + ", " + links[2] );
+
+		WumpusManager.deduce( current, WARN_SAFE, VISIT );
 
 		// Basic logic: assume all rooms have all warnings initially.
 		// Remove any warnings from linked rooms that aren't present
@@ -351,16 +351,6 @@ public abstract class WumpusManager
 
 		WumpusManager.addDeduction( idString + ": " + warnString + " in " + room + " chamber." );
 	}
-
-	private static void addDeduction( final String string )
-	{
-		if ( WumpusManager.deductions.length() != 0 )
-		{
-			WumpusManager.deductions.append( KoLConstants.LINE_BREAK );
-		}
-
-		WumpusManager.deductions.append( string ); 
-	}
 	
 	private static void deduce()
 	{
@@ -459,6 +449,29 @@ public abstract class WumpusManager
 		return results;
 	}
 
+	private static void printDeduction( final String text )
+	{
+		RequestLogger.printLine( text );
+		RequestLogger.updateSessionLog( text );
+	}
+
+	private static void addDeduction( final String text )
+	{
+		// Print the string to the CLI and session log
+		WumpusManager.printDeduction( text );
+
+		if ( WumpusManager.deductions.length() == 0 )
+		{
+			WumpusManager.deductions.append( "<center>" );
+		}
+		else
+		{
+			WumpusManager.deductions.append( "<br>" );
+		}
+
+		WumpusManager.deductions.append( text ); 
+	}
+
 	public static final void decorate( final StringBuffer buffer )
 	{
 		if ( WumpusManager.deductions.length() == 0 )
@@ -472,16 +485,9 @@ public abstract class WumpusManager
 			return;
 		}
 
-		String text = WumpusManager.deductions.toString();
-		RequestLogger.printLine( text );
-		RequestLogger.updateSessionLog( text );
-
-		WumpusManager.deductions.insert( 0, "<center>" );
-		WumpusManager.deductions.append( "</center>" );
-		text = StringUtilities.globalStringReplace( WumpusManager.deductions.toString(), KoLConstants.LINE_BREAK, "<br>" );
+		WumpusManager.deductions.append( "</center><br>" );
+		buffer.insert( index, WumpusManager.deductions.toString() );
 		WumpusManager.deductions.setLength( 0 );
-
-		buffer.insert( index, text );
 	}
 }
 
