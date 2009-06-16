@@ -363,7 +363,7 @@ public abstract class ChoiceManager
 		// Don't Fence Me In
 		new ChoiceAdventure(
 			"Woods", "choiceAdventure73", "Whitey's Grove",
-			new String[] { "muscle substats", "white picket fence", "piece of wedding cake, white rice (w/ rice bowl)" },
+			new String[] { "muscle substats", "white picket fence", "wedding cake, white rice 3x (+2x w/ rice bowl)" },
 			new String[] { null, "270", "262" } ),
 
 		// The Only Thing About Him is the Way That He Walks
