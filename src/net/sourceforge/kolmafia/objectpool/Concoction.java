@@ -41,6 +41,7 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
@@ -80,6 +81,8 @@ public class Concoction
 	private final List ingredients;
 	private AdventureResult[] ingredientArray;
 	private int modifier, multiplier;
+	public static int debugId = Integer.MAX_VALUE;
+	public static boolean debug = false;
 
 	public int creatable;
 	public int queued;
@@ -555,6 +558,10 @@ public class Concoction
 
 		if ( this.initial != -1 )
 		{
+			if ( Concoction.debug )
+			{
+				this.debug( "== calculate" );
+			}
 			return;
 		}
 
@@ -567,7 +574,19 @@ public class Concoction
 
 		if ( this.concoction == null || this.name == null )
 		{
+			if ( Concoction.debug )
+			{
+				this.debug( "?? calculate" );
+			}
 			return;
+		}
+		if ( this.getItemId() == Concoction.debugId )
+		{
+			Concoction.debug = true;
+		}
+		if ( Concoction.debug )
+		{
+			this.debug( "-> calculate" );
 		}
 
 		// Determine how many were available initially in the
@@ -641,6 +660,14 @@ public class Concoction
 
 		this.visibleTotal = this.total;
 		this.unmark();
+		if ( Concoction.debug )
+		{
+			this.debug( "&lt;- calculate" );
+		}
+		if ( this.getItemId() == Concoction.debugId )
+		{
+			Concoction.debug = false;
+		}
 	}
 
 	/**
@@ -655,7 +682,15 @@ public class Concoction
 
 		if ( this.multiplier == 0 )
 		{
+			if ( Concoction.debug )
+			{
+				this.debug( "== quantity &infin;" );
+			}
 			return MallPurchaseRequest.MAX_QUANTITY;
+		}
+		if ( Concoction.debug )
+		{
+			this.debug( "-> quantity" );
 		}
 
 		// The maximum value is equivalent to the total, plus
@@ -712,6 +747,10 @@ public class Concoction
 		// value to the requesting method.
 
 		this.isCalculating = false;
+		if ( Concoction.debug )
+		{
+			this.debug( "&lt;- quantity " + quantity );
+		}
 		return quantity;
 	}
 
@@ -722,6 +761,10 @@ public class Concoction
 
 	private void mark( final int modifier, final int multiplier )
 	{
+		if ( Concoction.debug )
+		{
+			this.debug( "-> mark(+" + modifier + ", x" + multiplier + ")" );
+		}
 		this.modifier += modifier;
 		this.multiplier += multiplier;
 
@@ -783,6 +826,10 @@ public class Concoction
 		}
 
 		this.isMarking = false;
+		if ( Concoction.debug )
+		{
+			this.debug( "&lt;- mark" );
+		}
 	}
 
 	/**
@@ -891,5 +938,11 @@ public class Concoction
 	public String toString()
 	{
 		return this.name;
+	}
+	
+	private void debug( String msg )
+	{
+		RequestLogger.printLine( msg + " " + this.name + " init=" + this.initial
+			+ " tot=" + this.total + " +" + this.modifier + " x" + this.multiplier );
 	}
 }

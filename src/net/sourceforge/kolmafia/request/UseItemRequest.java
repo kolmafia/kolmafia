@@ -681,10 +681,17 @@ public class UseItemRequest
 		}
 
 		int iterations = 1;
+		int origCount = this.itemUsed.getCount();
 
-		if ( this.itemUsed.getCount() != 1 )
+		if ( origCount != 1 )
 		{
-			switch ( this.consumptionType )
+			if ( itemId == ItemPool.YUMMY_TUMMY_BEAN )
+			{	// If not divisible by 20, make the first iteration short
+				iterations = (origCount + 19) / 20;
+				this.itemUsed = this.itemUsed.getInstance(
+					(origCount + 19) % 20 + 1 );
+			}
+			else switch ( this.consumptionType )
 			{
 			case KoLConstants.CONSUME_MULTIPLE:
 			case KoLConstants.HP_RESTORE:
@@ -703,7 +710,7 @@ public class UseItemRequest
 				}
 				// Fall through.
 			default:
-				iterations = this.itemUsed.getCount();
+				iterations = origCount;
 				this.itemUsed = this.itemUsed.getInstance( 1 );
 			}
 		}
@@ -737,6 +744,10 @@ public class UseItemRequest
 
 			this.useOnce( i, iterations, useTypeAsString );
 
+			if ( itemId == ItemPool.YUMMY_TUMMY_BEAN )
+			{	// the first iteration may have been short
+				this.itemUsed = this.itemUsed.getInstance( 20 );
+			}
 			if ( isSealFigurine && KoLmafia.permitsContinue() )
 			{
 				this.addFormField( "checked", "1" );
@@ -751,8 +762,7 @@ public class UseItemRequest
 
 		if ( KoLmafia.permitsContinue() )
 		{
-			KoLmafia.updateDisplay( "Finished " + useTypeAsString.toLowerCase() + " " + Math.max(
-				iterations, this.itemUsed.getCount() ) + " " + this.itemUsed.getName() + "." );
+			KoLmafia.updateDisplay( "Finished " + useTypeAsString.toLowerCase() + " " + origCount + " " + this.itemUsed.getName() + "." );
 		}
 	}
 
