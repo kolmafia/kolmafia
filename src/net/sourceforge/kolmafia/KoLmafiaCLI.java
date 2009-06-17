@@ -54,6 +54,7 @@ import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
+import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.Aliases;
@@ -1875,6 +1876,23 @@ public class KoLmafiaCLI
 			if ( item != null )
 			{
 				ResultProcessor.processResult( item.getNegation() );
+			}
+		}
+	}
+
+	static { new DebugCreate().register( "debugcreate" ); }
+	public static class DebugCreate
+		extends Command
+	{
+		{ usage = null; }
+		public void run( String cmd, String parameters )
+		{
+			AdventureResult item = ItemFinder.getFirstMatchingItem( parameters, ItemFinder.ANY_MATCH );
+			if ( item != null )
+			{
+				Concoction.debugId = item.getItemId();
+				ConcoctionDatabase.refreshConcoctions();
+				Concoction.debugId = Integer.MAX_VALUE;
 			}
 		}
 	}

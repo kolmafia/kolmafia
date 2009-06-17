@@ -908,7 +908,7 @@
 902	100-Watt bulb	familiar	all	75
 903	Spasmi Dolorosi Del Rene Champagne	drink	all	0
 904	old school Mafia knickerbockers	pants	all	0
-905	Yummy Tummy bean	usable	all	20
+905	Yummy Tummy bean	multiple	all	20
 906	Rock Pops	multiple	all	25
 907	Mr. Mediocrebar	multiple	all	50
 908	Cold Hots candy	multiple	all	0
