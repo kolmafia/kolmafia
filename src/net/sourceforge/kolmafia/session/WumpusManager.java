@@ -98,7 +98,7 @@ public abstract class WumpusManager
 		"ERROR: PIT AND WUMPUS",
 		"ERROR: BATS, PIT, AND WUMPUS",
 
-		"safe",
+		"safe and unvisited",
 		"possible bats",
 		"possible pit",
 		"possible bats or pit",
@@ -394,12 +394,6 @@ public abstract class WumpusManager
 		     WumpusManager.wumpus != null )
 		{
 			warn &= ~WARN_WUMPUS;
-		}
-
-		if ( warn == WARN_INDEFINITE )
-		{
-			WumpusManager.knownSafe( room, type );
-			return;
 		}
 
 		// Register possible hazard
