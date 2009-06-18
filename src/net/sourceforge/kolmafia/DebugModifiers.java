@@ -115,6 +115,7 @@ public class DebugModifiers
 		DebugModifiers.flushRow();
 		DebugModifiers.buffer.append( "</table>" );
 		RequestLogger.printLine( DebugModifiers.buffer.toString() );
+		RequestLogger.printLine();
 		DebugModifiers.buffer = null;
 	}
 }

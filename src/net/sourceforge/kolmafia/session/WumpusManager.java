@@ -178,13 +178,13 @@ public abstract class WumpusManager
 
 		if ( text.indexOf( "Wait for the bats to drop you" ) != -1 )
 		{
-			WumpusManager.deduceBats( current, VISIT );
+			WumpusManager.knownBats( current, VISIT );
 			return;
 		}
 
 		if ( text.indexOf( "Thump" ) != -1 )
 		{
-			WumpusManager.deducePit( current, VISIT );
+			WumpusManager.knownPit( current, VISIT );
 			return;
 		}
 
@@ -206,7 +206,7 @@ public abstract class WumpusManager
 
 		WumpusManager.printDeduction( "Exits: " + links[0] + ", " + links[1] + ", " + links[2] );
 
-		WumpusManager.deduce( current, WARN_SAFE, VISIT );
+		WumpusManager.knownSafe( current, VISIT );
 
 		// Basic logic: assume all rooms have all warnings initially.
 		// Remove any warnings from linked rooms that aren't present
@@ -228,7 +228,7 @@ public abstract class WumpusManager
 
 		for ( int i = 0; i < 3; ++i )
 		{
-			WumpusManager.deduce( links[ i ], warn, LISTEN );
+			WumpusManager.possibleHazard( links[ i ], warn, LISTEN );
 		}
 		
 		// Advanced logic: if only one of the linked rooms has a given
@@ -247,9 +247,14 @@ public abstract class WumpusManager
 		WumpusManager.deduce();
 	}
 
-	private static void deduceBats( final String room, final int type  )
+	private static void knownSafe( final String room, final int type )
 	{
-		WumpusManager.deduce( room, WARN_BATS, type );
+		WumpusManager.knownHazard( room, WARN_SAFE, type );
+	}
+
+	private static void knownBats( final String room, final int type  )
+	{
+		WumpusManager.knownHazard( room, WARN_BATS, type );
 
 		// There are exactly two bat rooms per cave
 		if ( WumpusManager.bats1 == null )
@@ -271,9 +276,9 @@ public abstract class WumpusManager
 		WumpusManager.eliminateHazard( WARN_BATS, WumpusManager.bats1, WumpusManager.bats2 );
 	}
 
-	private static void deducePit( final String room, final int type )
+	private static void knownPit( final String room, final int type )
 	{
-		WumpusManager.deduce( room, WARN_PIT, type );
+		WumpusManager.knownHazard( room, WARN_PIT, type );
 
 		// There are exactly two pit rooms per cave
 		if ( WumpusManager.pit1 == null )
@@ -295,9 +300,9 @@ public abstract class WumpusManager
 		WumpusManager.eliminateHazard( WARN_PIT, WumpusManager.pit1, WumpusManager.pit2 );
 	}
 
-	private static void deduceWumpus( final String room, final int type )
+	private static void knownWumpus( final String room, final int type )
 	{
-		WumpusManager.deduce( room, WARN_WUMPUS, type );
+		WumpusManager.knownHazard( room, WARN_WUMPUS, type );
 
 		// There is exactly one wumpus rooms per cave
 		if ( WumpusManager.wumpus != null )
@@ -310,6 +315,22 @@ public abstract class WumpusManager
 
 		// Eliminate wumpus from rooms that have only "possible" wumpus
 		WumpusManager.eliminateHazard( WARN_WUMPUS, WumpusManager.wumpus, null );
+	}
+	
+	private static void knownHazard( final String room, int warn, final int type )
+	{
+		int oldStatus = WumpusManager.put( room, warn );
+		int newStatus = WumpusManager.get( room );
+		if ( oldStatus == newStatus )
+		{
+			return;
+		}
+
+		// New deduction
+		String idString = WumpusManager.DEDUCTION_STRINGS[ type ];
+		String warnString = WumpusManager.WARN_STRINGS[ newStatus ];
+
+		WumpusManager.addDeduction( idString + ": " + warnString + " in " + room + " chamber." );
 	}
 	
 	private static void eliminateHazard( final int hazard, final String room1, final String room2 )
@@ -327,31 +348,64 @@ public abstract class WumpusManager
 			{
 				continue;
 			}
-			WumpusManager.deduce( chamber, old.intValue() & ~hazard, DEDUCTION );
+
+			WumpusManager.possibleHazard( chamber, old.intValue() & ~hazard, DEDUCTION );
 		}
 	}
 	
-	private static void deduce( final String room, int warn, final int type )
+	private static void possibleHazard( final String room, int warn, final int type )
 	{
-		if ( warn == WARN_INDEFINITE )
-		{
-			warn = WARN_SAFE;
-		}
+		// If we have already positively identified this as a room with
+		// a hazard, nothing more to do here.
 
-		int oldStatus = WumpusManager.put( room, warn );
-		int newStatus = WumpusManager.get( room );
-		if ( oldStatus == newStatus )
+		if ( room.equals( WumpusManager.bats1 ) ||
+		     room.equals( WumpusManager.bats2 ) ||
+		     room.equals( WumpusManager.pit1 ) ||
+		     room.equals( WumpusManager.pit2 ) ||
+		     room.equals( WumpusManager.wumpus ) )
 		{
 			return;
 		}
 
-		// New deduction
-		String idString = WumpusManager.DEDUCTION_STRINGS[ type ];
-		String warnString = WumpusManager.WARN_STRINGS[ newStatus ];
+		// If it's a definite hazard, pass it on through
+		if ( ( warn & WARN_INDEFINITE ) == 0)
+		{
+			WumpusManager.knownHazard( room, warn, type );
+			return;
+		}
 
-		WumpusManager.addDeduction( idString + ": " + warnString + " in " + room + " chamber." );
+		// Otherwise, it's a possible warning.
+
+		if ( ( warn & WARN_BATS ) != 0 &&
+		     WumpusManager.bats1 != null &&
+		     WumpusManager.bats2 != null )
+		{
+			warn &= ~WARN_BATS;
+		}
+
+		if ( ( warn & WARN_PIT ) != 0 &&
+		     WumpusManager.pit1 != null &&
+		     WumpusManager.pit2 != null )
+		{
+			warn &= ~WARN_PIT;
+		}
+
+		if ( ( warn & WARN_WUMPUS ) != 0 &&
+		     WumpusManager.wumpus != null )
+		{
+			warn &= ~WARN_WUMPUS;
+		}
+
+		if ( warn == WARN_INDEFINITE )
+		{
+			WumpusManager.knownSafe( room, type );
+			return;
+		}
+
+		// Register possible hazard
+		WumpusManager.knownHazard( room, warn, type );
 	}
-	
+
 	private static void deduce()
 	{
 		WumpusManager.deduce( WARN_BATS );
@@ -383,13 +437,13 @@ public abstract class WumpusManager
 		switch ( mask )
 		{
 		case WARN_BATS:
-			WumpusManager.deduceBats( room, ELIMINATION );
+			WumpusManager.knownBats( room, ELIMINATION );
 			break;
 		case WARN_PIT:
-			WumpusManager.deducePit( room, ELIMINATION );
+			WumpusManager.knownPit( room, ELIMINATION );
 			break;
 		case WARN_WUMPUS:
-			WumpusManager.deduceWumpus( room, ELIMINATION );
+			WumpusManager.knownWumpus( room, ELIMINATION );
 			break;
 		}
 	}
@@ -413,7 +467,7 @@ public abstract class WumpusManager
 		// Unfortunately, the wumpus was nowhere to be seen.
 		if ( text.indexOf( "wumpus was nowhere to be seen" ) != -1  )
 		{
-			WumpusManager.deduce( room, WARN_SAFE, VISIT );
+			WumpusManager.knownSafe( room, VISIT );
 			return;
 		}
 
@@ -426,7 +480,7 @@ public abstract class WumpusManager
 		if ( text.indexOf( "unexpectedly, a wumpus" ) != -1 ||
 		     text.indexOf( "surprised the wumpus" ) != -1 )
 		{
-			WumpusManager.deduceWumpus( room, VISIT );
+			WumpusManager.knownWumpus( room, VISIT );
 			return;
 		}
 	}

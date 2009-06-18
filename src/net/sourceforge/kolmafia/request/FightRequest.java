@@ -1681,6 +1681,10 @@ public class FightRequest
 			{
 				HiddenCityRequest.addHiddenCityLocation( 'D' );
 			}
+			else if ( monster.equalsIgnoreCase( "Wumpus" ) )
+			{
+				WumpusManager.reset();
+			}
 			else if ( !FightRequest.castCleesh &&
 				Preferences.getString( "lastAdventure" ).equalsIgnoreCase(
 					"A Maze of Sewer Tunnels" ) )
@@ -1688,10 +1692,6 @@ public class FightRequest
 				AdventureResult result = AdventureResult.tallyItem(
 					"sewer tunnel explorations", false );
 				AdventureResult.addResultToList( KoLConstants.tally, result );
-			}
-			else if ( monster.equalsIgnoreCase( "Wumpus" ) )
-			{
-				WumpusManager.reset();
 			}
 
 			// Give your summoned combat entity some experience
