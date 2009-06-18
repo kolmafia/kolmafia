@@ -46,6 +46,7 @@ import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.BasementRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
+import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -122,6 +123,10 @@ public class KoLAdventure
 		else if ( formSource.equals( "luckysewer.php" ) )
 		{
 			this.request = new SewerRequest( true );
+		}
+		else if ( formSource.equals( "dwarffactory.php" ) )
+		{
+			this.request = new DwarfFactoryRequest( "ware" );
 		}
 		else if ( formSource.equals( "clan_gym.php" ) )
 		{
@@ -297,6 +302,37 @@ public class KoLAdventure
 			if ( !KoLConstants.activeEffects.contains( perfumeEffect ) )
 			{
 				RequestThread.postRequest( new UseItemRequest( ItemPool.get( ItemPool.KNOB_GOBLIN_PERFUME, 1 ) ) );
+			}
+
+			this.isValidAdventure = true;
+			return;
+		}
+
+		// Adventuring in the mine warehouse or office requires either
+		// Mining Gear or the Dwarvish War Uniform
+
+		if ( this.formSource.equals( "dwarffactory.php" ) || this.adventureId.equals( "176" ) )
+		{
+			int id1 = 8;
+			int id2 = 50;
+
+			if ( !EquipmentManager.isWearingOutfit( id1 ) && !EquipmentManager.isWearingOutfit( id2 ) )
+			{
+				SpecialOutfit outfit = null;
+				if ( EquipmentManager.retrieveOutfit( id1 ) )
+				{
+					outfit = EquipmentDatabase.getOutfit( id1 );
+				}
+				else if ( EquipmentManager.retrieveOutfit( id2 ) )
+				{
+					outfit = EquipmentDatabase.getOutfit( id2 );
+				}
+				else
+				{
+					return;
+				}
+
+				RequestThread.postRequest( new EquipmentRequest( outfit ) );
 			}
 
 			this.isValidAdventure = true;
