@@ -892,7 +892,7 @@ public class GenericRequest
 
 		if ( this.responseText == null || this.responseText.length() == 0 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Server " + KOL_HOST + " returned empty response from " + this.getBasePath() );
+			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Server " + KOL_HOST + " returned a blank page from " + this.getBasePath() + ". Complain to Jick, not us." );
 			return;
 		}
 

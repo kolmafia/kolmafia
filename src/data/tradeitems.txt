@@ -618,7 +618,7 @@
 612	original G	none	all	143
 613	plot hole	none, combat	all	128
 614	probability potion	usable	all	128
-615	chaos butterfly	none, combat	all	124
+615	chaos butterfly	usable, combat	all	124
 616	furry fur	none	all	129
 617	Angry Farmer candy	multiple	all	137
 618	Mick's IcyVapoHotness Rub	multiple	all	141
