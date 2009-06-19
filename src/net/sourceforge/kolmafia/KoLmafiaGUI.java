@@ -156,7 +156,6 @@ public class KoLmafiaGUI
 		if ( Preferences.getBoolean( "retrieveContacts" ) )
 		{
 			RequestThread.postRequest( new ContactListRequest() );
-			Preferences.setString( "retrieveContacts", String.valueOf( !KoLConstants.contactList.isEmpty() ) );
 		}
 
 		LoginFrame.hideInstance();
