@@ -63,6 +63,7 @@ import net.sourceforge.kolmafia.request.ChefStaffRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
+import net.sourceforge.kolmafia.request.ContactListRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.DisplayCaseRequest;
 import net.sourceforge.kolmafia.request.DwarfContraptionRequest;
@@ -320,6 +321,11 @@ public abstract class StaticEntity
 					RequestLogger.updateSessionLog();
 				}
 			}
+		}
+
+		else if ( location.startsWith( "account_contactlist.php" ) )
+		{
+			ContactListRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "arena.php" ) )

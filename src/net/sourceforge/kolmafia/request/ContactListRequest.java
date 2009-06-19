@@ -38,6 +38,7 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class ContactListRequest
 	extends GenericRequest
@@ -58,8 +59,13 @@ public class ContactListRequest
 
 	public void processResults()
 	{
+		ContactListRequest.parseResponse( this.getURLString(), this.responseText );
+	}
+
+	public static final void parseResponse( final String urlString, final String responseText )
+	{
 		KoLConstants.contactList.clear();
-		Matcher listMatcher = ContactListRequest.LIST_PATTERN.matcher( this.responseText );
+		Matcher listMatcher = ContactListRequest.LIST_PATTERN.matcher( responseText );
 		if ( listMatcher.find() )
 		{
 			Matcher entryMatcher = ContactListRequest.ENTRY_PATTERN.matcher( listMatcher.group() );
@@ -68,5 +74,6 @@ public class ContactListRequest
 				KoLmafia.registerContact( entryMatcher.group( 2 ), entryMatcher.group( 1 ) );
 			}
 		}
+		Preferences.setString( "retrieveContacts", String.valueOf( !KoLConstants.contactList.isEmpty() ) );
 	}
 }
