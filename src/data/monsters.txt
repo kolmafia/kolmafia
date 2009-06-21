@@ -305,6 +305,7 @@ Giant Bee	HP: 100000
 Giant Desktop Globe	HP: 100000
 Giant Fried Egg	HP: 100000
 Giant Giant Giant Centipede	HP: 142 Def: 138 Atk: 142 Meat: 120-180	centipede eggs (20)	handful of sand (25)	handful of sand (15)
+Giant Octopus	HP: 0
 Giant Giant Moth	HP: 11 Def: 12 Atk: 11
 Giant Pair of Tweezers	HP: 8 Def: 18 Atk: 16
 Giant Sandworm	HP: 200 Def: 185 Atk: 175 Meat: 200-300	spices (10)	spices (10)	spices (10)	spice melange (n0)
