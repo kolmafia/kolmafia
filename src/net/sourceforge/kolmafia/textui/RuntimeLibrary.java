@@ -38,6 +38,8 @@ import java.io.File;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 
+import java.lang.IllegalStateException;
+import java.lang.IndexOutOfBoundsException;
 import java.lang.reflect.Method;
 
 import java.net.URLDecoder;
@@ -51,6 +53,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -2748,8 +2751,15 @@ public abstract class RuntimeLibrary
 	{
 		String pattern = patternValue.toString();
 		String string = stringValue.toString();
-		return new Value( DataTypes.MATCHER_TYPE, pattern,
-					Pattern.compile( pattern, Pattern.DOTALL ).matcher( string ) );
+		try
+		{
+			return new Value( DataTypes.MATCHER_TYPE, pattern,
+					  Pattern.compile( pattern, Pattern.DOTALL ).matcher( string ) );
+		}
+		catch ( PatternSyntaxException e )
+		{
+			throw LibraryFunction.interpreter.runtimeException( "Invalid pattern syntax" );
+		}
 	}
 
 	public static Value find( final Value matcher )
@@ -2761,25 +2771,58 @@ public abstract class RuntimeLibrary
 	public static Value start( final Value matcher )
 	{
 		Matcher m = (Matcher) matcher.rawValue();
-		return new Value( m.start() );
+		try
+		{
+			return new Value( m.start() );
+		}
+		catch ( IllegalStateException e )
+		{
+			throw LibraryFunction.interpreter.runtimeException( "No match attempted or previous match failed" );
+		}
 	}
 
 	public static Value end( final Value matcher )
 	{
 		Matcher m = (Matcher) matcher.rawValue();
-		return new Value( m.end() );
+		try
+		{
+			return new Value( m.end() );
+		}
+		catch ( IllegalStateException e )
+		{
+			throw LibraryFunction.interpreter.runtimeException( "No match attempted or previous match failed" );
+		}
 	}
 
 	public static Value group( final Value matcher )
 	{
 		Matcher m = (Matcher) matcher.rawValue();
-		return new Value( m.group() );
+		try
+		{
+			return new Value( m.group() );
+		}
+		catch ( IllegalStateException e )
+		{
+			throw LibraryFunction.interpreter.runtimeException( "No match attempted or previous match failed" );
+		}
 	}
 
 	public static Value group( final Value matcher, final Value group )
 	{
 		Matcher m = (Matcher) matcher.rawValue();
-		return new Value( m.group( group.intValue() ) );
+		int index = group.intValue();
+		try
+		{
+			return new Value( m.group( index ) );
+		}
+		catch ( IllegalStateException e )
+		{
+			throw LibraryFunction.interpreter.runtimeException( "No match attempted or previous match failed" );
+		}
+		catch ( IndexOutOfBoundsException e )
+		{
+			throw LibraryFunction.interpreter.runtimeException( "Group " + index + " requested, but pattern only has " + m.groupCount() + " groups" );
+		}
 	}
 
 	public static Value group_count( final Value matcher )
@@ -2814,8 +2857,9 @@ public abstract class RuntimeLibrary
 		return matcher;
 	}
 
-	public static Value replace_string( final Value source,
-						  final Value searchValue, final Value replaceValue )
+	public static Value replace_string( final Value source, 
+					    final Value searchValue,
+					    final Value replaceValue )
 	{
 		StringBuffer buffer;
 		Value returnValue;
