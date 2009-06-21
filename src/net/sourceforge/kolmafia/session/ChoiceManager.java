@@ -1139,15 +1139,85 @@ public abstract class ChoiceManager
 		// Choice 343 is Turtles All The Way Around
 		// Choice 344 is Silent Strolling
 		// Choice 345 is Training Day
+
 		// Choice 346 is Soup For You
 		// Choice 347 is Yes, Soup For You
 		// Choice 348 is Souped Up
-
 		// Choice 349 is The Primordial Directive
+		// Choice 350 is Soupercharged
+
+		// Choice 351 is Beginner's Luck
+		// Choice 352 is Savior Faire
+		new ChoiceAdventure(
+			"Item-Driven", "choiceAdventure352", "Seaside Megalopolis",
+			new String[] { "Moxie -> Bad Reception Down Here", "Muscle -> A Diseased Procurer", "Mysticality -> Give it a Shot" }),
+
+		// Bad Reception Down Here
+		new ChoiceAdventure(
+			"Item-Driven", "choiceAdventure353", "Seaside Megalopolis",
+			new String[] { "Indigo Party Invitation", "Violet Hunt Invitation" },
+			new String[] { "4060", "4061" } ),
+
+		// You Can Never Be Too Rich or Too in the Future
+		new ChoiceAdventure(
+			"Item-Driven", "choiceAdventure354", "Seaside Megalopolis",
+			new String[] { "Moxie", "Serenity" } ),
+
+		// I'm on the Hunt, I'm After You
+		new ChoiceAdventure(
+			"Item-Driven", "choiceAdventure355", "Seaside Megalopolis",
+			new String[] { "Stats", "Phairly Peromonal" } ),
+
+		// Choice 356 is A Diseased Procurer
+		new ChoiceAdventure(
+			"Item-Driven", "choiceAdventure356", "Seaside Megalopolis",
+			new String[] { "Blue Milk Club Card", "Mecha Mayhem Club Card" },
+			new String[] { "4062", "4063" } ),
+
+		// Choice 357 is Painful, Circuitous Logic
+		new ChoiceAdventure(
+			"Item-Driven", "choiceAdventure357", "Seaside Megalopolis",
+			new String[] { "Muscle", "Nano-juiced" } ),
+
+		// Choice 358 is Brings All the Boys to the Blue Yard
+		new ChoiceAdventure(
+			"Item-Driven", "choiceAdventure358", "Seaside Megalopolis",
+			new String[] { "Stats", "Dance Interpreter" } ),
+
+		// Choice 359 is unknown
 
 		// Choice 360 is Cavern Entrance
 
+		// Give it a Shot
+		new ChoiceAdventure(
+			"Item-Driven", "choiceAdventure361", "Seaside Megalopolis",
+			new String[] { "'Smuggler Shot First' Button", "Spacefleet Communicator Badge" },
+			new String[] { "4064", "4065" } ),
+
+		// Choice 362 is A Bridge Too Far
+		new ChoiceAdventure(
+			"Item-Driven", "choiceAdventure362", "Seaside Megalopolis",
+			new String[] { "Stats", "Meatwise" } ),
+
+		// Choice 363 is Does This Bug You? Does This Bug You?
+		new ChoiceAdventure(
+			"Item-Driven", "choiceAdventure363", "Seaside Megalopolis",
+			new String[] { "Mysticality", "In the Saucestream" } ),
+
+		// Choice 364 is 451 Degrees! Burning Down the House!
+		new ChoiceAdventure(
+			"Item-Driven", "choiceAdventure364", "Seaside Megalopolis",
+			new String[] { "Moxie", "Supreme Being Glossary", "Muscle" },
+			new String[] { null, "4073", null } ),
+
+		// Choice 365 is None Shall Pass
+		new ChoiceAdventure(
+			"Item-Driven", "choiceAdventure364", "Seaside Megalopolis",
+			new String[] { "Muscle", "multi-pass" },
+			new String[] { null, "4074" } ),
+
 		// Choice 366 is Entrance to the Forgotten City
+		// Choice 367 is Ancient Temple
 		// Choice 368 is City Center
 		// Choice 369 is North Side of the City
 		// Choice 370 is East Side of the City
@@ -1156,10 +1226,23 @@ public abstract class ChoiceManager
 		// Choice 373 is Northern Gate
 		// Choice 374 is An Ancient Tower
 		// Choice 375 is Northern Abandoned Building
+		// Choice 376 is Ancient Temple (unlocked)
 		// Choice 377 is Southern Abandoned Building
 		// Choice 378 is Storehouse
 		// Choice 379 is Northern Building (Basement)
+		// Choice 380 is Southern Building (Upstairs)
+		// Choice 381 is Southern Building (Basement)
+		// Choice 382 is Catacombs Entrance
+		// Choice 383 is Catacombs Junction
+		// Choice 384 is Catacombs Dead-End
+		// Choice 385 is Sore of an Underground Lake
+		// Choice 386 is Catacombs Machinery
 
+		// Choice 387 is Time Isn't Holding Up; Time is a Doughnut
+		// Choice 388 is Extra Savoir Faire
+		// Choice 389 is The Unbearable Supremeness of Being
+		// Choice 390 is A Winning Pass
+		// Choice 391 is OMG KAWAIII
 		// Choice 392 is The Elements of Surprise . . .
 
 		// The Collector
@@ -2456,8 +2539,98 @@ public abstract class ChoiceManager
 			}
 			break;
 
+		case 354:
+			// You Can Never Be Too Rich or Too in the Future
+			ResultProcessor.processResult( ItemPool.get( ItemPool.INDIGO_PARTY_INVITATION, -1 ) );
+			break;
+
+		case 355:
+			// I'm on the Hunt, I'm After You
+			ResultProcessor.processResult( ItemPool.get( ItemPool.VIOLET_HUNT_INVITATION, -1 ) );
+			break;
+
+		case 357:
+			// Painful, Circuitous Logic
+			ResultProcessor.processResult( ItemPool.get( ItemPool.MECHA_MAYHEM_CLUB_CARD, -1 ) );
+			break;
+
+		case 358:
+			// Brings All the Boys to the Blue Yard
+			ResultProcessor.processResult( ItemPool.get( ItemPool.BLUE_MILK_CLUB_CARD, -1 ) );
+			break;
+
 		case 360:
 			WumpusManager.takeChoice( ChoiceManager.lastDecision, text );
+			break;
+
+		case 362:
+			// A Bridge Too Far
+			ResultProcessor.processResult( ItemPool.get( ItemPool.SPACEFLEET_COMMUNICATOR_BADGE, -1 ) );
+			break;
+
+		case 363:
+			// Does This Bug You? Does This Bug You?
+			ResultProcessor.processResult( ItemPool.get( ItemPool.SMUGGLER_SHOT_FIRST_BADGE, -1 ) );
+			break;
+
+		case 367:
+			// Choice 367 is Ancient Temple
+
+			// You fit the two halves of the stone circle together,
+			// and slot them into the depression on the door. After
+			// a moment's pause, a low rumbling becomes audible,
+			// and then the stone slab lowers into the ground. The
+			// temple is now open to you, if you are ready to face
+			// whatever lies inside.
+
+			if ( text.indexOf( "two halves of the stone circle" ) != -1 )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.HALF_STONE_CIRCLE, -1 ) );
+				ResultProcessor.processResult( ItemPool.get( ItemPool.STONE_HALF_CIRCLE, -1 ) );
+			}
+			break;
+
+		case 373:
+			// Choice 367 is Northern Gate
+
+			// Krakrox plugged the small stone block he found in
+			// the basement of the abandoned building into the hole
+			// on the left side of the gate
+
+			if ( text.indexOf( "Krakrox plugged the small stone block" ) != -1 )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.SMALL_STONE_BLOCK, -1 ) );
+			}
+
+			// Krakrox plugged the little stone block he had found
+			// in the belly of the giant snake into the hole on the
+			// right side of the gate
+
+			else if ( text.indexOf( "Krakrox plugged the little stone block" ) != -1 )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.LITTLE_STONE_BLOCK, -1 ) );
+			}
+			break;
+
+		case 392:
+                        // Choice 392 is The Elements of Surprise . . .
+
+                        // And as the two of you walk toward the bed, you sense
+                        // your ancestral memories pulling you elsewhere, ever
+                        // elsewhere, because your ancestral memories are
+                        // total, absolute jerks.
+
+			if ( text.indexOf( "total, absolute jerks" ) != -1 )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.RUBY_ROD, -1 ) );
+				ResultProcessor.processResult( ItemPool.get( ItemPool.ESSENCE_OF_HEAT, -1 ) );
+				ResultProcessor.processResult( ItemPool.get( ItemPool.ESSENCE_OF_KINK, -1 ) );
+				ResultProcessor.processResult( ItemPool.get( ItemPool.ESSENCE_OF_COLD, -1 ) );
+				ResultProcessor.processResult( ItemPool.get( ItemPool.ESSENCE_OF_STENCH, -1 ) );
+				ResultProcessor.processResult( ItemPool.get( ItemPool.ESSENCE_OF_FRIGHT, -1 ) );
+				ResultProcessor.processResult( ItemPool.get( ItemPool.ESSENCE_OF_CUTE, -1 ) );
+
+			}
 			break;
 		
 		case 393:
