@@ -1344,13 +1344,20 @@ public class UseItemRequest
 		// Check to make sure that it wasn't a food or drink
 		// that was consumed that resulted in nothing.  Eating
 		// too much is flagged as a continuable state.
+		
+		// Note that there is at least one item (memory of amino acids) that
+		// can fail with a "too full" message, even though it's not a food.
 
 		if ( responseText.indexOf( "too full" ) != -1 )
 		{
 			UseItemRequest.lastUpdate = "Consumption limit reached.";
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
 
-			int fullness = ItemDatabase.getFullness( item.getName() ) * item.getCount();
+			int fullness = ItemDatabase.getFullness( item.getName() );
+			int couldEat = fullness == 0 ? 0 : 
+				Math.min( item.getCount() - 1, (KoLCharacter.getFullnessLimit() - KoLCharacter.getFullness()) / fullness );
+			Preferences.increment( "currentFullness", couldEat * fullness );
+			
 			int estimatedFullness = KoLCharacter.getFullnessLimit() - fullness + 1;
 
 			if ( fullness > 0 && estimatedFullness > KoLCharacter.getFullness() )
@@ -1358,7 +1365,7 @@ public class UseItemRequest
 				Preferences.setInteger( "currentFullness", estimatedFullness );
 			}
 
-			ResultProcessor.processResult( item );
+			ResultProcessor.processResult( item.getInstance( item.getCount() - couldEat ) );
 			KoLCharacter.updateStatus();
 
 			return;
@@ -3128,12 +3135,16 @@ public class UseItemRequest
 
 		case KoLConstants.CONSUME_EAT:
 
-			int fullness = ItemDatabase.getFullness( name ) * count;
-			if ( fullness > 0 && KoLCharacter.getFullness() + fullness <= KoLCharacter.getFullnessLimit() )
+			int fullness = ItemDatabase.getFullness( name );
+			if ( fullness <= 0 ) break;
+			int maxcount = (KoLCharacter.getFullnessLimit() - KoLCharacter.getFullness()) / fullness;
+			if ( count > maxcount )
 			{
-				Preferences.setInteger( "currentFullness", KoLCharacter.getFullness() + fullness );
-				Preferences.setInteger( "munchiesPillsUsed", Math.max( Preferences.getInteger( "munchiesPillsUsed" ) - 1, 0 ) );
+				count = maxcount;
+				UseItemRequest.lastItemUsed = UseItemRequest.lastItemUsed.getInstance( maxcount );
 			}
+			Preferences.setInteger( "currentFullness", KoLCharacter.getFullness() + fullness * count );
+			Preferences.setInteger( "munchiesPillsUsed", Math.max( Preferences.getInteger( "munchiesPillsUsed" ) - count, 0 ) );
 			break;
 		}
 
