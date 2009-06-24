@@ -982,6 +982,7 @@ pressurized potion of perspicacity	DSAUCE	globe of Deep Sauce	sea honeydew
 pressurized potion of proficiency	DSAUCE	globe of Deep Sauce	sea persimmon
 pressurized potion of puissance	DSAUCE	globe of Deep Sauce	sea tangelo
 pressurized potion of pulchritude	DSAUCE	globe of Deep Sauce	sea lychee
+pressurized potion of pneumaticity	DSAUCE	globe of Deep Sauce	[0]
 
 # Simple pastamancer recipes.  Available to pastamancers only, and
 # creates pasta if you don't have finer ingredients.
@@ -1081,6 +1082,7 @@ tempura carrot	TEMPURA	bubbling tempura batter	sea carrot
 tempura cauliflower	TEMPURA	bubbling tempura batter	sea cauliflower
 tempura cucumber	TEMPURA	bubbling tempura batter	sea cucumber
 tempura radish	TEMPURA	bubbling tempura batter	sea radish
+tempura air	TEMPURA	bubbling tempura batter	[0]
 
 # Star Chart items
 
