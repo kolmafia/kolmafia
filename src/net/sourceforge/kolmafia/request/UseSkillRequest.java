@@ -997,6 +997,12 @@ public class UseSkillRequest
 			return true;
 		}
 
+		if ( responseText.indexOf( "You can't cast this spell because you are not an Accordion Thief" ) != -1 )
+		{
+			UseSkillRequest.lastUpdate = "Only Accordion Thieves can use that skill.";
+			return true;
+		}
+
 		int skillId = UseSkillRequest.getSkillId( urlString );
 		String skillName = SkillDatabase.getSkillName( skillId );
 
