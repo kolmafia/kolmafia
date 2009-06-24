@@ -4136,3 +4136,5 @@
 4130	917576836	empty agua de vida bottle	empty agua de vida bottles
 4131
 4132	319658078	sham champagne	glasses of sham champagne
+4133	647220670	tempura air	tempura airs
+4134	792712954	pressurized potion of pneumaticity

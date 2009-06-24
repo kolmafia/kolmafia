@@ -2259,6 +2259,7 @@ Phoenix, Right?	Experience: +6
 Phorcefullness	Muscle Percent: +100
 # Pie in the Face: Hilarious!
 Piratastic	Moxie: +100
+# Pneumatic: Lets you breathe underwater
 Polka of Plenty	Meat Drop: +50
 Ponderous Potency	Weapon Damage: +20
 Pop-eyed	Weapon Damage: +30
@@ -2273,6 +2274,7 @@ Provocative Perkiness	Initiative: +20
 # Psalm of Pointiness: Damages Attacking Opponents
 Puissant Pressure	Muscle Percent: +300
 Pulchritudinous Pressure	Moxie Percent: +300
+# Pumped Stomach: Lets you breathe underwater
 Pumped Up	Muscle: +5
 # Purple Tongue: Recover HP and MP after battle
 Purple Tongue	HP Regen Min: 20, HP Regen Max: 20, MP Regen Min: 20, MP Regen Max: 20

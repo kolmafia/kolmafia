@@ -4136,3 +4136,5 @@
 4130	empty agua de vida bottle	none	display	0
 4131
 4132	sham champagne	drink	all	133
+4133	tempura air	multiple	display	75
+4134	pressurized potion of pneumaticity	multiple	display	75
