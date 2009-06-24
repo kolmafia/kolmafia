@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.objectpool;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -62,7 +63,6 @@ public class Concoction
 	private static final int NO_PRIORITY = 0;
 
 	private String name;
-	private int price;
 
 	public final AdventureResult concoction;
 
@@ -75,15 +75,15 @@ public class Concoction
 
 	private boolean wasPossible;
 
-	private boolean isMarking;
-	private boolean isCalculating;
+	private boolean visited;
 
 	private final List ingredients;
 	private AdventureResult[] ingredientArray;
-	private int modifier, multiplier;
+	private int allocated;
 	public static int debugId = Integer.MAX_VALUE;
 	public static boolean debug = false;
 
+	public int price;
 	public int creatable;
 	public int queued;
 	public int queuedPulls;
@@ -352,7 +352,7 @@ public class Concoction
 
 	public int getAvailable()
 	{
-		return this.price > 0 ? KoLCharacter.getAvailableMeat() / this.price : this.visibleTotal;
+		return this.visibleTotal;
 	}
 
 	public int getQueued()
@@ -497,14 +497,14 @@ public class Concoction
 		this.pullable = 0;
 		this.total = 0;
 
-		this.modifier = 0;
-		this.multiplier = 0;
+		this.allocated = 0;
 
 		if ( this.concoction == null && this.name != null )
 		{
 			this.initial = KoLCharacter.getAvailableMeat() / this.price;
-			this.creatable = -1;
+			this.creatable = 0;
 			this.total = this.initial;
+			this.visibleTotal = this.initial;
 		}
 	}
 	
@@ -551,317 +551,227 @@ public class Concoction
 		return this.ingredientArray;
 	}
 
-	public void calculate( final List availableIngredients )
+	public void calculate2()
 	{
-		// If a calculation has already been done for this
-		// concoction, no need to calculate again.
-
-		if ( this.initial != -1 )
-		{
-			if ( Concoction.debug )
-			{
-				this.debug( "== calculate" );
-			}
-			return;
-		}
-
-		// Initialize creatable item count to 0.
-
-		this.creatable = 0;
-
-		// If the item doesn't exist in the item table,
-		// then assume it can't be created.
-
-		if ( this.concoction == null || this.name == null )
-		{
-			if ( Concoction.debug )
-			{
-				this.debug( "?? calculate" );
-			}
-			return;
-		}
+		int maxSuccess = this.initial;
+		int minFailure = Integer.MAX_VALUE;
+		int guess = maxSuccess + 1;
+		ArrayList visited = new ArrayList();
+		Iterator i;
+		
 		if ( this.getItemId() == Concoction.debugId )
 		{
 			Concoction.debug = true;
 		}
-		if ( Concoction.debug )
+
+		while ( true )
 		{
-			this.debug( "-> calculate" );
+			int res = this.canMake( guess, visited );
+			
+			if ( Concoction.debug )
+			{
+				RequestLogger.printLine( this.name + ".canMake(" + guess +
+					") => " + res );
+				RequestLogger.printLine();
+			}
+
+			if ( res >= guess )
+			{	// guess was good, try a higher guess
+				maxSuccess = guess;
+			}
+			else
+			{	// guess was too high, try lower
+				minFailure = guess;
+				// In this situation, the algorithm tends to produce estimates
+				// that are way too low.  Bump it up to the midpoint of the
+				// range, so that the worst-case behavior is the O(log n) of
+				// a binary search, not the O(n) of a linear search.
+				res = Math.max( res, (maxSuccess + minFailure) / 2 );
+			}
+			if ( maxSuccess + 1 >= minFailure ) break;
+			guess = Math.min( Math.max( res, maxSuccess + 1 ), minFailure - 1 );
+			
+			i = visited.iterator();
+			while ( i.hasNext() )
+			{	// clean up for next iteration of this item
+				Concoction c = (Concoction) i.next();
+				c.allocated = 0;
+			}
 		}
 
-		// Determine how many were available initially in the
-		// available ingredient list.
-
-		this.initial = this.concoction.getCount( availableIngredients );
-		this.total = this.initial;
-
-		if ( !ConcoctionDatabase.isPermittedMethod( this.mixingMethod ) )
-		{
-			this.visibleTotal = this.total;
-			return;
+		i = visited.iterator();
+		while ( i.hasNext() )
+		{	// clean up for next item
+			Concoction c = (Concoction) i.next();
+			c.allocated = 0;
+			c.visited = false;
 		}
 
-		if ( this.isTorsoItem && !KoLCharacter.hasSkill( "Torso Awaregness" ) && !this.usesIngredient( ItemPool.SHIRT_KIT ) )
-		{
-			this.visibleTotal = this.total;
-			return;
-		}
-
-		// First, preprocess the ingredients by calculating
-		// how many of each ingredient is possible now.
-
-		for ( int i = 0; i < this.ingredientArray.length; ++i )
-		{
-			AdventureResult ingredient = this.ingredientArray[ i ];
-			Concoction c = ConcoctionPool.get( ingredient );
-			c.calculate( availableIngredients );
-		}
-
-		this.mark( 0, 1 );
-
-		// With all of the data preprocessed, calculate
-		// the quantity creatable by solving the set of
-		// linear inequalities.
-
-		this.total = MallPurchaseRequest.MAX_QUANTITY;
-
-		for ( int i = 0; i < this.ingredientArray.length; ++i )
-		{
-			AdventureResult ingredient = this.ingredientArray[ i ];
-			Concoction c = ConcoctionPool.get( ingredient );
-
-			int available = c.quantity();
-			this.total = Math.min( this.total, available );
-		}
-
-		if ( ConcoctionDatabase.ADVENTURE_USAGE[ this.mixingMethod ] != 0 )
-		{
-			Concoction c = ConcoctionDatabase.adventureLimit;
-			int available = c.quantity();
-			this.total = Math.min( this.total, available );
-		}
-
-		if ( this.mixingMethod == KoLConstants.STILL_MIXER || this.mixingMethod == KoLConstants.STILL_BOOZE )
-		{
-			Concoction c = ConcoctionDatabase.stillsLimit;
-			int available = c.quantity();
-			this.total = Math.min( this.total, available );
-		}
-
-		// The total available for other creations is
-		// equal to the total, less the initial.
-
-		this.creatable = Math.max( ( this.total - this.initial ) * this.getYield(), 0 );
-		this.total = this.initial + this.creatable;
-
-		// Now that all the calculations are complete, unmark
-		// the ingredients so that later calculations can make
-		// the correct calculations.
-
-		this.visibleTotal = this.total;
-		this.unmark();
-		if ( Concoction.debug )
-		{
-			this.debug( "&lt;- calculate" );
-		}
 		if ( this.getItemId() == Concoction.debugId )
 		{
 			Concoction.debug = false;
 		}
+
+		this.total = maxSuccess;
+		this.creatable = this.total - this.initial;
+		this.visibleTotal = this.total;
 	}
 
-	/**
-	 * Utility method which calculates the quantity available for a recipe based on the modifier/multiplier of its
-	 * ingredients
-	 */
+	// Determine if the requested amount of this item can be made from
+	// available ingredients.  Return value must be >= requested if true,
+	// < requested if false.  The return value is treated as an estimate
+	// of the exact amount that can be made, but isn't assumed to be
+	// accurate.  This method will be called with distinct requested
+	// values until some N is found to be possible, while N+1 is impossible.
 
-	private int quantity()
+	private int canMake( int requested, ArrayList visited )
 	{
-		// If there is no multiplier, assume that an infinite
-		// number is available.
-
-		if ( this.multiplier == 0 )
+		if ( !this.visited )
 		{
+			visited.add( this );
+			this.visited = true;
+		}
+		
+		int alreadyHave = this.initial - this.allocated;
+		if ( alreadyHave < 0 || requested <= 0 )
+		{	// Already overspent this ingredient - either due to it being
+			// present multiple times in the recipe, or being part of a
+			// creation loop with insufficient initial quantities.
+			return 0;
+		}
+		this.allocated += requested;
+		int needToMake = requested - alreadyHave;
+		if ( needToMake > 0 && this.price > 0 )
+		{
+			Concoction c = ConcoctionDatabase.meatLimit;
+			int buyable = c.canMake( needToMake * this.price, visited ) / this.price;
 			if ( Concoction.debug )
 			{
-				this.debug( "== quantity &infin;" );
+				RequestLogger.printLine( "- " + this.name + " limited to " +
+					buyable + " by price " + this.price );
 			}
-			return MallPurchaseRequest.MAX_QUANTITY;
+			this.allocated -= Math.min( buyable, needToMake );
+			return alreadyHave + buyable;
 		}
-		if ( Concoction.debug )
-		{
-			this.debug( "-> quantity" );
+		
+		if ( this.mixingMethod == KoLConstants.NOCREATE )
+		{	// No recipe for this item - don't bother with checking
+			// ingredients, because there aren't any.  However, it's possible
+			// that the total amount was preset greater than the initial, due
+			// to some way of acquiring the item that isn't considered a
+			// concoction (such as Hermit or Tr4pz0r trading).
+			return alreadyHave + this.total - this.initial;		
 		}
-
-		// The maximum value is equivalent to the total, plus
-		// the modifier, divided by the multiplier, if the
-		// multiplier exists.
-
-		int quantity = ( this.total + this.modifier ) / this.multiplier;
+		if ( needToMake <= 0 )
+		{	// Have enough on hand already.
+			// Don't bother with calculating the number creatable:
+			// * If this item is part of a creation loop, doing so
+			// would result in an infinite recursion, as the excess
+			// quantity gets chased around the loop.
+			// * It may be completely wasted effort, if another ingredient
+			// turns out to be the limiting factor.  If that doesn't turn
+			// out to be the case, calc2 will eventually call us again, with
+			// a requested amount that's large enough that this code block
+			// won't be executed.
+			return alreadyHave;
+		}
 		
-		// The true value is affected by the maximum value for
-		// the ingredients.  Therefore, calculate the quantity
-		// for all other ingredients to complete the solution
-		// of the linear inequality.
-
-		int mult = this.getYield();
-
-		this.isCalculating = true;
+		if ( !ConcoctionDatabase.isPermittedMethod( this.mixingMethod ) ||
+			(this.isTorsoItem && !KoLCharacter.hasSkill( "Torso Awaregness" ) && !this.usesIngredient( ItemPool.SHIRT_KIT )) ||
+			Preferences.getBoolean( "unknownRecipe" + this.getItemId() ) )
+		{	// Impossible to create any more of this item.
+			return alreadyHave;
+		}
 		
-		for ( int i = 0; quantity > 0 && i < this.ingredientArray.length; ++i )
+		int yield = this.getYield();
+		needToMake = (needToMake + yield - 1) / yield;
+		int minMake = Integer.MAX_VALUE;
+		int lastMinMake = minMake;
+		
+		int len = this.ingredientArray.length;
+		for ( int i = 0; minMake > 0 && i < len; ++i )
 		{
 			AdventureResult ingredient = this.ingredientArray[ i ];
 			Concoction c = ConcoctionPool.get( ingredient );
-
-			// Avoid mutual recursion.
+			int count = ingredient.getCount();
 			
-			if ( !c.isCalculating )
+			if ( i == 0 && len == 2 &&
+				this.ingredientArray[ 1 ].equals( ingredient ) )
+			{	// Two identical ingredients - this is a moderately common
+				// situation, and the algorithm produces better estimates if
+				// it considers both quantities at once.
+				count += this.ingredientArray[ 1 ].getCount();
+				len = 1;
+			}
+			
+			minMake = Math.min( minMake,
+				c.canMake( needToMake * count, visited ) / count );
+			if ( Concoction.debug )
 			{
-				int available = c.quantity() * mult;
-				quantity = Math.min( quantity, available );
-			}			
+				RequestLogger.printLine( "- " + this.name + 
+					(lastMinMake == minMake ?
+						" not limited" : " limited to " + minMake) +
+					" by " + c.name );
+				lastMinMake = minMake;
+			}
 		}
 		
-		// Adventures are also considered an ingredient; if
-		// no adventures are necessary, the multiplier should
-		// be zero and the infinite number available will have
-		// no effect on the calculation.
+		// Meat paste is an implicit ingredient
 
-		if ( ConcoctionDatabase.ADVENTURE_USAGE[ this.mixingMethod ] != 0 )
+		if ( minMake > 0 && this.mixingMethod == KoLConstants.COMBINE &&
+			!KoLCharacter.inMuscleSign() )
+		{
+			Concoction c = ConcoctionPool.get( ItemPool.MEAT_PASTE );
+			minMake = Math.min( minMake, c.canMake( needToMake, visited ) );
+			if ( Concoction.debug )
+			{
+				RequestLogger.printLine( "- " + this.name + 
+					(lastMinMake == minMake ?
+						" not limited" : " limited to " + minMake) +
+					" by implicit meat paste" );
+				lastMinMake = minMake;
+			}
+		}
+
+		// Adventures are also considered an ingredient
+
+		int advs = ConcoctionDatabase.ADVENTURE_USAGE[ this.mixingMethod ];
+		if ( minMake > 0 && advs != 0 )
 		{
 			Concoction c = ConcoctionDatabase.adventureLimit;
-			int available = c.quantity() * mult;
-			quantity = Math.min( quantity, available );
+			minMake = Math.min( minMake,
+				c.canMake( needToMake * advs, visited ) / advs );
+			if ( Concoction.debug )
+			{
+				RequestLogger.printLine( "- " + this.name + 
+					(lastMinMake == minMake ?
+						" not limited" : " limited to " + minMake) +
+					" by adventures" );
+				lastMinMake = minMake;
+			}
 		}
 
 		// Still uses are also considered an ingredient.
 
-		if ( this.mixingMethod == KoLConstants.STILL_MIXER || this.mixingMethod == KoLConstants.STILL_BOOZE )
+		if ( minMake > 0 && (this.mixingMethod == KoLConstants.STILL_MIXER ||
+			this.mixingMethod == KoLConstants.STILL_BOOZE) )
 		{
 			Concoction c = ConcoctionDatabase.stillsLimit;
-			int available = c.quantity() * mult;
-			quantity = Math.min( quantity, available );
+			minMake = Math.min( minMake, c.canMake( needToMake, visited ) );
+			if ( Concoction.debug )
+			{
+				RequestLogger.printLine( "- " + this.name + 
+					(lastMinMake == minMake ?
+						" not limited" : " limited to " + minMake) +
+					" by stills" );
+				lastMinMake = minMake;
+			}
 		}
 
-		// The true value is now calculated.  Return this
-		// value to the requesting method.
-
-		this.isCalculating = false;
-		if ( Concoction.debug )
-		{
-			this.debug( "&lt;- quantity " + quantity );
-		}
-		return quantity;
+		this.allocated -= Math.min( minMake, needToMake ) * yield;
+		return alreadyHave + minMake * yield;
 	}
 
-	/**
-	 * Utility method which marks the ingredient for usage with the given added modifier and the given additional
-	 * multiplier.
-	 */
-
-	private void mark( final int modifier, final int multiplier )
-	{
-		if ( Concoction.debug )
-		{
-			this.debug( "-> mark(+" + modifier + ", x" + multiplier + ")" );
-		}
-		this.modifier += modifier;
-		this.multiplier += multiplier;
-
-		this.isMarking = true;
-		
-		// Mark all the ingredients, being sure to multiply
-		// by the number of that ingredient needed in this
-		// concoction.
-
-		int instanceCount;
-
-		for ( int i = 0; i < this.ingredientArray.length; ++i )
-		{
-			boolean shouldMark = true;
-			instanceCount = this.ingredientArray[ i ].getCount();
-
-			for ( int j = 0; j < i && shouldMark; ++j )
-			{
-				shouldMark = this.ingredientArray[ i ].getItemId() != this.ingredientArray[ j ].getItemId();
-			}
-
-			if ( !shouldMark )
-			{
-				continue;
-			}
-
-			for ( int j = i + 1; j < this.ingredientArray.length; ++j )
-			{
-				if ( this.ingredientArray[ i ].getItemId() == this.ingredientArray[ j ].getItemId() )
-				{
-					instanceCount += this.ingredientArray[ j ].getCount();
-				}
-			}
-
-			Concoction c = ConcoctionPool.get( this.ingredientArray[ i ] );
-
-			// Avoid mutual recursion
-			
-			if ( !c.isMarking )
-			{
-				c.mark( ( this.modifier + this.initial ) * instanceCount, this.multiplier * instanceCount );
-			}
-		}
-
-		// Mark the implicit adventure ingredient, being
-		// sure to multiply by the number of adventures
-		// which are required for this mixture.
-
-		if ( ConcoctionDatabase.ADVENTURE_USAGE[ this.mixingMethod ] != 0 )
-		{
-			ConcoctionDatabase.adventureLimit.mark(
-				( this.modifier + this.initial ) * ConcoctionDatabase.ADVENTURE_USAGE[ this.mixingMethod ],
-				this.multiplier * ConcoctionDatabase.ADVENTURE_USAGE[ this.mixingMethod ] );
-		}
-
-		if ( this.mixingMethod == KoLConstants.STILL_MIXER || this.mixingMethod == KoLConstants.STILL_BOOZE )
-		{
-			ConcoctionDatabase.stillsLimit.mark( ( this.modifier + this.initial ), this.multiplier );
-		}
-
-		this.isMarking = false;
-		if ( Concoction.debug )
-		{
-			this.debug( "&lt;- mark" );
-		}
-	}
-
-	/**
-	 * Utility method which undoes the yielding process, resetting the ingredient and current total values to the
-	 * given number.
-	 */
-
-	private void unmark()
-	{
-		if ( this.modifier == 0 && this.multiplier == 0 )
-		{
-			return;
-		}
-
-		this.modifier = 0;
-		this.multiplier = 0;
-
-		for ( int i = 0; i < this.ingredientArray.length; ++i )
-		{
-			ConcoctionPool.get( this.ingredientArray[ i ] ).unmark();
-		}
-
-		if ( ConcoctionDatabase.ADVENTURE_USAGE[ this.mixingMethod ] != 0 )
-		{
-			ConcoctionDatabase.adventureLimit.unmark();
-		}
-
-		if ( this.mixingMethod == KoLConstants.STILL_MIXER || this.mixingMethod == KoLConstants.STILL_BOOZE )
-		{
-			ConcoctionDatabase.stillsLimit.unmark();
-		}
-	}
 
 	public int getMeatPasteNeeded( final int quantityNeeded )
 	{
@@ -938,11 +848,5 @@ public class Concoction
 	public String toString()
 	{
 		return this.name;
-	}
-	
-	private void debug( String msg )
-	{
-		RequestLogger.printLine( msg + " " + this.name + " init=" + this.initial
-			+ " tot=" + this.total + " +" + this.modifier + " x" + this.multiplier );
 	}
 }
