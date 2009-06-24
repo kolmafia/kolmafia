@@ -1513,7 +1513,7 @@ public class FightRequest
 		// "As you're trying to get away, you sink in the silty muck on
 		// the sea floor. You manage to get yourself unmired, but your 
 		// greaves seem to have gotten instantly rusty in the process..."
-		if ( responseText.indexOf( "greaves seem to have gotten instantly rusty" ) != -1 )
+		if ( responseText.indexOf( "have gotten instantly rusty" ) != -1 )
 		{
 			EquipmentManager.discardEquipment( ItemPool.ANTIQUE_GREAVES );
 			SpecialOutfit.forgetEquipment( FightRequest.BROKEN_GREAVES );
@@ -1521,29 +1521,31 @@ public class FightRequest
 		}
 		
 		// "You sigh and discard the belt in a nearby trash can."
-		if ( responseText.indexOf( "You sigh and discard the belt in a nearby trash can." ) != -1 )
+		if ( responseText.indexOf( "You sigh and discard the belt" ) != -1 )
 		{
 			EquipmentManager.discardEquipment( ItemPool.CHEAP_STUDDED_BELT );
 			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Your cheap studded belt broke." );
 		}
 		
 		// Check for familiar item drops
-		if ( responseText.indexOf( "too preoccupied with the woes of this world" ) != -1 )
+		if ( responseText.indexOf( "too preoccupied" ) != -1 &&
+			responseText.indexOf( "this world" ) != -1 )
 		{
 			Preferences.increment( "_gongDrops", 1 );
 		}
 
-		if ( responseText.indexOf( "He tosses you a bottle of absinthe" ) != -1 )
+		if ( responseText.indexOf( "He tosses you a bottle" ) != -1 &&
+			responseText.indexOf( "absinthe" ) != -1)
 		{
 			Preferences.increment( "_absintheDrops", 1 );
 		}
 
-		if ( responseText.indexOf( "produces a rainbow-colored mushroom from" ) != -1 )
+		if ( responseText.indexOf( "produces a rainbow-colored mushroom" ) != -1 )
 		{
 			Preferences.increment( "_astralDrops", 1 );
 		}
 
-		if ( responseText.indexOf( "belches some murky fluid back into the bottle" ) != -1 )
+		if ( responseText.indexOf( "belches some murky fluid back" ) != -1 )
 		{
 			Preferences.increment( "_aguaDrops", 1 );
 		}
@@ -1619,12 +1621,12 @@ public class FightRequest
 		
 		// Check for free runaways
 		if ( responseText.indexOf( "shimmers as you quickly float away" ) != -1 ||
-			responseText.indexOf( "float away at a leisurely, relaxed pace" ) != -1 )
+			responseText.indexOf( "a leisurely, relaxed pace" ) != -1 )
 		{
 			Preferences.increment( "_navelRunaways", 1 );
 		}
 		
-		if ( responseText.indexOf( "tosses you onto his back, and flooms away" ) != -1 )
+		if ( responseText.indexOf( "his back, and flooms away" ) != -1 )
 		{
 			Preferences.increment( "_banderRunaways", 1 );
 		}
@@ -2140,7 +2142,7 @@ public class FightRequest
 
 		// You slap a flyer up on your opponent. It enrages it.
 
-		if ( responseText.indexOf( "You slap a flyer up on your opponent" ) != -1 )
+		if ( responseText.indexOf( "You slap a flyer" ) != -1 )
 		{
 			int ML = Math.max( 0, FightRequest.getMonsterAttack() );
 			Preferences.increment( "flyeredML", ML );
@@ -2192,7 +2194,7 @@ public class FightRequest
 		int uses = Preferences.getInteger( "pastamancerGhostSummons" );
 
 		// You are mentally exhausted by the effort of summoning <name>.
-		if ( responseText.indexOf( "You are mentally exhausted by the effort" ) != -1 )
+		if ( responseText.indexOf( "You are mentally exhausted" ) != -1 )
 		{
 			uses = 10;
 		}
