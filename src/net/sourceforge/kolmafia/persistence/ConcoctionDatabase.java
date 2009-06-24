@@ -96,6 +96,7 @@ public class ConcoctionDatabase
 
 	public static final Concoction stillsLimit = new Concoction( (AdventureResult) null, KoLConstants.NOCREATE );
 	public static final Concoction adventureLimit = new Concoction( (AdventureResult) null, KoLConstants.NOCREATE );
+	public static final Concoction meatLimit = new Concoction( (AdventureResult) null, KoLConstants.NOCREATE );
 
 	public static final SortedListModelArray knownUses = new SortedListModelArray();
 
@@ -881,23 +882,21 @@ public class ConcoctionDatabase
 					continue;
 				}
 
-				int price = NPCStoreDatabase.price( concoction.getName() );
-				item.initial = concoction.getCount( availableIngredients ) + KoLCharacter.getAvailableMeat() / price;
+				if ( concoction.getItemId() == ItemPool.FLAT_DOUGH )
+				{	// Don't buy flat dough from Degrassi Knoll Bakery -
+					// buy wads of dough for 20 meat less, instead.
+					continue;
+				}
+
+				item.price = NPCStoreDatabase.price( concoction.getName() );
+				item.initial = concoction.getCount( availableIngredients );
 				item.creatable = 0;
 				item.total = item.initial;
 				item.visibleTotal = item.total;
 			}
 		}
 
-		// Make assessment of availability of mixing methods.
-		// This method will also calculate the availability of
-		// chefs and bartenders automatically so a second call
-		// is not needed.
-
-		ConcoctionDatabase.cachePermitted( availableIngredients );
-
-		// Next, do calculations on all mixing methods which cannot
-		// be created at this time.
+		// Set initial quantity of all remaining items.
 
 		it = ConcoctionPool.iterator();
 
@@ -915,19 +914,19 @@ public class ConcoctionDatabase
 				continue;
 			}
 
-			if ( !Preferences.getBoolean( "unknownRecipe" + item.getItemId() ) &&
-			     ConcoctionDatabase.isPermittedMethod( item.getMixingMethod() ) )
-			{
-				continue;
-			}
-
 			item.initial = concoction.getCount( availableIngredients );
+			item.price = 0;
 			item.creatable = 0;
 			item.total = item.initial;
 			item.visibleTotal = item.total;
 		}
 
-		ConcoctionDatabase.calculateBasicItems( availableIngredients );
+		// Make assessment of availability of mixing methods.
+		// This method will also calculate the availability of
+		// chefs and bartenders automatically so a second call
+		// is not needed.
+
+		ConcoctionDatabase.cachePermitted( availableIngredients );
 
 		// Ice-cold beer and ketchup are special instances -- for the
 		// purposes of calculation, we assume that they will use the
@@ -950,10 +949,7 @@ public class ConcoctionDatabase
 		{
 			Concoction item = (Concoction) it.next();
 
-			if ( item.creatable > -1 )
-			{
-				item.calculate( availableIngredients );
-			}
+			item.calculate2();
 		}
 
 		// Now, to update the list of creatables without removing
@@ -985,13 +981,13 @@ public class ConcoctionDatabase
 			}
 
 			if ( considerPulls &&
-                             ar.getItemId() > 0 &&
-                             item.getPrice() <= 0 &&
-			     ItemDatabase.meetsLevelRequirement( item.getName() ) )
+				ar.getItemId() > 0 &&
+				item.getPrice() <= 0 &&
+				ItemDatabase.meetsLevelRequirement( item.getName() ) )
 			{
 				item.setPullable( Math.min ( ar.getCount( KoLConstants.storage ) - item.queuedPulls, ItemManageFrame.getPullsBudgeted() - ConcoctionDatabase.queuedPullsUsed ) );
 			}
-                        else
+			else
 			{
 				item.setPullable( 0 );
 			}
@@ -1052,8 +1048,6 @@ public class ConcoctionDatabase
 			return 0;
 		}
 
-		List availableIngredients = ConcoctionDatabase.getAvailableIngredients();
-		item.calculate( availableIngredients );
 		return item.getMeatPasteNeeded( creationCount + item.initial );
 	}
 
@@ -1062,12 +1056,12 @@ public class ConcoctionDatabase
 		// Meat paste and meat stacks can be created directly
 		// and are dependent upon the amount of meat available.
 
-		ConcoctionDatabase.setBasicItem(
-			availableIngredients, ItemPool.MEAT_PASTE, KoLCharacter.getAvailableMeat() / 10 );
-		ConcoctionDatabase.setBasicItem(
-			availableIngredients, ItemPool.MEAT_STACK, KoLCharacter.getAvailableMeat() / 100 );
-		ConcoctionDatabase.setBasicItem(
-			availableIngredients, ItemPool.DENSE_STACK, KoLCharacter.getAvailableMeat() / 1000 );
+		ConcoctionDatabase.setBuyableItem(
+			availableIngredients, ItemPool.MEAT_PASTE, 10 );
+		ConcoctionDatabase.setBuyableItem(
+			availableIngredients, ItemPool.MEAT_STACK, 100 );
+		ConcoctionDatabase.setBuyableItem(
+			availableIngredients, ItemPool.DENSE_STACK, 1000 );
 
 		AdventureResult item;
 		int worthlessItems = Math.min( HermitRequest.getWorthlessItemCount(), KoLCharacter.getAvailableMeat() / 100 );
@@ -1098,8 +1092,24 @@ public class ConcoctionDatabase
 		}
 
 		creation.initial = ItemPool.get( itemId, 1 ).getCount( availableIngredients );
+		creation.price = 0;
 		creation.creatable = creatable;
 		creation.total = creation.initial + creatable;
+		creation.visibleTotal = creation.total;
+	}
+
+	private static final void setBuyableItem( final List availableIngredients, final int itemId, final int price )
+	{
+		Concoction creation = ConcoctionPool.get( itemId );
+		if ( creation == null )
+		{
+			return;
+		}
+
+		creation.initial = ItemPool.get( itemId, 1 ).getCount( availableIngredients );
+		creation.price = price;
+		creation.creatable = 0;
+		creation.total = creation.initial;
 		creation.visibleTotal = creation.total;
 	}
 
@@ -1132,6 +1142,16 @@ public class ConcoctionDatabase
 			ConcoctionDatabase.stillsLimit.total - ConcoctionDatabase.queuedStillsUsed;
 		ConcoctionDatabase.stillsLimit.creatable = 0;
 		ConcoctionDatabase.stillsLimit.visibleTotal = ConcoctionDatabase.stillsLimit.total;
+
+		// Meat is also also considered Item #0 in the event that the
+		// concoction will create paste/stacks or buy NPC items.
+
+		ConcoctionDatabase.meatLimit.total = KoLCharacter.getAvailableMeat();
+		ConcoctionDatabase.meatLimit.initial =
+			ConcoctionDatabase.meatLimit.total; 
+			// - ConcoctionDatabase.queuedMeatSpent ???
+		ConcoctionDatabase.meatLimit.creatable = 0;
+		ConcoctionDatabase.meatLimit.visibleTotal = ConcoctionDatabase.meatLimit.total;
 
 		ConcoctionDatabase.calculateBasicItems( availableIngredients );
 
@@ -1237,10 +1257,10 @@ public class ConcoctionDatabase
 		// Next, increment through all the box servant creation methods.
 		// This allows future appropriate calculation for cooking/drinking.
 
-		ConcoctionPool.get( ItemPool.CHEF ).calculate( availableIngredients );
-		ConcoctionPool.get( ItemPool.CLOCKWORK_CHEF ).calculate( availableIngredients );
-		ConcoctionPool.get( ItemPool.BARTENDER ).calculate( availableIngredients );
-		ConcoctionPool.get( ItemPool.CLOCKWORK_BARTENDER ).calculate( availableIngredients );
+		ConcoctionPool.get( ItemPool.CHEF ).calculate2();
+		ConcoctionPool.get( ItemPool.CLOCKWORK_CHEF ).calculate2();
+		ConcoctionPool.get( ItemPool.BARTENDER ).calculate2();
+		ConcoctionPool.get( ItemPool.CLOCKWORK_BARTENDER ).calculate2();
 
 		// Cooking is permitted, so long as the person has a chef
 		// or they don't need a box servant and have an oven.

@@ -940,6 +940,20 @@ public class ResultProcessor
 					}
 				}
 
+
+				if ( !shouldRefresh )
+				{
+					switch ( result.getItemId() )
+					{
+					// Items that affect creatability of other items, but
+					// aren't explicitly listed in their recipes:
+					case ItemPool.WORTHLESS_TRINKET:
+					case ItemPool.WORTHLESS_GEWGAW:
+					case ItemPool.WORTHLESS_KNICK_KNACK:
+						shouldRefresh = true;
+					}
+				}
+				
 				if ( shouldRefresh )
 				{
 					ConcoctionDatabase.refreshConcoctions();
