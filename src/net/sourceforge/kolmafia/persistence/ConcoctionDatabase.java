@@ -658,24 +658,22 @@ public class ConcoctionDatabase
 			}
 		}
 
-		// If it doesn't have a price, it's not from a store
+		// If there's an actual item, it's not from a store
 
-		if ( c.getPrice() <= 0 )
+		if ( item != null )
 		{
-			AdventureResult concoction = c.getItem();
-
 			// If concoction is a normal item, use normal item
 			// acquisition methods.
 
-			if ( concoction.getItemId() > 0 )
+			if ( item.getItemId() > 0 )
 			{
-				UseItemRequest request = new UseItemRequest( concoction.getInstance( quantity ) );
+				UseItemRequest request = new UseItemRequest( item.getInstance( quantity ) );
 				RequestThread.postRequest( request );
 				return;
 			}
 
 			// Otherwise, making item will consume it.
-			CreateItemRequest request = CreateItemRequest.getInstance( concoction.getInstance( quantity ) );
+			CreateItemRequest request = CreateItemRequest.getInstance( item.getInstance( quantity ) );
 			request.setQuantityNeeded( quantity );
 			RequestThread.postRequest( request );
 			return;
