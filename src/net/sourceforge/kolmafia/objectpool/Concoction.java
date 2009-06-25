@@ -468,6 +468,12 @@ public class Concoction
 			this.queued += amount;
 			this.queuedPulls += pullAmount;
 		}
+		
+		if ( this.price > 0 ||
+			!ConcoctionDatabase.isPermittedMethod( this.mixingMethod ) )
+		{
+			return;
+		}
 
 		// Recipes that yield multiple units require smaller
 		// quantities of ingredients.
@@ -478,7 +484,7 @@ public class Concoction
 		{
 			AdventureResult ingredient = this.ingredientArray[ i ];
 			Concoction c = ConcoctionPool.get( ingredient );
-			c.queue( globalChanges, localChanges, icount, false );
+			c.queue( globalChanges, localChanges, icount * ingredient.getCount(), false );
 		}
 
 		// Recipes that yield multiple units might result in
@@ -693,6 +699,7 @@ public class Concoction
 		{
 			AdventureResult ingredient = this.ingredientArray[ i ];
 			Concoction c = ConcoctionPool.get( ingredient );
+			if ( c == null ) continue;
 			int count = ingredient.getCount();
 			
 			if ( i == 0 && len == 2 &&
