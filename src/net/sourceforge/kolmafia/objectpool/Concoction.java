@@ -621,6 +621,10 @@ public class Concoction
 
 		this.total = maxSuccess;
 		this.creatable = this.total - this.initial;
+		if ( this.price > 0 )
+		{
+			this.creatable -= KoLCharacter.getAvailableMeat() / this.price;
+		}
 		this.visibleTotal = this.total;
 	}
 
@@ -657,8 +661,10 @@ public class Concoction
 				RequestLogger.printLine( "- " + this.name + " limited to " +
 					buyable + " by price " + this.price );
 			}
-			this.allocated -= Math.min( buyable, needToMake );
-			return alreadyHave + buyable;
+			alreadyHave += buyable;
+			buyable = Math.min( buyable, needToMake );
+			this.allocated -= buyable;
+			needToMake -= buyable;
 		}
 		
 		if ( this.mixingMethod == KoLConstants.NOCREATE )
