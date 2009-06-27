@@ -142,6 +142,7 @@ public class Concoction
 		this.name = name;
 		this.price = price;
 
+		this.resetCalculations();
 		this.setConsumptionData();
 	}
 

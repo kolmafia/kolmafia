@@ -92,6 +92,8 @@ public class CreateItemRequest
 		{ ItemPool.DOUGH, ItemPool.ROLLING_PIN, ItemPool.FLAT_DOUGH },
 		{ ItemPool.FLAT_DOUGH, ItemPool.UNROLLING_PIN, ItemPool.DOUGH }
 	};
+	
+	private static boolean makingDough = false;
 
 	/**
 	 * Constructs a new <code>CreateItemRequest</code> with nothing known other than the form to use. This is used
@@ -457,11 +459,19 @@ public class CreateItemRequest
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Can't deduce correct tool to use." );
 			return;
 		}
-
+		
+		if ( CreateItemRequest.makingDough )
+		{	// recursive call
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have enough dough." );
+			return;
+		}
+		
+		CreateItemRequest.makingDough = true;
 		if ( !InventoryManager.retrieveItem( input, this.quantityNeeded ) )
 		{
 			return;
 		}
+		CreateItemRequest.makingDough = false;
 
 		// If we don't have the correct tool, and the person wishes to
 		// create more than 10 dough, then notify the person that they
