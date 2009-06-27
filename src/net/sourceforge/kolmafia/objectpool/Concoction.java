@@ -566,7 +566,8 @@ public class Concoction
 		ArrayList visited = new ArrayList();
 		Iterator i;
 		
-		if ( this.getItemId() == Concoction.debugId )
+		int id = this.getItemId();
+		if ( id == Concoction.debugId )
 		{
 			Concoction.debug = true;
 		}
@@ -614,14 +615,15 @@ public class Concoction
 			c.visited = false;
 		}
 
-		if ( this.getItemId() == Concoction.debugId )
+		if ( id == Concoction.debugId )
 		{
 			Concoction.debug = false;
 		}
 
 		this.total = maxSuccess;
 		this.creatable = this.total - this.initial;
-		if ( this.price > 0 )
+		if ( this.price > 0 && id != ItemPool.MEAT_PASTE &&
+			id != ItemPool.MEAT_STACK && id != ItemPool.DENSE_STACK )
 		{
 			this.creatable -= KoLCharacter.getAvailableMeat() / this.price;
 		}
