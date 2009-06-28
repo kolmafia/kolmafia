@@ -1573,7 +1573,10 @@ public abstract class KoLmafia
 				}
 
 				KoLmafia.isAdventuring = true;
-				SpecialOutfit.createImplicitCheckpoint();
+				if ( !wasAdventuring )
+				{
+					SpecialOutfit.createImplicitCheckpoint();
+				}
 			}
 
 			// Execute the request as initially intended by calling
@@ -1588,7 +1591,11 @@ public abstract class KoLmafia
 			if ( request instanceof KoLAdventure && !wasAdventuring )
 			{
 				KoLmafia.isAdventuring = false;
-				this.runBetweenBattleChecks( false );
+				if ( !KoLmafia.isRunningBetweenBattleChecks() &&
+					FightRequest.getCurrentRound() == 0 )
+				{
+					this.runBetweenBattleChecks( false );
+				}
 				SpecialOutfit.restoreImplicitCheckpoint();
 			}
 		}
