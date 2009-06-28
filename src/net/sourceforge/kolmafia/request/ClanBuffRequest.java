@@ -67,13 +67,15 @@ public class ClanBuffRequest
 	public static final LockableListModel getRequestList()
 	{
 		LockableListModel requestList = new LockableListModel();
-		for ( int i = 1; i <= 6; ++i )
+		for ( int i = 1; i < 9; ++i )
 		{
 			for ( int j = 1; j <= 3; ++j )
 			{
 				requestList.add( new ClanBuffRequest( 10 * i + j ) );
 			}
 		}
+
+		requestList.add( new ClanBuffRequest( 91 ) );
 
 		return requestList;
 	}
@@ -87,34 +89,56 @@ public class ClanBuffRequest
 	public String toString()
 	{
 		StringBuffer stringForm = new StringBuffer();
+		int size = this.buffId % 10;
+		int gift = this.buffId / 10;
 
-		switch ( this.buffId % 10 )
+		if ( gift != 9 )
+		{
+			switch ( size )
+			{
+			case 1:
+				stringForm.append( "Cheap " );
+				break;
+			case 2:
+				stringForm.append( "Normal " );
+				break;
+			case 3:
+				stringForm.append( "Expensive " );
+				break;
+			}
+		}
+
+		switch ( gift )
 		{
 		case 1:
-			stringForm.append( "Cheap " );
+			stringForm.append( "Muscle Training" );
 			break;
 		case 2:
-			stringForm.append( "Normal " );
+			stringForm.append( "Mysticality Training" );
 			break;
-		default:
-			stringForm.append( "Expensive " );
+		case 3:
+			stringForm.append( "Moxie Training" );
+			break;
+		case 4:
+			stringForm.append( "Temporary Muscle Boost" );
+			break;
+		case 5:
+			stringForm.append( "Temporary Mysticality Boost" );
+			break;
+		case 6:
+			stringForm.append( "Temporary Moxie Boost" );
+			break;
+		case 7:
+			stringForm.append( "Temporary Item Drop Boost" );
+			break;
+		case 8:
+			stringForm.append( "Temporary Meat Drop Boost" );
+			break;
+		case 9:
+			stringForm.append( "Adventure Massage" );
 			break;
 		}
 
-		switch ( this.buffId / 10 % 3 )
-		{
-		case 1:
-			stringForm.append( "Muscle " );
-			break;
-		case 2:
-			stringForm.append( "Mysticality " );
-			break;
-		default:
-			stringForm.append( "Moxie " );
-			break;
-		}
-
-		stringForm.append( this.buffId < 40 ? "Training" : "Boost" );
 		return stringForm.toString();
 	}
 }

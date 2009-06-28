@@ -3830,7 +3830,7 @@
 3824	624587585	Grandma's Note
 3825	492404505	Grandma's Fuschia Yarn
 3826	418019826	Grandma's Chartreuse Yarn
-3827
+3827	338398297	golden plastic oyster egg	golden plastic oyster eggs
 3828	382148482	Grandma's Map
 3829	191472664	tempura radish	tempura radishes
 3830	896990073	water-polo cap	water-polo caps
