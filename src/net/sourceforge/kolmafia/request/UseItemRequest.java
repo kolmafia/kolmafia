@@ -296,6 +296,20 @@ public class UseItemRequest
 		case ItemPool.DANCE_CARD:
 			// Disallow using a dance card if already active
 			return TurnCounter.isCounting( "Dance Card" ) ? 0 : 1;
+			
+		case ItemPool.GREEN_PEAWEE_MARBLE:
+		case ItemPool.BROWN_CROCK_MARBLE:
+		case ItemPool.RED_CHINA_MARBLE:
+		case ItemPool.LEMONADE_MARBLE:
+		case ItemPool.BUMBLEBEE_MARBLE:
+		case ItemPool.JET_BENNIE_MARBLE:
+		case ItemPool.BEIGE_CLAMBROTH_MARBLE:
+		case ItemPool.STEELY_MARBLE:
+		case ItemPool.BEACH_BALL_MARBLE:
+		case ItemPool.BLACK_CATSEYE_MARBLE:
+			// Using up to 1/2 produces bigger marbles.
+			// Larger quantities can be used, but do nothing.
+			return InventoryManager.getCount( itemId ) / 2;
 
 		case ItemPool.CHEF:
 		case ItemPool.CLOCKWORK_CHEF:
@@ -665,7 +679,9 @@ public class UseItemRequest
 			SpecialOutfit.createImplicitCheckpoint();
 		}
 
-		if ( price != 0 && this.consumptionType != KoLConstants.INFINITE_USES && !InventoryManager.retrieveItem( this.itemUsed ) )
+		if ( price != 0 && !UseItemRequest.sequentialConsume( itemId ) &&
+			this.consumptionType != KoLConstants.INFINITE_USES &&
+			!InventoryManager.retrieveItem( this.itemUsed ) )
 		{
 			if ( itemId == ItemPool.SELTZER || itemId == ItemPool.MAFIA_ARIA )
 			{
@@ -704,7 +720,9 @@ public class UseItemRequest
 			case KoLConstants.CONSUME_EAT:
 				// The miracle of "consume some" does not apply
 				// to TPS drinks or black puddings
-				if ( !UseItemRequest.singleConsume( itemId ) )
+				if ( !UseItemRequest.singleConsume( itemId ) &&
+					(!UseItemRequest.sequentialConsume( itemId ) || 
+						InventoryManager.getCount( itemId ) >= origCount) )
 				{
 					break;
 				}
@@ -789,6 +807,19 @@ public class UseItemRequest
 	{
 		switch (itemId )
 		{
+		case ItemPool.BLACK_PUDDING:
+			// Eating a black pudding can lead to a combat with no
+			// feedback about how many were successfully eaten
+			// before the combat.
+			return true;
+		}
+		return false;
+	}
+
+	private static final boolean sequentialConsume( final int itemId )
+	{
+		switch (itemId )
+		{
 		case ItemPool.DIRTY_MARTINI:
 		case ItemPool.GROGTINI:
 		case ItemPool.CHERRY_BOMB:
@@ -796,13 +827,12 @@ public class UseItemRequest
 		case ItemPool.BODYSLAM:
 		case ItemPool.SANGRIA_DEL_DIABLO:
 			// Allow player who owns a single tiny plastic sword to
-			// make and drink multiple drinks in succession.
-			return true;
-
-		case ItemPool.BLACK_PUDDING:
-			// Eating a black pudding can lead to a combat with no
-			// feedback about how many were successfully eaten
-			// before the combat.
+			// make and drink multiple drinks in succession.	
+		case ItemPool.BORIS_PIE:
+		case ItemPool.JARLSBERG_PIE:
+		case ItemPool.SNEAKY_PETE_PIE:
+			// Likewise, allow multiple pies to be made and eaten
+			// with only one key.
 			return true;
 		}
 		return false;
