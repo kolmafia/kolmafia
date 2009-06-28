@@ -180,6 +180,9 @@ public class ItemPool
 	public static final int PAGODA_PLANS = 502;
 	public static final int HEAVY_METAL_GUITAR = 507;
 	public static final int HEY_DEZE_NUTS = 509;
+	public static final int BORIS_PIE = 513;
+	public static final int JARLSBERG_PIE = 514;
+	public static final int SNEAKY_PETE_PIE = 515;
 	public static final int HEY_DEZE_MAP = 516;
 	public static final int STRANGE_LEAFLET = 520;
 	public static final int HOUSE = 526;
