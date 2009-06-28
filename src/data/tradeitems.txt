@@ -3830,7 +3830,7 @@
 3824	Grandma's Note	none	none	0
 3825	Grandma's Fuschia Yarn	none	none	0
 3826	Grandma's Chartreuse Yarn	none	none	0
-3827
+3827	golden plastic oyster egg	none, combat	all	23
 3828	Grandma's Map	none	none	0
 3829	tempura radish	food	all	475
 3830	water-polo cap	hat	display	800
