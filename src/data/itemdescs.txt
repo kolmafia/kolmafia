@@ -3707,7 +3707,7 @@
 3701	680600410	map to Anemone Mine
 3702	374383060	marine aquamarine	marine aquamarines
 3703	581289316	rusty valve wheel	rusty valve wheels
-3704	696657364	waterlogged bootstraps	set of waterlogged bootstraps
+3704	696657364	waterlogged bootstraps	sets of waterlogged bootstraps
 3705	798460922	velcro broadsword	velcro broadswords
 3706	250880819	velcro paddle ball	velcro paddle balls
 3707	777472980	velcro shield	velcro shields
@@ -3994,8 +3994,8 @@
 3988	254573219	ancient turtle shell	ancient turtle shells
 3989	334366675	ancient turtle shell powder	piles of ancient turtle shell powder
 3990	666719587	ancient turtle shell helmet	ancient turtle shell helmets
-3991	515479025	slime-soaked hypophysis
-3992	523709792	slime-soaked brain
+3991	515479025	slime-soaked hypophysis	slime-soaked hypophyses
+3992	523709792	slime-soaked brain	slime-soaked brains
 3993	337083735	slime-soaked sweat gland	slime-soaked sweat glands
 3994	967440626	security blankie
 3995	492568679	big bundle of chamoix	big bundles of chamoix
@@ -4003,35 +4003,35 @@
 3997
 3998	760915709	metrognome	metrognomes
 3999	933342458	infant sandworm	infant sandworms
-4000	266729274	string of dingle balls
+4000	266729274	string of dingle balls	strings of dingle balls
 4001	236391368	agua de vida	bottles of agua de vida
 4002	423581654	tortoboggan shield	tortoboggan shields
 4003	525598834	bottle of moontan lotion	bottles of moontan lotion
 4004	578558200	soup-chucks	pairs of soup-chucks
 4005	682425424	ballast turtle	ballast turtles
-4006	609890806	memory of some delicious amino acids
-4007	330636128	memory of a C	memory of a Cs
-4008	312825464	memory of an A	memory of an As
-4009	653030278	memory of a G	memory of a Gs
-4010	295028092	memory of a T	memory of a Ts
+4006	609890806	memory of some delicious amino acids	memories of some delicious amino acids
+4007	330636128	memory of a C	memories of Cs
+4008	312825464	memory of an A	memories of As
+4009	653030278	memory of a G	memories of Gs
+4010	295028092	memory of a T	memories of Ts
 4011	402553893	memory of a CA base pair	memories of CA base pairs
 4012	385332479	memory of a CG base pair	memories of CG base pairs
 4013	361475350	memory of a CT base pair	memories of CT base pairs
 4014	458392723	memory of an AG base pair	memories of AG base pairs
 4015	849598694	memory of an AT base pair	memories of AT base pairs
 4016	422948472	memory of a GT base pair	memories of GT base pairs
-4017	326825207	squirming Slime larva
-4018	479813520	rusty metal greaves
+4017	326825207	squirming Slime larva	squirming Slime larvae
+4018	479813520	rusty metal greaves	pairs of rusty metal greaves
 4019
 4020	224342315	rusty piece of rebar	rusty pieces of rebar
-4021	662987826	slime-covered shovel
+4021	662987826	slime-covered shovel	slime-covered shovels
 4022	212250418	slime-covered necklace	slime-covered necklaces
-4023	433811450	slime-covered speargun
-4024	816841149	slime-covered compass
-4025	764929004	slime-covered helmet
-4026	920320382	slime-covered lantern
-4027	780419564	slime-covered greaves
-4028	823709783	slime-covered club
+4023	433811450	slime-covered speargun	slime-covered spearguns
+4024	816841149	slime-covered compass	slime-covered compasss
+4025	764929004	slime-covered helmet	slime-covered helmets
+4026	920320382	slime-covered lantern	slime-covered lanterns
+4027	780419564	slime-covered greaves	pairs of slime-covered greaves
+4028	823709783	slime-covered club	slime-covered clubs
 4029	502206013	memory of a grappling hook
 4030	379102139	memory of a small stone block
 4031	995053215	memory of a little stone block
@@ -4045,21 +4045,21 @@
 4039	388191568	slimy alveolus	slimy alveoli
 4040	242018093	memory of a cultist's robe
 4041	846852926	pig-iron helm
-4042	564106355	pig-iron shinguards
-4043	497900052	pig-iron bracers
+4042	564106355	pig-iron shinguards	pig-iron shinguardss
+4043	497900052	pig-iron bracers	pig-iron bracerss
 4044	428760948	wumpus hair	tufts of wumpus hair
-4045	473198712	wumpus-hair bolo
-4046	357589301	wumpus-hair net
-4047	615750910	wumpus-hair whip
-4048	767425845	wumpus-hair wig
-4049	263172150	wumpus-hair loincloth
-4050	966602382	wumpus-hair sweater
+4045	473198712	wumpus-hair bolo	wumpus-hair bolos
+4046	357589301	wumpus-hair net	wumpus-hair nets
+4047	615750910	wumpus-hair whip	wumpus-hair whips
+4048	767425845	wumpus-hair wig	wumpus-hair wigs
+4049	263172150	wumpus-hair loincloth	wumpus-hair loincloths
+4050	966602382	wumpus-hair sweater	wumpus-hair sweaters
 4051	768452883	ring of teleportation	rings of teleportation
 4052	575582192	glass of baboon milk	glasses of baboon milk
 4053	438971267	banana milkshake	banana milkshakes
 4054	190759717	White Hyborian	White Hyborians
-4055	379892841	goblin hunting spear
-4056	735325131	goblin autoblowgun
+4055	379892841	goblin hunting spear	goblin hunting spears
+4056	735325131	goblin autoblowgun	goblin autoblowguns
 4057	987751970	shiny tribal beads	shiny tribal beadss
 4058	158275016	ancient stone fist	ancient stone fists
 4059	516274004	ancient stone head	ancient stone heads
@@ -4078,17 +4078,17 @@
 4072	226858619	essence of cute
 4073	528300671	Supreme Being Glossary
 4074	212838845	multi-pass
-4075	270978316	villainous scythe
-4076	606754471	baneful bandolier
+4075	270978316	villainous scythe	villainous scythes
+4076	606754471	baneful bandolier	baneful bandoliers
 4077	828398092	diabolical crossbow
 4078	189762372	malevolent medallion
 4079	904156487	corrosive cowl
 4080	924434870	grisly shield
 4081	956208229	corroded breeches
 4082	728374904	pernicious cudgel
-4083	840782535	cupcake-in-a-cup
+4083	840782535	cupcake-in-a-cup	cupcakes-in-cups
 4084	289499503	pool of liquid metal	pools of liquid metal
-4085	176155931	protein paste
+4085	176155931	protein paste	tubes of protein paste
 4086	737396101	cyber-mattock	cyber-maddox
 4087	619137574	facehugging alien	facehugging aliens
 4088	864678921	X-37 gun	X-37 guns
@@ -4110,15 +4110,15 @@
 4104	171423522	black catseye marble	black catseye marbles
 4105	561342079	big bumboozer marble	big bumboozer marbles
 4106	423567434	chamoisole	chamoixole
-4107	467253853	bitter pill
+4107	467253853	bitter pill	bitter pills
 4108	123902094	monstrous monocle
 4109	383889441	musty moccasins
 4110	583815096	molten medallion
 4111	327314107	brazen bracelet
 4112	604555910	bitter bowtie
 4113	288369149	bewitching boots
-4114	502821529	secret from the future
-4115	552855217	moist sack
+4114	502821529	secret from the future	secrets from the future
+4115	552855217	moist sack	moist sacks
 4116	453371698	rickety old unicycle	rickety old unicycles
 4117	832063847	crusty hula hoop	crusty hula hoops
 4118	998607445	Coily&trade;	Coilies&trade;
@@ -4131,10 +4131,10 @@
 4125	200038599	poodle skirt	poodle skirts
 4126	562684613	letterman's jacket	letterman's jackets
 4127	721459450	hardened slime hat	hardened slime hats
-4128	255854067	hardened slime pants
-4129	663508936	hardened slime belt
+4128	255854067	hardened slime pants	pairs of hardened slime pants
+4129	663508936	hardened slime belt	hardened slime belts
 4130	917576836	empty agua de vida bottle	empty agua de vida bottles
 4131
 4132	319658078	sham champagne	glasses of sham champagne
 4133	647220670	tempura air	tempura airs
-4134	792712954	pressurized potion of pneumaticity
+4134	792712954	pressurized potion of pneumaticity	pressurized potion of pneumaticitys

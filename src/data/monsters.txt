@@ -224,6 +224,7 @@ Crusty Pirate	HP: 90 Def: 100 Atk: 100	barrrnacle (15)	tarrrnish charrrm (10)
 Cubist Bull	HP: 110 Def: 105 Atk: 105 Meat: 160-240	broken sword (5)	4-dimensional guitar (5)	non-Euclidean hoof (b0)
 Curmudgeonly Pirate	HP: 90 Def: 100 Atk: 100	all-purpose cleaner (25)	curmudgel (5)	grumpy old man charrrm (10)	handful of sawdust (30)	mizzenmast mop (0)
 Cyborg Policeman	HP: 0	physiostim pill (0)	protein paste (0)
+Cyrus the Virus	HP: 100000 Atk: 10000
 Dairy Goat	HP: 50 Def: 68 Atk: 68 Meat: 40-64	glass of goat's milk (20)	goat cheese (40)	billy idol (b0)
 Dairy Ooze	HP: 8 Def: 13 Atk: 13 Meat: 11-15
 Danglin' Chad	HP: 300 Meat: 297-342 E: sleaze	Danglin' Chad's loincloth (100)	beer helmet (0)	bejeweled pledge pin (0)	distressed denim pants (0)	kick-ass kicks (0)	white class ring (0)
