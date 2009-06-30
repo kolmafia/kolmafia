@@ -67,8 +67,8 @@ public class UseSkillRequest
 	private static final Pattern SKILLID_PATTERN = Pattern.compile( "whichskill=(\\d+)" );
 	private static final Pattern BOOKID_PATTERN = Pattern.compile( "preaction=summon([^&]*)" );
 
-	private static final Pattern COUNT1_PATTERN = Pattern.compile( "bufftimes=([\\d,]+)" );
-	private static final Pattern COUNT2_PATTERN = Pattern.compile( "quantity=([\\d,]+)" );
+	private static final Pattern COUNT1_PATTERN = Pattern.compile( "bufftimes=([\\*\\d,]+)" );
+	private static final Pattern COUNT2_PATTERN = Pattern.compile( "quantity=([\\*\\d,]+)" );
 
 	public static final String[] BREAKFAST_SKILLS =
 	{
@@ -1014,7 +1014,7 @@ public class UseSkillRequest
 		}
 			
 		// The skill was successfully cast. Deal with its effects.
-		int count = UseSkillRequest.getCount( urlString );
+		int count = UseSkillRequest.getCount( urlString, skillId );
 		int mpCost = SkillDatabase.getMPConsumptionById( skillId ) * count;
 
 		switch ( skillId )
@@ -1147,22 +1147,32 @@ public class UseSkillRequest
 		return -1;
 	}
 
-	private static final int getCount( final String urlString )
+	private static final int getCount( final String urlString, int skillId )
 	{
 		Matcher countMatcher = UseSkillRequest.COUNT1_PATTERN.matcher( urlString );
 
-		if ( countMatcher.find() )
+		if ( !countMatcher.find() )
 		{
-			return StringUtilities.parseInt( countMatcher.group( 1 ) );
+			countMatcher = UseSkillRequest.COUNT2_PATTERN.matcher( urlString );
+			if ( !countMatcher.find() )
+			{
+				return 1;
+			}
 		}
 
-		countMatcher = UseSkillRequest.COUNT2_PATTERN.matcher( urlString );
-		if ( countMatcher.find() )
+		if ( countMatcher.group( 1 ).startsWith( "*" ) )
 		{
-			return StringUtilities.parseInt( countMatcher.group( 1 ) );
+			int availableMP = KoLCharacter.getCurrentMP();
+			if ( SkillDatabase.isLibramSkill( skillId ) )
+			{
+				return SkillDatabase.libramSkillCasts( availableMP );
+			}
+			else
+			{
+				return availableMP / SkillDatabase.getMPConsumptionById( skillId );
+			}
 		}
-
-		return 1;
+		return StringUtilities.parseInt( countMatcher.group( 1 ) );
 	}
 
 	public static final boolean registerRequest( final String urlString )
@@ -1178,7 +1188,7 @@ public class UseSkillRequest
 			return false;
 		}
 
-		int count = UseSkillRequest.getCount( urlString );
+		int count = UseSkillRequest.getCount( urlString, skillId );
 		String skillName = SkillDatabase.getSkillName( skillId );
 
 		RequestLogger.updateSessionLog();
