@@ -1599,7 +1599,7 @@ public abstract class RuntimeLibrary
 			return DataTypes.VOID_VALUE;
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "conditions", "add " + count + " " + item );
+		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "conditions", "add " + count + " \u00B6" + item.intValue() );
 		return DataTypes.VOID_VALUE;
 	}
 
@@ -1619,7 +1619,7 @@ public abstract class RuntimeLibrary
 
 		AdventureResult itemToBuy = new AdventureResult( item.intValue(), 1 );
 		int initialAmount = itemToBuy.getCount( KoLConstants.inventory );
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "buy", count + " " + itemToBuy.getName() );
+		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "buy", count + " \u00B6" + item.intValue() );
 		return DataTypes.makeBooleanValue( initialAmount + count == itemToBuy.getCount( KoLConstants.inventory ) );
 	}
 
@@ -1633,8 +1633,8 @@ public abstract class RuntimeLibrary
 
 		AdventureResult itemToBuy = new AdventureResult( item.intValue(), 1 );
 		int initialAmount = itemToBuy.getCount( KoLConstants.inventory );
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "buy", count + " " + itemToBuy.getName() +
-			"@" + limit.intValue() );
+		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "buy", count + " \u00B6" 
+			+ item.intValue() + "@" + limit.intValue() );
 		return new Value( itemToBuy.getCount( KoLConstants.inventory ) - initialAmount );
 	}
 
@@ -1646,7 +1646,7 @@ public abstract class RuntimeLibrary
 			return RuntimeLibrary.continueValue();
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "create", count + " " + item );
+		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "create", count + " \u00B6" + item.intValue() );
 		return RuntimeLibrary.continueValue();
 	}
 
@@ -1658,7 +1658,7 @@ public abstract class RuntimeLibrary
 			return RuntimeLibrary.continueValue();
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "use", count + " " + item );
+		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "use", count + " \u00B6" + item.intValue() );
 		return UseItemRequest.lastUpdate.equals( "" ) ? RuntimeLibrary.continueValue() : DataTypes.FALSE_VALUE;
 	}
 
@@ -1670,7 +1670,7 @@ public abstract class RuntimeLibrary
 			return RuntimeLibrary.continueValue();
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "eat", count + " " + item );
+		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "eat", count + " \u00B6" + item.intValue() );
 		return UseItemRequest.lastUpdate.equals( "" ) ? RuntimeLibrary.continueValue() : DataTypes.FALSE_VALUE;
 	}
 
@@ -1682,7 +1682,7 @@ public abstract class RuntimeLibrary
 			return RuntimeLibrary.continueValue();
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "drink", count + " " + item );
+		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "drink", count + " \u00B6" + item.intValue() );
 		return UseItemRequest.lastUpdate.equals( "" ) ? RuntimeLibrary.continueValue() : DataTypes.FALSE_VALUE;
 	}
 
@@ -1694,7 +1694,7 @@ public abstract class RuntimeLibrary
 			return RuntimeLibrary.continueValue();
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "overdrink", count + " " + item );
+		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "overdrink", count + " \u00B6" + item.intValue() );
 		return UseItemRequest.lastUpdate.equals( "" ) ? RuntimeLibrary.continueValue() : DataTypes.FALSE_VALUE;
 	}
 
@@ -1706,32 +1706,30 @@ public abstract class RuntimeLibrary
 			return RuntimeLibrary.continueValue();
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "closet", "put " + count + " " + item );
+		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "closet", "put " + count + " \u00B6" + item.intValue() );
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value put_shop( final Value priceValue, final Value limitValue, final Value itemValue )
+	public static Value put_shop( final Value priceValue, final Value limitValue, final Value item )
 	{
 		int price = priceValue.intValue();
 		int limit = limitValue.intValue();
-		String item = itemValue.toString();
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "mallsell", "* " + item + " @ " + price + " limit " + limit );
+		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "mallsell", "* \u00B6" + item.intValue() + " @ " + price + " limit " + limit );
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value put_shop( final Value priceValue, final Value limitValue, final Value qtyValue, final Value itemValue )
+	public static Value put_shop( final Value priceValue, final Value limitValue, final Value qtyValue, final Value item )
 	{
 		int price = priceValue.intValue();
 		int limit = limitValue.intValue();
 		int qty = qtyValue.intValue();
-		String item = itemValue.toString();
 		if ( qty <= 0 )
 		{
 			return RuntimeLibrary.continueValue();
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "mallsell", qty + " " + item + " @ " + price + " limit " + limit );
+		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "mallsell", qty + " \u00B6" + item.intValue() + " @ " + price + " limit " + limit );
 		return RuntimeLibrary.continueValue();
 	}
 
@@ -1743,7 +1741,7 @@ public abstract class RuntimeLibrary
 			return RuntimeLibrary.continueValue();
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "stash", "put " + count + " " + item );
+		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "stash", "put " + count + " \u00B6" + item.intValue() );
 		return RuntimeLibrary.continueValue();
 	}
 
@@ -1755,7 +1753,7 @@ public abstract class RuntimeLibrary
 			return RuntimeLibrary.continueValue();
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "display", "put " + count + " " + item );
+		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "display", "put " + count + " \u00B6" + item.intValue() );
 		return RuntimeLibrary.continueValue();
 	}
 
@@ -1767,7 +1765,7 @@ public abstract class RuntimeLibrary
 			return RuntimeLibrary.continueValue();
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "closet", "take " + count + " " + item );
+		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "closet", "take " + count + " \u00B6" + item.intValue() );
 		return RuntimeLibrary.continueValue();
 	}
 
@@ -1779,7 +1777,7 @@ public abstract class RuntimeLibrary
 			return RuntimeLibrary.continueValue();
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "hagnk", count + " " + item );
+		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "hagnk", count + " \u00B6" + item.intValue() );
 		return RuntimeLibrary.continueValue();
 	}
 
@@ -1791,7 +1789,7 @@ public abstract class RuntimeLibrary
 			return RuntimeLibrary.continueValue();
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "display", "take " + count + " " + item );
+		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "display", "take " + count + " \u00B6" + item.intValue() );
 		return RuntimeLibrary.continueValue();
 	}
 
@@ -1803,7 +1801,7 @@ public abstract class RuntimeLibrary
 			return RuntimeLibrary.continueValue();
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "stash", "take " + count + " " + item );
+		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "stash", "take " + count + " \u00B6" + item.intValue() );
 		return RuntimeLibrary.continueValue();
 	}
 
@@ -1815,7 +1813,7 @@ public abstract class RuntimeLibrary
 			return RuntimeLibrary.continueValue();
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "sell", count + " " + item );
+		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "sell", count + " \u00B6" + item.intValue() );
 		return RuntimeLibrary.continueValue();
 	}
 
@@ -2426,7 +2424,7 @@ public abstract class RuntimeLibrary
 
 	public static Value equip( final Value item )
 	{
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "equip", item.toString() );
+		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "equip", "\u00B6" + item.intValue() );
 		return RuntimeLibrary.continueValue();
 	}
 
@@ -2439,7 +2437,7 @@ public abstract class RuntimeLibrary
 		}
 		else
 		{
-			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "equip", slot + " " + item.toString() );
+			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "equip", slot + " \u00B6" + item.intValue() );
 		}
 
 		return RuntimeLibrary.continueValue();
