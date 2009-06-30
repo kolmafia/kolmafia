@@ -647,14 +647,14 @@
 646	Nano-juiced	strboost.gif	21f5a7cc7499b3e93f8da7c8e7bb2746
 647	Dance Interpreter	dance1.gif	a696da11c9bbfe03bf186e0971b58941
 648	Meatwise	meat.gif	1d35d527ffeb6a8be406cd7878efed00
-649
+649	In the Saucestream	saucestream.gif	e8501af209e0262f8655d40e273c5f47
 650	Stimulated Brain	realbrain.gif	1c0167101ac3939ac0bca1d271f07262	use 1 neurostim pill
 651	Stimulated Body	swarmer.gif	b9c435f279d09dbe1719bd935cf85020	use 1 physiostim pill
 652
-653	Bitterskin	bitterskin.gif	d94d955ab2d6b053c25ca2e567b6bbfa
+653	Bitterskin	bitterskin.gif	d94d955ab2d6b053c25ca2e567b6bbfa	use 1 bitter pill
 654	Mighty Shout	breath.gif	6526584640bf272feded10f8963ce523
 655
 656
-657	Shamboozled	chamflute.gif	a59ae4860da9d7bed64bbf4b7f0fa7eb
-658	Pumped Stomach	stomach.gif	475fc219b93c4205c4b42e7e68b75994
-659	Pneumatic	airpotion.gif	b8c0560ec4b89793eeb5b78c6acba0f3
+657	Shamboozled	chamflute.gif	a59ae4860da9d7bed64bbf4b7f0fa7eb	drink 1 sham champagne
+658	Pumped Stomach	stomach.gif	475fc219b93c4205c4b42e7e68b75994	use 1 tempura air
+659	Pneumatic	airpotion.gif	b8c0560ec4b89793eeb5b78c6acba0f3	use 1 pressurized potion of pneumaticity

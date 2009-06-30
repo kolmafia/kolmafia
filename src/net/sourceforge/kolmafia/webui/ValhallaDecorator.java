@@ -470,6 +470,61 @@ public class ValhallaDecorator
 			buffer.append( "<nobr>make an aerated diving helmet</nobr><br>" );
 		}
 
+		if ( InventoryManager.hasItem( ItemPool.CITADEL_SATCHEL ) )
+		{
+			buffer.append( "<nobr>complete white citadel quest by turning in White Citadel Satisfaction Satchel</nobr><br>" );
+		}
+
+		if ( InventoryManager.hasItem( ItemPool.THICK_PADDED_ENVELOPE ) )
+		{
+			buffer.append( "<nobr>complete dwarvish delivery quest by turning in envelope</nobr><br>" );
+		}
+
+		if ( InventoryManager.hasItem( ItemPool.DWARVISH_PUNCHCARD ) )
+		{
+			buffer.append( "<nobr>acquire dwarvish war outfit piece</nobr><br>" );
+		}
+
+		if ( InventoryManager.hasItem( ItemPool.SMALL_LAMINATED_CARD ) )
+		{
+			buffer.append( "<nobr>autosell dwarvish quest items</nobr><br>" );
+		}
+
+		if ( InventoryManager.hasItem( ItemPool.LITTLE_LAMINATED_CARD ) )
+		{
+			buffer.append( "<nobr>autosell dwarvish quest items</nobr><br>" );
+		}
+
+		if ( InventoryManager.hasItem( ItemPool.NOTBIG_LAMINATED_CARD ) )
+		{
+			buffer.append( "<nobr>autosell dwarvish quest items</nobr><br>" );
+		}
+
+		if ( InventoryManager.hasItem( ItemPool.UNLARGE_LAMINATED_CARD ) )
+		{
+			buffer.append( "<nobr>autosell dwarvish quest items</nobr><br>" );
+		}
+
+		if ( InventoryManager.hasItem( ItemPool.DWARVISH_DOCUMENT ) )
+		{
+			buffer.append( "<nobr>autosell dwarvish quest items</nobr><br>" );
+		}
+
+		if ( InventoryManager.hasItem( ItemPool.DWARVISH_PAPER ) )
+		{
+			buffer.append( "<nobr>autosell dwarvish quest items</nobr><br>" );
+		}
+
+		if ( InventoryManager.hasItem( ItemPool.DWARVISH_PARCHMENT ) )
+		{
+			buffer.append( "<nobr>autosell dwarvish quest items</nobr><br>" );
+		}
+
+		if ( InventoryManager.hasItem( ItemPool.GUNPOWDER ) )
+		{
+			buffer.append( "<nobr>trade in barrels of gunpowder for big boom</nobr><br>" );
+		}
+
 		GenericRequest trophyCheck = new GenericRequest( "trophy.php" );
 		trophyCheck.run();
 		if ( trophyCheck.responseText.indexOf( "You're not currently entitled to any trophies" ) == -1 )
