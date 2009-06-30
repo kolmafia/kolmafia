@@ -338,7 +338,8 @@ public class ItemFinder
 				itemCount = 0;
 				parameters = parameters.substring( 1 ).trim();
 			}
-			else if ( ItemDatabase.getItemId( parameters, 1 ) != -1 )
+			else if ( parameters.indexOf( "\u00B6" ) == -1 &&
+				ItemDatabase.getItemId( parameters, 1 ) != -1 )
 			{
 				itemCount = 1;
 			}
@@ -360,7 +361,21 @@ public class ItemFinder
 			}
 		}
 
-		List matchList = ItemFinder.getMatchingNames( parameters );
+		List matchList;
+		if ( parameters.startsWith( "\u00B6" ) )
+		{
+			matchList = new ArrayList();
+			String name = ItemDatabase.getItemName(
+				StringUtilities.parseInt( parameters.substring( 1 ) ) );
+			if ( name != null )
+			{
+				matchList.add( name );
+			}
+		}
+		else
+		{
+			matchList = ItemFinder.getMatchingNames( parameters );
+		}
 
 		String itemName = ItemFinder.getFirstMatchingItemName( matchList, parameters, filterType );
 
@@ -415,6 +430,7 @@ public class ItemFinder
 			if ( skipNPCs )
 			{
 				Preferences.setBoolean( "autoSatisfyWithNPCs", true );
+				ConcoctionDatabase.refreshConcoctions();
 			}
 		}
 		else
