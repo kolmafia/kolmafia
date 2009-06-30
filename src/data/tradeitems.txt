@@ -3368,8 +3368,8 @@
 3362	tasty louse	multiple	all	3
 3363	mole mol&eacute;	food	all	100
 3364	Morlock's Mark Bourbon	drink	all	100
-3365	Climate Colada	usable	all	75
-3366	digital underground potion	usable	all	75
+3365	Climate Colada	multiple	all	75
+3366	digital underground potion	multiple	all	75
 3367	interesting-looking twig	multiple	all	3
 3368	glimmering roc feather	multiple	all	100
 3369	glimmering phoenix feather	multiple	all	100
@@ -3614,7 +3614,7 @@
 3608	live nautical mine	none, combat	all	200
 3609	das boot	familiar	display	0
 3610	imitation whetstone	familiar	all	70
-3611	sea grease	usable	all	200
+3611	sea grease	multiple	all	200
 3612	sturdy Crimbo crate	multiple	all	0
 3613	battered Crimbo Crate	multiple	all	0
 3614	twitching claw	none	all	0
@@ -3938,7 +3938,7 @@
 3932	ingot of seal-iron	usable	display	10
 3933	bad-ass club	weapon	display	100
 3934	powdered sealbone	none	display	50
-3935	hyperinflated seal lung	multiple	display	75
+3935	hyperinflated seal lung	usable	display	75
 3936	scrap of shadow	multiple	display	100
 3937	fustulent seal grulch	multiple	display	100
 3938	club of corruption	weapon	display	25
@@ -3954,7 +3954,7 @@
 3948	stuffed Meat	offhand	gift	60
 3949	stuffed treasure chest	offhand, usable	gift	20
 3950	stuffed key	offhand	gift	20
-3951	stuffed Baron von Ratsworth	offhand, usable	gift	20
+3951	stuffed Baron von Ratsworth	offhand	gift	20
 3952	stuffed monocle	offhand	gift	20
 3953	stuffed mink	accessory	gift	20
 3954	stuffed teddy butler	offhand	gift	20
@@ -4008,7 +4008,7 @@
 4002	tortoboggan shield	offhand	all	110
 4003	bottle of moontan lotion	familiar	all	75
 4004	soup-chucks	weapon	all	21
-4005	ballast turtle	multiple	display	75
+4005	ballast turtle	usable	display	75
 4006	memory of some delicious amino acids	usable	display	10
 4007	memory of a C	none	display	10
 4008	memory of an A	none	display	10
@@ -4136,5 +4136,5 @@
 4130	empty agua de vida bottle	none	display	0
 4131
 4132	sham champagne	drink	all	133
-4133	tempura air	multiple	display	75
-4134	pressurized potion of pneumaticity	multiple	display	75
+4133	tempura air	usable	display	75
+4134	pressurized potion of pneumaticity	usable	display	75
