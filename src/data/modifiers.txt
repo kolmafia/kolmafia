@@ -66,7 +66,7 @@ Knob Goblin harem veil	Stench Resistance: +1, Familiar Effect: "5xLep, cap 2"
 Knob Goblin visor	Moxie: +3, Familiar Effect: "2xVolley, 1xPotato, cap 12"
 KoL Con 3-D Glasses	Familiar Effect: "8xLep, ?xFairy, cap 2"
 MAHI fez	Moxie: +30
-Mer-kin sneakmask	Moxie Percent: +5, Initiative: +30, Combat Rate: [-5*zone(The Sea)]
+Mer-kin sneakmask	Moxie Percent: +5, Initiative: +30, Combat Rate: [-5*zone(The Sea)], Familiar Effect: "1xBarrr, ?xFairy"
 Mohawk wig	Weapon Damage: +10, Familiar Effect: "1xPotato, 1xGhuol, cap 35"
 Ol' Scratch's stovepipe hat	Mysticality Percent: +20, Hot Spell Damage: +30, Class: "Sauceror", Familiar Effect: "hot atk"
 Orcish baseball cap	Muscle: +3, Mysticality: -3, Familiar Effect: "1xVolley, 1xBarrr, cap 15"
@@ -76,10 +76,10 @@ Seasonal Beret	Muscle Percent: [+5*G], Mysticality Percent: [+5*G], Moxie Percen
 Snow Queen Crown	Cold Damage: +5, Cold Resistance: +3, Familiar Effect: "cold atk, 1xGhuol, cap 28"
 # Sombrero De Vida: Allows you to keep 4 songs in your head instead of 3.
 # Sombrero De Vida
-Spooky Putty mitre	Experience: +3, Softcore Only
+Spooky Putty mitre	Experience: +3, Softcore Only, Familiar Effect: "1.5xLep, 1.5xFairy, cap 25"
 Tropical Crimbo Hat	Spooky Resistance: +1, Familiar Effect: "1xLep, 1.5xFairy, cap 25"
 Zombo's skullcap	Muscle Percent: +20, Familiar Weight: +10, Class: "Turtle Tamer", Familiar Effect: "spooky atk"
-aerated diving helmet	Stench Resistance: +3, Item Drop: -50, Initiative: -50
+aerated diving helmet	Stench Resistance: +3, Item Drop: -50, Initiative: -50, Familiar Effect: "?xPotato"
 ancient turtle shell helmet	Meat Drop: +10, Familiar Effect: "atk, cap 8"
 anniversary concrete fedora	Moxie: +1, Muscle: +1, Mysticality: +1, Familiar Effect: "?xVolley, ?xLep, cap 2"
 antique helmet	Initiative: -10, Spooky Resistance: +3, Familiar Effect: "0.5xPotato, 0.5xFairy"
@@ -113,8 +113,8 @@ clown wig	Mysticality: +3, Spell Damage: +3, Clownosity: +2, Familiar Effect: "c
 coconut shell	Damage Absorption: +1, Familiar Effect: "1xFairy, cap 7"
 cold ninja mask	Initiative: +15, Familiar Effect: "cold atk, 1xBarrr, cap 20"
 cornuthaum	Mysticality: +3, Moxie: +3, Familiar Effect: "1.5xPotato, 1.25xFairy, cap 21"
-corrosive cowl	Slime Hates It: +1, Spooky Damage: +30, Spooky Resistance: +4
-crown-shaped beanie	Slime Resistance: +1, Food Drop: +20, Initiative: +20
+corrosive cowl	Slime Hates It: +1, Spooky Damage: +30, Spooky Resistance: +4, Familiar Effect: "0.5xPotato, 0.5xFairy"
+crown-shaped beanie	Slime Resistance: +1, Food Drop: +20, Initiative: +20, Familiar Effect: "?xBarrr, ?xGhuol"
 crumpled felt fedora	Familiar Weight: +10, Muscle Percent: +5, Familiar Effect: "0.75xVolley, 0.75xLep"
 cursed eyepatch	Mysticality: +15, Familiar Effect: "spooky atk, 1xBarrr"
 demon-horned hat	Moxie: +4, Familiar Effect: "hot atk, 1xLep, cap 17"
@@ -2150,6 +2150,7 @@ Hyperbolic Hypothermia	Cold Damage: +20
 Hyperoffended	Sleaze Resistance: +9
 Hyphemariffic	Spooky Resistance: +9
 Impregnably Delicious	Damage Reduction: 30
+In the Saucestream	Mysticality Percent: +15
 In Tuna	MP Regen Min: 3, MP Regen Max: 5
 In Vino Vires	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 Incredibly Hulking	Muscle Percent: +200

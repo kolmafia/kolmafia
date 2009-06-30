@@ -143,6 +143,7 @@ public class UseItemRequest
 		switch ( itemId )
 		{
 		case ItemPool.HOBO_CODE_BINDER:
+		case ItemPool.STUFFED_BARON:
 			return KoLConstants.MESSAGE_DISPLAY;
 		}
 		return ItemDatabase.getConsumptionType( itemId );
