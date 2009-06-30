@@ -2333,7 +2333,9 @@ public abstract class SorceressLairManager
 
 			RequestThread.postRequest( SorceressLairManager.QUEST_HANDLER );
 		}
-		while ( SorceressLairManager.QUEST_HANDLER.responseText.indexOf( "fight.php" ) != -1 );
+		while ( Preferences.getBoolean( "serverAddsCustomCombat" ) 
+				? SorceressLairManager.QUEST_HANDLER.responseText.indexOf( "(show old combat form)" ) != -1
+				: SorceressLairManager.QUEST_HANDLER.responseText.indexOf( "fight.php" ) != -1 );
 
 		if ( SorceressLairManager.QUEST_HANDLER.responseText.indexOf( "a veritable volcano of fey force" ) != -1 )
 		{
