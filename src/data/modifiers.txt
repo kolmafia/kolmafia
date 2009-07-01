@@ -862,6 +862,7 @@ yohohoyo	Critical: 2, Spooky Damage: +1, Stench Damage: +1, Hot Damage: +1, Cold
 7-ball	Meat Drop: +5
 9-ball	Weapon Damage: +5, Ranged Damage: +5, Spell Damage: +5
 Abyssal ember	Hot Damage: +20, Weapon Drop: +25, Class: "Seal Clubber"
+Bag o' Tricks	Item Drop: +10, Meat Drop: +15, MP Regen Min: 10, MP Regen Max: 12, Spell Damage Percent: +50
 Brimstone Bunker	Muscle Percent: +50, Moxie Percent: -20, Damage Reduction: 25
 # C.H.U.M. lantern: (In Sewers)
 C.H.U.M. lantern	Stench Damage: +17, Item Drop: [30*loc(Sewer Tunnels)]

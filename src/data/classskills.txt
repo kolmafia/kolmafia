@@ -308,8 +308,13 @@
 7072
 7073	Strangle	5	15	0
 7074	Consume Burrowgrub	5	0	0
+7075	Play an Accordion Solo	5	10	0
+7076	Play a Guitar Solo	5	10	0
+7077	Play a Drum Solo	5	10	0
+7078	Play a Flute Solo	5	10	0
 7079	Furious Cleave	5	5	0
-7079	Mighty Shout	5	0	0
+7080	Mighty Shout	5	0	0
+7081	Open the Bag o' Tricks	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 
