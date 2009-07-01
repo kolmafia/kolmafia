@@ -49,6 +49,8 @@ import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
@@ -96,6 +98,7 @@ import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.WineCellarRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
 
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.PvpManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.swingui.DescriptionFrame;
@@ -114,6 +117,7 @@ public abstract class StaticEntity
 	private static final Pattern NEWSKILL2_PATTERN = Pattern.compile( "whichskill=(\\d+)" );
 	private static final Pattern NEWSKILL3_PATTERN = Pattern.compile( "You (?:gain|acquire) a skill: +<[bB]>(.*?)</[bB]>" );
 	private static final Pattern RECIPE_PATTERN = Pattern.compile( "You learn to craft a new item: <b>(.*?)</b>" );
+	private static final Pattern MR_A_PATTERN = Pattern.compile( "You have (\\w+) Mr. Accessor(y|ies) to trade." );
 
 	private static KoLmafia client;
 	private static int usesSystemTray = 0;
@@ -487,6 +491,20 @@ public abstract class StaticEntity
 		else if ( location.startsWith( "mining.php" ) )
 		{
 			MineDecorator.parseResponse( location, responseText );
+		}
+
+		else if ( location.startsWith( "mrstore.php" ) )
+		{
+			Matcher m = MR_A_PATTERN.matcher( responseText );
+			if ( m.find() )
+			{
+				int delta = StringUtilities.parseInt( m.group( 1 ) ) -
+					InventoryManager.getCount( ItemPool.MR_ACCESSORY );
+				if ( delta != 0 )
+				{
+					ResultProcessor.processItem( ItemPool.MR_ACCESSORY, delta );
+				}
+			}
 		}
 
 		else if ( ( location.startsWith( "multiuse.php" ) ||

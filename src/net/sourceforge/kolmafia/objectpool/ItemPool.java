@@ -120,6 +120,7 @@ public class ItemPool
 	public static final int ENCHANTED_BEAN = 186;
 	public static final int BAT_GUANO = 188;
 	public static final int BATSKIN_BELT = 192;
+	public static final int MR_ACCESSORY = 194;
 	public static final int RAT_WHISKER = 197;
 	public static final int DISASSEMBLED_CLOVER = 196;
 	public static final int FENG_SHUI = 210;
