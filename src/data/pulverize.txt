@@ -219,6 +219,8 @@ Spooky Putty mitre	nosmash
 Spooky Putty leotard	nosmash
 Spooky Putty ball	nosmash
 Spooky Putty snake	nosmash
+Elvish sunglasses	nosmash
+Bag o' Tricks	nosmash
 
 # Depleted grimacite items.
 depleted Grimacite hammer	chunk of depleted Grimacite
