@@ -536,6 +536,9 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "turns_played", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] {};
+		functions.add( new LibraryFunction( "my_ascensions", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] {};
 		functions.add( new LibraryFunction( "can_interact", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] {};
@@ -2274,6 +2277,11 @@ public abstract class RuntimeLibrary
 	public static Value turns_played()
 	{
 		return new Value( KoLCharacter.getCurrentRun() );
+	}
+
+	public static Value my_ascensions()
+	{
+		return new Value( KoLCharacter.getAscensions() );
 	}
 
 	public static Value can_interact()
