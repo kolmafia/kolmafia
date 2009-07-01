@@ -1417,7 +1417,61 @@ public abstract class ChoiceManager
 		new ChoiceAdventure(
 			"choiceAdventure162", "Goatlet",
 			new String[] { "Open Goatlet", "skip adventure" } ),
-		
+
+		// Food, Glorious Food
+		new ChoiceAdventure(
+			"choiceAdventure235", "Hobopolis Marketplace",
+			new String[] { "muscle food", "mysticality food", "moxie food" } ),
+			
+		// Booze, Glorious Booze
+		new ChoiceAdventure(
+			"choiceAdventure240", "Hobopolis Marketplace",
+			new String[] { "muscle booze", "mysticality booze", "moxie booze" } ),
+			
+		// A Hattery
+		new ChoiceAdventure(
+			"choiceAdventure250", "Hobopolis Marketplace",
+			new String[] { "crumpled felt fedora", "battered old top-hat", "shapeless wide-brimmed hat" },
+			new String[] { "3328", "3329", "3330" } ),
+			
+		// A Pantry
+		new ChoiceAdventure(
+			"choiceAdventure251", "Hobopolis Marketplace",
+			new String[] { "mostly rat-hide leggings", "hobo dungarees", "old patched suit-pants" },
+			new String[] { "3331", "3332", "3333" } ),
+			
+		// Hobo Blanket Bingo
+		new ChoiceAdventure(
+			"choiceAdventure252", "Hobopolis Marketplace",
+			new String[] { "old soft shoes", "hobo stogie", "rope with some soap on it" },
+			new String[] { "3140", "3334", "3335" } ),
+			
+		// Black-and-Blue-and-Decker
+		new ChoiceAdventure(
+			"choiceAdventure255", "Hobopolis Marketplace",
+			new String[] { "sharpened hubcap", "very large caltrop", "The Six-Pack of Pain" },
+			new String[] { "3339", "3340", "3341" } ),
+			
+		// We'll Make Great...
+		new ChoiceAdventure(
+			"choiceAdventure259", "Hobopolis Marketplace",
+			new String[] { "hobo monkey", "stats", "enter combat" } ),
+			
+		// Tanning Salon
+		new ChoiceAdventure(
+			"choiceAdventure264", "Hobopolis Marketplace",
+			new String[] { "20 adv of +50% moxie", "20 adv of +50% mysticality" } ),
+			
+		// Let's All Go To The Movies
+		new ChoiceAdventure(
+			"choiceAdventure267", "Hobopolis Marketplace",
+			new String[] { "20 adv of +5 spooky resistance", "20 adv of +5 sleaze resistance" } ),
+			
+		// It's Fun To Stay There
+		new ChoiceAdventure(
+			"choiceAdventure268", "Hobopolis Marketplace",
+			new String[] { "20 adv of +5 stench resistance", "20 adv of +50% muscle" } ),
+			
 		// The Gong Has Been Bung
 		new ChoiceAdventure(
 			"choiceAdventure276", "Gong",

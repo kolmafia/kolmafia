@@ -1251,6 +1251,7 @@ beaten-up Chucks	Initiative: +40
 bejeweled accordion strap	Maximum HP: +25, Maximum MP: +25, Class: "Accordion Thief"
 bejeweled cufflinks	Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3, Single Equip
 bejeweled pledge pin	Maximum HP: +40, Single Equip
+# bewitching boots: Slight Cute Resistance
 bewitching boots	Meat Drop: +10
 # bezoar ring: Protects the wearer from poison
 big red clown nose	Maximum HP: +7, Clownosity: +1
@@ -1917,6 +1918,7 @@ Burning Hands	Hot Damage: +11
 Burning Heart	Hot Damage: +10, Damage Reduction: -2
 # Burning Soul: Sizzle!
 Butt-Rock Hair	Moxie Percent: +15
+Cake Caked	Mysticality Percent: +50
 Can Has Cyborger	Moxie Percent: +10
 Can't Be a Chooser	Meat Drop: +30
 Can't Smell Nothin'	Stench Resistance: +9
@@ -2248,6 +2250,7 @@ Oriental Mysticism	Mysticality Percent: +5
 # Oxygenated Blood	Lets you breathe underwater
 Papowerful	Weapon Damage: +10, Spell Damage: +10, Experience: +2
 Pasta Oneness	Mysticality: +2
+Pasty	Muscle Percent: +50
 Patience of the Tortoise	Maximum HP: +3, Muscle: +1
 # Paw swap: Extra-Vulnerable to Hot and Spooky
 Paw swap	Cold Resistance: +2
