@@ -498,7 +498,8 @@ public abstract class StaticEntity
 			Matcher m = MR_A_PATTERN.matcher( responseText );
 			if ( m.find() )
 			{
-				int delta = StringUtilities.parseInt( m.group( 1 ) ) -
+				String num = m.group( 1 );
+				int delta = (num.equals( "one" ) ? 1 : StringUtilities.parseInt( num )) -
 					InventoryManager.getCount( ItemPool.MR_ACCESSORY );
 				if ( delta != 0 )
 				{

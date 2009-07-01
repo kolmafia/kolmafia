@@ -33,6 +33,8 @@
 
 package net.sourceforge.kolmafia;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -117,5 +119,101 @@ public class DebugModifiers
 		RequestLogger.printLine( DebugModifiers.buffer.toString() );
 		RequestLogger.printLine();
 		DebugModifiers.buffer = null;
+	}
+
+	public static void allModifiers()
+	{
+		DebugModifiers.buffer.append( "<tr>" );
+		Iterator i = DebugModifiers.wanted.keySet().iterator();
+		while ( i.hasNext() )
+		{
+			Object key = i.next();
+			int ikey = ((Integer) key).intValue();
+			String item = (String) DebugModifiers.wanted.get( key );
+			DebugModifiers.buffer.append( item );
+			ArrayList list = new ArrayList();
+			Iterator allmods = Modifiers.getAllModifiers();
+			while ( allmods.hasNext() )
+			{
+				String name = (String) allmods.next();
+				Modifiers mods = Modifiers.getModifiers( name );
+				float value = mods.get( ikey );
+				if ( value != 0.0f )
+				{
+					list.add( new Change( name, value,
+						mods.getBoolean( Modifiers.VARIABLE ) ) );
+				}
+				if ( list.size() > 0 )
+				{
+					Collections.sort( list );
+					DebugModifiers.adjustments.put( key, list.iterator() );
+				}
+				else
+				{
+					DebugModifiers.adjustments.remove( key );
+				}
+			}
+		}
+		DebugModifiers.buffer.append( "</tr>" );
+		while ( DebugModifiers.adjustments.size() > 0 )
+		{
+			DebugModifiers.buffer.append( "<tr>" );
+			i = DebugModifiers.wanted.keySet().iterator();
+			while ( i.hasNext() )
+			{
+				Object key = i.next();
+				Iterator li = (Iterator) DebugModifiers.adjustments.get( key );
+				if ( li == null )
+				{
+					DebugModifiers.buffer.append( "<td colspan=2></td>" );
+				}
+				else
+				{
+					Change c = (Change) li.next();
+					DebugModifiers.buffer.append( c.toString() );
+					
+					if ( !li.hasNext() )
+					{
+						DebugModifiers.adjustments.remove( key );
+					}
+				}
+			}
+			DebugModifiers.buffer.append( "</tr>" );
+		}
+		
+		DebugModifiers.buffer.append( "</table>" );
+		RequestLogger.printLine( DebugModifiers.buffer.toString() );
+		RequestLogger.printLine();
+		DebugModifiers.buffer = null;
+	}
+	
+	private static class Change
+	implements Comparable
+	{
+		String name;
+		float value;
+		boolean variable;
+		
+		public Change( String name, float value, boolean variable )
+		{
+			this.name = name;
+			this.value = value;
+			this.variable = variable;
+		}
+		
+		public String toString()
+		{
+			return "<td>" + this.name + "</td><td>" +
+				KoLConstants.ROUNDED_MODIFIER_FORMAT.format( this.value ) +
+				( this.variable? "v" : "" ) + "</td>";
+		}
+	
+		public int compareTo( Object o )
+		{
+			Change other = (Change) o;
+			if ( this.value < other.value ) return 1;
+			if ( this.value > other.value ) return -1;
+			return this.name.compareTo( other.name );
+		}
 	}
 }

@@ -1638,6 +1638,30 @@ public class KoLmafiaCLI
 		}
 	}
 
+	static { new Modifies().register( "modifies" ); }
+	public static class Modifies
+		extends Command
+	{
+		{ usage = " <filter> - list all possible sources of modifiers matching filter."; }
+		public void run( String cmd, String parameters )
+		{
+			int count = DebugModifiers.setup( parameters.toLowerCase() );
+			if ( count == 0 )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+					"No matching modifiers - use 'modref' to list." );
+				return;
+			}
+			else if ( count > 10 )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+					"Too many matching modifiers - use 'modref' to list." );
+				return;
+			}
+			DebugModifiers.allModifiers();
+		}
+	}
+
 	static { new ModRef().register( "modref" ); }
 	public static class ModRef
 		extends Command
