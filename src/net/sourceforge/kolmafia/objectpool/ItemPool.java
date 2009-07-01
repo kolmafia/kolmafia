@@ -405,6 +405,8 @@ public class ItemPool
 	public static final int DUSTY_ANIMAL_SKULL = 1799;
 	public static final int SPOOKYRAVEN_SPECTACLES = 1916;
 	public static final int TOILET_PAPER = 1923;
+	public static final int TATTERED_WOLF_STANDARD = 1924;
+	public static final int TATTERED_SNAKE_STANDARD = 1925;
 	public static final int TUNING_FORK = 1928;
 	public static final int ANTIQUE_GREAVES = 1929;
 	public static final int ANTIQUE_HELMET = 1930;
@@ -866,6 +868,9 @@ public class ItemPool
 	public static final int STUFFED_KEY = 3950;
 	public static final int STUFFED_BARON = 3951;
 	public static final int TINY_CELL_PHONE = 3964;
+	public static final int SLIME_SOAKED_HYPOPHYSIS = 3991;
+	public static final int SLIME_SOAKED_BRAIN = 3992;
+	public static final int SLIME_SOAKED_SWEAT_GLAND = 3993;
 	public static final int MOONTAN_LOTION = 4003;
 	public static final int AMINO_ACIDS = 4006;
 	public static final int WUMPUS_HAIR = 4044;
