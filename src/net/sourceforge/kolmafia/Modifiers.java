@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Stack;
 import java.util.TimeZone;
 import java.util.TreeMap;
@@ -665,6 +666,11 @@ public class Modifiers
 	private static final Pattern CLOWNOSITY_PATTERN =
 		Pattern.compile( "Clownosity: ([+-]\\d+)" );
 	private static int clownosityMask = 1;
+	
+	public static final Iterator getAllModifiers()
+	{
+		return Modifiers.modifiersByName.keySet().iterator();
+	}
 	
 	public static final void overrideModifier( String name, String value )
 	{
