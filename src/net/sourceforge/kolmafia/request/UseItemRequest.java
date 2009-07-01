@@ -2123,6 +2123,23 @@ public class UseItemRequest
 
 			return;
 
+		case ItemPool.SLIME_SOAKED_HYPOPHYSIS:
+		case ItemPool.SLIME_SOAKED_BRAIN:
+		case ItemPool.SLIME_SOAKED_SWEAT_GLAND:
+
+			// You can learn the appropriate skill up to 10 times.
+			// What does it say if you try to use the 11th?
+			if ( responseText.indexOf( "You gain a skill" ) == -1 )
+			{
+				ResultProcessor.processResult( item );
+				return;
+			}
+
+			skill = UseItemRequest.itemToSkill( item.getItemId() );
+			StaticEntity.learnSkill( skill );
+
+			return;
+
 		case ItemPool.TELESCOPE:
 			// We've added or upgraded our telescope
 			KoLCharacter.setTelescope( true );
@@ -2918,6 +2935,12 @@ public class UseItemRequest
 			return "Abs of Tin";
 		case ItemPool.HODGMAN_JOURNAL_4:
 			return "Marginally Insane";
+		case ItemPool.SLIME_SOAKED_HYPOPHYSIS:
+			return "Slimy Sinews";
+		case ItemPool.SLIME_SOAKED_BRAIN:
+			return "Slimy Synapses";
+		case ItemPool.SLIME_SOAKED_SWEAT_GLAND:
+			return "Slimy Shoulders";
 		}
 
 		return null;

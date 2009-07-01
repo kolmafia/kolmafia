@@ -674,6 +674,18 @@ public abstract class StaticEntity
 
 	public static final void learnSkill( final String skillName )
 	{
+                // The following skills are found in battle and result in
+                // losing an item from inventory.
+
+		if ( skillName.equals( "Snarl of the Timberwolf" ) )
+		{
+			ResultProcessor.processItem( ItemPool.TATTERED_WOLF_STANDARD, -1 );
+		}
+		else if ( skillName.equals( "Spectral Snapper" ) )
+		{
+			ResultProcessor.processItem( ItemPool.TATTERED_SNAKE_STANDARD, -1 );
+		}
+
 		String message = "You learned a new skill: " + skillName;
 		RequestLogger.printLine( message );
 		RequestLogger.updateSessionLog( message );
