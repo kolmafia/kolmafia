@@ -964,6 +964,12 @@ public class ChoiceOptionsPanel
 			index = Preferences.getInteger( ChoiceManager.CHOICE_ADVS[ i ].getSetting() );
 			if ( index >= 0 )
 			{
+				if ( index >= this.optionSelects[ i ].getItemCount() )
+				{
+					System.out.println( "Invalid setting " + index + " for "
+						+ ChoiceManager.CHOICE_ADVS[ i ].getSetting() );
+					index = 0;
+				}
 				this.optionSelects[ i ].setSelectedIndex( index );
 			}
 		}
