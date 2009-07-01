@@ -1502,9 +1502,11 @@ public class RequestEditorKit
 				if ( itemId != null )
 				{
 					// List # in inventory
-					buffer.append( " - " );
 					AdventureResult result = new AdventureResult( StringUtilities.parseInt( itemId ), 1 );
-
+					buffer.append( "<img src=\"/images/itemimages/magnify.gif\" valign=middle onclick=\"descitem('" );
+					buffer.append( ItemDatabase.getDescriptionId( result.getItemId() ) );
+					buffer.append( "');\">" );
+					
 					int available = KoLCharacter.hasEquipped( result ) ? 1 : 0;
 					available += result.getCount( KoLConstants.inventory );
 
