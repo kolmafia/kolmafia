@@ -161,6 +161,7 @@ public abstract class KoLmafia
 	public static int adventureGains = 0;
 	public static boolean tookChoice = false;
 	protected static boolean recoveryActive = false;
+	public static boolean redoSkippedAdventures = true;
 
 	public static boolean isMakingRequest = false;
 	public static int continuationState = KoLConstants.CONTINUE_STATE;
@@ -1705,7 +1706,8 @@ public abstract class KoLmafia
 
 			this.executeRequestOnce( request, wasAdventuring, currentIteration, totalIterations, items, creatables );
 
-			if ( isAdventure && ( adventuresBeforeRequest + KoLmafia.adventureGains ) == KoLCharacter.getAdventuresLeft() )
+			if ( isAdventure && KoLmafia.redoSkippedAdventures &&
+				( adventuresBeforeRequest + KoLmafia.adventureGains ) == KoLCharacter.getAdventuresLeft() )
 			{
 				--currentIteration;
 			}

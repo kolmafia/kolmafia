@@ -298,8 +298,11 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.LOCATION_TYPE };
 		functions.add( new LibraryFunction( "adventure", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new Type[] { DataTypes.INT_TYPE, DataTypes.LOCATION_TYPE , DataTypes.STRING_TYPE };
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.LOCATION_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "adventure", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.LOCATION_TYPE, DataTypes.INT_TYPE, DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "adv1", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "get_ccs_action", DataTypes.STRING_TYPE, params ) );
@@ -1586,6 +1589,34 @@ public abstract class RuntimeLibrary
 		{
 			FightRequest.filterInterp = null;
 		}		
+	}
+
+	public static Value adv1( final Value loc, final Value advValue, final Value filterFunc )
+	{
+		KoLAdventure adventure = (KoLAdventure) loc.rawValue();
+		if ( adventure == null )
+		{
+			return RuntimeLibrary.continueValue();
+		}
+
+		try
+		{
+			adventure.overrideAdventuresUsed( advValue.intValue() );
+			FightRequest.filterFunction = filterFunc.toString();
+			if ( FightRequest.filterFunction.length() > 0 )
+			{
+				FightRequest.filterInterp = LibraryFunction.interpreter;
+			}
+			KoLmafia.redoSkippedAdventures = false;
+			StaticEntity.getClient().makeRequest( adventure, 1 );
+		}
+		finally
+		{
+			KoLmafia.redoSkippedAdventures = true;
+			FightRequest.filterInterp = null;
+			adventure.overrideAdventuresUsed( -1 );
+		}		
+		return RuntimeLibrary.continueValue();
 	}
 
 	public static Value get_ccs_action( final Value index )
