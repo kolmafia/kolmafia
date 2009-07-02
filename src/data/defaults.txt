@@ -401,6 +401,9 @@ user	sidequestJunkyardCompleted	none
 user	sidequestLighthouseCompleted	none
 user	sidequestNunsCompleted	none
 user	sidequestOrchardCompleted	none
+user	skillLevel46	2
+user	skillLevel47	1
+user	skillLevel48	2
 user	sortByRoom	true
 user	spadingData
 user	spiceMelangeUsed	false

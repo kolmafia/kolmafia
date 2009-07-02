@@ -10,8 +10,8 @@
 #	specified text, 0 elsewhere.
 # Familiar function: fam(text)
 #	This has a value of 1 if the player's familiar type contains the text, else 0.
-# There can be at most one location, one zone, and one familiar specified in any
-# single expression.
+# Preferences function: pref(text)
+# There can be at most one of each text function in any single expression.
 # Upper-case letters are varying values:
 #	B - Blood of Wereseal effect
 #	D - drunkenness
@@ -2537,9 +2537,9 @@ Powers of Observatiogn	Item Drop: +10
 # Pulverize
 # Really Expensive Jewelrycrafting
 Skin of the Leatherback	Damage Reduction: [max(1,floor((L-2)/2))]
-# Slimy Shoulders
-# Slimy Sinews
-# Slimy Synapses
+Slimy Shoulders	Initiative: [pref(skillLevel48)]
+Slimy Sinews	Maximum HP: [pref(skillLevel46)]
+Slimy Synapses	Maximum MP: [pref(skillLevel47)]
 Spirit of Ravioli	Maximum HP Percent: +25
 # Spirit of Rigatoni	allows wielding of chefstaves
 # Spleen of Steel

@@ -118,6 +118,7 @@ public abstract class StaticEntity
 	private static final Pattern NEWSKILL3_PATTERN = Pattern.compile( "You (?:gain|acquire) a skill: +<[bB]>(.*?)</[bB]>" );
 	private static final Pattern RECIPE_PATTERN = Pattern.compile( "You learn to craft a new item: <b>(.*?)</b>" );
 	private static final Pattern MR_A_PATTERN = Pattern.compile( "You have (\\w+) Mr. Accessor(y|ies) to trade." );
+	private static final Pattern SLIMESKILL_PATTERN = Pattern.compile( "giving you \\+(\\d+)" );
 
 	private static KoLmafia client;
 	private static int usesSystemTray = 0;
@@ -400,6 +401,25 @@ public abstract class StaticEntity
 		else if ( location.startsWith( "hiddencity.php" ) )
 		{
 			HiddenCityRequest.parseResponse( location, responseText );
+		}
+
+		else if ( location.startsWith( "desc_skill.php" ) &&
+			location.indexOf( "self=true" ) != -1 )
+		{
+			Matcher m = NEWSKILL2_PATTERN.matcher( location );
+			if ( m.find() )
+			{
+				int skill = StringUtilities.parseInt( m.group( 1 ) );
+				if ( skill >= 46 && skill <= 48 )
+				{
+					m = SLIMESKILL_PATTERN.matcher( responseText );
+					if ( m.find() )
+					{
+						Preferences.setInteger( "skillLevel" + skill,
+							StringUtilities.parseInt( m.group( 1 ) ) );
+					}
+				}
+			}
 		}
 
 		else if ( location.startsWith( "dwarfcontraption.php" ) )
