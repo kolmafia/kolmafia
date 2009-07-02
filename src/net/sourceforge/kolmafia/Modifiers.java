@@ -53,6 +53,7 @@ import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -1893,7 +1894,7 @@ public class Modifiers
 		private int sp = 0;
 		private String bytecode;
 		private AdventureResult effect;
-		private String loc, zone, fam;
+		private String loc, zone, fam, pref;
 		private String text;
 		private static final Pattern NUM_PATTERN = Pattern.compile( "([+-]?[\\d.]+)(.*)" );
 		
@@ -1964,6 +1965,9 @@ public class Modifiers
 					break;
 				case 'w':
 					v = Modifiers.currentFamiliar.indexOf( this.fam ) == -1 ? 0.0f : 1.0f;
+					break;
+				case 'p':
+					v = Preferences.getFloat( this.pref );
 					break;
 					
 				case 'm':
@@ -2225,6 +2229,11 @@ public class Modifiers
 			{
 				this.fam = this.until( ")" ).toLowerCase();
 				return "w";
+			}
+			if ( this.optional( "pref(" ) )
+			{
+				this.pref = this.until( ")" );
+				return "p";
 			}
 			if ( this.text.length() == 0 )
 			{

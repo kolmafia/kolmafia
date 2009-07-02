@@ -2128,12 +2128,20 @@ public class UseItemRequest
 		case ItemPool.SLIME_SOAKED_HYPOPHYSIS:
 		case ItemPool.SLIME_SOAKED_BRAIN:
 		case ItemPool.SLIME_SOAKED_SWEAT_GLAND:
+		
+			for ( int i = 46; i <= 48; ++i )
+			{
+				GenericRequest req = new GenericRequest(
+					"desc_skill.php?whichskill=" + i + "&self=true" );
+				RequestThread.postRequest( req );
+				StaticEntity.externalUpdate( req.getURLString(), req.responseText );
+			}
 
 			// You can learn the appropriate skill up to 10 times.
 			// What does it say if you try to use the 11th?
 			if ( responseText.indexOf( "You gain a skill" ) == -1 )
-			{
-				ResultProcessor.processResult( item );
+			{	// Item may be consumed even if you already have the skill
+				// ResultProcessor.processResult( item );
 				return;
 			}
 
