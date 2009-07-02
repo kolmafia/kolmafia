@@ -414,6 +414,7 @@ shot of flower schnapps	MIX	fermenting powder	pretty flower
 shot of grapefruit schnapps	MIX	fermenting powder	grapefruit
 shot of orange schnapps	MIX	fermenting powder	orange
 shot of tomato schnapps	MIX	fermenting powder	tomato
+bottle of sake (3)	MIX	fermenting powder	white rice
 green beer	MIX	ten-leaf clover	ice-cold Sir Schlitz
 
 

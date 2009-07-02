@@ -234,6 +234,14 @@ public class KoLAdventure
 	{
 		return this.request;
 	}
+	
+	public void overrideAdventuresUsed( int used )
+	{
+		if ( this.request instanceof AdventureRequest )
+		{
+			((AdventureRequest) this.request).overrideAdventuresUsed( used );
+		}
+	}
 
 	/**
 	 * Checks the map location of the given zone. This is to ensure that
@@ -944,6 +952,7 @@ public class KoLAdventure
 		String attack = Preferences.getString( "battleAction" );
 
 		if ( attack.startsWith( "custom" ) ||
+			FightRequest.filterInterp != null ||
 			KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.FORM_OF_BIRD ) ) )
 		{
 			KoLAdventure.resetAutoAttack();

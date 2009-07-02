@@ -1585,6 +1585,7 @@ public class UseItemRequest
 					}
 					KoLAdventure req = AdventureDatabase.getAdventureByURL(
 						"adventure.php?snarfblat=" + adv );
+					req.overrideAdventuresUsed( 0 );	// don't trigger counters
 					// Must do some trickery here to
 					// prevent the adventure location from
 					// being changed, and the conditions
@@ -1593,6 +1594,7 @@ public class UseItemRequest
 					Preferences.setString( "lastAdventure",
 						req.getAdventureName() );
 					RequestThread.postRequest( req );
+					req.overrideAdventuresUsed( -1 );
 					Preferences.setString( "lastAdventure", la );
 					(new UseItemRequest( item )).run();
 				}

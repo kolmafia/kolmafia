@@ -77,6 +77,8 @@ public class AdventureRequest
 	private final String adventureName;
 	private final String formSource;
 	private final String adventureId;
+	
+	private int override = -1;
 
 	private static final AdventureResult SKELETON_KEY = ItemPool.get( ItemPool.SKELETON_KEY, 1 );
 
@@ -891,6 +893,10 @@ public class AdventureRequest
 
 	public int getAdventuresUsed()
 	{
+		if ( this.override >= 0 )
+		{
+			return this.override;
+		}
 		if ( this.adventureId.equals( "123" ) )
 		{	// Desert (Ultrahydrated) may also visit the Oasis
 			return KoLConstants.activeEffects.contains(
@@ -903,6 +909,11 @@ public class AdventureRequest
 				EffectPool.get( EffectPool.FISHY ) ) ? 1 : 2;
 		}
 		return this.formSource.startsWith( "shore" ) ? 3 : 1;
+	}
+	
+	public void overrideAdventuresUsed( int used )
+	{
+		this.override = used;
 	}
 
 	public String toString()
