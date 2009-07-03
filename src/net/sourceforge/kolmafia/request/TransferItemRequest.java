@@ -39,6 +39,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -184,16 +185,19 @@ public abstract class TransferItemRequest
 					continue;
 				}
 
-				if ( !allowSingleton && KoLConstants.singletonList.contains( item ) && !KoLConstants.closet.contains( item ) )
+				int availableCount = item.getCount( this.source );
+
+				if ( !allowSingleton && KoLConstants.singletonList.contains( item ) )
+				{
+					availableCount = keepSingleton( item, availableCount );
+				}
+
+				if ( availableCount <= 0 )
 				{
 					continue;
 				}
 
-				int availableCount = item.getCount( this.source );
-				if ( availableCount > 0 )
-				{
-					nextAttachments.add( item.getInstance( Math.min( item.getCount(), availableCount ) ) );
-				}
+				nextAttachments.add( item.getInstance( Math.min( item.getCount(), availableCount ) ) );
 			}
 			while ( index1 < this.attachments.length && nextAttachments.size() < capacity );
 
@@ -252,6 +256,27 @@ public abstract class TransferItemRequest
 		RequestThread.closeRequestSequence();
 	}
 
+	private int keepSingleton( final AdventureResult item, final int count )
+	{
+		// We're doing something dangerous with a singleton item
+
+		// If we are wearing the item, that counts as keeping one
+		if ( KoLCharacter.hasEquipped( item ) )
+		{
+			return count;
+		}
+
+		// If there is one in the closet, all is well.
+		if ( item.getCount( KoLConstants.closet ) > 0 )
+		{
+			return count;
+		}
+
+		// Otherwise, make sure at least one remains in inventory.
+		int icount = item.getCount( KoLConstants.inventory );
+		return ( count < icount ) ? count : ( icount > 0 ) ? icount - 1 : 0;
+	}
+
 	/**
 	 * Runs the request. Note that this does not report an error if it fails; it merely parses the results to see if any
 	 * gains were made.
@@ -260,8 +285,8 @@ public abstract class TransferItemRequest
 	public void run()
 	{
 		// First, check to see how many attachments are to be
-		// placed in the closet - if there's too many,
-		// then you'll need to break up the request
+		// transferred. If there are too many, then you'll need to
+		// break up the request
 
 		if ( !this.isSubInstance )
 		{
