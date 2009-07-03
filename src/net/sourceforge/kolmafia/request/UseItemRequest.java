@@ -721,7 +721,7 @@ public class UseItemRequest
 			case KoLConstants.CONSUME_EAT:
 				// The miracle of "consume some" does not apply
 				// to TPS drinks or black puddings
-				if ( !UseItemRequest.singleConsume( itemId ) &&
+				if ( !UseItemRequest.singleConsume( itemId, this.consumptionType ) &&
 					(!UseItemRequest.sequentialConsume( itemId ) || 
 						InventoryManager.getCount( itemId ) >= origCount) )
 				{
@@ -804,9 +804,28 @@ public class UseItemRequest
 		return false;
 	}
 
-	private static final boolean singleConsume( final int itemId )
+	private static final boolean singleConsume( final int itemId, int consumptionType )
 	{
-		switch (itemId )
+		switch ( consumptionType )
+		{	// Consume one at a time when a helper is involved.
+			// Multi-consume with a helper actually DOES work, even though
+			// there is no interface for doing so in game, but that's
+			// probably not something that should be relied on.
+		case KoLConstants.CONSUME_DRINK:
+			if ( queuedDrinkHelper != null && queuedDrinkHelperCount > 0 )
+			{
+				return true;
+			}
+			break;
+		case KoLConstants.CONSUME_EAT:
+			if ( queuedFoodHelper != null && queuedFoodHelperCount > 0 )
+			{
+				return true;
+			}
+			break;
+		}
+		
+		switch ( itemId )
 		{
 		case ItemPool.BLACK_PUDDING:
 			// Eating a black pudding can lead to a combat with no
