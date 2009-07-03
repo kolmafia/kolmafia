@@ -404,6 +404,8 @@ public class ItemPool
 	public static final int PACK_OF_CHEWING_GUM = 1767;
 	public static final int DUSTY_ANIMAL_SKULL = 1799;
 	public static final int SPOOKYRAVEN_SPECTACLES = 1916;
+	public static final int ENGLISH_TO_A_F_U_E_DICTIONARY = 1919;
+	public static final int BIZARRE_ILLEGIBLE_SHEET_MUSIC = 1920;
 	public static final int TOILET_PAPER = 1923;
 	public static final int TATTERED_WOLF_STANDARD = 1924;
 	public static final int TATTERED_SNAKE_STANDARD = 1925;

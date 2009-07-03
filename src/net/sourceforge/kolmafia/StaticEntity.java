@@ -694,18 +694,38 @@ public abstract class StaticEntity
 
 	public static final void learnSkill( final String skillName )
 	{
-                // The following skills are found in battle and result in
-                // losing an item from inventory.
+		// The following skills are found in battle and result in
+		// losing an item from inventory.
 
 		if ( skillName.equals( "Snarl of the Timberwolf" ) )
 		{
-			ResultProcessor.processItem( ItemPool.TATTERED_WOLF_STANDARD, -1 );
+			if ( InventoryManager.hasItem( ItemPool.TATTERED_WOLF_STANDARD ) )
+			{
+				ResultProcessor.processItem( ItemPool.TATTERED_WOLF_STANDARD, -1 );
+			}
 		}
 		else if ( skillName.equals( "Spectral Snapper" ) )
 		{
-			ResultProcessor.processItem( ItemPool.TATTERED_SNAKE_STANDARD, -1 );
+			if ( InventoryManager.hasItem( ItemPool.TATTERED_SNAKE_STANDARD) )
+			{
+				ResultProcessor.processItem( ItemPool.TATTERED_SNAKE_STANDARD, -1 );
+			}
 		}
-
+		else if ( skillName.equals( "Scarysauce" ) || skillName.equals( "Fearful Fettucini" ) )
+		{
+			if ( InventoryManager.hasItem( ItemPool.ENGLISH_TO_A_F_U_E_DICTIONARY) )
+			{
+				ResultProcessor.processItem( ItemPool.ENGLISH_TO_A_F_U_E_DICTIONARY, -1 );
+			}
+		}
+		else if ( skillName.equals( "Tango of Terror" ) || skillName.equals( "Dirge of Dreadfulness" ) )
+		{
+			if ( InventoryManager.hasItem( ItemPool.BIZARRE_ILLEGIBLE_SHEET_MUSIC ) )
+			{
+				ResultProcessor.processItem( ItemPool.BIZARRE_ILLEGIBLE_SHEET_MUSIC, -1 );
+			}
+		}			
+ 
 		String message = "You learned a new skill: " + skillName;
 		RequestLogger.printLine( message );
 		RequestLogger.updateSessionLog( message );
