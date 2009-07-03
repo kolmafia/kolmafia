@@ -2361,9 +2361,9 @@
 2355	henna face paint	multiple	all	85
 2356	tube of dread wax	multiple	all	85
 2357	Gaia beads	accessory	all	210
-2358	pink clay bead	none	none	0
-2359	purple clay bead	none	none	0
-2360	green clay bead	none	none	0
+2358	pink clay bead	none	display	0
+2359	purple clay bead	none	display	0
+2360	green clay bead	none	display	0
 2361	hippy medical kit	accessory	all	140
 2362	Slow Talkin' Elliot's dogtags	accessory	all	0
 2363	longhaired hippy wig	hat	all	0
@@ -2385,9 +2385,9 @@
 2379	banana smoothie	multiple	all	0
 2380	dandy lion cub	grow	all	0
 2381	woolen cravat	familiar	all	75
-2382	red class ring	none	none	0
-2383	blue class ring	none	none	0
-2384	white class ring	none	none	0
+2382	red class ring	none	display	0
+2383	blue class ring	none	display	0
+2384	white class ring	none	display	0
 2385	bottle opener belt buckle	accessory	all	85
 2386	keg shield	offhand	all	135
 2387	giant foam finger	weapon	all	55
