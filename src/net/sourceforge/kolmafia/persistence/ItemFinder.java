@@ -45,6 +45,7 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ItemFinder
@@ -94,6 +95,26 @@ public class ItemFinder
 			return null;
 		}
 
+		// If there are multiple matches, such that one is a substring of the
+		// others, choose the shorter one, on the grounds that the user would
+		// have included part of the unique section of the longer name if that
+		// was the item they actually intended.  This makes it easier to refer
+		// to non-clockwork in-a-boxes, and DoD potions by flavor.
+		while ( nameList.size() >= 2 )
+		{
+			String name0 = (String) nameList.get( 0 );
+			String name1 = (String) nameList.get( 1 );
+			if ( name0.indexOf( name1 ) != -1 )
+			{
+				nameList.remove( 0 );
+			}
+			else if ( name1.indexOf( name0 ) != -1 )
+			{
+				nameList.remove( 1 );
+			}
+			else break;
+		}
+
 		// If there were no matches, or there was an exact match,
 		// then return from this method.
 
@@ -101,25 +122,6 @@ public class ItemFinder
 		{
 			String name = (String) nameList.get( 0 );
 			return ItemDatabase.getCanonicalName( name );
-		}
-
-		// If there were exactly two matches, and one was a substring of the
-		// other, choose the shorter one, on the grounds that the user would
-		// have included part of the unique section of the longer name if that
-		// was the item they actually intended.  This makes it easier to refer
-		// to non-clockwork in-a-boxes, and DoD potions by flavor.
-		if ( nameList.size() == 2 )
-		{
-			String name1 = (String) nameList.get( 0 );
-			String name2 = (String) nameList.get( 1 );
-			if ( name1.indexOf( name2 ) != -1 )
-			{
-				return ItemDatabase.getCanonicalName( name2 );
-			}
-			if ( name2.indexOf( name1 ) != -1 )
-			{
-				return ItemDatabase.getCanonicalName( name1 );
-			}
 		}
 
 		String itemName;
@@ -286,7 +288,9 @@ public class ItemFinder
 			itemId = ItemDatabase.getItemId( itemName );
 
 			conditionalRemove( nameIterator,
-				itemId != -1 && !ItemDatabase.isTradeable( itemId ) && !NPCStoreDatabase.contains( itemName ) );
+				itemId != -1 && !InventoryManager.hasItem( itemId ) &&
+				!ItemDatabase.isTradeable( itemId ) &&
+				!NPCStoreDatabase.contains( itemName ) );
 		}
 	}
 
