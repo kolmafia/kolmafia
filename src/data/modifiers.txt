@@ -1868,6 +1868,7 @@ Astral Shell	Damage Absorption: +80, Cold Resistance: +1, Hot Resistance: +1, Sl
 Axe Wound	Muscle: -5
 Baconstoned	Mysticality Percent: +50, Spell Damage: +11
 # Bad Luck: Uh Oh...
+Badger Underfoot	Meat Drop: +20
 Bananas!	Muscle: +40, Mysticality: +40, Moxie: +40
 Barking Dogs	Muscle Percent: -50, Initiative: -50
 Barking Mad	Mysticality Percent: +100
@@ -1934,6 +1935,7 @@ Chalky Hand	Never Fumble, Weapon Damage: +3
 Chapped Legs	Muscle: -4, Moxie: +8
 Charrrming	Moxie Percent: +10
 Chauve-Souris Merde Fou	Stench Damage: +50
+Chihuahua Underfoot	Monster Level: +20
 Chock Full o' Nanites	Damage Absorption: +50, Weapon Damage: +20
 # Cholestoriffic
 Cholestoriffic	Sleaze Damage: [min(100,T)]
@@ -2479,6 +2481,7 @@ Vitamin-Maxed	Muscle Percent: +10
 # Warm Belly: Makes sushi taste better
 Warm Belly	Hot Damage: [+3*D]
 Wasabi Sinuses	Experience: -1, Meat Drop: +30, Item Drop: -10
+Weasels Underfoot	Item Drop: +10
 Weather, Man	Muscle Percent: +30, Mysticality Percent: +30, Moxie Percent: +30
 Well-Oiled	Damage Absorption: +30, Damage Reduction: 10, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 Well-Swabbed Ear	Initiative: +30

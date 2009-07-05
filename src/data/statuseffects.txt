@@ -658,3 +658,7 @@
 657	Shamboozled	chamflute.gif	a59ae4860da9d7bed64bbf4b7f0fa7eb	drink 1 sham champagne
 658	Pumped Stomach	stomach.gif	475fc219b93c4205c4b42e7e68b75994	use 1 tempura air
 659	Pneumatic	airpotion.gif	b8c0560ec4b89793eeb5b78c6acba0f3	use 1 pressurized potion of pneumaticity
+660
+661	Badger Underfoot	badgerface.gif	85753ce320682b7a71402f51df847d1f
+662	Weasels Underfoot	ferrets.gif	adfc2711ba70e48e892eaa317211e144
+663	Chihuahua Underfoot	chihuahua.gif	4c57e8de78fd8da06746b11888d30d6b
