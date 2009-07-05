@@ -173,7 +173,9 @@ public class AdventureResult
 
 	private static int choosePriority( final String name )
 	{
-		if ( name.equals( AdventureResult.ADV ) || name.equals( AdventureResult.CHOICE ) )
+		if ( name.equals( AdventureResult.ADV ) ||
+			name.equals( AdventureResult.CHOICE ) ||
+			name.equals( AdventureResult.PULL ))
 		{
 			return AdventureResult.ADV_PRIORITY;
 		}

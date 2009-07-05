@@ -334,11 +334,15 @@ public class ListCellRendererFactory
 			if ( item.getItem() != null )
 			{
 				int modified = item.getAvailable();
-				int initial = 0;
+				int initial = item.getItem().getCount( KoLConstants.inventory );
 
-				if ( item.getItem() != null )
+				if ( item.price > 0 )
 				{
-					initial = item.getItem().getCount( KoLConstants.inventory );
+					stringForm.append( item.price );
+					stringForm.append( " meat, " );
+					stringForm.append( initial );
+					stringForm.append( " current" );
+					return false;
 				}
 
 				stringForm.append( modified );

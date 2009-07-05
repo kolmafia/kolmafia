@@ -437,6 +437,10 @@ public class Concoction
 		int decrementAmount = Math.min( this.initial, amount );
 		int overAmount = Math.min( this.creatable, amount - decrementAmount );
 		int pullAmount = amount - decrementAmount - overAmount;
+		if ( this.price > 0 )
+		{
+			pullAmount = 0;
+		}
 		
 		if ( pullAmount != 0 )
 		{
