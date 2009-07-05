@@ -4110,7 +4110,7 @@
 4104	black catseye marble	offhand, multiple	all	512
 4105	big bumboozer marble	offhand, reusable	all	1024
 4106	chamoisole	shirt	all	2000
-4107	bitter pill	multiple	all	1000
+4107	bitter pill	usable	all	1000
 4108	monstrous monocle	accessory	display	250
 4109	musty moccasins	accessory	display	250
 4110	molten medallion	accessory	display	250
