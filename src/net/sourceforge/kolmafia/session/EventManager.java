@@ -95,8 +95,12 @@ public class EventManager
 		// Add in a player Id so that the events can be handled
 		// using a ShowDescriptionList.
 
-		eventText = eventText.replaceAll( "</a>", "<a>" ).replaceAll( "<[^a].*?>", " " ).replaceAll( "\\s+", " " );
+		// Remove tags that are not hyperlinks
+		eventText = eventText.replaceAll( "</a>", "<a>" ).replaceAll( "<[^a].*?>", " " );
+		// Munge links to player profiles
 		eventText = eventText.replaceAll( "<a[^>]*showplayer\\.php\\?who=(\\d+)[^>]*>(.*?)<a>", "$2 (#$1)" );
+		// Remove tags all remaining tags.
+		eventText = eventText.replaceAll( "<.*?>", " " ).replaceAll( "\\s+", " " );
 
 		if ( eventText.indexOf( "/" ) == -1 )
 		{
