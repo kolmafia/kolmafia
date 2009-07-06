@@ -215,6 +215,11 @@ public class FamiliarDatabase
 	public static final int getFamiliarId( final String substring )
 	{
 		String searchString = substring.toLowerCase();
+		Object familiarId = FamiliarDatabase.familiarByName.get( searchString );
+		if ( familiarId != null )
+		{
+			return ( (Integer) familiarId ).intValue();
+		}
 
 		String[] familiarNames = new String[ FamiliarDatabase.familiarByName.size() ];
 		FamiliarDatabase.familiarByName.keySet().toArray( familiarNames );
@@ -223,7 +228,7 @@ public class FamiliarDatabase
 		{
 			if ( familiarNames[ i ].indexOf( searchString ) != -1 )
 			{
-				Object familiarId = FamiliarDatabase.familiarByName.get( familiarNames[ i ] );
+				familiarId = FamiliarDatabase.familiarByName.get( familiarNames[ i ] );
 				return familiarId == null ? -1 : ( (Integer) familiarId ).intValue();
 			}
 		}
