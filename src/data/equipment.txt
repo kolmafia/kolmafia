@@ -424,7 +424,7 @@ Mace of the Tortoise	50	Mus: 10	1-handed mace
 Mafia violin case	100	Mus: 35	1-handed club
 Maxwell's Silver Hammer	165	Mus: 67	1-handed club
 Mer-kin hookspear	200	Mus: 85	1-handed spear
-Mer-kin mining pick	200	Mus: 85	2-handed axe
+Mer-kin digpick	200	Mus: 85	2-handed axe
 Mjolnir Jr.	200	Mys: 85	1-handed utensil
 Ol' Scratch's infernal pitchfork	200	Mus: 200	2-handed polearm
 PVC staff	200	Mus: 85	2-handed staff

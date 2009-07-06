@@ -154,7 +154,7 @@ glowing esca	sea salt crystal
 halibut	sea salt crystal
 Mer-kin breastplate	sea salt crystal
 Mer-kin hookspear	sea salt crystal
-Mer-kin mining pick	sea salt crystal
+Mer-kin digpick	sea salt crystal
 Mer-kin prayerbeads	sea salt crystal
 Mer-kin roundshield	sea salt crystal
 Mer-kin sneakmask	sea salt crystal

@@ -480,7 +480,7 @@ Mafia violin case	Muscle: +20, Weapon Damage: +30
 Maxwell's Silver Hammer	Mysticality: +10, Weapon Damage: +10
 # Mer-kin hookspear: Extracts Meat on Critical Hits
 Mer-kin hookspear	Initiative: +20, Weapon Damage: +40
-Mer-kin mining pick	Weapon Damage: +30
+Mer-kin digpick	Weapon Damage: +30
 # Mjolnir Jr.
 Ol' Scratch's infernal pitchfork	Hot Damage: +40, Critical Hit Percent: +2
 PVC staff	Mysticality Percent: +15, Item Drop: +10, Cold Spell Damage: +60

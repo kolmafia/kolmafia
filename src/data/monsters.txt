@@ -417,7 +417,7 @@ Menacing Construct	HP: 400 Atk: 400	El Vibrato punchcard (115 holes)	El Vibrato 
 Mer-kin Burglar	HP: 650 Def: 800 Atk: 650 Meat: 200-300	Mer-kin foodbucket (6)	Mer-kin hidepaint (10)	Mer-kin sneakmask (2)	Mer-kin takebag (2)
 Mer-kin Diver	HP: 700 Def: 475 Atk: 475 Meat: 160-240	Mer-kin foodbucket (15)	Mer-kin hookspear (2)	Mer-kin pressureglobe (9)	Mer-kin thingpouch (25)
 Mer-kin Healer	HP: 600 Def: 650 Atk: 650 Meat: 120-180	Mer-kin foodbucket (5)	Mer-kin healscroll (25)	Mer-kin prayerbeads (5)	Mer-kin thingpouch (15)
-Mer-kin Miner	HP: 750 Def: 450 Atk: 450 Meat: 160-240	Mer-kin food bucket (5)	Mer-kin mining pick (10)	Mer-kin thingpouch (25)
+Mer-kin Miner	HP: 750 Def: 450 Atk: 450 Meat: 160-240	Mer-kin food bucket (5)	Mer-kin digpick (10)	Mer-kin thingpouch (25)
 Mer-kin Raider	HP: 800 Def: 650 Atk: 750 Meat: 200-300	Mer-kin breastplate (c2)	Mer-kin foodbucket (10)	Mer-kin hookspear (2)	Mer-kin roundshield (2)
 Mer-kin Scavenger	HP: 600 Def: 450 Atk: 450 Meat: 160-240	Mer-kin hookspear (2)	Mer-kin takebag (4)	Mer-kin thingpouch (25)
 Mer-kin Tippler	HP: 750 Def: 400 Atk: 600 Meat: 160-240	Alewife&trade; Ale (40)	Mer-kin foodbucket (5)	Mer-kin pinkslip (5)	slug of vodka (21)
