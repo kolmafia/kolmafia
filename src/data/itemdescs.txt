@@ -3698,7 +3698,7 @@
 3692	506573795	sea persimmon	sea persimmons
 3693	788177667	pressurized potion of perception	pressurized potions of perception
 3694	905610207	pressurized potion of proficiency	pressurized potions of proficiency
-3695	817679069	Mer-kin mining pick	Mer-kin mining picks
+3695	817679069	Mer-kin digpick	Mer-kin digpicks
 3696	703635673	anemone nematocyst	anemone nematocysts
 3697	430566014	high-pressure seltzer bottle	high-pressure seltzer bottles
 3698	773082525	velcro ore	chunks of velcro ore

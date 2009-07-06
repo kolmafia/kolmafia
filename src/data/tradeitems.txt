@@ -3698,7 +3698,7 @@
 3692	sea persimmon	food	all	65
 3693	pressurized potion of perception	multiple	all	250
 3694	pressurized potion of proficiency	multiple	all	250
-3695	Mer-kin mining pick	weapon	all	175
+3695	Mer-kin digpick	weapon	all	175
 3696	anemone nematocyst	none, combat	all	85
 3697	high-pressure seltzer bottle	mp	all	165
 3698	velcro ore	none	all	75
