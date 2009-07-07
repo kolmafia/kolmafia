@@ -31,8 +31,8 @@ implements Comparable
 	public TurnCounter( final int value, final String label, final String image )
 	{
 		this.value = KoLCharacter.getCurrentRun() + value;
-		this.label = label;
-		this.image = image;
+		this.label = label.replaceAll( ":", "" );
+		this.image = image.replaceAll( ":", "" );
 		this.lastWarned = -1;
 	}
 
@@ -139,7 +139,9 @@ implements Comparable
 		while ( tokens.hasMoreTokens() )
 		{
 			int turns = StringUtilities.parseInt( tokens.nextToken() ) - KoLCharacter.getCurrentRun();
+			if ( !tokens.hasMoreTokens() ) break;
 			String name = tokens.nextToken();
+			if ( !tokens.hasMoreTokens() ) break;
 			String image = tokens.nextToken();
 			startCounting( turns, name, image, false );
 		}
