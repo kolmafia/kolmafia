@@ -508,7 +508,15 @@ public class CompactSidePane
 			buf.append( "</td></tr>" );
 		}
 		buf.append( "</table></html>" );
-		this.modPopLabel.setText( buf.toString() );
+		try
+		{
+			this.modPopLabel.setText( buf.toString() );
+		}
+		catch ( Exception e )
+		{
+			// Ignore errors - there seems to be a Java bug that
+			// occasionally gets triggered during the setText().
+		}
 
 		long currentLevel = KoLCharacter.calculateLastLevel();
 		long nextLevel = KoLCharacter.calculateNextLevel();
