@@ -560,9 +560,7 @@ public class ClanManageFrame
 
 		public void mouseReleased( final MouseEvent e )
 		{
-			Object[] parameters = new Object[ 1 ];
-			parameters[ 0 ] = this.profile;
-			GenericFrame.createDisplay( ProfileFrame.class, parameters );
+            ProfileFrame.showRequest(this.profile);
 		}
 	}
 
