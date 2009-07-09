@@ -94,7 +94,7 @@ public class ClanMembersRequest
 
 		this.isLookup = false;
 		this.isDetailLookup = false;
-		this.rankList = null;
+		this.rankList = new LockableListModel();
 
 		this.addFormField( "action", "modify" );
 
@@ -194,7 +194,7 @@ public class ClanMembersRequest
 
 	private void parseRanks()
 	{
-		this.rankList.clear();
+        this.rankList.clear();
 		Matcher ranklistMatcher = ClanMembersRequest.RANK_PATTERN.matcher( this.responseText );
 
 		if ( ranklistMatcher.find() )
