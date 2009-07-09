@@ -79,7 +79,7 @@ public class ChatFrame
 
 	protected static final String MSGS_TAB = "/msgs";
 	protected static final String GCLI_TAB = "/gcli";
-	
+
 	private static final Pattern SPLITCOMMAND_PATTERN = Pattern.compile( "/(?:(?:msg|whisper|w|tell)\\s+\\S+|\\S+)\\s+", Pattern.CASE_INSENSITIVE );
 
 	private static final SimpleDateFormat MARK_TIMESTAMP = new SimpleDateFormat( "HH:mm:ss", Locale.US );
@@ -350,6 +350,12 @@ public class ChatFrame
 			private void submitChat()
 			{
 				String message = ChatPanel.this.entryField.getText();
+
+				if ( message.equals( "" ) )
+				{
+					return;
+				}
+
 				ChatPanel.this.entryField.setText( "" );
 
 				if ( ChatPanel.this.associatedContact.equals( ChatFrame.GCLI_TAB ) )
@@ -400,7 +406,7 @@ public class ChatFrame
 					String splitter = " ";
 					String prefix = "... ";
 					String suffix = " ...";
-					
+
 					if ( message.indexOf( " && " ) != -1 )
 					{	// Assume chained commands, must handle differently
 						splitter = " && ";
@@ -418,7 +424,7 @@ public class ChatFrame
 						}
 					}
 					int maxPiece = 255 - command.length() - suffix.length();
-					
+
 					while ( message.length() > maxPiece )
 					{
 						int splitPos = message.lastIndexOf( splitter, maxPiece );
