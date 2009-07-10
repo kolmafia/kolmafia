@@ -66,7 +66,7 @@ public class AdventureRequest
 	private static final Pattern AREA_PATTERN = Pattern.compile( "(adv|snarfblat)=(\\d*)", Pattern.DOTALL );
 	private static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice value=(\\d+)" );
 
-	private static final Pattern MONSTER_NAME = Pattern.compile( "<span id='monname'(>| title=\")([^<\"]*?)(</span>|\">)", Pattern.DOTALL );
+	private static final Pattern MONSTER_NAME = Pattern.compile( "<span id='monname'(>| title=\")([^<]*?)(</span>|\">)", Pattern.DOTALL );
 	private static final Pattern HAIKU_MONSTER_NAME = Pattern.compile(
 		"<b>.*?<b>([^<]+)<", Pattern.DOTALL );
 	private static final Pattern SLIME_MONSTER_IMG = Pattern.compile(
