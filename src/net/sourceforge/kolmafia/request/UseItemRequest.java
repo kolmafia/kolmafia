@@ -172,6 +172,8 @@ public class UseItemRequest
 		case KoLConstants.CONSUME_HOBO:
 		case KoLConstants.CONSUME_GHOST:
 			return "familiarbinger.php";
+		case KoLConstants.CONSUME_SLIME:
+			return "inventory.php";
 		case KoLConstants.CONSUME_MULTIPLE:
 		case KoLConstants.MP_RESTORE:
 		case KoLConstants.HPMP_RESTORE:
@@ -277,6 +279,11 @@ public class UseItemRequest
 		if ( consumptionType == KoLConstants.CONSUME_HOBO || consumptionType == KoLConstants.CONSUME_GHOST )
 		{
 			return Integer.MAX_VALUE;
+		}
+
+		if ( consumptionType == KoLConstants.CONSUME_SLIME )
+		{
+			return 1;
 		}
 
 		if ( itemId <= 0 )
@@ -1007,6 +1014,17 @@ public class UseItemRequest
 			useTypeAsString = "Feeding ghost with";
 			break;
 
+		case KoLConstants.CONSUME_SLIME:
+			if ( KoLCharacter.getFamiliar().getId() != FamiliarPool.SLIMELING )
+			{ 
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have a Slimeling equipped" );
+				return;
+			}
+			this.addFormField( "which", "2" );
+			this.addFormField( "action", "slime" );
+			useTypeAsString = "Feeding slimeling with";
+			break;
+
 		case KoLConstants.CONSUME_EAT:
 			this.addFormField( "which", "1" );
 			this.addFormField( "quantity", String.valueOf( this.itemUsed.getCount() ) );
@@ -1126,6 +1144,7 @@ public class UseItemRequest
 		{
 		case KoLConstants.CONSUME_GHOST:
 		case KoLConstants.CONSUME_HOBO:
+		case KoLConstants.CONSUME_SLIME:
 			if ( !UseItemRequest.parseBinge( this.getURLString(), this.responseText ) )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Your current familiar can't use that." );
@@ -1141,7 +1160,6 @@ public class UseItemRequest
 	public static final boolean parseBinge( final String urlString, final String responseText )
 	{
 		AdventureResult item = UseItemRequest.extractBingedItem( urlString );
-
 		if ( item == null )
 		{
 			return true;
@@ -3151,7 +3169,6 @@ public class UseItemRequest
 	public static final boolean registerBingeRequest( final String urlString )
 	{
 		AdventureResult item = UseItemRequest.extractBingedItem( urlString );
-
 		if ( item == null )
 		{
 			return false;
@@ -3160,7 +3177,7 @@ public class UseItemRequest
 		FamiliarData familiar = KoLCharacter.getFamiliar();
 		int id = familiar.getId();
 
-		if ( id != FamiliarPool.HOBO && id != FamiliarPool.GHOST )
+		if ( id != FamiliarPool.HOBO && id != FamiliarPool.GHOST && id != FamiliarPool.SLIMELING )
 		{
 			return false;
 		}
@@ -3345,7 +3362,7 @@ public class UseItemRequest
 		
 		return turns * this.itemUsed.getCount();
 	}
-	
+
 	static private void parseEVHelmet( String responseText )
 	{
 		List pieces = Arrays.asList( responseText.split( "(<.*?>)+" ) );
