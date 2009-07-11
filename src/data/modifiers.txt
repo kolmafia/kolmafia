@@ -1744,6 +1744,7 @@ tiny maracas	Familiar Weight: +5
 tiny shaker of salt	Familiar Weight: +5
 toy six-seater hovercraft	Familiar Weight: -5
 # tuning fork: Familiar Will Attack You Less Often
+# undissolvable contact lenses: Helps your Slimeling See Better
 velvet choker	Familiar Weight: +5
 wax lips	Experience: +3, Softcore Only
 # weegee sqouija: Hobo's Booze Is More Effective

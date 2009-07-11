@@ -875,6 +875,7 @@ public class ItemPool
 	public static final int SLIME_SOAKED_SWEAT_GLAND = 3993;
 	public static final int MOONTAN_LOTION = 4003;
 	public static final int AMINO_ACIDS = 4006;
+	public static final int CONTACT_LENSES = 4019;
 	public static final int WUMPUS_HAIR = 4044;
 	public static final int GRAPPLING_HOOK = 4029;
 	public static final int SMALL_STONE_BLOCK = 4030;

@@ -4022,7 +4022,7 @@
 4016	422948472	memory of a GT base pair	memories of GT base pairs
 4017	326825207	squirming Slime larva	squirming Slime larvae
 4018	479813520	rusty metal greaves	pairs of rusty metal greaves
-4019
+4019	544866537	undissolvable contact lenses	pairs of undissolvable contact lenses
 4020	224342315	rusty piece of rebar	rusty pieces of rebar
 4021	662987826	slime-covered shovel	slime-covered shovels
 4022	212250418	slime-covered necklace	slime-covered necklaces
@@ -4140,3 +4140,4 @@
 4134	792712954	pressurized potion of pneumaticity	pressurized potion of pneumaticitys
 4135
 4136	173186492	Bag o' Tricks	Bag o' Trickss
+4137	916071890	slime stack
