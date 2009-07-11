@@ -3069,8 +3069,9 @@ public class KoLmafiaCLI
 		}
 	}
 
-	static { new Use().register( "eat" ).register( "drink" ).register( "use" )
-		.register( "chew" ).register( "hobo" ).register( "ghost" ).register( "overdrink" ); }
+	static { new Use().register( "eat" ).register( "drink" )
+		.register( "use" ).register( "chew" ).register( "overdrink" )
+		.register( "hobo" ).register( "ghost" ).register( "slimeling" ); }
 	public static class Use
 		extends Command
 	{
@@ -6779,6 +6780,10 @@ public class KoLmafiaCLI
 		{
 			ItemFinder.setMatchType( ItemFinder.BOOZE_MATCH );
 		}
+		else if ( command.equals( "slimeling" ) )
+		{
+			ItemFinder.setMatchType( ItemFinder.EQUIP_MATCH );
+		}
 		else
 		{
 			ItemFinder.setMatchType( ItemFinder.USE_MATCH );
@@ -6854,6 +6859,7 @@ public class KoLmafiaCLI
 						UseItemRequest request =
 							command.equals( "hobo" ) ? new UseItemRequest( KoLConstants.CONSUME_HOBO, currentMatch ) :
 							command.equals( "ghost" ) ? new UseItemRequest( KoLConstants.CONSUME_GHOST, currentMatch ) :
+							command.equals( "slimeling" ) ? new UseItemRequest( KoLConstants.CONSUME_SLIME, currentMatch ) :
 							new UseItemRequest( currentMatch );
 						RequestThread.postRequest( request );
 					}

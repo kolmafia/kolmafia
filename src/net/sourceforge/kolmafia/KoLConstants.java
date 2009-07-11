@@ -327,6 +327,7 @@ public interface KoLConstants
 	public static final int CONSUME_STICKER = 24;
 	public static final int COMBAT_ITEM = 25;
 
+	public static final int CONSUME_SLIME = 97;
 	public static final int CONSUME_HOBO = 98;
 	public static final int CONSUME_GHOST = 99;
 

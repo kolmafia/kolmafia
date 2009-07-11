@@ -505,7 +505,7 @@ public class RequestLogger
 		     urlString.startsWith( "cave" ) ||
 		     urlString.startsWith( "doc.php" ) ||
 		     urlString.startsWith( "inventory.php?ajax" ) ||
-		     urlString.startsWith( "inventory.php?which" ) ||
+		     urlString.startsWith( "inventory.php?which=" ) ||
 		     urlString.startsWith( "inventory.php?action=message" ) ||
 		     urlString.equals( "knoll.php?place=paster" ) ||
 		     urlString.startsWith( "lair" ) ||
