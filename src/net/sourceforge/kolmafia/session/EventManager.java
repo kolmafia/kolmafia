@@ -96,11 +96,11 @@ public class EventManager
 		// using a ShowDescriptionList.
 
 		// Remove tags that are not hyperlinks
-		eventText = eventText.replaceAll( "</a>", "<a>" ).replaceAll( "<[^a].*?>", " " );
+		eventText = eventText.replaceAll( "</a>", "<a>" ).replaceAll( "<[^a].*?>", "" );
 		// Munge links to player profiles
 		eventText = eventText.replaceAll( "<a[^>]*showplayer\\.php\\?who=(\\d+)[^>]*>(.*?)<a>", "$2 (#$1)" );
-		// Remove tags all remaining tags.
-		eventText = eventText.replaceAll( "<.*?>", " " ).replaceAll( "\\s+", " " );
+		// Remove all remaining tags.
+		eventText = eventText.replaceAll( "<.*?>", "" ).replaceAll( "\\s+", " " );
 
 		if ( eventText.indexOf( "/" ) == -1 )
 		{
