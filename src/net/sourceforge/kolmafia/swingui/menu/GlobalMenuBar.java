@@ -109,6 +109,7 @@ public class GlobalMenuBar
 		toolsMenu.add( new DisplayFrameMenuItem( "Mushroom Plot", "MushroomFrame" ) );
 		toolsMenu.add( new DisplayFrameMenuItem( "Flower Hunter", "FlowerHunterFrame" ) );
 		toolsMenu.add( new DisplayFrameMenuItem( "Familiar Trainer", "FamiliarTrainingFrame" ) );
+		toolsMenu.add( new DisplayFrameMenuItem( "Modifier Maximizer", "MaximizerFrame" ) );
 
 		// Add the old-school people menu.
 

@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia;
 
 import java.io.BufferedReader;
+import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Map;
@@ -69,6 +70,7 @@ public class Modifiers
 	public static String currentLocation = "";
 	public static String currentZone = "";
 	public static String currentFamiliar = "";
+	public static float hoboPower = 0.0f;
 	private static float currentWeight = 0.0f;
 
 	private static final Pattern FAMILIAR_EFFECT_PATTERN =
@@ -214,7 +216,7 @@ public class Modifiers
 	public static final int SLIME_RESISTANCE = 80;
 	public static final int SLIME_HATES_IT = 81;
 	
-	public static final String EXPR = "(?:([+-]?[\\d.]+)|\\[([^]]+)\\])";
+	public static final String EXPR = "(?:([-+]?[\\d.]+)|\\[([^]]+)\\])";
 
 	private static final Object[][] floatModifiers =
 	{
@@ -630,6 +632,7 @@ public class Modifiers
 	public static final int EQUALIZE = 2;
 	public static final int WIKI_NAME = 3;
 	public static final int MODIFIERS = 4;
+	public static final int OUTFIT = 5;
 
 	private static final Object[][] stringModifiers =
 	{
@@ -652,6 +655,10 @@ public class Modifiers
 		{ "Modifiers",
 		  null,
 		  Pattern.compile( "^(none)$" )
+		},
+		{ "Outfit",
+		  null,
+		  null
 		},
 	};
 
@@ -825,6 +832,11 @@ public class Modifiers
 		}
 		return -1;
 	};
+	
+	public static final int findName( String name )
+	{
+		return Modifiers.findName( Modifiers.floatModifiers, name );
+	}
 
 	private String name;
 	private boolean variable;
@@ -845,18 +857,9 @@ public class Modifiers
 
 	public void reset()
 	{
-		for ( int i = 0; i < this.floats.length; ++i )
-		{
-			this.floats[ i ] = 0.0f;
-		}
-		for ( int i = 0; i < this.booleans.length; ++i )
-		{
-			this.booleans[ i ] = false;
-		}
-		for ( int i = 0; i < this.strings.length; ++i )
-		{
-			this.strings[ i ] = "";
-		}
+		Arrays.fill( this.floats, 0.0f );
+		Arrays.fill( this.booleans, false );
+		Arrays.fill( this.strings, "" );
 		this.expressions = null;
 		this.clownosity = 0;
 	};
@@ -1095,6 +1098,33 @@ public class Modifiers
 					continue;
 				}
 				this.add( i, addition[ i ], name );
+			}
+		}
+		
+		// Add in string modifiers as appropriate.
+		// Note that there are '==' comparisons with the empty string here:
+		// this is safe because the initializing empty string for the
+		// strings array is contained in the same source file (in reset()),
+		// and is therefore guaranteed by Java to refer to the same string
+		// object, not merely an equal one.
+		
+		String val;
+		val = mods.strings[ Modifiers.EQUALIZE ];
+		if ( val != "" && this.strings[ Modifiers.EQUALIZE ] == "" )
+		{
+			this.strings[ Modifiers.EQUALIZE ] = val;
+		}
+		val = mods.strings[ Modifiers.INTRINSIC_EFFECT ];
+		if ( val != "" )
+		{
+			String prev = this.strings[ INTRINSIC_EFFECT ];
+			if ( prev == "" )
+			{
+				this.strings[ Modifiers.INTRINSIC_EFFECT ] = val;
+			}
+			else
+			{
+				this.strings[ Modifiers.INTRINSIC_EFFECT ] = prev + "\t" + val;
 			}
 		}
 
@@ -2015,7 +2045,7 @@ public class Modifiers
 					v = HolidayDatabase.getGrimaciteEffect() / 10.0f;
 					break;
 				case 'H':
-					v = KoLCharacter.getHoboPower();
+					v = Modifiers.hoboPower;
 					break;
 				case 'I':
 					v = 0;

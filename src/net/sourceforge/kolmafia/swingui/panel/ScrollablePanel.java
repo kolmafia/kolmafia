@@ -38,6 +38,7 @@ import java.awt.CardLayout;
 import java.awt.Color;
 
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
@@ -56,6 +57,7 @@ public class ScrollablePanel
 	public JPanel eastPanel;
 	public VerifyButtonPanel buttonPanel;
 	public JComponent scrollComponent;
+	public JLabel titleComponent;
 
 	public ScrollablePanel( final String title, final JComponent scrollComponent )
 	{
@@ -77,8 +79,9 @@ public class ScrollablePanel
 
 		if ( !title.equals( "" ) )
 		{
-			this.centerPanel.add( JComponentUtilities.createLabel(
-				title, SwingConstants.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
+			this.titleComponent = JComponentUtilities.createLabel(
+				title, SwingConstants.CENTER, Color.black, Color.white );
+			this.centerPanel.add( this.titleComponent, BorderLayout.NORTH );
 		}
 
 		this.centerPanel.add( new GenericScrollPane( scrollComponent ), BorderLayout.CENTER );

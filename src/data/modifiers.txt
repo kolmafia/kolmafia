@@ -162,7 +162,7 @@ lihc face	Spooky Resistance: +2, Familiar Effect: "spooky atk, 1xBarrr, cap 22"
 linoleum helmet turtle	Maximum HP: +10, Maximum MP: +10, Familiar Effect: "stench atk, 1xFairy, cap 25"
 longhaired hippy wig	Stench Damage: +20, Mysticality Percent: +5, Familiar Effect: "1xPotato, 1xGhuol"
 maiden wig	Familiar Effect: "2xPotato, cap 8"
-makeshift turban	Intrinsic Effect: "Temporary Blindness", Spooky Resistance: +2, Familiar Effect: "1.5xBarrr, 1xLep, cap 25"
+makeshift turban	Intrinsic Effect: "Temporary Blindness (intrinsic)", Spooky Resistance: +2, Familiar Effect: "1.5xBarrr, 1xLep, cap 25"
 meat cowboy hat	Muscle: +3, Familiar Effect: "1xBarrr, 3xLep, cap 10"
 meatloaf helmet	Muscle: +3, Weapon Damage: +1, Familiar Effect: "1xBarrr, 1.5xFairy, cap 13"
 meaty helmet turtle	Muscle: +3, Familiar Effect: "sleaze atk, 1xFairy, cap 17"
@@ -354,7 +354,7 @@ time trousers	Adventures: +3
 tree skirt	Moxie: +5
 # troutpiece
 turtle wax greaves	Muscle: +2
-turtlemail breeches	Maximum MP: +30, Sleaze Resistance: +2
+turtlemail breeches	Maximum HP: +30, Sleaze Resistance: +2
 white satin pants	Sleaze Resistance: +2
 wumpus-hair loincloth	Initiative: -10, HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8, Cold Resistance: +2
 yakskin kilt	Maximum MP: +25
@@ -1828,7 +1828,7 @@ comfy blanket	Base Resting HP: +50
 # Innuendo Shopping
 # O Hai!
 # Temporary Blindness occurs in both normal and intrinsic forms, and they stack.
-Temporary Blindness (intrinsic)	Moxie Percent: -25, Item Drop: -75
+Temporary Blindness (intrinsic)	Moxie Percent: -25, Item Drop: -75, Initiative: -30
 
 &quot;The Disease&quot;	Moxie: -5
 'Roids of the Rhinoceros	Muscle: +100

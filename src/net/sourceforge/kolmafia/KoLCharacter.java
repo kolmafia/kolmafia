@@ -707,8 +707,9 @@ public abstract class KoLCharacter
 			GenericRequest req = new GenericRequest(
 				"desc_item.php?whichitem=809051828" );
 			RequestThread.postRequest( req );
-			KoLCharacter.setGender( req.responseText.indexOf( "+15%" ) != -1 ?
-				KoLCharacter.FEMALE : KoLCharacter.MALE );
+			KoLCharacter.setGender( req.responseText != null &&
+				req.responseText.indexOf( "+15%" ) != -1 ?
+					KoLCharacter.FEMALE : KoLCharacter.MALE );
 		}
 		return KoLCharacter.gender;
 	}
@@ -1475,6 +1476,11 @@ public abstract class KoLCharacter
 	 * Accessor method to retrieve the current value of a named modifier
 	 */
 
+	public static final Modifiers getCurrentModifiers()
+	{
+		return KoLCharacter.currentModifiers;
+	}
+
 	public static final float currentNumericModifier( final String name )
 	{
 		return KoLCharacter.currentModifiers.get( name );
@@ -1493,6 +1499,16 @@ public abstract class KoLCharacter
 	public static final boolean currentBooleanModifier( final int index )
 	{
 		return KoLCharacter.currentModifiers.getBoolean( index );
+	}
+
+	public static final String currentStringModifier( final String name )
+	{
+		return KoLCharacter.currentModifiers.getString( name );
+	}
+
+	public static final String currentStringModifier( final int index )
+	{
+		return KoLCharacter.currentModifiers.getString( index );
 	}
 
 	/**
@@ -2986,23 +3002,49 @@ public abstract class KoLCharacter
 
 	public static final boolean recalculateAdjustments( boolean debug )
 	{
+		return KoLCharacter.currentModifiers.set(
+			KoLCharacter.recalculateAdjustments(
+				debug,
+				KoLCharacter.getMindControlLevel(),
+				null,	// equipment list, not yet abstracted
+				KoLConstants.activeEffects,
+				KoLCharacter.currentFamiliar,
+				false ) );
+	}
+
+	public static final Modifiers recalculateAdjustments( boolean debug, int MCD, List equipment, List effects, FamiliarData familiar, boolean applyIntrinsics )
+	{
 		int taoFactor = KoLCharacter.hasSkill( "Tao of the Terrapin" ) ? 2 : 1;
 		int brimstoneMonsterLevel = 1;
 
 		Modifiers newModifiers = debug ? new DebugModifiers() : new Modifiers();
-		newModifiers.setFamiliar( KoLCharacter.currentFamiliar );
+		Modifiers.setFamiliar( familiar );
 		
 		// Area-specific adjustments
 		newModifiers.add( Modifiers.getModifiers( "loc:" + Modifiers.currentLocation ) );
 		newModifiers.add( Modifiers.getModifiers( "zone:" + Modifiers.currentZone ) );
 
 		// Look at sign-specific adjustments
-		newModifiers.add( Modifiers.MONSTER_LEVEL, KoLCharacter.getMindControlLevel(), "MCD" );
+		newModifiers.add( Modifiers.MONSTER_LEVEL, MCD, "MCD" );
 
 		// Look at items
-		for ( int slot = EquipmentManager.HAT; slot <= EquipmentManager.FAMILIAR; ++slot )
+		for ( int slot = EquipmentManager.HAT; slot <= EquipmentManager.FAMILIAR + 1; ++slot )
 		{
-			AdventureResult item = EquipmentManager.getEquipment( slot );
+			AdventureResult item;
+			if ( slot == EquipmentManager.OFFHAND )
+			{	// Must do this slot last, since there may be Hobo Power
+				// modifiers in all other slots.
+				continue;
+			}
+			else if ( slot == EquipmentManager.FAMILIAR + 1 )
+			{	// Deferred offhand
+				Modifiers.hoboPower = newModifiers.get( Modifiers.HOBO_POWER );
+				item = EquipmentManager.getEquipment( EquipmentManager.OFFHAND );
+			}
+			else
+			{	// Normal slot
+				item = EquipmentManager.getEquipment( slot );
+			}
 			if ( item == null )
 			{
 				continue;
@@ -3015,7 +3057,16 @@ public abstract class KoLCharacter
 			}
 
 			String name = item.getName();
-			newModifiers.add( Modifiers.getModifiers( name ) );
+			Modifiers imod = Modifiers.getModifiers( name );
+			if ( applyIntrinsics && imod != null )
+			{
+				String intrinsic = imod.getString( Modifiers.INTRINSIC_EFFECT );
+				if ( intrinsic.length() > 0 )
+				{
+					newModifiers.add( Modifiers.getModifiers( intrinsic ) );
+				}
+			}
+			newModifiers.add( imod );
 
 			// Wearing multiple brimstone items has a secret effect
 			// on Monster Level, according to this thread:
@@ -3071,6 +3122,7 @@ public abstract class KoLCharacter
 		SpecialOutfit outfit = EquipmentManager.currentOutfit();
 		if ( outfit != null )
 		{
+			newModifiers.set( Modifiers.OUTFIT, outfit.getName() );
 			newModifiers.add( Modifiers.getModifiers( outfit.getName() ) );
 			// El Vibrato Relics may have additional benefits based on
 			// punchcards inserted into the helmet:
@@ -3138,9 +3190,10 @@ public abstract class KoLCharacter
 		// For the sake of easier maintenance, execute a lot of extra
 		// extra string comparisons when looking at status effects.
 
-		for ( int i = 0; i < KoLConstants.activeEffects.size(); ++i )
+		for ( int i = 0; i < effects.size(); ++i )
 		{
-			newModifiers.add( Modifiers.getModifiers( ( (AdventureResult) KoLConstants.activeEffects.get( i ) ).getName() ) );
+			newModifiers.add( Modifiers.getModifiers(
+				( (AdventureResult) effects.get( i ) ).getName() ) );
 		}
 		
 		// Add modifiers from campground equipment.
@@ -3171,7 +3224,7 @@ public abstract class KoLCharacter
 
 		// Add familiar effects based on calculated weight adjustment,
 
-		newModifiers.applyFamiliarModifiers( KoLCharacter.currentFamiliar );
+		newModifiers.applyFamiliarModifiers( familiar );
 
 		// Add in strung-up quartet.
 
@@ -3218,8 +3271,7 @@ public abstract class KoLCharacter
 			DebugModifiers.finish();
 		}
 
-		boolean changed = KoLCharacter.currentModifiers.set( newModifiers );
-		return changed;
+		return newModifiers;
 	}
 
         // Per-character settings that change each ascension
