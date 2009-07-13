@@ -134,6 +134,7 @@ import net.sourceforge.kolmafia.swingui.CalendarFrame;
 import net.sourceforge.kolmafia.swingui.CouncilFrame;
 import net.sourceforge.kolmafia.swingui.FamiliarTrainingFrame;
 import net.sourceforge.kolmafia.swingui.ItemManageFrame;
+import net.sourceforge.kolmafia.swingui.MaximizerFrame;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
 import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
@@ -847,7 +848,7 @@ public class KoLmafiaCLI
 				"<td>=<br>==<br>&lt;&gt;<br>!=<br>&lt;<br>&lt;=<br>&gt;<br>&gt;=</td>" +
 				"<td><i>number</i><br><i>number</i>%&nbsp;(health/mana only)<br>" +
 				"<i>item</i> (qty in inventory)<br><i>effect</i> (turns remaining)</td>" +
-				"</tr></table>" );
+				"</tr></table><br>" );
 		}
 	}
 
@@ -1017,6 +1018,18 @@ public class KoLmafiaCLI
 		public void run( String cmd )
 		{
 			RequestLogger.printLine( StaticEntity.getVersion() );
+		}
+	}
+
+	static { new Maximize().register( "maximize" ); }
+	public static class Maximize
+		extends Command
+	{
+		{ usage = " [+|-|<weight>] <keyword>, ... - run the Modifier Maximizer."; }
+		public void run( String command, String parameters )
+		{
+			MaximizerFrame.expressionSelect.setSelectedItem( parameters );
+			MaximizerFrame.maximize( -1, 0, 0, false );
 		}
 	}
 
@@ -1708,9 +1721,9 @@ public class KoLmafiaCLI
 			{	
 				buf.append( "<tr><td>" );
 				buf.append( mod );
-				buf.append( "</td><td>N/A" );
-				// There are currently no string modifiers at the player level.
-				// buf.append( KoLCharacter.currentStringModifier( mod ) );
+				buf.append( "</td><td>" );
+				buf.append( KoLCharacter.currentStringModifier( mod ).replaceAll(
+					"\t", "<br>" ) );
 				if ( mods != null )
 				{
 					buf.append( "</td><td>" );
@@ -1718,7 +1731,7 @@ public class KoLmafiaCLI
 				}
 				buf.append( "</td></tr>" );
 			}
-			buf.append( "</table>" );
+			buf.append( "</table><br>" );
 			RequestLogger.printLine( buf.toString() );
 		}
 	}
@@ -1750,7 +1763,7 @@ public class KoLmafiaCLI
 			"<tr><td>-7</td><td rowspan=3></td></tr>" +
 			"<tr><td>-8</td></tr>" +
 			"<tr><td>-9</td><td>+30 ML</td></tr>" +
-			"</table>" );
+			"</table><br>" );
 		}
 	}
 

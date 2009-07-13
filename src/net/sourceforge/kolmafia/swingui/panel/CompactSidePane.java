@@ -319,15 +319,16 @@ public class CompactSidePane
 		int mus = KoLCharacter.getBaseMuscle();
 		int mys = KoLCharacter.getBaseMysticality();
 		int mox = KoLCharacter.getBaseMoxie();
-		if ( KoLConstants.activeEffects.contains( BasementRequest.MUS_EQUAL ) )
+		String equalize = KoLCharacter.currentStringModifier( Modifiers.EQUALIZE );
+		if ( equalize.startsWith( "Mus" ) )
 		{
 			mys = mox = mus;
 		}
-		else if ( KoLConstants.activeEffects.contains( BasementRequest.MYS_EQUAL ) )
+		else if ( equalize.startsWith( "Mys" ) )
 		{
 			mus = mox = mys;
 		}
-		else if ( KoLConstants.activeEffects.contains( BasementRequest.MOX_EQUAL ) )
+		else if ( equalize.startsWith( "Mox" ) )
 		{
 			mus = mys = mox;
 		}

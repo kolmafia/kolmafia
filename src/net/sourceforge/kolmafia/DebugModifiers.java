@@ -115,7 +115,7 @@ public class DebugModifiers
 	public static void finish()
 	{
 		DebugModifiers.flushRow();
-		DebugModifiers.buffer.append( "</table>" );
+		DebugModifiers.buffer.append( "</table><br>" );
 		RequestLogger.printLine( DebugModifiers.buffer.toString() );
 		RequestLogger.printLine();
 		DebugModifiers.buffer = null;
@@ -181,9 +181,8 @@ public class DebugModifiers
 			DebugModifiers.buffer.append( "</tr>" );
 		}
 		
-		DebugModifiers.buffer.append( "</table>" );
+		DebugModifiers.buffer.append( "</table><br>" );
 		RequestLogger.printLine( DebugModifiers.buffer.toString() );
-		RequestLogger.printLine();
 		DebugModifiers.buffer = null;
 	}
 	

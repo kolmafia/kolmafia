@@ -71,6 +71,7 @@ import net.sourceforge.kolmafia.session.MoodManager;
 import net.sourceforge.kolmafia.session.MoodManager.MoodTrigger;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
+import net.sourceforge.kolmafia.swingui.MaximizerFrame;
 import net.sourceforge.kolmafia.swingui.ProfileFrame;
 import net.sourceforge.kolmafia.swingui.menu.ThreadedMenuItem;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
@@ -213,8 +214,13 @@ public class ShowDescriptionList
 		}
 	}
 
-	public static final void showGameDescription( final Object item )
+	public static final void showGameDescription( Object item )
 	{
+		if ( item instanceof MaximizerFrame.Boost )
+		{
+			item = ((MaximizerFrame.Boost) item).getItem();
+		}
+		
 		if ( item instanceof AdventureResult )
 		{
 			if ( ( (AdventureResult) item ).isItem() )
@@ -253,7 +259,7 @@ public class ShowDescriptionList
 		}
 	}
 
-	public static final String getWikiLocation( final Object item )
+	public static final String getWikiLocation( Object item )
 	{
 		if ( item == null )
 		{
@@ -266,6 +272,11 @@ public class ShowDescriptionList
 		boolean isEffect = false;
 		boolean isSkill = false;
 				
+		if ( item instanceof MaximizerFrame.Boost )
+		{
+			item = ((MaximizerFrame.Boost) item).getItem();
+		}
+
 		if ( item instanceof AdventureResult )
 		{
 			AdventureResult result = (AdventureResult) item;

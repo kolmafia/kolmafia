@@ -968,6 +968,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "boolean_modifier", DataTypes.BOOLEAN_TYPE, params ) );
 
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "string_modifier", DataTypes.STRING_TYPE, params ) );
+
 		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "string_modifier", DataTypes.STRING_TYPE, params ) );
 
@@ -3576,6 +3579,12 @@ public abstract class RuntimeLibrary
 		String name = arg.toString();
 		String mod = modifier.toString();
 		return DataTypes.makeBooleanValue( Modifiers.getBooleanModifier( name, mod ) );
+	}
+
+	public static Value string_modifier( final Value modifier )
+	{
+		String mod = modifier.toString();
+		return new Value( KoLCharacter.currentStringModifier( mod ) );
 	}
 
 	public static Value string_modifier( final Value arg, final Value modifier )

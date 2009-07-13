@@ -48,6 +48,7 @@ import java.util.HashMap;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -192,6 +193,14 @@ public abstract class GenericPanel
 		if ( component instanceof AutoFilterComboBox )
 		{
 			JTextComponent editor = (JTextComponent) ( (AutoFilterComboBox) component ).getEditor().getEditorComponent();
+
+			editor.addKeyListener( listener );
+			this.listenerMap.put( editor, new WeakReference( listener ) );
+		}
+		else if ( component instanceof JComboBox &&
+			((JComboBox) component).isEditable() )
+		{
+			JTextComponent editor = (JTextComponent) ( (JComboBox) component ).getEditor().getEditorComponent();
 
 			editor.addKeyListener( listener );
 			this.listenerMap.put( editor, new WeakReference( listener ) );

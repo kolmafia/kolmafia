@@ -173,7 +173,8 @@ public interface KoLConstants
 		{ "Farmer's Almanac", "CalendarFrame" },
 		{ "Internal Database", "DatabaseFrame" },
 		{ "Coin Toss Game", "MoneyMakingGameFrame" },
-		{ "Preferences", "OptionsFrame" }
+		{ "Preferences", "OptionsFrame" },
+		{ "Modifier Maximizer", "MaximizerFrame" }
 	};
 
 
