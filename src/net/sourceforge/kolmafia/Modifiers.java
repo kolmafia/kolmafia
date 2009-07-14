@@ -571,6 +571,16 @@ public class Modifiers
 	public static final int FREE_PULL = 4;
 	public static final int VARIABLE = 5;
 	public static final int NONSTACKABLE_WATCH = 6;
+	public static final int COLD_IMMUNITY = 7;
+	public static final int HOT_IMMUNITY = 8;
+	public static final int SLEAZE_IMMUNITY = 9;
+	public static final int SPOOKY_IMMUNITY = 10;
+	public static final int STENCH_IMMUNITY = 11;
+	public static final int COLD_VULNERABILITY = 12;
+	public static final int HOT_VULNERABILITY = 13;
+	public static final int SLEAZE_VULNERABILITY = 14;
+	public static final int SPOOKY_VULNERABILITY = 15;
+	public static final int STENCH_VULNERABILITY = 16;
 
 	private static final Object[][] booleanModifiers =
 	{
@@ -601,6 +611,46 @@ public class Modifiers
 		{ "Nonstackable Watch",
 		  null,
 		  Pattern.compile( "Nonstackable Watch" )
+		},
+		{ "Cold Immunity",
+		  null,
+		  Pattern.compile( "Cold Immunity" )
+		},
+		{ "Hot Immunity",
+		  null,
+		  Pattern.compile( "Hot Immunity" )
+		},
+		{ "Sleaze Immunity",
+		  null,
+		  Pattern.compile( "Sleaze Immunity" )
+		},
+		{ "Spooky Immunity",
+		  null,
+		  Pattern.compile( "Spooky Immunity" )
+		},
+		{ "Stench Immunity",
+		  null,
+		  Pattern.compile( "Stench Immunity" )
+		},
+		{ "Cold Vulnerability",
+		  null,
+		  Pattern.compile( "Cold Vulnerability" )
+		},
+		{ "Hot Vulnerability",
+		  null,
+		  Pattern.compile( "Hot Vulnerability" )
+		},
+		{ "Sleaze Vulnerability",
+		  null,
+		  Pattern.compile( "Sleaze Vulnerability" )
+		},
+		{ "Spooky Vulnerability",
+		  null,
+		  Pattern.compile( "Spooky Vulnerability" )
+		},
+		{ "Stench Vulnerability",
+		  null,
+		  Pattern.compile( "Stench Vulnerability" )
 		},
 	};
 
