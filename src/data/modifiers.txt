@@ -43,7 +43,7 @@
 Ancient Saucehelm	Mysticality: +7, Class: "Sauceror", Familiar Effect: "3xGhuol, cap 12"
 Baron von Ratsworth's tophat	Moxie: +5, Muscle: +5, Mysticality: +5, Familiar Effect: "1xPotato, 3xGhuol, cap 18"
 # Brimstone Beret: Allows you to keep 4 songs in your head instead of 3.
-Brimstone Beret	Moxie Percent: +50, Muscle Percent: -20, Familiar Effect: "1xVolley, 1xLep"
+Brimstone Beret	Moxie Percent: +50, Muscle Percent: -20, Brimstone, Familiar Effect: "1xVolley, 1xLep"
 # Cerebral Cloche: Jellyfish Vision
 Cerebral Cloche	Maximum MP: +15, Familiar Effect: "1.5xLep, cap 22"
 Cloaca-Cola helmet	Damage Absorption: +10, Familiar Effect: "3xFairy, cap 7"
@@ -236,7 +236,7 @@ yellow traffic cone	Moxie: +3, Sleaze Resistance: +2, Familiar Effect: "?xVolley
 
 1337 7r0uZ0RZ	Intrinsic Effect: "1337p4n7Z"
 Boss Bat britches	Moxie: +5
-Brimstone Boxers	Moxie Percent: +50, Mysticality Percent: -20, Initiative: +50
+Brimstone Boxers	Moxie Percent: +50, Mysticality Percent: -20, Initiative: +50, Brimstone
 Can-Can skirt	Muscle Percent: +10
 Cerebral Culottes	Mysticality: +10
 Chester's cutoffs	Hot Resistance: +3, Stench Resistance: +3, Class: "Disco Bandit"
@@ -435,7 +435,7 @@ yak anorak	MP Regen Min: 3, MP Regen Max: 4
 7-inch discus	Moxie Percent: +5, Weapon Damage Percent: +10
 Bigger Bugfinder Blade	Muscle: +11, Mysticality: +11, Moxie: +11
 Bjorn's Hammer	Muscle: +10, Class: "Seal Clubber"
-Brimstone Bludgeon	Muscle Percent: +50, Mysticality Percent: -20, Weapon Damage: +30
+Brimstone Bludgeon	Muscle Percent: +50, Mysticality Percent: -20, Weapon Damage: +30, Brimstone
 Bugfinder Blade	Muscle: +7, Mysticality: +7, Moxie: +7
 C.B.F.G.	Hot Damage: +10, Stench Damage: +10
 C.H.U.M. knife	Stench Damage: +30
@@ -564,10 +564,10 @@ can cannon	Moxie: +3, Monster Level: +3, Weapon Damage: +3
 can of fake snow	Cold Damage: +5
 can of maces	Weapon Damage: +2, Sleaze Resistance: +1
 cardboard crossbow	Moxie: +3, Weapon Damage: +3
-cardboard katana	Weapon Damage: +3
+cardboard katana	Weapon Damage: +3, Synergetic
 cardboard staff	Mysticality: +3, Weapon Damage: +3
 cardboard sword	Muscle: +3, Weapon Damage: +3
-cardboard wakizashi	Damage Reduction: 2
+cardboard wakizashi	Damage Reduction: 2, Synergetic
 carob cannon	Moxie: +7, Adventures: +3, Stench Damage: +5
 cast-iron legacy paddle	Muscle: +15, Weapon Damage: +10
 # charming flute: +20 Damage vs. Snakes
@@ -707,7 +707,7 @@ linoleum staff	Mysticality: +7, Spell Damage: +7
 linoleum sword	Muscle: +7, Spell Damage: +7
 little paper umbrella	Spell Damage: +1
 # lucky ball-and-chain
-lupine sword	Spooky Damage: +9
+lupine sword	Spooky Damage: +9, Synergetic
 magic whistle	Monster Level: +4, Familiar Weight: +1
 magilaser blastercannon	Ranged Damage: +15, Hot Damage: +5
 mannequin leg	Sleaze Damage: +20, Moxie: +5, Class: "Seal Clubber"
@@ -773,7 +773,7 @@ scorpion whip	Weapon Damage: +13
 # scratch 'n' sniff crossbow
 # scratch 'n' sniff sword
 # seal-clubbing club
-serpentine sword	Monster Level: +10
+serpentine sword	Monster Level: +10, Synergetic
 severed flipper	Muscle: +5, Weapon Damage: +5, Class: "Seal Clubber"
 shiny butcherknife	Spell Damage: +5
 shuddersword	Muscle: +7, Spell Damage: +7, Spooky Damage: +5
@@ -863,7 +863,7 @@ yohohoyo	Critical: 2, Spooky Damage: +1, Stench Damage: +1, Hot Damage: +1, Cold
 9-ball	Weapon Damage: +5, Ranged Damage: +5, Spell Damage: +5
 Abyssal ember	Hot Damage: +20, Weapon Drop: +25, Class: "Seal Clubber"
 Bag o' Tricks	Item Drop: +10, Meat Drop: +15, MP Regen Min: 10, MP Regen Max: 12, Spell Damage Percent: +50, Softcore Only
-Brimstone Bunker	Muscle Percent: +50, Moxie Percent: -20, Damage Reduction: 25
+Brimstone Bunker	Muscle Percent: +50, Moxie Percent: -20, Damage Reduction: 25, Brimstone
 # C.H.U.M. lantern: (In Sewers)
 C.H.U.M. lantern	Stench Damage: +17, Item Drop: [30*loc(Sewer Tunnels)]
 Cloaca-Cola shield	Mysticality: +1, Damage Reduction: 4
@@ -1048,8 +1048,8 @@ shadowy seal eye	Spooky Damage: +20, Monster Level: +15, Class: "Seal Clubber"
 six-rainbow shield	Maximum HP: +50, Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, Damage Reduction: 12
 slime-covered compass	Slime Resistance: +2, Initiative: +40
 slime-covered lantern	Slime Resistance: +2, Maximum HP: +50, Maximum MP: +50, HP Regen Min: 10, HP Regen Max: 15, MP Regen Min: 10, MP Regen Max: 15
-snake shield	Muscle: +6, Damage Reduction: 7
-snarling wolf shield	Maximum HP: +40, Damage Reduction: 7
+snake shield	Muscle: +6, Damage Reduction: 7, Synergetic
+snarling wolf shield	Maximum HP: +40, Damage Reduction: 7, Synergetic
 sock monkey	Moxie: +3
 spaghetti-box banjo	MP Regen Min: 5, MP Regen Max: 10, Class: "Pastamancer"
 spiky turtle shield	Weapon Damage: +8, Item Drop: +10, Damage Reduction: 8
@@ -1120,8 +1120,8 @@ Blue Diamond of Honesty	Muscle: +7, Mysticality: +7, Moxie: +7, Item Drop: +9, S
 Bonerdagon necklace	Muscle: +5, Moxie: +5, Initiative: +30
 Boris's ring	Muscle: +10
 Boss Bat bling	Muscle: +3, Moxie: +3
-Brimstone Bracelet	Mysticality Percent: +50, Muscle Percent: -20, Mana Cost: -3, Single Equip
-Brimstone Brooch	Mysticality Percent: +50, Moxie Percent: -20, Spell Damage: +40, Single Equip
+Brimstone Bracelet	Mysticality Percent: +50, Muscle Percent: -20, Mana Cost: -3, Single Equip, Brimstone
+Brimstone Brooch	Mysticality Percent: +50, Moxie Percent: -20, Spell Damage: +40, Single Equip, Brimstone
 C.A.R.N.I.V.O.R.E. button	Monster Level: +15
 Cape of the Goblin King	Moxie: +7
 # Cat-Herding Prod: +10 Damage vs. Lions
@@ -1759,6 +1759,7 @@ woolen cravat	Familiar Weight: +5
 # value of 1.
 
 Fam:Crimbo P. R. E. S. S. I. E.	Volleyball: 1
+Fam:Dodecapede	Synergetic
 Fam:Exotic Parrot	Hot Resistance: [floor((W+19)/20)], Cold Resistance: [floor((W+15)/20)], Spooky Resistance: [floor((W+11)/20)], Stench Resistance: [floor((W+7)/20)], Sleaze Resistance: [floor((W+3)/20)]
 Fam:Hobo Monkey	Leprechaun: 1.25
 Fam:Jumpsuited Hound Dog	Fairy: 1.25, Combat Rate: [min(5,floor(W/6))]
@@ -2510,7 +2511,7 @@ Yuletide Sappiness	Mysticality Percent: +10
 
 Abs of Tin	Maximum HP Percent: +10
 # Ambidextrous Funkslinging
-Amphibian Sympathy	Familiar Weight: +5
+Amphibian Sympathy	Familiar Weight: +5, Synergetic
 # Armorcraftiness
 Claws of the Otter	Weapon Damage: +3
 Claws of the Walrus	Weapon Damage: +4

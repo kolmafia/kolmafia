@@ -1700,6 +1700,28 @@ public class KoLmafiaCLI
 				}
 				buf.append( "</td></tr>" );
 			}
+			buf.append( "<tr><td colspan=2>BITMAP MODIFIERS</td></tr>" );
+			i = 1;
+			while ( (mod = Modifiers.getBitmapModifierName( i++ )) != null )
+			{	
+				buf.append( "<tr><td>" );
+				buf.append( mod );
+				buf.append( "</td><td>0x" );
+				buf.append( Integer.toHexString( 
+					KoLCharacter.currentRawBitmapModifier( mod ) ) );
+				buf.append( " (" );
+				buf.append( KoLCharacter.currentBitmapModifier( mod ) );
+				buf.append( ")" );
+				if ( mods != null )
+				{
+					buf.append( "</td><td>0x" );
+					buf.append( Integer.toHexString( mods.getRawBitmap( mod ) ) );
+					buf.append( " (" );
+					buf.append( mods.getBitmap( mod ) );
+					buf.append( ")" );
+				}
+				buf.append( "</td></tr>" );
+			}
 			buf.append( "<tr><td colspan=2>BOOLEAN MODIFIERS</td></tr>" );
 			i = 0;
 			while ( (mod = Modifiers.getBooleanModifierName( i++ )) != null )

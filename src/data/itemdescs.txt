@@ -3365,7 +3365,7 @@
 3359	477615124	scrumptious ice ant	scrumptious ice ants
 3360	700282942	delicious stinkbug	delicious stinkbugs
 3361	649856281	yummy death watch beetle	yummy death watch beetles
-3362	889678946	tasty louse	tasty louses
+3362	889678946	tasty louse	tasty lice
 3363	205635187	mole mol&eacute;	mole mol&eacute; mol&eacute;
 3364	136432731	Morlock's Mark Bourbon	jugs of Morlock's Mark Bourbon
 3365	232791709	Climate Colada	Climate Coladas

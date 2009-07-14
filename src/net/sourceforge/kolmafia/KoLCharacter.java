@@ -1491,6 +1491,26 @@ public abstract class KoLCharacter
 		return KoLCharacter.currentModifiers.get( index );
 	}
 
+	public static final int currentRawBitmapModifier( final String name )
+	{
+		return KoLCharacter.currentModifiers.getRawBitmap( name );
+	}
+
+	public static final int currentRawBitmapModifier( final int index )
+	{
+		return KoLCharacter.currentModifiers.getRawBitmap( index );
+	}
+
+	public static final int currentBitmapModifier( final String name )
+	{
+		return KoLCharacter.currentModifiers.getBitmap( name );
+	}
+
+	public static final int currentBitmapModifier( final int index )
+	{
+		return KoLCharacter.currentModifiers.getBitmap( index );
+	}
+
 	public static final boolean currentBooleanModifier( final String name )
 	{
 		return KoLCharacter.currentModifiers.getBoolean( name );
@@ -1637,7 +1657,7 @@ public abstract class KoLCharacter
 
 	public static final int getClownosity()
 	{
-		return (int) KoLCharacter.currentModifiers.getClownosity();
+		return KoLCharacter.currentModifiers.getBitmap( Modifiers.CLOWNOSITY );
 	}
 	
 	public static final int getRestingHP()
@@ -3015,7 +3035,6 @@ public abstract class KoLCharacter
 	public static final Modifiers recalculateAdjustments( boolean debug, int MCD, List equipment, List effects, FamiliarData familiar, boolean applyIntrinsics )
 	{
 		int taoFactor = KoLCharacter.hasSkill( "Tao of the Terrapin" ) ? 2 : 1;
-		int brimstoneMonsterLevel = 1;
 
 		Modifiers newModifiers = debug ? new DebugModifiers() : new Modifiers();
 		Modifiers.setFamiliar( familiar );
@@ -3050,14 +3069,32 @@ public abstract class KoLCharacter
 				continue;
 			}
 			int id = item.getItemId();
-			if ( slot == EquipmentManager.FAMILIAR &&
-				ItemDatabase.getConsumptionType( id ) == KoLConstants.EQUIP_HAT )
-			{	// Hatrack hats don't get their normal enchantments
-				continue;
+			boolean onHand = false;
+			if ( slot == EquipmentManager.FAMILIAR )
+			{
+				switch ( ItemDatabase.getConsumptionType( id ) )
+				{
+				case KoLConstants.EQUIP_HAT:
+					// Hatrack hats don't get their normal enchantments
+					continue;
+				case KoLConstants.EQUIP_WEAPON:
+					// Disembodied Hand weapons don't give all enchantments
+					onHand = true;
+					break;
+				}
 			}
 
 			String name = item.getName();
 			Modifiers imod = Modifiers.getModifiers( name );
+			if ( onHand && imod != null )
+			{
+				Modifiers hand = new Modifiers();
+				hand.set( imod );
+				hand.set( Modifiers.SLIME_HATES_IT, 0.0f );
+				hand.set( Modifiers.BRIMSTONE, 0 );
+				imod = hand;
+				// Possibly cache the modified modifiers?
+			}
 			if ( applyIntrinsics && imod != null )
 			{
 				String intrinsic = imod.getString( Modifiers.INTRINSIC_EFFECT );
@@ -3067,14 +3104,6 @@ public abstract class KoLCharacter
 				}
 			}
 			newModifiers.add( imod );
-
-			// Wearing multiple brimstone items has a secret effect
-			// on Monster Level, according to this thread:
-			// http://forums.kingdomofloathing.com:8080/vb/showthread.php?t=144250
-			if ( id >= 2813 && id <= 2818 )
-			{
-				brimstoneMonsterLevel *= 2;
-			}
 
 			switch ( slot )
 			{
@@ -3106,6 +3135,7 @@ public abstract class KoLCharacter
 			}
 		}
 
+		int brimstoneMonsterLevel = 1 << newModifiers.getBitmap( Modifiers.BRIMSTONE );
 		// Brimstone only affects monster level if more than one is worn
 		if ( brimstoneMonsterLevel > 2 )
 		{
