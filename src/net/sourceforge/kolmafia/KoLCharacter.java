@@ -3092,6 +3092,7 @@ public abstract class KoLCharacter
 				hand.set( imod );
 				hand.set( Modifiers.SLIME_HATES_IT, 0.0f );
 				hand.set( Modifiers.BRIMSTONE, 0 );
+				hand.set( Modifiers.SYNERGETIC, 0 );
 				imod = hand;
 				// Possibly cache the modified modifiers?
 			}
@@ -3202,15 +3203,6 @@ public abstract class KoLCharacter
 			}
 		}
 
-		// Wearing a serpentine sword and a serpentine shield doubles
-		// the effect of the sword.
-
-		if ( EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getName().equals( "serpentine sword" ) && EquipmentManager.getEquipment(
-			EquipmentManager.OFFHAND ).getName().equals( "snake shield" ) )
-		{
-			newModifiers.add( Modifiers.MONSTER_LEVEL, 10, "serpent synergy" );
-		}
-
 		// Because there are a limited number of passive skills,
 		// it is much more efficient to execute one check for
 		// each of the known skills.
@@ -3252,7 +3244,10 @@ public abstract class KoLCharacter
 			newModifiers.add( Modifiers.RESTING_HP_PCT, 100, "Grimace full" );
 		}
 
-		// Add familiar effects based on calculated weight adjustment,
+		// Add other oddball interactions
+		newModifiers.applySynergies();
+
+		// Add familiar effects based on calculated weight adjustment.
 
 		newModifiers.applyFamiliarModifiers( familiar );
 

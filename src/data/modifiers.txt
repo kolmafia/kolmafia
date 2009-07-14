@@ -1759,7 +1759,6 @@ woolen cravat	Familiar Weight: +5
 # value of 1.
 
 Fam:Crimbo P. R. E. S. S. I. E.	Volleyball: 1
-Fam:Dodecapede	Synergetic
 Fam:Exotic Parrot	Hot Resistance: [floor((W+19)/20)], Cold Resistance: [floor((W+15)/20)], Spooky Resistance: [floor((W+11)/20)], Stench Resistance: [floor((W+7)/20)], Sleaze Resistance: [floor((W+3)/20)]
 Fam:Hobo Monkey	Leprechaun: 1.25
 Fam:Jumpsuited Hound Dog	Fairy: 1.25, Combat Rate: [min(5,floor(W/6))]
@@ -2511,7 +2510,7 @@ Yuletide Sappiness	Mysticality Percent: +10
 
 Abs of Tin	Maximum HP Percent: +10
 # Ambidextrous Funkslinging
-Amphibian Sympathy	Familiar Weight: +5, Synergetic
+Amphibian Sympathy	Familiar Weight: +5
 # Armorcraftiness
 Claws of the Otter	Weapon Damage: +3
 Claws of the Walrus	Weapon Damage: +4
@@ -2641,6 +2640,21 @@ Loc:The Briniest Deepests	Initiative Penalty: +25, Item Drop Penalty: +25, Meat 
 Loc:The Marinara Trench	Initiative Penalty: -100, Item Drop Penalty: -100, Meat Drop Penalty: -100
 Loc:Anemone Mine	Initiative Penalty: -100, Item Drop Penalty: -100, Meat Drop Penalty: -100
 Loc:The Dive Bar	Initiative Penalty: -100, Item Drop Penalty: -100, Meat Drop Penalty: -100
+
+# Synergies section of modifiers.txt
+# Synergies are triggered when an arbitrary combination of two or more
+# equipment items, passive skills, active effects, campground items, or
+# a specific outfit are present.  They can't depend on your familiar or
+# its equipment, to allow the possibility of a familiar weight modifier.
+# The name of the synergy is split into elements using whatever character
+# immediately follows "synergy": this should obviously be something that
+# doesn't appear in any of the element names.
+# Each element of the synergy must appear earlier in this file (even if
+# it has no enchantments itself), with a "Synergetic" flag.
+# There is currently a limit of 32 total Synergetic items.
+synergy/serpentine sword/snake shield	Monster Level: +10
+synergy/lupine sword/snarling wolf shield	Spooky Damage: +9
+synergy/cardboard katana/cardboard wakizashi	Weapon Damage: +20
 
 # Everything Else section of modifiers.txt
 
