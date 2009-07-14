@@ -67,6 +67,7 @@ public class Modifiers
 	private static final Map modifiersByName = new TreeMap();
 	private static final HashMap familiarEffectByName = new HashMap();
 	private static final ArrayList passiveSkills = new ArrayList();
+	private static final ArrayList synergies = new ArrayList();
 	public static String currentLocation = "";
 	public static String currentZone = "";
 	public static String currentFamiliar = "";
@@ -81,57 +82,6 @@ public class Modifiers
 	private static final Pattern FAMILIAR_EFFECT_TRANSLATE_PATTERN2 =
 		Pattern.compile( "cap ([\\d.]+)" );
 	private static final String FAMILIAR_EFFECT_TRANSLATE_REPLACEMENT2 = "Familiar Weight Cap: $1 ";
-
-	static
-	{
-		BufferedReader reader = FileUtilities.getVersionedReader( "modifiers.txt", KoLConstants.MODIFIERS_VERSION );
-		String[] data;
-
-		while ( ( data = FileUtilities.readData( reader ) ) != null )
-		{
-			if ( data.length != 2 )
-			{
-				continue;
-			}
-
-			String name = StringUtilities.getCanonicalName( data[ 0 ] );
-			if ( Modifiers.modifiersByName.containsKey( name ) )
-			{
-				KoLmafia.updateDisplay( "Duplicate modifiers for: " + name );
-			}
-			Modifiers.modifiersByName.put( name, data[ 1 ] );
-			
-			Matcher matcher = FAMILIAR_EFFECT_PATTERN.matcher( data[ 1 ] );
-			if ( matcher.find() )
-			{
-				Modifiers.familiarEffectByName.put( name, matcher.group( 1 ) );
-				String effect = matcher.group( 1 );
-				matcher = FAMILIAR_EFFECT_TRANSLATE_PATTERN.matcher( effect );
-				if ( matcher.find() )
-				{
-					effect = matcher.replaceAll( FAMILIAR_EFFECT_TRANSLATE_REPLACEMENT );
-				}
-				matcher = FAMILIAR_EFFECT_TRANSLATE_PATTERN2.matcher( effect );
-				if ( matcher.find() )
-				{
-					effect = matcher.replaceAll( FAMILIAR_EFFECT_TRANSLATE_REPLACEMENT2 );
-				}
-				Modifiers.modifiersByName.put( "fameq:" + name, effect );
-			}
-		}
-
-		try
-		{
-			reader.close();
-		}
-		catch ( Exception e )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-
-			StaticEntity.printStackTrace( e );
-		}
-	}
 
 	public static final int FAMILIAR_WEIGHT = 0;
 	public static final int MONSTER_LEVEL = 1;
@@ -1526,6 +1476,22 @@ public class Modifiers
 			this.add( Modifiers.FAMILIAR_WEIGHT, -10, "dodecapede sympathy" );
 		}
 	}
+	
+	public void applySynergies()
+	{
+		int synergetic = this.getRawBitmap( Modifiers.SYNERGETIC );
+		if ( synergetic == 0 ) return;	// nothing possible
+		Iterator i = Modifiers.synergies.iterator();
+		while ( i.hasNext() )
+		{
+			String name = (String) i.next();
+			int mask = ((Integer) i.next()).intValue();
+			if ( (synergetic & mask) == mask )
+			{
+				this.add( Modifiers.getModifiers( name ) );
+			}
+		}
+	}
 
 	public void applyFamiliarModifiers( final FamiliarData familiar )
 	{
@@ -2394,5 +2360,86 @@ public class Modifiers
 	public static void setFamiliar( FamiliarData fam )
 	{
 		Modifiers.currentFamiliar = fam == null ? "" : fam.getRace().toLowerCase();
+	}
+
+	static
+	{
+		BufferedReader reader = FileUtilities.getVersionedReader( "modifiers.txt", KoLConstants.MODIFIERS_VERSION );
+		String[] data;
+
+	loop:
+		while ( ( data = FileUtilities.readData( reader ) ) != null )
+		{
+			if ( data.length != 2 )
+			{
+				continue;
+			}
+
+			String name = StringUtilities.getCanonicalName( data[ 0 ] );
+			if ( Modifiers.modifiersByName.containsKey( name ) )
+			{
+				KoLmafia.updateDisplay( "Duplicate modifiers for: " + name );
+			}
+			Modifiers.modifiersByName.put( name, data[ 1 ] );
+			
+			Matcher matcher = FAMILIAR_EFFECT_PATTERN.matcher( data[ 1 ] );
+			if ( matcher.find() )
+			{
+				Modifiers.familiarEffectByName.put( name, matcher.group( 1 ) );
+				String effect = matcher.group( 1 );
+				matcher = FAMILIAR_EFFECT_TRANSLATE_PATTERN.matcher( effect );
+				if ( matcher.find() )
+				{
+					effect = matcher.replaceAll( FAMILIAR_EFFECT_TRANSLATE_REPLACEMENT );
+				}
+				matcher = FAMILIAR_EFFECT_TRANSLATE_PATTERN2.matcher( effect );
+				if ( matcher.find() )
+				{
+					effect = matcher.replaceAll( FAMILIAR_EFFECT_TRANSLATE_REPLACEMENT2 );
+				}
+				Modifiers.modifiersByName.put( "fameq:" + name, effect );
+			}
+			
+			if ( name.startsWith( "synergy" ) )
+			{
+				String[] pieces = name.split( "\\Q" + name.substring( 7, 8 ) );
+				if ( pieces.length < 3 )
+				{
+					KoLmafia.updateDisplay( name + " contain less than 2 elements." );
+					continue loop;
+				}
+				int mask = 0;
+				for ( int i = 1; i < pieces.length; ++i )
+				{
+					Modifiers mods = Modifiers.getModifiers( pieces[ i ] );
+					if ( mods == null )
+					{
+						KoLmafia.updateDisplay( name + " contains element " + pieces[ i ] + " with no modifiers." );
+						continue loop;
+					}
+					int emask = mods.bitmaps[ Modifiers.SYNERGETIC ];
+					if ( emask == 0 )
+					{
+						KoLmafia.updateDisplay( name + " contains element " + pieces[ i ] + " that isn't Synergetic." );
+						continue loop;
+					}
+					mask |= emask;
+				}
+				Modifiers.synergies.add( name );
+				Modifiers.synergies.add( new Integer( mask ) );
+			}
+		}
+
+		try
+		{
+			reader.close();
+		}
+		catch ( Exception e )
+		{
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+
+			StaticEntity.printStackTrace( e );
+		}
 	}
 }
