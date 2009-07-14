@@ -1952,6 +1952,7 @@ Cold Hard Skin	Cold Damage: +25, Maximum HP: +200
 # Cold Hearted
 Cold Hearted	Moxie: [min(T,20)], Familiar Weight: [ceil(min(T,20)/2)]
 # Coldform: Cold, Cold, Cold!
+Coldform	Cold Immunity, Hot Vulnerability, Spooky Vulnerability
 Colorfully Concealed	Combat Rate: [-5*zone(The Sea)]
 # Comic Violence: Regular Attacks Can't Miss
 Compensatory Cruelness	Weapon Damage: +5
@@ -1986,7 +1987,7 @@ Deadly Flashing Blade	Weapon Damage: +10
 # Deadly Lampblade: 100% chance of poisoning opponent
 Deadly Lampblade	Spooky Damage: +75
 # Deep-Fried: Extra-Vulnerable to Stench and Sleaze
-Deep-Fried	Hot Resistance: +2
+Deep-Fried	Hot Resistance: +2, Stench Vulnerability, Sleaze Vulnerability
 Demonic Taint	Stench Damage: +30
 Digitally Converted	Monster Level: +30
 Dilated Pupils	Item Drop: +20
@@ -2150,6 +2151,7 @@ Hornswaggled	Moxie Percent: +50, Muscle Percent: -50
 Hot Blooded	Muscle Percent: +30, Mysticality Percent: +10, Moxie Percent: +20, Hot Damage: +10, Hot Resistance: +2
 # Hot Breath: Can breathe fire in combat
 # Hotform: Hot, Hot, Hot!
+Hotform	Hot Immunity, Sleaze Vulnerability, Stench Vulnerability
 Hustlin'	Initiative: +50, Item Drop: +10
 # Hyperbolic Hypothermia: Continually take damage
 Hyperbolic Hypothermia	Cold Damage: +20
@@ -2257,7 +2259,7 @@ Pasta Oneness	Mysticality: +2
 Pasty	Muscle Percent: +50
 Patience of the Tortoise	Maximum HP: +3, Muscle: +1
 # Paw swap: Extra-Vulnerable to Hot and Spooky
-Paw swap	Cold Resistance: +2
+Paw swap	Cold Resistance: +2, Hot Vulnerability, Spooky Vulnerability
 Peeled Eyeballs	Experience: -1, Meat Drop: -20, Item Drop: +15
 Perceptive Pressure	Item Drop: +50
 Permafrosty	Cold Damage: +50
@@ -2314,7 +2316,7 @@ Salty Dogs	Initiative Penalty: [10*zone(The Sea)], Item Drop Penalty: [10*zone(T
 Saucemastery	Maximum HP: +3, Mysticality: +1
 Savage Beast Inside	Muscle: +20
 # Scared Stiff: Extra-Vulnerable to Cold and Spooky
-Scared Stiff	Sleaze Resistance: +2
+Scared Stiff	Sleaze Resistance: +2, Cold Vulnerability, Spooky Vulnerability
 Scariberi	Spooky Damage: [min(100,T)]
 # Scarysauce: Damages Attacking Opponents
 Scarysauce	Sleaze Resistance: +2, Cold Resistance: +2
@@ -2331,14 +2333,15 @@ Shamed &amp; Manipulated	Muscle Percent: +50, Moxie Percent: -50
 Shiny Happy Cupcake	Experience: +3
 Shiny Happy Weapon	Muscle: +20
 # Shirtless in Seattle: Extra-Vulnerable to Cold and Sleaze
-Shirtless in Seattle	Stench Resistance: +2
+Shirtless in Seattle	Stench Resistance: +2, Cold Vulnerability, Sleaze Vulnerability
 Shot in the Arse	Muscle: +15, Mysticality: +15, Moxie: +15
 # Side Affectation: Extra-Vulnerable to Hot and Stench
-Side Affectation	Spooky Resistance: +2
+Side Affectation	Spooky Resistance: +2, Hot Vulnerability, Stench Vulnerability
 Sinuses For Miles	Meat Drop: +200
 Sizzling with Fury	Hot Damage: +25, Initiative: +60
 Sleaze-Resistant Trousers	Sleaze Resistance: +1
 # Sleazeform: Wink Wink, Nudge Nudge
+Sleazeform	Sleaze Immunity, Cold Vulnerability, Spooky Vulnerability
 # Sleazy Breath: Can breathe cologne in combat
 Sleazy Weapon	Sleaze Damage: +3
 # Sleeping with the Fishes: Makes you sleep like the dead
@@ -2380,6 +2383,7 @@ Spirit of Wormwood	Spell Damage: +10
 Spooky Demeanor	Muscle Percent: +10, Mysticality Percent: +30, Moxie Percent: +20, Spooky Damage: +10, Spooky Resistance: +2
 Spooky Weapon	Spooky Damage: +3
 # Spookyform: Ooooooooooooooooh
+Spookyform	Spooky Immunity, Hot Vulnerability, Stench Vulnerability
 Spookypants	Spooky Resistance: +1
 Springy Fusilli	Initiative: +40
 Squirming Like a Toad	Moxie Percent: +10, Familiar Weight: +5
@@ -2387,6 +2391,7 @@ Squirming Like a Toad	Moxie Percent: +10, Familiar Weight: +5
 Stabilizing Oiliness	Equalize: "Muscle"
 Starry-Eyed	Muscle Percent: [+5*U], Mysticality Percent: [+5*U], Moxie Percent: [+5*U]
 # Stenchform: P. U.
+Stenchform	Stench Immunity, Cold Vulnerability, Sleaze Vulnerability
 Stenchtastic	Muscle Percent: +20, Mysticality Percent: +30, Moxie Percent: +10, Stench Damage: +10, Stench Resistance: +2
 Steroid Boost	Muscle: +2
 Stevedave's Shanty of Superiority	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10

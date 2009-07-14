@@ -134,7 +134,6 @@ public class MaximizerFrame
 		"The Modifier Maximizer can be invoked from the gCLI or a script via <b>maximize <i>expression</i></b>, and will behave as if you'd selected Equipment: on-hand only, Max Price: don't check, and turned off the Include option.  The best equipment will automatically be equipped (once equipment suggestions are implemented, and you haven't specified the to-be-defined keyword to prevent this), but you'll still need to visit the GUI to apply effect boosts - there are too many factors in choosing between the available boosts for that to be safely automated." +
 		"<h3>Limitations &amp; Bugs</h3>" +
 		"This is still a work-in-progress, so don't expect ANYTHING to work perfectly at the moment.  However, here are some details that are especially broken:" +
-		"<br>\u2022 Elemental resistance doesn't take into account the immunities and vulnerabilities given by phials." +
 		"<br>\u2022 Items that can be installed at your campground for a bonus (such as Hobopolis bedding) aren't considered." +
 		"<br>\u2022 Your song limit isn't considered when recommending buffs, nor are any daily casting limits." +
 		"<br>\u2022 Weapon Damage, Ranged Damage, and Spell Damage are calculated assuming 100 points of base damage - in other words, additive and percentage boosts are considered to have exactly equal worth.  It's possible that Weapon and Ranged damage might use a better estimate of the base damage in the future, but for Spell Damage, the proper base depends on which spell you end up using." +
@@ -834,6 +833,20 @@ public class MaximizerFrame
 				case Modifiers.SPELL_DAMAGE:	
 					// Incorrect - base damage depends on spell used
 					val += mods.get( Modifiers.SPELL_DAMAGE_PCT );
+					break;
+				case Modifiers.COLD_RESISTANCE:
+				case Modifiers.HOT_RESISTANCE:
+				case Modifiers.SLEAZE_RESISTANCE:
+				case Modifiers.SPOOKY_RESISTANCE:
+				case Modifiers.STENCH_RESISTANCE:
+					if ( mods.getBoolean( i - Modifiers.COLD_RESISTANCE + Modifiers.COLD_IMMUNITY ) )
+					{
+						val = 100.0f;
+					}
+					else if ( mods.getBoolean( i - Modifiers.COLD_RESISTANCE + Modifiers.COLD_VULNERABILITY ) )
+					{
+						val -= 100.0f;
+					}
 					break;
 				}
 				if ( val < min ) this.failed = true;
