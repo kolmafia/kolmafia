@@ -116,7 +116,7 @@ public class Modifiers
 				{
 					effect = matcher.replaceAll( FAMILIAR_EFFECT_TRANSLATE_REPLACEMENT2 );
 				}
-                                Modifiers.modifiersByName.put( "fameq:" + name, effect );
+				Modifiers.modifiersByName.put( "fameq:" + name, effect );
 			}
 		}
 
@@ -585,6 +585,35 @@ public class Modifiers
 
 	public static final int FLOAT_MODIFIERS = Modifiers.floatModifiers.length;
 
+	public static final int BOOLEANS = 0;
+	public static final int CLOWNOSITY = 1;
+	public static final int BRIMSTONE = 2;
+	public static final int SYNERGETIC = 3;
+
+	private static final Object[][] bitmapModifiers =
+	{
+		{ "(booleans)",
+		  null,
+		  null
+		},
+		{ "Clownosity",
+		  null,
+		  Pattern.compile( "Clownosity: ([+-]\\d+)" )
+		},
+		{ "Brimstone",
+		  null,
+		  Pattern.compile( "Brimstone" )
+		},
+		{ "Synergetic",
+		  null,
+		  Pattern.compile( "Synergetic" )
+		},
+	};
+
+	public static final int BITMAP_MODIFIERS = Modifiers.bitmapModifiers.length;
+	private static final int[] bitmapMasks = new int[ BITMAP_MODIFIERS ];
+	static { Arrays.fill( bitmapMasks, 1 ); };
+
 	public static final int SOFTCORE = 0;
 	public static final int SINGLE = 1;
 	public static final int NEVER_FUMBLE = 2;
@@ -626,6 +655,13 @@ public class Modifiers
 	};
 
 	public static final int BOOLEAN_MODIFIERS = Modifiers.booleanModifiers.length;
+	static
+	{
+		if ( BOOLEAN_MODIFIERS > 32 )
+		{
+			KoLmafia.updateDisplay( "Too many boolean modifiers to fit into bitmaps[0].  Will have to store bitmaps as longs, or use two bitmaps to hold the booleans." );
+		}
+	}
 
 	public static final int CLASS = 0;
 	public static final int INTRINSIC_EFFECT = 1;
@@ -664,17 +700,6 @@ public class Modifiers
 
 	public static final int STRING_MODIFIERS = Modifiers.stringModifiers.length;
 	
-	// Clownosity behaves differently from any other current modifiers -
-	// multiples of the same item do not contribute any more towards it,
-	// even if their other attributes do stack.  Treat it as a special case
-	// for now, rather than creating a 4th class of modifier types.
-	// Currently, there are 19 distinct points of Clownosity available, so
-	// bits in an int will work to represent them.
-	
-	private static final Pattern CLOWNOSITY_PATTERN =
-		Pattern.compile( "Clownosity: ([+-]\\d+)" );
-	private static int clownosityMask = 1;
-	
 	public static final Iterator getAllModifiers()
 	{
 		return Modifiers.modifiersByName.keySet().iterator();
@@ -689,6 +714,11 @@ public class Modifiers
 	public static final String getModifierName( final int index )
 	{
 		return Modifiers.modifierName( Modifiers.floatModifiers, index );
+	}
+
+	public static final String getBitmapModifierName( final int index )
+	{
+		return Modifiers.modifierName( Modifiers.bitmapModifiers, index );
 	}
 
 	public static final String getBooleanModifierName( final int index )
@@ -841,16 +871,15 @@ public class Modifiers
 	private String name;
 	private boolean variable;
 	private final float[] floats;
-	private final boolean[] booleans;
+	private final int[] bitmaps;
 	private final String[] strings;
 	private Expression[] expressions;
-	private int clownosity;
 
 	public Modifiers()
 	{
 		this.variable = false;
 		this.floats = new float[ Modifiers.FLOAT_MODIFIERS ];
-		this.booleans = new boolean[ Modifiers.BOOLEAN_MODIFIERS ];
+		this.bitmaps = new int[ Modifiers.BITMAP_MODIFIERS ];
 		this.strings = new String[ Modifiers.STRING_MODIFIERS ];
 		this.reset();
 	};
@@ -858,10 +887,9 @@ public class Modifiers
 	public void reset()
 	{
 		Arrays.fill( this.floats, 0.0f );
-		Arrays.fill( this.booleans, false );
+		Arrays.fill( this.bitmaps, 0 );
 		Arrays.fill( this.strings, "" );
 		this.expressions = null;
-		this.clownosity = 0;
 	};
 
 	public float get( final int index )
@@ -879,31 +907,75 @@ public class Modifiers
 		int index = Modifiers.findName( Modifiers.floatModifiers, name );
 		if ( index < 0 || index >= this.floats.length )
 		{
-			return 0.0f;
+			return (float) this.getBitmap( name );
 		}
 
 		return this.floats[ index ];
 	};
 
+	public int getRawBitmap( final int index )
+	{
+		if ( index < 0 || index >= this.bitmaps.length )
+		{
+			return 0;
+		}
+
+		return this.bitmaps[ index ];
+	};
+
+	public int getRawBitmap( final String name )
+	{
+		int index = Modifiers.findName( Modifiers.bitmapModifiers, name );
+		if ( index < 0 || index >= this.bitmaps.length )
+		{
+			return 0;
+		}
+
+		return this.bitmaps[ index ];
+	};
+
+	public int getBitmap( final int index )
+	{
+		if ( index < 0 || index >= this.bitmaps.length )
+		{
+			return 0;
+		}
+
+		int n = this.bitmaps[ index ];
+		// Count the bits:
+		if ( n == 0 ) return 0;
+		n = ((n & 0xAAAAAAAA) >>>  1) + (n & 0x55555555);
+		n = ((n & 0xCCCCCCCC) >>>  2) + (n & 0x33333333);
+		n = ((n & 0xF0F0F0F0) >>>  4) + (n & 0x0F0F0F0F);
+		n = ((n & 0xFF00FF00) >>>  8) + (n & 0x00FF00FF);
+		n = ((n & 0xFFFF0000) >>> 16) + (n & 0x0000FFFF);
+		return n;
+	};
+
+	public int getBitmap( final String name )
+	{
+		return this.getBitmap( Modifiers.findName( Modifiers.bitmapModifiers, name ) );
+	};
+
 	public boolean getBoolean( final int index )
 	{
-		if ( index < 0 || index >= this.booleans.length )
+		if ( index < 0 || index >= Modifiers.BOOLEAN_MODIFIERS )
 		{
 			return false;
 		}
 
-		return this.booleans[ index ];
+		return ((this.bitmaps[ 0 ] >>> index) & 1) != 0;
 	};
 
 	public boolean getBoolean( final String name )
 	{
 		int index = Modifiers.findName( Modifiers.booleanModifiers, name );
-		if ( index < 0 || index >= this.booleans.length )
+		if ( index < 0 || index >= Modifiers.BOOLEAN_MODIFIERS )
 		{
 			return false;
 		}
 
-		return this.booleans[ index ];
+		return ((this.bitmaps[ 0 ] >>> index) & 1) != 0;
 	};
 
 	public String getString( final int index )
@@ -927,18 +999,6 @@ public class Modifiers
 		return this.strings[ index ];
 	};
 	
-	public int getClownosity()
-	{
-		int n = this.clownosity;
-		// Count the bits:
-		n = ((n & 0xAAAAAAAA) >>>  1) + (n & 0x55555555);
-		n = ((n & 0xCCCCCCCC) >>>  2) + (n & 0x33333333);
-		n = ((n & 0xF0F0F0F0) >>>  4) + (n & 0x0F0F0F0F);
-		n = ((n & 0xFF00FF00) >>>  8) + (n & 0x00FF00FF);
-		n = ((n & 0xFFFF0000) >>> 16) + (n & 0x0000FFFF);
-		return n;
-	}
-
 	public boolean set( final int index, final double mod )
 	{
 		if ( index < 0 || index >= this.floats.length )
@@ -954,16 +1014,33 @@ public class Modifiers
 		return false;
 	};
 
-	public boolean set( final int index, final boolean mod )
+	public boolean set( final int index, final int mod )
 	{
-		if ( index < 0 || index >= this.booleans.length )
+		if ( index < 0 || index >= this.bitmaps.length )
 		{
 			return false;
 		}
 
-		if ( this.booleans[ index ] != mod )
+		if ( this.bitmaps[ index ] != mod )
 		{
-			this.booleans[ index ] = mod;
+			this.bitmaps[ index ] = mod;
+			return true;
+		}
+		return false;
+	};
+
+	public boolean set( final int index, final boolean mod )
+	{
+		if ( index < 0 || index >= Modifiers.BOOLEAN_MODIFIERS )
+		{
+			return false;
+		}
+
+		int mask = 1 << index;
+		int val = mod ? mask : 0;
+		if ( (this.bitmaps[ 0 ] & mask) != val )
+		{
+			this.bitmaps[ 0 ] ^= mask;
 			return true;
 		}
 		return false;
@@ -1008,12 +1085,12 @@ public class Modifiers
 			}
 		}
 
-		boolean[] copyBooleans = mods.booleans;
-		for ( int index = 0; index < this.booleans.length; ++index )
+		int[] copyBitmaps = mods.bitmaps;
+		for ( int index = 0; index < this.bitmaps.length; ++index )
 		{
-			if ( this.booleans[ index ] != copyBooleans[ index ] )
+			if ( this.bitmaps[ index ] != copyBitmaps[ index ] )
 			{
-				this.booleans[ index ] = copyBooleans[ index ];
+				this.bitmaps[ index ] = copyBitmaps[ index ];
 				changed = true;
 			}
 		}
@@ -1028,12 +1105,6 @@ public class Modifiers
 			}
 		}
 		
-		if ( this.clownosity != mods.clownosity )
-		{
-			this.clownosity = mods.clownosity;
-			changed = true;
-		}
-
 		return changed;
 	}
 
@@ -1092,8 +1163,8 @@ public class Modifiers
 			if ( addition[ i ] != 0.0f )
 			{
 				if ( i == Modifiers.ADVENTURES &&
-					mods.booleans[ Modifiers.NONSTACKABLE_WATCH ] &&
-					this.booleans[ Modifiers.NONSTACKABLE_WATCH ] )
+					(mods.bitmaps[ 0 ] & this.bitmaps[ 0 ] &
+						(1 << Modifiers.NONSTACKABLE_WATCH)) != 0 )
 				{
 					continue;
 				}
@@ -1128,14 +1199,11 @@ public class Modifiers
 			}
 		}
 
-		// OR in certain boolean modifiers
-
-		this.booleans[ Modifiers.NEVER_FUMBLE ] |= mods.booleans[ Modifiers.NEVER_FUMBLE ];
-		this.booleans[ Modifiers.WEAKENS ] |= mods.booleans[ Modifiers.WEAKENS ];
-		this.booleans[ Modifiers.VARIABLE ] |= mods.booleans[ Modifiers.VARIABLE ];
-		this.booleans[ Modifiers.NONSTACKABLE_WATCH ] |= mods.booleans[ Modifiers.NONSTACKABLE_WATCH ];
-		
-		this.clownosity |= mods.clownosity;
+		// OR in the bitmap modifiers (including all the boolean modifiers)
+		for ( int i = 0; i < this.bitmaps.length; ++i )
+		{
+			this.bitmaps[ i ] |= mods.bitmaps[ i ];
+		}
 	}
 
 	public static final Modifiers getModifiers( String name )
@@ -1173,7 +1241,7 @@ public class Modifiers
 		Modifiers newMods = new Modifiers();
 		newMods.name = name;
 		float[] newFloats = newMods.floats;
-		boolean[] newBooleans = newMods.booleans;
+		int[] newBitmaps = newMods.bitmaps;
 		String[] newStrings = newMods.strings;
 
 		for ( int i = 0; i < newFloats.length; ++i )
@@ -1205,7 +1273,47 @@ public class Modifiers
 			}
 		}
 
-		for ( int i = 0; i < newBooleans.length; ++i )
+		for ( int i = 0; i < newBitmaps.length; ++i )
+		{
+			Pattern pattern = Modifiers.modifierTagPattern( Modifiers.bitmapModifiers, i );
+			if ( pattern == null )
+			{
+				continue;
+			}
+
+			Matcher matcher = pattern.matcher( string );
+			if ( !matcher.find() )
+			{
+				continue;
+			}
+			int bitcount = 1;
+			if ( matcher.groupCount() > 0 )
+			{
+				bitcount = StringUtilities.parseInt( matcher.group( 1 ) );
+			}
+			int mask = Modifiers.bitmapMasks[ i ];
+			switch ( bitcount )
+			{
+			case 1:
+				Modifiers.bitmapMasks[ i ] <<= 1;
+				break;
+			case 2:
+				mask |= mask << 1;
+				Modifiers.bitmapMasks[ i ] <<= 2;
+				break;
+			default:
+				KoLmafia.updateDisplay( "ERROR: invalid count for bitmap modifier in " + name );
+				continue;
+			}
+			if ( Modifiers.bitmapMasks[ i ] == 0 )
+			{
+				KoLmafia.updateDisplay( "ERROR: too many sources for bitmap modifier " + Modifiers.modifierName( Modifiers.bitmapModifiers, i ) + ", consider using longs." );
+			}
+
+			newBitmaps[ i ] |= mask;
+		}
+
+		for ( int i = 0; i < Modifiers.BOOLEAN_MODIFIERS; ++i )
 		{
 			Pattern pattern = Modifiers.modifierTagPattern( Modifiers.booleanModifiers, i );
 			if ( pattern == null )
@@ -1219,7 +1327,7 @@ public class Modifiers
 				continue;
 			}
 
-			newBooleans[ i ] = true;
+			newBitmaps[ 0 ] |= 1 << i;
 		}
 
 		for ( int i = 0; i < newStrings.length; ++i )
@@ -1240,30 +1348,14 @@ public class Modifiers
 		}
 
 		newStrings[ Modifiers.MODIFIERS ] = string;
-		
-		Matcher matcher = CLOWNOSITY_PATTERN.matcher( string );
-		if ( matcher.find() )
-		{
-			switch ( StringUtilities.parseInt( matcher.group( 1 ) ) )
-			{	// Assign each item with Clownosity its own bit or two in the value
-			case 1:
-				newMods.clownosity = clownosityMask;
-				clownosityMask <<= 1;
-				break;
-				
-			case 2:
-				newMods.clownosity = clownosityMask | (clownosityMask << 1);
-				clownosityMask <<= 2;
-				break;
-			
-			default:
-				// invalid Clownosity, just ignore it for now
-			}
-		}
 
 		newMods.variable = newMods.override( name );
-		newMods.booleans[ VARIABLE ] = newMods.variable || name.startsWith( "loc:" ) ||
-			name.startsWith( "zone:" );
+		if ( newMods.variable || name.startsWith( "loc:" ) ||
+			name.startsWith( "zone:" ) )
+		{
+			newBitmaps[ 0 ] |= 1 << Modifiers.VARIABLE;
+		}
+		
 		Modifiers.modifiersByName.put( name, newMods );
 
 		return newMods;
@@ -1894,6 +1986,10 @@ public class Modifiers
 					continue;
 				}
 				if ( Modifiers.findModifier( Modifiers.floatModifiers, mod ) )
+				{
+					continue;
+				}
+				if ( Modifiers.findModifier( Modifiers.bitmapModifiers, mod ) )
 				{
 					continue;
 				}
