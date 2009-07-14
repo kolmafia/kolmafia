@@ -3997,7 +3997,7 @@
 3991	515479025	slime-soaked hypophysis	slime-soaked hypophyses
 3992	523709792	slime-soaked brain	slime-soaked brains
 3993	337083735	slime-soaked sweat gland	slime-soaked sweat glands
-3994	967440626	security blankie
+3994	967440626	security blankie	security blankies
 3995	492568679	big bundle of chamoix	big bundles of chamoix
 3996	526611623	boxcar turtle	boxcar turtles
 3997
@@ -4043,8 +4043,8 @@
 4037	320343694	slimy sweetbreads	clusters of slimy sweetbreads
 4038	154656302	slimy fermented bile bladder	slimy fermented bile bladders
 4039	388191568	slimy alveolus	slimy alveoli
-4040	242018093	memory of a cultist's robe
-4041	846852926	pig-iron helm
+4040	242018093	memory of a cultist's robe	memories of cultist's robes
+4041	846852926	pig-iron helm	pig-iron helms
 4042	564106355	pig-iron shinguards	pig-iron shinguardss
 4043	497900052	pig-iron bracers	pig-iron bracerss
 4044	428760948	wumpus hair	tufts of wumpus hair
@@ -4080,12 +4080,12 @@
 4074	212838845	multi-pass
 4075	270978316	villainous scythe	villainous scythes
 4076	606754471	baneful bandolier	baneful bandoliers
-4077	828398092	diabolical crossbow
-4078	189762372	malevolent medallion
+4077	828398092	diabolical crossbow	diabolical crossbows
+4078	189762372	malevolent medallion	malevolent medallions
 4079	904156487	corrosive cowl
-4080	924434870	grisly shield
+4080	924434870	grisly shield	grisly shields
 4081	956208229	corroded breeches
-4082	728374904	pernicious cudgel
+4082	728374904	pernicious cudgel	pernicious cudgels
 4083	840782535	cupcake-in-a-cup	cupcakes-in-cups
 4084	289499503	pool of liquid metal	pools of liquid metal
 4085	176155931	protein paste	tubes of protein paste
@@ -4140,4 +4140,4 @@
 4134	792712954	pressurized potion of pneumaticity	pressurized potion of pneumaticitys
 4135
 4136	173186492	Bag o' Tricks	Bag o' Trickss
-4137	916071890	slime stack
+4137	916071890	slime stack	slime stacks
