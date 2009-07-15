@@ -316,25 +316,10 @@ public class CompactSidePane
 		}
 		
 		StringBuffer buf = new StringBuffer( "<html><table border=1>" );
-		int mus = KoLCharacter.getBaseMuscle();
-		int mys = KoLCharacter.getBaseMysticality();
-		int mox = KoLCharacter.getBaseMoxie();
-		String equalize = KoLCharacter.currentStringModifier( Modifiers.EQUALIZE );
-		if ( equalize.startsWith( "Mus" ) )
-		{
-			mys = mox = mus;
-		}
-		else if ( equalize.startsWith( "Mys" ) )
-		{
-			mus = mox = mys;
-		}
-		else if ( equalize.startsWith( "Mox" ) )
-		{
-			mus = mys = mox;
-		}
-		mus = this.predictStat( mus, Modifiers.MUS_PCT, Modifiers.MUS );
-		mys = this.predictStat( mys, Modifiers.MYS_PCT, Modifiers.MYS );
-		mox = this.predictStat( mox, Modifiers.MOX_PCT, Modifiers.MOX );
+		int[] predicted = KoLCharacter.getCurrentModifiers().predict();
+		int mus = Math.max( 1, predicted[ Modifiers.BUFFED_MUS ] );
+		int mys = Math.max( 1, predicted[ Modifiers.BUFFED_MYS ] );
+		int mox = Math.max( 1, predicted[ Modifiers.BUFFED_MOX ] );
 		int dmus = KoLCharacter.getAdjustedMuscle() - mus;
 		int dmys = KoLCharacter.getAdjustedMysticality() - mys;
 		int dmox = KoLCharacter.getAdjustedMoxie() - mox;
@@ -352,6 +337,22 @@ public class CompactSidePane
 			buf.append( mox );
 			buf.append( " (" );
 			buf.append( KoLConstants.MODIFIER_FORMAT.format( dmox ) );
+			buf.append( ")</td></tr>" );
+		}
+		int hp = Math.max( 1, predicted[ Modifiers.BUFFED_HP ] );
+		int mp = Math.max( 1, predicted[ Modifiers.BUFFED_MP ] );
+		int dhp = KoLCharacter.getMaximumHP() - hp;
+		int dmp = KoLCharacter.getMaximumMP() - mp;
+		if ( dhp != 0 || dmp != 0 )
+		{
+			buf.append( "<tr><td colspan=4>Predicted: Max HP " );
+			buf.append( hp );
+			buf.append( " (" );
+			buf.append( KoLConstants.MODIFIER_FORMAT.format( dhp ) );
+			buf.append( "), Max MP " );
+			buf.append( mp );
+			buf.append( " (" );
+			buf.append( KoLConstants.MODIFIER_FORMAT.format( dmp ) );
 			buf.append( ")</td></tr>" );
 		}
 	

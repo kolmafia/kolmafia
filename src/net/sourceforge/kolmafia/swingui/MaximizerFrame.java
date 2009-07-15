@@ -760,24 +760,8 @@ public class MaximizerFrame
 		public float getScore( Modifiers mods )
 		{
 			this.failed = false;
+			int[] predicted = mods.predict();
 			
-			int mus = KoLCharacter.getBaseMuscle();
-			int mys = KoLCharacter.getBaseMysticality();
-			int mox = KoLCharacter.getBaseMoxie();
-			String equalize = mods.getString( Modifiers.EQUALIZE );
-			if ( equalize.startsWith( "Mus" ) )
-			{
-				mys = mox = mus;
-			}
-			else if ( equalize.startsWith( "Mys" ) )
-			{
-				mus = mox = mys;
-			}
-			else if ( equalize.startsWith( "Mox" ) )
-			{
-				mus = mys = mox;
-			}
-		
 			float score = 0.0f;
 			for ( int i = 0; i < Modifiers.FLOAT_MODIFIERS; ++i )
 			{
@@ -789,13 +773,13 @@ public class MaximizerFrame
 				switch ( i )
 				{
 				case Modifiers.MUS:
-					val += mus + Math.ceil( mods.get( Modifiers.MUS_PCT ) * mus / 100.0f );
+					val = predicted[ Modifiers.BUFFED_MUS ];
 					break;
 				case Modifiers.MYS:
-					val += mys + Math.ceil( mods.get( Modifiers.MYS_PCT ) * mys / 100.0f );
+					val = predicted[ Modifiers.BUFFED_MYS ];
 					break;
 				case Modifiers.MOX:
-					val += mox + Math.ceil( mods.get( Modifiers.MOX_PCT ) * mox / 100.0f );
+					val = predicted[ Modifiers.BUFFED_MOX ];
 					break;
 				case Modifiers.FAMILIAR_WEIGHT:
 					val += mods.get( Modifiers.HIDDEN_FAMILIAR_WEIGHT );
@@ -816,11 +800,11 @@ public class MaximizerFrame
 				case Modifiers.ITEMDROP:
 					val += 100.0f + Math.min( 0.0f, mods.get( Modifiers.ITEMDROP_PENALTY ) );
 					break;
-				case Modifiers.HP:	// Incorrect - actual formula is more complex
-					val += Math.ceil( mods.get( Modifiers.HP_PCT ) * mus / 100.0f );
+				case Modifiers.HP:
+					val = predicted[ Modifiers.BUFFED_HP ];
 					break;
-				case Modifiers.MP:	// Incorrect - actual formula is more complex
-					val += Math.ceil( mods.get( Modifiers.MP_PCT ) * mys / 100.0f );
+				case Modifiers.MP:
+					val = predicted[ Modifiers.BUFFED_MP ];
 					break;
 				case Modifiers.WEAPON_DAMAGE:	
 					// Incorrect - needs to estimate base damage

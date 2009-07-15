@@ -261,7 +261,7 @@ Spooky Putty leotard	Initiative: +15, Meat Drop: +15, Softcore Only
 # Travoltan trousers: 5-Finger Discount
 # Travoltan trousers: Moxie used to determine Maximum MP
 # Travoltan trousers: (unless Mysticality is higher)
-Travoltan trousers	Moxie: +15, Initiative: +30, Ranged Damage: +10, Softcore Only
+Travoltan trousers	Moxie: +15, Initiative: +30, Ranged Damage: +10, Softcore Only, Moxie May Control MP
 Tropical Crimbo Shorts	Initiative: +30
 Zombo's grievous greaves	Cold Resistance: +3, Sleaze Resistance: +3, Class: "Turtle Tamer"
 # alpha-mail pants
@@ -1014,7 +1014,7 @@ marionette collective	Mysticality: +3
 meat shield	Damage Reduction: 3, Meat Drop: +3
 # mini-zeppelin
 # miniature stuffed Goth Giant
-# moxie magnet
+moxie magnet	Moxie Controls MP
 # naughty fortune teller: + Some Stats Per Fight
 naughty fortune teller	Softcore Only
 off-hand balloon	Muscle: +1, Mysticality: +1, Moxie: +1
@@ -2547,8 +2547,8 @@ Powers of Observatiogn	Item Drop: +10
 # Really Expensive Jewelrycrafting
 Skin of the Leatherback	Damage Reduction: [max(1,floor((L-2)/2))]
 Slimy Shoulders	Initiative: [pref(skillLevel48)]
-Slimy Sinews	Maximum HP: [pref(skillLevel46)]
-Slimy Synapses	Maximum MP: [pref(skillLevel47)]
+Slimy Sinews	Maximum HP Nonmultiplied: [pref(skillLevel46)]
+Slimy Synapses	Maximum MP Nonmultiplied: [pref(skillLevel47)]
 Spirit of Ravioli	Maximum HP Percent: +25
 # Spirit of Rigatoni	allows wielding of chefstaves
 # Spleen of Steel

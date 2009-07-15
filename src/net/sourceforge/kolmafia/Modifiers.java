@@ -165,6 +165,8 @@ public class Modifiers
 	public static final int FAMILIAR_WEIGHT_CAP = 79;
 	public static final int SLIME_RESISTANCE = 80;
 	public static final int SLIME_HATES_IT = 81;
+	public static final int HP_NONMULT = 82;
+	public static final int MP_NONMULT = 83;
 	
 	public static final String EXPR = "(?:([-+]?[\\d.]+)|\\[([^]]+)\\])";
 
@@ -531,6 +533,14 @@ public class Modifiers
 		  Pattern.compile( "Slime( Really)? Hates (It|You)" ),
 		  Pattern.compile( "Slime Hates It: " + EXPR )
 		},
+		{ "Maximum HP Nonmultiplied",
+		  null,
+		  Pattern.compile( "Maximum HP Nonmultiplied: " + EXPR )
+		},
+		{ "Maximum MP Nonmultiplied",
+		  null,
+		  Pattern.compile( "Maximum MP Nonmultiplied: " + EXPR )
+		},
 	};
 
 	public static final int FLOAT_MODIFIERS = Modifiers.floatModifiers.length;
@@ -581,6 +591,8 @@ public class Modifiers
 	public static final int SLEAZE_VULNERABILITY = 14;
 	public static final int SPOOKY_VULNERABILITY = 15;
 	public static final int STENCH_VULNERABILITY = 16;
+	public static final int MOXIE_CONTROLS_MP = 17;
+	public static final int MOXIE_MAY_CONTROL_MP = 18;
 
 	private static final Object[][] booleanModifiers =
 	{
@@ -652,6 +664,14 @@ public class Modifiers
 		  null,
 		  Pattern.compile( "Stench Vulnerability" )
 		},
+		{ "Moxie Controls MP",
+		  null,
+		  Pattern.compile( "Moxie Controls MP" )
+		},
+		{ "Moxie May Control MP",
+		  null,
+		  Pattern.compile( "Moxie May Control MP" )
+		},
 	};
 
 	public static final int BOOLEAN_MODIFIERS = Modifiers.booleanModifiers.length;
@@ -699,6 +719,103 @@ public class Modifiers
 	};
 
 	public static final int STRING_MODIFIERS = Modifiers.stringModifiers.length;
+	
+	// Indexes for array returned by predict():
+	public static final int BUFFED_MUS = 0;
+	public static final int BUFFED_MYS = 1;
+	public static final int BUFFED_MOX = 2;
+	public static final int BUFFED_HP = 3;
+	public static final int BUFFED_MP = 4;
+	public static final int BUFFED_COUNT = 5;
+	
+	public int[] predict()
+	{
+		int[] rv = new int[ Modifiers.BUFFED_COUNT ];
+	
+		int mus = KoLCharacter.getBaseMuscle();
+		int mys = KoLCharacter.getBaseMysticality();
+		int mox = KoLCharacter.getBaseMoxie();
+		String equalize = this.getString( Modifiers.EQUALIZE );
+		if ( equalize.startsWith( "Mus" ) )
+		{
+			mys = mox = mus;
+		}
+		else if ( equalize.startsWith( "Mys" ) )
+		{
+			mus = mox = mys;
+		}
+		else if ( equalize.startsWith( "Mox" ) )
+		{
+			mus = mys = mox;
+		}
+	
+		rv[ Modifiers.BUFFED_MUS ] = mus + (int) this.get( Modifiers.MUS ) +
+			(int) Math.ceil( this.get( Modifiers.MUS_PCT ) * mus / 100.0f );
+		rv[ Modifiers.BUFFED_MYS ] = mys + (int) this.get( Modifiers.MYS ) +
+			(int) Math.ceil( this.get( Modifiers.MYS_PCT ) * mys / 100.0f );
+		rv[ Modifiers.BUFFED_MOX ] = mox + (int) this.get( Modifiers.MOX ) +
+			(int) Math.ceil( this.get( Modifiers.MOX_PCT ) * mox / 100.0f );
+		
+		int hpbase = rv[ Modifiers.BUFFED_MUS ];
+		int hpboost = (int) this.get( Modifiers.HP_PCT );
+		float C = KoLCharacter.isMuscleClass() ? 1.5f : 1.0f;
+		boolean G = false, A = false, R = false;
+		if ( hpboost >= 25 )
+		{	// Spirit of Ravioli
+			R = true;
+			hpboost -= 25;
+		}
+		if ( hpboost >= 10 )
+		{	// Abs of Tin
+			A = true;
+			hpboost -= 10;
+		}
+		if ( hpboost >= 5 )
+		{	// Gnomish Hardigness
+			G = true;
+		}
+		int hp = (int) Math.floor( Math.max(
+			(hpbase + 3) * C + this.get( Modifiers.HP ),
+			mus * C ) );
+		if ( R ) hp = (int) Math.ceil( 1.25f * hp );
+		if ( A ) hp = (int) Math.ceil( 1.1f * hp );
+		if ( G ) hp = (int) Math.ceil( 1.05f * hp );
+		rv[ Modifiers.BUFFED_HP ] = hp + (int) this.get( Modifiers.HP_NONMULT );
+		
+		int mpbase = (int) rv[ Modifiers.BUFFED_MYS ];
+		if ( this.getBoolean( Modifiers.MOXIE_CONTROLS_MP ) ||
+			(this.getBoolean( Modifiers.MOXIE_MAY_CONTROL_MP ) && 
+				(int) rv[ Modifiers.BUFFED_MOX ] > mpbase) )
+		{
+			mpbase = (int) rv[ Modifiers.BUFFED_MOX ];
+		}
+		int mpboost = (int) this.get( Modifiers.MP_PCT );
+		C = KoLCharacter.isMysticalityClass() ? 1.5f : 1.0f;
+		G = false;
+		boolean I = false, W = false;
+		if ( mpboost >= 50 )
+		{	// Wisdom of the Elder Tortoises
+			W = true;
+			mpboost -= 50;
+		}
+		if ( mpboost >= 10 )
+		{	// Marginally Insane
+			I = true;
+			mpboost -= 10;
+		}
+		if ( mpboost >= 5 )
+		{	// Cosmic Ugnderstanding
+			G = true;
+		}
+		int mp = (int) Math.floor( mpbase * C + this.get( Modifiers.MP ) );
+		if ( W ) mp = (int) Math.floor( 1.5f * mp );
+		if ( G ) mp = (int) Math.ceil( 1.05f * mp );
+		if ( I ) mp = (int) Math.ceil( 1.1f * mp );
+		mp = Math.max( mp, (int) Math.floor( mys * C ) );
+		rv[ Modifiers.BUFFED_MP ] = mp + (int) this.get( Modifiers.MP_NONMULT );;
+		
+		return rv;
+	}	
 	
 	public static final Iterator getAllModifiers()
 	{
