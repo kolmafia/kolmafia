@@ -2303,7 +2303,7 @@ Re-Possessed	Weapon Damage: +10, Damage Reduction: -2
 Really Quite Poisoned	Muscle Percent: -70, Mysticality Percent: -70, Moxie Percent: -70, Muscle: -9, Mysticality: -9, Moxie: -9
 Red Door Syndrome	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
 Red Neck	Muscle: +15, Moxie: -5
-Red Tongue	Meat Drop: +30
+Red Tongue	Meat Drop: +50
 Reedy Pipes	Moxie Percent: +5
 Refuse Reflux	Stench Damage: [min(100,T)]
 Reptilian Fortitude	Maximum HP: +30
