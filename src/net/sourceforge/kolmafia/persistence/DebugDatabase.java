@@ -1759,13 +1759,26 @@ public class DebugDatabase
 			writer.println( name + ": anvil says ultimate wad" );
 			return;
 		}
+		if ( pulver == ItemPool.SEA_SALT_CRYSTAL )
+		{
+			if ( yield != 12 )
+			{
+				writer.println( name + ": anvil says something other than sea salt crystal" );
+			}
+			return;
+		}
+		if ( yield == 12 )
+		{
+			writer.println( name + ": anvil says sea salt crystal" );
+			return;
+		}
 		if ( pulver >= 0 )
 		{
 			writer.println( name + ": I don't know how anvil would say " +
 				ItemDatabase.getItemName( pulver ) );
 			return;
 		}
-		if ( yield < 1 || yield > 11 )
+		if ( yield < 1 || yield > 12 )
 		{
 			writer.println( name + ": anvil said yield=" + yield + ", wut?" );
 			return;
