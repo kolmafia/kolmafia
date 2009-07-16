@@ -90,11 +90,19 @@ Zombo's shoulder blade	epic wad
 Zombo's skull ring	epic wad
 Zombo's skullcap	epic wad
 
-# Mother Slime loot pulverizes into epic wads
+# Mother Slime loot, and products thereof, pulverizes into epic wads
 hardened slime belt	epic wad
 hardened slime hat	epic wad
 hardened slime pants	epic wad
 chamoisole	epic wad
+baneful bandolier	epic wad
+corroded breeches	epic wad
+corrosive cowl	epic wad
+diabolical crossbow	epic wad
+grisly shield	epic wad
+malevolent medallion	epic wad
+pernicious cudgel	epic wad
+villainous scythe	epic wad
 
 # Starting equipment is useless.
 helmet turtle	useless powder
