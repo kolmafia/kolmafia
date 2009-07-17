@@ -171,9 +171,8 @@ public class UseItemRequest
 			return "inv_familiar.php";
 		case KoLConstants.CONSUME_HOBO:
 		case KoLConstants.CONSUME_GHOST:
-			return "familiarbinger.php";
 		case KoLConstants.CONSUME_SLIME:
-			return "inventory.php";
+			return "familiarbinger.php";
 		case KoLConstants.CONSUME_MULTIPLE:
 		case KoLConstants.MP_RESTORE:
 		case KoLConstants.HPMP_RESTORE:
@@ -276,14 +275,11 @@ public class UseItemRequest
 
 	public static final int maximumUses( final int itemId, final int consumptionType, final boolean allowOverDrink )
 	{
-		if ( consumptionType == KoLConstants.CONSUME_HOBO || consumptionType == KoLConstants.CONSUME_GHOST )
+		if ( consumptionType == KoLConstants.CONSUME_HOBO ||
+		     consumptionType == KoLConstants.CONSUME_GHOST ||
+		     consumptionType == KoLConstants.CONSUME_SLIME )
 		{
 			return Integer.MAX_VALUE;
-		}
-
-		if ( consumptionType == KoLConstants.CONSUME_SLIME )
-		{
-			return 1;
 		}
 
 		if ( itemId <= 0 )
@@ -723,6 +719,7 @@ public class UseItemRequest
 			case KoLConstants.HPMP_RESTORE:
 			case KoLConstants.CONSUME_HOBO:
 			case KoLConstants.CONSUME_GHOST:
+			case KoLConstants.CONSUME_SLIME:
 				break;
 			case KoLConstants.CONSUME_DRINK:
 			case KoLConstants.CONSUME_EAT:
@@ -1020,8 +1017,8 @@ public class UseItemRequest
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have a Slimeling equipped" );
 				return;
 			}
-			this.addFormField( "which", "2" );
-			this.addFormField( "action", "slime" );
+			this.addFormField( "action", "binge" );
+			this.addFormField( "qty", String.valueOf( this.itemUsed.getCount() ) );
 			useTypeAsString = "Feeding slimeling with";
 			break;
 

@@ -618,6 +618,7 @@ public class DebugDatabase
 			return descType.indexOf( "combat" ) != -1;
 		case KoLConstants.CONSUME_HOBO:
 		case KoLConstants.CONSUME_GHOST:
+		case KoLConstants.CONSUME_SLIME:
 			return false;
 		}
 		return false;

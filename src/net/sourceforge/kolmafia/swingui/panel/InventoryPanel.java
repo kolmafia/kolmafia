@@ -36,6 +36,8 @@ package net.sourceforge.kolmafia.swingui.panel;
 import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
 
+import java.util.ArrayList;
+
 import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -44,11 +46,14 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
 
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.SellStuffRequest;
+import net.sourceforge.kolmafia.request.UseItemRequest;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
@@ -74,15 +79,17 @@ public class InventoryPanel
 		else
 			useListener = new ConsumeListener();
 
-		this.setButtons( true, new ActionListener[] {
-				useListener,
-				new AutoSellListener( isCloset, SellStuffRequest.AUTOSELL ),
-				new AutoSellListener( isCloset, SellStuffRequest.AUTOMALL ),
-				new PulverizeListener( isCloset ),
-				new PutInClosetListener( isCloset ),
-				new PutOnDisplayListener( isCloset ),
-				new GiveToClanListener( isCloset ),
-		} );
+		ArrayList listeners = new ArrayList();
+		listeners.add( useListener );
+		listeners.add( new AutoSellListener( isCloset, SellStuffRequest.AUTOSELL ) );
+		listeners.add( new AutoSellListener( isCloset, SellStuffRequest.AUTOMALL ) );
+		listeners.add( new PulverizeListener( isCloset ) );
+		listeners.add( new PutInClosetListener( isCloset ) );
+		listeners.add( new PutOnDisplayListener( isCloset ) );
+		listeners.add( new GiveToClanListener( isCloset ) );
+		if ( isEquipmentOnly )
+			listeners.add( new FamiliarFeedListener() );
+		this.setButtons( true, (ActionListener[]) listeners.toArray( new ActionListener[ listeners.size() ] ));
 
 		if ( this.isEquipmentOnly )
 		{
@@ -232,6 +239,38 @@ public class InventoryPanel
 			}
 
 			return isVisibleWithFilter && super.isVisible( element );
+		}
+	}
+
+	private class FamiliarFeedListener
+		extends ThreadedListener
+	{
+		public FamiliarFeedListener()
+		{
+		}
+
+		public void run()
+		{
+			Object [] newItems = InventoryPanel.this.getDesiredItems( "Feed" );
+
+			if ( newItems == null || newItems.length == 0 )
+			{
+				return;
+			}
+
+			RequestThread.openRequestSequence();
+			for ( int i = 0; i < newItems.length; ++i )
+			{
+				AdventureResult item = (AdventureResult) newItems[ i ];
+
+				RequestThread.postRequest( new UseItemRequest( KoLConstants.CONSUME_SLIME, item ) );
+			}
+			RequestThread.closeRequestSequence();
+		}
+
+		public String toString()
+		{
+			return "feed slimeling";
 		}
 	}
 }
