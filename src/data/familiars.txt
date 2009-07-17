@@ -106,11 +106,11 @@
 102	Imitation Crab	combat	3598	imitation whetstone	3	1	2	2
 103	Pair of Ragged Claws	combat	3628	radioactive chew toy	1	1	1	1
 104	Magic Dragonfish	none	3648	fin-bit wax	1	1	2	0
-105	Frumious Bandersnatch	none	3799	aquaviolet jub-jub bird	3	2	2	0
+105	Frumious Bandersnatch	stat0,combat	3799	aquaviolet jub-jub bird	3	2	2	0
 106	Midget Clownfish	combat	3815	half-height unicycle	0	1	2	2
-107	Syncopated Turtle	none	3928	metrognome	0	2	3	2
-108	Grinning Turtle	none	3929	security blankie	1	0	0	3
+107	Syncopated Turtle	item0	3928	metrognome	0	2	3	2
+108	Grinning Turtle	stat0	3929	security blankie	1	0	0	3
 109	Purse Rat	none	3962	tiny cell phone	0	0	0	0
 110	Wereturtle	combat	3979	bottle of moontan lotion	3	1	0	2
 111	Baby Sandworm	stat1	3999	string of dingle balls	1	2	2	3
-112	Slimeling	none	4017	undissolvable contact lenses	3	3	2	2
+112	Slimeling	item0,combat	4017	undissolvable contact lenses	3	3	2	2
