@@ -221,7 +221,6 @@ public class OptionsFrame
 			{},
 			{ "relayAddsWikiLinks", "Check wiki for item descriptions (fails for unknowns)" },
 			{ "relayViewsCustomItems", "View items registered with OneTonTomato's Kilt script" },
-			{ "lucreCoreLeaderboard", "Participate in Oxbarn's KoLDB Lucre-core leaderboard" },
 			{ "relayAddsQuickScripts", "Add quick script links to menu bar (see Links tab)" },
 			{},
 			{ "relayAddsRestoreLinks", "Add HP/MP restore links to left side pane" },

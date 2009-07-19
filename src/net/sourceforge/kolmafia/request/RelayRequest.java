@@ -1557,26 +1557,6 @@ public class RelayRequest
 			}
 		}
 
-		else if ( path.startsWith( "lair6.php" ) )
-		{
-			String place = this.getFormField( "place" );
-			if ( place != null && place.equals( "6" ) &&
-			     KoLCharacter.isHardcore() &&
-			     Preferences.getBoolean( "lucreCoreLeaderboard" ) )
-			{
-				int lucreCount = InventoryManager.getCount( ItemPool.LUCRE );
-				if ( lucreCount > 0 )
-				{
-					new DisplayCaseRequest( new Object[] { ItemPool.get( ItemPool.LUCRE, lucreCount ) }, true ).run();
-					new SendMailRequest( "koldbot", "Completed ascension." ).run();
-				}
-
-				this.sendGeneralWarning(
-					"lucre.gif", "Click on the lucre if you've already received koldbot's confirmation message." );
-				return;
-			}
-		}
-
 		else if ( path.startsWith( "ascend.php" ) )
 		{
 			if ( this.getFormField( "action" ) != null )

@@ -94,7 +94,6 @@ global	logReverseOrder	false
 global	logStatGains	true
 global	logStatusEffects	false
 global	logStatusOnLogin	false
-global	lucreCoreLeaderboard	false
 global	mementoListActive	false
 global	mergeHobopolisChat	false
 global	outerChatColor	#b4460f

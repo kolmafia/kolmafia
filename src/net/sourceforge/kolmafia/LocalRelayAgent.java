@@ -397,13 +397,6 @@ public class LocalRelayAgent
 					ValhallaManager.postAscension();
 				}
 			}
-			else if ( this.path.endsWith( "noobmessage=true" ) )
-			{
-				if ( KoLCharacter.isHardcore() && Preferences.getBoolean( "lucreCoreLeaderboard" ) )
-				{
-					( new Thread( new SendMailRequest( "koldbot", "Started ascension." ), "koldbot start asc" ) ).start();
-				}
-			}
 		}
 
 		if ( this.request.rawByteBuffer == null && this.request.responseText != null )
