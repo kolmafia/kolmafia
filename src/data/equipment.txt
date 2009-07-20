@@ -423,8 +423,8 @@ KoL Con Cinco Pi&ntilde;ata Bat	10	Mus: 0	2-handed club
 Mace of the Tortoise	50	Mus: 10	1-handed mace
 Mafia violin case	100	Mus: 35	1-handed club
 Maxwell's Silver Hammer	165	Mus: 67	1-handed club
-Mer-kin hookspear	200	Mus: 85	1-handed spear
 Mer-kin digpick	200	Mus: 85	2-handed axe
+Mer-kin hookspear	200	Mus: 85	1-handed spear
 Mjolnir Jr.	200	Mys: 85	1-handed utensil
 Ol' Scratch's infernal pitchfork	200	Mus: 200	2-handed polearm
 PVC staff	200	Mus: 85	2-handed staff
@@ -529,8 +529,8 @@ club of corruption	20	Mus: 0	1-handed club
 club of the five seasons	150	Mus: 60	1-handed club
 cool whip	10	Mus: 0	1-handed whip
 corn holder	20	Mys: 0	1-handed utensil
-corrupt club of corruption	40	Mus: 0	1-handed club
-corrupt club of corrupt corruption	80	Mus: 0	1-handed club
+corrupt club of corrupt corruption	80	Mus: 25	1-handed club
+corrupt club of corruption	40	Mus: 5	1-handed club
 costume sword	10	Mus: 0	1-handed sword
 crazy bastard sword	125	Mus: 25	1-handed sword
 creepy-ass club	160	Mus: 65	2-handed club
@@ -550,7 +550,7 @@ depleted Grimacite hammer	100	Mus: 35	2-handed club
 depleted Grimacite kneecapping stick	90	Mus: 30	1-handed club
 diabolical crossbow	200	Mox: 200	1-handed crossbow
 diamond-studded cane	60	Mus: 15	1-handed club
-didgeridooka	180	Mox: 75	2-handed heavy blowgun
+didgeridooka	180	Mox: 75	2-handed blowgun
 disco ball	10	Mox: 0	1-handed disco ball
 dishrag	20	Mus: 0	1-handed whip
 double-barreled sling	70	Mox: 20	1-handed sling
@@ -559,7 +559,6 @@ dripping meat crossbow	50	Mox: 10	2-handed crossbow
 dripping meat staff	50	Mus: 10	2-handed staff
 dripping meat sword	50	Mus: 10	1-handed sword
 drywall axe	150	Mus: 60	2-handed axe
-dueling banjo	40	Mox: 5	2-handed banjo
 duck-on-a-string	100	Mus: 35	1-handed flail
 duct tape sword	195	Mus: 82	1-handed sword
 dueling banjo	40	Mox: 5	2-handed banjo
@@ -584,8 +583,8 @@ flaming crutch	60	Mus: 15	1-handed club
 flaming juggler's balls	100	Mox: 0	1-handed euphemisms
 flypaper staff	80	Mus: 25	2-handed staff
 freezin' bindle	200	Mus: 200	2-handed polearm
-frigid-ass club	160	Mus: 65	2-handed club
 frigid hanky&#363;	80	Mox: 25	2-handed bow
+frigid-ass club	160	Mus: 65	2-handed club
 frozen nunchaku	80	Mus: 25	2-handed flail
 frozen seal spine	140	Mus: 55	1-handed club
 ga-ga radio	125	Mox: 47	2-handed radio
@@ -615,13 +614,13 @@ half-sized guitar	40	Mox: 5	2-handed guitar
 halfberd	30	Mus: 0	1-handed polearm
 halibut	200	Mus: 85	2-handed fish
 happiness	165	Mox: 67	1-handed pistol
-heavy metal thunderrr guitarrr	120	Mox: 45	2-handed axe
+heavy metal thunderrr guitarrr	160	Mox: 65	2-handed axe
 heteroerotic frat-paddle	150	Mus: 60	1-handed club
 hippo whip	20	Mus: 0	1-handed whip
 hippy bongo	70	Mox: 20	1-handed drum
 homoerotic frat-paddle	70	Mus: 20	1-handed club
-hot-ass club	160	Mus: 65	2-handed club
 hot cross bow	130	Mox: 45	2-handed crossbow
+hot-ass club	160	Mus: 65	2-handed club
 huge mirror shard	30	Mus: 0	1-handed knife
 huge spoon	90	Mys: 30	1-handed utensil
 ice sickle	100	Mus: 0	1-handed knife
@@ -719,7 +718,7 @@ slime-covered shovel	200	Mus: 200	2-handed polearm
 slime-covered speargun	200	Mox: 200	1-handed pistol
 slingshot	20	Mox: 0	2-handed slingshot
 smoldering staff	125	Mus: 45	2-handed staff
-soup-chucks	15	none	2-handed flail
+soup-chucks	15	Mus: 0	2-handed flail
 soylent staff	100	Mus: 35	2-handed staff
 spiked femur	100	Mus: 35	1-handed club
 spooky bicycle chain	80	Mus: 25	1-handed flail
@@ -777,7 +776,7 @@ wooden axe	60	Mus: 15	2-handed axe
 wooden stakes	25	Mus: 0	2-handed spear
 world's smallest violin	150	Mox: 60	1-handed violin
 worm-riding hooks	50	Mus: 0	2-handed club
-wumpus-hair whip	15	none	1-handed whip
+wumpus-hair whip	15	Mus: 0	1-handed whip
 yak whip	20	Mus: 0	1-handed whip
 yohohoyo	160	Mox: 65	1-handed yoyo
 
@@ -834,10 +833,10 @@ Tuesday's ruby	0	Mys: 45
 Wand of Oscus	0	Mys: 200
 # *** Zombo's shield is a shield of unknown power.
 Zombo's shield	0	Mus: 200	shield
-anniversary balloon	0	none
-anniversary chutney sculpture	0	none
 # *** ancient stone head is a shield of unknown power.
 ancient stone head	0	Mus: 27	shield
+anniversary balloon	0	none
+anniversary chutney sculpture	0	none
 antique shield	230	Mus: 85	shield
 arrow'd heart balloon	0	none
 bag of Crotchety Pine saplings	0	none
@@ -931,6 +930,7 @@ miniature stuffed Goth Giant	0	none
 moxie magnet	0	none
 naughty fortune teller	0	none
 off-hand balloon	0	none
+# *** old-school flying disc is a shield of unknown power.
 old-school flying disc	0	Mus: 200	shield
 oyster basket	0	none
 oyster egg balloon	0	Mys: 35
@@ -962,6 +962,7 @@ shadowy seal eye	0	Mus: 35
 silver sausage	0	none
 # *** six-rainbow shield is a shield of unknown power.
 six-rainbow shield	0	Mus: 70	shield
+slime-covered compass	0	Mys: 200
 slime-covered lantern	0	Mys: 200
 snake shield	117	Mus: 42	shield
 snarling wolf shield	117	Mus: 42	shield
@@ -1170,7 +1171,7 @@ booty chest charrrm bracelet	0	Mys: 80
 bottle opener belt buckle	0	Mys: 65
 bottlecap turtle	0	Mys: 12
 boxing glove	0	Mys: 7
-brazen bracelet	0	Mys: 65
+brazen bracelet	0	Mus: 65
 brown plastic baby	0	none
 cannonball charrrm bracelet	0	Mys: 80
 cement shoes	0	Mys: 35
@@ -1222,7 +1223,7 @@ frayed rope belt	0	Mys: 200
 furniture dolly	0	Mys: 75
 furry green earmuffs	0	Mys: 7
 fuzzy bracelets	0	none
-garish pinky ring	none	Mys: 10
+garish pinky ring	0	Mys: 10
 gearbox necklace	0	Mys: 75
 giant designer sunglasses	0	none
 giant pinky ring	0	Mys: 35
@@ -1331,7 +1332,6 @@ shiny ring	0	Mys: 10
 shiny tribal beads	0	Mys: 25
 silver tongue charrrm bracelet	0	Mys: 80
 sk8board	0	Mys: 20
-slime-covered compass	0	Mys: 200
 slime-covered necklace	0	Mys: 200
 solid baconstone earring	0	Mys: 40
 solid baconstone necklace	0	Mys: 40
