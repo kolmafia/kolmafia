@@ -42,8 +42,11 @@ import java.awt.event.ActionListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -70,14 +73,19 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.UneffectRequest;
+import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MoodManager;
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
@@ -86,6 +94,7 @@ import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
+import net.sourceforge.kolmafia.utilities.BooleanArray;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -104,6 +113,12 @@ public class MaximizerFrame
 	private final ShowDescriptionList boostList;
 	private JLabel listTitle = null;
 	
+	private static Spec best;
+	private static int bestChecked;
+	private static long bestUpdate;
+	
+	private static final String TIEBREAKER = "1 familiar weight, 1 initiative, 1 exp, 1 item, 1 meat, 0.1 DA 1000 max, 1 DR, 1 all res, -5 mana cost, 1.0 mus, 0.5 mys, 1.0 mox, 1.5 mainstat, 1 HP, 1 MP, 1 weapon damage, 1 ranged damage, 1 spell damage, 1 cold damage, 1 hot damage, 1 sleaze damage, 1 spooky damage, 1 stench damage, 1 cold spell damage, 1 hot spell damage, 1 sleaze spell damage, 1 spooky spell damage, 1 stench spell damage, 1 critical, -1 fumble, 1 HP regen max, 1 MP regen max, 1 critical hit percent, 0.1 food drop, 0.1 booze drop, 0.1 hat drop, 0.1 weapon drop, 0.1 offhand drop, 0.1 shirt drop, 0.1 pants drop, 0.1 accessory drop";
+	
 	private static final String HELP_STRING = "<html><table width=750><tr><td>" +
 		"<h3>General</h3>" +
 		"The specification of what attributes to maximize is made by a comma-separated list of keywords, each possibly preceded by a numeric weight.  Commas can be omitted if the next item starts with a +, -, or digit.  Using just a +, or omitting the weight entirely, is equivalent to a weight of 1.  Likewise, using just a - is equivalent to a weight of -1.  Non-integer weights can be used, but may not be meaningful with all keywords." +
@@ -121,7 +136,7 @@ public class MaximizerFrame
 		"<br><b>max</b> - The weight specifies the largest useful value for the preceding modifier.  Larger values will be ignored in the score calculation, allowing other specified modifiers to be boosted instead." +
 		"<br>Note that the limit keywords won't quite work as expected for a modifier that you're trying to minimize." +
 		"<h3>Equipment</h3>" +
-		"Equipment suggestions are not yet implemented.  When they are, there will be keywords for specifying which slots are allowed, constraining the type or handedness of your weapon, etc." +
+		"Equipment suggestions are only partially implemented at the moment, with many planned features missing.  There will eventually be keywords for specifying which slots are allowed, constraining the type or handedness of your weapon, etc." +
 		"<h3>Assumptions</h3>" +
 		"All suggestions are based on the assumption that you will be adventuring in the currently selected location, with all your current effects, prior to the next rollover (since some things depend on the moon phases).  For best results, make sure the proper location is selected before maximizing.  This is especially true in The Sea and clan dungeons, which have many location-specific modifiers." +
 		"<p>" +
@@ -131,13 +146,13 @@ public class MaximizerFrame
 		"<p>" +
 		"You can select multiple boosts, and the title of the list will indicate the net effect of applying them all - note that this isn't always just the sum of their individual effects." +
 		"<h3>CLI Use</h3>" +
-		"The Modifier Maximizer can be invoked from the gCLI or a script via <b>maximize <i>expression</i></b>, and will behave as if you'd selected Equipment: on-hand only, Max Price: don't check, and turned off the Include option.  The best equipment will automatically be equipped (once equipment suggestions are implemented, and you haven't specified the to-be-defined keyword to prevent this), but you'll still need to visit the GUI to apply effect boosts - there are too many factors in choosing between the available boosts for that to be safely automated." +
+		"The Modifier Maximizer can be invoked from the gCLI or a script via <b>maximize <i>expression</i></b>, and will behave as if you'd selected Equipment: on-hand only, Max Price: don't check, and turned off the Include option.  The best equipment will automatically be equipped (once equipment suggestions are implemented, and you didn't invoke the command as <b>maximize? <i>expression</i></b>), but you'll still need to visit the GUI to apply effect boosts - there are too many factors in choosing between the available boosts for that to be safely automated." +
 		"<h3>Limitations &amp; Bugs</h3>" +
 		"This is still a work-in-progress, so don't expect ANYTHING to work perfectly at the moment.  However, here are some details that are especially broken:" +
 		"<br>\u2022 Items that can be installed at your campground for a bonus (such as Hobopolis bedding) aren't considered." +
 		"<br>\u2022 Your song limit isn't considered when recommending buffs, nor are any daily casting limits." +
+		"<br>\u2022 Mutually exclusive effects aren't handled properly." +
 		"<br>\u2022 Weapon Damage, Ranged Damage, and Spell Damage are calculated assuming 100 points of base damage - in other words, additive and percentage boosts are considered to have exactly equal worth.  It's possible that Weapon and Ranged damage might use a better estimate of the base damage in the future, but for Spell Damage, the proper base depends on which spell you end up using." +
-		"<br>\u2022 HP &amp; MP aren't currently calculated in the same oddball way the game does.  Boosters should be properly ranked, but the displayed boost amount won't exactly match the number of points you gain by using them (and therefore, the min/max limit keywords aren't very useful with these modifiers)." +
 		"<br>\u2022 Effects which vary in power based on how many turns are left (love songs, Mallowed Out, etc.) are handled poorly.  If you don't have the effect, they'll be suggested based on the results you'd get from having a single turn of it.  If you have the effect already, extending it to raise the power won't even be considered.  Similar problems occur with effects that are based on how full or drunk you currently are." +
 		"</td></tr></table></html>";
 
@@ -241,7 +256,51 @@ public class MaximizerFrame
 		MaximizerFrame.boosts.clear();
 		if ( equipLevel != 0 )
 		{
-			MaximizerFrame.boosts.add( new Boost( "", "(Equipment suggestions not implemented yet)", 0, null, 0.0f ) );
+			if ( equipLevel > 1 )
+			{
+				MaximizerFrame.boosts.add( new Boost( "", "(creating/folding/pulling/buying equipment not considered yet)", -1, null, 0.0f ) );
+			}
+			MaximizerFrame.boosts.add( new Boost( "", "(only weapons and accessories are considered at the moment)", -1, null, 0.0f ) );
+			MaximizerFrame.best = new Spec();
+			MaximizerFrame.bestChecked = 0;
+			MaximizerFrame.bestUpdate = System.currentTimeMillis() + 5000;
+			MaximizerFrame.eval.enumerateEquipment( equipLevel, maxPrice, priceLevel );
+			Spec.showProgress();
+			
+			for ( int slot = 0; slot < EquipmentManager.ALL_SLOTS; ++slot )
+			{	
+				String slotname = EquipmentRequest.slotNames[ slot ];
+				AdventureResult item = MaximizerFrame.best.equipment[ slot ];
+				AdventureResult curr = EquipmentManager.getEquipment( slot );
+				if ( curr.equals( item ) )
+				{
+					if ( slot >= EquipmentManager.STICKER1 ||
+						curr.equals( EquipmentRequest.UNEQUIP ) )
+					{
+						continue;
+					}
+					MaximizerFrame.boosts.add( new Boost( "", "keep " + slotname + ": " + item.getName(), -1, item, 0.0f ) );
+					continue;
+				}
+				Spec spec = new Spec();
+				spec.equip( slot, item );
+				float delta = spec.getScore() - current;
+				String cmd, text;
+				if ( item == null || item.equals( EquipmentRequest.UNEQUIP ) )
+				{
+					cmd = "unequip " + slotname;
+					text = cmd + " (" + curr.getName() + ", " +
+						KoLConstants.MODIFIER_FORMAT.format( delta ) + ")";
+				}
+				else
+				{
+					cmd = "equip " + slotname + " " + item.getName();
+					text = cmd + " (" + KoLConstants.MODIFIER_FORMAT.format(
+						delta ) + ")";
+				}
+			
+				MaximizerFrame.boosts.add( new Boost( cmd, text, slot, item, delta ) );
+			}
 		}
 		Iterator i = Modifiers.getAllModifiers();
 		while ( i.hasNext() )
@@ -592,18 +651,29 @@ public class MaximizerFrame
 	private static class Evaluator
 	{
 		public boolean failed;
+		private Evaluator tiebreaker;
 		private float[] weight, min, max;
+		private boolean dump = false;
 
 		private static final Pattern KEYWORD_PATTERN = Pattern.compile( "\\G\\s*(\\+|-|)([\\d.]*)\\s*((?:[^-+,0-9]|(?<! )[-+0-9])+),?\\s*" );
 		// Groups: 1=sign 2=weight 3=keyword
 		
+		private Evaluator()
+		{
+		}
+		
 		public Evaluator( String expr )
 		{
+			this.tiebreaker = new Evaluator();
 			this.weight = new float[ Modifiers.FLOAT_MODIFIERS ];
-			this.min = new float[ Modifiers.FLOAT_MODIFIERS ];
-			this.max = new float[ Modifiers.FLOAT_MODIFIERS ];
-			Arrays.fill( min, Float.NEGATIVE_INFINITY );
-			Arrays.fill( max, Float.POSITIVE_INFINITY );
+			this.tiebreaker.weight = new float[ Modifiers.FLOAT_MODIFIERS ];
+			this.tiebreaker.min = new float[ Modifiers.FLOAT_MODIFIERS ];
+			this.tiebreaker.max = new float[ Modifiers.FLOAT_MODIFIERS ];
+			Arrays.fill( this.tiebreaker.min, Float.NEGATIVE_INFINITY );
+			Arrays.fill( this.tiebreaker.max, Float.POSITIVE_INFINITY );
+			this.tiebreaker.parse( MaximizerFrame.TIEBREAKER );
+			this.min = (float[]) this.tiebreaker.min.clone();
+			this.max = (float[]) this.tiebreaker.max.clone();
 			this.parse( expr );
 		}
 		
@@ -654,6 +724,11 @@ public class MaximizerFrame
 							"'max' without preceding modifier" );
 						return;
 					}
+				}
+				else if ( keyword.equals( "dump" ) )
+				{
+					this.dump = true;
+					continue;
 				}
 				
 				index = Modifiers.findName( keyword );
@@ -841,29 +916,154 @@ public class MaximizerFrame
 		
 		public float getTiebreaker( Modifiers mods )
 		{
-			return 0.0f;
+			return this.tiebreaker.getScore( mods );
 		}
 	
+		public void enumerateEquipment( int equipLevel, int maxPrice, int priceLevel )
+		{
+			// Items automatically considered regardless of their score -
+			// outfit pieces, synergies, hobo power, brimstone, etc.
+			ArrayList[] automatic = new ArrayList[ EquipmentManager.ALL_SLOTS ];
+			// Items with a positive score
+			ArrayList[] ranked = new ArrayList[ EquipmentManager.ALL_SLOTS ];
+			// Items with zero score (in case no positive scores were found)
+			ArrayList[] neutral = new ArrayList[ EquipmentManager.ALL_SLOTS ];
+			for ( int i = 0; i < EquipmentManager.ALL_SLOTS; ++i )
+			{
+				automatic[ i ] = new ArrayList();
+				ranked[ i ] = new ArrayList();
+				neutral[ i ] = new ArrayList();
+			}
+			
+			float nullScore = this.getScore( new Modifiers() );
+
+			BooleanArray usefulOutfits = new BooleanArray();
+			for ( int i = 1; i < EquipmentDatabase.normalOutfits.size(); ++i )
+			{
+				SpecialOutfit outfit = EquipmentDatabase.normalOutfits.get( i );
+				if ( outfit == null ) continue;
+				Modifiers mods = Modifiers.getModifiers( outfit.getName() );
+				if ( mods == null )	continue;
+				float delta = this.getScore( mods ) - nullScore;
+				if ( delta <= 0.0f ) continue;
+				usefulOutfits.set( i, true );
+			}
+			
+			int id = 0;
+			while ( (id = EquipmentDatabase.nextEquipmentItemId( id )) != -1 )
+			{
+				int count = InventoryManager.getAccessibleCount( id );
+				if ( count <= 0 ) continue;
+				if ( !EquipmentManager.canEquip( id ) ) continue;
+				int slot = EquipmentManager.itemIdToEquipmentType( id );
+				if ( slot < 0 || slot >= EquipmentManager.ALL_SLOTS ) continue;
+				AdventureResult item = ItemPool.get( id, count );
+				if ( KoLCharacter.hasEquipped( item ) ||
+					usefulOutfits.get( EquipmentDatabase.getOutfitWithItem( id ) ) )
+				{
+					automatic[ slot ].add( item );
+					continue;
+				}
+				String name = item.getName();
+				Modifiers mods = Modifiers.getModifiers( name );
+				if ( mods == null )	// no enchantments
+				{
+					neutral[ slot ].add( item );
+					continue;
+				}
+				if ( mods.getBoolean( Modifiers.SINGLE ) )
+				{
+					item = item.getInstance( 1 );
+				}
+				if ( mods.get( Modifiers.HOBO_POWER ) > 0.0f ||
+					mods.get( Modifiers.SLIME_HATES_IT ) > 0.0f ||
+					mods.getRawBitmap( Modifiers.BRIMSTONE ) != 0 ||
+					mods.getRawBitmap( Modifiers.SYNERGETIC ) != 0 )
+				{
+					automatic[ slot ].add( item );
+					continue;
+				}
+				String intrinsic = mods.getString( Modifiers.INTRINSIC_EFFECT );
+				if ( intrinsic.length() > 0 )
+				{
+					Modifiers newMods = new Modifiers();
+					newMods.add( mods );
+					newMods.add( Modifiers.getModifiers( intrinsic ) );
+					mods = newMods;
+				}
+				float delta = this.getScore( mods ) - nullScore;
+				if ( delta < 0.0f ) continue;
+				if ( delta == 0.0f )
+				{
+					neutral[ slot ].add( item );
+					continue;
+				}
+				if ( mods.getBoolean( Modifiers.NONSTACKABLE_WATCH ) )
+				{
+					automatic[ slot ].add( item );
+					continue;
+				}
+				ranked[ slot ].add( item );
+			}
+			
+			for ( int slot = 0; slot < EquipmentManager.ALL_SLOTS; ++slot )
+			{
+				ArrayList list = ranked[ slot ];
+				if ( list.size() == 0 )
+				{
+					list = neutral[ slot ];
+				}
+				else if ( list.size() < 3 )
+				{
+					list.addAll( neutral[ slot ] );
+				}
+				ListIterator i = list.listIterator();
+				while ( i.hasNext() )
+				{
+					AdventureResult item = (AdventureResult) i.next();
+					Spec spec = new Spec();
+					spec.attachment = item;
+					Arrays.fill( spec.equipment, EquipmentRequest.UNEQUIP );
+					spec.equipment[ slot ] = item;
+					i.set( spec );					
+				}
+				Collections.sort( list );
+				int len = list.size();
+				for ( int j = Math.max( 0, len - 3 ); j < len; ++j )
+				{
+					automatic[ slot ].add( 0, ((Spec) list.get( j )).attachment );
+				}
+				if ( this.dump )
+				{
+					System.out.println( "SLOT " + slot );
+					System.out.println( automatic[ slot ].toString() );
+				}
+			}
+			new Spec().tryAll( automatic );
+		}
 	}
 	
 	private static class Spec
+	implements Comparable, Cloneable
 	{
 		private int MCD;
-		private ArrayList equipment;
+		public AdventureResult[] equipment;
 		private ArrayList effects;
 		private FamiliarData familiar;
 		private boolean calculated = false;
+		private boolean tiebreakered = false;
+		private boolean scored = false;
 		private Modifiers mods;
-		private float score;
+		private float score, tiebreaker;
+		private int simplicity;
 		
 		public boolean failed = false;
+		public AdventureResult attachment;
 		
 		public Spec()
 		{
 			this.MCD = KoLCharacter.getMindControlLevel();
-			this.equipment = new ArrayList();
-			// copy from EqMgr
-			
+			this.equipment = EquipmentManager.allEquipment();			
 			this.effects = new ArrayList();
 			this.effects.addAll( KoLConstants.activeEffects );
 			while ( this.effects.size() > 0 )
@@ -882,9 +1082,34 @@ public class MaximizerFrame
 			this.familiar = KoLCharacter.currentFamiliar;
 		}
 		
+		public Object clone()
+		{
+			try
+			{
+				Spec copy = (Spec) super.clone();
+				copy.equipment = (AdventureResult[]) this.equipment.clone();
+				return copy;
+			}
+			catch ( CloneNotSupportedException e )
+			{
+				return null;
+			}
+		}
+		
 		public void setMindControlLevel( int MCD )
 		{
 			this.MCD = MCD;
+		}
+		
+		public void equip( int slot, AdventureResult item )
+		{
+			if ( slot < 0 || slot >= EquipmentManager.ALL_SLOTS ) return;
+			this.equipment[ slot ] = item;
+			if ( slot == EquipmentManager.WEAPON &&
+				EquipmentDatabase.getHands( item.getItemId() ) > 1 )
+			{
+				this.equipment[ EquipmentManager.OFFHAND ] = EquipmentRequest.UNEQUIP;
+			}
 		}
 		
 		public void addEffect( AdventureResult effect )
@@ -912,10 +1137,302 @@ public class MaximizerFrame
 	
 		public float getScore()
 		{
+			if ( this.scored ) return this.score;
 			if ( !this.calculated ) this.calculate();
 			this.score = MaximizerFrame.eval.getScore( this.mods );
 			this.failed = MaximizerFrame.eval.failed;
+			this.scored = true;
 			return this.score;
+		}
+		
+		public float getTiebreaker()
+		{
+			if ( this.tiebreakered ) return this.tiebreaker;
+			if ( !this.calculated ) this.calculate();
+			this.tiebreaker = MaximizerFrame.eval.getTiebreaker( this.mods );
+			this.tiebreakered = true;
+			this.simplicity = 0;
+			for ( int slot = 0; slot < EquipmentManager.ALL_SLOTS; ++slot )
+			{	
+				AdventureResult item = this.equipment[ slot ];
+				if ( item == null ) item = EquipmentRequest.UNEQUIP;
+				if ( EquipmentManager.getEquipment( slot ).equals( item ) )
+				{
+					this.simplicity += 2;
+				}
+				else if ( item.equals( EquipmentRequest.UNEQUIP ) )
+				{
+					this.simplicity += 1;
+				}
+			}
+			return this.tiebreaker;
+		}
+		
+		public int compareTo( Object o )
+		{
+			if ( !(o instanceof Spec) ) return 1;
+			Spec other = (Spec) o;
+			int rv = Float.compare( this.getScore(), other.getScore() );
+			if ( this.failed != other.failed ) return this.failed ? -1 : 1;
+			if ( rv != 0 ) return rv;
+			rv = Float.compare( this.getTiebreaker(), other.getTiebreaker() );
+			if ( rv != 0 ) return rv;
+			return this.simplicity - other.simplicity;
+		}
+		
+		// Remember which equipment slots were null, so that this
+		// state can be restored later.
+		public Object mark()
+		{
+			return this.equipment.clone();
+		}
+		
+		public void restore( Object mark )
+		{
+			System.arraycopy( mark, 0, this.equipment, 0, EquipmentManager.ALL_SLOTS );
+		}
+		
+		public void tryAll( ArrayList[] possibles )
+		{
+			//this.equipment[ EquipmentManager.HAT ] = null;
+			//this.equipment[ EquipmentManager.SHIRT ] = null;
+			//this.equipment[ EquipmentManager.PANTS ] = null;
+			this.equipment[ EquipmentManager.WEAPON ] = null;
+			this.equipment[ EquipmentManager.ACCESSORY1 ] = null;
+			this.equipment[ EquipmentManager.ACCESSORY2 ] = null;
+			this.equipment[ EquipmentManager.ACCESSORY3 ] = null;
+			this.tryAccessories( possibles, 0 );
+		}
+		
+		public void tryAccessories( ArrayList[] possibles, int pos )
+		{
+			Object mark = this.mark();
+			int free = 0;
+			if ( this.equipment[ EquipmentManager.ACCESSORY1 ] == null ) ++free;
+			if ( this.equipment[ EquipmentManager.ACCESSORY2 ] == null ) ++free;
+			if ( this.equipment[ EquipmentManager.ACCESSORY3 ] == null ) ++free;
+			if ( free > 0 )
+			{
+				ArrayList possible = possibles[ EquipmentManager.ACCESSORY1 ];
+				for ( ; pos < possible.size(); ++pos )
+				{
+					AdventureResult item = (AdventureResult) possible.get( pos );
+					int count = item.getCount();
+					if ( item.equals( this.equipment[ EquipmentManager.ACCESSORY1 ] ) )
+					{
+						--count;
+					}
+					if ( item.equals( this.equipment[ EquipmentManager.ACCESSORY2 ] ) )
+					{
+						--count;
+					}
+					if ( item.equals( this.equipment[ EquipmentManager.ACCESSORY3 ] ) )
+					{
+						--count;
+					}
+					if ( count <= 0 ) continue;
+					for ( count = Math.min( free, count ); count > 0; --count )
+					{
+						if ( this.equipment[ EquipmentManager.ACCESSORY1 ] == null )
+						{
+							this.equipment[ EquipmentManager.ACCESSORY1 ] = item;
+						}
+						else if ( this.equipment[ EquipmentManager.ACCESSORY2 ] == null )
+						{
+							this.equipment[ EquipmentManager.ACCESSORY2 ] = item;
+						}
+						else if ( this.equipment[ EquipmentManager.ACCESSORY3 ] == null )
+						{
+							this.equipment[ EquipmentManager.ACCESSORY3 ] = item;
+						}
+						else
+						{
+							System.out.println( "no room left???" );
+							break;	// no room left - shouldn't happen
+						}
+
+						this.tryAccessories( possibles, pos + 1 );
+					}
+					this.restore( mark );
+				}
+			
+				if ( this.equipment[ EquipmentManager.ACCESSORY1 ] == null )
+				{
+					this.equipment[ EquipmentManager.ACCESSORY1 ] = EquipmentRequest.UNEQUIP;
+				}
+				if ( this.equipment[ EquipmentManager.ACCESSORY2 ] == null )
+				{
+					this.equipment[ EquipmentManager.ACCESSORY2 ] = EquipmentRequest.UNEQUIP;
+				}
+				if ( this.equipment[ EquipmentManager.ACCESSORY3 ] == null )
+				{
+					this.equipment[ EquipmentManager.ACCESSORY3 ] = EquipmentRequest.UNEQUIP;
+				}
+			}
+			
+			this.trySwap( EquipmentManager.ACCESSORY1, EquipmentManager.ACCESSORY2 );
+			this.trySwap( EquipmentManager.ACCESSORY2, EquipmentManager.ACCESSORY3 );
+			this.trySwap( EquipmentManager.ACCESSORY3, EquipmentManager.ACCESSORY1 );
+
+			//this.tryHats( possibles );
+			this.tryWeapons( possibles );
+			this.restore( mark );
+		}
+		
+		public void tryHats( ArrayList[] possibles )
+		{
+			Object mark = this.mark();
+			if ( this.equipment[ EquipmentManager.HAT ] == null )
+			{
+				ArrayList possible = possibles[ EquipmentManager.HAT ];
+				for ( int pos = 0; pos < possible.size(); ++pos )
+				{
+					AdventureResult item = (AdventureResult) possible.get( pos );
+					int count = item.getCount();
+					if ( item.equals( this.equipment[ EquipmentManager.FAMILIAR ] ) )
+					{
+						--count;
+					}
+					if ( count <= 0 ) continue;
+					this.equipment[ EquipmentManager.HAT ] = item;
+					this.tryShirts( possibles );
+					this.restore( mark );
+				}
+			
+				this.equipment[ EquipmentManager.HAT ] = EquipmentRequest.UNEQUIP;
+			}
+			
+			this.tryShirts( possibles );
+			this.restore( mark );
+		}
+		
+		public void tryShirts( ArrayList[] possibles )
+		{
+			Object mark = this.mark();
+			if ( this.equipment[ EquipmentManager.SHIRT ] == null &&
+				KoLCharacter.hasSkill( "Torso Awaregness" ) )
+			{
+				ArrayList possible = possibles[ EquipmentManager.SHIRT ];
+				for ( int pos = 0; pos < possible.size(); ++pos )
+				{
+					AdventureResult item = (AdventureResult) possible.get( pos );
+					int count = item.getCount();
+					//if ( item.equals( this.equipment[ EquipmentManager.FAMILIAR ] ) )
+					//{
+					//	--count;
+					//}
+					//if ( count <= 0 ) continue;
+					this.equipment[ EquipmentManager.SHIRT ] = item;
+					this.tryPants( possibles );
+					this.restore( mark );
+				}
+			
+				this.equipment[ EquipmentManager.SHIRT ] = EquipmentRequest.UNEQUIP;
+			}
+			
+			this.tryPants( possibles );
+			this.restore( mark );
+		}
+		
+		public void tryPants( ArrayList[] possibles )
+		{
+			Object mark = this.mark();
+			if ( this.equipment[ EquipmentManager.PANTS ] == null )
+			{
+				ArrayList possible = possibles[ EquipmentManager.PANTS ];
+				for ( int pos = 0; pos < possible.size(); ++pos )
+				{
+					AdventureResult item = (AdventureResult) possible.get( pos );
+					int count = item.getCount();
+					if ( item.equals( this.equipment[ EquipmentManager.FAMILIAR ] ) )
+					{
+						--count;
+					}
+					if ( count <= 0 ) continue;
+					this.equipment[ EquipmentManager.PANTS ] = item;
+					this.tryWeapons( possibles );
+					this.restore( mark );
+				}
+			
+				this.equipment[ EquipmentManager.PANTS ] = EquipmentRequest.UNEQUIP;
+			}
+			
+			this.tryWeapons( possibles );
+			this.restore( mark );
+		}
+		
+		public void tryWeapons( ArrayList[] possibles )
+		{
+			Object mark = this.mark();
+			if ( this.equipment[ EquipmentManager.WEAPON ] == null )
+			{
+				ArrayList possible = possibles[ EquipmentManager.WEAPON ];
+				for ( int pos = 0; pos < possible.size(); ++pos )
+				{
+					AdventureResult item = (AdventureResult) possible.get( pos );
+					int count = item.getCount();
+					if ( item.equals( this.equipment[ EquipmentManager.OFFHAND ] ) )
+					{
+						--count;
+					}
+					if ( item.equals( this.equipment[ EquipmentManager.FAMILIAR ] ) )
+					{
+						--count;
+					}
+					if ( count <= 0 ) continue;
+					this.equipment[ EquipmentManager.WEAPON ] = item;
+					this.tryWeapons( possibles );
+					this.restore( mark );
+				}
+			
+				this.equipment[ EquipmentManager.WEAPON ] = EquipmentRequest.UNEQUIP;
+			}
+			
+			// doit
+			this.calculated = false;
+			this.scored = false;
+			this.tiebreakered = false;
+			if ( this.compareTo( MaximizerFrame.best ) > 0 )
+			{
+				MaximizerFrame.best = (Spec) this.clone();
+			}
+			MaximizerFrame.bestChecked++;
+			long t = System.currentTimeMillis();
+			if ( t > MaximizerFrame.bestUpdate )
+			{
+				Spec.showProgress();
+				MaximizerFrame.bestUpdate = t + 5000;
+			}
+			this.restore( mark );
+		}
+		
+		private void trySwap( int slot1, int slot2 )
+		{
+			AdventureResult item1, item2, eq1, eq2;
+			item1 = this.equipment[ slot1 ];
+			if ( item1 == null ) item1 = EquipmentRequest.UNEQUIP;
+			eq1 = EquipmentManager.getEquipment( slot1 );
+			if ( eq1.equals( item1 ) ) return;
+			item2 = this.equipment[ slot2 ];
+			if ( item2 == null ) item2 = EquipmentRequest.UNEQUIP;
+			eq2 = EquipmentManager.getEquipment( slot2 );
+			if ( eq2.equals( item2 ) ) return;
+			if ( eq1.equals( item2 ) || eq2.equals( item1 ) )
+			{
+				this.equipment[ slot1 ] = item2;
+				this.equipment[ slot2 ] = item1;
+			}
+		}
+		
+		public static void showProgress()
+		{
+			String msg = MaximizerFrame.bestChecked + " combinations checked, best score " + MaximizerFrame.best.getScore();
+			if ( MaximizerFrame.best.tiebreakered )
+			{
+				msg = msg + " / " + MaximizerFrame.best.getTiebreaker() + " / " +
+					MaximizerFrame.best.simplicity;
+			}
+			KoLmafia.updateDisplay( msg );
 		}
 	}
 	
@@ -990,6 +1507,10 @@ public class MaximizerFrame
 		{
 			if ( this.isEquipment )
 			{
+				if ( this.slot >= 0 && this.item != null )
+				{
+					spec.equip( slot, this.item );
+				}
 			}
 			else if ( this.effect != null )
 			{

@@ -111,6 +111,20 @@ public class SpecialOutfit
 		return true;
 	}
 
+	public boolean isWearing( AdventureResult[] equipment )
+	{
+		for ( int i = 0; i < this.pieces.size(); ++i )
+		{
+			if ( !KoLCharacter.hasEquipped( equipment,
+				(AdventureResult) this.pieces.get( i ) ) )
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+
 	public AdventureResult[] getPieces()
 	{
 		AdventureResult[] piecesArray = new AdventureResult[ this.pieces.size() ];

@@ -2568,14 +2568,7 @@ public abstract class KoLCharacter
 
 	public static final boolean hasSkill( final String skillName, final LockableListModel list )
 	{
-		for ( int i = 0; i < list.size(); ++i )
-		{
-			if ( ( (UseSkillRequest) list.get( i ) ).getSkillName().equalsIgnoreCase( skillName ) )
-			{
-				return true;
-			}
-		}
-		return false;
+		return list.contains( UseSkillRequest.getInstance( skillName ) );
 	}
 
 	/**
@@ -2925,7 +2918,7 @@ public abstract class KoLCharacter
 
 		case KoLConstants.EQUIP_ACCESSORY:
 			return	KoLCharacter.hasEquipped( item, EquipmentManager.ACCESSORY1 ) || 
-				KoLCharacter.hasEquipped( item, EquipmentManager.ACCESSORY2 ) |
+				KoLCharacter.hasEquipped( item, EquipmentManager.ACCESSORY2 ) ||
 				KoLCharacter.hasEquipped( item, EquipmentManager.ACCESSORY3 );
 
 		case KoLConstants.CONSUME_STICKER:
@@ -2935,6 +2928,49 @@ public abstract class KoLCharacter
 
 		case KoLConstants.EQUIP_FAMILIAR:
 			return KoLCharacter.hasEquipped( item, EquipmentManager.FAMILIAR );
+		}
+
+		return false;
+	}
+
+	public static final boolean hasEquipped( AdventureResult[] equipment, final AdventureResult item, final int equipmentSlot )
+	{
+		AdventureResult current = equipment[ equipmentSlot ];
+		if ( current == null ) return false;
+		return current.getItemId() == item.getItemId();
+	}
+
+	public static final boolean hasEquipped( AdventureResult[] equipment, final AdventureResult item )
+	{
+		switch ( ItemDatabase.getConsumptionType( item.getItemId() ) )
+		{
+		case KoLConstants.EQUIP_WEAPON:
+			return KoLCharacter.hasEquipped( equipment, item, EquipmentManager.WEAPON ) || KoLCharacter.hasEquipped( equipment, item, EquipmentManager.OFFHAND );
+
+		case KoLConstants.EQUIP_OFFHAND:
+			return KoLCharacter.hasEquipped( equipment, item, EquipmentManager.OFFHAND );
+
+		case KoLConstants.EQUIP_HAT:
+			return KoLCharacter.hasEquipped( equipment, item, EquipmentManager.HAT );
+
+		case KoLConstants.EQUIP_SHIRT:
+			return KoLCharacter.hasEquipped( equipment, item, EquipmentManager.SHIRT );
+
+		case KoLConstants.EQUIP_PANTS:
+			return KoLCharacter.hasEquipped( equipment, item, EquipmentManager.PANTS );
+
+		case KoLConstants.EQUIP_ACCESSORY:
+			return	KoLCharacter.hasEquipped( equipment, item, EquipmentManager.ACCESSORY1 ) || 
+				KoLCharacter.hasEquipped( equipment, item, EquipmentManager.ACCESSORY2 ) ||
+				KoLCharacter.hasEquipped( equipment, item, EquipmentManager.ACCESSORY3 );
+
+		case KoLConstants.CONSUME_STICKER:
+			return	KoLCharacter.hasEquipped( equipment, item, EquipmentManager.STICKER1 ) ||
+				KoLCharacter.hasEquipped( equipment, item, EquipmentManager.STICKER2 ) ||
+				KoLCharacter.hasEquipped( equipment, item, EquipmentManager.STICKER3 );
+
+		case KoLConstants.EQUIP_FAMILIAR:
+			return KoLCharacter.hasEquipped( equipment, item, EquipmentManager.FAMILIAR );
 		}
 
 		return false;
@@ -3026,13 +3062,13 @@ public abstract class KoLCharacter
 			KoLCharacter.recalculateAdjustments(
 				debug,
 				KoLCharacter.getMindControlLevel(),
-				null,	// equipment list, not yet abstracted
+				EquipmentManager.allEquipment(),
 				KoLConstants.activeEffects,
 				KoLCharacter.currentFamiliar,
 				false ) );
 	}
 
-	public static final Modifiers recalculateAdjustments( boolean debug, int MCD, List equipment, List effects, FamiliarData familiar, boolean applyIntrinsics )
+	public static final Modifiers recalculateAdjustments( boolean debug, int MCD, AdventureResult[] equipment, List effects, FamiliarData familiar, boolean applyIntrinsics )
 	{
 		int taoFactor = KoLCharacter.hasSkill( "Tao of the Terrapin" ) ? 2 : 1;
 
@@ -3058,11 +3094,11 @@ public abstract class KoLCharacter
 			else if ( slot == EquipmentManager.FAMILIAR + 1 )
 			{	// Deferred offhand
 				Modifiers.hoboPower = newModifiers.get( Modifiers.HOBO_POWER );
-				item = EquipmentManager.getEquipment( EquipmentManager.OFFHAND );
+				item = equipment[ EquipmentManager.OFFHAND ];
 			}
 			else
 			{	// Normal slot
-				item = EquipmentManager.getEquipment( slot );
+				item = equipment[ slot ];
 			}
 			if ( item == null )
 			{
@@ -3122,11 +3158,11 @@ public abstract class KoLCharacter
 		}
 		
 		// Possibly look at stickers
-		if ( EquipmentManager.usingStickerWeapon() )
+		if ( EquipmentManager.usingStickerWeapon( equipment ) )
 		{
 			for ( int slot = EquipmentManager.STICKER1; slot <= EquipmentManager.STICKER3; ++slot )
 			{
-				AdventureResult item = EquipmentManager.getEquipment( slot );
+				AdventureResult item = equipment[ slot ];
 				if ( item == null )
 				{
 					continue;
@@ -3150,7 +3186,7 @@ public abstract class KoLCharacter
 		}
 
 		// Certain outfits give benefits to the character
-		SpecialOutfit outfit = EquipmentManager.currentOutfit();
+		SpecialOutfit outfit = EquipmentManager.currentOutfit( equipment );
 		if ( outfit != null )
 		{
 			newModifiers.set( Modifiers.OUTFIT, outfit.getName() );
@@ -3249,7 +3285,8 @@ public abstract class KoLCharacter
 
 		// Add familiar effects based on calculated weight adjustment.
 
-		newModifiers.applyFamiliarModifiers( familiar );
+		newModifiers.applyFamiliarModifiers( familiar,
+			equipment[ EquipmentManager.FAMILIAR ] );
 
 		// Add in strung-up quartet.
 

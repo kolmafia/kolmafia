@@ -3207,9 +3207,9 @@
 3201	thick padded envelope	none	none	0
 3202	KoL Con IV Pole	offhand	display	0
 3203	dwarvish magazine	none	all	173
-3204	dwarvish war helmet	hat	display	0
-3205	dwarvish war mattock	weapon	display	0
-3206	dwarvish war kilt	pants	display	0
+3204	dwarvish war helmet	hat	display	777
+3205	dwarvish war mattock	weapon	display	777
+3206	dwarvish war kilt	pants	display	777
 3207	dwarvish punchcard	none	none	0
 3208	small laminated card	usable	none	49
 3209	little laminated card	usable	none	49
@@ -3482,7 +3482,7 @@
 3476	plum lozenge	multiple	all	77
 3477	pear lozenge	multiple	all	77
 3478	peach lozenge	multiple	all	77
-3479	balloon shield	offhand	all	0
+3479	balloon shield	offhand	all	60
 3480	black spot	none, combat	all	0
 3481	uniclops egg	grow	all	0
 3482	passed-out psychedelic bear	grow	all	0
@@ -3909,7 +3909,7 @@
 3903	figurine of a cute baby seal	usable	display	125
 3904	figurine of an armored seal	usable	display	250
 3905	figurine of an ancient seal	usable	display	100
-3906	figurine of a sleek seal	usable	display	100
+3906	figurine of a sleek seal	usable	display	200
 3907	figurine of a shadowy seal	usable	display	150
 3908	figurine of a stinking seal	usable	display	150
 3909	figurine of a charred seal	usable	display	150
@@ -3967,7 +3967,7 @@
 3961	fancy opera glasses	offhand	gift	20
 3962	designer handbag	grow	gift	0
 3963	Clan pool table	message	all	0
-3964	tiny cell phone	familiar	all	0
+3964	tiny cell phone	familiar	all	75
 3965	cube of billiard chalk	multiple	all	0
 3966	hot-ass club	weapon	display	100
 3967	frigid-ass club	weapon	display	100
@@ -4014,12 +4014,12 @@
 4008	memory of an A	none	display	10
 4009	memory of a G	none	display	10
 4010	memory of a T	none	display	10
-4011	memory of a CA base pair	none, combat	display	10
-4012	memory of a CG base pair	none, combat	display	10
-4013	memory of a CT base pair	none, combat	display	10
-4014	memory of an AG base pair	none, combat	display	10
-4015	memory of an AT base pair	none, combat	display	10
-4016	memory of a GT base pair	none, combat	display	10
+4011	memory of a CA base pair	none, combat	display	15
+4012	memory of a CG base pair	none, combat	display	15
+4013	memory of a CT base pair	none, combat	display	15
+4014	memory of an AG base pair	none, combat	display	15
+4015	memory of an AT base pair	none, combat	display	15
+4016	memory of a GT base pair	none, combat	display	15
 4017	squirming Slime larva	none	display	0
 4018	rusty metal greaves	pants	display	155
 4019	undissolvable contact lenses	familiar	all	75
@@ -4039,7 +4039,7 @@
 4033	memory of a stone half-circle	none	none	0
 4034	memory of an iron key	none	none	0
 4035	memory of a glowing crystal	none	none	0
-4036	caustic slime nodule	none	display	1
+4036	caustic slime nodule	none	display	0
 4037	slimy sweetbreads	food	all	200
 4038	slimy fermented bile bladder	drink	all	200
 4039	slimy alveolus	multiple	all	400
@@ -4047,7 +4047,7 @@
 4041	pig-iron helm	hat	display	1710
 4042	pig-iron shinguards	pants	display	1710
 4043	pig-iron bracers	accessory	display	1710
-4044	wumpus hair	multiple	display	0
+4044	wumpus hair	multiple	display	72
 4045	wumpus-hair bolo	none, combat	all	144
 4046	wumpus-hair net	none, combat	display	360
 4047	wumpus-hair whip	weapon	display	720
@@ -4089,7 +4089,7 @@
 4083	cupcake-in-a-cup	food	all	130
 4084	pool of liquid metal	none, combat	all	107
 4085	protein paste	food	all	145
-4086	cyber-mattock	weapon	all	170
+4086	cyber-mattock	weapon	all	175
 4087	facehugging alien	none, combat	all	66
 4088	X-37 gun	weapon	all	195
 4089	neurostim pill	multiple	all	100

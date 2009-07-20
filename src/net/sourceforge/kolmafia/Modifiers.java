@@ -1660,7 +1660,7 @@ public class Modifiers
 		}
 	}
 
-	public void applyFamiliarModifiers( final FamiliarData familiar )
+	public void applyFamiliarModifiers( final FamiliarData familiar, AdventureResult famItem )
 	{
 		int weight = familiar.getWeight() + (int) this.get( Modifiers.FAMILIAR_WEIGHT ) +
 			(int) this.get( Modifiers.HIDDEN_FAMILIAR_WEIGHT );
@@ -1671,7 +1671,6 @@ public class Modifiers
 		}
 
 		weight = Math.max( 1, weight );
-		AdventureResult famItem = EquipmentManager.getEquipment( EquipmentManager.FAMILIAR );
 		this.lookupFamiliarModifiers( familiar, weight, famItem );
 	}
 

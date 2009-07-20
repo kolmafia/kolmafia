@@ -255,6 +255,18 @@ public class EquipmentDatabase
 			StaticEntity.printStackTrace( e );
 		}
 	}
+	
+	public static final int nextEquipmentItemId( int prevId )
+	{
+		while ( ++prevId < EquipmentDatabase.statRequirements.size() )
+		{
+			if ( EquipmentDatabase.statRequirements.get( prevId ).length() > 0 )
+			{
+				return prevId;
+			}
+		}
+		return -1;
+	}
 
 	public static final int getOutfitWithItem( final int itemId )
 	{

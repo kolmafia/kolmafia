@@ -174,6 +174,14 @@ public class EquipmentManager
 		return array;
 	}
 
+	public static AdventureResult[] allEquipment()
+	{
+		AdventureResult[] array = new AdventureResult[ EquipmentManager.ALL_SLOTS ];
+		array = (AdventureResult[]) EquipmentManager.equipment.toArray( array );
+		array[ EquipmentManager.FAMILIAR ] = EquipmentManager.getFamiliarItem();
+		return array;
+	}
+
 	public static final void processResult( AdventureResult item )
 	{
 		int itemId = item.getItemId();
@@ -539,6 +547,13 @@ public class EquipmentManager
 		return isStickerWeapon( getEquipment( EquipmentManager.WEAPON ) ) ||
 			isStickerWeapon( getEquipment( EquipmentManager.OFFHAND ) ) ||
 			isStickerWeapon( getEquipment( EquipmentManager.FAMILIAR ) );
+	}
+
+	public static final boolean usingStickerWeapon( AdventureResult[] equipment )
+	{
+		return isStickerWeapon( equipment[ EquipmentManager.WEAPON ] ) ||
+			isStickerWeapon( equipment[ EquipmentManager.OFFHAND ] ) ||
+			isStickerWeapon( equipment[ EquipmentManager.FAMILIAR ] );
 	}
 
 	public static final boolean hasStickerWeapon()
@@ -1066,6 +1081,24 @@ public class EquipmentManager
 				continue;
 			}
 			if ( outfit.isWearing() )
+			{
+				return outfit;
+			}
+		}
+
+		return null;
+	}
+
+	public static final SpecialOutfit currentOutfit( AdventureResult[] equipment )
+	{
+		for ( int id = 1; id <= EquipmentDatabase.normalOutfits.size(); ++id )
+		{
+			SpecialOutfit outfit = EquipmentDatabase.normalOutfits.get( id );
+			if ( outfit == null )
+			{
+				continue;
+			}
+			if ( outfit.isWearing( equipment ) )
 			{
 				return outfit;
 			}

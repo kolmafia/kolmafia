@@ -495,7 +495,7 @@ public interface KoLConstants
 	public static final LockableListModel remedySkills = new LockableListModel();
 	public static final LockableListModel selfOnlySkills = new LockableListModel();
 	public static final LockableListModel buffSkills = new LockableListModel();
-	public static final LockableListModel availableSkills = new LockableListModel();
+	public static final LockableListModel availableSkills = new SortedListModel();
 	public static final LockableListModel permedSkills = new LockableListModel();
 	public static final LockableListModel combatSkills = new LockableListModel();
 

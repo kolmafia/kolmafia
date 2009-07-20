@@ -154,6 +154,7 @@ gingerbread horror	1	4	1-5	10-20	10-20	10-20
 gingerbread massacre	3	1	3-6	5-6	5-6	5-6	10 Sugar Rush
 gingerbread mutant bugbear	1	1	1-5	10-20	10-20	10-20	10 Festive Radiation (+5% all)
 gingerbread stir-fry	3	1	3-7	0	0	0	10 Sugar Rush
+glass of baboon milk	1	2	1-3	3-5	0	0
 glass of goat's milk	1	1	1	0	0	0
 glistening fish meat	1	1	2-3	0	4-8	0	5/15 Fishy
 glistening maki	3	1	7-12	0	8-16	0	45/55 Fishy

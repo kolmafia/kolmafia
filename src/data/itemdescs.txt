@@ -4069,7 +4069,7 @@
 4063	455247433	Mecha Mayhem Club Card
 4064	222586103	'Smuggler Shot First' Button
 4065	263607656	Spacefleet Communicator Badge
-4066	615750910	Ruby Rod
+4066	162934151	Ruby Rod
 4067	339012390	essence of heat
 4068	879650227	essence of kink
 4069	861565431	essence of cold
