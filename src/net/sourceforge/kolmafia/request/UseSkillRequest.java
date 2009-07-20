@@ -900,6 +900,23 @@ public class UseSkillRequest
 		return instance;
 	}
 
+	public static final UseSkillRequest getUnmodifiedInstance( String skillName )
+	{
+		if ( skillName == null || !SkillDatabase.contains( skillName ) )
+		{
+			return null;
+		}
+
+		skillName = StringUtilities.getCanonicalName( skillName );
+		if ( !UseSkillRequest.ALL_SKILLS.containsKey( skillName ) )
+		{
+			UseSkillRequest.ALL_SKILLS.put( skillName, new UseSkillRequest( skillName ) );
+		}
+
+		UseSkillRequest request = (UseSkillRequest) UseSkillRequest.ALL_SKILLS.get( skillName );
+		return request;
+	}
+
 	public static final UseSkillRequest getInstance( String skillName )
 	{
 		if ( skillName == null || !SkillDatabase.contains( skillName ) )
