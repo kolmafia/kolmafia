@@ -44,6 +44,11 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public abstract class WumpusManager
 {
 	public static HashMap warnings = new HashMap();
+
+	// Links from current room
+	public static String[] links = null;
+
+	// Locations of hazards
 	public static String bats1 = null;
 	public static String bats2 = null;
 	public static String pit1 = null;
@@ -113,7 +118,24 @@ public abstract class WumpusManager
 
 	public static void reset()
 	{
+		// Clear out old room data
 		WumpusManager.warnings.clear();
+
+		// Initialize all rooms to unknown
+		Integer all = new Integer( WARN_ALL );
+		for ( int i = 0; i < CHAMBERS.length; ++i )
+		{
+			String room = CHAMBERS[ i ];
+			if ( room != null )
+			{
+				WumpusManager.warnings.put( room, all );
+			}
+		}
+
+		// We are not currently in a room
+		WumpusManager.links = null;
+
+		// We don't know where any of the hazards are
 		WumpusManager.bats1 = null;
 		WumpusManager.bats2 = null;
 		WumpusManager.pit1 = null;
@@ -130,12 +152,12 @@ public abstract class WumpusManager
 	private static int put( String room, int value )
 	{
 		int old = WumpusManager.get( room );
-		WumpusManager.warnings.put( room, new Integer( old & value ) );
+		if ( ( old & WARN_INDEFINITE ) != 0 )
+		{
+			WumpusManager.warnings.put( room, new Integer( old & value ) );
+		}
 		return old;
 	}
-
-	// Links from current room
-	public static String[] links = null;
 
 	// Deductions we made from visiting this room
 	public static final StringBuffer deductions = new StringBuffer();
