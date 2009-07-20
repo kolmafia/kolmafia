@@ -2568,7 +2568,7 @@ public abstract class KoLCharacter
 
 	public static final boolean hasSkill( final String skillName, final LockableListModel list )
 	{
-		return list.contains( UseSkillRequest.getInstance( skillName ) );
+		return list.contains( UseSkillRequest.getUnmodifiedInstance( skillName ) );
 	}
 
 	/**
