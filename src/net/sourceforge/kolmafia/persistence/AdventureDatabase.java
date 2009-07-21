@@ -175,38 +175,49 @@ public class AdventureDatabase
 
 		while ( ( data = FileUtilities.readData( reader ) ) != null )
 		{
-			if ( data.length > 3 )
+			if ( data.length <= 3 )
 			{
-				String zone = data[ 0 ];
-				String[] location = data[ 1 ].split( "=" );
-				boolean hasCloverAdventure = data[ 2 ].equals( "true" );
-				String name = data[ 3 ];
+				continue;
+			}
 
-				if ( AdventureDatabase.PARENT_ZONES.get( zone ) == null )
-				{
-					RequestLogger.printLine( "Adventure area \"" + name + "\" has invalid zone: \"" + zone + "\"" );
-					continue;
-				}
+			String zone = data[ 0 ];
+			String[] location = data[ 1 ].split( "=" );
+			boolean hasCloverAdventure = data[ 2 ].equals( "true" );
+			String name = data[ 3 ];
 
-				AdventureDatabase.zoneLookup.put( name, zone );
-				AdventureDatabase.adventureTable[ 0 ].add( zone );
-				AdventureDatabase.adventureTable[ 1 ].add( location[ 0 ] + ".php" );
-				AdventureDatabase.adventureTable[ 2 ].add( location[ 1 ] );
-				AdventureDatabase.adventureTable[ 3 ].add( name );
+			if ( AdventureDatabase.PARENT_ZONES.get( zone ) == null )
+			{
+				RequestLogger.printLine( "Adventure area \"" + name + "\" has invalid zone: \"" + zone + "\"" );
+				continue;
+			}
 
-				AdventureDatabase.cloverLookup.put( name, hasCloverAdventure ? Boolean.TRUE : Boolean.FALSE );
-				if ( data.length > 4 )
-				{
-					int id = StringUtilities.parseInt( location[ 1 ] );
-					if ( !data[ 4 ].equals( "" ) )
-					{
-						AdventureDatabase.conditionsById.set( id, data[ 4 ] );
-					}
-					if ( data.length > 5 && !data[ 5 ].equals( "" ) )
-					{
-						AdventureDatabase.bountiesById.set( id, data[ 5 ] );
-					}				
-				}
+			AdventureDatabase.zoneLookup.put( name, zone );
+			AdventureDatabase.adventureTable[ 0 ].add( zone );
+			AdventureDatabase.adventureTable[ 1 ].add( location[ 0 ] + ".php" );
+			AdventureDatabase.adventureTable[ 2 ].add( location[ 1 ] );
+			AdventureDatabase.adventureTable[ 3 ].add( name );
+
+			AdventureDatabase.cloverLookup.put( name, hasCloverAdventure ? Boolean.TRUE : Boolean.FALSE );
+
+			if ( data.length <= 4 )
+			{
+				continue;
+			}
+
+			int id = StringUtilities.parseInt( location[ 1 ] );
+			if ( !data[ 4 ].equals( "" ) )
+			{
+				AdventureDatabase.conditionsById.set( id, data[ 4 ] );
+			}
+
+			if ( data.length <= 5 )
+			{
+				continue;
+			}
+
+			if ( !data[ 5 ].equals( "" ) )
+			{
+				AdventureDatabase.bountiesById.set( id, data[ 5 ] );
 			}
 		}
 
@@ -446,7 +457,7 @@ public class AdventureDatabase
 		KoLAdventure adventure = AdventureDatabase.getBountyLocation( name );
 		if ( adventure == null )
 			return null;
-                return AdventureDatabase.getBounty( adventure );
+		return AdventureDatabase.getBounty( adventure );
 	}
 
 	public static final AdventureResult getBounty( final KoLAdventure adventure )
@@ -505,6 +516,8 @@ public class AdventureDatabase
 			}
 		}
 
+		String def = "none";
+
 		// If you're at the Friar's gate, return the steel
 		// reward people are most likely looking for.
 
@@ -512,33 +525,49 @@ public class AdventureDatabase
 		{
 			if ( KoLCharacter.canDrink() )
 			{
-				return KoLCharacter.getInebrietyLimit() > 15 ? "none" : "1 steel margarita";
+				if ( KoLCharacter.getInebrietyLimit() <= 15 )
+				{
+					def = "1 steel margarita";
+				}
 			}
-
-			if ( KoLCharacter.canEat() )
+			else if ( KoLCharacter.canEat() )
 			{
-				return KoLCharacter.getFullnessLimit() > 15 ? "none" : "1 steel lasagna";
+				if ( KoLCharacter.getFullnessLimit() <= 15 )
+				{
+					def = "1 steel lasagna";
+				}
 			}
-
-			return KoLCharacter.getSpleenLimit() > 15 ? "none" : "1 steel-scented air freshener";
+			else
+			{
+				if ( KoLCharacter.getSpleenLimit() <= 15 )
+				{
+					def = "1 steel-scented air freshener";
+				}
+			}
 		}
 
 		// Otherwise, pull the condition out of the existing
 		// table and return it.
 
 		String conditions = AdventureDatabase.conditionsById.get( adventureId );
-		if ( conditions != null && !conditions.equals( "" ) )
+		if ( conditions == null || conditions.equals( "" ) )
 		{
-			return conditions;
+			return def;
 		}
 
-		return "none";
+		if ( !def.equals( "none" ) )
+		{
+			conditions = def + "|" + conditions;
+		}
+
+		return conditions;
 	}
 
 	public static final LockableListModel getDefaultConditionsList( final KoLAdventure adventure, LockableListModel list )
 	{
-		String [] conditions = AdventureDatabase.getDefaultConditions( adventure ).split( "\\|" );
-		if ( list == null )
+		String string = AdventureDatabase.getDefaultConditions( adventure );
+		String [] conditions = string.split( "\\|" );
+`		if ( list == null )
 		{
 			list = new LockableListModel();
 		}
