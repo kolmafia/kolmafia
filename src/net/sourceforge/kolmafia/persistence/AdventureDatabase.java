@@ -567,7 +567,7 @@ public class AdventureDatabase
 	{
 		String string = AdventureDatabase.getDefaultConditions( adventure );
 		String [] conditions = string.split( "\\|" );
-`		if ( list == null )
+		if ( list == null )
 		{
 			list = new LockableListModel();
 		}
