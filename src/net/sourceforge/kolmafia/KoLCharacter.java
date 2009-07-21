@@ -481,6 +481,7 @@ public abstract class KoLCharacter
 		KoLConstants.selfOnlySkills.clear();
 		KoLConstants.buffSkills.clear();
 		KoLConstants.availableSkills.clear();
+		KoLConstants.availableSkillsMap.clear();
 		KoLConstants.combatSkills.clear();
 
 		// All characters get the option to
@@ -2337,12 +2338,13 @@ public abstract class KoLCharacter
 			return;
 		}
 
-		if ( KoLConstants.availableSkills.contains( skill ) )
+		if ( KoLConstants.availableSkillsMap.containsKey( skill ) )
 		{
 			return;
 		}
 
 		KoLConstants.availableSkills.add( skill );
+		KoLConstants.availableSkillsMap.put( skill, null );
 
 		switch ( SkillDatabase.getSkillType( skill.getSkillId() ) )
 		{
@@ -2568,7 +2570,12 @@ public abstract class KoLCharacter
 
 	public static final boolean hasSkill( final String skillName, final LockableListModel list )
 	{
-		return list.contains( UseSkillRequest.getUnmodifiedInstance( skillName ) );
+		UseSkillRequest req = UseSkillRequest.getUnmodifiedInstance( skillName );
+		if ( list == KoLConstants.availableSkills )
+		{
+			return KoLConstants.availableSkillsMap.containsKey( req );
+		}
+		return list.contains( req );
 	}
 
 	/**

@@ -1660,6 +1660,12 @@ public class Modifiers
 		}
 	}
 
+	// Returned iterator yields alternating names / bitmaps
+	public static Iterator getSynergies()
+	{
+		return Modifiers.synergies.iterator();
+	}
+
 	public void applyFamiliarModifiers( final FamiliarData familiar, AdventureResult famItem )
 	{
 		int weight = familiar.getWeight() + (int) this.get( Modifiers.FAMILIAR_WEIGHT ) +
