@@ -47,6 +47,7 @@ import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -117,7 +118,7 @@ public class MaximizerFrame
 	private static int bestChecked;
 	private static long bestUpdate;
 	
-	private static final String TIEBREAKER = "1 familiar weight, 1 initiative, 1 exp, 1 item, 1 meat, 0.1 DA 1000 max, 1 DR, 1 all res, -5 mana cost, 1.0 mus, 0.5 mys, 1.0 mox, 1.5 mainstat, 1 HP, 1 MP, 1 weapon damage, 1 ranged damage, 1 spell damage, 1 cold damage, 1 hot damage, 1 sleaze damage, 1 spooky damage, 1 stench damage, 1 cold spell damage, 1 hot spell damage, 1 sleaze spell damage, 1 spooky spell damage, 1 stench spell damage, 1 critical, -1 fumble, 1 HP regen max, 1 MP regen max, 1 critical hit percent, 0.1 food drop, 0.1 booze drop, 0.1 hat drop, 0.1 weapon drop, 0.1 offhand drop, 0.1 shirt drop, 0.1 pants drop, 0.1 accessory drop";
+	private static final String TIEBREAKER = "10 familiar weight, 1 initiative, 5 exp, 1 item, 1 meat, 0.1 DA 1000 max, 1 DR, 0.5 all res, -10 mana cost, 1.0 mus, 0.5 mys, 1.0 mox, 1.5 mainstat, 1 HP, 1 MP, 1 weapon damage, 1 ranged damage, 1 spell damage, 1 cold damage, 1 hot damage, 1 sleaze damage, 1 spooky damage, 1 stench damage, 1 cold spell damage, 1 hot spell damage, 1 sleaze spell damage, 1 spooky spell damage, 1 stench spell damage, 1 critical, -1 fumble, 1 HP regen max, 3 MP regen max, 1 critical hit percent, 0.1 food drop, 0.1 booze drop, 0.1 hat drop, 0.1 weapon drop, 0.1 offhand drop, 0.1 shirt drop, 0.1 pants drop, 0.1 accessory drop";
 	
 	private static final String HELP_STRING = "<html><table width=750><tr><td>" +
 		"<h3>General</h3>" +
@@ -938,6 +939,7 @@ public class MaximizerFrame
 			float nullScore = this.getScore( new Modifiers() );
 
 			BooleanArray usefulOutfits = new BooleanArray();
+			TreeMap outfitPieces = new TreeMap();
 			for ( int i = 1; i < EquipmentDatabase.normalOutfits.size(); ++i )
 			{
 				SpecialOutfit outfit = EquipmentDatabase.normalOutfits.get( i );
@@ -949,6 +951,46 @@ public class MaximizerFrame
 				usefulOutfits.set( i, true );
 			}
 			
+			int usefulSynergies = 0;
+			Iterator syn = Modifiers.getSynergies();
+			while ( syn.hasNext() )
+			{
+				Modifiers mods = Modifiers.getModifiers( (String) syn.next() );
+				int value = ((Integer) syn.next()).intValue();
+				if ( mods == null )	continue;
+				float delta = this.getScore( mods ) - nullScore;
+				if ( delta > 0.0f ) usefulSynergies |= value;
+			}
+			
+			boolean hoboPowerUseful = false;
+			boolean brimstoneUseful = false;
+			boolean slimeHateUseful = false;
+			{
+				Modifiers mods = Modifiers.getModifiers( "_hoboPower" );
+				if ( mods != null &&
+					this.getScore( mods ) - nullScore > 0.0f )
+				{
+					hoboPowerUseful = true;
+				}
+			}
+			{
+				Modifiers mods = Modifiers.getModifiers( "_brimstone" );
+				if ( mods != null &&
+					this.getScore( mods ) - nullScore > 0.0f )
+				{
+					brimstoneUseful = true;
+				}
+			}
+			{
+				Modifiers mods = Modifiers.getModifiers( "_slimeHate" );
+				if ( mods != null &&
+					this.getScore( mods ) - nullScore > 0.0f )
+				{
+					slimeHateUseful = true;
+				}
+			}
+				
+			
 			int id = 0;
 			while ( (id = EquipmentDatabase.nextEquipmentItemId( id )) != -1 )
 			{
@@ -958,8 +1000,11 @@ public class MaximizerFrame
 				int slot = EquipmentManager.itemIdToEquipmentType( id );
 				if ( slot < 0 || slot >= EquipmentManager.ALL_SLOTS ) continue;
 				AdventureResult item = ItemPool.get( id, count );
-				if ( KoLCharacter.hasEquipped( item ) ||
-					usefulOutfits.get( EquipmentDatabase.getOutfitWithItem( id ) ) )
+				if ( usefulOutfits.get( EquipmentDatabase.getOutfitWithItem( id ) ) )
+				{
+					outfitPieces.put( item, item );
+				}
+				if ( KoLCharacter.hasEquipped( item ) )
 				{
 					automatic[ slot ].add( item );
 					continue;
@@ -975,10 +1020,25 @@ public class MaximizerFrame
 				{
 					item = item.getInstance( 1 );
 				}
-				if ( mods.get( Modifiers.HOBO_POWER ) > 0.0f ||
-					mods.get( Modifiers.SLIME_HATES_IT ) > 0.0f ||
-					mods.getRawBitmap( Modifiers.BRIMSTONE ) != 0 ||
-					mods.getRawBitmap( Modifiers.SYNERGETIC ) != 0 )
+				if ( hoboPowerUseful &&
+					mods.get( Modifiers.HOBO_POWER ) > 0.0f )
+				{
+					automatic[ slot ].add( item );
+					continue;
+				}
+				if ( brimstoneUseful &&
+					mods.getRawBitmap( Modifiers.BRIMSTONE ) != 0 )
+				{
+					automatic[ slot ].add( item );
+					continue;
+				}
+				if ( slimeHateUseful &&
+					mods.get( Modifiers.SLIME_HATES_IT ) > 0.0f )
+				{
+					automatic[ slot ].add( item );
+					continue;
+				}
+				if ( (mods.getRawBitmap( Modifiers.SYNERGETIC ) & usefulSynergies) != 0 )
 				{
 					automatic[ slot ].add( item );
 					continue;

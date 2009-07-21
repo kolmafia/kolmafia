@@ -41,6 +41,7 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.IdentityHashMap;
 import java.util.Locale;
 import java.util.Random;
 import java.util.HashMap;
@@ -495,7 +496,8 @@ public interface KoLConstants
 	public static final LockableListModel remedySkills = new LockableListModel();
 	public static final LockableListModel selfOnlySkills = new LockableListModel();
 	public static final LockableListModel buffSkills = new LockableListModel();
-	public static final LockableListModel availableSkills = new SortedListModel();
+	public static final LockableListModel availableSkills = new LockableListModel();
+	public static final IdentityHashMap availableSkillsMap = new IdentityHashMap();
 	public static final LockableListModel permedSkills = new LockableListModel();
 	public static final LockableListModel combatSkills = new LockableListModel();
 

@@ -2659,9 +2659,21 @@ Loc:The Dive Bar	Initiative Penalty: -100, Item Drop Penalty: -100, Meat Drop Pe
 # Each element of the synergy must appear earlier in this file (even if
 # it has no enchantments itself), with a "Synergetic" flag.
 # There is currently a limit of 32 total Synergetic items.
+
 synergy/serpentine sword/snake shield	Monster Level: +10
 synergy/lupine sword/snarling wolf shield	Spooky Damage: +9
 synergy/cardboard katana/cardboard wakizashi	Weapon Damage: +20
+
+# Maximization categories section of modifiers.txt
+# These pseudo-items list the indirect benefits of certain classes of
+# equipment.  If the Modifier Maximizer finds that any of these classes
+# have a positive score, the items in that class will be considered as
+# possibilities even if their direct benefits wouldn't qualify them.
+# The exact values don't really matter, just their sign.
+
+_hoboPower	Weapon Damage: 0.8, Ranged Damage: 1.0, Spell Damage: 1.2, HP Regen Min: 0.25, HP Regen Max: 0.33, MP Regen Min: 0.25, MP Regen Max: 0.33, Meat Drop: 1.0, Item Drop: 0.5
+_brimstone	Item Drop: 1, Meat Drop: 1, Monster Level: 1
+_slimeHate	Monster Level: [zone(The Slime Tube)]
 
 # Everything Else section of modifiers.txt
 
