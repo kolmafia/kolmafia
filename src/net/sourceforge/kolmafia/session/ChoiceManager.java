@@ -1250,6 +1250,7 @@ public abstract class ChoiceManager
 			"Item-Driven", "choiceAdventure393", "big bumboozer marble",
 			new String[] { "1 of each marble -> 32768 Meat", "skip adventure" } ),
 
+		// Choice 395 is Rumble On
 	};
 
 	static
