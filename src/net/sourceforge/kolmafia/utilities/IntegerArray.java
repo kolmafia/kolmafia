@@ -58,4 +58,9 @@ public class IntegerArray
 
 		this.internalList.set( index, new Integer( value ) );
 	}
+
+	public int size()
+	{
+		return this.internalList.size();
+	}
 }

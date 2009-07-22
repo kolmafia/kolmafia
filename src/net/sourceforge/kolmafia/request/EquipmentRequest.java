@@ -276,6 +276,7 @@ public class EquipmentRequest
 	private void initializeChangeData( final AdventureResult changeItem, final int equipmentSlot, final boolean force )
 	{
 		this.addFormField( "which", "2" );
+		this.addFormField( "ajax", "1" );
 		this.equipmentSlot = equipmentSlot;
 
 		if ( changeItem.equals( EquipmentRequest.UNEQUIP ) )
@@ -890,6 +891,14 @@ public class EquipmentRequest
 		if ( this.getURLString().startsWith( "bedazzle.php" ) )
 		{
 			EquipmentRequest.parseBedazzlements( this.responseText );
+			return;
+		}
+		
+		if ( (this.requestType == EquipmentRequest.CHANGE_ITEM ||
+			this.requestType == EquipmentRequest.REMOVE_ITEM) &&
+			this.getURLString().indexOf( "ajax=1" ) != -1 )
+		{
+			EquipmentRequest.parseEquipmentChange( this.getURLString(), this.responseText );
 			return;
 		}
 

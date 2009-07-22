@@ -58,4 +58,9 @@ public class BooleanArray
 
 		this.internalList.set( index, value ? Boolean.TRUE : Boolean.FALSE );
 	}
+
+	public int size()
+	{
+		return this.internalList.size();
+	}
 }
