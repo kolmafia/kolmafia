@@ -770,8 +770,8 @@ savory staff	Mysticality: +4
 savory sword	Muscle: +4
 # scorpion whip: 50% chance of poisoning opponent.
 scorpion whip	Weapon Damage: +13
-# scratch 'n' sniff crossbow
-# scratch 'n' sniff sword
+scratch 'n' sniff crossbow	none
+scratch 'n' sniff sword	none
 # seal-clubbing club
 serpentine sword	Monster Level: +10, Synergetic
 severed flipper	Muscle: +5, Weapon Damage: +5, Class: "Seal Clubber"
@@ -2674,6 +2674,7 @@ synergy/cardboard katana/cardboard wakizashi	Weapon Damage: +20
 _hoboPower	Weapon Damage: 0.8, Ranged Damage: 1.0, Spell Damage: 1.2, HP Regen Min: 0.25, HP Regen Max: 0.33, MP Regen Min: 0.25, MP Regen Max: 0.33, Meat Drop: 1.0, Item Drop: 0.5
 _brimstone	Item Drop: 1, Meat Drop: 1, Monster Level: 1
 _slimeHate	Monster Level: [zone(The Slime Tube)]
+_stickers	Item Drop: +25, Experience: +2, Meat Drop: +25, Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3, Weapon Damage: +20, Spell Damage: +20
 
 # Everything Else section of modifiers.txt
 

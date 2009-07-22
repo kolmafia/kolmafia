@@ -261,7 +261,7 @@ public class MaximizerFrame
 			{
 				MaximizerFrame.boosts.add( new Boost( "", "(creating/folding/pulling/buying equipment not considered yet)", -1, null, 0.0f ) );
 			}
-			MaximizerFrame.boosts.add( new Boost( "", "(only weapons and accessories are considered at the moment)", -1, null, 0.0f ) );
+			MaximizerFrame.boosts.add( new Boost( "", "(only hats, pants, weapons and accessories are considered at the moment)", -1, null, 0.0f ) );
 			MaximizerFrame.best = new Spec();
 			MaximizerFrame.bestChecked = 0;
 			MaximizerFrame.bestUpdate = System.currentTimeMillis() + 5000;
@@ -965,12 +965,14 @@ public class MaximizerFrame
 			boolean hoboPowerUseful = false;
 			boolean brimstoneUseful = false;
 			boolean slimeHateUseful = false;
+			boolean stickersUseful = false;
 			{
 				Modifiers mods = Modifiers.getModifiers( "_hoboPower" );
 				if ( mods != null &&
 					this.getScore( mods ) - nullScore > 0.0f )
 				{
 					hoboPowerUseful = true;
+					if ( this.dump ) System.out.println( "hoboPowerUseful" );
 				}
 			}
 			{
@@ -979,6 +981,7 @@ public class MaximizerFrame
 					this.getScore( mods ) - nullScore > 0.0f )
 				{
 					brimstoneUseful = true;
+					if ( this.dump ) System.out.println( "brimstoneUseful" );
 				}
 			}
 			{
@@ -987,16 +990,25 @@ public class MaximizerFrame
 					this.getScore( mods ) - nullScore > 0.0f )
 				{
 					slimeHateUseful = true;
+					if ( this.dump ) System.out.println( "slimeHateUseful" );
+				}
+			}
+			{
+				Modifiers mods = Modifiers.getModifiers( "_stickers" );
+				if ( mods != null &&
+					this.getScore( mods ) - nullScore > 0.0f )
+				{
+					stickersUseful = true;
+					if ( this.dump ) System.out.println( "stickersUseful" );
 				}
 			}
 				
-			
 			int id = 0;
 			while ( (id = EquipmentDatabase.nextEquipmentItemId( id )) != -1 )
 			{
+				if ( !EquipmentManager.canEquip( id ) ) continue;
 				int count = InventoryManager.getAccessibleCount( id );
 				if ( count <= 0 ) continue;
-				if ( !EquipmentManager.canEquip( id ) ) continue;
 				int slot = EquipmentManager.itemIdToEquipmentType( id );
 				if ( slot < 0 || slot >= EquipmentManager.ALL_SLOTS ) continue;
 				AdventureResult item = ItemPool.get( id, count );
@@ -1004,21 +1016,29 @@ public class MaximizerFrame
 				{
 					outfitPieces.put( item, item );
 				}
-				if ( KoLCharacter.hasEquipped( item ) )
-				{
-					automatic[ slot ].add( item );
-					continue;
-				}
 				String name = item.getName();
 				Modifiers mods = Modifiers.getModifiers( name );
 				if ( mods == null )	// no enchantments
 				{
-					neutral[ slot ].add( item );
+					if ( KoLCharacter.hasEquipped( item ) )
+					{
+						automatic[ slot ].add( item );
+					}
+					else
+					{
+						neutral[ slot ].add( item );
+					}
 					continue;
 				}
 				if ( mods.getBoolean( Modifiers.SINGLE ) )
 				{
 					item = item.getInstance( 1 );
+				}
+				
+				if ( KoLCharacter.hasEquipped( item ) )
+				{
+					automatic[ slot ].add( item );
+					continue;
 				}
 				if ( hoboPowerUseful &&
 					mods.get( Modifiers.HOBO_POWER ) > 0.0f )
@@ -1034,6 +1054,12 @@ public class MaximizerFrame
 				}
 				if ( slimeHateUseful &&
 					mods.get( Modifiers.SLIME_HATES_IT ) > 0.0f )
+				{
+					automatic[ slot ].add( item );
+					continue;
+				}
+				if ( stickersUseful &&
+					EquipmentManager.isStickerWeapon( item ) )
 				{
 					automatic[ slot ].add( item );
 					continue;
@@ -1099,7 +1125,7 @@ public class MaximizerFrame
 					System.out.println( automatic[ slot ].toString() );
 				}
 			}
-			new Spec().tryAll( automatic );
+			new Spec().tryAll( usefulOutfits, outfitPieces, automatic );
 		}
 	}
 	
@@ -1252,15 +1278,95 @@ public class MaximizerFrame
 			System.arraycopy( mark, 0, this.equipment, 0, EquipmentManager.ALL_SLOTS );
 		}
 		
-		public void tryAll( ArrayList[] possibles )
+		public void tryAll( BooleanArray usefulOutfits, TreeMap outfitPieces, ArrayList[] possibles )
 		{
-			//this.equipment[ EquipmentManager.HAT ] = null;
+			this.equipment[ EquipmentManager.HAT ] = null;
 			//this.equipment[ EquipmentManager.SHIRT ] = null;
-			//this.equipment[ EquipmentManager.PANTS ] = null;
+			this.equipment[ EquipmentManager.PANTS ] = null;
 			this.equipment[ EquipmentManager.WEAPON ] = null;
 			this.equipment[ EquipmentManager.ACCESSORY1 ] = null;
 			this.equipment[ EquipmentManager.ACCESSORY2 ] = null;
 			this.equipment[ EquipmentManager.ACCESSORY3 ] = null;
+			this.tryOutfits( usefulOutfits, outfitPieces, possibles );
+		}
+		
+		public void tryOutfits( BooleanArray usefulOutfits, TreeMap outfitPieces, ArrayList[] possibles )
+		{
+			Object mark = this.mark();
+			for ( int outfit = usefulOutfits.size() - 1; outfit >= 0; --outfit )
+			{
+				if ( !usefulOutfits.get( outfit ) ) continue;
+				AdventureResult[] pieces = EquipmentDatabase.getOutfit( outfit ).getPieces();
+			pieceloop:
+				for ( int idx = pieces.length - 1; ; --idx )
+				{
+					if ( idx == -1 )
+					{	// all pieces successfully put on
+						this.tryAccessories( possibles, 0 );
+						break;
+					}
+					AdventureResult item = (AdventureResult) outfitPieces.get( pieces[ idx ] );
+					if ( item == null ) break;	// not available
+					int count = item.getCount();
+					int slot = EquipmentManager.itemIdToEquipmentType( item.getItemId() );
+					
+					switch ( slot )
+					{
+					case EquipmentManager.HAT:
+					case EquipmentManager.PANTS:
+					case EquipmentManager.SHIRT:
+						if ( item.equals( this.equipment[ slot ] ) )
+						{	// already worn
+							continue pieceloop;
+						}
+						if ( item.equals( this.equipment[ EquipmentManager.FAMILIAR ] ) )
+						{
+							--count;
+						}
+						break;
+					case EquipmentManager.WEAPON:
+					case EquipmentManager.OFFHAND:
+						if ( item.equals( this.equipment[ EquipmentManager.WEAPON ] ) ||
+							item.equals( this.equipment[ EquipmentManager.OFFHAND ] ) )
+						{	// already worn
+							continue pieceloop;
+						}
+						if ( item.equals( this.equipment[ EquipmentManager.FAMILIAR ] ) )
+						{
+							--count;
+						}
+						break;
+					case EquipmentManager.ACCESSORY1:
+						if ( item.equals( this.equipment[ EquipmentManager.ACCESSORY1 ] ) ||
+							item.equals( this.equipment[ EquipmentManager.ACCESSORY2 ] ) ||
+							item.equals( this.equipment[ EquipmentManager.ACCESSORY3 ] ) )
+						{	// already worn
+							continue pieceloop;
+						}
+						if ( item.equals( this.equipment[ EquipmentManager.FAMILIAR ] ) )
+						{
+							--count;
+						}
+						if ( this.equipment[ EquipmentManager.ACCESSORY3 ] == null )
+						{
+							slot = EquipmentManager.ACCESSORY3;
+						}
+						else if ( this.equipment[ EquipmentManager.ACCESSORY2 ] == null )
+						{
+							slot = EquipmentManager.ACCESSORY2;
+						}
+						break;
+					default:
+						break pieceloop;	// don't know how to wear that
+					}
+					
+					if ( count <= 0 ) break;	// none available
+					if ( this.equipment[ slot ] != null ) break; // slot taken
+					this.equipment[ slot ] = item;
+				}
+				this.restore( mark );
+			}
+			
 			this.tryAccessories( possibles, 0 );
 		}
 		
@@ -1334,8 +1440,7 @@ public class MaximizerFrame
 			this.trySwap( EquipmentManager.ACCESSORY2, EquipmentManager.ACCESSORY3 );
 			this.trySwap( EquipmentManager.ACCESSORY3, EquipmentManager.ACCESSORY1 );
 
-			//this.tryHats( possibles );
-			this.tryWeapons( possibles );
+			this.tryHats( possibles );
 			this.restore( mark );
 		}
 		
@@ -1355,14 +1460,16 @@ public class MaximizerFrame
 					}
 					if ( count <= 0 ) continue;
 					this.equipment[ EquipmentManager.HAT ] = item;
-					this.tryShirts( possibles );
+					//this.tryShirts( possibles );
+					this.tryPants( possibles );
 					this.restore( mark );
 				}
 			
 				this.equipment[ EquipmentManager.HAT ] = EquipmentRequest.UNEQUIP;
 			}
 			
-			this.tryShirts( possibles );
+			//this.tryShirts( possibles );
+			this.tryPants( possibles );
 			this.restore( mark );
 		}
 		
