@@ -359,6 +359,14 @@ public class ResultProcessor
 				return false;
 			}
 
+			if ( acquisition.startsWith( "You acquire... something" ) )
+			{
+				AdventureResult result = AdventureResult.tallyItem(
+					"unknown item while blind", 1, false );
+				AdventureResult.addResultToList( KoLConstants.tally, result );
+				return false;
+			}
+
 			if ( acquisition.indexOf( "effect" ) == -1 )
 			{
 				ResultProcessor.processItem( combatResults, parsedResults, acquisition, data );
