@@ -3502,12 +3502,17 @@ public class KoLmafiaCLI
 	public static class Outfit
 		extends Command
 	{
-		{ usage = " [list <filter>] | checkpoint | <name> - list, restore, or change outfits."; }
+		{ usage = " [list <filter>] | save <name> | checkpoint | <name> - list, save, restore, or change outfits."; }
 		public void run( String cmd, String parameters )
 		{
 			if ( parameters.startsWith( "list" ) )
 			{
 				CLI.showData( "outfits " + parameters.substring( 4 ).trim() );
+				return;
+			}
+			else if (parameters.startsWith( "save" ) )
+			{
+				RequestThread.postRequest( new EquipmentRequest( parameters.substring( 4 ).trim() ) );
 				return;
 			}
 			else if ( parameters.length() == 0 )
