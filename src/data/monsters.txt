@@ -783,3 +783,6 @@ Servant of Grodstank	HP: 201 Def: 173 Atk: 174	fustulent seal grulch (0)	inferna
 shadow of Black Bubbles	HP: 208 Def: 176 Atk: 174	scrap of shadow (0)	shadowy seal eye (0)
 watertight seal	HP: 404 Def: 350 Atk: 351	hyperinflated seal lung (100)
 wet seal	HP: 201 Def: 175 Atk: 178	mannequin leg (0)	seal lube (0)
+
+# Under the effect of Temporary Blindness
+The Darkness (blind)	HP: 0

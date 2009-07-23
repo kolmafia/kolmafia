@@ -1419,6 +1419,11 @@ public class FightRequest
 				HiddenCityRequest.addHiddenCityLocation( 'P' );
 
 			}
+			else if ( encounter.equalsIgnoreCase( "The Darkness" ) &&
+				responseText.indexOf( "darkness.gif" ) != -1 )
+			{
+				encounter = "The Darkness (blind)";
+			}
 
 			FightRequest.encounterLookup = CustomCombatManager.encounterKey( encounter );
 			FightRequest.monsterData = MonsterDatabase.findMonster( FightRequest.encounterLookup, false );
