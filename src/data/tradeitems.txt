@@ -4141,3 +4141,12 @@
 4135
 4136	Bag o' Tricks	offhand, reusable	all	0
 4137	slime stack	none, combat	all	100
+4138
+4139
+4140
+4141
+4142
+4143
+4144
+4145
+4146	floaty sand	usable	all	10

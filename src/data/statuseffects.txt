@@ -662,3 +662,5 @@
 661	Badger Underfoot	badgerface.gif	85753ce320682b7a71402f51df847d1f
 662	Weasels Underfoot	ferrets.gif	adfc2711ba70e48e892eaa317211e144
 663	Chihuahua Underfoot	chihuahua.gif	4c57e8de78fd8da06746b11888d30d6b
+
+664	5 Pounds Lighter	whitebal.gif	8bf7bb7334647886110cc3480261237b	use 1 floaty sand

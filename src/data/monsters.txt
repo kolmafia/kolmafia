@@ -784,5 +784,8 @@ shadow of Black Bubbles	HP: 208 Def: 176 Atk: 174	scrap of shadow (0)	shadowy se
 watertight seal	HP: 404 Def: 350 Atk: 351	hyperinflated seal lung (100)
 wet seal	HP: 201 Def: 175 Atk: 178	mannequin leg (0)	seal lube (0)
 
+# Unknown new content
+rock snake	HP: 20	floaty sand (0)
+
 # Under the effect of Temporary Blindness
 The Darkness (blind)	HP: 0
