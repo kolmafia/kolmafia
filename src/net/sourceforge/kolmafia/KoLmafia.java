@@ -1839,8 +1839,7 @@ public abstract class KoLmafia
 
 		if ( request instanceof CampgroundRequest )
 		{
-			KoLmafia.currentIterationString =
-				"Campground request " + currentIteration + " of " + totalIterations + " in progress...";
+			KoLmafia.updateDisplay( "Campground request " + currentIteration + " of " + totalIterations + " in progress..." );
 		}
 
 		RequestLogger.printLine();
