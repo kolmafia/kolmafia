@@ -2414,7 +2414,7 @@ public abstract class KoLmafia
 			itemId[ i ] = sold[ i ].getItemId();
 			limits[ i ] = sold[ i ].getLimit();
 
-			int minimumPrice = Math.max( 100, ItemDatabase.getPriceById( sold[ i ].getItemId() ) * 2 );
+			int minimumPrice = Math.max( 100, Math.abs( ItemDatabase.getPriceById( sold[ i ].getItemId() ) ) * 2 );
 			int desiredPrice = Math.max( minimumPrice, sold[ i ].getLowest() - sold[ i ].getLowest() % 100 );
 
 			if ( sold[ i ].getPrice() == 999999999 && ( !avoidMinPrice || desiredPrice > minimumPrice ) )

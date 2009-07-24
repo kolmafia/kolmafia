@@ -95,7 +95,7 @@ public class MicroBreweryRequest
 
 		case 3:
 			itemId = ItemDatabase.getItemId( name );
-			price = Math.max( 1, ItemDatabase.getPriceById( itemId ) ) * 3;
+			price = Math.max( 1, Math.abs( ItemDatabase.getPriceById( itemId ) ) ) * 3;
 			break;
 		}
 
@@ -152,7 +152,7 @@ public class MicroBreweryRequest
 
 		int itemId = MicroBreweryRequest.dailySpecial.getItemId();
 		String name = MicroBreweryRequest.dailySpecial.getName();
-		int price = Math.max( 1, ItemDatabase.getPriceById( itemId ) ) * 3;
+		int price = Math.max( 1, Math.abs( ItemDatabase.getPriceById( itemId ) ) ) * 3;
 		CafeRequest.addMenuItem( KoLConstants.microbreweryItems, name, price );
 
 		ConcoctionDatabase.getUsables().sort();
@@ -198,7 +198,7 @@ public class MicroBreweryRequest
 			break;
 		default:
 			itemName = ItemDatabase.getItemName( itemId );
-			price = Math.max( 1, ItemDatabase.getPriceById( itemId ) ) * 3;
+			price = Math.max( 1, Math.abs( ItemDatabase.getPriceById( itemId ) ) ) * 3;
 			break;
 		}
 

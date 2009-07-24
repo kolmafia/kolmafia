@@ -123,7 +123,7 @@ public class ListCellRendererFactory
 			{
 				int value = ItemDatabase.getPriceById( itemId );
 
-				if ( value == 0 )
+				if ( value <= 0 )
 				{
 					stringForm.append( " (no-sell)" );
 				}
@@ -165,7 +165,7 @@ public class ListCellRendererFactory
 			{
 				int value = ItemDatabase.getPriceById( itemId );
 
-				if ( value == 0 )
+				if ( value <= 0 )
 				{
 					stringForm.append( " (no-sell)" );
 				}

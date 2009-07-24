@@ -645,7 +645,7 @@ public abstract class InventoryManager
 		int onhand = Math.min( qty, item.getCount( KoLConstants.inventory ) );
 		if ( onhand > 0 )
 		{
-			price = onhand * ItemDatabase.getPriceById( item.getItemId() );
+			price = onhand * Math.abs( ItemDatabase.getPriceById( item.getItemId() ) );
 			qty -= onhand;
 			if ( qty == 0 )
 			{

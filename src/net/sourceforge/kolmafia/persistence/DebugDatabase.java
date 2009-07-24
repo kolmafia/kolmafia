@@ -411,7 +411,7 @@ public class DebugDatabase
 
 		int price = ItemDatabase.getPriceById( itemId );
 		int descPrice = DebugDatabase.parsePrice( text );
-		if ( price != descPrice )
+		if ( price != descPrice && ( price >= 0 || descPrice != 0 ) )
 		{
 			report.println( "# *** " + name + " (" + itemId + ") has price of " + price + " but should be " + descPrice + "." );
 			correct = false;
