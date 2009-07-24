@@ -570,6 +570,7 @@ public class ChatFrame
 				break;
 
 			case 6:
+				GenericFrame.createDisplay( MallSearchFrame.class );
 				MallSearchFrame.searchMall( new MallSearchRequest(
 					StringUtilities.parseInt( KoLmafia.getPlayerId( (String) parameters[ 0 ] ) ) ) );
 				return;
