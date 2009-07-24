@@ -261,11 +261,19 @@ public class MaximizerFrame
 			{
 				MaximizerFrame.boosts.add( new Boost( "", "(creating/folding/pulling/buying equipment not considered yet)", -1, null, 0.0f ) );
 			}
-			MaximizerFrame.boosts.add( new Boost( "", "(only hats, pants, weapons and accessories are considered at the moment)", -1, null, 0.0f ) );
+			MaximizerFrame.boosts.add( new Boost( "", "(off-hand and familiar items aren't considered yet)", -1, null, 0.0f ) );
 			MaximizerFrame.best = new Spec();
 			MaximizerFrame.bestChecked = 0;
 			MaximizerFrame.bestUpdate = System.currentTimeMillis() + 5000;
-			MaximizerFrame.eval.enumerateEquipment( equipLevel, maxPrice, priceLevel );
+			try
+			{
+				MaximizerFrame.eval.enumerateEquipment( equipLevel, maxPrice, priceLevel );
+			}
+			catch ( MaximizerInterruptedException e )
+			{
+				KoLmafia.forceContinue();
+				MaximizerFrame.boosts.add( new Boost( "", "<font color=red>(interrupted, optimality not guaranteed)</font>", -1, null, 0.0f ) );
+			}
 			Spec.showProgress();
 			
 			for ( int slot = 0; slot < EquipmentManager.ALL_SLOTS; ++slot )
@@ -502,6 +510,11 @@ public class MaximizerFrame
 		MaximizerFrame.boosts.sort();
 		RequestThread.closeRequestSequence();
 	}
+	
+	public static class MaximizerInterruptedException
+		extends Exception
+	{
+	}
 
 	private class MaximizerPanel
 		extends GenericPanel
@@ -563,7 +576,7 @@ public class MaximizerFrame
 		public BoostsPanel( final ShowDescriptionList list )
 		{
 			super( "Current score: --- \u25CA Predicted: ---",
-				"equip all", "execute", list );
+				"equip all", "exec selected", list );
 			this.elementList = (ShowDescriptionList) this.scrollComponent;
 			MaximizerFrame.this.listTitle = this.titleComponent;
 		}
@@ -658,6 +671,30 @@ public class MaximizerFrame
 
 		private static final Pattern KEYWORD_PATTERN = Pattern.compile( "\\G\\s*(\\+|-|)([\\d.]*)\\s*((?:[^-+,0-9]|(?<! )[-+0-9])+),?\\s*" );
 		// Groups: 1=sign 2=weight 3=keyword
+		
+		// The counts of possible equipment items are overloaded:
+		// The total available for use is in the low bits, masked by TOTAL_MASK.
+		// Amount from individual sources are in bitfields shifted by one of
+		// the XXX_SHIFT amounts, masked by SUBTOTAL_MASK.
+		// BUYABLE_FLAG is set if further items can be bought from the Mall.
+		// AUTOMATIC_FLAG is set if the item must be considered regardless
+		// of its ranking.
+		public static final int TOTAL_MASK = 0xFF;
+		public static final int SUBTOTAL_MASK = 0x0F;
+		public static final int INITIAL_SHIFT = 8;
+		public static final int CREATABLE_SHIFT = 12;
+		public static final int FOLDABLE_SHIFT = 16;
+		public static final int PULLABLE_SHIFT = 20;
+		public static final int BUYABLE_FLAG = 1 << 24;
+		public static final int AUTOMATIC_FLAG = 1 << 25;
+		
+		private static final int[] MAX_USEFUL = new int[ EquipmentManager.ALL_SLOTS ];
+		static {
+			Arrays.fill( MAX_USEFUL, 1 );
+			MAX_USEFUL[ EquipmentManager.HAT ] = 2;	// Mad Hatrack
+			MAX_USEFUL[ EquipmentManager.WEAPON ] = 3;	// Dual-wield + Hand
+			MAX_USEFUL[ EquipmentManager.ACCESSORY1 ] = 3;
+		}
 		
 		private Evaluator()
 		{
@@ -921,6 +958,7 @@ public class MaximizerFrame
 		}
 	
 		public void enumerateEquipment( int equipLevel, int maxPrice, int priceLevel )
+			throws MaximizerInterruptedException
 		{
 			// Items automatically considered regardless of their score -
 			// outfit pieces, synergies, hobo power, brimstone, etc.
@@ -1007,8 +1045,10 @@ public class MaximizerFrame
 			while ( (id = EquipmentDatabase.nextEquipmentItemId( id )) != -1 )
 			{
 				if ( !EquipmentManager.canEquip( id ) ) continue;
-				int count = InventoryManager.getAccessibleCount( id );
+				int count = Math.min( Evaluator.SUBTOTAL_MASK,
+					InventoryManager.getAccessibleCount( id ) );
 				if ( count <= 0 ) continue;
+				count |= count << Evaluator.INITIAL_SHIFT;
 				int slot = EquipmentManager.itemIdToEquipmentType( id );
 				if ( slot < 0 || slot >= EquipmentManager.ALL_SLOTS ) continue;
 				AdventureResult item = ItemPool.get( id, count );
@@ -1016,59 +1056,44 @@ public class MaximizerFrame
 				{
 					outfitPieces.put( item, item );
 				}
+
+				if ( KoLCharacter.hasEquipped( item ) )
+				{	// Make sure the current item in each slot is considered
+					// for keeping, unless it's actively harmful.
+					count |= Evaluator.AUTOMATIC_FLAG;
+					item = item.getInstance( count );
+				}
+
 				String name = item.getName();
 				Modifiers mods = Modifiers.getModifiers( name );
 				if ( mods == null )	// no enchantments
 				{
-					if ( KoLCharacter.hasEquipped( item ) )
-					{
-						automatic[ slot ].add( item );
-					}
-					else
-					{
-						neutral[ slot ].add( item );
-					}
+					neutral[ slot ].add( item );
 					continue;
-				}
-				if ( mods.getBoolean( Modifiers.SINGLE ) )
-				{
-					item = item.getInstance( 1 );
 				}
 				
-				if ( KoLCharacter.hasEquipped( item ) )
+				if ( mods.getBoolean( Modifiers.SINGLE ) )
 				{
+					count = (count & ~Evaluator.TOTAL_MASK) | 1;
+					item = item.getInstance( count );
+				}
+				
+				if ( ( hoboPowerUseful &&
+						mods.get( Modifiers.HOBO_POWER ) > 0.0f ) ||
+					( brimstoneUseful &&
+						mods.getRawBitmap( Modifiers.BRIMSTONE ) != 0 ) ||
+					( slimeHateUseful &&
+						mods.get( Modifiers.SLIME_HATES_IT ) > 0.0f ) ||
+					( stickersUseful &&
+						EquipmentManager.isStickerWeapon( item ) ) ||
+					( (mods.getRawBitmap( Modifiers.SYNERGETIC )
+						& usefulSynergies) != 0 ) )
+				{
+					item = item.getInstance( count | Evaluator.AUTOMATIC_FLAG );
 					automatic[ slot ].add( item );
 					continue;
 				}
-				if ( hoboPowerUseful &&
-					mods.get( Modifiers.HOBO_POWER ) > 0.0f )
-				{
-					automatic[ slot ].add( item );
-					continue;
-				}
-				if ( brimstoneUseful &&
-					mods.getRawBitmap( Modifiers.BRIMSTONE ) != 0 )
-				{
-					automatic[ slot ].add( item );
-					continue;
-				}
-				if ( slimeHateUseful &&
-					mods.get( Modifiers.SLIME_HATES_IT ) > 0.0f )
-				{
-					automatic[ slot ].add( item );
-					continue;
-				}
-				if ( stickersUseful &&
-					EquipmentManager.isStickerWeapon( item ) )
-				{
-					automatic[ slot ].add( item );
-					continue;
-				}
-				if ( (mods.getRawBitmap( Modifiers.SYNERGETIC ) & usefulSynergies) != 0 )
-				{
-					automatic[ slot ].add( item );
-					continue;
-				}
+				
 				String intrinsic = mods.getString( Modifiers.INTRINSIC_EFFECT );
 				if ( intrinsic.length() > 0 )
 				{
@@ -1086,6 +1111,7 @@ public class MaximizerFrame
 				}
 				if ( mods.getBoolean( Modifiers.NONSTACKABLE_WATCH ) )
 				{
+					item = item.getInstance( count | Evaluator.AUTOMATIC_FLAG );
 					automatic[ slot ].add( item );
 					continue;
 				}
@@ -1099,10 +1125,12 @@ public class MaximizerFrame
 				{
 					list = neutral[ slot ];
 				}
-				else if ( list.size() < 3 )
+				else if ( list.size() < Evaluator.MAX_USEFUL[ slot ] )
 				{
 					list.addAll( neutral[ slot ] );
 				}
+				list.addAll( automatic[ slot ] );
+				automatic[ slot ].clear();
 				ListIterator i = list.listIterator();
 				while ( i.hasNext() )
 				{
@@ -1114,10 +1142,15 @@ public class MaximizerFrame
 					i.set( spec );					
 				}
 				Collections.sort( list );
-				int len = list.size();
-				for ( int j = Math.max( 0, len - 3 ); j < len; ++j )
-				{
-					automatic[ slot ].add( 0, ((Spec) list.get( j )).attachment );
+				i = list.listIterator( list.size() );
+				while ( i.hasPrevious() )
+				{	
+					AdventureResult item = ((Spec) i.previous()).attachment;
+					if ( (item.getCount() & Evaluator.AUTOMATIC_FLAG) != 0 ||
+						automatic[ slot ].size() < Evaluator.MAX_USEFUL[ slot ] )
+					{
+						automatic[ slot ].add( item );
+					}
 				}
 				if ( this.dump )
 				{
@@ -1279,9 +1312,10 @@ public class MaximizerFrame
 		}
 		
 		public void tryAll( BooleanArray usefulOutfits, TreeMap outfitPieces, ArrayList[] possibles )
+			throws MaximizerInterruptedException
 		{
 			this.equipment[ EquipmentManager.HAT ] = null;
-			//this.equipment[ EquipmentManager.SHIRT ] = null;
+			this.equipment[ EquipmentManager.SHIRT ] = null;
 			this.equipment[ EquipmentManager.PANTS ] = null;
 			this.equipment[ EquipmentManager.WEAPON ] = null;
 			this.equipment[ EquipmentManager.ACCESSORY1 ] = null;
@@ -1291,6 +1325,7 @@ public class MaximizerFrame
 		}
 		
 		public void tryOutfits( BooleanArray usefulOutfits, TreeMap outfitPieces, ArrayList[] possibles )
+			throws MaximizerInterruptedException
 		{
 			Object mark = this.mark();
 			for ( int outfit = usefulOutfits.size() - 1; outfit >= 0; --outfit )
@@ -1307,7 +1342,7 @@ public class MaximizerFrame
 					}
 					AdventureResult item = (AdventureResult) outfitPieces.get( pieces[ idx ] );
 					if ( item == null ) break;	// not available
-					int count = item.getCount();
+					int count = item.getCount() & Evaluator.TOTAL_MASK;
 					int slot = EquipmentManager.itemIdToEquipmentType( item.getItemId() );
 					
 					switch ( slot )
@@ -1371,6 +1406,7 @@ public class MaximizerFrame
 		}
 		
 		public void tryAccessories( ArrayList[] possibles, int pos )
+			throws MaximizerInterruptedException
 		{
 			Object mark = this.mark();
 			int free = 0;
@@ -1383,7 +1419,7 @@ public class MaximizerFrame
 				for ( ; pos < possible.size(); ++pos )
 				{
 					AdventureResult item = (AdventureResult) possible.get( pos );
-					int count = item.getCount();
+					int count = item.getCount() & Evaluator.TOTAL_MASK;
 					if ( item.equals( this.equipment[ EquipmentManager.ACCESSORY1 ] ) )
 					{
 						--count;
@@ -1445,6 +1481,7 @@ public class MaximizerFrame
 		}
 		
 		public void tryHats( ArrayList[] possibles )
+			throws MaximizerInterruptedException
 		{
 			Object mark = this.mark();
 			if ( this.equipment[ EquipmentManager.HAT ] == null )
@@ -1453,27 +1490,26 @@ public class MaximizerFrame
 				for ( int pos = 0; pos < possible.size(); ++pos )
 				{
 					AdventureResult item = (AdventureResult) possible.get( pos );
-					int count = item.getCount();
+					int count = item.getCount() & Evaluator.TOTAL_MASK;
 					if ( item.equals( this.equipment[ EquipmentManager.FAMILIAR ] ) )
 					{
 						--count;
 					}
 					if ( count <= 0 ) continue;
 					this.equipment[ EquipmentManager.HAT ] = item;
-					//this.tryShirts( possibles );
-					this.tryPants( possibles );
+					this.tryShirts( possibles );
 					this.restore( mark );
 				}
 			
 				this.equipment[ EquipmentManager.HAT ] = EquipmentRequest.UNEQUIP;
 			}
 			
-			//this.tryShirts( possibles );
-			this.tryPants( possibles );
+			this.tryShirts( possibles );
 			this.restore( mark );
 		}
 		
 		public void tryShirts( ArrayList[] possibles )
+			throws MaximizerInterruptedException
 		{
 			Object mark = this.mark();
 			if ( this.equipment[ EquipmentManager.SHIRT ] == null &&
@@ -1483,7 +1519,7 @@ public class MaximizerFrame
 				for ( int pos = 0; pos < possible.size(); ++pos )
 				{
 					AdventureResult item = (AdventureResult) possible.get( pos );
-					int count = item.getCount();
+					int count = item.getCount() & Evaluator.TOTAL_MASK;
 					//if ( item.equals( this.equipment[ EquipmentManager.FAMILIAR ] ) )
 					//{
 					//	--count;
@@ -1502,6 +1538,7 @@ public class MaximizerFrame
 		}
 		
 		public void tryPants( ArrayList[] possibles )
+			throws MaximizerInterruptedException
 		{
 			Object mark = this.mark();
 			if ( this.equipment[ EquipmentManager.PANTS ] == null )
@@ -1510,7 +1547,7 @@ public class MaximizerFrame
 				for ( int pos = 0; pos < possible.size(); ++pos )
 				{
 					AdventureResult item = (AdventureResult) possible.get( pos );
-					int count = item.getCount();
+					int count = item.getCount() & Evaluator.TOTAL_MASK;
 					if ( item.equals( this.equipment[ EquipmentManager.FAMILIAR ] ) )
 					{
 						--count;
@@ -1529,6 +1566,7 @@ public class MaximizerFrame
 		}
 		
 		public void tryWeapons( ArrayList[] possibles )
+			throws MaximizerInterruptedException
 		{
 			Object mark = this.mark();
 			if ( this.equipment[ EquipmentManager.WEAPON ] == null )
@@ -1537,7 +1575,7 @@ public class MaximizerFrame
 				for ( int pos = 0; pos < possible.size(); ++pos )
 				{
 					AdventureResult item = (AdventureResult) possible.get( pos );
-					int count = item.getCount();
+					int count = item.getCount() & Evaluator.TOTAL_MASK;
 					if ( item.equals( this.equipment[ EquipmentManager.OFFHAND ] ) )
 					{
 						--count;
@@ -1571,6 +1609,10 @@ public class MaximizerFrame
 				MaximizerFrame.bestUpdate = t + 5000;
 			}
 			this.restore( mark );
+			if ( !KoLmafia.permitsContinue() )
+			{
+				throw new MaximizerInterruptedException();
+			}
 		}
 		
 		private void trySwap( int slot1, int slot2 )
@@ -1594,11 +1636,11 @@ public class MaximizerFrame
 		public static void showProgress()
 		{
 			String msg = MaximizerFrame.bestChecked + " combinations checked, best score " + MaximizerFrame.best.getScore();
-			if ( MaximizerFrame.best.tiebreakered )
-			{
-				msg = msg + " / " + MaximizerFrame.best.getTiebreaker() + " / " +
-					MaximizerFrame.best.simplicity;
-			}
+			//if ( MaximizerFrame.best.tiebreakered )
+			//{
+			//	msg = msg + " / " + MaximizerFrame.best.getTiebreaker() + " / " +
+			//		MaximizerFrame.best.simplicity;
+			//}
 			KoLmafia.updateDisplay( msg );
 		}
 	}
