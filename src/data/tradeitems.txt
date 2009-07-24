@@ -199,7 +199,7 @@
 193	birthday candle	message	all	50
 194	Mr. Accessory	accessory	all	0
 195	eXtreme nose ring	accessory	all	75
-196	disassembled clover	multiple	all	0
+196	disassembled clover	multiple	all	-100
 197	rat whisker	none	none	0
 198	rat appendix	none	all	16
 199	shiny ring	accessory	all	75
@@ -1137,7 +1137,7 @@
 1131	beet	none	all	0
 1132	Totally Gay Claymore	weapon	display	0
 1133	star shirt	shirt	all	170
-1134	spooky cosmetics bag	usable	all	0
+1134	spooky cosmetics bag	usable	all	-150
 1135	spooky eyeliner	usable	all	50
 1136	spooky lipstick	usable	all	50
 1137	spooky bicycle chain	weapon	all	95
@@ -1640,11 +1640,11 @@
 1634	around the world	drink	display	0
 1635	scrumdiddlyumptious solution	none	all	0
 1636	Toddler-sized Dragon Costume	familiar	display	0
-1637	phial of hotness	multiple	all	0
-1638	phial of coldness	multiple	all	0
-1639	phial of spookiness	multiple	all	0
-1640	phial of stench	multiple	all	0
-1641	phial of sleaziness	multiple	all	0
+1637	phial of hotness	multiple	all	-100
+1638	phial of coldness	multiple	all	-100
+1639	phial of spookiness	multiple	all	-100
+1640	phial of stench	multiple	all	-100
+1641	phial of sleaziness	multiple	all	-100
 1642	Grimacite Bock	drink	all	0
 1643	wedge of gray cheese	food	all	0
 1644	hot and sour sauce	none	all	100
@@ -1975,7 +1975,7 @@
 1969	spoon!	familiar	all	75
 1970	nervous tick egg	grow	all	0
 1971	plastic pumpkin bucket	familiar	all	0
-1972	silver shrimp fork	weapon	all	0
+1972	silver shrimp fork	weapon	all	-235
 1973	half of a memo	message	none	0
 1974	stuffed cocoabo	offhand	gift	10
 1975	stuffed baby gravy fairy	offhand	gift	10
@@ -3098,10 +3098,10 @@
 3092	handmade hobby horse	offhand, reusable	all	0
 3093	ball-in-a-cup	offhand, reusable	all	0
 3094	set of jacks	offhand, reusable	all	0
-3095	laser-broiled pear	food	all	0
+3095	laser-broiled pear	food	all	-155
 3096	polyalloy shield	offhand	all	155
 3097	oversized fish scaler	familiar	all	70
-3098	killing feather	none, combat	all	0
+3098	killing feather	none, combat	all	-200
 3099	golden ring	none, combat	all	100
 3100	robotronic egg	none, combat	all	100
 3101	rogue swarmer	none, combat	all	100
@@ -3402,8 +3402,8 @@
 3396	Hodgman's lobsterskin pants	pants	display	0
 3397	Hodgman's bow tie	accessory	display	0
 3398	Hodgman's blanket	drink	all	0
-3399	jar of squeeze	drink	all	0
-3400	bowl of fishysoisse	food	all	0
+3399	jar of squeeze	drink	all	-250
+3400	bowl of fishysoisse	food	all	-250
 3401	deadly lampshade	usable	all	0
 3402	concentrated garbage juice	usable	all	0
 3403	lewd playing card	multiple	all	0

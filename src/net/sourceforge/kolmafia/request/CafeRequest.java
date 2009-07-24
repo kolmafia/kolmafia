@@ -116,7 +116,7 @@ public class CafeRequest
 
 		if ( count > 0 )
 		{
-			price = (int)( 0.90 * (float) price );
+			price = (int) Math.ceil( 0.90f * (float) price );
 		}
 
 		return price;
@@ -250,7 +250,7 @@ public class CafeRequest
 
 		int itemId = StringUtilities.parseInt( matcher.group( 1 ) );
 		String itemName = ItemDatabase.getItemName( itemId );
-		int price = Math.max( 1, ItemDatabase.getPriceById( itemId ) ) * 3;
+		int price = Math.max( 1, Math.abs( ItemDatabase.getPriceById( itemId ) ) ) * 3;
 		CafeRequest.registerItemUsage( itemName, price );
 		return true;
 	}
