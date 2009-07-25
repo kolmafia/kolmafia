@@ -73,6 +73,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.objectpool.Concoction;
@@ -137,7 +138,15 @@ public class MaximizerFrame
 		"<br><b>max</b> - The weight specifies the largest useful value for the preceding modifier.  Larger values will be ignored in the score calculation, allowing other specified modifiers to be boosted instead." +
 		"<br>Note that the limit keywords won't quite work as expected for a modifier that you're trying to minimize." +
 		"<h3>Equipment</h3>" +
-		"Equipment suggestions are only partially implemented at the moment, with many planned features missing.  There will eventually be keywords for specifying which slots are allowed, constraining the type or handedness of your weapon, etc." +
+		"Slot names can be used as keywords:" +
+		"<br><b>hat</b>, <b>weapon</b>, <b>offhand</b>, <b>shirt</b>, <b>pants</b>, <b>acc1</b>, <b>acc2</b>, <b>acc3</b>, <b>familiar</b> (familiar is not yet supported; stickers and fake hands are not currently planned.)" +
+		"<br>With positive weights, only the specified slots will be considered for maximization.  With negative weights, all but the specified slots will be considered." +
+		"<br><b>empty</b> - With positive weight, consider only slots that are currently empty; with negative weight, only those that aren't empty.  Either way, <b>+<i>slot</i></b> and <b>-<i>slot</i></b> can be used to further refine the selected slots." +
+		"<br><b>hand</b>ed - With a weight of 1, only 1-handed weapons will be considered.  With a larger weight, only weapons with at least that handedness will be considered." +
+		"<br><b>melee</b> - With positive weight, only melee weapons will be considered.  With negative weight, only ranged weapons will be considered." +
+		"<br><b>type <i>text</i></b> - Only weapons with a type containing <i>text</i> are considered; for example, <b>type club</b> if you plan to do some Seal Clubbing." +
+		"<br><b>shield</b> - With positive weight, only shields will be considered for your off-hand.  Implies <b>1 handed</b>." +
+		"<br><b>tie</b>breaker - With negative weight, disables the use of a tiebreaker function that tries to choose equipment with generally beneficial attributes, even if not explicitly requested.  There are only a few cases where this would be desirable: maximizing <b>+combat</b> or <b>-combat</b> (since there's usually only one item that can help), <b>adv</b> and/or <b>PvP fights</b> at rollover, and <b>familiar weight</b> when facing the Naughty Sorceress familiars." +
 		"<h3>Assumptions</h3>" +
 		"All suggestions are based on the assumption that you will be adventuring in the currently selected location, with all your current effects, prior to the next rollover (since some things depend on the moon phases).  For best results, make sure the proper location is selected before maximizing.  This is especially true in The Sea and clan dungeons, which have many location-specific modifiers." +
 		"<p>" +
@@ -261,7 +270,7 @@ public class MaximizerFrame
 			{
 				MaximizerFrame.boosts.add( new Boost( "", "(creating/folding/pulling/buying equipment not considered yet)", -1, null, 0.0f ) );
 			}
-			MaximizerFrame.boosts.add( new Boost( "", "(off-hand and familiar items aren't considered yet)", -1, null, 0.0f ) );
+			MaximizerFrame.boosts.add( new Boost( "", "(familiar items aren't considered yet)", -1, null, 0.0f ) );
 			MaximizerFrame.best = new Spec();
 			MaximizerFrame.bestChecked = 0;
 			MaximizerFrame.bestUpdate = System.currentTimeMillis() + 5000;
@@ -667,7 +676,14 @@ public class MaximizerFrame
 		public boolean failed;
 		private Evaluator tiebreaker;
 		private float[] weight, min, max;
-		private boolean dump = false;
+		private int dump = 0;
+		
+		private int[] slots = new int[ EquipmentManager.ALL_SLOTS ];
+		String weaponType = null;
+		int hands = 0;
+		int melee = 0;
+		boolean requireShield = false;
+		boolean noTiebreaker = false;
 
 		private static final Pattern KEYWORD_PATTERN = Pattern.compile( "\\G\\s*(\\+|-|)([\\d.]*)\\s*((?:[^-+,0-9]|(?<! )[-+0-9])+),?\\s*" );
 		// Groups: 1=sign 2=weight 3=keyword
@@ -688,11 +704,25 @@ public class MaximizerFrame
 		public static final int BUYABLE_FLAG = 1 << 24;
 		public static final int AUTOMATIC_FLAG = 1 << 25;
 		
+		// Equipment slots, that aren't the primary slot of any item type,
+		// that are repurposed here (rather than making the array bigger).
+		// Watches have to be handled specially because only one can be
+		// used - otherwise, they'd fill up the list, leaving no room for
+		// any non-watches to put in the other two acc slots.
+		// 1-handed weapons have to be ranked separately due to the following
+		// possibility: all of your best weapons are 2-hand, but you've got
+		// a really good off-hand, better than any weapon.  There would
+		// otherwise be no suitable weapons to go with that off-hand.
+		public static final int OFFHAND_MELEE = EquipmentManager.ACCESSORY2;
+		public static final int OFFHAND_RANGED = EquipmentManager.ACCESSORY3;
+		public static final int WATCHES = EquipmentManager.STICKER2;
+		public static final int WEAPON_1H = EquipmentManager.STICKER3;
+		
 		private static final int[] MAX_USEFUL = new int[ EquipmentManager.ALL_SLOTS ];
 		static {
 			Arrays.fill( MAX_USEFUL, 1 );
 			MAX_USEFUL[ EquipmentManager.HAT ] = 2;	// Mad Hatrack
-			MAX_USEFUL[ EquipmentManager.WEAPON ] = 3;	// Dual-wield + Hand
+			MAX_USEFUL[ Evaluator.WEAPON_1H ] = 3;	// Dual-wield + Hand
 			MAX_USEFUL[ EquipmentManager.ACCESSORY1 ] = 3;
 		}
 		
@@ -765,7 +795,53 @@ public class MaximizerFrame
 				}
 				else if ( keyword.equals( "dump" ) )
 				{
-					this.dump = true;
+					this.dump = (int) weight;
+					continue;
+				}
+				else if ( keyword.startsWith( "hand" ) )
+				{
+					this.hands = (int) weight;
+					if ( this.hands >= 2 )
+					{
+						this.slots[ EquipmentManager.OFFHAND ] = -1;
+					}
+					continue;
+				}
+				else if ( keyword.startsWith( "tie" ) )
+				{
+					this.noTiebreaker = weight < 0.0f;
+					continue;
+				}
+				else if ( keyword.startsWith( "type " ) )
+				{
+					this.weaponType = keyword.substring( 5 ).trim();
+					continue;
+				}
+				else if ( keyword.equals( "shield" ) )
+				{
+					this.requireShield = weight > 0.0f;
+					this.hands = 1;
+					continue;
+				}
+				else if ( keyword.equals( "melee" ) )
+				{
+					this.melee = (int) weight;
+					continue;
+				}
+				else if ( keyword.equals( "empty" ) )
+				{
+					for ( int i = 0; i < EquipmentManager.ALL_SLOTS; ++i )
+					{
+						this.slots[ i ] += ((int) weight) *
+							( EquipmentManager.getEquipment( i ).equals( EquipmentRequest.UNEQUIP ) ? 1 : -1 );
+					}
+					continue;
+				}
+				
+				int slot = EquipmentRequest.slotNumber( keyword );
+				if ( slot >= 0 && slot < EquipmentManager.ALL_SLOTS )
+				{
+					this.slots[ slot ] += (int) weight;
 					continue;
 				}
 				
@@ -954,6 +1030,7 @@ public class MaximizerFrame
 		
 		public float getTiebreaker( Modifiers mods )
 		{
+			if ( this.noTiebreaker ) return 0.0f;
 			return this.tiebreaker.getScore( mods );
 		}
 	
@@ -1010,7 +1087,6 @@ public class MaximizerFrame
 					this.getScore( mods ) - nullScore > 0.0f )
 				{
 					hoboPowerUseful = true;
-					if ( this.dump ) System.out.println( "hoboPowerUseful" );
 				}
 			}
 			{
@@ -1019,7 +1095,6 @@ public class MaximizerFrame
 					this.getScore( mods ) - nullScore > 0.0f )
 				{
 					brimstoneUseful = true;
-					if ( this.dump ) System.out.println( "brimstoneUseful" );
 				}
 			}
 			{
@@ -1028,7 +1103,6 @@ public class MaximizerFrame
 					this.getScore( mods ) - nullScore > 0.0f )
 				{
 					slimeHateUseful = true;
-					if ( this.dump ) System.out.println( "slimeHateUseful" );
 				}
 			}
 			{
@@ -1037,7 +1111,6 @@ public class MaximizerFrame
 					this.getScore( mods ) - nullScore > 0.0f )
 				{
 					stickersUseful = true;
-					if ( this.dump ) System.out.println( "stickersUseful" );
 				}
 			}
 				
@@ -1052,74 +1125,156 @@ public class MaximizerFrame
 				int slot = EquipmentManager.itemIdToEquipmentType( id );
 				if ( slot < 0 || slot >= EquipmentManager.ALL_SLOTS ) continue;
 				AdventureResult item = ItemPool.get( id, count );
-				if ( usefulOutfits.get( EquipmentDatabase.getOutfitWithItem( id ) ) )
-				{
-					outfitPieces.put( item, item );
-				}
-
-				if ( KoLCharacter.hasEquipped( item ) )
-				{	// Make sure the current item in each slot is considered
-					// for keeping, unless it's actively harmful.
-					count |= Evaluator.AUTOMATIC_FLAG;
-					item = item.getInstance( count );
-				}
-
 				String name = item.getName();
-				Modifiers mods = Modifiers.getModifiers( name );
-				if ( mods == null )	// no enchantments
-				{
-					neutral[ slot ].add( item );
-					continue;
-				}
 				
-				if ( mods.getBoolean( Modifiers.SINGLE ) )
+				ArrayList[] dest = null;
+				int auxSlot = -1;
+			gotItem:
 				{
-					count = (count & ~Evaluator.TOTAL_MASK) | 1;
-					item = item.getInstance( count );
+					switch ( slot )
+					{
+					case EquipmentManager.WEAPON:
+						int hands = EquipmentDatabase.getHands( id );
+						if ( this.hands == 1 && hands != 1 )
+						{
+							continue;
+						}
+						if ( this.hands > 1 && hands < this.hands )
+						{
+							continue;
+						}
+						int stat = EquipmentDatabase.getWeaponType( id );
+						if ( this.melee > 0 && stat != KoLConstants.MELEE )
+						{
+							continue;
+						}
+						if ( this.melee < 0 && stat != KoLConstants.RANGED )
+						{
+							continue;
+						}
+						String type = EquipmentDatabase.getItemType( id );
+						if ( this.weaponType != null && type.indexOf( this.weaponType ) == -1 )
+						{
+							continue;
+						}
+						if ( hands == 1 )
+						{
+							slot = Evaluator.WEAPON_1H;
+							if ( !type.equals( "chefstaff" ) &&
+								!this.requireShield )
+							{
+								switch ( stat )
+								{
+								case KoLConstants.MELEE:
+									auxSlot = Evaluator.OFFHAND_MELEE;
+									break;
+								case KoLConstants.RANGED:
+									auxSlot = Evaluator.OFFHAND_RANGED;
+									break;
+								}
+							}
+						}
+						break;
+						
+					case EquipmentManager.OFFHAND:
+						if ( this.requireShield &&
+							!EquipmentDatabase.getItemType( id ).equals( "shield" ) )
+						{
+							continue;
+						}
+						if ( id == ItemPool.SPECIAL_SAUCE_GLOVE &&
+							KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR )
+							&& !KoLCharacter.hasSkill( "Spirit of Rigatoni" ) ) 
+						{
+							item = item.getInstance( count | Evaluator.AUTOMATIC_FLAG );
+							dest = automatic;
+							break gotItem;
+						}
+						if ( hoboPowerUseful && name.startsWith( "Hodgman's" ) )
+						{
+							Modifiers.hoboPower = 100.0f;
+							count |= Evaluator.AUTOMATIC_FLAG;
+							item = item.getInstance( count );
+						}
+						break;
+					}
+					
+					if ( usefulOutfits.get( EquipmentDatabase.getOutfitWithItem( id ) ) )
+					{
+						outfitPieces.put( item, item );
+					}
+	
+					if ( KoLCharacter.hasEquipped( item ) )
+					{	// Make sure the current item in each slot is considered
+						// for keeping, unless it's actively harmful.
+						count |= Evaluator.AUTOMATIC_FLAG;
+						item = item.getInstance( count );
+					}
+	
+					Modifiers mods = Modifiers.getModifiers( name );
+					if ( mods == null )	// no enchantments
+					{
+						dest = neutral;
+						break gotItem;
+					}
+					
+					if ( mods.getBoolean( Modifiers.SINGLE ) )
+					{
+						count = (count & ~Evaluator.TOTAL_MASK) | 1;
+						item = item.getInstance( count );
+					}
+					
+					if ( ( hoboPowerUseful &&
+							mods.get( Modifiers.HOBO_POWER ) > 0.0f ) ||
+						( brimstoneUseful &&
+							mods.getRawBitmap( Modifiers.BRIMSTONE ) != 0 ) ||
+						( slimeHateUseful &&
+							mods.get( Modifiers.SLIME_HATES_IT ) > 0.0f ) ||
+						( stickersUseful &&
+							EquipmentManager.isStickerWeapon( item ) ) ||
+						( (mods.getRawBitmap( Modifiers.SYNERGETIC )
+							& usefulSynergies) != 0 ) )
+					{
+						item = item.getInstance( count | Evaluator.AUTOMATIC_FLAG );
+						dest = automatic;
+						break gotItem;
+					}
+					
+					String intrinsic = mods.getString( Modifiers.INTRINSIC_EFFECT );
+					if ( intrinsic.length() > 0 )
+					{
+						Modifiers newMods = new Modifiers();
+						newMods.add( mods );
+						newMods.add( Modifiers.getModifiers( intrinsic ) );
+						mods = newMods;
+					}
+					float delta = this.getScore( mods ) - nullScore;
+					if ( delta < 0.0f ) continue;
+					if ( delta == 0.0f )
+					{
+						dest = neutral;
+						break gotItem;
+					}
+					if ( mods.getBoolean( Modifiers.NONSTACKABLE_WATCH ) )
+					{
+						item = item.getInstance( count | Evaluator.AUTOMATIC_FLAG );
+						slot = Evaluator.WATCHES;
+						dest = automatic;
+						break gotItem;
+					}
+					dest = ranked;
 				}
-				
-				if ( ( hoboPowerUseful &&
-						mods.get( Modifiers.HOBO_POWER ) > 0.0f ) ||
-					( brimstoneUseful &&
-						mods.getRawBitmap( Modifiers.BRIMSTONE ) != 0 ) ||
-					( slimeHateUseful &&
-						mods.get( Modifiers.SLIME_HATES_IT ) > 0.0f ) ||
-					( stickersUseful &&
-						EquipmentManager.isStickerWeapon( item ) ) ||
-					( (mods.getRawBitmap( Modifiers.SYNERGETIC )
-						& usefulSynergies) != 0 ) )
-				{
-					item = item.getInstance( count | Evaluator.AUTOMATIC_FLAG );
-					automatic[ slot ].add( item );
-					continue;
-				}
-				
-				String intrinsic = mods.getString( Modifiers.INTRINSIC_EFFECT );
-				if ( intrinsic.length() > 0 )
-				{
-					Modifiers newMods = new Modifiers();
-					newMods.add( mods );
-					newMods.add( Modifiers.getModifiers( intrinsic ) );
-					mods = newMods;
-				}
-				float delta = this.getScore( mods ) - nullScore;
-				if ( delta < 0.0f ) continue;
-				if ( delta == 0.0f )
-				{
-					neutral[ slot ].add( item );
-					continue;
-				}
-				if ( mods.getBoolean( Modifiers.NONSTACKABLE_WATCH ) )
-				{
-					item = item.getInstance( count | Evaluator.AUTOMATIC_FLAG );
-					automatic[ slot ].add( item );
-					continue;
-				}
-				ranked[ slot ].add( item );
+				// "break gotItem" goes here
+				dest[ slot ].add( item );
+				if ( auxSlot != -1 ) dest[ auxSlot ].add( item );
 			}
 			
 			for ( int slot = 0; slot < EquipmentManager.ALL_SLOTS; ++slot )
 			{
+				if ( this.dump > 0 )
+				{
+					RequestLogger.printLine( "SLOT " + slot );
+				}
 				ArrayList list = ranked[ slot ];
 				if ( list.size() == 0 )
 				{
@@ -1137,11 +1292,29 @@ public class MaximizerFrame
 					AdventureResult item = (AdventureResult) i.next();
 					Spec spec = new Spec();
 					spec.attachment = item;
+					int useSlot = slot;
+					switch ( slot )
+					{
+					case Evaluator.OFFHAND_MELEE:
+					case Evaluator.OFFHAND_RANGED:
+						useSlot = EquipmentManager.OFFHAND;
+						break;
+					case Evaluator.WATCHES:
+						useSlot = EquipmentManager.ACCESSORY1;
+						break;
+					case Evaluator.WEAPON_1H:
+						useSlot = EquipmentManager.WEAPON;
+						break;
+					}
 					Arrays.fill( spec.equipment, EquipmentRequest.UNEQUIP );
-					spec.equipment[ slot ] = item;
+					spec.equipment[ useSlot ] = item;
 					i.set( spec );					
 				}
 				Collections.sort( list );
+				if ( this.dump > 1 )
+				{
+					RequestLogger.printLine( list.toString() );
+				}
 				i = list.listIterator( list.size() );
 				while ( i.hasPrevious() )
 				{	
@@ -1152,13 +1325,36 @@ public class MaximizerFrame
 						automatic[ slot ].add( item );
 					}
 				}
-				if ( this.dump )
+				if ( this.dump > 0 )
 				{
-					System.out.println( "SLOT " + slot );
-					System.out.println( automatic[ slot ].toString() );
+					RequestLogger.printLine( automatic[ slot ].toString() );
 				}
 			}
-			new Spec().tryAll( usefulOutfits, outfitPieces, automatic );
+			
+			automatic[ EquipmentManager.ACCESSORY1 ].addAll( automatic[ Evaluator.WATCHES ] );
+			automatic[ EquipmentManager.WEAPON ].addAll( automatic[ Evaluator.WEAPON_1H ] );
+			automatic[ Evaluator.OFFHAND_MELEE ].addAll( automatic[ EquipmentManager.OFFHAND ] );
+			automatic[ Evaluator.OFFHAND_RANGED ].addAll( automatic[ EquipmentManager.OFFHAND ] );
+			
+			Spec spec = new Spec();
+			// The threshold in the slots array that indicates that a slot
+			// should be considered will be either >= 1 or >= 0, depending
+			// on whether inclusive or exclusive slot specs were used.
+			for ( int thresh = 1; ; --thresh )
+			{
+				if ( thresh < 0 ) return;	// no slots enabled
+				boolean anySlots = false;
+				for ( int i = 0; i < EquipmentManager.FAMILIAR; ++i )
+				{
+					if ( this.slots[ i ] >= thresh )
+					{
+						spec.equipment[ i ] = null;
+						anySlots = true;
+					}
+				}
+				if ( anySlots ) break;
+			}
+			spec.tryAll( usefulOutfits, outfitPieces, automatic );
 		}
 	}
 	
@@ -1213,6 +1409,15 @@ public class MaximizerFrame
 			{
 				return null;
 			}
+		}
+		
+		public String toString()
+		{
+			if ( this.attachment != null )
+			{
+				return this.attachment.getInstance( (int) this.getScore() ).toString();
+			}
+			return super.toString();
 		}
 		
 		public void setMindControlLevel( int MCD )
@@ -1281,7 +1486,7 @@ public class MaximizerFrame
 				}
 				else if ( item.equals( EquipmentRequest.UNEQUIP ) )
 				{
-					this.simplicity += 1;
+					this.simplicity += slot == EquipmentManager.WEAPON ? -1 : 1;
 				}
 			}
 			return this.tiebreaker;
@@ -1314,13 +1519,6 @@ public class MaximizerFrame
 		public void tryAll( BooleanArray usefulOutfits, TreeMap outfitPieces, ArrayList[] possibles )
 			throws MaximizerInterruptedException
 		{
-			this.equipment[ EquipmentManager.HAT ] = null;
-			this.equipment[ EquipmentManager.SHIRT ] = null;
-			this.equipment[ EquipmentManager.PANTS ] = null;
-			this.equipment[ EquipmentManager.WEAPON ] = null;
-			this.equipment[ EquipmentManager.ACCESSORY1 ] = null;
-			this.equipment[ EquipmentManager.ACCESSORY2 ] = null;
-			this.equipment[ EquipmentManager.ACCESSORY3 ] = null;
 			this.tryOutfits( usefulOutfits, outfitPieces, possibles );
 		}
 		
@@ -1586,11 +1784,88 @@ public class MaximizerFrame
 					}
 					if ( count <= 0 ) continue;
 					this.equipment[ EquipmentManager.WEAPON ] = item;
-					this.tryWeapons( possibles );
+					this.tryOffhands( possibles );
 					this.restore( mark );
 				}
 			
 				this.equipment[ EquipmentManager.WEAPON ] = EquipmentRequest.UNEQUIP;
+			}
+			
+			this.tryOffhands( possibles );
+			this.restore( mark );
+		}
+		
+		public void tryOffhands( ArrayList[] possibles )
+			throws MaximizerInterruptedException
+		{
+			Object mark = this.mark();
+			int weapon = this.equipment[ EquipmentManager.WEAPON ].getItemId();
+			boolean requireGlove = false;
+			int weaponType = -1;
+			if ( EquipmentDatabase.getHands( weapon ) > 1 )
+			{
+				this.equipment[ EquipmentManager.OFFHAND ] = EquipmentRequest.UNEQUIP;
+			}
+			else if ( EquipmentDatabase.getItemType( weapon ).equals( "chefstaff" ) &&
+				!KoLCharacter.hasSkill( "Spirit of Rigatoni" ) ) 
+			{
+				if ( !KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR ) )
+				{	// This can't work.
+					return;
+				}
+				requireGlove = true;
+			}
+			
+			if ( !requireGlove &&
+				KoLCharacter.hasSkill( "Double-Fisted Skull Smashing" ) )
+			{
+				weaponType = EquipmentDatabase.getWeaponType( weapon );
+			}			
+			
+			if ( this.equipment[ EquipmentManager.OFFHAND ] == null )
+			{
+				ArrayList possible;
+				switch ( weaponType )
+				{
+				case KoLConstants.MELEE:
+					possible = possibles[ Evaluator.OFFHAND_MELEE ];
+					break;
+				case KoLConstants.RANGED:
+					possible = possibles[ Evaluator.OFFHAND_RANGED ];
+					break;
+				default:
+					possible = possibles[ EquipmentManager.OFFHAND ];
+				}
+				
+				for ( int pos = 0; pos < possible.size(); ++pos )
+				{
+					AdventureResult item = (AdventureResult) possible.get( pos );
+					if ( requireGlove &&
+						item.getItemId() != ItemPool.SPECIAL_SAUCE_GLOVE )
+					{
+						continue;
+					}
+					int count = item.getCount() & Evaluator.TOTAL_MASK;
+					if ( item.equals( this.equipment[ EquipmentManager.WEAPON ] ) )
+					{
+						--count;
+					}
+					if ( item.equals( this.equipment[ EquipmentManager.FAMILIAR ] ) )
+					{
+						--count;
+					}
+					if ( count <= 0 ) continue;
+					this.equipment[ EquipmentManager.OFFHAND ] = item;
+					this.tryOffhands( possibles );
+					this.restore( mark );
+				}
+			
+				if ( requireGlove ) return;
+				this.equipment[ EquipmentManager.OFFHAND ] = EquipmentRequest.UNEQUIP;
+			}
+			else if ( requireGlove && this.equipment[ EquipmentManager.OFFHAND ].getItemId() != ItemPool.SPECIAL_SAUCE_GLOVE )
+			{
+				return;
 			}
 			
 			// doit

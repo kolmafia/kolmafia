@@ -188,6 +188,7 @@ public class ItemPool
 	public static final int STRANGE_LEAFLET = 520;
 	public static final int HOUSE = 526;
 	public static final int VOLLEYBALL = 527;
+	public static final int SPECIAL_SAUCE_GLOVE = 531;
 	public static final int ABRIDGED = 534;
 	public static final int BRIDGE = 535;
 	public static final int DICTIONARY = 536;

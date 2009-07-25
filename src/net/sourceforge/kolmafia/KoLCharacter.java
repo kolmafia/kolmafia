@@ -3180,14 +3180,12 @@ public abstract class KoLCharacter
 		}
 
 		int brimstoneMonsterLevel = 1 << newModifiers.getBitmap( Modifiers.BRIMSTONE );
-		// Brimstone only affects monster level if more than one is worn
-		if ( brimstoneMonsterLevel > 2 )
-		{
-			newModifiers.add( Modifiers.MONSTER_LEVEL, brimstoneMonsterLevel, "brimstone" );
-		}
-		// Also affects item/meat drop, but apparently only one is needed
+		// Brimstone was believed to affect monster level only if more than
+		// one is worn, but this is confirmed to not be true now.
+		// Also affects item/meat drop, but only one is needed
 		if ( brimstoneMonsterLevel > 1 )
 		{
+			newModifiers.add( Modifiers.MONSTER_LEVEL, brimstoneMonsterLevel, "brimstone" );
 			newModifiers.add( Modifiers.MEATDROP, brimstoneMonsterLevel, "brimstone" );
 			newModifiers.add( Modifiers.ITEMDROP, brimstoneMonsterLevel, "brimstone" );
 		}
