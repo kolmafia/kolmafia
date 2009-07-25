@@ -389,7 +389,7 @@ public class BasementDecorator
 		private static boolean gnomishHardigness = false;
 		private static boolean gnomishUgnderstanding = false;
 		private static boolean marginallyInsane = false;
-		private static boolean spiritOfRigatoni = false;
+		private static boolean spiritOfRavioli = false;
 		private static boolean wisdomOfTheElderTortoise = false;
 
 		private static final AdventureResult MOXIE_MAGNET = new AdventureResult( 519, 1 );
@@ -467,7 +467,7 @@ public class BasementDecorator
 			StatBooster.gnomishHardigness = KoLCharacter.hasSkill( "Gnomish Hardigness" );
 			StatBooster.gnomishUgnderstanding = KoLCharacter.hasSkill( "Cosmic Ugnderstanding" );
 			StatBooster.marginallyInsane = KoLCharacter.hasSkill( "Marginally Insane" );
-			StatBooster.spiritOfRigatoni = KoLCharacter.hasSkill( "Spirit of Rigatoni" );
+			StatBooster.spiritOfRavioli = KoLCharacter.hasSkill( "Spirit of Ravioli" );
 			StatBooster.wisdomOfTheElderTortoise = KoLCharacter.hasSkill( "Wisdom of the Elder Tortoises" );
 		}
 
@@ -687,7 +687,7 @@ public class BasementDecorator
 				muscleBonus *= 1.05f;
 			}
 
-			if ( StatBooster.spiritOfRigatoni )
+			if ( StatBooster.spiritOfRavioli )
 			{
 				muscleBonus *= 1.25f;
 			}
