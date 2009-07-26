@@ -146,7 +146,22 @@ public class EffectDatabase
 
 	public static final String getDefaultAction( final String effectName )
 	{
-		return StringUtilities.getDisplayName( (String) EffectDatabase.defaultActions.get( StringUtilities.getCanonicalName( effectName ) ) );
+		String rv = StringUtilities.getDisplayName( (String) EffectDatabase.defaultActions.get( StringUtilities.getCanonicalName( effectName ) ) );
+		if ( rv != null && rv.startsWith( "#" ) )
+		{	// Callers of this API expect an actual command, not a note.
+			rv = null;
+		}
+		return rv;
+	}
+
+	public static final String getActionNote( final String effectName )
+	{
+		String rv = StringUtilities.getDisplayName( (String) EffectDatabase.defaultActions.get( StringUtilities.getCanonicalName( effectName ) ) );
+		if ( rv != null && rv.startsWith( "#" ) )
+		{
+			return rv.substring( 1 ).trim();
+		}
+		return null;
 	}
 
 	/**
