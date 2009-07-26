@@ -500,7 +500,7 @@ public class MaximizerFrame
 							text = create > 1 ? "make " + create + " & " + text
 								: "make & " + text;
 						}
-						int buy = price > 0 ? Math.min( count, KoLCharacter.getAvailableMeat() / price) : 0;
+						int buy = price > 0 ? Math.min( count, KoLCharacter.getAvailableMeat() / price ) : 0;
 						count -= buy;
 						if ( buy > 0 )
 						{
@@ -511,6 +511,10 @@ public class MaximizerFrame
 						}
 						if ( count > 0 )
 						{
+							if ( !KoLCharacter.canInteract() )
+							{
+								continue;
+							}
 							text = count > 1 ? "acquire " + count + " & " + text
 								: "acquire & " + text;
 						}
