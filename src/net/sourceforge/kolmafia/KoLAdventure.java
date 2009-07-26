@@ -774,6 +774,11 @@ public class KoLAdventure
 			}
 
 			KoLAdventure.lastVisitedLocation = this;
+			if ( !Preferences.getString( "lastAdventure" ).equals( this.adventureName ) )
+			{
+				Preferences.setString( "lastAdventure", this.adventureName );
+				AdventureFrame.updateSelectedAdventure( this );
+			}
 			StaticEntity.getClient().runBetweenBattleChecks( !this.isNonCombatsOnly() );
 
 			if ( !KoLmafia.permitsContinue() )
