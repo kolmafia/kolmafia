@@ -444,6 +444,7 @@ public abstract class GenericPanel
 
 	public class ActionConfirmListener
 		extends KeyAdapter
+		implements Runnable
 	{
 		public void keyReleased( final KeyEvent e )
 		{
@@ -456,9 +457,14 @@ public abstract class GenericPanel
 			{
 				return;
 			}
-
-			GenericPanel.this.actionConfirmed();
+			
+			( new Thread( this, "ActionConfirmListener" ) ).start();
 			e.consume();
+		}
+		
+		public void run()
+		{
+			GenericPanel.this.actionConfirmed();
 		}
 	}
 }

@@ -156,7 +156,7 @@ public class MaximizerFrame
 		"<p>" +
 		"You can select multiple boosts, and the title of the list will indicate the net effect of applying them all - note that this isn't always just the sum of their individual effects." +
 		"<h3>CLI Use</h3>" +
-		"The Modifier Maximizer can be invoked from the gCLI or a script via <b>maximize <i>expression</i></b>, and will behave as if you'd selected Equipment: on-hand only, Max Price: don't check, and turned off the Include option.  The best equipment will automatically be equipped (once equipment suggestions are implemented, and you didn't invoke the command as <b>maximize? <i>expression</i></b>), but you'll still need to visit the GUI to apply effect boosts - there are too many factors in choosing between the available boosts for that to be safely automated." +
+		"The Modifier Maximizer can be invoked from the gCLI or a script via <b>maximize <i>expression</i></b>, and will behave as if you'd selected Equipment: on-hand only, Max Price: don't check, and turned off the Include option.  The best equipment will automatically be equipped (unless you invoked the command as <b>maximize? <i>expression</i></b>), but you'll still need to visit the GUI to apply effect boosts - there are too many factors in choosing between the available boosts for that to be safely automated.  An error will be generated if the equipment changes weren't sufficient to fulfill all <b>min</b> keywords in the expression." +
 		"<h3>Limitations &amp; Bugs</h3>" +
 		"This is still a work-in-progress, so don't expect ANYTHING to work perfectly at the moment.  However, here are some details that are especially broken:" +
 		"<br>\u2022 Items that can be installed at your campground for a bonus (such as Hobopolis bedding) aren't considered." +
@@ -243,12 +243,12 @@ public class MaximizerFrame
 		this.valueChanged( null );
 	}
 	
-	public static void maximize( int equipLevel, int maxPrice, int priceLevel, boolean includeAll )
+	public static boolean maximize( int equipLevel, int maxPrice, int priceLevel, boolean includeAll )
 	{
 		KoLmafia.forceContinue();
 		MaximizerFrame.eval = new Evaluator( (String)
 			MaximizerFrame.expressionSelect.getSelectedItem() );
-		if ( !KoLmafia.permitsContinue() ) return;	// parsing error
+		if ( !KoLmafia.permitsContinue() ) return false;	// parsing error
 
 		float current = MaximizerFrame.eval.getScore(
 			KoLCharacter.getCurrentModifiers() );
@@ -293,7 +293,8 @@ public class MaximizerFrame
 				if ( curr.equals( item ) )
 				{
 					if ( slot >= EquipmentManager.STICKER1 ||
-						curr.equals( EquipmentRequest.UNEQUIP ) )
+						curr.equals( EquipmentRequest.UNEQUIP ) ||
+						equipLevel == -1 )
 					{
 						continue;
 					}
@@ -306,6 +307,7 @@ public class MaximizerFrame
 				String cmd, text;
 				if ( item == null || item.equals( EquipmentRequest.UNEQUIP ) )
 				{
+					item = curr;
 					cmd = "unequip " + slotname;
 					text = cmd + " (" + curr.getName() + ", " +
 						KoLConstants.MODIFIER_FORMAT.format( delta ) + ")";
@@ -317,9 +319,23 @@ public class MaximizerFrame
 						delta ) + ")";
 				}
 			
-				MaximizerFrame.boosts.add( new Boost( cmd, text, slot, item, delta ) );
+				Boost boost = new Boost( cmd, text, slot, item, delta );
+				if ( equipLevel == -1 )
+				{	// called from CLI
+					boost.execute( true );
+					if ( !KoLmafia.permitsContinue() ) equipLevel = 1;
+				}
+				else
+				{
+					MaximizerFrame.boosts.add( boost );
+				}
 			}
 		}
+		
+		current = MaximizerFrame.eval.getScore(
+			KoLCharacter.getCurrentModifiers() );
+		boolean failed = MaximizerFrame.eval.failed;
+
 		Iterator i = Modifiers.getAllModifiers();
 		while ( i.hasNext() )
 		{
@@ -348,7 +364,20 @@ public class MaximizerFrame
 				{
 					if ( includeAll )
 					{
-						text = "(no direct source of " + name + ")";
+						text = EffectDatabase.getActionNote( name );
+						if ( text != null )
+						{
+							if ( text.indexOf( "BM" ) != -1 &&
+								!KoLCharacter.inBadMoon() )
+							{
+								continue;	// no use displaying this in non-BM
+							}
+							text = "(get " + name + " via " + text + ")";
+						}
+						else
+						{
+							text = "(no direct source of " + name + ")";
+						}
 					}
 					else continue;
 				}
@@ -518,6 +547,7 @@ public class MaximizerFrame
 		}
 		MaximizerFrame.boosts.sort();
 		RequestThread.closeRequestSequence();
+		return equipLevel == -1 && failed;
 	}
 	
 	public static class MaximizerInterruptedException

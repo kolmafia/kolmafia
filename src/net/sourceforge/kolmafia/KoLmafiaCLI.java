@@ -1025,11 +1025,23 @@ public class KoLmafiaCLI
 	public static class Maximize
 		extends Command
 	{
-		{ usage = " [+|-|<weight>] <keyword>, ... - run the Modifier Maximizer."; }
+		{ usage = "[?] [+|-|<weight>] <keyword>, ... - run the Modifier Maximizer."; }
 		public void run( String command, String parameters )
 		{
 			MaximizerFrame.expressionSelect.setSelectedItem( parameters );
-			MaximizerFrame.maximize( -1, 0, 0, false );
+			int equipLevel = KoLmafiaCLI.isExecutingCheckOnlyCommand ? 1 : -1;
+			
+			// iECOC has to be turned off before actually maximizing as
+			// it would cause all item lookups during the process to just
+			// print the item name and return null.
+			KoLmafiaCLI.isExecutingCheckOnlyCommand = false;
+			
+			if ( MaximizerFrame.maximize( equipLevel, 0, 0, false ) )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+					"Unable to meet all requirements via equipment changes." );
+				RequestLogger.printLine( "See the Modifier Maximizer for further suggestions." );
+			}
 		}
 	}
 
@@ -2782,7 +2794,17 @@ public class KoLmafiaCLI
 				String action = MoodManager.getDefaultAction( "lose_effect", effect );
 				if ( action.equals( "" ) )
 				{
-					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "No booster known: " + effect );
+					action = EffectDatabase.getActionNote( effect );
+					if ( action != null )
+					{
+						KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "No direct source for: " + effect );
+						RequestLogger.printLine( "It may be obtainable via " +
+							action + "." );
+					}
+					else
+					{
+						KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "No booster known: " + effect );
+					}
 					return;
 				}
 

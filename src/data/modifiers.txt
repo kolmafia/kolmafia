@@ -1934,6 +1934,7 @@ Carrrsmic	Mysticality Percent: +10
 Chain Chain Chains	Spooky Damage: +10
 # Chalked Weapon: Regular Attacks Can't Miss
 Chalky Hand	Never Fumble, Weapon Damage: +3
+Chalky White Pallor	Mysticality Percent: +50
 Chapped Legs	Muscle: -4, Moxie: +8
 Charrrming	Moxie Percent: +10
 Chauve-Souris Merde Fou	Stench Damage: +50
@@ -2013,6 +2014,7 @@ Drunk With Power	Spell Damage Percent: +100
 Duhhh	Mysticality: -20
 Dwarven Hardiness	Muscle Percent: +5
 # Easily Embarrassed: Extra-Vulnerable to Sleaze
+Easily Embarrassed	Sleaze Vulnerability
 Eau D'enmity	Monster Level: +5
 # Eau de Tortue: You smell like turtle pheromones
 Educated (Kinda)	Spooky Resistance: +5
@@ -2071,6 +2073,7 @@ Flame-Retardant Trousers	Hot Resistance: +1
 Flaming Weapon	Hot Damage: +3
 Flamingly Floral	Hot Damage: +50
 # Flared Nostrils: Extra-Vulnerable to Stench
+Flared Nostrils	Stench Vulnerability
 Flashing Eyes	Meat Drop: +30
 Florid Cheeks	MP Regen Min: 25, MP Regen Max: 30
 Flower Power	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
@@ -2124,6 +2127,7 @@ Happy Salamander	Familiar Weight: +3
 Happy Trails	Mysticality: +100
 Hardly Poisoned at All	Muscle: -3, Mysticality: -3, Moxie: -3, Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10
 Head on Fire, Ass Catching	Initiative: +10
+Healthy Bronze Glow	Moxie Percent: +50
 Healthy Green Glow	Familiar Weight: +10
 # Heart of Black: Damn, Gina
 Heart of Green	Muscle: +3, Mysticality: +3, Moxie: +3, Familiar Weight: +3
@@ -2188,6 +2192,7 @@ Knob Goblin Lust Frenzy	Moxie: +2
 La Bamba	Item Drop: +3
 Leash of Linguini	Familiar Weight: +5
 Lemon Enlightenment	Mysticality Percent: +10, Spell Damage Percent: +15
+Less Pervious	Damage Reduction: 3
 Less Vincible	HP Regen Min: 2, HP Regen Max: 5
 # Light-Headed: Increased chance of fumbling
 Light-Headed	Mysticality Percent: -30

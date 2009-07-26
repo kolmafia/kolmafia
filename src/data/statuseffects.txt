@@ -18,7 +18,7 @@
 17	Sugar Rush	hoppedup.gif	83695b70e0470a36125feca3198a16b4	use 1 Angry Farmer candy
 18	Ghostly Shell	ghosturtle.gif	9d5cb67507556bb105664b1dc9e8bf9a	cast 1 Ghostly Shell
 19	Reptilian Fortitude	scharm.gif	6c7b4a5a3c6807d21493f1253bf8dfd9	cast 1 Reptilian Fortitude
-20	Uncertain	confused.gif	8ae7c039ea59f198c8a56228ea63dc1f
+20	Uncertain	confused.gif	8ae7c039ea59f198c8a56228ea63dc1f	use 1 probability potion
 21	Seal Clubbing Frenzy	happy.gif	93e55821ba196181627eae905eb1f052	cast 1 Seal Clubbing Frenzy
 22	Patience of the Tortoise	happy.gif	13d514f97d8701d2507c8623b88897ff	cast 1 Patience of the Tortoise
 23	Pasta Oneness	happy.gif	583619abc0e4380d80629babe3677aed	cast 1 Manicotti Meditation
@@ -37,15 +37,15 @@
 36	Mystically Oiled	potion4.gif	df21506858f7dfabf69c62d6562dc574	use 1 ointment of the occult
 37	Expert Oiliness	potion4.gif	e29bedb34840827fd6c9e6887d04d2b4	use 1 oil of expertise
 38	Gr8tness	grapes.gif	22a24325a136bd388cd85852ffee92e3	use 1 potion of temporary gr8tness
-39	Hernia!	hernia.gif	eb4f2cac29d8c2a73a6b0f1d532f61c9
-40	Red Neck	redneck.gif	e0e05fe6a88713716c5f8644379c1aeb
-41	Chapped Legs	legs.gif	8b5481d9989685d266fcbb5028cd6929
-42	Sunburned	sunburn.gif	309b9f895dcc011a120b12453c1bc7e5
+39	Hernia!	hernia.gif	eb4f2cac29d8c2a73a6b0f1d532f61c9	#using mafia aria without cummerbund
+40	Red Neck	redneck.gif	e0e05fe6a88713716c5f8644379c1aeb	#wearing mesh cap
+41	Chapped Legs	legs.gif	8b5481d9989685d266fcbb5028cd6929	#wearing leather chaps
+42	Sunburned	sunburn.gif	309b9f895dcc011a120b12453c1bc7e5	#adv in Palindome or unhydrated Desert
 43	Wussiness	sad.gif	84e619e8ff038d639085cbe8ea74752b	use 1 wussiness potion
-44	Draggin' Balls	ballhat.gif	cf78b055a699cad5e45443be2345a354
-45	1337p4n7Z	whitepants.gif	70679877d6ac73627d6576ca7cb72f62
+44	Draggin' Balls	ballhat.gif	cf78b055a699cad5e45443be2345a354	#wearing draggin' ball hat
+45	1337p4n7Z	whitepants.gif	70679877d6ac73627d6576ca7cb72f62	#wearing 1337 7r0uZ0RZ
 46	Spiky Hair	spikyhair.gif	89acaef20b7c355d36fdf0990bf6a5ec	use 1 super-spiky hair gel
-47	Complete Delusion	wolfmask.gif	b00a05823151fd7e6c8fe7697c0420ca
+47	Complete Delusion	wolfmask.gif	b00a05823151fd7e6c8fe7697c0420ca	#wearing wolf mask
 48	The Smile of Mr. A.	gma.gif	59e9f58e87d531b3ef613515a3417210	use 1 box of sunshine
 49	Macho Profundo	notes.gif	a02c6fb27a3f9f4bf2c48d59584adc56	use 1 mafia aria
 50	Empathy	empathy.gif	ac32e95f470a7e0999863fa0db58d808	cast 1 Empathy of the Newt
@@ -57,7 +57,7 @@
 56	Extreme Muscle Relaxation	happy.gif	621865253dfe04259868b41e367a62e8	use 1 Mick's IcyVapoHotness Rub
 57	Rainy Soul Miasma	raincloud.gif	a47ef21c02a4b8ba3b1da929f4566934	use 1 thin black candle
 58	Teleportitis	confused.gif	cb5404472a27b435aa6fad1ba528b1b8	use 1 potion of teleportitis
-59	Wanged	wang.gif	0f35dcc9f22cd0ee2e6ef690c3512a01
+59	Wanged	wang.gif	0f35dcc9f22cd0ee2e6ef690c3512a01	#wang used on you
 60	Aloysius' Antiphon of Aptitude	antiphon.gif	3f875f7c9c4cc7b64f4c7d7b7eea1ef6	cast 1 Aloysius' Antiphon of Aptitude
 61	The Moxious Madrigal	madrigal.gif	c77eb3298c1bcba5e0147eba77a5a802	cast 1 The Moxious Madrigal
 62	Cletus's Canticle of Celerity	celerity.gif	fe25963fb651fc5d81ed5a098b509030	cast 1 Cletus's Canticle of Celerity
@@ -70,53 +70,53 @@
 69	Jackasses' Symphony of Destruction	jackasses.gif	fca62260f2f750e32f104f868ed1a3a5	cast 1 Jackasses' Symphony of Destruction
 70	Stevedave's Shanty of Superiority	superiority.gif	2e5a803cf1be5b3d2aaa897e60f29138	cast 1 Stevedave's Shanty of Superiority
 71	Ode to Booze	odetobooze.gif	626c8ef76cfc003c6ac2e65e9af5fd7a	cast 1 The Ode to Booze
-72	Sleeping with the Fishes	sleepy.gif	5285075ac41f4e239008e57f0b11e193
+72	Sleeping with the Fishes	sleepy.gif	5285075ac41f4e239008e57f0b11e193	#wearing cement shoes
 73	Ticking Clock	clock.gif	6e54ea1584f2410c94c93032c5a038f0	use 1 cheap wind-up clock
 74	Fresh Scent	happy.gif	a12c86c626c44ecd48540d1e55bf1204	use either 1 chunk of rock salt, 1 deodorant
 75	Hippy Stench	stench.gif	70ff46e1347de854172cb7a644f2854e	use either 1 handful of pine needles, 1 reodorant
-76	Wreathed in Merriment	scook1.gif	074e5435520828037e01f4059da13cf7
-77	Fury of the Bells	scook2.gif	8166c389286809c05b40933c210194cf
-78	Yuletide Sappiness	scook3.gif	b4a14c949225b6e8427fbad113c8d777
+76	Wreathed in Merriment	scook1.gif	074e5435520828037e01f4059da13cf7	eat 1 wreath-shaped Crimbo cookie
+77	Fury of the Bells	scook2.gif	8166c389286809c05b40933c210194cf	eat 1 bell-shaped Crimbo cookie
+78	Yuletide Sappiness	scook3.gif	b4a14c949225b6e8427fbad113c8d777	eat 1 tree-shaped Crimbo cookie
 79
 80	Missing Fingers	sad.gif	c6100ac99a847dc3b60d9f8c1a2c223d	use 1 Knob Goblin firecracker
-81	Gnawed-Off Arm	sad.gif	99337ac6df628a7b13162ef7a725f01d
+81	Gnawed-Off Arm	sad.gif	99337ac6df628a7b13162ef7a725f01d	#St. Sneaky Pete's Day Stupor
 82	Broken Knees	sad.gif	c377ac25ce57bab5069f08744b111930
 83	And Your Family, Too	sad.gif	4f336a7c8fb1b5b3355180116e822627
 84
 85
 86	Missing Eyebrows	sad.gif	71c7813ec6c1d4f79b9a4a44a6654181
-87
+87	Two Left Feet	twoleft.gif	bdc371492a7b729af57b724c82c6ce09
 88
-89	Tingly Wrists	feather.gif	5a7834b36760978ce7766b95753fa4f2
-90	Tingly Elbows	feather.gif	54aa2c7ffc56b273ae9a6bfe26f10aad
-91	Tingly Biceps	feather.gif	fbf879a2f5e27198361d24f57cfd1130
+89	Tingly Wrists	feather.gif	5a7834b36760978ce7766b95753fa4f2	#using phonics down
+90	Tingly Elbows	feather.gif	54aa2c7ffc56b273ae9a6bfe26f10aad	#using phonics down
+91	Tingly Biceps	feather.gif	fbf879a2f5e27198361d24f57cfd1130	#using phonics down
 92	Sticky Hands	glove.gif	652fac966f18c8d0051cc3af5ad42740	use 1 pine tar
 93	Clean-Shaven	shaven.gif	58e37fc744c725866f00b6e96da534a8	use 1 shaving cream
-94	Aspect of the GravyPlum Fairy	gravy.gif	4b79673d34d9748b440cb33977667cbd
-95	Rushin' Hands	glove.gif	0b68ba6ca2791b564710697b7f02d2bd
-96	Reedy Pipes	reedpipes.gif	f4e6e0c3a947fbee42763af3bc8fc0ec
-97	Oriental Mysticism	fumanchu.gif	178439b5d20a975ff913fa8510b78891
-98	Arabian Knighthood	scimitar.gif	037d391acc55edb9d5ec9bfca00097d2
+94	Aspect of the GravyPlum Fairy	gravy.gif	4b79673d34d9748b440cb33977667cbd	#Sweet Nutcracker buff
+95	Rushin' Hands	glove.gif	0b68ba6ca2791b564710697b7f02d2bd	#Sweet Nutcracker buff
+96	Reedy Pipes	reedpipes.gif	f4e6e0c3a947fbee42763af3bc8fc0ec	#Sweet Nutcracker buff
+97	Oriental Mysticism	fumanchu.gif	178439b5d20a975ff913fa8510b78891	#Sweet Nutcracker buff
+98	Arabian Knighthood	scimitar.gif	037d391acc55edb9d5ec9bfca00097d2	#Sweet Nutcracker buff
 99
 100	Stabilizing Oiliness	potion4.gif	8a69297f136daef36aea0330f986bc78	use 1 oil of stability
 101	Slippery Oiliness	potion4.gif	1598c6d326da799034f65bc9da00c288	use 1 oil of slipperiness
 102	Strength of Ten Ettins	strboost.gif	24e328972b5792ebdde69889edf2edc9	use 1 potion of ettin strength
 103	Strange Mental Acuity	realbrain.gif	d7d4abd1987ec257ebf1b386a9060052	use 1 potion of mental acuity
 104	Izchak's Blessing	light.gif	2b0bab3aa6c3cabbe27d693dc4a2c8c0	use 1 potion of blessing
-105	Corroded Weapon	corroded.gif	8af5fd34414f0f52907fabfa3287fa2b
-106	Canadianity	mapleleaf.gif	8a3629f6e6d964a3e491b3a393348a46
-107	Enraged	angry.gif	8a81256346b6ec6aa9b91b0e2641681c
-108	Ancestral Disapproval	skull.gif	66df2793b0008e892884c0de9f33c808
-109	Whitened Teeth	goldfronts.gif	0f3c00c6477cf3c3ca13602bfee2d863
+105	Corroded Weapon	corroded.gif	8af5fd34414f0f52907fabfa3287fa2b	#fighting acid blob in Dungeons of Doom
+106	Canadianity	mapleleaf.gif	8a3629f6e6d964a3e491b3a393348a46	drink 1 white Canadian
+107	Enraged	angry.gif	8a81256346b6ec6aa9b91b0e2641681c	#clan buff, Yummy Tummy bean
+108	Ancestral Disapproval	skull.gif	66df2793b0008e892884c0de9f33c808	#clan buff
+109	Whitened Teeth	goldfronts.gif	0f3c00c6477cf3c3ca13602bfee2d863	#clan buff
 110	Hopped Up on Goofballs	hoppedup.gif	061ca4225eeb3189b93a4a6c5e47351e	use 1 goofballs
 111	Goofball Withdrawal	withdraw.gif	29b44ff4d574d3698bb85eb97c4d37bc
-112	Antsy in your Pantsy	syrup.gif	ea9571b76d8c4d7df9ba47e27058bcf2
+112	Antsy in your Pantsy	syrup.gif	ea9571b76d8c4d7df9ba47e27058bcf2	#maple syrup or sugar-coated pine cone
 113	Popping Stomach	rockpops.gif	ab4ca3339e28ef091322625f1b62c71b	use 1 Rock Pops
-114	Dwarven Hardiness	happy.gif	99f5e9eb51172bcac524605eace88feb
-115	Apathy	apathy.gif	4ecdbe1ae06dfa3e3caa02cbf3676ffe
-116	Radio Head	radhat.gif	93a84005b9089f8b39237450c0af0ff3
-117	Free Bird	radpants.gif	587b577f3cf49f2d944450aa4751584d
-118	Shiny Happy Weapon	radsword.gif	c182e3297f3732ed05601d63d5980f1d
+114	Dwarven Hardiness	happy.gif	99f5e9eb51172bcac524605eace88feb	eat 1 dwarf bread
+115	Apathy	apathy.gif	4ecdbe1ae06dfa3e3caa02cbf3676ffe	use 1 Mr. Mediocrebar
+116	Radio Head	radhat.gif	93a84005b9089f8b39237450c0af0ff3	#wearing Radio Free Baseball Cap
+117	Free Bird	radpants.gif	587b577f3cf49f2d944450aa4751584d	#wearing Radio Free Pants
+118	Shiny Happy Weapon	radsword.gif	c182e3297f3732ed05601d63d5980f1d	#wielding Radio Free Foil
 119	On the Shoulders of Giants	farout.gif	68ea640257b2b74627e74ce275a555fc	use 1 Hawking's Elixir of Brilliance
 120	Shot in the Arse	shotarse.gif	d65d1192f0638f8f72e2f18b99c33a91
 121	Cock of the Walk	cockghost.gif	4bd0338c8030f6aaa95ea5eda777484c	use 1 Connery's Elixir of Audacity
@@ -125,9 +125,9 @@
 124	Egg-stra Arm	eggplain.gif	f571d1555a2465e9e8fb0fb3b31b18e5	use 1 yellow striped oyster egg
 125	Egg-headedness	eggplain.gif	e6b783e02fa92072ca81c7585912ba37	use 1 yellow paisley oyster egg
 126	Egg-cellent Vocabulary	eggplain.gif	f7347c1d229420acff2226dac4125a0a	use 1 yellow polka-dot oyster egg
-127	Gothy	gothy.gif	06cb86ddd689278c5af31423a8210a72
+127	Gothy	gothy.gif	06cb86ddd689278c5af31423a8210a72	#spooky eyeliner/lipstick, gloomy mushroom wine
 128	Flower Power	flower.gif	e91ceabee446030ff33cc79d06a8d551	drink 1 shot of flower schnapps
-129	Eye of the Lihc	eyeball.gif	19a38797f559f112930b8d33f3dd48e3
+129	Eye of the Lihc	eyeball.gif	19a38797f559f112930b8d33f3dd48e3	eat 1 lihc eye pie
 130	Springy Fusilli	fusilli.gif	bb44871dd165d4dc9b4d35daa46908ef	cast 1 Springy Fusilli
 131	Rage of the Reindeer	reindeer.gif	5c8d3b5b4a6d403f95f27f5d29528c59	cast 1 Rage of the Reindeer
 132	Engorged Weapon	nicesword.gif	1ff58ec4d8337eaec65044933bf7ab34	use 1 Meleegra&trade; pills
@@ -176,9 +176,9 @@
 175	Wasabi Sinuses	hernia.gif	c9cd2df50d6fb5a9d8d7544892c7e5b2	use 1 Knob Goblin nasal spray
 176	Heavy Petting	happy.gif	0bbb62f04a5dd69a88b608fe656a7752	use 1 Knob Goblin pet-buffing spray
 177
-178	Bootyliciousness	chest2.gif	4dd00fb300f035693ca9ac4f6e33c4f4
-179	Make Meat FA$T!	meat.gif	2b0a872a72b015c6db5c4974140f0483
-180	Temporary Blindness	hernia.gif	1b3d98f1187a8572fc12cf6fd02f35c3
+178	Bootyliciousness	chest2.gif	4dd00fb300f035693ca9ac4f6e33c4f4	#clan buff
+179	Make Meat FA$T!	meat.gif	2b0a872a72b015c6db5c4974140f0483	#clan buff
+180	Temporary Blindness	hernia.gif	1b3d98f1187a8572fc12cf6fd02f35c3	drink 1 white lightning
 181	Jazz Hands	glove.gif	d847d0fc434d9f9b69d6c029b7b91582	use 1 jazz soap
 182
 183	Half-Astral	hoppedup.gif	51e5c65bc1771744da18fc0cd3a2fe92	use 1 astral mushroom
@@ -221,20 +221,20 @@
 220	Sticky Fingers	glove.gif	4becdf2ac82c2bf30dd433dd54465918	use 1 bag of Cheat-Os
 221	Chalky Hand	glove.gif	3e2eed0d70d0e023a11619655a3f48c0	use 1 handful of hand chalk
 222	Snarl of the Timberwolf	wolfmask.gif	2968e9397d3aa977b8cb3e9817ad8cdd	cast 1 Snarl of the Timberwolf
-223	Dreams and Lights	snowflakes.gif	360467118bd69ef869a1af2002117e63
+223	Dreams and Lights	snowflakes.gif	360467118bd69ef869a1af2002117e63	#adv in Haunted Gallery
 224	Scarysauce	skullshld.gif	f7551a889b9c61510fc3f73f96ecc98e	cast 1 Scarysauce
 225	Dirge of Dreadfulness	dirge.gif	6121ba486d7ad86165d117ea62794d09	cast 1 Dirge of Dreadfulness
 226	Talking Like a Pirate	piratehead.gif	defbfe64c65b2d495dc0133506223c1f	use 1 can of Binarrrca
 227	The 'Tussin	happy.gif	295f414c903d22c44ec2f92f789cad71	use 1 bottle of Vangoghbitussin
-228	Pie in the Face	pieface.gif	9c9794f2ff9a0fcb1090c281c2c442f1
-229	Hip to Be Square Dancin'	footprints.gif	37f9f99df81ca3d29abe85139a302f67
-230	Livin' Large	goldfronts.gif	5c5335bc77cdd6fe54de544d277089b7
-231	Wistfully Nostalgic	happy.gif	48e2cebc9f34ef44ac6026fdf7cdb76f
-232	Happy Salamander	commacha.gif	05b9aad038c530dd3d2c5b3ab146a4b8
-233	Techno Bliss	singlenote.gif	883d712b08a134d70b832aec956767cb
-234	Material Witness	meat.gif	f382bb82f0d7f335581f353670922479
-235	No Worries	singlenote.gif	65a1f6d8bc0b9141678d2a121d5eac48
-236	Metal Speed	singlenote.gif	796240a217e3686b23ecffef8a804729
+228	Pie in the Face	pieface.gif	9c9794f2ff9a0fcb1090c281c2c442f1	#being hit with cream pie
+229	Hip to Be Square Dancin'	footprints.gif	37f9f99df81ca3d29abe85139a302f67	#clan radio
+230	Livin' Large	goldfronts.gif	5c5335bc77cdd6fe54de544d277089b7	#clan radio
+231	Wistfully Nostalgic	happy.gif	48e2cebc9f34ef44ac6026fdf7cdb76f	#clan radio
+232	Happy Salamander	commacha.gif	05b9aad038c530dd3d2c5b3ab146a4b8	#clan radio
+233	Techno Bliss	singlenote.gif	883d712b08a134d70b832aec956767cb	#clan jukebox
+234	Material Witness	meat.gif	f382bb82f0d7f335581f353670922479	#clan jukebox
+235	No Worries	singlenote.gif	65a1f6d8bc0b9141678d2a121d5eac48	#clan jukebox
+236	Metal Speed	singlenote.gif	796240a217e3686b23ecffef8a804729	#clan jukebox
 237	Radium Radicality	tongue.gif	b1952cfcb421593dfe0a16edd41a913d	use 1 radium-flavored potato chips
 238	Wintergreen Warmongery	angry.gif	33a94f73f343e88ee4b17d18e516bd49	use 1 wintergreen-flavored potato chips
 239	Also Schmeckt Zarathustra	waxlips.gif	40047d675d023d456eca562f0479656a	use 1 ennui-flavored potato chips
@@ -244,29 +244,29 @@
 243	Bad Luck	bmirror.gif	d7d35d7b14c7322fef4ddd80a0847473	use 1 antique hand mirror
 244	Deadly Flashing Blade	blacksword.gif	05bc11c2da34e7f6fe1511ec6850fe2e	use 1 adder bladder
 245	Locks Like the Raven	blackbird2.gif	6d4452e978741bda60e82e316fdd7ba5	use 1 Black No. 2
-246	Smugness	happy.gif	e6f64babb5a6850783db4f82fe7e239b
-247	Good Karma	happy.gif	fc58931f52d46bd271785815f479c1e4
-248	Pumped Up	strboost.gif	e8b6209d5764f91f803c9591ab9ecd7c
-249	Head on Fire, Ass Catching	fire.gif	c4c76755cb4ca109b5685550cab4a4e6
-250	Violent Night	singlenote.gif	3d2c6dbafa315b2615f5e9a203cc9984
-251	White Knuckles	singlenote.gif	6a5ee9b52fca0b73200c4d9cd7539094
-252	Don't Rest Ye, Bold Adventurer	singlenote.gif	3274dfef654333f140b86d07a4f43de8
-253	Frosty the Hitman	singlenote.gif	c4e7639fba33b5124ab46b6eef619ddf
-254	Coy to the Hurled	singlenote.gif	8ffbe4ce5828976f89a1df3f425f3986
-255	Crimbo Epiphany	tombcookie.gif	0d86141cfa07cfa79f952f00fddc5269
-256	Bells in the Batfry	batcookie.gif	00a9f64c702e34cc2e74b51240c379bd
-257	Carol of the Bones	skullcookie.gif	886179246e72ce517325f3b57a2df35a
-258	Get Me Off This Crazy Thing!	hernia.gif	68588a080497011bee2f48c1b273d605
-259	Very Clean Teeth	goldfronts.gif	e8b4295bb508c8a821c6acbb9a733d6b
+246	Smugness	happy.gif	e6f64babb5a6850783db4f82fe7e239b	#adv in Sleazy Back Alley
+247	Good Karma	happy.gif	fc58931f52d46bd271785815f479c1e4	#adv in Haunted Pantry
+248	Pumped Up	strboost.gif	e8b6209d5764f91f803c9591ab9ecd7c	#adv in Outskirts of Cobb's Knob
+249	Head on Fire, Ass Catching	fire.gif	c4c76755cb4ca109b5685550cab4a4e6	#wearing fire
+250	Violent Night	singlenote.gif	3d2c6dbafa315b2615f5e9a203cc9984	#disintegrating sheet music
+251	White Knuckles	singlenote.gif	6a5ee9b52fca0b73200c4d9cd7539094	#disintegrating sheet music
+252	Don't Rest Ye, Bold Adventurer	singlenote.gif	3274dfef654333f140b86d07a4f43de8	#disintegrating sheet music
+253	Frosty the Hitman	singlenote.gif	c4e7639fba33b5124ab46b6eef619ddf	#disintegrating sheet music
+254	Coy to the Hurled	singlenote.gif	8ffbe4ce5828976f89a1df3f425f3986	#disintegrating sheet music
+255	Crimbo Epiphany	tombcookie.gif	0d86141cfa07cfa79f952f00fddc5269	eat 1 tombstone-shaped Crimboween cookie
+256	Bells in the Batfry	batcookie.gif	00a9f64c702e34cc2e74b51240c379bd	eat 1 bat-shaped Crimboween cookie
+257	Carol of the Bones	skullcookie.gif	886179246e72ce517325f3b57a2df35a	eat 1 skull-shaped Crimboween cookie
+258	Get Me Off This Crazy Thing!	hernia.gif	68588a080497011bee2f48c1b273d605	#wearing toy jet pack
+259	Very Clean Teeth	goldfronts.gif	e8b4295bb508c8a821c6acbb9a733d6b	use 1 toothbrush
 260	Arse-a'fire	pepper.gif	b0fae7bd223ab7a952ba74b1e65e3740	use 1 arse-a'fire elixir
 261	Lemon Enlightenment	lemon.gif	e00c13900b87a2f2c9d580ec959f846c	use 1 cosmic lemonade
 262	Squirming Like a Toad	squashfrog.gif	6f748e8117c8d27ae1442f99998a7d5f	use 1 powdered toad horn
 263	Eau de Tortue	stench.gif	f3a452bc7787ab2f5985d28d164a4fb0	use 1 turtle pheromones
 264	Majorly Poisoned	poison.gif	37b23526c38b844f4983a17a72ad992e
-265	Tenuous Grip on Reality	hoppeddown.gif	c22c212fdf9d6b611be955785ff37775
-266	Turned Into a Skeleton	skeldoll.gif	555395c91aca7ddf5a60688c63214f73
-267	Barking Dogs	footprints.gif	cb28fec658f97af4ee56590184223497
-268	Prestidigysfunction	snowflakes.gif	dd5d7d48bca51bd1ddfa197b584a5623
+265	Tenuous Grip on Reality	hoppeddown.gif	c22c212fdf9d6b611be955785ff37775	#adv in unhydrated Desert
+266	Turned Into a Skeleton	skeldoll.gif	555395c91aca7ddf5a60688c63214f73	#adv in unhydrated Desert
+267	Barking Dogs	footprints.gif	cb28fec658f97af4ee56590184223497	#adv in unhydrated Desert
+268	Prestidigysfunction	snowflakes.gif	dd5d7d48bca51bd1ddfa197b584a5623	#adv in unhydrated Desert
 269	Heart of White	candyheart.gif	c444fec2c3237f47d985c83248b81687	use 1 white candy heart
 270	Heart of Pink	candyheart.gif	f0ceb6af2b415596e1d062323a77119e	use 1 pink candy heart
 271	Heart of Orange	candyheart.gif	2bcdff73267cc4e57efe3207396127e8	use 1 orange candy heart
@@ -274,34 +274,34 @@
 273	Heart of Yellow	candyheart.gif	63f75386af7076f2dddae1aad2ba9069	use 1 yellow candy heart
 274	Heart of Green	candyheart.gif	c5981aab5e82b8b7acaa03836f2b8207	use 1 green candy heart
 275	Ultrahydrated	raindrop.gif	ec7f2f9d649f3de48a27c5eaa1147afe	adventure 1 Oasis in the Desert
-276	Disco Inferno	discoball.gif	72ebc0a6df7f0525c08ecae2904535e7
-277	Disco Nirvana	discoball.gif	f6763ce5ad70a6e3d7f388ff5043e3cd
-278	Disco Concentration	discoball.gif	a52f3893d9736c8541e13224d11cf00a
+276	Disco Inferno	discoball.gif	72ebc0a6df7f0525c08ecae2904535e7	#DB combo
+277	Disco Nirvana	discoball.gif	f6763ce5ad70a6e3d7f388ff5043e3cd	#DB combo
+278	Disco Concentration	discoball.gif	a52f3893d9736c8541e13224d11cf00a	#DB combo
 279	Full of Vinegar	wine2.gif	68d41be21e343fcf84c5bfc5d96fecf0
 280	Kiss of the Black Fairy	skull.gif	8348ca470188c975bcb78c67a58c39ab
-281	Tangled Up	sad.gif	224ddd0d75c25d180c1f10a90bdab68a
+281	Tangled Up	sad.gif	224ddd0d75c25d180c1f10a90bdab68a	#fighting Protector Spectre
 282	A Little Bit Poisoned	poison.gif	15e7e83d8630cf9b824a2645851458c5
 283	Somewhat Poisoned	poison.gif	189ac7bc3487eabe0d4f1dd8b2b34897
 284	Really Quite Poisoned	poison.gif	c14002a0af245653e9a319078a686d37
-285	Filthworm Larva Stench	stench.gif	f3549dbe538c81c2aa59362e8e8cc7cc
-286	Filthworm Drone Stench	stench.gif	36f72cea3c79d16aa285a02d9551f412
-287	Filthworm Guard Stench	stench.gif	eb09f56d4f878745cfedeef7e0815414
-288	Light-Headed	confused.gif	06f177f0b563384e679d5b7283184546
+285	Filthworm Larva Stench	stench.gif	f3549dbe538c81c2aa59362e8e8cc7cc	use 1 filthworm hatchling scent gland
+286	Filthworm Drone Stench	stench.gif	36f72cea3c79d16aa285a02d9551f412	use 1 filthworm drone scent gland
+287	Filthworm Guard Stench	stench.gif	eb09f56d4f878745cfedeef7e0815414	use 1 filthworm royal guard scent gland
+288	Light-Headed	confused.gif	06f177f0b563384e679d5b7283184546	#fighting war hippies
 289	Bananas!	banana.gif	567ae2968ee07d280efeb2cbee97ff29	use 1 banana smoothie
-290	What's That Smell?	stench.gif	a284f06ff0d8158f530b9bfa3e689ce8
-291	Mad at Science	angry.gif	8fa35398bfe0b6c599fe776a7311fbc4
-292	Tetanus	disease.gif	79289e27b54236f174122c1a7703242a
-293	Half-Eaten Brain	realbrain.gif	6732cdf4bc1898533e87e667da4460f7
-294	Fearless	disease.gif	ced2750c51d5d10b45f6a169a8661c83
-295	Socialismydia	disease.gif	15f8114030f2e55d82d7f5e91e72a1cb
-296	Axe Wound	gash.gif	198f28c9fb6022af5663275f0f201d4e
-297	Temporary Amnesia	confused.gif	c699071097b9cbff95fbb3e92d73a547
-298	Grilled	grilled.gif	4308b32a8ded408e0dae1bc504397dec
-299	&quot;The Disease&quot;	disease.gif	20c1767b3206b69e212bfdad1dc931a5
+290	What's That Smell?	stench.gif	a284f06ff0d8158f530b9bfa3e689ce8	#fighting fiendish can of asparagus
+291	Mad at Science	angry.gif	8fa35398bfe0b6c599fe776a7311fbc4	#fighting Sub-Assistant Knob Mad Scientist
+292	Tetanus	disease.gif	79289e27b54236f174122c1a7703242a	#fighting empty suit of armor
+293	Half-Eaten Brain	realbrain.gif	6732cdf4bc1898533e87e667da4460f7	#fighting zombies
+294	Fearless	disease.gif	ced2750c51d5d10b45f6a169a8661c83	#fighting ninja snowman
+295	Socialismydia	disease.gif	15f8114030f2e55d82d7f5e91e72a1cb	#fighting crusty hippy
+296	Axe Wound	gash.gif	198f28c9fb6022af5663275f0f201d4e	#fighting lumberjacks
+297	Temporary Amnesia	confused.gif	c699071097b9cbff95fbb3e92d73a547	#fighting protagonist
+298	Grilled	grilled.gif	4308b32a8ded408e0dae1bc504397dec	#fighting 7-Foot Dwarf Foreman
+299	&quot;The Disease&quot;	disease.gif	20c1767b3206b69e212bfdad1dc931a5	#fighting disease-in-the-box
 300	Infinite Loop	nopic.gif
-301	Cunctatitis	disease.gif	9a12b9329e0701252387afe75dee34ee
-302	Mild Lycanthropy	moon2.gif	30ef4348fb5125c55c5be56867b795dd
-303	Lycanthropy, Eh?	moon2.gif	f0d184c3e271a091974dc74fa36640f3
+301	Cunctatitis	disease.gif	9a12b9329e0701252387afe75dee34ee	#fighting Procrastination Giant
+302	Mild Lycanthropy	moon2.gif	30ef4348fb5125c55c5be56867b795dd	#fighting warwelf
+303	Lycanthropy, Eh?	moon2.gif	f0d184c3e271a091974dc74fa36640f3	#fighting Weremoose
 304	'Roids of the Rhinoceros	strboost.gif	7162d29ed4d4ab9247e32a65fdc0508a	use 1 bottle of rhinoceros hormones
 305	Happy Trails	farout.gif	0d08ec701054748c0ff754e1eb8993fa	use 1 teeny-tiny magic scroll
 306	Piratastic	poison.gif	326cfa0c7a97220cda6575f7d887c38f	use 1 bottle of pirate juice
@@ -321,15 +321,15 @@
 320	Can't Smell Nothin'	stench.gf	1711b26207212327de89f2c030dc4089	use 1 Dogsgotnonoz pills
 321	Hyperoffended	sad.gif	cfc7cd0d0bd5dc7d2437bd4027677791	use 1 donkey flipbook
 322
-323	Burning Hands	hand.gif	ff1abd7eea34159903507bb907c56803
-324	Burning Ears	humanears.gif	992e3b84ebe746affc1cf6038cd854ff
-325	Burning Soul	fire.gif	c1f2b28c6d4c9b1e2388dde1d5fe44cd
-326	Frozen Hands	hand.gif	e5ea21c55cab22529647b7437e81532b
-327	Frozen Shoulders	snowflakes.gif	3f23f479b29e6cce697e5ac2ecc9d531
-328	Soul Freeze	iceberglet.gif	ac1584de4a0d6359c4738bf0bae571a1
-329	Broken Fast	ccheese.gif	1e776d50f7d0c07ae3bf04aa1ea13e49
-330	Hoity Toity	snifter.gif	89a2e36f2f2fa3c6c4053a6a35c2a12a
-331	On the Trail	footprints.gif	91635be2834f8a07c8ff9e3b47d2e43a
+323	Burning Hands	hand.gif	ff1abd7eea34159903507bb907c56803	#Stream of Sauce splashback
+324	Burning Ears	humanears.gif	992e3b84ebe746affc1cf6038cd854ff	#Saucestorm splashback
+325	Burning Soul	fire.gif	c1f2b28c6d4c9b1e2388dde1d5fe44cd	#Wave of Sauce splashback
+326	Frozen Hands	hand.gif	e5ea21c55cab22529647b7437e81532b	#Stream of Sauce splashback
+327	Frozen Shoulders	snowflakes.gif	3f23f479b29e6cce697e5ac2ecc9d531	#Saucestorm splashback
+328	Soul Freeze	iceberglet.gif	ac1584de4a0d6359c4738bf0bae571a1	#Wave of Sauce splashback
+329	Broken Fast	ccheese.gif	1e776d50f7d0c07ae3bf04aa1ea13e49	eat 1 bowl of Bounty-Os
+330	Hoity Toity	snifter.gif	89a2e36f2f2fa3c6c4053a6a35c2a12a	drink 1 Oreille Divis&eacute;e brandy
+331	On the Trail	footprints.gif	91635be2834f8a07c8ff9e3b47d2e43a	#Transcendent Olfaction
 332	Moon'd	moon4.gif	3f23af7d42cd450e5a198ba091a842c1	concert Moon'd
 333	Dilated Pupils	pupils.gif	dd0d5b24b28fff02cb53607f45d0d220	concert Dilated Pupils
 334	Optimist Primal	happy.gif	63965c29290f23349477c4199c9b10c3	concert Optimist Primal
@@ -341,41 +341,41 @@
 340	Can't Be a Chooser	meat.gif	76a0c3b8b2ddd3cffbbb2c1de01fd41f	use 1 begpwnia
 341	Ass Over Teakettle	teakettle.gif	0a630b7a78a5959d97c5ce48cb23287f	use 1 upsy daisy
 342	Bestial Sympathy	teeth.gif	0acfb47ada804935ca1acf6ee1ae6dd7	use 1 half-orchid
-343	La Bamba	footprints.gif	957a452386df5dec88778c089e53b60e
-344	Blessing of Pikachutlotal	jigawatts.gif	3f2ef271da5513fce8fd5f8ea8c27de8
-345	Blessing of Charcoatl	fire.gif	5a1caad47f9f3340c58af489d69bf55b
-346	Blessing of Squirtlcthulli	nopic2.gif	24d6ac5a1c833ff5b1ccb07a997ca10b
-347	Blessing of Bulbazinalli	leaf.gif	c59051266b90a4b990b4e92e29945228
-348	All Fired Up	fire.gif	5626ff49dbfe5c3bc7732a3dc9c1ea4e
+343	La Bamba	footprints.gif	957a452386df5dec88778c089e53b60e	use 1 outrageous sombrero
+344	Blessing of Pikachutlotal	jigawatts.gif	3f2ef271da5513fce8fd5f8ea8c27de8	#placing 1-ball on altar
+345	Blessing of Charcoatl	fire.gif	5a1caad47f9f3340c58af489d69bf55b	#placing 5-ball on altar
+346	Blessing of Squirtlcthulli	nopic2.gif	24d6ac5a1c833ff5b1ccb07a997ca10b	#placing 2-ball on altar
+347	Blessing of Bulbazinalli	leaf.gif	c59051266b90a4b990b4e92e29945228	#placing 6-ball on altar
+348	All Fired Up	fire.gif	5626ff49dbfe5c3bc7732a3dc9c1ea4e	use 1 ant agonist
 349	Go Get 'Em, Tiger!	strboost.gif	943ba3b11499412f041807f8a7835d75	use 5 Ben-Gal&trade; Balm
 350	Starry-Eyed	snowflakes.gif	c45d2469bf8cfd8c9bbc953e2a44f3c4	telescope look high
 351	Comic Violence	clownham.gif	e81282d9c752ffcf7d033dd0bd8fec6f	use 1 gremlin juice
 352	Tranquilized Mind	sleepy.gif	e6d8c1e5ee549f897340b97b3cc26053	use 1 mother's little helper
 353	Woad Warrior	foamfinger.gif	c884a8b10f7b236002288fc760129e09	use 1 pygmy pygment
 354	Red Door Syndrome	blackpaint.gif	08c89971feb489d775ce5e8b2b845503	use 1 can of black paint
-355	Spirit of Alph	river.gif	e5bd49c7432e33b1684e494f3b7ec1c3
-356	Night Vision	bigeyes.gif	7404a77ea90f3e51ec8b1e1e3450351b
+355	Spirit of Alph	river.gif	e5bd49c7432e33b1684e494f3b7ec1c3	#Worm Wood adv
+356	Night Vision	bigeyes.gif	7404a77ea90f3e51ec8b1e1e3450351b	#Worm Wood adv
 357	Absinthe-Minded	snowflakes.gif	ebaff6fa82fe65630faccf2d1177b7cc	use 1 tiny bottle of absinthe
-358	Rat-Faced	ratmask.gif	57f86c875130ff236081eb409213be09
-359	Dancing Prowess	footprints.gif	f52232fc8d5e5fcdd13c8266f2be1b62
-360	No Vertigo	spiral.gif	d43b6af05c4093274e2d58050e4d234e
-361	Good with the Ladies	wink.gif	a057b3c7dfb85e4711ec6b0a82d383c9
-362	Bats in the Belfry	batwing.gif	3188a0b4d646a166ad32ee827d5b0f8b
-363	Unusual Fashion Sense	confused.gif	52816dcf5d94b5eba565c8688f04ed24
-364	Feelin' Philosophical	realbrain.gif	92c569a3c9aa120e4c79c5914c37c7e3
+358	Rat-Faced	ratmask.gif	57f86c875130ff236081eb409213be09	#Worm Wood adv
+359	Dancing Prowess	footprints.gif	f52232fc8d5e5fcdd13c8266f2be1b62	#Worm Wood adv
+360	No Vertigo	spiral.gif	d43b6af05c4093274e2d58050e4d234e	#Worm Wood adv
+361	Good with the Ladies	wink.gif	a057b3c7dfb85e4711ec6b0a82d383c9	#Worm Wood adv
+362	Bats in the Belfry	batwing.gif	3188a0b4d646a166ad32ee827d5b0f8b	#Worm Wood adv
+363	Unusual Fashion Sense	confused.gif	52816dcf5d94b5eba565c8688f04ed24	#Worm Wood adv
+364	Feelin' Philosophical	realbrain.gif	92c569a3c9aa120e4c79c5914c37c7e3	#Worm Wood adv
 365	Moon June Spooned	moon2.gif	733e8838261278c9b6173d392a4d09d7	use 1 sensitive poetry journal
 366	Inspired!	bulb.gif	cee83e927355a2c84cd8ee46745bd87a	use 1 bottled inspiration
 367	Ringing Ears	bell.gif	547a82f65523083eb7ea2349b1dd97a3	use 1 bellhop bell
 368	Man's Worst Enemy	teeth.gif	2842a345ac05d148c862015d1fcc4e4b	use 1 disintegrating spiky collar
-369	Extremely Poor Taste	sad.gif	c3ef42f53a008404112cf3a9dd744404	use 1 escargotsicle
-370	The Real Deal	light.gif	526472c3f3acbe7a8068ccf92628a40a	use 1 bottle of realpagne
-371	Memento Moir&eacute;	photograph.gif	731ba2df034beec5412f82879eec9392
-372	Flashing Eyes	bigeyes.gif	eaa0f2cd06a00116af53bd65177fdf4b
+369	Extremely Poor Taste	sad.gif	c3ef42f53a008404112cf3a9dd744404	eat 1 escargotsicle
+370	The Real Deal	light.gif	526472c3f3acbe7a8068ccf92628a40a	drink 1 bottle of realpagne
+371	Memento Moir&eacute;	photograph.gif	731ba2df034beec5412f82879eec9392	drink 1 shot of nepenthe schnapps
+372	Flashing Eyes	bigeyes.gif	eaa0f2cd06a00116af53bd65177fdf4b	drink 1 white Xanadian
 373	Mmmmmelon	melon.gif	bd27dcbc85c224d16256b51a8ca02db5	eat 1 honey-dew
 374	Contagious Bad Luck	bmirror.gif	86bb1d1be1a84c4554906852f4273f90	use 1 bottle of black cat tonic
-375	Sparkling Consciousness	snowflakes.gif	a735ff0b16a7d7491c0dbb79c2e7895c
-376	Sneaky Serpentine Subtlety	snakehead.gif	1539b9172f5093b00da60bf5764477a6
-377	Adrenaline Rush	hoppeddown.gif	47a740988991d8f1ef1ab26e72ee2a86
+375	Sparkling Consciousness	snowflakes.gif	a735ff0b16a7d7491c0dbb79c2e7895c	#using sparkler on Dependence Day
+376	Sneaky Serpentine Subtlety	snakehead.gif	1539b9172f5093b00da60bf5764477a6	#using snake on Dependence Day
+377	Adrenaline Rush	hoppeddown.gif	47a740988991d8f1ef1ab26e72ee2a86	#using M-242 on Dependence Day
 378	Crusty Head	hippywig.gif	81b2fce49b337b3ef3c6a1b11d77c2df	use 1 tube of dread wax
 379	Florid Cheeks	henna.gif	c6eba521aa725f3dbd0a27ac95cabaab	use 1 henna face paint
 380
@@ -385,102 +385,102 @@
 384	Erudite	spectacles.gif	bf4f8342a8efe1d4c27054fa73ec1d7a	use 1 black sheepskin diploma
 385	Radiating Black Body&trade;	radiation.gif	3de3c7f145ae87e58ee391127ed697fd	use 1 Black Body&trade; spray
 386
-387	Duhhh	duncecap.gif	1a193e72ad6e010246f9c2174d831fc8
-388	Affronted Decency	angry.gif	5e24e5adb243a87b8511d58fa4af1efe
-389	Maid Disservice	skirt.gif	58a1a5cd7aaf097eaf8dec6f91d176b8
-390	Minioned	cuffs.gif	c434d018e751777925ec8957d9860aac
-391	Enhanced Archaeologist	cocobra.gif	ec61cf56f1ceb2a7aadceefb4e346f17
-392	Chronologically Pummeled	watch.gif	1b990437bdd4345f717b2a33d26a1571
-393	Animal Exploiter	reindeer.gif	d18158063a35b1914a3b7f1117e3648c
-394	Scent of a Kitchen Elf	houseelf.gif	6691b3cb35ed3188f393b95909e017a9
-395	Once Bitten, Twice Shy	teeth.gif	d5a2591989bb310c9f3fb8453b0bf4ee
-396	The Rage	angry.gif	1851096b46967124186f87a3a9f2bbf4
-397	Shamed &amp; Manipulated	blush.gif	02e465f136feb826854bd8493a9943e4
-398	Drummed Out	drum.gif	304469441fccda71b602573731342e4e
-399	Dreadlocked	hippywig.gif	e08a647c81c873f82505057ee2f50cc8
-400	Hornswaggled	eyepatch.gif	29e6abbdd1fcdeb7b4800827a379da9c
+387	Duhhh	duncecap.gif	1a193e72ad6e010246f9c2174d831fc8	#BM adv in Degrassi Knoll
+388	Affronted Decency	angry.gif	5e24e5adb243a87b8511d58fa4af1efe	#BM adv in Bat Hole Entryway
+389	Maid Disservice	skirt.gif	58a1a5cd7aaf097eaf8dec6f91d176b8	#BM adv in Whitey's Grove
+390	Minioned	cuffs.gif	c434d018e751777925ec8957d9860aac	#BM adv in Outskirts of Cobb's Knob
+391	Enhanced Archaeologist	cocobra.gif	ec61cf56f1ceb2a7aadceefb4e346f17	#BM adv in Haunted Pantry
+392	Chronologically Pummeled	watch.gif	1b990437bdd4345f717b2a33d26a1571	#BM adv in Sleazy Back Alley
+393	Animal Exploiter	reindeer.gif	d18158063a35b1914a3b7f1117e3648c	#BM adv in Cobb's Knob Treasury
+394	Scent of a Kitchen Elf	houseelf.gif	6691b3cb35ed3188f393b95909e017a9	#BM adv in Cobb's Knob Kitchens
+395	Once Bitten, Twice Shy	teeth.gif	d5a2591989bb310c9f3fb8453b0bf4ee	#BM adv in Cobb's Knob Harem
+396	The Rage	angry.gif	1851096b46967124186f87a3a9f2bbf4	#BM adv in Orcish Frat House
+397	Shamed &amp; Manipulated	blush.gif	02e465f136feb826854bd8493a9943e4	#BM adv in Orcish Frat House (disguised)
+398	Drummed Out	drum.gif	304469441fccda71b602573731342e4e	#BM adv in Hippy Camp (disguised)
+399	Dreadlocked	hippywig.gif	e08a647c81c873f82505057ee2f50cc8	#BM adv in Hippy Camp
+400	Hornswaggled	eyepatch.gif	29e6abbdd1fcdeb7b4800827a379da9c	#BM adv in Pirate's Cove
 401	Third Eye Blind	eyepatch.gif	ffce3a7c5e9897b1484a2e8c7ed6dd01
-402	The Vitus Virus	virus.gif	700d9925ed2b90dd1ae23928cbfabef9
-403	Your #1 Problem	footprints.gif	52d44b4d25aef7481e19083450ee0fdb
-404	Braaains	realbrain.gif	cef7b7b9bd69838c097f00f584106cf8
-405	Braaaaaains	realbrain.gif	4b54aa2a3caf4bf6dec36da0fc39f757
-406	Re-Possessed	stogie.gif	27e835ef2ee194eed4e43c64a8cf65ac
-407	Burning Heart	heartrock.gif	ab7ab0ba8a213f24649b9d0152c57cc3
-408	Frostbitten	snowflake.gif	f256c039b0ab68d2d48073a075e20563
-409	Freaked Out	hoppeddown.gif	0e5f80059469710470e31e21b2cc36fa
-410	Guanified	guano.gif	501a88560f04ec27628459a502f0cb0a
-411	Basted	slimed.gif	d07879d8d258769836c918f8dbd3d75d
-412	Raving Lunatic	hoppedup.gif	5cb64a8593bdf71300d242a39d06cac6
-413	Solar Flair	sun2.gif	f8cdfd0bd04d7c75528b6702756c738d
-414	Hyperbolic Hypothermia	snowflake.gif	ad8e3a50b1a28d810fc50a5b22c7ed9f
-415	Slimed	slimed.gif	c93be8b786d989c1a655e9721460e8bb
-416	Tar-Struck	blpudding.gif	44d5caa5c134dad2a5bce2caa126f6f9
-417	Greased	bacon.gif	6887f57ba64c592ab1ddf8f2af13e1f7
-418	Batigue	batwing.gif	5d68832346f34f355f71840c51fe01cb
-419	Cupshotten	snifter.gif	82541262be85f3bedec59f853d34392e
-420	Deep-Fried	cheesestaf.gif	c90fb985575f40b9a11a82e2089845ed
-421	Paw swap	hand.gif	dd95f891e82664665e5611eebe58777f
-422	Side Affectation	goofballs.gif	c4128e09aa945f3a0c2a248c44383748
-423	Shirtless in Seattle	wtee.gif	4c978713d382fd0854b873daaceecd93
-424	Scared Stiff	hoppeddown.gif	7e4c1c9a394dae1dbf7d99c44c5e9a89
-425	Midgetized	whitepix.gif	0cf9f537a2dda9b00815a52018fcd0d3
-426	Synthesized	stuffcocoa.gif	549804c10e37636d6be9045a142d6fe2
+402	The Vitus Virus	virus.gif	700d9925ed2b90dd1ae23928cbfabef9	#BM adv in Cobb's Knob Laboratory
+403	Your #1 Problem	footprints.gif	52d44b4d25aef7481e19083450ee0fdb	#BM adv in Haunted Bathroom
+404	Braaains	realbrain.gif	cef7b7b9bd69838c097f00f584106cf8	#BM adv in Misspelled Cemetary (pre-crypt)
+405	Braaaaaains	realbrain.gif	4b54aa2a3caf4bf6dec36da0fc39f757	#BM adv in Misspelled Cemetary (post-crypt)
+406	Re-Possessed	stogie.gif	27e835ef2ee194eed4e43c64a8cf65ac	#BM adv in Haunted Billiards Room
+407	Burning Heart	heartrock.gif	ab7ab0ba8a213f24649b9d0152c57cc3	#BM adv in Haunted Kitchen
+408	Frostbitten	snowflake.gif	f256c039b0ab68d2d48073a075e20563	#BM adv in Goatlet
+409	Freaked Out	hoppeddown.gif	0e5f80059469710470e31e21b2cc36fa	#BM adv in Haunted Library
+410	Guanified	guano.gif	501a88560f04ec27628459a502f0cb0a	#BM adv in Guano Junction
+411	Basted	slimed.gif	d07879d8d258769836c918f8dbd3d75d	#BM adv in Deep Fat Friar's Gate
+412	Raving Lunatic	hoppedup.gif	5cb64a8593bdf71300d242a39d06cac6	#BM adv in Castle in the Clouds
+413	Solar Flair	sun2.gif	f8cdfd0bd04d7c75528b6702756c738d	#BM adv in Oasis
+414	Hyperbolic Hypothermia	snowflake.gif	ad8e3a50b1a28d810fc50a5b22c7ed9f	#BM adv in Icy Peak
+415	Slimed	slimed.gif	c93be8b786d989c1a655e9721460e8bb	#BM adv in Haunted Ballroom
+416	Tar-Struck	blpudding.gif	44d5caa5c134dad2a5bce2caa126f6f9	#BM adv in Black Forest
+417	Greased	bacon.gif	6887f57ba64c592ab1ddf8f2af13e1f7	#BM adv in Hole in the Sky
+418	Batigue	batwing.gif	5d68832346f34f355f71840c51fe01cb	#BM adv in Beanbat Chamber
+419	Cupshotten	snifter.gif	82541262be85f3bedec59f853d34392e	#BM adv in Haunted Wine Cellar
+420	Deep-Fried	cheesestaf.gif	c90fb985575f40b9a11a82e2089845ed	#BM adv in Hidden City
+421	Paw swap	hand.gif	dd95f891e82664665e5611eebe58777f	#BM adv in Palindome
+422	Side Affectation	goofballs.gif	c4128e09aa945f3a0c2a248c44383748	#BM adv in Tower Ruins
+423	Shirtless in Seattle	wtee.gif	4c978713d382fd0854b873daaceecd93	#BM adv in Desert (hydrated)
+424	Scared Stiff	hoppeddown.gif	7e4c1c9a394dae1dbf7d99c44c5e9a89	#BM adv in Valley
+425	Midgetized	whitepix.gif	0cf9f537a2dda9b00815a52018fcd0d3	#BM adv in Inexplicable Door
+426	Synthesized	stuffcocoa.gif	549804c10e37636d6be9045a142d6fe2	#BM adv in Airship
 427	Hiding in Plain Sight	smallbush.gif	73b1d28fdca4f7e8f4d94d425a001720	use 1 panty raider camouflage
-428	Compensatory Cruelness	angry.gif	fcfb0679f0e80509cbff567a600ca998
+428	Compensatory Cruelness	angry.gif	fcfb0679f0e80509cbff567a600ca998	drink 1 cruelty-free wine
 429	Mutated	spooklines.gif	a8e35050197871d1fbe5b3afc865af7e	use 1 gremlin mutagen
 430	Seriously Mutated	spooklines.gif	dd78d480e08de5cc8e633202d699844f	use 1 Extra-potent gremlin mutagen
-431	Missing Kidney	kidney.gif	a3271a164706776e733cd78e060cb5e1
-432	Flared Nostrils	pupils.gif	a148b9106d6593dbec45dad76cedc163
-433	Easily Embarrassed	blush.gif	4b7988bd236d2b89dc8cbe162b697fa6
-434	All Covered In Whatsit	stench.gif	37acab3aa7b7cc31532cffb27ed5037e
-435	Beer in Your Shoes	footprints.gif	fb06ebe1f825ce046930e2630203969a
-436	Toad In The Hole	squashfrog.gif	b17642b2ee44782a692b2d7861b50ac0
-437	Strangulated	sad.gif	65e393732d2282a4a698417581c1e899
+431	Missing Kidney	kidney.gif	a3271a164706776e733cd78e060cb5e1	#BM adv in Spooky Forest
+432	Flared Nostrils	pupils.gif	a148b9106d6593dbec45dad76cedc163	#fighting War Hippy Elder Shaman
+433	Easily Embarrassed	blush.gif	4b7988bd236d2b89dc8cbe162b697fa6	#fighting War Frat Elite Wartender
+434	All Covered In Whatsit	stench.gif	37acab3aa7b7cc31532cffb27ed5037e	#fighting War Hippy Airborne Commander
+435	Beer in Your Shoes	footprints.gif	fb06ebe1f825ce046930e2630203969a	#fighting Elite Beer Bongadier
+436	Toad In The Hole	squashfrog.gif	b17642b2ee44782a692b2d7861b50ac0	#fighting Green Ops Soldier
+437	Strangulated	sad.gif	65e393732d2282a4a698417581c1e899	#fighting Panty Raider Frat Boy
 438	Ham-Fisted	ham.gif	a71e21c4a39a13558719fef8980422d4	use 1 jug of hamethyst juice
 439	Baconstoned	bacon.gif	8a3686b9ef4909ca99587bc6489008c4	use 1 jug of baconstone juice
 440	Je Ne Sais Porquoise	confused.gif	7a1d33bd3c697d55c26eb70a1845a5d5	use 1 jug of porquoise juice
-441	Fit To Be Tide	waves.gif	938dde0221273af2e2cefeafacddf498
-442	Preternatural Greed	meat.gif	77c8dcca272b5c6a62ff65ab673f09b8
-443	Big Flaming Whip	whip.gif	1b8e17da0f810cea79461e5346364d13
-444	Demonic Taint	stench.gif	2dbb492270ccad496291a6f7fdadde26
-445	Dang Near Cut In Half	axegash.gif	73b1728ec6c9c1491f2aa5ae7134cfaa
-446	Hella Tough	strboost.gif	1a46f0679200550d66cf30810ab7c47e
-447	Hella Smart	realbrain.gif	4972f34f7622eaa1fc8fd2ab6eb43f40
-448	Hella Smooth	roundglasses.gif	9fc2c05bd8dff7c2b3c5a27b56a0240f
-449	Omphaloskepsis	omphalo.gif	9c789511c3a5bcd6c13655cb5f4d375b
+441	Fit To Be Tide	waves.gif	938dde0221273af2e2cefeafacddf498	#Summoning Chamber
+442	Preternatural Greed	meat.gif	77c8dcca272b5c6a62ff65ab673f09b8	#Summoning Chamber
+443	Big Flaming Whip	whip.gif	1b8e17da0f810cea79461e5346364d13	#Summoning Chamber
+444	Demonic Taint	stench.gif	2dbb492270ccad496291a6f7fdadde26	#Summoning Chamber
+445	Dang Near Cut In Half	axegash.gif	73b1728ec6c9c1491f2aa5ae7134cfaa	#BM adv in Spooky Forest
+446	Hella Tough	strboost.gif	1a46f0679200550d66cf30810ab7c47e	styx muscle
+447	Hella Smart	realbrain.gif	4972f34f7622eaa1fc8fd2ab6eb43f40	styx mysticality
+448	Hella Smooth	roundglasses.gif	9fc2c05bd8dff7c2b3c5a27b56a0240f	styx moxie
+449	Omphaloskepsis	omphalo.gif	9c789511c3a5bcd6c13655cb5f4d375b	#wearing navel ring of navel gazing
 450	Charrrming	wink.gif	5f1cccc50fd9f7124867b7110b27d717	use 1 pirate pamphlet
 451	Muscularrr	strboost.gi	3c49e4ccef7d18c1b51cda40413c8e23	use 1 pirate brochure
 452	Carrrsmic	snowflakes.gif	39abf158d5a73480bd08f3d37356bc05	use 1 pirate tract
 453	A Revolution in Your Mouth	tongue.gif	f980e9f6cb3c094c27332dd99517654f	use 1 Steal This Candy
 454	Gelded	lucre.gif	f04d5879435447fa4717d3fb7cde357d	use 1 chocolate filthy lucre
-455	Super-Charged	frostshock.gif	2a012ff0883470d7af62bc684137613e
-456	Super-Mega-Charged	frostshock.gif	c6632d95825daf6cc8e917bb2fe08c5c
-457	Super-Mega-Ultra-Charged	frostshock.gif	6453a0ef9a908df38afa13ce882b9f48
-458	Super-Mega-Ultra-Hyper-Charged	frostshock.gif	af3d29996b0337fbf12e264d5cac21b4
-459	Brother Flying Burrito's Blessing	monkhead.gif	2b0cbdef1a8d80421d3e8a11de7276fd
-460	Brother Corsican's Blessing	monkhead.gif	b7d75d553a9181dff7dc88d0ab556628
-461	Brother Smothers's Blessing	monkhead.gif	d75aaa2cc6a8dcfa7cdddef658968e26
+455	Super-Charged	frostshock.gif	2a012ff0883470d7af62bc684137613e	#Gnomitronic Hyperspatial Demodulizer
+456	Super-Mega-Charged	frostshock.gif	c6632d95825daf6cc8e917bb2fe08c5c	#Gnomitronic Hyperspatial Demodulizer
+457	Super-Mega-Ultra-Charged	frostshock.gif	6453a0ef9a908df38afa13ce882b9f48	#Gnomitronic Hyperspatial Demodulizer
+458	Super-Mega-Ultra-Hyper-Charged	frostshock.gif	af3d29996b0337fbf12e264d5cac21b4	#Gnomitronic Hyperspatial Demodulizer
+459	Brother Flying Burrito's Blessing	monkhead.gif	2b0cbdef1a8d80421d3e8a11de7276fd	friars food
+460	Brother Corsican's Blessing	monkhead.gif	b7d75d553a9181dff7dc88d0ab556628	friars familiar
+461	Brother Smothers's Blessing	monkhead.gif	d75aaa2cc6a8dcfa7cdddef658968e26	friars booze
 462	Well-Swabbed Ear	shinyear.gif	80c60457c476244ab31f21377fec1b27	use 1 Swabbie&trade; swab
 463	Well-Oiled	balm.gif	60036c9c3bbf193e3f3fc7051ec66aa7	use 1 Oil of Parrrlay
 464	Truly Gritty	disease.gif	8247e2389bb1ad99d1c5d12db1ed8f8f	use 1 true grit
 465	Soul-Crushing Headache	realbrain.gif	c0b5d125cc3e5d611e76146ee18b802a	use 1 all-purpose cleaner
 466	Savage Beast Inside	lycan.gif	79e27820ccb7f957271ccae45dabfec3	use 1 jar of &quot;Creole Lady&quot; marrrmalade
-467	Curse of the Black Pearl Onion	pearlonion.gif	05bd2e9a51c82b6aae3b5d9fa3cd89cb
+467	Curse of the Black Pearl Onion	pearlonion.gif	05bd2e9a51c82b6aae3b5d9fa3cd89cb	eat 1 cursed black pearl onion
 468	Fishy Fortification	fish.gif	c5e882290f065b068304245b7d79ceee	use 1 fish-liver oil
-469	Cybernetic Muscles	strboost.gif	4bff7d1f60535beb8220383e6d0d7381
-470	Neuromancy	realbrain.gif	efce075a51174b54c250be1f6cde64fa
-471	Can Has Cyborger	tinykitty.gif	898ea611ee833bd133e04b393203e416
-472	Curse Magnet	magnet.gif	9fd16eaa10734b8a2ec863c3a8dcb2f3
+469	Cybernetic Muscles	strboost.gif	4bff7d1f60535beb8220383e6d0d7381	#Crimbo P.R.E.S.S.I.E.
+470	Neuromancy	realbrain.gif	efce075a51174b54c250be1f6cde64fa	#Crimbo P.R.E.S.S.I.E.
+471	Can Has Cyborger	tinykitty.gif	898ea611ee833bd133e04b393203e416	#Crimbo P.R.E.S.S.I.E.
+472	Curse Magnet	magnet.gif	9fd16eaa10734b8a2ec863c3a8dcb2f3	#cursed sea biscuit or bottle of black-label rum
 473	Heart of Black	blackheart.gif	e2581a97190380f369765dc64a331f2e	use 1 black candy heart
 474	Tinnitus	humanears.gif	b32be9b2066524eac19a2047e30949a8	use 1 cymbal syrup
 475
-476	Fastbreaker	egg.gif	26b63167bac613555243adf35c9ef58e
-477	Afternoon Insight	snowflakes.gif	8e7a70c89d678195f247989106e68eb2
-478	Fancy Feasted	monocle.gif	c7c091c77690a7e032874840412e3b17
-479	Chock Full o' Nanites	disease.gif	01d86c4d48b69892609d2465725401c3
+476	Fastbreaker	egg.gif	26b63167bac613555243adf35c9ef58e	#vitachoconutriment capsule
+477	Afternoon Insight	snowflakes.gif	8e7a70c89d678195f247989106e68eb2	#vitachoconutriment capsule
+478	Fancy Feasted	monocle.gif	c7c091c77690a7e032874840412e3b17	#vitachoconutriment capsule
+479	Chock Full o' Nanites	disease.gif	01d86c4d48b69892609d2465725401c3	#nanite-infested items
 480	The Spirit of Crimbo	happy.gif	580764ad51eaf4541322b61d91c5bc74
-481	Mallowed Out	roastmallow.gif	1f7d77ed2bed543ff97b5e539aa490e9
-482	Fitter, Happier	drone1.gif	cbb07636ac67293a88827364a955d84d
+481	Mallowed Out	roastmallow.gif	1f7d77ed2bed543ff97b5e539aa490e9	eat 1 roasted marshmallow
+482	Fitter, Happier	drone1.gif	cbb07636ac67293a88827364a955d84d	#bizarre construct: BUFF TARGET
 483
 484
 485
@@ -488,34 +488,34 @@
 487	Well-preserved	drone3.gif	ba7b40665f789b6ffa055e2ad316263c	use 1 warm El Vibrato drone
 488
 489	Inscrutable exoskeleton	drone5.gif	c281cb24d6830c8c01ecf4b8d28adff6	use 1 glowing El Vibrato drone
-490	Heavily Breathing	poolduck.gif	6871f3ff1a73bac71198e69ff813a4fe
-491	Marco Polarity	poolwings.gif	41324219854e4f2f933dcab7b4ec9f33
-492	Full-Body Tan	poolnoodle.gif	9e9e34acd26db8edf192802379003b58
-493	Feet of Watermelon	watermelon.gif	45f268386d3756bb92544461749218a9
-494	Feet of Grapefruit	grapefruit.gif	55f1e24b47a0245cefb1567f9b0d0dc7
-495	Feet of Strawberry	sberry.gif	4d6f74f401bfbfa64d642dcc9d926856
-496	Less Vincible	blacklight.gif	6dfbce143dbccccf5403bbd58be86326
-497	In Tuna	lamprey.gif	af8e953e80a6eed6910a7836f1cb65d6
-498	Nerf'd	nerfdart.gif	ac71a37dd7aa84f5c0ea96a0ec07d7bf
-499	Stuck-Up Hair	stuckuphair.gif	59810e3f174754ba0a344c28cbb736a4
-500
-501
-502
-503	Trepandation	plothole.gif	351388e013020a8a6903b73814fec155
-504	Educated (Kinda)	eyes.gif	93e8854157c14c46a1b27daa27f1350e
-505	Educated (Sorta)	eyes.gif	8fe585ee3e637b86651ead4dad5c446d
-506	It Didn't Kill You	strboost.gif	31c3f8589619686bc3b0dd16f5094dd8
-507	The Sweats	stench.gif	589d1f03440b93d85f80fe6b3b4653d1
-508	Hooked Up	jigawatts.gif	4b571247a84c748457f1542e7869d413
+490	Heavily Breathing	poolduck.gif	6871f3ff1a73bac71198e69ff813a4fe	#swimming with inflatable duck
+491	Marco Polarity	poolwings.gif	41324219854e4f2f933dcab7b4ec9f33	#swimming with water wings
+492	Full-Body Tan	poolnoodle.gif	9e9e34acd26db8edf192802379003b58	#swimming with foam noodle
+493	Feet of Watermelon	watermelon.gif	45f268386d3756bb92544461749218a9	#flavored foot massage oil
+494	Feet of Grapefruit	grapefruit.gif	55f1e24b47a0245cefb1567f9b0d0dc7	#flavored foot massage oil
+495	Feet of Strawberry	sberry.gif	4d6f74f401bfbfa64d642dcc9d926856	#flavored foot massage oil
+496	Less Vincible	blacklight.gif	6dfbce143dbccccf5403bbd58be86326	#resting with black-and-blue light
+497	In Tuna	lamprey.gif	af8e953e80a6eed6910a7836f1cb65d6	#resting with Loudmouth Larry Lamprey
+498	Nerf'd	nerfdart.gif	ac71a37dd7aa84f5c0ea96a0ec07d7bf	#foam dart
+499	Stuck-Up Hair	stuckuphair.gif	59810e3f174754ba0a344c28cbb736a4	#resting with blue plasma ball
+500	O Hai!	catears.gif	3d8c2b6d2b47fa3962caf10750f15dc6	#wearing metallic foil cat ears
+501	Healthy Bronze Glow	reallytan.gif	e6d7b93edd98804b79cbee1a183cd10b	#Hobo Marketplace tanning salon
+502	Chalky White Pallor	paleface.gif	6ece19d0feb0b1e19dd71c8291ae5355	#Hobo Marketplace tanning salon
+503	Trepandation	plothole.gif	351388e013020a8a6903b73814fec155	#Hobo Marketplace
+504	Educated (Kinda)	eyes.gif	93e8854157c14c46a1b27daa27f1350e	#Hobo Marketplace horror movie
+505	Educated (Sorta)	eyes.gif	8fe585ee3e637b86651ead4dad5c446d	#Hobo Marketplace ...other movie
+506	It Didn't Kill You	strboost.gif	31c3f8589619686bc3b0dd16f5094dd8	#Hobo Marketplace weightlifting
+507	The Sweats	stench.gif	589d1f03440b93d85f80fe6b3b4653d1	#Hobo Marketplace sauna
+508	Hooked Up	jigawatts.gif	4b571247a84c748457f1542e7869d413	#Hobo Marketplace
 509	Form of...Cockroach!	cockroach.gif	459de8ac00071b081dd20a98aee7f607	gong roach
 510	Shape of...Mole!	mole.gif	aa5dbfa1d618e2f5b0e863cca3d03f1f	gong mole
 511	Form of...Bird!	wings.gif	01d6a588ff3e955170d2a9d6e74cec81	gong bird
-512	Cravin' for a Ravin'	glowstick.gif	f6ddd199f57ddb8c6c74e4595c96c6d1
-513	Arcane in the Brain	realbrain.gif	31f972b82e758a2cd28d0270070d5bcb
+512	Cravin' for a Ravin'	glowstick.gif	f6ddd199f57ddb8c6c74e4595c96c6d1	#adv in Mt. Molehill
+513	Arcane in the Brain	realbrain.gif	31f972b82e758a2cd28d0270070d5bcb	#adv in Mt. Molehill
 514	Weather, Man	raincloud.gif	f3a57418f275cfaaa0bc69b24eb3dd61	use 1 Climate Colada
-515	Bureaucratized	documents.gif	f3082aab058258f4c69f38b1336c93f8
-516	Liquid Courage	raindrop.gif	f5ed76217a884b3c52c05e6c4484f855
-517	Extra Terrestrial	bigrock.gif	4f44d9eb8922fc512a4b10480e278323
+515	Bureaucratized	documents.gif	f3082aab058258f4c69f38b1336c93f8	#adv in Mt. Molehill
+516	Liquid Courage	raindrop.gif	f5ed76217a884b3c52c05e6c4484f855	#adv in Mt. Molehill
+517	Extra Terrestrial	bigrock.gif	4f44d9eb8922fc512a4b10480e278323	#adv in Mt. Molehill
 518	Digitally Converted	10101.gif	a5ce881631fcf7c7d0978b06c4999db8	use 1 digital underground potion
 519	Radiant Personality	frostshock.gif	be2f929df46d63924049628a0efcb854	gong roach moxie
 520	Alchemical, Brother	potion2.gif	1dc8613ec51512efb78de20709bb88c0	gong roach mysticality
@@ -535,7 +535,7 @@
 534	Prelude of Precision	prelude.gif	3f442b411c8d73c4116db7b89669b852	cast 1 Prelude of Precision
 535	Deadly Lampblade	blacksword.gif	32cfd91b38e4cfd44a05d368aec7cf48	use 1 deadly lampshade
 536	Drenched With Filth	blooddrops.gif	0bae503909ac0e2a21763466adf33d29	use 1 concentrated garbage juice
-537	Hobonic	hobohead.gif	1a4b9db2f98937c155609f54c14cdf7c
+537	Hobonic	hobohead.gif	1a4b9db2f98937c155609f54c14cdf7c	#resting in Hobo Fortress
 538	Crotchety, Pining	pineneedles.gif	a03720e54550e5757e0e8107c6f842bc	use 1 handful of Crotchety Pine needles
 539	Barking Mad	bark2.gif	791ca1dd8ab96e6f5b302f91bd29ce4a	use 1 handful of Laughing Willow bark
 540	Artificially Sweet	salsaball.gif	14ada94dafeb23efe1b204d9e7772158	use 1 lump of Saccharine Maple sap
@@ -545,9 +545,9 @@
 544	Cholestoriffic	hob-o.gif	13f479e8387e527aaeb7d95f087d6dfd	use 1 fry-oil-flavored Hob-O
 545	Refuse Reflux	hob-o.gif	3d5c6b7bd5ab7dc8dc4efc85f8d20548	use 1 garbage-juice-flavored Hob-O
 546	Scariberi	hob-o.gif	20d098090ca8f63f8243f081d3e085e6	use 1 strawberry-flavored Hob-O
-547
-548	Haiku State of Mind	nopic2.gif	664ce35d26fbd678641624e892feb31d
-549	Fishy	fish.gif	17c22c50b2943cf6162d2c001e01cad3
+547	Less Pervious	wallshield.gif	657b63025b771054cdceeb9f427e605f	use 1 STYX deodorant body spray
+548	Haiku State of Mind	nopic2.gif	664ce35d26fbd678641624e892feb31d	#using The 17 Cuts combat skill
+549	Fishy	fish.gif	17c22c50b2943cf6162d2c001e01cad3	#eating fish meat or sushi
 550	Cranberry Cordiality	cran.gif	f3f908946ea0a80e40d92e7db920e77d	use 1 cranberry cordial
 551	Blackberry Politeness	blackberry.gif	192d4ba46ffe2402b2ff321bafa2db43	use 1 blackberry polite
 552	The Halls of Muscularity	candy.gif	6353bc586daa8659628f66fb772dd8ea	use 1 plum lozenge
@@ -572,7 +572,7 @@
 571
 572
 573
-574	Festive Radiation	radiation.gif	e5a8d675772cc484709f8905c98cad3c
+574	Festive Radiation	radiation.gif	e5a8d675772cc484709f8905c98cad3c	#oozenog, gingerbread mutant bugbear, or irradiated candy cane
 575	Sweet and Yellow	sugarbanana.gif	942780e5b1c9e30d3ec506b2835f8951	use 1 sugar banana
 576	Sweet and Green	sugarlime.gif	4b1ee51d04f250ffe112377e889e0059	use 1 sugar lime
 577	Sweet and Red	sugarcherry.gif	8d6bb82952a477356a26c91b5642a51d	use 1 sugar cherry
@@ -582,14 +582,14 @@
 581	Amorphous Cheer	blobcookie.gif	c231efaf4c038ee84154112b4796e099	eat 1 blob-shaped Crimbo cookie
 582	In Vino Vires	grapes.gif	f2406fa59f6076fa20ed17d6f45c177f	drink 1 canteen of wine
 583	Yuletide Industry	limboswafer.gif	0d1f6ff4bf9945933408bc6f311b1f31	eat 1 elven <i>limbos</i> gingerbread
-584	The Colors...		53452a728619fde70e097526f7e560fe
+584	The Colors...		53452a728619fde70e097526f7e560fe	#fighting magic dragonfish
 585	Jammin'	jamtoast.gif	ab3170899e6d22313b8507ceb499c7e3	eat 1 toast with jam
 586	Drunk With Power	moon4.gif	b2a15cf693cf363a637c8af66666db63	drink 1 elven moonshine
 587	Cruisin' for a Bruisin'	beatenup.gif	711efb04706e595abc96fdd2dba9e737	eat 1 knuckle sandwich
-588	Crimbo Nostalgia	scook3.gif	be14674a5367afafdeb370c2d97889dc
-589	Quivering with Rage	angry.gif	c63a6e26c9843c2be0c8833be87a0fe9
-590	Apoplectic with Rage	angry.gif	f3c81d0dd6a00f9a6460d678dccfc72a
-591	Dizzy with Rage	angry.gif	7b330916f0ba1d13c23803b54ddb5776
+588	Crimbo Nostalgia	scook3.gif	be14674a5367afafdeb370c2d97889dc	#can of franks 'n' beans or bottle of peppermint schnapps
+589	Quivering with Rage	angry.gif	c63a6e26c9843c2be0c8833be87a0fe9	#Vent Rage Gland
+590	Apoplectic with Rage	angry.gif	f3c81d0dd6a00f9a6460d678dccfc72a	#Vent Rage Gland
+591	Dizzy with Rage	angry.gif	7b330916f0ba1d13c23803b54ddb5776	#Vent Rage Gland
 592	Puissant Pressure	potion14.gif	7509692416f131a7b0e5ee5a6d3c3ca1	use 1 pressurized potion of puissance
 593	Perspicacious Pressure	potion10.gif	d67ba800f80120434424f4b2b1941d5f	use 1 pressurized potion of perspicacity
 594	Pulchritudinous Pressure	potion14.gif	fa7497adb007a9437432b2bd3a56e9d2	use 1 pressurized potion of pulchritude
@@ -601,7 +601,7 @@
 600
 601
 602
-603	Snobby	record.gif	e2ba309cc4593ddeadda88b994368876
+603	Snobby	record.gif	e2ba309cc4593ddeadda88b994368876	#critical hit with 7-inch discus
 604	Smokin'	dough.gif	b2f50822673d00c4c1b77d3ec4b11752	use 1 cheap cigar butt
 605	Salty Mouth	breath.gif	e26513c9556b32693ef0055ff8ebe480	eat 1 packet of beer nuts
 606	Broken Heart	heart.gif	6360c4c89624ebd89f453b7b3b668b59	use 1 love song of vague ambiguity
@@ -624,43 +624,42 @@
 623	Really Deep Breath	lung.gif	9b9dee30c980dce984ac9fe98836aaa8	use 1 hyperinflated seal lung
 624	Scrappy, Shadowy	lmask.gif	989ff1379e0d7f1f8f3452770fd6e48e	use 1 scrap of shadow
 625	Grulched	grulch.gif	912eba457b36763732a38a50f8299ba8	use 1 fustulent seal grulch
-626	Billiards Belligerence	2ball.gif	0bc328cead1daf748aeee4b4d5d4545a
-627	Mental A-cue-ity	9ball.gif	1829f131d831dace601cd8b5c98263f3
-628	Hustlin'	8ball.gif	e0d75ad666dc7129cde81073d073baef
+626	Billiards Belligerence	2ball.gif	0bc328cead1daf748aeee4b4d5d4545a	#VIP pool table (aggressive)
+627	Mental A-cue-ity	9ball.gif	1829f131d831dace601cd8b5c98263f3	#VIP pool table (strategic)
+628	Hustlin'	8ball.gif	e0d75ad666dc7129cde81073d073baef	#VIP pool table (stylish)
 629	Chalked Weapon	billiardschalk.gif	2300c913a0bcf689c92d64629df0abe1	use 1 cube of billiard chalk
 630	Sizzling with Fury	angry.gif	849b3898a4f06be783b66570f515de50	use 1 sizzling seal fat
 631	Cold Hard Skin	hskin.gif	23235e424a824750da885f9d1f624a28	use 1 frost-rimed seal hide
 632	Lubed	sebashield.gif	084149535b6e6a9bc44030f94fe49f8f	use 1 seal lube
-633	Coated in Slime	slimecovered.gif	15f23d1ef123679d49e02d67b43e5e81
-634	Oxygenated Blood	oxyblood.gif	7847689754dd113e2c566c7a786a66e5
-635	Memory of Strength	mem_str.gif	3ccea0fe19108dcb6cdb1d00f2737889
-636	Memory of Smarts	mem_mag.gif	87283d37db5eb8df54d3300b90e2f720
-637	Memory of Attractiveness	mem_mox.gif	30e1b787bf2be595b322a1ea31b4dd34
-638	Memory of Speed	mem_spd.gif	810541ab9f739508014e82cbed33b36c
-639	Memory of Aggressiveness	mem_agg.gif	f31645a713dd22c332a9ba90da9d60f1
-640	Memory of Resilience	mem_res.gif	226bdb08cd448b56097b87754a4c543d
+633	Coated in Slime	slimecovered.gif	15f23d1ef123679d49e02d67b43e5e81	#adv in Slime Tube
+634	Oxygenated Blood	oxyblood.gif	7847689754dd113e2c566c7a786a66e5	use 1 ballast turtle
+635	Memory of Strength	mem_str.gif	3ccea0fe19108dcb6cdb1d00f2737889	#using CA base pair in combat
+636	Memory of Smarts	mem_mag.gif	87283d37db5eb8df54d3300b90e2f720	#using CG base pair in combat
+637	Memory of Attractiveness	mem_mox.gif	30e1b787bf2be595b322a1ea31b4dd34	#using CT base pair in combat
+638	Memory of Speed	mem_spd.gif	810541ab9f739508014e82cbed33b36c	#using AG base pair in combat
+639	Memory of Aggressiveness	mem_agg.gif	f31645a713dd22c332a9ba90da9d60f1	#using AT base pair in combat
+640	Memory of Resilience	mem_res.gif	226bdb08cd448b56097b87754a4c543d	#using GT base pair in combat
 641	Grimace	hernia.gif	e4f1112898cf840ef868a6833fde9f69	eat 1 slimy sweetbreads
 642	Bilious	angry.gif	abe97593a0f3b79395f10a45d782d6fd	drink 1 slimy fermented bile bladder
 643	Slimebreath	breath.gif	02cbec5ae667b2b427d86363b7b7cc63	use 1 slimy alveolus
-644	Serenity	snowflakes.gif	f76cecbb61243d7dd7425fec99082980
-645	Phairly Pheromonal	stench.gif	6e0ad7f808c7e80f85b1920c7e94b3e2
-646	Nano-juiced	strboost.gif	21f5a7cc7499b3e93f8da7c8e7bb2746
-647	Dance Interpreter	dance1.gif	a696da11c9bbfe03bf186e0971b58941
-648	Meatwise	meat.gif	1d35d527ffeb6a8be406cd7878efed00
-649	In the Saucestream	saucestream.gif	e8501af209e0262f8655d40e273c5f47
+644	Serenity	snowflakes.gif	f76cecbb61243d7dd7425fec99082980	#adv in Seaside Megalopolis
+645	Phairly Pheromonal	stench.gif	6e0ad7f808c7e80f85b1920c7e94b3e2	#adv in Seaside Megalopolis
+646	Nano-juiced	strboost.gif	21f5a7cc7499b3e93f8da7c8e7bb2746	#adv in Seaside Megalopolis
+647	Dance Interpreter	dance1.gif	a696da11c9bbfe03bf186e0971b58941	#adv in Seaside Megalopolis
+648	Meatwise	meat.gif	1d35d527ffeb6a8be406cd7878efed00	#adv in Seaside Megalopolis
+649	In the Saucestream	saucestream.gif	e8501af209e0262f8655d40e273c5f47	#adv in Seaside Megalopolis
 650	Stimulated Brain	realbrain.gif	1c0167101ac3939ac0bca1d271f07262	use 1 neurostim pill
 651	Stimulated Body	swarmer.gif	b9c435f279d09dbe1719bd935cf85020	use 1 physiostim pill
 652
 653	Bitterskin	bitterskin.gif	d94d955ab2d6b053c25ca2e567b6bbfa	use 1 bitter pill
-654	Mighty Shout	breath.gif	6526584640bf272feded10f8963ce523
+654	Mighty Shout	breath.gif	6526584640bf272feded10f8963ce523	#using Mighty Shout combat skill
 655	Pasty	proteintube.gif	950efe4d4bc5f179cfa4b911e1764dab	eat 1 protein paste
 656
 657	Shamboozled	chamflute.gif	a59ae4860da9d7bed64bbf4b7f0fa7eb	drink 1 sham champagne
 658	Pumped Stomach	stomach.gif	475fc219b93c4205c4b42e7e68b75994	use 1 tempura air
 659	Pneumatic	airpotion.gif	b8c0560ec4b89793eeb5b78c6acba0f3	use 1 pressurized potion of pneumaticity
 660
-661	Badger Underfoot	badgerface.gif	85753ce320682b7a71402f51df847d1f
-662	Weasels Underfoot	ferrets.gif	adfc2711ba70e48e892eaa317211e144
-663	Chihuahua Underfoot	chihuahua.gif	4c57e8de78fd8da06746b11888d30d6b
-
+661	Badger Underfoot	badgerface.gif	85753ce320682b7a71402f51df847d1f	#Bag o' Tricks
+662	Weasels Underfoot	ferrets.gif	adfc2711ba70e48e892eaa317211e144	#Bag o' Tricks
+663	Chihuahua Underfoot	chihuahua.gif	4c57e8de78fd8da06746b11888d30d6b	#Bag o' Tricks
 664	5 Pounds Lighter	whitebal.gif	8bf7bb7334647886110cc3480261237b	use 1 floaty sand
