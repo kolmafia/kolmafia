@@ -47,6 +47,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.SpecialOutfit;
+import net.sourceforge.kolmafia.Speculation;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -462,12 +463,26 @@ public class UseSkillRequest
 	private static final boolean isValidSwitch( final int slotId )
 	{
 		AdventureResult item = EquipmentManager.getEquipment( slotId );
+		if ( item.equals( EquipmentRequest.UNEQUIP ) ) return true;
+		
 		for ( int i = 0; i < UseSkillRequest.AVOID_REMOVAL.length; ++i )
 		{
 			if ( item.equals( UseSkillRequest.AVOID_REMOVAL[ i ] ) )
 			{
 				return false;
 			}
+		}
+		
+		Speculation spec = new Speculation();
+		spec.equip( slotId, EquipmentRequest.UNEQUIP );
+		int[] predictions = spec.calculate().predict();
+		if ( KoLCharacter.getCurrentMP() > predictions[ Modifiers.BUFFED_MP ] )
+		{
+			return false;
+		}
+		if ( KoLCharacter.getCurrentHP() > predictions[ Modifiers.BUFFED_HP ] )
+		{
+			return false;
 		}
 
 		return true;
@@ -512,13 +527,6 @@ public class UseSkillRequest
 			return;
 		}
 
-		// First determine which slots are available for switching in
-		// MP reduction items.
-
-		boolean slot1Allowed = UseSkillRequest.isValidSwitch( EquipmentManager.ACCESSORY1 );
-		boolean slot2Allowed = UseSkillRequest.isValidSwitch( EquipmentManager.ACCESSORY2 );
-		boolean slot3Allowed = UseSkillRequest.isValidSwitch( EquipmentManager.ACCESSORY3 );
-
 		// Best switch is a PLEXI_WATCH, since it's a guaranteed -3 to
 		// spell cost.
 
@@ -535,23 +543,22 @@ public class UseSkillRequest
 				continue;
 			}
 
-			switch ( UseSkillRequest.attemptSwitch(
-				skillId, UseSkillRequest.AVOID_REMOVAL[ i ], slot1Allowed, slot2Allowed, slot3Allowed ) )
-			{
-			case EquipmentManager.ACCESSORY1:
-				slot1Allowed = false;
-				break;
-			case EquipmentManager.ACCESSORY2:
-				slot2Allowed = false;
-				break;
-			case EquipmentManager.ACCESSORY3:
-				slot3Allowed = false;
-				break;
-			}
+			// First determine which slots are available for switching in
+			// MP reduction items.  This has do be done inside the loop now
+			// that max HP/MP prediction is done, since two changes that are
+			// individually harmless might add up to a loss of points.
+	
+			boolean slot1Allowed = UseSkillRequest.isValidSwitch( EquipmentManager.ACCESSORY1 );
+			boolean slot2Allowed = UseSkillRequest.isValidSwitch( EquipmentManager.ACCESSORY2 );
+			boolean slot3Allowed = UseSkillRequest.isValidSwitch( EquipmentManager.ACCESSORY3 );
+	
+			UseSkillRequest.attemptSwitch(
+				skillId, UseSkillRequest.AVOID_REMOVAL[ i ], slot1Allowed, slot2Allowed, slot3Allowed );
 		}
 		
 		if ( UseSkillRequest.canSwitchToItem( UseSkillRequest.WIZARD_HAT ) &&
-			!KoLCharacter.hasEquipped( UseSkillRequest.BRIM_BERET ) )
+			!KoLCharacter.hasEquipped( UseSkillRequest.BRIM_BERET ) &&
+			UseSkillRequest.isValidSwitch( EquipmentManager.HAT ) )
 		{
 			( new EquipmentRequest( UseSkillRequest.WIZARD_HAT, EquipmentManager.HAT ) ).run();
 		}
@@ -559,11 +566,7 @@ public class UseSkillRequest
 
 	public static final int songLimit()
 	{
-		if ( KoLCharacter.hasEquipped( UseSkillRequest.PLEXI_PENDANT ) || KoLCharacter.hasEquipped( UseSkillRequest.BRIM_BERET ) )
-		{
-			return 4;
-		}
-		return 3;
+		return KoLCharacter.currentBooleanModifier( Modifiers.FOUR_SONGS ) ? 4 : 3;
 	}
 
 	public void run()

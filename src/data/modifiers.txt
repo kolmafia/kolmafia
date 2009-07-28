@@ -42,8 +42,7 @@
 
 Ancient Saucehelm	Mysticality: +7, Class: "Sauceror", Familiar Effect: "3xGhuol, cap 12"
 Baron von Ratsworth's tophat	Moxie: +5, Muscle: +5, Mysticality: +5, Familiar Effect: "1xPotato, 3xGhuol, cap 18"
-# Brimstone Beret: Allows you to keep 4 songs in your head instead of 3.
-Brimstone Beret	Moxie Percent: +50, Muscle Percent: -20, Brimstone, Familiar Effect: "1xVolley, 1xLep"
+Brimstone Beret	Moxie Percent: +50, Muscle Percent: -20, Four Songs, Brimstone, Familiar Effect: "1xVolley, 1xLep"
 # Cerebral Cloche: Jellyfish Vision
 Cerebral Cloche	Maximum MP: +15, Familiar Effect: "1.5xLep, cap 22"
 Cloaca-Cola helmet	Damage Absorption: +10, Familiar Effect: "3xFairy, cap 7"
@@ -74,8 +73,7 @@ Radio Free Baseball Cap	Intrinsic Effect: "Radio Head", Familiar Effect: "1xLep,
 Scalp of Gorgolok	Muscle: +7, Class: "Seal Clubber", Familiar Effect: "3xGhuol, cap 12"
 Seasonal Beret	Muscle Percent: [+5*G], Mysticality Percent: [+5*G], Moxie Percent: [+5*G], Familiar Effect: "1xPotato, ?xFairy, cap 25"
 Snow Queen Crown	Cold Damage: +5, Cold Resistance: +3, Familiar Effect: "cold atk, 1xGhuol, cap 28"
-# Sombrero De Vida: Allows you to keep 4 songs in your head instead of 3.
-# Sombrero De Vida
+Sombrero De Vida	Four Songs
 Spooky Putty mitre	Experience: +3, Softcore Only, Familiar Effect: "1.5xLep, 1.5xFairy, cap 25"
 Tropical Crimbo Hat	Spooky Resistance: +1, Familiar Effect: "1xLep, 1.5xFairy, cap 25"
 Zombo's skullcap	Muscle Percent: +20, Familiar Weight: +10, Class: "Turtle Tamer", Familiar Effect: "spooky atk"
@@ -1211,8 +1209,7 @@ Red Balloon of Valor	Muscle: +5, Mysticality: +5, Moxie: +5, Item Drop: +11, Sin
 Ring of Fire	Muscle: +3, Mysticality: +3, Moxie: +3, Hot Damage: +40, Single Equip
 Ring of the Sewer Snake	Muscle: +3, Mysticality: +3, Moxie: +3, Stench Damage: +40, Single Equip
 Saccharine Maple pendant	Maximum HP: +20, Maximum MP: +20
-# Scandalously Skimpy Bikini: Allows you to keep 4 songs in your head instead of 3.
-Scandalously Skimpy Bikini	Single Equip
+Scandalously Skimpy Bikini	Four Songs, Single Equip
 Senior LAAAAME merit badge	Muscle: +3, Mysticality: +3, Moxie: +3
 Slow Talkin' Elliot's dogtags	Muscle: +30, Initiative: -30
 Sneaky Pete's breath spray	Moxie: +10
@@ -1391,8 +1388,7 @@ pig-iron bracers	Mysticality: +8, Spell Damage: +10, Single Equip
 pink glowstick	Maximum MP: +5, Moxie: -3
 pink plastic baby	Maximum HP: +5, Maximum MP: +5, Single Equip
 pirate fledges	Muscle: +7, Mysticality: +7, Moxie: +7
-# plexiglass pendant: Allows you to keep 4 songs in your head instead of 3.
-plexiglass pendant	Never Fumble, Moxie Percent: +30, Single Equip
+plexiglass pendant	Never Fumble, Moxie Percent: +30, Four Songs, Single Equip
 plexiglass pinky ring	Spell Damage: +30, Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, Mysticality Percent: +30, Single Equip
 plexiglass pocketwatch	Mana Cost: -3, Adventures: +3, Mysticality Percent: +30, Single Equip
 polka-dot bow tie	Moxie: +3, Clownosity: +2

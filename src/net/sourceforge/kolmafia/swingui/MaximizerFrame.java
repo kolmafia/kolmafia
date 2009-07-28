@@ -76,6 +76,7 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
+import net.sourceforge.kolmafia.Speculation;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -1393,43 +1394,16 @@ public class MaximizerFrame
 	}
 	
 	private static class Spec
+	extends Speculation
 	implements Comparable, Cloneable
 	{
-		private int MCD;
-		public AdventureResult[] equipment;
-		private ArrayList effects;
-		private FamiliarData familiar;
-		private boolean calculated = false;
-		private boolean tiebreakered = false;
 		private boolean scored = false;
-		private Modifiers mods;
+		private boolean tiebreakered = false;
 		private float score, tiebreaker;
 		private int simplicity;
 		
 		public boolean failed = false;
 		public AdventureResult attachment;
-		
-		public Spec()
-		{
-			this.MCD = KoLCharacter.getMindControlLevel();
-			this.equipment = EquipmentManager.allEquipment();			
-			this.effects = new ArrayList();
-			this.effects.addAll( KoLConstants.activeEffects );
-			while ( this.effects.size() > 0 )
-			{	// Strip out intrinsic effects - those granted by equipment
-				// will be added from Intrinsic Effect modifiers.
-				// This assumes that no intrinsic that is granted by anything
-				// other than equipment has any real effect.
-				int pos = this.effects.size() - 1;
-				if ( ((AdventureResult) this.effects.get( pos )).getCount() >
-					Integer.MAX_VALUE / 2 )
-				{
-					this.effects.remove( pos );
-				}
-				else break;
-			}
-			this.familiar = KoLCharacter.currentFamiliar;
-		}
 		
 		public Object clone()
 		{
@@ -1454,45 +1428,6 @@ public class MaximizerFrame
 			return super.toString();
 		}
 		
-		public void setMindControlLevel( int MCD )
-		{
-			this.MCD = MCD;
-		}
-		
-		public void equip( int slot, AdventureResult item )
-		{
-			if ( slot < 0 || slot >= EquipmentManager.ALL_SLOTS ) return;
-			this.equipment[ slot ] = item;
-			if ( slot == EquipmentManager.WEAPON &&
-				EquipmentDatabase.getHands( item.getItemId() ) > 1 )
-			{
-				this.equipment[ EquipmentManager.OFFHAND ] = EquipmentRequest.UNEQUIP;
-			}
-		}
-		
-		public void addEffect( AdventureResult effect )
-		{
-			this.effects.add( effect );
-		}
-	
-		public void removeEffect( AdventureResult effect )
-		{
-			this.effects.remove( effect );
-		}
-		
-		public Modifiers calculate()
-		{
-			this.mods = KoLCharacter.recalculateAdjustments(
-				false,
-				this.MCD,
-				this.equipment,
-				this.effects,
-				this.familiar,
-				true );
-			this.calculated = true;
-			return this.mods;
-		}
-	
 		public float getScore()
 		{
 			if ( this.scored ) return this.score;
