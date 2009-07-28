@@ -594,6 +594,7 @@ public class Modifiers
 	public static final int STENCH_VULNERABILITY = 16;
 	public static final int MOXIE_CONTROLS_MP = 17;
 	public static final int MOXIE_MAY_CONTROL_MP = 18;
+	public static final int FOUR_SONGS = 19;
 
 	private static final Object[][] booleanModifiers =
 	{
@@ -672,6 +673,10 @@ public class Modifiers
 		{ "Moxie May Control MP",
 		  null,
 		  Pattern.compile( "Moxie May Control MP" )
+		},
+		{ "Four Songs",
+		  Pattern.compile( "Allows you to keep 4 songs in your head instead of 3" ),
+		  Pattern.compile( "Four Songs" )
 		},
 	};
 
