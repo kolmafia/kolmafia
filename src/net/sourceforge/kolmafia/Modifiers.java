@@ -70,6 +70,7 @@ public class Modifiers
 	private static final ArrayList synergies = new ArrayList();
 	public static String currentLocation = "";
 	public static String currentZone = "";
+	public static float currentML = 4.0f;
 	public static String currentFamiliar = "";
 	public static float hoboPower = 0.0f;
 	private static float currentWeight = 0.0f;
@@ -1712,10 +1713,12 @@ public class Modifiers
 			effective = weight;
 		}
 		if ( effective != 0.0 )
-		{	// NIY
+		{
 			double factor = this.get( Modifiers.SOMBRERO_EFFECTIVENESS );
 			if ( factor == 0.0 ) factor = 1.0;
-			this.add( Modifiers.EXPERIENCE, factor * 0.0, "Sombrero" );
+			// currentML is always >= 4, so we don't need to check for negatives
+			this.add( Modifiers.EXPERIENCE, factor * Math.sqrt( effective ) *
+				(1.0 + Math.sqrt( Modifiers.currentML - 4.0f )) / 10.0, "Sombrero" );
 		}
 
 		effective = cappedWeight * this.get( Modifiers.LEPRECHAUN_WEIGHT );
@@ -2527,6 +2530,9 @@ public class Modifiers
 	{
 		Modifiers.currentLocation = location.getAdventureName().toLowerCase();
 		Modifiers.currentZone = location.getZone().toLowerCase();
+		AreaCombatData data = location.getAreaSummary();
+		Modifiers.currentML = Math.max( 4.0f,
+			data == null ? 0.0f : data.getAverageML() );
 	}
 
 	public static void setFamiliar( FamiliarData fam )

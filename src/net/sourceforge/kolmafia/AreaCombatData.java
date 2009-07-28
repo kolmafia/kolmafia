@@ -217,6 +217,28 @@ public class AreaCombatData
 		return AreaCombatData.hitPercent( hitStat - ml, this.minHit() ) > 0.0f;
 	}
 
+	public float getAverageML()
+	{
+		float averageML = 0.0f;
+
+		for ( int i = 0; i < this.monsters.size(); ++i )
+		{
+			int weighting = this.getWeighting( i );
+
+			// Omit impossible (-2), ultra-rare (-1) and special (0) monsters
+			if ( weighting < 1 )
+			{
+				continue;
+			}
+
+			Monster monster = this.getMonster( i );
+			float weight = (float) weighting / (float) this.weights;
+			averageML += weight * monster.getAttack();
+		}
+		
+		return averageML;
+	}
+	
 	public String toString()
 	{
 		return this.toString( false );
@@ -254,7 +276,6 @@ public class AreaCombatData
 		int maxPerfectEvade = AreaCombatData.perfectHit( moxie, this.maxEvade );
 
 		// statGain constants
-		FamiliarData familiar = KoLCharacter.getFamiliar();
 		float experienceAdjustment = KoLCharacter.getExperienceAdjustment();
 
 		// Area Combat percentage
@@ -275,7 +296,7 @@ public class AreaCombatData
 
 			Monster monster = this.getMonster( i );
 			float weight = (float) weighting / (float) this.weights;
-			averageExperience += weight * monster.getAdjustedExperience( experienceAdjustment, ml, familiar );
+			averageExperience += weight * monster.getAdjustedExperience( experienceAdjustment );
 		}
 
 		buffer.append( "<b>Hit</b>: " );
