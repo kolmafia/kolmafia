@@ -71,7 +71,7 @@ clown wig	50	Mox: 10
 coconut shell	30	none
 cold ninja mask	80	Mox: 25
 cornuthaum	85	Mox: 27
-corrosive cowl	200	Mox: 200
+corrosive cowl	200	Mox: 150
 crown-shaped beanie	200	Mox: 200
 crumpled felt fedora	200	Mox: 200
 cursed eyepatch	200	Mus: 85
@@ -232,7 +232,7 @@ buoybottoms	150	Mox: 60
 chain-mail monokini	30	none
 clingfilm trousers	150	Mox: 60
 clockwork pants	80	Mox: 25
-corroded breeches	200	Mox: 200
+corroded breeches	200	Mox: 150
 crotchety pants	75	Mox: 22
 cursed breeches	200	Mox: 85
 demonskin trousers	70	Mox: 20
@@ -548,7 +548,7 @@ dense meat sword	60	Mus: 15	2-handed sword
 dented harmonica	20	Mox: 0	1-handed horn
 depleted Grimacite hammer	100	Mus: 35	2-handed club
 depleted Grimacite kneecapping stick	90	Mus: 30	1-handed club
-diabolical crossbow	200	Mox: 200	1-handed crossbow
+diabolical crossbow	200	Mox: 150	1-handed crossbow
 diamond-studded cane	60	Mus: 15	1-handed club
 didgeridooka	180	Mox: 75	2-handed blowgun
 disco ball	10	Mox: 0	1-handed disco ball
@@ -663,7 +663,7 @@ parasitic claw	30	Mus: 0	1-handed club
 pasta spoon	10	Mys: 0	1-handed utensil
 penguin whip	20	Mus: 0	1-handed whip
 perforated battle paddle	175	Mus: 72	2-handed club
-pernicious cudgel	200	Mus: 200	1-handed club
+pernicious cudgel	200	Mus: 150	1-handed club
 pestoblade	50	Mus: 10	1-handed sword
 pitchfork	125	Mus: 47	1-handed spear
 pixel boomerang	50	Mox: 10	1-handed boomerang
@@ -764,7 +764,7 @@ vampire duck-on-a-string	100	Mus: 35	1-handed flail
 velcro broadsword	200	Mus: 85	1-handed sword
 velcro paddle ball	200	Mox: 85	1-handed flail
 vibrating cyborg knife	150	Mus: 55	1-handed sword
-villainous scythe	200	Mus: 200	2-handed polearm
+villainous scythe	200	Mus: 150	2-handed polearm
 vorpal blade	90	Mus: 30	1-handed sword
 war tongs	180	Mys: 75	1-handed utensil
 white sword	40	Mus: 5	1-handed sword
@@ -898,7 +898,7 @@ golden sausage	0	none
 green balloon	0	none
 green peawee marble	0	Mys: 85
 # *** grisly shield is a shield of unknown power.
-grisly shield	0	Mus: 200	shield
+grisly shield	0	Mus: 150	shield
 handmade hobby horse	0	none
 heart-shaped balloon	0	none
 hippo skin buckler	95	Mus: 30	shield
@@ -1149,7 +1149,7 @@ baconstone earring	0	Mys: 10
 baconstone pendant	0	Mys: 10
 baconstone ring	0	Mys: 10
 badass belt	0	Mys: 35
-baneful bandolier	200	Mus: 200
+baneful bandolier	200	Mus: 150
 beach glass necklace	0	Mys: 20
 beaten-up Chucks	0	Mys: 45
 beer goggles	0	none
@@ -1263,7 +1263,7 @@ lucky bottlecap	0	Mys: 200
 lucky rabbit's foot	0	Mys: 15
 makeshift SCUBA gear	0	none
 makeshift cape	0	Mys: 35
-malevolent medallion	200	Mys: 200
+malevolent medallion	200	Mys: 150
 mayfly bait necklace	0	none
 memory of a cultist's robe	0	none
 molten medallion	0	Mys: 65
