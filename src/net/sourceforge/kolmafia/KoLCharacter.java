@@ -546,7 +546,7 @@ public abstract class KoLCharacter
 
 		int battleIndex = KoLCharacter.battleSkillNames.indexOf( Preferences.getString( "battleAction" ) );
 		KoLCharacter.battleSkillNames.setSelectedIndex( battleIndex == -1 ? 0 : battleIndex );
-		
+	
 		Modifiers.overrideModifier( "_userMods", Preferences.getString( "_userMods" ) );
 	}
 

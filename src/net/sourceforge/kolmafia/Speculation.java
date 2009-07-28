@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
@@ -41,9 +42,14 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.SpecialOutfit;
+import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class Speculation
 {
@@ -97,6 +103,11 @@ public class Speculation
 		}
 	}
 	
+	public boolean hasEffect( AdventureResult effect )
+	{
+		return this.effects.contains( effect );
+	}
+
 	public void addEffect( AdventureResult effect )
 	{
 		this.effects.add( effect );
@@ -118,5 +129,114 @@ public class Speculation
 			true );
 		this.calculated = true;
 		return this.mods;
+	}
+	
+	public boolean parse( String text )
+	{
+		boolean quiet = false;
+		String[] pieces = text.toLowerCase().split( "\\s+;\\s+" );
+		for ( int i = 0; i < pieces.length; ++i )
+		{
+			String[] piece = pieces[ i ].split( " ", 2 );
+			String cmd = piece[ 0 ];
+			String params = piece.length > 1 ? piece[ 1 ] : "";
+			
+			if ( cmd.equals( "" ) ) continue;
+			else if ( cmd.equals( "mcd" ) )
+			{
+				this.setMindControlLevel( StringUtilities.parseInt( params ) );
+			}
+			else if ( cmd.equals( "equip" ) )
+			{
+				piece = params.split( " ", 2 );
+				int slot = EquipmentRequest.slotNumber( piece[ 0 ] );
+				if ( slot != -1 )
+				{
+					params = piece[ 1 ];
+				}
+		
+				AdventureResult match = ItemFinder.getFirstMatchingItem( params,
+					ItemFinder.EQUIP_MATCH );
+				if ( match == null )
+				{
+					return true;
+				}
+				if ( slot == -1 )
+				{
+					slot = EquipmentRequest.chooseEquipmentSlot( ItemDatabase.getConsumptionType( match.getItemId() ) );
+		
+					// If it can't be equipped, give up
+					if ( slot == -1 )
+					{
+						KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't equip a " + match.getName() );
+						return true;
+					}
+				}
+				this.equip( slot, match );
+			}
+			else if ( cmd.equals( "unequip" ) )
+			{
+				int slot = EquipmentRequest.slotNumber( params );
+				if ( slot == -1 )
+				{
+					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+						"Unknown slot: " + params );
+					return true;
+				}
+				this.equip( slot, EquipmentRequest.UNEQUIP );
+			}
+			else if ( cmd.equals( "familiar" ) )
+			{
+				int id = FamiliarDatabase.getFamiliarId( params );
+				if ( id == -1 && !params.equals( "none" ) )
+				{
+					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+						"Unknown familiar: " + params );
+					return true;
+				}
+				FamiliarData fam = new FamiliarData( id );
+				this.setFamiliar( fam );
+			}
+			else if ( cmd.equals( "up" ) )
+			{
+				List effects = EffectDatabase.getMatchingNames( params );
+				if ( effects.isEmpty() )
+				{
+					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+						"Unknown effect: " + params );
+					return true;
+				}
+
+				AdventureResult effect = new AdventureResult( (String) effects.get( 0 ), 1, true );
+				if ( !this.hasEffect( effect ) )
+				{
+					this.addEffect( effect );
+				}
+			}
+			else if ( cmd.equals( "uneffect" ) )
+			{
+				List effects = EffectDatabase.getMatchingNames( params );
+				if ( effects.isEmpty() )
+				{
+					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+						"Unknown effect: " + params );
+					return true;
+				}
+
+				AdventureResult effect = new AdventureResult( (String) effects.get( 0 ), 1, true );
+				this.removeEffect( effect );
+			}
+			else if ( cmd.equals( "quiet" ) )
+			{
+				quiet = true;
+			}
+			else
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+					"I don't know how to speculate about " + cmd );
+				return true;
+			}
+		}
+		return quiet;
 	}
 }
