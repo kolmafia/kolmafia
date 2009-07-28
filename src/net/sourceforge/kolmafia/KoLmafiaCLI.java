@@ -1770,6 +1770,91 @@ public class KoLmafiaCLI
 		}
 	}
 
+	static { new Speculate().register( "speculate" ).register( "whatif" ); }
+	public static class Speculate
+		extends Command
+	{
+		{ usage = " MCD <num> | equip [<slot>] <item> | unequip <slot> | familiar <type> | up <eff> | uneffect <eff> | quiet ; [<another>;...] - predict modifiers."; }
+		{ flags = KoLmafiaCLI.FULL_LINE_CMD; }
+		public void run( String cmd, String parameters )
+		{
+			Speculation spec = new Speculation();
+			boolean quiet = spec.parse( parameters );
+			Modifiers mods = spec.calculate();
+			Modifiers.overrideModifier( "_spec", mods );
+			if ( quiet ) return;
+			
+			StringBuffer buf = new StringBuffer( "<table border=2>" );
+			int len = buf.length();
+			String mod;
+			int i = 0;
+			while ( (mod = Modifiers.getModifierName( i++ )) != null )
+			{	
+				this.doNumeric( mod, mods, buf );
+			}
+			i = 0;
+			while ( (mod = Modifiers.getDerivedModifierName( i++ )) != null )
+			{	
+				this.doNumeric( mod, mods, buf );
+			}
+			i = 1;
+			while ( (mod = Modifiers.getBitmapModifierName( i++ )) != null )
+			{	
+				this.doNumeric( mod, mods, buf );
+			}
+			i = 0;
+			while ( (mod = Modifiers.getBooleanModifierName( i++ )) != null )
+			{	
+				boolean was = KoLCharacter.currentBooleanModifier( mod );
+				boolean now = mods.getBoolean( mod );
+				if ( now == was ) continue;
+				buf.append( "<tr><td>" );
+				buf.append( mod );
+				buf.append( "</td><td>" );
+				buf.append( now );
+				buf.append( "</td></tr>" );
+			}
+			i = 0;
+			while ( (mod = Modifiers.getStringModifierName( i++ )) != null )
+			{	
+				String was = KoLCharacter.currentStringModifier( mod );
+				String now = mods.getString( mod );
+				if ( now.equals( was ) ) continue;
+				buf.append( "<tr><td rowspan=2>" );
+				buf.append( mod );
+				buf.append( "</td><td>" );
+				buf.append( was.replaceAll( "\t", "<br>" ) );
+				buf.append( "</td></tr><tr><td>" );
+				buf.append( now.replaceAll( "\t", "<br>" ) );
+				buf.append( "</td></tr>" );
+			}
+			if ( buf.length() > len )
+			{
+				buf.append( "</table><br>" );
+				RequestLogger.printLine( buf.toString() );
+			}
+			else
+			{
+				RequestLogger.printLine( "No modifiers changed." );
+			}
+		}
+		
+		private void doNumeric( String mod, Modifiers mods, StringBuffer buf )
+		{
+			float was = KoLCharacter.currentNumericModifier( mod );
+			float now = mods.get( mod );
+			if ( now == was ) return;
+			buf.append( "<tr><td>" );
+			buf.append( mod );
+			buf.append( "</td><td>" );
+			buf.append( now );
+			buf.append( " (" );
+			if ( now > was ) buf.append( "+" );
+			buf.append( now - was );
+			buf.append( ")</td></tr>" );
+		}
+	}
+
 	static { new MoleRef().register( "moleref" ); }
 	public static class MoleRef
 		extends Command

@@ -732,11 +732,21 @@ public class Modifiers
 	public static final int BUFFED_MOX = 2;
 	public static final int BUFFED_HP = 3;
 	public static final int BUFFED_MP = 4;
-	public static final int BUFFED_COUNT = 5;
+
+	private static final Object[][] derivedModifiers =
+	{
+		{ "Buffed Muscle" },
+		{ "Buffed Mysticality" },
+		{ "Buffed Moxie" },
+		{ "Buffed HP Maximum" },
+		{ "Buffed MP Maximum" },
+	};
+	
+	public static final int DERIVED_MODIFIERS = Modifiers.derivedModifiers.length;
 	
 	public int[] predict()
 	{
-		int[] rv = new int[ Modifiers.BUFFED_COUNT ];
+		int[] rv = new int[ Modifiers.DERIVED_MODIFIERS ];
 	
 		int mus = KoLCharacter.getBaseMuscle();
 		int mys = KoLCharacter.getBaseMysticality();
@@ -828,7 +838,7 @@ public class Modifiers
 		return Modifiers.modifiersByName.keySet().iterator();
 	}
 	
-	public static final void overrideModifier( String name, String value )
+	public static final void overrideModifier( String name, Object value )
 	{
 		name = StringUtilities.getCanonicalName( name );
 		Modifiers.modifiersByName.put( name, value );
@@ -852,6 +862,11 @@ public class Modifiers
 	public static final String getStringModifierName( final int index )
 	{
 		return Modifiers.modifierName( Modifiers.stringModifiers, index );
+	}
+
+	public static final String getDerivedModifierName( final int index )
+	{
+		return Modifiers.modifierName( Modifiers.derivedModifiers, index );
 	}
 
 	private static final String modifierName( final Object[][] table, final int index )
@@ -1030,7 +1045,12 @@ public class Modifiers
 		int index = Modifiers.findName( Modifiers.floatModifiers, name );
 		if ( index < 0 || index >= this.floats.length )
 		{
-			return (float) this.getBitmap( name );
+			index = Modifiers.findName( Modifiers.derivedModifiers, name );
+			if ( index < 0 || index >= Modifiers.DERIVED_MODIFIERS )
+			{
+				return (float) this.getBitmap( name );
+			}
+			return this.predict()[ index ];
 		}
 
 		return this.floats[ index ];
