@@ -431,7 +431,7 @@ public class MonsterDatabase
 			this.attack = attack;
 			this.defense = defense;
 			this.initiative = initiative;
-			this.statGain = ( attack + defense ) / 10.0f;
+			this.statGain = attack / 4.0f;
 			this.attackElement = attackElement;
 			this.defenseElement = defenseElement;
 			this.minMeat = minMeat;
@@ -655,27 +655,11 @@ public class MonsterDatabase
 			return Math.max( 1.0f, this.statGain );
 		}
 
-		public float getAdjustedExperience( final float modifier, final int ml, final FamiliarData familiar )
+		public float getAdjustedExperience( final float modifier )
 		{
-			// Base stat gain = attack / 5 (not average of attack and defense)
-			// Add constant stat gain from items, effects, and familiars
-			// Add variable stat gain from familiars
-
-			if ( FamiliarDatabase.isSombreroType( familiar.getId() ) )
-			{
-				this.statGain = this.attack / 4.0f + modifier + Monster.sombreroAdjustment( this.attack + ml, familiar );
-			}
-			else
-			{
-				this.statGain = this.attack / 4.0f + modifier;
-			}
+			this.statGain = this.attack / 4.0f + modifier;
 
 			return Math.max( 1.0f, this.statGain );
-		}
-
-		private static final float sombreroAdjustment( final float ml, final FamiliarData familiar )
-		{
-			return Math.round( Math.sqrt( ml - 4.0f ) * familiar.getModifiedWeight() / 100.0f );
 		}
 
 		public boolean willUsuallyMiss()
