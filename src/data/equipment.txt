@@ -863,6 +863,7 @@ brown crock marble	0	Mys: 85
 bumblebee marble	0	Mys: 85
 cardboard box turtle	70	Mus: 20	shield
 catskin buckler	177	Mus: 75	shield
+charged magnet	0	none
 clockwork detective skull	0	Mox: 25
 clownskin buckler	60	Mus: 15	shield
 coffin lid	55	Mus: 10	shield

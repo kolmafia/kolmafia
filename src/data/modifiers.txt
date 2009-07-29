@@ -944,6 +944,8 @@ brown crock marble	Stench Spell Damage: +35
 bumblebee marble	Spell Damage: +50
 cardboard box turtle	Muscle: +3, Damage Reduction: 4
 catskin buckler	Muscle: +10, Damage Absorption: +50, Damage Reduction: 11
+# charged magnet: Radiates a Strange Energy
+charged magnet	Maximum MP: +5, MP Regen Min: 1, MP Regen Max: 2
 # clockwork detective skull
 clownskin buckler	Spooky Damage: +3, Damage Reduction: 3, Clownosity: +2
 coffin lid	Spooky Resistance: +1, Damage Reduction: 3
