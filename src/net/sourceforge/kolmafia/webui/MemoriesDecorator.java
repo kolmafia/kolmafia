@@ -69,7 +69,8 @@ public class MemoriesDecorator
 		}
 
 		String oldSelect = matcher.group(0);
-		String newSelect = oldSelect.replace( ">" + element, " selected>" + element );
+		String newSelect = StringUtilities.globalStringReplace( oldSelect,
+			">" + element, " selected>" + element );
 		int index = buffer.indexOf( oldSelect );
 		buffer.replace( index, index + oldSelect.length(), newSelect );
 	}

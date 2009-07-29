@@ -55,6 +55,7 @@ import net.sourceforge.kolmafia.request.MallPurchaseRequest;
 import net.sourceforge.kolmafia.request.MallSearchRequest;
 import net.sourceforge.kolmafia.swingui.StoreManageFrame;
 import net.sourceforge.kolmafia.utilities.IntegerArray;
+import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -81,6 +82,8 @@ public abstract class StoreManager
 	
 	private static final IntegerArray mallPrices = new IntegerArray();
 	private static final LinkedHashMap mallSearches = new LinkedHashMap();
+	private static int searchCount = 0;
+	private static final PauseObject pauser = new PauseObject();
 
 	public static final void clearCache()
 	{
@@ -435,6 +438,7 @@ public abstract class StoreManager
 		}
 		if ( StoreManager.mallPrices.get( item.getItemId() ) == 0 )
 		{
+			StoreManager.pauser.pause( ++StoreManager.searchCount * 10 );
 			ArrayList results = StoreManager.searchMall( item );
 			StoreManager.updateMallPrice( item, results );
 		}
