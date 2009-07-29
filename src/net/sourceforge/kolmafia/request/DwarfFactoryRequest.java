@@ -307,7 +307,7 @@ public class DwarfFactoryRequest
 
 			if ( value.length() == 1 && newRunes.indexOf( value ) != -1 )
 			{
-				newRunes = newRunes.replace( value, "" );
+				newRunes = StringUtilities.globalStringReplace( newRunes, value, "" );
 
 			}
 		}
@@ -342,7 +342,7 @@ public class DwarfFactoryRequest
 			}
 
 			// This is an identified rune. Remove from master list.
-			runes = runes.replace( value, "" );
+			runes = StringUtilities.globalStringReplace( runes, value, "" );
 		}
 
 		// If we get here, there is at most one item on the list we've
@@ -426,7 +426,7 @@ public class DwarfFactoryRequest
 			return;
 		}
 
-		value = value.replace( rune, "" );
+		value = StringUtilities.globalStringReplace( value, rune, "" );
 		Preferences.setString( setting, value );
 
 		if ( value.length() > 1 )

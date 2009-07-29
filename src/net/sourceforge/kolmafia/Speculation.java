@@ -134,7 +134,7 @@ public class Speculation
 	public boolean parse( String text )
 	{
 		boolean quiet = false;
-		String[] pieces = text.toLowerCase().split( "\\s+;\\s+" );
+		String[] pieces = text.toLowerCase().split( "\\s*;\\s*" );
 		for ( int i = 0; i < pieces.length; ++i )
 		{
 			String[] piece = pieces[ i ].split( " ", 2 );

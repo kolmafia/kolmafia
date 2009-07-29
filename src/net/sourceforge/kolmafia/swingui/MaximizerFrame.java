@@ -269,7 +269,7 @@ public class MaximizerFrame
 		{
 			if ( equipLevel > 1 )
 			{
-				MaximizerFrame.boosts.add( new Boost( "", "(creating/folding/pulling/buying equipment not considered yet)", -1, null, 0.0f ) );
+				MaximizerFrame.boosts.add( new Boost( "", "(folding equipment is not considered yet)", -1, null, 0.0f ) );
 			}
 			MaximizerFrame.boosts.add( new Boost( "", "(familiar items aren't considered yet)", -1, null, 0.0f ) );
 			MaximizerFrame.best = new Spec();
@@ -316,7 +316,51 @@ public class MaximizerFrame
 				else
 				{
 					cmd = "equip " + slotname + " " + item.getName();
-					text = cmd + " (" + KoLConstants.MODIFIER_FORMAT.format(
+					text = cmd + " (";
+					int count = item.getCount();
+					int price = 0;
+					if ( ((count >> Evaluator.INITIAL_SHIFT) & Evaluator.SUBTOTAL_MASK) != 0 )
+					{	
+						// on hand;
+					}
+					else if ( ((count >> Evaluator.CREATABLE_SHIFT) & Evaluator.SUBTOTAL_MASK) != 0 )
+					{	
+						text = "make & " + text;
+					}
+					else if ( ((count >> Evaluator.NPCBUYABLE_SHIFT) & Evaluator.SUBTOTAL_MASK) != 0 )
+					{	
+						text = "buy & " + text;
+						cmd = "buy 1 \u00B6" + item.getItemId() +
+								";" + cmd;
+						price = ConcoctionPool.get( item ).price;
+					}
+					else if ( ((count >> Evaluator.FOLDABLE_SHIFT) & Evaluator.SUBTOTAL_MASK) != 0 )
+					{	
+						text = "fold & " + text;
+						cmd = "fold \u00B6" + item.getItemId() +
+								";" + cmd;
+					}
+					else if ( ((count >> Evaluator.PULLABLE_SHIFT) & Evaluator.SUBTOTAL_MASK) != 0 )
+					{	
+						text = "pull & " + text;
+						cmd = "pull 1 \u00B6" + item.getItemId() +
+								";" + cmd;
+					}
+					else 	// Mall buyable
+					{	
+						text = "acquire & " + text;
+						if ( priceLevel > 0 )
+						{
+							price = StoreManager.getMallPrice( item );
+						}
+					}
+					
+					if ( price > 0 )
+					{
+						text = text + KoLConstants.COMMA_FORMAT.format( price ) +
+							" meat, ";
+					}
+					text = text + KoLConstants.MODIFIER_FORMAT.format(
 						delta ) + ")";
 				}
 			
@@ -734,10 +778,11 @@ public class MaximizerFrame
 		public static final int SUBTOTAL_MASK = 0x0F;
 		public static final int INITIAL_SHIFT = 8;
 		public static final int CREATABLE_SHIFT = 12;
-		public static final int FOLDABLE_SHIFT = 16;
-		public static final int PULLABLE_SHIFT = 20;
-		public static final int BUYABLE_FLAG = 1 << 24;
-		public static final int AUTOMATIC_FLAG = 1 << 25;
+		public static final int NPCBUYABLE_SHIFT = 16;
+		public static final int FOLDABLE_SHIFT = 20;
+		public static final int PULLABLE_SHIFT = 24;
+		public static final int BUYABLE_FLAG = 1 << 28;
+		public static final int AUTOMATIC_FLAG = 1 << 29;
 		
 		// Equipment slots, that aren't the primary slot of any item type,
 		// that are repurposed here (rather than making the array bigger).
@@ -1068,6 +1113,62 @@ public class MaximizerFrame
 			if ( this.noTiebreaker ) return 0.0f;
 			return this.tiebreaker.getScore( mods );
 		}
+		
+		public AdventureResult checkItem( int id, int equipLevel, int maxPrice )
+		{
+			int count = Math.min( Evaluator.SUBTOTAL_MASK,
+				InventoryManager.getAccessibleCount( id ) );
+			count |= count << Evaluator.INITIAL_SHIFT;
+			if ( (count & Evaluator.TOTAL_MASK) >= 3 || equipLevel < 2 )
+			{
+				return ItemPool.get( id, count );
+			}
+	
+			Concoction c = ConcoctionPool.get( id );
+			int create = Math.min( Evaluator.SUBTOTAL_MASK, c.creatable );
+			count += (create << Evaluator.CREATABLE_SHIFT) | create;
+			
+			int buy = 0;
+			if ( c.price > 0 )
+			{
+				buy = Math.min( Evaluator.SUBTOTAL_MASK, maxPrice / c.price );
+				count += (buy << Evaluator.NPCBUYABLE_SHIFT) | buy;
+			}
+			
+			// TODO: check foldability
+
+			if ( (count & Evaluator.TOTAL_MASK) >= 3 || equipLevel < 3 )
+			{
+				return ItemPool.get( id, count );
+			}
+			
+			if ( KoLCharacter.canInteract() )
+			{	// consider Mall buying
+				if ( count == 0 && ItemDatabase.isTradeable( id ) )
+				{	// but only if none are otherwise available
+					count = 1 | Evaluator.BUYABLE_FLAG;
+				}
+			}
+			else if ( !KoLCharacter.isHardcore() )
+			{	// consider pulling
+				int pull = ItemPool.get( id, 0 ).getCount( KoLConstants.storage );
+				count += (pull << Evaluator.PULLABLE_SHIFT) | pull;
+			}
+			return ItemPool.get( id, count );
+		}
+		
+		public AdventureResult validateItem( AdventureResult item, int maxPrice, int priceLevel )
+		{
+			if ( priceLevel <= 0 ) return item;
+			int count = item.getCount();
+			if ( (count & Evaluator.BUYABLE_FLAG) == 0 ) return item;
+			int price = StoreManager.getMallPrice( item );
+			if ( price <= 0 || price > maxPrice )
+			{
+				return item.getInstance( count - 1 );
+			}
+			return item;
+		}
 	
 		public void enumerateEquipment( int equipLevel, int maxPrice, int priceLevel )
 			throws MaximizerInterruptedException
@@ -1153,13 +1254,11 @@ public class MaximizerFrame
 			while ( (id = EquipmentDatabase.nextEquipmentItemId( id )) != -1 )
 			{
 				if ( !EquipmentManager.canEquip( id ) ) continue;
-				int count = Math.min( Evaluator.SUBTOTAL_MASK,
-					InventoryManager.getAccessibleCount( id ) );
-				if ( count <= 0 ) continue;
-				count |= count << Evaluator.INITIAL_SHIFT;
 				int slot = EquipmentManager.itemIdToEquipmentType( id );
 				if ( slot < 0 || slot >= EquipmentManager.ALL_SLOTS ) continue;
-				AdventureResult item = ItemPool.get( id, count );
+				AdventureResult item = this.checkItem( id, equipLevel, maxPrice );
+				int count = item.getCount();
+				if ( count == 0 ) continue;
 				String name = item.getName();
 				
 				ArrayList[] dest = null;
@@ -1236,6 +1335,12 @@ public class MaximizerFrame
 					
 					if ( usefulOutfits.get( EquipmentDatabase.getOutfitWithItem( id ) ) )
 					{
+						item = this.validateItem( item, maxPrice, priceLevel );
+						count = item.getCount();
+						if ( (count & Evaluator.TOTAL_MASK) == 0 )
+						{
+							continue;
+						}
 						outfitPieces.put( item, item );
 					}
 	
@@ -1249,6 +1354,7 @@ public class MaximizerFrame
 					Modifiers mods = Modifiers.getModifiers( name );
 					if ( mods == null )	// no enchantments
 					{
+						if ( (count & Evaluator.BUYABLE_FLAG) != 0 ) continue;
 						dest = neutral;
 						break gotItem;
 					}
@@ -1287,6 +1393,7 @@ public class MaximizerFrame
 					if ( delta < 0.0f ) continue;
 					if ( delta == 0.0f )
 					{
+						if ( (count & Evaluator.BUYABLE_FLAG) != 0 ) continue;
 						dest = neutral;
 						break gotItem;
 					}
@@ -1354,7 +1461,13 @@ public class MaximizerFrame
 				while ( i.hasPrevious() )
 				{	
 					AdventureResult item = ((Spec) i.previous()).attachment;
-					if ( (item.getCount() & Evaluator.AUTOMATIC_FLAG) != 0 ||
+					item = this.validateItem( item, maxPrice, priceLevel );
+					int count = item.getCount();
+					if ( (count & Evaluator.TOTAL_MASK) == 0 )
+					{
+						continue;
+					}
+					if ( (count & Evaluator.AUTOMATIC_FLAG) != 0 ||
 						automatic[ slot ].size() < Evaluator.MAX_USEFUL[ slot ] )
 					{
 						automatic[ slot ].add( item );
@@ -1470,7 +1583,14 @@ public class MaximizerFrame
 			if ( rv != 0 ) return rv;
 			rv = Float.compare( this.getTiebreaker(), other.getTiebreaker() );
 			if ( rv != 0 ) return rv;
-			return this.simplicity - other.simplicity;
+			rv = this.simplicity - other.simplicity;
+			if ( rv != 0 ) return rv;
+			if ( this.attachment != null && other.attachment != null )
+			{	// prefer items that you don't have to buy
+				return (other.attachment.getCount() & Evaluator.BUYABLE_FLAG) -
+					 (this.attachment.getCount() & Evaluator.BUYABLE_FLAG);
+			}
+			return 0;
 		}
 		
 		// Remember which equipment slots were null, so that this
