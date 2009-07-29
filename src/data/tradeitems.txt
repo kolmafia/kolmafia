@@ -4150,3 +4150,4 @@
 4144
 4145
 4146	floaty sand	usable	all	10
+4147	charged magnet	offhand	all	1500

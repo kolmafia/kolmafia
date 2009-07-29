@@ -50,6 +50,7 @@ skeleton key	COMBINE	skeleton bone	loose teeth
 Staff of Ed	COMBINE	headpiece of the Staff of Ed	Staff of Fats
 rusty metal key	COMBINE	rusty metal ring	rusty metal shaft
 tambourine	COMBINE	Gnollish pie tin	tambourine bells
+charged magnet	COMBINE	floaty sand	moxie magnet
 
 
 # Items involved with the campground, or subcomponents involved in the

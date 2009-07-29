@@ -618,10 +618,10 @@ The Twig and Berries	HP: 150 Def: 152 Atk: 152 E: sleaze	line (30)	star (30)	sta
 Time Bandit		Counterclockwise Watch (100)
 Tipsy Pirate	HP: 70 Def: 80 Atk: 80 Meat: 36-54	bottle of rum (20)	bottle of rum (15)	cocktail napkin (10)	rum barrel charrrm (5)	tip jar (5)
 Toilet Papergeist	HP: 105 Def: 100 Atk: 88 ED: spooky	cardboard wakizashi (5)	roll of toilet paper (50)
-Tomb Asp	HP: 155 Def: 162 Atk: 170 Meat: 80-120 "Really Quite Poisoned"	unidentified jerky (10)	charming flute (0)
+Tomb Asp	HP: 155 Def: 162 Atk: 170 Meat: 80-120 "Really Quite Poisoned"	unidentified jerky (13)	charming flute (7)
 Tomb Bat	HP: 180 Def: 175 Atk: 175 Meat: 40-60	leathery bat skin (30)	unidentified jerky (10)	mummy wrapping (20)
-Tomb Rat	HP: 175 Def: 165 Atk: 161 Meat: 60-90	tomb ratchet (20)	leathery rat skin (30)	unidentified jerky (10)
-Tomb Servant	HP: 185 Def: 170 Atk: 160 Meat: 40-60 E: spooky	canopic jar (30)	ancient protein powder (15)	mummy wrapping (20)	unidentified jerky (10)
+Tomb Rat	HP: 175 Def: 165 Atk: 161 Meat: 60-90	tomb ratchet (c20)	leathery rat skin (30)	unidentified jerky (12)
+Tomb Servant	HP: 185 Def: 170 Atk: 160 Meat: 40-60 E: spooky	canopic jar (30)	ancient protein powder (15)	mummy wrapping (20)	unidentified jerky (12)
 Tonic Water Elemental	HP: 14 Def: 18 Atk: 18
 Toothy Pirate	HP: 75 Def: 85 Atk: 83 Meat: 36-54	bottle of rum (20)	cocktail napkin (10)	
 Toothy Sklelton	HP: 50 Def: 58 Atk: 57 E: spooky	loose teeth (20)	loose teeth (20)	skeleton bone (20)	bone flute (0)
@@ -785,6 +785,7 @@ watertight seal	HP: 404 Def: 350 Atk: 351	hyperinflated seal lung (100)
 wet seal	HP: 201 Def: 175 Atk: 178	mannequin leg (0)	seal lube (0)
 
 # Unknown new content
+rock homunculus	HP: 42 Def: 30 Atk: 30	floaty sand (0)	floaty sand (0)
 rock snake	HP: 20	floaty sand (0)
 
 # Under the effect of Temporary Blindness
