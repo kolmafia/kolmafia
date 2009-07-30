@@ -65,12 +65,14 @@ import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.LocalRelayServer;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ClanManager;
+import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EventManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LouvreManager;
@@ -870,6 +872,19 @@ public class GenericRequest
 		else if ( location.startsWith( "casino.php" ) )
 		{
 			InventoryManager.retrieveItem( ItemPool.CASINO_PASS );
+		}
+		else if ( location.startsWith( "pyramid.php" ) )
+		{
+			AdventureResult hooks = ItemPool.get( ItemPool.WORM_RIDING_HOOKS, 1 );
+			AdventureResult machine = ItemPool.get( ItemPool.DRUM_MACHINE, 1 );
+			if ( KoLConstants.inventory.contains( hooks ) &&
+				KoLConstants.inventory.contains( machine ) )
+			{
+				SpecialOutfit.createImplicitCheckpoint();
+				( new EquipmentRequest( hooks, EquipmentManager.WEAPON ) ).run();
+				( new UseItemRequest( machine ) ).run();
+				SpecialOutfit.restoreImplicitCheckpoint();
+			}
 		}
 
 		// To avoid wasting turns, buy a can of hair spray before

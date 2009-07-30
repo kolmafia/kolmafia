@@ -47,6 +47,7 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.request.CreateItemRequest;
+import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.PyroRequest;
@@ -544,11 +545,30 @@ public abstract class UseLinkDecorator
 		case KoLConstants.EQUIP_ACCESSORY:
 		case KoLConstants.EQUIP_FAMILIAR:
 
+			switch ( itemId )
+			{
+			case ItemPool.WORM_RIDING_HOOKS:
+
+				return new UseLink( itemId, itemCount, "wormride", "pyramid.php" );
+			}
+
 			int outfit = EquipmentDatabase.getOutfitWithItem( itemId );
 
 			if ( outfit != -1 && EquipmentManager.hasOutfit( outfit ) )
 			{
 				return new UseLink( itemId, itemCount, "outfit", "inv_equip.php?action=outfit&which=2&whichoutfit=" + outfit );
+			}
+			
+			if ( consumeMethod == KoLConstants.EQUIP_ACCESSORY &&
+				!EquipmentManager.getEquipment( EquipmentManager.ACCESSORY1 ).equals( EquipmentRequest.UNEQUIP ) && 
+				!EquipmentManager.getEquipment( EquipmentManager.ACCESSORY2 ).equals( EquipmentRequest.UNEQUIP ) && 
+				!EquipmentManager.getEquipment( EquipmentManager.ACCESSORY3 ).equals( EquipmentRequest.UNEQUIP ) )
+			{
+				return new UsesLink( new UseLink[] {
+						new UseLink( itemId, itemCount, "acc1", "inv_equip.php?which=2&action=equip&slot=1&whichitem=" ),
+						new UseLink( itemId, itemCount, "acc2", "inv_equip.php?which=2&action=equip&slot=2&whichitem=" ),
+						new UseLink( itemId, itemCount, "acc3", "inv_equip.php?which=2&action=equip&slot=3&whichitem=" ),
+					} );
 			}
 
 			return new UseLink( itemId, itemCount, "equip", "inv_equip.php?which=2&action=equip&whichitem=" );
@@ -881,6 +901,10 @@ public abstract class UseLinkDecorator
 		private String useType;
 		private String useLocation;
 		private boolean inline;
+		
+		protected UseLink()
+		{
+		}
 
 		public UseLink( int itemId, String useType, String useLocation )
 		{
@@ -957,6 +981,28 @@ public abstract class UseLinkDecorator
 			String[] pieces = this.useLocation.toString().split( "\\?" );
 
 			return "<font size=1>[<a href=\"javascript:" + "singleUse('" + pieces[ 0 ].trim() + "','" + pieces[ 1 ].trim() + "&ajax=1');void(0);\">" + this.useType + "</a>]</font>";
+		}
+	}
+	
+	public static class UsesLink
+	extends UseLink
+	{
+		private UseLink[] links;
+		
+		public UsesLink( UseLink[] links )
+		{
+			this.links = links;
+		}
+		
+		public String getItemHTML()
+		{
+			StringBuffer buf = new StringBuffer();
+			for ( int i = 0; i < this.links.length; ++i )
+			{
+				if ( i > 0 ) buf.append( "&nbsp;" );
+				buf.append( this.links[ i ].getItemHTML() );
+			}
+			return buf.toString();
 		}
 	}
 }
