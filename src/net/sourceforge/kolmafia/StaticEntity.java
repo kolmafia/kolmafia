@@ -126,6 +126,8 @@ public abstract class StaticEntity
 
 	public static final ArrayList existingPanels = new ArrayList();
 	private static ActionPanel[] panelArray = new GenericPanel[ 0 ];
+	
+	public static String backtraceTrigger = null;
 
 	public static final String getVersion()
 	{
@@ -835,7 +837,7 @@ public abstract class StaticEntity
 		}
 		catch ( Exception e )
 		{
-			StaticEntity.printStackTrace( e );
+			StaticEntity.printStackTrace( e, message );
 		}
 	}
 
@@ -860,7 +862,15 @@ public abstract class StaticEntity
 			RequestLogger.openDebugLog();
 		}
 
-		KoLmafia.updateDisplay( "Unexpected error, debug log printed." );
+		if ( message.startsWith( "Backtrace" ) )
+		{
+			StaticEntity.backtraceTrigger = null;
+			KoLmafia.updateDisplay( "Backtrace triggered, debug log printed." );
+		}
+		else
+		{
+			KoLmafia.updateDisplay( "Unexpected error, debug log printed." );
+		}
 
 		Throwable cause = t.getCause();
 

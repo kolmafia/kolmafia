@@ -810,6 +810,11 @@ public class GenericRequest
 		this.containsUpdate = false;
 
 		String location = this.getURLString();
+		if ( StaticEntity.backtraceTrigger != null &&
+			location.indexOf( StaticEntity.backtraceTrigger ) != -1 )
+		{
+			StaticEntity.printStackTrace( "Backtrace triggered by page load" );
+		}
 
 		if ( location.indexOf( "clan" ) != -1 )
 		{

@@ -1021,6 +1021,26 @@ public class KoLmafiaCLI
 		}
 	}
 
+	static { new Backtrace().register( "backtrace" ); }
+	public static class Backtrace
+		extends Command
+	{
+		{ usage = " <text> | off - dump stack when a gCLI message or page URL matches text (case-sensitive)."; }
+		public void run( String command, String parameters )
+		{
+			if ( parameters.length() > 3 )
+			{
+				RequestLogger.printLine( "Backtrace trigger set." );
+				StaticEntity.backtraceTrigger = parameters;
+			}
+			else
+			{
+				StaticEntity.backtraceTrigger = null;
+				RequestLogger.printLine( "Backtrace trigger cleared." );
+			}
+		}
+	}
+
 	static { new Maximize().register( "maximize" ); }
 	public static class Maximize
 		extends Command
