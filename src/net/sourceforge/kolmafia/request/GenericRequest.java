@@ -1786,6 +1786,13 @@ public class GenericRequest
 			// part of a store name or profile quote.
 			this.containsUpdate = false;
 		}
+		else if ( urlString.startsWith( "bet.php" ) )
+		{
+			// This can either add or remove meat from inventory
+			// using unique messages, in some cases. Let
+			// MoneyMakingGameRequest sort it all out.
+			this.containsUpdate = true;
+		}
 		else if ( urlString.startsWith( "mallstore.php" ) )
 		{
 			// Mall stores themselves can only contain processable

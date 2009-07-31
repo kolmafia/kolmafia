@@ -77,6 +77,7 @@ import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.session.LouvreManager;
+import net.sourceforge.kolmafia.session.MoneyMakingGameManager;
 import net.sourceforge.kolmafia.session.VioletFogManager;
 
 import net.sourceforge.kolmafia.swingui.GearChangeFrame;
@@ -538,6 +539,7 @@ public abstract class KoLCharacter
 		HellKitchenRequest.reset();
 
 		DwarfFactoryRequest.reset();
+		MoneyMakingGameManager.reset();
 		WumpusManager.reset();
 		InventoryManager.resetInventory();
 		EquipmentManager.resetEquipment();
@@ -965,14 +967,19 @@ public abstract class KoLCharacter
 		return KoLCharacter.baseMaxMP;
 	}
 
+	public static final int getStorageMeat()
+	{
+		return KoLCharacter.storageMeat;
+	}
+
 	public static final void setStorageMeat( final int storageMeat )
 	{
 		KoLCharacter.storageMeat = storageMeat;
 	}
 
-	public static final int getStorageMeat()
+	public static final void addStorageMeat( final int meat )
 	{
-		return KoLCharacter.storageMeat;
+		KoLCharacter.storageMeat += meat;
 	}
 
 	/**

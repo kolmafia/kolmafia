@@ -81,6 +81,7 @@ import net.sourceforge.kolmafia.request.HiddenCityRequest;
 import net.sourceforge.kolmafia.request.KnollRequest;
 import net.sourceforge.kolmafia.request.LeafletRequest;
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
+import net.sourceforge.kolmafia.request.MoneyMakingGameRequest;
 import net.sourceforge.kolmafia.request.MushroomRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.PyroRequest;
@@ -343,6 +344,11 @@ public abstract class StaticEntity
 		else if ( location.startsWith( "bedazzle.php" ) )
 		{
 			EquipmentRequest.parseBedazzlements( responseText );
+		}
+
+		else if ( location.startsWith( "bet.php" ) )
+		{
+			MoneyMakingGameRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "campground.php" ) )
