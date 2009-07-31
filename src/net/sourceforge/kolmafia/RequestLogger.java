@@ -223,6 +223,12 @@ public class RequestLogger
 		RequestLogger.outputStream.println( message );
 		RequestLogger.mirrorStream.println( message );
 		RequestLogger.debugStream.println( message );
+		
+		if ( StaticEntity.backtraceTrigger != null &&
+			message.indexOf( StaticEntity.backtraceTrigger ) != -1 )
+		{
+			StaticEntity.printStackTrace( "Backtrace triggered by message" );
+		}
 
 		if ( !addToBuffer )
 		{
