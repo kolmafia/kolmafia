@@ -44,6 +44,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.session.MoneyMakingGameManager;
 import net.sourceforge.kolmafia.swingui.RecentEventsFrame;
 import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
 
@@ -76,15 +77,12 @@ public class EventManager
 			return false;
 		}
 
-		if ( eventText == null )
-		{
-			return false;
-		}
-
 		if ( eventText.indexOf( "logged" ) != -1 )
 		{
 			return false;
 		}
+
+		boolean mmg = eventText.indexOf( "href='bet.php'" ) != -1;
 
 		// The event may be marked up with color and links to
 		// user profiles. For example:
@@ -101,6 +99,10 @@ public class EventManager
 		eventText = eventText.replaceAll( "<a[^>]*showplayer\\.php\\?who=(\\d+)[^>]*>(.*?)<a>", "$2 (#$1)" );
 		// Remove all remaining tags.
 		eventText = eventText.replaceAll( "<.*?>", "" ).replaceAll( "\\s+", " " );
+		if ( mmg )
+		{
+			MoneyMakingGameManager.processEvent( eventText );
+		}
 
 		if ( eventText.indexOf( "/" ) == -1 )
 		{

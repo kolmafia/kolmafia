@@ -95,6 +95,7 @@ import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.ManageStoreRequest;
 import net.sourceforge.kolmafia.request.MicroBreweryRequest;
+import net.sourceforge.kolmafia.request.MoneyMakingGameRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.UneffectRequest;
@@ -105,6 +106,7 @@ import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.MoneyMakingGameManager;
 import net.sourceforge.kolmafia.session.MushroomManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
@@ -1006,6 +1008,46 @@ public abstract class RuntimeLibrary
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "hippy_store_available", DataTypes.BOOLEAN_TYPE, params ) );
 
+		// MMG support
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "mmg_visit", DataTypes.VOID_TYPE, params ) );
+
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.BOOLEAN_TYPE };
+		functions.add( new LibraryFunction( "mmg_make_bet", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] { DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "mmg_retract_bet", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.BOOLEAN_TYPE };
+		functions.add( new LibraryFunction( "mmg_take_bet", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "mmg_my_bets", new AggregateType( DataTypes.INT_TYPE, 0 ), params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "mmg_offered_bets", new AggregateType( DataTypes.INT_TYPE, 0 ), params ) );
+
+		params = new Type[] { DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "mmg_bet_owner", DataTypes.STRING_TYPE, params ) );
+
+		params = new Type[] { DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "mmg_bet_owner_id", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] { DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "mmg_bet_amount", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] { DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "mmg_wait_event", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "mmg_bet_taker", DataTypes.STRING_TYPE, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "mmg_bet_taker_id", DataTypes.STRING_TYPE, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "mmg_bet_winnings", DataTypes.INT_TYPE, params ) );
 	}
 
         public static Method findMethod( final String name, final Class[] args )
@@ -3639,5 +3681,103 @@ public abstract class RuntimeLibrary
 	public static Value hippy_store_available()
 	{
 		return DataTypes.makeBooleanValue( QuestLogRequest.isHippyStoreAvailable() );
+	}
+
+	public static Value mmg_visit()
+	{
+		RequestThread.postRequest( new MoneyMakingGameRequest() );
+		return DataTypes.VOID_VALUE;
+	}
+
+	public static Value mmg_make_bet( final Value arg, final Value source )
+	{
+		int amount = arg.intValue();
+		boolean storage = source.intValue() == 1;
+		RequestThread.postRequest( new MoneyMakingGameRequest( amount, storage ) );
+		return new Value( MoneyMakingGameManager.getLastBetId() );
+	}
+
+	public static Value mmg_retract_bet( final Value arg )
+	{
+		int id = arg.intValue();
+		RequestThread.postRequest( new MoneyMakingGameRequest( id ) );
+		return RuntimeLibrary.continueValue();
+	}
+
+	public static Value mmg_take_bet( final Value arg, final Value source )
+	{
+		int betId = arg.intValue();
+		boolean storage = source.intValue() == 1;
+		RequestThread.postRequest( new MoneyMakingGameRequest( betId, storage, true ) );
+		return new Value( MoneyMakingGameManager.getLastWinnings() );
+	}
+
+	public static Value mmg_my_bets()
+	{
+		int[] bets = MoneyMakingGameManager.getActiveBets();
+
+		AggregateType type = new AggregateType( DataTypes.INT_TYPE, bets.length );
+		ArrayValue value = new ArrayValue( type );
+
+		for ( int i = 0; i < bets.length; ++i )
+		{
+			value.aset( new Value( i ), new Value( bets[ i ] ) );
+		}
+
+		return value;
+	}
+
+	public static Value mmg_offered_bets()
+	{
+		int[] bets = MoneyMakingGameManager.getOfferedBets();
+
+		AggregateType type = new AggregateType( DataTypes.INT_TYPE, bets.length );
+		ArrayValue value = new ArrayValue( type );
+
+		for ( int i = 0; i < bets.length; ++i )
+		{
+			value.aset( new Value( i ), new Value( bets[ i ] ) );
+		}
+
+		return value;
+	}
+
+	public static Value mmg_bet_owner( final Value arg )
+	{
+		int id = arg.intValue();
+		return new Value( MoneyMakingGameManager.betOwner( id ) );
+	}
+
+	public static Value mmg_bet_owner_id( final Value arg )
+	{
+		int id = arg.intValue();
+		return new Value( MoneyMakingGameManager.betOwnerId( id ) );
+	}
+
+	public static Value mmg_bet_amount( final Value arg )
+	{
+		int id = arg.intValue();
+		return new Value( MoneyMakingGameManager.betAmount( id ) );
+	}
+
+	public static Value mmg_wait_event( final Value arg )
+	{
+		int seconds = arg.intValue();
+		return new Value( MoneyMakingGameManager.getNextEvent( seconds ) );
+	}
+
+	public static Value mmg_bet_taker()
+	{
+		return new Value( MoneyMakingGameManager.getLastEventPlayer() );
+	}
+
+	public static Value mmg_bet_taker_id()
+	{
+		return new Value( MoneyMakingGameManager.getLastEventPlayerId() );
+	}
+
+	public static Value mmg_bet_winnings()
+	{
+		return new Value( MoneyMakingGameManager.getLastEventWinnings() );
 	}
 }

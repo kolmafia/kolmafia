@@ -1008,9 +1008,7 @@ public abstract class ChatManager
 				}
 			}
 
-			String plainTextEvent = KoLConstants.ANYTAG_PATTERN.matcher( displayHTML ).replaceAll( "" );
-
-			EventManager.addEvent( ChatManager.EVENT_TIMESTAMP.format( new Date() ) + " - " + plainTextEvent, true );
+			EventManager.addEvent( ChatManager.EVENT_TIMESTAMP.format( new Date() ) + " - " + displayHTML, true );
 			ChatManager.broadcastMessage( displayHTML );
 
 			return;
@@ -1041,10 +1039,22 @@ public abstract class ChatManager
 		return message.indexOf( "<a" ) == -1 || message.indexOf( "</a>," ) != -1 || message.startsWith( "<a class=nounder" ) || message.startsWith( "<a target=mainpane href=\'" );
 	}
 
+	private static final String oldBetString = "<a href='bet.php' target=mainpane class=nounder>";
+	private static final String newBetString = "<a target=mainpane href='bet.php' class=nounder>";
+
 	public static final String formatChatMessage( final String channel, final String message, final String bufferKey )
 	{
 		StringBuffer displayHTML = new StringBuffer( message );
-		StringUtilities.singleStringDelete( displayHTML, "target=mainpane " );
+
+		if ( displayHTML.indexOf( oldBetString ) != -1 )
+		{
+			// KoL formats nested links badly. Move the bet.php
+			// link to the beginning of the buffer.
+			StringUtilities.singleStringDelete( displayHTML, oldBetString );
+			displayHTML.insert( 0, newBetString );
+		}
+                
+		StringUtilities.globalStringDelete( displayHTML, " target=mainpane" );
 
 		// There are a bunch of messages that are supposed to be
 		// formatted in green.  These are all handled first.
