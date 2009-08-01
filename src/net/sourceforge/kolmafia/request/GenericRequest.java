@@ -878,8 +878,14 @@ public class GenericRequest
 		{
 			InventoryManager.retrieveItem( ItemPool.CASINO_PASS );
 		}
-		else if ( location.startsWith( "pyramid.php" ) )
+		else if ( location.startsWith( "beach.php?action=woodencity" ) )
 		{
+			CreateItemRequest staff = CreateItemRequest.getInstance( ItemPool.STAFF_OF_ED );
+			if ( staff != null && staff.getQuantityPossible() > 0 )
+			{
+				staff.setQuantityNeeded( 1 );
+				staff.run();
+			}
 			AdventureResult hooks = ItemPool.get( ItemPool.WORM_RIDING_HOOKS, 1 );
 			AdventureResult machine = ItemPool.get( ItemPool.DRUM_MACHINE, 1 );
 			if ( KoLConstants.inventory.contains( hooks ) &&

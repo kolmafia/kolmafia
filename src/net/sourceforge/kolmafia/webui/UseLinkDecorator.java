@@ -549,7 +549,7 @@ public abstract class UseLinkDecorator
 			{
 			case ItemPool.WORM_RIDING_HOOKS:
 
-				return new UseLink( itemId, itemCount, "wormride", "pyramid.php" );
+				return new UseLink( itemId, itemCount, "wormride", "beach.php?action=woodencity" );
 			}
 
 			int outfit = EquipmentDatabase.getOutfitWithItem( itemId );

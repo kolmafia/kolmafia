@@ -491,6 +491,7 @@ public class ItemPool
 	public static final int WORM_RIDING_MANUAL_1 = 2320;
 	public static final int WORM_RIDING_MANUAL_2 = 2321;
 	public static final int WORM_RIDING_MANUAL_3_15 = 2322;
+	public static final int STAFF_OF_ED = 2325;
 	public static final int STONE_ROSE = 2326;
 	public static final int BLACK_PAINT = 2327;
 	public static final int DRUM_MACHINE = 2328;
