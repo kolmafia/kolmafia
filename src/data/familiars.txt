@@ -114,3 +114,4 @@
 110	Wereturtle	combat	3979	bottle of moontan lotion	3	1	0	2
 111	Baby Sandworm	stat1	3999	string of dingle balls	1	2	2	3
 112	Slimeling	item0,combat	4017	undissolvable contact lenses	3	3	2	2
+113	He-Boulder	meat0, combat	4148	quadroculars	3	3	2	1

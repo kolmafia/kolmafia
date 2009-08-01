@@ -1709,6 +1709,8 @@ pet rock &quot;Snooty&quot; disguise	Familiar Weight: +11
 plastic pumpkin bucket	Familiar Weight: +5, Item Drop: +13, Softcore Only
 prosthetic forehead	Familiar Weight: +5
 psychedelic bubble wand	Familiar Weight: +5
+# quadroculars: Helps Your He-Boulder See Better (x4)
+quadroculars	Familiar Weight: +5
 radioactive chew toy	Familiar Weight: +5
 rainbow tie	Familiar Weight: +5
 rat head balloon	Familiar Weight: -3

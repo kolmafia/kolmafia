@@ -4151,3 +4151,5 @@
 4145
 4146	floaty sand	usable	all	10
 4147	charged magnet	offhand	all	1500
+4148	floaty stone sphere	grow	all	9
+4149	quadroculars	familiar	all	75
