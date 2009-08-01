@@ -33,17 +33,14 @@
 
 package net.sourceforge.kolmafia.session;
 
+import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -67,13 +64,13 @@ public class MoneyMakingGameManager
 	public static final Pattern EVENT_PATTERN = Pattern.compile( "- (.*) \\(#(\\d+)\\) took your ([1234567890,]*) Meat bet, and you (won|lost)(, earning you ([0123456789,]*) Meat)?" );
 
 	// Current bets offered by others
-	private static LinkedList offered = new LinkedList();
+	private static ArrayList offered = new ArrayList();
 
 	// The amount I won or lost from the last bet I took
 	private static int lastWinnings = 0;
 
 	// Active bets I've made
-	private static LinkedList active = new LinkedList();
+	private static ArrayList active = new ArrayList();
 
 	// Bets I've made that are taken with no notification yet
 	private static LinkedList taken = new LinkedList();
@@ -176,7 +173,7 @@ public class MoneyMakingGameManager
 	public static final void parseMyBets( final String responseText )
 	{
 		// Constructed list of currently outstanding bets
-		LinkedList current = new LinkedList();
+		ArrayList current = new ArrayList();
 
 		// Assume there is no newly placed bet
 		MoneyMakingGameManager.lastBet = null;
