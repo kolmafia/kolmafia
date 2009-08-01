@@ -359,6 +359,12 @@ public class RequestLogger
 
 	public static final void updateSessionLog( final String line )
 	{
+		if ( StaticEntity.backtraceTrigger != null &&
+			line.indexOf( StaticEntity.backtraceTrigger ) != -1 )
+		{
+			StaticEntity.printStackTrace( "Backtrace triggered by session log message" );
+		}
+
 		RequestLogger.sessionStream.println( line );
 	}
 
@@ -392,6 +398,12 @@ public class RequestLogger
 
 	public static final void updateDebugLog( final String line )
 	{
+		if ( StaticEntity.backtraceTrigger != null &&
+			line.indexOf( StaticEntity.backtraceTrigger ) != -1 )
+		{
+			StaticEntity.printStackTrace( "Backtrace triggered by debug log message" );
+		}
+
 		RequestLogger.debugStream.println( line );
 	}
 
@@ -536,6 +548,16 @@ public class RequestLogger
 		}
 
 		if ( ( request instanceof CrimboCafeRequest || isExternal ) && CrimboCafeRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		// Check UseItemRequest early, so that lastItemUsed gets cleared
+		// when processing anything else.  Otherwise, any non-item-use
+		// that redirects to inventory.php?action=message (such as outfit
+		// changes) will cause the last item to be processed again.
+		if ( ( request instanceof UseItemRequest || isExternal ) && UseItemRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;
@@ -785,12 +807,6 @@ public class RequestLogger
 		}
 
 		if ( ( request instanceof UntinkerRequest || isExternal ) && UntinkerRequest.registerRequest( urlString ) )
-		{
-			RequestLogger.wasLastRequestSimple = false;
-			return;
-		}
-
-		if ( ( request instanceof UseItemRequest || isExternal ) && UseItemRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;
