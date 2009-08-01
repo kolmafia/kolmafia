@@ -315,6 +315,7 @@
 7079	Furious Cleave	5	5	0
 7080	Mighty Shout	5	0	0
 7081	Open the Bag o' Tricks	5	0	0
+7082	Point at your opponent	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 

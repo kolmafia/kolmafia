@@ -4151,3 +4151,5 @@
 4145
 4146	859278206	floaty sand	handfuls of floaty sand
 4147	318227286	charged magnet	charged magnets
+4148	690404713	floaty stone sphere	floaty stone spheres
+4149	289983640	quadroculars	pairs... sets(?) of quadroculars
