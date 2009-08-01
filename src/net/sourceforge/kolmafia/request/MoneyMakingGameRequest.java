@@ -95,9 +95,6 @@ public class MoneyMakingGameRequest
 	private static final int RETRACT_BET = 3;
 	private static final int TAKE_BET = 4;
 
-	public static final int INVENTORY = 0;
-	public static final int STORAGE = 1;
-
 	private final int type;
 
 	public MoneyMakingGameRequest()
@@ -138,14 +135,16 @@ public class MoneyMakingGameRequest
 		return true;
 	}
 
-	public void run()
-	{
-		super.run();
-	}
-
 	public void processResults()
 	{
                 String responseText = this.responseText;
+
+		if ( responseText.indexOf( "You can't gamble without a casino pass." ) != -1 )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have a casino pass." );
+			return;
+		}
+
 		MoneyMakingGameRequest.parseResponse( this.getURLString(), responseText );
 		switch ( this.type )
 		{
