@@ -52,6 +52,18 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MoneyMakingGameManager
 {
+	// To do:
+	//
+	// Provide interface to search for bets in a range
+	//
+	// Track Meat when you take a bet
+	//
+	// Make sure mmg_take_bet() works correctly.
+	//
+	// Don't bother saving bets on resolved unless the bet was submitted
+	// via ASH and there is therefore a chance that the event will be
+	// picked up by the script.
+
 	public static final Pattern PENDING_BETS_PATTERN = Pattern.compile( "Your Pending Bets:.*?<table>(.*?)</table>" );
 	public static final Pattern MY_BET_PATTERN = Pattern.compile( "<tr>.*?([0123456789,]+) Meat.*?betid value='(\\d*)'.*?</tr>" );
 
@@ -87,10 +99,22 @@ public class MoneyMakingGameManager
 	// The last event handled
 	private static Event lastEvent = null;
 
+	// The following are needed to detect bets that are taken before we are
+	// able to learn the bet ID and register them.
+
+	// Initial ID for a dummy bet: already gone before KoL returns the list
+	// of current bets.
+	private static int dummyBetId = -1;
+
+	// The amount of the bet we are in the process of submitting
+	public static int makingBet = 0;
+
 	public static void reset()
 	{
 		MoneyMakingGameManager.offered.clear();
 		MoneyMakingGameManager.lastWinnings = 0;
+		MoneyMakingGameManager.makingBet = 0;
+		MoneyMakingGameManager.dummyBetId = -1;
 		MoneyMakingGameManager.active.clear();
 		MoneyMakingGameManager.taken.clear();
 		MoneyMakingGameManager.lastBet = null;
@@ -178,6 +202,17 @@ public class MoneyMakingGameManager
 		// Assume there is no newly placed bet
 		MoneyMakingGameManager.lastBet = null;
 
+		// If we are placing a bet but it was rejected, 
+		if ( MoneyMakingGameManager.makingBet != 0 )
+		{
+			if ( responseText.indexOf( "don't have enough" ) != -1 ||
+			     responseText.indexOf( "without a casino pass" ) != -1 )
+
+			{
+				MoneyMakingGameManager.makingBet = 0;
+			}
+		}
+
 		// Find all currently active bets
 		Matcher pending = PENDING_BETS_PATTERN.matcher( responseText );
 		if ( pending.find() )
@@ -192,7 +227,7 @@ public class MoneyMakingGameManager
 				if ( bet == null )
 				{
 					// This is a new bet
-					bet = new Bet( betId, amount, KoLCharacter.getUserName(), KoLCharacter.getUserId() );
+					bet = new Bet( betId, amount );
 					MoneyMakingGameManager.lastBet = bet;
 				}
 
@@ -210,6 +245,21 @@ public class MoneyMakingGameManager
 				// Bet is gone. Move to taken
 				MoneyMakingGameManager.handleTakenBet( bet );
 			}
+		}
+
+		// KoL redirects us from the URL that submitted the bet to,
+		// simply, bet.php. It is possible for our bet to be taken
+		// before we get the response from that page. When this
+		// happens, we will not detect a new bet.
+
+		if ( MoneyMakingGameManager.makingBet != 0 && MoneyMakingGameManager.lastBet == null )
+		{
+			// Make a dummy bet to match with the eventual event -
+			// which could have arrived already, too.
+			Bet bet = new Bet( MoneyMakingGameManager.dummyBetId--,
+					   MoneyMakingGameManager.makingBet );
+			MoneyMakingGameManager.lastBet = bet;
+			MoneyMakingGameManager.handleTakenBet( bet );
 		}
 
 		// Finally, save new list of active bets
@@ -443,6 +493,15 @@ public class MoneyMakingGameManager
 			return;
 		}
 
+		// If chat is active, the event signaling the taking of a bet
+		// can arrive before the response from the request that
+		// submitted it.
+		if ( MoneyMakingGameManager.makingBet != 0 )
+		{
+			MoneyMakingGameManager.received.add( ev );
+			return;
+		}
+
 		// No matching active or taken bet. Drop event.
 	}
 
@@ -594,6 +653,11 @@ public class MoneyMakingGameManager
 			this.player = player;
 			this.playerId = playerId;
 			this.fromStorage = false;
+		}
+
+		public Bet( final int betId, final int amount )
+		{
+			this( betId, amount, KoLCharacter.getUserName(), KoLCharacter.getUserId() );
 		}
 
 		public int getId()

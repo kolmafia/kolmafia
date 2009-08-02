@@ -146,6 +146,7 @@ public class MoneyMakingGameRequest
 		}
 
 		MoneyMakingGameRequest.parseResponse( this.getURLString(), responseText );
+
 		switch ( this.type )
 		{
 		case MoneyMakingGameRequest.VISIT:
@@ -204,6 +205,7 @@ public class MoneyMakingGameRequest
 		if ( responseText.indexOf( "You make a bet." ) != -1 )
 		{
 			MoneyMakingGameManager.makeBet( responseText );
+			MoneyMakingGameManager.makingBet = 0;
 			return;
 		}
 
@@ -254,6 +256,9 @@ public class MoneyMakingGameRequest
 			{
 				return true;
 			}
+
+			// Remember that we're making a bet
+			MoneyMakingGameManager.makingBet = howmuch;
 
 			message = "Betting " + howmuch + " meat from " + from;
 		}
