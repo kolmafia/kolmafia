@@ -477,9 +477,14 @@ public class StringUtilities
 	public static final String globalStringReplace( final String originalString, final String searchString,
 		final String replaceString )
 	{
+		if ( searchString.equals( "" ) )
+		{
+			return originalString;
+		}
+
 		// Using a regular expression, while faster, results
 		// in a lot of String allocation overhead.  So, use
-		// a static finalally-allocated StringBuffers.
+		// a static finally-allocated StringBuffers.
 
 		int lastIndex = originalString.indexOf( searchString );
 		if ( lastIndex == -1 )
@@ -509,6 +514,11 @@ public class StringUtilities
 
 	public static final void globalStringReplace( final StringBuffer buffer, final String tag, String replaceWith )
 	{
+		if ( tag.equals( "" ) )
+		{
+			return;
+		}
+
 		if ( replaceWith == null )
 		{
 			replaceWith = "";
