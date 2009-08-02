@@ -152,19 +152,10 @@ public class MoneyMakingGameRequest
 		case MoneyMakingGameRequest.VISIT:
 			break;
 		case MoneyMakingGameRequest.MAKE_BET:
-			// You open your wallet and proudly pull out Meat. The
-			// old man gives you a funny look, and you start to
-			// sweat. After rifling through your pockets for a few
-			// awkward moments, you realize that you just don't
-			// have enough data. I mean, Meat. To make that wager.
-			//
-			// After a wait that seems to take forever, the old man
-			// turns to you and says, "Sorry, kid, but Hagnk's
-			// secretary says that you don't have enough Meat to
-			// make that big of a wager. Care to try again?"
-			if ( responseText.indexOf( "don't have enough" ) != -1 )
+			String error = MoneyMakingGameRequest.makeBetErrorMessage( responseText );
+			if ( error != null )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have enough meat." );
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, error );
 			}
 			break;
 		case MoneyMakingGameRequest.RETRACT_BET:
@@ -187,6 +178,41 @@ public class MoneyMakingGameRequest
 		}
 	}
 
+	private static String makeBetErrorMessage( final String responseText )
+	{
+		// You can't make a wager for less than 1,000 Meat. Sad, but
+		// true.
+		if ( responseText.indexOf( "can't make a wager" ) != -1 )
+		{
+			return "You must bet at least 1000 meat.";
+		}
+
+		// You open your wallet and proudly pull out Meat. The old man
+		// gives you a funny look, and you start to sweat. After
+		// rifling through your pockets for a few awkward moments, you
+		// realize that you just don't have enough data. I mean,
+		// Meat. To make that wager.
+		//
+		// After a wait that seems to take forever, the old man turns
+		// to you and says, "Sorry, kid, but Hagnk's secretary says
+		// that you don't have enough Meat to make that big of a
+		// wager. Care to try again?"
+
+		if ( responseText.indexOf( "don't have enough" ) != -1 )
+		{
+			return "You don't have enough meat.";
+		}
+
+		// You can't have more than five bets running at one
+		// time. Strange, but true.
+		if ( responseText.indexOf( "Strange, but true" ) != -1 )
+		{
+			return "You can only have five bets at a time.";
+		}
+
+		return null;
+	}
+
 	public static final void parseResponse( final String urlString, final String responseText )
 	{
 		if ( !urlString.startsWith( "bet.php" ) )
@@ -194,11 +220,21 @@ public class MoneyMakingGameRequest
 			return;
 		}
 
-		// Parse offered bets from responseText
-		MoneyMakingGameManager.parseOfferedBets( responseText );
+		// In registerRequest, we saved the amount we were betting.
+		// Detect if our bet was rejected outright and forget the
+		// pending bet, if so.
+
+		if ( MoneyMakingGameManager.makingBet != 0 &&
+		     MoneyMakingGameRequest.makeBetErrorMessage( responseText ) != null )
+		{
+			MoneyMakingGameManager.makingBet = 0;
+		}
 
 		// Parse my bets from responseText
 		MoneyMakingGameManager.parseMyBets( responseText );
+
+		// Parse offered bets from responseText
+		MoneyMakingGameManager.parseOfferedBets( responseText );
 
 		// When you make a bet, you are redirected from the URL you
 		// submitted to make it to bet.php

@@ -202,17 +202,6 @@ public class MoneyMakingGameManager
 		// Assume there is no newly placed bet
 		MoneyMakingGameManager.lastBet = null;
 
-		// If we are placing a bet but it was rejected, 
-		if ( MoneyMakingGameManager.makingBet != 0 )
-		{
-			if ( responseText.indexOf( "don't have enough" ) != -1 ||
-			     responseText.indexOf( "without a casino pass" ) != -1 )
-
-			{
-				MoneyMakingGameManager.makingBet = 0;
-			}
-		}
-
 		// Find all currently active bets
 		Matcher pending = PENDING_BETS_PATTERN.matcher( responseText );
 		if ( pending.find() )
