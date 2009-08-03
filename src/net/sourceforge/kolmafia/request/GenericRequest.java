@@ -1758,8 +1758,13 @@ public class GenericRequest
 		// In the Sorceress's entryway, the message is "You see a puff
 		// of smoke come from your sack, and catch a whiff of burnt
 		// clover"
+		//
+		// In the Spooky Forest's Lucky, Lucky! encounter, the message is
+		// "Your ten-leaf clover disappears into the leprechaun's pocket"
 
-		if ( this.responseText.indexOf( "clover" ) != -1 && this.responseText.indexOf( "puff of smoke" ) != -1 )
+		if ( this.responseText.indexOf( "clover" ) != -1 &&
+			( this.responseText.indexOf( "puff of smoke" ) != -1 ||
+			this.responseText.indexOf( "into the leprechaun's pocket" ) != -1 ) )
 		{
 			ResultProcessor.processItem( ItemPool.TEN_LEAF_CLOVER, -1 );
 		}
