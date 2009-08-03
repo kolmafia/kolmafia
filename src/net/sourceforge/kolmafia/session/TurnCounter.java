@@ -354,6 +354,41 @@ implements Comparable
 		return false;
 	}
 
+	public static final String getCounters( String label, int minTurns, int maxTurns )
+	{
+		label = label.toLowerCase();
+		boolean checkExempt = label.length() == 0;
+		minTurns += KoLCharacter.getCurrentRun();
+		maxTurns += KoLCharacter.getCurrentRun();
+		StringBuffer buf = new StringBuffer();
+		TurnCounter current;
+		Iterator it = TurnCounter.relayCounters.iterator();
+
+		while ( it.hasNext() )
+		{
+			current = (TurnCounter) it.next();
+			if ( current.value < minTurns || current.value > maxTurns )
+			{
+				continue;
+			}
+			if ( checkExempt && current.isExempt( "" ) )
+			{
+				continue;
+			}
+			if ( current.label.toLowerCase().indexOf( label ) == -1 )
+			{
+				continue;
+			}
+			if ( buf.length() != 0 )
+			{
+				buf.append( "\t" );
+			}
+			buf.append( current.label );
+		}
+
+		return buf.toString();
+	}
+
 	private static final int getTurnsUsed( GenericRequest request )
 	{
 		if ( !( request instanceof RelayRequest ) )

@@ -112,6 +112,7 @@ import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
+import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.ItemManageFrame;
 //import net.sourceforge.kolmafia.swingui.ScriptUIFrame;
@@ -661,6 +662,9 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "have_bartender", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.INT_TYPE, DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "get_counters", DataTypes.STRING_TYPE, params ) );
 
 		// String parsing functions.
 
@@ -2646,6 +2650,11 @@ public abstract class RuntimeLibrary
 	public static Value have_bartender()
 	{
 		return DataTypes.makeBooleanValue( KoLCharacter.hasBartender() );
+	}
+
+	public static Value get_counters( final Value label, final Value min, final Value max )
+	{
+		return new Value( TurnCounter.getCounters( label.toString(), min.intValue(), max.intValue() ) );
 	}
 
 	// String parsing functions.
