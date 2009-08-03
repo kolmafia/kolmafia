@@ -296,6 +296,7 @@ public abstract class KoLCharacter
 
 	private static int arenaWins = 0;
 	private static int stillsAvailable = 0;
+	private static boolean guildStoreStateKnown = false;
 
 	// Listener-driven container items
 
@@ -515,6 +516,7 @@ public abstract class KoLCharacter
 		KoLCharacter.isUsingStabBat = false;
 
 		KoLCharacter.stillsAvailable = -1;
+		KoLCharacter.guildStoreStateKnown = false;
 		KoLCharacter.beanstalkArmed = false;
 
 		KoLCharacter.ascensions = 0;
@@ -2645,6 +2647,29 @@ public abstract class KoLCharacter
 	public static final void decrementStillsAvailable( final int decrementAmount )
 	{
 		KoLCharacter.setStillsAvailable( KoLCharacter.stillsAvailable - decrementAmount );
+	}
+	
+	public static final boolean getGuildStoreOpen()
+	{
+		if ( KoLCharacter.getAscensions() == Preferences.getInteger( "lastGuildStoreOpen" ) )
+		{
+			return true;
+		}
+		if ( KoLCharacter.guildStoreStateKnown )
+		{
+			return false;
+		}
+		RequestThread.postRequest( new GuildRequest() );
+		return KoLCharacter.getAscensions() == Preferences.getInteger( "lastGuildStoreOpen" );
+	}
+	
+	public static void setGuildStoreOpen( boolean isOpen )
+	{
+		if ( isOpen )
+		{
+			Preferences.setInteger( "lastGuildStoreOpen", KoLCharacter.getAscensions() );
+		}
+		KoLCharacter.guildStoreStateKnown = true;
 	}
 
 	public static final boolean canUseWok()
