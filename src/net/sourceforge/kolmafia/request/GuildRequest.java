@@ -272,9 +272,11 @@ public class GuildRequest
 		{
 			return;
 		}
+		
+		KoLCharacter.setGuildStoreOpen( responseText.indexOf( "store.php" ) != -1 );
 
 		Matcher matcher = PLACE_PATTERN.matcher( urlString );
-		String place = matcher.find() ? matcher.group(1) : null;
+		String place = matcher.find() ? matcher.group( 1 ) : null;
 
 		if ( place != null && place.equals( "still" ) )
 		{

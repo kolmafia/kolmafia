@@ -305,6 +305,7 @@ user	lastEVHelmetReset	-1
 user	lastEmptiedStorage	-1
 user	lastFilthClearance	-1
 user	lastGalleryUnlock	-1
+user	lastGuildStoreOpen	-1
 user	lastGuyMadeOfBeesReset	-1
 user	lastHiddenCityAscension	0
 user	lastFratboyCall	-1

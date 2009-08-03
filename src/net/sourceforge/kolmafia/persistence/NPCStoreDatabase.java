@@ -152,15 +152,18 @@ public class NPCStoreDatabase
 
 		if ( storeId.equals( "1" ) )
 		{
-			return KoLCharacter.isMoxieClass();
+			return KoLCharacter.isMoxieClass() &&
+				KoLCharacter.getGuildStoreOpen();
 		}
 		else if ( storeId.equals( "2" ) )
 		{
-			return KoLCharacter.isMysticalityClass() || classType.equals( KoLCharacter.ACCORDION_THIEF ) && KoLCharacter.getLevel() >= 9;
+			return (KoLCharacter.isMysticalityClass() || classType.equals( KoLCharacter.ACCORDION_THIEF ) && KoLCharacter.getLevel() >= 9) &&
+				KoLCharacter.getGuildStoreOpen();
 		}
 		else if ( storeId.equals( "3" ) )
 		{
-			return KoLCharacter.isMuscleClass() || classType.equals( KoLCharacter.ACCORDION_THIEF ) && KoLCharacter.getLevel() >= 9;
+			return (KoLCharacter.isMuscleClass() || classType.equals( KoLCharacter.ACCORDION_THIEF ) && KoLCharacter.getLevel() >= 9) &&
+				KoLCharacter.getGuildStoreOpen();
 		}
 		else if ( storeId.equals( "b" ) )
 		{
