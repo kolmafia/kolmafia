@@ -1016,6 +1016,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "mmg_visit", DataTypes.VOID_TYPE, params ) );
 
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "mmg_search", DataTypes.VOID_TYPE, params ) );
+
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.BOOLEAN_TYPE };
 		functions.add( new LibraryFunction( "mmg_make_bet", DataTypes.INT_TYPE, params ) );
 
@@ -3697,26 +3700,34 @@ public abstract class RuntimeLibrary
 		return DataTypes.VOID_VALUE;
 	}
 
+	public static Value mmg_search( final Value arg1, final Value arg2 )
+	{
+		int lower = arg1.intValue();
+		int higher = arg2.intValue();
+		RequestThread.postRequest( new MoneyMakingGameRequest( MoneyMakingGameRequest.SEARCH, lower, higher ) );
+		return DataTypes.VOID_VALUE;
+	}
+
 	public static Value mmg_make_bet( final Value arg, final Value source )
 	{
 		int amount = arg.intValue();
-		boolean storage = source.intValue() == 1;
-		RequestThread.postRequest( new MoneyMakingGameRequest( amount, storage ) );
+		int storage = source.intValue();
+		RequestThread.postRequest( new MoneyMakingGameRequest( MoneyMakingGameRequest.MAKE_BET, amount, storage ) );
 		return new Value( MoneyMakingGameManager.getLastBetId() );
 	}
 
 	public static Value mmg_retract_bet( final Value arg )
 	{
 		int id = arg.intValue();
-		RequestThread.postRequest( new MoneyMakingGameRequest( id ) );
+		RequestThread.postRequest( new MoneyMakingGameRequest( MoneyMakingGameRequest.RETRACT_BET, id ) );
 		return RuntimeLibrary.continueValue();
 	}
 
 	public static Value mmg_take_bet( final Value arg, final Value source )
 	{
 		int betId = arg.intValue();
-		boolean storage = source.intValue() == 1;
-		RequestThread.postRequest( new MoneyMakingGameRequest( betId, storage, true ) );
+		int storage = source.intValue();
+		RequestThread.postRequest( new MoneyMakingGameRequest( MoneyMakingGameRequest.TAKE_BET, betId, storage ) );
 		return new Value( MoneyMakingGameManager.getLastWinnings() );
 	}
 
