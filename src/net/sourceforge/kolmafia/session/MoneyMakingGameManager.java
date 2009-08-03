@@ -54,8 +54,6 @@ public class MoneyMakingGameManager
 {
 	// To do:
 	//
-	// Provide interface to search for bets in a range
-	//
 	// Track Meat when you take a bet
 	//
 	// Make sure mmg_take_bet() works correctly.
@@ -67,7 +65,7 @@ public class MoneyMakingGameManager
 	public static final Pattern PENDING_BETS_PATTERN = Pattern.compile( "Your Pending Bets:.*?<table>(.*?)</table>" );
 	public static final Pattern MY_BET_PATTERN = Pattern.compile( "<tr>.*?([0123456789,]+) Meat.*?betid value='(\\d*)'.*?</tr>" );
 
-	public static final Pattern RECENT_BETS_PATTERN = Pattern.compile( "Last 20 Bets:.*?<table.*?>(.*?)</table>" );
+	public static final Pattern RECENT_BETS_PATTERN = Pattern.compile( "(Last 20 Bets|Bets Found).*?<table.*?>(.*?)</table>" );
 	public static final Pattern OFFERED_BET_PATTERN = Pattern.compile( "<tr>.*?showplayer.*?<b>(.*?)</b> \\(#(\\d*)\\).*?([0123456789,]+) Meat.*?whichbet value='(\\d*)'.*?</tr>" );
 
 	// Babycakes (#311877) took your 1,000 Meat bet, and you lost. Better luck next time.
@@ -175,7 +173,7 @@ public class MoneyMakingGameManager
 		Matcher recent = RECENT_BETS_PATTERN.matcher( responseText );
 		if ( recent.find() )
 		{
-			Matcher betMatcher = OFFERED_BET_PATTERN.matcher( recent.group( 1 ) );
+			Matcher betMatcher = OFFERED_BET_PATTERN.matcher( recent.group( 2 ) );
 			while ( betMatcher.find() )
 			{
 				String player = betMatcher.group( 1 );

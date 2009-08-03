@@ -90,44 +90,69 @@ public class MoneyMakingGameRequest
 		return MoneyMakingGameRequest.parseInteger( BETID_PATTERN, urlString );
 	}
 
-	private static final int VISIT = 1;
-	private static final int MAKE_BET = 2;
-	private static final int RETRACT_BET = 3;
-	private static final int TAKE_BET = 4;
+	public static final int VISIT = 1;
+	public static final int SEARCH = 2;
+	public static final int MAKE_BET = 3;
+	public static final int RETRACT_BET = 4;
+	public static final int TAKE_BET = 5;
 
-	private final int type;
+	public static final int INVENTORY = 0;
+	public static final int STORAGE = 1;
+
+	private final int action;
 
 	public MoneyMakingGameRequest()
 	{
 		super( "bet.php" );
-		this.type = MoneyMakingGameRequest.VISIT;
+		this.action = MoneyMakingGameRequest.VISIT;
 	}
 
-	public MoneyMakingGameRequest( final int amount, final boolean storage )
+	public MoneyMakingGameRequest( final int action, final int arg1 )
 	{
 		super( "bet.php" );
-		this.addFormField( "action", "makebet" );
-		this.addFormField( "from", storage ? "1" : "0" );
-		this.addFormField( "howmuch", String.valueOf( amount ) );
-		this.type = MoneyMakingGameRequest.MAKE_BET;
+		this.action = action;
+		switch ( action )
+		{
+		case MoneyMakingGameRequest.VISIT:
+		case MoneyMakingGameRequest.SEARCH:
+		case MoneyMakingGameRequest.MAKE_BET:
+		case MoneyMakingGameRequest.TAKE_BET:
+			// These don't make sense
+			break;
+		case MoneyMakingGameRequest.RETRACT_BET:
+			this.addFormField( "action", "retract" );
+			this.addFormField( "betid", String.valueOf( arg1 ) );
+			break;
+		}
 	}
 
-	public MoneyMakingGameRequest( final int betid )
+	public MoneyMakingGameRequest( final int action, final int arg1, final int arg2 )
 	{
 		super( "bet.php" );
-		this.addFormField( "action", "retract" );
-		this.addFormField( "betid", String.valueOf( betid ) );
-		this.type = MoneyMakingGameRequest.RETRACT_BET;
-	}
-
-	public MoneyMakingGameRequest( final int betid, final boolean storage, final boolean dummy )
-	{
-		super( "bet.php" );
-		this.addFormField( "action", "bet" );
-		this.addFormField( "whichbet", String.valueOf( betid ) );
-		this.addFormField( "from", storage ? "1" : "0" );
-		this.addFormField( "confirm", "on" );
-		this.type = MoneyMakingGameRequest.TAKE_BET;
+		this.action = action;
+		switch ( action )
+		{
+		case MoneyMakingGameRequest.VISIT:
+		case MoneyMakingGameRequest.RETRACT_BET:
+			// These don't make sense
+			break;
+		case MoneyMakingGameRequest.SEARCH:
+			this.addFormField( "action", "search" );
+			this.addFormField( "lower", String.valueOf( arg1 ) );
+			this.addFormField( "higher", String.valueOf( arg2 ) );
+			break;
+		case MoneyMakingGameRequest.MAKE_BET:
+			this.addFormField( "action", "makebet" );
+			this.addFormField( "howmuch", String.valueOf( arg1 ) );
+			this.addFormField( "from", String.valueOf( arg2 ) );
+			break;
+		case MoneyMakingGameRequest.TAKE_BET:
+			this.addFormField( "action", "bet" );
+			this.addFormField( "whichbet", String.valueOf( arg1 ) );
+			this.addFormField( "from", String.valueOf( arg2 ) );
+			this.addFormField( "confirm", "on" );
+			break;
+		}
 	}
 
 	protected boolean shouldFollowRedirect()
@@ -147,9 +172,10 @@ public class MoneyMakingGameRequest
 
 		MoneyMakingGameRequest.parseResponse( this.getURLString(), responseText );
 
-		switch ( this.type )
+		switch ( this.action )
 		{
 		case MoneyMakingGameRequest.VISIT:
+		case MoneyMakingGameRequest.SEARCH:
 			break;
 		case MoneyMakingGameRequest.MAKE_BET:
 			String error = MoneyMakingGameRequest.makeBetErrorMessage( responseText );
