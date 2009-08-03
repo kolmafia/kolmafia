@@ -1420,7 +1420,7 @@ public class UseItemRequest
 
 			int fullness = ItemDatabase.getFullness( item.getName() );
 			int couldEat = fullness == 0 ? 0 : 
-				Math.min( item.getCount() - 1, (KoLCharacter.getFullnessLimit() - KoLCharacter.getFullness()) / fullness );
+				Math.max( 0, Math.min( item.getCount() - 1, (KoLCharacter.getFullnessLimit() - KoLCharacter.getFullness()) / fullness ) );
 			Preferences.increment( "currentFullness", couldEat * fullness );
 			
 			int estimatedFullness = KoLCharacter.getFullnessLimit() - fullness + 1;
