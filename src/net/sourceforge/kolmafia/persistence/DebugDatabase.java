@@ -471,6 +471,11 @@ public class DebugDatabase
 
 	public static final String rawItemDescriptionText( final int itemId )
 	{
+		return DebugDatabase.rawItemDescriptionText( itemId, false );
+	}
+
+	public static final String rawItemDescriptionText( final int itemId, boolean forceReload )
+	{
 		Integer id = new Integer( itemId );
 		String descId = ItemDatabase.getDescriptionId( id );
 		if ( descId == null || descId.equals( "" ) )
@@ -479,7 +484,7 @@ public class DebugDatabase
 		}
 
 		String previous = DebugDatabase.rawItems.get( itemId );
-		if ( previous != null && !previous.equals( "" ) )
+		if ( !forceReload && previous != null && !previous.equals( "" ) )
 		{
 			return previous;
 		}

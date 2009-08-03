@@ -1507,7 +1507,10 @@ public class ItemDatabase
 
 		for ( int i = 2271; i <= 2276; ++i )
 		{
-			ItemDatabase.identifyDustyBottle( i );
+			if ( !ItemDatabase.identifyDustyBottle( i ) )
+			{
+				return;	// don't mark data valid if identification failed!
+			}
 		}
 
 		Preferences.setInteger( "lastDustyBottleReset", KoLCharacter.getAscensions() );
@@ -1519,21 +1522,24 @@ public class ItemDatabase
 
 	private static final Pattern GLYPH_PATTERN = Pattern.compile( "Arcane Glyph #(\\d)" );
 
-	private static final void identifyDustyBottle( final int itemId )
+	private static final boolean identifyDustyBottle( final int itemId )
 	{
 		String glyph = "";
 
-		String description = DebugDatabase.rawItemDescriptionText( itemId );
-		if ( description != null )
+		String description = DebugDatabase.rawItemDescriptionText( itemId, true );
+		if ( description == null )
 		{
-			Matcher matcher = ItemDatabase.GLYPH_PATTERN.matcher( description );
-			if ( matcher.find() )
-			{
-				glyph = matcher.group( 1 );
-			}
+			return false;
 		}
+		Matcher matcher = ItemDatabase.GLYPH_PATTERN.matcher( description );
+		if ( !matcher.find() )
+		{
+			return false;
+		}
+		glyph = matcher.group( 1 );
 
 		Preferences.setString( "lastDustyBottle" + itemId, glyph );
+		return true;
 	}
 
 	public static final void getDustyBottles()
@@ -1542,7 +1548,8 @@ public class ItemDatabase
 		int current = KoLCharacter.getAscensions();
 		if ( lastAscension < current )
 		{
-			if ( current > 0 && InventoryManager.hasItem( ItemPool.SPOOKYRAVEN_SPECTACLES ) )
+			if ( (current > 0 && InventoryManager.hasItem( ItemPool.SPOOKYRAVEN_SPECTACLES )) ||
+				(current == 0 && KoLCharacter.hasEquipped( ItemPool.get( ItemPool.SPOOKYRAVEN_SPECTACLES, 1 ) )) )
 			{
 				ItemDatabase.identifyDustyBottles();
 				return;
