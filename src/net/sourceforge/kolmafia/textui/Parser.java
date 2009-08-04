@@ -1602,9 +1602,9 @@ public class Parser
 		}
 
 		// Get an aggregate reference
-		Value aggregate = this.parseVariableReference( parentScope );
+		Value aggregate = this.parseValue( parentScope );
 
-		if ( aggregate == null || !( aggregate instanceof VariableReference ) || !( aggregate.getType().getBaseType() instanceof AggregateType ) )
+		if ( aggregate == null || !( aggregate.getType().getBaseType() instanceof AggregateType ) )
 		{
 			throw this.parseException( "Aggregate reference expected" );
 		}
@@ -1616,23 +1616,32 @@ public class Parser
 
 		for ( int i = 0; i < names.size(); ++i )
 		{
-			if ( !( type instanceof AggregateType ) )
+			Type itype;
+			if ( type == null )
 			{
 				throw this.parseException( "Too many key variables specified" );
 			}
+			else if ( !( type instanceof AggregateType ) )
+			{	// Variable after all key vars holds the value instead
+				itype = type;
+				type = null;
+			}
+			else
+			{
+				itype = ( (AggregateType) type ).getIndexType();
+				type = ( (AggregateType) type ).getDataType();
+			}
 
-			Type itype = ( (AggregateType) type ).getIndexType();
 			Variable keyvar = new Variable( (String) names.get( i ), itype );
 			varList.add( keyvar );
 			variableReferences.add( new VariableReference( keyvar ) );
-			type = ( (AggregateType) type ).getDataType();
 		}
 
 		// Parse the scope with the list of keyVars
 		Scope scope = this.parseLoopScope( functionType, varList, parentScope );
 
 		// Add the foreach node with the list of varRefs
-		return new ForEachLoop( scope, variableReferences, (VariableReference) aggregate );
+		return new ForEachLoop( scope, variableReferences, aggregate );
 	}
 
 	private ForLoop parseFor( final Type functionType, final BasicScope parentScope )
