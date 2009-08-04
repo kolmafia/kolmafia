@@ -5855,6 +5855,7 @@ public class KoLmafiaCLI
 		if ( !filter.equals( "" ) && ( parameters.startsWith( "summary" ) || parameters.startsWith( "session" ) || parameters.equals( "status" ) || parameters.startsWith( "equip" ) || parameters.startsWith( "encounters" ) || parameters.startsWith( "locations" ) ) )
 		{
 			desiredOutputStream = LogStream.openStream( new File( UtilityConstants.ROOT_LOCATION, filter ), false );
+			filter = "";
 		}
 
 		this.showData( list, filter, desiredOutputStream );
