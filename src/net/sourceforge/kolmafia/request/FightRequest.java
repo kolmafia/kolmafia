@@ -121,7 +121,7 @@ public class FightRequest
 	private static final Pattern ITEM2_PATTERN = Pattern.compile( "whichitem2=(\\d+)" );
 
 	private static final Pattern FAMILIAR_ACT_PATTERN =
-		Pattern.compile( "<table><tr><td align=center.*?</table>", Pattern.DOTALL );
+		Pattern.compile( "<!--familiarmessage-->.*?</table>", Pattern.DOTALL );
 	private static final Pattern FUMBLE_PATTERN =
 		Pattern.compile( "You drop your .*? on your .*?, doing [\\d,]+ damage" );
 	private static final Pattern CLEESH_PATTERN =
@@ -2952,7 +2952,8 @@ public class FightRequest
 		FightRequest.action1 = null;
 		FightRequest.action2 = null;
 
-		if ( urlString.equals( "fight.php" ) )
+		if ( urlString.equals( "fight.php" ) ||
+			urlString.indexOf( "ireallymeanit=" ) != -1 )
 		{
 			return true;
 		}
