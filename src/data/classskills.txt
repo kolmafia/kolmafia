@@ -1,4 +1,7 @@
 3
+#Syntax is:
+#id	Name	Type	MP Cost	Duration[	Level]
+
 1	Liver of Steel	0	0	0
 2	Chronic Indigestion	5	5	0
 3	The Smile of Mr. A.	4	5	40
@@ -128,8 +131,8 @@
 3004	Entangling Noodles	5	3	0	2
 3005	Cannelloni Cannon	5	7	0	4
 3006	Pastamastery	1	10	0	5
-3007	Stuffed Mortar Shell	5	19	0	8
-3008	Weapon of the Pastalord	5	35	0	10
+3007	Stuffed Mortar Shell	5	15	0	8
+3008	Weapon of the Pastalord	5	28	0	10
 3009	Lasagna Bandages	2	6	0	3
 3010	Leash of Linguini	3	12	10	11
 3011	Spirit of Rigatoni	0	0	0	7
@@ -140,7 +143,7 @@
 3016	Tolerance of the Kitchen	0	0	0	13
 3017	Flavour of Magic	0	0	0	14
 3018	Transcendental Noodlecraft	0	0	0	15
-3019	Fearful Fettucini	5	35	0
+3019	Fearful Fettucini	5	28	0
 3020	Spaghetti Spear	5	1	0	0
 3021	Tempuramancy	0	0	0
 
@@ -163,10 +166,10 @@
 4006	Advanced Saucecrafting	1	10	0	5
 4007	Elemental Saucesphere	4	10	5	4
 4008	Jalape&ntilde;o Saucesphere	4	5	5	7
-4009	Wave of Sauce	5	23	0	8
+4009	Wave of Sauce	5	18	0	8
 4010	Intrinsic Spiciness	0	0	0	9
 4011	Jaba&ntilde;ero Saucesphere	4	10	5	10
-4012	Saucegeyser	5	40	0	11
+4012	Saucegeyser	5	32	0	11
 4013
 4014	Saucy Salve	5	4	0	2
 4015	Impetuous Sauciness	0	0	0	12
