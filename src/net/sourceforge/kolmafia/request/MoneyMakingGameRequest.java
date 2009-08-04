@@ -162,7 +162,7 @@ public class MoneyMakingGameRequest
 
 	public void processResults()
 	{
-                String responseText = this.responseText;
+		String responseText = this.responseText;
 
 		if ( responseText.indexOf( "You can't gamble without a casino pass." ) != -1 )
 		{
@@ -172,35 +172,26 @@ public class MoneyMakingGameRequest
 
 		MoneyMakingGameRequest.parseResponse( this.getURLString(), responseText );
 
+		String error = null;
 		switch ( this.action )
 		{
 		case MoneyMakingGameRequest.VISIT:
 		case MoneyMakingGameRequest.SEARCH:
 			break;
 		case MoneyMakingGameRequest.MAKE_BET:
-			String error = MoneyMakingGameRequest.makeBetErrorMessage( responseText );
-			if ( error != null )
-			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, error );
-			}
+			error = MoneyMakingGameRequest.makeBetErrorMessage( responseText );
 			break;
 		case MoneyMakingGameRequest.RETRACT_BET:
-			// You don't have a bet with that ID. Likely, someone
-			// already took it.
-			if ( responseText.indexOf( "don't have a bet with that ID" ) != -1 )
-			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Could not retract bet." );
-			}
+			error = MoneyMakingGameRequest.retractBetErrorMessage( responseText );
 			break;
 		case MoneyMakingGameRequest.TAKE_BET:
-			// The old man looks at you quizzically. &quot;There's
-			// no bet like that anywhere in our records. Maybe
-			// someone else got to it before you could.&quot;
-			if ( this.responseText.indexOf( "no bet like that" ) != -1 )
-			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Could not take bet." );
-			}
+			error = MoneyMakingGameRequest.takeBetErrorMessage( responseText );
 			break;
+		}
+
+		if ( error != null )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, error );
 		}
 	}
 
@@ -234,6 +225,45 @@ public class MoneyMakingGameRequest
 		if ( responseText.indexOf( "Strange, but true" ) != -1 )
 		{
 			return "You can only have five bets at a time.";
+		}
+
+		return null;
+	}
+
+	private static String retractBetErrorMessage( final String responseText )
+	{
+		// You don't have a bet with that ID. Likely, someone already
+		// took it.
+		if ( responseText.indexOf( "don't have a bet with that ID" ) != -1 )
+		{
+			return "Could not retract bet.";
+		}
+
+		return null;
+	}
+
+	private static String takeBetErrorMessage( final String responseText )
+	{
+		// The old man looks at you quizzically. &quot;There's no bet
+		// like that anywhere in our records. Maybe someone else got to
+		// it before you could.&quot;
+		if ( responseText.indexOf( "no bet like that" ) != -1 )
+		{
+			return "Could not take bet.";
+		}
+
+		// You rifle through your wallet, but can't seem to fish out
+		// enough Meat to afford the wager. You'll have to try
+		// something cheaper.
+		//
+		// &quot;Sorry, kid,&quot; the old man says to
+		// you. &quot;Hagnk's secretary says that you don't have enough
+		// to take that bet.&quot;
+
+		if ( responseText.indexOf( "fish out enough" ) != -1 ||
+		     responseText.indexOf( "don't have enough" ) != -1)
+		{
+			return "You don't have enough meat.";
 		}
 
 		return null;

@@ -54,10 +54,6 @@ public class MoneyMakingGameManager
 {
 	// To do:
 	//
-	// Track Meat when you take a bet
-	//
-	// Make sure mmg_take_bet() works correctly.
-	//
 	// Don't bother saving bets on resolved unless the bet was submitted
 	// via ASH and there is therefore a chance that the event will be
 	// picked up by the script.
@@ -72,6 +68,9 @@ public class MoneyMakingGameManager
 	// Babycakes (#311877) took your 1,000 Meat bet, and you won, earning you 1,998 Meat.
 
 	public static final Pattern EVENT_PATTERN = Pattern.compile( "- (.*) \\(#(\\d+)\\) took your ([1234567890,]*) Meat bet, and you (won|lost)(, earning you ([0123456789,]*) Meat)?" );
+
+	public static final Pattern TAKE_BET_PATTERN = Pattern.compile( "You take the ([0123456789,]*) bet" );
+	public static final Pattern WON_BET_PATTERN = Pattern.compile( "(You gain|have him deliver) ([0123456789,]*) Meat" );
 
 	// Current bets offered by others
 	private static ArrayList offered = new ArrayList();
@@ -387,37 +386,59 @@ public class MoneyMakingGameManager
 	{
 		MoneyMakingGameManager.lastWinnings = 0;
 
-		// bet.php?action=bet&whichbet=58251231&from=0&confirm=on&pwd
-
-		// The old man looks at you quizzically. &quot;There's
-		// no bet like that anywhere in our records. Maybe
-		// someone else got to it before you could.&quot;
-
-		// <td valign=center>You bet 5,000 Meat.</td>
-		//
-		// &quot;Tough luck, kid. Maybe next time.&quot;
-		//    or
-		// You gain 15,984 Meat.
-
-		// You take the 1,000 bet from Spunky Monkey. You look
-		// nervously at the old man, and he nods at you, indicating
-		// that Hagnk's has cleared you for an expenditure of 1,000
-		// Meat.
-		//
-		// &quot;Tough luck, kid. Maybe next time.&quot;
-		//
-		// &quot;Congratulations,&quot; says the old man. &quot;I'll
-		// call Godot up and have him deliver 1,998 Meat to your
-		// account immediately.&quot;
-
+		// Find out if the bet took money from inventory or storage
 		String from = MoneyMakingGameRequest.getFromString( urlString );
-		int whichbet = MoneyMakingGameRequest.getWhichBet( urlString );
-		if ( from == null || whichbet < 0 )
+		if ( from == null )
 		{
 			return;
 		}
+		boolean storage = from.equals( "1" );
 
-		return;
+		// Find bet amount. If we can't, we failed to take the bet for
+		// some reason.
+
+		Matcher takeMatcher = TAKE_BET_PATTERN.matcher( responseText );
+		if ( !takeMatcher.find() )
+		{
+			return;
+		}
+		int amount = StringUtilities.parseInt( takeMatcher.group( 1 ) );
+
+		// Start out by deducting the bet cost from the meat source
+		if ( storage )
+		{
+			// Subtract meat from storage
+			KoLCharacter.addStorageMeat( -amount );
+		}
+		else
+		{
+			// Subtract meat from inventory
+			ResultProcessor.processMeat( -amount );
+		}
+
+		// See if we won.
+
+		Matcher wonMatcher = WON_BET_PATTERN.matcher( responseText );
+		if ( !wonMatcher.find() )
+		{
+			MoneyMakingGameManager.lastWinnings = -amount;
+			return;
+		}
+		int winnings = StringUtilities.parseInt( wonMatcher.group( 2 ) );
+
+		// We did. Add back your winnings.
+		if ( storage )
+		{
+			// Add meat to storage
+			KoLCharacter.addStorageMeat( winnings );
+		}
+		else
+		{
+			// Add meat to inventory
+			ResultProcessor.processMeat( winnings );
+		}
+
+		MoneyMakingGameManager.lastWinnings = winnings - amount;
 	}
 
 	public static final int getLastWinnings()
