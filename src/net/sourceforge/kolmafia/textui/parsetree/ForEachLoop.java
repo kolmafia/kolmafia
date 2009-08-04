@@ -45,10 +45,10 @@ public class ForEachLoop
 	extends Loop
 {
 	private final VariableReferenceList variableReferences;
-	private final VariableReference aggregate;
+	private final Value aggregate;
 
 	public ForEachLoop( final Scope scope, final VariableReferenceList variableReferences,
-		final VariableReference aggregate )
+		final Value aggregate )
 	{
 		super( scope );
 		this.variableReferences = variableReferences;
@@ -65,7 +65,7 @@ public class ForEachLoop
 		return this.variableReferences.iterator();
 	}
 
-	public VariableReference getAggregate()
+	public Value getAggregate()
 	{
 		return this.aggregate;
 	}
@@ -120,9 +120,17 @@ public class ForEachLoop
 			Value result;
 			if ( nextVariable != null )
 			{
-				AggregateValue nextSlice = (AggregateValue) slice.aref( key, interpreter );
-				interpreter.traceIndent();
-				result = this.executeSlice( interpreter, nextSlice, it, nextVariable );
+				Value nextSlice = slice.aref( key, interpreter );
+				if ( nextSlice instanceof AggregateValue )
+				{
+					interpreter.traceIndent();
+					result = this.executeSlice( interpreter, (AggregateValue) nextSlice, it, nextVariable );
+				}
+				else	// value var instead of key var
+				{
+					nextVariable.setValue( interpreter, nextSlice );
+					result = super.execute( interpreter );
+				}
 			}
 			else
 			{
