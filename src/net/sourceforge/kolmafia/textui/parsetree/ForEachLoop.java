@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.textui.parsetree;
 import java.io.PrintStream;
 
 import java.util.Iterator;
+import java.util.ListIterator;
 
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.textui.DataTypes;
@@ -92,11 +93,11 @@ public class ForEachLoop
 
 		// Iterate over the slice with bound keyvar
 
-		Iterator it = this.getReferences();
+		ListIterator it = (ListIterator) this.getReferences();
 		return this.executeSlice( interpreter, slice, it, (VariableReference) it.next() );
 	}
 
-	private Value executeSlice( final Interpreter interpreter, final AggregateValue slice, final Iterator it,
+	private Value executeSlice( final Interpreter interpreter, final AggregateValue slice, final ListIterator it,
 		final VariableReference variable )
 	{
 		// Get an array of keys for the slice
@@ -148,10 +149,18 @@ public class ForEachLoop
 				interpreter.setState( Interpreter.STATE_NORMAL );
 			}
 
+			if ( nextVariable != null )
+			{
+				it.previous();
+			}
 			interpreter.traceUnindent();
 			return result;
 		}
 
+		if ( nextVariable != null )
+		{
+			it.previous();
+		}
 		interpreter.traceUnindent();
 		return DataTypes.VOID_VALUE;
 	}

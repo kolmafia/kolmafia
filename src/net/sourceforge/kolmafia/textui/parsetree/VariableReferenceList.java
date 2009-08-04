@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.ListIterator;
 
 public class VariableReferenceList
 {
@@ -48,7 +49,7 @@ public class VariableReferenceList
 
 	public Iterator iterator()
 	{
-		return list.iterator();
+		return list.listIterator();
 	}
 
 	public int size()
