@@ -969,6 +969,12 @@ public abstract class KoLCharacter
 		return KoLCharacter.baseMaxMP;
 	}
 
+	/**
+	 * Accessor method to retrieve the amount of meat in Hagnk's storage.
+	 *
+	 * @return The amount of meat in storage.
+	 */
+
 	public static final int getStorageMeat()
 	{
 		return KoLCharacter.storageMeat;
@@ -985,17 +991,6 @@ public abstract class KoLCharacter
 	}
 
 	/**
-	 * Accessor method to set the amount of meat in the character's closet.
-	 *
-	 * @param closetMeat The amount of meat in the character's closet.
-	 */
-
-	public static final void setClosetMeat( final int closetMeat )
-	{
-		KoLCharacter.closetMeat = closetMeat;
-	}
-
-	/**
 	 * Accessor method to retrieve the amount of meat in the character's closet.
 	 *
 	 * @return The amount of meat in the character's closet.
@@ -1004,6 +999,11 @@ public abstract class KoLCharacter
 	public static final int getClosetMeat()
 	{
 		return KoLCharacter.closetMeat;
+	}
+
+	public static final void setClosetMeat( final int closetMeat )
+	{
+		KoLCharacter.closetMeat = closetMeat;
 	}
 
 	/**

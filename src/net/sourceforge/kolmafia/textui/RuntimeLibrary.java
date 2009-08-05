@@ -340,6 +340,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "put_closet", DataTypes.BOOLEAN_TYPE, params ) );
 
+		params = new Type[] { DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "put_closet_meat", DataTypes.BOOLEAN_TYPE, params ) );
+
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "put_shop", DataTypes.BOOLEAN_TYPE, params ) );
 
@@ -354,6 +357,9 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "take_closet", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "take_closet_meat", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "take_storage", DataTypes.BOOLEAN_TYPE, params ) );
@@ -507,6 +513,9 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "my_meat", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "my_closet_meat", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "my_adventures", DataTypes.INT_TYPE, params ) );
@@ -1799,6 +1808,18 @@ public abstract class RuntimeLibrary
 		return RuntimeLibrary.continueValue();
 	}
 
+	public static Value put_closet_meat( final Value meatValue )
+	{
+		int meat = meatValue.intValue();
+		if ( meat <= 0 )
+		{
+			return RuntimeLibrary.continueValue();
+		}
+
+		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "closet", "put " + meat + " meat" );
+		return RuntimeLibrary.continueValue();
+	}
+
 	public static Value put_shop( final Value priceValue, final Value limitValue, final Value item )
 	{
 		int price = priceValue.intValue();
@@ -1855,6 +1876,18 @@ public abstract class RuntimeLibrary
 		}
 
 		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "closet", "take " + count + " \u00B6" + item.intValue() );
+		return RuntimeLibrary.continueValue();
+	}
+
+	public static Value take_closet_meat( final Value meatValue )
+	{
+		int meat = meatValue.intValue();
+		if ( meat <= 0 )
+		{
+			return RuntimeLibrary.continueValue();
+		}
+
+		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "closet", "take " + meat + " meat" );
 		return RuntimeLibrary.continueValue();
 	}
 
@@ -2308,6 +2341,11 @@ public abstract class RuntimeLibrary
 	public static Value my_meat()
 	{
 		return new Value( KoLCharacter.getAvailableMeat() );
+	}
+
+	public static Value my_closet_meat()
+	{
+		return new Value( KoLCharacter.getClosetMeat() );
 	}
 
 	public static Value my_adventures()
