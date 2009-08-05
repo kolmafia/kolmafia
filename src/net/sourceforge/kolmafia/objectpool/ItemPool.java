@@ -878,13 +878,14 @@ public class ItemPool
 	public static final int MOONTAN_LOTION = 4003;
 	public static final int AMINO_ACIDS = 4006;
 	public static final int CONTACT_LENSES = 4019;
-	public static final int WUMPUS_HAIR = 4044;
 	public static final int GRAPPLING_HOOK = 4029;
 	public static final int SMALL_STONE_BLOCK = 4030;
 	public static final int LITTLE_STONE_BLOCK = 4031;
 	public static final int HALF_STONE_CIRCLE = 4032;
 	public static final int STONE_HALF_CIRCLE = 4033;
 	public static final int IRON_KEY = 4034;
+	public static final int CULTIST_ROBE = 4040;
+	public static final int WUMPUS_HAIR = 4044;
 	public static final int INDIGO_PARTY_INVITATION = 4060;
 	public static final int VIOLET_HUNT_INVITATION = 4061;
 	public static final int BLUE_MILK_CLUB_CARD = 4062;

@@ -136,6 +136,7 @@ filthy knitted dread sack	Stench Damage: +3, Familiar Effect: "1xVolley, 1xPotat
 fire	Intrinsic Effect: "Head on Fire, Ass Catching", Hot Damage: +7, Familiar Effect: "hot atk, 1xVolley, cap 2"
 foolscap fool's cap	Moxie: +2, Mysticality: -2, Clownosity: +1, Familiar Effect: "3xVolley, cap 10"
 football helmet	Familiar Effect: "atk, cap 37"
+funny paper hat	Moxie: +5, Muscle: +5, Mysticality: +5, Familiar Effect: "unknown, cap 2"
 furry green turtle	Moxie: +3, Familiar Effect: "2xPotato, 2xFairy, cap 11"
 ganger bandana	Muscle Percent: +5, Weapon Damage Percent: +15, Familiar Effect: "atk"
 gasmask	Stench Resistance: +3, Familiar Effect: "?xBarrr, cap 12"
