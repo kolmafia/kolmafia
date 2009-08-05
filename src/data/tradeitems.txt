@@ -4148,7 +4148,7 @@
 4142
 4143
 4144
-4145
+4145	funny paper hat	hat	display	0
 4146	floaty sand	usable	all	10
 4147	charged magnet	offhand	all	1500
 4148	floaty stone sphere	grow	all	9

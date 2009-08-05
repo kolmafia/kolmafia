@@ -525,6 +525,11 @@ public class ValhallaDecorator
 			buffer.append( "<nobr>trade in barrels of gunpowder for big boom</nobr><br>" );
 		}
 
+		if ( InventoryManager.hasItem( ItemPool.CULTIST_ROBE ) )
+		{
+			buffer.append( "<nobr>autosell your memory of a cultist's robe(s)</nobr><br>" );
+		}
+
 		GenericRequest trophyCheck = new GenericRequest( "trophy.php" );
 		trophyCheck.run();
 		if ( trophyCheck.responseText.indexOf( "You're not currently entitled to any trophies" ) == -1 )
