@@ -89,6 +89,7 @@ public class UneffectRequest
 		if ( this.isShruggable )
 		{
 			this.addFormField( "action", "unbuff" );
+			this.addFormField( "ajax", "1" );
 			this.addFormField( "whichbuff", String.valueOf( this.effectId ) );
 		}
 		else
@@ -277,11 +278,6 @@ public class UneffectRequest
 		// Assume it worked.
 
 		KoLConstants.activeEffects.remove( this.effect );
-
-		if ( this.isShruggable )
-		{
-			CharSheetRequest.parseStatus( this.responseText );
-		}
 
 		KoLmafia.updateDisplay( this.effect.getName() + " removed." );
 		RequestFrame.refreshStatus();

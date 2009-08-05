@@ -356,7 +356,8 @@ public abstract class StaticEntity
 			CampgroundRequest.parseResponse( location, responseText );
 		}
 
-		else if ( location.startsWith( "charsheet.php" ) )
+		else if ( location.startsWith( "charsheet.php" ) &&
+			location.indexOf( "ajax=1" ) == -1 )
 		{
 			CharSheetRequest.parseStatus( responseText );
 		}
