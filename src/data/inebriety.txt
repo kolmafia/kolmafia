@@ -157,6 +157,7 @@ pan-dimensional gargle blaster	5	12	23-27	77-97	61-69	56-70
 papaya sling	3	1	3-8	16-30	0	0
 papaya slung	3	2	4-8	11-15	11-15	11-15
 parisian cathouse	3	3	5-10	0	0	16-20
+pebblebr&auml;u	1	1	1-2	50-80	50-80	50-80
 perpendicular hula	4	4	10-14	0	0	34-36
 petite porter	3	4	3-5	0	0	0
 pink pony	4	4	10-14	25-27	0	8-10

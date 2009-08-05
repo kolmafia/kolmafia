@@ -4153,3 +4153,16 @@
 4147	318227286	charged magnet	charged magnets
 4148	690404713	floaty stone sphere	floaty stone spheres
 4149	289983640	quadroculars	pairs... sets(?) of quadroculars
+4150
+4151
+4152
+4153	814007585	rockfish stomach	rockfish stomachs
+4154	320604525	live lobster	live lobsters
+4155	731799311	wok lobster	wok lobsters
+4156	937155902	floaty pebbles	handfuls of floaty pebbles
+4157	509110073	floaty gravel	handfuls of floaty gravel
+4158	842256289	floaty rock	floaty rocks
+4159	963994975	rock lobster	rock lobsters
+4160	152129110	pebblebr&auml;u	bottles of pebblebr&auml;u
+4161	243723339	rocky road ice cream	bowls of rocky road ice cream
+4162	655102853	extra-strength rubber bands	pairs of extra-strength rubber bands

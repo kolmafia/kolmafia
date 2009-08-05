@@ -1654,6 +1654,7 @@ das boot	Familiar Weight: -10, Familiar Effect: "adventure underwater"
 dental pliers	Familiar Weight: +5
 diamond-studded fronts	Familiar Weight: +5
 # evil teddy bear sewing kit: Teddy Bear loses less stuffing when hit.
+extra-strength rubber bands	Familiar Weight: +5
 eye 'n' horn shampoo	Familiar Weight: +5
 eye-pod	Familiar Weight: +5
 false eyelashes	Familiar Weight: +5
