@@ -4153,3 +4153,16 @@
 4147	charged magnet	offhand	all	1500
 4148	floaty stone sphere	grow	all	9
 4149	quadroculars	familiar	all	75
+4150
+4151
+4152
+4153	rockfish stomach	usable	all	170
+4154	live lobster	usable	all	0
+4155	wok lobster	usable	all	0
+4156	floaty pebbles	none	all	0
+4157	floaty gravel	none	all	0
+4158	floaty rock	none	all	0
+4159	rock lobster	grow	all	200
+4160	pebblebr&auml;u	booze	all	50
+4161	rocky road ice cream	food	all	150
+4162	extra-strength rubber bands	familiar	all	75

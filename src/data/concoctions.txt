@@ -159,6 +159,8 @@ pirate zombie head	COMBINE	clockwork pirate skull	zombie pineal gland
 pirate zombie robot head	COMBINE	pirate zombie head	glowing red eye
 ninja pirate zombie robot head	COMBINE	pirate zombie robot head	cold ninja mask
 
+rock lobster	SUSE	wok lobster	floaty rock
+
 wet stew	COOK	bird rib	lion oil
 wet stunt nut stew	COOK	wet stew	stunt nuts
 
@@ -227,6 +229,7 @@ Lucky Surprise Egg	COOK	ten-leaf clover	cocoa egg
 mushroom pizza	COOK	plain pizza	Knob mushroom
 pie crust	COOK	Gnollish pie tin	wad of dough
 plain pizza	COOK	wad of dough	tomato
+rocky road ice cream	COOK	glass of goat's milk	floaty gravel
 sausage pizza	COOK	plain pizza	Knob sausage
 spicy bean burrito	COOK	bean burrito	spices
 spicy enchanted bean burrito	COOK	enchanted bean burrito	spices
@@ -417,6 +420,7 @@ shot of orange schnapps	MIX	fermenting powder	orange
 shot of tomato schnapps	MIX	fermenting powder	tomato
 bottle of sake (3)	MIX	fermenting powder	white rice
 green beer	MIX	ten-leaf clover	ice-cold Sir Schlitz
+pebblebr&auml;u	MIX	floaty pebbles	ice-cold Sir Schlitz
 
 
 # Tier 3 and tier 4 beverages which can be made by anyone.  These are
@@ -899,6 +903,9 @@ spooky wad	MALUS	spooky nuggets (5)
 stench wad	MALUS	stench nuggets (5)
 sleaze wad	MALUS	sleaze nuggets (5)
 
+floaty pebbles	MALUS	floaty sand (5)
+floaty gravel	MALUS	floaty pebbles (5)
+floaty rock	MALUS	floaty gravel (5)
 
 # KoLmafia currently doesn't support items with more than one creation method
 
@@ -954,7 +961,6 @@ concoction of clumsiness	SAUCE	scrumptious reagent	lion oil
 # Advanced Sauces
 
 scrumdiddlyumptious solution	SUSE	delectable catalyst	scrumptious reagent
-
 
 # Reagent potions.
 
@@ -1050,6 +1056,7 @@ rat appendix chow mein	WOK	rat appendix stir-fry	dry noodles	MSG
 tofu chow mein	WOK	tofu stir-fry	dry noodles	MSG
 
 unfortunate dumplings	WOK	C.H.U.M. chum	dry noodles	MSG
+wok lobster	WOK	live lobster	dry noodles	MSG
 
 cold and sour sauce	SSAUCE	scrumdiddlyumptious solution	cold nuggets
 hot and sour sauce	SSAUCE	scrumdiddlyumptious solution	hot nuggets
