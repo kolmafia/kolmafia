@@ -26,6 +26,11 @@ spooky nuggets	upgrade
 sleaze nuggets	upgrade
 sewer nuggets	upgrade
 
+# Floaty items are upgradeable.
+floaty sand	upgrade
+floaty pebbles	upgrade
+floaty gravel	upgrade
+
 # Ultra-rare items smash into ultimate wads.
 17-ball	ultimate wad
 Counterclockwise Watch	ultimate wad
