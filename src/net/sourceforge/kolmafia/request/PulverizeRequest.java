@@ -33,6 +33,7 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -55,6 +56,14 @@ public class PulverizeRequest
 {
 	public static final Pattern ITEMID_PATTERN = Pattern.compile( "smashitem=(\\d+)" );
 	public static final Pattern QUANTITY_PATTERN = Pattern.compile( "qty=(\\d+)" );
+	private static final HashMap UPGRADES = new HashMap();
+	static {
+		UPGRADES.put( "powder", "nuggets" );
+		UPGRADES.put( "nuggets", "wad" );
+		UPGRADES.put( "sand", "pebbles" );
+		UPGRADES.put( "pebbles", "gravel" );
+		UPGRADES.put( "gravel", "rock" );
+	}
 
 	private AdventureResult item;
 
@@ -134,19 +143,13 @@ public class PulverizeRequest
 
 		default:
 			int qty = this.item.getCount();
-			if ( this.item.getName().endsWith( "powder" ) )
+			String name = this.item.getName();
+			int space = name.lastIndexOf( " " ) + 1;
+			String upgrade = (String) PulverizeRequest.UPGRADES.get(
+				name.substring( space ) );
+			if ( upgrade != null )
 			{
-				this.useMalus( StringUtilities.singleStringReplace(
-					this.item.getName(), "powder", "nuggets" ), qty / 5 );
-				// This 2nd step isn't necessarily a good idea: the player
-				// might want the nuggets themselves (for hi meins, perhaps).
-				//this.useMalus( StringUtilities.singleStringReplace(
-				//	this.item.getName(), "powder", "wad" ), qty / 25 );
-			}
-			else if ( this.item.getName().endsWith( "nuggets" ) )
-			{
-				this.useMalus( StringUtilities.singleStringReplace(
-					this.item.getName(), "nuggets", "wad" ), qty / 5 );
+				this.useMalus( name.substring( 0, space ) + upgrade, qty / 5 );
 			}
 
 			return;
