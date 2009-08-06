@@ -785,6 +785,7 @@ watertight seal	HP: 404 Def: 350 Atk: 351	hyperinflated seal lung (100)
 wet seal	HP: 201 Def: 175 Atk: 178	mannequin leg (0)	seal lube (0)
 
 # Unknown new content
+clod hopper	HP: 0	floaty sand (20)	floaty sand (20)	floaty sand (20)
 rock homunculus	HP: 42 Def: 30 Atk: 30	floaty sand (20)	floaty sand (20)
 rock snake	HP: 20	floaty sand (25)
 
