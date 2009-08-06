@@ -4163,6 +4163,6 @@
 4157	floaty gravel	none	all	0
 4158	floaty rock	none	all	0
 4159	rock lobster	grow	all	200
-4160	pebblebr&auml;u	booze	all	50
+4160	pebblebr&auml;u	drink	all	50
 4161	rocky road ice cream	food	all	150
 4162	extra-strength rubber bands	familiar	all	75

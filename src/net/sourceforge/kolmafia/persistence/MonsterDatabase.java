@@ -37,6 +37,7 @@ import java.io.BufferedReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
 
@@ -213,6 +214,11 @@ public class MonsterDatabase
 		}
 
 		return (Monster) MonsterDatabase.MONSTER_DATA.get( matchingNames.get( 0 ) );
+	}
+
+	public static final Set entrySet()
+	{
+		return MonsterDatabase.MONSTER_DATA.entrySet();
 	}
 
 	public static final Monster registerMonster( final String name, final String s )

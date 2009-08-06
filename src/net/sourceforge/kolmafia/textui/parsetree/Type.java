@@ -2,8 +2,21 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import java.io.PrintStream;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.KoLAdventure;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.EffectDatabase;
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
 
@@ -45,6 +58,7 @@ public class Type
 {
 	public boolean primitive;
 	private final int type;
+	private Value allValues = null;
 
 	public Type( final String name, final int type )
 	{
@@ -165,6 +179,102 @@ public class Type
 			return DataTypes.parseElementValue( name, returnDefault );
 		}
 		return null;
+	}
+
+	public Value allValues()
+	{
+		if ( this.allValues != null ) return this.allValues;
+		
+		ArrayList list = new ArrayList();
+		switch ( this.type )
+		{
+		case DataTypes.TYPE_BOOLEAN:
+			this.addValues( list, DataTypes.BOOLEANS );
+			break;
+		case DataTypes.TYPE_ITEM:
+			int limit = ItemDatabase.maxItemId();
+			for ( int i = 1; i <= limit; ++i )
+			{
+				if ( i != 13 && ItemDatabase.getItemDataName( i ) != null )
+				{
+					list.add( DataTypes.makeItemValue( i ) );
+				}
+			}
+			break;
+		case DataTypes.TYPE_LOCATION:
+			this.addValues( list, AdventureDatabase.getAsLockableListModel() );
+			break;
+		case DataTypes.TYPE_CLASS:
+			this.addValues( list, DataTypes.CLASSES );
+			break;
+		case DataTypes.TYPE_STAT:
+			this.addValues( list, DataTypes.STATS, 0, 3 );
+			break;
+		case DataTypes.TYPE_SKILL:
+			this.addValues( list, SkillDatabase.entrySet() );
+			break;
+		case DataTypes.TYPE_EFFECT:
+			this.addValues( list, EffectDatabase.entrySet() );
+			break;
+		case DataTypes.TYPE_FAMILIAR:
+			this.addValues( list, FamiliarDatabase.entrySet() );
+			break;
+		case DataTypes.TYPE_SLOT:
+			this.addValues( list, EquipmentRequest.slotNames );
+			break;
+		case DataTypes.TYPE_MONSTER:
+			this.addValues( list, MonsterDatabase.entrySet() );
+			break;
+		case DataTypes.TYPE_ELEMENT:
+			this.addValues( list, MonsterDatabase.elementNames, 1, -1 );
+			break;
+		default:
+			return null;
+		}
+		this.allValues = new PluralValue( this, list );
+		return this.allValues;
+	}
+	
+	private void addValues( ArrayList results, String[] values )
+	{
+		this.addValues( results, values, 0, -1 );
+	}
+
+	private void addValues( ArrayList results, String[] values, int start, int stop )
+	{
+		if ( stop == -1 ) stop = values.length;
+		for ( int i = start; i < stop; ++i )
+		{
+			Value v = this.parseValue( values[ i ], false );
+			if ( v != null ) results.add( v );
+		}
+	}
+
+	private void addValues( ArrayList results, Collection values )
+	{
+		Iterator i = values.iterator();
+		while ( i.hasNext() )
+		{
+			Object o = i.next();
+			if ( o instanceof Map.Entry )
+			{	// Some of the database entrySet() methods return
+				// Integer:String mappings, others String:<something>.
+				// Attempt to handle either transparently.
+				Map.Entry e = (Map.Entry) o;
+				o = e.getKey();
+				if ( !(o instanceof String) )
+				{
+					o = e.getValue();
+				}
+			}
+			if ( o instanceof KoLAdventure )
+			{	// KoLAdventure.toString() returns "zone: location",
+				// which isn't parseable as an ASH location.
+				o = ((KoLAdventure) o).getAdventureName();
+			}
+			Value v = this.parseValue( o.toString(), false );
+			if ( v != null ) results.add( v );
+		}
 	}
 
 	public Value initialValueExpression()

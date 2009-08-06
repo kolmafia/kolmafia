@@ -70,6 +70,7 @@ import net.sourceforge.kolmafia.textui.parsetree.LoopBreak;
 import net.sourceforge.kolmafia.textui.parsetree.LoopContinue;
 import net.sourceforge.kolmafia.textui.parsetree.Operator;
 import net.sourceforge.kolmafia.textui.parsetree.ParseTreeNode;
+import net.sourceforge.kolmafia.textui.parsetree.PluralValue;
 import net.sourceforge.kolmafia.textui.parsetree.RecordType;
 import net.sourceforge.kolmafia.textui.parsetree.RepeatUntilLoop;
 import net.sourceforge.kolmafia.textui.parsetree.Scope;
@@ -2354,7 +2355,7 @@ public class Parser
 
 		else if ( this.currentToken().equals( "\"" ) || this.currentToken().equals( "\'" ) )
 		{
-			result = this.parseString();
+			result = this.parseString( null );
 		}
 
 		else if ( this.currentToken().equals( "$" ) )
@@ -2480,24 +2481,46 @@ public class Parser
 		return true;
 	}
 
-	private Value parseString()
+	private Value parseString( Type type )
 	{
 		// Directly work with currentLine - ignore any "tokens" you meet until
 		// the string is closed
 
 		StringBuffer resultString = new StringBuffer();
-		char startCharacter = this.currentLine.charAt( 0 );
+		char stopCharacter, ch;
+		ArrayList list = null;
+		if ( type == null )
+		{	// Plain string constant
+			stopCharacter = this.currentLine.charAt( 0 );
+		}
+		else
+		{	// Typed plural constant - handled by same code as plain strings
+			// so that they can share escape character processing
+			stopCharacter = ']';
+			list = new ArrayList();
+		}
 
-		for ( int i = 1;; ++i )
+		for ( int i = 1; ; ++i )
 		{
 			if ( i == this.currentLine.length() )
 			{
-				throw this.parseException( "No closing \" found" );
+				if ( type == null )
+				{	// Plain strings can't span lines
+					throw this.parseException( "No closing \" found" );
+				}
+				this.currentLine = "";
+				this.fixLines();
+				i = 0;
+				if ( this.currentLine == null )
+				{
+					throw this.parseException( "No closing ] found" );
+				}
 			}
 
-			if ( this.currentLine.charAt( i ) == '\\' )
+			ch = this.currentLine.charAt( i );
+			if ( ch == '\\' )
 			{
-				char ch = this.currentLine.charAt( ++i );
+				ch = this.currentLine.charAt( ++i );
 
 				switch ( ch )
 				{
@@ -2511,12 +2534,6 @@ public class Parser
 
 				case 't':
 					resultString.append( '\t' );
-					break;
-
-				case '\\':
-				case '\'':
-				case '\"':
-					resultString.append( ch );
 					break;
 
 				case 'x':
@@ -2537,13 +2554,39 @@ public class Parser
 						BigInteger octal = new BigInteger( this.currentLine.substring( i, i + 3 ), 8 );
 						resultString.append( (char) octal.intValue() );
 						i += 2;
+						break;
 					}
+					resultString.append( ch );
 				}
 			}
-			else if ( this.currentLine.charAt( i ) == startCharacter )
+			else if ( ch == stopCharacter ||
+				( type != null && ch == ',' ) )
 			{
-				this.currentLine = this.currentLine.substring( i + 1 ); //+ 1 to get rid of '"' token
-				return new Value( resultString.toString() );
+				if ( type == null )
+				{	// Plain string
+					this.currentLine = this.currentLine.substring( i + 1 ); //+ 1 to get rid of '"' token
+					return new Value( resultString.toString() );
+				}
+				String element = resultString.toString().trim();
+				resultString.setLength( 0 );
+				if ( element.length() != 0 )
+				{
+					Value value = DataTypes.parseValue( type, element, false );
+					if ( value == null )
+					{
+						throw this.parseException( "Bad " + type.toString() + " value: \"" + element + "\"" );
+					}
+					list.add( value );
+				}
+				if ( ch == ']' )
+				{
+					this.currentLine = this.currentLine.substring( i + 1 );
+					if ( list.size() == 0 )
+					{	// Empty list - caller will interpret this specially
+						return null;
+					}
+					return new PluralValue( type, list );
+				}
 			}
 			else
 			{
@@ -2558,9 +2601,38 @@ public class Parser
 
 		String name = this.currentToken();
 		Type type = this.parseType( scope, false, false );
-		if ( type == null || !type.isPrimitive() )
+		if ( type == null )
 		{
-			throw this.parseException( "Unknown type " + name );
+			StringBuffer buf = new StringBuffer( this.currentLine );
+			if ( name.endsWith( "s" ) )
+			{
+				buf.deleteCharAt( name.length() - 1 );
+				this.currentLine = buf.toString();
+				type = this.parseType( scope, false, false );
+				if ( type == null && name.endsWith( "es" ) )
+				{
+					buf.deleteCharAt( name.length() - 2 );
+					this.currentLine = buf.toString();
+					type = this.parseType( scope, false, false );
+				}
+				if ( type == null )
+				{
+					throw this.parseException( "Unknown type " + name );
+				}
+				if ( !type.isPrimitive() )
+				{
+					throw this.parseException( "Non-primitive type " + name );
+				}
+				Value value = this.parseString( type );
+				if ( value != null ) return value;	// explicit list of values
+				value = type.allValues();
+				if ( value != null ) return value;	// implicit enumeration
+				throw this.parseException( "Can't enumerate all " + name );
+			}
+		}
+		if ( !type.isPrimitive() )
+		{
+			throw this.parseException( "Non-primitive type " + name );
 		}
 
 		if ( !this.currentToken().equals( "[" ) )
