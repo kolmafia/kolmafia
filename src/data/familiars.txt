@@ -115,4 +115,4 @@
 111	Baby Sandworm	stat1	3999	string of dingle balls	1	2	2	3
 112	Slimeling	item0,combat	4017	undissolvable contact lenses	3	3	2	2
 113	He-Boulder	meat0, combat	4148	quadroculars	3	3	2	1
-114	Rock Lobster	none	4159	extra-strength rubber bands	0	0	0	0
+114	Rock Lobster	none	4159	extra-strength rubber bands	3	2	2	1
