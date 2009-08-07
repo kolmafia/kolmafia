@@ -285,9 +285,9 @@
 279	suntan lotion of moxiousness	multiple	all	150
 280	Pick-O-Matic lockpicks	none	all	15
 281	gasmask	hat	all	16
-282	Boris's key	none	none	0
-283	Jarlsberg's key	none	none	0
-284	Sneaky Pete's key	none	none	0
+282	Boris's key	none, matchable	none	0
+283	Jarlsberg's key	none, matchable	none	0
+284	Sneaky Pete's key	none, matchable	none	0
 285	walrus-tusk earring	accessory	all	30
 286	ring of half-assed regeneration	accessory	all	30
 287	Boris's ring	accessory	all	50
@@ -668,7 +668,7 @@
 662	star buckler	offhand	all	225
 663	star throwing star	none, combat	all	100
 664	star starfish	grow	all	100
-665	Richard's star key	none	none	0
+665	Richard's star key	none, matchable	none	0
 666	steaming evil	offhand	all	0
 667	giant castle map	usable	none	0
 668	spiked femur	weapon	all	105
@@ -694,7 +694,7 @@
 688	pixel hat	hat	all	65
 689	pixel pants	pants	all	65
 690	pixel sword	weapon	all	65
-691	digital key	none	none	0
+691	digital key	none, matchable	none	0
 692	Ascension Souvenir T-Shirt	shirt	all	20
 693	harem girl t-shirt	shirt	all	30
 694	Knob Goblin elite shirt	shirt	all	40
