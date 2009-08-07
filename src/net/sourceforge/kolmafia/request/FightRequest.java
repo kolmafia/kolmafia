@@ -65,6 +65,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Monster;
 import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
 import net.sourceforge.kolmafia.request.HiddenCityRequest;
+import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
@@ -1622,6 +1623,13 @@ public class FightRequest
 			{
 				KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Bounty item failed to drop from expected monster." );
 			}
+		}
+		
+		// Check for GMoB defeat
+		if ( responseText.indexOf( "guy made of bee pollen" ) != -1 )
+		{
+			// Record that we beat the guy made of bees.
+			Preferences.setBoolean( "guyMadeOfBeesDefeated", true );
 		}
 		
 		// Check for free runaways

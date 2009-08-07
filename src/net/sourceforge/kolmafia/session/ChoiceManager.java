@@ -2762,7 +2762,7 @@ public abstract class ChoiceManager
 				// beat the guy made of bees. Record it now.
 				Preferences.setBoolean( "guyMadeOfBeesDefeated", true );
 			}
-			else if ( text.indexOf( "Nothing happens." ) != -1 )
+			else
 			{
 				// Increment the number of times we've
 				// called the guy made of bees.
