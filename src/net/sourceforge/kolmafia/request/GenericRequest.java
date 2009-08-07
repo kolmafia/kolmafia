@@ -1761,9 +1761,12 @@ public class GenericRequest
 		//
 		// In the Spooky Forest's Lucky, Lucky! encounter, the message is
 		// "Your ten-leaf clover disappears into the leprechaun's pocket"
+		//
+		// The Hippy Camp (In Disguise)'s A Case of the Baskets, the message
+		// is "Like the smoke your ten-leaf clover disappears in a puff of"
 
 		if ( this.responseText.indexOf( "clover" ) != -1 &&
-			( this.responseText.indexOf( "puff of smoke" ) != -1 ||
+			( this.responseText.indexOf( "puff" ) != -1 ||
 			this.responseText.indexOf( "into the leprechaun's pocket" ) != -1 ) )
 		{
 			ResultProcessor.processItem( ItemPool.TEN_LEAF_CLOVER, -1 );

@@ -1179,6 +1179,7 @@ public abstract class RuntimeLibrary
 		}
 
 		filename = filename.substring( filename.lastIndexOf( "/" ) + 1 );
+		filename = filename.substring( filename.lastIndexOf( "\\" ) + 1 );
 
 		File f = new File( KoLConstants.SCRIPT_LOCATION, filename );
 		if ( f.exists() )
@@ -1203,7 +1204,7 @@ public abstract class RuntimeLibrary
 			return RuntimeLibrary.getFile( filename.substring( 0, filename.length() - 4 ) + ".txt" );
 		}
 
-		return new File( KoLConstants.SCRIPT_LOCATION, filename );
+		return new File( KoLConstants.DATA_LOCATION, filename );
 	}
 
 	private static BufferedReader getReader( final String filename )
