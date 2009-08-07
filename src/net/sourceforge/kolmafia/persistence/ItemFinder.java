@@ -89,17 +89,41 @@ public class ItemFinder
 			return ItemDatabase.getCanonicalName( name );
 		}
 
+		// If there are multiple matches, such that one is a substring of the
+		// others, choose the shorter one, on the grounds that the user would
+		// have included part of the unique section of the longer name if that
+		// was the item they actually intended.  This makes it easier to refer
+		// to non-clockwork in-a-boxes, and DoD potions by flavor.
+		while ( nameList.size() >= 2 )
+		{
+			String name0 = (String) nameList.get( 0 );
+			String name1 = (String) nameList.get( 1 );
+			if ( name0.indexOf( name1 ) != -1 )
+			{
+				nameList.remove( 0 );
+			}
+			else if ( name1.indexOf( name0 ) != -1 )
+			{
+				nameList.remove( 1 );
+			}
+			else break;
+		}
+
+		if ( nameList.size() == 1 )
+		{
+
+			String name = (String) nameList.get( 0 );
+			return ItemDatabase.getCanonicalName( name );
+		}
+
 		ItemFinder.filterNameList( nameList, filterType );
 		if ( nameList.isEmpty() )
 		{
 			return null;
 		}
 
-		// If there are multiple matches, such that one is a substring of the
-		// others, choose the shorter one, on the grounds that the user would
-		// have included part of the unique section of the longer name if that
-		// was the item they actually intended.  This makes it easier to refer
-		// to non-clockwork in-a-boxes, and DoD potions by flavor.
+		// Do the shortest-substring check again, in case the filter removed
+		// an item that was before or between two qualifying items.
 		while ( nameList.size() >= 2 )
 		{
 			String name0 = (String) nameList.get( 0 );
@@ -279,6 +303,10 @@ public class ItemFinder
 
 		// Never match against untradeable items not available
 		// in NPC stores when other items are possible.
+		// This can be overridden by adding "matchable" as a secondary
+		// use; this is needed for untradeables that do need to be
+		// explicitly referred to, and have names similar to other items
+		// (such as the NS Tower keys).
 
 		nameIterator = nameList.iterator();
 
@@ -287,9 +315,9 @@ public class ItemFinder
 			itemName = (String) nameIterator.next();
 			itemId = ItemDatabase.getItemId( itemName );
 
-			conditionalRemove( nameIterator,
-				itemId != -1 && !InventoryManager.hasItem( itemId ) &&
-				!ItemDatabase.isTradeable( itemId ) &&
+			conditionalRemove( nameIterator, itemId != -1 &&
+				!ItemDatabase.getAttribute( itemId,
+					ItemDatabase.ATTR_TRADEABLE | ItemDatabase.ATTR_MATCHABLE ) &&
 				!NPCStoreDatabase.contains( itemName ) );
 		}
 	}

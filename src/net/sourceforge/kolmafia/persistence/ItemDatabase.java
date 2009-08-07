@@ -162,6 +162,7 @@ public class ItemDatabase
 	public static final int ATTR_SOLO = 0x00000200;
 	public static final int ATTR_CURSE = 0x00000400;
 	public static final int ATTR_BOUNTY = 0x00000800;
+	public static final int ATTR_MATCHABLE = 0x00001000;
 	
 	private static final HashMap PRIMARY_USE = new HashMap();
 	private static final HashMap SECONDARY_USE = new HashMap();
@@ -201,6 +202,7 @@ public class ItemDatabase
 		SECONDARY_USE.put( "solo", new Integer( ItemDatabase.ATTR_SOLO ) );
 		SECONDARY_USE.put( "curse", new Integer( ItemDatabase.ATTR_CURSE ) );
 		SECONDARY_USE.put( "bounty", new Integer( ItemDatabase.ATTR_BOUNTY ) );
+		SECONDARY_USE.put( "matchable", new Integer( ItemDatabase.ATTR_MATCHABLE ) );
 	}
 
 	static
