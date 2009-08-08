@@ -755,10 +755,19 @@ public class AdventureResult
 
 		if ( index == -1 )
 		{
-			if ( !result.isItem() || result.getCount() != 0 )
+			if ( !result.isItem() )
 			{
 				sourceList.add( result );
+				return;
 			}
+			int count = result.getCount();
+			if ( count == 0 ) return;
+			if ( count < 0 && ( sourceList != KoLConstants.tally ||
+				!Preferences.getBoolean( "allowNegativeTally" ) ) )
+			{
+				return;
+			}
+			sourceList.add( result );
 			return;
 		}
 
