@@ -341,7 +341,7 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "put_closet", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.INT_TYPE };
-		functions.add( new LibraryFunction( "put_closet_meat", DataTypes.BOOLEAN_TYPE, params ) );
+		functions.add( new LibraryFunction( "put_closet", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "put_shop", DataTypes.BOOLEAN_TYPE, params ) );
@@ -359,7 +359,7 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "take_closet", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.INT_TYPE };
-		functions.add( new LibraryFunction( "take_closet_meat", DataTypes.BOOLEAN_TYPE, params ) );
+		functions.add( new LibraryFunction( "take_closet", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "take_storage", DataTypes.BOOLEAN_TYPE, params ) );
@@ -1809,7 +1809,7 @@ public abstract class RuntimeLibrary
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value put_closet_meat( final Value meatValue )
+	public static Value put_closet( final Value meatValue )
 	{
 		int meat = meatValue.intValue();
 		if ( meat <= 0 )
@@ -1880,7 +1880,7 @@ public abstract class RuntimeLibrary
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value take_closet_meat( final Value meatValue )
+	public static Value take_closet( final Value meatValue )
 	{
 		int meat = meatValue.intValue();
 		if ( meat <= 0 )
