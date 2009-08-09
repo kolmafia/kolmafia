@@ -79,6 +79,7 @@ import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
@@ -405,6 +406,12 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "mall_price", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] { DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "historical_price", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] { DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "historical_age", DataTypes.FLOAT_TYPE, params ) );
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "daily_special", DataTypes.ITEM_TYPE, params ) );
@@ -2031,6 +2038,16 @@ public abstract class RuntimeLibrary
 	{
 		return new Value( StoreManager.getMallPrice(
 			new AdventureResult( item.intValue(), 0 ) ) );
+	}
+
+	public static Value historical_price( final Value item )
+	{
+		return new Value( MallPriceDatabase.getPrice( item.intValue() ) );
+	}
+
+	public static Value historical_age( final Value item )
+	{
+		return new Value( MallPriceDatabase.getAge( item.intValue() ) );
 	}
 
 	public static Value daily_special()

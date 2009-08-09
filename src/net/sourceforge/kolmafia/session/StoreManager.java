@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
+import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
 import net.sourceforge.kolmafia.request.MallSearchRequest;
 import net.sourceforge.kolmafia.swingui.StoreManageFrame;
@@ -359,7 +360,7 @@ public abstract class StoreManager
 	public static final void flushCache()
 	{
 		long t0, t1;
-		t1 = new Date().getTime();
+		t1 = System.currentTimeMillis();
 		t0 = t1 - 15 * 1000;
 	
 		Iterator i = StoreManager.mallSearches.values().iterator();
@@ -427,6 +428,10 @@ public abstract class StoreManager
 			}
 		}
 		StoreManager.mallPrices.set( item.getItemId(), price );
+		if ( price > 0 )
+		{
+			MallPriceDatabase.recordPrice( item.getItemId(), price );
+		}
 	}
 	
 	public static final int getMallPrice( final AdventureResult item )

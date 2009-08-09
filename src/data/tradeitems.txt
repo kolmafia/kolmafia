@@ -3415,10 +3415,10 @@
 3409	Hodgman's garbage sticker	offhand	display	0
 3410	Hodgman's metal detector	offhand	display	0
 3411	Hodgman's cane	offhand	display	0
-3412	Hodgman's journal #1: The Lean Times	usable	all	0
-3413	Hodgman's journal #2: Entrepreneurythmics	usable	all	0
-3414	Hodgman's journal #3: Pumping Tin	usable	all	0
-3415	Hodgman's journal #4: View From The Big Top	usable	all	0
+3412	Hodgman's journal #1:  The Lean Times	usable	all	0
+3413	Hodgman's journal #2:  Entrepreneurythmics	usable	all	0
+3414	Hodgman's journal #3:  Pumping Tin	usable	all	0
+3415	Hodgman's journal #4:  View From The Big Top	usable	all	0
 3416	hobo fortress blueprints	usable	all	0
 3417
 3418
@@ -3652,7 +3652,7 @@
 3646	elven <i>limbos</i> gingerbread	food	all	100
 3647	elven whittling knife	weapon	all	400
 3648	magic dragonfish fry	grow	all	0
-3649	map to Madness Reef	none	all	0
+3649	map to Madness Reef	none	none	0
 3650	toast with jam	food	all	40
 3651	miniature antlers	familiar	all	150
 3652	elven moonshine	drink	all	100
@@ -3686,7 +3686,7 @@
 3680	glowing esca	offhand	all	150
 3681	bubbling tempura batter	none	all	0
 3682	globe of Deep Sauce	none	all	0
-3683	map to the Marinara Trench	none	all	0
+3683	map to the Marinara Trench	none	none	0
 3684	tempura carrot	food	all	375
 3685	tempura cucumber	food	all	375
 3686	tempura avocado	food	all	375
@@ -3704,7 +3704,7 @@
 3698	velcro ore	none	all	75
 3699	teflon ore	none	all	75
 3700	vinyl ore	none	all	75
-3701	map to Anemone Mine	none	all	0
+3701	map to Anemone Mine	none	none	0
 3702	marine aquamarine	none	all	350
 3703	rusty valve wheel	none	all	30
 3704	waterlogged bootstraps	none	all	30
@@ -3777,7 +3777,7 @@
 3771	salacious lychee chuhai	drink	all	215
 3772	Alewife&trade; Ale	drink	all	95
 3773	seaode	none	all	155
-3774	map to the Dive Bar	none	all	0
+3774	map to the Dive Bar	none	none	0
 3775	Mer-kin pinkslip	none, combat	all	85
 3776	pink pinkslip slip	pants	all	111
 3777	sea salt scrubs	shirt	all	140
@@ -4048,7 +4048,7 @@
 4042	pig-iron shinguards	pants	display	1710
 4043	pig-iron bracers	accessory	display	1710
 4044	wumpus hair	multiple	display	72
-4045	wumpus-hair bolo	none, combat	all	144
+4045	wumpus-hair bolo	none, combat	display	144
 4046	wumpus-hair net	none, combat	display	360
 4047	wumpus-hair whip	weapon	display	720
 4048	wumpus-hair wig	hat	display	1152

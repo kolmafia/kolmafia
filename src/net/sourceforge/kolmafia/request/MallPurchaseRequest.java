@@ -186,7 +186,7 @@ public class MallPurchaseRequest
 		this.addFormField( "whichitem", MallPurchaseRequest.getStoreString( itemId, price ) );
 
 		this.item = new AdventureResult( this.itemId, 1 );
-		this.timestamp = new Date().getTime();
+		this.timestamp = System.currentTimeMillis();
 	}
 
 	public static final String getStoreString( final int itemId, final int price )

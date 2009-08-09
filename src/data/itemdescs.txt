@@ -3415,10 +3415,10 @@
 3409	874739671	Hodgman's garbage sticker	Hodgman's garbage stickers
 3410	986607676	Hodgman's metal detector	Hodgman's metal detectors
 3411	753829066	Hodgman's cane	Hodgman's canes
-3412	443125100	Hodgman's journal #1: The Lean Times
-3413	359048124	Hodgman's journal #2: Entrepreneurythmics
-3414	456659256	Hodgman's journal #3: Pumping Tin
-3415	435985770	Hodgman's journal #4: View From The Big Top
+3412	443125100	Hodgman's journal #1:  The Lean Times
+3413	359048124	Hodgman's journal #2:  Entrepreneurythmics
+3414	456659256	Hodgman's journal #3:  Pumping Tin
+3415	435985770	Hodgman's journal #4:  View From The Big Top
 3416	128693993	hobo fortress blueprints	sets of hobo fortress blueprints
 3417
 3418
