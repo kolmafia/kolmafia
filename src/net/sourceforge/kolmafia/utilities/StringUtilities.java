@@ -101,7 +101,9 @@ public class StringUtilities
 				entityString = utf8String;
 			}
 
-			entityString = StringUtilities.globalStringReplace( entityString, "  ", " " );
+			// The following replacement makes the Hodgman journals (which have
+			// a double space after the colon) unsearchable in the Mall.
+			//entityString = StringUtilities.globalStringReplace( entityString, "  ", " " );
 
 			if ( cache )
 			{

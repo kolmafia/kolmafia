@@ -84,6 +84,7 @@ import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
+import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.UneffectRequest;
@@ -569,6 +570,12 @@ public class MaximizerFrame
 						if ( price <= 0 && KoLCharacter.canInteract() &&
 							ItemDatabase.isTradeable( item.getItemId() ) )
 						{
+							if ( MallPriceDatabase.getPrice( item.getItemId() )
+								> maxPrice * 2 )
+							{
+								continue;
+							}
+
 							price = StoreManager.getMallPrice( item );
 						}
 					}
@@ -1114,7 +1121,7 @@ public class MaximizerFrame
 			return this.tiebreaker.getScore( mods );
 		}
 		
-		public AdventureResult checkItem( int id, int equipLevel, int maxPrice )
+		public AdventureResult checkItem( int id, int equipLevel, int maxPrice, int priceLevel )
 		{
 			int count = Math.min( Evaluator.SUBTOTAL_MASK,
 				InventoryManager.getAccessibleCount( id ) );
@@ -1146,7 +1153,11 @@ public class MaximizerFrame
 			{	// consider Mall buying
 				if ( count == 0 && ItemDatabase.isTradeable( id ) )
 				{	// but only if none are otherwise available
-					count = 1 | Evaluator.BUYABLE_FLAG;
+					if ( priceLevel == 0 ||
+						MallPriceDatabase.getPrice( id ) < maxPrice * 2 )
+					{
+						count = 1 | Evaluator.BUYABLE_FLAG;
+					}
 				}
 			}
 			else if ( !KoLCharacter.isHardcore() )
@@ -1256,7 +1267,7 @@ public class MaximizerFrame
 				if ( !EquipmentManager.canEquip( id ) ) continue;
 				int slot = EquipmentManager.itemIdToEquipmentType( id );
 				if ( slot < 0 || slot >= EquipmentManager.ALL_SLOTS ) continue;
-				AdventureResult item = this.checkItem( id, equipLevel, maxPrice );
+				AdventureResult item = this.checkItem( id, equipLevel, maxPrice, priceLevel );
 				int count = item.getCount();
 				if ( count == 0 ) continue;
 				String name = item.getName();

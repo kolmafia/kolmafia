@@ -66,6 +66,7 @@ import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
+import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
@@ -2007,7 +2008,7 @@ public class KoLmafiaCLI
 	public static class Update
 		extends Command
 	{
-		{ usage = " data | clear - download most recent data files, or revert to built-in data."; }
+		{ usage = " data | clear | prices <URL or filename> - download most recent data files, or revert to built-in data."; }
 		public void run( String cmd, String parameters )
 		{
 			if ( parameters.equalsIgnoreCase( "clear" ) )
@@ -2017,6 +2018,10 @@ public class KoLmafiaCLI
 			else if ( parameters.equalsIgnoreCase( "data" ) )
 			{
 				CLI.downloadAdventureOverride();
+			}
+			else if ( parameters.startsWith( "prices" ) )
+			{
+				MallPriceDatabase.updatePrices( parameters.substring( 6 ).trim() );
 			}
 			else
 			{

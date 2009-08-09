@@ -272,6 +272,11 @@ public interface KoLConstants
 	public static final int ZAPGROUPS_VERSION = 1;
 	public static final int ZONELIST_VERSION = 1;
 
+	// mallprices.txt can be updated by typing a filename, so give
+	// it a distinct version number in case the user types the name
+	// of another one of the data files.
+	public static final int MALLPRICES_VERSION = 0xF00D5;
+
 	// Different states of KoLmafia.  Used in order to determine
 	// what is still permitted.
 

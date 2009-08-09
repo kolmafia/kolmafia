@@ -64,6 +64,7 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 
@@ -645,7 +646,12 @@ public abstract class InventoryManager
 		int onhand = Math.min( qty, item.getCount( KoLConstants.inventory ) );
 		if ( onhand > 0 )
 		{
-			price = onhand * Math.abs( ItemDatabase.getPriceById( item.getItemId() ) );
+			price = MallPriceDatabase.getPrice( item.getItemId() );
+			if ( price <= 0 )
+			{
+				price = Math.abs( ItemDatabase.getPriceById( item.getItemId() ) );
+			}
+			price *= onhand;
 			qty -= onhand;
 			if ( qty == 0 )
 			{
