@@ -59,6 +59,7 @@ public class SpecialOutfit
 	private final int outfitId;
 	private final String outfitName;
 	private final ArrayList pieces;
+	private int hash;
 
 	public static final String NO_CHANGE = " - No Change - ";
 	public static final SpecialOutfit BIRTHDAY_SUIT = new SpecialOutfit();
@@ -71,6 +72,7 @@ public class SpecialOutfit
 		this.outfitId = Integer.MAX_VALUE;
 		this.outfitName = "Birthday Suit";
 		this.pieces = new ArrayList();
+		this.hash = 0;
 	}
 
 	public SpecialOutfit( final int outfitId, final String outfitName )
@@ -78,6 +80,7 @@ public class SpecialOutfit
 		this.outfitId = outfitId;
 		this.outfitName = outfitName;
 		this.pieces = new ArrayList();
+		this.hash = 0;
 	}
 
 	public boolean hasAllPieces()
@@ -100,6 +103,13 @@ public class SpecialOutfit
 
 	public boolean isWearing()
 	{
+		return this.isWearing( -1 );
+	}
+	
+	public boolean isWearing( int hash )
+	{
+		if ( (hash & this.hash) != this.hash ) return false;
+		
 		for ( int i = 0; i < this.pieces.size(); ++i )
 		{
 			if ( !KoLCharacter.hasEquipped( (AdventureResult) this.pieces.get( i ) ) )
@@ -113,6 +123,13 @@ public class SpecialOutfit
 
 	public boolean isWearing( AdventureResult[] equipment )
 	{
+		return this.isWearing( equipment, -1 );
+	}
+
+	public boolean isWearing( AdventureResult[] equipment, int hash )
+	{
+		if ( (hash & this.hash) != this.hash ) return false;
+		
 		for ( int i = 0; i < this.pieces.size(); ++i )
 		{
 			if ( !KoLCharacter.hasEquipped( equipment,
@@ -131,10 +148,31 @@ public class SpecialOutfit
 		this.pieces.toArray( piecesArray );
 		return piecesArray;
 	}
+	
+	public static int pieceHash( final AdventureResult piece )
+	{
+		if ( piece == null || piece == EquipmentRequest.UNEQUIP )
+		{
+			return 0;
+		}
+		return 1 << ( piece.getItemId() & 0x1F );
+	}
+	
+	public static int equipmentHash( AdventureResult[] equipment )
+	{
+		int hash = 0;
+		// Must consider every slot that can contain an outfit piece
+		for ( int i = 0; i < EquipmentManager.FAMILIAR; ++i )
+		{
+			hash |= SpecialOutfit.pieceHash( equipment[ i ] );
+		}
+		return hash;
+	}
 
 	public void addPiece( final AdventureResult piece )
 	{
 		this.pieces.add( piece );
+		this.hash |= this.pieceHash( piece );
 	}
 
 	public String toString()

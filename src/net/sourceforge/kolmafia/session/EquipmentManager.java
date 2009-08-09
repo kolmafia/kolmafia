@@ -1091,6 +1091,8 @@ public class EquipmentManager
 
 	public static final SpecialOutfit currentOutfit( AdventureResult[] equipment )
 	{
+		int hash = SpecialOutfit.equipmentHash( equipment );
+		
 		for ( int id = 1; id <= EquipmentDatabase.normalOutfits.size(); ++id )
 		{
 			SpecialOutfit outfit = EquipmentDatabase.normalOutfits.get( id );
@@ -1098,7 +1100,7 @@ public class EquipmentManager
 			{
 				continue;
 			}
-			if ( outfit.isWearing( equipment ) )
+			if ( outfit.isWearing( equipment, hash ) )
 			{
 				return outfit;
 			}
