@@ -62,7 +62,7 @@ public class CombineMeatRequest
 		this.meatType = meatType;
 	}
 
-	private static int getCost( int itemId )
+	public static int getCost( int itemId )
 	{
 		switch ( itemId )
 		{
