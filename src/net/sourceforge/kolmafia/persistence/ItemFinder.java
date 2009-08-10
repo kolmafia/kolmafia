@@ -44,6 +44,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.request.CombineMeatRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -250,7 +251,7 @@ public class ItemFinder
 					&& useType != KoLConstants.CONSUME_DRINK_HELPER );
 				break;
 			case ItemFinder.CREATE_MATCH:
-				ItemFinder.conditionalRemove( nameIterator, ConcoctionDatabase.getMixingMethod( itemName ) == KoLConstants.NOCREATE );
+				ItemFinder.conditionalRemove( nameIterator, ConcoctionDatabase.getMixingMethod( itemName ) == KoLConstants.NOCREATE && CombineMeatRequest.getCost( itemId ) == 0 );
 				break;
 			case ItemFinder.UNTINKER_MATCH:
 				ItemFinder.conditionalRemove( nameIterator, ConcoctionDatabase.getMixingMethod( itemId ) != KoLConstants.COMBINE );

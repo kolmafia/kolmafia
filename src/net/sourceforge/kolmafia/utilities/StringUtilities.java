@@ -43,21 +43,23 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.WeakHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class StringUtilities
 {
-	private static final Map entityEncodeCache = new HashMap();
-	private static final Map entityDecodeCache = new HashMap();
+	private static final HashMap entityEncodeCache = new HashMap();
+	private static final HashMap entityDecodeCache = new HashMap();
 
-	private static final Map urlEncodeCache = new HashMap();
-	private static final Map urlDecodeCache = new HashMap();
+	private static final HashMap urlEncodeCache = new HashMap();
+	private static final HashMap urlDecodeCache = new HashMap();
 
-	private static final Map displayNameCache = new HashMap();
-	private static final Map canonicalNameCache = new HashMap();
+	private static final HashMap displayNameCache = new HashMap();
+	private static final HashMap canonicalNameCache = new HashMap();
 	
-	private static final Map prepositionsMap = new HashMap();
+	private static final HashMap prepositionsMap = new HashMap();
+	private static final WeakHashMap hashCache = new WeakHashMap();
 
 	private static final Pattern NONINTEGER_PATTERN = Pattern.compile( "[^\\-0-9]" );
 	private static final Pattern NONFLOAT_PATTERN = Pattern.compile( "[^\\-\\.0-9]" );
@@ -296,10 +298,22 @@ public class StringUtilities
 		}
 
 		int nameCount = names.length;
+		int[] hashes = (int[]) StringUtilities.hashCache.get( names );
+		if ( hashes == null )
+		{
+			hashes = new int[ nameCount ];
+			for ( int i = 0; i < nameCount; ++i )
+			{
+				hashes[ i ] = StringUtilities.stringHash( names[ i ] );
+			}
+			StringUtilities.hashCache.put( names, hashes );
+		}
+		int hash = StringUtilities.stringHash( searchString );
 
 		for ( int i = 0; i < nameCount; ++i )
 		{
-			if ( StringUtilities.substringMatches( names[ i ], searchString, true ) )
+			if ( (hashes[ i ] & hash) == hash &&
+				StringUtilities.substringMatches( names[ i ], searchString, true ) )
 			{
 				matchList.add( names[ i ] );
 			}
@@ -313,7 +327,8 @@ public class StringUtilities
 
 		for ( int i = 0; i < nameCount; ++i )
 		{
-			if ( StringUtilities.substringMatches( names[ i ], searchString, false ) )
+			if ( (hashes[ i ] & hash) == hash &&
+				StringUtilities.substringMatches( names[ i ], searchString, false ) )
 			{
 				matchList.add( names[ i ] );
 			}
@@ -326,13 +341,24 @@ public class StringUtilities
 
 		for ( int i = 0; i < nameCount; ++i )
 		{
-			if ( StringUtilities.fuzzyMatches( names[i], searchString ) )
+			if ( (hashes[ i ] & hash) == hash &&
+				StringUtilities.fuzzyMatches( names[i], searchString ) )
 			{
 				matchList.add( names[i] );
 			}
 		}
 
 		return matchList;
+	}
+	
+	private static final int stringHash( String s )
+	{
+		int hash = 0;
+		for ( int i = s.length() - 1; i >= 0; --i )
+		{
+			hash |= 1 << (s.charAt( i ) & 0x1F);
+		}
+		return hash;
 	}
 
 	public static final boolean substringMatches( final String source, final String substring, boolean checkBoundaries )
