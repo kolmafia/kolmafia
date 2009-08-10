@@ -663,3 +663,5 @@
 662	Weasels Underfoot	ferrets.gif	adfc2711ba70e48e892eaa317211e144	#Bag o' Tricks
 663	Chihuahua Underfoot	chihuahua.gif	4c57e8de78fd8da06746b11888d30d6b	#Bag o' Tricks
 664	5 Pounds Lighter	whitebal.gif	8bf7bb7334647886110cc3480261237b	use 1 floaty sand
+665
+666	A Contender	bgoas.gif	ae19be0f35bf4094898e6c2bd33cec59	eat 1 rocky road ice cream

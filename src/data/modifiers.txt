@@ -1836,6 +1836,7 @@ Temporary Blindness (intrinsic)	Moxie Percent: -25, Item Drop: -75, Initiative: 
 'Roids of the Rhinoceros	Muscle: +100
 1337p4n7Z	Muscle: +6, Moxie: -3
 5 Pounds Lighter	Initiative: +10, Moxie: +5
+A Contender	Muscle Percent: +200, Mysticality Percent: +200, Moxie Percent: +200
 A Little Bit Poisoned	Muscle Percent: -30, Mysticality Percent: -30, Moxie Percent: -30, Muscle: -5, Mysticality: -5, Moxie: -5
 A Revolution in Your Mouth	Moxie Percent: -10
 # Absinthe-Minded: You are aware of The Worm Wood

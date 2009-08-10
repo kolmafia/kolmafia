@@ -4156,7 +4156,7 @@
 4150
 4151
 4152
-4153	rockfish stomach	usable	all	170
+4153	rockfish stomach	multiple	all	170
 4154	live lobster	usable	all	0
 4155	wok lobster	usable	all	0
 4156	floaty pebbles	none	all	0
