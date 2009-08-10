@@ -292,7 +292,7 @@ rat scrapple	2	2	2-7	0	0	10-12
 ravioli della hippy	3	3	4-12	0	19-23	0
 retenez l'herbe pat&eacute;	3	9	13-20	40-50	40-50	40-50
 roasted marshmallow	1	1	1	0	0	0	3 Mallowed Out (+all)
-rocky road ice cream	2	1	10	12-14	12-14	12-14
+rocky road ice cream	2	1	10	12-14	12-14	12-14	40 A Contender (+200% all)
 royal jelly	1	1	1	10-15	0	0
 royal jelly taco	1	1	1-3	4-20	0	0
 s.t.l.t.	4	4	10-15	10-30	10-30	13-27
