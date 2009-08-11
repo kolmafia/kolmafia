@@ -416,7 +416,7 @@ public class CampgroundRequest
 	{
 		// You can't use Mr. Skills in bad moon, so don't check
 
-		if ( KoLCharacter.inBadMoon() )
+		if ( KoLCharacter.inBadMoon() && !KoLCharacter.skillsRecalled() )
 			return;
 
 		String libram = null;
