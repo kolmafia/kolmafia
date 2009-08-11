@@ -6025,22 +6025,10 @@ public class KoLmafiaCLI
 		}
 		else if ( desiredData.equals( "counters" ) )
 		{
-			KoLCharacter.ensureUpdatedSemirareCounter();
-			int turns = Preferences.getInteger( "semirareCounter" );
-			if ( turns == 0 )
-			{
-				desiredStream.println( "No semirare found yet this run." );
-			}
-			else
-			{
-				int current = KoLCharacter.getCurrentRun();
-				String location = Preferences.getString( "semirareLocation" );
-				String loc = location.equals( "" ) ? "" : ( " in " + location );
-				desiredStream.println( "Last semirare found " + ( current - turns ) + " turns ago (on turn " + turns + ")" + loc );
-			}
+			desiredStream.println( UseItemRequest.lastSemirareMessage() );
+			desiredStream.println();
 
 			String counters = TurnCounter.getUnexpiredCounters();
-			desiredStream.println();
 			if ( counters.equals( "" ) )
 			{
 				desiredStream.println( "No active counters." );

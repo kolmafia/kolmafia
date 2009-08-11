@@ -1451,6 +1451,10 @@ public class RelayRequest
 
 			if ( message != null )
 			{
+				if ( expired.getLabel().equals( "Fortune Cookie" ) )
+				{
+					message += "<br><br>" + UseItemRequest.lastSemirareMessage();
+				}
 				this.sendGeneralWarning( expired.getImage(), message );
 				return;
 			}

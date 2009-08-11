@@ -3045,6 +3045,22 @@ public class UseItemRequest
 		}
 	}
 
+	public static final String lastSemirareMessage()
+	{
+		KoLCharacter.ensureUpdatedSemirareCounter();
+
+		int turns = Preferences.getInteger( "semirareCounter" );
+		if ( turns == 0 )
+		{
+			return "No semirare found yet this run.";
+		}
+
+		int current = KoLCharacter.getCurrentRun();
+		String location = Preferences.getString( "semirareLocation" );
+		String loc = location.equals( "" ) ? "" : ( " in " + location );
+		return "Last semirare found " + ( current - turns ) + " turns ago (on turn " + turns + ")" + loc;
+	}
+
 	private static final void showItemUsage( final boolean showHTML, final String text )
 	{
 		if ( showHTML )
