@@ -43,6 +43,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -2367,29 +2368,8 @@ public abstract class ChoiceManager
 			}
 
 			AdventureResult glove = ItemPool.get( ItemPool.SPOOKY_GLOVE, 1 );
-			if ( !KoLCharacter.hasEquipped( glove ) )
-			{
-				break;
-			}
-
-			if ( KoLCharacter.hasEquipped( glove, EquipmentManager.ACCESSORY1 ) )
-			{
-				EquipmentManager.setEquipment( EquipmentManager.ACCESSORY1, EquipmentRequest.UNEQUIP );
-			}
-			else if ( KoLCharacter.hasEquipped( glove, EquipmentManager.ACCESSORY2 ) )
-			{
-				EquipmentManager.setEquipment( EquipmentManager.ACCESSORY2, EquipmentRequest.UNEQUIP );
-			}
-			else
-			{
-				EquipmentManager.setEquipment( EquipmentManager.ACCESSORY3, EquipmentRequest.UNEQUIP );
-			}
-
-			// Maintain session tally: "unequip" the glove and
-			// discard it.
-
-			AdventureResult.addResultToList( KoLConstants.inventory, glove );
-			ResultProcessor.processItem( ItemPool.SPOOKY_GLOVE, -1 );
+			EquipmentManager.discardEquipment( ItemPool.SPOOKY_GLOVE );
+			SpecialOutfit.forgetEquipment( glove );
 			break;
 		
 		case 21:

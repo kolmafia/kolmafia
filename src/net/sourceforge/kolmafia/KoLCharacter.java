@@ -307,7 +307,8 @@ public abstract class KoLCharacter
 
 	private static boolean isHardcore = false;
 	private static boolean inRonin = true;
-
+	private static boolean skillsRecalled = false;
+	
 	private static int ascensions = 0;
 	private static String ascensionSign = "None";
 	private static int ascensionSignType = KoLConstants.NONE;
@@ -500,6 +501,7 @@ public abstract class KoLCharacter
 
 		KoLCharacter.isHardcore = false;
 		KoLCharacter.inRonin = true;
+		KoLCharacter.skillsRecalled = false;
 		KoLCharacter.hasStore = false;
 		KoLCharacter.hasDisplayCase = false;
 		KoLCharacter.hasClan = false;
@@ -2057,6 +2059,16 @@ public abstract class KoLCharacter
 		return KoLCharacter.inRonin;
 	}
 
+	public static final void setSkillsRecalled( final boolean skillsRecalled )
+	{
+		KoLCharacter.skillsRecalled = skillsRecalled;
+	}
+
+	public static final boolean skillsRecalled()
+	{
+		return KoLCharacter.skillsRecalled;
+	}
+	
 	/**
 	 * Accessor method which sets whether or not the player is currently in ronin.
 	 */

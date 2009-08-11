@@ -140,6 +140,17 @@ public class AccountRequest
 			KoLCharacter.setHardcore( responseText.indexOf( "<input class=button type=submit value=\"Drop Hardcore\">" ) != -1 );
 		}
 
+		// Your skills have been recalled if you have freed the king
+		// and don't have a "Recall Skills" button in your account menu
+		if ( KoLCharacter.kingLiberated() && responseText.indexOf( "<input class=button type=submit value=\"Recall Skills\">") == -1)
+		{
+			KoLCharacter.setSkillsRecalled(true);
+		}
+		else
+		{
+			KoLCharacter.setSkillsRecalled(false);
+		}
+
 		int skillId = 0;
 		Matcher selectMatcher = AccountRequest.AUTOATTACK_PATTERN.matcher( responseText );
 		if ( selectMatcher.find() )

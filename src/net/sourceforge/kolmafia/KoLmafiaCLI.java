@@ -6451,7 +6451,7 @@ public class KoLmafiaCLI
 
 	private void executeTelescopeRequest( final String parameters )
 	{
-		if ( KoLCharacter.inBadMoon() )
+		if ( KoLCharacter.inBadMoon() && !KoLCharacter.skillsRecalled() )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Your telescope is unavailable in Bad Moon" );
 			return;

@@ -784,9 +784,10 @@ public class FightRequest
 			// You can't sniff if you are already on the trail.
 
 			// You can't sniff in Bad Moon, even though the skill
-			// shows up on the char sheet.
+			// shows up on the char sheet, unless you've recalled
+			// your skills.
 
-			if ( KoLCharacter.inBadMoon() || KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.ON_THE_TRAIL ) ) )
+			if ( ( KoLCharacter.inBadMoon() && !KoLCharacter.skillsRecalled() ) || KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.ON_THE_TRAIL ) ) )
 			{
 				--FightRequest.preparatoryRounds;
 				this.nextRound();
