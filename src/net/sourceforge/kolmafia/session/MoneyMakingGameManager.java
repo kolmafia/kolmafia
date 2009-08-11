@@ -52,12 +52,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MoneyMakingGameManager
 {
-	// To do:
-	//
-	// Don't bother saving bets on resolved unless the bet was submitted
-	// via ASH and there is therefore a chance that the event will be
-	// picked up by the script.
-
 	public static final Pattern PENDING_BETS_PATTERN = Pattern.compile( "Your Pending Bets:.*?<table>(.*?)</table>" );
 	public static final Pattern MY_BET_PATTERN = Pattern.compile( "<tr>.*?([0123456789,]+) Meat.*?betid value='(\\d*)'.*?</tr>" );
 
@@ -191,7 +185,7 @@ public class MoneyMakingGameManager
 		return MoneyMakingGameManager.getBets( active );
 	}
 
-	public static final void parseMyBets( final String responseText )
+	public static final void parseMyBets( final String responseText, final boolean internal )
 	{
 		// Constructed list of currently outstanding bets
 		ArrayList current = new ArrayList();
@@ -213,7 +207,7 @@ public class MoneyMakingGameManager
 				if ( bet == null )
 				{
 					// This is a new bet
-					bet = new Bet( betId, amount );
+					bet = new Bet( betId, amount, internal );
 					MoneyMakingGameManager.lastBet = bet;
 				}
 
@@ -243,7 +237,8 @@ public class MoneyMakingGameManager
 			// Make a dummy bet to match with the eventual event -
 			// which could have arrived already, too.
 			Bet bet = new Bet( MoneyMakingGameManager.dummyBetId--,
-					   MoneyMakingGameManager.makingBet );
+					   MoneyMakingGameManager.makingBet,
+					   internal );
 			MoneyMakingGameManager.lastBet = bet;
 			MoneyMakingGameManager.handleTakenBet( bet );
 		}
@@ -268,6 +263,16 @@ public class MoneyMakingGameManager
 
 	private static final void resolveEvent( final Event ev, final Bet bet )
 	{
+		// A bet which is not internally generated was placed in the
+		// Relay Browser, not via a request from an ASH script.
+		//
+		// Nobody will wait for such an event, so don't consume memory
+		// keeping the event on the resolved list.
+		if ( !bet.isInternal() )
+		{
+			return;
+		}
+
 		ev.setBet( bet );
 		synchronized ( MoneyMakingGameManager.resolved )
 		{
@@ -654,6 +659,10 @@ public class MoneyMakingGameManager
 		private final int playerId;
 		private boolean fromStorage;
 
+		// true if this bet was internally generated from within
+		// KoLmafia. I.e., from a MoneyMakingRequest, from ASH
+		private boolean internal;
+
 		public Bet( final int betId, final int amount, final String player, final int playerId )
 		{
 			this.betId = betId;
@@ -661,11 +670,13 @@ public class MoneyMakingGameManager
 			this.player = player;
 			this.playerId = playerId;
 			this.fromStorage = false;
+			this.internal = false;
 		}
 
-		public Bet( final int betId, final int amount )
+		public Bet( final int betId, final int amount, final boolean internal )
 		{
 			this( betId, amount, KoLCharacter.getUserName(), KoLCharacter.getUserId() );
+			this.internal = internal;
 		}
 
 		public int getId()
@@ -691,6 +702,11 @@ public class MoneyMakingGameManager
 		public boolean fromStorage()
 		{
 			return this.fromStorage;
+		}
+
+		public boolean isInternal()
+		{
+			return this.internal;
 		}
 
 		public void setFromStorage( final boolean fromStorage )

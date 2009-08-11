@@ -170,7 +170,7 @@ public class MoneyMakingGameRequest
 			return;
 		}
 
-		MoneyMakingGameRequest.parseResponse( this.getURLString(), responseText );
+		MoneyMakingGameRequest.parseResponse( this.getURLString(), responseText, true );
 
 		String error = null;
 		switch ( this.action )
@@ -269,7 +269,7 @@ public class MoneyMakingGameRequest
 		return null;
 	}
 
-	public static final void parseResponse( final String urlString, final String responseText )
+	public static final void parseResponse( final String urlString, final String responseText, final boolean internal )
 	{
 		if ( !urlString.startsWith( "bet.php" ) )
 		{
@@ -287,7 +287,7 @@ public class MoneyMakingGameRequest
 		}
 
 		// Parse my bets from responseText
-		MoneyMakingGameManager.parseMyBets( responseText );
+		MoneyMakingGameManager.parseMyBets( responseText, internal );
 
 		// Parse offered bets from responseText
 		MoneyMakingGameManager.parseOfferedBets( responseText );
