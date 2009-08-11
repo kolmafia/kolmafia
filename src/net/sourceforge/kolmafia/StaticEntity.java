@@ -348,7 +348,7 @@ public abstract class StaticEntity
 
 		else if ( location.startsWith( "bet.php" ) )
 		{
-			MoneyMakingGameRequest.parseResponse( location, responseText );
+			MoneyMakingGameRequest.parseResponse( location, responseText, false );
 		}
 
 		else if ( location.startsWith( "campground.php" ) )
