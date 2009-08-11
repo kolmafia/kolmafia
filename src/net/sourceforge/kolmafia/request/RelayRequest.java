@@ -1398,11 +1398,13 @@ public class RelayRequest
 		if ( path.startsWith( "account.php" ) )
 		{
 			String action = this.getFormField( "action" );
-			boolean confirmed = ( this.getFormField( "confirm" ).equals( "on" ) );
-
-			if ( action.equals( "recallskills" ) && confirmed )
+			if ( action != null && action.equals( "recallskills" ) )
 			{
-				KoLCharacter.setSkillsRecalled( true );
+				String field = this.getFormField( "confirm" );
+				if ( field != null && field.equals( "on" ) )
+				{
+					KoLCharacter.setSkillsRecalled( true );
+				}
 			}
 		}
 
