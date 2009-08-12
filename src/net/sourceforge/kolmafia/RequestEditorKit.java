@@ -56,6 +56,7 @@ import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.ImageView;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Monster;
@@ -809,6 +810,17 @@ public class RequestEditorKit
 
 		// Change stone sphere names in item dropdown
 		RequestEditorKit.changeSphereNames( buffer );
+		
+		// Hilight He-Boulder eye color messages
+		if ( KoLCharacter.getFamiliar().getId() == FamiliarPool.HE_BOULDER )
+		{
+			StringUtilities.globalStringReplace( buffer, " red eye",
+				" <font color=red>red eye</font>" );
+			StringUtilities.globalStringReplace( buffer, " blue eye",
+				" <font color=blue>blue eye</font>" );
+			StringUtilities.globalStringReplace( buffer, " yellow eye",
+				" <font color=olive>yellow eye</font>" );
+		}
 
 		int combatIndex = buffer.indexOf( "!</b>" );
 		if ( combatIndex != -1 )

@@ -828,6 +828,10 @@ public abstract class KoLmafia
 		Preferences.setInteger( "tempuraSummons", 0 );
 		Preferences.setInteger( "timesRested", 0 );
 		Preferences.setInteger( "tomeSummons", 0 );
+
+		TurnCounter.stopCounting( "<font color=red>Major Red Recharge</font>" );
+		TurnCounter.stopCounting( "<font color=blue>Major Blue Recharge</font>" );
+		TurnCounter.stopCounting( "<font color=olive>Major Yellow Recharge</font>" );
 		
 		Preferences.resetDailies();
 

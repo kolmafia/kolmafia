@@ -137,7 +137,7 @@ public class FightRequest
 	// and this is not the case, then correct the use of this Pattern below.
 
 	private static final Pattern PHYSICAL_PATTERN =
-		Pattern.compile( "(your blood, to the tune of|stabs you for|sown|You lose|You gain|strain your neck|approximately|) (\\d[\\d,]*) (\\([^.]*\\) |)((?:\\w+ ){0,2})(?:damage|points?|notch(?:es)?|to your opponent|force damage|tiny holes)" );
+		Pattern.compile( "(your blood, to the tune of|stabs you for|sown|You lose|You gain|strain your neck|approximately|) #?(\\d[\\d,]*) (\\([^.]*\\) |)((?:\\w+ ){0,2})(?:damage|points?|notch(?:es)?|to your opponent|force damage|tiny holes)" );
 
 	private static final Pattern HAIKU_DAMAGE_PATTERN =
 		Pattern.compile( "title=\"Damage: ([^\"]+)\"" );
@@ -2822,6 +2822,26 @@ public class FightRequest
 		case 7046: // Give Your Opponent "The Bird"
 			Preferences.increment( "birdformSleaze", 1 );
 			break;
+		
+		case 7082:	// Point at your opponent
+			String type;
+			if ( responseText.indexOf( "firing a searing ray" ) != -1 )
+			{
+				type = "<font color=red>Major Red Recharge</font>";
+			}
+			else if ( responseText.indexOf( "blue light" ) != -1 )
+			{
+				type = "<font color=blue>Major Blue Recharge</font>";
+			}
+			else if ( responseText.indexOf( "yellow energy" ) != -1 )
+			{
+				type = "<font color=olive>Major Yellow Recharge</font>";
+			}
+			else break;
+			int cooldown = KoLCharacter.hasEquipped( ItemPool.get(
+				ItemPool.QUADROCULARS, 1 ) ) ? 101 : 150;
+			TurnCounter.stopCounting( type );
+			TurnCounter.startCounting( cooldown, type, "heboulder.gif" );
 		}
 	}
 
