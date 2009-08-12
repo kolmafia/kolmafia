@@ -1533,10 +1533,11 @@ public class EquipmentRequest
 
 	private static void unequipItem( final AdventureResult [] equipment, final String name )
 	{
+		AdventureResult item = new AdventureResult( name, 1, false );
 		for ( int i = 0; i < EquipmentManager.SLOTS; ++i )
 		{
 			AdventureResult oldItem = equipment[ i ];
-			if ( oldItem.getName().equals( name ) )
+			if ( oldItem.equals( item ) )
 			{
 				equipment[ i ] = EquipmentRequest.UNEQUIP;
 				break;
