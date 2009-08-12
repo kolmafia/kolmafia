@@ -55,6 +55,10 @@ implements Comparable
 
 			return true;
 		}
+		else if ( this.label.indexOf( "Recharge</font>" ) != -1 )
+		{
+			return true;
+		}
 
 		return false;
 	}
