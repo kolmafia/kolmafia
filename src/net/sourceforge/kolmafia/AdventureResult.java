@@ -713,15 +713,17 @@ public class AdventureResult
 		}
 
 		AdventureResult ar = (AdventureResult) o;
-		if ( this.name.equalsIgnoreCase( ar.name ) )
-		{
-			return 0;
-		}
-
+		
 		int priorityDifference = this.priority - ar.priority;
 		if ( priorityDifference != 0 )
 		{
 			return priorityDifference;
+		}
+
+		int nameComparison = this.name.compareToIgnoreCase( ar.name );
+		if ( nameComparison == 0 )
+		{
+			return 0;
 		}
 
 		if ( this.isStatusEffect() )
@@ -729,13 +731,7 @@ public class AdventureResult
 			return this.getCount() - ar.getCount();
 		}
 
-		int nameComparison = this.name.compareToIgnoreCase( ar.name );
-		if ( nameComparison != 0 )
-		{
-			return nameComparison;
-		}
-
-		return this.isItem() ? this.itemId - ar.itemId : 0;
+		return nameComparison;
 	}
 
 	/**
