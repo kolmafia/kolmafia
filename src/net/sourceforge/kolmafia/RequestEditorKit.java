@@ -814,8 +814,8 @@ public class RequestEditorKit
 		// Hilight He-Boulder eye color messages
 		if ( KoLCharacter.getFamiliar().getId() == FamiliarPool.HE_BOULDER )
 		{
-			StringUtilities.globalStringReplace( buffer, " red eye",
-				" <font color=red>red eye</font>" );
+			StringUtilities.globalStringReplace( buffer, "s red eye",
+				"s <font color=red>red eye</font>" );
 			StringUtilities.globalStringReplace( buffer, " blue eye",
 				" <font color=blue>blue eye</font>" );
 			StringUtilities.globalStringReplace( buffer, " yellow eye",
