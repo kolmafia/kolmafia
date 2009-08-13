@@ -227,25 +227,16 @@ public class PyramidRequest
 		return;
 	}
 
-	public static final boolean registerRequest( final String urlString )
+	public static final String getPyramidLocationString( final String urlString )
 	{
-		if ( !urlString.startsWith( "pyramid.php" ) )
+		if ( !urlString.startsWith( "pyramid.php" ) ||
+                     urlString.indexOf( "action=lower" ) == -1 )
 		{
-			return false;
+			return null;
 		}
 
-		if ( urlString.indexOf( "action=lower" ) != -1 )
-		{
-			String position = PyramidRequest.getPyramidPositionString();
-			String message = "[" + KoLAdventure.getAdventureCount() + "] The Lower Chambers (" + position + ")";
-
-			RequestLogger.printLine( "" );
-			RequestLogger.updateSessionLog();
-			RequestLogger.printLine( message );
-			RequestLogger.updateSessionLog( message );
-		}
-
-		return true;
+                String position = PyramidRequest.getPyramidPositionString();
+		return "The Lower Chambers (" + position + ")";
 	}
 
 	public static final void decorateChoice( final int choice, final StringBuffer buffer )

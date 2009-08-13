@@ -77,7 +77,6 @@ import net.sourceforge.kolmafia.request.MushroomRequest;
 import net.sourceforge.kolmafia.request.PortalRequest;
 import net.sourceforge.kolmafia.request.PulverizeRequest;
 import net.sourceforge.kolmafia.request.PvpRequest;
-import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.PyroRequest;
 import net.sourceforge.kolmafia.request.RaffleRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
@@ -437,7 +436,6 @@ public class RequestLogger
 	private static final void doRegister( final GenericRequest request, final String urlString )
 	{
 		RequestLogger.lastURLString = urlString;
-		boolean isExternal = request.getClass() == GenericRequest.class || request instanceof RelayRequest;
 
 		// There are some adventures which do not post any
 		// form fields, so handle them first.
@@ -447,6 +445,8 @@ public class RequestLogger
 			RequestLogger.wasLastRequestSimple = false;
 			return;
 		}
+
+		boolean isExternal = request.getClass() == GenericRequest.class || request instanceof RelayRequest;
 
 		if ( ( request instanceof FightRequest || isExternal ) && FightRequest.registerRequest( isExternal, urlString ) )
 		{
@@ -738,12 +738,6 @@ public class RequestLogger
 		}
 
 		if ( ( request instanceof PvpRequest || isExternal ) && PvpRequest.registerRequest( urlString ) )
-		{
-			RequestLogger.wasLastRequestSimple = false;
-			return;
-		}
-
-		if ( ( request instanceof PyramidRequest || isExternal ) && PyramidRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;

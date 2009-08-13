@@ -57,6 +57,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.BasementRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.HiddenCityRequest;
+import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.RichardRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
@@ -631,6 +632,10 @@ public class AdventureDatabase
 		{
 			return null;
 		}
+		else if ( urlString.startsWith( "pyramid.php" ) )
+		{
+			return PyramidRequest.getPyramidLocationString( urlString );
+		}
 		else if ( urlString.startsWith( "shore.php" ) && urlString.indexOf( "whichtrip=1" ) != -1 )
 		{
 			return "Muscle Vacation";
@@ -653,7 +658,7 @@ public class AdventureDatabase
 		}
 		else if ( urlString.startsWith( "dungeon.php" ) )
 		{
-			return "Daily Dungeon (Room " + DungeonDecorator.getDungeonRoom() + ")";
+			return DungeonDecorator.getDungeonRoomString();
 		}
 		else if ( urlString.startsWith( "dwarffactory.php" ) )
 		{

@@ -306,9 +306,9 @@ public class AdventureRequest
 			return;
 		}
 
-                // "You can't take it any more. The confusion, the nostalgia,
-                // the inconsistent grammar. You break the bottle on the
-                // ground, and stomp it to powder."
+		// "You can't take it any more. The confusion, the nostalgia,
+		// the inconsistent grammar. You break the bottle on the
+		// ground, and stomp it to powder."
 
 		if ( this.responseText.indexOf( "stomp it into powder" ) != -1 )
 		{
@@ -317,8 +317,8 @@ public class AdventureRequest
 			return;
 		}
 
-                // "You're in the regular dimension now, and don't remember how
-                // to get back there."
+		// "You're in the regular dimension now, and don't remember how
+		// to get back there."
 		if ( this.responseText.indexOf( "in the regular dimension now" ) != -1 )
 		{
 			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "You are no longer Half-Astral." );
@@ -464,6 +464,13 @@ public class AdventureRequest
 	{
 		String urlString = request.getURLString();
 		String responseText = request.responseText;
+
+		// If KoLAdventure didn't log the location, there can't be an
+		// encounter for us to log.
+		if ( !KoLAdventure.recordToSession( urlString, responseText ) )
+		{
+			return "";
+		}
 
 		if ( !( request instanceof AdventureRequest ) && !AdventureRequest.containsEncounter( urlString, responseText ) )
 		{
@@ -832,7 +839,7 @@ public class AdventureRequest
 	private static final boolean containsEncounter( final String formSource, final String responseText )
 	{
 		// The first round is unique in that there is no
-		// data fields.  Therefore, it will equal fight.php
+		// data fields.	 Therefore, it will equal fight.php
 		// exactly every single time.
 
 		if ( formSource.startsWith( "adventure.php" ) )
@@ -885,7 +892,7 @@ public class AdventureRequest
 			return true;
 		}
 
-		// It is not a known adventure.  Therefore,
+		// It is not a known adventure.	 Therefore,
 		// do not log the encounter yet.
 
 		return false;
