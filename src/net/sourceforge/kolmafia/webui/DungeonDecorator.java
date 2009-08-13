@@ -75,6 +75,11 @@ public abstract class DungeonDecorator
 		return DungeonDecorator.dungeonRoom;
 	}
 
+	public static final String getDungeonRoomString()
+	{
+                return "Daily Dungeon (Room " + DungeonDecorator.getDungeonRoom() + ")";
+	}
+
 	public static final String getDungeonEncounter()
 	{
                 return DungeonDecorator.dungeonEncounter;

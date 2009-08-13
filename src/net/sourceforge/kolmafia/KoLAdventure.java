@@ -35,6 +35,9 @@ package net.sourceforge.kolmafia;
 
 import java.util.ArrayList;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import net.sourceforge.foxtrot.Job;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -51,6 +54,7 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HiddenCityRequest;
+import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.RichardRequest;
 import net.sourceforge.kolmafia.request.SewerRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
@@ -84,6 +88,9 @@ public class KoLAdventure
 	public static final AdventureResult BEATEN_UP = new AdventureResult( "Beaten Up", 4, true );
 
 	private static KoLAdventure lastVisitedLocation = null;
+	private static boolean locationLogged = false;
+	private static String lastLocationName = null;
+	private static String lastLocationURL = null;
 
 	private boolean isValidAdventure = false;
 	private final String zone, parentZone, adventureId, formSource, adventureName;
@@ -93,6 +100,9 @@ public class KoLAdventure
 	private GenericRequest request;
 	private final AreaCombatData areaSummary;
 	private final boolean isNonCombatsOnly;
+
+	private static final Pattern ADVENTURE_AGAIN = Pattern.compile( "<a href=\"([^\"]*)\">Adventure Again \\((.*?)\\)</a>" );
+
 
 	/**
 	 * Constructs a new <code>KoLAdventure</code> with the given specifications.
@@ -200,6 +210,19 @@ public class KoLAdventure
 
 	public String getAdventureName()
 	{
+		return this.adventureName;
+	}
+
+	public String getPrettyAdventureName( final String urlString )
+	{
+		if ( urlString.startsWith( "pyramid.php" ) )
+		{
+			return PyramidRequest.getPyramidLocationString( urlString );
+		}
+		if ( urlString.startsWith( "dungeon.php" ) )
+		{
+			return DungeonDecorator.getDungeonRoomString();
+		}
 		return this.adventureName;
 	}
 
@@ -995,148 +1018,26 @@ public class KoLAdventure
 		CustomCombatManager.setAutoAttack( attack );
 	}
 
-	private boolean recordToSession()
-	{
-		this.updateAutoAttack();
-
-		if ( this.adventureId.equals( "118" ) )
-		{
-			// The Hidden City is weird. It redirects you to the
-			// container zone (the grid of 25 squares) if you try
-			// to adventure at this adventure ID.
-
-			// We detect adventuring in individual squares
-			// elsewhere.
-			return false;
-		}
-
-		if ( this.adventureId.equals( "123" ) )
-		{
-			AdventureResult hydrated = EffectPool.get( EffectPool.HYDRATED );
-			if ( !KoLConstants.activeEffects.contains( hydrated ) )
-			{
-				( new AdventureRequest( "Oasis in the Desert", "adventure.php", "122" ) ).run();
-			}
-			if ( !KoLConstants.activeEffects.contains( hydrated ) )
-			{
-				( new AdventureRequest( "Oasis in the Desert", "adventure.php", "122" ) ).run();
-			}
-			if ( !KoLConstants.activeEffects.contains( hydrated ) )
-			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Ultrahydration failed!" );
-			}
-		}
-		else if ( this.adventureId.equals( "158" ) )
-		{
-			AdventureResult mop = ItemPool.get( ItemPool.MIZZENMAST_MOP, 1 );
-			AdventureResult polish = ItemPool.get( ItemPool.BALL_POLISH, 1 );
-			AdventureResult sham = ItemPool.get( ItemPool.RIGGING_SHAMPOO, 1 );
-			if ( InventoryManager.hasItem( mop ) &&
-				InventoryManager.hasItem( polish ) &&
-				InventoryManager.hasItem( sham ) )
-			{
-				RequestThread.postRequest( new UseItemRequest( mop ) );
-				RequestThread.postRequest( new UseItemRequest( polish ) );
-				RequestThread.postRequest( new UseItemRequest( sham ) );
-			}
-		}
-
-		// Update selected adventure information in order to
-		// keep the GUI synchronized.
-
-		if ( !Preferences.getString( "lastAdventure" ).equals( this.adventureName ) )
-		{
-			Preferences.setString( "lastAdventure", this.adventureName );
-			AdventureFrame.updateSelectedAdventure( this );
-		}
-
-		StaticEntity.getClient().registerAdventure( this );
-
-		RequestLogger.printLine();
-		RequestLogger.printLine( "[" + KoLAdventure.getAdventureCount() + "] " + this.getAdventureName() );
-
-		RequestLogger.updateSessionLog();
-		RequestLogger.updateSessionLog( "[" + KoLAdventure.getAdventureCount() + "] " + this.getAdventureName() );
-
-		if ( !( this.request instanceof AdventureRequest ) )
-		{
-			StaticEntity.getClient().registerEncounter( this.getAdventureName(), "Noncombat", null );
-		}
-
-		return true;
-	}
-
 	public static final boolean recordToSession( final String urlString )
 	{
-		// In the event that this is an adventure, assume "snarfblat"
-		// instead of "adv" in order to determine the location.
+		// This is the first half of logging an adventure location
+		// given only the URL. We try to deduce where the player is
+		// adventuring and save it for verification later. We also do
+		// some location specific setup.
 
-		KoLAdventure matchingLocation = AdventureDatabase.getAdventureByURL( urlString );
-
-		if ( matchingLocation != null )
+		// See if this is a standard "adventure" in adventure.txt
+		KoLAdventure adventure = KoLAdventure.findAdventure( urlString );
+		if ( adventure != null )
 		{
-			// If you will be in a drunken stupor, St. Sneaky
-			// Pete's day or otherwise, switch to appropriate
-			// adventure so logging is correct.
-
-			matchingLocation = KoLAdventure.checkDrunkenness( matchingLocation );
-
-			// Save where we are adventuring currently
-
-			KoLAdventure.lastVisitedLocation = matchingLocation;
-
-			// If we are in a drunken stupor, record it to the
-			// session and return now.
-
-			if ( KoLCharacter.isFallingDown() )
-			{
-				return matchingLocation.recordToSession();
-			}
-
-			// We are not drunk. The pyramid's lower chamber is an
-			// adventure, but is handled elsewhere
-
-			if ( urlString.startsWith( "pyramid.php" ) )
-			{
-				return false;
-			}
-
-			if ( !matchingLocation.recordToSession() )
-			{
-				return false;
-			}
-
-			if ( !( matchingLocation.getRequest() instanceof AdventureRequest ) || matchingLocation.isValidAdventure )
-			{
-				return true;
-			}
-
-			String locationId = matchingLocation.adventureId;
-
-			// Make sure to visit the untinker before adventuring
-			// at Degrassi Knoll.
-
-			if ( locationId.equals( "18" ) )
-			{
-				UntinkerRequest.canUntinker();
-			}
-
-			matchingLocation.isValidAdventure = true;
-
-			// Make sure you're wearing the appropriate equipment
-			// for the King's chamber in Cobb's knob.
-
-			if ( matchingLocation.formSource.equals( "knob.php" ) )
-			{
-				matchingLocation.validate( true );
-			}
-
+			KoLAdventure.lastVisitedLocation = adventure;
+			KoLAdventure.lastLocationName = adventure.getPrettyAdventureName( urlString );
+			KoLAdventure.lastLocationURL = urlString;
+			KoLAdventure.locationLogged = false;
+			adventure.prepareToAdventure( urlString );
 			return true;
 		}
 
-		// Not an internal location.  Perhaps it's something related
-		// to another common request?
-		
+		// No. See if it's a special "adventure"
 		String location = AdventureDatabase.getUnknownName( urlString );
 		if ( location == null )
 		{
@@ -1147,6 +1048,11 @@ public class KoLAdventure
 		{
 			return true;
 		}
+
+		KoLAdventure.lastVisitedLocation = null;
+		KoLAdventure.lastLocationName = location;
+		KoLAdventure.lastLocationURL = urlString;
+		KoLAdventure.locationLogged = false;
 
 		boolean shouldReset =
 			urlString.startsWith( "barrel.php" ) ||
@@ -1160,13 +1066,245 @@ public class KoLAdventure
 			KoLAdventure.resetAutoAttack();
 		}
 
-		RequestLogger.printLine();
-		RequestLogger.printLine( "[" + KoLAdventure.getAdventureCount() + "] " + location );
+		return true;
+	}
 
-		RequestLogger.updateSessionLog();
-		RequestLogger.updateSessionLog( "[" + KoLAdventure.getAdventureCount() + "] " + location );
+	private static KoLAdventure findAdventure( final String urlString )
+	{
+		return AdventureDatabase.getAdventureByURL( urlString );
+	}
+
+	private static final KoLAdventure findAdventureAgain( final String responseText )
+	{
+		// Look for an "Adventure Again" link and return the
+		// KoLAdventure that it matches.
+		Matcher matcher = ADVENTURE_AGAIN.matcher( responseText );
+		if ( !matcher.find() )
+		{
+			return null;
+		}
+
+		return KoLAdventure.findAdventure( matcher.group(1) );
+	}
+
+	private void prepareToAdventure( final String urlString )
+	{
+		// If we are in a drunken stupor, return now.
+		if ( KoLCharacter.isFallingDown() )
+		{
+			return;
+		}
+
+		this.updateAutoAttack();
+
+		int id = StringUtilities.parseInt( this.adventureId );
+		switch ( id )
+		{
+		case 118:
+			// The Hidden City is weird. It redirects you to the
+			// container zone (the grid of 25 squares) if you try
+			// to adventure at this adventure ID.
+
+			// We detect adventuring in individual squares
+			// elsewhere.
+			return;
+
+		case 123:
+			AdventureResult hydrated = EffectPool.get( EffectPool.HYDRATED );
+			if ( !KoLConstants.activeEffects.contains( hydrated ) )
+			{
+				( new AdventureRequest( "Oasis in the Desert", "adventure.php", "122" ) ).run();
+			}
+			if ( !KoLConstants.activeEffects.contains( hydrated ) )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Ultrahydration failed!" );
+			}
+			break;
+
+		case 158:
+			AdventureResult mop = ItemPool.get( ItemPool.MIZZENMAST_MOP, 1 );
+			AdventureResult polish = ItemPool.get( ItemPool.BALL_POLISH, 1 );
+			AdventureResult sham = ItemPool.get( ItemPool.RIGGING_SHAMPOO, 1 );
+			if ( InventoryManager.hasItem( mop ) &&
+				InventoryManager.hasItem( polish ) &&
+				InventoryManager.hasItem( sham ) )
+			{
+				RequestThread.postRequest( new UseItemRequest( mop ) );
+				RequestThread.postRequest( new UseItemRequest( polish ) );
+				RequestThread.postRequest( new UseItemRequest( sham ) );
+			}
+			break;
+		}
+
+		if ( !( this.getRequest() instanceof AdventureRequest ) || this.isValidAdventure )
+		{
+			return;
+		}
+
+
+		// Visit the untinker before adventuring at Degrassi Knoll.
+
+		if ( id == 18 )
+		{
+			UntinkerRequest.canUntinker();
+		}
+
+		this.isValidAdventure = true;
+
+		// Make sure you're wearing the appropriate equipment
+		// for the King's chamber in Cobb's knob.
+
+		if ( this.formSource.equals( "knob.php" ) )
+		{
+			this.validate( true );
+		}
+	}
+
+	public static final boolean recordToSession( final String urlString, final String responseText )
+	{
+		// This is the second half of logging an adventure location
+		// after we've submitted the URL and gotten a response, after,
+		// perhaps, being redirected. Given the old URL, the new URL,
+		// and the response, we can often do a better job of figuring
+		// out where we REALLY adventured - if anywhere.
+
+		// Only do this once per adventure attempt.
+		if ( KoLAdventure.locationLogged )
+		{
+			return true;
+		}
+
+		String location = KoLAdventure.lastLocationName;
+		if ( location == null )
+		{
+			return false;
+		}
+
+		// Only do this once per adventure attempt.
+		KoLAdventure.locationLogged = true;
+
+		// See if we've been redirected away from the URL that started
+		// us adventuring
+
+		if ( urlString.equals( KoLAdventure.lastLocationURL ) )
+		{
+			// No. It is possible that we didn't adventure at all
+
+			// You need adventures to adventure!
+			if ( responseText.indexOf( "You're out of adventures." ) != -1 )
+			{
+				return false;
+			}
+
+			// You can't adventure with zero HP
+			if ( responseText.indexOf( "You're way too beaten up to go on an adventure right now." ) != -1 )
+			{
+				return false;
+			}
+
+			// Many areas have a standard message when they are
+			// inaccessible
+			if ( responseText.indexOf( "You shouldn't be here." ) != -1 )
+			{
+				return false;
+			}
+
+			// The temporal rift is available at levels 4 and 5 and
+			// has a special message if you are level 6 or higher.
+			if ( responseText.indexOf( "The temporal rift in the plains has closed." ) != -1 )
+			{
+				return false;
+			}
+
+			// Guano Junction has a special message
+			if ( responseText.indexOf( "You need some sort of stench protection to adventure in there." ) != -1 )
+			{
+				return false;
+			}
+
+			// So does the Icy Peak
+			if ( responseText.indexOf( "You need some sort of protection from the cold if you're going to visit the Icy Peak." ) != -1 )
+			{
+				return false;
+			}
+
+			// You can't go in the Daily Dungeon when you are drunk
+			if ( responseText.indexOf( "You're too drunk to spelunk, as it were." ) != -1 )
+			{
+				return false;
+			}
+
+			// You can't go in the Pyramid Lower Chamber when you
+			// are drunk
+			if ( responseText.indexOf( "You're too drunk to screw around in here." ) != -1 )
+			{
+				return false;
+			}
+
+			// You can't go into the Dwarf Factory complex without
+			// a uniform.
+			if ( responseText.indexOf( "Out of your mining uniform, you are quickly identified as a stranger and shown the door." ) != -1 )
+			{
+				return false;
+			}
+			
+			// See if there is an "adventure again" link, and if
+			// so, whether it points to where we thought we went.
+			KoLAdventure again = KoLAdventure.findAdventureAgain( responseText );
+			if ( again != null && again != lastVisitedLocation )
+			{
+				location = again.adventureName;
+				KoLAdventure.lastVisitedLocation = again;
+				KoLAdventure.lastLocationName = location;
+			}
+		}
+		else if ( urlString.equals( "cove.php" ) )
+		{
+			// Redirected from Pirate Cove to the cove map
+			return false;
+		}
+		else if ( urlString.startsWith( "mining.php" ) )
+		{
+			// Redirected to a mine
+			return false;
+		}
+		else if ( urlString.startsWith( "fight.php" ) )
+		{
+			// Redirected to a fight. We may or may not be
+			// adventuring where we thought we were. If your
+			// autoattack one-hit-kills the foe, the adventure
+			// again link will tell us where you were.
+			KoLAdventure again = KoLAdventure.findAdventureAgain( responseText );
+			if ( again != null && again != lastVisitedLocation )
+			{
+				location = again.adventureName;
+				KoLAdventure.lastVisitedLocation = again;
+				KoLAdventure.lastLocationName = location;
+			}
+		}
+		else if ( urlString.startsWith( "choice.php" ) )
+		{
+			// Redirected to a fight. We may or may not be
+			// adventuring where we thought we were.
+		}
+
+		// Update selected adventure information in order to
+		// keep the GUI synchronized.
+
+		if ( lastVisitedLocation != null && !Preferences.getString( "lastAdventure" ).equals( location ) )
+		{
+			Preferences.setString( "lastAdventure", location );
+			AdventureFrame.updateSelectedAdventure( lastVisitedLocation );
+		}
 
 		StaticEntity.getClient().registerAdventure( location );
+
+		String message = "[" + KoLAdventure.getAdventureCount() + "] " + location;
+		RequestLogger.printLine();
+		RequestLogger.printLine( message );
+
+		RequestLogger.updateSessionLog();
+		RequestLogger.updateSessionLog( message );
 
 		String encounter = "";
 
@@ -1186,31 +1324,6 @@ public class KoLAdventure
 		}
 
 		return true;
-	}
-
-	private static final KoLAdventure checkDrunkenness( KoLAdventure location )
-	{
-		if ( location == null )
-		{
-			return null;
-		}
-
-		int inebriety = KoLCharacter.getInebriety();
-                int limit = KoLCharacter.getInebrietyLimit();
-
-		if ( inebriety <= limit )
-		{
-			return location;
-		}
-
-		if ( inebriety >= 26 && HolidayDatabase.getHoliday().equals( "St. Sneaky Pete's Day" ) )
-		{
-			// St. Sneaky Pete's Day Drunken Stupor
-			return AdventureDatabase.getAdventure( "St. Sneaky Pete's Day Stupor" );
-		}
-
-		// Regular Drunken Stupor
-		return AdventureDatabase.getAdventure( "Drunken Stupor" );
 	}
 
 	public static final int getAdventureCount()
