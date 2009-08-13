@@ -4577,9 +4577,15 @@ public class KoLmafiaCLI
 	public static class Spade
 		extends Command
 	{
-		{ usage = " - examine and submit or delete any automatically gathered data."; }
-		public void run( String cmd )
+		{ usage = " [prices <URL>] - submit automatically gathered data."; }
+		public void run( String cmd, String parameters )
 		{
+			if ( parameters.startsWith( "prices" ) )
+			{
+				MallPriceDatabase.submitPrices( parameters.substring( 6 ).trim() );
+				return;
+			}
+			
 			String[] data = Preferences.getString( "spadingData" ).split( "\\|" );
 			if ( data.length < 3 )
 			{

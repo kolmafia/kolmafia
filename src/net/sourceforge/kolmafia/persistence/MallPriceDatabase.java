@@ -34,8 +34,15 @@
 package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -56,11 +63,14 @@ public class MallPriceDatabase
 	extends KoLDatabase
 {
 	private static final PriceArray prices = new PriceArray();
-	private static final HashSet visited = new HashSet();
+	private static final HashSet updated = new HashSet();
+	private static final HashSet submitted = new HashSet();
+	private static int modCount = 0;
 	static
 	{
 		updatePrices( "mallprices.txt", false );
 		updatePrices( "mallprices.txt", true );
+		MallPriceDatabase.modCount = 0;
 	}
 
 	private static int updatePrices( String filename, boolean allowOverride )
@@ -106,12 +116,14 @@ public class MallPriceDatabase
 			{
 				MallPriceDatabase.prices.set( id, new Price( price, timestamp ) );
 				++count;
+				++MallPriceDatabase.modCount;
 			}
 			else if ( timestamp > p.timestamp )
 			{
 				p.price = price;
 				p.timestamp = timestamp;
 				++count;
+				++MallPriceDatabase.modCount;
 			}
 		}
 
@@ -136,12 +148,12 @@ public class MallPriceDatabase
 		
 		if ( filename.startsWith( "http://" ) )
 		{
-			if ( MallPriceDatabase.visited.contains( filename ) )
+			if ( MallPriceDatabase.updated.contains( filename ) )
 			{
 				RequestLogger.printLine( "Already updated from " + filename + " in this session." );
 				return;
 			}
-			MallPriceDatabase.visited.add( filename );
+			MallPriceDatabase.updated.add( filename );
 		}
 		int count = MallPriceDatabase.updatePrices( filename, true );
 		if ( count > 0 )
@@ -166,6 +178,7 @@ public class MallPriceDatabase
 			p.price = price;
 			p.timestamp = timestamp;
 		}
+		++MallPriceDatabase.modCount;
 		MallPriceDatabase.writePrices();
 	}
 
@@ -183,6 +196,76 @@ public class MallPriceDatabase
 		}
 		
 		writer.close();
+	}
+	
+	public static void submitPrices( String url )
+	{
+		if ( url.length() == 0 )
+		{
+			RequestLogger.printLine( "No URL specified." );
+			return;
+		}
+		
+		if ( MallPriceDatabase.modCount == 0 )
+		{
+			RequestLogger.printLine( "You have no updated price data to submit." );
+			return;
+		}
+		if ( MallPriceDatabase.submitted.contains( url ) )
+		{
+			RequestLogger.printLine( "Already submitted to " + url + " in this session." );
+			return;
+		}
+		
+		try
+		{
+			HttpURLConnection con = (HttpURLConnection)
+				new URL( url ).openConnection();
+			con.setDoInput( true );
+			con.setDoOutput( true );
+			con.setRequestProperty( "Content-Type",
+			"multipart/form-data; boundary=--blahblahfishcakes" );
+			con.setRequestMethod( "POST" );
+			OutputStream o = con.getOutputStream();
+			BufferedWriter w = new BufferedWriter( new OutputStreamWriter( o ) );
+			w.write( "----blahblahfishcakes\r\n" );
+			w.write( "Content-Disposition: form-data; name=\"upload\"; filename=\"mallprices.txt\"\r\n\r\n" );
+			
+			BufferedReader reader = DataUtilities.getReader(
+				UtilityConstants.DATA_DIRECTORY, "mallprices.txt", true );
+			String line;
+			while ( (line = FileUtilities.readLine( reader )) != null )
+			{
+				w.write( line );
+				w.write( '\n' );
+			}
+			w.write( "\r\n----blahblahfishcakes--\r\n" );
+			w.flush();
+			o.close();
+			
+			InputStream i = con.getInputStream();
+			int responseCode = con.getResponseCode();
+			String response = "";
+			if ( i != null )
+			{
+				response = new BufferedReader( new InputStreamReader( i ) ).readLine();
+				i.close();
+			}
+			if ( responseCode == 200 )
+			{
+				RequestLogger.printLine( "Success: " + response );
+				MallPriceDatabase.submitted.add( url );
+			}
+			else
+			{
+				RequestLogger.printLine( "Error " + responseCode + ": " + response );
+			}
+		}
+		catch ( Exception e )
+		{
+			RequestLogger.printLine( "Submission failed: " + e );
+			return;
+		}
 	}
 	
 	public static int getPrice( int itemId )
