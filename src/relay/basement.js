@@ -28,8 +28,8 @@ function basementUpdate( command )
 		selects[i].disabled = true;
 
 	var buttons = document.getElementsByTagName( "input" );
-	for ( var i = 0; i < buttons.length; ++i )
-		buttons[i].disabled = true;
+	for ( var j = 0; j < buttons.length; ++j )
+		buttons[j].disabled = true;
 
 	httpObject.open( "GET", "/KoLmafia/sideCommand?cmd=" + encodeURIComponent( command ) + "&MAFIAHIT" );
 	httpObject.send( "" );
