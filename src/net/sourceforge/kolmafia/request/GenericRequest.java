@@ -119,6 +119,7 @@ public class GenericRequest
 	public static boolean isRatQuest = false;
 	public static boolean isBarrelSmash = false;
 	public static boolean handlingChoices = false;
+	public static String itemMonster = null;
 	private static boolean choiceHandled = true;
 	private static boolean suppressUpdate = false;
 
@@ -1863,6 +1864,7 @@ public class GenericRequest
 
 	public static final void checkItemRedirection( final AdventureResult item )
 	{
+		GenericRequest.itemMonster = null;
 		if ( item == null )
 		{
 			return;
@@ -1936,6 +1938,7 @@ public class GenericRequest
 
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( "[" + adventure + "] " + itemName );
+		GenericRequest.itemMonster = itemName;
 	}
 
 	private static final AdventureResult sealRitualCandles( final int itemId )
