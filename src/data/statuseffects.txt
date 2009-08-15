@@ -663,5 +663,8 @@
 662	Weasels Underfoot	ferrets.gif	adfc2711ba70e48e892eaa317211e144	#Bag o' Tricks
 663	Chihuahua Underfoot	chihuahua.gif	4c57e8de78fd8da06746b11888d30d6b	#Bag o' Tricks
 664	5 Pounds Lighter	whitebal.gif	8bf7bb7334647886110cc3480261237b	use 1 floaty sand
-665
+665	Minty Freshness	candy.gif	0d84de72c25e87763ab03aaa393209e3	use 1 dubious peppermint
 666	A Contender	bgoas.gif	ae19be0f35bf4094898e6c2bd33cec59	eat 1 rocky road ice cream
+667	Cuts Like a Lightly-Buttered Knife	bknife.gif	a6fb94a86856eec4079816d0f19f354e	use 1 Elvish delight
+668	Slimed Stomach	stomach.gif	19a0dbd007a488433f15186b8c5784f2	use 1 Good 'n' Slimy
+669	Chilblains of the Corn	candycorn.gif	5f20c6246d9367a07dcf7a6df4349864	use 1 children of the candy corn

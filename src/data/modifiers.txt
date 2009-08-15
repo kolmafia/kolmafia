@@ -1942,6 +1942,7 @@ Chapped Legs	Muscle: -4, Moxie: +8
 Charrrming	Moxie Percent: +10
 Chauve-Souris Merde Fou	Stench Damage: +50
 Chihuahua Underfoot	Monster Level: +20
+Chilblains of the Corn	Spooky Damage: +5
 Chock Full o' Nanites	Damage Absorption: +50, Weapon Damage: +20
 # Cholestoriffic
 Cholestoriffic	Sleaze Damage: [min(100,T)]
@@ -1986,6 +1987,7 @@ Cupshotten	Muscle Percent: -20, Mysticality Percent: -20, Moxie Percent: -20, Co
 # Curse of the Black Pearl Onion: Nasty belches during combat
 # Cursed by The RNG: ???
 Cuts Like a Buttered Knife	Sleaze Damage: +50
+Cuts Like a Lightly-Buttered Knife	Sleaze Damage: +5
 Cybernetic Muscles	Muscle Percent: +10
 Dance Interpreter	Item Drop: +20
 Dancing Prowess	Item Drop: +15
@@ -2232,6 +2234,7 @@ Midgetized	Damage Reduction: 4, Weapon Damage: -8
 Mighty Shout	Muscle Percent: +100, Moxie Percent: +100
 Mild Lycanthropy	Muscle Percent: [+1*M], Moxie Percent: [+1*M]
 Minioned	Muscle: +20, Mysticality: -5, Moxie: -5
+Minty Freshness	Moxie Percent: +10
 Missing Eyebrows	Moxie: -3
 Missing Fingers	Muscle: -3
 # Missing Kidney: Call 911 Immediately
@@ -2360,6 +2363,7 @@ Sleepy	Muscle Percent: -30
 Slimebreath	Monster Level: +50, Slime Resistance: +1
 # Slimed: Continually take damage
 Slimed	Spooky Damage: +20
+Slimed Stomach	Sleaze Resistance: +1
 # Slippery Oiliness: Makes your Muscle and Mysticality equal to your Moxie
 Slippery Oiliness	Equalize: "Moxie"
 Smelly Pants	Stench Resistance: +1

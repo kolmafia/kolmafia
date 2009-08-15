@@ -4153,9 +4153,9 @@
 4147	charged magnet	offhand	all	1500
 4148	floaty stone sphere	grow	all	9
 4149	quadroculars	familiar	all	75
-4150
-4151
-4152
+4150	lint	none	all	3
+4151	dubious peppermint	multiple	all	40
+4152	Elvish delight	usable	all		40
 4153	rockfish stomach	multiple	all	170
 4154	live lobster	usable	all	0
 4155	wok lobster	usable	all	0
@@ -4166,3 +4166,5 @@
 4160	pebblebr&auml;u	drink	all	50
 4161	rocky road ice cream	food	all	150
 4162	extra-strength rubber bands	familiar	all	75
+4163	children of the candy corn	usable	all	0
+4164	Good 'n' Slimy	usable	all	0
