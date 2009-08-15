@@ -4153,9 +4153,9 @@
 4147	318227286	charged magnet	charged magnets
 4148	690404713	floaty stone sphere	floaty stone spheres
 4149	289983640	quadroculars	pairs... sets(?) of quadroculars
-4150
-4151
-4152
+4150	826406582	lint	wads of lint
+4151	786129512	dubious peppermint	dubious peppermints
+4152	470980063	Elvish delight	Elvish delights
 4153	814007585	rockfish stomach	rockfish stomachs
 4154	320604525	live lobster	live lobsters
 4155	731799311	wok lobster	wok lobsters
@@ -4166,3 +4166,5 @@
 4160	152129110	pebblebr&auml;u	bottles of pebblebr&auml;u
 4161	243723339	rocky road ice cream	bowls of rocky road ice cream
 4162	655102853	extra-strength rubber bands	pairs of extra-strength rubber bands
+4163	335815719	children of the candy corn	niblets of children of the candy corn
+4164	619354651	Good 'n' Slimy	boxes of Good 'n' Slimy
