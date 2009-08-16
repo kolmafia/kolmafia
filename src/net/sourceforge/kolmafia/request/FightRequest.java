@@ -527,6 +527,14 @@ public class FightRequest
 			return;
 		}
 
+		if ( FightRequest.action1.equals( "abort after" ) )
+		{
+			KoLmafia.abortAfter( "Aborted by CCS request" );
+			--FightRequest.preparatoryRounds;
+			this.nextRound();
+			return;
+		}
+
 		if ( FightRequest.action1.equals( "skip" ) )
 		{
 			--FightRequest.preparatoryRounds;

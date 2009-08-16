@@ -861,6 +861,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "my_location", DataTypes.LOCATION_TYPE, params ) );
 
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "last_monster", DataTypes.MONSTER_TYPE, params ) );
+
 		params = new Type[] { DataTypes.LOCATION_TYPE };
 		functions.add( new LibraryFunction( "get_monsters", new AggregateType(
 			DataTypes.MONSTER_TYPE, 0 ), params ) );
@@ -3366,6 +3369,13 @@ public abstract class RuntimeLibrary
 			AdventureFrame.updateSelectedAdventure( adventure );
 		}
 		return DataTypes.VOID_VALUE;
+	}
+
+	public static Value last_monster()
+	{
+		Monster monster = FightRequest.getLastMonster();
+		return DataTypes.parseMonsterValue(
+			monster != null ? monster.getName() : "none", true );
 	}
 
 	public static Value get_monsters( final Value location )
