@@ -704,7 +704,16 @@ public abstract class CustomCombatManager
 			return "summon pastamancer ghost";
 		}
 
-		if ( action.startsWith( "abort" ) || action.startsWith( "consult" ) )
+		if ( action.startsWith( "abort" ) )
+		{
+			if ( action.indexOf( "after" ) != -1 )
+			{
+				return "abort after this combat";
+			}
+			return "abort";
+		}
+
+		if ( action.startsWith( "consult" ) )
 		{
 			return action;
 		}
@@ -826,6 +835,10 @@ public abstract class CustomCombatManager
 
 		if ( action.startsWith( "abort" ) )
 		{
+			if ( action.indexOf( "after" ) != -1 )
+			{
+				return "abort after";
+			}
 			return "abort";
 		}
 
