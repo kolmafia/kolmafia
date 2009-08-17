@@ -41,6 +41,7 @@ import java.io.PrintStream;
 import java.nio.channels.FileChannel;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.TreeMap;
 
@@ -50,6 +51,7 @@ import javax.swing.tree.TreeNode;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -554,41 +556,52 @@ public abstract class CustomCombatManager
 		
 		String settingKey = CustomCombatManager.getSettingKey( encounter );
 		CombatSettingNode match = (CombatSettingNode) CustomCombatManager.reference.get( settingKey );
+		HashSet seen = new HashSet();
+		seen.add( settingKey );
+		int index = roundCount;
 
-		if ( match == null || match.getChildCount() == 0 )
-		{
-			return "attack";
-		}
-
-		int index = ( roundCount < match.getChildCount() ? roundCount : match.getChildCount() - 1 );
-		CombatActionNode setting = (CombatActionNode) match.getChildAt( index );
-
-		if ( setting == null || setting.getAction().equals( "default" ) )
-		{
-			match = (CombatSettingNode) CustomCombatManager.reference.get( "default" );
-			if ( match == null )
+		while ( true )
+		{	
+			if ( match == null || match.getChildCount() == 0 )
 			{
 				return "attack";
 			}
-			index = roundCount - index;
-			if ( index < 0 )
+	
+			int origIndex = index;
+			index = Math.min( index, match.getChildCount() - 1 );
+			CombatActionNode setting = (CombatActionNode) match.getChildAt( index );
+			action = setting == null ? "attack" : setting.getAction();
+			
+			// Check for section redirects
+			if ( action.equals( "default" ) )
 			{
-				index = 0;
+				settingKey = action;
 			}
-			else if ( index >= match.getChildCount() )
+			else if ( action.startsWith( "section " ) )
 			{
-				index = match.getChildCount() - 1;
+				settingKey = CustomCombatManager.getSettingKey( 
+					action.substring( 8 ).trim() );
 			}
-
-			setting = (CombatActionNode) match.getChildAt( index );
+			else
+			{
+				settingKey = null;
+			}
+			
+			if ( settingKey != null )
+			{
+				if ( seen.contains( settingKey ) )
+				{
+					KoLmafia.abortAfter( "CCS aborted due to recursive section reference." );
+					return "attack";
+				}
+				seen.add( settingKey );
+				match = (CombatSettingNode) CustomCombatManager.reference.get( settingKey );
+				index = origIndex - index;
+				continue;
+			}
+			
+			return action;
 		}
-
-		if ( setting == null || setting.getAction().equals( "default" ) )
-		{
-			return "attack";
-		}
-
-		return setting.getAction();
 	}
 
 	private static class CombatSettingNode
@@ -677,6 +690,11 @@ public abstract class CustomCombatManager
 		if ( action.equals( "default" ) )
 		{
 			return "default";
+		}
+
+		if ( action.startsWith( "section" ) )
+		{
+			return action;
 		}
 
 		if ( action.startsWith( "jiggle" ) )
