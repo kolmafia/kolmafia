@@ -50,7 +50,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -147,6 +149,12 @@ public abstract class RuntimeLibrary
 
 		// Basic utility functions which print information
 		// or allow for easy testing.
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "batch_open", DataTypes.VOID_TYPE, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "batch_close", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "enable", DataTypes.VOID_TYPE, params ) );
@@ -1079,25 +1087,94 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "mmg_bet_winnings", DataTypes.INT_TYPE, params ) );
 	}
 
-        public static Method findMethod( final String name, final Class[] args )
+		public static Method findMethod( final String name, final Class[] args )
 		throws NoSuchMethodException
 	{
-                return RuntimeLibrary.class.getMethod( name, args );
-        }
+		return RuntimeLibrary.class.getMethod( name, args );
+	}
 
 	private static Value continueValue()
 	{
 		return DataTypes.makeBooleanValue( KoLmafia.permitsContinue() && !KoLmafia.hadPendingState() );
 	}
+	
+	// Support for batching of server requests
+	
+	private static void batchCommand( String cmd, String params )
+	{
+		RuntimeLibrary.batchCommand( cmd, null, params );
+	}
 
-        // Basic utility functions which print information
-        // or allow for easy testing.
+	private static void batchCommand( String cmd, String prefix, String params )
+	{
+		LinkedHashMap batched = LibraryFunction.interpreter.batched;
+		if ( batched == null )
+		{
+			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( cmd,
+				prefix == null ? params : (prefix + " " + params) );
+			return;
+		}
+		StringBuffer buf = (StringBuffer) batched.get( cmd );
+		if ( buf == null )
+		{	// First instance of this command
+			buf = new StringBuffer();
+			if ( prefix != null )
+			{
+				buf.append( prefix );
+				buf.append( " " );
+			}
+			buf.append( params );
+			batched.put( cmd, buf );
+		}
+		else if ( prefix != null &&
+			!buf.substring( 0, prefix.length() ).equals( prefix ) )
+		{	// Have seen this command, but with a different subcommand -
+			// can't queue it.
+			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( cmd, prefix + " " + params );
+			return;
+		}
+		else
+		{	// Have seen this command, and prefix (if any) matches
+			buf.append( ", " );
+			buf.append( params );
+		}
+	}
 
-        public static Value enable( final Value name )
- 	{
-                StaticEntity.enable( name.toString().toLowerCase() );
-                return DataTypes.VOID_VALUE;
-        }
+	public static Value batch_open()
+	{
+		if ( LibraryFunction.interpreter.batched == null )
+		{
+			LibraryFunction.interpreter.batched = new LinkedHashMap();
+		}
+		return DataTypes.VOID_VALUE;
+	}
+
+	public static Value batch_close()
+	{
+		LinkedHashMap batched = LibraryFunction.interpreter.batched;
+		if ( batched != null )
+		{
+			Iterator i = batched.entrySet().iterator();
+			while ( i.hasNext() )
+			{
+				Map.Entry e = (Map.Entry) i.next();	
+				KoLmafiaCLI.DEFAULT_SHELL.executeCommand( (String) e.getKey(),
+					((StringBuffer) e.getValue()).toString() );
+				if ( !KoLmafia.permitsContinue() ) break;
+			}
+			LibraryFunction.interpreter.batched = null;
+		}
+
+		return RuntimeLibrary.continueValue();
+	}
+	// Basic utility functions which print information
+	// or allow for easy testing.
+
+	public static Value enable( final Value name )
+	{
+		StaticEntity.enable( name.toString().toLowerCase() );
+		return DataTypes.VOID_VALUE;
+	}
 
 	public static Value disable( final Value name )
 	{
@@ -1815,7 +1892,7 @@ public abstract class RuntimeLibrary
 			return RuntimeLibrary.continueValue();
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "closet", "put " + count + " \u00B6" + item.intValue() );
+		RuntimeLibrary.batchCommand( "closet", "put", count + " \u00B6" + item.intValue() );
 		return RuntimeLibrary.continueValue();
 	}
 
@@ -1836,7 +1913,7 @@ public abstract class RuntimeLibrary
 		int price = priceValue.intValue();
 		int limit = limitValue.intValue();
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "mallsell", "* \u00B6" + item.intValue() + " @ " + price + " limit " + limit );
+		RuntimeLibrary.batchCommand( "mallsell", "* \u00B6" + item.intValue() + " @ " + price + " limit " + limit );
 		return RuntimeLibrary.continueValue();
 	}
 
@@ -1850,7 +1927,7 @@ public abstract class RuntimeLibrary
 			return RuntimeLibrary.continueValue();
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "mallsell", qty + " \u00B6" + item.intValue() + " @ " + price + " limit " + limit );
+		RuntimeLibrary.batchCommand( "mallsell", qty + " \u00B6" + item.intValue() + " @ " + price + " limit " + limit );
 		return RuntimeLibrary.continueValue();
 	}
 
@@ -1862,7 +1939,7 @@ public abstract class RuntimeLibrary
 			return RuntimeLibrary.continueValue();
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "stash", "put " + count + " \u00B6" + item.intValue() );
+		RuntimeLibrary.batchCommand( "stash", "put", count + " \u00B6" + item.intValue() );
 		return RuntimeLibrary.continueValue();
 	}
 
@@ -1874,7 +1951,7 @@ public abstract class RuntimeLibrary
 			return RuntimeLibrary.continueValue();
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "display", "put " + count + " \u00B6" + item.intValue() );
+		RuntimeLibrary.batchCommand( "display", "put", count + " \u00B6" + item.intValue() );
 		return RuntimeLibrary.continueValue();
 	}
 
@@ -1886,7 +1963,7 @@ public abstract class RuntimeLibrary
 			return RuntimeLibrary.continueValue();
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "closet", "take " + count + " \u00B6" + item.intValue() );
+		RuntimeLibrary.batchCommand( "closet", "take", count + " \u00B6" + item.intValue() );
 		return RuntimeLibrary.continueValue();
 	}
 
@@ -1910,7 +1987,7 @@ public abstract class RuntimeLibrary
 			return RuntimeLibrary.continueValue();
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "hagnk", count + " \u00B6" + item.intValue() );
+		RuntimeLibrary.batchCommand( "hagnk", count + " \u00B6" + item.intValue() );
 		return RuntimeLibrary.continueValue();
 	}
 
@@ -1922,7 +1999,7 @@ public abstract class RuntimeLibrary
 			return RuntimeLibrary.continueValue();
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "display", "take " + count + " \u00B6" + item.intValue() );
+		RuntimeLibrary.batchCommand( "display", "take", count + " \u00B6" + item.intValue() );
 		return RuntimeLibrary.continueValue();
 	}
 
@@ -1934,7 +2011,7 @@ public abstract class RuntimeLibrary
 			return RuntimeLibrary.continueValue();
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "stash", "take " + count + " \u00B6" + item.intValue() );
+		RuntimeLibrary.batchCommand( "stash", "take", count + " \u00B6" + item.intValue() );
 		return RuntimeLibrary.continueValue();
 	}
 
@@ -1946,7 +2023,7 @@ public abstract class RuntimeLibrary
 			return RuntimeLibrary.continueValue();
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "sell", count + " \u00B6" + item.intValue() );
+		RuntimeLibrary.batchCommand( "sell", count + " \u00B6" + item.intValue() );
 		return RuntimeLibrary.continueValue();
 	}
 

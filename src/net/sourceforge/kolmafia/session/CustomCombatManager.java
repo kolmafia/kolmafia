@@ -580,7 +580,7 @@ public abstract class CustomCombatManager
 			else if ( action.startsWith( "section " ) )
 			{
 				settingKey = CustomCombatManager.getSettingKey( 
-					action.substring( 8 ).trim() );
+					action.substring( 8 ).trim().toLowerCase() );
 			}
 			else
 			{

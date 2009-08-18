@@ -37,6 +37,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.TreeMap;
 
 import net.sourceforge.kolmafia.KoLConstants;
@@ -76,6 +77,9 @@ public class Interpreter
 	// For use in runtime error messages
 	private String fileName;
 	private int lineNumber;
+	
+	// For use by RuntimeLibrary's CLI command batching feature
+	LinkedHashMap batched;
 
 	public Interpreter()
 	{
