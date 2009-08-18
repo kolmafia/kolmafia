@@ -1357,6 +1357,7 @@ public abstract class MoodManager
 			else if ( this.skill != null )
 			{
 				this.skill.setBuffCount( Math.max( this.count, this.count * multiplicity ) );
+				this.skill.setTarget( KoLCharacter.getUserName() );
 				RequestThread.postRequest( this.skill );
 
 				if ( !UseSkillRequest.lastUpdate.equals( "" ) )
