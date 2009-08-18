@@ -57,6 +57,7 @@ import net.sourceforge.kolmafia.request.BasementRequest;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
+import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class BasementDecorator
@@ -520,8 +521,12 @@ public class BasementDecorator
 		
 		public int getItemPrice()
 		{
-			return this.item == null ? 0 :
-				Math.max( 0, StoreManager.getMallPrice( this.item ) );
+			if ( this.item == null ) return 0;
+			if ( MallPriceDatabase.getAge( this.item.getItemId() ) > 7.0f )
+			{
+				StoreManager.getMallPrice( this.item );
+			}
+			return MallPriceDatabase.getPrice( this.item.getItemId() );
 		}
 
 		public boolean itemAvailable()

@@ -53,6 +53,7 @@ import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
 import net.sourceforge.kolmafia.utilities.LowerCaseEntry;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 
 public class AutoFilterTextField
@@ -64,11 +65,17 @@ public class AutoFilterTextField
 	protected LockableListModel model;
 	protected boolean strict;
 	protected int quantity;
+	protected int price;
 	protected boolean qtyChecked;
 	protected boolean qtyEQ, qtyLT, qtyGT;
+	protected boolean asChecked;
+	protected boolean asEQ, asLT, asGT;
 
 	private static final Pattern QTYSEARCH_PATTERN = Pattern.compile(
 		"\\s*#\\s*([<=>]+)\\s*([\\d,]+)\\s*" );
+
+	private static final Pattern ASSEARCH_PATTERN = Pattern.compile(
+		"\\s*\\p{Sc}\\s*([<=>]+)\\s*([\\d,]+)\\s*" );
 
 	public AutoFilterTextField( final JList list )
 	{
@@ -128,21 +135,32 @@ public class AutoFilterTextField
 
 	public void update()
 	{
+	  this.qtyChecked = false;
+		this.asChecked = false;
 		this.text = this.getText().toLowerCase();
-		Matcher m = AutoFilterTextField.QTYSEARCH_PATTERN.matcher( this.text );
-		if ( m.find() )
+
+		Matcher mqty = AutoFilterTextField.QTYSEARCH_PATTERN.matcher( this.text );
+		if ( mqty.find() )
 		{
 			this.qtyChecked = true;
-			this.quantity = StringUtilities.parseInt( m.group( 2 ) );
-			String op = m.group( 1 );
+			this.quantity = StringUtilities.parseInt( mqty.group( 2 ) );
+			String op = mqty.group( 1 );
 			this.qtyEQ = op.indexOf( "=" ) != -1;
 			this.qtyLT = op.indexOf( "<" ) != -1;
 			this.qtyGT = op.indexOf( ">" ) != -1;
-			this.text = m.replaceFirst( "" );
+			this.text = mqty.replaceFirst( "" );
 		}
-		else
+
+		Matcher mas = AutoFilterTextField.ASSEARCH_PATTERN.matcher( this.text );
+		if ( mas.find() )
 		{
-			this.qtyChecked = false;
+			this.asChecked = true;
+			this.price = StringUtilities.parseInt( mas.group( 2 ) );
+			String op = mas.group( 1 );
+			this.asEQ = op.indexOf( "=" ) != -1;
+			this.asLT = op.indexOf( "<" ) != -1;
+			this.asGT = op.indexOf( ">" ) != -1;
+			this.text = mas.replaceFirst( "" );
 		}
 
 		this.strict = true;
@@ -172,6 +190,17 @@ public class AutoFilterTextField
 			if ( ( qty == this.quantity && !this.qtyEQ ) ||
 				 ( qty < this.quantity && !this.qtyLT ) ||
 				 ( qty > this.quantity && !this.qtyGT ) )
+			{
+				return false;
+			}
+		}
+
+		if ( this.asChecked )
+		{
+			int as = AutoFilterTextField.getResultPrice( element );
+			if ( ( as == this.price && !this.asEQ ) ||
+				 ( as < this.price && !this.asLT ) ||
+				 ( as > this.price && !this.asGT ) )
 			{
 				return false;
 			}
@@ -225,6 +254,22 @@ public class AutoFilterTextField
 
 		return element.toString();
 	}
+
+	public static final int getResultPrice( final Object element )
+	{
+		if ( element == null )
+		{
+			return -1;
+		}
+
+		if ( element instanceof AdventureResult )
+		{
+			return ItemDatabase.getPriceById( ( (AdventureResult) element ).getItemId() );
+		}
+
+		return -1;
+	}
+
 
 	public static final int getResultQuantity( final Object element )
 	{
