@@ -40,21 +40,21 @@
 
 # Hats section of modifiers.txt
 
-Ancient Saucehelm	Mysticality: +7, Class: "Sauceror", Familiar Effect: "3xGhuol, cap 12"
+Ancient Saucehelm	Mysticality: +11, Spell Damage: +11, Class: "Sauceror", Familiar Effect: "3xGhuol, cap 12"
 Baron von Ratsworth's tophat	Moxie: +5, Muscle: +5, Mysticality: +5, Familiar Effect: "1xPotato, 3xGhuol, cap 18"
 Brimstone Beret	Moxie Percent: +50, Muscle Percent: -20, Four Songs, Brimstone, Familiar Effect: "1xVolley, 1xLep"
 # Cerebral Cloche: Jellyfish Vision
 Cerebral Cloche	Maximum MP: +15, Familiar Effect: "1.5xLep, cap 22"
 Cloaca-Cola helmet	Damage Absorption: +10, Familiar Effect: "3xFairy, cap 7"
-Colander of Em-er'il	Mysticality: +7, Class: "Pastamancer", Familiar Effect: "3xGhuol, cap 12"
+Colander of Em-er'il	Mysticality: +11, MP Regen Min: 2, MP Regen Max: 6, Class: "Pastamancer", Familiar Effect: "3xGhuol, cap 12"
 Crimbo hat	Spooky Resistance: +1, Familiar Effect: "1.75xVolley, 1.75xLep, cap 25"
 Crown of the Goblin King	Muscle: +10, Familiar Effect: "2xBarrr, 1xGhuol, cap 17"
-Disco 'Fro Pick	Moxie: +7, Class: "Disco Bandit", Familiar Effect: "3xGhuol, cap 12"
+Disco 'Fro Pick	Moxie: +11, Initiative: +11, Class: "Disco Bandit", Familiar Effect: "3xGhuol, cap 12"
 Dolphin King's crown	Moxie: +2, Muscle: +2, Mysticality: +2, Familiar Effect: "atk, 2xGhuol, cap 8"
 Dyspepsi-Cola helmet	Damage Absorption: +10, Familiar Effect: "3xFairy, cap 7"
-El Sombrero De Lopez	Moxie: +7, Class: "Accordion Thief", Familiar Effect: "3xGhuol, cap 12"
+El Sombrero De Lopez	Moxie: +11, Ranged Damage: +7, Class: "Accordion Thief", Familiar Effect: "3xGhuol, cap 12"
 El Vibrato helmet	Familiar Effect: "0.5xPotato, 1xFairy"
-Elder Turtle Shell	Muscle: +7, Class: "Turtle Tamer", Familiar Effect: "3xGhuol, cap 12"
+Elder Turtle Shell	Muscle: +11, Familiar Weight: +3, Class: "Turtle Tamer", Familiar Effect: "3xGhuol, cap 12"
 Frosty's old silk hat	Muscle Percent: +20, Cold Damage: +30, Class: "Seal Clubber", Familiar Effect: "cold atk"
 Grimacite gasmask	Muscle Percent: [10*G], Weapon Damage: +15, Familiar Effect: "1xLep, 1.5xFairy, cap 37"
 Grimacite goggles	Mysticality Percent: [10*G], Adventures: +3, Familiar Effect: "1xVolley, 1xLep, cap 31"
@@ -70,7 +70,7 @@ Mohawk wig	Weapon Damage: +10, Familiar Effect: "1xPotato, 1xGhuol, cap 35"
 Ol' Scratch's stovepipe hat	Mysticality Percent: +20, Hot Spell Damage: +30, Class: "Sauceror", Familiar Effect: "hot atk"
 Orcish baseball cap	Muscle: +3, Mysticality: -3, Familiar Effect: "1xVolley, 1xBarrr, cap 15"
 Radio Free Baseball Cap	Intrinsic Effect: "Radio Head", Familiar Effect: "1xLep, 1xFairy, cap 37"
-Scalp of Gorgolok	Muscle: +7, Class: "Seal Clubber", Familiar Effect: "3xGhuol, cap 12"
+Scalp of Gorgolok	Muscle: +11, Weapon Damage: +7, Class: "Seal Clubber", Familiar Effect: "3xGhuol, cap 12"
 Seasonal Beret	Muscle Percent: [+5*G], Mysticality Percent: [+5*G], Moxie Percent: [+5*G], Familiar Effect: "1xPotato, ?xFairy, cap 25"
 Snow Queen Crown	Cold Damage: +5, Cold Resistance: +3, Familiar Effect: "cold atk, 1xGhuol, cap 28"
 Sombrero De Vida	Four Songs
@@ -625,6 +625,7 @@ duck-on-a-string	Weapon Damage: +5, Item Drop: +5
 duct tape sword	Damage Absorption: +40, Item Drop: +5
 dueling banjo	Moxie: +4, Monster Level: +5
 # dwarvish war mattock: Magical Blue Glow
+evil paper umbrella	Monster Level: +1
 eXtreme meat crossbow	Moxie: +7
 eXtreme meat staff	Mysticality: +7
 eXtreme meat sword	Muscle: +7
@@ -1837,6 +1838,7 @@ Temporary Blindness (intrinsic)	Moxie Percent: -25, Item Drop: -75, Initiative: 
 1337p4n7Z	Muscle: +6, Moxie: -3
 5 Pounds Lighter	Initiative: +10, Moxie: +5
 A Contender	Muscle Percent: +200, Mysticality Percent: +200, Moxie Percent: +200
+A Little Bit Evil	Monster Level: +2
 A Little Bit Poisoned	Muscle Percent: -30, Mysticality Percent: -30, Moxie Percent: -30, Muscle: -5, Mysticality: -5, Moxie: -5
 A Revolution in Your Mouth	Moxie Percent: -10
 # Absinthe-Minded: You are aware of The Worm Wood
@@ -2029,6 +2031,8 @@ Egg-headedness	Mysticality Percent: +10
 Egg-stortionary Tactics	Meat Drop: +50
 Egg-stra Arm	Muscle Percent: +10
 Eggs-tra Sensory Perception	Item Drop: +10
+# El Tango de la Maldita Suegra: +20% Pickpocket Chance
+El Tango de la Maldita Suegra	Initiative: +15
 Elemental Saucesphere	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
 Elron's Explosive Etude	Spell Damage Percent: +50
 Elvish	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
@@ -2047,6 +2051,7 @@ Extra Terrestrial	HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen
 Extreme Muscle Relaxation	Initiative: -50, Muscle Percent: +25
 Extremely Poor Taste	Monster Level: +10
 Eye of the Lihc	Spooky Resistance: +1
+Eye of the Seal	Item Drop: +10
 Fancy Feasted	Moxie Percent: +20
 Far Out	Mysticality: +1
 Fastbreaker	Muscle Percent: +20
@@ -2378,6 +2383,7 @@ Solar Flair	Hot Damage: +20
 Somewhat Poisoned	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50, Muscle: -7, Mysticality: -7, Moxie: -7
 # Soul Freeze: Brrrrrrr...
 Soul-Crushing Headache	Muscle Percent: -20, Mysticality Percent: -20, Moxie Percent: -20
+Souper Vengeful	Weapon Damage: +5, Familiar Weight: +3
 Sparkling Consciousness	Mysticality Percent: +100
 # Spectral: You take and deal almost no damage
 Spicy Limeness	Muscle: -5, Moxie: +5

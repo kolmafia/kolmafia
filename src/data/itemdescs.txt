@@ -3147,7 +3147,7 @@
 3141	678352310	panhandle panhandling hat	panhandle panhandling hats
 3142	772668061	cup of infinite pencils	cups of infinite pencils
 3143	727586163	Hodgman's disgusting technicolor overcoat	Hodgman's disgusting technicolor overcoats
-3144
+3144	647825911	a torn paper strip
 3145	778803106	El Vibrato translator	El Vibrato translators
 3146	190950432	El Vibrato punchcard (115 holes)	El Vibrato punchcards (115 holes)
 3147	819422442	El Vibrato punchcard (97 holes)	El Vibrato punchcards (97 holes)
@@ -3171,30 +3171,30 @@
 3165	260907255	broken El Vibrato drone	broken El Vibrato drones
 3166	379323932	repaired El Vibrato drone	repaired El Vibrato drones
 3167	390534062	augmented El Vibrato drone	augmented El Vibrato drones
-3168
-3169
-3170
-3171
-3172
-3173
-3174
-3175
-3176
-3177
-3178
-3179
-3180
-3181
-3182
-3183
-3184
-3185
-3186
-3187
-3188
-3189
-3190
-3191
+3168		seal eyeball	seal eyeballs
+3169	502609401	turtle soup	bowls of turtle soup
+3170	597949601	nauseating reagent	nauseating reagents
+3171	894555030	evil noodles	bunches of evil noodles
+3172	974859822	evil paper umbrella	evil paper umbrellas
+3173	175721485	evil vihuela	evil vihuelas
+3174	993409818	evil boring spaghetti	bowls of evil boring spaghetti
+3175	735365259	evil delicious noodles	bowls of evil delicious noodles
+3176	571842630	evil delicious spicy noodles	bowls of evil delicious spicy noodles
+3177	216513135	evil painful penne pasta	bowls of evil painful penne pasta
+3178	902581340	3vi1 pr0n m4nic0tti	bowls of 3vi1 pr0n m4nic0tti
+3179	492512526	evil ravioli della hippy	bowls of evil ravioli della hippy
+3180	151286267	evil spicy noodles	bowls of evil spicy noodles
+3181	441488044	evil potion of potency	evil potions of potency
+3182	215940159	evil libation of liveliness	evil libations of liveliness
+3183	257745035	evil tomato juice of powerful power	evil tomato juices of powerful power
+3184	961212131	evil eyedrops of the ermine	bottles of evil eyedrops of the ermine
+3185	403964394	evil ointment of the occult	evil ointments of the occult
+3186	196291262	evil serum of sarcasm	evil serums of sarcasm
+3187	420087308	evil philter of phorce	evil philters of phorce
+3188	472527220	an evil little sump'm sump'm
+3189	563544789	evil ducha de oro
+3190	632208632	evil horizontal tango
+3191	486550979	evil roll in the hay
 3192	404274180	naughty origami kit	naughty origami kits
 3193	412436008	naughty fortune teller	naughty fortune tellers
 3194	937556205	origami &quot;gentlemen's&quot; magazine	origami &quot;gentlemen's&quot; magazines
@@ -4141,13 +4141,13 @@
 4135
 4136	173186492	Bag o' Tricks	Bag o' Trickss
 4137	916071890	slime stack	slime stacks
-4138
-4139
-4140
-4141
-4142
-4143
-4144
+4138	153915446	a rumpled paper strip
+4139	776620628	a creased paper strip
+4140	411336587	a folded paper strip
+4141	298163869	a crinkled paper strip
+4142	564255755	a crumpled paper strip
+4143	626990413	a ragged paper strip
+4144	647825911	a ripped paper strip
 4145	188292184	funny paper hat
 4146	859278206	floaty sand	handfuls of floaty sand
 4147	318227286	charged magnet	charged magnets
