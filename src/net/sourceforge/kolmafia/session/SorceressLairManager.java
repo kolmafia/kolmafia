@@ -105,7 +105,6 @@ public abstract class SorceressLairManager
 		ItemPool.get( ItemPool.ZIM_MERMANS_GUITAR, 1 ),
 		ItemPool.get( ItemPool.GUITAR_4D, 1 ),
 		ItemPool.get( ItemPool.HALF_GUITAR, 1 ),
-		ItemPool.get( ItemPool.SMALLEST_VIOLIN, 1 ),
 		ItemPool.get( ItemPool.OOT_BIWA, 1 ),
 		ItemPool.get( ItemPool.PLASTIC_GUITAR, 1 ),
 	};
@@ -120,7 +119,6 @@ public abstract class SorceressLairManager
 		ItemPool.get( ItemPool.HIPPY_BONGO, 1 ),
 		ItemPool.get( ItemPool.BASS_DRUM, 1 ),
 		ItemPool.get( ItemPool.KETTLE_DRUM, 1 ),
-		ItemPool.get( ItemPool.FINGER_CYMBALS, 1 ),
 		SorceressLairManager.BROKEN_SKULL
 	};
 
@@ -1180,6 +1178,16 @@ public abstract class SorceressLairManager
 			return requirements;
 		}
 
+		if ( !InventoryManager.retrieveItem( SorceressLairManager.STAR_HAT ) )
+		{
+			requirements.add( SorceressLairManager.STAR_HAT );
+		}
+
+		if ( !InventoryManager.retrieveItem( SorceressLairManager.RICHARD ) )
+		{
+			requirements.add( SorceressLairManager.RICHARD );
+		}
+
 		AdventureResult starWeapon;
 
 		// See which ones are available
@@ -1254,16 +1262,6 @@ public abstract class SorceressLairManager
 		if ( !InventoryManager.retrieveItem( starWeapon ) )
 		{
 			requirements.add( starWeapon );
-		}
-
-		if ( !InventoryManager.retrieveItem( SorceressLairManager.STAR_HAT ) )
-		{
-			requirements.add( SorceressLairManager.STAR_HAT );
-		}
-
-		if ( !InventoryManager.retrieveItem( SorceressLairManager.RICHARD ) )
-		{
-			requirements.add( SorceressLairManager.RICHARD );
 		}
 
 		if ( !requirements.isEmpty() )
