@@ -3147,7 +3147,7 @@
 3141	678352310	panhandle panhandling hat	panhandle panhandling hats
 3142	772668061	cup of infinite pencils	cups of infinite pencils
 3143	727586163	Hodgman's disgusting technicolor overcoat	Hodgman's disgusting technicolor overcoats
-3144	647825911	a torn paper strip
+3144	148513878	a torn paper strip
 3145	778803106	El Vibrato translator	El Vibrato translators
 3146	190950432	El Vibrato punchcard (115 holes)	El Vibrato punchcards (115 holes)
 3147	819422442	El Vibrato punchcard (97 holes)	El Vibrato punchcards (97 holes)
