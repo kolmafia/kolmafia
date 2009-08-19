@@ -481,9 +481,9 @@
 480	The Spirit of Crimbo	happy.gif	580764ad51eaf4541322b61d91c5bc74
 481	Mallowed Out	roastmallow.gif	1f7d77ed2bed543ff97b5e539aa490e9	eat 1 roasted marshmallow
 482	Fitter, Happier	drone1.gif	cbb07636ac67293a88827364a955d84d	#bizarre construct: BUFF TARGET
-483
-484
-485
+483	Eye of the Seal	eyeball.gif	65b4d02c0fa6d2243ad53008a91c9482	use 1 seal eyeball
+484	Souper Vengeful	bowl.gif	bee077703c6f7d57498e2a0173956d4e	eat 1 turtle soup
+485	El Tango de la Maldita Suegra		notes.gif	106410abe0c898c4b0f194b04eaada12	use 1 evil vihuela
 486
 487	Well-preserved	drone3.gif	ba7b40665f789b6ffa055e2ad316263c	use 1 warm El Vibrato drone
 488
@@ -596,7 +596,7 @@
 595	Perceptive Pressure	potion11.gif	eefc27b7fcdeceaa28554221aa54cfad	use 1 pressurized potion of perception
 596	Proficient Pressure	potion10.gif	b94f215c26d85a00fd7ff96c0176d81e	use 1 pressurized potion of proficiency
 597
-598
+598	A Little Bit Evil	skull.gif	cb1df415b4274825c10c80a20cdfcfde
 599
 600
 601

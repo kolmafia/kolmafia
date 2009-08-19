@@ -1,20 +1,20 @@
 2
 # Hats section of equipment.txt
 
-Ancient Saucehelm	50	Mys: 10
+Ancient Saucehelm	75	Mys: 15
 Baron von Ratsworth's tophat	75	Mox: 22
 Brimstone Beret	200	Mox: 30
 Cerebral Cloche	90	Mox: 30
 Cloaca-Cola helmet	30	none
-Colander of Em-er'il	50	Mys: 10
+Colander of Em-er'il	75	Mys: 15
 Crimbo hat	100	Mox: 35
 Crown of the Goblin King	70	Mox: 20
-Disco 'Fro Pick	50	Mox: 10
+Disco 'Fro Pick	75	Mox: 15
 Dolphin King's crown	35	Mox: 2
 Dyspepsi-Cola helmet	30	none
-El Sombrero De Lopez	50	Mox: 10
+El Sombrero De Lopez	75	Mox: 15
 El Vibrato helmet	200	Mox: 200
-Elder Turtle Shell	50	Mus: 10
+Elder Turtle Shell	75	Mus: 15
 Frosty's old silk hat	200	Mus: 200
 Grimacite gasmask	150	Mox: 40
 Grimacite goggles	125	Mox: 47
@@ -30,7 +30,7 @@ Mohawk wig	140	Mox: 55
 Ol' Scratch's stovepipe hat	200	Mys: 200
 Orcish baseball cap	60	Mox: 15
 Radio Free Baseball Cap	150	Mox: 60
-Scalp of Gorgolok	50	Mus: 10
+Scalp of Gorgolok	75	Mus: 15
 Seasonal Beret	100	Mys: 35
 Snow Queen Crown	115	Mox: 42
 Sombrero De Vida	50	Mox: 10
@@ -571,6 +571,7 @@ eggbeater	25	Mys: 0	1-handed utensil
 elven whittling knife	100	Mus: 35	1-handed knife
 especially homoerotic frat-paddle	150	Mus: 60	1-handed club
 evil-ass club	160	Mus: 65	2-handed club
+evil paper umbrella	30	Mus: 0	1-handed umbrella
 fetus-smashing club	200	Mus: 85	2-handed club
 filthy pestle	60	Mys: 15	1-handed utensil
 finger cymbals	65	Mox: 17	1-handed cymbals

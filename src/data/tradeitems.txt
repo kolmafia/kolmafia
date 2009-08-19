@@ -3147,7 +3147,7 @@
 3141	panhandle panhandling hat	hat	all	125
 3142	cup of infinite pencils	offhand	all	75
 3143	Hodgman's disgusting technicolor overcoat	shirt	display	0
-3144
+3144	a torn paper strip	none	none	10
 3145	El Vibrato translator	accessory	display	500
 3146	El Vibrato punchcard (115 holes)	none, combat, usable	all	115
 3147	El Vibrato punchcard (97 holes)	none, combat, usable	all	97
@@ -3171,30 +3171,30 @@
 3165	broken El Vibrato drone	none	display	500
 3166	repaired El Vibrato drone	none	display	500
 3167	augmented El Vibrato drone	usable	display	500
-3168
-3169
-3170
-3171
-3172
-3173
-3174
-3175
-3176
-3177
-3178
-3179
-3180
-3181
-3182
-3183
-3184
-3185
-3186
-3187
-3188
-3189
-3190
-3191
+3168	seal eyeball	usable	none	53
+3169	turtle soup	food	none	53
+3170	nauseating reagent	none	none	53
+3171	evil noodles	none	none	53
+3172	evil paper umbrella	weapon	none	53
+3173	evil vihuela	usable	none	53
+3174	evil boring spaghetti	food	none	71
+3175	evil delicious noodles	food	none	71
+3176	evil delicious spicy noodles	food	none	71
+3177	evil painful penne pasta	food	none	71
+3178	3vi1 pr0n m4nic0tti	food	none	71
+3179	evil ravioli della hippy	food	none	71
+3180	evil spicy noodles	food	none	71
+3181	evil potion of potency	multiple	none	71
+3182	evil libation of liveliness	multiple	none	71
+3183	evil tomato juice of powerful power	multiple	none	71
+3184	evil eyedrops of the ermine	multiple	none	71
+3185	evil ointment of the occult	multiple	none	71
+3186	evil serum of sarcasm	multiple	none	71
+3187	evil philter of phorce	multiple	none	71
+3188	an evil little sump'm sump'm	drink	none	165
+3189	evil ducha de oro	drink	none	165
+3190	evil horizontal tango	drink	none	165
+3191	evil roll in the hay	drink	none	165
 3192	naughty origami kit	usable	all	0
 3193	naughty fortune teller	offhand, usable	all	0
 3194	origami &quot;gentlemen's&quot; magazine	familiar, usable	all	0
@@ -4141,13 +4141,13 @@
 4135
 4136	Bag o' Tricks	offhand, reusable	all	0
 4137	slime stack	none, combat	all	100
-4138
-4139
-4140
-4141
-4142
-4143
-4144
+4138	a rumpled paper strip	none	none	10
+4139	a creased paper strip	none	none	10
+4140	a folded paper strip	none	none	10
+4141	a crinkled paper strip	none	none	10
+4142	a crumpled paper strip	none	none	10
+4143	a ragged paper strip	none	none	10
+4144	a ripped paper strip	none	none	10
 4145	funny paper hat	hat	display	0
 4146	floaty sand	usable	all	10
 4147	charged magnet	offhand	all	1500

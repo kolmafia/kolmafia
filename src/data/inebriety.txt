@@ -5,6 +5,7 @@
 # Drink	Inebriety	Level Req	Adv	Musc	Myst	Moxie
 
 a little sump'm sump'm	4	4	10-14	0	25-27	8-10
+an evil little sump'm sump'm	4	4	10-14	0	20	50-75
 accidental cider	3	1	3-6	0	0	0
 acqua del piatto merlot	1	10	6-10	60	60	60
 acque luride grezze cabernet	1	10	6-10	60	60	60
@@ -86,6 +87,9 @@ eggnog	3	3	5-10	0	17-30	18-30
 eggnogtini	3	3	3-5	0	0	0	10 Sugar Rush
 elven moonshine	3	5	6-15	22-40	22-40	22-40	20 Drunk With Power (+100% spell damage)
 especially salty dog	4	4	9-13	32-50	32-50	32-50
+evil ducha de oro	4	4	10-14	8-10	0	50-75
+evil horizontal tango	4	4	10-14	0	0	50-75
+evil roll in the hay	4	4	10-14	0	0	50-75
 extra-spicy bloody mary	3	3	5-10	5-11	5-11	5-11
 ferita del petto zinfandel	1	10	6-10	60	60	60
 fermented honey	3	1	3-6	5-6	5-6	5-6	10 Sugar Rush

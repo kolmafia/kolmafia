@@ -473,6 +473,11 @@ horizontal tango	ACOCK	wine spritzer	little paper umbrella
 roll in the hay	ACOCK	whiskey and soda	little paper umbrella
 ducha de oro	ACOCK	tequila sunrise	little paper umbrella
 
+an evil little sump'm sump'm	ACOCK	martini	evil paper umbrella
+evil ducha de oro	ACOCK	tequila sunrise	evil paper umbrella
+evil horizontal tango	ACOCK	wine spritzer	evil paper umbrella
+evil roll in the hay	ACOCK	whiskey and soda	evil paper umbrella
+
 fuzzbump	ACOCK	whiskey sour	coconut shell
 slip 'n' slide	ACOCK	screwdriver	coconut shell
 ocean motion	ACOCK	monkey wrench	coconut shell
@@ -951,6 +956,14 @@ potion of potency	SAUCE	scrumptious reagent	orange
 serum of sarcasm	SAUCE	scrumptious reagent	olive
 tomato juice of powerful power	SAUCE	scrumptious reagent	tomato
 
+evil eyedrops of the ermine	SAUCE	nauseating reagent	strawberry
+evil libation of liveliness	SAUCE	nauseating reagent	grapes
+evil ointment of the occult	SAUCE	nauseating reagent	grapefruit
+evil philter of phorce	SAUCE	nauseating reagent	lemon
+evil potion of potency	SAUCE	nauseating reagent	orange
+evil serum of sarcasm	SAUCE	nauseating reagent	olive
+evil tomato juice of powerful power	SAUCE	nauseating reagent	tomato
+
 salamander slurry	SAUCE	scrumptious reagent	salamander spleen
 eyedrops of newt	SAUCE	scrumptious reagent	eye of newt
 Frogade	SAUCE	scrumptious reagent	squashed frog
@@ -1002,6 +1015,15 @@ painful penne pasta	PASTA	dry noodles	jaba&ntilde;ero pepper
 pr0n m4nic0tti	PASTA	dry noodles	pr0n legs
 ravioli della hippy	PASTA	dry noodles	wad of tofu
 spicy noodles	PASTA	dry noodles	spices
+
+evil boring spaghetti	PASTA	evil noodles	tomato
+evil delicious noodles	PASTA	evil noodles	herbs
+evil delicious spicy noodles	PASTA	evil noodles	secret blend of herbs and spices
+evil painful penne pasta	PASTA	evil noodles	jaba&ntilde;ero pepper
+evil pr0n m4nic0tti	PASTA	evil noodles	pr0n legs
+evil ravioli della hippy	PASTA	evil noodles	wad of tofu
+evil spicy noodles	PASTA	evil noodles	spices
+
 
 
 # Items involved in the famous pastamancer-sauceror lunch creation

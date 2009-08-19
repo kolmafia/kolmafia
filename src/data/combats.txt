@@ -132,6 +132,7 @@ Menagerie 1	100	BASIC Elemental	Fruit Golem	Knob Goblin Mutant
 Menagerie 2	100	Carnivorous Moxie Weed	Grass Elemental	Weremoose
 Menagerie 3	100	Booze Giant	Portly Abomination	Spectral Jellyfish
 Mouldering Mansion	70	Bellhop	Black Cat	Ourang-Outang	Raven	An Usher
+Nemesis Cave	100	Infernal Seal Larva	Infernal Seal Spawn	Vengeful Turtle Spectre	Haunted Soup Tureen	Slithering Hollandaise Glob	Pernicious Puddle of Pesto	Evil Spaghetti Cultist	Evil Spaghetti Cult Priest	Talking Head	Psychedelic Fur	Evil Vihuela-playing Mariachi	Evil Trumpet-playing Mariachi
 Ninja Snowmen	100	Ninja Snowman (Hilt/Mask): 2	Ninja Snowman (Chopsticks)	Ninja Snowman Janitor	Ninja Snowman Weaponmaster
 Oasis in the Desert	100	Blur	Oasis Monster	Rolling Stone	Swarm of Scarab Beatles
 Old Crimbo Town Toy Factory	100	Mob Penguin Goon	Mob Penguin Hitpenguin	Mob Penguin Enforcer	Mob Penguin Psychopath	Mob Penguin Racketeer
