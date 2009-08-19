@@ -3287,7 +3287,9 @@ public class KoLmafiaCLI
 		{ usage = " [ <item>... ] - list creatables, or create specified items."; }
 		public void run( String cmd, String parameters )
 		{
+			SpecialOutfit.createImplicitCheckpoint();
 			CLI.executeItemCreationRequest( parameters );
+			SpecialOutfit.restoreImplicitCheckpoint();
 		}
 	}
 
