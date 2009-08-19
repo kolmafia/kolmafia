@@ -659,6 +659,7 @@ public class ItemPool
 	public static final int SANDCASTLE = 3127;
 	public static final int MARSHMALLOW = 3128;
 	public static final int ROASTED_MARSHMALLOW = 3129;
+	public static final int TORN_PAPER_STRIP = 3144;
 	public static final int PUNCHCARD_ATTACK = 3146;
 	public static final int PUNCHCARD_REPAIR = 3147;
 	public static final int PUNCHCARD_BUFF = 3148;
@@ -911,6 +912,13 @@ public class ItemPool
 	public static final int BLACK_CATSEYE_MARBLE = 4104;
 	public static final int BIG_BUMBOOZER_MARBLE = 4105;
 	public static final int EMPTY_AGUA_DE_VIDA_BOTTLE = 4130;
+	public static final int RUMPLED_PAPER_STRIP = 4138;
+	public static final int CREASED_PAPER_STRIP = 4139;
+	public static final int FOLDED_PAPER_STRIP = 4140;
+	public static final int CRINKLED_PAPER_STRIP = 4141;
+	public static final int CRUMPLED_PAPER_STRIP = 4142;
+	public static final int RAGGED_PAPER_STRIP = 4143;
+	public static final int RIPPED_PAPER_STRIP = 4144;
 	public static final int QUADROCULARS = 4149;
 
 	public static final AdventureResult get( String itemName, int count )

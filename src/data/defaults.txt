@@ -314,6 +314,15 @@ user	lastKingLiberation	-1
 user	lastLouvreMap	0
 user	lastMessageId
 user	lastMiningReset	-1
+user	lastPaperStripReset	-1
+user	lastPaperStrip3144
+user	lastPaperStrip4138
+user	lastPaperStrip4139
+user	lastPaperStrip4140
+user	lastPaperStrip4141
+user	lastPaperStrip4142
+user	lastPaperStrip4143
+user	lastPaperStrip4144
 user	lastPastamancerGhostReset	-1
 user	lastPirateEphemera
 user	lastPirateEphemeraReset	-1

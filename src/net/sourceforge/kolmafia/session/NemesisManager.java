@@ -33,270 +33,127 @@
 
 package net.sourceforge.kolmafia.session;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.RequestThread;
-
-import net.sourceforge.kolmafia.request.EquipmentRequest;
-import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.persistence.DebugDatabase;
 
 public abstract class NemesisManager
 {
-	private static final GenericRequest QUEST_HANDLER = new GenericRequest( "" );
+	// Support for paper strips
 
-	// Items for the cave
-
-	private static final AdventureResult FLY_SWATTER = new AdventureResult( 123, 1 );
-	private static final AdventureResult COG = new AdventureResult( 120, 1 );
-	private static final AdventureResult SPROCKET = new AdventureResult( 119, 1 );
-	private static final AdventureResult GRAVY = new AdventureResult( 80, 1 );
-	private static final AdventureResult TONGS = new AdventureResult( 36, 1 );
-	private static final AdventureResult KETCHUP = new AdventureResult( 106, 1 );
-	private static final AdventureResult CATSUP = new AdventureResult( 107, 1 );
-
-	private static final boolean checkPrerequisites()
+	public static final AdventureResult [] PAPER_STRIPS = new AdventureResult[]
 	{
-		if ( KoLCharacter.isFallingDown() )
+		ItemPool.get( ItemPool.CREASED_PAPER_STRIP, 1 ),
+		ItemPool.get( ItemPool.CRINKLED_PAPER_STRIP, 1 ),
+		ItemPool.get( ItemPool.CRUMPLED_PAPER_STRIP, 1 ),
+		ItemPool.get( ItemPool.FOLDED_PAPER_STRIP, 1 ),
+		ItemPool.get( ItemPool.RAGGED_PAPER_STRIP, 1 ),
+		ItemPool.get( ItemPool.RIPPED_PAPER_STRIP, 1 ),
+		ItemPool.get( ItemPool.RUMPLED_PAPER_STRIP, 1 ),
+		ItemPool.get( ItemPool.TORN_PAPER_STRIP, 1 ),
+	};
+
+	public static final void getPaperStrips()
+	{
+		int lastAscension = Preferences.getInteger( "lastPaperStripReset" );
+		int current = KoLCharacter.getAscensions();
+		if ( lastAscension < current )
+		{
+			// If we have all the paper strips, identify them
+			for ( int i = 0; i < PAPER_STRIPS.length; ++i )
+			{
+				AdventureResult it = PAPER_STRIPS[ i ];
+				if ( !KoLConstants.inventory.contains( it ) )
+				{
+					return;
+				}
+			}
+
+			NemesisManager.identifyPaperStrips();
+			return;
+		}
+
+		for ( int i = 0; i < PAPER_STRIPS.length; ++i )
+		{
+			int itemId = PAPER_STRIPS[ i ].getItemId();
+			Preferences.setString( "lastPaperStrip" + itemId, "" );
+		}
+	}
+
+	public static final boolean identifyPaperStrips()
+	{
+		int lastAscension = Preferences.getInteger( "lastPaperStripReset" );
+		if ( lastAscension == KoLCharacter.getAscensions() )
+		{
+			return true;
+		}
+
+		KoLmafia.updateDisplay( "Identifying paper strips..." );
+
+		// Identify the eight paper strips
+
+		boolean success = true;
+		for ( int i = 0; i < PAPER_STRIPS.length; ++i )
+		{
+			AdventureResult it = PAPER_STRIPS[ i ];
+			if ( !identifyPaperStrip( it.getItemId() ) )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Could not identify " + it.getName() );
+				success = false;
+			}
+		}
+
+		if ( !success )
 		{
 			return false;
 		}
 
-		// If thehas not yet been set, then there is no cave
-
-		KoLmafia.updateDisplay( "Checking prerequisites..." );
-
-		// Make sure the player has been given the quest
-
-		NemesisManager.QUEST_HANDLER.constructURLString( "mountains.php" );
-		RequestThread.postRequest( NemesisManager.QUEST_HANDLER );
-
-		if ( NemesisManager.QUEST_HANDLER.responseText.indexOf( "cave.php" ) == -1 )
-		{
-			KoLmafia.updateDisplay(
-				KoLConstants.ERROR_STATE, "You haven't been given the quest to defeat your NemesisManager!" );
-			return false;
-		}
+		Preferences.setInteger( "lastPaperStripReset", KoLCharacter.getAscensions() );
 
 		return true;
 	}
 
+	private static final Pattern STRIP_PATTERN = Pattern.compile( "title=\"A (.*?) tear\".*title=\"A (.*?) tear\".*?<b>([A-Z]*)</b></font>", Pattern.DOTALL );
+
+	private static final boolean identifyPaperStrip( final int itemId )
+	{
+		String description = DebugDatabase.rawItemDescriptionText( itemId, true );
+		if ( description == null )
+		{
+			return false;
+		}
+		Matcher matcher = NemesisManager.STRIP_PATTERN.matcher( description );
+		if ( !matcher.find() )
+		{
+			return false;
+		}
+
+		String left = matcher.group( 1 );
+		String right = matcher.group( 2 );
+		String word = matcher.group( 3 );
+
+		Preferences.setString( "lastPaperStrip" + itemId, left + ":" + word + ":" + right );
+		return true;
+	}
+
+	public static final String getPassword()
+	{
+		if ( !NemesisManager.identifyPaperStrips() )
+		{
+			return null;
+		}
+
+		return "";
+	}
+
 	public static final void faceNemesis()
 	{
-		// Make sure the player is qualified to use this script
-
-		if ( !NemesisManager.checkPrerequisites() )
-		{
-			return;
-		}
-
-		// See how far the player has gotten in this quest
-
-		NemesisManager.QUEST_HANDLER.clearDataFields();
-		RequestThread.postRequest( NemesisManager.QUEST_HANDLER );
-
-		if ( NemesisManager.QUEST_HANDLER.responseText == null )
-		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Unable to find quest." );
-			return;
-		}
-
-		int region = 0;
-
-		if ( NemesisManager.QUEST_HANDLER.responseText.indexOf( "value='flies'" ) != -1 )
-		{
-			region = 4;
-		}
-		else if ( NemesisManager.QUEST_HANDLER.responseText.indexOf( "value='door1'" ) != -1 )
-		{
-			region = 5;
-		}
-		else if ( NemesisManager.QUEST_HANDLER.responseText.indexOf( "value='troll1'" ) != -1 )
-		{
-			region = 6;
-		}
-		else if ( NemesisManager.QUEST_HANDLER.responseText.indexOf( "value='door2'" ) != -1 )
-		{
-			region = 7;
-		}
-		else if ( NemesisManager.QUEST_HANDLER.responseText.indexOf( "value='troll2'" ) != -1 )
-		{
-			region = 8;
-		}
-		else if ( NemesisManager.QUEST_HANDLER.responseText.indexOf( "value='end'" ) != -1 )
-		{
-			region = 9;
-		}
-		else if ( NemesisManager.QUEST_HANDLER.responseText.indexOf( "cave9done" ) != -1 )
-		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You've already defeated your nemesis." );
-			return;
-		}
-
-		List requirements = new ArrayList();
-
-		// Need a flyswatter to get past the Fly Bend
-
-		if ( region <= 4 )
-		{
-			if ( EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getItemId() != NemesisManager.FLY_SWATTER.getItemId() )
-			{
-				requirements.add( NemesisManager.FLY_SWATTER );
-			}
-		}
-
-		// Need a cog and a sprocket to get past the Stone Door
-
-		if ( region <= 5 )
-		{
-			requirements.add( NemesisManager.COG );
-			requirements.add( NemesisManager.SPROCKET );
-		}
-
-		// Need fairy gravy to get past the first lavatory troll
-
-		if ( region <= 6 )
-		{
-			requirements.add( NemesisManager.GRAVY );
-		}
-
-		// Need tongs to get past the salad covered door
-
-		if ( region <= 7 )
-		{
-			if ( EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getItemId() != NemesisManager.TONGS.getItemId() )
-			{
-				requirements.add( NemesisManager.TONGS );
-			}
-		}
-
-		// Need some kind of ketchup to get past the second lavatory troll
-
-		AdventureResult ketchup =
-			NemesisManager.CATSUP.getCount( KoLConstants.inventory ) > 0 ? NemesisManager.CATSUP : NemesisManager.KETCHUP;
-
-		if ( region <= 8 )
-		{
-			requirements.add( ketchup );
-		}
-
-		if ( !KoLmafia.checkRequirements( requirements ) )
-		{
-			return;
-		}
-
-		// Get current equipment
-		AdventureResult initialWeapon = EquipmentManager.getEquipment( EquipmentManager.WEAPON );
-		AdventureResult initialOffhand = EquipmentManager.getEquipment( EquipmentManager.OFFHAND );
-
-		if ( initialWeapon == null )
-		{
-			initialWeapon = EquipmentRequest.UNEQUIP;
-		}
-
-		if ( initialOffhand == null )
-		{
-			initialOffhand = EquipmentRequest.UNEQUIP;
-		}
-
-		// Pass the obstacles one at a time.
-
-		for ( int i = region; i <= 9; i++ )
-		{
-			String action = "none";
-
-			switch ( i )
-			{
-			case 4: // The Fly Bend
-
-				// Equip fly swatter, but only if it's
-				// not currently equipped
-
-				RequestThread.postRequest( new EquipmentRequest( NemesisManager.FLY_SWATTER, EquipmentManager.WEAPON ) );
-				action = "flies";
-				KoLmafia.updateDisplay( "Swatting flies..." );
-				break;
-
-			case 5: // A Stone Door
-
-				action = "door1";
-				KoLmafia.updateDisplay( "Activating the stone door..." );
-				break;
-
-			case 6: // Lavatory Troll 1
-
-				action = "troll1";
-				KoLmafia.updateDisplay( "Feeding the first troll..." );
-				break;
-
-			case 7: // Salad-Covered Door
-
-				RequestThread.postRequest( new EquipmentRequest( NemesisManager.TONGS, EquipmentManager.WEAPON ) );
-				action = "door2";
-				KoLmafia.updateDisplay( "Plucking the salad door..." );
-				break;
-
-			case 8: // Lavatory Troll 2
-
-				action = "troll2";
-				KoLmafia.updateDisplay( "Feeding the second troll..." );
-				break;
-
-			case 9: // Chamber of Epic Conflict
-
-				if ( initialWeapon != null )
-				{
-					RequestThread.postRequest( new EquipmentRequest( initialWeapon, EquipmentManager.WEAPON ) );
-				}
-
-				if ( initialOffhand != null )
-				{
-					RequestThread.postRequest( new EquipmentRequest( initialOffhand, EquipmentManager.OFFHAND ) );
-				}
-
-				action = "end";
-				KoLmafia.updateDisplay( "Fighting your nemesis..." );
-				break;
-			}
-
-			// Visit the cave
-
-			NemesisManager.QUEST_HANDLER.clearDataFields();
-			NemesisManager.QUEST_HANDLER.addFormField( "action", action );
-			RequestThread.postRequest( NemesisManager.QUEST_HANDLER );
-
-			if ( NemesisManager.QUEST_HANDLER.responseText != null && NemesisManager.QUEST_HANDLER.responseText.indexOf( "You must have at least one Adventure left to fight your nemesis." ) != -1 )
-			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You're out of adventures." );
-				return;
-			}
-
-			// Consume items
-			switch ( i )
-			{
-			case 5: // A Stone Door
-
-				// Use up cog & sprocket
-				ResultProcessor.processResult( NemesisManager.COG.getNegation() );
-				ResultProcessor.processResult( NemesisManager.SPROCKET.getNegation() );
-				break;
-
-			case 6: // Lavatory Troll 1
-
-				// Use up fairy gravy
-				ResultProcessor.processResult( NemesisManager.GRAVY.getNegation() );
-				break;
-
-			case 8: // Lavatory Troll 2
-
-				// Use up ketchup
-				ResultProcessor.processResult( ketchup.getNegation() );
-				break;
-			}
-		}
 	}
 }

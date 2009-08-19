@@ -1660,6 +1660,51 @@ public class KoLmafiaCLI
 		}
 	}
 
+	static { new Nemesis().register( "nemesis" ); }
+	public static class Nemesis
+		extends Command
+	{
+		{ usage = " strips - Look at the paper strips."; }
+		public void run( String cmd, String parameters )
+		{
+			String[] tokens = parameters.split( "\\s+" );
+			if ( tokens.length < 1 )
+			{
+				return;
+			}
+
+			String option = tokens[0];
+
+			if ( option.equals( "password" ) )
+			{
+				String password = NemesisManager.getPassword();
+				if ( password == null )
+				{
+					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+								"You don't have all the paper strips." );
+					return;
+
+				}
+
+				RequestLogger.printLine( password );
+				return;
+			}
+
+			if ( option.equals( "strips" ) )
+			{
+				NemesisManager.identifyPaperStrips();
+				for ( int i = 0; i < NemesisManager.PAPER_STRIPS.length; ++i )
+				{
+					AdventureResult it = NemesisManager.PAPER_STRIPS[ i ];
+					String name = it.getName();
+					String id = Preferences.getString( "lastPaperStrip" + it.getItemId() );
+					RequestLogger.printLine( name + " = " + id );
+				}
+			}
+
+		}
+	}
+
 	static { new ModTrace().register( "modtrace" ); }
 	public static class ModTrace
 		extends Command
@@ -2763,7 +2808,6 @@ public class KoLmafiaCLI
 
 	static { new Quest().register( "maze" ).registerPrefix( "hedge" )
 		.register( "tower" ).register( "guardians" ).register( "chamber" )
-		.register( "nemesis" )
 		.register( "guild" ).register( "gourd" ).register( "tavern" ); }
 	public static class Quest
 		extends Command
@@ -2780,12 +2824,6 @@ public class KoLmafiaCLI
 			if ( command.equals( "tower" ) || command.equals( "guardians" ) || command.equals( "chamber" ) )
 			{
 				SorceressLairManager.fightAllTowerGuardians();
-				return;
-			}
-
-			if ( command.equals( "nemesis" ) )
-			{
-				NemesisManager.faceNemesis();
 				return;
 			}
 
