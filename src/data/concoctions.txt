@@ -1020,7 +1020,7 @@ evil boring spaghetti	PASTA	evil noodles	tomato
 evil delicious noodles	PASTA	evil noodles	herbs
 evil delicious spicy noodles	PASTA	evil noodles	secret blend of herbs and spices
 evil painful penne pasta	PASTA	evil noodles	jaba&ntilde;ero pepper
-evil pr0n m4nic0tti	PASTA	evil noodles	pr0n legs
+3vi1 pr0n m4nic0tti	PASTA	evil noodles	pr0n legs
 evil ravioli della hippy	PASTA	evil noodles	wad of tofu
 evil spicy noodles	PASTA	evil noodles	spices
 
