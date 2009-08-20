@@ -70,6 +70,7 @@ import net.sourceforge.kolmafia.request.MoonPhaseRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
 import net.sourceforge.kolmafia.session.ChoiceManager;
+import net.sourceforge.kolmafia.session.NemesisManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
@@ -542,6 +543,10 @@ public class RequestEditorKit
 		else if ( location.startsWith( "bigisland.php" ) )
 		{
 			IslandDecorator.decorateBigIsland( location, buffer );
+		}
+		else if ( location.startsWith( "cave.php" ) )
+		{
+			NemesisManager.decorate( location, buffer );
 		}
 		else if ( location.startsWith( "choice.php" ) )
 		{
