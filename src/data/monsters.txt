@@ -410,6 +410,7 @@ Lounge Lizardfish	HP: 550 Def: 700 Atk: 400 Meat: 160-240	amber aviator shades (
 Lumberjack Supervisor	HP: 40 Def: 40 Atk: 40 Meat: 25-38	balaclava (5)	balaclava baklava (25)
 Lumberjill	HP: 36 Def: 36 Atk: 36 Meat: 17-26	Blatantly Canadian (30)	maple syrup (30)	supportive bra (c20)
 Lumberjuan	HP: 35 Def: 35 Atk: 35 Meat: 17-26	los chinos (5)	leaflet (15)	wooden axe (5)
+Lumpy, the Sinister Sauceblob	HP: 0	Ancient Saucehelm (100)
 Mad Bugbears	HP: 13 Def: 17 Atk: 15
 MagiMechTech MechaMech	HP: 100 Def: 120 Atk: 120	photoprotoneutron torpedo (30)	metallic A (30)	glowing red eye (16)	oversized pizza cutter (8)	magilaser blastercannon (10)	burned-out arcanodiode (b0)
 Magic Dragonfish	HP: 750 Def: 400 Atk: 500 Meat: 160-240	rough fish scale (4)	seaweed (5)	dragonfish caviar (5)
@@ -478,7 +479,7 @@ P Imp	HP: 42 Def: 42 Atk: 42 E: heat Meat: 24-36	Imp Ale (30)	hot wing (30)	diam
 Panty Raider Frat Boy	HP: 250 Def: 200 Atk: 200 E: sleaze	chloroform rag (12)	chloroform rag (7)	depantsing bomb (18)	depantsing bomb (3)	Elmley shades (6)	PADL Phone (3)	panty raider camouflage (10)	white class ring (30)
 Paper Towelgeist	HP: 6 Def: 4 Atk: 4	cardboard katana (5)
 Pencil Golem	HP: 11 Def: 15 Atk: 15
-Pernicious Puddle of Pesto	HP: 20
+Pernicious Puddle of Pesto	HP: 20	a creased paper strip (0)	a ragged paper strip (0)	a ripped paper strip (0)	a torn paper strip (0)
 Perpendicular Bat	HP: 12 Def: 18 Atk: 18 Meat: 26-40	batgut (15)	bat wing (15)	sonar-in-a-biscuit (20)
 Pine Bat	HP: 8 Def: 12 Atk: 14 EA: stench Meat: 18-27	bat wing (15)	Pine-Fresh air freshener (15)	batgut (15)
 Plaque of Locusts	HP: 140 Def: 138 Atk: 134	bronzed locust (20)	honey-dipped locust (20)	handful of sand (20)
@@ -550,13 +551,13 @@ Slime2	HP: 200 Def: 100 Atk: 100 EA: slime	slimy sweetbreads (5)	slimy fermented
 Slime3	HP: 200 Def: 100 Atk: 100 EA: slime	slimy sweetbreads (5)	slimy fermented bile bladder (5)	small slimy cyst (n5)
 Slime4	HP: 200 Def: 100 Atk: 100 EA: slime	slimy sweetbreads (5)	slimy fermented bile bladder (5)	medium slimy cyst (n2)
 Slime5	HP: 200 Def: 100 Atk: 100 EA: slime	slimy sweetbreads (5)	slimy fermented bile bladder (5)	big slimy cyst (n2)
-Slithering Hollandaise Glob	HP: 20	nauseating reagent (0)
+Slithering Hollandaise Glob	HP: 20	a crinkled paper strip (0)	a crumpled paper strip (0)	a folded paper strip (0)	a rumpled paper strip (0)	nauseating reagent (0)
 Slow Talkin' Elliot	HP: 200 Meat: 130-154 E: stench	bullet-proof corduroys (0)	green clay bead (0)	Lockenstock&trade; sandals (0)	Slow Talkin' Elliot's dogtags (100)
 Smarmy Pirate	HP: 55 Def: 65 Atk: 65 E: sleaze Meat: 22-34	bottle of rum (50)	eyepatch (10)	Jolly Roger charrrm bracelet (20)	vial of pirate sweat (b0)
 Smart Skelton	HP: 11 Def: 20 Atk: 20 E: spooky	smart skull (50)
 Snow Queen	HP: 70 Def: 105 Atk: 107 E: cold	crazy little Turkish delight (25)	ga-ga radio (5)	Snow Queen Crown (5)
 Some Zombie Waltzers	HP: 120 Def: 110 Atk: 110 Meat: 80-120 E: spooky	ballroom blintz (15)	dance card (15)
-Somerset Lopez, Dread Mariach	HP: 0	El Sombrero De Lopez
+Somerset Lopez, Dread Mariach	HP: 0	El Sombrero De Lopez (100)
 Sorority Nurse	HP: 200 Def: 175 Atk: 170 E: sleaze	energy drink IV (18)	gauze garter (20)	gauze garter (7)	kick-ass kicks (2)	PADL Phone (3)
 Sorority Operator	HP: 200 Def: 180 Atk: 185 E: sleaze	beer helmet (1)	bejeweled pledge pin (1)	distressed denim pants (1)	kick-ass kicks (2)	PADL Phone (18)	PADL Phone (18)	PADL Phone (18)	white class ring (31)
 Space Marine	HP: 0	essence of fright (100c)	facehugging alien (0)	physiostim pill (0)
@@ -564,7 +565,7 @@ Spam Witch	HP: 75 Def: 85 Atk: 85 EA: sleaze Meat: 24-38	30669 scroll (30)	Spam 
 Spectral Jellyfish	HP: 60 Def: 70 Atk: 70 "Somewhat Poisoned"	spectral jelly (p0)
 Spider Gremlin	HP: 170 Def: 168 Atk: 172 Meat: 40-60	gremlin juice (3)	molybdenum pliers (0)
 Spiny Skelelton	HP: 50 Def: 54 Atk: 53 E: spooky	skeleton bone (40)	smart skull (50)	spiked femur (10)
-Spirit of New Wave	HP: 0	Disco 'Fro Pick
+Spirit of New Wave	HP: 0	Disco 'Fro Pick (100)
 Sponge	HP: 1000 Def: 450 Atk: 350	sand dollar (10)	sand dollar (9)	sand dollar (1)	slab of sponge (5)
 Spooky Gravy Fairy Guard	HP: 45 Def: 54 Atk: 56 E: spooky	spooky mushroom (40)	halfberd (5)	small leather glove (10)
 Spooky Gravy Fairy Ninja	HP: 55 Def: 65 Atk: 65 E: spooky	spooky mushroom (40)	teeny-tiny ninja stars (5)	tiny ninja sword (5)
@@ -802,6 +803,7 @@ wet seal	HP: 201 Def: 175 Atk: 178	mannequin leg (0)	seal lube (0)
 clod hopper	HP: 0	floaty sand (15)	floaty sand (15)	floaty sand (15)
 rock homunculus	HP: 42 Def: 30 Atk: 30	floaty sand (20)	floaty sand (20)
 rock snake	HP: 20	floaty sand (25)
+rockfish	HP: 0	rockfish stomach (100)
 
 # Under the effect of Temporary Blindness
 The Darkness (blind)	HP: 0

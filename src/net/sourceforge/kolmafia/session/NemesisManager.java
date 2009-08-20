@@ -33,6 +33,8 @@
 
 package net.sourceforge.kolmafia.session;
 
+import java.util.Iterator;
+import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -43,9 +45,32 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.DebugDatabase;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class NemesisManager
 {
+	public static final void decorate( final String location, final StringBuffer buffer )
+	{
+		if ( !location.startsWith( "cave.php" ) )
+		{
+			return;
+		}
+
+		if ( location.indexOf( "action=door4" ) != -1 )
+		{
+			String password = NemesisManager.getPassword();
+			if ( password != null )
+			{
+				int index = buffer.indexOf( "name=\"say\"" );
+				if ( index != -1 )
+				{
+					buffer.insert( index+10, " value=\"" + password + "\"" );
+				}
+			}
+			return;
+		}
+	}
+
 	// Support for paper strips
 
 	public static final AdventureResult [] PAPER_STRIPS = new AdventureResult[]
@@ -150,7 +175,61 @@ public abstract class NemesisManager
 			return null;
 		}
 
-		return "";
+		TreeMap left = new TreeMap();
+		TreeMap right = new TreeMap();
+		for ( int i = 0; i < PAPER_STRIPS.length; ++i )
+		{
+			PaperStrip strip = new PaperStrip( PAPER_STRIPS[ i ] ); 
+			left.put( strip.left, strip );
+			right.put( strip.right, strip );
+		}
+
+		PaperStrip[] array = new PaperStrip[ PAPER_STRIPS.length ];
+
+		// Find leftmost paper strip
+		Iterator it = left.values().iterator();
+		while ( it.hasNext() )
+		{
+			PaperStrip strip = (PaperStrip) it.next();
+			if ( !right.containsKey( strip.left ) )
+			{
+				array[ 0 ] = strip;
+				break;
+			}
+		}
+
+		// Find remaining paper strips
+		PaperStrip strip = array[0];
+		for ( int i = 1; i < array.length; ++i )
+		{
+			strip = (PaperStrip) left.get( strip.right );
+			array[ i ] = strip;
+		}
+
+		String password = "";
+		for ( int i = 0; i < array.length; ++i )
+		{
+			password += array[ i ].code;
+		}
+
+		return password;
+	}
+
+	private static class PaperStrip
+	{
+		public final int itemId;
+		public final String left;
+		public final String right;
+		public final String code;
+
+		public PaperStrip( final AdventureResult item )
+		{
+			this.itemId = item.getItemId();
+			String[] words = Preferences.getString( "lastPaperStrip" + this.itemId ).split( ":" );
+			this.left = words.length == 3 ? words[0] : "";
+			this.code = words.length == 3 ? words[1] : "";
+			this.right = words.length == 3 ? words[2] : "";
+		}
 	}
 
 	public static final void faceNemesis()
