@@ -353,7 +353,7 @@ Grungy Pirate	HP: 120 Def: 140 Atk: 140	acoustic guitarrr (20)	grungy bandana (1
 Guard Bugbear	HP: 6 Def: 12 Atk: 12 Meat: 21-30	bugbear beanie (25)	bugbear bungguard (0)
 Guy with a Pitchfork, and his Wife	HP: 120 Def: 110 Atk: 110 Meat: 80-120	pitchfork (5)
 Handsome Mariachi	HP: 15 Def: 27 Atk: 17 Meat: 4-6	bottle of tequila (30)	chorizo taco (20)	handsomeness potion (20)
-Haunted Soup Tureen	HP: 20	turtle soup (0)
+Haunted Soup Tureen	HP: 20	a crumpled paper strip (0)	a ragged paper strip (0)	a ripped paper strip (0)	a torn paper strip (0)	turtle soup (0)
 Heavy Kegtank	HP: 300 Atk: 180 E: sleaze	meat engine (6)	PADL Phone (5)	sake bomb (12)	sake bomb (3)
 Hellion	HP: 52 Def: 52 Atk: 52 E: heat	Hellion cube (30)	unstable quark (p0)
 Hockey Elemental	HP: 40 Def: 65 Atk: 65	hockey stick of furious angry rage (100)
@@ -574,6 +574,7 @@ Spooky Hobo	HP: 500 Def: 350 Atk: 350	hobo nickel (0)	spooky bindle (0)	Asleep i
 Spooky Mummy	HP: 3 Def: 4 Atk: 1 E: spooky Meat: 8-13	dried face (10)	spooky shrunken head (20)
 Spooky Vampire	HP: 2 Def: 4 Atk: 1 E: spooky Meat: 4-7	vampire heart (c100)	vampire cape (c4)
 Spunky Princess	HP: 75 Def: 90 Atk: 90 Meat: 62-141	cocoa eggshell fragment (30)	tiny house (30)	titanium assault umbrella (10)
+Stella, the Turtle Poacher	HP: 0	Elder Turtle Shell (100)
 Stench Hobo	HP: 500 Def: 350 Atk: 350	hobo nickel (0)	stinkin' bindle (0)	Biddy Cracker's Old-Fashioned Cookbook (0)	Travels with Jerry (0)	filth-encrusted futon (0)
 Stocking-stuffing Zombie		evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
 Stranglin' Algae	HP: 600 Def: 450 Atk: 400	glob of green slime (30)
@@ -651,7 +652,7 @@ Vampire Bat	HP: 10 Def: 16 Atk: 17 Meat: 34-54	bat wing (15)	batgut (15)	sonar-i
 Vampire Clam	HP: 14 Def: 19 Atk: 21	vampire pearl (p0)
 Vampire Duck	HP: 198 Atk: 175 Meat: 131-165 E: spooky	frightful feather (10)	duct tape (5)	vampire glitter (c0)
 Vegetable Gremlin	HP: 170 Def: 172 Atk: 168 Meat: 40-60	gremlin juice (3)	molybdenum screwdriver (0)
-Vengeful Turtle Spectre	HP: 20
+Vengeful Turtle Spectre	HP: 20	a creased paper strip (0)	a crinkled paper strip (0)	a folded paper strip (0)	a rumpled paper strip (0)
 Vicious Easel	HP: 100000
 Vicious Gnauga	HP: 40 Def: 40 Atk: 45	gnauga hide (10)
 Vine Gar	HP: 180 Def: 200 Atk: 200	vinegar (30)	vinegar (30)
