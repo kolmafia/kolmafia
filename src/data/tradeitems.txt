@@ -3173,8 +3173,8 @@
 3167	augmented El Vibrato drone	usable	display	500
 3168	seal eyeball	usable	none	53
 3169	turtle soup	food	none	53
-3170	nauseating reagent	none	none	53
-3171	evil noodles	none	none	53
+3170	evil noodles	none	none	53
+3171	nauseating reagent	none	none	53
 3172	evil paper umbrella	weapon	none	53
 3173	evil vihuela	usable	none	53
 3174	evil boring spaghetti	food	none	71

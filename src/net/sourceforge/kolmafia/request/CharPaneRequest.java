@@ -416,6 +416,11 @@ public class CharPaneRequest
 		int effectId = EffectDatabase.getEffect( descriptionId );
 
 		String duration = responseText.substring( durationIndex, responseText.indexOf( ")", durationIndex ) );
+		
+		if ( effectName.equals( "A Little Bit Evil" ) )
+		{
+			effectName = effectName + " (" + KoLCharacter.getClassType() + ")";
+		}
 
 		if ( effectId == -1 )
 		{
