@@ -3173,8 +3173,8 @@
 3167	390534062	augmented El Vibrato drone	augmented El Vibrato drones
 3168		seal eyeball	seal eyeballs
 3169	502609401	turtle soup	bowls of turtle soup
-3170	597949601	nauseating reagent	nauseating reagents
-3171	894555030	evil noodles	bunches of evil noodles
+3170	894555030	evil noodles	bunches of evil noodles
+3171	597949601	nauseating reagent	nauseating reagents
 3172	974859822	evil paper umbrella	evil paper umbrellas
 3173	175721485	evil vihuela	evil vihuelas
 3174	993409818	evil boring spaghetti	bowls of evil boring spaghetti
