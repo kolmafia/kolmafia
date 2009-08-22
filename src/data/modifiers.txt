@@ -262,6 +262,7 @@ Spooky Putty leotard	Initiative: +15, Meat Drop: +15, Softcore Only
 # Travoltan trousers: (unless Mysticality is higher)
 Travoltan trousers	Moxie: +15, Initiative: +30, Ranged Damage: +10, Softcore Only, Moxie May Control MP
 Tropical Crimbo Shorts	Initiative: +30
+Voluminous Radio Pants	HP Regen Min: 0, HP Regen Max: 5
 Zombo's grievous greaves	Cold Resistance: +3, Sleaze Resistance: +3, Class: "Turtle Tamer"
 # alpha-mail pants
 antique greaves	Initiative: -10

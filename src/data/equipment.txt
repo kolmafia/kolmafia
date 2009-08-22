@@ -214,6 +214,7 @@ Radio Free Pants	150	Mox: 60
 Spooky Putty leotard	100	none
 Travoltan trousers	100	none
 Tropical Crimbo Shorts	100	Mox: 35
+Voluminous Radio Pants	150	Mox: 60
 Zombo's grievous greaves	200	Mus: 200
 alpha-mail pants	140	Mox: 55
 antique greaves	200	Mus: 85

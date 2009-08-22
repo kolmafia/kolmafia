@@ -171,6 +171,8 @@ public class FightRequest
 	private static final AdventureResult ANTIDOTE = ItemPool.get( ItemPool.ANTIDOTE, 1);
 	private static final AdventureResult EXTRACTOR = ItemPool.get( ItemPool.ODOR_EXTRACTOR, 1);
 	private static final AdventureResult PUTTY_SHEET = ItemPool.get( ItemPool.SPOOKY_PUTTY_SHEET, 1);
+	private static final AdventureResult CAMERA = ItemPool.get( ItemPool.CAMERA, 1);
+	private static final AdventureResult SHAKING_CAMERA = ItemPool.get( ItemPool.SHAKING_CAMERA, 1);
 
 	private static final String TOOTH_ACTION = "item" + ItemPool.SEAL_TOOTH;
 	private static final String TURTLE_ACTION = "item" + ItemPool.TURTLE_TOTEM;
@@ -1782,9 +1784,18 @@ public class FightRequest
 		{
 			haveItem = KoLConstants.inventory.contains( FightRequest.PUTTY_SHEET ) &&
 				Preferences.getInteger( "spookyPuttyCopiesMade" ) < 5;
-			if ( haveItem && shouldTag( pref, "autoPutty triggered" ) )
+			boolean haveItem2 = KoLConstants.inventory.contains( FightRequest.CAMERA ) &&
+				!KoLConstants.inventory.contains( FightRequest.SHAKING_CAMERA );
+			if ( (haveItem || haveItem2) && shouldTag( pref, "autoPutty triggered" ) )
 			{
-				items.add( String.valueOf( ItemPool.SPOOKY_PUTTY_SHEET ) );
+				if (haveItem)
+				{
+					items.add( String.valueOf( ItemPool.SPOOKY_PUTTY_SHEET ) );
+				}
+				else
+				{
+					items.add( String.valueOf( ItemPool.CAMERA ) );
+				}
 			}
 		}
 		
@@ -2621,6 +2632,19 @@ public class FightRequest
 			{
 				Preferences.increment( "spookyPuttyCopiesMade", 1 );
 				Preferences.setString( "spookyPuttyMonster", FightRequest.encounterLookup );
+				Preferences.setString( "autoPutty", "" );
+				return true;
+			}
+			return false;
+
+		case ItemPool.CAMERA:
+			// With a flash of light and an accompanying old-timey
+			// -POOF- noise, you take snap a picture of him. Your 
+			// camera begins to shake, rattle and roll.
+
+			if ( responseText.indexOf( "old-timey <i>-POOF-</i> noise" ) != -1 )
+			{
+				Preferences.setString( "cameraMonster", FightRequest.encounterLookup );
 				Preferences.setString( "autoPutty", "" );
 				return true;
 			}

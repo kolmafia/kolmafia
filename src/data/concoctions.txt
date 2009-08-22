@@ -191,6 +191,7 @@ nothing-in-the-box	COMBINE	box	spring
 nothing-in-the-box-in-the-box	COMBINE	box-in-the-box	spring
 sprocket assembly	COMBINE	sprocket	spring
 boxing glove on a spring	COMBINE	nothing-in-the-box	boxing glove
+4-d camera	COMBINE	nothing-in-the-box	beer lens
 
 
 # Items created by combining letters.

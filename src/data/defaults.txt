@@ -197,6 +197,7 @@ user	buffBotPhilanthropyType	1
 user	burrowgrubHiveUsed	false
 user	burrowgrubSummonsRemaining	0
 user	buyScript
+user	cameraMonster
 user	cellarLayout	0
 user	chatbotScript
 user	chatbotScriptExecuted	false
@@ -457,6 +458,7 @@ user	_absintheDrops	0
 user	_aguaDrops	0
 user	_astralDrops	0
 user	_banderRunaways	0
+user	_cameraUsed	false
 user	_gongDrops	0
 user	_hotTubSoaks	0
 user	_navelRunaways	0

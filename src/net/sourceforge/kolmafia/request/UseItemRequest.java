@@ -2419,6 +2419,22 @@ public class UseItemRequest
 
 			return;
 
+		case ItemPool.SHAKING_CAMERA:
+
+			Preferences.setBoolean( "_cameraUsed", true );
+			// You get the sense that the monster in this camera
+			// isn't ready to be developed just yet. It'll probably
+			// be ready tomorrow. And no, you can't speed it up by
+			// blowing on it.
+
+			// If we are redirected to a fight, the item is
+			// consumed elsewhere
+
+			// GenericRequest.checkItemRedirection( item );
+			ResultProcessor.processResult( item );
+
+			return;
+
 		case ItemPool.STEEL_STOMACH:
 
 			if ( responseText.indexOf( "You acquire a skill" ) != -1 )
@@ -3363,6 +3379,7 @@ public class UseItemRequest
 		case ItemPool.FRATHOUSE_BLUEPRINTS:
 		case ItemPool.CURSED_PIECE_OF_THIRTEEN:
 		case ItemPool.SPOOKY_PUTTY_MONSTER:
+		case ItemPool.SHAKING_CAMERA:
 			// Items that can redirect to a fight
 			turns = 1;
 			break;

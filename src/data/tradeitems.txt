@@ -4168,3 +4168,9 @@
 4162	extra-strength rubber bands	familiar	all	75
 4163	children of the candy corn	usable	all	0
 4164	Good 'n' Slimy	usable	all	0
+4165
+4166	Voluminous Radio Pants	pants	all	0
+4167
+4168
+4169	4-d camera	none, combat, single	all	45
+4170	shaking 4-d camera	usable	none	0
