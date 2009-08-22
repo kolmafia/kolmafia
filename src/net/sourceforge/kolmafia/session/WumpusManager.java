@@ -34,34 +34,17 @@
 package net.sourceforge.kolmafia.session;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class WumpusManager
 {
-	public static HashMap warnings = new HashMap();
-
-	// Links from current room
-	public static String[] links = null;
-
-	// Locations of hazards
-	public static String bats1 = null;
-	public static String bats2 = null;
-	public static String pit1 = null;
-	public static String pit2 = null;
-	public static String wumpus = null;
-
-	public static final int WARN_SAFE = 0;
-	public static final int WARN_BATS = 1;
-	public static final int WARN_PIT = 2;
-	public static final int WARN_WUMPUS = 4;
-	public static final int WARN_INDEFINITE = 8;
-	public static final int WARN_ALL = 15;
-
 	public static final String[] CHAMBERS =
 	{
 		"acrid",
@@ -92,6 +75,40 @@ public abstract class WumpusManager
 		null,	// z
 	};
 
+	public static HashMap rooms = new HashMap();
+
+	static
+	{
+		// Initialize all rooms to unknown
+		for ( int i = 0; i < CHAMBERS.length; ++i )
+		{
+			String name = CHAMBERS[ i ];
+			if ( name == null )
+			{
+				continue;
+			}
+			Room room = new Room( name );
+			WumpusManager.rooms.put( name, room );
+		}
+	};
+
+	// Current room
+	public static Room current;
+
+	// Locations of hazards
+	public static Room bats1 = null;
+	public static Room bats2 = null;
+	public static Room pit1 = null;
+	public static Room pit2 = null;
+	public static Room wumpus = null;
+
+	public static final int WARN_SAFE = 0;
+	public static final int WARN_BATS = 1;
+	public static final int WARN_PIT = 2;
+	public static final int WARN_WUMPUS = 4;
+	public static final int WARN_INDEFINITE = 8;
+	public static final int WARN_ALL = 15;
+
 	public static String[] WARN_STRINGS = new String[]
 	{
 		"safe",
@@ -118,22 +135,16 @@ public abstract class WumpusManager
 
 	public static void reset()
 	{
-		// Clear out old room data
-		WumpusManager.warnings.clear();
-
-		// Initialize all rooms to unknown
-		Integer all = new Integer( WARN_ALL );
-		for ( int i = 0; i < CHAMBERS.length; ++i )
+		// Reset all rooms to initial state
+		Iterator it = WumpusManager.rooms.values().iterator();
+		while ( it.hasNext() )
 		{
-			String room = CHAMBERS[ i ];
-			if ( room != null )
-			{
-				WumpusManager.warnings.put( room, all );
-			}
+			Room room = (Room) it.next();
+			room.reset();
 		}
 
 		// We are not currently in a room
-		WumpusManager.links = null;
+		WumpusManager.current = null;
 
 		// We don't know where any of the hazards are
 		WumpusManager.bats1 = null;
@@ -141,22 +152,6 @@ public abstract class WumpusManager
 		WumpusManager.pit1 = null;
 		WumpusManager.pit2 = null;
 		WumpusManager.wumpus = null;
-	}
-
-	private static int get( String room )
-	{
-		Integer i = (Integer) WumpusManager.warnings.get( room );
-		return i == null ? WARN_ALL : i.intValue();
-	}
-	
-	private static int put( String room, int value )
-	{
-		int old = WumpusManager.get( room );
-		if ( ( old & WARN_INDEFINITE ) != 0 )
-		{
-			WumpusManager.warnings.put( room, new Integer( old & value ) );
-		}
-		return old;
 	}
 
 	// Deductions we made from visiting this room
@@ -180,7 +175,7 @@ public abstract class WumpusManager
 
 	public static void visitChoice( String text )
 	{
-		WumpusManager.links = null;
+		WumpusManager.current = null;
 		WumpusManager.deductions.setLength( 0 );
 
 		if ( text == null )
@@ -196,23 +191,30 @@ public abstract class WumpusManager
 			return;
 		}
 		
-		String current = m.group( 1 ).toLowerCase();
+		String name = m.group( 1 ).toLowerCase();
+		Room room = (Room) WumpusManager.rooms.get( name );
+		if ( room == null )
+		{
+			// Internal error: unknown room name
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Unknown room in Wumpus cave: the " + name + " chamber");
+			return;
+		}
 
 		if ( text.indexOf( "Wait for the bats to drop you" ) != -1 )
 		{
-			WumpusManager.knownBats( current, VISIT );
+			WumpusManager.knownBats( room, VISIT );
 			return;
 		}
 
 		if ( text.indexOf( "Thump" ) != -1 )
 		{
-			WumpusManager.knownPit( current, VISIT );
+			WumpusManager.knownPit( room, VISIT );
 			return;
 		}
 
-		// Initialize the array of rooms accessible from here
-
-		WumpusManager.links = new String[ 3 ];
+		// Initialize the exits from the current room
+		WumpusManager.current = room;
+		WumpusManager.current.resetLinks();
 		m = WumpusManager.LINK_PATTERN.matcher( text );
 		for ( int i = 0; i < 3; ++i )
 		{
@@ -220,15 +222,20 @@ public abstract class WumpusManager
 			{
 				// Should not happen; there are always three
 				// exits from a room.
-				links = null;
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Internal error: could not find exit #" + i + " from " + WumpusManager.current );
 				return;
 			}
-			links[ i ] = m.group( 1 ).toLowerCase();
+			WumpusManager.current.setLink( i, m.group( 1 ) );
 		}
 
-		WumpusManager.printDeduction( "Exits: " + links[0] + ", " + links[1] + ", " + links[2] );
+		WumpusManager.printDeduction( "Exits: " +
+					      WumpusManager.current.getLink(0) +
+					      ", " +
+					      WumpusManager.current.getLink(1) +
+					      ", " +
+					      WumpusManager.current.getLink(2) );
 
-		WumpusManager.knownSafe( current, VISIT );
+		WumpusManager.knownSafe( VISIT );
 
 		// Basic logic: assume all rooms have all warnings initially.
 		// Remove any warnings from linked rooms that aren't present
@@ -248,9 +255,12 @@ public abstract class WumpusManager
 			warn |= WARN_WUMPUS;
 		}
 
+		WumpusManager.current.setListen( warn );
+
 		for ( int i = 0; i < 3; ++i )
 		{
-			WumpusManager.possibleHazard( links[ i ], warn, LISTEN );
+			Room link = WumpusManager.current.getLink( i );
+			WumpusManager.possibleHazard( link, warn, LISTEN );
 		}
 		
 		// Advanced logic: if only one of the linked rooms has a given
@@ -269,12 +279,22 @@ public abstract class WumpusManager
 		WumpusManager.deduce();
 	}
 
-	private static void knownSafe( final String room, final int type )
+	private static void knownSafe( final int type  )
+	{
+		WumpusManager.knownSafe( WumpusManager.current, type );
+	}
+
+	private static void knownSafe( final Room room, final int type )
 	{
 		WumpusManager.knownHazard( room, WARN_SAFE, type );
 	}
 
-	private static void knownBats( final String room, final int type  )
+	private static void knownBats( final int type  )
+	{
+		WumpusManager.knownBats( WumpusManager.current, type );
+	}
+
+	private static void knownBats( final Room room, final int type	)
 	{
 		WumpusManager.knownHazard( room, WARN_BATS, type );
 
@@ -286,7 +306,7 @@ public abstract class WumpusManager
 			return;
 		}
 
-		if ( WumpusManager.bats1.equals( room ) || WumpusManager.bats2 != null )
+		if ( WumpusManager.bats1 == room || WumpusManager.bats2 != null )
 		{
 			return;
 		}
@@ -298,7 +318,12 @@ public abstract class WumpusManager
 		WumpusManager.eliminateHazard( WARN_BATS, WumpusManager.bats1, WumpusManager.bats2 );
 	}
 
-	private static void knownPit( final String room, final int type )
+	private static void knownPit( final int type  )
+	{
+		WumpusManager.knownPit( WumpusManager.current, type );
+	}
+
+	private static void knownPit( final Room room, final int type )
 	{
 		WumpusManager.knownHazard( room, WARN_PIT, type );
 
@@ -310,7 +335,7 @@ public abstract class WumpusManager
 			return;
 		}
 
-		if ( WumpusManager.pit1.equals( room ) || WumpusManager.pit2 != null )
+		if ( WumpusManager.pit1 == room || WumpusManager.pit2 != null )
 		{
 			return;
 		}
@@ -322,7 +347,12 @@ public abstract class WumpusManager
 		WumpusManager.eliminateHazard( WARN_PIT, WumpusManager.pit1, WumpusManager.pit2 );
 	}
 
-	private static void knownWumpus( final String room, final int type )
+	private static void knownWumpus( final int type	 )
+	{
+		WumpusManager.knownWumpus( WumpusManager.current, type );
+	}
+
+	private static void knownWumpus( final Room room, final int type )
 	{
 		WumpusManager.knownHazard( room, WARN_WUMPUS, type );
 
@@ -339,10 +369,10 @@ public abstract class WumpusManager
 		WumpusManager.eliminateHazard( WARN_WUMPUS, WumpusManager.wumpus, null );
 	}
 	
-	private static void knownHazard( final String room, int warn, final int type )
+	private static void knownHazard( final Room room, int warn, final int type )
 	{
-		int oldStatus = WumpusManager.put( room, warn );
-		int newStatus = WumpusManager.get( room );
+		int oldStatus = room.setHazards( warn );
+		int newStatus = room.getHazards();
 		if ( oldStatus == newStatus )
 		{
 			return;
@@ -352,39 +382,35 @@ public abstract class WumpusManager
 		String idString = WumpusManager.DEDUCTION_STRINGS[ type ];
 		String warnString = WumpusManager.WARN_STRINGS[ newStatus ];
 
-		WumpusManager.addDeduction( idString + ": " + warnString + " in " + room + " chamber." );
+		WumpusManager.addDeduction( idString + ": " + warnString + " in " + room );
 	}
 	
-	private static void eliminateHazard( final int hazard, final String room1, final String room2 )
+	private static void eliminateHazard( final int hazard, final Room room1, final Room room2 )
 	{
-		for ( int i = 0; i < CHAMBERS.length; ++i )
+		Iterator it = WumpusManager.rooms.values().iterator();
+		while ( it.hasNext() )
 		{
-			String chamber = CHAMBERS[ i ];
-			if ( chamber == null || chamber.equals( room1 ) || chamber.equals( room2 ) )
+			Room room = (Room) it.next();
+
+			if ( room == room1 || room == room2 )
 			{
 				continue;
 			}
 
-			Integer old = (Integer) WumpusManager.warnings.get( chamber );
-			if ( old == null )
-			{
-				continue;
-			}
-
-			WumpusManager.possibleHazard( chamber, old.intValue() & ~hazard, DEDUCTION );
+			WumpusManager.possibleHazard( room, room.getHazards() & ~hazard, DEDUCTION );
 		}
 	}
 	
-	private static void possibleHazard( final String room, int warn, final int type )
+	private static void possibleHazard( final Room room, int warn, final int type )
 	{
 		// If we have already positively identified this as a room with
 		// a hazard, nothing more to do here.
 
-		if ( room.equals( WumpusManager.bats1 ) ||
-		     room.equals( WumpusManager.bats2 ) ||
-		     room.equals( WumpusManager.pit1 ) ||
-		     room.equals( WumpusManager.pit2 ) ||
-		     room.equals( WumpusManager.wumpus ) )
+		if ( room == WumpusManager.bats1 ||
+		     room == WumpusManager.bats2 ||
+		     room == WumpusManager.pit1 ||
+		     room == WumpusManager.pit2 ||
+		     room == WumpusManager.wumpus )
 		{
 			return;
 		}
@@ -431,25 +457,31 @@ public abstract class WumpusManager
 
 	private static void deduce( int mask )
 	{
-		int which = -1;
+		Room room = null;
+
 		for ( int i = 0; i < 3; ++i )
 		{
-			if ( (WumpusManager.get( WumpusManager.links[ i ] ) & mask) != 0 )
+			Room link = WumpusManager.current.getLink( i );
+			if ( link == null )
 			{
-				if ( which != -1 )
+				// Internal error
+				continue;
+			}
+			if ( ( link.getHazards() & mask ) != 0 )
+			{
+				if ( room != null )
 				{
 					return;	// warning not unique
 				}
-				which = i;
+				room = link;
 			}
 		}
 
-		if ( which == -1 )
+		if ( room == null )
 		{
 			return;
 		}
 
-		String room = WumpusManager.links[ which ];
 		switch ( mask )
 		{
 		case WARN_BATS:
@@ -466,7 +498,7 @@ public abstract class WumpusManager
 	
 	public static void takeChoice( int decision, String text )
 	{
-		if ( WumpusManager.links == null )
+		if ( WumpusManager.current == null )
 		{
 			return;
 		}
@@ -478,7 +510,14 @@ public abstract class WumpusManager
 			decision -= 3;
 		}
 
-		String room = WumpusManager.links[ decision - 1 ];
+		Room room = WumpusManager.current.getLink( decision - 1 );
+
+		if ( room == null )
+		{
+			// Internal error
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Internal error: unknown exit #" + decision + " from " + WumpusManager.current );
+			return;
+		}
 
 		// Unfortunately, the wumpus was nowhere to be seen.
 		if ( text.indexOf( "wumpus was nowhere to be seen" ) != -1  )
@@ -503,7 +542,7 @@ public abstract class WumpusManager
 
 	public static String[] dynamicChoiceOptions( String text )
 	{
-		if ( links == null )
+		if ( WumpusManager.current == null )
 		{
 			return new String[ 0 ];
 		}
@@ -511,7 +550,13 @@ public abstract class WumpusManager
 		String[] results = new String[ 6 ];
 		for ( int i = 0; i < 3; ++i )
 		{
-			String warning = WumpusManager.WARN_STRINGS[ WumpusManager.get( links[i] ) ];
+			Room room = WumpusManager.current.getLink( i );
+			if ( room == null )
+			{
+				// Internal error
+				continue;
+			}
+			String warning = WumpusManager.WARN_STRINGS[ room.getHazards() ];
 			results[ i ] = warning;
 			results[ i + 3 ] = warning;
 		}
@@ -559,5 +604,79 @@ public abstract class WumpusManager
 		buffer.insert( index, WumpusManager.deductions.toString() );
 		WumpusManager.deductions.setLength( 0 );
 	}
-}
 
+	private static class Room
+	{
+		public final String name;
+		public Room[] exits = new Room[3];
+		public int listen;
+		public int hazards;
+
+		public Room( final String name )
+		{
+			this.name = name;
+			this.reset();
+		}
+
+		public void reset()
+		{
+			this.resetLinks();
+			this.listen = WARN_INDEFINITE;
+			this.hazards = WARN_ALL;
+		}
+
+		public void resetLinks()
+		{
+			this.exits[ 0 ] = null;
+			this.exits[ 1 ] = null;
+			this.exits[ 2 ] = null;
+		}
+
+		public String getName()
+		{
+			return this.name;
+		}
+
+		public int getListen()
+		{
+			return this.listen;
+		}
+
+		public void setListen( final int listen )
+		{
+			this.listen = listen;
+		}
+
+		public Room getLink( final int index )
+		{
+			return this.exits[ index ];
+		}
+
+		public void setLink( final int index, final String name )
+		{
+			this.exits[ index ] = (Room) WumpusManager.rooms.get( name );
+		}
+
+		public int getHazards()
+		{
+			return this.hazards;
+		}
+
+		public int setHazards( final int hazards )
+		{
+			// Only set the hazards for rooms we've not
+			// actually visited.
+			int old = this.hazards;
+			if ( ( old & WARN_INDEFINITE ) != 0 )
+			{
+				this.hazards = old & hazards;
+			}
+			return old;
+		}
+
+		public String toString()
+		{
+			return "the " + this.name + " chamber";
+		}
+	}
+}
