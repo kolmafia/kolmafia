@@ -1907,6 +1907,13 @@ public class GenericRequest
 			KoLmafia.ignoreSemirare();
 			break;
 
+		case ItemPool.SHAKING_CAMERA:
+			itemName = "Shaking 4-D Camera";
+			Preferences.setString( "cameraMonster", "" );
+			consumed = true;
+			KoLmafia.ignoreSemirare();
+			break;
+
 		case ItemPool.WRETCHED_SEAL:
 		case ItemPool.CUTE_BABY_SEAL:
 		case ItemPool.ARMORED_SEAL:

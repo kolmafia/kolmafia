@@ -529,6 +529,7 @@ public abstract class UseLinkDecorator
 			case ItemPool.DRUM_MACHINE:
 			case ItemPool.CARONCH_MAP:
 			case ItemPool.SPOOKY_PUTTY_MONSTER:
+			case ItemPool.SHAKING_CAMERA:
 			case ItemPool.CURSED_PIECE_OF_THIRTEEN:
 				return new UseLink( itemId, itemCount, "use", "inv_use.php?which=3&whichitem=", false );
 

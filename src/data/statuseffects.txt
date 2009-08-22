@@ -595,7 +595,7 @@
 594	Pulchritudinous Pressure	potion14.gif	fa7497adb007a9437432b2bd3a56e9d2	use 1 pressurized potion of pulchritude
 595	Perceptive Pressure	potion11.gif	eefc27b7fcdeceaa28554221aa54cfad	use 1 pressurized potion of perception
 596	Proficient Pressure	potion10.gif	b94f215c26d85a00fd7ff96c0176d81e	use 1 pressurized potion of proficiency
-597	A Little Bit Evil (Seal Clubber)	skull.gif		use 1 seal eyeball
+597	A Little Bit Evil (Seal Clubber)	skull.gif	3752badd13725a3e76aae40087a24509	use 1 seal eyeball
 598	A Little Bit Evil (Turtle Tamer)	skull.gif	cb1df415b4274825c10c80a20cdfcfde	eat 1 turtle soup
 599	A Little Bit Evil (Pastamancer)	skull.gif	244072381f75d26792bd945329b35b90	#any evil pasta
 600	A Little Bit Evil (Sauceror)	skull.gif	6450d9bde9246da079328b6344e6ea0c	#any evil potion

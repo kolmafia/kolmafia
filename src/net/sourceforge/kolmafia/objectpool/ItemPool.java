@@ -920,6 +920,8 @@ public class ItemPool
 	public static final int RAGGED_PAPER_STRIP = 4143;
 	public static final int RIPPED_PAPER_STRIP = 4144;
 	public static final int QUADROCULARS = 4149;
+	public static final int CAMERA = 4169;
+	public static final int SHAKING_CAMERA = 4170;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

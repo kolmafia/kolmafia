@@ -92,6 +92,7 @@ public class DailyDeedsPanel
 		this.add( new MelangeDaily() );
 		this.add( new StillsDaily() );
 		this.add( new PuttyDaily() );
+		this.add( new CameraDaily() );
 		if ( Preferences.getInteger( "blackPuddingsDefeated" ) < 240 )
 		{
 			this.add( new PuddingDaily() );
@@ -582,6 +583,30 @@ public class DailyDeedsPanel
 			String text = Preferences.getInteger( "spookyPuttyCopiesMade" ) +
 				"/5 putty uses";
 			String monster = Preferences.getString( "spookyPuttyMonster" );
+			if ( !monster.equals( "" ) )
+			{
+				text = text + ", now " + monster;
+			}
+			this.setText( text );
+		}
+	}
+
+	public static class CameraDaily
+		extends Daily
+	{
+		public CameraDaily()
+		{
+			this.addListener( "_cameraUsed" );
+			this.addListener( "cameraMonster" );
+			this.addLabel( "" );
+		}
+		
+		public void update()
+		{
+			String text = Preferences.getBoolean( "_cameraUsed" ) ?
+				"4-d camera used"
+				: "4-d camera not used yet";
+			String monster = Preferences.getString( "cameraMonster" );
 			if ( !monster.equals( "" ) )
 			{
 				text = text + ", now " + monster;
