@@ -130,6 +130,7 @@ import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
+import net.sourceforge.kolmafia.session.WumpusManager;
 import net.sourceforge.kolmafia.swingui.BuffRequestFrame;
 import net.sourceforge.kolmafia.swingui.CalendarFrame;
 import net.sourceforge.kolmafia.swingui.CouncilFrame;
@@ -1655,6 +1656,36 @@ public class KoLmafiaCLI
 			if ( option.equals( "solve" ) )
 			{
 				DwarfFactoryRequest.solve();
+				return;
+			}
+		}
+	}
+
+	static { new Wumpus().register( "wumpus" ); }
+	public static class Wumpus
+		extends Command
+	{
+		{ usage = " status - Display status of last wumpus cave."; }
+		public void run( String cmd, String parameters )
+		{
+			String[] tokens = parameters.split( "\\s+" );
+			if ( tokens.length < 1 )
+			{
+				return;
+			}
+
+			String option = tokens[0];
+
+			if ( option.equals( "status" ) )
+			{
+				WumpusManager.printStatus();
+				return;
+			}
+
+			if ( option.equals( "code" ) )
+			{
+				String code = WumpusManager.getWumpinatorCode();
+				RequestLogger.printLine( code );
 				return;
 			}
 		}
