@@ -214,9 +214,7 @@ public abstract class WumpusManager
 		// If we have already visited this room, nothing more to do
 		if ( room.visited )
 		{
-			// Re-check adjacent rooms, based on
-			// discoveries since we last visited
-			WumpusManager.deduce( room );
+			WumpusManager.current = room;
 			return;
 		}
 
@@ -283,21 +281,21 @@ public abstract class WumpusManager
 			Room exit = WumpusManager.current.getExit( i );
 			WumpusManager.possibleHazard( exit, warn );
 		}
-		
+
 		// Advanced logic: if only one of the linked rooms has a given
 		// warning, promote that to a definite danger, and remove any
 		// other warnings from that room.
 
-		WumpusManager.deduce();
+		WumpusManager.deduce( room );
 
 		// Doing this may make further deductions possible.
 
-		WumpusManager.deduce();
+		WumpusManager.deduce( room );
 
 		// I'm not sure if a 3rd deduction is actually possible, but it
 		// doesn't hurt to try.
 
-		WumpusManager.deduce();
+		WumpusManager.deduce( room );
 	}
 
 	private static void knownSafe( final int type  )
@@ -307,6 +305,12 @@ public abstract class WumpusManager
 
 	private static void knownSafe( final Room room, final int type )
 	{
+		// If we already know this room is safe, punt
+		if ( room.bat == 9 && room.pit == 9 && room.wumpus == 9 )
+		{
+			return;
+		}
+
 		// Set Wumpinator flags for this room
 		room.bat = 9;
 		room.pit = 9;
@@ -322,11 +326,18 @@ public abstract class WumpusManager
 
 	private static void knownBats( final Room room, final int type	)
 	{
+		// If we already know there are bats here, punt
+		if ( room.bat == 8 )
+		{
+			return;
+		}
+
 		// Set Wumpinator flags for this room
 		room.bat = 8;
 		room.pit = 9;
 		room.wumpus = 9;
 
+		// We know an additional bat room
 		WumpusManager.knownHazard( room, WARN_BATS, type );
 
 		// There are exactly two bat rooms per cave
@@ -334,11 +345,6 @@ public abstract class WumpusManager
 		{
 			// We've just identified the first bat room
 			WumpusManager.bats1 = room;
-			return;
-		}
-
-		if ( WumpusManager.bats1 == room || WumpusManager.bats2 != null )
-		{
 			return;
 		}
 
@@ -356,11 +362,18 @@ public abstract class WumpusManager
 
 	private static void knownPit( final Room room, final int type )
 	{
+		// If we already know there is a pit here, punt
+		if ( room.pit == 8 )
+		{
+			return;
+		}
+
 		// Set Wumpinator flags for this room
 		room.bat = 9;
 		room.pit = 8;
 		room.wumpus = 9;
 
+		// We know an additional pit
 		WumpusManager.knownHazard( room, WARN_PIT, type );
 
 		// There are exactly two pit rooms per cave
@@ -368,11 +381,6 @@ public abstract class WumpusManager
 		{
 			// We've just identified the first pit room
 			WumpusManager.pit1 = room;
-			return;
-		}
-
-		if ( WumpusManager.pit1 == room || WumpusManager.pit2 != null )
-		{
 			return;
 		}
 
@@ -390,18 +398,19 @@ public abstract class WumpusManager
 
 	private static void knownWumpus( final Room room, final int type )
 	{
+		// If we already know the Wumpus is here, punt
+		if ( room.wumpus == 8 )
+		{
+			return;
+		}
+
 		// Set Wumpinator flags for this room
 		room.bat = 9;
 		room.pit = 9;
 		room.wumpus = 8;
 
+		// We know the wumpus room
 		WumpusManager.knownHazard( room, WARN_WUMPUS, type );
-
-		// There is exactly one wumpus rooms per cave
-		if ( WumpusManager.wumpus != null )
-		{
-			return;
-		}
 
 		// We've just identified the wumpus room
 		WumpusManager.wumpus = room;
@@ -425,7 +434,11 @@ public abstract class WumpusManager
 
 		if ( ( warn & WARN_BATS ) != 0 )
 		{
-			room.bat++;
+			if ( ++room.bat == 3 )
+			{
+				WumpusManager.knownBats( room, DEDUCTION );
+				return;
+			}
 
 			// If we know both bat rooms, no bats in this room.
 			if ( WumpusManager.bats1 != null && WumpusManager.bats2 != null )
@@ -436,7 +449,11 @@ public abstract class WumpusManager
 
 		if ( ( warn & WARN_PIT ) != 0 )
 		{
-			room.pit++;
+			if ( ++room.pit == 3 )
+			{
+				WumpusManager.knownPit( room, DEDUCTION );
+				return;
+			}
 
 			// If we know both pit rooms, no pit in this room.
 			if ( WumpusManager.pit1 != null && WumpusManager.pit2 != null )
@@ -447,7 +464,11 @@ public abstract class WumpusManager
 
 		if ( ( warn & WARN_WUMPUS ) != 0 )
 		{
-			room.wumpus++;
+			if ( ++room.wumpus == 2 )
+			{
+				WumpusManager.knownWumpus( room, DEDUCTION );
+				return;
+			}
 
 			// If we know the Wumpus room, no Wumpus in this room.
 			if ( WumpusManager.wumpus != null )
@@ -471,14 +492,7 @@ public abstract class WumpusManager
 	
 	private static void knownHazard( final Room room, int warn, final int type )
 	{
-		// If we have visited this room before, hazards are known
-		if ( room.visited )
-		{
-			return;
-		}
-
-		// If we are visiting the room for the first time,
-		// remember that the room has been visited.
+		// Remember that the room has been visited.
 		if ( type == VISIT )
 		{
 			room.visited = true;
@@ -546,24 +560,11 @@ public abstract class WumpusManager
 		WumpusManager.addDeduction( "Deduction: " + warnString + " in " + room );
 	}
 
-	private static void deduce( final Room room)
+	private static void deduce( final Room room )
 	{
-		// If this room has a hazard, no exits
-		if ( room.getHazards() != 0 )
-		{
-			return;
-		}
-
-		// Otherwise, save this room and check adjacent rooms again.
-		WumpusManager.current = room;
-		WumpusManager.deduce();
-	}
-
-	private static void deduce()
-	{
-		WumpusManager.deduce( WumpusManager.current, WARN_BATS );
-		WumpusManager.deduce( WumpusManager.current, WARN_PIT );
-		WumpusManager.deduce( WumpusManager.current, WARN_WUMPUS );
+		WumpusManager.deduce( room, WARN_BATS );
+		WumpusManager.deduce( room, WARN_PIT );
+		WumpusManager.deduce( room, WARN_WUMPUS );
 	}
 
 	private static void deduce( final Room room, int mask )
@@ -578,6 +579,7 @@ public abstract class WumpusManager
 				// Internal error
 				continue;
 			}
+
 			if ( ( link.getHazards() & mask ) != 0 )
 			{
 				if ( exit != null )
@@ -818,9 +820,9 @@ public abstract class WumpusManager
 				buffer.append( exit == null ? '0' : exit.getCode() );
 			}
 			// Append Wumpinator hazard flags
-			buffer.append( String.valueOf( room.pit ) );
-			buffer.append( String.valueOf( room.bat ) );
-			buffer.append( String.valueOf( room.wumpus ) );
+			buffer.append( String.valueOf( room.pit % 10 ) );
+			buffer.append( String.valueOf( room.bat % 10 ) );
+			buffer.append( String.valueOf( room.wumpus % 10 ) );
 		}
 
 		// Append pit groups
@@ -950,6 +952,19 @@ public abstract class WumpusManager
 					return;
 				}
 			}
+		}
+
+		public boolean hasExit( final Room room )
+		{
+			for ( int index = 0; index < 3; ++index )
+			{
+				if ( this.exits[ index ] == room )
+				{
+					return true;
+				}
+			}
+
+			return false;
 		}
 
 		public String  exitString()
