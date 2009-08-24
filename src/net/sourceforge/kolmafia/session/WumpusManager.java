@@ -299,6 +299,11 @@ public abstract class WumpusManager
 		// doesn't hurt to try.
 
 		WumpusManager.deduce( room );
+
+		// Look at neighboring rooms and see if what we know
+		// about this one tells us more about other exits.
+
+		WumpusManager.deduce( room, true );
 	}
 
 	private static void knownSafe( final int type  )
@@ -508,6 +513,11 @@ public abstract class WumpusManager
 			return;
 		}
 
+		// Look at neighboring rooms and see if what we know
+		// about this one tells us more about other exits.
+
+		WumpusManager.deduce( room, true );
+
 		// New deduction
 		String idString = WumpusManager.DEDUCTION_STRINGS[ type ];
 		String warnString = WumpusManager.WARN_STRINGS[ newStatus ];
@@ -561,6 +571,22 @@ public abstract class WumpusManager
 		String warnString = WumpusManager.ELIMINATE_STRINGS[ hazard ];
 
 		WumpusManager.addDeduction( "Deduction: " + warnString + " in " + room );
+	}
+
+	private static void deduce( final Room room, final boolean hazard )
+	{
+		// This room has been visited. Look at rooms that
+		// we've visited that link to it and see what we can
+		// deduce about their exits.
+		Iterator it = WumpusManager.rooms.values().iterator();
+		while ( it.hasNext() )
+		{
+			Room neighbor = (Room) it.next();
+			if ( neighbor.hasExit( room ) )
+			{
+				WumpusManager.deduce( neighbor );
+			}
+		}
 	}
 
 	private static void deduce( final Room room )
