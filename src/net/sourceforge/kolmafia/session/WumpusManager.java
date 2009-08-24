@@ -95,6 +95,7 @@ public abstract class WumpusManager
 
 	// Current room
 	public static Room current;
+	public static Room last;
 
 	// Locations of hazards
 	public static Room bats1 = null;
@@ -158,6 +159,7 @@ public abstract class WumpusManager
 
 		// We are not currently in a room
 		WumpusManager.current = null;
+		WumpusManager.last = null;
 
 		// We don't know where any of the hazards are
 		WumpusManager.bats1 = null;
@@ -188,6 +190,7 @@ public abstract class WumpusManager
 
 	public static void visitChoice( String text )
 	{
+		WumpusManager.last = WumpusManager.current;
 		WumpusManager.current = null;
 		WumpusManager.deductions.setLength( 0 );
 
@@ -702,13 +705,15 @@ public abstract class WumpusManager
 
 	public static final void decorate( final StringBuffer buffer )
 	{
-		// <img border=0 src=wump_graphic3.php?litstring=xxx&map=xxx&current=xxx>
-		int index = buffer.indexOf( "</table></center></td></tr>" );
-		if ( index != -1 )
+		if ( WumpusManager.current != null )
 		{
-			// String link = WumpusManager.getWumpinatorMap();
-			String link = WumpusManager.getWumpinatorLink();
-			buffer.insert( index, "<tr><td><center>" + link + "</center></td></tr>" );
+			int index = buffer.indexOf( "</table></center></td></tr>" );
+			if ( index != -1 )
+			{
+				// String link = WumpusManager.getWumpinatorMap();
+				String link = WumpusManager.getWumpinatorLink();
+				buffer.insert( index, "<tr><td><center>" + link + "</center></td></tr>" );
+			}
 		}
 
 		if ( WumpusManager.deductions.length() == 0 )
@@ -716,7 +721,7 @@ public abstract class WumpusManager
 			return;
 		}
 
-		index = buffer.indexOf( "<center><form name=choiceform1" );
+		int index = buffer.indexOf( "<center><form name=choiceform1" );
 		if ( index == -1 )
 		{
 			return;
@@ -727,17 +732,51 @@ public abstract class WumpusManager
 		WumpusManager.deductions.setLength( 0 );
 	}
 
+	private static final Room currentRoom()
+	{
+		if ( WumpusManager.current != null )
+		{
+			return WumpusManager.current;
+		}
+		if ( WumpusManager.last != null )
+		{
+			return WumpusManager.last;
+		}
+		return null;
+	}
+
+	private static final String getCurrentField()
+	{
+		return WumpusManager.getCurrentField( WumpusManager.currentRoom() );
+	}
+
+	private static final String getCurrentField( final Room room )
+	{
+		if ( room == null )
+		{
+			return "";
+		}
+		return "&current=" + room.getCode();
+	}
+
 	private static final String getWumpinatorLink()
 	{
+		String current = WumpusManager.getCurrentField();
 		String map = WumpusManager.getWumpinatorCode();
-		return "<a href=http://www.feesher.com/wumpus/wump_map.php?mapstring=" + map + " target=_blank>View in Wumpinator</a>";
+		return "<a href=http://www.feesher.com/wumpus/wump_map.php?mapstring=" + map + current + " target=_blank>View in Wumpinator</a>";
+	}
+
+	private static final String getLayout( final Room room )
+	{
+		return "00000000000000000000";
 	}
 
 	private static final String getWumpinatorMap()
 	{
-		String litstring = "litstring=00000000000000000000";
+		Room room = WumpusManager.currentRoom();
+		String litstring = "litstring=" + WumpusManager.getLayout( room );
 		String map = "&map=" + WumpusManager.getWumpinatorCode();
-		String current = WumpusManager.current == null ? "" : ( "&current=" + WumpusManager.current.getCode() );
+		String current = WumpusManager.getCurrentField( room);
 		return "<tr><td><center><img border=0 src=http://www.feesher.com/wumpus/wump_graphic3.php?" + litstring + map + current + "></center></td></tr>";
 	}
 
@@ -817,7 +856,7 @@ public abstract class WumpusManager
 			for ( int i = 0; i < 3; ++i )
 			{
 				Room exit = room.getExit( i );
-				buffer.append( exit == null ? '0' : exit.getCode() );
+				buffer.append( exit == null ? "0" : exit.getCode() );
 			}
 			// Append Wumpinator hazard flags
 			buffer.append( String.valueOf( room.pit % 10 ) );
@@ -867,13 +906,14 @@ public abstract class WumpusManager
 	public static final void invokeWumpinator()
 	{
 		String code = WumpusManager.getWumpinatorCode();
-		StaticEntity.openSystemBrowser( "http://www.feesher.com/wumpus/wump_map.php?mapstring=" + code );
+		String current = WumpusManager.getCurrentField();
+		StaticEntity.openSystemBrowser( "http://www.feesher.com/wumpus/wump_map.php?mapstring=" + code + current );
 	}
 
 	private static class Room
 	{
 		public final String name;
-		public final char code;
+		public final String code;
 
 		public boolean visited;
 		public Room[] exits = new Room[3];
@@ -890,7 +930,7 @@ public abstract class WumpusManager
 		public Room( final String name )
 		{
 			this.name = name;
-			this.code = Character.toUpperCase( name.charAt(0) );
+			this.code = Character.toString( Character.toUpperCase( name.charAt(0) ) );
 			this.reset();
 		}
 
@@ -912,7 +952,7 @@ public abstract class WumpusManager
 			return this.name;
 		}
 
-		public char getCode()
+		public String getCode()
 		{
 			return this.code;
 		}
