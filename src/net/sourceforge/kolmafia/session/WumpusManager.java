@@ -300,10 +300,10 @@ public abstract class WumpusManager
 
 		WumpusManager.deduce( room );
 
-		// Look at neighboring rooms and see if what we know
+		// Look at previous room and see if what we know
 		// about this one tells us more about other exits.
 
-		WumpusManager.deduce( room, true );
+		WumpusManager.deduce( WumpusManager.last );
 	}
 
 	private static void knownSafe( final int type  )
@@ -313,12 +313,6 @@ public abstract class WumpusManager
 
 	private static void knownSafe( final Room room, final int type )
 	{
-		// If we already know this room is safe, punt
-		if ( room.bat == 9 && room.pit == 9 && room.wumpus == 9 )
-		{
-			return;
-		}
-
 		// Set Wumpinator flags for this room
 		room.bat = 9;
 		room.pit = 9;
@@ -485,6 +479,14 @@ public abstract class WumpusManager
 			}
 		}
 
+		if ( warn == WARN_INDEFINITE )
+		{
+			// We know there are no hazards in this room
+			room.pit = 9;
+			room.bat = 9;
+			room.wumpus = 9;
+		}
+
 		// Register possible hazard
 		int oldStatus = room.setHazards( warn );
 		int newStatus = room.getHazards();
@@ -513,10 +515,10 @@ public abstract class WumpusManager
 			return;
 		}
 
-		// Look at neighboring rooms and see if what we know
+		// Look at previous room and see if what we know
 		// about this one tells us more about other exits.
 
-		WumpusManager.deduce( room, true );
+		WumpusManager.deduce( WumpusManager.last );
 
 		// New deduction
 		String idString = WumpusManager.DEDUCTION_STRINGS[ type ];
@@ -573,27 +575,14 @@ public abstract class WumpusManager
 		WumpusManager.addDeduction( "Deduction: " + warnString + " in " + room );
 	}
 
-	private static void deduce( final Room room, final boolean hazard )
-	{
-		// This room has been visited. Look at rooms that
-		// we've visited that link to it and see what we can
-		// deduce about their exits.
-		Iterator it = WumpusManager.rooms.values().iterator();
-		while ( it.hasNext() )
-		{
-			Room neighbor = (Room) it.next();
-			if ( neighbor.hasExit( room ) )
-			{
-				WumpusManager.deduce( neighbor );
-			}
-		}
-	}
-
 	private static void deduce( final Room room )
 	{
-		WumpusManager.deduce( room, WARN_BATS );
-		WumpusManager.deduce( room, WARN_PIT );
-		WumpusManager.deduce( room, WARN_WUMPUS );
+		if ( room != null )
+		{
+			WumpusManager.deduce( room, WARN_BATS );
+			WumpusManager.deduce( room, WARN_PIT );
+			WumpusManager.deduce( room, WARN_WUMPUS );
+		}
 	}
 
 	private static void deduce( final Room room, int mask )
@@ -664,6 +653,7 @@ public abstract class WumpusManager
 		// Unfortunately, the wumpus was nowhere to be seen.
 		if ( text.indexOf( "wumpus was nowhere to be seen" ) != -1  )
 		{
+			WumpusManager.last = WumpusManager.current;
 			WumpusManager.knownSafe( room, VISIT );
 			return;
 		}
@@ -677,6 +667,7 @@ public abstract class WumpusManager
 		if ( text.indexOf( "unexpectedly, a wumpus" ) != -1 ||
 		     text.indexOf( "surprised the wumpus" ) != -1 )
 		{
+			WumpusManager.last = WumpusManager.current;
 			WumpusManager.knownWumpus( room, VISIT );
 			return;
 		}
@@ -736,8 +727,8 @@ public abstract class WumpusManager
 			int index = buffer.indexOf( "</table></center></td></tr>" );
 			if ( index != -1 )
 			{
-				// String link = WumpusManager.getWumpinatorMap();
-				String link = WumpusManager.getWumpinatorLink();
+				String link = WumpusManager.getWumpinatorMap();
+				// String link = WumpusManager.getWumpinatorLink();
 				buffer.insert( index, "<tr><td><center>" + link + "</center></td></tr>" );
 			}
 		}
@@ -756,6 +747,13 @@ public abstract class WumpusManager
 		WumpusManager.deductions.append( "</center><br>" );
 		buffer.insert( index, WumpusManager.deductions.toString() );
 		WumpusManager.deductions.setLength( 0 );
+	}
+
+	public static final void invokeWumpinator()
+	{
+		String code = WumpusManager.getWumpinatorCode();
+		String current = WumpusManager.getCurrentField();
+		StaticEntity.openSystemBrowser( "http://www.feesher.com/wumpus/wump_map.php?mapstring=" + code + current );
 	}
 
 	private static final Room currentRoom()
@@ -790,11 +788,6 @@ public abstract class WumpusManager
 		String current = WumpusManager.getCurrentField();
 		String map = WumpusManager.getWumpinatorCode();
 		return "<a href=http://www.feesher.com/wumpus/wump_map.php?mapstring=" + map + current + " target=_blank>View in Wumpinator</a>";
-	}
-
-	private static final String getLayout( final Room room )
-	{
-		return "00000000000000000000";
 	}
 
 	private static final String getWumpinatorMap()
@@ -929,11 +922,174 @@ public abstract class WumpusManager
 		return buffer.toString();
 	}
 
-	public static final void invokeWumpinator()
+	private static final int[][][] NODE_PERMUTATIONS =
 	{
-		String code = WumpusManager.getWumpinatorCode();
-		String current = WumpusManager.getCurrentField();
-		StaticEntity.openSystemBrowser( "http://www.feesher.com/wumpus/wump_map.php?mapstring=" + code + current );
+		// 0 = { 1, 2, 5 }
+		{ { 1, 2, 5 }, { 1, 5, 2 },
+		  { 2, 1, 5 }, { 2, 5, 1 },
+		  { 5, 1, 2 }, { 5, 2, 1 } },
+		// 1 = { 0, 3, 6 }
+		{ { 0, 3, 6 }, { 0, 6, 3 },
+		  { 3, 0, 6 }, { 3, 6, 0 },
+		  { 6, 0, 3 }, { 6, 3, 0 } },
+		// 2 = { 0, 4, 7 }
+		{ { 0, 4, 7 }, { 0, 7, 4 },
+		  { 4, 0, 7 }, { 4, 7, 0 },
+		  { 7, 0, 4 }, { 7, 4, 0 } },
+		// 3 = { 1, 4, 8 }
+		{ { 1, 4, 8 }, { 1, 8, 4 },
+		  { 4, 1, 8 }, { 4, 8, 1 },
+		  { 8, 1, 4 }, { 8, 4, 1 } },
+		// 4 = { 2, 3, 9 }
+		{ { 2, 3, 9 }, { 2, 9, 3 },
+		  { 3, 2, 9 }, { 3, 9, 2 },
+		  { 9, 2, 3 }, { 9, 3, 2 } },
+		// 5 = { 0, 10, 11 }
+		{ { 0, 10, 11 }, { 0, 11, 10 },
+		  { 10, 0, 11 }, { 10, 11, 0 },
+		  { 11, 0, 10 }, { 11, 10, 0 } },
+		// 6 = { 1, 10, 12 }
+		{ { 1, 10, 12 }, { 1, 12, 10 },
+		  { 10, 1, 12 }, { 10, 12, 1 },
+		  { 12, 1, 10 }, { 12, 10, 1 } },
+		// 7 = { 2, 11, 13 }
+		{ { 2, 11, 13 }, { 2, 13, 11 },
+		  { 11, 2, 13 }, { 11, 13, 2 },
+		  { 13, 2, 11 }, { 13, 11, 2 } },
+		// 8 = { 3, 12, 14 }
+		{ { 3, 12, 14 }, { 3, 14, 12 },
+		  { 12, 3, 14 }, { 12, 14, 3 },
+		  { 14, 3, 12 }, { 14, 12, 3 } },
+		// 9 = { 4, 13, 14 }
+		{ { 4, 13, 14 }, { 4, 14, 13 },
+		  { 13, 4, 14 }, { 13, 14, 4 },
+		  { 14, 4, 13 }, { 14, 13, 4 } },
+		// 10 = { 5, 6, 15 }
+		{ { 5, 6, 15 }, { 5, 15, 6 },
+		  { 6, 5, 15 }, { 6, 15, 5 },
+		  { 15, 5, 6 }, { 15, 6, 5 } },
+		// 11 = { 5, 7, 16 }
+		{ { 5, 7, 16 }, { 5, 16, 7 },
+		  { 7, 5, 16 }, { 7, 16, 5 },
+		  { 16, 5, 7 }, { 16, 7, 5 } },
+		// 12 = { 6, 8, 17 }
+		{ { 6, 8, 17 }, { 6, 17, 8 },
+		  { 8, 6, 17 }, { 8, 17, 6 },
+		  { 17, 6, 8 }, { 17, 8, 6 } },
+		// 13 = { 7, 9, 18 }
+		{ { 7, 9, 18 }, { 7, 18, 9 },
+		  { 9, 7, 18 }, { 9, 18, 7 },
+		  { 18, 7, 9 }, { 18, 9, 7 } },
+		// 14 = { 8, 9, 19 }
+		{ { 8, 9, 19 }, { 8, 19, 9 },
+		  { 9, 8, 19 }, { 9, 19, 8 },
+		  { 19, 8, 9 }, { 19, 9, 8 } },
+		// 15 = { 10, 16, 17 }
+		{ { 10, 16, 17 }, { 10, 17, 16 },
+		  { 16, 10, 17 }, { 16, 17, 10 },
+		  { 17, 10, 16 }, { 17, 16, 10 } },
+		// 16 = { 11, 15, 18 }
+		{ { 11, 15, 18 }, { 11, 18, 15 },
+		  { 15, 11, 18 }, { 15, 18, 11 },
+		  { 18, 11, 15 }, { 18, 15, 11 } },
+		// 17 = { 12, 15, 19 }
+		{ { 12, 15, 19 }, { 12, 19, 15 },
+		  { 15, 12, 19 }, { 15, 19, 12 },
+		  { 19, 12, 15 }, { 19, 15, 12 } },
+		// 18 = { 13, 16, 19 }
+		{ { 13, 16, 19 }, { 13, 19, 16 },
+		  { 16, 13, 19 }, { 16, 19, 13 },
+		  { 19, 13, 16 }, { 19, 16, 13 } },
+		// 19 = { 14, 17, 18 }
+		{ { 14, 17, 18 }, { 14, 18, 17 },
+		  { 17, 14, 18 }, { 17, 18, 14 },
+		  { 18, 14, 17 }, { 18, 17, 14 } },
+	};
+
+	private static Room [] layout = new Room[20];
+
+	private static final String getLayout( final Room room )
+	{
+		// Initialize layout
+		for ( int i = 0; i < layout.length; ++i )
+		{
+			layout[ i ] = null;
+		}
+
+		// Calculate layout with most recent room in position 0
+		WumpusManager.addRoom( 0, WumpusManager.currentRoom() );
+
+		// Generate layout string
+		StringBuffer buffer = new StringBuffer();
+		for ( int i = 0; i < layout.length; ++i )
+		{
+			Room node = layout[ i ];
+			buffer.append( node == null ? "0" : node.getCode() );
+		}
+		return buffer.toString();
+	}
+
+	private static final boolean addRoom( final int node, final Room room )
+	{
+		// Attempt to add a room at a particular node
+		if ( layout[ node ] != null )
+		{
+			// It's OK if this room is already there
+			return layout[ node ] == room;
+		}
+
+		// If room is already present elsewhere, error
+		for ( int i = 0; i < layout.length; ++i )
+		{
+			if ( layout[ i ] == room )
+			{
+				return false;
+			}
+		}
+
+		// Put this room into the specified position
+		layout[ node ] = room;
+
+		// Attempt to place the exits in linked nodes
+		Room [] exits = room.getExits();
+
+		int [][] permutations = WumpusManager.NODE_PERMUTATIONS[ node ];
+		for ( int i = 0; i < permutations.length; ++i )
+		{
+			// Save a copy of the layout so we can easily unwind
+			Room [] copy = (Room [])WumpusManager.layout.clone();
+
+			int [] links = permutations[i];
+			boolean success = true;
+			for ( int j = 0; j < 3; ++j )
+			{
+				if ( exits[ j ] == null )
+				{
+					continue;
+				}
+				if ( !addRoom( links[ j ], exits[ j ] ) )
+				{
+					success = false;
+					break;
+				}
+			}
+
+			// If we successfully recursively placed the
+			// rooms, return now.
+			if ( success )
+			{
+				return true;
+			}
+
+			// Otherwise, restore previous state and try
+			// next permutation
+			WumpusManager.layout = copy;
+		}
+
+		// We failed to place this room.
+		layout[ node ] = null;
+
+		return false;
 	}
 
 	private static class Room
@@ -991,6 +1147,11 @@ public abstract class WumpusManager
 		public void setListen( final int listen )
 		{
 			this.listen = listen;
+		}
+
+		public Room[] getExits()
+		{
+			return this.exits;
 		}
 
 		public Room getExit( final int index )
