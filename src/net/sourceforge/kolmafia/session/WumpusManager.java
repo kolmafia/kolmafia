@@ -299,11 +299,6 @@ public abstract class WumpusManager
 		// doesn't hurt to try.
 
 		WumpusManager.deduce( room );
-
-		// Look at previous room and see if what we know
-		// about this one tells us more about other exits.
-
-		WumpusManager.deduce( WumpusManager.last );
 	}
 
 	private static void knownSafe( final int type  )
@@ -436,46 +431,43 @@ public abstract class WumpusManager
 
 		if ( ( warn & WARN_BATS ) != 0 )
 		{
-			if ( ++room.bat == 3 )
-			{
-				WumpusManager.knownBats( room, DEDUCTION );
-				return;
-			}
-
 			// If we know both bat rooms, no bats in this room.
 			if ( WumpusManager.bats1 != null && WumpusManager.bats2 != null )
 			{
 				warn &= ~WARN_BATS;
 			}
+			else if ( ++room.bat == 3 )
+			{
+				WumpusManager.knownBats( room, DEDUCTION );
+				return;
+			}
 		}
 
 		if ( ( warn & WARN_PIT ) != 0 )
 		{
-			if ( ++room.pit == 3 )
-			{
-				WumpusManager.knownPit( room, DEDUCTION );
-				return;
-			}
-
 			// If we know both pit rooms, no pit in this room.
 			if ( WumpusManager.pit1 != null && WumpusManager.pit2 != null )
 			{
 				warn &= ~WARN_PIT;
 			}
+			else if ( ++room.pit == 3 )
+			{
+				WumpusManager.knownPit( room, DEDUCTION );
+				return;
+			}
 		}
 
 		if ( ( warn & WARN_WUMPUS ) != 0 )
 		{
-			if ( ++room.wumpus == 2 )
-			{
-				WumpusManager.knownWumpus( room, DEDUCTION );
-				return;
-			}
-
 			// If we know the Wumpus room, no Wumpus in this room.
 			if ( WumpusManager.wumpus != null )
 			{
 				warn &= ~WARN_WUMPUS;
+			}
+			else if ( ++room.wumpus == 2 )
+			{
+				WumpusManager.knownWumpus( room, DEDUCTION );
+				return;
 			}
 		}
 
@@ -515,16 +507,16 @@ public abstract class WumpusManager
 			return;
 		}
 
-		// Look at previous room and see if what we know
-		// about this one tells us more about other exits.
-
-		WumpusManager.deduce( WumpusManager.last );
-
 		// New deduction
 		String idString = WumpusManager.DEDUCTION_STRINGS[ type ];
 		String warnString = WumpusManager.WARN_STRINGS[ newStatus ];
 
 		WumpusManager.addDeduction( idString + ": " + warnString + " in " + room );
+
+		// Look at neighbors and see if what we learned in
+		// this one tells us more about other rooms.
+
+		WumpusManager.deduceNeighbors( room );
 	}
 
 	private static void eliminateHazard( final int hazard )
@@ -573,6 +565,30 @@ public abstract class WumpusManager
 		String warnString = WumpusManager.ELIMINATE_STRINGS[ hazard ];
 
 		WumpusManager.addDeduction( "Deduction: " + warnString + " in " + room );
+
+		// Look at neighbors and see if what we learned in
+		// this one tells us more about other rooms.
+
+		WumpusManager.deduceNeighbors( room );
+	}
+
+	private static void deduceNeighbors( final Room room )
+	{
+		// We've learned something new about this room.
+		// Examine all adjacent rooms that we have visited and
+		// heard something from and see if we can deduce
+		// anything more.
+		Room [] exits = room.getExits();
+		for ( int i = 0; i < exits.length; ++i)
+		{
+			Room neighbor = exits[i];
+			if ( neighbor != null &&
+			     neighbor.visited &&
+			     neighbor.getListen() != WARN_INDEFINITE )
+			{
+				WumpusManager.deduce( neighbor );
+			}
+		}
 	}
 
 	private static void deduce( final Room room )
@@ -792,10 +808,15 @@ public abstract class WumpusManager
 
 	private static final String getWumpinatorMap()
 	{
-		Room room = WumpusManager.currentRoom();
-		String litstring = "litstring=" + WumpusManager.getLayout( room );
+		String layout = WumpusManager.getLayout();
+		// If we can't generate a map, give a link to Wumpinator
+		if ( layout == null )
+		{
+			return WumpusManager.getWumpinatorLink();
+		}
+		String litstring = "litstring=" + layout;
 		String map = "&map=" + WumpusManager.getWumpinatorCode();
-		String current = WumpusManager.getCurrentField( room);
+		String current = WumpusManager.getCurrentField();
 		return "<tr><td><center><img border=0 src=http://www.feesher.com/wumpus/wump_graphic3.php?" + litstring + map + current + "></center></td></tr>";
 	}
 
@@ -1007,6 +1028,38 @@ public abstract class WumpusManager
 	};
 
 	private static Room [] layout = new Room[20];
+	private final static String emptyLayout = "00000000000000000000";
+
+	private static final String getLayout()
+	{
+		Room current = WumpusManager.currentRoom();
+		String layout = WumpusManager.getLayout( current );
+		if ( !layout.equals( emptyLayout ) )
+		{
+			return layout;
+		}
+
+		// We failed to generate a layout from the specified
+		// room. Try again with any visited room.
+		Iterator it = WumpusManager.rooms.values().iterator();
+		while ( it.hasNext() )
+		{
+			Room room = (Room) it.next();
+			if ( room == current || !room.visited )
+			{
+				continue;
+			}
+
+			layout = WumpusManager.getLayout( room );
+			if ( !layout.equals( emptyLayout ) )
+			{
+				return layout;
+			}
+		}
+
+		// Sigh.
+		return null;
+	}
 
 	private static final String getLayout( final Room room )
 	{
@@ -1016,8 +1069,8 @@ public abstract class WumpusManager
 			layout[ i ] = null;
 		}
 
-		// Calculate layout with most recent room in position 0
-		WumpusManager.addRoom( 0, WumpusManager.currentRoom() );
+		// Calculate layout with specified room in position 0
+		WumpusManager.addRoom( 0, room );
 
 		// Generate layout string
 		StringBuffer buffer = new StringBuffer();
@@ -1026,7 +1079,9 @@ public abstract class WumpusManager
 			Room node = layout[ i ];
 			buffer.append( node == null ? "0" : node.getCode() );
 		}
-		return buffer.toString();
+
+		String string = buffer.toString();
+		return string;
 	}
 
 	private static final boolean addRoom( final int node, final Room room )
