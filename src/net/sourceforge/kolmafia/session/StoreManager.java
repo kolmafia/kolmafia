@@ -437,7 +437,7 @@ public abstract class StoreManager
 	public static final int getMallPrice( final AdventureResult item )
 	{
 		StoreManager.flushCache();
-		if ( item.getItemId() < 1 )
+		if ( item.getItemId() < 1 || !ItemDatabase.isTradeable( item.getItemId() ) )
 		{
 			return 0;
 		}

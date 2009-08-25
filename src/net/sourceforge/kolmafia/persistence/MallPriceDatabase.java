@@ -111,6 +111,7 @@ public class MallPriceDatabase
 				return count;
 			}
 			
+			if ( !ItemDatabase.isTradeable( id ) ) continue;
 			Price p = MallPriceDatabase.prices.get( id );
 			if ( p == null )
 			{
