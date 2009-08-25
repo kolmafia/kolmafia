@@ -57,7 +57,7 @@ Battlefield (Hippy Uniform)	100	Beer Bongadier	Sorority Nurse	Sorority Operator	
 Battlefield (No Uniform)	0	Time Bandit: -1
 Beanbat Chamber	100	Beanbat
 Belowdecks	100	Gaudy Pirate	Grassy Pirate	Gritty Pirate	Groovy Pirate	Grungy Pirate
-Black Forest	100	Black Adder	Black Knight	Black Panther	Black Widow	Blackberry Bush
+Black Forest	100	Black Adder	The Black Knight	Black Panther	Black Widow	Blackberry Bush
 Bog	100	Rattlin' Duck	Swamp Duck
 Boss Bat's Lair	100	Beefy Bodyguard Bat	The Boss Bat
 Bugbear Pens	100	An Angry Bugbear: 3	A Bugged Bugbear: 3	Mad Bugbears: 3	A Revolting Bugbear: 3	A Revolving Bugbear: 3	An Annoying Spooky Gravy Fairy: 2
@@ -173,7 +173,7 @@ The Mer-Kin Outpost	100	Mer-kin Burglar	Mer-kin Healer	Mer-kin Raider
 The Middle Chamber	100	Iiti Kitty	Tomb Bat	Tomb Servant
 The Primordial Soup	-1	Cluster of Angry Bacteria	Corrosive Algae	Hostile Amoeba	Mad Flagellate	Violent Fungus
 The Purple Light District	-1	Sleaze Hobo	Chester: 0
-The Slime Tube	-1	Slime1	Slime2	Slime3	Slime4	Slime5	Mother Slime: 0
+The Slime Tube	95	Slime1	Slime2	Slime3	Slime4	Slime5	Mother Slime: 0
 The Upper Chamber	100	Tomb Asp	Tomb Rat	Tomb Servant
 The Wreck of the Edgar Fitzsimmons	100	Cargo Crab	Drowned Sailor	Mer-kin Scavenger	Mine Crab	Unholy Diver
 Themthar Hills	100	Dirty Thieving Brigand

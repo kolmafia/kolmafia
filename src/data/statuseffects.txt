@@ -344,7 +344,7 @@
 343	La Bamba	footprints.gif	957a452386df5dec88778c089e53b60e	use 1 outrageous sombrero
 344	Blessing of Pikachutlotal	jigawatts.gif	3f2ef271da5513fce8fd5f8ea8c27de8	#placing 1-ball on altar
 345	Blessing of Charcoatl	fire.gif	5a1caad47f9f3340c58af489d69bf55b	#placing 5-ball on altar
-346	Blessing of Squirtlcthulli	nopic2.gif	24d6ac5a1c833ff5b1ccb07a997ca10b	#placing 2-ball on altar
+346	Blessing of Squirtlcthulli	waves.gif	24d6ac5a1c833ff5b1ccb07a997ca10b	#placing 2-ball on altar
 347	Blessing of Bulbazinalli	leaf.gif	c59051266b90a4b990b4e92e29945228	#placing 6-ball on altar
 348	All Fired Up	fire.gif	5626ff49dbfe5c3bc7732a3dc9c1ea4e	use 1 ant agonist
 349	Go Get 'Em, Tiger!	strboost.gif	943ba3b11499412f041807f8a7835d75	use 5 Ben-Gal&trade; Balm
@@ -483,7 +483,7 @@
 482	Fitter, Happier	drone1.gif	cbb07636ac67293a88827364a955d84d	#bizarre construct: BUFF TARGET
 483	Eye of the Seal	eyeball.gif	65b4d02c0fa6d2243ad53008a91c9482	use 1 seal eyeball
 484	Souper Vengeful	bowl.gif	bee077703c6f7d57498e2a0173956d4e	eat 1 turtle soup
-485	El Tango de la Maldita Suegra		notes.gif	106410abe0c898c4b0f194b04eaada12	use 1 evil vihuela
+485	El Tango de la Maldita Suegra	notes.gif	106410abe0c898c4b0f194b04eaada12	use 1 evil vihuela
 486
 487	Well-preserved	drone3.gif	ba7b40665f789b6ffa055e2ad316263c	use 1 warm El Vibrato drone
 488
@@ -546,7 +546,7 @@
 545	Refuse Reflux	hob-o.gif	3d5c6b7bd5ab7dc8dc4efc85f8d20548	use 1 garbage-juice-flavored Hob-O
 546	Scariberi	hob-o.gif	20d098090ca8f63f8243f081d3e085e6	use 1 strawberry-flavored Hob-O
 547	Less Pervious	wallshield.gif	657b63025b771054cdceeb9f427e605f	use 1 STYX deodorant body spray
-548	Haiku State of Mind	nopic2.gif	664ce35d26fbd678641624e892feb31d	#using The 17 Cuts combat skill
+548	Haiku State of Mind	575.gif	664ce35d26fbd678641624e892feb31d	#using The 17 Cuts combat skill
 549	Fishy	fish.gif	17c22c50b2943cf6162d2c001e01cad3	#eating fish meat or sushi
 550	Cranberry Cordiality	cran.gif	f3f908946ea0a80e40d92e7db920e77d	use 1 cranberry cordial
 551	Blackberry Politeness	blackberry.gif	192d4ba46ffe2402b2ff321bafa2db43	use 1 blackberry polite
@@ -577,12 +577,12 @@
 576	Sweet and Green	sugarlime.gif	4b1ee51d04f250ffe112377e889e0059	use 1 sugar lime
 577	Sweet and Red	sugarcherry.gif	8d6bb82952a477356a26c91b5642a51d	use 1 sugar cherry
 578	Juiced Up	hoppedup.gif	7f080adc95268a99697772779bd8b1ab	use 1 Mer-kin fastjuice
-579	Greased-Up Familiar		0487080d0f3d6c9914d932035b9fd04a	use 1 sea grease
+579	Greased-Up Familiar	balm.gif	0487080d0f3d6c9914d932035b9fd04a	use 1 sea grease
 580	Yuletide Mutations	dna.gif	fc7d6c4da83c00b8d1237e45f985c050	use 1 unstable DNA
 581	Amorphous Cheer	blobcookie.gif	c231efaf4c038ee84154112b4796e099	eat 1 blob-shaped Crimbo cookie
 582	In Vino Vires	grapes.gif	f2406fa59f6076fa20ed17d6f45c177f	drink 1 canteen of wine
 583	Yuletide Industry	limboswafer.gif	0d1f6ff4bf9945933408bc6f311b1f31	eat 1 elven <i>limbos</i> gingerbread
-584	The Colors...		53452a728619fde70e097526f7e560fe	#fighting magic dragonfish
+584	The Colors...	rrainbow.gif	53452a728619fde70e097526f7e560fe	#fighting magic dragonfish
 585	Jammin'	jamtoast.gif	ab3170899e6d22313b8507ceb499c7e3	eat 1 toast with jam
 586	Drunk With Power	moon4.gif	b2a15cf693cf363a637c8af66666db63	drink 1 elven moonshine
 587	Cruisin' for a Bruisin'	beatenup.gif	711efb04706e595abc96fdd2dba9e737	eat 1 knuckle sandwich
