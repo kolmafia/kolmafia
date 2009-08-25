@@ -491,8 +491,12 @@ public abstract class InventoryManager
 			break;
 
 		default:
+			// Break creation loops - one item from every loop
+			// (preferrably the cheapest one) must be indicated as
+			// buyable, to avoid infinite recursion.
 			scriptSaysBuy = itemId == ItemPool.DOUGH ||
 				itemId == ItemPool.DISASSEMBLED_CLOVER ||
+				itemId == ItemPool.JOLLY_BRACELET ||
 				creator == null;
 		}
 		
