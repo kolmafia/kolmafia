@@ -111,6 +111,12 @@ public class MaximizerFrame
 
 	private static boolean firstTime = true;
 	public static final JComboBox expressionSelect = new JComboBox( "mainstat|mus|mys|mox|familiar weight|HP|MP|ML|DA|DR|+combat|-combat|initiative|exp|meat drop|item drop|2.0 meat, 1.0 item|weapon damage|ranged damage|spell damage|adv|hot res|cold res|spooky res|stench res|sleaze res|all res|ML, 0.001 slime res".split( "\\|") );
+	static
+	{	// This has to be done before the constructor runs, since the
+		// CLI "maximize" command can set the selected item prior to the
+		// frame being instantiated.
+		expressionSelect.setEditable( true );
+	}
 	private SmartButtonGroup equipmentSelect, mallSelect;
 	private AutoHighlightTextField maxPriceField;
 	private JCheckBox includeAll;
@@ -618,7 +624,6 @@ public class MaximizerFrame
 		{
 			super( "update", "help", new Dimension( 80, 20 ), new Dimension( 420, 20 ) );
 
-			MaximizerFrame.expressionSelect.setEditable( true );
 			MaximizerFrame.this.maxPriceField = new AutoHighlightTextField();
 			JComponentUtilities.setComponentSize( MaximizerFrame.this.maxPriceField, 80, -1 );
 			MaximizerFrame.this.includeAll = new JCheckBox( "effects with no direct source, skills you don't have, etc." );
@@ -1513,6 +1518,24 @@ public class MaximizerFrame
 				}
 				if ( anySlots ) break;
 			}
+			
+			if ( spec.equipment[ EquipmentManager.OFFHAND ] != null )
+			{
+				this.hands = 1;
+				automatic[ EquipmentManager.WEAPON ] = automatic[ Evaluator.WEAPON_1H ];
+				
+				Iterator i = outfitPieces.keySet().iterator();
+				while ( i.hasNext() )
+				{
+					id = ((AdventureResult) i.next()).getItemId();
+					if ( EquipmentManager.itemIdToEquipmentType( id ) == EquipmentManager.WEAPON &&
+						EquipmentDatabase.getHands( id ) > 1 )
+					{
+						i.remove();
+					}
+				}
+			}
+			
 			spec.tryAll( usefulOutfits, outfitPieces, automatic );
 		}
 	}
