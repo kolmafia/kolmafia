@@ -876,6 +876,10 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "get_monsters", new AggregateType(
 			DataTypes.MONSTER_TYPE, 0 ), params ) );
 
+		params = new Type[] { DataTypes.LOCATION_TYPE };
+		functions.add( new LibraryFunction( "appearance_rates", new AggregateType(
+			DataTypes.FLOAT_TYPE, DataTypes.MONSTER_TYPE ), params ) );
+
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "expected_damage", DataTypes.INT_TYPE, params ) );
 
@@ -3468,6 +3472,31 @@ public abstract class RuntimeLibrary
 		for ( int i = 0; i < monsterCount; ++i )
 		{
 			value.aset( new Value( i ), DataTypes.parseMonsterValue( data.getMonster( i ).getName(), true ) );
+		}
+
+		return value;
+
+	}
+
+	public static Value appearance_rates( final Value location )
+	{
+		KoLAdventure adventure = (KoLAdventure) location.rawValue();
+		AreaCombatData data = adventure == null ? null : adventure.getAreaSummary();
+
+		AggregateType type = new AggregateType( DataTypes.FLOAT_TYPE, DataTypes.MONSTER_TYPE );
+		MapValue value = new MapValue( type );
+		if ( data == null ) return value;
+		
+		float combatFactor = data.areaCombatPercent();
+		value.aset( DataTypes.MONSTER_INIT,
+			new Value( data.combats() < 0 ? -1.0F : 100.0f - combatFactor ) );
+
+		int total = data.totalWeighting();
+		for ( int i = data.getMonsterCount() - 1; i >= 0; --i )
+		{
+			int weight = data.getWeighting( i );
+			if ( weight == -2 ) continue;	// impossible this ascension
+			value.aset( DataTypes.parseMonsterValue( data.getMonster( i ).getName(), true ), new Value( combatFactor * weight / total ) );
 		}
 
 		return value;
