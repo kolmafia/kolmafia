@@ -134,6 +134,7 @@ festive holiday hat	Moxie: +1, Cold Resistance: +1
 fez of etymology	Moxie: +7, Familiar Effect: "1xLep, cap 30"
 filthy knitted dread sack	Stench Damage: +3, Familiar Effect: "1xVolley, 1xPotato, cap 15"
 fire	Intrinsic Effect: "Head on Fire, Ass Catching", Hot Damage: +7, Familiar Effect: "hot atk, 1xVolley, cap 2"
+floaty rock helmet	Spell Critical Percent: +10
 foolscap fool's cap	Moxie: +2, Mysticality: -2, Clownosity: +1, Familiar Effect: "3xVolley, cap 10"
 football helmet	Familiar Effect: "atk, cap 37"
 funny paper hat	Moxie: +5, Muscle: +5, Mysticality: +5, Familiar Effect: "unknown, cap 2"
@@ -294,6 +295,7 @@ dungeoneer's dungarees	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistanc
 # eelskin pants: Damages Attacking Opponent (Underwater Only)
 eelskin pants	Mysticality Percent: +5
 filthy corduroys	Mysticality: +3, Moxie: -3
+floaty rock pants	Spell Critical Percent: +10
 flowing hippy skirt	Mysticality: +9, Stench Spell Damage: +15
 # frilly skirt
 furry kilt	Sleaze Damage: +5
@@ -1321,6 +1323,7 @@ filigreed hamethyst earring	Muscle: +8, Critical: 3
 filigreed hamethyst necklace	Muscle: +10, Weapon Damage: +8, PvP Fights: +3, Single Equip
 filigreed hamethyst ring	Muscle: +12, Maximum HP: +25, HP Regen Min: 2, HP Regen Max: 4, Single Equip
 flashing novelty button	Maximum HP: +5, Moxie: -2
+floaty rock necklace	Spell Critical Percent: +10
 # foam noodle
 frayed rope belt	Moxie Percent: +10, Single Equip
 furniture dolly	Initiative: +30, Single Equip

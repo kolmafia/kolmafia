@@ -4174,3 +4174,23 @@
 4168
 4169	4-d camera	none, combat, single	all	45
 4170	shaking 4-d camera	usable	none	0
+4171	crystallized memory	usable	all	0
+4172	floaty rock helmet	hat	all	0
+4173	floaty rock pants	pants	all	0
+4174	floaty rock necklace	accessory	all	0
+4175
+4176
+4177
+4178
+4179
+4180
+4181
+4182
+4183
+4184
+4185
+4186
+4187
+4188
+4189	floaty inverse geode	usable	all	0
+4190	control crystal	none	display	0

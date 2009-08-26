@@ -718,3 +718,6 @@ user	unknownRecipe3547	true
 user	unknownRecipe3548	true
 user	unknownRecipe3749	true
 user	unknownRecipe3751	true
+user	unknownRecipe4172	true
+user	unknownRecipe4173	true
+user	unknownRecipe4174	true

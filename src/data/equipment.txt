@@ -93,6 +93,7 @@ festive holiday hat	30	none
 fez of etymology	120	Mox: 45
 filthy knitted dread sack	60	Mox: 15
 fire	10	none
+floaty rock helmet	100	Mox: 35
 foolscap fool's cap	40	Mox: 5
 football helmet	150	Mox: 60
 funny paper hat	10	none
@@ -245,6 +246,7 @@ dungeoneer's dungarees	30	none
 dwarvish war kilt	165	Mox: 67
 eelskin pants	200	Mox: 85
 filthy corduroys	60	Mox: 15
+floaty rock pants	100	Mox: 35
 flowing hippy skirt	180	Mox: 75
 frilly skirt	35	Mox: 2
 furry kilt	150	Mox: 60
@@ -1222,6 +1224,7 @@ filigreed hamethyst earring	0	Mys: 40
 filigreed hamethyst necklace	0	Mys: 40
 filigreed hamethyst ring	0	Mys: 40
 flashing novelty button	0	none
+floaty rock necklace	0	Mys: 35
 foam noodle	0	none
 frayed rope belt	0	Mys: 200
 furniture dolly	0	Mys: 75
