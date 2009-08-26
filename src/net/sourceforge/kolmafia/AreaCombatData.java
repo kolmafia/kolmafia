@@ -178,6 +178,11 @@ public class AreaCombatData
 		}
 		return raw >> WEIGHT_SHIFT;
 	}
+	
+	public int totalWeighting()
+	{
+		return this.weights;
+	}
 
 	public int combats()
 	{
@@ -353,7 +358,7 @@ public class AreaCombatData
 		return String.valueOf( (int) percentage );
 	}
 
-	private float areaCombatPercent()
+	public float areaCombatPercent()
 	{
 		// If we don't have the data, pretend it's all combat
 		if ( this.combats < 0 )
