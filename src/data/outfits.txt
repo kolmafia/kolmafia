@@ -53,6 +53,9 @@
 52	Pork Elf Prizes	pig-iron helm, pig-iron shinguards, pig-iron bracers
 53	Grimy Reaper's Vestments	corroded breeches, corrosive cowl, villainous scythe
 54	Slimesuit	hardened slime hat, hardened slime pants, hardened slime belt
+#55	Primitive Radio Duds	Voluminous Radio Hat, Voluminous Radio Pants, Voluminous Radio Sneakers
+56	Floaty Fatigues	floaty rock helmet, floaty rock pants, floaty rock necklace
+
 
 # Outfits for which KoL does not provide an outfit id, and thus are
 # given id #0 to tell KoLmafia to treat it in a special way.

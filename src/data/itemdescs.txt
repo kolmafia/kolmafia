@@ -4174,3 +4174,23 @@
 4168
 4169	176809873	4-d camera	4-d cameras
 4170	399650416	shaking 4-d camera	shaking 4-d cameras
+4171	815254689	crystallized memory
+4172	941370030	floaty rock helmet
+4173	883831428	floaty rock pants
+4174	645577244	floaty rock necklace
+4175
+4176
+4177
+4178
+4179
+4180
+4181
+4182
+4183
+4184
+4185
+4186
+4187
+4188
+4189	803350174	floaty inverse geode
+4190	111489868	control crystal

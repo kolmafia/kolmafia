@@ -168,6 +168,7 @@ public class Modifiers
 	public static final int SLIME_HATES_IT = 81;
 	public static final int HP_NONMULT = 82;
 	public static final int MP_NONMULT = 83;
+	public static final int SPELL_CRITICAL_PCT = 84;
 	
 	public static final String EXPR = "(?:([-+]?[\\d.]+)|\\[([^]]+)\\])";
 
@@ -541,6 +542,10 @@ public class Modifiers
 		{ "Maximum MP Nonmultiplied",
 		  null,
 		  Pattern.compile( "Maximum MP Nonmultiplied: " + EXPR )
+		},
+		{ "Spell Critical Percent",
+		  Pattern.compile( "([+-]\\d+)% chance of Spell Critical Hit" ),
+		  Pattern.compile( "Spell Critical Percent: " + EXPR )
 		},
 	};
 

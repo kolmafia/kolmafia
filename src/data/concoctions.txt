@@ -744,6 +744,8 @@ fez of etymology	SMITH	basic meat fez	facsimile dictionary
 
 meat cowboy hat	SMITH	basic meat helmet	white snake skin
 pimpin' meat hat	SMITH	basic meat helmet	dope gangsta bling-bling
+floaty rock helmet	ASMITH	basic meat helmet	floaty rock
+floaty rock pants	ASMITH	basic meat pants	floaty rock
 
 
 # Weapon made via armorcrafting
@@ -1211,6 +1213,8 @@ Mudflap-Girl Ring	EJEWEL	tawdry amethyst	extra-fancy ring setting
 bezoar ring	EJEWEL	flytrap bezoar	extra-fancy ring setting
 groovy prism necklace	EJEWEL	prismatic wad	heavy necklace chain
 shark tooth necklace	EJEWEL	shark tooth	heavy necklace chain
+
+floaty rock necklace	EJEWEL	floaty rock	heavy necklace chain
 
 # Chef staves made by Rodoric
 

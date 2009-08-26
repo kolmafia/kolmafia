@@ -332,7 +332,7 @@ Gnollish Bodybuilder	HP: 5 Def: 10 Atk: 10 EA: sleaze Meat: 17-26	gnoll teeth (5
 Gnollish Crossdresser	HP: 5 Def: 11 Atk: 11 EA: sleaze Meat: 19-28	gnoll teeth (5)	frilly skirt (25)	maiden wig (25)	frilly shirt (c5)
 Gnollish Flyslayer	HP: 5 Def: 10 Atk: 10 Meat: 17-26	gnoll teeth (5)	gnoll lips (5)	Gnollish flyswatter (25)
 Gnollish Gearhead	HP: 5 Def: 10 Atk: 10 Meat: 17-26	Gnollish toolbox (75)	gnoll lips (5)	oily rag (b0)
-Gnollish Piebaker	HP: 6 Def: 13 Atk: 13 Meat: 22-34	Gnollish pie tin (50)	wad of dough (50)	skewer (50)
+Gnollish Piebaker	HP: 6 Def: 13 Atk: 13 Meat: 22-34	Gnollish pie server (25)	Gnollish pie tin (50)	wad of dough (50)	skewer (50)
 Gnollish Plungermaster	HP: 6 Def: 13 Atk: 13 Meat: 22-34	Gnollish plunger (25)	gnoll lips (5)	gnoll teeth (5)
 Gnollish Sorceress	HP: 5 Def: 11 Atk: 11 Meat: 19-28	gnoll teeth (5)	gnoll lips (5)
 Gnollish Tirejuggler	HP: 6 Def: 12 Atk: 12 Meat: 21-30	gnoll teeth (5)	gnoll lips (5)	tires (100)
@@ -801,6 +801,7 @@ watertight seal	HP: 404 Def: 350 Atk: 351	hyperinflated seal lung (100)
 wet seal	HP: 201 Def: 175 Atk: 178	mannequin leg (0)	seal lube (0)
 
 # Unknown new content
+Crys-Rock	HP: 0	crystallized memory (0)	control crystal (0)	floaty inverse geode (0)
 clod hopper	HP: 0	floaty sand (15)	floaty sand (15)	floaty sand (15)
 rock homunculus	HP: 42 Def: 30 Atk: 30	floaty sand (20)	floaty sand (20)
 rock snake	HP: 20	floaty sand (25)
