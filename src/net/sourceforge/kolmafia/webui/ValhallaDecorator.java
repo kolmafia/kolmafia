@@ -530,6 +530,46 @@ public class ValhallaDecorator
 			buffer.append( "<nobr>autosell your memory of a cultist's robe(s)</nobr><br>" );
 		}
 
+		if ( InventoryManager.hasItem( ItemPool.CREASED_PAPER_STRIP ) )
+		{
+			buffer.append( "<nobr>autosell your creased paper strip</nobr><br>" );
+		}
+
+		if ( InventoryManager.hasItem( ItemPool.CRINKLED_PAPER_STRIP ) )
+		{
+			buffer.append( "<nobr>autosell your crinkled paper strip</nobr><br>" );
+		}
+
+		if ( InventoryManager.hasItem( ItemPool.CRUMPLED_PAPER_STRIP ) )
+		{
+			buffer.append( "<nobr>autosell your crumpled paper strip</nobr><br>" );
+		}
+
+		if ( InventoryManager.hasItem( ItemPool.FOLDED_PAPER_STRIP ) )
+		{
+			buffer.append( "<nobr>autosell your folded paper strip</nobr><br>" );
+		}
+
+		if ( InventoryManager.hasItem( ItemPool.RAGGED_PAPER_STRIP ) )
+		{
+			buffer.append( "<nobr>autosell your ragged paper strip</nobr><br>" );
+		}
+
+		if ( InventoryManager.hasItem( ItemPool.RIPPED_PAPER_STRIP ) )
+		{
+			buffer.append( "<nobr>autosell your ripped paper strip</nobr><br>" );
+		}
+
+		if ( InventoryManager.hasItem( ItemPool.RUMPLED_PAPER_STRIP ) )
+		{
+			buffer.append( "<nobr>autosell your rumpled paper strip</nobr><br>" );
+		}
+
+		if ( InventoryManager.hasItem( ItemPool.TORN_PAPER_STRIP ) )
+		{
+			buffer.append( "<nobr>autosell your torn paper strip</nobr><br>" );
+		}
+
 		GenericRequest trophyCheck = new GenericRequest( "trophy.php" );
 		trophyCheck.run();
 		if ( trophyCheck.responseText.indexOf( "You're not currently entitled to any trophies" ) == -1 )
