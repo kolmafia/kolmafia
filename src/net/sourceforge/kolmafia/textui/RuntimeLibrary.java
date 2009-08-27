@@ -739,6 +739,8 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "replace", DataTypes.BOOLEAN_TYPE, params ) );
 		params = new Type[] { DataTypes.BUFFER_TYPE, DataTypes.INT_TYPE, DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "delete", DataTypes.BUFFER_TYPE, params ) );
+		params = new Type[] { DataTypes.BUFFER_TYPE, DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "set_length", DataTypes.VOID_TYPE, params ) );
 
 		params = new Type[] { DataTypes.MATCHER_TYPE, DataTypes.BUFFER_TYPE };
 		functions.add( new LibraryFunction( "append_tail", DataTypes.BUFFER_TYPE, params ) );
@@ -2963,6 +2965,13 @@ public abstract class RuntimeLibrary
 		StringBuffer current = (StringBuffer) retval.rawValue();
 		current.delete( start.intValue(), end.intValue() );
 		return retval;
+	}
+
+	public static Value set_length( final Value value, final Value i )
+	{
+		StringBuffer buffer = (StringBuffer) value.rawValue();
+		buffer.setLength( i.intValue() );
+		return DataTypes.VOID_VALUE;
 	}
 
 	public static Value append_tail( final Value matcher, final Value current )
