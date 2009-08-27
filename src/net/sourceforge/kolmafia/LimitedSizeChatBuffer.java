@@ -46,34 +46,46 @@ import net.sourceforge.kolmafia.persistence.Preferences;
 public class LimitedSizeChatBuffer
 	extends ChatBuffer
 {
-	private static final int RESIZE_SIZE = 20000;
-	private static final int MAXIMUM_SIZE = 131072;
-	private static final int DELETE_AMOUNT = LimitedSizeChatBuffer.MAXIMUM_SIZE - LimitedSizeChatBuffer.RESIZE_SIZE;
-
 	public static final List colors = new ArrayList();
 	public static final List highlights = new ArrayList();
 	public static final List dehighlights = new ArrayList();
 	public static LimitedSizeChatBuffer highlightBuffer;
 
+	private static final int MAXIMUM_SIZE = 25000;
+	private static final int RESIZE_SIZE = 20000;
+
+	private final int maximum_size;
+	private final int resize_size;
 	private final boolean requiresTruncation;
 	private final boolean affectsHighlightBuffer;
 
 	public LimitedSizeChatBuffer()
 	{
-		this( "", true, false );
+		this( "", true, false, MAXIMUM_SIZE, RESIZE_SIZE );
+	}
+
+	public LimitedSizeChatBuffer( final int maximum_size, final int resize_size )
+	{
+		this( "", true, false, maximum_size, resize_size );
 	}
 
 	public LimitedSizeChatBuffer( final boolean requiresTruncation )
 	{
-		this( "", requiresTruncation, false );
+		this( "", requiresTruncation, false, MAXIMUM_SIZE, RESIZE_SIZE );
 	}
 
-	public LimitedSizeChatBuffer( final String title, final boolean requiresTruncation,
-		final boolean affectsHighlightBuffer )
+	public LimitedSizeChatBuffer( final String title, final boolean requiresTruncation, final boolean affectsHighlightBuffer )
+	{
+		this( title, requiresTruncation, affectsHighlightBuffer, MAXIMUM_SIZE, RESIZE_SIZE );
+	}
+
+	public LimitedSizeChatBuffer( final String title, final boolean requiresTruncation, final boolean affectsHighlightBuffer, final int maximum_size, final int resize_size )
 	{
 		super( title, requiresTruncation );
 		this.requiresTruncation = requiresTruncation;
 		this.affectsHighlightBuffer = affectsHighlightBuffer;
+		this.maximum_size = maximum_size;
+		this.resize_size = resize_size;
 	}
 
 	public static final void clearHighlights()
@@ -139,9 +151,9 @@ public class LimitedSizeChatBuffer
 
 		super.append( highlightMessage );
 
-		if ( this.requiresTruncation && this.displayBuffer.length() > LimitedSizeChatBuffer.MAXIMUM_SIZE )
+		if ( this.requiresTruncation && this.displayBuffer.length() > this.maximum_size )
 		{
-			int lineIndex = this.displayBuffer.indexOf( "<br", LimitedSizeChatBuffer.DELETE_AMOUNT );
+			int lineIndex = this.displayBuffer.indexOf( "<br", this.maximum_size - this.resize_size );
 			if ( lineIndex != -1 )
 			{
 				lineIndex = this.displayBuffer.indexOf( ">", lineIndex ) + 1;
