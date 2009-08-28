@@ -124,14 +124,12 @@ public class Variable
 			this.content = targetValue.toStringValue();
 			this.expression = null;
 		}
-		else if ( this.getType().equals( DataTypes.TYPE_INT ) && targetValue.getType().equals(
-			DataTypes.TYPE_FLOAT ) )
+		else if ( this.getType().equals( DataTypes.TYPE_INT ) && targetValue.getType().equals( DataTypes.TYPE_FLOAT ) )
 		{
 			this.content = targetValue.toIntValue();
 			this.expression = null;
 		}
-		else if ( this.getType().equals( DataTypes.TYPE_FLOAT ) && targetValue.getType().equals(
-			DataTypes.TYPE_INT ) )
+		else if ( this.getType().equals( DataTypes.TYPE_FLOAT ) && targetValue.getType().equals( DataTypes.TYPE_INT ) )
 		{
 			this.content = targetValue.toFloatValue();
 			this.expression = null;
@@ -141,8 +139,8 @@ public class Variable
 			this.content = targetValue;
 			this.expression = null;
 		}
-		else if ( this.getType().getBaseType().equals( DataTypes.TYPE_AGGREGATE ) && targetValue.getType().getBaseType().equals(
-			DataTypes.TYPE_AGGREGATE ) )
+		else if ( this.getType().getBaseType().equals( DataTypes.TYPE_AGGREGATE ) &&
+			  targetValue.getType().getBaseType().equals( DataTypes.TYPE_AGGREGATE ) )
 		{
 			this.content = targetValue;
 			this.expression = null;

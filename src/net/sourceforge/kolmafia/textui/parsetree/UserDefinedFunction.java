@@ -76,11 +76,10 @@ public class UserDefinedFunction
 
 		ArrayList values = new ArrayList();
 		Iterator variables = this.scope.getVariables();
-		Variable current;
 
 		while ( variables.hasNext() )
 		{
-			current = (Variable) variables.next();
+			Variable current = (Variable) variables.next();
 			values.add( current.getValue( interpreter ) );
 		}
 
@@ -97,11 +96,9 @@ public class UserDefinedFunction
 		ArrayList values = (ArrayList) this.callStack.pop();
 		Iterator variables = this.scope.getVariables();
 
-		Variable current;
-
 		for ( int i = 0; variables.hasNext(); ++i )
 		{
-			current = (Variable) variables.next();
+			Variable current = (Variable) variables.next();
 			if ( !( current.getType() instanceof AggregateType ) )
 			{
 				current.forceValue( (Value) values.get( i ) );

@@ -91,7 +91,7 @@ public class RecordType
 	{
 		if ( !( key instanceof Value ) )
 		{
-			throw new ScriptException( "Internal error: key is not a ScriptValue" );
+			throw new ScriptException( "Internal error: key is not a Value" );
 		}
 		int index = this.indexOf( (Value) key );
 		if ( index < 0 || index >= this.fieldTypes.length )
