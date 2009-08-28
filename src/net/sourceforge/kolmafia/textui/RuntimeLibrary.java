@@ -734,8 +734,7 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "append", DataTypes.BUFFER_TYPE, params ) );
 		params = new Type[] { DataTypes.BUFFER_TYPE, DataTypes.INT_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "insert", DataTypes.BUFFER_TYPE, params ) );
-		params =
-			new Type[] { DataTypes.BUFFER_TYPE, DataTypes.INT_TYPE, DataTypes.INT_TYPE, DataTypes.STRING_TYPE };
+		params = new Type[] { DataTypes.BUFFER_TYPE, DataTypes.INT_TYPE, DataTypes.INT_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "replace", DataTypes.BOOLEAN_TYPE, params ) );
 		params = new Type[] { DataTypes.BUFFER_TYPE, DataTypes.INT_TYPE, DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "delete", DataTypes.BUFFER_TYPE, params ) );
@@ -2936,61 +2935,54 @@ public abstract class RuntimeLibrary
 
 	public static Value append( final Value buffer, final Value s )
 	{
-		Value retval = buffer;
-		StringBuffer current = (StringBuffer) retval.rawValue();
+		StringBuffer current = (StringBuffer) buffer.rawValue();
 		current.append( s.toString() );
-		return retval;
+		return buffer;
 	}
 
 	public static Value insert( final Value buffer, final Value index, final Value s )
 	{
-		Value retval = buffer;
-		StringBuffer current = (StringBuffer) retval.rawValue();
+		StringBuffer current = (StringBuffer) buffer.rawValue();
 		current.insert( index.intValue(), s.toString() );
-		return retval;
+		return buffer;
 	}
 
 	public static Value replace( final Value buffer, final Value start, final Value end,
 		final Value s )
 	{
-		Value retval = buffer;
-		StringBuffer current = (StringBuffer) retval.rawValue();
+		StringBuffer current = (StringBuffer) buffer.rawValue();
 		current.replace( start.intValue(), end.intValue(), s.toString() );
-		return retval;
+		return buffer;
 	}
 
 	public static Value delete( final Value buffer, final Value start, final Value end )
 	{
-		Value retval = buffer;
-		StringBuffer current = (StringBuffer) retval.rawValue();
+		StringBuffer current = (StringBuffer) buffer.rawValue();
 		current.delete( start.intValue(), end.intValue() );
-		return retval;
+		return buffer;
 	}
 
-	public static Value set_length( final Value value, final Value i )
+	public static Value set_length( final Value buffer, final Value i )
 	{
-		StringBuffer buffer = (StringBuffer) value.rawValue();
-		buffer.setLength( i.intValue() );
+		StringBuffer current = (StringBuffer) buffer.rawValue();
+		current.setLength( i.intValue() );
 		return DataTypes.VOID_VALUE;
 	}
 
-	public static Value append_tail( final Value matcher, final Value current )
+	public static Value append_tail( final Value matcher, final Value buffer )
 	{
 		Matcher m = (Matcher) matcher.rawValue();
-		Value retval = current;
-		StringBuffer buffer = (StringBuffer) retval.rawValue();
-		m.appendTail( buffer );
-		return retval;
+		StringBuffer current = (StringBuffer) buffer.rawValue();
+		m.appendTail( current );
+		return buffer;
 	}
 
-	public static Value append_replacement( final Value matcher, final Value current,
-		final Value replacement )
+	public static Value append_replacement( final Value matcher, final Value buffer, final Value replacement )
 	{
 		Matcher m = (Matcher) matcher.rawValue();
-		Value retval = current;
-		StringBuffer buffer = (StringBuffer) retval.rawValue();
-		m.appendReplacement( buffer, replacement.toString() );
-		return retval;
+		StringBuffer current = (StringBuffer) buffer.rawValue();
+		m.appendReplacement( current, replacement.toString() );
+		return buffer;
 	}
 
 	public static Value create_matcher( final Value patternValue, final Value stringValue )

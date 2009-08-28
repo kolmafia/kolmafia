@@ -47,6 +47,7 @@ public class FunctionCall
 {
 	protected Function target;
 	protected final ValueList params;
+	protected final int paramCount;
 	protected final String fileName;
 	protected final int lineNumber;
 
@@ -54,6 +55,7 @@ public class FunctionCall
 	{
 		this.target = target;
 		this.params = params;
+		this.paramCount = params.size();
 		this.fileName = parser.getShortFileName();
 		this.lineNumber = parser.getLineNumber();
 	}
@@ -85,27 +87,14 @@ public class FunctionCall
 		this.target.saveBindings( interpreter );
 		interpreter.traceIndent();
 
-		Iterator refIterator = this.target.getReferences();
 		Iterator valIterator = this.params.iterator();
-
-		VariableReference paramVarRef;
-		Value paramValue;
-
+		Value [] params = new Value[ this.paramCount ];
 		int paramCount = 0;
 
-		while ( refIterator.hasNext() )
+		while ( valIterator.hasNext() )
 		{
-			paramVarRef = (VariableReference) refIterator.next();
-
+			Value paramValue = (Value) valIterator.next();
 			++paramCount;
-
-			if ( !valIterator.hasNext() )
-			{
-				this.target.restoreBindings( interpreter );
-				throw interpreter.runtimeException( "Internal error: illegal arguments" );
-			}
-
-			paramValue = (Value) valIterator.next();
 
 			interpreter.trace( "Param #" + paramCount + ": " + paramValue.toQuotedString() );
 
@@ -125,31 +114,19 @@ public class FunctionCall
 				return null;
 			}
 
-			// Bind parameter to new value
-			if ( paramVarRef.getType().equals( DataTypes.TYPE_STRING ) )
-			{
-				paramVarRef.setValue( interpreter, value.toStringValue() );
-			}
-			else if ( paramVarRef.getType().equals( DataTypes.TYPE_INT ) && paramValue.getType().equals(
-				DataTypes.TYPE_FLOAT ) )
-			{
-				paramVarRef.setValue( interpreter, value.toIntValue() );
-			}
-			else if ( paramVarRef.getType().equals( DataTypes.TYPE_FLOAT ) && paramValue.getType().equals(
-				DataTypes.TYPE_INT ) )
-			{
-				paramVarRef.setValue( interpreter, value.toFloatValue() );
-			}
-			else
-			{
-				paramVarRef.setValue( interpreter, value );
-			}
+			params[ paramCount -1 ] = value;
 		}
 
-		if ( valIterator.hasNext() )
+		Iterator refIterator = this.target.getReferences();
+		paramCount = 0;
+		while ( refIterator.hasNext() )
 		{
-			this.target.restoreBindings( interpreter );
-			throw interpreter.runtimeException( "Internal error: illegal arguments" );
+			VariableReference paramVarRef = (VariableReference) refIterator.next();
+			Value value = params[ paramCount ];
+			++paramCount;
+
+			// Bind parameter to new value
+			paramVarRef.setValue( interpreter, value );
 		}
 
 		interpreter.trace( "Entering function " + this.target.getName() );
