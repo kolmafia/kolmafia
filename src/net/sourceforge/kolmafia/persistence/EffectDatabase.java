@@ -346,7 +346,6 @@ public class EffectDatabase
 		writer.println( KoLConstants.STATUSEFFECTS_VERSION );
 
 		int lastInteger = 1;
-		String defaultAction;
 		Iterator it = EffectDatabase.dataNameById.entrySet().iterator();
 
 		while ( it.hasNext() )
@@ -360,20 +359,27 @@ public class EffectDatabase
 			}
 
 			lastInteger = nextInteger.intValue() + 1;
-			writer.print( nextInteger + "\t" + entry.getValue() + "\t" + EffectDatabase.imageById.get( nextInteger ) );
 
+			String name = (String) entry.getValue();
+			String image = (String) EffectDatabase.imageById.get( nextInteger );
+
+			writer.print( nextInteger + "\t" + name + "\t" + image );
+
+			writer.print( "\t" );
 			if ( EffectDatabase.descriptionById.containsKey( nextInteger ) )
 			{
-				writer.print( "\t" + EffectDatabase.descriptionById.get( nextInteger ) );
-
-				defaultAction =
-					(String) EffectDatabase.defaultActions.get( entry.getValue() );
-
-				if ( defaultAction != null && !defaultAction.equals( "" ) )
-				{
-					writer.print( "\t" + defaultAction );
-				}
+				String effectId = (String) EffectDatabase.descriptionById.get( nextInteger );
+				writer.print( effectId );
 			}
+
+			String canonicalName = StringUtilities.getCanonicalName( name );
+			writer.print( "\t" );
+			if ( EffectDatabase.defaultActions.containsKey( canonicalName ) )
+			{
+				String defaultAction = (String) EffectDatabase.defaultActions.get( canonicalName );
+				writer.print( defaultAction );
+			}
+
 
 			writer.println();
 		}
