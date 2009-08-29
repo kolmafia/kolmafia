@@ -50,8 +50,10 @@ import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -80,23 +82,22 @@ public class DailyDeedsPanel
 		this.add( new DemonDaily( 3, 4 ) );
 		this.add( new DemonDaily( 5, 7 ) );
 		this.add( new NunsDaily() );
-		if ( KoLCharacter.hasSkill( "Vent Rage Gland" ) )
-		{
-			this.add( new BooleanDaily( "rageGlandVented", "cast Vent Rage Gland" ) );
-		}
-		this.add( new BooleanDaily( "libraryCardUsed", "use library card" ) );
-		this.add( new BooleanDaily( "outrageousSombreroUsed", "use outrageous sombrero" ) );
-		this.add( new BooleanDaily( "oscusSodaUsed", "use Oscus's neverending soda" ) );
-		this.add( new BooleanDaily( "expressCardUsed", "use Yendorian Express card" ) );
+		this.add( new BooleanSkillDaily( "rageGlandVented",
+				"Vent Rage Gland", "cast Vent Rage Gland" ) );
+		this.add( new BooleanItemDaily( "libraryCardUsed",
+			ItemPool.LIBRARY_CARD, "use library card" ) );
+		this.add( new BooleanItemDaily( "outrageousSombreroUsed",
+			ItemPool.OUTRAGEOUS_SOMBRERO, "use outrageous sombrero" ) );
+		this.add( new BooleanItemDaily( "oscusSodaUsed",
+			ItemPool.NEVERENDING_SODA, "use Oscus's neverending soda" ) );
+		this.add( new BooleanItemDaily( "expressCardUsed",
+			ItemPool.EXPRESS_CARD, "use Yendorian Express card" ) );
 		this.add( new MojoDaily() );
 		this.add( new MelangeDaily() );
 		this.add( new StillsDaily() );
 		this.add( new PuttyDaily() );
 		this.add( new CameraDaily() );
-		if ( Preferences.getInteger( "blackPuddingsDefeated" ) < 240 )
-		{
-			this.add( new PuddingDaily() );
-		}
+		this.add( new PuddingDaily() );
 		this.add( new SpadeDaily() );
 	}
 	
@@ -157,19 +158,34 @@ public class DailyDeedsPanel
 			Preferences.registerListener( preference, this );
 		}
 		
-		public void addButton( String command )
+		public void addItem( int itemId )
+		{
+			InventoryManager.registerListener( itemId, this );
+		}
+		
+		public JButton addButton( String command )
 		{
 			JButton button = new JButton( command );
 			button.setActionCommand( command );
 			button.addActionListener( this );
 			button.setBackground( this.getBackground() );
 			button.setDefaultCapable( false );
+			button.putClientProperty( "JButton.buttonType", "segmented" );
 			if ( this.buttons == null )
 			{
 				this.buttons = new ArrayList();
+				button.putClientProperty( "JButton.segmentPosition", "only" );
+			}
+			else
+			{
+				button.putClientProperty( "JButton.segmentPosition", "last" );
+				int last = this.buttons.size() - 1;
+				((JButton) this.buttons.get( last )).putClientProperty(
+					"JButton.segmentPosition", last == 0 ? "first" : "middle" );
 			}
 			this.buttons.add( button );
 			this.add( button );
+			return button;
 		}
 		
 		public void buttonText( int idx, String command )
@@ -202,6 +218,15 @@ public class DailyDeedsPanel
 		public void setEnabled( int index, boolean enabled )
 		{
 			((JButton) this.buttons.get( index )).setEnabled( enabled );
+		}
+		
+		public void setShown( boolean shown )
+		{
+			if ( shown != this.isVisible() )
+			{
+				this.setVisible( shown );
+				this.revalidate();
+			}
 		}
 		
 		public void actionPerformed( ActionEvent e )
@@ -240,6 +265,52 @@ public class DailyDeedsPanel
 		}
 	}
 
+	public static class BooleanItemDaily
+		extends Daily
+	{
+		String preference;
+		int itemId;
+		
+		public BooleanItemDaily( String preference, int itemId, String command )
+		{
+			this.preference = preference;
+			this.itemId = itemId;
+			this.addItem( itemId );
+			this.addListener( preference );
+			this.addButton( command );
+		}
+		
+		public void update()
+		{
+			boolean pref = Preferences.getBoolean( this.preference );
+			this.setShown( pref || InventoryManager.getCount( this.itemId ) > 0 );
+			this.setEnabled( !pref );
+		}
+	}
+
+	public static class BooleanSkillDaily
+		extends Daily
+	{
+		String preference;
+		String skill;
+		
+		public BooleanSkillDaily( String preference, String skill, String command )
+		{
+			this.preference = preference;
+			this.skill = skill;
+			this.addListener( preference );
+			this.addListener( "(skill)" );
+			this.addButton( command );
+		}
+		
+		public void update()
+		{
+			boolean pref = Preferences.getBoolean( this.preference );
+			this.setShown( KoLCharacter.hasSkill( this.skill ) );
+			this.setEnabled( !pref );
+		}
+	}
+
 	public static class CommandDaily
 		extends Daily
 	{
@@ -273,8 +344,9 @@ public class DailyDeedsPanel
 		public void update()
 		{
 			int nv = Preferences.getInteger( "nunsVisits" );
-			this.setEnabled( nv < 3 &&
-				!Preferences.getString( "sidequestNunsCompleted" ).equals( "none" ) );
+			boolean snc = Preferences.getString( "sidequestNunsCompleted" ).equals( "none" );
+			this.setShown( !snc );
+			this.setEnabled( nv < 3 && !snc);
 			this.setText( nv + "/3" );
 		}
 	}
@@ -300,6 +372,7 @@ public class DailyDeedsPanel
 		{
 			boolean summoned = Preferences.getBoolean( "demonSummoned" );
 			int level = KoLCharacter.getLevel();
+			this.setShown( level >= 11 );
 			this.setEnabled( 0, !summoned && level >= 11 &&
 				!Preferences.getString( "demonName" + this.demon1 ).equals( "" ) );
 			this.setEnabled( 1, !summoned && level >= 11 &&
@@ -339,6 +412,7 @@ public class DailyDeedsPanel
 		public void update()
 		{
 			int nu = Preferences.getInteger( "telescopeUpgrades" );
+			this.setShown( nu > 0 );
 			this.setEnabled( nu > 0 && !Preferences.getBoolean( "telescopeLookedHigh" ) );
 			this.setText( nu == 0 ? "" : ("+" + nu*5 + "% all, 10 turns") );
 		}
@@ -362,6 +436,7 @@ public class DailyDeedsPanel
 			String side = Preferences.getString( "sidequestArenaCompleted" );
 			if ( side.equals( "fratboy" ) )
 			{
+				this.setShown( true );
 				this.setEnabled( !cv );
 				this.buttonText( 0, "concert Elvish" );
 				this.buttonText( 1, "concert Winklered" );
@@ -369,12 +444,14 @@ public class DailyDeedsPanel
 			}
 			else if ( side.equals( "hippy" ) )
 			{
+				this.setShown( true );
 				this.setEnabled( !cv );
 				this.buttonText( 0, "concert Moon'd" );
 				this.buttonText( 1, "concert Dilated Pupils" );
 				this.buttonText( 2, "concert Optimist Primal" );
 			}
 			else {
+				this.setShown( false );
 				this.setEnabled( false );
 			}
 		}
@@ -386,6 +463,7 @@ public class DailyDeedsPanel
 		public RestsDaily()
 		{
 			this.addListener( "timesRested" );
+			this.addListener( "(skill)" );
 			this.addButton( "rest" );
 			this.addLabel( "" );
 		}
@@ -396,6 +474,7 @@ public class DailyDeedsPanel
 			int fr = 0;
 			if ( KoLCharacter.hasSkill( "Disco Nap" ) ) ++fr;
 			if ( KoLCharacter.hasSkill( "Disco Power Nap" ) ) fr += 2;
+			this.setShown( fr > 0 );
 			this.setEnabled( nr < fr );
 			this.setText( nr + " (" + fr + " free)" );
 		}
@@ -415,7 +494,9 @@ public class DailyDeedsPanel
 		
 		public void update()
 		{
-			this.setEnabled( KoLCharacter.getLevel() >= 6 &&
+			boolean level = KoLCharacter.getLevel() >= 6;
+			this.setShown( level );
+			this.setEnabled( level &&
 				!Preferences.getBoolean( "friarsBlessingReceived" ) );
 		}
 	}
@@ -433,8 +514,10 @@ public class DailyDeedsPanel
 		
 		public void update()
 		{
+			boolean bm = KoLCharacter.inBadMoon();
+			this.setShown( bm );
 			this.setEnabled( !Preferences.getBoolean( "styxPixieVisited" ) &&
-				KoLCharacter.inBadMoon() );
+				bm );
 		}
 	}
 
@@ -461,6 +544,7 @@ public class DailyDeedsPanel
 	{
 		public HotTubDaily()
 		{
+			this.addItem( ItemPool.VIP_LOUNGE_KEY );
 			this.addListener( "_hotTubSoaks" );
 			this.addButton( "hottub" );
 			this.addLabel( "" );
@@ -468,7 +552,9 @@ public class DailyDeedsPanel
 		
 		public void update()
 		{
+			boolean have = InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) > 0;
 			int nf = Preferences.getInteger( "_hotTubSoaks" );
+			this.setShown( have || nf > 0 );
 			this.setEnabled( nf < 5 );
 			this.setText( nf + "/5" );
 		}
@@ -479,19 +565,23 @@ public class DailyDeedsPanel
 	{
 		public MelangeDaily()
 		{
+			this.addItem( ItemPool.SPICE_MELANGE );
 			this.addListener( "spiceMelangeUsed" );
 			this.addLabel( "" );
 		}
 		
 		public void update()
 		{
+			int have = InventoryManager.getCount( ItemPool.SPICE_MELANGE );
 			if ( Preferences.getBoolean( "spiceMelangeUsed" ) )
 			{
-				this.setText( "SPICE MELANGE USED" );
+				this.setShown( true );
+				this.setText( "SPICE MELANGE USED, have " + have );
 			}
 			else
 			{
-				this.setText( "spice melange not used" );
+				this.setShown( have > 0 );
+				this.setText( "spice melange not used, have " + have );
 			}
 		}
 	}
@@ -507,6 +597,7 @@ public class DailyDeedsPanel
 		
 		public void update()
 		{
+			this.setShown( KoLCharacter.isMoxieClass() );
 			this.setText( KoLCharacter.getStillsAvailable() +
 				"/10 stills available" );
 		}
@@ -523,6 +614,7 @@ public class DailyDeedsPanel
 		
 		public void update()
 		{
+			this.setShown( KoLCharacter.getClassType() == KoLCharacter.SEAL_CLUBBER );
 			this.setText( Preferences.getInteger( "_sealsSummoned" ) +
 				"/5 seals summoned" );
 		}
@@ -627,7 +719,9 @@ public class DailyDeedsPanel
 		
 		public void update()
 		{
-			this.setText( Preferences.getInteger( "blackPuddingsDefeated" ) + " defeated!" );
+			int bpd = Preferences.getInteger( "blackPuddingsDefeated" );
+			this.setText( bpd + " defeated!" );
+			this.setShown( bpd < 240 );
 		}
 	}
 
