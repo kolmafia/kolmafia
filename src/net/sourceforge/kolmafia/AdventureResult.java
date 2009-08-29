@@ -47,6 +47,7 @@ import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.request.UneffectRequest;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class AdventureResult
@@ -764,6 +765,10 @@ public class AdventureResult
 				return;
 			}
 			sourceList.add( result );
+			if ( sourceList == KoLConstants.inventory )
+			{
+				InventoryManager.fireInventoryChanged( result.getItemId() );
+			}
 			return;
 		}
 
@@ -803,13 +808,27 @@ public class AdventureResult
 			if ( sumResult.getCount() == 0 )
 			{
 				sourceList.remove( index );
+				if ( sourceList == KoLConstants.inventory )
+				{
+					InventoryManager.fireInventoryChanged( result.getItemId() );
+				}
 				return;
 			}
 			else if ( sumResult.getCount() < 0 && ( sourceList != KoLConstants.tally || !Preferences.getBoolean( "allowNegativeTally" ) ) )
 			{
 				sourceList.remove( index );
+				if ( sourceList == KoLConstants.inventory )
+				{
+					InventoryManager.fireInventoryChanged( result.getItemId() );
+				}
 				return;
 			}
+			sourceList.set( index, sumResult );
+			if ( sourceList == KoLConstants.inventory )
+			{
+				InventoryManager.fireInventoryChanged( result.getItemId() );
+			}
+			return;
 		}
 		else if ( sumResult.getCount() == 0 && ( sumResult.isStatusEffect() || sumResult.getName().equals(
 			AdventureResult.CHOICE ) ) )

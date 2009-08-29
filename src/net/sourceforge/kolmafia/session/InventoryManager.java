@@ -33,8 +33,10 @@
 
 package net.sourceforge.kolmafia.session;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.kolmafia.AdventureResult;
@@ -74,6 +76,8 @@ public abstract class InventoryManager
 {
 	private static final int BULK_PURCHASE_AMOUNT = 30;
 	private static final GenericRequest FAMEQUIP_REMOVER = new GenericRequest( "familiar.php?pwd&action=unequip" );
+	
+	private static final ArrayListArray listeners = new ArrayListArray();
 
 	public static void resetInventory()
 	{
@@ -870,4 +874,81 @@ public abstract class InventoryManager
 		}
 		return false;
 	}
+
+	public static final void registerListener( int itemId, Preferences.ChangeListener listener )
+	{
+		if ( itemId < 1 ) return;
+		ArrayList list = InventoryManager.listeners.get( itemId );
+		if ( list == null )
+		{
+			list = new ArrayList();
+			InventoryManager.listeners.set( itemId, list );
+		}
+
+		list.add( new WeakReference( listener ) );
+	}
+
+	public static final void fireInventoryChanged( int itemId )
+	{
+		ArrayList list = InventoryManager.listeners.get( itemId );
+		if ( list != null )
+		{
+			Iterator i = list.iterator();
+			while ( i.hasNext() )
+			{
+				WeakReference reference = (WeakReference) i.next();
+				Preferences.ChangeListener listener = (Preferences.ChangeListener) reference.get();
+				if ( listener == null )
+				{
+					i.remove();
+				}
+				else try
+				{
+					listener.update();
+				}
+				catch ( Exception e )
+				{
+					// Don't let a botched listener interfere with
+					// the code that modified the inventory.
+		
+					StaticEntity.printStackTrace( e );
+				}
+			}
+		}
+	}
+
+	private static class ArrayListArray
+	{
+		private final ArrayList internalList = new ArrayList( ItemDatabase.maxItemId() );
+
+		public ArrayListArray()
+		{
+			int max = ItemDatabase.maxItemId();
+			for ( int i = 0; i <= max; ++i )
+			{
+				this.internalList.add( null );
+			}
+		}
+
+		public ArrayList get( final int index )
+		{
+			if ( index < 0 )
+			{
+				return null;
+			}
+
+			return (ArrayList) this.internalList.get( index );
+		}
+
+		public void set( final int index, final ArrayList value )
+		{
+			this.internalList.set( index, value );
+		}
+
+		public int size()
+		{
+			return this.internalList.size();
+		}
+	}
+
 }
