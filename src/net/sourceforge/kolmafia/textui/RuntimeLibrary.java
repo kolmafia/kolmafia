@@ -2989,15 +2989,27 @@ public abstract class RuntimeLibrary
 	{
 		String pattern = patternValue.toString();
 		String string = stringValue.toString();
-		try
+		Pattern p;
+		if ( patternValue.rawValue() instanceof Pattern )
 		{
-			return new Value( DataTypes.MATCHER_TYPE, pattern,
-					  Pattern.compile( pattern, Pattern.DOTALL ).matcher( string ) );
+			p = (Pattern) patternValue.rawValue();
 		}
-		catch ( PatternSyntaxException e )
+		else
 		{
-			throw LibraryFunction.interpreter.runtimeException( "Invalid pattern syntax" );
+			try
+			{
+				p = Pattern.compile( pattern, Pattern.DOTALL );
+				if ( patternValue.content == null )
+				{
+					patternValue.content = p;
+				}
+			}
+			catch ( PatternSyntaxException e )
+			{
+				throw LibraryFunction.interpreter.runtimeException( "Invalid pattern syntax" );
+			}
 		}
+		return new Value( DataTypes.MATCHER_TYPE, pattern, p.matcher( string ) );
 	}
 
 	public static Value find( final Value matcher )
@@ -3137,7 +3149,27 @@ public abstract class RuntimeLibrary
 
 	public static Value split_string( final Value string, final Value regex )
 	{
-		String[] pieces = string.toString().split( regex.toString() );
+		Pattern p;
+		if ( regex.rawValue() instanceof Pattern )
+		{
+			p = (Pattern) regex.rawValue();
+		}
+		else
+		{
+			try
+			{
+				p = Pattern.compile( regex.toString() );
+				if ( regex.content == null )
+				{
+					regex.content = p;
+				}
+			}
+			catch ( PatternSyntaxException e )
+			{
+				throw LibraryFunction.interpreter.runtimeException( "Invalid pattern syntax" );
+			}
+		}
+		String[] pieces = p.split( string.toString() );
 
 		AggregateType type = new AggregateType( DataTypes.STRING_TYPE, pieces.length );
 		ArrayValue value = new ArrayValue( type );
@@ -3152,8 +3184,27 @@ public abstract class RuntimeLibrary
 
 	public static Value group_string( final Value string, final Value regex )
 	{
-		Matcher userPatternMatcher =
-			Pattern.compile( regex.toString() ).matcher( string.toString() );
+		Pattern p;
+		if ( regex.rawValue() instanceof Pattern )
+		{
+			p = (Pattern) regex.rawValue();
+		}
+		else
+		{
+			try
+			{
+				p = Pattern.compile( regex.toString() );
+				if ( regex.content == null )
+				{
+					regex.content = p;
+				}
+			}
+			catch ( PatternSyntaxException e )
+			{
+				throw LibraryFunction.interpreter.runtimeException( "Invalid pattern syntax" );
+			}
+		}
+		Matcher userPatternMatcher = p.matcher( string.toString() );
 		MapValue value = new MapValue( DataTypes.REGEX_GROUP_TYPE );
 
 		int matchCount = 0;
