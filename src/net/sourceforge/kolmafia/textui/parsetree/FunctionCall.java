@@ -47,7 +47,7 @@ public class FunctionCall
 {
 	protected Function target;
 	protected final ValueList params;
-	protected final int paramCount;
+	protected final Value [] values;
 	protected final String fileName;
 	protected final int lineNumber;
 
@@ -55,7 +55,7 @@ public class FunctionCall
 	{
 		this.target = target;
 		this.params = params;
-		this.paramCount = params.size();
+		this.values = new Value[ params.size() ];
 		this.fileName = parser.getShortFileName();
 		this.lineNumber = parser.getLineNumber();
 	}
@@ -88,7 +88,6 @@ public class FunctionCall
 		interpreter.traceIndent();
 
 		Iterator valIterator = this.params.iterator();
-		Value [] params = new Value[ this.paramCount ];
 		int paramCount = 0;
 
 		while ( valIterator.hasNext() )
@@ -114,7 +113,7 @@ public class FunctionCall
 				return null;
 			}
 
-			params[ paramCount -1 ] = value;
+			this.values[ paramCount -1 ] = value;
 		}
 
 		Iterator refIterator = this.target.getReferences();
@@ -122,7 +121,7 @@ public class FunctionCall
 		while ( refIterator.hasNext() )
 		{
 			VariableReference paramVarRef = (VariableReference) refIterator.next();
-			Value value = params[ paramCount ];
+			Value value = this.values[ paramCount ];
 			++paramCount;
 
 			// Bind parameter to new value
