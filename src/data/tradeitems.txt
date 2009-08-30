@@ -4151,7 +4151,7 @@
 4145	funny paper hat	hat	display	0
 4146	floaty sand	usable	all	10
 4147	charged magnet	offhand	all	1500
-4148	floaty stone sphere	grow	all	9
+4148	floaty stone sphere	grow	all	0
 4149	quadroculars	familiar	all	75
 4150	lint	none	all	3
 4151	dubious peppermint	multiple	all	40
