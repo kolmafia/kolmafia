@@ -1444,8 +1444,12 @@ public abstract class RuntimeLibrary
 	// Type conversion functions which allow conversion
 	// of one data format to another.
 
-	public static Value to_string( final Value val )
+	public static Value to_string( Value val )
 	{
+		if ( val.rawValue() instanceof StringBuffer )
+		{	// Must capture current value of mutable types!
+			val = val.toStringValue();
+		}
 		return val;
 	}
 
