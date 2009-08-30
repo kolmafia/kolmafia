@@ -290,10 +290,16 @@ public class Operator
 			return null;
 		}
 
+		Type lType = lhs.getType();
+		Type rType = rhs.getType();
+
 		// String operators
 		if ( this.operator.equals( "+" ) )
 		{
-			if ( lhs.getType().equals( DataTypes.TYPE_STRING ) || rhs.getType().equals( DataTypes.TYPE_STRING ) )
+			if ( lType.equals( DataTypes.TYPE_STRING ) ||
+			     lType.equals( DataTypes.TYPE_BUFFER ) ||
+			     rType.equals( DataTypes.TYPE_STRING ) ||
+			     rType.equals( DataTypes.TYPE_BUFFER ))
 			{
 				String string = leftValue.toStringValue().toString() + rightValue.toStringValue().toString();
 				Value result = new Value( string );
@@ -305,8 +311,10 @@ public class Operator
 
 		if ( this.operator.equals( "==" ) )
 		{
-			if ( lhs.getType().equals( DataTypes.TYPE_STRING ) || lhs.getType().equals( DataTypes.TYPE_LOCATION ) || lhs.getType().equals(
-				DataTypes.TYPE_MONSTER ) )
+			if ( lType.equals( DataTypes.TYPE_STRING ) ||
+			     lType.equals( DataTypes.TYPE_BUFFER ) ||
+			     lType.equals( DataTypes.TYPE_LOCATION ) ||
+			     lType.equals( DataTypes.TYPE_MONSTER ) )
 			{
 				Value result =
 					new Value( leftValue.toString().equalsIgnoreCase( rightValue.toString() ) );
@@ -318,8 +326,10 @@ public class Operator
 
 		if ( this.operator.equals( "!=" ) )
 		{
-			if ( lhs.getType().equals( DataTypes.TYPE_STRING ) || lhs.getType().equals( DataTypes.TYPE_LOCATION ) || lhs.getType().equals(
-				DataTypes.TYPE_MONSTER ) )
+			if ( lType.equals( DataTypes.TYPE_STRING ) ||
+			     lType.equals( DataTypes.TYPE_BUFFER ) ||
+			     lType.equals( DataTypes.TYPE_LOCATION ) ||
+			     lType.equals( DataTypes.TYPE_MONSTER ) )
 			{
 				Value result =
 					new Value( !leftValue.toString().equalsIgnoreCase( rightValue.toString() ) );
@@ -334,7 +344,7 @@ public class Operator
 		float lfloat = 0.0f, rfloat = 0.0f;
 		int lint = 0, rint = 0;
 
-		if ( lhs.getType().equals( DataTypes.TYPE_FLOAT ) || rhs.getType().equals( DataTypes.TYPE_FLOAT ) )
+		if ( lType.equals( DataTypes.TYPE_FLOAT ) || rType.equals( DataTypes.TYPE_FLOAT ) )
 		{
 			isInt = false;
 			lfloat = leftValue.toFloatValue().floatValue();
