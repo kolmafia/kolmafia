@@ -89,6 +89,8 @@ public class Concoction
 	public int queuedPulls;
 	public int initial;
 	public int pullable;
+	public int acquirable;	// via non-standard means, such as Hermit trading
+	public int mallable;
 	public int total;
 	public int visibleTotal;
 
@@ -506,6 +508,8 @@ public class Concoction
 		this.initial = -1;
 		this.creatable = 0;
 		this.pullable = 0;
+		this.acquirable = 0;
+		this.mallable = 0;
 		this.total = 0;
 
 		this.allocated = 0;
@@ -649,7 +653,7 @@ public class Concoction
 			this.visited = true;
 		}
 		
-		int alreadyHave = this.initial - this.allocated;
+		int alreadyHave = this.initial + this.acquirable - this.allocated;
 		if ( alreadyHave < 0 || requested <= 0 )
 		{	// Already overspent this ingredient - either due to it being
 			// present multiple times in the recipe, or being part of a
@@ -675,11 +679,8 @@ public class Concoction
 		
 		if ( this.mixingMethod == KoLConstants.NOCREATE )
 		{	// No recipe for this item - don't bother with checking
-			// ingredients, because there aren't any.  However, it's possible
-			// that the total amount was preset greater than the initial, due
-			// to some way of acquiring the item that isn't considered a
-			// concoction (such as Hermit or Tr4pz0r trading).
-			return alreadyHave + this.total - this.initial;		
+			// ingredients, because there aren't any.
+			return alreadyHave;		
 		}
 		if ( needToMake <= 0 )
 		{	// Have enough on hand already.

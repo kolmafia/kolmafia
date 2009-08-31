@@ -1081,7 +1081,7 @@ public class ConcoctionDatabase
 		}
 	}
 
-	private static final void setBasicItem( final List availableIngredients, final int itemId, final int creatable )
+	private static final void setBasicItem( final List availableIngredients, final int itemId, final int acquirable )
 	{
 		Concoction creation = ConcoctionPool.get( itemId );
 		if ( creation == null )
@@ -1091,8 +1091,9 @@ public class ConcoctionDatabase
 
 		creation.initial = ItemPool.get( itemId, 1 ).getCount( availableIngredients );
 		creation.price = 0;
-		creation.creatable = creatable;
-		creation.total = creation.initial + creatable;
+		creation.acquirable = acquirable;
+		creation.creatable = acquirable;
+		creation.total = creation.initial + acquirable;
 		creation.visibleTotal = creation.total;
 	}
 
