@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.Frame;
 import java.net.URL;
 import java.net.URLDecoder;
@@ -199,6 +200,7 @@ public class RequestEditorKit
 		// but no row beginning.
 
 		displayHTML = displayHTML.replaceAll( "</tr><td", "</tr><tr><td" );
+		displayHTML = displayHTML.replaceAll( "</tr><table", "</tr></table><table" );
 
 		// Fix all the super-small font displays used in the
 		// various KoL panes.
@@ -1251,6 +1253,7 @@ public class RequestEditorKit
 	}
 
 	private static final Pattern GLYPH_PATTERN = Pattern.compile( "title=\"Arcane Glyph #(\\d)\"" );
+	private static final String[] ORDINALS = { "1st ", "2nd ", "3rd " };
 
 	private static final void changeDustyBottleNames( final StringBuffer buffer )
 	{
@@ -1309,7 +1312,8 @@ public class RequestEditorKit
 			}
 
 			String name = ItemDatabase.getItemName( wines[ i ] );
-			StringUtilities.globalStringReplace( buffer, name, String.valueOf( i + 1 ) + " " + name );
+			StringUtilities.globalStringReplace( buffer, name, 
+				RequestEditorKit.ORDINALS[ i ] + name );
 		}
 	}
 
@@ -1695,22 +1699,10 @@ public class RequestEditorKit
 				return;
 			}
 
-			// Get the "value" associated with this input
-
-			String value = (String) inputElement.getAttributes().getAttribute( HTML.Attribute.VALUE );
-
-			// If there is no value, we won't be able to find the
-			// frame that handles this form.
-
-			if ( value == null )
-			{
-				return;
-			}
-
 			// Retrieve the frame which is being used by this form
 			// viewer.
 
-			RequestFrame frame = this.findFrame( value );
+			RequestFrame frame = this.findFrame();
 
 			// If there is no frame, then there's nothing to
 			// refresh, so return.
@@ -1839,20 +1831,14 @@ public class RequestEditorKit
 			frame.refresh( formSubmitter );
 		}
 
-		private RequestFrame findFrame( final String value )
+		private RequestFrame findFrame()
 		{
-			Frame[] frames = Frame.getFrames();
-			String search = "value=\"" + value + "\"";
-
-			for ( int i = 0; i < frames.length; ++i )
+			Container c = this.getContainer();
+			while ( c != null && !(c instanceof RequestFrame) )
 			{
-				if ( frames[ i ] instanceof RequestFrame && ( (RequestFrame) frames[ i ] ).containsText( search ) )
-				{
-					return (RequestFrame) frames[ i ];
-				}
+				c = c.getParent();
 			}
-
-			return null;
+			return (RequestFrame) c;
 		}
 	}
 
