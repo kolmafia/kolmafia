@@ -528,5 +528,5 @@ public interface KoLConstants
 	// Locations where session information is displayed for the user.
 	// Include just the event history buffer and the command line buffer.
 
-	public static final LimitedSizeChatBuffer commandBuffer = new LimitedSizeChatBuffer( 200000, 20000 );
+	public static final LimitedSizeChatBuffer commandBuffer = new LimitedSizeChatBuffer();
 }
