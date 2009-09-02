@@ -264,6 +264,9 @@ public class EquipmentManager
 
 		switch ( slot )
 		{
+		case -1:	// unknown item - ignore it
+			return;
+			
 		case ACCESSORY1:
 		case ACCESSORY2:
 		case ACCESSORY3:
