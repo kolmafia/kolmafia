@@ -409,7 +409,7 @@ public abstract class StoreManager
 	public static final void updateMallPrice( final AdventureResult item,
 		final ArrayList results )
 	{
-		if ( item.getItemId() < 1 || !KoLmafia.permitsContinue() )
+		if ( item.getItemId() < 1 )
 		{
 			return;
 		}
@@ -434,7 +434,7 @@ public abstract class StoreManager
 		}
 	}
 	
-	public static final int getMallPrice( final AdventureResult item )
+	public static final synchronized int getMallPrice( final AdventureResult item )
 	{
 		StoreManager.flushCache();
 		if ( item.getItemId() < 1 || !ItemDatabase.isTradeable( item.getItemId() ) )

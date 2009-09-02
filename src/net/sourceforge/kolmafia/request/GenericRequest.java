@@ -1624,7 +1624,7 @@ public class GenericRequest
 			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "use", "* ten-leaf clover" );
 		}
 
-		if ( !GenericRequest.choiceHandled )
+		if ( !GenericRequest.choiceHandled && !this.isChatRequest )
 		{
 			GenericRequest.choiceHandled = true;
 			ChoiceManager.postChoice( this );
