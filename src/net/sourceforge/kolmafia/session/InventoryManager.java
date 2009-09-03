@@ -932,7 +932,7 @@ public abstract class InventoryManager
 
 		public ArrayList get( final int index )
 		{
-			if ( index < 0 )
+			if ( index < 0 || index >= this.internalList.size() )
 			{
 				return null;
 			}
