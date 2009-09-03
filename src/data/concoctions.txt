@@ -1404,6 +1404,17 @@ rusty diving helmet	SUSE	rusty broken diving helmet	rusty porthole	rusty rivet (
 scroll of ancient forbidden unspeakable evil	SUSE	disintegrating quill pen	inkwell	tattered scrap of paper
 toast with jam	SUSE	jamfish jam	toast
 
+
+# Items created by folding sugar sheets
+
+sugar shotgun	SUGAR	sugar sheet
+sugar shillelagh	SUGAR	sugar sheet
+sugar shank	SUGAR	sugar sheet
+sugar chapeau	SUGAR	sugar sheet
+sugar shorts	SUGAR	sugar sheet
+sugar shield	SUGAR	sugar sheet
+sugar shirt	SUGAR	sugar sheet
+
 # Crimbo toys.  These are items which are created at Uncle Crimbo
 # after collecting enough toy components.
 

@@ -91,6 +91,7 @@ import net.sourceforge.kolmafia.request.SendGiftRequest;
 import net.sourceforge.kolmafia.request.SendMailRequest;
 import net.sourceforge.kolmafia.request.StarChartRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
+import net.sourceforge.kolmafia.request.SugarSheetRequest;
 import net.sourceforge.kolmafia.request.SushiRequest;
 import net.sourceforge.kolmafia.request.SuspiciousGuyRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
@@ -600,6 +601,11 @@ public abstract class StaticEntity
 		else if ( location.startsWith( "store.php" ) )
 		{
 			MallPurchaseRequest.parseResponse( location, responseText );
+		}
+
+		else if ( location.startsWith( "sugarsheets.php" ) )
+		{
+			SugarSheetRequest.parseCreation( location, responseText );
 		}
 
 		else if ( location.startsWith( "sushi.php" ) )

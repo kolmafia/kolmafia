@@ -151,6 +151,8 @@ public class ConcoctionDatabase
 		ConcoctionDatabase.mixingMethods.put( "EJEWEL", new Integer( KoLConstants.EXPENSIVE_JEWELRY ));
 		// Items anybody can create with starcharts, stars, and lines
 		ConcoctionDatabase.mixingMethods.put( "STAR", new Integer( KoLConstants.STARCHART ));
+		// Items anybody can create by folding sugar sheets
+		ConcoctionDatabase.mixingMethods.put( "SUGAR", new Integer( KoLConstants.SUGAR_FOLDING ));
 		// Items anybody can create with pixels
 		ConcoctionDatabase.mixingMethods.put( "PIXEL", new Integer( KoLConstants.PIXEL ));
 		// Items created with a rolling pin or and an unrolling pin
@@ -1224,6 +1226,9 @@ public class ConcoctionDatabase
 
 		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.SINGLE_USE ] = true;
 		ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.SINGLE_USE ] = 0;
+
+		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.SUGAR_FOLDING ] = true;
+		ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.SUGAR_FOLDING ] = 0;
 
 		// A rolling pin or unrolling pin can be always used in item
 		// creation because we can get the same effect even without the

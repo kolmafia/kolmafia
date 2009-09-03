@@ -340,7 +340,7 @@ public interface KoLConstants
 
 	// Item creation types
 
-	public static final int METHOD_COUNT = 32;
+	public static final int METHOD_COUNT = 33;
 	public static final int SUBCLASS = Integer.MAX_VALUE;
 
 	public static final int NOCREATE = 0;
@@ -410,6 +410,8 @@ public interface KoLConstants
 	public static final int CRIMBO07 = 30;
 	// Items requiring Salacious Cocktailcrafting
 	public static final int MIX_SALACIOUS = 31;
+	// Items anybody can create by folding a sugar sheet
+	public static final int SUGAR_FOLDING = 32;
 
 	// Colors which are used to handle the various KoLmafia states.
 	// Used when changing the display.
