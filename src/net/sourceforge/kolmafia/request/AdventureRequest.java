@@ -402,6 +402,14 @@ public class AdventureRequest
 			return;
 		}
 
+		if ( this.responseText.indexOf( "not properly equipped" ) != -1 )
+		{
+			// "You're not properly equipped for that. Get into a
+			// uniform."
+			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "You're not wearing an appropriate outfit" );
+			return;
+		}
+
 		// Nothing more to do in this area
 
 		if ( this.formSource.equals( "adventure.php" ) && this.responseText.indexOf( "adventure.php" ) == -1 && this.responseText.indexOf( "You acquire" ) == -1 )
