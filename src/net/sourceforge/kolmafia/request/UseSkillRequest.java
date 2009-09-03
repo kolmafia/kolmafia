@@ -82,6 +82,7 @@ public class UseSkillRequest
 	{
 		"Summon Snowcones",
 		"Summon Stickers",
+		"Summon Sugar Sheets",
 	};
 
 	public static final String[] LIBRAM_SKILLS =
@@ -206,6 +207,7 @@ public class UseSkillRequest
 		{
 		case SkillDatabase.SNOWCONE:
 		case SkillDatabase.STICKER:
+		case SkillDatabase.SUGAR:
 		case SkillDatabase.HILARIOUS:
 		case SkillDatabase.TASTEFUL:
 		case SkillDatabase.CANDY_HEART:
@@ -227,6 +229,10 @@ public class UseSkillRequest
 
 		case SkillDatabase.STICKER:
 			this.addFormField( "preaction", "summonstickers" );
+			break;
+
+		case SkillDatabase.SUGAR:
+			this.addFormField( "preaction", "summonsugarsheets" );
 			break;
 
 		case SkillDatabase.HILARIOUS:
@@ -352,6 +358,7 @@ public class UseSkillRequest
 
 		case SkillDatabase.SNOWCONE:
 		case SkillDatabase.STICKER:
+		case SkillDatabase.SUGAR:
 
 			maximumCast = Math.max( 3 - Preferences.getInteger( "tomeSummons" ), 0 );
 			break;
@@ -1086,6 +1093,7 @@ public class UseSkillRequest
 
 		case SkillDatabase.SNOWCONE:
 		case SkillDatabase.STICKER:
+		case SkillDatabase.SUGAR:
 			Preferences.increment( "tomeSummons", count );
 			break;
 
@@ -1137,6 +1145,11 @@ public class UseSkillRequest
 		if ( action.equals( "stickers" ) )
 		{
 			return SkillDatabase.STICKER;
+		}
+
+		if ( action.equals( "sugarsheets" ) )
+		{
+			return SkillDatabase.SUGAR;
 		}
 
 		if ( action.equals( "hilariousitems" ) )

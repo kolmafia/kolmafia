@@ -79,6 +79,7 @@ public class SkillDatabase
 	// Mr. Skills
 	public static final int SNOWCONE = 8000;
 	public static final int STICKER = 8001;
+	public static final int SUGAR = 8002;
 	public static final int CANDY_HEART = 8100;
 	public static final int PARTY_FAVOR = 8101;
 	public static final int LOVE_SONG = 8102;
@@ -177,6 +178,7 @@ public class SkillDatabase
 		case 3:			// Smile of Mr. A
 		case SNOWCONE:		// Summon Snowcones
 		case STICKER:		// Summon Stickers
+		case SUGAR:			// Summon Sugar Sheets
 		case HILARIOUS:		// Summon Hilarious Objects
 		case TASTEFUL:		// Summon Tasteful Items
 		case CANDY_HEART:	// Summon Candy Hearts
@@ -732,6 +734,7 @@ public class SkillDatabase
 
 		case 8000:	// Summon Snowcones
 		case 8001:	// Summon Stickers
+		case 8002:	// Summon Sugar Sheets
 		case 8100:	// Summon Candy Hearts
 		case 8101:	// Summon Party Favor
 		case 8102:	// Summon Love Song

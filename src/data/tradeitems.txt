@@ -4170,8 +4170,8 @@
 4164	Good 'n' Slimy	usable	all	0
 4165
 4166	Voluminous Radio Pants	pants	all	0
-4167
-4168
+4167	Voluminous Radio Hat	hat	all	0
+4168	Voluminous Radio Sneakers	accessory	all	0
 4169	4-d camera	none, combat, single	all	45
 4170	shaking 4-d camera	usable	none	0
 4171	crystallized memory	usable	all	0
@@ -4179,14 +4179,14 @@
 4173	floaty rock pants	pants	all	0
 4174	floaty rock necklace	accessory	all	0
 4175
-4176
-4177
-4178
-4179
-4180
-4181
-4182
-4183
+4176	sugar sheet	none	all	0
+4177	Tome of Sugar Shummoning	usable	all	0
+4178	sugar shotgun	weapon	display	0
+4179	sugar shillelagh	weapon	display	0
+4180	sugar shank	weapon	display	0
+4181	sugar chapeau	hat	display	0
+4182	sugar shorts	pants	display	0
+4183	sugar shield	familiar	display	0
 4184
 4185
 4186
@@ -4194,3 +4194,5 @@
 4188
 4189	floaty inverse geode	usable	all	0
 4190	control crystal	none	display	0
+4191	sugar shirt	shirt	display	0
+4192	sugar shard	usable	all	0
