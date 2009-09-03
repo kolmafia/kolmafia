@@ -1411,7 +1411,10 @@ public class MaximizerFrame
 					{
 						if ( (count & Evaluator.BUYABLE_FLAG) != 0 ) continue;
 						dest = neutral;
-						break gotItem;
+						if ( mods.get( Modifiers.FAMILIAR_WEIGHT ) <= 0.0f )
+						{	
+							break gotItem;
+						}
 					}
 					if ( mods.getBoolean( Modifiers.NONSTACKABLE_WATCH ) )
 					{
