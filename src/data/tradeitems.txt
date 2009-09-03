@@ -4195,4 +4195,4 @@
 4189	floaty inverse geode	usable	all	0
 4190	control crystal	none	display	0
 4191	sugar shirt	shirt	display	0
-4192	sugar shard	usable	all	0
+4192	sugar shard	multiple	all	0

@@ -922,6 +922,7 @@ public class ItemPool
 	public static final int QUADROCULARS = 4149;
 	public static final int CAMERA = 4169;
 	public static final int SHAKING_CAMERA = 4170;
+	public static final int SUGAR_SHEET = 4176;
 	public static final int SUGAR_BOOK = 4177;
 	public static final int SUGAR_SHOTGUN = 4178;
 	public static final int SUGAR_SHILLELAGH = 4179;

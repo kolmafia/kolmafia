@@ -298,6 +298,9 @@ public class CreateItemRequest
 		case KoLConstants.STARCHART:
 			return new StarChartRequest( itemId );
 
+		case KoLConstants.SUGAR_FOLDING:
+			return new SugarSheetRequest( itemId );
+
 		case KoLConstants.PIXEL:
 			return new PixelRequest( itemId );
 
@@ -1010,6 +1013,11 @@ public class CreateItemRequest
 		if ( urlString.startsWith( "starchart.php" ) )
 		{
 			return StarChartRequest.registerRequest( urlString );
+		}
+
+		if ( urlString.startsWith( "sugarsheets.php" ) )
+		{
+			return SugarSheetRequest.registerRequest( urlString );
 		}
 
 		if ( urlString.startsWith( "mystic.php" ) )
