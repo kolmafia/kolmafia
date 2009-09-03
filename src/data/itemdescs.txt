@@ -4169,9 +4169,9 @@
 4163	335815719	children of the candy corn	niblets of children of the candy corn
 4164	619354651	Good 'n' Slimy	boxes of Good 'n' Slimy
 4165
-4166	175771659	Voluminous Radio Pants
-4167
-4168
+4166	175771659	Voluminous Radio Pants	pairs of Voluminous Radio Pants
+4167	268738212	Voluminous Radio Hat	Voluminous Radio Hats
+4168	152358110	Voluminous Radio Sneakers
 4169	176809873	4-d camera	4-d cameras
 4170	399650416	shaking 4-d camera	shaking 4-d cameras
 4171	815254689	crystallized memory
@@ -4179,14 +4179,14 @@
 4173	883831428	floaty rock pants
 4174	645577244	floaty rock necklace
 4175
-4176
-4177
-4178
-4179
-4180
-4181
-4182
-4183
+4176	319769847	sugar sheet	sugar sheet
+4177	798312635	Tome of Sugar Shummoning	Tomes of Sugar Shummoning
+4178	360499180	sugar shotgun
+4179	994852308	sugar shillelagh
+4180	774021885	sugar shank
+4181	779768689	sugar chapeau
+4182	286938389	sugar shorts
+4183	959769145	sugar shield	sugar shields
 4184
 4185
 4186
@@ -4194,3 +4194,5 @@
 4188
 4189	803350174	floaty inverse geode
 4190	111489868	control crystal
+4191	851515177	sugar shirt	sugar shirts
+4192	672893541	sugar shard	sugar shards

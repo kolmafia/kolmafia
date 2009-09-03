@@ -76,6 +76,7 @@ Snow Queen Crown	Cold Damage: +5, Cold Resistance: +3, Familiar Effect: "cold at
 Sombrero De Vida	Four Songs
 Spooky Putty mitre	Experience: +3, Softcore Only, Familiar Effect: "1.5xLep, 1.5xFairy, cap 25"
 Tropical Crimbo Hat	Spooky Resistance: +1, Familiar Effect: "1xLep, 1.5xFairy, cap 25"
+Voluminous Radio Hat	MP Regen Min: 5, MP Regen Max: 6
 Zombo's skullcap	Muscle Percent: +20, Familiar Weight: +10, Class: "Turtle Tamer", Familiar Effect: "spooky atk"
 aerated diving helmet	Stench Resistance: +3, Item Drop: -50, Initiative: -50, Familiar Effect: "?xPotato"
 ancient turtle shell helmet	Meat Drop: +10, Familiar Effect: "atk, cap 8"
@@ -211,6 +212,7 @@ stainless steel skullcap	Maximum HP: +30, Damage Absorption: +60, Muscle Percent
 star hat	Maximum MP: +30, Familiar Effect: "0.5xVolley, 0.5xPotato, cap 41"
 stone baseball cap	Damage Reduction: 10, Weapon Damage: +15, Muscle: -10, Familiar Effect: "1xVolley, cap 48"
 straw hat	Item Drop: +10, Food Drop: +15, Booze Drop: +15, Familiar Effect: "??"
+sugar chapeau	Spell Damage Percent: +50, Spell Critical Percent: +10, MP Regen Min: 3, MP Regen Max: 5
 superhero mask	Moxie: +5, Muscle: +5, Mysticality: +5, Softcore Only, Familiar Effect: "?xLep, ?xFairy, cap 2"
 tattered paper crown	Muscle: +3, Familiar Effect: "1xSombrero, cap 15"
 time helmet	Adventures: +3, Familiar Effect: "0.5xPotato, 1xFairy, cap 25"
@@ -350,6 +352,7 @@ sticky meat kilt	Moxie: +3
 sticky meat pants	Moxie: +3
 sticky meat skirt	Moxie: +3
 # studded leather boxer shorts
+sugar shorts	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25
 swashbuckling pants	Moxie: +4
 tighty whiteys	Spooky Resistance: +2
 time trousers	Adventures: +3
@@ -417,6 +420,7 @@ shark jumper	Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spo
 soggy wofl t-shirt	Muscle: +3
 souvenir ski t-shirt	Moxie: +5
 star shirt	Muscle: +5, Mysticality: +5, Moxie: +5
+sugar shirt	Experience: +3
 supportive bra	Moxie: +3
 turtlemail hauberk	Damage Absorption: +30, HP Regen Min: 6, HP Regen Max: 12
 tuxedo shirt	Moxie: +7
@@ -816,6 +820,9 @@ styrofoam crossbow	Moxie: +3, Monster Level: +3
 styrofoam staff	Mysticality: +3, Monster Level: +3
 styrofoam sword	Muscle: +3, Monster Level: +3
 # suede shortsword
+sugar shank	Weapon Damage Percent: +50
+sugar shillelagh	Weapon Damage Percent: +50
+sugar shotgun	Weapon Damage Percent: +50
 # sweet ninja sword
 sword behind inappropriate prepositions	Muscle: +7, Adventures: +5
 sword of static	Muscle: +3, Moxie: +2, MP Regen Min: 2, MP Regen Max: 3
@@ -1233,6 +1240,7 @@ Uranium Omega of Temperance	Muscle: +5, Mysticality: +5, Moxie: +5, Item Drop: +
 # V for Vivala mask: +1-3 Stat(s) per Fight
 # V for Vivala mask: Allows use of Creepy Grin (once per day)
 V for Vivala mask	Muscle Percent: +30, Critical: 1, Single Equip, Softcore Only
+Voluminous Radio Sneakers	Muscle: +10, Mysticality: +10, Moxie: +10
 Warehouse 23 bling	Maximum MP: +23
 Xlyinia's notebook	Muscle: +15, Mysticality: +15, Moxie: +15
 Yellow Moon of Compassion	Muscle: +9, Mysticality: +9, Moxie: +9, Item Drop: +7, Single Equip
@@ -1732,6 +1740,7 @@ smile-sharpening stone	Familiar Weight: +5
 spoon!	Familiar Weight: +5
 string of dingle balls	Familiar Weight: +5
 sucky decal	Familiar Weight: +5
+sugar shield	Familiar Weight: +10
 # targeting chip: More likely to use more powerful attacks
 tasteful black bow tie	Familiar Weight: +5
 # teddy bear sewing kit: Teddy Bear loses less stuffing when hit.

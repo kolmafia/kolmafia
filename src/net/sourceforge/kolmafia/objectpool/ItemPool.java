@@ -922,6 +922,15 @@ public class ItemPool
 	public static final int QUADROCULARS = 4149;
 	public static final int CAMERA = 4169;
 	public static final int SHAKING_CAMERA = 4170;
+	public static final int SUGAR_BOOK = 4177;
+	public static final int SUGAR_SHOTGUN = 4178;
+	public static final int SUGAR_SHILLELAGH = 4179;
+	public static final int SUGAR_SHANK = 4180;
+	public static final int SUGAR_CHAPEAU = 4181;
+	public static final int SUGAR_SHORTS = 4182;
+	public static final int SUGAR_SHIELD = 4183;
+	public static final int SUGAR_SHIRT = 4191;
+	public static final int SUGAR_SHARD = 4192;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

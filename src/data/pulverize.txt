@@ -243,3 +243,11 @@ depleted Grimacite grappling hook	chunk of depleted Grimacite
 depleted Grimacite ninja mask	chunk of depleted Grimacite
 depleted Grimacite shinguards	chunk of depleted Grimacite
 depleted Grimacite astrolabe	chunk of depleted Grimacite
+
+# Shummoned sugar shtuff shmashes into sugar shards.
+sugar chapeau	sugar shard
+sugar shank	sugar shard
+sugar shillelagh	sugar shard
+sugar shirt	sugar shard
+sugar shotgun	sugar shard
+sugar shorts	sugar shard

@@ -36,6 +36,7 @@ Snow Queen Crown	115	Mox: 42
 Sombrero De Vida	50	Mox: 10
 Spooky Putty mitre	100	none
 Tropical Crimbo Hat	100	Mox: 35
+Voluminous Radio Hat	150	Mox: 60
 Zombo's skullcap	200	Mus: 200
 aerated diving helmet	200	Mox: 85
 ancient turtle shell helmet	35	Mox: 2
@@ -166,6 +167,7 @@ stainless steel skullcap	90	Mox: 30
 star hat	165	Mox: 67
 stone baseball cap	195	Mox: 82
 straw hat	200	Mox: 85
+sugar chapeau	100	none
 superhero mask	10	none
 tattered paper crown	60	Mus: 15
 time helmet	100	Mox: 35
@@ -300,6 +302,7 @@ sticky meat kilt	45	Mox: 7
 sticky meat pants	45	Mox: 7
 sticky meat skirt	45	Mox: 7
 studded leather boxer shorts	20	none
+sugar shorts	100	none
 swashbuckling pants	80	Mox: 25
 tighty whiteys	40	Mox: 5
 time trousers	100	Mox: 35
@@ -367,6 +370,7 @@ shark jumper	200	Mus: 85
 soggy wofl t-shirt	45	Mus: 7
 souvenir ski t-shirt	100	Mus: 35
 star shirt	165	Mus: 67
+sugar shirt	100	none
 supportive bra	50	Mox: 10
 turtlemail hauberk	80	Mus: 25
 tuxedo shirt	100	Mus: 35
@@ -750,6 +754,9 @@ styrofoam crossbow	60	Mox: 15	2-handed crossbow
 styrofoam staff	60	Mus: 15	2-handed staff
 styrofoam sword	60	Mus: 15	1-handed sword
 suede shortsword	40	Mus: 5	1-handed sword
+sugar shank	100	Mus: 0	1-handed knife
+sugar shillelagh	100	Mus: 0	2-handed club
+sugar shotgun	100	Mox: 0	1-handed pistol
 sweet ninja sword	20	Mus: 0	1-handed sword
 sword behind inappropriate prepositions	130	Mus: 45	2-handed sword
 sword of static	75	Mus: 22	1-handed sword
@@ -1140,6 +1147,7 @@ The Ring	0	Mys: 60
 Unspeakable Earring	0	Mys: 60
 Uranium Omega of Temperance	0	Mys: 85
 V for Vivala mask	0	none
+Voluminous Radio Sneakers	0	Mys: 60
 Warehouse 23 bling	0	none
 Xlyinia's notebook	0	none
 Yellow Moon of Compassion	0	Mys: 85

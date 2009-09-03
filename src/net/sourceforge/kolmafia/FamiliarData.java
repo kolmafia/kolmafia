@@ -331,6 +331,7 @@ public class FamiliarData
 			return 11;
 
 		case ItemPool.TINY_CELL_PHONE:
+		case ItemPool.SUGAR_SHIELD:
 			return 10;
 
 		case ItemPool.MINIATURE_ANTLERS:
@@ -446,6 +447,7 @@ public class FamiliarData
 		case ItemPool.MINIATURE_ANTLERS:
 		case ItemPool.FISHY_WAND:
 		case ItemPool.TINY_COSTUME_WARDROBE:
+		case ItemPool.SUGAR_SHIELD:
 			return this.id != FamiliarPool.CHAMELEON &&
 				this.id != FamiliarPool.HATRACK;
 
@@ -514,6 +516,7 @@ public class FamiliarData
 		case ItemPool.BATHYSPHERE:
 		case ItemPool.DAS_BOOT:
 		case ItemPool.MINIATURE_ANTLERS:
+		case ItemPool.SUGAR_SHIELD:
 			return true;
 		}
 

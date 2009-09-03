@@ -382,6 +382,10 @@ public class CampgroundRequest
 			"Summon Stickers"
 		},
 		{
+			"Tome of Sugar Shummoning",
+			"Summon Sugar Sheets"
+		},
+		{
 			// The bookshelf currently says:
 			// "McPhee's Grimoire of Hilarious Item Summoning"
 			// gives access to "Summon Hilarious Items".

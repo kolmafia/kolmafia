@@ -330,6 +330,7 @@ public class CharSheetRequest
 				{
 				case SkillDatabase.SNOWCONE:
 				case SkillDatabase.STICKER:
+				case SkillDatabase.SUGAR:
 				case SkillDatabase.HILARIOUS:
 				case SkillDatabase.TASTEFUL:
 				case SkillDatabase.CANDY_HEART:
