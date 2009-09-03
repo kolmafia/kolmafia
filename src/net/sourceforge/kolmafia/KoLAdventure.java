@@ -1247,6 +1247,12 @@ public class KoLAdventure
 			{
 				return false;
 			}
+
+			// You can't go onto the battlefield without a uniform.
+			if ( responseText.indexOf( "Get into a uniform" ) != -1 )
+			{
+				return false;
+			}
 			
 			// See if there is an "adventure again" link, and if
 			// so, whether it points to where we thought we went.
