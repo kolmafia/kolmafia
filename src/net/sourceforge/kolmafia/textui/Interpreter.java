@@ -209,8 +209,7 @@ public class Interpreter
 		this.currentState = Interpreter.STATE_NORMAL;
 		this.resetTracing();
 
-		main =
-			functionName.equals( "main" ) ? this.parser.getMainMethod() : topScope.findFunction( functionName, parameters != null );
+		main = functionName.equals( "main" ) ? this.parser.getMainMethod() : topScope.findFunction( functionName, parameters != null );
 
 		if ( main == null && !topScope.getCommands().hasNext() )
 		{
