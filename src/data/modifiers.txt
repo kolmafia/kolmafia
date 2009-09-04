@@ -1240,7 +1240,7 @@ Uranium Omega of Temperance	Muscle: +5, Mysticality: +5, Moxie: +5, Item Drop: +
 # V for Vivala mask: +1-3 Stat(s) per Fight
 # V for Vivala mask: Allows use of Creepy Grin (once per day)
 V for Vivala mask	Muscle Percent: +30, Critical: 1, Single Equip, Softcore Only
-Voluminous Radio Sneakers	Muscle: +10, Mysticality: +10, Moxie: +10
+Voluminous Radio Sneakers	Muscle: +10, Mysticality: +10, Moxie: +10, Single Equip
 Warehouse 23 bling	Maximum MP: +23
 Xlyinia's notebook	Muscle: +15, Mysticality: +15, Moxie: +15
 Yellow Moon of Compassion	Muscle: +9, Mysticality: +9, Moxie: +9, Item Drop: +7, Single Equip

@@ -38,7 +38,6 @@ global	commandLineNamespace
 global	connectViaAddress	false
 global	cookies.inventory
 global	copyAsHTML	false
-global	createHackerSummons	true
 global	customizedTabs	false
 global	debugPathnames	true
 global	defaultBorderColor	blue
@@ -162,6 +161,7 @@ global	visitLoungeSoftcore	true
 global	visitRumpusHardcore	true
 global	visitRumpusSoftcore	true
 
+user	addingScrolls	-1
 user	autoAbortThreshold	-0.05
 user	autoAntidote	0
 user	autoBuyPriceLimit	20000
@@ -190,6 +190,7 @@ user	birdformSleaze	0
 user	birdformSpooky	0
 user	birdformStench	0
 user	blackPuddingsDefeated	0
+user	breakableHandling	1
 user	breakfastCompleted	false
 user	buffBotCasting
 user	buffBotMessageDisposal	0
