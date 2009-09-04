@@ -96,6 +96,8 @@ public class ChoiceOptionsPanel
 	private final JComboBox barrelSelect;
 	private final JComboBox gongSelect;
 	private final JComboBox basementMallSelect;
+	private final JComboBox breakableSelect;
+	private final JComboBox addingSelect;
 
 	/**
 	 * Constructs a new <code>ChoiceOptionsPanel</code>.
@@ -260,7 +262,21 @@ public class ChoiceOptionsPanel
 		this.basementMallSelect.addItem( "show Mall prices for items you don't have" );
 		this.basementMallSelect.addItem( "show Mall prices for all items" );
 		
+		this.breakableSelect = new JComboBox();
+		this.breakableSelect.addItem( "abort on breakage" );
+		this.breakableSelect.addItem( "equip previous" );
+		this.breakableSelect.addItem( "re-equip from inventory, or abort" );
+		this.breakableSelect.addItem( "re-equip from inventory, or previous" );
+		this.breakableSelect.addItem( "acquire & re-equip" );
+		
+		this.addingSelect = new JComboBox();
+		this.addingSelect.addItem( "show in browser" );
+		this.addingSelect.addItem( "create goal scrolls only" );
+		this.addingSelect.addItem( "create goal & 668 scrolls" );
+		this.addingSelect.addItem( "create goal, 31337, 668 scrolls" );
+		
 		this.addChoiceSelect( "Item-Driven", "Llama Gong", this.gongSelect );
+		this.addChoiceSelect( "Item-Driven", "Breakable Equipment", this.breakableSelect );
 		this.addChoiceSelect( "Plains", "Castle Wheel", this.castleWheelSelect );
 		this.addChoiceSelect( "Plains", "Papaya War", this.palindomePapayaSelect );
 		this.addChoiceSelect( "Plains", "Ferny's Basement", this.basementMallSelect );
@@ -275,6 +291,7 @@ public class ChoiceOptionsPanel
 		this.addChoiceSelect( "Island", "Ocean Destination", this.oceanDestSelect );
 		this.addChoiceSelect( "Island", "Ocean Action", this.oceanActionSelect );
 		this.addChoiceSelect( "Mountain", "Barrel full of Barrels", this.barrelSelect );
+		this.addChoiceSelect( "Mountain", "Orc Chasm", this.addingSelect );
 		
 		this.addChoiceSelect(
 			ChoiceManager.LUCKY_SEWER.getZone(), ChoiceManager.LUCKY_SEWER.getName(), this.sewerSelect );
@@ -300,7 +317,9 @@ public class ChoiceOptionsPanel
 		Preferences.registerListener( "luckySewerAdventure", this );
 		Preferences.registerListener( "oceanAction", this );
 		Preferences.registerListener( "oceanDestination", this );
-		Preferences.registerListener( "basementMallSelect", this );
+		Preferences.registerListener( "basementMallPrices", this );
+		Preferences.registerListener( "breakableHandling", this );
+		Preferences.registerListener( "addingScrolls", this );
 
 		this.loadSettings();
 
@@ -682,6 +701,8 @@ public class ChoiceOptionsPanel
 			String.valueOf( this.palindomePapayaSelect.getSelectedIndex() + 1 ) );
 		Preferences.setInteger( "barrelGoal", this.barrelSelect.getSelectedIndex() + 1 );
 		Preferences.setInteger( "basementMallPrices", this.basementMallSelect.getSelectedIndex() );
+		Preferences.setInteger( "breakableHandling", this.breakableSelect.getSelectedIndex() + 1 );
+		Preferences.setInteger( "addingScrolls", this.addingSelect.getSelectedIndex() );
 		Preferences.setInteger( "gongPath", this.gongSelect.getSelectedIndex() );
 		KoLmafiaCLI.Gong.setPath( this.gongSelect.getSelectedIndex() );
 
@@ -935,9 +956,19 @@ public class ChoiceOptionsPanel
 		}
 
 		this.maidenSelect.setSelectedIndex( Preferences.getInteger( "choiceAdventure89" ) );
-		this.palindomePapayaSelect.setSelectedIndex( Preferences.getInteger( "choiceAdventure127" ) - 1 );
-		this.barrelSelect.setSelectedIndex( Preferences.getInteger( "barrelGoal" ) - 1 );
+		this.palindomePapayaSelect.setSelectedIndex( Math.max( 0, Preferences.getInteger( "choiceAdventure127" ) - 1 ) );
+		this.barrelSelect.setSelectedIndex( Math.max( 0, Preferences.getInteger( "barrelGoal" ) - 1 ) );
 		this.basementMallSelect.setSelectedIndex( Preferences.getInteger( "basementMallPrices" ) );
+		this.breakableSelect.setSelectedIndex( Math.max( 0, Preferences.getInteger( "breakableHandling" ) - 1 ) );
+		
+		int adding = Preferences.getInteger( "addingScrolls" );
+		if ( adding == -1 )
+		{
+			adding = Preferences.getBoolean( "createHackerSummons" ) ? 3 : 2;
+			Preferences.setInteger( "addingScrolls", adding );
+		}
+		this.addingSelect.setSelectedIndex( adding );
+		
 		this.gongSelect.setSelectedIndex( Preferences.getInteger( "gongPath" ) );
 
 		boolean foundItem = false;

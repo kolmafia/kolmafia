@@ -104,6 +104,7 @@ public class FightRequest
 	private static String wonInitiative = "";
 	private static int preparatoryRounds = 0;
 	private static String consultScriptThatDidNothing = null;
+	private static boolean waitingForSpecial;
 
 	public static String lastResponseText = "";
 	private static boolean isTrackingFights = false;
@@ -186,9 +187,6 @@ public class FightRequest
 	private static final String OLFACTION_ACTION = "skill" + SkillDatabase.OLFACTION;
 
 	private static final AdventureResult BROKEN_GREAVES = ItemPool.get( ItemPool.ANTIQUE_GREAVES, -1 );
-	private static final AdventureResult BROKEN_HELMET = ItemPool.get( ItemPool.ANTIQUE_HELMET, -1 );
-	private static final AdventureResult BROKEN_SPEAR = ItemPool.get( ItemPool.ANTIQUE_SPEAR, -1 );
-	private static final AdventureResult BROKEN_SHIELD = ItemPool.get( ItemPool.ANTIQUE_SHIELD, -1 );
 
 	private static boolean castNoodles = false;
 	private static boolean castCleesh = false;
@@ -402,7 +400,8 @@ public class FightRequest
 		// since it's conditions-driven.
 
 		if ( FightRequest.encounterLookup.equals( "rampaging adding machine" )
-			&& !KoLConstants.activeEffects.contains( FightRequest.BIRDFORM ) )
+			&& !KoLConstants.activeEffects.contains( FightRequest.BIRDFORM )
+			&& !FightRequest.waitingForSpecial )
 		{
 			this.handleAddingMachine();
 		}
@@ -514,6 +513,7 @@ public class FightRequest
 		
 		if ( FightRequest.action1.equals( "special" ) )
 		{
+			FightRequest.waitingForSpecial = false;
 			if ( GenericRequest.passwordHash.equals( "" ) || !FightRequest.getSpecialAction() )
 			{
 				--FightRequest.preparatoryRounds;
@@ -1093,7 +1093,17 @@ public class FightRequest
 
 	private void handleAddingMachine()
 	{
-		if ( FightRequest.desiredScroll != null )
+		int action = Preferences.getInteger( "addingScrolls" );
+		// 0: show in browser
+		// 1: create goal scrolls only
+		// 2: create goal & 668
+		// 3: create goal, 31337, 668
+		if ( action == 0 )
+		{
+			FightRequest.action1 = "abort";
+			return;
+		}
+		else if ( FightRequest.desiredScroll != null )
 		{
 			this.createAddingScroll( FightRequest.desiredScroll );
 		}
@@ -1113,11 +1123,11 @@ public class FightRequest
 		{
 			this.createAddingScroll( FightRequest.SCROLL_668 );
 		}
-		else if ( Preferences.getBoolean( "createHackerSummons" ) )
+		else if ( action >= 3 )
 		{
 			this.createAddingScroll( FightRequest.SCROLL_31337 );
 		}
-		else
+		else if ( action >= 2 )
 		{
 			this.createAddingScroll( FightRequest.SCROLL_668 );
 		}
@@ -1450,6 +1460,17 @@ public class FightRequest
 
 			FightRequest.isTrackingFights = false;
 			FightRequest.checkForInitiative( responseText );
+			FightRequest.waitingForSpecial = false;
+			for ( int i = 0; i < 10; ++i )
+			{
+				if ( CustomCombatManager.getShortCombatOptionName(
+					CustomCombatManager.getSetting(
+						FightRequest.encounterLookup, i ) ).equals( "special" ) )
+				{
+					FightRequest.waitingForSpecial = true;
+					break;
+				}
+			}
 		}
 		else
 		{
@@ -1478,35 +1499,79 @@ public class FightRequest
 			}
 		}
 
-		// Check for antique breakage; only run the string search if
-		// the player is equipped with the applicable item.
+		// Check for equipment breakage.
 
-		if ( EquipmentManager.getEquipment( EquipmentManager.HAT ).equals( FightRequest.BROKEN_HELMET ) && responseText.indexOf( "Your antique helmet, weakened" ) != -1 )
+		if ( responseText.indexOf( "Your antique helmet, weakened" ) != -1 )
 		{
-			EquipmentManager.setEquipment( EquipmentManager.HAT, EquipmentRequest.UNEQUIP );
-			ResultProcessor.tallyResult( FightRequest.BROKEN_HELMET, true );
-			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Your antique helmet broke." );
+			EquipmentManager.breakEquipment( ItemPool.ANTIQUE_HELMET,
+				"Your antique helmet broke." );
 		}
 
-		if ( EquipmentManager.getEquipment( EquipmentManager.WEAPON ).equals( FightRequest.BROKEN_SPEAR ) && responseText.indexOf( "sunders your antique spear" ) != -1 )
+		if ( responseText.indexOf( "sunders your antique spear" ) != -1 )
 		{
-			EquipmentManager.setEquipment( EquipmentManager.WEAPON, EquipmentRequest.UNEQUIP );
-			ResultProcessor.tallyResult( FightRequest.BROKEN_SPEAR, true );
-			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Your antique spear broke." );
+			EquipmentManager.breakEquipment( ItemPool.ANTIQUE_SPEAR,
+				"Your antique spear broke." );
 		}
 
-		if ( EquipmentManager.getEquipment( EquipmentManager.OFFHAND ).equals( FightRequest.BROKEN_SHIELD ) && responseText.indexOf( "Your antique shield, weakened" ) != -1 )
+		if ( responseText.indexOf( "Your antique shield, weakened" ) != -1 )
 		{
-			EquipmentManager.setEquipment( EquipmentManager.OFFHAND, EquipmentRequest.UNEQUIP );
-			ResultProcessor.tallyResult( FightRequest.BROKEN_SHIELD, true );
-			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Your antique shield broke." );
+			EquipmentManager.breakEquipment( ItemPool.ANTIQUE_SHIELD,
+				"Your antique shield broke." );
 		}
 
-		if ( EquipmentManager.getEquipment( EquipmentManager.PANTS ).equals( FightRequest.BROKEN_GREAVES ) && responseText.indexOf( "Your antique greaves, weakened" ) != -1 )
+		if ( responseText.indexOf( "Your antique greaves, weakened" ) != -1 )
 		{
-			EquipmentManager.setEquipment( EquipmentManager.PANTS, EquipmentRequest.UNEQUIP );
-			ResultProcessor.tallyResult( FightRequest.BROKEN_GREAVES, true );
-			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Your antique greaves broke." );
+			EquipmentManager.breakEquipment( ItemPool.ANTIQUE_GREAVES,
+				"Your antique greaves broke." );
+		}
+		
+		// "You sigh and discard the belt in a nearby trash can."
+		if ( responseText.indexOf( "You sigh and discard the belt" ) != -1 )
+		{
+			EquipmentManager.breakEquipment( ItemPool.CHEAP_STUDDED_BELT,
+				"Your cheap studded belt broke." );
+		}
+		
+		if ( responseText.indexOf( "Your sugar chapeau slides" ) != -1 )
+		{
+			EquipmentManager.breakEquipment( ItemPool.SUGAR_CHAPEAU,
+				"Your sugar chapeau shattered." );
+		}
+		
+		if ( responseText.indexOf( "your sugar shank handle" ) != -1 )
+		{
+			EquipmentManager.breakEquipment( ItemPool.SUGAR_SHANK,
+				"Your sugar shank shattered." );
+		}
+		
+		if ( responseText.indexOf( "drop something as sticky as the sugar shield" ) != -1 )
+		{
+			EquipmentManager.breakEquipment( ItemPool.SUGAR_SHIELD,
+				"Your sugar shield shattered." );
+		}
+		
+		if ( responseText.indexOf( "Your sugar shillelagh absorbs the shock" ) != -1 )
+		{
+			EquipmentManager.breakEquipment( ItemPool.SUGAR_SHILLELAGH,
+				"Your sugar shillelagh shattered." );
+		}
+		
+		if ( responseText.indexOf( "Your sugar shirt falls apart" ) != -1 )
+		{
+			EquipmentManager.breakEquipment( ItemPool.SUGAR_SHIRT,
+				"Your sugar shirt shattered." );
+		}
+		
+		if ( responseText.indexOf( "Your sugar shotgun falls apart" ) != -1 )
+		{
+			EquipmentManager.breakEquipment( ItemPool.SUGAR_SHOTGUN,
+				"Your sugar shotgun shattered." );
+		}
+		
+		if ( responseText.indexOf( "Your sugar shorts crack" ) != -1 )
+		{
+			EquipmentManager.breakEquipment( ItemPool.SUGAR_SHORTS,
+				"Your sugar shorts shattered." );
 		}
 		
 		// "The Slime draws back and shudders, as if it's about to sneeze.  
@@ -1535,13 +1600,6 @@ public class FightRequest
 			EquipmentManager.discardEquipment( ItemPool.ANTIQUE_GREAVES );
 			SpecialOutfit.forgetEquipment( FightRequest.BROKEN_GREAVES );
 			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Your antique greaves got rusted." );
-		}
-		
-		// "You sigh and discard the belt in a nearby trash can."
-		if ( responseText.indexOf( "You sigh and discard the belt" ) != -1 )
-		{
-			EquipmentManager.discardEquipment( ItemPool.CHEAP_STUDDED_BELT );
-			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Your cheap studded belt broke." );
 		}
 		
 		// Check for familiar item drops

@@ -336,7 +336,6 @@ public class OptionsFrame
 			{},
 
 			{ "cloverProtectActive", "Protect against accidental ten-leaf clover usage" },
-			{ "createHackerSummons", "Auto-create 31337 scrolls if no scroll conditions are set" },
 			{ "requireSewerTestItems", "Require appropriate test items to adventure in clan sewers " },
 			{ "mementoListActive", "Prevent accidental destruction of 'memento' items" },
 

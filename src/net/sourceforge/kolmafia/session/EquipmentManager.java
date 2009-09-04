@@ -49,6 +49,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -97,6 +98,7 @@ public class EquipmentManager
 	private static LockableListModel equipment = new LockableListModel();
 	private static final LockableListModel accessories = new SortedListModel();
 	private static final LockableListModel[] equipmentLists = new LockableListModel[ EquipmentManager.ALL_SLOTS ];
+	private static final ArrayList[] historyLists = new ArrayList[ EquipmentManager.ALL_SLOTS ];
 
 	private static int fakeHandCount = 0;
 
@@ -112,6 +114,7 @@ public class EquipmentManager
 		for ( int i = 0; i < EquipmentManager.ALL_SLOTS; ++i )
 		{
 			EquipmentManager.equipment.add( EquipmentRequest.UNEQUIP );
+			EquipmentManager.historyLists[ i ] = new ArrayList();
 
 			switch ( i )
 			{
@@ -133,6 +136,7 @@ public class EquipmentManager
 		for ( int i = 0; i < EquipmentManager.equipmentLists.length; ++i )
 		{
 			EquipmentManager.equipmentLists[ i ].clear();
+			EquipmentManager.historyLists[ i ].clear();
 		}
 
 		EquipmentManager.accessories.clear();
@@ -291,6 +295,8 @@ public class EquipmentManager
 
 		EquipmentManager.equipment.set( slot, item );
 		EquipmentManager.equipmentLists[ slot ].setSelectedItem( item );
+		EquipmentManager.historyLists[ slot ].remove( item );
+		EquipmentManager.historyLists[ slot ].add( item );
 
 		// Certain equipment slots require special update handling
 		// in addition to the above code.
@@ -341,7 +347,7 @@ public class EquipmentManager
 		}
 	}
 
-	public static final void discardEquipment( final int itemId )
+	public static final int discardEquipment( final int itemId )
 	{
 		AdventureResult item = ItemPool.get( itemId, 1 );
 		for ( int slot = 0 ; slot <= EquipmentManager.ACCESSORY3 ; ++slot )
@@ -351,9 +357,69 @@ public class EquipmentManager
 				EquipmentManager.setEquipment( slot, EquipmentRequest.UNEQUIP );
 				AdventureResult.addResultToList( KoLConstants.inventory, item );
 				ResultProcessor.processItem( itemId, -1 );
-				return;
+				return slot;
 			}
 		}
+		return -1;
+	}
+	
+	public static final void breakEquipment( int itemId, String msg )
+	{
+		int slot = EquipmentManager.discardEquipment( itemId );
+		if ( slot == -1 )
+		{
+			RequestLogger.printLine( "(unable to determine slot of broken equipment)" );
+			return;
+		}
+		AdventureResult item = ItemPool.get( itemId, 1 );
+		SpecialOutfit.forgetEquipment( item );
+		
+		int action = Preferences.getInteger( "breakableHandling" + itemId );
+		if ( action == 0 )
+		{
+			action = Preferences.getInteger( "breakableHandling" );
+		}
+		// 1: abort
+		// 2: equip previous
+		// 3: re-equip from inventory, or abort
+		// 4: re-equip from inventory, or previous
+		// 5: acquire & re-equip
+		if ( action >= 5 )
+		{
+			InventoryManager.retrieveItem( item );
+			action -= 2;
+		}
+		if ( action >= 3 )
+		{
+			if ( InventoryManager.hasItem( item ) )
+			{
+				RequestLogger.printLine( msg );
+				RequestThread.postRequest( new EquipmentRequest( item, slot ) );
+				return;
+			}
+			action -= 2;
+		}
+		if ( action <= 1 )
+		{
+			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, msg );
+			return;
+		}
+		ArrayList list = EquipmentManager.historyLists[ slot ];
+		for ( int i = list.size() - 1; i >= 0; --i )
+		{
+			AdventureResult prev = (AdventureResult) list.get( i );
+			if ( prev.equals( EquipmentRequest.UNEQUIP ) ||
+				prev.equals( item ) ||
+				!InventoryManager.hasItem( prev ) )
+			{
+				continue;
+			}
+			RequestLogger.printLine( msg );
+			RequestThread.postRequest( new EquipmentRequest( prev, slot ) );
+			return;
+		}
+		KoLmafia.updateDisplay( KoLConstants.PENDING_STATE,
+			msg + "  No previous item to equip." );
 	}
 
 	public static final void checkFamiliar( final int slot, AdventureResult item )
