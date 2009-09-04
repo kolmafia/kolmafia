@@ -191,6 +191,7 @@ public class MoneyMakingGameRequest
 
 		if ( error != null )
 		{
+                        System.out.println( "Request = " + this.action + " error = " + error );
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, error );
 		}
 	}

@@ -52,19 +52,22 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MoneyMakingGameManager
 {
-	public static final Pattern PENDING_BETS_PATTERN = Pattern.compile( "Your Pending Bets:.*?<table>(.*?)</table>" );
-	public static final Pattern MY_BET_PATTERN = Pattern.compile( "<tr>.*?([0123456789,]+) Meat.*?betid value='(\\d*)'.*?</tr>" );
+	private static final Pattern PENDING_BETS_PATTERN = Pattern.compile( "Your Pending Bets:.*?<table>(.*?)</table>" );
+	private static final Pattern MY_BET_PATTERN = Pattern.compile( "<tr>.*?([0123456789,]+) Meat.*?betid value='(\\d*)'.*?</tr>" );
 
-	public static final Pattern RECENT_BETS_PATTERN = Pattern.compile( "(Last 20 Bets|Bets Found).*?<table.*?>(.*?)</table>" );
-	public static final Pattern OFFERED_BET_PATTERN = Pattern.compile( "<tr>.*?showplayer.*?<b>(.*?)</b> \\(#(\\d*)\\).*?([0123456789,]+) Meat.*?whichbet value='(\\d*)'.*?</tr>" );
+	private static final Pattern RECENT_BETS_PATTERN = Pattern.compile( "(Last 20 Bets|Bets Found).*?<table.*?>(.*?)</table>" );
+	private static final Pattern OFFERED_BET_PATTERN = Pattern.compile( "<tr>.*?showplayer.*?<b>(.*?)</b> \\(#(\\d*)\\).*?([0123456789,]+) Meat.*?whichbet value='(\\d*)'.*?</tr>" );
 
 	// Babycakes (#311877) took your 1,000 Meat bet, and you lost. Better luck next time.
 	// Babycakes (#311877) took your 1,000 Meat bet, and you won, earning you 1,998 Meat.
 
-	public static final Pattern EVENT_PATTERN = Pattern.compile( "- (.*) \\(#(\\d+)\\) took your ([1234567890,]*) Meat bet, and you (won|lost)(, earning you ([0123456789,]*) Meat)?" );
+	private static final Pattern EVENT_PATTERN = Pattern.compile( "- (.*) \\(#(\\d+)\\) took your ([1234567890,]*) Meat bet, and you (won|lost)(, earning you ([0123456789,]*) Meat)?" );
 
-	public static final Pattern TAKE_BET_PATTERN = Pattern.compile( "You take the ([0123456789,]*) bet" );
-	public static final Pattern WON_BET_PATTERN = Pattern.compile( "(You gain|have him deliver) ([0123456789,]*) Meat" );
+	private static final Pattern TAKE_BET_PATTERN = Pattern.compile( "You take the ([0123456789,]*) bet" );
+	private static final Pattern WON_BET_PATTERN = Pattern.compile( "(You gain|have him deliver) ([0123456789,]*) Meat" );
+
+	// Database Locking.
+	private static Object lock = new Object();
 
 	// Current bets offered by others
 	private static ArrayList offered = new ArrayList();
@@ -102,27 +105,36 @@ public class MoneyMakingGameManager
 
 	public static void reset()
 	{
-		MoneyMakingGameManager.offered.clear();
-		MoneyMakingGameManager.lastWinnings = 0;
-		MoneyMakingGameManager.makingBet = 0;
-		MoneyMakingGameManager.dummyBetId = -1;
-		MoneyMakingGameManager.active.clear();
-		MoneyMakingGameManager.taken.clear();
-		MoneyMakingGameManager.lastBet = null;
-		MoneyMakingGameManager.received.clear();
-		MoneyMakingGameManager.resolved.clear();
-		MoneyMakingGameManager.lastEvent = null;
+		synchronized ( MoneyMakingGameManager.lock )
+		{
+			MoneyMakingGameManager.offered.clear();
+			MoneyMakingGameManager.lastWinnings = 0;
+			MoneyMakingGameManager.makingBet = 0;
+			MoneyMakingGameManager.dummyBetId = -1;
+			MoneyMakingGameManager.active.clear();
+			MoneyMakingGameManager.taken.clear();
+			MoneyMakingGameManager.lastBet = null;
+			MoneyMakingGameManager.received.clear();
+			MoneyMakingGameManager.resolved.clear();
+			MoneyMakingGameManager.lastEvent = null;
+		}
 	}
 
 	public static final Bet getLastBet()
 	{
-		return MoneyMakingGameManager.lastBet;
+		synchronized ( MoneyMakingGameManager.lock )
+		{
+			return MoneyMakingGameManager.lastBet;
+		}
 	}
 
 	public static final int getLastBetId()
 	{
-		Bet bet = MoneyMakingGameManager.lastBet;
-		return bet == null ? 0 : bet.getId();
+		synchronized ( MoneyMakingGameManager.lock )
+		{
+			Bet bet = MoneyMakingGameManager.lastBet;
+			return bet == null ? 0 : bet.getId();
+		}
 	}
 
 	private static final int [] getBets( final List list )
@@ -156,95 +168,107 @@ public class MoneyMakingGameManager
 
 	public static final int [] getOfferedBets()
 	{
-		return MoneyMakingGameManager.getBets( offered );
+		synchronized ( MoneyMakingGameManager.lock )
+		{
+			return MoneyMakingGameManager.getBets( offered );
+		}
 	}
 
 	public static final void parseOfferedBets( final String responseText )
 	{
-		// Find all currently active bets
-		MoneyMakingGameManager.offered.clear();
-		Matcher recent = RECENT_BETS_PATTERN.matcher( responseText );
-		if ( recent.find() )
+		synchronized ( MoneyMakingGameManager.lock )
 		{
-			Matcher betMatcher = OFFERED_BET_PATTERN.matcher( recent.group( 2 ) );
-			while ( betMatcher.find() )
+			// Find all currently active bets
+			MoneyMakingGameManager.offered.clear();
+			Matcher recent = RECENT_BETS_PATTERN.matcher( responseText );
+			if ( recent.find() )
 			{
-				String player = betMatcher.group( 1 );
-				int playerId = StringUtilities.parseInt( betMatcher.group( 2 ) );
-				int amount = StringUtilities.parseInt( betMatcher.group( 3 ) );
-				int betid = StringUtilities.parseInt( betMatcher.group( 4 ) );
-				Bet bet = new Bet( betid, amount, player, playerId );
-				// Add to offered list
-				MoneyMakingGameManager.offered.add( bet );
+				Matcher betMatcher = OFFERED_BET_PATTERN.matcher( recent.group( 2 ) );
+				while ( betMatcher.find() )
+				{
+					String player = betMatcher.group( 1 );
+					int playerId = StringUtilities.parseInt( betMatcher.group( 2 ) );
+					int amount = StringUtilities.parseInt( betMatcher.group( 3 ) );
+					int betid = StringUtilities.parseInt( betMatcher.group( 4 ) );
+					Bet bet = new Bet( betid, amount, player, playerId );
+					// Add to offered list
+					MoneyMakingGameManager.offered.add( bet );
+				}
 			}
 		}
 	}
 
 	public static final int [] getActiveBets()
 	{
-		return MoneyMakingGameManager.getBets( active );
+		synchronized ( MoneyMakingGameManager.lock )
+		{
+			return MoneyMakingGameManager.getBets( active );
+		}
 	}
 
 	public static final void parseMyBets( final String responseText, final boolean internal )
 	{
-		// Constructed list of currently outstanding bets
-		ArrayList current = new ArrayList();
-
-		// Assume there is no newly placed bet
-		MoneyMakingGameManager.lastBet = null;
-
-		// Find all currently active bets
-		Matcher pending = PENDING_BETS_PATTERN.matcher( responseText );
-		if ( pending.find() )
+		synchronized ( MoneyMakingGameManager.lock )
 		{
-			Matcher betMatcher = MY_BET_PATTERN.matcher( pending.group( 1 ) );
-			while ( betMatcher.find() )
-			{
-				int amount = StringUtilities.parseInt( betMatcher.group( 1 ) );
-				int betId = StringUtilities.parseInt( betMatcher.group( 2 ) );
+			// Constructed list of currently outstanding bets
+			ArrayList current = new ArrayList();
 
-				Bet bet = MoneyMakingGameManager.findBet( betId, MoneyMakingGameManager.active );
-				if ( bet == null )
+			// Assume there is no newly placed bet
+			MoneyMakingGameManager.lastBet = null;
+
+			// Find all currently active bets
+			Matcher pending = PENDING_BETS_PATTERN.matcher( responseText );
+			if ( pending.find() )
+			{
+				Matcher betMatcher = MY_BET_PATTERN.matcher( pending.group( 1 ) );
+				while ( betMatcher.find() )
 				{
-					// This is a new bet
-					bet = new Bet( betId, amount, internal );
-					MoneyMakingGameManager.lastBet = bet;
+					int amount = StringUtilities.parseInt( betMatcher.group( 1 ) );
+					int betId = StringUtilities.parseInt( betMatcher.group( 2 ) );
+
+					Bet bet = MoneyMakingGameManager.findBet( betId, MoneyMakingGameManager.active );
+					if ( bet == null )
+					{
+						// This is a new bet
+						bet = new Bet( betId, amount, internal );
+						MoneyMakingGameManager.lastBet = bet;
+					}
+
+					current.add( bet );
 				}
-
-				current.add( bet );
 			}
-		}
 
-		// Move any bets that are gone to taken
-		int count = MoneyMakingGameManager.active.size();
-		for ( int i = 0; i < count; ++i )
-		{
-			Bet bet = (Bet) MoneyMakingGameManager.active.get( i );
-			if ( current.indexOf( bet) == -1 )
+			// Move any bets that are gone to taken
+			int count = MoneyMakingGameManager.active.size();
+			for ( int i = 0; i < count; ++i )
 			{
-				// Bet is gone. Move to taken
+				Bet bet = (Bet) MoneyMakingGameManager.active.get( i );
+				if ( current.indexOf( bet) == -1 )
+				{
+					// Bet is gone. Move to taken
+					MoneyMakingGameManager.handleTakenBet( bet );
+				}
+			}
+
+			// KoL redirects us from the URL that submitted the bet
+			// to, simply, bet.php. It is possible for our bet to
+			// be taken before we get the response from that page.
+			// When this happens, we will not detect a new bet.
+
+			if ( MoneyMakingGameManager.makingBet != 0 && MoneyMakingGameManager.lastBet == null )
+			{
+				// Make a dummy bet to match with the eventual
+				// event - which could have arrived already.
+				Bet bet = new Bet( MoneyMakingGameManager.dummyBetId--,
+						   MoneyMakingGameManager.makingBet,
+						   internal );
+				MoneyMakingGameManager.lastBet = bet;
 				MoneyMakingGameManager.handleTakenBet( bet );
 			}
+
+			// Finally, save new list of active bets
+			MoneyMakingGameManager.active = current;
 		}
-
-		// KoL redirects us from the URL that submitted the bet to,
-		// simply, bet.php. It is possible for our bet to be taken
-		// before we get the response from that page. When this
-		// happens, we will not detect a new bet.
-
-		if ( MoneyMakingGameManager.makingBet != 0 && MoneyMakingGameManager.lastBet == null )
-		{
-			// Make a dummy bet to match with the eventual event -
-			// which could have arrived already, too.
-			Bet bet = new Bet( MoneyMakingGameManager.dummyBetId--,
-					   MoneyMakingGameManager.makingBet,
-					   internal );
-			MoneyMakingGameManager.lastBet = bet;
-			MoneyMakingGameManager.handleTakenBet( bet );
-		}
-
-		// Finally, save new list of active bets
-		MoneyMakingGameManager.active = current;
 	}
 
 	private static final void handleTakenBet( final Bet bet )
@@ -308,167 +332,148 @@ public class MoneyMakingGameManager
 
 	public static final String betOwner( final int id )
 	{
-		Bet bet = MoneyMakingGameManager.findBet( id );
-		return bet == null ? "" : bet.getPlayer();
+		synchronized ( MoneyMakingGameManager.lock )
+		{
+			Bet bet = MoneyMakingGameManager.findBet( id );
+			return bet == null ? "" : bet.getPlayer();
+		}
 	}
 
 	public static final int betOwnerId( final int id )
 	{
-		Bet bet = MoneyMakingGameManager.findBet( id );
-		return bet == null ? 0 : bet.getPlayerId();
+		synchronized ( MoneyMakingGameManager.lock )
+		{
+			Bet bet = MoneyMakingGameManager.findBet( id );
+			return bet == null ? 0 : bet.getPlayerId();
+		}
 	}
 
 	public static final int betAmount( final int id )
 	{
-		Bet bet = MoneyMakingGameManager.findBet( id );
-		return bet == null ? 0 : bet.getAmount();
+		synchronized ( MoneyMakingGameManager.lock )
+		{
+			Bet bet = MoneyMakingGameManager.findBet( id );
+			return bet == null ? 0 : bet.getAmount();
+		}
 	}
 
 	public static final void makeBet( final String responseText )
 	{
-		Bet bet = MoneyMakingGameManager.lastBet;
-		if ( bet == null )
+		synchronized ( MoneyMakingGameManager.lock )
 		{
-			// Uh oh.
-			return;
-		}
+			Bet bet = MoneyMakingGameManager.lastBet;
+			if ( bet == null )
+			{
+				// Uh oh.
+				return;
+			}
 
-		int amount = bet.getAmount();
-		if ( responseText.indexOf( "Meat has been taken from Hagnk's" ) != -1 )
-		{
-			bet.setFromStorage( true );
-			KoLCharacter.addStorageMeat( -amount );
-		}
-		else
-		{
-			ResultProcessor.processMeat( -amount );
+			int amount = bet.getAmount();
+			if ( responseText.indexOf( "Meat has been taken from Hagnk's" ) != -1 )
+			{
+				bet.setFromStorage( true );
+				KoLCharacter.addStorageMeat( -amount );
+			}
+			else
+			{
+				ResultProcessor.processMeat( -amount );
+			}
 		}
 	}
 
 	public static final void retractBet( final String urlString, final String responseText )
 	{
-		// See if we succeeded in retracting the bid
-		if ( responseText.indexOf( "You retract your bid" ) == -1 )
+		synchronized ( MoneyMakingGameManager.lock )
 		{
-			return;
-		}
+			// See if we succeeded in retracting the bid
+			if ( responseText.indexOf( "You retract your bid" ) == -1 )
+			{
+				return;
+			}
 
-		// Get the bet id
-		int betId = MoneyMakingGameRequest.getBetId( urlString );
-		if ( betId < 0 )
-		{
-			return;
-		}
+			// Get the bet id
+			int betId = MoneyMakingGameRequest.getBetId( urlString );
+			if ( betId < 0 )
+			{
+				return;
+			}
 
-		// Find the bet on the "taken" list, since it was moved there
-		// when we didn't find it on the list of active bets.
-		Bet bet = MoneyMakingGameManager.findBet( betId, MoneyMakingGameManager.taken );
-		if ( bet == null )
-		{
-			// Internal error
-			return;
-		}
+			// Find the bet on the "taken" list, since it was moved
+			// there when we didn't find it on the list of active
+			// bets.
+			Bet bet = MoneyMakingGameManager.findBet( betId, MoneyMakingGameManager.taken );
+			if ( bet == null )
+			{
+				// Internal error
+				return;
+			}
 
-		int amount = bet.getAmount();
-		// Put back meat to wherever it came from
-		if ( bet.fromStorage() )
-		{
-			// Add meat to storage
-			KoLCharacter.addStorageMeat( amount );
-		}
-		else
-		{
-			// Add meat to inventory
-			ResultProcessor.processMeat( amount );
-		}
+			int amount = bet.getAmount();
+			// Put back meat to wherever it came from
+			if ( bet.fromStorage() )
+			{
+				// Add meat to storage
+				KoLCharacter.addStorageMeat( amount );
+			}
+			else
+			{
+				// Add meat to inventory
+				ResultProcessor.processMeat( amount );
+			}
 
-		// Remove the bet from the taken list
-		int index = MoneyMakingGameManager.taken.indexOf( bet );
-		MoneyMakingGameManager.taken.remove( index );
+			// Remove the bet from the taken list
+			int index = MoneyMakingGameManager.taken.indexOf( bet );
+			MoneyMakingGameManager.taken.remove( index );
+		}
 	}
 
 	public static final void takeBet( final String urlString, final String responseText )
 	{
-		MoneyMakingGameManager.lastWinnings = 0;
-
-		// Find out if the bet took money from inventory or storage
-		String from = MoneyMakingGameRequest.getFromString( urlString );
-		if ( from == null )
+		synchronized ( MoneyMakingGameManager.lock )
 		{
-			return;
-		}
-		boolean storage = from.equals( "1" );
+			MoneyMakingGameManager.lastWinnings = 0;
 
-		// Find bet amount. If we can't, we failed to take the bet for
-		// some reason.
+			// Find out if the bet took money from inventory or storage
+			String from = MoneyMakingGameRequest.getFromString( urlString );
+			if ( from == null )
+			{
+				return;
+			}
+			boolean storage = from.equals( "1" );
 
-		Matcher takeMatcher = TAKE_BET_PATTERN.matcher( responseText );
-		if ( !takeMatcher.find() )
-		{
-			return;
-		}
-		int amount = StringUtilities.parseInt( takeMatcher.group( 1 ) );
+			// Find bet amount. If we can't, we failed to take the bet for
+			// some reason.
 
-		// Start out by deducting the bet cost from the meat source
-		if ( storage )
-		{
-			// Subtract meat from storage
-			KoLCharacter.addStorageMeat( -amount );
-		}
-		else
-		{
-			// Subtract meat from inventory
-			ResultProcessor.processMeat( -amount );
-		}
+			Matcher takeMatcher = TAKE_BET_PATTERN.matcher( responseText );
+			if ( !takeMatcher.find() )
+			{
+				return;
+			}
+			int amount = StringUtilities.parseInt( takeMatcher.group( 1 ) );
 
-		// See if we won.
+			// Start out by deducting the bet cost from the meat source
+			if ( storage )
+			{
+				// Subtract meat from storage
+				KoLCharacter.addStorageMeat( -amount );
+			}
+			else
+			{
+				// Subtract meat from inventory
+				ResultProcessor.processMeat( -amount );
+			}
 
-		Matcher wonMatcher = WON_BET_PATTERN.matcher( responseText );
-		if ( !wonMatcher.find() )
-		{
-			MoneyMakingGameManager.lastWinnings = -amount;
-			return;
-		}
-		int winnings = StringUtilities.parseInt( wonMatcher.group( 2 ) );
+			// See if we won.
 
-		// We did. Add back your winnings.
-		if ( storage )
-		{
-			// Add meat to storage
-			KoLCharacter.addStorageMeat( winnings );
-		}
-		else
-		{
-			// Add meat to inventory
-			ResultProcessor.processMeat( winnings );
-		}
+			Matcher wonMatcher = WON_BET_PATTERN.matcher( responseText );
+			if ( !wonMatcher.find() )
+			{
+				MoneyMakingGameManager.lastWinnings = -amount;
+				return;
+			}
+			int winnings = StringUtilities.parseInt( wonMatcher.group( 2 ) );
 
-		MoneyMakingGameManager.lastWinnings = winnings - amount;
-	}
-
-	public static final int getLastWinnings()
-	{
-		return MoneyMakingGameManager.lastWinnings;
-	}
-
-	public static final void processEvent( final String eventText )
-	{
-		Matcher matcher = EVENT_PATTERN.matcher( eventText );
-		if ( !matcher.find() )
-		{
-			return;
-		}
-
-		String player = matcher.group( 1 );
-		int playerId = StringUtilities.parseInt( matcher.group( 2 ) );
-		int amount = StringUtilities.parseInt( matcher.group( 3 ) );
-		boolean won = matcher.group( 4 ).equals( "won" );
-		int winnings = matcher.group( 5 ) != null ? StringUtilities.parseInt( matcher.group( 6 ) ) : 0;
-		boolean storage = eventText.indexOf( "Hagnk's" ) != -1;
-
-		if ( won )
-		{
-			// Add meat to wherever it goes
+			// We did. Add back your winnings.
 			if ( storage )
 			{
 				// Add meat to storage
@@ -479,43 +484,88 @@ public class MoneyMakingGameManager
 				// Add meat to inventory
 				ResultProcessor.processMeat( winnings );
 			}
+
+			MoneyMakingGameManager.lastWinnings = winnings - amount;
 		}
+	}
 
-		Event ev = new Event( player, playerId, amount, winnings );
-
-		// A matching bet on the "taken" list goes with this event. We
-		// resolve the first match. There can be more than one and we
-		// can't tell which one went with this event, but it doesn't
-		// matter.
-		Bet bet = MoneyMakingGameManager.findMatchingBet( amount, MoneyMakingGameManager.taken );
-		if ( bet != null )
+	public static final int getLastWinnings()
+	{
+		synchronized ( MoneyMakingGameManager.lock )
 		{
-			MoneyMakingGameManager.taken.remove( bet );
-			MoneyMakingGameManager.resolveEvent( ev, bet );
-			return;
+			return MoneyMakingGameManager.lastWinnings;
 		}
+	}
 
-		// A matching bet on the "active" list goes with this
-		// event. There can be more than one, but we can't tell which
-		// one went with this event - and it does matter. We have to
-		// wait until the bet is moved to the "taken" list.
-		bet = MoneyMakingGameManager.findMatchingBet( amount, MoneyMakingGameManager.active );
-		if ( bet != null )
+	public static final void processEvent( final String eventText )
+	{
+		synchronized ( MoneyMakingGameManager.lock )
 		{
-			MoneyMakingGameManager.received.add( ev );
-			return;
-		}
+			Matcher matcher = EVENT_PATTERN.matcher( eventText );
+			if ( !matcher.find() )
+			{
+				return;
+			}
 
-		// If chat is active, the event signaling the taking of a bet
-		// can arrive before the response from the request that
-		// submitted it.
-		if ( MoneyMakingGameManager.makingBet != 0 )
-		{
-			MoneyMakingGameManager.received.add( ev );
-			return;
-		}
+			String player = matcher.group( 1 );
+			int playerId = StringUtilities.parseInt( matcher.group( 2 ) );
+			int amount = StringUtilities.parseInt( matcher.group( 3 ) );
+			boolean won = matcher.group( 4 ).equals( "won" );
+			int winnings = matcher.group( 5 ) != null ? StringUtilities.parseInt( matcher.group( 6 ) ) : 0;
+			boolean storage = eventText.indexOf( "Hagnk's" ) != -1;
 
-		// No matching active or taken bet. Drop event.
+			if ( won )
+			{
+				// Add meat to wherever it goes
+				if ( storage )
+				{
+					// Add meat to storage
+					KoLCharacter.addStorageMeat( winnings );
+				}
+				else
+				{
+					// Add meat to inventory
+					ResultProcessor.processMeat( winnings );
+				}
+			}
+
+			Event ev = new Event( player, playerId, amount, winnings );
+
+			// A matching bet on the "taken" list goes with this
+			// event. We resolve the first match. There can be more
+			// than one and we can't tell which one went with this
+			// event, but it doesn't matter.
+			Bet bet = MoneyMakingGameManager.findMatchingBet( amount, MoneyMakingGameManager.taken );
+			if ( bet != null )
+			{
+				MoneyMakingGameManager.taken.remove( bet );
+				MoneyMakingGameManager.resolveEvent( ev, bet );
+				return;
+			}
+
+			// A matching bet on the "active" list goes with this
+			// event. There can be more than one, but we can't tell
+			// which one went with this event - and it does
+			// matter. We have to wait until the bet is moved to
+			// the "taken" list.
+			bet = MoneyMakingGameManager.findMatchingBet( amount, MoneyMakingGameManager.active );
+			if ( bet != null )
+			{
+				MoneyMakingGameManager.received.add( ev );
+				return;
+			}
+
+			// If chat is active, the event signaling the taking of
+			// a bet can arrive before the response from the
+			// request that submitted it.
+			if ( MoneyMakingGameManager.makingBet != 0 )
+			{
+				MoneyMakingGameManager.received.add( ev );
+				return;
+			}
+
+			// No matching active or taken bet. Drop event.
+		}
 	}
 
 	private static final Event findMatchingEvent( final int amount, final List list )
@@ -565,23 +615,29 @@ public class MoneyMakingGameManager
 				}
 			}
 
-			if ( MoneyMakingGameManager.taken.isEmpty() )
+			int count = 0;
+			synchronized ( MoneyMakingGameManager.lock )
 			{
-				// If we have no taken bets but we do have an
-				// unresolved event, visit the bet page to
-				// resolve the appropriate active bet.
-				if ( !MoneyMakingGameManager.received.isEmpty() )
+				if ( MoneyMakingGameManager.taken.isEmpty() )
 				{
-					RequestThread.postRequest( new MoneyMakingGameRequest() );
-					continue;
+					// If we have no taken bets but we do
+					// have an unresolved event, visit the
+					// bet page to resolve the appropriate
+					// active bet.
+					count = MoneyMakingGameManager.received.size();
+					// If we have no active bets, no events
+					// will come
+					if ( count == 0 && MoneyMakingGameManager.active.isEmpty() )
+					{
+						return -1;
+					}
 				}
+			}
 
-				// If we have no active bets, no events will
-				// come
-				if ( MoneyMakingGameManager.active.isEmpty() )
-				{
-					return 0;
-				}
+			if ( count != 0 )
+			{
+				RequestThread.postRequest( new MoneyMakingGameRequest() );
+				continue;
 			}
 
 			// If we have already waited and found nothing, punt
@@ -600,15 +656,25 @@ public class MoneyMakingGameManager
 				catch ( InterruptedException e )
 				{
 				}
+
+				// Mark that we have waited
+				waited = true;
 			}
 
-			// Mark that we have waited
-			waited = true;
+
+			boolean makeRequest = false;
+			synchronized ( MoneyMakingGameManager.lock )
+			{
+				makeRequest = MoneyMakingGameManager.received.isEmpty();
+			}
+			synchronized ( MoneyMakingGameManager.resolved )
+			{
+				makeRequest &= MoneyMakingGameManager.resolved.isEmpty();
+			}
 
 			// If we still have no events, it's possible that chat
 			// is not active and we just haven't detected any.
-			if ( MoneyMakingGameManager.received.isEmpty() &&
-			     MoneyMakingGameManager.resolved.isEmpty() )
+			if ( makeRequest )
 			{
 				RequestThread.postRequest( new GenericRequest( "main.php" ) );
 			}
@@ -617,37 +683,55 @@ public class MoneyMakingGameManager
 
 	public static final Event getLastEvent()
 	{
-		return MoneyMakingGameManager.lastEvent;
+		synchronized ( MoneyMakingGameManager.lock )
+		{
+			return MoneyMakingGameManager.lastEvent;
+		}
 	}
 
 	public static final Bet getLastEventBet()
 	{
-		Event event = MoneyMakingGameManager.lastEvent;
-		return event == null ? null : event.getBet();
+		synchronized ( MoneyMakingGameManager.lock )
+		{
+			Event event = MoneyMakingGameManager.lastEvent;
+			return event == null ? null : event.getBet();
+		}
 	}
 
 	public static final int getLastEventBetId()
 	{
-		Event event = MoneyMakingGameManager.lastEvent;
-		return event == null ? 0 : event.getBetId();
+		synchronized ( MoneyMakingGameManager.lock )
+		{
+			Event event = MoneyMakingGameManager.lastEvent;
+			return event == null ? 0 : event.getBetId();
+		}
 	}
 
 	public static final String getLastEventPlayer()
 	{
-		Event event = MoneyMakingGameManager.lastEvent;
-		return event == null ? "" : event.getPlayer();
+		synchronized ( MoneyMakingGameManager.lock )
+		{
+			Event event = MoneyMakingGameManager.lastEvent;
+			return event == null ? "" : event.getPlayer();
+		}
 	}
 
 	public static final int getLastEventPlayerId()
 	{
-		Event event = MoneyMakingGameManager.lastEvent;
-		return event == null ? 0 : event.getPlayerId();
+		synchronized ( MoneyMakingGameManager.lock )
+		{
+			Event event = MoneyMakingGameManager.lastEvent;
+			return event == null ? 0 : event.getPlayerId();
+		}
 	}
 
 	public static final int getLastEventWinnings()
 	{
-		Event event = MoneyMakingGameManager.lastEvent;
-		return event == null ? 0 : event.getWinnings();
+		synchronized ( MoneyMakingGameManager.lock )
+		{
+			Event event = MoneyMakingGameManager.lastEvent;
+			return event == null ? 0 : event.getWinnings();
+		}
 	}
 
 	public static class Bet
