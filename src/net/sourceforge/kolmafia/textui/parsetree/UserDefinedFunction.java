@@ -99,10 +99,7 @@ public class UserDefinedFunction
 		for ( int i = 0; variables.hasNext(); ++i )
 		{
 			Variable current = (Variable) variables.next();
-			if ( !( current.getType() instanceof AggregateType ) )
-			{
-				current.forceValue( (Value) values.get( i ) );
-			}
+			current.forceValue( (Value) values.get( i ) );
 		}
 	}
 
