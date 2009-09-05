@@ -2680,6 +2680,11 @@ public class FightRequest
 			}
 			return false;
 
+		case ItemPool.HAROLDS_BELL:
+
+			TurnCounter.startCounting( 19, "Harold's Bell", "bell.gif", true );
+			return true;
+
 		case ItemPool.SPOOKY_PUTTY_SHEET:
 			// You press the sheet of spooky putty against
 			// him/her/it and make a perfect copy, which you shove
