@@ -47,6 +47,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MPRestoreItemList;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -1752,6 +1753,9 @@ public class FightRequest
 			// vanishes back into the pocket with a sleepy 'feed
 			// your head.'
 		}
+		
+		// Cancel any combat modifiers
+		Modifiers.overrideModifier( "fightMods", null );
 
 		if ( responseText.indexOf( "<!--WINWINWIN-->" ) != -1 )
 		{
@@ -2916,6 +2920,18 @@ public class FightRequest
 
 		case 7046: // Give Your Opponent "The Bird"
 			Preferences.increment( "birdformSleaze", 1 );
+			break;
+			
+		case 7050: // Ask the hobo to tell you a joke
+			Modifiers.overrideModifier( "fightMods", "Meat Drop: +100" );
+			KoLCharacter.recalculateAdjustments();
+			KoLCharacter.updateStatus();
+			break;
+		
+		case 7051: // Ask the hobo to dance for you
+			Modifiers.overrideModifier( "fightMods", "Item Drop: +100" );
+			KoLCharacter.recalculateAdjustments();
+			KoLCharacter.updateStatus();
 			break;
 		
 		case 7082:	// Point at your opponent

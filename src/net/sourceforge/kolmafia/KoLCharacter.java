@@ -3360,6 +3360,7 @@ public abstract class KoLCharacter
 		// Miscellaneous
 		
 		newModifiers.add( Modifiers.getModifiers( "_userMods" ) );
+		newModifiers.add( Modifiers.getModifiers( "fightMods" ) );
 		
 		if ( Modifiers.currentZone.equals( "the slime tube" ) )
 		{
