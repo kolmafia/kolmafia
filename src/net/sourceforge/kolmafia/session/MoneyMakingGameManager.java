@@ -98,7 +98,7 @@ public class MoneyMakingGameManager
 
 	// Initial ID for a dummy bet: already gone before KoL returns the list
 	// of current bets.
-	private static int dummyBetId = -1;
+	private static int dummyBetId = -1000;
 
 	// The amount of the bet we are in the process of submitting
 	public static int makingBet = 0;
@@ -652,13 +652,11 @@ public class MoneyMakingGameManager
 				try
 				{
 					MoneyMakingGameManager.resolved.wait( ms );
+                                        waited = true;
 				}
 				catch ( InterruptedException e )
 				{
 				}
-
-				// Mark that we have waited
-				waited = true;
 			}
 
 
