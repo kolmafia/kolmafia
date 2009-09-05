@@ -126,6 +126,7 @@ public abstract class MPRestoreItemList
 		new MPRestoreItem( "Dyspepsi-Cola", 12, true ),
 		new MPRestoreItem( "Cloaca-Cola", 12, true ),
 		new MPRestoreItem( "cotton candy pinch", 12, false ),
+		new MPRestoreItem( "sugar shard", 8, false ),
 		new MPRestoreItem( "Mountain Stream soda", 8, true ),
 		MPRestoreItemList.MYSTERY_JUICE,
 		new MPRestoreItem( "black cherry soda", 10, 80, false ),

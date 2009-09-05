@@ -117,6 +117,7 @@ public abstract class HPRestoreItemList
 		new HPRestoreItem( "cast", 17 ),
 		new HPRestoreItem( "cotton candy smidgen", 17 ),
 		new HPRestoreItem( "Tongue of the Otter", 15 ),
+		new HPRestoreItem( "sugar shard", 15 ),
 		new HPRestoreItem( "Doc Galaktik's Restorative Balm", 14, 120 ),
 		HPRestoreItemList.OINTMENT,
 		new HPRestoreItem( "cotton candy pinch", 9 ),
