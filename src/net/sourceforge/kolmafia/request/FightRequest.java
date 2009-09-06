@@ -2686,7 +2686,7 @@ public class FightRequest
 
 		case ItemPool.HAROLDS_BELL:
 
-			TurnCounter.startCounting( 19, "Harold's Bell", "bell.gif", true );
+			TurnCounter.startCounting( 20, "Harold's Bell", "bell.gif", true );
 			return true;
 
 		case ItemPool.SPOOKY_PUTTY_SHEET:
