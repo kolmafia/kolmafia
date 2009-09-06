@@ -273,10 +273,9 @@ public class MoneyMakingGameManager
 
 	private static final void handleTakenBet( final Bet bet )
 	{
-		Event ev = MoneyMakingGameManager.findMatchingEvent( bet.getAmount(), MoneyMakingGameManager.received );
+		Event ev = MoneyMakingGameManager.findMatchingEvent( bet.getAmount() );
 		if ( ev != null )
 		{
-			MoneyMakingGameManager.received.remove( ev );
 			MoneyMakingGameManager.resolveEvent( ev, bet );
 		}
 		else
@@ -568,14 +567,15 @@ public class MoneyMakingGameManager
 		}
 	}
 
-	private static final Event findMatchingEvent( final int amount, final List list )
+	private static final Event findMatchingEvent( final int amount )
 	{
-		Iterator it = list.iterator();
+		Iterator it = MoneyMakingGameManager.received.iterator();
 		while ( it.hasNext() )
 		{
 			Event ev = (Event) it.next();
 			if ( amount == ev.getAmount() )
 			{
+				it.remove();
 				return ev;
 			}
 		}
@@ -596,6 +596,9 @@ public class MoneyMakingGameManager
 		return null;
 	}
 
+	private static final GenericRequest VISIT = new MoneyMakingGameRequest();
+	private static final GenericRequest MAIN = new GenericRequest( "main.php" );
+
 	public static final int getNextEvent( final int ms )
 	{
 		// Wait up to specified number of seconds to get an event.
@@ -615,32 +618,30 @@ public class MoneyMakingGameManager
 				}
 			}
 
-			int count = 0;
+			boolean visit = false;
 			synchronized ( MoneyMakingGameManager.lock )
 			{
-				if ( MoneyMakingGameManager.taken.isEmpty() )
+				// If we have unresolved events, visit the bet
+				// page to resolve the appropriate active bet.
+				visit = !MoneyMakingGameManager.received.isEmpty();
+				// If we have no active or taken bets, no
+				// events will come
+				if ( !visit &&
+				     MoneyMakingGameManager.taken.isEmpty() &&
+				     MoneyMakingGameManager.active.isEmpty() )
 				{
-					// If we have no taken bets but we do
-					// have an unresolved event, visit the
-					// bet page to resolve the appropriate
-					// active bet.
-					count = MoneyMakingGameManager.received.size();
-					// If we have no active bets, no events
-					// will come
-					if ( count == 0 && MoneyMakingGameManager.active.isEmpty() )
-					{
-						return -1;
-					}
+					return -1;
 				}
 			}
 
-			if ( count != 0 )
+			if ( visit )
 			{
-				RequestThread.postRequest( new MoneyMakingGameRequest() );
+				RequestThread.postRequest( VISIT );
+				VISIT.responseText = null;
 				continue;
 			}
 
-			// If we have already waited and found nothing, punt
+			// If we have already waited and found nothing, bail
 			if ( waited )
 			{
 				return 0;
@@ -652,30 +653,29 @@ public class MoneyMakingGameManager
 				try
 				{
 					MoneyMakingGameManager.resolved.wait( ms );
-                                        waited = true;
+					if ( !MoneyMakingGameManager.resolved.isEmpty() )
+					{
+						continue;
+					}
+					waited = true;
 				}
 				catch ( InterruptedException e )
 				{
 				}
 			}
 
-
-			boolean makeRequest = false;
 			synchronized ( MoneyMakingGameManager.lock )
 			{
-				makeRequest = MoneyMakingGameManager.received.isEmpty();
-			}
-			synchronized ( MoneyMakingGameManager.resolved )
-			{
-				makeRequest &= MoneyMakingGameManager.resolved.isEmpty();
+				if ( !MoneyMakingGameManager.received.isEmpty() )
+				{
+					continue;
+				}
 			}
 
 			// If we still have no events, it's possible that chat
 			// is not active and we just haven't detected any.
-			if ( makeRequest )
-			{
-				RequestThread.postRequest( new GenericRequest( "main.php" ) );
-			}
+			RequestThread.postRequest( MAIN );
+			MAIN.responseText = null;
 		}
 	}
 
@@ -796,14 +796,18 @@ public class MoneyMakingGameManager
 			this.fromStorage = fromStorage;
 		}
 
+		public boolean equals( final Object o )
+		{
+			return this.compareTo( o ) == 0;
+		}
+
 		public int compareTo( final Object o )
 		{
-			if ( !( o instanceof Bet ) )
+			if ( o instanceof Bet )
 			{
-				return -1;
+				return this.betId - ((Bet) o).betId;
 			}
-
-			return this.betId - ((Bet) o).betId;
+			return -1;
 		}
 
 		public String toString()
