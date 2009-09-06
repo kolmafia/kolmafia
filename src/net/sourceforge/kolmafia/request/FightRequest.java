@@ -2963,12 +2963,6 @@ public class FightRequest
 			return;
 		}
 
-		if ( FightRequest.isItemConsumed( itemId, responseText ) )
-		{
-			ResultProcessor.processResult( new AdventureResult( itemId, -1 ) );
-			return;
-		}
-
 		switch ( itemId )
 		{
 		case ItemPool.TOY_SOLDIER:
@@ -2986,6 +2980,19 @@ public class FightRequest
 			// A sidepane refresh at the end of the battle will
 			// re-synch everything.
 			break;
+			
+		case ItemPool.SHRINKING_POWDER:
+			if ( responseText.indexOf( "gets smaller and angrier" ) != -1 )
+			{
+				FightRequest.healthModifier += FightRequest.getMonsterHealth() / 2;
+			}
+			break;
+		}
+
+		if ( FightRequest.isItemConsumed( itemId, responseText ) )
+		{
+			ResultProcessor.processResult( new AdventureResult( itemId, -1 ) );
+			return;
 		}
 	}
 

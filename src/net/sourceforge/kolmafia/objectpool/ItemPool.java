@@ -574,6 +574,7 @@ public class ItemPool
 	public static final int GIFTW = 2683;
 	public static final int MASSIVE_SITAR = 2693;
 	public static final int DUCT_TAPE = 2697;
+	public static final int SHRINKING_POWDER = 2704;
 	public static final int PARROT_CRACKER = 2710;
 	public static final int STEEL_STOMACH = 2742;
 	public static final int STEEL_LIVER = 2743;
