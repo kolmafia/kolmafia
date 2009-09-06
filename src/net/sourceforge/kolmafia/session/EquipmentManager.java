@@ -350,7 +350,7 @@ public class EquipmentManager
 	public static final int discardEquipment( final int itemId )
 	{
 		AdventureResult item = ItemPool.get( itemId, 1 );
-		for ( int slot = 0 ; slot <= EquipmentManager.ACCESSORY3 ; ++slot )
+		for ( int slot = 0 ; slot <= EquipmentManager.FAMILIAR ; ++slot )
 		{
 			if ( KoLCharacter.hasEquipped( item, slot ) )
 			{
