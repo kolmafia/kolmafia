@@ -201,7 +201,7 @@ public class MoneyMakingGameRequest
 		// true.
 		if ( responseText.indexOf( "can't make a wager" ) != -1 )
 		{
-			return "You must bet at least 1000 meat.";
+			return "You must bet at least 1,000 meat.";
 		}
 
 		// You open your wallet and proudly pull out Meat. The old man
@@ -352,7 +352,7 @@ public class MoneyMakingGameRequest
 			// Remember that we're making a bet
 			MoneyMakingGameManager.makingBet = howmuch;
 
-			message = "Betting " + howmuch + " meat from " + from;
+			message = "Betting " + KoLConstants.COMMA_FORMAT.format( howmuch ) + " meat from " + from;
 		}
 		else if ( action.equals( "retract" ) )
 		{
