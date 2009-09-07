@@ -171,6 +171,7 @@ public class ItemPool
 	public static final int GREEN_PIXEL = 462;
 	public static final int BLUE_PIXEL = 463;
 	public static final int RED_PIXEL_POTION = 464;
+	public static final int RUBY_W = 468;
 	public static final int HOT_WING = 471;
 	public static final int DODECAGRAM = 479;
 	public static final int CANDLES = 480;
@@ -192,6 +193,7 @@ public class ItemPool
 	public static final int ABRIDGED = 534;
 	public static final int BRIDGE = 535;
 	public static final int DICTIONARY = 536;
+	public static final int LOWERCASE_N = 539;
 	public static final int SCROLL_334 = 547;
 	public static final int SCROLL_668 = 548;
 	public static final int SCROLL_30669 = 549;
@@ -213,12 +215,17 @@ public class ItemPool
 	public static final int GAUZE_IMMATERIA = 607;
 	public static final int PLASTIC_WRAP_IMMATERIA = 608;
 	public static final int SOCK = 609;
+	public static final int HEAVY_D = 611;
 	public static final int FURRY_FUR = 616;
 	public static final int GIANT_NEEDLE = 619;
 	public static final int BLACK_CANDLE = 620;
 	public static final int WARM_SUBJECT = 621;
 	public static final int AWFUL_POETRY_JOURNAL = 622;
+	public static final int WA = 623;
+	public static final int NG = 624;
 	public static final int WAND_OF_NAGAMAR = 626;
+	public static final int ND = 627;
+	public static final int METALLIC_A = 628;
 	public static final int TOASTER = 637;
 	public static final int SKELETON_KEY = 642;
 	public static final int SKELETON_KEY_RING = 643;

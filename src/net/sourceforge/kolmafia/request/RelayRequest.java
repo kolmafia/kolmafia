@@ -1439,14 +1439,14 @@ public class RelayRequest
 
 			if ( remain == 0 )
 			{
-				message = "The indicated counter has expired, so may wish to adventure somewhere else at this time.  If you are certain that this is where you'd like to adventure, click on the image to proceed.";
+				message = "The indicated counter has expired, so you may wish to adventure somewhere else at this time.  If you are certain that this is where you'd like to adventure, click on the image to proceed.";
 			}
 			else if ( remain > 0 )
 			{
 				message = "The indicated counter will expire after " + 
 					remain + " more turn" +
 					((remain != 1) ? "s" : "") +
-					", so may wish to adventure somewhere else at this time.  If you are certain that this is where you'd like to adventure, click on the image to proceed.";
+					", so you may wish to adventure somewhere else at this time.  If you are certain that this is where you'd like to adventure, click on the image to proceed.";
 			}
 
 			if ( message != null )
@@ -1569,8 +1569,37 @@ public class RelayRequest
 				     !KoLCharacter.hasEquipped( SorceressLairManager.NAGAMAR ) &&
 				     !InventoryManager.retrieveItem( SorceressLairManager.NAGAMAR ) )
 				{
-					this.sendGeneralWarning(
-						"wand.gif", "It's possible there is something very important you're forgetting to do." );
+					StringBuffer warning = new StringBuffer( "It's possible there is something very important you're forgetting to do.<br>You lack:" );
+					if ( !InventoryManager.hasItem( ItemPool.WA ) )
+					{
+						if ( !InventoryManager.hasItem( ItemPool.RUBY_W ) )
+						{
+							warning.append( " <span title=\"Friar's Gate\">W</span>" ); 
+						}
+						if ( !InventoryManager.hasItem( ItemPool.METALLIC_A ) )
+						{
+							warning.append( " <span title=\"Airship\">A</span>" ); 
+						}
+					}
+					if ( !InventoryManager.hasItem( ItemPool.ND ) )
+					{
+						if ( !InventoryManager.hasItem( ItemPool.LOWERCASE_N ) )
+						{
+							if ( !InventoryManager.hasItem( ItemPool.NG ) )
+							{
+								warning.append( " <span title=\"Orc Chasm\">N</span>" ); 
+							}
+							else
+							{
+								warning.append( " N (untinker your NG)" ); 
+							}
+						}
+						if ( !InventoryManager.hasItem( ItemPool.HEAVY_D ) )
+						{
+							warning.append( " <span title=\"Castle\">D</span>" ); 
+						}
+					}
+					this.sendGeneralWarning( "wand.gif", warning.toString() );
 					return;
 				}
 			}
