@@ -71,6 +71,7 @@ import net.sourceforge.kolmafia.request.MoonPhaseRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
 import net.sourceforge.kolmafia.session.ChoiceManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.NemesisManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
@@ -398,9 +399,9 @@ public class RequestEditorKit
 		"<a href=\"hermit.php?autopermit=on\"><img src=\"http://images.kingdomofloathing.com/otherimages/mountains/hermitage.gif\" width=100 height=100 border=0></a>";
 
 	private static final String NO_PERMIT_TEXT =
-		"<p>You don't have a Hermit Permit, so you're not allowed to visit the Hermit.<p><center>";
+		"he's a real stickler for regulations.";
 	private static final String BUY_PERMIT_TEXT =
-		RequestEditorKit.NO_PERMIT_TEXT + "<a href=\"hermit.php?autopermit=on\">Buy a Hermit Permit</a></center></p><p><center>";
+		RequestEditorKit.NO_PERMIT_TEXT + "[<a href=\"hermit.php?autopermit=on\">buy a Hermit Permit</a>]";
 
 	private static final ArrayList maps = new ArrayList();
 	static
@@ -546,6 +547,13 @@ public class RequestEditorKit
 		{
 			IslandDecorator.decorateBigIsland( location, buffer );
 		}
+		else if ( location.startsWith( "casino.php" ) )
+		{
+			if ( !InventoryManager.hasItem( ItemPool.TEN_LEAF_CLOVER ) )
+			{
+				StringUtilities.insertAfter( buffer, "<a href=\"casino.php?action=slot&whichslot=11\"", " onclick=\"return confirm('Are you sure you want to adventure here WITHOUT a ten-leaf clover?');\"" );
+			}
+		}
 		else if ( location.startsWith( "cave.php" ) )
 		{
 			NemesisManager.decorate( location, buffer );
@@ -575,6 +583,7 @@ public class RequestEditorKit
 		else if ( location.startsWith( "hermit.php" ) )
 		{
 			StringUtilities.singleStringReplace( buffer, RequestEditorKit.NO_PERMIT_TEXT, RequestEditorKit.BUY_PERMIT_TEXT );
+			StringUtilities.singleStringReplace( buffer, "the sewer in Seaside Town", "<a href=sewer.php>the sewer in Seaside Town</a>" );
 		}
 		else if ( location.startsWith( "hiddencity.php" ) )
 		{
@@ -590,6 +599,12 @@ public class RequestEditorKit
 		}
 		else if ( location.startsWith( "lair6.php" ) )
 		{
+			StringUtilities.insertAfter( buffer, "manages to defeat you.", " <font color=#DD00FF>Angry Goat needed</font>" );
+			StringUtilities.insertAfter( buffer, "eyeing you menacingly.", " <font color=#DD00FF>Barrrnacle needed</font>" );
+			StringUtilities.insertAfter( buffer, "its... er... grin.", " <font color=#DD00FF>Levitating Potato needed</font>" );
+			StringUtilities.insertAfter( buffer, "snip-snap your neck.", " <font color=#DD00FF>Mosquito needed</font>" );
+			StringUtilities.insertAfter( buffer, "proboscis at the ready.", " <font color=#DD00FF>Sabre-Toothed Lime needed</font>" );
+
 			if ( buffer.indexOf( "ascend.php" ) != -1 )
 			{
 				KoLCharacter.liberateKing();
@@ -678,6 +693,10 @@ public class RequestEditorKit
 			location.indexOf( "notrim=1" ) == -1 )
 		{
 			ZapRequest.decorate( buffer );
+		}
+		else if ( location.startsWith( "woods.php" ) )
+		{
+			StringUtilities.singleStringReplace( buffer, "<a href=\"adventure.php?snarfblat=25\">", "<a href=\"adventure.php?snarfblat=25\" onclick=\"return confirm('Are you sure you wanted to go Drinking?');\">" );
 		}
 
 		if ( addComplexFeatures )
