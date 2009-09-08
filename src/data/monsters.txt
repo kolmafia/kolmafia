@@ -265,8 +265,8 @@ Endangered Inflatable White Tiger	HP: 100000
 Enraged Cow	HP: 100000
 Erudite Gremlin	HP: 170 Def: 169 Atk: 171 Meat: 40-60	gremlin juice (3)	molybdenum crescent wrench (0)
 Evil Olive	HP: 140 Def: 145 Atk: 145	bottle of gin (30)	olive (40)	jumbo olive (10)
-Evil Spaghetti Cult Priest	HP: 20	evil noodles (0)
-Evil Spaghetti Cultist	HP: 20
+Evil Spaghetti Cult Priest	HP: 20	a creased paper strip (0)	a ripped paper strip (0)	a rumpled paper strip (0)	a torn paper strip (0)	evil noodles (0)
+Evil Spaghetti Cultist	HP: 20	a crinkled paper strip (0)	a crumpled paper strip (0)	a folded paper strip (0)	a ragged paper strip (0)
 Evil Trumpet-playing Mariachi	HP: 20	a crinkled paper strip (0)	a ragged paper strip (0)	a ripped paper strip (0)	a rumpled paper strip (0)
 Evil Vihuela-playing Mariachi	HP: 20	a creased paper strip (0)	a crumpled paper strip (0)	a folded paper strip (0)	a torn paper strip (0)	evil vihuela (0)
 eXtreme Cross-Country Hippy	HP: 65 Def: 73 Atk: 73 E: stench	eXtreme mittens (5)	eXtreme scarf (10)	Mountain Stream soda (30)	enchanted handwarmer (p0)
@@ -561,8 +561,10 @@ Somerset Lopez, Dread Mariach	HP: 0	El Sombrero De Lopez (100)
 Sorority Nurse	HP: 200 Def: 175 Atk: 170 E: sleaze	energy drink IV (18)	gauze garter (20)	gauze garter (7)	kick-ass kicks (2)	PADL Phone (3)
 Sorority Operator	HP: 200 Def: 180 Atk: 185 E: sleaze	beer helmet (1)	bejeweled pledge pin (1)	distressed denim pants (1)	kick-ass kicks (2)	PADL Phone (18)	PADL Phone (18)	PADL Phone (18)	white class ring (31)
 Space Marine	HP: 0	essence of fright (100c)	facehugging alien (0)	physiostim pill (0)
+Spaghetti Elemental	HP: 0	Colander of Em-er'il (100)
 Spam Witch	HP: 75 Def: 85 Atk: 85 EA: sleaze Meat: 24-38	30669 scroll (30)	Spam Witch sammich (50)	sammich crust (b0)
-Spectral Jellyfish	HP: 60 Def: 70 Atk: 70 "Somewhat Poisoned"	spectral jelly (p0)
+Spectral Jellyfish	HP: 60 Def: 70 Atk: 70 "Somewhat Poisoned"	spectral
+ jelly (p0)
 Spider Gremlin	HP: 170 Def: 168 Atk: 172 Meat: 40-60	gremlin juice (3)	molybdenum pliers (0)
 Spiny Skelelton	HP: 50 Def: 54 Atk: 53 E: spooky	skeleton bone (40)	smart skull (50)	spiked femur (10)
 Spirit of New Wave	HP: 0	Disco 'Fro Pick (100)

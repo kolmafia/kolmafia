@@ -249,6 +249,20 @@ public class FightRequest
 		INVALID_WITH_RANGED_ATTACK.add( "2107" );
 		INVALID_WITH_RANGED_ATTACK.add( "skill head + knee + shield combo" );
 	}
+	
+	// Skills which require a shield
+	private static final HashSet INVALID_WITHOUT_SHIELD = new HashSet();
+	static
+	{
+		INVALID_WITHOUT_SHIELD.add( "2005" );
+		INVALID_WITHOUT_SHIELD.add( "skill shieldbutt" );
+		INVALID_WITHOUT_SHIELD.add( "2105" );
+		INVALID_WITHOUT_SHIELD.add( "skill head + shield combo" );
+		INVALID_WITHOUT_SHIELD.add( "2106" );
+		INVALID_WITHOUT_SHIELD.add( "skill knee + shield combo" );
+		INVALID_WITHOUT_SHIELD.add( "2107" );
+		INVALID_WITHOUT_SHIELD.add( "skill head + knee + shield combo" );
+	}
 
 	private static final HashSet INVALID_OUT_OF_WATER = new HashSet();
 	static
@@ -866,8 +880,7 @@ public class FightRequest
 			FightRequest.castCleesh = true;
 		}
 
-		if ( FightRequest.isInvalidRangedAttack( FightRequest.action1 ) ||
-		     FightRequest.isInvalidLocationAttack( FightRequest.action1 )   )
+		if ( FightRequest.isInvalidAttack( FightRequest.action1 ) )
 		{
 			FightRequest.action1 = "abort";
 			return;
@@ -905,6 +918,22 @@ public class FightRequest
 		return false;
 	}
 
+	public static final boolean isInvalidShieldlessAttack( final String action )
+	{
+		if ( !INVALID_WITHOUT_SHIELD.contains( action.toLowerCase() ) )
+		{
+			return false;
+		}
+
+		if ( !EquipmentManager.usingShield() )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "This skill is useless without a shield." );
+			return true;
+		}
+
+		return false;
+	}
+
 	public static final boolean isInvalidLocationAttack( final String action )
 	{
 		if ( !INVALID_OUT_OF_WATER.contains( action.toLowerCase() ) )
@@ -922,6 +951,13 @@ public class FightRequest
 		}
 
 		return false;
+	}
+
+	public static final boolean isInvalidAttack( final String action )
+	{
+		return FightRequest.isInvalidRangedAttack( action ) ||
+		       FightRequest.isInvalidShieldlessAttack( action ) ||
+		       FightRequest.isInvalidLocationAttack( action );
 	}
 
 	public void runOnce( final String desiredAction )
@@ -2040,7 +2076,7 @@ public class FightRequest
 			"Obviously neither your tongue nor your wit is sharp enough for the job."
 		},
 		{
-			"Do ye hear that, ye craven blackguard?  It be the sound of yer doom!",
+			"Do ye hear that, ye craven blackguard?	 It be the sound of yer doom!",
 			"It can't be any worse than the smell of your breath!"
 		},
 		{
@@ -3099,8 +3135,7 @@ public class FightRequest
 		FightRequest.action1 = null;
 		FightRequest.action2 = null;
 
-		if ( urlString.equals( "fight.php" ) ||
-			urlString.indexOf( "ireallymeanit=" ) != -1 )
+		if ( urlString.equals( "fight.php" ) || urlString.indexOf( "ireallymeanit=" ) != -1 )
 		{
 			return true;
 		}
@@ -3162,12 +3197,13 @@ public class FightRequest
 			Matcher skillMatcher = FightRequest.SKILL_PATTERN.matcher( urlString );
 			if ( skillMatcher.find() )
 			{
-				if ( FightRequest.isInvalidRangedAttack( skillMatcher.group( 1 ) ) )
+				String skillId = skillMatcher.group( 1 );
+				if ( FightRequest.isInvalidAttack( skillId ) )
 				{
 					return true;
 				}
 
-				String skill = SkillDatabase.getSkillName( StringUtilities.parseInt( skillMatcher.group( 1 ) ) );
+				String skill = SkillDatabase.getSkillName( StringUtilities.parseInt( skillId ) );
 				if ( skill == null )
 				{
 					if ( shouldLogAction )
