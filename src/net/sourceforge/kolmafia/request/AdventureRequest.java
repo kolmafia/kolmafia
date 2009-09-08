@@ -478,8 +478,7 @@ public class AdventureRequest
 		// if KoLAdventure didn't log the location, there can't be an
 		// encounter for us to log.
 
-		if ( GenericRequest.itemMonster == null &&
-		     !KoLAdventure.recordToSession( urlString, responseText ) )
+		if ( GenericRequest.itemMonster == null && !KoLAdventure.recordToSession( urlString, responseText ) )
 		{
 			return "";
 		}

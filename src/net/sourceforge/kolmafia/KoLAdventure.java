@@ -1036,11 +1036,11 @@ public class KoLAdventure
 		KoLAdventure adventure = KoLAdventure.findAdventure( urlString );
 		if ( adventure != null )
 		{
+			adventure.prepareToAdventure( urlString );
 			KoLAdventure.lastVisitedLocation = adventure;
 			KoLAdventure.lastLocationName = adventure.getPrettyAdventureName( urlString );
 			KoLAdventure.lastLocationURL = urlString;
 			KoLAdventure.locationLogged = false;
-			adventure.prepareToAdventure( urlString );
 			return true;
 		}
 
@@ -1056,11 +1056,6 @@ public class KoLAdventure
 			return true;
 		}
 
-		KoLAdventure.lastVisitedLocation = null;
-		KoLAdventure.lastLocationName = location;
-		KoLAdventure.lastLocationURL = urlString;
-		KoLAdventure.locationLogged = false;
-
 		boolean shouldReset =
 			urlString.startsWith( "barrel.php" ) ||
 			urlString.startsWith( "basement.php" ) ||
@@ -1072,6 +1067,11 @@ public class KoLAdventure
 		{
 			KoLAdventure.resetAutoAttack();
 		}
+
+		KoLAdventure.lastVisitedLocation = null;
+		KoLAdventure.lastLocationName = location;
+		KoLAdventure.lastLocationURL = urlString;
+		KoLAdventure.locationLogged = false;
 
 		return true;
 	}
