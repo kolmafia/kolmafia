@@ -891,6 +891,13 @@ public class KoLAdventure
 					"Your selected attack skill is useless with ranged weapons." );
 				return;
 			}
+
+			if ( FightRequest.isInvalidShieldlessAttack( action ) )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+					"Your selected attack skill is useless without a shield." );
+				return;
+			}
 		}
 
 		if ( AdventureDatabase.isPotentialCloverAdventure( adventureName ) && Preferences.getBoolean( "cloverProtectActive" ) )
