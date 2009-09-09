@@ -78,6 +78,7 @@ import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.RequestFrame;
+import net.sourceforge.kolmafia.swingui.widget.RequestPane;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.BarrelDecorator;
@@ -1852,12 +1853,35 @@ public class RequestEditorKit
 
 		private RequestFrame findFrame()
 		{
+			// Goal: find the RequestFrame that contains the RequestPane that
+			// contains the HTML field containing this form submit button.
+			// Original solution: enumerate all Frames, choose the one containing
+			// text that matches the button name.  This broke in the presence
+			// of HTML entities, and wasn't guaranteed to be unique anyway.
+			// Try 1: enumerate enclosing containers until an instance of
+			// RequestFrame is found.  This works for standalone windows, but
+			// not for frames that open in a tab because they aren't actually
+			// part of the containment hierarchy in that case - the contentPane
+			// of the frame gets reparented into the main tabs.
+			// Try 2: enumerate containers to find the RequestPane, enumerate
+			// Frames to find the RequestFrame that owns it.
+			
 			Container c = this.getContainer();
-			while ( c != null && !(c instanceof RequestFrame) )
+			while ( c != null && !(c instanceof RequestPane) )
 			{
 				c = c.getParent();
 			}
-			return (RequestFrame) c;
+
+			Frame[] frames = Frame.getFrames();
+			for ( int i = 0; i < frames.length; ++i )
+			{
+				if ( frames[ i ] instanceof RequestFrame &&
+					((RequestFrame) frames[ i ]).mainDisplay == c )
+				{
+					return (RequestFrame) frames[ i ];
+				}
+			}
+			return null;
 		}
 	}
 
