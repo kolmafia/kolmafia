@@ -2993,26 +2993,20 @@ public abstract class RuntimeLibrary
 	{
 		String pattern = patternValue.toString();
 		String string = stringValue.toString();
-		Pattern p;
-		if ( patternValue.rawValue() instanceof Pattern )
-		{
-			p = (Pattern) patternValue.rawValue();
-		}
-		else
+
+		if ( !( patternValue.content instanceof Pattern ) )
 		{
 			try
 			{
-				p = Pattern.compile( pattern, Pattern.DOTALL );
-				if ( patternValue.content == null )
-				{
-					patternValue.content = p;
-				}
+				patternValue.content = Pattern.compile( pattern, Pattern.DOTALL );
 			}
 			catch ( PatternSyntaxException e )
 			{
 				throw LibraryFunction.interpreter.runtimeException( "Invalid pattern syntax" );
 			}
 		}
+
+		Pattern p = (Pattern) patternValue.content;
 		return new Value( DataTypes.MATCHER_TYPE, pattern, p.matcher( string ) );
 	}
 
