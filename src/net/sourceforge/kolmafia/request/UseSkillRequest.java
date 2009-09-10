@@ -968,10 +968,14 @@ public class UseSkillRequest
 			return true;
 		}
 
+		boolean exceeded = false;
 		if ( responseText.indexOf( "You can only conjure" ) != -1 || responseText.indexOf( "You can only scrounge up" ) != -1 || responseText.indexOf( "You can only summon" ) != -1 )
 		{
 			UseSkillRequest.lastUpdate = "Summon limit exceeded.";
-			return false;
+			exceeded = true;
+			// Must continue with parsing in this case, so that the cast
+			// counter can be incremented, in the hopes of eventually
+			// getting back in sync with the actual number of casts.
 		}
 
 		if ( responseText.indexOf( "too many songs" ) != -1 )
@@ -1043,6 +1047,12 @@ public class UseSkillRequest
 		// The skill was successfully cast. Deal with its effects.
 		int count = UseSkillRequest.getCount( urlString, skillId );
 		int mpCost = SkillDatabase.getMPConsumptionById( skillId ) * count;
+		if ( exceeded )
+		{	// We're out of sync with the actual number of times this skill
+			// has been cast.  Adjust the counter by 1 at a time.
+			count = 1;
+			mpCost = 0;
+		}
 
 		switch ( skillId )
 		{
