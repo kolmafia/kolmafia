@@ -113,7 +113,14 @@ public class LoginRequest
 		GenericRequest.applySettings();
 
 		String lowercase = this.username.toLowerCase();
-		if ( lowercase.startsWith( "devster" ) || lowercase.equals( "holatuwol" ) || lowercase.equals( "hogulus" ) || lowercase.equals( "armak" ) )
+
+		// This used to automatically force a "whitelist" of other
+		// developers - holatuwol, hogulus, armak - to the dev server
+		// as well, but when the code running on the dev server was
+		// sufficiently changed that KoLmafia couldn't parse the
+		// inventory anymore, Armak called for help.
+
+		if ( lowercase.startsWith( "devster" ) )
 		{
 			GenericRequest.setLoginServer( "dev.kingdomofloathing.com" );
 		}
