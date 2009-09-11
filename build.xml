@@ -15,6 +15,8 @@
 	<property name="jarfile" location="${dist}/${ant.project.name}.jar"/>
 	<property name="tarfile" location="${dist}/${ant.project.name}.tar.gz"/>
 	<property name="dmgfile" location="${dist}/${ant.project.name}.dmg"/>
+	<property name="debfile" location="${dist}/${ant.project.name}.deb"/>
+
 	<property name="main" value="net.sourceforge.kolmafia.KoLmafia"/>
 
 	<property environment="env"/>
@@ -231,6 +233,48 @@
 
 	</target>
 
+	<!-- ========================== -->
+	<!--  create a Debian package   -->
+	<!-- ========================== -->
+    
+        <target name="createdeb" depends="init,update,jar,version,create-desktop-entry">
+	  <taskdef name="deb" classname="com.googlecode.ant_deb_task.Deb" classpath="${util}/ant-deb.jar" />
+          <deb
+             todir="${dist}"
+             package="kolmafia"
+             priority="optional"
+             section="games"
+             depends="sun-java6-jre"
+          >
+            <version upstream="${revision}" debian="${revision}"/>
+            <maintainer name="Veracity" email="veracity@hambo.com"/>
+            <description synopsis="An alternate interface to Kingdom of Loathing">
+Description goes here
+            </description>
+            <tarfileset file="${jarfile}" prefix="usr/lib" filemode="755"/>
+            <tarfileset file="${build}/kolmafia.desktop" prefix="usr/share/applications"/>
+            <tarfileset file="util/kol.xpm" prefix="usr/share/pixmaps"/>
+            <tarfileset file="util/kol" prefix="usr/bin" filemode="755"/>
+          </deb>
+        </target>
+
+	<!-- ============================ -->
+	<!--  create Debian desktop entry -->
+	<!-- ============================ -->
+    
+        <target name="create-desktop-entry" description="create desktop entry file">
+	  <taskdef name="desktopentry" classname="com.googlecode.ant_deb_task.DesktopEntry" classpath="${util}/ant-deb.jar" />
+          <desktopentry
+             toFile="build/kolmafia.desktop"
+             name="${ant.project.name}"
+             comment="An alternate interface to Kingdom of Loathing"
+             exec="/usr/bin/kol"
+             icon="kol.xpm"
+             terminal="false"
+             type="Application"
+             categories="Game;RolePlaying"
+             />
+        </target>
 
 	<!-- ================================ -->
 	<!--  generate the alpha testing JAR  -->
