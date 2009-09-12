@@ -337,6 +337,12 @@ public class AdventureRequest
 			return;
 		}
 
+		if ( this.responseText.indexOf( "Hobopolis Town Square lies empty" ) != -1 )
+		{
+			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Nothing more to do here." );
+			return;
+		}
+
 		// Cold protection is required for the area.  This only happens
 		// at the peak.	 Abort and notify.
 
@@ -355,8 +361,8 @@ public class AdventureRequest
 			return;
 		}
 
-		// This is a server error. Hope for the
-		// best and repeat the request.
+		// This is a server error. Hope for the best and repeat the
+		// request.
 
 		if ( this.responseText.indexOf( "No adventure data exists for this location" ) != -1 )
 		{

@@ -1260,6 +1260,13 @@ public class KoLAdventure
 			{
 				return false;
 			}
+
+			// The Hoboverlord has been defeated, and Hobopolis
+			// Town Square lies empty.
+			if ( responseText.indexOf( "Hobopolis Town Square lies empty" ) != -1 )
+			{
+				return false;
+			}
 			
 			// See if there is an "adventure again" link, and if
 			// so, whether it points to where we thought we went.
