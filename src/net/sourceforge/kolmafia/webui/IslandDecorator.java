@@ -362,6 +362,55 @@ public class IslandDecorator
 		return message == null ? "" : "<b>" + message + "</b><br>";
 	}
 
+	private static final int[] HERO_UNLOCK =
+	{
+		458,
+		606,
+		658,
+		766,
+		880,
+	};
+
+	private static final String[] HIPPY_HERO =
+	{
+		"Slow Talkin' Elliot",
+ 		"Neil",
+		"Zim Merman",
+		"the C.A.R.N.I.V.O.R.E. Operative",
+		"the Glass of Orange Juice",
+	};
+
+	private static final String[] FRATBOY_HERO =
+	{
+		"the Next-Generation Frat Boy",
+		"Monty Basingstoke-Pratt, IV",
+		"Brutus, the toga-clad lout",
+		"Danglin' Chad",
+		"the War Frat Streaker",
+	};
+
+	private static final String heroMessage( final int last, final int current )
+	{
+		final String[] heroes = IslandDecorator.fratboy ? IslandDecorator.FRATBOY_HERO : IslandDecorator.HIPPY_HERO;
+
+		for ( int i = 0; i < IslandDecorator.HERO_UNLOCK.length; ++i )
+		{
+			int threshold = IslandDecorator.HERO_UNLOCK[ i ];
+			if ( last < threshold && current >= threshold )
+			{
+				return "Keep your eyes open for " + heroes[ i ] + "!";
+			}
+		}
+
+		return null;
+	}
+
+	private static final String heroMessageHTML( final int last, final int current )
+	{
+		String message = heroMessage( last, current );
+		return message == null ? "" : "<b>" + message + "</b><br>";
+	}
+
 	public static final void decorateBattlefieldFight( final StringBuffer buffer )
 	{
 		int index = buffer.indexOf( "<!--WINWINWIN-->" );
@@ -397,7 +446,7 @@ public class IslandDecorator
 		}
 
 		String message =
-			"<p><center>" + victoryMessage( last, current ) + "<br>" + areaMessageHTML( last, current ) + "</center>";
+			"<p><center>" + victoryMessage( last, current ) + "<br>" + areaMessageHTML( last, current ) + heroMessageHTML( last, current ) + "</center>";
 
 		buffer.insert( index, message );
 	}
@@ -1177,6 +1226,14 @@ public class IslandDecorator
 		RequestLogger.printLine( message );
 
 		message = areaMessage( last, current );
+
+		if ( message != null )
+		{
+			RequestLogger.updateSessionLog( message );
+			RequestLogger.printLine( message );
+		}
+
+		message = heroMessage( last, current );
 
 		if ( message != null )
 		{

@@ -443,7 +443,8 @@ public abstract class StoreManager
 		}
 		if ( StoreManager.mallPrices.get( item.getItemId() ) == 0 )
 		{
-			StoreManager.pauser.pause( ++StoreManager.searchCount * 10 );
+			// Is this still necessary?
+			// StoreManager.pauser.pause( ++StoreManager.searchCount * 10 );
 			ArrayList results = StoreManager.searchMall( item );
 			StoreManager.updateMallPrice( item, results );
 		}
