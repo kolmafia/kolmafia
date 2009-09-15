@@ -1261,6 +1261,14 @@ public class KoLAdventure
 				return false;
 			}
 
+			// You can't take it any more.	The confusion, the
+			// nostalgia, the inconsistent grammar.	 You break the
+			// bottle on the ground, and stomp it to powder.
+			if ( responseText.indexOf( "You break the bottle on the ground" ) != -1 )
+			{
+				return false;
+			}
+
 			// The Hoboverlord has been defeated, and Hobopolis
 			// Town Square lies empty.
 			if ( responseText.indexOf( "Hobopolis Town Square lies empty" ) != -1 )
