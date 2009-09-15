@@ -2819,11 +2819,12 @@ public class FightRequest
 			return;
 		}
 
-		// If we are adventuring with a Black Cat, she might prevent
-		// skill and item use during combat.
-
-		if ( KoLCharacter.getFamiliar().getId() == FamiliarPool.BLACK_CAT )
+		switch ( KoLCharacter.getFamiliar().getId() )
 		{
+		case FamiliarPool.BLACK_CAT:
+			// If we are adventuring with a Black Cat, she might
+			// prevent skill and item use during combat.
+
 			// <Name> jumps onto the keyboard and causes you to
 			// accidentally hit the Attack button instead of using
 			// that skill.
@@ -2843,6 +2844,27 @@ public class FightRequest
 			{
 				return;
 			}
+			break;
+
+		case FamiliarPool.OAF:
+			// If we are adventuring with a O.A.F., it might
+			// prevent skill and item use during combat.
+
+			// Use of that skill has been calculated to be
+			// sub-optimal. I recommend that you attack with your
+			// weapon, instead.
+
+			// Use of that item has been calculated to be
+			// sub-optimal. I recommend that you attack with your
+			// weapon, instead.
+
+			if ( responseText.indexOf( "calculated to be sub-optimal" ) != -1 )
+			{
+				FightRequest.action1 = "attack";
+				return;
+			}
+
+			break;
 		}
 
 		if ( FightRequest.action1.equals( "attack" ) ||
