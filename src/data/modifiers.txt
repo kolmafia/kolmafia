@@ -1991,6 +1991,7 @@ Contagious Bad Luck	Mysticality Percent: -20
 Contemptible Emanations	Monster Level: +20
 Corroded Weapon	Weapon Damage: -5
 Corruption of Wretched Wally	Muscle: +3, Weapon Damage: +3, HP Regen Min: 3, HP Regen Max: 5
+# Cotton Mouthed: So dry! It's from yesterday!
 # Coy to the Hurled	variable DR
 Cranberry Cordiality	Meat Drop: +10
 Cravin' for a Ravin'	Meat Drop: +100

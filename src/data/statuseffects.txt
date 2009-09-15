@@ -616,7 +616,7 @@
 615	Antihangover	martini.gif	eadafbbe6d035eb5a36408dfbb1c85cc	use 1 hair of the fish
 616
 617	Old School Pompadour	pompadour.gif	aff568fdc12724deb962ebcb00e81fb9	use 1 jellyfish gel
-618
+618	Cotton Mouthed	ccskoshe.gif	55d866e506220cafdcf5f18f8aead1b9	use 1 wad of cotton
 619	Colorfully Concealed	pieface.gif	140ef800c87baab4dc32a288f7c503e5	use 1 Mer-kin hidepaint
 620	Emotion Sickness	goofballs.gif	cf2cb301c6f542b1fdc59b0a3e8ebed5	use 1 bottle of melodramamine
 621	Biologically Shocked	dna.gif	f81d7473f0a24503c9ab73be50bbc664	use 1 glowing syringe

@@ -3826,7 +3826,7 @@
 3820	water-polo mitt	accessory	display	800
 3821	glowing syringe	multiple	all	175
 3822	fishy wand	familiar	all	150
-3823
+3823	wad of cotton	usable	display	0
 3824	Grandma's Note	none	none	0
 3825	Grandma's Fuschia Yarn	none	none	0
 3826	Grandma's Chartreuse Yarn	none	none	0
