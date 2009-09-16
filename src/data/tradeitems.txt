@@ -4196,3 +4196,34 @@
 4190	control crystal	none	display	0
 4191	sugar shirt	shirt	display	0
 4192	sugar shard	multiple	all	0
+4193
+4194
+4195
+4196
+4197
+4198
+4199
+4200
+4201
+4202
+4203
+4204
+4205
+4206
+4207
+4208
+4209
+4210
+4211
+4212
+4213
+4214
+4215
+4216
+4217
+4218
+4219
+4220
+4221
+4222
+4221	yield shield	offhand	display	0

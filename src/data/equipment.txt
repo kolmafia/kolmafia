@@ -1043,6 +1043,8 @@ white satin shield	80	Mus: 25	shield
 wicker shield	175	Mus: 70	shield
 wonderwall shield	190	Mus: 70	shield
 yakskin buckler	95	Mus: 30	shield
+# *** yield shield is a shield of unknown power.
+yield shield	0	Mus: 35	shield
 
 # Accessories section of equipment.txt
 
