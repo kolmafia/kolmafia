@@ -337,12 +337,11 @@ public class ChatBuffer
 				{
 					ChatBuffer.this.contentQueue.clear();
 					this.reset();
+					break;
 				}
-				else
-				{
-					String newContents = (String) ChatBuffer.this.contentQueue.removeFirst();
-					this.append( newContents );
-				}
+
+				String newContents = (String) ChatBuffer.this.contentQueue.removeFirst();
+				this.append( newContents );
 			}
 
 			this.scroll();
