@@ -1119,6 +1119,7 @@ white satin shield	Moxie: +2, Damage Reduction: 5
 wicker shield	Moxie: +6, Damage Reduction: 11
 wonderwall shield	Maximum HP: +50, Damage Reduction: 12
 yakskin buckler	Mysticality: +5, Damage Reduction: 5
+yield shield	Damage Absorption: +10, Damage Reduction: 6
 
 # Accessories section of modifiers.txt
 
