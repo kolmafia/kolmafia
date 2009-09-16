@@ -374,12 +374,10 @@ public abstract class BasicScope
 		Value result = DataTypes.VOID_VALUE;
 		interpreter.traceIndent();
 
-		ParseTreeNode current;
 		Iterator it = this.getCommands();
-
 		while ( it.hasNext() )
 		{
-			current = (ParseTreeNode) it.next();
+			ParseTreeNode current = (ParseTreeNode) it.next();
 			result = current.execute( interpreter );
 
 			// Abort processing now if command failed
