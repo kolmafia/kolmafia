@@ -337,6 +337,12 @@ public class AdventureRequest
 			return;
 		}
 
+		if ( this.responseText.indexOf( "You wander around the farm for a while, but can't find any additional ducks to fight" ) != -1 )
+		{
+			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Nothing more to do here." );
+			return;
+		}
+
 		if ( this.responseText.indexOf( "Hobopolis Town Square lies empty" ) != -1 )
 		{
 			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Nothing more to do here." );

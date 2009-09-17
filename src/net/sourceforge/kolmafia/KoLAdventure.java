@@ -1275,6 +1275,14 @@ public class KoLAdventure
 			{
 				return false;
 			}
+
+			// You wander around the farm for a while, but can't find
+			// any additional ducks to fight. Maybe some more will
+			// come out of hiding by tomorrow.
+			if ( responseText.indexOf( "You wander around the farm for a while, but can't find any additional ducks to fight" ) != -1 )
+			{
+				return false;
+			}
 			
 			// See if there is an "adventure again" link, and if
 			// so, whether it points to where we thought we went.
