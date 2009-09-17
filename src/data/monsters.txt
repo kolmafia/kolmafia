@@ -135,7 +135,7 @@ Ancient Protector Spirit	HP: 80 Def: 158 Atk: 158	obsidian dagger (20)	mossy sto
 Anemone Combatant	HP: 600 Def: 650 Atk: 400 Meat: 80-120 "Majorly Poisoned"	anemone nematocyst (25)
 Anglerbush	HP: 10 Def: 9 Atk: 7	meat stack (35)
 Angry Pi&ntilde;ata	HP: 20 Def: 22 Atk: 22	pile of candy (100)
-Angry Raccoon Puppet	HP: 21 Def: 35 Atk: 35 Meat: 16-24	felt (1)	stuffing (10)	googly eye (1)
+Angry Raccoon Puppet	HP: 21 Def: 35 Atk: 35 Meat: 16-24	felt (2)	stuffing (2)	googly eye (2)
 Animated Nightstand (Mahogany)	HP: 170 Def: 162 Atk: 162	old coin purse (25)	old leather wallet (25)	half of a memo (q0)
 Animated Nightstand (White)	HP: 180 Def: 171 Atk: 159	grouchy restless spirit (80)
 Anime Smiley	HP: 67 Def: 77 Atk: 77	334 scroll (30)	Tasty Fun Good rice candy (40)	caret (p0)
@@ -184,7 +184,7 @@ Brutus, the Toga-Clad Lout	HP: 280	kick-ass kicks (0)	wreath of laurels (100)	wh
 Bugbear-In-The-Box	HP: 11 Def: 18 Atk: 16 Meat: 12-18	box (20)	bugbear beanie (10)	bugbear bungguard (10)
 Bullet Bill	HP: 15 Def: 25 Atk: 25	black pixel (70)	black pixel (70)	black pixel (70)
 Burly Sidekick	HP: 100 Def: 100 Atk: 100 Meat: 79-168	armgun (9)	cocoa eggshell fragment (30)	mohawk wig (10)	tiny house (30)
-Business Hippy	HP: 25 Def: 38 Atk: 38	filthy corduroys (20)	filthy knitted dread sack (30)	herbs (25)	reodorant (5)	massive bag of catnip (c100)
+Business Hippy	HP: 25 Def: 38 Atk: 38	filthy corduroys (10)	filthy knitted dread sack (10)	herbs (20)	reodorant (10)	massive bag of catnip (c100)
 Buzzy Beetle	HP: 15 Def: 20 Atk: 20	black pixel (50)	white pixel (50)	red pixel (65)
 C. H. U. M.	HP: 215 Atk: 260	bottle of sewage schnapps (0)	C.H.U.M. lantern (0)	C.H.U.M. knife (0)	sewer nuggets (0)	C.H.U.M. chum (p0)
 C. H. U. M. Chieftain	HP: 0	C.H.U.M. knife (0)	bottle of sewage schnapps (0)	bottle of sewage schnapps (0)	sewer nuggets (0)	sewer nuggets (0)	C.H.U.M. chum (p0)
@@ -271,7 +271,7 @@ Evil Trumpet-playing Mariachi	HP: 20	a crinkled paper strip (0)	a ragged paper s
 Evil Vihuela-playing Mariachi	HP: 20	a creased paper strip (0)	a crumpled paper strip (0)	a folded paper strip (0)	a torn paper strip (0)	evil vihuela (0)
 eXtreme Cross-Country Hippy	HP: 65 Def: 73 Atk: 73 E: stench	eXtreme mittens (5)	eXtreme scarf (10)	Mountain Stream soda (30)	enchanted handwarmer (p0)
 eXtreme Orcish Snowboarder	HP: 65 Def: 74 Atk: 74 Meat: 32-48 E: sleaze	eXtreme mittens (5)	Mountain Stream soda (30)	snowboarder pants (10)	enchanted handwarmer (p0)
-eXtreme Sports Orcs	HP: 30 Def: 38 Atk: 39	Orcish baseball cap (0)	Orcish cargo shorts (0)	Mountain Stream soda (0)	eXtreme mittens (0)	ultimate ultimate frisbee (0)	hang glider (c100)
+eXtreme Sports Orcs	HP: 30 Def: 38 Atk: 39	eXtreme mittens (4)	Mountain Stream soda (40)	Orcish baseball cap (10)	Orcish cargo shorts (10)	ultimate ultimate frisbee (10)	hang glider (c100)
 Fallen Archfiend	HP: 50 Def: 50 Atk: 50 E: heat Meat: 36-54	evil golden arch (30)	infernal insoles (10)
 Fancy Bath Slug	HP: 100000
 Felonia, Queen of the Spooky Gravy Fairies	HP: 82 Def: 75 Atk: 75 E: spooky

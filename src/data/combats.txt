@@ -16,8 +16,6 @@
 #
 # Missing Combat Percent Data (marked with -1):
 #
-# Road to the White Citadel
-#
 # All monsters are usually equally likely to appear. For those areas
 # where some monsters are more heavily weighted than others, specify the
 # relative weights for each monster in the area following a colon:
@@ -188,7 +186,7 @@ Near an Abandoned Refrigerator	100	A.M.C. Gremlin	Batwinged Gremlin	Erudite Grem
 Over Where the Old Tires Are	100	A.M.C. Gremlin	Batwinged Gremlin	Erudite Gremlin	Spider Gremlin	Vegetable Gremlin
 Out By that Rusted-Out Car	100	A.M.C. Gremlin	Erudite Gremlin	Spider Gremlin	Vegetable Gremlin
 Wartime Sonofa Beach	10	Lobsterfrogman
-White Citadel	-1	Angry Raccoon Puppet	Business Hippy	eXtreme Sports Orcs
+White Citadel	70	Angry Raccoon Puppet	Business Hippy	eXtreme Sports Orcs
 Whitey's Grove	75	Knight in White Satin	White Chocolate Golem	White Lion	Whitesnake
 
 
