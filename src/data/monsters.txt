@@ -301,6 +301,7 @@ Fruit Golem	HP: 46 Def: 56 Atk: 56	cherry (15)	orange (15)	lime (15)
 Funk Sole Brother	HP: 400 Def: 350 Atk: 300 Meat: 160-240	dull fish scale (15)	slick fish meat (5)
 Furry Giant	HP: 150 Def: 135 Atk: 135 EA: sleaze Meat: 120-180	furry fur (35)	disturbing fanfic (30)	wolf mask (10)
 G Imp	HP: 46 Def: 46 Atk: 46 E: heat Meat: 24-36	hot wing (30)	Imp Ale (30)	leather mask (5)
+Gang of Hobo Muggers	HP: 3000 Atk: 800
 Ganger	HP: 800 Def: 400 Atk: 375 Meat: 192-288	dull fish scale (15)	ganger bandana (3)	temporary teardrop tattoo (9)
 Gargantulihc	HP: 134 Def: 73 Atk: 77 E: spooky	lihc eye (0)	lihc eye (0)	lihc face (0)
 Gaudy Pirate	HP: 120 Def: 140 Atk: 140	costume sword (5)	enormous hoop earring (10)	gold lam&eacute; pants (5)	snakehead charrrm (30)
