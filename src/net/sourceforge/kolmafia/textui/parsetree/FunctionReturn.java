@@ -85,7 +85,7 @@ public class FunctionReturn
 
 		if ( this.returnValue == null )
 		{
-			// Should not happen
+			interpreter.setState( Interpreter.STATE_RETURN );
 			return null;
 		}
 
