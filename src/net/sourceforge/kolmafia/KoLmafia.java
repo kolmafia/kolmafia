@@ -395,8 +395,6 @@ public abstract class KoLmafia
 			}
 		}
 
-		LimitedSizeChatBuffer.updateFontSize();
-
 		// Change the default look and feel to match the player's
 		// preferences. Always do this.
 

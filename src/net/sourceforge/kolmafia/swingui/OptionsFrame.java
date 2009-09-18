@@ -66,7 +66,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
-import net.sourceforge.kolmafia.LimitedSizeChatBuffer;
+import net.sourceforge.kolmafia.StyledChatBuffer;
 import net.sourceforge.kolmafia.LocalRelayServer;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
@@ -713,9 +713,7 @@ public class OptionsFrame
 				Preferences.setString( "chatFontSize", "large" );
 			}
 
-			LimitedSizeChatBuffer.updateFontSize();
-
-			KoLConstants.commandBuffer.fireBufferChanged();
+			KoLConstants.commandBuffer.append( null );
 			ChatManager.updateFontSize();
 		}
 

@@ -41,10 +41,10 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.IdentityHashMap;
 import java.util.Locale;
 import java.util.Random;
-import java.util.HashMap;
 import java.util.regex.Pattern;
 
 import javax.swing.JLabel;
@@ -530,5 +530,5 @@ public interface KoLConstants
 	// Locations where session information is displayed for the user.
 	// Include just the event history buffer and the command line buffer.
 
-	public static final LimitedSizeChatBuffer commandBuffer = new LimitedSizeChatBuffer();
+	public static final StyledChatBuffer commandBuffer = new StyledChatBuffer( "", false );
 }

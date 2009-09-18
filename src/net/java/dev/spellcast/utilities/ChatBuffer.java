@@ -89,24 +89,18 @@ import javax.swing.text.html.HTMLDocument;
 
 public class ChatBuffer
 {
-	private boolean shouldReset = false;
-
 	private final String title;
-	private final String header;
-	private final boolean autoScroll;
 
-	private final DisplayQueueHandler queueHandler = new DisplayQueueHandler();
-
-	private final LinkedList contentQueue = new LinkedList();
+	private final StringBuffer content = new StringBuffer();
 	private final LinkedList displayPanes = new LinkedList();
 
-	protected final StringBuffer displayBuffer = new StringBuffer();
-
-	private PrintWriter activeLogWriter;
+	private PrintWriter logWriter;
 
 	protected static final String NEW_LINE = System.getProperty( "line.separator" );
-	protected static String BUFFER_STYLE = "body { font-family: sans-serif; }";
 	protected static final HashMap ACTIVE_LOG_FILES = new HashMap();
+
+	private static final int MAXIMUM_LENGTH = 25000;
+	private static final int TRIM_TO_LENGTH = 20000;
 
 	/**
 	 * Constructs a new <code>ChatBuffer</code>. However, note that this does not automatically translate into the
@@ -114,49 +108,16 @@ public class ChatBuffer
 	 * displayed.
 	 */
 
-	public ChatBuffer( final String title, final boolean autoScroll )
+	public ChatBuffer( final String title )
 	{
 		this.title = title;
-		this.autoScroll = autoScroll;
-
-		this.header = "<html><head>" + ChatBuffer.NEW_LINE + "<title>" + title + "</title>" + ChatBuffer.NEW_LINE;
-
-		this.queueHandler.queueClear();
-		this.shouldReset = false;
 	}
 
 	/**
-	 * Method used for clearing the buffer so it can start fresh. This is used whenever you want to clear the editor
-	 * pane from being too full (in the event that it ever happens).
+	 * Adds a chat display used to display the chat messages currently being stored in the buffer.
 	 */
 
-	public void clearBuffer()
-	{
-		this.queueHandler.queueClear();
-	}
-
-	/**
-	 * Method used to get the current content of the buffer as a string
-	 */
-
-	public String getBuffer()
-	{
-		return this.displayBuffer.toString();
-	}
-
-	public boolean hasChatDisplay()
-	{
-		return !this.displayPanes.isEmpty();
-	}
-
-	/**
-	 * Sets the chat display used to display the chat messages currently being stored in the buffer. Note that whenever
-	 * modifications are made to the buffer, the display will also be modified to reflect these changes.
-	 * 
-	 * @param displayPane The chat display to be used to display incoming messages.
-	 */
-
-	public JScrollPane setChatDisplay( final JEditorPane displayPane )
+	public JScrollPane addDisplay( final JEditorPane displayPane )
 	{
 		if ( displayPane == null )
 		{
@@ -169,24 +130,23 @@ public class ChatBuffer
 		HTMLDocument currentHTML = (HTMLDocument) displayPane.getDocument();
 		currentHTML.putProperty( "multiByte", Boolean.FALSE );
 
+		displayPane.setText( this.getHTMLContent() );
+
+		this.displayPanes.addLast( new WeakReference( displayPane ) );
+
 		JScrollPane scroller =
 			new JScrollPane(
 				displayPane, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER );
 
-		this.displayPanes.addLast( new WeakReference( displayPane ) );
-
-		displayPane.setText( this.header + "<style>" + ChatBuffer.BUFFER_STYLE + "</style></head><body>" + this.displayBuffer.toString() + "</body></html>" );
-
 		return scroller;
 	}
 
 	/**
-	 * Sets the log file used to actively record messages that are being stored in the buffer. Note that whenever
-	 * modifications are made to the buffer, the file will also be modified to reflect these changes.
+	 * Sets the log file used to actively record messages that are being stored in the buffer.
 	 */
 
-	public void setActiveLogFile( final File f )
+	public void setLogFile( final File f )
 	{
 		if ( f == null || this.title == null )
 		{
@@ -202,158 +162,229 @@ public class ChatBuffer
 
 		if ( ChatBuffer.ACTIVE_LOG_FILES.containsKey( filename ) )
 		{
-			this.activeLogWriter = (PrintWriter) ChatBuffer.ACTIVE_LOG_FILES.get( filename );
+			this.logWriter = (PrintWriter) ChatBuffer.ACTIVE_LOG_FILES.get( filename );
 		}
 		else
 		{
 			boolean shouldAppend = f.exists();
-			this.activeLogWriter = new PrintWriter( DataUtilities.getOutputStream( f, shouldAppend ), true );
+			this.logWriter = new PrintWriter( DataUtilities.getOutputStream( f, shouldAppend ), true );
 
-			ChatBuffer.ACTIVE_LOG_FILES.put( filename, this.activeLogWriter );
+			ChatBuffer.ACTIVE_LOG_FILES.put( filename, this.logWriter );
 
 			if ( !shouldAppend )
 			{
-				this.updateLogFile( this.header );
-				this.updateLogFile( "<style>" + ChatBuffer.BUFFER_STYLE + "</style>" );
-				this.updateLogFile( "<body>" );
+				this.logWriter.println( "<html><head>" );
+				this.logWriter.println( "<title>" );
+				this.logWriter.println( this.title );
+				this.logWriter.println( "</title>" );
+				this.logWriter.println( "<style>" );
+				this.logWriter.println( this.getStyle() );
+				this.logWriter.println( "</style>" );
+				this.logWriter.println( "<body>" );
 			}
 		}
-
-		this.updateLogFile( this.displayBuffer.toString() );
 	}
 
 	/**
-	 * Closes the log file used to actively record messages that are being stored in the buffer. This formally closes
-	 * the file and sets the log file currently being used to null so that no future updates are attempted.
+	 * Closes the buffer.
 	 */
 
-	public void closeActiveLogFile()
+	public void dispose()
 	{
-		if ( this.activeLogWriter != null )
+		this.displayPanes.clear();
+
+		if ( this.logWriter != null )
 		{
-			this.updateLogFile( ChatBuffer.NEW_LINE + ChatBuffer.NEW_LINE );
-			this.updateLogFile( "</body></html>" );
-
-			this.activeLogWriter.close();
-			this.activeLogWriter = null;
+			this.logWriter.close();
 		}
+
+		this.content.setLength( 0 );
 	}
 
 	/**
-	 * Appends the given <code>SpellcastMessage</code> to the chat buffer. Note that though the parameter allows for
-	 * <i>any</i> <code>SpellcastMessage</code> to be appended to the buffer, the truth is, only pre-specified messages
-	 * will actually be displayed while others will simply be ignored.
-	 * 
-	 * @param message The message to be appended to this <code>ChatBuffer</code>
+	 * Clears the current buffer content.
 	 */
 
-	public void append( final String message )
+	public void clear()
 	{
-		if ( message == null || message.trim().length() == 0 )
+		this.content.setLength( 0 );
+
+		SwingUtilities.invokeLater( new ResetHandler( this.getHTMLContent() ) );
+	}
+
+	/**
+	 * Appends the given contents to the chat buffer.
+	 */
+
+	public void append( String newContents )
+	{
+		if ( newContents == null )
+		{
+			SwingUtilities.invokeLater( new ResetHandler( this.getHTMLContent() ) );
+			return;
+		}
+
+		if ( newContents.trim().length() == 0 )
 		{
 			return;
 		}
 
-		this.fireBufferChanged( message );
-	}
+		newContents = newContents.trim();
+		this.content.append( newContents );
 
-	public void fireBufferChanged()
-	{
-		this.fireBufferChanged( null );
+		if ( this.logWriter != null )
+		{
+			this.logWriter.println( newContents );
+		}
+
+		if ( this.content.length() < ChatBuffer.MAXIMUM_LENGTH )
+		{
+			SwingUtilities.invokeLater( new AppendHandler( newContents ) );
+			SwingUtilities.invokeLater( new ScrollHandler() );
+			return;
+		}
+
+		int lineIndex = this.content.indexOf( "<br", ChatBuffer.MAXIMUM_LENGTH - ChatBuffer.TRIM_TO_LENGTH );
+
+		if ( lineIndex != -1 )
+		{
+			lineIndex = this.content.indexOf( ">", lineIndex ) + 1;
+		}
+
+		if ( lineIndex == -1 )
+		{
+			this.clear();
+			return;
+		}
+
+		this.content.delete( 0, lineIndex );
+
+		SwingUtilities.invokeLater( new ResetHandler( this.getHTMLContent() ) );
+		SwingUtilities.invokeLater( new ScrollHandler() );
 	}
 
 	/**
-	 * An internal function used to indicate that something has changed with regards to the <code>ChatBuffer</code>.
-	 * This includes any addition to the chat buffer itself and a change in state, such as changing the display window
-	 * or the file to which the data is being logged.
+	 * Returns the styling used by this buffer.
 	 */
 
-	private void fireBufferChanged( String newContents )
+	public String getStyle()
 	{
-		if ( newContents == null )
+		return "body { font-family: sans-serif; }";
+	}
+
+	/**
+	 * Returns all the content stored within this chat buffer.
+	 */
+
+	public String getHTMLContent()
+	{
+		return this.getHTMLContent( this.content.toString() );
+	}
+
+	/**
+	 * Returns all the content stored within this chat buffer.
+	 */
+
+	public String getHTMLContent( final String content )
+	{
+		StringBuffer htmlContent = new StringBuffer();
+
+		htmlContent.append( "<html><head><style>" );
+		htmlContent.append( this.getStyle() );
+		htmlContent.append( "</style></head><body>" );
+
+		htmlContent.append( content );
+
+		htmlContent.append( "</body></html>" );
+
+		return htmlContent.toString();
+	}
+
+	private class ResetHandler
+		implements Runnable
+	{
+		private final String htmlContent;
+
+		public ResetHandler( final String htmlContent )
 		{
-			this.shouldReset = true;
+			this.htmlContent = htmlContent;
 		}
-		else if ( newContents.indexOf( "<body" ) != -1 )
+
+		public void run()
 		{
-			newContents = newContents.substring( newContents.indexOf( ">" ) + 1 ).trim();
+			Iterator referenceIterator = ChatBuffer.this.displayPanes.iterator();
 
-			this.displayBuffer.setLength( 0 );
-			this.displayBuffer.append( newContents );
-			this.shouldReset = true;
-		}
-		else
-		{
-			newContents = newContents.trim();
-
-			this.displayBuffer.append( newContents );
-
-			if ( !this.shouldReset )
+			while ( referenceIterator.hasNext() )
 			{
-				this.contentQueue.addLast( newContents );
+				WeakReference display = (WeakReference) referenceIterator.next();
+				JEditorPane displayPane = (JEditorPane) display.get();
+
+				if ( displayPane == null )
+				{
+					referenceIterator.remove();
+					continue;
+				}
+
+				displayPane.setText( this.htmlContent );
 			}
 		}
-
-		SwingUtilities.invokeLater( this.queueHandler );
-
-		if ( this.activeLogWriter != null && newContents != null )
-		{
-			this.updateLogFile( newContents );
-		}
 	}
 
-	/**
-	 * An internal module used to update the log file. This method basically appends the given string to the current
-	 * logfile. However, because many things may wish to update a log file, it is useful to have an extra module whose
-	 * job is merely to write data to the current log file.
-	 * 
-	 * @param chatContent The content to be written to the file
-	 */
-
-	private void updateLogFile( final String chatContent )
+	private class AppendHandler
+		implements Runnable
 	{
-		if ( this.activeLogWriter != null )
+		private final String newContent;
+
+		public AppendHandler( final String newContent )
 		{
-			this.activeLogWriter.println( chatContent );
-			this.activeLogWriter.flush();
+			this.newContent = newContent;
+		}
+
+		public void run()
+		{
+			Iterator referenceIterator = ChatBuffer.this.displayPanes.iterator();
+
+			while ( referenceIterator.hasNext() )
+			{
+				WeakReference display = (WeakReference) referenceIterator.next();
+				JEditorPane displayPane = (JEditorPane) display.get();
+
+				if ( displayPane == null )
+				{
+					referenceIterator.remove();
+					continue;
+				}
+
+				HTMLDocument currentHTML = (HTMLDocument) displayPane.getDocument();
+
+				Element contentElement = currentHTML.getDefaultRootElement();
+
+				while ( !contentElement.isLeaf() )
+				{
+					contentElement = contentElement.getElement( contentElement.getElementCount() - 1 );
+				}
+
+				try
+				{
+					currentHTML.insertAfterEnd( contentElement, this.newContent );
+				}
+				catch ( Exception e )
+				{
+					// If there's an exception, continue onward so that you
+					// still have an updated display. But, print the stack
+					// trace so you know what's going on.
+
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 
-	private class DisplayQueueHandler
+	private class ScrollHandler
 		implements Runnable
 	{
 		public void run()
 		{
-			if ( ChatBuffer.this.displayPanes.isEmpty() )
-			{
-				ChatBuffer.this.contentQueue.clear();
-				ChatBuffer.this.shouldReset = false;
-				return;
-			}
-
-			while ( ChatBuffer.this.shouldReset || !ChatBuffer.this.contentQueue.isEmpty() )
-			{
-				if ( ChatBuffer.this.shouldReset )
-				{
-					ChatBuffer.this.contentQueue.clear();
-					this.reset();
-					break;
-				}
-
-				String newContents = (String) ChatBuffer.this.contentQueue.removeFirst();
-				this.append( newContents );
-			}
-
-			this.scroll();
-		}
-
-		private void reset()
-		{
-			ChatBuffer.this.shouldReset = false;
-
-			String resetText =
-				ChatBuffer.this.header + "<style>" + ChatBuffer.BUFFER_STYLE + "</style></head><body>" + ChatBuffer.this.displayBuffer.toString() + "</body></html>";
-
 			Iterator referenceIterator = ChatBuffer.this.displayPanes.iterator();
 
 			while ( referenceIterator.hasNext() )
@@ -367,80 +398,12 @@ public class ChatBuffer
 					continue;
 				}
 
-				displayPane.setText( resetText );
+				int contentLength = displayPane.getDocument().getLength();
+
+				int caretPosition = Math.max( contentLength - 1, 0 );
+
+				displayPane.setCaretPosition( caretPosition );
 			}
-		}
-
-		private void append( final String newContents )
-		{
-			Iterator referenceIterator = ChatBuffer.this.displayPanes.iterator();
-
-			while ( referenceIterator.hasNext() )
-			{
-				WeakReference display = (WeakReference) referenceIterator.next();
-				JEditorPane displayPane = (JEditorPane) display.get();
-
-				if ( displayPane == null )
-				{
-					referenceIterator.remove();
-					continue;
-				}
-
-				this.appendOnce( displayPane, newContents );
-			}
-		}
-
-		private void appendOnce( final JEditorPane displayPane, final String newContents )
-		{
-
-			HTMLDocument currentHTML = (HTMLDocument) displayPane.getDocument();
-			Element parentElement = currentHTML.getDefaultRootElement();
-
-			while ( !parentElement.isLeaf() )
-			{
-				parentElement = parentElement.getElement( parentElement.getElementCount() - 1 );
-			}
-
-			try
-			{
-				currentHTML.insertAfterEnd( parentElement, newContents );
-			}
-			catch ( Exception e )
-			{
-				// If there's an exception, continue onward so that you
-				// still have an updated display. But, print the stack
-				// trace so you know what's going on.
-
-				e.printStackTrace();
-			}
-		}
-
-		private void scroll()
-		{
-			Iterator referenceIterator = ChatBuffer.this.displayPanes.iterator();
-
-			while ( referenceIterator.hasNext() )
-			{
-				WeakReference display = (WeakReference) referenceIterator.next();
-				JEditorPane displayPane = (JEditorPane) display.get();
-
-				if ( displayPane == null )
-				{
-					referenceIterator.remove();
-					continue;
-				}
-
-				int length = displayPane.getDocument().getLength();
-				displayPane.setCaretPosition( ChatBuffer.this.autoScroll ? Math.max( length - 1, 0 ) : 0 );
-			}
-		}
-
-		public void queueClear()
-		{
-			ChatBuffer.this.displayBuffer.setLength( 0 );
-			ChatBuffer.this.shouldReset = true;
-
-			SwingUtilities.invokeLater( ChatBuffer.this.queueHandler );
 		}
 	}
 }
