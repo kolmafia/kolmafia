@@ -39,7 +39,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -51,13 +50,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JToolBar;
-import javax.swing.WindowConstants;
+import javax.swing.ScrollPaneConstants;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
-import net.sourceforge.kolmafia.LimitedSizeChatBuffer;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -89,8 +87,6 @@ public class RequestFrame
 	private final ArrayList shownHTML = new ArrayList();
 
 	private String currentLocation;
-	private final LimitedSizeChatBuffer mainBuffer;
-	private LimitedSizeChatBuffer sideBuffer;
 
 	public RequestPane sideDisplay;
 	public RequestPane mainDisplay;
@@ -113,8 +109,10 @@ public class RequestFrame
 		this.mainDisplay = new RequestPane();
 		this.mainDisplay.addHyperlinkListener( new RequestHyperlinkAdapter() );
 
-		this.mainBuffer = new LimitedSizeChatBuffer( false );
-		JScrollPane mainScroller = this.mainBuffer.setChatDisplay( this.mainDisplay );
+		JScrollPane mainScroller =
+			new JScrollPane(
+				this.mainDisplay, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER );
 
 		// Game text descriptions and player searches should not add
 		// extra requests to the server by having a side panel.
@@ -154,8 +152,6 @@ public class RequestFrame
 	{
 		if ( !this.hasSideBar() )
 		{
-			this.sideBuffer = null;
-
 			JComponentUtilities.setComponentSize( mainScroller, 400, 300 );
 			this.framePanel.setLayout( new BorderLayout() );
 			this.framePanel.add( mainScroller, BorderLayout.CENTER );
@@ -167,8 +163,11 @@ public class RequestFrame
 		this.sideDisplay = new RequestPane();
 		this.sideDisplay.addHyperlinkListener( new RequestHyperlinkAdapter() );
 
-		this.sideBuffer = new LimitedSizeChatBuffer( false );
-		JScrollPane sideScroller = this.sideBuffer.setChatDisplay( this.sideDisplay );
+		JScrollPane sideScroller =
+			new JScrollPane(
+				this.sideDisplay, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER );
+
 		JComponentUtilities.setComponentSize( sideScroller, 150, 450 );
 
 		JSplitPane horizontalSplit = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT, true, sideScroller, mainScroller );
@@ -352,7 +351,7 @@ public class RequestFrame
 
 	public void displayRequest( GenericRequest request )
 	{
-		if ( this.mainBuffer == null || request == null )
+		if ( this.mainDisplay == null || request == null )
 		{
 			return;
 		}
@@ -382,7 +381,7 @@ public class RequestFrame
 
 			if ( request.responseText == null || request.responseText.length() == 0 )
 			{
-				this.mainBuffer.clearBuffer();
+				this.mainDisplay.setText( "" );
 				return;
 			}
 
@@ -420,8 +419,7 @@ public class RequestFrame
 			FileUtilities.downloadImage( imageMatcher.group() );
 		}
 
-		this.mainBuffer.clearBuffer();
-		this.mainBuffer.append( responseText );
+		this.mainDisplay.setText( responseText );
 	}
 
 	public static final void refreshStatus()
@@ -433,14 +431,16 @@ public class RequestFrame
 		{
 			current = (RequestFrame) RequestFrame.sideBarFrames.get( i );
 
-			current.sideBuffer.clearBuffer();
-			current.sideBuffer.append( displayHTML );
+			if ( current.sideDisplay != null )
+			{
+				current.sideDisplay.setText( displayHTML );
+			}
 		}
 	}
 
 	public boolean containsText( final String search )
 	{
-		return this.mainBuffer.getBuffer().indexOf( search ) != -1;
+		return this.mainDisplay.getText().indexOf( search ) != -1;
 	}
 
 	public void dispose()
@@ -454,7 +454,6 @@ public class RequestFrame
 	{
 		return false;
 	}
-
 
 	private class HomeButton
 		extends ThreadedButton
@@ -483,8 +482,7 @@ public class RequestFrame
 			if ( RequestFrame.this.locationIndex > 0 )
 			{
 				--RequestFrame.this.locationIndex;
-				RequestFrame.this.mainBuffer.clearBuffer();
-				RequestFrame.this.mainBuffer.append( (String) RequestFrame.this.shownHTML.get( RequestFrame.this.locationIndex ) );
+				RequestFrame.this.mainDisplay.setText( (String) RequestFrame.this.shownHTML.get( RequestFrame.this.locationIndex ) );
 				RequestFrame.this.locationField.setText( (String) RequestFrame.this.history.get( RequestFrame.this.locationIndex ) );
 			}
 		}
@@ -503,8 +501,7 @@ public class RequestFrame
 			if ( RequestFrame.this.locationIndex + 1 < RequestFrame.this.shownHTML.size() )
 			{
 				++RequestFrame.this.locationIndex;
-				RequestFrame.this.mainBuffer.clearBuffer();
-				RequestFrame.this.mainBuffer.append( (String) RequestFrame.this.shownHTML.get( RequestFrame.this.locationIndex ) );
+				RequestFrame.this.mainDisplay.setText( (String) RequestFrame.this.shownHTML.get( RequestFrame.this.locationIndex ) );
 				RequestFrame.this.locationField.setText( (String) RequestFrame.this.history.get( RequestFrame.this.locationIndex ) );
 			}
 		}
@@ -587,7 +584,9 @@ public class RequestFrame
 
 				Matcher idMatcher = RequestFrame.TOID_PATTERN.matcher( location );
 
-				String[] parameters = new String[] { idMatcher.find() ? idMatcher.group( 1 ) : "" };
+				String[] parameters = new String[]
+				{ idMatcher.find() ? idMatcher.group( 1 ) : ""
+				};
 				GenericFrame.createDisplay( SendMessageFrame.class, parameters );
 			}
 			else if ( location.startsWith( "search" ) || location.startsWith( "desc" ) || location.startsWith( "static" ) || location.startsWith( "show" ) )
@@ -601,8 +600,8 @@ public class RequestFrame
 			}
 		}
 	}
-	
-	public void gotoLink( String location )
+
+	public void gotoLink( final String location )
 	{
 		this.refresh( RequestEditorKit.extractRequest( location ) );
 	}

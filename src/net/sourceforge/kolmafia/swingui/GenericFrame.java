@@ -133,7 +133,7 @@ public abstract class GenericFrame
 
 		if ( this.shouldAddStatusBar() )
 		{
-			JScrollPane statusBar = KoLConstants.commandBuffer.setChatDisplay( new RequestPane() );
+			JScrollPane statusBar = KoLConstants.commandBuffer.addDisplay( new RequestPane() );
 			JComponentUtilities.setComponentSize( statusBar, new Dimension( 200, 50 ) );
 
 			JSplitPane doublePane =

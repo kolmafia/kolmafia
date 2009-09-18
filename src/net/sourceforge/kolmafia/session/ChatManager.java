@@ -30,7 +30,7 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-	
+
 package net.sourceforge.kolmafia.session;
 
 import java.awt.Color;
@@ -55,7 +55,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
-import net.sourceforge.kolmafia.LimitedSizeChatBuffer;
+import net.sourceforge.kolmafia.StyledChatBuffer;
 import net.sourceforge.kolmafia.LocalRelayServer;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -119,27 +119,29 @@ public abstract class ChatManager
 
 	private static final HashMap colors = new HashMap();
 
-	private static final String[] AVAILABLE_COLORS = { "#000000", // default (0)
-	"#CC9900", // brown (1)
-	"#FFCC00", // gold (2)
-	"#CC3300", // dark red (3)
-	"#FF0033", // red (4)
-	"#FF33CC", // hot pink (5)
-	"#FF99FF", // soft pink (6)
-	"#663399", // dark purple (7)
-	"#9933CC", // purple (8)
-	"#CC99FF", // light purple (9)
-	"#000066", // dark blue (10)
-	"#0000CC", // blue (11)
-	"#9999FF", // light blue (12)
-	"#336600", // dark green (13)
-	"#339966", // green (14)
-	"#66CC99", // light green (15)
-	"#EAEA9A", // mustard (16)
-	"#FF9900", // orange (17)
-	"#000000", // black (18)
-	"#666666", // dark grey (19)
-	"#CCCCCC" // light grey (20)
+	private static final String[] AVAILABLE_COLORS =
+	{
+		"#000000", // default (0)
+		"#CC9900", // brown (1)
+		"#FFCC00", // gold (2)
+		"#CC3300", // dark red (3)
+		"#FF0033", // red (4)
+		"#FF33CC", // hot pink (5)
+		"#FF99FF", // soft pink (6)
+		"#663399", // dark purple (7)
+		"#9933CC", // purple (8)
+		"#CC99FF", // light purple (9)
+		"#000066", // dark blue (10)
+		"#0000CC", // blue (11)
+		"#9999FF", // light blue (12)
+		"#336600", // dark green (13)
+		"#339966", // green (14)
+		"#66CC99", // light green (15)
+		"#EAEA9A", // mustard (16)
+		"#FF9900", // orange (17)
+		"#000000", // black (18)
+		"#666666", // dark grey (19)
+		"#CCCCCC" // light grey (20)
 	};
 
 	private static boolean isRunning = false;
@@ -165,7 +167,7 @@ public abstract class ChatManager
 		Object[] buffers = ChatManager.instantMessageBuffers.values().toArray();
 		for ( int i = 0; i < buffers.length; ++i )
 		{
-			( (LimitedSizeChatBuffer) buffers[ i ] ).fireBufferChanged();
+			( (StyledChatBuffer) buffers[ i ] ).append( null );
 		}
 	}
 
@@ -241,18 +243,18 @@ public abstract class ChatManager
 		// Clear the highlights and add all the ones which
 		// were saved from the last session.
 
-		LimitedSizeChatBuffer.clearHighlights();
+		StyledChatBuffer.clearHighlights();
 
 		String[] highlights = Preferences.getString( "highlightList" ).trim().split( "\n+" );
 
 		if ( highlights.length > 1 )
 		{
-			LimitedSizeChatBuffer.highlightBuffer = ChatManager.getChatBuffer( "[high]" );
-			LimitedSizeChatBuffer.highlightBuffer.clearBuffer();
+			StyledChatBuffer.highlightBuffer = ChatManager.getChatBuffer( "[high]" );
+			StyledChatBuffer.highlightBuffer.clear();
 
 			for ( int i = 0; i < highlights.length; ++i )
 			{
-				LimitedSizeChatBuffer.addHighlight( highlights[ i ], DataUtilities.toColor( highlights[ ++i ] ) );
+				StyledChatBuffer.addHighlight( highlights[ i ], DataUtilities.toColor( highlights[ ++i ] ) );
 			}
 		}
 
@@ -269,10 +271,10 @@ public abstract class ChatManager
 
 	public static final void clearChatBuffer( final String contact )
 	{
-		LimitedSizeChatBuffer bufferToClear = ChatManager.getChatBuffer( contact );
+		StyledChatBuffer bufferToClear = ChatManager.getChatBuffer( contact );
 		if ( bufferToClear != null )
 		{
-			bufferToClear.clearBuffer();
+			bufferToClear.clear();
 		}
 	}
 
@@ -281,16 +283,15 @@ public abstract class ChatManager
 		RequestThread.postRequest( new ChatRequest( ChatManager.currentChannel, "/friends" ) );
 	}
 
-	public static final LimitedSizeChatBuffer getChatBuffer( final String contact )
+	public static final StyledChatBuffer getChatBuffer( final String contact )
 	{
 		return ChatManager.getChatBuffer( contact, true );
 	}
 
-	public static final LimitedSizeChatBuffer getChatBuffer( final String contact, final boolean shouldOpenWindow )
+	public static final StyledChatBuffer getChatBuffer( final String contact, final boolean shouldOpenWindow )
 	{
 		String bufferName = ChatManager.getBufferKey( contact );
-		LimitedSizeChatBuffer buffer =
-			(LimitedSizeChatBuffer) ChatManager.instantMessageBuffers.get( bufferName );
+		StyledChatBuffer buffer = (StyledChatBuffer) ChatManager.instantMessageBuffers.get( bufferName );
 
 		// This error should not happen, but it's better to be safe than
 		// sorry, so there's a check to make sure that the chat buffer
@@ -299,7 +300,7 @@ public abstract class ChatManager
 		if ( buffer == null )
 		{
 			ChatManager.openInstantMessage( contact, shouldOpenWindow );
-			buffer = (LimitedSizeChatBuffer) ChatManager.instantMessageBuffers.get( bufferName );
+			buffer = (StyledChatBuffer) ChatManager.instantMessageBuffers.get( bufferName );
 		}
 
 		return buffer;
@@ -339,8 +340,7 @@ public abstract class ChatManager
 
 	private static final boolean isDungeonChannel( String contactName )
 	{
-		return contactName.equals( "/hobopolis" ) ||
-		       contactName.equals( "/slimetube" );
+		return contactName.equals( "/hobopolis" ) || contactName.equals( "/slimetube" );
 	}
 
 	/**
@@ -362,8 +362,7 @@ public abstract class ChatManager
 		// If this key does not exist, then go ahead and try
 		// to remove the key.
 
-		LimitedSizeChatBuffer removedBuffer =
-			(LimitedSizeChatBuffer) ChatManager.instantMessageBuffers.remove( contact );
+		StyledChatBuffer removedBuffer = (StyledChatBuffer) ChatManager.instantMessageBuffers.remove( contact );
 
 		// Make sure you close any active logging on the channel
 		// as well as dispose of the frame so that KoLmafia can
@@ -371,7 +370,7 @@ public abstract class ChatManager
 
 		if ( removedBuffer != null )
 		{
-			removedBuffer.closeActiveLogFile();
+			removedBuffer.dispose();
 		}
 
 		// If chat is no longer running, you don't have to do
@@ -414,7 +413,7 @@ public abstract class ChatManager
 
 	/**
 	 * Returns whether or not the messenger is showing on screen.
-	 *
+	 * 
 	 * @return <code>true</code> if the messenger is showing.
 	 */
 
@@ -569,8 +568,8 @@ public abstract class ChatManager
 
 			if ( !Preferences.getBoolean( "useContactsFrame" ) )
 			{
-				ChatManager.broadcastMessage( StringUtilities.singleStringReplace( ChatManager.TABLECELL_PATTERN.matcher(
-					content ).replaceAll( "" ), "</b>", "</b>&nbsp;" ) );
+				ChatManager.broadcastMessage( StringUtilities.singleStringReplace(
+					ChatManager.TABLECELL_PATTERN.matcher( content ).replaceAll( "" ), "</b>", "</b>&nbsp;" ) );
 			}
 		}
 	}
@@ -580,11 +579,13 @@ public abstract class ChatManager
 		Matcher playerMatcher = ChatManager.PLAYERID_PATTERN.matcher( content );
 
 		String playerName, playerId;
+
 		while ( playerMatcher.find() )
 		{
 			playerName =
 				ChatManager.PARENTHESIS_PATTERN.matcher(
 					KoLConstants.ANYTAG_PATTERN.matcher( playerMatcher.group( 2 ) ).replaceAll( "" ) ).replaceAll( "" );
+
 			playerId = playerMatcher.group( 1 );
 
 			// Handle the new player profile links -- in
@@ -672,7 +673,9 @@ public abstract class ChatManager
 		}
 
 		// Simulate embedded JavaScript execution requests, as used by chat crafting commands
+
 		Matcher dojax = ChatManager.DOJAX_PATTERN.matcher( content );
+
 		if ( dojax.find() )
 		{
 			if ( LocalRelayServer.isRunning() )
@@ -682,25 +685,29 @@ public abstract class ChatManager
 				// disastrous, especially in the case of /drink.
 				ChatManager.broadcastMessage( "(Sorry, advanced chat commands are disallowed if the relay server is running.)<br>" );
 			}
-			else do
+			else
 			{
-				ChatManager.DOJAX_VISITOR.constructURLString( dojax.group( 1 ) );
-				RequestThread.postRequest( ChatManager.DOJAX_VISITOR );
-				if ( ChatManager.DOJAX_VISITOR.responseText != null )
+				do
 				{
-					StaticEntity.externalUpdate( ChatManager.DOJAX_VISITOR.getURLString(),
-						ChatManager.DOJAX_VISITOR.responseText );
-					ChatManager.broadcastMessage(
-						ChatManager.DOJAX_VISITOR.responseText + "<br>" );
+					ChatManager.DOJAX_VISITOR.constructURLString( dojax.group( 1 ) );
+					RequestThread.postRequest( ChatManager.DOJAX_VISITOR );
+
+					if ( ChatManager.DOJAX_VISITOR.responseText != null )
+					{
+						StaticEntity.externalUpdate(
+							ChatManager.DOJAX_VISITOR.getURLString(), ChatManager.DOJAX_VISITOR.responseText );
+
+						ChatManager.broadcastMessage( ChatManager.DOJAX_VISITOR.responseText + "<br>" );
+					}
 				}
+				while ( dojax.find() );
 			}
-			while ( dojax.find() );
 		}
 	}
 
 	/**
 	 * Updates the chat with the given information. This method will also handle instant message data.
-	 *
+	 * 
 	 * @param content The content with which to update the chat
 	 */
 
@@ -737,12 +744,12 @@ public abstract class ChatManager
 		ChatManager.instantMessageBuffers.keySet().toArray( broadcast );
 
 		String currentKey;
-		LimitedSizeChatBuffer currentBuffer;
+		StyledChatBuffer currentBuffer;
 		ArrayList keysUsed = new ArrayList();
 
 		for ( int i = 0; i < broadcast.length; ++i )
 		{
-			currentKey = ChatManager.getBufferKey( broadcast[i] );
+			currentKey = ChatManager.getBufferKey( broadcast[ i ] );
 
 			if ( keysUsed.contains( currentKey ) )
 			{
@@ -862,7 +869,7 @@ public abstract class ChatManager
 
 	/**
 	 * static final method for handling individual channel methods.
-	 *
+	 * 
 	 * @param channel The name of the channel
 	 * @param message The message that was sent to the channel
 	 */
@@ -920,6 +927,7 @@ public abstract class ChatManager
 			{
 				RequestThread.postRequest( new ChatRequest(
 					channel, "I currently have " + KoLmafia.getRestoreCount() + " mana restores at my disposal.", false ) );
+
 				return true;
 			}
 
@@ -951,9 +959,11 @@ public abstract class ChatManager
 			StringBuffer data = new StringBuffer();
 			for ( int i = 0; i < ChatManager.ROLLING_LIMIT; ++i )
 			{
-				data.append( KoLConstants.ANYTAG_PATTERN.matcher(
-					(String) ChatManager.clanMessages.get( ( ChatManager.rollingIndex + i ) % ChatManager.ROLLING_LIMIT ) ).replaceAll(
-					"" ) );
+				int messageIndex = ( ChatManager.rollingIndex + i ) % ChatManager.ROLLING_LIMIT;
+				String originalMessage = (String) ChatManager.clanMessages.get( messageIndex );
+				String cleanMessage = KoLConstants.ANYTAG_PATTERN.matcher( originalMessage ).replaceAll( "" );
+
+				data.append( cleanMessage );
 				data.append( "\n" );
 			}
 
@@ -976,7 +986,15 @@ public abstract class ChatManager
 
 		ChatManager.lastBlueMessage = channel;
 		Preferences.setBoolean( "chatbotScriptExecuted", false );
-		interpreter.execute( "main", new String[] { channel, message } );
+
+		String[] scriptParameters = new String[]
+		{
+			channel,
+			message
+		};
+
+		interpreter.execute( "main", scriptParameters );
+
 		return Preferences.getBoolean( "chatbotScriptExecuted" );
 	}
 
@@ -1014,7 +1032,7 @@ public abstract class ChatManager
 			return;
 		}
 
-		LimitedSizeChatBuffer buffer = ChatManager.getChatBuffer( bufferKey );
+		StyledChatBuffer buffer = ChatManager.getChatBuffer( bufferKey );
 
 		buffer.append( displayHTML );
 
@@ -1050,10 +1068,11 @@ public abstract class ChatManager
 		{
 			// KoL formats nested links badly. Move the bet.php
 			// link to the beginning of the buffer.
+
 			StringUtilities.singleStringDelete( displayHTML, oldBetString );
 			displayHTML.insert( 0, newBetString );
 		}
-                
+
 		StringUtilities.globalStringDelete( displayHTML, " target=mainpane" );
 
 		// There are a bunch of messages that are supposed to be
@@ -1223,7 +1242,7 @@ public abstract class ChatManager
 	/**
 	 * Opens an instant message window to the character with the given name so that a private conversation can be
 	 * started.
-	 *
+	 * 
 	 * @param contact The channel to be opened
 	 */
 
@@ -1246,11 +1265,12 @@ public abstract class ChatManager
 			return;
 		}
 
-		boolean updateHighlights = ChatManager.isRunning &&
-			( !contact.equals( "[main]" ) || Preferences.getBoolean( "useSeparateChannels" ) );
+		boolean updateHighlights =
+			ChatManager.isRunning && ( !contact.equals( "[main]" ) || Preferences.getBoolean( "useSeparateChannels" ) );
 
-		LimitedSizeChatBuffer buffer =
-			new LimitedSizeChatBuffer( KoLCharacter.getUserName() + ": " + contact, true, updateHighlights );
+		String title = KoLCharacter.getUserName() + ": " + contact;
+
+		StyledChatBuffer buffer = new StyledChatBuffer( title, updateHighlights );
 
 		ChatManager.instantMessageBuffers.put( bufferName, buffer );
 
@@ -1267,8 +1287,12 @@ public abstract class ChatManager
 			}
 			else
 			{
-				CreateFrameRunnable creator =
-					new CreateFrameRunnable( ChatFrame.class, new String[] { contact } );
+				String[] parameters = new String[]
+				{ contact
+				};
+
+				CreateFrameRunnable creator = new CreateFrameRunnable( ChatFrame.class, parameters );
+
 				if ( SwingUtilities.isEventDispatchThread() )
 				{
 					creator.run();
@@ -1290,7 +1314,7 @@ public abstract class ChatManager
 
 		if ( Preferences.getBoolean( "logChatMessages" ) )
 		{
-			buffer.setActiveLogFile( new File( KoLConstants.CHATLOG_LOCATION, ChatManager.getChatLogName( contact ) ) );
+			buffer.setLogFile( new File( KoLConstants.CHATLOG_LOCATION, ChatManager.getChatLogName( contact ) ) );
 		}
 
 		if ( ChatManager.highlighting && !contact.equals( "[high]" ) )
@@ -1338,7 +1362,8 @@ public abstract class ChatManager
 
 	public static final void addHighlighting()
 	{
-		String highlight = InputFieldUtilities.input( "What word/phrase would you like to highlight?", KoLCharacter.getUserName() );
+		String highlight =
+			InputFieldUtilities.input( "What word/phrase would you like to highlight?", KoLCharacter.getUserName() );
 		if ( highlight == null )
 		{
 			return;
@@ -1347,14 +1372,14 @@ public abstract class ChatManager
 		ChatManager.highlighting = true;
 		Color color = ChatManager.getRandomColor();
 
-		LimitedSizeChatBuffer.highlightBuffer = ChatManager.getChatBuffer( "[high]" );
-		LimitedSizeChatBuffer.highlightBuffer.clearBuffer();
+		StyledChatBuffer.highlightBuffer = ChatManager.getChatBuffer( "[high]" );
+		StyledChatBuffer.highlightBuffer.clear();
 
 		StringBuffer newSetting = new StringBuffer();
 
 		newSetting.append( Preferences.getString( "highlightList" ) );
 		newSetting.append( "\n" );
-		newSetting.append( LimitedSizeChatBuffer.addHighlight( highlight, color ) );
+		newSetting.append( StyledChatBuffer.addHighlight( highlight, color ) );
 
 		Preferences.setString( "highlightList", newSetting.toString().trim() );
 
@@ -1376,7 +1401,7 @@ public abstract class ChatManager
 
 	public static final void removeHighlighting()
 	{
-		Object[] patterns = LimitedSizeChatBuffer.highlights.toArray();
+		Object[] patterns = StyledChatBuffer.highlights.toArray();
 		if ( patterns.length == 0 )
 		{
 			InputFieldUtilities.alert( "No active highlights." );
@@ -1389,22 +1414,23 @@ public abstract class ChatManager
 			patterns[ i ] = ( (Pattern) patterns[ i ] ).pattern();
 		}
 
-		String selectedValue = (String) InputFieldUtilities.input( "Currently highlighting the following terms:", patterns );
+		String selectedValue =
+			(String) InputFieldUtilities.input( "Currently highlighting the following terms:", patterns );
 
 		if ( selectedValue == null )
 		{
 			return;
 		}
 
-		LimitedSizeChatBuffer.highlightBuffer = ChatManager.getChatBuffer( "[high]" );
-		LimitedSizeChatBuffer.highlightBuffer.clearBuffer();
+		StyledChatBuffer.highlightBuffer = ChatManager.getChatBuffer( "[high]" );
+		StyledChatBuffer.highlightBuffer.clear();
 
 		for ( int i = 0; i < patterns.length; ++i )
 		{
 			if ( patterns[ i ].equals( selectedValue ) )
 			{
-				String settingString = LimitedSizeChatBuffer.removeHighlight( i );
-				LimitedSizeChatBuffer.highlightBuffer.clearBuffer();
+				String settingString = StyledChatBuffer.removeHighlight( i );
+				StyledChatBuffer.highlightBuffer.clear();
 
 				String oldSetting = Preferences.getString( "highlightList" );
 				int startIndex = oldSetting.indexOf( settingString );
@@ -1418,8 +1444,9 @@ public abstract class ChatManager
 					newSetting.append( oldSetting.substring( endIndex ) );
 				}
 
-				Preferences.setString( "highlightList", ChatManager.MULTILINE_PATTERN.matcher(
-					newSetting.toString() ).replaceAll( "\n" ).trim() );
+				Preferences.setString(
+					"highlightList",
+					ChatManager.MULTILINE_PATTERN.matcher( newSetting.toString() ).replaceAll( "\n" ).trim() );
 			}
 		}
 

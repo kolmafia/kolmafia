@@ -59,7 +59,7 @@ import javax.swing.JToolBar;
 
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.LimitedSizeChatBuffer;
+import net.sourceforge.kolmafia.StyledChatBuffer;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.Preferences;
@@ -248,12 +248,12 @@ public class ChatFrame
 
 			if ( associatedContact.equals( ChatFrame.GCLI_TAB ) )
 			{
-				this.add( KoLConstants.commandBuffer.setChatDisplay( this.chatDisplay ), BorderLayout.CENTER );
+				this.add( KoLConstants.commandBuffer.addDisplay( this.chatDisplay ), BorderLayout.CENTER );
 			}
 			else
 			{
 				this.add(
-					ChatManager.getChatBuffer( associatedContact ).setChatDisplay( this.chatDisplay ),
+					ChatManager.getChatBuffer( associatedContact ).addDisplay( this.chatDisplay ),
 					BorderLayout.CENTER );
 			}
 
@@ -373,11 +373,11 @@ public class ChatFrame
 					return;
 				}
 
-				LimitedSizeChatBuffer buffer = ChatManager.getChatBuffer( ChatPanel.this.associatedContact );
+				StyledChatBuffer buffer = ChatManager.getChatBuffer( ChatPanel.this.associatedContact );
 
 				if ( message.startsWith( "/clear" ) || message.startsWith( "/cls" ) || message.equals( "clear" ) || message.equals( "cls" ) )
 				{
-					buffer.clearBuffer();
+					buffer.clear();
 					return;
 				}
 

@@ -55,7 +55,7 @@ import javax.swing.table.TableCellRenderer;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.LimitedSizeChatBuffer;
+import net.sourceforge.kolmafia.StyledChatBuffer;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
@@ -91,8 +91,10 @@ public class CalendarFrame
 
 	private static JCalendar calendar;
 	private static OracleTable oracleTable;
-	private static LimitedSizeChatBuffer dailyBuffer, predictBuffer;
 
+	private static RequestPane dailyDisplay;
+	private static RequestPane predictDisplay;
+	
 	private static Calendar selectedDate;
 	private static int selectedRow, selectedColumn;
 
@@ -118,16 +120,11 @@ public class CalendarFrame
 
 		CalendarFrame.calculatePhases( CalendarFrame.selectedDate.getTime() );
 
-		CalendarFrame.dailyBuffer = new LimitedSizeChatBuffer( false );
-		CalendarFrame.predictBuffer = new LimitedSizeChatBuffer( false );
-
-		RequestPane dailyDisplay = new RequestPane();
+		dailyDisplay = new RequestPane();
 		JComponentUtilities.setComponentSize( dailyDisplay, 400, 335 );
-		CalendarFrame.dailyBuffer.setChatDisplay( dailyDisplay );
 
-		RequestPane predictDisplay = new RequestPane();
+		predictDisplay = new RequestPane();
 		JComponentUtilities.setComponentSize( predictDisplay, 400, 335 );
-		CalendarFrame.predictBuffer.setChatDisplay( predictDisplay );
 
 		this.tabs.addTab( "KoL One-a-Day", dailyDisplay );
 		this.tabs.addTab( "Upcoming Events", predictDisplay );
@@ -216,8 +213,7 @@ public class CalendarFrame
 	{
 		if ( KoLConstants.DAILY_FORMAT.format( CalendarFrame.selectedDate.getTime() ).equals( "20051027" ) )
 		{
-			CalendarFrame.dailyBuffer.clearBuffer();
-			CalendarFrame.dailyBuffer.append( "<center><h1>White Wednesday</h1></center>" );
+			CalendarFrame.dailyDisplay.setText( "<center><h1>White Wednesday</h1></center>" );
 			return;
 		}
 
@@ -362,8 +358,7 @@ public class CalendarFrame
 		// constructed, clear the display dailyBuffer
 		// and append the appropriate text.
 
-		CalendarFrame.dailyBuffer.clearBuffer();
-		CalendarFrame.dailyBuffer.append( displayHTML.toString() );
+		CalendarFrame.dailyDisplay.setText( displayHTML.toString() );
 	}
 
 	/**
@@ -387,8 +382,7 @@ public class CalendarFrame
 
 		HolidayDatabase.addPredictionHTML( displayHTML, CalendarFrame.selectedDate.getTime(), phaseStep );
 
-		CalendarFrame.predictBuffer.clearBuffer();
-		CalendarFrame.predictBuffer.append( displayHTML.toString() );
+		CalendarFrame.predictDisplay.setText( displayHTML.toString() );
 	}
 
 	/**

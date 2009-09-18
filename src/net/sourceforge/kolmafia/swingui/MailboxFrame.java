@@ -36,7 +36,6 @@ package net.sourceforge.kolmafia.swingui;
 import java.awt.Dimension;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-
 import java.util.StringTokenizer;
 
 import javax.swing.JList;
@@ -44,6 +43,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JToolBar;
 import javax.swing.ListSelectionModel;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
@@ -52,7 +52,6 @@ import javax.swing.event.ListSelectionListener;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLMailMessage;
-import net.sourceforge.kolmafia.LimitedSizeChatBuffer;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.request.MailboxRequest;
@@ -68,7 +67,6 @@ public class MailboxFrame
 {
 	private KoLMailMessage displayed;
 	private final RequestPane messageContent;
-	private final LimitedSizeChatBuffer mailBuffer;
 
 	private MailSelectList messageListInbox;
 	private MailSelectList messageListPvp;
@@ -90,8 +88,11 @@ public class MailboxFrame
 		this.messageContent = new RequestPane();
 		this.messageContent.addHyperlinkListener( new MailLinkClickedListener() );
 
-		this.mailBuffer = new LimitedSizeChatBuffer( false );
-		JScrollPane messageContentDisplay = this.mailBuffer.setChatDisplay( this.messageContent );
+		JScrollPane messageContentDisplay =
+			new JScrollPane(
+				this.messageContent, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER );
+
 		messageContentDisplay.setMinimumSize( new Dimension( 0, 150 ) );
 
 		JSplitPane splitPane = new JSplitPane( JSplitPane.VERTICAL_SPLIT, true, this.tabs, messageContentDisplay );
@@ -100,7 +101,7 @@ public class MailboxFrame
 		JComponentUtilities.setComponentSize( splitPane, 500, 300 );
 		this.getContentPane().add( splitPane );
 
-		JToolBar toolbarPanel = this.getToolbar();
+		this.getToolbar();
 	}
 
 	public JToolBar getToolbar()
@@ -140,7 +141,6 @@ public class MailboxFrame
 	public void stateChanged( final ChangeEvent e )
 	{
 		this.refreshMailManager();
-		this.mailBuffer.clearBuffer();
 
 		boolean requestMailbox;
 		String currentTabName = this.tabs.getTitleAt( this.tabs.getSelectedIndex() );
@@ -181,7 +181,7 @@ public class MailboxFrame
 
 		if ( requestMailbox )
 		{
-			( new MailRefresher( currentTabName ) ).run();
+			new MailRefresher( currentTabName ).run();
 		}
 	}
 
@@ -208,10 +208,9 @@ public class MailboxFrame
 		public void run()
 		{
 			MailboxFrame.this.refreshMailManager();
-			MailboxFrame.this.mailBuffer.append( "Retrieving messages from server..." );
+			MailboxFrame.this.messageContent.setText( "Retrieving messages from server..." );
 
 			RequestThread.postRequest( this.refresher );
-			MailboxFrame.this.mailBuffer.clearBuffer();
 
 			if ( this.mailboxName.equals( "Inbox" ) )
 			{
@@ -250,19 +249,19 @@ public class MailboxFrame
 
 		public void valueChanged( final ListSelectionEvent e )
 		{
-			if ( MailboxFrame.this.mailBuffer == null )
+			if ( MailboxFrame.this.messageContent == null )
 			{
 				return;
 			}
 
-			MailboxFrame.this.mailBuffer.clearBuffer();
 			int newIndex = this.getSelectedIndex();
 
 			if ( newIndex >= 0 && this.getModel().getSize() > 0 )
 			{
 				MailboxFrame.this.displayed =
 					(KoLMailMessage) MailManager.getMessages( this.mailboxName ).get( newIndex );
-				MailboxFrame.this.mailBuffer.append( MailboxFrame.this.displayed.getDisplayHTML() );
+
+				MailboxFrame.this.messageContent.setText( MailboxFrame.this.displayed.getDisplayHTML() );
 			}
 		}
 
@@ -406,7 +405,7 @@ public class MailboxFrame
 		public void run()
 		{
 			String currentTabName = MailboxFrame.this.tabs.getTitleAt( MailboxFrame.this.tabs.getSelectedIndex() );
-			( new MailRefresher( currentTabName.equals( "PvP" ) ? "Inbox" : currentTabName ) ).run();
+			new MailRefresher( currentTabName.equals( "PvP" ) ? "Inbox" : currentTabName ).run();
 		}
 	}
 

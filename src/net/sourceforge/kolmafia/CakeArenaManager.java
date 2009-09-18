@@ -80,7 +80,7 @@ public class CakeArenaManager
 		{
 			if ( opponent.equals( CakeArenaManager.opponentList.get( i ).toString() ) )
 			{
-				FamiliarTrainingFrame.getResults().clearBuffer();
+				FamiliarTrainingFrame.getResults().clear();
 
 				Matcher victoryMatcher;
 				Pattern victoryPattern = CakeArenaManager.WIN_PATTERN;

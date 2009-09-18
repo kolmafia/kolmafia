@@ -2263,7 +2263,7 @@ public class KoLmafiaCLI
 		{ usage = " - clear CLI window."; }
 		public void run( String cmd )
 		{
-			KoLConstants.commandBuffer.clearBuffer();
+			KoLConstants.commandBuffer.clear();
 		}
 	}
 

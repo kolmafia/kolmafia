@@ -33,22 +33,21 @@
 
 package net.sourceforge.kolmafia;
 
-import apple.dts.samplecode.osxadapter.OSXAdapter;
+import java.awt.Frame;
 import java.lang.reflect.Constructor;
 
-import java.awt.Frame;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.swingui.ChatFrame;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
-import net.sourceforge.kolmafia.swingui.GenericPanelFrame;
 import net.sourceforge.kolmafia.swingui.LoginFrame;
 import net.sourceforge.kolmafia.swingui.SendMessageFrame;
 import net.sourceforge.kolmafia.swingui.SkillBuffFrame;
 import net.sourceforge.kolmafia.swingui.TabbedChatFrame;
 import net.sourceforge.kolmafia.swingui.menu.GlobalMenuBar;
+import apple.dts.samplecode.osxadapter.OSXAdapter;
 
 public class CreateFrameRunnable
 	implements Runnable, KoLConstants
@@ -155,8 +154,8 @@ public class CreateFrameRunnable
 		String searchString = this.creationType.toString();
 		searchString = searchString.substring( searchString.lastIndexOf( "." ) + 1 );
 
-		boolean appearsInTab = GenericFrame.appearsInTab(
-			searchString.endsWith( "ChatFrame" ) ? "ChatManager" : searchString );
+		boolean appearsInTab =
+			GenericFrame.appearsInTab( searchString.endsWith( "ChatFrame" ) ? "ChatManager" : searchString );
 
 		// Make the whole desktop the first time we create a tab
 		if ( appearsInTab && !KoLDesktop.instanceExists() )
@@ -303,9 +302,10 @@ public class CreateFrameRunnable
 				// Generate and register the OSXAdapter, passing it a hash of all the methods we wish to
 				// use as delegates for various com.apple.eawt.ApplicationListener methods
 
-				OSXAdapter.setQuitHandler(KoLmafia.class, KoLmafia.class.getDeclaredMethod("quit", (Class[])null));
-				OSXAdapter.setAboutHandler(KoLmafia.class, KoLmafia.class.getDeclaredMethod("about", (Class[])null));
-				OSXAdapter.setPreferencesHandler(KoLmafia.class, KoLmafia.class.getDeclaredMethod("preferences", (Class[])null));
+				OSXAdapter.setQuitHandler( KoLmafia.class, KoLmafia.class.getDeclaredMethod( "quit", (Class[]) null ) );
+				OSXAdapter.setAboutHandler( KoLmafia.class, KoLmafia.class.getDeclaredMethod( "about", (Class[]) null ) );
+				OSXAdapter.setPreferencesHandler( KoLmafia.class, KoLmafia.class.getDeclaredMethod(
+					"preferences", (Class[]) null ) );
 			}
 		}
 		catch ( Exception e )

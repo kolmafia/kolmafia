@@ -132,7 +132,7 @@ public class CommandDisplayFrame
 		public CommandDisplayPanel()
 		{
 			RequestPane outputDisplay = new RequestPane();
-			JScrollPane scrollPane = KoLConstants.commandBuffer.setChatDisplay( outputDisplay );
+			JScrollPane scrollPane = KoLConstants.commandBuffer.addDisplay( outputDisplay );
 			JComponentUtilities.setComponentSize( scrollPane, 400, 300 );
 
 			JPanel entryPanel = new JPanel( new BorderLayout() );
@@ -249,7 +249,7 @@ public class CommandDisplayFrame
 
 		if ( command.equalsIgnoreCase( "clear" ) || command.equalsIgnoreCase( "cls" ) )
 		{
-			KoLConstants.commandBuffer.clearBuffer();
+			KoLConstants.commandBuffer.clear();
 			return;
 		}
 

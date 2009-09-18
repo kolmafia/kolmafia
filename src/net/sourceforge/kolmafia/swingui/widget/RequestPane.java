@@ -38,6 +38,7 @@ import java.io.StringWriter;
 import java.util.regex.Pattern;
 
 import javax.swing.JEditorPane;
+import javax.swing.text.html.HTMLDocument;
 
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.persistence.Preferences;
@@ -57,6 +58,9 @@ public class RequestPane
 		this.setContentType( "text/html" );
 		this.setEditable( false );
 
+		HTMLDocument currentHTML = (HTMLDocument) getDocument();
+		currentHTML.putProperty( "multiByte", Boolean.FALSE );
+		
 		this.setBackground( new Color( 252, 252, 252 ) );
 	}
 

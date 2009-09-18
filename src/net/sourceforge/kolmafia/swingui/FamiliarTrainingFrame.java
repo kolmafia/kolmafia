@@ -53,18 +53,19 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
+import net.java.dev.spellcast.utilities.ChatBuffer;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CakeArenaManager;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.FamiliarTool;
+import net.sourceforge.kolmafia.StyledChatBuffer;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLCharacterAdapter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
-import net.sourceforge.kolmafia.LimitedSizeChatBuffer;
 import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
@@ -107,7 +108,7 @@ public class FamiliarTrainingFrame
 	private static final Pattern HIdELOST_PATTERN =
 		Pattern.compile( "You enter (.*?) against (.*?) in a game of Hide and Seek.<p>(.*?\\1.*?\\.<p>)\\1 manages to stay hidden" );
 
-	private static final LimitedSizeChatBuffer results = new LimitedSizeChatBuffer( true );
+	private static final StyledChatBuffer results = new StyledChatBuffer( "", false );
 
 	private static int losses = 0;
 	private static boolean stop = false;
@@ -216,7 +217,7 @@ public class FamiliarTrainingFrame
 		this.framePanel.add( this.training, "" );
 
 		// Clear left over results from the buffer
-		FamiliarTrainingFrame.results.clearBuffer();
+		FamiliarTrainingFrame.results.clear();
 	}
 
 	public void updateDisplayState( final int displayState )
@@ -247,7 +248,7 @@ public class FamiliarTrainingFrame
 		super.dispose();
 	}
 
-	public static final LimitedSizeChatBuffer getResults()
+	public static final ChatBuffer getResults()
 	{
 		return FamiliarTrainingFrame.results;
 	}
@@ -564,8 +565,8 @@ public class FamiliarTrainingFrame
 					try
 					{
 						PrintStream ostream = LogStream.openStream( output, false );
-						ostream.println( FamiliarTrainingFrame.results.getBuffer().replaceAll(
-								"<br>", KoLConstants.LINE_BREAK ) );
+						ostream.println( FamiliarTrainingFrame.results.getHTMLContent().replaceAll(
+							"<br>", KoLConstants.LINE_BREAK ) );
 						ostream.close();
 					}
 					catch ( Exception ex )
@@ -689,7 +690,7 @@ public class FamiliarTrainingFrame
 
 					for ( int i = 0; i < array.length; ++i )
 					{
-						RequestThread.postRequest( array[i] );
+						RequestThread.postRequest( array[ i ] );
 					}
 
 					RequestThread.postRequest( new FamiliarRequest( current ) );
@@ -758,7 +759,7 @@ public class FamiliarTrainingFrame
 				this.setLayout( new BorderLayout( 10, 10 ) );
 
 				RequestPane resultsDisplay = new RequestPane();
-				JScrollPane scroller = FamiliarTrainingFrame.results.setChatDisplay( resultsDisplay );
+				JScrollPane scroller = FamiliarTrainingFrame.results.addDisplay( resultsDisplay );
 				JComponentUtilities.setComponentSize( scroller, 400, 400 );
 
 				this.add( scroller, BorderLayout.CENTER );
@@ -800,13 +801,12 @@ public class FamiliarTrainingFrame
 
 	private static final boolean levelFamiliar( final int goal, final int type )
 	{
-		return FamiliarTrainingFrame.levelFamiliar(
-			goal, type, Preferences.getBoolean( "debugFamiliarTraining" ) );
+		return FamiliarTrainingFrame.levelFamiliar( goal, type, Preferences.getBoolean( "debugFamiliarTraining" ) );
 	}
 
 	/**
 	 * Utility method to level the current familiar by fighting the current arena opponents.
-	 *
+	 * 
 	 * @param goal Weight goal for the familiar
 	 * @param type BASE, BUFF, or TURNS
 	 * @param buffs true if should cast buffs during training
@@ -816,7 +816,7 @@ public class FamiliarTrainingFrame
 	public static final boolean levelFamiliar( final int goal, final int type, final boolean debug )
 	{
 		// Clear the output
-		FamiliarTrainingFrame.results.clearBuffer();
+		FamiliarTrainingFrame.results.clear();
 
 		// Permit training session to proceed
 		FamiliarTrainingFrame.stop = false;
@@ -882,7 +882,8 @@ public class FamiliarTrainingFrame
 			// Make sure you have an adventure left
 			if ( KoLCharacter.getAdventuresLeft() < 1 )
 			{
-				FamiliarTrainingFrame.statusMessage( KoLConstants.ERROR_STATE, "Training stopped: out of adventures.", true );
+				FamiliarTrainingFrame.statusMessage(
+					KoLConstants.ERROR_STATE, "Training stopped: out of adventures.", true );
 				return false;
 			}
 
@@ -901,7 +902,8 @@ public class FamiliarTrainingFrame
 
 			if ( opponent == null )
 			{
-				FamiliarTrainingFrame.statusMessage( KoLConstants.ERROR_STATE, "Couldn't choose a suitable opponent.", true );
+				FamiliarTrainingFrame.statusMessage(
+					KoLConstants.ERROR_STATE, "Couldn't choose a suitable opponent.", true );
 				return false;
 			}
 
@@ -909,7 +911,8 @@ public class FamiliarTrainingFrame
 			status.changeGear( tool.bestWeight() );
 			if ( !KoLmafia.permitsContinue() )
 			{
-				FamiliarTrainingFrame.statusMessage( KoLConstants.ERROR_STATE, "Training stopped: internal error.", true );
+				FamiliarTrainingFrame.statusMessage(
+					KoLConstants.ERROR_STATE, "Training stopped: internal error.", true );
 				return false;
 			}
 
@@ -974,14 +977,14 @@ public class FamiliarTrainingFrame
 
 	/**
 	 * Utility method to derive the arena parameters of the current familiar
-	 *
+	 * 
 	 * @param trials How many trials per event
 	 */
 
 	private static final int[] learnFamiliarParameters( final int trials )
 	{
 		// Clear the output
-		FamiliarTrainingFrame.results.clearBuffer();
+		FamiliarTrainingFrame.results.clear();
 
 		// Permit training session to proceed
 		FamiliarTrainingFrame.stop = false;
@@ -1128,7 +1131,8 @@ public class FamiliarTrainingFrame
 				if ( !KoLmafia.permitsContinue() )
 				{
 					FamiliarTrainingFrame.printTrainingResults( trial, status, xp, suckage );
-					FamiliarTrainingFrame.statusMessage( KoLConstants.ERROR_STATE, "Training stopped: internal error.", true );
+					FamiliarTrainingFrame.statusMessage(
+						KoLConstants.ERROR_STATE, "Training stopped: internal error.", true );
 					return null;
 				}
 
@@ -1149,7 +1153,8 @@ public class FamiliarTrainingFrame
 		return FamiliarTrainingFrame.printTrainingResults( trial, status, xp, suckage );
 	}
 
-	private static int [] printTrainingResults( final int trial, final FamiliarStatus status, final int[][] xp, final boolean[] suckage )
+	private static int[] printTrainingResults( final int trial, final FamiliarStatus status, final int[][] xp,
+		final boolean[] suckage )
 	{
 		// Original skill rankings
 		int[] original = FamiliarDatabase.getFamiliarSkills( KoLCharacter.getFamiliar().getId() );
@@ -1202,14 +1207,14 @@ public class FamiliarTrainingFrame
 		// Close the table
 		text.append( "</table>" );
 
-		FamiliarTrainingFrame.results.append ( text.toString() );
+		FamiliarTrainingFrame.results.append( text.toString() );
 
 		return skills;
 	}
 
 	/**
 	 * Utility method to buff the current familiar to the specified weight or higher.
-	 *
+	 * 
 	 * @param weight Weight goal for the familiar
 	 */
 
@@ -1240,12 +1245,7 @@ public class FamiliarTrainingFrame
 			return true;
 		}
 
-		if ( !InventoryManager.hasItem( FamiliarTrainingFrame.PUMPKIN_BUCKET ) &&
-		     !InventoryManager.hasItem( FamiliarTrainingFrame.FLOWER_BOUQUET ) &&
-		     !InventoryManager.hasItem( FamiliarTrainingFrame.FIREWORKS ) &&
-		     status.familiarItemWeight != 0 &&
-		     !InventoryManager.hasItem( status.familiarItem ) &&
-		     KoLCharacter.canInteract() )
+		if ( !InventoryManager.hasItem( FamiliarTrainingFrame.PUMPKIN_BUCKET ) && !InventoryManager.hasItem( FamiliarTrainingFrame.FLOWER_BOUQUET ) && !InventoryManager.hasItem( FamiliarTrainingFrame.FIREWORKS ) && status.familiarItemWeight != 0 && !InventoryManager.hasItem( status.familiarItem ) && KoLCharacter.canInteract() )
 		{
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "buy 1 " + status.familiarItem.getName() );
 			RequestThread.postRequest( new EquipmentRequest( status.familiarItem ) );
@@ -1256,8 +1256,7 @@ public class FamiliarTrainingFrame
 			}
 		}
 
-		if ( FamiliarTrainingFrame.leashAvailable &&
-		     FamiliarTrainingFrame.leashActive == 0 )
+		if ( FamiliarTrainingFrame.leashAvailable && FamiliarTrainingFrame.leashActive == 0 )
 		{
 			RequestThread.postRequest( UseSkillRequest.getInstance( "leash of linguini", 1 ) );
 			if ( familiar.getModifiedWeight() >= weight )
@@ -1266,8 +1265,7 @@ public class FamiliarTrainingFrame
 			}
 		}
 
-		if ( FamiliarTrainingFrame.empathyAvailable &&
-		     FamiliarTrainingFrame.empathyActive == 0 )
+		if ( FamiliarTrainingFrame.empathyAvailable && FamiliarTrainingFrame.empathyActive == 0 )
 		{
 			RequestThread.postRequest( UseSkillRequest.getInstance( "empathy of the newt", 1 ) );
 			if ( familiar.getModifiedWeight() >= weight )
@@ -1279,9 +1277,7 @@ public class FamiliarTrainingFrame
 		// Add on a green heart first, if you know the difference is
 		// less than three.
 
-		if ( FamiliarTrainingFrame.greenHeartAvailable &&
-		     FamiliarTrainingFrame.greenHeartActive == 0 &&
-		     familiar.getModifiedWeight() + 3 >= weight )
+		if ( FamiliarTrainingFrame.greenHeartAvailable && FamiliarTrainingFrame.greenHeartActive == 0 && familiar.getModifiedWeight() + 3 >= weight )
 		{
 			RequestThread.postRequest( new UseItemRequest( FamiliarTrainingFrame.GREEN_CANDY ) );
 			if ( familiar.getModifiedWeight() >= weight )
@@ -1290,8 +1286,7 @@ public class FamiliarTrainingFrame
 			}
 		}
 
-		if ( FamiliarTrainingFrame.bestialAvailable &&
-		     FamiliarTrainingFrame.bestialActive == 0 )
+		if ( FamiliarTrainingFrame.bestialAvailable && FamiliarTrainingFrame.bestialActive == 0 )
 		{
 			RequestThread.postRequest( new UseItemRequest( FamiliarTrainingFrame.HALF_ORCHID ) );
 			if ( familiar.getModifiedWeight() >= weight )
@@ -1299,9 +1294,8 @@ public class FamiliarTrainingFrame
 				return true;
 			}
 		}
- 
-		if ( FamiliarTrainingFrame.heavyPettingAvailable &&
-		     FamiliarTrainingFrame.heavyPettingActive == 0 )
+
+		if ( FamiliarTrainingFrame.heavyPettingAvailable && FamiliarTrainingFrame.heavyPettingActive == 0 )
 		{
 			RequestThread.postRequest( new UseItemRequest( FamiliarTrainingFrame.BUFFING_SPRAY ) );
 			if ( familiar.getModifiedWeight() >= weight )
@@ -1309,9 +1303,8 @@ public class FamiliarTrainingFrame
 				return true;
 			}
 		}
- 
-		if ( FamiliarTrainingFrame.greenConeAvailable &&
-		     FamiliarTrainingFrame.greenTongueActive == 0 )
+
+		if ( FamiliarTrainingFrame.greenConeAvailable && FamiliarTrainingFrame.greenTongueActive == 0 )
 		{
 			RequestThread.postRequest( new UseItemRequest( FamiliarTrainingFrame.GREEN_SNOWCONE ) );
 			if ( familiar.getModifiedWeight() >= weight )
@@ -1320,10 +1313,7 @@ public class FamiliarTrainingFrame
 			}
 		}
 
-		if ( !FamiliarTrainingFrame.greenConeAvailable &&
-		     FamiliarTrainingFrame.greenTongueActive == 0 &&
-		     FamiliarTrainingFrame.blackConeAvailable &&
-		     FamiliarTrainingFrame.blackTongueActive == 0 )
+		if ( !FamiliarTrainingFrame.greenConeAvailable && FamiliarTrainingFrame.greenTongueActive == 0 && FamiliarTrainingFrame.blackConeAvailable && FamiliarTrainingFrame.blackTongueActive == 0 )
 		{
 			RequestThread.postRequest( new UseItemRequest( FamiliarTrainingFrame.BLACK_SNOWCONE ) );
 			if ( familiar.getModifiedWeight() >= weight )
@@ -1332,8 +1322,7 @@ public class FamiliarTrainingFrame
 			}
 		}
 
-		if ( FamiliarTrainingFrame.worstEnemyAvailable &&
-		     FamiliarTrainingFrame.worstEnemyActive == 0 )
+		if ( FamiliarTrainingFrame.worstEnemyAvailable && FamiliarTrainingFrame.worstEnemyActive == 0 )
 		{
 			RequestThread.postRequest( new UseItemRequest( FamiliarTrainingFrame.SPIKY_COLLAR ) );
 			if ( familiar.getModifiedWeight() >= weight )
@@ -1400,7 +1389,7 @@ public class FamiliarTrainingFrame
 		}
 		else if ( type == FamiliarTrainingFrame.LEARN )
 		{
-			hope =	" for " + goal + " iterations to learn arena strengths";
+			hope = " for " + goal + " iterations to learn arena strengths";
 		}
 
 		FamiliarTrainingFrame.results.append( "Training " + name + " the " + weight + " lb. " + race + hope + ".<br>" );
@@ -1646,7 +1635,8 @@ public class FamiliarTrainingFrame
 		{
 			// Look at skills to decide which ones are possible
 			FamiliarTrainingFrame.sympathyAvailable = KoLCharacter.hasAmphibianSympathy();
-			FamiliarTrainingFrame.empathyAvailable = KoLCharacter.hasSkill( "Empathy of the Newt" ) && UseSkillRequest.hasTotem();
+			FamiliarTrainingFrame.empathyAvailable =
+				KoLCharacter.hasSkill( "Empathy of the Newt" ) && UseSkillRequest.hasTotem();
 			FamiliarTrainingFrame.leashAvailable = KoLCharacter.hasSkill( "Leash of Linguini" );
 
 			FamiliarTrainingFrame.bestialAvailable =
@@ -1684,8 +1674,10 @@ public class FamiliarTrainingFrame
 		private void checkCurrentEquipment()
 		{
 			this.checkCurrentEquipment(
-				EquipmentManager.getEquipment( EquipmentManager.WEAPON ), EquipmentManager.getEquipment( EquipmentManager.OFFHAND ),
-				EquipmentManager.getEquipment( EquipmentManager.HAT ), EquipmentManager.getEquipment( EquipmentManager.FAMILIAR ),
+				EquipmentManager.getEquipment( EquipmentManager.WEAPON ),
+				EquipmentManager.getEquipment( EquipmentManager.OFFHAND ),
+				EquipmentManager.getEquipment( EquipmentManager.HAT ),
+				EquipmentManager.getEquipment( EquipmentManager.FAMILIAR ),
 				EquipmentManager.getEquipment( EquipmentManager.ACCESSORY1 ),
 				EquipmentManager.getEquipment( EquipmentManager.ACCESSORY2 ),
 				EquipmentManager.getEquipment( EquipmentManager.ACCESSORY3 ) );
@@ -2863,16 +2855,7 @@ public class FamiliarTrainingFrame
 				text.append( " Man's Worst Enemy (+5 for " + FamiliarTrainingFrame.worstEnemyActive + " turns)" );
 			}
 
-			if ( !FamiliarTrainingFrame.sympathyAvailable &&
-			     FamiliarTrainingFrame.empathyActive == 0 &&
-			     FamiliarTrainingFrame.leashActive == 0 &&
-			     FamiliarTrainingFrame.bestialActive == 0 &&
-			     FamiliarTrainingFrame.blackTongueActive == 0 &&
-			     FamiliarTrainingFrame.greenGlowActive == 0 &&
-			     FamiliarTrainingFrame.greenHeartActive == 0 &&
-			     FamiliarTrainingFrame.greenTongueActive == 0 &&
-			     FamiliarTrainingFrame.heavyPettingActive == 0 &&
-			     FamiliarTrainingFrame.worstEnemyActive == 0 )
+			if ( !FamiliarTrainingFrame.sympathyAvailable && FamiliarTrainingFrame.empathyActive == 0 && FamiliarTrainingFrame.leashActive == 0 && FamiliarTrainingFrame.bestialActive == 0 && FamiliarTrainingFrame.blackTongueActive == 0 && FamiliarTrainingFrame.greenGlowActive == 0 && FamiliarTrainingFrame.greenHeartActive == 0 && FamiliarTrainingFrame.greenTongueActive == 0 && FamiliarTrainingFrame.heavyPettingActive == 0 && FamiliarTrainingFrame.worstEnemyActive == 0 )
 			{
 				text.append( " None" );
 			}
