@@ -1425,6 +1425,11 @@ public class GenericRequest
 			     this instanceof BasementRequest ||
 			     this instanceof HiddenCityRequest )
 			{
+				int pos = this.redirectLocation.indexOf( "ireallymeanit=" );
+				if ( pos != -1 )
+				{
+					FightRequest.ireallymeanit = this.redirectLocation.substring( pos + 14 );
+				}
 				FightRequest.INSTANCE.run();
 				return !LoginRequest.isInstanceRunning();
 			}

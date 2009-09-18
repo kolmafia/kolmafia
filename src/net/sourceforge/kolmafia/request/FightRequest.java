@@ -106,6 +106,7 @@ public class FightRequest
 	private static int preparatoryRounds = 0;
 	private static String consultScriptThatDidNothing = null;
 	private static boolean waitingForSpecial;
+	public static String ireallymeanit = null;
 
 	public static String lastResponseText = "";
 	private static boolean isTrackingFights = false;
@@ -378,6 +379,11 @@ public class FightRequest
 		if ( FightRequest.currentRound == 0 )
 		{
 			FightRequest.action1 = null;
+			if ( FightRequest.ireallymeanit != null )
+			{
+				this.addFormField( "ireallymeanit", FightRequest.ireallymeanit );
+				FightRequest.ireallymeanit = null;
+			}
 			return;
 		}
 
