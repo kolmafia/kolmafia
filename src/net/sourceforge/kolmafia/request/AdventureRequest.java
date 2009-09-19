@@ -343,7 +343,12 @@ public class AdventureRequest
 			return;
 		}
 
-		if ( this.responseText.indexOf( "Hobopolis Town Square lies empty" ) != -1 )
+		if ( this.responseText.indexOf( "There's nothing left of Ol' Scratch" ) != -1 ||
+		     this.responseText.indexOf( "There's nothing left in Exposure Esplanade" ) != -1 ||
+		     this.responseText.indexOf( "The Heap is empty" ) != -1 ||
+		     this.responseText.indexOf( "There's nothing going on here anymore" ) != -1 ||
+		     this.responseText.indexOf( "There's nothing left in the Purple Light District" ) != -1 ||
+		     this.responseText.indexOf( "Hobopolis Town Square lies empty" ) != -1 )
 		{
 			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Nothing more to do here." );
 			return;
