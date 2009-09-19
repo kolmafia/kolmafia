@@ -99,6 +99,7 @@ public class Parser
 
 	private String fileName;
 	private String shortFileName;
+	private String scriptName;
 	private InputStream istream;
 
 	private LineNumberReader commandStream;
@@ -197,6 +198,12 @@ public class Parser
 
 	public String getShortFileName()
 	{
+		return this.shortFileName;
+	}
+
+	public String getScriptName()
+	{
+		if ( this.scriptName != null ) return this.scriptName;
 		return this.shortFileName;
 	}
 
@@ -344,6 +351,7 @@ public class Parser
 		String importString;
 
 		result = startScope == null ? new Scope( variables, parentScope ) : startScope;
+		this.parseScriptName();
 		this.parseNotify();
 
 		while ( ( importString = this.parseImport() ) != null )
@@ -2894,6 +2902,15 @@ public class Parser
 		}
 
 		return resultString;
+	}
+
+	private void parseScriptName()
+	{
+		String resultString = this.parseDirective( "script" );
+		if ( this.scriptName == null )
+		{
+			this.scriptName = resultString;
+		}
 	}
 
 	private void parseNotify()
