@@ -42,6 +42,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.session.MoneyMakingGameManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+import net.sourceforge.kolmafia.webui.MoneyMakingGameDecorator;
 
 public class MoneyMakingGameRequest
 	extends GenericRequest
@@ -51,10 +52,24 @@ public class MoneyMakingGameRequest
 	public static final Pattern HOWMUCH_PATTERN = Pattern.compile( "howmuch=(\\d*)" );
 	public static final Pattern WHICHBET_PATTERN = Pattern.compile( "whichbet=(\\d*)" );
 	public static final Pattern BETID_PATTERN = Pattern.compile( "betid=(\\d*)" );
+	public static final Pattern LOWER_PATTERN = Pattern.compile( "lower=(\\d*)" );
+	public static final Pattern HIGHER_PATTERN = Pattern.compile( "higher=(\\d*)" );
 
 	public static final String getAction( final String urlString )
 	{
 		Matcher matcher = ACTION_PATTERN.matcher( urlString );
+		return matcher.find() ? matcher.group(1) : null;
+	}
+
+	public static final String getLower( final String urlString )
+	{
+		Matcher matcher = LOWER_PATTERN.matcher( urlString );
+		return matcher.find() ? matcher.group(1) : null;
+	}
+
+	public static final String getHigher( final String urlString )
+	{
+		Matcher matcher = HIGHER_PATTERN.matcher( urlString );
 		return matcher.find() ? matcher.group(1) : null;
 	}
 
@@ -376,6 +391,13 @@ public class MoneyMakingGameRequest
 			}
 
 			message = "Taking bet " + whichbet + " using meat from " + from;
+		}
+		else if ( action.equals( "search" ) )
+		{
+			String minimum = getLower( urlString );
+			String maximum = getHigher( urlString );
+			MoneyMakingGameDecorator.setLimits( minimum, maximum );
+			return true;
 		}
 		else
 		{
