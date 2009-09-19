@@ -1269,9 +1269,36 @@ public class KoLAdventure
 				return false;
 			}
 
+			// There's nothing left of Ol' Scratch but a crater and
+			// a stove.  Burnbarrel Blvd. is still hot, but it's no
+			// longer bothered.  Or worth bothering with.
+
+			// There's nothing left in Exposure Esplanade.	All of
+			// the snow forts have been crushed or melted, all of
+			// the igloos are vacant, and all of the reindeer are
+			// off playing games somewhere else.
+
+			// The Heap is empty.  Well, let me rephrase that.
+			// It's still full of garbage, but there's nobody and
+			// nothing of interest mixed in with the garbage.
+
+			// There's nothing going on here anymore -- the tombs
+			// of the Ancient Hobo Burial Ground are all as silent
+			// as themselves.
+
+			// There's nothing left in the Purple Light District.
+			// All of the pawn shops and adult bookshops have
+			// closed their doors for good.
+
 			// The Hoboverlord has been defeated, and Hobopolis
 			// Town Square lies empty.
-			if ( responseText.indexOf( "Hobopolis Town Square lies empty" ) != -1 )
+
+			if ( responseText.indexOf( "There's nothing left of Ol' Scratch" ) != -1 ||
+			     responseText.indexOf( "There's nothing left in Exposure Esplanade" ) != -1 ||
+			     responseText.indexOf( "The Heap is empty" ) != -1 ||
+			     responseText.indexOf( "There's nothing going on here anymore" ) != -1 ||
+			     responseText.indexOf( "There's nothing left in the Purple Light District" ) != -1 ||
+			     responseText.indexOf( "Hobopolis Town Square lies empty" ) != -1 )
 			{
 				return false;
 			}
