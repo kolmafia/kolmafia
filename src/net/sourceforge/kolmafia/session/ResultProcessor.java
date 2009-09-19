@@ -959,6 +959,18 @@ public class ResultProcessor
 					case ItemPool.WORTHLESS_TRINKET:
 					case ItemPool.WORTHLESS_GEWGAW:
 					case ItemPool.WORTHLESS_KNICK_KNACK:
+					
+					// Interchangeable ingredients, which might have been missed
+					// by the getKnownUses check because the recipes are set to
+					// use the other possible ingredient:
+					case ItemPool.SCHLITZ:
+					case ItemPool.WILLER:
+					case ItemPool.KETCHUP:
+					case ItemPool.CATSUP:
+					case ItemPool.DYSPEPSI_COLA:
+					case ItemPool.CLOACA_COLA:
+					case ItemPool.TITANIUM_UMBRELLA:
+					case ItemPool.GOATSKIN_UMBRELLA:
 						shouldRefresh = true;
 					}
 				}
