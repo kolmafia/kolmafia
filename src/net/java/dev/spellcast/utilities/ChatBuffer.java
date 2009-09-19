@@ -127,9 +127,6 @@ public class ChatBuffer
 		displayPane.setContentType( "text/html" );
 		displayPane.setEditable( false );
 
-		HTMLDocument currentHTML = (HTMLDocument) displayPane.getDocument();
-		currentHTML.putProperty( "multiByte", Boolean.FALSE );
-
 		displayPane.setText( this.getHTMLContent() );
 
 		this.displayPanes.addLast( new WeakReference( displayPane ) );
@@ -367,6 +364,12 @@ public class ChatBuffer
 				try
 				{
 					currentHTML.insertAfterEnd( contentElement, this.newContent );
+					// If the insertion contained any non-ASCII characters, the "multiByte"
+					// property will be set on the document.  This causes the use of
+					// an alternate layout algorithm that handles bidirectional text
+					// and other Unicode oddities: it's slower, and on some combinations
+					// of platform and JRE version, tremendously slower.
+					currentHTML.putProperty( "multiByte", Boolean.FALSE );
 				}
 				catch ( Exception e )
 				{
