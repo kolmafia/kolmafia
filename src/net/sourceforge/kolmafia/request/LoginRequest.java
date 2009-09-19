@@ -248,6 +248,7 @@ public class LoginRequest
 
 	public void run()
 	{
+		LoginRequest.completedLogin = false;
 		GenericRequest.reset();
 		LocalRelayAgent.reset();
 
@@ -359,7 +360,7 @@ public class LoginRequest
 		RequestThread.postRequest( LoginRequest.lastRequest );
 		LoginRequest.isTimingIn = false;
 
-		return true;
+		return LoginRequest.completedLogin;
 	}
 
 	public static final void isLoggingIn( final boolean isLoggingIn )

@@ -91,6 +91,7 @@ import net.sourceforge.kolmafia.webui.HobopolisDecorator;
 import net.sourceforge.kolmafia.webui.IslandDecorator;
 import net.sourceforge.kolmafia.webui.MemoriesDecorator;
 import net.sourceforge.kolmafia.webui.MineDecorator;
+import net.sourceforge.kolmafia.webui.MoneyMakingGameDecorator;
 import net.sourceforge.kolmafia.webui.StationaryButtonDecorator;
 import net.sourceforge.kolmafia.webui.UseLinkDecorator;
 import net.sourceforge.kolmafia.webui.ValhallaDecorator;
@@ -543,6 +544,10 @@ public class RequestEditorKit
 		else if ( location.startsWith( "beerpong.php" ) )
 		{
 			BeerPongDecorator.decorate( buffer );
+		}
+		else if ( location.startsWith( "bet.php" ) )
+		{
+			MoneyMakingGameDecorator.decorate( location, buffer );;
 		}
 		else if ( location.startsWith( "bigisland.php" ) )
 		{

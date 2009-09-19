@@ -1367,11 +1367,6 @@ public class GenericRequest
 			GenericRequest.checkItemRedirection( this.getURLString() );
 		}
 
-		if ( this instanceof RelayRequest )
-		{
-			return true;
-		}
-
 		if ( this.formURLString.startsWith( "fight.php" ) )
 		{
 			return true;
@@ -1396,6 +1391,11 @@ public class GenericRequest
 				return false;
 			}
 
+			return true;
+		}
+
+		if ( this instanceof RelayRequest )
+		{
 			return true;
 		}
 
