@@ -77,6 +77,8 @@ public class ConcoctionDatabase
 
 	public static boolean tripleReagent = false;
 	public static boolean ignoreRefresh = false;
+	public static boolean deferRefresh = false;
+	public static boolean refreshDeferred = false;
 
 	public static int queuedAdventuresUsed = 0;
 	public static int queuedStillsUsed = 0;
@@ -821,25 +823,14 @@ public class ConcoctionDatabase
 		return availableIngredients;
 	}
 
-	private static final void setBetterIngredient( final int itemId1, final int itemId2,
-		final List availableIngredients )
+	public static final void deferRefresh( boolean flag )
 	{
-		AdventureResult better = ConcoctionDatabase.getBetterIngredient( itemId1, itemId2, availableIngredients );
-		int available = better.getCount( availableIngredients );
-
-		Concoction item;
-
-		item = ConcoctionPool.get( itemId1 );
-		item.initial = available;
-		item.creatable = 0;
-		item.total = available;
-		item.visibleTotal = available;
-
-		item = ConcoctionPool.get( itemId2 );
-		item.initial = available;
-		item.creatable = 0;
-		item.total = available;
-		item.visibleTotal = available;
+		ConcoctionDatabase.deferRefresh = flag;
+		if ( !flag && ConcoctionDatabase.refreshDeferred )
+		{
+			ConcoctionDatabase.refreshConcoctions();
+			ConcoctionDatabase.refreshDeferred = false;
+		}
 	}
 
 	/**
@@ -849,6 +840,12 @@ public class ConcoctionDatabase
 
 	public static final synchronized void refreshConcoctions()
 	{
+		if ( ConcoctionDatabase.deferRefresh )
+		{
+			ConcoctionDatabase.refreshDeferred = true;
+			return;
+		}
+		
 		List availableIngredients = ConcoctionDatabase.getAvailableIngredients();
 
 		// First, zero out the quantities table.  Though this is not
@@ -913,6 +910,9 @@ public class ConcoctionDatabase
 			{
 				continue;
 			}
+			
+			// Switch to the better of any interchangeable ingredients
+			ConcoctionDatabase.getIngredients( item.getIngredients(), availableIngredients );
 
 			item.initial = concoction.getCount( availableIngredients );
 			item.price = 0;
@@ -927,17 +927,6 @@ public class ConcoctionDatabase
 		// is not needed.
 
 		ConcoctionDatabase.cachePermitted( availableIngredients );
-
-		// Ice-cold beer and ketchup are special instances -- for the
-		// purposes of calculation, we assume that they will use the
-		// ingredient which is present in the greatest quantity.
-
-		ConcoctionDatabase.setBetterIngredient(
-			ItemPool.DYSPEPSI_COLA, ItemPool.CLOACA_COLA, availableIngredients );
-		ConcoctionDatabase.setBetterIngredient(
-			ItemPool.SCHLITZ, ItemPool.WILLER, availableIngredients );
-		ConcoctionDatabase.setBetterIngredient(
-			ItemPool.KETCHUP, ItemPool.CATSUP, availableIngredients );
 
 		// Finally, increment through all of the things which are
 		// created any other way, making sure that it's a permitted
@@ -1441,27 +1430,44 @@ public class ConcoctionDatabase
 	private static final AdventureResult[] getIngredients( AdventureResult[] ingredients )
 	{
 		List availableIngredients = ConcoctionDatabase.getAvailableIngredients();
+		return ConcoctionDatabase.getIngredients( ingredients, availableIngredients );
+	}
 
+	private static final AdventureResult[] getIngredients( AdventureResult[] ingredients, List availableIngredients )
+	{
 		// Ensure that you're retrieving the same ingredients that
 		// were used in the calculations.  Usually this is the case,
 		// but ice-cold beer and ketchup are tricky cases.
 
 		for ( int i = 0; i < ingredients.length; ++i )
 		{
-			if ( ingredients[ i ].getItemId() == ItemPool.SCHLITZ || ingredients[ i ].getItemId() == ItemPool.WILLER )
+			switch ( ingredients[ i ].getItemId() )
 			{
-				ingredients[ i ] =
-					ConcoctionDatabase.getBetterIngredient(
-						ItemPool.SCHLITZ, ItemPool.WILLER, availableIngredients );
-			}
-			else if ( ingredients[ i ].getItemId() == ItemPool.KETCHUP || ingredients[ i ].getItemId() == ItemPool.CATSUP )
-			{
-				ingredients[ i ] =
-					ConcoctionDatabase.getBetterIngredient(
-						ItemPool.KETCHUP, ItemPool.CATSUP, availableIngredients );
+			case ItemPool.SCHLITZ:
+			case ItemPool.WILLER:
+				ingredients[ i ] = ConcoctionDatabase.getBetterIngredient(
+					ItemPool.SCHLITZ, ItemPool.WILLER, availableIngredients );
+				break;
+				
+			case ItemPool.KETCHUP:
+			case ItemPool.CATSUP:
+				ingredients[ i ] = ConcoctionDatabase.getBetterIngredient(
+					ItemPool.KETCHUP, ItemPool.CATSUP, availableIngredients );
+				break;
+				
+			case ItemPool.DYSPEPSI_COLA:
+			case ItemPool.CLOACA_COLA:
+				ingredients[ i ] = ConcoctionDatabase.getBetterIngredient(
+					ItemPool.DYSPEPSI_COLA, ItemPool.CLOACA_COLA, availableIngredients );
+				break;
+				
+			case ItemPool.TITANIUM_UMBRELLA:
+			case ItemPool.GOATSKIN_UMBRELLA:
+				ingredients[ i ] = ConcoctionDatabase.getBetterIngredient(
+					ItemPool.TITANIUM_UMBRELLA, ItemPool.GOATSKIN_UMBRELLA, availableIngredients );
+				break;
 			}
 		}
-
 		return ingredients;
 	}
 
@@ -1491,6 +1497,13 @@ public class ConcoctionDatabase
 	{
 		AdventureResult ingredient1 = ItemPool.get( itemId1, 1 );
 		AdventureResult ingredient2 = ItemPool.get( itemId2, 1 );
-		return ingredient1.getCount( availableIngredients ) > ingredient2.getCount( availableIngredients ) ? ingredient1 : ingredient2;
+		int diff = ingredient1.getCount( availableIngredients ) -
+			ingredient2.getCount( availableIngredients );
+		if ( diff == 0 )
+		{
+			diff = MallPriceDatabase.getPrice( itemId2 ) -
+				MallPriceDatabase.getPrice( itemId1 );
+		}
+		return diff > 0 ? ingredient1 : ingredient2;
 	}
 }

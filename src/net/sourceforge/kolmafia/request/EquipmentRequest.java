@@ -876,12 +876,20 @@ public class EquipmentRequest
 			InventoryManager.resetInventory();
 			EquipmentManager.resetEquipment();
 
-			this.parseCloset();
-
-			(new EquipmentRequest( EquipmentRequest.CONSUMABLES )).run();
-			(new EquipmentRequest( EquipmentRequest.ALL_EQUIPMENT )).run();
-			(new EquipmentRequest( EquipmentRequest.MISCELLANEOUS )).run();
-			(new EquipmentRequest( EquipmentRequest.BEDAZZLEMENTS )).run();
+			try
+			{
+				ConcoctionDatabase.deferRefresh( true );
+				this.parseCloset();
+	
+				(new EquipmentRequest( EquipmentRequest.CONSUMABLES )).run();
+				(new EquipmentRequest( EquipmentRequest.ALL_EQUIPMENT )).run();
+				(new EquipmentRequest( EquipmentRequest.MISCELLANEOUS )).run();
+				(new EquipmentRequest( EquipmentRequest.BEDAZZLEMENTS )).run();
+			}
+			finally
+			{
+				ConcoctionDatabase.deferRefresh( false );
+			}
 
 			KoLmafia.setIsRefreshing( false );
 

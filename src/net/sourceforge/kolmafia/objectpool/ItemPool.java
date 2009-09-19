@@ -207,6 +207,7 @@ public class ItemPool
 	public static final int REMEDY = 588;
 	public static final int TINY_HOUSE = 592;
 	public static final int DRASTIC_HEALING = 595;
+	public static final int TITANIUM_UMBRELLA = 3222;
 	public static final int SLUG_LORD_MAP = 598;
 	public static final int DR_HOBO_MAP = 601;
 	public static final int SHOPPING_LIST = 602;
@@ -536,6 +537,7 @@ public class ItemPool
 	public static final int POLTERGEIST = 2439;
 	public static final int ENCRYPTION_KEY = 2441;
 	public static final int COBBS_KNOB_MAP = 2442;
+	public static final int GOATSKIN_UMBRELLA = 2451;
 	public static final int ODOR_EXTRACTOR = 2462;
 	public static final int OLFACTION_BOOK = 2463;
 	public static final int SHIRT_KIT = 2491;
