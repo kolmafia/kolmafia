@@ -5,6 +5,7 @@ package net.sourceforge.kolmafia.session;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.StringTokenizer;
 
@@ -22,10 +23,14 @@ public class TurnCounter
 implements Comparable
 {
 	private static final ArrayList relayCounters = new ArrayList();
+	private static final HashSet ALL_LOCATIONS = new HashSet();
 
 	private final int value;
 	private final String image;
 	private final String label;
+	private String URL;
+	private String parsedLabel;
+	private HashSet exemptions;
 	private int lastWarned;
 
 	public TurnCounter( final int value, final String label, final String image )
@@ -34,28 +39,42 @@ implements Comparable
 		this.label = label.replaceAll( ":", "" );
 		this.image = image.replaceAll( ":", "" );
 		this.lastWarned = -1;
+		this.parsedLabel = this.label;
+		int pos = this.parsedLabel.lastIndexOf( " " );
+		while ( pos != -1 )
+		{
+			String word = this.parsedLabel.substring( pos + 1 ).trim();
+			if ( word.equals( "loc=*" ) )
+			{
+				this.exemptions = TurnCounter.ALL_LOCATIONS;
+			}
+			else if ( word.startsWith( "loc=" ) )
+			{
+				if ( this.exemptions == null )
+				{
+					this.exemptions = new HashSet();
+				}
+				this.exemptions.add( word.substring( 4 ) );
+			}
+			else if ( word.indexOf( ".php" ) != -1 )
+			{
+				this.URL = word;
+			}
+			else break;
+			
+			this.parsedLabel = this.parsedLabel.substring( 0, pos ).trim();
+			pos = this.parsedLabel.lastIndexOf( " " );
+		}
+		if ( this.parsedLabel.length() == 0 )
+		{
+			this.parsedLabel = "Manual";
+		}
 	}
 
 	public boolean isExempt( final String adventureId )
 	{
-		if ( this.label.equals( "Wormwood" ) )
-		{
-			return adventureId.equals( "151" ) || adventureId.equals( "152" ) || adventureId.equals( "153" );
-		}
-		else if ( this.label.equals( "Dance Card" ) )
-		{
-			return adventureId.equals( "109" );
-		}
-		else if ( this.label.equals( "Communications Windchimes" ) ||
-			  this.label.equals( "PADL Phone" ) )
-		{
-			// These counters just tell you when it is safe to use
-			// the device again. There's nothing wrong with not
-			// adventuring on the battlefield when they expire.
-
-			return true;
-		}
-		else if ( this.label.indexOf( "Recharge</font>" ) != -1 )
+		if ( this.exemptions == TurnCounter.ALL_LOCATIONS ||
+			(this.exemptions != null && this.exemptions.contains( adventureId )) )
 		{
 			return true;
 		}
@@ -65,24 +84,12 @@ implements Comparable
 
 	public String imageURL()
 	{
-		// Ideally, this would be part of the counter that is saved in
-		// the preferences, so users could configure their own counters
-		// with linked URLs.
-		//
-		// If I can come up with a backwards compatible way to make
-		// that work, I'll do it. Until then, it works only for
-		// internally generated counter.s
-
-		KoLAdventure adventure = null;
-
-		if ( this.label.equals( "Dance Card" ) )
-		{
-			adventure = AdventureDatabase.getAdventure( "Haunted Ballroom" );
-		}
-
-		if ( adventure != null )
-		{
-			return adventure.getRequest().getURLString();
+		if ( this.URL != null ) return this.URL;
+		
+		if ( this.exemptions != null && this.exemptions.size() == 1 )
+		{	// Exactly one exempt location
+			String loc = (String) this.exemptions.iterator().next();
+			return "adventure.php?snarfblat=" + loc;
 		}
 
 		return null;
@@ -90,7 +97,7 @@ implements Comparable
 
 	public String getLabel()
 	{
-		return this.label;
+		return this.parsedLabel;
 	}
 
 	public String getImage()
@@ -263,7 +270,7 @@ implements Comparable
 				counters.append( KoLConstants.LINE_BREAK );
 			}
 
-			counters.append( current.label );
+			counters.append( current.parsedLabel );
 			counters.append( " (" );
 			counters.append( current.value - currentTurns );
 			counters.append( ")" );
@@ -304,7 +311,7 @@ implements Comparable
 		while ( it.hasNext() )
 		{
 			current = (TurnCounter) it.next();
-			if ( current.label.equals( label ) )
+			if ( current.parsedLabel.equals( label ) )
 			{
 				it.remove();
 			}
@@ -323,7 +330,7 @@ implements Comparable
 		while ( it.hasNext() )
 		{
 			current = (TurnCounter) it.next();
-			if ( current.label.equals( label ) && current.value == searchValue )
+			if ( current.parsedLabel.equals( label ) && current.value == searchValue )
 			{
 				return true;
 			}
@@ -340,7 +347,7 @@ implements Comparable
 		while ( it.hasNext() )
 		{
 			current = (TurnCounter) it.next();
-			if ( current.label.equals( label ) )
+			if ( current.parsedLabel.equals( label ) )
 			{
 				return true;
 			}
@@ -370,7 +377,7 @@ implements Comparable
 			{
 				continue;
 			}
-			if ( current.label.toLowerCase().indexOf( label ) == -1 )
+			if ( current.parsedLabel.toLowerCase().indexOf( label ) == -1 )
 			{
 				continue;
 			}
@@ -378,7 +385,7 @@ implements Comparable
 			{
 				buf.append( "\t" );
 			}
-			buf.append( current.label );
+			buf.append( current.parsedLabel );
 		}
 
 		return buf.toString();
