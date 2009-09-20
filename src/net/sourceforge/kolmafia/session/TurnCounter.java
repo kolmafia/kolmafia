@@ -153,20 +153,12 @@ implements Comparable
 
 	public static final void saveCounters()
 	{
-		int currentTurns = KoLCharacter.getCurrentRun();
-
 		StringBuffer counters = new StringBuffer();
 		Iterator it = relayCounters.iterator();
 
 		while ( it.hasNext() )
 		{
 			TurnCounter current = (TurnCounter) it.next();
-
-			if ( current.value < currentTurns )
-			{
-				it.remove();
-				continue;
-			}
 
 			if ( counters.length() > 0 )
 			{
@@ -183,7 +175,7 @@ implements Comparable
 		Preferences.setString( "relayCounters", counters.toString() );
 	}
 
-	public static final TurnCounter getExpiredCounter( GenericRequest request )
+	public static final TurnCounter getExpiredCounter( GenericRequest request, boolean informational )
 	{
 		String URL = request.getURLString();
 		KoLAdventure adventure = AdventureDatabase.getAdventureByURL( URL );
@@ -216,15 +208,22 @@ implements Comparable
 		int thisTurn = KoLCharacter.getCurrentRun();
 		int currentTurns = thisTurn + turnsUsed - 1;
 
-		TurnCounter expired = null;
 		Iterator it = relayCounters.iterator();
 
 		while ( it.hasNext() )
 		{
 			current = (TurnCounter) it.next();
 
-			if ( current.value > currentTurns )
+			if ( current.value > currentTurns ||
+				current.lastWarned == thisTurn ||
+				current.isExempt( adventureId ) != informational )
 			{
+				continue;
+			}
+			
+			if ( informational && current.value > thisTurn )
+			{	// Defer until later, there's no point in reporting an
+				// informational counter prior to actual expiration.
 				continue;
 			}
 
@@ -233,20 +232,11 @@ implements Comparable
 				it.remove();
 			}
 			
-			if ( current.value >= thisTurn && !current.isExempt( adventureId )
-				&& current.lastWarned != thisTurn )
-			{
-				if ( expired != null )
-				{
-					KoLmafia.updateDisplay( "Also expiring: " + expired.label +
-						" (" + (expired.value - thisTurn) + ")" );
-				}
-				expired = current;
-			}
 			current.lastWarned = thisTurn;
+			return current;
 		}
 
-		return expired;
+		return null;
 	}
 
 	public static final String getUnexpiredCounters()
@@ -262,8 +252,9 @@ implements Comparable
 			current = (TurnCounter) it.next();
 
 			if ( current.value < currentTurns )
-			{
-				it.remove();
+			{	// Can't remove the counter - a counterScript may still
+				// be waiting for it to be delivered.
+				//it.remove();
 				continue;
 			}
 

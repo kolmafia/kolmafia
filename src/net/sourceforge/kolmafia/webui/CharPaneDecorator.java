@@ -176,9 +176,15 @@ public class CharPaneDecorator
 
 	public static final void addCounters( final StringBuffer buffer, Iterator it )
 	{
+		TurnCounter current = (TurnCounter) it.next();
+		while ( current.getTurnsRemaining() < 0 )
+		{	// Skip any expired informational counters that are
+			// still pending delivery to a counterScript.
+			if ( !it.hasNext() ) return;
+			current = (TurnCounter) it.next();
+		}
 		String text = buffer.toString();
 		buffer.setLength( 0 );
-		TurnCounter current = (TurnCounter) it.next();
 		int lastPos = 0;
 		int insPos;
 		boolean compact = GenericRequest.isCompactMode;

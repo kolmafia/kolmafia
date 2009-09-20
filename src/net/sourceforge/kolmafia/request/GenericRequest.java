@@ -827,34 +827,37 @@ public class GenericRequest
 
 		if ( !this.hasNoResult )
 		{
-			TurnCounter expired = TurnCounter.getExpiredCounter( this );
-			while ( expired != null )
+			while ( true )
 			{
-				int remain = expired.getTurnsRemaining();
-				if ( this.invokeCounterScript( expired ) )
-				{
-					remain = -1;
+				TurnCounter expired = TurnCounter.getExpiredCounter( this, true );
+				while ( expired != null )
+				{	// Process all expiring informational counters first.
+					// This strategy has the best chance of not screwing
+					// everything up totally if both informational and
+					// aborting counters expire on the same turn.
+					KoLmafia.updateDisplay( "(" + expired.getLabel() + " counter expired)" );
+					this.invokeCounterScript( expired );
+					expired = TurnCounter.getExpiredCounter( this, true );
 				}
-				String message = null;
+				
+				expired = TurnCounter.getExpiredCounter( this, false );
+				if ( expired == null ) break;
+				int remain = expired.getTurnsRemaining();
+				if ( remain < 0 ) continue;
+				if ( this.invokeCounterScript( expired ) ) continue;
 
+				String message;
 				if ( remain == 0 )
 				{
 					message = expired.getLabel() + " counter expired.";
 				}
-				else if ( remain > 0 )
+				else
 				{
 					message = expired.getLabel() + " counter will expire after " + remain + " more turn" + ((remain == 1) ? "." : "s.");
 				}
 
-				if ( message != null )
-				{
-					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, message );
-					return;
-				}
-				
-				// In case the counterScript spent some turns, and there is now
-				// a different expired counter to deal with:
-				expired = TurnCounter.getExpiredCounter( this );
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, message );
+				return;
 			}
 		}
 
