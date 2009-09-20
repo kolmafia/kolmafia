@@ -1782,9 +1782,9 @@ public class GenericRequest
 		// is "Like the smoke your ten-leaf clover disappears in a puff of"
 
 		if ( this.responseText.indexOf( "clover" ) != -1 &&
-			( this.responseText.indexOf( "puff of smoke" ) != -1 ||
-			this.responseText.indexOf( "into the leprechaun's pocket" ) != -1 ||
-			this.responseText.indexOf( "disappears in a puff of" ) != -1 ) )
+		     ( this.responseText.indexOf( "puff of smoke" ) != -1 ||
+		       this.responseText.indexOf( "into the leprechaun's pocket" ) != -1 ||
+		       this.responseText.indexOf( "disappears in a puff of" ) != -1 ) )
 		{
 			ResultProcessor.processItem( ItemPool.TEN_LEAF_CLOVER, -1 );
 		}
@@ -1799,13 +1799,17 @@ public class GenericRequest
 			}
 		}
 
-		if ( urlString.startsWith( "dungeon.php" ) )
+		if ( urlString.startsWith( "dungeon.php" ) && 
+                     this.responseText.indexOf( "key breaks off in the lock" ) != -1 )
 		{
 			// Unfortunately, the key breaks off in the lock.
-			if ( this.responseText.indexOf( "key breaks off in the lock" ) != -1 )
-			{
-				ResultProcessor.processItem( ItemPool.SKELETON_KEY, -1 );
-			}
+                        ResultProcessor.processItem( ItemPool.SKELETON_KEY, -1 );
+		}
+
+		if ( this.responseText.indexOf( "You break the bottle on the ground" ) != -1 )
+		{
+                        // You break the bottle on the ground, and stomp it to powder
+			ResultProcessor.processItem( ItemPool.EMPTY_AGUA_DE_VIDA_BOTTLE, -1 );
 		}
 
 		if ( urlString.startsWith( "mall.php" ) ||
