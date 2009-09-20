@@ -438,7 +438,7 @@ public class MoneyMakingGameManager
 			{
 				return;
 			}
-			boolean storage = from.equals( "1" );
+			boolean storage = from.equals( "storage" );
 
 			// Find bet amount. If we can't, we failed to take the bet for
 			// some reason.
