@@ -273,12 +273,6 @@ public class AdventureRequest
 			return;
 		}
 
-		if ( this.formSource.equals( "cyrpt.php" ) )
-		{
-			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "You shouldn't be here." );
-			return;
-		}
-
 		// If you haven't unlocked the orc chasm yet, try doing so now.
 
 		if ( this.adventureId.equals( "80" ) && this.responseText.indexOf( "You shouldn't be here." ) != -1 )
@@ -297,78 +291,12 @@ public class AdventureRequest
 		// We're missing an item, haven't been given a quest yet, or
 		// otherwise trying to go somewhere not allowed.
 
-		if ( this.responseText.indexOf( "You shouldn't be here" ) != -1 ||
-		     this.responseText.indexOf( "not yet be accessible" ) != -1 ||
-		     this.responseText.indexOf( "You can't get there" ) != -1 ||
-		     this.responseText.indexOf( "Seriously.  It's locked." ) != -1 )
+		int index = KoLAdventure.findAdventureFailure( this.responseText );
+		if ( index >= 0 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't get to that area yet." );
-			return;
-		}
-
-		// "You can't take it any more. The confusion, the nostalgia,
-		// the inconsistent grammar. You break the bottle on the
-		// ground, and stomp it to powder."
-
-		if ( this.responseText.indexOf( "stomp it into powder" ) != -1 )
-		{
-			ResultProcessor.processItem( ItemPool.EMPTY_AGUA_DE_VIDA_BOTTLE, -1 );
-			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "You are no longer gazing into the bottle." );
-			return;
-		}
-
-		// "You're in the regular dimension now, and don't remember how
-		// to get back there."
-		if ( this.responseText.indexOf( "in the regular dimension now" ) != -1 )
-		{
-			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "You are no longer Half-Astral." );
-			return;
-		}
-
-		if ( this.responseText.indexOf( "into the spectral mists" ) != -1 )
-		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "No one may know of its coming or going." );
-			return;
-		}
-
-		if ( this.responseText.indexOf( "temporal rift in the plains has closed" ) != -1 )
-		{
-			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "The temporal rift has closed." );
-			return;
-		}
-
-		if ( this.responseText.indexOf( "You wander around the farm for a while, but can't find any additional ducks to fight" ) != -1 )
-		{
-			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Nothing more to do here." );
-			return;
-		}
-
-		if ( this.responseText.indexOf( "There's nothing left of Ol' Scratch" ) != -1 ||
-		     this.responseText.indexOf( "There's nothing left in Exposure Esplanade" ) != -1 ||
-		     this.responseText.indexOf( "The Heap is empty" ) != -1 ||
-		     this.responseText.indexOf( "There's nothing going on here anymore" ) != -1 ||
-		     this.responseText.indexOf( "There's nothing left in the Purple Light District" ) != -1 ||
-		     this.responseText.indexOf( "Hobopolis Town Square lies empty" ) != -1 )
-		{
-			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Nothing more to do here." );
-			return;
-		}
-
-		// Cold protection is required for the area.  This only happens
-		// at the peak.	 Abort and notify.
-
-		if ( this.responseText.indexOf( "need some sort of protection" ) != -1 )
-		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You need cold protection." );
-			return;
-		}
-
-		// Stench protection is required for the area.	This only
-		// happens at the Guano Junction.  Abort and notify.
-
-		if ( this.responseText.indexOf( "need stench protection to adventure here" ) != -1 )
-		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You need stench protection." );
+			String failure = KoLAdventure.adventureFailureMessage( index );
+			int severity = KoLAdventure.adventureFailureSeverity( index );
+			KoLmafia.updateDisplay( severity, failure );
 			return;
 		}
 
@@ -378,52 +306,6 @@ public class AdventureRequest
 		if ( this.responseText.indexOf( "No adventure data exists for this location" ) != -1 )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Server error.  Please wait and try again." );
-			return;
-		}
-
-		if ( this.responseText.indexOf( "You must have at least" ) != -1 )
-		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Your stats are too low for this location." );
-			return;
-		}
-
-		// Cobb's Knob King's Chamber: if you've already
-		// defeated the goblin king, go into pending state.
-
-		if ( this.formSource.equals( "knob.php" ) && this.responseText.indexOf( "You've already slain the Goblin King" ) != -1 )
-		{
-			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "You already defeated the Goblin King." );
-			return;
-		}
-
-		// The Haert of the Cyrpt: if you've already defeated
-		// the bonerdagon, go into pending state.
-
-		if ( this.formSource.equals( "cyrpt.php" ) && this.responseText.indexOf( "Bonerdagon has been defeated" ) != -1 )
-		{
-			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "You already defeated the Bonerdagon." );
-			return;
-		}
-
-		if ( this.responseText.indexOf( "already undefiled" ) != -1 )
-		{
-			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Cyrpt area cleared." );
-			return;
-		}
-
-		if ( this.responseText.indexOf( "some way of breathing underwater" ) != -1 )
-		{
-			// "You can't adventure there without some way of
-			// breathing underwater..."
-			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "You can't breathe underwater." );
-			return;
-		}
-
-		if ( this.responseText.indexOf( "not properly equipped" ) != -1 )
-		{
-			// "You're not properly equipped for that. Get into a
-			// uniform."
-			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "You're not wearing an appropriate outfit" );
 			return;
 		}
 

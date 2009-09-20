@@ -1167,6 +1167,267 @@ public class KoLAdventure
 		}
 	}
 
+	// Automated adventuring in an area can result in a failure. We go into
+	// the ERROR or the PENDING state, depending on whether we should stop
+	// a script for attempting the adventure. The default is ERROR. Use
+	// PENDING only when the script could not have known that the attempt
+	// would fail.
+
+	private static final Integer ERROR = new Integer( KoLConstants.ERROR_STATE );
+	private static final Integer PENDING = new Integer( KoLConstants.PENDING_STATE );
+
+	private static final Object [][] ADVENTURE_FAILURES =
+	{
+		// Lots of places.
+		{
+			"You must have at least",
+			"Your stats are too low for this location.",
+		},
+
+		// Lots of places.
+		{
+			"You shouldn't be here",
+			"You can't get to that area.",
+		},
+
+		// Lots of places.
+		{
+			"not yet be accessible",
+			"You can't get to that area.",
+		},
+
+		// Lots of places.
+		{
+			"You can't get there",
+			"You can't get to that area.",
+		},
+
+		// Lots of places.
+		{
+			"Seriously.  It's locked.",
+			"You can't get to that area.",
+		},
+
+		// Out of adventures
+		{
+			"You're out of adventures",
+			"You're out of adventures.",
+			KoLAdventure.PENDING
+		},
+
+		// Beaten up at zero HP
+		{
+			"You're way too beaten up to go on an adventure right now",
+			"You can't adventure at 0 HP.",
+			KoLAdventure.PENDING
+		},
+
+		// Friar's Ceremony Location without the three items
+		{
+			"You don't appear to have all of the elements necessary to perform the ritual",
+			"You don't have everything you need.",
+		},
+
+		// You need some sort of stench protection to adventure in there.
+		{
+			"You need some sort of stench protection",
+			"You need stench protection.",
+		},
+
+		// You need some sort of protection from the cold if you're
+		// going to visit the Icy Peak.
+		{
+			"You need some sort of protection from the cold",
+			"You need cold protection.",
+		},
+
+		// Mining while drunk
+		{
+			"You're too drunk to spelunk, as it were",
+			"You are too drunk to go there.",
+		},
+
+		// Pyramid Lower Chamber while drunk
+		{
+			"You're too drunk to screw around in here",
+			"You are too drunk to go there.",
+
+		},
+
+		// You can't adventure there without some way of breathing underwater...
+		{
+			"without some way of breathing underwater",
+			"You can't breathe underwater.",
+		},
+
+		// You can't adventure there now -- Gort wouldn't be able to breathe!
+		{
+			"wouldn't be able to breathe",
+			"Your familiar can't breathe underwater.",
+		},
+
+		// Attempting to enter the Cola Wars Battlefield with level > 5
+		{
+			"The temporal rift in the plains has closed",
+			"The temporal rift has closed.",
+			KoLAdventure.PENDING
+		},
+
+		// Out of your mining uniform, you are quickly identified as a
+		// stranger and shown the door.
+		{
+			"you are quickly identified as a stranger",
+			"You aren't wearing an appropriate uniform.",
+		},
+
+		// You're not properly equipped for that. Get into a uniform.
+		{
+			"Get into a uniform",
+			"You aren't wearing an appropriate uniform.",
+		},
+
+		// "You can't take it any more. The confusion, the nostalgia,
+		// the inconsistent grammar. You break the bottle on the
+		// ground, and stomp it to powder."
+		{
+			"You break the bottle on the ground",
+			"You are no longer gazing into the bottle.",
+			KoLAdventure.PENDING
+		},
+
+		// You're in the regular dimension now, and don't remember how
+		// to get back there.
+		{
+			"You're in the regular dimension now",
+			"You are no longer Half-Astral.",
+			KoLAdventure.PENDING
+		},
+
+		// The Factory has faded back into the spectral mists, and
+		// eldritch vapors and such.
+		{
+			"faded back into the spectral mists",
+			"No one may know of its coming or going."
+		},
+
+		// You wander around the farm for a while, but can't find any
+		// additional ducks to fight. Maybe some more will come out of
+		// hiding by tomorrow.
+		{
+			"can't find any additional ducks",
+			"Nothing more to do here today.",
+			KoLAdventure.PENDING
+		},
+
+		// Cobb's Knob King's Chamber after defeating the goblin king.
+		{
+			"You've already slain the Goblin King",
+			"You already defeated the Goblin King.",
+			KoLAdventure.PENDING
+		},
+
+		// The Haert of the Cyrpt after defeating the Bonerdagon
+		{
+			"Bonerdagon has been defeated",
+			"You already defeated the Bonerdagon.",
+			KoLAdventure.PENDING
+		},
+
+		// Any cyrpt area after defeating the sub-boss
+		{
+			"already undefiled",
+			"Cyrpt area cleared.",
+			KoLAdventure.PENDING
+		},
+
+		// There's nothing left of Ol' Scratch but a crater and a
+		// stove.  Burnbarrel Blvd. is still hot, but it's no longer
+		// bothered.  Or worth bothering with.
+		{
+			"There's nothing left of Ol' Scratch",
+			"Nothing more to do here.",
+			KoLAdventure.PENDING
+		},
+
+		// There's nothing left in Exposure Esplanade. All of the snow
+		// forts have been crushed or melted, all of the igloos are
+		// vacant, and all of the reindeer are off playing games
+		// somewhere else.
+		{
+			"There's nothing left in Exposure Esplanade",
+			"Nothing more to do here.",
+			KoLAdventure.PENDING
+		},
+
+		// The Heap is empty.  Well, let me rephrase that.  It's still
+		// full of garbage, but there's nobody and nothing of interest
+		// mixed in with the garbage.
+		{
+			"The Heap is empty",
+			"Nothing more to do here.",
+			KoLAdventure.PENDING
+		},
+
+		// There's nothing going on here anymore -- the tombs of the
+		// Ancient Hobo Burial Ground are all as silent as themselves.
+		{
+			"There's nothing going on here anymore",
+			"Nothing more to do here.",
+			KoLAdventure.PENDING
+		},
+
+		// There's nothing left in the Purple Light District.  All of
+		// the pawn shops and adult bookshops have closed their doors
+		// for good.
+		{
+			"There's nothing left in the Purple Light District",
+			"Nothing more to do here.",
+			KoLAdventure.PENDING
+		},
+
+		// The Hoboverlord has been defeated, and Hobopolis Town Square
+		// lies empty.
+		{
+			"Hobopolis Town Square lies empty",
+			"Nothing more to do here.",
+			KoLAdventure.PENDING
+		},
+	};
+
+	public static final int findAdventureFailure( String responseText )
+	{
+		for ( int i = 0; i < ADVENTURE_FAILURES.length; ++i )
+		{
+			if ( responseText.indexOf( (String) ADVENTURE_FAILURES[ i ][ 0 ] ) != -1 )
+			{
+				return i;
+			}
+		}
+
+		return -1;
+	}
+
+	public static final String adventureFailureMessage( int index )
+	{
+		if ( index >= 0 && index < ADVENTURE_FAILURES.length )
+		{
+			return (String) ADVENTURE_FAILURES[ index ][ 1 ];
+		}
+
+		return null;
+	}
+
+	public static final int adventureFailureSeverity( int index )
+	{
+		if ( index >= 0 && index < ADVENTURE_FAILURES.length && ADVENTURE_FAILURES[ index ].length > 2 )
+		{
+			
+			return ((Integer) ADVENTURE_FAILURES[ index ][ 2 ]).intValue();
+		}
+
+		return KoLConstants.ERROR_STATE;
+	}
+
 	public static final boolean recordToSession( final String urlString, final String responseText )
 	{
 		// This is the second half of logging an adventure location
@@ -1196,121 +1457,11 @@ public class KoLAdventure
 		if ( urlString.equals( KoLAdventure.lastLocationURL ) )
 		{
 			// No. It is possible that we didn't adventure at all
-
-			// You need adventures to adventure!
-			if ( responseText.indexOf( "You're out of adventures." ) != -1 )
+			if ( KoLAdventure.findAdventureFailure( responseText ) >= 0 )
 			{
 				return false;
 			}
 
-			// You can't adventure with zero HP
-			if ( responseText.indexOf( "You're way too beaten up to go on an adventure right now." ) != -1 )
-			{
-				return false;
-			}
-
-			// Many areas have a standard message when they are
-			// inaccessible
-			if ( responseText.indexOf( "You shouldn't be here." ) != -1 )
-			{
-				return false;
-			}
-
-			// The temporal rift is available at levels 4 and 5 and
-			// has a special message if you are level 6 or higher.
-			if ( responseText.indexOf( "The temporal rift in the plains has closed." ) != -1 )
-			{
-				return false;
-			}
-
-			// Guano Junction has a special message
-			if ( responseText.indexOf( "You need some sort of stench protection to adventure in there." ) != -1 )
-			{
-				return false;
-			}
-
-			// So does the Icy Peak
-			if ( responseText.indexOf( "You need some sort of protection from the cold if you're going to visit the Icy Peak." ) != -1 )
-			{
-				return false;
-			}
-
-			// You can't go in the Daily Dungeon when you are drunk
-			if ( responseText.indexOf( "You're too drunk to spelunk, as it were." ) != -1 )
-			{
-				return false;
-			}
-
-			// You can't go in the Pyramid Lower Chamber when you
-			// are drunk
-			if ( responseText.indexOf( "You're too drunk to screw around in here." ) != -1 )
-			{
-				return false;
-			}
-
-			// You can't go into the Dwarf Factory complex without
-			// a uniform.
-			if ( responseText.indexOf( "Out of your mining uniform, you are quickly identified as a stranger and shown the door." ) != -1 )
-			{
-				return false;
-			}
-
-			// You can't go onto the battlefield without a uniform.
-			if ( responseText.indexOf( "Get into a uniform" ) != -1 )
-			{
-				return false;
-			}
-
-			// You can't take it any more.	The confusion, the
-			// nostalgia, the inconsistent grammar.	 You break the
-			// bottle on the ground, and stomp it to powder.
-			if ( responseText.indexOf( "You break the bottle on the ground" ) != -1 )
-			{
-				return false;
-			}
-
-			// There's nothing left of Ol' Scratch but a crater and
-			// a stove.  Burnbarrel Blvd. is still hot, but it's no
-			// longer bothered.  Or worth bothering with.
-
-			// There's nothing left in Exposure Esplanade.	All of
-			// the snow forts have been crushed or melted, all of
-			// the igloos are vacant, and all of the reindeer are
-			// off playing games somewhere else.
-
-			// The Heap is empty.  Well, let me rephrase that.
-			// It's still full of garbage, but there's nobody and
-			// nothing of interest mixed in with the garbage.
-
-			// There's nothing going on here anymore -- the tombs
-			// of the Ancient Hobo Burial Ground are all as silent
-			// as themselves.
-
-			// There's nothing left in the Purple Light District.
-			// All of the pawn shops and adult bookshops have
-			// closed their doors for good.
-
-			// The Hoboverlord has been defeated, and Hobopolis
-			// Town Square lies empty.
-
-			if ( responseText.indexOf( "There's nothing left of Ol' Scratch" ) != -1 ||
-			     responseText.indexOf( "There's nothing left in Exposure Esplanade" ) != -1 ||
-			     responseText.indexOf( "The Heap is empty" ) != -1 ||
-			     responseText.indexOf( "There's nothing going on here anymore" ) != -1 ||
-			     responseText.indexOf( "There's nothing left in the Purple Light District" ) != -1 ||
-			     responseText.indexOf( "Hobopolis Town Square lies empty" ) != -1 )
-			{
-				return false;
-			}
-
-			// You wander around the farm for a while, but can't find
-			// any additional ducks to fight. Maybe some more will
-			// come out of hiding by tomorrow.
-			if ( responseText.indexOf( "You wander around the farm for a while, but can't find any additional ducks to fight" ) != -1 )
-			{
-				return false;
-			}
-			
 			// See if there is an "adventure again" link, and if
 			// so, whether it points to where we thought we went.
 			KoLAdventure again = KoLAdventure.findAdventureAgain( responseText );
