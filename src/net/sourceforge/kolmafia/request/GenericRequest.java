@@ -1319,10 +1319,20 @@ public class GenericRequest
 
 		if ( this.redirectLocation.startsWith( "maint.php" ) )
 		{
-			// If the system is down for maintenance, the user must
-			// be notified that they should try again later.
+			if ( this instanceof RelayRequest )
+			{
+				// If the request was issued from the Relay
+				// Browser, follow the redirect and show the
+				// user the maintenance page.
+				this.constructURLString( this.redirectLocation, false );
+			}
+			else
+			{
+				// Otherwise, inform the user in the status
+				// line and abort.
 
-			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Nightly maintenance. Please restart KoLmafia." );
+				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Nightly maintenance. Please restart KoLmafia." );
+			}
 			GenericRequest.reset();
 			return true;
 		}
