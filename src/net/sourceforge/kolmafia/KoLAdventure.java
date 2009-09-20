@@ -1222,6 +1222,12 @@ public class KoLAdventure
 			KoLAdventure.PENDING
 		},
 
+		// Typical Tavern with less than 100 Meat
+		{
+			"Why go to the Tavern if you can't afford to drink?",
+			"You can't afford to go out drinking.",
+		},
+
 		// Friar's Ceremony Location without the three items
 		{
 			"You don't appear to have all of the elements necessary to perform the ritual",
