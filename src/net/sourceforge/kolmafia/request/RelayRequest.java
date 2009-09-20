@@ -1430,34 +1430,62 @@ public class RelayRequest
 			}
 		}
 
-		TurnCounter expired = TurnCounter.getExpiredCounter( this );
-
-		if ( expired != null )
+		TurnCounter expired = TurnCounter.getExpiredCounter( this, true );
+		while ( expired != null )
+		{	// Read and discard expired informational counters		
+			expired = TurnCounter.getExpiredCounter( this, true );
+		}
+		
+		StringBuffer msg = null;
+		String image = null;
+		boolean cookie = false;
+		expired = TurnCounter.getExpiredCounter( this, false );
+		while ( expired != null )
 		{
 			int remain = expired.getTurnsRemaining();
-			String message = null;
+			if ( remain < 0 ) continue;
+			if ( msg == null )
+			{
+				msg = new StringBuffer();
+			}
+			else
+			{
+				msg.append( "<br>" );
+			}
+			image = expired.getImage();
+			if ( expired.getLabel().equals( "Fortune Cookie" ) )
+			{
+				cookie = true;
+			}
+			msg.append( "The " );
+			msg.append( expired.getLabel() );
+			switch ( remain )
+			{
+			case 0:
+				msg.append( " counter has expired, so you may wish to adventure somewhere else at this time." );
+				break;
+			case 1:
+				msg.append( " counter will expire after 1 more turn, so you may wish to adventure somewhere else that takes 1 turn." );
+				break;
+			default:
+				msg.append( " counter will expire after " );
+				msg.append( remain );
+				msg.append( " more turns, so you may wish to adventure somewhere else for those turns." );
+				break;
+			}
+			expired = TurnCounter.getExpiredCounter( this, false );
+		}
 
-			if ( remain == 0 )
+		if ( msg != null )
+		{
+			msg.append( "<br>If you are certain that this is where you'd like to adventure, click on the image to proceed." );
+			if ( cookie )
 			{
-				message = "The indicated counter has expired, so you may wish to adventure somewhere else at this time.  If you are certain that this is where you'd like to adventure, click on the image to proceed.";
+				msg.append( "<br><br>" );
+				msg.append( UseItemRequest.lastSemirareMessage() );
 			}
-			else if ( remain > 0 )
-			{
-				message = "The indicated counter will expire after " + 
-					remain + " more turn" +
-					((remain != 1) ? "s" : "") +
-					", so you may wish to adventure somewhere else at this time.  If you are certain that this is where you'd like to adventure, click on the image to proceed.";
-			}
-
-			if ( message != null )
-			{
-				if ( expired.getLabel().equals( "Fortune Cookie" ) )
-				{
-					message += "<br><br>" + UseItemRequest.lastSemirareMessage();
-				}
-				this.sendGeneralWarning( expired.getImage(), message );
-				return;
-			}
+			this.sendGeneralWarning( image, msg.toString() );
+			return;
 		}
 
 		if ( path.startsWith( "desc_effect.php" ) && Preferences.getBoolean( "relayAddsWikiLinks" ) )
