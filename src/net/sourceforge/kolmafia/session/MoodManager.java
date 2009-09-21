@@ -38,6 +38,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.TreeMap;
 
 import net.java.dev.spellcast.utilities.SortedListModel;
@@ -480,7 +482,8 @@ public abstract class MoodManager
 	{
 		// Punt immediately if already burned enough or must recover MP
 
-		if ( KoLCharacter.getCurrentMP() <= minimum )
+		int allowedMP = KoLCharacter.getCurrentMP() - minimum;
+		if ( allowedMP <= 0 )
 		{
 			return null;
 		}
@@ -491,6 +494,8 @@ public abstract class MoodManager
 		int summonThreshold = Preferences.getInteger( "manaBurnSummonThreshold" );
 		String breakfast = onlyMood ? null : MoodManager.considerBreakfastSkill( minimum );
 		int durationLimit = KoLCharacter.getAdventuresLeft() + 1000;
+		Burn chosen = null;
+		ArrayList burns = new ArrayList();
 
 		// Rather than maintain mood-related buffs only, maintain any
 		// active effect that the character can auto-cast. Examine all
@@ -564,45 +569,80 @@ public abstract class MoodManager
 			{
 				return breakfast;
 			}
-
-			// Set the desired duration to properly balance the
-			// buff so that its duration is close to the duration
-			// of the next buff down the list
-
-			int desiredDuration = 0;
-
-			if ( i + 1 < KoLConstants.activeEffects.size() )
+			
+			// If we don't have enough MP for this skill, consider
+			// extending some cheaper effect - but only up to twice
+			// the turns of this effect, so that a slow but steady
+			// MP gain won't be used exclusively on the cheaper effect.
+			
+			if ( SkillDatabase.getMPConsumptionById( skillId ) > allowedMP )
 			{
-				AdventureResult nextEffect = (AdventureResult) KoLConstants.activeEffects.get( i + 1 );
-				desiredDuration = nextEffect.getCount() - currentDuration;
+				durationLimit = Math.max( 10,
+					Math.min( currentDuration * 2, durationLimit ) );
+				continue;
 			}
-
-			// Limit cast count in order to ensure that
-			// KoLmafia doesn't make the buff counts too far out of
-			// balance.
-
-			int castCount =
-				( KoLCharacter.getCurrentMP() - minimum ) / SkillDatabase.getMPConsumptionById( skillId );
-
-			int duration = SkillDatabase.getEffectDuration( skillId );
-
-			if ( duration * castCount > desiredDuration )
-			{
-				castCount = Math.min( castCount, Math.max( castCount / 10,
-					Math.max( 2, desiredDuration / duration + 1 ) ) );
-			}
-
-			if ( castCount > 0 )
-			{
-				return "cast " + castCount + " " + skillName;
-			}
-			durationLimit = Math.max( 10,
-				Math.min( currentDuration * 2, durationLimit ) );
+			
+			Burn b = new Burn( skillId, skillName, currentDuration );
+			if ( chosen == null ) chosen = b;
+			burns.add( b );
+			breakfast = null;	// we're definitely extending an effect
 		}
 
-		// No buff found. Return possible breakfast/libram skill
-
-		return breakfast;
+		if ( chosen == null )
+		{
+			// No buff found. Return possible breakfast/libram skill
+			return breakfast;
+		}
+		
+		// Simulate casting all of the extendable skills in a balanced
+		// manner, to determine the final count of the chosen skill -
+		// rather than making multiple server requests.
+		Iterator i = burns.iterator();
+		while ( i.hasNext() )
+		{
+			Burn b = (Burn) i.next();
+			if ( b.duration >= durationLimit )
+			{
+				i.remove();
+				continue;
+			}
+			// The max(1,...) guarantees that this loop will terminate.
+			int cost = Math.max( 1, SkillDatabase.getMPConsumptionById( b.skillId ) );
+			if ( cost > allowedMP )
+			{
+				i.remove();
+				continue;
+			}
+			++b.count;
+			b.duration += SkillDatabase.getEffectDuration( b.skillId );
+			allowedMP -= cost;
+			Collections.sort( burns );
+			i = burns.iterator();
+		}
+		
+		return "cast " + chosen.count + " " + chosen.skillName;
+	}
+	
+	private static class Burn
+		implements Comparable
+	{
+		public int skillId;
+		public String skillName;
+		public int duration;
+		public int count;
+		
+		public Burn( int skillId, String skillName, int duration )
+		{
+			this.skillId = skillId;
+			this.skillName = skillName;
+			this.duration = duration;
+			this.count = 0;
+		}
+		
+		public int compareTo( Object o )
+		{
+			return this.duration - ((Burn) o).duration;
+		}
 	}
 
 	private static final boolean effectInMood( AdventureResult effect )
