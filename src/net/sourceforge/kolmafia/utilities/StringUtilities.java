@@ -78,7 +78,7 @@ public class StringUtilities
 		return getEntityEncode( utf8String, true );
 	}
 
-	public static final String getEntityEncode( final String utf8String, boolean cache )
+	public static final String getEntityEncode( String utf8String, boolean cache )
 	{
 		if ( utf8String == null )
 		{
@@ -94,6 +94,10 @@ public class StringUtilities
 
 		if ( entityString == null )
 		{
+			// If this string is a substring of a longer string, make sure
+			// we aren't keeping a reference to the longer string.
+			utf8String = new String( utf8String );
+			
 			if ( utf8String.indexOf( "&" ) == -1 || utf8String.indexOf( ";" ) == -1 )
 			{
 				entityString = CharacterEntities.escape( utf8String );
@@ -107,7 +111,7 @@ public class StringUtilities
 			// a double space after the colon) unsearchable in the Mall.
 			//entityString = StringUtilities.globalStringReplace( entityString, "  ", " " );
 
-			if ( cache )
+			if ( cache && utf8String.length() < 100 )
 			{
 				StringUtilities.entityEncodeCache.put( utf8String, entityString );
 			}
@@ -125,7 +129,7 @@ public class StringUtilities
 		return getEntityDecode( entityString, true );
 	}
 
-	public static final String getEntityDecode( final String entityString, boolean cache )
+	public static final String getEntityDecode( String entityString, boolean cache )
 	{
 		if ( entityString == null )
 		{
@@ -141,9 +145,13 @@ public class StringUtilities
 
 		if ( utf8String == null )
 		{
+			// If this string is a substring of a longer string, make sure
+			// we aren't keeping a reference to the longer string.
+			entityString = new String( entityString );
+			
 			utf8String = CharacterEntities.unescape( entityString );
 
-			if ( cache )
+			if ( cache && entityString.length() < 100 )
 			{
 				StringUtilities.entityDecodeCache.put( entityString, utf8String );
 			}
@@ -216,7 +224,7 @@ public class StringUtilities
 	 * Returns the display name for the provided canonical name.
 	 */
 
-	public static final String getDisplayName( final String name )
+	public static final String getDisplayName( String name )
 	{
 		if ( name == null )
 		{
@@ -227,6 +235,10 @@ public class StringUtilities
 
 		if ( displayName == null )
 		{
+			// If this string is a substring of a longer string, make sure
+			// we aren't keeping a reference to the longer string.
+			name = new String( name );
+			
 			displayName = StringUtilities.getEntityDecode( name );
 			StringUtilities.displayNameCache.put( name, displayName );
 		}
@@ -238,7 +250,7 @@ public class StringUtilities
 	 * Returns the canonicalized name for the provided display name.
 	 */
 
-	public static final String getCanonicalName( final String name )
+	public static final String getCanonicalName( String name )
 	{
 		if ( name == null )
 		{
@@ -249,8 +261,15 @@ public class StringUtilities
 
 		if ( canonicalName == null )
 		{
+			// If this string is a substring of a longer string, make sure
+			// we aren't keeping a reference to the longer string.
+			name = new String( name );
+			
 			canonicalName = StringUtilities.getEntityEncode( name ).toLowerCase();
-			StringUtilities.canonicalNameCache.put( name, canonicalName );
+			if ( name.length() < 100 )
+			{
+				StringUtilities.canonicalNameCache.put( name, canonicalName );
+			}
 		}
 
 		return canonicalName;
