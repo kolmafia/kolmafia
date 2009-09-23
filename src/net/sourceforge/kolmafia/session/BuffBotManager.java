@@ -966,8 +966,6 @@ public abstract class BuffBotManager
 		{
 			this.stringForm.setLength( 0 );
 
-			this.stringForm.append( "<html>" );
-
 			this.stringForm.append( KoLConstants.COMMA_FORMAT.format( this.price ) );
 			this.stringForm.append( " meat for " );
 
@@ -989,6 +987,8 @@ public abstract class BuffBotManager
 			}
 			else
 			{
+				this.stringForm.insert( 0, "<html>" );
+
 				this.stringForm.append( "a" );
 
 				if ( this.useFullStrings && this.free )
@@ -1005,9 +1005,10 @@ public abstract class BuffBotManager
 					this.stringForm.append( " turns of " );
 					this.stringForm.append( this.buffs[ i ] );
 				}
+
+				this.stringForm.append( "</html>" );
 			}
 
-			this.stringForm.append( "</html>" );
 
 			this.settingString.setLength( 0 );
 

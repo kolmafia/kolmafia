@@ -78,7 +78,9 @@ public class SpecialOutfit
 	public SpecialOutfit( final int outfitId, final String outfitName )
 	{
 		this.outfitId = outfitId;
-		this.outfitName = outfitName;
+		// The name is normally a substring of the equipment page,
+		// and would keep that entire page in memory if not copied.
+		this.outfitName = new String( outfitName );
 		this.pieces = new ArrayList();
 		this.hash = 0;
 	}
