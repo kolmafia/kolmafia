@@ -33,13 +33,9 @@
 
 package net.sourceforge.kolmafia;
 
-import edu.stanford.ejalbert.BrowserLauncher;
-
 import java.awt.Frame;
-
 import java.io.File;
 import java.io.PrintStream;
-
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
@@ -48,20 +44,16 @@ import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
-
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
-
 import net.sourceforge.kolmafia.request.AccountRequest;
 import net.sourceforge.kolmafia.request.ArtistRequest;
+import net.sourceforge.kolmafia.request.CakeArenaRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
-import net.sourceforge.kolmafia.request.CakeArenaRequest;
-import net.sourceforge.kolmafia.request.ChefStaffRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
@@ -71,7 +63,6 @@ import net.sourceforge.kolmafia.request.DisplayCaseRequest;
 import net.sourceforge.kolmafia.request.DwarfContraptionRequest;
 import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
-import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.GalaktikRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.GourdRequest;
@@ -99,7 +90,6 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.WineCellarRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
-
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.PvpManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
@@ -107,11 +97,10 @@ import net.sourceforge.kolmafia.swingui.DescriptionFrame;
 import net.sourceforge.kolmafia.swingui.RequestFrame;
 import net.sourceforge.kolmafia.swingui.RequestSynchFrame;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
-
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-
 import net.sourceforge.kolmafia.webui.MineDecorator;
+import edu.stanford.ejalbert.BrowserLauncher;
 
 public abstract class StaticEntity
 {
@@ -844,14 +833,7 @@ public abstract class StaticEntity
 
 	public static final void printStackTrace( final String message )
 	{
-		try
-		{
-			throw new Exception( message );
-		}
-		catch ( Exception e )
-		{
-			StaticEntity.printStackTrace( e, message );
-		}
+		StaticEntity.printStackTrace( new Exception( message ), message );
 	}
 
 	public static final void printStackTrace( final Throwable t )
