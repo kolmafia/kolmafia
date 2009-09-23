@@ -80,8 +80,8 @@ public abstract class MoodManager
 		new AdventureResult( "Really Quite Poisoned", 1, true ),
 	};
 
-        public static final AdventureResult TURTLING_ROD = ItemPool.get( ItemPool.TURTLING_ROD, 1 );
-        public static final AdventureResult EAU_DE_TORTUE= EffectPool.get( EffectPool.EAU_DE_TORTUE );
+	public static final AdventureResult TURTLING_ROD = ItemPool.get( ItemPool.TURTLING_ROD, 1 );
+	public static final AdventureResult EAU_DE_TORTUE = EffectPool.get( EffectPool.EAU_DE_TORTUE );
 
 	private static final TreeMap reference = new TreeMap();
 	private static final SortedListModel displayList = new SortedListModel();
@@ -312,7 +312,8 @@ public abstract class MoodManager
 			String effectName = UneffectRequest.skillToEffect( skills[ i ].getSkillName() );
 			if ( EffectDatabase.contains( effectName ) )
 			{
-				MoodManager.addTrigger( "lose_effect", effectName, MoodManager.getDefaultAction( "lose_effect", effectName ) );
+				String action = MoodManager.getDefaultAction( "lose_effect", effectName );
+				MoodManager.addTrigger( "lose_effect", effectName, action );
 			}
 		}
 
@@ -324,7 +325,8 @@ public abstract class MoodManager
 			for ( int i = 0; i < skillNames.length; ++i )
 			{
 				String effectName = UneffectRequest.skillToEffect( skillNames[ i ] );
-				MoodManager.addTrigger( "lose_effect", effectName, MoodManager.getDefaultAction( "lose_effect", effectName ) );
+				MoodManager.addTrigger( "lose_effect", effectName, MoodManager.getDefaultAction(
+					"lose_effect", effectName ) );
 			}
 		}
 		else if ( !thiefSkills.isEmpty() )
@@ -337,13 +339,27 @@ public abstract class MoodManager
 
 			if ( KoLCharacter.isHardcore() )
 			{
-				rankedBuffs =
-					new String[] { "Fat Leon's Phat Loot Lyric", "The Moxious Madrigal", "Aloysius' Antiphon of Aptitude", "The Sonata of Sneakiness", "The Psalm of Pointiness", "Ur-Kel's Aria of Annoyance" };
+				rankedBuffs = new String[]
+				{
+					"Fat Leon's Phat Loot Lyric",
+					"The Moxious Madrigal",
+					"Aloysius' Antiphon of Aptitude",
+					"The Sonata of Sneakiness",
+					"The Psalm of Pointiness",
+					"Ur-Kel's Aria of Annoyance"
+				};
 			}
 			else
 			{
-				rankedBuffs =
-					new String[] { "Fat Leon's Phat Loot Lyric", "Aloysius' Antiphon of Aptitude", "Ur-Kel's Aria of Annoyance", "The Sonata of Sneakiness", "Jackasses' Symphony of Destruction", "Cletus's Canticle of Celerity" };
+				rankedBuffs = new String[]
+				{
+					"Fat Leon's Phat Loot Lyric",
+					"Aloysius' Antiphon of Aptitude",
+					"Ur-Kel's Aria of Annoyance",
+					"The Sonata of Sneakiness",
+					"Jackasses' Symphony of Destruction",
+					"Cletus's Canticle of Celerity"
+				};
 			}
 
 			int foundSkillCount = 0;
@@ -426,7 +442,7 @@ public abstract class MoodManager
 		MoodManager.execute( -1 );
 	}
 
-	public static final void burnExtraMana( boolean isManualInvocation )
+	public static final void burnExtraMana( final boolean isManualInvocation )
 	{
 		String nextBurnCast;
 
@@ -474,11 +490,11 @@ public abstract class MoodManager
 		}
 
 		float manaRecoverPreference = Preferences.getFloat( "mpAutoRecovery" );
-		int minimum = (int)( Math.max( manaBurnPreference, manaRecoverPreference ) * (float) KoLCharacter.getMaximumMP() ) + 1;
+		int minimum = (int) ( Math.max( manaBurnPreference, manaRecoverPreference ) * (float) KoLCharacter.getMaximumMP() ) + 1;
 		return MoodManager.getNextBurnCast( minimum );
 	}
 
-	public static final String getNextBurnCast( int minimum )
+	public static final String getNextBurnCast( final int minimum )
 	{
 		// Punt immediately if already burned enough or must recover MP
 
@@ -569,23 +585,26 @@ public abstract class MoodManager
 			{
 				return breakfast;
 			}
-			
+
 			// If we don't have enough MP for this skill, consider
 			// extending some cheaper effect - but only up to twice
 			// the turns of this effect, so that a slow but steady
 			// MP gain won't be used exclusively on the cheaper effect.
-			
+
 			if ( SkillDatabase.getMPConsumptionById( skillId ) > allowedMP )
 			{
-				durationLimit = Math.max( 10,
-					Math.min( currentDuration * 2, durationLimit ) );
+				durationLimit = Math.max( 10, Math.min( currentDuration * 2, durationLimit ) );
 				continue;
 			}
-			
+
 			Burn b = new Burn( skillId, skillName, currentDuration );
-			if ( chosen == null ) chosen = b;
+			if ( chosen == null )
+			{
+				chosen = b;
+			}
+
 			burns.add( b );
-			breakfast = null;	// we're definitely extending an effect
+			breakfast = null; // we're definitely extending an effect
 		}
 
 		if ( chosen == null )
@@ -593,7 +612,7 @@ public abstract class MoodManager
 			// No buff found. Return possible breakfast/libram skill
 			return breakfast;
 		}
-		
+
 		// Simulate casting all of the extendable skills in a balanced
 		// manner, to determine the final count of the chosen skill -
 		// rather than making multiple server requests.
@@ -619,10 +638,10 @@ public abstract class MoodManager
 			Collections.sort( burns );
 			i = burns.iterator();
 		}
-		
+
 		return "cast " + chosen.count + " " + chosen.skillName;
 	}
-	
+
 	private static class Burn
 		implements Comparable
 	{
@@ -630,22 +649,22 @@ public abstract class MoodManager
 		public String skillName;
 		public int duration;
 		public int count;
-		
-		public Burn( int skillId, String skillName, int duration )
+
+		public Burn( final int skillId, final String skillName, final int duration )
 		{
 			this.skillId = skillId;
 			this.skillName = skillName;
 			this.duration = duration;
 			this.count = 0;
 		}
-		
-		public int compareTo( Object o )
+
+		public int compareTo( final Object o )
 		{
-			return this.duration - ((Burn) o).duration;
+			return this.duration - ( (Burn) o ).duration;
 		}
 	}
 
-	private static final boolean effectInMood( AdventureResult effect )
+	private static final boolean effectInMood( final AdventureResult effect )
 	{
 		for ( int j = 0; j < MoodManager.displayList.size(); ++j )
 		{
@@ -684,8 +703,9 @@ public abstract class MoodManager
 				continue;
 			}
 
-			int castCount = Math.min( maximumCast,
-				( KoLCharacter.getCurrentMP() - minimum ) / SkillDatabase.getMPConsumptionById( skill.getSkillId() ) );
+			int availableMP = KoLCharacter.getCurrentMP() - minimum;
+			int mpPerUse = SkillDatabase.getMPConsumptionById( skill.getSkillId() );
+			int castCount = Math.min( maximumCast, availableMP / mpPerUse );
 
 			if ( castCount > 0 )
 			{
@@ -851,8 +871,7 @@ public abstract class MoodManager
 		// Special case: if the character has a turtling rod equipped,
 		// assume the Eau de Tortue is a possibility
 
-		if ( KoLCharacter.hasEquipped( MoodManager.TURTLING_ROD, EquipmentManager.OFFHAND ) &&
-		     !KoLConstants.activeEffects.contains( MoodManager.EAU_DE_TORTUE ) )
+		if ( KoLCharacter.hasEquipped( MoodManager.TURTLING_ROD, EquipmentManager.OFFHAND ) && !KoLConstants.activeEffects.contains( MoodManager.EAU_DE_TORTUE ) )
 		{
 			missing.add( MoodManager.EAU_DE_TORTUE );
 		}
@@ -1032,22 +1051,12 @@ public abstract class MoodManager
 
 			MoodManager.setMood( Preferences.getString( "currentMood" ) );
 		}
-		catch ( IOException e1 )
+		catch ( IOException e )
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
 
-			StaticEntity.printStackTrace( e1 );
-		}
-		catch ( Exception e2 )
-		{
-			// Somehow, the settings were corrupted; this
-			// means that they will have to be created after
-			// the current file is deleted.
-
-			StaticEntity.printStackTrace( e2 );
-			MoodManager.settingsFile.delete();
-			MoodManager.loadSettings();
+			StaticEntity.printStackTrace( e );
 		}
 	}
 
@@ -1111,7 +1120,7 @@ public abstract class MoodManager
 
 		if ( otterTongueClearable && KoLCharacter.hasSkill( "Tongue of the Otter" ) )
 		{
-                        return "cast Tongue of the Otter";
+			return "cast Tongue of the Otter";
 		}
 
 		boolean walrusTongueClearable =
@@ -1124,7 +1133,7 @@ public abstract class MoodManager
 
 		if ( walrusTongueClearable && KoLCharacter.hasSkill( "Tongue of the Walrus" ) )
 		{
-                        return "cast Tongue of the Walrus";
+			return "cast Tongue of the Walrus";
 		}
 
 		boolean powerNapClearable =
@@ -1200,11 +1209,12 @@ public abstract class MoodManager
 
 	public static final boolean unstackableAction( final String action )
 	{
-		return action.indexOf( "absinthe" ) != -1 ||
-		       action.indexOf( "astral mushroom" ) != -1 ||
-		       action.indexOf( "oasis" ) != -1 ||
-		       action.indexOf( "turtle pheromones" ) != -1 ||
-		       action.indexOf( "gong" ) != -1;
+		return
+			action.indexOf( "absinthe" ) != -1 ||
+			action.indexOf( "astral mushroom" ) != -1 ||
+			action.indexOf( "oasis" ) != -1 ||
+			action.indexOf( "turtle pheromones" ) != -1 ||
+			action.indexOf( "gong" ) != -1;
 	}
 
 	/**
@@ -1224,7 +1234,7 @@ public abstract class MoodManager
 	/**
 	 * Stores the settings maintained in this <code>KoLSettings</code> to the noted file. Note that this method ALWAYS
 	 * overwrites the given file.
-	 *
+	 * 
 	 * @param settingsFile The file to which the settings will be stored.
 	 */
 
@@ -1244,14 +1254,13 @@ public abstract class MoodManager
 		private AdventureResult item;
 		private UseSkillRequest skill;
 
-		public MoodTrigger( final String type, final AdventureResult effect, final String action )
+		private MoodTrigger( final String type, final AdventureResult effect, final String action )
 		{
 			this.type = type;
 			this.effect = effect;
 			this.name = effect == null ? null : effect.getName();
 
-			if ( (action.startsWith( "use " ) || action.startsWith( "cast " ))
-				&& action.indexOf( ";" ) == -1 )
+			if ( ( action.startsWith( "use " ) || action.startsWith( "cast " ) ) && action.indexOf( ";" ) == -1 )
 			{
 				// Determine the command, the count amount,
 				// and the parameter's unambiguous form.
@@ -1263,12 +1272,7 @@ public abstract class MoodManager
 				{
 					this.item = ItemFinder.getFirstMatchingItem( parameters, false );
 
-					if ( this.item == null )
-					{
-						this.count = 1;
-						this.action = action;
-					}
-					else
+					if ( this.item != null )
 					{
 						this.count = this.item.getCount();
 						this.action = "use " + this.count + " " + this.item.bangPotionAlias();
@@ -1291,11 +1295,17 @@ public abstract class MoodManager
 					}
 
 					this.skill = UseSkillRequest.getInstance( parameters );
-					this.action = "cast " + this.count + " " + this.skill.getSkillName();
+
+					if ( this.skill != null )
+					{
+						this.action = "cast " + this.count + " " + this.skill.getSkillName();
+					}
 				}
 			}
-			else
+
+			if ( this.action == null )
 			{
+				this.count = 1;
 				this.action = action;
 			}
 
@@ -1342,8 +1352,7 @@ public abstract class MoodManager
 
 			if ( this.item != null )
 			{
-				return this.type + " " + StringUtilities.getCanonicalName( this.name ) + " => use " + this.count + " " +
-					StringUtilities.getCanonicalName( this.item.bangPotionAlias() );
+				return this.type + " " + StringUtilities.getCanonicalName( this.name ) + " => use " + this.count + " " + StringUtilities.getCanonicalName( this.item.bangPotionAlias() );
 			}
 
 			if ( this.skill != null )
@@ -1433,9 +1442,19 @@ public abstract class MoodManager
 				return KoLConstants.activeEffects.contains( this.effect );
 			}
 
-			return MoodManager.unstackableAction( action ) ?
-                               !KoLConstants.activeEffects.contains( this.effect ) :
-                               this.effect.getCount( KoLConstants.activeEffects ) <= ( multiplicity == -1 ? 1 : 5 );
+			if ( MoodManager.unstackableAction( this.action ) )
+			{
+				return !KoLConstants.activeEffects.contains( this.effect );
+			}
+
+			int activeCount = this.effect.getCount( KoLConstants.activeEffects );
+
+			if ( multiplicity == -1 )
+			{
+				return activeCount <= 1;
+			}
+
+			return activeCount <= 5;
 		}
 
 		public boolean isThiefTrigger()
@@ -1556,9 +1575,11 @@ public abstract class MoodManager
 				type.equals( "unconditional" ) ? null : pieces[ 0 ].substring( pieces[ 0 ].indexOf( " " ) ).trim();
 
 			AdventureResult effect = null;
+
 			if ( !type.equals( "unconditional" ) )
 			{
 				effect = KoLmafiaCLI.getFirstMatchingEffect( name );
+
 				if ( effect == null )
 				{
 					return null;
