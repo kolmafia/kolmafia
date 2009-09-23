@@ -1287,7 +1287,7 @@ public abstract class MoodManager
 
 					if ( !SkillDatabase.contains( parameters ) )
 					{
-						parameters = KoLmafiaCLI.getSkillName( parameters );
+						parameters = KoLmafiaCLI.getUsableSkillName( parameters );
 					}
 
 					this.skill = UseSkillRequest.getInstance( parameters );
