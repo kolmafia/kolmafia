@@ -5730,7 +5730,7 @@ public class KoLmafiaCLI
 
 	public static final String getSkillName( final String substring )
 	{
-		return KoLmafiaCLI.getSkillName( substring, KoLConstants.availableSkills );
+		return KoLmafiaCLI.getSkillName( substring, SkillDatabase.getSkillsByType( SkillDatabase.ALL ) );
 	}
 
 	/**
@@ -5739,7 +5739,7 @@ public class KoLmafiaCLI
 
 	public static final String getUsableSkillName( final String substring )
 	{
-		return KoLmafiaCLI.getSkillName( substring, KoLConstants.usableSkills );
+		return KoLmafiaCLI.getSkillName( substring, SkillDatabase.getSkillsByType( SkillDatabase.CASTABLE ) );
 	}
 
 	/**

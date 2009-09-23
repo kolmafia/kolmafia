@@ -68,6 +68,7 @@ public class SkillDatabase
 	private static final Map skillsByCategory = new HashMap();
 	private static final Map skillCategoryById = new HashMap();
 
+	public static final int ALL = -2;
 	public static final int CASTABLE = -1;
 	public static final int PASSIVE = 0;
 	public static final int SUMMON = 1;
@@ -792,7 +793,11 @@ public class SkillDatabase
 			int skillType = ( (Integer) value ).intValue();
 			int skillId = ( (Integer) id ).intValue();
 
-			if ( type == SkillDatabase.CASTABLE )
+			if ( type == SkillDatabase.ALL )
+			{
+				shouldAdd = true;
+			}
+			else if ( type == SkillDatabase.CASTABLE )
 			{
 				shouldAdd = skillType == SUMMON || skillType == REMEDY || skillType == SELF_ONLY || skillType == BUFF;
 			}
