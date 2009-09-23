@@ -2954,7 +2954,9 @@ public abstract class KoLmafia
 		public RegisteredEncounter( final String type, final String name )
 		{
 			this.type = type;
-			this.name = name;
+			// The name is likely a substring of a page load, so storing it
+			// as-is would keep the entire page in memory.
+			this.name = new String( name );
 
 			this.stringform = type == null ? name : type + ": " + name;
 			this.encounterCount = 1;
