@@ -39,6 +39,7 @@ import java.util.List;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Monster;
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -59,7 +60,7 @@ public class AreaCombatData
 	// Parallel lists: monsters and encounter weighting
 	private final List monsters;
 	private final List weightings;
-	
+
 	// Flags in low-order bits of weightings
 	private static final int ASCENSION_ODD = 0x01;
 	private static final int ASCENSION_EVEN = 0x02;
@@ -120,7 +121,7 @@ public class AreaCombatData
 		// Don't let special monsters skew combat percentage numbers
 		// or things derived from them, like area-wide item and meat
 		// drops. Do include them in hit and evade ("safety") numbers.
-		// Assume that the number and total weights of even- and 
+		// Assume that the number and total weights of even- and
 		// odd-ascension-only monsters are equal.
 		if ( weighting > 0 && flags != ASCENSION_ODD )
 		{
@@ -178,7 +179,7 @@ public class AreaCombatData
 		}
 		return raw >> WEIGHT_SHIFT;
 	}
-	
+
 	public int totalWeighting()
 	{
 		return this.weights;
@@ -240,10 +241,10 @@ public class AreaCombatData
 			float weight = (float) weighting / (float) this.weights;
 			averageML += weight * monster.getAttack();
 		}
-		
+
 		return averageML;
 	}
-	
+
 	public String toString()
 	{
 		return this.toString( false );
@@ -253,7 +254,14 @@ public class AreaCombatData
 	{
 		StringBuffer buffer = new StringBuffer();
 
-		buffer.append( "<html>" );
+		buffer.append( "<html><head>" );
+		buffer.append( "<style>" );
+
+		buffer.append( "body { font-family: sans-serif; font-size: " );
+		buffer.append( Preferences.getString( "chatFontSize" ) );
+		buffer.append( "; }" );
+
+		buffer.append( "</style>" );
 
 		this.getSummary( buffer, fullString );
 		buffer.append( "<br><br>" );
@@ -493,7 +501,7 @@ public class AreaCombatData
 		}
 
 		float itemModifier = AreaCombatData.getDropRateModifier();
-		boolean stealing = KoLCharacter.isMoxieClass() || 
+		boolean stealing = KoLCharacter.isMoxieClass() ||
 			KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.FORM_OF_BIRD ) );
 
 		for ( int i = 0; i < items.size(); ++i )
@@ -530,23 +538,23 @@ public class AreaCombatData
 			case '0':
 				buffer.append( " (unknown drop rate)" );
 				break;
-				
+
 			case 'b':
 				buffer.append( " (bounty)" );
 				break;
-				
+
 			case 'n':
 				buffer.append( " " );
 				buffer.append( rate1 );
 				buffer.append( "% (no pickpocket)" );
 				break;
-				
+
 			case 'c':
 				buffer.append( " " );
 				buffer.append( rate1 );
 				buffer.append( "% (conditional)" );
 				break;
-				
+
 			case 'p':
 				if ( stealing )
 				{
@@ -557,7 +565,7 @@ public class AreaCombatData
 					buffer.append( " (pickpocket only)" );
 				}
 				break;
-				
+
 			default:
 				if ( stealing )
 				{
