@@ -57,8 +57,12 @@ import java.awt.dnd.DropTargetDragEvent;
 import java.awt.dnd.DropTargetDropEvent;
 import java.awt.dnd.DropTargetEvent;
 import java.awt.dnd.DropTargetListener;
+import java.awt.image.AreaAveragingScaleFilter;
+import java.awt.image.FilteredImageSource;
+import java.awt.image.PixelGrabber;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import javax.swing.ImageIcon;
@@ -106,6 +110,7 @@ public class TrophyFrame
 			buttonPanel.add( new InvocationButton( "save", this, "doSave" ) );
 			buttonPanel.add( new InvocationButton( "show all", this, "doShowAll" ) );
 			buttonPanel.add( new InvocationButton( "hide all", this, "doHideAll" ) );
+			buttonPanel.add( new InvocationButton( "autosort", this, "doAutoSort" ) );
 			eastPanel.add( new JLabel( "<html><center>top list:<br>visible<hr>bottom:<br>hidden<br><br>drag to<br>rearrange<br><br>trophies<br>exchange<br>positions<br>if dropped<br>directly<br>on top of<br>another,<br>otherwise<br>moved.</html>" ), BorderLayout.SOUTH );
 			shownList = new TrophyPanel( true );
 			hiddenList = new TrophyPanel( false );
@@ -176,6 +181,11 @@ public class TrophyFrame
 			this.hiddenList.repaint();
 		}
 
+		public void doAutoSort()
+		{
+			this.shownList.doAutoSort();
+			this.hiddenList.doAutoSort();
+		}
 	}
 	
 	private static class TrophyScrollPane
@@ -219,6 +229,36 @@ public class TrophyFrame
 			}
 		}
 
+		public void doAutoSort()
+		{
+			int nc = this.getComponentCount();
+			for ( int i = 0; i < nc; ++i )
+			{
+				((DraggableTrophy) this.getComponent( i )).score = Integer.MAX_VALUE;
+			}
+			
+			for ( int i = 0; i < nc - 2; ++i )
+			{
+				DraggableTrophy one = (DraggableTrophy) this.getComponent( i );
+				DraggableTrophy best = null;
+				int bestScore = Integer.MAX_VALUE;
+				for ( int j = i + 1; j < nc; ++j )
+				{
+					DraggableTrophy two = (DraggableTrophy) this.getComponent( j );
+					int score = Math.min( two.score, one.getSimilarity( two ) );
+					two.score = score;
+					if ( score < bestScore )
+					{
+						bestScore = score;
+						best = two;
+					}
+				}
+				this.add( best, i + 1 );
+				this.revalidate();
+				this.repaint();
+			}
+		}
+
 		/* Required methods for DropTargetListener */
 		
 		public void dragEnter( DropTargetDragEvent dtde )
@@ -256,6 +296,8 @@ public class TrophyFrame
 				{
 					DraggableTrophy dest =
 						(DraggableTrophy) this.getComponent( destIndex );
+					//System.out.println( this.source.getSimilarity( dest ) + " " +
+					//	this.source.trophy.name + "/" + dest.trophy.name );
 					if ( this.sourceList == this )
 					{
 						if ( sourceIndex < destIndex )
@@ -386,6 +428,9 @@ public class TrophyFrame
 	{
 		public Trophy trophy;
 		private static final DragSource dragSource = DragSource.getDefaultDragSource();
+		private static final HashMap similarities = new HashMap();
+		private int[] cache;
+		public int score;
 		
 		public DraggableTrophy( Trophy trophy )
 		{
@@ -411,6 +456,55 @@ public class TrophyFrame
 				}
 			}
 			return -1;	// wut?
+		}
+		
+		public int getSimilarity( DraggableTrophy other )
+		{
+			Integer key, rv;
+			int id1 = this.trophy.id;
+			int id2 = other.trophy.id;
+			key = new Integer( id1 < id2 ? (id1 << 16 ) | id2 :
+				(id2 << 16) | id1 );
+			rv = (Integer) DraggableTrophy.similarities.get( key );
+			if ( rv != null ) return rv.intValue();
+			int[] img1 = this.grab();
+			int[] img2 = other.grab();
+			int score = 0;
+			for ( int i = Math.min( img1.length, img2.length ) - 1; i >= 0; --i )
+			{
+				score += Math.abs( (img1[ i ] & 0xFF) - (img2[ i ] & 0xFF) );			
+			}
+			
+			DraggableTrophy.similarities.put( key, new Integer( score ) );
+			return score;
+		}
+		
+		private int[] grab()
+		{
+			if ( this.cache != null ) return this.cache;
+			
+			PixelGrabber g = new PixelGrabber(
+				this.createImage(
+					new FilteredImageSource(
+						((ImageIcon) this.getIcon()).getImage().getSource(),
+						new AreaAveragingScaleFilter( 25, 25 ) ) ),
+				0, 0, 25, 25, true );
+			try
+			{
+				g.grabPixels();
+			}
+			catch ( InterruptedException e )
+			{
+				return new int[ 0 ];
+			}
+			
+			Object rv = g.getPixels();
+			if ( rv instanceof int[] )
+			{
+				this.cache = (int[]) rv;
+				return this.cache;
+			}
+			return new int[ 0 ];	// don't know how to handle any other format
 		}
 		
 		/* Methods required by DragGestureListener */
