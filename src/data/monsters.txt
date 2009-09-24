@@ -289,7 +289,7 @@ Flame-Broiled Meat Blob	HP: 2 Def: 1 Atk: 1 E: heat Meat: 4-7	meat paste (40)	me
 Flaming Samurai	HP: 100000
 Flaming Troll	HP: 73 Def: 83 Atk: 83 Meat: 32-48	flaming talons (10)	Trollhouse cookies (40)
 Flint-Scraping Cave Elf		rock (15)	stick (10)	stick (5)
-Floating Platter of Hors D'Oeuvres	HP: 120 Def: 110 Atk: 110 ED: spooky	desiccated apricot (30)	flute of flat champagne (30)	dehydrated caviar (30)
+Floating Platter of Hors D'Oeuvres	HP: 120 Def: 110 Atk: 110 ED: spooky	dehydrated caviar (30)	desiccated apricot (30)	flute of flat champagne (30)	hors d 'oeuvre tray (4)
 Flock of Stab-Bats	HP: 155 Def: 148 Atk: 155 Meat: 51-80	bat wing (30)	batblade (25)	batgut (30)
 Fluffy Bunny	HP: 1 Def: 1 Atk: 1
 Forest Spirit	HP: 3 Def: 2 Atk: 1	forest tears (30)
