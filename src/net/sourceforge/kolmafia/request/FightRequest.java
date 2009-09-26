@@ -2760,16 +2760,9 @@ public class FightRequest
 			return false;
 
 		case ItemPool.ANTIDOTE: // Anti-Anti-Antidote
+			// You quickly quaff the anti-anti-antidote. You feel better.
 
-			for ( int i = 0; i < KoLConstants.activeEffects.size(); ++i )
-			{
-				if ( ( (AdventureResult) KoLConstants.activeEffects.get( i ) ).getName().indexOf( "Poison" ) != -1 )
-				{
-					return true;
-				}
-			}
-
-			return false;
+			return responseText.indexOf( "You quickly quaff" ) != -1;
 
 		case ItemPool.MERKIN_PINKSLIP:
 
