@@ -1443,7 +1443,11 @@ public class RelayRequest
 		while ( expired != null )
 		{
 			int remain = expired.getTurnsRemaining();
-			if ( remain < 0 ) continue;
+			if ( remain < 0 )
+			{
+				expired = TurnCounter.getExpiredCounter( this, false );
+				continue;
+			}
 			if ( msg == null )
 			{
 				msg = new StringBuffer();
