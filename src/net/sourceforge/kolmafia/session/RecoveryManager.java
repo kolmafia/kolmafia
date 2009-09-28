@@ -42,7 +42,7 @@ public class RecoveryManager
 
 	public static boolean isRecoveryPossible()
 	{
-		return RecoveryManager.isRecoveryActive() && MoodManager.isExecuting() && FightRequest.getCurrentRound() == 0;
+		return !RecoveryManager.isRecoveryActive() && FightRequest.getCurrentRound() == 0;
 	}
 
 	public static boolean runThresholdChecks()
