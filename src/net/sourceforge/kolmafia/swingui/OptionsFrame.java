@@ -887,7 +887,7 @@ public class OptionsFrame
 			}
 
 			JPanel optionPanel = new JPanel( new GridLayout( 1, 3, 10, 10 ) );
-			optionPanel.add( new ScrollablePanel( "Complete List", new JDnDList( this.completeList, false ) ) );
+			optionPanel.add( new ScrollablePanel( "Complete List", new JDnDList( this.completeList ) ) );
 			optionPanel.add( new ScrollablePanel( "Startup as Window", new JDnDList( this.startupList ) ) );
 			optionPanel.add( new ScrollablePanel( "Startup in Tabs", new JDnDList( this.desktopList ) ) );
 
@@ -977,13 +977,20 @@ public class OptionsFrame
 
 		public void intervalAdded( final ListDataEvent e )
 		{
-			if ( e.getSource() == this.startupList )
+			Object src = e.getSource();
+			if ( src == this.startupList )
 			{
 				this.desktopList.removeAll( this.startupList );
 			}
-			else if ( e.getSource() == this.desktopList )
+			else if ( src == this.desktopList )
 			{
 				this.startupList.removeAll( this.desktopList );
+			}
+			else if (src == this.completeList )
+			{
+				Object item = this.completeList.get( e.getIndex0() );
+				this.desktopList.remove( item );
+				this.startupList.remove( item );
 			}
 
 			this.saveLayoutSettings();
