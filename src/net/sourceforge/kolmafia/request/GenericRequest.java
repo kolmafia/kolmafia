@@ -357,12 +357,6 @@ public class GenericRequest
 
 	public GenericRequest constructURLString( String newURLString, boolean usePostMethod )
 	{
-		if ( this.formURLString == null || !newURLString.startsWith( this.formURLString ) )
-		{
-			this.currentHost = GenericRequest.KOL_HOST;
-			this.formURL = null;
-		}
-
 		this.responseText = null;
 		this.dataChanged = true;
 		this.data.clear();
@@ -372,6 +366,7 @@ public class GenericRequest
 			newURLString = newURLString.substring( 1 );
 		}
 
+		String oldURLString = this.formURLString;
 		int formSplitIndex = newURLString.indexOf( "?" );
 
 		if ( formSplitIndex == -1 || !usePostMethod )
@@ -382,6 +377,12 @@ public class GenericRequest
 		{
 			this.formURLString = newURLString.substring( 0, formSplitIndex );
 			this.addFormFields( newURLString.substring( formSplitIndex + 1 ), true );
+		}
+
+		if ( !this.formURLString.equals( oldURLString ) )
+		{
+			this.currentHost = GenericRequest.KOL_HOST;
+			this.formURL = null;
 		}
 
 		this.isChatRequest =
