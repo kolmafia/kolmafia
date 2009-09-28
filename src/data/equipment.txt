@@ -825,8 +825,7 @@ Hodgman's varcolac paw	0	Mus: 200
 Idol of Ak'gyxoth	0	none
 Kevlar balloon	0	none
 KoL Con IV Pole	0	Mys: 10
-# *** Mer-kin roundshield is a shield of unknown power.
-Mer-kin roundshield	0	Mus: 85	shield
+Mer-kin roundshield	220	Mus: 85	shield
 Mer-kin takebag	0	Mys: 85
 Mr. Balloon	0	none
 Mylar balloon	0	none
@@ -842,8 +841,7 @@ Tiki lighter	0	none
 Tuesday's ruby	0	Mys: 45
 Wand of Oscus	0	Mys: 200
 Zombo's shield	240	Mus: 200	shield
-# *** ancient stone head is a shield of unknown power.
-ancient stone head	0	Mus: 27	shield
+ancient stone head	85	Mus: 27	shield
 anniversary balloon	0	none
 anniversary chutney sculpture	0	none
 antique shield	230	Mus: 85	shield
@@ -1027,8 +1025,7 @@ white satin shield	80	Mus: 25	shield
 wicker shield	175	Mus: 70	shield
 wonderwall shield	190	Mus: 70	shield
 yakskin buckler	95	Mus: 30	shield
-# *** yield shield is a shield of unknown power.
-yield shield	0	Mus: 35	shield
+yield shield	100	Mus: 35	shield
 
 # Accessories section of equipment.txt
 

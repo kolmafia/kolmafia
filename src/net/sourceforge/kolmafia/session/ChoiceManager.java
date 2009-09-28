@@ -2657,13 +2657,14 @@ public abstract class ChoiceManager
 
 			if ( text.indexOf( "total, absolute jerks" ) != -1 )
 			{
-				ResultProcessor.processResult( ItemPool.get( ItemPool.RUBY_ROD, -1 ) );
+				EquipmentManager.discardEquipment( ItemPool.RUBY_ROD );
 				ResultProcessor.processResult( ItemPool.get( ItemPool.ESSENCE_OF_HEAT, -1 ) );
 				ResultProcessor.processResult( ItemPool.get( ItemPool.ESSENCE_OF_KINK, -1 ) );
 				ResultProcessor.processResult( ItemPool.get( ItemPool.ESSENCE_OF_COLD, -1 ) );
 				ResultProcessor.processResult( ItemPool.get( ItemPool.ESSENCE_OF_STENCH, -1 ) );
 				ResultProcessor.processResult( ItemPool.get( ItemPool.ESSENCE_OF_FRIGHT, -1 ) );
 				ResultProcessor.processResult( ItemPool.get( ItemPool.ESSENCE_OF_CUTE, -1 ) );
+				ResultProcessor.processResult( ItemPool.get( ItemPool.SECRET_FROM_THE_FUTURE, 1 ) );
 
 			}
 			break;

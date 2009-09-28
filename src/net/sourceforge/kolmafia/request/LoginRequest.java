@@ -335,19 +335,21 @@ public class LoginRequest
 		KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Encountered error in login." );
 	}
 
-	public static final boolean executeTimeInRequest( final String requestLocation, final String redirectLocation )
+	public synchronized static final boolean executeTimeInRequest( final String requestLocation, final String redirectLocation )
 	{
 		if ( LoginRequest.lastRequest == null )
 		{
 			return false;
 		}
 
-		// If it's been less than 30 seconds since the last
+		// If it's been less than 30 seconds since the last login
+		// attempt, we could be responding to the flurry of login.php
+		// redirects KoL gives us when the Relay Browser tries to open
+		// main.php, topmenu.php, chatlaunch.php, etc.
 		
 		if ( System.currentTimeMillis() - 30000 < LoginRequest.lastLoginAttempt )
 		{
-			StaticEntity.printStackTrace( "Possible concurrent logins on multiple machines." );
-			System.exit( -1 );
+			return LoginRequest.completedLogin;
 		}
 
 		if ( LoginRequest.isInstanceRunning() )

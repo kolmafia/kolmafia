@@ -2361,9 +2361,9 @@
 2355	443508071	henna face paint	tins of henna face paint
 2356	844938124	tube of dread wax	tubes of dread wax
 2357	386374860	Gaia beads	strings of Gaia beads
-2358	519786414	pink clay bead
-2359	198133175	purple clay bead
-2360	791987367	green clay bead
+2358	519786414	pink clay bead	pink clay beads
+2359	198133175	purple clay bead	purple clay beads
+2360	791987367	green clay bead	green clay beads
 2361	564212733	hippy medical kit	hippy medical kits
 2362	555561642	Slow Talkin' Elliot's dogtags	Slow Talkin' Elliot's dogtagss
 2363	113723777	longhaired hippy wig	longhaired hippy wigs
@@ -2385,9 +2385,9 @@
 2379	352126029	banana smoothie	banana smoothies
 2380	970092410	dandy lion cub	dandy lion cubs
 2381	984568569	woolen cravat	woolen cravats
-2382	778302977	red class ring
-2383	594897945	blue class ring
-2384	363770570	white class ring
+2382	778302977	red class ring	red class rings
+2383	594897945	blue class ring	blue class rings
+2384	363770570	white class ring	white class rings
 2385	874194460	bottle opener belt buckle	bottle opener belt buckles
 2386	268412638	keg shield	keg shields
 2387	709828596	giant foam finger	giant foam fingers

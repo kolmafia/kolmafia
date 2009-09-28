@@ -1593,6 +1593,10 @@ public class RequestEditorKit
 		case 135:
 			PyramidRequest.decorateChoiceResponse( buffer );
 			break;
+
+		case 392:
+			MemoriesDecorator.decorateElementsResponse( buffer );
+			break;
 		}
 	}
 
