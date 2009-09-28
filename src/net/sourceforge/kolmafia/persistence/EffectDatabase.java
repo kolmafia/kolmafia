@@ -49,7 +49,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.UtilityConstants;
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
@@ -385,5 +387,54 @@ public class EffectDatabase
 		}
 
 		writer.close();
+	}
+
+	/**
+	 * Utility method which determines the first effect which matches the given parameter string. Note that the string
+	 * may also specify an effect duration before the string.
+	 */
+	
+	public static final AdventureResult getFirstMatchingEffect( final String parameters )
+	{
+		String effectName = null;
+		int duration = 0;
+	
+		// First, allow for the person to type without specifying
+		// the amount, if the amount is 1.
+	
+		List matchingNames = getMatchingNames( parameters );
+	
+		if ( matchingNames.size() != 0 )
+		{
+			effectName = (String) matchingNames.get( 0 );
+			duration = 1;
+		}
+		else
+		{
+			String durationString = parameters.split( " " )[ 0 ];
+			String effectNameString = parameters.substring( durationString.length() ).trim();
+	
+			matchingNames = getMatchingNames( effectNameString );
+	
+			if ( matchingNames.size() == 0 )
+			{
+				KoLmafia.updateDisplay(
+					KoLConstants.ERROR_STATE,
+					"[" + effectNameString + "] does not match anything in the status effect database." );
+				return null;
+			}
+	
+			effectName = (String) matchingNames.get( 0 );
+			duration = durationString.equals( "*" ) ? 0 : StringUtilities.parseInt( durationString );
+		}
+	
+		if ( effectName == null )
+		{
+			KoLmafia.updateDisplay(
+				KoLConstants.ERROR_STATE, "[" + parameters + "] does not match anything in the status effect database." );
+			return null;
+		}
+	
+		return new AdventureResult( effectName, duration, true );
 	}
 }

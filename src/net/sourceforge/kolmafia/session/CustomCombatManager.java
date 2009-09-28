@@ -52,7 +52,6 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
@@ -347,7 +346,7 @@ public abstract class CustomCombatManager
 		else if ( !Character.isDigit( attackName.charAt( 0 ) ) )
 		{
 			List combatSkills = SkillDatabase.getSkillsByType( SkillDatabase.COMBAT );
-			String skillName = KoLmafiaCLI.getSkillName( attackName, combatSkills );
+			String skillName = SkillDatabase.getSkillName( attackName, combatSkills );
 
 			if ( skillName == null )
 			{
@@ -766,7 +765,7 @@ public abstract class CustomCombatManager
 
 		if ( action.startsWith( "skill" ) )
 		{
-			String potentialSkill = KoLmafiaCLI.getCombatSkillName( action.substring( 5 ).trim() );
+			String potentialSkill = SkillDatabase.getCombatSkillName( action.substring( 5 ).trim() );
 			if ( potentialSkill != null )
 			{
 				return "skill " + potentialSkill.toLowerCase();
@@ -776,7 +775,7 @@ public abstract class CustomCombatManager
 		// Well, it's either a standard skill, or it's an item,
 		// or it's something you need to lookup in the tables.
 
-		String potentialSkill = KoLmafiaCLI.getCombatSkillName( action );
+		String potentialSkill = SkillDatabase.getCombatSkillName( action );
 		if ( potentialSkill != null )
 		{
 			return "skill " + potentialSkill.toLowerCase();
@@ -918,11 +917,11 @@ public abstract class CustomCombatManager
 
 		if ( action.startsWith( "skill" ) )
 		{
-			String name = KoLmafiaCLI.getCombatSkillName( action.substring( 5 ).trim() );
+			String name = SkillDatabase.getCombatSkillName( action.substring( 5 ).trim() );
 			return name == null ? "attack" : "skill" + SkillDatabase.getSkillId( name );
 		}
 
-		String potentialSkill = KoLmafiaCLI.getCombatSkillName( action );
+		String potentialSkill = SkillDatabase.getCombatSkillName( action );
 		if ( potentialSkill != null )
 		{
 			return "skill" + SkillDatabase.getSkillId( potentialSkill );

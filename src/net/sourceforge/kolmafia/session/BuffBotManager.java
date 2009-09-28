@@ -311,7 +311,7 @@ public abstract class BuffBotManager
 
 		BuffBotManager.refundMessage = Preferences.getString( "invalidBuffMessage" );
 		BuffBotManager.thanksMessage = Preferences.getString( "thanksMessage" );
-		BuffBotManager.initialRestores = Math.max( KoLmafia.getRestoreCount(), 100 );
+		BuffBotManager.initialRestores = Math.max( RecoveryManager.getRestoreCount(), 100 );
 
 		String restoreItems = Preferences.getString( "mpAutoRecoveryItems" );
 
@@ -326,7 +326,7 @@ public abstract class BuffBotManager
 			// If you run out of adventures and/or restores, then
 			// check to see if you need to abort.
 
-			if ( KoLmafia.getRestoreCount() == 0 )
+			if ( RecoveryManager.getRestoreCount() == 0 )
 			{
 				if ( !usingAdventures || KoLCharacter.getAdventuresLeft() == 0 )
 				{
@@ -353,7 +353,7 @@ public abstract class BuffBotManager
 			if ( BuffBotManager.initialRestores > 0 )
 			{
 				BuffBotHome.timeStampedLogEntry(
-					BuffBotHome.NOCOLOR, "(" + KoLmafia.getRestoreCount() + " mana restores remaining)" );
+					BuffBotHome.NOCOLOR, "(" + RecoveryManager.getRestoreCount() + " mana restores remaining)" );
 			}
 			else if ( usingAdventures )
 			{

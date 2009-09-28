@@ -50,11 +50,11 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
-import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.MoodManager;
+import net.sourceforge.kolmafia.session.RecoveryManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.BasementDecorator.StatBooster;
 
@@ -564,7 +564,7 @@ public class BasementRequest
 		{
 			if ( autoSwitch )
 			{
-				StaticEntity.getClient().recoverHP( (int) ( BasementRequest.expected1 + BasementRequest.expected2 ) );
+				RecoveryManager.recoverHP( (int) ( BasementRequest.expected1 + BasementRequest.expected2 ) );
 			}
 
 			return KoLmafia.permitsContinue();
@@ -620,7 +620,7 @@ public class BasementRequest
 
 		float damage =
 			BasementRequest.expected1 >= BasementRequest.expected2 ? BasementRequest.expected2 : BasementRequest.expected1;
-		StaticEntity.getClient().recoverHP( (int) ( 1.0f + damage ) );
+		RecoveryManager.recoverHP( (int) ( 1.0f + damage ) );
 
 		return KoLmafia.permitsContinue();
 	}
@@ -793,7 +793,7 @@ public class BasementRequest
 
 			if ( autoSwitch )
 			{
-				StaticEntity.getClient().recoverMP( (int) drainRequirement );
+				RecoveryManager.recoverMP( (int) drainRequirement );
 			}
 
 			return true;
@@ -857,7 +857,7 @@ public class BasementRequest
 
 			if ( autoSwitch )
 			{
-				StaticEntity.getClient().recoverHP( (int) healthRequirement );
+				RecoveryManager.recoverHP( (int) healthRequirement );
 			}
 
 			return true;

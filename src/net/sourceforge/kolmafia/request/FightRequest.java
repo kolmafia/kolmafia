@@ -53,7 +53,6 @@ import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
-import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -69,6 +68,7 @@ import net.sourceforge.kolmafia.request.HiddenCityRequest;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.RecoveryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.WumpusManager;
@@ -403,7 +403,7 @@ public class FightRequest
 		// If the player drops below the threshold, then go
 		// ahead and halt the battle.
 
-		if ( !StaticEntity.getClient().runThresholdChecks() )
+		if ( !RecoveryManager.runThresholdChecks() )
 		{
 			FightRequest.action1 = "abort";
 			return;
@@ -797,7 +797,7 @@ public class FightRequest
 		String skillName =
 			SkillDatabase.getSkillName( StringUtilities.parseInt( FightRequest.action1.substring( 5 ) ) );
 
-		if ( KoLmafiaCLI.getCombatSkillName( skillName ) == null )
+		if ( SkillDatabase.getCombatSkillName( skillName ) == null )
 		{
 			if ( this.isAcceptable( 0, 0 ) )
 			{
@@ -1131,7 +1131,7 @@ public class FightRequest
 			return false;
 		}
 
-		return KoLmafia.getRestoreCount() == 0;
+		return RecoveryManager.getRestoreCount() == 0;
 	}
 
 	private void handleAddingMachine()

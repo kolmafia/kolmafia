@@ -43,6 +43,7 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MoodManager;
+import net.sourceforge.kolmafia.textui.command.NunneryCommand;
 
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
@@ -349,7 +350,7 @@ public abstract class MPRestoreItemList
 					return;
 				}
 				
-				KoLmafiaCLI.executeNunsRequest( "mp" );
+				NunneryCommand.visit( "mp" );
 				return;
 			}
 			

@@ -54,7 +54,6 @@ import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -62,6 +61,7 @@ import net.sourceforge.kolmafia.swingui.button.InvocationButton;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
+import net.sourceforge.kolmafia.textui.command.SendMessageCommand;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class SendMessageFrame
@@ -227,7 +227,7 @@ public class SendMessageFrame
 		RequestThread.openRequestSequence();
 		for ( int i = 0; i < recipients.length; ++i )
 		{
-			KoLmafiaCLI.DEFAULT_SHELL.executeSendRequest(
+			SendMessageCommand.send(
 				recipients[ i ], this.messageEntry.getText(), attachmentsArray, this.isStorage, false );
 		}
 

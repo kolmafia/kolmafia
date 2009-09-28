@@ -949,7 +949,7 @@ public abstract class MoodManager
 				action = action.substring( spaceIndex + 1 );
 			}
 
-			String skillName = KoLmafiaCLI.getSkillName( action );
+			String skillName = SkillDatabase.getSkillName( action );
 			if ( skillName != null )
 			{
 				runningTally +=
@@ -1291,7 +1291,7 @@ public abstract class MoodManager
 
 					if ( !SkillDatabase.contains( parameters ) )
 					{
-						parameters = KoLmafiaCLI.getUsableSkillName( parameters );
+						parameters = SkillDatabase.getUsableSkillName( parameters );
 					}
 
 					this.skill = UseSkillRequest.getInstance( parameters );
@@ -1578,7 +1578,7 @@ public abstract class MoodManager
 
 			if ( !type.equals( "unconditional" ) )
 			{
-				effect = KoLmafiaCLI.getFirstMatchingEffect( name );
+				effect = EffectDatabase.getFirstMatchingEffect( name );
 
 				if ( effect == null )
 				{

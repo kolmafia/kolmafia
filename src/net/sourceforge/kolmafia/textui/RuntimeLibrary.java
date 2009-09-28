@@ -111,6 +111,7 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MoneyMakingGameManager;
 import net.sourceforge.kolmafia.session.MushroomManager;
+import net.sourceforge.kolmafia.session.RecoveryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.StoreManager;
@@ -118,7 +119,7 @@ import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.ItemManageFrame;
-//import net.sourceforge.kolmafia.swingui.ScriptUIFrame;
+import net.sourceforge.kolmafia.textui.command.ConditionalStatement;
 import net.sourceforge.kolmafia.textui.parsetree.AggregateType;
 import net.sourceforge.kolmafia.textui.parsetree.ArrayValue;
 import net.sourceforge.kolmafia.textui.parsetree.CompositeValue;
@@ -1627,17 +1628,17 @@ public abstract class RuntimeLibrary
 
 	public static Value stat_bonus_today()
 	{
-		if ( KoLmafiaCLI.testConditional( "today is muscle day" ) )
+		if ( ConditionalStatement.test( "today is muscle day" ) )
 		{
 			return DataTypes.MUSCLE_VALUE;
 		}
 
-		if ( KoLmafiaCLI.testConditional( "today is myst day" ) )
+		if ( ConditionalStatement.test( "today is myst day" ) )
 		{
 			return DataTypes.MYSTICALITY_VALUE;
 		}
 
-		if ( KoLmafiaCLI.testConditional( "today is moxie day" ) )
+		if ( ConditionalStatement.test( "today is moxie day" ) )
 		{
 			return DataTypes.MOXIE_VALUE;
 		}
@@ -1647,17 +1648,17 @@ public abstract class RuntimeLibrary
 
 	public static Value stat_bonus_tomorrow()
 	{
-		if ( KoLmafiaCLI.testConditional( "tomorrow is muscle day" ) )
+		if ( ConditionalStatement.test( "tomorrow is muscle day" ) )
 		{
 			return DataTypes.MUSCLE_VALUE;
 		}
 
-		if ( KoLmafiaCLI.testConditional( "tomorrow is myst day" ) )
+		if ( ConditionalStatement.test( "tomorrow is myst day" ) )
 		{
 			return DataTypes.MYSTICALITY_VALUE;
 		}
 
-		if ( KoLmafiaCLI.testConditional( "tomorrow is moxie day" ) )
+		if ( ConditionalStatement.test( "tomorrow is moxie day" ) )
 		{
 			return DataTypes.MOXIE_VALUE;
 		}
@@ -2311,13 +2312,13 @@ public abstract class RuntimeLibrary
 
 	public static Value restore_hp( final Value amount )
 	{
-		return new Value( StaticEntity.getClient().recoverHP( amount.intValue() ) );
+		return new Value( RecoveryManager.recoverHP( amount.intValue() ) );
 	}
 
 	public static Value restore_mp( final Value amount )
 	{
 		int desiredMP = amount.intValue();
-		StaticEntity.getClient().recoverMP( desiredMP );
+		RecoveryManager.recoverMP( desiredMP );
 		return RuntimeLibrary.continueValue();
 	}
 
@@ -2700,7 +2701,7 @@ public abstract class RuntimeLibrary
 
 	public static Value have_outfit( final Value outfit )
 	{
-		SpecialOutfit so = KoLmafiaCLI.getMatchingOutfit( outfit.toString() );
+		SpecialOutfit so = EquipmentManager.getMatchingOutfit( outfit.toString() );
 
 		if ( so == null )
 		{

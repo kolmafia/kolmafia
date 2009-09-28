@@ -50,6 +50,8 @@ import net.sourceforge.kolmafia.request.SendMailRequest;
 import net.sourceforge.kolmafia.session.ActionBarManager;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.LeafletManager;
+import net.sourceforge.kolmafia.session.MoodManager;
+import net.sourceforge.kolmafia.session.RecoveryManager;
 import net.sourceforge.kolmafia.session.ValhallaManager;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -300,12 +302,9 @@ public class LocalRelayAgent
 			int initialCount = KoLCharacter.getAdventuresLeft();
 			this.request.run();
 
-			if (  !KoLmafia.isRunningBetweenBattleChecks() &&
-				FightRequest.getCurrentRound() == 0 &&
-				( FightRequest.haveFought() ||
-					initialCount != KoLCharacter.getAdventuresLeft() ) )
+			if ( RecoveryManager.isRecoveryPossible() && ( FightRequest.haveFought() || initialCount != KoLCharacter.getAdventuresLeft() ) )
 			{
-				StaticEntity.getClient().runBetweenBattleChecks(
+				RecoveryManager.runBetweenBattleChecks(
 					false,
 					Preferences.getBoolean( "relayMaintainsEffects" ),
 					Preferences.getBoolean( "relayMaintainsHealth" ),
