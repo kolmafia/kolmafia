@@ -70,9 +70,11 @@ import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MoodManager;
+import net.sourceforge.kolmafia.session.RecoveryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
+import net.sourceforge.kolmafia.textui.command.ZapCommand;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -946,7 +948,7 @@ public class UseItemRequest
 
 		if ( this.consumptionType == KoLConstants.CONSUME_ZAP )
 		{
-			StaticEntity.getClient().makeZapRequest();
+			ZapCommand.zap( this.getItemUsed().getName() );
 			return;
 		}
 
@@ -962,7 +964,7 @@ public class UseItemRequest
 		
 		if ( this.getAdventuresUsed() > 0 )
 		{
-			StaticEntity.getClient().runBetweenBattleChecks( true );
+			RecoveryManager.runBetweenBattleChecks( true );
 		}
 
 		switch ( this.consumptionType )
@@ -1125,7 +1127,7 @@ public class UseItemRequest
 			(100.0f - KoLCharacter.getElementalResistance( resist )) / 100.0f);
 		if ( KoLCharacter.getCurrentHP() <= healthNeeded )
 		{
-			StaticEntity.getClient().recoverHP( healthNeeded + 1 );
+			RecoveryManager.recoverHP( healthNeeded + 1 );
 		}
 		if ( KoLCharacter.getCurrentHP() <= healthNeeded )
 		{

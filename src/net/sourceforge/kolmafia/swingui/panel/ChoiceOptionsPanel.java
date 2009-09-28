@@ -55,7 +55,6 @@ import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.LouvreManager;
@@ -63,6 +62,7 @@ import net.sourceforge.kolmafia.session.VioletFogManager;
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
+import net.sourceforge.kolmafia.textui.command.GongCommand;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -252,9 +252,9 @@ public class ChoiceOptionsPanel
 		this.barrelSelect.addItem( "all available drinks" );
 		
 		this.gongSelect = new JComboBox();
-		for ( int i = 0; i < KoLmafiaCLI.Gong.GONG_PATHS.length; ++i )
+		for ( int i = 0; i < GongCommand.GONG_PATHS.length; ++i )
 		{
-			this.gongSelect.addItem( KoLmafiaCLI.Gong.GONG_PATHS[ i ] );
+			this.gongSelect.addItem( GongCommand.GONG_PATHS[ i ] );
 		}
 
 		this.basementMallSelect = new JComboBox();
@@ -704,7 +704,7 @@ public class ChoiceOptionsPanel
 		Preferences.setInteger( "breakableHandling", this.breakableSelect.getSelectedIndex() + 1 );
 		Preferences.setInteger( "addingScrolls", this.addingSelect.getSelectedIndex() );
 		Preferences.setInteger( "gongPath", this.gongSelect.getSelectedIndex() );
-		KoLmafiaCLI.Gong.setPath( this.gongSelect.getSelectedIndex() );
+		GongCommand.setPath( this.gongSelect.getSelectedIndex() );
 
 		int louvreGoal = this.louvreSelect.getSelectedIndex();
 		Preferences.setString( "choiceAdventure91",

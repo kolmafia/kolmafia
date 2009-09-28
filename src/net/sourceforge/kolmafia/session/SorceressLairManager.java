@@ -46,7 +46,6 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
-import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -1127,7 +1126,7 @@ public abstract class SorceressLairManager
 			// the skeleton dice game, UNLESS you have a clover.
 
 			int healthNeeded = Math.max( KoLCharacter.getMaximumHP() / 4, 50 );
-			StaticEntity.getClient().recoverHP( healthNeeded + 1 );
+			RecoveryManager.recoverHP( healthNeeded + 1 );
 
 			// Verify that you have enough HP to proceed with the
 			// skeleton dice game.
@@ -1967,7 +1966,7 @@ public abstract class SorceressLairManager
 				RequestThread.postRequest( CharPaneRequest.getInstance() );
 			}
 
-			StaticEntity.getClient().runBetweenBattleChecks( false );
+			RecoveryManager.runBetweenBattleChecks( false );
 
 			if ( requiredItemId != -1 )
 			{
@@ -2267,7 +2266,7 @@ public abstract class SorceressLairManager
 
 	private static final void fightShadow()
 	{
-		StaticEntity.getClient().recoverHP( KoLCharacter.getMaximumHP() );
+		RecoveryManager.recoverHP( KoLCharacter.getMaximumHP() );
 		if ( !KoLmafia.permitsContinue() )
 		{
 			return;
@@ -2383,7 +2382,7 @@ public abstract class SorceressLairManager
 
 		if ( requiresHeal )
 		{
-			StaticEntity.getClient().recoverHP( 51 );
+			RecoveryManager.recoverHP( 51 );
 
 			// Need more than 50 hit points.  Abort if this is
 			// not the case.

@@ -972,4 +972,62 @@ public class SkillDatabase
 			}
 		}
 	}
+
+	/**
+	 * Utility method used to retrieve the full name of a skill, given a substring representing it.
+	 */
+	
+	public static final String getSkillName( final String substring, final List list )
+	{
+		UseSkillRequest[] skills = new UseSkillRequest[ list.size() ];
+		list.toArray( skills );
+	
+		String name = substring.toLowerCase();
+	
+		int skillIndex = -1;
+		int substringIndex = Integer.MAX_VALUE;
+	
+		int currentIndex;
+	
+		for ( int i = 0; i < skills.length; ++i )
+		{
+			String skill = skills[ i ].getSkillName();
+			currentIndex = skill.toLowerCase().indexOf( name );
+	
+			if ( currentIndex != -1 && currentIndex < substringIndex )
+			{
+				skillIndex = i;
+				substringIndex = currentIndex;
+			}
+		}
+	
+		return skillIndex == -1 ? null : skills[ skillIndex ].getSkillName();
+	}
+
+	/**
+	 * Utility method used to retrieve the full name of a skill, given a substring representing it.
+	 */
+	
+	public static final String getSkillName( final String substring )
+	{
+		return getSkillName( substring, getSkillsByType( ALL ) );
+	}
+
+	/**
+	 * Utility method used to retrieve the full name of a combat skill, given a substring representing it.
+	 */
+	
+	public static final String getUsableSkillName( final String substring )
+	{
+		return getSkillName( substring, getSkillsByType( CASTABLE ) );
+	}
+
+	/**
+	 * Utility method used to retrieve the full name of a combat skill, given a substring representing it.
+	 */
+	
+	public static final String getCombatSkillName( final String substring )
+	{
+		return getSkillName( substring, getSkillsByType( COMBAT ) );
+	}
 }

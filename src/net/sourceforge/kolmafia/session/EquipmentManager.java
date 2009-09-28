@@ -40,32 +40,26 @@ import java.util.List;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
-
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
-
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
-
 import net.sourceforge.kolmafia.request.EquipmentRequest;
-
 import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 import net.sourceforge.kolmafia.swingui.GearChangeFrame;
-
+import net.sourceforge.kolmafia.textui.command.ConditionsCommand;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class EquipmentManager
@@ -1130,7 +1124,7 @@ public class EquipmentManager
 		{
 			if ( !KoLCharacter.hasEquipped( pieces[ i ] ) )
 			{
-				KoLmafiaCLI.DEFAULT_SHELL.executeConditionsCommand( "set " + pieces[ i ].getName() );
+				ConditionsCommand.update( "set", pieces[ i ].getName() );
 			}
 		}
 	}
@@ -1224,6 +1218,66 @@ public class EquipmentManager
 		}
 
 		return true;
+	}
+
+	public static final SpecialOutfit getMatchingOutfit( final String name )
+	{
+		String lowercaseName = name.toLowerCase().trim();
+	
+		if ( lowercaseName.equals( "birthday suit" ) || lowercaseName.equals( "nothing" ) )
+		{
+			return SpecialOutfit.BIRTHDAY_SUIT;
+		}
+	
+		List customOutfitList = getCustomOutfits();
+		int customOutfitCount = customOutfitList.size();
+		int normalOutfitCount = EquipmentDatabase.getOutfitCount();
+	
+		// Check for exact matches. Skip "No Change" entry at index 0.
+	
+		for ( int i = 1; i < customOutfitCount; ++i )
+		{
+			SpecialOutfit outfit = (SpecialOutfit) customOutfitList.get( i );
+	
+			if ( lowercaseName.equals( outfit.toString().toLowerCase() ) )
+			{
+				return outfit;
+			}
+		}
+	
+		for ( int i = 0; i < normalOutfitCount; ++i )
+		{
+			SpecialOutfit outfit = EquipmentDatabase.getOutfit( i );
+	
+			if ( outfit != null && lowercaseName.equals( outfit.toString().toLowerCase() ) )
+			{
+				return outfit;
+			}
+		}
+	
+		// Check for substring matches.
+	
+		for ( int i = 1; i < customOutfitCount; ++i )
+		{
+			SpecialOutfit outfit = (SpecialOutfit) customOutfitList.get( i );
+	
+			if ( outfit.toString().toLowerCase().indexOf( lowercaseName ) != -1 )
+			{
+				return outfit;
+			}
+		}
+	
+		for ( int i = 0; i < normalOutfitCount; ++i )
+		{
+			SpecialOutfit outfit = EquipmentDatabase.getOutfit( i );
+	
+			if ( outfit != null && outfit.toString().toLowerCase().indexOf( lowercaseName ) != -1 )
+			{
+				return outfit;
+			}
+		}
+	
+		return null;
 	}
 
 }

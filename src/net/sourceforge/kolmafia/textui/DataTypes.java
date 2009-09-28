@@ -40,7 +40,6 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
@@ -388,7 +387,7 @@ public class DataTypes
 			return DataTypes.EFFECT_INIT;
 		}
 
-		AdventureResult effect = KoLmafiaCLI.getFirstMatchingEffect( name );
+		AdventureResult effect = EffectDatabase.getFirstMatchingEffect( name );
 		if ( effect == null )
 		{
 			return returnDefault ? DataTypes.EFFECT_INIT : null;

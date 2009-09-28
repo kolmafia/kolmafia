@@ -58,7 +58,6 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.PulverizeRequest;
@@ -67,6 +66,7 @@ import net.sourceforge.kolmafia.swingui.BuffRequestFrame;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
+import net.sourceforge.kolmafia.textui.command.SendMessageCommand;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
@@ -407,7 +407,7 @@ public class PulverizePanel
 			LockableListModel inv = (LockableListModel)
 				PulverizePanel.this.elementList.getModel();
 			inv.fireContentsChanged( inv, 0, inv.size() - 1 );
-			KoLmafiaCLI.DEFAULT_SHELL.executeSendRequest( "wadbot", selected.toMessage(),
+			SendMessageCommand.send( "wadbot", selected.toMessage(),
 				items, false, true );
 		}
 		

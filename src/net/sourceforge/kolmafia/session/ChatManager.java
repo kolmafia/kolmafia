@@ -926,7 +926,7 @@ public abstract class ChatManager
 			if ( message.equalsIgnoreCase( "restores" ) )
 			{
 				RequestThread.postRequest( new ChatRequest(
-					channel, "I currently have " + KoLmafia.getRestoreCount() + " mana restores at my disposal.", false ) );
+					channel, "I currently have " + RecoveryManager.getRestoreCount() + " mana restores at my disposal.", false ) );
 
 				return true;
 			}

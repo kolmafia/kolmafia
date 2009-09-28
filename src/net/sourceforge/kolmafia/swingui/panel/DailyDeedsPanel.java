@@ -55,6 +55,7 @@ import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
+import net.sourceforge.kolmafia.textui.command.AbstractCommand;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class DailyDeedsPanel
@@ -727,7 +728,7 @@ public class DailyDeedsPanel
 
 	static { new Later().register( "later" ); }
 	public static class Later
-		extends KoLmafiaCLI.Command
+		extends AbstractCommand
 	{
 		{ flags = KoLmafiaCLI.FULL_LINE_CMD; }
 		{ usage = " <commands> - adds a button to do commands to the Daily Deeds list."; }

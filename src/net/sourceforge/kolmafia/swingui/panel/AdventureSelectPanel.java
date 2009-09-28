@@ -98,6 +98,7 @@ import net.sourceforge.kolmafia.swingui.widget.AutoHighlightSpinner;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
+import net.sourceforge.kolmafia.textui.command.ConditionsCommand;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
@@ -821,12 +822,12 @@ public class AdventureSelectPanel
 				}
 				else if ( splitConditions[ i ].startsWith( "+" ) )
 				{
-					if ( !KoLmafiaCLI.DEFAULT_SHELL.executeConditionsCommand( "add " + splitConditions[ i ].substring( 1 ) ) )
+					if ( !ConditionsCommand.update( "add", splitConditions[ i ].substring( 1 ) ) )
 					{
 						return false;
 					}
 				}
-				else if ( !KoLmafiaCLI.DEFAULT_SHELL.executeConditionsCommand( "set " + splitConditions[ i ] ) )
+				else if ( !ConditionsCommand.update( "set", splitConditions[ i ] ) )
 				{
 					return false;
 				}

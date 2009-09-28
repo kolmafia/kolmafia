@@ -62,6 +62,8 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.MoodManager;
+import net.sourceforge.kolmafia.session.RecoveryManager;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.CouncilFrame;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
@@ -789,9 +791,9 @@ public class KoLAdventure
 
 	public void run()
 	{
-		if ( !KoLmafia.isRunningBetweenBattleChecks() )
+		if ( RecoveryManager.isRecoveryPossible() )
 		{
-			if ( !StaticEntity.getClient().runThresholdChecks() )
+			if ( !RecoveryManager.runThresholdChecks() )
 			{
 				return;
 			}
@@ -802,7 +804,7 @@ public class KoLAdventure
 				Preferences.setString( "lastAdventure", this.adventureName );
 				AdventureFrame.updateSelectedAdventure( this );
 			}
-			StaticEntity.getClient().runBetweenBattleChecks( !this.isNonCombatsOnly() );
+			RecoveryManager.runBetweenBattleChecks( !this.isNonCombatsOnly() );
 
 			if ( !KoLmafia.permitsContinue() )
 			{

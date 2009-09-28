@@ -40,14 +40,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.RandomAccessFile;
-import java.lang.reflect.Method;
 import java.math.BigInteger;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 import java.util.regex.Matcher;
@@ -62,13 +59,10 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.UtilityConstants;
-import net.sourceforge.kolmafia.HPRestoreItemList.HPRestoreItem;
-import net.sourceforge.kolmafia.MPRestoreItemList.MPRestoreItem;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.CustomItemDatabase;
-import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FlaggedItems;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -80,7 +74,6 @@ import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
-import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -97,7 +90,6 @@ import net.sourceforge.kolmafia.request.ManageStoreRequest;
 import net.sourceforge.kolmafia.request.MindControlRequest;
 import net.sourceforge.kolmafia.request.MoonPhaseRequest;
 import net.sourceforge.kolmafia.request.PasswordHashRequest;
-import net.sourceforge.kolmafia.request.PulverizeRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.RichardRequest;
@@ -105,7 +97,6 @@ import net.sourceforge.kolmafia.request.SellStuffRequest;
 import net.sourceforge.kolmafia.request.SewerRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
-import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
 import net.sourceforge.kolmafia.session.ActionBarManager;
 import net.sourceforge.kolmafia.session.BreakfastManager;
@@ -115,6 +106,7 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MailManager;
 import net.sourceforge.kolmafia.session.MoodManager;
 import net.sourceforge.kolmafia.session.MushroomManager;
+import net.sourceforge.kolmafia.session.RecoveryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
@@ -127,9 +119,6 @@ import net.sourceforge.kolmafia.swingui.LoginFrame;
 import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
 import net.sourceforge.kolmafia.swingui.listener.LicenseDisplayListener;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
-import net.sourceforge.kolmafia.textui.Interpreter;
-import net.sourceforge.kolmafia.textui.RuntimeLibrary;
-import net.sourceforge.kolmafia.textui.parsetree.Value;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.PauseObject;
@@ -138,7 +127,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public abstract class KoLmafia
 {
 	private static boolean isRefreshing = false;
-	private static boolean isAdventuring = false;
+	public static boolean isAdventuring = false;
 	private static volatile String abortAfter = null;
 
 	public static String lastMessage = "";
@@ -157,10 +146,9 @@ public abstract class KoLmafia
 
 	private static boolean hadPendingState = false;
 
-	protected static String currentIterationString = "";
+	public static String currentIterationString = "";
 	public static int adventureGains = 0;
 	public static boolean tookChoice = false;
-	protected static boolean recoveryActive = false;
 	public static boolean redoSkippedAdventures = true;
 
 	public static boolean isMakingRequest = false;
@@ -175,7 +163,7 @@ public abstract class KoLmafia
 	private static FileChannel SESSION_CHANNEL = null;
 	private static File SESSION_FILE = null;
 
-	private static KoLAdventure currentAdventure;
+	public static KoLAdventure currentAdventure;
 
 	// Types of special encounters
 	public static final String NONE = "0";
@@ -1113,417 +1101,6 @@ public abstract class KoLmafia
 		}
 	}
 
-	/**
-	 * Utility. The method which ensures that the amount needed exists, and if not, calls the appropriate scripts to do
-	 * so.
-	 */
-
-	private final boolean recover( float desired, final String settingName, final String currentName,
-		final String maximumName, final Object[] techniques )
-		throws Exception
-	{
-		// First, check for beaten up, if the person has tongue as an
-		// auto-heal option. This takes precedence over all other checks.
-
-		String restoreSetting = Preferences.getString( settingName + "Items" ).trim().toLowerCase();
-
-		// Next, check against the restore needed to see if
-		// any restoration needs to take place.
-
-		Object[] empty = new Object[ 0 ];
-		Method currentMethod, maximumMethod;
-
-		currentMethod = KoLCharacter.class.getMethod( currentName, new Class[ 0 ] );
-		maximumMethod = KoLCharacter.class.getMethod( maximumName, new Class[ 0 ] );
-
-		float setting = Preferences.getFloat( settingName );
-
-		if ( setting < 0.0f && desired == 0 )
-		{
-			return true;
-		}
-
-		int current = ( (Number) currentMethod.invoke( null, empty ) ).intValue();
-
-		// If you've already reached the desired value, don't
-		// bother restoring.
-
-		if ( desired != 0 && current >= desired )
-		{
-			return true;
-		}
-
-		int maximum = ( (Number) maximumMethod.invoke( null, empty ) ).intValue();
-		int needed = (int) Math.min( maximum, Math.max( desired, setting * maximum + 1.0f ) );
-
-		if ( current >= needed )
-		{
-			return true;
-		}
-
-		// Next, check against the restore target to see how
-		// far you need to go.
-
-		setting = Preferences.getFloat( settingName + "Target" );
-		desired = Math.min( maximum, Math.max( desired, setting * maximum ) );
-
-		if ( BuffBotHome.isBuffBotActive() || desired > maximum )
-		{
-			desired = maximum;
-		}
-
-		// If it gets this far, then you should attempt to recover
-		// using the selected items. This involves a few extra
-		// reflection methods.
-
-		String currentTechniqueName;
-
-		// Determine all applicable items and skills for the restoration.
-		// This is a little bit memory intensive, but it allows for a lot
-		// more flexibility.
-
-		ArrayList possibleItems = new ArrayList();
-		ArrayList possibleSkills = new ArrayList();
-
-		for ( int i = 0; i < techniques.length; ++i )
-		{
-			currentTechniqueName = techniques[ i ].toString().toLowerCase();
-			if ( restoreSetting.indexOf( currentTechniqueName ) == -1 )
-			{
-				continue;
-			}
-
-			if ( techniques[ i ] instanceof HPRestoreItem )
-			{
-				if ( ( (HPRestoreItem) techniques[ i ] ).isSkill() )
-				{
-					possibleSkills.add( techniques[ i ] );
-				}
-				else
-				{
-					possibleItems.add( techniques[ i ] );
-				}
-			}
-
-			if ( techniques[ i ] instanceof MPRestoreItem )
-			{
-				if ( ( (MPRestoreItem) techniques[ i ] ).isSkill() )
-				{
-					possibleSkills.add( techniques[ i ] );
-				}
-				else
-				{
-					possibleItems.add( techniques[ i ] );
-				}
-			}
-		}
-
-		int last = -1;
-
-		// Special handling of the Hidden Temple. Here, as
-		// long as your health is above zero, you're okay.
-
-		boolean isNonCombatHealthRestore =
-			settingName.startsWith( "hp" ) && KoLmafia.isAdventuring && KoLmafia.currentAdventure.isNonCombatsOnly();
-
-		if ( isNonCombatHealthRestore )
-		{
-			if ( KoLCharacter.getCurrentHP() > 0 )
-			{
-				return true;
-			}
-
-			needed = 1;
-			desired = 1;
-		}
-
-		// Consider clearing beaten up if your restoration settings
-		// include the appropriate items.
-
-		if ( current >= needed )
-		{
-			return true;
-		}
-
-		HPRestoreItemList.setPurchaseBasedSort( false );
-		MPRestoreItemList.setPurchaseBasedSort( false );
-
-		// Next, use any available skills. This only applies to health
-		// restoration, since no MP-using skill restores MP.
-
-		if ( !possibleSkills.isEmpty() )
-		{
-			current = ( (Number) currentMethod.invoke( null, empty ) ).intValue();
-
-			while ( last != current && current < needed )
-			{
-				int indexToTry = 0;
-				Collections.sort( possibleSkills );
-
-				do
-				{
-					last = current;
-					currentTechniqueName = possibleSkills.get( indexToTry ).toString().toLowerCase();
-
-					this.recoverOnce( possibleSkills.get( indexToTry ), currentTechniqueName, (int) desired, false );
-					current = ( (Number) currentMethod.invoke( null, empty ) ).intValue();
-
-					maximum = ( (Number) maximumMethod.invoke( null, empty ) ).intValue();
-					desired = Math.min( maximum, desired );
-					needed = Math.min( maximum, needed );
-
-					if ( last >= current )
-					{
-						++indexToTry;
-					}
-				}
-				while ( indexToTry < possibleSkills.size() && current < needed );
-			}
-
-			if ( KoLmafia.refusesContinue() )
-			{
-				return false;
-			}
-		}
-
-		// Iterate through every restore item which is already available
-		// in the player's inventory.
-
-		Collections.sort( possibleItems );
-
-		for ( int i = 0; i < possibleItems.size() && current < needed; ++i )
-		{
-			do
-			{
-				last = current;
-				currentTechniqueName = possibleItems.get( i ).toString().toLowerCase();
-
-				this.recoverOnce( possibleItems.get( i ), currentTechniqueName, (int) desired, false );
-				current = ( (Number) currentMethod.invoke( null, empty ) ).intValue();
-
-				maximum = ( (Number) maximumMethod.invoke( null, empty ) ).intValue();
-				desired = Math.min( maximum, desired );
-				needed = Math.min( maximum, needed );
-			}
-			while ( last != current && current < needed );
-		}
-
-		if ( KoLmafia.refusesContinue() )
-		{
-			return false;
-		}
-
-		// For areas that are all noncombats, then you can go ahead
-		// and heal using only unguent.
-
-		if ( isNonCombatHealthRestore && KoLCharacter.getAvailableMeat() >= 30 )
-		{
-			RequestThread.postRequest( new UseItemRequest( new AdventureResult( 231, 1 ) ) );
-			return true;
-		}
-
-		// If things are still not restored, try looking for items you
-		// don't have but can purchase.
-
-		if ( !possibleItems.isEmpty() )
-		{
-			HPRestoreItemList.setPurchaseBasedSort( true );
-			MPRestoreItemList.setPurchaseBasedSort( true );
-
-			current = ( (Number) currentMethod.invoke( null, empty ) ).intValue();
-			last = -1;
-
-			while ( last != current && current < needed )
-			{
-				int indexToTry = 0;
-				Collections.sort( possibleItems );
-
-				do
-				{
-					last = current;
-					currentTechniqueName = possibleItems.get( indexToTry ).toString().toLowerCase();
-
-					this.recoverOnce( possibleItems.get( indexToTry ), currentTechniqueName, (int) desired, true );
-					current = ( (Number) currentMethod.invoke( null, empty ) ).intValue();
-
-					maximum = ( (Number) maximumMethod.invoke( null, empty ) ).intValue();
-					desired = Math.min( maximum, desired );
-
-					if ( last >= current )
-					{
-						++indexToTry;
-					}
-				}
-				while ( indexToTry < possibleItems.size() && current < needed );
-			}
-
-			HPRestoreItemList.setPurchaseBasedSort( false );
-			MPRestoreItemList.setPurchaseBasedSort( false );
-		}
-		else if ( current < needed )
-		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You ran out of restores." );
-			return false;
-		}
-
-		// Fall-through check, just in case you've reached the
-		// desired value.
-
-		if ( KoLmafia.refusesContinue() )
-		{
-			return false;
-		}
-
-		if ( current < needed )
-		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Autorecovery failed." );
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 * Utility. The method called in between battles. This method checks to see if the character's HP has dropped below
-	 * the tolerance value, and recovers if it has (if the user has specified this in their settings).
-	 */
-
-	public final boolean recoverHP()
-	{
-		return this.recoverHP( 0 );
-	}
-
-	public final boolean recoverHP( final int recover )
-	{
-		try
-		{
-			if ( Preferences.getBoolean( "removeMalignantEffects" ) )
-			{
-				MoodManager.removeMalignantEffects();
-			}
-
-			HPRestoreItemList.updateHealthRestored();
-			if ( this.invokeRecoveryScript( "HP", recover ) )
-			{
-				return true;
-			}
-			return this.recover(
-				recover, "hpAutoRecovery", "getCurrentHP", "getMaximumHP", HPRestoreItemList.CONFIGURES );
-		}
-		catch ( Exception e )
-		{
-			// This should not happen. Therefore, print
-			// a stack trace for debug purposes.
-
-			StaticEntity.printStackTrace( e );
-			return false;
-		}
-	}
-
-	/**
-	 * Utility. The method which uses the given recovery technique (not specified in a script) in order to restore.
-	 */
-
-	private final void recoverOnce( final Object technique, final String techniqueName, final int needed,
-		final boolean purchase )
-	{
-		// If the technique is an item, and the item is not readily
-		// available, then don't bother with this item -- however, if
-		// it is the only item present, then rethink it.
-
-		if ( technique instanceof HPRestoreItem )
-		{
-			( (HPRestoreItem) technique ).recoverHP( needed, purchase );
-		}
-
-		if ( technique instanceof MPRestoreItem )
-		{
-			( (MPRestoreItem) technique ).recoverMP( needed, purchase );
-		}
-	}
-
-	/**
-	 * Returns the total number of mana restores currently available to the
-	 * player.
-	 */
-
-	public static final int getRestoreCount()
-	{
-		int restoreCount = 0;
-		String mpRestoreSetting = Preferences.getString( "mpAutoRecoveryItems" );
-
-		for ( int i = 0; i < MPRestoreItemList.CONFIGURES.length; ++i )
-		{
-			if ( mpRestoreSetting.indexOf( MPRestoreItemList.CONFIGURES[ i ].toString().toLowerCase() ) != -1 )
-			{
-				AdventureResult item = MPRestoreItemList.CONFIGURES[ i ].getItem();
-				if ( item != null )
-				{
-					restoreCount += item.getCount( KoLConstants.inventory );
-				}
-			}
-		}
-
-		return restoreCount;
-	}
-
-	/**
-	 * Utility. The method called in between commands. This method checks to see if the character's MP has dropped below
-	 * the tolerance value, and recovers if it has (if the user has specified this in their settings).
-	 */
-
-	public final boolean recoverMP()
-	{
-		return this.recoverMP( 0 );
-	}
-
-	/**
-	 * Utility. The method which restores the character's current mana points above the given value.
-	 */
-
-	public final boolean recoverMP( final int mpNeeded )
-	{
-		try
-		{
-			MPRestoreItemList.updateManaRestored();
-			if ( this.invokeRecoveryScript( "MP", mpNeeded ) )
-			{
-				return true;
-			}
-			return this.recover(
-				mpNeeded, "mpAutoRecovery", "getCurrentMP", "getMaximumMP", MPRestoreItemList.CONFIGURES );
-		}
-		catch ( Exception e )
-		{
-			// This should not happen. Therefore, print
-			// a stack trace for debug purposes.
-
-			StaticEntity.printStackTrace( e );
-			return false;
-		}
-	}
-	
-	private boolean invokeRecoveryScript( String type, int needed )
-	{
-		String scriptName = Preferences.getString( "recoveryScript" );
-		if ( scriptName.length() == 0 )
-		{
-			return false;
-		}
-		Interpreter interpreter = KoLmafiaASH.getInterpreter(
-			KoLmafiaCLI.findScriptFile( scriptName ) );
-		if ( interpreter != null )
-		{
-			Value v = interpreter.execute( "main", new String[]
-			{
-				type,
-				String.valueOf( needed )
-			} );
-			return v != null && v.intValue() != 0;
-		}
-		return false;
-	}
-
 	public void makeRequest( final Runnable request )
 	{
 		this.makeRequest( request, 1 );
@@ -1567,7 +1144,7 @@ public abstract class KoLmafia
 
 				if ( KoLCharacter.getCurrentHP() == 0 )
 				{
-					this.recoverHP();
+					RecoveryManager.recoverHP();
 				}
 
 				if ( !KoLmafia.permitsContinue() )
@@ -1594,10 +1171,9 @@ public abstract class KoLmafia
 			if ( request instanceof KoLAdventure && !wasAdventuring )
 			{
 				KoLmafia.isAdventuring = false;
-				if ( !KoLmafia.isRunningBetweenBattleChecks() &&
-					FightRequest.getCurrentRound() == 0 )
+				if ( RecoveryManager.isRecoveryPossible() )
 				{
-					this.runBetweenBattleChecks( false );
+					RecoveryManager.runBetweenBattleChecks( false );
 				}
 				SpecialOutfit.restoreImplicitCheckpoint();
 			}
@@ -1729,7 +1305,7 @@ public abstract class KoLmafia
 		// If you've completed the requests, make sure to update
 		// the display.
 
-		if ( KoLmafia.permitsContinue() && !KoLmafia.isRunningBetweenBattleChecks() )
+		if ( KoLmafia.permitsContinue() && RecoveryManager.isRecoveryPossible() )
 		{
 			if ( isAdventure && !KoLConstants.conditions.isEmpty() )
 			{
@@ -3153,104 +2729,6 @@ public abstract class KoLmafia
 		RequestThread.enableDisplayIfSequenceComplete();
 	}
 
-	public static final boolean isRunningBetweenBattleChecks()
-	{
-		return KoLmafia.recoveryActive || MoodManager.isExecuting();
-	}
-
-	public boolean runThresholdChecks()
-	{
-		float autoStopValue = Preferences.getFloat( "autoAbortThreshold" );
-		if ( autoStopValue >= 0.0f )
-		{
-			autoStopValue *= KoLCharacter.getMaximumHP();
-			if ( KoLCharacter.getCurrentHP() <= autoStopValue )
-			{
-				KoLmafia.updateDisplay(
-					KoLConstants.ABORT_STATE, "Health fell below " + (int) autoStopValue + ". Auto-abort triggered." );
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	public void runBetweenBattleChecks( final boolean isFullCheck )
-	{
-		this.runBetweenBattleChecks( isFullCheck, isFullCheck, true, isFullCheck );
-	}
-
-	public void runBetweenBattleChecks( final boolean isScriptCheck, final boolean isMoodCheck,
-		final boolean isHealthCheck, final boolean isManaCheck )
-	{
-		// Do not run between battle checks if you are in the middle
-		// of your checks or if you have aborted.
-
-		if ( KoLmafia.recoveryActive || KoLmafia.refusesContinue() )
-		{
-			return;
-		}
-
-		// First, run the between battle script defined by the
-		// user, which may make it so that none of the built
-		// in behavior needs to run.
-
-		RequestThread.openRequestSequence();
-		KoLmafia.recoveryActive = true;
-
-		if ( isScriptCheck )
-		{
-			String scriptPath = Preferences.getString( "betweenBattleScript" );
-			if ( !scriptPath.equals( "" ) )
-			{
-				KoLmafiaCLI.DEFAULT_SHELL.executeLine( scriptPath );
-			}
-		}
-
-		SpecialOutfit.createImplicitCheckpoint();
-
-		// Now, run the built-in behavior to take care of
-		// any loose ends.
-
-		if ( isMoodCheck )
-		{
-			MoodManager.execute();
-		}
-
-		if ( isHealthCheck )
-		{
-			this.recoverHP();
-		}
-
-		if ( isMoodCheck )
-		{
-			MoodManager.burnExtraMana( false );
-		}
-
-		if ( isManaCheck )
-		{
-			this.recoverMP();
-		}
-
-		KoLmafia.recoveryActive = false;
-		SpecialOutfit.restoreImplicitCheckpoint();
-		RequestThread.closeRequestSequence();
-
-		if ( KoLCharacter.getCurrentHP() == 0 )
-		{
-			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Insufficient health to continue (auto-abort triggered)." );
-		}
-
-		if ( KoLmafia.permitsContinue() && KoLmafia.currentIterationString.length() > 0 )
-		{
-			RequestLogger.printLine();
-			KoLmafia.updateDisplay( KoLmafia.currentIterationString );
-			KoLmafia.currentIterationString = "";
-		}
-		
-		FightRequest.haveFought();	// reset flag
-	}
-
 	public void startRelayServer()
 	{
 		if ( LocalRelayServer.isRunning() )
@@ -3451,263 +2929,6 @@ public abstract class KoLmafia
 		}
 
 		KoLmafia.updateDisplay( "Undercutting sale complete." );
-		RequestThread.closeRequestSequence();
-	}
-
-	public void makeAutoMallRequest()
-	{
-		// Now you've got all the items used up, go ahead and prepare to
-		// sell anything that's left.
-
-		int itemCount;
-
-		AdventureResult currentItem;
-		Object[] items = KoLConstants.profitableList.toArray();
-
-		ArrayList sellList = new ArrayList();
-
-		for ( int i = 0; i < items.length; ++i )
-		{
-			currentItem = (AdventureResult) items[ i ];
-
-			if ( KoLConstants.mementoList.contains( currentItem ) )
-			{
-				continue;
-			}
-
-			if ( currentItem.getItemId() == ItemPool.MEAT_PASTE || currentItem.getItemId() == ItemPool.MEAT_STACK || currentItem.getItemId() == ItemPool.DENSE_STACK )
-			{
-				continue;
-			}
-
-			itemCount = currentItem.getCount( KoLConstants.inventory );
-
-			if ( itemCount > 0 )
-			{
-				sellList.add( currentItem.getInstance( itemCount ) );
-			}
-		}
-
-		if ( !sellList.isEmpty() )
-		{
-			RequestThread.postRequest( new SellStuffRequest( sellList.toArray(), SellStuffRequest.AUTOMALL ) );
-		}
-
-		RequestThread.closeRequestSequence();
-	}
-
-	public void makeJunkRemovalRequest()
-	{
-		int itemCount;
-		AdventureResult currentItem;
-
-		Object[] items = KoLConstants.junkList.toArray();
-
-		// Before doing anything else, go through the list of items
-		// which are traditionally used and use them. Also, if the item
-		// can be untinkered, it's usually more beneficial to untinker
-		// first.
-
-		boolean madeUntinkerRequest = false;
-		boolean canUntinker = UntinkerRequest.canUntinker();
-
-		RequestThread.openRequestSequence();
-		ArrayList closetList = new ArrayList();
-
-		for ( int i = 0; i < items.length; ++i )
-		{
-			if ( !KoLConstants.singletonList.contains( items[ i ] ) || KoLConstants.closet.contains( items[ i ] ) )
-			{
-				continue;
-			}
-
-			if ( KoLConstants.inventory.contains( items[ i ] ) )
-			{
-				closetList.add( ( (AdventureResult) items[ i ] ).getInstance( 1 ) );
-			}
-		}
-
-		if ( closetList.size() > 0 )
-		{
-			RequestThread.postRequest( new ClosetRequest( ClosetRequest.INVENTORY_TO_CLOSET, closetList.toArray() ) );
-		}
-
-		do
-		{
-			madeUntinkerRequest = false;
-
-			for ( int i = 0; i < items.length; ++i )
-			{
-				currentItem = (AdventureResult) items[ i ];
-				itemCount = currentItem.getCount( KoLConstants.inventory );
-
-				if ( itemCount == 0 )
-				{
-					continue;
-				}
-
-				if ( canUntinker && ConcoctionDatabase.getMixingMethod( currentItem ) == KoLConstants.COMBINE )
-				{
-					RequestThread.postRequest( new UntinkerRequest( currentItem.getItemId() ) );
-					madeUntinkerRequest = true;
-					continue;
-				}
-
-				switch ( currentItem.getItemId() )
-				{
-				case 184: // briefcase
-				case 533: // Gnollish toolbox
-				case 553: // 31337 scroll
-				case 604: // Penultimate fantasy chest
-				case 831: // small box
-				case 832: // large box
-				case 1768: // Gnomish toolbox
-				case 1917: // old leather wallet
-				case 1918: // old coin purse
-				case 2057: // black pension check
-				case 2058: // black picnic basket
-				case 2511: // Frat Army FGF
-				case 2512: // Hippy Army MPE
-				case 2536: // canopic jar
-				case 2612: // ancient vinyl coin purse
-					RequestThread.postRequest( new UseItemRequest( currentItem.getInstance( itemCount ) ) );
-					break;
-
-				case 621: // Warm Subject gift certificate
-					RequestThread.postRequest( new UseItemRequest( currentItem.getInstance( itemCount ) ) );
-					break;
-				}
-			}
-		}
-		while ( madeUntinkerRequest );
-
-		// Now you've got all the items used up, go ahead and prepare to
-		// pulverize strong equipment.
-
-		int itemPower;
-
-		if ( KoLCharacter.hasSkill( "Pulverize" ) )
-		{
-			boolean hasMalusAccess = KoLCharacter.isMuscleClass();
-
-			for ( int i = 0; i < items.length; ++i )
-			{
-				currentItem = (AdventureResult) items[ i ];
-
-				if ( KoLConstants.mementoList.contains( currentItem ) )
-				{
-					continue;
-				}
-
-				if ( currentItem.getName().startsWith( "antique" ) )
-				{
-					continue;
-				}
-
-				itemCount = currentItem.getCount( KoLConstants.inventory );
-				itemPower = EquipmentDatabase.getPower( currentItem.getItemId() );
-
-				if ( itemCount > 0 && !NPCStoreDatabase.contains( currentItem.getName(), false ) )
-				{
-					switch ( ItemDatabase.getConsumptionType( currentItem.getItemId() ) )
-					{
-					case KoLConstants.EQUIP_HAT:
-					case KoLConstants.EQUIP_PANTS:
-					case KoLConstants.EQUIP_SHIRT:
-					case KoLConstants.EQUIP_WEAPON:
-					case KoLConstants.EQUIP_OFFHAND:
-
-						if ( InventoryManager.hasItem( ItemPool.TENDER_HAMMER ) && itemPower >= 100 || hasMalusAccess && itemPower > 10 )
-						{
-							RequestThread.postRequest( new PulverizeRequest( currentItem.getInstance( itemCount ) ) );
-						}
-
-						break;
-
-					case KoLConstants.EQUIP_FAMILIAR:
-					case KoLConstants.EQUIP_ACCESSORY:
-
-						if ( InventoryManager.hasItem( ItemPool.TENDER_HAMMER ) )
-						{
-							RequestThread.postRequest( new PulverizeRequest( currentItem.getInstance( itemCount ) ) );
-						}
-
-						break;
-
-					default:
-
-						if ( currentItem.getName().endsWith( "powder" ) || currentItem.getName().endsWith( "nuggets" ) )
-						{
-							RequestThread.postRequest( new PulverizeRequest( currentItem.getInstance( itemCount ) ) );
-						}
-
-						break;
-					}
-				}
-			}
-		}
-
-		// Now you've got all the items used up, go ahead and prepare to
-		// sell anything that's left.
-
-		ArrayList sellList = new ArrayList();
-
-		for ( int i = 0; i < items.length; ++i )
-		{
-			currentItem = (AdventureResult) items[ i ];
-
-			if ( KoLConstants.mementoList.contains( currentItem ) )
-			{
-				continue;
-			}
-
-			if ( currentItem.getItemId() == ItemPool.MEAT_PASTE )
-			{
-				continue;
-			}
-
-			itemCount = currentItem.getCount( KoLConstants.inventory );
-			if ( itemCount > 0 )
-			{
-				sellList.add( currentItem.getInstance( itemCount ) );
-			}
-		}
-
-		if ( !sellList.isEmpty() )
-		{
-			RequestThread.postRequest( new SellStuffRequest( sellList.toArray(), SellStuffRequest.AUTOSELL ) );
-			sellList.clear();
-		}
-
-		if ( !KoLCharacter.canInteract() )
-		{
-			for ( int i = 0; i < items.length; ++i )
-			{
-				currentItem = (AdventureResult) items[ i ];
-
-				if ( KoLConstants.mementoList.contains( currentItem ) )
-				{
-					continue;
-				}
-
-				if ( currentItem.getItemId() == ItemPool.MEAT_PASTE )
-				{
-					continue;
-				}
-
-				itemCount = currentItem.getCount( KoLConstants.inventory ) - 1;
-				if ( itemCount > 0 )
-				{
-					sellList.add( currentItem.getInstance( itemCount ) );
-				}
-			}
-
-			if ( !sellList.isEmpty() )
-			{
-				RequestThread.postRequest( new SellStuffRequest( sellList.toArray(), SellStuffRequest.AUTOSELL ) );
-			}
-		}
-
 		RequestThread.closeRequestSequence();
 	}
 

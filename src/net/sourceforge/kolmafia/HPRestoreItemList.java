@@ -41,6 +41,7 @@ import net.sourceforge.kolmafia.MPRestoreItemList.MPRestoreItem;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.textui.command.NunneryCommand;
 
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
@@ -318,7 +319,7 @@ public abstract class HPRestoreItemList
 					return;
 				}
 				
-				KoLmafiaCLI.executeNunsRequest( "hp" );
+				NunneryCommand.visit( "hp" );
 				return;
 			}
 

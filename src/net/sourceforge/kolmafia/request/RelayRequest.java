@@ -78,6 +78,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.session.ChatManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.RecoveryManager;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
@@ -1526,7 +1527,7 @@ public class RelayRequest
 			// Wait until any restoration scripts finish running
 			// before allowing an adventuring request to continue.
 
-			while ( KoLmafia.isRunningBetweenBattleChecks() )
+			while ( RecoveryManager.isRecoveryActive() )
 			{
 				this.pauser.pause( 200 );
 			}
