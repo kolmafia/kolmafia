@@ -66,7 +66,7 @@ public class EquipmentRequest
 	private static final Pattern INSIDECLOSET_PATTERN = Pattern.compile( "<b>Take:.*?</select>", Pattern.DOTALL );
 	private static final Pattern INVENTORYITEM_PATTERN =
 		Pattern.compile( "<option value='?([\\d]+)'?[^>]*>([^>]*?) \\(([\\d,]+)\\)</option>" );
-	private static final Pattern QUESTITEM_PATTERN = Pattern.compile( "<b>(<a[^>]*?>)?(elven <i>limbos</i> gingerbread|[^<]+)(</a>)?</b>(?:&nbsp;<span>)?([^<]*?)(?:</span>)<font size=1>" );
+	private static final Pattern QUESTITEM_PATTERN = Pattern.compile( "<b class=\"ircm\">(elven <i>limbos</i> gingerbread|[^<]+)</b>(?:&nbsp;<span>)?([^<]*?)(?:</span>)<font size=1>" );
 	private static final Pattern HAT_PATTERN =
 		Pattern.compile( "Hat</a>:</td>.*?<b>(.*?)</b>.*unequip&type=hat" );
 	private static final Pattern WEAPON_PATTERN =
@@ -1022,8 +1022,8 @@ public class EquipmentRequest
 		Matcher itemMatcher = EquipmentRequest.QUESTITEM_PATTERN.matcher( text );
 		while ( itemMatcher.find() )
 		{
-			String quantity = itemMatcher.group( 4 ).trim();
-			String realName = itemMatcher.group( 2 ).trim();
+			String quantity = itemMatcher.group( 2 ).trim();
+			String realName = itemMatcher.group( 1 ).trim();
 
 			// We have encountered a brand new item.  Do not
 			// continue if this is the case.
