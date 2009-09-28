@@ -191,6 +191,7 @@ user	birdformSpooky	0
 user	birdformStench	0
 user	blackPuddingsDefeated	0
 user	breakableHandling	1
+user	breakableHandling1964	2
 user	breakfastCompleted	false
 user	buffBotCasting
 user	buffBotMessageDisposal	0

@@ -1045,6 +1045,12 @@ public class UseSkillRequest
 		}
 			
 		// The skill was successfully cast. Deal with its effects.
+		if ( responseText.indexOf( "tear the opera mask" ) != -1 )
+		{
+			EquipmentManager.breakEquipment( ItemPool.OPERA_MASK,
+				"Your opera mask shattered." );
+		}
+
 		int count = UseSkillRequest.getCount( urlString, skillId );
 		int mpCost = SkillDatabase.getMPConsumptionById( skillId ) * count;
 		if ( exceeded )
