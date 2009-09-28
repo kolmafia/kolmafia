@@ -457,7 +457,10 @@ public class KoLmafiaCLI
 				RequestLogger.printLine( "(A * after a command name indicates that it can be " + "typed in a longer form.  There's no need to type the asterisk!)" );
 			}
 
+			handler.CLI = this;
 			handler.run( command, parameters );
+			handler.CLI = null;
+
 			return;
 		}
 
