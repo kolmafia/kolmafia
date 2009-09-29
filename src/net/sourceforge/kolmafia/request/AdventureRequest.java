@@ -616,9 +616,19 @@ public class AdventureRequest
 
 	private static final String parseEncounter( final String responseText )
 	{
+		// Look only in HTML body; the header can have scripts with
+		// bold text.
+		int index = responseText.indexOf( "<body>" );
+
 		// Skip past the Adventure Results
-		int boldIndex = responseText.indexOf( "Results:</b>" );
-		// ... whether or not they are there.
+		int boldIndex = responseText.indexOf( "Results:</b>", index );
+
+		// If there are none, start in the HTML body again.
+		if ( boldIndex == -1 )
+		{
+			boldIndex = index;
+		}
+
 		boldIndex = responseText.indexOf( "<b>", boldIndex ) + 3;
 		if ( boldIndex == 2 )
 		{
