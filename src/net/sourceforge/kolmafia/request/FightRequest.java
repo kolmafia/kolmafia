@@ -433,6 +433,14 @@ public class FightRequest
 		{
 			this.handleHulkingConstruct();
 		}
+
+		// So does the Giant Octopus
+
+		else if ( FightRequest.encounterLookup.equals( "giant octopus" ) &&
+			  KoLConstants.inventory.contains( ItemPool.get( ItemPool.GRAPPLING_HOOK, 1 ) ) )
+		{
+			ResultProcessor.processResult( ItemPool.get( ItemPool.GRAPPLING_HOOK, -1 ) );
+		}
 		
 		if ( FightRequest.action1 == null )
 		{
