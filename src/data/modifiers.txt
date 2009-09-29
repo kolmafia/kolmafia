@@ -510,6 +510,7 @@ Staff of the Greasefire	Spell Damage Percent: +35, Hot Spell Damage: +10, Sleaze
 Staff of the Kitchen Floor	Spell Damage Percent: +150, Stench Spell Damage: +20, MP Regen Min: 8, MP Regen Max: 10
 Staff of the Midnight Snack	Spell Damage Percent: +20, Spooky Spell Damage: +10, MP Regen Min: 2, MP Regen Max: 3
 Staff of the Short Order Cook	Spell Damage Percent: +20, Mysticality: +5, MP Regen Min: 2, MP Regen Max: 3
+Staff of the Soupbone	Spell Damage Percent: +75, Maximum MP: +15, MP Regen Min: 5, MP Regen Max: 6
 Staff of the Teapot Tempest	Spell Damage Percent: +25, Mysticality: +5, MP Regen Min: 3, MP Regen Max: 4
 Staff of the Walk-In Freezer	Spell Damage Percent: +150, Cold Spell Damage: +20, MP Regen Min: 8, MP Regen Max: 10
 Staff of the Well-Tempered Cauldron	Spell Damage Percent: +125, Mysticality: +15, MP Regen Min: 7, MP Regen Max: 8
@@ -1228,6 +1229,7 @@ Scandalously Skimpy Bikini	Four Songs, Single Equip
 Senior LAAAAME merit badge	Muscle: +3, Mysticality: +3, Moxie: +3
 Slow Talkin' Elliot's dogtags	Muscle: +30, Initiative: -30
 Sneaky Pete's breath spray	Moxie: +10
+Star of Bravery	Maximum HP: +25, Maximum MP: +25, Single Equip
 Talisman o' Nam	Muscle: +3, Mysticality: +3, Moxie: +3, Single Equip
 # Talisman of Baio: All Attributes Increase with Moonlight
 Talisman of Baio	Muscle Percent: [+10*M], Mysticality Percent: [+10*M], Moxie Percent: [+10*M]
