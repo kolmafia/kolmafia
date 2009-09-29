@@ -75,7 +75,10 @@ public class KoLmafiaCLI
 	{
 		System.out.println();
 		System.out.println( StaticEntity.getVersion() );
-		System.out.println( "Running on " + System.getProperty( "os.name" ) );
+		System.out.println( KoLConstants.VERSION_DATE );
+		System.out.println();
+		System.out.println( "Currently Running on " + System.getProperty( "os.name" ) );
+		System.out.println( "Local Directory is " + KoLConstants.ROOT_LOCATION.getAbsolutePath() );
 		System.out.println( "Using Java " + System.getProperty( "java.version" ) );
 		System.out.println();
 
