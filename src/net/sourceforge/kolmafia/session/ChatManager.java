@@ -38,8 +38,10 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Locale;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Locale;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -55,10 +57,10 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
-import net.sourceforge.kolmafia.StyledChatBuffer;
 import net.sourceforge.kolmafia.LocalRelayServer;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.StyledChatBuffer;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.ChatRequest;
@@ -104,21 +106,9 @@ public abstract class ChatManager
 	private static final SimpleDateFormat MESSAGE_TIMESTAMP = new SimpleDateFormat( "[HH:mm]", Locale.US );
 
 	private static final int ROLLING_LIMIT = 32;
-	private static final ArrayList clanMessages = new ArrayList();
+	private static final LinkedList CLAN_MESSAGES = new LinkedList();
 
-	private static int rollingIndex = 0;
-	private static String lastBlueMessage = "";
-
-	static
-	{
-		for ( int i = 0; i < ChatManager.ROLLING_LIMIT; ++i )
-		{
-			ChatManager.clanMessages.add( "" );
-		}
-	}
-
-	private static final HashMap colors = new HashMap();
-
+	private static final HashMap CHAT_COLORS = new HashMap();
 	private static final String[] AVAILABLE_COLORS =
 	{
 		"#000000", // default (0)
@@ -145,7 +135,6 @@ public abstract class ChatManager
 	};
 
 	private static boolean isRunning = false;
-	private static boolean channelsInitialized = false;
 	private static String currentChannel = "/clan";
 	private static ContactListFrame contactsFrame = null;
 	private static TabbedChatFrame tabbedFrame = null;
@@ -158,9 +147,7 @@ public abstract class ChatManager
 	private static boolean channelsSeparate = false;
 	private static boolean mergeHobopolis = true;
 	private static boolean eventsIgnored = false;
-
 	private static boolean useTabbedChat = false;
-	private static boolean highlighting = false;
 
 	public static final void updateFontSize()
 	{
@@ -208,23 +195,6 @@ public abstract class ChatManager
 		return key.equals( "[main]" ) ? filename + ".html" : filename + "_" + key + ".html";
 	}
 
-	public static final boolean usingTabbedChat()
-	{
-		return ChatManager.useTabbedChat;
-	}
-
-	public static final void setColor( final String channel, final int colorIndex )
-	{
-		if ( colorIndex == 0 )
-		{
-			ChatManager.colors.put( channel, channel.startsWith( "chat" ) ? "black" : "green" );
-		}
-		else
-		{
-			ChatManager.colors.put( channel, ChatManager.AVAILABLE_COLORS[ colorIndex ] );
-		}
-	}
-
 	/**
 	 * Initializes the chat buffer with the provided chat pane. Note that the chat refresher will also be initialized by
 	 * calling this method; to stop the chat refresher, call the <code>dispose()</code> method.
@@ -244,22 +214,19 @@ public abstract class ChatManager
 		// were saved from the last session.
 
 		StyledChatBuffer.clearHighlights();
+		StyledChatBuffer.highlightBuffer.clear();
 
 		String[] highlights = Preferences.getString( "highlightList" ).trim().split( "\n+" );
 
-		if ( highlights.length > 1 )
-		{
-			StyledChatBuffer.highlightBuffer = ChatManager.getChatBuffer( "[high]" );
-			StyledChatBuffer.highlightBuffer.clear();
+		StyledChatBuffer.highlightBuffer = ChatManager.getChatBuffer( "[high]" );
+		StyledChatBuffer.highlightBuffer.clear();
 
-			for ( int i = 0; i < highlights.length; ++i )
-			{
-				StyledChatBuffer.addHighlight( highlights[ i ], DataUtilities.toColor( highlights[ ++i ] ) );
-			}
+		for ( int i = 0; i < highlights.length; ++i )
+		{
+			StyledChatBuffer.addHighlight( highlights[ i ], DataUtilities.toColor( highlights[ ++i ] ) );
 		}
 
 		ChatManager.isRunning = true;
-		ChatManager.channelsInitialized = false;
 
 		RequestThread.postRequest( new ChatRequest( null, "/listen" ) );
 		RequestThread.postRequest( new ChannelColorsRequest() );
@@ -338,7 +305,7 @@ public abstract class ChatManager
 		return contactName;
 	}
 
-	private static final boolean isDungeonChannel( String contactName )
+	private static final boolean isDungeonChannel( final String contactName )
 	{
 		return contactName.equals( "/hobopolis" ) || contactName.equals( "/slimetube" );
 	}
@@ -409,17 +376,6 @@ public abstract class ChatManager
 			ChatManager.currentlyActive.remove( contact );
 			RequestThread.postRequest( new ChatRequest( contact, "/listen " + contact.substring( 1 ) ) );
 		}
-	}
-
-	/**
-	 * Returns whether or not the messenger is showing on screen.
-	 * 
-	 * @return <code>true</code> if the messenger is showing.
-	 */
-
-	public static final boolean isShowing()
-	{
-		return ChatManager.instantMessageBuffers.size() == 0;
 	}
 
 	/**
@@ -495,7 +451,7 @@ public abstract class ChatManager
 		return ChatManager.getNormalizedContent( originalContent, true );
 	}
 
-	public static final String getNormalizedContent( final String originalContent, boolean isInternal )
+	public static final String getNormalizedContent( final String originalContent, final boolean isInternal )
 	{
 		if ( originalContent == null || originalContent.length() == 0 )
 		{
@@ -634,11 +590,7 @@ public abstract class ChatManager
 				ChatManager.openInstantMessage( channelKey, true );
 			}
 
-			if ( !ChatManager.channelsInitialized )
-			{
-				ChatManager.channelsInitialized = true;
-				return;
-			}
+			return;
 		}
 
 		// Now that you know that there was no intent to exit
@@ -738,7 +690,7 @@ public abstract class ChatManager
 		ChatManager.handleChatData( content );
 	}
 
-	public static final void broadcastMessage( String displayHTML )
+	public static final void broadcastMessage( final String displayHTML )
 	{
 		String[] broadcast = new String[ ChatManager.instantMessageBuffers.size() ];
 		ChatManager.instantMessageBuffers.keySet().toArray( broadcast );
@@ -898,14 +850,14 @@ public abstract class ChatManager
 
 		if ( channel.equals( "/clan" ) && !message.startsWith( "<b>from <a" ) && !message.startsWith( "<b>to <a" ) )
 		{
-			if ( ChatManager.rollingIndex == ChatManager.ROLLING_LIMIT )
+			if ( ChatManager.CLAN_MESSAGES.size() == ChatManager.ROLLING_LIMIT )
 			{
-				ChatManager.rollingIndex = 0;
+				ChatManager.CLAN_MESSAGES.removeFirst();
 			}
 
 			if ( !ChatManager.isGreenMessage( message ) && !ChatManager.isWhoMessage( message ) )
 			{
-				ChatManager.clanMessages.set( ChatManager.rollingIndex++ , message );
+				ChatManager.CLAN_MESSAGES.addLast( message );
 			}
 		}
 	}
@@ -926,7 +878,8 @@ public abstract class ChatManager
 			if ( message.equalsIgnoreCase( "restores" ) )
 			{
 				RequestThread.postRequest( new ChatRequest(
-					channel, "I currently have " + RecoveryManager.getRestoreCount() + " mana restores at my disposal.", false ) );
+					channel,
+					"I currently have " + RecoveryManager.getRestoreCount() + " mana restores at my disposal.", false ) );
 
 				return true;
 			}
@@ -957,10 +910,12 @@ public abstract class ChatManager
 			}
 
 			StringBuffer data = new StringBuffer();
-			for ( int i = 0; i < ChatManager.ROLLING_LIMIT; ++i )
+
+			Iterator clanMessageIterator = ChatManager.CLAN_MESSAGES.iterator();
+
+			while ( clanMessageIterator.hasNext() )
 			{
-				int messageIndex = ( ChatManager.rollingIndex + i ) % ChatManager.ROLLING_LIMIT;
-				String originalMessage = (String) ChatManager.clanMessages.get( messageIndex );
+				String originalMessage = (String) clanMessageIterator.next();
 				String cleanMessage = KoLConstants.ANYTAG_PATTERN.matcher( originalMessage ).replaceAll( "" );
 
 				data.append( cleanMessage );
@@ -984,9 +939,6 @@ public abstract class ChatManager
 			return false;
 		}
 
-		ChatManager.lastBlueMessage = channel;
-		Preferences.setBoolean( "chatbotScriptExecuted", false );
-
 		String[] scriptParameters = new String[]
 		{
 			channel,
@@ -995,15 +947,10 @@ public abstract class ChatManager
 
 		interpreter.execute( "main", scriptParameters );
 
-		return Preferences.getBoolean( "chatbotScriptExecuted" );
+		return true;
 	}
 
-	public static final String lastBlueMessage()
-	{
-		return ChatManager.lastBlueMessage;
-	}
-
-	private static final void processChatMessage( final String channel, final String message, String bufferKey,
+	private static final void processChatMessage( final String channel, final String message, final String bufferKey,
 		final boolean ignoreEvents )
 	{
 		String displayHTML = ChatManager.formatChatMessage( channel, message, bufferKey );
@@ -1064,13 +1011,13 @@ public abstract class ChatManager
 	{
 		StringBuffer displayHTML = new StringBuffer( message );
 
-		if ( displayHTML.indexOf( oldBetString ) != -1 )
+		if ( displayHTML.indexOf( ChatManager.oldBetString ) != -1 )
 		{
 			// KoL formats nested links badly. Move the bet.php
 			// link to the beginning of the buffer.
 
-			StringUtilities.singleStringDelete( displayHTML, oldBetString );
-			displayHTML.insert( 0, newBetString );
+			StringUtilities.singleStringDelete( displayHTML, ChatManager.oldBetString );
+			displayHTML.insert( 0, ChatManager.newBetString );
 		}
 
 		StringUtilities.globalStringDelete( displayHTML, " target=mainpane" );
@@ -1211,9 +1158,9 @@ public abstract class ChatManager
 
 	private static final String getColor( final String channel )
 	{
-		if ( ChatManager.colors.containsKey( channel ) )
+		if ( ChatManager.CHAT_COLORS.containsKey( channel ) )
 		{
-			return (String) ChatManager.colors.get( channel );
+			return (String) ChatManager.CHAT_COLORS.get( channel );
 		}
 
 		if ( channel.startsWith( "/" ) )
@@ -1221,19 +1168,19 @@ public abstract class ChatManager
 			return "green";
 		}
 
-		if ( channel.equalsIgnoreCase( KoLCharacter.getUserName() ) && ChatManager.colors.containsKey( "chatcolorself" ) )
+		if ( channel.equalsIgnoreCase( KoLCharacter.getUserName() ) && ChatManager.CHAT_COLORS.containsKey( "chatcolorself" ) )
 		{
-			return (String) ChatManager.colors.get( "chatcolorself" );
+			return (String) ChatManager.CHAT_COLORS.get( "chatcolorself" );
 		}
 
-		if ( KoLConstants.contactList.contains( channel.toLowerCase() ) && ChatManager.colors.containsKey( "chatcolorcontacts" ) )
+		if ( KoLConstants.contactList.contains( channel.toLowerCase() ) && ChatManager.CHAT_COLORS.containsKey( "chatcolorcontacts" ) )
 		{
-			return (String) ChatManager.colors.get( "chatcolorcontacts" );
+			return (String) ChatManager.CHAT_COLORS.get( "chatcolorcontacts" );
 		}
 
-		if ( ChatManager.colors.containsKey( "chatcolorothers" ) )
+		if ( ChatManager.CHAT_COLORS.containsKey( "chatcolorothers" ) )
 		{
-			return (String) ChatManager.colors.get( "chatcolorothers" );
+			return (String) ChatManager.CHAT_COLORS.get( "chatcolorothers" );
 		}
 
 		return "black";
@@ -1316,11 +1263,6 @@ public abstract class ChatManager
 		{
 			buffer.setLogFile( new File( KoLConstants.CHATLOG_LOCATION, ChatManager.getChatLogName( contact ) ) );
 		}
-
-		if ( ChatManager.highlighting && !contact.equals( "[high]" ) )
-		{
-			buffer.applyHighlights();
-		}
 	}
 
 	/**
@@ -1364,12 +1306,12 @@ public abstract class ChatManager
 	{
 		String highlight =
 			InputFieldUtilities.input( "What word/phrase would you like to highlight?", KoLCharacter.getUserName() );
-		if ( highlight == null )
+
+		if ( highlight == null || highlight.length() == 0 )
 		{
 			return;
 		}
 
-		ChatManager.highlighting = true;
 		Color color = ChatManager.getRandomColor();
 
 		StyledChatBuffer.highlightBuffer = ChatManager.getChatBuffer( "[high]" );
@@ -1402,10 +1344,10 @@ public abstract class ChatManager
 	public static final void removeHighlighting()
 	{
 		Object[] patterns = StyledChatBuffer.highlights.toArray();
+
 		if ( patterns.length == 0 )
 		{
 			InputFieldUtilities.alert( "No active highlights." );
-			ChatManager.highlighting = false;
 			return;
 		}
 
@@ -1493,8 +1435,8 @@ public abstract class ChatManager
 			Matcher colorMatcher = ChatManager.GENERAL_PATTERN.matcher( this.responseText );
 			while ( colorMatcher.find() )
 			{
-				ChatManager.setColor(
-					"/" + colorMatcher.group( 1 ).toLowerCase(), StringUtilities.parseInt( colorMatcher.group( 2 ) ) );
+				String channel = "/" + colorMatcher.group( 1 ).toLowerCase();
+				this.setColor( channel, StringUtilities.parseInt( colorMatcher.group( 2 ) ) );
 			}
 
 			// Add in other custom colors which are available
@@ -1503,19 +1445,31 @@ public abstract class ChatManager
 			colorMatcher = ChatManager.SELF_PATTERN.matcher( this.responseText );
 			if ( colorMatcher.find() )
 			{
-				ChatManager.setColor( "chatcolorself", StringUtilities.parseInt( colorMatcher.group( 1 ) ) );
+				this.setColor( "chatcolorself", StringUtilities.parseInt( colorMatcher.group( 1 ) ) );
 			}
 
 			colorMatcher = ChatManager.CONTACTS_PATTERN.matcher( this.responseText );
 			if ( colorMatcher.find() )
 			{
-				ChatManager.setColor( "chatcolorcontacts", StringUtilities.parseInt( colorMatcher.group( 1 ) ) );
+				this.setColor( "chatcolorcontacts", StringUtilities.parseInt( colorMatcher.group( 1 ) ) );
 			}
 
 			colorMatcher = ChatManager.OTHER_PATTERN.matcher( this.responseText );
 			if ( colorMatcher.find() )
 			{
-				ChatManager.setColor( "chatcolorothers", StringUtilities.parseInt( colorMatcher.group( 1 ) ) );
+				this.setColor( "chatcolorothers", StringUtilities.parseInt( colorMatcher.group( 1 ) ) );
+			}
+		}
+
+		private void setColor( final String channel, final int colorIndex )
+		{
+			if ( colorIndex == 0 )
+			{
+				ChatManager.CHAT_COLORS.put( channel, channel.startsWith( "chat" ) ? "black" : "green" );
+			}
+			else
+			{
+				ChatManager.CHAT_COLORS.put( channel, ChatManager.AVAILABLE_COLORS[ colorIndex ] );
 			}
 		}
 	}
