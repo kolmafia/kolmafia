@@ -4168,7 +4168,7 @@
 4162	extra-strength rubber bands	familiar	all	75
 4163	children of the candy corn	usable	all	0
 4164	Good 'n' Slimy	usable	all	0
-4165
+4165	Staff of the Soupbone	weapon	display	25
 4166	Voluminous Radio Pants	pants	all	0
 4167	Voluminous Radio Hat	hat	all	0
 4168	Voluminous Radio Sneakers	accessory	all	0
@@ -4227,3 +4227,8 @@
 4221
 4222
 4221	yield shield	offhand	display	0
+4222
+4223
+4224
+4225
+4226	Star of Bravery	accessory	display	0

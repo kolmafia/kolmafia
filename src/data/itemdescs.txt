@@ -4168,7 +4168,7 @@
 4162	655102853	extra-strength rubber bands	pairs of extra-strength rubber bands
 4163	335815719	children of the candy corn	niblets of children of the candy corn
 4164	619354651	Good 'n' Slimy	boxes of Good 'n' Slimy
-4165
+4165	922295560	Staff of the Soupbone	Staves of the Soupbone
 4166	175771659	Voluminous Radio Pants	pairs of Voluminous Radio Pants
 4167	268738212	Voluminous Radio Hat	Voluminous Radio Hats
 4168	152358110	Voluminous Radio Sneakers
@@ -4227,3 +4227,8 @@
 4221
 4222
 4221	399891683	yield shield
+4222
+4223
+4224
+4225
+4226	153783629	Star of Bravery
