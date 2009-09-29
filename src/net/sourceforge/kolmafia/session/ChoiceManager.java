@@ -2647,6 +2647,22 @@ public abstract class ChoiceManager
 			}
 			break;
 
+		case 389:
+			// Choice 389 is The Unbearable Supremeness of Being
+
+			// "Of course I understand," Jill says, in fluent
+			// English. "I learned your language in the past five
+			// minutes. I know where the element is, but we'll have
+			// to go offworld to get it. Meet me at the Desert
+			// Beach Spaceport." And with that, she gives you a
+			// kiss and scampers off. Homina-homina.
+
+			if ( text.indexOf( "Homina-homina" ) != -1 )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.SUPREME_BEING_GLOSSARY, -1 ) );
+			}
+			break;
+
 		case 392:
                         // Choice 392 is The Elements of Surprise . . .
 
