@@ -37,18 +37,12 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
-
-import java.lang.IllegalStateException;
-import java.lang.IndexOutOfBoundsException;
 import java.lang.reflect.Method;
-
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -104,7 +98,6 @@ import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
-import net.sourceforge.kolmafia.session.ChatManager;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -115,8 +108,8 @@ import net.sourceforge.kolmafia.session.RecoveryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.StoreManager;
-import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
 import net.sourceforge.kolmafia.session.TurnCounter;
+import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.ItemManageFrame;
 import net.sourceforge.kolmafia.textui.command.ConditionalStatement;
@@ -128,8 +121,8 @@ import net.sourceforge.kolmafia.textui.parsetree.LibraryFunction;
 import net.sourceforge.kolmafia.textui.parsetree.MapValue;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
-import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class RuntimeLibrary
@@ -793,7 +786,13 @@ public abstract class RuntimeLibrary
 		// Assorted functions
 
 		params = new Type[] { DataTypes.STRING_TYPE };
-		functions.add( new LibraryFunction( "chat_reply", DataTypes.VOID_TYPE, params ) );
+		functions.add( new LibraryFunction( "is_online", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "chat_clan", DataTypes.VOID_TYPE, params ) );
+
+		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "chat_private", DataTypes.VOID_TYPE, params ) );
 
 		// Quest handling functions.
 
@@ -1027,9 +1026,6 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.EFFECT_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "stat_modifier", DataTypes.STAT_TYPE, params ) );
-		
-		params = new Type[] { DataTypes.STRING_TYPE };
-		functions.add( new LibraryFunction( "is_online", DataTypes.BOOLEAN_TYPE, params ) );
 		
 		// Quest status inquiries
 		
@@ -2066,7 +2062,6 @@ public abstract class RuntimeLibrary
 	public static Value get_inventory()
 	{
 		MapValue value = new MapValue( DataTypes.RESULT_TYPE );
-		AdventureResult result;
 
 		AdventureResult [] items = new AdventureResult[ KoLConstants.inventory.size() ];
 		KoLConstants.inventory.toArray( items );
@@ -2084,7 +2079,6 @@ public abstract class RuntimeLibrary
 	public static Value get_campground()
 	{
 		MapValue value = new MapValue( DataTypes.RESULT_TYPE );
-		AdventureResult result;
 
 		AdventureResult [] items = new AdventureResult[ KoLConstants.campground.size() ];
 		KoLConstants.campground.toArray( items );
@@ -3246,14 +3240,43 @@ public abstract class RuntimeLibrary
 		return value;
 	}
 
-	public static Value chat_reply( final Value stringValue )
+	public static Value is_online( final Value arg )
 	{
-		String recipient = ChatManager.lastBlueMessage();
-		if ( !recipient.equals( "" ) )
+		String name = arg.toString();
+		return DataTypes.makeBooleanValue( KoLmafia.isPlayerOnline( name ) );
+	}
+
+	public static Value chat_clan( final Value messageValue )
+	{
+		String message = messageValue.toString();
+
+		if ( message.equals( "" ) || message.startsWith( "/" ) )
 		{
-			String string = stringValue.toString();
-			RequestThread.postRequest( new ChatRequest( recipient, string, false ) );
+			return DataTypes.VOID_VALUE;
 		}
+
+		RequestThread.postRequest( new ChatRequest( "/clan", message, false ) );
+
+		return DataTypes.VOID_VALUE;
+	}
+	
+	public static Value chat_private( final Value recipientValue, final Value messageValue )
+	{
+		String recipient = recipientValue.toString();
+
+		if ( !ClanManager.isMember( recipient ) )
+		{
+			return DataTypes.VOID_VALUE;
+		}
+
+		String message = messageValue.toString();
+
+		if ( message.equals( "" ) || message.startsWith( "/" ) )
+		{
+			return DataTypes.VOID_VALUE;
+		}
+
+		RequestThread.postRequest( new ChatRequest( recipient, message, false ) );
 
 		return DataTypes.VOID_VALUE;
 	}
@@ -3895,12 +3918,6 @@ public abstract class RuntimeLibrary
 		return new Value( DataTypes.parseStatValue( Modifiers.getStringModifier( name, mod ), true ) );
 	}
 
-	public static Value is_online( final Value arg )
-	{
-		String name = arg.toString();
-		return DataTypes.makeBooleanValue( KoLmafia.isPlayerOnline( name ) );
-	}
-	
 	public static Value galaktik_cures_discounted()
 	{
 		return DataTypes.makeBooleanValue( QuestLogRequest.galaktikCuresAvailable() );
